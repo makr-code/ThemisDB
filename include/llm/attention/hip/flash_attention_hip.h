@@ -19,15 +19,13 @@ namespace llm {
 namespace attention {
 namespace hip {
 
-/**
- * @brief HIP Flash Attention implementation for AMD GPUs
- * 
- * Supports:
- * - MI300 (CDNA 3): Wave64 optimization
- * - RDNA 2/3: Consumer GPU optimization
- */
 class FlashAttentionHIP : public IFlashAttention {
 public:
+    /**
+     * @brief Flash Attention HIP.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit FlashAttentionHIP(const FlashAttentionConfig& config);
     ~FlashAttentionHIP() override;
     
@@ -50,7 +48,8 @@ public:
     AttentionMemoryStats getMemoryStats() const override;
     
     /**
-     * @brief Check if HIP is available
+     * @brief Is Available.
+     * @return True when the operation succeeds.
      */
     static bool isAvailable();
 
@@ -62,7 +61,13 @@ private:
     void* d_workspace_ = nullptr;
     size_t workspace_size_ = 0;
     
+    /**
+     * @brief Initialize HIP.
+     */
     void initializeHIP();
+    /**
+     * @brief Cleanup HIP.
+     */
     void cleanupHIP();
 };
 

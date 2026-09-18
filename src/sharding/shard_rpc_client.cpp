@@ -50,9 +50,6 @@ struct ShardRPCClient::Impl {
     bool use_grpc = false;
     CircuitBreaker circuit_breaker;
 
-    /// Optional injected response handler for the explicit in-process test path.
-    /// When non-null, sendRequestInProcess() delegates to this function instead
-    /// of returning the built-in hardcoded responses.
     std::mutex handler_mutex;
     InProcessResponseHandler in_process_handler;
     
@@ -61,7 +58,6 @@ struct ShardRPCClient::Impl {
     std::unique_ptr<themis::sharding::proto::ShardService::Stub> stub;
 #endif
 
-    /// Emit a single-attempt metric to both sinks (if configured).
     void recordMetrics(const std::string& method,
                        const std::string& outcome,
                        uint64_t latency_us) const
@@ -76,6 +72,12 @@ struct ShardRPCClient::Impl {
         }
     }
     
+    /**
+     * @brief Make Cb.
+     * @param[in] cfg Input parameter.
+     * @return Return value.
+     * @details Calls: std::chrono::milliseconds(), CircuitBreaker().
+     */
     static CircuitBreaker makeCb(const Config& cfg) {
         CircuitBreaker::Config cb;
         // Negative values are invalid; leave the field at its default rather than
@@ -141,12 +143,6 @@ struct ShardRPCClient::Impl {
 #endif
     }
     
-    /**
-     * @brief Check if endpoint explicitly requests in-process test routing.
-     *
-     * Production endpoints must never silently fall back to local-only transport.
-     * Only explicit test-only schemes are allowed to reach the in-process path.
-     */
     bool isExplicitInProcessEndpoint(const std::string& endpoint) const {
         return endpoint.rfind("inproc://", 0) == 0 || endpoint.rfind("loopback://", 0) == 0;
     }
@@ -156,6 +152,11 @@ struct ShardRPCClient::Impl {
     }
     
 #if THEMIS_HAS_SHARD_GRPC
+    /**
+     * @brief Initialize Grpc Channel.
+     * @throws std::runtime_error if an error occurs.
+     * @details Calls: SetInt(), empty(), themis::utils::readFileContents(), THEMIS_INFO(), grpc::SslCredentials(), THEMIS_WARN(), what(), grpc::InsecureChannelCredentials().
+     */
     void initializeGrpcChannel() {
         // Configure channel arguments for keepalive and reliability
         grpc::ChannelArguments args;
@@ -253,6 +254,11 @@ struct ShardRPCClient::Impl {
         THEMIS_INFO("gRPC channel initialized for endpoint: {}", config.endpoint);
     }
     
+    /**
+     * @brief Is Channel Ready.
+     * @return True when the operation succeeds.
+     * @details Calls: GetState().
+     */
     bool isChannelReady() {
         if (!channel) {
           return false;
@@ -262,6 +268,12 @@ struct ShardRPCClient::Impl {
         return state == GRPC_CHANNEL_READY || state == GRPC_CHANNEL_IDLE;
     }
     
+    /**
+     * @brief Wait For Channel Ready.
+     * @param[in] timeout_ms Input parameter.
+     * @return True when the operation succeeds.
+     * @details Calls: std::chrono::system_clock::now(), std::chrono::milliseconds(), WaitForConnected().
+     */
     bool waitForChannelReady(int timeout_ms) {
         if (!channel) {
           return false;
@@ -275,30 +287,30 @@ struct ShardRPCClient::Impl {
 #endif
 };
 
-/**
- * @brief Construct RPC client and initialize transport mode (gRPC/in-process).
- * @param config Endpoint, timeout, retry, TLS and metrics configuration.
- */
 ShardRPCClient::ShardRPCClient(const Config& config)
     : impl_(std::make_unique<Impl>(config))
 {
     THEMIS_INFO("ShardRPCClient created for endpoint: {}", config.endpoint);
 }
 
-/** @brief Destroy RPC client and release internal transport resources. */
 ShardRPCClient::~ShardRPCClient() = default;
 
-/** @brief Install or clear in-process response handler used by simulation fallback. */
+/**
+ * @brief Set In Process Response Handler.
+ * @param[in] handler Input parameter.
+ * @details Calls: lk(), std::move().
+ */
 void ShardRPCClient::setInProcessResponseHandler(InProcessResponseHandler handler) {
     std::lock_guard<std::mutex> lk(impl_->handler_mutex);
     impl_->in_process_handler = std::move(handler);
 }
 
 /**
- * @brief Send PREPARE RPC and return shard vote.
- * @param txn_id Transaction identifier.
- * @param operations Serialized operation set for phase 1.
- * @return True when shard votes COMMIT.
+ * @brief Prepare.
+ * @param[in] txn_id Identifier of the txn.
+ * @param[in] operations Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: THEMIS_DEBUG(), size(), sendRequest(), contains(), THEMIS_WARN(), THEMIS_ERROR(), what().
  */
 bool ShardRPCClient::prepare(
     const std::string& txn_id,
@@ -330,10 +342,11 @@ bool ShardRPCClient::prepare(
 }
 
 /**
- * @brief Send COMMIT RPC for previously prepared transaction.
- * @param txn_id Transaction identifier.
- * @param commit_timestamp Commit timestamp used by participant MVCC path.
- * @return True when shard confirms commit.
+ * @brief Commit.
+ * @param[in] txn_id Identifier of the txn.
+ * @param[in] commit_timestamp Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: THEMIS_DEBUG(), sendRequest(), contains(), THEMIS_ERROR(), what().
  */
 bool ShardRPCClient::commit(
     const std::string& txn_id,
@@ -365,9 +378,10 @@ bool ShardRPCClient::commit(
 }
 
 /**
- * @brief Send ABORT RPC for transaction.
- * @param txn_id Transaction identifier.
- * @return True when shard confirms abort.
+ * @brief Abort.
+ * @param[in] txn_id Identifier of the txn.
+ * @return True when the operation succeeds.
+ * @details Calls: THEMIS_DEBUG(), sendRequest(), contains(), THEMIS_WARN(), THEMIS_ERROR(), what().
  */
 bool ShardRPCClient::abort(const std::string& txn_id) {
     THEMIS_DEBUG("RPC ABORT to {}: txn={}", impl_->config.endpoint, txn_id);
@@ -394,10 +408,11 @@ bool ShardRPCClient::abort(const std::string& txn_id) {
 }
 
 /**
- * @brief Send compensation request used by SAGA-style rollback flows.
- * @param txn_id Transaction identifier.
- * @param operation Compensation payload.
- * @return True when compensation is acknowledged.
+ * @brief Compensate.
+ * @param[in] txn_id Identifier of the txn.
+ * @param[in] operation Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: THEMIS_DEBUG(), sendRequest(), contains(), THEMIS_WARN(), THEMIS_ERROR(), what().
  */
 bool ShardRPCClient::compensate(
     const std::string& txn_id,
@@ -428,10 +443,11 @@ bool ShardRPCClient::compensate(
 }
 
 /**
- * @brief Execute point-in-time snapshot read on target shard.
- * @param snapshot_ts Snapshot timestamp.
- * @param query Query payload.
- * @return Result data array, or empty array on failure.
+ * @brief Snapshot Read.
+ * @param[in] snapshot_ts Input parameter.
+ * @param[in] query Input parameter.
+ * @return Return value.
+ * @details Calls: THEMIS_DEBUG(), sendRequest(), contains(), size(), THEMIS_ERROR(), nlohmann::json::array(), what().
  */
 nlohmann::json ShardRPCClient::snapshotRead(
     int64_t snapshot_ts,
@@ -463,7 +479,11 @@ nlohmann::json ShardRPCClient::snapshotRead(
     }
 }
 
-/** @brief Perform lightweight health ping via RPC. */
+/**
+ * @brief Ping.
+ * @return True when the operation succeeds.
+ * @details Calls: sendRequest(), nlohmann::json::object(), contains().
+ */
 bool ShardRPCClient::ping() {
     try {
         auto response = sendRequest("ping", nlohmann::json::object());
@@ -473,7 +493,11 @@ bool ShardRPCClient::ping() {
     }
 }
 
-/** @brief Collect remote wait-for graph edges for distributed deadlock detection. */
+/**
+ * @brief Collect Wait For Edges.
+ * @return Return value.
+ * @details Calls: sendRequest(), nlohmann::json::object(), contains(), is_array(), is_string(), push_back(), THEMIS_WARN(), what().
+ */
 std::vector<ShardRPCClient::WaitForEdge> ShardRPCClient::collectWaitForEdges() {
     try {
         auto response = sendRequest("collect_wait_for_edges", nlohmann::json::object());
@@ -503,12 +527,13 @@ std::vector<ShardRPCClient::WaitForEdge> ShardRPCClient::collectWaitForEdges() {
 }
 
 /**
- * @brief Replicate one entity write to remote shard.
- * @param collection Collection name.
- * @param uuid Entity identifier.
- * @param data Entity payload.
- * @param timestamp_ns Write timestamp (0 means caller leaves default behavior).
- * @return True when replication RPC succeeds.
+ * @brief Write Entity.
+ * @param[in] collection Input parameter.
+ * @param[in] uuid Input parameter.
+ * @param[in] data Input parameter.
+ * @param[in] timestamp_ns Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: THEMIS_DEBUG(), sendRequest(), contains(), THEMIS_ERROR(), what().
  */
 bool ShardRPCClient::writeEntity(
     const std::string& collection,
@@ -533,7 +558,14 @@ bool ShardRPCClient::writeEntity(
     }
 }
 
-/** @brief Dispatch RPC call through gRPC path or in-process fallback path. */
+/**
+ * @brief Send Request.
+ * @param[in] method Input parameter.
+ * @param[in] params Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: sendRequestGrpc(), isExplicitInProcessEndpoint(), sendRequestInProcess().
+ */
 nlohmann::json ShardRPCClient::sendRequest(
     const std::string& method,
     const nlohmann::json& params
@@ -556,11 +588,12 @@ throw std::runtime_error(
 
 #if THEMIS_HAS_SHARD_GRPC
 /**
- * @brief Execute one RPC with retries and exponential backoff over gRPC transport.
- * @param method Logical method name.
- * @param params RPC request payload.
- * @return RPC response payload.
- * @throws std::exception On final retry exhaustion or non-retryable failures.
+ * @brief Send Request Grpc.
+ * @param[in] method Input parameter.
+ * @param[in] params Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: allowRequest(), THEMIS_DEBUG(), waitForChannelReady(), std::chrono::system_clock::now(), std::chrono::milliseconds(), set_deadline(), std::chrono::steady_clock::now(), handlePrepareGrpc().
  */
 nlohmann::json ShardRPCClient::sendRequestGrpc(
     const std::string& method,
@@ -680,7 +713,15 @@ nlohmann::json ShardRPCClient::sendRequestGrpc(
                            std::to_string(impl_->config.max_retries) + " attempts");
 }
 
-/** @brief Build and execute PrepareTransaction gRPC call. */
+/**
+ * @brief Handle Prepare Grpc.
+ * @param[in,out] context Input/output parameter.
+ * @param[in] params Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @throws NonRetryableRpcError if an error occurs.
+ * @details Calls: set_transaction_id(), value(), set_coordinator_shard_id(), contains(), dump(), set_transaction_data(), PrepareTransaction(), ok().
+ */
 nlohmann::json ShardRPCClient::handlePrepareGrpc(
     grpc::ClientContext& context,
     const nlohmann::json& params
@@ -714,7 +755,15 @@ nlohmann::json ShardRPCClient::handlePrepareGrpc(
     return result;
 }
 
-/** @brief Build and execute CommitTransaction gRPC call. */
+/**
+ * @brief Handle Commit Grpc.
+ * @param[in,out] context Input/output parameter.
+ * @param[in] params Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @throws NonRetryableRpcError if an error occurs.
+ * @details Calls: set_transaction_id(), value(), CommitTransaction(), ok(), isRetryableError(), error_code(), error_message(), success().
+ */
 nlohmann::json ShardRPCClient::handleCommitGrpc(
     grpc::ClientContext& context,
     const nlohmann::json& params
@@ -740,7 +789,15 @@ nlohmann::json ShardRPCClient::handleCommitGrpc(
     return result;
 }
 
-/** @brief Build and execute AbortTransaction gRPC call. */
+/**
+ * @brief Handle Abort Grpc.
+ * @param[in,out] context Input/output parameter.
+ * @param[in] params Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @throws NonRetryableRpcError if an error occurs.
+ * @details Calls: set_transaction_id(), value(), AbortTransaction(), ok(), isRetryableError(), error_code(), error_message(), success().
+ */
 nlohmann::json ShardRPCClient::handleAbortGrpc(
     grpc::ClientContext& context,
     const nlohmann::json& params
@@ -765,7 +822,14 @@ nlohmann::json ShardRPCClient::handleAbortGrpc(
     return result;
 }
 
-/** @brief Execute snapshot-read metadata call sequence over gRPC. */
+/**
+ * @brief Handle Snapshot Read Grpc.
+ * @param[in,out] context Input/output parameter.
+ * @param[in] params Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: set_include_metrics(), GetShardStatus(), ok(), error_message(), state(), shard_id(), contains(), THEMIS_WARN().
+ */
 nlohmann::json ShardRPCClient::handleSnapshotReadGrpc(
     grpc::ClientContext& context,
     const nlohmann::json& params
@@ -814,7 +878,13 @@ nlohmann::json ShardRPCClient::handleSnapshotReadGrpc(
     };
 }
 
-/** @brief Execute HealthCheck gRPC call and normalize response JSON. */
+/**
+ * @brief Handle Health Check Grpc.
+ * @param[in,out] context Input/output parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: HealthCheck(), ok(), error_message(), status(), version(), uptime_seconds().
+ */
 nlohmann::json ShardRPCClient::handleHealthCheckGrpc(
     grpc::ClientContext& context
 ) {
@@ -836,7 +906,15 @@ nlohmann::json ShardRPCClient::handleHealthCheckGrpc(
     return result;
 }
 
-/** @brief Execute ReplicateData gRPC call for single-entity replication. */
+/**
+ * @brief Handle Write Entity Grpc.
+ * @param[in,out] context Input/output parameter.
+ * @param[in] params Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @throws NonRetryableRpcError if an error occurs.
+ * @details Calls: set_shard_id(), empty(), add_entities(), set_uuid(), value(), set_collection(), set_data(), dump().
+ */
 nlohmann::json ShardRPCClient::handleWriteEntityGrpc(
     grpc::ClientContext& context,
     const nlohmann::json& params
@@ -874,7 +952,14 @@ nlohmann::json ShardRPCClient::handleWriteEntityGrpc(
     };
 }
 
-/** @brief Execute CollectWaitForEdges gRPC call and map protobuf to JSON. */
+/**
+ * @brief Handle Collect Wait For Edges Grpc.
+ * @param[in,out] context Input/output parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @throws NonRetryableRpcError if an error occurs.
+ * @details Calls: CollectWaitForEdges(), ok(), isRetryableError(), error_code(), error_message(), nlohmann::json::array(), edges(), push_back().
+ */
 nlohmann::json ShardRPCClient::handleCollectWaitForEdgesGrpc(
     grpc::ClientContext& context
 ) {
@@ -903,7 +988,12 @@ nlohmann::json ShardRPCClient::handleCollectWaitForEdgesGrpc(
     };
 }
 
-/** @brief Classify gRPC status codes into retryable and fail-fast categories. */
+/**
+ * @brief Is Retryable Error.
+ * @param[in] code Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements isRetryableError without additional internal calls.
+ */
 bool ShardRPCClient::isRetryableError(grpc::StatusCode code) {
     // Categorize errors as retryable or non-retryable
     switch (code) {
@@ -942,10 +1032,12 @@ bool ShardRPCClient::isRetryableError(grpc::StatusCode code) {
 #endif
 
 /**
- * @brief Execute RPC via in-process simulation path with retry and backoff.
- * @param method Logical method name.
- * @param params RPC request payload.
- * @return Simulated or injected response payload.
+ * @brief Send Request In Process.
+ * @param[in] method Input parameter.
+ * @param[in] params Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: isExplicitInProcessEndpoint(), lk(), exchange(), THEMIS_WARN(), allowRequest(), THEMIS_DEBUG(), std::chrono::steady_clock::now(), std::this_thread::sleep_for().
  */
 nlohmann::json ShardRPCClient::sendRequestInProcess(
     const std::string& method,

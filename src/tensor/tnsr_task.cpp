@@ -27,16 +27,30 @@ std::mutex                   g_reroute_serialize_mtx;
 TNSRTask::RerouteSerializeFn g_reroute_serialize_fn;
 } // namespace
 
+/**
+ * @brief Set Reroute Serialize Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lk(), std::move().
+ */
 void TNSRTask::setRerouteSerializeFn(RerouteSerializeFn fn) {
     std::lock_guard<std::mutex> lk(g_reroute_serialize_mtx);
     g_reroute_serialize_fn = std::move(fn);
 }
 
+/**
+ * @brief Clear Reroute Serialize Fn.
+ * @details Calls: lk().
+ */
 void TNSRTask::clearRerouteSerializeFn() {
     std::lock_guard<std::mutex> lk(g_reroute_serialize_mtx);
     g_reroute_serialize_fn = nullptr;
 }
 
+/**
+ * @brief Get Reroute Serialize Fn.
+ * @return Return value.
+ * @details Calls: lk().
+ */
 TNSRTask::RerouteSerializeFn TNSRTask::getRerouteSerializeFn() {
     std::lock_guard<std::mutex> lk(g_reroute_serialize_mtx);
     return g_reroute_serialize_fn;
@@ -54,14 +68,22 @@ TNSRTask::TNSRTask(std::shared_ptr<storage::TensorNetworkStorageEngine> engine,
     }
 }
 
+/**
+ * @brief Has Reroute Serialize Fn.
+ * @return True when the operation succeeds.
+ * @details Calls: lock().
+ */
 bool TNSRTask::hasRerouteSerializeFn() {
     std::lock_guard<std::mutex> lock(g_reroute_serialize_mtx);
     return static_cast<bool>(g_reroute_serialize_fn);
 }
 
-// ============================================================================
-// TNSRTask::run
-// ============================================================================
+/**
+ * @brief ============================================================================ TNSRTask::run ============================================================================
+ * @param[in] index_key_range Input parameter.
+ * @param[in] cfg Input parameter.
+ * @return Return value.
+ */
 
 TNSRReport TNSRTask::run(
     const std::vector<storage::TensorFieldKey>& index_key_range,

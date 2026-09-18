@@ -203,6 +203,13 @@ std::string AdaptiveQueryCache::generateFingerprint(const std::string &query, co
     return ss.str();
 }
 
+/**
+ * @brief Get.
+ * @param[in] fingerprint Input parameter.
+ * @param[in] tenant_id Identifier of the tenant.
+ * @return Return value.
+ * @details Calls: empty(), makeTenantKey(), tryAcquire(), THEMIS_DEBUG(), substr(), getCurrentTimeMs(), lock(), find().
+ */
 std::optional<AdaptiveQueryCache::CacheEntry> AdaptiveQueryCache::get(const std::string &fingerprint,
                                                                       const std::string &tenant_id) {
     // Phase 2: Create tenant-scoped key if tenant isolation enabled
@@ -582,6 +589,16 @@ std::optional<AdaptiveQueryCache::CacheEntry> AdaptiveQueryCache::get(const std:
     return std::nullopt;
 }
 
+/**
+ * @brief Put.
+ * @param[in] fingerprint Input parameter.
+ * @param[in] query_params Input parameter.
+ * @param[in] result Input parameter.
+ * @param[in] tenant_id Identifier of the tenant.
+ * @param[in] pii_uuids Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: tryAcquire(), THEMIS_DEBUG(), substr(), rep_lock(), getCurrentTimeMs(), dump(), size(), checkTenantQuota().
+ */
 bool AdaptiveQueryCache::put(const std::string &fingerprint, const nlohmann::json &query_params,
                              const nlohmann::json &result, const std::string &tenant_id,
                              const std::vector<std::string> &pii_uuids) {
@@ -958,6 +975,12 @@ bool AdaptiveQueryCache::put(const std::string &fingerprint, const nlohmann::jso
     return false;
 }
 
+/**
+ * @brief Invalidate.
+ * @param[in] pattern Input parameter.
+ * @return Return value.
+ * @details Calls: size(), THEMIS_WARN(), std::regex(), what(), lock(), begin(), end(), std::regex_search().
+ */
 size_t AdaptiveQueryCache::invalidate(const std::string &pattern) {
     size_t count = 0;
 
@@ -1118,6 +1141,10 @@ size_t AdaptiveQueryCache::invalidate(const std::string &pattern) {
     return count;
 }
 
+/**
+ * @brief Clear.
+ * @details Calls: lock(), evict_lock(), plock(), scanPrefix(), emplace_back(), del(), THEMIS_WARN(), what().
+ */
 void AdaptiveQueryCache::clear() {
     {
         std::unique_lock<std::shared_mutex> lock(l1_mutex_);
@@ -1172,6 +1199,11 @@ void AdaptiveQueryCache::clear() {
     THEMIS_INFO("Cache cleared");
 }
 
+/**
+ * @brief Clear Expired.
+ * @return Return value.
+ * @details Calls: lock(), begin(), end(), isExpired(), load(), onRemove(), erase(), THEMIS_INFO().
+ */
 uint64_t AdaptiveQueryCache::clearExpired() {
     uint64_t count = 0;
     // Clear expired L1 entries
@@ -1225,9 +1257,19 @@ nlohmann::json AdaptiveQueryCache::getDetailedInfo() const {
            {"evictions", stats_.evictions}, {"promotions", stats_.promotions}, {"demotions", stats_.demotions}};
 
     {
+        /**
+         * @brief Lock.
+         * @param[in] l1_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::shared_lock<std::shared_mutex> lock(l1_mutex_);
         std::string eviction_name = {};
         {
+            /**
+             * @brief Evl.
+             * @param[in] l1_eviction_mutex_ Input parameter.
+             * @return Return value.
+             */
             std::lock_guard<std::mutex> evl(l1_eviction_mutex_);
             eviction_name = std::string(l1_eviction_strategy_->getName());
         }
@@ -1238,6 +1280,11 @@ nlohmann::json AdaptiveQueryCache::getDetailedInfo() const {
     }
 
     {
+        /**
+         * @brief Lock.
+         * @param[in] l2_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(l2_mutex_);
         info["l2"] = {{"entries",l2_cache_.size()},
                       {"max_entries", config_.l2_max_entries},
@@ -1312,6 +1359,11 @@ AdaptiveQueryCache::CacheLevel AdaptiveQueryCache::selectCacheLevel(size_t resul
     }
 }
 
+/**
+ * @brief Evict LRU.
+ * @param[in] level Input parameter.
+ * @details Calls: begin(), end(), load(), evict_lock(), onRemove(), dump(), size(), emitEvictionEvent().
+ */
 void AdaptiveQueryCache::evictLRU(CacheLevel level) {
     if (level == CacheLevel::HOT) {
         // First: purge any entries already marked expired
@@ -1444,9 +1496,16 @@ void AdaptiveQueryCache::evictLRU(CacheLevel level) {
     }
 }
 
-// ============================================================================
-// Phase 5: BLOCK 2 Cache Integration — Eviction Event Emission
-// ============================================================================
+/**
+ * @brief ============================================================================ Phase 5: BLOCK 2 Cache Integration — Eviction Event Emission ============================================================================
+ * @param[in] key Input parameter.
+ * @param[in] tier Input parameter.
+ * @param[in] size_bytes Input parameter.
+ * @param[in] access_count Input parameter.
+ * @param[in] last_access_ms Input parameter.
+ * @param[in] reason Input parameter.
+ * @details Calls: lock(), getCurrentTimeMs(), std::chrono::seconds(), onCacheEvicted().
+ */
 
 void AdaptiveQueryCache::emitEvictionEvent(const std::string& key, access_model::TierLevel tier,
                                           std::size_t size_bytes, uint64_t access_count,
@@ -1637,6 +1696,13 @@ std::string AdaptiveQueryCache::makeTenantKey(const std::string &fingerprint, co
     return "tenant:" + tenant_id + ":" + fingerprint;
 }
 
+/**
+ * @brief Check Tenant Quota.
+ * @param[in] tenant_id Identifier of the tenant.
+ * @param[in] additional_bytes Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), lock(), getEffectiveTenantQuota(), THEMIS_WARN().
+ */
 bool AdaptiveQueryCache::checkTenantQuota(const std::string &tenant_id, size_t additional_bytes) {
     if (!config_.enable_tenant_isolation || tenant_id.empty()) {
         return true; // No quotas if isolation disabled
@@ -1659,9 +1725,16 @@ bool AdaptiveQueryCache::checkTenantQuota(const std::string &tenant_id, size_t a
     return true;
 }
 
-// ============================================================================
-// Phase 4: Write-Through Cache Mode
-// ============================================================================
+/**
+ * @brief ============================================================================ Phase 4: Write-Through Cache Mode ============================================================================
+ * @param[in] fingerprint Input parameter.
+ * @param[in] query_params Input parameter.
+ * @param[in] result Input parameter.
+ * @param[in] now_ms Input parameter.
+ * @param[in] ttl_seconds Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: allowRequest(), THEMIS_WARN(), substr(), lock(), put(), dump(), recordSuccess(), THEMIS_DEBUG().
+ */
 
 bool AdaptiveQueryCache::writeThroughToL3(const std::string &fingerprint, const nlohmann::json &query_params,
                                           const nlohmann::json &result, int64_t now_ms, int ttl_seconds) {
@@ -1724,12 +1797,22 @@ nlohmann::json AdaptiveQueryCache::getStatsByTier() const {
 
     // L1 statistics
     {
+        /**
+         * @brief Lock.
+         * @param[in] l1_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::shared_lock<std::shared_mutex> lock(l1_mutex_);
         stats["l1"]["entries"]     = l1_cache_.size();
         stats["l1"]["max_entries"] = config_.l1_max_entries;
         stats["l1"]["utilization"] = static_cast<double>(l1_cache_.size()) / config_.l1_max_entries;
         stats["l1"]["hits"]        = enhanced_metrics_.l1_hits.load();
         {
+            /**
+             * @brief Evl.
+             * @param[in] l1_eviction_mutex_ Input parameter.
+             * @return Return value.
+             */
             std::lock_guard<std::mutex> evl(l1_eviction_mutex_);
             stats["l1"]["eviction_policy"] = std::string(l1_eviction_strategy_->getName());
         }
@@ -1737,6 +1820,11 @@ nlohmann::json AdaptiveQueryCache::getStatsByTier() const {
 
     // L2 statistics
     {
+        /**
+         * @brief Lock.
+         * @param[in] l2_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(l2_mutex_);
         stats["l2"]["entries"]         = l2_cache_.size();
         stats["l2"]["max_entries"]     = config_.l2_max_entries;
@@ -1774,6 +1862,11 @@ nlohmann::json AdaptiveQueryCache::getHealthStatus() const {
 
     // L1 tier
     {
+        /**
+         * @brief Lock.
+         * @param[in] l1_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::shared_lock<std::shared_mutex> lock(l1_mutex_);
         size_t entries = l1_cache_.size();
         double util             = static_cast<double>(entries) / config_.l1_max_entries;
@@ -1790,6 +1883,11 @@ nlohmann::json AdaptiveQueryCache::getHealthStatus() const {
 
     // L2 tier
     {
+        /**
+         * @brief Lock.
+         * @param[in] l2_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(l2_mutex_);
         size_t entries = l2_cache_.size();
         double util             = static_cast<double>(entries) / config_.l2_max_entries;
@@ -1826,6 +1924,11 @@ nlohmann::json AdaptiveQueryCache::getHealthStatus() const {
 
     // Cache coordinator connection status (observable via health endpoint)
     {
+        /**
+         * @brief Lk.
+         * @param[in] coordinator_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(coordinator_mutex_);
         if (coordinator_) {
             bool coord_connected  = coordinator_->isConnected();
@@ -1863,6 +1966,11 @@ std::vector<std::string> AdaptiveQueryCache::exportKeys(size_t max_keys) const {
 
     // Export L1 keys
     {
+        /**
+         * @brief Lock.
+         * @param[in] l1_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::shared_lock<std::shared_mutex> lock(l1_mutex_);
         for (const auto &[key, entry] : l1_cache_) {
             if (keys.size() >= max_keys) {
@@ -1874,6 +1982,11 @@ std::vector<std::string> AdaptiveQueryCache::exportKeys(size_t max_keys) const {
 
     // Export L2 keys
     {
+        /**
+         * @brief Lock.
+         * @param[in] l2_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(l2_mutex_);
         for (const auto &[key, entry] : l2_cache_) {
             if (keys.size() >= max_keys) {
@@ -1897,6 +2010,11 @@ nlohmann::json AdaptiveQueryCache::getTenantStats() const {
     tenant_stats["enabled"]          = true;
     tenant_stats["quota_per_tenant"] = config_.per_tenant_max_bytes;
 
+    /**
+     * @brief Lock.
+     * @param[in] tenant_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(tenant_mutex_);
     for (const auto &[tenant_id, metrics] : tenant_metrics_) {
         nlohmann::json tenant_info;
@@ -1924,6 +2042,11 @@ nlohmann::json AdaptiveQueryCache::getTenantStatsForTenant(const std::string &te
         return result;
     }
 
+    /**
+     * @brief Lock.
+     * @param[in] tenant_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(tenant_mutex_);
     auto it = tenant_metrics_.find(tenant_id);
     if (it == tenant_metrics_.end()) {
@@ -1962,6 +2085,12 @@ size_t AdaptiveQueryCache::bulkPut(
     return successful;
 }
 
+/**
+ * @brief Invalidate Tenant.
+ * @param[in] tenant_id Identifier of the tenant.
+ * @return Return value.
+ * @details Calls: empty(), THEMIS_WARN(), lock(), begin(), end(), find(), evict_lock(), onRemove().
+ */
 size_t AdaptiveQueryCache::invalidateTenant(const std::string &tenant_id) {
     if (tenant_id.empty()) {
         THEMIS_WARN("Invalid tenant_id for invalidation");
@@ -2097,6 +2226,12 @@ size_t AdaptiveQueryCache::invalidateTenant(const std::string &tenant_id) {
     return count;
 }
 
+/**
+ * @brief Invalidate PII.
+ * @param[in] pii_uuid Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), THEMIS_WARN(), plock(), find(), end(), std::move(), erase(), THEMIS_DEBUG().
+ */
 size_t AdaptiveQueryCache::invalidatePII(const std::string &pii_uuid) {
     if (pii_uuid.empty()) {
         THEMIS_WARN("invalidatePII called with empty pii_uuid");
@@ -2230,6 +2365,13 @@ size_t AdaptiveQueryCache::invalidatePII(const std::string &pii_uuid) {
     return count;
 }
 
+/**
+ * @brief Update Tenant Quota.
+ * @param[in] tenant_id Identifier of the tenant.
+ * @param[in] quota_bytes Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), lock(), erase(), THEMIS_INFO().
+ */
 bool AdaptiveQueryCache::updateTenantQuota(const std::string &tenant_id, size_t quota_bytes) {
     if (!config_.enable_tenant_isolation || tenant_id.empty()) {
         return false;
@@ -2282,6 +2424,10 @@ nlohmann::json AdaptiveQueryCache::getCircuitBreakerStatus() const {
     return status;
 }
 
+/**
+ * @brief Reset Circuit Breaker.
+ * @details Calls: reset(), THEMIS_INFO().
+ */
 void AdaptiveQueryCache::resetCircuitBreaker() {
     if (!l3_circuit_breaker_) {
         return;
@@ -2291,9 +2437,12 @@ void AdaptiveQueryCache::resetCircuitBreaker() {
     THEMIS_INFO("L3 circuit breaker reset to CLOSED by admin request");
 }
 
-// ---------------------------------------------------------------------------
-// Phase 4: Predictive Pre-Fetching
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- Phase 4: Predictive Pre-Fetching ---------------------------------------------------------------------------
+ * @param[in] fingerprint Input parameter.
+ * @param[in] tenant_id Identifier of the tenant.
+ * @details Implements recordQueryAccess without additional internal calls.
+ */
 
 void AdaptiveQueryCache::recordQueryAccess(const std::string &fingerprint, const std::string &tenant_id) {
     if (prefetcher_) {
@@ -2329,27 +2478,42 @@ nlohmann::json AdaptiveQueryCache::getPrefetchStats() const {
     return j;
 }
 
+/**
+ * @brief Record Prefetch Overhead Bytes.
+ * @param[in] bytes Input parameter.
+ * @details Calls: recordOverheadBytes().
+ */
 void AdaptiveQueryCache::recordPrefetchOverheadBytes(uint64_t bytes) {
     if (prefetcher_) {
         prefetcher_->recordOverheadBytes(bytes);
     }
 }
 
+/**
+ * @brief Save Prefetch Model.
+ * @details Calls: saveModel(), get().
+ */
 void AdaptiveQueryCache::savePrefetchModel() {
     if (prefetcher_ && l3_db_) {
         prefetcher_->saveModel(l3_db_.get());
     }
 }
 
+/**
+ * @brief Load Prefetch Model.
+ * @details Calls: loadModel(), get().
+ */
 void AdaptiveQueryCache::loadPrefetchModel() {
     if (prefetcher_ && l3_db_) {
         prefetcher_->loadModel(l3_db_.get());
     }
 }
 
-// ============================================================================
-// Phase 4: Cache Replication for High-Availability Multi-Node Deployments
-// ============================================================================
+/**
+ * @brief ============================================================================ Phase 4: Cache Replication for High-Availability Multi-Node Deployments ============================================================================
+ * @param[in] coordinator Input parameter.
+ * @details Calls: lk(), THEMIS_INFO(), subscribeEntries(), alive_lock(), applyReplicatedEntry(), subscribeInvalidations(), applyReplicatedInvalidation(), name().
+ */
 
 void AdaptiveQueryCache::setCoordinator(std::shared_ptr<cache::ICacheCoordinator> coordinator) {
     std::lock_guard<std::mutex> lk(coordinator_mutex_);
@@ -2386,6 +2550,11 @@ void AdaptiveQueryCache::setCoordinator(std::shared_ptr<cache::ICacheCoordinator
 }
 
 nlohmann::json AdaptiveQueryCache::getReplicationStats() const {
+    /**
+     * @brief Lk.
+     * @param[in] coordinator_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(coordinator_mutex_);
     if (!coordinator_) {
         return {{"enabled", false}};
@@ -2395,6 +2564,11 @@ nlohmann::json AdaptiveQueryCache::getReplicationStats() const {
     return stats;
 }
 
+/**
+ * @brief Apply Replicated Entry.
+ * @param[in] msg Input parameter.
+ * @details Calls: is_null(), is_object(), getCurrentTimeMs(), dump(), size(), isWithinSizeLimit(), checkTenantQuota(), lock().
+ */
 void AdaptiveQueryCache::applyReplicatedEntry(const cache::ReplicationMessage &msg) {
     // Replicate only L1/L2; L3 (RocksDB) is assumed shared or node-local
     // and does not need replication from the coordinator bus.
@@ -2464,6 +2638,11 @@ void AdaptiveQueryCache::applyReplicatedEntry(const cache::ReplicationMessage &m
     }
 }
 
+/**
+ * @brief Apply Replicated Invalidation.
+ * @param[in] msg Input parameter.
+ * @details Calls: empty(), re(), lock(), begin(), end(), std::regex_search(), evict_lock(), onRemove().
+ */
 void AdaptiveQueryCache::applyReplicatedInvalidation(const cache::ReplicationMessage &msg) {
     // Peer invalidated a key/pattern – evict matching entries from L1 and L2 only.
     // L3 (RocksDB) is considered either shared or independently managed per-node.
@@ -2506,9 +2685,11 @@ void AdaptiveQueryCache::applyReplicatedInvalidation(const cache::ReplicationMes
     }
 }
 
-// ============================================================================
-// Phase 4: Cache Replication for High-Availability
-// ============================================================================
+/**
+ * @brief ============================================================================ Phase 4: Cache Replication for High-Availability ============================================================================
+ * @param[in] listener Input parameter.
+ * @details Calls: lock(), std::move(), THEMIS_INFO(), replicaId().
+ */
 
 void AdaptiveQueryCache::setReplicationListener(std::shared_ptr<cache::ICacheReplicationListener> listener) {
     std::lock_guard<std::mutex> lock(replication_mutex_);
@@ -2525,6 +2706,11 @@ void AdaptiveQueryCache::setReplicationListener(std::shared_ptr<cache::ICacheRep
 // ============================================================================
 
 void AdaptiveQueryCache::setEvictionListener(access_model::EvictionListener* listener) noexcept {
+    /**
+     * @brief Lock.
+     * @param[in] eviction_listener_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(eviction_listener_mutex_);
     eviction_listener_ = listener;
     if (eviction_listener_) {
@@ -2542,6 +2728,12 @@ void AdaptiveQueryCache::setEvictionListener(access_model::EvictionListener* lis
 
 namespace themis {
 
+/**
+ * @brief Get.
+ * @param[in] fingerprint Input parameter.
+ * @return Return value.
+ * @details Calls: has_value().
+ */
 std::optional<nlohmann::json> AdaptiveQueryCache::get(const std::string &fingerprint) {
     auto entry = get(fingerprint, "");
     if (!entry.has_value()) {
@@ -2550,6 +2742,13 @@ std::optional<nlohmann::json> AdaptiveQueryCache::get(const std::string &fingerp
     return entry->result;
 }
 
+/**
+ * @brief Put.
+ * @param[in] fingerprint Input parameter.
+ * @param[in] result Input parameter.
+ * @param[in] uint32_t Input parameter.
+ * @details Calls: std::move().
+ */
 void AdaptiveQueryCache::put(const std::string &fingerprint, nlohmann::json result, uint32_t /*ttl_seconds*/) {
     // Note: ttl_seconds is not honoured here — AdaptiveQueryCache applies its
     // own tier-based TTL policy (l1/l2/l3_ttl_seconds from Config).
@@ -2557,6 +2756,12 @@ void AdaptiveQueryCache::put(const std::string &fingerprint, nlohmann::json resu
     put(fingerprint, nlohmann::json{}, std::move(result), "");
 }
 
+/**
+ * @brief Remove.
+ * @param[in] fingerprint Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), find(), end(), evict_lock(), onRemove(), erase(), get(), has_value().
+ */
 bool AdaptiveQueryCache::remove(const std::string &fingerprint) {
     bool found = false;
 
@@ -2609,6 +2814,11 @@ bool AdaptiveQueryCache::remove(const std::string &fingerprint) {
 bool AdaptiveQueryCache::contains(const std::string &fingerprint) const {
     // L1 — shared lock, no LRU update
     {
+        /**
+         * @brief Lock.
+         * @param[in] l1_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::shared_lock<std::shared_mutex> lock(l1_mutex_);
         auto it = l1_cache_.find(fingerprint);
         if (it != l1_cache_.end()) {
@@ -2622,6 +2832,11 @@ bool AdaptiveQueryCache::contains(const std::string &fingerprint) const {
 
     // L2 — plain mutex, no stats update
     {
+        /**
+         * @brief Lock.
+         * @param[in] l2_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(l2_mutex_);
         if (l2_cache_.count(fingerprint)) {
             return true;
@@ -2631,6 +2846,11 @@ bool AdaptiveQueryCache::contains(const std::string &fingerprint) const {
     // L3 — best-effort check
     if (l3_db_) {
         try {
+            /**
+             * @brief Lock.
+             * @param[in] l3_mutex_ Input parameter.
+             * @return Return value.
+             */
             std::lock_guard<std::timed_mutex> lock(l3_mutex_);
             return l3_db_->get(QUERY_CACHE_PREFIX + fingerprint).has_value();
         } catch (const std::exception &e) {
@@ -2650,10 +2870,20 @@ std::size_t AdaptiveQueryCache::size() const {
     std::size_t l2_sz = 0;
 
     {
+        /**
+         * @brief Lock.
+         * @param[in] l1_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::shared_lock<std::shared_mutex> lock(l1_mutex_);
         l1_sz = l1_cache_.size();
     }
     {
+        /**
+         * @brief Lock.
+         * @param[in] l2_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(l2_mutex_);
         l2_sz = l2_cache_.size();
     }

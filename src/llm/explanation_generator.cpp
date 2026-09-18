@@ -19,6 +19,16 @@
 namespace themis {
 namespace llm {
 
+/**
+ * @brief Generate Explanation.
+ * @param[in] query Input parameter.
+ * @param[in] response Input parameter.
+ * @param[in] reasoning_steps Input parameter.
+ * @param[in] key_factors Input parameter.
+ * @param[in] format Input parameter.
+ * @return Return value.
+ * @details Calls: formatUserFriendly(), formatTechnical(), formatCompliance(), formatJson().
+ */
 std::string ExplanationGenerator::generateExplanation(
     const std::string& query,
     const std::string& response,
@@ -40,6 +50,15 @@ std::string ExplanationGenerator::generateExplanation(
     }
 }
 
+/**
+ * @brief Format User Friendly.
+ * @param[in] query Input parameter.
+ * @param[in] response Input parameter.
+ * @param[in] reasoning_steps Input parameter.
+ * @param[in] key_factors Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), size(), is_object(), items(), is_string(), dump(), str().
+ */
 std::string ExplanationGenerator::formatUserFriendly(
     const std::string& query,
     const std::string& response,
@@ -78,6 +97,15 @@ std::string ExplanationGenerator::formatUserFriendly(
     return out.str();
 }
 
+/**
+ * @brief Format Technical.
+ * @param[in] query Input parameter.
+ * @param[in] response Input parameter.
+ * @param[in] reasoning_steps Input parameter.
+ * @param[in] key_factors Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), size(), dump(), str().
+ */
 std::string ExplanationGenerator::formatTechnical(
     const std::string& query,
     const std::string& response,
@@ -114,6 +142,15 @@ std::string ExplanationGenerator::formatTechnical(
     return out.str();
 }
 
+/**
+ * @brief Format Compliance.
+ * @param[in] query Input parameter.
+ * @param[in] response Input parameter.
+ * @param[in] reasoning_steps Input parameter.
+ * @param[in] key_factors Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), size(), is_object(), items(), dump(), str().
+ */
 std::string ExplanationGenerator::formatCompliance(
     const std::string& query,
     const std::string& response,
@@ -163,6 +200,15 @@ std::string ExplanationGenerator::formatCompliance(
     return out.str();
 }
 
+/**
+ * @brief Format Json.
+ * @param[in] query Input parameter.
+ * @param[in] response Input parameter.
+ * @param[in] reasoning_steps Input parameter.
+ * @param[in] key_factors Input parameter.
+ * @return Return value.
+ * @details Calls: dump().
+ */
 std::string ExplanationGenerator::formatJson(
     const std::string& query,
     const std::string& response,
@@ -178,6 +224,13 @@ std::string ExplanationGenerator::formatJson(
     return explanation.dump(2);
 }
 
+/**
+ * @brief Generate Reasoning Chain.
+ * @param[in] query Input parameter.
+ * @param[in] intermediate_results Input parameter.
+ * @return Return value.
+ * @details Calls: push_back(), empty(), is_object(), items(), is_string(), is_number(), dump(), str().
+ */
 std::vector<std::string> ExplanationGenerator::generateReasoningChain(
     const std::string& query,
     const json& intermediate_results) {
@@ -208,6 +261,14 @@ std::vector<std::string> ExplanationGenerator::generateReasoningChain(
     return steps;
 }
 
+/**
+ * @brief Identify Key Factors.
+ * @param[in] query Input parameter.
+ * @param[in] response Input parameter.
+ * @param[in] context Input parameter.
+ * @return Return value.
+ * @details Calls: extractKeywords(), std::find(), begin(), end(), push_back(), empty(), calculateSimilarity(), std::round().
+ */
 json ExplanationGenerator::identifyKeyFactors(
     const std::string& query,
     const std::string& response,
@@ -257,6 +318,13 @@ json ExplanationGenerator::identifyKeyFactors(
     return factors;
 }
 
+/**
+ * @brief Explain Confidence.
+ * @param[in] confidence Input parameter.
+ * @param[in] alternatives Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), std::min(), size(), size_t(), str().
+ */
 std::string ExplanationGenerator::explainConfidence(
     float confidence,
     const std::vector<std::string>& alternatives) {
@@ -291,6 +359,17 @@ std::string ExplanationGenerator::explainConfidence(
     return out.str();
 }
 
+/**
+ * @brief Generate Compliance Explanation.
+ * @param[in] query Input parameter.
+ * @param[in] response Input parameter.
+ * @param[in] model_info Input parameter.
+ * @param[in] reasoning_steps Input parameter.
+ * @param[in] key_factors Input parameter.
+ * @param[in] confidence Input parameter.
+ * @return Return value.
+ * @details Calls: std::setprecision(), empty(), size(), is_object(), items(), dump(), str().
+ */
 std::string ExplanationGenerator::generateComplianceExplanation(
     const std::string& query,
     const std::string& response,
@@ -364,6 +443,12 @@ std::string ExplanationGenerator::generateComplianceExplanation(
 
 // Helper methods
 
+/**
+ * @brief Extract Keywords.
+ * @param[in] text Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), length(), reserve(), std::isalnum(), std::tolower(), find(), end(), push_back().
+ */
 std::vector<std::string> ExplanationGenerator::extractKeywords(const std::string& text) {
     // Early return for empty or very short text
     if (text.empty() || text.length() < 3) {
@@ -410,6 +495,13 @@ std::vector<std::string> ExplanationGenerator::extractKeywords(const std::string
     return keywords;
 }
 
+/**
+ * @brief Calculate Similarity.
+ * @param[in] text1 Input parameter.
+ * @param[in] text2 Input parameter.
+ * @return Return value.
+ * @details Calls: extractKeywords(), empty(), set1(), begin(), end(), set2(), count(), size().
+ */
 float ExplanationGenerator::calculateSimilarity(
     const std::string& text1, 
     const std::string& text2) {

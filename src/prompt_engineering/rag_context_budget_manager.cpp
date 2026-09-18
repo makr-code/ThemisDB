@@ -23,6 +23,13 @@ RagContextBudgetManager::RagContextBudgetManager(size_t total_budget)
     }
 }
 
+/**
+ * @brief Allocate.
+ * @param[in] tokens Input parameter.
+ * @return Return value.
+ * @throws BudgetExhaustedError if an error occurs.
+ * @details Calls: lock(), load(), fetch_add(), BudgetHandle(), doRelease().
+ */
 BudgetHandle RagContextBudgetManager::allocate(size_t tokens) {
     std::lock_guard<std::mutex> lock(mutex_);
 

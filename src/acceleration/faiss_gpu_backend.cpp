@@ -86,6 +86,11 @@ BackendCapabilities FaissGPUVectorBackend::getCapabilities() const {
     return caps;
 }
 
+/**
+ * @brief Initialize.
+ * @return True when the operation succeeds.
+ * @details Calls: isAvailable(), setError(), setTempMemory(), std::string(), what().
+ */
 bool FaissGPUVectorBackend::initialize() {
     if (!isAvailable()) {
         setError(AccelerationErrorCode::NoDevicesFound,
@@ -114,6 +119,10 @@ bool FaissGPUVectorBackend::initialize() {
     }
 }
 
+/**
+ * @brief Shutdown.
+ * @details Calls: destroyIndex(), reset().
+ */
 void FaissGPUVectorBackend::shutdown() {
     if (initialized_) {
         destroyIndex();
@@ -122,6 +131,12 @@ void FaissGPUVectorBackend::shutdown() {
     }
 }
 
+/**
+ * @brief Initialize Index.
+ * @param[in] config Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: setError(), destroyIndex(), createIndex(), std::string(), what().
+ */
 bool FaissGPUVectorBackend::initializeIndex(const Config& config) {
     if (!initialized_) {
         setError(AccelerationErrorCode::BackendNotInitialized,
@@ -157,6 +172,13 @@ bool FaissGPUVectorBackend::initializeIndex(const Config& config) {
     }
 }
 
+/**
+ * @brief Create Index.
+ * @param[in] type Input parameter.
+ * @param[in] dimension Input parameter.
+ * @return Pointer to the result.
+ * @details Calls: faiss::gpu::GpuIndexFlatL2(), get(), faiss::gpu::GpuIndexFlatIP(), faiss::gpu::GpuIndexIVFFlat(), faiss::gpu::GpuIndexIVFPQ(), faiss::gpu::GpuIndexIVFScalarQuantizer(), faiss::IndexHNSWFlat(), setError().
+ */
 void* FaissGPUVectorBackend::createIndex(IndexType type, int dimension) {
     faiss::gpu::GpuIndexFlatConfig flatConfig;
     flatConfig.device = config_.deviceId;
@@ -269,6 +291,10 @@ void* FaissGPUVectorBackend::createIndex(IndexType type, int dimension) {
     }
 }
 
+/**
+ * @brief Destroy Index.
+ * @details Implements destroyIndex without additional internal calls.
+ */
 void FaissGPUVectorBackend::destroyIndex() {
     if (!index_) {
       return;
@@ -302,6 +328,13 @@ void FaissGPUVectorBackend::destroyIndex() {
     index_ = nullptr;
 }
 
+/**
+ * @brief Train Index.
+ * @param[in] vectors Input parameter.
+ * @param[in] numVectors Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: setError(), train(), std::string(), what().
+ */
 bool FaissGPUVectorBackend::trainIndex(const float* vectors, size_t numVectors) {
     if (!index_) {
         setError(AccelerationErrorCode::BackendNotInitialized,
@@ -359,6 +392,13 @@ bool FaissGPUVectorBackend::trainIndex(const float* vectors, size_t numVectors) 
     }
 }
 
+/**
+ * @brief Add Vectors.
+ * @param[in] vectors Input parameter.
+ * @param[in] numVectors Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: setError(), add(), std::string(), what().
+ */
 bool FaissGPUVectorBackend::addVectors(const float* vectors, size_t numVectors) {
     if (!index_) {
         setError(AccelerationErrorCode::BackendNotInitialized,
@@ -505,6 +545,17 @@ std::vector<std::vector<std::pair<uint32_t, float>>> FaissGPUVectorBackend::sear
     }
 }
 
+/**
+ * @brief Compute Distances.
+ * @param[in] queries Input parameter.
+ * @param[in] numQueries Input parameter.
+ * @param[in] dim Input parameter.
+ * @param[in] vectors Input parameter.
+ * @param[in] numVectors Input parameter.
+ * @param[in] useL2 Input parameter.
+ * @return Return value.
+ * @details Calls: setError(), createIndex(), add(), distances(), labels(), search(), data(), std::string().
+ */
 std::vector<float> FaissGPUVectorBackend::computeDistances(
     const float* queries,
     size_t numQueries,
@@ -653,6 +704,12 @@ std::vector<std::vector<std::pair<uint32_t, float>>> FaissGPUVectorBackend::batc
     }
 }
 
+/**
+ * @brief Save Index.
+ * @param[in] filepath Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: setError(), empty(), find(), size(), std::strlen(), c_str(), reserve(), faiss::gpu::index_gpu_to_cpu().
+ */
 bool FaissGPUVectorBackend::saveIndex(const std::string& filepath) {
     if (!index_) {
         setError(AccelerationErrorCode::BackendNotInitialized,
@@ -740,6 +797,12 @@ bool FaissGPUVectorBackend::saveIndex(const std::string& filepath) {
     }
 }
 
+/**
+ * @brief Load Index.
+ * @param[in] filepath Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), setError(), find(), size(), std::strlen(), c_str(), reserve(), faiss::read_index().
+ */
 bool FaissGPUVectorBackend::loadIndex(const std::string& filepath) {
     // Sanitize filepath: reject empty, path-traversal sequences, and null bytes
     if (filepath.empty()) {
@@ -860,6 +923,10 @@ FaissGPUVectorBackend::IndexStats FaissGPUVectorBackend::getIndexStats() const {
     return stats;
 }
 
+/**
+ * @brief Reset Index.
+ * @details Calls: setError(), reset(), std::string(), what().
+ */
 void FaissGPUVectorBackend::resetIndex() {
     if (!index_) {
       return;

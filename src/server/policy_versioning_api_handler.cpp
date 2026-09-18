@@ -27,6 +27,12 @@ namespace {
 constexpr size_t kMaxPolicyVersioningIdentifierLength = 256;
 constexpr size_t kMaxPolicyAuditFieldLength = 1024;
 
+/**
+ * @brief Is Valid Identifier.
+ * @param[in] value Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), validateStringLength(), std::string(), validatePathSegment().
+ */
 bool isValidIdentifier(std::string_view value) {
     themis::utils::InputValidator validator;
     return !value.empty() &&
@@ -34,6 +40,12 @@ bool isValidIdentifier(std::string_view value) {
            validator.validatePathSegment(std::string(value));
 }
 
+/**
+ * @brief Is Valid Audit Field.
+ * @param[in] value Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: validateStringLength(), std::string(), validateHeaderValue().
+ */
 bool isValidAuditField(std::string_view value) {
     themis::utils::InputValidator validator;
     return validator.validateStringLength(std::string(value), kMaxPolicyAuditFieldLength) &&
@@ -54,6 +66,13 @@ PolicyVersioningApiHandler::PolicyVersioningApiHandler(
     }
 }
 
+/**
+ * @brief Handle List Versions.
+ * @param[in] req Input parameter.
+ * @param[in] rule_id Identifier of the rule.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), isValidIdentifier(), makeErrorResponse(), checkAuth(), getRuleVersions(), nlohmann::json::array(), push_back(), toJson().
+ */
 http::response<http::string_body> PolicyVersioningApiHandler::handleListVersions(
     const http::request<http::string_body>& req,
     const std::string& rule_id
@@ -95,6 +114,14 @@ http::response<http::string_body> PolicyVersioningApiHandler::handleListVersions
     }
 }
 
+/**
+ * @brief Handle Get Version.
+ * @param[in] req Input parameter.
+ * @param[in] rule_id Identifier of the rule.
+ * @param[in] version Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), isValidIdentifier(), makeErrorResponse(), checkAuth(), getRuleVersion(), has_value(), makeResponse(), toJson().
+ */
 http::response<http::string_body> PolicyVersioningApiHandler::handleGetVersion(
     const http::request<http::string_body>& req,
     const std::string& rule_id,
@@ -130,6 +157,14 @@ http::response<http::string_body> PolicyVersioningApiHandler::handleGetVersion(
     }
 }
 
+/**
+ * @brief Handle Rollback.
+ * @param[in] req Input parameter.
+ * @param[in] rule_id Identifier of the rule.
+ * @param[in] target_version Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), isValidIdentifier(), makeErrorResponse(), checkAuth(), body(), empty(), nlohmann::json::parse(), contains().
+ */
 http::response<http::string_body> PolicyVersioningApiHandler::handleRollback(
     const http::request<http::string_body>& req,
     const std::string& rule_id,
@@ -194,6 +229,15 @@ http::response<http::string_body> PolicyVersioningApiHandler::handleRollback(
     }
 }
 
+/**
+ * @brief Handle Compare Versions.
+ * @param[in] req Input parameter.
+ * @param[in] rule_id Identifier of the rule.
+ * @param[in] version1 Input parameter.
+ * @param[in] version2 Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), isValidIdentifier(), makeErrorResponse(), checkAuth(), compareVersions(), makeResponse(), toJson(), dump().
+ */
 http::response<http::string_body> PolicyVersioningApiHandler::handleCompareVersions(
     const http::request<http::string_body>& req,
     const std::string& rule_id,
@@ -227,6 +271,12 @@ http::response<http::string_body> PolicyVersioningApiHandler::handleCompareVersi
     }
 }
 
+/**
+ * @brief Handle Query Audit.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), checkAuth(), makeErrorResponse(), url(), target(), getQueryParam(), has_value(), isValidIdentifier().
+ */
 http::response<http::string_body> PolicyVersioningApiHandler::handleQueryAudit(
     const http::request<http::string_body>& req
 ) {
@@ -304,6 +354,12 @@ http::response<http::string_body> PolicyVersioningApiHandler::handleQueryAudit(
     }
 }
 
+/**
+ * @brief Handle Get Conflicts.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), checkAuth(), makeErrorResponse(), getActiveConflicts(), nlohmann::json::array(), push_back(), toJson(), size().
+ */
 http::response<http::string_body> PolicyVersioningApiHandler::handleGetConflicts(
     const http::request<http::string_body>& req
 ) {
@@ -429,6 +485,11 @@ std::optional<std::string> PolicyVersioningApiHandler::getQueryParam(
     std::string query_string = url.substr(query_pos + 1);
     
     // Parse query parameters
+    /**
+     * @brief Iss.
+     * @param[in] query_string Input parameter.
+     * @return Return value.
+     */
     std::istringstream iss(query_string);
     std::string pair = {};
     

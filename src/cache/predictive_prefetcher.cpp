@@ -47,6 +47,12 @@ bool PredictivePrefetcher::useToDWeighting(const std::string &tenant_id) const {
     return (fnv1aHash(tenant_id) % 2) == 0;
 }
 
+/**
+ * @brief Fnv1a Hash.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Implements fnv1aHash without additional internal calls.
+ */
 uint64_t PredictivePrefetcher::fnv1aHash(const std::string &s) {
     // FNV-1a 64-bit – portable, stable across all platforms and compiler versions.
     constexpr uint64_t kFNVOffsetBasis = 14695981039346656037ULL;
@@ -59,6 +65,11 @@ uint64_t PredictivePrefetcher::fnv1aHash(const std::string &s) {
     return hash;
 }
 
+/**
+ * @brief Current Hour.
+ * @return Return value.
+ * @details Calls: std::time(), localtime_s(), localtime_r().
+ */
 int PredictivePrefetcher::currentHour() {
     std::time_t t = std::time(nullptr);
     std::tm tm_local{};
@@ -97,6 +108,12 @@ void PredictivePrefetcher::emitMetrics() const {
 // Public API
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Record Query Access.
+ * @param[in] fingerprint Input parameter.
+ * @param[in] tenant_id Identifier of the tenant.
+ * @details Calls: empty(), lock(), find(), end(), size(), front(), erase(), begin().
+ */
 void PredictivePrefetcher::recordQueryAccess(const std::string &fingerprint, const std::string &tenant_id) {
     if (fingerprint.empty()) {
         return;
@@ -147,6 +164,11 @@ std::vector<std::string> PredictivePrefetcher::getPrefetchCandidates(const std::
         return {};
     }
 
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     auto it = transitions_.find(fingerprint);
@@ -230,6 +252,11 @@ std::vector<std::string> PredictivePrefetcher::getPrefetchCandidates(const std::
     return result;
 }
 
+/**
+ * @brief Record Prefetch Hit.
+ * @param[in] tenant_id Identifier of the tenant.
+ * @details Calls: lock(), useToDWeighting(), emitMetrics().
+ */
 void PredictivePrefetcher::recordPrefetchHit(const std::string &tenant_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     prefetch_hits_++;
@@ -243,6 +270,12 @@ void PredictivePrefetcher::recordPrefetchHit(const std::string &tenant_id) {
     emitMetrics();
 }
 
+/**
+ * @brief Record Candidates Generated.
+ * @param[in] count Input parameter.
+ * @param[in] param Input parameter.
+ * @details Calls: lock(), emitMetrics().
+ */
 void PredictivePrefetcher::recordCandidatesGenerated(size_t count, const std::string & /*tenant_id*/) {
     // Note: tenant_id is accepted for API symmetry with recordPrefetchHit() so
     // callers can always forward it.  Per-group generated counts are tracked
@@ -253,12 +286,21 @@ void PredictivePrefetcher::recordCandidatesGenerated(size_t count, const std::st
     emitMetrics();
 }
 
+/**
+ * @brief Record Overhead Bytes.
+ * @param[in] bytes Input parameter.
+ * @details Calls: lock(), emitMetrics().
+ */
 void PredictivePrefetcher::recordOverheadBytes(uint64_t bytes) {
     std::lock_guard<std::mutex> lock(mutex_);
     overhead_bytes_ += bytes;
     emitMetrics();
 }
 
+/**
+ * @brief Clear.
+ * @details Calls: lock().
+ */
 void PredictivePrefetcher::clear() {
     std::lock_guard<std::mutex> lock(mutex_);
     transitions_.clear();
@@ -276,6 +318,11 @@ void PredictivePrefetcher::clear() {
 }
 
 nlohmann::json PredictivePrefetcher::getStats() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     nlohmann::json j;
@@ -310,6 +357,11 @@ nlohmann::json PredictivePrefetcher::getStats() const {
 // RocksDB persistence
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Save Model.
+ * @param[in,out] db Input/output parameter.
+ * @details Calls: lock(), scanPrefix(), emplace_back(), empty(), createWriteBatch(), THEMIS_WARN(), del(), commit().
+ */
 void PredictivePrefetcher::saveModel(RocksDBWrapper *db) {
     if (!db) {
         return;
@@ -374,6 +426,11 @@ void PredictivePrefetcher::saveModel(RocksDBWrapper *db) {
     }
 }
 
+/**
+ * @brief Load Model.
+ * @param[in,out] db Input/output parameter.
+ * @details Calls: lock(), substr(), pair_str(), find(), empty(), nlohmann::json::parse(), THEMIS_WARN(), contains().
+ */
 void PredictivePrefetcher::loadModel(RocksDBWrapper *db) {
     if (!db) {
         return;

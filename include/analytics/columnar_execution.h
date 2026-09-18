@@ -260,7 +260,7 @@ public:
     size_t rowCount() const noexcept { return row_count_; }
 
     /**
-     * @brief Lazy selection (produced by FilterOperator)
+     * @brief Set Selection.
      * @param[in] sel Input parameter.
      */
     void setSelection(const SelectionVector& sel);
@@ -610,7 +610,7 @@ public:
                                              const VectorizedPipeline& pipeline);
 
     /**
-     * @brief Convenience single-operator shortcuts
+     * @brief Filter.
      * @param[in] input Input parameter.
      * @param[in] predicates Input parameter.
      * @return Return value.

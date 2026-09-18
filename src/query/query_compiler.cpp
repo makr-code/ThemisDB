@@ -83,7 +83,7 @@ namespace query {
 namespace {
 
 /**
- * @brief Convert a 64-bit integer to a 16-char lowercase hex string.
+ * @brief To Hex16.
  * @param[in] v Input parameter.
  * @return Return value.
  * @details Calls: out().
@@ -98,7 +98,7 @@ static std::string toHex16(uint64_t v) {
 }
 
 /**
- * @brief Elapsed microseconds since a start point.
+ * @brief Elapsed Us.
  * @param[in] start Input parameter.
  * @return Return value.
  * @details Calls: std::chrono::steady_clock::now(), count().
@@ -117,7 +117,6 @@ static uint64_t elapsedUs(
 // Impl — private implementation (Pimpl pattern)
 // ============================================================================
 
-/** @brief Impl — private implementation (Pimpl pattern). */
 class QueryCompiler::Impl {
 public:
     // Per-entry state
@@ -141,14 +140,14 @@ public:
     explicit Impl(const QueryCompiler::Config& cfg)
         : config_(cfg) {}
 
+
     /**
-     * @brief ----------------------------------------------------------------------- compile -----------------------------------------------------------------------
+     * @brief Compile.
      * @param[in] query_text Input parameter.
      * @param[in] param Input parameter.
      * @param[in] executor Input parameter.
      * @return Return value.
      */
-
     QueryCompiler::CompiledQuery compile(
         const std::string&              query_text,
         const std::vector<std::string>& /*params_meta*/,
@@ -185,13 +184,13 @@ public:
         return handle;
     }
 
+
     /**
-     * @brief ----------------------------------------------------------------------- execute -----------------------------------------------------------------------
+     * @brief Execute.
      * @param[in] handle Input parameter.
      * @param[in] params Input parameter.
      * @return Return value.
      */
-
     Result<QueryResult> execute(
         const QueryCompiler::CompiledQuery& handle,
         const QueryParams&                  params)
@@ -297,12 +296,12 @@ public:
         return it == entries_.end() ? 0 : it->second.call_count;
     }
 
+
     /**
-     * @brief ----------------------------------------------------------------------- Cache management -----------------------------------------------------------------------
+     * @brief Invalidate.
      * @param[in] key Input parameter.
      * @details Calls: find(), end(), THEMIS_DEBUG().
      */
-
     void invalidate(const std::string& key) {
         auto it = entries_.find(key);
         if (it != entries_.end()) {
@@ -356,29 +355,6 @@ private:
     // -----------------------------------------------------------------------
 
     /**
-     * Build and cache a hot-path function for @p entry.
-     *
-     * The specialised function captures the query text and executor by
-     * value, eliminating per-execute map lookups and call-count writes.
-     * It also stamps QueryResult::used_compiled_path = true so callers
-     * can verify the hot path was taken.
-     *
-     * **Timeout Safety (Wave A §12):**
-     *   Compilation is strictly bounded by kCompilationTimeout. If the
-     *   deadline is exceeded, the specialisation is aborted, compile_failed
-     *   is set, and the query falls back to the interpreted path for all
-     *   future executions. This prevents compilation overhead from blocking
-     *   queries indefinitely.
-     *
-     *   All timeout events are logged with the query key for observability.
-     *
-     * Future LLVM MCJIT extension:
-     *   When THEMIS_HAS_LLVM_JIT is defined this function may instead:
-     *     1. Emit LLVM IR for the query's expression tree.
-     *     2. Run optimisation passes at config_.opt_level.
-     *     3. Compile to native machine code via MCJIT.
-     *     4. Store a function pointer as the hot_fn.
-     *   Timeout enforcement applies equally to LLVM compilation.
      * @brief Try Specialise.
      * @param[in,out] entry Input/output parameter.
      * @param[in] key Input parameter.
@@ -482,11 +458,6 @@ private:
     std::unordered_map<std::string, Entry> entries_;
     mutable QueryCompiler::Stats           stats_;
 
-    /// [WAVE3B-FIX: catch_all_swallow — query_compiler.cpp]
-    /// Set to true when an unknown (non-std::exception) exception escapes the
-    /// specialisation path, indicating potential JIT state corruption.
-    /// Checked at compile() entry — if true, further specialisation is skipped
-    /// and the compiler degrades gracefully to the interpreted cold path.
     bool jit_state_corrupted_ = false;
 };
 
@@ -503,7 +474,7 @@ QueryCompiler::QueryCompiler(const Config& config)
 QueryCompiler::~QueryCompiler() = default;
 
 /**
- * @brief static
+ * @brief Make Key.
  * @param[in] query_text Input parameter.
  * @return Return value.
  * @details Calls: toHex16(), themis::hash::fnv1a64().

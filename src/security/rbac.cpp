@@ -51,6 +51,12 @@ nlohmann::json Role::toJson() const {
     };
 }
 
+/**
+ * @brief From Json.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: value(), contains(), is_array(), push_back().
+ */
 Role Role::fromJson(const nlohmann::json& j) {
     Role r;
     r.name = j.value("name", "");
@@ -78,6 +84,11 @@ Role Role::fromJson(const nlohmann::json& j) {
 // RBAC - Built-in Roles
 // ============================================================================
 
+/**
+ * @brief Get Builtin Roles.
+ * @return Return value.
+ * @details Calls: push_back().
+ */
 std::vector<Role> RBAC::getBuiltinRoles() {
     std::vector<Role> builtin;
     
@@ -168,6 +179,12 @@ RBAC::RBAC(const RBACConfig& config) : config_(config) {
     }
 }
 
+/**
+ * @brief Load Config.
+ * @param[in] path Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: ifs(), content(), ends_with(), nlohmann::json::parse(), loadFromJson(), loadFromYaml(), THEMIS_ERROR(), what().
+ */
 bool RBAC::loadConfig(const std::string& path) {
     try {
         std::ifstream ifs(path);
@@ -200,6 +217,12 @@ bool RBAC::loadConfig(const std::string& path) {
     }
 }
 
+/**
+ * @brief Load From Json.
+ * @param[in] j Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), contains(), is_array(), getBuiltinRoles(), clear(), Role::fromJson().
+ */
 bool RBAC::loadFromJson(const nlohmann::json& j) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -228,6 +251,12 @@ bool RBAC::loadFromJson(const nlohmann::json& j) {
     return true;
 }
 
+/**
+ * @brief Load From Yaml.
+ * @param[in] content Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: THEMIS_WARN().
+ */
 bool RBAC::loadFromYaml(const std::string& content) {
     // unused parameter
     // Simple YAML-to-JSON conversion (limited parser)
@@ -236,6 +265,12 @@ bool RBAC::loadFromYaml(const std::string& content) {
     return false;
 }
 
+/**
+ * @brief Save Config.
+ * @param[in] path Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), nlohmann::json::array(), push_back(), toJson(), ofs(), dump(), THEMIS_INFO(), THEMIS_ERROR().
+ */
 bool RBAC::saveConfig(const std::string& path) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -263,12 +298,22 @@ bool RBAC::saveConfig(const std::string& path) {
 // RBAC - Role Management
 // ============================================================================
 
+/**
+ * @brief Add Role.
+ * @param[in] role Input parameter.
+ * @details Calls: lock(), THEMIS_INFO(), size().
+ */
 void RBAC::addRole(const Role& role) {
     std::lock_guard<std::mutex> lock(mutex_);
     roles_[role.name] = role;
     THEMIS_INFO("Added role '{}' with {} permissions", role.name,role.permissions.size());
 }
 
+/**
+ * @brief Remove Role.
+ * @param[in] role_name Name of the role.
+ * @details Calls: lock(), erase(), THEMIS_INFO().
+ */
 void RBAC::removeRole(const std::string& role_name) {
     std::lock_guard<std::mutex> lock(mutex_);
     roles_.erase(role_name);
@@ -276,6 +321,11 @@ void RBAC::removeRole(const std::string& role_name) {
 }
 
 std::optional<Role> RBAC::getRole(const std::string& role_name) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = roles_.find(role_name);
     if (it != roles_.end()) {
@@ -285,6 +335,11 @@ std::optional<Role> RBAC::getRole(const std::string& role_name) const {
 }
 
 std::vector<std::string> RBAC::listRoles() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     std::vector<std::string> names = {};
 
@@ -338,6 +393,11 @@ bool RBAC::checkPermission(
         last_license_success_ms_.store(now_ms, std::memory_order_relaxed);
     }
 
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     // Get all effective permissions (with inheritance)
@@ -363,6 +423,11 @@ bool RBAC::checkPermission(
 }
 
 std::vector<Permission> RBAC::getUserPermissions(const std::vector<std::string>& user_roles) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     std::vector<Permission> all_perms;
@@ -418,6 +483,11 @@ std::vector<Permission> RBAC::expandRolePermissions(
 // ============================================================================
 
 bool RBAC::validateRoleHierarchy() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     std::unordered_set<std::string> visiting;
@@ -464,6 +534,11 @@ bool RBAC::validateRoleHierarchy() const {
 }
 
 nlohmann::json RBAC::getRoleHierarchy() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     nlohmann::json hierarchy = nlohmann::json::object();
@@ -495,6 +570,12 @@ nlohmann::json User::toJson() const {
     };
 }
 
+/**
+ * @brief From Json.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: value(), contains(), is_array(), push_back(), is_object(), begin(), end(), key().
+ */
 User User::fromJson(const nlohmann::json& j) {
     User u;
     u.user_id = j.value("user_id", "");
@@ -518,6 +599,12 @@ User User::fromJson(const nlohmann::json& j) {
 // UserRoleStore
 // ============================================================================
 
+/**
+ * @brief Assign a role to a user.
+ * @param[in] user_id User identifier.
+ * @param[in] role Role to assign.
+ * @details Calls: lock(), std::find(), begin(), end(), push_back(), THEMIS_INFO().
+ */
 void UserRoleStore::assignRole(const std::string& user_id, const std::string& role) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -530,6 +617,12 @@ void UserRoleStore::assignRole(const std::string& user_id, const std::string& ro
     }
 }
 
+/**
+ * @brief Revoke a role from a user.
+ * @param[in] user_id User identifier.
+ * @param[in] role Role to revoke.
+ * @details Calls: lock(), find(), end(), erase(), std::remove(), begin(), THEMIS_INFO().
+ */
 void UserRoleStore::revokeRole(const std::string& user_id, const std::string& role) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -542,6 +635,11 @@ void UserRoleStore::revokeRole(const std::string& user_id, const std::string& ro
 }
 
 std::vector<std::string> UserRoleStore::getUserRoles(const std::string& user_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     auto it = users_.find(user_id);
@@ -552,6 +650,11 @@ std::vector<std::string> UserRoleStore::getUserRoles(const std::string& user_id)
 }
 
 std::vector<std::string> UserRoleStore::getRoleUsers(const std::string& role) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     std::vector<std::string> users = {};
@@ -564,6 +667,12 @@ std::vector<std::string> UserRoleStore::getRoleUsers(const std::string& role) co
     return users;
 }
 
+/**
+ * @brief Load.
+ * @param[in] path Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: ifs(), lock(), clear(), contains(), is_array(), User::fromJson(), THEMIS_INFO(), size().
+ */
 bool UserRoleStore::load(const std::string& path) {
     try {
         std::ifstream ifs(path);
@@ -593,6 +702,12 @@ bool UserRoleStore::load(const std::string& path) {
     }
 }
 
+/**
+ * @brief Save.
+ * @param[in] path Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), nlohmann::json::array(), push_back(), toJson(), ofs(), dump(), THEMIS_INFO(), size().
+ */
 bool UserRoleStore::save(const std::string& path) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -617,6 +732,11 @@ bool UserRoleStore::save(const std::string& path) {
 }
 
 std::optional<User> UserRoleStore::getUser(const std::string& user_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     auto it = users_.find(user_id);
@@ -626,6 +746,11 @@ std::optional<User> UserRoleStore::getUser(const std::string& user_id) const {
     return std::nullopt;
 }
 
+/**
+ * @brief Set User.
+ * @param[in] user Input parameter.
+ * @details Calls: lock(), THEMIS_INFO(), size().
+ */
 void UserRoleStore::setUser(const User& user) {
     std::lock_guard<std::mutex> lock(mutex_);
     users_[user.user_id] = user;

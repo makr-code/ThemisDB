@@ -66,7 +66,13 @@ namespace analytics {
 
 namespace {
 
-// -- Numeric value extraction (same logic as columnar_execution.cpp) ----------
+/**
+ * @brief -- Numeric value extraction (same logic as columnar_execution.
+ * @param[in] col Input parameter.
+ * @param[in] row Input parameter.
+ * @return Return value.
+ * @details cpp) ---------- Calls: isNull(), type(), doubleData(), int64Data(), boolData().
+ */
 
 static std::optional<double> numericAtJit(const Column &col, size_t row) {
     if (col.isNull(row)) {
@@ -95,6 +101,13 @@ struct JitAggState {
     std::unordered_set<std::string> distinct_set;
 };
 
+/**
+ * @brief Update State Jit.
+ * @param[in,out] st Input/output parameter.
+ * @param[in] col Input parameter.
+ * @param[in] row Input parameter.
+ * @details Calls: numericAtJit().
+ */
 static void updateStateJit(JitAggState &st, const Column &col, size_t row) {
     ++st.count;
     auto v = numericAtJit(col, row);
@@ -109,6 +122,13 @@ static void updateStateJit(JitAggState &st, const Column &col, size_t row) {
         st.max_val = *v;
 }
 
+/**
+ * @brief Update Distinct Jit.
+ * @param[in,out] st Input/output parameter.
+ * @param[in] col Input parameter.
+ * @param[in] row Input parameter.
+ * @details Calls: isNull(), get(), std::visit(), constexpr(), insert(), str().
+ */
 static void updateDistinctJit(JitAggState &st, const Column &col, size_t row) {
     ++st.count;
     if (col.isNull(row)) {
@@ -130,6 +150,13 @@ static void updateDistinctJit(JitAggState &st, const Column &col, size_t row) {
     st.distinct_set.insert(oss.str());
 }
 
+/**
+ * @brief Finalize Agg Jit.
+ * @param[in] st Input parameter.
+ * @param[in] fn Input parameter.
+ * @return Return value.
+ * @details Calls: size().
+ */
 static double finalizeAggJit(const JitAggState &st, AggregateSpec::Function fn) {
     switch (fn) {
         case AggregateSpec::Function::Count:
@@ -148,6 +175,14 @@ static double finalizeAggJit(const JitAggState &st, AggregateSpec::Function fn) 
     return 0.0;
 }
 
+/**
+ * @brief Make Group Key Jit.
+ * @param[in] batch Input parameter.
+ * @param[in] group_cols Input parameter.
+ * @param[in] row Input parameter.
+ * @return Return value.
+ * @details Calls: getColumn(), get(), std::visit(), constexpr(), str().
+ */
 static std::string makeGroupKeyJit(const ColumnBatch &batch, const std::vector<std::string> &group_cols, size_t row) {
     std::ostringstream oss = {};
     for (const auto &gc : group_cols) {
@@ -172,15 +207,14 @@ static std::string makeGroupKeyJit(const ColumnBatch &batch, const std::vector<s
     return oss.str();
 }
 
-// -- Specialised aggregation implementations ---------------------------------
-//
-// These functions are produced by compileSpecialisation() and stored in the
-// cache.  They differ from the generic AggregateOperator::execute() path in
-// that the aggregation function set is fixed at "compile" time, so the inner
-// loop has no per-row enum dispatch.  The compiler can therefore inline and
-// auto-vectorise the hot loop bodies.
+/**
+ * @brief -- Specialised aggregation implementations --------------------------------- These functions are produced by compileSpecialisation() and stored in the cache.
+ * @param[in] input Input parameter.
+ * @param[in] specs Input parameter.
+ * @return Return value.
+ * @details They differ from the generic AggregateOperator::execute() path in that the aggregation function set is fixed at "compile" time, so the inner loop has no per-row enum dispatch. The compiler can therefore inline and auto-vectorise the hot loop bodies. Calls: rowCount(), states(), size(), empty(), getColumn(), updateDistinctJit(), doubleData(), type().
+ */
 
-/** Specialised no-GROUP-BY path. */
 static ColumnBatch specialisedAggregateAll(const ColumnBatch &input, const std::vector<AggregateSpec> &specs) {
     const size_t n = input.rowCount();
     std::vector<JitAggState> states(specs.size());
@@ -286,7 +320,14 @@ static ColumnBatch specialisedAggregateAll(const ColumnBatch &input, const std::
     return result;
 }
 
-/** Specialised GROUP-BY path. */
+/**
+ * @brief Specialised Aggregate Group By.
+ * @param[in] input Input parameter.
+ * @param[in] specs Input parameter.
+ * @param[in] group_cols Input parameter.
+ * @return Return value.
+ * @details Calls: rowCount(), makeGroupKeyJit(), find(), end(), emplace(), size(), push_back(), empty().
+ */
 static ColumnBatch specialisedAggregateGroupBy(const ColumnBatch &input, const std::vector<AggregateSpec> &specs,
                                                const std::vector<std::string> &group_cols) {
     const size_t n = input.rowCount();
@@ -399,7 +440,6 @@ static ColumnBatch specialisedAggregateGroupBy(const ColumnBatch &input, const s
 // JITAggregationCompiler::Impl
 // ============================================================================
 
-/** @brief JITAggregationCompiler::Impl. */
 class JITAggregationCompiler::Impl {
   public:
     explicit Impl(const Config &cfg) : config_(cfg) {}
@@ -408,6 +448,13 @@ class JITAggregationCompiler::Impl {
     // aggregate() – main dispatch
     // -------------------------------------------------------------------------
 
+    /**
+     * @brief Aggregate.
+     * @param[in] input Input parameter.
+     * @param[in] specs Input parameter.
+     * @return Return value.
+     * @details Calls: materialize(), empty(), lk(), genericAggregate(), JITAggregationCompiler::makeSpecKey(), find(), end(), second().
+     */
     ColumnBatch aggregate(const ColumnBatch &input, const std::vector<AggregateSpec> &specs) {
         // Dense materialisation before the lock (expensive but lock-free).
         ColumnBatch dense = input.materialize();
@@ -450,16 +497,31 @@ class JITAggregationCompiler::Impl {
     // -------------------------------------------------------------------------
 
     bool isCompiled(const std::string &key) const {
+        /**
+         * @brief Lk.
+         * @param[in] cache_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(cache_mutex_);
         return cache_.count(key) > 0;
     }
 
     size_t callCount(const std::string &key) const {
+        /**
+         * @brief Lk.
+         * @param[in] cache_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(cache_mutex_);
         auto it = call_counts_.find(key);
         return it != call_counts_.end() ? it->second : 0;
     }
 
+    /**
+     * @brief Invalidate.
+     * @param[in] key Input parameter.
+     * @details Calls: lk(), erase(), size().
+     */
     void invalidate(const std::string &key) {
         std::lock_guard<std::mutex> lk(cache_mutex_);
         cache_.erase(key);
@@ -467,6 +529,10 @@ class JITAggregationCompiler::Impl {
         stats_.cache_size = cache_.size();
     }
 
+    /**
+     * @brief Invalidate All.
+     * @details Calls: lk(), clear().
+     */
     void invalidateAll() {
         std::lock_guard<std::mutex> lk(cache_mutex_);
         cache_.clear();
@@ -475,11 +541,21 @@ class JITAggregationCompiler::Impl {
     }
 
     Stats stats() const noexcept {
+        /**
+         * @brief Lk.
+         * @param[in] cache_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(cache_mutex_);
         return stats_;
     }
 
     void resetStats() noexcept {
+        /**
+         * @brief Lk.
+         * @param[in] cache_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(cache_mutex_);
         stats_.total_calls      = 0;
         stats_.jit_hits         = 0;
@@ -496,14 +572,24 @@ class JITAggregationCompiler::Impl {
     // Generic (cold) path
     // -------------------------------------------------------------------------
 
+    /**
+     * @brief Generic Aggregate.
+     * @param[in] input Input parameter.
+     * @param[in] specs Input parameter.
+     * @return Return value.
+     * @details Calls: op(), execute().
+     */
     static ColumnBatch genericAggregate(const ColumnBatch &input, const std::vector<AggregateSpec> &specs) {
         AggregateOperator op(specs);
         return op.execute(input);
     }
 
-    // -------------------------------------------------------------------------
-    // Compilation: build a specialised closure for this spec-set
-    // -------------------------------------------------------------------------
+    /**
+     * @brief ------------------------------------------------------------------------- Compilation: build a specialised closure for this spec-set -------------------------------------------------------------------------
+     * @param[in] key Input parameter.
+     * @param[in] specs Input parameter.
+     * @details Calls: size(), begin(), erase(), empty(), front(), specialisedAggregateAll(), specialisedAggregateGroupBy(), spdlog::debug().
+     */
 
     void compileSpecialisation(const std::string &key, const std::vector<AggregateSpec> &specs) {
         // Enforce cache capacity limit (evict LRU – here simplest: drop oldest).
@@ -576,6 +662,13 @@ JITAggregationCompiler::JITAggregationCompiler(const Config &cfg) : impl_(std::m
 
 JITAggregationCompiler::~JITAggregationCompiler() = default;
 
+/**
+ * @brief Aggregate.
+ * @param[in] input Input parameter.
+ * @param[in] specs Input parameter.
+ * @return Return value.
+ * @details Implements aggregate without additional internal calls.
+ */
 ColumnBatch JITAggregationCompiler::aggregate(const ColumnBatch &input, const std::vector<AggregateSpec> &specs) {
     return impl_->aggregate(input, specs);
 }
@@ -588,7 +681,12 @@ size_t JITAggregationCompiler::callCount(const std::string &spec_key) const {
     return impl_->callCount(spec_key);
 }
 
-// static
+/**
+ * @brief static
+ * @param[in] specs Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), front(), str().
+ */
 std::string JITAggregationCompiler::makeSpecKey(const std::vector<AggregateSpec> &specs) {
     // Encode: function_name|input_col|result_name;... followed by group_by cols.
     static const char *kFnName[] = {"cnt", "sum", "avg", "min", "max", "cntd"};
@@ -607,10 +705,19 @@ std::string JITAggregationCompiler::makeSpecKey(const std::vector<AggregateSpec>
     return oss.str();
 }
 
+/**
+ * @brief Invalidate.
+ * @param[in] spec_key Input parameter.
+ * @details Implements invalidate without additional internal calls.
+ */
 void JITAggregationCompiler::invalidate(const std::string &spec_key) {
     impl_->invalidate(spec_key);
 }
 
+/**
+ * @brief Invalidate All.
+ * @details Implements invalidateAll without additional internal calls.
+ */
 void JITAggregationCompiler::invalidateAll() {
     impl_->invalidateAll();
 }

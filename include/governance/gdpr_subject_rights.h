@@ -96,11 +96,11 @@ public:
     GdprSubjectRightsManager(const GdprSubjectRightsManager&)            = delete;
     GdprSubjectRightsManager& operator=(const GdprSubjectRightsManager&) = delete;
 
+
     /**
-     * @brief ── Target registration ──────────────────────────────────────────────
+     * @brief Register Erase Target.
      * @param[in] target Input parameter.
      */
-
     void registerEraseTarget(std::shared_ptr<IGdprEraseTarget> target);
 
     /**

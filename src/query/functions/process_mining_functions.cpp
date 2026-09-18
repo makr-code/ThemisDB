@@ -40,18 +40,13 @@ std::mutex                                 PmLoadAdminModelFunction::admin_model
 PmListAdminModelsFunction::AdminModelListFn PmListAdminModelsFunction::admin_model_list_fn_;
 std::mutex                                  PmListAdminModelsFunction::admin_model_list_fn_mutex_;
 
+
 /**
- * @brief ───────────────────────────────────────────────────────────────────────────── Bridge setters ─────────────────────────────────────────────────────────────────────────────
+ * @brief Set Predict End Fn.
  * @param[in] fn Input parameter.
  * @details Calls: lock(), std::move().
  */
-
 void PmPredictEndFunction::setPredictEndFn(PredictEndFn fn) {
-    /**
-     * @brief Lock.
-     * @param[in] predict_end_fn_mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lock(predict_end_fn_mutex_);
     predict_end_fn_ = std::move(fn);
 }
@@ -62,11 +57,6 @@ void PmPredictEndFunction::setPredictEndFn(PredictEndFn fn) {
  * @details Calls: lock(), std::move().
  */
 void PmLoadAdminModelFunction::setAdminModelLoadFn(AdminModelLoadFn fn) {
-    /**
-     * @brief Lock.
-     * @param[in] admin_model_load_fn_mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lock(admin_model_load_fn_mutex_);
     admin_model_load_fn_ = std::move(fn);
 }
@@ -77,11 +67,6 @@ void PmLoadAdminModelFunction::setAdminModelLoadFn(AdminModelLoadFn fn) {
  * @details Calls: lock(), std::move().
  */
 void PmListAdminModelsFunction::setAdminModelListFn(AdminModelListFn fn) {
-    /**
-     * @brief Lock.
-     * @param[in] admin_model_list_fn_mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lock(admin_model_list_fn_mutex_);
     admin_model_list_fn_ = std::move(fn);
 }
@@ -91,11 +76,6 @@ void PmListAdminModelsFunction::setAdminModelListFn(AdminModelListFn fn) {
  * @details Calls: lock().
  */
 void PmPredictEndFunction::clearPredictEndFn() {
-    /**
-     * @brief Lock.
-     * @param[in] predict_end_fn_mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lock(predict_end_fn_mutex_);
     predict_end_fn_ = nullptr;
 }
@@ -489,7 +469,7 @@ EventLog getEventLogFromContext(const FunctionContext& ctx, const json& config =
 /**
  * @brief Find Trace By Case Id.
  * @param[in] log Input parameter.
- * @param[in] case_id Input parameter.
+ * @param[in] case_id Identifier of the case.
  * @return Pointer to the result.
  * @details Implements findTraceByCaseId without additional internal calls.
  */
@@ -699,10 +679,10 @@ json compareTraceWithPattern(const ProcessPattern& pattern, const ProcessTrace& 
 }
 
 /**
- * @brief --------------------------------------------------------------------------- JSON → EventLog Expected JSON format (produced by PM_EXTRACT_LOG): { "traces": [ { "case_id": "V-001", "events": [ {"activity": "A", "timestamp_ms": 1000, "resource": "u1"}, .
+ * @brief Parse Event Log.
  * @param[in] j Input parameter.
  * @return Return value.
- * @details .. ] } ] } --------------------------------------------------------------------------- Calls: is_object(), contains(), is_array(), value(), is_string(), empty(), find(), end().
+ * @details Calls: is_object(), contains(), is_array(), value(), is_string(), empty(), find(), end().
  */
 EventLog parseEventLog(const json& j) {
     EventLog log = {};
@@ -754,7 +734,7 @@ EventLog parseEventLog(const json& j) {
 }
 
 /**
- * @brief --------------------------------------------------------------------------- DiscoveredProcess → JSON ---------------------------------------------------------------------------
+ * @brief Discovered Process To Json.
  * @param[in] proc Input parameter.
  * @return Return value.
  * @details Calls: json::array(), push_back(), std::move(), size().
@@ -798,7 +778,7 @@ json discoveredProcessToJson(const DiscoveredProcess& proc) {
 }
 
 /**
- * @brief --------------------------------------------------------------------------- JSON → DiscoveredProcess (for PM_CONFORMANCE / PM_EXPORT_BPMN input) ---------------------------------------------------------------------------
+ * @brief Parse Discovered Process.
  * @param[in] j Input parameter.
  * @return Return value.
  * @details Calls: is_object(), value(), contains(), is_array(), push_back(), std::move().
@@ -845,7 +825,7 @@ DiscoveredProcess parseDiscoveredProcess(const json& j) {
 }
 
 /**
- * @brief --------------------------------------------------------------------------- JSON → MiningConfig ---------------------------------------------------------------------------
+ * @brief Parse Mining Config.
  * @param[in] j Input parameter.
  * @return Return value.
  * @details Calls: is_object(), value().

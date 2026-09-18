@@ -23,12 +23,12 @@ namespace themis {
 namespace query {
 namespace functions {
 
+
 /**
- * @brief ============================================================================ Utilities ============================================================================
+ * @brief Utc Now.
  * @return Return value.
  * @details Calls: std::chrono::system_clock::now(), std::chrono::system_clock::to_time_t(), gmtime_s(), gmtime_r(), std::put_time(), str().
  */
-
 static std::string utcNow() {
     auto now = std::chrono::system_clock::now();
     std::time_t t = std::chrono::system_clock::to_time_t(now);
@@ -43,14 +43,14 @@ static std::string utcNow() {
     return oss.str();
 }
 
+
 /**
- * @brief ============================================================================ UdfDefinition ============================================================================
+ * @brief Parse Arg Type.
  * @param[in] s Input parameter.
  * @return Return value.
  * @throws std::runtime_error if an error occurs.
  * @details Implements parseArgType without additional internal calls.
  */
-
 ArgType UdfDefinition::parseArgType(const std::string& s) {
     if (s == "ANY") {
       return ArgType::ANY;
@@ -427,13 +427,13 @@ nlohmann::json UdfFunction::evalExpr(
     throw std::runtime_error(def_.name + ": unknown expression type '" + type + "'");
 }
 
+
 /**
- * @brief ============================================================================ UdfRegistry ============================================================================
+ * @brief Register Udf.
  * @param[in] def Input parameter.
  * @throws std::runtime_error if an error occurs.
  * @details Calls: empty(), UdfDefinition::validateBody(), FunctionRegistry::instance(), lock(), hasFunction(), find(), end(), utcNow().
  */
-
 void UdfRegistry::registerUdf(UdfDefinition def) {
     // Basic name validation: non-empty, no spaces
     if (def.name.empty()) {
@@ -453,11 +453,6 @@ void UdfRegistry::registerUdf(UdfDefinition def) {
 
     auto& freg = FunctionRegistry::instance();
 
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     // If a name already exists in FunctionRegistry but is NOT a known UDF,
@@ -485,11 +480,6 @@ void UdfRegistry::registerUdf(UdfDefinition def) {
  * @details Calls: lock(), find(), end(), FunctionRegistry::instance(), unregisterFunction(), erase().
  */
 void UdfRegistry::unregisterUdf(const std::string& name) {
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     auto it = udfs_.find(name);

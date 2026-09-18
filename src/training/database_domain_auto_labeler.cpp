@@ -25,8 +25,13 @@
 // ---------------------------------------------------------------------------
 namespace {
 
-/// Extract the value of a JSON string field (simple single-value parser).
-/// Returns empty string if the field is not found or the value is not a string.
+/**
+ * @brief Extract String Field.
+ * @param[in] json Input parameter.
+ * @param[in] key Input parameter.
+ * @return Return value.
+ * @details Calls: find(), size(), substr().
+ */
 static std::string extractStringField(const std::string& json, const std::string& key) {
     // Look for "key":"value" or "key": "value"
     auto pos = json.find('"' + key + '"');
@@ -44,8 +49,13 @@ static std::string extractStringField(const std::string& json, const std::string
     return json.substr(pos, end - pos);
 }
 
-/// Extract the value of a JSON number field.
-/// Returns NaN if not found.
+/**
+ * @brief Extract Double Field.
+ * @param[in] json Input parameter.
+ * @param[in] key Input parameter.
+ * @return Return value.
+ * @details Calls: find(), quiet_NaN(), size(), std::stod(), substr().
+ */
 static double extractDoubleField(const std::string& json, const std::string& key) {
     auto pos = json.find('"' + key + '"');
     if (pos == std::string::npos) {
@@ -143,6 +153,11 @@ std::vector<LabeledDbSample> DatabaseDomainAutoLabeler::labelFromLogFile(
 {
     std::vector<LabeledDbSample> result;
 
+    /**
+     * @brief File.
+     * @param[in] log_path Path to the log.
+     * @return Return value.
+     */
     std::ifstream file(log_path);
     if (!file.is_open()) {
         // File not found or not readable — return empty vector per spec.
@@ -183,7 +198,11 @@ std::vector<LabeledDbSample> DatabaseDomainAutoLabeler::labelFromLogFile(
 
 // ── exportToJsonl ─────────────────────────────────────────────────────────
 
-/*static*/
+/**
+ * @brief static
+ * @param[in] samples Input parameter.
+ * @return Return value.
+ */
 std::string DatabaseDomainAutoLabeler::exportToJsonl(
     const std::vector<LabeledDbSample>& samples)
 {

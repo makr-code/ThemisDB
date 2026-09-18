@@ -61,58 +61,13 @@ struct EntityApiConfig {
     bool feature_raid = false;  // Enable RAID-style redundancy via RedundancyStrategy
 };
 
-/**
- * @brief Handler for Entity CRUD Operations
- * 
- * This handler manages all entity-related endpoints:
- * - GET /entities/:key - Retrieve an entity by key
- * - PUT /entities/:key - Create or update an entity
- * - POST /entities - Create an entity
- * - DELETE /entities/:key - Delete an entity
- * - POST /entities/batch - Batch operations on multiple entities
- * 
- * Features:
- * - Field-level encryption/decryption support
- * - Secondary index management
- * - Graph edge management
- * - Authorization checks
- * - Audit logging
- * - Optional: Spatial/geo indexing
- * - Optional: Change data capture (CDC)
- * - Optional: Replication and write concern
- * 
- * Extracted from http_server.cpp (~880 lines) to improve maintainability.
- */
 class EntityApiHandler {
 public:
-    /**
-     * @brief Authentication context extracted from request
-     */
     struct AuthContext {
         std::string user_id;
         std::vector<std::string> groups;
     };
 
-    /**
-     * @brief Construct a new Entity API Handler
-     * 
-     * @param storage Storage backend for entity persistence
-     * @param secondary_index Secondary index manager for entity indexing
-     * @param graph_index Graph index manager for relationship management
-     * @param tx_manager Transaction manager for ACID operations
-     * @param field_encryption Field-level encryption handler
-     * @param key_provider Cryptographic key provider
-     * @param auth Authentication/authorization middleware
-     * @param config Feature configuration flags
-     * @param spatial_index Optional: Spatial/geo index manager (raw pointer, not owned)
-     * @param changefeed Optional: CDC changefeed manager
-     * @param wal_manager Optional: WAL manager for replication
-     * @param replication_coordinator Optional: Replication coordinator
-     * @param multi_primary_coordinator Optional: Multi-primary coordinator
-     * @param redundancy_manager Optional: RAID-style redundancy manager
-     * @param hash_ring Optional: Consistent hash ring for shard routing
-     * @param shard_topology Optional: Shard topology for RAID operations
-     */
     EntityApiHandler(
         std::shared_ptr<RocksDBWrapper> storage,
         std::shared_ptr<SecondaryIndexManager> secondary_index,
@@ -133,54 +88,37 @@ public:
     );
 
     /**
-     * @brief Handle GET /entities/:key request
-     * 
-     * Retrieves an entity by its key. Supports optional decryption via ?decrypt=true query parameter.
-     * 
-     * @param req HTTP request
-     * @return HTTP response with entity data or error
+     * @brief Handle Get.
+     * @param[in] req Input parameter.
+     * @return Return value.
      */
     http::response<http::string_body> handleGet(const http::request<http::string_body>& req);
 
     /**
-     * @brief Handle PUT /entities/:key request
-     * 
-     * Creates or updates an entity. Supports field-level encryption based on schema configuration.
-     * 
-     * @param req HTTP request with entity data in body
-     * @return HTTP response with operation status
+     * @brief Handle Put.
+     * @param[in] req Input parameter.
+     * @return Return value.
      */
     http::response<http::string_body> handlePut(const http::request<http::string_body>& req);
 
     /**
-     * @brief Handle DELETE /entities/:key request
-     * 
-     * Deletes an entity and associated indexes/edges.
-     * 
-     * @param req HTTP request
-     * @return HTTP response with deletion status
+     * @brief Handle Delete.
+     * @param[in] req Input parameter.
+     * @return Return value.
      */
     http::response<http::string_body> handleDelete(const http::request<http::string_body>& req);
 
     /**
-     * @brief Handle POST /entities/batch request
-     * 
-     * Performs batch operations (create, update, delete) on multiple entities in a single transaction.
-     * 
-     * @param req HTTP request with batch operations in body
-     * @return HTTP response with batch operation results
+     * @brief Handle Batch.
+     * @param[in] req Input parameter.
+     * @return Return value.
      */
     http::response<http::string_body> handleBatch(const http::request<http::string_body>& req);
 
     /**
-     * @brief Bulk document insert from newline-delimited JSON (NDJSON).
-     *
-     * Endpoint: POST /v2/documents
-     * Content-Type: application/x-ndjson
-     *
-     * Each line in the body is a JSON object representing a document to insert.
-     * Accepts up to 10,000 documents per request.  Returns a summary of
-     * successful inserts and any per-line errors.
+     * @brief Handle Bulk Ndjson.
+     * @param[in] req Input parameter.
+     * @return Return value.
      */
     http::response<http::string_body> handleBulkNdjson(const http::request<http::string_body>& req);
 
@@ -209,14 +147,47 @@ private:
     std::shared_ptr<sharding::ShardTopology> shard_topology_;
 
     // Helper methods
+    /**
+     * @brief Extract Path Param.
+     * @param[in] target Input parameter.
+     * @param[in] prefix Input parameter.
+     * @return Return value.
+     */
     std::string extractPathParam(const std::string& target, const std::string& prefix);
+    /**
+     * @brief Make Error Response.
+     * @param[in] status Input parameter.
+     * @param[in] message Input parameter.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> makeErrorResponse(
         http::status status, const std::string& message, const http::request<http::string_body>& req);
+    /**
+     * @brief Make Response.
+     * @param[in] status Input parameter.
+     * @param[in] body Input parameter.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> makeResponse(
         http::status status, const std::string& body, const http::request<http::string_body>& req);
     
     // Authorization helpers
+    /**
+     * @brief Extract Auth Context.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     AuthContext extractAuthContext(const http::request<http::string_body>& req) const;
+    /**
+     * @brief Require Access.
+     * @param[in] req Input parameter.
+     * @param[in] scope Input parameter.
+     * @param[in] action Input parameter.
+     * @param[in] resource Input parameter.
+     * @return Return value.
+     */
     std::optional<http::response<http::string_body>> requireAccess(
         const http::request<http::string_body>& req,
         const std::string& scope,

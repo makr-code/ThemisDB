@@ -99,6 +99,12 @@ CoTEvaluator::CoTEvaluator(const Config& config)
 
 CoTEvaluator::~CoTEvaluator() = default;
 
+/**
+ * @brief Parse Co TResponse.
+ * @param[in] response Input parameter.
+ * @return Return value.
+ * @details Calls: step_regex(), std::sregex_iterator(), begin(), end(), std::stoi(), str(), push_back(), THEMIS_WARN().
+ */
 std::vector<ReasoningStep> CoTEvaluator::parseCoTResponse(const std::string& response) {
     std::vector<ReasoningStep> steps;
     
@@ -159,6 +165,12 @@ std::vector<ReasoningStep> CoTEvaluator::parseCoTResponse(const std::string& res
     return steps;
 }
 
+/**
+ * @brief Validate Logic Consistency.
+ * @param[in] steps Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size_t(), size(), std::transform(), begin(), end(), find(), stream_i().
+ */
 std::vector<std::string> CoTEvaluator::validateLogicConsistency(
     const std::vector<ReasoningStep>& steps
 ) {
@@ -238,6 +250,13 @@ std::vector<std::string> CoTEvaluator::validateLogicConsistency(
     return inconsistencies;
 }
 
+/**
+ * @brief Extract Final Score.
+ * @param[in] steps Input parameter.
+ * @param[in] response Input parameter.
+ * @return Return value.
+ * @details Calls: score_regex(), std::regex_search(), std::stod(), str(), std::max(), std::min(), THEMIS_WARN(), what().
+ */
 double CoTEvaluator::extractFinalScore(
     const std::vector<ReasoningStep>& steps,
     const std::string& response

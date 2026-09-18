@@ -26,83 +26,76 @@ namespace http  = beast::http;
 
 namespace themis::server {
 
-/**
- * @brief HTTP handler for the distributed (cross-shard) 2PC transaction coordinator
- *
- * Exposes the DistributedTransactionCoordinator over REST:
- *
- *   POST /dtxn/begin       – begin a distributed transaction
- *   POST /dtxn/operation   – append an operation to an active transaction
- *   POST /dtxn/commit      – commit (runs full 2PC)
- *   POST /dtxn/abort       – abort the transaction
- *   POST /dtxn/readonly    – execute a read-only (snapshot) query
- *   GET  /dtxn/status/{id} – query transaction state
- *   GET  /dtxn/stats       – coordinator statistics
- */
 class DistributedTxnApiHandler {
 public:
+    /**
+     * @brief Distributed Txn Api Handler.
+     * @param[in] coordinator Input parameter.
+     * @return Return value.
+     */
     explicit DistributedTxnApiHandler(
         std::shared_ptr<sharding::DistributedTransactionCoordinator> coordinator
     );
 
-    // ── Route handlers ───────────────────────────────────────────────────────
 
     /**
-     * POST /dtxn/begin
-     * Body: { "shards": ["shard1", "shard2", ...] }
-     * Returns: { "transaction_id": "<id>", "status": "active" }
+     * @brief Handle Begin.
+     * @param[in] req Input parameter.
+     * @return Return value.
      */
     http::response<http::string_body> handleBegin(
         const http::request<http::string_body>& req
     );
 
     /**
-     * POST /dtxn/operation
-     * Body: { "transaction_id": "<id>", "shard_id": "<shard>", "operation": {...} }
-     * Returns: { "transaction_id": "<id>", "status": "ok" }
+     * @brief Handle Operation.
+     * @param[in] req Input parameter.
+     * @return Return value.
      */
     http::response<http::string_body> handleOperation(
         const http::request<http::string_body>& req
     );
 
     /**
-     * POST /dtxn/commit
-     * Body: { "transaction_id": "<id>" }
-     * Returns: { "transaction_id": "<id>", "status": "committed" | "aborted" }
+     * @brief Handle Commit.
+     * @param[in] req Input parameter.
+     * @return Return value.
      */
     http::response<http::string_body> handleCommit(
         const http::request<http::string_body>& req
     );
 
     /**
-     * POST /dtxn/abort
-     * Body: { "transaction_id": "<id>" }
-     * Returns: { "transaction_id": "<id>", "status": "aborted" }
+     * @brief Handle Abort.
+     * @param[in] req Input parameter.
+     * @return Return value.
      */
     http::response<http::string_body> handleAbort(
         const http::request<http::string_body>& req
     );
 
     /**
-     * POST /dtxn/readonly
-     * Body: { "shards": ["shard1", ...], "operations": {...} }
-     * Returns: { "results": { "shard1": {...}, ... } }
+     * @brief Handle Read Only.
+     * @param[in] req Input parameter.
+     * @return Return value.
      */
     http::response<http::string_body> handleReadOnly(
         const http::request<http::string_body>& req
     );
 
     /**
-     * GET /dtxn/status/{txn_id}
-     * Returns: { "transaction_id": "<id>", "state": "ACTIVE|PREPARING|..." }
+     * @brief Handle Status.
+     * @param[in] req Input parameter.
+     * @return Return value.
      */
     http::response<http::string_body> handleStatus(
         const http::request<http::string_body>& req
     );
 
     /**
-     * GET /dtxn/stats
-     * Returns coordinator statistics JSON
+     * @brief Handle Stats.
+     * @param[in] req Input parameter.
+     * @return Return value.
      */
     http::response<http::string_body> handleStats(
         const http::request<http::string_body>& req
@@ -111,17 +104,35 @@ public:
 private:
     std::shared_ptr<sharding::DistributedTransactionCoordinator> coordinator_;
 
+    /**
+     * @brief Ok.
+     * @param[in] body Input parameter.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> ok(
         const nlohmann::json& body,
         const http::request<http::string_body>& req
     ) const;
 
+    /**
+     * @brief Error.
+     * @param[in] status Input parameter.
+     * @param[in] message Input parameter.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> error(
         http::status status,
         const std::string& message,
         const http::request<http::string_body>& req
     ) const;
 
+    /**
+     * @brief State To String.
+     * @param[in] state Input parameter.
+     * @return Return value.
+     */
     static std::string stateToString(sharding::TransactionState state);
 };
 

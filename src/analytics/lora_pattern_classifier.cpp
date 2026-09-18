@@ -31,16 +31,31 @@ LoRAPatternClassifier::LoRAPatternClassifier(Config cfg) : cfg_(cfg) {}
 // Injection setters
 // ──────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Inject an inference function used by classify().
+ * @param[in] fn Inference function to inject.
+ * @details Calls: lock(), std::move().
+ */
 void LoRAPatternClassifier::setInferenceFn(InferenceFn fn) {
     std::lock_guard<std::mutex> lock(mutex_);
     inference_fn_ = std::move(fn);
 }
 
+/**
+ * @brief Set Embedding Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void LoRAPatternClassifier::setEmbeddingFn(EmbeddingFn fn) {
     std::lock_guard<std::mutex> lock(mutex_);
     embedding_fn_ = std::move(fn);
 }
 
+/**
+ * @brief Register Adapter Domain.
+ * @param[in] domain Input parameter.
+ * @details Calls: lock(), std::find_if(), begin(), end(), std::move(), push_back().
+ */
 void LoRAPatternClassifier::registerAdapterDomain(AdapterDomain domain) {
     std::lock_guard<std::mutex> lock(mutex_);
     // Overwrite existing entry with same adapter_id.
@@ -271,6 +286,12 @@ PatternResult LoRAPatternClassifier::automlFallback(const std::vector<DataPoint>
 // selectAdapter
 // ──────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Select Adapter.
+ * @param[in] context Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), empty(), front(), embedding_fn_(), cosineSimilarity().
+ */
 std::string LoRAPatternClassifier::selectAdapter(const std::string &context) {
     std::lock_guard<std::mutex> lock(mutex_);
     if (domains_.empty()) {
@@ -300,6 +321,13 @@ std::string LoRAPatternClassifier::selectAdapter(const std::string &context) {
 // classify
 // ──────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Classify the semantic intent of a query.
+ * @param[in] events Input parameter.
+ * @param[in] adapter_id Identifier of the adapter.
+ * @return Return value.
+ * @details Calls: empty(), selectAdapter(), buildPrompt(), lock(), automlFallback(), inference_fn_(), parseInferenceResponse().
+ */
 PatternResult LoRAPatternClassifier::classify(const std::vector<DataPoint> &events, const std::string &adapter_id) {
     // Determine adapter (unlocked for selectAdapter to take its own lock).
     std::string aid = adapter_id;
@@ -327,6 +355,12 @@ PatternResult LoRAPatternClassifier::classify(const std::vector<DataPoint> &even
 // batchClassify
 // ──────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Batch Classify.
+ * @param[in] events Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), size(), results(), reserve(), clear(), std::min(), push_back(), std::async().
+ */
 std::vector<PatternResult> LoRAPatternClassifier::batchClassify(const std::vector<DataPoint> &events) {
     if (events.empty()) {
         return {};
@@ -363,11 +397,21 @@ std::vector<PatternResult> LoRAPatternClassifier::batchClassify(const std::vecto
 // ──────────────────────────────────────────────────────────────────────────────
 
 std::size_t LoRAPatternClassifier::registeredAdapterCount() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return domains_.size();
 }
 
 bool LoRAPatternClassifier::hasInferenceFn() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return static_cast<bool>(inference_fn_);
 }

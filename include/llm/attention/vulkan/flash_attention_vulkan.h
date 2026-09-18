@@ -19,14 +19,13 @@ namespace llm {
 namespace attention {
 namespace vulkan {
 
-/**
- * @brief Vulkan Flash Attention implementation (cross-platform)
- * 
- * Uses Vulkan compute shaders for GPU acceleration
- * Compatible with NVIDIA, AMD, Intel, ARM GPUs
- */
 class FlashAttentionVulkan : public IFlashAttention {
 public:
+    /**
+     * @brief Flash Attention Vulkan.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit FlashAttentionVulkan(const FlashAttentionConfig& config);
     ~FlashAttentionVulkan() override;
     
@@ -49,7 +48,8 @@ public:
     AttentionMemoryStats getMemoryStats() const override;
     
     /**
-     * @brief Check if Vulkan is available
+     * @brief Is Available.
+     * @return True when the operation succeeds.
      */
     static bool isAvailable();
 
@@ -61,7 +61,13 @@ private:
     void* vk_pipeline_ = nullptr;
     void* vk_descriptor_set_ = nullptr;
     
+    /**
+     * @brief Initialize Vulkan.
+     */
     void initializeVulkan();
+    /**
+     * @brief Cleanup Vulkan.
+     */
     void cleanupVulkan();
 };
 

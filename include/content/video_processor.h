@@ -103,7 +103,7 @@ private:
     
 #ifdef THEMIS_HAS_FFMPEG
     /**
-     * @brief FFmpeg-specific helper methods
+     * @brief Extract Metadata FFmpeg.
      * @param[in] blob Input parameter.
      * @return Return value.
      */

@@ -70,11 +70,22 @@ GrpcRemoteCachePeer::GrpcRemoteCachePeer(const std::string& addr)
 // IRemoteCachePeer
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Invalidate.
+ * @param[in] key Input parameter.
+ * @param[in] tenant_id Identifier of the tenant.
+ * @details Calls: sendRpc().
+ */
 void GrpcRemoteCachePeer::invalidate(const std::string& key,
                                       const std::string& tenant_id) {
     sendRpc("invalidate", key, tenant_id);
 }
 
+/**
+ * @brief Invalidate Tenant.
+ * @param[in] tenant_id Identifier of the tenant.
+ * @details Calls: sendRpc().
+ */
 void GrpcRemoteCachePeer::invalidateTenant(const std::string& tenant_id) {
     sendRpc("invalidate_tenant", "", tenant_id);
 }
@@ -103,6 +114,14 @@ GrpcRemoteCachePeer::buildCredentials() const {
     return grpc::SslCredentials(ssl_opts);
 }
 
+/**
+ * @brief Send Rpc.
+ * @param[in] type Input parameter.
+ * @param[in] key Input parameter.
+ * @param[in] tenant_id Identifier of the tenant.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: dump(), slice(), data(), size(), request_buf(), set_deadline(), std::chrono::system_clock::now(), std::chrono::milliseconds().
+ */
 void GrpcRemoteCachePeer::sendRpc(const std::string& type,
                                    const std::string& key,
                                    const std::string& tenant_id) {

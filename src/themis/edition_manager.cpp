@@ -31,6 +31,11 @@ namespace edition {
 // Singleton
 // ============================================================================
 
+/**
+ * @brief Instance.
+ * @return Return value.
+ * @details Implements instance without additional internal calls.
+ */
 EditionManager& EditionManager::instance() {
     static EditionManager mgr;
     return mgr;
@@ -49,6 +54,11 @@ bool EditionManager::isFeatureAvailable(std::string_view feature_name,
                                         std::string& error_out) const {
     // Step 0: Check dynamic override first (if any).
     {
+        /**
+         * @brief Lock.
+         * @param[in] overrides_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(overrides_mutex_);
         auto it = overrides_.find(std::string(feature_name));
         if (it != overrides_.end() && !it->second) {
@@ -91,6 +101,11 @@ bool EditionManager::checkNodeLimit(int requested_nodes,
 
     // Step 2: Consult installed shard-limit policy (if any).
     {
+        /**
+         * @brief Lock.
+         * @param[in] policy_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(policy_mutex_);
         if (shard_policy_) {
             if (!shard_policy_->canExpand(requested_nodes)) {
@@ -143,6 +158,11 @@ bool EditionManager::checkVRAMLimit(int requested_vram_gb,
 
     // Step 2: Consult installed VRAM policy (if any).
     {
+        /**
+         * @brief Lock.
+         * @param[in] policy_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(policy_mutex_);
         if (vram_policy_) {
             const size_t requested_bytes =
@@ -262,28 +282,53 @@ std::string EditionManager::getUpgradeMessage(std::string_view feature_name) con
 // Dynamic feature-flag overrides
 // ============================================================================
 
+/**
+ * @brief Set Feature Override.
+ * @param[in] feature_name Name of the feature.
+ * @param[in] enabled Input parameter.
+ * @details Calls: lock(), std::string().
+ */
 void EditionManager::setFeatureOverride(std::string_view feature_name, bool enabled) {
     std::lock_guard<std::mutex> lock(overrides_mutex_);
     overrides_[std::string(feature_name)] = enabled;
 }
 
+/**
+ * @brief Clear Feature Override.
+ * @param[in] feature_name Name of the feature.
+ * @details Calls: lock(), erase(), std::string().
+ */
 void EditionManager::clearFeatureOverride(std::string_view feature_name) {
     std::lock_guard<std::mutex> lock(overrides_mutex_);
     overrides_.erase(std::string(feature_name));
 }
 
+/**
+ * @brief Clear All Feature Overrides.
+ * @details Calls: lock(), clear().
+ */
 void EditionManager::clearAllFeatureOverrides() {
     std::lock_guard<std::mutex> lock(overrides_mutex_);
     overrides_.clear();
 }
 
 bool EditionManager::hasFeatureOverride(std::string_view feature_name) const {
+    /**
+     * @brief Lock.
+     * @param[in] overrides_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(overrides_mutex_);
     return overrides_.find(std::string(feature_name)) != overrides_.end();
 }
 
 std::optional<bool> EditionManager::getFeatureOverride(
         std::string_view feature_name) const {
+    /**
+     * @brief Lock.
+     * @param[in] overrides_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(overrides_mutex_);
     auto it = overrides_.find(std::string(feature_name));
     if (it == overrides_.end()) {
@@ -296,6 +341,12 @@ std::optional<bool> EditionManager::getFeatureOverride(
 // Runtime resource-limit policies
 // ============================================================================
 
+/**
+ * @brief Install VRAMPolicy.
+ * @param[in] policy Input parameter.
+ * @param[in] claimed_max_vram_gb Input parameter.
+ * @return True when the operation succeeds.
+ */
 bool EditionManager::installVRAMPolicy(std::shared_ptr<gpu::IVRAMPolicy> policy,
                                        int claimed_max_vram_gb)
 {
@@ -316,6 +367,11 @@ bool EditionManager::installVRAMPolicy(std::shared_ptr<gpu::IVRAMPolicy> policy,
         }
     }
 
+    /**
+     * @brief Lock.
+     * @param[in] policy_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(policy_mutex_);
     vram_policy_     = std::move(policy);
     effective_vram_gb_ = claimed_max_vram_gb;
@@ -326,6 +382,12 @@ bool EditionManager::installVRAMPolicy(std::shared_ptr<gpu::IVRAMPolicy> policy,
     return true;
 }
 
+/**
+ * @brief Install Shard Policy.
+ * @param[in] policy Input parameter.
+ * @param[in] claimed_max_nodes Input parameter.
+ * @return True when the operation succeeds.
+ */
 bool EditionManager::installShardPolicy(
     std::shared_ptr<sharding::IShardLimitPolicy> policy,
     int claimed_max_nodes)
@@ -344,6 +406,11 @@ bool EditionManager::installShardPolicy(
         return false;
     }
 
+    /**
+     * @brief Lock.
+     * @param[in] policy_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(policy_mutex_);
     shard_policy_          = std::move(policy);
     effective_shard_nodes_ = claimed_max_nodes;
@@ -354,6 +421,10 @@ bool EditionManager::installShardPolicy(
     return true;
 }
 
+/**
+ * @brief Clear VRAMPolicy.
+ * @details Calls: lock(), reset(), THEMIS_INFO().
+ */
 void EditionManager::clearVRAMPolicy() {
     std::lock_guard<std::mutex> lock(policy_mutex_);
     vram_policy_.reset();
@@ -362,6 +433,10 @@ void EditionManager::clearVRAMPolicy() {
                 "reverted to compile-time default.");
 }
 
+/**
+ * @brief Clear Shard Policy.
+ * @details Calls: lock(), reset(), THEMIS_INFO().
+ */
 void EditionManager::clearShardPolicy() {
     std::lock_guard<std::mutex> lock(policy_mutex_);
     shard_policy_.reset();
@@ -370,9 +445,14 @@ void EditionManager::clearShardPolicy() {
                 "reverted to compile-time default.");
 }
 
-// ============================================================================
-// Group 4: LLM resource policy
-// ============================================================================
+/**
+ * @brief ============================================================================ Group 4: LLM resource policy ============================================================================
+ * @param[in] policy Input parameter.
+ * @param[in] claimed_max_context_tokens Input parameter.
+ * @param[in] claimed_max_model_instances Input parameter.
+ * @param[in] claimed_max_vram_per_model_mb Input parameter.
+ * @return True when the operation succeeds.
+ */
 
 bool EditionManager::installLLMResourcePolicy(
     std::shared_ptr<llm::ILLMResourcePolicy> policy,
@@ -414,6 +494,11 @@ bool EditionManager::installLLMResourcePolicy(
         }
     }
 
+    /**
+     * @brief Lock.
+     * @param[in] policy_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(policy_mutex_);
     llm_resource_policy_ = std::move(policy);
     THEMIS_INFO(
@@ -424,6 +509,10 @@ bool EditionManager::installLLMResourcePolicy(
     return true;
 }
 
+/**
+ * @brief Clear LLMResource Policy.
+ * @details Calls: lock(), reset(), THEMIS_INFO().
+ */
 void EditionManager::clearLLMResourcePolicy() {
     std::lock_guard<std::mutex> lock(policy_mutex_);
     llm_resource_policy_.reset();
@@ -431,9 +520,16 @@ void EditionManager::clearLLMResourcePolicy() {
                 "reverted to compile-time default.");
 }
 
-// ============================================================================
-// Group 1+3: Tenant quota policy
-// ============================================================================
+/**
+ * @brief ============================================================================ Group 1+3: Tenant quota policy ============================================================================
+ * @param[in] policy Input parameter.
+ * @param[in] claimed_max_storage_bytes Input parameter.
+ * @param[in] claimed_max_documents Input parameter.
+ * @param[in] claimed_max_collections Input parameter.
+ * @param[in] claimed_max_concurrent_queries Input parameter.
+ * @param[in] claimed_max_rps Input parameter.
+ * @return True when the operation succeeds.
+ */
 
 bool EditionManager::installTenantQuotaPolicy(
     std::shared_ptr<tenant::ITenantQuotaPolicy> policy,
@@ -495,6 +591,11 @@ bool EditionManager::installTenantQuotaPolicy(
         }
     }
 
+    /**
+     * @brief Lock.
+     * @param[in] policy_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(policy_mutex_);
     tenant_quota_policy_ = std::move(policy);
     THEMIS_INFO(
@@ -505,6 +606,10 @@ bool EditionManager::installTenantQuotaPolicy(
     return true;
 }
 
+/**
+ * @brief Clear Tenant Quota Policy.
+ * @details Calls: lock(), reset(), THEMIS_INFO().
+ */
 void EditionManager::clearTenantQuotaPolicy() {
     std::lock_guard<std::mutex> lock(policy_mutex_);
     tenant_quota_policy_.reset();
@@ -512,9 +617,15 @@ void EditionManager::clearTenantQuotaPolicy() {
                 "reverted to compile-time default.");
 }
 
-// ============================================================================
-// Group 2: Query limit policy
-// ============================================================================
+/**
+ * @brief ============================================================================ Group 2: Query limit policy ============================================================================
+ * @param[in] policy Input parameter.
+ * @param[in] claimed_max_depth Input parameter.
+ * @param[in] claimed_max_complexity Input parameter.
+ * @param[in] claimed_max_payload_bytes Input parameter.
+ * @param[in] claimed_max_result_rows Input parameter.
+ * @return True when the operation succeeds.
+ */
 
 bool EditionManager::installQueryLimitPolicy(
     std::shared_ptr<query::IQueryLimitPolicy> policy,
@@ -565,6 +676,11 @@ bool EditionManager::installQueryLimitPolicy(
         }
     }
 
+    /**
+     * @brief Lock.
+     * @param[in] policy_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(policy_mutex_);
     query_limit_policy_ = std::move(policy);
     THEMIS_INFO(
@@ -575,6 +691,10 @@ bool EditionManager::installQueryLimitPolicy(
     return true;
 }
 
+/**
+ * @brief Clear Query Limit Policy.
+ * @details Calls: lock(), reset(), THEMIS_INFO().
+ */
 void EditionManager::clearQueryLimitPolicy() {
     std::lock_guard<std::mutex> lock(policy_mutex_);
     query_limit_policy_.reset();
@@ -582,9 +702,15 @@ void EditionManager::clearQueryLimitPolicy() {
                 "reverted to compile-time default.");
 }
 
-// ============================================================================
-// Group 2+3: Connection policy
-// ============================================================================
+/**
+ * @brief ============================================================================ Group 2+3: Connection policy ============================================================================
+ * @param[in] policy Input parameter.
+ * @param[in] claimed_max_http2_streams Input parameter.
+ * @param[in] claimed_max_sse_connections Input parameter.
+ * @param[in] claimed_max_total_connections Input parameter.
+ * @param[in] claimed_max_sse_events_per_sec Input parameter.
+ * @return True when the operation succeeds.
+ */
 
 bool EditionManager::installConnectionPolicy(
     std::shared_ptr<network::IConnectionPolicy> policy,
@@ -636,6 +762,11 @@ bool EditionManager::installConnectionPolicy(
         }
     }
 
+    /**
+     * @brief Lock.
+     * @param[in] policy_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(policy_mutex_);
     connection_policy_ = std::move(policy);
     THEMIS_INFO(
@@ -646,6 +777,10 @@ bool EditionManager::installConnectionPolicy(
     return true;
 }
 
+/**
+ * @brief Clear Connection Policy.
+ * @details Calls: lock(), reset(), THEMIS_INFO().
+ */
 void EditionManager::clearConnectionPolicy() {
     std::lock_guard<std::mutex> lock(policy_mutex_);
     connection_policy_.reset();
@@ -653,9 +788,14 @@ void EditionManager::clearConnectionPolicy() {
                 "reverted to compile-time default.");
 }
 
-// ============================================================================
-// Group 5: Storage operations policy
-// ============================================================================
+/**
+ * @brief ============================================================================ Group 5: Storage operations policy ============================================================================
+ * @param[in] policy Input parameter.
+ * @param[in] claimed_max_background_jobs Input parameter.
+ * @param[in] claimed_max_compaction_bytes_per_sec Input parameter.
+ * @param[in] claimed_max_concurrent_snapshots Input parameter.
+ * @return True when the operation succeeds.
+ */
 
 bool EditionManager::installStorageOpsPolicy(
     std::shared_ptr<storage::IStorageOpsPolicy> policy,
@@ -698,6 +838,11 @@ bool EditionManager::installStorageOpsPolicy(
         }
     }
 
+    /**
+     * @brief Lock.
+     * @param[in] policy_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(policy_mutex_);
     storage_ops_policy_ = std::move(policy);
     THEMIS_INFO(
@@ -708,6 +853,10 @@ bool EditionManager::installStorageOpsPolicy(
     return true;
 }
 
+/**
+ * @brief Clear Storage Ops Policy.
+ * @details Calls: lock(), reset(), THEMIS_INFO().
+ */
 void EditionManager::clearStorageOpsPolicy() {
     std::lock_guard<std::mutex> lock(policy_mutex_);
     storage_ops_policy_.reset();
@@ -715,9 +864,12 @@ void EditionManager::clearStorageOpsPolicy() {
                 "reverted to compile-time default.");
 }
 
-// ============================================================================
-// Group 3: Global rate-limit policy
-// ============================================================================
+/**
+ * @brief ============================================================================ Group 3: Global rate-limit policy ============================================================================
+ * @param[in] policy Input parameter.
+ * @param[in] claimed_max_global_rps Input parameter.
+ * @return True when the operation succeeds.
+ */
 
 bool EditionManager::installRateLimitPolicy(
     std::shared_ptr<ratelimit::IRateLimitPolicy> policy,
@@ -738,6 +890,11 @@ bool EditionManager::installRateLimitPolicy(
         }
     }
 
+    /**
+     * @brief Lock.
+     * @param[in] policy_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(policy_mutex_);
     rate_limit_policy_ = std::move(policy);
     THEMIS_INFO(
@@ -747,6 +904,10 @@ bool EditionManager::installRateLimitPolicy(
     return true;
 }
 
+/**
+ * @brief Clear Rate Limit Policy.
+ * @details Calls: lock(), reset(), THEMIS_INFO().
+ */
 void EditionManager::clearRateLimitPolicy() {
     std::lock_guard<std::mutex> lock(policy_mutex_);
     rate_limit_policy_.reset();

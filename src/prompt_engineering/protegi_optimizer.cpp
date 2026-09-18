@@ -23,6 +23,12 @@ namespace prompt_engineering {
 // HeuristicProTeGiProvider
 // ============================================================================
 
+/**
+ * @brief Compute Gradient.
+ * @param[in] prompt Input parameter.
+ * @param[in] errors Input parameter.
+ * @return Return value.
+ */
 ProTeGiGradient HeuristicProTeGiProvider::computeGradient(
     const std::string& prompt,
     const std::vector<std::string>& errors)
@@ -67,6 +73,13 @@ ProTeGiGradient HeuristicProTeGiProvider::computeGradient(
     return gradient;
 }
 
+/**
+ * @brief Generate Candidates.
+ * @param[in] prompt Input parameter.
+ * @param[in] gradient Input parameter.
+ * @param[in] k Input parameter.
+ * @return Return value.
+ */
 std::vector<std::string> HeuristicProTeGiProvider::generateCandidates(
     const std::string& prompt,
     const ProTeGiGradient& gradient,
@@ -122,6 +135,11 @@ ProTeGiOptimizer::ProTeGiOptimizer(const ProTeGiConfig& config)
     : config_(config)
 {}
 
+/**
+ * @brief Set LLMProvider.
+ * @param[in] provider Input parameter.
+ * @return Return value.
+ */
 ProTeGiOptimizer& ProTeGiOptimizer::setLLMProvider(
     std::shared_ptr<IProTeGiLLMProvider> provider)
 {
@@ -134,6 +152,10 @@ const ProTeGiConfig& ProTeGiOptimizer::getConfig() const
     return config_;
 }
 
+/**
+ * @brief Set Config.
+ * @param[in] config Input parameter.
+ */
 void ProTeGiOptimizer::setConfig(const ProTeGiConfig& config)
 {
     config_ = config;
@@ -143,6 +165,14 @@ void ProTeGiOptimizer::setConfig(const ProTeGiConfig& config)
 // ProTeGiOptimizer – optimize()
 // ============================================================================
 
+/**
+ * @brief Optimize.
+ * @param[in] initial_prompt Input parameter.
+ * @param[in] test_cases Input parameter.
+ * @param[in] eval_fn Input parameter.
+ * @param[in] error_fn Input parameter.
+ * @return Return value.
+ */
 ProTeGiResult ProTeGiOptimizer::optimize(
     const std::string& initial_prompt,
     const std::vector<TestCase>& test_cases,
@@ -288,6 +318,12 @@ ProTeGiResult ProTeGiOptimizer::optimize(
 // Static prompt builders
 // ============================================================================
 
+/**
+ * @brief Build Gradient Prompt.
+ * @param[in] prompt Input parameter.
+ * @param[in] errors Input parameter.
+ * @return Return value.
+ */
 std::string ProTeGiOptimizer::buildGradientPrompt(
     const std::string& prompt,
     const std::vector<std::string>& errors)
@@ -307,6 +343,13 @@ std::string ProTeGiOptimizer::buildGradientPrompt(
     return out.str();
 }
 
+/**
+ * @brief Build Candidate Prompt.
+ * @param[in] prompt Input parameter.
+ * @param[in] gradient Input parameter.
+ * @param[in] k Input parameter.
+ * @return Return value.
+ */
 std::string ProTeGiOptimizer::buildCandidatePrompt(
     const std::string& prompt,
     const ProTeGiGradient& gradient,
@@ -349,6 +392,12 @@ std::vector<TestCase> ProTeGiOptimizer::sampleMiniBatch(
     return batch;
 }
 
+/**
+ * @brief Default Error Fn.
+ * @param[in] prompt Input parameter.
+ * @param[in] mini_batch Input parameter.
+ * @return Return value.
+ */
 std::vector<std::string> ProTeGiOptimizer::defaultErrorFn(
     const std::string& prompt,
     const std::vector<TestCase>& mini_batch)

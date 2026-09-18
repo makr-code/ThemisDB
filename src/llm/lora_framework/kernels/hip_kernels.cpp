@@ -22,13 +22,16 @@ namespace llm {
 namespace lora {
 namespace hip {
 
-// ============================================================================
-// HIP Kernels (same as CUDA but using HIP API)
-// ============================================================================
-
 /**
- * @brief Element-wise addition kernel
+ * @brief ============================================================================ HIP Kernels (same as CUDA but using HIP API) ============================================================================
+ * @param[in] A Input parameter.
+ * @param[in] B Input parameter.
+ * @param[in,out] C Input/output parameter.
+ * @param[in] size Input parameter.
+ * @return Return value.
+ * @details Implements add_kernel without additional internal calls.
  */
+
 __global__ void add_kernel(const float* A, const float* B, float* C, size_t size) {
     size_t idx = blockIdx.x * blockDim.x + threadIdx.x;
     if (idx < size) {
@@ -37,7 +40,13 @@ __global__ void add_kernel(const float* A, const float* B, float* C, size_t size
 }
 
 /**
- * @brief Element-wise multiplication kernel
+ * @brief Multiply kernel.
+ * @param[in] A Input parameter.
+ * @param[in] B Input parameter.
+ * @param[in,out] C Input/output parameter.
+ * @param[in] size Input parameter.
+ * @return Return value.
+ * @details Implements multiply_kernel without additional internal calls.
  */
 __global__ void multiply_kernel(const float* A, const float* B, float* C, size_t size) {
     size_t idx = blockIdx.x * blockDim.x + threadIdx.x;
@@ -47,7 +56,13 @@ __global__ void multiply_kernel(const float* A, const float* B, float* C, size_t
 }
 
 /**
- * @brief Scalar multiplication kernel
+ * @brief Scalar multiply kernel.
+ * @param[in] A Input parameter.
+ * @param[in,out] C Input/output parameter.
+ * @param[in] scalar Input parameter.
+ * @param[in] size Input parameter.
+ * @return Return value.
+ * @details Implements scalar_multiply_kernel without additional internal calls.
  */
 __global__ void scalar_multiply_kernel(const float* A, float* C, float scalar, size_t size) {
     size_t idx = blockIdx.x * blockDim.x + threadIdx.x;
@@ -57,7 +72,12 @@ __global__ void scalar_multiply_kernel(const float* A, float* C, float scalar, s
 }
 
 /**
- * @brief In-place scalar multiplication kernel
+ * @brief Scalar multiply inplace kernel.
+ * @param[in,out] data Input/output parameter.
+ * @param[in] scalar Input parameter.
+ * @param[in] size Input parameter.
+ * @return Return value.
+ * @details Implements scalar_multiply_inplace_kernel without additional internal calls.
  */
 __global__ void scalar_multiply_inplace_kernel(float* data, float scalar, size_t size) {
     size_t idx = blockIdx.x * blockDim.x + threadIdx.x;
@@ -67,13 +87,23 @@ __global__ void scalar_multiply_inplace_kernel(float* data, float scalar, size_t
 }
 
 /**
- * @brief Check for NaN or Inf in tensor
- * Uses atomic operations to set flag on detection
+ * @brief Is inf or nan.
+ * @param[in] val Input parameter.
+ * @return Return value.
+ * @details Calls: isnan(), isinf().
  */
 __device__ inline bool is_inf_or_nan(float val) {
     return isnan(val) || isinf(val);
 }
 
+/**
+ * @brief Check inf nan kernel.
+ * @param[in] data Input parameter.
+ * @param[in] size Input parameter.
+ * @param[in,out] has_overflow Input/output parameter.
+ * @return Return value.
+ * @details Calls: is_inf_or_nan(), atomicExch().
+ */
 __global__ void check_inf_nan_kernel(const float* data, size_t size, int* has_overflow) {
     size_t idx = blockIdx.x * blockDim.x + threadIdx.x;
     
@@ -85,7 +115,13 @@ __global__ void check_inf_nan_kernel(const float* data, size_t size, int* has_ov
 }
 
 /**
- * @brief Matrix transpose kernel with shared memory
+ * @brief Transpose kernel.
+ * @param[in] A Input parameter.
+ * @param[in,out] C Input/output parameter.
+ * @param[in] rows Input parameter.
+ * @param[in] cols Input parameter.
+ * @return Return value.
+ * @details Calls: __syncthreads().
  */
 __global__ void transpose_kernel(const float* A, float* C, size_t rows, size_t cols) {
     __shared__ float tile[32][33];  // 33 to avoid bank conflicts
@@ -111,7 +147,16 @@ __global__ void transpose_kernel(const float* A, float* C, size_t rows, size_t c
 }
 
 /**
- * @brief Tile-based matrix multiplication kernel
+ * @brief Matmul kernel.
+ * @param[in] A Input parameter.
+ * @param[in] B Input parameter.
+ * @param[in,out] C Input/output parameter.
+ * @param[in] M Input parameter.
+ * @param[in] K Input parameter.
+ * @param[in] N Input parameter.
+ * @param[in] alpha Input parameter.
+ * @return Return value.
+ * @details Calls: __syncthreads().
  */
 __global__ void matmul_kernel(
     const float* A,
@@ -166,7 +211,18 @@ __global__ void matmul_kernel(
 }
 
 /**
- * @brief LoRA backward pass - compute grad_A
+ * @brief Lora backward A kernel.
+ * @param[in] input Input parameter.
+ * @param[in] B Input parameter.
+ * @param[in] grad_output Input parameter.
+ * @param[in,out] grad_A Input/output parameter.
+ * @param[in] batch_size Input parameter.
+ * @param[in] in_dim Input parameter.
+ * @param[in] rank Input parameter.
+ * @param[in] out_dim Input parameter.
+ * @param[in] scaling Input parameter.
+ * @return Return value.
+ * @details Implements lora_backward_A_kernel without additional internal calls.
  */
 __global__ void lora_backward_A_kernel(
     const float* input,
@@ -202,7 +258,18 @@ __global__ void lora_backward_A_kernel(
 }
 
 /**
- * @brief LoRA backward pass - compute grad_B
+ * @brief Lora backward B kernel.
+ * @param[in] input Input parameter.
+ * @param[in] A Input parameter.
+ * @param[in] grad_output Input parameter.
+ * @param[in,out] grad_B Input/output parameter.
+ * @param[in] batch_size Input parameter.
+ * @param[in] in_dim Input parameter.
+ * @param[in] rank Input parameter.
+ * @param[in] out_dim Input parameter.
+ * @param[in] scaling Input parameter.
+ * @return Return value.
+ * @details Implements lora_backward_B_kernel without additional internal calls.
  */
 __global__ void lora_backward_B_kernel(
     const float* input,
@@ -238,10 +305,13 @@ __global__ void lora_backward_B_kernel(
 }
 
 /**
- * @brief MSE loss reduction kernel with shared memory
- * 
- * Computes partial sums of squared differences between predictions and targets.
- * Each block computes a partial sum using parallel reduction in shared memory.
+ * @brief Mse loss reduction kernel.
+ * @param[in] predictions Input parameter.
+ * @param[in] targets Input parameter.
+ * @param[in,out] partial_sums Input/output parameter.
+ * @param[in] n Input parameter.
+ * @return Return value.
+ * @details Calls: __syncthreads().
  */
 __global__ void mse_loss_reduction_kernel(
     const float* predictions,
@@ -309,10 +379,14 @@ __global__ void mse_loss_reduction_kernel(
 }
 
 /**
- * @brief MSE gradient kernel
- * 
- * Computes gradient of MSE loss: grad = (2/n) * (predictions - targets)
- * This is element-wise and fully parallelizable.
+ * @brief Mse gradient kernel.
+ * @param[in,out] grad_output Input/output parameter.
+ * @param[in] predictions Input parameter.
+ * @param[in] targets Input parameter.
+ * @param[in] scale Input parameter.
+ * @param[in] n Input parameter.
+ * @return Return value.
+ * @details Implements mse_gradient_kernel without additional internal calls.
  */
 __global__ void mse_gradient_kernel(
     float* grad_output,
@@ -333,6 +407,19 @@ __global__ void mse_gradient_kernel(
 // Kernel Launchers
 // ============================================================================
 
+/**
+ * @brief Launch matmul kernel.
+ * @param[in] A Input parameter.
+ * @param[in] B Input parameter.
+ * @param[in,out] C Input/output parameter.
+ * @param[in] M Input parameter.
+ * @param[in] K Input parameter.
+ * @param[in] N Input parameter.
+ * @param[in] alpha Input parameter.
+ * @param[in] stream Input parameter.
+ * @return Return value.
+ * @details Calls: blockDim(), gridDim(), hipLaunchKernelGGL(), hipGetLastError().
+ */
 hipError_t launch_matmul_kernel(
     const float* A,
     const float* B,
@@ -355,6 +442,16 @@ hipError_t launch_matmul_kernel(
     return hipGetLastError();
 }
 
+/**
+ * @brief Launch add kernel.
+ * @param[in] A Input parameter.
+ * @param[in] B Input parameter.
+ * @param[in,out] C Input/output parameter.
+ * @param[in] size Input parameter.
+ * @param[in] stream Input parameter.
+ * @return Return value.
+ * @details Calls: hipLaunchKernelGGL(), hipGetLastError().
+ */
 hipError_t launch_add_kernel(
     const float* A,
     const float* B,
@@ -374,6 +471,16 @@ hipError_t launch_add_kernel(
     return hipGetLastError();
 }
 
+/**
+ * @brief Launch multiply kernel.
+ * @param[in] A Input parameter.
+ * @param[in] B Input parameter.
+ * @param[in,out] C Input/output parameter.
+ * @param[in] size Input parameter.
+ * @param[in] stream Input parameter.
+ * @return Return value.
+ * @details Calls: hipLaunchKernelGGL(), hipGetLastError().
+ */
 hipError_t launch_multiply_kernel(
     const float* A,
     const float* B,
@@ -393,6 +500,16 @@ hipError_t launch_multiply_kernel(
     return hipGetLastError();
 }
 
+/**
+ * @brief Launch scalar multiply kernel.
+ * @param[in] A Input parameter.
+ * @param[in,out] C Input/output parameter.
+ * @param[in] scalar Input parameter.
+ * @param[in] size Input parameter.
+ * @param[in] stream Input parameter.
+ * @return Return value.
+ * @details Calls: hipLaunchKernelGGL(), hipGetLastError().
+ */
 hipError_t launch_scalar_multiply_kernel(
     const float* A,
     float* C,
@@ -412,6 +529,15 @@ hipError_t launch_scalar_multiply_kernel(
     return hipGetLastError();
 }
 
+/**
+ * @brief Launch scalar multiply inplace kernel.
+ * @param[in,out] data Input/output parameter.
+ * @param[in] scalar Input parameter.
+ * @param[in] size Input parameter.
+ * @param[in] stream Input parameter.
+ * @return Return value.
+ * @details Calls: hipLaunchKernelGGL(), hipGetLastError().
+ */
 hipError_t launch_scalar_multiply_inplace_kernel(
     float* data,
     float scalar,
@@ -430,6 +556,14 @@ hipError_t launch_scalar_multiply_inplace_kernel(
     return hipGetLastError();
 }
 
+/**
+ * @brief Launch check inf nan kernel.
+ * @param[in] data Input parameter.
+ * @param[in] size Input parameter.
+ * @param[in,out] has_overflow_host Input/output parameter.
+ * @return Return value.
+ * @details Calls: hipMalloc(), hipMemset(), security::VRAMSecureClear::secureClearHIP(), hipFree(), spdlog::error(), hipGetErrorString(), hipLaunchKernelGGL(), hipGetLastError().
+ */
 hipError_t launch_check_inf_nan_kernel(
     const float* data,
     size_t size,
@@ -497,6 +631,16 @@ hipError_t launch_check_inf_nan_kernel(
     return hipSuccess;
 }
 
+/**
+ * @brief Launch transpose kernel.
+ * @param[in] A Input parameter.
+ * @param[in,out] C Input/output parameter.
+ * @param[in] rows Input parameter.
+ * @param[in] cols Input parameter.
+ * @param[in] stream Input parameter.
+ * @return Return value.
+ * @details Calls: blockDim(), gridDim(), hipLaunchKernelGGL(), hipGetLastError().
+ */
 hipError_t launch_transpose_kernel(
     const float* A,
     float* C,
@@ -516,6 +660,21 @@ hipError_t launch_transpose_kernel(
     return hipGetLastError();
 }
 
+/**
+ * @brief Launch lora backward A kernel.
+ * @param[in] input Input parameter.
+ * @param[in] B Input parameter.
+ * @param[in] grad_output Input parameter.
+ * @param[in,out] grad_A Input/output parameter.
+ * @param[in] batch_size Input parameter.
+ * @param[in] in_dim Input parameter.
+ * @param[in] rank Input parameter.
+ * @param[in] out_dim Input parameter.
+ * @param[in] scaling Input parameter.
+ * @param[in] stream Input parameter.
+ * @return Return value.
+ * @details Calls: blockDim(), gridDim(), hipLaunchKernelGGL(), hipGetLastError().
+ */
 hipError_t launch_lora_backward_A_kernel(
     const float* input,
     const float* B,
@@ -542,6 +701,21 @@ hipError_t launch_lora_backward_A_kernel(
     return hipGetLastError();
 }
 
+/**
+ * @brief Launch lora backward B kernel.
+ * @param[in] input Input parameter.
+ * @param[in] A Input parameter.
+ * @param[in] grad_output Input parameter.
+ * @param[in,out] grad_B Input/output parameter.
+ * @param[in] batch_size Input parameter.
+ * @param[in] in_dim Input parameter.
+ * @param[in] rank Input parameter.
+ * @param[in] out_dim Input parameter.
+ * @param[in] scaling Input parameter.
+ * @param[in] stream Input parameter.
+ * @return Return value.
+ * @details Calls: blockDim(), gridDim(), hipLaunchKernelGGL(), hipGetLastError().
+ */
 hipError_t launch_lora_backward_B_kernel(
     const float* input,
     const float* A,
@@ -568,6 +742,17 @@ hipError_t launch_lora_backward_B_kernel(
     return hipGetLastError();
 }
 
+/**
+ * @brief Launch mse loss reduction kernel.
+ * @param[in] predictions Input parameter.
+ * @param[in] targets Input parameter.
+ * @param[in,out] partial_sums Input/output parameter.
+ * @param[in] n Input parameter.
+ * @param[in] num_blocks Input parameter.
+ * @param[in] stream Input parameter.
+ * @return Return value.
+ * @details Calls: hipLaunchKernelGGL(), dim3(), hipGetLastError().
+ */
 hipError_t launch_mse_loss_reduction_kernel(
     const float* predictions,
     const float* targets,
@@ -590,6 +775,17 @@ hipError_t launch_mse_loss_reduction_kernel(
     return hipGetLastError();
 }
 
+/**
+ * @brief Launch mse gradient kernel.
+ * @param[in,out] grad_output Input/output parameter.
+ * @param[in] predictions Input parameter.
+ * @param[in] targets Input parameter.
+ * @param[in] scale Input parameter.
+ * @param[in] n Input parameter.
+ * @param[in] stream Input parameter.
+ * @return Return value.
+ * @details Calls: hipLaunchKernelGGL(), dim3(), hipGetLastError().
+ */
 hipError_t launch_mse_gradient_kernel(
     float* grad_output,
     const float* predictions,
@@ -648,6 +844,20 @@ RocblasHandle& RocblasHandle::operator=(RocblasHandle&& other) noexcept {
     return *this;
 }
 
+/**
+ * @brief Rocblas matmul.
+ * @param[in] handle Input parameter.
+ * @param[in] A Input parameter.
+ * @param[in] B Input parameter.
+ * @param[in,out] C Input/output parameter.
+ * @param[in] M Input parameter.
+ * @param[in] K Input parameter.
+ * @param[in] N Input parameter.
+ * @param[in] alpha Input parameter.
+ * @param[in] beta Input parameter.
+ * @return Return value.
+ * @details Calls: rocblas_sgemm().
+ */
 hipError_t rocblas_matmul(
     rocblas_handle handle,
     const float* A,
@@ -679,9 +889,16 @@ hipError_t rocblas_matmul(
 }
 
 /**
- * @brief HIP kernel for embedding lookup
- * 
- * Each thread processes one token ID and copies its embedding vector
+ * @brief Embedding lookup kernel.
+ * @param[in,out] output Input/output parameter.
+ * @param[in] token_ids Input parameter.
+ * @param[in] embedding_weights Input parameter.
+ * @param[in] batch_size Input parameter.
+ * @param[in] seq_len Input parameter.
+ * @param[in] hidden_dim Input parameter.
+ * @param[in] vocab_size Input parameter.
+ * @return Return value.
+ * @details Calls: __float2int_rn().
  */
 __global__ void embedding_lookup_kernel(
     float* output,              // [batch_size, seq_len, hidden_dim]
@@ -720,6 +937,19 @@ __global__ void embedding_lookup_kernel(
     }
 }
 
+/**
+ * @brief Launch embedding lookup kernel.
+ * @param[in,out] output Input/output parameter.
+ * @param[in] token_ids Input parameter.
+ * @param[in] embedding_weights Input parameter.
+ * @param[in] batch_size Input parameter.
+ * @param[in] seq_len Input parameter.
+ * @param[in] hidden_dim Input parameter.
+ * @param[in] vocab_size Input parameter.
+ * @param[in] stream Input parameter.
+ * @return Return value.
+ * @details Calls: hipLaunchKernelGGL(), dim3(), hipGetLastError(), hipDeviceSynchronize().
+ */
 hipError_t launch_embedding_lookup_kernel(
     float* output,
     const float* token_ids,
@@ -764,10 +994,14 @@ hipError_t launch_embedding_lookup_kernel(
 }
 
 /**
- * @brief HIP kernel for computing mean over sequence dimension
- * 
- * Each thread processes one element in the output [batch_size, hidden_dim]
- * and computes the mean of corresponding sequence elements
+ * @brief Sequence mean kernel.
+ * @param[in,out] output Input/output parameter.
+ * @param[in] input Input parameter.
+ * @param[in] batch_size Input parameter.
+ * @param[in] seq_len Input parameter.
+ * @param[in] hidden_dim Input parameter.
+ * @return Return value.
+ * @details Implements sequence_mean_kernel without additional internal calls.
  */
 __global__ void sequence_mean_kernel(
     float* output,          // [batch_size, hidden_dim]
@@ -797,6 +1031,17 @@ __global__ void sequence_mean_kernel(
     }
 }
 
+/**
+ * @brief Launch sequence mean kernel.
+ * @param[in,out] output Input/output parameter.
+ * @param[in] input Input parameter.
+ * @param[in] batch_size Input parameter.
+ * @param[in] seq_len Input parameter.
+ * @param[in] hidden_dim Input parameter.
+ * @param[in] stream Input parameter.
+ * @return Return value.
+ * @details Calls: hipLaunchKernelGGL(), dim3(), hipGetLastError(), hipDeviceSynchronize().
+ */
 hipError_t launch_sequence_mean_kernel(
     float* output,
     const float* input,
@@ -837,9 +1082,13 @@ hipError_t launch_sequence_mean_kernel(
 }
 
 /**
- * @brief SGD parameter update kernel
- * 
- * Performs in-place SGD update: param = param - learning_rate * grad
+ * @brief Sgd update kernel.
+ * @param[in,out] params Input/output parameter.
+ * @param[in] grads Input parameter.
+ * @param[in] learning_rate Input parameter.
+ * @param[in] size Input parameter.
+ * @return Return value.
+ * @details Implements sgd_update_kernel without additional internal calls.
  */
 __global__ void sgd_update_kernel(
     float* params,
@@ -853,6 +1102,16 @@ __global__ void sgd_update_kernel(
     }
 }
 
+/**
+ * @brief Launch sgd update kernel.
+ * @param[in,out] params Input/output parameter.
+ * @param[in] grads Input parameter.
+ * @param[in] learning_rate Input parameter.
+ * @param[in] size Input parameter.
+ * @param[in] stream Input parameter.
+ * @return Return value.
+ * @details Calls: hipLaunchKernelGGL(), dim3(), hipGetLastError(), hipDeviceSynchronize().
+ */
 hipError_t launch_sgd_update_kernel(
     float* params,
     const float* grads,

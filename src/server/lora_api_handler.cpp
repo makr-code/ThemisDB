@@ -40,15 +40,31 @@ LoRAApiHandler::LoRAApiHandler(
     }
 }
 
+/**
+ * @brief Configure JWT.
+ * @param[in] config Input parameter.
+ * @details Implements configureJWT without additional internal calls.
+ */
 void LoRAApiHandler::configureJWT(const auth::JWTValidatorConfig& config) {
     jwt_validator_ = std::make_unique<auth::JWTValidator>(config);
 }
 
+/**
+ * @brief Set Inference Engine.
+ * @param[in] engine Input parameter.
+ * @details Calls: std::move().
+ */
 void LoRAApiHandler::setInferenceEngine(
         std::shared_ptr<llm::InferenceEngineEnhanced> engine) {
     inference_engine_ = std::move(engine);
 }
 
+/**
+ * @brief Handle Request.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), target(), method(), validateBearerToken(), THEMIS_INFO(), std::string(), method_string(), createErrorResponse().
+ */
 http::response<http::string_body> LoRAApiHandler::handleRequest(
     const http::request<http::string_body>& req) {
     auto span = Tracer::startSpan("handleRequest");
@@ -149,9 +165,12 @@ http::response<http::string_body> LoRAApiHandler::handleRequest(
     );
 }
 
-// ═══════════════════════════════════════════════════════════
-// Model Management Endpoints
-// ═══════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════ Model Management Endpoints ═══════════════════════════════════════════════════════════
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), parseRequestBody(), createErrorResponse(), contains(), at(), value(), std::chrono::system_clock::now(), time_since_epoch().
+ */
 
 http::response<http::string_body> LoRAApiHandler::handleRegisterModel(
     const http::request<http::string_body>& req) {
@@ -201,6 +220,12 @@ http::response<http::string_body> LoRAApiHandler::handleRegisterModel(
     }
 }
 
+/**
+ * @brief Handle Get Model.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), extractPathParameter(), target(), empty(), createErrorResponse(), std::chrono::system_clock::now(), time_since_epoch(), count().
+ */
 http::response<http::string_body> LoRAApiHandler::handleGetModel(
     const http::request<http::string_body>& req) {
     auto span = Tracer::startSpan("handleGetModel");
@@ -232,6 +257,12 @@ http::response<http::string_body> LoRAApiHandler::handleGetModel(
     }
 }
 
+/**
+ * @brief Handle List Models.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), target(), find(), substr(), std::stoul(), json::array(), createJsonResponse(), createErrorResponse().
+ */
 http::response<http::string_body> LoRAApiHandler::handleListModels(
     const http::request<http::string_body>& req) {
     auto span = Tracer::startSpan("handleListModels");
@@ -291,6 +322,12 @@ http::response<http::string_body> LoRAApiHandler::handleListModels(
     }
 }
 
+/**
+ * @brief Handle Delete Model.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), extractPathParameter(), target(), empty(), createErrorResponse(), createJsonResponse(), json::object(), what().
+ */
 http::response<http::string_body> LoRAApiHandler::handleDeleteModel(
     const http::request<http::string_body>& req) {
     auto span = Tracer::startSpan("handleDeleteModel");
@@ -315,9 +352,12 @@ http::response<http::string_body> LoRAApiHandler::handleDeleteModel(
     }
 }
 
-// ═══════════════════════════════════════════════════════════
-// Adapter CRUD Endpoints
-// ═══════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════ Adapter CRUD Endpoints ═══════════════════════════════════════════════════════════
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), parseRequestBody(), createErrorResponse(), contains(), at(), value(), empty(), createAdapter().
+ */
 
 http::response<http::string_body> LoRAApiHandler::handleCreateAdapter(
     const http::request<http::string_body>& req) {
@@ -399,6 +439,12 @@ http::response<http::string_body> LoRAApiHandler::handleCreateAdapter(
     }
 }
 
+/**
+ * @brief Handle Get Adapter.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), extractPathParameter(), target(), empty(), createErrorResponse(), getAdapter(), toJSON(), std::chrono::system_clock::to_time_t().
+ */
 http::response<http::string_body> LoRAApiHandler::handleGetAdapter(
     const http::request<http::string_body>& req) {
     auto span = Tracer::startSpan("handleGetAdapter");
@@ -442,6 +488,12 @@ http::response<http::string_body> LoRAApiHandler::handleGetAdapter(
     }
 }
 
+/**
+ * @brief Handle Update Adapter.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), extractPathParameter(), target(), empty(), createErrorResponse(), parseRequestBody(), contains(), at().
+ */
 http::response<http::string_body> LoRAApiHandler::handleUpdateAdapter(
     const http::request<http::string_body>& req) {
     auto span = Tracer::startSpan("handleUpdateAdapter");
@@ -504,6 +556,12 @@ http::response<http::string_body> LoRAApiHandler::handleUpdateAdapter(
     }
 }
 
+/**
+ * @brief Handle Delete Adapter.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), extractPathParameter(), target(), empty(), createErrorResponse(), find(), substr(), deleteAdapter().
+ */
 http::response<http::string_body> LoRAApiHandler::handleDeleteAdapter(
     const http::request<http::string_body>& req) {
     auto span = Tracer::startSpan("handleDeleteAdapter");
@@ -553,6 +611,12 @@ http::response<http::string_body> LoRAApiHandler::handleDeleteAdapter(
     }
 }
 
+/**
+ * @brief Handle List Adapters.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), createErrorResponse(), target(), find(), substr(), std::stoul(), listAdapters(), empty().
+ */
 http::response<http::string_body> LoRAApiHandler::handleListAdapters(
     const http::request<http::string_body>& req) {
     auto span = Tracer::startSpan("handleListAdapters");
@@ -657,9 +721,12 @@ http::response<http::string_body> LoRAApiHandler::handleListAdapters(
     }
 }
 
-// ═══════════════════════════════════════════════════════════
-// Adapter Lifecycle Endpoints
-// ═══════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════ Adapter Lifecycle Endpoints ═══════════════════════════════════════════════════════════
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), target(), starts_with(), ends_with(), createErrorResponse(), substr(), length(), empty().
+ */
 
 http::response<http::string_body> LoRAApiHandler::handleLoadAdapter(
     const http::request<http::string_body>& req) {
@@ -712,6 +779,12 @@ http::response<http::string_body> LoRAApiHandler::handleLoadAdapter(
     }
 }
 
+/**
+ * @brief Handle Unload Adapter.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), target(), starts_with(), ends_with(), createErrorResponse(), substr(), length(), empty().
+ */
 http::response<http::string_body> LoRAApiHandler::handleUnloadAdapter(
     const http::request<http::string_body>& req) {
     auto span = Tracer::startSpan("handleUnloadAdapter");
@@ -764,6 +837,12 @@ http::response<http::string_body> LoRAApiHandler::handleUnloadAdapter(
     }
 }
 
+/**
+ * @brief Handle Adapter Status.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), target(), starts_with(), ends_with(), createErrorResponse(), substr(), length(), empty().
+ */
 http::response<http::string_body> LoRAApiHandler::handleAdapterStatus(
     const http::request<http::string_body>& req) {
     auto span = Tracer::startSpan("handleAdapterStatus");
@@ -815,9 +894,12 @@ http::response<http::string_body> LoRAApiHandler::handleAdapterStatus(
     }
 }
 
-// ═══════════════════════════════════════════════════════════
-// Hot-Load Status Endpoint
-// ═══════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════ Hot-Load Status Endpoint ═══════════════════════════════════════════════════════════
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), target(), starts_with(), ends_with(), createErrorResponse(), substr(), length(), empty().
+ */
 
 http::response<http::string_body> LoRAApiHandler::handleHotLoadStatus(
     const http::request<http::string_body>& req) {
@@ -895,9 +977,12 @@ http::response<http::string_body> LoRAApiHandler::handleHotLoadStatus(
     }
 }
 
-// ═══════════════════════════════════════════════════════════
-// Inference Endpoint
-// ═══════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════ Inference Endpoint ═══════════════════════════════════════════════════════════
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), parseRequestBody(), createErrorResponse(), value(), empty(), std::chrono::steady_clock::now(), std::chrono::milliseconds(), submit().
+ */
 
 http::response<http::string_body> LoRAApiHandler::handleLoRAQuery(
     const http::request<http::string_body>& req) {
@@ -998,9 +1083,12 @@ http::response<http::string_body> LoRAApiHandler::handleLoRAQuery(
     }
 }
 
-// ═══════════════════════════════════════════════════════════
-// Health & Monitoring Endpoints
-// ═══════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════ Health & Monitoring Endpoints ═══════════════════════════════════════════════════════════
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), createErrorResponse(), getStats(), value(), createJsonResponse(), what().
+ */
 
 http::response<http::string_body> LoRAApiHandler::handleLoRAStats(
     const http::request<http::string_body>& /*req*/) {
@@ -1034,6 +1122,12 @@ http::response<http::string_body> LoRAApiHandler::handleLoRAStats(
     }
 }
 
+/**
+ * @brief Handle Lo RAHealth.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), createErrorResponse(), healthCheck(), createJsonResponse(), what().
+ */
 http::response<http::string_body> LoRAApiHandler::handleLoRAHealth(
     const http::request<http::string_body>& /*req*/) {
     auto span = Tracer::startSpan("handleLoRAHealth");
@@ -1066,9 +1160,12 @@ http::response<http::string_body> LoRAApiHandler::handleLoRAHealth(
     }
 }
 
-// ═══════════════════════════════════════════════════════════
-// Helper Methods
-// ═══════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════ Helper Methods ═══════════════════════════════════════════════════════════
+ * @param[in] req Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), AuthMiddleware::extractBearerToken(), std::string_view(), data(), size(), parseAndValidate(), THEMIS_DEBUG().
+ */
 
 bool LoRAApiHandler::validateBearerToken(const http::request<http::string_body>& req) {
     const auto auth_header = req[http::field::authorization];
@@ -1099,6 +1196,14 @@ bool LoRAApiHandler::validateBearerToken(const http::request<http::string_body>&
     }
 }
 
+/**
+ * @brief Create Error Response.
+ * @param[in] status Input parameter.
+ * @param[in] error Input parameter.
+ * @param[in] details Input parameter.
+ * @return Return value.
+ * @details Calls: json::object(), std::string(), empty(), set(), body(), dump(), prepare_payload().
+ */
 http::response<http::string_body> LoRAApiHandler::createErrorResponse(
     http::status status,
     std::string_view error,
@@ -1120,6 +1225,13 @@ http::response<http::string_body> LoRAApiHandler::createErrorResponse(
     return res;
 }
 
+/**
+ * @brief Create Json Response.
+ * @param[in] data Input parameter.
+ * @param[in] status Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), set(), body(), dump(), prepare_payload().
+ */
 http::response<http::string_body> LoRAApiHandler::createJsonResponse(
     const json& data,
     http::status status) {
@@ -1133,6 +1245,12 @@ http::response<http::string_body> LoRAApiHandler::createJsonResponse(
     return res;
 }
 
+/**
+ * @brief Parse Request Body.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: json::parse(), body(), is_object(), THEMIS_DEBUG().
+ */
 std::optional<json> LoRAApiHandler::parseRequestBody(
     const http::request<http::string_body>& req) {
     
@@ -1149,6 +1267,13 @@ std::optional<json> LoRAApiHandler::parseRequestBody(
     return std::nullopt;
 }
 
+/**
+ * @brief Extract Path Parameter.
+ * @param[in] target Input parameter.
+ * @param[in] prefix Input parameter.
+ * @return Return value.
+ * @details Calls: starts_with(), substr(), length(), find().
+ */
 std::string LoRAApiHandler::extractPathParameter(
     std::string_view target,
     std::string_view prefix) {
@@ -1168,9 +1293,12 @@ std::string LoRAApiHandler::extractPathParameter(
     return param;
 }
 
-// ═══════════════════════════════════════════════════════════
-// Cross-Shard Sync Endpoint
-// ═══════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════ Cross-Shard Sync Endpoint ═══════════════════════════════════════════════════════════
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), parseRequestBody(), createErrorResponse(), contains(), at(), is_string(), utils::Cursor::base64Decode(), has_value().
+ */
 
 http::response<http::string_body> LoRAApiHandler::handleReceiveAdapter(
     const http::request<http::string_body>& req) {
@@ -1377,7 +1505,12 @@ namespace {
     constexpr std::string_view kAdaptersPrefix = "/api/v1/llm/lora/adapters/";
 } // namespace
 
-// GET /api/v1/llm/lora/adapters/{id}/provenance
+/**
+ * @brief GET /api/v1/llm/lora/adapters/{id}/provenance
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), createErrorResponse(), target(), starts_with(), ends_with(), substr(), length(), empty().
+ */
 http::response<http::string_body> LoRAApiHandler::handleGetProvenance(
     const http::request<http::string_body>& req) {
     auto span = Tracer::startSpan("handleGetProvenance");
@@ -1407,7 +1540,12 @@ http::response<http::string_body> LoRAApiHandler::handleGetProvenance(
     return createJsonResponse(prov_opt->toJSON());
 }
 
-// POST /api/v1/llm/lora/adapters/{id}/provenance
+/**
+ * @brief POST /api/v1/llm/lora/adapters/{id}/provenance
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), createErrorResponse(), target(), starts_with(), ends_with(), substr(), length(), empty().
+ */
 http::response<http::string_body> LoRAApiHandler::handleAttachProvenance(
     const http::request<http::string_body>& req) {
     auto span = Tracer::startSpan("handleAttachProvenance");
@@ -1447,7 +1585,12 @@ http::response<http::string_body> LoRAApiHandler::handleAttachProvenance(
     }
 }
 
-// GET /api/v1/llm/lora/adapters/{id}/audit
+/**
+ * @brief GET /api/v1/llm/lora/adapters/{id}/audit
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), createErrorResponse(), target(), starts_with(), ends_with(), substr(), length(), empty().
+ */
 http::response<http::string_body> LoRAApiHandler::handleGetAuditLog(
     const http::request<http::string_body>& req) {
     auto span = Tracer::startSpan("handleGetAuditLog");
@@ -1480,7 +1623,12 @@ http::response<http::string_body> LoRAApiHandler::handleGetAuditLog(
     });
 }
 
-// GET /api/v1/llm/lora/adapters/{id}/snapshots
+/**
+ * @brief GET /api/v1/llm/lora/adapters/{id}/snapshots
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), createErrorResponse(), target(), starts_with(), ends_with(), substr(), length(), empty().
+ */
 http::response<http::string_body> LoRAApiHandler::handleListSnapshots(
     const http::request<http::string_body>& req) {
     auto span = Tracer::startSpan("handleListSnapshots");
@@ -1513,7 +1661,12 @@ http::response<http::string_body> LoRAApiHandler::handleListSnapshots(
     });
 }
 
-// POST /api/v1/llm/lora/adapters/{id}/verify
+/**
+ * @brief POST /api/v1/llm/lora/adapters/{id}/verify
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), createErrorResponse(), target(), starts_with(), ends_with(), substr(), length(), empty().
+ */
 http::response<http::string_body> LoRAApiHandler::handleVerifyAuditChain(
     const http::request<http::string_body>& req) {
     auto span = Tracer::startSpan("handleVerifyAuditChain");

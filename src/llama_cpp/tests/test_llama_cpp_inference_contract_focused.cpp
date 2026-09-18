@@ -24,7 +24,11 @@ using namespace themis::llamacpp;
 using namespace themis::llm;
 using json = nlohmann::json;
 
-// ── helper ────────────────────────────────────────────────────────────────────
+/**
+ * @brief ── helper ────────────────────────────────────────────────────────────────────
+ * @return Return value.
+ * @details Calls: loadModel().
+ */
 
 static std::unique_ptr<LlamaCppPlugin> make_loaded_plugin() {
     auto p = std::make_unique<LlamaCppPlugin>();

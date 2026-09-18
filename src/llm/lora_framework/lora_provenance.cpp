@@ -35,7 +35,11 @@ namespace lora {
 
 namespace {
 
-/// ISO 8601 UTC timestamp for the current moment.
+/**
+ * @brief Now ISO8601.
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::now(), std::chrono::system_clock::to_time_t(), gmtime_s(), gmtime_r(), std::put_time(), str().
+ */
 static std::string nowISO8601() {
     auto now = std::chrono::system_clock::now();
     auto t   = std::chrono::system_clock::to_time_t(now);
@@ -50,7 +54,11 @@ static std::string nowISO8601() {
     return ss.str();
 }
 
-/// Generate a simple UUID-like identifier (random hex).
+/**
+ * @brief Generate Id.
+ * @return Return value.
+ * @details Calls: gen(), rd(), std::setfill(), std::setw(), dis(), str().
+ */
 static std::string generateId() {
     static std::random_device rd;
     static std::mt19937_64 gen(rd());
@@ -62,7 +70,12 @@ static std::string generateId() {
     return oss.str();
 }
 
-/// Convert raw SHA-256 digest to lowercase hex string.
+/**
+ * @brief Digest To Hex.
+ * @param[in] digest Input parameter.
+ * @return Return value.
+ * @details Calls: std::setfill(), std::setw(), str().
+ */
 static std::string digestToHex(const unsigned char digest[SHA256_DIGEST_LENGTH]) {
     std::ostringstream oss = {};
     oss << std::hex << std::setfill('0');
@@ -95,6 +108,12 @@ json LoRAProvenanceRecord::toJSON() const {
     };
 }
 
+/**
+ * @brief From JSON.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: contains(), is_string(), get_str().
+ */
 LoRAProvenanceRecord LoRAProvenanceRecord::fromJSON(const json& j) {
     LoRAProvenanceRecord r;
     auto get_str = [&](const char* key, std::string& dest) {
@@ -141,6 +160,12 @@ json ExternalAdapterProvenance::toJSON() const {
     };
 }
 
+/**
+ * @brief From JSON.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: contains(), is_string(), get_str().
+ */
 ExternalAdapterProvenance ExternalAdapterProvenance::fromJSON(const json& j) {
     ExternalAdapterProvenance r;
     auto get_str = [&](const char* key, std::string& dest) {
@@ -182,6 +207,12 @@ json AdapterSnapshot::toJSON() const {
     };
 }
 
+/**
+ * @brief From JSON.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: contains(), is_string(), get_str().
+ */
 AdapterSnapshot AdapterSnapshot::fromJSON(const json& j) {
     AdapterSnapshot s;
     auto get_str = [&](const char* key, std::string& dest) {
@@ -220,6 +251,12 @@ json InferenceAuditEntry::toJSON() const {
     };
 }
 
+/**
+ * @brief From JSON.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: contains(), is_string(), get_str().
+ */
 InferenceAuditEntry InferenceAuditEntry::fromJSON(const json& j) {
     InferenceAuditEntry e;
     auto get_str = [&](const char* key, std::string& dest) {
@@ -299,6 +336,13 @@ LoRAProvenanceManager::~LoRAProvenanceManager() = default;
 // Local provenance
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Store Provenance.
+ * @param[in] adapter_id Identifier of the adapter.
+ * @param[in] record Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), spdlog::error(), lock(), spdlog::debug().
+ */
 bool LoRAProvenanceManager::storeProvenance(const std::string& adapter_id,
                                              const LoRAProvenanceRecord& record) {
     if (adapter_id.empty()) {
@@ -325,6 +369,15 @@ std::optional<LoRAProvenanceRecord> LoRAProvenanceManager::getProvenance(
 // External adapter import
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Import External Adapter.
+ * @param[in] adapter_id Identifier of the adapter.
+ * @param[in] provenance Input parameter.
+ * @param[in] trusted_ca_pem Input parameter.
+ * @param[in] allow_unsigned Input parameter.
+ * @return Return value.
+ * @details Calls: nowISO8601(), clear(), spdlog::warn(), empty(), push_back(), size(), lock(), spdlog::debug().
+ */
 ExternalAdapterProvenance LoRAProvenanceManager::importExternalAdapter(
     const std::string& adapter_id,
     ExternalAdapterProvenance provenance,
@@ -417,6 +470,15 @@ std::optional<ExternalAdapterProvenance> LoRAProvenanceManager::getExternalProve
 // Snapshots
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Create Snapshot.
+ * @param[in] adapter_id Identifier of the adapter.
+ * @param[in] version Input parameter.
+ * @param[in] weights_hash Input parameter.
+ * @param[in] provenance Input parameter.
+ * @return Return value.
+ * @details Calls: generateId(), nowISO8601(), lock(), empty(), back(), push_back(), spdlog::debug().
+ */
 AdapterSnapshot LoRAProvenanceManager::createSnapshot(
     const std::string& adapter_id,
     const std::string& version,
@@ -468,6 +530,13 @@ std::optional<AdapterSnapshot> LoRAProvenanceManager::getSnapshot(
 // Merkle-chained audit log
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Append Audit Entry.
+ * @param[in] adapter_id Identifier of the adapter.
+ * @param[in] entry Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), generateId(), nowISO8601(), lock(), back(), computeContentHash(), push_back(), spdlog::debug().
+ */
 InferenceAuditEntry LoRAProvenanceManager::appendAuditEntry(
     const std::string& adapter_id,
     InferenceAuditEntry entry) {
@@ -547,12 +616,24 @@ bool LoRAProvenanceManager::verifyAuditChain(
 // Utility
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Sha256 Hex.
+ * @param[in] data Input parameter.
+ * @return Return value.
+ * @details Calls: SHA256(), data(), size(), digestToHex().
+ */
 std::string LoRAProvenanceManager::sha256Hex(const std::string& data) {
     unsigned char digest[SHA256_DIGEST_LENGTH];
     SHA256(reinterpret_cast<const unsigned char*>(data.data()),data.size(), digest);
     return digestToHex(digest);
 }
 
+/**
+ * @brief Sha256 File.
+ * @param[in] path Input parameter.
+ * @return Return value.
+ * @details Calls: file(), is_open(), spdlog::warn(), SHA256_Init(), read(), gcount(), SHA256_Update(), SHA256_Final().
+ */
 std::string LoRAProvenanceManager::sha256File(const std::string& path) {
     std::ifstream file(path, std::ios::binary);
     if (!file.is_open()) {

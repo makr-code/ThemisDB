@@ -51,9 +51,12 @@ MLModelManager::~MLModelManager() noexcept {
     }
 }
 
-// ═══════════════════════════════════════════════════════════
-// Model Lifecycle Management
-// ═══════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════ Model Lifecycle Management ═══════════════════════════════════════════════════════════
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @details Calls: lifecycle_lock(), cache_lock(), find(), end(), std::chrono::system_clock::now(), std::move(), THEMIS_INFO(), std::to_string().
+ */
 
 Result<bool> MLModelManager::registerModel(const MLModelConfig& config) {
     // LOCK HIERARCHY: model_lifecycle_lock_ (exclusive for state changes)
@@ -86,6 +89,13 @@ Result<bool> MLModelManager::registerModel(const MLModelConfig& config) {
     return Ok(true);
 }
 
+/**
+ * @brief Deploy Model.
+ * @param[in] model_id Identifier of the model.
+ * @param[in] num_instances Input parameter.
+ * @return Return value.
+ * @details Calls: lifecycle_lock(), cache_lock(), find(), end(), deployInstance(), has_value(), THEMIS_ERROR(), std::to_string().
+ */
 Result<std::vector<std::string>> MLModelManager::deployModel(
     const std::string& model_id,
     size_t num_instances
@@ -152,6 +162,13 @@ Result<std::vector<std::string>> MLModelManager::deployModel(
     return themis::Ok(instance_ids);
 }
 
+/**
+ * @brief Update Model.
+ * @param[in] model_id Identifier of the model.
+ * @param[in] new_config Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), find(), end(), std::move(), clear(), size(), deployInstance(), has_value().
+ */
 Result<bool> MLModelManager::updateModel(
     const std::string& model_id,
     const MLModelConfig& new_config
@@ -225,6 +242,13 @@ Result<bool> MLModelManager::updateModel(
     return Ok(true);
 }
 
+/**
+ * @brief Retire Model.
+ * @param[in] model_id Identifier of the model.
+ * @param[in] drain_timeout_ms Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), find(), end(), std::chrono::steady_clock::now(), count(), std::this_thread::sleep_for(), std::chrono::milliseconds(), THEMIS_INFO().
+ */
 Result<bool> MLModelManager::retireModel(
     const std::string& model_id,
     int drain_timeout_ms
@@ -280,6 +304,12 @@ Result<bool> MLModelManager::retireModel(
     return Ok(drained);
 }
 
+/**
+ * @brief Unregister Model.
+ * @param[in] model_id Identifier of the model.
+ * @return Return value.
+ * @details Calls: lock(), find(), end(), shutdownInstance(), erase(), THEMIS_INFO(), Ok().
+ */
 Result<bool> MLModelManager::unregisterModel(const std::string& model_id) {
     std::lock_guard<std::mutex> lock(models_mutex_);
     
@@ -316,7 +346,11 @@ Result<bool> MLModelManager::unregisterModel(const std::string& model_id) {
 // ═══════════════════════════════════════════════════════════
 
 std::vector<std::string> MLModelManager::listModels(const json& filter) const {
-    // Wave-B L7: thread-safety audit — added std::atomic/mutex for concurrent access
+    /**
+     * @brief Wave-B L7: thread-safety audit — added std::atomic/mutex for concurrent access
+     * @param[in] models_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(models_mutex_);
     
     std::vector<std::string> result;
@@ -347,7 +381,11 @@ std::vector<std::string> MLModelManager::listModels(const json& filter) const {
 }
 
 Result<MLModelConfig> MLModelManager::getModelConfig(const std::string& model_id) const {
-    // Wave-B L7: thread-safety audit — added std::atomic/mutex for concurrent access
+    /**
+     * @brief Wave-B L7: thread-safety audit — added std::atomic/mutex for concurrent access
+     * @param[in] models_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(models_mutex_);
     
     auto it = models_.find(model_id);
@@ -362,7 +400,11 @@ Result<MLModelConfig> MLModelManager::getModelConfig(const std::string& model_id
 }
 
 Result<MLModelStatus> MLModelManager::getModelStatus(const std::string& model_id) const {
-    // Wave-B L7: thread-safety audit — added std::atomic/mutex for concurrent access
+    /**
+     * @brief Wave-B L7: thread-safety audit — added std::atomic/mutex for concurrent access
+     * @param[in] models_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(models_mutex_);
     
     auto it = models_.find(model_id);
@@ -377,6 +419,11 @@ Result<MLModelStatus> MLModelManager::getModelStatus(const std::string& model_id
 }
 
 std::vector<MLModelInstance> MLModelManager::listModelInstances(const std::string& model_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] models_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(models_mutex_);
     
     std::vector<MLModelInstance> result;
@@ -392,6 +439,11 @@ std::vector<MLModelInstance> MLModelManager::listModelInstances(const std::strin
 }
 
 json MLModelManager::getModelMetrics(const std::string& model_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] models_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(models_mutex_);
     
     auto it = models_.find(model_id);
@@ -433,9 +485,12 @@ json MLModelManager::getModelMetrics(const std::string& model_id) const {
     return metrics;
 }
 
-// ═══════════════════════════════════════════════════════════
-// Inference Operations
-// ═══════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════ Inference Operations ═══════════════════════════════════════════════════════════
+ * @param[in] request Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::steady_clock::now(), selectInstance(), Ok(), fetch_add(), count(), lock(), dispatch_fn(), std::string().
+ */
 
 Result<MLInferenceResponse> MLModelManager::infer(const MLInferenceRequest& request) {
     auto start = std::chrono::steady_clock::now();
@@ -549,6 +604,11 @@ Result<MLInferenceResponse> MLModelManager::infer(const MLInferenceRequest& requ
     return Ok(response);
 }
 
+/**
+ * @brief Set Inference Dispatch Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void MLModelManager::setInferenceDispatchFn(InferenceDispatchFn fn) {
     std::lock_guard<std::mutex> lock(dispatch_fn_mutex_);
     inference_dispatch_fn_ = std::move(fn);
@@ -579,6 +639,12 @@ std::string MLModelManager::inferAsync(
     return request_id;
 }
 
+/**
+ * @brief Cancel Inference.
+ * @param[in] request_id Identifier of the request.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), insert(), THEMIS_INFO().
+ */
 bool MLModelManager::cancelInference(const std::string& request_id) {
     std::lock_guard<std::mutex> lock(cancel_mutex_);
     cancelled_requests_.insert(request_id);
@@ -586,9 +652,13 @@ bool MLModelManager::cancelInference(const std::string& request_id) {
     return true;
 }
 
-// ═══════════════════════════════════════════════════════════
-// Instance Management
-// ═══════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════ Instance Management ═══════════════════════════════════════════════════════════
+ * @param[in] model_id Identifier of the model.
+ * @param[in] num_instances Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), find(), end(), size(), Ok(), deployInstance(), has_value(), empty().
+ */
 
 Result<bool> MLModelManager::scaleModel(const std::string& model_id, size_t num_instances) {
     std::lock_guard<std::mutex> lock(models_mutex_);
@@ -636,6 +706,12 @@ Result<bool> MLModelManager::scaleModel(const std::string& model_id, size_t num_
     return Ok(true);
 }
 
+/**
+ * @brief Health Check.
+ * @param[in] instance_id Identifier of the instance.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), std::chrono::system_clock::now(), THEMIS_INFO(), THEMIS_WARN().
+ */
 bool MLModelManager::healthCheck(const std::string& instance_id) {
     std::lock_guard<std::mutex> lock(models_mutex_);
     
@@ -669,6 +745,12 @@ bool MLModelManager::healthCheck(const std::string& instance_id) {
     return false;
 }
 
+/**
+ * @brief Restart Instance.
+ * @param[in] instance_id Identifier of the instance.
+ * @return Return value.
+ * @details Calls: lock(), size(), shutdownInstance(), deployInstance(), has_value(), error(), message(), THEMIS_INFO().
+ */
 Result<bool> MLModelManager::restartInstance(const std::string& instance_id) {
     std::lock_guard<std::mutex> lock(models_mutex_);
     
@@ -699,9 +781,10 @@ Result<bool> MLModelManager::restartInstance(const std::string& instance_id) {
     );
 }
 
-// ═══════════════════════════════════════════════════════════
-// System Management
-// ═══════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════ System Management ═══════════════════════════════════════════════════════════
+ * @details Calls: exchange(), healthMonitorLoop(), autoScalerLoop(), THEMIS_INFO().
+ */
 
 void MLModelManager::start() {
     if (running_.exchange(true)) {
@@ -723,6 +806,10 @@ void MLModelManager::start() {
     THEMIS_INFO("MLModelManager started");
 }
 
+/**
+ * @brief Shutdown.
+ * @details Calls: exchange(), joinable(), themis::utils::joinThreadWithin(), THEMIS_WARN(), lock(), shutdownInstance(), THEMIS_INFO().
+ */
 void MLModelManager::shutdown() {
     if (!running_.exchange(false)) {
         return;  // Already stopped
@@ -753,6 +840,11 @@ void MLModelManager::shutdown() {
 }
 
 json MLModelManager::getSystemStats() const {
+    /**
+     * @brief Lock.
+     * @param[in] models_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(models_mutex_);
     
     json stats;
@@ -784,9 +876,10 @@ json MLModelManager::getSystemStats() const {
     return stats;
 }
 
-// ═══════════════════════════════════════════════════════════
-// Internal Methods
-// ═══════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════ Internal Methods ═══════════════════════════════════════════════════════════
+ * @details Calls: std::this_thread::sleep_for(), std::chrono::milliseconds(), lock(), push_back(), healthCheck().
+ */
 
 void MLModelManager::healthMonitorLoop() {
     while (running_) {
@@ -819,6 +912,10 @@ void MLModelManager::healthMonitorLoop() {
     }
 }
 
+/**
+ * @brief Auto Scaler Loop.
+ * @details Calls: std::this_thread::sleep_for(), std::chrono::milliseconds(), lock(), load(), empty(), size(), THEMIS_INFO(), std::to_string().
+ */
 void MLModelManager::autoScalerLoop() {
     while (running_) {
         std::this_thread::sleep_for(
@@ -877,6 +974,13 @@ void MLModelManager::autoScalerLoop() {
     }
 }
 
+/**
+ * @brief Deploy Instance.
+ * @param[in] model_id Identifier of the model.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @details Calls: find(), end(), generateInstanceId(), std::chrono::system_clock::now(), empty(), getOrLoadModel(), THEMIS_INFO(), push_back().
+ */
 Result<std::string> MLModelManager::deployInstance(
     const std::string& model_id,
     const MLModelConfig& config
@@ -925,6 +1029,12 @@ Result<std::string> MLModelManager::deployInstance(
     return Ok(instance_id);
 }
 
+/**
+ * @brief Shutdown Instance.
+ * @param[in] instance_id Identifier of the instance.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), std::find_if(), begin(), end(), erase(), empty(), unloadModel(), THEMIS_INFO().
+ */
 bool MLModelManager::shutdownInstance(const std::string& instance_id) {
     std::lock_guard<std::mutex> lock(models_mutex_);
 
@@ -968,6 +1078,12 @@ MLModelInstance* MLModelManager::selectLeastBusy_(const ModelEntry& entry) const
     // once per-instance capacity weights are available (FUTURE_ENHANCEMENTS.md §"Load Balancing").
 }
 
+/**
+ * @brief Select Instance.
+ * @param[in] model_id Identifier of the model.
+ * @return Pointer to the result.
+ * @details Calls: lock(), find(), end(), empty(), selectLeastBusy_().
+ */
 MLModelInstance* MLModelManager::selectInstance(const std::string& model_id) {
     std::lock_guard<std::mutex> lock(models_mutex_);
 
@@ -979,6 +1095,13 @@ MLModelInstance* MLModelManager::selectInstance(const std::string& model_id) {
     return selectLeastBusy_(*it->second);
 }
 
+/**
+ * @brief Update Instance Metrics.
+ * @param[in,out] instance Input/output parameter.
+ * @param[in] latency_ms Input parameter.
+ * @param[in] success Input parameter.
+ * @details Calls: lock(), std::chrono::system_clock::now(), push_back(), size(), pop_front(), sorted(), begin(), end().
+ */
 void MLModelManager::updateInstanceMetrics(
     MLModelInstance* instance,
     float latency_ms,
@@ -1026,10 +1149,21 @@ void MLModelManager::updateInstanceMetrics(
     }
 }
 
+/**
+ * @brief Generate Instance Id.
+ * @param[in] model_id Identifier of the model.
+ * @return Return value.
+ * @details Calls: std::to_string().
+ */
 std::string MLModelManager::generateInstanceId(const std::string& model_id) {
     return model_id + "-inst-" + std::to_string(instance_counter_++);
 }
 
+/**
+ * @brief Generate Request Id.
+ * @return Return value.
+ * @details Calls: std::to_string().
+ */
 std::string MLModelManager::generateRequestId() {
     return "req-" + std::to_string(request_counter_++);
 }

@@ -36,6 +36,12 @@ MoralAnalyzer::MoralAnalyzer(
     graph_manager_ = std::make_unique<PropertyGraphManager>(db);
 }
 
+/**
+ * @brief Build Decision Graph.
+ * @param[in] scenario Input parameter.
+ * @return Return value.
+ * @details Calls: validateScenario(), Status::Error(), addScenarioNode(), addStakeholderNodes(), addActionNodes(), Status::OK().
+ */
 MoralAnalyzer::Status MoralAnalyzer::buildDecisionGraph(
     const EthicalScenario& scenario
 ) {
@@ -66,6 +72,12 @@ MoralAnalyzer::Status MoralAnalyzer::buildDecisionGraph(
     return Status::OK();
 }
 
+/**
+ * @brief Add Scenario Node.
+ * @param[in] scenario Input parameter.
+ * @return Return value.
+ * @details Calls: scenario_entity(), setField(), std::string(), json(), dump(), addNode(), Status::Error(), Status::OK().
+ */
 MoralAnalyzer::Status MoralAnalyzer::addScenarioNode(
     const EthicalScenario& scenario
 ) {
@@ -85,6 +97,13 @@ MoralAnalyzer::Status MoralAnalyzer::addScenarioNode(
     return Status::OK();
 }
 
+/**
+ * @brief Add Stakeholder Nodes.
+ * @param[in] scenario Input parameter.
+ * @param[in] scenario_node_id Identifier of the scenario node.
+ * @return Return value.
+ * @details Calls: stakeholder_entity(), setField(), std::string(), json(), dump(), addNode(), Status::Error(), involves_edge().
+ */
 MoralAnalyzer::Status MoralAnalyzer::addStakeholderNodes(
     const EthicalScenario& scenario,
     const std::string& scenario_node_id
@@ -127,6 +146,14 @@ MoralAnalyzer::Status MoralAnalyzer::addStakeholderNodes(
     return Status::OK();
 }
 
+/**
+ * @brief Add Principle Nodes.
+ * @param[in] scenario Input parameter.
+ * @param[in] scenario_node_id Identifier of the scenario node.
+ * @param[in] philosophy Input parameter.
+ * @return Return value.
+ * @details Calls: loadPrinciplesForPhilosophy(), principle_entity(), setField(), std::string(), json(), dump(), addNode(), Status::Error().
+ */
 MoralAnalyzer::Status MoralAnalyzer::addPrincipleNodes(
     const EthicalScenario& scenario,
     const std::string& scenario_node_id,
@@ -172,6 +199,13 @@ MoralAnalyzer::Status MoralAnalyzer::addPrincipleNodes(
     return Status::OK();
 }
 
+/**
+ * @brief Add Action Nodes.
+ * @param[in] scenario Input parameter.
+ * @param[in] scenario_node_id Identifier of the scenario node.
+ * @return Return value.
+ * @details Calls: action_entity(), setField(), std::string(), addNode(), Status::Error(), considers_edge(), addEdge(), Status::OK().
+ */
 MoralAnalyzer::Status MoralAnalyzer::addActionNodes(
     const EthicalScenario& scenario,
     const std::string& scenario_node_id
@@ -212,6 +246,13 @@ MoralAnalyzer::Status MoralAnalyzer::addActionNodes(
     return Status::OK();
 }
 
+/**
+ * @brief Add Outcome Nodes.
+ * @param[in] action_id Identifier of the action.
+ * @param[in] outcomes Input parameter.
+ * @return Return value.
+ * @details Calls: size(), std::to_string(), outcome_entity(), setField(), std::string(), addNode(), Status::Error(), leads_edge().
+ */
 MoralAnalyzer::Status MoralAnalyzer::addOutcomeNodes(
     const std::string& action_id,
     const std::vector<PredictedOutcome>& outcomes
@@ -253,6 +294,13 @@ MoralAnalyzer::Status MoralAnalyzer::addOutcomeNodes(
     return Status::OK();
 }
 
+/**
+ * @brief Add Argument Nodes.
+ * @param[in] action_id Identifier of the action.
+ * @param[in] arguments Input parameter.
+ * @return Return value.
+ * @details Calls: arg_entity(), setField(), std::string(), addNode(), Status::Error(), arg_edge(), addEdge(), Status::OK().
+ */
 MoralAnalyzer::Status MoralAnalyzer::addArgumentNodes(
     const std::string& action_id,
     const std::vector<EthicalArgument>& arguments
@@ -403,6 +451,13 @@ MoralAnalyzer::analyzeMultiPhilosophy(
     return {Status::OK(), synthesized};
 }
 
+/**
+ * @brief Evaluate Deontological.
+ * @param[in] scenario Input parameter.
+ * @param[in] action Input parameter.
+ * @return Return value.
+ * @details Calls: scoreActionByPrinciples(), push_back(), size(), std::abs().
+ */
 MoralAnalyzer::ReasoningPath MoralAnalyzer::evaluateDeontological(
     const EthicalScenario& scenario,
     const std::string& action
@@ -456,6 +511,13 @@ MoralAnalyzer::ReasoningPath MoralAnalyzer::evaluateDeontological(
     return path;
 }
 
+/**
+ * @brief Evaluate Consequentialist.
+ * @param[in] scenario Input parameter.
+ * @param[in] action Input parameter.
+ * @return Return value.
+ * @details Calls: predictOutcomes(), calculateExpectedUtility(), push_back(), std::abs(), str().
+ */
 MoralAnalyzer::ReasoningPath MoralAnalyzer::evaluateConsequentialist(
     const EthicalScenario& scenario,
     const std::string& action
@@ -498,6 +560,13 @@ MoralAnalyzer::ReasoningPath MoralAnalyzer::evaluateConsequentialist(
     return path;
 }
 
+/**
+ * @brief Evaluate Virtue Ethics.
+ * @param[in] scenario Input parameter.
+ * @param[in] action Input parameter.
+ * @return Return value.
+ * @details Calls: scoreActionByPrinciples(), push_back(), size(), std::string().
+ */
 MoralAnalyzer::ReasoningPath MoralAnalyzer::evaluateVirtueEthics(
     const EthicalScenario& scenario,
     const std::string& action
@@ -538,6 +607,13 @@ MoralAnalyzer::ReasoningPath MoralAnalyzer::evaluateVirtueEthics(
     return path;
 }
 
+/**
+ * @brief Predict Outcomes.
+ * @param[in] scenario Input parameter.
+ * @param[in] action Input parameter.
+ * @return Return value.
+ * @details Calls: calculateStakeholderImpacts(), push_back().
+ */
 std::vector<MoralAnalyzer::PredictedOutcome> MoralAnalyzer::predictOutcomes(
     const EthicalScenario& scenario,
     const std::string& action
@@ -569,6 +645,12 @@ std::vector<MoralAnalyzer::PredictedOutcome> MoralAnalyzer::predictOutcomes(
     return outcomes;
 }
 
+/**
+ * @brief Calculate Expected Utility.
+ * @param[in] outcomes Input parameter.
+ * @return Return value.
+ * @details Implements calculateExpectedUtility without additional internal calls.
+ */
 double MoralAnalyzer::calculateExpectedUtility(
     const std::vector<PredictedOutcome>& outcomes
 ) {
@@ -581,6 +663,14 @@ double MoralAnalyzer::calculateExpectedUtility(
     return expected_utility;
 }
 
+/**
+ * @brief Generate Arguments.
+ * @param[in] scenario Input parameter.
+ * @param[in] action Input parameter.
+ * @param[in] philosophy Input parameter.
+ * @return Return value.
+ * @details Calls: push_back().
+ */
 std::vector<MoralAnalyzer::EthicalArgument> MoralAnalyzer::generateArguments(
     const EthicalScenario& scenario,
     const std::string& action,
@@ -670,6 +760,12 @@ MoralAnalyzer::EthicalDecision MoralAnalyzer::synthesizeDecision(
     return synthesized;
 }
 
+/**
+ * @brief Check Consistency.
+ * @param[in] decision Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), size(), std::min(), std::max().
+ */
 double MoralAnalyzer::checkConsistency(const EthicalDecision& decision) {
     // Check if decision is consistent with stated principles
     double consistency = 0.8;  // Base consistency
@@ -687,6 +783,12 @@ double MoralAnalyzer::checkConsistency(const EthicalDecision& decision) {
     return std::min(1.0, std::max(0.0, consistency));
 }
 
+/**
+ * @brief Assess Fairness.
+ * @param[in] decision Input parameter.
+ * @return Return value.
+ * @details Calls: find(), std::min().
+ */
 double MoralAnalyzer::assessFairness(const EthicalDecision& decision) {
     // Assess fairness based on stakeholder impacts
     double fairness = 0.7;  // Base fairness
@@ -715,6 +817,14 @@ MoralAnalyzer::retrieveSimilarScenarios(
     return {};
 }
 
+/**
+ * @brief Store Decision.
+ * @param[in] decision Input parameter.
+ * @param[in] scenario_embedding Input parameter.
+ * @param[in] user_id Identifier of the user.
+ * @return Return value.
+ * @details Calls: decision_entity(), setField(), std::string(), json(), dump(), json::object(), addNode(), Status::Error().
+ */
 MoralAnalyzer::Status MoralAnalyzer::storeDecision(
     const EthicalDecision& decision,
     const std::vector<float>& scenario_embedding,
@@ -871,23 +981,13 @@ MoralAnalyzer::Status MoralAnalyzer::storeDecision(
     return Status::OK();
 }
 
+/**
+ * @brief Extract Keywords.
+ * @param[in] decision Input parameter.
+ * @return Return value.
+ * @details Calls: push_back(), iss(), erase(), std::remove_if(), begin(), end(), std::ispunct(), length().
+ */
 std::vector<std::string> MoralAnalyzer::extractKeywords(const EthicalDecision& decision) {
-    /**
-     * Basic keyword extraction from ethical decision
-     * 
-     * Strategy:
-     * - Extract significant words from principles and reasoning
-     * - Filter common stopwords (limited list - could be expanded)
-     * - Add philosophy, action, and metric-based tags
-     * - No stemming or lemmatization (future enhancement)
-     * - Case-insensitive matching
-     * 
-     * Limitations:
-     * - Basic tokenization (space-separated only)
-     * - Limited stopword list (can be extended as needed)
-     * - No linguistic processing (no stemming, NER, etc.)
-     * - English-only (no locale support)
-     */
     
     std::vector<std::string> keywords;
     
@@ -949,6 +1049,12 @@ std::vector<std::string> MoralAnalyzer::extractKeywords(const EthicalDecision& d
     return keywords;
 }
 
+/**
+ * @brief Export Decision Graph DOT.
+ * @param[in] scenario_id Identifier of the scenario.
+ * @return Return value.
+ * @details Calls: str().
+ */
 std::string MoralAnalyzer::exportDecisionGraphDOT(const std::string& scenario_id) {
     std::ostringstream dot = {};
     
@@ -966,6 +1072,12 @@ std::string MoralAnalyzer::exportDecisionGraphDOT(const std::string& scenario_id
     return dot.str();
 }
 
+/**
+ * @brief Get Reasoning Explanation.
+ * @param[in] decision Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), str().
+ */
 std::string MoralAnalyzer::getReasoningExplanation(
     const EthicalDecision& decision
 ) {
@@ -1001,6 +1113,12 @@ std::string MoralAnalyzer::getReasoningExplanation(
     return explanation.str();
 }
 
+/**
+ * @brief Clear Decision Graph.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Calls: Status::OK().
+ */
 MoralAnalyzer::Status MoralAnalyzer::clearDecisionGraph(
     const std::string& /*scenario_id*/
 ) {
@@ -1008,6 +1126,12 @@ MoralAnalyzer::Status MoralAnalyzer::clearDecisionGraph(
     return Status::OK();
 }
 
+/**
+ * @brief Load Principles For Philosophy.
+ * @param[in] philosophy Input parameter.
+ * @return Return value.
+ * @details Implements loadPrinciplesForPhilosophy without additional internal calls.
+ */
 std::vector<std::string> MoralAnalyzer::loadPrinciplesForPhilosophy(
     const std::string& philosophy
 ) {
@@ -1028,6 +1152,14 @@ std::vector<std::string> MoralAnalyzer::loadPrinciplesForPhilosophy(
     return {};
 }
 
+/**
+ * @brief Score Action By Principles.
+ * @param[in] action Input parameter.
+ * @param[in] principles Input parameter.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Calls: std::transform(), begin(), end(), find(), empty(), size(), std::min(), std::max().
+ */
 double MoralAnalyzer::scoreActionByPrinciples(
     const std::string& action,
     const std::vector<std::string>& principles,
@@ -1101,6 +1233,12 @@ std::map<std::string, double> MoralAnalyzer::calculateStakeholderImpacts(
     return impacts;
 }
 
+/**
+ * @brief Format Decision Text.
+ * @param[in] decision Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), size(), str().
+ */
 std::string MoralAnalyzer::formatDecisionText(const EthicalDecision& decision) {
     std::ostringstream oss = {};
     
@@ -1144,6 +1282,12 @@ std::string MoralAnalyzer::formatDecisionText(const EthicalDecision& decision) {
     return oss.str();
 }
 
+/**
+ * @brief Validate Scenario.
+ * @param[in] scenario Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty().
+ */
 bool MoralAnalyzer::validateScenario(const EthicalScenario& scenario) {
     if (scenario.id.empty()) {
       return false;
@@ -1157,6 +1301,13 @@ bool MoralAnalyzer::validateScenario(const EthicalScenario& scenario) {
     return true;
 }
 
+/**
+ * @brief Recommend Philosophies.
+ * @param[in] scenario Input parameter.
+ * @param[in] use_llm Input parameter.
+ * @return Return value.
+ * @details Calls: std::transform(), begin(), end(), find(), contains(), push_back(), std::find(), detectEthicalImplicationsViaLLM().
+ */
 std::vector<std::string> MoralAnalyzer::recommendPhilosophies(
     const EthicalScenario& scenario,
     bool use_llm

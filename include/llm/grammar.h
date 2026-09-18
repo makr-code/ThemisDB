@@ -22,55 +22,14 @@ struct llama_vocab;
 namespace themis {
 namespace llm {
 
-/**
- * @brief Grammar class for constrained generation using EBNF grammars
- * 
- * This class wraps llama.cpp's grammar functionality to enable grammar-constrained
- * text generation, guaranteeing valid structured outputs (JSON, XML, etc.).
- * 
- * Based on GRAMMAR_CONSTRAINED_GENERATION.md documentation.
- */
 class Grammar {
 public:
-    /**
-     * @brief Construct a grammar from EBNF text
-     * @param ebnf_text EBNF grammar definition
-     * @param start_symbol Starting symbol for the grammar (e.g., "root")
-     *
-     * @note This constructor cannot bind the llama vocab because no model is
-     *       provided.  If the llama grammar API is available at runtime the
-     *       grammar is compiled with a null vocab pointer; purely structural
-     *       grammars (balanced brackets, numeric patterns) work, but
-     *       token-filtering rules that require vocab knowledge may not.  To
-     *       guarantee correct token filtering, use the model-aware constructor:
-     *       Grammar(ebnf_text, start_symbol, model).
-     */
     Grammar(const std::string& ebnf_text, const std::string& start_symbol);
     
-    /**
-     * @brief Construct a grammar from EBNF text with explicit model binding
-     *
-     * Uses llama_model_get_vocab() to obtain the vocabulary from @p model and
-     * passes it to llama_grammar_init().  This is the preferred constructor
-     * when a loaded model is available because it enables correct
-     * token-level filtering for all grammar rule types.
-     *
-     * If the llama grammar API is unavailable at runtime (i.e.
-     * themis_llama_grammar_available() returns false), the constructor sets
-     * an error and isValid() returns false — it does NOT fall back to
-     * unconstrained generation silently.
-     *
-     * @param ebnf_text    EBNF grammar definition
-     * @param start_symbol Starting symbol for the grammar (e.g., "root")
-     * @param model        Loaded llama_model whose vocabulary should be used
-     */
     Grammar(const std::string& ebnf_text,
             const std::string& start_symbol,
             const struct llama_model* model);
     
-    /**
-     * @brief Destructor - frees llama_grammar resources
-     */
     ~Grammar();
     
     // Prevent copying
@@ -82,36 +41,32 @@ public:
     Grammar& operator=(Grammar&& other) noexcept;
     
     /**
-     * @brief Check if grammar was compiled successfully
-     * @return true if grammar is valid and ready to use
+     * @brief Is Valid.
+     * @return True when the operation succeeds.
      */
     bool isValid() const;
     
     /**
-     * @brief Get error message if compilation failed
-     * @return Error message or empty string if valid
+     * @brief Get Error.
+     * @return Return value.
      */
     std::string getError() const;
     
     /**
-     * @brief Get the EBNF text used to create this grammar
-     * @return Original EBNF text
+     * @brief Get EBNFText.
+     * @return Return value.
      */
     std::string getEBNFText() const;
     
     /**
-     * @brief Get the start symbol
-     * @return Start symbol name
+     * @brief Get Start Symbol.
+     * @return Return value.
      */
     std::string getStartSymbol() const;
     
     /**
-     * @brief Get internal llama_grammar handle
-     * 
-     * This is used internally by LlamaWrapper for token sampling.
-     * Users should not need to access this directly.
-     * 
-     * @return Pointer to llama_grammar or nullptr if invalid
+     * @brief Get Handle.
+     * @return Pointer to the result.
      */
     llama_grammar* getHandle() const;
     
@@ -121,9 +76,16 @@ private:
     std::string start_symbol_;
     std::string error_;
     
-    // Helper to compile EBNF using a specific vocab pointer (may be nullptr
-    // only when the caller has verified that structural-only rules are used).
+    /**
+     * @brief Helper to compile EBNF using a specific vocab pointer (may be nullptr only when the caller has verified that structural-only rules are used).
+     * @return True when the operation succeeds.
+     */
     bool compile();
+    /**
+     * @brief Compile With Vocab.
+     * @param[in] vocab Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool compileWithVocab(const ::llama_vocab* vocab);
 };
 

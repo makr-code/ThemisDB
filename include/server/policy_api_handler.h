@@ -29,32 +29,8 @@ class PolicyEngine;
 namespace server {
 class RangerClient;
 
-/**
- * @brief Handler for Policy Management Operations
- * 
- * This handler manages all policy-related endpoints:
- * - POST /policies/import/ranger - Import policies from Apache Ranger
- * - GET /policies/export/ranger - Export policies to Apache Ranger format
- * 
- * Features:
- * - Apache Ranger integration
- * - Policy import/export
- * - Access control policy management
- * - Row-level security policies
- * 
- * Extracted from http_server.cpp (~200 lines) to improve maintainability.
- */
 class PolicyApiHandler {
 public:
-    /**
-     * @brief Construct a new Policy API Handler
-     * 
-     * @param storage Storage backend
-     * @param ranger_client Apache Ranger client
-     * @param policy_engine Policy engine for policy management
-     * @param auth Authentication/authorization middleware
-     * @param service_name Service name for Ranger exports (default: "themisdb")
-     */
     PolicyApiHandler(
         std::shared_ptr<RocksDBWrapper> storage,
         RangerClient* ranger_client,
@@ -64,16 +40,16 @@ public:
     );
 
     /**
-     * @brief Handle POST /policies/import/ranger request
-     * @param req HTTP request with Ranger policies to import
-     * @return HTTP response with import status
+     * @brief Handle Import Ranger.
+     * @param[in] req Input parameter.
+     * @return Return value.
      */
     http::response<http::string_body> handleImportRanger(const http::request<http::string_body>& req);
 
     /**
-     * @brief Handle GET /policies/export/ranger request
-     * @param req HTTP request
-     * @return HTTP response with policies in Ranger format
+     * @brief Handle Export Ranger.
+     * @param[in] req Input parameter.
+     * @return Return value.
      */
     http::response<http::string_body> handleExportRanger(const http::request<http::string_body>& req);
 
@@ -85,8 +61,22 @@ private:
     std::string service_name_;
 
     // Helper methods
+    /**
+     * @brief Make Error Response.
+     * @param[in] status Input parameter.
+     * @param[in] message Input parameter.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> makeErrorResponse(
         http::status status, const std::string& message, const http::request<http::string_body>& req);
+    /**
+     * @brief Make Response.
+     * @param[in] status Input parameter.
+     * @param[in] body Input parameter.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> makeResponse(
         http::status status, const std::string& body, const http::request<http::string_body>& req);
 };

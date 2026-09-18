@@ -25,6 +25,13 @@ TimeSeriesMetrics::TimeSeriesMetrics(const Config& config)
     : config_(config) {
 }
 
+/**
+ * @brief Record Data Point Write.
+ * @param[in] metric_name Name of the metric.
+ * @param[in] latency_ms Input parameter.
+ * @param[in] success Input parameter.
+ * @details Calls: fetch_add(), lock(), recordLatency(), empty().
+ */
 void TimeSeriesMetrics::recordDataPointWrite(const std::string& metric_name, double latency_ms, bool success) {
     total_data_points_written_.fetch_add(1, std::memory_order_relaxed);
     
@@ -45,6 +52,12 @@ void TimeSeriesMetrics::recordDataPointWrite(const std::string& metric_name, dou
     }
 }
 
+/**
+ * @brief Record Out Of Order Write.
+ * @param[in] param Input parameter.
+ * @param[in] rejected Input parameter.
+ * @details Calls: fetch_add().
+ */
 void TimeSeriesMetrics::recordOutOfOrderWrite(const std::string& /*metric_name*/, bool rejected) {
     if (rejected) {
         late_arrival_rejected_.fetch_add(1, std::memory_order_relaxed);
@@ -53,6 +66,14 @@ void TimeSeriesMetrics::recordOutOfOrderWrite(const std::string& /*metric_name*/
     }
 }
 
+/**
+ * @brief Record Batch Write.
+ * @param[in] num_points Input parameter.
+ * @param[in] latency_ms Input parameter.
+ * @param[in] compressed Input parameter.
+ * @param[in] success Input parameter.
+ * @details Calls: fetch_add(), lock(), recordLatency().
+ */
 void TimeSeriesMetrics::recordBatchWrite(size_t num_points, double latency_ms, bool compressed, bool success) {
     total_data_points_written_.fetch_add(num_points, std::memory_order_relaxed);
     total_batches_written_.fetch_add(1, std::memory_order_relaxed);
@@ -71,6 +92,13 @@ void TimeSeriesMetrics::recordBatchWrite(size_t num_points, double latency_ms, b
     }
 }
 
+/**
+ * @brief Record Compression.
+ * @param[in] metric_name Name of the metric.
+ * @param[in] uncompressed_bytes Input parameter.
+ * @param[in] compressed_bytes Input parameter.
+ * @details Calls: fetch_add(), empty(), lock().
+ */
 void TimeSeriesMetrics::recordCompression(const std::string& metric_name, size_t uncompressed_bytes, size_t compressed_bytes) {
     total_bytes_written_uncompressed_.fetch_add(uncompressed_bytes, std::memory_order_relaxed);
     total_bytes_written_compressed_.fetch_add(compressed_bytes, std::memory_order_relaxed);
@@ -82,6 +110,14 @@ void TimeSeriesMetrics::recordCompression(const std::string& metric_name, size_t
     }
 }
 
+/**
+ * @brief Record Query.
+ * @param[in] metric_name Name of the metric.
+ * @param[in] latency_ms Input parameter.
+ * @param[in] result_count Input parameter.
+ * @param[in] int64_t Input parameter.
+ * @details Calls: fetch_add(), lock(), recordLatency(), empty().
+ */
 void TimeSeriesMetrics::recordQuery(const std::string& metric_name, double latency_ms, 
                                     size_t result_count, int64_t /*time_range_ms*/) {
     total_queries_executed_.fetch_add(1, std::memory_order_relaxed);
@@ -100,6 +136,14 @@ void TimeSeriesMetrics::recordQuery(const std::string& metric_name, double laten
     }
 }
 
+/**
+ * @brief Record Aggregation.
+ * @param[in] param Input parameter.
+ * @param[in] latency_ms Input parameter.
+ * @param[in] size_t Input parameter.
+ * @param[in] optimizer_used Input parameter.
+ * @details Calls: fetch_add(), lock(), recordLatency().
+ */
 void TimeSeriesMetrics::recordAggregation(const std::string& /*metric_name*/, double latency_ms, 
                                          size_t /*data_points_scanned*/, bool optimizer_used) {
     total_aggregations_executed_.fetch_add(1, std::memory_order_relaxed);
@@ -116,6 +160,11 @@ void TimeSeriesMetrics::recordAggregation(const std::string& /*metric_name*/, do
     }
 }
 
+/**
+ * @brief Record Optimizer Result.
+ * @param[in] hit Input parameter.
+ * @details Calls: fetch_add().
+ */
 void TimeSeriesMetrics::recordOptimizerResult(bool hit) {
     if (hit) {
         optimizer_hits_.fetch_add(1, std::memory_order_relaxed);
@@ -124,31 +173,70 @@ void TimeSeriesMetrics::recordOptimizerResult(bool hit) {
     }
 }
 
+/**
+ * @brief Update Storage Stats.
+ * @param[in] total_data_points Input parameter.
+ * @param[in] total_metrics Input parameter.
+ * @param[in] total_size_bytes Input parameter.
+ * @details Calls: store().
+ */
 void TimeSeriesMetrics::updateStorageStats(size_t total_data_points, size_t total_metrics, size_t total_size_bytes) {
     current_data_points_.store(total_data_points, std::memory_order_relaxed);
     current_metrics_count_.store(total_metrics, std::memory_order_relaxed);
     current_storage_bytes_.store(total_size_bytes, std::memory_order_relaxed);
 }
 
+/**
+ * @brief Record Retention.
+ * @param[in] param Input parameter.
+ * @param[in] deleted_points Input parameter.
+ * @param[in] double Input parameter.
+ * @details Calls: fetch_add().
+ */
 void TimeSeriesMetrics::recordRetention(const std::string& /*metric_name*/, size_t deleted_points, double /*latency_ms*/) {
     total_retention_runs_.fetch_add(1, std::memory_order_relaxed);
     total_data_points_deleted_.fetch_add(deleted_points, std::memory_order_relaxed);
 }
 
+/**
+ * @brief Record Backpressure.
+ * @param[in] param Input parameter.
+ * @details Calls: fetch_add().
+ */
 void TimeSeriesMetrics::recordBackpressure(const std::string& /*metric_name*/) {
     total_backpressure_events_.fetch_add(1, std::memory_order_relaxed);
 }
 
+/**
+ * @brief Record Overdue Flush.
+ * @param[in] param Input parameter.
+ * @param[in] double Input parameter.
+ * @details Calls: fetch_add().
+ */
 void TimeSeriesMetrics::recordOverdueFlush(const std::string& /*metric_name*/, double /*age_ms*/) {
     total_overdue_flush_events_.fetch_add(1, std::memory_order_relaxed);
 }
 
+/**
+ * @brief Record Continuous Aggregate Refresh.
+ * @param[in] param Input parameter.
+ * @param[in] int64_t Input parameter.
+ * @param[in] double Input parameter.
+ * @param[in] points_processed Input parameter.
+ * @details Calls: fetch_add().
+ */
 void TimeSeriesMetrics::recordContinuousAggregateRefresh(const std::string& /*metric_name*/, int64_t /*window_ms*/, 
                                                          double /*latency_ms*/, size_t points_processed) {
     total_continuous_agg_refreshes_.fetch_add(1, std::memory_order_relaxed);
     total_continuous_agg_points_generated_.fetch_add(points_processed, std::memory_order_relaxed);
 }
 
+/**
+ * @brief Record Agg Refresh Latency.
+ * @param[in] agg_id Identifier of the agg.
+ * @param[in] latency_ms Input parameter.
+ * @details Calls: fetch_add(), lock().
+ */
 void TimeSeriesMetrics::recordAggRefreshLatency(const std::string& agg_id, double latency_ms) {
     total_continuous_agg_refreshes_.fetch_add(1, std::memory_order_relaxed);
     std::lock_guard<std::mutex> lock(agg_metrics_mutex_);
@@ -157,12 +245,23 @@ void TimeSeriesMetrics::recordAggRefreshLatency(const std::string& agg_id, doubl
     stats.latency_count++;
 }
 
+/**
+ * @brief Record Agg Refresh Lag.
+ * @param[in] agg_id Identifier of the agg.
+ * @param[in] lag_ms Input parameter.
+ * @details Calls: lock().
+ */
 void TimeSeriesMetrics::recordAggRefreshLag(const std::string& agg_id, double lag_ms) {
     std::lock_guard<std::mutex> lock(agg_metrics_mutex_);
     agg_refresh_stats_[agg_id].last_lag_ms = lag_ms;
 }
 
 double TimeSeriesMetrics::getAggRefreshLatency(const std::string& agg_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] agg_metrics_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(agg_metrics_mutex_);
     auto it = agg_refresh_stats_.find(agg_id);
     if (it == agg_refresh_stats_.end() || it->second.latency_count == 0) {
@@ -172,6 +271,11 @@ double TimeSeriesMetrics::getAggRefreshLatency(const std::string& agg_id) const 
 }
 
 double TimeSeriesMetrics::getAggRefreshLag(const std::string& agg_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] agg_metrics_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(agg_metrics_mutex_);
     auto it = agg_refresh_stats_.find(agg_id);
     if (it == agg_refresh_stats_.end()) {
@@ -271,6 +375,11 @@ std::string TimeSeriesMetrics::exportPrometheus() const {
 
     // Per-aggregate refresh latency and lag metrics (labeled by agg_id)
     {
+        /**
+         * @brief Lock.
+         * @param[in] agg_metrics_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(agg_metrics_mutex_);
         bool latency_header_emitted = false;
         bool lag_header_emitted = false;
@@ -374,6 +483,11 @@ std::string TimeSeriesMetrics::exportJson() const {
 
     // Per-aggregate refresh latency and lag (incremental path)
     {
+        /**
+         * @brief Lock.
+         * @param[in] agg_metrics_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(agg_metrics_mutex_);
         if (!agg_refresh_stats_.empty()) {
             nlohmann::json per_agg;
@@ -392,6 +506,11 @@ std::string TimeSeriesMetrics::exportJson() const {
     
     // Per-metric statistics
     if (config_.enable_per_metric_stats) {
+        /**
+         * @brief Lock.
+         * @param[in] per_metric_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(per_metric_mutex_);
         nlohmann::json per_metric_json;
         for (const auto& [metric_name, stats] : per_metric_stats_) {
@@ -411,6 +530,10 @@ std::string TimeSeriesMetrics::exportJson() const {
     return j.dump(2);
 }
 
+/**
+ * @brief Reset the modification detection flag.
+ * @details Calls: store(), lock(), clear().
+ */
 void TimeSeriesMetrics::reset() {
     total_data_points_written_.store(0);
     total_batches_written_.store(0);
@@ -461,11 +584,21 @@ void TimeSeriesMetrics::reset() {
 }
 
 double TimeSeriesMetrics::getAverageWriteLatency() const {
+    /**
+     * @brief Lock.
+     * @param[in] latency_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(latency_mutex_);
     return getAverageLatency(total_write_latency_ms_, write_latency_count_);
 }
 
 double TimeSeriesMetrics::getAverageQueryLatency() const {
+    /**
+     * @brief Lock.
+     * @param[in] latency_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(latency_mutex_);
     return getAverageLatency(total_query_latency_ms_, query_latency_count_);
 }
@@ -480,6 +613,13 @@ double TimeSeriesMetrics::getAverageCompressionRatio() const {
     return 0.0;
 }
 
+/**
+ * @brief Record Latency.
+ * @param[in,out] total_latency Input/output parameter.
+ * @param[in,out] count Input/output parameter.
+ * @param[in] latency_ms Input parameter.
+ * @details Implements recordLatency without additional internal calls.
+ */
 void TimeSeriesMetrics::recordLatency(double& total_latency, uint64_t& count, double latency_ms) {
     total_latency += latency_ms;
     count++;

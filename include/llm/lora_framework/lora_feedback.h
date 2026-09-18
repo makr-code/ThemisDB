@@ -23,13 +23,11 @@ namespace lora {
 
 using json = nlohmann::json;
 
-/**
- * @brief Feedback entry for LoRA adapter responses
- * 
- * Stores user feedback about model responses and links them to specific
- * LoRA adapters for continuous learning and improvement.
- */
 struct Feedback {
+    /**
+     * @brief Feedback.
+     * @return Return value.
+     */
     virtual ~Feedback() = default;
     std::string id;                               // Unique feedback ID
     std::string adapter_id;                       // Associated LoRA adapter ID
@@ -60,9 +58,6 @@ struct Feedback {
     std::string training_category;                // "positive", "negative", "neutral"
     json custom_metadata;                         // Extensible metadata
     
-    /**
-     * @brief Serialize to JSON
-     */
     json toJSON() const {
         auto time_t = std::chrono::system_clock::to_time_t(timestamp);
         json j = {
@@ -98,7 +93,10 @@ struct Feedback {
     }
     
     /**
-     * @brief Deserialize from JSON
+     * @brief From JSON.
+     * @param[in] j Input parameter.
+     * @return Return value.
+     * @details Calls: contains(), std::chrono::system_clock::from_time_t(), std::chrono::system_clock::now().
      */
     static Feedback fromJSON(const json& j) {
         Feedback fb = {};
@@ -169,10 +167,11 @@ struct Feedback {
     }
 };
 
-/**
- * @brief Filter options for feedback queries
- */
 struct FeedbackFilter {
+    /**
+     * @brief Feedback Filter.
+     * @return Return value.
+     */
     virtual ~FeedbackFilter() = default;
     std::optional<std::string> adapter_id;        // Filter by adapter
     std::optional<std::string> user_id;           // Filter by user

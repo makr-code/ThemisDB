@@ -41,6 +41,13 @@ struct LlamaLoadLogCaptureState {
     void* passthrough_user_data = nullptr;
 };
 
+/**
+ * @brief Llama Load Log Capture Callback.
+ * @param[in] level Input parameter.
+ * @param[in] text Input parameter.
+ * @param[in,out] user_data Input/output parameter.
+ * @details Calls: passthrough_callback(), append(), find(), substr(), erase().
+ */
 static void llamaLoadLogCaptureCallback(ggml_log_level level, const char* text, void* user_data) {
     if (text == nullptr || user_data == nullptr) {
         return;
@@ -105,6 +112,12 @@ private:
     LlamaLoadLogCaptureState state_;
 };
 
+/**
+ * @brief Normalize Checksum.
+ * @param[in] checksum Input parameter.
+ * @return Return value.
+ * @details Calls: erase(), std::remove_if(), begin(), end(), std::isspace(), std::transform(), std::tolower().
+ */
 std::string normalizeChecksum(std::string checksum) {
     checksum.erase(std::remove_if(checksum.begin(), checksum.end(), [](unsigned char ch) {
         return std::isspace(ch) != 0;
@@ -115,6 +128,12 @@ std::string normalizeChecksum(std::string checksum) {
     return checksum;
 }
 
+/**
+ * @brief Get Expected Model Checksum.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @details Calls: is_object(), contains(), is_string(), normalizeChecksum().
+ */
 std::string getExpectedModelChecksum(const json& config) {
     if (!config.is_object()) {
         return {};
@@ -229,6 +248,11 @@ LazyModelLoader::~LazyModelLoader() noexcept {
         // the async tasks cannot race against the model map being destroyed.
         std::unordered_map<std::string, std::future<CachedModel*>> pending_loads;
         {
+            /**
+             * @brief Lock.
+             * @param[in] mutex_ Input parameter.
+             * @return Return value.
+             */
             std::lock_guard<std::mutex> lock(mutex_);
             pending_loads.swap(pending_loads_);
         }
@@ -237,6 +261,11 @@ LazyModelLoader::~LazyModelLoader() noexcept {
         // the futures are waited on before proceeding to the final map clear.
         pending_loads.clear();
 
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         models_.clear();
         total_vram_mb_ = 0;
@@ -247,6 +276,14 @@ LazyModelLoader::~LazyModelLoader() noexcept {
     }
 }
 
+/**
+ * @brief Get Or Load Model.
+ * @param[in] model_id Identifier of the model.
+ * @param[in] model_path Path to the model.
+ * @param[in] load_config Input parameter.
+ * @return Pointer to the result.
+ * @details Calls: lock(), find(), end(), spdlog::debug(), fetch_add(), std::chrono::system_clock::now(), get(), spdlog::info().
+ */
 CachedModel* LazyModelLoader::getOrLoadModel(
     const std::string& model_id,
     const std::string& model_path,
@@ -334,6 +371,14 @@ CachedModel* LazyModelLoader::getOrLoadModel(
     return *result;
 }
 
+/**
+ * @brief Preload Model.
+ * @param[in] model_id Identifier of the model.
+ * @param[in] model_path Path to the model.
+ * @param[in] load_config Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), find(), end(), spdlog::info(), std::async(), load_lock(), spdlog::debug(), get().
+ */
 bool LazyModelLoader::preloadModel(
     const std::string& model_id,
     const std::string& model_path,
@@ -389,6 +434,16 @@ bool LazyModelLoader::preloadModel(
     return true;
 }
 
+/**
+ * @brief Load Async.
+ * @param[in] model_id Identifier of the model.
+ * @param[in] model_path Path to the model.
+ * @param[in] progress_cb Input parameter.
+ * @param[in] cancel_token Input parameter.
+ * @param[in] load_config Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), find(), end(), spdlog::info(), set_value(), get(), get_future(), spdlog::warn().
+ */
 std::future<CachedModel*> LazyModelLoader::loadAsync(
     const std::string& model_id,
     const std::string& model_path,
@@ -530,6 +585,13 @@ std::future<CachedModel*> LazyModelLoader::loadAsync(
     });
 }
 
+/**
+ * @brief Unload Model.
+ * @param[in] model_id Identifier of the model.
+ * @param[in] force Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), unloadModelUnlocked().
+ */
 bool LazyModelLoader::unloadModel(const std::string& model_id, bool force) {
     // W1-L01: Model unload operation. Scanner flags as model_integrity_gap but this is
     // a cleanup function (not a load); integrity checks are irrelevant for unload path. False positive.
@@ -537,6 +599,13 @@ bool LazyModelLoader::unloadModel(const std::string& model_id, bool force) {
     return unloadModelUnlocked(model_id, force);
 }
 
+/**
+ * @brief Unload Model Unlocked.
+ * @param[in] model_id Identifier of the model.
+ * @param[in] force Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: find(), end(), spdlog::warn(), spdlog::info(), erase().
+ */
 bool LazyModelLoader::unloadModelUnlocked(const std::string& model_id, bool force) {
     auto it = models_.find(model_id);
     if (it == models_.end()) {
@@ -561,6 +630,11 @@ bool LazyModelLoader::unloadModelUnlocked(const std::string& model_id, bool forc
     return true;
 }
 
+/**
+ * @brief Pin Model.
+ * @param[in] model_id Identifier of the model.
+ * @details Calls: lock(), find(), end(), spdlog::info().
+ */
 void LazyModelLoader::pinModel(const std::string& model_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -571,6 +645,11 @@ void LazyModelLoader::pinModel(const std::string& model_id) {
     }
 }
 
+/**
+ * @brief Unpin Model.
+ * @param[in] model_id Identifier of the model.
+ * @details Calls: lock(), find(), end(), spdlog::info().
+ */
 void LazyModelLoader::unpinModel(const std::string& model_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -582,11 +661,21 @@ void LazyModelLoader::unpinModel(const std::string& model_id) {
 }
 
 bool LazyModelLoader::isModelLoaded(const std::string& model_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return models_.find(model_id) != models_.end();
 }
 
 std::optional<ModelInfo> LazyModelLoader::getModelInfo(const std::string& model_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     auto it = models_.find(model_id);
@@ -598,6 +687,11 @@ std::optional<ModelInfo> LazyModelLoader::getModelInfo(const std::string& model_
 }
 
 std::vector<std::string> LazyModelLoader::listLoadedModels() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     std::vector<std::string> result = {};
@@ -611,11 +705,23 @@ std::vector<std::string> LazyModelLoader::listLoadedModels() const {
     return result;
 }
 
+/**
+ * @brief Evict LRU.
+ * @param[in] size_t Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), evictLRUUnlocked().
+ */
 size_t LazyModelLoader::evictLRU(size_t /*target_vram_mb*/) {
     std::lock_guard<std::mutex> lock(mutex_);
     return evictLRUUnlocked();
 }
 
+/**
+ * @brief Evict LRUUnlocked.
+ * @param[in] target_vram_mb Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), std::chrono::system_clock::now(), get(), spdlog::warn(), spdlog::info(), fetch_add(), unloadModelUnlocked().
+ */
 size_t LazyModelLoader::evictLRUUnlocked(size_t target_vram_mb) {
     if (models_.empty()) {
         return 0;
@@ -665,6 +771,11 @@ size_t LazyModelLoader::evictLRUUnlocked(size_t target_vram_mb) {
     return total_freed_vram;
 }
 
+/**
+ * @brief Evict Expired.
+ * @return Return value.
+ * @details Calls: lock(), std::chrono::system_clock::now(), push_back(), spdlog::info(), unloadModelUnlocked().
+ */
 size_t LazyModelLoader::evictExpired() {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -698,6 +809,11 @@ size_t LazyModelLoader::evictExpired() {
 }
 
 json LazyModelLoader::getMemoryStats() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     json stats;
@@ -716,6 +832,11 @@ json LazyModelLoader::getMemoryStats() const {
 }
 
 json LazyModelLoader::getCacheStats() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     // Load atomic counters once to ensure consistency
@@ -740,6 +861,11 @@ json LazyModelLoader::getCacheStats() const {
 }
 
 LazyModelLoader::Stats LazyModelLoader::getStatistics() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     Stats s;
     s.cache_hits = cache_hits_.load(std::memory_order_relaxed);
@@ -749,6 +875,14 @@ LazyModelLoader::Stats LazyModelLoader::getStatistics() const {
     return s;
 }
 
+/**
+ * @brief Load Model Internal.
+ * @param[in] model_id Identifier of the model.
+ * @param[in] model_path Path to the model.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @details Calls: is_object(), json::object(), spdlog::info(), std::chrono::system_clock::now(), fs::absolute(), fs::path(), fs::exists(), fs::is_regular_file().
+ */
 Result<CachedModel*> LazyModelLoader::loadModelInternal(
     const std::string& model_id,
     const std::string& model_path,
@@ -1122,6 +1256,10 @@ bool LazyModelLoader::hasCapacity(size_t vram_mb, size_t ram_mb) const {
     return vram_ok && ram_ok && count_ok;
 }
 
+/**
+ * @brief Update Memory Usage.
+ * @details Implements updateMemoryUsage without additional internal calls.
+ */
 void LazyModelLoader::updateMemoryUsage() {
     // Recalculate from scratch
     total_vram_mb_ = 0;
@@ -1133,7 +1271,14 @@ void LazyModelLoader::updateMemoryUsage() {
     }
 }
 
-// Thread-safe version that returns shared_ptr for safe cross-thread access
+/**
+ * @brief Thread-safe version that returns shared_ptr for safe cross-thread access
+ * @param[in] model_id Identifier of the model.
+ * @param[in] model_path Path to the model.
+ * @param[in] load_config Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), find(), end(), fetch_add(), std::chrono::system_clock::now(), loadModelInternal(), has_value(), spdlog::error().
+ */
 std::shared_ptr<CachedModel> LazyModelLoader::getOrLoadModelShared(
     const std::string& model_id,
     const std::string& model_path,

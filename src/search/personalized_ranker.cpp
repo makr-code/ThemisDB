@@ -38,6 +38,11 @@ PersonalizedRanker::PersonalizedRanker(const Config& config) : config_(config) {
 // Interaction recording
 // ============================================================================
 
+/**
+ * @brief Record Interaction.
+ * @param[in] interaction Input parameter.
+ * @details Calls: lock(), size(), erase(), begin(), push_back(), THEMIS_DEBUG().
+ */
 void PersonalizedRanker::recordInteraction(const UserInteraction& interaction) {
     std::lock_guard<std::mutex> lock(mu_);
 
@@ -58,6 +63,12 @@ void PersonalizedRanker::recordInteraction(const UserInteraction& interaction) {
 // Personalization scoring
 // ============================================================================
 
+/**
+ * @brief Type Weight.
+ * @param[in] type Input parameter.
+ * @return Return value.
+ * @details Implements typeWeight without additional internal calls.
+ */
 double PersonalizedRanker::typeWeight(InteractionType type) {
     switch (type) {
         case InteractionType::VIEW:      return 0.2;
@@ -74,6 +85,11 @@ double PersonalizedRanker::computeScore(
     const std::string& document_id,
     std::chrono::system_clock::time_point now) const {
 
+    /**
+     * @brief Lock.
+     * @param[in] mu_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mu_);
     return computeScoreUnlocked(user_id, document_id, now);
 }
@@ -119,6 +135,11 @@ void PersonalizedRanker::applyPersonalization(
       return;
     }
 
+    /**
+     * @brief Lock.
+     * @param[in] mu_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mu_);
     for (auto& candidate : candidates) {
         double personal_score = computeScoreUnlocked(user_id, candidate.document_id, now);
@@ -141,6 +162,11 @@ void PersonalizedRanker::applyPersonalization(
 std::vector<UserInteraction> PersonalizedRanker::getUserInteractions(
     const std::string& user_id) const {
 
+    /**
+     * @brief Lock.
+     * @param[in] mu_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mu_);
 
     auto it = history_.find(user_id);
@@ -153,15 +179,29 @@ std::vector<UserInteraction> PersonalizedRanker::getUserInteractions(
 }
 
 size_t PersonalizedRanker::userCount() const {
+    /**
+     * @brief Lock.
+     * @param[in] mu_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mu_);
     return history_.size();
 }
 
+/**
+ * @brief Clear User.
+ * @param[in] user_id Identifier of the user.
+ * @details Calls: lock(), erase().
+ */
 void PersonalizedRanker::clearUser(const std::string& user_id) {
     std::lock_guard<std::mutex> lock(mu_);
     history_.erase(user_id);
 }
 
+/**
+ * @brief Clear.
+ * @details Calls: lock().
+ */
 void PersonalizedRanker::clear() {
     std::lock_guard<std::mutex> lock(mu_);
     history_.clear();

@@ -28,10 +28,25 @@ namespace security {
 
 constexpr uint8_t VRAMSecureClear::PATTERNS[];
 
+/**
+ * @brief Secure Clear CUDA.
+ * @param[in,out] ptr Input/output parameter.
+ * @param[in] size_bytes Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements secureClearCUDA without additional internal calls.
+ */
 bool VRAMSecureClear::secureClearCUDA(void* ptr, size_t size_bytes) {
     return secureClearCUDA(ptr, size_bytes, Config{});
 }
 
+/**
+ * @brief Secure Clear CUDA.
+ * @param[in,out] ptr Input/output parameter.
+ * @param[in] size_bytes Input parameter.
+ * @param[in] config Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: spdlog::debug(), cudaMemset(), spdlog::error(), cudaGetErrorString(), cudaDeviceSynchronize(), verify_buffer(), std::min(), size_t().
+ */
 bool VRAMSecureClear::secureClearCUDA(void* ptr, size_t size_bytes, const Config& config) {
 #ifdef THEMIS_ENABLE_CUDA
     if (ptr == nullptr || size_bytes == 0) {
@@ -100,10 +115,25 @@ bool VRAMSecureClear::secureClearCUDA(void* ptr, size_t size_bytes, const Config
 #endif
 }
 
+/**
+ * @brief Secure Clear HIP.
+ * @param[in,out] ptr Input/output parameter.
+ * @param[in] size_bytes Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements secureClearHIP without additional internal calls.
+ */
 bool VRAMSecureClear::secureClearHIP(void* ptr, size_t size_bytes) {
     return secureClearHIP(ptr, size_bytes, Config{});
 }
 
+/**
+ * @brief Secure Clear HIP.
+ * @param[in,out] ptr Input/output parameter.
+ * @param[in] size_bytes Input parameter.
+ * @param[in] config Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: spdlog::debug(), hipMemset(), spdlog::error(), hipGetErrorString(), hipDeviceSynchronize(), verify_buffer(), std::min(), size_t().
+ */
 bool VRAMSecureClear::secureClearHIP(void* ptr, size_t size_bytes, const Config& config) {
 #ifdef THEMIS_ENABLE_HIP
     if (ptr == nullptr || size_bytes == 0) {
@@ -171,10 +201,23 @@ bool VRAMSecureClear::secureClearHIP(void* ptr, size_t size_bytes, const Config&
 #endif
 }
 
+/**
+ * @brief Secure Clear CPU.
+ * @param[in,out] ptr Input/output parameter.
+ * @param[in] size_bytes Input parameter.
+ * @details Implements secureClearCPU without additional internal calls.
+ */
 void VRAMSecureClear::secureClearCPU(void* ptr, size_t size_bytes) {
     secureClearCPU(ptr, size_bytes, Config{});
 }
 
+/**
+ * @brief Secure Clear CPU.
+ * @param[in,out] ptr Input/output parameter.
+ * @param[in] size_bytes Input parameter.
+ * @param[in] config Input parameter.
+ * @details Calls: spdlog::debug().
+ */
 void VRAMSecureClear::secureClearCPU(void* ptr, size_t size_bytes, const Config& config) {
     if (ptr == nullptr || size_bytes == 0) {
         return;

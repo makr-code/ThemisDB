@@ -90,11 +90,6 @@ std::optional<CronExpression> CronExpression::parse(const std::string& expressio
         }
     }
 
-    /**
-     * @brief Split expression into fields
-     * @param[in] expression Input parameter.
-     * @return Return value.
-     */
     std::istringstream iss(expression);
     std::vector<std::string> fields;
     std::string field = {};
@@ -187,11 +182,6 @@ CronValidationResult CronExpression::validate(const std::string& expression) {
         return result;
     }
     
-    /**
-     * @brief Provide more detailed error message
-     * @param[in] expression Input parameter.
-     * @return Return value.
-     */
     std::istringstream iss(expression);
     std::vector<std::string> fields;
     std::string field = {};
@@ -467,14 +457,13 @@ std::string CronExpression::describe() const {
     return oss.str();
 }
 
-// ===== Name Alias Helpers =====
-
 /**
- * @brief Translate a month name to its numeric equivalent (1-12).
+ * @brief ===== Name Alias Helpers =====
  * @param[in] name Input parameter.
  * @return Return value.
- * @details Returns -1 if not a known alias. Calls: reserve(), size(), std::toupper().
+ * @details Calls: reserve(), size(), std::toupper().
  */
+
 static int monthNameToNumber(const std::string& name) {
     // Case-insensitive comparison via a local uppercase copy
     std::string upper = {};
@@ -501,10 +490,10 @@ static int monthNameToNumber(const std::string& name) {
 }
 
 /**
- * @brief Translate a weekday name to its numeric equivalent (0=Sunday … 6=Saturday).
+ * @brief Weekday Name To Number.
  * @param[in] name Input parameter.
  * @return Return value.
- * @details Returns -1 if not a known alias. Calls: reserve(), size(), std::toupper().
+ * @details Calls: reserve(), size(), std::toupper().
  */
 static int weekdayNameToNumber(const std::string& name) {
     std::string upper = {};
@@ -529,12 +518,12 @@ static int weekdayNameToNumber(const std::string& name) {
 }
 
 /**
- * @brief Parse a single token that may be either an integer or a name alias.
+ * @brief Parse Token.
  * @param[in] token Input parameter.
  * @param[in] min_value Input parameter.
  * @param[in] max_value Input parameter.
  * @return Return value.
- * @details Returns std::nullopt on failure. Calls: empty(), std::isdigit(), std::stoi(), monthNameToNumber(), weekdayNameToNumber().
+ * @details Calls: empty(), std::isdigit(), std::stoi(), monthNameToNumber(), weekdayNameToNumber().
  */
 static std::optional<int> parseToken(const std::string& token,
                                      int min_value, int max_value) {
@@ -581,15 +570,15 @@ static std::optional<int> parseToken(const std::string& token,
     return std::nullopt;
 }
 
+
 /**
- * @brief ===== Field Parsing =====
+ * @brief Parse Field.
  * @param[in] field Input parameter.
  * @param[in] min_value Input parameter.
  * @param[in] max_value Input parameter.
  * @return Return value.
  * @details Calls: empty(), find(), parseList(), parseStep(), parseRange(), parseWildcard(), parseToken().
  */
-
 std::optional<std::set<int>> CronExpression::parseField(
     const std::string& field, int min_value, int max_value) {
     
@@ -692,11 +681,6 @@ std::optional<std::set<int>> CronExpression::parseList(
     const std::string& list, int min_value, int max_value) {
     
     std::set<int> result;
-    /**
-     * @brief Iss.
-     * @param[in] list Input parameter.
-     * @return Return value.
-     */
     std::istringstream iss(list);
     std::string item = {};
     
@@ -796,13 +780,13 @@ std::optional<std::set<int>> CronExpression::parseStep(
     }
 }
 
+
 /**
- * @brief ===== Time Advancement =====
+ * @brief Advance To Next Minute.
  * @param[in] time Input parameter.
  * @return Return value.
  * @details Calls: std::chrono::minutes().
  */
-
 std::chrono::system_clock::time_point CronExpression::advanceToNextMinute(
     const std::chrono::system_clock::time_point& time) {
     return time + std::chrono::minutes(1);

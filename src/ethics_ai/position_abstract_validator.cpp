@@ -31,6 +31,12 @@ int PositionAbstractValidator::countTokens(const std::string &text) noexcept {
     return static_cast<int>((text.size() + 3U) / 4U);
 }
 
+/**
+ * @brief Extract Verdict From Content.
+ * @param[in] content Input parameter.
+ * @return Return value.
+ * @details Calls: std::transform(), begin(), end(), std::toupper(), find(), std::string().
+ */
 std::string PositionAbstractValidator::extractVerdictFromContent(const std::string &content) {
     // Uppercase copy for case-insensitive search
     std::string upper = content;
@@ -45,6 +51,12 @@ std::string PositionAbstractValidator::extractVerdictFromContent(const std::stri
     return "";
 }
 
+/**
+ * @brief Build Default Abstract.
+ * @param[in] output Input parameter.
+ * @return Return value.
+ * @details Calls: size(), str(), empty().
+ */
 std::string PositionAbstractValidator::buildDefaultAbstract(const DiscourseRoundOutput &output) {
     std::ostringstream thesis_joined = {};
     for (std::size_t i = 0; i < output.core_thesis_ids.size(); ++i) {

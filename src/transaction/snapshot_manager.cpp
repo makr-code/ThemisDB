@@ -29,6 +29,12 @@ json SnapshotManager::Snapshot::toJson() const {
     return j;
 }
 
+/**
+ * @brief From Json.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Implements fromJson without additional internal calls.
+ */
 SnapshotManager::Snapshot SnapshotManager::Snapshot::fromJson(const json& j) {
     Snapshot s;
     s.tag_name = j["tag_name"];
@@ -56,7 +62,14 @@ SnapshotManager::SnapshotManager(RocksDBWrapper& db, Changefeed& changefeed)
     spdlog::info("SnapshotManager initialized");
 }
 
-// Create a new tag
+/**
+ * @brief Create a new tag
+ * @param[in] tag_name Name of the tag.
+ * @param[in] description Input parameter.
+ * @param[in] created_by Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), isValidTagName(), spdlog::error(), tagExists(), getLatestSequence(), std::chrono::system_clock::now(), time_since_epoch(), count().
+ */
 std::optional<SnapshotManager::Snapshot> SnapshotManager::createTag(
     const std::string& tag_name,
     const std::string& description,
@@ -104,6 +117,11 @@ std::optional<SnapshotManager::Snapshot> SnapshotManager::createTag(
 
 // Get tag by name
 std::optional<SnapshotManager::Snapshot> SnapshotManager::getTag(const std::string& tag_name) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     auto key = makeKey(tag_name);
@@ -122,6 +140,11 @@ std::vector<SnapshotManager::Snapshot> SnapshotManager::listTags(
     const std::string& sort_by,
     bool ascending) const {
     
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     std::vector<Snapshot> snapshots;
@@ -185,6 +208,12 @@ std::vector<SnapshotManager::Snapshot> SnapshotManager::listTags(
 }
 
 // Delete a tag
+/**
+ * @brief Delete Tag.
+ * @param[in] tag_name Name of the tag.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), tagExists(), spdlog::warn(), makeKey(), del(), spdlog::error(), spdlog::info().
+ */
 bool SnapshotManager::deleteTag(const std::string& tag_name) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -212,6 +241,11 @@ bool SnapshotManager::tagExists(const std::string& tag_name) const {
 
 // Get statistics
 SnapshotManager::SnapshotStats SnapshotManager::getStats() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     SnapshotStats stats;
@@ -265,6 +299,12 @@ std::optional<int64_t> SnapshotManager::getTimestampForTag(const std::string& ta
 }
 
 // Validate tag name
+/**
+ * @brief Is Valid Tag Name.
+ * @param[in] tag_name Name of the tag.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), length(), pattern(), std::regex_match().
+ */
 bool SnapshotManager::isValidTagName(const std::string& tag_name) {
     // Check length
     if (tag_name.empty() || tag_name.length() > 128) {
@@ -310,7 +350,11 @@ std::optional<SnapshotManager::Snapshot> SnapshotManager::deserialize(
     }
 }
 
-// ---- Phase 7: GC & Retention Policy ----
+/**
+ * @brief ---- Phase 7: GC & Retention Policy ----
+ * @param[in] policy Input parameter.
+ * @details Calls: lock(), spdlog::info().
+ */
 
 void SnapshotManager::setRetentionPolicy(const RetentionPolicy& policy) {
     std::lock_guard<std::mutex> lock(mutex_);
@@ -319,6 +363,11 @@ void SnapshotManager::setRetentionPolicy(const RetentionPolicy& policy) {
                  policy.max_snapshots, policy.max_age_ms);
 }
 
+/**
+ * @brief Prune Old Snapshots.
+ * @return Return value.
+ * @details Calls: lock(), newIterator(), spdlog::warn(), std::move(), value(), Seek(), Valid(), Next().
+ */
 size_t SnapshotManager::pruneOldSnapshots() {
     std::lock_guard<std::mutex> lock(mutex_);
 
@@ -395,6 +444,11 @@ size_t SnapshotManager::pruneOldSnapshots() {
 }
 
 size_t SnapshotManager::checkConsistency() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     size_t corrupt = 0;
@@ -425,12 +479,22 @@ size_t SnapshotManager::checkConsistency() const {
     return corrupt;
 }
 
-// ---- Phase 7: Snapshot Restore ----
+/**
+ * @brief ---- Phase 7: Snapshot Restore ----
+ * @param[in] tag_name Name of the tag.
+ * @param[in] created_by Input parameter.
+ * @return Return value.
+ */
 
 SnapshotManager::RestoreResult SnapshotManager::restoreToTag(
     const std::string& tag_name,
     const std::string& created_by)
 {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     // 1. Validate tag exists and is readable.

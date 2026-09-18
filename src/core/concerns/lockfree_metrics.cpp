@@ -44,6 +44,13 @@ LockFreeMetrics::~LockFreeMetrics() {
 // IMetrics – counters
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Increment Counter.
+ * @param[in] name Input parameter.
+ * @param[in] value Input parameter.
+ * @param[in] labels Input parameter.
+ * @details Calls: makeKey(), getOrCreateCounter(), fetch_add().
+ */
 void LockFreeMetrics::incrementCounter(const std::string &name, int64_t value, const Labels &labels) {
     const std::string key = makeKey(name, labels);
     CounterEntry *entry   = getOrCreateCounter(key, name, labels);
@@ -54,12 +61,26 @@ void LockFreeMetrics::incrementCounter(const std::string &name, int64_t value, c
 // IMetrics – gauges
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Set Gauge.
+ * @param[in] name Input parameter.
+ * @param[in] value Input parameter.
+ * @param[in] labels Input parameter.
+ * @details Calls: makeKey(), getOrCreateGauge(), store().
+ */
 void LockFreeMetrics::setGauge(const std::string &name, double value, const Labels &labels) {
     const std::string key = makeKey(name, labels);
     GaugeEntry *entry     = getOrCreateGauge(key, name, labels);
     entry->value.store(value, std::memory_order_relaxed);
 }
 
+/**
+ * @brief Increment Gauge.
+ * @param[in] name Input parameter.
+ * @param[in] delta Input parameter.
+ * @param[in] labels Input parameter.
+ * @details Calls: makeKey(), getOrCreateGauge(), fetch_add().
+ */
 void LockFreeMetrics::incrementGauge(const std::string &name, double delta, const Labels &labels) {
     const std::string key = makeKey(name, labels);
     GaugeEntry *entry     = getOrCreateGauge(key, name, labels);
@@ -67,6 +88,13 @@ void LockFreeMetrics::incrementGauge(const std::string &name, double delta, cons
     entry->value.fetch_add(delta, std::memory_order_relaxed);
 }
 
+/**
+ * @brief Decrement Gauge.
+ * @param[in] name Input parameter.
+ * @param[in] delta Input parameter.
+ * @param[in] labels Input parameter.
+ * @details Calls: makeKey(), getOrCreateGauge(), fetch_sub().
+ */
 void LockFreeMetrics::decrementGauge(const std::string &name, double delta, const Labels &labels) {
     const std::string key = makeKey(name, labels);
     GaugeEntry *entry     = getOrCreateGauge(key, name, labels);
@@ -77,6 +105,13 @@ void LockFreeMetrics::decrementGauge(const std::string &name, double delta, cons
 // IMetrics – histograms
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Observe Histogram.
+ * @param[in] name Input parameter.
+ * @param[in] value Input parameter.
+ * @param[in] labels Input parameter.
+ * @details Calls: getOrRegisterThreadRing(), makeKey(), tryPush(), std::move(), fetch_add().
+ */
 void LockFreeMetrics::observeHistogram(const std::string &name, double value, const Labels &labels) {
     HistoRing &ring = getOrRegisterThreadRing();
 
@@ -95,14 +130,33 @@ void LockFreeMetrics::observeHistogram(const std::string &name, double value, co
 // IMetrics – convenience helpers
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Record Latency.
+ * @param[in] operation Input parameter.
+ * @param[in] latencyMs Input parameter.
+ * @param[in] labels Input parameter.
+ * @details Calls: observeHistogram().
+ */
 void LockFreeMetrics::recordLatency(const std::string &operation, double latencyMs, const Labels &labels) {
     observeHistogram(operation + "_latency_ms", latencyMs, labels);
 }
 
+/**
+ * @brief Record Error.
+ * @param[in] operation Input parameter.
+ * @param[in] labels Input parameter.
+ * @details Calls: incrementCounter().
+ */
 void LockFreeMetrics::recordError(const std::string &operation, const Labels &labels) {
     incrementCounter(operation + "_errors_total", 1, labels);
 }
 
+/**
+ * @brief Record Success.
+ * @param[in] operation Input parameter.
+ * @param[in] labels Input parameter.
+ * @details Calls: incrementCounter().
+ */
 void LockFreeMetrics::recordSuccess(const std::string &operation, const Labels &labels) {
     incrementCounter(operation + "_success_total", 1, labels);
 }
@@ -119,6 +173,11 @@ std::string LockFreeMetrics::exportMetrics() const {
 
     // -- Counters -----------------------------------------------------------
     {
+        /**
+         * @brief Lock.
+         * @param[in] counters_mu_ Input parameter.
+         * @return Return value.
+         */
         std::shared_lock<std::shared_mutex> lock(counters_mu_);
         for (const auto &[key, entry] : counters_) {
             out << "# TYPE " << entry->name << " counter\n";
@@ -141,6 +200,11 @@ std::string LockFreeMetrics::exportMetrics() const {
 
     // -- Gauges -------------------------------------------------------------
     {
+        /**
+         * @brief Lock.
+         * @param[in] gauges_mu_ Input parameter.
+         * @return Return value.
+         */
         std::shared_lock<std::shared_mutex> lock(gauges_mu_);
         for (const auto &[key, entry] : gauges_) {
             out << "# TYPE " << entry->name << " gauge\n";
@@ -163,6 +227,11 @@ std::string LockFreeMetrics::exportMetrics() const {
 
     // -- Histograms ---------------------------------------------------------
     {
+        /**
+         * @brief Lock.
+         * @param[in] histos_mu_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(histos_mu_);
         for (const auto &[key, agg] : histos_) {
             out << "# TYPE " << agg->name << " summary\n";
@@ -206,6 +275,10 @@ std::string LockFreeMetrics::exportMetrics() const {
 // IMetrics – reset
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Reset the modification detection flag.
+ * @details Calls: lock(), clear(), store().
+ */
 void LockFreeMetrics::reset() {
     {
         std::unique_lock<std::shared_mutex> lock(counters_mu_);
@@ -237,6 +310,11 @@ void LockFreeMetrics::shutdown() noexcept {
     // Invalidate all registered thread entries so threads that call
     // observeHistogram after shutdown drop their observations cleanly.
     {
+        /**
+         * @brief Lock.
+         * @param[in] thread_entries_mu_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(thread_entries_mu_);
         for (auto &entry : thread_entries_) {
             entry->alive.store(false, std::memory_order_release);
@@ -257,6 +335,13 @@ ProbeResult LockFreeMetrics::isHealthy() const {
 // Internal helpers – key building
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Make Key.
+ * @param[in] name Input parameter.
+ * @param[in] labels Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), reserve(), size().
+ */
 std::string LockFreeMetrics::makeKey(const std::string &name, const Labels &labels) {
     if (labels.empty()) {
         return name;
@@ -288,6 +373,11 @@ LockFreeMetrics::CounterEntry *LockFreeMetrics::getOrCreateCounter(const std::st
                                                                    const Labels &labels) {
     // Fast path: shared lock, entry already exists.
     {
+        /**
+         * @brief Lock.
+         * @param[in] counters_mu_ Input parameter.
+         * @return Return value.
+         */
         std::shared_lock<std::shared_mutex> lock(counters_mu_);
         auto it = counters_.find(key);
         if (it != counters_.end()) {
@@ -296,6 +386,11 @@ LockFreeMetrics::CounterEntry *LockFreeMetrics::getOrCreateCounter(const std::st
     }
     // Slow path: exclusive lock, insert if still missing.
     {
+        /**
+         * @brief Lock.
+         * @param[in] counters_mu_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::shared_mutex> lock(counters_mu_);
         auto [it, inserted] = counters_.emplace(key, std::make_unique<CounterEntry>(name, labels));
         return it->second.get();
@@ -310,6 +405,11 @@ LockFreeMetrics::GaugeEntry *LockFreeMetrics::getOrCreateGauge(const std::string
                                                                const Labels &labels) {
     // Fast path: shared lock.
     {
+        /**
+         * @brief Lock.
+         * @param[in] gauges_mu_ Input parameter.
+         * @return Return value.
+         */
         std::shared_lock<std::shared_mutex> lock(gauges_mu_);
         auto it = gauges_.find(key);
         if (it != gauges_.end()) {
@@ -318,6 +418,11 @@ LockFreeMetrics::GaugeEntry *LockFreeMetrics::getOrCreateGauge(const std::string
     }
     // Slow path: exclusive lock.
     {
+        /**
+         * @brief Lock.
+         * @param[in] gauges_mu_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::shared_mutex> lock(gauges_mu_);
         auto [it, inserted] = gauges_.emplace(key, std::make_unique<GaugeEntry>(name, labels));
         return it->second.get();
@@ -337,6 +442,11 @@ LockFreeMetrics::HistoRing &LockFreeMetrics::getOrRegisterThreadRing() {
     if (!slot || !slot->alive.load(std::memory_order_acquire)) {
         auto entry = std::make_shared<ThreadEntry>();
         {
+            /**
+             * @brief Lock.
+             * @param[in] thread_entries_mu_ Input parameter.
+             * @return Return value.
+             */
             std::lock_guard<std::mutex> lock(thread_entries_mu_);
             thread_entries_.push_back(entry);
         }
@@ -363,6 +473,11 @@ void LockFreeMetrics::drainAllRings() noexcept {
     // registration lock for the entire drain.
     std::vector<std::shared_ptr<ThreadEntry>> snapshot;
     {
+        /**
+         * @brief Lock.
+         * @param[in] thread_entries_mu_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(thread_entries_mu_);
         snapshot = thread_entries_;
     }
@@ -379,6 +494,11 @@ void LockFreeMetrics::drainAllRings() noexcept {
 }
 
 void LockFreeMetrics::applyObservation(const HistoObservation &obs) noexcept {
+    /**
+     * @brief Lock.
+     * @param[in] histos_mu_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(histos_mu_);
     HistoAggregate *agg = getOrCreateHistoAggregate(obs.key, obs.name, obs.labels);
     agg->count += 1;
@@ -393,6 +513,10 @@ void LockFreeMetrics::applyObservation(const HistoObservation &obs) noexcept {
 // Background flush thread
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Start Flush Thread.
+ * @details Calls: count(), store(), std::thread().
+ */
 void LockFreeMetrics::startFlushThread() {
     if (flush_interval_.count() <= 0) {
         running_.store(false, std::memory_order_release);
@@ -412,6 +536,11 @@ void LockFreeMetrics::stopFlushThread() noexcept {
 }
 
 void LockFreeMetrics::flushLoop() noexcept {
+    /**
+     * @brief Wait lock.
+     * @param[in] flush_wait_mu_ Input parameter.
+     * @return Return value.
+     */
     std::unique_lock<std::mutex> wait_lock(flush_wait_mu_);
     while (running_.load(std::memory_order_acquire)) {
         const bool stop_requested =

@@ -55,17 +55,6 @@ BackoffDispatcherState &dispatcherState() {
     return state;
 }
 
-/**
- * @brief RAII guard for a libcurl easy handle.
- *
- * Ensures curl_easy_cleanup() is called on every exit path (normal return,
- * exception, `continue`, `break`).  Eliminates the manual_cleanup and
- * resource_leaked_in_exception gaps flagged at each curl_easy_cleanup call
- * site in httpGet and httpGetBinary.
- *
- * @note Declare one instance per attempt inside the retry loop so that the
- *       handle is reset on each iteration.
- */
 struct CurlHandle {
     CURL *handle;
     explicit CurlHandle(CURL *h) noexcept : handle(h) {}
@@ -74,33 +63,26 @@ struct CurlHandle {
     CurlHandle &operator=(const CurlHandle &) = delete;
 };
 
-/**
- * @brief RAII guard for a libcurl slist (HTTP header list).
- *
- * Ensures curl_slist_free_all() is called on every exit path, closing the
- * manual_cleanup and resource_leaked_in_exception gaps at curl_slist_free_all
- * call sites.
- */
 struct CurlHeaders {
     curl_slist *list{nullptr};
     CurlHeaders() noexcept = default;
     ~CurlHeaders() noexcept { if (list) { curl_slist_free_all(list); } }
+    /**
+     * @brief Append.
+     * @param[in] header Input parameter.
+     * @details Calls: curl_slist_append().
+     */
     void append(const char *header) { list = curl_slist_append(list, header); }
     CurlHeaders(const CurlHeaders &) = delete;
     CurlHeaders &operator=(const CurlHeaders &) = delete;
 };
 
 /**
- * @brief Validate that a URL uses an acceptable scheme for an HTTP request.
- *
- * Provides per-call transit-encryption validation (gap: no_transit_encryption)
- * as defense-in-depth beyond the constructor-level scheme check.  This is
- * especially important for `download_url` values that originate from untrusted
- * registry JSON rather than from `config_.registry_url`.
- *
- * @param url     The URL to validate; must not be empty.
- * @param caller  Human-readable call-site label used in log/exception messages.
- * @throws std::invalid_argument if the scheme is neither http:// nor https://.
+ * @brief Require Http Or Https.
+ * @param[in] url Input parameter.
+ * @param[in] caller Input parameter.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: empty(), std::string(), size(), substr(), spdlog::warn().
  */
 void requireHttpOrHttps(const std::string &url, const char *caller) {
     if (url.empty()) {
@@ -120,15 +102,11 @@ void requireHttpOrHttps(const std::string &url, const char *caller) {
 }
 
 /**
- * @brief Wait on a future with a 60-second hard timeout.
- *
- * Replaces the previous unbounded `future.wait()` which could block forever
- * if a BackoffScheduler or injected dispatcher stalled (gap:
- * blocking_no_timeout / no_timeout).
- *
- * @param future  The future to wait on; must be valid.
- * @param source  Human-readable label used in the exception message.
- * @throws std::runtime_error if the future is invalid or times out.
+ * @brief Wait Or Throw.
+ * @param[in] future Input parameter.
+ * @param[in] source Input parameter.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: valid(), std::string(), wait_for(), std::chrono::seconds().
  */
 void waitOrThrow(std::future<void> &&future, const char *source) {
     if (!future.valid()) {
@@ -158,6 +136,12 @@ class BackoffScheduler {
         return scheduler;
     }
 
+    /**
+     * @brief Schedule.
+     * @param[in] delay Input parameter.
+     * @return Return value.
+     * @details Calls: get_future(), lock(), push(), Clock::now(), std::move(), notify_one().
+     */
     std::future<void> schedule(std::chrono::milliseconds delay) {
         // GAP-FIX missing_dtor false positive: Task holds a
         // std::shared_ptr<std::promise<void>>; the compiler-generated destructor
@@ -197,6 +181,11 @@ class BackoffScheduler {
         cv_.notify_all();
     }
 
+    /**
+     * @brief Run.
+     * @param[in] stop_token Input parameter.
+     * @details Calls: lock(), stop_requested(), empty(), wait(), top(), wait_until(), pop(), unlock().
+     */
     void run(std::stop_token stop_token) {
         std::unique_lock<std::mutex> lock(mutex_);
         while (!stop_token.stop_requested()) {
@@ -252,23 +241,23 @@ class BackoffScheduler {
     std::jthread worker_;
 };
 
-// Return a CURL timeout (≥ 1 ms) capped to the remaining total budget.
-// `config_timeout` is the per-request timeout from RegistryConfig.
-// `remaining_ms` is the remaining wall-clock budget; may be ≤ 0 (clamped to 1).
+/**
+ * @brief Return a CURL timeout (≥ 1 ms) capped to the remaining total budget.
+ * @param[in] config_timeout Input parameter.
+ * @param[in] remaining_ms Input parameter.
+ * @return Return value.
+ * @details `config_timeout` is the per-request timeout from RegistryConfig. `remaining_ms` is the remaining wall-clock budget; may be ≤ 0 (clamped to 1). Calls: std::min().
+ */
 long clampedCurlTimeout(int config_timeout, int remaining_ms) {
     const int effective = std::min(config_timeout, remaining_ms);
     return static_cast<long>(effective > 0 ? effective : 1);
 }
 
 /**
- * @brief Sanitize a plugin name or version string for use as a filename component.
- *
- * Replaces any character that is not an alphanumeric, hyphen, dot, or underscore
- * with an underscore.  This prevents path-traversal attacks when the name/version
- * originates from an untrusted registry response (gap: path_traversal).
- *
- * @param component  The raw name or version string from the registry.
- * @return A filesystem-safe string that contains no path separators or control chars.
+ * @brief Sanitize Filename Component.
+ * @param[in] component Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size().
  */
 std::string sanitizeFilenameComponent(const std::string &component) {
     std::string out = {};
@@ -284,21 +273,42 @@ std::string sanitizeFilenameComponent(const std::string &component) {
     return out;
 }
 
-// CURL write callback: accumulates response body into a std::string.
+/**
+ * @brief CURL write callback: accumulates response body into a std::string.
+ * @param[in,out] contents Input/output parameter.
+ * @param[in] size Input parameter.
+ * @param[in] nmemb Input parameter.
+ * @param[in,out] userp Input/output parameter.
+ * @return Return value.
+ * @details Calls: append().
+ */
 size_t writeStringCallback(void *contents, size_t size, size_t nmemb, void *userp) {
     const size_t total = size * nmemb;
     static_cast<std::string *>(userp)->append(static_cast<char *>(contents), total);
     return total;
 }
 
-// CURL write callback: writes to an open std::ofstream.
+/**
+ * @brief CURL write callback: writes to an open std::ofstream.
+ * @param[in,out] contents Input/output parameter.
+ * @param[in] size Input parameter.
+ * @param[in] nmemb Input parameter.
+ * @param[in,out] userp Input/output parameter.
+ * @return Return value.
+ * @details Calls: write().
+ */
 size_t writeFileCallback(void *contents, size_t size, size_t nmemb, void *userp) {
     const size_t total = size * nmemb;
     static_cast<std::ofstream *>(userp)->write(static_cast<char *>(contents), static_cast<std::streamsize>(total));
     return total;
 }
 
-// Compute the SHA-256 hex digest of a file using OpenSSL EVP.
+/**
+ * @brief Compute the SHA-256 hex digest of a file using OpenSSL EVP.
+ * @param[in] path Input parameter.
+ * @return Return value.
+ * @details Calls: file(), is_open(), EVP_MD_CTX_new(), EVP_DigestInit_ex(), EVP_sha256(), EVP_MD_CTX_free(), read(), data().
+ */
 std::string sha256File(const std::string &path) {
     std::ifstream file(path, std::ios::binary);
     if (!file.is_open()) {
@@ -370,6 +380,11 @@ RemoteRegistryClient::~RemoteRegistryClient() = default;
 // Registry queries
 // =============================================================================
 
+/**
+ * @brief List Plugins.
+ * @return Return value.
+ * @details Calls: spdlog::debug(), httpGet(), spdlog::error(), what(), nlohmann::json::parse(), is_array(), parseEntry(), push_back().
+ */
 std::vector<RegistryPluginEntry> RemoteRegistryClient::listPlugins() {
     const std::string url = config_.registry_url + "/plugins";
     spdlog::debug("RemoteRegistryClient::listPlugins GET {}", url);
@@ -402,6 +417,12 @@ std::vector<RegistryPluginEntry> RemoteRegistryClient::listPlugins() {
     return entries;
 }
 
+/**
+ * @brief Fetch Plugin.
+ * @param[in] name Input parameter.
+ * @return Return value.
+ * @details Calls: spdlog::debug(), httpGet(), spdlog::error(), what(), nlohmann::json::parse(), parseEntry().
+ */
 std::optional<RegistryPluginEntry> RemoteRegistryClient::fetchPlugin(const std::string &name) {
     const std::string url = config_.registry_url + "/plugins/" + name;
     spdlog::debug("RemoteRegistryClient::fetchPlugin GET {}", url);
@@ -430,6 +451,12 @@ std::optional<RegistryPluginEntry> RemoteRegistryClient::fetchPlugin(const std::
 // Download
 // =============================================================================
 
+/**
+ * @brief Download Plugin.
+ * @param[in] entry Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), spdlog::error(), defined(), sanitizeFilenameComponent(), dest_dir(), std::filesystem::create_directories(), message(), string().
+ */
 PluginDownloadResult RemoteRegistryClient::downloadPlugin(const RegistryPluginEntry &entry) {
     PluginDownloadResult result;
     result.plugin_name = entry.name;
@@ -505,6 +532,13 @@ PluginDownloadResult RemoteRegistryClient::downloadPlugin(const RegistryPluginEn
 // Combined download + load
 // =============================================================================
 
+/**
+ * @brief Download And Load.
+ * @param[in] entry Input parameter.
+ * @param[in,out] loader Input/output parameter.
+ * @return Return value.
+ * @details Calls: downloadPlugin(), loadModule().
+ */
 ModuleVerificationResult RemoteRegistryClient::downloadAndLoad(const RegistryPluginEntry &entry, ModuleLoader &loader) {
     auto dl = downloadPlugin(entry);
 
@@ -525,14 +559,31 @@ ModuleVerificationResult RemoteRegistryClient::downloadAndLoad(const RegistryPlu
 // Async public API
 // =============================================================================
 
+/**
+ * @brief List Plugins Async.
+ * @return Return value.
+ * @details Calls: std::async(), shared_from_this(), listPlugins().
+ */
 std::future<std::vector<RegistryPluginEntry>> RemoteRegistryClient::listPluginsAsync() {
     return std::async(std::launch::async, [self = shared_from_this()]() { return self->listPlugins(); });
 }
 
+/**
+ * @brief Fetch Plugin Async.
+ * @param[in] name Input parameter.
+ * @return Return value.
+ * @details Calls: std::async(), shared_from_this(), fetchPlugin().
+ */
 std::future<std::optional<RegistryPluginEntry>> RemoteRegistryClient::fetchPluginAsync(const std::string &name) {
     return std::async(std::launch::async, [self = shared_from_this(), name]() { return self->fetchPlugin(name); });
 }
 
+/**
+ * @brief Download Plugin Async.
+ * @param[in] entry Input parameter.
+ * @return Return value.
+ * @details Calls: std::async(), shared_from_this(), downloadPlugin().
+ */
 std::future<PluginDownloadResult> RemoteRegistryClient::downloadPluginAsync(const RegistryPluginEntry &entry) {
     return std::async(std::launch::async, [self = shared_from_this(), entry]() { return self->downloadPlugin(entry); });
 }
@@ -599,6 +650,13 @@ std::string RemoteRegistryClient::buildAuthorizationHeader() const {
     return std::string{};
 }
 
+/**
+ * @brief Http Get.
+ * @param[in] url Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: requireHttpOrHttps(), buildAuthorizationHeader(), std::max(), std::min(), std::chrono::steady_clock::now(), lock(), count(), spdlog::warn().
+ */
 std::string RemoteRegistryClient::httpGet(const std::string &url) {
     // GAP-FIX no_transit_encryption: per-call URL scheme validation provides
     // defense-in-depth beyond the constructor check.  Closes the scanner flags at
@@ -752,6 +810,13 @@ std::string RemoteRegistryClient::httpGet(const std::string &url) {
     throw std::runtime_error(final_error);
 }
 
+/**
+ * @brief Http Get Binary.
+ * @param[in] url Input parameter.
+ * @param[in] out_path Path to the out.
+ * @return True when the operation succeeds.
+ * @details Calls: requireHttpOrHttps(), buildAuthorizationHeader(), std::max(), std::min(), std::chrono::steady_clock::now(), lock(), count(), spdlog::warn().
+ */
 bool RemoteRegistryClient::httpGetBinary(const std::string &url, const std::string &out_path) {
     // GAP-FIX no_transit_encryption: per-call URL scheme validation.  Especially
     // critical here because download_url originates from untrusted registry JSON
@@ -914,6 +979,13 @@ bool RemoteRegistryClient::httpGetBinary(const std::string &url, const std::stri
     return false;
 }
 
+/**
+ * @brief Http Get Async.
+ * @param[in] url Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: shared_from_this(), std::async(), lock(), httpGet().
+ */
 std::future<std::string> RemoteRegistryClient::httpGetAsync(const std::string &url) {
     // Caller must ensure this instance outlives the returned future.
     // url is copied to decouple the async worker from the caller's lifetime.
@@ -934,6 +1006,14 @@ std::future<std::string> RemoteRegistryClient::httpGetAsync(const std::string &u
     });
 }
 
+/**
+ * @brief Http Get Binary Async.
+ * @param[in] url Input parameter.
+ * @param[in] out_path Path to the out.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: shared_from_this(), std::async(), lock(), httpGetBinary().
+ */
 std::future<bool> RemoteRegistryClient::httpGetBinaryAsync(const std::string &url, const std::string &out_path) {
     // Caller must ensure this instance outlives the returned future.
     // url/out_path are copied to decouple the async worker from the caller's lifetime.
@@ -962,10 +1042,20 @@ RemoteRegistryClient::setBackoffDispatcher(std::function<std::future<void>(std::
 }
 
 RequestStats RemoteRegistryClient::lastRequestStats() const {
+    /**
+     * @brief Lock.
+     * @param[in] stats_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(stats_mutex_);
     return last_stats_;
 }
 
+/**
+ * @brief Set Observability Hook.
+ * @param[in] hook Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void RemoteRegistryClient::setObservabilityHook(ObservabilityHook hook) {
     std::lock_guard<std::mutex> lock(stats_mutex_);
     observability_hook_ = std::move(hook);

@@ -25,6 +25,12 @@ namespace {
 
 constexpr std::size_t kSha256HexLength = 64;
 
+/**
+ * @brief Is Hex Lower String.
+ * @param[in] value Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: size(), std::all_of(), begin(), end(), std::isdigit().
+ */
 bool isHexLowerString(std::string_view value) {
     if (value.size() != kSha256HexLength) {
         return false;
@@ -34,10 +40,22 @@ bool isHexLowerString(std::string_view value) {
     });
 }
 
+/**
+ * @brief Is Supported Algorithm.
+ * @param[in] algorithm Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements isSupportedAlgorithm without additional internal calls.
+ */
 bool isSupportedAlgorithm(const std::string& algorithm) {
     return algorithm == "sha256";
 }
 
+/**
+ * @brief Is Valid Resource Id.
+ * @param[in] resource_id Identifier of the resource.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), find().
+ */
 bool isValidResourceId(const std::string& resource_id) {
     return !resource_id.empty() &&
            resource_id.find('\0') == std::string::npos;
@@ -60,6 +78,12 @@ nlohmann::json SecuritySignature::toJson() const {
     return j;
 }
 
+/**
+ * @brief From Json.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: at(), isValidResourceId(), isHexLowerString(), isSupportedAlgorithm(), contains(), THEMIS_DEBUG().
+ */
 std::optional<SecuritySignature> SecuritySignature::fromJson(const nlohmann::json& j) {
     try {
         SecuritySignature sig;
@@ -100,6 +124,12 @@ std::string SecuritySignature::serialize() const {
     return toJson().dump();
 }
 
+/**
+ * @brief Deserialize.
+ * @param[in] data Input parameter.
+ * @return Return value.
+ * @details Calls: json::parse(), fromJson(), THEMIS_DEBUG().
+ */
 std::optional<SecuritySignature> SecuritySignature::deserialize(const std::string& data) {
     try {
         json j = json::parse(data);

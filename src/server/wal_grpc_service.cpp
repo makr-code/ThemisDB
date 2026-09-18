@@ -44,7 +44,6 @@ std::mutex g_wal_grpc_service_mutex;
 themis::server::WalGrpcService::ServiceFn g_wal_grpc_service_fn;
 } // namespace
 
-/** @brief Implementation detail. */
 class WalGrpcService::Impl {
 public:
 #if THEMIS_HAS_SHARD_GRPC
@@ -52,11 +51,21 @@ public:
         : wal_applier_(std::move(wal_applier))
         , service_(wal_applier_) {}
 
+    /**
+     * @brief Get.
+     * @return Pointer to the result.
+     * @details Implements get without additional internal calls.
+     */
     themis::sharding::proto::ShardService::Service* get() { return &service_; }
 
 private:
     class ServiceImpl final : public themis::sharding::proto::ShardService::Service {
     public:
+        /**
+         * @brief Service Impl.
+         * @param[in] wal_applier Input parameter.
+         * @return Return value.
+         */
         explicit ServiceImpl(std::shared_ptr<sharding::WALApplier> wal_applier)
             : wal_applier_(std::move(wal_applier)) {}
 
@@ -91,6 +100,12 @@ private:
         }
 
     private:
+        /**
+         * @brief To Internal Type.
+         * @param[in] t Input parameter.
+         * @return Return value.
+         * @details Implements toInternalType without additional internal calls.
+         */
         static sharding::WALEntryType toInternalType(themis::sharding::proto::WalEntryType t) {
             using W = themis::sharding::proto::WalEntryType;
             switch (t) {
@@ -105,6 +120,13 @@ private:
             }
         }
 
+        /**
+         * @brief Parse Json Array.
+         * @param[in] payload Input parameter.
+         * @param[in,out] out Input/output parameter.
+         * @return Return value.
+         * @details Calls: nlohmann::json::parse(), is_array(), grpc::Status(), reserve(), size(), contains(), sharding::LSN::fromString(), value().
+         */
         static grpc::Status parseJsonArray(const std::string& payload, std::vector<sharding::WALEntry>& out) {
             try {
                 auto json_entries = nlohmann::json::parse(payload);
@@ -131,6 +153,13 @@ private:
             }
         }
 
+        /**
+         * @brief Hydrate Entries.
+         * @param[in] request Input parameter.
+         * @param[in,out] out Input/output parameter.
+         * @return Return value.
+         * @details Calls: entries_size(), reserve(), entries(), sharding::LSN::fromString(), lsn(), toInternalType(), type(), timestamp().
+         */
         static grpc::Status hydrateEntries(const themis::sharding::proto::ApplyWalBatchRequest& request,
                                            std::vector<sharding::WALEntry>& out) {
             if (request.entries_size() > 0) {
@@ -182,6 +211,11 @@ WalGrpcService::WalGrpcService(std::shared_ptr<sharding::WALApplier> wal_applier
     (void)wal_applier_;
     ServiceFn fn;
     {
+        /**
+         * @brief Lock.
+         * @param[in] g_wal_grpc_service_mutex Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(g_wal_grpc_service_mutex);
         fn = g_wal_grpc_service_fn;
     }
@@ -204,6 +238,11 @@ WalGrpcService::WalGrpcService(std::shared_ptr<sharding::WALApplier> wal_applier
             const std::string error =
                 "WalGrpcService ServiceFn returned nullptr in non-proto build";
             THEMIS_CRITICAL("{}", error);
+            /**
+             * @brief Runtime error.
+             * @param[in] error Input parameter.
+             * @return Return value.
+             */
             throw std::runtime_error(error);
         }
     }
@@ -212,11 +251,21 @@ WalGrpcService::WalGrpcService(std::shared_ptr<sharding::WALApplier> wal_applier
 
 WalGrpcService::~WalGrpcService() = default;
 
+/**
+ * @brief Set Service Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void WalGrpcService::setServiceFn(ServiceFn fn) {
     std::lock_guard<std::mutex> lock(g_wal_grpc_service_mutex);
     g_wal_grpc_service_fn = std::move(fn);
 }
 
+/**
+ * @brief Service.
+ * @return Pointer to the result.
+ * @details Calls: get().
+ */
 void* WalGrpcService::service() {
 #if THEMIS_HAS_SHARD_GRPC
     return impl_ ? static_cast<void*>(impl_->get()) : nullptr;

@@ -29,6 +29,12 @@ namespace storage {
 
 namespace fs = std::filesystem;
 
+/**
+ * @brief Compute SHA256.
+ * @param[in] data Input parameter.
+ * @return Return value.
+ * @details Calls: SHA256(), data(), size(), std::setw(), std::setfill(), str().
+ */
 std::string FilesystemBlobBackend::computeSHA256(const std::vector<uint8_t>& data) {
     unsigned char hash[SHA256_DIGEST_LENGTH];
     SHA256(data.data(),data.size(), hash);
@@ -66,6 +72,14 @@ FilesystemBlobBackend::FilesystemBlobBackend(const std::string& base_path)
     }
 }
 
+/**
+ * @brief Put.
+ * @param[in] blob_id Identifier of the blob.
+ * @param[in] data Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: getPath(), fs::create_directories(), fs::path(), parent_path(), ofs(), write(), data(), size().
+ */
 Result<BlobRef> FilesystemBlobBackend::put(const std::string& blob_id, const std::vector<uint8_t>& data) {
     std::string file_path = getPath(blob_id);
 
@@ -105,6 +119,12 @@ Result<BlobRef> FilesystemBlobBackend::put(const std::string& blob_id, const std
     }
 }
 
+/**
+ * @brief Get.
+ * @param[in] ref Input parameter.
+ * @return Return value.
+ * @details Calls: ifs(), THEMIS_WARN(), data(), THEMIS_DEBUG(), size(), Ok(), std::move(), THEMIS_ERROR().
+ */
 Result<std::vector<uint8_t>> FilesystemBlobBackend::get(const BlobRef& ref) {
     try {
         std::ifstream ifs(ref.uri, std::ios::binary);
@@ -130,6 +150,12 @@ Result<std::vector<uint8_t>> FilesystemBlobBackend::get(const BlobRef& ref) {
     }
 }
 
+/**
+ * @brief Remove.
+ * @param[in] ref Input parameter.
+ * @return Return value.
+ * @details Calls: THEMIS_DEBUG(), OkVoid(), THEMIS_ERROR(), what().
+ */
 Result<void> FilesystemBlobBackend::remove(const BlobRef& ref) {
     try {
         if (fs::remove(ref.uri)) {
@@ -146,6 +172,12 @@ Result<void> FilesystemBlobBackend::remove(const BlobRef& ref) {
     }
 }
 
+/**
+ * @brief Exists.
+ * @param[in] ref Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements exists without additional internal calls.
+ */
 bool FilesystemBlobBackend::exists(const BlobRef& ref) {
     return fs::exists(ref.uri);
 }

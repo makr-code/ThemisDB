@@ -32,6 +32,12 @@ namespace themis {
 // Factory
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Create.
+ * @param[in] db Input parameter.
+ * @param[in] cfg Input parameter.
+ * @return Return value.
+ */
 std::unique_ptr<StreamingIngestManager> StreamingIngestManager::create(
     std::shared_ptr<RocksDBWrapper> db,
     Config cfg)
@@ -84,6 +90,11 @@ StreamingIngestManager::~StreamingIngestManager() {
 // Lifecycle
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Start.
+ * @return Return value.
+ * @details Calls: compare_exchange_strong(), tl::unexpected(), Error(), std::thread(), flushLoop().
+ */
 Result<void> StreamingIngestManager::start() {
     bool expected = false;
     if (!running_.compare_exchange_strong(expected, true,
@@ -95,6 +106,11 @@ Result<void> StreamingIngestManager::start() {
     return {};
 }
 
+/**
+ * @brief Stop.
+ * @return Return value.
+ * @details Calls: load(), store(), notify_all(), joinable(), utils::joinThreadWithin(), THEMIS_WARN(), lock(), empty().
+ */
 Result<void> StreamingIngestManager::stop() {
     if (!running_.load(std::memory_order_acquire)) {
         return {};
@@ -119,9 +135,20 @@ Result<void> StreamingIngestManager::stop() {
 // Ingest
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Ingest.
+ * @param[in] key Input parameter.
+ * @param[in] value Input parameter.
+ * @return Return value.
+ */
 Result<void> StreamingIngestManager::ingest(std::string_view key,
                                               std::string_view value)
 {
+    /**
+     * @brief Lock.
+     * @param[in] mu_ Input parameter.
+     * @return Return value.
+     */
     std::unique_lock<std::mutex> lock(mu_);
     const size_t max_buffer_events = static_cast<size_t>(cfg_.max_buffer_events);
 
@@ -156,6 +183,12 @@ Result<void> StreamingIngestManager::ingest(std::string_view key,
     return {};
 }
 
+/**
+ * @brief Ingest Batch.
+ * @param[in] events Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), THEMIS_DEBUG(), lock(), size(), fetch_add(), THEMIS_WARN(), count(), std::chrono::steady_clock::now().
+ */
 Result<size_t> StreamingIngestManager::ingestBatch(std::vector<Event> events) {
     if (events.empty()) {
         THEMIS_DEBUG("StreamingIngestManager::ingestBatch called with empty events vector");
@@ -202,6 +235,11 @@ Result<size_t> StreamingIngestManager::ingestBatch(std::vector<Event> events) {
     return accepted;
 }
 
+/**
+ * @brief Flush.
+ * @return Return value.
+ * @details Calls: lock(), empty(), THEMIS_DEBUG(), flushOnce().
+ */
 Result<void> StreamingIngestManager::flush() {
     std::unique_lock<std::mutex> lock(mu_);
     if (buffer_.empty()) {
@@ -215,6 +253,10 @@ Result<void> StreamingIngestManager::flush() {
 // Background flush loop
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Flush Loop.
+ * @details Calls: load(), lock(), wait_for(), empty(), flushOnce().
+ */
 void StreamingIngestManager::flushLoop() {
     // db_connection_leak scanner alert: the scanner misidentifies this function
     // definition as a database-connection opening call and incorrectly flags a potential
@@ -241,9 +283,12 @@ void StreamingIngestManager::flushLoop() {
     }
 }
 
-// ---------------------------------------------------------------------------
-// Internal flush (called with mu_ held; may unlock/re-lock)
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- Internal flush (called with mu_ held; may unlock/re-lock) ---------------------------------------------------------------------------
+ * @param[in,out] lock Input/output parameter.
+ * @return Return value.
+ * @details Calls: empty(), swap(), reserve(), std::min(), notify_all(), unlock(), size(), Put().
+ */
 
 Result<void> StreamingIngestManager::flushOnce(std::unique_lock<std::mutex>& lock) {
     if (buffer_.empty()) {

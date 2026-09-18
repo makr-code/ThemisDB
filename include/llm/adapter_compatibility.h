@@ -22,19 +22,19 @@
 namespace themis {
 namespace llm {
 
-/// Adapter Compatibility Validator
-/// Validates LoRA adapter compatibility with base models
 class AdapterCompatibilityValidator {
 public:
+    /**
+     * @brief Adapter Compatibility Validator.
+     * @return Return value.
+     */
     virtual ~AdapterCompatibilityValidator() = default;
-    /// Validation level
     enum class ValidationLevel {
         STRICT,      // All checks must pass
         MODERATE,    // Critical checks only
         PERMISSIVE   // Warnings only, no errors
     };
     
-    /// Compatibility check result
     struct CompatibilityCheck {
         enum class CheckType {
             MODEL_NAME_MATCH,
@@ -50,10 +50,13 @@ public:
         std::string message;
         bool is_critical = true;  // If true, failure blocks deployment
         
+        /**
+         * @brief To String.
+         * @return Return value.
+         */
         std::string toString() const;
     };
     
-    /// Full validation result
     struct ValidationResult {
         bool compatible = false;
         std::vector<CompatibilityCheck> checks;
@@ -66,7 +69,15 @@ public:
         size_t passed_checks = 0;
         size_t failed_critical_checks = 0;
         
+        /**
+         * @brief To Formatted String.
+         * @return Return value.
+         */
         std::string toFormattedString() const;
+        /**
+         * @brief To Json.
+         * @return Return value.
+         */
         nlohmann::json toJson() const;
     };
     
@@ -76,27 +87,29 @@ public:
     
     // Validation Operations
     
-    /// Validate adapter against base model
-    /// @param adapter Adapter metadata
-    /// @param base_model_name Base model name (e.g., "mistral-7b")
-    /// @param base_model_version Optional version string
-    /// @return Validation result with detailed checks
     ValidationResult validate(
         const AdapterMetadata& adapter,
         const std::string& base_model_name,
         const std::string& base_model_version = ""
     );
     
-    /// Quick check: Can adapter be used with base model?
-    /// @param adapter Adapter metadata
-    /// @param base_model_name Base model name
-    /// @return true if compatible (fast check)
+    /**
+     * @brief Is Compatible.
+     * @param[in] adapter Input parameter.
+     * @param[in] base_model_name Name of the base model.
+     * @return True when the operation succeeds.
+     */
     bool isCompatible(
         const AdapterMetadata& adapter,
         const std::string& base_model_name
     );
     
-    /// Validate adapter against another adapter (for stacking/merging)
+    /**
+     * @brief Validate Adapter Pair.
+     * @param[in] adapter1 Input parameter.
+     * @param[in] adapter2 Input parameter.
+     * @return Return value.
+     */
     ValidationResult validateAdapterPair(
         const AdapterMetadata& adapter1,
         const AdapterMetadata& adapter2
@@ -104,7 +117,6 @@ public:
     
     // Model Information
     
-    /// Known model architectures and their specifications
     struct ModelSpec {
         std::string architecture;  // e.g., "llama", "mistral"
         int hidden_size = 0;
@@ -112,27 +124,45 @@ public:
         std::vector<std::string> supported_versions;
         std::string tokenizer_type;
         
+        /**
+         * @brief To Json.
+         * @return Return value.
+         */
         nlohmann::json toJson() const;
     };
     
-    /// Get known model specification
+    /**
+     * @brief Get Model Spec.
+     * @param[in] model_name Name of the model.
+     * @return Return value.
+     */
     std::optional<ModelSpec> getModelSpec(const std::string& model_name);
     
-    /// Register custom model specification
+    /**
+     * @brief Register Model Spec.
+     * @param[in] model_name Name of the model.
+     * @param[in] spec Input parameter.
+     */
     void registerModelSpec(const std::string& model_name, const ModelSpec& spec);
     
     // Configuration
     
-    /// Set validation level
+    /**
+     * @brief Set Validation Level.
+     * @param[in] level Input parameter.
+     * @details Implements setValidationLevel without additional internal calls.
+     */
     void setValidationLevel(ValidationLevel level) { validation_level_ = level; }
     
-    /// Get validation level
     ValidationLevel getValidationLevel() const { return validation_level_; }
     
-    /// Enable/disable specific checks
     void enableCheck(CompatibilityCheck::CheckType type, bool enabled = true);
     
-    /// Check if specific check is enabled
+    /**
+     * @brief Is Check Enabled.
+     * @param[in] type Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool isCheckEnabled(CompatibilityCheck::CheckType type) const;
     
 private:
@@ -141,40 +171,82 @@ private:
     std::map<std::string, ModelSpec> known_models_;
     
     // Individual check implementations
+    /**
+     * @brief Check Model Name Match.
+     * @param[in] adapter Input parameter.
+     * @param[in] base_model_name Name of the base model.
+     * @return Return value.
+     */
     CompatibilityCheck checkModelNameMatch(
         const AdapterMetadata& adapter,
         const std::string& base_model_name
     );
     
+    /**
+     * @brief Check Architecture Match.
+     * @param[in] adapter Input parameter.
+     * @param[in] base_model_name Name of the base model.
+     * @return Return value.
+     */
     CompatibilityCheck checkArchitectureMatch(
         const AdapterMetadata& adapter,
         const std::string& base_model_name
     );
     
+    /**
+     * @brief Check Dimension Compatibility.
+     * @param[in] adapter Input parameter.
+     * @param[in] base_model_name Name of the base model.
+     * @return Return value.
+     */
     CompatibilityCheck checkDimensionCompatibility(
         const AdapterMetadata& adapter,
         const std::string& base_model_name
     );
     
+    /**
+     * @brief Check Tokenizer Compatibility.
+     * @param[in] adapter Input parameter.
+     * @param[in] base_model_name Name of the base model.
+     * @return Return value.
+     */
     CompatibilityCheck checkTokenizerCompatibility(
         const AdapterMetadata& adapter,
         const std::string& base_model_name
     );
     
+    /**
+     * @brief Check Version Compatibility.
+     * @param[in] adapter Input parameter.
+     * @param[in] base_model_version Input parameter.
+     * @return Return value.
+     */
     CompatibilityCheck checkVersionCompatibility(
         const AdapterMetadata& adapter,
         const std::string& base_model_version
     );
     
+    /**
+     * @brief Check Quantization Compatibility.
+     * @param[in] adapter Input parameter.
+     * @param[in] base_model_name Name of the base model.
+     * @return Return value.
+     */
     CompatibilityCheck checkQuantizationCompatibility(
         const AdapterMetadata& adapter,
         const std::string& base_model_name
     );
     
-    // Helper: Initialize known model database
+    /**
+     * @brief Helper: Initialize known model database
+     */
     void initializeKnownModels();
     
-    // Helper: Normalize model name (handle variations)
+    /**
+     * @brief Helper: Normalize model name (handle variations)
+     * @param[in] model_name Name of the model.
+     * @return Return value.
+     */
     std::string normalizeModelName(const std::string& model_name) const;
     
     // Helper: Parse version string
@@ -185,14 +257,23 @@ private:
         std::string variant;  // e.g., "instruct", "chat"
     };
     
+    /**
+     * @brief Parse Version.
+     * @param[in] version_str Input parameter.
+     * @return Return value.
+     */
     VersionParts parseVersion(const std::string& version_str) const;
+    /**
+     * @brief Are Versions Compatible.
+     * @param[in] v1 Input parameter.
+     * @param[in] v2 Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool areVersionsCompatible(const VersionParts& v1, const VersionParts& v2) const;
 };
 
-/// Migration Assistant - Helps migrate adapters between model versions
 class ModelMigrationAssistant {
 public:
-    /// Migration strategy
     enum class MigrationStrategy {
         RETRAIN,           // Full retraining required
         FINE_TUNE,         // Fine-tune existing adapter
@@ -200,7 +281,6 @@ public:
         NO_MIGRATION       // Not possible to migrate
     };
     
-    /// Migration plan
     struct MigrationPlan {
         MigrationStrategy strategy;
         bool feasible = false;
@@ -209,27 +289,43 @@ public:
         double estimated_effort = 0.0;  // 0.0-1.0 (training time ratio)
         std::string recommendation;
         
+        /**
+         * @brief To Json.
+         * @return Return value.
+         */
         nlohmann::json toJson() const;
     };
     
-    /// Analyze migration from source to target model
-    /// @param adapter Current adapter metadata
-    /// @param source_model Current base model
-    /// @param target_model Target base model
-    /// @return Migration plan
+    /**
+     * @brief Analyze Migration.
+     * @param[in] adapter Input parameter.
+     * @param[in] source_model Input parameter.
+     * @param[in] target_model Input parameter.
+     * @return Return value.
+     */
     static MigrationPlan analyzeMigration(
         const AdapterMetadata& adapter,
         const std::string& source_model,
         const std::string& target_model
     );
     
-    /// Get recommended migration strategy
+    /**
+     * @brief Recommend Strategy.
+     * @param[in] source_model Input parameter.
+     * @param[in] target_model Input parameter.
+     * @return Return value.
+     */
     static MigrationStrategy recommendStrategy(
         const std::string& source_model,
         const std::string& target_model
     );
     
-    /// Estimate retraining effort (as fraction of original training)
+    /**
+     * @brief Estimate Retraining Effort.
+     * @param[in] source_model Input parameter.
+     * @param[in] target_model Input parameter.
+     * @return Return value.
+     */
     static double estimateRetrainingEffort(
         const std::string& source_model,
         const std::string& target_model

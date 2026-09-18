@@ -24,6 +24,12 @@ namespace ethics {
 // Private helpers
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Dot Fill Color.
+ * @param[in] type Input parameter.
+ * @return Pointer to the result.
+ * @details Implements dotFillColor without additional internal calls.
+ */
 const char* ChainVisualizer::dotFillColor(ArgumentType type) {
     switch (type) {
         case ArgumentType::PRO:
@@ -43,12 +49,24 @@ const char* ChainVisualizer::dotFillColor(ArgumentType type) {
     }
 }
 
+/**
+ * @brief Make Label.
+ * @param[in] arg Input parameter.
+ * @return Return value.
+ * @details Calls: argumentTypeToString(), argumentStrengthToString().
+ */
 std::string ChainVisualizer::makeLabel(const EthicalArgument& arg) {
     const char* type_str  = argumentTypeToString(arg.argument_type);
     const char* str_str   = argumentStrengthToString(arg.strength);
     return arg.philosophy_school + "\\n" + type_str + " | " + str_str;
 }
 
+/**
+ * @brief Dot Escape.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Calls: str().
+ */
 std::string ChainVisualizer::dotEscape(const std::string& s) {
     std::ostringstream out = {};
     for (char c : s) {
@@ -61,6 +79,12 @@ std::string ChainVisualizer::dotEscape(const std::string& s) {
     return out.str();
 }
 
+/**
+ * @brief Mermaid Escape.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Calls: str().
+ */
 std::string ChainVisualizer::mermaidEscape(const std::string& s) {
     // Mermaid node labels are wrapped in quotes; replace special chars.
     std::ostringstream out = {};
@@ -78,6 +102,13 @@ std::string ChainVisualizer::mermaidEscape(const std::string& s) {
 // Core export logic
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Export Dot.
+ * @param[in] argument_ids Input parameter.
+ * @param[in,out] store Input/output parameter.
+ * @param[in] graph_name Name of the graph.
+ * @return Return value.
+ */
 std::string ChainVisualizer::exportDot(
     const std::vector<std::string>& argument_ids,
     ArgumentStore& store,
@@ -131,6 +162,12 @@ std::string ChainVisualizer::exportDot(
     return out.str();
 }
 
+/**
+ * @brief Export Mermaid.
+ * @param[in] argument_ids Input parameter.
+ * @param[in,out] store Input/output parameter.
+ * @return Return value.
+ */
 std::string ChainVisualizer::exportMermaid(
     const std::vector<std::string>& argument_ids,
     ArgumentStore& store)
@@ -195,6 +232,13 @@ std::string ChainVisualizer::exportMermaid(
 // Convenience wrappers
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Chain To Dot.
+ * @param[in] chain Input parameter.
+ * @param[in,out] store Input/output parameter.
+ * @param[in] graph_name Name of the graph.
+ * @return Return value.
+ */
 std::string ChainVisualizer::chainToDot(
     const ArgumentChain& chain,
     ArgumentStore& store,
@@ -203,6 +247,12 @@ std::string ChainVisualizer::chainToDot(
     return exportDot(chain.argument_ids, store, graph_name);
 }
 
+/**
+ * @brief Chain To Mermaid.
+ * @param[in] chain Input parameter.
+ * @param[in,out] store Input/output parameter.
+ * @return Return value.
+ */
 std::string ChainVisualizer::chainToMermaid(
     const ArgumentChain& chain,
     ArgumentStore& store)

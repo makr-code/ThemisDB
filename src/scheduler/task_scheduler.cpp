@@ -80,6 +80,12 @@ constexpr const char* kSystemAdminRole = "system_admin";
 std::atomic<bool> g_warned_missing_permission_context{false};
 std::atomic<bool> g_warned_missing_role_context{false};
 
+/**
+ * @brief Has Superuser Role.
+ * @param[in] roles Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: count().
+ */
 bool hasSuperuserRole(const std::unordered_set<std::string>& roles) {
     return roles.count(kAdminRole) > 0 || roles.count(kSystemAdminRole) > 0;
 }
@@ -159,19 +165,37 @@ std::string TaskScheduler::currentAuthorizationJustification(const char* fallbac
 static constexpr const char* DEFAULT_AUDIT_USER = "system";
 static constexpr const char* DEFAULT_AUDIT_IP = "localhost";
 
-// Helper function to set audit context from thread-local RequestContext
+/**
+ * @brief Helper function to set audit context from thread-local RequestContext
+ * @param[in,out] event Input/output parameter.
+ * @details Calls: TaskScheduler::currentUserId(), TaskScheduler::currentClientIp(), empty().
+ */
 static void setDefaultAuditContext(scheduler::TaskAuditEvent& event) {
     event.user_id    = TaskScheduler::currentUserId(DEFAULT_AUDIT_USER);
     const auto ip    = TaskScheduler::currentClientIp();
     event.ip_address = ip.empty() ? DEFAULT_AUDIT_IP : ip;
 }
 
+/**
+ * @brief Set Default Audit Context.
+ * @param[in,out] event Input/output parameter.
+ * @details Calls: TaskScheduler::currentUserId(), TaskScheduler::currentClientIp(), empty().
+ */
 static void setDefaultAuditContext(scheduler::TaskSecurityEvent& event) {
     event.user_id    = TaskScheduler::currentUserId(DEFAULT_AUDIT_USER);
     const auto ip    = TaskScheduler::currentClientIp();
     event.ip_address = ip.empty() ? DEFAULT_AUDIT_IP : ip;
 }
 
+/**
+ * @brief Log Unauthorized Permission Attempt.
+ * @param[in] audit_manager Input parameter.
+ * @param[in] task_id Identifier of the task.
+ * @param[in] task_name Name of the task.
+ * @param[in] required_permission Input parameter.
+ * @param[in] operation Input parameter.
+ * @param[in] reason Input parameter.
+ */
 static void logUnauthorizedPermissionAttempt(
     const std::shared_ptr<scheduler::TaskAuditManager>& audit_manager,
     const std::string& task_id,
@@ -215,7 +239,12 @@ static void logUnauthorizedPermissionAttempt(
     audit_manager->logSecurityEvent(security_event);
 }
 
-// Helper function to convert trigger type to string
+/**
+ * @brief Helper function to convert trigger type to string
+ * @param[in] type Input parameter.
+ * @return Return value.
+ * @details Implements getTriggerTypeString without additional internal calls.
+ */
 static std::string getTriggerTypeString(ScheduledTask::TriggerType type) {
     switch (type) {
         case ScheduledTask::TriggerType::CRON: return "CRON";
@@ -232,11 +261,11 @@ static std::string getTriggerTypeString(ScheduledTask::TriggerType type) {
 namespace {
 
 /**
- * @brief Compute the delay before the next retry attempt.
- *
- * @param policy  The task's RetryPolicy.
- * @param attempt 0-based retry index (0 = first retry, after the initial failure).
- * @return Delay in milliseconds, clamped to policy.max_delay.
+ * @brief Compute Retry Delay.
+ * @param[in] policy Input parameter.
+ * @param[in] attempt Input parameter.
+ * @return Return value.
+ * @details Calls: count(), dist(), std::chrono::milliseconds().
  */
 std::chrono::milliseconds computeRetryDelay(const ScheduledTask::RetryPolicy& policy,
                                              size_t attempt) {
@@ -306,10 +335,10 @@ std::chrono::milliseconds computeRetryDelay(const ScheduledTask::RetryPolicy& po
 }
 
 /**
- * @brief Build an effective RetryPolicy from a ScheduledTask.
- *
- * If the task has an explicit retry_policy, use it.
- * Otherwise fall back to a policy derived from the legacy max_retries field.
+ * @brief Effective Retry Policy.
+ * @param[in] task Input parameter.
+ * @return Return value.
+ * @details Implements effectiveRetryPolicy without additional internal calls.
  */
 ScheduledTask::RetryPolicy effectiveRetryPolicy(const ScheduledTask& task) {
     if (task.retry_policy) {
@@ -326,20 +355,13 @@ ScheduledTask::RetryPolicy effectiveRetryPolicy(const ScheduledTask& task) {
 }
 
 /**
- * @brief Apply SLO-based retry adaptation to a computed delay and max-attempts.
- *
- * When the task has both an SloRetryConfig and an sla_deadline, this function:
- *  - Clamps @p delay_ms to the remaining SLA budget fraction.
- *  - Returns false (skip retry) if no SLA budget remains.
- *  - Reduces @p effective_max_retries to min_retries_under_pressure when the
- *    rolling SLO compliance rate (tracked on the task) is below the threshold.
- *
- * @param task               The scheduled task (provides sla_deadline and SLO state).
- * @param elapsed_ms         Time already spent since task execution began (ms).
- * @param delay_ms           [in/out] Computed retry delay – may be clamped.
- * @param effective_max_retries [in/out] Max attempts – may be clamped.
- * @return true  – retry is permitted (possibly with an adjusted delay).
- * @return false – retry should be skipped (SLA budget exhausted).
+ * @brief Apply Slo Adaptation.
+ * @param[in] task Input parameter.
+ * @param[in] elapsed_ms Input parameter.
+ * @param[in,out] delay_ms Input/output parameter.
+ * @param[in,out] effective_max_retries Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: has_value(), count().
  */
 bool applySloAdaptation(const ScheduledTask& task,
                         double elapsed_ms,
@@ -391,10 +413,12 @@ bool applySloAdaptation(const ScheduledTask& task,
 
 } // anonymous namespace
 
-// ── Error categorization helper ──────────────────────────────────────────────
-// Classify a failure message into one of the ScheduledTask::ErrorCategory values.
-// This function is intentionally conservative: when in doubt it returns TRANSIENT
-// so that the retry policy is not prematurely abandoned.
+/**
+ * @brief ── Error categorization helper ────────────────────────────────────────────── Classify a failure message into one of the ScheduledTask::ErrorCategory values.
+ * @param[in] error_message Input parameter.
+ * @return Return value.
+ * @details This function is intentionally conservative: when in doubt it returns TRANSIENT so that the retry policy is not prematurely abandoned. Calls: find().
+ */
 static ScheduledTask::ErrorCategory categorizeError(const std::string& error_message) {
     // Permanent errors: configuration / code problems that won't fix themselves
     if (error_message.find("not found") != std::string::npos ||
@@ -490,7 +514,10 @@ TaskScheduler::~TaskScheduler() {
     stop();
 }
 
-// ===== Lifecycle =====
+/**
+ * @brief ===== Lifecycle =====
+ * @details Calls: lock(), load(), THEMIS_WARN(), store(), std::thread(), size(), startAll(), THEMIS_INFO().
+ */
 
 void TaskScheduler::start() {
     size_t task_count = 0;
@@ -518,6 +545,10 @@ void TaskScheduler::start() {
                 config_.check_interval.count() / 1000);
 }
 
+/**
+ * @brief Stop.
+ * @details Calls: lock(), load(), store(), notify_all(), joinable(), join(), std::chrono::seconds(), std::chrono::steady_clock::now().
+ */
 void TaskScheduler::stop() {
     {
         std::lock_guard<std::mutex> lock(tasks_mutex_);
@@ -574,7 +605,14 @@ void TaskScheduler::stop() {
                 total_executions_.load(), failed_executions_.load());
 }
 
-// ===== Task Management =====
+/**
+ * @brief ===== Task Management =====
+ * @param[in] task Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: hasPermission(), logUnauthorizedPermissionAttempt(), validateAqlQuery(), validateResourceLimits(), validateCronExpression(), validateCDCTrigger(), sanitizeTask(), lock().
+ */
 
 std::string TaskScheduler::registerTask(const ScheduledTask& task) {
     if (!hasPermission("task:register")) {
@@ -723,6 +761,11 @@ std::string TaskScheduler::registerTask(const ScheduledTask& task) {
     return id;
 }
 
+/**
+ * @brief Unregister Task.
+ * @param[in] task_id Identifier of the task.
+ * @details Calls: lock(), find(), end(), removeEventTrigger(), erase(), THEMIS_INFO(), logTaskSchedulerEvent(), TaskScheduler::currentUserId().
+ */
 void TaskScheduler::unregisterTask(const std::string& task_id) {
     std::lock_guard<std::mutex> lock(tasks_mutex_);
     
@@ -763,6 +806,11 @@ void TaskScheduler::unregisterTask(const std::string& task_id) {
     }
 }
 
+/**
+ * @brief Enable Task.
+ * @param[in] task_id Identifier of the task.
+ * @details Calls: lock(), find(), end(), THEMIS_INFO(), logTaskSchedulerEvent(), TaskScheduler::currentUserId(), saveTasks().
+ */
 void TaskScheduler::enableTask(const std::string& task_id) {
     std::lock_guard<std::mutex> lock(tasks_mutex_);
     
@@ -791,6 +839,11 @@ void TaskScheduler::enableTask(const std::string& task_id) {
     }
 }
 
+/**
+ * @brief Disable Task.
+ * @param[in] task_id Identifier of the task.
+ * @details Calls: lock(), find(), end(), THEMIS_INFO(), logTaskSchedulerEvent(), TaskScheduler::currentUserId(), saveTasks().
+ */
 void TaskScheduler::disableTask(const std::string& task_id) {
     std::lock_guard<std::mutex> lock(tasks_mutex_);
     
@@ -819,6 +872,11 @@ void TaskScheduler::disableTask(const std::string& task_id) {
     }
 }
 
+/**
+ * @brief Update Task.
+ * @param[in] task Input parameter.
+ * @details Calls: lock(), find(), end(), THEMIS_INFO(), saveTasks().
+ */
 void TaskScheduler::updateTask(const ScheduledTask& task) {
     std::lock_guard<std::mutex> lock(tasks_mutex_);
     
@@ -842,7 +900,12 @@ void TaskScheduler::updateTask(const ScheduledTask& task) {
     }
 }
 
-// ===== Manual Execution =====
+/**
+ * @brief ===== Manual Execution =====
+ * @param[in] task_id Identifier of the task.
+ * @return Return value.
+ * @details Calls: hasPermission(), logUnauthorizedPermissionAttempt(), THEMIS_INFO(), checkRateLimit(), THEMIS_WARN(), Tracer::startSpan(), setAttribute(), lock().
+ */
 
 nlohmann::json TaskScheduler::executeTaskNow(const std::string& task_id) {
     if (!hasPermission("task:execute")) {
@@ -1121,6 +1184,11 @@ std::vector<std::string> TaskScheduler::topologicalSort(
     return order;
 }
 
+/**
+ * @brief Execute DAG.
+ * @param[in] task_ids Input parameter.
+ * @return Return value.
+ */
 TaskScheduler::DagExecutionResult TaskScheduler::executeDAG(
     const std::vector<std::string>& task_ids)
 {
@@ -1141,6 +1209,11 @@ TaskScheduler::DagExecutionResult TaskScheduler::executeDAG(
     // Resolve tasks and validate all IDs exist
     std::map<std::string, std::shared_ptr<ScheduledTask>> task_map;
     {
+        /**
+         * @brief Lock.
+         * @param[in] tasks_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(tasks_mutex_);
         for (const auto& id : task_ids) {
             auto it = tasks_.find(id);
@@ -1458,7 +1531,13 @@ TaskScheduler::DagExecutionResult TaskScheduler::executeDAG(
     return result;
 }
 
-// ===== Function Registration =====
+/**
+ * @brief ===== Function Registration =====
+ * @param[in] name Input parameter.
+ * @param[in] func Input parameter.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: hasPermission(), hasRole(), logUnauthorizedPermissionAttempt(), THEMIS_INFO(), lock().
+ */
 
 void TaskScheduler::registerFunction(const std::string& name, TaskFunction func) {
     // ⚠️ SECURITY CRITICAL: This allows arbitrary code execution.
@@ -1479,6 +1558,11 @@ void TaskScheduler::registerFunction(const std::string& name, TaskFunction func)
     THEMIS_INFO("Registered task function: {}", name);
 }
 
+/**
+ * @brief Unregister Function.
+ * @param[in] name Input parameter.
+ * @details Calls: lock(), erase(), THEMIS_INFO().
+ */
 void TaskScheduler::unregisterFunction(const std::string& name) {
     std::lock_guard<std::mutex> lock(tasks_mutex_);
     functions_.erase(name);
@@ -1488,8 +1572,12 @@ void TaskScheduler::unregisterFunction(const std::string& name) {
 // ===== Statistics =====
 
 TaskScheduler::Stats TaskScheduler::getStats() const {
-    // Acquire both locks atomically (canonical order tasks < running) to avoid
-    // inversion against threads that acquire running_mutex_ alone.
+    /**
+     * @brief Acquire both locks atomically (canonical order tasks < running) to avoid inversion against threads that acquire running_mutex_ alone.
+     * @param[in] tasks_mutex_ Input parameter.
+     * @param[in] running_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::scoped_lock lock(tasks_mutex_, running_mutex_);
     
     Stats stats;
@@ -1530,7 +1618,12 @@ std::string TaskScheduler::exportMetrics() const {
     size_t total_exec, failed_exec;
     std::vector<ScheduledTask> task_snapshot;
 
-    // Acquire both locks atomically (canonical order tasks < running).
+    /**
+     * @brief Acquire both locks atomically (canonical order tasks < running).
+     * @param[in] tasks_mutex_ Input parameter.
+     * @param[in] running_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::scoped_lock lock(tasks_mutex_, running_mutex_);
     registered_tasks = tasks_.size();
     active_tasks = std::count_if(tasks_.begin(), tasks_.end(),
@@ -1658,6 +1751,11 @@ std::string TaskScheduler::exportMetrics() const {
 
 std::vector<ScheduledTask> TaskScheduler::listTasks() const {
 
+    /**
+     * @brief Lock.
+     * @param[in] tasks_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(tasks_mutex_);
     
     std::vector<ScheduledTask> result = {};
@@ -1672,6 +1770,11 @@ std::vector<ScheduledTask> TaskScheduler::listTasks() const {
 }
 
 std::shared_ptr<ScheduledTask> TaskScheduler::getTask(const std::string& task_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] tasks_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(tasks_mutex_);
     
     auto it = tasks_.find(task_id);
@@ -1702,7 +1805,10 @@ std::vector<scheduler::TaskAuditEvent> TaskScheduler::getExecutionHistory(
     return audit_manager_->queryAuditEvents(params);
 }
 
-// ===== Scheduler Loop =====
+/**
+ * @brief ===== Scheduler Loop =====
+ * @details Calls: THEMIS_INFO(), load(), Tracer::startSpan(), std::chrono::system_clock::now(), lock(), shouldExecute(), THEMIS_DEBUG(), logTaskSchedulerEvent().
+ */
 
 void TaskScheduler::schedulerLoop() {
     THEMIS_INFO("TaskScheduler loop started");
@@ -1834,6 +1940,11 @@ void TaskScheduler::schedulerLoop() {
     THEMIS_INFO("TaskScheduler loop stopped");
 }
 
+/**
+ * @brief Execute Task.
+ * @param[in] task Input parameter.
+ * @details Calls: Tracer::startSpan(), setAttribute(), getTaskExecutionLock(), exec_lock(), std::chrono::steady_clock::now(), getCurrentTimeMs(), scheduler::generateUUID(), std::chrono::system_clock::now().
+ */
 void TaskScheduler::executeTask(std::shared_ptr<ScheduledTask> task) {
     auto span = Tracer::startSpan("TaskScheduler.executeTask");
     span.setAttribute("task_id", task->id);
@@ -2120,6 +2231,13 @@ void TaskScheduler::executeTask(std::shared_ptr<ScheduledTask> task) {
     task->running = false;
 }
 
+/**
+ * @brief Execute Aql Query.
+ * @param[in] aql Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: validateAqlQuery(), enforceQueryComplexityLimits(), Tracer::startSpan(), setAttribute(), executeAql(), error(), message().
+ */
 nlohmann::json TaskScheduler::executeAqlQuery(const std::string& aql) {
     // ⚠️ SECURITY: AQL queries can read/write any data
     
@@ -2148,6 +2266,14 @@ nlohmann::json TaskScheduler::executeAqlQuery(const std::string& aql) {
     return *result;
 }
 
+/**
+ * @brief Execute Function.
+ * @param[in] name Input parameter.
+ * @param[in] params Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: Tracer::startSpan(), setAttribute(), find(), end(), sandbox(), launch(), THEMIS_WARN(), lastError().
+ */
 nlohmann::json TaskScheduler::executeFunction(const std::string& name, const nlohmann::json& params) {
     auto span = Tracer::startSpan("TaskScheduler.executeFunction");
     span.setAttribute("function_name", name);
@@ -2197,6 +2323,11 @@ bool TaskScheduler::shouldExecute(const ScheduledTask& task,
     return false;
 }
 
+/**
+ * @brief Update Next Run.
+ * @param[in,out] task Input/output parameter.
+ * @details Calls: find(), end(), getNextExecution(), std::chrono::system_clock::now().
+ */
 void TaskScheduler::updateNextRun(ScheduledTask& task) {
     if (task.trigger_type == ScheduledTask::TriggerType::CRON) {
         // Calculate next run from cron expression
@@ -2214,7 +2345,11 @@ void TaskScheduler::updateNextRun(ScheduledTask& task) {
     // CDC_EVENT and MANUAL types don't have a next_run
 }
 
-// ===== Persistence =====
+/**
+ * @brief ===== Persistence =====
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: nlohmann::json::array(), count(), push_back(), file(), good(), dump(), close(), chmod().
+ */
 
 void TaskScheduler::saveTasks() {
     // ⚠️ SECURITY: Task definitions may contain sensitive data (queries, parameters)
@@ -2333,6 +2468,10 @@ void TaskScheduler::saveTasks() {
     }
 }
 
+/**
+ * @brief Load Tasks.
+ * @details Calls: file(), good(), THEMIS_DEBUG(), value(), nlohmann::json::object(), std::chrono::milliseconds(), contains(), insert().
+ */
 void TaskScheduler::loadTasks() {
     try {
         std::ifstream file(config_.persistence_path + "/tasks.json");
@@ -2670,6 +2809,12 @@ void TaskScheduler::enforceQueryComplexityLimits(const std::string& aql) const {
     }
 }
 
+/**
+ * @brief Check whether a user exceeds the current rate limit.
+ * @param[in] task_id Identifier of the task.
+ * @return True when the user remains within the configured limit.
+ * @details Calls: lock(), std::chrono::steady_clock::now(), std::chrono::minutes(), empty(), front(), pop_front(), size(), scheduler::generateUUID().
+ */
 bool TaskScheduler::checkRateLimit(const std::string& task_id) {
     // Simple rate limiting implementation
     // In production, use a more sophisticated rate limiter (e.g., token bucket, sliding window)
@@ -2735,6 +2880,12 @@ void TaskScheduler::validateCronExpression(const std::string& expression) const 
     }
 }
 
+/**
+ * @brief Get Cron Expression.
+ * @param[in] task_id Identifier of the task.
+ * @return Return value.
+ * @details Calls: find(), end().
+ */
 std::shared_ptr<CronExpression> TaskScheduler::getCronExpression(const std::string& task_id) {
     auto it = cron_expressions_.find(task_id);
     if (it != cron_expressions_.end()) {
@@ -2743,6 +2894,13 @@ std::shared_ptr<CronExpression> TaskScheduler::getCronExpression(const std::stri
     return nullptr;
 }
 
+/**
+ * @brief Update Cron Expression.
+ * @param[in] task_id Identifier of the task.
+ * @param[in] expression Input parameter.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: CronExpression::parse().
+ */
 void TaskScheduler::updateCronExpression(const std::string& task_id, const std::string& expression) {
     auto parsed = CronExpression::parse(expression);
     if (!parsed) {
@@ -2779,6 +2937,11 @@ void TaskScheduler::validateCDCTrigger(const ScheduledTask::CDCTrigger& trigger)
     }
 }
 
+/**
+ * @brief Setup Event Trigger.
+ * @param[in] task Input parameter.
+ * @details Calls: THEMIS_ERROR(), insert(), lock(), find(), end(), THEMIS_DEBUG(), onCDCEvent(), registerTrigger().
+ */
 void TaskScheduler::setupEventTrigger(std::shared_ptr<ScheduledTask> task) {
     if (!event_trigger_manager_) {
         THEMIS_ERROR("Cannot setup CDC trigger without EventTriggerManager");
@@ -2817,12 +2980,23 @@ void TaskScheduler::setupEventTrigger(std::shared_ptr<ScheduledTask> task) {
     event_trigger_manager_->registerTrigger(task->id, config, std::move(callback));
 }
 
+/**
+ * @brief Remove Event Trigger.
+ * @param[in] task_id Identifier of the task.
+ * @details Calls: unregisterTrigger().
+ */
 void TaskScheduler::removeEventTrigger(const std::string& task_id) {
     if (event_trigger_manager_) {
         event_trigger_manager_->unregisterTrigger(task_id);
     }
 }
 
+/**
+ * @brief On CDCEvent.
+ * @param[in] task Input parameter.
+ * @param[in] event Input parameter.
+ * @details Calls: THEMIS_DEBUG(), logTaskSchedulerEvent(), TaskScheduler::currentUserId(), load(), lock(), task_thread(), executeTask(), erase().
+ */
 void TaskScheduler::onCDCEvent(std::shared_ptr<ScheduledTask> task,
                                const Changefeed::ChangeEvent& event) {
     THEMIS_DEBUG("CDC event triggered task: {} (key={}, type={})",
@@ -2908,7 +3082,11 @@ std::optional<scheduler::TaskExecutionResult> TaskScheduler::getLatestTaskResult
     return result_store_->getLatestResult(task_id);
 }
 
-// ===== Alertmanager Integration =====
+/**
+ * @brief ===== Alertmanager Integration =====
+ * @param[in] alertmanager Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 
 void TaskScheduler::setAlertmanager(std::shared_ptr<observability::Alertmanager> alertmanager) {
     std::unique_lock<std::shared_mutex> lock(alert_mutex_);
@@ -2916,6 +3094,11 @@ void TaskScheduler::setAlertmanager(std::shared_ptr<observability::Alertmanager>
 }
 
 std::shared_ptr<observability::Alertmanager> TaskScheduler::getAlertmanager() const {
+    /**
+     * @brief Lock.
+     * @param[in] alert_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(alert_mutex_);
     return alertmanager_;
 }
@@ -2925,6 +3108,12 @@ std::shared_ptr<observability::Alertmanager> TaskScheduler::getAlertmanager() co
     return "scheduler_task_" + alert_type + "_" + task_id;
 }
 
+/**
+ * @brief Fire Task Failure Alert.
+ * @param[in] task Input parameter.
+ * @param[in] error Input parameter.
+ * @details Calls: lock(), makeTaskAlertId(), std::to_string(), sendAlert(), THEMIS_WARN(), THEMIS_ERROR(), error(), message().
+ */
 void TaskScheduler::fireTaskFailureAlert(const ScheduledTask& task, const std::string& error) {
     // Take a copy of the alertmanager pointer under the lock, then release the lock
     // before calling sendAlert() to avoid holding the mutex during potentially blocking I/O.
@@ -2970,6 +3159,12 @@ void TaskScheduler::fireTaskFailureAlert(const ScheduledTask& task, const std::s
     }
 }
 
+/**
+ * @brief Fire Task Sla Breach Alert.
+ * @param[in] task Input parameter.
+ * @param[in] elapsed_ms Input parameter.
+ * @details Calls: has_value(), lock(), makeTaskAlertId(), count(), str(), std::to_string(), sendAlert(), THEMIS_WARN().
+ */
 void TaskScheduler::fireTaskSlaBreachAlert(const ScheduledTask& task, double elapsed_ms) {
     if (!task.sla_deadline.has_value()) {
         return;  // Caller should have checked, but guard defensively
@@ -3021,6 +3216,11 @@ void TaskScheduler::fireTaskSlaBreachAlert(const ScheduledTask& task, double ela
     }
 }
 
+/**
+ * @brief Resolve Task Failure Alert.
+ * @param[in] task_id Identifier of the task.
+ * @details Calls: lock(), find(), end(), erase(), resolveAlert(), THEMIS_INFO(), THEMIS_WARN(), error().
+ */
 void TaskScheduler::resolveTaskFailureAlert(const std::string& task_id) {
     // Take a copy of the alertmanager pointer and the alert ID under the lock,
     // then release the lock before calling resolveAlert() (potential I/O).
@@ -3097,7 +3297,12 @@ void TaskScheduler::adjustConcurrencyLimit(size_t pending_count) noexcept {
     }
 }
 
-// ===== Task Execution Serialization (Phase 3 Hardening) =====
+/**
+ * @brief ===== Task Execution Serialization (Phase 3 Hardening) =====
+ * @param[in] task_id Identifier of the task.
+ * @return Return value.
+ * @details Calls: lock(), find(), end().
+ */
 
 std::mutex& TaskScheduler::getTaskExecutionLock(const std::string& task_id) {
     std::lock_guard<std::mutex> lock(task_locks_mutex_);

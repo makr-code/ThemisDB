@@ -28,11 +28,6 @@ std::string Stemmer::stem(std::string_view token, Language lang) {
         return std::string(token);
     }
     
-    /**
-     * @brief Convert to string for manipulation
-     * @param[in] token Input parameter.
-     * @return Return value.
-     */
     std::string word(token);
     
     // Ensure lowercase (should already be, but safety check)
@@ -89,7 +84,7 @@ std::string Stemmer::languageToString(Language lang) {
 }
 
 /**
- * @brief English Porter Stemmer (simplified - Step 1a, 1b, 1c only)
+ * @brief Stem English.
  * @param[in] word Input parameter.
  * @return Return value.
  * @details Calls: length(), ends_with(), substr(), hasVowel(), endsWithDoubleConsonant(), replaceEnding().
@@ -160,7 +155,7 @@ std::string Stemmer::stemEnglish(std::string word) {
 }
 
 /**
- * @brief German Stemmer (simplified - removes common suffixes)
+ * @brief Stem German.
  * @param[in] word Input parameter.
  * @return Return value.
  * @details Calls: length(), ends_with(), substr().
@@ -207,7 +202,7 @@ std::string Stemmer::stemGerman(std::string word) {
 /**
  * @brief Ends With Double Consonant.
  * @param[in] word Input parameter.
- * @return True on success.
+ * @return True when the operation succeeds.
  * @details Calls: length().
  */
 bool Stemmer::endsWithDoubleConsonant(const std::string& word) {
@@ -223,7 +218,7 @@ bool Stemmer::endsWithDoubleConsonant(const std::string& word) {
 /**
  * @brief Has Vowel.
  * @param[in] word Input parameter.
- * @return True on success.
+ * @return True when the operation succeeds.
  * @details Implements hasVowel without additional internal calls.
  */
 bool Stemmer::hasVowel(const std::string& word) {

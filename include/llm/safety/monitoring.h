@@ -40,21 +40,48 @@ struct SafetyCountersSnapshot {
     std::uint64_t blocked = 0;
 };
 
-/** @brief Safety monitoring. */
 class SafetyMonitoring {
 public:
     using ExporterSink = std::function<void(const SafetyEvent&)>;
 
+    /**
+     * @brief Set Durable Sink Path.
+     * @param[in] path Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool setDurableSinkPath(const std::string& path);
+    /**
+     * @brief Clear Durable Sink Path.
+     */
     void clearDurableSinkPath();
 
+    /**
+     * @brief Set Exporter Sink.
+     * @param[in] sink Input parameter.
+     */
     void setExporterSink(ExporterSink sink);
+    /**
+     * @brief Clear Exporter Sink.
+     */
     void clearExporterSink();
 
+    /**
+     * @brief Record.
+     * @param[in] event Input parameter.
+     */
     void record(const SafetyEvent& event);
+    /**
+     * @brief Snapshot.
+     * @return Return value.
+     */
     SafetyCountersSnapshot snapshot() const;
 
 private:
+    /**
+     * @brief To Json Line.
+     * @param[in] event Input parameter.
+     * @return Return value.
+     */
     static std::string toJsonLine(const SafetyEvent& event);
 
     std::atomic<std::uint64_t> allowed_{0};

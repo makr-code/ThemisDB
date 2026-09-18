@@ -38,7 +38,6 @@ struct CategorySpec {
     double weight;                     // per-hit weight
 };
 
-/// Ordered from most to least specific so that earlier matches dominate ties.
 const std::vector<CategorySpec> &categorySpecs() {
     static const std::vector<CategorySpec> specs = {
         {"configuration",
@@ -96,7 +95,6 @@ const std::vector<CategorySpec> &categorySpecs() {
     return specs;
 }
 
-/// Compute a raw score for each category against a lower-cased query.
 std::unordered_map<std::string, double> scoreCategories(const std::string &query_lower,
                                                         const std::vector<std::string> &categories) {
     std::unordered_map<std::string, double> scores = {};
@@ -119,7 +117,6 @@ std::unordered_map<std::string, double> scoreCategories(const std::string &query
     return scores;
 }
 
-/// Softmax over scores so confidence values are in (0, 1) and sum to 1.
 std::unordered_map<std::string, double> softmax(const std::unordered_map<std::string, double> &raw) {
     if (raw.empty()) {
         return {};
@@ -146,6 +143,13 @@ std::unordered_map<std::string, double> softmax(const std::unordered_map<std::st
     return result;
 }
 
+/**
+ * @brief Keyword Classify.
+ * @param[in] text Input parameter.
+ * @param[in] categories Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), std::transform(), begin(), end(), std::tolower(), scoreCategories(), std::max(), softmax().
+ */
 ClassifyResult keywordClassify(const std::string &text, const std::vector<std::string> &categories) {
     if (categories.empty()) {
         return ClassifyResult{};
@@ -243,6 +247,10 @@ ClassifyResult AQLFunctionClassifyBridge::classify(const std::string &text,
 // registerClassifyBridge()
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Register Classify Bridge.
+ * @details Calls: getDocsAssistantFunctions(), setClassifier().
+ */
 void registerClassifyBridge() {
     static AQLFunctionClassifyBridge bridge;
     getDocsAssistantFunctions().setClassifier(&bridge);

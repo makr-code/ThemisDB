@@ -36,6 +36,11 @@
 
 namespace themis {
 namespace {
+/**
+ * @brief Unsupported.
+ * @return Return value.
+ * @details Calls: spdlog::error(), ProcessMining::Status::Error().
+ */
 inline ProcessMining::Status unsupported() {
     spdlog::error("ProcessMining: operation unavailable — "
                   "Windows stub build (THEMIS_PROCESS_MINING_WINDOWS_STUB). "
@@ -129,6 +134,13 @@ std::pair<ProcessMining::Status, std::string> ProcessMining::exportToPNML(const 
     return {unsupported(), {}};
 }
 
+/**
+ * @brief Save As Process Definition.
+ * @param[in] param Input parameter.
+ * @param[in] string_view Input parameter.
+ * @return Return value.
+ * @details Calls: unsupported().
+ */
 ProcessMining::Status ProcessMining::saveAsProcessDefinition(const DiscoveredProcess & /*model*/,
                                                              std::string_view /*process_id*/
 ) {
@@ -153,6 +165,13 @@ ProcessMining::analyzeEvolution(const EventLog & /*log*/, int /*num_periods*/
     return {unsupported(), {}};
 }
 
+/**
+ * @brief Run Alpha Miner.
+ * @param[in] log Input parameter.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), insert(), push_back(), size(), std::make_pair().
+ */
 DiscoveredProcess ProcessMining::runAlphaMiner(const EventLog &log, const MiningConfig &config) {
     DiscoveredProcess result;
     result.algorithm = MiningAlgorithm::ALPHA;
@@ -211,6 +230,13 @@ DiscoveredProcess ProcessMining::runAlphaMiner(const EventLog &log, const Mining
     return result;
 }
 
+/**
+ * @brief Run Heuristic Miner.
+ * @param[in] log Input parameter.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), size(), insert(), std::make_pair(), count(), push_back().
+ */
 DiscoveredProcess ProcessMining::runHeuristicMiner(const EventLog &log, const MiningConfig &config) {
     DiscoveredProcess result;
     result.algorithm = MiningAlgorithm::HEURISTIC;
@@ -279,6 +305,13 @@ DiscoveredProcess ProcessMining::runHeuristicMiner(const EventLog &log, const Mi
     return result;
 }
 
+/**
+ * @brief Run Inductive Miner.
+ * @param[in] log Input parameter.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), insert(), push_back(), size(), std::make_pair().
+ */
 DiscoveredProcess ProcessMining::runInductiveMiner(const EventLog &log, const MiningConfig &config) {
     DiscoveredProcess result;
     result.algorithm = MiningAlgorithm::INDUCTIVE;
@@ -335,6 +368,12 @@ DiscoveredProcess ProcessMining::runInductiveMiner(const EventLog &log, const Mi
     return result;
 }
 
+/**
+ * @brief Compute Variant Signature.
+ * @param[in] activities Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), size(), str().
+ */
 std::string ProcessMining::computeVariantSignature(const std::vector<std::string> &activities) {
     if (activities.empty()) {
         return "";
@@ -351,6 +390,12 @@ std::string ProcessMining::computeVariantSignature(const std::vector<std::string
     return oss.str();
 }
 
+/**
+ * @brief Embed Activities.
+ * @param[in] activities Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), embedding(), length(), std::sqrt().
+ */
 std::vector<float> ProcessMining::embedActivities(const std::vector<std::string> &activities) {
     if (activities.empty()) {
         return std::vector<float>(128, 0.0f);  // Return zero vector for empty input
@@ -393,6 +438,10 @@ std::vector<float> ProcessMining::embedActivities(const std::vector<std::string>
 }
 
 namespace ProcessMiningFunctions {
+/**
+ * @brief Register Functions.
+ * @details Implements registerFunctions without additional internal calls.
+ */
 void registerFunctions() {}
 } // namespace ProcessMiningFunctions
 
@@ -444,6 +493,11 @@ std::pair<ProcessMining::Status, EventLog> ProcessMining::extractEventLog(std::s
     db_.scanPrefix(prefix, [&](std::string_view key, std::string_view value) -> bool {
         try {
             // Parse document
+            /**
+             * @brief Key Str.
+             * @param[in] key Input parameter.
+             * @return Return value.
+             */
             std::string keyStr(key);
             size_t colonPos   = keyStr.find(':');
             std::string docId = colonPos != std::string::npos ? keyStr.substr(colonPos + 1) : keyStr;
@@ -603,6 +657,11 @@ std::pair<ProcessMining::Status, EventLog> ProcessMining::extractEventLogFromGra
     db_.scanPrefix(prefix, [&](std::string_view key, std::string_view value) -> bool {
         try {
             BaseEntity::Blob blob(value.begin(), value.end());
+            /**
+             * @brief Key Str.
+             * @param[in] key Input parameter.
+             * @return Return value.
+             */
             std::string keyStr(key);
             size_t colonPos   = keyStr.find(':');
             std::string docId = colonPos != std::string::npos ? keyStr.substr(colonPos + 1) : keyStr;
@@ -692,6 +751,11 @@ ProcessMining::extractEventLogFromReferences(std::string_view start_collection,
     db_.scanPrefix(prefix, [&](std::string_view key, std::string_view value) -> bool {
         try {
             BaseEntity::Blob blob(value.begin(), value.end());
+            /**
+             * @brief Key Str.
+             * @param[in] key Input parameter.
+             * @return Return value.
+             */
             std::string keyStr(key);
             size_t colonPos   = keyStr.find(':');
             std::string docId = colonPos != std::string::npos ? keyStr.substr(colonPos + 1) : keyStr;
@@ -888,7 +952,13 @@ ProcessMining::discoverProcessFromCollection(std::string_view collection, const 
     return discoverProcess(log, mining_config);
 }
 
-// ===== Mining Algorithms =====
+/**
+ * @brief ===== Mining Algorithms =====
+ * @param[in] log Input parameter.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Calls: createDFG(), operator(), insert(), push_back(), std::to_string(), find(), end(), size().
+ */
 
 DiscoveredProcess ProcessMining::runAlphaMiner(const EventLog &log, const MiningConfig &) {
     DiscoveredProcess process;
@@ -1190,6 +1260,13 @@ DiscoveredProcess ProcessMining::runAlphaMiner(const EventLog &log, const Mining
     return process;
 }
 
+/**
+ * @brief Run Heuristic Miner.
+ * @param[in] log Input parameter.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @details Calls: createDFG(), insert(), push_back(), std::to_string(), find(), end().
+ */
 DiscoveredProcess ProcessMining::runHeuristicMiner(const EventLog &log, const MiningConfig &config) {
     DiscoveredProcess process;
     process.name = "Heuristic Miner Result";
@@ -1343,6 +1420,13 @@ struct SubDFG {
     std::map<std::string, int> end_freq;                     // last activity in trace
 };
 
+/**
+ * @brief Build Sub DFG.
+ * @param[in] traces Input parameter.
+ * @param[in] noise_threshold Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), insert(), front(), back(), size(), std::make_pair(), std::max().
+ */
 SubDFG buildSubDFG(const std::vector<ProcessTrace> &traces, double noise_threshold) {
     SubDFG dfg;
     std::map<std::pair<std::string, std::string>, int> raw;
@@ -1375,7 +1459,12 @@ SubDFG buildSubDFG(const std::vector<ProcessTrace> &traces, double noise_thresho
     return dfg;
 }
 
-// Find weakly connected components of the DFG (undirected)
+/**
+ * @brief Find weakly connected components of the DFG (undirected)
+ * @param[in] dfg Input parameter.
+ * @return Return value.
+ * @details Calls: std::string(), find(), unite(), insert(), push_back(), std::move().
+ */
 std::vector<std::set<std::string>> findComponents(const SubDFG &dfg) {
     std::unordered_map<std::string, std::string> parent = {};
 
@@ -1415,8 +1504,12 @@ struct Cut {
     std::vector<std::set<std::string>> partitions; // activity sets
 };
 
-// Try XOR (exclusive choice) cut:
-// Activities have no DFG path between them in either direction.
+/**
+ * @brief Try XOR (exclusive choice) cut: Activities have no DFG path between them in either direction.
+ * @param[in] dfg Input parameter.
+ * @return Return value.
+ * @details Calls: findComponents(), size().
+ */
 Cut tryXorCut(const SubDFG &dfg) {
     auto components = findComponents(dfg);
     if (components.size() > 1) {
@@ -1425,9 +1518,12 @@ Cut tryXorCut(const SubDFG &dfg) {
     return {};
 }
 
-// Try SEQ cut:
-// Topological sort of strongly-connected components; if a valid ordering exists
-// where no edge goes backwards, the cut is a sequence.
+/**
+ * @brief Try SEQ cut: Topological sort of strongly-connected components; if a valid ordering exists where no edge goes backwards, the cut is a sequence.
+ * @param[in] dfg Input parameter.
+ * @return Return value.
+ * @details Calls: size(), insert(), push(), empty(), front(), pop(), push_back(), left().
+ */
 Cut trySeqCut(const SubDFG &dfg) {
     if (dfg.activities.size() < 2) {
         return {};
@@ -1508,8 +1604,12 @@ Cut trySeqCut(const SubDFG &dfg) {
     return {};
 }
 
-// Try AND (parallel) cut:
-// All activity pairs are connected in both directions.
+/**
+ * @brief Try AND (parallel) cut: All activity pairs are connected in both directions.
+ * @param[in] dfg Input parameter.
+ * @return Return value.
+ * @details Calls: findComponents(), size(), count().
+ */
 Cut tryAndCut(const SubDFG &dfg) {
     auto components = findComponents(dfg);
     if (components.size() < 2) {
@@ -1536,9 +1636,12 @@ Cut tryAndCut(const SubDFG &dfg) {
     return Cut{CutType::AND, components};
 }
 
-// Try LOOP cut:
-// The first partition is the "do" body, the second is the "redo" body.
-// Heuristic: activities that appear as loop-back sources.
+/**
+ * @brief Try LOOP cut: The first partition is the "do" body, the second is the "redo" body.
+ * @param[in] dfg Input parameter.
+ * @return Return value.
+ * @details Heuristic: activities that appear as loop-back sources. Calls: size(), insert(), empty(), count().
+ */
 Cut tryLoopCut(const SubDFG &dfg) {
     if (dfg.activities.size() < 2) {
         return {};
@@ -1595,7 +1698,13 @@ Cut tryLoopCut(const SubDFG &dfg) {
     return Cut{CutType::LOOP, {doBody, redoCandidates}};
 }
 
-// Split traces according to a cut's partition
+/**
+ * @brief Split traces according to a cut's partition
+ * @param[in] traces Input parameter.
+ * @param[in] cut Input parameter.
+ * @return Return value.
+ * @details Calls: result(), size(), count(), push_back(), empty().
+ */
 std::vector<std::vector<ProcessTrace>> splitTraces(const std::vector<ProcessTrace> &traces, const Cut &cut) {
     std::vector<std::vector<ProcessTrace>> result(cut.partitions.size());
 
@@ -1648,11 +1757,31 @@ std::vector<std::vector<ProcessTrace>> splitTraces(const std::vector<ProcessTrac
 }
 
 // Forward declaration
+/**
+ * @brief Inductive Miner Recurse.
+ * @param[in] traces Input parameter.
+ * @param[in] activities Input parameter.
+ * @param[in] noise_threshold Input parameter.
+ * @param[in,out] process Input/output parameter.
+ * @param[in,out] nodeId Input/output parameter.
+ * @param[in,out] edgeId Input/output parameter.
+ * @param[in] parentEntryId Input parameter.
+ * @param[in] parentExitId Input parameter.
+ */
 void inductiveMinerRecurse(const std::vector<ProcessTrace> &traces, const std::set<std::string> &activities,
                            double noise_threshold, DiscoveredProcess &process, int &nodeId, int &edgeId,
                            const std::string &parentEntryId, const std::string &parentExitId);
 
-// Create a sub-process block: start/end nodes connected by the given block
+/**
+ * @brief Create a sub-process block: start/end nodes connected by the given block
+ * @param[in] activities Input parameter.
+ * @param[in,out] process Input/output parameter.
+ * @param[in,out] nodeId Input/output parameter.
+ * @param[in,out] edgeId Input/output parameter.
+ * @param[in] entryId Input parameter.
+ * @param[in] exitId Input parameter.
+ * @details Calls: std::to_string(), push_back().
+ */
 void addFlowerModel(const std::set<std::string> &activities, DiscoveredProcess &process, int &nodeId, int &edgeId,
                     const std::string &entryId, const std::string &exitId) {
     // Flower model: loop gateway allowing any activity
@@ -1700,6 +1829,18 @@ void addFlowerModel(const std::set<std::string> &activities, DiscoveredProcess &
     process.edges.push_back(e2);
 }
 
+/**
+ * @brief Inductive Miner Recurse.
+ * @param[in] traces Input parameter.
+ * @param[in] activities Input parameter.
+ * @param[in] noise_threshold Input parameter.
+ * @param[in,out] process Input/output parameter.
+ * @param[in,out] nodeId Input/output parameter.
+ * @param[in,out] edgeId Input/output parameter.
+ * @param[in] entryId Input parameter.
+ * @param[in] exitId Input parameter.
+ * @details Calls: empty(), std::to_string(), push_back(), size(), begin(), buildSubDFG(), tryXorCut(), trySeqCut().
+ */
 void inductiveMinerRecurse(const std::vector<ProcessTrace> &traces, const std::set<std::string> &activities,
                            double noise_threshold, DiscoveredProcess &process, int &nodeId, int &edgeId,
                            const std::string &entryId, const std::string &exitId) {
@@ -1898,6 +2039,13 @@ void inductiveMinerRecurse(const std::vector<ProcessTrace> &traces, const std::s
 
 } // anonymous namespace
 
+/**
+ * @brief Run Inductive Miner.
+ * @param[in] log Input parameter.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), insert(), push_back(), inductiveMinerRecurse(), std::min(), size(), THEMIS_INFO().
+ */
 DiscoveredProcess ProcessMining::runInductiveMiner(const EventLog &log, const MiningConfig &config) {
     DiscoveredProcess process;
     process.name = "Inductive Miner Result";
@@ -2225,6 +2373,13 @@ std::pair<ProcessMining::Status, std::string> ProcessMining::exportToBPMN(const 
     return {Status::OK(), xml.str()};
 }
 
+/**
+ * @brief Save As Process Definition.
+ * @param[in] model Input parameter.
+ * @param[in] process_id Identifier of the process.
+ * @return Return value.
+ * @details Calls: std::string(), std::chrono::system_clock::now(), time_since_epoch(), count(), defEntity(), serialize(), put(), Status::Error().
+ */
 ProcessMining::Status ProcessMining::saveAsProcessDefinition(const DiscoveredProcess &model,
                                                              std::string_view process_id) {
     // Save process definition
@@ -2282,7 +2437,12 @@ ProcessMining::Status ProcessMining::saveAsProcessDefinition(const DiscoveredPro
     return Status::OK();
 }
 
-// ===== Helper Functions =====
+/**
+ * @brief ===== Helper Functions =====
+ * @param[in] activities Input parameter.
+ * @return Return value.
+ * @details Calls: size(), str().
+ */
 
 std::string ProcessMining::computeVariantSignature(const std::vector<std::string> &activities) {
     std::ostringstream oss = {};
@@ -2295,6 +2455,12 @@ std::string ProcessMining::computeVariantSignature(const std::vector<std::string
     return oss.str();
 }
 
+/**
+ * @brief Embed Activities.
+ * @param[in] activities Input parameter.
+ * @return Return value.
+ * @details Calls: hasher(), push_back().
+ */
 std::vector<float> ProcessMining::embedActivities(const std::vector<std::string> &activities) {
     // Create simple embedding based on activity names using hash
     // In production, would use VectorIndex for semantic embeddings
@@ -2934,6 +3100,10 @@ std::pair<ProcessMining::Status, ProcessMining::ProcessEvolution> ProcessMining:
 
 namespace ProcessMiningFunctions {
 
+/**
+ * @brief Register Functions.
+ * @details Calls: THEMIS_INFO().
+ */
 void registerFunctions() {
     // Register Process Mining functions with AQL parser
     // These functions will be available in AQL queries once integrated

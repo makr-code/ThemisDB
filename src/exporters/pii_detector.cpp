@@ -22,6 +22,10 @@ PIIDetector::PIIDetector(const Config& config) : config_(config) {
     initPatterns();
 }
 
+/**
+ * @brief Init Patterns.
+ * @details Calls: std::regex().
+ */
 void PIIDetector::initPatterns() {
     // Email pattern (simplified but practical)
     email_pattern_ = std::regex(

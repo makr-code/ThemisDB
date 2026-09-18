@@ -22,6 +22,11 @@ ShardLoadBalancer::ShardLoadBalancer(std::vector<std::string> shard_ids)
 ShardLoadBalancer::ShardLoadBalancer(std::vector<std::string> shard_ids,
                                      Config cfg)
     : cfg_(std::move(cfg)) {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     for (auto& id : shard_ids) {
         if (shards_.find(id) == shards_.end()) {
@@ -36,6 +41,11 @@ ShardLoadBalancer::ShardLoadBalancer(std::vector<std::string> shard_ids,
 // addShard / removeShard
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Add Shard.
+ * @param[in] shard_id Identifier of the shard.
+ * @details Calls: lk(), find(), end(), push_back(), emplace().
+ */
 void ShardLoadBalancer::addShard(const std::string& shard_id) {
     std::lock_guard<std::mutex> lk(mutex_);
     if (shards_.find(shard_id) == shards_.end()) {
@@ -45,6 +55,12 @@ void ShardLoadBalancer::addShard(const std::string& shard_id) {
     }
 }
 
+/**
+ * @brief Remove Shard.
+ * @param[in] shard_id Identifier of the shard.
+ * @return True when the operation succeeds.
+ * @details Calls: lk(), find(), end(), erase(), std::remove(), begin().
+ */
 bool ShardLoadBalancer::removeShard(const std::string& shard_id) {
     std::lock_guard<std::mutex> lk(mutex_);
     auto it = shards_.find(shard_id);
@@ -63,6 +79,12 @@ bool ShardLoadBalancer::removeShard(const std::string& shard_id) {
 // updateMetrics / setAvailable
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Update Metrics.
+ * @param[in] shard_id Identifier of the shard.
+ * @param[in] metrics Input parameter.
+ * @details Calls: lk(), find(), end(), std::chrono::steady_clock::now().
+ */
 void ShardLoadBalancer::updateMetrics(const std::string& shard_id,
                                       const ShardMetrics& metrics) {
     std::lock_guard<std::mutex> lk(mutex_);
@@ -74,6 +96,12 @@ void ShardLoadBalancer::updateMetrics(const std::string& shard_id,
     it->second.metrics.last_updated = std::chrono::steady_clock::now();
 }
 
+/**
+ * @brief Set Available.
+ * @param[in] shard_id Identifier of the shard.
+ * @param[in] available Input parameter.
+ * @details Calls: lk(), find(), end().
+ */
 void ShardLoadBalancer::setAvailable(const std::string& shard_id, bool available) {
     std::lock_guard<std::mutex> lk(mutex_);
     auto it = shards_.find(shard_id);
@@ -109,6 +137,11 @@ double ShardLoadBalancer::computeScore(const ShardMetrics& m) const noexcept {
 
 std::string ShardLoadBalancer::selectShard(
     std::optional<std::size_t> client_hash) const {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
 
     if (shards_.empty()) {
@@ -158,6 +191,12 @@ std::string ShardLoadBalancer::selectShard(
 // reportCompletion
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Report Completion.
+ * @param[in] shard_id Identifier of the shard.
+ * @param[in] latency_ms Input parameter.
+ * @details Calls: lk(), find(), end().
+ */
 void ShardLoadBalancer::reportCompletion(const std::string& shard_id,
                                          double latency_ms) {
     std::lock_guard<std::mutex> lk(mutex_);
@@ -179,6 +218,11 @@ void ShardLoadBalancer::reportCompletion(const std::string& shard_id,
 
 std::vector<ShardLoadBalancer::ShardStatistics>
 ShardLoadBalancer::statistics() const {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     std::vector<ShardStatistics> out = {};
 
@@ -199,6 +243,11 @@ ShardLoadBalancer::statistics() const {
 }
 
 std::size_t ShardLoadBalancer::availableShardCount() const noexcept {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     std::size_t cnt = 0;
     for (const auto& [id, st] : shards_) {

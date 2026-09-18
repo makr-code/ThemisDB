@@ -35,6 +35,12 @@ constexpr std::size_t kMaxFilenameChars = 512;
 constexpr std::size_t kMaxChunkSnippetChars = 128 * 1024; // 128 KiB
 constexpr std::size_t kMaxMetadataValueChars = 16 * 1024; // 16 KiB
 
+/**
+ * @brief Trim Copy.
+ * @param[in] in Input parameter.
+ * @return Return value.
+ * @details Calls: find_first_not_of(), find_last_not_of(), substr().
+ */
 std::string trimCopy(const std::string& in) {
     const auto begin = in.find_first_not_of(" \t\r\n");
     if (begin == std::string::npos) {
@@ -44,6 +50,13 @@ std::string trimCopy(const std::string& in) {
     return in.substr(begin, end - begin + 1);
 }
 
+/**
+ * @brief Truncate Copy.
+ * @param[in] in Input parameter.
+ * @param[in] max_chars Input parameter.
+ * @return Return value.
+ * @details Calls: size(), substr().
+ */
 std::string truncateCopy(const std::string& in, std::size_t max_chars) {
     if (in.size() <= max_chars) {
         return in;
@@ -51,12 +64,24 @@ std::string truncateCopy(const std::string& in, std::size_t max_chars) {
     return in.substr(0, max_chars);
 }
 
+/**
+ * @brief Has Control Characters.
+ * @param[in] value Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: std::any_of(), begin(), end().
+ */
 bool hasControlCharacters(const std::string& value) {
     return std::any_of(value.begin(), value.end(), [](unsigned char c) {
         return c < 32 && c != '\t' && c != '\r' && c != '\n';
     });
 }
 
+/**
+ * @brief Bounded Metadata Value.
+ * @param[in] value Input parameter.
+ * @return Return value.
+ * @details Calls: truncateCopy(), trimCopy().
+ */
 std::string boundedMetadataValue(const std::string& value) {
     return truncateCopy(trimCopy(value), kMaxMetadataValueChars);
 }
@@ -90,20 +115,15 @@ RAGIngestionBridge& RAGIngestionBridge::operator=(RAGIngestionBridge&&) noexcept
 // Core operations
 // ─────────────────────────────────────────────────────────────────────────────
 
-// Thread-Safe: captures local copies of member pointers before use.
-// Complexity: O(m * e) where m = text.size(), e = entity extraction overhead
-// Failure modes handled (all return ok=false with descriptive error):
-//   - Empty text: rejected with error="empty input"
-//   - Text > kMaxDocumentChars (5 MiB): rejected with error="input too large"
-//   - Invalid collection name (empty, >256 chars, control chars): rejected
-//   - Invalid mime type (empty, >128 chars, control chars): rejected
-//   - Invalid filename (empty, >512 chars, control chars): rejected
-//   - Workflow engine unavailable: falls back to direct entity extraction (fail-open)
-//   - Vector writer failure: logged, partial result returned (vector_count=0)
-//   - Graph writer failure: logged, indexing continues without graph writes
-// All validation errors are logged at WARN level; I/O errors at WARN level.
-// Doc ID is deterministic from text hash (idempotent re-indexing).
-// Fallback workflow ensures partial indexing succeeds even without full pipeline.
+/**
+ * @brief Thread-Safe: captures local copies of member pointers before use.
+ * @param[in] text Input parameter.
+ * @param[in] collection Input parameter.
+ * @param[in] mime Input parameter.
+ * @param[in] filename Input parameter.
+ * @return Return value.
+ * @details Complexity: O(m * e) where m = text.size(), e = entity extraction overhead Failure modes handled (all return ok=false with descriptive error): - Empty text: rejected with error="empty input" - Text > kMaxDocumentChars (5 MiB): rejected with error="input too large" - Invalid collection name (empty, >256 chars, control chars): rejected - Invalid mime type (empty, >128 chars, control chars): rejected - Invalid filename (empty, >512 chars, control chars): rejected - Workflow engine unavailable: falls back to direct entity extraction (fail-open) - Vector writer failure: logged, partial result returned (vector_count=0) - Graph writer failure: logged, indexing continues without graph writes All validation errors are logged at WARN level; I/O errors at WARN level. Doc ID is deterministic from text hash (idempotent re-indexing). Fallback workflow ensures partial indexing succeeds even without full pipeline.
+ */
 
 IndexResult RAGIngestionBridge::indexDocument(
     const std::string& text,
@@ -346,6 +366,11 @@ IndexResult RAGIngestionBridge::indexDocument(
     }
 }
 
+/**
+ * @brief Enrich Retrieved Documents.
+ * @param[in,out] docs Input/output parameter.
+ * @return Return value.
+ */
 std::size_t RAGIngestionBridge::enrichRetrievedDocuments(
     std::vector<judge::RetrievedDocument>& docs)
 {
@@ -427,6 +452,11 @@ RAGIngestionBridge::extractEntitiesForContext(const std::string& text) {
 // Static helpers
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Build Entity Context.
+ * @param[in] entities Input parameter.
+ * @return Return value.
+ */
 std::string RAGIngestionBridge::buildEntityContext(
     const std::vector<ingestion::BaseEntity>& entities)
 {
@@ -451,6 +481,12 @@ std::string RAGIngestionBridge::buildEntityContext(
     return oss.str();
 }
 
+/**
+ * @brief Compute Doc Hash.
+ * @param[in] text Input parameter.
+ * @return Return value.
+ * @details Calls: size(), substr(), std::setfill(), std::setw(), str().
+ */
 std::string RAGIngestionBridge::computeDocHash(const std::string& text) {
     // Derive a stable 16-character hex digest from the text.
     // Uses two independent std::hash calls on overlapping halves so that
@@ -468,6 +504,12 @@ std::string RAGIngestionBridge::computeDocHash(const std::string& text) {
     return oss.str();
 }
 
+/**
+ * @brief Entity Type Name.
+ * @param[in] et Input parameter.
+ * @return Return value.
+ * @details Implements entityTypeName without additional internal calls.
+ */
 std::string RAGIngestionBridge::entityTypeName(ingestion::EntityType et) {
     using ET = ingestion::EntityType;
     switch (et) {
@@ -514,9 +556,14 @@ RAGIngestionBridge::graphWriter() const {
     return graph_writer_;
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// RAGIngestionBridge::indexOptimizerLog  (IMPL-A2 Phase 2)
-// ─────────────────────────────────────────────────────────────────────────────
+/**
+ * @brief ───────────────────────────────────────────────────────────────────────────── RAGIngestionBridge::indexOptimizerLog (IMPL-A2 Phase 2) ─────────────────────────────────────────────────────────────────────────────
+ * @param[in] query_id Identifier of the query.
+ * @param[in] plan_json Input parameter.
+ * @param[in] latency_ms Input parameter.
+ * @param[in] collection Input parameter.
+ * @return Return value.
+ */
 
 IndexResult RAGIngestionBridge::indexOptimizerLog(
     const std::string& query_id,

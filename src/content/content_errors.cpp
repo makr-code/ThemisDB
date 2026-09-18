@@ -174,6 +174,12 @@ json ContentError::toJsonVerbose() const {
     return j;
 }
 
+/**
+ * @brief From Json.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: contains(), is_number(), is_string().
+ */
 ContentError ContentError::fromJson(const json &j) {
     ContentError err = {};
 
@@ -204,6 +210,11 @@ ContentError ContentError::fromJson(const json &j) {
     return err;
 }
 
+/**
+ * @brief Ok.
+ * @return Return value.
+ * @details Implements ok without additional internal calls.
+ */
 ContentError ContentError::ok() {
     ContentError err;
     err.code    = ContentErrorCode::OK;
@@ -211,6 +222,14 @@ ContentError ContentError::ok() {
     return err;
 }
 
+/**
+ * @brief Error.
+ * @param[in] code Input parameter.
+ * @param[in] message Input parameter.
+ * @param[in] details Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), getDefaultErrorMessage().
+ */
 ContentError ContentError::error(ContentErrorCode code, const std::string &message, const std::string &details) {
     ContentError err;
     err.code    = code;
@@ -223,6 +242,12 @@ ContentError ContentError::error(ContentErrorCode code, const std::string &messa
 // Helper Functions
 // ============================================================================
 
+/**
+ * @brief Error Code To String.
+ * @param[in] code Input parameter.
+ * @return Return value.
+ * @details Implements errorCodeToString without additional internal calls.
+ */
 std::string errorCodeToString(ContentErrorCode code) {
     switch (code) {
         case ContentErrorCode::OK:
@@ -315,6 +340,12 @@ std::string errorCodeToString(ContentErrorCode code) {
     }
 }
 
+/**
+ * @brief Error Code Category.
+ * @param[in] code Input parameter.
+ * @return Return value.
+ * @details Implements errorCodeCategory without additional internal calls.
+ */
 std::string errorCodeCategory(ContentErrorCode code) {
     int c = static_cast<int>(code);
 
@@ -346,6 +377,12 @@ std::string errorCodeCategory(ContentErrorCode code) {
     return "unknown";
 }
 
+/**
+ * @brief Get Default Error Message.
+ * @param[in] code Input parameter.
+ * @return Return value.
+ * @details Implements getDefaultErrorMessage without additional internal calls.
+ */
 std::string getDefaultErrorMessage(ContentErrorCode code) {
     switch (code) {
         case ContentErrorCode::OK:
@@ -438,11 +475,23 @@ std::string getDefaultErrorMessage(ContentErrorCode code) {
     }
 }
 
+/**
+ * @brief Is Security Error.
+ * @param[in] code Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements isSecurityError without additional internal calls.
+ */
 bool isSecurityError(ContentErrorCode code) {
     int c = static_cast<int>(code);
     return c >= 1200 && c < 1300;
 }
 
+/**
+ * @brief Is Validation Error.
+ * @param[in] code Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements isValidationError without additional internal calls.
+ */
 bool isValidationError(ContentErrorCode code) {
     int c = static_cast<int>(code);
     return c >= 1000 && c < 1100;

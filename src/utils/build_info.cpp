@@ -857,8 +857,8 @@ std::string getVersionSummary() {
 
 /**
  * @brief Is Module Compiled In.
- * @param[in] module_name Input parameter.
- * @return True on success.
+ * @param[in] module_name Name of the module.
+ * @return True when the operation succeeds.
  * @details Calls: getBuildConfiguration().
  */
 bool isModuleCompiledIn(const std::string& module_name) {
@@ -935,7 +935,7 @@ std::vector<std::string> getDisabledModules() {
 #endif
 
 /**
- * @brief ── Helper: SHA-256 hash of the running executable ─────────────────────────
+ * @brief Compute Executable Hash.
  * @return Return value.
  * @details Calls: defined(), readlink(), assign(), GetModuleFileNameA(), empty(), f(), EVP_MD_CTX_new(), EVP_DigestInit_ex().
  */
@@ -954,12 +954,6 @@ static std::string computeExecutableHash() {
 #endif
     if (exe_path.empty()) return "(unavailable)";
 
-    /**
-     * @brief F.
-     * @param[in] exe_path Input parameter.
-     * @param[in] binary Input parameter.
-     * @return Return value.
-     */
     std::ifstream f(exe_path, std::ios::binary);
     if (!f) return "(read-error)";
 
@@ -1025,19 +1019,14 @@ ReproducibilityInfo getReproducibilityInfo() {
 
 /**
  * @brief Export Build Manifest.
- * @param[in] output_path Input parameter.
- * @return True on success.
+ * @param[in] output_path Path to the output.
+ * @return True when the operation succeeds.
  * @details Calls: getReproducibilityInfo(), getBuildConfiguration(), out(), good().
  */
 bool exportBuildManifest(const std::string& output_path) {
     const auto repro = getReproducibilityInfo();
     const auto cfg   = getBuildConfiguration();
 
-    /**
-     * @brief Out.
-     * @param[in] output_path Input parameter.
-     * @return Return value.
-     */
     std::ofstream out(output_path);
     if (!out) return false;
 
@@ -1070,16 +1059,11 @@ bool exportBuildManifest(const std::string& output_path) {
 
 /**
  * @brief Verify Build Manifest.
- * @param[in] manifest_path Input parameter.
- * @return True on success.
+ * @param[in] manifest_path Path to the manifest.
+ * @return True when the operation succeeds.
  * @details Calls: in(), content(), getReproducibilityInfo(), find(), containsField().
  */
 bool verifyBuildManifest(const std::string& manifest_path) {
-    /**
-     * @brief In.
-     * @param[in] manifest_path Input parameter.
-     * @return Return value.
-     */
     std::ifstream in(manifest_path);
     if (!in) return false;
 

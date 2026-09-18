@@ -43,14 +43,15 @@
     //   GPU path additionally requires -DTHEMIS_HAS_FAISS_GPU=ON.
     // Roadmap ref: src/index/FUTURE_ENHANCEMENTS.md § "FAISS Integration (v1.5.0)"
     namespace faiss {
-        /** @brief Index structure. */
         class Index {
         public:
+            /**
+             * @brief Index.
+             * @return Return value.
+             */
             virtual ~Index() = default;
         };
-        /** @brief Index ivfpq. */
         class IndexIVFPQ : public Index {};
-        /** @brief Index ivf flat. */
         class IndexIVFFlat : public Index {};
     }
 #endif
@@ -59,6 +60,19 @@ namespace themis {
 
 #if defined(THEMIS_HAS_FAISS) && defined(THEMIS_ENABLE_CUDA) && defined(THEMIS_ENABLE_CUVS)
 namespace {
+/**
+ * @brief Try Search With Cuda Cuvs Gate.
+ * @param[in,out] cpu_index Input/output parameter.
+ * @param[in] gpu_device Input parameter.
+ * @param[in] num_queries Input parameter.
+ * @param[in] queries Input parameter.
+ * @param[in] k Input parameter.
+ * @param[in,out] distances Input/output parameter.
+ * @param[in,out] ids Input/output parameter.
+ * @param[in,out] error Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: gpu_index(), faiss::gpu::index_cpu_to_gpu(), search(), data(), what().
+ */
 bool trySearchWithCudaCuvsGate(faiss::Index *cpu_index, int gpu_device, size_t num_queries, const float *queries, size_t k,
                                std::vector<float> &distances, std::vector<int64_t> &ids, std::string &error) {
     try {
@@ -111,6 +125,11 @@ AdvancedVectorIndex::~AdvancedVectorIndex() noexcept {
 #endif
 }
 
+/**
+ * @brief Initialize Index.
+ * @return True when the operation succeeds.
+ * @details Calls: get(), release(), THEMIS_INFO(), THEMIS_ERROR(), what(), StubCallbacks(), lk(), AdvancedVectorIndex::stubCallbacksMutex().
+ */
 bool AdvancedVectorIndex::initializeIndex() {
 #ifdef THEMIS_HAS_FAISS
     try {
@@ -427,6 +446,11 @@ std::vector<AdvancedVectorIndex::SearchResult> AdvancedVectorIndex::searchBatch(
     [[maybe_unused]] size_t num_queries,
     [[maybe_unused]] size_t k
 ) {
+    /**
+     * @brief Results.
+     * @param[in] num_queries Input parameter.
+     * @return Return value.
+     */
     std::vector<SearchResult> results(num_queries);
     
 #ifdef THEMIS_HAS_FAISS
@@ -438,7 +462,17 @@ std::vector<AdvancedVectorIndex::SearchResult> AdvancedVectorIndex::searchBatch(
     try {
         auto* idx = static_cast<faiss::Index*>(index_);
         
+        /**
+         * @brief All ids.
+         * @param[in,out] k Input/output parameter.
+         * @return Return value.
+         */
         std::vector<int64_t> all_ids(num_queries * k);
+        /**
+         * @brief All distances.
+         * @param[in,out] k Input/output parameter.
+         * @return Return value.
+         */
         std::vector<float> all_distances(num_queries * k);
 
 #if defined(THEMIS_ENABLE_CUDA) && defined(THEMIS_ENABLE_CUVS)
@@ -622,6 +656,14 @@ bool AdvancedVectorIndex::load([[maybe_unused]] const std::string& path) {
 #endif
 }
 
+/**
+ * @brief Get Workload Optimized Config.
+ * @param[in] dataset_size Input parameter.
+ * @param[in] dimension Input parameter.
+ * @param[in] workload Input parameter.
+ * @return Return value.
+ * @details Calls: std::sqrt(), std::max(), size_t(), std::min(), THEMIS_INFO().
+ */
 AdvancedVectorIndex::Config AdvancedVectorIndex::getWorkloadOptimizedConfig(
     size_t dataset_size,
     size_t dimension,

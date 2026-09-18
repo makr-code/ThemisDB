@@ -190,6 +190,11 @@ ThemisDBAdapter::ThemisDBAdapter(
 // Private helpers
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Generate id.
+ * @return Return value.
+ * @details Calls: utils::generate_uuid_v4().
+ */
 std::string ThemisDBAdapter::generate_id() {
     return utils::generate_uuid_v4();
 }
@@ -219,6 +224,11 @@ Result<bool> ThemisDBAdapter::connect(
     return Result<bool>::ok(true);
 }
 
+/**
+ * @brief Disconnect.
+ * @return Return value.
+ * @details Calls: clear(), ok().
+ */
 Result<bool> ThemisDBAdapter::disconnect() {
     connected_ = false;
     connection_string_.clear();
@@ -230,6 +240,13 @@ bool ThemisDBAdapter::is_connected() const {
 }
 
 // IRelationalAdapter
+/**
+ * @brief Execute query.
+ * @param[in] query Input parameter.
+ * @param[in] params Input parameter.
+ * @return Return value.
+ * @details Calls: err(), defined(), themis::executeAql(), error(), message(), value(), contains(), is_array().
+ */
 Result<RelationalTable> ThemisDBAdapter::execute_query(
     const std::string& query,
     const std::vector<Scalar>& params
@@ -333,6 +350,13 @@ Result<RelationalTable> ThemisDBAdapter::execute_query(
     return Result<RelationalTable>::ok(std::move(table));
 }
 
+/**
+ * @brief Insert row.
+ * @param[in] table_name Name of the table.
+ * @param[in] row Input parameter.
+ * @return Return value.
+ * @details Calls: err(), lock(), push_back(), ok().
+ */
 Result<size_t> ThemisDBAdapter::insert_row(
     const std::string& table_name,
     const RelationalRow& row
@@ -351,6 +375,13 @@ Result<size_t> ThemisDBAdapter::insert_row(
     return Result<size_t>::ok(1);
 }
 
+/**
+ * @brief Batch insert.
+ * @param[in] table_name Name of the table.
+ * @param[in] rows Input parameter.
+ * @return Return value.
+ * @details Calls: err(), lock(), insert(), end(), begin(), ok(), size().
+ */
 Result<size_t> ThemisDBAdapter::batch_insert(
     const std::string& table_name,
     const std::vector<RelationalRow>& rows
@@ -380,6 +411,13 @@ Result<QueryStatistics> ThemisDBAdapter::get_query_statistics() const {
 }
 
 // IVectorAdapter
+/**
+ * @brief Insert vector.
+ * @param[in] collection Input parameter.
+ * @param[in] vector Input parameter.
+ * @return Return value.
+ * @details Calls: err(), generate_id(), lock(), emplace_back(), ok().
+ */
 Result<std::string> ThemisDBAdapter::insert_vector(
     const std::string& collection,
     const Vector& vector
@@ -400,6 +438,13 @@ Result<std::string> ThemisDBAdapter::insert_vector(
     return Result<std::string>::ok(id);
 }
 
+/**
+ * @brief Batch insert vectors.
+ * @param[in] collection Input parameter.
+ * @param[in] vectors Input parameter.
+ * @return Return value.
+ * @details Calls: err(), lock(), reserve(), size(), emplace_back(), generate_id(), ok().
+ */
 Result<size_t> ThemisDBAdapter::batch_insert_vectors(
     const std::string& collection,
     const std::vector<Vector>& vectors
@@ -475,6 +520,11 @@ Result<std::vector<std::pair<Vector, double>>> ThemisDBAdapter::search_vectors(
     }
 
     // In-memory simulation: brute-force cosine similarity search.
+    /**
+     * @brief Lock.
+     * @param[in] store_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::unique_lock<std::mutex> lock(store_mutex_);
     const auto& store_it = vector_store_.find(collection);
     if (store_it == vector_store_.end() || store_it->second.empty()) {
@@ -537,6 +587,11 @@ Result<bool> ThemisDBAdapter::create_index(
 
     // Ensure the collection entry exists in the in-memory store.
     {
+        /**
+         * @brief Lock.
+         * @param[in] store_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lock(store_mutex_);
         vector_store_.try_emplace(collection);
     }
@@ -544,6 +599,12 @@ Result<bool> ThemisDBAdapter::create_index(
 }
 
 // IGraphAdapter
+/**
+ * @brief Insert node.
+ * @param[in] node Input parameter.
+ * @return Return value.
+ * @details Calls: err(), empty(), generate_id(), lock(), std::move(), ok().
+ */
 Result<std::string> ThemisDBAdapter::insert_node(const GraphNode& node) {
     if (!connected_) {
         return Result<std::string>::err(
@@ -562,6 +623,12 @@ Result<std::string> ThemisDBAdapter::insert_node(const GraphNode& node) {
     return Result<std::string>::ok(id);
 }
 
+/**
+ * @brief Insert edge.
+ * @param[in] edge Input parameter.
+ * @return Return value.
+ * @details Calls: err(), empty(), generate_id(), lock(), emplace_back(), ok().
+ */
 Result<std::string> ThemisDBAdapter::insert_edge(const GraphEdge& edge) {
     if (!connected_) {
         return Result<std::string>::err(
@@ -581,6 +648,14 @@ Result<std::string> ThemisDBAdapter::insert_edge(const GraphEdge& edge) {
     return Result<std::string>::ok(id);
 }
 
+/**
+ * @brief Shortest path.
+ * @param[in] source_id Identifier of the source.
+ * @param[in] target_id Identifier of the target.
+ * @param[in] max_depth Input parameter.
+ * @return Return value.
+ * @details Calls: err(), defined(), std::tie(), dijkstraWithConstraints(), dijkstra(), find(), end(), push_back().
+ */
 Result<GraphPath> ThemisDBAdapter::shortest_path(
     const std::string& source_id,
     const std::string& target_id,
@@ -733,6 +808,14 @@ Result<GraphPath> ThemisDBAdapter::shortest_path(
     return Result<GraphPath>::ok(std::move(path));
 }
 
+/**
+ * @brief Traverse.
+ * @param[in] start_id Identifier of the start.
+ * @param[in] max_depth Input parameter.
+ * @param[in] edge_labels Input parameter.
+ * @return Return value.
+ * @details Calls: err(), defined(), insert(), find(), end(), push_back(), std::move(), empty().
+ */
 Result<std::vector<GraphNode>> ThemisDBAdapter::traverse(
     const std::string& start_id,
     size_t max_depth,
@@ -877,6 +960,13 @@ Result<std::vector<GraphPath>> ThemisDBAdapter::execute_graph_query(
 }
 
 // IDocumentAdapter
+/**
+ * @brief Insert document.
+ * @param[in] collection Input parameter.
+ * @param[in] doc Input parameter.
+ * @return Return value.
+ * @details Calls: err(), empty(), generate_id(), lock(), std::move(), ok().
+ */
 Result<std::string> ThemisDBAdapter::insert_document(
     const std::string& collection,
     const Document& doc
@@ -898,6 +988,13 @@ Result<std::string> ThemisDBAdapter::insert_document(
     return Result<std::string>::ok(id);
 }
 
+/**
+ * @brief Batch insert documents.
+ * @param[in] collection Input parameter.
+ * @param[in] docs Input parameter.
+ * @return Return value.
+ * @details Calls: err(), lock(), empty(), generate_id(), std::move(), ok(), size().
+ */
 Result<size_t> ThemisDBAdapter::batch_insert_documents(
     const std::string& collection,
     const std::vector<Document>& docs
@@ -935,6 +1032,11 @@ Result<std::vector<Document>> ThemisDBAdapter::find_documents(
     }
 
     std::vector<Document> matched;
+    /**
+     * @brief Lock.
+     * @param[in] store_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::unique_lock<std::mutex> lock(store_mutex_);
     auto col_it = doc_store_.find(collection);
     if (col_it == doc_store_.end()) {
@@ -975,6 +1077,11 @@ Result<size_t> ThemisDBAdapter::update_documents(
     }
 
     size_t count = 0;
+    /**
+     * @brief Lock.
+     * @param[in] store_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::unique_lock<std::mutex> lock(store_mutex_);
     auto col_it = doc_store_.find(collection);
     if (col_it == doc_store_.end()) {
@@ -1001,6 +1108,12 @@ Result<size_t> ThemisDBAdapter::update_documents(
 }
 
 // ITransactionAdapter
+/**
+ * @brief Begin transaction.
+ * @param[in] options Input parameter.
+ * @return Return value.
+ * @details Calls: err(), lock(), str(), std::chrono::system_clock::now(), std::chrono::steady_clock::now(), emplace(), std::move(), ok().
+ */
 Result<std::string> ThemisDBAdapter::begin_transaction(
     const TransactionOptions& options
 ) {
@@ -1025,6 +1138,12 @@ Result<std::string> ThemisDBAdapter::begin_transaction(
     return Result<std::string>::ok(txn_id);
 }
 
+/**
+ * @brief Commit transaction.
+ * @param[in] transaction_id Identifier of the transaction.
+ * @return Return value.
+ * @details Calls: err(), empty(), lock(), find(), end(), erase(), ok().
+ */
 Result<bool> ThemisDBAdapter::commit_transaction(const std::string& transaction_id) {
     if (!connected_) {
         return Result<bool>::err(
@@ -1051,6 +1170,12 @@ Result<bool> ThemisDBAdapter::commit_transaction(const std::string& transaction_
     return Result<bool>::ok(true);
 }
 
+/**
+ * @brief Rollback transaction.
+ * @param[in] transaction_id Identifier of the transaction.
+ * @return Return value.
+ * @details Calls: err(), empty(), lock(), find(), end(), erase(), ok().
+ */
 Result<bool> ThemisDBAdapter::rollback_transaction(const std::string& transaction_id) {
     if (!connected_) {
         return Result<bool>::err(
@@ -1077,6 +1202,13 @@ Result<bool> ThemisDBAdapter::rollback_transaction(const std::string& transactio
     return Result<bool>::ok(true);
 }
 
+/**
+ * @brief Create savepoint.
+ * @param[in] transaction_id Identifier of the transaction.
+ * @param[in] savepoint_name Name of the savepoint.
+ * @return Return value.
+ * @details Calls: err(), empty(), lock(), find(), end(), count(), push_back(), insert().
+ */
 Result<std::string> ThemisDBAdapter::create_savepoint(
     const std::string& transaction_id,
     const std::string& savepoint_name
@@ -1116,6 +1248,13 @@ Result<std::string> ThemisDBAdapter::create_savepoint(
     return Result<std::string>::ok(savepoint_name);
 }
 
+/**
+ * @brief Rollback to savepoint.
+ * @param[in] transaction_id Identifier of the transaction.
+ * @param[in] savepoint_name Name of the savepoint.
+ * @return Return value.
+ * @details Calls: err(), empty(), lock(), find(), end(), std::find(), begin(), erase().
+ */
 Result<bool> ThemisDBAdapter::rollback_to_savepoint(
     const std::string& transaction_id,
     const std::string& savepoint_name
@@ -1161,6 +1300,13 @@ Result<bool> ThemisDBAdapter::rollback_to_savepoint(
     return Result<bool>::ok(true);
 }
 
+/**
+ * @brief Release savepoint.
+ * @param[in] transaction_id Identifier of the transaction.
+ * @param[in] savepoint_name Name of the savepoint.
+ * @return Return value.
+ * @details Calls: err(), empty(), lock(), find(), end(), std::find(), begin(), erase().
+ */
 Result<bool> ThemisDBAdapter::release_savepoint(
     const std::string& transaction_id,
     const std::string& savepoint_name
@@ -1201,6 +1347,12 @@ Result<bool> ThemisDBAdapter::release_savepoint(
     return Result<bool>::ok(true);
 }
 
+/**
+ * @brief Get transaction stats.
+ * @param[in] transaction_id Identifier of the transaction.
+ * @return Return value.
+ * @details Calls: err(), empty(), lock(), find(), end(), std::chrono::steady_clock::now(), size(), ok().
+ */
 Result<TransactionStats> ThemisDBAdapter::get_transaction_stats(
     const std::string& transaction_id
 ) {
@@ -1243,6 +1395,12 @@ Result<TransactionStats> ThemisDBAdapter::get_transaction_stats(
     return Result<TransactionStats>::ok(std::move(stats));
 }
 
+/**
+ * @brief Get transaction state.
+ * @param[in] transaction_id Identifier of the transaction.
+ * @return Return value.
+ * @details Calls: err(), empty(), lock(), find(), end(), std::chrono::steady_clock::now(), ok(), std::move().
+ */
 Result<TransactionState> ThemisDBAdapter::get_transaction_state(
     const std::string& transaction_id
 ) {
@@ -1382,12 +1540,24 @@ void ThemisDBAdapter::setConnectionPool(std::function<void*()> acquire_fn) {
 // Private helpers
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Is valid connection string.
+ * @param[in] connection_string Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: rfind().
+ */
 bool ThemisDBAdapter::is_valid_connection_string(
     const std::string& connection_string
 ) {
     return connection_string.rfind("themisdb://", 0) == 0;
 }
 
+/**
+ * @brief Mask credentials.
+ * @param[in] connection_string Input parameter.
+ * @return Return value.
+ * @details Calls: rfind(), substr(), size(), find().
+ */
 std::string ThemisDBAdapter::mask_credentials(
     const std::string& connection_string
 ) {
@@ -1415,13 +1585,6 @@ std::string ThemisDBAdapter::mask_credentials(
 
 namespace {
 
-/**
- * @brief RAII guard that removes a named cancellation token on scope exit.
- *
- * Placed as a local variable inside each async worker lambda so the token is
- * always erased — whether the operation completes normally, returns early on
- * cancellation, or propagates an exception.
- */
 struct ScopedTokenRemover {
     const std::string op_id;
     std::mutex& mtx;
@@ -1435,6 +1598,11 @@ struct ScopedTokenRemover {
 
     ~ScopedTokenRemover() {
         if (!op_id.empty()) {
+            /**
+             * @brief Lk.
+             * @param[in] mtx Input parameter.
+             * @return Return value.
+             */
             std::lock_guard<std::mutex> lk(mtx);
             tokens.erase(op_id);
         }
@@ -1446,17 +1614,6 @@ struct ScopedTokenRemover {
     ScopedTokenRemover& operator=(ScopedTokenRemover&&)      = delete;
 };
 
-/**
- * @brief Register a cancellation token for the given operation_id.
- *
- * Uses `try_emplace` so that a second call with the same non-empty id is
- * rejected — the caller must treat this as an ALREADY_EXISTS error and refuse
- * to launch the operation.
- *
- * @return {token, true}   if registration succeeded.
- *         {nullptr, true}  if operation_id is empty (no tracking needed).
- *         {nullptr, false} if operation_id is already in use (duplicate).
- */
 std::pair<std::shared_ptr<std::atomic<bool>>, bool>
 register_cancel_token(
     const std::string& operation_id,
@@ -1467,6 +1624,11 @@ register_cancel_token(
         return {nullptr, true};
     }
     auto token = std::make_shared<std::atomic<bool>>(false);
+    /**
+     * @brief Lk.
+     * @param[in] cancel_mutex Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(cancel_mutex);
     auto [it, inserted] = cancel_tokens.try_emplace(operation_id, token);
     if (!inserted) {
@@ -1477,6 +1639,14 @@ register_cancel_token(
 
 } // anonymous namespace
 
+/**
+ * @brief Execute query async.
+ * @param[in] query Input parameter.
+ * @param[in] params Input parameter.
+ * @param[in] opts Input parameter.
+ * @return Return value.
+ * @details Calls: register_cancel_token(), set_value(), err(), get_future(), std::async(), load(), execute_query().
+ */
 std::future<Result<RelationalTable>> ThemisDBAdapter::execute_query_async(
     const std::string& query,
     const std::vector<Scalar>& params,
@@ -1597,6 +1767,12 @@ std::future<Result<std::vector<std::pair<Vector, double>>>> ThemisDBAdapter::sea
     );
 }
 
+/**
+ * @brief Cancel async.
+ * @param[in] operation_id Identifier of the operation.
+ * @return Return value.
+ * @details Calls: empty(), err(), lk(), find(), end(), store(), ok().
+ */
 Result<bool> ThemisDBAdapter::cancel_async(const std::string& operation_id) {
     if (operation_id.empty()) {
         return Result<bool>::err(
@@ -1615,9 +1791,13 @@ Result<bool> ThemisDBAdapter::cancel_async(const std::string& operation_id) {
     return Result<bool>::ok(true);
 }
 
-// ---------------------------------------------------------------------------
-// IStreamingAdapter — pull-based cursor over in-memory result sets
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- IStreamingAdapter — pull-based cursor over in-memory result sets ---------------------------------------------------------------------------
+ * @param[in] query Input parameter.
+ * @param[in] params Input parameter.
+ * @return Return value.
+ * @details Calls: execute_query(), is_ok(), err(), lk(), std::move(), ok().
+ */
 
 Result<std::unique_ptr<IResultStream>> ThemisDBAdapter::execute_query_stream(
     const std::string& query,
@@ -1642,15 +1822,24 @@ Result<std::unique_ptr<IResultStream>> ThemisDBAdapter::execute_query_stream(
     return Result<std::unique_ptr<IResultStream>>::ok(std::move(stream));
 }
 
+/**
+ * @brief Set stream config.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @details Calls: lk(), ok().
+ */
 Result<bool> ThemisDBAdapter::set_stream_config(const StreamConfig& config) {
     std::lock_guard<std::mutex> lk(store_mutex_);
     stream_config_ = config;
     return Result<bool>::ok(true);
 }
 
-// ---------------------------------------------------------------------------
-// IPreparedStatementAdapter — plan-cached statement management
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- IPreparedStatementAdapter — plan-cached statement management ---------------------------------------------------------------------------
+ * @param[in] query Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), err(), generate_id(), lk(), emplace(), ok(), std::move().
+ */
 
 Result<std::unique_ptr<IPreparedStatement>> ThemisDBAdapter::prepare(
     const std::string& query
@@ -1671,6 +1860,12 @@ Result<std::unique_ptr<IPreparedStatement>> ThemisDBAdapter::prepare(
     return Result<std::unique_ptr<IPreparedStatement>>::ok(std::move(stmt));
 }
 
+/**
+ * @brief Unprepare.
+ * @param[in] statement_id Identifier of the statement.
+ * @return Return value.
+ * @details Calls: lk(), find(), end(), err(), erase(), ok().
+ */
 Result<bool> ThemisDBAdapter::unprepare(const std::string& statement_id) {
     std::lock_guard<std::mutex> lk(prepared_mutex_);
     auto it = prepared_queries_.find(statement_id);
@@ -1683,6 +1878,11 @@ Result<bool> ThemisDBAdapter::unprepare(const std::string& statement_id) {
     return Result<bool>::ok(true);
 }
 
+/**
+ * @brief List prepared.
+ * @return Return value.
+ * @details Calls: lk(), reserve(), size(), push_back(), ok(), std::move().
+ */
 Result<std::vector<std::string>> ThemisDBAdapter::list_prepared() {
     std::lock_guard<std::mutex> lk(prepared_mutex_);
     std::vector<std::string> ids = {};
@@ -1710,6 +1910,12 @@ bool ThemisDBResultStream::has_more() const {
     return !closed_ && cursor_ < table_.rows.size();
 }
 
+/**
+ * @brief Next batch.
+ * @param[in] batch_size Input parameter.
+ * @return Return value.
+ * @details Calls: err(), size(), ok(), std::min(), batch(), begin(), std::move().
+ */
 Result<std::vector<RelationalRow>> ThemisDBResultStream::next_batch(
     size_t batch_size
 ) {
@@ -1741,6 +1947,11 @@ std::optional<size_t> ThemisDBResultStream::total_size() const {
     return table_.rows.size();
 }
 
+/**
+ * @brief Close.
+ * @return Return value.
+ * @details Calls: ok().
+ */
 Result<bool> ThemisDBResultStream::close() {
     closed_ = true;
     return Result<bool>::ok(true);
@@ -1763,6 +1974,13 @@ ThemisDBPreparedStatement::ThemisDBPreparedStatement(
 std::string ThemisDBPreparedStatement::get_id() const { return id_; }
 std::string ThemisDBPreparedStatement::get_query() const { return query_; }
 
+/**
+ * @brief Bind.
+ * @param[in] name Input parameter.
+ * @param[in] value Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), err(), ok().
+ */
 Result<bool> ThemisDBPreparedStatement::bind(
     const std::string& name, const Scalar& value
 ) {
@@ -1774,6 +1992,13 @@ Result<bool> ThemisDBPreparedStatement::bind(
     return Result<bool>::ok(true);
 }
 
+/**
+ * @brief Bind.
+ * @param[in] position Input parameter.
+ * @param[in] value Input parameter.
+ * @return Return value.
+ * @details Calls: ok().
+ */
 Result<bool> ThemisDBPreparedStatement::bind(size_t position, const Scalar& value) {
     positional_params_[position] = value;
     return Result<bool>::ok(true);
@@ -1792,6 +2017,11 @@ Result<bool> ThemisDBPreparedStatement::bind_all(
     return Result<bool>::ok(true);
 }
 
+/**
+ * @brief Execute.
+ * @return Return value.
+ * @details Calls: std::chrono::steady_clock::now(), apply_named_params(), build_positional_params(), execute_query(), lk().
+ */
 Result<RelationalTable> ThemisDBPreparedStatement::execute() {
     const auto t_start = std::chrono::steady_clock::now();
 
@@ -1813,12 +2043,22 @@ Result<RelationalTable> ThemisDBPreparedStatement::execute() {
     return result;
 }
 
+/**
+ * @brief Execute async.
+ * @return Return value.
+ * @details Calls: std::async(), execute().
+ */
 std::future<Result<RelationalTable>> ThemisDBPreparedStatement::execute_async() {
     return std::async(std::launch::async, [this]() -> Result<RelationalTable> {
         return execute();
     });
 }
 
+/**
+ * @brief Reset the modification detection flag.
+ * @return None.
+ * @details Calls: clear(), ok().
+ */
 Result<bool> ThemisDBPreparedStatement::reset() {
     named_params_.clear();
     positional_params_.clear();
@@ -1826,6 +2066,11 @@ Result<bool> ThemisDBPreparedStatement::reset() {
 }
 
 Result<QueryStatistics> ThemisDBPreparedStatement::get_statistics() const {
+    /**
+     * @brief Lk.
+     * @param[in] stats_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(stats_mutex_);
     QueryStatistics stats = {};
     if (exec_count_ > 0) {

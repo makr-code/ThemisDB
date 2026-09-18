@@ -48,6 +48,11 @@ MultiGPULoRALayer::MultiGPULoRALayer(
     broadcast_parameters();
 }
 
+/**
+ * @brief Initialize backend.
+ * @param[in] backend Input parameter.
+ * @details Calls: NCCLBackend::is_available(), gpu_type(), RCCLBackend::is_available(), spdlog::info(), num_gpus(), initialize(), spdlog::warn(), reset().
+ */
 void MultiGPULoRALayer::initialize_backend(CommBackend backend) {
     // Auto-select backend if requested
     if (backend == CommBackend::AUTO) {
@@ -114,6 +119,13 @@ void MultiGPULoRALayer::initialize_backend(CommBackend backend) {
     }
 }
 
+/**
+ * @brief Forward.
+ * @param[in] inputs Input parameter.
+ * @return Return value.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: size(), num_gpus(), std::chrono::high_resolution_clock::now(), reserve(), get_device(), device(), std::to_string(), push_back().
+ */
 std::vector<GPUTensor> MultiGPULoRALayer::forward(const std::vector<GPUTensor>& inputs) {
     if (inputs.size() != static_cast<size_t>(ctx_.num_gpus())) {
         throw std::invalid_argument(
@@ -149,6 +161,13 @@ std::vector<GPUTensor> MultiGPULoRALayer::forward(const std::vector<GPUTensor>& 
     return outputs;
 }
 
+/**
+ * @brief Backward.
+ * @param[in] grad_outputs Input parameter.
+ * @return Return value.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: size(), num_gpus(), std::chrono::high_resolution_clock::now(), reserve(), push_back(), count().
+ */
 std::vector<GPUTensor> MultiGPULoRALayer::backward(
     const std::vector<GPUTensor>& grad_outputs) {
     
@@ -177,6 +196,11 @@ std::vector<GPUTensor> MultiGPULoRALayer::backward(
     return grad_inputs;
 }
 
+/**
+ * @brief Synchronize gradients.
+ * @return True when the operation succeeds.
+ * @details Calls: std::chrono::high_resolution_clock::now(), allreduce_gradients(), count().
+ */
 bool MultiGPULoRALayer::synchronize_gradients() {
     if (gradients_synced_) {
         return true;  // Already synchronized
@@ -198,6 +222,11 @@ bool MultiGPULoRALayer::synchronize_gradients() {
     return success;
 }
 
+/**
+ * @brief Allreduce gradients.
+ * @return True when the operation succeeds.
+ * @details Calls: num_gpus(), push_back(), gradients(), size(), is_initialized(), allreduce(), spdlog::error().
+ */
 bool MultiGPULoRALayer::allreduce_gradients() {
     if (ctx_.num_gpus() == 1) {
         return true;  // Single GPU, no reduction needed
@@ -242,6 +271,11 @@ bool MultiGPULoRALayer::allreduce_gradients() {
     return true;
 }
 
+/**
+ * @brief Broadcast parameters.
+ * @return True when the operation succeeds.
+ * @details Calls: num_gpus(), spdlog::info(), parameters(), size(), spdlog::error(), cpu_data(), upload().
+ */
 bool MultiGPULoRALayer::broadcast_parameters() {
     if (ctx_.num_gpus() == 1) {
         return true;  // Single GPU, no broadcast needed
@@ -272,6 +306,10 @@ bool MultiGPULoRALayer::broadcast_parameters() {
     return true;
 }
 
+/**
+ * @brief Zero grad.
+ * @details Implements zero_grad without additional internal calls.
+ */
 void MultiGPULoRALayer::zero_grad() {
     for (auto& layer : layers_) {
         layer->zero_grad();
@@ -279,6 +317,13 @@ void MultiGPULoRALayer::zero_grad() {
     gradients_synced_ = false;
 }
 
+/**
+ * @brief Get layer.
+ * @param[in] rank Input parameter.
+ * @return Return value.
+ * @throws std::out_of_range if an error occurs.
+ * @details Calls: num_gpus(), std::to_string().
+ */
 GPULoRALayer& MultiGPULoRALayer::get_layer(int rank) {
     if (rank < 0 || rank >= ctx_.num_gpus()) {
         throw std::out_of_range("Invalid GPU rank: " + std::to_string(rank));
@@ -286,6 +331,11 @@ GPULoRALayer& MultiGPULoRALayer::get_layer(int rank) {
     return *layers_[rank];
 }
 
+/**
+ * @brief Get layers.
+ * @return Return value.
+ * @details Calls: reserve(), size(), push_back(), get().
+ */
 std::vector<GPULoRALayer*> MultiGPULoRALayer::get_layers() {
     std::vector<GPULoRALayer*> result = {};
 

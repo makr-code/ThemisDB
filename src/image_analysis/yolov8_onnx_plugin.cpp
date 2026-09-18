@@ -77,7 +77,12 @@ static const std::vector<std::string> kCocoLabels = {
     "refrigerator", "book", "clock", "vase", "scissors", "teddy bear",
     "hair drier", "toothbrush"};
 
-/// Load one label per line from a text file.
+/**
+ * @brief Load Labels.
+ * @param[in] path Input parameter.
+ * @return Return value.
+ * @details Calls: in(), is_open(), std::getline(), empty(), push_back().
+ */
 static std::vector<std::string> loadLabels(const std::string& path) {
     std::vector<std::string> labels;
     std::ifstream in(path);
@@ -93,7 +98,19 @@ static std::vector<std::string> loadLabels(const std::string& path) {
     return labels;
 }
 
-/// Compute Intersection-over-Union for two XYXY boxes (normalised).
+/**
+ * @brief Iou XYXY.
+ * @param[in] x1a Input parameter.
+ * @param[in] y1a Input parameter.
+ * @param[in] x2a Input parameter.
+ * @param[in] y2a Input parameter.
+ * @param[in] x1b Input parameter.
+ * @param[in] y1b Input parameter.
+ * @param[in] x2b Input parameter.
+ * @param[in] y2b Input parameter.
+ * @return Return value.
+ * @details Calls: std::max(), std::min().
+ */
 static float iouXYXY(float x1a, float y1a, float x2a, float y2a,
                      float x1b, float y1b, float x2b, float y2b) {
     const float ix1 = std::max(x1a, x1b);
@@ -149,6 +166,13 @@ struct YOLOv8OnnxPlugin::Impl {
     // -----------------------------------------------------------------------
     // Initialise ONNX session
     // -----------------------------------------------------------------------
+    /**
+     * @brief Init.
+     * @param[in] config Input parameter.
+     * @param[in] requested_backend Input parameter.
+     * @return True when the operation succeeds.
+     * @details Calls: empty(), loadLabels(), std::move(), SetGraphOptimizationLevel(), SetIntraOpNumThreads(), AppendExecutionProvider_CUDA(), wpath(), begin().
+     */
     bool init(const PluginConfig& config, BackendType requested_backend) {
         model_path  = config.get<std::string>("model_path", "");
         labels_path = config.get<std::string>("labels_path", "");
@@ -374,6 +398,13 @@ struct YOLOv8OnnxPlugin::Impl {
     // -----------------------------------------------------------------------
     // Run single-image inference
     // -----------------------------------------------------------------------
+    /**
+     * @brief Run Inference.
+     * @param[in] image_data Input parameter.
+     * @param[in] effective_conf Input parameter.
+     * @return Return value.
+     * @details Calls: preprocess(), Ort::MemoryInfo::CreateCpu(), data(), size(), c_str(), Run(), std::string(), what().
+     */
     DetectionResult runInference(const std::vector<uint8_t>& image_data,
                                  float effective_conf) {
         DetectionResult result;
@@ -468,6 +499,13 @@ PluginInfo YOLOv8OnnxPlugin::getInfo() const {
     return info;
 }
 
+/**
+ * @brief Initialize.
+ * @param[in] config Input parameter.
+ * @param[in] backend Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lk(), init(), std::move().
+ */
 bool YOLOv8OnnxPlugin::initialize(const PluginConfig& config,
                                    BackendType backend) {
     std::lock_guard<std::mutex> lk(impl_swap_mtx_);
@@ -479,6 +517,10 @@ bool YOLOv8OnnxPlugin::initialize(const PluginConfig& config,
     return true;
 }
 
+/**
+ * @brief Shutdown.
+ * @details Calls: lk(), store(), reset().
+ */
 void YOLOv8OnnxPlugin::shutdown() {
     std::lock_guard<std::mutex> lk(impl_swap_mtx_);
     if (impl_) {
@@ -490,15 +532,33 @@ void YOLOv8OnnxPlugin::shutdown() {
 }
 
 bool YOLOv8OnnxPlugin::isReady() const {
+    /**
+     * @brief Lk.
+     * @param[in] impl_swap_mtx_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(impl_swap_mtx_);
     return impl_ && impl_->ready.load();
 }
 
 BackendType YOLOv8OnnxPlugin::getBackend() const {
+    /**
+     * @brief Lk.
+     * @param[in] impl_swap_mtx_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(impl_swap_mtx_);
     return impl_ ? impl_->backend : BackendType::CPU;
 }
 
+/**
+ * @brief Detect Objects.
+ * @param[in] image_data Input parameter.
+ * @param[in] param Input parameter.
+ * @param[in] confidence_threshold Input parameter.
+ * @return Return value.
+ * @details Calls: lk(), load(), std::chrono::steady_clock::now(), runInference(), count(), fetch_add(), size().
+ */
 DetectionResult YOLOv8OnnxPlugin::detectObjects(
     const std::vector<uint8_t>& image_data,
     const ImageMetadata* /*metadata*/,
@@ -543,6 +603,13 @@ DetectionResult YOLOv8OnnxPlugin::detectObjects(
     return result;
 }
 
+/**
+ * @brief Generate Embedding.
+ * @param[in] param Input parameter.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Implements generateEmbedding without additional internal calls.
+ */
 EmbeddingResult YOLOv8OnnxPlugin::generateEmbedding(
     const std::vector<uint8_t>& /*image_data*/,
     const ImageMetadata* /*metadata*/) {
@@ -553,6 +620,11 @@ EmbeddingResult YOLOv8OnnxPlugin::generateEmbedding(
 }
 
 bool YOLOv8OnnxPlugin::healthCheck() const {
+    /**
+     * @brief Lk.
+     * @param[in] impl_swap_mtx_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(impl_swap_mtx_);
     return impl_ && impl_->ready.load();
 }
@@ -560,6 +632,11 @@ bool YOLOv8OnnxPlugin::healthCheck() const {
 nlohmann::json YOLOv8OnnxPlugin::getStatistics() const {
     std::shared_ptr<Impl> local;
     {
+        /**
+         * @brief Lk.
+         * @param[in] impl_swap_mtx_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(impl_swap_mtx_);
         local = impl_;
     }
@@ -582,6 +659,12 @@ nlohmann::json YOLOv8OnnxPlugin::getStatistics() const {
     };
 }
 
+/**
+ * @brief Reload Model.
+ * @param[in] new_config Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: init(), lk(), std::move().
+ */
 bool YOLOv8OnnxPlugin::reloadModel(const PluginConfig& new_config) {
     auto new_impl = std::make_shared<Impl>();
     if (!new_impl->init(new_config, impl_ ? impl_->backend : BackendType::AUTO)) {

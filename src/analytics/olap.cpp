@@ -99,10 +99,22 @@ using OLAPValue = std::variant<std::nullptr_t, bool, int64_t, double, std::strin
 
 constexpr double kFloatSortEpsilon = 1e-9;
 
+/**
+ * @brief Is Numeric Value.
+ * @param[in] v Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements isNumericValue without additional internal calls.
+ */
 bool isNumericValue(const OLAPValue &v) {
     return std::holds_alternative<bool>(v) || std::holds_alternative<int64_t>(v) || std::holds_alternative<double>(v);
 }
 
+/**
+ * @brief To Numeric Value.
+ * @param[in] v Input parameter.
+ * @return Return value.
+ * @details Implements toNumericValue without additional internal calls.
+ */
 double toNumericValue(const OLAPValue &v) {
     if (auto *d = std::get_if<double>(&v)) {
         return *d;
@@ -116,6 +128,13 @@ double toNumericValue(const OLAPValue &v) {
     return 0.0;
 }
 
+/**
+ * @brief Compare Sort Values.
+ * @param[in] a Input parameter.
+ * @param[in] b Input parameter.
+ * @return Return value.
+ * @details Calls: isNumericValue(), toNumericValue(), std::abs().
+ */
 int compareSortValues(const OLAPValue &a, const OLAPValue &b) {
     const bool aNull = std::holds_alternative<std::nullptr_t>(a);
     const bool bNull = std::holds_alternative<std::nullptr_t>(b);
@@ -149,11 +168,21 @@ int compareSortValues(const OLAPValue &a, const OLAPValue &b) {
 }
 } // namespace
 
+/**
+ * @brief Set Export To Parquet Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lk(), std::move().
+ */
 void OLAPEngine::setExportToParquetFn(ExportToParquetFn fn) {
     std::lock_guard<std::mutex> lk(s_olap_export_bridge_mutex);
     s_export_to_parquet_fn = std::move(fn);
 }
 
+/**
+ * @brief Set Export Collection To Parquet Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lk(), std::move().
+ */
 void OLAPEngine::setExportCollectionToParquetFn(ExportCollectionToParquetFn fn) {
     std::lock_guard<std::mutex> lk(s_olap_export_bridge_mutex);
     s_export_collection_to_parquet_fn = std::move(fn);
@@ -163,7 +192,6 @@ void OLAPEngine::setExportCollectionToParquetFn(ExportCollectionToParquetFn fn) 
 // OLAPEngine Implementation
 // ============================================================================
 
-/** @brief OLAPEngine Implementation. */
 class OLAPEngine::Impl {
   public:
     // In-memory data for testing (would connect to storage in production)
@@ -215,6 +243,10 @@ class OLAPEngine::Impl {
     std::mutex cleanup_mutex_;
     std::condition_variable cleanup_cv_;
 
+    /**
+     * @brief Start Cleanup Thread.
+     * @details Calls: lock(), store(), std::thread(), std::chrono::milliseconds(), std::max(), int64_t(), load(), lk().
+     */
     void startCleanupThread() {
         size_t max_entries = 0;
         int64_t ttl_ms = 0;
@@ -259,6 +291,10 @@ class OLAPEngine::Impl {
         });
     }
 
+    /**
+     * @brief Stop Cleanup Thread.
+     * @details Calls: store(), notify_one(), joinable(), std::chrono::high_resolution_clock::now(), count(), spdlog::warn(), std::this_thread::sleep_for(), std::chrono::milliseconds().
+     */
     void stopCleanupThread() {
         cleanup_stop.store(true, std::memory_order_release);
         cleanup_cv_.notify_one();
@@ -315,11 +351,12 @@ OLAPEngine::OLAPEngine(const Config &config) : impl_(std::make_unique<Impl>()) {
 
 OLAPEngine::~OLAPEngine() = default;
 
-// ---------------------------------------------------------------------------
-// Compute a normalised cache key for an OLAPQuery so that semantically
-// equivalent queries (same dimensions/measures/filters regardless of order)
-// map to the same cache entry.
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- Compute a normalised cache key for an OLAPQuery so that semantically equivalent queries (same dimensions/measures/filters regardless of order) map to the same cache entry.
+ * @param[in] query Input parameter.
+ * @return Return value.
+ * @details --------------------------------------------------------------------------- Calls: reserve(), size(), push_back(), std::sort(), begin(), end(), std::to_string(), std::visit().
+ */
 static std::string computeOLAPCacheKey(const OLAPQuery &query) {
     std::ostringstream ss = {};
     ss << query.collection << '\0';
@@ -396,6 +433,12 @@ static std::string computeOLAPCacheKey(const OLAPQuery &query) {
     return ss.str();
 }
 
+/**
+ * @brief Execute.
+ * @param[in] query Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::high_resolution_clock::now(), spdlog::debug(), size(), empty(), spdlog::warn(), lock(), computeOLAPCacheKey(), find().
+ */
 OLAPResult OLAPEngine::execute(const OLAPQuery &query) {
     // OBSERVABILITY: Add trace point for critical function
     auto start = std::chrono::high_resolution_clock::now();
@@ -510,6 +553,12 @@ OLAPResult OLAPEngine::execute(const OLAPQuery &query) {
     return result;
 }
 
+/**
+ * @brief Execute Simple Group By.
+ * @param[in] query Input parameter.
+ * @return Return value.
+ * @details Calls: push_back(), find(), end(), std::to_string(), size(), computeAggregate(), std::move(), empty().
+ */
 OLAPResult OLAPEngine::executeSimpleGroupBy(const OLAPQuery &query) {
     OLAPResult result;
 
@@ -634,6 +683,12 @@ OLAPResult OLAPEngine::executeSimpleGroupBy(const OLAPQuery &query) {
     return result;
 }
 
+/**
+ * @brief Execute Cube Query.
+ * @param[in] query Input parameter.
+ * @return Return value.
+ * @details Calls: size(), push_back(), clear(), executeSimpleGroupBy(), std::move().
+ */
 OLAPResult OLAPEngine::executeCubeQuery(const OLAPQuery &query) {
     OLAPResult result;
 
@@ -682,6 +737,12 @@ OLAPResult OLAPEngine::executeCubeQuery(const OLAPQuery &query) {
     return result;
 }
 
+/**
+ * @brief Execute Rollup Query.
+ * @param[in] query Input parameter.
+ * @return Return value.
+ * @details Calls: size(), push_back(), clear(), executeSimpleGroupBy(), std::move().
+ */
 OLAPResult OLAPEngine::executeRollupQuery(const OLAPQuery &query) {
     OLAPResult result;
 
@@ -724,6 +785,12 @@ OLAPResult OLAPEngine::executeRollupQuery(const OLAPQuery &query) {
     return result;
 }
 
+/**
+ * @brief Execute Grouping Sets Query.
+ * @param[in] query Input parameter.
+ * @return Return value.
+ * @details Calls: push_back(), clear(), setDimensions(), begin(), end(), count(), executeSimpleGroupBy(), std::move().
+ */
 OLAPResult OLAPEngine::executeGroupingSetsQuery(const OLAPQuery &query) {
     OLAPResult result;
 
@@ -766,6 +833,15 @@ OLAPResult OLAPEngine::executeGroupingSetsQuery(const OLAPQuery &query) {
     return result;
 }
 
+/**
+ * @brief Execute Cube.
+ * @param[in] collection Input parameter.
+ * @param[in] dimensions Input parameter.
+ * @param[in] measures Input parameter.
+ * @param[in] filters Input parameter.
+ * @return Return value.
+ * @details Calls: std::string(), execute(), find(), end(), push_back(), std::move().
+ */
 std::vector<CubeCell> OLAPEngine::executeCube(std::string_view collection, const std::vector<Dimension> &dimensions,
                                               const std::vector<Measure> &measures,
                                               const std::vector<Filter> &filters) {
@@ -812,6 +888,15 @@ std::vector<CubeCell> OLAPEngine::executeCube(std::string_view collection, const
     return cells;
 }
 
+/**
+ * @brief Execute Rollup.
+ * @param[in] collection Input parameter.
+ * @param[in] dimensions Input parameter.
+ * @param[in] measures Input parameter.
+ * @param[in] filters Input parameter.
+ * @return Return value.
+ * @details Calls: std::string(), execute(), find(), end(), push_back(), std::move().
+ */
 std::vector<RollupRow> OLAPEngine::executeRollup(std::string_view collection, const std::vector<Dimension> &dimensions,
                                                  const std::vector<Measure> &measures,
                                                  const std::vector<Filter> &filters) {
@@ -911,6 +996,12 @@ OLAPEngine::evaluateWindowFunctions(const std::vector<std::unordered_map<std::st
     return results;
 }
 
+/**
+ * @brief Explain.
+ * @param[in] query Input parameter.
+ * @return Return value.
+ * @details Calls: max(), std::min(), lock(), find(), end(), to_plan_rows(), empty(), size().
+ */
 OLAPEngine::QueryPlan OLAPEngine::explain(const OLAPQuery &query) {
     QueryPlan plan;
     const auto to_plan_rows = []([[maybe_unused]] size_t value) {
@@ -973,6 +1064,11 @@ OLAPEngine::QueryPlan OLAPEngine::explain(const OLAPQuery &query) {
     return plan;
 }
 
+/**
+ * @brief Collect Statistics.
+ * @param[in] collection Input parameter.
+ * @details Calls: key(), lock(), find(), end(), size(), std::chrono::steady_clock::now().
+ */
 void OLAPEngine::collectStatistics(std::string_view collection) {
     const std::string key(collection);
 
@@ -996,6 +1092,14 @@ void OLAPEngine::collectStatistics(std::string_view collection) {
     impl_->stats_cache_[key] = stats;
 }
 
+/**
+ * @brief Compute Aggregate.
+ * @param[in] values Input parameter.
+ * @param[in] function Input parameter.
+ * @param[in] percentile Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), lock(), size(), get(), reserve(), resize(), std::memcpy(), data().
+ */
 double OLAPEngine::computeAggregate(const std::vector<double> &values, Measure::Function function, double percentile) {
     if (values.empty()) {
         return 0.0;
@@ -1272,7 +1376,6 @@ static double vectorizedMax(const double *data, size_t n) noexcept {
 
 } // anonymous namespace
 
-/** @brief Implementation detail. */
 class ColumnarStore::Impl {
   public:
     struct Column {
@@ -1307,6 +1410,12 @@ class ColumnarStore::Impl {
 ColumnarStore::ColumnarStore() : impl_(std::make_unique<Impl>()) {}
 ColumnarStore::~ColumnarStore() = default;
 
+/**
+ * @brief Create Column.
+ * @param[in] name Input parameter.
+ * @param[in] type Input parameter.
+ * @details Calls: std::string(), std::move().
+ */
 void ColumnarStore::createColumn(std::string_view name, std::string_view type) {
     Impl::Column col;
     col.name                 = std::string(name);
@@ -1314,6 +1423,11 @@ void ColumnarStore::createColumn(std::string_view name, std::string_view type) {
     impl_->columns[col.name] = std::move(col);
 }
 
+/**
+ * @brief Drop Column.
+ * @param[in] name Input parameter.
+ * @details Calls: erase(), std::string().
+ */
 void ColumnarStore::dropColumn(std::string_view name) {
     impl_->columns.erase(std::string(name));
 }
@@ -1338,6 +1452,10 @@ void ColumnarStore::appendRows(
     }
 }
 
+/**
+ * @brief Clear.
+ * @details Implements clear without additional internal calls.
+ */
 void ColumnarStore::clear() {
     for (auto &[name, col] : impl_->columns) {
         col.data.clear();
@@ -1511,7 +1629,6 @@ ColumnarStore::ColumnStats ColumnarStore::getColumnStats(std::string_view column
 // MaterializedView Implementation
 // ============================================================================
 
-/** @brief MaterializedView Implementation. */
 class MaterializedView::Impl {
   public:
     OLAPResult cached_result;
@@ -1530,6 +1647,12 @@ class MaterializedView::Impl {
         double wf_mean = 0.0;         // Welford mean
         double wf_m2   = 0.0;         // Welford M2
 
+        /**
+         * @brief Add.
+         * @param[in] v Input parameter.
+         * @param[in] sign Input parameter.
+         * @details Calls: insert(), find(), end(), erase().
+         */
         void add(double v, int sign) {
             if (sign > 0) {
                 ++count;
@@ -1586,6 +1709,13 @@ class MaterializedView::Impl {
     // group_key → (measure_name → AggState)
     std::map<std::string, std::unordered_map<std::string, AggState>> groups;
 
+    /**
+     * @brief Make Group Key.
+     * @param[in] row Input parameter.
+     * @param[in] dims Input parameter.
+     * @return Return value.
+     * @details Calls: find(), end(), std::to_string().
+     */
     static std::string makeGroupKey(const Row &row, const std::vector<Dimension> &dims) {
         std::string key = {};
         for (const auto &d : dims) {
@@ -1617,6 +1747,14 @@ class MaterializedView::Impl {
         return 0.0;
     }
 
+    /**
+     * @brief Apply Delta.
+     * @param[in] row Input parameter.
+     * @param[in] sign Input parameter.
+     * @param[in] dims Input parameter.
+     * @param[in] measures Input parameter.
+     * @details Calls: makeGroupKey(), find(), end(), fieldToDouble(), add(), erase().
+     */
     void applyDelta(const Row &row, int sign, const std::vector<Dimension> &dims,
                     const std::vector<Measure> &measures) {
         std::string gk = makeGroupKey(row, dims);
@@ -1661,6 +1799,11 @@ class MaterializedView::Impl {
         for (const auto &[gk, agg_map] : groups) {
             OLAPResult::Row row;
             // Decode group key
+            /**
+             * @brief Iss.
+             * @param[in] gk Input parameter.
+             * @return Return value.
+             */
             std::istringstream iss(gk);
             std::string token = {};
             for (const auto &d : dims) {
@@ -1684,6 +1827,10 @@ MaterializedView::MaterializedView(const Definition &def) : definition_(def), im
 
 MaterializedView::~MaterializedView() = default;
 
+/**
+ * @brief Refresh.
+ * @details Calls: spdlog::debug(), std::chrono::high_resolution_clock::now(), execute(), lk(), std::move(), std::chrono::system_clock::now(), count(), size().
+ */
 void MaterializedView::refresh() {
     spdlog::debug("MaterializedView::refresh: starting full refresh for collection '{}'", 
                   definition_.source_collection);
@@ -1732,6 +1879,14 @@ void MaterializedView::incrementalRefresh(
     }
 }
 
+/**
+ * @brief Query.
+ * @param[in] filters Input parameter.
+ * @param[in] sorts Input parameter.
+ * @param[in] limit Input parameter.
+ * @return Return value.
+ * @details Calls: spdlog::debug(), size(), std::to_string(), std::chrono::high_resolution_clock::now(), lk(), refresh(), empty(), filter_in_sets().
+ */
 OLAPResult MaterializedView::query(const std::vector<Filter> &filters, const std::vector<Sort> &sorts,
                                    std::optional<int64_t> limit) {
     spdlog::debug("MaterializedView::query: filters={}, sorts={}, limit={}", 
@@ -2017,6 +2172,14 @@ bool MaterializedView::isStale() const {
 
 #ifdef ARROW_ENABLED
 
+/**
+ * @brief Export To Parquet.
+ * @param[in] result Input parameter.
+ * @param[in] path Input parameter.
+ * @param[in] compression Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), find(), end(), std::visit(), constexpr(), arrow::boolean(), arrow::int64(), arrow::float64().
+ */
 bool OLAPEngine::exportToParquet(const OLAPResult &result, const std::string &path, const std::string &compression) {
     // Build Arrow schema from result columns
     std::vector<std::shared_ptr<arrow::Field>> schema_fields;
@@ -2179,6 +2342,15 @@ bool OLAPEngine::exportToParquet(const OLAPResult &result, const std::string &pa
     return true;
 }
 
+/**
+ * @brief Export Collection To Parquet.
+ * @param[in] collection Input parameter.
+ * @param[in] path Input parameter.
+ * @param[in] filters Input parameter.
+ * @param[in] compression Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: std::string(), execute(), exportToParquet().
+ */
 bool OLAPEngine::exportCollectionToParquet(std::string_view collection, const std::string &path,
                                            const std::vector<Filter> &filters, const std::string &compression) {
     // Build simple query to export all data
@@ -2206,6 +2378,14 @@ bool OLAPEngine::exportCollectionToParquet(std::string_view collection, const st
 //   depend on Parquet export (e.g. BI connectors, Spark integration) will fail.
 // Removal Plan: Install Apache Arrow via vcpkg and rebuild with ARROW_ENABLED.
 // Roadmap ref: src/analytics/FUTURE_ENHANCEMENTS.md § "Parquet/Arrow Export (v1.7.0)"
+/**
+ * @brief Export To Parquet.
+ * @param[in] result Input parameter.
+ * @param[in] path Input parameter.
+ * @param[in] compression Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lk(), fn(), spdlog::warn(), what().
+ */
 bool OLAPEngine::exportToParquet(const OLAPResult &result, const std::string &path, const std::string &compression) {
     ExportToParquetFn fn;
     {
@@ -2227,6 +2407,15 @@ bool OLAPEngine::exportToParquet(const OLAPResult &result, const std::string &pa
     return false;
 }
 
+/**
+ * @brief Export Collection To Parquet.
+ * @param[in] collection Input parameter.
+ * @param[in] path Input parameter.
+ * @param[in] filters Input parameter.
+ * @param[in] compression Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lk(), fn(), spdlog::warn(), what().
+ */
 bool OLAPEngine::exportCollectionToParquet(std::string_view collection, const std::string &path,
                                            const std::vector<Filter> &filters, const std::string &compression) {
     ExportCollectionToParquetFn fn;

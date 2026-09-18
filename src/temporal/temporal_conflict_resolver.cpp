@@ -42,6 +42,12 @@ nlohmann::json TemporalSnapshot::toJson() const {
     };
 }
 
+/**
+ * @brief From Json.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: at().
+ */
 std::optional<TemporalSnapshot> TemporalSnapshot::fromJson(const nlohmann::json& j) {
     try {
         TemporalSnapshot snapshot;
@@ -65,6 +71,14 @@ std::optional<TemporalSnapshot> TemporalSnapshot::fromJson(const nlohmann::json&
 TemporalConflictResolver::TemporalConflictResolver(ConflictPolicy default_policy)
     : default_policy_(default_policy) {}
 
+/**
+ * @brief Resolve.
+ * @param[in] local Input parameter.
+ * @param[in] remote Input parameter.
+ * @param[in] policy Input parameter.
+ * @return Return value.
+ * @details Calls: fetch_add(), value_or(), generateConflictId(), std::chrono::system_clock::now(), resolveLastWriteWins(), resolveFirstWriteWins(), resolveNodePriority(), resolveCRDT().
+ */
 TemporalSnapshot TemporalConflictResolver::resolve(
     const TemporalSnapshot& local,
     const TemporalSnapshot& remote,
@@ -131,6 +145,13 @@ TemporalSnapshot TemporalConflictResolver::resolve(
     return winner;
 }
 
+/**
+ * @brief Resolve Last Write Wins.
+ * @param[in] local Input parameter.
+ * @param[in] remote Input parameter.
+ * @return Return value.
+ * @details Implements resolveLastWriteWins without additional internal calls.
+ */
 TemporalSnapshot TemporalConflictResolver::resolveLastWriteWins(
     const TemporalSnapshot& local,
     const TemporalSnapshot& remote
@@ -150,6 +171,13 @@ TemporalSnapshot TemporalConflictResolver::resolveLastWriteWins(
     }
 }
 
+/**
+ * @brief Resolve First Write Wins.
+ * @param[in] local Input parameter.
+ * @param[in] remote Input parameter.
+ * @return Return value.
+ * @details Implements resolveFirstWriteWins without additional internal calls.
+ */
 TemporalSnapshot TemporalConflictResolver::resolveFirstWriteWins(
     const TemporalSnapshot& local,
     const TemporalSnapshot& remote
@@ -169,6 +197,13 @@ TemporalSnapshot TemporalConflictResolver::resolveFirstWriteWins(
     }
 }
 
+/**
+ * @brief Resolve Node Priority.
+ * @param[in] local Input parameter.
+ * @param[in] remote Input parameter.
+ * @return Return value.
+ * @details Implements resolveNodePriority without additional internal calls.
+ */
 TemporalSnapshot TemporalConflictResolver::resolveNodePriority(
     const TemporalSnapshot& local,
     const TemporalSnapshot& remote
@@ -182,6 +217,13 @@ TemporalSnapshot TemporalConflictResolver::resolveNodePriority(
     }
 }
 
+/**
+ * @brief Resolve CRDT.
+ * @param[in] local Input parameter.
+ * @param[in] remote Input parameter.
+ * @return Return value.
+ * @details Calls: lk(), merge().
+ */
 TemporalSnapshot TemporalConflictResolver::resolveCRDT(
     const TemporalSnapshot& local,
     const TemporalSnapshot& remote
@@ -202,6 +244,11 @@ TemporalSnapshot TemporalConflictResolver::resolveCRDT(
 }
 
 std::vector<ConflictRecord> TemporalConflictResolver::getUnresolvedConflicts() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     std::vector<ConflictRecord> result = {};
 
@@ -212,6 +259,12 @@ std::vector<ConflictRecord> TemporalConflictResolver::getUnresolvedConflicts() c
     return result;
 }
 
+/**
+ * @brief Resolve Manually.
+ * @param[in] conflict_id Identifier of the conflict.
+ * @param[in] winner Input parameter.
+ * @details Calls: lock(), find(), end(), push_back(), erase(), fetch_add().
+ */
 void TemporalConflictResolver::resolveManually(const std::string& conflict_id, const std::string& winner) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -226,6 +279,11 @@ void TemporalConflictResolver::resolveManually(const std::string& conflict_id, c
 }
 
 std::vector<ConflictRecord> TemporalConflictResolver::getConflictHistory() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     std::vector<ConflictRecord> result = conflict_history_;
     // Append unresolved conflicts so callers see the complete picture
@@ -236,6 +294,11 @@ std::vector<ConflictRecord> TemporalConflictResolver::getConflictHistory() const
 }
 
 nlohmann::json TemporalConflictResolver::exportAuditLog() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     nlohmann::json log = nlohmann::json::array();
 
@@ -275,6 +338,11 @@ nlohmann::json TemporalConflictResolver::exportAuditLog() const {
 }
 
 nlohmann::json TemporalConflictResolver::getStatistics() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return {
         {"total_conflicts", total_conflicts_.load()},
@@ -309,6 +377,14 @@ std::string TemporalConflictResolver::generateConflictId() const {
 // detectConflicts
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Detect Conflicts.
+ * @param[in] table_name Name of the table.
+ * @param[in] local Input parameter.
+ * @param[in] remote Input parameter.
+ * @return Return value.
+ * @details Calls: detectConcurrentUpdate(), push_back(), std::move(), detectOverlappingPeriods(), detectReferentialIntegrity(), detectUniquenessViolation().
+ */
 std::vector<Conflict> TemporalConflictDetector::detectConflicts(
     const std::string& table_name,
     const TemporalSnapshot& local,
@@ -352,6 +428,13 @@ std::vector<Conflict> TemporalConflictDetector::detectConflicts(
 // autoResolveConflict
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Auto Resolve Conflict.
+ * @param[in] conflict Input parameter.
+ * @param[in] policy Input parameter.
+ * @return Return value.
+ * @details Calls: resolver(), resolve().
+ */
 std::optional<TemporalSnapshot> TemporalConflictDetector::autoResolveConflict(
     const Conflict& conflict,
     ConflictPolicy policy
@@ -367,6 +450,13 @@ std::optional<TemporalSnapshot> TemporalConflictDetector::autoResolveConflict(
 // queueForManualResolution
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Queue For Manual Resolution.
+ * @param[in] table_name Name of the table.
+ * @param[in] conflict Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: makeQueueKey(), lock(), count(), std::move().
+ */
 bool TemporalConflictDetector::queueForManualResolution(const std::string& table_name,
                                                         const Conflict& conflict) {
     const std::string key = makeQueueKey(table_name, conflict);
@@ -382,6 +472,11 @@ bool TemporalConflictDetector::queueForManualResolution(const std::string& table
 }
 
 std::vector<Conflict> TemporalConflictDetector::getQueuedConflicts() const {
+    /**
+     * @brief Lock.
+     * @param[in] queue_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(queue_mutex_);
     std::vector<Conflict> result = {};
 
@@ -392,6 +487,10 @@ std::vector<Conflict> TemporalConflictDetector::getQueuedConflicts() const {
     return result;
 }
 
+/**
+ * @brief Clear Queue.
+ * @details Calls: lock(), clear().
+ */
 void TemporalConflictDetector::clearQueue() {
     std::lock_guard<std::mutex> lock(queue_mutex_);
     manual_queue_.clear();
@@ -401,6 +500,13 @@ void TemporalConflictDetector::clearQueue() {
 // makeQueueKey (private static)
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Make Queue Key.
+ * @param[in] table_name Name of the table.
+ * @param[in] conflict Input parameter.
+ * @return Return value.
+ * @details Implements makeQueueKey without additional internal calls.
+ */
 std::string TemporalConflictDetector::makeQueueKey(
     const std::string& table_name,
     const Conflict& conflict
@@ -422,6 +528,13 @@ std::string TemporalConflictDetector::makeQueueKey(
 // Sub-detectors (private static)
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Detect Concurrent Update.
+ * @param[in] local Input parameter.
+ * @param[in] remote Input parameter.
+ * @return Return value.
+ * @details Calls: is_object(), items(), contains(), push_back(), std::move().
+ */
 std::optional<Conflict> TemporalConflictDetector::detectConcurrentUpdate(
     const TemporalSnapshot& local,
     const TemporalSnapshot& remote
@@ -470,6 +583,13 @@ std::optional<Conflict> TemporalConflictDetector::detectConcurrentUpdate(
     return c;
 }
 
+/**
+ * @brief Detect Overlapping Periods.
+ * @param[in] local Input parameter.
+ * @param[in] remote Input parameter.
+ * @return Return value.
+ * @details Calls: is_object(), contains(), at(), is_number_integer().
+ */
 std::optional<Conflict> TemporalConflictDetector::detectOverlappingPeriods(
     const TemporalSnapshot& local,
     const TemporalSnapshot& remote
@@ -522,6 +642,13 @@ std::optional<Conflict> TemporalConflictDetector::detectOverlappingPeriods(
     return c;
 }
 
+/**
+ * @brief Detect Referential Integrity.
+ * @param[in] local Input parameter.
+ * @param[in] remote Input parameter.
+ * @return Return value.
+ * @details Calls: is_object(), contains(), at().
+ */
 std::optional<Conflict> TemporalConflictDetector::detectReferentialIntegrity(
     const TemporalSnapshot& local,
     const TemporalSnapshot& remote
@@ -550,6 +677,13 @@ std::optional<Conflict> TemporalConflictDetector::detectReferentialIntegrity(
     return c;
 }
 
+/**
+ * @brief Detect Uniqueness Violation.
+ * @param[in] local Input parameter.
+ * @param[in] remote Input parameter.
+ * @return Return value.
+ * @details Calls: is_object(), items(), contains(), push_back(), empty(), std::move().
+ */
 std::optional<Conflict> TemporalConflictDetector::detectUniquenessViolation(
     const TemporalSnapshot& local,
     const TemporalSnapshot& remote
@@ -679,12 +813,22 @@ TemporalSnapshot CustomMergeResolver::merge(
 // TemporalConflictResolver – MergeResolver accessors
 // ============================================================================
 
+/**
+ * @brief Set Merge Resolver.
+ * @param[in] resolver Input parameter.
+ * @details Calls: lk(), std::move().
+ */
 void TemporalConflictResolver::setMergeResolver(std::shared_ptr<MergeResolver> resolver) {
     std::lock_guard<std::mutex> lk(mutex_);
     merge_resolver_ = std::move(resolver);
 }
 
 std::shared_ptr<MergeResolver> TemporalConflictResolver::getMergeResolver() const {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     return merge_resolver_;
 }

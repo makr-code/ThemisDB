@@ -39,10 +39,13 @@ using json = nlohmann::json;
 // ─────────────────────────────────────────────────────────────────────────────
 namespace {
 
-/// Trim whitespace from both ends of a string view.
-// Using themis::utils::trim_view() from string_utils.h (Phase 1 consolidation)
+/**
+ * @brief Using themis::utils::trim_view() from string_utils.
+ * @param[in] sv Input parameter.
+ * @return Return value.
+ * @details h (Phase 1 consolidation) Calls: themis::utils::trim_view(), empty(), s(), std::stod(), size().
+ */
 
-/// Parse a numeric literal from a string view.
 std::optional<double> parseNumber(std::string_view sv) {
     sv = themis::utils::trim_view(sv);
     if (sv.empty()) {
@@ -62,8 +65,13 @@ std::optional<double> parseNumber(std::string_view sv) {
     }
 }
 
-/// Evaluate a FEEL range expression like [a..b], (a..b], [a..b), (a..b)
-/// against a numeric JSON value.
+/**
+ * @brief Evaluate Range.
+ * @param[in] expr Input parameter.
+ * @param[in] value Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: size(), front(), back(), substr(), find(), parseNumber(), is_number().
+ */
 bool evaluateRange(std::string_view expr, const json& value) {
     if (expr.size() < 4) {
       return false;
@@ -228,6 +236,12 @@ bool evaluateRange(std::string_view expr, const json& value) {
 // loadFromJson
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Load From Json.
+ * @param[in] dmn_json Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: value(), contains(), is_array(), push_back(), is_string(), dump(), is_object(), std::move().
+ */
 bool DmnEvaluator::loadFromJson(const json& dmn_json) {
     try {
         DecisionTable dt;
@@ -288,9 +302,12 @@ bool DmnEvaluator::loadFromJson(const json& dmn_json) {
     }
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// loadFromXml  — simplified state-machine XML parser for DMN 1.5
-// ─────────────────────────────────────────────────────────────────────────────
+/**
+ * @brief ───────────────────────────────────────────────────────────────────────────── loadFromXml — simplified state-machine XML parser for DMN 1.
+ * @param[in] dmn_xml Input parameter.
+ * @return True when the operation succeeds.
+ * @details 5 ───────────────────────────────────────────────────────────────────────────── Calls: empty(), size(), SPDLOG_ERROR(), find(), substr(), std::tolower(), toLower(), std::string().
+ */
 
 bool DmnEvaluator::loadFromXml(std::string_view dmn_xml) {
     // Minimal DMN 1.5 XML → JSON conversion then delegate to loadFromJson.
@@ -525,7 +542,11 @@ bool DmnEvaluator::loadFromXml(std::string_view dmn_xml) {
 json DmnEvaluator::evaluate(std::string_view decision_id,
                               const json&      input_context) const
 {
-    // Thread-safety: protect shared tables_ access
+    /**
+     * @brief Thread-safety: protect shared tables_ access
+     * @param[in] tables_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(tables_mutex_);
     
     const auto it = tables_.find(std::string(decision_id));
@@ -559,7 +580,11 @@ json DmnEvaluator::evaluate(std::string_view decision_id,
 // ─────────────────────────────────────────────────────────────────────────────
 
 std::vector<std::string> DmnEvaluator::listDecisions() const {
-    // Thread-safety: protect shared tables_ access
+    /**
+     * @brief Thread-safety: protect shared tables_ access
+     * @param[in] tables_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(tables_mutex_);
     
     std::vector<std::string> ids = {};
@@ -572,7 +597,11 @@ std::vector<std::string> DmnEvaluator::listDecisions() const {
 }
 
 std::optional<DecisionTable> DmnEvaluator::getDecision(std::string_view decision_id) const {
-    // Thread-safety: protect shared tables_ access
+    /**
+     * @brief Thread-safety: protect shared tables_ access
+     * @param[in] tables_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(tables_mutex_);
     
     const auto it = tables_.find(std::string(decision_id));

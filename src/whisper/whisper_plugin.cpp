@@ -19,6 +19,11 @@ std::mutex                            s_stub_transcriber_factory_mutex;
 WhisperPlugin::StubTranscriberFactoryFn s_stub_transcriber_factory_fn;
 }
 
+/**
+ * @brief Set Stub Transcriber Factory Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lk(), std::move().
+ */
 void WhisperPlugin::setStubTranscriberFactoryFn(StubTranscriberFactoryFn fn) {
     std::lock_guard<std::mutex> lk(s_stub_transcriber_factory_mutex);
     s_stub_transcriber_factory_fn = std::move(fn);
@@ -38,6 +43,11 @@ WhisperPlugin::WhisperPlugin() {
     // Roadmap ref: src/whisper/ROADMAP.md § "Planned Features"
     StubTranscriberFactoryFn factory;
     {
+        /**
+         * @brief Lk.
+         * @param[in] s_stub_transcriber_factory_mutex Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(s_stub_transcriber_factory_mutex);
         factory = s_stub_transcriber_factory_fn;
     }
@@ -45,10 +55,20 @@ WhisperPlugin::WhisperPlugin() {
         try {
             transcriber_ = factory();
         } catch (const nlohmann::json::exception& ex) {
+            /**
+             * @brief Lk.
+             * @param[in] error_mutex_ Input parameter.
+             * @return Return value.
+             */
             std::lock_guard<std::mutex> lk(error_mutex_);
             last_error_message_ = ex.what();
             transcriber_.reset();
         } catch (const std::exception& ex) {
+            /**
+             * @brief Lk.
+             * @param[in] error_mutex_ Input parameter.
+             * @return Return value.
+             */
             std::lock_guard<std::mutex> lk(error_mutex_);
             last_error_message_ = ex.what();
             transcriber_.reset();
@@ -69,7 +89,13 @@ WhisperPlugin::WhisperPlugin(std::unique_ptr<IWhisperTranscriber> transcriber,
     : transcriber_(std::move(transcriber))
     , reader_(std::move(reader)) {}
 
-// ── initialize ───────────────────────────────────────────────────────────────
+/**
+ * @brief ── initialize ───────────────────────────────────────────────────────────────
+ * @param[in] model_path Path to the model.
+ * @param[in] config Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: WhisperConfig::fromJson(), getLastError(), empty(), lk(), std::move(), clear(), store().
+ */
 
 bool WhisperPlugin::initialize(const std::string& model_path,
                                const nlohmann::json& config) {
@@ -94,7 +120,13 @@ bool WhisperPlugin::initialize(const std::string& model_path,
     return ok;
 }
 
-// ── transcribe ───────────────────────────────────────────────────────────────
+/**
+ * @brief ── transcribe ───────────────────────────────────────────────────────────────
+ * @param[in] pcm Input parameter.
+ * @param[in] sample_rate Input parameter.
+ * @return Return value.
+ * @details Calls: load(), fetch_add(), lk(), empty(), getPluginVersion(), lock(), getModelId(), std::chrono::system_clock::now().
+ */
 
 audio::TranscriptionResult WhisperPlugin::transcribe(const std::vector<float>& pcm,
                                                       float sample_rate) {
@@ -145,7 +177,12 @@ audio::TranscriptionResult WhisperPlugin::transcribe(const std::vector<float>& p
     }
 }
 
-// ── transcribeFile ───────────────────────────────────────────────────────────
+/**
+ * @brief ── transcribeFile ───────────────────────────────────────────────────────────
+ * @param[in] path Input parameter.
+ * @return Return value.
+ * @details Calls: load(), fetch_add(), lk(), empty(), getPluginVersion(), readFile(), transcribe(), what().
+ */
 
 audio::TranscriptionResult WhisperPlugin::transcribeFile(const std::string& path) {
     if (!initialized_.load(std::memory_order_acquire)) {
@@ -183,7 +220,13 @@ audio::TranscriptionResult WhisperPlugin::transcribeFile(const std::string& path
     }
 }
 
-// ── detectLanguage ───────────────────────────────────────────────────────────
+/**
+ * @brief ── detectLanguage ───────────────────────────────────────────────────────────
+ * @param[in] pcm Input parameter.
+ * @param[in] sample_rate Input parameter.
+ * @return Return value.
+ * @details Calls: load(), lock().
+ */
 
 audio::LanguageDetectionResult WhisperPlugin::detectLanguage(
         const std::vector<float>& pcm, float sample_rate) {
@@ -201,6 +244,14 @@ audio::LanguageDetectionResult WhisperPlugin::detectLanguage(
     return result;
 }
 
+/**
+ * @brief Transcribe With Diarisation.
+ * @param[in] pcm_samples Input parameter.
+ * @param[in] sample_rate Input parameter.
+ * @param[in] cfg Input parameter.
+ * @return Return value.
+ * @details Calls: getPluginVersion(), getModelId(), std::chrono::system_clock::now(), time_since_epoch(), count(), load(), fetch_add(), lk().
+ */
 DiarisationResult WhisperPlugin::transcribeWithDiarisation(
         const std::vector<float>& pcm_samples,
         float sample_rate,
@@ -256,7 +307,14 @@ DiarisationResult WhisperPlugin::transcribeWithDiarisation(
     }
 }
 
-// ── transcribeStream ─────────────────────────────────────────────────────────
+/**
+ * @brief ── transcribeStream ─────────────────────────────────────────────────────────
+ * @param[in] pcm_samples Input parameter.
+ * @param[in] sample_rate Input parameter.
+ * @param[in] callback Input parameter.
+ * @return Return value.
+ * @details Calls: load(), fetch_add(), lk(), empty(), getPluginVersion(), applyVad(), lock(), std::move().
+ */
 
 audio::TranscriptionResult WhisperPlugin::transcribeStream(
         const std::vector<float>& pcm_samples,
@@ -313,7 +371,12 @@ audio::TranscriptionResult WhisperPlugin::transcribeStream(
     }
 }
 
-// ── VAD ──────────────────────────────────────────────────────────────────────
+/**
+ * @brief ── VAD ──────────────────────────────────────────────────────────────────────
+ * @param[in] vad Input parameter.
+ * @param[in] cfg Input parameter.
+ * @details Calls: lk(), std::move().
+ */
 
 void WhisperPlugin::setVoiceActivityDetector(std::unique_ptr<IVoiceActivityDetector> vad,
                                               const VadConfig& cfg) {
@@ -324,6 +387,11 @@ void WhisperPlugin::setVoiceActivityDetector(std::unique_ptr<IVoiceActivityDetec
 
 std::vector<float> WhisperPlugin::applyVad(const std::vector<float>& pcm,
                                             float sample_rate) const {
+    /**
+     * @brief Lk.
+     * @param[in] vad_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(vad_mutex_);
     if (!vad_ || pcm.empty()) {
       return pcm;
@@ -355,6 +423,11 @@ std::string WhisperPlugin::getModelId() const {
 nlohmann::json WhisperPlugin::getStatistics() const {
     std::string last_error = {};
     {
+        /**
+         * @brief Lk.
+         * @param[in] error_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(error_mutex_);
         last_error = last_error_message_;
     }
@@ -376,12 +449,22 @@ nlohmann::json WhisperPlugin::getStatistics() const {
 
 #if !defined(THEMIS_TEST_BUILD) && defined(THEMIS_PLUGIN_EXPORTS)
 extern "C" THEMIS_PLUGIN_EXPORT
+/**
+ * @brief Themis audio create.
+ * @return Pointer to the result.
+ * @details Calls: release().
+ */
 themis::audio::IAudioBackend* themis_audio_create() {
     auto plugin = std::make_unique<themis::whisper::WhisperPlugin>();
     return plugin.release();
 }
 
 extern "C" THEMIS_PLUGIN_EXPORT
+/**
+ * @brief Themis audio destroy.
+ * @param[in,out] p Input/output parameter.
+ * @details Implements themis_audio_destroy without additional internal calls.
+ */
 void themis_audio_destroy(themis::audio::IAudioBackend* p) {
     delete p;  // delete nullptr is well-defined; ownership transferred to this function
 }

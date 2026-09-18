@@ -23,10 +23,11 @@ namespace themis::llm {
 
 using json = nlohmann::json;
 
-/**
- * @brief Represents a single documentation document
- */
 struct DocumentEntry {
+    /**
+     * @brief Document Entry.
+     * @return Return value.
+     */
     virtual ~DocumentEntry() = default;
     std::string file_path;
     std::string file_hash;
@@ -48,9 +49,6 @@ struct DocumentEntry {
     float relevance_score = 0.0f;
 };
 
-/**
- * @brief Configuration for documentation assistant
- */
 struct DocsAssistantConfig {
     std::string docs_database_path = "data/docs_database.json";
     std::string database_type = "json";  // "json" or "rocksdb"
@@ -63,14 +61,9 @@ struct DocsAssistantConfig {
     std::string llm_model_id = "";  // Empty = use default
     
     /**
-     * @brief Auto-discover documentation database
-     * 
-     * Search order:
-     * 1. Explicit config: docs_database_path
-     * 2. data/docs.db (RocksDB)
-     * 3. data/docs_database.json (JSON)
-     * 4. ./docs.db (RocksDB in current dir)
-     * 5. ./docs_database.json (JSON in current dir)
+     * @brief Discover Database.
+     * @return True when the operation succeeds.
+     * @details Calls: test(), good(), std::filesystem::exists().
      */
     bool discoverDatabase() {
         if (!auto_discover) {
@@ -103,10 +96,11 @@ struct DocsAssistantConfig {
     }
 };
 
-/**
- * @brief Query result from documentation search
- */
 struct DocsQueryResult {
+    /**
+     * @brief Docs Query Result.
+     * @return Return value.
+     */
     virtual ~DocsQueryResult() = default;
     std::vector<DocumentEntry> relevant_docs;
     std::string generated_answer;
@@ -117,79 +111,55 @@ struct DocsQueryResult {
     std::chrono::milliseconds generation_time_ms{0};
 };
 
-/**
- * @brief Documentation Assistant for ThemisDB
- * 
- * Provides LLM-powered assistance by searching pre-compiled documentation
- * and generating context-aware answers using RAG.
- */
 class DocsAssistant {
 public:
-    /**
-     * @brief Constructor
-     * @param config Configuration for the assistant
-     */
     explicit DocsAssistant(const DocsAssistantConfig& config = DocsAssistantConfig());
     
-    /**
-     * @brief Destructor
-     */
     ~DocsAssistant();
     
     // Disable copy
     DocsAssistant(const DocsAssistant&) = delete;
     DocsAssistant& operator=(const DocsAssistant&) = delete;
     
-    /**
-     * @brief Load documentation database
-     * @param path Path to the documentation database JSON file
-     * @return true if successful, false otherwise
-     */
     bool loadDatabase(const std::string& path = "");
     
     /**
-     * @brief Check if database is loaded
-     * @return true if database is loaded and ready
+     * @brief Is Ready.
+     * @return True when the operation succeeds.
      */
     bool isReady() const;
     
     /**
-     * @brief Query documentation for assistance
-     * @param query User query (e.g., "How do I configure sharding?")
-     * @return Query result with relevant docs and generated answer
+     * @brief Query.
+     * @param[in] query Input parameter.
+     * @return Return value.
      */
     DocsQueryResult query(const std::string& query);
     
-    /**
-     * @brief Search documentation without LLM generation
-     * @param query Search query
-     * @param max_results Maximum number of results to return
-     * @return Vector of relevant documents
-     */
     std::vector<DocumentEntry> searchDocs(const std::string& query, int max_results = 5);
     
     /**
-     * @brief Get configuration assistance for a specific topic
-     * @param topic Topic (e.g., "sharding", "replication", "security")
-     * @return Query result with configuration guidance
+     * @brief Get Config Help.
+     * @param[in] topic Input parameter.
+     * @return Return value.
      */
     DocsQueryResult getConfigHelp(const std::string& topic);
     
     /**
-     * @brief Get troubleshooting help for an error or issue
-     * @param error_description Description of the error or issue
-     * @return Query result with troubleshooting guidance
+     * @brief Get Troubleshooting Help.
+     * @param[in] error_description Input parameter.
+     * @return Return value.
      */
     DocsQueryResult getTroubleshootingHelp(const std::string& error_description);
     
     /**
-     * @brief Get database statistics
-     * @return JSON object with database statistics
+     * @brief Get Stats.
+     * @return Return value.
      */
     json getStats() const;
     
     /**
-     * @brief Clear any cached results
+     * @brief Clear Cache.
      */
     void clearCache();
 
@@ -198,23 +168,25 @@ private:
     std::unique_ptr<Impl> impl_;
     
     /**
-     * @brief Parse and load documentation database
+     * @brief Parse Database.
+     * @param[in] db_json Input parameter.
+     * @return True when the operation succeeds.
      */
     bool parseDatabase(const json& db_json);
     
     /**
-     * @brief Compute relevance score for a document
-     * @param doc Document to score
-     * @param query Query string
-     * @return Relevance score (0.0 to 1.0)
+     * @brief Compute Relevance.
+     * @param[in] doc Input parameter.
+     * @param[in] query Input parameter.
+     * @return Return value.
      */
     float computeRelevance(const DocumentEntry& doc, const std::string& query) const;
     
     /**
-     * @brief Generate answer using LLM with RAG
-     * @param query User query
-     * @param context_docs Relevant documentation for context
-     * @return Generated answer
+     * @brief Generate Answer.
+     * @param[in] query Input parameter.
+     * @param[in] context_docs Input parameter.
+     * @return Return value.
      */
     std::string generateAnswer(const std::string& query, 
                                const std::vector<DocumentEntry>& context_docs);

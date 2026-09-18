@@ -30,14 +30,12 @@ namespace training {
 namespace detail {
 
 /**
- * @brief Kaiming uniform initialisation for a weight matrix.
- *
- * Uses the fan-in heuristic:  limit = sqrt(6 / fan_in)
- * Values are drawn uniformly from [-limit, +limit].
- *
- * @param size  Total number of elements
- * @param fan_in  Input feature count (used to compute the uniform bound)
- * @param seed  PRNG seed (kept deterministic per-layer for reproducibility)
+ * @brief Kaiming Uniform.
+ * @param[in] size Input parameter.
+ * @param[in] fan_in Input parameter.
+ * @param[in] seed Input parameter.
+ * @return Return value.
+ * @details Calls: w(), gen(), std::sqrt(), dist().
  */
 static std::vector<float> kaimingUniform(size_t size, size_t fan_in, uint32_t seed) {
     std::vector<float> w(size);
@@ -54,11 +52,10 @@ static std::vector<float> kaimingUniform(size_t size, size_t fan_in, uint32_t se
 }
 
 /**
- * @brief Compute a reproducible seed from a layer name.
- *
- * Uses a polynomial hash (FNV-1a-inspired) to derive a uint32_t seed
- * from the layer name string so that each layer gets distinct initial
- * B weights.
+ * @brief Seed From Name.
+ * @param[in] name Input parameter.
+ * @return Return value.
+ * @details Implements seedFromName without additional internal calls.
  */
 static uint32_t seedFromName(const std::string& name) {
     uint32_t h = 2166136261;  // FNV-1a 32-bit offset basis
@@ -70,10 +67,14 @@ static uint32_t seedFromName(const std::string& name) {
 }
 
 /**
- * @brief Row-major matrix multiplication  C = A × B.
- *
- * A is (M × K), B is (K × N), C is (M × N).
- * All matrices are passed as flat row-major vectors.
+ * @brief Matmul.
+ * @param[in] A Input parameter.
+ * @param[in] M Input parameter.
+ * @param[in] K Input parameter.
+ * @param[in] B Input parameter.
+ * @param[in] N Input parameter.
+ * @return Return value.
+ * @details Calls: assert(), size(), C().
  */
 static std::vector<float> matmul(const std::vector<float>& A, size_t M, size_t K,
                                   const std::vector<float>& B, size_t N) {
@@ -98,9 +99,14 @@ static std::vector<float> matmul(const std::vector<float>& A, size_t M, size_t K
 // Pimpl
 // ============================================================================
 
-/** @brief Pimpl. */
 class LoRAAdapter::Impl {
 public:
+    /**
+     * @brief Impl.
+     * @param[in] default_rank Input parameter.
+     * @param[in] default_alpha Input parameter.
+     * @return Return value.
+     */
     explicit Impl(size_t default_rank, float default_alpha)
         : default_rank_(default_rank)
         , default_alpha_(default_alpha) {
@@ -114,6 +120,16 @@ public:
     // Layer management
     // -------------------------------------------------------------------------
 
+    /**
+     * @brief Add Layer.
+     * @param[in] layer_name Name of the layer.
+     * @param[in] in_dim Input parameter.
+     * @param[in] out_dim Input parameter.
+     * @param[in] rank Input parameter.
+     * @param[in] alpha Input parameter.
+     * @throws std::invalid_argument if an error occurs.
+     * @details Calls: empty(), count(), std::to_string(), std::min(), detail::kaimingUniform(), detail::seedFromName(), assign(), emplace().
+     */
     void addLayer(const std::string& layer_name,
                   size_t in_dim, size_t out_dim,
                   size_t rank, float alpha) {
@@ -151,6 +167,12 @@ public:
         layers_.emplace(layer_name, std::move(entry));
     }
 
+    /**
+     * @brief Remove Layer.
+     * @param[in] layer_name Name of the layer.
+     * @return True when the operation succeeds.
+     * @details Calls: erase().
+     */
     bool removeLayer(const std::string& layer_name) {
         return layers_.erase(layer_name) > 0;
     }
@@ -191,6 +213,15 @@ public:
         return it->second;
     }
 
+    /**
+     * @brief Set Weights.
+     * @param[in] layer_name Name of the layer.
+     * @param[in] B Input parameter.
+     * @param[in] A Input parameter.
+     * @throws std::out_of_range if an error occurs.
+     * @throws std::invalid_argument if an error occurs.
+     * @details Calls: find(), end(), size(), str().
+     */
     void setWeights(const std::string& layer_name,
                     const std::vector<float>& B,
                     const std::vector<float>& A) {
@@ -223,6 +254,16 @@ public:
     // Weight update
     // -------------------------------------------------------------------------
 
+    /**
+     * @brief Apply Update.
+     * @param[in] layer_name Name of the layer.
+     * @param[in] delta_B Input parameter.
+     * @param[in] delta_A Input parameter.
+     * @return Return value.
+     * @throws std::out_of_range if an error occurs.
+     * @throws std::invalid_argument if an error occurs.
+     * @details Calls: find(), end(), size(), str().
+     */
     WeightUpdateResult applyUpdate(const std::string& layer_name,
                                    const std::vector<float>& delta_B,
                                    const std::vector<float>& delta_A) {
@@ -259,6 +300,13 @@ public:
         return result;
     }
 
+    /**
+     * @brief Apply Batch Update.
+     * @param[in] batch Input parameter.
+     * @return Return value.
+     * @throws std::invalid_argument if an error occurs.
+     * @details Calls: size(), find(), end(), empty().
+     */
     WeightUpdateResult applyBatchUpdate(const WeightUpdateBatch& batch) {
         if (batch.layer_names.size() != batch.delta_B.size() ||
             batch.layer_names.size() != batch.delta_A.size()) {
@@ -358,6 +406,12 @@ public:
         return entries;
     }
 
+    /**
+     * @brief Import Weights.
+     * @param[in] entries Input parameter.
+     * @throws std::invalid_argument if an error occurs.
+     * @details Calls: size(), str().
+     */
     void importWeights(const std::vector<LoRAWeightEntry>& entries) {
         for (const LoRAWeightEntry& e : entries) {
             if (e.in_dim == 0 || e.out_dim == 0 || e.rank == 0)
@@ -399,12 +453,27 @@ LoRAAdapter::LoRAAdapter(LoRAAdapter&&) noexcept = default;
 
 LoRAAdapter& LoRAAdapter::operator=(LoRAAdapter&&) noexcept = default;
 
+/**
+ * @brief Add Layer.
+ * @param[in] layer_name Name of the layer.
+ * @param[in] in_dim Input parameter.
+ * @param[in] out_dim Input parameter.
+ * @param[in] rank Input parameter.
+ * @param[in] alpha Input parameter.
+ * @details Implements addLayer without additional internal calls.
+ */
 void LoRAAdapter::addLayer(const std::string& layer_name,
                             size_t in_dim, size_t out_dim,
                             size_t rank, float alpha) {
     impl_->addLayer(layer_name, in_dim, out_dim, rank, alpha);
 }
 
+/**
+ * @brief Remove Layer.
+ * @param[in] layer_name Name of the layer.
+ * @return True when the operation succeeds.
+ * @details Implements removeLayer without additional internal calls.
+ */
 bool LoRAAdapter::removeLayer(const std::string& layer_name) {
     return impl_->removeLayer(layer_name);
 }
@@ -429,18 +498,39 @@ const LoRAWeightEntry& LoRAAdapter::getWeights(const std::string& layer_name) co
     return impl_->getWeights(layer_name);
 }
 
+/**
+ * @brief Set Weights.
+ * @param[in] layer_name Name of the layer.
+ * @param[in] B Input parameter.
+ * @param[in] A Input parameter.
+ * @details Implements setWeights without additional internal calls.
+ */
 void LoRAAdapter::setWeights(const std::string& layer_name,
                               const std::vector<float>& B,
                               const std::vector<float>& A) {
     impl_->setWeights(layer_name, B, A);
 }
 
+/**
+ * @brief Apply Update.
+ * @param[in] layer_name Name of the layer.
+ * @param[in] delta_B Input parameter.
+ * @param[in] delta_A Input parameter.
+ * @return Return value.
+ * @details Implements applyUpdate without additional internal calls.
+ */
 WeightUpdateResult LoRAAdapter::applyUpdate(const std::string& layer_name,
                                              const std::vector<float>& delta_B,
                                              const std::vector<float>& delta_A) {
     return impl_->applyUpdate(layer_name, delta_B, delta_A);
 }
 
+/**
+ * @brief Apply Batch Update.
+ * @param[in] batch Input parameter.
+ * @return Return value.
+ * @details Implements applyBatchUpdate without additional internal calls.
+ */
 WeightUpdateResult LoRAAdapter::applyBatchUpdate(const WeightUpdateBatch& batch) {
     return impl_->applyBatchUpdate(batch);
 }
@@ -455,6 +545,11 @@ std::vector<LoRAWeightEntry> LoRAAdapter::exportWeights() const {
     return impl_->exportWeights();
 }
 
+/**
+ * @brief Import Weights.
+ * @param[in] entries Input parameter.
+ * @details Implements importWeights without additional internal calls.
+ */
 void LoRAAdapter::importWeights(const std::vector<LoRAWeightEntry>& entries) {
     impl_->importWeights(entries);
 }

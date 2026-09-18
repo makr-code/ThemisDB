@@ -24,6 +24,13 @@ CrashRecoveryCheckpoint::CrashRecoveryCheckpoint(const std::string& checkpoint_d
   }
 }
 
+/**
+ * @brief Save.
+ * @param[in] artifact_id Identifier of the artifact.
+ * @param[in] checkpoint Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), validateCheckpoint(), getCheckpointPath(), serializeCheckpoint(), out_file(), is_open(), write(), c_str().
+ */
 CheckpointStatus CrashRecoveryCheckpoint::save(const std::string& artifact_id,
                                                const Checkpoint& checkpoint) {
   if (artifact_id.empty()) {
@@ -73,6 +80,13 @@ CheckpointStatus CrashRecoveryCheckpoint::save(const std::string& artifact_id,
   }
 }
 
+/**
+ * @brief Load.
+ * @param[in] artifact_id Identifier of the artifact.
+ * @param[in,out] checkpoint Input/output parameter.
+ * @return Return value.
+ * @details Calls: empty(), getCheckpointPath(), fs::exists(), in_file(), is_open(), rdbuf(), close(), str().
+ */
 CheckpointStatus CrashRecoveryCheckpoint::load(const std::string& artifact_id,
                                                Checkpoint& checkpoint) {
   if (artifact_id.empty()) {
@@ -118,6 +132,12 @@ CheckpointStatus CrashRecoveryCheckpoint::load(const std::string& artifact_id,
   }
 }
 
+/**
+ * @brief Delete Checkpoint.
+ * @param[in] artifact_id Identifier of the artifact.
+ * @return Return value.
+ * @details Calls: empty(), getCheckpointPath(), fs::exists(), fs::remove().
+ */
 CheckpointStatus CrashRecoveryCheckpoint::deleteCheckpoint(const std::string& artifact_id) {
   if (artifact_id.empty()) {
     return CheckpointStatus::UNKNOWN_ERROR;
@@ -139,6 +159,12 @@ CheckpointStatus CrashRecoveryCheckpoint::deleteCheckpoint(const std::string& ar
   }
 }
 
+/**
+ * @brief Exists.
+ * @param[in] artifact_id Identifier of the artifact.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), getCheckpointPath().
+ */
 bool CrashRecoveryCheckpoint::exists(const std::string& artifact_id) {
   if (artifact_id.empty() || checkpoint_dir_.empty()) {
     return false;
@@ -152,6 +178,11 @@ bool CrashRecoveryCheckpoint::exists(const std::string& artifact_id) {
   }
 }
 
+/**
+ * @brief Get Stats.
+ * @return Return value.
+ * @details Calls: empty(), std::chrono::system_clock::now(), time_since_epoch(), count(), fs::directory_iterator(), is_regular_file(), path(), extension().
+ */
 CrashRecoveryCheckpoint::CheckpointStats CrashRecoveryCheckpoint::getStats() {
   CheckpointStats stats = {};
 
@@ -191,6 +222,12 @@ CrashRecoveryCheckpoint::CheckpointStats CrashRecoveryCheckpoint::getStats() {
   return stats;
 }
 
+/**
+ * @brief Cleanup Old Checkpoints.
+ * @param[in] retention_days Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), std::chrono::system_clock::now(), std::chrono::hours(), fs::directory_iterator(), is_regular_file(), path(), extension(), fs::last_write_time().
+ */
 uint64_t CrashRecoveryCheckpoint::cleanupOldCheckpoints(uint32_t retention_days) {
   uint64_t deleted_count = 0;
 
@@ -221,6 +258,11 @@ uint64_t CrashRecoveryCheckpoint::cleanupOldCheckpoints(uint32_t retention_days)
   return deleted_count;
 }
 
+/**
+ * @brief Set Checkpoint Dir.
+ * @param[in] checkpoint_dir Input parameter.
+ * @details Calls: empty(), fs::create_directories().
+ */
 void CrashRecoveryCheckpoint::setCheckpointDir(const std::string& checkpoint_dir) {
   checkpoint_dir_ = checkpoint_dir;
   if (!checkpoint_dir_.empty()) {
@@ -232,6 +274,12 @@ std::string CrashRecoveryCheckpoint::getCheckpointDir() const {
   return checkpoint_dir_;
 }
 
+/**
+ * @brief Serialize Checkpoint.
+ * @param[in] checkpoint Input parameter.
+ * @return Return value.
+ * @details Calls: str().
+ */
 std::string CrashRecoveryCheckpoint::serializeCheckpoint(const Checkpoint& checkpoint) {
   // Simple pipe-delimited format for checkpoint serialization
   std::ostringstream oss = {};
@@ -253,6 +301,12 @@ std::string CrashRecoveryCheckpoint::serializeCheckpoint(const Checkpoint& check
   return oss.str();
 }
 
+/**
+ * @brief Deserialize Checkpoint.
+ * @param[in] data Input parameter.
+ * @return Return value.
+ * @details Calls: iss(), std::getline(), push_back(), size(), std::stoul(), std::stoll(), std::stoull(), std::stod().
+ */
 Checkpoint CrashRecoveryCheckpoint::deserializeCheckpoint(const std::string& data) {
   Checkpoint checkpoint;
   std::istringstream iss(data);
@@ -290,6 +344,12 @@ Checkpoint CrashRecoveryCheckpoint::deserializeCheckpoint(const std::string& dat
   return checkpoint;
 }
 
+/**
+ * @brief Get Checkpoint Path.
+ * @param[in] artifact_id Identifier of the artifact.
+ * @return Return value.
+ * @details Calls: std::replace_if(), begin(), end(), std::isalnum().
+ */
 std::string CrashRecoveryCheckpoint::getCheckpointPath(const std::string& artifact_id) {
   // Sanitize artifact_id for use as filename
   std::string safe_id = artifact_id;
@@ -300,6 +360,12 @@ std::string CrashRecoveryCheckpoint::getCheckpointPath(const std::string& artifa
   return checkpoint_dir_ + "/" + safe_id + ".chk";
 }
 
+/**
+ * @brief Validate Checkpoint.
+ * @param[in] checkpoint Input parameter.
+ * @return Return value.
+ * @details Calls: empty().
+ */
 CheckpointStatus CrashRecoveryCheckpoint::validateCheckpoint(const Checkpoint& checkpoint) {
   // Check version compatibility
   if (checkpoint.version > 1) {

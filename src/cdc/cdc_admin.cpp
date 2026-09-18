@@ -44,6 +44,12 @@ CDCAdmin::CDCAdmin(TenantBufferManager* tenant_manager)
     }
 }
 
+/**
+ * @brief Purge All.
+ * @return Return value.
+ * @throws error::internalError if an error occurs.
+ * @details Calls: THEMIS_INFO(), steady_clock::now(), getWatermarks(), deleteOldEvents(), count().
+ */
 PurgeResult CDCAdmin::purgeAll() {
     THEMIS_INFO("CDC Admin: Purging all events");
     
@@ -72,6 +78,14 @@ PurgeResult CDCAdmin::purgeAll() {
     return result;
 }
 
+/**
+ * @brief Purge By Sequence Range.
+ * @param[in] start_sequence Input parameter.
+ * @param[in] end_sequence Input parameter.
+ * @return Return value.
+ * @throws error::internalError if an error occurs.
+ * @details Calls: THEMIS_INFO(), validateSequenceRange(), steady_clock::now(), deleteOldEvents(), count().
+ */
 PurgeResult CDCAdmin::purgeBySequenceRange(uint64_t start_sequence, uint64_t end_sequence) {
     THEMIS_INFO("CDC Admin: Purging sequence range [{}, {}]", start_sequence, end_sequence);
     
@@ -99,6 +113,13 @@ PurgeResult CDCAdmin::purgeBySequenceRange(uint64_t start_sequence, uint64_t end
     return result;
 }
 
+/**
+ * @brief Purge By Timestamp.
+ * @param[in] before_timestamp_ms Input parameter.
+ * @return Return value.
+ * @throws error::internalError if an error occurs.
+ * @details Calls: THEMIS_INFO(), steady_clock::now(), deleteOldEventsByTimestamp(), count().
+ */
 PurgeResult CDCAdmin::purgeByTimestamp(uint64_t before_timestamp_ms) {
     THEMIS_INFO("CDC Admin: Purging events before timestamp {}", before_timestamp_ms);
     
@@ -118,6 +139,14 @@ PurgeResult CDCAdmin::purgeByTimestamp(uint64_t before_timestamp_ms) {
     return result;
 }
 
+/**
+ * @brief Purge Tenant.
+ * @param[in] tenant_id Identifier of the tenant.
+ * @return Return value.
+ * @throws error::internalError if an error occurs.
+ * @throws error::invalidArgument if an error occurs.
+ * @details Calls: THEMIS_INFO(), empty(), steady_clock::now(), getTenantStats(), flushTenant(), removeTenant(), count().
+ */
 PurgeResult CDCAdmin::purgeTenant(const std::string& tenant_id) {
     THEMIS_INFO("CDC Admin: Purging tenant '{}'", tenant_id);
 
@@ -161,6 +190,13 @@ PurgeResult CDCAdmin::purgeTenant(const std::string& tenant_id) {
     return result;
 }
 
+/**
+ * @brief Replay From Sequence.
+ * @param[in] from_sequence Input parameter.
+ * @param[in] limit Input parameter.
+ * @param[in] event_types Input parameter.
+ * @return Return value.
+ */
 std::vector<Changefeed::ChangeEvent> CDCAdmin::replayFromSequence(
     uint64_t from_sequence,
     uint64_t limit,
@@ -187,6 +223,11 @@ std::vector<Changefeed::ChangeEvent> CDCAdmin::replayFromSequence(
     return events;
 }
 
+/**
+ * @brief Health Check.
+ * @return Return value.
+ * @details Calls: getWatermarks(), std::string(), what().
+ */
 HealthStatus CDCAdmin::healthCheck() {
     HealthStatus status;
     status.message = "CDC is healthy";
@@ -230,6 +271,11 @@ HealthStatus CDCAdmin::healthCheck() {
     return status;
 }
 
+/**
+ * @brief Get Diagnostics.
+ * @return Return value.
+ * @details Calls: THEMIS_INFO(), getWatermarks(), healthCheck(), std::move().
+ */
 DiagnosticsInfo CDCAdmin::getDiagnostics() {
     THEMIS_INFO("CDC Admin: Getting diagnostics");
 
@@ -266,6 +312,13 @@ DiagnosticsInfo CDCAdmin::getDiagnostics() {
     };
 }
 
+/**
+ * @brief Count Events In Range.
+ * @param[in] start Input parameter.
+ * @param[in] end Input parameter.
+ * @return Return value.
+ * @details Implements countEventsInRange without additional internal calls.
+ */
 uint64_t CDCAdmin::countEventsInRange(uint64_t start, uint64_t end) {
     if (end < start) {
         return 0;
@@ -273,6 +326,13 @@ uint64_t CDCAdmin::countEventsInRange(uint64_t start, uint64_t end) {
     return end - start + 1;
 }
 
+/**
+ * @brief Validate Sequence Range.
+ * @param[in] start Input parameter.
+ * @param[in] end Input parameter.
+ * @throws error::invalidArgument if an error occurs.
+ * @details Calls: std::to_string().
+ */
 void CDCAdmin::validateSequenceRange(uint64_t start, uint64_t end) {
     if (end < start) {
         throw error::invalidArgument(
@@ -281,6 +341,13 @@ void CDCAdmin::validateSequenceRange(uint64_t start, uint64_t end) {
     }
 }
 
+/**
+ * @brief Purge Older Than.
+ * @param[in] before_timestamp_ms Input parameter.
+ * @return Return value.
+ * @throws error::invalidArgument if an error occurs.
+ * @details Calls: std::to_string(), purgeByTimestamp().
+ */
 PurgeResult CDCAdmin::purgeOlderThan(int64_t before_timestamp_ms) {
     if (before_timestamp_ms < 0) {
         throw error::invalidArgument(
@@ -290,6 +357,12 @@ PurgeResult CDCAdmin::purgeOlderThan(int64_t before_timestamp_ms) {
     return purgeByTimestamp(static_cast<uint64_t>(before_timestamp_ms));
 }
 
+/**
+ * @brief Compact Log.
+ * @return Return value.
+ * @throws error::internalError if an error occurs.
+ * @details Calls: THEMIS_INFO(), steady_clock::now(), compactByKey(), count().
+ */
 CompactionResult CDCAdmin::compactLog() {
     THEMIS_INFO("CDC Admin: Starting log compaction (compact by key)");
 
@@ -307,6 +380,13 @@ CompactionResult CDCAdmin::compactLog() {
     return result;
 }
 
+/**
+ * @brief Redact By Key Prefix.
+ * @param[in] tenant_id Identifier of the tenant.
+ * @param[in] key_prefix Input parameter.
+ * @param[in] operator_id Identifier of the operator.
+ * @return Return value.
+ */
 GDPRRedactionResult CDCAdmin::redactByKeyPrefix(
     const std::string& tenant_id,
     const std::string& key_prefix,
@@ -411,6 +491,12 @@ GDPRRedactionResult CDCAdmin::redactByKeyPrefix(
     return result;
 }
 
+/**
+ * @brief Get Retention Status.
+ * @return Return value.
+ * @throws error::internalError if an error occurs.
+ * @details Calls: THEMIS_INFO(), getStats(), system_clock::now(), time_since_epoch(), count(), getRetentionPolicy(), isRetentionCleanupRunning().
+ */
 RetentionStatus CDCAdmin::getRetentionStatus() {
     THEMIS_INFO("CDC Admin: Getting retention status");
 

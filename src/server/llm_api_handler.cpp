@@ -48,7 +48,12 @@ namespace {
         return value.get<T>();
     }
 
-    // Helper to extract JWT token from Authorization header
+    /**
+     * @brief Helper to extract JWT token from Authorization header
+     * @param[in] req Input parameter.
+     * @return Return value.
+     * @details Calls: empty(), data(), size(), bearer_regex(), std::regex_match(), str().
+     */
     std::optional<std::string> extractBearerToken(const http::request<http::string_body>& req) {
         const auto auth_header = req[http::field::authorization];
         if (auth_header.empty()) {
@@ -66,6 +71,11 @@ namespace {
         return std::nullopt;
     }
 
+    /**
+     * @brief Log Current Exception.
+     * @param[in] context Input parameter.
+     * @details Calls: std::current_exception(), std::rethrow_exception(), THEMIS_ERROR(), what().
+     */
     void logCurrentException(const char* context) {
         try {
             auto ex = std::current_exception();
@@ -78,6 +88,12 @@ namespace {
         }
     }
 
+    /**
+     * @brief Extract Rag Document Content.
+     * @param[in] entity Input parameter.
+     * @return Return value.
+     * @details Calls: contains(), is_string(), empty().
+     */
     std::optional<std::string> extractRagDocumentContent(const nlohmann::json& entity) {
         // Check "content" field first
         if (entity.contains("content") && entity["content"].is_string()) {
@@ -103,6 +119,13 @@ namespace {
         return std::nullopt;
     }
 
+    /**
+     * @brief Extract Rag Document Source.
+     * @param[in] primary_key Input parameter.
+     * @param[in] entity Input parameter.
+     * @return Return value.
+     * @details Calls: empty(), contains(), is_string().
+     */
     std::string extractRagDocumentSource(const std::string& primary_key, const nlohmann::json& entity) {
         if (!primary_key.empty()) {
             return primary_key;
@@ -133,26 +156,57 @@ LLMApiHandler::LLMApiHandler(
     }
 }
 
+/**
+ * @brief Configure JWT.
+ * @param[in] config Input parameter.
+ * @details Implements configureJWT without additional internal calls.
+ */
 void LLMApiHandler::configureJWT(const auth::JWTValidatorConfig& config) {
     jwt_validator_ = std::make_unique<auth::JWTValidator>(config);
 }
 
+/**
+ * @brief Set Lo RAHandler.
+ * @param[in] lora_handler Callback that loras the entity.
+ * @details Calls: std::move().
+ */
 void LLMApiHandler::setLoRAHandler(std::shared_ptr<LoRAApiHandler> lora_handler) {
     lora_handler_ = std::move(lora_handler);
 }
 
+/**
+ * @brief Set Feedback Store.
+ * @param[in] feedback_store Input parameter.
+ * @details Calls: std::move().
+ */
 void LLMApiHandler::setFeedbackStore(std::shared_ptr<llm::FeedbackStore> feedback_store) {
     feedback_store_ = std::move(feedback_store);
 }
 
+/**
+ * @brief Set Policy Engine.
+ * @param[in,out] policy_engine Input/output parameter.
+ * @details Implements setPolicyEngine without additional internal calls.
+ */
 void LLMApiHandler::setPolicyEngine(governance::PolicyEngine* policy_engine) {
     policy_engine_ = policy_engine;
 }
 
+/**
+ * @brief Set Query Engine.
+ * @param[in] query_engine Input parameter.
+ * @details Calls: std::move().
+ */
 void LLMApiHandler::setQueryEngine(std::shared_ptr<query::QueryEngine> query_engine) {
     query_engine_ = std::move(query_engine);
 }
 
+/**
+ * @brief Handle Request.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), target(), starts_with(), method(), handleOpenAIChatCompletions(), handleOpenAIListModels(), createErrorResponse(), validateBearerToken().
+ */
 http::response<http::string_body> LLMApiHandler::handleRequest(
     const http::request<http::string_body>& req) {
     auto span = Tracer::startSpan("handleRequest");
@@ -290,6 +344,12 @@ http::response<http::string_body> LLMApiHandler::handleRequest(
     }
 }
 
+/**
+ * @brief Handle Inference.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), parseRequestBody(), createErrorResponse(), contains(), at(), what(), size(), THEMIS_WARN().
+ */
 http::response<http::string_body> LLMApiHandler::handleInference(
     const http::request<http::string_body>& req) {
     auto span = Tracer::startSpan("handleInference");
@@ -432,6 +492,12 @@ http::response<http::string_body> LLMApiHandler::handleInference(
     }
 }
 
+/**
+ * @brief Handle RAG.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), parseRequestBody(), createErrorResponse(), contains(), at(), what(), empty(), std::to_string().
+ */
 http::response<http::string_body> LLMApiHandler::handleRAG(
     const http::request<http::string_body>& req) {
     auto span = Tracer::startSpan("handleRAG");
@@ -735,6 +801,12 @@ http::response<http::string_body> LLMApiHandler::handleRAG(
     }
 }
 
+/**
+ * @brief Handle Embed.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), parseRequestBody(), createErrorResponse(), contains(), at(), what(), THEMIS_LLM_EMBED(), json::array().
+ */
 http::response<http::string_body> LLMApiHandler::handleEmbed(
     const http::request<http::string_body>& req) {
     auto span = Tracer::startSpan("handleEmbed");
@@ -789,6 +861,12 @@ http::response<http::string_body> LLMApiHandler::handleEmbed(
 
 static constexpr int kMaxTokensLimit = 4096;
 
+/**
+ * @brief Handle Stream Inference.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), std::string(), target(), find(), substr(), size(), reserve(), is_hex().
+ */
 http::response<http::string_body> LLMApiHandler::handleStreamInference(
     const http::request<http::string_body>& req) {
     auto span = Tracer::startSpan("handleStreamInference");
@@ -901,6 +979,12 @@ http::response<http::string_body> LLMApiHandler::handleStreamInference(
     return res;
 }
 
+/**
+ * @brief Handle Stream Explain Aql.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), parseRequestBody(), createErrorResponse(), contains(), at(), what(), spdlog::info(), size().
+ */
 http::response<http::string_body> LLMApiHandler::handleStreamExplainAql(
     const http::request<http::string_body>& req) {
     auto span = Tracer::startSpan("handleStreamExplainAql");
@@ -988,6 +1072,12 @@ http::response<http::string_body> LLMApiHandler::handleStreamExplainAql(
     return res;
 }
 
+/**
+ * @brief Handle List Models.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), llm::LLMPluginManager::instance(), listModels(), json::array(), push_back(), size(), createJsonResponse(), THEMIS_ERROR().
+ */
 http::response<http::string_body> LLMApiHandler::handleListModels(
     const http::request<http::string_body>& /*req*/) {
     auto span = Tracer::startSpan("handleListModels");
@@ -1018,6 +1108,12 @@ http::response<http::string_body> LLMApiHandler::handleListModels(
     }
 }
 
+/**
+ * @brief Handle Load Model.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), parseRequestBody(), createErrorResponse(), contains(), at(), what(), empty(), std::filesystem::weakly_canonical().
+ */
 http::response<http::string_body> LLMApiHandler::handleLoadModel(
     const http::request<http::string_body>& req) {
     auto span = Tracer::startSpan("handleLoadModel");
@@ -1128,6 +1224,12 @@ http::response<http::string_body> LLMApiHandler::handleLoadModel(
     }
 }
 
+/**
+ * @brief Handle Unload Model.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), parseRequestBody(), createErrorResponse(), contains(), at(), what(), llm::LLMPluginManager::instance(), unloadModel().
+ */
 http::response<http::string_body> LLMApiHandler::handleUnloadModel(
     const http::request<http::string_body>& req) {
     auto span = Tracer::startSpan("handleUnloadModel");
@@ -1174,6 +1276,12 @@ http::response<http::string_body> LLMApiHandler::handleUnloadModel(
     }
 }
 
+/**
+ * @brief Handle Model Info.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), target(), std::string(), substr(), find_last_of(), llm::LLMPluginManager::instance(), getModelInfo(), createErrorResponse().
+ */
 http::response<http::string_body> LLMApiHandler::handleModelInfo(
     const http::request<http::string_body>& req) {
     auto span = Tracer::startSpan("handleModelInfo");
@@ -1218,6 +1326,12 @@ http::response<http::string_body> LLMApiHandler::handleModelInfo(
     }
 }
 
+/**
+ * @brief Handle Ingest Model.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), parseRequestBody(), createErrorResponse(), contains(), at(), llm::LLMPluginManager::instance(), ingestModel(), createJsonResponse().
+ */
 http::response<http::string_body> LLMApiHandler::handleIngestModel(
     const http::request<http::string_body>& req) {
     auto span = Tracer::startSpan("handleIngestModel");
@@ -1269,6 +1383,12 @@ http::response<http::string_body> LLMApiHandler::handleIngestModel(
     }
 }
 
+/**
+ * @brief Handle List Lo RAs.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), llm::LLMPluginManager::instance(), listLoRAs(), json::array(), empty(), push_back(), size(), THEMIS_INFO().
+ */
 http::response<http::string_body> LLMApiHandler::handleListLoRAs(
     const http::request<http::string_body>& /*req*/) {
     auto span = Tracer::startSpan("handleListLoRAs");
@@ -1310,6 +1430,12 @@ http::response<http::string_body> LLMApiHandler::handleListLoRAs(
     }
 }
 
+/**
+ * @brief Handle Load Lo RA.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), parseRequestBody(), createErrorResponse(), contains(), at(), what(), llm::LLMPluginManager::instance(), loadLoRA().
+ */
 http::response<http::string_body> LLMApiHandler::handleLoadLoRA(
     const http::request<http::string_body>& req) {
     auto span = Tracer::startSpan("handleLoadLoRA");
@@ -1374,6 +1500,12 @@ http::response<http::string_body> LLMApiHandler::handleLoadLoRA(
     }
 }
 
+/**
+ * @brief Handle Unload Lo RA.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), parseRequestBody(), createErrorResponse(), contains(), at(), what(), llm::LLMPluginManager::instance(), unloadLoRA().
+ */
 http::response<http::string_body> LLMApiHandler::handleUnloadLoRA(
     const http::request<http::string_body>& req) {
     auto span = Tracer::startSpan("handleUnloadLoRA");
@@ -1422,6 +1554,12 @@ http::response<http::string_body> LLMApiHandler::handleUnloadLoRA(
     }
 }
 
+/**
+ * @brief Handle Stats.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), llm::LLMPluginManager::instance(), getStatistics(), createJsonResponse(), createErrorResponse(), what(), THEMIS_WARN(), logCurrentException().
+ */
 http::response<http::string_body> LLMApiHandler::handleStats(
     const http::request<http::string_body>& /*req*/) {
     auto span = Tracer::startSpan("handleStats");
@@ -1454,6 +1592,12 @@ http::response<http::string_body> LLMApiHandler::handleStats(
     }
 }
 
+/**
+ * @brief Handle Cache Stats.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), llm::LLMPluginManager::instance(), getCacheStatistics(), createJsonResponse(), createErrorResponse(), what(), THEMIS_WARN(), logCurrentException().
+ */
 http::response<http::string_body> LLMApiHandler::handleCacheStats(
     const http::request<http::string_body>& /*req*/) {
     auto span = Tracer::startSpan("handleCacheStats");
@@ -1496,6 +1640,12 @@ http::response<http::string_body> LLMApiHandler::handleCacheStats(
     }
 }
 
+/**
+ * @brief Handle Clear Cache.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), llm::LLMPluginManager::instance(), clearAllCaches(), createJsonResponse(), createErrorResponse(), what(), THEMIS_WARN(), logCurrentException().
+ */
 http::response<http::string_body> LLMApiHandler::handleClearCache(
     const http::request<http::string_body>& /*req*/) {
     auto span = Tracer::startSpan("handleClearCache");
@@ -1524,6 +1674,12 @@ http::response<http::string_body> LLMApiHandler::handleClearCache(
     }
 }
 
+/**
+ * @brief Handle Health.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), llm::LLMPluginManager::instance(), getHealthStatus(), createJsonResponse(), createErrorResponse(), what(), THEMIS_WARN(), logCurrentException().
+ */
 http::response<http::string_body> LLMApiHandler::handleHealth(
     const http::request<http::string_body>& /*req*/) {
     auto span = Tracer::startSpan("handleHealth");
@@ -1556,6 +1712,12 @@ http::response<http::string_body> LLMApiHandler::handleHealth(
     }
 }
 
+/**
+ * @brief Validate Bearer Token.
+ * @param[in] req Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: extractBearerToken(), parseAndValidate(), THEMIS_DEBUG(), what().
+ */
 bool LLMApiHandler::validateBearerToken(const http::request<http::string_body>& req) {
     auto token = extractBearerToken(req);
     if (!token) {
@@ -1589,6 +1751,14 @@ bool LLMApiHandler::validateBearerToken(const http::request<http::string_body>& 
     }
 }
 
+/**
+ * @brief Create Error Response.
+ * @param[in] status Input parameter.
+ * @param[in] error Input parameter.
+ * @param[in] details Input parameter.
+ * @return Return value.
+ * @details Calls: json::object(), std::string(), empty(), set(), body(), dump(), prepare_payload().
+ */
 http::response<http::string_body> LLMApiHandler::createErrorResponse(
     http::status status,
     std::string_view error,
@@ -1610,6 +1780,13 @@ http::response<http::string_body> LLMApiHandler::createErrorResponse(
     return res;
 }
 
+/**
+ * @brief Create Json Response.
+ * @param[in] data Input parameter.
+ * @param[in] status Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), set(), body(), dump(), prepare_payload().
+ */
 http::response<http::string_body> LLMApiHandler::createJsonResponse(
     const json& data,
     http::status status) {
@@ -1623,6 +1800,12 @@ http::response<http::string_body> LLMApiHandler::createJsonResponse(
     return res;
 }
 
+/**
+ * @brief Parse Request Body.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: json::parse(), body(), is_object(), THEMIS_DEBUG(), what().
+ */
 std::optional<json> LLMApiHandler::parseRequestBody(
     const http::request<http::string_body>& req) {
     
@@ -1641,6 +1824,12 @@ std::optional<json> LLMApiHandler::parseRequestBody(
 
 // Documentation Assistant Endpoints
 
+/**
+ * @brief Handle Docs Query.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), parseRequestBody(), createErrorResponse(), contains(), at(), what(), loadDatabase(), query().
+ */
 http::response<http::string_body> LLMApiHandler::handleDocsQuery(
     const http::request<http::string_body>& req) {
     auto span = Tracer::startSpan("handleDocsQuery");
@@ -1718,6 +1907,12 @@ http::response<http::string_body> LLMApiHandler::handleDocsQuery(
     }
 }
 
+/**
+ * @brief Handle Docs Config.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), parseRequestBody(), createErrorResponse(), contains(), at(), what(), loadDatabase(), getConfigHelp().
+ */
 http::response<http::string_body> LLMApiHandler::handleDocsConfig(
     const http::request<http::string_body>& req) {
     auto span = Tracer::startSpan("handleDocsConfig");
@@ -1781,6 +1976,12 @@ http::response<http::string_body> LLMApiHandler::handleDocsConfig(
     }
 }
 
+/**
+ * @brief Handle Docs Troubleshoot.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), parseRequestBody(), createErrorResponse(), contains(), at(), what(), loadDatabase(), getTroubleshootingHelp().
+ */
 http::response<http::string_body> LLMApiHandler::handleDocsTroubleshoot(
     const http::request<http::string_body>& req) {
     auto span = Tracer::startSpan("handleDocsTroubleshoot");
@@ -1846,7 +2047,12 @@ http::response<http::string_body> LLMApiHandler::handleDocsTroubleshoot(
     }
 }
 
-// ===== Feedback Endpoints =====
+/**
+ * @brief ===== Feedback Endpoints =====
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), parseRequestBody(), createErrorResponse(), contains(), at(), createFeedback(), toJson(), createJsonResponse().
+ */
 
 http::response<http::string_body> LLMApiHandler::handleCreateFeedback(
     const http::request<http::string_body>& req) {
@@ -1941,6 +2147,12 @@ http::response<http::string_body> LLMApiHandler::handleCreateFeedback(
     }
 }
 
+/**
+ * @brief Handle Get Feedback.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), target(), starts_with(), createErrorResponse(), substr(), length(), find(), empty().
+ */
 http::response<http::string_body> LLMApiHandler::handleGetFeedback(
     const http::request<http::string_body>& req) {
     auto span = Tracer::startSpan("handleGetFeedback");
@@ -1992,6 +2204,12 @@ http::response<http::string_body> LLMApiHandler::handleGetFeedback(
     return createJsonResponse(response_data);
 }
 
+/**
+ * @brief Handle List Feedback.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), target(), find(), substr(), std::stoul(), THEMIS_DEBUG(), what(), createErrorResponse().
+ */
 http::response<http::string_body> LLMApiHandler::handleListFeedback(
     const http::request<http::string_body>& req) {
     auto span = Tracer::startSpan("handleListFeedback");
@@ -2104,6 +2322,12 @@ http::response<http::string_body> LLMApiHandler::handleListFeedback(
     }
 }
 
+/**
+ * @brief Handle Feedback Stats.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), createErrorResponse(), getStats(), createJsonResponse().
+ */
 http::response<http::string_body> LLMApiHandler::handleFeedbackStats(
     const http::request<http::string_body>& /*req*/) {
     auto span = Tracer::startSpan("handleFeedbackStats");
@@ -2141,6 +2365,12 @@ http::response<http::string_body> LLMApiHandler::handleFeedbackStats(
 // OpenAI-compatible endpoints
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Handle Open AIChat Completions.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), parseRequestBody(), llm::OpenAICompatAdapter::buildError(), createJsonResponse(), std::string(), name_string(), value(), checkInferencePermission().
+ */
 http::response<http::string_body> LLMApiHandler::handleOpenAIChatCompletions(
     const http::request<http::string_body>& req) {
     auto span = Tracer::startSpan("handleOpenAIChatCompletions");
@@ -2318,6 +2548,12 @@ http::response<http::string_body> LLMApiHandler::handleOpenAIChatCompletions(
     }
 }
 
+/**
+ * @brief Handle Open AIList Models.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), json::array(), llm::LLMPluginManager::instance(), listModels(), push_back(), THEMIS_WARN(), what(), std::move().
+ */
 http::response<http::string_body> LLMApiHandler::handleOpenAIListModels(
     const http::request<http::string_body>& req) {
     auto span = Tracer::startSpan("handleOpenAIListModels");

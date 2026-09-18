@@ -16,11 +16,6 @@
 namespace themis {
 namespace observability {
 
-/**
- * @brief Default fallback strategy for cardinality overflow.
- *
- * Aggregates new label sets into a catch-all "__other" series.
- */
 class DefaultFallbackStrategy : public CardinalityFallbackStrategy {
 public:
     std::map<std::string, std::string> apply(
@@ -32,9 +27,6 @@ public:
     }
 };
 
-/**
- * @brief Internal tracker state for a single metric.
- */
 struct MetricCardinalityState {
     CardinalityLimit limit;
     std::map<std::map<std::string, std::string>, std::int64_t> label_sets;
@@ -423,7 +415,7 @@ private:
 };
 
 /**
- * @brief Factory function to create a new tracker
+ * @brief Create High Cardinality Metrics Tracker.
  * @return Return value.
  * @details Implements createHighCardinalityMetricsTracker without additional internal calls.
  */

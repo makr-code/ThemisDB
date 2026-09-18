@@ -34,6 +34,12 @@ Hypertable::Hypertable(RocksDBWrapper* db, const Config& config)
 
 Hypertable::~Hypertable() = default;
 
+/**
+ * @brief Get Chunk Name.
+ * @param[in] timestamp Input parameter.
+ * @return Return value.
+ * @details Calls: str().
+ */
 std::string Hypertable::getChunkName(int64_t timestamp) {
     // Calculate chunk start time (align to chunk interval)
     int64_t chunk_start = (timestamp / config_.chunk_interval_seconds) * config_.chunk_interval_seconds;
@@ -44,6 +50,12 @@ std::string Hypertable::getChunkName(int64_t timestamp) {
     return oss.str();
 }
 
+/**
+ * @brief Get Or Create Chunk.
+ * @param[in] timestamp Input parameter.
+ * @return Pointer to the result.
+ * @details Calls: getChunkName(), getOrCreateColumnFamily(), THEMIS_DEBUG(), THEMIS_ERROR(), error(), message().
+ */
 rocksdb::ColumnFamilyHandle* Hypertable::getOrCreateChunk(int64_t timestamp) {
     std::string chunk_name = getChunkName(timestamp);
     
@@ -59,6 +71,13 @@ rocksdb::ColumnFamilyHandle* Hypertable::getOrCreateChunk(int64_t timestamp) {
     }
 }
 
+/**
+ * @brief Build Key.
+ * @param[in] timestamp Input parameter.
+ * @param[in] sequence_id Identifier of the sequence.
+ * @return Return value.
+ * @details Calls: std::setfill(), std::setw(), str().
+ */
 std::string Hypertable::buildKey(int64_t timestamp, uint64_t sequence_id) {
     // Key format: timestamp_sequence
     // This ensures chronological ordering within a chunk
@@ -68,6 +87,13 @@ std::string Hypertable::buildKey(int64_t timestamp, uint64_t sequence_id) {
     return oss.str();
 }
 
+/**
+ * @brief Insert.
+ * @param[in] timestamp Input parameter.
+ * @param[in] data Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: getOrCreateChunk(), fetch_add(), buildKey(), value(), begin(), end(), put(), THEMIS_DEBUG().
+ */
 bool Hypertable::insert(int64_t timestamp, const std::string& data) {
     auto* cf_handle = getOrCreateChunk(timestamp);
     if (!cf_handle) {
@@ -140,7 +166,11 @@ std::vector<std::pair<int64_t, std::string>> Hypertable::query(
         std::string prefix = ""; // Would use chunk-specific prefix in production
         
         db_->scanPrefix(prefix, [&](std::string_view key, std::string_view value) -> bool {
-            // Parse timestamp from key
+            /**
+             * @brief Parse timestamp from key
+             * @param[in] key Input parameter.
+             * @return Return value.
+             */
             std::string key_str(key);
             size_t underscore_pos = key_str.find('_');
             if (underscore_pos != std::string::npos) {
@@ -149,6 +179,11 @@ std::vector<std::pair<int64_t, std::string>> Hypertable::query(
                     
                     // Filter by time range
                     if (timestamp >= start_time && timestamp < end_time) {
+                        /**
+                         * @brief Data.
+                         * @param[in] value Input parameter.
+                         * @return Return value.
+                         */
                         std::string data(value);
                         results.emplace_back(timestamp, data);
                     }
@@ -170,6 +205,11 @@ std::vector<std::pair<int64_t, std::string>> Hypertable::query(
     return results;
 }
 
+/**
+ * @brief Get Chunk Health.
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), listChunks(), push_back(), THEMIS_INFO(), size().
+ */
 std::vector<Hypertable::ChunkHealth> Hypertable::getChunkHealth() {
     std::vector<ChunkHealth> health_reports;
 
@@ -233,6 +273,11 @@ std::pair<int64_t, int64_t> Hypertable::parseChunkTimeRange(const std::string& c
     return {0, 0};
 }
 
+/**
+ * @brief List Chunks.
+ * @return Return value.
+ * @details Calls: THEMIS_INFO(), listColumnFamilies(), rfind(), parseChunkTimeRange(), THEMIS_WARN(), push_back(), std::move(), std::sort().
+ */
 std::vector<Hypertable::ChunkInfo> Hypertable::listChunks() {
     std::vector<ChunkInfo> chunks;
 
@@ -276,6 +321,11 @@ std::vector<Hypertable::ChunkInfo> Hypertable::listChunks() {
     return chunks;
 }
 
+/**
+ * @brief Compress Old Chunks.
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), listChunks(), THEMIS_INFO().
+ */
 uint32_t Hypertable::compressOldChunks() {
     uint32_t compressed_count = 0;
     
@@ -300,6 +350,11 @@ uint32_t Hypertable::compressOldChunks() {
     return compressed_count;
 }
 
+/**
+ * @brief Drop Expired Chunks.
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), listChunks(), THEMIS_INFO().
+ */
 uint32_t Hypertable::dropExpiredChunks() {
     uint32_t dropped_count = 0;
     
@@ -325,6 +380,11 @@ uint32_t Hypertable::dropExpiredChunks() {
     return dropped_count;
 }
 
+/**
+ * @brief Get Stats.
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), listChunks(), size(), THEMIS_INFO().
+ */
 Hypertable::Stats Hypertable::getStats() {
     Stats stats;
     

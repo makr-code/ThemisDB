@@ -105,10 +105,8 @@ namespace {
     bool g_grammar_api_override_active = false;
     
     /**
-     * @brief Initialize Grammar API function pointers via dynamic lookup
-     * 
-     * Attempts to load Grammar functions from the llama.cpp library at runtime.
-     * This allows ThemisDB to work with both grammar-enabled and standard llama.cpp builds.
+     * @brief Initialize Grammar API.
+     * @details Calls: spdlog::info(), GetModuleHandle(), GetProcAddress(), dlsym(), spdlog::warn().
      */
     void initializeGrammarAPI() {
         spdlog::info("Initializing llama.cpp Grammar API detection...");
@@ -164,7 +162,8 @@ namespace {
     }
     
     /**
-     * @brief Ensure Grammar API is initialized before use
+     * @brief Ensure Grammar APIInitialized.
+     * @details Calls: std::call_once().
      */
     inline void ensureGrammarAPIInitialized() {
         std::call_once(g_grammar_api_init_flag, initializeGrammarAPI);
@@ -178,8 +177,9 @@ namespace {
 extern "C" {
 
 /**
- * @brief Check if llama.cpp Grammar API is available
- * @return true if all Grammar functions are available, false otherwise
+ * @brief Themis llama grammar available.
+ * @return True when the operation succeeds.
+ * @details Calls: ensureGrammarAPIInitialized().
  */
 bool themis_llama_grammar_available() {
     if (!g_grammar_api_override_active) {
@@ -192,11 +192,12 @@ bool themis_llama_grammar_available() {
 }
 
 /**
- * @brief Initialize a grammar from EBNF text
- * @param vocab Vocabulary from llama model
- * @param grammar_str EBNF grammar string
- * @param start_rule Starting rule name (e.g., "root")
- * @return Grammar handle, or nullptr if failed or API unavailable
+ * @brief Llama grammar init.
+ * @param[in] vocab Input parameter.
+ * @param[in] grammar_str Input parameter.
+ * @param[in] start_rule Input parameter.
+ * @return Pointer to the result.
+ * @details Calls: ensureGrammarAPIInitialized(), spdlog::warn(), fn().
  */
 struct llama_grammar* llama_grammar_init(
     const struct llama_vocab* vocab,
@@ -218,8 +219,9 @@ struct llama_grammar* llama_grammar_init(
 }
 
 /**
- * @brief Free grammar resources
- * @param grammar Grammar handle to free
+ * @brief Llama grammar free.
+ * @param[in,out] grammar Input/output parameter.
+ * @details Calls: ensureGrammarAPIInitialized(), fn().
  */
 void llama_grammar_free(struct llama_grammar* grammar) {
     if (!g_grammar_api_override_active) {
@@ -236,10 +238,11 @@ void llama_grammar_free(struct llama_grammar* grammar) {
 }
 
 /**
- * @brief Apply grammar constraints to token candidates
- * @param grammar Grammar handle
- * @param ctx Context handle
- * @param candidates Token candidates array (will be filtered in-place)
+ * @brief Llama grammar sample.
+ * @param[in] grammar Input parameter.
+ * @param[in] ctx Input parameter.
+ * @param[in,out] candidates Input/output parameter.
+ * @details Calls: ensureGrammarAPIInitialized(), fn().
  */
 void llama_grammar_sample(
     const struct llama_grammar* grammar,
@@ -260,10 +263,11 @@ void llama_grammar_sample(
 }
 
 /**
- * @brief Update grammar state after token generation
- * @param grammar Grammar handle
- * @param ctx Context handle
- * @param token The token that was generated
+ * @brief Llama grammar accept.
+ * @param[in,out] grammar Input/output parameter.
+ * @param[in] ctx Input parameter.
+ * @param[in] token Input parameter.
+ * @details Calls: ensureGrammarAPIInitialized(), fn().
  */
 void llama_grammar_accept(
     struct llama_grammar* grammar,
@@ -284,16 +288,11 @@ void llama_grammar_accept(
 }
 
 /**
- * @brief Inject Grammar API function pointers for testing.
- *
- * Overrides the runtime-detected (dlsym) function pointers so that unit tests
- * can exercise all grammar code paths without a real llama.cpp build that exports
- * the grammar API.  Pass nullptr for all parameters to revert to the detected path.
- *
- * @note Call before any other grammar function.  Not thread-safe — intended for
- *       test set-up only.
- * @note Parameters are passed as void* to avoid a llama.h dependency in callers.
- *       Internally they are reinterpret_cast to the correct function pointer types.
+ * @brief Themis grammar inject api functions.
+ * @param[in,out] init_fn Input/output parameter.
+ * @param[in,out] free_fn Input/output parameter.
+ * @param[in,out] sample_fn Input/output parameter.
+ * @param[in,out] accept_fn Input/output parameter.
  */
 void themis_grammar_inject_api_functions(
     void* init_fn,

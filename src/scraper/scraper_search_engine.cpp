@@ -31,7 +31,12 @@ namespace scraper {
 
 namespace {
 
-/// Encode a single component for use in a query string.
+/**
+ * @brief Url Encode.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Calls: std::isalnum(), std::setw(), std::setfill(), str().
+ */
 std::string urlEncode(const std::string& s) {
     std::ostringstream out = {};
     for (unsigned char c : s) {
@@ -47,7 +52,12 @@ std::string urlEncode(const std::string& s) {
     return out.str();
 }
 
-/// Extract scheme+host, e.g. "https://example.com" from any URL.
+/**
+ * @brief Scheme Host.
+ * @param[in] url Input parameter.
+ * @return Return value.
+ * @details Calls: find(), substr().
+ */
 std::string schemeHost(const std::string& url) {
     const std::size_t pos = url.find("://");
     if (pos == std::string::npos) return {};
@@ -58,7 +68,13 @@ std::string schemeHost(const std::string& url) {
     return url.substr(0, slash);
 }
 
-/// Resolve href relative to base_url.
+/**
+ * @brief Resolve Url.
+ * @param[in] href Input parameter.
+ * @param[in] base_url Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), compare(), find(), substr().
+ */
 std::string resolveUrl(const std::string& href, const std::string& base_url) {
     if (href.empty()) {
       return base_url;
@@ -81,14 +97,18 @@ std::string resolveUrl(const std::string& href, const std::string& base_url) {
     return base_url.substr(0, slash + 1) + href;
 }
 
-/// Return lowercase version of a string.
+/**
+ * @brief To Lower.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Calls: std::transform(), begin(), end(), std::tolower().
+ */
 std::string toLower(std::string s) {
     std::transform(s.begin(), s.end(), s.begin(),
                    [](unsigned char c){ return static_cast<char>(std::tolower(c)); });
     return s;
 }
 
-/// Build query string from a map of params + a specific key=value pair.
 std::string buildQueryString(
         const std::map<std::string, std::string>& fixed,
         const std::string& search_key,

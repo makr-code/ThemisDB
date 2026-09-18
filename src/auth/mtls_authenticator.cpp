@@ -64,14 +64,23 @@ using UniqueX509StoreCtx = std::unique_ptr<X509_STORE_CTX, X509StoreCTXDeleter>;
 using UniqueBIO          = std::unique_ptr<BIO, BIODeleter>;
 using UniqueX509CRL      = std::unique_ptr<X509_CRL, X509CRLDeleter>;
 
-// Collect the last OpenSSL error string
+/**
+ * @brief Collect the last OpenSSL error string
+ * @return Return value.
+ * @details Calls: ERR_error_string_n(), ERR_get_error().
+ */
 std::string opensslError() {
     char buf[256];
     ERR_error_string_n(ERR_get_error(), buf, sizeof(buf));
     return buf;
 }
 
-// Parse PEM certificate; returns nullptr on failure
+/**
+ * @brief Parse PEM certificate; returns nullptr on failure
+ * @param[in] pem Input parameter.
+ * @return Return value.
+ * @details Calls: bio(), BIO_new_mem_buf(), data(), size(), UniqueX509(), PEM_read_bio_X509(), get().
+ */
 UniqueX509 parsePEM(const std::string &pem) {
     UniqueBIO bio(BIO_new_mem_buf(pem.data(), static_cast<int>(pem.size())));
     if (!bio) {
@@ -118,6 +127,11 @@ MTLSAuthenticator::~MTLSAuthenticator() = default;
 // Private initialisation helpers
 // ============================================================================
 
+/**
+ * @brief Init CAStore.
+ * @return True when the operation succeeds.
+ * @details Calls: reset(), X509_STORE_new(), spdlog::error(), bio(), BIO_new_mem_buf(), data(), size(), ca().
+ */
 bool MTLSAuthenticator::initCAStore() {
     impl_->ca_store.reset(X509_STORE_new());
     if (!impl_->ca_store) {
@@ -153,6 +167,11 @@ bool MTLSAuthenticator::initCAStore() {
     return true;
 }
 
+/**
+ * @brief Init CRL.
+ * @return True when the operation succeeds.
+ * @details Calls: bio(), BIO_new_mem_buf(), data(), size(), reset(), PEM_read_bio_X509_CRL(), get(), spdlog::error().
+ */
 bool MTLSAuthenticator::initCRL() {
     UniqueBIO bio(BIO_new_mem_buf(config_.crl_pem.data(), static_cast<int>(config_.crl_pem.size())));
     if (!bio) {
@@ -171,6 +190,13 @@ bool MTLSAuthenticator::initCRL() {
 // Core authentication
 // ============================================================================
 
+/**
+ * @brief Authenticate.
+ * @param[in] cert_pem Input parameter.
+ * @return Authentication result.
+ * @throws AuthException if an error occurs.
+ * @details Calls: lock(), parsePEM(), AuthError(), opensslError(), ctx(), X509_STORE_CTX_new(), X509_STORE_CTX_init(), get().
+ */
 MTLSClaims MTLSAuthenticator::authenticate(const std::string &cert_pem) {
     std::lock_guard<std::mutex> lock(mutex_);
 
@@ -313,6 +339,13 @@ MTLSClaims MTLSAuthenticator::authenticate(const std::string &cert_pem) {
     return claims;
 }
 
+/**
+ * @brief Authenticate DER.
+ * @param[in] cert_der Input parameter.
+ * @return Return value.
+ * @throws AuthException if an error occurs.
+ * @details Calls: der_bio(), BIO_new_mem_buf(), data(), size(), AuthError(), cert(), d2i_X509_bio(), get().
+ */
 MTLSClaims MTLSAuthenticator::authenticateDER(const std::vector<uint8_t> &cert_der) {
     // Convert DER to PEM
     UniqueBIO der_bio(BIO_new_mem_buf(cert_der.data(), static_cast<int>(cert_der.size())));
@@ -348,6 +381,12 @@ MTLSClaims MTLSAuthenticator::authenticateDER(const std::vector<uint8_t> &cert_d
 // Runtime revocation management
 // ============================================================================
 
+/**
+ * @brief Revoke Certificate.
+ * @param[in] serial_hex Input parameter.
+ * @throws AuthException if an error occurs.
+ * @details Calls: empty(), AuthError(), lock(), insert().
+ */
 void MTLSAuthenticator::revokeCertificate(const std::string &serial_hex) {
     if (serial_hex.empty()) {
         throw AuthException(
@@ -357,17 +396,32 @@ void MTLSAuthenticator::revokeCertificate(const std::string &serial_hex) {
     revoked_serials_.insert(serial_hex);
 }
 
+/**
+ * @brief Unrevoke Certificate.
+ * @param[in] serial_hex Input parameter.
+ * @details Calls: lock(), erase().
+ */
 void MTLSAuthenticator::unrevokeCertificate(const std::string &serial_hex) {
     std::lock_guard<std::mutex> lock(mutex_);
     revoked_serials_.erase(serial_hex);
 }
 
 bool MTLSAuthenticator::isRevoked(const std::string &serial_hex) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return revoked_serials_.count(serial_hex) > 0;
 }
 
 size_t MTLSAuthenticator::revokedCount() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return revoked_serials_.size();
 }
@@ -376,6 +430,13 @@ size_t MTLSAuthenticator::revokedCount() const {
 // Static utility helpers
 // ============================================================================
 
+/**
+ * @brief Cert Fingerprint.
+ * @param[in] cert_pem Input parameter.
+ * @return Return value.
+ * @throws AuthException if an error occurs.
+ * @details Calls: parsePEM(), AuthError(), opensslError(), computeFingerprint(), get().
+ */
 std::string MTLSAuthenticator::certFingerprint(const std::string &cert_pem) {
     UniqueX509 cert = parsePEM(cert_pem);
     if (!cert) {
@@ -385,6 +446,13 @@ std::string MTLSAuthenticator::certFingerprint(const std::string &cert_pem) {
     return computeFingerprint(cert.get());
 }
 
+/**
+ * @brief Extract Subject CN.
+ * @param[in] cert_pem Input parameter.
+ * @return Return value.
+ * @throws AuthException if an error occurs.
+ * @details Calls: parsePEM(), AuthError(), opensslError(), X509_get_subject_name(), get(), X509_NAME_get_index_by_NID(), X509_NAME_get_entry(), X509_NAME_ENTRY_get_data().
+ */
 std::string MTLSAuthenticator::extractSubjectCN(const std::string &cert_pem) {
     UniqueX509 cert = parsePEM(cert_pem);
     if (!cert) {
@@ -415,6 +483,12 @@ std::string MTLSAuthenticator::extractSubjectCN(const std::string &cert_pem) {
 // Private static helpers
 // ============================================================================
 
+/**
+ * @brief X509 Name To String.
+ * @param[in,out] name_ptr Input/output parameter.
+ * @return Return value.
+ * @details Calls: bio(), BIO_new(), BIO_s_mem(), X509_NAME_print_ex(), get(), BIO_get_mem_ptr(), std::string().
+ */
 std::string MTLSAuthenticator::x509NameToString(void *name_ptr) {
     X509_NAME *name = static_cast<X509_NAME *>(name_ptr);
     if (!name) {
@@ -435,6 +509,12 @@ std::string MTLSAuthenticator::x509NameToString(void *name_ptr) {
     return std::string(bptr->data, bptr->length);
 }
 
+/**
+ * @brief Serial To Hex.
+ * @param[in,out] serial_ptr Input/output parameter.
+ * @return Return value.
+ * @details Calls: bn(), ASN1_INTEGER_to_BN(), BN_bn2hex(), get(), result(), OPENSSL_free(), tolower().
+ */
 std::string MTLSAuthenticator::serialToHex(void *serial_ptr) {
     ASN1_INTEGER *serial = static_cast<ASN1_INTEGER *>(serial_ptr);
     if (!serial) {
@@ -461,6 +541,12 @@ std::string MTLSAuthenticator::serialToHex(void *serial_ptr) {
     return result;
 }
 
+/**
+ * @brief Compute Fingerprint.
+ * @param[in,out] x509_ptr Input/output parameter.
+ * @return Return value.
+ * @details Calls: X509_digest(), EVP_sha256(), std::setfill(), std::setw(), str().
+ */
 std::string MTLSAuthenticator::computeFingerprint(void *x509_ptr) {
     X509 *cert = static_cast<X509 *>(x509_ptr);
     if (!cert) {
@@ -481,6 +567,13 @@ std::string MTLSAuthenticator::computeFingerprint(void *x509_ptr) {
     return oss.str();
 }
 
+/**
+ * @brief Extract SANs.
+ * @param[in,out] x509_ptr Input/output parameter.
+ * @param[in] san_type Input parameter.
+ * @return Return value.
+ * @details Calls: X509_get_ext_d2i(), sk_GENERAL_NAME_num(), sk_GENERAL_NAME_value(), ASN1_STRING_get0_data(), ASN1_STRING_length(), emplace_back(), push_back(), str().
+ */
 std::vector<std::string> MTLSAuthenticator::extractSANs(void *x509_ptr, int san_type) {
     X509 *cert = static_cast<X509 *>(x509_ptr);
     std::vector<std::string> result = {};

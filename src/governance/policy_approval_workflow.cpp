@@ -32,6 +32,12 @@ nlohmann::json ApprovalRecord::toJson() const {
     return j;
 }
 
+/**
+ * @brief From Json.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: contains().
+ */
 ApprovalRecord ApprovalRecord::fromJson(const nlohmann::json& j) {
     ApprovalRecord r = {};
     if (j.contains("rule_id")) {
@@ -85,6 +91,12 @@ nlohmann::json ApprovalStatus::toJson() const {
     return j;
 }
 
+/**
+ * @brief From Json.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: contains(), push_back().
+ */
 ApprovalStatus ApprovalStatus::fromJson(const nlohmann::json& j) {
     ApprovalStatus s = {};
     if (j.contains("rule_id")) {
@@ -135,6 +147,15 @@ ApprovalStatus ApprovalStatus::fromJson(const nlohmann::json& j) {
 
 PolicyApprovalWorkflow::PolicyApprovalWorkflow() = default;
 
+/**
+ * @brief Initiate Review.
+ * @param[in] rule_id Identifier of the rule.
+ * @param[in] current_version Input parameter.
+ * @param[in] submitted_by Input parameter.
+ * @param[in] required_approvers Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), std::chrono::system_clock::now(), time_since_epoch(), count().
+ */
 ApprovalStatus PolicyApprovalWorkflow::initiateReview(
     const std::string& rule_id,
     const std::string& current_version,
@@ -157,6 +178,13 @@ ApprovalStatus PolicyApprovalWorkflow::initiateReview(
     return status;
 }
 
+/**
+ * @brief Submit For Review.
+ * @param[in] rule_id Identifier of the rule.
+ * @param[in] reviewer Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), find(), end(), isValidTransition(), recordApprovalAction().
+ */
 bool PolicyApprovalWorkflow::submitForReview(
     const std::string& rule_id,
     const std::string& reviewer
@@ -187,6 +215,14 @@ bool PolicyApprovalWorkflow::submitForReview(
     return true;
 }
 
+/**
+ * @brief Approve Change.
+ * @param[in] rule_id Identifier of the rule.
+ * @param[in] approver Input parameter.
+ * @param[in] comment Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), find(), end(), std::find(), begin(), push_back(), size(), std::chrono::system_clock::now().
+ */
 bool PolicyApprovalWorkflow::approveChange(
     const std::string& rule_id,
     const std::string& approver,
@@ -243,6 +279,14 @@ bool PolicyApprovalWorkflow::approveChange(
     return true;
 }
 
+/**
+ * @brief Reject Change.
+ * @param[in] rule_id Identifier of the rule.
+ * @param[in] reviewer Input parameter.
+ * @param[in] reason Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), find(), end(), clear(), recordApprovalAction().
+ */
 bool PolicyApprovalWorkflow::rejectChange(
     const std::string& rule_id,
     const std::string& reviewer,
@@ -275,6 +319,13 @@ bool PolicyApprovalWorkflow::rejectChange(
     return true;
 }
 
+/**
+ * @brief Activate Policy.
+ * @param[in] rule_id Identifier of the rule.
+ * @param[in] activator Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), find(), end(), std::chrono::system_clock::now(), time_since_epoch(), count(), recordApprovalAction().
+ */
 bool PolicyApprovalWorkflow::activatePolicy(
     const std::string& rule_id,
     const std::string& activator
@@ -308,6 +359,14 @@ bool PolicyApprovalWorkflow::activatePolicy(
     return true;
 }
 
+/**
+ * @brief Rollback Approval.
+ * @param[in] rule_id Identifier of the rule.
+ * @param[in] operator_user Input parameter.
+ * @param[in] reason Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), find(), end(), recordApprovalAction().
+ */
 bool PolicyApprovalWorkflow::rollbackApproval(
     const std::string& rule_id,
     const std::string& operator_user,
@@ -339,6 +398,15 @@ bool PolicyApprovalWorkflow::rollbackApproval(
     return true;
 }
 
+/**
+ * @brief Emergency Override.
+ * @param[in] rule_id Identifier of the rule.
+ * @param[in] override_by Input parameter.
+ * @param[in] reason Input parameter.
+ * @param[in] required_approvers Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), find(), end(), std::chrono::system_clock::now(), time_since_epoch(), count(), recordApprovalAction(), fmt::format().
+ */
 bool PolicyApprovalWorkflow::emergencyOverride(
     const std::string& rule_id,
     const std::string& override_by,
@@ -384,6 +452,11 @@ bool PolicyApprovalWorkflow::emergencyOverride(
 std::optional<ApprovalStatus> PolicyApprovalWorkflow::getApprovalStatus(
     const std::string& rule_id
 ) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     auto it = approvals_.find(rule_id);
@@ -398,6 +471,11 @@ bool PolicyApprovalWorkflow::canTransitionTo(
     const std::string& rule_id,
     ApprovalState target_state
 ) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     auto it = approvals_.find(rule_id);
@@ -411,6 +489,11 @@ bool PolicyApprovalWorkflow::canTransitionTo(
 std::vector<std::string> PolicyApprovalWorkflow::getRulesInState(
     ApprovalState state
 ) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     std::vector<std::string> rules = {};
@@ -427,6 +510,11 @@ std::vector<std::string> PolicyApprovalWorkflow::getRulesInState(
 std::vector<std::string> PolicyApprovalWorkflow::getPendingApprovalsFor(
     const std::string& approver
 ) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     std::vector<std::string> pending = {};
@@ -455,6 +543,11 @@ std::vector<ApprovalRecord> PolicyApprovalWorkflow::queryApprovalHistory(
     const std::optional<int64_t>& start_time,
     const std::optional<int64_t>& end_time
 ) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     std::vector<ApprovalRecord> result;
@@ -480,6 +573,11 @@ std::vector<ApprovalRecord> PolicyApprovalWorkflow::queryApprovalHistory(
 }
 
 nlohmann::json PolicyApprovalWorkflow::exportWorkflow() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     nlohmann::json j;
@@ -497,6 +595,12 @@ nlohmann::json PolicyApprovalWorkflow::exportWorkflow() const {
     return j;
 }
 
+/**
+ * @brief Import Workflow.
+ * @param[in] j Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), contains(), clear(), items(), ApprovalStatus::fromJson(), push_back(), ApprovalRecord::fromJson().
+ */
 bool PolicyApprovalWorkflow::importWorkflow(const nlohmann::json& j) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -521,6 +625,11 @@ bool PolicyApprovalWorkflow::importWorkflow(const nlohmann::json& j) {
 bool PolicyApprovalWorkflow::saveToFile(const std::string& path) const {
     try {
         auto json = exportWorkflow();
+        /**
+         * @brief File.
+         * @param[in] path Input parameter.
+         * @return Return value.
+         */
         std::ofstream file(path);
         file << json.dump(2);
         file.close();
@@ -530,6 +639,12 @@ bool PolicyApprovalWorkflow::saveToFile(const std::string& path) const {
     }
 }
 
+/**
+ * @brief Load From File.
+ * @param[in] path Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: file(), close(), importWorkflow().
+ */
 bool PolicyApprovalWorkflow::loadFromFile(const std::string& path) {
     try {
         std::ifstream file(path);
@@ -542,6 +657,10 @@ bool PolicyApprovalWorkflow::loadFromFile(const std::string& path) {
     }
 }
 
+/**
+ * @brief Clear.
+ * @details Calls: lock().
+ */
 void PolicyApprovalWorkflow::clear() {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -576,6 +695,16 @@ bool PolicyApprovalWorkflow::isValidTransition(
     return false;
 }
 
+/**
+ * @brief Record Approval Action.
+ * @param[in] rule_id Identifier of the rule.
+ * @param[in] action Input parameter.
+ * @param[in] actor Input parameter.
+ * @param[in] old_state Input parameter.
+ * @param[in] new_state Input parameter.
+ * @param[in] comment Input parameter.
+ * @details Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), fmt::format(), push_back().
+ */
 void PolicyApprovalWorkflow::recordApprovalAction(
     const std::string& rule_id,
     ApprovalAction action,

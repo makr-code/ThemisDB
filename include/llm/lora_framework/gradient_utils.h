@@ -21,9 +21,6 @@ namespace lora {
 
 using json = nlohmann::json;
 
-/**
- * @brief Gradient clipping method
- */
 enum class ClippingMethod {
     NONE,           // No clipping
     BY_NORM,        // Clip by global norm
@@ -31,9 +28,6 @@ enum class ClippingMethod {
     BY_GLOBAL_NORM  // Clip by global norm (all gradients)
 };
 
-/**
- * @brief Configuration for gradient clipping
- */
 struct GradientClippingConfig {
     ClippingMethod method = ClippingMethod::NONE;
     float max_norm = 1.0f;          // Maximum gradient norm
@@ -49,6 +43,12 @@ struct GradientClippingConfig {
         };
     }
     
+    /**
+     * @brief From JSON.
+     * @param[in] j Input parameter.
+     * @return Return value.
+     * @details Calls: contains().
+     */
     static GradientClippingConfig fromJSON(const json& j) {
         GradientClippingConfig config = {};
         if (j.contains("method")) {
@@ -67,9 +67,6 @@ struct GradientClippingConfig {
     }
 };
 
-/**
- * @brief Gradient accumulation configuration
- */
 struct GradientAccumulationConfig {
     int accumulation_steps = 1;     // Number of steps to accumulate
     bool normalize = true;          // Normalize by accumulation steps
@@ -81,6 +78,12 @@ struct GradientAccumulationConfig {
         };
     }
     
+    /**
+     * @brief From JSON.
+     * @param[in] j Input parameter.
+     * @return Return value.
+     * @details Calls: contains().
+     */
     static GradientAccumulationConfig fromJSON(const json& j) {
         GradientAccumulationConfig config = {};
         if (j.contains("accumulation_steps")) {
@@ -93,10 +96,11 @@ struct GradientAccumulationConfig {
     }
 };
 
-/**
- * @brief Gradient statistics
- */
 struct GradientStats {
+    /**
+     * @brief Gradient Stats.
+     * @return Return value.
+     */
     virtual ~GradientStats() = default;
     float global_norm = 0.0f;       // L2 norm of all gradients
     float max_gradient = 0.0f;      // Maximum absolute gradient value
@@ -117,45 +121,36 @@ struct GradientStats {
     }
 };
 
-/**
- * @brief Gradient utilities for training
- * 
- * Features:
- * - Gradient clipping (by norm, by value)
- * - Gradient accumulation
- * - Gradient statistics
- * - Overflow/underflow detection
- */
 class GradientUtils {
 public:
     /**
-     * @brief Compute global L2 norm of gradients
-     * @param gradients Vector of gradient tensors
-     * @return Global gradient norm
+     * @brief Compute global norm.
+     * @param[in] gradients Input parameter.
+     * @return Return value.
      */
     static float compute_global_norm(const std::vector<Tensor*>& gradients);
     
     /**
-     * @brief Clip gradients by global norm
-     * @param gradients Vector of gradient tensors to clip
-     * @param max_norm Maximum allowed norm
-     * @return True if clipping was applied
+     * @brief Clip by norm.
+     * @param[in,out] gradients Input/output parameter.
+     * @param[in] max_norm Input parameter.
+     * @return True when the operation succeeds.
      */
     static bool clip_by_norm(std::vector<Tensor*>& gradients, float max_norm);
     
     /**
-     * @brief Clip gradients by value
-     * @param gradients Vector of gradient tensors to clip
-     * @param clip_value Maximum absolute value
-     * @return True if clipping was applied
+     * @brief Clip by value.
+     * @param[in,out] gradients Input/output parameter.
+     * @param[in] clip_value Input parameter.
+     * @return True when the operation succeeds.
      */
     static bool clip_by_value(std::vector<Tensor*>& gradients, float clip_value);
     
     /**
-     * @brief Apply gradient clipping based on configuration
-     * @param gradients Vector of gradient tensors
-     * @param config Clipping configuration
-     * @return Gradient statistics
+     * @brief Apply clipping.
+     * @param[in,out] gradients Input/output parameter.
+     * @param[in] config Input parameter.
+     * @return Return value.
      */
     static GradientStats apply_clipping(
         std::vector<Tensor*>& gradients, 
@@ -163,9 +158,9 @@ public:
     );
     
     /**
-     * @brief Accumulate gradients
-     * @param accumulated Accumulated gradients (in/out)
-     * @param new_gradients New gradients to add
+     * @brief Accumulate gradients.
+     * @param[in,out] accumulated Input/output parameter.
+     * @param[in] new_gradients Input parameter.
      */
     static void accumulate_gradients(
         std::vector<Tensor>& accumulated,
@@ -173,9 +168,9 @@ public:
     );
     
     /**
-     * @brief Normalize accumulated gradients
-     * @param accumulated Accumulated gradients to normalize
-     * @param num_steps Number of accumulation steps
+     * @brief Normalize gradients.
+     * @param[in,out] accumulated Input/output parameter.
+     * @param[in] num_steps Input parameter.
      */
     static void normalize_gradients(
         std::vector<Tensor>& accumulated,
@@ -183,70 +178,61 @@ public:
     );
     
     /**
-     * @brief Compute gradient statistics
-     * @param gradients Vector of gradient tensors
-     * @return Gradient statistics
+     * @brief Compute stats.
+     * @param[in] gradients Input parameter.
+     * @return Return value.
      */
     static GradientStats compute_stats(const std::vector<Tensor*>& gradients);
     
     /**
-     * @brief Check for NaN or Inf in gradients
-     * @param gradients Vector of gradient tensors
-     * @return True if overflow/underflow detected
+     * @brief Has invalid gradients.
+     * @param[in] gradients Input parameter.
+     * @return True when the operation succeeds.
      */
     static bool has_invalid_gradients(const std::vector<Tensor*>& gradients);
     
     /**
-     * @brief Zero out all gradients
-     * @param gradients Vector of gradient tensors
+     * @brief Zero gradients.
+     * @param[in,out] gradients Input/output parameter.
      */
     static void zero_gradients(std::vector<Tensor*>& gradients);
 };
 
-/**
- * @brief Gradient accumulator for multi-step training
- * 
- * Enables training with larger effective batch sizes by accumulating
- * gradients over multiple forward/backward passes before optimizer step.
- */
 class GradientAccumulator {
 public:
+    /**
+     * @brief Gradient Accumulator.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit GradientAccumulator(const GradientAccumulationConfig& config);
     ~GradientAccumulator() = default;
     
     /**
-     * @brief Add gradients to accumulator
-     * @param gradients New gradients to add
+     * @brief Accumulate.
+     * @param[in] gradients Input parameter.
      */
     void accumulate(const std::vector<Tensor*>& gradients);
     
     /**
-     * @brief Check if ready for optimizer step
-     * @return True if accumulated enough steps
+     * @brief Should step.
+     * @return True when the operation succeeds.
      */
     bool should_step() const;
     
     /**
-     * @brief Get accumulated gradients (after normalization)
-     * @return Vector of accumulated gradients
+     * @brief Get accumulated gradients.
+     * @return Return value.
      */
     std::vector<Tensor*> get_accumulated_gradients();
     
     /**
-     * @brief Reset accumulator
+     * @brief Reset the modification detection flag.
      */
     void reset();
     
-    /**
-     * @brief Get current step count
-     * @return Current accumulation step
-     */
     int current_step() const { return current_step_; }
     
-    /**
-     * @brief Get configuration
-     * @return Accumulation configuration
-     */
     GradientAccumulationConfig config() const { return config_; }
 
 private:

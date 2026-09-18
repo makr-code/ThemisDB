@@ -56,12 +56,24 @@ namespace {
 constexpr size_t kMaxAsyncJobQueryLength = 1'000'000;
 constexpr size_t kMaxAsyncJobIdLength = 256;
 
+/**
+ * @brief Is Valid Async Query.
+ * @param[in] query Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: validateStringLength(), std::string(), validateAQLQuery().
+ */
 bool isValidAsyncQuery(std::string_view query) {
     themis::utils::InputValidator validator;
     return validator.validateStringLength(std::string(query), kMaxAsyncJobQueryLength) &&
            validator.validateAQLQuery(std::string(query));
 }
 
+/**
+ * @brief Is Valid Async Job Id.
+ * @param[in] job_id Identifier of the job.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), validateStringLength(), std::string(), validatePathSegment().
+ */
 bool isValidAsyncJobId(std::string_view job_id) {
     themis::utils::InputValidator validator;
     return !job_id.empty() &&
@@ -69,6 +81,12 @@ bool isValidAsyncJobId(std::string_view job_id) {
            validator.validatePathSegment(std::string(job_id));
 }
 
+/**
+ * @brief Is Valid Captured Header.
+ * @param[in] header_value Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), validateHeaderValue(), std::string().
+ */
 bool isValidCapturedHeader(std::string_view header_value) {
     if (header_value.empty()) {
         return true;
@@ -84,6 +102,12 @@ bool isValidCapturedHeader(std::string_view header_value) {
 // Helpers
 // ============================================================================
 
+/**
+ * @brief Async Job Status To String.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Implements asyncJobStatusToString without additional internal calls.
+ */
 std::string asyncJobStatusToString(AsyncJobStatus s) {
     switch (s) {
         case AsyncJobStatus::PENDING:   return "pending";
@@ -95,6 +119,12 @@ std::string asyncJobStatusToString(AsyncJobStatus s) {
     return "unknown";
 }
 
+/**
+ * @brief Time Point To Iso.
+ * @param[in] tp Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::to_time_t(), gmtime_s(), gmtime_r(), std::put_time(), str().
+ */
 static std::string timePointToIso(std::chrono::system_clock::time_point tp) {
     std::time_t t = std::chrono::system_clock::to_time_t(tp);
     std::tm tm{};
@@ -113,6 +143,11 @@ static std::string timePointToIso(std::chrono::system_clock::time_point tp) {
 // ============================================================================
 
 json AsyncJobRecord::toJson() const {
+    /**
+     * @brief Lock.
+     * @param[in] mu Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mu);
     json j;
     j["job_id"]     = id;
@@ -137,6 +172,11 @@ AsyncJobRegistry::AsyncJobRegistry(std::chrono::seconds ttl)
     : ttl_(ttl)
 {}
 
+/**
+ * @brief Add.
+ * @param[in] job Input parameter.
+ * @details Calls: lock(), std::move(), std::chrono::system_clock::now(), begin(), end(), rlock(), erase().
+ */
 void AsyncJobRegistry::add(std::shared_ptr<AsyncJobRecord> job) {
     std::lock_guard<std::mutex> lock(mutex_);
     jobs_[job->id] = std::move(job);
@@ -157,12 +197,22 @@ void AsyncJobRegistry::add(std::shared_ptr<AsyncJobRecord> job) {
 }
 
 std::shared_ptr<AsyncJobRecord> AsyncJobRegistry::get(const std::string& id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = jobs_.find(id);
     return (it != jobs_.end()) ? it->second : nullptr;
 }
 
 std::vector<std::shared_ptr<AsyncJobRecord>> AsyncJobRegistry::all() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     std::vector<std::shared_ptr<AsyncJobRecord>> out;
     out.reserve(jobs_.size());
@@ -175,6 +225,11 @@ std::vector<std::shared_ptr<AsyncJobRecord>> AsyncJobRegistry::all() const {
 std::optional<nlohmann::json> AsyncJobRegistry::getJsonSnapshot(const std::string& id) const {
     std::shared_ptr<AsyncJobRecord> job;
     {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         auto it = jobs_.find(id);
         if (it == jobs_.end()) {
@@ -200,6 +255,11 @@ std::optional<std::pair<AsyncJobStatus, bool>> AsyncJobRegistry::requestCancel(
     const std::string& id) {
     std::shared_ptr<AsyncJobRecord> job;
     {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         auto it = jobs_.find(id);
         if (it == jobs_.end()) {
@@ -224,6 +284,10 @@ std::optional<std::pair<AsyncJobStatus, bool>> AsyncJobRegistry::requestCancel(
     return std::make_pair(job->status, false);
 }
 
+/**
+ * @brief Prune.
+ * @details Calls: lock(), std::chrono::system_clock::now(), begin(), end(), rlock(), erase().
+ */
 void AsyncJobRegistry::prune() {
     std::lock_guard<std::mutex> lock(mutex_);
     auto now = std::chrono::system_clock::now();
@@ -288,6 +352,11 @@ AsyncJobApiHandler::~AsyncJobApiHandler() {
     // do not access executor_ / auth_ after they have been destroyed.
     std::vector<std::future<void>> to_join;
     {
+        /**
+         * @brief Lock.
+         * @param[in] futures_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(futures_mutex_);
         to_join = std::move(futures_);
     }
@@ -303,6 +372,11 @@ AsyncJobApiHandler::~AsyncJobApiHandler() {
 // Static helpers
 // ============================================================================
 
+/**
+ * @brief Generate Job Id.
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), fetch_add(), str().
+ */
 std::string AsyncJobApiHandler::generateJobId() {
     static std::atomic<uint64_t> counter{0};
     uint64_t ts = static_cast<uint64_t>(
@@ -314,6 +388,12 @@ std::string AsyncJobApiHandler::generateJobId() {
     return oss.str();
 }
 
+/**
+ * @brief Extract Job Id.
+ * @param[in] target Input parameter.
+ * @return Return value.
+ * @details Calls: find(), substr(), size(), rfind(), data().
+ */
 std::string AsyncJobApiHandler::extractJobId(const std::string& target) {
     // Strip query string
     std::string path = target;
@@ -328,6 +408,13 @@ std::string AsyncJobApiHandler::extractJobId(const std::string& target) {
     return path.substr(kPrefix.size());
 }
 
+/**
+ * @brief Make Json Response.
+ * @param[in] status Input parameter.
+ * @param[in] body Input parameter.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ */
 http::response<http::string_body> AsyncJobApiHandler::makeJsonResponse(
     http::status status,
     const json&  body,
@@ -346,6 +433,12 @@ http::response<http::string_body> AsyncJobApiHandler::makeJsonResponse(
 // Background execution
 // ============================================================================
 
+/**
+ * @brief Launch Job.
+ * @param[in] job Input parameter.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: std::async(), std::chrono::steady_clock::now(), std::chrono::minutes(), rlock(), std::chrono::system_clock::now(), load(), std::chrono::milliseconds(), std::chrono::seconds().
+ */
 void AsyncJobApiHandler::launchJob(std::shared_ptr<AsyncJobRecord> job) {
     // Capture strong refs so the lambda keeps them alive beyond the handler.
     auto registry     = registry_;
@@ -498,6 +591,11 @@ void AsyncJobApiHandler::launchJob(std::shared_ptr<AsyncJobRecord> job) {
 // ============================================================================
 
 // POST /v2/jobs
+/**
+ * @brief Handle Submit.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ */
 http::response<http::string_body> AsyncJobApiHandler::handleSubmit(
     const http::request<http::string_body>& req)
 {
@@ -596,6 +694,11 @@ http::response<http::string_body> AsyncJobApiHandler::handleSubmit(
 }
 
 // GET /v2/jobs
+/**
+ * @brief Handle List.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ */
 http::response<http::string_body> AsyncJobApiHandler::handleList(
     const http::request<http::string_body>& req)
 {
@@ -604,7 +707,11 @@ http::response<http::string_body> AsyncJobApiHandler::handleList(
     return makeJsonResponse(http::status::ok, jobs, req);
 }
 
-// GET /v2/jobs/{id}
+/**
+ * @brief GET /v2/jobs/{id}
+ * @param[in] req Input parameter.
+ * @return Return value.
+ */
 http::response<http::string_body> AsyncJobApiHandler::handleGetStatus(
     const http::request<http::string_body>& req)
 {
@@ -630,7 +737,11 @@ http::response<http::string_body> AsyncJobApiHandler::handleGetStatus(
     return makeJsonResponse(http::status::ok, *job, req);
 }
 
-// DELETE /v2/jobs/{id}
+/**
+ * @brief DELETE /v2/jobs/{id}
+ * @param[in] req Input parameter.
+ * @return Return value.
+ */
 http::response<http::string_body> AsyncJobApiHandler::handleCancel(
     const http::request<http::string_body>& req)
 {
@@ -676,9 +787,11 @@ http::response<http::string_body> AsyncJobApiHandler::handleCancel(
         req);
 }
 
-// ============================================================================
-// OP-HEALTH-001: Health Check Handlers
-// ============================================================================
+/**
+ * @brief ============================================================================ OP-HEALTH-001: Health Check Handlers ============================================================================
+ * @param[in] req Input parameter.
+ * @return Return value.
+ */
 
 http::response<http::string_body> AsyncJobApiHandler::handleHealthCheck(
     const http::request<http::string_body>& req)

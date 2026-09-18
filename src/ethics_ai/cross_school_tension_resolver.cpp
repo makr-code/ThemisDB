@@ -37,6 +37,11 @@ std::vector<SchoolTension> CrossSchoolTensionResolver::loadTensions(
 
         // Split key by ':'
         std::vector<std::string> parts;
+        /**
+         * @brief Ss.
+         * @param[in] key Input parameter.
+         * @return Return value.
+         */
         std::istringstream ss(key);
         std::string token = {};
         while (std::getline(ss, token, ':')) {
@@ -55,6 +60,11 @@ std::vector<SchoolTension> CrossSchoolTensionResolver::loadTensions(
 
         // Value may be "<weight>" or "<weight>:<tension_type>"
         const std::string& val = kv.second;
+        /**
+         * @brief Val ss.
+         * @param[in] val Input parameter.
+         * @return Return value.
+         */
         std::istringstream val_ss(val);
         std::string weight_str = {};
         std::string ttype = {};

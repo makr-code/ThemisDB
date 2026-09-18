@@ -20,6 +20,11 @@ namespace server {
 // Singleton
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Instance.
+ * @return Return value.
+ * @details Implements instance without additional internal calls.
+ */
 RouteRegistry& RouteRegistry::instance() {
     static RouteRegistry inst;
     return inst;
@@ -29,6 +34,11 @@ RouteRegistry& RouteRegistry::instance() {
 // Registration
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Register Route.
+ * @param[in] entry Input parameter.
+ * @details Calls: lock(), std::find_if(), begin(), end(), std::move(), push_back().
+ */
 void RouteRegistry::registerRoute(RouteEntry entry) {
     std::unique_lock<std::shared_mutex> lock(mutex_);
     // Replace existing entry with same path+method (last-registration-wins).
@@ -44,10 +54,19 @@ void RouteRegistry::registerRoute(RouteEntry entry) {
 }
 
 std::vector<RouteEntry> RouteRegistry::entries() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(mutex_);
     return entries_;
 }
 
+/**
+ * @brief Clear.
+ * @details Calls: lock().
+ */
 void RouteRegistry::clear() {
     std::unique_lock<std::shared_mutex> lock(mutex_);
     entries_.clear();
@@ -58,6 +77,11 @@ void RouteRegistry::clear() {
 // ---------------------------------------------------------------------------
 
 json RouteRegistry::buildOpenApiSpec(const std::string& api_version) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(mutex_);
 
     // ---- paths object: merge all registered entries ----
@@ -271,14 +295,22 @@ namespace server {
 
 namespace {
 
-/// Build a canonical string key for a route entry: "METHOD /path".
+/**
+ * @brief Route Key.
+ * @param[in] e Input parameter.
+ * @return Return value.
+ * @details Implements routeKey without additional internal calls.
+ */
 inline std::string routeKey(const RouteEntry& e) {
     return e.method + " " + e.path;
 }
 
-/// Produce a deterministic hash of a route entry's operation metadata.
-/// Uses a simple FNV-1a hash over the serialised fields to avoid heavy
-/// JSON dependency in the hot registration path.
+/**
+ * @brief Hash Route Operation.
+ * @param[in] e Input parameter.
+ * @return Return value.
+ * @details Implements hashRouteOperation without additional internal calls.
+ */
 inline std::size_t hashRouteOperation(const RouteEntry& e) {
     // Include path, method, operationId, summary, deprecated flag.
     std::string canonical = e.path + "|" + e.method
@@ -288,14 +320,17 @@ inline std::size_t hashRouteOperation(const RouteEntry& e) {
     return std::hash<std::string>{}(canonical);
 }
 
-/// Parse a snapshot string (produced by captureSpecSnapshot) back into a
-/// map of routeKey → operation hash.
 std::unordered_map<std::string, std::size_t>
 parseSnapshot(const std::string& snapshot) {
     std::unordered_map<std::string, std::size_t> result = {};
 
     if (snapshot.empty()) { return result; }
 
+    /**
+     * @brief Ss.
+     * @param[in] snapshot Input parameter.
+     * @return Return value.
+     */
     std::istringstream ss(snapshot);
     std::string line = {};
     while (std::getline(ss, line)) {
@@ -315,6 +350,11 @@ parseSnapshot(const std::string& snapshot) {
 } // anonymous namespace
 
 std::string RouteRegistry::captureSpecSnapshot() const {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lk(mutex_);
     // Build a line-per-route text: "METHOD /path\t<hash>\n"
     // Sorted for determinism regardless of insertion order.
@@ -340,6 +380,11 @@ RouteRegistry::detectDrift(const std::string& baseline_snapshot) const {
     // Capture current state (under lock)
     std::unordered_map<std::string, std::size_t> current;
     {
+        /**
+         * @brief Lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::shared_lock<std::shared_mutex> lk(mutex_);
         current.reserve(entries_.size());
         for (const auto& e : entries_) {

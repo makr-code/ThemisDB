@@ -22,7 +22,6 @@ namespace adapters {
 // FormatExtractorFactory::Impl
 // ─────────────────────────────────────────────────────────────────────────────
 
-/** @brief FormatExtractorFactory::Impl. */
 class FormatExtractorFactory::Impl {
   public:
     std::unordered_map<std::string, std::shared_ptr<ingestion::IFormatExtractor>> registry;
@@ -46,6 +45,11 @@ std::shared_ptr<ingestion::IFormatExtractor> FormatExtractorFactory::extractorFo
     return nullptr;
 }
 
+/**
+ * @brief Register Extractor.
+ * @param[in] extractor Input parameter.
+ * @details Calls: lk(), supportedMimeTypes(), emplace().
+ */
 void FormatExtractorFactory::registerExtractor(std::shared_ptr<ingestion::IFormatExtractor> extractor) {
     if (!extractor) {
         return;
@@ -71,6 +75,11 @@ std::vector<std::string> FormatExtractorFactory::registeredMimeTypes() const {
 // createDefaultFormatExtractorFactory
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Create Default Format Extractor Factory.
+ * @return Return value.
+ * @details Calls: createTextExtractorAdapter(), registerExtractor(), createPdfExtractorAdapter(), createOfficeExtractorAdapter(), createImageExtractorAdapter(), createArchiveExtractorAdapter(), createAudioExtractorAdapter().
+ */
 std::shared_ptr<FormatExtractorFactory> createDefaultFormatExtractorFactory() {
     auto factory = std::make_shared<FormatExtractorFactory>();
 

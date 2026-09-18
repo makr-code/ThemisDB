@@ -63,6 +63,12 @@ PagedMemoryManager::~PagedMemoryManager() {
     pages_.clear();
 }
 
+/**
+ * @brief Device to backend.
+ * @param[in] type Input parameter.
+ * @return Return value.
+ * @details Implements device_to_backend without additional internal calls.
+ */
 acceleration::BackendType PagedMemoryManager::device_to_backend(DeviceType type) {
     switch (type) {
         case DeviceType::CUDA:
@@ -78,6 +84,13 @@ acceleration::BackendType PagedMemoryManager::device_to_backend(DeviceType type)
     }
 }
 
+/**
+ * @brief Allocate.
+ * @param[in] size Input parameter.
+ * @param[in] device Input parameter.
+ * @return Return value.
+ * @details Calls: getCurrentTimestamp(), std::memset(), is_available(), upload(), Device::cpu(), put().
+ */
 PagedBuffer PagedMemoryManager::allocate(size_t size, const Device& device) {
     PagedBuffer buffer;
     buffer.id = next_page_id_++;
@@ -123,6 +136,11 @@ PagedBuffer PagedMemoryManager::allocate(size_t size, const Device& device) {
     return buffer;
 }
 
+/**
+ * @brief Deallocate.
+ * @param[in,out] buffer Input/output parameter.
+ * @details Calls: remove(), erase().
+ */
 void PagedMemoryManager::deallocate(PagedBuffer& buffer) {
     if (buffer.id == 0) {
       return;
@@ -150,6 +168,13 @@ void PagedMemoryManager::deallocate(PagedBuffer& buffer) {
     buffer.is_on_gpu = false;
 }
 
+/**
+ * @brief Page In.
+ * @param[in,out] buffer Input/output parameter.
+ * @param[in,out] stream Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: getCurrentTimestamp(), get(), put(), is_available(), allocate(), evictLRU(), upload().
+ */
 bool PagedMemoryManager::pageIn(PagedBuffer& buffer, void* stream) {
     if (buffer.id == 0 || !buffer.cpu_ptr) {
         return false;
@@ -215,6 +240,13 @@ bool PagedMemoryManager::pageIn(PagedBuffer& buffer, void* stream) {
     return true;
 }
 
+/**
+ * @brief Page Out.
+ * @param[in,out] buffer Input/output parameter.
+ * @param[in,out] param Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: download(), deallocate(), Device::cpu(), get(), put().
+ */
 bool PagedMemoryManager::pageOut(PagedBuffer& buffer, void* /*stream*/) {
     if (buffer.id == 0 || !buffer.cpu_ptr) {
         return false;
@@ -249,6 +281,13 @@ bool PagedMemoryManager::pageOut(PagedBuffer& buffer, void* /*stream*/) {
     return true;
 }
 
+/**
+ * @brief Evict LRU.
+ * @param[in] num_pages Input parameter.
+ * @param[in,out] stream Input/output parameter.
+ * @return Return value.
+ * @details Calls: getLRUKeys(), find(), end(), pageOut().
+ */
 size_t PagedMemoryManager::evictLRU(size_t num_pages, void* stream) {
     // Get LRU pages
     std::vector<PageID> lru_pages = page_cache_.getLRUKeys(num_pages);

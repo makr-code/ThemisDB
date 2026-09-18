@@ -100,6 +100,12 @@ namespace {
     return selected;
 }
 
+/**
+ * @brief Strategy Reason Code.
+ * @param[in] strategy Input parameter.
+ * @return Pointer to the result.
+ * @details Calls: data().
+ */
 const char* strategyReasonCode(AnnStrategy strategy) {
     using namespace themis::observability::reason_codes::ann;
     switch (strategy) {
@@ -114,6 +120,11 @@ const char* strategyReasonCode(AnnStrategy strategy) {
 
 constexpr const char* kDistributedMergePolicy = "DISTANCE_ASC_THEN_ID";
 
+/**
+ * @brief Emit Route Metric.
+ * @param[in] result Input parameter.
+ * @details Calls: themis::observability::MetricsCollector::getInstance(), addCounter(), annStrategyName(), empty().
+ */
 void emitRouteMetric(const AnnFrontdoorResult& result) {
     themis::observability::MetricsCollector::getInstance().addCounter(
         "ann_frontdoor_route_type", 1,
@@ -139,6 +150,14 @@ AnnFrontdoor::~AnnFrontdoor() = default;
 // Backend registration
 // ============================================================================
 
+/**
+ * @brief Register Backend.
+ * @param[in] scope_id Identifier of the scope.
+ * @param[in] backend Input parameter.
+ * @param[in] kind Input parameter.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: std::move().
+ */
 void AnnFrontdoor::registerBackend(std::string       scope_id,
                                    std::shared_ptr<IAnnIndex> backend,
                                    AnnScopeKind      kind) {
@@ -150,6 +169,12 @@ void AnnFrontdoor::registerBackend(std::string       scope_id,
     backends_[std::move(scope_id)] = std::move(backend);
 }
 
+/**
+ * @brief Register Scope Kind.
+ * @param[in] scope_id Identifier of the scope.
+ * @param[in] kind Input parameter.
+ * @details Calls: std::move().
+ */
 void AnnFrontdoor::registerScopeKind(std::string scope_id, AnnScopeKind kind) {
     scope_kinds_[std::move(scope_id)] = kind;
 }
@@ -159,6 +184,12 @@ AnnScopeKind AnnFrontdoor::getScopeKind(const std::string& scope_id) const noexc
     return (it != scope_kinds_.end()) ? it->second : AnnScopeKind::Generic;
 }
 
+/**
+ * @brief Register Vector Index Manager.
+ * @param[in] vim Input parameter.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: std::move().
+ */
 void AnnFrontdoor::registerVectorIndexManager(
     std::shared_ptr<VectorIndexManager> vim) {
     if (!vim) {
@@ -168,6 +199,11 @@ void AnnFrontdoor::registerVectorIndexManager(
     vim_ = std::move(vim);
 }
 
+/**
+ * @brief Register Tiered Index Manager.
+ * @param[in] tim Input parameter.
+ * @details Calls: std::move().
+ */
 void AnnFrontdoor::registerTieredIndexManager(
     std::shared_ptr<TieredIndexManager> tim) {
     tiered_ = std::move(tim);   // nullptr is allowed — disables tier routing

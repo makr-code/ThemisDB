@@ -39,15 +39,16 @@ namespace auth {
 
 namespace {
 
-// ---------------------------------------------------------------------------
-// Minimal CBOR decoder
-//
-// Covers the subset used in WebAuthn:
-//   unsigned integers, negative integers, byte strings, text strings, maps,
-//   and tag items (tag is consumed and the wrapped item is decoded).
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- Minimal CBOR decoder Covers the subset used in WebAuthn: unsigned integers, negative integers, byte strings, text strings, maps, and tag items (tag is consumed and the wrapped item is decoded).
+ * @param[in] d Input parameter.
+ * @param[in] pos Input parameter.
+ * @param[in,out] out Input/output parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details --------------------------------------------------------------------------- Calls: size(), std::to_string().
+ */
 
-/// Read CBOR argument value (length or integer payload) and advance pos.
 static size_t cborReadArg(const std::vector<uint8_t> &d, size_t pos, uint64_t &out) {
     if (pos >= d.size()) {
         throw std::runtime_error("CBOR: truncated data");
@@ -96,7 +97,14 @@ static size_t cborReadArg(const std::vector<uint8_t> &d, size_t pos, uint64_t &o
     throw std::runtime_error("CBOR: unsupported additional info " + std::to_string(static_cast<int>(info)));
 }
 
-/// Skip one CBOR item, returning the new position.
+/**
+ * @brief Cbor Skip.
+ * @param[in] d Input parameter.
+ * @param[in] pos Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: size(), cborReadArg().
+ */
 static size_t cborSkip(const std::vector<uint8_t> &d, size_t pos) {
     if (pos >= d.size()) {
         throw std::runtime_error("CBOR: truncated (skip)");
@@ -161,9 +169,14 @@ static size_t cborSkip(const std::vector<uint8_t> &d, size_t pos) {
     }
 }
 
-// ---------------------------------------------------------------------------
-// Parse attestation object CBOR map (string keys: "fmt", "attStmt", "authData")
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- Parse attestation object CBOR map (string keys: "fmt", "attStmt", "authData") ---------------------------------------------------------------------------
+ * @param[in] d Input parameter.
+ * @param[in,out] fmt Input/output parameter.
+ * @param[in,out] auth_data Input/output parameter.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: size(), cborReadArg(), cborSkip(), key(), begin(), assign(), empty().
+ */
 
 static void cborParseAttestationObject(const std::vector<uint8_t> &d, std::string &fmt,
                                        std::vector<uint8_t> &auth_data) {
@@ -239,6 +252,14 @@ struct CoseKeyFields {
     std::vector<uint8_t> neg3_bytes; ///< key -3 bytes (EC y coord)
 };
 
+/**
+ * @brief Cbor Parse Cose Key.
+ * @param[in] d Input parameter.
+ * @param[in] pos Input parameter.
+ * @param[in,out] out Input/output parameter.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: size(), cborReadArg(), cborSkip(), b(), begin(), readInt(), readNegInt(), readBytes().
+ */
 static void cborParseCoseKey(const std::vector<uint8_t> &d, size_t pos, CoseKeyFields &out) {
     if (pos >= d.size() || (d[pos] >> 5) != 5) {
         throw std::runtime_error("CBOR: expected map for COSE key");
@@ -352,6 +373,13 @@ static void cborParseCoseKey(const std::vector<uint8_t> &d, size_t pos, CoseKeyF
 
 static const char kB64Table[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 
+/**
+ * @brief Base64 Url Encode Impl.
+ * @param[in] data Input parameter.
+ * @param[in] len Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), empty(), back(), pop_back().
+ */
 static std::string base64UrlEncodeImpl(const uint8_t *data, std::size_t len) {
     std::string out = {};
     out.reserve(((len + 2) / 3) * 4);
@@ -380,6 +408,13 @@ static std::string base64UrlEncodeImpl(const uint8_t *data, std::size_t len) {
     return out;
 }
 
+/**
+ * @brief Base64 Url Decode Impl.
+ * @param[in] input Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: size(), reserve(), push_back().
+ */
 static std::vector<uint8_t> base64UrlDecodeImpl(const std::string &input) {
     std::string padded = input;
     // URL-safe → standard
@@ -517,6 +552,11 @@ void WebAuthnAuthenticator::setRandBytesForTesting(std::function<void(unsigned c
     rand_bytes_fn_ = std::move(fn);
 }
 
+/**
+ * @brief Set Expected Origin.
+ * @param[in] origin Input parameter.
+ * @details Implements setExpectedOrigin without additional internal calls.
+ */
 void WebAuthnAuthenticator::setExpectedOrigin(const std::string &origin) {
     expected_origin_ = origin;
 }
@@ -525,6 +565,13 @@ void WebAuthnAuthenticator::setExpectedOrigin(const std::string &origin) {
 // Registration ceremony
 // ============================================================================
 
+/**
+ * @brief Start Registration.
+ * @param[in] user Input parameter.
+ * @param[in] resident_key Input parameter.
+ * @return Return value.
+ * @details Calls: generateChallenge(), spdlog::info().
+ */
 WebAuthnAuthenticator::CredentialCreationOptions WebAuthnAuthenticator::startRegistration(const User &user,
                                                                                           bool resident_key) {
     const std::string challenge = generateChallenge();
@@ -547,6 +594,12 @@ WebAuthnAuthenticator::CredentialCreationOptions WebAuthnAuthenticator::startReg
     return opts;
 }
 
+/**
+ * @brief Complete Registration.
+ * @param[in] cred Input parameter.
+ * @return Return value.
+ * @details Calls: value(), THROW_AUTH_ERROR(), at(), base64UrlDecode(), parseClientDataJSON(), verifyAndConsumeChallenge(), cborParseAttestationObject(), std::string().
+ */
 WebAuthnAuthenticator::AttestationResult WebAuthnAuthenticator::completeRegistration(const nlohmann::json &cred) {
     // --- 1. Extract top-level fields ---
     const std::string type = cred.value("type", "");
@@ -757,6 +810,11 @@ WebAuthnAuthenticator::completeAuthentication(const nlohmann::json &cred, const 
 // Private helpers – challenge management
 // ============================================================================
 
+/**
+ * @brief Generate Challenge.
+ * @return Return value.
+ * @details Calls: fillRandomBytes(), data(), size(), base64UrlEncode(), begin(), end(), lock(), purgeExpiredChallenges().
+ */
 std::string WebAuthnAuthenticator::generateChallenge() {
     std::array<unsigned char, 32> raw{};
     fillRandomBytes(raw.data(),raw.size());
@@ -771,6 +829,11 @@ std::string WebAuthnAuthenticator::generateChallenge() {
     return b64;
 }
 
+/**
+ * @brief Verify And Consume Challenge.
+ * @param[in] challenge_b64 Input parameter.
+ * @details Calls: lock(), purgeExpiredChallenges(), find(), end(), THROW_AUTH_ERROR(), erase().
+ */
 void WebAuthnAuthenticator::verifyAndConsumeChallenge(const std::string &challenge_b64) {
     std::lock_guard<std::mutex> lock(challenges_mutex_);
     purgeExpiredChallenges();
@@ -783,6 +846,10 @@ void WebAuthnAuthenticator::verifyAndConsumeChallenge(const std::string &challen
     pending_challenges_.erase(it);
 }
 
+/**
+ * @brief Purge Expired Challenges.
+ * @details Calls: std::chrono::system_clock::now(), begin(), end(), erase().
+ */
 void WebAuthnAuthenticator::purgeExpiredChallenges() {
     // Caller must hold challenges_mutex_
     const auto now = std::chrono::system_clock::now();
@@ -795,6 +862,12 @@ void WebAuthnAuthenticator::purgeExpiredChallenges() {
     }
 }
 
+/**
+ * @brief Fill Random Bytes.
+ * @param[in,out] buf Input/output parameter.
+ * @param[in] len Input parameter.
+ * @details Calls: rand_bytes_fn_(), RAND_bytes(), THROW_AUTH_ERROR().
+ */
 void WebAuthnAuthenticator::fillRandomBytes(unsigned char *buf, std::size_t len) {
     if (rand_bytes_fn_) {
         rand_bytes_fn_(buf, len);
@@ -809,12 +882,24 @@ void WebAuthnAuthenticator::fillRandomBytes(unsigned char *buf, std::size_t len)
 // Private helpers – cryptographic primitives
 // ============================================================================
 
+/**
+ * @brief Sha256.
+ * @param[in] data Input parameter.
+ * @return Return value.
+ * @details Calls: SHA256(), data(), size(), begin(), end().
+ */
 std::vector<uint8_t> WebAuthnAuthenticator::sha256(const std::vector<uint8_t> &data) {
     std::array<unsigned char, SHA256_DIGEST_LENGTH> digest{};
     SHA256(data.data(),data.size(), digest.data());
     return std::vector<uint8_t>(digest.begin(), digest.end());
 }
 
+/**
+ * @brief Sha256.
+ * @param[in] data Input parameter.
+ * @return Return value.
+ * @details Calls: SHA256(), data(), size(), begin(), end().
+ */
 std::vector<uint8_t> WebAuthnAuthenticator::sha256(const std::string &data) {
     std::array<unsigned char, SHA256_DIGEST_LENGTH> digest{};
     SHA256(reinterpret_cast<const unsigned char *>(data.data()),data.size(), digest.data());
@@ -825,10 +910,22 @@ std::vector<uint8_t> WebAuthnAuthenticator::sha256(const std::string &data) {
 // Private helpers – base64url codec
 // ============================================================================
 
+/**
+ * @brief Base64 Url Encode.
+ * @param[in] data Input parameter.
+ * @return Return value.
+ * @details Calls: base64UrlEncodeImpl(), data(), size().
+ */
 std::string WebAuthnAuthenticator::base64UrlEncode(const std::vector<uint8_t> &data) {
     return base64UrlEncodeImpl(data.data(),data.size());
 }
 
+/**
+ * @brief Base64 Url Decode.
+ * @param[in] input Input parameter.
+ * @return Return value.
+ * @details Calls: base64UrlDecodeImpl(), THROW_AUTH_ERROR(), what().
+ */
 std::vector<uint8_t> WebAuthnAuthenticator::base64UrlDecode(const std::string &input) {
     try {
         return base64UrlDecodeImpl(input);
@@ -862,6 +959,13 @@ WebAuthnAuthenticator::parseClientDataJSON(const std::vector<uint8_t> &client_da
 // Private helpers – authenticatorData
 // ============================================================================
 
+/**
+ * @brief Parse Auth Data.
+ * @param[in] auth_data_bytes Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: size(), std::to_string(), std::copy(), begin(), assign(), cred_id_bytes(), base64UrlEncodeImpl(), data().
+ */
 WebAuthnAuthenticator::AuthData WebAuthnAuthenticator::parseAuthData(const std::vector<uint8_t> &auth_data_bytes) {
     // Minimum: 37 bytes (rpIdHash[32] + flags[1] + signCount[4])
     if (auth_data_bytes.size() < 37) {
@@ -913,6 +1017,13 @@ WebAuthnAuthenticator::AuthData WebAuthnAuthenticator::parseAuthData(const std::
 // Private helpers – parseAttestationObject
 // ============================================================================
 
+/**
+ * @brief Parse Attestation Object.
+ * @param[in] cbor_bytes Input parameter.
+ * @param[in,out] fmt Input/output parameter.
+ * @param[in,out] auth_data Input/output parameter.
+ * @details Calls: cborParseAttestationObject().
+ */
 void WebAuthnAuthenticator::parseAttestationObject(const std::vector<uint8_t> &cbor_bytes, std::string &fmt,
                                                    std::vector<uint8_t> &auth_data) {
     cborParseAttestationObject(cbor_bytes, fmt, auth_data);
@@ -1049,6 +1160,14 @@ WebAuthnAuthenticator::coseKeyToSpki(const std::vector<uint8_t> &cose_key_bytes)
 // Private helpers – signature verification
 // ============================================================================
 
+/**
+ * @brief Verify Signature.
+ * @param[in] auth_data_bytes Input parameter.
+ * @param[in] client_data_hash Input parameter.
+ * @param[in] signature_bytes Input parameter.
+ * @param[in] spki_bytes Input parameter.
+ * @details Calls: data(), d2i_PUBKEY(), size(), THROW_AUTH_ERROR(), reserve(), insert(), end(), begin().
+ */
 void WebAuthnAuthenticator::verifySignature(const std::vector<uint8_t> &auth_data_bytes,
                                             const std::vector<uint8_t> &client_data_hash,
                                             const std::vector<uint8_t> &signature_bytes,

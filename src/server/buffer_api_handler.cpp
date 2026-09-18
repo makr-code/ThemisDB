@@ -77,6 +77,10 @@ BufferAPIHandler::~BufferAPIHandler() {
     stop();
 }
 
+/**
+ * @brief Start.
+ * @details Calls: THEMIS_INFO().
+ */
 void BufferAPIHandler::start() {
     if (ts_buffer_) {
         ts_buffer_->start();
@@ -92,6 +96,10 @@ void BufferAPIHandler::start() {
     }
 }
 
+/**
+ * @brief Stop.
+ * @details Calls: THEMIS_INFO().
+ */
 void BufferAPIHandler::stop() {
     if (ts_buffer_) {
         ts_buffer_->stop();
@@ -107,6 +115,11 @@ void BufferAPIHandler::stop() {
     }
 }
 
+/**
+ * @brief Handle TSPut Buffered.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ */
 http::response<http::string_body> BufferAPIHandler::handleTSPutBuffered(
     const http::request<http::string_body>& req)
 {
@@ -170,6 +183,11 @@ http::response<http::string_body> BufferAPIHandler::handleTSPutBuffered(
     }
 }
 
+/**
+ * @brief Handle Vector Add Buffered.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ */
 http::response<http::string_body> BufferAPIHandler::handleVectorAddBuffered(
     const http::request<http::string_body>& req)
 {
@@ -231,6 +249,11 @@ http::response<http::string_body> BufferAPIHandler::handleVectorAddBuffered(
     }
 }
 
+/**
+ * @brief Handle Graph Add Buffered.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ */
 http::response<http::string_body> BufferAPIHandler::handleGraphAddBuffered(
     const http::request<http::string_body>& req)
 {
@@ -306,6 +329,11 @@ http::response<http::string_body> BufferAPIHandler::handleGraphAddBuffered(
     }
 }
 
+/**
+ * @brief Handle Buffer Stats.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ */
 http::response<http::string_body> BufferAPIHandler::handleBufferStats(
     const http::request<http::string_body>& req)
 {
@@ -364,6 +392,11 @@ http::response<http::string_body> BufferAPIHandler::handleBufferStats(
     return makeResponse(http::status::ok, response, req);
 }
 
+/**
+ * @brief Handle Buffer Flush.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ */
 http::response<http::string_body> BufferAPIHandler::handleBufferFlush(
     const http::request<http::string_body>& req)
 {
@@ -415,6 +448,13 @@ http::response<http::string_body> BufferAPIHandler::handleBufferFlush(
     }
 }
 
+/**
+ * @brief Make Response.
+ * @param[in] status Input parameter.
+ * @param[in] body Input parameter.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ */
 http::response<http::string_body> BufferAPIHandler::makeResponse(
     http::status status,
     const json& body,
@@ -429,6 +469,13 @@ http::response<http::string_body> BufferAPIHandler::makeResponse(
     return res;
 }
 
+/**
+ * @brief Make Error Response.
+ * @param[in] status Input parameter.
+ * @param[in] message Input parameter.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ */
 http::response<http::string_body> BufferAPIHandler::makeErrorResponse(
     http::status status,
     const std::string& message,

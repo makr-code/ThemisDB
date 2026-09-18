@@ -37,9 +37,9 @@ namespace themis {
 namespace query {
 
 /**
- * @brief Lazy-initialized NLP analyzer with thread-safe std::call_once guard (Batch 1C determinism).
+ * @brief Get Optimizer Nlp.
  * @return Return value.
- * @details Ensures exactly-once initialization regardless of concurrent access from distributed nodes. Calls: std::call_once(), THEMIS_DEBUG(), THEMIS_INFO(), THEMIS_ERROR(), what(), THEMIS_WARN().
+ * @details Calls: std::call_once(), THEMIS_DEBUG(), THEMIS_INFO(), THEMIS_ERROR(), what(), THEMIS_WARN().
  */
 static themis::analytics::NlpTextAnalyzer& getOptimizerNlp() {
     static std::once_flag init_flag;
@@ -87,10 +87,10 @@ inline GpuInfo probeGpu() noexcept {
 }
 
 /**
- * @brief Infer WorkloadType from the query structure (conservative defaults).
+ * @brief Infer Workload Type.
  * @param[in] q Input parameter.
  * @return Return value.
- * @details NOTE: Only DOCUMENT_CRUD and ANALYTICS_OLAP can be inferred from the ConjunctiveQuery structure. CDC_STREAM, CACHE_REPL, and VECTOR_SEARCH require caller-supplied context that is not captured in the query AST. Callers that need those workload types must call adviseSerializationStrategy() directly on their own OptimizerCostModel instance with the correct WorkloadType, rather than going through chooseOrderForAndQuery(). Calls: has_value(), empty().
+ * @details Calls: has_value(), empty().
  */
 inline WorkloadType inferWorkloadType(const ConjunctiveQuery& q) {
     if (q.spatialPredicate.has_value()) {
@@ -347,12 +347,12 @@ QueryOptimizer::executeOptimizedCount(QueryEngine& engine, const ConjunctiveQuer
 	return Ok(result.value().size());
 }
 
+
 /**
- * @brief ---------------- Per-Query Cost Model Integration (Phase 3, Issue #2419) ---------------- THREAD-SAFETY (GAP-1): All access to per_query_cost_model_ must hold per_query_cost_model_mutex_
+ * @brief Attach Per Query Cost Model.
  * @param[in] new_cost_model Input parameter.
  * @details Calls: lock(), std::move().
  */
-
 void QueryOptimizer::attachPerQueryCostModel(
     // [WAVE1-FIX: scope_mismatch:345] Renamed parameter from 'cost_model' to
     // 'new_cost_model' to eliminate the static-analysis scope_mismatch warning.
@@ -361,11 +361,6 @@ void QueryOptimizer::attachPerQueryCostModel(
     // disambiguation.  The public API is unchanged (parameter name only
     // matters for named-argument call sites, of which there are none here).
     std::shared_ptr<performance::phase3::PerQueryCostModel> new_cost_model) {
-    /**
-     * @brief Lock.
-     * @param[in] per_query_cost_model_mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lock(per_query_cost_model_mutex_);
     per_query_cost_model_ = std::move(new_cost_model);
 }
@@ -381,19 +376,14 @@ QueryOptimizer::perQueryCostModel() const {
     return per_query_cost_model_;
 }
 
+
 /**
- * @brief ---------------- Serialization Advisor tuning (THREAD-SAFE - GAP-2) ---------------- THREAD-SAFETY (GAP-2): All access to advisor_cost_model_ must hold advisor_cost_model_mutex_
+ * @brief Set Advisor Cost Constants.
  * @param[in] c Input parameter.
  * @details Calls: lock(), setConstants().
  */
-
 void QueryOptimizer::setAdvisorCostConstants(
     const OptimizerCostModel::CostConstants& c) {
-    /**
-     * @brief Lock.
-     * @param[in] advisor_cost_model_mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lock(advisor_cost_model_mutex_);
     advisor_cost_model_.setConstants(c);
 }
@@ -477,7 +467,7 @@ QueryOptimizer::executeOptimizedEntitiesWithCost(QueryEngine& engine,
 }
 
 /**
- * @brief ---------------- Vector+Geo Cost Model ----------------
+ * @brief Choose Vector Geo Plan.
  * @param[in] in Input parameter.
  * @return Return value.
  * @details Calls: spdlog::warn(), std::log().
@@ -533,7 +523,7 @@ QueryOptimizer::VectorGeoCostResult QueryOptimizer::chooseVectorGeoPlan(const Ve
 }
 
 /**
- * @brief ---------------- Content+Geo Cost Model (extended heuristic) ----------------
+ * @brief Estimate Content Geo.
  * @param[in] in Input parameter.
  * @return Return value.
  * @details Calls: std::log(), std::max().
@@ -572,7 +562,7 @@ QueryOptimizer::ContentGeoCostResult QueryOptimizer::estimateContentGeo(const Co
 }
 
 /**
- * @brief ---------------- Graph Path Cost Model (rough estimate) ----------------
+ * @brief Estimate Graph Path.
  * @param[in] in Input parameter.
  * @return Return value.
  * @details Calls: std::pow(), spdlog::warn().
@@ -600,12 +590,12 @@ QueryOptimizer::GraphPathCostResult QueryOptimizer::estimateGraphPath(const Grap
 	return {expanded, timeMs};
 }
 
+
 /**
- * @brief ---------------- Adaptive & Distributed Optimization ----------------
+ * @brief Enable Adaptive Optimization.
  * @param[in] enable Input parameter.
  * @details Calls: spdlog::info().
  */
-
 void QueryOptimizer::enableAdaptiveOptimization(bool enable) {
 	adaptive_enabled_ = enable;
 	

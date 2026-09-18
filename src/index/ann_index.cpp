@@ -41,6 +41,14 @@ namespace index {
 
 namespace {
 
+/**
+ * @brief Checked Multiply.
+ * @param[in] lhs Input parameter.
+ * @param[in] rhs Input parameter.
+ * @param[in,out] out Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: max().
+ */
 bool checkedMultiply(size_t lhs, size_t rhs, size_t& out) {
     if (lhs == 0 || rhs == 0) {
         out = 0;
@@ -55,6 +63,15 @@ bool checkedMultiply(size_t lhs, size_t rhs, size_t& out) {
     return true;
 }
 
+/**
+ * @brief Checked Row.
+ * @param[in] data Input parameter.
+ * @param[in] rows Input parameter.
+ * @param[in] dim Input parameter.
+ * @param[in] row_index Input parameter.
+ * @return Pointer to the result.
+ * @details Calls: checkedMultiply().
+ */
 const float* checkedRow(const float* data, size_t rows, size_t dim, size_t row_index) {
     if (data == nullptr || dim == 0 || row_index >=rows) {
         return nullptr;
@@ -73,6 +90,11 @@ const float* checkedRow(const float* data, size_t rows, size_t dim, size_t row_i
 }
 
 template <typename Value>
+/**
+ * @brief Element Size.
+ * @return Return value.
+ * @details Implements elementSize without additional internal calls.
+ */
 constexpr size_t elementSize() {
     return sizeof(Value);
 }
@@ -83,6 +105,14 @@ constexpr size_t elementSize() {
 // Helpers
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief L2sq.
+ * @param[in] a Input parameter.
+ * @param[in] b Input parameter.
+ * @param[in] d Input parameter.
+ * @return Return value.
+ * @details Implements l2sq without additional internal calls.
+ */
 float ScaNN::l2sq(const float* a, const float* b, size_t d) {
     float s = 0.f;
     for (size_t i = 0; i < d; ++i) {
@@ -92,7 +122,17 @@ float ScaNN::l2sq(const float* a, const float* b, size_t d) {
     return s;
 }
 
-// Simple Lloyd's k-means (k iterations, seeded with k-means++)
+/**
+ * @brief Simple Lloyd's k-means (k iterations, seeded with k-means++)
+ * @param[in] data Input parameter.
+ * @param[in] n Input parameter.
+ * @param[in] d Input parameter.
+ * @param[in] k Input parameter.
+ * @param[in] iters Input parameter.
+ * @param[in,out] centroids Input/output parameter.
+ * @param[in,out] assignments Input/output parameter.
+ * @details Calls: std::min(), rng(), clear(), reserve(), uni(), checkedRow(), emplace_back(), dists().
+ */
 void ScaNN::kmeans(const float* data, size_t n, size_t d,
                    size_t k, size_t iters,
                    std::vector<std::vector<float>>& centroids,
@@ -212,6 +252,16 @@ void ScaNN::kmeans(const float* data, size_t n, size_t d,
 // PQCodebook
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Train.
+ * @param[in] data Input parameter.
+ * @param[in] n Input parameter.
+ * @param[in] d Input parameter.
+ * @param[in] nss Input parameter.
+ * @param[in] bits Input parameter.
+ * @param[in] iters Input parameter.
+ * @details Calls: clear(), resize(), checkedMultiply(), THEMIS_ERROR(), sub_data(), checkedRow(), std::copy_n(), data().
+ */
 void ScaNN::PQCodebook::train(const float* data, size_t n, size_t d,
                                size_t nss, size_t bits, size_t iters) {
     if (data == nullptr || n == 0 || d == 0 || nss == 0 || d % nss != 0) {
@@ -276,6 +326,11 @@ std::vector<uint8_t> ScaNN::PQCodebook::encode(const float* vec, size_t d) const
         return {};
     }
 
+    /**
+     * @brief Code.
+     * @param[in] num_subspaces Input parameter.
+     * @return Return value.
+     */
     std::vector<uint8_t> code(num_subspaces);
     for (size_t s = 0; s < num_subspaces; ++s) {
         if (centroids[s].empty()) {
@@ -319,6 +374,15 @@ float ScaNN::PQCodebook::decode_distance(const float* query,
 
 ScaNN::ScaNN(ScaNNConfig cfg) : cfg_(std::move(cfg)) {}
 
+/**
+ * @brief Build.
+ * @param[in] vectors Input parameter.
+ * @param[in] ids Input parameter.
+ * @param[in] count Input parameter.
+ * @param[in] dim Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: std::min(), kmeans(), size(), resize(), std::move(), checkedRow(), push_back(), emplace_back().
+ */
 bool ScaNN::build(const float* vectors, const int64_t* ids,
                   size_t count, size_t dim) {
     if (vectors == nullptr || count == 0 || dim == 0 || cfg_.num_leaves == 0) {
@@ -377,6 +441,14 @@ bool ScaNN::build(const float* vectors, const int64_t* ids,
     return true;
 }
 
+/**
+ * @brief Add.
+ * @param[in] id Input parameter.
+ * @param[in] vector Input parameter.
+ * @param[in] dim Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: push_back(), emplace_back(), empty(), max(), size(), THEMIS_WARN(), l2sq(), data().
+ */
 bool ScaNN::add(int64_t id, const float* vector, size_t dim) {
     if (vector == nullptr || dim == 0) {
         return false;
@@ -548,6 +620,12 @@ bool ScaNN::save(const std::string& path) const {
     return ofs.good();
 }
 
+/**
+ * @brief Load.
+ * @param[in] path Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: ifs(), read(), resize(), data(), good().
+ */
 bool ScaNN::load(const std::string& path) {
     std::ifstream ifs(path, std::ios::binary);
     if (!ifs) {

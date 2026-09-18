@@ -19,21 +19,18 @@ namespace lora {
 namespace cpu {
 namespace fused {
 
-/*
- * @brief CPU fused LoRA forward pass: Y = (X @ B^T @ A^T) * scaling
- * 
- * This is the reference implementation that computes the entire LoRA path
- * in a single function, keeping the intermediate result in memory.
- * 
- * @param input Input tensor [batch_size, in_dim]
- * @param B LoRA B matrix [in_dim, rank]
- * @param A LoRA A matrix [rank, out_dim]
- * @param output Output tensor [batch_size, out_dim]
- * @param batch_size Batch size
- * @param in_dim Input dimension
- * @param rank LoRA rank
- * @param out_dim Output dimension
- * @param scaling Scaling factor
+/**
+ * @brief @brief CPU fused LoRA forward pass: Y = (X @ B^T @ A^T) * scaling This is the reference implementation that computes the entire LoRA path in a single function, keeping the intermediate result in memory.
+ * @param[in] input Input parameter.
+ * @param[in] B Input parameter.
+ * @param[in] A Input parameter.
+ * @param[in,out] output Input/output parameter.
+ * @param[in] batch_size Input parameter.
+ * @param[in] in_dim Input parameter.
+ * @param[in] rank Input parameter.
+ * @param[in] out_dim Input parameter.
+ * @param[in] scaling Input parameter.
+ * @details @param input Input tensor [batch_size, in_dim] @param B LoRA B matrix [in_dim, rank] @param A LoRA A matrix [rank, out_dim] @param output Output tensor [batch_size, out_dim] @param batch_size Batch size @param in_dim Input dimension @param rank LoRA rank @param out_dim Output dimension @param scaling Scaling factor Calls: intermediate().
  */
 void cpu_fused_lora_forward(
     const float* input,
@@ -74,26 +71,21 @@ void cpu_fused_lora_forward(
     }
 }
 
-/*
- * @brief CPU fused LoRA backward pass
- * 
- * Computes all gradients in a single function:
- * - grad_input = (grad_output @ A) @ B * scaling
- * - grad_A = intermediate^T @ grad_output * scaling
- * - grad_B = input^T @ (grad_output @ A) * scaling
- * 
- * @param input Input tensor [batch_size, in_dim] (from forward)
- * @param B LoRA B matrix [in_dim, rank]
- * @param A LoRA A matrix [rank, out_dim]
- * @param grad_output Gradient w.r.t output [batch_size, out_dim]
- * @param grad_A Gradient w.r.t A [rank, out_dim]
- * @param grad_B Gradient w.r.t B [in_dim, rank]
- * @param grad_input Gradient w.r.t input [batch_size, in_dim]
- * @param batch_size Batch size
- * @param in_dim Input dimension
- * @param rank LoRA rank
- * @param out_dim Output dimension
- * @param scaling Scaling factor
+/**
+ * @brief @brief CPU fused LoRA backward pass Computes all gradients in a single function: - grad_input = (grad_output @ A) @ B * scaling - grad_A = intermediate^T @ grad_output * scaling - grad_B = input^T @ (grad_output @ A) * scaling @param input Input tensor [batch_size, in_dim] (from forward) @param B LoRA B matrix [in_dim, rank] @param A LoRA A matrix [rank, out_dim] @param grad_output Gradient w.
+ * @param[in] input Input parameter.
+ * @param[in] B Input parameter.
+ * @param[in] A Input parameter.
+ * @param[in] grad_output Input parameter.
+ * @param[in,out] grad_A Input/output parameter.
+ * @param[in,out] grad_B Input/output parameter.
+ * @param[in,out] grad_input Input/output parameter.
+ * @param[in] batch_size Input parameter.
+ * @param[in] in_dim Input parameter.
+ * @param[in] rank Input parameter.
+ * @param[in] out_dim Input parameter.
+ * @param[in] scaling Input parameter.
+ * @details r.t output [batch_size, out_dim] @param grad_A Gradient w.r.t A [rank, out_dim] @param grad_B Gradient w.r.t B [in_dim, rank] @param grad_input Gradient w.r.t input [batch_size, in_dim] @param batch_size Batch size @param in_dim Input dimension @param rank LoRA rank @param out_dim Output dimension @param scaling Scaling factor Calls: intermediate(), std::fill(), grad_intermediate().
  */
 void cpu_fused_lora_backward(
     const float* input,
@@ -176,9 +168,17 @@ void cpu_fused_lora_backward(
 }
 
 /**
- * @brief CPU fused LoRA forward pass with OpenMP parallelization
- * 
- * Parallelized version using OpenMP for better CPU performance
+ * @brief Cpu fused lora forward parallel.
+ * @param[in] input Input parameter.
+ * @param[in] B Input parameter.
+ * @param[in] A Input parameter.
+ * @param[in,out] output Input/output parameter.
+ * @param[in] batch_size Input parameter.
+ * @param[in] in_dim Input parameter.
+ * @param[in] rank Input parameter.
+ * @param[in] out_dim Input parameter.
+ * @param[in] scaling Input parameter.
+ * @details Calls: intermediate().
  */
 void cpu_fused_lora_forward_parallel(
     const float* input,

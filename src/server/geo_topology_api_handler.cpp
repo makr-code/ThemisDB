@@ -33,6 +33,12 @@ namespace {
 
 constexpr size_t kMaxGeoTopologyIdentifierLength = 256;
 
+/**
+ * @brief Is Valid Geo Topology Identifier.
+ * @param[in] value Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), validateStringLength(), validatePathSegment(), validateHeaderValue().
+ */
 bool isValidGeoTopologyIdentifier(const std::string& value) {
     themis::utils::InputValidator validator;
     return !value.empty() &&
@@ -57,9 +63,11 @@ GeoTopologyApiHandler::GeoTopologyApiHandler(
 {
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// GET /api/v1/geo/topology
-// ─────────────────────────────────────────────────────────────────────────────
+/**
+ * @brief ───────────────────────────────────────────────────────────────────────────── GET /api/v1/geo/topology ─────────────────────────────────────────────────────────────────────────────
+ * @param[in] req Input parameter.
+ * @return Return value.
+ */
 
 http::response<http::string_body> GeoTopologyApiHandler::handleTopologyGet(
     const http::request<http::string_body>& req)
@@ -104,9 +112,11 @@ http::response<http::string_body> GeoTopologyApiHandler::handleTopologyGet(
     }
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// GET /api/v1/geo/regions
-// ─────────────────────────────────────────────────────────────────────────────
+/**
+ * @brief ───────────────────────────────────────────────────────────────────────────── GET /api/v1/geo/regions ─────────────────────────────────────────────────────────────────────────────
+ * @param[in] req Input parameter.
+ * @return Return value.
+ */
 
 http::response<http::string_body> GeoTopologyApiHandler::handleRegionsGet(
     const http::request<http::string_body>& req)
@@ -157,9 +167,11 @@ http::response<http::string_body> GeoTopologyApiHandler::handleRegionsGet(
     }
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// GET /api/v1/geo/health
-// ─────────────────────────────────────────────────────────────────────────────
+/**
+ * @brief ───────────────────────────────────────────────────────────────────────────── GET /api/v1/geo/health ─────────────────────────────────────────────────────────────────────────────
+ * @param[in] req Input parameter.
+ * @return Return value.
+ */
 
 http::response<http::string_body> GeoTopologyApiHandler::handleHealthGet(
     const http::request<http::string_body>& req)
@@ -231,9 +243,11 @@ http::response<http::string_body> GeoTopologyApiHandler::handleHealthGet(
     }
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// POST /api/v1/geo/topology/shard
-// ─────────────────────────────────────────────────────────────────────────────
+/**
+ * @brief ───────────────────────────────────────────────────────────────────────────── POST /api/v1/geo/topology/shard ─────────────────────────────────────────────────────────────────────────────
+ * @param[in] req Input parameter.
+ * @return Return value.
+ */
 
 http::response<http::string_body> GeoTopologyApiHandler::handleTopologyShardPost(
     const http::request<http::string_body>& req)
@@ -306,9 +320,11 @@ http::response<http::string_body> GeoTopologyApiHandler::handleTopologyShardPost
     }
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// DELETE /api/v1/geo/topology/shard/{shard_id}
-// ─────────────────────────────────────────────────────────────────────────────
+/**
+ * @brief ───────────────────────────────────────────────────────────────────────────── DELETE /api/v1/geo/topology/shard/{shard_id} ─────────────────────────────────────────────────────────────────────────────
+ * @param[in] req Input parameter.
+ * @return Return value.
+ */
 
 http::response<http::string_body> GeoTopologyApiHandler::handleTopologyShardDelete(
     const http::request<http::string_body>& req)
@@ -348,9 +364,11 @@ http::response<http::string_body> GeoTopologyApiHandler::handleTopologyShardDele
     return makeResponse(http::status::ok, response_body.dump(), req);
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// GET /api/v1/geo/config/{collection}
-// ─────────────────────────────────────────────────────────────────────────────
+/**
+ * @brief ───────────────────────────────────────────────────────────────────────────── GET /api/v1/geo/config/{collection} ─────────────────────────────────────────────────────────────────────────────
+ * @param[in] req Input parameter.
+ * @return Return value.
+ */
 
 http::response<http::string_body> GeoTopologyApiHandler::handleConfigGet(
     const http::request<http::string_body>& req)
@@ -432,9 +450,11 @@ http::response<http::string_body> GeoTopologyApiHandler::handleConfigGet(
     }
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// PUT /api/v1/geo/config/{collection}
-// ─────────────────────────────────────────────────────────────────────────────
+/**
+ * @brief ───────────────────────────────────────────────────────────────────────────── PUT /api/v1/geo/config/{collection} ─────────────────────────────────────────────────────────────────────────────
+ * @param[in] req Input parameter.
+ * @return Return value.
+ */
 
 http::response<http::string_body> GeoTopologyApiHandler::handleConfigPut(
     const http::request<http::string_body>& req)
@@ -561,6 +581,13 @@ std::string GeoTopologyApiHandler::extractTrailingSegment(
     return trailing;
 }
 
+/**
+ * @brief Make Error Response.
+ * @param[in] status Input parameter.
+ * @param[in] message Input parameter.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ */
 http::response<http::string_body> GeoTopologyApiHandler::makeErrorResponse(
     http::status status,
     const std::string& message,
@@ -574,6 +601,13 @@ http::response<http::string_body> GeoTopologyApiHandler::makeErrorResponse(
     return makeResponse(status, error_body.dump(), req);
 }
 
+/**
+ * @brief Make Response.
+ * @param[in] status Input parameter.
+ * @param[in] body Input parameter.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ */
 http::response<http::string_body> GeoTopologyApiHandler::makeResponse(
     http::status status,
     const std::string& body,

@@ -33,7 +33,6 @@ inline int clampPositiveIntFromDouble(double raw, int fallback, int maxValue = 1
 // HYBRID_SEARCH - Combined vector and keyword search
 // ============================================================================
 
-/** @brief HYBRID_SEARCH - Combined vector and keyword search. */
 class HybridSearchFunction : public IFunction {
 public:
     ~HybridSearchFunction() override = default;
@@ -98,7 +97,6 @@ public:
 // EMBED - Generate text embeddings
 // ============================================================================
 
-/** @brief EMBED - Generate text embeddings. */
 class EmbedFunction : public IFunction {
 public:
     ~EmbedFunction() override = default;
@@ -135,7 +133,6 @@ public:
 // RERANK - Rerank search results using a cross-encoder model
 // ============================================================================
 
-/** @brief RERANK - Rerank search results using a cross-encoder model. */
 class RerankFunction : public IFunction {
 public:
     ~RerankFunction() override = default;
@@ -173,7 +170,6 @@ public:
 // CLASSIFY - Text classification
 // ============================================================================
 
-/** @brief CLASSIFY - Text classification. */
 class ClassifyFunction : public IFunction {
 public:
     ~ClassifyFunction() override = default;
@@ -230,7 +226,6 @@ public:
 // EXTRACT_ENTITIES - Named Entity Recognition (NER)
 // ============================================================================
 
-/** @brief EXTRACT_ENTITIES - Named Entity Recognition (NER). */
 class ExtractEntitiesFunction : public IFunction {
 public:
     ~ExtractEntitiesFunction() override = default;
@@ -297,7 +292,6 @@ public:
 // SUMMARIZE - Text summarization
 // ============================================================================
 
-/** @brief SUMMARIZE - Text summarization. */
 class SummarizeFunction : public IFunction {
 public:
     ~SummarizeFunction() override = default;
@@ -333,12 +327,12 @@ public:
     }
 };
 
+
 /**
- * @brief ============================================================================ Registration ============================================================================
+ * @brief Register AIMLFunctions.
  * @param[in,out] registry Input/output parameter.
  * @details Calls: registerFunction().
  */
-
 inline void registerAIMLFunctions(FunctionRegistry& registry) {
     registry.registerFunction(std::make_unique<HybridSearchFunction>());
     registry.registerFunction(std::make_unique<EmbedFunction>());

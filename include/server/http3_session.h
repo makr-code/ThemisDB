@@ -35,12 +35,6 @@ using udp = net::ip::udp;
 // Forward declarations
 class HttpServer;
 
-/**
- * @brief HTTP/3 (QUIC) Session Handler
- * 
- * Manages a single HTTP/3 connection using nghttp3 and ngtcp2 libraries.
- * Handles QUIC transport, 0-RTT, connection migration, and HTTP/3 framing.
- */
 class Http3Session : public std::enable_shared_from_this<Http3Session> {
 public:
     Http3Session(
@@ -55,106 +49,200 @@ public:
     ~Http3Session();
 
     /**
-     * @brief Start the HTTP/3 session
-     * 
-     * Initializes QUIC connection and performs TLS 1.3 handshake
+     * @brief Start.
      */
     void start();
     
     /**
-     * @brief Process incoming QUIC packet
+     * @brief Handle Packet.
+     * @param[in] data Input parameter.
+     * @param[in] len Input parameter.
+     * @param[in] peer Input parameter.
      */
     void handlePacket(const uint8_t* data, size_t len, const udp::endpoint& peer);
     
-    /**
-     * @brief Get remote endpoint
-     */
     const udp::endpoint& getRemoteEndpoint() const { return remote_endpoint_; }
     
     /**
-     * @brief Check if session is active
+     * @brief Is Active.
+     * @return True when the operation succeeds.
      */
     bool isActive() const;
 
     /**
-     * @brief Notify the session that the client has migrated to a new path.
-     *
-     * Called by Http3Handler when a packet from an already-tracked connection
-     * ID arrives from a different address.  Increments migration_count and
-     * updates the remote endpoint so subsequent sends reach the new address.
+     * @brief On Path Migration.
+     * @param[in] new_remote Input parameter.
      */
     void onPathMigration(const udp::endpoint& new_remote);
 
-    /**
-     * @brief Return a snapshot of the per-connection performance metrics.
-     */
     Http3ConnectionMetrics::Snapshot getMetricsSnapshot() const {
         return metrics_.snapshot();
     }
 
     /**
-     * @brief Send an HTTP/3 datagram on the given context (Quarter Stream ID).
-     *
-     * Encodes the datagram frame (Quarter Stream ID varint + payload) and
-     * writes it via ngtcp2_conn_write_datagram().  Returns true on success.
-     * Requires the QUIC peer to have negotiated datagram support
-     * (max_datagram_frame_size > 0).
-     *
-     * @param context_id  Quarter Stream ID (stream_id / 4).
-     * @param payload     Application payload bytes.
-     * @param paylen      Length of @p payload.
+     * @brief Send Datagram.
+     * @param[in] context_id Identifier of the context.
+     * @param[in] payload Input parameter.
+     * @param[in] paylen Input parameter.
+     * @return True when the operation succeeds.
      */
     bool sendDatagram(uint64_t context_id,
                       const uint8_t* payload,
                       size_t paylen);
 
     /**
-     * @brief Access the datagram dispatcher for registering/unregistering
-     *        context handlers.
+     * @brief Datagram Dispatcher.
+     * @return Return value.
+     * @details Implements datagramDispatcher without additional internal calls.
      */
     Http3DatagramDispatcher& datagramDispatcher() { return datagram_dispatcher_; }
 
     /**
-     * @brief QUIC and HTTP/3 callback entry points used by ngtcp2/nghttp3.
-     *
-     * These callbacks are part of the session's externally registered protocol
-     * surface and are also exercised directly by protocol-focused unit tests to
-     * validate fail-closed behavior on invalid inputs.
+     * @brief Handshake Completed Callback.
+     * @param[in,out] conn Input/output parameter.
+     * @param[in,out] user_data Input/output parameter.
+     * @return Return value.
      */
     static int handshakeCompletedCallback(ngtcp2_conn* conn, void* user_data);
+    /**
+     * @brief Recv Stream Data Callback.
+     * @param[in,out] conn Input/output parameter.
+     * @param[in] flags Input parameter.
+     * @param[in] stream_id Identifier of the stream.
+     * @param[in] offset Input parameter.
+     * @param[in] data Input parameter.
+     * @param[in] datalen Input parameter.
+     * @param[in,out] user_data Input/output parameter.
+     * @param[in,out] stream_user_data Input/output parameter.
+     * @return Return value.
+     */
     static int recvStreamDataCallback(ngtcp2_conn* conn, uint32_t flags,
                                       int64_t stream_id, uint64_t offset,
                                       const uint8_t* data, size_t datalen,
                                       void* user_data, void* stream_user_data);
+    /**
+     * @brief Ack Stream Data Callback.
+     * @param[in,out] conn Input/output parameter.
+     * @param[in] stream_id Identifier of the stream.
+     * @param[in] offset Input parameter.
+     * @param[in] datalen Input parameter.
+     * @param[in,out] user_data Input/output parameter.
+     * @param[in,out] stream_user_data Input/output parameter.
+     * @return Return value.
+     */
     static int ackStreamDataCallback(ngtcp2_conn* conn, int64_t stream_id,
                                      uint64_t offset, uint64_t datalen,
                                      void* user_data, void* stream_user_data);
+    /**
+     * @brief Stream Close Callback.
+     * @param[in,out] conn Input/output parameter.
+     * @param[in] flags Input parameter.
+     * @param[in] stream_id Identifier of the stream.
+     * @param[in] app_error_code Input parameter.
+     * @param[in,out] user_data Input/output parameter.
+     * @param[in,out] stream_user_data Input/output parameter.
+     * @return Return value.
+     */
     static int streamCloseCallback(ngtcp2_conn* conn, uint32_t flags,
                                    int64_t stream_id, uint64_t app_error_code,
                                    void* user_data, void* stream_user_data);
+    /**
+     * @brief Get New Connection Id Callback.
+     * @param[in,out] conn Input/output parameter.
+     * @param[in,out] cid Input/output parameter.
+     * @param[in,out] token Input/output parameter.
+     * @param[in] cidlen Input parameter.
+     * @param[in,out] user_data Input/output parameter.
+     * @return Return value.
+     */
     static int getNewConnectionIdCallback(ngtcp2_conn* conn, ngtcp2_cid* cid,
                                           uint8_t* token, size_t cidlen,
                                           void* user_data);
+    /**
+     * @brief Recv Crypto Data Callback.
+     * @param[in,out] conn Input/output parameter.
+     * @param[in] level Input parameter.
+     * @param[in] offset Input parameter.
+     * @param[in] data Input parameter.
+     * @param[in] datalen Input parameter.
+     * @param[in,out] user_data Input/output parameter.
+     * @return Return value.
+     */
     static int recvCryptoDataCallback(ngtcp2_conn* conn, ngtcp2_encryption_level level,
                                       uint64_t offset, const uint8_t* data,
                                       size_t datalen, void* user_data);
+    /**
+     * @brief Extend Max Streams Callback.
+     * @param[in,out] conn Input/output parameter.
+     * @param[in] max_streams Input parameter.
+     * @param[in,out] user_data Input/output parameter.
+     * @return Return value.
+     */
     static int extendMaxStreamsCallback(ngtcp2_conn* conn,
                                         uint64_t max_streams,
                                         void* user_data);
+    /**
+     * @brief Recv Datagram Callback.
+     * @param[in,out] conn Input/output parameter.
+     * @param[in] flags Input parameter.
+     * @param[in] data Input parameter.
+     * @param[in] datalen Input parameter.
+     * @param[in,out] user_data Input/output parameter.
+     * @return Return value.
+     */
     static int recvDatagramCallback(ngtcp2_conn* conn, uint32_t flags,
                                     const uint8_t* data, size_t datalen,
                                     void* user_data);
 
+    /**
+     * @brief Http3 Recv Data Callback.
+     * @param[in,out] conn Input/output parameter.
+     * @param[in] stream_id Identifier of the stream.
+     * @param[in] data Input parameter.
+     * @param[in] datalen Input parameter.
+     * @param[in,out] user_data Input/output parameter.
+     * @param[in,out] stream_user_data Input/output parameter.
+     * @return Return value.
+     */
     static int http3RecvDataCallback(nghttp3_conn* conn, int64_t stream_id,
                                      const uint8_t* data, size_t datalen,
                                      void* user_data, void* stream_user_data);
+    /**
+     * @brief Http3 Decod Header Callback.
+     * @param[in,out] conn Input/output parameter.
+     * @param[in] stream_id Identifier of the stream.
+     * @param[in] token Input parameter.
+     * @param[in,out] name Input/output parameter.
+     * @param[in,out] value Input/output parameter.
+     * @param[in] flags Input parameter.
+     * @param[in,out] user_data Input/output parameter.
+     * @param[in,out] stream_user_data Input/output parameter.
+     * @return Return value.
+     */
     static int http3DecodHeaderCallback(nghttp3_conn* conn, int64_t stream_id,
                                         int32_t token, nghttp3_rcbuf* name,
                                         nghttp3_rcbuf* value, uint8_t flags,
                                         void* user_data, void* stream_user_data);
+    /**
+     * @brief Http3 End Headers Callback.
+     * @param[in,out] conn Input/output parameter.
+     * @param[in] stream_id Identifier of the stream.
+     * @param[in] fin Input parameter.
+     * @param[in,out] user_data Input/output parameter.
+     * @param[in,out] stream_user_data Input/output parameter.
+     * @return Return value.
+     */
     static int http3EndHeadersCallback(nghttp3_conn* conn, int64_t stream_id,
                                        int fin, void* user_data,
                                        void* stream_user_data);
+    /**
+     * @brief Http3 End Stream Callback.
+     * @param[in,out] conn Input/output parameter.
+     * @param[in] stream_id Identifier of the stream.
+     * @param[in,out] user_data Input/output parameter.
+     * @param[in,out] stream_user_data Input/output parameter.
+     * @return Return value.
+     */
     static int http3EndStreamCallback(nghttp3_conn* conn, int64_t stream_id,
                                       void* user_data, void* stream_user_data);
 
@@ -192,10 +280,27 @@ private:
     using Http3ConnOwner = std::unique_ptr<nghttp3_conn, Http3ConnDeleter>;
 
     // QUIC connection management
+    /**
+     * @brief Do Read.
+     */
     void doRead();
+    /**
+     * @brief On Read.
+     * @param[in] ec Input parameter.
+     * @param[in] bytes_transferred Input parameter.
+     */
     void onRead(boost::system::error_code ec, std::size_t bytes_transferred);
+    /**
+     * @brief Do Write.
+     */
     void doWrite();
+    /**
+     * @brief On Timeout.
+     */
     void onTimeout();
+    /**
+     * @brief Schedule Idle Timeout.
+     */
     void scheduleIdleTimeout();
     
     // Stream data management
@@ -210,13 +315,28 @@ private:
         bool headers_complete = false;
     };
     
+    /**
+     * @brief Process Stream.
+     * @param[in] stream_id Identifier of the stream.
+     */
     void processStream(int64_t stream_id);
     void sendResponse(int64_t stream_id, int status,
                       const std::string& body,
                       const std::unordered_map<std::string, std::string>& headers = {});
     
     // Crypto operations
+    /**
+     * @brief Setup Crypto.
+     * @return Return value.
+     */
     int setupCrypto();
+    /**
+     * @brief Feed Crypto Data.
+     * @param[in] level Input parameter.
+     * @param[in] data Input parameter.
+     * @param[in] len Input parameter.
+     * @return Return value.
+     */
     int feedCryptoData(ngtcp2_encryption_level level, const uint8_t* data, size_t len);
     
     // Members
@@ -244,11 +364,6 @@ private:
     Http3ConnectionMetrics metrics_;
 };
 
-/**
- * @brief HTTP/3 Protocol Handler
- * 
- * Manages UDP socket for QUIC connections and session lifecycle
- */
 class Http3Handler : public std::enable_shared_from_this<Http3Handler> {
 public:
     Http3Handler(
@@ -264,23 +379,28 @@ public:
     ~Http3Handler();
 
     /**
-     * @brief Start listening for QUIC connections
+     * @brief Start.
      */
     void start();
     
     /**
-     * @brief Stop accepting new connections
+     * @brief Stop.
      */
     void stop();
     
     /**
-     * @brief Configure TLS context for QUIC
+     * @brief Create Ssl Context.
+     * @param[in] cert_path Path to the cert.
+     * @param[in] key_path Path to the key.
+     * @return Pointer to the result.
      */
     static SSL_CTX* createSslContext(const std::string& cert_path,
                                      const std::string& key_path);
 
     /**
-     * @brief Access the fallback manager to check / record QUIC health.
+     * @brief Fallback Manager.
+     * @return Return value.
+     * @details Implements fallbackManager without additional internal calls.
      */
     Http3FallbackManager& fallbackManager() { return fallback_manager_; }
     const Http3FallbackManager& fallbackManager() const { return fallback_manager_; }
@@ -296,24 +416,30 @@ private:
 
     using SslCtxOwner = std::unique_ptr<SSL_CTX, SslCtxDeleter>;
 
+    /**
+     * @brief Do Accept.
+     */
     void doAccept();
+    /**
+     * @brief On Receive.
+     * @param[in] ec Input parameter.
+     * @param[in] bytes_transferred Input parameter.
+     */
     void onReceive(boost::system::error_code ec, std::size_t bytes_transferred);
+    /**
+     * @brief Cleanup Inactive Sessions.
+     */
     void cleanupInactiveSessions();
+    /**
+     * @brief Arm Cleanup Timer.
+     */
     void armCleanupTimer();
 
     /**
-     * @brief Extract the QUIC destination-connection-ID from a raw UDP payload.
-     *
-     * Parses the first bytes of a QUIC long-header packet to retrieve the
-     * Destination Connection ID (DCID) that ngtcp2 assigned during the
-     * Initial handshake.  The DCID is returned as a lowercase hex string so
-     * it can be used as a map key in @c cid_to_session_key_.
-     *
-     * @param data  Pointer to the UDP datagram payload.
-     * @param len   Length of the datagram in bytes.
-     * @return      Hex-encoded DCID string, or an empty string when parsing
-     *              fails (packet too short, short-header format, or DCID
-     *              length out of range).
+     * @brief Extract Connection Id.
+     * @param[in] data Input parameter.
+     * @param[in] len Input parameter.
+     * @return Return value.
      */
     static std::string extractConnectionId(const uint8_t* data, size_t len);
     

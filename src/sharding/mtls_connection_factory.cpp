@@ -45,13 +45,6 @@ namespace themis::sharding {
 
 namespace {
 
-/**
- * @brief Close a native socket handle in a platform-portable way.
- *
- * On POSIX, delegates to `::close()`; on Windows, to `::closesocket()`.
- *
- * @param native_sock Platform-native socket descriptor.
- */
 inline void closeNativeSocket(int native_sock) noexcept {
 #ifdef _WIN32
     ::closesocket(static_cast<SOCKET>(native_sock));
@@ -60,17 +53,6 @@ inline void closeNativeSocket(int native_sock) noexcept {
 #endif
 }
 
-/**
- * @brief Apply a per-operation timeout to an already-connected socket.
- *
- * Sets both `SO_RCVTIMEO` and `SO_SNDTIMEO` so that blocking TLS
- * operations (SSL_connect, SSL_read, SSL_write) return with an error
- * rather than blocking indefinitely.
- *
- * @param native_sock Platform-native socket descriptor.
- * @param timeout_ms  Timeout in milliseconds (0 = no timeout).
- * @return `true` on success; `false` if either setsockopt call fails.
- */
 inline bool setSocketTimeout(int native_sock, uint32_t timeout_ms) noexcept {
     if (timeout_ms == 0) {
         return true;
@@ -100,15 +82,6 @@ inline bool setSocketTimeout(int native_sock, uint32_t timeout_ms) noexcept {
 // SSLDeleter
 // ===========================================================================
 
-/**
- * @brief Release an OpenSSL SSL object and its associated resources.
- *
- * `SSL_free()` also calls `BIO_free_all()` on the BIO chain attached to
- * the SSL object.  When the BIO was created with `BIO_CLOSE`, this closes
- * the underlying socket file descriptor / SOCKET handle as well.
- *
- * @param ptr SSL object to free.  No-op when `ptr` is `nullptr`.
- */
 void SSLDeleter::operator()(SSL* ptr) const {
     if (ptr) {
         SSL_free(ptr);
@@ -119,19 +92,6 @@ void SSLDeleter::operator()(SSL* ptr) const {
 // MTLSConnectionFactory
 // ===========================================================================
 
-/**
- * @brief Construct the factory with a borrowed SSL context and configuration.
- *
- * Validates that @p ssl_context is non-null and logs the effective settings
- * for audit purposes.
- *
- * @param ssl_context OpenSSL SSL_CTX that defines certificate, key, and CA
- *        chain for this factory.  The context must remain valid for the entire
- *        lifetime of this factory (and any pools that use it).
- * @param config      Factory configuration.
- *
- * @throws std::invalid_argument if @p ssl_context is null.
- */
 MTLSConnectionFactory::MTLSConnectionFactory(SSL_CTX* ssl_context, const Config& config)
     : ssl_context_(ssl_context), config_(config) {
     
@@ -148,18 +108,6 @@ MTLSConnectionFactory::MTLSConnectionFactory(SSL_CTX* ssl_context, const Config&
                 config_.verify_hostname);
 }
 
-/**
- * @brief Parse a "host:port" endpoint string into its components.
- *
- * Supported formats:
- * - `hostname:port`
- * - `hostname` (port defaults to `"50051"`)
- * - `[ipv6address]:port`
- * - `protocol://hostname:port` (protocol prefix is stripped)
- *
- * @param endpoint Endpoint string to parse.
- * @return Pair of (host, port) strings, or `nullopt` on parse error.
- */
 std::optional<std::pair<std::string, std::string>> 
 MTLSConnectionFactory::parseEndpoint(const std::string& endpoint) {
     // Remove protocol prefix if present (http://, https://, etc.)
@@ -204,43 +152,6 @@ MTLSConnectionFactory::parseEndpoint(const std::string& endpoint) {
     return std::make_pair(clean, "50051");
 }
 
-/**
- * @brief Create a fully authenticated mTLS connection to @p endpoint.
- *
- * The function performs the following steps in order:
- *
- * 1. **DNS resolution** — resolves the host part of @p endpoint.
- * 2. **TCP connect with deadline** — uses an async `boost::asio::async_connect`
- *    with a `steady_timer` so the call returns after `config_.connect_timeout_ms`
- *    milliseconds even if no peer is reachable.
- * 3. **Socket-level timeout** — calls `setsockopt(SO_RCVTIMEO/SO_SNDTIMEO)`
- *    so the subsequent TLS handshake cannot block longer than
- *    `config_.tls_handshake_timeout_ms` milliseconds.
- * 4. **SSL object creation** — creates an SSL object from the shared
- *    `SSL_CTX`.  Peer verification mode is set here:
- *    - `config_.verify_peer == false` → `SSL_VERIFY_NONE`
- *    - `config_.verify_peer == true` (default) → inherits context verify mode
- *      (which must include `SSL_VERIFY_PEER`).
- * 5. **SNI + hostname verification setup** — when `config_.verify_hostname` is
- *    true, sets both the SNI extension (`SSL_set_tlsext_host_name`) and the
- *    expected hostname on the X.509 verify params (`X509_VERIFY_PARAM_set1_host`)
- *    so the peer certificate's CN/SAN is verified against the target host.
- * 6. **BIO attachment** — uses `BIO_new_socket()` (the correct cross-platform
- *    OpenSSL socket BIO) with `BIO_CLOSE` so that `SSL_free()` also closes the
- *    underlying socket handle.
- * 7. **TLS handshake** — calls `SSL_connect()`.  On failure, logs the OpenSSL
- *    error and returns `nullopt`.
- * 8. **Post-handshake peer verification** — when `config_.verify_peer` is true,
- *    calls `SSL_get_verify_result()` and rejects the connection if the result is
- *    anything other than `X509_V_OK`.
- *
- * @param endpoint Target endpoint string, e.g. `"localhost:50051"` or
- *                 `"[::1]:8443"`.
- *
- * @return A ready-to-use `unique_ptr<SSL, SSLDeleter>` on success, or
- *         `nullopt` on any failure (TCP, TLS, certificate verification).
- *         Errors are logged; no exceptions are thrown.
- */
 std::optional<std::unique_ptr<SSL, SSLDeleter>> 
 MTLSConnectionFactory::createConnection(const std::string& endpoint) {
     if (config_.enable_logging) {
@@ -261,13 +172,22 @@ MTLSConnectionFactory::createConnection(const std::string& endpoint) {
         using tcp = asio::ip::tcp;
         
         asio::io_context ioc;
+        /**
+         * @brief Socket.
+         * @param[in] ioc Input parameter.
+         * @return Return value.
+         */
         tcp::socket socket(ioc);
         
         // Tune kernel-side buffer sizes for throughput.
         socket.set_option(asio::socket_base::send_buffer_size(65536));
         socket.set_option(asio::socket_base::receive_buffer_size(65536));
         
-        // ── Step 1: DNS resolution ───────────────────────────────────────
+        /**
+         * @brief ── Step 1: DNS resolution ───────────────────────────────────────
+         * @param[in] ioc Input parameter.
+         * @return Return value.
+         */
         tcp::resolver resolver(ioc);
         boost::system::error_code resolve_ec;
         auto results = resolver.resolve(host, port, resolve_ec);
@@ -282,6 +202,11 @@ MTLSConnectionFactory::createConnection(const std::string& endpoint) {
         bool          timed_out  = false;
         boost::system::error_code connect_ec;
         
+        /**
+         * @brief Connect timer.
+         * @param[in] ioc Input parameter.
+         * @return Return value.
+         */
         asio::steady_timer connect_timer(ioc);
         connect_timer.expires_after(
             std::chrono::milliseconds(config_.connect_timeout_ms));

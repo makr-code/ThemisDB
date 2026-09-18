@@ -24,9 +24,6 @@
 namespace themis {
 namespace aql {
 
-/**
- * @brief Implementation class for DocsAssistantFunctions
- */
 class DocsAssistantFunctions::Impl {
   public:
     Impl() {
@@ -136,6 +133,14 @@ DocsAssistantFunctions::Impl *DocsAssistantFunctions::tryGetImpl() const {
     return impl_.get();
 }
 
+/**
+ * @brief Help.
+ * @param[in] query Input parameter.
+ * @param[in] user_id Identifier of the user.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: ensureImpl(), getAssistant(), std::chrono::high_resolution_clock::now(), isLoRAAvailable(), getLoRA(), spdlog::debug(), query(), spdlog::warn().
+ */
 std::string DocsAssistantFunctions::help(const std::string &query, const std::string &user_id) {
     try {
         auto &impl      = ensureImpl();
@@ -209,6 +214,12 @@ std::string DocsAssistantFunctions::help(const std::string &query, const std::st
     }
 }
 
+/**
+ * @brief Detect Intent With Native NLP.
+ * @param[in] query Input parameter.
+ * @return Return value.
+ * @details Calls: classify(), empty(), std::find(), begin(), end(), spdlog::debug().
+ */
 std::string DocsAssistantFunctions::detectIntentWithNativeNLP(const std::string &query) {
     try {
         if (!classifier_) {
@@ -238,10 +249,21 @@ std::string DocsAssistantFunctions::detectIntentWithNativeNLP(const std::string 
     }
 }
 
+/**
+ * @brief Set Classifier.
+ * @param[in,out] classifier Input/output parameter.
+ * @details Implements setClassifier without additional internal calls.
+ */
 void DocsAssistantFunctions::setClassifier(IClassifyFn *classifier) {
     classifier_ = classifier;
 }
 
+/**
+ * @brief Detect Intent With LLM.
+ * @param[in] query Input parameter.
+ * @return Return value.
+ * @details Calls: generate(), str(), erase(), find_first_not_of(), find_last_not_of(), std::transform(), begin(), end().
+ */
 std::string DocsAssistantFunctions::detectIntentWithLLM(const std::string &query) {
     try {
         // Try to use embedded LLM for intent detection
@@ -280,6 +302,12 @@ std::string DocsAssistantFunctions::detectIntentWithLLM(const std::string &query
     }
 }
 
+/**
+ * @brief Detect Intent With Regex.
+ * @param[in] query Input parameter.
+ * @return Return value.
+ * @details Calls: std::transform(), begin(), end(), find().
+ */
 std::string DocsAssistantFunctions::detectIntentWithRegex(const std::string &query) {
     // Fallback: regex-based intent detection
     std::string query_lower = query;
@@ -310,6 +338,12 @@ std::string DocsAssistantFunctions::detectIntentWithRegex(const std::string &que
     return "general";
 }
 
+/**
+ * @brief Extract Topic From Query.
+ * @param[in] query Input parameter.
+ * @return Return value.
+ * @details Calls: std::transform(), begin(), end(), find().
+ */
 std::string DocsAssistantFunctions::extractTopicFromQuery(const std::string &query) {
     // Extract topic from query (simple heuristic: look for key topics)
     std::string query_lower = query;
@@ -337,6 +371,12 @@ std::string DocsAssistantFunctions::extractTopicFromQuery(const std::string &que
     return "general";
 }
 
+/**
+ * @brief Extract Search Query.
+ * @param[in] query Input parameter.
+ * @return Return value.
+ * @details Calls: std::transform(), begin(), end(), find(), substr(), erase(), find_first_not_of(), find_last_not_of().
+ */
 std::string DocsAssistantFunctions::extractSearchQuery(const std::string &query) {
     // Extract actual search query (remove "search for", "find", etc.)
     std::string query_lower = query;
@@ -360,6 +400,12 @@ std::string DocsAssistantFunctions::extractSearchQuery(const std::string &query)
     return search_query;
 }
 
+/**
+ * @brief Format Search Results.
+ * @param[in] docs Input parameter.
+ * @return Return value.
+ * @details Calls: size(), std::setprecision(), length(), substr(), str().
+ */
 std::string DocsAssistantFunctions::formatSearchResults(const std::vector<llm::DocumentEntry> &docs) {
     // Format search results as text
     std::ostringstream result = {};
@@ -380,6 +426,13 @@ std::string DocsAssistantFunctions::formatSearchResults(const std::vector<llm::D
     return result.str();
 }
 
+/**
+ * @brief Docs Query.
+ * @param[in] query Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: ensureImpl(), getAssistant(), query(), std::string(), what().
+ */
 std::string DocsAssistantFunctions::docsQuery(const std::string &query) {
     try {
         auto *assistant = ensureImpl().getAssistant();
@@ -390,6 +443,14 @@ std::string DocsAssistantFunctions::docsQuery(const std::string &query) {
     }
 }
 
+/**
+ * @brief Docs Search.
+ * @param[in] query Input parameter.
+ * @param[in] limit Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: ensureImpl(), getAssistant(), searchDocs(), json::array(), length(), substr(), empty(), push_back().
+ */
 json DocsAssistantFunctions::docsSearch(const std::string &query, int limit) {
     try {
         auto *assistant = ensureImpl().getAssistant();
@@ -425,6 +486,13 @@ json DocsAssistantFunctions::docsSearch(const std::string &query, int limit) {
     }
 }
 
+/**
+ * @brief Docs Config Help.
+ * @param[in] topic Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: ensureImpl(), getAssistant(), getConfigHelp(), std::string(), what().
+ */
 std::string DocsAssistantFunctions::docsConfigHelp(const std::string &topic) {
     try {
         auto *assistant = ensureImpl().getAssistant();
@@ -435,6 +503,13 @@ std::string DocsAssistantFunctions::docsConfigHelp(const std::string &topic) {
     }
 }
 
+/**
+ * @brief Docs Troubleshoot.
+ * @param[in] error_description Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: ensureImpl(), getAssistant(), getTroubleshootingHelp(), std::string(), what().
+ */
 std::string DocsAssistantFunctions::docsTroubleshoot(const std::string &error_description) {
     try {
         auto *assistant = ensureImpl().getAssistant();
@@ -445,6 +520,12 @@ std::string DocsAssistantFunctions::docsTroubleshoot(const std::string &error_de
     }
 }
 
+/**
+ * @brief Docs Stats.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: ensureImpl(), getAssistant(), getStats(), std::string(), what().
+ */
 json DocsAssistantFunctions::docsStats() {
     try {
         auto *assistant = ensureImpl().getAssistant();
@@ -473,6 +554,11 @@ std::string DocsAssistantFunctions::degradedReason() const {
     return msg;
 }
 
+/**
+ * @brief Clear Cache.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: ensureImpl(), getAssistant(), isLoRAAvailable(), spdlog::info(), std::string(), what().
+ */
 void DocsAssistantFunctions::clearCache() {
     try {
         auto &impl      = ensureImpl();
@@ -544,18 +630,6 @@ json DocsAssistantFunctions::getPerformanceMetrics() const {
     return metrics;
 }
 
-/**
- * @brief Thread-safe singleton instance using Meyer's singleton pattern
- * 
- * This implementation is exception-safe and leak-free:
- * - Static local variable initialization is thread-safe in C++11+
- * - Automatic destruction on program exit
- * - No manual new/delete required
- * 
- * @return Reference to the singleton DocsAssistantFunctions instance
- * @exception None (noexcept) - any exceptions during initialization propagate once
- * @note Strong exception guarantee: instance is fully constructed or not at all
- */
 DocsAssistantFunctions &getDocsAssistantFunctions() noexcept {
     // Thread-safe initialization per C++11 §6.7 (local static initialization)
     // The first call constructs the object; all subsequent calls return the same object.

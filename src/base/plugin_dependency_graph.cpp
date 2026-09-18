@@ -25,12 +25,25 @@ namespace modules {
 // Construction helpers
 // =============================================================================
 
+/**
+ * @brief Add Module.
+ * @param[in] name Input parameter.
+ * @param[in] version Input parameter.
+ */
 void PluginDependencyGraph::addModule(const std::string& name,
                                       const std::string& version)
 {
     nodes_[name] = version;
 }
 
+/**
+ * @brief Add Dependency.
+ * @param[in] from Input parameter.
+ * @param[in] to Input parameter.
+ * @param[in] required Input parameter.
+ * @param[in] minVersion Input parameter.
+ * @param[in] maxVersion Input parameter.
+ */
 void PluginDependencyGraph::addDependency(const std::string& from,
                                           const std::string& to,
                                           bool required,
@@ -50,6 +63,10 @@ void PluginDependencyGraph::addDependency(const std::string& from,
     edges_.push_back(std::move(e));
 }
 
+/**
+ * @brief Build From Resolver.
+ * @param[in] resolver Input parameter.
+ */
 void PluginDependencyGraph::buildFromResolver(
     const ModuleDependencyResolver& resolver)
 {
@@ -69,6 +86,9 @@ void PluginDependencyGraph::buildFromResolver(
     }
 }
 
+/**
+ * @brief Build From Registry.
+ */
 void PluginDependencyGraph::buildFromRegistry()
 {
     clear();
@@ -87,6 +107,9 @@ void PluginDependencyGraph::buildFromRegistry()
     }
 }
 
+/**
+ * @brief Clear.
+ */
 void PluginDependencyGraph::clear()
 {
     nodes_.clear();
@@ -259,8 +282,23 @@ void PluginDependencyGraph::exportTo(std::ostream& out,
                                      GraphExportFormat format) const
 {
     switch (format) {
+        /**
+         * @brief Render Dot.
+         * @param[in] out Input parameter.
+         * @return Return value.
+         */
         case GraphExportFormat::DOT:   renderDot(out);   break;
+        /**
+         * @brief Render Json.
+         * @param[in] out Input parameter.
+         * @return Return value.
+         */
         case GraphExportFormat::JSON:  renderJson(out);  break;
+        /**
+         * @brief Render Ascii.
+         * @param[in] out Input parameter.
+         * @return Return value.
+         */
         case GraphExportFormat::ASCII: renderAscii(out); break;
     }
 }

@@ -169,12 +169,12 @@ public:
      */
     size_t totalEventCount() const;
 
+
     /**
-     * @brief ─── Phase 2C: Backpressure Configuration ──────────────────────────────
+     * @brief Set Max Events Per Dataset.
      * @param[in] limit Input parameter.
      * @details Implements setMaxEventsPerDataset without additional internal calls.
      */
-
     void setMaxEventsPerDataset(size_t limit) { max_events_per_dataset_ = limit; }
 
     /**
@@ -198,11 +198,11 @@ public:
      */
     void setCircuitBreakerRecoveryWindowMs(int64_t ms) { cb_recovery_window_ms_ = ms; }
 
+
     /**
-     * @brief ─── Phase 2C: Circuit Breaker & Statistics ────────────────────────────
+     * @brief Get Circuit Breaker State.
      * @return Return value.
      */
-
     CircuitBreakerState getCircuitBreakerState() const;
 
     /**
@@ -219,10 +219,10 @@ public:
      */
     LineageRecordResult pruneOldEvents(const std::string& dataset_id, int32_t keep_count);
 
-    /**
-     * @brief ─── Phase 2C: Internal Circuit Breaker Management ────────────────────
-     */
 
+    /**
+     * @brief Record Audit Success.
+     */
     void recordAuditSuccess();
 
     /**

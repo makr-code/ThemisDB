@@ -46,10 +46,23 @@ using WebDAV_CURL_slist_ptr = std::unique_ptr<struct curl_slist, WebDAV_CURL_sli
 
 using WebDAV_EVP_MD_CTX_ptr = std::unique_ptr<EVP_MD_CTX, WebDAV_EVP_MD_CTX_Deleter>;
 
+/**
+ * @brief Starts with.
+ * @param[in] value Input parameter.
+ * @param[in] prefix Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: rfind().
+ */
 bool starts_with(const std::string& value, const char* prefix) {
     return value.rfind(prefix, 0) == 0;
 }
 
+/**
+ * @brief Extract url host.
+ * @param[in] url Input parameter.
+ * @return Return value.
+ * @details Calls: find(), size(), substr(), find_first_of().
+ */
 std::string extract_url_host(const std::string& url) {
     const size_t scheme_pos = url.find("://");
     const size_t host_start = (scheme_pos == std::string::npos) ? 0 : scheme_pos + 3;
@@ -70,31 +83,28 @@ std::string extract_url_host(const std::string& url) {
                                                                 : host_end - host_start);
 }
 
+/**
+ * @brief Is loopback host.
+ * @param[in] host Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements is_loopback_host without additional internal calls.
+ */
 bool is_loopback_host(const std::string& host) {
     return host == "localhost" || host == "127.0.0.1" || host == "::1";
 }
 
+/**
+ * @brief Is loopback url.
+ * @param[in] url Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: is_loopback_host(), extract_url_host().
+ */
 bool is_loopback_url(const std::string& url) {
     return is_loopback_host(extract_url_host(url));
 }
 
 } // anonymous namespace
 
-/**
- * @brief WebDAV User Registration Plugin
- * 
- * Integrates with WebDAV servers for user authentication and registration.
- * Supports integration with:
- * - Active Directory via WebDAV
- * - SharePoint user management
- * - OwnCloud/Nextcloud
- * - Generic WebDAV servers with user directories
- * 
- * Use cases:
- * - Corporate Active Directory integration
- * - SharePoint document library access control
- * - Network file server authentication
- */
 class WebDAVUserRegistrationPlugin : public IUserRegistrationPlugin {
 public:
     static constexpr long kRequestTimeoutMs = 5000;
@@ -108,6 +118,11 @@ public:
         bool active_directory_mode = false;  // Enable AD-specific features
     };
     
+    /**
+     * @brief Web DAVUser Registration Plugin.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit WebDAVUserRegistrationPlugin(const Config& config)
         : config_(config)
     {
@@ -270,6 +285,11 @@ public:
                 "Failed to append Content-Type header for PROPFIND"
             );
         }
+        /**
+         * @brief Headers.
+         * @param[in] content_type_headers Input parameter.
+         * @return Return value.
+         */
         WebDAV_CURL_slist_ptr headers(content_type_headers);
 
         // Minimal PROPFIND body requesting displayname and resourcetype.
@@ -445,6 +465,11 @@ public:
                     "Failed to append Content-Type header for WebDAV update"
                 );
             }
+            /**
+             * @brief Headers.
+             * @param[in] content_type_headers Input parameter.
+             * @return Return value.
+             */
             WebDAV_CURL_slist_ptr headers(content_type_headers);
 
             static const char kPropfindBody[] =
@@ -520,7 +545,11 @@ private:
     
 #ifdef THEMIS_ENABLE_WEBDAV
     /**
-     * @brief Authenticate user with WebDAV server
+     * @brief Authenticate With Web DAV.
+     * @param[in] user_id Identifier of the user.
+     * @param[in] password Input parameter.
+     * @return Return value.
+     * @details Calls: curl(), curl_easy_init(), themis::ErrVoid(), empty(), curl_easy_setopt(), get(), c_str(), curl_easy_perform().
      */
     Result<void> authenticateWithWebDAV(
         const std::string& user_id,
@@ -582,9 +611,6 @@ private:
         );
     }
     
-    /**
-     * @brief Get user properties from Active Directory via WebDAV
-     */
     Result<std::unordered_map<std::string, std::string>> getUserPropertiesFromAD(
         const std::string& user_id
     ) {
@@ -638,6 +664,11 @@ private:
             curl_slist_free_all(raw_headers);
             return Result<std::unordered_map<std::string, std::string>>::Ok(properties);
         }
+        /**
+         * @brief Headers.
+         * @param[in] content_type_headers Input parameter.
+         * @return Return value.
+         */
         WebDAV_CURL_slist_ptr headers(content_type_headers);
 
         curl_easy_setopt(curl.get(), CURLOPT_URL, url.c_str());
@@ -706,7 +737,10 @@ private:
     }
     
     /**
-     * @brief Map Active Directory groups to ThemisDB roles
+     * @brief Map ADGroups To Roles.
+     * @param[in] memberOf Input parameter.
+     * @return Return value.
+     * @details Calls: find(), push_back().
      */
     std::vector<std::string> mapADGroupsToRoles(const std::string& memberOf) {
         std::vector<std::string> roles;
@@ -729,11 +763,13 @@ private:
     }
 
     /**
-     * @brief libcurl write callback — appends received bytes to a std::string.
-     *
-     * Signature matches `curl_write_callback` so that it can be passed to
-     * `curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, curlWriteCallback)`.
-     * `userdata` must point to a `std::string`.
+     * @brief Curl Write Callback.
+     * @param[in,out] ptr Input/output parameter.
+     * @param[in] size Input parameter.
+     * @param[in] nmemb Input parameter.
+     * @param[in,out] userdata Input/output parameter.
+     * @return Return value.
+     * @details Calls: append().
      */
     static size_t curlWriteCallback(char* ptr, size_t size, size_t nmemb,
                                     void* userdata) {
@@ -743,11 +779,10 @@ private:
     }
 
     /**
-     * @brief Extract the hostname from a URL for use as a mail domain.
-     *
-     * Strips the scheme (e.g. "https://") and any path component so that
-     * "https://sharepoint.company.com/sites/hr" → "sharepoint.company.com".
-     * Returns "company.com" when the URL cannot be parsed.
+     * @brief Extract Host From Url.
+     * @param[in] url Input parameter.
+     * @return Return value.
+     * @details Calls: find(), substr(), empty().
      */
     static std::string extractHostFromUrl(const std::string& url) {
         std::string host = {};

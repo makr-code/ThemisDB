@@ -48,12 +48,22 @@ using BgBox   = bg::model::box<BgPoint>;
 using RtreeValue = std::pair<BgBox, std::string>;
 using RtreeType  = bgi::rtree<RtreeValue, bgi::rstar<16>>;
 
-/// Convert an MBR to a Boost.Geometry box
+/**
+ * @brief To Box.
+ * @param[in] mbr Input parameter.
+ * @return Return value.
+ * @details Calls: BgBox(), BgPoint().
+ */
 static BgBox toBox(const MBR& mbr) {
     return BgBox(BgPoint(mbr.minx, mbr.miny), BgPoint(mbr.maxx, mbr.maxy));
 }
 
-/// Build an MBR-based bounding box for a geometry (degrades to point for Point)
+/**
+ * @brief Geometry Box.
+ * @param[in] geom Input parameter.
+ * @return Return value.
+ * @details Calls: computeMBR(), toBox().
+ */
 static BgBox geometryBox(const GeometryInfo& geom) {
     MBR mbr = geom.computeMBR();
     // For a 2D point, computeMBR returns minx==maxx, miny==maxy — that's fine.
@@ -75,14 +85,31 @@ struct GeoRTree::Impl {
         tree = RtreeType(values.begin(), values.end());
     }
 
+    /**
+     * @brief Insert.
+     * @param[in] key Input parameter.
+     * @param[in] geom Input parameter.
+     * @details Calls: RtreeValue(), geometryBox().
+     */
     void insert(const std::string& key, const GeometryInfo& geom) {
         tree.insert(RtreeValue(geometryBox(geom), key));
     }
 
+    /**
+     * @brief Remove.
+     * @param[in] key Input parameter.
+     * @param[in] geom Input parameter.
+     * @return True when the operation succeeds.
+     * @details Calls: RtreeValue(), geometryBox().
+     */
     bool remove(const std::string& key, const GeometryInfo& geom) {
         return tree.remove(RtreeValue(geometryBox(geom), key)) > 0;
     }
 
+    /**
+     * @brief Clear.
+     * @details Implements clear without additional internal calls.
+     */
     void clear() { tree.clear(); }
 
     std::size_t size() const { return tree.size(); }
@@ -99,9 +126,20 @@ struct GeoRTree::Impl {
     }
 
     std::vector<std::string> contains(double x, double y) const {
-        // A geometry "contains" a point when the point lies within its MBR.
-        // We query with a degenerate box (point) and check containment.
+        /**
+         * @brief A geometry "contains" a point when the point lies within its MBR.
+         * @param[in] x Input parameter.
+         * @param[in] y Input parameter.
+         * @return Return value.
+         * @details We query with a degenerate box (point) and check containment.
+         */
         BgPoint qpt(x, y);
+        /**
+         * @brief Qbox.
+         * @param[in] qpt Input parameter.
+         * @param[in] qpt Input parameter.
+         * @return Return value.
+         */
         BgBox   qbox(qpt, qpt);  // zero-area box at the query point
         std::vector<std::string> result = {};
 
@@ -142,10 +180,23 @@ struct GeoRTree::Impl {
         }
     }
 
+    /**
+     * @brief Insert.
+     * @param[in] key Input parameter.
+     * @param[in] geom Input parameter.
+     * @details Calls: push_back(), computeMBR().
+     */
     void insert(const std::string& key, const GeometryInfo& geom) {
         entries.push_back({geom.computeMBR(), key});
     }
 
+    /**
+     * @brief Remove.
+     * @param[in] key Input parameter.
+     * @param[in] geom Input parameter.
+     * @return True when the operation succeeds.
+     * @details Calls: computeMBR(), begin(), end(), erase().
+     */
     bool remove(const std::string& key, const GeometryInfo& geom) {
         MBR mbr = geom.computeMBR();
         for (auto it = entries.begin(); it != entries.end(); ++it) {
@@ -159,6 +210,10 @@ struct GeoRTree::Impl {
         return false;
     }
 
+    /**
+     * @brief Clear.
+     * @details Implements clear without additional internal calls.
+     */
     void clear() { entries.clear(); }
 
     std::size_t size() const { return entries.size(); }
@@ -211,12 +266,25 @@ void GeoRTree::bulkLoad(const std::vector<std::pair<std::string, GeometryInfo>>&
                 impl_->size(), impl_->memoryBytes());
 }
 
+/**
+ * @brief Insert.
+ * @param[in] key Input parameter.
+ * @param[in] geom Input parameter.
+ * @details Calls: THEMIS_INFO(), memoryBytes().
+ */
 void GeoRTree::insert(const std::string& key, const GeometryInfo& geom) {
     impl_->insert(key, geom);
     THEMIS_INFO("GeoRTree::insert: key={}, geo_index_bytes_allocated={}",
                 key, impl_->memoryBytes());
 }
 
+/**
+ * @brief Remove.
+ * @param[in] key Input parameter.
+ * @param[in] geom Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: THEMIS_WARN().
+ */
 bool GeoRTree::remove(const std::string& key, const GeometryInfo& geom) {
     bool removed = impl_->remove(key, geom);
     if (!removed) {
@@ -225,6 +293,10 @@ bool GeoRTree::remove(const std::string& key, const GeometryInfo& geom) {
     return removed;
 }
 
+/**
+ * @brief Clear.
+ * @details Implements clear without additional internal calls.
+ */
 void GeoRTree::clear() {
     impl_->clear();
 }

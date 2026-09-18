@@ -59,7 +59,10 @@ constexpr unsigned char SEVEN_ZIP_MAGIC[] = {0x37, 0x7A, 0xBC, 0xAF, 0x27, 0x1C}
 namespace {
 
 /**
- * @brief Generate random temporary directory name
+ * @brief Generate Random String.
+ * @param[in] length Input parameter.
+ * @return Return value.
+ * @details Calls: gen(), rd(), dis(), reserve().
  */
 std::string generateRandomString(size_t length) {
     static const char alphanum[] = "0123456789"
@@ -79,7 +82,11 @@ std::string generateRandomString(size_t length) {
 }
 
 /**
- * @brief Write blob to temporary file
+ * @brief Write Blob To File.
+ * @param[in] path Input parameter.
+ * @param[in] blob Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: file(), write(), data(), size(), good().
  */
 bool writeBlobToFile(const std::string &path, const std::string &blob) {
     try {
@@ -119,6 +126,13 @@ bool ArchiveProcessor::canHandle(const std::string &mime_type) const {
     return std::find(archive_mimes.begin(), archive_mimes.end(), mime_type) != archive_mimes.end();
 }
 
+/**
+ * @brief Detect Format.
+ * @param[in] blob Input parameter.
+ * @param[in] filename Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), size(), std::memcpy(), data(), std::memcmp(), std::transform(), begin(), end().
+ */
 ArchiveFormat ArchiveProcessor::detectFormat(const std::string &blob, const std::string &filename) {
     // Empty blob cannot be a valid archive - return UNKNOWN immediately
     // This prevents filename extension fallback from incorrectly identifying format
@@ -182,6 +196,13 @@ ArchiveFormat ArchiveProcessor::detectFormat(const std::string &blob, const std:
     return ArchiveFormat::UNKNOWN;
 }
 
+/**
+ * @brief Extract Metadata.
+ * @param[in] blob Input parameter.
+ * @param[in] format Input parameter.
+ * @return Return value.
+ * @details Calls: size(), fs::temp_directory_path(), generateRandomString(), writeBlobToFile(), string(), fs::remove(), zip_open(), c_str().
+ */
 std::optional<ArchiveMetadata> ArchiveProcessor::extractMetadata(const std::string &blob, ArchiveFormat format) {
     ArchiveMetadata metadata;
     metadata.format                  = format;
@@ -357,11 +378,24 @@ std::optional<ArchiveMetadata> ArchiveProcessor::extractMetadata(const std::stri
     return metadata;
 }
 
+/**
+ * @brief Is Encrypted.
+ * @param[in] blob Input parameter.
+ * @param[in] format Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: extractMetadata(), has_value().
+ */
 bool ArchiveProcessor::isEncrypted(const std::string &blob, ArchiveFormat format) {
     auto metadata = extractMetadata(blob, format);
     return metadata.has_value() && metadata->is_encrypted;
 }
 
+/**
+ * @brief Sanitize Path.
+ * @param[in] path Input parameter.
+ * @return Return value.
+ * @details Calls: std::replace(), begin(), end(), size(), std::isalpha(), erase(), empty(), front().
+ */
 std::string ArchiveProcessor::sanitizePath(const std::string &path) {
     // Normalize separators first so Windows-style paths are parsed consistently.
     std::string normalized = path;
@@ -480,6 +514,13 @@ bool ArchiveProcessor::validateArchive(const ArchiveMetadata &metadata, std::str
     return true;
 }
 
+/**
+ * @brief Extract Zip.
+ * @param[in] blob Input parameter.
+ * @param[in] password Input parameter.
+ * @return Return value.
+ * @details Calls: generateTempDirectory(), fs::path(), writeBlobToFile(), string(), zip_open(), c_str(), zip_error_to_str(), std::string().
+ */
 ArchiveExtractionResult ArchiveProcessor::extractZip(const std::string &blob, const std::string &password) {
     (void)blob;
     (void)password;
@@ -625,6 +666,13 @@ ArchiveExtractionResult ArchiveProcessor::extractZip(const std::string &blob, co
 #endif
 }
 
+/**
+ * @brief Extract Tar.
+ * @param[in] blob Input parameter.
+ * @param[in] format Input parameter.
+ * @return Return value.
+ * @details Calls: assign(), begin(), end(), inflateInit2(), data(), size(), out_buf(), inflate().
+ */
 ArchiveExtractionResult ArchiveProcessor::extractTar(const std::string &blob, ArchiveFormat format) {
     ArchiveExtractionResult result;
     result.success = false;
@@ -790,6 +838,14 @@ ArchiveExtractionResult ArchiveProcessor::extractTar(const std::string &blob, Ar
     return result;
 }
 
+/**
+ * @brief Extract To Temp.
+ * @param[in] blob Input parameter.
+ * @param[in] format Input parameter.
+ * @param[in] password Input parameter.
+ * @return Return value.
+ * @details Calls: extractZip(), extractTar().
+ */
 ArchiveExtractionResult ArchiveProcessor::extractToTemp(const std::string &blob, ArchiveFormat format,
                                                         const std::string &password) {
     if (format == ArchiveFormat::ZIP) {
@@ -805,6 +861,11 @@ ArchiveExtractionResult ArchiveProcessor::extractToTemp(const std::string &blob,
     }
 }
 
+/**
+ * @brief Cleanup Temp Directory.
+ * @param[in] temp_dir Input parameter.
+ * @details Calls: fs::exists(), fs::remove_all(), THEMIS_ERROR(), what().
+ */
 void ArchiveProcessor::cleanupTempDirectory(const std::string &temp_dir) {
     try {
         if (fs::exists(temp_dir)) {
@@ -815,6 +876,14 @@ void ArchiveProcessor::cleanupTempDirectory(const std::string &temp_dir) {
     }
 }
 
+/**
+ * @brief Process.
+ * @param[in] blob Input parameter.
+ * @param[in] param Input parameter.
+ * @param[in] filename Input parameter.
+ * @return Return value.
+ * @details Calls: detectFormat(), extractMetadata(), has_value(), value(), empty(), validateArchive(), checkZipBomb(), failed().
+ */
 ArchiveProcessorResult ArchiveProcessor::process(const std::string &blob, const std::string & /*mime_type*/,
                                                  const std::string &filename) {
     ArchiveProcessorResult result;
@@ -938,6 +1007,13 @@ ArchiveProcessorResult ArchiveProcessor::process(const std::string &blob, const 
 // IContentProcessor Interface Implementation
 // ============================================================================
 
+/**
+ * @brief Extract.
+ * @param[in] blob Input parameter.
+ * @param[in] content_type Input parameter.
+ * @return Return value.
+ * @details Calls: process().
+ */
 ExtractionResult ArchiveProcessor::extract(const std::string &blob, const ContentType &content_type) {
     ExtractionResult result;
     result.ok = false;
@@ -953,6 +1029,14 @@ ExtractionResult ArchiveProcessor::extract(const std::string &blob, const Conten
     return result;
 }
 
+/**
+ * @brief Chunk.
+ * @param[in] extraction_result Input parameter.
+ * @param[in] int Input parameter.
+ * @param[in] int Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), push_back().
+ */
 std::vector<json> ArchiveProcessor::chunk(const ExtractionResult &extraction_result, int /*chunk_size*/, int /*overlap*/
 ) {
     // Archives don't need chunking - they're metadata containers
@@ -967,6 +1051,12 @@ std::vector<json> ArchiveProcessor::chunk(const ExtractionResult &extraction_res
     return chunks;
 }
 
+/**
+ * @brief Generate Embedding.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Implements generateEmbedding without additional internal calls.
+ */
 std::vector<float> ArchiveProcessor::generateEmbedding(const std::string & /*chunk_data*/) {
     // Archives don't generate embeddings
     // Embeddings are generated for the extracted files instead

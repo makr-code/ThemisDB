@@ -30,26 +30,51 @@ GPUAlerts::GPUAlerts(const Config &cfg) : cfg_(cfg) {}
 // Metric update
 // ============================================================================
 
+/**
+ * @brief Set VRAMUsage.
+ * @param[in] used_fraction Input parameter.
+ * @details Calls: lock().
+ */
 void GPUAlerts::setVRAMUsage(float used_fraction) {
     std::lock_guard<std::mutex> lock(mutex_);
     vram_used_frac_ = used_fraction;
 }
 
+/**
+ * @brief Set Error Rate.
+ * @param[in] rate Input parameter.
+ * @details Calls: lock().
+ */
 void GPUAlerts::setErrorRate(float rate) {
     std::lock_guard<std::mutex> lock(mutex_);
     error_rate_ = rate;
 }
 
+/**
+ * @brief Set Fallback Rate.
+ * @param[in] rate Input parameter.
+ * @details Calls: lock().
+ */
 void GPUAlerts::setFallbackRate(float rate) {
     std::lock_guard<std::mutex> lock(mutex_);
     fallback_rate_ = rate;
 }
 
+/**
+ * @brief Set Circuit Open.
+ * @param[in] is_open Input parameter.
+ * @details Calls: lock().
+ */
 void GPUAlerts::setCircuitOpen(bool is_open) {
     std::lock_guard<std::mutex> lock(mutex_);
     circuit_open_ = is_open;
 }
 
+/**
+ * @brief Set Device Available.
+ * @param[in] available Input parameter.
+ * @details Calls: lock().
+ */
 void GPUAlerts::setDeviceAvailable(bool available) {
     std::lock_guard<std::mutex> lock(mutex_);
     device_available_ = available;
@@ -59,6 +84,11 @@ void GPUAlerts::setDeviceAvailable(bool available) {
 // Callbacks
 // ============================================================================
 
+/**
+ * @brief On Alert.
+ * @param[in] callback Input parameter.
+ * @details Calls: lock(), push_back(), std::move().
+ */
 void GPUAlerts::onAlert(AlertCallback callback) {
     std::lock_guard<std::mutex> lock(mutex_);
     callbacks_.push_back(std::move(callback));
@@ -68,6 +98,15 @@ void GPUAlerts::onAlert(AlertCallback callback) {
 // Evaluation
 // ============================================================================
 
+/**
+ * @brief Update Alert.
+ * @param[in] name Input parameter.
+ * @param[in] condition Input parameter.
+ * @param[in] value Input parameter.
+ * @param[in] threshold Input parameter.
+ * @param[in] msg Input parameter.
+ * @details Calls: std::chrono::system_clock::now(), fireCallback().
+ */
 void GPUAlerts::updateAlert(const std::string &name, bool condition, float value, float threshold,
                             const std::string &msg) {
     // Note: called under mutex_ (held by evaluate()).
@@ -88,6 +127,11 @@ void GPUAlerts::updateAlert(const std::string &name, bool condition, float value
     }
 }
 
+/**
+ * @brief Fire Callback.
+ * @param[in] s Input parameter.
+ * @details Calls: cb().
+ */
 void GPUAlerts::fireCallback(const AlertStatus &s) {
     // Called under mutex_ — copy the vector to avoid re-entrancy issues.
     for (const auto &cb : callbacks_) {
@@ -97,6 +141,11 @@ void GPUAlerts::fireCallback(const AlertStatus &s) {
     }
 }
 
+/**
+ * @brief Evaluate.
+ * @return Return value.
+ * @details Calls: lock(), updateAlert(), std::to_string().
+ */
 size_t GPUAlerts::evaluate() {
     std::lock_guard<std::mutex> lock(mutex_);
 
@@ -130,6 +179,11 @@ size_t GPUAlerts::evaluate() {
 // ============================================================================
 
 std::vector<GPUAlerts::AlertStatus> GPUAlerts::currentStatuses() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     std::vector<AlertStatus> result = {};
 
@@ -141,6 +195,11 @@ std::vector<GPUAlerts::AlertStatus> GPUAlerts::currentStatuses() const {
 }
 
 size_t GPUAlerts::firingCount() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     size_t n = 0;
     for (const auto &kv : statuses_) {
@@ -152,6 +211,11 @@ size_t GPUAlerts::firingCount() const {
 }
 
 bool GPUAlerts::isFiring(const std::string &alert_name) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = statuses_.find(alert_name);
     if (it == statuses_.end()) {

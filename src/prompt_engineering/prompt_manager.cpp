@@ -31,6 +31,12 @@ PromptManager::PromptManager() = default;
 PromptManager::PromptManager(RocksDBWrapper* db, rocksdb::ColumnFamilyHandle* cf)
     : db_(db), cf_(cf) {}
 
+/**
+ * @brief Validate Template.
+ * @param[in] t Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), push_back(), size(), std::to_string(), is_null(), is_object().
+ */
 PromptManager::ValidationResult PromptManager::validateTemplate(const PromptTemplate& t) {
     ValidationResult result;
 
@@ -71,6 +77,12 @@ PromptManager::ValidationResult PromptManager::validateTemplate(const PromptTemp
     return result;
 }
 
+/**
+ * @brief Create Template.
+ * @param[in] t Input parameter.
+ * @return Return value.
+ * @details Calls: validateTemplate(), THEMIS_ERROR(), THEMIS_WARN(), empty(), generateId(), insert(), release(), std::string().
+ */
 PromptManager::PromptTemplate PromptManager::createTemplate(PromptManager::PromptTemplate t) {
     // Validate before inserting
     auto vr = validateTemplate(t);
@@ -194,6 +206,14 @@ std::vector<PromptManager::PromptTemplate> PromptManager::listTemplates() const 
     return out;
 }
 
+/**
+ * @brief Update Template.
+ * @param[in] id Input parameter.
+ * @param[in] metadata Input parameter.
+ * @param[in] active Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: find(), std::string(), toJson(), dump(), bytes(), begin(), end(), put().
+ */
 bool PromptManager::updateTemplate(const std::string& id, const nlohmann::json& metadata, bool active) {
     // v1.1.0: Update using accessor for thread-safe modification
     StoreType::accessor acc;
@@ -218,6 +238,13 @@ bool PromptManager::updateTemplate(const std::string& id, const nlohmann::json& 
     return true;
 }
 
+/**
+ * @brief Assign Experiment.
+ * @param[in] id Input parameter.
+ * @param[in] experiment_id Identifier of the experiment.
+ * @return True when the operation succeeds.
+ * @details Calls: find(), std::string(), toJson(), dump(), bytes(), begin(), end(), put().
+ */
 bool PromptManager::assignExperiment(const std::string& id, const std::string& experiment_id) {
     // v1.1.0: Update using accessor for thread-safe modification
     StoreType::accessor acc;
@@ -255,6 +282,12 @@ std::string PromptManager::generateId() const {
     return oss.str();
 }
 
+/**
+ * @brief Load From YAML.
+ * @param[in] yaml_path Path to the yaml.
+ * @return Return value.
+ * @details Calls: std::filesystem::exists(), THEMIS_WARN(), YAML::LoadFile(), begin(), end(), nlohmann::json::parse(), c_str(), nlohmann::json::object().
+ */
 size_t PromptManager::loadFromYAML(const std::string& yaml_path) {
     try {
         if (!std::filesystem::exists(yaml_path)) {

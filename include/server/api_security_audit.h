@@ -20,9 +20,6 @@
 namespace themis {
 namespace server {
 
-/**
- * @brief Severity level for a security audit finding
- */
 enum class AuditSeverity : uint8_t {
     LOW      = 0,
     MEDIUM   = 1,
@@ -30,9 +27,6 @@ enum class AuditSeverity : uint8_t {
     CRITICAL = 3
 };
 
-/**
- * @brief A single security finding produced by the API security audit
- */
 struct ApiSecurityAuditFinding {
     AuditSeverity   severity;
     std::string     endpoint_pattern;   ///< Empty string for global findings
@@ -41,9 +35,6 @@ struct ApiSecurityAuditFinding {
     std::string     recommendation;     ///< Actionable remediation guidance
 };
 
-/**
- * @brief Aggregated report produced by ApiSecurityAuditor::audit()
- */
 struct ApiSecurityAuditReport {
     std::vector<ApiSecurityAuditFinding> findings;
 
@@ -52,55 +43,69 @@ struct ApiSecurityAuditReport {
     uint32_t medium_count   = 0;
     uint32_t low_count      = 0;
 
-    /// @brief True when no HIGH or CRITICAL findings are present
     bool passed = true;
 };
 
-/**
- * @brief Performs a static security audit of an ApiAuthConfig
- *
- * The auditor inspects the global settings and all endpoint-specific
- * configurations to identify security misconfigurations.  It produces a
- * structured report that can be evaluated at server start-up or in tests.
- *
- * Checks performed:
- *  - Global authentication disabled (CRITICAL)
- *  - Authentication-required endpoints with empty required_scope (HIGH)
- *  - Sensitive endpoint patterns without authentication (HIGH)
- *  - Rate limiting globally disabled (HIGH)
- *  - Authentication-required endpoints with no rate limit (MEDIUM)
- *  - Burst capacity exceeds half of per-minute rate limit (LOW)
- */
 class ApiSecurityAuditor {
 public:
     /**
-     * @brief Run a full security audit against the given configuration
-     * @param config The API authentication and rate-limiting configuration to audit
-     * @return A report containing all findings and an overall pass/fail verdict
+     * @brief Audit.
+     * @param[in] config Input parameter.
+     * @return Return value.
      */
     static ApiSecurityAuditReport audit(const ApiAuthConfig& config);
 
 private:
+    /**
+     * @brief Check Global Auth Disabled.
+     * @param[in] config Input parameter.
+     * @param[in,out] findings Input/output parameter.
+     */
     static void checkGlobalAuthDisabled(
         const ApiAuthConfig& config,
         std::vector<ApiSecurityAuditFinding>& findings);
 
+    /**
+     * @brief Check Missing Scope On Auth Endpoints.
+     * @param[in] config Input parameter.
+     * @param[in,out] findings Input/output parameter.
+     */
     static void checkMissingScopeOnAuthEndpoints(
         const ApiAuthConfig& config,
         std::vector<ApiSecurityAuditFinding>& findings);
 
+    /**
+     * @brief Check Sensitive Endpoints Require Auth.
+     * @param[in] config Input parameter.
+     * @param[in,out] findings Input/output parameter.
+     */
     static void checkSensitiveEndpointsRequireAuth(
         const ApiAuthConfig& config,
         std::vector<ApiSecurityAuditFinding>& findings);
 
+    /**
+     * @brief Check Rate Limiting Disabled.
+     * @param[in] config Input parameter.
+     * @param[in,out] findings Input/output parameter.
+     */
     static void checkRateLimitingDisabled(
         const ApiAuthConfig& config,
         std::vector<ApiSecurityAuditFinding>& findings);
 
+    /**
+     * @brief Check Missing Rate Limit On Auth Endpoints.
+     * @param[in] config Input parameter.
+     * @param[in,out] findings Input/output parameter.
+     */
     static void checkMissingRateLimitOnAuthEndpoints(
         const ApiAuthConfig& config,
         std::vector<ApiSecurityAuditFinding>& findings);
 
+    /**
+     * @brief Check Excessive Burst Capacity.
+     * @param[in] config Input parameter.
+     * @param[in,out] findings Input/output parameter.
+     */
     static void checkExcessiveBurstCapacity(
         const ApiAuthConfig& config,
         std::vector<ApiSecurityAuditFinding>& findings);

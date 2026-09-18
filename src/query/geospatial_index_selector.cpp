@@ -17,15 +17,15 @@
 namespace themis {
 namespace query {
 
+
 /**
- * @brief ============================================================================= DataDistribution =============================================================================
+ * @brief Infer.
  * @param[in] totalPoints Input parameter.
  * @param[in] distinctLocationCells Input parameter.
  * @param[in] spatialVariance Input parameter.
  * @return Return value.
  * @details Calls: std::min().
  */
-
 DataDistribution DataDistribution::infer(
     size_t totalPoints,
     size_t distinctLocationCells,

@@ -18,12 +18,10 @@ namespace themis {
 namespace content {
 
 /**
- * @brief Analyze content using LLM
- *
- * Generates summary, extracts key topics, determines sentiment, and classifies category.
- *
- * @param content_id Content ID to analyze
- * @return JSON with analysis results
+ * @brief Analyze Content.
+ * @param[in] content_id Identifier of the content.
+ * @return Return value.
+ * @details Calls: getContentMeta(), getExtractedText(), empty(), substr(), std::min(), size(), size_t(), THEMIS_LLM_GENERATE().
  */
 json ContentManager::analyzeContent(const std::string &content_id) {
     json result;
@@ -89,11 +87,11 @@ json ContentManager::analyzeContent(const std::string &content_id) {
 }
 
 /**
- * @brief Generate tags for content using LLM
- *
- * @param content_id Content ID
- * @param max_tags Maximum number of tags (default: 10)
- * @return Vector of generated tags
+ * @brief Generate Tags.
+ * @param[in] content_id Identifier of the content.
+ * @param[in] max_tags Input parameter.
+ * @return Return value.
+ * @details Calls: getExtractedText(), empty(), substr(), std::min(), size(), size_t(), THEMIS_LLM_GENERATE(), str().
  */
 std::vector<std::string> ContentManager::generateTags(const std::string &content_id, int max_tags) {
     std::vector<std::string> tags;
@@ -136,11 +134,11 @@ std::vector<std::string> ContentManager::generateTags(const std::string &content
 }
 
 /**
- * @brief Summarize content using LLM
- *
- * @param content_id Content ID
- * @param max_words Maximum words in summary
- * @return Summary text
+ * @brief Summarize Content.
+ * @param[in] content_id Identifier of the content.
+ * @param[in] max_words Input parameter.
+ * @return Return value.
+ * @details Calls: getExtractedText(), empty(), substr(), std::min(), size(), size_t(), THEMIS_LLM_GENERATE(), str().
  */
 std::string ContentManager::summarizeContent(const std::string &content_id, int max_words) {
     try {
@@ -174,10 +172,10 @@ std::string ContentManager::summarizeContent(const std::string &content_id, int 
 }
 
 /**
- * @brief Classify content by category using LLM
- *
- * @param content_id Content ID
- * @return Category string
+ * @brief Classify Content.
+ * @param[in] content_id Identifier of the content.
+ * @return Return value.
+ * @details Calls: getExtractedText(), empty(), substr(), std::min(), size(), size_t(), THEMIS_LLM_GENERATE(), str().
  */
 std::string ContentManager::classifyContent(const std::string &content_id) {
     try {
@@ -217,10 +215,10 @@ std::string ContentManager::classifyContent(const std::string &content_id) {
 }
 
 /**
- * @brief Extract named entities from content using LLM
- *
- * @param content_id Content ID
- * @return JSON with entities (people, places, organizations)
+ * @brief Extract Entities.
+ * @param[in] content_id Identifier of the content.
+ * @return Return value.
+ * @details Calls: json::object(), json::array(), getExtractedText(), empty(), substr(), std::min(), size(), size_t().
  */
 json ContentManager::extractEntities(const std::string &content_id) {
     json result             = json::object();
@@ -266,7 +264,11 @@ json ContentManager::extractEntities(const std::string &content_id) {
 // Helper methods
 
 /**
- * @brief Parse LLM analysis result into structured JSON
+ * @brief Parse Analysis Result.
+ * @param[in] analysis_text Input parameter.
+ * @param[in] meta Input parameter.
+ * @return Return value.
+ * @details Calls: iss(), std::getline(), find(), empty(), str(), clear(), size(), substr().
  */
 json ContentManager::parseAnalysisResult(const std::string &analysis_text, const ContentMeta &meta) {
     json result;
@@ -346,7 +348,10 @@ json ContentManager::parseAnalysisResult(const std::string &analysis_text, const
 }
 
 /**
- * @brief Parse comma-separated tags from LLM output
+ * @brief Parse Tags.
+ * @param[in] tags_text Input parameter.
+ * @return Return value.
+ * @details Calls: ss(), std::getline(), erase(), find_first_not_of(), find_last_not_of(), empty(), size(), push_back().
  */
 std::vector<std::string> ContentManager::parseTags(const std::string &tags_text) {
     std::vector<std::string> tags;
@@ -367,7 +372,10 @@ std::vector<std::string> ContentManager::parseTags(const std::string &tags_text)
 }
 
 /**
- * @brief Parse entities from LLM output
+ * @brief Parse Entities.
+ * @param[in] entities_text Input parameter.
+ * @return Return value.
+ * @details Calls: json::array(), iss(), std::getline(), find(), empty(), substr(), erase(), find_first_not_of().
  */
 json ContentManager::parseEntities(const std::string &entities_text) {
     json result;
@@ -409,7 +417,10 @@ json ContentManager::parseEntities(const std::string &entities_text) {
 }
 
 /**
- * @brief Get extracted text from content
+ * @brief Get Extracted Text.
+ * @param[in] content_id Identifier of the content.
+ * @return Return value.
+ * @details Calls: getContentChunks(), reserve(), size().
  */
 std::string ContentManager::getExtractedText(const std::string &content_id) {
     const auto chunks = getContentChunks(content_id);

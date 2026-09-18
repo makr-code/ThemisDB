@@ -19,9 +19,6 @@
 namespace themis {
 namespace llm {
 
-/**
- * @brief Configuration for ethics-aware confidence detection
- */
 struct EthicsAwareConfidenceConfig {
     // Thresholds
     float min_autonomy_respect = 0.7f;        ///< Minimum autonomy respect score
@@ -43,15 +40,12 @@ struct EthicsAwareConfidenceConfig {
     size_t max_cache_size = 1000;             ///< Maximum cache entries
     
     /**
-     * @brief Validate configuration weights
-     * @return true if weights sum to approximately 1.0
+     * @brief Validate Weights.
+     * @return True when the operation succeeds.
      */
     bool validateWeights() const;
 };
 
-/**
- * @brief Result of confidence detection
- */
 struct ConfidenceResult {
     // Individual scores (0.0 - 1.0)
     float technical_confidence = 0.0f;         ///< Technical confidence (entropy-based)
@@ -80,10 +74,11 @@ struct ConfidenceResult {
     std::string reasoning;                      ///< Explanation of scores
 };
 
-/**
- * @brief Token-level confidence information
- */
 struct TokenConfidence {
+    /**
+     * @brief Token Confidence.
+     * @return Return value.
+     */
     virtual ~TokenConfidence() = default;
     std::string token;
     float probability = 0.0f;
@@ -91,52 +86,23 @@ struct TokenConfidence {
     int position = 0;
 };
 
-/**
- * @brief Ethics-aware confidence detector
- * 
- * Detects confidence levels in LLM outputs while ensuring ethical compliance.
- * Combines technical confidence metrics (entropy, perplexity) with ethical
- * dimensions (autonomy respect, transparency) to provide a comprehensive
- * confidence score that prevents hallucinations while respecting human autonomy.
- */
 class EthicsAwareConfidenceDetector {
 public:
-    /**
-     * @brief Constructor
-     * @param config Configuration for detection
-     */
     explicit EthicsAwareConfidenceDetector(
         const EthicsAwareConfidenceConfig& config = {}
     );
     
-    /**
-     * @brief Destructor
-     */
     ~EthicsAwareConfidenceDetector();
     
     // ═══════════════════════════════════════════════════════════
     // Core functionality
     // ═══════════════════════════════════════════════════════════
     
-    /**
-     * @brief Detect confidence in generated text
-     * @param text Generated text to analyze
-     * @param token_confidences Optional token-level confidence data
-     * @return Confidence result with scores and analysis
-     */
     ConfidenceResult detectConfidence(
         const std::string& text,
         const std::vector<TokenConfidence>& token_confidences = {}
     );
     
-    /**
-     * @brief Detect confidence with conversation context
-     * @param text Generated text to analyze
-     * @param query Original user query
-     * @param context Conversation history
-     * @param token_confidences Optional token-level confidence data
-     * @return Confidence result with context-aware analysis
-     */
     ConfidenceResult detectConfidenceWithContext(
         const std::string& text,
         const std::string& query,
@@ -144,89 +110,74 @@ public:
         const std::vector<TokenConfidence>& token_confidences = {}
     );
     
-    // ═══════════════════════════════════════════════════════════
-    // Individual dimension evaluation
-    // ═══════════════════════════════════════════════════════════
-    
     /**
-     * @brief Evaluate technical confidence (entropy-based)
-     * @param text Generated text
-     * @param token_confidences Token-level confidence data
-     * @return Technical confidence score (0-1)
+     * @brief ═══════════════════════════════════════════════════════════ Individual dimension evaluation ═══════════════════════════════════════════════════════════
+     * @param[in] text Input parameter.
+     * @param[in] token_confidences Input parameter.
+     * @return Return value.
      */
+    
     float evaluateTechnicalConfidence(
         const std::string& text,
         const std::vector<TokenConfidence>& token_confidences
     );
     
-    /**
-     * @brief Evaluate autonomy respect (patronizing language detection)
-     * @param text Generated text
-     * @param query Optional user query for context
-     * @return Autonomy respect score (0-1)
-     */
     float evaluateAutonomyRespect(
         const std::string& text,
         const std::string& query = ""
     );
     
     /**
-     * @brief Evaluate transparency (uncertainty acknowledgment)
-     * @param text Generated text
-     * @return Transparency score (0-1)
+     * @brief Evaluate Transparency.
+     * @param[in] text Input parameter.
+     * @return Return value.
      */
     float evaluateTransparency(const std::string& text);
     
-    // ═══════════════════════════════════════════════════════════
-    // Pattern detection
-    // ═══════════════════════════════════════════════════════════
-    
     /**
-     * @brief Detect patronizing language patterns
-     * @param text Text to analyze
-     * @return Vector of detected patronizing phrases
+     * @brief ═══════════════════════════════════════════════════════════ Pattern detection ═══════════════════════════════════════════════════════════
+     * @param[in] text Input parameter.
+     * @return Return value.
      */
+    
     std::vector<std::string> detectPatronizingLanguage(const std::string& text);
     
     /**
-     * @brief Detect imperative commands
-     * @param text Text to analyze
-     * @return Vector of detected imperative phrases
+     * @brief Detect Imperatives.
+     * @param[in] text Input parameter.
+     * @return Return value.
      */
     std::vector<std::string> detectImperatives(const std::string& text);
     
     /**
-     * @brief Detect uncertainty acknowledgment
-     * @param text Text to analyze
-     * @return Vector of detected hedge words/phrases
+     * @brief Detect Uncertainty Acknowledgment.
+     * @param[in] text Input parameter.
+     * @return Return value.
      */
     std::vector<std::string> detectUncertaintyAcknowledgment(const std::string& text);
     
     /**
-     * @brief Check if text preserves human choice
-     * @param text Text to analyze
-     * @return true if human agency is preserved
+     * @brief Check Choice Preservation.
+     * @param[in] text Input parameter.
+     * @return True when the operation succeeds.
      */
     bool checkChoicePreservation(const std::string& text);
     
-    // ═══════════════════════════════════════════════════════════
-    // Configuration
-    // ═══════════════════════════════════════════════════════════
-    
     /**
-     * @brief Update configuration
-     * @param config New configuration
+     * @brief ═══════════════════════════════════════════════════════════ Configuration ═══════════════════════════════════════════════════════════
+     * @param[in] config Input parameter.
      */
+    
     void setConfig(const EthicsAwareConfidenceConfig& config);
     
     /**
-     * @brief Get current configuration
-     * @return Current configuration
+     * @brief Get Config.
+     * @return Return value.
      */
     EthicsAwareConfidenceConfig getConfig() const;
     
     /**
-     * @brief Clear detection cache
+     * @brief Clear Cache.
      */
     void clearCache();
     
@@ -234,9 +185,6 @@ public:
     // Statistics
     // ═══════════════════════════════════════════════════════════
     
-    /**
-     * @brief Statistics for monitoring
-     */
     struct Statistics {
         uint64_t total_detections = 0;
         uint64_t patronizing_detected = 0;
@@ -252,13 +200,13 @@ public:
     };
     
     /**
-     * @brief Get statistics
-     * @return Current statistics
+     * @brief Return access control statistics.
+     * @return Access control statistics.
      */
     Statistics getStatistics() const;
     
     /**
-     * @brief Reset statistics
+     * @brief Reset Statistics.
      */
     void resetStatistics();
 
@@ -267,46 +215,103 @@ private:
     std::unique_ptr<Impl> impl_;
     
     // Pattern matching helpers
+    /**
+     * @brief Contains Pattern.
+     * @param[in] text Input parameter.
+     * @param[in] patterns Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool containsPattern(const std::string& text, const std::vector<std::string>& patterns);
+    /**
+     * @brief Count Pattern Matches.
+     * @param[in] text Input parameter.
+     * @param[in] patterns Input parameter.
+     * @return Return value.
+     */
     int countPatternMatches(const std::string& text, const std::vector<std::string>& patterns);
+    /**
+     * @brief To Lower Case.
+     * @param[in] text Input parameter.
+     * @return Return value.
+     */
     std::string toLowerCase(const std::string& text);
     
     // Entropy calculation
+    /**
+     * @brief Calculate Token Entropy.
+     * @param[in] tokens Input parameter.
+     * @return Return value.
+     */
     float calculateTokenEntropy(const std::vector<TokenConfidence>& tokens);
+    /**
+     * @brief Calculate Perplexity.
+     * @param[in] tokens Input parameter.
+     * @return Return value.
+     */
     float calculatePerplexity(const std::vector<TokenConfidence>& tokens);
     
     // Scoring helpers
+    /**
+     * @brief Combine Scores.
+     * @param[in] technical Input parameter.
+     * @param[in] autonomy Input parameter.
+     * @param[in] transparency Input parameter.
+     * @return Return value.
+     */
     float combineScores(float technical, float autonomy, float transparency);
+    /**
+     * @brief Generate Reasoning.
+     * @param[in] result Input parameter.
+     * @return Return value.
+     */
     std::string generateReasoning(const ConfidenceResult& result);
     
     // Cache management
+    /**
+     * @brief Generate Cache Key.
+     * @param[in] text Input parameter.
+     * @return Return value.
+     */
     std::string generateCacheKey(const std::string& text);
+    /**
+     * @brief Get Cached Result.
+     * @param[in] key Input parameter.
+     * @param[in,out] result Input/output parameter.
+     * @return True when the operation succeeds.
+     */
     bool getCachedResult(const std::string& key, ConfidenceResult& result);
+    /**
+     * @brief Cache Result.
+     * @param[in] key Input parameter.
+     * @param[in] result Input parameter.
+     */
     void cacheResult(const std::string& key, const ConfidenceResult& result);
 };
 
-/**
- * @brief Factory for creating confidence detectors
- */
 class ConfidenceDetectorFactory {
 public:
     /**
-     * @brief Create detector with default configuration
+     * @brief Create Default.
+     * @return Return value.
      */
     static std::unique_ptr<EthicsAwareConfidenceDetector> createDefault();
     
     /**
-     * @brief Create detector with strict thresholds
+     * @brief Create Strict.
+     * @return Return value.
      */
     static std::unique_ptr<EthicsAwareConfidenceDetector> createStrict();
     
     /**
-     * @brief Create detector with lenient thresholds
+     * @brief Create Lenient.
+     * @return Return value.
      */
     static std::unique_ptr<EthicsAwareConfidenceDetector> createLenient();
     
     /**
-     * @brief Create detector with custom configuration
+     * @brief Create.
+     * @param[in] config Input parameter.
+     * @return Return value.
      */
     static std::unique_ptr<EthicsAwareConfidenceDetector> create(
         const EthicsAwareConfidenceConfig& config

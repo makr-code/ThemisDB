@@ -40,7 +40,15 @@ using json = nlohmann::json;
 namespace {
 
 #ifdef THEMIS_ENABLE_CURL
-/// libcurl write callback – discards the response body.
+/**
+ * @brief Curl Null Sink.
+ * @param[in,out] param Input/output parameter.
+ * @param[in] size_t Input parameter.
+ * @param[in] nmemb Input parameter.
+ * @param[in,out] param Input/output parameter.
+ * @return Return value.
+ * @details Implements curlNullSink without additional internal calls.
+ */
 static std::size_t curlNullSink(char* /*buf*/, std::size_t /*size*/,
                                  std::size_t nmemb, void* /*userp*/) {
     return nmemb;
@@ -48,10 +56,11 @@ static std::size_t curlNullSink(char* /*buf*/, std::size_t /*size*/,
 #endif // THEMIS_ENABLE_CURL
 
 /**
- * @brief Post @p body as JSON to @p url.
- *
- * When THEMIS_ENABLE_CURL is defined this uses libcurl; otherwise it
- * logs a warning and returns false.
+ * @brief Default Http Post.
+ * @param[in] url Input parameter.
+ * @param[in] body Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: curl_easy_init(), LOG_ERROR(), curl_slist_append(), curl_easy_setopt(), c_str(), size(), curl_easy_perform(), curl_easy_getinfo().
  */
 bool defaultHttpPost(const std::string& url, const std::string& body) {
 #ifdef THEMIS_ENABLE_CURL
@@ -113,6 +122,11 @@ NotificationWebhook::NotificationWebhook()
 // Configuration
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Set Slack Config.
+ * @param[in] cfg Input parameter.
+ * @details Calls: empty(), LOG_WARN().
+ */
 void NotificationWebhook::setSlackConfig(const SlackConfig& cfg) {
     if (cfg.webhook_url.empty()) {
         LOG_WARN("NotificationWebhook::setSlackConfig: webhook_url is empty "
@@ -124,6 +138,11 @@ void NotificationWebhook::setSlackConfig(const SlackConfig& cfg) {
     slack_enabled_ = true;
 }
 
+/**
+ * @brief Set Pager Duty Config.
+ * @param[in] cfg Input parameter.
+ * @details Calls: empty(), LOG_WARN().
+ */
 void NotificationWebhook::setPagerDutyConfig(const PagerDutyConfig& cfg) {
     if (cfg.routing_key.empty()) {
         LOG_WARN("NotificationWebhook::setPagerDutyConfig: routing_key is "
@@ -135,6 +154,12 @@ void NotificationWebhook::setPagerDutyConfig(const PagerDutyConfig& cfg) {
     pagerduty_enabled_ = true;
 }
 
+/**
+ * @brief Set Http Sender.
+ * @param[in] fn Input parameter.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: std::move().
+ */
 void NotificationWebhook::setHttpSender(HttpSendFunc fn) {
     if (!fn) {
         throw std::invalid_argument(
@@ -354,7 +379,11 @@ std::string NotificationWebhook::pagerDutySeverity([[maybe_unused]] UpdateEvent 
     return "error";
 }
 
-/*static*/
+/**
+ * @brief static
+ * @param[in] tp Input parameter.
+ * @return Return value.
+ */
 std::string NotificationWebhook::toISO8601(
     std::chrono::system_clock::time_point tp)
 {

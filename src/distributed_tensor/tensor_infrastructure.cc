@@ -77,6 +77,10 @@ std::optional<ClusterNode> DefaultTensorInfrastructureManager::get_node(
   return std::nullopt;
 }
 
+/**
+ * @brief List nodes.
+ * @return Return value.
+ */
 std::vector<ClusterNode> DefaultTensorInfrastructureManager::list_nodes()
     const noexcept {
   std::vector<ClusterNode> all_nodes = {};

@@ -67,6 +67,13 @@ EthicsEvaluator::evaluateDecision(const EthicalDecision &decision, const std::ve
     return result;
 }
 
+/**
+ * @brief Evaluate Decision Quality.
+ * @param[in] decision Input parameter.
+ * @param[in] arguments Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), std::min(), size().
+ */
 double EthicsEvaluator::evaluateDecisionQuality(const EthicalDecision &decision,
                                                 const std::vector<EthicalArgument> &arguments) {
     double score = 0.5; // Base score
@@ -86,6 +93,13 @@ double EthicsEvaluator::evaluateDecisionQuality(const EthicalDecision &decision,
     return std::min(score, 1.0);
 }
 
+/**
+ * @brief Evaluate Consistency.
+ * @param[in] decision Input parameter.
+ * @param[in] arguments Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), size(), std::min().
+ */
 double EthicsEvaluator::evaluateConsistency(const EthicalDecision &decision,
                                             const std::vector<EthicalArgument> &arguments) {
     double score = 0.6; // Base score
@@ -107,6 +121,13 @@ double EthicsEvaluator::evaluateConsistency(const EthicalDecision &decision,
     return std::min(score, 1.0);
 }
 
+/**
+ * @brief Evaluate Fairness.
+ * @param[in] decision Input parameter.
+ * @param[in] arguments Input parameter.
+ * @return Return value.
+ * @details Calls: size(), empty(), insert(), std::min().
+ */
 double EthicsEvaluator::evaluateFairness(const EthicalDecision &decision,
                                          const std::vector<EthicalArgument> &arguments) {
     double score = 0.65; // Base score
@@ -131,6 +152,13 @@ double EthicsEvaluator::evaluateFairness(const EthicalDecision &decision,
     return std::min(score, 1.0);
 }
 
+/**
+ * @brief Evaluate Alignment.
+ * @param[in] decision Input parameter.
+ * @param[in] arguments Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), size(), std::min().
+ */
 double EthicsEvaluator::evaluateAlignment(const EthicalDecision &decision,
                                           const std::vector<EthicalArgument> &arguments) {
     double score = 0.6; // Base score
@@ -181,6 +209,12 @@ double EthicsEvaluator::evaluateTransparency(const EthicalDecision &decision,
 // Static scoring helpers
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Strength To Score.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Implements strengthToScore without additional internal calls.
+ */
 static double strengthToScore(ArgumentStrength s) {
     switch (s) {
         case ArgumentStrength::WEAK:
@@ -196,6 +230,12 @@ static double strengthToScore(ArgumentStrength s) {
     }
 }
 
+/**
+ * @brief Compute Confidence.
+ * @param[in] arguments Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), strengthToScore(), size().
+ */
 double EthicsEvaluator::computeConfidence(const std::vector<EthicalArgument> &arguments) {
     if (arguments.empty()) {
         return 0.5;
@@ -208,6 +248,12 @@ double EthicsEvaluator::computeConfidence(const std::vector<EthicalArgument> &ar
     return sum / static_cast<double>(arguments.size());
 }
 
+/**
+ * @brief Compute Consensus.
+ * @param[in] arguments Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), size().
+ */
 double EthicsEvaluator::computeConsensus(const std::vector<EthicalArgument> &arguments) {
     if (arguments.empty()) {
         return 1.0;
@@ -256,6 +302,13 @@ double EthicsEvaluator::computeConsensus(const std::vector<EthicalArgument> &arg
 // Prometheus Metrics
 // ============================================================================
 
+/**
+ * @brief Record Decision.
+ * @param[in] confidence Input parameter.
+ * @param[in] rag_hit Input parameter.
+ * @param[in] latency_ms Input parameter.
+ * @details Implements recordDecision without additional internal calls.
+ */
 void EthicsEvaluator::recordDecision(double confidence, bool rag_hit, uint64_t latency_ms) {
     ++decisions_total_;
     latency_ms_total_ += latency_ms;

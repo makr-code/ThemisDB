@@ -17,12 +17,6 @@
 namespace themis {
 namespace server {
 
-/**
- * @brief Construct SSE manager with explicit connection policy.
- * @param changefeed Changefeed source.
- * @param ioc io_context for timer scheduling.
- * @param config Runtime connection policy.
- */
 SseConnectionManager::SseConnectionManager(
     std::shared_ptr<Changefeed> changefeed,
     boost::asio::io_context& ioc,
@@ -44,28 +38,23 @@ SseConnectionManager::SseConnectionManager(
     );
 }
 
-/**
- * @brief Construct SSE manager with default connection policy.
- * @param changefeed Changefeed source.
- * @param ioc io_context for timer scheduling.
- */
 SseConnectionManager::SseConnectionManager(
     std::shared_ptr<Changefeed> changefeed,
     boost::asio::io_context& ioc
 )
     : SseConnectionManager(std::move(changefeed), ioc, ConnectionConfig{}) {}
 
-/** @brief Destructor; calls shutdown(). */
 SseConnectionManager::~SseConnectionManager() {
     shutdown();
 }
 
 /**
- * @brief Register a client connection for SSE event streaming.
- * @param from_seq Initial sequence cursor for replay.
- * @param key_prefix Optional key prefix filter.
- * @param event_types Optional event-type filter set.
- * @return Unique connection id.
+ * @brief Register Connection.
+ * @param[in] from_seq Input parameter.
+ * @param[in] key_prefix Input parameter.
+ * @param[in] event_types Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), std::chrono::steady_clock::now(), THEMIS_INFO(), size(), backgroundPollTask().
  */
 uint64_t SseConnectionManager::registerConnection(
     uint64_t from_seq,
@@ -109,8 +98,9 @@ uint64_t SseConnectionManager::registerConnection(
 }
 
 /**
- * @brief Unregister and deactivate a client connection.
- * @param conn_id Connection id.
+ * @brief Unregister Connection.
+ * @param[in] conn_id Identifier of the conn.
+ * @details Calls: lock(), extract(), empty(), mapped(), store(), THEMIS_INFO(), unlock(), timer_lock().
  */
 void SseConnectionManager::unregisterConnection(uint64_t conn_id) {
     bool stop_polling = false;
@@ -142,10 +132,11 @@ void SseConnectionManager::unregisterConnection(uint64_t conn_id) {
 }
 
 /**
- * @brief Drain formatted SSE events for a connection.
- * @param conn_id Connection id.
- * @param max_events Maximum events to return.
- * @return Vector of SSE formatted event lines.
+ * @brief Poll Events.
+ * @param[in] conn_id Identifier of the conn.
+ * @param[in] max_events Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), find(), end(), load(), std::chrono::steady_clock::now(), count(), std::min(), size().
  */
 std::vector<std::string> SseConnectionManager::pollEvents(
     uint64_t conn_id,
@@ -217,10 +208,11 @@ std::vector<std::string> SseConnectionManager::pollEvents(
 }
 
 /**
- * @brief Drain raw changefeed events for at-least-once delivery tracking.
- * @param conn_id Connection id.
- * @param max_events Maximum events to return.
- * @return Raw change events in ascending sequence order.
+ * @brief Poll Raw Events.
+ * @param[in] conn_id Identifier of the conn.
+ * @param[in] max_events Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), find(), end(), load(), std::chrono::steady_clock::now(), count(), std::min(), size().
  */
 std::vector<Changefeed::ChangeEvent> SseConnectionManager::pollRawEvents(
     uint64_t conn_id,
@@ -283,12 +275,12 @@ std::vector<Changefeed::ChangeEvent> SseConnectionManager::pollRawEvents(
     return raw_events;
 }
 
-/**
- * @brief Determine whether a heartbeat should be sent now.
- * @param conn_id Connection id.
- * @return true when heartbeat interval elapsed.
- */
 bool SseConnectionManager::needsHeartbeat(uint64_t conn_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] connections_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(connections_mutex_);
 
     auto it = connections_.find(conn_id);
@@ -304,8 +296,9 @@ bool SseConnectionManager::needsHeartbeat(uint64_t conn_id) const {
 }
 
 /**
- * @brief Record heartbeat emission timestamp for a connection.
- * @param conn_id Connection id.
+ * @brief Record Heartbeat.
+ * @param[in] conn_id Identifier of the conn.
+ * @details Calls: lock(), find(), end(), std::chrono::steady_clock::now().
  */
 void SseConnectionManager::recordHeartbeat(uint64_t conn_id) {
     std::unique_lock<std::shared_mutex> lock(connections_mutex_);
@@ -317,11 +310,12 @@ void SseConnectionManager::recordHeartbeat(uint64_t conn_id) {
     }
 }
 
-/**
- * @brief Get manager-level cumulative statistics.
- * @return Statistics snapshot.
- */
 SseConnectionManager::ConnectionStats SseConnectionManager::getStats() const {
+    /**
+     * @brief Lock.
+     * @param[in] connections_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(connections_mutex_);
     
     ConnectionStats s{};
@@ -334,7 +328,8 @@ SseConnectionManager::ConnectionStats SseConnectionManager::getStats() const {
 }
 
 /**
- * @brief Stop polling and tear down all active connections.
+ * @brief Shutdown.
+ * @details Calls: THEMIS_INFO(), lock(), store(), clear(), unlock(), timer_lock(), cancel(), reset().
  */
 void SseConnectionManager::shutdown() {
     THEMIS_INFO("SSE Connection Manager shutting down...");
@@ -363,7 +358,8 @@ void SseConnectionManager::shutdown() {
 }
 
 /**
- * @brief Background poll loop scheduled via timer to fill connection buffers.
+ * @brief Background Poll Task.
+ * @details Calls: THEMIS_WARN(), lock(), reserve(), size(), load(), push_back(), empty(), listEvents().
  */
 void SseConnectionManager::backgroundPollTask() {
     if (!running_) {

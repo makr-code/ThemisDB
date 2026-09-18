@@ -26,72 +26,6 @@ namespace themis {
 namespace query {
 namespace functions {
 
-/**
- * @brief Graph Traversal and Analysis Functions for AQL
- * 
- * Provides graph algorithms commonly used in:
- * - Social network analysis
- * - Knowledge graphs
- * - Recommendation systems
- * - Process mining
- * - Dependency analysis
- * 
- * Sources:
- * - Query Language Inspiration: ArangoDB AQL (Arango Query Language)
- * - Repository: https://github.com/arangodb/arangodb
- * - License: Apache 2.0
- * - Documentation: https://www.arangodb.com/docs/stable/aql/graphs.html
- * - ThemisDB Implementation: Custom graph functions with AQL-compatible syntax
- *   - Integrated with ThemisDB's graph index
- *   - ACID transaction support
- *   - Optimized for RocksDB storage backend
- * 
- * ## Algorithms Implemented
- * - Shortest Path: Dijkstra's algorithm
- * - PageRank: Google's PageRank algorithm (Page et al., 1999)
- * - Connected Components: Union-Find algorithm
- * - Betweenness Centrality: Brandes' algorithm (2001)
- * 
- * ## Supported Operations
- * 
- * ### Traversal
- * - OUTBOUND, INBOUND, ANY - Edge direction specifiers
- * - SHORTEST_PATH - Find shortest path between nodes
- * - ALL_SHORTEST_PATHS - Find all shortest paths
- * - GRAPH_PATHS - Find all paths with constraints
- * - K_SHORTEST_PATHS - Find k shortest paths
- * 
- * ### Analysis
- * - GRAPH_NEIGHBORS - Get immediate neighbors
- * - GRAPH_DISTANCE - Distance between nodes
- * - GRAPH_CONNECTED - Check if nodes are connected
- * - GRAPH_DEGREE - Node degree (in, out, or total)
- * 
- * ### Centrality
- * - PAGERANK - PageRank algorithm
- * - BETWEENNESS_CENTRALITY - Betweenness centrality
- * - CLOSENESS_CENTRALITY - Closeness centrality
- * - DEGREE_CENTRALITY - Degree centrality
- * 
- * ### Community
- * - CONNECTED_COMPONENTS - Find connected components
- * - STRONGLY_CONNECTED_COMPONENTS - Find SCCs
- * - CLUSTERING_COEFFICIENT - Local/global clustering
- * 
- * ### Utility
- * - IS_EDGE - Check if document is an edge
- * - IS_VERTEX - Check if document is a vertex
- * - PARSE_IDENTIFIER - Parse _id into collection and key
- * 
- * ## Edge Document Format
- * Edges have special fields:
- * - _from: Source vertex ID ("collection/key")
- * - _to: Target vertex ID ("collection/key")
- * - _type: Optional edge type
- * 
- * ## ArangoDB Compatibility
- * Compatible with ArangoDB's graph functions
- */
 
 // ============================================================================
 // Helper Types and Functions
@@ -116,9 +50,9 @@ inline std::pair<std::string, std::string> parseIdentifier(const std::string& id
 }
 
 /**
- * @brief Check if a document is an edge (has _from and _to)
+ * @brief Is Edge.
  * @param[in] doc Input parameter.
- * @return True on success.
+ * @return True when the operation succeeds.
  * @details Calls: is_object(), contains().
  */
 inline bool isEdge(const nlohmann::json& doc) {
@@ -126,9 +60,9 @@ inline bool isEdge(const nlohmann::json& doc) {
 }
 
 /**
- * @brief Check if a document is a vertex (has _id but not _from/_to)
+ * @brief Is Vertex.
  * @param[in] doc Input parameter.
- * @return True on success.
+ * @return True when the operation succeeds.
  * @details Calls: is_object(), contains().
  */
 inline bool isVertex(const nlohmann::json& doc) {
@@ -136,7 +70,7 @@ inline bool isVertex(const nlohmann::json& doc) {
 }
 
 /**
- * @brief Get the vertex ID (works for both vertices and edges)
+ * @brief Get Vertex Id.
  * @param[in] doc Input parameter.
  * @return Return value.
  * @throws std::runtime_error if an error occurs.
@@ -153,7 +87,6 @@ inline std::string getVertexId(const nlohmann::json& doc) {
 }
 
 // Simple graph representation for algorithms
-/** @brief Simple graph representation for algorithms. */
 class SimpleGraph {
 public:
     void addEdge(const std::string& from, const std::string& to, double weight = 1.0) {
@@ -209,7 +142,7 @@ private:
 };
 
 /**
- * @brief Build graph from edge documents
+ * @brief Build Graph.
  * @param[in] edges Input parameter.
  * @return Return value.
  * @details Calls: isEdge(), contains(), addEdge().
@@ -233,9 +166,6 @@ inline SimpleGraph buildGraph(const nlohmann::json& edges) {
 // Utility Functions
 // ============================================================================
 
-/**
- * @brief IS_EDGE(doc) - Check if document is an edge
- */
 class IsEdgeFunction : public IFunction {
 public:
     ~IsEdgeFunction() override = default;
@@ -260,9 +190,6 @@ public:
     }
 };
 
-/**
- * @brief IS_VERTEX(doc) - Check if document is a vertex
- */
 class IsVertexFunction : public IFunction {
 public:
     ~IsVertexFunction() override = default;
@@ -287,9 +214,6 @@ public:
     }
 };
 
-/**
- * @brief PARSE_IDENTIFIER(id) - Parse _id into collection and key
- */
 class ParseIdentifierFunction : public IFunction {
 public:
     ~ParseIdentifierFunction() override = default;
@@ -324,9 +248,6 @@ public:
 // Degree Functions
 // ============================================================================
 
-/**
- * @brief GRAPH_DEGREE(vertex, edges, direction) - Calculate vertex degree
- */
 class GraphDegreeFunction : public IFunction {
 public:
     ~GraphDegreeFunction() override = default;
@@ -371,9 +292,6 @@ public:
 // Neighbor Functions
 // ============================================================================
 
-/**
- * @brief GRAPH_NEIGHBORS(vertex, edges, direction, depth) - Get neighbors
- */
 class GraphNeighborsFunction : public IFunction {
 public:
     ~GraphNeighborsFunction() override = default;
@@ -451,9 +369,6 @@ public:
 // Path Functions
 // ============================================================================
 
-/**
- * @brief SHORTEST_PATH(start, end, edges, direction) - Find shortest path
- */
 class ShortestPathFunction : public IFunction {
 public:
     ~ShortestPathFunction() override = default;
@@ -563,9 +478,6 @@ public:
     }
 };
 
-/**
- * @brief GRAPH_DISTANCE(start, end, edges, direction) - Distance between vertices
- */
 class GraphDistanceFunction : public IFunction {
 public:
     ~GraphDistanceFunction() override = default;
@@ -596,9 +508,6 @@ public:
     }
 };
 
-/**
- * @brief GRAPH_CONNECTED(start, end, edges, direction) - Check connectivity
- */
 class GraphConnectedFunction : public IFunction {
 public:
     ~GraphConnectedFunction() override = default;
@@ -632,9 +541,6 @@ public:
 // Centrality Functions
 // ============================================================================
 
-/**
- * @brief DEGREE_CENTRALITY(vertex, edges, direction) - Degree centrality
- */
 class DegreeCentralityFunction : public IFunction {
 public:
     ~DegreeCentralityFunction() override = default;
@@ -681,22 +587,6 @@ public:
     }
 };
 
-/**
- * @brief PAGERANK(edges, damping, iterations, options) - PageRank algorithm
- * 
- * Computes PageRank scores for all vertices in a graph. Returns structured
- * results with node rankings, degrees, and importance scores.
- * 
- * @param edges Array of edge documents with _from and _to fields
- * @param damping Damping factor (default 0.85) - probability of following edges
- * @param iterations Maximum iterations (default 20)
- * @param options Optional configuration:
- *   - format: "detailed" returns array with degrees, "simple" returns object (default: "detailed")
- *   - epsilon: Convergence threshold (default: 1e-6)
- * 
- * @returns Detailed format: Array of {node_id, rank, in_degree, out_degree} sorted by rank
- *          Simple format: Object mapping node_id -> rank
- */
 class PageRankFunction : public IFunction {
 public:
     ~PageRankFunction() override = default;
@@ -837,9 +727,6 @@ public:
 // Component Functions
 // ============================================================================
 
-/**
- * @brief CONNECTED_COMPONENTS(edges) - Find connected components
- */
 class ConnectedComponentsFunction : public IFunction {
 public:
     ~ConnectedComponentsFunction() override = default;
@@ -904,9 +791,6 @@ public:
     }
 };
 
-/**
- * @brief CLUSTERING_COEFFICIENT(vertex, edges) - Local clustering coefficient
- */
 class ClusteringCoefficientFunction : public IFunction {
 public:
     ~ClusteringCoefficientFunction() override = default;
@@ -965,9 +849,6 @@ public:
 // Traversal Helper Functions
 // ============================================================================
 
-/**
- * @brief EDGES(vertex, edges, direction) - Get edges connected to vertex
- */
 class EdgesFunction : public IFunction {
 public:
     ~EdgesFunction() override = default;
@@ -1022,9 +903,6 @@ public:
     }
 };
 
-/**
- * @brief VERTICES(path) - Extract vertices from a path result
- */
 class VerticesFunction : public IFunction {
 public:
     ~VerticesFunction() override = default;
@@ -1065,25 +943,6 @@ public:
 // Community Detection Functions
 // ============================================================================
 
-/**
- * @brief LOUVAIN_COMMUNITIES(edges, min_modularity_gain) - Louvain community detection
- * 
- * Detects communities using the Louvain algorithm (greedy modularity optimization).
- * Returns a mapping of vertex ID to community ID.
- * 
- * @note This implementation uses a simplified modularity heuristic for performance.
- * Instead of the full Louvain modularity calculation Q = (e_in/m) - (k_total/(2m))^2,
- * we use a greedy heuristic that maximizes edge density within communities. This provides
- * similar community structure detection with reduced computational overhead, suitable for
- * real-time AQL queries. For strict modularity optimization, consider using the
- * GraphAnalytics::louvainCommunities method directly with full graph indexing.
- * 
- * Sources:
- * - Algorithm: "Fast unfolding of communities in large networks" (Blondel et al., 2008)
- * - Implementation adapted from ThemisDB's GraphAnalytics::louvainCommunities
- * - Repository: https://github.com/makr-code/ThemisDB
- * - License: Apache 2.0
- */
 class LouvainCommunitiesFunction : public IFunction {
 private:
     static constexpr int MAX_LOUVAIN_ITERATIONS = 100;  // Prevent infinite loops
@@ -1223,18 +1082,6 @@ public:
     }
 };
 
-/**
- * @brief LABEL_PROPAGATION_COMMUNITIES(edges, max_iterations) - Label propagation community detection
- * 
- * Fast community detection using label propagation algorithm.
- * Each node iteratively adopts the most frequent label among its neighbors.
- * 
- * Sources:
- * - Algorithm: "Near linear time algorithm to detect community structures" (Raghavan et al., 2007)
- * - Implementation adapted from ThemisDB's GraphAnalytics::labelPropagationCommunities
- * - Repository: https://github.com/makr-code/ThemisDB
- * - License: Apache 2.0
- */
 class LabelPropagationCommunitiesFunction : public IFunction {
 public:
     ~LabelPropagationCommunitiesFunction() override = default;
@@ -1340,7 +1187,7 @@ public:
 // ============================================================================
 
 /**
- * @brief Register all Graph functions with the registry
+ * @brief Register Graph Functions.
  * @param[in,out] registry Input/output parameter.
  * @details Calls: registerFunction().
  */

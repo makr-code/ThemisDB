@@ -47,6 +47,12 @@ EthicalGuidelinesManager::EthicalGuidelinesManager(const std::string& config_pat
 }
 
 
+/**
+ * @brief Load Config.
+ * @param[in] config_path Path to the retention policy configuration file.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), YAML::LoadFile(), LogError(), clear(), push_back(), LogInfo(), size(), what().
+ */
 bool EthicalGuidelinesManager::loadConfig(const std::string& config_path) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -206,15 +212,30 @@ bool EthicalGuidelinesManager::loadConfig(const std::string& config_path) {
     }
 }
 
+/**
+ * @brief Reload Config.
+ * @return True when the operation succeeds.
+ * @details Calls: loadConfig().
+ */
 bool EthicalGuidelinesManager::reloadConfig() {
     return loadConfig(config_path_);
 }
 
+/**
+ * @brief Set Config.
+ * @param[in] config Input parameter.
+ * @details Calls: lock().
+ */
 void EthicalGuidelinesManager::setConfig(const Config& config) {
     std::lock_guard<std::mutex> lock(mutex_);
     config_ = config;
 }
 
+/**
+ * @brief Set Enabled.
+ * @param[in] enabled Input parameter.
+ * @details Calls: lock().
+ */
 void EthicalGuidelinesManager::setEnabled(bool enabled) {
     std::lock_guard<std::mutex> lock(mutex_);
     config_.enabled = enabled;
@@ -225,6 +246,11 @@ EthicalGuidelinesManager::detectEthicalContext(
     const std::string& text,
     const std::string& language) {
     
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     if (!config_.enabled) {
@@ -358,6 +384,13 @@ EthicalGuidelinesManager::detectEthicalContextInRAG(
     return result;
 }
 
+/**
+ * @brief Augment Prompt.
+ * @param[in] original_prompt Input parameter.
+ * @param[in] detection_result Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), getAugmentationTemplate(), LogWarning(), LogError(), str().
+ */
 std::string EthicalGuidelinesManager::augmentPrompt(
     const std::string& original_prompt,
     const DetectionResult& detection_result) {
@@ -401,6 +434,13 @@ std::string EthicalGuidelinesManager::augmentPrompt(
     return ss.str();
 }
 
+/**
+ * @brief Augment Response.
+ * @param[in] response Input parameter.
+ * @param[in] detection_result Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), getAugmentationTemplate(), empty().
+ */
 std::string EthicalGuidelinesManager::augmentResponse(
     const std::string& response,
     const DetectionResult& detection_result) {
@@ -552,10 +592,19 @@ void EthicalGuidelinesManager::logDetection(const DetectionResult& result, const
 }
 
 EthicalGuidelinesManager::Statistics EthicalGuidelinesManager::getStatistics() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return statistics_;
 }
 
+/**
+ * @brief Reset Statistics.
+ * @details Calls: lock().
+ */
 void EthicalGuidelinesManager::resetStatistics() {
     std::lock_guard<std::mutex> lock(mutex_);
     statistics_ = Statistics{};
@@ -664,9 +713,13 @@ Analyze the above text and context. Respond in JSON format:
     return result;
 }
 
-// ═══════════════════════════════════════════════════════════
-// Plugin Integration API Implementation
-// ═══════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════ Plugin Integration API Implementation ═══════════════════════════════════════════════════════════
+ * @param[in] school_id Identifier of the school.
+ * @param[in] profile Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), empty(), LogWarning(), find(), end(), LogInfo().
+ */
 
 bool EthicalGuidelinesManager::registerPhilosophy(
     const std::string& school_id,
@@ -713,6 +766,11 @@ size_t EthicalGuidelinesManager::mergePhilosophies(
 }
 
 std::vector<std::string> EthicalGuidelinesManager::getRegisteredPhilosophies() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     std::vector<std::string> schools = {};

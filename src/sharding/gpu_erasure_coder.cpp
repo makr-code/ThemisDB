@@ -25,6 +25,12 @@ namespace sharding {
 
 // Forward declare platform-specific implementations
 #ifdef THEMIS_ENABLE_CUDA
+/**
+ * @brief Create CUDAErasure Coder.
+ * @param[in] config Input parameter.
+ * @param[in] algorithm Input parameter.
+ * @return Return value.
+ */
 std::unique_ptr<GPUErasureCoderImpl> createCUDAErasureCoder(
     const GPUConfig& config,
     ErasureCodingAlgorithm algorithm
@@ -32,6 +38,12 @@ std::unique_ptr<GPUErasureCoderImpl> createCUDAErasureCoder(
 #endif
 
 #ifdef THEMIS_ENABLE_OPENCL
+/**
+ * @brief Create Open CLErasure Coder.
+ * @param[in] config Input parameter.
+ * @param[in] algorithm Input parameter.
+ * @return Return value.
+ */
 std::unique_ptr<GPUErasureCoderImpl> createOpenCLErasureCoder(
     const GPUConfig& config,
     ErasureCodingAlgorithm algorithm
@@ -65,8 +77,11 @@ GPUErasureCoder::GPUErasureCoder(
 
 GPUErasureCoder::~GPUErasureCoder() = default;
 
-// Move semantics intentionally deleted (non-moveable due to mutable std::mutex stats_mutex_)
-// See header file for details
+/**
+ * @brief Move semantics intentionally deleted (non-moveable due to mutable std::mutex stats_mutex_) See header file for details
+ * @return True when the operation succeeds.
+ * @details Calls: spdlog::info(), defined(), spdlog::warn(), createCUDAErasureCoder(), createOpenCLErasureCoder(), spdlog::error(), initialize(), reset().
+ */
 
 bool GPUErasureCoder::initializeGPU() {
     // Auto-detect best available GPU backend
@@ -136,6 +151,14 @@ bool GPUErasureCoder::shouldUseGPU(size_t data_size) const {
     return data_size >= config_.min_size_for_gpu;
 }
 
+/**
+ * @brief Encode.
+ * @param[in] data Input parameter.
+ * @param[in] data_shards Input parameter.
+ * @param[in] parity_shards Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::high_resolution_clock::now(), shouldUseGPU(), size(), spdlog::warn(), what(), count(), lk().
+ */
 std::vector<std::vector<uint8_t>> GPUErasureCoder::encode(
     const std::vector<uint8_t>& data,
     uint32_t data_shards,
@@ -231,6 +254,11 @@ std::vector<uint8_t> GPUErasureCoder::decode(
 
     // Update stats under lock to prevent data races
     {
+        /**
+         * @brief Lk.
+         * @param[in] stats_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(stats_mutex_);
         stats_.total_decodes++;
         stats_.bytes_decoded += estimated_size;
@@ -253,6 +281,14 @@ std::vector<uint8_t> GPUErasureCoder::decode(
     return result;
 }
 
+/**
+ * @brief Batch Encode.
+ * @param[in] data_blocks Input parameter.
+ * @param[in] data_shards Input parameter.
+ * @param[in] parity_shards Input parameter.
+ * @return Return value.
+ * @details Calls: size(), shouldUseGPU(), spdlog::warn(), what(), lk(), reserve(), push_back(), encode().
+ */
 std::vector<std::vector<std::vector<uint8_t>>> GPUErasureCoder::batchEncode(
     const std::vector<std::vector<uint8_t>>& data_blocks,
     uint32_t data_shards,
@@ -297,6 +333,11 @@ AccelerationType GPUErasureCoder::getAccelerationType() const {
     return accel_type_;
 }
 
+/**
+ * @brief Force CPUFallback.
+ * @param[in] enable Input parameter.
+ * @details Calls: spdlog::info().
+ */
 void GPUErasureCoder::forceCPUFallback(bool enable) {
     force_cpu_ = enable;
     if (enable) {
@@ -304,14 +345,23 @@ void GPUErasureCoder::forceCPUFallback(bool enable) {
     }
 }
 
+/**
+ * @brief Reset Stats.
+ * @details Calls: lk().
+ */
 void GPUErasureCoder::resetStats() {
     std::lock_guard<std::mutex> lk(stats_mutex_);
     stats_ = PerformanceStats{};
 }
 
-// ═══════════════════════════════════════════════════════════
-// Factory Function
-// ═══════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════ Factory Function ═══════════════════════════════════════════════════════════
+ * @param[in] accel_type Input parameter.
+ * @param[in] config Input parameter.
+ * @param[in] algorithm Input parameter.
+ * @return Return value.
+ * @details Implements createGPUErasureCoder without additional internal calls.
+ */
 
 std::unique_ptr<ErasureCoder> createGPUErasureCoder(
     AccelerationType accel_type,

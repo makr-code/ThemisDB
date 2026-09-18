@@ -26,6 +26,10 @@ namespace storage {
 // Dependency injection
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Set Decision Record Processor.
+ * @param[in] processor Input parameter.
+ */
 void StorageLayoutAdvisor::setDecisionRecordProcessor(
     std::shared_ptr<themis::llm::DecisionRecordYamlProcessor> processor)
 {
@@ -77,6 +81,12 @@ bool StorageLayoutAdvisor::isTimeSeries(
 // Estimation helpers
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Estimate Compression Ratio.
+ * @param[in] layout Input parameter.
+ * @param[in] schema Input parameter.
+ * @return Return value.
+ */
 double StorageLayoutAdvisor::estimateCompressionRatio(
     LayoutType layout, const SchemaInfo& schema)
 {
@@ -119,6 +129,12 @@ double StorageLayoutAdvisor::estimateCompressionRatio(
     return 1.0;
 }
 
+/**
+ * @brief Estimate Query Speedup.
+ * @param[in] layout Input parameter.
+ * @param[in] stats Input parameter.
+ * @return Return value.
+ */
 double StorageLayoutAdvisor::estimateQuerySpeedup(
     LayoutType layout, const CollectionAccessStats& stats)
 {
@@ -141,6 +157,13 @@ double StorageLayoutAdvisor::estimateQuerySpeedup(
     return 1.0;
 }
 
+/**
+ * @brief Build Rationale.
+ * @param[in] layout Input parameter.
+ * @param[in] stats Input parameter.
+ * @param[in] gdpr_affected Input parameter.
+ * @return Return value.
+ */
 std::string StorageLayoutAdvisor::buildRationale(
     LayoutType layout,
     const CollectionAccessStats& stats,
@@ -276,6 +299,11 @@ StorageLayoutAdvisor::analyze(
 // layoutName
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Layout Name.
+ * @param[in] t Input parameter.
+ * @return Return value.
+ */
 std::string StorageLayoutAdvisor::layoutName(LayoutType t)
 {
     switch (t) {

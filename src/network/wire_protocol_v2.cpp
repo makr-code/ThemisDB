@@ -48,7 +48,6 @@ namespace {
 
 constexpr int kShutdownJoinTimeoutMs = 5000;
 
-/// @brief Join @p t within @p timeout_ms; log and detach on timeout.
 static void timedJoin(std::thread &t, int timeout_ms = kShutdownJoinTimeoutMs) noexcept {
     if (!t.joinable())
         return;
@@ -68,32 +67,82 @@ static void timedJoin(std::thread &t, int timeout_ms = kShutdownJoinTimeoutMs) n
 
 } // namespace
 
+/**
+ * @brief Htonl32.
+ * @param[in] v Input parameter.
+ * @return Return value.
+ * @details Calls: htonl().
+ */
 static uint32_t htonl32(uint32_t v) {
     return htonl(v);
 }
+/**
+ * @brief Ntohl32.
+ * @param[in] v Input parameter.
+ * @return Return value.
+ * @details Calls: ntohl().
+ */
 static uint32_t ntohl32(uint32_t v) {
     return ntohl(v);
 }
+/**
+ * @brief Htons16.
+ * @param[in] v Input parameter.
+ * @return Return value.
+ * @details Calls: htons().
+ */
 static uint16_t htons16(uint16_t v) {
     return htons(v);
 }
+/**
+ * @brief Ntohs16.
+ * @param[in] v Input parameter.
+ * @return Return value.
+ * @details Calls: ntohs().
+ */
 static uint16_t ntohs16(uint16_t v) {
     return ntohs(v);
 }
 
-// Bring compression utilities into this translation unit as thin wrappers.
+/**
+ * @brief Bring compression utilities into this translation unit as thin wrappers.
+ * @param[in] data Input parameter.
+ * @param[in] min_size Input parameter.
+ * @return Return value.
+ * @details Implements compressLZ4 without additional internal calls.
+ */
 static std::vector<uint8_t> compressLZ4(const std::vector<uint8_t> &data, uint32_t min_size) {
     return themis::network::compressLZ4(data, min_size);
 }
 
+/**
+ * @brief Compress Zstd.
+ * @param[in] data Input parameter.
+ * @param[in] min_size Input parameter.
+ * @param[in] level Input parameter.
+ * @return Return value.
+ * @details Implements compressZstd without additional internal calls.
+ */
 static std::vector<uint8_t> compressZstd(const std::vector<uint8_t> &data, uint32_t min_size, int level) {
     return themis::network::compressZstd(data, min_size, level);
 }
 
+/**
+ * @brief Decompress LZ4.
+ * @param[in] data Input parameter.
+ * @return Return value.
+ * @details Implements decompressLZ4 without additional internal calls.
+ */
 static std::vector<uint8_t> decompressLZ4(const std::vector<uint8_t> &data) {
     return themis::network::decompressLZ4(data);
 }
 
+/**
+ * @brief Decompress Zstd.
+ * @param[in] data Input parameter.
+ * @return Return value.
+ * @details Implements decompressZstd without additional internal calls.
+ */
 static std::vector<uint8_t> decompressZstd(const std::vector<uint8_t> &data) {
     return themis::network::decompressZstd(data);
 }
@@ -115,7 +164,12 @@ static std::array<uint8_t, V2_HEADER_SIZE> serializeHeader(const V2FrameHeader &
     return buf;
 }
 
-// Deserialise a V2FrameHeader from a 16-byte buffer
+/**
+ * @brief Deserialise a V2FrameHeader from a 16-byte buffer
+ * @param[in] buf Input parameter.
+ * @return Return value.
+ * @details Calls: std::memcpy(), ntohl32(), ntohs16().
+ */
 static V2FrameHeader parseHeader(const uint8_t *buf) {
     V2FrameHeader h{};
     uint32_t magic_be, sid_be, len_be;
@@ -139,7 +193,6 @@ static V2FrameHeader parseHeader(const uint8_t *buf) {
 // V2SessionImpl – concrete per-connection implementation
 // =============================================================================
 
-/** @brief V2SessionImpl – concrete per-connection implementation. */
 class V2SessionImpl : public V2Session {
   public:
     V2SessionImpl(tcp::socket socket, const V2ConnectionConfig &cfg, V2DataHandler data_handler,
@@ -157,6 +210,10 @@ class V2SessionImpl : public V2Session {
         return connection_id_;
     }
 
+    /**
+     * @brief Start.
+     * @details Calls: asyncReadHeader().
+     */
     void start() {
         asyncReadHeader();
     }
@@ -203,6 +260,11 @@ class V2SessionImpl : public V2Session {
         frame->insert(frame->end(), hdr_bytes.begin(), hdr_bytes.end());
         frame->insert(frame->end(), payload->begin(), payload->end());
 
+        /**
+         * @brief Lock.
+         * @param[in] write_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(write_mutex_);
         net::async_write(socket_, net::buffer(*frame), [this, frame](const boost::system::error_code &ec, size_t n) {
             if (!ec) {
@@ -257,6 +319,11 @@ class V2SessionImpl : public V2Session {
 
         sendFrame(std::move(frame));
 
+        /**
+         * @brief Sl.
+         * @param[in] streams_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> sl(streams_mutex_);
         auto it = streams_.find(stream_id);
         if (it != streams_.end())
@@ -281,12 +348,22 @@ class V2SessionImpl : public V2Session {
         p = reinterpret_cast<const uint8_t *>(&ec_be);
         frame->insert(frame->end(), p, p + 4);
 
+        /**
+         * @brief Lock.
+         * @param[in] write_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(write_mutex_);
         net::async_write(socket_, net::buffer(*frame),
                          [this, frame](const boost::system::error_code &, size_t) { socket_.close(); });
     }
 
     size_t open_stream_count() const override {
+        /**
+         * @brief Lock.
+         * @param[in] streams_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(streams_mutex_);
         size_t count = 0;
         for (const auto &[id, s] : streams_)
@@ -296,6 +373,11 @@ class V2SessionImpl : public V2Session {
     }
 
     int32_t send_window(uint32_t stream_id) const override {
+        /**
+         * @brief Lock.
+         * @param[in] streams_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(streams_mutex_);
         auto it = streams_.find(stream_id);
         return it != streams_.end() ? it->second.send_window : 0;
@@ -335,7 +417,11 @@ class V2SessionImpl : public V2Session {
         frame.push_back(weight);
         sendFrame(std::move(frame));
 
-        // Also update local stream metadata so callers can inspect priority.
+        /**
+         * @brief Also update local stream metadata so callers can inspect priority.
+         * @param[in] streams_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(streams_mutex_);
         auto &s = streams_[stream_id];
         if (s.state == V2StreamState::IDLE) {
@@ -361,7 +447,10 @@ class V2SessionImpl : public V2Session {
     }
 
   private:
-    // ── Async read pipeline ────────────────────────────────────────────────
+    /**
+     * @brief ── Async read pipeline ────────────────────────────────────────────────
+     * @details Calls: shared_from_this(), net::async_read(), net::buffer(), on_disconnect_(), parseHeader(), data(), is_valid(), go_away().
+     */
 
     void asyncReadHeader() {
         auto self = shared_from_this();
@@ -382,6 +471,11 @@ class V2SessionImpl : public V2Session {
         });
     }
 
+    /**
+     * @brief Async Read Payload.
+     * @param[in] hdr Input parameter.
+     * @details Calls: go_away(), shared_from_this(), net::async_read(), net::buffer(), on_disconnect_(), fetch_add(), handleFrame(), asyncReadHeader().
+     */
     void asyncReadPayload(const V2FrameHeader &hdr) {
         if (hdr.payload_length > V2_MAX_PAYLOAD) {
             go_away(hdr.stream_id, 6 /* FRAME_SIZE_ERROR */);
@@ -404,6 +498,12 @@ class V2SessionImpl : public V2Session {
                         });
     }
 
+    /**
+     * @brief Handle Frame.
+     * @param[in] hdr Input parameter.
+     * @param[in] payload Input parameter.
+     * @details Calls: get_type(), ensureStreamOpen(), has_flag(), decompressZstd(), empty(), reset_stream(), decompressLZ4(), data_handler_().
+     */
     void handleFrame(const V2FrameHeader &hdr, const std::vector<uint8_t> &payload) {
         switch (hdr.get_type()) {
             case V2FrameType::DATA: {
@@ -537,7 +637,11 @@ class V2SessionImpl : public V2Session {
         }
     }
 
-    // ── Helpers ───────────────────────────────────────────────────────────
+    /**
+     * @brief ── Helpers ───────────────────────────────────────────────────────────
+     * @param[in] stream_id Identifier of the stream.
+     * @details Calls: lock().
+     */
 
     void ensureStreamOpen(uint32_t stream_id) {
         std::lock_guard<std::mutex> lock(streams_mutex_);
@@ -550,6 +654,12 @@ class V2SessionImpl : public V2Session {
         }
     }
 
+    /**
+     * @brief Close Stream.
+     * @param[in] stream_id Identifier of the stream.
+     * @param[in] remote_closed Input parameter.
+     * @details Calls: lock(), find(), end().
+     */
     void closeStream(uint32_t stream_id, bool remote_closed) {
         std::lock_guard<std::mutex> lock(streams_mutex_);
         auto it = streams_.find(stream_id);
@@ -570,6 +680,12 @@ class V2SessionImpl : public V2Session {
         }
     }
 
+    /**
+     * @brief Send Window Update.
+     * @param[in] stream_id Identifier of the stream.
+     * @param[in] increment Input parameter.
+     * @details Calls: htonl32(), serializeHeader(), insert(), end(), begin(), sendFrame(), std::move().
+     */
     void sendWindowUpdate(uint32_t stream_id, uint32_t increment) {
         V2FrameHeader hdr{};
         hdr.magic          = WIRE_V2_MAGIC;
@@ -596,6 +712,11 @@ class V2SessionImpl : public V2Session {
         std::unordered_map<std::string, std::string> headers = {};
 
         std::string text(reinterpret_cast<const char *>(payload.data()),payload.size());
+        /**
+         * @brief Ss.
+         * @param[in] text Input parameter.
+         * @return Return value.
+         */
         std::istringstream ss(text);
         std::string line = {};
         while (std::getline(ss, line)) {
@@ -617,7 +738,11 @@ class V2SessionImpl : public V2Session {
 
     // ── Write helper ──────────────────────────────────────────────────────
 
-    // Keeps `frame` alive on the heap for the duration of the async write.
+    /**
+     * @brief Keeps `frame` alive on the heap for the duration of the async write.
+     * @param[in] frame Input parameter.
+     * @details Calls: std::move(), lock(), net::async_write(), net::buffer().
+     */
     void sendFrame(std::vector<uint8_t> frame) {
         auto buf = std::make_shared<std::vector<uint8_t>>(std::move(frame));
         std::lock_guard<std::mutex> lock(write_mutex_);
@@ -652,11 +777,14 @@ class V2SessionImpl : public V2Session {
 // V2Server::Impl
 // =============================================================================
 
-/** @brief V2Server::Impl. */
 class V2Server::Impl {
   public:
     explicit Impl(const V2ConnectionConfig &cfg) : cfg_(cfg), io_context_(), acceptor_(io_context_) {}
 
+    /**
+     * @brief Start.
+     * @details Calls: exchange(), ep(), tcp::v4(), open(), protocol(), set_option(), tcp::acceptor::reuse_address(), bind().
+     */
     void start() {
         if (running_.exchange(true))
             return; // already running
@@ -680,6 +808,10 @@ class V2Server::Impl {
         }
     }
 
+    /**
+     * @brief Stop.
+     * @details Calls: exchange(), timedJoin(), clear(), close().
+     */
     void stop() {
         if (!running_.exchange(false))
             return;
@@ -694,18 +826,38 @@ class V2Server::Impl {
         return running_.load();
     }
 
+    /**
+     * @brief Set data handler.
+     * @param[in] h Input parameter.
+     * @details Calls: std::move().
+     */
     void set_data_handler(V2DataHandler h) {
         data_handler_ = std::move(h);
     }
+    /**
+     * @brief Set headers handler.
+     * @param[in] h Input parameter.
+     * @details Calls: std::move().
+     */
     void set_headers_handler(V2HeadersHandler h) {
         headers_handler_ = std::move(h);
     }
+    /**
+     * @brief Set rst stream handler.
+     * @param[in] h Input parameter.
+     * @details Calls: std::move().
+     */
     void set_rst_stream_handler(V2RstStreamHandler h) {
         rst_handler_ = std::move(h);
     }
 
     bool push_to_client(const std::string &conn_id, uint32_t associated_sid,
                         const std::unordered_map<std::string, std::string> &headers, const std::vector<uint8_t> &data) {
+        /**
+         * @brief Lock.
+         * @param[in] sessions_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(sessions_mutex_);
         auto it = sessions_.find(conn_id);
         if (it == sessions_.end())
@@ -717,6 +869,11 @@ class V2Server::Impl {
     }
 
     size_t active_connections() const {
+        /**
+         * @brief Lock.
+         * @param[in] sessions_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(sessions_mutex_);
         return sessions_.size();
     }
@@ -726,6 +883,11 @@ class V2Server::Impl {
     }
 
     uint64_t total_frames_sent() const {
+        /**
+         * @brief Lock.
+         * @param[in] sessions_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(sessions_mutex_);
         uint64_t total = 0;
         for (const auto &[id, s] : sessions_)
@@ -734,6 +896,11 @@ class V2Server::Impl {
     }
 
     uint64_t total_frames_received() const {
+        /**
+         * @brief Lock.
+         * @param[in] sessions_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(sessions_mutex_);
         uint64_t total = 0;
         for (const auto &[id, s] : sessions_)
@@ -742,6 +909,10 @@ class V2Server::Impl {
     }
 
   private:
+    /**
+     * @brief Async Accept.
+     * @details Calls: async_accept(), load(), std::move(), set_disconnect_handler(), lock(), erase(), connection_id(), fetch_add().
+     */
     void asyncAccept() {
         acceptor_.async_accept([this](const boost::system::error_code &ec, tcp::socket socket) {
             if (!ec && running_.load()) {
@@ -794,9 +965,17 @@ V2Server::~V2Server() {
     impl_->stop();
 }
 
+/**
+ * @brief Start.
+ * @details Implements start without additional internal calls.
+ */
 void V2Server::start() {
     impl_->start();
 }
+/**
+ * @brief Stop.
+ * @details Implements stop without additional internal calls.
+ */
 void V2Server::stop() {
     impl_->stop();
 }
@@ -804,12 +983,27 @@ bool V2Server::is_running() const {
     return impl_->is_running();
 }
 
+/**
+ * @brief Set data handler.
+ * @param[in] h Input parameter.
+ * @details Calls: std::move().
+ */
 void V2Server::set_data_handler(V2DataHandler h) {
     impl_->set_data_handler(std::move(h));
 }
+/**
+ * @brief Set headers handler.
+ * @param[in] h Input parameter.
+ * @details Calls: std::move().
+ */
 void V2Server::set_headers_handler(V2HeadersHandler h) {
     impl_->set_headers_handler(std::move(h));
 }
+/**
+ * @brief Set rst stream handler.
+ * @param[in] h Input parameter.
+ * @details Calls: std::move().
+ */
 void V2Server::set_rst_stream_handler(V2RstStreamHandler h) {
     impl_->set_rst_stream_handler(std::move(h));
 }

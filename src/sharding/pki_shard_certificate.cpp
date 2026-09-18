@@ -29,7 +29,12 @@
 namespace themis::sharding {
 
 namespace {
-    // Helper: Read file contents
+    /**
+     * @brief Helper: Read file contents
+     * @param[in] path Input parameter.
+     * @return Return value.
+     * @details Calls: file(), is_open(), rdbuf(), str().
+     */
     std::optional<std::string> readFile(const std::string& path) {
         std::ifstream file(path);
         if (!file.is_open()) {
@@ -41,7 +46,12 @@ namespace {
         return ss.str();
     }
     
-    // Helper: Convert ASN1_TIME to ISO 8601 string
+    /**
+     * @brief Helper: Convert ASN1_TIME to ISO 8601 string
+     * @param[in] time Input parameter.
+     * @return Return value.
+     * @details Calls: themis::utils::BIOPtr(), BIO_new(), BIO_s_mem(), ASN1_TIME_print(), get(), BIO_get_mem_data(), result().
+     */
     std::string asn1TimeToString(const ASN1_TIME* time) {
         if (!time) {
           return "";
@@ -57,7 +67,13 @@ namespace {
         return result;
     }
     
-    // Helper: Get extension value by NID
+    /**
+     * @brief Helper: Get extension value by NID
+     * @param[in,out] cert Input/output parameter.
+     * @param[in] nid Input parameter.
+     * @return Return value.
+     * @details Calls: X509_get_ext_by_NID(), X509_get_ext(), X509_EXTENSION_get_data(), std::string().
+     */
     std::optional<std::string> getExtensionValue(X509* cert, int nid) {
         int idx = X509_get_ext_by_NID(cert, nid, -1);
         if (idx < 0) {
@@ -80,6 +96,12 @@ namespace {
         return std::string(reinterpret_cast<const char*>(p), len);
     }
 
+    /**
+     * @brief Parse Asn1 Printed Time.
+     * @param[in] value Input parameter.
+     * @return Return value.
+     * @details Calls: input(), find(), end(), time_input(), defined(), _mkgmtime(), timegm().
+     */
     std::optional<time_t> parseAsn1PrintedTime(const std::string& value) {
         std::istringstream input(value);
         std::string month = {};
@@ -158,6 +180,12 @@ bool ShardCertificateInfo::isValidNow() const {
     return now >= *t_before && now <= *t_after;
 }
 
+/**
+ * @brief Parse Certificate.
+ * @param[in] cert_path Path to the cert.
+ * @return Return value.
+ * @details Calls: readFile(), parseCertificatePEM().
+ */
 std::optional<ShardCertificateInfo> PKIShardCertificate::parseCertificate(const std::string& cert_path) {
     auto pem_data = readFile(cert_path);
     if (!pem_data) {
@@ -167,6 +195,12 @@ std::optional<ShardCertificateInfo> PKIShardCertificate::parseCertificate(const 
     return parseCertificatePEM(*pem_data);
 }
 
+/**
+ * @brief Parse Certificate PEM.
+ * @param[in] pem_data Input parameter.
+ * @return Return value.
+ * @details Calls: utils::make_bio_mem_buf(), c_str(), size(), utils::read_x509_from_bio(), get(), X509_get_subject_name(), X509_NAME_get_text_by_NID(), X509_get_issuer_name().
+ */
 std::optional<ShardCertificateInfo> PKIShardCertificate::parseCertificatePEM(const std::string& pem_data) {
     auto bio = utils::make_bio_mem_buf(pem_data.c_str(), pem_data.size());
     if (!bio) {
@@ -227,6 +261,13 @@ std::optional<ShardCertificateInfo> PKIShardCertificate::parseCertificatePEM(con
     return info;
 }
 
+/**
+ * @brief Verify Certificate.
+ * @param[in] cert_path Path to the cert.
+ * @param[in] ca_cert_path Path to the ca cert.
+ * @return True when the operation succeeds.
+ * @details Calls: readFile(), utils::make_bio_mem_buf(), c_str(), size(), utils::read_x509_from_bio(), get(), utils::EVPKeyPtr(), X509_get_pubkey().
+ */
 bool PKIShardCertificate::verifyCertificate(const std::string& cert_path, const std::string& ca_cert_path) {
     // Read certificate
     auto cert_pem = readFile(cert_path);
@@ -268,6 +309,13 @@ bool PKIShardCertificate::verifyCertificate(const std::string& cert_path, const 
     return result == 1;
 }
 
+/**
+ * @brief Is Revoked.
+ * @param[in] serial_number Input parameter.
+ * @param[in] crl_path Path to the crl.
+ * @return True when the operation succeeds.
+ * @details Calls: readFile(), utils::make_bio_mem_buf(), c_str(), size(), utils::read_x509_crl_from_bio(), get(), STACK_OF(), X509_CRL_get_REVOKED().
+ */
 bool PKIShardCertificate::isRevoked(const std::string& serial_number, const std::string& crl_path) {
     // Read CRL file
     auto crl_pem = readFile(crl_path);
@@ -316,6 +364,12 @@ bool PKIShardCertificate::isRevoked(const std::string& serial_number, const std:
     return found;
 }
 
+/**
+ * @brief Get Shard Id.
+ * @param[in] cert_path Path to the cert.
+ * @return Return value.
+ * @details Calls: parseCertificate(), empty().
+ */
 std::optional<std::string> PKIShardCertificate::getShardId(const std::string& cert_path) {
     auto info = parseCertificate(cert_path);
     if (!info || info->shard_id.empty()) {
@@ -325,6 +379,12 @@ std::optional<std::string> PKIShardCertificate::getShardId(const std::string& ce
     return info->shard_id;
 }
 
+/**
+ * @brief Validate Shard Certificate.
+ * @param[in] info Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: isValidNow(), empty().
+ */
 bool PKIShardCertificate::validateShardCertificate(const ShardCertificateInfo& info) {
     // Check validity dates
     if (!info.isValidNow()) {
@@ -349,6 +409,13 @@ bool PKIShardCertificate::validateShardCertificate(const ShardCertificateInfo& i
     return true;
 }
 
+/**
+ * @brief Parse Custom Extensions.
+ * @param[in,out] x509_cert_ptr Input/output parameter.
+ * @param[in,out] info Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: find(), substr().
+ */
 bool PKIShardCertificate::parseCustomExtensions(void* x509_cert_ptr, ShardCertificateInfo& info) {
     [[maybe_unused]] X509* cert = static_cast<X509*>(x509_cert_ptr);
     // Future: parse custom X.509 extensions
@@ -384,6 +451,13 @@ bool PKIShardCertificate::parseCustomExtensions(void* x509_cert_ptr, ShardCertif
     return true;
 }
 
+/**
+ * @brief Parse SAN.
+ * @param[in,out] x509_cert_ptr Input/output parameter.
+ * @param[in,out] info Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: X509_get_ext_d2i(), sk_GENERAL_NAME_num(), sk_GENERAL_NAME_value(), dns_str(), ASN1_STRING_get0_data(), ASN1_STRING_length(), push_back(), snprintf().
+ */
 bool PKIShardCertificate::parseSAN(void* x509_cert_ptr, ShardCertificateInfo& info) {
     X509* cert = static_cast<X509*>(x509_cert_ptr);
     

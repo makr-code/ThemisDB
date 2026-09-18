@@ -32,6 +32,12 @@ json BranchManager::Branch::toJson() const {
     };
 }
 
+/**
+ * @brief From Json.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: value().
+ */
 BranchManager::Branch BranchManager::Branch::fromJson(const json& j) {
     Branch branch;
     branch.branch_name = j.value("branch_name", "");
@@ -101,12 +107,25 @@ BranchManager::BranchManager(
     }
 }
 
+/**
+ * @brief Set Merge Engine.
+ * @param[in,out] merge_engine Input/output parameter.
+ * @details Calls: lock().
+ */
 void BranchManager::setMergeEngine(MergeEngine* merge_engine) {
     std::lock_guard<std::mutex> lock(mutex_);
     merge_engine_ = merge_engine;
 }
 
-// Create branch (4-arg overload without options)
+/**
+ * @brief Create branch (4-arg overload without options)
+ * @param[in] branch_name Name of the branch.
+ * @param[in] parent_branch Input parameter.
+ * @param[in] description Input parameter.
+ * @param[in] created_by Input parameter.
+ * @return Return value.
+ * @details Implements createBranch without additional internal calls.
+ */
 std::optional<BranchManager::Branch> BranchManager::createBranch(
     const std::string& branch_name,
     const std::string& parent_branch,
@@ -117,6 +136,16 @@ std::optional<BranchManager::Branch> BranchManager::createBranch(
 }
 
 // Create branch
+/**
+ * @brief Create Branch.
+ * @param[in] branch_name Name of the branch.
+ * @param[in] parent_branch Input parameter.
+ * @param[in] description Input parameter.
+ * @param[in] created_by Input parameter.
+ * @param[in] options Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), isValidBranchName(), branchExists(), empty(), resolveSequence(), has_value(), getLatestSequence(), std::chrono::system_clock::now().
+ */
 std::optional<BranchManager::Branch> BranchManager::createBranch(
     const std::string& branch_name,
     const std::string& parent_branch,
@@ -193,6 +222,11 @@ std::optional<BranchManager::Branch> BranchManager::createBranch(
 
 // Get branch
 std::optional<BranchManager::Branch> BranchManager::getBranch(const std::string& branch_name) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     auto data = db_.get(makeKey(branch_name));
@@ -209,6 +243,11 @@ std::vector<BranchManager::Branch> BranchManager::listBranches(
     const std::string& sort_by,
     bool ascending
 ) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     std::vector<Branch> branches;
@@ -266,6 +305,12 @@ std::vector<BranchManager::Branch> BranchManager::listBranches(
 }
 
 // Switch branch
+/**
+ * @brief Switch Branch.
+ * @param[in] branch_name Name of the branch.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), branchExists(), saveActiveBranch(), std::chrono::system_clock::now(), time_since_epoch(), count(), getLatestSequence(), appendHistory().
+ */
 bool BranchManager::switchBranch(const std::string& branch_name) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -299,11 +344,23 @@ bool BranchManager::switchBranch(const std::string& branch_name) {
 
 // Get active branch
 std::string BranchManager::getActiveBranch() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return active_branch_;
 }
 
 // Delete branch
+/**
+ * @brief Delete Branch.
+ * @param[in] branch_name Name of the branch.
+ * @param[in] force Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), branchExists(), isBranchMerged(), del(), makeKey().
+ */
 bool BranchManager::deleteBranch(const std::string& branch_name, bool force) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -331,7 +388,13 @@ bool BranchManager::deleteBranch(const std::string& branch_name, bool force) {
     return db_.del(makeKey(branch_name));
 }
 
-// Merge branches (2-arg overload without options)
+/**
+ * @brief Merge branches (2-arg overload without options)
+ * @param[in] source_branch Input parameter.
+ * @param[in] target_branch Input parameter.
+ * @return Return value.
+ * @details Implements mergeBranches without additional internal calls.
+ */
 BranchManager::MergeResult BranchManager::mergeBranches(
     const std::string& source_branch,
     const std::string& target_branch
@@ -340,6 +403,14 @@ BranchManager::MergeResult BranchManager::mergeBranches(
 }
 
 // Merge branches
+/**
+ * @brief Merge Branches.
+ * @param[in] source_branch Input parameter.
+ * @param[in] target_branch Input parameter.
+ * @param[in] options Input parameter.
+ * @return Return value.
+ * @details Calls: getBranch(), has_value(), std::min(), recordMergeStatus(), merge(), push_back(), fmt::format(), what().
+ */
 BranchManager::MergeResult BranchManager::mergeBranches(
     const std::string& source_branch,
     const std::string& target_branch,
@@ -467,7 +538,15 @@ MergeEngine::MergeResult BranchManager::previewBranchMerge(
     return merge_engine_->previewMerge(base_seq, source_seq, target_seq);
 }
 
-// Resolve conflicts and complete a branch merge
+/**
+ * @brief Resolve conflicts and complete a branch merge
+ * @param[in] source_branch Input parameter.
+ * @param[in] target_branch Input parameter.
+ * @param[in] resolutions Input parameter.
+ * @param[in] base_branch Input parameter.
+ * @return Return value.
+ * @details Calls: getBranch(), has_value(), fmt::format(), empty(), std::min(), merge(), recordMergeStatus(), std::chrono::system_clock::now().
+ */
 MergeEngine::MergeResult BranchManager::resolveAndMergeBranches(
     const std::string& source_branch,
     const std::string& target_branch,
@@ -542,6 +621,11 @@ bool BranchManager::branchExists(const std::string& branch_name) const {
 
 // Get stats
 BranchManager::BranchStats BranchManager::getStats() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     BranchStats stats;
@@ -609,6 +693,12 @@ std::optional<int64_t> BranchManager::getTimestampForBranch(const std::string& b
 }
 
 // Validate branch name
+/**
+ * @brief Is Valid Branch Name.
+ * @param[in] branch_name Name of the branch.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), length(), pattern(), std::regex_match().
+ */
 bool BranchManager::isValidBranchName(const std::string& branch_name) {
     // Check length
     if (branch_name.empty() || branch_name.length() > 128) {
@@ -632,6 +722,11 @@ bool BranchManager::isValidBranchName(const std::string& branch_name) {
 }
 
 // Get default branch
+/**
+ * @brief Get Default Branch.
+ * @return Return value.
+ * @details Implements getDefaultBranch without additional internal calls.
+ */
 std::string BranchManager::getDefaultBranch() {
     return DEFAULT_BRANCH;
 }
@@ -674,6 +769,10 @@ std::optional<BranchManager::Branch> BranchManager::deserialize(const std::vecto
 }
 
 // Load active branch
+/**
+ * @brief Load Active Branch.
+ * @details Calls: get(), has_value(), branch_name(), value(), begin(), end().
+ */
 void BranchManager::loadActiveBranch() {
     auto data = db_.get(ACTIVE_BRANCH_KEY);
     if (data.has_value()) {
@@ -685,6 +784,12 @@ void BranchManager::loadActiveBranch() {
 }
 
 // Save active branch
+/**
+ * @brief Save Active Branch.
+ * @param[in] branch_name Name of the branch.
+ * @return True when the operation succeeds.
+ * @details Calls: data(), begin(), end(), put().
+ */
 bool BranchManager::saveActiveBranch(const std::string& branch_name) {
     std::vector<uint8_t> data(branch_name.begin(), branch_name.end());
     return db_.put(ACTIVE_BRANCH_KEY, data);
@@ -722,6 +827,12 @@ bool BranchManager::isBranchMerged(
 }
 
 // Persist merge status
+/**
+ * @brief Record Merge Status.
+ * @param[in] source_branch Input parameter.
+ * @param[in] target_branch Input parameter.
+ * @details Calls: std::string(), put().
+ */
 void BranchManager::recordMergeStatus(
     const std::string& source_branch,
     const std::string& target_branch
@@ -785,6 +896,11 @@ BranchManager::deserializeHistory(const std::vector<uint8_t>& data) const {
     }
 }
 
+/**
+ * @brief Append History.
+ * @param[in] entry Input parameter.
+ * @details Calls: fetch_add(), std::string(), std::to_string(), serializeHistory(), put().
+ */
 void BranchManager::appendHistory(const BranchHistoryEntry& entry) {
     // Key: "branch_hist:<branch_name>:<timestamp_ms>:<sequence>:<counter>"
     // A monotonic counter suffix ensures uniqueness even when two events
@@ -805,6 +921,11 @@ void BranchManager::appendHistory(const BranchHistoryEntry& entry) {
 std::vector<BranchManager::BranchHistoryEntry>
 BranchManager::getBranchHistory(const std::string& branch_name,
                                  size_t limit) const {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
 
     std::vector<BranchHistoryEntry> result;
@@ -835,13 +956,22 @@ BranchManager::getBranchHistory(const std::string& branch_name,
     return result;
 }
 
-// ---- Phase 5: Branch GC ----
+/**
+ * @brief ---- Phase 5: Branch GC ----
+ * @param[in] policy Input parameter.
+ * @details Calls: lk().
+ */
 
 void BranchManager::setBranchGCPolicy(const BranchGCPolicy& policy) {
     std::lock_guard<std::mutex> lk(mutex_);
     gc_policy_ = policy;
 }
 
+/**
+ * @brief Prune Merged Branches.
+ * @return Return value.
+ * @details Calls: lk(), std::chrono::system_clock::now(), time_since_epoch(), count(), newSafeIterator(), value(), Seek(), Valid().
+ */
 size_t BranchManager::pruneMergedBranches() {
     std::lock_guard<std::mutex> lk(mutex_);
 

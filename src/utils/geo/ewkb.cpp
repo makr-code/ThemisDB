@@ -93,11 +93,6 @@ static std::vector<std::string> splitTopLevel(const std::string& input, char del
  * @details Calls: iss(), Coordinate().
  */
 static Coordinate parseCoordinateToken(const std::string& token) {
-    /**
-     * @brief Iss.
-     * @param[in] token Input parameter.
-     * @return Return value.
-     */
     std::istringstream iss(token);
     double x = 0.0;
     double y = 0.0;
@@ -275,7 +270,7 @@ Coordinate GeometryInfo::computeCentroid() const {
 }
 
 /**
- * @brief EWKB Parser: Read helpers
+ * @brief Read Double.
  * @param[in] ptr Input parameter.
  * @param[in] is_little_endian Input parameter.
  * @return Return value.
@@ -358,7 +353,7 @@ void EWKBParser::writeUInt32(std::vector<uint8_t>& buf, uint32_t val, bool is_li
 }
 
 /**
- * @brief Parse Point
+ * @brief Parse Point.
  * @param[in] ptr Input parameter.
  * @param[in] has_z Input parameter.
  * @param[in] is_little_endian Input parameter.
@@ -381,7 +376,7 @@ GeometryInfo EWKBParser::parsePoint(const uint8_t*& ptr, bool has_z, bool is_lit
 }
 
 /**
- * @brief Parse LineString
+ * @brief Parse Line String.
  * @param[in] ptr Input parameter.
  * @param[in] has_z Input parameter.
  * @param[in] is_little_endian Input parameter.
@@ -410,7 +405,7 @@ GeometryInfo EWKBParser::parseLineString(const uint8_t*& ptr, bool has_z, bool i
 }
 
 /**
- * @brief Parse Polygon
+ * @brief Parse Polygon.
  * @param[in] ptr Input parameter.
  * @param[in] has_z Input parameter.
  * @param[in] is_little_endian Input parameter.
@@ -444,7 +439,7 @@ GeometryInfo EWKBParser::parsePolygon(const uint8_t*& ptr, bool has_z, bool is_l
 }
 
 /**
- * @brief Parse EWKB
+ * @brief Parse.
  * @param[in] ewkb Input parameter.
  * @return Return value.
  * @throws std::runtime_error if an error occurs.
@@ -460,7 +455,7 @@ GeometryInfo EWKBParser::parse(const std::vector<uint8_t>& ewkb) {
 }
 
 /**
- * @brief Recursive EWKB geometry parser (reads its own byte-order marker)
+ * @brief Parse Geometry From Ptr.
  * @param[in] ptr Input parameter.
  * @return Return value.
  * @throws std::runtime_error if an error occurs.
@@ -546,7 +541,7 @@ GeometryInfo EWKBParser::parseGeometryFromPtr(const uint8_t*& ptr) {
 }
 
 /**
- * @brief Serialize EWKB
+ * @brief Serialize.
  * @param[in] geom Input parameter.
  * @return Return value.
  * @details Calls: serializeGeometryInto().
@@ -558,7 +553,7 @@ std::vector<uint8_t> EWKBParser::serialize(const GeometryInfo& geom) {
 }
 
 /**
- * @brief Recursive EWKB serializer helper
+ * @brief Serialize Geometry Into.
  * @param[in,out] buf Input/output parameter.
  * @param[in] geom Input parameter.
  * @param[in] is_little_endian Input parameter.
@@ -615,7 +610,7 @@ void EWKBParser::serializeGeometryInto(std::vector<uint8_t>& buf, const Geometry
 }
 
 /**
- * @brief WGS84 coordinate range validation (disabled with THEMIS_GEO_COMPAT_LAX)
+ * @brief Validate WGS84.
  * @param[in] lon Input parameter.
  * @param[in] lat Input parameter.
  * @throws std::runtime_error if an error occurs.
@@ -636,7 +631,7 @@ static void validateWGS84(double lon, double lat) {
 }
 
 /**
- * @brief File-scope helper: recursively parse a GeoJSON geometry object
+ * @brief Parse Geo JSONGeom Impl.
  * @param[in] j Input parameter.
  * @param[in] depth Input parameter.
  * @return Return value.
@@ -806,7 +801,7 @@ static GeometryInfo parseGeoJSONGeomImpl(const json& j, int depth) {
 }
 
 /**
- * @brief Parse GeoJSON
+ * @brief Parse Geo JSON.
  * @param[in] geojson_str Input parameter.
  * @return Return value.
  * @details Calls: json::parse(), parseGeoJSONGeomImpl().
@@ -837,11 +832,6 @@ GeometryInfo EWKBParser::parseWKT(const std::string& wkt_raw) {
     const std::string body = extractWktBody(wkt);
 
     if (upper.rfind("POINT", 0) == 0) {
-        /**
-         * @brief Geom.
-         * @param[in] Point Input parameter.
-         * @return Return value.
-         */
         GeometryInfo geom(GeometryType::Point);
         geom.coords.push_back(parseCoordinateToken(body));
         geom.has_z = geom.coords[0].hasZ();
@@ -852,11 +842,6 @@ GeometryInfo EWKBParser::parseWKT(const std::string& wkt_raw) {
     }
 
     if (upper.rfind("LINESTRING", 0) == 0) {
-        /**
-         * @brief Geom.
-         * @param[in] LineString Input parameter.
-         * @return Return value.
-         */
         GeometryInfo geom(GeometryType::LineString);
         auto tokens = splitTopLevel(body, ',');
         geom.coords.reserve(tokens.size());
@@ -871,11 +856,6 @@ GeometryInfo EWKBParser::parseWKT(const std::string& wkt_raw) {
     }
 
     if (upper.rfind("POLYGON", 0) == 0) {
-        /**
-         * @brief Geom.
-         * @param[in] Polygon Input parameter.
-         * @return Return value.
-         */
         GeometryInfo geom(GeometryType::Polygon);
         auto rings_raw = splitTopLevel(body, ',');
 
@@ -995,7 +975,7 @@ std::string EWKBParser::toWKT(const GeometryInfo& geom) {
 }
 
 /**
- * @brief To GeoJSON
+ * @brief To Geo JSON.
  * @param[in] geom Input parameter.
  * @return Return value.
  * @details Calls: isPoint(), getZ(), json::array(), push_back(), isLineString(), isPolygon(), json::parse(), dump().
@@ -1097,7 +1077,7 @@ std::string EWKBParser::toGeoJSON(const GeometryInfo& geom) {
 }
 
 /**
- * @brief Compute sidecar
+ * @brief Compute Sidecar.
  * @param[in] geom Input parameter.
  * @return Return value.
  * @details Calls: computeMBR(), computeCentroid(), hasZ(), value_or().
@@ -1116,9 +1096,9 @@ GeoSidecar EWKBParser::computeSidecar(const GeometryInfo& geom) {
 }
 
 /**
- * @brief Validate EWKB
+ * @brief Validate.
  * @param[in] ewkb Input parameter.
- * @return True on success.
+ * @return True when the operation succeeds.
  * @details Calls: parse().
  */
 bool EWKBParser::validate(const std::vector<uint8_t>& ewkb) {

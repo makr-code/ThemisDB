@@ -49,6 +49,13 @@ ContinuousQueryApiHandler::ContinuousQueryApiHandler(
 // Static helpers
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Make Error.
+ * @param[in] status Input parameter.
+ * @param[in] message Input parameter.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ */
 http::response<http::string_body> ContinuousQueryApiHandler::makeError(
     http::status status, const std::string& message,
     const http::request<http::string_body>& req)
@@ -62,6 +69,13 @@ http::response<http::string_body> ContinuousQueryApiHandler::makeError(
     return res;
 }
 
+/**
+ * @brief Make Json.
+ * @param[in] status Input parameter.
+ * @param[in] body Input parameter.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ */
 http::response<http::string_body> ContinuousQueryApiHandler::makeJson(
     http::status status, const std::string& body,
     const http::request<http::string_body>& req)
@@ -74,6 +88,12 @@ http::response<http::string_body> ContinuousQueryApiHandler::makeJson(
     return res;
 }
 
+/**
+ * @brief Window From Json.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: value().
+ */
 WindowSpec ContinuousQueryApiHandler::windowFromJson(const json& j) {
     WindowSpec ws;
     const std::string type_str = j.value("type", "TIME_SLIDING");
@@ -94,6 +114,12 @@ WindowSpec ContinuousQueryApiHandler::windowFromJson(const json& j) {
     return ws;
 }
 
+/**
+ * @brief Info To Json.
+ * @param[in] info Input parameter.
+ * @return Return value.
+ * @details Calls: time_since_epoch(), count(), win_type(), mode_str(), tp_to_ms().
+ */
 json ContinuousQueryApiHandler::infoToJson(const ContinuousQueryInfo& info) {
     auto tp_to_ms = [](std::chrono::system_clock::time_point tp) -> int64_t {
         return std::chrono::duration_cast<std::chrono::milliseconds>(
@@ -139,9 +165,11 @@ json ContinuousQueryApiHandler::infoToJson(const ContinuousQueryInfo& info) {
     };
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// POST /v1/queries/continuous  — register
-// ─────────────────────────────────────────────────────────────────────────────
+/**
+ * @brief ───────────────────────────────────────────────────────────────────────────── POST /v1/queries/continuous — register ─────────────────────────────────────────────────────────────────────────────
+ * @param[in] req Input parameter.
+ * @return Return value.
+ */
 
 http::response<http::string_body> ContinuousQueryApiHandler::handleRegister(
     const http::request<http::string_body>& req)
@@ -214,9 +242,12 @@ http::response<http::string_body> ContinuousQueryApiHandler::handleRegister(
     return makeJson(http::status::created, resp_body.dump(), req);
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// DELETE /v1/queries/continuous/:name  — drop
-// ─────────────────────────────────────────────────────────────────────────────
+/**
+ * @brief ───────────────────────────────────────────────────────────────────────────── DELETE /v1/queries/continuous/:name — drop ─────────────────────────────────────────────────────────────────────────────
+ * @param[in] req Input parameter.
+ * @param[in] name Input parameter.
+ * @return Return value.
+ */
 
 http::response<http::string_body> ContinuousQueryApiHandler::handleDrop(
     const http::request<http::string_body>& req,
@@ -238,9 +269,11 @@ http::response<http::string_body> ContinuousQueryApiHandler::handleDrop(
     return makeJson(http::status::ok, resp_body.dump(), req);
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// GET /v1/queries/continuous  — list
-// ─────────────────────────────────────────────────────────────────────────────
+/**
+ * @brief ───────────────────────────────────────────────────────────────────────────── GET /v1/queries/continuous — list ─────────────────────────────────────────────────────────────────────────────
+ * @param[in] req Input parameter.
+ * @return Return value.
+ */
 
 http::response<http::string_body> ContinuousQueryApiHandler::handleList(
     const http::request<http::string_body>& req)
@@ -255,9 +288,12 @@ http::response<http::string_body> ContinuousQueryApiHandler::handleList(
     return makeJson(http::status::ok, arr.dump(), req);
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// GET /v1/queries/continuous/:name/results  — SSE stream
-// ─────────────────────────────────────────────────────────────────────────────
+/**
+ * @brief ───────────────────────────────────────────────────────────────────────────── GET /v1/queries/continuous/:name/results — SSE stream ─────────────────────────────────────────────────────────────────────────────
+ * @param[in] req Input parameter.
+ * @param[in] name Input parameter.
+ * @return Return value.
+ */
 
 http::response<http::string_body> ContinuousQueryApiHandler::handleStreamSse(
     const http::request<http::string_body>& req,

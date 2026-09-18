@@ -45,9 +45,6 @@ inline int clampRoundPrecision(int64_t rawPrecision) {
 // Math Functions
 // ============================================================================
 
-/**
- * @brief ABS(num) - Absolute value
- */
 class AbsFunction : public IFunction {
 public:
     ~AbsFunction() override = default;
@@ -70,9 +67,6 @@ public:
     }
 };
 
-/**
- * @brief CEIL(num) - Ceiling
- */
 class CeilFunction : public IFunction {
 public:
     ~CeilFunction() override = default;
@@ -95,9 +89,6 @@ public:
     }
 };
 
-/**
- * @brief FLOOR(num) - Floor
- */
 class FloorFunction : public IFunction {
 public:
     ~FloorFunction() override = default;
@@ -120,9 +111,6 @@ public:
     }
 };
 
-/**
- * @brief ROUND(num [, precision]) - Round to nearest
- */
 class RoundFunction : public IFunction {
 public:
     ~RoundFunction() override = default;
@@ -159,9 +147,6 @@ public:
     }
 };
 
-/**
- * @brief SQRT(num) - Square root
- */
 class SqrtFunction : public IFunction {
 public:
     ~SqrtFunction() override = default;
@@ -188,9 +173,6 @@ public:
     }
 };
 
-/**
- * @brief POW(base, exponent) - Power
- */
 class PowFunction : public IFunction {
 public:
     ~PowFunction() override = default;
@@ -216,9 +198,6 @@ public:
     }
 };
 
-/**
- * @brief LOG(num [, base]) - Logarithm
- */
 class LogFunction : public IFunction {
 public:
     ~LogFunction() override = default;
@@ -259,9 +238,6 @@ public:
     }
 };
 
-/**
- * @brief LOG10(num) - Base-10 logarithm
- */
 class Log10Function : public IFunction {
 public:
     ~Log10Function() override = default;
@@ -288,9 +264,6 @@ public:
     }
 };
 
-/**
- * @brief EXP(num) - e raised to power
- */
 class ExpFunction : public IFunction {
 public:
     ~ExpFunction() override = default;
@@ -313,9 +286,6 @@ public:
     }
 };
 
-/**
- * @brief SIN/COS/TAN - Trigonometric functions
- */
 class SinFunction : public IFunction {
 public:
     ~SinFunction() override = default;
@@ -338,7 +308,6 @@ public:
     }
 };
 
-/** @brief Cos query function. */
 class CosFunction : public IFunction {
 public:
     ~CosFunction() override = default;
@@ -361,7 +330,6 @@ public:
     }
 };
 
-/** @brief Tan query function. */
 class TanFunction : public IFunction {
 public:
     ~TanFunction() override = default;
@@ -384,9 +352,6 @@ public:
     }
 };
 
-/**
- * @brief ASIN/ACOS/ATAN - Inverse trigonometric functions
- */
 class AsinFunction : public IFunction {
 public:
     ~AsinFunction() override = default;
@@ -413,7 +378,6 @@ public:
     }
 };
 
-/** @brief Acos query function. */
 class AcosFunction : public IFunction {
 public:
     ~AcosFunction() override = default;
@@ -440,7 +404,6 @@ public:
     }
 };
 
-/** @brief Atan query function. */
 class AtanFunction : public IFunction {
 public:
     ~AtanFunction() override = default;
@@ -463,7 +426,6 @@ public:
     }
 };
 
-/** @brief Atan2function. */
 class Atan2Function : public IFunction {
 public:
     ~Atan2Function() override = default;
@@ -489,9 +451,6 @@ public:
     }
 };
 
-/**
- * @brief DEGREES/RADIANS - Angle conversion
- */
 class DegreesFunction : public IFunction {
 public:
     ~DegreesFunction() override = default;
@@ -514,7 +473,6 @@ public:
     }
 };
 
-/** @brief Radians query function. */
 class RadiansFunction : public IFunction {
 public:
     ~RadiansFunction() override = default;
@@ -537,9 +495,6 @@ public:
     }
 };
 
-/**
- * @brief PI() - Pi constant
- */
 class PiFunction : public IFunction {
 public:
     ~PiFunction() override = default;
@@ -564,9 +519,6 @@ public:
     }
 };
 
-/**
- * @brief RANDOM() - Random number
- */
 class RandomFunction : public IFunction {
 public:
     ~RandomFunction() override = default;
@@ -594,9 +546,6 @@ public:
     }
 };
 
-/**
- * @brief RAND_INT(min, max) - Random integer
- */
 class RandIntFunction : public IFunction {
 public:
     ~RandIntFunction() override = default;
@@ -634,9 +583,6 @@ public:
     }
 };
 
-/**
- * @brief MIN/MAX for variadic arguments
- */
 class MinFunction : public IFunction {
 public:
     ~MinFunction() override = default;
@@ -683,7 +629,6 @@ public:
     }
 };
 
-/** @brief Max query function. */
 class MaxFunction : public IFunction {
 public:
     ~MaxFunction() override = default;
@@ -730,9 +675,6 @@ public:
     }
 };
 
-/**
- * @brief SUM(array) - Sum of array elements
- */
 class SumFunction : public IFunction {
 public:
     ~SumFunction() override = default;
@@ -760,9 +702,6 @@ public:
     }
 };
 
-/**
- * @brief AVG(array) - Average of array elements
- */
 class AvgFunction : public IFunction {
 public:
     ~AvgFunction() override = default;
@@ -795,12 +734,12 @@ public:
     }
 };
 
+
 /**
- * @brief ============================================================================ Register Math Functions ============================================================================
+ * @brief Register Math Functions.
  * @param[in,out] reg Input/output parameter.
  * @details Calls: registerFunction().
  */
-
 inline void registerMathFunctions(FunctionRegistry& reg) {
     reg.registerFunction(std::make_unique<AbsFunction>());
     reg.registerFunction(std::make_unique<CeilFunction>());

@@ -47,6 +47,12 @@ using json = nlohmann::json;
 // Enum helpers
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief To String.
+ * @param[in] n Input parameter.
+ * @return Return value.
+ * @details Implements toString without additional internal calls.
+ */
 std::string_view toString(ProcessNotation n) {
     switch (n) {
         case ProcessNotation::BPMN_2_0:  return "BPMN_2_0";
@@ -58,6 +64,12 @@ std::string_view toString(ProcessNotation n) {
     return "UNKNOWN";
 }
 
+/**
+ * @brief To String.
+ * @param[in] d Input parameter.
+ * @return Return value.
+ * @details Implements toString without additional internal calls.
+ */
 std::string_view toString(ProcessDomain d) {
     switch (d) {
         case ProcessDomain::ADMINISTRATION:  return "ADMINISTRATION";
@@ -71,6 +83,12 @@ std::string_view toString(ProcessDomain d) {
     return "CUSTOM";
 }
 
+/**
+ * @brief To String.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Implements toString without additional internal calls.
+ */
 std::string_view toString(ProcessModelState s) {
     switch (s) {
         case ProcessModelState::DRAFT:      return "DRAFT";
@@ -81,6 +99,12 @@ std::string_view toString(ProcessModelState s) {
     return "DRAFT";
 }
 
+/**
+ * @brief Notation From String.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Implements notationFromString without additional internal calls.
+ */
 ProcessNotation notationFromString(std::string_view s) {
     if (s == "BPMN_2_0" || s == "BPMN") {
       return ProcessNotation::BPMN_2_0;
@@ -100,6 +124,12 @@ ProcessNotation notationFromString(std::string_view s) {
     return ProcessNotation::BPMN_2_0;
 }
 
+/**
+ * @brief Domain From String.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Implements domainFromString without additional internal calls.
+ */
 ProcessDomain domainFromString(std::string_view s) {
     if (s == "ADMINISTRATION") {
       return ProcessDomain::ADMINISTRATION;
@@ -122,6 +152,12 @@ ProcessDomain domainFromString(std::string_view s) {
     return ProcessDomain::CUSTOM;
 }
 
+/**
+ * @brief State From String.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Implements stateFromString without additional internal calls.
+ */
 ProcessModelState stateFromString(std::string_view s) {
     if (s == "ACTIVE") {
       return ProcessModelState::ACTIVE;
@@ -139,6 +175,12 @@ ProcessModelState stateFromString(std::string_view s) {
 // ProcessModelResult
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Success.
+ * @param[in] id Input parameter.
+ * @return Return value.
+ * @details Calls: std::string().
+ */
 ProcessModelResult ProcessModelResult::success(std::string_view id) {
     ProcessModelResult r;
     r.ok       = true;
@@ -147,6 +189,12 @@ ProcessModelResult ProcessModelResult::success(std::string_view id) {
     return r;
 }
 
+/**
+ * @brief Failure.
+ * @param[in] msg Input parameter.
+ * @return Return value.
+ * @details Calls: std::string().
+ */
 ProcessModelResult ProcessModelResult::failure(std::string_view msg) {
     ProcessModelResult r;
     r.ok      = false;
@@ -193,6 +241,12 @@ json ProcessModelRecord::toDocument() const {
     return doc;
 }
 
+/**
+ * @brief From Document.
+ * @param[in] doc Input parameter.
+ * @return Return value.
+ * @details Calls: contains(), is_string(), getStr(), value(), notationFromString(), domainFromString(), stateFromString(), is_array().
+ */
 ProcessModelRecord ProcessModelRecord::fromDocument(const json& doc) {
     ProcessModelRecord r;
 
@@ -258,6 +312,10 @@ void ProcessModelManager::setEmbedder(
     embedder_ = std::move(embedder);
 }
 
+/**
+ * @brief Set Inverted Index.
+ * @param[in] fts Input parameter.
+ */
 void ProcessModelManager::setInvertedIndex(
     std::shared_ptr<InvertedIndex> fts)
 {
@@ -274,6 +332,10 @@ void ProcessModelManager::setInvertedIndex(
     }
 }
 
+/**
+ * @brief Set Vector Index.
+ * @param[in] vi Input parameter.
+ */
 void ProcessModelManager::setVectorIndex(std::shared_ptr<VectorIndexManager> vi)
 {
     vector_index_ = std::move(vi);
@@ -289,7 +351,13 @@ std::string ProcessModelManager::makeVersionedKey_(
     return "proc:def:" + std::string(model_id) + ":rev:" + std::to_string(revision);
 }
 
-// ---- buildNormalizedGraph_ --------------------------------------------------
+/**
+ * @brief ---- buildNormalizedGraph_ --------------------------------------------------
+ * @param[in] nodes Input parameter.
+ * @param[in] edges Input parameter.
+ * @param[in] meta Input parameter.
+ * @return Return value.
+ */
 
 json ProcessModelManager::buildNormalizedGraph_(
     const std::vector<ProcessNodeInfo>& nodes,
@@ -391,7 +459,12 @@ json ProcessModelManager::buildNormalizedGraph_(
     return g;
 }
 
-// ---- Import -----------------------------------------------------------------
+/**
+ * @brief ---- Import -----------------------------------------------------------------
+ * @param[in] bpmn_xml Input parameter.
+ * @param[in] meta Input parameter.
+ * @return Return value.
+ */
 
 ProcessModelResult ProcessModelManager::importBpmn(
     std::string_view bpmn_xml,
@@ -416,6 +489,12 @@ ProcessModelResult ProcessModelManager::importBpmn(
     return save(record);
 }
 
+/**
+ * @brief Import Epk.
+ * @param[in] epk_text Input parameter.
+ * @param[in] meta Input parameter.
+ * @return Return value.
+ */
 ProcessModelResult ProcessModelManager::importEpk(
     std::string_view epk_text,
     const ProcessModelRecord& meta)
@@ -439,6 +518,12 @@ ProcessModelResult ProcessModelManager::importEpk(
     return save(record);
 }
 
+/**
+ * @brief Import Vcc Vpb.
+ * @param[in] yaml_text Input parameter.
+ * @param[in] meta Input parameter.
+ * @return Return value.
+ */
 ProcessModelResult ProcessModelManager::importVccVpb(
     std::string_view yaml_text,
     const ProcessModelRecord& meta)
@@ -451,6 +536,12 @@ ProcessModelResult ProcessModelManager::importVccVpb(
     return save(result.record);
 }
 
+/**
+ * @brief Import Aris Xml.
+ * @param[in] aml_xml Input parameter.
+ * @param[in] meta Input parameter.
+ * @return Return value.
+ */
 ProcessModelResult ProcessModelManager::importArisXml(
     std::string_view aml_xml,
     const ProcessModelRecord& meta)
@@ -474,7 +565,12 @@ ProcessModelResult ProcessModelManager::importArisXml(
     return save(record);
 }
 
-// ---- CRUD -------------------------------------------------------------------
+/**
+ * @brief ---- CRUD -------------------------------------------------------------------
+ * @param[in] record Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), ProcessModelResult::failure(), validateModelConsistency(), SPDLOG_WARN(), load(), makeVersionedKey_(), toDocument(), dump().
+ */
 
 ProcessModelResult ProcessModelManager::save(const ProcessModelRecord& record) {
     if (record.id.empty()) {
@@ -579,6 +675,12 @@ std::optional<ProcessModelRecord> ProcessModelManager::load(
     }
 }
 
+/**
+ * @brief Remove.
+ * @param[in] model_id Identifier of the model.
+ * @return Return value.
+ * @details Calls: load(), ProcessModelResult::failure(), std::string(), deindex(), removeByPk(), save().
+ */
 ProcessModelResult ProcessModelManager::remove(std::string_view model_id) {
     auto existing = load(model_id);
     if (!existing) {
@@ -665,7 +767,11 @@ std::vector<ProcessModelRecord> ProcessModelManager::search(
         return results;
     }
 
-    // Fallback: linear keyword scan.
+    /**
+     * @brief Fallback: linear keyword scan.
+     * @param[in] query Input parameter.
+     * @return Return value.
+     */
     std::string q_lower(query);
     std::transform(q_lower.begin(), q_lower.end(), q_lower.begin(), ::tolower);
 
@@ -1201,6 +1307,11 @@ ProcessModelManager::TransactionGuard::~TransactionGuard() {
 }
 
 bool ProcessModelManager::detectConflict_(std::string_view model_id, int expected_revision) const {
+    /**
+     * @brief Lock.
+     * @param[in] model_state_lock_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(model_state_lock_);
     
     // Attempt to read current revision from database
@@ -1223,6 +1334,11 @@ bool ProcessModelManager::detectConflict_(std::string_view model_id, int expecte
     }
 }
 
+/**
+ * @brief Rollback Transaction.
+ * @param[in] txn Input parameter.
+ * @details Calls: lock(), makeKey_(), makeVersionedKey_(), get(), SPDLOG_WARN(), put(), SPDLOG_INFO(), del().
+ */
 void ProcessModelManager::rollbackTransaction_(const TransactionContext& txn) {
     std::unique_lock<std::shared_mutex> lock(model_state_lock_);
     const std::string primary_key = makeKey_(txn.model_id);
@@ -1250,9 +1366,19 @@ void ProcessModelManager::rollbackTransaction_(const TransactionContext& txn) {
                 txn.txn_id, txn.model_id);
 }
 
+/**
+ * @brief Create Transaction.
+ * @param[in] model_id Identifier of the model.
+ * @return Return value.
+ */
 ProcessModelManager::TransactionContext ProcessModelManager::createTransaction_(
     std::string_view model_id)
 {
+    /**
+     * @brief Lock.
+     * @param[in] model_state_lock_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(model_state_lock_);
     
     uint64_t txn_id = operation_counter_++;

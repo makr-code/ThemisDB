@@ -40,26 +40,16 @@ namespace themis::transaction {
 // Canonical WAL replay result for one 2PC transaction
 // ─────────────────────────────────────────────────────────────────────────────
 
-/**
- * @brief Canonical WAL replay result for one 2PC transaction.
- *
- * Produced by TwoPhaseCommitWALRecovery::reconstruct().  All fields are
- * populated from WAL entries and represent the last durable state observed.
- */
 struct RecoveredTwoPhaseCommitTransaction {
     std::string              transaction_id;       ///< Transaction identifier.
     bool                     completed    = false; ///< True when a "complete" entry was seen.
     bool                     has_decision = false; ///< True when a durable COMMIT/ABORT decision was recorded.
     bool                     decision_commit = false; ///< Valid when has_decision is true.
 
-    /// Participant identifiers extracted from the BEGIN_TX entry.
-    /// May be empty if the coordinator did not write shard/region metadata.
     std::vector<std::string> participants;
 
-    /// Coordinator identifier extracted from the BEGIN_TX entry (may be empty).
     std::string coordinator_id;
 
-    /// Commit timestamp in nanoseconds (if present in the decision entry).
     std::optional<int64_t>   commit_timestamp_ns;
 };
 
@@ -67,34 +57,8 @@ struct RecoveredTwoPhaseCommitTransaction {
 // TwoPhaseCommitWALRecovery
 // ─────────────────────────────────────────────────────────────────────────────
 
-/**
- * @brief Shared reconstruction logic for 2PC recovery from WALManager entries.
- *
- * This helper decodes the normalized WAL schema written by
- * TwoPhaseCommitCoordinator and GlobalTransactionManager, so each coordinator
- * does not have to duplicate the replay logic.
- *
- * It also accepts the simpler per-entry format written by
- * DistributedTransactionManager (PREPARE_TX with no JSON payload) so that a
- * mixed WAL stream from heterogeneous coordinators remains recoverable.
- */
 class TwoPhaseCommitWALRecovery {
 public:
-    /**
-     * @brief Rebuild recoverable transaction state from ordered WAL entries.
-     *
-     * Replays @p entries in order and returns a map keyed by transaction ID.
-     * Entries whose transaction_id is empty are silently ignored.
-     *
-     * Recognised entry types:
-     * - BEGIN_TX   — creates a new transaction record; extracts shards/regions.
-     * - COMMIT_TX  — records durable COMMIT decision or marks completion.
-     * - ABORT_TX   — records durable ABORT decision or marks completion.
-     * - PREPARE_TX — marks in-doubt state (DistributedTransactionManager style).
-     *
-     * @param entries WAL entries in append order.
-     * @return        Map from transaction_id to recovered state.
-     */
     [[nodiscard]] static std::map<std::string, RecoveredTwoPhaseCommitTransaction>
     reconstruct(const std::vector<themis::sharding::WALEntry>& entries) {
         std::map<std::string, RecoveredTwoPhaseCommitTransaction> result;
@@ -138,10 +102,10 @@ public:
 
 private:
     /**
-     * @brief Apply a BEGIN_TX entry: extract coordinator_id and participants.
-     *
-     * @param rec   Transaction record to populate.
-     * @param data  JSON payload from the WAL entry.
+     * @brief Apply Begin.
+     * @param[in,out] rec Input/output parameter.
+     * @param[in] data Input parameter.
+     * @details Calls: contains(), is_string(), mergeParticipants().
      */
     static void applyBegin(
         RecoveredTwoPhaseCommitTransaction& rec,
@@ -159,14 +123,11 @@ private:
     }
 
     /**
-     * @brief Apply a COMMIT_TX or ABORT_TX entry.
-     *
-     * If the entry has "phase": "complete" it marks the transaction as done.
-     * Otherwise it records a durable decision.
-     *
-     * @param rec       Transaction record to update.
-     * @param data      JSON payload from the WAL entry.
-     * @param is_commit True for COMMIT_TX; false for ABORT_TX.
+     * @brief Apply Decision Or Complete.
+     * @param[in,out] rec Input/output parameter.
+     * @param[in] data Input parameter.
+     * @param[in] is_commit Input parameter.
+     * @details Calls: contains(), is_string(), is_number().
      */
     static void applyDecisionOrComplete(
         RecoveredTwoPhaseCommitTransaction& rec,
@@ -201,11 +162,11 @@ private:
     }
 
     /**
-     * @brief Append participant identifiers from a named JSON array field.
-     *
-     * @param rec        Transaction record to populate.
-     * @param data       JSON object potentially containing the list.
-     * @param field_name Key to look up in @p data.
+     * @brief Merge Participants.
+     * @param[in,out] rec Input/output parameter.
+     * @param[in] data Input parameter.
+     * @param[in] field_name Name of the field.
+     * @details Calls: contains(), is_array(), is_string(), push_back(), is_object().
      */
     static void mergeParticipants(
         RecoveredTwoPhaseCommitTransaction& rec,

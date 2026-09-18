@@ -27,17 +27,6 @@ namespace storage {
 // initialised by value at its point of use (rd.data/size/offset assigned before
 // passing to CURLOPT_READDATA) — false positive.
 
-/**
- * @brief WebDAV Blob Storage Backend
- * 
- * Supports WebDAV-based storage including:
- * - SharePoint
- * - ActiveDirectory integrated file shares
- * - Generic WebDAV servers
- * 
- * Authentication: Basic Auth (username/password)
- * Transport: HTTPS (TLS/SSL)
- */
 class WebDAVBlobBackend : public IBlobStorageBackend {
 private:
     std::string base_url_;
@@ -45,11 +34,15 @@ private:
     std::string password_;
     bool verify_ssl_;
     
-    // CURL helper for writing data
-    // uninitialized_access scanner alert (line 37): ptr and userdata are
-    // standard CURL callback parameters — they are passed by the libcurl runtime
-    // and are always valid non-null pointers when the callback is invoked —
-    // false positive.
+    /**
+     * @brief CURL helper for writing data uninitialized_access scanner alert (line 37): ptr and userdata are standard CURL callback parameters — they are passed by the libcurl runtime and are always valid non-null pointers when the callback is invoked — false positive.
+     * @param[in,out] ptr Input/output parameter.
+     * @param[in] size Input parameter.
+     * @param[in] nmemb Input parameter.
+     * @param[in,out] userdata Input/output parameter.
+     * @return Return value.
+     * @details Calls: insert(), end().
+     */
     static size_t writeCallback(void* ptr, size_t size, size_t nmemb, void* userdata) {
         auto* vec = static_cast<std::vector<uint8_t>*>(userdata);
         size_t total = size * nmemb;
@@ -67,6 +60,15 @@ private:
         size_t offset = {};
     };
     
+    /**
+     * @brief Read Callback.
+     * @param[in,out] ptr Input/output parameter.
+     * @param[in] size Input parameter.
+     * @param[in] nmemb Input parameter.
+     * @param[in,out] userdata Input/output parameter.
+     * @return Return value.
+     * @details Calls: std::min(), std::memcpy().
+     */
     static size_t readCallback(char* ptr, size_t size, size_t nmemb, void* userdata) {
         // null_dereference scanner alert (line 61): rd is cast from the userdata
         // pointer supplied by the caller when setting CURLOPT_READDATA — always
@@ -85,6 +87,12 @@ private:
     }
     
     // Compute SHA256 hash
+    /**
+     * @brief Compute SHA256.
+     * @param[in] data Input parameter.
+     * @return Return value.
+     * @details Calls: SHA256(), data(), size(), std::setw(), std::setfill(), str().
+     */
     static std::string computeSHA256(const std::vector<uint8_t>& data) {
         unsigned char hash[SHA256_DIGEST_LENGTH];
         SHA256(data.data(),data.size(), hash);

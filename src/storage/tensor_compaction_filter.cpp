@@ -71,20 +71,37 @@ static constexpr std::size_t kMetaInfixLen = 6;      // strlen(":meta:")
 // ============================================================================
 
 namespace {
+/**
+ * @brief Recompress Fn Mutex.
+ * @return Return value.
+ * @details Implements recompressFnMutex without additional internal calls.
+ */
 std::mutex& recompressFnMutex() { static std::mutex m; return m; }
+/**
+ * @brief Recompress Fn Storage.
+ * @return Return value.
+ * @details Implements recompressFnStorage without additional internal calls.
+ */
 TensorCompactionFilter::RecompressFn& recompressFnStorage() {
     static TensorCompactionFilter::RecompressFn fn;
     return fn;
 }
 } // anonymous namespace
 
-/*static*/
+/**
+ * @brief static
+ * @param[in] fn Input parameter.
+ * @details Calls: lk(), recompressFnMutex(), recompressFnStorage(), std::move().
+ */
 void TensorCompactionFilter::setRecompressFn(RecompressFn fn) {
     std::lock_guard<std::mutex> lk(recompressFnMutex());
     recompressFnStorage() = std::move(fn);
 }
 
-/*static*/
+/**
+ * @brief static
+ * @details Calls: lk(), recompressFnMutex(), recompressFnStorage().
+ */
 void TensorCompactionFilter::clearRecompressFn() {
     std::lock_guard<std::mutex> lk(recompressFnMutex());
     recompressFnStorage() = {};

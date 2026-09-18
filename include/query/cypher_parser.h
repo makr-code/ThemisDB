@@ -99,7 +99,15 @@ enum class CypherExprType {
 };
 
 struct CypherExpr {
+    /**
+     * @brief Cypher Expr.
+     * @return Return value.
+     */
     virtual ~CypherExpr() = default;
+    /**
+     * @brief Expr Type.
+     * @return Return value.
+     */
     virtual CypherExprType exprType() const = 0;
 };
 
@@ -119,8 +127,6 @@ struct CypherPropertyExpr : CypherExpr {
 
 struct CypherBinaryOpExpr : CypherExpr {
     std::string op;   ///< "=", "<>", "<", "<=", ">", ">=", "AND", "OR",
-                      ///< "IN", "STARTS WITH", "ENDS WITH", "CONTAINS",
-                      ///< "NOT IN"
     std::shared_ptr<CypherExpr> left;
     std::shared_ptr<CypherExpr> right;
     CypherBinaryOpExpr(std::string o,
@@ -199,24 +205,14 @@ struct CypherParseError {
 // Thread-safety: NOT thread-safe; create one instance per thread.
 // ============================================================================
 
-/** @brief Thread-safety: NOT thread-safe; create one instance per thread. */
 class CypherParser {
 public:
     CypherParser() = default;
 
     /**
-     * Parse a Cypher MATCH … [WHERE …] RETURN … query string into an AST.
-     *
-     * Supported clauses: MATCH, WHERE, RETURN (with DISTINCT, ORDER BY,
-     * SKIP, LIMIT).
-     *
-     * @param cypher_query  The Cypher query to parse.
-     * @return              Result<CypherASTNode> – the AST on success, or a
-     *                      CypherParseError message on failure.
-     *
-     * Example:
-     *   CypherParser p;
-     *   auto ast = p.parse("MATCH (n:User) WHERE n.age > 18 RETURN n.name");
+     * @brief Parse.
+     * @param[in] cypher_query Input parameter.
+     * @return Return value.
      */
     Result<CypherASTNode> parse(const std::string& cypher_query);
 
@@ -232,29 +228,37 @@ private:
 // through the existing AQL pipeline (executeAql / AQLParser / AQLTranslator).
 // ============================================================================
 
-/** @brief through the existing AQL pipeline (executeAql / AQLParser / AQLTranslator). */
 class CypherToAQLTranspiler {
 public:
     CypherToAQLTranspiler() = default;
 
     /**
-     * Translate a Cypher AST into an AQL query string.
-     *
-     * Translation examples:
-     *   MATCH (n:User) WHERE n.age > 18 RETURN n.name
-     *   → FOR n IN User FILTER n.age > 18 RETURN n.name
-     *
-     *   MATCH (n:User)-[:FRIEND]->(m:User) RETURN n, m
-     *   → FOR n IN User FOR e, m IN 1..1 OUTBOUND n GRAPH "FRIEND" RETURN {n: n, m: m}
-     *
-     * @param ast  The parsed Cypher AST.
-     * @return     Result<std::string> – the AQL string on success.
+     * @brief Transpile.
+     * @param[in] ast Input parameter.
+     * @return Return value.
      */
     Result<std::string> transpile(const CypherASTNode& ast);
 
 private:
+    /**
+     * @brief Literal To AQL.
+     * @param[in] val Input parameter.
+     * @return Return value.
+     */
     static std::string literalToAQL(const CypherLiteralValue& val);
+    /**
+     * @brief Expr To AQL.
+     * @param[in] expr Input parameter.
+     * @param[in] default_var Input parameter.
+     * @return Return value.
+     */
     static std::string exprToAQL(const CypherExpr& expr, const std::string& default_var);
+    /**
+     * @brief Node Pattern To Filter.
+     * @param[in] node Input parameter.
+     * @param[in] var Input parameter.
+     * @return Return value.
+     */
     static std::string nodePatternToFilter(const CypherNodePattern& node,
                                            const std::string& var);
 };

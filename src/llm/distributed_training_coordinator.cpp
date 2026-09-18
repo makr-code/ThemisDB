@@ -58,6 +58,12 @@ json DistributedTrainingConfig::toJSON() const {
     return j;
 }
 
+/**
+ * @brief From JSON.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: contains().
+ */
 DistributedTrainingConfig DistributedTrainingConfig::fromJSON(const json& j) {
     DistributedTrainingConfig config = {};
     if (j.contains("sync_strategy")) 
@@ -114,6 +120,11 @@ size_t GradientTensor::compressed_size() const {
     return uncompressed_size();
 }
 
+/**
+ * @brief Compress.
+ * @param[in] type Input parameter.
+ * @details Calls: reset(), empty(), std::min_element(), begin(), end(), std::max_element(), reserve(), size().
+ */
 void GradientTensor::compress(GradientCompressionType type) {
     compression_type = type;
     
@@ -258,6 +269,10 @@ void GradientTensor::compress(GradientCompressionType type) {
     }
 }
 
+/**
+ * @brief Decompress.
+ * @details Calls: has_value(), value(), size(), memcpy(), clear(), reserve(), push_back(), assign().
+ */
 void GradientTensor::decompress() {
     if (!compressed_data.has_value() || compression_type == GradientCompressionType::NONE) {
         return;
@@ -372,6 +387,12 @@ json GradientTensor::toJSON() const {
     return j;
 }
 
+/**
+ * @brief From JSON.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: contains().
+ */
 GradientTensor GradientTensor::fromJSON(const json& j) {
     GradientTensor tensor = {};
     if (j.contains("layer_name")) {
@@ -433,6 +454,12 @@ json GradientExchangeMessage::toJSON() const {
     return j;
 }
 
+/**
+ * @brief From JSON.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: contains(), push_back().
+ */
 GradientExchangeMessage GradientExchangeMessage::fromJSON(const json& j) {
     GradientExchangeMessage msg = {};
     if (j.contains("message_id")) {
@@ -501,6 +528,12 @@ json ShardTrainingState::toJSON() const {
     return j;
 }
 
+/**
+ * @brief From JSON.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: contains().
+ */
 ShardTrainingState ShardTrainingState::fromJSON(const json& j) {
     ShardTrainingState state = {};
     if (j.contains("shard_id")) {
@@ -576,6 +609,12 @@ json DistributedTrainingStats::toJSON() const {
 // AllReduceAggregator Implementation
 // ============================================================================
 
+/**
+ * @brief Aggregate.
+ * @param[in] shard_gradients Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), reserve(), size(), std::chrono::system_clock::now(), time_since_epoch(), count(), resize(), spdlog::warn().
+ */
 std::vector<GradientTensor> AllReduceAggregator::aggregate(
     const std::vector<std::vector<GradientTensor>>& shard_gradients
 ) {
@@ -640,6 +679,12 @@ std::vector<GradientTensor> AllReduceAggregator::aggregate(
 // ParameterServerAggregator Implementation
 // ============================================================================
 
+/**
+ * @brief Aggregate.
+ * @param[in] shard_gradients Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), reserve(), size(), std::chrono::system_clock::now(), time_since_epoch(), count(), resize(), find().
+ */
 std::vector<GradientTensor> ParameterServerAggregator::aggregate(
     const std::vector<std::vector<GradientTensor>>& shard_gradients
 ) {
@@ -710,11 +755,22 @@ std::vector<GradientTensor> ParameterServerAggregator::aggregate(
 // RingAllReduceAggregator Implementation
 // ============================================================================
 
+/**
+ * @brief Set Ring Topology.
+ * @param[in] ring_order Input parameter.
+ * @details Calls: spdlog::info(), size().
+ */
 void RingAllReduceAggregator::setRingTopology(const std::vector<std::string>& ring_order) {
     ring_order_ = ring_order;
     spdlog::info("Ring topology set with {} nodes",ring_order.size());
 }
 
+/**
+ * @brief Aggregate.
+ * @param[in] shard_gradients Input parameter.
+ * @return Return value.
+ * @details Calls: spdlog::info(), size().
+ */
 std::vector<GradientTensor> RingAllReduceAggregator::aggregate(
     const std::vector<std::vector<GradientTensor>>& shard_gradients
 ) {
@@ -755,6 +811,13 @@ DistributedTrainingCoordinator::~DistributedTrainingCoordinator() {
     }
 }
 
+/**
+ * @brief Initialize.
+ * @param[in] adapter_id Identifier of the adapter.
+ * @param[in] param Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: spdlog::warn(), spdlog::info(), initializeAggregator(), initializeByzantineDetector(), validateShardParticipation(), spdlog::error(), std::chrono::system_clock::now(), time_since_epoch().
+ */
 bool DistributedTrainingCoordinator::initialize(
     const std::string& adapter_id, 
     const TrainingConfig& /*training_config*/
@@ -813,6 +876,11 @@ bool DistributedTrainingCoordinator::initialize(
     return true;
 }
 
+/**
+ * @brief Execute Step.
+ * @return Return value.
+ * @details Calls: spdlog::error(), std::chrono::high_resolution_clock::now(), collectGradients(), empty(), aggregateGradients(), aggregateLoss(), has_value(), spdlog::debug().
+ */
 DistributedTrainingCoordinator::StepResult DistributedTrainingCoordinator::executeStep() {
     StepResult result;
     result.success = false;
@@ -897,6 +965,11 @@ DistributedTrainingCoordinator::StepResult DistributedTrainingCoordinator::execu
     return result;
 }
 
+/**
+ * @brief Finalize.
+ * @return True when the operation succeeds.
+ * @details Calls: spdlog::info(), saveCheckpoint().
+ */
 bool DistributedTrainingCoordinator::finalize() {
     if (!is_initialized_) {
         return true;
@@ -918,6 +991,10 @@ bool DistributedTrainingCoordinator::finalize() {
     return true;
 }
 
+/**
+ * @brief Stop.
+ * @details Calls: spdlog::info().
+ */
 void DistributedTrainingCoordinator::stop() {
     spdlog::info("Stopping distributed training coordinator");
     is_running_ = false;
@@ -1136,6 +1213,13 @@ float DistributedTrainingCoordinator::computeWeightedLoss(
     return weighted_sum / total_samples;
 }
 
+/**
+ * @brief Broadcast Gradients.
+ * @param[in] gradients Input parameter.
+ * @param[in] step_number Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: spdlog::debug(), size(), spdlog::error(), spdlog::info(), compressGradients(), push_back(), std::async(), json::array().
+ */
 bool DistributedTrainingCoordinator::broadcastGradients(
     const std::vector<GradientTensor>& gradients,
     int step_number
@@ -1295,6 +1379,12 @@ DistributedTrainingCoordinator::checkShardHealth() {
     return shard_states_;
 }
 
+/**
+ * @brief Handle Shard Failure.
+ * @param[in] failed_shard Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: spdlog::warn(), erase(), std::remove(), begin(), end(), count(), empty(), spdlog::error().
+ */
 bool DistributedTrainingCoordinator::handleShardFailure(const std::string& failed_shard) {
     spdlog::warn("Handling failure of shard: {}", failed_shard);
     
@@ -1322,6 +1412,12 @@ bool DistributedTrainingCoordinator::handleShardFailure(const std::string& faile
     return true;
 }
 
+/**
+ * @brief Save Checkpoint.
+ * @param[in] step_number Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), spdlog::warn(), toJSON(), json::object(), std::to_string(), file(), is_open(), spdlog::error().
+ */
 bool DistributedTrainingCoordinator::saveCheckpoint(int step_number) {
     if (config_.checkpoint_path.empty()) {
         spdlog::warn("Checkpoint path not configured");
@@ -1365,6 +1461,12 @@ bool DistributedTrainingCoordinator::saveCheckpoint(int step_number) {
     }
 }
 
+/**
+ * @brief Resume From Checkpoint.
+ * @param[in] checkpoint_path Path to the checkpoint.
+ * @return True when the operation succeeds.
+ * @details Calls: file(), is_open(), spdlog::error(), close(), contains(), clear(), items(), ShardTrainingState::fromJSON().
+ */
 bool DistributedTrainingCoordinator::resumeFromCheckpoint(const std::string& checkpoint_path) {
     try {
         std::ifstream file(checkpoint_path);
@@ -1446,10 +1548,20 @@ float DistributedTrainingCoordinator::estimateRemainingTime() const {
     return 0.0f;
 }
 
+/**
+ * @brief Set Progress Callback.
+ * @param[in] callback Input parameter.
+ * @details Implements setProgressCallback without additional internal calls.
+ */
 void DistributedTrainingCoordinator::setProgressCallback(ProgressCallback callback) {
     progress_callback_ = callback;
 }
 
+/**
+ * @brief Update the access control configuration.
+ * @param[in] config New access control configuration.
+ * @details Calls: initializeAggregator(), spdlog::info().
+ */
 void DistributedTrainingCoordinator::updateConfig(const DistributedTrainingConfig& config) {
     config_ = config;
     
@@ -1459,6 +1571,10 @@ void DistributedTrainingCoordinator::updateConfig(const DistributedTrainingConfi
     spdlog::info("Configuration updated");
 }
 
+/**
+ * @brief Initialize Aggregator.
+ * @details Calls: spdlog::info(), size(), setRingTopology(), std::move(), spdlog::warn().
+ */
 void DistributedTrainingCoordinator::initializeAggregator() {
     switch (config_.sync_strategy) {
         case SyncStrategy::ALL_REDUCE:
@@ -1498,6 +1614,10 @@ void DistributedTrainingCoordinator::initializeAggregator() {
     }
 }
 
+/**
+ * @brief Initialize Byzantine Detector.
+ * @details Calls: ByzantineDetectorFactory::create(), spdlog::info(), getName(), spdlog::warn().
+ */
 void DistributedTrainingCoordinator::initializeByzantineDetector() {
     byzantine_detector_ = ByzantineDetectorFactory::create(
         config_.detection_method,
@@ -1560,6 +1680,11 @@ void DistributedTrainingCoordinator::clipAnomalousGradients(
     }
 }
 
+/**
+ * @brief Validate Shard Participation.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), spdlog::error(), spdlog::warn(), spdlog::info(), getHealthyShards(), insert(), find(), end().
+ */
 bool DistributedTrainingCoordinator::validateShardParticipation() {
     if (config_.participant_shards.empty()) {
         spdlog::error("No participant shards configured");
@@ -1625,10 +1750,21 @@ bool DistributedTrainingCoordinator::validateShardParticipation() {
     return true;
 }
 
+/**
+ * @brief Update Statistics.
+ * @param[in] param Input parameter.
+ * @details Implements updateStatistics without additional internal calls.
+ */
 void DistributedTrainingCoordinator::updateStatistics(const StepResult& /*result*/) {
     // Statistics are updated in executeStep
 }
 
+/**
+ * @brief Compress Gradients.
+ * @param[in] gradients Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), compress(), push_back(), std::move().
+ */
 std::vector<GradientTensor> DistributedTrainingCoordinator::compressGradients(
     const std::vector<GradientTensor>& gradients
 ) {
@@ -1646,6 +1782,12 @@ std::vector<GradientTensor> DistributedTrainingCoordinator::compressGradients(
     return compressed;
 }
 
+/**
+ * @brief Decompress Gradients.
+ * @param[in] gradients Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), decompress(), push_back(), std::move().
+ */
 std::vector<GradientTensor> DistributedTrainingCoordinator::decompressGradients(
     const std::vector<GradientTensor>& gradients
 ) {

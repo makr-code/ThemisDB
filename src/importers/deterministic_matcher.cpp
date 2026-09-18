@@ -137,7 +137,13 @@ DeterministicMatcher::MatchResult DeterministicMatcher::findByCustomIdentifier(c
 // SemanticMatcher – string distance metrics
 // ---------------------------------------------------------------------------
 
-// Jaro similarity (prerequisite for Jaro-Winkler).
+/**
+ * @brief Jaro similarity (prerequisite for Jaro-Winkler).
+ * @param[in] s1 Input parameter.
+ * @param[in] s2 Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), size(), std::max(), s1_matched(), s2_matched(), std::min().
+ */
 double SemanticMatcher::jaroSimilarity(const std::string &s1, const std::string &s2) {
     if (s1.empty() && s2.empty()) {
         return 1.0;
@@ -193,6 +199,13 @@ double SemanticMatcher::jaroSimilarity(const std::string &s1, const std::string 
     return (m / len1 + m / len2 + (m - transpositions / 2.0) / m) / 3.0;
 }
 
+/**
+ * @brief Jaro Winkler Distance.
+ * @param[in] s1 Input parameter.
+ * @param[in] s2 Input parameter.
+ * @return Return value.
+ * @details Calls: jaroSimilarity(), std::min(), size().
+ */
 double SemanticMatcher::jaroWinklerDistance(const std::string &s1, const std::string &s2) {
     double jaro = jaroSimilarity(s1, s2);
     // Compute common prefix length (up to 4 characters).
@@ -207,6 +220,13 @@ double SemanticMatcher::jaroWinklerDistance(const std::string &s1, const std::st
     return jaro + prefix * 0.1 * (1.0 - jaro);
 }
 
+/**
+ * @brief Levenshtein Distance.
+ * @param[in] s1 Input parameter.
+ * @param[in] s2 Input parameter.
+ * @return Return value.
+ * @details Calls: size(), dp(), std::min().
+ */
 size_t SemanticMatcher::levenshteinDistance(const std::string &s1, const std::string &s2) {
     const size_t n = s1.size();
     const size_t m = s2.size();
@@ -234,6 +254,13 @@ size_t SemanticMatcher::levenshteinDistance(const std::string &s1, const std::st
     return dp[m];
 }
 
+/**
+ * @brief Levenshtein Similarity.
+ * @param[in] s1 Input parameter.
+ * @param[in] s2 Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), std::max(), size(), levenshteinDistance().
+ */
 double SemanticMatcher::levenshteinSimilarity(const std::string &s1, const std::string &s2) {
     if (s1.empty() && s2.empty()) {
         return 1.0;
@@ -250,6 +277,12 @@ double SemanticMatcher::levenshteinSimilarity(const std::string &s1, const std::
 // Name / phone / email helpers
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief To Lower Matcher.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Calls: std::tolower().
+ */
 static std::string toLowerMatcher(const std::string &s) {
     std::string out = s;
     for (char &c : out) {
@@ -258,6 +291,12 @@ static std::string toLowerMatcher(const std::string &s) {
     return out;
 }
 
+/**
+ * @brief Normalize Full Name.
+ * @param[in] name Input parameter.
+ * @return Return value.
+ * @details Calls: find(), substr(), find_first_not_of(), toLowerMatcher().
+ */
 std::string SemanticMatcher::normalizeFullName(const std::string &name) {
     // Handle "Last, First" format.
     std::string n        = name;
@@ -275,6 +314,12 @@ std::string SemanticMatcher::normalizeFullName(const std::string &name) {
     return toLowerMatcher(n);
 }
 
+/**
+ * @brief Compute Soundex.
+ * @param[in] name Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), std::toupper(), code(), size().
+ */
 std::string SemanticMatcher::computeSoundex(const std::string &name) {
     if (name.empty()) {
         return "0000";
@@ -308,6 +353,13 @@ std::string SemanticMatcher::computeSoundex(const std::string &name) {
     return code;
 }
 
+/**
+ * @brief Soundex Match.
+ * @param[in] name1 Input parameter.
+ * @param[in] name2 Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), ss(), computeSoundex(), firstToken(), size().
+ */
 double SemanticMatcher::soundexMatch(const std::string &name1, const std::string &name2) {
     if (name1.empty() || name2.empty()) {
         return 0.0;
@@ -331,6 +383,13 @@ double SemanticMatcher::soundexMatch(const std::string &name1, const std::string
     return 0.0;
 }
 
+/**
+ * @brief Score Name Variations.
+ * @param[in] n1 Input parameter.
+ * @param[in] n2 Input parameter.
+ * @return Return value.
+ * @details Calls: normalizeFullName(), jaroWinklerDistance(), soundexMatch(), std::max().
+ */
 double SemanticMatcher::scoreNameVariations(const std::string &n1, const std::string &n2) {
     const std::string a = normalizeFullName(n1);
     const std::string b = normalizeFullName(n2);
@@ -339,6 +398,13 @@ double SemanticMatcher::scoreNameVariations(const std::string &n1, const std::st
     return std::max(jw, sd * 0.9);
 }
 
+/**
+ * @brief Score Email Pair.
+ * @param[in] e1 Input parameter.
+ * @param[in] e2 Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), find(), toLowerMatcher(), substr(), splitEmail(), jaroWinklerDistance().
+ */
 double SemanticMatcher::scoreEmailPair(const std::string &e1, const std::string &e2) {
     if (e1.empty() || e2.empty()) {
         return 0.0;
@@ -361,6 +427,13 @@ double SemanticMatcher::scoreEmailPair(const std::string &e1, const std::string 
     return jaroWinklerDistance(local1, local2);
 }
 
+/**
+ * @brief Is Likely Email Typo.
+ * @param[in] e1 Input parameter.
+ * @param[in] e2 Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), find(), toLowerMatcher(), substr(), levenshteinDistance().
+ */
 bool SemanticMatcher::isLikelyEmailTypo(const std::string &e1, const std::string &e2) {
     if (e1.empty() || e2.empty()) {
         return false;
@@ -380,6 +453,12 @@ bool SemanticMatcher::isLikelyEmailTypo(const std::string &e1, const std::string
     return levenshteinDistance(local1, local2) <= 2;
 }
 
+/**
+ * @brief Normalize Phone Number.
+ * @param[in] phone Input parameter.
+ * @return Return value.
+ * @details Calls: std::isdigit(), size(), substr().
+ */
 std::string SemanticMatcher::normalizePhoneNumber(const std::string &phone) {
     std::string digits = {};
     for (char c : phone) {
@@ -395,6 +474,13 @@ std::string SemanticMatcher::normalizePhoneNumber(const std::string &phone) {
     return digits;
 }
 
+/**
+ * @brief Score Phone Pair.
+ * @param[in] p1 Input parameter.
+ * @param[in] p2 Input parameter.
+ * @return Return value.
+ * @details Calls: normalizePhoneNumber(), empty(), levenshteinSimilarity().
+ */
 double SemanticMatcher::scorePhonePair(const std::string &p1, const std::string &p2) {
     const std::string n1 = normalizePhoneNumber(p1);
     const std::string n2 = normalizePhoneNumber(p2);
@@ -407,6 +493,13 @@ double SemanticMatcher::scorePhonePair(const std::string &p1, const std::string 
     return levenshteinSimilarity(n1, n2);
 }
 
+/**
+ * @brief Vector Similarity.
+ * @param[in] v1 Input parameter.
+ * @param[in] v2 Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), size(), std::sqrt(), std::max(), std::min().
+ */
 double SemanticMatcher::vectorSimilarity(const std::vector<float> &v1, const std::vector<float> &v2) {
     if (v1.empty() || v2.empty() || v1.size() != v2.size()) {
         return 0.0;

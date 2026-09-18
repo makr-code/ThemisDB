@@ -43,6 +43,13 @@ std::shared_ptr<IngestionToolbox> ToolboxComposite::resolve(
     return fallback_;
 }
 
+/**
+ * @brief Extract Entities.
+ * @param[in] text Input parameter.
+ * @param[in] mime Input parameter.
+ * @param[in] filename Input parameter.
+ * @return Return value.
+ */
 std::vector<ingestion::BaseEntity> ToolboxComposite::extractEntities(
     const std::string& text,
     const std::string& mime,
@@ -67,6 +74,12 @@ std::shared_ptr<IngestionToolbox> ToolboxComposite::fallback() const noexcept {
 // ToolboxCompositeBuilder
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Add Route.
+ * @param[in] mime_prefix Input parameter.
+ * @param[in] toolbox Input parameter.
+ * @return Return value.
+ */
 ToolboxCompositeBuilder& ToolboxCompositeBuilder::addRoute(
     std::string                       mime_prefix,
     std::shared_ptr<IngestionToolbox> toolbox)
@@ -79,6 +92,11 @@ ToolboxCompositeBuilder& ToolboxCompositeBuilder::addRoute(
     return *this;
 }
 
+/**
+ * @brief Set Fallback.
+ * @param[in] toolbox Input parameter.
+ * @return Return value.
+ */
 ToolboxCompositeBuilder& ToolboxCompositeBuilder::setFallback(
     std::shared_ptr<IngestionToolbox> toolbox)
 {
@@ -86,6 +104,12 @@ ToolboxCompositeBuilder& ToolboxCompositeBuilder::setFallback(
     return *this;
 }
 
+/**
+ * @brief Build.
+ * @return Return value.
+ * @throws std::logic_error if an error occurs.
+ * @details Calls: empty(), std::move().
+ */
 std::unique_ptr<ToolboxComposite> ToolboxCompositeBuilder::build() {
     if (routes_.empty() && !fallback_) {
         throw std::logic_error(

@@ -129,6 +129,13 @@ AuthMetrics::AuthMetrics(const Config& config)
 
 #endif
 
+/**
+ * @brief Record Auth Attempt.
+ * @param[in] method Input parameter.
+ * @param[in] success Input parameter.
+ * @param[in] duration_ms Input parameter.
+ * @details Calls: fetch_add(), authMethodToString(), Add(), Increment(), Observe().
+ */
 void AuthMetrics::recordAuthAttempt(AuthMethod method, bool success, double duration_ms) {
     (void)method;
     (void)success;
@@ -161,12 +168,25 @@ void AuthMetrics::recordAuthAttempt(AuthMethod method, bool success, double dura
 #endif
 }
 
+/**
+ * @brief Record Auth Success.
+ * @param[in] method Input parameter.
+ * @param[in] duration_ms Input parameter.
+ * @details Calls: recordAuthAttempt().
+ */
 void AuthMetrics::recordAuthSuccess(AuthMethod method, double duration_ms) {
     (void)method;
     (void)duration_ms;
     recordAuthAttempt(method, true, duration_ms);
 }
 
+/**
+ * @brief Record Auth Failure.
+ * @param[in] method Input parameter.
+ * @param[in] error_code Input parameter.
+ * @param[in] duration_ms Input parameter.
+ * @details Calls: recordAuthAttempt(), recordError().
+ */
 void AuthMetrics::recordAuthFailure(AuthMethod method, int error_code, double duration_ms) {
     (void)method;
     (void)duration_ms;
@@ -174,18 +194,32 @@ void AuthMetrics::recordAuthFailure(AuthMethod method, int error_code, double du
     recordError(error_code);
 }
 
+/**
+ * @brief Record JWKSCache Hit.
+ * @details Calls: Add(), Increment().
+ */
 void AuthMetrics::recordJWKSCacheHit() {
 #ifdef THEMIS_HAS_PROMETHEUS
     jwks_cache_hits_total_.Add({}).Increment();
 #endif
 }
 
+/**
+ * @brief Record JWKSCache Miss.
+ * @details Calls: Add(), Increment().
+ */
 void AuthMetrics::recordJWKSCacheMiss() {
 #ifdef THEMIS_HAS_PROMETHEUS
     jwks_cache_misses_total_.Add({}).Increment();
 #endif
 }
 
+/**
+ * @brief Record JWKSFetch.
+ * @param[in] duration_ms Input parameter.
+ * @param[in] success Input parameter.
+ * @details Calls: Add(), Increment(), Observe().
+ */
 void AuthMetrics::recordJWKSFetch(double duration_ms, bool success) {
     (void)duration_ms;
     (void)success;
@@ -208,6 +242,11 @@ void AuthMetrics::setJWKSCacheSize([[maybe_unused]] int num_keys) {
 #endif
 }
 
+/**
+ * @brief Record Rate Limit Exceeded.
+ * @param[in] type Input parameter.
+ * @details Calls: Add(), Increment().
+ */
 void AuthMetrics::recordRateLimitExceeded(const std::string& type) {
     (void)type;
 #ifdef THEMIS_HAS_PROMETHEUS
@@ -217,11 +256,22 @@ void AuthMetrics::recordRateLimitExceeded(const std::string& type) {
 #endif
 }
 
+/**
+ * @brief Set Rate Limit Tokens.
+ * @param[in] param Input parameter.
+ * @param[in] double Input parameter.
+ * @details Implements setRateLimitTokens without additional internal calls.
+ */
 void AuthMetrics::setRateLimitTokens(const std::string& /*identifier*/, double /*tokens*/) {
     // This would create too many time series, so we skip it in the implementation
     // Instead, we rely on aggregate metrics
 }
 
+/**
+ * @brief Record Account Lockout.
+ * @param[in] user_id Identifier of the user.
+ * @details Calls: Add(), Increment(), utils::Logger::warn().
+ */
 void AuthMetrics::recordAccountLockout(const std::string& user_id) {
 #ifdef THEMIS_HAS_PROMETHEUS
     account_lockouts_total_.Add({}).Increment();
@@ -229,6 +279,11 @@ void AuthMetrics::recordAccountLockout(const std::string& user_id) {
     utils::Logger::warn("Account locked: " + user_id);
 }
 
+/**
+ * @brief Record Account Unlock.
+ * @param[in] user_id Identifier of the user.
+ * @details Calls: Add(), Increment(), utils::Logger::info().
+ */
 void AuthMetrics::recordAccountUnlock(const std::string& user_id) {
 #ifdef THEMIS_HAS_PROMETHEUS
     account_unlocks_total_.Add({}).Increment();
@@ -252,6 +307,11 @@ void AuthMetrics::recordError([[maybe_unused]] int error_code) {
 #endif
 }
 
+/**
+ * @brief Record Error By Category.
+ * @param[in] category Input parameter.
+ * @details Calls: Add(), Increment().
+ */
 void AuthMetrics::recordErrorByCategory(const std::string& category) {
     (void)category;
 #ifdef THEMIS_HAS_PROMETHEUS
@@ -261,6 +321,12 @@ void AuthMetrics::recordErrorByCategory(const std::string& category) {
 #endif
 }
 
+/**
+ * @brief Record Token Validation.
+ * @param[in] method Input parameter.
+ * @param[in] duration_ms Input parameter.
+ * @details Calls: authMethodToString(), Add(), Observe().
+ */
 void AuthMetrics::recordTokenValidation(AuthMethod method, double duration_ms) {
     (void)method;
     (void)duration_ms;
@@ -296,6 +362,13 @@ uint64_t AuthMetrics::getTOTPDriftCount() const {
     return totp_drift_count_.load(std::memory_order_relaxed);
 }
 
+/**
+ * @brief Record Credential Stuffing Attempt.
+ * @param[in] user_id Identifier of the user.
+ * @param[in] ip Input parameter.
+ * @param[in] outcome Input parameter.
+ * @details Calls: fetch_add(), Add(), Increment().
+ */
 void AuthMetrics::recordCredentialStuffingAttempt(const std::string& user_id,
                                                    const std::string& ip,
                                                    const std::string& outcome) {
@@ -373,6 +446,12 @@ int AuthMetrics::getLDAPActiveConnections() const {
     return ldap_active_connections_count_.load(std::memory_order_relaxed);
 }
 
+/**
+ * @brief Auth Method To String.
+ * @param[in] method Input parameter.
+ * @return Return value.
+ * @details Implements authMethodToString without additional internal calls.
+ */
 std::string AuthMetrics::authMethodToString(AuthMethod method) {
     switch (method) {
         case AuthMethod::JWT:

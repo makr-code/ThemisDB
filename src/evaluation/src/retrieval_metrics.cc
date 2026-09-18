@@ -46,12 +46,22 @@ namespace evaluation {
 
 namespace {
 
-/// @brief Guard helper that always throws a MetricError.
 [[noreturn]] void throwMetric(MetricErrorKind kind, std::string_view msg) {
+    /**
+     * @brief Metric Error.
+     * @param[in] kind Input parameter.
+     * @param[in] msg Input parameter.
+     * @return Return value.
+     */
     throw MetricError(kind, msg);
 }
 
-/// @brief Validate that a double value is finite; throw on NaN or ±Inf.
+/**
+ * @brief Require Finite.
+ * @param[in] v Input parameter.
+ * @param[in] name Input parameter.
+ * @details Calls: std::isfinite(), throwMetric(), std::string().
+ */
 void requireFinite(double v, std::string_view name) {
     if (!std::isfinite(v)) {
         throwMetric(MetricErrorKind::NonFiniteInput,
@@ -59,7 +69,12 @@ void requireFinite(double v, std::string_view name) {
     }
 }
 
-/// @brief Validate a probability in [0, 1].
+/**
+ * @brief Require Probability.
+ * @param[in] v Input parameter.
+ * @param[in] name Input parameter.
+ * @details Calls: requireFinite(), throwMetric(), std::string().
+ */
 void requireProbability(double v, std::string_view name) {
     requireFinite(v, name);
     if (v < 0.0 || v > 1.0) {
@@ -68,7 +83,6 @@ void requireProbability(double v, std::string_view name) {
     }
 }
 
-/// @brief Build a set from a string vector; throw on duplicates.
 [[nodiscard]] std::unordered_set<std::string> toSetChecked(
     const std::vector<std::string>& v, std::string_view ctx)
 {
@@ -84,7 +98,6 @@ void requireProbability(double v, std::string_view name) {
     return s;
 }
 
-/// @brief Compute DCG for a relevance gain vector up to depth k.
 [[nodiscard]] double dcg(const std::vector<double>& gains, std::size_t k) {
     double result = 0.0;
     for (std::size_t i = 0; i < k && i < gains.size(); ++i) {
@@ -99,6 +112,14 @@ void requireProbability(double v, std::string_view name) {
 // § 1  Retrieval quality
 // ============================================================================
 
+/**
+ * @brief Compute Retrieval Quality.
+ * @param[in] ranked Input parameter.
+ * @param[in] ground_truth Input parameter.
+ * @param[in] k Input parameter.
+ * @param[in] total_candidates Input parameter.
+ * @return Return value.
+ */
 RetrievalQualityMetrics computeRetrievalQuality(
     const std::vector<RankedResult>& ranked,
     const std::vector<std::string>&  ground_truth,
@@ -141,8 +162,12 @@ RetrievalQualityMetrics computeRetrievalQuality(
     const double recall_at_k    = static_cast<double>(hits) / static_cast<double>(gt_size);
     const double precision_at_k = static_cast<double>(hits) / static_cast<double>(k);
 
-    // --- NDCG@k ---
-    // Binary relevance: gain = 1.0 if in ground truth, 0.0 otherwise.
+    /**
+     * @brief --- NDCG@k --- Binary relevance: gain = 1.
+     * @param[in] k Input parameter.
+     * @return Return value.
+     * @details 0 if in ground truth, 0.0 otherwise.
+     */
     std::vector<double> gains(k);
     for (std::size_t i = 0; i < k; ++i) {
         gains[i] = gtSet.count(ranked[i].id) ? 1.0 : 0.0;
@@ -187,6 +212,13 @@ RetrievalQualityMetrics computeRetrievalQuality(
 // § 2  Evidence quality
 // ============================================================================
 
+/**
+ * @brief Compute Evidence Quality.
+ * @param[in] returned_evidence_ids Input parameter.
+ * @param[in] required_evidence_ids Input parameter.
+ * @param[in] hop_chain_lengths Input parameter.
+ * @return Return value.
+ */
 EvidenceQualityMetrics computeEvidenceQuality(
     const std::vector<std::string>& returned_evidence_ids,
     const std::vector<std::string>& required_evidence_ids,
@@ -250,6 +282,12 @@ EvidenceQualityMetrics computeEvidenceQuality(
 // § 3  Provenance quality
 // ============================================================================
 
+/**
+ * @brief Compute Provenance Quality.
+ * @param[in] returned Input parameter.
+ * @param[in] ground_truth Input parameter.
+ * @return Return value.
+ */
 ProvenanceQualityMetrics computeProvenanceQuality(
     const std::vector<ProvenanceAssertion>& returned,
     const std::vector<ProvenanceAssertion>& ground_truth)
@@ -339,6 +377,14 @@ ProvenanceQualityMetrics computeProvenanceQuality(
 // § 4  Compression / tensor metrics
 // ============================================================================
 
+/**
+ * @brief Compute Compression Metrics.
+ * @param[in] original_size_bytes Input parameter.
+ * @param[in] compressed_size_bytes Input parameter.
+ * @param[in] approximation_errors Input parameter.
+ * @param[in] rank_samples Input parameter.
+ * @return Return value.
+ */
 CompressionMetrics computeCompressionMetrics(
     std::size_t                original_size_bytes,
     std::size_t                compressed_size_bytes,
@@ -411,6 +457,14 @@ CompressionMetrics computeCompressionMetrics(
 // § 5  LLM answer quality
 // ============================================================================
 
+/**
+ * @brief Compute Llm Answer Quality.
+ * @param[in] supported_claims Input parameter.
+ * @param[in] total_claims Input parameter.
+ * @param[in] evidence_tokens Input parameter.
+ * @param[in] prompt_token_count Input parameter.
+ * @return Return value.
+ */
 LlmAnswerQualityMetrics computeLlmAnswerQuality(
     uint32_t supported_claims,
     uint32_t total_claims,
@@ -452,6 +506,14 @@ LlmAnswerQualityMetrics computeLlmAnswerQuality(
 // § 6  Distributed efficiency
 // ============================================================================
 
+/**
+ * @brief Compute Distributed Efficiency.
+ * @param[in] per_query_shard_counts Input parameter.
+ * @param[in] per_query_bytes Input parameter.
+ * @param[in] summary_skipped_shards Input parameter.
+ * @param[in] total_shards Input parameter.
+ * @return Return value.
+ */
 DistributedEfficiencyMetrics computeDistributedEfficiency(
     const std::vector<uint32_t>& per_query_shard_counts,
     const std::vector<double>&   per_query_bytes,
@@ -513,9 +575,12 @@ DistributedEfficiencyMetrics computeDistributedEfficiency(
     return result;
 }
 
-// ============================================================================
-// § 7  Tensor-graph runtime metrics
-// ============================================================================
+/**
+ * @brief ============================================================================ § 7 Tensor-graph runtime metrics ============================================================================
+ * @param[in] snapshots Input parameter.
+ * @param[in] max_residual_error Input parameter.
+ * @return Return value.
+ */
 
 TensorGraphRuntimeMetrics computeTensorGraphRuntimeMetrics(
     const std::vector<TensorGraphSnapshot>& snapshots,
@@ -607,10 +672,21 @@ TensorGraphRuntimeMetrics computeTensorGraphRuntimeMetrics(
 // § 8  MetricCollector
 // ============================================================================
 
+/**
+ * @brief Record Snapshot.
+ * @param[in] snapshot Input parameter.
+ * @details Calls: push_back(), std::move().
+ */
 void MetricCollector::recordSnapshot(TensorGraphSnapshot snapshot) {
     snapshots_.push_back(std::move(snapshot));
 }
 
+/**
+ * @brief Record Shard Query.
+ * @param[in] shard_count Input parameter.
+ * @param[in] bytes Input parameter.
+ * @param[in] skipped Input parameter.
+ */
 void MetricCollector::recordShardQuery(
     uint32_t shard_count, double bytes, uint32_t skipped)
 {

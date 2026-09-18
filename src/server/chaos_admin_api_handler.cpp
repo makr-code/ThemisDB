@@ -43,6 +43,12 @@ ChaosAdminApiHandler::~ChaosAdminApiHandler() = default;
 // Dispatch
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Handle.
+ * @param[in] req Input parameter.
+ * @param[in] target Input parameter.
+ * @return Return value.
+ */
 http::response<http::string_body> ChaosAdminApiHandler::handle(
     const http::request<http::string_body>& req,
     const std::string& target)
@@ -79,6 +85,11 @@ http::response<http::string_body> ChaosAdminApiHandler::handle(
 // Route handlers
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Handle Inject.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ */
 http::response<http::string_body> ChaosAdminApiHandler::handleInject(
     const http::request<http::string_body>& req)
 {
@@ -138,6 +149,11 @@ http::response<http::string_body> ChaosAdminApiHandler::handleInject(
     }
 }
 
+/**
+ * @brief Handle Reset.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ */
 http::response<http::string_body> ChaosAdminApiHandler::handleReset(
     const http::request<http::string_body>& req)
 {
@@ -161,6 +177,11 @@ http::response<http::string_body> ChaosAdminApiHandler::handleReset(
     }
 }
 
+/**
+ * @brief Handle Status.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ */
 http::response<http::string_body> ChaosAdminApiHandler::handleStatus(
     const http::request<http::string_body>& req)
 {
@@ -200,6 +221,11 @@ http::response<http::string_body> ChaosAdminApiHandler::handleStatus(
     }
 }
 
+/**
+ * @brief Handle History.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ */
 http::response<http::string_body> ChaosAdminApiHandler::handleHistory(
     const http::request<http::string_body>& req)
 {

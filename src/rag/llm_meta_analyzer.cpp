@@ -34,6 +34,11 @@ struct LLMMetaAnalyzer::Impl {
     mutable std::mutex metrics_mutex;
 };
 
+/**
+ * @brief Load Config.
+ * @param[in] config Input parameter.
+ * @details Calls: THEMIS_INFO().
+ */
 void LLMMetaAnalyzer::loadConfig(const AnalysisConfig& config) {
     if (!impl_) {
         impl_ = std::make_unique<Impl>();
@@ -50,6 +55,10 @@ LLMMetaAnalyzer::AnalysisConfig LLMMetaAnalyzer::getConfig() const {
     return impl_->config;
 }
 
+/**
+ * @brief Clear Cache.
+ * @details Calls: clear(), THEMIS_DEBUG().
+ */
 void LLMMetaAnalyzer::clearCache() {
     if (impl_) {
         impl_->cache.clear();
@@ -57,6 +66,15 @@ void LLMMetaAnalyzer::clearCache() {
     }
 }
 
+/**
+ * @brief Build Prompt.
+ * @param[in] task_description Input parameter.
+ * @param[in] input_text Input parameter.
+ * @param[in] criteria Input parameter.
+ * @return Return value.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: size(), THEMIS_WARN(), empty(), str().
+ */
 std::string LLMMetaAnalyzer::buildPrompt(
     const std::string& task_description,
     const std::string& input_text,
@@ -111,6 +129,14 @@ std::string LLMMetaAnalyzer::buildPrompt(
     return prompt.str();
 }
 
+/**
+ * @brief Build Prompt With Co T.
+ * @param[in] task_description Input parameter.
+ * @param[in] input_text Input parameter.
+ * @param[in] criteria Input parameter.
+ * @return Return value.
+ * @details Implements buildPromptWithCoT without additional internal calls.
+ */
 std::string LLMMetaAnalyzer::buildPromptWithCoT(
     const std::string& task_description,
     const std::string& input_text,
@@ -119,6 +145,16 @@ std::string LLMMetaAnalyzer::buildPromptWithCoT(
     return buildPromptWithCoT(task_description, input_text, criteria, {});
 }
 
+/**
+ * @brief Build Prompt With Co T.
+ * @param[in] task_description Input parameter.
+ * @param[in] input_text Input parameter.
+ * @param[in] criteria Input parameter.
+ * @param[in] examples Input parameter.
+ * @return Return value.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: size(), THEMIS_WARN(), empty(), str().
+ */
 std::string LLMMetaAnalyzer::buildPromptWithCoT(
     const std::string& task_description,
     const std::string& input_text,
@@ -178,6 +214,12 @@ std::string LLMMetaAnalyzer::buildPromptWithCoT(
     return prompt.str();
 }
 
+/**
+ * @brief Parse Response.
+ * @param[in] llm_response Input parameter.
+ * @return Return value.
+ * @details Calls: parseScore(), extractReasoning().
+ */
 LLMMetaAnalyzer::AnalysisResult LLMMetaAnalyzer::parseResponse(
     const std::string& llm_response
 ) {
@@ -195,6 +237,13 @@ LLMMetaAnalyzer::AnalysisResult LLMMetaAnalyzer::parseResponse(
     return result;
 }
 
+/**
+ * @brief Parse Score.
+ * @param[in] response Input parameter.
+ * @param[in] dimension Input parameter.
+ * @return Return value.
+ * @details Calls: std::regex(), empty(), insert(), begin(), std::regex_search(), std::stod(), str(), std::clamp().
+ */
 double LLMMetaAnalyzer::parseScore(
     const std::string& response,
     const std::string& dimension
@@ -237,6 +286,12 @@ double LLMMetaAnalyzer::parseScore(
     return 0.5;
 }
 
+/**
+ * @brief Extract Reasoning.
+ * @param[in] response Input parameter.
+ * @return Return value.
+ * @details Calls: reasoning_pattern(), std::regex_search(), str(), erase(), find_first_not_of(), find_last_not_of(), find(), substr().
+ */
 std::string LLMMetaAnalyzer::extractReasoning(const std::string& response) {
     // Try to extract reasoning section
     std::regex reasoning_pattern(
@@ -261,6 +316,12 @@ std::string LLMMetaAnalyzer::extractReasoning(const std::string& response) {
     return response.substr(0, std::min(response.size(), size_t(200)));
 }
 
+/**
+ * @brief Call LLM.
+ * @param[in] prompt Input parameter.
+ * @return Return value.
+ * @details Calls: THEMIS_DEBUG(), size(), LLMIntegration::getInferenceEngine(), std::to_string(), fetch_add(), submit(), get(), THEMIS_ERROR().
+ */
 std::string LLMMetaAnalyzer::callLLM(const std::string& prompt) {
     THEMIS_DEBUG("LLM call with prompt length: {}",prompt.size());
 
@@ -313,6 +374,13 @@ void LLMMetaAnalyzer::exportMetrics(std::unordered_map<std::string, double>& met
     }
 }
 
+/**
+ * @brief Compute Cache Key.
+ * @param[in] input Input parameter.
+ * @return Return value.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: size(), THEMIS_WARN(), std::to_string().
+ */
 std::string LLMMetaAnalyzer::computeCacheKey(const std::string& input) {
     // ── INPUT VALIDATION ────────────────────────────────────────────────────
     // Validate input size for cache key computation

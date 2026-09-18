@@ -22,18 +22,44 @@ namespace themis {
 namespace tensor {
 
 namespace {
+/**
+ * @brief Mmap Load Fn Mutex.
+ * @return Return value.
+ * @details Implements mmapLoadFnMutex without additional internal calls.
+ */
 std::mutex& mmapLoadFnMutex() { static std::mutex m; return m; }
+/**
+ * @brief Mmap Load Fn Storage.
+ * @return Return value.
+ * @details Implements mmapLoadFnStorage without additional internal calls.
+ */
 AdapterRepository::MmapLoadFn& mmapLoadFnStorage() {
     static AdapterRepository::MmapLoadFn fn;
     return fn;
 }
 
+/**
+ * @brief Exact Similarity Fn Mutex.
+ * @return Return value.
+ * @details Implements exactSimilarityFnMutex without additional internal calls.
+ */
 std::mutex& exactSimilarityFnMutex() { static std::mutex m; return m; }
+/**
+ * @brief Exact Similarity Fn Storage.
+ * @return Return value.
+ * @details Implements exactSimilarityFnStorage without additional internal calls.
+ */
 AdapterRepository::ExactSimilarityFn& exactSimilarityFnStorage() {
     static AdapterRepository::ExactSimilarityFn fn;
     return fn;
 }
 
+/**
+ * @brief Scope Kind For Domain.
+ * @param[in] domain Input parameter.
+ * @return Return value.
+ * @details Calls: rfind().
+ */
 themis::index::AnnScopeKind scopeKindForDomain(const std::string& domain) {
     if (domain.rfind("pkg:", 0) == 0 || domain.rfind("package:", 0) == 0) {
         return themis::index::AnnScopeKind::Package;
@@ -45,19 +71,30 @@ themis::index::AnnScopeKind scopeKindForDomain(const std::string& domain) {
 }
 } // namespace
 
-/*static*/
+/**
+ * @brief static
+ * @param[in] fn Input parameter.
+ * @details Calls: lk(), mmapLoadFnMutex(), mmapLoadFnStorage(), std::move().
+ */
 void AdapterRepository::setMmapLoadFn(MmapLoadFn fn) {
     std::lock_guard<std::mutex> lk(mmapLoadFnMutex());
     mmapLoadFnStorage() = std::move(fn);
 }
 
-/*static*/
+/**
+ * @brief static
+ * @details Calls: lk(), mmapLoadFnMutex(), mmapLoadFnStorage().
+ */
 void AdapterRepository::clearMmapLoadFn() {
     std::lock_guard<std::mutex> lk(mmapLoadFnMutex());
     mmapLoadFnStorage() = {};
 }
 
-/*static*/
+/**
+ * @brief static
+ * @param[in] fn Input parameter.
+ * @details Calls: lk(), exactSimilarityFnMutex(), exactSimilarityFnStorage(), std::move(), std::fprintf().
+ */
 void AdapterRepository::setExactSimilarityFn(ExactSimilarityFn fn) {
     std::lock_guard<std::mutex> lk(exactSimilarityFnMutex());
     exactSimilarityFnStorage() = std::move(fn);
@@ -66,12 +103,20 @@ void AdapterRepository::setExactSimilarityFn(ExactSimilarityFn fn) {
     } catch (...) {}
 }
 
-/*static*/
+/**
+ * @brief static
+ * @details Calls: lk(), exactSimilarityFnMutex(), exactSimilarityFnStorage().
+ */
 void AdapterRepository::clearExactSimilarityFn() {
     std::lock_guard<std::mutex> lk(exactSimilarityFnMutex());
     exactSimilarityFnStorage() = {};
 }
 
+/**
+ * @brief Set Ann Frontdoor.
+ * @param[in] frontdoor Input parameter.
+ * @details Calls: std::move().
+ */
 void AdapterRepository::setAnnFrontdoor(std::shared_ptr<index::AnnFrontdoor> frontdoor) {
     ann_frontdoor_ = std::move(frontdoor);
 }
@@ -105,6 +150,15 @@ std::string AdapterRepository::makeKey(const std::string& domain,
 // store()
 // ============================================================================
 
+/**
+ * @brief Store.
+ * @param[in] domain Input parameter.
+ * @param[in] base_model_id Identifier of the base model.
+ * @param[in] adapter_train Input parameter.
+ * @param[in] param Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), serialize(), makeKey(), get(), has_value(), storage::TTTrain::deserialize(), totalParams(), put().
+ */
 bool AdapterRepository::store(const std::string&      domain,
                                const std::string&      base_model_id,
                                const storage::TTTrain& adapter_train,
@@ -169,6 +223,13 @@ bool AdapterRepository::store(const std::string&      domain,
 // remove()
 // ============================================================================
 
+/**
+ * @brief Remove.
+ * @param[in] domain Input parameter.
+ * @param[in] base_model_id Identifier of the base model.
+ * @return True when the operation succeeds.
+ * @details Calls: makeKey(), get(), has_value(), del(), lock(), glock(), removeAdapter(), registerScopeKind().
+ */
 bool AdapterRepository::remove(const std::string& domain,
                                 const std::string& base_model_id) {
     const std::string key = makeKey(domain, base_model_id);
@@ -239,6 +300,11 @@ AdapterRepository::loadAdapter(const std::string& domain,
               mapped.adapter_key = desc.adapter_key;
             }
             {
+                /**
+                 * @brief Lock.
+                 * @param[in] stats_mutex_ Input parameter.
+                 * @return Return value.
+                 */
                 std::unique_lock lock(stats_mutex_);
                 if (mapped.valid) {
                   ++stats_.load_hits;
@@ -266,6 +332,11 @@ AdapterRepository::loadAdapter(const std::string& domain,
     // Production path: mmap() + mlock() for zero-copy page-pinning.
     const auto raw = backend_->get(desc.adapter_key);
     if (!raw.has_value() || raw->empty()) {
+        /**
+         * @brief Lock.
+         * @param[in] stats_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock lock(stats_mutex_);
         ++stats_.load_misses;
         return desc;  // valid = false
@@ -273,6 +344,11 @@ AdapterRepository::loadAdapter(const std::string& domain,
 
     auto train_opt = storage::TTTrain::deserialize(*raw);
     if (!train_opt.has_value()) {
+        /**
+         * @brief Lock.
+         * @param[in] stats_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock lock(stats_mutex_);
         ++stats_.load_misses;
         return desc;
@@ -286,6 +362,11 @@ AdapterRepository::loadAdapter(const std::string& domain,
     desc.valid = true;
 
     {
+        /**
+         * @brief Lock.
+         * @param[in] stats_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock lock(stats_mutex_);
         ++stats_.load_hits;
     }
@@ -356,6 +437,11 @@ AdapterRepository::listAdapters() const {
 // setFingerprintGraph()
 // ============================================================================
 
+/**
+ * @brief Set Fingerprint Graph.
+ * @param[in] graph Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void AdapterRepository::setFingerprintGraph(
         std::shared_ptr<TensorFingerprintGraph> graph) {
     std::unique_lock lock(graph_mutex_);
@@ -423,6 +509,11 @@ AdapterRepository::findSimilarAdapters(const std::string& domain,
     // column-mean fingerprint cosine similarity (not full TT inner-product).
     std::shared_ptr<TensorFingerprintGraph> graph;
     {
+        /**
+         * @brief Lock.
+         * @param[in] graph_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::shared_lock lock(graph_mutex_);
         graph = fingerprint_graph_;
     }
@@ -448,6 +539,11 @@ AdapterRepository::findSimilarAdapters(const std::string& domain,
 
 AdapterRepository::RepositoryStats
 AdapterRepository::stats() const noexcept {
+    /**
+     * @brief Lock.
+     * @param[in] stats_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock lock(stats_mutex_);
     return stats_;
 }

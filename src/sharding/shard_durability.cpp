@@ -40,6 +40,11 @@ ShardDurability::~ShardDurability() {
     shutdown();
 }
 
+/**
+ * @brief Initialize.
+ * @return True when the operation succeeds.
+ * @details Calls: rocksdb::Checkpoint::Create(), GetBaseDB(), ok(), reset(), empty(), std::filesystem::create_directories(), scanCheckpointDirectory(), performRecovery().
+ */
 bool ShardDurability::initialize() {
     if (!db_) {
         return false;
@@ -74,6 +79,10 @@ bool ShardDurability::initialize() {
     return true;
 }
 
+/**
+ * @brief Shutdown.
+ * @details Calls: lock(), syncWAL(), reset().
+ */
 void ShardDurability::shutdown() {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -85,6 +94,11 @@ void ShardDurability::shutdown() {
     checkpoint_manager_.reset();
 }
 
+/**
+ * @brief Sync WAL.
+ * @return True when the operation succeeds.
+ * @details Calls: GetBaseDB(), Write(), ok(), fetch_add(), std::chrono::system_clock::now().
+ */
 bool ShardDurability::syncWAL() {
     if (!db_ || !config_.enable_wal) {
         return false;
@@ -106,6 +120,12 @@ bool ShardDurability::syncWAL() {
     return false;
 }
 
+/**
+ * @brief Create Checkpoint.
+ * @param[in] checkpoint_name Name of the checkpoint.
+ * @return Return value.
+ * @details Calls: lock(), empty(), generateCheckpointId(), std::chrono::system_clock::now(), getCurrentSequenceNumber(), CreateCheckpoint(), ok(), std::filesystem::recursive_directory_iterator().
+ */
 std::optional<CheckpointInfo> ShardDurability::createCheckpoint(
     const std::string& checkpoint_name
 ) {
@@ -156,10 +176,21 @@ std::optional<CheckpointInfo> ShardDurability::createCheckpoint(
 }
 
 std::vector<CheckpointInfo> ShardDurability::listCheckpoints() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return checkpoints_;
 }
 
+/**
+ * @brief Restore From Checkpoint.
+ * @param[in] checkpoint_id Identifier of the checkpoint.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), std::find_if(), begin(), end(), validateCheckpoint().
+ */
 bool ShardDurability::restoreFromCheckpoint(const std::string& checkpoint_id) {
     // Note: This is a simplified implementation
     // In production, this would require:
@@ -193,6 +224,11 @@ bool ShardDurability::restoreFromCheckpoint(const std::string& checkpoint_id) {
     return true;
 }
 
+/**
+ * @brief Perform Recovery.
+ * @return Return value.
+ * @details Calls: std::chrono::steady_clock::now(), verifyWALIntegrity(), what(), fetch_add().
+ */
 RecoveryStats ShardDurability::performRecovery() {
     RecoveryStats stats;
     auto start_time = std::chrono::steady_clock::now();
@@ -264,11 +300,21 @@ uint64_t ShardDurability::getCurrentSequenceNumber() const {
     return db_->GetBaseDB()->GetLatestSequenceNumber();
 }
 
+/**
+ * @brief Set Recovery Callback.
+ * @param[in] callback Input parameter.
+ * @details Calls: lock().
+ */
 void ShardDurability::setRecoveryCallback(RecoveryCallback callback) {
     std::lock_guard<std::mutex> lock(mutex_);
     recovery_callback_ = callback;
 }
 
+/**
+ * @brief Update the access control configuration.
+ * @param[in] config New access control configuration.
+ * @details Calls: lock().
+ */
 void ShardDurability::updateConfig(const ShardDurabilityConfig& config) {
     std::lock_guard<std::mutex> lock(mutex_);
     config_ = config;
@@ -286,6 +332,10 @@ std::string ShardDurability::generateCheckpointId() const {
     return ss.str();
 }
 
+/**
+ * @brief Cleanup Old Checkpoints.
+ * @details Calls: size(), std::sort(), begin(), end(), std::filesystem::remove_all(), erase().
+ */
 void ShardDurability::cleanupOldCheckpoints() {
     if (checkpoints_.size() <= config_.max_checkpoints) {
         return;
@@ -310,6 +360,10 @@ void ShardDurability::cleanupOldCheckpoints() {
     checkpoints_.erase(checkpoints_.begin(), checkpoints_.begin() + to_remove);
 }
 
+/**
+ * @brief Scan Checkpoint Directory.
+ * @details Calls: clear(), std::filesystem::exists(), std::filesystem::directory_iterator(), is_directory(), path(), filename(), string(), validateCheckpoint().
+ */
 void ShardDurability::scanCheckpointDirectory() {
     checkpoints_.clear();
     

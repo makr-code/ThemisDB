@@ -27,6 +27,11 @@ class ConnectionPool {
 public:
     explicit ConnectionPool(int size = 10) : available_(size), total_(size) {}
 
+    /**
+     * @brief Acquire.
+     * @return Return value.
+     * @details Implements acquire without additional internal calls.
+     */
     int acquire() {
         if (available_ > 0) {
             available_--;
@@ -83,9 +88,13 @@ ResultAggregator::~ResultAggregator() noexcept {
     spdlog::debug("ResultAggregator destroyed");
 }
 
-// ========================================================================
-// Gap A-2-11, A-2-12, A-2-13: Transaction-safe result writing
-// ========================================================================
+/**
+ * @brief ======================================================================== Gap A-2-11, A-2-12, A-2-13: Transaction-safe result writing ========================================================================
+ * @param[in] batch Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: std::chrono::high_resolution_clock::now(), LogDiagnostics(), acquire(), release(), guard(), spdlog::debug(), size(), BeginTransaction().
+ */
 WriteResult ResultAggregator::WriteResults(const ResultBatch& batch) {
     WriteResult result;
     auto start_time = std::chrono::high_resolution_clock::now();
@@ -209,9 +218,12 @@ WriteResult ResultAggregator::WriteResults(const ResultBatch& batch) {
     }
 }
 
-// ========================================================================
-// Gap A-2-14, A-2-18: Batch flush with connection reuse
-// ========================================================================
+/**
+ * @brief ======================================================================== Gap A-2-14, A-2-18: Batch flush with connection reuse ========================================================================
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: empty(), LogDiagnostics(), acquire(), release(), guard(), spdlog::info(), size(), WriteRecord().
+ */
 WriteResult ResultAggregator::FlushBuffer() {
     WriteResult result = {};
     
@@ -282,9 +294,11 @@ WriteResult ResultAggregator::FlushBuffer() {
     }
 }
 
-// ========================================================================
-// Gap A-2-17, A-2-20: Connection cleanup and error recovery
-// ========================================================================
+/**
+ * @brief ======================================================================== Gap A-2-17, A-2-20: Connection cleanup and error recovery ========================================================================
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), spdlog::warn(), size(), FlushBuffer(), clear(), spdlog::info(), LogDiagnostics(), std::string().
+ */
 bool ResultAggregator::CloseConnection() {
     try {
         // ====================================================================
@@ -341,9 +355,12 @@ void ResultAggregator::ResetStats() noexcept {
     error_count_ = 0;
 }
 
-// ========================================================================
-// Private helper methods for transaction management
-// ========================================================================
+/**
+ * @brief ======================================================================== Private helper methods for transaction management ========================================================================
+ * @param[in] connection_id Identifier of the connection.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: spdlog::debug().
+ */
 
 void ResultAggregator::BeginTransaction(int connection_id) {
     if (connection_id <= 0) {
@@ -353,6 +370,12 @@ void ResultAggregator::BeginTransaction(int connection_id) {
     // In production, would execute BEGIN statement
 }
 
+/**
+ * @brief Commit Transaction.
+ * @param[in] connection_id Identifier of the connection.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: spdlog::debug().
+ */
 void ResultAggregator::CommitTransaction(int connection_id) {
     if (connection_id <= 0) {
         throw std::invalid_argument("Invalid connection ID");
@@ -374,6 +397,13 @@ void ResultAggregator::RollbackTransaction(int connection_id) noexcept {
     }
 }
 
+/**
+ * @brief Write Record.
+ * @param[in] connection_id Identifier of the connection.
+ * @param[in] record Input parameter.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: empty(), spdlog::debug(), size().
+ */
 void ResultAggregator::WriteRecord(int connection_id, const ResultRecord& record) {
     if (connection_id <= 0) {
         throw std::invalid_argument("Invalid connection ID");

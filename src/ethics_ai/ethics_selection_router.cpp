@@ -37,7 +37,12 @@ namespace ethics {
 
 namespace {
 
-/// Case-fold and tokenise text into lower-cased words (≥ 3 chars).
+/**
+ * @brief Tokenise.
+ * @param[in] text Input parameter.
+ * @return Return value.
+ * @details Calls: std::isalnum(), std::tolower(), empty(), size(), push_back(), clear().
+ */
 std::vector<std::string> tokenise(const std::string& text) {
     std::vector<std::string> tokens;
     std::string cur = {};
@@ -57,7 +62,6 @@ std::vector<std::string> tokenise(const std::string& text) {
     return tokens;
 }
 
-/// Build token frequency map.
 std::map<std::string, double> termFreq(
     const std::vector<std::string>& tokens)
 {
@@ -76,9 +80,6 @@ std::map<std::string, double> termFreq(
     return freq;
 }
 
-/// Cosine-like term-overlap similarity between two token frequency maps.
-/// COMPLEXITY: O(|a| * log|b|) due to map.find() lookups. Already optimized (HIGH: o_n_squared)
-/// Uses map.find() (O(log n)) not std::find() (O(n)), preventing O(n²) pattern.
 double termOverlapSimilarity(
     const std::map<std::string, double>& a,
     const std::map<std::string, double>& b)
@@ -106,19 +107,24 @@ double termOverlapSimilarity(
     return std::min(1.0, dot / denom);
 }
 
-/// Sigmoid mapping raw score to [0, 1].
+/**
+ * @brief Sigmoid.
+ * @param[in] x Input parameter.
+ * @return Return value.
+ * @details Calls: std::exp().
+ */
 double sigmoid(double x) { return 1.0 / (1.0 + std::exp(-x)); }
 
-/// Steepness of the sigmoid applied to term-overlap similarity scores.
-/// Value 8.0 chosen empirically: at sim=0.25 (weak match) the output is ~0.50;
-/// at sim=0.50 (moderate) ~0.88; at sim=0.0 (no overlap) ~0.27.
 static constexpr double kSigmoidSteepness = 8.0;
-/// Bias shifts the sigmoid midpoint towards sim≈0.125, so unrelated profiles
-/// do not score near 0.5 by default.
 static constexpr double kSigmoidBias = 1.0;
 
-/// Cosine similarity between two dense float vectors.
-/// Returns 0.0 if either vector is empty or has mismatched dimensions.
+/**
+ * @brief Cosine Similarity Vec.
+ * @param[in] a Input parameter.
+ * @param[in] b Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), size(), std::sqrt(), std::max(), std::min().
+ */
 double cosineSimilarityVec(const std::vector<float>& a, const std::vector<float>& b) {
     if (a.empty() || b.empty() || a.size() != b.size()) {
       return 0.0;
@@ -169,14 +175,36 @@ struct EthicsSelectionRouter::Impl {
     // When set, called instead of consulting the in-memory precedent_store.
     EthicsSelectionRouter::PrecedentQueryFn precedent_query_fn;
 
+    /**
+     * @brief Load Taxonomy.
+     * @param[in] yaml_path Path to the yaml.
+     */
     void loadTaxonomy(const std::string& yaml_path);
+    /**
+     * @brief Stage1.
+     * @param[in] domain Input parameter.
+     * @param[in] tags Input parameter.
+     * @param[in] regulatory_context Input parameter.
+     * @return Return value.
+     */
     std::set<std::string> stage1(
         const std::string& domain,
         const std::vector<std::string>& tags,
         bool regulatory_context) const;
+    /**
+     * @brief Stage2.
+     * @param[in] dilemma_text Input parameter.
+     * @param[in] candidates Input parameter.
+     * @return Return value.
+     */
     std::vector<RouterCandidate> stage2(
         const std::string& dilemma_text,
         const std::set<std::string>& candidates) const;
+    /**
+     * @brief Stage3.
+     * @param[in,out] candidates Input/output parameter.
+     * @param[in] dilemma_domain Input parameter.
+     */
     void stage3(
         std::vector<RouterCandidate>& candidates,
         const std::string& dilemma_domain) const;
@@ -186,6 +214,10 @@ struct EthicsSelectionRouter::Impl {
 // Taxonomy loading
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Load Taxonomy.
+ * @param[in] yaml_path Path to the yaml.
+ */
 void EthicsSelectionRouter::Impl::loadTaxonomy(const std::string& yaml_path)
 {
     if (yaml_path.empty()) {
@@ -463,7 +495,11 @@ void EthicsSelectionRouter::Impl::stage3(
         return;
     }
 
-    // ── Fallback: in-memory precedent store ─────────────────────────────────
+    /**
+     * @brief ── Fallback: in-memory precedent store ─────────────────────────────────
+     * @param[in] precedent_mutex Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(precedent_mutex);
     auto it = precedent_store.find(dilemma_domain);
     if (it == precedent_store.end()) {
@@ -635,6 +671,12 @@ RouterResult EthicsSelectionRouter::route(
     return result;
 }
 
+/**
+ * @brief Record Decision Outcome.
+ * @param[in] dilemma_type Input parameter.
+ * @param[in] school_id Identifier of the school.
+ * @param[in] dc_score Input parameter.
+ */
 void EthicsSelectionRouter::recordDecisionOutcome(
     const std::string& dilemma_type,
     const std::string& school_id,
@@ -646,10 +688,20 @@ void EthicsSelectionRouter::recordDecisionOutcome(
     entry.count++;
 }
 
+/**
+ * @brief Set Embedding Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: std::move().
+ */
 void EthicsSelectionRouter::setEmbeddingFn(EmbeddingFn fn) {
     impl_->embedding_fn = std::move(fn);
 }
 
+/**
+ * @brief Set Precedent Query Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: std::move().
+ */
 void EthicsSelectionRouter::setPrecedentQueryFn(PrecedentQueryFn fn) {
     impl_->precedent_query_fn = std::move(fn);
 }

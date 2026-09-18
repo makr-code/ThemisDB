@@ -40,22 +40,42 @@ TieredIndexManager::TieredIndexManager(std::string warm_base_dir,
 // Configuration
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Set Policy.
+ * @param[in] policy Input parameter.
+ * @details Calls: lk().
+ */
 void TieredIndexManager::setPolicy(const TierMigrationPolicy& policy) {
     std::unique_lock<std::shared_mutex> lk(registry_mutex_);
     policy_ = policy;
 }
 
 TierMigrationPolicy TieredIndexManager::policy() const {
+    /**
+     * @brief Lk.
+     * @param[in] registry_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lk(registry_mutex_);
     return policy_;
 }
 
+/**
+ * @brief Set Export Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lk(), std::move().
+ */
 void TieredIndexManager::setExportFn(ExportFn fn) {
     std::unique_lock<std::shared_mutex> lk(registry_mutex_);
     export_fn_ = fn ? std::move(fn)
                     : [](const std::string&, const std::string&) { return true; };
 }
 
+/**
+ * @brief Set Import Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lk(), std::move().
+ */
 void TieredIndexManager::setImportFn(ImportFn fn) {
     std::unique_lock<std::shared_mutex> lk(registry_mutex_);
     import_fn_ = fn ? std::move(fn)
@@ -66,12 +86,29 @@ void TieredIndexManager::setImportFn(ImportFn fn) {
 // Registry
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Register Index.
+ * @param[in] name Input parameter.
+ * @param[in] data_path Path to the data.
+ * @param[in] size_bytes Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements registerIndex without additional internal calls.
+ */
 bool TieredIndexManager::registerIndex(const std::string& name,
                                          const std::string& data_path,
                                          uint64_t           size_bytes) {
     return registerIndex(name, IndexTierMeta::Tier::HOT, data_path, size_bytes);
 }
 
+/**
+ * @brief Register Index.
+ * @param[in] name Input parameter.
+ * @param[in] tier Input parameter.
+ * @param[in] data_path Path to the data.
+ * @param[in] size_bytes Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), lk(), count(), std::chrono::steady_clock::now(), emplace(), std::move().
+ */
 bool TieredIndexManager::registerIndex(const std::string&  name,
                                          IndexTierMeta::Tier tier,
                                          const std::string&  data_path,
@@ -93,18 +130,34 @@ bool TieredIndexManager::registerIndex(const std::string&  name,
     return true;
 }
 
+/**
+ * @brief Unregister Index.
+ * @param[in] name Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lk(), erase().
+ */
 bool TieredIndexManager::unregisterIndex(const std::string& name) {
     std::unique_lock<std::shared_mutex> lk(registry_mutex_);
     return registry_.erase(name) > 0;
 }
 
 bool TieredIndexManager::hasIndex(const std::string& name) const {
+    /**
+     * @brief Lk.
+     * @param[in] registry_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lk(registry_mutex_);
     return registry_.count(name) > 0;
 }
 
 std::optional<IndexTierMeta> TieredIndexManager::getMetadata(
         const std::string& name) const {
+    /**
+     * @brief Lk.
+     * @param[in] registry_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lk(registry_mutex_);
     auto it = registry_.find(name);
     if (it == registry_.end()) {
@@ -114,6 +167,11 @@ std::optional<IndexTierMeta> TieredIndexManager::getMetadata(
 }
 
 std::vector<std::string> TieredIndexManager::listIndexes() const {
+    /**
+     * @brief Lk.
+     * @param[in] registry_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lk(registry_mutex_);
     std::vector<std::string> names = {};
 
@@ -128,6 +186,11 @@ std::vector<std::string> TieredIndexManager::listIndexes() const {
 
 std::vector<std::string> TieredIndexManager::listIndexesByTier(
         IndexTierMeta::Tier tier) const {
+    /**
+     * @brief Lk.
+     * @param[in] registry_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lk(registry_mutex_);
     std::vector<std::string> names = {};
 
@@ -146,6 +209,12 @@ std::vector<std::string> TieredIndexManager::listIndexesByTier(
 // Access tracking
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Record Access.
+ * @param[in] name Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lk(), find(), end(), std::chrono::steady_clock::now().
+ */
 bool TieredIndexManager::recordAccess(const std::string& name) {
     std::unique_lock<std::shared_mutex> lk(registry_mutex_);
     auto it = registry_.find(name);
@@ -157,6 +226,12 @@ bool TieredIndexManager::recordAccess(const std::string& name) {
     return true;
 }
 
+/**
+ * @brief Reset Access Count.
+ * @param[in] name Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lk(), find(), end().
+ */
 bool TieredIndexManager::resetAccessCount(const std::string& name) {
     std::unique_lock<std::shared_mutex> lk(registry_mutex_);
     auto it = registry_.find(name);
@@ -171,6 +246,13 @@ bool TieredIndexManager::resetAccessCount(const std::string& name) {
 // Manual migration (public wrappers)
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Migrate To.
+ * @param[in] name Input parameter.
+ * @param[in] target Input parameter.
+ * @return Return value.
+ * @details Calls: lk(), find(), end(), MigrationResult::Err(), MigrationResult::Ok(), doMigrate().
+ */
 MigrationResult TieredIndexManager::migrateTo(const std::string&  name,
                                                 IndexTierMeta::Tier target) {
     // Snapshot current tier under lock.
@@ -196,14 +278,32 @@ MigrationResult TieredIndexManager::migrateTo(const std::string&  name,
     return doMigrate(name, current, target);
 }
 
+/**
+ * @brief Promote To Hot.
+ * @param[in] name Input parameter.
+ * @return Return value.
+ * @details Calls: migrateTo().
+ */
 MigrationResult TieredIndexManager::promoteToHot(const std::string& name) {
     return migrateTo(name, IndexTierMeta::Tier::HOT);
 }
 
+/**
+ * @brief Demote To Warm.
+ * @param[in] name Input parameter.
+ * @return Return value.
+ * @details Calls: migrateTo().
+ */
 MigrationResult TieredIndexManager::demoteToWarm(const std::string& name) {
     return migrateTo(name, IndexTierMeta::Tier::WARM);
 }
 
+/**
+ * @brief Demote To Cold.
+ * @param[in] name Input parameter.
+ * @return Return value.
+ * @details Calls: migrateTo().
+ */
 MigrationResult TieredIndexManager::demoteToCold(const std::string& name) {
     return migrateTo(name, IndexTierMeta::Tier::COLD);
 }
@@ -212,6 +312,11 @@ MigrationResult TieredIndexManager::demoteToCold(const std::string& name) {
 // Automatic migration pass
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Run Migration Pass.
+ * @return Return value.
+ * @details Calls: lk(), reserve(), size(), emplace_back(), std::chrono::steady_clock::now(), count(), push_back(), doMigrate().
+ */
 std::vector<MigrationResult> TieredIndexManager::runMigrationPass() {
     using Tier = IndexTierMeta::Tier;
 
@@ -286,15 +391,30 @@ std::string TieredIndexManager::pathForTier(const std::string&  name,
                                               IndexTierMeta::Tier tier) const {
     using Tier = IndexTierMeta::Tier;
     switch (tier) {
+        /**
+         * @brief Warm Path.
+         * @param[in] name Input parameter.
+         * @return Return value.
+         */
         case Tier::WARM: return warmPath(name);
+        /**
+         * @brief Cold Path.
+         * @param[in] name Input parameter.
+         * @return Return value.
+         */
         case Tier::COLD: return coldPath(name);
         default:         return {};          // HOT: live path managed by caller
     }
 }
 
-// ---------------------------------------------------------------------------
-// doMigrate – execute migration, update registry
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- doMigrate – execute migration, update registry ---------------------------------------------------------------------------
+ * @param[in] name Input parameter.
+ * @param[in] from Input parameter.
+ * @param[in] to Input parameter.
+ * @return Return value.
+ * @details Calls: lk(), find(), end(), MigrationResult::Err(), IndexTierMeta::tierName(), str(), pathForTier(), empty().
+ */
 
 MigrationResult TieredIndexManager::doMigrate(const std::string&  name,
                                                 IndexTierMeta::Tier from,

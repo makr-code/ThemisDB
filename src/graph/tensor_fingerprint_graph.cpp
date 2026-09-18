@@ -133,7 +133,17 @@ TensorFingerprint TensorFingerprintGraph::computeFingerprint(const TTTrain &trai
     }
 
     const std::size_t hash_count = std::min<std::size_t>(cfg_.num_hash_funcs,fp.minhash.size());
+    /**
+     * @brief A params.
+     * @param[in] hash_count Input parameter.
+     * @return Return value.
+     */
     std::vector<uint64_t> a_params(hash_count);
+    /**
+     * @brief B params.
+     * @param[in] hash_count Input parameter.
+     * @return Return value.
+     */
     std::vector<uint64_t> b_params(hash_count);
     std::vector<uint64_t> min_hash(hash_count, std::numeric_limits<uint64_t>::max());
 
@@ -177,6 +187,12 @@ uint64_t TensorFingerprintGraph::bandHash(const TensorFingerprint &fp, std::size
     return h;
 }
 
+/**
+ * @brief Insert Into Buckets.
+ * @param[in] id Input parameter.
+ * @param[in] fp Input parameter.
+ * @details Calls: bandHash(), insert().
+ */
 void TensorFingerprintGraph::insertIntoBuckets(const std::string &id, const TensorFingerprint &fp) {
     for (std::size_t band = 0; band < cfg_.num_bands; ++band) {
         std::size_t start = band * rows_per_band_;
@@ -188,6 +204,12 @@ void TensorFingerprintGraph::insertIntoBuckets(const std::string &id, const Tens
     }
 }
 
+/**
+ * @brief Remove From Buckets.
+ * @param[in] id Input parameter.
+ * @param[in] fp Input parameter.
+ * @details Calls: bandHash(), find(), end(), erase(), empty().
+ */
 void TensorFingerprintGraph::removeFromBuckets(const std::string &id, const TensorFingerprint &fp) {
     for (std::size_t band = 0; band < cfg_.num_bands; ++band) {
         const std::size_t start   = band * rows_per_band_;
@@ -243,6 +265,15 @@ std::unordered_set<std::string> TensorFingerprintGraph::lshCandidates(const Tens
 // insert
 // ============================================================================
 
+/**
+ * @brief Insert.
+ * @param[in] tensor_id Identifier of the tensor.
+ * @param[in] train Input parameter.
+ * @param[in] tenant Input parameter.
+ * @param[in] collection Input parameter.
+ * @param[in] field Input parameter.
+ * @details Calls: computeFingerprint(), lk(), count(), find(), end(), erase(), std::remove_if(), begin().
+ */
 void TensorFingerprintGraph::insert(const std::string &tensor_id, const TTTrain &train, const std::string &tenant,
                                     const std::string &collection, const std::string &field) {
     TensorFingerprint fp = computeFingerprint(train);
@@ -333,14 +364,21 @@ void TensorFingerprintGraph::insert(const std::string &tensor_id, const TTTrain 
     }
 }
 
+/**
+ * @brief Set Train Load Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lk(), std::move().
+ */
 void TensorFingerprintGraph::setTrainLoadFn(TrainLoadFn fn) {
     std::unique_lock<std::mutex> lk(mutex_);
     train_load_fn_ = std::move(fn);
 }
 
-// ============================================================================
-// GraphIndex-backed durable storage hooks
-// ============================================================================
+/**
+ * @brief ============================================================================ GraphIndex-backed durable storage hooks ============================================================================
+ * @param[in] fn Input parameter.
+ * @details Calls: hlk(), std::move(), store().
+ */
 
 void TensorFingerprintGraph::setNodePersistHook(NodePersistHookFn fn) {
     std::lock_guard<std::mutex> hlk(hook_mutex_);
@@ -348,12 +386,22 @@ void TensorFingerprintGraph::setNodePersistHook(NodePersistHookFn fn) {
     has_node_persist_hook_.store(static_cast<bool>(node_persist_hook_), std::memory_order_relaxed);
 }
 
+/**
+ * @brief Set Node Remove Hook.
+ * @param[in] fn Input parameter.
+ * @details Calls: hlk(), std::move(), store().
+ */
 void TensorFingerprintGraph::setNodeRemoveHook(NodeRemoveHookFn fn) {
     std::lock_guard<std::mutex> hlk(hook_mutex_);
     node_remove_hook_ = std::move(fn);
     has_node_remove_hook_.store(static_cast<bool>(node_remove_hook_), std::memory_order_relaxed);
 }
 
+/**
+ * @brief Restore From External Store.
+ * @param[in] enumerate_fn Input parameter.
+ * @details Calls: lk(), clear(), store(), enumerate_fn(), upsertPersistedNode().
+ */
 void TensorFingerprintGraph::restoreFromExternalStore(NodeEnumerateFn enumerate_fn) {
     {
         std::unique_lock<std::mutex> lk(mutex_);
@@ -376,6 +424,12 @@ void TensorFingerprintGraph::restoreFromExternalStore(NodeEnumerateFn enumerate_
 // remove
 // ============================================================================
 
+/**
+ * @brief Remove.
+ * @param[in] tensor_id Identifier of the tensor.
+ * @return True when the operation succeeds.
+ * @details Calls: lk(), find(), end(), erase(), std::remove_if(), begin(), fetch_sub(), size().
+ */
 bool TensorFingerprintGraph::remove(const std::string &tensor_id) {
     bool existed = false;
     {
@@ -424,6 +478,11 @@ std::vector<SimilarTensorResult> TensorFingerprintGraph::findSimilar(const TTTra
     }
     TensorFingerprint fp = computeFingerprint(train);
 
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::unique_lock<std::mutex> lk(mutex_);
     auto candidates = lshCandidates(fp);
 
@@ -461,6 +520,11 @@ std::vector<SimilarTensorResult> TensorFingerprintGraph::findSimilar(const TTTra
 }
 
 std::vector<SimilarTensorResult> TensorFingerprintGraph::neighbours(const std::string &tensor_id) const {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::unique_lock<std::mutex> lk(mutex_);
     std::vector<SimilarTensorResult> results;
 
@@ -488,6 +552,11 @@ std::vector<SimilarTensorResult> TensorFingerprintGraph::neighbours(const std::s
 }
 
 std::vector<PersistedFingerprintNode> TensorFingerprintGraph::exportPersistedNodes() const {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::unique_lock<std::mutex> lk(mutex_);
     std::vector<PersistedFingerprintNode> out = {};
 
@@ -504,6 +573,11 @@ std::vector<PersistedFingerprintNode> TensorFingerprintGraph::exportPersistedNod
     return out;
 }
 
+/**
+ * @brief Import Persisted Nodes.
+ * @param[in] nodes Input parameter.
+ * @details Calls: lk(), clear(), store(), std::move(), insertIntoBuckets().
+ */
 void TensorFingerprintGraph::importPersistedNodes(const std::vector<PersistedFingerprintNode> &nodes) {
     std::unique_lock<std::mutex> lk(mutex_);
 
@@ -525,6 +599,11 @@ void TensorFingerprintGraph::importPersistedNodes(const std::vector<PersistedFin
 }
 
 std::vector<PersistedFingerprintEdge> TensorFingerprintGraph::exportPersistedEdges() const {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::unique_lock<std::mutex> lk(mutex_);
     std::vector<PersistedFingerprintEdge> out;
     out.reserve(edge_count_.load(std::memory_order_relaxed));
@@ -540,6 +619,11 @@ std::vector<PersistedFingerprintEdge> TensorFingerprintGraph::exportPersistedEdg
     return out;
 }
 
+/**
+ * @brief Import Persisted Edges.
+ * @param[in] edges Input parameter.
+ * @details Calls: lk(), clear(), store(), reserve(), size(), find(), end(), insert().
+ */
 void TensorFingerprintGraph::importPersistedEdges(const std::vector<PersistedFingerprintEdge> &edges) {
     std::unique_lock<std::mutex> lk(mutex_);
 
@@ -574,6 +658,11 @@ void TensorFingerprintGraph::importPersistedEdges(const std::vector<PersistedFin
 }
 
 PersistedFingerprintGraphSnapshot TensorFingerprintGraph::exportPersistedGraph() const {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::unique_lock<std::mutex> lk(mutex_);
     PersistedFingerprintGraphSnapshot snapshot;
     snapshot.nodes.reserve(nodes_.size());
@@ -604,6 +693,11 @@ PersistedFingerprintGraphSnapshot TensorFingerprintGraph::exportPersistedGraph()
 
 std::optional<PersistedFingerprintNode>
 TensorFingerprintGraph::exportPersistedNode(const std::string &tensor_id) const {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::unique_lock<std::mutex> lk(mutex_);
     if (nodes_.find(tensor_id) == nodes_.end()) {
         return std::nullopt;
@@ -613,6 +707,11 @@ TensorFingerprintGraph::exportPersistedNode(const std::string &tensor_id) const 
 
 std::vector<PersistedFingerprintEdge>
 TensorFingerprintGraph::exportPersistedEdgesFor(const std::string &tensor_id) const {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::unique_lock<std::mutex> lk(mutex_);
     return buildPersistedEdgesForLocked(tensor_id);
 }
@@ -647,6 +746,11 @@ TensorFingerprintGraph::buildPersistedEdgesForLocked(const std::string &tensor_i
     return out;
 }
 
+/**
+ * @brief Import Persisted Graph.
+ * @param[in] snapshot Input parameter.
+ * @details Calls: lk(), clear(), store(), std::move(), insertIntoBuckets(), reserve(), size(), find().
+ */
 void TensorFingerprintGraph::importPersistedGraph(const PersistedFingerprintGraphSnapshot &snapshot) {
     std::unique_lock<std::mutex> lk(mutex_);
 
@@ -690,6 +794,12 @@ void TensorFingerprintGraph::importPersistedGraph(const PersistedFingerprintGrap
     }
 }
 
+/**
+ * @brief Upsert Persisted Node.
+ * @param[in] node Input parameter.
+ * @param[in] edges Input parameter.
+ * @details Calls: lk(), find(), end(), erase(), std::remove_if(), begin(), fetch_sub(), size().
+ */
 void TensorFingerprintGraph::upsertPersistedNode(const PersistedFingerprintNode &node,
                                                  const std::vector<PersistedFingerprintEdge> &edges) {
     std::unique_lock<std::mutex> lk(mutex_);
@@ -753,6 +863,11 @@ void TensorFingerprintGraph::upsertPersistedNode(const PersistedFingerprintNode 
 // ============================================================================
 
 std::size_t TensorFingerprintGraph::nodeCount() const noexcept {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::unique_lock<std::mutex> lk(mutex_);
     return nodes_.size();
 }

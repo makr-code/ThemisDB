@@ -26,6 +26,12 @@ namespace themis {
 namespace rag {
 namespace {
 
+/**
+ * @brief Normalize Token.
+ * @param[in] token Input parameter.
+ * @return Return value.
+ * @details Calls: erase(), std::remove_if(), begin(), end(), std::isalnum(), std::transform(), std::tolower().
+ */
 std::string normalizeToken(std::string token) {
     token.erase(std::remove_if(token.begin(), token.end(), [](unsigned char ch) {
                     return !std::isalnum(ch);
@@ -37,6 +43,12 @@ std::string normalizeToken(std::string token) {
     return token;
 }
 
+/**
+ * @brief Tokenize Normalized.
+ * @param[in] text Input parameter.
+ * @return Return value.
+ * @details Calls: iss(), normalizeToken(), empty(), push_back(), std::move().
+ */
 std::vector<std::string> tokenizeNormalized(const std::string& text) {
     std::istringstream iss(text);
     std::vector<std::string> tokens;
@@ -50,6 +62,13 @@ std::vector<std::string> tokenizeNormalized(const std::string& text) {
     return tokens;
 }
 
+/**
+ * @brief Lexical Overlap Score.
+ * @param[in] query Input parameter.
+ * @param[in] content Input parameter.
+ * @return Return value.
+ * @details Calls: tokenizeNormalized(), empty(), doc_terms(), begin(), end(), count(), size().
+ */
 double lexicalOverlapScore(const std::string& query, const std::string& content) {
     const auto q_tokens = tokenizeNormalized(query);
     if (q_tokens.empty()) {
@@ -71,6 +90,12 @@ double lexicalOverlapScore(const std::string& query, const std::string& content)
     return static_cast<double>(overlap) / static_cast<double>(q_tokens.size());
 }
 
+/**
+ * @brief Clamp01.
+ * @param[in] v Input parameter.
+ * @return Return value.
+ * @details Calls: std::max(), std::min().
+ */
 double clamp01(double v) {
     return std::max(0.0, std::min(1.0, v));
 }
@@ -82,6 +107,11 @@ double clamp01(double v) {
 // This is intentionally minimal to avoid heavy dependencies in unit tests.
 #include <dbghelp.h>
 #pragma comment(lib, "dbghelp.lib")
+/**
+ * @brief Print backtrace if enabled.
+ * @param[in] context Input parameter.
+ * @details Calls: std::getenv(), v(), CaptureStackBackTrace(), GetCurrentProcess(), SymInitialize(), std::fprintf(), memset(), SymFromAddr().
+ */
 static void print_backtrace_if_enabled(const char* context) {
     const char* env = std::getenv("THEMIS_RAG_CAPTURE_STACK_ON_SLOW");
     if (!env) {
@@ -143,10 +173,20 @@ SelfRAGController::~SelfRAGController() = default;
 // Callback injection
 // ============================================================================
 
+/**
+ * @brief Set Retrieval Callback.
+ * @param[in] cb Input parameter.
+ * @details Calls: std::move().
+ */
 void SelfRAGController::setRetrievalCallback(RetrievalCallback cb) {
     retrieval_cb_ = std::move(cb);
 }
 
+/**
+ * @brief Set Critic Callback.
+ * @param[in] cb Input parameter.
+ * @details Calls: std::move().
+ */
 void SelfRAGController::setCriticCallback(CriticCallback cb) {
     critic_cb_ = std::move(cb);
 }
@@ -430,6 +470,12 @@ std::vector<SelfRAGDocument> SelfRAGController::deduplicate(
 // runRefinementLoop
 // ============================================================================
 
+/**
+ * @brief Run Refinement Loop.
+ * @param[in] query Input parameter.
+ * @param[in] query_confidence Input parameter.
+ * @return Return value.
+ */
 SelfRAGResult SelfRAGController::runRefinementLoop(const std::string& query,
                                                     double             query_confidence)
 {
@@ -581,6 +627,10 @@ SelfRAGResult SelfRAGController::runRefinementLoop(const std::string& query,
 // reset
 // ============================================================================
 
+/**
+ * @brief Reset the modification detection flag.
+ * @details Calls: clear().
+ */
 void SelfRAGController::reset() {
     seen_ids_.clear();
 }

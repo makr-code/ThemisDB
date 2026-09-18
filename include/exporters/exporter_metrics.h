@@ -329,13 +329,13 @@ private:
     std::atomic<size_t> hub_upload_failures_{0};
     
     /**
-     * @brief Helper to update latency histogram
+     * @brief Update Latency Histogram.
      * @param[in] duration Input parameter.
      */
     void updateLatencyHistogram(std::chrono::milliseconds duration);
     
     /**
-     * @brief Helper to calculate percentile from histogram
+     * @brief Calculate Percentile.
      * @param[in] percentile Input parameter.
      * @return Return value.
      */

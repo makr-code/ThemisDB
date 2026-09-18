@@ -21,22 +21,6 @@ namespace themis {
 namespace ingestion {
 namespace builtin {
 
-/**
- * @brief `builtin.parse_text` — text extraction from common document formats.
- *
- * Reads `ctx.manifest.original_path` and writes to `ctx.raw_text`.
- * Supported paths:
- *  - TXT / MD / HTML: direct file read (HTML tags stripped for MD/TXT)
- *  - PDF / DOCX / EPUB: calls the `FileSystemIngester` text-extraction path
- *    (which in turn delegates to the platform-available parser library).
- *  - If `ocr_enabled: true` and text is empty after extraction, falls back to
- *    writing a placeholder so downstream OCR steps can pick it up.
- *
- * Config keys (all optional):
- *  - `ocr_enabled`  bool  default false
- *  - `ocr_language` string default "deu+eng"
- *  - `fallback_ocr_on_empty` bool default true
- */
 class ParseTextStep : public IIngestionStep {
 public:
     // IThemisPlugin
@@ -61,7 +45,12 @@ public:
                       "parse_text: manifest.original_path is empty"});
         }
 
-        // Attempt plain-text read
+        /**
+         * @brief Attempt plain-text read
+         * @param[in] path Input parameter.
+         * @param[in] binary Input parameter.
+         * @return Return value.
+         */
         std::ifstream file(path, std::ios::binary);
         if (!file.is_open()) {
             return tl::make_unexpected(
@@ -85,9 +74,19 @@ public:
 // C ABI entry points for dynamic loading
 // ─────────────────────────────────────────────────────────────────────────────
 extern "C" {
+    /**
+     * @brief Themis create step parse text.
+     * @return Pointer to the result.
+     * @details Calls: ParseTextStep().
+     */
     IIngestionStep* themis_create_step_parse_text() {
         return new ParseTextStep();
     }
+    /**
+     * @brief Themis destroy step parse text.
+     * @param[in,out] p Input/output parameter.
+     * @details Implements themis_destroy_step_parse_text without additional internal calls.
+     */
     void themis_destroy_step_parse_text(IIngestionStep* p) {
         delete p;
     }

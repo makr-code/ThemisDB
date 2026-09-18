@@ -33,6 +33,13 @@ nlohmann::json AggregatedEvent::toJson() const {
 // Collection registry
 // ============================================================
 
+/**
+ * @brief Add Collection.
+ * @param[in] name Input parameter.
+ * @param[in,out] feed Input/output parameter.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: empty(), lock(), THEMIS_DEBUG().
+ */
 void CrossCollectionStream::addCollection(const std::string& name,
                                           Changefeed* feed) {
     if (name.empty()) {
@@ -48,22 +55,42 @@ void CrossCollectionStream::addCollection(const std::string& name,
     THEMIS_DEBUG("CrossCollectionStream: registered collection '{}'", name);
 }
 
+/**
+ * @brief Remove Collection.
+ * @param[in] name Input parameter.
+ * @details Calls: lock(), erase().
+ */
 void CrossCollectionStream::removeCollection(const std::string& name) {
     std::lock_guard<std::mutex> lock(mutex_);
     feeds_.erase(name);
 }
 
 bool CrossCollectionStream::hasCollection(const std::string& name) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return feeds_.count(name) > 0;
 }
 
 size_t CrossCollectionStream::collectionCount() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return feeds_.size();
 }
 
 std::vector<std::string> CrossCollectionStream::listCollections() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     std::vector<std::string> names = {};
 
@@ -80,8 +107,13 @@ std::vector<std::string> CrossCollectionStream::listCollections() const {
 
 namespace {
 
-// Comparator: sort by (timestamp_ms ASC, collection ASC, sequence ASC).
-// This gives a deterministic global ordering even when clocks are coarse.
+/**
+ * @brief Comparator: sort by (timestamp_ms ASC, collection ASC, sequence ASC).
+ * @param[in] a Input parameter.
+ * @param[in] b Input parameter.
+ * @return True when the operation succeeds.
+ * @details This gives a deterministic global ordering even when clocks are coarse. Implements aggregatedEventLess without additional internal calls.
+ */
 bool aggregatedEventLess(const AggregatedEvent& a, const AggregatedEvent& b) {
     if (a.event.timestamp_ms != b.event.timestamp_ms) {
         return a.event.timestamp_ms < b.event.timestamp_ms;
@@ -105,6 +137,11 @@ std::vector<AggregatedEvent> CrossCollectionStream::listEvents(
     // while querying individual changefeeds (which have their own locks).
     std::unordered_map<std::string, Changefeed*> feeds_snapshot;
     {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         feeds_snapshot = feeds_;
     }
@@ -185,6 +222,11 @@ uint64_t CrossCollectionStream::getHighWatermark(
 
     std::unordered_map<std::string, Changefeed*> feeds_snapshot;
     {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         feeds_snapshot = feeds_;
     }

@@ -31,51 +31,8 @@ namespace themis {
 namespace query {
 namespace functions {
 
-/**
- * @brief HolidayProvider - Secure centralized holiday calendar management
- * 
- * The HolidayProvider manages holiday calendars centrally and securely.
- * 
- * **Security Model:**
- * - AQL queries can ONLY access calendars by name (no file paths)
- * - External files are loaded at server startup by admin
- * - Built-in calendars for common regions (DE, AT, CH, US, etc.)
- * - No user input ever touches the filesystem
- * 
- * **Architecture:**
- * ```
- * ┌─────────────────────────────────────────────────────────────┐
- * │                     HolidayProvider                         │
- * │  ┌─────────────────────────────────────────────────────┐   │
- * │  │              Built-in Calendars                      │   │
- * │  │  DE_2024, DE_2025, AT_2024, CH_2024, US_2024, ...   │   │
- * │  └─────────────────────────────────────────────────────┘   │
- * │  ┌─────────────────────────────────────────────────────┐   │
- * │  │         Admin-Loaded Calendars (startup)             │   │
- * │  │  company_holidays, custom_calendar, ...              │   │
- * │  └─────────────────────────────────────────────────────┘   │
- * │                           │                                 │
- * │                     ┌─────┴─────┐                          │
- * │                     │ AQL API   │                          │
- * │                     │ (by name) │                          │
- * │                     └───────────┘                          │
- * └─────────────────────────────────────────────────────────────┘
- * ```
- * 
- * **Usage in AQL (safe - only names allowed):**
- *   LET holidays = HOLIDAYS("DE_2024")
- *   LET workdays = WORKDAYS(start, end, holidays)
- *   LET holidays = HOLIDAYS("DE_2024", "company_holidays")  // Merge calendars
- * 
- * **Admin API (server startup only):**
- *   HolidayProvider::instance().loadCalendarFromFile("company", "/path/to/file.json");
- *   HolidayProvider::instance().registerCalendar("custom", {dates...});
- */
 class HolidayProvider {
 public:
-    /**
-     * @brief Holiday calendar with metadata
-     */
     struct Calendar {
         std::string name;             // Calendar name
         std::string region;           // Region code (ISO 3166-1)
@@ -86,7 +43,7 @@ public:
     };
     
     /**
-     * @brief Get singleton instance
+     * @brief Instance.
      * @return Return value.
      * @details Implements instance without additional internal calls.
      */
@@ -96,17 +53,10 @@ public:
     }
     
     /**
-     * @brief Initialize with built-in calendars
-     * 
-     * Called automatically on first access.
+     * @brief Initialize.
      * @details Calls: lock(), registerBuiltinCalendars().
      */
     void initialize() {
-        /**
-         * @brief Lock.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(mutex_);
         if (initialized_) {
           return;
@@ -117,22 +67,13 @@ public:
     }
     
     /**
-     * @brief Get holidays by calendar name (AQL-safe)
-     * 
-     * This is the ONLY method that should be called from AQL queries.
-     * It only accepts registered calendar names, not file paths.
-     * 
-     * @param name Calendar name (e.g., "DE_2024", "US_FEDERAL_2024")
-     * @return Set of holiday timestamps
-     * @throws std::runtime_error if calendar not found
+     * @brief Get Holidays.
+     * @param[in] name Input parameter.
+     * @return Return value.
+     * @throws std::runtime_error if an error occurs.
      * @details Calls: lock(), registerBuiltinCalendars(), validateName(), toUpperCase(), find(), end().
      */
     std::set<int64_t> getHolidays(const std::string& name) {
-        /**
-         * @brief Lock.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(mutex_);
         
         if (!initialized_) {
@@ -159,10 +100,9 @@ public:
     }
     
     /**
-     * @brief Merge multiple calendars (AQL-safe)
-     * 
-     * @param names List of calendar names
-     * @return Combined set of holidays
+     * @brief Get Merged Holidays.
+     * @param[in] names Input parameter.
+     * @return Return value.
      * @details Calls: getHolidays(), insert(), begin(), end().
      */
     std::set<int64_t> getMergedHolidays(const std::vector<std::string>& names) {
@@ -177,16 +117,11 @@ public:
     }
     
     /**
-     * @brief List all available calendar names (AQL-safe)
+     * @brief List Calendars.
      * @return Return value.
      * @details Calls: lock(), registerBuiltinCalendars(), reserve(), size(), push_back(), std::sort(), begin(), end().
      */
     std::vector<std::string> listCalendars() {
-        /**
-         * @brief Lock.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(mutex_);
         
         if (!initialized_) {
@@ -207,17 +142,12 @@ public:
     }
     
     /**
-     * @brief Get calendar metadata (AQL-safe)
+     * @brief Get Calendar Info.
      * @param[in] name Input parameter.
      * @return Return value.
      * @details Calls: lock(), toUpperCase(), find(), end().
      */
     std::optional<Calendar> getCalendarInfo(const std::string& name) {
-        /**
-         * @brief Lock.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(mutex_);
         
         std::string upperName = toUpperCase(name);
@@ -233,18 +163,6 @@ public:
     // Admin API - Server startup only, NOT accessible from AQL
     // =========================================================================
     
-    /**
-     * @brief Register a calendar programmatically (Admin API)
-     * 
-     * Used at server startup to register custom calendars.
-     * NOT accessible from AQL queries.
-     * 
-     * @param name Calendar name (uppercase recommended)
-     * @param region Region code
-     * @param year Year or 0 for recurring
-     * @param holidays Set of date timestamps
-     * @param description Human-readable description
-     */
     void registerCalendar(const std::string& name, 
                           const std::string& region,
                           int year,
@@ -271,22 +189,13 @@ public:
     }
     
     /**
-     * @brief Load calendar from JSON file (Admin API)
-     * 
-     * Used at server startup to load calendars from files.
-     * NOT accessible from AQL queries.
-     * 
-     * @param name Calendar name to register under
-     * @param filePath Path to JSON file
-     * @throws std::runtime_error if file invalid
+     * @brief Load Calendar From File.
+     * @param[in] name Input parameter.
+     * @param[in] filePath Input parameter.
+     * @throws std::runtime_error if an error occurs.
      * @details Calls: file(), is_open(), rdbuf(), str(), close(), nlohmann::json::parse(), std::string(), what().
      */
     void loadCalendarFromFile(const std::string& name, const std::string& filePath) {
-        /**
-         * @brief Read file
-         * @param[in] filePath Input parameter.
-         * @return Return value.
-         */
         std::ifstream file(filePath);
         if (!file.is_open()) {
             throw std::runtime_error("Cannot open calendar file: " + filePath);
@@ -343,17 +252,10 @@ public:
     }
     
     /**
-     * @brief Clear all custom calendars (Admin API)
-     * 
-     * Removes all non-builtin calendars.
+     * @brief Clear Custom Calendars.
      * @details Calls: lock(), begin(), end(), erase().
      */
     void clearCustomCalendars() {
-        /**
-         * @brief Lock.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(mutex_);
         
         for (auto it = calendars_.begin(); it != calendars_.end(); ) {
@@ -370,7 +272,7 @@ public:
     // =========================================================================
     
     /**
-     * @brief Convert holidays set to JSON array
+     * @brief To Json Array.
      * @param[in] holidays Input parameter.
      * @return Return value.
      * @details Calls: nlohmann::json::array(), push_back().
@@ -384,9 +286,7 @@ public:
     }
     
     /**
-     * @brief Parse date string to timestamp
-     * 
-     * Supports: YYYY-MM-DD, YYYY/MM/DD, DD.MM.YYYY
+     * @brief Parse Date To Timestamp.
      * @param[in] dateStr Input parameter.
      * @return Return value.
      * @throws std::runtime_error if an error occurs.
@@ -397,11 +297,6 @@ public:
         
         // Try YYYY-MM-DD
         if (std::regex_match(dateStr, std::regex(R"(\d{4}-\d{2}-\d{2})"))) {
-            /**
-             * @brief Ss.
-             * @param[in] dateStr Input parameter.
-             * @return Return value.
-             */
             std::istringstream ss(dateStr);
             ss >> std::get_time(&tm, "%Y-%m-%d");
             if (!ss.fail()) {
@@ -411,11 +306,6 @@ public:
         
         // Try YYYY/MM/DD
         if (std::regex_match(dateStr, std::regex(R"(\d{4}/\d{2}/\d{2})"))) {
-            /**
-             * @brief Ss.
-             * @param[in] dateStr Input parameter.
-             * @return Return value.
-             */
             std::istringstream ss(dateStr);
             ss >> std::get_time(&tm, "%Y/%m/%d");
             if (!ss.fail()) {
@@ -425,11 +315,6 @@ public:
         
         // Try DD.MM.YYYY (German format)
         if (std::regex_match(dateStr, std::regex(R"(\d{2}\.\d{2}\.\d{4})"))) {
-            /**
-             * @brief Ss.
-             * @param[in] dateStr Input parameter.
-             * @return Return value.
-             */
             std::istringstream ss(dateStr);
             ss >> std::get_time(&tm, "%d.%m.%Y");
             if (!ss.fail()) {
@@ -446,7 +331,7 @@ public:
     }
     
     /**
-     * @brief Create timestamp from date components
+     * @brief Make Date.
      * @param[in] year Input parameter.
      * @param[in] month Input parameter.
      * @param[in] day Input parameter.
@@ -472,7 +357,7 @@ private:
     HolidayProvider& operator=(const HolidayProvider&) = delete;
     
     /**
-     * @brief Register all built-in calendars
+     * @brief Register Builtin Calendars.
      * @details Calls: registerBuiltinCalendar(), makeDate().
      */
     void registerBuiltinCalendars() {
@@ -621,7 +506,7 @@ private:
     }
     
     /**
-     * @brief Validate calendar name (injection protection)
+     * @brief Validate Name.
      * @param[in] name Input parameter.
      * @throws std::runtime_error if an error occurs.
      * @details Calls: empty(), length(), validName(), std::regex_match().

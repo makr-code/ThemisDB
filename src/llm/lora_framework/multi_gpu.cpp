@@ -38,6 +38,12 @@ MultiGPUContext::MultiGPUContext(int num_gpus, const std::vector<int>& gpu_ids)
     }
 }
 
+/**
+ * @brief Detect gpus.
+ * @param[in] num_gpus Input parameter.
+ * @param[in] gpu_ids Input parameter.
+ * @details Calls: clear(), empty(), Device::cuda(), GPUMemoryManager::detect_backends(), Device::hip(), spdlog::warn(), push_back(), cudaGetDeviceCount().
+ */
 void MultiGPUContext::detect_gpus(int num_gpus, const std::vector<int>& gpu_ids) {
     devices_.clear();
     
@@ -202,6 +208,12 @@ void MultiGPUContext::synchronize_all() const {
 #endif
 }
 
+/**
+ * @brief Detect.
+ * @param[in] devices Input parameter.
+ * @return Return value.
+ * @details Calls: size(), resize(), cudaDeviceCanAccessPeer(), spdlog::warn(), cudaGetErrorString(), spdlog::info(), hipDeviceCanAccessPeer(), hipGetErrorString().
+ */
 GPUTopology GPUTopology::detect(const std::vector<Device>& devices) {
     GPUTopology topology;
     topology.num_gpus = devices.size();

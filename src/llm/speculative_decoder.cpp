@@ -47,9 +47,15 @@ SpeculativeDecoder::SpeculativeDecoder(const Config& config)
                   config_.k, config_.min_acceptance_threshold);
 }
 
-// ═══════════════════════════════════════════════════════════
-// Core verification (Leviathan et al., Algorithm 1)
-// ═══════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════ Core verification (Leviathan et al.
+ * @param[in] draft_tokens Input parameter.
+ * @param[in] draft_logits Input parameter.
+ * @param[in] target_logits Input parameter.
+ * @return Verification result.
+ * @throws std::invalid_argument if an error occurs.
+ * @details , Algorithm 1) ═══════════════════════════════════════════════════════════ Calls: size(), str(), empty(), lk(), reserve(), uniform(), spdlog::warn(), softmax().
+ */
 
 SpeculativeDecoder::VerifyResult SpeculativeDecoder::verify(
     const std::vector<int>&                      draft_tokens,
@@ -193,18 +199,30 @@ SpeculativeDecoder::VerifyResult SpeculativeDecoder::verify(
 // ═══════════════════════════════════════════════════════════
 
 SpeculativeDecoder::Statistics SpeculativeDecoder::getStatistics() const {
+    /**
+     * @brief Lk.
+     * @param[in] verify_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(verify_mutex_);
     return stats_;
 }
 
+/**
+ * @brief Reset Statistics.
+ * @details Calls: lk().
+ */
 void SpeculativeDecoder::resetStatistics() {
     std::lock_guard<std::mutex> lk(verify_mutex_);
     stats_ = Statistics{};
 }
 
-// ═══════════════════════════════════════════════════════════
-// Static helpers
-// ═══════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════ Static helpers ═══════════════════════════════════════════════════════════
+ * @param[in] logits Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), std::max_element(), begin(), end(), probs(), size(), std::exp().
+ */
 
 std::vector<float> SpeculativeDecoder::softmax(const std::vector<float>& logits) {
     if (logits.empty()) return {};
@@ -226,6 +244,13 @@ std::vector<float> SpeculativeDecoder::softmax(const std::vector<float>& logits)
     return probs;
 }
 
+/**
+ * @brief Adjusted Distribution.
+ * @param[in] target_probs Input parameter.
+ * @param[in] draft_probs Input parameter.
+ * @return Return value.
+ * @details Calls: size(), adjusted(), std::max(), std::fill(), begin(), end().
+ */
 std::vector<float> SpeculativeDecoder::adjustedDistribution(
     const std::vector<float>& target_probs,
     const std::vector<float>& draft_probs
@@ -255,6 +280,13 @@ std::vector<float> SpeculativeDecoder::adjustedDistribution(
     return adjusted;
 }
 
+/**
+ * @brief Sample Token.
+ * @param[in] probs Input parameter.
+ * @param[in,out] rng Input/output parameter.
+ * @return Return value.
+ * @details Calls: empty(), uniform(), size().
+ */
 int SpeculativeDecoder::sampleToken(
     const std::vector<float>& probs,
     std::mt19937&              rng

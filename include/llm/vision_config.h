@@ -23,9 +23,6 @@
 namespace themis {
 namespace llm {
 
-/**
- * @brief API stability level for vision features
- */
 enum class VisionAPIStability {
     EXPERIMENTAL,    ///< Experimental features, may change
     BETA,           ///< Beta features, mostly stable
@@ -33,9 +30,6 @@ enum class VisionAPIStability {
     DEPRECATED      ///< Deprecated, will be removed
 };
 
-/**
- * @brief Model license information
- */
 struct ModelLicense {
     std::string license_id;              ///< License identifier (e.g., "MIT", "Apache-2.0")
     std::string license_name;            ///< Human-readable license name
@@ -47,20 +41,27 @@ struct ModelLicense {
     std::vector<std::string> restrictions; ///< Additional restrictions
     
     /**
-     * @brief Check if license is compatible with another
+     * @brief Is Compatible With.
+     * @param[in] other_license_id Identifier of the other license.
+     * @return True when the operation succeeds.
      */
     bool isCompatibleWith(const std::string& other_license_id) const;
     
     /**
-     * @brief Validate usage against license terms
+     * @brief Validate Usage.
+     * @param[in] is_commercial Input parameter.
+     * @param[in] will_modify Input parameter.
+     * @param[in] will_distribute Input parameter.
+     * @return True when the operation succeeds.
      */
     bool validateUsage(bool is_commercial, bool will_modify, bool will_distribute) const;
 };
 
-/**
- * @brief Model metadata with license information
- */
 struct VisionModelMetadata {
+    /**
+     * @brief Vision Model Metadata.
+     * @return Return value.
+     */
     virtual ~VisionModelMetadata() = default;
     std::string model_id;                ///< Unique model identifier
     std::string model_name;              ///< Human-readable name
@@ -74,10 +75,11 @@ struct VisionModelMetadata {
     std::vector<std::string> capabilities; ///< Supported capabilities
 };
 
-/**
- * @brief Resource limits for vision processing
- */
 struct VisionResourceLimits {
+    /**
+     * @brief Vision Resource Limits.
+     * @return Return value.
+     */
     virtual ~VisionResourceLimits() = default;
     size_t max_memory_mb = 0;                ///< Maximum memory usage
     size_t max_memory_per_request_mb = 0;    ///< Memory per request
@@ -92,10 +94,11 @@ struct VisionResourceLimits {
     int cpu_inference_threads = 4;       ///< CPU threads for image encoding (clip_image_encode)
 };
 
-/**
- * @brief Rate limiting configuration
- */
 struct VisionRateLimits {
+    /**
+     * @brief Vision Rate Limits.
+     * @return Return value.
+     */
     virtual ~VisionRateLimits() = default;
     bool enabled = false;                        ///< Rate limiting enabled
     size_t requests_per_minute = 0;          ///< Requests per minute
@@ -105,10 +108,11 @@ struct VisionRateLimits {
     std::string on_limit_exceeded;       ///< Behavior: reject, queue, throttle
 };
 
-/**
- * @brief Resource quota tracking
- */
 struct VisionResourceQuota {
+    /**
+     * @brief Vision Resource Quota.
+     * @return Return value.
+     */
     virtual ~VisionResourceQuota() = default;
     bool enabled = false;                        ///< Quota enforcement enabled
     std::string enforcement;             ///< Enforcement mode: soft, hard
@@ -119,10 +123,11 @@ struct VisionResourceQuota {
     std::string reset_period;            ///< Reset period: daily, weekly, monthly
 };
 
-/**
- * @brief Monitoring configuration
- */
 struct VisionMonitoringConfig {
+    /**
+     * @brief Vision Monitoring Config.
+     * @return Return value.
+     */
     virtual ~VisionMonitoringConfig() = default;
     bool enabled = false;                        ///< Monitoring enabled
     bool track_latency = false;                  ///< Track latency metrics
@@ -151,10 +156,11 @@ struct VisionMonitoringConfig {
     } audit;
 };
 
-/**
- * @brief Security configuration for vision processing
- */
 struct VisionSecurityConfig {
+    /**
+     * @brief Vision Security Config.
+     * @return Return value.
+     */
     virtual ~VisionSecurityConfig() = default;
     // Input validation
     struct ValidationConfig {
@@ -205,10 +211,11 @@ struct VisionSecurityConfig {
     } access_control;
 };
 
-/**
- * @brief Pipeline configuration
- */
 struct VisionPipelineConfig {
+    /**
+     * @brief Vision Pipeline Config.
+     * @return Return value.
+     */
     virtual ~VisionPipelineConfig() = default;
     std::string stability;               ///< Stability level: development, staging, production
     
@@ -247,91 +254,178 @@ struct VisionPipelineConfig {
     } postprocessing;
 };
 
-/**
- * @brief Main vision configuration class
- * 
- * Manages all configuration aspects for vision/multi-modal support including:
- * - API versioning and stability
- * - License management
- * - Resource limits and quotas
- * - Monitoring and audit logging
- * - Security and sandboxing
- * - Pipeline configuration
- */
 class VisionConfig {
 public:
     /**
-     * @brief Load configuration from a YAML file into a fully initialized object.
-     * @param config_path Path to the YAML configuration document.
-     * @return Shared configuration instance with defaults applied to missing
-     *         fields.
-     * @throws std::runtime_error When YAML parsing fails.
-     * @note The returned shared pointer is published only after construction has
-     *       completed, so callers never observe partially initialized state.
+     * @brief Load From File.
+     * @param[in] config_path Path to the retention policy configuration file.
+     * @return Return value.
      */
     static std::shared_ptr<VisionConfig> loadFromFile(const std::string& config_path);
     
     /**
-     * @brief Load configuration from a JSON object into a fully initialized object.
-     * @param config JSON object containing configuration overrides.
-     * @return Shared configuration instance with defaults preserved for omitted
-     *         fields.
-     * @note The returned shared pointer is published only after construction has
-     *       completed, so callers never observe partially initialized state.
+     * @brief Load From Json.
+     * @param[in] config Input parameter.
+     * @return Return value.
      */
     static std::shared_ptr<VisionConfig> loadFromJson(const nlohmann::json& config);
     
     /**
-     * @brief Get the default configuration instance.
-     * @return Shared configuration instance containing production defaults.
-     * @note The returned shared pointer is published only after construction has
-     *       completed, so callers never observe partially initialized state.
+     * @brief Get Default.
+     * @return Return value.
      */
     static std::shared_ptr<VisionConfig> getDefault();
     
     /**
-     * @brief Validate configuration
+     * @brief Validate.
+     * @param[in,out] error_message Input/output parameter.
+     * @return True when the operation succeeds.
      */
     bool validate(std::string& error_message) const;
     
     // API Configuration
+    /**
+     * @brief Get APIStability.
+     * @return Return value.
+     */
     VisionAPIStability getAPIStability() const;
+    /**
+     * @brief Get APIVersion.
+     * @return Return value.
+     */
     const std::string& getAPIVersion() const;
+    /**
+     * @brief Get APIPrefix.
+     * @return Return value.
+     */
     const std::string& getAPIPrefix() const;
+    /**
+     * @brief Is Backward Compatible.
+     * @return True when the operation succeeds.
+     */
     bool isBackwardCompatible() const;
     
     // License Management
+    /**
+     * @brief Is License Enforced.
+     * @return True when the operation succeeds.
+     */
     bool isLicenseEnforced() const;
+    /**
+     * @brief Is License Allowed.
+     * @param[in] license_id Identifier of the license.
+     * @return True when the operation succeeds.
+     */
     bool isLicenseAllowed(const std::string& license_id) const;
+    /**
+     * @brief Get Model License.
+     * @param[in] model_id Identifier of the model.
+     * @return Return value.
+     */
     std::shared_ptr<ModelLicense> getModelLicense(const std::string& model_id) const;
+    /**
+     * @brief Validate Model Usage.
+     * @param[in] model_id Identifier of the model.
+     * @param[in] is_commercial Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool validateModelUsage(const std::string& model_id, bool is_commercial) const;
+    /**
+     * @brief Get Required Attribution.
+     * @param[in] model_id Identifier of the model.
+     * @return Return value.
+     */
     std::string getRequiredAttribution(const std::string& model_id) const;
     
     // Resource Management
+    /**
+     * @brief Get Resource Limits.
+     * @return Return value.
+     */
     const VisionResourceLimits& getResourceLimits() const;
+    /**
+     * @brief Get Rate Limits.
+     * @return Return value.
+     */
     const VisionRateLimits& getRateLimits() const;
+    /**
+     * @brief Get Resource Quota.
+     * @return Return value.
+     */
     const VisionResourceQuota& getResourceQuota() const;
     
     // Monitoring
+    /**
+     * @brief Get Monitoring Config.
+     * @return Return value.
+     */
     const VisionMonitoringConfig& getMonitoringConfig() const;
+    /**
+     * @brief Is Monitoring Enabled.
+     * @return True when the operation succeeds.
+     */
     bool isMonitoringEnabled() const;
+    /**
+     * @brief Is Audit Enabled.
+     * @return True when the operation succeeds.
+     */
     bool isAuditEnabled() const;
     
     // Security
+    /**
+     * @brief Get Security Config.
+     * @return Return value.
+     */
     const VisionSecurityConfig& getSecurityConfig() const;
+    /**
+     * @brief Is Sandboxing Enabled.
+     * @return True when the operation succeeds.
+     */
     bool isSandboxingEnabled() const;
+    /**
+     * @brief Is Model Verification Enabled.
+     * @return True when the operation succeeds.
+     */
     bool isModelVerificationEnabled() const;
     
     // Pipeline
+    /**
+     * @brief Get Pipeline Config.
+     * @return Return value.
+     */
     const VisionPipelineConfig& getPipelineConfig() const;
     
     // Model Registry
+    /**
+     * @brief Get Available Models.
+     * @return Return value.
+     */
     std::vector<std::string> getAvailableModels() const;
+    /**
+     * @brief Get Model Metadata.
+     * @param[in] model_id Identifier of the model.
+     * @return Return value.
+     */
     std::shared_ptr<VisionModelMetadata> getModelMetadata(const std::string& model_id) const;
+    /**
+     * @brief Is Model Production Ready.
+     * @param[in] model_id Identifier of the model.
+     * @return True when the operation succeeds.
+     */
     bool isModelProductionReady(const std::string& model_id) const;
     
     // Feature Flags
+    /**
+     * @brief Is Feature Enabled.
+     * @param[in] feature_name Name of the feature.
+     * @return True when the operation succeeds.
+     */
     bool isFeatureEnabled(const std::string& feature_name) const;
+    /**
+     * @brief Is Experimental Feature.
+     * @param[in] feature_name Name of the feature.
+     * @return True when the operation succeeds.
+     */
     bool isExperimentalFeature(const std::string& feature_name) const;
 
 private:

@@ -27,6 +27,12 @@ CacheApiHandler::CacheApiHandler(
 {
 }
 
+/**
+ * @brief Handle Query.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), setAttribute(), setStatus(), makeErrorResponse(), nlohmann::json::parse(), body(), contains(), value().
+ */
 http::response<http::string_body> CacheApiHandler::handleQuery(
     const http::request<http::string_body>& req
 ) {
@@ -86,6 +92,12 @@ http::response<http::string_body> CacheApiHandler::handleQuery(
     }
 }
 
+/**
+ * @brief Handle Put.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), setAttribute(), setStatus(), makeErrorResponse(), nlohmann::json::parse(), body(), contains(), value().
+ */
 http::response<http::string_body> CacheApiHandler::handlePut(
     const http::request<http::string_body>& req
 ) {
@@ -140,6 +152,12 @@ http::response<http::string_body> CacheApiHandler::handlePut(
     }
 }
 
+/**
+ * @brief Handle Stats.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), setAttribute(), setStatus(), makeErrorResponse(), getStats(), toJson(), makeResponse(), dump().
+ */
 http::response<http::string_body> CacheApiHandler::handleStats(
     const http::request<http::string_body>& req
 ) {
@@ -170,6 +188,14 @@ http::response<http::string_body> CacheApiHandler::handleStats(
     }
 }
 
+/**
+ * @brief Make Error Response.
+ * @param[in] status Input parameter.
+ * @param[in] message Input parameter.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: makeResponse(), dump().
+ */
 http::response<http::string_body> CacheApiHandler::makeErrorResponse(
     http::status status, const std::string& message, const http::request<http::string_body>& req
 ) {
@@ -182,6 +208,14 @@ http::response<http::string_body> CacheApiHandler::makeErrorResponse(
     return makeResponse(status, error_body.dump(), req);
 }
 
+/**
+ * @brief Make Response.
+ * @param[in] status Input parameter.
+ * @param[in] body Input parameter.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: version(), set(), keep_alive(), body(), prepare_payload().
+ */
 http::response<http::string_body> CacheApiHandler::makeResponse(
     http::status status, const std::string& body, const http::request<http::string_body>& req
 ) {

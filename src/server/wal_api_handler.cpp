@@ -46,6 +46,12 @@ WALApiHandler::WALApiHandler(
 {
 }
 
+/**
+ * @brief Handle Apply.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), empty(), find(), end(), value(), makeErrorResponse(), hmacSha256Hex(), body().
+ */
 http::response<http::string_body> WALApiHandler::handleApply(
     const http::request<http::string_body>& req
 ) {
@@ -156,6 +162,14 @@ http::response<http::string_body> WALApiHandler::handleApply(
     return makeResponse(http::status::ok, body.dump(), req);
 }
 
+/**
+ * @brief Make Error Response.
+ * @param[in] status Input parameter.
+ * @param[in] message Input parameter.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: makeResponse(), dump().
+ */
 http::response<http::string_body> WALApiHandler::makeErrorResponse(
     http::status status, const std::string& message, const http::request<http::string_body>& req
 ) {
@@ -167,6 +181,14 @@ http::response<http::string_body> WALApiHandler::makeErrorResponse(
     return makeResponse(status, error_body.dump(), req);
 }
 
+/**
+ * @brief Make Response.
+ * @param[in] status Input parameter.
+ * @param[in] body Input parameter.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: version(), set(), keep_alive(), body(), prepare_payload().
+ */
 http::response<http::string_body> WALApiHandler::makeResponse(
     http::status status, const std::string& body, const http::request<http::string_body>& req
 ) {
@@ -179,6 +201,11 @@ http::response<http::string_body> WALApiHandler::makeResponse(
     return res;
 }
 
+/**
+ * @brief Record Latency.
+ * @param[in] elapsed_us Input parameter.
+ * @details Calls: fetch_add().
+ */
 void WALApiHandler::recordLatency(int64_t elapsed_us) {
     wal_apply_latency_sum_us_.fetch_add(static_cast<uint64_t>(elapsed_us), std::memory_order_relaxed);
     wal_apply_latency_count_.fetch_add(1, std::memory_order_relaxed);
@@ -193,6 +220,13 @@ void WALApiHandler::recordLatency(int64_t elapsed_us) {
     }
 }
 
+/**
+ * @brief Hmac Sha256 Hex.
+ * @param[in] key Input parameter.
+ * @param[in] data Input parameter.
+ * @return Return value.
+ * @details Calls: HMAC(), EVP_sha256(), data(), size(), reserve(), push_back().
+ */
 std::string WALApiHandler::hmacSha256Hex(const std::string& key, const std::string& data) {
     unsigned int len = 0;
     unsigned char* result = HMAC(EVP_sha256(), key.data(), key.size(),
@@ -210,6 +244,13 @@ std::string WALApiHandler::hmacSha256Hex(const std::string& key, const std::stri
     return hex;
 }
 
+/**
+ * @brief Timing Safe Equal.
+ * @param[in] a Input parameter.
+ * @param[in] b Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: size().
+ */
 bool WALApiHandler::timingSafeEqual(const std::string& a, const std::string& b) {
     if (a.size() != b.size()) {
       return false;

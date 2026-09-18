@@ -21,28 +21,15 @@ namespace themis {
 namespace llm {
 namespace lora {
 
-/**
- * @brief GGUF format converter for QLoRA integration
- * 
- * Converts GGUF quantized formats (Q4_K_M, Q8_0) to internal
- * quantization formats (NF4, INT8) for QLoRA training.
- */
 class GGUFConverter {
 public:
     GGUFConverter() = default;
     
     /**
-     * @brief Convert Q4_K_M tensor to internal NF4 format
-     * 
-     * Q4_K_M uses 4-bit quantization with K-means clustering.
-     * Block structure: 256 values per block
-     * - 32 bytes: quantized data (4 bits per value)
-     * - 2 bytes: FP16 scale per super-block
-     * - 2 bytes: FP16 min values
-     * 
-     * @param gguf_data Raw GGUF tensor data
-     * @param tensor_info GGUF tensor metadata
-     * @return QuantizedTensor in NF4 format
+     * @brief Convert Q4 KM.
+     * @param[in] gguf_data Input parameter.
+     * @param[in] tensor_info Input parameter.
+     * @return Return value.
      */
     static QuantizedTensor convertQ4KM(
         const void* gguf_data,
@@ -50,16 +37,10 @@ public:
     );
     
     /**
-     * @brief Convert Q8_0 tensor to internal INT8 format
-     * 
-     * Q8_0 uses 8-bit symmetric quantization.
-     * Block structure: 32 values per block
-     * - 32 bytes: INT8 quantized data
-     * - 2 bytes: FP16 scale
-     * 
-     * @param gguf_data Raw GGUF tensor data
-     * @param tensor_info GGUF tensor metadata
-     * @return QuantizedTensor in INT8 format
+     * @brief Convert Q8 0.
+     * @param[in] gguf_data Input parameter.
+     * @param[in] tensor_info Input parameter.
+     * @return Return value.
      */
     static QuantizedTensor convertQ8_0(
         const void* gguf_data,
@@ -67,11 +48,10 @@ public:
     );
     
     /**
-     * @brief Convert F16 tensor to internal format
-     * 
-     * @param gguf_data Raw GGUF tensor data
-     * @param tensor_info GGUF tensor metadata
-     * @return Full precision tensor as std::vector<float>
+     * @brief Convert F16.
+     * @param[in] gguf_data Input parameter.
+     * @param[in] tensor_info Input parameter.
+     * @return Return value.
      */
     static std::vector<float> convertF16(
         const void* gguf_data,
@@ -79,11 +59,10 @@ public:
     );
     
     /**
-     * @brief Convert F32 tensor to internal format
-     * 
-     * @param gguf_data Raw GGUF tensor data
-     * @param tensor_info GGUF tensor metadata
-     * @return Full precision tensor as std::vector<float>
+     * @brief Convert F32.
+     * @param[in] gguf_data Input parameter.
+     * @param[in] tensor_info Input parameter.
+     * @return Return value.
      */
     static std::vector<float> convertF32(
         const void* gguf_data,
@@ -91,30 +70,24 @@ public:
     );
     
     /**
-     * @brief Check if GGUF type is supported
-     * 
-     * @param type GGML quantization type
-     * @return true if conversion is supported
+     * @brief Is Supported.
+     * @param[in] type Input parameter.
+     * @return True when the operation succeeds.
      */
     static bool isSupported(GGMLType type);
     
     /**
-     * @brief Get equivalent internal quantization type
-     * 
-     * @param type GGML quantization type
-     * @return Corresponding QuantizationType
+     * @brief Get Internal Type.
+     * @param[in] type Input parameter.
+     * @return Return value.
      */
     static QuantizationType getInternalType(GGMLType type);
     
     /**
-     * @brief Convert Q4_K_M directly to internal NF4 format (no FP32 intermediate)
-     * 
-     * This is the preferred method for quantized loading as it avoids
-     * precision loss from dequantize/requantize cycle.
-     * 
-     * @param gguf_data Raw GGUF tensor data
-     * @param tensor_info GGUF tensor metadata
-     * @return QuantizedTensor in NF4 format
+     * @brief Convert Q4 KM direct.
+     * @param[in] gguf_data Input parameter.
+     * @param[in] tensor_info Input parameter.
+     * @return Return value.
      */
     static QuantizedTensor convertQ4KM_direct(
         const void* gguf_data,
@@ -122,14 +95,10 @@ public:
     );
     
     /**
-     * @brief Convert Q8_0 directly to internal INT8 format (no FP32 intermediate)
-     * 
-     * This is the preferred method for quantized loading as it avoids
-     * precision loss from dequantize/requantize cycle.
-     * 
-     * @param gguf_data Raw GGUF tensor data
-     * @param tensor_info GGUF tensor metadata
-     * @return QuantizedTensor in INT8 format
+     * @brief Convert Q8 0 direct.
+     * @param[in] gguf_data Input parameter.
+     * @param[in] tensor_info Input parameter.
+     * @return Return value.
      */
     static QuantizedTensor convertQ8_0_direct(
         const void* gguf_data,
@@ -137,11 +106,10 @@ public:
     );
     
     /**
-     * @brief Dequantize Q4_K_M data to FP32
-     * 
-     * @param data Raw Q4_K_M data
-     * @param num_elements Number of elements to dequantize
-     * @return FP32 vector
+     * @brief Dequantize Q4 KM.
+     * @param[in] data Input parameter.
+     * @param[in] num_elements Input parameter.
+     * @return Return value.
      */
     static std::vector<float> dequantizeQ4KM(
         const void* data,
@@ -149,11 +117,10 @@ public:
     );
     
     /**
-     * @brief Dequantize Q8_0 data to FP32
-     * 
-     * @param data Raw Q8_0 data
-     * @param num_elements Number of elements to dequantize
-     * @return FP32 vector
+     * @brief Dequantize Q8 0.
+     * @param[in] data Input parameter.
+     * @param[in] num_elements Input parameter.
+     * @return Return value.
      */
     static std::vector<float> dequantizeQ8_0(
         const void* data,
@@ -161,18 +128,16 @@ public:
     );
     
     /**
-     * @brief Calculate total elements from shape
-     * 
-     * @param shape Tensor shape
-     * @return Total number of elements
+     * @brief Calculate Elements.
+     * @param[in] shape Input parameter.
+     * @return Return value.
      */
     static size_t calculateElements(const std::vector<int64_t>& shape);
     
     /**
-     * @brief FP16 to FP32 conversion helper (public for testing)
-     * 
-     * @param h FP16 value as uint16_t
-     * @return FP32 value
+     * @brief Fp16 to fp32.
+     * @param[in] h Input parameter.
+     * @return Return value.
      */
     static float fp16_to_fp32(uint16_t h);
 };
@@ -180,9 +145,6 @@ public:
 // Default block size for internal quantization after GGUF conversion
 constexpr size_t GGUF_CONVERSION_BLOCK_SIZE = 64;
 
-/**
- * @brief GGUF block structures for reference
- */
 namespace gguf_blocks {
     
     // Q4_K_M block (256 values)

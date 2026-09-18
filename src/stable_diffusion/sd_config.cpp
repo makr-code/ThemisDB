@@ -14,6 +14,12 @@
 namespace themis {
 namespace imggen {
 
+/**
+ * @brief From Json.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: contains().
+ */
 SDConfig SDConfig::fromJson(const json& j) {
     SDConfig cfg = {};
     if (j.contains("model_path")) {

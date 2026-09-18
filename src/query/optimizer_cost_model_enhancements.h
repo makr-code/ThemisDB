@@ -20,12 +20,6 @@
 namespace themis {
 namespace query {
 
-/**
- * @brief Histogram-based cardinality estimation
- * 
- * Represents a histogram for a column with buckets for better selectivity
- * estimation, replacing the simple uniform distribution assumption.
- */
 struct ColumnHistogram {
     struct Bucket {
         double rangeStart = 0;
@@ -40,28 +34,21 @@ struct ColumnHistogram {
     bool isNumeric = false;
     
     /**
-     * @brief Estimate selectivity for a range predicate using histogram
-     * @param predicateType One of "=", "<", ">", "<=", ">=", "BETWEEN"
-     * @param value The predicate value(s)
-     * @return Selectivity between 0.0 and 1.0
+     * @brief Estimate Selectivity.
+     * @param[in] predicateType Input parameter.
      * @param[in] values Input parameter.
+     * @return Return value.
      */
     double estimateSelectivity(const std::string& predicateType,
                               const std::vector<double>& values) const;
     
     /**
-     * @brief Get distinct value count for the column
-     * @return Total distinct values across all buckets
+     * @brief Get Distinct Values.
+     * @return Return value.
      */
     size_t getDistinctValues() const;
 };
 
-/**
- * @brief Multi-column correlation metadata
- * 
- * Captures correlations between columns to improve join cardinality and
- * filter selectivity estimation.
- */
 struct ColumnCorrelation {
     std::string column1;
     std::string column2;
@@ -72,11 +59,6 @@ struct ColumnCorrelation {
     bool isIndependent() const { return std::abs(correlationCoefficient) <= 0.2; }
 };
 
-/**
- * @brief Estimate validation metrics
- * 
- * Tracks estimate vs. actual cardinality to detect systematic bias.
- */
 struct EstimateValidation {
     struct Sample {
         size_t estimatedRows = 0;
@@ -97,40 +79,34 @@ struct EstimateValidation {
     std::vector<Sample> samples;
     
     /**
-     * @brief Compute mean absolute percentage error (MAPE)
+     * @brief Compute MAPE.
      * @return Return value.
      */
     double computeMAPE() const;
     
     /**
-     * @brief Compute 95th percentile error
+     * @brief Compute P95 Error.
      * @return Return value.
      */
     double computeP95Error() const;
     
     /**
-     * @brief Check for systematic underestimation
-     * @return true if median error ratio > 1.5
+     * @brief Has Systematic Underestimation.
+     * @return True when the operation succeeds.
      */
     bool hasSystematicUnderestimation() const;
     
     /**
-     * @brief Check for systematic overestimation
-     * @return true if median error ratio < 0.67 (1/1.5)
+     * @brief Has Systematic Overestimation.
+     * @return True when the operation succeeds.
      */
     bool hasSystematicOverestimation() const;
 };
 
-/**
- * @brief Cost model enhancements for Phase 2
- * 
- * Provides improved cardinality estimation with histograms and correlation
- * awareness, plus validation metrics.
- */
 class CostModelEnhancements {
 public:
     /**
-     * @brief Estimate selectivity using histogram if available, else default
+     * @brief Estimate Selectivity With Histogram.
      * @param[in] histogram Input parameter.
      * @param[in] predicateType Input parameter.
      * @param[in] values Input parameter.
@@ -141,34 +117,23 @@ public:
         const std::string& predicateType,
         const std::vector<double>& values);
     
-    /**
-     * @brief Estimate join cardinality with correlation awareness
-     * 
-     * If columns are correlated positively, adjust selectivity upward
-     * (more matches expected). If negatively correlated, adjust downward.
-     */
     static size_t estimateJoinCardinalityWithCorrelation(
         size_t leftRows,
         size_t rightRows,
         double baseSelectivity,
         const ColumnCorrelation* correlation = nullptr);
     
-    /**
-     * @brief Estimate filter selectivity for multi-column predicates
-     * 
-     * Takes correlation into account when predicates are on related columns.
-     */
     static double estimateMultiColumnSelectivity(
         const std::vector<ColumnHistogram>& histograms,
         const std::vector<std::pair<std::string, std::string>>& predicates,
         const std::vector<ColumnCorrelation>& correlations);
     
     /**
-     * @brief Validate estimate and log deviation if significant
-     * @param actual Observed cardinality
-     * @param estimate Previously estimated cardinality
-     * @param queryTemplate For logging/diagnostics
-     * @param operationType One of "scan", "filter", "join", "agg"
+     * @brief Record Estimate.
+     * @param[in] actual Input parameter.
+     * @param[in] estimate Input parameter.
+     * @param[in] queryTemplate Input parameter.
+     * @param[in] operationType Input parameter.
      */
     static void recordEstimate(
         size_t actual,
@@ -177,13 +142,13 @@ public:
         const std::string& operationType);
     
     /**
-     * @brief Get estimate validation metrics
+     * @brief Get Estimate Metrics.
      * @return Return value.
      */
     static const EstimateValidation& getEstimateMetrics();
     
     /**
-     * @brief Clear estimate validation history
+     * @brief Clear Estimate Metrics.
      */
     static void clearEstimateMetrics();
 };

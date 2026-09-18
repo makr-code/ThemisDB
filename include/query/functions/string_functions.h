@@ -25,9 +25,6 @@ namespace functions {
 // String Functions
 // ============================================================================
 
-/**
- * @brief LENGTH(value) - Length of string, array, or object
- */
 class LengthFunction : public IFunction {
 public:
     ~LengthFunction() override = default;
@@ -68,9 +65,6 @@ public:
     }
 };
 
-/**
- * @brief CONCAT(s1, s2, ...) - Concatenate strings
- */
 class ConcatFunction : public IFunction {
 public:
     ~ConcatFunction() override = default;
@@ -105,9 +99,6 @@ public:
     }
 };
 
-/**
- * @brief SUBSTRING(str, start [, length]) - Extract substring
- */
 class SubstringFunction : public IFunction {
 public:
     ~SubstringFunction() override = default;
@@ -151,9 +142,6 @@ public:
     }
 };
 
-/**
- * @brief UPPER(str) - Convert to uppercase
- */
 class UpperFunction : public IFunction {
 public:
     ~UpperFunction() override = default;
@@ -180,9 +168,6 @@ public:
     }
 };
 
-/**
- * @brief LOWER(str) - Convert to lowercase
- */
 class LowerFunction : public IFunction {
 public:
     ~LowerFunction() override = default;
@@ -209,9 +194,6 @@ public:
     }
 };
 
-/**
- * @brief TRIM(str [, chars]) - Remove leading/trailing whitespace or chars
- */
 class TrimFunction : public IFunction {
 public:
     ~TrimFunction() override = default;
@@ -249,9 +231,6 @@ public:
     }
 };
 
-/**
- * @brief LTRIM(str [, chars]) - Remove leading whitespace
- */
 class LTrimFunction : public IFunction {
 public:
     ~LTrimFunction() override = default;
@@ -284,9 +263,6 @@ public:
     }
 };
 
-/**
- * @brief RTRIM(str [, chars]) - Remove trailing whitespace
- */
 class RTrimFunction : public IFunction {
 public:
     ~RTrimFunction() override = default;
@@ -319,9 +295,6 @@ public:
     }
 };
 
-/**
- * @brief SPLIT(str, separator [, limit]) - Split string into array
- */
 class SplitFunction : public IFunction {
 public:
     ~SplitFunction() override = default;
@@ -367,9 +340,6 @@ public:
     }
 };
 
-/**
- * @brief CONTAINS(str, search) - Check if string contains substring
- */
 class ContainsFunction : public IFunction {
 public:
     ~ContainsFunction() override = default;
@@ -397,9 +367,6 @@ public:
     }
 };
 
-/**
- * @brief STARTS_WITH(str, prefix) - Check if string starts with prefix
- */
 class StartsWithFunction : public IFunction {
 public:
     ~StartsWithFunction() override = default;
@@ -427,9 +394,6 @@ public:
     }
 };
 
-/**
- * @brief ENDS_WITH(str, suffix) - Check if string ends with suffix
- */
 class EndsWithFunction : public IFunction {
 public:
     ~EndsWithFunction() override = default;
@@ -460,9 +424,6 @@ public:
     }
 };
 
-/**
- * @brief REPLACE(str, search, replace) - Replace all occurrences
- */
 class ReplaceFunction : public IFunction {
 public:
     ~ReplaceFunction() override = default;
@@ -502,9 +463,6 @@ public:
     }
 };
 
-/**
- * @brief REVERSE(str) - Reverse a string
- */
 class ReverseStringFunction : public IFunction {
 public:
     ~ReverseStringFunction() override = default;
@@ -531,9 +489,6 @@ public:
     }
 };
 
-/**
- * @brief REGEX_TEST(str, pattern) - Test if string matches regex
- */
 class RegexTestFunction : public IFunction {
 public:
     ~RegexTestFunction() override = default;
@@ -567,9 +522,6 @@ public:
     }
 };
 
-/**
- * @brief REGEX_REPLACE(str, pattern, replacement) - Replace with regex
- */
 class RegexReplaceFunction : public IFunction {
 public:
     ~RegexReplaceFunction() override = default;
@@ -605,9 +557,6 @@ public:
     }
 };
 
-/**
- * @brief LEVENSHTEIN_DISTANCE(str1, str2) - Edit distance between strings
- */
 class LevenshteinDistanceFunction : public IFunction {
 public:
     ~LevenshteinDistanceFunction() override = default;
@@ -675,12 +624,12 @@ private:
     }
 };
 
+
 /**
- * @brief ============================================================================ Register String Functions ============================================================================
+ * @brief Register String Functions.
  * @param[in,out] reg Input/output parameter.
  * @details Calls: registerFunction().
  */
-
 inline void registerStringFunctions(FunctionRegistry& reg) {
     reg.registerFunction(std::make_unique<LengthFunction>());
     reg.registerFunction(std::make_unique<ConcatFunction>());

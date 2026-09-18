@@ -18,6 +18,13 @@ namespace tensor {
 // Helper functions
 // ============================================================================
 
+/**
+ * @brief Compute Cosine Similarity.
+ * @param[in] a Input parameter.
+ * @param[in] b Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), std::min(), size(), std::sqrt().
+ */
 static float computeCosineSimilarity(
     const std::vector<float>& a,
     const std::vector<float>& b) {
@@ -93,6 +100,13 @@ RedundancyMetrics SimilarityBasedDetector::detect(
     return metrics;
 }
 
+/**
+ * @brief Deduplicate.
+ * @param[in,out] summaries Input/output parameter.
+ * @param[in] threshold Input parameter.
+ * @return Return value.
+ * @details Calls: size(), std::abs(), push_back(), std::sort(), begin(), end(), erase(), std::unique().
+ */
 std::vector<std::size_t> SimilarityBasedDetector::deduplicate(
     std::vector<BaseTensorSummary>& summaries,
     float                           threshold) {
@@ -181,6 +195,13 @@ RedundancyMetrics ContentHashDetector::detect(
     return metrics;
 }
 
+/**
+ * @brief Deduplicate.
+ * @param[in,out] summaries Input/output parameter.
+ * @param[in] threshold Input parameter.
+ * @return Return value.
+ * @details Calls: size(), hashSummary(), count(), push_back(), insert(), std::sort(), rbegin(), rend().
+ */
 std::vector<std::size_t> ContentHashDetector::deduplicate(
     std::vector<BaseTensorSummary>& summaries,
     float                           threshold) {
@@ -270,6 +291,13 @@ RedundancyMetrics EmbeddingBasedDetector::detect(
     return metrics;
 }
 
+/**
+ * @brief Deduplicate.
+ * @param[in,out] summaries Input/output parameter.
+ * @param[in] threshold Input parameter.
+ * @return Return value.
+ * @details Calls: size(), push_back().
+ */
 std::vector<std::size_t> EmbeddingBasedDetector::deduplicate(
     std::vector<BaseTensorSummary>& summaries,
     float                           threshold) {
@@ -341,6 +369,13 @@ RedundancyMetrics MetadataBasedDetector::detect(
     return metrics;
 }
 
+/**
+ * @brief Deduplicate.
+ * @param[in,out] summaries Input/output parameter.
+ * @param[in] threshold Input parameter.
+ * @return Return value.
+ * @details Calls: size(), push_back(), std::sort(), rbegin(), rend(), erase(), begin().
+ */
 std::vector<std::size_t> MetadataBasedDetector::deduplicate(
     std::vector<BaseTensorSummary>& summaries,
     float                           threshold) {
@@ -378,6 +413,12 @@ bool MetadataBasedDetector::areRedundant(
 // CompositeDetector implementation
 // ============================================================================
 
+/**
+ * @brief Add Detector.
+ * @param[in] detector Input parameter.
+ * @param[in] weight Input parameter.
+ * @details Calls: push_back(), std::move().
+ */
 void CompositeDetector::addDetector(
     std::unique_ptr<IRedundancyDetector> detector,
     float                                weight) {
@@ -424,6 +465,13 @@ RedundancyMetrics CompositeDetector::detect(
     return combined;
 }
 
+/**
+ * @brief Deduplicate.
+ * @param[in,out] summaries Input/output parameter.
+ * @param[in] threshold Input parameter.
+ * @return Return value.
+ * @details Calls: insert(), end(), begin().
+ */
 std::vector<std::size_t> CompositeDetector::deduplicate(
     std::vector<BaseTensorSummary>& summaries,
     float                           threshold) {
@@ -457,6 +505,12 @@ bool CompositeDetector::areRedundant(
 // RedundancyFactory implementation
 // ============================================================================
 
+/**
+ * @brief Create.
+ * @param[in] strategy_name Name of the strategy.
+ * @return Return value.
+ * @details Implements create without additional internal calls.
+ */
 std::unique_ptr<IRedundancyDetector> RedundancyFactory::create(
     const std::string& strategy_name) {
 
@@ -473,6 +527,11 @@ std::unique_ptr<IRedundancyDetector> RedundancyFactory::create(
     return nullptr;
 }
 
+/**
+ * @brief Create Default Composite.
+ * @return Return value.
+ * @details Calls: addDetector().
+ */
 std::unique_ptr<CompositeDetector> RedundancyFactory::createDefaultComposite() {
     auto composite = std::make_unique<CompositeDetector>();
     

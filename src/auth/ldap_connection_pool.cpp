@@ -94,6 +94,11 @@ LDAPConnectionPool::LDAPConnectionPool(const LDAPPoolConfig &config) : config_(c
 
 LDAPConnectionPool::~LDAPConnectionPool() {
     {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         closing_ = true;
         // Destroy all idle handles immediately.
@@ -110,6 +115,11 @@ LDAPConnectionPool::~LDAPConnectionPool() {
     // This avoids use-after-free when PooledConnection outlives the pool.
     constexpr int kShutdownWaitMs = 5000;
     const auto deadline           = std::chrono::steady_clock::now() + std::chrono::milliseconds(kShutdownWaitMs);
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::unique_lock<std::mutex> lock(mutex_);
     while (active_count_.load(std::memory_order_acquire) > 0) {
         if (cv_.wait_until(lock, deadline) == std::cv_status::timeout) {
@@ -125,6 +135,12 @@ LDAPConnectionPool::~LDAPConnectionPool() {
 // checkout
 // ===========================================================================
 
+/**
+ * @brief Checkout.
+ * @return Return value.
+ * @throws AuthException if an error occurs.
+ * @details Calls: spdlog::warn(), std::chrono::steady_clock::now(), std::chrono::milliseconds(), lock(), empty(), front(), pop_front(), unlock().
+ */
 std::unique_ptr<PooledConnection> LDAPConnectionPool::checkout() {
 #ifndef THEMIS_HAS_LDAP
     spdlog::warn("LDAPConnectionPool::checkout: LDAP not compiled in");
@@ -242,6 +258,12 @@ std::unique_ptr<PooledConnection> LDAPConnectionPool::checkout() {
 // returnConnection (called by ~PooledConnection)
 // ===========================================================================
 
+/**
+ * @brief Return Connection.
+ * @param[in,out] handle Input/output parameter.
+ * @param[in] stale Input parameter.
+ * @details Calls: lock(), size(), push_back(), notify_one(), destroyHandle(), notify_all().
+ */
 void LDAPConnectionPool::returnConnection(LDAP *handle, bool stale) {
     if (!handle) {
         return;
@@ -418,11 +440,21 @@ void LDAPConnectionPool::destroyHandle(LDAP *handle) noexcept {
 // ===========================================================================
 
 int LDAPConnectionPool::poolSize() const noexcept {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return total_count_;
 }
 
 int LDAPConnectionPool::idleConnections() const noexcept {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return static_cast<int>(idle_.size());
 }

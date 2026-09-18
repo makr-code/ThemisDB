@@ -38,6 +38,12 @@ SpatialApiHandler::SpatialApiHandler(
 {
 }
 
+/**
+ * @brief Handle Index Create.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), version(), set(), json::parse(), body(), contains(), is_string(), makeErrorResponse().
+ */
 http::response<http::string_body> SpatialApiHandler::handleIndexCreate(
     const http::request<http::string_body>& req
 ) {
@@ -103,6 +109,12 @@ http::response<http::string_body> SpatialApiHandler::handleIndexCreate(
     return res;
 }
 
+/**
+ * @brief Handle Index Rebuild.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), version(), set(), json::parse(), body(), contains(), is_string(), makeErrorResponse().
+ */
 http::response<http::string_body> SpatialApiHandler::handleIndexRebuild(
     const http::request<http::string_body>& req
 ) {
@@ -227,6 +239,12 @@ http::response<http::string_body> SpatialApiHandler::handleIndexRebuild(
     return res;
 }
 
+/**
+ * @brief Handle Index Stats.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), version(), set(), parseQuery(), std::string(), target(), empty(), makeErrorResponse().
+ */
 http::response<http::string_body> SpatialApiHandler::handleIndexStats(
     const http::request<http::string_body>& req
 ) {
@@ -272,6 +290,12 @@ http::response<http::string_body> SpatialApiHandler::handleIndexStats(
     return res;
 }
 
+/**
+ * @brief Handle Metrics.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), version(), set(), makeErrorResponse(), getMetrics(), load(), geo::getGpuSpatialBackendStatsJson(), json::parse().
+ */
 http::response<http::string_body> SpatialApiHandler::handleMetrics(
     const http::request<http::string_body>& req
 ) {
@@ -337,7 +361,12 @@ http::response<http::string_body> SpatialApiHandler::handleMetrics(
     return res;
 }
 
-// Helper to decode URL-encoded strings
+/**
+ * @brief Helper to decode URL-encoded strings
+ * @param[in] str Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), is(), substr().
+ */
 std::string SpatialApiHandler::urlDecode(const std::string& str) {
     std::string result = {};
     result.reserve(str.size());
@@ -370,6 +399,11 @@ std::unordered_map<std::string, std::string> SpatialApiHandler::parseQuery(const
       return out;
     }
     auto qs = target.substr(qpos + 1);
+    /**
+     * @brief Iss.
+     * @param[in] qs Input parameter.
+     * @return Return value.
+     */
     std::istringstream iss(qs);
     std::string kv = {};
     while (std::getline(iss, kv, '&')) {
@@ -381,6 +415,14 @@ std::unordered_map<std::string, std::string> SpatialApiHandler::parseQuery(const
     return out;
 }
 
+/**
+ * @brief Make Error Response.
+ * @param[in] status Input parameter.
+ * @param[in] message Input parameter.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: makeResponse(), dump().
+ */
 http::response<http::string_body> SpatialApiHandler::makeErrorResponse(
     http::status status, const std::string& message, const http::request<http::string_body>& req
 ) {
@@ -392,6 +434,14 @@ http::response<http::string_body> SpatialApiHandler::makeErrorResponse(
     return makeResponse(status, error_body.dump(), req);
 }
 
+/**
+ * @brief Make Response.
+ * @param[in] status Input parameter.
+ * @param[in] body Input parameter.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: version(), set(), keep_alive(), body(), prepare_payload().
+ */
 http::response<http::string_body> SpatialApiHandler::makeResponse(
     http::status status, const std::string& body, const http::request<http::string_body>& req
 ) {

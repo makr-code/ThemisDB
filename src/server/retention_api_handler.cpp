@@ -24,12 +24,24 @@ namespace {
 
 constexpr size_t kMaxRetentionFieldLength = 256;
 
+/**
+ * @brief Is Valid Retention Text Field.
+ * @param[in] value Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: validateStringLength(), std::string(), validateHeaderValue().
+ */
 bool isValidRetentionTextField(std::string_view value) {
     themis::utils::InputValidator validator;
     return validator.validateStringLength(std::string(value), kMaxRetentionFieldLength) &&
            validator.validateHeaderValue(std::string(value));
 }
 
+/**
+ * @brief Is Valid Policy Name.
+ * @param[in] value Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), isValidRetentionTextField(), find().
+ */
 bool isValidPolicyName(std::string_view value) {
     if (value.empty() || !isValidRetentionTextField(value)) {
         return false;
@@ -52,6 +64,12 @@ RetentionApiHandler::RetentionApiHandler(std::shared_ptr<vcc::RetentionManager> 
     }
 }
 
+/**
+ * @brief List Policies.
+ * @param[in] filter Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), isValidRetentionTextField(), getPolicies(), reserve(), size(), Tracer::startSpan(), find(), push_back().
+ */
 json RetentionApiHandler::listPolicies(const RetentionQueryFilter& filter) {
     if (!retention_manager_) {
         return json{{"status", "error"}, {"error", "Retention manager unavailable"}};
@@ -115,6 +133,12 @@ json RetentionApiHandler::listPolicies(const RetentionQueryFilter& filter) {
     };
 }
 
+/**
+ * @brief Create Or Update Policy.
+ * @param[in] policy_json Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), jsonToPolicy(), isValidPolicyName(), isValidRetentionTextField(), getPolicy(), has_value(), value(), registerPolicy().
+ */
 json RetentionApiHandler::createOrUpdatePolicy(const json& policy_json) {
     try {
     auto span = Tracer::startSpan("createOrUpdatePolicy");
@@ -155,6 +179,12 @@ json RetentionApiHandler::createOrUpdatePolicy(const json& policy_json) {
     }
 }
 
+/**
+ * @brief Delete Policy.
+ * @param[in] policy_name Name of the retention policy.
+ * @return Return value.
+ * @details Calls: isValidPolicyName(), removePolicy(), Tracer::startSpan(), spdlog::info().
+ */
 json RetentionApiHandler::deletePolicy(const std::string& policy_name) {
     if (!retention_manager_) {
         return json{{"status", "error"}, {"error", "Retention manager unavailable"}};
@@ -181,6 +211,12 @@ json RetentionApiHandler::deletePolicy(const std::string& policy_name) {
     };
 }
 
+/**
+ * @brief Return a bounded slice of the recent retention action history.
+ * @param[in] limit Maximum number of history entries to return.
+ * @return Most recent actions, or the full history when the limit is zero or oversized.
+ * @details Calls: json::array(), Tracer::startSpan(), push_back(), actionToJson(), size().
+ */
 json RetentionApiHandler::getHistory(size_t limit) {
     if (!retention_manager_) {
         return json{{"status", "error"}, {"error", "Retention manager unavailable"}};
@@ -201,6 +237,12 @@ json RetentionApiHandler::getHistory(size_t limit) {
     };
 }
 
+/**
+ * @brief Return the stored statistics for a retention policy.
+ * @param[in] policy_name Name of the retention policy to query.
+ * @return Stored statistics, or a default-initialized record if the policy is unknown.
+ * @details Calls: Tracer::startSpan(), isValidPolicyName(), count().
+ */
 json RetentionApiHandler::getPolicyStats(const std::string& policy_name) {
     auto span = Tracer::startSpan("getPolicyStats");
     if (!retention_manager_) {
@@ -227,6 +269,12 @@ json RetentionApiHandler::getPolicyStats(const std::string& policy_name) {
 
 // Helper methods
 
+/**
+ * @brief Policy To Json.
+ * @param[in] policy Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), count().
+ */
 json RetentionApiHandler::policyToJson(const vcc::RetentionManager::RetentionPolicy& policy) {
     auto span = Tracer::startSpan("policyToJson");
     return json{
@@ -240,6 +288,13 @@ json RetentionApiHandler::policyToJson(const vcc::RetentionManager::RetentionPol
     };
 }
 
+/**
+ * @brief Json To Policy.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: at(), std::chrono::seconds(), contains(), value().
+ */
 vcc::RetentionManager::RetentionPolicy RetentionApiHandler::jsonToPolicy(const json& j) {
     vcc::RetentionManager::RetentionPolicy policy;
     
@@ -275,6 +330,12 @@ vcc::RetentionManager::RetentionPolicy RetentionApiHandler::jsonToPolicy(const j
     return policy;
 }
 
+/**
+ * @brief Action To Json.
+ * @param[in] action Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), std::chrono::system_clock::to_time_t(), localtime_s(), localtime_r(), std::strftime(), std::string().
+ */
 json RetentionApiHandler::actionToJson(const vcc::RetentionManager::RetentionAction& action) {
     auto span = Tracer::startSpan("actionToJson");
     // Convert timestamp to ISO 8601 string

@@ -108,6 +108,11 @@ bool SetMergeOperator::Merge(const rocksdb::Slice& key,
     
     if (existing_value) {
         std::string existing_str(existing_value->data(), existing_value->size());
+        /**
+         * @brief Ss.
+         * @param[in] existing_str Input parameter.
+         * @return Return value.
+         */
         std::stringstream ss(existing_str);
         std::string item = {};
         while (std::getline(ss, item, ',')) {
@@ -119,6 +124,11 @@ bool SetMergeOperator::Merge(const rocksdb::Slice& key,
 
     // Parse and add new values (comma-separated)
     std::string value_str(value.data(),value.size());
+    /**
+     * @brief Ss.
+     * @param[in] value_str Input parameter.
+     * @return Return value.
+     */
     std::stringstream ss(value_str);
     std::string item = {};
     while (std::getline(ss, item, ',')) {

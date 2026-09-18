@@ -14,6 +14,12 @@
 
 namespace themis::tensor {
 
+/**
+ * @brief Record Persistence Op.
+ * @param[in] latency_ms Input parameter.
+ * @param[in] success Input parameter.
+ * @details Calls: lock(), push_back().
+ */
 void TensorWorkflowObservability::recordPersistenceOp(double latency_ms, bool success) {
     std::lock_guard<std::mutex> lock(mutex_);
     ++persistence_total_;
@@ -23,6 +29,11 @@ void TensorWorkflowObservability::recordPersistenceOp(double latency_ms, bool su
     persistence_latency_ms_.push_back(latency_ms);
 }
 
+/**
+ * @brief Record Training Transition.
+ * @param[in] state Input parameter.
+ * @details Calls: lock().
+ */
 void TensorWorkflowObservability::recordTrainingTransition(TrainingState state) {
     std::lock_guard<std::mutex> lock(mutex_);
     switch (state) {
@@ -47,11 +58,23 @@ void TensorWorkflowObservability::recordTrainingTransition(TrainingState state) 
     }
 }
 
+/**
+ * @brief Record Training Latency.
+ * @param[in] latency_ms Input parameter.
+ * @details Calls: lock(), push_back().
+ */
 void TensorWorkflowObservability::recordTrainingLatency(double latency_ms) {
     std::lock_guard<std::mutex> lock(mutex_);
     training_latency_ms_.push_back(latency_ms);
 }
 
+/**
+ * @brief Record Gpu Dispatch.
+ * @param[in] used_gpu Input parameter.
+ * @param[in] used_fallback Input parameter.
+ * @param[in] error Input parameter.
+ * @details Calls: lock().
+ */
 void TensorWorkflowObservability::recordGpuDispatch(bool used_gpu, bool used_fallback, bool error) {
     std::lock_guard<std::mutex> lock(mutex_);
     if (used_gpu) {
@@ -65,11 +88,21 @@ void TensorWorkflowObservability::recordGpuDispatch(bool used_gpu, bool used_fal
     }
 }
 
+/**
+ * @brief Record Compression Latency.
+ * @param[in] latency_ms Input parameter.
+ * @details Calls: lock(), push_back().
+ */
 void TensorWorkflowObservability::recordCompressionLatency(double latency_ms) {
     std::lock_guard<std::mutex> lock(mutex_);
     compression_latency_ms_.push_back(latency_ms);
 }
 
+/**
+ * @brief Record Routing Latency.
+ * @param[in] latency_ms Input parameter.
+ * @details Calls: lock(), push_back().
+ */
 void TensorWorkflowObservability::recordRoutingLatency(double latency_ms) {
     std::lock_guard<std::mutex> lock(mutex_);
     routing_latency_ms_.push_back(latency_ms);
@@ -92,6 +125,11 @@ std::string TensorWorkflowObservability::exportPrometheusText() const {
     std::vector<double> compression_latency_ms;
     std::vector<double> routing_latency_ms;
     {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         persistence_total = persistence_total_;
         persistence_errors = persistence_errors_;
@@ -144,6 +182,11 @@ TensorWorkflowObservability::evaluateSlo(const TensorWorkflowSloConfig& cfg) con
     std::vector<double> compression_latency_ms;
     std::vector<double> routing_latency_ms;
     {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         persistence_total = persistence_total_;
         training_success = training_success_;
@@ -193,6 +236,12 @@ TensorWorkflowObservability::evaluateSlo(const TensorWorkflowSloConfig& cfg) con
     return summary;
 }
 
+/**
+ * @brief Percentile95.
+ * @param[in] values Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), std::sort(), begin(), end(), std::floor(), size().
+ */
 double TensorWorkflowObservability::percentile95(std::vector<double> values) {
     if (values.empty()) {
         return 0.0;

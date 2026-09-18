@@ -72,7 +72,6 @@ ClusterUpdateManager::ClusterUpdateManager(const Config& config)
 // Private helpers
 // ---------------------------------------------------------------------------
 
-/// Sentinel returned by findNodeIndex when the node is not found.
 static constexpr int NODE_NOT_FOUND = -1;
 
 int ClusterUpdateManager::findNodeIndex(const std::string& node_id) const {
@@ -84,6 +83,12 @@ int ClusterUpdateManager::findNodeIndex(const std::string& node_id) const {
     return NODE_NOT_FOUND;
 }
 
+/**
+ * @brief Emit Progress.
+ * @param[in] current_node Input parameter.
+ * @param[in] status_msg Input parameter.
+ * @details Calls: lock(), size(), cb(), LOG_WARN(), what().
+ */
 void ClusterUpdateManager::emitProgress(const std::string& current_node,
                                         const std::string& status_msg) {
     ProgressCallback cb;
@@ -112,6 +117,14 @@ void ClusterUpdateManager::emitProgress(const std::string& current_node,
     }
 }
 
+/**
+ * @brief Update Single Node.
+ * @param[in] node Input parameter.
+ * @param[in] version Input parameter.
+ * @param[in] opts Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), findNodeIndex(), emitProgress(), load(), update_fn(), LOG_ERROR(), rollback_fn(), LOG_WARN().
+ */
 bool ClusterUpdateManager::updateSingleNode(const ClusterNode&          node,
                                              const std::string&          version,
                                              const ClusterUpdateOptions& opts) {
@@ -297,6 +310,12 @@ bool ClusterUpdateManager::updateSingleNode(const ClusterNode&          node,
 // Core operation
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Update Cluster.
+ * @param[in] version Input parameter.
+ * @param[in] opts Input parameter.
+ * @return Return value.
+ */
 ClusterUpdateResult ClusterUpdateManager::updateCluster(
     const std::string&          version,
     const ClusterUpdateOptions& opts)
@@ -306,6 +325,11 @@ ClusterUpdateResult ClusterUpdateManager::updateCluster(
 
     // Reset all node statuses to PENDING.
     {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         for (auto& s : node_statuses_) {
             s.state           = ClusterNodeState::PENDING;
@@ -333,6 +357,11 @@ ClusterUpdateResult ClusterUpdateManager::updateCluster(
         // rollback_on_failure is true (we do not update the leader if a
         // follower could not be brought up successfully).
         if (!node.is_leader && opts.rollback_on_failure) {
+            /**
+             * @brief Lock.
+             * @param[in] mutex_ Input parameter.
+             * @return Return value.
+             */
             std::lock_guard<std::mutex> lock(mutex_);
             int idx = findNodeIndex(node.node_id);
             if (idx >= 0) {
@@ -352,6 +381,11 @@ ClusterUpdateResult ClusterUpdateManager::updateCluster(
     // Build result.
     ClusterUpdateResult result;
     {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         result.node_statuses = node_statuses_;
         for (const auto& s : node_statuses_) {
@@ -392,6 +426,11 @@ ClusterUpdateResult ClusterUpdateManager::updateCluster(
     return result;
 }
 
+/**
+ * @brief Update Cluster.
+ * @param[in] version Input parameter.
+ * @return Return value.
+ */
 ClusterUpdateResult ClusterUpdateManager::updateCluster(
     const std::string& version)
 {
@@ -402,12 +441,21 @@ ClusterUpdateResult ClusterUpdateManager::updateCluster(
 // Cancellation / accessors
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Cancel Update.
+ * @details Calls: store(), LOG_WARN().
+ */
 void ClusterUpdateManager::cancelUpdate() {
     cancelled_.store(true);
     LOG_WARN("ClusterUpdateManager: cancellation requested");
 }
 
 std::vector<ClusterNodeStatus> ClusterUpdateManager::nodeStatuses() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return node_statuses_;
 }
@@ -424,21 +472,41 @@ size_t ClusterUpdateManager::totalNodes() const {
 // Callback registration
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Set Node Update Func.
+ * @param[in] fn Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void ClusterUpdateManager::setNodeUpdateFunc(NodeUpdateFunc fn) {
     std::lock_guard<std::mutex> lock(mutex_);
     node_update_fn_ = std::move(fn);
 }
 
+/**
+ * @brief Set Node Health Check Func.
+ * @param[in] fn Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void ClusterUpdateManager::setNodeHealthCheckFunc(NodeHealthCheckFunc fn) {
     std::lock_guard<std::mutex> lock(mutex_);
     node_health_check_fn_ = std::move(fn);
 }
 
+/**
+ * @brief Set Node Rollback Func.
+ * @param[in] fn Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void ClusterUpdateManager::setNodeRollbackFunc(NodeRollbackFunc fn) {
     std::lock_guard<std::mutex> lock(mutex_);
     node_rollback_fn_ = std::move(fn);
 }
 
+/**
+ * @brief Set Progress Callback.
+ * @param[in] fn Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void ClusterUpdateManager::setProgressCallback(ProgressCallback fn) {
     std::lock_guard<std::mutex> lock(mutex_);
     progress_cb_ = std::move(fn);

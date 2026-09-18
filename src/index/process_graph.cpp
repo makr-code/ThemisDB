@@ -40,6 +40,14 @@ namespace {
 
 static constexpr double kPi = 3.14159265358979323846;
 
+/**
+ * @brief Parse Json Object Or Empty.
+ * @param[in] raw Input parameter.
+ * @param[in] context Input parameter.
+ * @param[in] fieldName Input parameter.
+ * @return Return value.
+ * @details Calls: nlohmann::json::object(), empty(), nlohmann::json::parse(), THEMIS_DEBUG(), what(), is_object().
+ */
 inline nlohmann::json parseJsonObjectOrEmpty(
     const std::optional<std::string>& raw,
     std::string_view context,
@@ -69,6 +77,11 @@ inline nlohmann::json parseJsonObjectOrEmpty(
     return parsed;
 }
 
+/**
+ * @brief Generate UUID.
+ * @return Return value.
+ * @details Calls: gen(), rd(), std::setfill(), std::setw(), dis(), str().
+ */
 std::string generateUUID() {
     static std::random_device rd;
     static std::mt19937_64 gen(rd());
@@ -81,12 +94,23 @@ std::string generateUUID() {
     return oss.str();
 }
 
+/**
+ * @brief Current Time Ms.
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::now(), time_since_epoch(), count().
+ */
 int64_t currentTimeMs() {
     return std::chrono::duration_cast<std::chrono::milliseconds>(
         std::chrono::system_clock::now().time_since_epoch()
     ).count();
 }
 
+/**
+ * @brief Bpmn Node Type To String.
+ * @param[in] type Input parameter.
+ * @return Return value.
+ * @details Implements bpmnNodeTypeToString without additional internal calls.
+ */
 std::string bpmnNodeTypeToString(BPMNNodeType type) {
     switch (type) {
         case BPMNNodeType::START_EVENT: return "START_EVENT";
@@ -112,6 +136,12 @@ std::string bpmnNodeTypeToString(BPMNNodeType type) {
     return "UNKNOWN";
 }
 
+/**
+ * @brief Epk Node Type To String.
+ * @param[in] type Input parameter.
+ * @return Return value.
+ * @details Implements epkNodeTypeToString without additional internal calls.
+ */
 std::string epkNodeTypeToString(EPKNodeType type) {
     switch (type) {
         case EPKNodeType::EVENT: return "EVENT";
@@ -128,6 +158,12 @@ std::string epkNodeTypeToString(EPKNodeType type) {
     return "UNKNOWN";
 }
 
+/**
+ * @brief Process Edge Type To String.
+ * @param[in] type Input parameter.
+ * @return Return value.
+ * @details Implements processEdgeTypeToString without additional internal calls.
+ */
 std::string processEdgeTypeToString(ProcessEdgeType type) {
     switch (type) {
         case ProcessEdgeType::SEQUENCE_FLOW: return "SEQUENCE_FLOW";
@@ -145,6 +181,12 @@ std::string processEdgeTypeToString(ProcessEdgeType type) {
     return "UNKNOWN";
 }
 
+/**
+ * @brief Is Gateway Node.
+ * @param[in] node Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements isGatewayNode without additional internal calls.
+ */
 bool isGatewayNode(const ProcessNodeInfo& node) {
     if (std::holds_alternative<BPMNNodeType>(node.node_type)) {
         auto type = std::get<BPMNNodeType>(node.node_type);
@@ -164,7 +206,10 @@ bool isGatewayNode(const ProcessNodeInfo& node) {
 }
 
 /**
- * @brief Serialize a ProcessGraphVisitLog to a JSON string (node_id -> ns since epoch).
+ * @brief Serialize Visit Timestamps.
+ * @param[in] log Input parameter.
+ * @return Return value.
+ * @details Calls: nlohmann::json::object(), time_since_epoch(), count(), dump().
  */
 std::string serializeVisitTimestamps(const ProcessGraphVisitLog& log) {
     nlohmann::json obj = nlohmann::json::object();
@@ -177,7 +222,10 @@ std::string serializeVisitTimestamps(const ProcessGraphVisitLog& log) {
 }
 
 /**
- * @brief Deserialize a ProcessGraphVisitLog from a JSON string.
+ * @brief Deserialize Visit Timestamps.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Calls: nlohmann::json::parse(), is_object(), items(), is_number_integer(), THEMIS_WARN(), what().
  */
 ProcessGraphVisitLog deserializeVisitTimestamps(const std::string& s) {
     ProcessGraphVisitLog log;
@@ -200,7 +248,10 @@ ProcessGraphVisitLog deserializeVisitTimestamps(const std::string& s) {
 }
 
 /**
- * @brief Serialize visited_nodes vector to a JSON array string.
+ * @brief Serialize Visited Nodes.
+ * @param[in] nodes Input parameter.
+ * @return Return value.
+ * @details Calls: dump().
  */
 std::string serializeVisitedNodes(const std::vector<std::string>& nodes) {
     nlohmann::json arr = nodes;
@@ -208,7 +259,10 @@ std::string serializeVisitedNodes(const std::vector<std::string>& nodes) {
 }
 
 /**
- * @brief Deserialize visited_nodes vector from a JSON array string.
+ * @brief Deserialize Visited Nodes.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Calls: nlohmann::json::parse(), is_array(), reserve(), size(), is_string(), push_back(), THEMIS_WARN(), what().
  */
 std::vector<std::string> deserializeVisitedNodes(const std::string& s) {
     std::vector<std::string> nodes;
@@ -228,6 +282,12 @@ std::vector<std::string> deserializeVisitedNodes(const std::string& s) {
     return nodes;
 }
 
+/**
+ * @brief Is Start Node.
+ * @param[in] node Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements isStartNode without additional internal calls.
+ */
 bool isStartNode(const ProcessNodeInfo& node) {
     if (std::holds_alternative<BPMNNodeType>(node.node_type)) {
         return std::get<BPMNNodeType>(node.node_type) == BPMNNodeType::START_EVENT;
@@ -236,6 +296,12 @@ bool isStartNode(const ProcessNodeInfo& node) {
     return false;
 }
 
+/**
+ * @brief Is End Node.
+ * @param[in] node Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements isEndNode without additional internal calls.
+ */
 bool isEndNode(const ProcessNodeInfo& node) {
     if (std::holds_alternative<BPMNNodeType>(node.node_type)) {
         return std::get<BPMNNodeType>(node.node_type) == BPMNNodeType::END_EVENT;
@@ -245,17 +311,11 @@ bool isEndNode(const ProcessNodeInfo& node) {
 }
 
 /**
- * @brief Evaluate a simple condition expression against process variables
- * 
- * Supports expressions like:
- * - "amount > 1000"
- * - "status == 'approved'"
- * - "count <= 5"
- * - "approved && amount > 500"
- * 
- * @param condition The condition expression to evaluate
- * @param variables The process variables (JSON object)
- * @return true if condition is satisfied, false otherwise
+ * @brief Evaluate Condition.
+ * @param[in] condition Input parameter.
+ * @param[in] variables Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), erase(), find_first_not_of(), find_last_not_of(), find(), substr(), contains(), is_boolean().
  */
 bool evaluateCondition(const std::string& condition, const nlohmann::json& variables) {
     if (condition.empty()) {
@@ -443,7 +503,14 @@ std::string ProcessGraphManager::generateTokenId_() const {
     return "token-" + generateUUID().substr(0, 16);
 }
 
-// ===== Process Model Management =====
+/**
+ * @brief ===== Process Model Management =====
+ * @param[in] process_id Identifier of the process.
+ * @param[in] name Input parameter.
+ * @param[in] bpmn_xml Input parameter.
+ * @return Return value.
+ * @details Calls: isOpen(), Status::Error(), empty(), std::string(), currentTimeMs(), substr(), size(), embedder_().
+ */
 
 ProcessGraphManager::Status ProcessGraphManager::registerProcess(
     std::string_view process_id, 
@@ -494,6 +561,13 @@ ProcessGraphManager::Status ProcessGraphManager::registerProcess(
     return Status::OK();
 }
 
+/**
+ * @brief Add Process Node.
+ * @param[in] process_id Identifier of the process.
+ * @param[in] node Input parameter.
+ * @return Return value.
+ * @details Calls: isOpen(), Status::Error(), entity(), setField(), bpmnNodeTypeToString(), epkNodeTypeToString(), count(), makeNodeKey_().
+ */
 ProcessGraphManager::Status ProcessGraphManager::addProcessNode(
     std::string_view process_id,
     const ProcessNodeInfo& node
@@ -549,6 +623,13 @@ ProcessGraphManager::Status ProcessGraphManager::addProcessNode(
     return Status::OK();
 }
 
+/**
+ * @brief Add Process Edge.
+ * @param[in] process_id Identifier of the process.
+ * @param[in] edge Input parameter.
+ * @return Return value.
+ * @details Calls: isOpen(), Status::Error(), entity(), setField(), processEdgeTypeToString(), count(), makeEdgeKey_(), put().
+ */
 ProcessGraphManager::Status ProcessGraphManager::addProcessEdge(
     std::string_view process_id,
     const ProcessEdgeInfo& edge
@@ -586,6 +667,13 @@ ProcessGraphManager::Status ProcessGraphManager::addProcessEdge(
     return Status::OK();
 }
 
+/**
+ * @brief Add Hyperedge.
+ * @param[in] process_id Identifier of the process.
+ * @param[in] hyperedge Input parameter.
+ * @return Return value.
+ * @details Calls: isOpen(), Status::Error(), entity(), setField(), dump(), makeHyperedgeKey_(), put(), serialize().
+ */
 ProcessGraphManager::Status ProcessGraphManager::addHyperedge(
     std::string_view process_id,
     const Hyperedge& hyperedge
@@ -642,6 +730,11 @@ ProcessGraphManager::validateProcess(std::string_view process_id) const {
     
     std::string nodePrefix = "process:node:" + std::string(process_id) + ":";
     db_.scanPrefix(nodePrefix, [&nodes](std::string_view key, std::string_view val) {
+        /**
+         * @brief Key Str.
+         * @param[in] key Input parameter.
+         * @return Return value.
+         */
         std::string keyStr(key);
         size_t lastColon = keyStr.rfind(':');
         if (lastColon != std::string::npos) {
@@ -685,6 +778,11 @@ ProcessGraphManager::validateProcess(std::string_view process_id) const {
 
     std::string edgePrefix = "process:edge:" + std::string(process_id) + ":";
     db_.scanPrefix(edgePrefix, [&edges](std::string_view key, std::string_view val) {
+        /**
+         * @brief Key Str.
+         * @param[in] key Input parameter.
+         * @return Return value.
+         */
         std::string keyStr(key);
         size_t lastColon = keyStr.rfind(':');
         if (lastColon != std::string::npos) {
@@ -805,6 +903,11 @@ std::pair<ProcessGraphManager::Status, std::string> ProcessGraphManager::startPr
     std::string startNodeId = {};
     std::string nodePrefix = "process:node:" + std::string(process_id) + ":";
     db_.scanPrefix(nodePrefix, [&startNodeId](std::string_view key, std::string_view val) {
+        /**
+         * @brief Key Str.
+         * @param[in] key Input parameter.
+         * @return Return value.
+         */
         std::string keyStr(key);
         size_t lastColon = keyStr.rfind(':');
         if (lastColon != std::string::npos) {
@@ -849,6 +952,11 @@ std::pair<ProcessGraphManager::Status, std::string> ProcessGraphManager::startPr
     instance.tokens.push_back(token);
 
     // Store instance
+    /**
+     * @brief Instance Entity.
+     * @param[in] instanceId Input parameter.
+     * @return Return value.
+     */
     BaseEntity instanceEntity(instanceId);
     instanceEntity.setField("id", instanceId);
     instanceEntity.setField("process_id", std::string(process_id));
@@ -920,6 +1028,11 @@ ProcessGraphManager::getProcessInstance(std::string_view instance_id) const {
     // Load tokens
     std::string tokenPrefix = "process:token:" + std::string(instance_id) + ":";
     db_.scanPrefix(tokenPrefix, [&instance](std::string_view key, std::string_view val) {
+        /**
+         * @brief Key Str.
+         * @param[in] key Input parameter.
+         * @return Return value.
+         */
         std::string keyStr(key);
         size_t lastColon = keyStr.rfind(':');
         if (lastColon != std::string::npos) {
@@ -984,6 +1097,13 @@ ProcessGraphManager::getVisitTimestamp(
     return result;
 }
 
+/**
+ * @brief Advance Token.
+ * @param[in] instance_id Identifier of the instance.
+ * @param[in] token_id Identifier of the token.
+ * @return Return value.
+ * @details Calls: getProcessInstance(), std::string(), Status::Error(), scanPrefix(), keyStr(), rfind(), substr(), blob().
+ */
 ProcessGraphManager::Status ProcessGraphManager::advanceToken(
     std::string_view instance_id,
     std::string_view token_id
@@ -1183,6 +1303,14 @@ ProcessGraphManager::Status ProcessGraphManager::advanceToken(
     return Status::OK();
 }
 
+/**
+ * @brief Complete Task.
+ * @param[in] instance_id Identifier of the instance.
+ * @param[in] task_node Input parameter.
+ * @param[in] output_variables Input parameter.
+ * @return Return value.
+ * @details Calls: getProcessInstance(), std::string(), items(), advanceToken(), Status::Error().
+ */
 ProcessGraphManager::Status ProcessGraphManager::completeTask(
     std::string_view instance_id,
     std::string_view task_node,
@@ -1211,6 +1339,12 @@ ProcessGraphManager::Status ProcessGraphManager::completeTask(
     return Status::Error("No active token at task node");
 }
 
+/**
+ * @brief Suspend Process.
+ * @param[in] instance_id Identifier of the instance.
+ * @return Return value.
+ * @details Calls: makeInstanceKey_(), get(), Status::Error(), BaseEntity::deserialize(), std::string(), setField(), put(), serialize().
+ */
 ProcessGraphManager::Status ProcessGraphManager::suspendProcess(std::string_view instance_id) {
     std::string instanceKey = makeInstanceKey_(instance_id);
     auto blob = db_.get(instanceKey);
@@ -1228,6 +1362,12 @@ ProcessGraphManager::Status ProcessGraphManager::suspendProcess(std::string_view
     return Status::OK();
 }
 
+/**
+ * @brief Resume Process.
+ * @param[in] instance_id Identifier of the instance.
+ * @return Return value.
+ * @details Calls: makeInstanceKey_(), get(), Status::Error(), BaseEntity::deserialize(), std::string(), setField(), put(), serialize().
+ */
 ProcessGraphManager::Status ProcessGraphManager::resumeProcess(std::string_view instance_id) {
     std::string instanceKey = makeInstanceKey_(instance_id);
     auto blob = db_.get(instanceKey);
@@ -1245,6 +1385,13 @@ ProcessGraphManager::Status ProcessGraphManager::resumeProcess(std::string_view 
     return Status::OK();
 }
 
+/**
+ * @brief Terminate Process.
+ * @param[in] instance_id Identifier of the instance.
+ * @param[in] reason Input parameter.
+ * @return Return value.
+ * @details Calls: makeInstanceKey_(), get(), Status::Error(), BaseEntity::deserialize(), std::string(), setField(), currentTimeMs(), empty().
+ */
 ProcessGraphManager::Status ProcessGraphManager::terminateProcess(
     std::string_view instance_id,
     std::string_view reason
@@ -1270,6 +1417,14 @@ ProcessGraphManager::Status ProcessGraphManager::terminateProcess(
     return Status::OK();
 }
 
+/**
+ * @brief Signal Event.
+ * @param[in] instance_id Identifier of the instance.
+ * @param[in] event_name Name of the event.
+ * @param[in] payload Input parameter.
+ * @return Return value.
+ * @details Calls: getProcessInstance(), makeNodeKey_(), get(), BaseEntity::deserialize(), getFieldAsString(), value_or(), std::string(), items().
+ */
 ProcessGraphManager::Status ProcessGraphManager::signalEvent(
     std::string_view instance_id,
     std::string_view event_name,
@@ -1356,12 +1511,21 @@ ProcessGraphManager::findTokenByTokenId(std::string_view token_id) const {
     }
 
     std::optional<std::pair<std::string, std::string>> found;
+    /**
+     * @brief Token id str.
+     * @param[in] token_id Identifier of the token.
+     * @return Return value.
+     */
     const std::string token_id_str(token_id);
 
     db_.scanPrefix("process:token:", [&](std::string_view key, std::string_view val) -> bool {
         if (found) return false; // already found, stop scan
 
-        // Key format: "process:token:<instance_id>:<token_id>"
+        /**
+         * @brief Key format: "process:token:<instance_id>:<token_id>"
+         * @param[in] key Input parameter.
+         * @return Return value.
+         */
         const std::string keyStr(key);
         // After "process:token:" (14 chars) find the colon separating instance from token
         const size_t prefix_len = 14; // strlen("process:token:")
@@ -1404,6 +1568,11 @@ ProcessGraphManager::findActiveTasks(std::string_view assignee_or_role) const {
     // Scan all tokens across all instances
     std::string tokenPrefix = "process:token:";
     db_.scanPrefix(tokenPrefix, [&result, &assignee_or_role](std::string_view key, std::string_view val) {
+        /**
+         * @brief Key Str.
+         * @param[in] key Input parameter.
+         * @return Return value.
+         */
         std::string keyStr(key);
         
         // Parse instance_id and token_id from key: process:token:{instance_id}:{token_id}
@@ -1489,6 +1658,11 @@ ProcessGraphManager::getNodeHistory(
     // Scan all tokens to find those that visited this node
     std::string tokenPrefix = "process:token:";
     db_.scanPrefix(tokenPrefix, [&result, &process_id, &node_id, &since_ms, this](std::string_view key, std::string_view val) {
+        /**
+         * @brief Key Str.
+         * @param[in] key Input parameter.
+         * @return Return value.
+         */
         std::string keyStr(key);
         
         // Parse instance_id and token_id from key
@@ -1612,6 +1786,11 @@ ProcessGraphManager::getProcessMetrics(std::string_view process_id) const {
     // Scan all tokens to gather metrics
     std::string tokenPrefix = "process:token:";
     db_.scanPrefix(tokenPrefix, [&metricsMap, &process_id, this](std::string_view key, std::string_view val) {
+        /**
+         * @brief Key Str.
+         * @param[in] key Input parameter.
+         * @return Return value.
+         */
         std::string keyStr(key);
         
         // Parse instance_id and token_id
@@ -1765,6 +1944,11 @@ ProcessGraphManager::findCriticalPath(std::string_view process_id) const {
     // Load edges to build adjacency list
     std::string edgePrefix = "process:edge:" + std::string(process_id) + ":";
     db_.scanPrefix(edgePrefix, [&adjacency](std::string_view key, std::string_view val) {
+        /**
+         * @brief Key Str.
+         * @param[in] key Input parameter.
+         * @return Return value.
+         */
         std::string keyStr(key);
         size_t lastColon = keyStr.rfind(':');
         if (lastColon == std::string::npos) {
@@ -1789,6 +1973,11 @@ ProcessGraphManager::findCriticalPath(std::string_view process_id) const {
     std::string startNode = {};
     std::string nodePrefix = "process:node:" + std::string(process_id) + ":";
     db_.scanPrefix(nodePrefix, [&startNode](std::string_view key, std::string_view val) {
+        /**
+         * @brief Key Str.
+         * @param[in] key Input parameter.
+         * @return Return value.
+         */
         std::string keyStr(key);
         size_t lastColon = keyStr.rfind(':');
         if (lastColon == std::string::npos) {
@@ -1888,6 +2077,11 @@ ProcessGraphManager::getHyperedgeStatus(std::string_view hyperedge_id) const {
     bool found = false;
     
     db_.scanPrefix(hyperedgePrefix, [this, &hyperedge, &hyperedge_id, &found](std::string_view key, std::string_view val) {
+        /**
+         * @brief Key Str.
+         * @param[in] key Input parameter.
+         * @return Return value.
+         */
         std::string keyStr(key);
         
         // Check if this is the hyperedge we're looking for
@@ -1990,28 +2184,11 @@ ProcessGraphManager::isHyperedgeReady(std::string_view hyperedge_id) const {
     return {Status::OK(), ready};
 }
 
-// ============================================================================
-// PERMANENT FALLBACK NOTE (ProcessGraph Multi-Model Query — in-process RocksDB scan):
-// Purpose: Implement AQL-style multi-model queries (form-data filter,
-//   foreign-key join, aggregation) directly over the RocksDB in-process store
-//   using scanPrefix().  This avoids requiring a live ArangoDB/ThemisDB query
-//   engine for process graph analytics.  The functions provide real query
-//   semantics for the in-process database.
-// Activation: Always active — these functions run against the in-process
-//   RocksDB store regardless of whether a remote query engine is configured.
-// Production Delta: Filter and join operations use O(n) full scans instead of
-//   index-backed AQL traversals.  Performance degrades with large process
-//   instances (> 10 K tokens per process): queryTasksByFormData is O(n) in
-//   tokens, queryForeignKeyJoin is O(n×m) in tokens×foreign docs.  In
-//   production with a live query engine these would be replaced by AQL queries
-//   with server-side index acceleration.
-// Note: Wire a ThemisDB AQL query engine reference via setAqlQueryExecutor()
-//   to delegate to engine-backed queries; the in-process scan path then
-//   becomes the offline fallback.
-// Roadmap ref: src/index/FUTURE_ENHANCEMENTS.md §"Process Graph Multi-Model Query Engine"
-// ============================================================================
-// Multi-Model Query Implementation
-// ============================================================================
+/**
+ * @brief ============================================================================ PERMANENT FALLBACK NOTE (ProcessGraph Multi-Model Query — in-process RocksDB scan): Purpose: Implement AQL-style multi-model queries (form-data filter, foreign-key join, aggregation) directly over the RocksDB in-process store using scanPrefix().
+ * @param[in] fn Input parameter.
+ * @details This avoids requiring a live ArangoDB/ThemisDB query engine for process graph analytics. The functions provide real query semantics for the in-process database. Activation: Always active — these functions run against the in-process RocksDB store regardless of whether a remote query engine is configured. Production Delta: Filter and join operations use O(n) full scans instead of index-backed AQL traversals. Performance degrades with large process instances (> 10 K tokens per process): queryTasksByFormData is O(n) in tokens, queryForeignKeyJoin is O(n×m) in tokens×foreign docs. In production with a live query engine these would be replaced by AQL queries with server-side index acceleration. Note: Wire a ThemisDB AQL query engine reference via setAqlQueryExecutor() to delegate to engine-backed queries; the in-process scan path then becomes the offline fallback. Roadmap ref: src/index/FUTURE_ENHANCEMENTS.md §"Process Graph Multi-Model Query Engine" ============================================================================ Multi-Model Query Implementation ============================================================================ Calls: std::move().
+ */
 
 void ProcessGraphManager::setAqlQueryExecutor(AqlQueryExecutorFn fn) {
     aql_query_executor_ = std::move(fn);
@@ -2059,9 +2236,18 @@ ProcessGraphManager::queryTasksByFormData(
         return {Status::OK(), result};
     }
 
+    /**
+     * @brief Pid.
+     * @param[in] process_id Identifier of the process.
+     * @return Return value.
+     */
     const std::string pid(process_id);
     db_.scanPrefix("process:token:", [&](std::string_view key, std::string_view val) {
-        // Parse instance_id from key: "process:token:{instance_id}:{token_id}"
+        /**
+         * @brief Parse instance_id from key: "process:token:{instance_id}:{token_id}"
+         * @param[in] key Input parameter.
+         * @return Return value.
+         */
         const std::string keyStr(key);
         const size_t p1 = keyStr.find(':', 16); // skip "process:token:"
         if (p1 == std::string::npos) {
@@ -2171,8 +2357,23 @@ ProcessGraphManager::joinWithCollection(
         return {Status::OK(), result};
     }
 
+    /**
+     * @brief Pid.
+     * @param[in] process_id Identifier of the process.
+     * @return Return value.
+     */
     const std::string pid(process_id);
+    /**
+     * @brief Lf.
+     * @param[in] local_field Input parameter.
+     * @return Return value.
+     */
     const std::string lf(local_field);
+    /**
+     * @brief Ff.
+     * @param[in] foreign_field Input parameter.
+     * @return Return value.
+     */
     const std::string ff(foreign_field);
     const std::string collPrefix = "entity:" + std::string(collection_name) + ":";
 
@@ -2201,6 +2402,11 @@ ProcessGraphManager::joinWithCollection(
 
     // Scan tokens for the given process, join on local_field.
     db_.scanPrefix("process:token:", [&](std::string_view key, std::string_view val) {
+        /**
+         * @brief Key Str.
+         * @param[in] key Input parameter.
+         * @return Return value.
+         */
         const std::string keyStr(key);
         const size_t p1 = keyStr.find(':', 14);
         if (p1 == std::string::npos) {
@@ -2266,6 +2472,11 @@ ProcessGraphManager::aggregateByField(
 
     // ── AQL-backed path (index-accelerated) ──────────────────────────────
     if (aql_query_executor_) {
+        /**
+         * @brief Agg Fn.
+         * @param[in] agg_function Input parameter.
+         * @return Return value.
+         */
         const std::string aggFn(agg_function);
         const std::string aql =
             "FOR t IN process_tokens "
@@ -2294,9 +2505,29 @@ ProcessGraphManager::aggregateByField(
         return {Status::OK(), result};
     }
 
+    /**
+     * @brief Pid.
+     * @param[in] process_id Identifier of the process.
+     * @return Return value.
+     */
     const std::string pid(process_id);
+    /**
+     * @brief Gf.
+     * @param[in] group_field Input parameter.
+     * @return Return value.
+     */
     const std::string gf(group_field);
+    /**
+     * @brief Af.
+     * @param[in] agg_field Input parameter.
+     * @return Return value.
+     */
     const std::string af(agg_field);
+    /**
+     * @brief Fn.
+     * @param[in] agg_function Input parameter.
+     * @return Return value.
+     */
     const std::string fn(agg_function);
 
     struct GroupAcc {
@@ -2308,6 +2539,11 @@ ProcessGraphManager::aggregateByField(
     std::unordered_map<std::string, GroupAcc> groups;
 
     db_.scanPrefix("process:token:", [&](std::string_view key, std::string_view val) {
+        /**
+         * @brief Key Str.
+         * @param[in] key Input parameter.
+         * @return Return value.
+         */
         const std::string keyStr(key);
         const size_t p1 = keyStr.find(':', 14);
         if (p1 == std::string::npos) {
@@ -2386,7 +2622,12 @@ float computeCosineSimilarity(const std::vector<float>& a,
     return (denom > 1e-9f) ? dot / denom : 0.0f;
 }
 
-/// Deserialize a JSON float array stored as "[0.1, 0.2, ...]" to vector<float>.
+/**
+ * @brief Parse Embedding Json.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Calls: nlohmann::json::parse(), is_array(), reserve(), size(), is_number(), push_back(), THEMIS_DEBUG(), what().
+ */
 std::vector<float> parseEmbeddingJson(const std::string& s) {
     std::vector<float> emb;
     try {
@@ -2420,6 +2661,11 @@ ProcessGraphManager::findSimilarProcesses(
 
     // Scan all process definitions for stored embeddings.
     db_.scanPrefix("process:def:", [&](std::string_view key, std::string_view val) {
+        /**
+         * @brief Key Str.
+         * @param[in] key Input parameter.
+         * @return Return value.
+         */
         const std::string keyStr(key);
         const std::string procId = keyStr.substr(12); // len("process:def:")
         const std::vector<uint8_t> blob(val.begin(), val.end());
@@ -2470,13 +2716,27 @@ ProcessGraphManager::findSimilarTasks(
 
     if (!db_.isOpen()) return {Status::Error("Database not open"), result};
 
-    // Load the reference token at task_node to get its embedding.
+    /**
+     * @brief Load the reference token at task_node to get its embedding.
+     * @param[in] instance_id Identifier of the instance.
+     * @return Return value.
+     */
     const std::string instId(instance_id);
+    /**
+     * @brief Node Id.
+     * @param[in] task_node Input parameter.
+     * @return Return value.
+     */
     const std::string nodeId(task_node);
     std::vector<float> queryEmb;
 
     db_.scanPrefix("process:token:" + instId + ":", [&](std::string_view key, std::string_view val) {
         if (!queryEmb.empty()) return false; // found already
+        /**
+         * @brief Key Str.
+         * @param[in] key Input parameter.
+         * @return Return value.
+         */
         const std::string keyStr(key);
         const size_t p = keyStr.rfind(':');
         if (p == std::string::npos) {
@@ -2508,6 +2768,11 @@ ProcessGraphManager::findSimilarTasks(
     // Scan all tokens for instances of the same process.
     std::vector<std::pair<float, ProcessToken>> candidates;
     db_.scanPrefix("process:token:", [&](std::string_view key, std::string_view val) {
+        /**
+         * @brief Key Str.
+         * @param[in] key Input parameter.
+         * @return Return value.
+         */
         const std::string keyStr(key);
         const size_t p1 = keyStr.find(':', 14);
         if (p1 == std::string::npos) {
@@ -2572,6 +2837,11 @@ ProcessGraphManager::semanticSearchProcesses(
 
     if (!db_.isOpen()) return {Status::Error("Database not open"), result};
 
+    /**
+     * @brief Query.
+     * @param[in] natural_language_query Input parameter.
+     * @return Return value.
+     */
     const std::string query(natural_language_query);
     // Normalise query to lowercase for substring matching.
     std::string queryLower = query;
@@ -2581,6 +2851,11 @@ ProcessGraphManager::semanticSearchProcesses(
     // Tokenise query into words for relevance scoring.
     std::vector<std::string> queryTokens;
     {
+        /**
+         * @brief Ss.
+         * @param[in] queryLower Input parameter.
+         * @return Return value.
+         */
         std::istringstream ss(queryLower);
         std::string word = {};
         while (ss >> word) {
@@ -2640,6 +2915,11 @@ ProcessGraphManager::detectAnomalies(
 
     if (!db_.isOpen()) return {Status::Error("Database not open"), result};
 
+    /**
+     * @brief Pid.
+     * @param[in] process_id Identifier of the process.
+     * @return Return value.
+     */
     const std::string pid(process_id);
 
     // Collect all completed tokens for this process to build baseline stats.
@@ -2663,6 +2943,11 @@ ProcessGraphManager::detectAnomalies(
     std::vector<TokenInfo> allTokens;
 
     db_.scanPrefix("process:token:", [&](std::string_view key, std::string_view val) {
+        /**
+         * @brief Key Str.
+         * @param[in] key Input parameter.
+         * @return Return value.
+         */
         const std::string keyStr(key);
         const size_t p1 = keyStr.find(':', 14);
         if (p1 == std::string::npos) {
@@ -2829,7 +3114,6 @@ double processGraphHaversineKm(double lon1, double lat1,
     return kEarthRadiusKm * c;
 }
 
-/// Ray-casting point-in-polygon for a simple polygon given as (lon,lat) pairs.
 bool pointInPolygon(double lon, double lat,
                     const std::vector<std::pair<double,double>>& ring) noexcept {
     bool inside = false;
@@ -2845,7 +3129,6 @@ bool pointInPolygon(double lon, double lat,
     return inside;
 }
 
-/// Parse a WKT "POLYGON((lon lat, ...))" into the outer ring.
 std::vector<std::pair<double,double>> parseWktPolygon(const std::string& wkt) {
     std::vector<std::pair<double,double>> ring;
     const size_t start = wkt.find('(');
@@ -2862,6 +3145,11 @@ std::vector<std::pair<double,double>> parseWktPolygon(const std::string& wkt) {
     std::istringstream ss(wkt.substr(inner + 1, close - inner - 1));
     std::string pair = {};
     while (std::getline(ss, pair, ',')) {
+        /**
+         * @brief Ps.
+         * @param[in] pair Input parameter.
+         * @return Return value.
+         */
         std::istringstream ps(pair);
         double x, y;
         if (ps >> x >> y) {
@@ -2871,8 +3159,14 @@ std::vector<std::pair<double,double>> parseWktPolygon(const std::string& wkt) {
     return ring;
 }
 
-/// Extract lon/lat from a token's variables JSON.
-/// Checks "_lon"/"_lat", "lon"/"lat", "_geometry" (WKT POINT), "geometry".
+/**
+ * @brief Extract Token Geo.
+ * @param[in] vars Input parameter.
+ * @param[in,out] lon Input/output parameter.
+ * @param[in,out] lat Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: contains(), is_number(), is_string(), find(), ss(), substr().
+ */
 bool extractTokenGeo(const nlohmann::json& vars, double& lon, double& lat) {
     // "_lon" / "_lat" or "lon" / "lat" direct fields.
     for (const auto& lnk : {"_lon", "lon"}) {
@@ -2907,8 +3201,6 @@ bool extractTokenGeo(const nlohmann::json& vars, double& lon, double& lat) {
 
 } // anonymous namespace
 
-/// Shared helper: load all tokens for a given process (scanning by process_id match).
-/// `callback(instanceId, tokenId, tokenEntity)` returns true to continue.
 static void scanProcessTokens(
     RocksDBWrapper& db,
     const std::string& pid,
@@ -2916,6 +3208,11 @@ static void scanProcessTokens(
     const std::function<std::string(std::string_view)>& makeInstanceKey)
 {
     db.scanPrefix("process:token:", [&](std::string_view key, std::string_view val) {
+        /**
+         * @brief Key Str.
+         * @param[in] key Input parameter.
+         * @return Return value.
+         */
         const std::string keyStr(key);
         const size_t p1 = keyStr.find(':', 14);
         if (p1 == std::string::npos) {
@@ -2951,6 +3248,11 @@ ProcessGraphManager::findTasksInArea(
     if (!db_.isOpen()) return {Status::Error("Database not open"), result};
     if (radius_km <= 0.0) return {Status::Error("radius_km must be > 0"), result};
 
+    /**
+     * @brief Pid.
+     * @param[in] process_id Identifier of the process.
+     * @return Return value.
+     */
     const std::string pid(process_id);
     scanProcessTokens(db_, pid,
         [&](const std::string& iid, const std::string& tid, const BaseEntity& te) {
@@ -2990,10 +3292,20 @@ ProcessGraphManager::findTasksInGeofence(
 
     if (!db_.isOpen()) return {Status::Error("Database not open"), result};
 
+    /**
+     * @brief Wkt.
+     * @param[in] geofence_wkt Input parameter.
+     * @return Return value.
+     */
     const std::string wkt(geofence_wkt);
     const auto ring = parseWktPolygon(wkt);
     if (ring.size() < 3U) return {Status::Error("Invalid or empty WKT polygon"), result};
 
+    /**
+     * @brief Pid.
+     * @param[in] process_id Identifier of the process.
+     * @return Return value.
+     */
     const std::string pid(process_id);
     scanProcessTokens(db_, pid,
         [&](const std::string& iid, const std::string& tid, const BaseEntity& te) {
@@ -3052,6 +3364,11 @@ ProcessGraphManager::optimizeTaskRoute(
             if (found) {
               return false;
             }
+            /**
+             * @brief Key Str.
+             * @param[in] key Input parameter.
+             * @return Return value.
+             */
             const std::string keyStr(key);
             const size_t p = keyStr.rfind(':');
             if (p == std::string::npos || keyStr.substr(p + 1) != tid) {
@@ -3229,6 +3546,11 @@ ProcessGraphManager::executeMultiModelQuery(
 
     if (!db_.isOpen()) return {Status::Error("Database not open"), result};
 
+    /**
+     * @brief Pid.
+     * @param[in] process_id Identifier of the process.
+     * @return Return value.
+     */
     const std::string pid(process_id);
     std::unordered_set<std::string> edgeTypeFilter = {};
 
@@ -3265,6 +3587,11 @@ ProcessGraphManager::executeMultiModelQuery(
 
             const std::string edgePrefix = "process:edge:" + pid + ":";
             db_.scanPrefix(edgePrefix, [&](std::string_view ekey, std::string_view eval) {
+                /**
+                 * @brief Ek Str.
+                 * @param[in] ekey Input parameter.
+                 * @return Return value.
+                 */
                 const std::string ekStr(ekey);
                 const size_t ep = ekStr.rfind(':');
                 if (ep == std::string::npos) {
@@ -3397,6 +3724,13 @@ ProcessGraphManager::executeMultiModelQuery(
 
     return {Status::OK(), result};
 }
+/**
+ * @brief Create Token.
+ * @param[in,out] instance Input/output parameter.
+ * @param[in] node_id Identifier of the node.
+ * @return Return value.
+ * @details Calls: generateTokenId_(), std::string(), std::chrono::system_clock::now(), time_since_epoch(), count(), push_back(), Status::OK().
+ */
 ProcessGraphManager::Status ProcessGraphManager::createToken_(
     ProcessInstance& instance,
     std::string_view node_id
@@ -3413,6 +3747,14 @@ ProcessGraphManager::Status ProcessGraphManager::createToken_(
     return Status::OK();
 }
 
+/**
+ * @brief Move Token.
+ * @param[in,out] param Input/output parameter.
+ * @param[in,out] token Input/output parameter.
+ * @param[in] target_node Input parameter.
+ * @return Return value.
+ * @details Calls: std::string(), push_back(), std::chrono::system_clock::now(), Status::OK().
+ */
 ProcessGraphManager::Status ProcessGraphManager::moveToken_(
     ProcessInstance& /*instance*/,
     ProcessToken& token,
@@ -3459,6 +3801,13 @@ bool ProcessGraphManager::checkHyperedgeCondition_(const Hyperedge& hyperedge) c
     }
 }
 
+/**
+ * @brief Activate Hyperedge Source.
+ * @param[in,out] hyperedge Input/output parameter.
+ * @param[in] source_node Input parameter.
+ * @return Return value.
+ * @details Calls: insert(), std::string(), checkHyperedgeCondition_(), Status::OK().
+ */
 ProcessGraphManager::Status ProcessGraphManager::activateHyperedgeSource_(
     Hyperedge& hyperedge,
     std::string_view source_node
@@ -3472,6 +3821,10 @@ ProcessGraphManager::Status ProcessGraphManager::activateHyperedgeSource_(
 // Register Process Edge Types
 // ============================================================================
 
+/**
+ * @brief Register Process Edge Types.
+ * @details Calls: THEMIS_INFO().
+ */
 void registerProcessEdgeTypes() {
     THEMIS_INFO("registerProcessEdgeTypes: deferred (edge registry module not linked in this build)");
 }

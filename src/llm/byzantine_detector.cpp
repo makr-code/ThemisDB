@@ -39,6 +39,12 @@ json GradientStatistics::toJSON() const {
     return j;
 }
 
+/**
+ * @brief From JSON.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: contains().
+ */
 GradientStatistics GradientStatistics::fromJSON(const json& j) {
     GradientStatistics stats = {};
     if (j.contains("gradient_norms"))
@@ -69,6 +75,12 @@ json DetectionResult::toJSON() const {
     return j;
 }
 
+/**
+ * @brief From JSON.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: contains().
+ */
 DetectionResult DetectionResult::fromJSON(const json& j) {
     DetectionResult result = {};
     if (j.contains("suspected_shards"))
@@ -582,6 +594,15 @@ DetectionResult EnsembleDetector::detectByzantineShards(
 // ByzantineDetectorFactory Implementation
 // ============================================================================
 
+/**
+ * @brief Create.
+ * @param[in] method Input parameter.
+ * @param[in] threshold Input parameter.
+ * @param[in] max_byzantine_shards Input parameter.
+ * @return Return value.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Implements create without additional internal calls.
+ */
 std::unique_ptr<ByzantineDetector> ByzantineDetectorFactory::create(
     ByzantineDetectionMethod method,
     float threshold,

@@ -43,7 +43,13 @@ namespace llm {
 namespace lora {
 
 namespace {
-    // Helper to align size up to alignment boundary
+    /**
+     * @brief Helper to align size up to alignment boundary
+     * @param[in] size Input parameter.
+     * @param[in] alignment Input parameter.
+     * @return Return value.
+     * @details Implements align_up without additional internal calls.
+     */
     constexpr size_t align_up(size_t size, size_t alignment) {
         return ((size + alignment - 1) / alignment) * alignment;
     }
@@ -106,6 +112,13 @@ namespace {
         }
     };
 
+    /**
+     * @brief Vk init.
+     * @param[in,out] ctx Input/output parameter.
+     * @param[in,out] pool_size_out Input/output parameter.
+     * @return True when the operation succeeds.
+     * @details Calls: vkCreateInstance(), spdlog::error(), vkEnumeratePhysicalDevices(), vkDestroyInstance(), devs(), data(), vkGetPhysicalDeviceProperties(), vkGetPhysicalDeviceQueueFamilyProperties().
+     */
     static bool vk_init(VulkanAllocContext* ctx, size_t& pool_size_out) {
         // 1. Instance
         VkApplicationInfo app_info{};
@@ -225,6 +238,13 @@ namespace {
         return true;
     }
 
+    /**
+     * @brief Vk alloc.
+     * @param[in,out] ctx Input/output parameter.
+     * @param[in] size_bytes Input parameter.
+     * @return Pointer to the result.
+     * @details Calls: vkCreateBuffer(), spdlog::error(), vkGetBufferMemoryRequirements(), findMemoryType(), vkDestroyBuffer(), vkAllocateMemory(), vkBindBufferMemory(), vkFreeMemory().
+     */
     static void* vk_alloc(VulkanAllocContext* ctx, size_t size_bytes) {
         // Create a HOST_VISIBLE | HOST_COHERENT buffer so the host can
         // memcpy into it directly without an explicit flush/invalidate.
@@ -289,6 +309,12 @@ namespace {
         return mapped;
     }
 
+    /**
+     * @brief Vk free.
+     * @param[in,out] ctx Input/output parameter.
+     * @param[in,out] ptr Input/output parameter.
+     * @details Calls: begin(), end(), vkUnmapMemory(), vkFreeMemory(), vkDestroyBuffer(), erase(), spdlog::warn().
+     */
     static void vk_free(VulkanAllocContext* ctx, void* ptr) {
         for (auto it = ctx->entries.begin(); it != ctx->entries.end(); ++it) {
             if (it->mapped == ptr) {
@@ -302,6 +328,11 @@ namespace {
         spdlog::warn("VRAMAllocator(Vulkan): vk_free: unknown pointer {:p}", ptr);
     }
 
+    /**
+     * @brief Vk shutdown.
+     * @param[in,out] ctx Input/output parameter.
+     * @details Calls: vkUnmapMemory(), vkFreeMemory(), vkDestroyBuffer(), clear(), vkDestroyDevice(), vkDestroyInstance().
+     */
     static void vk_shutdown(VulkanAllocContext* ctx) {
         // Unmap and free any remaining allocations.
         for (auto& e : ctx->entries) {
@@ -412,6 +443,11 @@ VRAMAllocator& VRAMAllocator::operator=(VRAMAllocator&& other) noexcept {
     return *this;
 }
 
+/**
+ * @brief Initialize backend.
+ * @return True when the operation succeeds.
+ * @details Calls: cudaGetDeviceCount(), spdlog::error(), cudaGetErrorString(), cudaSetDevice(), cudaMemGetInfo(), hipGetDeviceCount(), hipGetErrorString(), hipSetDevice().
+ */
 bool VRAMAllocator::initialize_backend() {
     switch (backend_) {
 #ifdef THEMIS_ENABLE_CUDA
@@ -516,6 +552,10 @@ bool VRAMAllocator::initialize_backend() {
     }
 }
 
+/**
+ * @brief Shutdown backend.
+ * @details Calls: vk_shutdown().
+ */
 void VRAMAllocator::shutdown_backend() {
 #ifdef THEMIS_ENABLE_VULKAN
     if (backend_ == acceleration::BackendType::VULKAN && backend_context_) {
@@ -527,6 +567,13 @@ void VRAMAllocator::shutdown_backend() {
     backend_context_ = nullptr;
 }
 
+/**
+ * @brief Allocate.
+ * @param[in] size_bytes Input parameter.
+ * @param[in] alignment Input parameter.
+ * @return Pointer to the result.
+ * @details Calls: spdlog::error(), is_gpu_backend(), themis::gpu::GPUMemoryManager::GetInstance(), isGPUEnabled(), TryAllocateGPU(), lock(), align_up(), find_free_block().
+ */
 void* VRAMAllocator::allocate(size_t size_bytes, size_t alignment) {
     if (!initialized_ || size_bytes == 0) {
         return nullptr;
@@ -589,6 +636,11 @@ void* VRAMAllocator::allocate(size_t size_bytes, size_t alignment) {
     return ptr;
 }
 
+/**
+ * @brief Deallocate.
+ * @param[in,out] ptr Input/output parameter.
+ * @details Calls: lock(), is_gpu_backend(), themis::gpu::GPUMemoryManager::GetInstance(), isGPUEnabled(), DeallocateGPU(), size(), coalesce_free_blocks(), deallocate_to_backend().
+ */
 void VRAMAllocator::deallocate(void* ptr) {
     if (ptr == nullptr) {
         return;
@@ -626,6 +678,14 @@ void VRAMAllocator::deallocate(void* ptr) {
     deallocate_to_backend(ptr);
 }
 
+/**
+ * @brief Upload.
+ * @param[in,out] dst Input/output parameter.
+ * @param[in] src Input parameter.
+ * @param[in] size_bytes Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: cudaMemcpy(), hipMemcpy(), std::memcpy().
+ */
 bool VRAMAllocator::upload(void* dst, const void* src, size_t size_bytes) {
     if (!initialized_ || dst == nullptr || src == nullptr || size_bytes == 0) {
         return false;
@@ -673,6 +733,14 @@ bool VRAMAllocator::upload(void* dst, const void* src, size_t size_bytes) {
     }
 }
 
+/**
+ * @brief Download.
+ * @param[in,out] dst Input/output parameter.
+ * @param[in] src Input parameter.
+ * @param[in] size_bytes Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: cudaMemcpy(), hipMemcpy(), std::memcpy().
+ */
 bool VRAMAllocator::download(void* dst, const void* src, size_t size_bytes) {
     if (!initialized_ || dst == nullptr || src == nullptr || size_bytes == 0) {
         return false;
@@ -719,6 +787,11 @@ bool VRAMAllocator::download(void* dst, const void* src, size_t size_bytes) {
 }
 
 VRAMAllocator::Stats VRAMAllocator::get_stats() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     Stats stats;
@@ -748,6 +821,10 @@ VRAMAllocator::Stats VRAMAllocator::get_stats() const {
     return stats;
 }
 
+/**
+ * @brief Reset the modification detection flag.
+ * @details Calls: lock(), release_backend_ptr_(), clear().
+ */
 void VRAMAllocator::reset() {
     std::lock_guard<std::mutex> lock(mutex_);
 
@@ -763,6 +840,13 @@ void VRAMAllocator::reset() {
     allocated_bytes_ = 0;
 }
 
+/**
+ * @brief Allocate from backend.
+ * @param[in] size_bytes Input parameter.
+ * @param[in] alignment Input parameter.
+ * @return Pointer to the result.
+ * @details Calls: cudaMalloc(), spdlog::error(), cudaGetErrorString(), hipMalloc(), hipGetErrorString(), vk_alloc(), spdlog::warn(), _aligned_malloc().
+ */
 void* VRAMAllocator::allocate_from_backend(size_t size_bytes, size_t alignment) {
     void* ptr = nullptr;
     
@@ -916,6 +1000,11 @@ void VRAMAllocator::release_backend_ptr_(void* ptr, size_t block_size) noexcept 
     }
 }
 
+/**
+ * @brief Deallocate to backend.
+ * @param[in,out] ptr Input/output parameter.
+ * @details Calls: lock(), release_backend_ptr_().
+ */
 void VRAMAllocator::deallocate_to_backend(void* ptr) {
     if (ptr == nullptr) {
         return;
@@ -939,6 +1028,13 @@ void VRAMAllocator::deallocate_to_backend(void* ptr) {
     release_backend_ptr_(ptr, block_size);
 }
 
+/**
+ * @brief Find free block.
+ * @param[in] size_bytes Input parameter.
+ * @param[in] alignment Input parameter.
+ * @return Pointer to the result.
+ * @details Implements find_free_block without additional internal calls.
+ */
 VRAMBlock* VRAMAllocator::find_free_block(size_t size_bytes, size_t alignment) {
     VRAMBlock* best_fit = nullptr;
     size_t smallest_fit = SIZE_MAX;
@@ -955,6 +1051,10 @@ VRAMBlock* VRAMAllocator::find_free_block(size_t size_bytes, size_t alignment) {
     return best_fit;
 }
 
+/**
+ * @brief Coalesce free blocks.
+ * @details Calls: begin(), end(), deallocate_to_backend(), erase().
+ */
 void VRAMAllocator::coalesce_free_blocks() {
     // Remove and actually free blocks that have been marked free for a while
     auto it = memory_pool_.begin();
@@ -1013,6 +1113,13 @@ VRAMTensor& VRAMTensor::operator=(VRAMTensor&& other) noexcept {
     return *this;
 }
 
+/**
+ * @brief Upload.
+ * @param[in] src Input parameter.
+ * @param[in] size_bytes Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements upload without additional internal calls.
+ */
 bool VRAMTensor::upload(const void* src, size_t size_bytes) {
     if (allocator_ == nullptr || ptr_ == nullptr || src == nullptr) {
         return false;

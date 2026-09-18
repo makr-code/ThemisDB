@@ -29,11 +29,6 @@ namespace themis {
 namespace plugins {
 namespace ethics {
 
-/**
- * @brief Ethics AI Plugin Implementation
- * 
- * Native C++ implementation of the Ethical AI Framework.
- */
 class EthicsAIPlugin : public IEthicsAIPlugin {
 private:
     // Core components
@@ -191,6 +186,11 @@ public:
         );
         
         if (std::holds_alternative<DebateInitialization>(result)) {
+            /**
+             * @brief Lock.
+             * @param[in] metrics_mutex_ Input parameter.
+             * @return Return value.
+             */
             std::lock_guard<std::mutex> lock(metrics_mutex_);
             metrics_.total_debates++;
         }
@@ -209,6 +209,11 @@ public:
         auto status = argument_store_->storeArgument(argument, store_vector);
         
         if (status.isOK()) {
+            /**
+             * @brief Lock.
+             * @param[in] metrics_mutex_ Input parameter.
+             * @return Return value.
+             */
             std::lock_guard<std::mutex> lock(metrics_mutex_);
             metrics_.total_arguments++;
         }
@@ -340,6 +345,11 @@ public:
         );
         
         if (std::holds_alternative<EthicalDecision>(result)) {
+            /**
+             * @brief Lock.
+             * @param[in] metrics_mutex_ Input parameter.
+             * @return Return value.
+             */
             std::lock_guard<std::mutex> lock(metrics_mutex_);
             metrics_.total_decisions++;
         }
@@ -376,6 +386,11 @@ public:
         auto result = evaluator_->evaluateDecision(decision, arguments);
         
         if (auto* eval = std::get_if<EthicsEvaluationResult>(&result)) {
+            /**
+             * @brief Lock.
+             * @param[in] metrics_mutex_ Input parameter.
+             * @return Return value.
+             */
             std::lock_guard<std::mutex> lock(metrics_mutex_);
             metrics_.total_evaluations++;
             
@@ -418,6 +433,11 @@ public:
     
     std::string getPrometheusMetrics() const override {
         std::stringstream ss = {};
+        /**
+         * @brief Lock.
+         * @param[in] metrics_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(metrics_mutex_);
         
         ss << "# HELP ethics_ai_debates_total Total number of debates initialized\n";
@@ -445,6 +465,11 @@ public:
     }
     
     std::string getDashboardJSON() const override {
+        /**
+         * @brief Lock.
+         * @param[in] metrics_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(metrics_mutex_);
         
         json dashboard;
@@ -460,6 +485,11 @@ public:
     }
     
     std::map<std::string, double> getStatistics() const override {
+        /**
+         * @brief Lock.
+         * @param[in] metrics_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(metrics_mutex_);
         
         std::map<std::string, double> stats;
@@ -499,16 +529,9 @@ public:
 extern "C" {
 
 /**
- * @brief Create an EthicsAI plugin instance (C interface)
- * 
- * CRITICAL FIX: Return value MUST be immediately wrapped in a smart pointer
- * with destroyPlugin() as the custom deleter by the caller.
- * Recommended pattern:
- *   auto deleter = [](themis::plugins::IThemisPlugin* p) { destroyPlugin(p); };
- *   std::unique_ptr<themis::plugins::IThemisPlugin, decltype(deleter)> plugin(
- *       createPlugin(), deleter);
- * 
- * @return Raw pointer to EthicsAIPlugin; caller must manage lifetime
+ * @brief Create Plugin.
+ * @return Pointer to the result.
+ * @details Calls: themis::plugins::ethics::EthicsAIPlugin().
  */
 THEMIS_PLUGIN_EXPORT themis::plugins::IThemisPlugin* createPlugin() {
     // CRITICAL FIX: Immediately wrap in smart pointer at call site
@@ -517,11 +540,10 @@ THEMIS_PLUGIN_EXPORT themis::plugins::IThemisPlugin* createPlugin() {
 }
 
 /**
- * @brief Destroy an EthicsAI plugin instance (C interface)
- * 
- * CRITICAL FIX: Add null check and proper cleanup (delete_no_nullptr remediation)
- * 
- * @param plugin Pointer to plugin to destroy; may be nullptr (safe to call)
+ * @brief Destroy Plugin.
+ * @param[in,out] plugin Input/output parameter.
+ * @return Return value.
+ * @details Implements destroyPlugin without additional internal calls.
  */
 THEMIS_PLUGIN_EXPORT void destroyPlugin(themis::plugins::IThemisPlugin* plugin) {
     if (plugin != nullptr) {

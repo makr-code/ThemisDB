@@ -25,6 +25,12 @@ thread_local bool g_context_initialized = false;
 // § 2  CorrelationID Generation
 // ============================================================================
 
+/**
+ * @brief Generate Correlation ID.
+ * @param[in] prefix Input parameter.
+ * @return Return value.
+ * @details Calls: gen(), rd(), std::chrono::system_clock::now(), time_since_epoch(), count(), dis(), str().
+ */
 CorrelationID TraceContextManager::generateCorrelationID(
     const std::string& prefix) {
     static std::random_device rd;
@@ -44,11 +50,21 @@ CorrelationID TraceContextManager::generateCorrelationID(
 // § 3  TraceContextManager Implementation
 // ============================================================================
 
+/**
+ * @brief Set Context.
+ * @param[in] ctx Input parameter.
+ * @details Implements setContext without additional internal calls.
+ */
 void TraceContextManager::setContext(const TraceContext& ctx) {
     g_thread_local_context = ctx;
     g_context_initialized = true;
 }
 
+/**
+ * @brief Get Context.
+ * @return Return value.
+ * @details Implements getContext without additional internal calls.
+ */
 TraceContext TraceContextManager::getContext() {
     if (!g_context_initialized) {
         g_thread_local_context = TraceContext{};
@@ -57,11 +73,20 @@ TraceContext TraceContextManager::getContext() {
     return g_thread_local_context;
 }
 
+/**
+ * @brief Clear Context.
+ * @details Implements clearContext without additional internal calls.
+ */
 void TraceContextManager::clearContext() {
     g_thread_local_context = TraceContext{};
     g_context_initialized = false;
 }
 
+/**
+ * @brief Current Correlation ID.
+ * @return Return value.
+ * @details Calls: getContext().
+ */
 CorrelationID TraceContextManager::currentCorrelationID() {
     return getContext().correlation_id;
 }

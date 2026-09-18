@@ -78,6 +78,11 @@ DirectXPipeline& DirectXPipeline::operator=(DirectXPipeline&& other) noexcept {
     return *this;
 }
 
+/**
+ * @brief Create.
+ * @return True when the operation succeeds.
+ * @details Calls: create_root_signature(), create_pipeline_state().
+ */
 bool DirectXPipeline::create() {
     if (!create_root_signature()) {
         return false;
@@ -90,6 +95,11 @@ bool DirectXPipeline::create() {
     return true;
 }
 
+/**
+ * @brief Create root signature.
+ * @return True when the operation succeeds.
+ * @details Calls: push_back(), clear(), reserve(), size(), empty(), data(), D3D12SerializeRootSignature(), FAILED().
+ */
 bool DirectXPipeline::create_root_signature() {
     // Define root parameters
     std::vector<D3D12_ROOT_PARAMETER> root_params;
@@ -190,6 +200,11 @@ bool DirectXPipeline::create_root_signature() {
     return true;
 }
 
+/**
+ * @brief Create pipeline state.
+ * @return True when the operation succeeds.
+ * @details Calls: Get(), get_bytecode(), device(), CreateComputePipelineState(), IID_PPV_ARGS(), FAILED().
+ */
 bool DirectXPipeline::create_pipeline_state() {
     // Compute pipeline state description
     D3D12_COMPUTE_PIPELINE_STATE_DESC pso_desc = {};
@@ -214,6 +229,13 @@ bool DirectXPipeline::create_pipeline_state() {
     return true;
 }
 
+/**
+ * @brief Set root constants.
+ * @param[in] data Input parameter.
+ * @param[in] num_values Input parameter.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: command_list(), SetComputeRootSignature(), Get(), SetComputeRoot32BitConstants().
+ */
 void DirectXPipeline::set_root_constants(const void* data, uint32_t num_values) {
     if (num_values > num_root_constants_) {
         throw std::runtime_error("DirectXPipeline: Too many root constants");
@@ -230,6 +252,12 @@ void DirectXPipeline::set_root_constants(const void* data, uint32_t num_values) 
     );
 }
 
+/**
+ * @brief Bind uav table.
+ * @param[in] table_index Input parameter.
+ * @param[in] base_descriptor Input parameter.
+ * @details Calls: command_list(), SetComputeRootSignature(), Get(), SetComputeRootDescriptorTable().
+ */
 void DirectXPipeline::bind_uav_table(uint32_t table_index, D3D12_GPU_DESCRIPTOR_HANDLE base_descriptor) {
     // UAV table is after root constants (index 1)
     uint32_t root_index = (num_root_constants_ > 0) ? 1 : 0;
@@ -238,6 +266,12 @@ void DirectXPipeline::bind_uav_table(uint32_t table_index, D3D12_GPU_DESCRIPTOR_
     context_->command_list()->SetComputeRootDescriptorTable(root_index, base_descriptor);
 }
 
+/**
+ * @brief Bind srv table.
+ * @param[in] table_index Input parameter.
+ * @param[in] base_descriptor Input parameter.
+ * @details Calls: command_list(), SetComputeRootSignature(), Get(), SetComputeRootDescriptorTable().
+ */
 void DirectXPipeline::bind_srv_table(uint32_t table_index, D3D12_GPU_DESCRIPTOR_HANDLE base_descriptor) {
     // SRV table is after root constants and UAV table
     uint32_t root_index = 0;
@@ -252,6 +286,13 @@ void DirectXPipeline::bind_srv_table(uint32_t table_index, D3D12_GPU_DESCRIPTOR_
     context_->command_list()->SetComputeRootDescriptorTable(root_index, base_descriptor);
 }
 
+/**
+ * @brief Dispatch.
+ * @param[in] thread_groups_x Input parameter.
+ * @param[in] thread_groups_y Input parameter.
+ * @param[in] thread_groups_z Input parameter.
+ * @details Calls: command_list(), SetPipelineState(), Get(), SetComputeRootSignature(), Dispatch().
+ */
 void DirectXPipeline::dispatch(uint32_t thread_groups_x, 
                                uint32_t thread_groups_y, 
                                uint32_t thread_groups_z) {

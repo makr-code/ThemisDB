@@ -32,6 +32,10 @@ TransactionSemanticAdvisor::TransactionSemanticAdvisor()
 TransactionSemanticAdvisor::TransactionSemanticAdvisor(Config config)
     : config_(std::move(config)) {}
 
+/**
+ * @brief Set Decision Record Processor.
+ * @param[in] processor Input parameter.
+ */
 void TransactionSemanticAdvisor::setDecisionRecordProcessor(
     std::shared_ptr<themis::llm::DecisionRecordYamlProcessor> processor)
 {
@@ -127,6 +131,12 @@ std::chrono::milliseconds TransactionSemanticAdvisor::suggestDeferral(
 // Private helpers
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Entity Overlap.
+ * @param[in] a Input parameter.
+ * @param[in] b Input parameter.
+ * @return Return value.
+ */
 double TransactionSemanticAdvisor::entityOverlap(
     const TransactionContext& a,
     const TransactionContext& b)
@@ -152,6 +162,12 @@ double TransactionSemanticAdvisor::entityOverlap(
     return static_cast<double>(shared) / static_cast<double>(union_size);
 }
 
+/**
+ * @brief Has Write Conflict.
+ * @param[in] a Input parameter.
+ * @param[in] b Input parameter.
+ * @return True when the operation succeeds.
+ */
 bool TransactionSemanticAdvisor::hasWriteConflict(
     const TransactionContext& a,
     const TransactionContext& b)

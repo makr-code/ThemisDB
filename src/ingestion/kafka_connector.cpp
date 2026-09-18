@@ -40,7 +40,13 @@ namespace ingestion {
 
 namespace {
 
-/// Extract the first string value for `"key":"<value>"` from a JSON blob.
+/**
+ * @brief Kafka Json Extract String.
+ * @param[in] json Input parameter.
+ * @param[in] key Input parameter.
+ * @return Return value.
+ * @details Calls: find(), size().
+ */
 static std::string kafkaJsonExtractString(const std::string& json,
                                           const std::string& key) {
     std::string needle = "\"" + key + "\":\"";
@@ -67,7 +73,6 @@ static std::string kafkaJsonExtractString(const std::string& json,
 // Pimpl
 // ---------------------------------------------------------------------------
 
-/** @brief Pimpl. */
 class KafkaConnector::Impl {
 public:
     Impl() = default;
@@ -75,6 +80,12 @@ public:
         destroyConsumer();
     }
 
+    /**
+     * @brief Initialize.
+     * @param[in] config Input parameter.
+     * @return True when the operation succeeds.
+     * @details Calls: find(), end(), opt(), count(), at(), std::stoi(), std::stoull(), empty().
+     */
     bool initialize(const SourceConfig& config) {
         if (config.type != SourceType::KAFKA) {
           return false;
@@ -162,6 +173,13 @@ public:
         return 0;
     }
 
+    /**
+     * @brief Ingest.
+     * @param[in] param Input parameter.
+     * @param[in] progress_callback Input parameter.
+     * @return Return value.
+     * @details Calls: std::chrono::steady_clock::now(), empty(), addError(), ingestFromMock(), finaliseStats(), ingestFromKafka().
+     */
     IngestionStats ingest(const std::string& /*target_collection*/,
                           ProgressCallback progress_callback) {
         IngestionStats stats;
@@ -199,19 +217,33 @@ public:
         return stats;
     }
 
+    /**
+     * @brief Set Retry Config.
+     * @param[in] c Input parameter.
+     * @details Implements setRetryConfig without additional internal calls.
+     */
     void setRetryConfig(const RetryConfig& c)   { retry_config_ = c; }
+    /**
+     * @brief Set Message Fetch For Testing.
+     * @param[in] fn Input parameter.
+     * @details Calls: std::move().
+     */
     void setMessageFetchForTesting(KafkaMessageFn fn) { message_fn_ = std::move(fn); }
+    /**
+     * @brief Set Checkpoint Store.
+     * @param[in] store Input parameter.
+     * @details Calls: std::move().
+     */
     void setCheckpointStore(std::shared_ptr<CheckpointStore> store) {
         checkpoint_store_ = std::move(store);
     }
 
 private:
-    // -----------------------------------------------------------------------
-    // Write a ThemisDB-level checkpoint for this source via the injected store.
-    // Called before Kafka offsets are committed (rd_kafka_consumer_close) so
-    // that the ThemisDB checkpoint is always written before Kafka forgets the
-    // messages, ensuring at-least-once delivery semantics.
-    // -----------------------------------------------------------------------
+    /**
+     * @brief ----------------------------------------------------------------------- Write a ThemisDB-level checkpoint for this source via the injected store.
+     * @param[in] processed_count Input parameter.
+     * @details Called before Kafka offsets are committed (rd_kafka_consumer_close) so that the ThemisDB checkpoint is always written before Kafka forgets the messages, ensuring at-least-once delivery semantics. ----------------------------------------------------------------------- Calls: std::chrono::system_clock::now(), std::chrono::system_clock::to_time_t(), gmtime_s(), gmtime_r(), std::strftime(), write().
+     */
     void writeCheckpoint(size_t processed_count) {
         if (!checkpoint_store_) {
           return;
@@ -248,6 +280,12 @@ private:
     // Removal Plan: Not removed — remains the test-injection path.
     // Roadmap ref: src/ingestion/FUTURE_ENHANCEMENTS.md § "Stub/Simulation Lifecycle"
     // -----------------------------------------------------------------------
+    /**
+     * @brief Ingest From Mock.
+     * @param[in,out] stats Input/output parameter.
+     * @param[in,out] progress_callback Input/output parameter.
+     * @details Calls: message_fn_(), empty(), extractText(), size(), progress_callback(), std::to_string(), addError(), std::string().
+     */
     void ingestFromMock(IngestionStats& stats,
                         ProgressCallback& progress_callback) {
         size_t consumed = 0;
@@ -303,6 +341,12 @@ private:
     // -----------------------------------------------------------------------
     // librdkafka-based ingestion (production)
     // -----------------------------------------------------------------------
+    /**
+     * @brief Ingest From Kafka.
+     * @param[in,out] stats Input/output parameter.
+     * @param[in,out] progress_callback Input/output parameter.
+     * @details Calls: rd_kafka_conf_new(), rd_kafka_conf_set(), addError(), std::string(), setConf(), c_str(), rd_kafka_conf_destroy(), std::to_string().
+     */
     void ingestFromKafka(IngestionStats& stats,
                          ProgressCallback& progress_callback) {
         char errstr[512];
@@ -498,11 +542,19 @@ private:
         rd_kafka_destroy(rk);
     }
 
+    /**
+     * @brief Destroy Consumer.
+     * @details Implements destroyConsumer without additional internal calls.
+     */
     void destroyConsumer() {
         // Nothing to destroy outside of ingestFromKafka scope; consumer is
         // created and destroyed within the ingest call for clean lifecycle.
     }
 #else
+    /**
+     * @brief Destroy Consumer.
+     * @details Implements destroyConsumer without additional internal calls.
+     */
     void destroyConsumer() {}
 #endif
 
@@ -582,6 +634,12 @@ KafkaConnector::KafkaConnector()
 
 KafkaConnector::~KafkaConnector() = default;
 
+/**
+ * @brief Initialize.
+ * @param[in] config Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements initialize without additional internal calls.
+ */
 bool KafkaConnector::initialize(const SourceConfig& config) {
     return impl_->initialize(config);
 }
@@ -594,23 +652,50 @@ size_t KafkaConnector::getDocumentCount() const {
     return impl_->getDocumentCount();
 }
 
+/**
+ * @brief Ingest.
+ * @param[in] target_collection Input parameter.
+ * @param[in] progress_callback Input parameter.
+ * @return Return value.
+ * @details Implements ingest without additional internal calls.
+ */
 IngestionStats KafkaConnector::ingest(const std::string& target_collection,
                                        ProgressCallback progress_callback) {
     return impl_->ingest(target_collection, progress_callback);
 }
 
+/**
+ * @brief Set Retry Config.
+ * @param[in] config Input parameter.
+ * @details Implements setRetryConfig without additional internal calls.
+ */
 void KafkaConnector::setRetryConfig(const RetryConfig& config) {
     impl_->setRetryConfig(config);
 }
 
+/**
+ * @brief Set Checkpoint Store.
+ * @param[in] store Input parameter.
+ * @details Calls: std::move().
+ */
 void KafkaConnector::setCheckpointStore(std::shared_ptr<CheckpointStore> store) {
     impl_->setCheckpointStore(std::move(store));
 }
 
+/**
+ * @brief Set Message Fetch For Testing.
+ * @param[in] fn Input parameter.
+ * @details Calls: setMessageBatchProvider(), std::move().
+ */
 void KafkaConnector::setMessageFetchForTesting(KafkaMessageFn fn) {
     setMessageBatchProvider(std::move(fn));
 }
 
+/**
+ * @brief Set Message Batch Provider.
+ * @param[in] fn Input parameter.
+ * @details Calls: setMessageFetchForTesting(), std::move().
+ */
 void KafkaConnector::setMessageBatchProvider(KafkaMessageFn fn) {
     impl_->setMessageFetchForTesting(std::move(fn));
 }

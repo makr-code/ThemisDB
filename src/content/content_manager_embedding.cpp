@@ -12,10 +12,21 @@
 namespace themis {
 namespace content {
 
+/**
+ * @brief Set Embedding Pipeline.
+ * @param[in] pipeline Input parameter.
+ * @details Calls: std::move().
+ */
 void ContentManager::setEmbeddingPipeline(std::shared_ptr<EmbeddingPipeline> pipeline) {
     embedding_pipeline_ = std::move(pipeline);
 }
 
+/**
+ * @brief Generate Embedding.
+ * @param[in] text Input parameter.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ */
 std::vector<float> ContentManager::generateEmbedding(
     const std::string& text,
     const std::string& /*model_name*/)

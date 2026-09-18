@@ -37,6 +37,12 @@ ResidualQuantizer::ResidualQuantizer(int dimension, const Config& config)
     stage_quantizers_.reserve(config_.num_stages);
 }
 
+/**
+ * @brief Train.
+ * @param[in] training_vectors Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), Status::Error(), size(), THEMIS_INFO(), reserve(), std::to_string(), push_back(), std::move().
+ */
 ResidualQuantizer::Status ResidualQuantizer::train(
     const std::vector<std::vector<float>>& training_vectors) {
     
@@ -106,7 +112,11 @@ std::vector<std::vector<float>> ResidualQuantizer::computeResiduals(
         auto codes = stage_quantizer->encode(vec);
         auto approx = stage_quantizer->decode(codes);
         
-        // Compute residual: original - approximation
+        /**
+         * @brief Compute residual: original - approximation
+         * @param[in] dimension_ Input parameter.
+         * @return Return value.
+         */
         std::vector<float> residual(dimension_);
         for (int d = 0; d < dimension_; d++) {
             residual[d] = vec[d] - approx[d];

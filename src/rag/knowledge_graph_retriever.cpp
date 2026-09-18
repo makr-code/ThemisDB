@@ -30,7 +30,12 @@ namespace themis::rag::kg {
 
 namespace {
 
-/// Case-fold (ASCII) and collapse runs of whitespace to a single space.
+/**
+ * @brief Normalise Text.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), std::isspace(), push_back(), std::tolower(), empty(), back(), pop_back().
+ */
 std::string normaliseText(const std::string& s) {
     std::string out = {};
     out.reserve(s.size());
@@ -53,8 +58,13 @@ std::string normaliseText(const std::string& s) {
     return out;
 }
 
-/// Compute normalised string similarity: exact = 1.0; prefix scaled by
-/// length ratio; otherwise 0.0.  Both inputs should already be normalised.
+/**
+ * @brief String Similarity.
+ * @param[in] a Input parameter.
+ * @param[in] b Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), size(), substr().
+ */
 double stringSimilarity(const std::string& a, const std::string& b) {
     if (a.empty() && b.empty()) {
       return 1.0;
@@ -76,7 +86,13 @@ double stringSimilarity(const std::string& a, const std::string& b) {
     return 0.0;
 }
 
-/// Normalised Jaccard similarity between two sets of strings.
+/**
+ * @brief Jaccard Sets.
+ * @param[in] A Input parameter.
+ * @param[in] B Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), count(), size().
+ */
 double jaccardSets(const std::unordered_set<std::string>& A,
                    const std::unordered_set<std::string>& B) {
     if (A.empty() && B.empty()) {
@@ -121,6 +137,11 @@ KnowledgeGraph::~KnowledgeGraph() = default;
 KnowledgeGraph::KnowledgeGraph(KnowledgeGraph&&) = default;
 KnowledgeGraph& KnowledgeGraph::operator=(KnowledgeGraph&&) = default;
 
+/**
+ * @brief Add Node.
+ * @param[in] node Input parameter.
+ * @details Calls: lk(), THEMIS_DEBUG(), std::move().
+ */
 void KnowledgeGraph::addNode(KGNode node) {
     std::lock_guard<std::mutex> lk(impl_->mtx);
     THEMIS_DEBUG("KnowledgeGraph::addNode id='{}' name='{}'",
@@ -128,6 +149,12 @@ void KnowledgeGraph::addNode(KGNode node) {
     impl_->nodes[node.id] = std::move(node);
 }
 
+/**
+ * @brief Remove Node.
+ * @param[in] node_id Identifier of the node.
+ * @return True when the operation succeeds.
+ * @details Calls: lk(), count(), erase(), find(), end(), size(), std::remove_if(), begin().
+ */
 bool KnowledgeGraph::removeNode(const std::string& node_id) {
     std::lock_guard<std::mutex> lk(impl_->mtx);
     if (!impl_->nodes.count(node_id)) {
@@ -188,6 +215,11 @@ size_t KnowledgeGraph::nodeCount() const {
     return impl_->nodes.size();
 }
 
+/**
+ * @brief Add Edge.
+ * @param[in] edge Input parameter.
+ * @details Calls: lk(), THEMIS_DEBUG(), push_back(), std::move().
+ */
 void KnowledgeGraph::addEdge(KGEdge edge) {
     std::lock_guard<std::mutex> lk(impl_->mtx);
     THEMIS_DEBUG("KnowledgeGraph::addEdge '{}' → '{}'",
@@ -196,6 +228,14 @@ void KnowledgeGraph::addEdge(KGEdge edge) {
     ++impl_->edge_count;
 }
 
+/**
+ * @brief Remove Edge.
+ * @param[in] from_id Identifier of the from.
+ * @param[in] to_id Identifier of the to.
+ * @param[in] relation Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lk(), find(), end(), size(), erase(), std::remove_if(), begin().
+ */
 bool KnowledgeGraph::removeEdge(const std::string& from_id,
                                  const std::string& to_id,
                                  RelationType       relation) {
@@ -301,10 +341,23 @@ std::vector<KGEdge> KnowledgeGraph::outEdges(const std::string& node_id) const {
 // EntityLinker helpers (static)
 // =============================================================================
 
+/**
+ * @brief Normalise.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Calls: normaliseText().
+ */
 std::string EntityLinker::normalise(const std::string& s) {
     return normaliseText(s);
 }
 
+/**
+ * @brief Similarity.
+ * @param[in] a Input parameter.
+ * @param[in] b Input parameter.
+ * @return Return value.
+ * @details Calls: stringSimilarity().
+ */
 double EntityLinker::similarity(const std::string& a, const std::string& b) {
     return stringSimilarity(a, b);
 }
@@ -356,7 +409,11 @@ std::vector<Entity> EntityLinker::extract(const std::string& text) const {
         span_start = std::string::npos;
     };
 
-    // Tokenise by whitespace and punctuation, track capitalised tokens.
+    /**
+     * @brief Tokenise by whitespace and punctuation, track capitalised tokens.
+     * @param[in] text Input parameter.
+     * @return Return value.
+     */
     std::istringstream ss(text);
     std::string word = {};
     size_t pos = 0;
@@ -501,10 +558,20 @@ const KGRetrieverConfig& KnowledgeGraphRetriever::getConfig() const {
     return impl_->config;
 }
 
+/**
+ * @brief Set Config.
+ * @param[in] config Input parameter.
+ * @details Implements setConfig without additional internal calls.
+ */
 void KnowledgeGraphRetriever::setConfig(const KGRetrieverConfig& config) {
     impl_->config = config;
 }
 
+/**
+ * @brief Set Reasoner.
+ * @param[in,out] reasoner Input/output parameter.
+ * @details Implements setReasoner without additional internal calls.
+ */
 void KnowledgeGraphRetriever::setReasoner(graph::KnowledgeGraphReasoner* reasoner) {
     impl_->reasoner = reasoner;
 }

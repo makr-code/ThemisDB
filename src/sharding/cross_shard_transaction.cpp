@@ -193,6 +193,11 @@ CrossShardTransactionCoordinator::CrossShardTransactionCoordinator(
             "'). Set CrossShardTransactionConfig::transaction_log_path to an "
             "absolute filesystem path before constructing the coordinator.";
         spdlog::error("{}", msg);
+        /**
+         * @brief Invalid argument.
+         * @param[in] msg Input parameter.
+         * @return Return value.
+         */
         throw std::invalid_argument(msg);
     }
     
@@ -238,12 +243,15 @@ CrossShardTransactionCoordinator::CrossShardTransactionCoordinator(
     }
 }
 
-/** @brief Stop coordinator and background workers during destruction. */
 CrossShardTransactionCoordinator::~CrossShardTransactionCoordinator() {
     stop();
 }
 
-/** @brief Initialize coordinator dependencies and run startup recovery backend. */
+/**
+ * @brief Initialize.
+ * @return True when the operation succeeds.
+ * @details Calls: spdlog::error(), reset(), runRecoveryBackend(), spdlog::info().
+ */
 bool CrossShardTransactionCoordinator::initialize() {
     if (!consensus_) {
         spdlog::error("Consensus module required for cross-shard transactions");
@@ -280,7 +288,13 @@ bool CrossShardTransactionCoordinator::initialize() {
     return true;
 }
 
-/** @brief Record distributed wait edge for global deadlock detection graph. */
+/**
+ * @brief Report Distributed Wait.
+ * @param[in] waiting_transaction_id Identifier of the waiting transaction.
+ * @param[in] blocking_transaction_id Identifier of the blocking transaction.
+ * @param[in] shard_id Identifier of the shard.
+ * @details Calls: empty(), lock(), find(), end(), spdlog::error(), insert(), spdlog::trace().
+ */
 void CrossShardTransactionCoordinator::reportDistributedWait(
     const std::string& waiting_transaction_id,
     const std::string& blocking_transaction_id,
@@ -325,7 +339,11 @@ void CrossShardTransactionCoordinator::reportDistributedWait(
                   waiting_transaction_id, blocking_transaction_id, shard_id);
 }
 
-/** @brief Remove all distributed wait edges owned by transaction ID. */
+/**
+ * @brief Clear Distributed Waits.
+ * @param[in] transaction_id Identifier of the transaction.
+ * @details Calls: lock(), clearDistributedWaitEdgesLocked().
+ */
 void CrossShardTransactionCoordinator::clearDistributedWaits(
     const std::string& transaction_id
 ) {
@@ -333,7 +351,12 @@ void CrossShardTransactionCoordinator::clearDistributedWaits(
     clearDistributedWaitEdgesLocked(transaction_id);
 }
 
-/** @brief Acquire exclusive terminal decision guard for commit/abort race prevention. */
+/**
+ * @brief Try Start Terminal Decision.
+ * @param[in] transaction_id Identifier of the transaction.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), insert().
+ */
 bool CrossShardTransactionCoordinator::tryStartTerminalDecision(
     const std::string& transaction_id
 ) {
@@ -341,7 +364,11 @@ bool CrossShardTransactionCoordinator::tryStartTerminalDecision(
     return terminal_decisions_in_progress_.insert(transaction_id).second;
 }
 
-/** @brief Release terminal decision guard for transaction. */
+/**
+ * @brief Finish Terminal Decision.
+ * @param[in] transaction_id Identifier of the transaction.
+ * @details Calls: lock(), erase().
+ */
 void CrossShardTransactionCoordinator::finishTerminalDecision(
     const std::string& transaction_id
 ) {
@@ -349,7 +376,11 @@ void CrossShardTransactionCoordinator::finishTerminalDecision(
     terminal_decisions_in_progress_.erase(transaction_id);
 }
 
-/** @brief Start coordinator service and optional deadlock detection thread. */
+/**
+ * @brief Start.
+ * @return True when the operation succeeds.
+ * @details Calls: load(), spdlog::warn(), store(), std::thread(), lk(), spdlog::info().
+ */
 bool CrossShardTransactionCoordinator::start() {
     if (running_.load()) {
         spdlog::warn("Cross-shard transaction coordinator already running");
@@ -380,7 +411,11 @@ bool CrossShardTransactionCoordinator::start() {
     return true;
 }
 
-/** @brief Run in-doubt recovery backend and return resolved transaction count. */
+/**
+ * @brief Recover In Doubt Transactions.
+ * @return Return value.
+ * @details Calls: lock(), std::count_if(), begin(), end(), count_in_doubt(), runRecoveryBackend(), spdlog::warn(), spdlog::info().
+ */
 size_t CrossShardTransactionCoordinator::recoverInDoubtTransactions() {
     const auto count_in_doubt = [this]() -> size_t {
         std::lock_guard<std::timed_mutex> lock(transactions_mutex_);
@@ -455,6 +490,11 @@ std::vector<themis::transaction::RecoverableTwoPhaseTransaction>
 CrossShardTransactionCoordinator::getRecoverableTransactions() const {
     std::vector<themis::transaction::RecoverableTwoPhaseTransaction> recoverable;
 
+    /**
+     * @brief Lock.
+     * @param[in] transactions_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::timed_mutex> lock(transactions_mutex_);
     recoverable.reserve(transactions_.size());
     for (const auto& [txn_id, txn] : transactions_) {
@@ -501,7 +541,6 @@ CrossShardTransactionCoordinator::getRecoverableTransactions() const {
     return recoverable;
 }
 
-/** @brief Execute configured recovery backend and emit telemetry summary. */
 CrossShardTransactionCoordinator::RecoveryRunResult
 CrossShardTransactionCoordinator::runRecoveryBackend(const char* context) {
     RecoveryRunResult result;
@@ -558,7 +597,10 @@ CrossShardTransactionCoordinator::runRecoveryBackend(const char* context) {
     return result;
 }
 
-/** @brief Stop coordinator service and join deadlock detector thread. */
+/**
+ * @brief Stop.
+ * @details Calls: load(), store(), joinable(), themis::utils::joinThreadWithin(), spdlog::warn(), spdlog::info().
+ */
 void CrossShardTransactionCoordinator::stop() {
     if (!running_.load()) {
         return;
@@ -584,7 +626,14 @@ void CrossShardTransactionCoordinator::stop() {
     spdlog::info("Cross-shard transaction coordinator stopped");
 }
 
-/** @brief Begin new cross-shard transaction and persist initial state. */
+/**
+ * @brief Begin Transaction.
+ * @param[in] transaction_id Identifier of the transaction.
+ * @param[in] protocol Input parameter.
+ * @param[in] isolation_level Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), spdlog::error(), lock(), find(), end(), spdlog::warn(), std::chrono::system_clock::now(), now().
+ */
 bool CrossShardTransactionCoordinator::beginTransaction(
     const std::string& transaction_id,
     TransactionProtocol protocol,
@@ -670,7 +719,15 @@ bool CrossShardTransactionCoordinator::beginTransaction(
     return true;
 }
 
-/** @brief Add participant shard and operations to active transaction. */
+/**
+ * @brief Add Participant.
+ * @param[in] transaction_id Identifier of the transaction.
+ * @param[in] shard_id Identifier of the shard.
+ * @param[in] endpoint Input parameter.
+ * @param[in] operations Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), spdlog::error(), lock(), try_lock_for(), find(), end(), spdlog::debug().
+ */
 bool CrossShardTransactionCoordinator::addParticipant(
     const std::string& transaction_id,
     const std::string& shard_id,
@@ -737,7 +794,12 @@ bool CrossShardTransactionCoordinator::addParticipant(
     return true;
 }
 
-/** @brief Execute prepare stage for active transaction across participants. */
+/**
+ * @brief Prepare.
+ * @param[in] transaction_id Identifier of the transaction.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), spdlog::error(), tx_lock(), find(), end(), emplace_back(), cb_lock(), validate().
+ */
 bool CrossShardTransactionCoordinator::prepare(const std::string& transaction_id) {
     // W2-S04: Fail-closed on empty transaction_id
     if (transaction_id.empty()) {
@@ -919,7 +981,12 @@ bool CrossShardTransactionCoordinator::prepare(const std::string& transaction_id
     return all_prepared;
 }
 
-/** @brief Execute protocol-specific commit and finalize terminal state. */
+/**
+ * @brief Commit.
+ * @param[in] transaction_id Identifier of the transaction.
+ * @return True when the operation succeeds.
+ * @details Calls: tryStartTerminalDecision(), spdlog::warn(), void(), finishTerminalDecision(), lock(), find(), end(), spdlog::error().
+ */
 bool CrossShardTransactionCoordinator::commit(const std::string& transaction_id) {
     if (!tryStartTerminalDecision(transaction_id)) {
         spdlog::warn("Transaction {} already has a terminal decision in progress",
@@ -1030,7 +1097,12 @@ bool CrossShardTransactionCoordinator::commit(const std::string& transaction_id)
     return success;
 }
 
-/** @brief Abort transaction and propagate abort decision to participants. */
+/**
+ * @brief Abort.
+ * @param[in] transaction_id Identifier of the transaction.
+ * @return True when the operation succeeds.
+ * @details Calls: tryStartTerminalDecision(), spdlog::warn(), void(), finishTerminalDecision(), lock(), try_lock_for(), spdlog::error(), find().
+ */
 bool CrossShardTransactionCoordinator::abort(const std::string& transaction_id) {
     if (!tryStartTerminalDecision(transaction_id)) {
         spdlog::warn("Transaction {} already has a terminal decision in progress",
@@ -1152,6 +1224,14 @@ bool CrossShardTransactionCoordinator::abort(const std::string& transaction_id) 
     return true;
 }
 
+/**
+ * @brief Execute Saga.
+ * @param[in] transaction_id Identifier of the transaction.
+ * @param[in] steps Input parameter.
+ * @param[in] compensations Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: size(), spdlog::error(), lock(), find(), end(), unlock(), spdlog::info(), contains().
+ */
 bool CrossShardTransactionCoordinator::executeSaga(
     const std::string& transaction_id,
     const std::vector<nlohmann::json>& steps,
@@ -1376,6 +1456,11 @@ bool CrossShardTransactionCoordinator::executeSaga(
 std::optional<TransactionState> CrossShardTransactionCoordinator::getTransactionState(
     const std::string& transaction_id
 ) const {
+    /**
+     * @brief Lock.
+     * @param[in] transactions_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::timed_mutex> lock(transactions_mutex_);
     
     auto it = transactions_.find(transaction_id);
@@ -1389,6 +1474,11 @@ std::optional<TransactionState> CrossShardTransactionCoordinator::getTransaction
 std::optional<CrossShardTransaction> CrossShardTransactionCoordinator::getTransaction(
     const std::string& transaction_id
 ) const {
+    /**
+     * @brief Lock.
+     * @param[in] transactions_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::timed_mutex> lock(transactions_mutex_);
     
     auto it = transactions_.find(transaction_id);
@@ -1409,6 +1499,11 @@ bool CrossShardTransactionCoordinator::isDeadlocked(
 }
 
 std::vector<CrossShardTransaction> CrossShardTransactionCoordinator::getActiveTransactions() const {
+    /**
+     * @brief Lock.
+     * @param[in] transactions_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::timed_mutex> lock(transactions_mutex_);
     
     std::vector<CrossShardTransaction> active = {};
@@ -1437,29 +1532,59 @@ nlohmann::json CrossShardTransactionCoordinator::getStatistics() const {
 void CrossShardTransactionCoordinator::onTransactionStateChange(
     std::function<void(const std::string&, TransactionState, TransactionState)> callback
 ) {
+    /**
+     * @brief Lock.
+     * @param[in] callbacks_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(callbacks_mutex_);
     on_state_change_callback_ = std::move(callback);
 }
 
+/**
+ * @brief Set Pre Commit Callback.
+ * @param[in] fn Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void CrossShardTransactionCoordinator::setPreCommitCallback(PreCommitRpcFn fn) {
     std::lock_guard<std::mutex> lock(callbacks_mutex_);
     precommit_callback_ = std::move(fn);
 }
 
+/**
+ * @brief Set Deferred Pre Commit Callback.
+ * @param[in] fn Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void CrossShardTransactionCoordinator::setDeferredPreCommitCallback(DeferredPreCommitFn fn) {
     std::lock_guard<std::mutex> lock(callbacks_mutex_);
     deferred_precommit_callback_ = std::move(fn);
 }
 
+/**
+ * @brief Set Foreign Key Validator.
+ * @param[in] validator Input parameter.
+ */
 void CrossShardTransactionCoordinator::setForeignKeyValidator(
     std::shared_ptr<CrossShardForeignKeyValidator> validator)
 {
+    /**
+     * @brief Lock.
+     * @param[in] callbacks_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(callbacks_mutex_);
     fk_validator_ = std::move(validator);
 }
 
 // Private methods
 
+/**
+ * @brief Execute2 PC.
+ * @param[in,out] txn Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: prepare(), nlohmann::json::array(), push_back(), logCommit(), spdlog::error(), what(), logAbort(), std::string().
+ */
 bool CrossShardTransactionCoordinator::execute2PC(CrossShardTransaction& txn) {
     // Phase 1: Prepare (already done)
     if (txn.state != TransactionState::PREPARED) {
@@ -1575,6 +1700,12 @@ bool CrossShardTransactionCoordinator::execute2PC(CrossShardTransaction& txn) {
     return true;
 }
 
+/**
+ * @brief Execute3 PC.
+ * @param[in,out] txn Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: sendAbort(), spdlog::error(), logAbort(), std::string(), what(), lk(), prepare(), failClosedAbortAllParticipants().
+ */
 bool CrossShardTransactionCoordinator::execute3PC(CrossShardTransaction& txn) {
     const auto failClosedAbortAllParticipants = [this, &txn](const char* abort_reason) {
         txn.state = TransactionState::ABORTING;
@@ -1832,6 +1963,12 @@ bool CrossShardTransactionCoordinator::execute3PC(CrossShardTransaction& txn) {
     return all_committed;
 }
 
+/**
+ * @brief Execute Percolator.
+ * @param[in,out] txn Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: std::chrono::seconds(), perc_coord(), get(), execute(), sendPrepare(), sendCommit(), sendAbort(), size().
+ */
 bool CrossShardTransactionCoordinator::executePercolator(CrossShardTransaction& txn) {
     // Delegate to the PercolatorCoordinator class which provides:
     //   - TrueTime-based commit-wait via now_with_uncertainty()
@@ -1884,6 +2021,12 @@ bool CrossShardTransactionCoordinator::executePercolator(CrossShardTransaction& 
     return result;
 }
 
+/**
+ * @brief Execute Calvin.
+ * @param[in,out] txn Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: spdlog::info(), empty(), spdlog::error(), logPrepare(), spdlog::warn(), what(), propose(), reserve().
+ */
 bool CrossShardTransactionCoordinator::executeCalvin(CrossShardTransaction& txn) {
     // Calvin deterministic distributed transaction protocol
     // Based on Thomson et al., "Calvin: Fast Distributed Transactions for Partitioned
@@ -2075,6 +2218,13 @@ bool CrossShardTransactionCoordinator::executeCalvin(CrossShardTransaction& txn)
     return all_executed;
 }
 
+/**
+ * @brief Send Prepare.
+ * @param[in] shard_id Identifier of the shard.
+ * @param[in] transaction_id Identifier of the transaction.
+ * @return True when the operation succeeds.
+ * @details Calls: spdlog::debug(), nlohmann::json::array(), lock(), find(), end(), spdlog::error(), count(), push_back().
+ */
 bool CrossShardTransactionCoordinator::sendPrepare(
     const std::string& shard_id,
     const std::string& transaction_id
@@ -2152,6 +2302,13 @@ bool CrossShardTransactionCoordinator::sendPrepare(
     }
 }
 
+/**
+ * @brief Send Commit.
+ * @param[in] shard_id Identifier of the shard.
+ * @param[in] transaction_id Identifier of the transaction.
+ * @return True when the operation succeeds.
+ * @details Calls: spdlog::debug(), lock(), find(), end(), spdlog::error(), generateCommitTimestamp(), count(), rpc_client().
+ */
 bool CrossShardTransactionCoordinator::sendCommit(
     const std::string& shard_id,
     const std::string& transaction_id
@@ -2235,6 +2392,13 @@ bool CrossShardTransactionCoordinator::sendCommit(
     }
 }
 
+/**
+ * @brief Send Abort.
+ * @param[in] shard_id Identifier of the shard.
+ * @param[in] transaction_id Identifier of the transaction.
+ * @return True when the operation succeeds.
+ * @details Calls: spdlog::debug(), lock(), find(), end(), spdlog::error(), count(), rpc_client(), abort().
+ */
 bool CrossShardTransactionCoordinator::sendAbort(
     const std::string& shard_id,
     const std::string& transaction_id
@@ -2310,6 +2474,10 @@ bool CrossShardTransactionCoordinator::sendAbort(
     }
 }
 
+/**
+ * @brief Deadlock Detection Thread.
+ * @details Calls: spdlog::debug(), load(), std::this_thread::sleep_for(), buildWaitForGraph(), empty(), polled_wait_for_edge_collector(), count(), max().
+ */
 void CrossShardTransactionCoordinator::deadlockDetectionThread() {
     spdlog::debug("Deadlock detection thread started");
     
@@ -2480,6 +2648,11 @@ std::map<std::string, std::vector<std::string>>
 CrossShardTransactionCoordinator::buildWaitForGraph() const {
     std::map<std::string, std::vector<std::string>> graph;
     
+    /**
+     * @brief Lock.
+     * @param[in] transactions_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::timed_mutex> lock(transactions_mutex_);
 
     // Build wait-for graph from explicit cross-shard wait reports.
@@ -2518,6 +2691,11 @@ CrossShardTransactionCoordinator::buildWaitForGraph() const {
     return graph;
 }
 
+/**
+ * @brief Clear Distributed Wait Edges Locked.
+ * @param[in] transaction_id Identifier of the transaction.
+ * @details Calls: erase(), begin(), end(), empty().
+ */
 void CrossShardTransactionCoordinator::clearDistributedWaitEdgesLocked(
     const std::string& transaction_id
 ) {
@@ -2563,6 +2741,13 @@ bool CrossShardTransactionCoordinator::detectCycle(
     return false;
 }
 
+/**
+ * @brief Execute Compensations.
+ * @param[in] transaction_id Identifier of the transaction.
+ * @param[in] executed_steps Input parameter.
+ * @param[in] compensations Input parameter.
+ * @details Calls: spdlog::info(), size(), empty(), contains(), spdlog::error(), wal_lock(), logCompensate(), spdlog::warn().
+ */
 void CrossShardTransactionCoordinator::executeCompensations(
     const std::string& transaction_id,
     const std::vector<nlohmann::json>& executed_steps,
@@ -2691,6 +2876,12 @@ void CrossShardTransactionCoordinator::executeCompensations(
                 transaction_id);
 }
 
+/**
+ * @brief Generate Commit Timestamp.
+ * @param[in] txn Input parameter.
+ * @return Return value.
+ * @details Calls: now(), count(), waitUntil(), std::chrono::nanoseconds(), spdlog::debug(), getUncertainty(), std::chrono::system_clock::now(), time_since_epoch().
+ */
 int64_t CrossShardTransactionCoordinator::generateCommitTimestamp(
     const CrossShardTransaction& txn
 ) {
@@ -2723,6 +2914,13 @@ int64_t CrossShardTransactionCoordinator::generateCommitTimestamp(
     return commit_timestamp;
 }
 
+/**
+ * @brief Persist Transaction State.
+ * @param[in] transaction_id Identifier of the transaction.
+ * @param[in] state Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), find(), end(), spdlog::error(), log_file(), is_open(), std::chrono::system_clock::now(), time_since_epoch().
+ */
 bool CrossShardTransactionCoordinator::persistTransactionState(
     const std::string& transaction_id,
     TransactionState state
@@ -2785,7 +2983,12 @@ bool CrossShardTransactionCoordinator::persistTransactionState(
     }
 }
 
-// Phase 2.3.3: Recover from WAL and snapshot
+/**
+ * @brief Phase 2.
+ * @param[in,out] stats Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details 3.3: Recover from WAL and snapshot Calls: spdlog::warn(), spdlog::info(), loadLatestSnapshot(), has_value(), value(), verifySnapshot(), spdlog::error(), lock().
+ */
 bool CrossShardTransactionCoordinator::recoverFromWAL(
     BackendRecoveryStats* stats
 ) {
@@ -3102,7 +3305,10 @@ bool CrossShardTransactionCoordinator::recoverFromWAL(
     return true;
 }
 
-// Phase 2.3.3: Create periodic snapshot
+/**
+ * @brief Phase 2.
+ * @details 3.3: Create periodic snapshot Calls: lock(), to_snapshot_protocol(), to_snapshot_state(), time_since_epoch(), count(), empty(), push_back(), std::chrono::system_clock::now().
+ */
 void CrossShardTransactionCoordinator::createPeriodicSnapshot() {
     if (!transaction_wal_ || !snapshot_manager_) {
         return;
@@ -3250,6 +3456,15 @@ void PercolatorCoordinator::commitWait(int64_t commit_ts_ns) const {
     truetime_->waitUntil(std::chrono::nanoseconds(commit_ts_ns));
 }
 
+/**
+ * @brief Execute.
+ * @param[in,out] txn Input/output parameter.
+ * @param[in] prepare_fn Input parameter.
+ * @param[in] commit_fn Input parameter.
+ * @param[in] abort_fn Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: spdlog::info(), empty(), spdlog::error(), std::min(), std::chrono::milliseconds(), spdlog::debug(), count(), std::this_thread::sleep_for().
+ */
 bool PercolatorCoordinator::execute(
     CrossShardTransaction& txn,
     SendPrepareFn prepare_fn,
@@ -3432,6 +3647,13 @@ bool PercolatorCoordinator::execute(
     return true;
 }
 
+/**
+ * @brief Clean Stale Locks.
+ * @param[in] stale_txn_ids Input parameter.
+ * @param[in,out] coordinator Input/output parameter.
+ * @return Return value.
+ * @details Calls: getTransaction(), has_value(), std::chrono::system_clock::now(), spdlog::info(), count(), logAbort(), spdlog::warn(), what().
+ */
 size_t PercolatorCoordinator::cleanStaleLocks(
     const std::vector<std::string>& stale_txn_ids,
     CrossShardTransactionCoordinator& coordinator
@@ -3487,7 +3709,10 @@ size_t PercolatorCoordinator::cleanStaleLocks(
     return cleaned;
 }
 
-// 3PC Non-blocking support methods
+/**
+ * @brief 3PC Non-blocking support methods
+ * @details Calls: spdlog::info(), load(), lk(), empty(), std::this_thread::sleep_for(), std::chrono::milliseconds(), std::move(), spdlog::debug().
+ */
 void CrossShardTransactionCoordinator::preCommitRetryThread() {
     spdlog::info("3PC PreCommit retry thread started");
     
@@ -3630,6 +3855,12 @@ void CrossShardTransactionCoordinator::preCommitRetryThread() {
 // Distributed SSI API
 // ============================================================================
 
+/**
+ * @brief Register Shard Read Set.
+ * @param[in] transaction_id Identifier of the transaction.
+ * @param[in] shard_id Identifier of the shard.
+ * @param[in] predicates Input parameter.
+ */
 void CrossShardTransactionCoordinator::registerShardReadSet(
     const std::string& transaction_id,
     const std::string& shard_id,
@@ -3638,6 +3869,12 @@ void CrossShardTransactionCoordinator::registerShardReadSet(
     // Only track SERIALIZABLE transactions — early-exit for others to avoid
     // overhead on the common non-serializable path.
     {
+        /**
+         * @brief Lk.
+         * @param[in] transactions_mutex_ Input parameter.
+         * @param[in] defer_lock Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::timed_mutex> lk(transactions_mutex_, std::defer_lock);
         if (lk.try_lock_for(config_.lock_timeout)) {
             auto it = transactions_.find(transaction_id);
@@ -3650,6 +3887,12 @@ void CrossShardTransactionCoordinator::registerShardReadSet(
     ssi_manager_.registerReadSet(transaction_id, shard_id, predicates);
 }
 
+/**
+ * @brief Register Shard Write Set.
+ * @param[in] transaction_id Identifier of the transaction.
+ * @param[in] shard_id Identifier of the shard.
+ * @param[in] keys Input parameter.
+ */
 void CrossShardTransactionCoordinator::registerShardWriteSet(
     const std::string& transaction_id,
     const std::string& shard_id,
@@ -3665,6 +3908,10 @@ CrossShardTransactionCoordinator::validateCrossShardSSI(
     return ssi_manager_.validateAtPrepare(transaction_id);
 }
 
+/**
+ * @brief Set SSIConfig.
+ * @param[in] config Input parameter.
+ */
 void CrossShardTransactionCoordinator::setSSIConfig(
     const CrossShardSSIManager::Config& config)
 {

@@ -27,7 +27,12 @@ namespace ingestion {
 EntityNormalizer::EntityNormalizer(EntityNormalizerConfig cfg)
     : cfg_(std::move(cfg)) {}
 
-// static
+/**
+ * @brief static
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), std::isalnum(), push_back(), std::tolower(), empty(), back(), pop_back().
+ */
 std::string EntityNormalizer::toIdToken(const std::string& s) {
     std::string out = {};
     out.reserve(s.size());
@@ -47,7 +52,12 @@ std::string EntityNormalizer::toIdToken(const std::string& s) {
     return out;
 }
 
-// static
+/**
+ * @brief static
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Calls: std::setw(), std::setfill(), str().
+ */
 std::string EntityNormalizer::shortHash(const std::string& s) {
     // FNV-1a 32-bit
     std::uint32_t h = 0x811c9dc5u;
@@ -249,7 +259,15 @@ bool RelationBuilder::wantsType(const std::string& t) const {
               != cfg_.relation_types.end();
 }
 
-// static
+/**
+ * @brief static
+ * @param[in] rels Input parameter.
+ * @param[in] from Input parameter.
+ * @param[in] to Input parameter.
+ * @param[in] rt Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements edgeExists without additional internal calls.
+ */
 bool RelationBuilder::edgeExists(const std::vector<EntityRelation>& rels,
                                   const std::string& from,
                                   const std::string& to,

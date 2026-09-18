@@ -46,10 +46,24 @@ KVCacheManager::KVCacheManager(const FlashAttentionConfig& config)
 
 KVCacheManager::~KVCacheManager() {
     // Cleanup all sequences
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     sequences_.clear();
 }
 
+/**
+ * @brief Allocate Sequence.
+ * @param[in] seq_id Identifier of the seq.
+ * @param[in] expected_tokens Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: lock(), find(), end(), empty(), freeBlock(), allocateBlock(), push_back().
+ */
 BlockTable KVCacheManager::allocateSequence(uint64_t seq_id, int expected_tokens) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -89,6 +103,11 @@ BlockTable KVCacheManager::allocateSequence(uint64_t seq_id, int expected_tokens
     return table;
 }
 
+/**
+ * @brief Free Sequence.
+ * @param[in] seq_id Identifier of the seq.
+ * @details Calls: lock(), find(), end(), freeBlock(), erase().
+ */
 void KVCacheManager::freeSequence(uint64_t seq_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -105,6 +124,13 @@ void KVCacheManager::freeSequence(uint64_t seq_id) {
     sequences_.erase(it);
 }
 
+/**
+ * @brief Append Token.
+ * @param[in] seq_id Identifier of the seq.
+ * @param[in] kv Input parameter.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: lock(), find(), end(), size(), empty(), allocateBlock(), push_back(), std::memcpy().
+ */
 void KVCacheManager::appendToken(uint64_t seq_id, const KVTensor& kv) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -143,6 +169,15 @@ void KVCacheManager::appendToken(uint64_t seq_id, const KVTensor& kv) {
     table.num_tokens++;
 }
 
+/**
+ * @brief Share Prefix.
+ * @param[in] new_seq_id Identifier of the new seq.
+ * @param[in] parent_seq_id Identifier of the parent seq.
+ * @param[in] prefix_length Input parameter.
+ * @throws std::invalid_argument if an error occurs.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: lock(), find(), end(), std::min(), size(), push_back().
+ */
 void KVCacheManager::sharePrefix(uint64_t new_seq_id, uint64_t parent_seq_id, 
                                   int prefix_length) {
     std::lock_guard<std::mutex> lock(mutex_);
@@ -187,6 +222,11 @@ void KVCacheManager::sharePrefix(uint64_t new_seq_id, uint64_t parent_seq_id,
 }
 
 const BlockTable* KVCacheManager::getBlockTable(uint64_t seq_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     auto it = sequences_.find(seq_id);
@@ -205,6 +245,11 @@ const Block* KVCacheManager::getBlock(int block_id) const {
 }
 
 AttentionMemoryStats KVCacheManager::getStats() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     AttentionMemoryStats stats;
@@ -235,10 +280,20 @@ AttentionMemoryStats KVCacheManager::getStats() const {
 }
 
 size_t KVCacheManager::getFreeBlockCount() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return free_blocks_.size();
 }
 
+/**
+ * @brief Allocate Block.
+ * @return Return value.
+ * @details Calls: empty(), front(), pop().
+ */
 int KVCacheManager::allocateBlock() {
     if (free_blocks_.empty()) {
         return -1;
@@ -253,6 +308,11 @@ int KVCacheManager::allocateBlock() {
     return block_id;
 }
 
+/**
+ * @brief Free Block.
+ * @param[in] block_id Identifier of the block.
+ * @details Calls: size(), push().
+ */
 void KVCacheManager::freeBlock(int block_id) {
     if (block_id < 0 || block_id >= blocks_.size()) {
         return;

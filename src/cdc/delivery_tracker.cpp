@@ -26,6 +26,10 @@ DeliveryTracker::~DeliveryTracker() {
     stop();
 }
 
+/**
+ * @brief Start.
+ * @details Calls: exchange(), std::thread(), THEMIS_INFO(), count().
+ */
 void DeliveryTracker::start() {
     if (running_.exchange(true)) {
         return; // already running
@@ -38,6 +42,10 @@ void DeliveryTracker::start() {
                 std::chrono::duration_cast<std::chrono::milliseconds>(config_.recheck_interval).count());
 }
 
+/**
+ * @brief Stop.
+ * @details Calls: exchange(), notify_all(), joinable(), join(), THEMIS_INFO().
+ */
 void DeliveryTracker::stop() {
     if (!running_.exchange(false)) {
         return; // not running
@@ -52,6 +60,13 @@ void DeliveryTracker::stop() {
     THEMIS_INFO("DeliveryTracker: background redelivery thread stopped");
 }
 
+/**
+ * @brief Track Delivery.
+ * @param[in] consumer_id Identifier of the consumer.
+ * @param[in] events Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), lock(), size(), THEMIS_WARN(), std::chrono::steady_clock::now(), emplace(), std::move(), THEMIS_DEBUG().
+ */
 bool DeliveryTracker::trackDelivery(const std::string& consumer_id,
                                      const std::vector<Changefeed::ChangeEvent>& events) {
     if (events.empty()) {
@@ -87,6 +102,13 @@ bool DeliveryTracker::trackDelivery(const std::string& consumer_id,
     return true;
 }
 
+/**
+ * @brief Acknowledge.
+ * @param[in] consumer_id Identifier of the consumer.
+ * @param[in] sequence Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), find(), end(), erase(), THEMIS_DEBUG(), size().
+ */
 bool DeliveryTracker::acknowledge(const std::string& consumer_id, uint64_t sequence) {
     std::lock_guard<std::mutex> lock(mutex_);
 
@@ -109,6 +131,13 @@ bool DeliveryTracker::acknowledge(const std::string& consumer_id, uint64_t seque
     return true;
 }
 
+/**
+ * @brief Acknowledge Up To.
+ * @param[in] consumer_id Identifier of the consumer.
+ * @param[in] up_to_sequence Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), find(), end(), begin(), erase(), THEMIS_DEBUG(), size().
+ */
 size_t DeliveryTracker::acknowledgeUpTo(const std::string& consumer_id,
                                          uint64_t up_to_sequence) {
     std::lock_guard<std::mutex> lock(mutex_);
@@ -139,6 +168,11 @@ size_t DeliveryTracker::acknowledgeUpTo(const std::string& consumer_id,
 std::vector<Changefeed::ChangeEvent>
 DeliveryTracker::getPendingRedelivery(const std::string& consumer_id,
                                        std::optional<std::chrono::milliseconds> timeout_override) {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     auto cit = consumers_.find(consumer_id);
@@ -187,6 +221,11 @@ DeliveryTracker::getPendingRedelivery(const std::string& consumer_id,
     return to_redeliver;
 }
 
+/**
+ * @brief Remove Consumer.
+ * @param[in] consumer_id Identifier of the consumer.
+ * @details Calls: lock(), erase(), THEMIS_INFO().
+ */
 void DeliveryTracker::removeConsumer(const std::string& consumer_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     size_t erased = consumers_.erase(consumer_id);
@@ -197,6 +236,11 @@ void DeliveryTracker::removeConsumer(const std::string& consumer_id) {
 
 std::optional<ConsumerDeliveryStats>
 DeliveryTracker::getStats(const std::string& consumer_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     auto it = consumers_.find(consumer_id);
@@ -216,6 +260,11 @@ DeliveryTracker::getStats(const std::string& consumer_id) const {
 }
 
 std::vector<ConsumerDeliveryStats> DeliveryTracker::getAllStats() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     std::vector<ConsumerDeliveryStats> result = {};
@@ -235,11 +284,19 @@ std::vector<ConsumerDeliveryStats> DeliveryTracker::getAllStats() const {
 }
 
 size_t DeliveryTracker::consumerCount() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return consumers_.size();
 }
 
-// ===== Background Redelivery Thread =====
+/**
+ * @brief ===== Background Redelivery Thread =====
+ * @details Calls: THEMIS_DEBUG(), load(), lock(), wait_for(), checkAndRedeliver(), THEMIS_ERROR(), what().
+ */
 
 void DeliveryTracker::redeliveryThreadFunc() {
     THEMIS_DEBUG("DeliveryTracker: redelivery thread running");
@@ -266,6 +323,10 @@ void DeliveryTracker::redeliveryThreadFunc() {
     THEMIS_DEBUG("DeliveryTracker: redelivery thread exiting");
 }
 
+/**
+ * @brief Check And Redeliver.
+ * @details Calls: lock(), reserve(), size(), push_back(), getPendingRedelivery(), empty(), redelivery_callback_().
+ */
 void DeliveryTracker::checkAndRedeliver() {
     if (!redelivery_callback_) {
         return;

@@ -35,7 +35,6 @@ namespace geo {
 
 namespace {
 
-/// Convert a GeometryInfo MBR into a Coordinate centroid (lon, lat).
 Coordinate mbrCentroid(const GeometryInfo &geom) noexcept {
     const auto mbr = geom.computeMBR();
     return Coordinate{(mbr.minx + mbr.maxx) * 0.5, (mbr.miny + mbr.maxy) * 0.5};
@@ -47,7 +46,6 @@ Coordinate mbrCentroid(const GeometryInfo &geom) noexcept {
 // RTreeRangeCursor — range query cursor (MBR overlap)
 // ---------------------------------------------------------------------------
 
-/** @brief RTreeRangeCursor — range query cursor (MBR overlap). */
 class RTreeRangeCursor final : public IRTreeCursor {
   public:
     RTreeRangeCursor(std::vector<GeoIndexEntry> hits, std::size_t index_version, const std::size_t *live_version)
@@ -79,7 +77,6 @@ class RTreeRangeCursor final : public IRTreeCursor {
 // RTreeKNNCursor — k-nearest-neighbour cursor (sorted by distance)
 // ---------------------------------------------------------------------------
 
-/** @brief RTreeKNNCursor — k-nearest-neighbour cursor (sorted by distance). */
 class RTreeKNNCursor final : public IRTreeCursor {
   public:
     RTreeKNNCursor(std::vector<GeoIndexEntry> hits, std::size_t k, std::size_t index_version,
@@ -117,9 +114,12 @@ struct GeoRTreeIndex::Impl {
     GeoRTree rtree;
     std::size_t version{0};
 
-    /// Snapshot of all entries for cursor materialisation
     std::vector<std::pair<std::string, GeometryInfo>> entries;
 
+    /**
+     * @brief Bump Version.
+     * @details Implements bumpVersion without additional internal calls.
+     */
     void bumpVersion() {
         ++version;
     }
@@ -139,6 +139,12 @@ std::size_t GeoRTreeIndex::size() const noexcept {
     return impl_->rtree.size();
 }
 
+/**
+ * @brief Insert.
+ * @param[in] key Input parameter.
+ * @param[in] geom Input parameter.
+ * @details Calls: emplace_back(), bumpVersion().
+ */
 void GeoRTreeIndex::insert(const std::string &key, const GeometryInfo &geom) {
     impl_->rtree.insert(key, geom);
     impl_->entries.emplace_back(key, geom);
@@ -151,12 +157,22 @@ void GeoRTreeIndex::bulkLoad(const std::vector<std::pair<std::string, GeometryIn
     impl_->bumpVersion();
 }
 
+/**
+ * @brief Clear.
+ * @details Calls: bumpVersion().
+ */
 void GeoRTreeIndex::clear() {
     impl_->rtree.clear();
     impl_->entries.clear();
     impl_->bumpVersion();
 }
 
+/**
+ * @brief Open Range Cursor.
+ * @param[in] bbox Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), computeMBR(), push_back(), std::move().
+ */
 std::unique_ptr<IRTreeCursor> GeoRTreeIndex::openRangeCursor(const MBR &bbox) {
     // Materialise matching entries
     const auto &all = impl_->entries;
@@ -174,6 +190,13 @@ std::unique_ptr<IRTreeCursor> GeoRTreeIndex::openRangeCursor(const MBR &bbox) {
     return std::make_unique<RTreeRangeCursor>(std::move(hits), impl_->version, &impl_->version);
 }
 
+/**
+ * @brief Open KNNCursor.
+ * @param[in] query_point Input parameter.
+ * @param[in] k Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), mbrCentroid(), haversineDistanceM(), push_back(), std::min(), std::partial_sort(), begin().
+ */
 std::unique_ptr<IRTreeCursor> GeoRTreeIndex::openKNNCursor(const Coordinate &query_point, std::size_t k) {
     const auto &all = impl_->entries;
 

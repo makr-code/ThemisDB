@@ -43,6 +43,13 @@ static constexpr std::array<uint32_t, 64> kK = {{
     0x90befffau, 0xa4506cebu, 0xbef9a3f7u, 0xc67178f2u,
 }};
 
+/**
+ * @brief Rotr32.
+ * @param[in] x Input parameter.
+ * @param[in] n Input parameter.
+ * @return Return value.
+ * @details Implements rotr32 without additional internal calls.
+ */
 inline uint32_t rotr32(uint32_t x, unsigned n) {
     return (x >> n) | (x << (32 - n));
 }
@@ -139,6 +146,11 @@ NetworkAuditLog::NetworkAuditLog(const Config& config)
 void NetworkAuditLog::setEventCallback(
     std::function<void(const AuditEvent&)> cb)
 {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     callback_ = std::move(cb);
 }
@@ -147,6 +159,11 @@ void NetworkAuditLog::setEventCallback(
 // Recording
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Record.
+ * @param[in] event Input parameter.
+ * @details Calls: std::chrono::system_clock::now(), void(), lk(), size(), pop_front(), push_back(), updateCounters(), cb_copy().
+ */
 void NetworkAuditLog::record(AuditEvent event) {
     // Fill in timestamp if caller left it default-constructed (epoch).
     if (event.timestamp == std::chrono::system_clock::time_point{}) {
@@ -176,6 +193,11 @@ void NetworkAuditLog::record(AuditEvent event) {
     }
 }
 
+/**
+ * @brief Record Connection Open.
+ * @param[in] remote_address Input parameter.
+ * @param[in] connection_id Identifier of the connection.
+ */
 void NetworkAuditLog::recordConnectionOpen(const std::string& remote_address,
                                            uint64_t connection_id)
 {
@@ -187,6 +209,12 @@ void NetworkAuditLog::recordConnectionOpen(const std::string& remote_address,
     record(std::move(ev));
 }
 
+/**
+ * @brief Record Connection Close.
+ * @param[in] remote_address Input parameter.
+ * @param[in] connection_id Identifier of the connection.
+ * @param[in] reason Input parameter.
+ */
 void NetworkAuditLog::recordConnectionClose(const std::string& remote_address,
                                             uint64_t connection_id,
                                             const std::string& reason)
@@ -200,6 +228,14 @@ void NetworkAuditLog::recordConnectionClose(const std::string& remote_address,
     record(std::move(ev));
 }
 
+/**
+ * @brief Record Auth.
+ * @param[in] success Input parameter.
+ * @param[in] remote_address Input parameter.
+ * @param[in] connection_id Identifier of the connection.
+ * @param[in] principal Input parameter.
+ * @param[in] token Input parameter.
+ */
 void NetworkAuditLog::recordAuth(bool success,
                                  const std::string& remote_address,
                                  uint64_t connection_id,
@@ -217,6 +253,12 @@ void NetworkAuditLog::recordAuth(bool success,
     record(std::move(ev));
 }
 
+/**
+ * @brief Record Rate Limited.
+ * @param[in] remote_address Input parameter.
+ * @param[in] connection_id Identifier of the connection.
+ * @param[in] rule Input parameter.
+ */
 void NetworkAuditLog::recordRateLimited(const std::string& remote_address,
                                         uint64_t connection_id,
                                         const std::string& rule)
@@ -235,6 +277,11 @@ void NetworkAuditLog::recordRateLimited(const std::string& remote_address,
 // ---------------------------------------------------------------------------
 
 std::vector<AuditEvent> NetworkAuditLog::getRecentEvents(size_t n) const {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     if (n == 0 || n >= buffer_.size()) {
         return std::vector<AuditEvent>(buffer_.begin(), buffer_.end());
@@ -245,6 +292,11 @@ std::vector<AuditEvent> NetworkAuditLog::getRecentEvents(size_t n) const {
 }
 
 std::vector<AuditEvent> NetworkAuditLog::getEventsByType(AuditEventType type) const {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     std::vector<AuditEvent> result = {};
 
@@ -257,6 +309,11 @@ std::vector<AuditEvent> NetworkAuditLog::getEventsByType(AuditEventType type) co
 }
 
 NetworkAuditLog::Stats NetworkAuditLog::getStats() const {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     Stats s;
     s.total_recorded    = total_recorded_;
@@ -270,6 +327,10 @@ NetworkAuditLog::Stats NetworkAuditLog::getStats() const {
     return s;
 }
 
+/**
+ * @brief Clear.
+ * @details Calls: lk().
+ */
 void NetworkAuditLog::clear() {
     std::lock_guard<std::mutex> lk(mutex_);
     buffer_.clear();
@@ -279,6 +340,12 @@ void NetworkAuditLog::clear() {
 // Helpers
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Truncated Sha256 Hex.
+ * @param[in] input Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), sha256(), data(), size(), std::setfill(), std::setw(), str().
+ */
 std::string NetworkAuditLog::truncatedSha256Hex(const std::string& input) {
     if (input.empty()) return {};
 
@@ -298,6 +365,11 @@ std::string NetworkAuditLog::truncatedSha256Hex(const std::string& input) {
 // Private
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Update Counters.
+ * @param[in] type Input parameter.
+ * @details Implements updateCounters without additional internal calls.
+ */
 void NetworkAuditLog::updateCounters(AuditEventType type) {
     switch (type) {
     case AuditEventType::CONNECTION_OPEN:  ++connection_opens_;  break;

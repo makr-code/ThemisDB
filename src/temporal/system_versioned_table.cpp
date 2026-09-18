@@ -56,7 +56,15 @@ SystemVersionedTable::SystemVersionedTable(SystemVersionedTable&& other) noexcep
     // factory use-case where the object is moved before being shared.
 {}
 
-// static
+/**
+ * @brief static
+ * @param[in] table_name Name of the table.
+ * @param[in] schema Input parameter.
+ * @param[in] config Input parameter.
+ * @param[in] source_node Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), tbl(), std::move().
+ */
 SystemVersionedTable SystemVersionedTable::createVersionedTable(
     const std::string& table_name,
     const Document&    schema,
@@ -72,7 +80,13 @@ SystemVersionedTable SystemVersionedTable::createVersionedTable(
     return tbl;
 }
 
-// static
+/**
+ * @brief static
+ * @param[in] table_name Name of the table.
+ * @param[in] schema Input parameter.
+ * @return Return value.
+ * @details Implements createVersionedTable without additional internal calls.
+ */
 SystemVersionedTable SystemVersionedTable::createVersionedTable(
     const std::string& table_name,
     const Document&    schema) {
@@ -83,6 +97,13 @@ SystemVersionedTable SystemVersionedTable::createVersionedTable(
 // DML
 // ============================================================================
 
+/**
+ * @brief Insert.
+ * @param[in] key Input parameter.
+ * @param[in] doc Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), now(), push_back(), makeVersion().
+ */
 bool SystemVersionedTable::insert(const std::string& key, const Document& doc) {
     std::lock_guard<std::mutex> lock(mutex_);
 
@@ -99,6 +120,13 @@ bool SystemVersionedTable::insert(const std::string& key, const Document& doc) {
     return true;
 }
 
+/**
+ * @brief Update.
+ * @param[in] key Input parameter.
+ * @param[in] updates Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), find(), end(), now(), items(), push_back(), makeVersion(), std::move().
+ */
 bool SystemVersionedTable::update(const std::string& key,
                                   const Document& updates) {
     std::lock_guard<std::mutex> lock(mutex_);
@@ -136,6 +164,13 @@ bool SystemVersionedTable::update(const std::string& key,
     return true;
 }
 
+/**
+ * @brief Upsert.
+ * @param[in] key Input parameter.
+ * @param[in] doc Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), now(), push_back(), makeVersion(), closeCurrentVersion(), items(), std::move().
+ */
 bool SystemVersionedTable::upsert(const std::string& key, const Document& doc) {
     std::lock_guard<std::mutex> lock(mutex_);
 
@@ -168,6 +203,12 @@ bool SystemVersionedTable::upsert(const std::string& key, const Document& doc) {
     return false;
 }
 
+/**
+ * @brief Delete Row.
+ * @param[in] key Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), find(), end(), closeCurrentVersion(), now().
+ */
 bool SystemVersionedTable::deleteRow(const std::string& key) {
     std::lock_guard<std::mutex> lock(mutex_);
 
@@ -186,6 +227,11 @@ bool SystemVersionedTable::deleteRow(const std::string& key) {
 
 std::optional<VersionedDocument> SystemVersionedTable::getCurrent(
     const std::string& key) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     auto it = rows_.find(key);
@@ -202,6 +248,11 @@ std::optional<VersionedDocument> SystemVersionedTable::getCurrent(
 
 std::optional<VersionedDocument> SystemVersionedTable::getAsOf(
     const std::string& key, Timestamp as_of) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     auto it = rows_.find(key);
@@ -218,6 +269,11 @@ std::optional<VersionedDocument> SystemVersionedTable::getAsOf(
 
 std::vector<VersionedDocument> SystemVersionedTable::getHistory(
     const std::string& key) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     auto it = rows_.find(key);
@@ -229,6 +285,11 @@ std::vector<VersionedDocument> SystemVersionedTable::getHistory(
 
 std::vector<VersionedDocument> SystemVersionedTable::getHistoryInRange(
     const std::string& key, const TimeRange& range) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     auto it = rows_.find(key);
@@ -248,6 +309,11 @@ std::vector<VersionedDocument> SystemVersionedTable::getHistoryInRange(
 
 std::vector<VersionedDocument> SystemVersionedTable::scan(
     Timestamp as_of) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     std::vector<VersionedDocument> result = {};
@@ -273,6 +339,11 @@ std::vector<VersionedDocument> SystemVersionedTable::scan(
 // ============================================================================
 
 std::vector<std::string> SystemVersionedTable::getAllKeys() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     std::vector<std::string> keys = {};
 
@@ -287,6 +358,11 @@ size_t SystemVersionedTable::purgeHistoricalVersions(
     const std::string& key,
     const std::function<bool(const VersionedDocument&)>& predicate) {
 
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     auto it = rows_.find(key);
@@ -318,6 +394,11 @@ size_t SystemVersionedTable::purgeHistoricalVersions(
     // inside the per-key call; call per-key which locks each time)
     std::vector<std::string> keys;
     {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         for (const auto& [k, _] : rows_) {
             keys.push_back(k);
@@ -331,6 +412,13 @@ size_t SystemVersionedTable::purgeHistoricalVersions(
     return total;
 }
 
+/**
+ * @brief Purge Historical Versions Keep Latest N.
+ * @param[in] key Input parameter.
+ * @param[in] keep_latest_n Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), find(), end(), isCurrent(), push_back(), size(), std::sort(), begin().
+ */
 size_t SystemVersionedTable::purgeHistoricalVersionsKeepLatestN(
     const std::string& key,
     size_t keep_latest_n) {
@@ -396,11 +484,21 @@ size_t SystemVersionedTable::purgeHistoricalVersionsKeepLatestN(
 // ============================================================================
 
 size_t SystemVersionedTable::keyCount() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return rows_.size();
 }
 
 size_t SystemVersionedTable::versionCount() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     size_t count = 0;
     for (const auto& [k, v] : rows_) {
@@ -410,6 +508,11 @@ size_t SystemVersionedTable::versionCount() const {
 }
 
 nlohmann::json SystemVersionedTable::getStatistics() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     size_t current_count = 0;
@@ -447,6 +550,11 @@ nlohmann::json SystemVersionedTable::getStatistics() const {
 // Retention
 // ============================================================================
 
+/**
+ * @brief Enforce Retention Policy.
+ * @return Return value.
+ * @details Calls: count(), now(), purgeHistoricalVersions().
+ */
 size_t SystemVersionedTable::enforceRetentionPolicy() {
     if (config_.retention_period.count() == 0) {
         return 0;
@@ -462,9 +570,14 @@ size_t SystemVersionedTable::enforceRetentionPolicy() {
     });
 }
 
-// ============================================================================
-// Payload replacement (used by TemporalCompressor)
-// ============================================================================
+/**
+ * @brief ============================================================================ Payload replacement (used by TemporalCompressor) ============================================================================
+ * @param[in] key Input parameter.
+ * @param[in] sys_start Input parameter.
+ * @param[in] new_data Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), find(), end(), isCurrent().
+ */
 
 bool SystemVersionedTable::replaceHistoricalPayload(const std::string& key,
                                                      Timestamp sys_start,
@@ -493,6 +606,12 @@ bool SystemVersionedTable::replaceHistoricalPayload(const std::string& key,
 // Private helpers
 // ============================================================================
 
+/**
+ * @brief Close Current Version.
+ * @param[in,out] versions Input/output parameter.
+ * @param[in] close_time Input parameter.
+ * @details Implements closeCurrentVersion without additional internal calls.
+ */
 void SystemVersionedTable::closeCurrentVersion(VersionList& versions,
                                                Timestamp close_time) {
     for (auto& v : versions) {

@@ -18,7 +18,11 @@ namespace themis {
 namespace governance {
 
 namespace {
-    /// Generate unique ID for evidence/violations
+    /**
+     * @brief Generate Uuid.
+     * @return Return value.
+     * @details Calls: themis::utils::generate_uuid_v4().
+     */
     inline std::string generateUuid() {
         return themis::utils::generate_uuid_v4();
     }
@@ -32,6 +36,13 @@ ComplianceFramework Iso27001Validator::getFramework() const {
     return ComplianceFramework::kIso27001;
 }
 
+/**
+ * @brief Validate Requirement.
+ * @param[in] req Input parameter.
+ * @param[in] ctx Input parameter.
+ * @return Return value.
+ * @details Calls: find(), end(), empty().
+ */
 ComplianceStatus Iso27001Validator::validateRequirement(
     const ComplianceRequirement& req,
     const ComplianceContext& ctx) {
@@ -63,6 +74,13 @@ ComplianceStatus Iso27001Validator::validateRequirement(
     }
 }
 
+/**
+ * @brief Validate Control.
+ * @param[in] ctl Input parameter.
+ * @param[in] ctx Input parameter.
+ * @return Return value.
+ * @details Calls: find(), end(), empty().
+ */
 ComplianceStatus Iso27001Validator::validateControl(
     const ComplianceControl& ctl,
     const ComplianceContext& ctx) {
@@ -82,6 +100,13 @@ ComplianceStatus Iso27001Validator::validateControl(
     return ComplianceStatus::kNonCompliant;
 }
 
+/**
+ * @brief Collect Evidence.
+ * @param[in] ctl Input parameter.
+ * @param[in] ctx Input parameter.
+ * @return Return value.
+ * @details Calls: generateUuid(), std::chrono::system_clock::now(), time_since_epoch(), count(), push_back().
+ */
 std::vector<ComplianceEvidence> Iso27001Validator::collectEvidence(
     const ComplianceControl& ctl,
     const ComplianceContext& ctx) {
@@ -104,6 +129,13 @@ std::vector<ComplianceEvidence> Iso27001Validator::collectEvidence(
     return evidence;
 }
 
+/**
+ * @brief Check Policy Satisfaction.
+ * @param[in] req Input parameter.
+ * @param[in] ctx Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: validateRequirement().
+ */
 bool Iso27001Validator::checkPolicySatisfaction(
     const ComplianceRequirement& req,
     const ComplianceContext& ctx) {
@@ -119,6 +151,13 @@ ComplianceFramework Soc2Validator::getFramework() const {
     return ComplianceFramework::kSoc2TypeI;
 }
 
+/**
+ * @brief Validate Requirement.
+ * @param[in] req Input parameter.
+ * @param[in] ctx Input parameter.
+ * @return Return value.
+ * @details Calls: find(), end(), empty().
+ */
 ComplianceStatus Soc2Validator::validateRequirement(
     const ComplianceRequirement& req,
     const ComplianceContext& ctx) {
@@ -150,6 +189,13 @@ ComplianceStatus Soc2Validator::validateRequirement(
     }
 }
 
+/**
+ * @brief Validate Control.
+ * @param[in] ctl Input parameter.
+ * @param[in] ctx Input parameter.
+ * @return Return value.
+ * @details Calls: find(), end(), empty().
+ */
 ComplianceStatus Soc2Validator::validateControl(
     const ComplianceControl& ctl,
     const ComplianceContext& ctx) {
@@ -169,6 +215,13 @@ ComplianceStatus Soc2Validator::validateControl(
     return ComplianceStatus::kNonCompliant;
 }
 
+/**
+ * @brief Collect Evidence.
+ * @param[in] ctl Input parameter.
+ * @param[in] ctx Input parameter.
+ * @return Return value.
+ * @details Calls: generateUuid(), std::chrono::system_clock::now(), time_since_epoch(), count(), push_back().
+ */
 std::vector<ComplianceEvidence> Soc2Validator::collectEvidence(
     const ComplianceControl& ctl,
     const ComplianceContext& ctx) {
@@ -191,6 +244,13 @@ std::vector<ComplianceEvidence> Soc2Validator::collectEvidence(
     return evidence;
 }
 
+/**
+ * @brief Check Policy Satisfaction.
+ * @param[in] req Input parameter.
+ * @param[in] ctx Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: validateRequirement().
+ */
 bool Soc2Validator::checkPolicySatisfaction(
     const ComplianceRequirement& req,
     const ComplianceContext& ctx) {
@@ -206,6 +266,13 @@ ComplianceFramework GdprValidator::getFramework() const {
     return ComplianceFramework::kGdpr;
 }
 
+/**
+ * @brief Validate Requirement.
+ * @param[in] req Input parameter.
+ * @param[in] ctx Input parameter.
+ * @return Return value.
+ * @details Calls: find(), end(), empty().
+ */
 ComplianceStatus GdprValidator::validateRequirement(
     const ComplianceRequirement& req,
     const ComplianceContext& ctx) {
@@ -235,6 +302,13 @@ ComplianceStatus GdprValidator::validateRequirement(
     }
 }
 
+/**
+ * @brief Validate Control.
+ * @param[in] ctl Input parameter.
+ * @param[in] ctx Input parameter.
+ * @return Return value.
+ * @details Calls: find(), end(), empty().
+ */
 ComplianceStatus GdprValidator::validateControl(
     const ComplianceControl& ctl,
     const ComplianceContext& ctx) {
@@ -253,6 +327,13 @@ ComplianceStatus GdprValidator::validateControl(
     return ComplianceStatus::kNonCompliant;
 }
 
+/**
+ * @brief Collect Evidence.
+ * @param[in] ctl Input parameter.
+ * @param[in] ctx Input parameter.
+ * @return Return value.
+ * @details Calls: generateUuid(), std::chrono::system_clock::now(), time_since_epoch(), count(), push_back().
+ */
 std::vector<ComplianceEvidence> GdprValidator::collectEvidence(
     const ComplianceControl& ctl,
     const ComplianceContext& ctx) {
@@ -275,6 +356,13 @@ std::vector<ComplianceEvidence> GdprValidator::collectEvidence(
     return evidence;
 }
 
+/**
+ * @brief Check Policy Satisfaction.
+ * @param[in] req Input parameter.
+ * @param[in] ctx Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: validateRequirement().
+ */
 bool GdprValidator::checkPolicySatisfaction(
     const ComplianceRequirement& req,
     const ComplianceContext& ctx) {
@@ -290,6 +378,13 @@ ComplianceFramework CcpaValidator::getFramework() const {
     return ComplianceFramework::kCcpa;
 }
 
+/**
+ * @brief Validate Requirement.
+ * @param[in] req Input parameter.
+ * @param[in] ctx Input parameter.
+ * @return Return value.
+ * @details Calls: find(), end(), empty().
+ */
 ComplianceStatus CcpaValidator::validateRequirement(
     const ComplianceRequirement& req,
     const ComplianceContext& ctx) {
@@ -319,6 +414,13 @@ ComplianceStatus CcpaValidator::validateRequirement(
     }
 }
 
+/**
+ * @brief Validate Control.
+ * @param[in] ctl Input parameter.
+ * @param[in] ctx Input parameter.
+ * @return Return value.
+ * @details Calls: find(), end(), empty().
+ */
 ComplianceStatus CcpaValidator::validateControl(
     const ComplianceControl& ctl,
     const ComplianceContext& ctx) {
@@ -337,6 +439,13 @@ ComplianceStatus CcpaValidator::validateControl(
     return ComplianceStatus::kNonCompliant;
 }
 
+/**
+ * @brief Collect Evidence.
+ * @param[in] ctl Input parameter.
+ * @param[in] ctx Input parameter.
+ * @return Return value.
+ * @details Calls: generateUuid(), std::chrono::system_clock::now(), time_since_epoch(), count(), push_back().
+ */
 std::vector<ComplianceEvidence> CcpaValidator::collectEvidence(
     const ComplianceControl& ctl,
     const ComplianceContext& ctx) {
@@ -359,6 +468,13 @@ std::vector<ComplianceEvidence> CcpaValidator::collectEvidence(
     return evidence;
 }
 
+/**
+ * @brief Check Policy Satisfaction.
+ * @param[in] req Input parameter.
+ * @param[in] ctx Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: validateRequirement().
+ */
 bool CcpaValidator::checkPolicySatisfaction(
     const ComplianceRequirement& req,
     const ComplianceContext& ctx) {
@@ -374,6 +490,13 @@ ComplianceFramework HipaaValidator::getFramework() const {
     return ComplianceFramework::kHipaa;
 }
 
+/**
+ * @brief Validate Requirement.
+ * @param[in] req Input parameter.
+ * @param[in] ctx Input parameter.
+ * @return Return value.
+ * @details Calls: find(), end(), empty().
+ */
 ComplianceStatus HipaaValidator::validateRequirement(
     const ComplianceRequirement& req,
     const ComplianceContext& ctx) {
@@ -403,6 +526,13 @@ ComplianceStatus HipaaValidator::validateRequirement(
     }
 }
 
+/**
+ * @brief Validate Control.
+ * @param[in] ctl Input parameter.
+ * @param[in] ctx Input parameter.
+ * @return Return value.
+ * @details Calls: find(), end(), empty().
+ */
 ComplianceStatus HipaaValidator::validateControl(
     const ComplianceControl& ctl,
     const ComplianceContext& ctx) {
@@ -421,6 +551,13 @@ ComplianceStatus HipaaValidator::validateControl(
     return ComplianceStatus::kNonCompliant;
 }
 
+/**
+ * @brief Collect Evidence.
+ * @param[in] ctl Input parameter.
+ * @param[in] ctx Input parameter.
+ * @return Return value.
+ * @details Calls: generateUuid(), std::chrono::system_clock::now(), time_since_epoch(), count(), push_back().
+ */
 std::vector<ComplianceEvidence> HipaaValidator::collectEvidence(
     const ComplianceControl& ctl,
     const ComplianceContext& ctx) {
@@ -443,6 +580,13 @@ std::vector<ComplianceEvidence> HipaaValidator::collectEvidence(
     return evidence;
 }
 
+/**
+ * @brief Check Policy Satisfaction.
+ * @param[in] req Input parameter.
+ * @param[in] ctx Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: validateRequirement().
+ */
 bool HipaaValidator::checkPolicySatisfaction(
     const ComplianceRequirement& req,
     const ComplianceContext& ctx) {
@@ -458,6 +602,13 @@ ComplianceFramework PciDssValidator::getFramework() const {
     return ComplianceFramework::kPciDss;
 }
 
+/**
+ * @brief Validate Requirement.
+ * @param[in] req Input parameter.
+ * @param[in] ctx Input parameter.
+ * @return Return value.
+ * @details Calls: find(), end(), empty().
+ */
 ComplianceStatus PciDssValidator::validateRequirement(
     const ComplianceRequirement& req,
     const ComplianceContext& ctx) {
@@ -487,6 +638,13 @@ ComplianceStatus PciDssValidator::validateRequirement(
     }
 }
 
+/**
+ * @brief Validate Control.
+ * @param[in] ctl Input parameter.
+ * @param[in] ctx Input parameter.
+ * @return Return value.
+ * @details Calls: find(), end(), empty().
+ */
 ComplianceStatus PciDssValidator::validateControl(
     const ComplianceControl& ctl,
     const ComplianceContext& ctx) {
@@ -505,6 +663,13 @@ ComplianceStatus PciDssValidator::validateControl(
     return ComplianceStatus::kNonCompliant;
 }
 
+/**
+ * @brief Collect Evidence.
+ * @param[in] ctl Input parameter.
+ * @param[in] ctx Input parameter.
+ * @return Return value.
+ * @details Calls: generateUuid(), std::chrono::system_clock::now(), time_since_epoch(), count(), push_back().
+ */
 std::vector<ComplianceEvidence> PciDssValidator::collectEvidence(
     const ComplianceControl& ctl,
     const ComplianceContext& ctx) {
@@ -527,6 +692,13 @@ std::vector<ComplianceEvidence> PciDssValidator::collectEvidence(
     return evidence;
 }
 
+/**
+ * @brief Check Policy Satisfaction.
+ * @param[in] req Input parameter.
+ * @param[in] ctx Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: validateRequirement().
+ */
 bool PciDssValidator::checkPolicySatisfaction(
     const ComplianceRequirement& req,
     const ComplianceContext& ctx) {
@@ -542,6 +714,13 @@ ComplianceFramework EuAiActValidator::getFramework() const {
     return ComplianceFramework::kEuAiAct;
 }
 
+/**
+ * @brief Validate Requirement.
+ * @param[in] req Input parameter.
+ * @param[in] ctx Input parameter.
+ * @return Return value.
+ * @details Calls: find(), end(), empty().
+ */
 ComplianceStatus EuAiActValidator::validateRequirement(
     const ComplianceRequirement& req,
     const ComplianceContext& ctx) {
@@ -571,6 +750,13 @@ ComplianceStatus EuAiActValidator::validateRequirement(
     }
 }
 
+/**
+ * @brief Validate Control.
+ * @param[in] ctl Input parameter.
+ * @param[in] ctx Input parameter.
+ * @return Return value.
+ * @details Calls: find(), end(), empty().
+ */
 ComplianceStatus EuAiActValidator::validateControl(
     const ComplianceControl& ctl,
     const ComplianceContext& ctx) {
@@ -589,6 +775,13 @@ ComplianceStatus EuAiActValidator::validateControl(
     return ComplianceStatus::kNonCompliant;
 }
 
+/**
+ * @brief Collect Evidence.
+ * @param[in] ctl Input parameter.
+ * @param[in] ctx Input parameter.
+ * @return Return value.
+ * @details Calls: generateUuid(), std::chrono::system_clock::now(), time_since_epoch(), count(), push_back().
+ */
 std::vector<ComplianceEvidence> EuAiActValidator::collectEvidence(
     const ComplianceControl& ctl,
     const ComplianceContext& ctx) {
@@ -611,6 +804,13 @@ std::vector<ComplianceEvidence> EuAiActValidator::collectEvidence(
     return evidence;
 }
 
+/**
+ * @brief Check Policy Satisfaction.
+ * @param[in] req Input parameter.
+ * @param[in] ctx Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: validateRequirement().
+ */
 bool EuAiActValidator::checkPolicySatisfaction(
     const ComplianceRequirement& req,
     const ComplianceContext& ctx) {
@@ -633,12 +833,24 @@ ComplianceValidationEngine::ComplianceValidationEngine() {
     registerValidator(std::make_unique<EuAiActValidator>());
 }
 
+/**
+ * @brief Register Validator.
+ * @param[in] validator Input parameter.
+ * @details Calls: lock(), getFramework(), std::move().
+ */
 void ComplianceValidationEngine::registerValidator(
     std::unique_ptr<IComplianceValidator> validator) {
     std::lock_guard<std::mutex> lock(mu_);
     validators_[static_cast<int>(validator->getFramework())] = std::move(validator);
 }
 
+/**
+ * @brief Validate Requirement.
+ * @param[in] req Input parameter.
+ * @param[in] ctx Input parameter.
+ * @return Return value.
+ * @details Calls: getValidator().
+ */
 ComplianceStatus ComplianceValidationEngine::validateRequirement(
     const ComplianceRequirement& req,
     const ComplianceContext& ctx) {
@@ -651,6 +863,13 @@ ComplianceStatus ComplianceValidationEngine::validateRequirement(
     return validator->validateRequirement(req, ctx);
 }
 
+/**
+ * @brief Validate Control.
+ * @param[in] ctl Input parameter.
+ * @param[in] ctx Input parameter.
+ * @return Return value.
+ * @details Calls: getValidator().
+ */
 ComplianceStatus ComplianceValidationEngine::validateControl(
     const ComplianceControl& ctl,
     const ComplianceContext& ctx) {
@@ -663,6 +882,14 @@ ComplianceStatus ComplianceValidationEngine::validateControl(
     return validator->validateControl(ctl, ctx);
 }
 
+/**
+ * @brief Validate Framework.
+ * @param[in] fw Input parameter.
+ * @param[in] registry Input parameter.
+ * @param[in] ctx Input parameter.
+ * @return Return value.
+ * @details Calls: generateUuid(), std::chrono::system_clock::now(), time_since_epoch(), count(), getRequirements(), size(), validateRequirement(), push_back().
+ */
 ComplianceStatusReport ComplianceValidationEngine::validateFramework(
     ComplianceFramework fw,
     const ComplianceFrameworkRegistry& registry,
@@ -729,6 +956,14 @@ ComplianceStatusReport ComplianceValidationEngine::validateFramework(
     return report;
 }
 
+/**
+ * @brief Validate All.
+ * @param[in] frameworks Input parameter.
+ * @param[in] registry Input parameter.
+ * @param[in] ctx Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::high_resolution_clock::now(), std::chrono::system_clock::now(), time_since_epoch(), count(), validateFramework(), push_back(), empty().
+ */
 ComplianceValidationResult ComplianceValidationEngine::validateAll(
     const std::vector<ComplianceFramework>& frameworks,
     const ComplianceFrameworkRegistry& registry,
@@ -758,6 +993,12 @@ ComplianceValidationResult ComplianceValidationEngine::validateAll(
     return result;
 }
 
+/**
+ * @brief Detect Violations.
+ * @param[in] result Input parameter.
+ * @return Return value.
+ * @details Calls: push_back().
+ */
 std::vector<ComplianceViolation> ComplianceValidationEngine::detectViolations(
     const ComplianceValidationResult& result) {
     
@@ -772,6 +1013,12 @@ std::vector<ComplianceViolation> ComplianceValidationEngine::detectViolations(
     return violations;
 }
 
+/**
+ * @brief Generate Remediation Guidance.
+ * @param[in] violation Input parameter.
+ * @return Return value.
+ * @details Calls: str().
+ */
 std::string ComplianceValidationEngine::generateRemediationGuidance(
     const ComplianceViolation& violation) {
     
@@ -803,6 +1050,12 @@ std::string ComplianceValidationEngine::generateRemediationGuidance(
     return oss.str();
 }
 
+/**
+ * @brief Get Validator.
+ * @param[in] fw Input parameter.
+ * @return Pointer to the result.
+ * @details Calls: lock(), find(), end(), get().
+ */
 IComplianceValidator* ComplianceValidationEngine::getValidator(
     ComplianceFramework fw) {
     

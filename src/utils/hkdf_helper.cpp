@@ -72,11 +72,6 @@ std::vector<uint8_t> HKDFHelper::derive(
     const std::string& info,
     size_t output_length) {
     
-    /**
-     * @brief Output.
-     * @param[in] output_length Input parameter.
-     * @return Return value.
-     */
     std::vector<uint8_t> output(output_length);
     
 #if OPENSSL_VERSION_NUMBER >= 0x30000000L

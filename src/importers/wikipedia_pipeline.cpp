@@ -23,12 +23,21 @@ WikipediaIngestionPipeline::WikipediaIngestionPipeline(WikipediaIngestionConfig 
     : config_(std::move(config))
     , checkpoint_store_(config_.checkpoint_path) {}
 
+/**
+ * @brief Initialize.
+ * @return True when the operation succeeds.
+ * @details Calls: store().
+ */
 bool WikipediaIngestionPipeline::initialize() {
     initialized_.store(true);
     cancel_requested_.store(false);
     return true;
 }
 
+/**
+ * @brief Shutdown.
+ * @details Calls: store().
+ */
 void WikipediaIngestionPipeline::shutdown() {
     cancel_requested_.store(false);
     initialized_.store(false);
@@ -38,6 +47,11 @@ bool WikipediaIngestionPipeline::isInitialized() const {
     return initialized_.load();
 }
 
+/**
+ * @brief Set Config.
+ * @param[in] config Input parameter.
+ * @details Calls: lock(), setPath().
+ */
 void WikipediaIngestionPipeline::setConfig(const WikipediaIngestionConfig& config) {
     std::lock_guard<std::mutex> lock(mutex_);
     config_ = config;
@@ -48,18 +62,40 @@ const WikipediaIngestionConfig& WikipediaIngestionPipeline::config() const {
     return config_;
 }
 
+/**
+ * @brief Run Full Import.
+ * @param[in] source Input parameter.
+ * @param[in] options Input parameter.
+ * @return Return value.
+ * @details Calls: executeImport().
+ */
 ImportStats WikipediaIngestionPipeline::runFullImport(
     const WikipediaDumpSource& source,
     const ImportOptions& options) {
     return executeImport(source, options, false);
 }
 
+/**
+ * @brief Run Incremental Update.
+ * @param[in] source Input parameter.
+ * @param[in] options Input parameter.
+ * @return Return value.
+ * @details Calls: executeImport().
+ */
 ImportStats WikipediaIngestionPipeline::runIncrementalUpdate(
     const WikipediaDumpSource& source,
     const ImportOptions& options) {
     return executeImport(source, options, true);
 }
 
+/**
+ * @brief Execute Import.
+ * @param[in] source Input parameter.
+ * @param[in] options Input parameter.
+ * @param[in] incremental Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), load(), initialize(), store(), syncCheckpointStore(), exists(), empty(), std::move().
+ */
 ImportStats WikipediaIngestionPipeline::executeImport(
     const WikipediaDumpSource& source,
     const ImportOptions& options,
@@ -113,6 +149,12 @@ ImportStats WikipediaIngestionPipeline::executeImport(
     return stats;
 }
 
+/**
+ * @brief Rebuild Projection.
+ * @param[in] model Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), relationalRowCount(), projectGraphDirtyPages(), projectVectorDirtyPages(), projectProcessDirtyPages(), projectTimeSeriesDirtyPages().
+ */
 WikipediaProjectionSummary WikipediaIngestionPipeline::rebuildProjection(WikipediaProjectionModel model) {
     std::lock_guard<std::mutex> lock(mutex_);
     WikipediaProjectionSummary summary;
@@ -132,11 +174,21 @@ WikipediaProjectionSummary WikipediaIngestionPipeline::rebuildProjection(Wikiped
     return summary;
 }
 
+/**
+ * @brief Rebuild All Projections.
+ * @return Return value.
+ * @details Calls: lock(), rebuildAllProjectionsUnlocked().
+ */
 WikipediaProjectionSummary WikipediaIngestionPipeline::rebuildAllProjections() {
     std::lock_guard<std::mutex> lock(mutex_);
     return rebuildAllProjectionsUnlocked();
 }
 
+/**
+ * @brief Rebuild All Projections Unlocked.
+ * @return Return value.
+ * @details Calls: relationalRowCount(), projectGraphDirtyPages(), projectVectorDirtyPages(), projectProcessDirtyPages(), projectTimeSeriesDirtyPages(), size(), clear().
+ */
 WikipediaProjectionSummary WikipediaIngestionPipeline::rebuildAllProjectionsUnlocked() {
     WikipediaProjectionSummary summary;
     summary.relational_rows = relationalRowCount();
@@ -175,6 +227,10 @@ const WikipediaManifest& WikipediaIngestionPipeline::lastManifest() const {
     return last_manifest_;
 }
 
+/**
+ * @brief Cancel.
+ * @details Calls: store().
+ */
 void WikipediaIngestionPipeline::cancel() {
     cancel_requested_.store(true);
 }
@@ -198,6 +254,11 @@ size_t WikipediaIngestionPipeline::relationalRowCount() const {
         snapshot_.categories.size() + snapshot_.redirects.size() + snapshot_.dead_letters.size() ;
 }
 
+/**
+ * @brief Remove Existing Page Derived Rows.
+ * @param[in] page_id Identifier of the page.
+ * @details Calls: erase(), std::remove_if(), begin(), end().
+ */
 void WikipediaIngestionPipeline::removeExistingPageDerivedRows(uint64_t page_id) {
     auto remove_by_page = [page_id](const auto& row) {
         return row.page_id == page_id;
@@ -215,10 +276,22 @@ void WikipediaIngestionPipeline::removeExistingPageDerivedRows(uint64_t page_id)
         snapshot_.redirects.end());
 }
 
+/**
+ * @brief Mark Dirty Page.
+ * @param[in] page_id Identifier of the page.
+ * @param[in] reason Input parameter.
+ * @details Implements markDirtyPage without additional internal calls.
+ */
 void WikipediaIngestionPipeline::markDirtyPage(uint64_t page_id, const std::string& reason) {
     snapshot_.dirty_pages[page_id] = reason;
 }
 
+/**
+ * @brief Record Dead Letter.
+ * @param[in] record Input parameter.
+ * @param[in] options Input parameter.
+ * @details Calls: push_back(), empty(), std::filesystem::create_directories(), std::filesystem::path(), parent_path(), sink(), is_open(), toJson().
+ */
 void WikipediaIngestionPipeline::recordDeadLetter(
     const WikipediaDeadLetterRecord& record,
     const ImportOptions& options) {
@@ -249,6 +322,11 @@ std::string WikipediaIngestionPipeline::nowIso8601() const {
     return output.str();
 }
 
+/**
+ * @brief Sync Checkpoint Store.
+ * @param[in] options Input parameter.
+ * @details Calls: empty(), setPath().
+ */
 void WikipediaIngestionPipeline::syncCheckpointStore(const ImportOptions& options) {
     if (!options.checkpoint_file.empty()) {
         checkpoint_store_.setPath(options.checkpoint_file);

@@ -35,24 +35,40 @@ using json = nlohmann::json;
 
 namespace {
 
+/**
+ * @brief Backend Invoke Fn Mutex.
+ * @return Return value.
+ */
 std::mutex& backendInvokeFnMutex()
 {
     static std::mutex mutex;
     return mutex;
 }
 
+/**
+ * @brief Backend Invoke Fn Storage.
+ * @return Return value.
+ */
 GrpcWebProxyHandler::BackendInvokeFn& backendInvokeFnStorage()
 {
     static GrpcWebProxyHandler::BackendInvokeFn callback;
     return callback;
 }
 
+/**
+ * @brief Get Backend Invoke Fn.
+ * @return Return value.
+ */
 GrpcWebProxyHandler::BackendInvokeFn getBackendInvokeFn()
 {
     std::lock_guard<std::mutex> lock(backendInvokeFnMutex());
     return backendInvokeFnStorage();
 }
 
+/**
+ * @brief Grpc Backend Available In Current Build.
+ * @return True when the operation succeeds.
+ */
 bool grpcBackendAvailableInCurrentBuild()
 {
 #ifdef THEMIS_ENABLE_GRPC
@@ -62,6 +78,10 @@ bool grpcBackendAvailableInCurrentBuild()
 #endif
 }
 
+/**
+ * @brief Grpc Backend Mode.
+ * @return Return value.
+ */
 std::string grpcBackendMode()
 {
 #ifdef THEMIS_ENABLE_GRPC
@@ -73,6 +93,10 @@ std::string grpcBackendMode()
 
 } // namespace
 
+/**
+ * @brief Set Backend Invoke Fn.
+ * @param[in] fn Input parameter.
+ */
 void GrpcWebProxyHandler::setBackendInvokeFn(BackendInvokeFn fn)
 {
     std::lock_guard<std::mutex> lock(backendInvokeFnMutex());
@@ -83,6 +107,12 @@ void GrpcWebProxyHandler::setBackendInvokeFn(BackendInvokeFn fn)
 // Frame helpers
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Append Frame Header.
+ * @param[in,out] out Input/output parameter.
+ * @param[in] flags Input parameter.
+ * @param[in] length Input parameter.
+ */
 void GrpcWebProxyHandler::appendFrameHeader(std::string& out,
                                              uint8_t flags,
                                              uint32_t length)
@@ -94,6 +124,12 @@ void GrpcWebProxyHandler::appendFrameHeader(std::string& out,
     out.push_back(static_cast<char>( length        & 0xFF));
 }
 
+/**
+ * @brief Decode Grpc Web Frame.
+ * @param[in] body Input parameter.
+ * @param[in,out] out_msg Input/output parameter.
+ * @return True when the operation succeeds.
+ */
 bool GrpcWebProxyHandler::decodeGrpcWebFrame(const std::string& body,
                                               std::string& out_msg)
 {
@@ -130,6 +166,13 @@ bool GrpcWebProxyHandler::decodeGrpcWebFrame(const std::string& body,
     return true;
 }
 
+/**
+ * @brief Encode Grpc Web Response.
+ * @param[in] proto_msg Input parameter.
+ * @param[in] grpc_status Input parameter.
+ * @param[in] grpc_message Input parameter.
+ * @return Return value.
+ */
 std::string GrpcWebProxyHandler::encodeGrpcWebResponse(
     const std::string& proto_msg,
     int grpc_status,
@@ -256,15 +299,22 @@ http::response<http::string_body> GrpcWebProxyHandler::makeErrorResponse(
 // OPTIONS – CORS preflight
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Handle Options.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ */
 http::response<http::string_body> GrpcWebProxyHandler::handleOptions(
     const http::request<http::string_body>& req)
 {
     return makeResponse(http::status::ok, "", "text/plain", req);
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// GET /api/v1/grpc-web/status
-// ─────────────────────────────────────────────────────────────────────────────
+/**
+ * @brief ───────────────────────────────────────────────────────────────────────────── GET /api/v1/grpc-web/status ─────────────────────────────────────────────────────────────────────────────
+ * @param[in] req Input parameter.
+ * @return Return value.
+ */
 
 http::response<http::string_body> GrpcWebProxyHandler::handleStatus(
     const http::request<http::string_body>& req)
@@ -285,9 +335,12 @@ http::response<http::string_body> GrpcWebProxyHandler::handleStatus(
     return makeResponse(http::status::ok, status.dump(), "application/json", req);
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// POST /grpc-web/<Service>/<Method>
-// ─────────────────────────────────────────────────────────────────────────────
+/**
+ * @brief ───────────────────────────────────────────────────────────────────────────── POST /grpc-web/<Service>/<Method> ─────────────────────────────────────────────────────────────────────────────
+ * @param[in] req Input parameter.
+ * @param[in] method Input parameter.
+ * @return Return value.
+ */
 
 http::response<http::string_body> GrpcWebProxyHandler::handlePost(
     const http::request<http::string_body>& req,

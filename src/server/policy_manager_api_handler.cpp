@@ -27,11 +27,23 @@ constexpr size_t kMaxPolicyBodySize = 1'000'000;
 constexpr size_t kMaxRuleIdLength = 256;
 constexpr size_t kMaxPolicyFieldLength = 4096;
 
+/**
+ * @brief Is Valid Policy Body.
+ * @param[in] body Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: validateStringLength(), std::string().
+ */
 bool isValidPolicyBody(std::string_view body) {
     themis::utils::InputValidator validator;
     return validator.validateStringLength(std::string(body), kMaxPolicyBodySize);
 }
 
+/**
+ * @brief Is Valid Rule Id.
+ * @param[in] rule_id Identifier of the rule.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), validateStringLength(), std::string(), validatePathSegment().
+ */
 bool isValidRuleId(std::string_view rule_id) {
     themis::utils::InputValidator validator;
     return !rule_id.empty() &&
@@ -39,6 +51,12 @@ bool isValidRuleId(std::string_view rule_id) {
            validator.validatePathSegment(std::string(rule_id));
 }
 
+/**
+ * @brief Is Valid Policy Field.
+ * @param[in] value Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: validateStringLength(), std::string(), validateHeaderValue().
+ */
 bool isValidPolicyField(std::string_view value) {
     themis::utils::InputValidator validator;
     return validator.validateStringLength(std::string(value), kMaxPolicyFieldLength) &&
@@ -59,6 +77,12 @@ PolicyManagerApiHandler::PolicyManagerApiHandler(
     }
 }
 
+/**
+ * @brief Handle List Rules.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), checkAuth(), makeErrorResponse(), listRules(), nlohmann::json::array(), push_back(), toJson(), size().
+ */
 http::response<http::string_body> PolicyManagerApiHandler::handleListRules(
     const http::request<http::string_body>& req
 ) {
@@ -92,6 +116,13 @@ http::response<http::string_body> PolicyManagerApiHandler::handleListRules(
     }
 }
 
+/**
+ * @brief Handle Get Rule.
+ * @param[in] req Input parameter.
+ * @param[in] rule_id Identifier of the rule.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), isValidRuleId(), makeErrorResponse(), checkAuth(), getRule(), has_value(), makeResponse(), toJson().
+ */
 http::response<http::string_body> PolicyManagerApiHandler::handleGetRule(
     const http::request<http::string_body>& req,
     const std::string& rule_id
@@ -123,6 +154,12 @@ http::response<http::string_body> PolicyManagerApiHandler::handleGetRule(
     }
 }
 
+/**
+ * @brief Handle Create Rule.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), isValidPolicyBody(), body(), makeErrorResponse(), checkAuth(), nlohmann::json::parse(), themis::governance::PolicyRule::fromJson(), empty().
+ */
 http::response<http::string_body> PolicyManagerApiHandler::handleCreateRule(
     const http::request<http::string_body>& req
 ) {
@@ -185,6 +222,13 @@ http::response<http::string_body> PolicyManagerApiHandler::handleCreateRule(
     }
 }
 
+/**
+ * @brief Handle Update Rule.
+ * @param[in] req Input parameter.
+ * @param[in] rule_id Identifier of the rule.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), isValidRuleId(), makeErrorResponse(), isValidPolicyBody(), body(), checkAuth(), getRule(), has_value().
+ */
 http::response<http::string_body> PolicyManagerApiHandler::handleUpdateRule(
     const http::request<http::string_body>& req,
     const std::string& rule_id
@@ -247,6 +291,13 @@ http::response<http::string_body> PolicyManagerApiHandler::handleUpdateRule(
     }
 }
 
+/**
+ * @brief Handle Delete Rule.
+ * @param[in] req Input parameter.
+ * @param[in] rule_id Identifier of the rule.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), isValidRuleId(), makeErrorResponse(), checkAuth(), getRule(), has_value(), removeRule(), THEMIS_INFO().
+ */
 http::response<http::string_body> PolicyManagerApiHandler::handleDeleteRule(
     const http::request<http::string_body>& req,
     const std::string& rule_id
@@ -288,6 +339,12 @@ http::response<http::string_body> PolicyManagerApiHandler::handleDeleteRule(
     }
 }
 
+/**
+ * @brief Handle Evaluate Policy.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), isValidPolicyBody(), body(), makeErrorResponse(), checkAuth(), nlohmann::json::parse(), contains(), isValidPolicyField().
+ */
 http::response<http::string_body> PolicyManagerApiHandler::handleEvaluatePolicy(
     const http::request<http::string_body>& req
 ) {
@@ -363,6 +420,12 @@ http::response<http::string_body> PolicyManagerApiHandler::handleEvaluatePolicy(
     }
 }
 
+/**
+ * @brief Handle Get Stats.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), checkAuth(), makeErrorResponse(), getStats(), makeResponse(), dump(), THEMIS_ERROR(), what().
+ */
 http::response<http::string_body> PolicyManagerApiHandler::handleGetStats(
     const http::request<http::string_body>& req
 ) {
@@ -393,6 +456,14 @@ http::response<http::string_body> PolicyManagerApiHandler::handleGetStats(
     }
 }
 
+/**
+ * @brief Make Error Response.
+ * @param[in] status Input parameter.
+ * @param[in] message Input parameter.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: version(), set(), body(), dump(), prepare_payload(), keep_alive().
+ */
 http::response<http::string_body> PolicyManagerApiHandler::makeErrorResponse(
     http::status status,
     const std::string& message,
@@ -413,6 +484,14 @@ http::response<http::string_body> PolicyManagerApiHandler::makeErrorResponse(
     return res;
 }
 
+/**
+ * @brief Make Response.
+ * @param[in] status Input parameter.
+ * @param[in] body Input parameter.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: version(), set(), body(), prepare_payload(), keep_alive().
+ */
 http::response<http::string_body> PolicyManagerApiHandler::makeResponse(
     http::status status,
     const std::string& body,
@@ -428,6 +507,13 @@ http::response<http::string_body> PolicyManagerApiHandler::makeResponse(
     return res;
 }
 
+/**
+ * @brief Check Auth.
+ * @param[in] req Input parameter.
+ * @param[in] required_role Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: isEnabled(), THEMIS_WARN(), empty(), AuthMiddleware::extractBearerToken(), std::string_view(), data(), size(), auth_scope_mapper::mapPolicyRoleToScope().
+ */
 bool PolicyManagerApiHandler::checkAuth(
     const http::request<http::string_body>& req,
     const std::string& required_role

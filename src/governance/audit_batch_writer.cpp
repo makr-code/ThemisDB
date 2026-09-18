@@ -35,6 +35,12 @@ nlohmann::json AuditBatchCheckpoint::toJson() const {
     return j;
 }
 
+/**
+ * @brief From Json.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: contains().
+ */
 AuditBatchCheckpoint AuditBatchCheckpoint::fromJson(const nlohmann::json& j) {
     AuditBatchCheckpoint cp = {};
     if (j.contains("checkpoint_id")) {
@@ -76,6 +82,12 @@ nlohmann::json IdempotencyToken::toJson() const {
     return j;
 }
 
+/**
+ * @brief From Json.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: contains().
+ */
 IdempotencyToken IdempotencyToken::fromJson(const nlohmann::json& j) {
     IdempotencyToken t = {};
     if (j.contains("token")) {
@@ -108,6 +120,11 @@ AuditBatchWriter::~AuditBatchWriter() {
     }
 }
 
+/**
+ * @brief Start.
+ * @return Return value.
+ * @details Calls: load(), store(), std::string(), what().
+ */
 std::string AuditBatchWriter::start() {
     if (running_.load()) {
         return "Already running";
@@ -126,6 +143,11 @@ std::string AuditBatchWriter::start() {
     return "OK";
 }
 
+/**
+ * @brief Shutdown.
+ * @return Return value.
+ * @details Calls: load(), store(), joinable(), join(), forceFlush().
+ */
 std::string AuditBatchWriter::shutdown() {
     if (!running_.load()) {
         return "Not running";
@@ -144,6 +166,12 @@ std::string AuditBatchWriter::shutdown() {
     return "OK";
 }
 
+/**
+ * @brief Submit Entry.
+ * @param[in] entry Input parameter.
+ * @return Return value.
+ * @details Calls: load(), std::chrono::high_resolution_clock::now(), lock(), size(), push_back(), count(), recordMetrics().
+ */
 std::string AuditBatchWriter::submitEntry(const ImmutableAuditEntry& entry) {
     if (!running_.load()) {
         return "Writer not running";
@@ -172,6 +200,13 @@ std::string AuditBatchWriter::submitEntry(const ImmutableAuditEntry& entry) {
     return "OK";
 }
 
+/**
+ * @brief Submit Entry Idempotent.
+ * @param[in] entry Input parameter.
+ * @param[in] idempotency_token Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), find(), end(), std::chrono::system_clock::now(), time_since_epoch(), count(), std::move(), submitEntry().
+ */
 std::string AuditBatchWriter::submitEntryIdempotent(
     const ImmutableAuditEntry& entry,
     const std::string& idempotency_token
@@ -216,6 +251,11 @@ std::string AuditBatchWriter::submitEntryIdempotent(
     return "OK";
 }
 
+/**
+ * @brief Flush.
+ * @return Return value.
+ * @details Calls: lock(), empty(), std::min(), size(), assign(), begin(), erase(), flushBatch().
+ */
 AuditBatchWriter::WriteResult AuditBatchWriter::flush() {
     WriteResult result;
     
@@ -239,6 +279,11 @@ AuditBatchWriter::WriteResult AuditBatchWriter::flush() {
     return flushBatch(batch_to_write);
 }
 
+/**
+ * @brief Force Flush.
+ * @return Return value.
+ * @details Calls: lock(), empty(), clear(), flushBatch().
+ */
 AuditBatchWriter::WriteResult AuditBatchWriter::forceFlush() {
     WriteResult result;
     
@@ -261,6 +306,11 @@ AuditBatchWriter::WriteResult AuditBatchWriter::forceFlush() {
 }
 
 nlohmann::json AuditBatchWriter::getBufferStats() const {
+    /**
+     * @brief Lock.
+     * @param[in] buffer_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(buffer_mutex_);
     
     nlohmann::json j;
@@ -273,6 +323,11 @@ nlohmann::json AuditBatchWriter::getBufferStats() const {
 }
 
 nlohmann::json AuditBatchWriter::getMetrics() const {
+    /**
+     * @brief Lock.
+     * @param[in] metrics_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(metrics_mutex_);
     
     nlohmann::json j;
@@ -287,6 +342,11 @@ nlohmann::json AuditBatchWriter::getMetrics() const {
 }
 
 std::vector<AuditBatchCheckpoint> AuditBatchWriter::getCheckpoints() const {
+    /**
+     * @brief Lock.
+     * @param[in] buffer_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(buffer_mutex_);
     return checkpoint_history_;
 }
@@ -297,6 +357,12 @@ bool AuditBatchWriter::verifyCheckpoint(const AuditBatchCheckpoint& checkpoint) 
     return checkpoint.state == "flushed" || checkpoint.state == "verified";
 }
 
+/**
+ * @brief Recover From Checkpoint.
+ * @param[in] checkpoint Input parameter.
+ * @return Return value.
+ * @details Implements recoverFromCheckpoint without additional internal calls.
+ */
 AuditBatchWriter::WriteResult AuditBatchWriter::recoverFromCheckpoint(
     const AuditBatchCheckpoint& checkpoint
 ) {
@@ -314,6 +380,11 @@ AuditBatchWriter::WriteResult AuditBatchWriter::recoverFromCheckpoint(
 std::optional<IdempotencyToken> AuditBatchWriter::getTokenStatus(
     const std::string& token
 ) const {
+    /**
+     * @brief Lock.
+     * @param[in] idempotency_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(idempotency_mutex_);
     
     auto it = idempotency_tokens_.find(token);
@@ -323,6 +394,10 @@ std::optional<IdempotencyToken> AuditBatchWriter::getTokenStatus(
     return std::nullopt;
 }
 
+/**
+ * @brief Flush Thread.
+ * @details Calls: load(), std::this_thread::sleep_for(), std::chrono::milliseconds(), lock(), empty(), flush().
+ */
 void AuditBatchWriter::flushThread() {
     while (!shutdown_requested_.load()) {
         std::this_thread::sleep_for(
@@ -343,6 +418,12 @@ void AuditBatchWriter::flushThread() {
     }
 }
 
+/**
+ * @brief Flush Batch.
+ * @param[in] batch Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), fetch_add(), load(), createCheckpoint(), persistCheckpoint(), addEntry(), what(), lock().
+ */
 AuditBatchWriter::WriteResult AuditBatchWriter::flushBatch(
     const std::vector<ImmutableAuditEntry>& batch
 ) {
@@ -437,6 +518,13 @@ std::string AuditBatchWriter::computeBatchHash(
     return result;
 }
 
+/**
+ * @brief Create Checkpoint.
+ * @param[in] batch Input parameter.
+ * @param[in] state Input parameter.
+ * @return Return value.
+ * @details Calls: std::to_string(), load(), size(), computeBatchHash(), std::chrono::system_clock::now(), time_since_epoch(), count().
+ */
 AuditBatchCheckpoint AuditBatchWriter::createCheckpoint(
     const std::vector<ImmutableAuditEntry>& batch,
     const std::string& state
@@ -453,6 +541,11 @@ AuditBatchCheckpoint AuditBatchWriter::createCheckpoint(
     return cp;
 }
 
+/**
+ * @brief Persist Checkpoint.
+ * @param[in] checkpoint Input parameter.
+ * @details Calls: lock(), push_back(), size(), erase(), begin().
+ */
 void AuditBatchWriter::persistCheckpoint(const AuditBatchCheckpoint& checkpoint) {
     // In real implementation, write checkpoint to disk
     // This enables crash recovery
@@ -467,6 +560,11 @@ void AuditBatchWriter::persistCheckpoint(const AuditBatchCheckpoint& checkpoint)
     }
 }
 
+/**
+ * @brief Record Metrics.
+ * @param[in] submission_latency_us Input parameter.
+ * @details Calls: lock(), push_back(), size(), erase(), begin(), std::sort(), end(), std::min().
+ */
 void AuditBatchWriter::recordMetrics(int64_t submission_latency_us) {
     std::lock_guard<std::mutex> lock(metrics_mutex_);
     

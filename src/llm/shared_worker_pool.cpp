@@ -61,6 +61,11 @@ SharedWorkerPool::~SharedWorkerPool() {
 
 bool SharedWorkerPool::submit(std::function<void()> task, int priority) {
     {
+        /**
+         * @brief Lock.
+         * @param[in] global_queue_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(global_queue_mutex_);
         if (global_queue_.size() >= static_cast<size_t>(config_.max_queue_size)) {
             spdlog::warn("SharedWorkerPool: queue full ({} tasks), dropping task",
@@ -74,6 +79,11 @@ bool SharedWorkerPool::submit(std::function<void()> task, int priority) {
 }
 
 size_t SharedWorkerPool::queueDepth() const {
+    /**
+     * @brief Glock.
+     * @param[in] global_queue_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> glock(global_queue_mutex_);
     size_t depth = global_queue_.size();
     for (const auto& q : thread_queues_) {
@@ -100,6 +110,10 @@ json SharedWorkerPool::getMetrics() const {
     return m;
 }
 
+/**
+ * @brief Shutdown.
+ * @details Calls: exchange(), spdlog::info(), notify_all(), joinable(), themis::utils::joinThreadWithin(), THEMIS_WARN(), clear().
+ */
 void SharedWorkerPool::shutdown() {
     if (!running_.exchange(false, std::memory_order_acq_rel)) {
         return;  // already shut down
@@ -125,9 +139,11 @@ bool SharedWorkerPool::isRunning() const {
     return running_.load(std::memory_order_acquire);
 }
 
-// ═══════════════════════════════════════════════════════════
-// Private — Worker Thread
-// ═══════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════ Private — Worker Thread ═══════════════════════════════════════════════════════════
+ * @param[in] thread_id Identifier of the thread.
+ * @details Calls: spdlog::debug(), load(), lock(), empty(), std::move(), front(), pop_front(), glock().
+ */
 
 void SharedWorkerPool::workerLoop(size_t thread_id) {
     spdlog::debug("SharedWorkerPool worker {} started", thread_id);
@@ -201,6 +217,13 @@ void SharedWorkerPool::workerLoop(size_t thread_id) {
     spdlog::debug("SharedWorkerPool worker {} stopped", thread_id);
 }
 
+/**
+ * @brief Try Steal.
+ * @param[in] thread_id Identifier of the thread.
+ * @param[in,out] out_task Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: size(), lock(), empty(), std::move(), back(), pop_back().
+ */
 bool SharedWorkerPool::trySteal(size_t thread_id, Task& out_task) {
     const size_t n = thread_queues_.size();
     // Round-robin through siblings to distribute steal attempts.

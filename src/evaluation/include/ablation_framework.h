@@ -64,50 +64,22 @@ namespace evaluation {
 // Ablation dimension enumerations
 // ============================================================================
 
-/**
- * @brief Retrieval path variant for the ablation study.
- *
- * Controls which retrieval layers are active during the experiment. The
- * baseline is @ref AnnOnly; each successive variant adds one layer.
- */
 enum class PathVariant : uint8_t {
     AnnOnly        = 1, ///< ANN candidate generation only; no tensor or graph layer.
     AnnTensor      = 2, ///< ANN + tensor summary refinement; no graph validation.
     AnnTensorGraph = 3, ///< ANN + tensor + exact graph validation (full pipeline).
 };
 
-/**
- * @brief Tensor artifact freshness variant.
- *
- * Controls whether the tensor artifact used during the experiment is
- * within the freshness threshold (fresh) or intentionally stale.
- *
- * Only relevant when `PathVariant` includes a tensor layer.
- */
 enum class FreshnessVariant : uint8_t {
     Fresh = 1, ///< Artifact is within the configured staleness threshold.
     Stale = 2, ///< Artifact exceeds the staleness threshold; exact fallback expected.
 };
 
-/**
- * @brief Tensor update path variant.
- *
- * Controls whether incremental patching or a full rebuild is used when
- * the tensor artifact is updated.
- *
- * Only relevant when `PathVariant` includes a tensor layer.
- */
 enum class UpdateVariant : uint8_t {
     Patch   = 1, ///< Incremental delta patch applied to existing artifact.
     Rebuild = 2, ///< Full rebuild of the tensor artifact from scratch.
 };
 
-/**
- * @brief Compute backend variant.
- *
- * Controls whether CPU SIMD or GPU refinement is used for the vector
- * similarity computations.
- */
 enum class ComputeVariant : uint8_t {
     Cpu = 1, ///< CPU SIMD path; always available as fallback.
     Gpu = 2, ///< GPU refinement path; requires CUDA device.
@@ -117,38 +89,18 @@ enum class ComputeVariant : uint8_t {
 // Ablation configuration
 // ============================================================================
 
-/**
- * @brief Configuration for a single ablation experiment.
- *
- * Each field specifies one dimension of variation. Dimensions that are
- * not applicable to the chosen `path_variant` are ignored during execution
- * but must still be set to a valid enumerator to avoid undefined behavior.
- *
- * ## Validity constraints
- * - `FreshnessVariant::Stale` is only meaningful when `path_variant` includes
- *   a tensor layer. When combined with `PathVariant::AnnOnly`, the freshness
- *   field is ignored.
- * - `ComputeVariant::Gpu` requires `gpu_available == true` in the runtime
- *   context. If the GPU is not available the experiment falls back to CPU and
- *   records the deviation in the result.
- */
 struct AblationConfig {
     PathVariant     path_variant     = PathVariant::AnnOnly;      ///< Retrieval path.
     FreshnessVariant freshness_variant = FreshnessVariant::Fresh; ///< Tensor freshness.
     UpdateVariant   update_variant   = UpdateVariant::Patch;      ///< Tensor update path.
     ComputeVariant  compute_variant  = ComputeVariant::Cpu;       ///< Compute backend.
 
-    /// @brief Maximum artifact age for the fresh variant (ms). 0 uses module default.
     uint64_t max_artifact_age_ms{0};
 
-    /// @brief Stale artifact age to inject for `FreshnessVariant::Stale` (ms).
-    /// Must be > `max_artifact_age_ms` when freshness_variant == Stale.
     uint64_t stale_artifact_age_ms{0};
 
-    /// @brief Whether a GPU is available in the runtime context for this experiment.
     bool gpu_available{false};
 
-    /// @brief Human-readable description of this configuration (for reporting).
     std::string description;
 };
 
@@ -156,9 +108,6 @@ struct AblationConfig {
 // Ablation query input
 // ============================================================================
 
-/**
- * @brief A single query input for an ablation experiment.
- */
 struct AblationQuery {
     std::string                  query_id;      ///< Unique query identifier.
     std::vector<RankedResult>    results;        ///< Ranked results returned by the retrieval system.
@@ -172,9 +121,6 @@ struct AblationQuery {
 // Ablation result for a single experiment
 // ============================================================================
 
-/**
- * @brief Aggregated results for one ablation experiment run over a query batch.
- */
 struct AblationResult {
     std::string name;            ///< Experiment name as registered with @ref AblationRunner.
     AblationConfig config;       ///< Configuration used for this experiment.
@@ -191,20 +137,12 @@ struct AblationResult {
     std::size_t query_count{0};      ///< Number of queries evaluated.
     std::size_t error_count{0};      ///< Number of queries that produced a MetricError.
 
-    /// @brief True if the GPU was requested but was not available and the
-    ///        experiment fell back to CPU.
     bool gpu_fallback_occurred{false};
 
-    /// @brief True if any query in the batch produced an unrecovered
-    ///        summary-first false negative (MetricErrorKind::SummaryFirstFalseNegativeNoFallback).
     bool has_unrecovered_false_negatives{false};
 
-    /// @brief True if any snapshot had a residual error above the configured
-    ///        threshold, indicating unsafe planner use.
     bool has_unsafe_residual{false};
 
-    /// @brief Per-query diagnostics (errors and edge-case warnings).
-    ///        This vector can be non-empty even when `error_count == 0`.
     std::vector<std::string> per_query_errors;
 };
 
@@ -212,56 +150,18 @@ struct AblationResult {
 // Ablation report — comparison across experiments
 // ============================================================================
 
-/**
- * @brief Report comparing multiple ablation experiments.
- *
- * Produced by @ref AblationRunner::run(). Each entry in `results` corresponds
- * to one registered experiment. The `bestByRecall()`, `bestByNdcg()` helpers
- * identify the top-performing configuration across the dimensions evaluated.
- */
 struct AblationReport {
     std::vector<AblationResult> results; ///< One entry per registered experiment.
 
-    /**
-     * @brief Return the name of the experiment with the highest mean Recall\@k.
-     *
-     * @return Experiment name, or empty string if no results are available.
-     */
     [[nodiscard]] std::string bestByRecall() const noexcept;
 
-    /**
-     * @brief Return the name of the experiment with the highest mean NDCG\@k.
-     *
-     * @return Experiment name, or empty string if no results are available.
-     */
     [[nodiscard]] std::string bestByNdcg() const noexcept;
 
-    /**
-     * @brief Return the name of the experiment with the lowest exact fallback frequency.
-     *
-     * Lower fallback frequency means the tensor layer is more reliable.
-     *
-     * @return Experiment name, or empty string if no results are available.
-     */
     [[nodiscard]] std::string bestByFallbackEfficiency() const noexcept;
 
-    /**
-     * @brief Compute the recall gain of experiment `a` over experiment `b`.
-     *
-     * @param a  Name of the experiment to compare.
-     * @param b  Name of the baseline experiment.
-     * @return Recall gain (positive = a is better); nullopt when either name is not found.
-     */
     [[nodiscard]] std::optional<double> recallGain(
         std::string_view a, std::string_view b) const noexcept;
 
-    /**
-     * @brief Compute the NDCG gain of experiment `a` over experiment `b`.
-     *
-     * @param a  Name of the experiment to compare.
-     * @param b  Name of the baseline experiment.
-     * @return NDCG gain; nullopt when either name is not found.
-     */
     [[nodiscard]] std::optional<double> ndcgGain(
         std::string_view a, std::string_view b) const noexcept;
 };
@@ -270,18 +170,12 @@ struct AblationReport {
 // AblationError
 // ============================================================================
 
-/**
- * @brief Exception thrown when an ablation experiment configuration is invalid
- *        or cannot be executed.
- *
- * @throws AblationError from @ref AblationRunner::run() on config violations.
- */
 class AblationError : public std::runtime_error {
 public:
     /**
-     * @brief Construct an AblationError with a message.
-     *
-     * @param what  Human-readable description of the error.
+     * @brief Ablation Error.
+     * @param[in] what Input parameter.
+     * @return Return value.
      */
     explicit AblationError(std::string_view what)
         : std::runtime_error(std::string{what}) {}
@@ -291,18 +185,6 @@ public:
 // AblationRunner
 // ============================================================================
 
-/**
- * @brief Orchestrates and runs ablation experiments over a query batch.
- *
- * Experiments are registered with a name and configuration, then executed
- * in registration order over the same query batch. Metric computation errors
- * for individual queries are recorded in `AblationResult::per_query_errors`
- * rather than aborting the run; the caller can inspect `error_count` to
- * determine whether the results are reliable.
- *
- * **NOT thread-safe.** External synchronization is required when sharing
- * across threads.
- */
 class AblationRunner {
 public:
     AblationRunner() = default;
@@ -314,43 +196,21 @@ public:
     AblationRunner& operator=(AblationRunner&&)      = default;
 
     /**
-     * @brief Register an ablation experiment.
-     *
-     * @param name    Unique human-readable name for the experiment.
-     * @param config  Experiment configuration.
-     *
-     * @throws AblationError when `name` is empty or already registered.
+     * @brief Add Experiment.
+     * @param[in] name Input parameter.
+     * @param[in] config Input parameter.
      */
     void addExperiment(std::string name, AblationConfig config);
 
-    /**
-     * @brief Return the number of registered experiments.
-     *
-     * @return Experiment count.
-     */
     [[nodiscard]] std::size_t experimentCount() const noexcept;
 
-    /**
-     * @brief Execute all registered experiments over the given query batch.
-     *
-     * Each query is evaluated for every registered experiment using the
-     * @ref computeRetrievalQuality and @ref computeTensorGraphRuntimeMetrics
-     * functions. Per-query MetricErrors are captured and do not abort the run.
-     *
-     * @param queries        Batch of queries to evaluate. Must not be empty.
-     * @param max_residual   Residual threshold for the tensor-graph metrics summary.
-     *
-     * @return @ref AblationReport with one result per registered experiment.
-     *
-     * @throws AblationError when `queries` is empty or no experiments have been
-     *         registered.
-     */
     [[nodiscard]] AblationReport run(
         const std::vector<AblationQuery>& queries,
         double                            max_residual = 0.10) const;
 
     /**
-     * @brief Clear all registered experiments.
+     * @brief Reset the modification detection flag.
+     * @note Exception safety: noexcept.
      */
     void reset() noexcept;
 
@@ -362,7 +222,6 @@ private:
 
     std::vector<Experiment> experiments_;
 
-    /// @brief Execute a single experiment over the query batch.
     [[nodiscard]] AblationResult runExperiment(
         const Experiment&                  exp,
         const std::vector<AblationQuery>&  queries,

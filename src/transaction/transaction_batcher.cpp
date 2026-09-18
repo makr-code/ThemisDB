@@ -45,6 +45,11 @@ TransactionBatcher::~TransactionBatcher()
     // Signal the background thread to stop and wake it up.
     stopping_.store(true, std::memory_order_release);
     {
+        /**
+         * @brief Lk.
+         * @param[in] queue_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(queue_mutex_);
         flush_requested_ = true;
     }
@@ -59,6 +64,10 @@ TransactionBatcher::~TransactionBatcher()
 // Configuration
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Set Batch Config.
+ * @param[in] config Input parameter.
+ */
 void TransactionBatcher::setBatchConfig(const BatchConfig& config)
 {
     BatchConfig clamped = config;
@@ -81,6 +90,11 @@ void TransactionBatcher::setBatchConfig(const BatchConfig& config)
     if (clamped.min_batch_size > clamped.max_batch_size)
         clamped.min_batch_size = clamped.max_batch_size;
 
+    /**
+     * @brief Lk.
+     * @param[in] config_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(config_mutex_);
     config_          = clamped;
     adaptive_window_ = clamped.window;
@@ -88,13 +102,28 @@ void TransactionBatcher::setBatchConfig(const BatchConfig& config)
 
 TransactionBatcher::BatchConfig TransactionBatcher::getBatchConfig() const
 {
+    /**
+     * @brief Lk.
+     * @param[in] config_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(config_mutex_);
     return config_;
 }
 
+/**
+ * @brief Set Table Policy.
+ * @param[in] table Input parameter.
+ * @param[in] policy Input parameter.
+ */
 void TransactionBatcher::setTablePolicy(const std::string& table,
                                         const BatchPolicy& policy)
 {
+    /**
+     * @brief Lk.
+     * @param[in] config_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(config_mutex_);
     table_policies_[table] = policy;
 }
@@ -102,6 +131,11 @@ void TransactionBatcher::setTablePolicy(const std::string& table,
 TransactionBatcher::BatchPolicy
 TransactionBatcher::getTablePolicy(const std::string& table) const
 {
+    /**
+     * @brief Lk.
+     * @param[in] config_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(config_mutex_);
     auto it = table_policies_.find(table);
     if (it != table_policies_.end()) {
@@ -194,6 +228,11 @@ TransactionBatcher::submitAsync(std::function<Status()> commit_fn,
     std::chrono::microseconds effective_window;
     size_t effective_max_batch_size = {};
     {
+        /**
+         * @brief Cfg lk.
+         * @param[in] config_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> cfg_lk(config_mutex_);
         auto ep                  = effectivePolicyFor(table_hint);
         effective_window         = ep.window;
@@ -211,6 +250,11 @@ TransactionBatcher::submitAsync(std::function<Status()> commit_fn,
     // ── Phase 2: push to queue under queue_mutex_ only (no nested lock) ──────
     bool need_immediate_flush = false;
     {
+        /**
+         * @brief Lk.
+         * @param[in] queue_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(queue_mutex_);
         queue_.push_back(std::move(entry));
 
@@ -232,18 +276,29 @@ TransactionBatcher::submitAsync(std::function<Status()> commit_fn,
 // flush
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Flush.
+ */
 void TransactionBatcher::flush()
 {
     // Signal an immediate flush.
     {
+        /**
+         * @brief Lk.
+         * @param[in] queue_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(queue_mutex_);
         flush_requested_ = true;
     }
     queue_cv_.notify_all();
 
-    // Wait until the queue is empty AND the in-flight batch (if any) has finished.
-    // This ensures all items submitted before flush() was called are fully resolved.
-    // Use a 30-second timeout to prevent indefinite blocking.
+    /**
+     * @brief Wait until the queue is empty AND the in-flight batch (if any) has finished.
+     * @param[in] queue_mutex_ Input parameter.
+     * @return Return value.
+     * @details This ensures all items submitted before flush() was called are fully resolved. Use a 30-second timeout to prevent indefinite blocking.
+     */
     std::unique_lock<std::mutex> lk(queue_mutex_);
     const bool flushed = flush_cv_.wait_for(lk, std::chrono::seconds(30), [this] {
         return queue_.empty() && !batch_in_progress_;
@@ -260,6 +315,11 @@ void TransactionBatcher::flush()
 
 TransactionBatcher::Stats TransactionBatcher::getStats() const
 {
+    /**
+     * @brief Lk.
+     * @param[in] stats_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(stats_mutex_);
     return stats_;
 }
@@ -268,18 +328,31 @@ TransactionBatcher::Stats TransactionBatcher::getStats() const
 // flushLoop  (background thread)
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Flush Loop.
+ */
 void TransactionBatcher::flushLoop()
 {
     while (true) {
         // ── Determine the idle-fallback window from config ────────────────────
         std::chrono::microseconds idle_window;
         {
+            /**
+             * @brief Cfg lk.
+             * @param[in] config_mutex_ Input parameter.
+             * @return Return value.
+             */
             std::lock_guard<std::mutex> cfg_lk(config_mutex_);
             idle_window = config_.enable_adaptive ? adaptive_window_ : config_.window;
         }
 
         // ── Wait until the earliest item deadline, an explicit flush, or stop ─
         {
+            /**
+             * @brief Lk.
+             * @param[in] queue_mutex_ Input parameter.
+             * @return Return value.
+             */
             std::unique_lock<std::mutex> lk(queue_mutex_);
 
             // On each (re)wakeup recompute the nearest deadline so newly-added
@@ -315,6 +388,11 @@ void TransactionBatcher::flushLoop()
         // ── Drain the queue into a local batch ───────────────────────────────
         std::vector<PendingEntry> batch;
         {
+            /**
+             * @brief Lk.
+             * @param[in] queue_mutex_ Input parameter.
+             * @return Return value.
+             */
             std::lock_guard<std::mutex> lk(queue_mutex_);
             while (!queue_.empty()) {
                 batch.push_back(std::move(queue_.front()));
@@ -330,6 +408,11 @@ void TransactionBatcher::flushLoop()
         if (!batch.empty()) {
             executeBatch(batch);
             {
+                /**
+                 * @brief Lk.
+                 * @param[in] queue_mutex_ Input parameter.
+                 * @return Return value.
+                 */
                 std::lock_guard<std::mutex> lk(queue_mutex_);
                 batch_in_progress_ = false;
             }
@@ -341,6 +424,11 @@ void TransactionBatcher::flushLoop()
             // Final drain pass to resolve any items added between last drain and now.
             std::vector<PendingEntry> remainder;
             {
+                /**
+                 * @brief Lk.
+                 * @param[in] queue_mutex_ Input parameter.
+                 * @return Return value.
+                 */
                 std::lock_guard<std::mutex> lk(queue_mutex_);
                 while (!queue_.empty()) {
                     remainder.push_back(std::move(queue_.front()));
@@ -353,6 +441,11 @@ void TransactionBatcher::flushLoop()
             if (!remainder.empty()) {
                 executeBatch(remainder);
                 {
+                    /**
+                     * @brief Lk.
+                     * @param[in] queue_mutex_ Input parameter.
+                     * @return Return value.
+                     */
                     std::lock_guard<std::mutex> lk(queue_mutex_);
                     batch_in_progress_ = false;
                 }
@@ -367,6 +460,10 @@ void TransactionBatcher::flushLoop()
 // executeBatch
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Execute Batch.
+ * @param[in,out] batch Input/output parameter.
+ */
 void TransactionBatcher::executeBatch(std::vector<PendingEntry>& batch)
 {
     if (batch.empty()) {
@@ -405,6 +502,11 @@ void TransactionBatcher::executeBatch(std::vector<PendingEntry>& batch)
 
         // Accumulate per-item latency into stats.
         {
+            /**
+             * @brief Slk.
+             * @param[in] stats_mutex_ Input parameter.
+             * @return Return value.
+             */
             std::lock_guard<std::mutex> slk(stats_mutex_);
             double n = static_cast<double>(
                 stats_.transactions_committed + stats_.transactions_failed + 1);
@@ -418,6 +520,11 @@ void TransactionBatcher::executeBatch(std::vector<PendingEntry>& batch)
 
     // Update aggregate stats.
     {
+        /**
+         * @brief Slk.
+         * @param[in] stats_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> slk(stats_mutex_);
         ++stats_.batches_flushed;
         stats_.transactions_committed += committed;
@@ -430,6 +537,11 @@ void TransactionBatcher::executeBatch(std::vector<PendingEntry>& batch)
 
     // Adaptive window adjustment.
     {
+        /**
+         * @brief Cfg lk.
+         * @param[in] config_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> cfg_lk(config_mutex_);
         if (config_.enable_adaptive) {
             adaptWindow(batch.size(), elapsed);
@@ -441,6 +553,11 @@ void TransactionBatcher::executeBatch(std::vector<PendingEntry>& batch)
 // adaptWindow  (called under config_mutex_)
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Adapt Window.
+ * @param[in] batch_size Input parameter.
+ * @param[in] elapsed Input parameter.
+ */
 void TransactionBatcher::adaptWindow(size_t batch_size,
                                       std::chrono::microseconds elapsed)
 {
@@ -492,6 +609,11 @@ void TransactionBatcher::adaptWindow(size_t batch_size,
 
     if (new_window != adaptive_window_) {
         adaptive_window_ = new_window;
+        /**
+         * @brief Slk.
+         * @param[in] stats_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> slk(stats_mutex_);
         ++stats_.adaptive_adjustments;
     }

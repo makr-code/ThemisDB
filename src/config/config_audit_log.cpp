@@ -14,10 +14,18 @@
 namespace themis {
 namespace config {
 
+/**
+ * @brief Enable.
+ * @details Calls: store().
+ */
 void ConfigAuditLog::enable() {
     enabled_.store(true, std::memory_order_relaxed);
 }
 
+/**
+ * @brief Disable.
+ * @details Calls: store().
+ */
 void ConfigAuditLog::disable() {
     enabled_.store(false, std::memory_order_relaxed);
 }
@@ -26,6 +34,11 @@ bool ConfigAuditLog::isEnabled() const {
     return enabled_.load(std::memory_order_relaxed);
 }
 
+/**
+ * @brief Set Max Entries.
+ * @param[in] max Input parameter.
+ * @details Calls: lock(), size(), pop_front().
+ */
 void ConfigAuditLog::setMaxEntries(std::size_t max) {
     std::lock_guard<std::mutex> lock(mutex_);
     max_entries_ = (max >= 1) ? max : 1;
@@ -35,10 +48,20 @@ void ConfigAuditLog::setMaxEntries(std::size_t max) {
 }
 
 std::size_t ConfigAuditLog::maxEntries() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return max_entries_;
 }
 
+/**
+ * @brief Record.
+ * @param[in] entry Input parameter.
+ * @details Calls: load(), lock(), push_back(), std::move(), size(), pop_front().
+ */
 void ConfigAuditLog::record(AuditEntry entry) {
     // Fast path: single atomic load avoids mutex acquisition when disabled.
     if (!enabled_.load(std::memory_order_relaxed)) {
@@ -52,15 +75,29 @@ void ConfigAuditLog::record(AuditEntry entry) {
 }
 
 std::vector<AuditEntry> ConfigAuditLog::getEntries() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return {entries_.begin(), entries_.end()};
 }
 
 std::size_t ConfigAuditLog::size() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return entries_.size();
 }
 
+/**
+ * @brief Clear.
+ * @details Calls: lock().
+ */
 void ConfigAuditLog::clear() {
     std::lock_guard<std::mutex> lock(mutex_);
     entries_.clear();

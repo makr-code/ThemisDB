@@ -51,7 +51,11 @@
 namespace themis {
 namespace cdc {
 
-// ── DeliveryReportCb ──────────────────────────────────────────────────────────
+/**
+ * @brief ── DeliveryReportCb ──────────────────────────────────────────────────────────
+ * @param[in,out] message Input/output parameter.
+ * @details Calls: err(), THEMIS_WARN(), key(), topic_name(), errstr().
+ */
 
 void KafkaCDCProducer::DeliveryReportCb::dr_cb(RdKafka::Message& message) {
     if (message.err() != RdKafka::ERR_NO_ERROR) {
@@ -89,7 +93,11 @@ KafkaCDCProducer::~KafkaCDCProducer() {
     stop();
 }
 
-// ── Lifecycle ─────────────────────────────────────────────────────────────────
+/**
+ * @brief ── Lifecycle ─────────────────────────────────────────────────────────────────
+ * @return True when the operation succeeds.
+ * @details Calls: load(), THEMIS_ERROR(), conf(), RdKafka::Conf::create(), set(), std::to_string(), empty(), get().
+ */
 
 bool KafkaCDCProducer::start() {
     if (running_.load(std::memory_order_acquire)) {
@@ -179,6 +187,10 @@ bool KafkaCDCProducer::start() {
     return true;
 }
 
+/**
+ * @brief Stop.
+ * @details Calls: exchange(), joinable(), join(), flush(), THEMIS_WARN(), RdKafka::err2str(), outq_len(), reset().
+ */
 void KafkaCDCProducer::stop() {
     if (!running_.exchange(false, std::memory_order_acq_rel)) {
         return;  // Already stopped.
@@ -224,9 +236,19 @@ std::string KafkaCDCProducer::topicForEvent(
     return config_.topic_prefix + collection;
 }
 
+/**
+ * @brief Get Or Create Topic.
+ * @param[in] topic_name Name of the topic.
+ * @return Pointer to the result.
+ */
 RdKafka::Topic* KafkaCDCProducer::getOrCreateTopic(
     const std::string& topic_name)
 {
+    /**
+     * @brief Lk.
+     * @param[in] topic_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(topic_mutex_);
     auto it = topic_cache_.find(topic_name);
     if (it != topic_cache_.end()) {
@@ -250,7 +272,12 @@ RdKafka::Topic* KafkaCDCProducer::getOrCreateTopic(
     return raw;
 }
 
-// ── Manual publish ────────────────────────────────────────────────────────────
+/**
+ * @brief ── Manual publish ────────────────────────────────────────────────────────────
+ * @param[in] event Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: topicForEvent(), getOrCreateTopic(), fmt(), toJson(), dump(), produce(), data(), size().
+ */
 
 bool KafkaCDCProducer::publish(const Changefeed::ChangeEvent& event) {
     if (!producer_) {
@@ -314,7 +341,10 @@ bool KafkaCDCProducer::publish(const Changefeed::ChangeEvent& event) {
     return true;
 }
 
-// ── Background polling thread ─────────────────────────────────────────────────
+/**
+ * @brief ── Background polling thread ─────────────────────────────────────────────────
+ * @details Calls: std::chrono::milliseconds(), THEMIS_INFO(), load(), listEvents(), publish(), store(), poll(), empty().
+ */
 
 void KafkaCDCProducer::pollingThread() {
     const auto interval =

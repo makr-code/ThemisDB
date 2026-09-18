@@ -46,7 +46,12 @@ namespace ingestion {
 
 namespace {
 
-/// Serialize a CdcEvent::Operation to its string representation.
+/**
+ * @brief Operation To String.
+ * @param[in] op Input parameter.
+ * @return Pointer to the result.
+ * @details Implements operationToString without additional internal calls.
+ */
 static const char* operationToString(CdcConnector::CdcEvent::Operation op) {
     switch (op) {
         case CdcConnector::CdcEvent::Operation::INSERT: return "INSERT";
@@ -56,7 +61,12 @@ static const char* operationToString(CdcConnector::CdcEvent::Operation op) {
     return "UNKNOWN";
 }
 
-/// Simple JSON string escaping (no external dependencies).
+/**
+ * @brief Json Escape.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size().
+ */
 static std::string jsonEscape(const std::string& s) {
     std::string out = {};
     out.reserve(s.size() + 4);
@@ -71,7 +81,6 @@ static std::string jsonEscape(const std::string& s) {
     return out;
 }
 
-/// Serialize a string→string map as a JSON object.
 static std::string mapToJson(
         const std::unordered_map<std::string, std::string>& m) {
     std::ostringstream js = {};
@@ -88,7 +97,12 @@ static std::string mapToJson(
     return js.str();
 }
 
-/// Serialize a full CdcEvent to a JSON string.
+/**
+ * @brief Cdc Event To Json.
+ * @param[in] ev Input parameter.
+ * @return Return value.
+ * @details Calls: operationToString(), jsonEscape(), mapToJson(), str().
+ */
 static std::string cdcEventToJson(const CdcConnector::CdcEvent& ev) {
     std::ostringstream js = {};
     js << '{'
@@ -103,10 +117,13 @@ static std::string cdcEventToJson(const CdcConnector::CdcEvent& ev) {
     return js.str();
 }
 
-/// Extract document text from a CDC event.
-/// Uses the "after" image for INSERT/UPDATE and "before" image for DELETE.
-/// When text_columns are specified, concatenates the requested column values
-/// from the relevant image; falls back to full JSON serialization otherwise.
+/**
+ * @brief Cdc Event To Text.
+ * @param[in] ev Input parameter.
+ * @param[in] text_columns Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), cdcEventToJson(), find(), end().
+ */
 static std::string cdcEventToText(const CdcConnector::CdcEvent& ev,
                                    const std::vector<std::string>& text_columns) {
     const auto& image =
@@ -130,7 +147,12 @@ static std::string cdcEventToText(const CdcConnector::CdcEvent& ev,
     return text.empty() ? cdcEventToJson(ev) : text;
 }
 
-/// Split a comma-separated string into trimmed tokens.
+/**
+ * @brief Split Comma Cdc.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Calls: ss(), std::getline(), find_first_not_of(), find_last_not_of(), push_back(), substr().
+ */
 static std::vector<std::string> splitCommaCdc(const std::string& s) {
     std::vector<std::string> result;
     std::istringstream ss(s);
@@ -154,7 +176,12 @@ static std::vector<std::string> splitCommaCdc(const std::string& s) {
 #ifdef THEMIS_ENABLE_CDC_STREAM
 namespace {
 
-/// Decode an 8-byte big-endian integer from `buf`.
+/**
+ * @brief Pg Decode BE64.
+ * @param[in] buf Input parameter.
+ * @return Return value.
+ * @details Implements pgDecodeBE64 without additional internal calls.
+ */
 static uint64_t pgDecodeBE64(const char* buf) {
     uint64_t v = 0;
     for (int i = 0; i < 8; ++i)
@@ -162,7 +189,12 @@ static uint64_t pgDecodeBE64(const char* buf) {
     return v;
 }
 
-/// Encode a 64-bit integer as 8 big-endian bytes into `buf`.
+/**
+ * @brief Pg Encode BE64.
+ * @param[in,out] buf Input/output parameter.
+ * @param[in] v Input parameter.
+ * @details Implements pgEncodeBE64 without additional internal calls.
+ */
 static void pgEncodeBE64(char* buf, uint64_t v) {
     for (int i = 7; i >= 0; --i) {
         buf[i] = static_cast<char>(v & 0xFFu);
@@ -170,7 +202,12 @@ static void pgEncodeBE64(char* buf, uint64_t v) {
     }
 }
 
-/// Parse a PostgreSQL LSN string ("A/BBCCDDEE") to a uint64.  Returns 0 on error.
+/**
+ * @brief Parse Pg Lsn.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), find(), std::stoul(), substr().
+ */
 static uint64_t parsePgLsn(const std::string& s) {
     if (s.empty()) {
       return 0;
@@ -186,9 +223,12 @@ static uint64_t parsePgLsn(const std::string& s) {
     } catch (...) { return 0; }
 }
 
-/// Format a uint64 LSN to the PostgreSQL "X/YYYYYYYY" representation.
-/// PostgreSQL itself outputs LSN values in uppercase hexadecimal (e.g. `0/16E0478`);
-/// `%X` matches that canonical form and is accepted by all PostgreSQL versions.
+/**
+ * @brief Format Pg Lsn.
+ * @param[in] lsn Input parameter.
+ * @return Return value.
+ * @details Calls: std::snprintf(), std::string().
+ */
 static std::string formatPgLsn(uint64_t lsn) {
     char buf[32];
     std::snprintf(buf, sizeof(buf), "%X/%X",
@@ -197,10 +237,13 @@ static std::string formatPgLsn(uint64_t lsn) {
     return std::string(buf);
 }
 
-/// Seconds between the Unix epoch (1970-01-01) and the PostgreSQL epoch (2000-01-01).
 static constexpr int64_t kPgEpochSeconds = int64_t{946684800};
 
-/// Current time in microseconds since the PostgreSQL epoch (2000-01-01 UTC).
+/**
+ * @brief Pg Timestamp Now.
+ * @return Return value.
+ * @details Calls: system_clock::now(), time_since_epoch(), count().
+ */
 static int64_t pgTimestampNow() {
     using namespace std::chrono;
     const int64_t pg_epoch_us = kPgEpochSeconds * 1000000;
@@ -209,9 +252,15 @@ static int64_t pgTimestampNow() {
     return now_us - pg_epoch_us;
 }
 
-/// Send a Standby Status Update (feedback) to the server.
-/// This advances the replication slot's confirmed_flush_lsn and prevents
-/// indefinite WAL retention.  Returns true on success.
+/**
+ * @brief Pg Send Feedback.
+ * @param[in,out] conn Input/output parameter.
+ * @param[in] write_lsn Input parameter.
+ * @param[in] flush_lsn Input parameter.
+ * @param[in] apply_lsn Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: pgEncodeBE64(), pgTimestampNow(), PQputCopyData().
+ */
 static bool pgSendFeedback(PGconn* conn,
                             uint64_t write_lsn,
                             uint64_t flush_lsn,
@@ -226,7 +275,12 @@ static bool pgSendFeedback(PGconn* conn,
     return PQputCopyData(conn, reply, static_cast<int>(sizeof(reply))) == 1;
 }
 
-/// Build a connection string that includes `replication=database`.
+/**
+ * @brief Pg Replication Conn Str.
+ * @param[in] base Input parameter.
+ * @return Return value.
+ * @details Calls: find().
+ */
 static std::string pgReplicationConnStr(const std::string& base) {
     if (base.find("replication=") != std::string::npos) {
       return base;
@@ -244,9 +298,6 @@ static std::string pgReplicationConnStr(const std::string& base) {
 
 // ── test_decoding output parser ──────────────────────────────────────────────
 
-/// Parse one `col[type]:value` token from a test_decoding output line.
-/// Advances `pos` past the token (including any trailing space).
-/// Returns {column_name, value_string}; both empty on parse failure.
 static std::pair<std::string, std::string>
 parseColToken(const std::string& line, size_t& pos) {
     // col name: up to '['
@@ -297,7 +348,6 @@ parseColToken(const std::string& line, size_t& pos) {
     return {col, val};
 }
 
-/// Parse all column-value pairs starting at `pos` in `line`.
 static std::unordered_map<std::string, std::string>
 parseColSet(const std::string& line, size_t& pos) {
     std::unordered_map<std::string, std::string> result = {};
@@ -312,10 +362,15 @@ parseColSet(const std::string& line, size_t& pos) {
     return result;
 }
 
-/// Parse one test_decoding output line into a CdcEvent.
-/// `lsn` is the WAL position from the XLogData header.
-/// `server_timestamp_ms` is the server time converted to Unix milliseconds.
-/// Returns true if the line represents a row-level change (INSERT/UPDATE/DELETE).
+/**
+ * @brief Parse Test Decoding Line.
+ * @param[in] line Input parameter.
+ * @param[in] lsn Input parameter.
+ * @param[in] server_timestamp_ms Input parameter.
+ * @param[in,out] ev Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), back(), pop_back(), rfind(), find(), substr(), compare(), size().
+ */
 static bool parseTestDecodingLine(const std::string& line,
                                    uint64_t lsn,
                                    int64_t  server_timestamp_ms,
@@ -420,6 +475,12 @@ public:
     Impl() = default;
     ~Impl() = default;
 
+    /**
+     * @brief Initialize.
+     * @param[in] config Input parameter.
+     * @return True when the operation succeeds.
+     * @details Calls: find(), end(), opt(), empty(), splitCommaCdc(), std::transform(), begin(), std::toupper().
+     */
     bool initialize(const SourceConfig& config) {
         if (config.type != SourceType::CDC) {
           return false;
@@ -505,6 +566,13 @@ public:
         return 0;
     }
 
+    /**
+     * @brief Ingest.
+     * @param[in] param Input parameter.
+     * @param[in] progress_callback Input parameter.
+     * @return Return value.
+     * @details Calls: std::chrono::steady_clock::now(), empty(), addError(), finaliseStats(), ingestFromMock(), ingestFromStream().
+     */
     IngestionStats ingest(const std::string& /*target_collection*/,
                           ProgressCallback progress_callback) {
         IngestionStats stats;
@@ -543,7 +611,17 @@ public:
         return stats;
     }
 
+    /**
+     * @brief Set Retry Config.
+     * @param[in] c Input parameter.
+     * @details Implements setRetryConfig without additional internal calls.
+     */
     void setRetryConfig(const RetryConfig& c)           { retry_config_ = c; }
+    /**
+     * @brief Set Cdc Event Fetch For Testing.
+     * @param[in] fn Input parameter.
+     * @details Calls: std::move().
+     */
     void setCdcEventFetchForTesting(CdcEventFetchFn fn) { event_fetch_fn_ = std::move(fn); }
 
 private:
@@ -576,9 +654,12 @@ private:
         return false;
     }
 
-    // -----------------------------------------------------------------------
-    // Process a single event into stats
-    // -----------------------------------------------------------------------
+    /**
+     * @brief ----------------------------------------------------------------------- Process a single event into stats -----------------------------------------------------------------------
+     * @param[in] ev Input parameter.
+     * @param[in,out] stats Input/output parameter.
+     * @details Calls: isOperationAllowed(), isTableAllowed(), cdcEventToJson(), cdcEventToText(), size(), empty(), addError().
+     */
     void processEvent(const CdcEvent& ev, IngestionStats& stats) {
         if (!isOperationAllowed(ev.operation)) {
           return;
@@ -616,6 +697,12 @@ private:
     //   path (ingestFromLive) must be used when event_fetch_fn_ is null.
     // Roadmap ref: src/ingestion/FUTURE_ENHANCEMENTS.md § "Stub/Simulation Lifecycle"
     // -----------------------------------------------------------------------
+    /**
+     * @brief Ingest From Mock.
+     * @param[in,out] stats Input/output parameter.
+     * @param[in,out] progress_callback Input/output parameter.
+     * @details Calls: event_fetch_fn_(), empty(), processEvent(), progress_callback(), std::to_string(), addError(), std::string(), what().
+     */
     void ingestFromMock(IngestionStats& stats,
                         ProgressCallback& progress_callback) {
         size_t fetched = 0;
@@ -655,9 +742,12 @@ private:
     }
 
 #ifdef THEMIS_ENABLE_CDC_STREAM
-    // -----------------------------------------------------------------------
-    // Production replication-stream ingestion (PostgreSQL logical replication)
-    // -----------------------------------------------------------------------
+    /**
+     * @brief ----------------------------------------------------------------------- Production replication-stream ingestion (PostgreSQL logical replication) -----------------------------------------------------------------------
+     * @param[in,out] stats Input/output parameter.
+     * @param[in,out] progress_callback Input/output parameter.
+     * @details Calls: pgReplicationConnStr(), PQconnectdb(), c_str(), PQstatus(), addError(), std::string(), PQerrorMessage(), PQfinish().
+     */
     void ingestFromStream(IngestionStats& stats,
                           ProgressCallback& progress_callback) {
         // 1. Open replication connection ─────────────────────────────────────
@@ -854,6 +944,12 @@ private:
     // -----------------------------------------------------------------------
     // Helpers
     // -----------------------------------------------------------------------
+    /**
+     * @brief Finalise Stats.
+     * @param[in,out] stats Input/output parameter.
+     * @param[in] start Input parameter.
+     * @details Calls: std::chrono::steady_clock::now(), count().
+     */
     static void finaliseStats(IngestionStats& stats,
                                const std::chrono::steady_clock::time_point& start) {
         auto end = std::chrono::steady_clock::now();
@@ -886,6 +982,12 @@ CdcConnector::CdcConnector()
 
 CdcConnector::~CdcConnector() = default;
 
+/**
+ * @brief Initialize.
+ * @param[in] config Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements initialize without additional internal calls.
+ */
 bool CdcConnector::initialize(const SourceConfig& config) {
     return impl_->initialize(config);
 }
@@ -898,19 +1000,41 @@ size_t CdcConnector::getDocumentCount() const {
     return impl_->getDocumentCount();
 }
 
+/**
+ * @brief Ingest.
+ * @param[in] target_collection Input parameter.
+ * @param[in] progress_callback Input parameter.
+ * @return Return value.
+ * @details Calls: std::move().
+ */
 IngestionStats CdcConnector::ingest(const std::string& target_collection,
                                      ProgressCallback progress_callback) {
     return impl_->ingest(target_collection, std::move(progress_callback));
 }
 
+/**
+ * @brief Set Retry Config.
+ * @param[in] config Input parameter.
+ * @details Implements setRetryConfig without additional internal calls.
+ */
 void CdcConnector::setRetryConfig(const RetryConfig& config) {
     impl_->setRetryConfig(config);
 }
 
+/**
+ * @brief Set Cdc Event Fetch For Testing.
+ * @param[in] fn Input parameter.
+ * @details Calls: setEventBatchProvider(), std::move().
+ */
 void CdcConnector::setCdcEventFetchForTesting(CdcEventFetchFn fn) {
     setEventBatchProvider(std::move(fn));
 }
 
+/**
+ * @brief Set Event Batch Provider.
+ * @param[in] fn Input parameter.
+ * @details Calls: setCdcEventFetchForTesting(), std::move().
+ */
 void CdcConnector::setEventBatchProvider(CdcEventFetchFn fn) {
     impl_->setCdcEventFetchForTesting(std::move(fn));
 }

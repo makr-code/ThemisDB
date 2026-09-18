@@ -47,20 +47,37 @@ namespace tensor {
 // ─────────────────────────────────────────────────────────────────────────────
 
 namespace {
+/**
+ * @brief Backend Factory Mutex.
+ * @return Return value.
+ * @details Implements backendFactoryMutex without additional internal calls.
+ */
 std::mutex& backendFactoryMutex() { static std::mutex m; return m; }
+/**
+ * @brief Backend Factory Storage.
+ * @return Return value.
+ * @details Implements backendFactoryStorage without additional internal calls.
+ */
 TensorCoreStorageBridge::BackendFactory& backendFactoryStorage() {
     static TensorCoreStorageBridge::BackendFactory fn;
     return fn;
 }
 } // namespace
 
-/*static*/
+/**
+ * @brief static
+ * @param[in] fn Input parameter.
+ * @details Calls: lk(), backendFactoryMutex(), backendFactoryStorage(), std::move().
+ */
 void TensorCoreStorageBridge::setDefaultBackendFactory(BackendFactory fn) {
     std::lock_guard<std::mutex> lk(backendFactoryMutex());
     backendFactoryStorage() = std::move(fn);
 }
 
-/*static*/
+/**
+ * @brief static
+ * @details Calls: lk(), backendFactoryMutex(), backendFactoryStorage().
+ */
 void TensorCoreStorageBridge::clearDefaultBackendFactory() {
     std::lock_guard<std::mutex> lk(backendFactoryMutex());
     backendFactoryStorage() = {};
@@ -96,6 +113,12 @@ TensorCoreStorageBridge::TensorCoreStorageBridge(
 // Static helpers
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Validate Tenant Id.
+ * @param[in] tenant_id Identifier of the tenant.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: empty(), find(), std::any_of(), begin(), end().
+ */
 void TensorCoreStorageBridge::validateTenantId(const std::string& tenant_id) {
     if (tenant_id.empty()) {
         throw std::invalid_argument(
@@ -114,6 +137,15 @@ void TensorCoreStorageBridge::validateTenantId(const std::string& tenant_id) {
     }
 }
 
+/**
+ * @brief Make Key.
+ * @param[in] tenant_id Identifier of the tenant.
+ * @param[in] source_file_id Identifier of the source file.
+ * @param[in] chunk_id Identifier of the chunk.
+ * @return Return value.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: validateTenantId(), empty().
+ */
 std::string TensorCoreStorageBridge::makeKey(const std::string& tenant_id,
                                             const std::string& source_file_id,
                                             const std::string& chunk_id) {
@@ -127,9 +159,12 @@ std::string TensorCoreStorageBridge::makeKey(const std::string& tenant_id,
     return "__ttcore__:" + tenant_id + ":" + source_file_id + ":" + chunk_id;
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// ITensorCoreBridge::write
-// ─────────────────────────────────────────────────────────────────────────────
+/**
+ * @brief ───────────────────────────────────────────────────────────────────────────── ITensorCoreBridge::write ─────────────────────────────────────────────────────────────────────────────
+ * @param[in] record Input parameter.
+ * @param[in] tenant_id Identifier of the tenant.
+ * @return Return value.
+ */
 
 Result<void> TensorCoreStorageBridge::write(
     const ingestion::TensorCoreRecord& record,
@@ -215,21 +250,11 @@ TensorCoreStorageBridge::getRaw(const std::string& tenant_id,
 
 #ifdef THEMIS_HAS_ROCKSDB_TENSOR
 /**
- * @brief Auto-register a RocksDBTensorBackend as the default factory (Wave-2).
- *
- * Creates a `RocksDBWrapper` at @p db_path with a minimal configuration suitable
- * for tensor blob storage and registers a factory via `setDefaultBackendFactory()`.
- * Any subsequent construction of `TensorCoreStorageBridge` without an explicit
- * backend will use this durable RocksDB-backed store.
- *
- * This method is idempotent: calling it again replaces the previously registered
- * factory.  Call it from the production bootstrap (e.g. `server/themis_server.cpp`)
- * before the first tensor write.
- *
- * @param db_path  Directory path for the RocksDB database.  Created if absent.
- * @throws std::runtime_error if RocksDB cannot be opened at @p db_path.
+ * @brief static
+ * @param[in] db_path Path to the db.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: empty(), setDefaultBackendFactory().
  */
-/*static*/
 void TensorCoreStorageBridge::autoRegisterRocksDBBackend(const std::string& db_path) {
     if (db_path.empty())
         throw std::invalid_argument(

@@ -23,12 +23,6 @@
 
 namespace themis {
 
-/**
- * @brief Workload classification used by SerializationStrategyAdvisor.
- *
- * Allows the query optimizer to tailor the serialization/execution path
- * to the dominant access pattern without inspecting query internals.
- */
 enum class WorkloadType {
     DOCUMENT_CRUD,   ///< Point reads/writes, small payloads → JSON/CPU_SINGLE
     VECTOR_SEARCH,   ///< ANN / embedding queries → Arrow IPC, GPU-eligible
@@ -36,20 +30,8 @@ enum class WorkloadType {
     CDC_STREAM,      ///< Change-data-capture event streams → Binary/CPU threaded
     CACHE_REPL,      ///< Internal cache replication → Protobuf/CPU threaded
     TENSOR_RAG,      ///< TT-domain RAG/FLARE retrieval — see tensor_rag_cost_model.h
-                     ///< Maps to Arrow IPC / GPU_VRAM when GgmlTensorBridge is active;
-                     ///< falls back to VECTOR_SEARCH serialization path otherwise.
 };
 
-/**
- * Comprehensive Query Optimizer Cost Model
- * 
- * Provides accurate cost estimation for query planning decisions including:
- * - CPU costs (per-operation basis)
- * - I/O costs (disk reads/writes)
- * - Network costs (distributed queries)
- * - Memory costs
- * - Statistics-based calculations
- */
 class OptimizerCostModel {
 public:
     // =============================
@@ -133,13 +115,6 @@ public:
     // Serialization Strategy Advisor
     // =============================
 
-    /**
-     * @brief Recommended wire format and execution path for a query result set.
-     *
-     * Produced by adviseSerializationStrategy() and embedded in QueryOptimizer::Plan.
-     * Consumers use wire_format and exec_path to decide how to serialize the result
-     * and how many CPU threads (or the GPU) to use for parallelism.
-     */
     struct SerializationAdvice {
         // On-wire encoding for result rows.
         enum class Format {
@@ -231,10 +206,27 @@ public:
     // =============================
     
     OptimizerCostModel();
+    /**
+     * @brief Optimizer Cost Model.
+     * @param[in] constants Input parameter.
+     * @return Return value.
+     */
     explicit OptimizerCostModel(const CostConstants& constants);
     
     // Cost estimation methods
+    /**
+     * @brief Estimate Table Scan.
+     * @param[in] table Input parameter.
+     * @return Return value.
+     */
     ScanCost estimateTableScan(const TableStatistics& table) const;
+    /**
+     * @brief Estimate Index Scan.
+     * @param[in] table Input parameter.
+     * @param[in] index Input parameter.
+     * @param[in] selectivity Input parameter.
+     * @return Return value.
+     */
     ScanCost estimateIndexScan(const TableStatistics& table, 
                                const IndexStatistics& index,
                                double selectivity) const;
@@ -243,74 +235,84 @@ public:
                              const std::vector<std::string>& predicates,
                              const std::map<std::string, ColumnStatistics>& columnStats) const;
     
+    /**
+     * @brief Estimate Nested Loop Join.
+     * @param[in] leftRows Input parameter.
+     * @param[in] rightRows Input parameter.
+     * @param[in] selectivity Input parameter.
+     * @return Return value.
+     */
     JoinCost estimateNestedLoopJoin(size_t leftRows, size_t rightRows, 
                                     double selectivity) const;
     JoinCost estimateHashJoin(size_t leftRows, size_t rightRows, 
                              double selectivity,
                              size_t hashKeySize = 8) const;
+    /**
+     * @brief Estimate Sort Merge Join.
+     * @param[in] leftRows Input parameter.
+     * @param[in] rightRows Input parameter.
+     * @param[in] selectivity Input parameter.
+     * @return Return value.
+     */
     JoinCost estimateSortMergeJoin(size_t leftRows, size_t rightRows,
                                    double selectivity) const;
     
+    /**
+     * @brief Estimate Aggregation.
+     * @param[in] inputRows Input parameter.
+     * @param[in] estimatedGroups Input parameter.
+     * @param[in] numAggregates Input parameter.
+     * @return Return value.
+     */
     AggregationCost estimateAggregation(size_t inputRows, 
                                        size_t estimatedGroups,
                                        size_t numAggregates) const;
     
+    /**
+     * @brief Estimate Sort.
+     * @param[in] rowCount Input parameter.
+     * @param[in] rowSize Input parameter.
+     * @return Return value.
+     */
     SortCost estimateSort(size_t rowCount, size_t rowSize) const;
     
     NetworkCost estimateNetworkTransfer(size_t dataSize, size_t numHops = 1) const;
     
     // Selectivity estimation
+    /**
+     * @brief Estimate Selectivity.
+     * @param[in] predicate Input parameter.
+     * @param[in] columnStats Input parameter.
+     * @return Return value.
+     */
     double estimateSelectivity(const std::string& predicate,
                               const ColumnStatistics& columnStats) const;
+    /**
+     * @brief Estimate Join Selectivity.
+     * @param[in] leftCol Input parameter.
+     * @param[in] rightCol Input parameter.
+     * @return Return value.
+     */
     double estimateJoinSelectivity(const ColumnStatistics& leftCol,
                                   const ColumnStatistics& rightCol) const;
     
     // Cost calibration
     void calibrateCosts(const std::map<std::string, double>& measurements);
+    /**
+     * @brief Update Constant.
+     * @param[in] name Input parameter.
+     * @param[in] value Input parameter.
+     */
     void updateConstant(const std::string& name, double value);
 
     /**
-     * @brief Choose the optimal serialization format and execution path.
-     *
-     * Decision tree (thresholds from CostConstants; all overridable via calibrateCosts):
-     *  - row_count < msgpack_row_threshold  OR  workload==DOCUMENT_CRUD
-     *      → JSON_TEXT / CPU_SINGLE
-     *  - msgpack_row_threshold ≤ row_count < gpu_row_threshold_low
-     *      → MSGPACK_CBOR / CPU_THREADED_BATCH  (cpu_batch_thread_low threads)
-     *  - CDC_STREAM workload
-     *      → BINARY_CUSTOM / CPU_THREADED_BATCH  (any row count)
-     *  - CACHE_REPL workload
-     *      → PROTOBUF / CPU_THREADED_BATCH
-     *  - row_count ≥ gpu_row_threshold_low, GPU available, VRAM fits
-     *      → ARROW_IPC / GPU_VRAM  (use_vram_pinned_memory=true)
-     *  - row_count ≥ gpu_row_threshold_low, no GPU (or VRAM too small)
-     *      → ARROW_IPC / CPU_THREADED_BATCH  (hardware_concurrency threads)
-     *
-     * @param estimated_row_count  Expected rows in result set.
-     * @param avg_row_bytes        Average encoded row size in bytes.
-     * @param gpu_available        True when a GPU with sufficient VRAM is present.
-     * @param vram_free_bytes      Free VRAM bytes at time of planning.
-     * @param workload             Dominant access pattern hint.
-     * @return SerializationAdvice filled with wire_format, exec_path, thread count, etc.
-     *
-     * ### Performance Targets
-     *
-     * The following speedup targets relative to a baseline JSON_TEXT / CPU_SINGLE pipeline
-     * are expected at the default CostConstants thresholds.  All figures assume 100-byte
-     * average row size on a host with ≥ 4 cores; GPU figures require RTX-class hardware
-     * (≥ 8 GB VRAM, PCIe 4.0 x16).
-     *
-     * | Path selected                          | Condition                        | Expected throughput gain | Payload size reduction |
-     * |----------------------------------------|----------------------------------|-------------------------:|------------------------|
-     * | MSGPACK_CBOR / CPU_THREADED_BATCH (4T)  | 1 k–50 k rows, non-CDC           |              1.3–2.5×    | 20–50 %                |
-     * | BINARY_CUSTOM / CPU_THREADED_BATCH (4T) | CDC_STREAM (any row count)       |              1.5–3×      | 30–60 %                |
-     * | ARROW_IPC / CPU_THREADED_BATCH (N_hw)   | ≥ 50 k rows, no GPU              |              2–4×        | 40–65 %                |
-     * | ARROW_IPC / GPU_VRAM                    | ≥ 50 k rows, GPU + VRAM ≥ 1.5× payload |       3–10×      | 40–65 %                |
-     * | PROTOBUF / CPU_THREADED_BATCH           | CACHE_REPL workload              |         30–70 % smaller payload | —              |
-     *
-     * Decision overhead: ≤ 1 µs per call (no I/O, pure arithmetic).
-     *
-     * These targets are tracked in `PERFORMANCE_EXPECTATIONS.md` §2.5.
+     * @brief Advise Serialization Strategy.
+     * @param[in] estimated_row_count Input parameter.
+     * @param[in] avg_row_bytes Input parameter.
+     * @param[in] gpu_available Input parameter.
+     * @param[in] vram_free_bytes Input parameter.
+     * @param[in] workload Input parameter.
+     * @return Return value.
      */
     SerializationAdvice adviseSerializationStrategy(
         size_t       estimated_row_count,
@@ -321,23 +323,47 @@ public:
     
     // Accessors
     const CostConstants& getConstants() const { return constants_; }
+    /**
+     * @brief Set Constants.
+     * @param[in] constants Input parameter.
+     * @details Implements setConstants without additional internal calls.
+     */
     void setConstants(const CostConstants& constants) { constants_ = constants; }
 
 private:
     CostConstants constants_;
     
     // Helper methods
+    /**
+     * @brief Calculate Cpu Cost.
+     * @param[in] rowsProcessed Input parameter.
+     * @param[in] costPerRow Input parameter.
+     * @return Return value.
+     */
     double calculateCpuCost(size_t rowsProcessed, double costPerRow) const;
     double calculateIoCost(size_t pagesRead, bool sequential = true) const;
+    /**
+     * @brief Calculate Memory Cost.
+     * @param[in] memoryUsed Input parameter.
+     * @return Return value.
+     */
     double calculateMemoryCost(size_t memoryUsed) const;
+    /**
+     * @brief Estimate Cardinality.
+     * @param[in] baseRows Input parameter.
+     * @param[in] selectivity Input parameter.
+     * @return Return value.
+     */
     double estimateCardinality(size_t baseRows, double selectivity) const;
+    /**
+     * @brief Needs External Sort.
+     * @param[in] rowCount Input parameter.
+     * @param[in] rowSize Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool needsExternalSort(size_t rowCount, size_t rowSize) const;
 };
 
-/**
- * Statistics Manager
- * Collects and maintains statistics for cost-based optimization
- */
 class StatisticsManager {
 public:
     // ------------------------------------------------------------------
@@ -347,52 +373,109 @@ public:
     // instead of returning zero-initialised defaults.
     // ------------------------------------------------------------------
 
-    /// Callback signature: given a table name, return live TableStatistics.
     using TableScanProvider =
         std::function<OptimizerCostModel::TableStatistics(const std::string&)>;
 
-    /// Callback signature: given a (table, column) pair, return live ColumnStatistics.
     using ColumnScanProvider =
         std::function<OptimizerCostModel::ColumnStatistics(const std::string&, const std::string&)>;
 
-    /// Callback signature: given an index name, return live IndexStatistics.
     using IndexScanProvider =
         std::function<OptimizerCostModel::IndexStatistics(const std::string&)>;
 
     StatisticsManager() = default;
 
-    /// Inject a real table-statistics provider (e.g. from RocksDB property queries).
-    /// Once set, collectTableStatistics() calls this provider instead of returning
-    /// zero-initialised defaults.
+    /**
+     * @brief Set Table Scan Provider.
+     * @param[in] fn Input parameter.
+     * @details Calls: std::move().
+     */
     void setTableScanProvider(TableScanProvider fn) { table_scan_provider_ = std::move(fn); }
 
-    /// Inject a real column-statistics provider (e.g. from sampled storage scans).
+    /**
+     * @brief Set Column Scan Provider.
+     * @param[in] fn Input parameter.
+     * @details Calls: std::move().
+     */
     void setColumnScanProvider(ColumnScanProvider fn) { column_scan_provider_ = std::move(fn); }
 
-    /// Inject a real index-statistics provider (e.g. from index-subsystem metadata).
+    /**
+     * @brief Set Index Scan Provider.
+     * @param[in] fn Input parameter.
+     * @details Calls: std::move().
+     */
     void setIndexScanProvider(IndexScanProvider fn) { index_scan_provider_ = std::move(fn); }
 
     // Statistics collection
+    /**
+     * @brief Collect Table Statistics.
+     * @param[in] tableName Input parameter.
+     */
     void collectTableStatistics(const std::string& tableName);
+    /**
+     * @brief Collect Column Statistics.
+     * @param[in] tableName Input parameter.
+     * @param[in] columnName Input parameter.
+     */
     void collectColumnStatistics(const std::string& tableName, 
                                 const std::string& columnName);
+    /**
+     * @brief Collect Index Statistics.
+     * @param[in] indexName Input parameter.
+     */
     void collectIndexStatistics(const std::string& indexName);
     
     // Statistics refresh
+    /**
+     * @brief Refresh All Statistics.
+     */
     void refreshAllStatistics();
+    /**
+     * @brief Refresh Stale Statistics.
+     */
     void refreshStaleStatistics();
     
     // Statistics retrieval
+    /**
+     * @brief Get Table Statistics.
+     * @param[in] tableName Input parameter.
+     * @return Return value.
+     */
     OptimizerCostModel::TableStatistics getTableStatistics(const std::string& tableName) const;
+    /**
+     * @brief Get Column Statistics.
+     * @param[in] tableName Input parameter.
+     * @param[in] columnName Input parameter.
+     * @return Return value.
+     */
     OptimizerCostModel::ColumnStatistics getColumnStatistics(const std::string& tableName,
                                                             const std::string& columnName) const;
+    /**
+     * @brief Get Index Statistics.
+     * @param[in] indexName Input parameter.
+     * @return Return value.
+     */
     OptimizerCostModel::IndexStatistics getIndexStatistics(const std::string& indexName) const;
     
     // Statistics management
+    /**
+     * @brief Invalidate Statistics.
+     * @param[in] tableName Input parameter.
+     */
     void invalidateStatistics(const std::string& tableName);
+    /**
+     * @brief Are Statistics Stale.
+     * @param[in] tableName Input parameter.
+     * @param[in] threshold Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool areStatisticsStale(const std::string& tableName, int64_t threshold) const;
     
     // Manual update
+    /**
+     * @brief Update Table Statistics.
+     * @param[in] tableName Input parameter.
+     * @param[in] stats Input parameter.
+     */
     void updateTableStatistics(const std::string& tableName,
                               const OptimizerCostModel::TableStatistics& stats);
     
@@ -405,6 +488,10 @@ private:
     std::optional<ColumnScanProvider> column_scan_provider_;
     std::optional<IndexScanProvider>  index_scan_provider_;
 
+    /**
+     * @brief Get Current Timestamp.
+     * @return Return value.
+     */
     int64_t getCurrentTimestamp() const;
 };
 

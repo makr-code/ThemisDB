@@ -43,6 +43,10 @@ PromptInjectionDetector::PromptInjectionDetector(Config config)
     initializePatterns();
 }
 
+/**
+ * @brief Initialize Patterns.
+ * @details Calls: themis::security::PromptInjectionPatternRegistry::defaultRegistry(), patternCount(), spdlog::error(), patterns(), emplace_back(), push_back(), spdlog::warn(), keywords().
+ */
 void PromptInjectionDetector::initializePatterns() {
     // Gap 5 (AI_ML_IMPACT_ASSESSMENT.md §7): load the canonical shared pattern
     // registry so that patterns added to the registry appear here automatically.

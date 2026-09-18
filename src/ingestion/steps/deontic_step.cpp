@@ -22,18 +22,6 @@ namespace themis {
 namespace ingestion {
 namespace builtin {
 
-/**
- * @brief `builtin.deontic_extractor` — wraps `DeonticExtractor`.
- *
- * Iterates over `ctx.chunks` (or falls back to `ctx.raw_text` split into a
- * single chunk) and runs deontic extraction on each chunk.  Results are
- * appended to `ctx.entities` as `LEGAL_OBLIGATION`, `LEGAL_PROHIBITION`, or
- * `LEGAL_PERMISSION` entities.
- *
- * Config keys (all optional):
- *  - `confidence_threshold` float  default 0.5
- *  - `use_llm`              bool   default false
- */
 class DeonticStep : public IIngestionStep {
 public:
     explicit DeonticStep(
@@ -52,7 +40,11 @@ public:
 
     std::vector<std::string> supportedMimeTypes() const override { return {}; }
 
-    // Inject backend after construction (used by WorkflowEngine / IngestionManager)
+    /**
+     * @brief Inject backend after construction (used by WorkflowEngine / IngestionManager)
+     * @param[in] b Input parameter.
+     * @details Calls: std::move().
+     */
     void setBackend(std::shared_ptr<ITextGenerationBackend> b) {
         backend_ = std::move(b);
     }
@@ -69,6 +61,11 @@ public:
 
         // Wire LLM backend when requested and available
         if (use_llm && backend_ && backend_->isAvailable()) {
+            /**
+             * @brief Adapter.
+             * @param[in] backend_ Input parameter.
+             * @return Return value.
+             */
             LegalLlmAdapter adapter(backend_);
             const auto fn = adapter.buildExtractorFn();
             if (fn) {

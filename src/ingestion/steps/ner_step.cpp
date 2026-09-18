@@ -31,7 +31,12 @@ namespace builtin {
 
 namespace {
 
-/// Map entity-type string (from config) to EntityType enum.
+/**
+ * @brief Entity Type From String.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Implements entityTypeFromString without additional internal calls.
+ */
 EntityType entityTypeFromString(const std::string& s) {
     if (s == "PER" || s == "PERSON") {
       return EntityType::PERSON;
@@ -51,14 +56,19 @@ EntityType entityTypeFromString(const std::string& s) {
     return EntityType::UNKNOWN;
 }
 
-/// Build a German-locale set of regex-based NER rules.
-/// Returns matches as {text, entity_type_string} pairs.
 struct RegexMatch {
     std::string text = {};
     std::string etype;
     std::size_t offset;
 };
 
+/**
+ * @brief Run German Regex Ner.
+ * @param[in] text Input parameter.
+ * @param[in] requested_types Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), std::find(), begin(), end(), wants(), re_law(), std::sregex_iterator(), push_back().
+ */
 std::vector<RegexMatch> runGermanRegexNer(const std::string& text,
                                           const std::vector<std::string>& requested_types) {
     std::vector<RegexMatch> results;
@@ -108,8 +118,12 @@ std::vector<RegexMatch> runGermanRegexNer(const std::string& text,
     return results;
 }
 
-/// Parse a simple JSON NER response from an LLM backend.
-/// Expected format: [{"text":"...", "type":"ORG", "offset":0}, ...]
+/**
+ * @brief Parse Ner Json.
+ * @param[in] json_str Input parameter.
+ * @return Return value.
+ * @details Calls: json::parse(), is_array(), value(), empty(), push_back(), std::move().
+ */
 std::vector<RegexMatch> parseNerJson(const std::string& json_str) {
     std::vector<RegexMatch> out;
     try {
@@ -130,7 +144,14 @@ std::vector<RegexMatch> parseNerJson(const std::string& json_str) {
     return out;
 }
 
-/// Build prompt for NER extraction via LLM.
+/**
+ * @brief Build Ner Prompt.
+ * @param[in] text Input parameter.
+ * @param[in] language Input parameter.
+ * @param[in] types Input parameter.
+ * @return Return value.
+ * @details Calls: size(), resize(), substr().
+ */
 std::string buildNerPrompt(const std::string& text,
                             const std::string& language,
                             const std::vector<std::string>& types) {
@@ -156,22 +177,6 @@ std::string buildNerPrompt(const std::string& text,
 // NerDeStep — builtin.ner_de
 // ─────────────────────────────────────────────────────────────────────────────
 
-/**
- * @brief `builtin.ner_de` — Named Entity Recognition step.
- *
- * Primary extraction strategy: regex-based rules for German legal texts
- * (§-references, dates, Aktenzeichen).  When an `ITextGenerationBackend` is
- * injected AND `isAvailable()` returns true, the step additionally calls the
- * LLM backend for ORG / PER / LOCATION extraction and merges the results.
- *
- * Config keys (all optional):
- *  - `model`        string  LLM model identifier (informational; not used directly)
- *  - `entity_types` array   subset of [ORG, PER, LAW, DATE, LOCATION]
- *                           (empty = all types)
- *  - `use_llm`      bool    default false — force LLM path even when backend is available
- *  - `language`     string  default "de" — BCP-47 language tag for LLM prompt
- *  - `confidence`   float   default 0.8 — minimum confidence for LLM hits
- */
 class NerDeStep : public IIngestionStep {
 public:
     explicit NerDeStep(std::shared_ptr<ITextGenerationBackend> backend = nullptr)
@@ -189,7 +194,11 @@ public:
 
     std::vector<std::string> supportedMimeTypes() const override { return {}; }
 
-    // Inject backend after construction (used by WorkflowEngine / IngestionManager)
+    /**
+     * @brief Inject backend after construction (used by WorkflowEngine / IngestionManager)
+     * @param[in] b Input parameter.
+     * @details Calls: std::move().
+     */
     void setBackend(std::shared_ptr<ITextGenerationBackend> b) {
         backend_ = std::move(b);
     }
@@ -300,11 +309,24 @@ namespace themis {
 namespace ingestion {
 namespace builtin {
 
+/**
+ * @brief Create Ner De Step.
+ * @param[in] backend Input parameter.
+ * @return Return value.
+ * @details Calls: std::move().
+ */
 std::shared_ptr<IIngestionStep> createNerDeStep(
         std::shared_ptr<ITextGenerationBackend> backend) {
     return std::make_shared<NerDeStep>(std::move(backend));
 }
 
+/**
+ * @brief Set Step Backend.
+ * @param[in,out] step Input/output parameter.
+ * @param[in] backend Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: setBackend(), std::move().
+ */
 bool setStepBackend(IIngestionStep* step,
                     std::shared_ptr<ITextGenerationBackend> backend) {
     if (auto* p = dynamic_cast<NerDeStep*>(step)) {

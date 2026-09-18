@@ -21,48 +21,8 @@
 
 namespace themis::server {
 
-/**
- * @brief Response/request transformation layer for API evolution without breaking changes.
- *
- * Supports multiple API versions simultaneously by applying version-specific
- * transforms to JSON payloads.  Each transform is a plain function that
- * receives the *native* (current) JSON object and returns the transformed
- * view appropriate for the requested version.
- *
- * ## Usage
- * @code
- * ResponseTransformer transformer;
- *
- * // v1 API renames "id" → "user_id"
- * transformer.registerVersion("v1", [](nlohmann::json res) {
- *     if (res.contains("id")) {
- *         res["user_id"] = res["id"];
- *         res.erase("id");
- *     }
- *     return res;
- * });
- *
- * // v2 is the native format – no transform needed
- * transformer.registerVersion("v2", [](nlohmann::json res) { return res; });
- *
- * nlohmann::json native = {{"id", 123}, {"type", "user"}};
- * auto v1_view = transformer.transform(native, APIVersion{1, 0, 0});
- * // v1_view == {{"user_id", 123}, {"type", "user"}}
- * @endcode
- *
- * ### Field renames and default values
- *
- * Convenience helpers allow registering per-version field renames and default
- * values without writing custom transform lambdas:
- *
- * @code
- * transformer.addFieldRename("v1", "id", "user_id");
- * transformer.addDefaultValue("v2", "type", "user");
- * @endcode
- */
 class ResponseTransformer {
 public:
-    /// Transform function: receives a copy of the native payload and returns the adapted payload.
     using TransformFn = std::function<nlohmann::json(nlohmann::json)>;
 
     ResponseTransformer() = default;
@@ -72,17 +32,9 @@ public:
     // -----------------------------------------------------------------------
 
     /**
-     * @brief Register a version-specific serializer/transform function.
-     *
-     * The version key may be a plain major version string ("v1", "v2"), a
-     * major.minor string ("v1.4"), or a full semver string ("v1.4.0").
-     * When looking up a transform, the manager tries keys in order:
-     *  1. Exact semver key (e.g. "v1.4.0")
-     *  2. Major.minor key (e.g. "v1.4")
-     *  3. Major-only key (e.g. "v1")
-     *
-     * @param version_key  Version string, e.g. "v1", "v1.4", or "v1.4.0".
-     * @param fn           Transform function applied to the native payload.
+     * @brief Register Version.
+     * @param[in] version_key Input parameter.
+     * @param[in] fn Input parameter.
      */
     void registerVersion(const std::string& version_key, TransformFn fn);
 
@@ -91,31 +43,20 @@ public:
     // -----------------------------------------------------------------------
 
     /**
-     * @brief Register a field rename for a specific version.
-     *
-     * When transforming for @p version_key, field @p old_name is renamed to
-     * @p new_name in the output object.  If @p old_name is absent, the output
-     * is unchanged.
-     *
-     * Multiple renames for the same version are applied in registration order.
-     *
-     * @param version_key  Version key (e.g. "v1").
-     * @param old_name     Source field name in the native payload.
-     * @param new_name     Target field name in the versioned payload.
+     * @brief Add Field Rename.
+     * @param[in] version_key Input parameter.
+     * @param[in] old_name Name of the old.
+     * @param[in] new_name Name of the new.
      */
     void addFieldRename(const std::string& version_key,
                         const std::string& old_name,
                         const std::string& new_name);
 
     /**
-     * @brief Register a default value for a missing field in a specific version.
-     *
-     * When transforming for @p version_key, if @p field_name is absent from the
-     * payload, it is populated with @p default_value.
-     *
-     * @param version_key    Version key (e.g. "v2").
-     * @param field_name     Field to populate when missing.
-     * @param default_value  Value to assign.
+     * @brief Add Default Value.
+     * @param[in] version_key Input parameter.
+     * @param[in] field_name Name of the field.
+     * @param[in] default_value Input parameter.
      */
     void addDefaultValue(const std::string& version_key,
                          const std::string& field_name,
@@ -126,31 +67,24 @@ public:
     // -----------------------------------------------------------------------
 
     /**
-     * @brief Apply the registered transform for the given API version.
-     *
-     * Resolution order:
-     *  1. Exact semver key (e.g. "v1.4.0")
-     *  2. Major.minor key (e.g. "v1.4")
-     *  3. Major-only key (e.g. "v1")
-     *  4. No transform registered → return @p payload unchanged.
-     *
-     * Field renames and default values registered via addFieldRename /
-     * addDefaultValue are applied *before* any registered TransformFn.
-     *
-     * @param payload  Native (current-version) JSON payload.
-     * @param version  Requested API version.
-     * @return Transformed JSON payload for the requested version.
+     * @brief Transform.
+     * @param[in] payload Input parameter.
+     * @param[in] version Input parameter.
+     * @return Return value.
      */
     nlohmann::json transform(const nlohmann::json& payload,
                              const APIVersion& version) const;
 
     /**
-     * @brief Check whether a transform is registered for the given version.
+     * @brief Has Version.
+     * @param[in] version Input parameter.
+     * @return True when the operation succeeds.
      */
     bool hasVersion(const APIVersion& version) const;
 
     /**
-     * @brief Return all registered version keys.
+     * @brief Registered Versions.
+     * @return Return value.
      */
     std::vector<std::string> registeredVersions() const;
 
@@ -165,15 +99,16 @@ private:
     std::unordered_map<std::string, std::vector<std::pair<std::string, nlohmann::json>>> default_values_;
 
     /**
-     * @brief Resolve the best matching transform key for a given version.
-     *
-     * Tries "v{major}.{minor}.{patch}", "v{major}.{minor}", "v{major}" in order.
-     * Returns std::nullopt when no key matches.
+     * @brief Resolve Key.
+     * @param[in] version Input parameter.
+     * @return Return value.
      */
     std::optional<std::string> resolveKey(const APIVersion& version) const;
 
     /**
-     * @brief Apply field renames and default values for a version key in-place.
+     * @brief Apply Field Mappings.
+     * @param[in,out] obj Input/output parameter.
+     * @param[in] version_key Input parameter.
      */
     void applyFieldMappings(nlohmann::json& obj, const std::string& version_key) const;
 };

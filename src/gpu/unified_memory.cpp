@@ -48,15 +48,6 @@ namespace gpu {
 
 namespace {
 
-/**
- * @brief Platform-agnostic GPU memory deallocation with error checking.
- *
- * @param ptr Device pointer to free (nullptr is safe).
- * @return true if deallocation succeeded; false if CUDA/HIP operation failed.
- *
- * @note RAII callers must not throw in destructors. Logs errors but does not throw.
- * @note Phase 4: Uses CHECKED_CUDA/CHECKED_HIP for consistent error handling
- */
 [[nodiscard]] bool platformFree(void* ptr) noexcept {
     if (!ptr) {
         return true;  // nullptr is always safe to "free"
@@ -174,6 +165,11 @@ void *GPUUnifiedMemoryAllocator::allocate(size_t bytes, const std::string &tag, 
         return nullptr;
     }
 
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     AllocationRecord rec;
     rec.ptr       = ptr;
@@ -197,6 +193,12 @@ void *GPUUnifiedMemoryAllocator::allocate(size_t bytes, const std::string &tag, 
 // free
 // ============================================================================
 
+/**
+ * @brief Free.
+ * @param[in,out] ptr Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), std::find_if(), begin(), end(), platformFree(), GPUBackendDispatchDiagnostics::emitDiagnostic(), erase(), empty().
+ */
 bool GPUUnifiedMemoryAllocator::free(void *ptr) {
     if (!ptr) {
         return false;
@@ -248,6 +250,14 @@ bool GPUUnifiedMemoryAllocator::free(void *ptr) {
 // prefetch
 // ============================================================================
 
+/**
+ * @brief Prefetch.
+ * @param[in] ptr Input parameter.
+ * @param[in] bytes Input parameter.
+ * @param[in] device_id Identifier of the device.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), CHECKED_CUDA(), cudaMemPrefetchAsync(), spdlog::get(), warn(), what(), defined(), CHECKED_HIP().
+ */
 bool GPUUnifiedMemoryAllocator::prefetch(const void *ptr, size_t bytes, int device_id) {
     if (!ptr || bytes == 0) {
         return false;
@@ -289,6 +299,15 @@ bool GPUUnifiedMemoryAllocator::prefetch(const void *ptr, size_t bytes, int devi
 // advise
 // ============================================================================
 
+/**
+ * @brief Advise.
+ * @param[in] ptr Input parameter.
+ * @param[in] bytes Input parameter.
+ * @param[in] advice Input parameter.
+ * @param[in] device_id Identifier of the device.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), CHECKED_CUDA(), cudaMemAdvise(), spdlog::get(), warn(), what(), defined(), CHECKED_HIP().
+ */
 bool GPUUnifiedMemoryAllocator::advise(const void *ptr, size_t bytes, MemAdvice advice, int device_id) {
     if (!ptr || bytes == 0) {
         return false;
@@ -380,6 +399,11 @@ bool GPUUnifiedMemoryAllocator::advise(const void *ptr, size_t bytes, MemAdvice 
 // ============================================================================
 
 GPUUnifiedMemoryAllocator::Stats GPUUnifiedMemoryAllocator::getStats() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     Stats s;
     s.total_allocations = total_allocations_;
@@ -401,6 +425,11 @@ GPUUnifiedMemoryAllocator::Stats GPUUnifiedMemoryAllocator::getStats() const {
 // ============================================================================
 
 std::vector<GPUUnifiedMemoryAllocator::AllocationRecord> GPUUnifiedMemoryAllocator::getActiveAllocations() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return active_;
 }
@@ -410,6 +439,11 @@ std::vector<GPUUnifiedMemoryAllocator::AllocationRecord> GPUUnifiedMemoryAllocat
 // ============================================================================
 
 uint64_t GPUUnifiedMemoryAllocator::getTenantBytes(const std::string &tenant_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = tenant_bytes_.find(tenant_id);
     return (it != tenant_bytes_.end()) ? it->second : 0;
@@ -419,6 +453,10 @@ uint64_t GPUUnifiedMemoryAllocator::getTenantBytes(const std::string &tenant_id)
 // reset
 // ============================================================================
 
+/**
+ * @brief Reset the modification detection flag.
+ * @details Calls: lock(), platformFree(), clear().
+ */
 void GPUUnifiedMemoryAllocator::reset() {
     std::lock_guard<std::mutex> lock(mutex_);
 

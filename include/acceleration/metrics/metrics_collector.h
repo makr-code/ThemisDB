@@ -275,14 +275,14 @@ public:
         return collector;
     }
     
+    
     /**
-     * @brief ── Register metrics ──────────────────────────────────────────────────────
+     * @brief Register Counter.
      * @param[in] name Input parameter.
      * @param[in] description Input parameter.
      * @return Pointer to the result.
      * @details Calls: lock(), get(), std::move().
      */
-    
     Counter* registerCounter(const std::string& name,
                             const std::string& description) {
         std::lock_guard<std::mutex> lock(mutex_);
@@ -325,13 +325,13 @@ public:
         return ptr;
     }
     
+    
     /**
-     * @brief ── Get existing metrics ──────────────────────────────────────────────────
+     * @brief Get Counter.
      * @param[in] name Input parameter.
      * @return Pointer to the result.
      * @details Calls: lock(), find(), end(), get().
      */
-    
     Counter* getCounter(const std::string& name) {
         std::lock_guard<std::mutex> lock(mutex_);
         auto it = counters_.find(name);

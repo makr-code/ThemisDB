@@ -20,7 +20,7 @@ namespace themis {
 namespace observability {
 
 /**
- * @brief Helper functions
+ * @brief To string.
  * @param[in] severity Input parameter.
  * @return Pointer to the result.
  * @details Implements to_string without additional internal calls.
@@ -131,7 +131,6 @@ std::string PerformanceAnalysis::toReport() const {
 }
 
 // PerformanceAnalyzer::Impl
-/** @brief PerformanceAnalyzer::Impl. */
 class PerformanceAnalyzer::Impl {
 public:
     PerformanceAnalyzerConfig config;
@@ -398,7 +397,7 @@ void PerformanceAnalyzer::export_html_report(const PerformanceAnalysis& analysis
 }
 
 /**
- * @brief Private helper methods
+ * @brief Check slow queries.
  * @param[in] query_profiler Input parameter.
  * @return Return value.
  * @details Calls: get_slow_queries(), empty(), size(), std::to_string(), count().

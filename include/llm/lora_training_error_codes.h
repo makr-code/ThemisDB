@@ -18,19 +18,6 @@ namespace themis {
 namespace llm {
 namespace lora {
 
-/**
- * @brief Error codes for LoRA training operations [7200-7299]
- * 
- * Codes are organized by category:
- * - 7200-7209: Initialization errors
- * - 7210-7219: Training loop errors
- * - 7220-7229: Checkpoint errors
- * - 7230-7239: Gradient/optimizer errors
- * - 7240-7249: Distributed training errors
- * - 7250-7259: Validation errors
- * - 7260-7269: Resource errors
- * - 7270-7299: General errors
- */
 enum class LoRATrainingErrorCode : uint16_t {
     // ===== Initialization Errors (7200-7209) =====
     INIT_MODEL_PATH_EMPTY = 7200,           ///< Model path is empty or null
@@ -130,20 +117,8 @@ enum class LoRATrainingErrorCode : uint16_t {
     GENERAL_UNKNOWN_ERROR = 7299            ///< Unknown error
 };
 
-/**
- * @brief Exception class for LoRA training operations
- * 
- * Provides structured error information with error codes, stage tracking,
- * and recovery hints for better diagnostics and recovery.
- */
 class LoRATrainingException : public std::runtime_error {
 public:
-    /**
-     * @brief Construct exception with error code and message
-     * 
-     * @param code Error code from LoRATrainingErrorCode
-     * @param message Detailed error message
-     */
     LoRATrainingException(LoRATrainingErrorCode code, const std::string& message)
         : std::runtime_error(message)
         , error_code_(code)
@@ -152,15 +127,6 @@ public:
         , recovery_hint_("")
     {}
 
-    /**
-     * @brief Construct exception with full context
-     * 
-     * @param code Error code
-     * @param message Error message
-     * @param adapter_id Associated adapter ID
-     * @param stage Training stage where error occurred
-     * @param recovery_hint Remediation suggestion
-     */
     LoRATrainingException(
         LoRATrainingErrorCode code,
         const std::string& message,
@@ -175,19 +141,20 @@ public:
         , recovery_hint_(recovery_hint)
     {}
 
-    /// Get the error code
     LoRATrainingErrorCode getErrorCode() const { return error_code_; }
 
-    /// Get the adapter ID associated with error
     const std::string& getAdapterId() const { return adapter_id_; }
 
-    /// Get the training stage where error occurred
     const std::string& getStage() const { return stage_; }
 
-    /// Get the recovery hint
     const std::string& getRecoveryHint() const { return recovery_hint_; }
 
-    /// Get error code as string
+    /**
+     * @brief Get Error Code String.
+     * @param[in] code Input parameter.
+     * @return Return value.
+     * @details Implements getErrorCodeString without additional internal calls.
+     */
     static std::string getErrorCodeString(LoRATrainingErrorCode code) {
         switch (code) {
             // Initialization
@@ -291,7 +258,6 @@ public:
         }
     }
 
-    /// Get formatted error message with full context
     std::string getFormattedMessage() const {
         std::string msg = "LoRA Training Error [" + getErrorCodeString(error_code_) + "]: " + what();
         if (!adapter_id_.empty()) {
@@ -314,14 +280,20 @@ private:
 };
 
 /**
- * @brief Helper function to check if value is finite (not NaN or Inf)
+ * @brief Is Finite Value.
+ * @param[in] value Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: std::isfinite(), std::isnan(), std::isinf().
  */
 inline bool isFiniteValue(float value) {
     return std::isfinite(value) && !std::isnan(value) && !std::isinf(value);
 }
 
 /**
- * @brief Helper function to validate gradient magnitude
+ * @brief Is Valid Gradient Magnitude.
+ * @param[in] grad_magnitude Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: isFiniteValue().
  */
 inline bool isValidGradientMagnitude(float grad_magnitude) {
     return isFiniteValue(grad_magnitude) && grad_magnitude >= 0.0f;

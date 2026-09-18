@@ -58,14 +58,14 @@ namespace query {
 
 using namespace themisdb::analytics;
 
+
 /**
- * @brief ============================================================================ VectorizedPredicate – factory methods ============================================================================
+ * @brief Eq.
  * @param[in] field Input parameter.
  * @param[in] value Input parameter.
  * @return Return value.
  * @details Calls: std::move().
  */
-
 VectorizedPredicate VectorizedPredicate::eq(std::string field, nlohmann::json value) {
     return {std::move(field), Op::Eq, std::move(value)};
 }
@@ -138,13 +138,13 @@ VectorizedPredicate VectorizedPredicate::isNotNull(std::string field) {
     return {std::move(field), Op::IsNotNull, nullptr};
 }
 
+
 /**
- * @brief ============================================================================ VectorizedQueryPlan ============================================================================
+ * @brief Add Filter.
  * @param[in] predicates Input parameter.
  * @return Return value.
  * @details Calls: std::move(), push_back().
  */
-
 VectorizedQueryPlan& VectorizedQueryPlan::addFilter(
     std::vector<VectorizedPredicate> predicates) {
     Stage s;
@@ -217,14 +217,14 @@ void VectorizedExecutionEngine::resetStats() noexcept {
     stats_ = {};
 }
 
+
 /**
- * @brief ============================================================================ VectorizedExecutionEngine – public execute / convenience methods ============================================================================
+ * @brief Execute.
  * @param[in] rows Input parameter.
  * @param[in] plan Input parameter.
  * @return Return value.
  * @details Calls: empty(), std::chrono::steady_clock::now(), buildPipeline(), analytics_engine(), size(), reserve(), std::min(), jsonToColumnBatch().
  */
-
 Result<std::vector<nlohmann::json>> VectorizedExecutionEngine::execute(
     const std::vector<nlohmann::json>& rows,
     const VectorizedQueryPlan&         plan) {
@@ -355,15 +355,15 @@ Result<std::vector<nlohmann::json>> VectorizedExecutionEngine::sort(
     return execute(rows, plan);
 }
 
+
 /**
- * @brief ============================================================================ JSON ↔ ColumnBatch conversion ============================================================================
+ * @brief Json To Column Batch.
  * @param[in] rows Input parameter.
  * @param[in] offset Input parameter.
  * @param[in] count Input parameter.
  * @return Return value.
  * @details Calls: is_object(), items(), emplace(), size(), push_back(), col_types(), contains(), is_null().
  */
-
 ColumnBatch VectorizedExecutionEngine::jsonToColumnBatch(
     const std::vector<nlohmann::json>& rows,
     size_t                             offset,
@@ -470,12 +470,6 @@ ColumnBatch VectorizedExecutionEngine::jsonToColumnBatch(
         }
     }
 
-    /**
-     * @brief 4.
-     * @param[in] count Input parameter.
-     * @return Return value.
-     * @details Build ColumnBatch
-     */
     ColumnBatch batch(count);
     for (auto& col : columns) {
         batch.addColumn(std::move(col));
@@ -533,13 +527,13 @@ std::vector<nlohmann::json> VectorizedExecutionEngine::columnBatchToJson(
     return result;
 }
 
+
 /**
- * @brief ============================================================================ Plan translation ============================================================================
+ * @brief Json To Column Value.
  * @param[in] val Input parameter.
  * @return Return value.
  * @details Calls: is_null(), is_boolean(), is_number_integer(), is_number_float(), is_string(), dump().
  */
-
 ColumnValue VectorizedExecutionEngine::jsonToColumnValue(
     const nlohmann::json& val) {
     if (val.is_null()) {

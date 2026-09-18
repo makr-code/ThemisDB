@@ -21,18 +21,6 @@
 namespace themis {
 namespace storage {
 
-/**
- * @brief Azure Blob Storage Backend
- * 
- * Stores blobs in Azure Blob Storage container.
- * Uses Azure SDK for C++.
- * 
- * Features:
- * - Server-side encryption (AES256)
- * - Content-MD5 verification
- * - Thread-safe operations
- * - Automatic retry policy
- */
 class AzureBlobBackend : public IBlobStorageBackend {
 private:
     std::string connection_string_;
@@ -43,6 +31,12 @@ private:
     mutable std::mutex mutex_;
     
     // Compute SHA256 hash
+    /**
+     * @brief Compute SHA256.
+     * @param[in] data Input parameter.
+     * @return Return value.
+     * @details Calls: SHA256(), data(), size(), std::setw(), std::setfill(), str().
+     */
     static std::string computeSHA256(const std::vector<uint8_t>& data) {
         unsigned char hash[SHA256_DIGEST_LENGTH];
         SHA256(data.data(),data.size(), hash);
@@ -99,14 +93,14 @@ public:
         }
     }
     
-    /// @brief Destructor — explicitly noexcept; container_client_ cleanup via unique_ptr is safe.
-    ///
-    /// The Azure SDK client destructor does not throw; marking this explicitly noexcept
-    /// closes the exception_in_destructor scanner gap (false positive at line 117 which
-    /// is actually inside put(), not the destructor).
     ~AzureBlobBackend() noexcept override = default;
     
     Result<BlobRef> put(const std::string& blob_id, const std::vector<uint8_t>& data) override {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         if (!container_client_) {
             const std::string reason = init_error_.empty() ? "Azure client not initialized" : init_error_;
@@ -124,6 +118,11 @@ public:
             auto blob_client = container_client_->GetBlockBlobClient(blob_name);
             
             // Upload data
+            /**
+             * @brief Stream.
+             * @param[in] data Input parameter.
+             * @return Return value.
+             */
             Azure::Core::IO::MemoryBodyStream stream(data);
             Azure::Storage::Blobs::UploadBlockBlobOptions options;
             options.HttpHeaders.ContentType = "application/octet-stream";
@@ -152,6 +151,11 @@ public:
     }
     
     Result<std::vector<uint8_t>> get(const BlobRef& ref) override {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         if (!container_client_) {
             const std::string reason = init_error_.empty() ? "Azure client not initialized" : init_error_;
@@ -218,6 +222,11 @@ public:
     }
     
     Result<void> remove(const BlobRef& ref) override {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         if (!container_client_) {
             const std::string reason = init_error_.empty() ? "Azure client not initialized" : init_error_;
@@ -250,6 +259,11 @@ public:
     }
     
     bool exists(const BlobRef& ref) override {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         if (!container_client_) {
             THEMIS_WARN("Azure exists check skipped: backend unavailable ({})",
@@ -281,6 +295,11 @@ public:
     }
     
     bool isAvailable() const override {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         if (!container_client_) {
             THEMIS_WARN("AzureBlobBackend unavailable: {}",

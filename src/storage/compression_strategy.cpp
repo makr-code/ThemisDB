@@ -29,6 +29,14 @@ CompressionStrategyManager::CompressionStrategyManager(const CompressionConfig& 
     : config_(config)
 {}
 
+/**
+ * @brief Compress.
+ * @param[in] data Input parameter.
+ * @param[in] size Input parameter.
+ * @param[in] hint Input parameter.
+ * @return Return value.
+ * @details Calls: assign(), value_or(), detect_data_type(), std::min(), select_method(), timer(), method_to_string(), compress_zstd().
+ */
 CompressionResult CompressionStrategyManager::compress(
     const uint8_t* data,
     size_t size,
@@ -107,6 +115,13 @@ CompressionResult CompressionStrategyManager::compress(
     return result;
 }
 
+/**
+ * @brief Decompress.
+ * @param[in] data Input parameter.
+ * @param[in] method Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), timer(), method_to_string(), size(), decompress_zstd(), decompress_rle(), decompress_delta(), decompress_dictionary().
+ */
 std::vector<uint8_t> CompressionStrategyManager::decompress(
     const std::vector<uint8_t>& data,
     CompressionMethod method
@@ -152,6 +167,14 @@ std::vector<uint8_t> CompressionStrategyManager::decompress(
     return result;
 }
 
+/**
+ * @brief Select method.
+ * @param[in] param Input parameter.
+ * @param[in] size_t Input parameter.
+ * @param[in] type Input parameter.
+ * @return Return value.
+ * @details Implements select_method without additional internal calls.
+ */
 CompressionMethod CompressionStrategyManager::select_method(
     const uint8_t* /*data*/,
     size_t /*size*/,
@@ -180,6 +203,13 @@ CompressionMethod CompressionStrategyManager::select_method(
     }
 }
 
+/**
+ * @brief Detect data type.
+ * @param[in] data Input parameter.
+ * @param[in] size Input parameter.
+ * @return Return value.
+ * @details Calls: is_mostly_text(), std::min(), size_t(), is_sparse_data().
+ */
 DataType CompressionStrategyManager::detect_data_type(const uint8_t* data, size_t size) {
     if (size == 0) {
       return DataType::GENERIC;
@@ -204,6 +234,13 @@ DataType CompressionStrategyManager::detect_data_type(const uint8_t* data, size_
     return DataType::GENERIC;
 }
 
+/**
+ * @brief Is mostly text.
+ * @param[in] data Input parameter.
+ * @param[in] size Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: std::min(), size_t(), std::isprint(), std::isspace().
+ */
 bool CompressionStrategyManager::is_mostly_text(const uint8_t* data, size_t size) {
     size_t printable = 0;
     size_t sample_size = std::min(size, size_t(1024));
@@ -217,6 +254,13 @@ bool CompressionStrategyManager::is_mostly_text(const uint8_t* data, size_t size
     return (printable * 100 / sample_size) > size_t(80);
 }
 
+/**
+ * @brief Is sparse data.
+ * @param[in] data Input parameter.
+ * @param[in] size Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: std::min(), size_t().
+ */
 bool CompressionStrategyManager::is_sparse_data(const uint8_t* data, size_t size) {
     size_t zeros = 0;
     size_t sample_size = std::min(size, size_t(1024));
@@ -234,6 +278,13 @@ bool CompressionStrategyManager::is_sparse_data(const uint8_t* data, size_t size
 // Compression Method Implementations
 // ============================================================================
 
+/**
+ * @brief Compress zstd.
+ * @param[in] data Input parameter.
+ * @param[in] size Input parameter.
+ * @return Return value.
+ * @details Calls: utils::zstd_compress(), empty(), size(), assign().
+ */
 CompressionResult CompressionStrategyManager::compress_zstd(const uint8_t* data, size_t size) {
     CompressionResult result;
     result.original_size = size;
@@ -253,6 +304,13 @@ CompressionResult CompressionStrategyManager::compress_zstd(const uint8_t* data,
     return result;
 }
 
+/**
+ * @brief Compress rle.
+ * @param[in] data Input parameter.
+ * @param[in] size Input parameter.
+ * @return Return value.
+ * @details Calls: RLECodec::compress(), empty(), size(), assign().
+ */
 CompressionResult CompressionStrategyManager::compress_rle(const uint8_t* data, size_t size) {
     CompressionResult result;
     result.original_size = size;
@@ -270,6 +328,13 @@ CompressionResult CompressionStrategyManager::compress_rle(const uint8_t* data, 
     return result;
 }
 
+/**
+ * @brief Compress delta.
+ * @param[in] data Input parameter.
+ * @param[in] size Input parameter.
+ * @return Return value.
+ * @details Calls: DeltaCodec::compress(), empty(), size(), assign().
+ */
 CompressionResult CompressionStrategyManager::compress_delta(const uint8_t* data, size_t size) {
     CompressionResult result;
     result.original_size = size;
@@ -287,6 +352,13 @@ CompressionResult CompressionStrategyManager::compress_delta(const uint8_t* data
     return result;
 }
 
+/**
+ * @brief Compress dictionary.
+ * @param[in] data Input parameter.
+ * @param[in] size Input parameter.
+ * @return Return value.
+ * @details Calls: SimpleDictionaryCodec::compress(), empty(), size(), assign().
+ */
 CompressionResult CompressionStrategyManager::compress_dictionary(const uint8_t* data, size_t size) {
     CompressionResult result;
     result.original_size = size;
@@ -308,25 +380,51 @@ CompressionResult CompressionStrategyManager::compress_dictionary(const uint8_t*
 // Decompression Method Implementations
 // ============================================================================
 
+/**
+ * @brief Decompress zstd.
+ * @param[in] data Input parameter.
+ * @return Return value.
+ * @details Calls: utils::zstd_decompress().
+ */
 std::vector<uint8_t> CompressionStrategyManager::decompress_zstd(const std::vector<uint8_t>& data) {
     return utils::zstd_decompress(data);
 }
 
+/**
+ * @brief Decompress rle.
+ * @param[in] data Input parameter.
+ * @return Return value.
+ * @details Calls: RLECodec::decompress().
+ */
 std::vector<uint8_t> CompressionStrategyManager::decompress_rle(const std::vector<uint8_t>& data) {
     return RLECodec::decompress(data);
 }
 
+/**
+ * @brief Decompress delta.
+ * @param[in] data Input parameter.
+ * @return Return value.
+ * @details Calls: DeltaCodec::decompress().
+ */
 std::vector<uint8_t> CompressionStrategyManager::decompress_delta(const std::vector<uint8_t>& data) {
     return DeltaCodec::decompress(data);
 }
 
+/**
+ * @brief Decompress dictionary.
+ * @param[in] data Input parameter.
+ * @return Return value.
+ * @details Calls: SimpleDictionaryCodec::decompress().
+ */
 std::vector<uint8_t> CompressionStrategyManager::decompress_dictionary(const std::vector<uint8_t>& data) {
     return SimpleDictionaryCodec::decompress(data);
 }
 
-// ============================================================================
-// GPU-Accelerated Compression Method Implementations
-// ============================================================================
+/**
+ * @brief ============================================================================ GPU-Accelerated Compression Method Implementations ============================================================================
+ * @return Return value.
+ * @details Implements gpu_manager without additional internal calls.
+ */
 
 themis::storage::GpuCompressionManager& CompressionStrategyManager::gpu_manager() {
     if (!gpu_manager_) {
@@ -336,6 +434,12 @@ themis::storage::GpuCompressionManager& CompressionStrategyManager::gpu_manager(
     return *gpu_manager_;
 }
 
+/**
+ * @brief Compress gpu zstd.
+ * @param[in] data Input parameter.
+ * @param[in] size Input parameter.
+ * @return Return value.
+ */
 CompressionResult CompressionStrategyManager::compress_gpu_zstd(
     const uint8_t* data, size_t size)
 {
@@ -358,6 +462,12 @@ CompressionResult CompressionStrategyManager::compress_gpu_zstd(
     return result;
 }
 
+/**
+ * @brief Compress gpu snappy.
+ * @param[in] data Input parameter.
+ * @param[in] size Input parameter.
+ * @return Return value.
+ */
 CompressionResult CompressionStrategyManager::compress_gpu_snappy(
     const uint8_t* data, size_t size)
 {
@@ -380,6 +490,12 @@ CompressionResult CompressionStrategyManager::compress_gpu_snappy(
     return result;
 }
 
+/**
+ * @brief Compress gpu lz4.
+ * @param[in] data Input parameter.
+ * @param[in] size Input parameter.
+ * @return Return value.
+ */
 CompressionResult CompressionStrategyManager::compress_gpu_lz4(
     const uint8_t* data, size_t size)
 {
@@ -402,6 +518,11 @@ CompressionResult CompressionStrategyManager::compress_gpu_lz4(
     return result;
 }
 
+/**
+ * @brief Decompress gpu zstd.
+ * @param[in] data Input parameter.
+ * @return Return value.
+ */
 std::vector<uint8_t> CompressionStrategyManager::decompress_gpu_zstd(
     const std::vector<uint8_t>& data)
 {
@@ -409,6 +530,11 @@ std::vector<uint8_t> CompressionStrategyManager::decompress_gpu_zstd(
         data, themis::storage::GpuCompressionAlgorithm::ZSTD);
 }
 
+/**
+ * @brief Decompress gpu snappy.
+ * @param[in] data Input parameter.
+ * @return Return value.
+ */
 std::vector<uint8_t> CompressionStrategyManager::decompress_gpu_snappy(
     const std::vector<uint8_t>& data)
 {
@@ -416,6 +542,11 @@ std::vector<uint8_t> CompressionStrategyManager::decompress_gpu_snappy(
         data, themis::storage::GpuCompressionAlgorithm::SNAPPY);
 }
 
+/**
+ * @brief Decompress gpu lz4.
+ * @param[in] data Input parameter.
+ * @return Return value.
+ */
 std::vector<uint8_t> CompressionStrategyManager::decompress_gpu_lz4(
     const std::vector<uint8_t>& data)
 {
@@ -431,10 +562,20 @@ std::string CompressionStrategyManager::get_metrics() const {
     return utils::CompressionMetrics::instance().get_summary();
 }
 
+/**
+ * @brief Reset metrics.
+ * @details Calls: utils::CompressionMetrics::instance(), reset().
+ */
 void CompressionStrategyManager::reset_metrics() {
     utils::CompressionMetrics::instance().reset();
 }
 
+/**
+ * @brief Method to string.
+ * @param[in] method Input parameter.
+ * @return Return value.
+ * @details Implements method_to_string without additional internal calls.
+ */
 std::string CompressionStrategyManager::method_to_string(CompressionMethod method) {
     switch (method) {
         case CompressionMethod::NONE: return "none";
@@ -453,6 +594,12 @@ std::string CompressionStrategyManager::method_to_string(CompressionMethod metho
     }
 }
 
+/**
+ * @brief String to method.
+ * @param[in] str Input parameter.
+ * @return Return value.
+ * @details Calls: find(), end().
+ */
 std::optional<CompressionMethod> CompressionStrategyManager::string_to_method(const std::string& str) {
     static const std::unordered_map<std::string, CompressionMethod> mapping = {
         {"none", CompressionMethod::NONE},
@@ -479,6 +626,12 @@ std::optional<CompressionMethod> CompressionStrategyManager::string_to_method(co
 // RLECodec Implementation
 // ============================================================================
 
+/**
+ * @brief Encode varint.
+ * @param[in,out] output Input/output parameter.
+ * @param[in] value Input parameter.
+ * @details Calls: push_back().
+ */
 void RLECodec::encode_varint(std::vector<uint8_t>& output, uint32_t value) {
     while (value >= 0x80) {
         output.push_back(static_cast<uint8_t>(value | 0x80));
@@ -487,6 +640,12 @@ void RLECodec::encode_varint(std::vector<uint8_t>& output, uint32_t value) {
     output.push_back(static_cast<uint8_t>(value));
 }
 
+/**
+ * @brief Decode varint.
+ * @param[in] ptr Input parameter.
+ * @return Return value.
+ * @details Implements decode_varint without additional internal calls.
+ */
 uint32_t RLECodec::decode_varint(const uint8_t*& ptr) {
     uint32_t result = 0;
     int shift = 0;
@@ -503,6 +662,13 @@ uint32_t RLECodec::decode_varint(const uint8_t*& ptr) {
     return result;
 }
 
+/**
+ * @brief Compress.
+ * @param[in] data Input parameter.
+ * @param[in] size Input parameter.
+ * @return Return value.
+ * @details Calls: THEMIS_DEBUG(), max(), reserve(), encode_varint(), push_back().
+ */
 std::vector<uint8_t> RLECodec::compress(const uint8_t* data, size_t size) {
     if (size == 0) {
         THEMIS_DEBUG("RLECodec::compress: called with size=0");
@@ -535,6 +701,12 @@ std::vector<uint8_t> RLECodec::compress(const uint8_t* data, size_t size) {
     return result;
 }
 
+/**
+ * @brief Decompress.
+ * @param[in] data Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), THEMIS_DEBUG(), size(), max(), reserve(), data(), decode_varint(), insert().
+ */
 std::vector<uint8_t> RLECodec::decompress(const std::vector<uint8_t>& data) {
     if (data.empty()) {
         THEMIS_DEBUG("RLECodec::decompress: called with empty input");
@@ -570,6 +742,13 @@ std::vector<uint8_t> RLECodec::decompress(const std::vector<uint8_t>& data) {
 // DeltaCodec Implementation
 // ============================================================================
 
+/**
+ * @brief Compress.
+ * @param[in] data Input parameter.
+ * @param[in] size Input parameter.
+ * @return Return value.
+ * @details Calls: THEMIS_DEBUG(), reserve(), push_back().
+ */
 std::vector<uint8_t> DeltaCodec::compress(const uint8_t* data, size_t size) {
     if (size == 0) {
         THEMIS_DEBUG("DeltaCodec::compress: called with size=0");
@@ -591,6 +770,12 @@ std::vector<uint8_t> DeltaCodec::compress(const uint8_t* data, size_t size) {
     return result;
 }
 
+/**
+ * @brief Decompress.
+ * @param[in] data Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), THEMIS_DEBUG(), reserve(), size(), push_back().
+ */
 std::vector<uint8_t> DeltaCodec::decompress(const std::vector<uint8_t>& data) {
     if (data.empty()) {
         THEMIS_DEBUG("DeltaCodec::decompress: called with empty input");
@@ -618,6 +803,13 @@ std::vector<uint8_t> DeltaCodec::decompress(const std::vector<uint8_t>& data) {
 // SimpleDictionaryCodec Implementation
 // ============================================================================
 
+/**
+ * @brief Compress.
+ * @param[in] data Input parameter.
+ * @param[in] size Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), find(), end(), size(), push_back(), THEMIS_DEBUG(), insert(), begin().
+ */
 std::vector<uint8_t> SimpleDictionaryCodec::compress(const uint8_t* data, size_t size) {
     if (size == 0) return {};
     
@@ -664,6 +856,12 @@ std::vector<uint8_t> SimpleDictionaryCodec::compress(const uint8_t* data, size_t
     return result;
 }
 
+/**
+ * @brief Decompress.
+ * @param[in] data Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), size(), THEMIS_WARN(), dictionary(), begin(), reserve(), push_back().
+ */
 std::vector<uint8_t> SimpleDictionaryCodec::decompress(const std::vector<uint8_t>& data) {
     if (data.empty()) return {};
     

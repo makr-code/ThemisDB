@@ -33,22 +33,39 @@ struct SafetyClassification {
     std::string source = "rule_based";
 };
 
-/** @brief Safety classifier. */
 class SafetyClassifier {
 public:
     using InferenceFn = std::function<std::optional<SafetyClassification>(std::string_view)>;
 
     explicit SafetyClassifier(InferenceFn inference_fn = nullptr);
 
+    /**
+     * @brief Inject an inference function used by classify().
+     * @param[in] inference_fn Input parameter.
+     */
     void setInferenceFn(InferenceFn inference_fn);
+    /**
+     * @brief Has Inference Fn.
+     * @return True when the operation succeeds.
+     */
     bool hasInferenceFn() const;
 
+    /**
+     * @brief Classify the semantic intent of a query.
+     * @param[in] text Input parameter.
+     * @return Return value.
+     */
     SafetyClassification classify(std::string_view text) const;
     std::vector<SafetyClassification> classifyBatch(
         const std::vector<std::string>& texts,
         std::size_t max_parallelism = 0) const;
 
 private:
+    /**
+     * @brief Fallback Classify.
+     * @param[in] text Input parameter.
+     * @return Return value.
+     */
     SafetyClassification fallbackClassify(std::string_view text) const;
 
     InferenceFn inference_fn_;

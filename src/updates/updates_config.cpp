@@ -44,6 +44,12 @@ UpdatesConfig::CanaryConfig::toCanaryConfig(const std::string& version) const {
     return runtime;
 }
 
+/**
+ * @brief Load From Yaml.
+ * @param[in] yaml_path Path to the yaml.
+ * @return Return value.
+ * @details Calls: YAML::LoadFile(), std::chrono::seconds(), clear(), push_back(), std::max(), LOG_INFO(), LOG_ERROR(), what().
+ */
 UpdatesConfig UpdatesConfig::loadFromYaml(const std::string& yaml_path) {
     try {
         YAML::Node config = YAML::LoadFile(yaml_path);
@@ -175,6 +181,12 @@ UpdatesConfig UpdatesConfig::loadFromYaml(const std::string& yaml_path) {
     }
 }
 
+/**
+ * @brief From Json.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: contains(), value(), std::chrono::seconds(), clear(), push_back(), std::string(), std::max(), LOG_ERROR().
+ */
 UpdatesConfig UpdatesConfig::fromJson(const json& j) {
     UpdatesConfig result;
     
@@ -463,6 +475,11 @@ void UpdatesConfig::saveToYaml(const std::string& yaml_path) const {
         out << YAML::EndMap;  // updates
         out << YAML::EndMap;  // root
         
+        /**
+         * @brief Fout.
+         * @param[in] yaml_path Path to the yaml.
+         * @return Return value.
+         */
         std::ofstream fout(yaml_path);
         fout << out.c_str();
         

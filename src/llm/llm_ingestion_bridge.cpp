@@ -25,6 +25,15 @@
 namespace themis {
 namespace llm {
 
+/**
+ * @brief Generate.
+ * @param[in] prompt Input parameter.
+ * @param[in] max_tokens Input parameter.
+ * @param[in] temperature Input parameter.
+ * @param[in] lora_adapter Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), LLMPluginManager::instance(), spdlog::error(), what().
+ */
 std::string LlmIngestionBridge::generate(const std::string& prompt,
                                           int                max_tokens,
                                           double             temperature,

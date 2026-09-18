@@ -27,6 +27,12 @@ BoundedLRUCache::~BoundedLRUCache() {
     clear();
 }
 
+/**
+ * @brief Get.
+ * @param[in] key Input parameter.
+ * @return Return value.
+ * @details Calls: rlock(), find(), end(), fetch_add(), lock(), erase(), isExpired(), removeNode().
+ */
 std::optional<nlohmann::json> BoundedLRUCache::get(const std::string &key) {
     // Fast miss path: a shared (read) lock is sufficient to check whether the
     // key is absent.  This allows concurrent reads without any write contention.
@@ -90,6 +96,13 @@ std::optional<nlohmann::json> BoundedLRUCache::get(const std::string &key) {
     return node->entry.value;
 }
 
+/**
+ * @brief Put.
+ * @param[in] key Input parameter.
+ * @param[in] value Input parameter.
+ * @param[in] ttl_seconds Input parameter.
+ * @details Calls: dump(), size(), THEMIS_WARN(), std::chrono::seconds(), lock(), find(), end(), erase().
+ */
 void BoundedLRUCache::put(const std::string &key, nlohmann::json value, uint32_t ttl_seconds) {
     // C4: AI/LLM safety — validate entry size and TTL before acquiring the lock.
     // Serialise once here; the string is used as a size proxy (not stored).
@@ -150,6 +163,12 @@ void BoundedLRUCache::put(const std::string &key, nlohmann::json value, uint32_t
     addToFront(node);
 }
 
+/**
+ * @brief Remove.
+ * @param[in] key Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), find(), end(), erase(), removeNode().
+ */
 bool BoundedLRUCache::remove(const std::string &key) {
     std::unique_lock<std::shared_mutex> lock(mutex_);
 
@@ -170,6 +189,11 @@ bool BoundedLRUCache::remove(const std::string &key) {
     return true;
 }
 
+/**
+ * @brief Evict LRUIf Needed.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), size(), removeLRU().
+ */
 bool BoundedLRUCache::evictLRUIfNeeded() {
     std::unique_lock<std::shared_mutex> lock(mutex_);
 
@@ -182,6 +206,11 @@ bool BoundedLRUCache::evictLRUIfNeeded() {
 }
 
 BoundedLRUCache::Statistics BoundedLRUCache::getStatistics() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(mutex_);
 
     Statistics stats;
@@ -192,6 +221,10 @@ BoundedLRUCache::Statistics BoundedLRUCache::getStatistics() const {
     return stats;
 }
 
+/**
+ * @brief Clear.
+ * @details Calls: lock(), store().
+ */
 void BoundedLRUCache::clear() {
     std::unique_lock<std::shared_mutex> lock(mutex_);
 
@@ -202,6 +235,11 @@ void BoundedLRUCache::clear() {
     misses_.store(0, std::memory_order_relaxed);
 }
 
+/**
+ * @brief Move To Front.
+ * @param[in] node Input parameter.
+ * @details Implements moveToFront without additional internal calls.
+ */
 void BoundedLRUCache::moveToFront(std::shared_ptr<Node> node) {
     if (!node) [[unlikely]] {
         return;
@@ -235,6 +273,11 @@ void BoundedLRUCache::moveToFront(std::shared_ptr<Node> node) {
     }
 }
 
+/**
+ * @brief Remove Node.
+ * @param[in] node Input parameter.
+ * @details Implements removeNode without additional internal calls.
+ */
 void BoundedLRUCache::removeNode(std::shared_ptr<Node> node) {
     if (!node) [[unlikely]] {
         return;
@@ -255,6 +298,11 @@ void BoundedLRUCache::removeNode(std::shared_ptr<Node> node) {
     node->next = nullptr;
 }
 
+/**
+ * @brief Add To Front.
+ * @param[in] node Input parameter.
+ * @details Implements addToFront without additional internal calls.
+ */
 void BoundedLRUCache::addToFront(std::shared_ptr<Node> node) {
     if (!node) [[unlikely]] {
         return;
@@ -272,6 +320,10 @@ void BoundedLRUCache::addToFront(std::shared_ptr<Node> node) {
     }
 }
 
+/**
+ * @brief Remove LRU.
+ * @details Calls: erase().
+ */
 void BoundedLRUCache::removeLRU() {
     if (!tail_) {
         return;
@@ -297,6 +349,11 @@ bool BoundedLRUCache::isExpired(const CacheEntry &entry) const {
 }
 
 bool BoundedLRUCache::contains(const std::string &key) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(mutex_);
     auto it = cache_.find(key);
     if (it == cache_.end()) {
@@ -309,6 +366,11 @@ bool BoundedLRUCache::contains(const std::string &key) const {
 }
 
 std::size_t BoundedLRUCache::size() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(mutex_);
     return cache_.size();
 }

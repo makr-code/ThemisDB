@@ -18,7 +18,7 @@
 namespace themis {
 
 /**
- * @brief --------------------------------------------------------------------------- FNV-1a 64-bit hash (public domain) ---------------------------------------------------------------------------
+ * @brief Fnv1a hex.
  * @param[in] text Input parameter.
  * @return Return value.
  * @details Calls: themis::hash::fnv1a64_hex().

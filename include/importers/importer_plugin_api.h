@@ -840,24 +840,10 @@ using ImporterRegistry = ImporterPluginRegistry;
  * @endcode
  */
 #define THEMIS_IMPORTER_PLUGIN_IMPL(PluginClass)                            \
-    extern "C" {                                                             \
-        THEMIS_PLUGIN_EXPORT                                                 \
-        /**
-         * @brief Create Plugin.
-         * @return Pointer to the result.
-         * @details Calls: PluginClass().
-         */
-        themis::plugins::IThemisPlugin* createPlugin() {                    \
-            return new PluginClass();                                        \
-        }                                                                    \
-        THEMIS_PLUGIN_EXPORT                                                 \
-        /**
-         * @brief Destroy Plugin.
-         * @param[in,out] plugin Input/output parameter.
-         * @details Implements destroyPlugin without additional internal calls.
-         */
-        void destroyPlugin(themis::plugins::IThemisPlugin* plugin) {        \
-            delete plugin;                                                   \
-        }                                                                    \
+    extern "C" themis::plugins::IThemisPlugin* createPlugin() {            \
+        return new PluginClass();                                            \
+    }                                                                        \
+    extern "C" void destroyPlugin(themis::plugins::IThemisPlugin* plugin) {\
+        delete plugin;                                                       \
     }
 

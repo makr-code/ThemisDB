@@ -23,6 +23,11 @@ UnifiedMemoryBuffer::~UnifiedMemoryBuffer() noexcept {
     }
 }
 
+/**
+ * @brief Acquire For CPU.
+ * @return True when the operation succeeds.
+ * @details Calls: isValid(), compare_exchange_strong(), store(), CUDA_CHECK(), cudaDeviceSynchronize().
+ */
 bool UnifiedMemoryBuffer::acquireForCPU() {
     if (!isValid()) {
         return false;
@@ -57,6 +62,11 @@ bool UnifiedMemoryBuffer::acquireForCPU() {
     return false;
 }
 
+/**
+ * @brief Acquire For GPU.
+ * @return True when the operation succeeds.
+ * @details Calls: isValid(), compare_exchange_strong(), store().
+ */
 bool UnifiedMemoryBuffer::acquireForGPU() {
     if (!isValid()) {
         return false;
@@ -86,6 +96,11 @@ bool UnifiedMemoryBuffer::acquireForGPU() {
     return false;
 }
 
+/**
+ * @brief Release Ownership.
+ * @return True when the operation succeeds.
+ * @details Calls: load(), store().
+ */
 bool UnifiedMemoryBuffer::releaseOwnership() {
     Owner current = owner_.load(std::memory_order_acquire);
     
@@ -117,6 +132,11 @@ bool UnifiedMemoryBuffer::isValid() const noexcept {
     return ptr_ != nullptr && size_ > 0;
 }
 
+/**
+ * @brief Synchronize.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: isValid(), CUDA_CHECK(), cudaDeviceSynchronize().
+ */
 void UnifiedMemoryBuffer::synchronize() {
     if (!isValid()) {
         throw std::runtime_error("UnifiedMemoryBuffer: Buffer not valid");
@@ -129,6 +149,12 @@ bool UnifiedMemoryBuffer::hadConflict() const noexcept {
     return conflict_.load(std::memory_order_acquire);
 }
 
+/**
+ * @brief Allocate Unified Memory.
+ * @param[in] size Input parameter.
+ * @return Pointer to the result.
+ * @details Calls: CUDA_CHECK(), cudaMallocManaged().
+ */
 void* UnifiedMemoryBuffer::allocateUnifiedMemory(size_t size) {
     void* ptr = nullptr;
     CUDA_CHECK(cudaMallocManaged(&ptr, size));

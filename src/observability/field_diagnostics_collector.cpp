@@ -16,12 +16,8 @@ namespace themis {
 namespace observability {
 
 /**
- * @brief Return the process-wide singleton instance.
- *
- * Uses a function-local static to guarantee both lazy initialisation and
- * thread-safe construction (C++11 magic statics).
- *
- * @return Reference to the global `FieldDiagnosticsCollector`.
+ * @brief Get Instance.
+ * @return Return value.
  * @details Implements getInstance without additional internal calls.
  */
 FieldDiagnosticsCollector& FieldDiagnosticsCollector::getInstance() {
@@ -29,13 +25,6 @@ FieldDiagnosticsCollector& FieldDiagnosticsCollector::getInstance() {
     return instance;
 }
 
-/**
- * @brief Default constructor; initialises the collector with production-safe defaults.
- *
- * Sets `max_buffer_size = 1000`, enables PII masking, metrics emission, and
- * batching.  The collector is enabled immediately after construction.  Call
- * `configure()` to override these defaults before processing load begins.
- */
 FieldDiagnosticsCollector::FieldDiagnosticsCollector() {
     // Default configuration
     config_.max_buffer_size = 1000;
@@ -47,61 +36,30 @@ FieldDiagnosticsCollector::FieldDiagnosticsCollector() {
     config_.enabled = true;
 }
 
-/**
- * @brief Destructor; flushes any pending batched events before teardown.
- *
- * Calls `flush()` to export buffered events.  Because the singleton lives
- * until process exit, this destructor runs during static destruction; all
- * other static objects it depends on (e.g. `MetricsCollector`) must still be
- * alive at that point.
- */
 FieldDiagnosticsCollector::~FieldDiagnosticsCollector() {
     // Flush any pending events on shutdown
     flush();
 }
 
 /**
- * @brief Replace the entire collector configuration atomically.
- *
- * Acquires an exclusive write lock so that in-flight `emitWithPIIMasking()`
- * or `emitDiagnosticEvent()` calls that are concurrently reading config fields
- * under a shared lock will not observe a partially updated state.
- *
- * @param config New configuration to apply.
+ * @brief Configure.
+ * @param[in] config Input parameter.
  * @details Calls: lock().
  */
 void FieldDiagnosticsCollector::configure(const FieldDiagnosticsConfig& config) {
-    /**
-     * @brief Lock.
-     * @param[in] buffer_mu_ Input parameter.
-     * @return Return value.
-     */
     std::unique_lock<std::shared_mutex> lock(buffer_mu_);
     config_ = config;
 }
 
 /**
- * @brief Emit a diagnostic event after applying automatic PII masking.
- *
- * Snapshots the `enabled` and `enable_pii_masking` flags under a shared lock,
- * then (when masking is active) passes a copy of @p event through
- * `sanitizePII()` and increments the `pii_sanitizations_` counter before
- * forwarding to `emitDiagnosticEvent()`.
- *
- * @param event Diagnostic event that may contain PII-sensitive fields.
- *
- * @return `true` if the event was buffered; `false` if collection is disabled
- *         or the buffer rejected the event (e.g. `max_buffer_size == 0`).
+ * @brief Emit With PIIMasking.
+ * @param[in] event Input parameter.
+ * @return True when the operation succeeds.
  * @details Calls: lock(), sanitizePII(), emitDiagnosticEvent().
  */
 bool FieldDiagnosticsCollector::emitWithPIIMasking(const DiagnosticEvent& event) {
     bool enabled, pii_masking;
     {
-        /**
-         * @brief Lock.
-         * @param[in] buffer_mu_ Input parameter.
-         * @return Return value.
-         */
         std::shared_lock<std::shared_mutex> lock(buffer_mu_);
         enabled = config_.enabled;
         pii_masking = config_.enable_pii_masking;
@@ -122,27 +80,14 @@ bool FieldDiagnosticsCollector::emitWithPIIMasking(const DiagnosticEvent& event)
 }
 
 /**
- * @brief Emit a pre-sanitized diagnostic event directly.
- *
- * Snapshots `enabled` and `enable_metrics_emission` under a shared lock, then
- * — if collection is active — buffers the event, increments
- * `total_events_emitted_`, optionally updates Prometheus metrics, and invokes
- * any registered emission callbacks.
- *
- * @param event Diagnostic event assumed to contain no unmasked PII.
- *
- * @return `true` if the event was buffered; `false` if disabled or the buffer
- *         was full and the event was dropped (increments `events_dropped_`).
+ * @brief Emit Diagnostic Event.
+ * @param[in] event Input parameter.
+ * @return True when the operation succeeds.
  * @details Calls: lock(), addEventToBuffer(), updateMetricsForEvent(), invokeCallbacks().
  */
 bool FieldDiagnosticsCollector::emitDiagnosticEvent(const DiagnosticEvent& event) {
     bool enabled, metrics_enabled;
     {
-        /**
-         * @brief Lock.
-         * @param[in] buffer_mu_ Input parameter.
-         * @return Return value.
-         */
         std::shared_lock<std::shared_mutex> lock(buffer_mu_);
         enabled = config_.enabled;
         metrics_enabled = config_.enable_metrics_emission;
@@ -171,24 +116,12 @@ bool FieldDiagnosticsCollector::emitDiagnosticEvent(const DiagnosticEvent& event
 }
 
 /**
- * @brief Insert an event into the ring buffer under an exclusive lock.
- *
- * When the buffer is already at capacity, the oldest event is evicted from
- * the front of the deque and `events_dropped_` is incremented before the new
- * event is appended.  If `max_buffer_size == 0`, the buffer is effectively
- * disabled and all events are dropped immediately.
- *
- * @param event Event to insert.
- * @return `true` if the event was inserted; `false` if the buffer is disabled
- *         (`max_buffer_size == 0`).
+ * @brief Add Event To Buffer.
+ * @param[in] event Input parameter.
+ * @return True when the operation succeeds.
  * @details Calls: lock(), size(), pop_front(), push_back().
  */
 bool FieldDiagnosticsCollector::addEventToBuffer(const DiagnosticEvent& event) {
-    /**
-     * @brief Lock.
-     * @param[in] buffer_mu_ Input parameter.
-     * @return Return value.
-     */
     std::unique_lock<std::shared_mutex> lock(buffer_mu_);
 
     if (config_.max_buffer_size == 0) {
@@ -205,15 +138,6 @@ bool FieldDiagnosticsCollector::addEventToBuffer(const DiagnosticEvent& event) {
     return true;
 }
 
-/**
- * @brief Return all buffered events whose timestamps are ≥ @p since_timestamp.
- *
- * Acquires a shared lock for the duration of the scan so that the returned
- * snapshot is consistent with respect to concurrent writes.
- *
- * @param since_timestamp Lower-bound (inclusive) for event timestamps.
- * @return Vector of matching events (by value; the buffer is not modified).
- */
 std::vector<DiagnosticEvent> FieldDiagnosticsCollector::getEventsSince(
     const std::chrono::system_clock::time_point& since_timestamp) const {
     /**
@@ -233,15 +157,6 @@ std::vector<DiagnosticEvent> FieldDiagnosticsCollector::getEventsSince(
     return result;
 }
 
-/**
- * @brief Return a snapshot of all buffered events.
- *
- * Acquires a shared lock and copies the entire internal deque into a vector.
- * The caller receives an independent copy; subsequent buffer modifications do
- * not affect the returned vector.
- *
- * @return All currently buffered `DiagnosticEvent` instances.
- */
 std::vector<DiagnosticEvent> FieldDiagnosticsCollector::getAllEvents() const {
     /**
      * @brief Lock.
@@ -252,15 +167,6 @@ std::vector<DiagnosticEvent> FieldDiagnosticsCollector::getAllEvents() const {
     return std::vector<DiagnosticEvent>(event_buffer_.begin(), event_buffer_.end());
 }
 
-/**
- * @brief Count buffered events grouped by `DiagnosticFailureCategory`.
- *
- * Acquires a shared lock and iterates the buffer once to build the frequency
- * map.  Useful for dashboard summaries or health-check endpoints.
- *
- * @return Map of `DiagnosticFailureCategory` → count for every category that
- *         has at least one buffered event.
- */
 std::map<DiagnosticFailureCategory, size_t> 
 FieldDiagnosticsCollector::getEventCountsByCategory() const {
     /**
@@ -279,31 +185,14 @@ FieldDiagnosticsCollector::getEventCountsByCategory() const {
 }
 
 /**
- * @brief Discard all buffered events.
- *
- * Acquires an exclusive lock and clears the internal deque.  Does not reset
- * the `total_events_emitted_` or `events_dropped_` counters; those reflect
- * lifetime totals.  Useful for test teardown or explicit state resets.
+ * @brief Clear Buffer.
  * @details Calls: lock(), clear().
  */
 void FieldDiagnosticsCollector::clearBuffer() {
-    /**
-     * @brief Lock.
-     * @param[in] buffer_mu_ Input parameter.
-     * @return Return value.
-     */
     std::unique_lock<std::shared_mutex> lock(buffer_mu_);
     event_buffer_.clear();
 }
 
-/**
- * @brief Return the current number of events in the buffer.
- *
- * Acquires a shared lock to read the deque size atomically with respect to
- * concurrent writes.
- *
- * @return Number of events currently held in the internal buffer.
- */
 size_t FieldDiagnosticsCollector::getBufferSize() const {
     /**
      * @brief Lock.
@@ -315,34 +204,15 @@ size_t FieldDiagnosticsCollector::getBufferSize() const {
 }
 
 /**
- * @brief Enable or disable event collection at runtime.
- *
- * Acquires an exclusive lock before modifying `config_.enabled` so that
- * concurrent readers (which snapshot the flag under a shared lock) always see
- * a consistent value.
- *
- * @param enabled `true` to enable collection; `false` to suppress all
- *                incoming events (they will be silently discarded).
+ * @brief Set Enabled.
+ * @param[in] enabled Input parameter.
  * @details Calls: lock().
  */
 void FieldDiagnosticsCollector::setEnabled(bool enabled) {
-    /**
-     * @brief Lock.
-     * @param[in] buffer_mu_ Input parameter.
-     * @return Return value.
-     */
     std::unique_lock<std::shared_mutex> lock(buffer_mu_);
     config_.enabled = enabled;
 }
 
-/**
- * @brief Return whether event collection is currently enabled.
- *
- * Acquires a shared lock to read `config_.enabled` without racing against
- * concurrent `setEnabled()` or `configure()` calls.
- *
- * @return `true` if the collector is accepting events.
- */
 bool FieldDiagnosticsCollector::isEnabled() const {
     /**
      * @brief Lock.
@@ -353,19 +223,6 @@ bool FieldDiagnosticsCollector::isEnabled() const {
     return config_.enabled;
 }
 
-/**
- * @brief Register a callback to be invoked synchronously on every successful emit.
- *
- * Callbacks are called in registration order from within `emitDiagnosticEvent()`
- * **after** the event has been written to the buffer.  Each callback receives a
- * const reference to the (already-sanitized) event.
- *
- * Exceptions thrown by a callback are silently swallowed to prevent cascade
- * failures in the emitting thread.  Keep callbacks fast to avoid adding latency
- * to the emit hot path.
- *
- * @param callback Invocable `void(const DiagnosticEvent&)` to register.
- */
 void FieldDiagnosticsCollector::registerEmitCallback(
     std::function<void(const DiagnosticEvent&)> callback) {
     /**
@@ -377,16 +234,6 @@ void FieldDiagnosticsCollector::registerEmitCallback(
     emit_callbacks_.push_back(callback);
 }
 
-/**
- * @brief Invoke all registered emission callbacks for @p event.
- *
- * Acquires the callback mutex for the duration of the loop so that
- * concurrent `registerEmitCallback()` calls cannot corrupt the callback
- * vector mid-iteration.  Exceptions from individual callbacks are caught
- * and suppressed to preserve isolation.
- *
- * @param event The event that was just buffered (already PII-sanitized).
- */
 void FieldDiagnosticsCollector::invokeCallbacks(const DiagnosticEvent& event) const {
     /**
      * @brief Lock.
@@ -403,15 +250,6 @@ void FieldDiagnosticsCollector::invokeCallbacks(const DiagnosticEvent& event) co
     }
 }
 
-/**
- * @brief Serialise all buffered events to a JSON array.
- *
- * Acquires a shared lock and converts each buffered `DiagnosticEvent` to its
- * JSON representation via `DiagnosticEvent::toJson()`.  The returned array
- * is a snapshot; subsequent events are not included.
- *
- * @return `nlohmann::json` array containing one object per buffered event.
- */
 nlohmann::json FieldDiagnosticsCollector::exportAsJSON() const {
     /**
      * @brief Lock.
@@ -436,25 +274,6 @@ void FieldDiagnosticsCollector::flush() {
     // In a real implementation, this would trigger async export
 }
 
-/**
- * @brief Return a JSON object summarising collector health and counters.
- *
- * Atomically reads lifetime counters (`total_events_emitted_`,
- * `events_dropped_`, `pii_sanitizations_`) and then snapshots the current
- * buffer size, configuration flags, and per-category event counts under a
- * single shared lock to avoid data races.
- *
- * @return `nlohmann::json` object with the following fields:
- *   - `total_events_emitted`   — lifetime count of accepted events.
- *   - `events_dropped`         — lifetime count of dropped events.
- *   - `pii_sanitizations`      — lifetime count of PII sanitization passes.
- *   - `current_buffer_size`    — number of events currently buffered.
- *   - `max_buffer_size`        — configured buffer capacity.
- *   - `enabled`                — current collection state.
- *   - `pii_masking_enabled`    — whether PII masking is active.
- *   - `metrics_emission_enabled` — whether Prometheus metrics are emitted.
- *   - `events_by_category`     — object mapping category name → count.
- */
 nlohmann::json FieldDiagnosticsCollector::getStats() const {
     nlohmann::json stats;
     stats["total_events_emitted"] = total_events_emitted_.load();
@@ -496,14 +315,8 @@ nlohmann::json FieldDiagnosticsCollector::getStats() const {
 }
 
 /**
- * @brief Update Prometheus metrics counters/gauges for an emitted event.
- *
- * Increments the `field_diagnostic_events_total` counter labelled with the
- * event's category, module name, and severity.  When `affected_user_count` is
- * non-negative, also sets the `field_diagnostic_affected_users` gauge for the
- * corresponding category/module combination.
- *
- * @param event The buffered event whose metrics should be recorded.
+ * @brief Update Metrics For Event.
+ * @param[in] event Input parameter.
  * @details Calls: MetricsCollector::getInstance(), addCounter(), failureCategoryToString(), severityToString(), setGauge().
  */
 void FieldDiagnosticsCollector::updateMetricsForEvent(const DiagnosticEvent& event) {

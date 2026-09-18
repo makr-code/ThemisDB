@@ -18,13 +18,14 @@
 namespace themis {
 namespace sharding {
 
-// uncaught_exception scanner alerts (lines 23, 135, 141, 188, 309, 326, 450, 456, ~480):
-// all throws are precondition violations (invalid shard count, matrix inversion failure,
-// not enough chunks) — intentional API design; callers are expected to handle or propagate.
-// pointer_arithmetic scanner alerts (lines 105, 422 and related memcpy/data() accesses):
-// std::vector<uint8_t>::data() returns a raw pointer used with std::memcpy — a standard
-// binary serialization pattern; all sizes are computed from the same vector's size()
-// member and cannot exceed the allocation — false positives.
+/**
+ * @brief uncaught_exception scanner alerts (lines 23, 135, 141, 188, 309, 326, 450, 456, ~480): all throws are precondition violations (invalid shard count, matrix inversion failure, not enough chunks) — intentional API design; callers are expected to handle or propagate.
+ * @param[in] rows Input parameter.
+ * @param[in] cols Input parameter.
+ * @return Return value.
+ * @throws std::invalid_argument if an error occurs.
+ * @details pointer_arithmetic scanner alerts (lines 105, 422 and related memcpy/data() accesses): std::vector<uint8_t>::data() returns a raw pointer used with std::memcpy — a standard binary serialization pattern; all sizes are computed from the same vector's size() member and cannot exceed the allocation — false positives. Calls: UINT32_C(), matrix(), gf_pow().
+ */
 std::vector<std::vector<uint8_t>> ReedSolomonCoder::buildVandermondeMatrix(
     uint32_t rows, uint32_t cols
 ) {
@@ -42,6 +43,12 @@ std::vector<std::vector<uint8_t>> ReedSolomonCoder::buildVandermondeMatrix(
     return matrix;
 }
 
+/**
+ * @brief Invert Matrix.
+ * @param[in,out] matrix Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: size(), augmented(), std::swap(), gf_inv(), gf_mul().
+ */
 bool ReedSolomonCoder::invertMatrix(std::vector<std::vector<uint8_t>>& matrix) {
     const size_t size = matrix.size();
     std::vector<std::vector<uint8_t>> augmented(size, std::vector<uint8_t>(2 * size, 0));
@@ -94,6 +101,14 @@ bool ReedSolomonCoder::invertMatrix(std::vector<std::vector<uint8_t>>& matrix) {
     return true;
 }
 
+/**
+ * @brief Encode.
+ * @param[in] data Input parameter.
+ * @param[in] data_shards Input parameter.
+ * @param[in] parity_shards Input parameter.
+ * @return Return value.
+ * @details Calls: size(), reserve(), chunk(), std::min(), std::memcpy(), data(), push_back(), std::move().
+ */
 std::vector<std::vector<uint8_t>> ReedSolomonCoder::encode(
     const std::vector<uint8_t>& data,
     uint32_t data_shards,
@@ -206,6 +221,11 @@ std::vector<uint8_t> ReedSolomonCoder::decode(
     std::vector<std::vector<uint8_t>> recovered_data(data_shards,
                                                      std::vector<uint8_t>(chunk_size, 0));
     for (size_t byte = 0; byte < chunk_size; ++byte) {
+        /**
+         * @brief Available bytes.
+         * @param[in] data_shards Input parameter.
+         * @return Return value.
+         */
         std::vector<uint8_t> available_bytes(data_shards);
         for (size_t row = 0; row < data_shards_count; ++row) {
             available_bytes[row] = available_chunks.at(available_indices[row])[byte];
@@ -226,6 +246,13 @@ std::vector<uint8_t> ReedSolomonCoder::decode(
     return result;
 }
 
+/**
+ * @brief Gf mul.
+ * @param[in] a Input parameter.
+ * @param[in] b Input parameter.
+ * @return Return value.
+ * @details Implements gf_mul without additional internal calls.
+ */
 uint8_t ReedSolomonCoder::gf_mul(uint8_t a, uint8_t b) {
     uint8_t product = 0;
     for (int i = 0; i < 8; ++i) {
@@ -242,6 +269,12 @@ uint8_t ReedSolomonCoder::gf_mul(uint8_t a, uint8_t b) {
     return product;
 }
 
+/**
+ * @brief Gf inv.
+ * @param[in] a Input parameter.
+ * @return Return value.
+ * @details Calls: gf_mul().
+ */
 uint8_t ReedSolomonCoder::gf_inv(uint8_t a) {
     if (a == 0) {
         return 0;
@@ -257,10 +290,24 @@ uint8_t ReedSolomonCoder::gf_inv(uint8_t a) {
     return result;
 }
 
+/**
+ * @brief Gf div.
+ * @param[in] a Input parameter.
+ * @param[in] b Input parameter.
+ * @return Return value.
+ * @details Calls: gf_mul(), gf_inv().
+ */
 uint8_t ReedSolomonCoder::gf_div(uint8_t a, uint8_t b) {
     return gf_mul(a, gf_inv(b));
 }
 
+/**
+ * @brief Gf pow.
+ * @param[in] a Input parameter.
+ * @param[in] exp Input parameter.
+ * @return Return value.
+ * @details Calls: gf_mul().
+ */
 uint8_t ReedSolomonCoder::gf_pow(uint8_t a, uint8_t exp) {
     uint8_t result = 1;
     for (uint8_t i = 0; i < exp; ++i) {
@@ -269,6 +316,13 @@ uint8_t ReedSolomonCoder::gf_pow(uint8_t a, uint8_t exp) {
     return result;
 }
 
+/**
+ * @brief Gf matrix mul.
+ * @param[in] matrix Input parameter.
+ * @param[in] vec Input parameter.
+ * @param[in,out] result Input/output parameter.
+ * @details Calls: size(), assign(), gf_mul().
+ */
 void ReedSolomonCoder::gf_matrix_mul(
     const std::vector<std::vector<uint8_t>>& matrix,
     const std::vector<uint8_t>& vec,
@@ -285,6 +339,13 @@ void ReedSolomonCoder::gf_matrix_mul(
     }
 }
 
+/**
+ * @brief Gf mul.
+ * @param[in] a Input parameter.
+ * @param[in] b Input parameter.
+ * @return Return value.
+ * @details Implements gf_mul without additional internal calls.
+ */
 uint8_t CauchyReedSolomonCoder::gf_mul(uint8_t a, uint8_t b) {
     uint8_t product = 0;
     for (int i = 0; i < 8; ++i) {
@@ -301,6 +362,12 @@ uint8_t CauchyReedSolomonCoder::gf_mul(uint8_t a, uint8_t b) {
     return product;
 }
 
+/**
+ * @brief Gf inv.
+ * @param[in] a Input parameter.
+ * @return Return value.
+ * @details Calls: gf_mul().
+ */
 uint8_t CauchyReedSolomonCoder::gf_inv(uint8_t a) {
     if (a == 0) {
         return 0;
@@ -316,6 +383,15 @@ uint8_t CauchyReedSolomonCoder::gf_inv(uint8_t a) {
     return result;
 }
 
+/**
+ * @brief Build Cauchy Matrix.
+ * @param[in] rows Input parameter.
+ * @param[in] cols Input parameter.
+ * @return Return value.
+ * @throws std::invalid_argument if an error occurs.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: UINT32_C(), x(), y(), matrix(), gf_inv().
+ */
 std::vector<std::vector<uint8_t>> CauchyReedSolomonCoder::buildCauchyMatrix(
     uint32_t rows, uint32_t cols
 ) {
@@ -346,6 +422,13 @@ std::vector<std::vector<uint8_t>> CauchyReedSolomonCoder::buildCauchyMatrix(
     return matrix;
 }
 
+/**
+ * @brief Gf matrix mul.
+ * @param[in] matrix Input parameter.
+ * @param[in] vec Input parameter.
+ * @param[in,out] result Input/output parameter.
+ * @details Calls: size(), assign(), gf_mul().
+ */
 void CauchyReedSolomonCoder::gf_matrix_mul(
     const std::vector<std::vector<uint8_t>>& matrix,
     const std::vector<uint8_t>& vec,
@@ -362,6 +445,12 @@ void CauchyReedSolomonCoder::gf_matrix_mul(
     }
 }
 
+/**
+ * @brief Invert Matrix.
+ * @param[in,out] matrix Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: size(), augmented(), std::swap(), gf_inv(), gf_mul().
+ */
 bool CauchyReedSolomonCoder::invertMatrix(std::vector<std::vector<uint8_t>>& matrix) {
     const size_t size = matrix.size();
     if (size == 0 || matrix[0].size() != size) {
@@ -419,6 +508,14 @@ bool CauchyReedSolomonCoder::invertMatrix(std::vector<std::vector<uint8_t>>& mat
     return true;
 }
 
+/**
+ * @brief Encode.
+ * @param[in] data Input parameter.
+ * @param[in] data_shards Input parameter.
+ * @param[in] parity_shards Input parameter.
+ * @return Return value.
+ * @details Calls: size(), reserve(), chunk(), std::min(), std::memcpy(), data(), push_back(), std::move().
+ */
 std::vector<std::vector<uint8_t>> CauchyReedSolomonCoder::encode(
     const std::vector<uint8_t>& data,
     uint32_t data_shards,
@@ -531,6 +628,11 @@ std::vector<uint8_t> CauchyReedSolomonCoder::decode(
     std::vector<std::vector<uint8_t>> recovered_data(data_shards,
                                                      std::vector<uint8_t>(chunk_size, 0));
     for (size_t byte = 0; byte < chunk_size; ++byte) {
+        /**
+         * @brief Available bytes.
+         * @param[in] data_shards Input parameter.
+         * @return Return value.
+         */
         std::vector<uint8_t> available_bytes(data_shards);
         for (size_t row = 0; row < data_shards_count; ++row) {
             available_bytes[row] = available_chunks.at(available_indices[row])[byte];
@@ -551,6 +653,12 @@ std::vector<uint8_t> CauchyReedSolomonCoder::decode(
     return result;
 }
 
+/**
+ * @brief Create.
+ * @param[in] algorithm Input parameter.
+ * @return Return value.
+ * @details Implements create without additional internal calls.
+ */
 std::unique_ptr<ErasureCoder> ErasureCoder::create(ErasureCodingAlgorithm algorithm) {
     switch (algorithm) {
         case ErasureCodingAlgorithm::REED_SOLOMON:

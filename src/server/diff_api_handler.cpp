@@ -28,6 +28,11 @@ DiffApiHandler::DiffApiHandler(analytics::DiffEngine& diff_engine)
     : diff_engine_(diff_engine) {
 }
 
+/**
+ * @brief Register Routes.
+ * @param[in,out] server Input/output parameter.
+ * @details Calls: Get(), handleGetDiff(), handleGetCacheStats(), Delete(), handleClearCache(), spdlog::info().
+ */
 void DiffApiHandler::registerRoutes(httplib::Server& server) {
     // GET /api/v1/diff - Compute diff
     server.Get("/api/v1/diff", [this](const httplib::Request& req, httplib::Response& res) {
@@ -47,6 +52,12 @@ void DiffApiHandler::registerRoutes(httplib::Server& server) {
     spdlog::info("Diff API routes registered");
 }
 
+/**
+ * @brief Handle Get Diff.
+ * @param[in] req Input parameter.
+ * @param[in,out] res Input/output parameter.
+ * @details Calls: Tracer::startSpan(), parseOptions(), has_param(), sendError(), get_param_value(), spdlog::info(), computeDiffByTag(), isSequenceNumber().
+ */
 void DiffApiHandler::handleGetDiff(const httplib::Request& req, httplib::Response& res) {
     try {
     auto span = Tracer::startSpan("handleGetDiff");
@@ -101,6 +112,12 @@ void DiffApiHandler::handleGetDiff(const httplib::Request& req, httplib::Respons
     }
 }
 
+/**
+ * @brief Handle Get Cache Stats.
+ * @param[in] param Input parameter.
+ * @param[in,out] res Input/output parameter.
+ * @details Calls: Tracer::startSpan(), getCacheStats(), sendJson(), sendError(), fmt::format(), what().
+ */
 void DiffApiHandler::handleGetCacheStats(const httplib::Request& /*req*/, httplib::Response& res) {
     try {
     auto span = Tracer::startSpan("handleGetCacheStats");
@@ -111,6 +128,12 @@ void DiffApiHandler::handleGetCacheStats(const httplib::Request& /*req*/, httpli
     }
 }
 
+/**
+ * @brief Handle Clear Cache.
+ * @param[in] param Input parameter.
+ * @param[in,out] res Input/output parameter.
+ * @details Calls: Tracer::startSpan(), clearCache(), sendJson(), sendError(), fmt::format(), what().
+ */
 void DiffApiHandler::handleClearCache(const httplib::Request& /*req*/, httplib::Response& res) {
     try {
     auto span = Tracer::startSpan("handleClearCache");
@@ -184,6 +207,11 @@ int64_t DiffApiHandler::parseTimestamp(const std::string& str) const {
     
     // Parse ISO 8601 format: YYYY-MM-DDTHH:MM:SS or YYYY-MM-DD
     std::tm tm = {};
+    /**
+     * @brief Ss.
+     * @param[in] str Input parameter.
+     * @return Return value.
+     */
     std::istringstream ss(str);
     
     // Try full timestamp format

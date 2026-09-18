@@ -22,12 +22,22 @@
 namespace themis {
 namespace performance {
 
-// Hardware validation for RaBitQ
+/**
+ * @brief Hardware validation for RaBitQ
+ * @return True when the operation succeeds.
+ * @details Calls: Phase2FeatureFlags::instance(), rabitq_hardware_supported().
+ */
 static bool is_rabitq_hardware_supported() {
     return Phase2FeatureFlags::instance().rabitq_hardware_supported();
 }
 
-/// Validate dimension and hardware before any allocation; returns dimension on success.
+/**
+ * @brief Validate rabitq dimension.
+ * @param[in] dimension Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: is_rabitq_hardware_supported().
+ */
 static size_t validate_rabitq_dimension(size_t dimension) {
     if (dimension == 0) {
         throw std::runtime_error("RaBitQ: dimension must be positive");
@@ -56,6 +66,12 @@ RaBitQEncoder::RaBitQEncoder(size_t dimension)
     }
 }
 
+/**
+ * @brief Train.
+ * @param[in] training_data Input parameter.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: empty(), size(), std::sqrt().
+ */
 void RaBitQEncoder::train(const std::vector<std::vector<float>>& training_data) {
     if (training_data.empty()) {
       return;
@@ -185,10 +201,21 @@ RaBitQIndex::RaBitQIndex(size_t dimension, size_t max_capacity)
     vectors_.reserve(max_capacity);
 }
 
+/**
+ * @brief Train.
+ * @param[in] training_vectors Input parameter.
+ * @details Implements train without additional internal calls.
+ */
 void RaBitQIndex::train(const std::vector<std::vector<float>>& training_vectors) {
     encoder_->train(training_vectors);
 }
 
+/**
+ * @brief Add.
+ * @param[in] id Input parameter.
+ * @param[in] vector Input parameter.
+ * @details Calls: push_back(), encode().
+ */
 void RaBitQIndex::add(uint64_t id, const std::vector<float>& vector) {
     ids_.push_back(id);
     vectors_.push_back(encoder_->encode(vector));
@@ -264,6 +291,11 @@ std::vector<std::vector<float>> ProductQuantizer::split_vector(const std::vector
         throw std::invalid_argument("Vector dimension mismatch in ProductQuantizer::split_vector");
     }
 
+    /**
+     * @brief Subvectors.
+     * @param[in] num_subvectors_ Input parameter.
+     * @return Return value.
+     */
     std::vector<std::vector<float>> subvectors(num_subvectors_);
     for (size_t i = 0; i < num_subvectors_; i++) {
         size_t start = i * subvector_dimension_;
@@ -273,6 +305,11 @@ std::vector<std::vector<float>> ProductQuantizer::split_vector(const std::vector
     return subvectors;
 }
 
+/**
+ * @brief Train.
+ * @param[in] training_data Input parameter.
+ * @details Calls: empty(), std::min(), size(), std::max(), std::sqrt(), resize(), reserve(), emplace_back().
+ */
 void ProductQuantizer::train(const std::vector<std::vector<float>>& training_data) {
     if (training_data.empty()) {
         return;
@@ -403,6 +440,11 @@ std::vector<uint8_t> ProductQuantizer::encode(const std::vector<float>& vec) con
     }
 
     auto subvectors = split_vector(vec);
+    /**
+     * @brief Codes.
+     * @param[in] num_subvectors_ Input parameter.
+     * @return Return value.
+     */
     std::vector<uint8_t> codes(num_subvectors_);
 
     for (size_t sq = 0; sq < num_subvectors_; ++sq) {

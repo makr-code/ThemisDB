@@ -22,7 +22,11 @@
 namespace themis {
 namespace gpu {
 
-// Helper: Measure selectDevice operation time against bounded runtime contract
+/**
+ * @brief Helper: Measure selectDevice operation time against bounded runtime contract
+ * @return Return value.
+ * @details Calls: std::chrono::high_resolution_clock::now(), time_since_epoch(), count().
+ */
 static inline uint64_t getCurrentTimeUS() {
     return std::chrono::duration_cast<std::chrono::microseconds>(
         std::chrono::high_resolution_clock::now().time_since_epoch()).count();
@@ -42,6 +46,11 @@ GPULoadBalancer::GPULoadBalancer(Strategy strategy, const std::vector<DeviceInfo
 // Device management
 // ============================================================================
 
+/**
+ * @brief Update Devices.
+ * @param[in] devices Input parameter.
+ * @details Calls: lock(), clear(), reserve(), size(), push_back(), std::move().
+ */
 void GPULoadBalancer::updateDevices(const std::vector<DeviceInfo> &devices) {
     std::lock_guard<std::mutex> lock(mutex_);
     devices_.clear();
@@ -56,6 +65,12 @@ void GPULoadBalancer::updateDevices(const std::vector<DeviceInfo> &devices) {
     round_robin_cursor_ = 0;
 }
 
+/**
+ * @brief Mark Device Failed.
+ * @param[in] device_index Input parameter.
+ * @param[in] reason Input parameter.
+ * @details Calls: lock().
+ */
 void GPULoadBalancer::markDeviceFailed(int device_index, const std::string &reason) {
     std::lock_guard<std::mutex> lock(mutex_);
     for (auto &e : devices_) {
@@ -67,6 +82,11 @@ void GPULoadBalancer::markDeviceFailed(int device_index, const std::string &reas
     }
 }
 
+/**
+ * @brief Reset Device.
+ * @param[in] device_index Input parameter.
+ * @details Calls: lock(), clear().
+ */
 void GPULoadBalancer::resetDevice(int device_index) {
     std::lock_guard<std::mutex> lock(mutex_);
     for (auto &e : devices_) {
@@ -82,6 +102,11 @@ void GPULoadBalancer::resetDevice(int device_index) {
 // setTopology
 // ============================================================================
 
+/**
+ * @brief Set Topology.
+ * @param[in] topology Input parameter.
+ * @details Calls: lock().
+ */
 void GPULoadBalancer::setTopology(const GPUClusterTopology &topology) {
     std::lock_guard<std::mutex> lock(mutex_);
     topology_ = topology;
@@ -192,6 +217,11 @@ GPULoadBalancer::DeviceEntry *GPULoadBalancer::selectTopologyAware(uint64_t requ
 const DeviceInfo *GPULoadBalancer::selectDevice(uint64_t required_vram_bytes) {
     uint64_t start_time = getCurrentTimeUS();
     
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     DeviceEntry *entry = nullptr;
     switch (strategy_) {
@@ -246,6 +276,12 @@ const DeviceInfo *GPULoadBalancer::selectDevice(uint64_t required_vram_bytes) {
 // recordAllocation / recordDeallocation
 // ============================================================================
 
+/**
+ * @brief Record Allocation.
+ * @param[in] device_index Input parameter.
+ * @param[in] bytes Input parameter.
+ * @details Calls: lock().
+ */
 void GPULoadBalancer::recordAllocation(int device_index, uint64_t bytes) {
     std::lock_guard<std::mutex> lock(mutex_);
     for (auto &e : devices_) {
@@ -262,6 +298,12 @@ void GPULoadBalancer::recordAllocation(int device_index, uint64_t bytes) {
     }
 }
 
+/**
+ * @brief Record Deallocation.
+ * @param[in] device_index Input parameter.
+ * @param[in] bytes Input parameter.
+ * @details Calls: lock().
+ */
 void GPULoadBalancer::recordDeallocation(int device_index, uint64_t bytes) {
     std::lock_guard<std::mutex> lock(mutex_);
     for (auto &e : devices_) {
@@ -282,11 +324,21 @@ void GPULoadBalancer::recordDeallocation(int device_index, uint64_t bytes) {
 // ============================================================================
 
 size_t GPULoadBalancer::totalDevices() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return devices_.size();
 }
 
 size_t GPULoadBalancer::healthyDevices() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     size_t n = 0;
     for (const auto &e : devices_) {
@@ -298,6 +350,11 @@ size_t GPULoadBalancer::healthyDevices() const {
 }
 
 std::vector<GPULoadBalancer::DeviceLoad> GPULoadBalancer::getDeviceLoads() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     std::vector<DeviceLoad> result = {};
 

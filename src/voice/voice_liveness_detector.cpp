@@ -109,6 +109,12 @@ VoiceLivenessDetector::VoiceLivenessDetector(const Config& config)
     : config_(config) {
 }
 
+/**
+ * @brief Issue Challenge.
+ * @param[in] user_id Identifier of the user.
+ * @return Return value.
+ * @details Calls: empty(), lock(), cleanupExpiredChallengesUnlocked(), nowMs(), generateRandomChallenge().
+ */
 std::optional<Challenge> VoiceLivenessDetector::issueChallenge(const std::string& user_id) {
     if (user_id.empty()) {
         return std::nullopt;
@@ -134,6 +140,14 @@ std::optional<Challenge> VoiceLivenessDetector::issueChallenge(const std::string
     return challenge;
 }
 
+/**
+ * @brief Verify Response.
+ * @param[in] user_id Identifier of the user.
+ * @param[in] challenge Input parameter.
+ * @param[in] audio_response Input parameter.
+ * @return Return value.
+ * @details Calls: nowMs(), empty(), size(), lock(), cleanupExpiredChallengesUnlocked(), find(), end(), erase().
+ */
 VoiceLivenessDetector::VerificationResult VoiceLivenessDetector::verifyResponse(
     const std::string& user_id,
     const Challenge& challenge,
@@ -241,6 +255,11 @@ VoiceLivenessDetector::VerificationResult VoiceLivenessDetector::verifyResponse(
 }
 
 std::optional<Challenge> VoiceLivenessDetector::getChallenge(uint64_t challenge_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     auto it = active_challenges_.find(challenge_id);
@@ -253,6 +272,11 @@ std::optional<Challenge> VoiceLivenessDetector::getChallenge(uint64_t challenge_
     return std::nullopt;
 }
 
+/**
+ * @brief Cleanup Expired Challenges.
+ * @return Return value.
+ * @details Calls: lock(), cleanupExpiredChallengesUnlocked(), nowMs().
+ */
 size_t VoiceLivenessDetector::cleanupExpiredChallenges() {
     std::lock_guard<std::mutex> lock(mutex_);
     return cleanupExpiredChallengesUnlocked(
@@ -265,15 +289,31 @@ size_t VoiceLivenessDetector::cleanupExpiredChallenges() {
 }
 
 bool VoiceLivenessDetector::isReplayedChallenge(uint64_t challenge_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return verified_challenges_.find(challenge_id) != verified_challenges_.end();
 }
 
 size_t VoiceLivenessDetector::getActiveChallengeCount() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return active_challenges_.size();
 }
 
+/**
+ * @brief Speech To Text.
+ * @param[in] audio Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), size(), normalizeText(), extractTranscriptCandidate(), std::isalpha().
+ */
 std::string VoiceLivenessDetector::speechToText(const std::string& audio) {
     if (audio.empty() || audio.size() > config_.max_response_bytes) {
         return {};
@@ -290,6 +330,11 @@ std::string VoiceLivenessDetector::speechToText(const std::string& audio) {
     return alpha_count >= 3 ? transcript : std::string{};
 }
 
+/**
+ * @brief Generate Random Challenge.
+ * @return Return value.
+ * @details Calls: gen(), rd(), dis(), size().
+ */
 std::string VoiceLivenessDetector::generateRandomChallenge() {
     static std::random_device rd;
     static std::mt19937 gen(rd());
@@ -304,6 +349,12 @@ int64_t VoiceLivenessDetector::nowMs() const {
     return std::chrono::duration_cast<std::chrono::milliseconds>(duration).count();
 }
 
+/**
+ * @brief Normalize Text.
+ * @param[in] text Input parameter.
+ * @return Return value.
+ * @details Calls: std::isalnum(), std::tolower(), std::isspace(), empty(), back(), pop_back().
+ */
 std::string VoiceLivenessDetector::normalizeText(const std::string& text) {
     std::string normalized = {};
     

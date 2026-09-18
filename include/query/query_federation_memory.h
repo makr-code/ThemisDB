@@ -27,41 +27,14 @@
 
 namespace themis::query {
 
-/**
- * @brief Bounded memory accumulation policy for federated query results
- *
- * Manages result set accumulation with:
- * - Configurable memory limits (100MB default)
- * - Backpressure detection and handling
- * - Configurable overflow policies (REJECT, DROP_OLDEST, TRUNCATE)
- * - Per-shard memory tracking
- * - Memory pressure events
- *
- * Example:
- * ```cpp
- * auto policy = MemoryPolicy::Builder{}
- *     .withMaxResultBytes(100 * 1024 * 1024)  // 100MB
- *     .withOverflowPolicy(MemoryPolicy::OverflowPolicy::TRUNCATE)
- *     .build();
- *
- * auto accumulator = ResultAccumulator(policy);
- * accumulator.addResult("shard1", result_json);
- * ```
- */
 class MemoryPolicy {
 public:
-    /**
-     * @brief Overflow handling strategy when memory limit is reached
-     */
     enum class OverflowPolicy {
         REJECT,        // Reject new results and fail
         DROP_OLDEST,   // Drop oldest batches from each shard
         TRUNCATE,      // Return top-N results and truncate
     };
 
-    /**
-     * @brief Memory pressure level
-     */
     enum class PressureLevel {
         NORMAL,        // < 70% of limit
         ELEVATED,      // 70-85% of limit
@@ -69,9 +42,6 @@ public:
         CRITICAL,      // > 95% of limit
     };
 
-    /**
-     * @brief Memory pressure event
-     */
     struct MemoryPressureEvent {
         PressureLevel level;
         uint64_t current_bytes;
@@ -81,9 +51,6 @@ public:
         std::string details;
     };
 
-    /**
-     * @brief Result batch with metadata
-     */
     struct ResultBatch {
         size_t batch_number = 0;
         uint64_t size_bytes;
@@ -92,21 +59,38 @@ public:
         nlohmann::json data;
     };
 
-    /**
-     * @brief Builder for MemoryPolicy
-     */
     class Builder {
     public:
+        /**
+         * @brief With Max Result Bytes.
+         * @param[in] max_bytes Input parameter.
+         * @return Return value.
+         * @details Implements withMaxResultBytes without additional internal calls.
+         */
         Builder& withMaxResultBytes(uint64_t max_bytes) {
             max_result_bytes_ = max_bytes;
             return *this;
         }
 
+        /**
+         * @brief With Overflow Policy.
+         * @param[in] policy Input parameter.
+         * @return Return value.
+         * @details Implements withOverflowPolicy without additional internal calls.
+         */
         Builder& withOverflowPolicy(OverflowPolicy policy) {
             overflow_policy_ = policy;
             return *this;
         }
 
+        /**
+         * @brief With Pressure Thresholds.
+         * @param[in] elevated_pct Input parameter.
+         * @param[in] high_pct Input parameter.
+         * @param[in] critical_pct Input parameter.
+         * @return Return value.
+         * @details Implements withPressureThresholds without additional internal calls.
+         */
         Builder& withPressureThresholds(
             double elevated_pct,
             double high_pct,
@@ -117,11 +101,21 @@ public:
             return *this;
         }
 
+        /**
+         * @brief With Max Batches Per Shard.
+         * @param[in] max_batches Input parameter.
+         * @return Return value.
+         * @details Implements withMaxBatchesPerShard without additional internal calls.
+         */
         Builder& withMaxBatchesPerShard(size_t max_batches) {
             max_batches_per_shard_ = max_batches;
             return *this;
         }
 
+        /**
+         * @brief Build.
+         * @return Return value.
+         */
         MemoryPolicy build() const;
 
     private:
@@ -141,25 +135,14 @@ public:
     MemoryPolicy(MemoryPolicy&&) noexcept = default;
     MemoryPolicy& operator=(MemoryPolicy&&) noexcept = default;
 
-    /**
-     * @brief Get maximum result size in bytes
-     */
     [[nodiscard]] uint64_t getMaxResultBytes() const {
         return max_result_bytes_;
     }
 
-    /**
-     * @brief Get overflow policy
-     */
     [[nodiscard]] OverflowPolicy getOverflowPolicy() const {
         return overflow_policy_;
     }
 
-    /**
-     * @brief Get current memory utilization percentage
-     * @param current_bytes Current bytes used
-     * @return Percentage 0-100
-     */
     [[nodiscard]] double getUtilizationPercent(uint64_t current_bytes) const {
         if (max_result_bytes_ == 0) {
           return 0.0;
@@ -168,50 +151,27 @@ public:
                static_cast<double>(max_result_bytes_);
     }
 
-    /**
-     * @brief Classify memory pressure level
-     * @param current_bytes Current bytes used
-     * @return Pressure level
-     */
     [[nodiscard]] PressureLevel getPressureLevel(uint64_t current_bytes) const;
 
-    /**
-     * @brief Check if memory is under pressure
-     * @param current_bytes Current bytes used
-     * @return true if pressure level >= ELEVATED
-     */
     [[nodiscard]] bool isUnderPressure(uint64_t current_bytes) const;
 
-    /**
-     * @brief Check if memory limit exceeded
-     * @param current_bytes Current bytes used
-     * @return true if current >= max
-     */
     [[nodiscard]] bool isLimitExceeded(uint64_t current_bytes) const {
         return current_bytes >= max_result_bytes_;
     }
 
     /**
-     * @brief Record a memory pressure event
-     * @param event The event to record
+     * @brief Record Pressure Event.
+     * @param[in] event Input parameter.
      */
     void recordPressureEvent(const MemoryPressureEvent& event) const;
 
-    /**
-     * @brief Get recorded pressure events
-     * @return Vector of events
-     */
     [[nodiscard]] std::vector<MemoryPressureEvent> getPressureEvents() const;
 
     /**
-     * @brief Clear recorded events
+     * @brief Clear Events.
      */
     void clearEvents();
 
-    /**
-     * @brief Get memory policy summary
-     * @return Human-readable summary
-     */
     [[nodiscard]] std::string getSummary() const;
 
     // Destructor
@@ -238,120 +198,65 @@ private:
     mutable std::vector<MemoryPressureEvent> pressure_events_;
 };
 
-/**
- * @brief Accumulator for federated query results with bounded memory
- *
- * Thread-safe result accumulation with memory tracking and backpressure.
- */
 class ResultAccumulator {
 public:
     /**
-     * @brief Constructor
-     * @param policy Memory policy to enforce
+     * @brief Result Accumulator.
+     * @param[in] policy Input parameter.
+     * @return Return value.
      */
     explicit ResultAccumulator(const MemoryPolicy& policy);
 
     /**
-     * @brief Add a result batch from a shard
-     * @param shard_id Shard identifier
-     * @param result Result data
-     * @return true if added, false if rejected due to policy
-     * @throws std::runtime_error if REJECT policy triggered
+     * @brief Add Result.
+     * @param[in] shard_id Identifier of the shard.
+     * @param[in] result Input parameter.
+     * @return True when the operation succeeds.
      */
     bool addResult(const std::string& shard_id, const nlohmann::json& result);
 
     /**
-     * @brief Add a result batch with size information
-     * @param shard_id Shard identifier
-     * @param result Result data
-     * @param size_bytes Estimated size in bytes
-     * @return true if added, false if rejected
+     * @brief Add Result With Size.
+     * @param[in] shard_id Identifier of the shard.
+     * @param[in] result Input parameter.
+     * @param[in] size_bytes Input parameter.
+     * @return True when the operation succeeds.
      */
     bool addResultWithSize(
         const std::string& shard_id,
         const nlohmann::json& result,
         uint64_t size_bytes);
 
-    /**
-     * @brief Get accumulated results for a shard
-     * @param shard_id Shard identifier
-     * @return Vector of results
-     */
     [[nodiscard]] std::vector<nlohmann::json> getResults(
         const std::string& shard_id) const;
 
-    /**
-     * @brief Get all accumulated results
-     * @return Map of shard_id -> results vector
-     */
     [[nodiscard]] std::unordered_map<std::string, std::vector<nlohmann::json>>
     getAllResults() const;
 
-    /**
-     * @brief Get merged results (flattened array)
-     * @return Merged results as JSON array
-     */
     [[nodiscard]] nlohmann::json getMergedResults() const;
 
-    /**
-     * @brief Get current memory usage in bytes
-     * @return Current bytes used
-     */
     [[nodiscard]] uint64_t getCurrentMemoryBytes() const;
 
-    /**
-     * @brief Get memory utilization percentage
-     * @return Utilization 0-100
-     */
     [[nodiscard]] double getMemoryUtilizationPercent() const;
 
-    /**
-     * @brief Get current memory pressure level
-     * @return Pressure level
-     */
     [[nodiscard]] MemoryPolicy::PressureLevel getPressureLevel() const;
 
-    /**
-     * @brief Check if under memory pressure
-     * @return true if pressure level >= ELEVATED
-     */
     [[nodiscard]] bool isUnderPressure() const;
 
-    /**
-     * @brief Get result count for a shard
-     * @param shard_id Shard identifier
-     * @return Number of accumulated results
-     */
     [[nodiscard]] size_t getResultCount(const std::string& shard_id) const;
 
-    /**
-     * @brief Get total result count across all shards
-     * @return Total count
-     */
     [[nodiscard]] size_t getTotalResultCount() const;
 
     /**
-     * @brief Clear all accumulated results
+     * @brief Clear.
      */
     void clear();
 
-    /**
-     * @brief Get accumulator statistics
-     * @return Human-readable statistics
-     */
     [[nodiscard]] std::string getStatistics() const;
 
-    /**
-     * @brief Get recorded memory pressure events
-     * @return Vector of events
-     */
     [[nodiscard]] std::vector<MemoryPolicy::MemoryPressureEvent>
     getPressureEvents() const;
 
-    /**
-     * @brief Check if this accumulator has exceeded memory limit
-     * @return true if memory limit exceeded
-     */
     [[nodiscard]] bool isMemoryLimitExceeded() const;
 
 private:
@@ -363,8 +268,18 @@ private:
 
     // Helper methods
     [[nodiscard]] uint64_t estimateJsonSize(const nlohmann::json& json) const;
+    /**
+     * @brief Handle Memory Pressure.
+     * @param[in] needed_bytes Input parameter.
+     */
     void handleMemoryPressure(uint64_t needed_bytes);
+    /**
+     * @brief Drop Oldest Batch.
+     */
     void dropOldestBatch();
+    /**
+     * @brief Truncate Results.
+     */
     void truncateResults();
 };
 

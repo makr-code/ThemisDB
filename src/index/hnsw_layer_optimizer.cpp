@@ -26,6 +26,13 @@ HnswLayerOptimizer::HnswLayerOptimizer(const HnswOptimizationConfig& config)
                 config_.adaptive_layer_selection.enabled);
 }
 
+/**
+ * @brief Record Layer Access.
+ * @param[in] layer Input parameter.
+ * @param[in] candidates_found Input parameter.
+ * @param[in] search_time_ms Input parameter.
+ * @details Calls: lock(), update(), THEMIS_DEBUG().
+ */
 void HnswLayerOptimizer::recordLayerAccess(int layer, int64_t candidates_found, double search_time_ms) {
     if (!config_.enabled) {
       return;
@@ -42,6 +49,15 @@ void HnswLayerOptimizer::recordLayerAccess(int layer, int64_t candidates_found, 
                  stats.efficiency_score);
 }
 
+/**
+ * @brief Record Query Stats.
+ * @param[in] entry_layer Input parameter.
+ * @param[in] ef_used Input parameter.
+ * @param[in] layers_traversed Input parameter.
+ * @param[in] k Input parameter.
+ * @param[in] total_time_ms Input parameter.
+ * @details Calls: lock(), std::chrono::steady_clock::now(), push_back(), size(), pop_front(), THEMIS_DEBUG().
+ */
 void HnswLayerOptimizer::recordQueryStats(int entry_layer, int ef_used, int layers_traversed,
                                          size_t k, double total_time_ms) {
     if (!config_.enabled || !config_.adaptive_layer_selection.enabled) {
@@ -74,6 +90,11 @@ int HnswLayerOptimizer::getOptimalEntryLayer() const {
       return -1;
     }
     
+    /**
+     * @brief Lock.
+     * @param[in] stats_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(stats_mutex_);
     
     if (recent_queries_.empty() || layer_stats_.empty()) {
@@ -113,6 +134,11 @@ int HnswLayerOptimizer::getOptimalEf(size_t k) const {
       return -1;
     }
     
+    /**
+     * @brief Lock.
+     * @param[in] stats_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(stats_mutex_);
     
     if (recent_queries_.empty()) {
@@ -170,15 +196,29 @@ bool HnswLayerOptimizer::shouldPruneLayer(int current_layer, size_t candidate_co
 }
 
 std::unordered_map<int, HnswLayerOptimizer::LayerStats> HnswLayerOptimizer::getLayerStats() const {
+    /**
+     * @brief Lock.
+     * @param[in] stats_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(stats_mutex_);
     return layer_stats_;
 }
 
 std::vector<HnswLayerOptimizer::QueryStats> HnswLayerOptimizer::getRecentQueryStats() const {
+    /**
+     * @brief Lock.
+     * @param[in] stats_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(stats_mutex_);
     return std::vector<QueryStats>(recent_queries_.begin(), recent_queries_.end());
 }
 
+/**
+ * @brief Reset Stats.
+ * @details Calls: lock(), clear(), THEMIS_INFO().
+ */
 void HnswLayerOptimizer::resetStats() {
     std::lock_guard<std::mutex> lock(stats_mutex_);
     layer_stats_.clear();

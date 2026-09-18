@@ -54,13 +54,13 @@ public:
         return {ContentCategory::TEXT};
     }
 
+
     /**
-     * @brief ---------------------------------------------------------------- Public static helpers (exposed for unit tests) ----------------------------------------------------------------
+     * @brief Parse Frontmatter.
      * @param[in] markdown Input parameter.
      * @param[in,out] body_out Input/output parameter.
      * @return Return value.
      */
-
     static json parseFrontmatter(const std::string& markdown,
                                   std::string& body_out);
 
@@ -72,14 +72,14 @@ private:
     Config config_;
 
     /**
-     * @brief Collapse runs of whitespace to a single space / newline
+     * @brief Normalize Whitespace.
      * @param[in] text Input parameter.
      * @return Return value.
      */
     static std::string normalizeWhitespace(const std::string& text);
 
     /**
-     * @brief Count whitespace-delimited tokens
+     * @brief Count Tokens.
      * @param[in] text Input parameter.
      * @return Return value.
      */

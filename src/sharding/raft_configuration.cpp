@@ -16,18 +16,17 @@
 namespace themis {
 namespace sharding {
 
-/** @brief Construct empty non-transitioning Raft membership configuration. */
 RaftConfiguration::RaftConfiguration()
     : is_joint_consensus_(false) {}
 
-/** @brief Construct stable Raft configuration from initial member set. */
 RaftConfiguration::RaftConfiguration(const std::set<std::string>& members)
     : new_members_(members), is_joint_consensus_(false) {}
 
 /**
- * @brief Start a joint-consensus transition that adds one node.
- * @param node_id Node identifier to add in target configuration.
- * @throws std::runtime_error If a transition is already active.
+ * @brief Add Node.
+ * @param[in] node_id Identifier of the node.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: lock(), insert().
  */
 void RaftConfiguration::addNode(const std::string& node_id) {
     std::lock_guard<std::mutex> lock(mutex_);
@@ -40,9 +39,10 @@ void RaftConfiguration::addNode(const std::string& node_id) {
 }
 
 /**
- * @brief Start a joint-consensus transition that removes one node.
- * @param node_id Node identifier to remove from target configuration.
- * @throws std::runtime_error If a transition is already active.
+ * @brief Remove Node.
+ * @param[in] node_id Identifier of the node.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: lock(), erase().
  */
 void RaftConfiguration::removeNode(const std::string& node_id) {
     std::lock_guard<std::mutex> lock(mutex_);
@@ -54,7 +54,11 @@ void RaftConfiguration::removeNode(const std::string& node_id) {
     is_joint_consensus_ = true;
 }
 
-/** @brief Atomically install provided configuration entry state. */
+/**
+ * @brief Apply Configuration.
+ * @param[in] entry Input parameter.
+ * @details Calls: lock().
+ */
 void RaftConfiguration::applyConfiguration(const ConfigurationEntry& entry) {
     std::lock_guard<std::mutex> lock(mutex_);
     old_members_ = entry.old_members;
@@ -62,20 +66,32 @@ void RaftConfiguration::applyConfiguration(const ConfigurationEntry& entry) {
     is_joint_consensus_ = entry.is_joint_consensus;
 }
 
-/** @brief Return whether membership transition is currently active. */
 bool RaftConfiguration::isInTransition() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return is_joint_consensus_;
 }
 
-/** @brief Return whether joint-consensus quorum semantics are active. */
 bool RaftConfiguration::isJointConsensus() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return is_joint_consensus_;
 }
 
-/** @brief Check if node is effective member for current state. */
 bool RaftConfiguration::isMember(const std::string& node_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     if (is_joint_consensus_) {
         return old_members_.count(node_id) > 0 || new_members_.count(node_id) > 0;
@@ -83,8 +99,12 @@ bool RaftConfiguration::isMember(const std::string& node_id) const {
     return new_members_.count(node_id) > 0;
 }
 
-/** @brief Return effective member set, including both sets during transitions. */
 std::set<std::string> RaftConfiguration::getMembers() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     if (is_joint_consensus_) {
         std::set<std::string> all;
@@ -95,24 +115,32 @@ std::set<std::string> RaftConfiguration::getMembers() const {
     return new_members_;
 }
 
-/** @brief Return previous membership set for joint-consensus transitions. */
 std::set<std::string> RaftConfiguration::getOldMembers() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return old_members_;
 }
 
-/** @brief Return new/target membership set. */
 std::set<std::string> RaftConfiguration::getNewMembers() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return new_members_;
 }
 
-/**
- * @brief Evaluate votes against stable or joint-consensus quorum rules.
- * @param votes Node IDs that have voted.
- * @return True if required majority conditions are satisfied.
- */
 bool RaftConfiguration::hasQuorum(const std::set<std::string>& votes) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     if (is_joint_consensus_) {
@@ -147,8 +175,12 @@ bool RaftConfiguration::hasQuorum(const std::set<std::string>& votes) const {
     }
 }
 
-/** @brief Return quorum size currently required for commit decisions. */
 size_t RaftConfiguration::getQuorumSize() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     if (is_joint_consensus_) {
         // Return the larger of the two quorums
@@ -158,7 +190,6 @@ size_t RaftConfiguration::getQuorumSize() const {
     return calculateQuorum(new_members_.size());
 }
 
-/** @brief Compute majority threshold for provided member count. */
 size_t RaftConfiguration::calculateQuorum(size_t size) const {
     return (size / 2) + 1;
 }

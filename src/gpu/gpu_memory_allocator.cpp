@@ -101,6 +101,15 @@ GPUMemoryAllocator& GPUMemoryAllocator::operator=(GPUMemoryAllocator&& other) no
     return *this;
 }
 
+/**
+ * @brief Allocate.
+ * @param[in] size Input parameter.
+ * @return Return value.
+ * @throws std::logic_error if an error occurs.
+ * @throws std::invalid_argument if an error occurs.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: std::chrono::high_resolution_clock::now(), time_since_epoch(), count(), GPUBackendDispatchDiagnostics::emitDiagnostic(), std::to_string(), cudaMalloc(), std::string(), cudaGetErrorString().
+ */
 MemoryAllocation GPUMemoryAllocator::allocate(size_t size) {
     uint64_t start_time = std::chrono::duration_cast<std::chrono::microseconds>(
         std::chrono::high_resolution_clock::now().time_since_epoch()).count();
@@ -219,6 +228,15 @@ void GPUMemoryAllocator::deallocate(const MemoryAllocation& alloc) noexcept {
     }
 }
 
+/**
+ * @brief Reallocate.
+ * @param[in] alloc Input parameter.
+ * @param[in] new_size Input parameter.
+ * @return Return value.
+ * @throws std::logic_error if an error occurs.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: allocate(), std::min(), cudaMemcpy(), deallocate(), std::string(), cudaGetErrorString().
+ */
 MemoryAllocation GPUMemoryAllocator::reallocate(const MemoryAllocation& alloc, size_t new_size) {
     if (is_moved_from_) {
         throw std::logic_error("Cannot reallocate from moved-from allocator");

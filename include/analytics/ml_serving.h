@@ -215,12 +215,12 @@ public:
     explicit MLServingClient(const MLServingConfig& config = {});
     ~MLServingClient();
 
+
     /**
-     * @brief ─── Backend introspection ───────────────────────────────────────────────
+     * @brief Is Backend Available.
      * @param[in] type Input parameter.
      * @return True when the operation succeeds.
      */
-
     bool isBackendAvailable(MLBackendType type) const;
 
     /**
@@ -229,12 +229,12 @@ public:
      */
     std::string activeBackendName() const;
 
+
     /**
-     * @brief ─── Inference ──────────────────────────────────────────────────────────
+     * @brief Infer.
      * @param[in] req Input parameter.
      * @return Return value.
      */
-
     MLServingResponse infer(const MLServingRequest& req);
 
     /**

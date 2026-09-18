@@ -27,6 +27,12 @@ namespace timeseries {
 // Factory
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Open.
+ * @param[in,out] store Input/output parameter.
+ * @param[in] options Input parameter.
+ * @return Return value.
+ */
 Result<std::unique_ptr<TsStreamCursor>> TsStreamCursor::open(
     TSStore& store,
     TSStore::QueryOptions options)
@@ -34,6 +40,13 @@ Result<std::unique_ptr<TsStreamCursor>> TsStreamCursor::open(
     return open(store, std::move(options), Config{});
 }
 
+/**
+ * @brief Open.
+ * @param[in,out] store Input/output parameter.
+ * @param[in] options Input parameter.
+ * @param[in] cfg Input parameter.
+ * @return Return value.
+ */
 Result<std::unique_ptr<TsStreamCursor>> TsStreamCursor::open(
     TSStore& store,
     TSStore::QueryOptions options,
@@ -80,6 +93,11 @@ const TSStore::DataPoint& TsStreamCursor::current() const noexcept {
     return page_[page_pos_];
 }
 
+/**
+ * @brief Advance an iterator within the validated range.
+ * @return None.
+ * @details Calls: size(), fetchNextPage().
+ */
 Result<void> TsStreamCursor::advance() {
     if (exhausted_) {
         return {};
@@ -115,9 +133,11 @@ uint64_t TsStreamCursor::pagesFetched() const noexcept {
     return pages_fetched_;
 }
 
-// ---------------------------------------------------------------------------
-// Internal: paginated fetch
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- Internal: paginated fetch ---------------------------------------------------------------------------
+ * @return Return value.
+ * @details Calls: tl::unexpected(), Error(), clear(), query(), error(), std::move(), empty(), back().
+ */
 
 Result<void> TsStreamCursor::fetchNextPage() {
     if (!store_) {

@@ -31,58 +31,43 @@ namespace distributed_tensor {
 // ArtifactClassifier
 // ---------------------------------------------------------------------------
 
-/**
- * @brief Static helpers for ArtifactClass and TruthSemantic validation and
- *        string serialization.
- */
 struct ArtifactClassifier {
 
     /**
-     * @brief Return true when the (class, semantic) combination is allowed.
-     *
-     * Allowed combinations:
-     *   - SOURCE_OF_TRUTH  + GROUND_TRUTH   → valid (Graph Truth Layer only)
-     *   - DERIVED          + ADVISORY_ONLY  → valid (tensor mid-layer artifacts)
-     *   - EPHEMERAL        + ADVISORY_ONLY  → valid (temporary cache entries)
-     *
-     * All other combinations are invalid.
-     *
-     * @param klass     Artifact class to check.
-     * @param semantic  Truth semantic to check.
-     * @return          true if the combination satisfies advisory-only policy.
+     * @brief Is Valid Combination.
+     * @param[in] klass Input parameter.
+     * @param[in] semantic Input parameter.
+     * @return True when the operation succeeds.
+     * @note Exception safety: noexcept.
      */
     static bool isValidCombination(ArtifactClass klass,
                                    TruthSemantic  semantic) noexcept;
 
     /**
-     * @brief Convert an ArtifactClass to its canonical uppercase string.
-     *
-     * @param klass  Artifact class to convert.
-     * @return       One of "SOURCE_OF_TRUTH", "DERIVED", "EPHEMERAL", or "UNKNOWN".
+     * @brief Class To String.
+     * @param[in] klass Input parameter.
+     * @return Return value.
      */
     static std::string classToString(ArtifactClass klass);
 
     /**
-     * @brief Parse an ArtifactClass from a canonical string.
-     *
-     * @param class_str  String from classToString().
-     * @return           Parsed class, or nullopt if unrecognized.
+     * @brief String To Class.
+     * @param[in] class_str Input parameter.
+     * @return Return value.
      */
     static std::optional<ArtifactClass> stringToClass(const std::string& class_str);
 
     /**
-     * @brief Convert a TruthSemantic to its canonical uppercase string.
-     *
-     * @param semantic  Truth semantic to convert.
-     * @return          One of "ADVISORY_ONLY", "GROUND_TRUTH", or "UNKNOWN".
+     * @brief Semantic To String.
+     * @param[in] semantic Input parameter.
+     * @return Return value.
      */
     static std::string semanticToString(TruthSemantic semantic);
 
     /**
-     * @brief Parse a TruthSemantic from a canonical string.
-     *
-     * @param semantic_str  String from semanticToString().
-     * @return              Parsed semantic, or nullopt if unrecognized.
+     * @brief String To Semantic.
+     * @param[in] semantic_str Input parameter.
+     * @return Return value.
      */
     static std::optional<TruthSemantic> stringToSemantic(const std::string& semantic_str);
 };

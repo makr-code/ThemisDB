@@ -19,6 +19,12 @@ namespace server {
 
 using json = nlohmann::json;
 
+/**
+ * @brief Handle Get Errors.
+ * @param[in] req Input parameter.
+ * @param[in,out] res Input/output parameter.
+ * @details Calls: errors::ErrorRegistry::getInstance(), contains(), Tracer::startSpan(), empty(), getErrorsByCategory(), json::array(), push_back(), toJSON().
+ */
 void ErrorApiHandler::handleGetErrors(const Request& req, Response& res) {
     auto& registry = errors::ErrorRegistry::getInstance();
     
@@ -54,6 +60,12 @@ void ErrorApiHandler::handleGetErrors(const Request& req, Response& res) {
     res.setJSON(response);
 }
 
+/**
+ * @brief Handle Get Error.
+ * @param[in] req Input parameter.
+ * @param[in,out] res Input/output parameter.
+ * @details Calls: errors::ErrorRegistry::getInstance(), contains(), Tracer::startSpan(), setJSON(), std::stoi(), getError(), toJSON(), what().
+ */
 void ErrorApiHandler::handleGetError(const Request& req, Response& res) {
     auto& registry = errors::ErrorRegistry::getInstance();
     
@@ -98,6 +110,12 @@ void ErrorApiHandler::handleGetError(const Request& req, Response& res) {
     }
 }
 
+/**
+ * @brief Handle Get Categories.
+ * @param[in] param Input parameter.
+ * @param[in,out] res Input/output parameter.
+ * @details Calls: Tracer::startSpan(), errors::ErrorRegistry::getInstance(), getAllCategories(), size(), setJSON().
+ */
 void ErrorApiHandler::handleGetCategories(const Request& /*req*/, Response& res) {
     auto span = Tracer::startSpan("handleGetCategories");
     auto& registry = errors::ErrorRegistry::getInstance();
@@ -113,6 +131,12 @@ void ErrorApiHandler::handleGetCategories(const Request& /*req*/, Response& res)
     res.setJSON(response);
 }
 
+/**
+ * @brief Handle Search Errors.
+ * @param[in] req Input parameter.
+ * @param[in,out] res Input/output parameter.
+ * @details Calls: Tracer::startSpan(), errors::ErrorRegistry::getInstance(), contains(), empty(), setJSON(), searchErrors(), json::array(), push_back().
+ */
 void ErrorApiHandler::handleSearchErrors(const Request& req, Response& res) {
     auto span = Tracer::startSpan("handleSearchErrors");
     auto& registry = errors::ErrorRegistry::getInstance();

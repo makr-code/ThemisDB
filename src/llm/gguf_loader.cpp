@@ -36,10 +36,6 @@ namespace llm {
 // ═══════════════════════════════════════════════════════════
 
 #ifndef _WIN32
-/**
- * @brief RAII wrapper for file descriptors
- * Ensures file is closed even if exceptions occur during processing.
- */
 class FileDescriptorGuard {
 public:
     explicit FileDescriptorGuard(int fd) noexcept : fd_(fd) {}
@@ -79,10 +75,6 @@ private:
     int fd_;
 };
 
-/**
- * @brief RAII wrapper for mmap regions
- * Ensures mmap region is unmapped even if exceptions occur during processing.
- */
 class MmapGuard {
 public:
     MmapGuard(void* ptr, size_t size) noexcept : ptr_(ptr), size_(size) {}
@@ -151,10 +143,12 @@ std::string TensorMetadata::type_string() const {
     }
 }
 
-// isFormatSupported: returns true for quantization types that the loader can
-// convert to an internal representation.  Unsupported types cause parseFile()
-// to return false with a descriptive error rather than silently returning raw
-// bytes that would produce numerical corruption downstream.
+/**
+ * @brief isFormatSupported: returns true for quantization types that the loader can convert to an internal representation.
+ * @param[in] type Input parameter.
+ * @return True when the operation succeeds.
+ * @details Unsupported types cause parseFile() to return false with a descriptive error rather than silently returning raw bytes that would produce numerical corruption downstream. Implements isFormatSupported without additional internal calls.
+ */
 bool GGUFLoader::isFormatSupported(GGMLType type) {
     switch (type) {
         case GGMLType::F32:
@@ -170,17 +164,14 @@ bool GGUFLoader::isFormatSupported(GGMLType type) {
     }
 }
 
-// ═══════════════════════════════════════════════════════════
-// BATCH 1.3: Tensor Buffer Validation Helpers
-// ═══════════════════════════════════════════════════════════
-
 /**
- * @brief Validates tensor metadata has valid shape information
- * @param tensor Tensor metadata to validate
- * @param tensor_name Name for error messaging
- * @throw std::runtime_error if shape is invalid or empty
- * @pre tensor shape must not be empty
+ * @brief ═══════════════════════════════════════════════════════════ BATCH 1.
+ * @param[in] tensor Input parameter.
+ * @param[in] tensor_name Name of the tensor.
+ * @throws std::runtime_error if an error occurs.
+ * @details 3: Tensor Buffer Validation Helpers ═══════════════════════════════════════════════════════════ Calls: empty(), spdlog::error(), size(), std::to_string().
  */
+
 void validateTensorShape(const TensorMetadata& tensor, const std::string& tensor_name) {
     if (tensor.shape.empty()) {
         const std::string error_msg = "Tensor shape is empty for: " + tensor_name;
@@ -198,12 +189,12 @@ void validateTensorShape(const TensorMetadata& tensor, const std::string& tensor
 }
 
 /**
- * @brief Validates tensor buffer pointer and size
- * @param buffer Pointer to tensor buffer data
- * @param buffer_size Size of buffer in bytes
- * @param tensor_name Name for error messaging
- * @throw std::runtime_error if buffer is null or size is invalid
- * @pre buffer must be non-null and size must be positive
+ * @brief Validate Tensor Buffer.
+ * @param[in] buffer Input parameter.
+ * @param[in] buffer_size Input parameter.
+ * @param[in] tensor_name Name of the tensor.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: spdlog::error().
  */
 void validateTensorBuffer(const void* buffer, size_t buffer_size, const std::string& tensor_name) {
     if (!buffer) {
@@ -220,13 +211,13 @@ void validateTensorBuffer(const void* buffer, size_t buffer_size, const std::str
 }
 
 /**
- * @brief Validates tensor offset is within file bounds
- * @param offset Offset into file
- * @param tensor_size Size of tensor data
- * @param file_size Total file size
- * @param tensor_name Name for error messaging
- * @throw std::runtime_error if offset or size would exceed file bounds
- * @pre offset + tensor_size must not exceed file_size
+ * @brief Validate Tensor Offset.
+ * @param[in] offset Input parameter.
+ * @param[in] tensor_size Input parameter.
+ * @param[in] file_size Input parameter.
+ * @param[in] tensor_name Name of the tensor.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: std::to_string(), spdlog::error().
  */
 void validateTensorOffset(size_t offset, size_t tensor_size, size_t file_size, const std::string& tensor_name) {
     if (offset >= file_size) {
@@ -277,6 +268,12 @@ void GGUFLoader::releaseResources() noexcept {
 #endif
 }
 
+/**
+ * @brief Parse File.
+ * @param[in] filepath Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: releaseResources(), empty(), clear(), open(), c_str(), fd_guard(), fstat(), mmap().
+ */
 bool GGUFLoader::parseFile(const std::string& filepath) {
     // Release any resources from a previous parse before opening new ones.
     // Without this guard, calling parseFile() twice leaks the first fd/mmap.
@@ -396,6 +393,11 @@ bool GGUFLoader::parseFile(const std::string& filepath) {
     return true;
 }
 
+/**
+ * @brief Parse Header.
+ * @return True when the operation succeeds.
+ * @details Calls: std::memcmp(), std::memcpy().
+ */
 bool GGUFLoader::parseHeader() {
     // GGUF v3 header structure:
     // - Magic: "GGUF" (4 bytes)
@@ -436,6 +438,13 @@ bool GGUFLoader::parseHeader() {
     return true;
 }
 
+/**
+ * @brief Read String.
+ * @param[in,out] offset Input/output parameter.
+ * @param[in,out] out Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: std::memcpy(), assign().
+ */
 bool GGUFLoader::readString(size_t& offset, std::string& out) {
     if (offset + 8 > mmap_size_) {
       return false;
@@ -455,6 +464,14 @@ bool GGUFLoader::readString(size_t& offset, std::string& out) {
     return true;
 }
 
+/**
+ * @brief Read Metadata Value.
+ * @param[in,out] offset Input/output parameter.
+ * @param[in] type Input parameter.
+ * @param[in,out] out Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: std::memcpy(), std::to_string(), readString().
+ */
 bool GGUFLoader::readMetadataValue(size_t& offset, GGUFValueType type, std::string& out) {
     const char* data = static_cast<const char*>(mmap_base_);
     
@@ -543,6 +560,11 @@ bool GGUFLoader::readMetadataValue(size_t& offset, GGUFValueType type, std::stri
     }
 }
 
+/**
+ * @brief Parse Metadata KV.
+ * @return True when the operation succeeds.
+ * @details Calls: std::memcpy(), readString(), readMetadataValue().
+ */
 bool GGUFLoader::parseMetadataKV() {
     const char* data = static_cast<const char*>(mmap_base_);
     
@@ -588,10 +610,22 @@ bool GGUFLoader::parseMetadataKV() {
     return true;
 }
 
+/**
+ * @brief Align Offset.
+ * @param[in] offset Input parameter.
+ * @param[in] alignment Input parameter.
+ * @return Return value.
+ * @details Implements alignOffset without additional internal calls.
+ */
 size_t GGUFLoader::alignOffset(size_t offset, size_t alignment) {
     return (offset + alignment - 1) & ~(alignment - 1);
 }
 
+/**
+ * @brief Parse Tensor Info.
+ * @return True when the operation succeeds.
+ * @details Calls: std::memcpy(), readString(), readMetadataValue(), clear(), reserve(), resize(), isFormatSupported(), type_string().
+ */
 bool GGUFLoader::parseTensorInfo() {
     const char* data = static_cast<const char*>(mmap_base_);
     
@@ -735,6 +769,14 @@ size_t GGUFLoader::getGGMLTypeSize(GGMLType type) const {
     }
 }
 
+/**
+ * @brief Load To Themis DB.
+ * @param[in] model_name Name of the model.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: empty(), reserve(), size(), escapeJson(), type_string(), str(), metadata_bytes(), begin().
+ */
 std::string GGUFLoader::loadToThemisDB(const std::string& model_name) {
     if (db_ == nullptr) {
         throw std::runtime_error("RocksDBWrapper not set. Use setDatabase() or constructor with db parameter.");
@@ -839,6 +881,14 @@ std::string GGUFLoader::loadToThemisDB(const std::string& model_name) {
     return model_urn;
 }
 
+/**
+ * @brief Store Tensor In Chunks.
+ * @param[in] model_name Name of the model.
+ * @param[in] tensor Input parameter.
+ * @param[in] chunk_size Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: reserve(), std::min(), resize(), std::memcpy(), data(), put(), str(), std::to_string().
+ */
 bool GGUFLoader::storeTensorInChunks(const std::string& model_name,
                                      const TensorMetadata& tensor,
                                      size_t chunk_size) {
@@ -891,6 +941,12 @@ bool GGUFLoader::storeTensorInChunks(const std::string& model_name,
     return db_->put(count_key.str(), count_bytes);
 }
 
+/**
+ * @brief Mmap Tensor.
+ * @param[in] tensor_name Name of the tensor.
+ * @return Pointer to the result.
+ * @details Calls: empty(), spdlog::warn().
+ */
 void* GGUFLoader::mmapTensor(const std::string& tensor_name) {
     if (tensor_name.empty() || mmap_base_ == nullptr || mmap_size_ == 0) {
         return nullptr;
@@ -918,6 +974,12 @@ void GGUFLoader::unmapTensor(void* /*ptr*/) noexcept {
     // Individual tensor unmapping not needed with full file mmap
 }
 
+/**
+ * @brief Get Tensor Data.
+ * @param[in] tensor_name Name of the tensor.
+ * @return Return value.
+ * @details Calls: empty(), spdlog::error(), reserve(), resize(), std::memcpy(), data(), what().
+ */
 std::vector<uint8_t> GGUFLoader::getTensorData(const std::string& tensor_name) {
     if (tensor_name.empty()) {
         return {};

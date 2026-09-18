@@ -59,12 +59,6 @@ namespace query {
 // VectorizedPredicate
 // ============================================================================
 
-/**
- * @brief A single comparison predicate for the FILTER stage.
- *
- * Applied over a named JSON field in every processed row.  Multiple
- * predicates in one addFilter() call are combined with AND.
- */
 struct VectorizedPredicate {
     enum class Op { Eq, Ne, Lt, Le, Gt, Ge, IsNull, IsNotNull };
 
@@ -73,13 +67,59 @@ struct VectorizedPredicate {
     nlohmann::json value;  // unused for IsNull / IsNotNull
 
     // Convenience factories
+    /**
+     * @brief Eq.
+     * @param[in] field Input parameter.
+     * @param[in] value Input parameter.
+     * @return Return value.
+     */
     static VectorizedPredicate eq(std::string field, nlohmann::json value);
+    /**
+     * @brief Ne.
+     * @param[in] field Input parameter.
+     * @param[in] value Input parameter.
+     * @return Return value.
+     */
     static VectorizedPredicate ne(std::string field, nlohmann::json value);
+    /**
+     * @brief Lt.
+     * @param[in] field Input parameter.
+     * @param[in] value Input parameter.
+     * @return Return value.
+     */
     static VectorizedPredicate lt(std::string field, nlohmann::json value);
+    /**
+     * @brief Le.
+     * @param[in] field Input parameter.
+     * @param[in] value Input parameter.
+     * @return Return value.
+     */
     static VectorizedPredicate le(std::string field, nlohmann::json value);
+    /**
+     * @brief Gt.
+     * @param[in] field Input parameter.
+     * @param[in] value Input parameter.
+     * @return Return value.
+     */
     static VectorizedPredicate gt(std::string field, nlohmann::json value);
+    /**
+     * @brief Ge.
+     * @param[in] field Input parameter.
+     * @param[in] value Input parameter.
+     * @return Return value.
+     */
     static VectorizedPredicate ge(std::string field, nlohmann::json value);
+    /**
+     * @brief Is Null.
+     * @param[in] field Input parameter.
+     * @return Return value.
+     */
     static VectorizedPredicate isNull(std::string field);
+    /**
+     * @brief Is Not Null.
+     * @param[in] field Input parameter.
+     * @return Return value.
+     */
     static VectorizedPredicate isNotNull(std::string field);
 };
 
@@ -87,13 +127,6 @@ struct VectorizedPredicate {
 // VectorizedAggregation
 // ============================================================================
 
-/**
- * @brief Specification for one aggregation column.
- *
- * Mirrors analytics::AggregateSpec but expressed over JSON field names.
- * Supports COUNT(*), SUM, AVG, MIN, MAX, COUNT_DISTINCT with optional
- * GROUP BY.
- */
 struct VectorizedAggregation {
     enum class Function { Count, Sum, Avg, Min, Max, CountDistinct };
 
@@ -107,9 +140,6 @@ struct VectorizedAggregation {
 // VectorizedSortKey
 // ============================================================================
 
-/**
- * @brief A single sort key for the SORT stage.
- */
 struct VectorizedSortKey {
     std::string field;
     bool        ascending = true;
@@ -119,33 +149,40 @@ struct VectorizedSortKey {
 // VectorizedQueryPlan
 // ============================================================================
 
-/**
- * @brief A composable pipeline of vectorized operator stages.
- *
- * Stages are applied in the order they are added.  Example:
- * @code
- *   VectorizedQueryPlan plan;
- *   plan
- *       .addFilter({VectorizedPredicate::gt("amount", 100.0)})
- *       .addProject({"region", "amount"})
- *       .addAggregate({{
- *           .result_field = "total",
- *           .input_field  = "amount",
- *           .function     = VectorizedAggregation::Function::Sum,
- *           .group_by     = {"region"}
- *       }});
- * @endcode
- */
 class VectorizedQueryPlan {
 public:
     VectorizedQueryPlan() = default;
 
+    /**
+     * @brief Add Filter.
+     * @param[in] predicates Input parameter.
+     * @return Return value.
+     */
     VectorizedQueryPlan& addFilter(std::vector<VectorizedPredicate> predicates);
+    /**
+     * @brief Add Project.
+     * @param[in] fields Input parameter.
+     * @return Return value.
+     */
     VectorizedQueryPlan& addProject(std::vector<std::string> fields);
+    /**
+     * @brief Add Aggregate.
+     * @param[in] aggregations Input parameter.
+     * @return Return value.
+     */
     VectorizedQueryPlan& addAggregate(std::vector<VectorizedAggregation> aggregations);
+    /**
+     * @brief Add Sort.
+     * @param[in] keys Input parameter.
+     * @return Return value.
+     */
     VectorizedQueryPlan& addSort(std::vector<VectorizedSortKey> keys);
 
-    /** Apply a row-count limit to the final result. */
+    /**
+     * @brief Set Limit.
+     * @param[in] n Input parameter.
+     * @return Return value.
+     */
     VectorizedQueryPlan& setLimit(size_t n);
 
     size_t                stageCount() const noexcept { return stages_.size(); }
@@ -178,37 +215,6 @@ private:
 // VectorizedExecutionEngine
 // ============================================================================
 
-/**
- * @brief Vectorized execution engine for the query module.
- *
- * Accepts a collection of JSON rows and a VectorizedQueryPlan, converts the
- * rows to columnar (ColumnBatch) format, delegates execution to the analytics
- * ColumnarExecutionEngine, and converts results back to JSON rows.
- *
- * Performance targets (vs row-wise iteration):
- *   - 5–10× faster aggregations over numeric fields
- *   - 3–5× faster filter evaluation
- *   - Batch size 1 024 tuples balances L1/L2 cache pressure and overhead
- *
- * Usage:
- * @code
- *   VectorizedExecutionEngine engine;
- *
- *   VectorizedQueryPlan plan;
- *   plan.addFilter({VectorizedPredicate::gt("price", 50.0)})
- *       .addAggregate({{
- *           .result_field = "total",
- *           .input_field  = "price",
- *           .function     = VectorizedAggregation::Function::Sum,
- *           .group_by     = {"category"}
- *       }});
- *
- *   auto result = engine.execute(rows, plan);
- *   if (result) {
- *       for (const auto& row : *result) { ... }
- *   }
- * @endcode
- */
 class VectorizedExecutionEngine {
 public:
     struct Config {
@@ -218,44 +224,64 @@ public:
     };
 
     VectorizedExecutionEngine();
+    /**
+     * @brief Vectorized Execution Engine.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit VectorizedExecutionEngine(const Config& config);
     ~VectorizedExecutionEngine() = default;
 
     /**
-     * @brief Execute a plan over a JSON row collection.
-     *
-     * Rows are split into batches of config.batch_size, each batch processed
-     * through the operator pipeline, and all results concatenated.
-     *
-     * @param rows   Input JSON row collection.
-     * @param plan   Operator stages to apply.
-     * @return       Resulting JSON rows, or an error.
+     * @brief Execute.
+     * @param[in] rows Input parameter.
+     * @param[in] plan Input parameter.
+     * @return Return value.
      */
     Result<std::vector<nlohmann::json>> execute(
         const std::vector<nlohmann::json>& rows,
         const VectorizedQueryPlan&         plan);
 
-    /** Convenience: apply one or more filter predicates (AND-combined). */
+    /**
+     * @brief Filter.
+     * @param[in] rows Input parameter.
+     * @param[in] predicates Input parameter.
+     * @return Return value.
+     */
     Result<std::vector<nlohmann::json>> filter(
         const std::vector<nlohmann::json>& rows,
         std::vector<VectorizedPredicate>   predicates);
 
-    /** Convenience: apply aggregation(s) with optional GROUP BY. */
+    /**
+     * @brief Aggregate.
+     * @param[in] rows Input parameter.
+     * @param[in] aggregations Input parameter.
+     * @return Return value.
+     */
     Result<std::vector<nlohmann::json>> aggregate(
         const std::vector<nlohmann::json>&  rows,
         std::vector<VectorizedAggregation>  aggregations);
 
-    /** Convenience: retain only named fields in each row. */
+    /**
+     * @brief Project.
+     * @param[in] rows Input parameter.
+     * @param[in] fields Input parameter.
+     * @return Return value.
+     */
     Result<std::vector<nlohmann::json>> project(
         const std::vector<nlohmann::json>& rows,
         std::vector<std::string>           fields);
 
-    /** Convenience: sort rows by one or more fields. */
+    /**
+     * @brief Sort.
+     * @param[in] rows Input parameter.
+     * @param[in] keys Input parameter.
+     * @return Return value.
+     */
     Result<std::vector<nlohmann::json>> sort(
         const std::vector<nlohmann::json>& rows,
         std::vector<VectorizedSortKey>     keys);
 
-    /** Statistics gathered since construction or the last resetStats() call. */
     struct ExecStats {
         size_t batches_processed = 0;
         size_t rows_in           = 0;
@@ -264,6 +290,10 @@ public:
     };
 
     const ExecStats& lastStats() const noexcept { return stats_; }
+    /**
+     * @brief Reset Stats.
+     * @note Exception safety: noexcept.
+     */
     void             resetStats() noexcept;
 
     const Config& config() const noexcept { return config_; }
@@ -272,48 +302,49 @@ private:
     Config    config_;
     ExecStats stats_;
 
-    // ── JSON ↔ ColumnBatch conversion ──────────────────────────────────────
-
     /**
-     * @brief Convert a contiguous slice of JSON rows to a ColumnBatch.
-     *
-     * Column types are inferred from the first non-null value per field.
-     * Rows that are missing a field contribute a null entry.
-     *
-     * @param rows    Full row collection.
-     * @param offset  First row index to include.
-     * @param count   Number of rows to include.
-     * @return        A populated ColumnBatch ready for the operator pipeline.
+     * @brief ── JSON ↔ ColumnBatch conversion ──────────────────────────────────────
+     * @param[in] rows Input parameter.
+     * @param[in] offset Input parameter.
+     * @param[in] count Input parameter.
+     * @return Return value.
      */
+
     static themisdb::analytics::ColumnBatch jsonToColumnBatch(
         const std::vector<nlohmann::json>& rows,
         size_t offset,
         size_t count);
 
     /**
-     * @brief Materialize a ColumnBatch back to a vector of JSON objects.
-     *
-     * Any pending SelectionVector is applied first (materialization).
+     * @brief Column Batch To Json.
+     * @param[in] batch Input parameter.
+     * @return Return value.
      */
     static std::vector<nlohmann::json> columnBatchToJson(
         const themisdb::analytics::ColumnBatch& batch);
 
-    // ── Plan translation ───────────────────────────────────────────────────
-
     /**
-     * @brief Translate a VectorizedQueryPlan into an analytics VectorizedPipeline.
-     *
-     * Predicate Op, AggregateSpec::Function, and SortKey enumerators are
-     * mapped 1-to-1 to their analytics counterparts.
+     * @brief ── Plan translation ───────────────────────────────────────────────────
+     * @param[in] plan Input parameter.
+     * @return Return value.
      */
+
     static themisdb::analytics::VectorizedPipeline buildPipeline(
         const VectorizedQueryPlan& plan);
 
-    /** Map a VectorizedPredicate to an analytics::Predicate. */
+    /**
+     * @brief Translate Predicate.
+     * @param[in] pred Input parameter.
+     * @return Return value.
+     */
     static themisdb::analytics::Predicate translatePredicate(
         const VectorizedPredicate& pred);
 
-    /** Map a nlohmann::json value to a ColumnValue variant. */
+    /**
+     * @brief Json To Column Value.
+     * @param[in] val Input parameter.
+     * @return Return value.
+     */
     static themisdb::analytics::ColumnValue jsonToColumnValue(
         const nlohmann::json& val);
 };

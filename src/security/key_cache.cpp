@@ -22,6 +22,14 @@ KeyCache::KeyCache(size_t max_size, int64_t ttl_ms)
     , cache_hits_(0)
 {}
 
+/**
+ * @brief Get.
+ * @param[in] key_id Identifier of the key.
+ * @param[in] version Input parameter.
+ * @param[in,out] out_key Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), makeCacheKey(), find(), end(), getCurrentTimeMs(), erase().
+ */
 bool KeyCache::get(const std::string& key_id, uint32_t version, std::vector<uint8_t>& out_key) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -50,6 +58,13 @@ bool KeyCache::get(const std::string& key_id, uint32_t version, std::vector<uint
     return true;
 }
 
+/**
+ * @brief Put.
+ * @param[in] key_id Identifier of the key.
+ * @param[in] version Input parameter.
+ * @param[in] key Input parameter.
+ * @details Calls: lock(), evictExpired(), size(), evictLRU(), makeCacheKey(), getCurrentTimeMs(), std::move().
+ */
 void KeyCache::put(const std::string& key_id, uint32_t version, const std::vector<uint8_t>& key) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -72,6 +87,12 @@ void KeyCache::put(const std::string& key_id, uint32_t version, const std::vecto
     cache_[cache_key] = std::move(entry);
 }
 
+/**
+ * @brief Evict.
+ * @param[in] key_id Identifier of the key.
+ * @param[in] version Input parameter.
+ * @details Calls: lock(), begin(), end(), find(), erase(), makeCacheKey().
+ */
 void KeyCache::evict(const std::string& key_id, uint32_t version) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -92,6 +113,10 @@ void KeyCache::evict(const std::string& key_id, uint32_t version) {
     }
 }
 
+/**
+ * @brief Clear.
+ * @details Calls: lock().
+ */
 void KeyCache::clear() {
     std::lock_guard<std::mutex> lock(mutex_);
     cache_.clear();
@@ -100,6 +125,11 @@ void KeyCache::clear() {
 }
 
 double KeyCache::getHitRate() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     if (total_requests_ == 0) {
@@ -110,6 +140,11 @@ double KeyCache::getHitRate() const {
 }
 
 size_t KeyCache::size() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return cache_.size();
 }
@@ -118,6 +153,10 @@ std::string KeyCache::makeCacheKey(const std::string& key_id, uint32_t version) 
     return key_id + ":" + std::to_string(version);
 }
 
+/**
+ * @brief Evict Expired.
+ * @details Calls: getCurrentTimeMs(), begin(), end(), erase().
+ */
 void KeyCache::evictExpired() {
     int64_t now = getCurrentTimeMs();
     
@@ -131,6 +170,10 @@ void KeyCache::evictExpired() {
     }
 }
 
+/**
+ * @brief Evict LRU.
+ * @details Calls: empty(), begin(), end(), erase().
+ */
 void KeyCache::evictLRU() {
     if (cache_.empty()) {
         return;

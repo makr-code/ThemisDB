@@ -24,17 +24,22 @@
 namespace themis {
 namespace sharding {
 
-/** @brief Construct health-check system with immutable runtime config. */
 HealthCheckSystem::HealthCheckSystem(const Config& config)
     : config_(config) {
 }
 
-/** @brief Destructor stops periodic checks and joins worker if needed. */
 HealthCheckSystem::~HealthCheckSystem() {
     stopPeriodicChecks();
 }
 
-/** @brief Perform complete shard health assessment (cert/storage/network). */
+/**
+ * @brief Check Shard Health.
+ * @param[in] shard_id Identifier of the shard.
+ * @param[in] endpoint Input parameter.
+ * @param[in] cert_path Path to the cert.
+ * @return Return value.
+ * @details Calls: checkCertificateValidity(), push_back(), std::to_string(), checkStorageCapacity(), checkNetworkConnectivity().
+ */
 ShardHealthInfo HealthCheckSystem::checkShardHealth(const std::string& shard_id, 
                                                      const std::string& endpoint,
                                                      const std::string& cert_path) {
@@ -84,7 +89,6 @@ ShardHealthInfo HealthCheckSystem::checkShardHealth(const std::string& shard_id,
     return info;
 }
 
-/** @brief Execute health checks over all shards and aggregate cluster status. */
 ClusterHealthInfo HealthCheckSystem::checkClusterHealth(const std::map<std::string, std::string>& shard_endpoints) {
     ClusterHealthInfo cluster_info;
     cluster_info.total_shards = shard_endpoints.size();
@@ -127,16 +131,24 @@ ClusterHealthInfo HealthCheckSystem::checkClusterHealth(const std::map<std::stri
     return cluster_info;
 }
 
-/** @brief Register callback for periodic cluster-health updates. */
+/**
+ * @brief Register Callback.
+ * @param[in] callback Input parameter.
+ * @details Calls: lock().
+ */
 void HealthCheckSystem::registerCallback(HealthCheckCallback callback) {
     std::lock_guard<std::mutex> lock(state_mutex_);
     callback_ = callback;
 }
 
-/** @brief Start periodic cluster-health monitoring loop. */
 void HealthCheckSystem::startPeriodicChecks(const std::map<std::string, std::string>& shard_endpoints) {
     std::thread stale_thread = {};
     {
+        /**
+         * @brief Lifecycle lock.
+         * @param[in] lifecycle_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lifecycle_lock(lifecycle_mutex_);
         if (running_.load()) {
             return;
@@ -159,6 +171,11 @@ void HealthCheckSystem::startPeriodicChecks(const std::map<std::string, std::str
         }
     }
 
+    /**
+     * @brief Lifecycle lock.
+     * @param[in] lifecycle_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lifecycle_lock(lifecycle_mutex_);
     if (!running_.load()) {
         return;
@@ -169,6 +186,11 @@ void HealthCheckSystem::startPeriodicChecks(const std::map<std::string, std::str
 
             HealthCheckCallback callback_copy;
             {
+                /**
+                 * @brief Lock.
+                 * @param[in] state_mutex_ Input parameter.
+                 * @return Return value.
+                 */
                 std::lock_guard<std::mutex> lock(state_mutex_);
                 current_health_ = health;
                 callback_copy = callback_;
@@ -178,6 +200,11 @@ void HealthCheckSystem::startPeriodicChecks(const std::map<std::string, std::str
                 callback_copy(health);
             }
 
+            /**
+             * @brief Lock.
+             * @param[in] cv_mutex_ Input parameter.
+             * @return Return value.
+             */
             std::unique_lock<std::mutex> lock(cv_mutex_);
             cv_.wait_for(lock,
                          std::chrono::milliseconds(config_.check_interval_ms),
@@ -186,7 +213,10 @@ void HealthCheckSystem::startPeriodicChecks(const std::map<std::string, std::str
     });
 }
 
-/** @brief Stop periodic monitoring loop and join worker thread safely. */
+/**
+ * @brief Stop Periodic Checks.
+ * @details Calls: lifecycle_lock(), store(), notify_all(), joinable(), get_id(), std::this_thread::get_id(), std::move(), themis::utils::joinThreadWithin().
+ */
 void HealthCheckSystem::stopPeriodicChecks() {
     std::thread thread_to_join = {};
     {
@@ -209,13 +239,23 @@ void HealthCheckSystem::stopPeriodicChecks() {
     }
 }
 
-/** @brief Return latest cached cluster-health snapshot. */
 ClusterHealthInfo HealthCheckSystem::getCurrentHealth() const {
+    /**
+     * @brief Lock.
+     * @param[in] state_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(state_mutex_);
     return current_health_;
 }
 
-/** @brief Validate X509 certificate and return remaining lifetime in seconds. */
+/**
+ * @brief Check Certificate Validity.
+ * @param[in] cert_path Path to the cert.
+ * @param[in,out] seconds_until_expiry Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: fopen(), c_str(), PEM_read_X509(), fclose(), X509_get0_notAfter(), X509_free(), ASN1_TIME_diff().
+ */
 bool HealthCheckSystem::checkCertificateValidity(const std::string& cert_path, int64_t& seconds_until_expiry) {
     FILE* fp = fopen(cert_path.c_str(), "r");
     if (!fp) {
@@ -259,7 +299,13 @@ bool HealthCheckSystem::checkCertificateValidity(const std::string& cert_path, i
     return seconds_until_expiry > 0;
 }
 
-/** @brief Probe shard storage metrics endpoint and derive usage percentage. */
+/**
+ * @brief Check Storage Capacity.
+ * @param[in] endpoint Input parameter.
+ * @param[in,out] usage_percent Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), client(), get(), contains().
+ */
 bool HealthCheckSystem::checkStorageCapacity(const std::string& endpoint, double& usage_percent) {
     // Make HTTP request to shard to get storage metrics
     // Uses the /metrics or /health endpoint on the shard
@@ -314,7 +360,13 @@ bool HealthCheckSystem::checkStorageCapacity(const std::string& endpoint, double
     }
 }
 
-/** @brief Probe shard health endpoint and measure network response latency. */
+/**
+ * @brief Check Network Connectivity.
+ * @param[in] endpoint Input parameter.
+ * @param[in,out] response_time_ms Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), client(), std::chrono::steady_clock::now(), get(), count().
+ */
 bool HealthCheckSystem::checkNetworkConnectivity(const std::string& endpoint, double& response_time_ms) {
     // Measure actual network latency to the shard endpoint
     
@@ -351,7 +403,12 @@ bool HealthCheckSystem::checkNetworkConnectivity(const std::string& endpoint, do
     }
 }
 
-/** @brief Reduce per-shard health statuses to one cluster severity level. */
+/**
+ * @brief Aggregate Health.
+ * @param[in] shard_health Input parameter.
+ * @return Return value.
+ * @details Implements aggregateHealth without additional internal calls.
+ */
 HealthStatus HealthCheckSystem::aggregateHealth(const std::vector<ShardHealthInfo>& shard_health) {
     int critical_count = 0;
     int unhealthy_count = 0;
@@ -385,7 +442,13 @@ HealthStatus HealthCheckSystem::aggregateHealth(const std::vector<ShardHealthInf
     return HealthStatus::HEALTHY;
 }
 
-/** @brief Return true when healthy shards form strict majority quorum. */
+/**
+ * @brief Has Quorum.
+ * @param[in] healthy_shards Input parameter.
+ * @param[in] total_shards Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements hasQuorum without additional internal calls.
+ */
 bool HealthCheckSystem::hasQuorum(int healthy_shards, int total_shards) {
     if (total_shards == 0) {
       return false;

@@ -89,6 +89,14 @@ static const uint32_t kWsCrc32Table[256] = {
     0xB40BBE37, 0xC30C8EA1, 0x5A05DF1B, 0x2D02EF8D
 };
 
+/**
+ * @brief Ws Crc32 Update.
+ * @param[in] crc Input parameter.
+ * @param[in] data Input parameter.
+ * @param[in] len Input parameter.
+ * @return Return value.
+ * @details Implements wsCrc32Update without additional internal calls.
+ */
 uint32_t wsCrc32Update(uint32_t crc, const uint8_t* data, size_t len) {
     crc = ~crc;
     for (size_t i = 0; i < len; ++i)
@@ -141,9 +149,11 @@ WireProtocolWebSocketSession::~WireProtocolWebSocketSession() {
     THEMIS_INFO("[WireWS] session {} destroyed", session_id_);
 }
 
-// ---------------------------------------------------------------------------
-// run – complete WebSocket handshake then enter read loop
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- run – complete WebSocket handshake then enter read loop ---------------------------------------------------------------------------
+ * @param[in] req Input parameter.
+ * @details Calls: async_accept(), beast::bind_front_handler(), shared_from_this().
+ */
 
 void WireProtocolWebSocketSession::run(http::request<http::string_body> req) {
     ws_.async_accept(
@@ -153,6 +163,11 @@ void WireProtocolWebSocketSession::run(http::request<http::string_body> req) {
             shared_from_this()));
 }
 
+/**
+ * @brief On Accept.
+ * @param[in] ec Input parameter.
+ * @details Calls: THEMIS_ERROR(), message(), store(), THEMIS_INFO(), lock(), shared_from_this(), std::chrono::system_clock::now(), time_since_epoch().
+ */
 void WireProtocolWebSocketSession::onAccept(beast::error_code ec) {
     if (ec) {
         THEMIS_ERROR("[WireWS] session {} accept error: {}", session_id_, ec.message());
@@ -186,6 +201,10 @@ void WireProtocolWebSocketSession::onAccept(beast::error_code ec) {
 // Read loop
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Do Read.
+ * @details Calls: consume(), size(), async_read(), beast::bind_front_handler(), shared_from_this().
+ */
 void WireProtocolWebSocketSession::doRead() {
     buffer_.consume(buffer_.size());
     ws_.async_read(
@@ -195,6 +214,11 @@ void WireProtocolWebSocketSession::doRead() {
             shared_from_this()));
 }
 
+/**
+ * @brief On Read.
+ * @param[in] ec Input parameter.
+ * @param[in] size_t Input parameter.
+ */
 void WireProtocolWebSocketSession::onRead(beast::error_code ec,
                                            std::size_t /*bytes_transferred*/)
 {
@@ -245,6 +269,11 @@ void WireProtocolWebSocketSession::onRead(beast::error_code ec,
 // Message processing – text (JSON)
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Process Text Message.
+ * @param[in] text Input parameter.
+ * @details Calls: THEMIS_DEBUG(), json::parse(), value(), std::chrono::system_clock::now(), time_since_epoch(), count(), send(), dump().
+ */
 void WireProtocolWebSocketSession::processTextMessage(const std::string& text) {
     THEMIS_DEBUG("[WireWS] session {} text message: {}", session_id_, text);
 
@@ -358,8 +387,13 @@ void WireProtocolWebSocketSession::processTextMessage(const std::string& text) {
 
 namespace {
 
-// CRC32 (ISO-HDLC / Ethernet) – same polynomial as wire_protocol_server.cpp.
-// Used to verify the optional per-frame checksum carried by binary WebSocket frames.
+/**
+ * @brief CRC32 (ISO-HDLC / Ethernet) – same polynomial as wire_protocol_server.
+ * @param[in] data Input parameter.
+ * @param[in] len Input parameter.
+ * @return Return value.
+ * @details cpp. Used to verify the optional per-frame checksum carried by binary WebSocket frames. Implements crc32Binary without additional internal calls.
+ */
 static uint32_t crc32Binary(const uint8_t* data, size_t len) {
     uint32_t crc = 0xFFFFFFFFu;
     for (size_t i = 0; i < len; ++i) {
@@ -381,6 +415,12 @@ constexpr uint8_t kOpcodePutResponse    = 0x91u;
 constexpr uint8_t kOpcodeDeleteResponse = 0x92u;
 } // anonymous namespace
 
+/**
+ * @brief Build Binary Response Frame.
+ * @param[in] resp_opcode Input parameter.
+ * @param[in] payload Input parameter.
+ * @return Return value.
+ */
 std::vector<uint8_t> WireProtocolWebSocketSession::buildBinaryResponseFrame(
     uint8_t resp_opcode, const std::vector<uint8_t>& payload)
 {
@@ -402,6 +442,11 @@ std::vector<uint8_t> WireProtocolWebSocketSession::buildBinaryResponseFrame(
     return frame;
 }
 
+/**
+ * @brief Send Binary Error.
+ * @param[in] error_code Input parameter.
+ * @param[in] message Input parameter.
+ */
 void WireProtocolWebSocketSession::sendBinaryError(uint32_t error_code,
                                                     const std::string& message)
 {
@@ -413,6 +458,9 @@ void WireProtocolWebSocketSession::sendBinaryError(uint32_t error_code,
     sendBinary(buildBinaryResponseFrame(kOpcodeErrorResponse, payload));
 }
 
+/**
+ * @brief Handle Binary Ping.
+ */
 void WireProtocolWebSocketSession::handleBinaryPing()
 {
     json resp;
@@ -424,6 +472,11 @@ void WireProtocolWebSocketSession::handleBinaryPing()
                                         {payload_text.begin(), payload_text.end()}));
 }
 
+/**
+ * @brief Handle Binary Get.
+ * @param[in] payload_data Input parameter.
+ * @param[in] payload_size Input parameter.
+ */
 void WireProtocolWebSocketSession::handleBinaryGet(const uint8_t* payload_data,
                                                     uint32_t payload_size)
 {
@@ -458,6 +511,11 @@ void WireProtocolWebSocketSession::handleBinaryGet(const uint8_t* payload_data,
     }
 }
 
+/**
+ * @brief Handle Binary Put.
+ * @param[in] payload_data Input parameter.
+ * @param[in] payload_size Input parameter.
+ */
 void WireProtocolWebSocketSession::handleBinaryPut(const uint8_t* payload_data,
                                                     uint32_t payload_size)
 {
@@ -490,6 +548,11 @@ void WireProtocolWebSocketSession::handleBinaryPut(const uint8_t* payload_data,
     }
 }
 
+/**
+ * @brief Handle Binary Delete.
+ * @param[in] payload_data Input parameter.
+ * @param[in] payload_size Input parameter.
+ */
 void WireProtocolWebSocketSession::handleBinaryDelete(const uint8_t* payload_data,
                                                        uint32_t payload_size)
 {
@@ -517,6 +580,10 @@ void WireProtocolWebSocketSession::handleBinaryDelete(const uint8_t* payload_dat
     }
 }
 
+/**
+ * @brief Process Binary Frame.
+ * @param[in] data Input parameter.
+ */
 void WireProtocolWebSocketSession::processBinaryFrame(const std::vector<uint8_t>& data)
 {
     if (data.size() < kWireHeaderSize) {
@@ -597,6 +664,11 @@ void WireProtocolWebSocketSession::processBinaryFrame(const std::vector<uint8_t>
 // Write helpers
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Send.
+ * @param[in] message Input parameter.
+ * @details Calls: lock(), push_back(), doWrite().
+ */
 void WireProtocolWebSocketSession::send(const std::string& message) {
     std::lock_guard<std::mutex> lock(write_mutex_);
     write_queue_.push_back({message, /*is_binary=*/false});
@@ -606,6 +678,11 @@ void WireProtocolWebSocketSession::send(const std::string& message) {
     }
 }
 
+/**
+ * @brief Send Binary.
+ * @param[in] data Input parameter.
+ * @details Calls: binary_str(), begin(), end(), lock(), push_back(), doWrite().
+ */
 void WireProtocolWebSocketSession::sendBinary(const std::vector<uint8_t>& data) {
     std::string binary_str(data.begin(), data.end());
     std::lock_guard<std::mutex> lock(write_mutex_);
@@ -616,6 +693,10 @@ void WireProtocolWebSocketSession::sendBinary(const std::vector<uint8_t>& data) 
     }
 }
 
+/**
+ * @brief Do Write.
+ * @details Calls: empty(), front(), text(), async_write(), net::buffer(), beast::bind_front_handler(), shared_from_this().
+ */
 void WireProtocolWebSocketSession::doWrite() {
     // Called with write_mutex_ held or from onWrite callback
     if (write_queue_.empty()) {
@@ -633,9 +714,19 @@ void WireProtocolWebSocketSession::doWrite() {
             shared_from_this()));
 }
 
+/**
+ * @brief On Write.
+ * @param[in] ec Input parameter.
+ * @param[in] size_t Input parameter.
+ */
 void WireProtocolWebSocketSession::onWrite(beast::error_code ec,
                                             std::size_t /*bytes_transferred*/)
 {
+    /**
+     * @brief Lock.
+     * @param[in] write_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(write_mutex_);
 
     if (ec) {
@@ -657,6 +748,10 @@ void WireProtocolWebSocketSession::onWrite(beast::error_code ec,
 // Close
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Close.
+ * @details Calls: exchange(), THEMIS_WARN(), message(), THEMIS_INFO(), lock(), find(), end(), erase().
+ */
 void WireProtocolWebSocketSession::close() {
     if (!active_.exchange(false, std::memory_order_acq_rel)) {
         return;  // Already closed

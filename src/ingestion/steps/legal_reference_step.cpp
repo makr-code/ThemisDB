@@ -20,7 +20,6 @@ namespace themis {
 namespace ingestion {
 namespace builtin {
 
-/** @brief Legal reference extractor step. */
 class LegalReferenceExtractorStep final : public IIngestionStep {
 public:
     // IThemisPlugin boilerplate
@@ -89,6 +88,11 @@ public:
 // Factory
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Create Legal Reference Extractor Step.
+ * @return Return value.
+ * @details Implements createLegalReferenceExtractorStep without additional internal calls.
+ */
 std::shared_ptr<IIngestionStep> createLegalReferenceExtractorStep() {
     return std::make_shared<LegalReferenceExtractorStep>();
 }

@@ -30,7 +30,13 @@ namespace governance {
 
 namespace {
 
-/// Convert a raw byte buffer to a lowercase hex string.
+/**
+ * @brief To Hex.
+ * @param[in] data Input parameter.
+ * @param[in] len Input parameter.
+ * @return Return value.
+ * @details Calls: std::setfill(), std::setw(), str().
+ */
 std::string toHex(const unsigned char *data, size_t len) {
     std::ostringstream oss = {};
     oss << std::hex << std::setfill('0');
@@ -40,15 +46,25 @@ std::string toHex(const unsigned char *data, size_t len) {
     return oss.str();
 }
 
-/// Compute SHA-256 hex digest of @p input.
+/**
+ * @brief Data Masker Sha256 Hex.
+ * @param[in] input Input parameter.
+ * @return Return value.
+ * @details Calls: SHA256(), data(), size(), toHex().
+ */
 std::string dataMaskerSha256Hex(const std::string &input) {
     unsigned char digest[SHA256_DIGEST_LENGTH];
     SHA256(reinterpret_cast<const unsigned char *>(input.data()),input.size(), digest);
     return toHex(digest, SHA256_DIGEST_LENGTH);
 }
 
-/// Compute HMAC-SHA256 of @p input keyed by @p key; return hex string.
-/// Returns empty string on error (key must be non-empty).
+/**
+ * @brief Hmac Sha256 Hex.
+ * @param[in] key Input parameter.
+ * @param[in] input Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), THEMIS_WARN(), dataMaskerSha256Hex(), HMAC(), EVP_sha256(), data(), size(), THEMIS_ERROR().
+ */
 std::string hmacSha256Hex(const std::string &key, const std::string &input) {
     if (key.empty()) {
         THEMIS_WARN("DataMasker::TOKENIZE strategy called with empty collection_secret; "
@@ -68,7 +84,6 @@ std::string hmacSha256Hex(const std::string &key, const std::string &input) {
     return toHex(digest, digest_len);
 }
 
-/// Return the Prometheus strategy label string for a given strategy enum.
 const char *strategyLabel(MaskingStrategy s) {
     switch (s) {
         case MaskingStrategy::REDACT:
@@ -85,9 +100,13 @@ const char *strategyLabel(MaskingStrategy s) {
 
 } // anonymous namespace
 
-// ---------------------------------------------------------------------------
-// DataMasker::applyStrategy
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- DataMasker::applyStrategy ---------------------------------------------------------------------------
+ * @param[in] value Input parameter.
+ * @param[in] rule Input parameter.
+ * @return Return value.
+ * @details Calls: hmacSha256Hex(), size(), substr(), dataMaskerSha256Hex().
+ */
 
 std::string DataMasker::applyStrategy(const std::string &value, const FieldMaskingRule &rule) {
     switch (rule.strategy) {

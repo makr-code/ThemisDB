@@ -39,6 +39,14 @@ namespace training {
 // ============================================================================
 namespace detail {
 
+/**
+ * @brief Sanitize Training Text.
+ * @param[in] input Input parameter.
+ * @param[in,out] sanitized Input/output parameter.
+ * @param[in,out] blocked_rule Input/output parameter.
+ * @param[in,out] blocked_reason Input/output parameter.
+ * @return True when the operation succeeds.
+ */
 static bool sanitizeTrainingText(
     const std::string& input,
     std::string& sanitized,
@@ -52,7 +60,12 @@ static bool sanitizeTrainingText(
         blocked_reason);
 }
 
-// Approximate token count: split on whitespace
+/**
+ * @brief Approximate token count: split on whitespace
+ * @param[in] text Input parameter.
+ * @return Return value.
+ * @details Calls: empty().
+ */
 static size_t approximateTokenCount(const std::string& text) {
     if (text.empty()) {
       return 0;
@@ -67,8 +80,12 @@ static size_t approximateTokenCount(const std::string& text) {
     return count;
 }
 
-// Very lightweight language detection based on common German stop words.
-// Returns "de" if text contains enough German indicators, else "other".
+/**
+ * @brief Very lightweight language detection based on common German stop words.
+ * @param[in] text Input parameter.
+ * @return Return value.
+ * @details Returns "de" if text contains enough German indicators, else "other". Calls: std::transform(), begin(), end(), find().
+ */
 static std::string detectLanguage(const std::string& text) {
     static const std::vector<std::string> de_tokens = {
         "der", "die", "das", "und", "ist", "ein", "zu", "von", "mit",
@@ -89,8 +106,12 @@ static std::string detectLanguage(const std::string& text) {
     return (hits >= 3) ? "de" : "other";
 }
 
-// Heuristic toxicity score: counts hostile/offensive term occurrences
-// and maps to [0..1]. Returns 0 for benign text.
+/**
+ * @brief Heuristic toxicity score: counts hostile/offensive term occurrences and maps to [0.
+ * @param[in] text Input parameter.
+ * @return Return value.
+ * @details .1]. Returns 0 for benign text. Calls: std::transform(), begin(), end(), find(), size(), std::min().
+ */
 static double computeToxicity(const std::string& text) {
     static const std::vector<std::string> toxic_markers = {
         "hass", "beleidigung", "gewalt", "diskriminierung",
@@ -112,7 +133,12 @@ static double computeToxicity(const std::string& text) {
     return std::min(1.0, static_cast<double>(hits) / 5.0);
 }
 
-// Heuristic PII check: returns true if text appears to contain PII.
+/**
+ * @brief Heuristic PII check: returns true if text appears to contain PII.
+ * @param[in] text Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: std::transform(), begin(), end(), find().
+ */
 static bool containsPII(const std::string& text) {
     // Look for patterns like email addresses or IBAN-style sequences
     static const std::vector<std::string> pii_patterns = {
@@ -128,7 +154,12 @@ static bool containsPII(const std::string& text) {
     return false;
 }
 
-// Compute a lightweight FNV-1a hash of a string (for MinHash shingle hashing)
+/**
+ * @brief Compute a lightweight FNV-1a hash of a string (for MinHash shingle hashing)
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Implements fnv1a without additional internal calls.
+ */
 static uint32_t fnv1a(const std::string& s) {
     uint32_t hash = 2166136261;
     for (unsigned char c : s) {
@@ -138,7 +169,13 @@ static uint32_t fnv1a(const std::string& s) {
     return hash;
 }
 
-// Build a MinHash signature (one value per permutation) using word 3-shingles
+/**
+ * @brief Build a MinHash signature (one value per permutation) using word 3-shingles
+ * @param[in] text Input parameter.
+ * @param[in] num_perm Input parameter.
+ * @return Return value.
+ * @details Calls: iss(), push_back(), size(), insert(), empty(), signature(), fnv1a().
+ */
 static std::vector<uint32_t> buildMinHash(const std::string& text, size_t num_perm) {
     // Build word-level 3-shingles
     std::vector<std::string> words;
@@ -180,7 +217,13 @@ static std::vector<uint32_t> buildMinHash(const std::string& text, size_t num_pe
     return signature;
 }
 
-// Estimate Jaccard similarity from two MinHash signatures
+/**
+ * @brief Estimate Jaccard similarity from two MinHash signatures
+ * @param[in] a Input parameter.
+ * @param[in] b Input parameter.
+ * @return Return value.
+ * @details Calls: size(), empty().
+ */
 static double jaccardEstimate(const std::vector<uint32_t>& a,
                                const std::vector<uint32_t>& b) {
     if (a.size() != b.size() || a.empty()) {
@@ -195,7 +238,12 @@ static double jaccardEstimate(const std::vector<uint32_t>& a,
         return static_cast<double>(matches) / static_cast<double>(a.size());
 }
 
-// Compute type-token ratio (TTR) as diversity score
+/**
+ * @brief Compute type-token ratio (TTR) as diversity score
+ * @param[in] text Input parameter.
+ * @return Return value.
+ * @details Calls: iss(), std::transform(), begin(), end(), insert(), size().
+ */
 static double computeTTR(const std::string& text) {
     std::istringstream iss(text);
     std::string w = {};
@@ -266,7 +314,12 @@ static double computeDomainRelevance(const std::string& text,
     return std::min(1.0, total_score / static_cast<double>(total_keywords));
 }
 
-// Pseudo-perplexity estimate from token count and character entropy
+/**
+ * @brief Pseudo-perplexity estimate from token count and character entropy
+ * @param[in] text Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), size(), std::log2(), std::min().
+ */
 static double computePerplexityScore(const std::string& text) {
     if (text.empty()) {
       return 1.0;
@@ -290,7 +343,12 @@ static double computePerplexityScore(const std::string& text) {
     return std::min(1.0, entropy / 8.0);
 }
 
-// Build a compact FNV hash string for the config (provenance fingerprint)
+/**
+ * @brief Build a compact FNV hash string for the config (provenance fingerprint)
+ * @param[in] cfg Input parameter.
+ * @return Return value.
+ * @details Calls: fnv1a(), str().
+ */
 static std::string hashConfig(const LoRADataSelectionConfig& cfg) {
     std::ostringstream oss = {};
     oss << cfg.min_length_tokens << "|" << cfg.max_length_tokens << "|"
@@ -303,11 +361,10 @@ static std::string hashConfig(const LoRADataSelectionConfig& cfg) {
 }
 
 /**
- * @brief Append a JSONL audit record to @p path (thread-safe).
- *
- * Creates parent directories if they don't exist (best-effort, portable).
- * If the append fails, the error is swallowed so the caller's
- * pipeline result is not affected.
+ * @brief Append Audit JSONL.
+ * @param[in] path Input parameter.
+ * @param[in] jsonl_line Input parameter.
+ * @details Calls: empty(), rfind(), std::filesystem::create_directories(), std::filesystem::path(), parent_path(), lk(), ofs(), is_open().
  */
 static void appendAuditJSONL(const std::string& path,
                               const std::string& jsonl_line) {
@@ -342,7 +399,6 @@ static void appendAuditJSONL(const std::string& path,
 // ============================================================================
 // Pimpl implementation
 // ============================================================================
-/** @brief Pimpl implementation. */
 class DataSelectionPipeline::Impl {
 public:
     explicit Impl(const LoRADataSelectionConfig& config) : config_(config) {}
@@ -544,6 +600,12 @@ public:
         // Pick the sample closest to each centroid
         std::vector<DataSample> out;
         out.reserve(k);
+        /**
+         * @brief Selected.
+         * @param[in] n Input parameter.
+         * @param[in] false Input parameter.
+         * @return Return value.
+         */
         std::vector<bool> selected(n, false);
         for (size_t c = 0; c < centroids.size(); ++c) {
             double best_dist = std::numeric_limits<double>::max();
@@ -650,7 +712,13 @@ public:
         return out;
     }
 
-    // ---- Full pipeline run -------------------------------------------------
+    /**
+     * @brief ---- Full pipeline run -------------------------------------------------
+     * @param[in] input Input parameter.
+     * @param[in] cb Input parameter.
+     * @return Return value.
+     * @details Calls: DataSelectionResult(), std::chrono::steady_clock::now(), filterByQuality(), cb(), size(), deduplicate(), clusterAndSample(), scoreQualityAndDifficulty().
+     */
     DataSelectionResult run(
             const std::vector<DataSample>& input,
             SelectionProgressCallback cb) {
@@ -721,6 +789,11 @@ public:
         return result;
     }
 
+    /**
+     * @brief Set Config.
+     * @param[in] config Input parameter.
+     * @details Implements setConfig without additional internal calls.
+     */
     void setConfig(const LoRADataSelectionConfig& config) { config_ = config; }
     const LoRADataSelectionConfig& getConfig() const      { return config_; }
 
@@ -737,6 +810,13 @@ DataSelectionPipeline::DataSelectionPipeline(const LoRADataSelectionConfig& conf
 
 DataSelectionPipeline::~DataSelectionPipeline() = default;
 
+/**
+ * @brief Run.
+ * @param[in] input_samples Input parameter.
+ * @param[in] callback Input parameter.
+ * @return Return value.
+ * @details Calls: std::move(), getConfig(), empty(), detail::appendAuditJSONL(), toJSONL().
+ */
 DataSelectionResult DataSelectionPipeline::run(
         const std::vector<DataSample>& input_samples,
         SelectionProgressCallback callback) {
@@ -777,6 +857,11 @@ std::vector<DataSample> DataSelectionPipeline::stratifiedSample(
     return impl_->stratifiedSample(scored_samples, target);
 }
 
+/**
+ * @brief Set Config.
+ * @param[in] config Input parameter.
+ * @details Implements setConfig without additional internal calls.
+ */
 void DataSelectionPipeline::setConfig(const LoRADataSelectionConfig& config) {
     impl_->setConfig(config);
 }
@@ -785,6 +870,12 @@ const LoRADataSelectionConfig& DataSelectionPipeline::getConfig() const {
     return impl_->getConfig();
 }
 
+/**
+ * @brief Compute Metrics.
+ * @param[in] result Input parameter.
+ * @return Return value.
+ * @details Calls: DataSelectionMetrics(), empty(), ss(), reserve(), size(), std::isalpha(), std::tolower(), std::isdigit().
+ */
 DataSelectionMetrics DataSelectionPipeline::computeMetrics(
         const DataSelectionResult& result) {
     DataSelectionMetrics m = DataSelectionMetrics();
@@ -848,12 +939,24 @@ DataSelectionMetrics DataSelectionPipeline::computeMetrics(
 // ============================================================================
 namespace yaml_detail {
 
+/**
+ * @brief Trim Right.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), back(), pop_back().
+ */
 static std::string trimRight(std::string s) {
     while ((!s.empty() && (s.back() == ' ' || s.back() == '\t' || s.back() == '\r')))
         s.pop_back();
     return s;
 }
 
+/**
+ * @brief Trim Left.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Calls: size(), substr().
+ */
 static std::string trimLeft(const std::string& s) {
     size_t i = 0;
     while ((i < s.size() && (s[i] == ' ' || s[i] == '\t'))) {
@@ -862,6 +965,12 @@ static std::string trimLeft(const std::string& s) {
     return s.substr(i);
 }
 
+/**
+ * @brief Strip Quotes.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Calls: size(), front(), back(), substr().
+ */
 static std::string stripQuotes(const std::string& s) {
     if ((s.size() >= 2 &&
         ((s.front() == '"' && s.back() == '"') ||
@@ -870,6 +979,12 @@ static std::string stripQuotes(const std::string& s) {
     return s;
 }
 
+/**
+ * @brief Remove Comment.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Calls: size(), substr().
+ */
 static std::string removeComment(const std::string& s) {
     bool in_single = false, in_double = false;
     for (size_t i = 0; i < s.size(); ++i) {
@@ -884,7 +999,14 @@ static std::string removeComment(const std::string& s) {
     return s;
 }
 
-// Assign a scalar YAML value to the matching field of cfg.
+/**
+ * @brief Assign a scalar YAML value to the matching field of cfg.
+ * @param[in,out] cfg Input/output parameter.
+ * @param[in] key Input parameter.
+ * @param[in] raw_val Input parameter.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: stripQuotes(), trimLeft(), empty(), std::stoull(), std::stod(), what().
+ */
 static void applyScalar(LoRADataSelectionConfig& cfg,
                          const std::string& key,
                          const std::string& raw_val) {
@@ -926,11 +1048,11 @@ static void applyScalar(LoRADataSelectionConfig& cfg,
 }
 
 /**
- * Line-by-line YAML parser for the lora_data_selection section.
- *
- * Handles the exact schema defined in LoRATrainerConfig.yaml:
- *  - scalar key:value pairs at indent 2
- *  - domain_keywords subsection at indent 4 with list items at indent 6
+ * @brief Parse YAMLText.
+ * @param[in] text Input parameter.
+ * @param[in] section Input parameter.
+ * @return Return value.
+ * @details Calls: LoRADataSelectionConfig(), iss(), std::getline(), trimRight(), removeComment(), empty(), size(), substr().
  */
 static LoRADataSelectionConfig parseYAMLText(const std::string& text,
                                               const std::string& section) {
@@ -1023,6 +1145,14 @@ static LoRADataSelectionConfig parseYAMLText(const std::string& text,
 
 } // namespace yaml_detail
 
+/**
+ * @brief Load From YAML.
+ * @param[in] path Input parameter.
+ * @param[in] section Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: f(), is_open(), rdbuf(), yaml_detail::parseYAMLText(), str().
+ */
 LoRADataSelectionConfig LoRADataSelectionConfig::loadFromYAML(
         const std::string& path,
         const std::string& section) {
@@ -1034,6 +1164,13 @@ LoRADataSelectionConfig LoRADataSelectionConfig::loadFromYAML(
     return yaml_detail::parseYAMLText(buf.str(), section);
 }
 
+/**
+ * @brief From YAMLString.
+ * @param[in] yaml_text Input parameter.
+ * @param[in] section Input parameter.
+ * @return Return value.
+ * @details Calls: yaml_detail::parseYAMLText().
+ */
 LoRADataSelectionConfig LoRADataSelectionConfig::fromYAMLString(
         const std::string& yaml_text,
         const std::string& section) {
@@ -1044,6 +1181,12 @@ LoRADataSelectionConfig LoRADataSelectionConfig::fromYAMLString(
 // SelectionAuditEntry – JSONL serialization
 // ============================================================================
 
+/**
+ * @brief Json Escape.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), std::string().
+ */
 static std::string jsonEscape(const std::string& s) {
     std::string out = {};
     // reserve(size+4) pre-allocates worst-case capacity for the common path;
@@ -1120,6 +1263,14 @@ std::string SelectionAuditEntry::toJSONL() const {
 
 namespace yaml_detail {
 
+/**
+ * @brief Parse Self Improvement YAML.
+ * @param[in] text Input parameter.
+ * @param[in] section Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: SelfImprovementConfig(), iss(), AdaptiveRule(), empty(), push_back(), std::getline(), trimRight(), removeComment().
+ */
 static SelfImprovementConfig parseSelfImprovementYAML(
         const std::string& text,
         const std::string& section) {
@@ -1263,6 +1414,14 @@ static SelfImprovementConfig parseSelfImprovementYAML(
 
 } // namespace yaml_detail
 
+/**
+ * @brief Load From YAML.
+ * @param[in] path Input parameter.
+ * @param[in] section Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: f(), is_open(), rdbuf(), yaml_detail::parseSelfImprovementYAML(), str().
+ */
 SelfImprovementConfig SelfImprovementConfig::loadFromYAML(
         const std::string& path,
         const std::string& section) {
@@ -1274,6 +1433,13 @@ SelfImprovementConfig SelfImprovementConfig::loadFromYAML(
     return yaml_detail::parseSelfImprovementYAML(buf.str(), section);
 }
 
+/**
+ * @brief From YAMLString.
+ * @param[in] yaml_text Input parameter.
+ * @param[in] section Input parameter.
+ * @return Return value.
+ * @details Calls: yaml_detail::parseSelfImprovementYAML().
+ */
 SelfImprovementConfig SelfImprovementConfig::fromYAMLString(
         const std::string& yaml_text,
         const std::string& section) {
@@ -1284,13 +1450,17 @@ SelfImprovementConfig SelfImprovementConfig::fromYAMLString(
 // SelfImprovementModule – adaptive threshold adjustment
 // ============================================================================
 
-/** @brief SelfImprovementModule – adaptive threshold adjustment. */
 class SelfImprovementModule::Impl {
 public:
     explicit Impl(const SelfImprovementConfig& cfg) : cfg_(cfg) {}
 
-    // Evaluate a single rule condition against observed metric value.
-    // Supported conditions: "< N", "> N", "<= N", ">= N", "== N"
+    /**
+     * @brief Evaluate a single rule condition against observed metric value.
+     * @param[in] condition Input parameter.
+     * @param[in] metric_value Input parameter.
+     * @return True when the operation succeeds.
+     * @details Supported conditions: "< N", "> N", "<= N", ">= N", "== N" Calls: size(), std::stod(), substr(), std::abs().
+     */
     static bool evaluateCondition(const std::string& condition,
                                    double metric_value) {
         // Find operator boundary
@@ -1335,7 +1505,13 @@ public:
         return false;
     }
 
-    // Retrieve the monitored metric value by name
+    /**
+     * @brief Retrieve the monitored metric value by name
+     * @param[in] m Input parameter.
+     * @param[in] name Input parameter.
+     * @return Return value.
+     * @details Implements getMetric without additional internal calls.
+     */
     static double getMetric(const DataSelectionMetrics& m,
                              const std::string& name) {
         if (name == "avg_quality_score") {
@@ -1365,7 +1541,13 @@ public:
         return 0.0;
     }
 
-    // Apply a triggered rule action to the config copy
+    /**
+     * @brief Apply a triggered rule action to the config copy
+     * @param[in,out] cfg Input/output parameter.
+     * @param[in] action Input parameter.
+     * @param[in] delta Input parameter.
+     * @details Calls: find(), contains(), std::clamp().
+     */
     static void applyAction(LoRADataSelectionConfig& cfg,
                              const std::string& action,
                              double delta) {
@@ -1391,6 +1573,13 @@ public:
             cfg.medium_ratio        = std::clamp(cfg.medium_ratio        + delta, 0.0, 1.0);
     }
 
+    /**
+     * @brief Apply Adaptive Rules.
+     * @param[in] cfg Input parameter.
+     * @param[in] metrics Input parameter.
+     * @return Return value.
+     * @details Calls: getMetric(), evaluateCondition(), applyAction().
+     */
     LoRADataSelectionConfig applyAdaptiveRules(
             const LoRADataSelectionConfig& cfg,
             const DataSelectionMetrics& metrics) {
@@ -1444,6 +1633,11 @@ public:
     }
 
     size_t lastTriggeredRuleCount() const { return last_triggered_; }
+    /**
+     * @brief Set Config.
+     * @param[in] cfg Input parameter.
+     * @details Implements setConfig without additional internal calls.
+     */
     void setConfig(const SelfImprovementConfig& cfg) { cfg_ = cfg; }
     const SelfImprovementConfig& getConfig() const    { return cfg_; }
 
@@ -1476,6 +1670,11 @@ bool SelfImprovementModule::needsReselection(
     return impl_->needsReselection(last_selection_time);
 }
 
+/**
+ * @brief Set Config.
+ * @param[in] config Input parameter.
+ * @details Implements setConfig without additional internal calls.
+ */
 void SelfImprovementModule::setConfig(const SelfImprovementConfig& config) {
     impl_->setConfig(config);
 }

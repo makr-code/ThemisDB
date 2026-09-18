@@ -44,6 +44,12 @@ SpatialQueryPolicy defaultSpatialQueryPolicy() noexcept
     return SpatialQueryPolicy{};
 }
 
+/**
+ * @brief Is Spatial Collection Permitted.
+ * @param[in] policy Input parameter.
+ * @param[in] collection_name Name of the collection.
+ * @return True when the operation succeeds.
+ */
 bool isSpatialCollectionPermitted(const SpatialQueryPolicy& policy,
                                   const std::string& collection_name)
 {

@@ -63,8 +63,15 @@ namespace timeseries {
 
 namespace proto {
 
-/// Read a protobuf varint from [pos, end).  Advances *pos past the varint.
-/// Returns false when the buffer is exhausted before the varint terminates.
+/**
+ * @brief Read Varint64.
+ * @param[in] buf Input parameter.
+ * @param[in,out] pos Input/output parameter.
+ * @param[in] end Input parameter.
+ * @param[in,out] out Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Implements readVarint64 without additional internal calls.
+ */
 static bool readVarint64(const uint8_t* buf, size_t& pos, size_t end, uint64_t& out) {
     out = 0;
     int shift = 0;
@@ -80,7 +87,16 @@ static bool readVarint64(const uint8_t* buf, size_t& pos, size_t end, uint64_t& 
     return false; // truncated
 }
 
-/// Read a length-delimited byte span.  Returns false on error.
+/**
+ * @brief Read Len Delim.
+ * @param[in] buf Input parameter.
+ * @param[in,out] pos Input/output parameter.
+ * @param[in] end Input parameter.
+ * @param[in] span_begin Input parameter.
+ * @param[in,out] span_len Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: readVarint64().
+ */
 static bool readLenDelim(const uint8_t* buf, size_t& pos, size_t end,
                          const uint8_t*& span_begin, size_t& span_len) {
     uint64_t len = 0;
@@ -97,7 +113,15 @@ static bool readLenDelim(const uint8_t* buf, size_t& pos, size_t end,
     return true;
 }
 
-/// Skip a field of unknown type given the wire_type nibble.
+/**
+ * @brief Skip Field.
+ * @param[in] buf Input parameter.
+ * @param[in,out] pos Input/output parameter.
+ * @param[in] end Input parameter.
+ * @param[in] wire_type Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: readVarint64(), readLenDelim().
+ */
 static bool skipField(const uint8_t* buf, size_t& pos, size_t end, uint32_t wire_type) {
     switch (wire_type) {
         case 0: { // VARINT
@@ -128,7 +152,14 @@ static bool skipField(const uint8_t* buf, size_t& pos, size_t end, uint32_t wire
     }
 }
 
-// ── Label ─────────────────────────────────────────────────────────────────────
+/**
+ * @brief ── Label ─────────────────────────────────────────────────────────────────────
+ * @param[in] buf Input parameter.
+ * @param[in] size Input parameter.
+ * @param[in,out] out Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: readVarint64(), readLenDelim(), assign(), skipField().
+ */
 
 static bool decodeLabel(const uint8_t* buf, size_t size, PromLabel& out) {
     size_t pos = 0;
@@ -162,7 +193,14 @@ static bool decodeLabel(const uint8_t* buf, size_t size, PromLabel& out) {
     return true;
 }
 
-// ── Sample ────────────────────────────────────────────────────────────────────
+/**
+ * @brief ── Sample ────────────────────────────────────────────────────────────────────
+ * @param[in] buf Input parameter.
+ * @param[in] size Input parameter.
+ * @param[in,out] out Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: readVarint64(), static_assert(), std::memcpy(), skipField().
+ */
 
 static bool decodeSample(const uint8_t* buf, size_t size, PromSample& out) {
     size_t pos = 0;
@@ -199,7 +237,14 @@ static bool decodeSample(const uint8_t* buf, size_t size, PromSample& out) {
     return true;
 }
 
-// ── TimeSeries ────────────────────────────────────────────────────────────────
+/**
+ * @brief ── TimeSeries ────────────────────────────────────────────────────────────────
+ * @param[in] buf Input parameter.
+ * @param[in] size Input parameter.
+ * @param[in,out] out Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: readVarint64(), readLenDelim(), decodeLabel(), push_back(), std::move(), decodeSample(), skipField().
+ */
 
 static bool decodeTimeSeries(const uint8_t* buf, size_t size, PromTimeSeries& out) {
     size_t pos = 0;
@@ -241,7 +286,14 @@ static bool decodeTimeSeries(const uint8_t* buf, size_t size, PromTimeSeries& ou
     return true;
 }
 
-// ── WriteRequest ──────────────────────────────────────────────────────────────
+/**
+ * @brief ── WriteRequest ──────────────────────────────────────────────────────────────
+ * @param[in] buf Input parameter.
+ * @param[in] size Input parameter.
+ * @param[in,out] out Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: readVarint64(), readLenDelim(), decodeTimeSeries(), push_back(), std::move(), skipField().
+ */
 
 static bool decodeWriteRequest(const uint8_t* buf, size_t size, PromWriteRequest& out) {
     size_t pos = 0;
@@ -300,6 +352,13 @@ std::string PromTimeSeries::labelValue(const std::string& name) const {
 // PromWriteRequest decode entry-points
 // ─────────────────────────────────────────────
 
+/**
+ * @brief Decode.
+ * @param[in] data Input parameter.
+ * @param[in] size Input parameter.
+ * @return Return value.
+ * @details Calls: proto::readVarint64(), proto::readLenDelim(), proto::decodeWriteRequest().
+ */
 Result<PromWriteRequest> PromWriteRequest::decode(const uint8_t* data, size_t size) {
     // Guard against null pointer; an empty buffer decodes to an empty request.
     if (size == 0) {
@@ -340,6 +399,13 @@ Result<PromWriteRequest> PromWriteRequest::decode(const uint8_t* data, size_t si
     return req;
 }
 
+/**
+ * @brief Decode Snappy.
+ * @param[in] data Input parameter.
+ * @param[in] size Input parameter.
+ * @return Return value.
+ * @details Calls: snappy::GetUncompressedLength(), resize(), snappy::RawUncompress(), decode(), data(), size().
+ */
 Result<PromWriteRequest> PromWriteRequest::decodeSnappy(const uint8_t* data, size_t size) {
     if (size == 0 || data == nullptr) {
         return Err<PromWriteRequest>(errors::ErrorCode::ERR_COMPRESSION_INVALID_FORMAT,

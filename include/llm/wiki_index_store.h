@@ -67,22 +67,6 @@ namespace llm {
 // WikiEvalStats — retrieval evaluation metrics accumulated over query history
 // ============================================================================
 
-/**
- * @brief Retrieval evaluation statistics accumulated by `WikiIndexStore`.
- *
- * Populated by `WikiIndexStore::evaluateQuery()` when ground-truth document
- * IDs are supplied.  `getEvaluationStats()` returns the running averages
- * over all evaluation queries since construction (or the last
- * `resetEvaluationStats()` call).
- *
- * p95_query_latency_ms is computed over all `query()` calls (not just
- * evaluation queries) from a circular ring buffer of 1 024 samples.
- *
- * ## Thread safety
- * All accumulator state is guarded by an internal mutex; concurrent calls
- * to `evaluateQuery()`, `getEvaluationStats()`, and `resetEvaluationStats()`
- * are safe.
- */
 struct WikiEvalStats {
     double      recall_at_k1          = 0.0; ///< Mean Recall@1 over eval query window
     double      recall_at_k3          = 0.0; ///< Mean Recall@3 over eval query window
@@ -98,12 +82,6 @@ struct WikiEvalStats {
 // WikiChunk — a single indexed text chunk from a wiki/markdown document
 // ============================================================================
 
-/**
- * @brief A single text chunk extracted from a wiki or Markdown file.
- *
- * Chunks are produced by `WikiChunkSplitter` and stored/queried via
- * `IWikiIndexWriter` / `IWikiIndexReader`.
- */
 struct WikiChunk {
     std::string chunk_id;       ///< Stable deterministic ID (FNV-64 hex, 12 chars + "-" + seq)
     std::string doc_id;         ///< Source document identifier (normalised file path)
@@ -120,9 +98,6 @@ struct WikiChunk {
 // WikiIndexConfig
 // ============================================================================
 
-/**
- * @brief Configuration for `WikiIndexStore`.
- */
 struct WikiIndexConfig {
 #if defined(THEMIS_WIKI_PHASE_B)
     static constexpr bool kDefaultPhaseBEnabled = true;
@@ -147,60 +122,16 @@ struct WikiIndexConfig {
 
     // --- Phase 3 features (Target: Q3 2026) --------------------------------
 
-    /**
-     * @brief Batch size for grouped embedding calls in `writeBatch()`.
-     *
-     * Controls how many chunks are passed to `EmbeddedLLM::embedBatch` in a
-     * single call.  Increase for higher throughput on GPU-backed LLMs; reduce
-     * to lower peak memory usage.  Default: 32 (matches original hardcoded value).
-     */
     int         batch_size    = 32;
 
-    /**
-     * @brief Auto-detect embedding dimensionality on first write.
-     *
-     * When `true`, the first call to `writeChunk()` or `writeBatch()` probes
-     * the LLM by embedding a short sentinel string and uses the returned vector
-     * size as `embedding_dim`, re-initialising the vector index accordingly.
-     * Subsequent probes are skipped (one-shot).  The value written back to
-     * `config_.embedding_dim` after probing.  Default: `false` (use the
-     * explicit `embedding_dim` value without probing).
-     */
     bool        auto_probe_dim = false;
 
-    /**
-     * @brief Persist the per-chunk embedding cache in RocksDB.
-     *
-     * When `true`, embeddings computed during `writeChunk()` / `writeBatch()`
-     * are stored persistently in the secondary index under the table
-     * `<table_name>_emb_cache`.  On construction the store loads any existing
-     * cached embeddings into memory so that re-ingested chunks skip the LLM
-     * call.  Default: `false` (in-memory cache only, original behaviour).
-     */
     bool        enable_persistent_cache = false;
 
-    /**
-     * @brief Logical RocksDB table for persistent embedding cache entries.
-     *
-     * This table stores hash-keyed cache entries for Phase B:
-     * key = sha256(doc_id + content), value = embedding vector + metadata.
-     */
     std::string embedding_cache_table = "embedding_cache";
 
-    /**
-     * @brief Upper bound for in-memory embedding cache bytes (0 = unlimited).
-     *
-     * Byte accounting uses key bytes + float payload bytes.  Exceeding this
-     * threshold triggers deterministic LRU eviction with INFO logging.
-     */
     std::size_t embedding_cache_max_bytes = 0;
 
-    /**
-     * @brief Enable automatic migration from legacy Phase A cache schema.
-     *
-     * Legacy schema keying (`<table_name>_emb_cache` by chunk_id) is migrated
-     * lazily and idempotently to the hash-keyed Phase B schema.
-     */
     bool        enable_phase_a_cache_migration = true;
 };
 
@@ -208,32 +139,19 @@ struct WikiIndexConfig {
 // IWikiIndexReader
 // ============================================================================
 
-/**
- * @brief Abstract read interface for the wiki chunk index.
- *
- * Implementations must be thread-safe after construction/loading.
- */
 class IWikiIndexReader {
 public:
+    /**
+     * @brief IWiki Index Reader.
+     * @return Return value.
+     */
     virtual ~IWikiIndexReader() = default;
 
-    /**
-     * @brief Query the index for the most relevant chunks.
-     *
-     * @param query_text  Natural-language query string.
-     * @param top_k       Maximum number of results to return.
-     * @param min_score   Minimum score threshold; results below this are dropped.
-     * @return            Up to `top_k` chunks sorted by descending score.
-     */
     [[nodiscard]] virtual std::vector<WikiChunk> query(
         const std::string& query_text,
         int   top_k,
         float min_score) const = 0;
 
-    /**
-     * @brief Returns true when the reader is fully initialised and ready.
-     * @return True if queries can be served.
-     */
     [[nodiscard]] virtual bool isReady() const noexcept = 0;
 };
 
@@ -241,36 +159,28 @@ public:
 // IWikiIndexWriter
 // ============================================================================
 
-/**
- * @brief Abstract write interface for the wiki chunk index.
- */
 class IWikiIndexWriter {
 public:
+    /**
+     * @brief IWiki Index Writer.
+     * @return Return value.
+     */
     virtual ~IWikiIndexWriter() = default;
 
     /**
-     * @brief Write a single chunk, computing its embedding if absent.
-     * @param chunk  Chunk to store. `chunk.embedding` is populated if empty.
-     * @throws std::runtime_error if the underlying store reports an error.
+     * @brief Write Chunk.
+     * @param[in] chunk Input parameter.
      */
     virtual void writeChunk(WikiChunk chunk) = 0;
 
     /**
-     * @brief Write a batch of chunks using batch-embedding for efficiency.
-     *
-     * Chunks with a pre-populated `embedding` are written as-is.
-     * The remainder are embedded in groups of 32 via `EmbeddedLLM::embedBatch`.
-     *
-     * @param chunks  Chunks to ingest. Mutated in-place (embeddings filled).
+     * @brief Write Batch.
+     * @param[in] chunks Input parameter.
      */
     virtual void writeBatch(std::vector<WikiChunk> chunks) = 0;
 
     /**
-     * @brief Flush any pending writes to durable storage.
-     *
-     * For RocksDB-backed stores this is effectively a no-op because WAL
-     * provides durability; the method exists so callers can signal
-     * intent and future implementations may honour it.
+     * @brief Flush.
      */
     virtual void flush() = 0;
 };
@@ -279,40 +189,8 @@ public:
 // WikiIndexStore — production hybrid (BM25 + vector)
 // ============================================================================
 
-/**
- * @brief Production-grade wiki chunk store using BM25 + dense vector fusion.
- *
- * Combines `SecondaryIndexManager` (fulltext BM25 on the `content` column and
- * a regular index on `doc_id`) with `VectorIndexManager` (COSINE HNSW) and
- * fuses results through `HybridRetriever` (RRF, configurable weights).
- *
- * Thread safety:
- *  - `query()` acquires a **shared** lock on `mutex_` (multiple concurrent
- *    readers are allowed).  Query embedding is computed through `llm_ptr_`
- *    (non-const pointer to `llm_`) under a separate `query_embed_mutex_`
- *    exclusive lock so that there is no race window on the query cache.
- *  - `writeChunk()`, `writeBatch()`, and `flush()` acquire an **exclusive**
- *    lock on `mutex_`; writes are fully serialised.
- *  - The chunk embedding cache (`embed_cache_`) is written only while holding
- *    the exclusive lock and read only while holding the shared lock — no
- *    separate per-cache lock is required.
- *  - The query embedding cache (`query_embed_cache_`) is independent of
- *    `embed_cache_` and is always accessed under `query_embed_mutex_`.
- */
 class WikiIndexStore : public IWikiIndexReader, public IWikiIndexWriter {
 public:
-    /**
-     * @brief Construct and initialise both index back-ends.
-     *
-     * Calls `SecondaryIndexManager::createFulltextIndex` for `content` and
-     * `createIndex` for `doc_id`.  Calls `VectorIndexManager::init` with
-     * `Metric::COSINE` and `config.embedding_dim`.
-     *
-     * @param sim     Initialised secondary index manager (RocksDB-backed).
-     * @param vim     Initialised vector index manager (RocksDB-backed).
-     * @param llm     EmbeddedLLM instance used for embedding text.
-     * @param config  Index configuration; defaults are sensible for most uses.
-     */
     WikiIndexStore(SecondaryIndexManager& sim,
                    VectorIndexManager&    vim,
                    EmbeddedLLM&           llm,
@@ -320,114 +198,49 @@ public:
 
     // ─── IWikiIndexWriter ───────────────────────────────────────────────────
 
-    /**
-     * @brief Write a single chunk into both the fulltext and vector indexes.
-     *
-     * If `chunk.embedding` is empty the method calls `EmbeddedLLM::embed` to
-     * compute it.  The secondary index (`sim_`) is written first; on success
-     * the vector index (`vim_`) is updated on a best-effort basis.  There is
-     * no transactional rollback: a failure in the vector write is logged as a
-     * warning but does not undo the secondary-index write.
-     *
-     * @param chunk  Chunk to store; `chunk.embedding` is populated if empty.
-     * @throws std::runtime_error on index write failure.
-     */
     void writeChunk(WikiChunk chunk) override;
 
-    /**
-     * @brief Batch-ingest chunks with grouped embedding.
-     *
-     * Chunks without embeddings are collected, embedded in groups of 32 via
-     * `EmbeddedLLM::embedBatch`, then all chunks are written in a single
-     * pass.
-     *
-     * @param chunks  Chunks to ingest. Embeddings are filled in-place.
-     * @throws std::runtime_error on index write failure.
-     */
     void writeBatch(std::vector<WikiChunk> chunks) override;
 
-    /**
-     * @brief No-op for RocksDB (WAL ensures durability); provided for API
-     *        completeness and future override-ability.
-     */
     void flush() override;
 
     // ─── IWikiIndexReader ───────────────────────────────────────────────────
 
-    /**
-     * @brief Hybrid BM25 + KNN query returning fused, ranked chunks.
-     *
-     * 1. BM25 candidates via `SecondaryIndexManager::scanFulltextWithScores`.
-     * 2. KNN candidates via `VectorIndexManager::searchKnn` (query embedded
-     *    on demand).
-     * 3. Results fused by `HybridRetriever::fuse` (RRF).
-     * 4. Chunks below `min_score` are filtered; at most `top_k` are returned.
-     *
-     * @param query_text  Natural-language query.
-     * @param top_k       Maximum number of results.
-     * @param min_score   Score threshold (post-fusion).
-     * @return            Ranked `WikiChunk` list, descending score.
-     */
     [[nodiscard]] std::vector<WikiChunk> query(
         const std::string& query_text,
         int   top_k,
         float min_score) const override;
 
-    /**
-     * @brief Returns true once both indexes are initialised.
-     * @return True when queries can be served.
-     */
     [[nodiscard]] bool isReady() const noexcept override;
 
     // -----------------------------------------------------------------------
     // Evaluation API (Recall@k / MRR / p95 latency)
     // -----------------------------------------------------------------------
 
-    /**
-     * @brief Query with ground-truth evaluation: records Recall@k and MRR.
-     *
-     * Executes `query()` and, when `relevant_doc_ids` is non-empty, computes
-     * Recall@1/3/5/10 and MRR against the supplied ground-truth set.  Metrics
-     * are accumulated via an online mean so `getEvaluationStats()` always
-     * reflects the running average since construction (or last reset).
-     *
-     * p95 query latency is recorded regardless of whether ground truth is
-     * supplied.
-     *
-     * @param query_text        Natural-language query string.
-     * @param top_k             Maximum number of results (passed to `query()`).
-     * @param min_score         Score threshold (passed to `query()`).
-     * @param relevant_doc_ids  Ground-truth set of relevant `WikiChunk::doc_id`
-     *                          values for this query.  Empty → no eval update.
-     * @return                  Same ranked result list as `query()`.
-     */
     [[nodiscard]] std::vector<WikiChunk> evaluateQuery(
         const std::string&              query_text,
         int                             top_k,
         float                           min_score,
         const std::vector<std::string>& relevant_doc_ids) const;
 
-    /**
-     * @brief Return accumulated retrieval evaluation statistics.
-     *
-     * Thread-safe snapshot of the running evaluation metrics.
-     *
-     * @return WikiEvalStats with recall@k, MRR, p95 latency, and query counts.
-     */
     [[nodiscard]] WikiEvalStats getEvaluationStats() const;
 
     /**
-     * @brief Reset all evaluation metric accumulators to zero.
-     *
-     * Clears recall@k running means, MRR running mean, eval query count,
-     * total query count, and the latency ring buffer.  Thread-safe.
+     * @brief Reset Evaluation Stats.
+     * @note Exception safety: noexcept.
      */
     void resetEvaluationStats() noexcept;
 
 private:
-    /// @brief Convert a WikiChunk to a storage-compatible BaseEntity for index ingestion.
     [[nodiscard]] static themis::BaseEntity toEntity(const WikiChunk& chunk);
     [[nodiscard]] static std::string makeEmbeddingCacheKey(const WikiChunk& chunk);
+    /**
+     * @brief Estimate Embedding Bytes.
+     * @param[in] cache_key Input parameter.
+     * @param[in] embedding Input parameter.
+     * @return Return value.
+     * @note Exception safety: noexcept.
+     */
     static std::size_t estimateEmbeddingBytes(const std::string& cache_key,
                                               const std::vector<float>& embedding) noexcept;
 
@@ -438,98 +251,106 @@ private:
     rag::HybridRetriever        retriever_; ///< RRF fusion engine
     std::atomic<bool>           ready_{false}; ///< Initialization flag
 
-    /// Guards write/read on the chunk embedding cache (exclusive for writes,
-    /// shared for reads during `writeChunk`/`writeBatch`; writes are already
-    /// serialised by `mutex_`).
     mutable std::shared_mutex   mutex_;
 
-    /// In-memory embedding cache keyed by sha256(doc_id + content).
     mutable std::unordered_map<std::string, std::vector<float>> embed_cache_;
     mutable std::list<std::string> embed_cache_lru_;
     mutable std::unordered_map<std::string, std::list<std::string>::iterator> embed_cache_lru_pos_;
     mutable std::unordered_map<std::string, std::size_t> embed_cache_entry_bytes_;
     mutable std::size_t embed_cache_bytes_{0};
 
-    /// Non-owning pointer to `llm_` for use in `const` query contexts.
-    ///
-    /// `EmbeddedLLM::embed()` is not marked `const` (it updates an internal
-    /// LRU cache protected by its own mutex), so a const reference cannot be
-    /// used to call it inside a `const` method.  Storing a raw pointer avoids
-    /// a `const_cast` at every call site.
     mutable EmbeddedLLM*        llm_ptr_;   ///< Raw non-owning pointer to llm_
 
-    /// Mutex protecting the per-instance query embedding cache below.
-    ///
-    /// Held as an exclusive lock only during cache lookup/insert; both
-    /// concurrent `query()` calls (shared `mutex_`) and concurrent writes
-    /// (`unique_lock` on `mutex_`) are safe because this is an independent lock.
     mutable std::mutex          query_embed_mutex_;
 
-    /// Cache for query-text embeddings, keyed by the raw query string.
-    ///
-    /// Populated on first `query()` call for a given text; subsequent calls
-    /// return the cached vector without re-invoking the LLM.  Protected by
-    /// `query_embed_mutex_` (not by `mutex_`).
     mutable std::unordered_map<std::string, std::vector<float>> query_embed_cache_;
 
-    /// True once the embedding dimensionality has been probed (auto_probe_dim path).
     std::atomic<bool>           dim_probed_{false};
 
-    /// Embed-cache RocksDB table name used when enable_persistent_cache=true.
     std::string                 emb_cache_table_;
     std::string                 legacy_emb_cache_table_;
 
-    /// Load persisted embeddings from RocksDB into embed_cache_.
-    /// Called during construction when config_.enable_persistent_cache is true.
+    /**
+     * @brief Load Persistent Embed Cache.
+     */
     void loadPersistentEmbedCache();
 
-    /// Persist a single embedding entry to RocksDB.
-    /// No-op when config_.enable_persistent_cache is false.
+    /**
+     * @brief Persist Embedding.
+     * @param[in] cache_key Input parameter.
+     * @param[in] chunk_id Identifier of the chunk.
+     * @param[in] embedding Input parameter.
+     */
     void persistEmbedding(const std::string& cache_key,
                           const std::string& chunk_id,
                           const std::vector<float>& embedding);
 
-    /// Attempt to load a single embedding from RocksDB by hash cache key.
-    /// Returns empty optional if not found or persistent cache is disabled.
+    /**
+     * @brief Fetch Persisted Embedding.
+     * @param[in] cache_key Input parameter.
+     * @return Return value.
+     */
     std::optional<std::vector<float>> fetchPersistedEmbedding(
         const std::string& cache_key) const;
+    /**
+     * @brief Fetch Legacy Persisted Embedding By Chunk Id.
+     * @param[in] chunk_id Identifier of the chunk.
+     * @return Return value.
+     */
     std::optional<std::vector<float>> fetchLegacyPersistedEmbeddingByChunkId(
         const std::string& chunk_id) const;
 
+    /**
+     * @brief Touch Embedding Cache Entry.
+     * @param[in] cache_key Input parameter.
+     */
     void touchEmbeddingCacheEntry(const std::string& cache_key) const;
+    /**
+     * @brief Upsert Embedding Cache Entry.
+     * @param[in] cache_key Input parameter.
+     * @param[in] embedding Input parameter.
+     */
     void upsertEmbeddingCacheEntry(const std::string& cache_key,
                                    const std::vector<float>& embedding) const;
+    /**
+     * @brief Enforce Embedding Cache Limit.
+     */
     void enforceEmbeddingCacheLimit() const;
+    /**
+     * @brief Try Resolve Embedding From Caches.
+     * @param[in] chunk Input parameter.
+     * @param[in,out] out_embedding Input/output parameter.
+     * @return True when the operation succeeds.
+     */
     bool tryResolveEmbeddingFromCaches(const WikiChunk& chunk,
                                        std::vector<float>* out_embedding);
+    /**
+     * @brief Migrate Legacy Entry If Needed.
+     * @param[in] chunk Input parameter.
+     * @param[in] embedding Input parameter.
+     */
     void migrateLegacyEntryIfNeeded(const WikiChunk& chunk,
                                     const std::vector<float>& embedding);
 
-    /// Probe the LLM to determine the actual embedding dimensionality.
-    /// Re-initialises the vector index if the probed dim differs from config_.
-    /// Idempotent: subsequent calls are no-ops once dim_probed_ is set.
+    /**
+     * @brief Probe Embedding Dim.
+     */
     void probeEmbeddingDim();
 
     // -----------------------------------------------------------------------
     // Evaluation metric accumulators (protected by eval_mutex_)
     // -----------------------------------------------------------------------
 
-    /// Capacity of the latency ring buffer (1 024 samples ≈ last ~1 K queries).
     static constexpr std::size_t kLatencyRingSize = 1024;
 
-    /// Guards eval_* and latency_ring_* members below.
     mutable std::mutex          eval_mutex_;
 
-    /// Circular ring buffer of query latencies in milliseconds.
-    /// Populated by every `query()` call regardless of eval mode.
     mutable std::vector<double> latency_ring_;       ///< Pre-allocated capacity kLatencyRingSize
     mutable std::size_t         latency_ring_head_{0}; ///< Next write position (mod kLatencyRingSize)
     mutable std::size_t         latency_ring_count_{0}; ///< Valid entries [0, kLatencyRingSize]
 
-    /// Total query count (eval + non-eval) — incremented on every `query()`.
     mutable std::size_t         total_query_count_{0};
 
-    /// Online mean accumulators for eval queries (updated by `evaluateQuery()`).
     mutable double              eval_recall_at_1_{0.0};
     mutable double              eval_recall_at_3_{0.0};
     mutable double              eval_recall_at_5_{0.0};
@@ -537,8 +358,11 @@ private:
     mutable double              eval_mrr_{0.0};
     mutable std::size_t         eval_query_count_{0};
 
-    /// Record a single query latency sample into the ring buffer.
-    /// Not thread-safe; caller must hold eval_mutex_.
+    /**
+     * @brief Record Latency Locked.
+     * @param[in] latency_ms Input parameter.
+     * @note Exception safety: noexcept.
+     */
     void recordLatencyLocked(double latency_ms) const noexcept;
 };
 
@@ -546,78 +370,22 @@ private:
 // JsonWikiIndexReader — Phase A JSON fallback
 // ============================================================================
 
-/**
- * @brief Read-only wiki index backed by a JSON file produced by the Python MVP.
- *
- * The JSON format is an array of objects:
- * @code
- * [
- *   {
- *     "chunk_id":      "abc123",
- *     "file_path":     "docs/foo.md",
- *     "section_title": "Overview",
- *     "line_start":    1,
- *     "line_end":      20,
- *     "text":          "..."
- *   },
- *   ...
- * ]
- * @endcode
- *
- * Querying is performed via in-memory TF-weighted token-overlap BM25 because
- * no live embedding service is available in the fallback path.
- *
- * This class is self-contained: it has no RocksDB dependency and can be
- * instantiated in any test or offline context.
- */
 class JsonWikiIndexReader : public IWikiIndexReader {
 public:
-    /**
-     * @brief Construct, optionally loading immediately.
-     *
-     * @param index_path  Path to the `index.json` file.
-     * @param auto_load   When true, calls `load()` during construction.
-     *                    Set to false to defer loading (e.g. for testing).
-     */
     explicit JsonWikiIndexReader(std::string index_path, bool auto_load = false);
 
     /**
-     * @brief Parse the JSON index file into memory.
-     *
-     * Safe to call multiple times — subsequent calls replace the previous
-     * state.
-     *
-     * @throws std::runtime_error if the file cannot be opened or parsed.
+     * @brief Load.
      */
     void load();
 
-    /**
-     * @brief BM25-style in-memory query using TF token-overlap scoring.
-     *
-     * Tokenises `query_text` with `[A-Za-z0-9_\-]+`, computes per-chunk TF
-     * overlap scores, applies `min_score` threshold, and returns the top-k
-     * results sorted by descending score.
-     *
-     * @param query_text  Natural-language query.
-     * @param top_k       Maximum number of results (0 = return all matching).
-     * @param min_score   Minimum score threshold.
-     * @return            Ranked chunks, descending score.
-     */
     [[nodiscard]] std::vector<WikiChunk> query(
         const std::string& query_text,
         int   top_k,
         float min_score) const override;
 
-    /**
-     * @brief Returns true once `load()` has succeeded.
-     * @return True when chunks are available for querying.
-     */
     [[nodiscard]] bool isReady() const noexcept override;
 
-    /**
-     * @brief Number of chunks currently held in memory.
-     * @return Chunk count.
-     */
     [[nodiscard]] std::size_t size() const noexcept;
 
 private:

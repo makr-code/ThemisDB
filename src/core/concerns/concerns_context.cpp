@@ -28,10 +28,22 @@ namespace themis {
 namespace core {
 namespace concerns {
 
+/**
+ * @brief Create.
+ * @return Return value.
+ * @details Implements create without additional internal calls.
+ */
 std::shared_ptr<ConcernsContext> ConcernsContext::create() {
     return create(Config{});
 }
 
+/**
+ * @brief Create.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: core::ProductionMode::isEnabled(), core::ConfigValidator::validateLogConfig(), formatErrors(), core::ConfigValidator::validateTracingConfig(), core::ConfigValidator::validateCacheConfig(), core::ConfigValidator::validateAdapterConfig(), ILogger::levelFromString(), utils::Logger::init().
+ */
 std::shared_ptr<ConcernsContext> ConcernsContext::create(const Config& config) {
     bool production_mode = core::ProductionMode::isEnabled();
     
@@ -215,6 +227,16 @@ std::shared_ptr<ConcernsContext> ConcernsContext::create(const Config& config) {
     ));
 }
 
+/**
+ * @brief Create Custom.
+ * @param[in] logger Input parameter.
+ * @param[in] tracer Input parameter.
+ * @param[in] metrics Input parameter.
+ * @param[in] cache Input parameter.
+ * @param[in] circuit_breaker Input parameter.
+ * @return Return value.
+ * @details Calls: ConcernsContext(), std::move().
+ */
 std::shared_ptr<ConcernsContext> ConcernsContext::createCustom(
     std::unique_ptr<ILogger> logger,
     std::unique_ptr<ITracer> tracer,
@@ -237,6 +259,17 @@ std::shared_ptr<ConcernsContext> ConcernsContext::createCustom(
     ));
 }
 
+/**
+ * @brief Create Custom.
+ * @param[in] logger Input parameter.
+ * @param[in] tracer Input parameter.
+ * @param[in] metrics Input parameter.
+ * @param[in] cache Input parameter.
+ * @param[in] secrets Input parameter.
+ * @param[in] featureFlags Input parameter.
+ * @return Return value.
+ * @details Calls: ConcernsContext(), std::move().
+ */
 std::shared_ptr<ConcernsContext> ConcernsContext::createCustom(
     std::unique_ptr<ILogger> logger,
     std::unique_ptr<ITracer> tracer,
@@ -263,6 +296,16 @@ std::shared_ptr<ConcernsContext> ConcernsContext::createCustom(
     ));
 }
 
+/**
+ * @brief Create Custom.
+ * @param[in] logger Input parameter.
+ * @param[in] tracer Input parameter.
+ * @param[in] metrics Input parameter.
+ * @param[in] cache Input parameter.
+ * @param[in] featureFlags Input parameter.
+ * @return Return value.
+ * @details Calls: ConcernsContext(), std::move().
+ */
 std::shared_ptr<ConcernsContext> ConcernsContext::createCustom(
     std::unique_ptr<ILogger> logger,
     std::unique_ptr<ITracer> tracer,
@@ -285,6 +328,18 @@ std::shared_ptr<ConcernsContext> ConcernsContext::createCustom(
     ));
 }
 
+/**
+ * @brief Create Custom.
+ * @param[in] logger Input parameter.
+ * @param[in] tracer Input parameter.
+ * @param[in] metrics Input parameter.
+ * @param[in] cache Input parameter.
+ * @param[in] secrets Input parameter.
+ * @param[in] featureFlags Input parameter.
+ * @param[in] auditLog Input parameter.
+ * @return Return value.
+ * @details Calls: ConcernsContext(), std::move().
+ */
 std::shared_ptr<ConcernsContext> ConcernsContext::createCustom(
     std::unique_ptr<ILogger> logger,
     std::unique_ptr<ITracer> tracer,
@@ -315,6 +370,12 @@ std::shared_ptr<ConcernsContext> ConcernsContext::createCustom(
     ));
 }
 
+/**
+ * @brief Create No Op.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: core::ProductionMode::isEnabled(), ConcernsContext().
+ */
 std::shared_ptr<ConcernsContext> ConcernsContext::createNoOp() {
     bool production_mode = core::ProductionMode::isEnabled();
     
@@ -337,6 +398,13 @@ std::shared_ptr<ConcernsContext> ConcernsContext::createNoOp() {
     ));
 }
 
+/**
+ * @brief Log With Trace.
+ * @param[in] level Input parameter.
+ * @param[in] message Input parameter.
+ * @param[in] fields Input parameter.
+ * @details Calls: themis::Tracer::getCurrentTraceId(), themis::Tracer::getCurrentSpanId(), logWithContext().
+ */
 void ConcernsContext::logWithTrace(ILogger::Level level,
                                     const std::string& message,
                                     const ILogger::Fields& fields) {
@@ -356,11 +424,6 @@ void ConcernsContext::logWithTrace(ILogger::Level level,
 
 namespace {
 
-/// Flush + conditionally shutdown an adapter before releasing it.
-/// Flush errors are silently swallowed because all flush() overrides in
-/// ThemisDB are declared noexcept — failures are logged internally by the
-/// adapter itself.  Callers that need guaranteed delivery should flush the
-/// adapter explicitly before calling replaceX().
 template <typename T>
 void drainAdapter(const std::shared_ptr<T>& old, bool also_shutdown) noexcept {
     if (!old) {
@@ -374,6 +437,12 @@ void drainAdapter(const std::shared_ptr<T>& old, bool also_shutdown) noexcept {
 
 } // anonymous namespace
 
+/**
+ * @brief Replace Logger.
+ * @param[in] new_logger Input parameter.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: std::move(), lk(), drainAdapter().
+ */
 void ConcernsContext::replaceLogger(std::unique_ptr<ILogger> new_logger) {
     if (!new_logger) {
         throw std::invalid_argument("ConcernsContext::replaceLogger: new_logger must not be nullptr");
@@ -391,6 +460,12 @@ void ConcernsContext::replaceLogger(std::unique_ptr<ILogger> new_logger) {
     drainAdapter(old, /*also_shutdown=*/false);
 }
 
+/**
+ * @brief Replace Tracer.
+ * @param[in] new_tracer Input parameter.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: std::move(), lk(), drainAdapter().
+ */
 void ConcernsContext::replaceTracer(std::unique_ptr<ITracer> new_tracer) {
     if (!new_tracer) {
         throw std::invalid_argument("ConcernsContext::replaceTracer: new_tracer must not be nullptr");
@@ -405,6 +480,12 @@ void ConcernsContext::replaceTracer(std::unique_ptr<ITracer> new_tracer) {
     drainAdapter(old, /*also_shutdown=*/true);
 }
 
+/**
+ * @brief Replace Metrics.
+ * @param[in] new_metrics Input parameter.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: std::move(), lk(), drainAdapter().
+ */
 void ConcernsContext::replaceMetrics(std::unique_ptr<IMetrics> new_metrics) {
     if (!new_metrics) {
         throw std::invalid_argument("ConcernsContext::replaceMetrics: new_metrics must not be nullptr");
@@ -419,6 +500,12 @@ void ConcernsContext::replaceMetrics(std::unique_ptr<IMetrics> new_metrics) {
     drainAdapter(old, /*also_shutdown=*/false);
 }
 
+/**
+ * @brief Replace Cache.
+ * @param[in] new_cache Input parameter.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: std::move(), lk(), drainAdapter().
+ */
 void ConcernsContext::replaceCache(std::unique_ptr<ICache> new_cache) {
     if (!new_cache) {
         throw std::invalid_argument("ConcernsContext::replaceCache: new_cache must not be nullptr");
@@ -433,6 +520,12 @@ void ConcernsContext::replaceCache(std::unique_ptr<ICache> new_cache) {
     drainAdapter(old, /*also_shutdown=*/true);
 }
 
+/**
+ * @brief Replace Secrets.
+ * @param[in] new_secrets Input parameter.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: std::move(), lk(), drainAdapter().
+ */
 void ConcernsContext::replaceSecrets(std::unique_ptr<ISecrets> new_secrets) {
     if (!new_secrets) {
         throw std::invalid_argument("ConcernsContext::replaceSecrets: new_secrets must not be nullptr");
@@ -447,6 +540,12 @@ void ConcernsContext::replaceSecrets(std::unique_ptr<ISecrets> new_secrets) {
     drainAdapter(old, /*also_shutdown=*/true);
 }
 
+/**
+ * @brief Replace Feature Flags.
+ * @param[in] new_ff Input parameter.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: std::move(), lk(), drainAdapter().
+ */
 void ConcernsContext::replaceFeatureFlags(std::unique_ptr<IFeatureFlags> new_ff) {
     if (!new_ff) {
         throw std::invalid_argument("ConcernsContext::replaceFeatureFlags: new_ff must not be nullptr");
@@ -461,6 +560,12 @@ void ConcernsContext::replaceFeatureFlags(std::unique_ptr<IFeatureFlags> new_ff)
     drainAdapter(old, /*also_shutdown=*/true);
 }
 
+/**
+ * @brief Replace Audit Log.
+ * @param[in] new_audit Input parameter.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: std::move(), lk(), drainAdapter().
+ */
 void ConcernsContext::replaceAuditLog(std::unique_ptr<IAuditLog> new_audit) {
     if (!new_audit) {
         throw std::invalid_argument("ConcernsContext::replaceAuditLog: new_audit must not be nullptr");

@@ -26,26 +26,8 @@ namespace themis {
 namespace themis {
 namespace pitr {
 
-/**
- * @brief ThemisDB PITR gRPC Service Implementation
- * 
- * Provides gRPC interface for Point-in-Time Recovery operations:
- * - Snapshot management (create, list, get, delete)
- * - Restore operations (preview, execute)
- * - Progress monitoring
- * 
- * Part of ThemisDB v1.5.0 - Feature: PITR for MVCC
- * 
- * Note: This service provides the same functionality as PITRApiHandler
- * but through gRPC protocol instead of REST API.
- */
 class PITRServiceImpl {
 public:
-    /**
-     * @brief Construct service with PITR components
-     * @param pitr_manager PITR manager for restore operations
-     * @param snapshot_manager Snapshot manager for tag operations
-     */
     PITRServiceImpl(
         std::shared_ptr<PITRManager> pitr_manager,
         std::shared_ptr<transaction::SnapshotManager> snapshot_manager
@@ -54,8 +36,8 @@ public:
     ~PITRServiceImpl() = default;
 
     /**
-     * @brief Get service instance for gRPC server registration
-     * This will return the actual grpc::Service* after proto generation
+     * @brief Get Service Instance.
+     * @return Pointer to the result.
      */
     void* getServiceInstance();
 
@@ -64,7 +46,17 @@ private:
     std::shared_ptr<transaction::SnapshotManager> snapshot_manager_;
     
     // Helper methods
+    /**
+     * @brief Validate Tag Name.
+     * @param[in] tag_name Name of the tag.
+     * @return True when the operation succeeds.
+     */
     bool validateTagName(const std::string& tag_name);
+    /**
+     * @brief Validate Description.
+     * @param[in] description Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool validateDescription(const std::string& description);
 };
 

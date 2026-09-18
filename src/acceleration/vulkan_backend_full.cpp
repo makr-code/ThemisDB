@@ -58,12 +58,9 @@ GlslCompilerFn g_glsl_compiler_fn;
 } // anonymous namespace
 
 /**
- * @brief Inject a runtime GLSL-to-SPIR-V compiler (e.g. shaderc).
- *
- * When @p fn is non-null, `compileGLSLtoSPIRV()` delegates to it instead of
- * returning an empty buffer.  Pass `nullptr` to revert to the stub path.
- *
- * Roadmap ref: src/acceleration/FUTURE_ENHANCEMENTS.md §Vulkan GLSL Compiler.
+ * @brief Set Vulkan Glsl Compiler Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lk(), std::move().
  */
 void setVulkanGlslCompilerFn(GlslCompilerFn fn) {
     std::lock_guard<std::mutex> lk(g_glsl_compiler_mutex);
@@ -110,6 +107,12 @@ struct VulkanBuffer {
 // Vulkan Helper Functions
 // ============================================================================
 
+/**
+ * @brief Check Validation Layer Support.
+ * @param[in] layers Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: vkEnumerateInstanceLayerProperties(), availableLayers(), data(), strcmp().
+ */
 static bool checkValidationLayerSupport(const std::vector<const char*>& layers) {
     uint32_t layerCount = 0;
     vkEnumerateInstanceLayerProperties(&layerCount, nullptr);
@@ -132,6 +135,15 @@ static bool checkValidationLayerSupport(const std::vector<const char*>& layers) 
     return true;
 }
 
+/**
+ * @brief Find Memory Type.
+ * @param[in] memProps Input parameter.
+ * @param[in] typeFilter Input parameter.
+ * @param[in] properties Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Implements findMemoryType without additional internal calls.
+ */
 static uint32_t findMemoryType(const VkPhysicalDeviceMemoryProperties& memProps,
                                 uint32_t typeFilter,
                                 VkMemoryPropertyFlags properties) {
@@ -144,6 +156,14 @@ static uint32_t findMemoryType(const VkPhysicalDeviceMemoryProperties& memProps,
     throw std::runtime_error("Failed to find suitable memory type");
 }
 
+/**
+ * @brief Create Shader Module.
+ * @param[in] device Input parameter.
+ * @param[in] code Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: size(), data(), vkCreateShaderModule().
+ */
 static VkShaderModule createShaderModule(VkDevice device, const std::vector<uint32_t>& code) {
     VkShaderModuleCreateInfo createInfo{};
     createInfo.sType = VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO;
@@ -163,6 +183,11 @@ static VkShaderModule createShaderModule(VkDevice device, const std::vector<uint
     const std::string& shaderType) {
     // Check for an injected GLSL→SPIR-V compiler first.
     {
+        /**
+         * @brief Lk.
+         * @param[in] g_glsl_compiler_mutex Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(g_glsl_compiler_mutex);
         if (g_glsl_compiler_fn) {
             auto spirv = g_glsl_compiler_fn(glslSource, shaderType);
@@ -194,6 +219,11 @@ static VkShaderModule createShaderModule(VkDevice device, const std::vector<uint
     // Storage lives in graphics_backends.cpp; accessed here via glsl_bridge extern.
     VulkanVectorBackend::CompileGLSLFn fn_copy;
     {
+        /**
+         * @brief Lk.
+         * @param[in] s_vk_compile_glsl_mutex Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(glsl_bridge::s_vk_compile_glsl_mutex);
         fn_copy = glsl_bridge::s_vk_compile_glsl_fn;
     }
@@ -213,6 +243,13 @@ static VkShaderModule createShaderModule(VkDevice device, const std::vector<uint
     return {};
 }
 
+/**
+ * @brief Load SPIRV.
+ * @param[in] filename Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: file(), is_open(), tellg(), buffer(), seekg(), read(), data(), close().
+ */
 static std::vector<uint32_t> loadSPIRV(const std::string& filename) {
     std::ifstream file(filename, std::ios::ate | std::ios::binary);
     if (!file.is_open()) {
@@ -237,6 +274,11 @@ class VulkanVectorBackendImpl {
 public:
     VulkanContext ctx;
     
+    /**
+     * @brief Create Instance.
+     * @return True when the operation succeeds.
+     * @details Calls: VK_MAKE_VERSION(), push_back(), checkValidationLayerSupport(), clear(), size(), data(), vkCreateInstance().
+     */
     bool createInstance() {
         VkApplicationInfo appInfo{};
         appInfo.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
@@ -277,6 +319,11 @@ public:
         return true;
     }
     
+    /**
+     * @brief Select Physical Device.
+     * @return True when the operation succeeds.
+     * @details Calls: vkEnumeratePhysicalDevices(), devices(), data(), vkGetPhysicalDeviceProperties(), vkGetPhysicalDeviceMemoryProperties(), vkGetPhysicalDeviceQueueFamilyProperties(), queueFamilies().
+     */
     bool selectPhysicalDevice() {
         uint32_t deviceCount = 0;
         vkEnumeratePhysicalDevices(ctx.instance, &deviceCount, nullptr);
@@ -330,6 +377,11 @@ public:
         return true;
     }
     
+    /**
+     * @brief Create Logical Device.
+     * @return True when the operation succeeds.
+     * @details Calls: vkCreateDevice(), vkGetDeviceQueue(), vkCreateCommandPool(), vkCreateDescriptorPool().
+     */
     bool createLogicalDevice() {
         VkDeviceQueueCreateInfo queueCreateInfo{};
         queueCreateInfo.sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO;
@@ -380,6 +432,11 @@ public:
         return true;
     }
     
+    /**
+     * @brief Create Compute Pipelines.
+     * @return True when the operation succeeds.
+     * @details Calls: vkCreateDescriptorSetLayout(), vkCreatePipelineLayout(), loadSPIRV(), createShaderModule(), what(), vkCreateComputePipelines().
+     */
     bool createComputePipelines() {
         // Create descriptor set layout (3 storage buffers)
         VkDescriptorSetLayoutBinding bindings[3] = {};
@@ -511,6 +568,15 @@ public:
         return true;
     }
     
+    /**
+     * @brief Create Buffer.
+     * @param[in] size Input parameter.
+     * @param[in] usage Input parameter.
+     * @param[in] properties Input parameter.
+     * @return Return value.
+     * @throws std::runtime_error if an error occurs.
+     * @details Calls: vkCreateBuffer(), vkGetBufferMemoryRequirements(), findMemoryType(), vkAllocateMemory(), vkDestroyBuffer(), vkBindBufferMemory().
+     */
     VulkanBuffer createBuffer(VkDeviceSize size, VkBufferUsageFlags usage, VkMemoryPropertyFlags properties) {
         VulkanBuffer buffer;
         buffer.size = size;
@@ -543,6 +609,11 @@ public:
         return buffer;
     }
     
+    /**
+     * @brief Destroy Buffer.
+     * @param[in,out] buffer Input/output parameter.
+     * @details Calls: vkUnmapMemory(), vkDestroyBuffer(), vkFreeMemory().
+     */
     void destroyBuffer(VulkanBuffer& buffer) {
         if (buffer.mapped) {
             vkUnmapMemory(ctx.device, buffer.memory);
@@ -558,6 +629,10 @@ public:
         }
     }
     
+    /**
+     * @brief Cleanup.
+     * @details Calls: vkDeviceWaitIdle(), vkDestroyPipeline(), vkDestroyPipelineLayout(), vkDestroyDescriptorSetLayout(), vkDestroyShaderModule(), vkDestroyDescriptorPool(), vkDestroyCommandPool(), vkDestroyDevice().
+     */
     void cleanup() {
         if (ctx.device != VK_NULL_HANDLE) {
             vkDeviceWaitIdle(ctx.device);

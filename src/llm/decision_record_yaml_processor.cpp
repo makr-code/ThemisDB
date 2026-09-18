@@ -40,6 +40,11 @@ DecisionRecordYamlProcessor::DecisionRecordYamlProcessor(Config config)
 
 DecisionRecordYamlProcessor::~DecisionRecordYamlProcessor() {
     {
+        /**
+         * @brief Lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(mutex_);
         stop_ = true;
     }
@@ -59,6 +64,12 @@ DecisionRecordYamlProcessor::~DecisionRecordYamlProcessor() {
 // Public API
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Submit.
+ * @param[in] record Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), generateId(), lk(), size(), push(), std::move(), notify_one().
+ */
 bool DecisionRecordYamlProcessor::submit(DecisionRecord record) {
     if (record.record_id.empty()) {
         record.record_id = generateId();
@@ -77,6 +88,11 @@ bool DecisionRecordYamlProcessor::submit(DecisionRecord record) {
     return true;
 }
 
+/**
+ * @brief Flush.
+ * @return True when the operation succeeds.
+ * @details Calls: load(), empty(), lk(), count(), wait_for(), spdlog::warn().
+ */
 bool DecisionRecordYamlProcessor::flush() {
     auto pred = [this] {
         const size_t submitted = submitted_.load(std::memory_order_relaxed);
@@ -117,6 +133,10 @@ DecisionRecordYamlProcessor::Stats DecisionRecordYamlProcessor::getStats() const
 // Background thread
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Processor Thread.
+ * @details Calls: lk(), wait(), empty(), load(), notify_all(), std::move(), front(), pop().
+ */
 void DecisionRecordYamlProcessor::processorThread() {
     while (true) {
         DecisionRecord rec;
@@ -253,6 +273,11 @@ std::filesystem::path DecisionRecordYamlProcessor::recordPath(
     return dir / fname;
 }
 
+/**
+ * @brief Write Record.
+ * @param[in] r Input parameter.
+ * @details Calls: recordPath(), std::filesystem::exists(), parent_path(), stem(), string(), extension(), std::to_string(), std::filesystem::create_directories().
+ */
 void DecisionRecordYamlProcessor::writeRecord(const DecisionRecord& r) {
     try {
         auto path = recordPath(r);

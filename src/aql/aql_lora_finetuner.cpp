@@ -48,7 +48,11 @@ namespace aql {
 
 namespace {
 
-/// Return an ISO 8601 UTC timestamp string.
+/**
+ * @brief Iso Timestamp.
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::now(), std::chrono::system_clock::to_time_t(), gmtime_s(), gmtime_r(), std::put_time(), str().
+ */
 std::string isoTimestamp() {
     auto now      = std::chrono::system_clock::now();
     std::time_t t = std::chrono::system_clock::to_time_t(now);
@@ -63,7 +67,14 @@ std::string isoTimestamp() {
     return oss.str();
 }
 
-/// Build a TrainingDataSample from a NL/AQL pair with category metadata.
+/**
+ * @brief Make Sample.
+ * @param[in] input Input parameter.
+ * @param[in] output Input parameter.
+ * @param[in] cat Input parameter.
+ * @return Return value.
+ * @details Implements makeSample without additional internal calls.
+ */
 TrainingDataSample makeSample(const std::string &input, const std::string &output, AQLSampleCategory cat) {
     TrainingDataSample s;
     s.input                = input;
@@ -82,6 +93,10 @@ TrainingDataSample makeSample(const std::string &input, const std::string &outpu
 // Relational samples
 // ----------------------------------------------------------------------------
 
+/**
+ * @brief Add Relational Samples.
+ * @details Calls: push_back(), makeSample().
+ */
 void AQLDatasetBuilder::addRelationalSamples() {
     using C = AQLSampleCategory;
 
@@ -132,6 +147,10 @@ void AQLDatasetBuilder::addRelationalSamples() {
 // Graph traversal samples
 // ----------------------------------------------------------------------------
 
+/**
+ * @brief Add Graph Samples.
+ * @details Calls: push_back(), makeSample().
+ */
 void AQLDatasetBuilder::addGraphSamples() {
     using C = AQLSampleCategory;
 
@@ -164,6 +183,10 @@ void AQLDatasetBuilder::addGraphSamples() {
 // Vector similarity samples
 // ----------------------------------------------------------------------------
 
+/**
+ * @brief Add Vector Samples.
+ * @details Calls: push_back(), makeSample().
+ */
 void AQLDatasetBuilder::addVectorSamples() {
     using C = AQLSampleCategory;
 
@@ -194,6 +217,10 @@ void AQLDatasetBuilder::addVectorSamples() {
 // Geo-spatial samples
 // ----------------------------------------------------------------------------
 
+/**
+ * @brief Add Geo Samples.
+ * @details Calls: push_back(), makeSample().
+ */
 void AQLDatasetBuilder::addGeoSamples() {
     using C = AQLSampleCategory;
 
@@ -220,6 +247,10 @@ void AQLDatasetBuilder::addGeoSamples() {
 // Timeseries samples
 // ----------------------------------------------------------------------------
 
+/**
+ * @brief Add Timeseries Samples.
+ * @details Calls: push_back(), makeSample().
+ */
 void AQLDatasetBuilder::addTimeseriesSamples() {
     using C = AQLSampleCategory;
 
@@ -256,6 +287,10 @@ void AQLDatasetBuilder::addTimeseriesSamples() {
 // LLM extension samples
 // ----------------------------------------------------------------------------
 
+/**
+ * @brief Add LLMExtension Samples.
+ * @details Calls: push_back(), makeSample().
+ */
 void AQLDatasetBuilder::addLLMExtensionSamples() {
     using C = AQLSampleCategory;
 
@@ -299,6 +334,10 @@ void AQLDatasetBuilder::addLLMExtensionSamples() {
 // LoRA command samples
 // ----------------------------------------------------------------------------
 
+/**
+ * @brief Add Lora Cmd Samples.
+ * @details Calls: push_back(), makeSample().
+ */
 void AQLDatasetBuilder::addLoraCmdSamples() {
     using C = AQLSampleCategory;
 
@@ -331,6 +370,10 @@ void AQLDatasetBuilder::addLoraCmdSamples() {
 // DDL samples
 // ----------------------------------------------------------------------------
 
+/**
+ * @brief Add DDLSamples.
+ * @details Calls: push_back(), makeSample().
+ */
 void AQLDatasetBuilder::addDDLSamples() {
     using C = AQLSampleCategory;
 
@@ -396,6 +439,11 @@ AQLDatasetBuilder &AQLDatasetBuilder::addCustomSample(const std::string &nl_inpu
 }
 
 AQLDatasetBuilder &AQLDatasetBuilder::loadFromJson(const std::string &json_path) {
+    /**
+     * @brief F.
+     * @param[in] json_path Path to the json.
+     * @return Return value.
+     */
     std::ifstream f(json_path);
     if (!f.is_open()) {
         throw std::runtime_error("AQLDatasetBuilder: cannot open dataset file: " + json_path);
@@ -564,6 +612,12 @@ struct AQLLoRAFinetuner::Impl {
     std::string trained_adapter_id = {};
     mutable std::mutex mutex;
 
+    /**
+     * @brief Impl.
+     * @param[in] cfg Input parameter.
+     * @param[in] svc Input parameter.
+     * @return Return value.
+     */
     explicit Impl(const Config &cfg, std::shared_ptr<::themis::llm::lora::LoRATrainingService> svc)
         : config(cfg), training_service(std::move(svc)) {
         if (cfg.include_builtin_samples) {
@@ -595,6 +649,12 @@ AQLLoRAFinetuner &AQLLoRAFinetuner::operator=(AQLLoRAFinetuner &&) noexcept = de
 // AQLLoRAFinetuner – training
 // ============================================================================
 
+/**
+ * @brief Train.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: lock(), build(), size(), std::to_string(), AQL_LOG_INFO(), registerCallback(), cb(), trainOnTheFly().
+ */
 TrainingResult AQLLoRAFinetuner::train() {
     std::lock_guard<std::mutex> lock(impl_->mutex);
 
@@ -667,12 +727,24 @@ TrainingResult AQLLoRAFinetuner::train() {
     return result;
 }
 
+/**
+ * @brief Add Custom Sample.
+ * @param[in] nl_input Input parameter.
+ * @param[in] aql_output Input parameter.
+ * @param[in] category Input parameter.
+ * @details Calls: lock().
+ */
 void AQLLoRAFinetuner::addCustomSample(const std::string &nl_input, const std::string &aql_output,
                                        AQLSampleCategory category) {
     std::lock_guard<std::mutex> lock(impl_->mutex);
     impl_->dataset_builder.addCustomSample(nl_input, aql_output, category);
 }
 
+/**
+ * @brief Load Extra Dataset.
+ * @param[in] json_path Path to the json.
+ * @details Calls: lock(), loadFromJson().
+ */
 void AQLLoRAFinetuner::loadExtraDataset(const std::string &json_path) {
     std::lock_guard<std::mutex> lock(impl_->mutex);
     impl_->dataset_builder.loadFromJson(json_path);
@@ -710,6 +782,11 @@ json AQLLoRAFinetuner::exportDatasetJson() const {
 // AQLLoRAFinetuner – registry integration
 // ============================================================================
 
+/**
+ * @brief Set Adapter Registry.
+ * @param[in] registry Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void AQLLoRAFinetuner::setAdapterRegistry(std::shared_ptr<::themis::llm::AdapterRegistry> registry) {
     std::lock_guard<std::mutex> lock(impl_->mutex);
     impl_->registry = std::move(registry);

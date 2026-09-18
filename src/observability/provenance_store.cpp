@@ -147,7 +147,6 @@ struct ParsedTimeIndexKey {
 // RocksDBProvenanceStore::Impl (private pimpl)
 // ─────────────────────────────────────────────────────────────────────────────
 
-/** @brief RocksDBProvenanceStore::Impl (private pimpl). */
 class RocksDBProvenanceStore::Impl {
 public:
     /**
@@ -171,11 +170,6 @@ public:
         if (!status.ok()) {
             throw std::runtime_error(std::string("Failed to open RocksDB: ") + status.ToString());
         }
-        /**
-         * @brief Db instance.
-         * @param[in] db_raw Input parameter.
-         * @return Return value.
-         */
         std::unique_ptr<rocksdb::DB> db_instance(db_raw);
         if (db_instance == nullptr) {
             throw std::runtime_error("Failed to open RocksDB: DB::Open returned success with null handle");
@@ -287,10 +281,10 @@ RocksDBProvenanceStore::~RocksDBProvenanceStore() = default;
 
 /**
  * @brief Store Record.
- * @param[in] query_id Input parameter.
+ * @param[in] query_id Identifier of the query.
  * @param[in] step_number Input parameter.
  * @param[in] record Input parameter.
- * @return True on success.
+ * @return True when the operation succeeds.
  * @details Calls: getDb(), makeProvenanceKey(), makeTimeIndexKey(), serializeRecord(), dump(), Put(), ok(), applyRetentionPolicies().
  */
 bool RocksDBProvenanceStore::storeRecord(const std::string& query_id,
@@ -330,7 +324,7 @@ bool RocksDBProvenanceStore::storeRecord(const std::string& query_id,
 
 /**
  * @brief Get Record.
- * @param[in] query_id Input parameter.
+ * @param[in] query_id Identifier of the query.
  * @param[in] step_number Input parameter.
  * @return Return value.
  * @details Calls: getDb(), makeProvenanceKey(), Get(), rocksdb::ReadOptions(), ok(), deserializeRecord().
@@ -359,7 +353,7 @@ std::optional<ProvenanceStepRecord> RocksDBProvenanceStore::getRecord(
 
 /**
  * @brief Get Provenance Chain.
- * @param[in] query_id Input parameter.
+ * @param[in] query_id Identifier of the query.
  * @return Return value.
  * @details Calls: getDb(), NewIterator(), rocksdb::ReadOptions(), Seek(), Valid(), key(), ToString(), find().
  */
@@ -534,8 +528,8 @@ std::vector<std::string> RocksDBProvenanceStore::listQueryIds() {
 
 /**
  * @brief Delete Query.
- * @param[in] query_id Input parameter.
- * @return True on success.
+ * @param[in] query_id Identifier of the query.
+ * @return True when the operation succeeds.
  * @details Calls: getDb(), NewIterator(), rocksdb::ReadOptions(), Seek(), Valid(), key(), ToString(), find().
  */
 bool RocksDBProvenanceStore::deleteQuery(const std::string& query_id) {
@@ -580,7 +574,7 @@ bool RocksDBProvenanceStore::deleteQuery(const std::string& query_id) {
 
 /**
  * @brief Flush.
- * @return True on success.
+ * @return True when the operation succeeds.
  * @details Calls: getDb(), Flush(), ok().
  */
 bool RocksDBProvenanceStore::flush() {
@@ -601,7 +595,7 @@ bool RocksDBProvenanceStore::flush() {
 
 /**
  * @brief Compact.
- * @return True on success.
+ * @return True when the operation succeeds.
  * @details Calls: getDb(), CompactRange(), ok().
  */
 bool RocksDBProvenanceStore::compact() {

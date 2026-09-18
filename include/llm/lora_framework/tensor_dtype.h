@@ -20,11 +20,6 @@ namespace themis {
 namespace llm {
 namespace lora {
 
-/**
- * @brief Data type for tensor elements
- * 
- * Supports full precision (FP32) and mixed precision training (FP16, BF16).
- */
 enum class DType {
     FLOAT32,  // Full precision (32-bit float) - default
     FLOAT16,  // Half precision (16-bit float) - IEEE 754 half
@@ -32,9 +27,10 @@ enum class DType {
 };
 
 /**
- * @brief Get size in bytes for a given data type
- * @param dtype Data type
- * @return Size in bytes
+ * @brief Dtype size.
+ * @param[in] dtype Input parameter.
+ * @return Return value.
+ * @details Implements dtype_size without additional internal calls.
  */
 inline size_t dtype_size(DType dtype) {
     switch (dtype) {
@@ -49,9 +45,10 @@ inline size_t dtype_size(DType dtype) {
 }
 
 /**
- * @brief Get string name for data type
- * @param dtype Data type
- * @return String representation
+ * @brief Dtype name.
+ * @param[in] dtype Input parameter.
+ * @return Return value.
+ * @details Implements dtype_name without additional internal calls.
  */
 inline std::string dtype_name(DType dtype) {
     switch (dtype) {
@@ -67,22 +64,20 @@ inline std::string dtype_name(DType dtype) {
 }
 
 /**
- * @brief Check if dtype is mixed precision (FP16 or BF16)
- * @param dtype Data type
- * @return true if FP16 or BF16
+ * @brief Is mixed precision.
+ * @param[in] dtype Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements is_mixed_precision without additional internal calls.
  */
 inline bool is_mixed_precision(DType dtype) {
     return dtype == DType::FLOAT16 || dtype == DType::BFLOAT16;
 }
 
 /**
- * @brief Convert FP32 to FP16 (CPU simulation)
- * 
- * This is a simplified conversion for CPU. Real GPU implementation
- * uses native __half type from cuda_fp16.h
- * 
- * @param value FP32 value
- * @return FP16 value (stored in uint16_t)
+ * @brief Fp32 to fp16 bits.
+ * @param[in] value Input parameter.
+ * @return Return value.
+ * @details Calls: std::memcpy().
  */
 inline uint16_t fp32_to_fp16_bits(float value) {
     // IEEE 754 half precision conversion (simplified)
@@ -106,10 +101,10 @@ inline uint16_t fp32_to_fp16_bits(float value) {
 }
 
 /**
- * @brief Convert FP16 to FP32 (CPU simulation)
- * 
- * @param value FP16 value (stored in uint16_t)
- * @return FP32 value
+ * @brief Fp16 bits to fp32.
+ * @param[in] value Input parameter.
+ * @return Return value.
+ * @details Calls: std::memcpy().
  */
 inline float fp16_bits_to_fp32(uint16_t value) {
     uint32_t sign = (value & 0x8000) << 16;
@@ -141,12 +136,10 @@ inline float fp16_bits_to_fp32(uint16_t value) {
 }
 
 /**
- * @brief Convert FP32 to BF16 (CPU simulation)
- * 
- * BF16 has same exponent range as FP32, just truncated mantissa
- * 
- * @param value FP32 value
- * @return BF16 value (stored in uint16_t)
+ * @brief Fp32 to bf16 bits.
+ * @param[in] value Input parameter.
+ * @return Return value.
+ * @details Calls: std::memcpy().
  */
 inline uint16_t fp32_to_bf16_bits(float value) {
     uint32_t bits = 0;
@@ -160,10 +153,10 @@ inline uint16_t fp32_to_bf16_bits(float value) {
 }
 
 /**
- * @brief Convert BF16 to FP32 (CPU simulation)
- * 
- * @param value BF16 value (stored in uint16_t)
- * @return FP32 value
+ * @brief Bf16 bits to fp32.
+ * @param[in] value Input parameter.
+ * @return Return value.
+ * @details Calls: std::memcpy().
  */
 inline float bf16_bits_to_fp32(uint16_t value) {
     uint32_t bits = static_cast<uint32_t>(value) << 16;

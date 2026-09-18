@@ -42,6 +42,12 @@ GraphPhaseGateOrchestrator& GraphPhaseGateOrchestrator::operator=(
         return *this;
     }
 
+    /**
+     * @brief This lock.
+     * @param[in] mutex_ Input parameter.
+     * @param[in] defer_lock Input parameter.
+     * @return Return value.
+     */
     std::unique_lock<std::shared_mutex> this_lock(mutex_, std::defer_lock);
     std::unique_lock<std::shared_mutex> other_lock(other.mutex_, std::defer_lock);
     std::lock(this_lock, other_lock);
@@ -54,6 +60,12 @@ GraphPhaseGateOrchestrator& GraphPhaseGateOrchestrator::operator=(
 // registerPhase
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Register Phase.
+ * @param[in] phase_name Name of the phase.
+ * @param[in] prerequisites Input parameter.
+ * @return True when the operation succeeds.
+ */
 bool GraphPhaseGateOrchestrator::registerPhase(
     const std::string&              phase_name,
     const std::vector<std::string>& prerequisites)
@@ -62,6 +74,11 @@ bool GraphPhaseGateOrchestrator::registerPhase(
         return false;
     }
 
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::unique_lock lock(mutex_);
 
     if (phases_.count(phase_name) != 0) {
@@ -106,10 +123,21 @@ bool GraphPhaseGateOrchestrator::registerPhase(
 // setGateCriteria
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Set Gate Criteria.
+ * @param[in] phase_name Name of the phase.
+ * @param[in] criteria Input parameter.
+ * @return True when the operation succeeds.
+ */
 bool GraphPhaseGateOrchestrator::setGateCriteria(
     const std::string&                phase_name,
     const std::vector<GateCriterion>& criteria)
 {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::unique_lock lock(mutex_);
 
     auto it = phases_.find(phase_name);
@@ -125,10 +153,22 @@ bool GraphPhaseGateOrchestrator::setGateCriteria(
 // attachMetric
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Attach Metric.
+ * @param[in] phase_name Name of the phase.
+ * @param[in] metric_key Input parameter.
+ * @param[in] value Input parameter.
+ * @return True when the operation succeeds.
+ */
 bool GraphPhaseGateOrchestrator::attachMetric(const std::string& phase_name,
                                                const std::string& metric_key,
                                                float              value)
 {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::unique_lock lock(mutex_);
 
     auto it = phases_.find(phase_name);
@@ -148,6 +188,11 @@ std::optional<float> GraphPhaseGateOrchestrator::getMetric(
     const std::string& phase_name,
     const std::string& metric_key) const
 {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock lock(mutex_);
 
     auto pit = phases_.find(phase_name);
@@ -170,6 +215,11 @@ std::optional<float> GraphPhaseGateOrchestrator::getMetric(
 
 GateStatus GraphPhaseGateOrchestrator::gateStatus(const std::string& phase_name) const
 {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock lock(mutex_);
 
     if (phases_.count(phase_name) == 0) {
@@ -186,6 +236,11 @@ GateStatus GraphPhaseGateOrchestrator::gateStatus(const std::string& phase_name)
 
 PhaseGapReport GraphPhaseGateOrchestrator::gaps(const std::string& phase_name) const
 {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock lock(mutex_);
 
     if (phases_.count(phase_name) == 0) {
@@ -205,6 +260,11 @@ PhaseGapReport GraphPhaseGateOrchestrator::gaps(const std::string& phase_name) c
 
 std::vector<PhaseGapReport> GraphPhaseGateOrchestrator::allGaps() const
 {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock lock(mutex_);
 
     std::vector<PhaseGapReport> result;
@@ -223,6 +283,11 @@ std::vector<PhaseGapReport> GraphPhaseGateOrchestrator::allGaps() const
 
 std::vector<std::string> GraphPhaseGateOrchestrator::phaseNames() const
 {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock lock(mutex_);
 
     std::vector<std::string> names;
@@ -240,6 +305,11 @@ std::vector<std::string> GraphPhaseGateOrchestrator::phaseNames() const
 
 std::size_t GraphPhaseGateOrchestrator::phaseCount() const
 {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock lock(mutex_);
     return phases_.size();
 }
@@ -250,6 +320,11 @@ std::size_t GraphPhaseGateOrchestrator::phaseCount() const
 
 bool GraphPhaseGateOrchestrator::hasPhase(const std::string& phase_name) const
 {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock lock(mutex_);
     return phases_.count(phase_name) != 0;
 }
@@ -261,6 +336,11 @@ bool GraphPhaseGateOrchestrator::hasPhase(const std::string& phase_name) const
 std::vector<std::string> GraphPhaseGateOrchestrator::prerequisites(
     const std::string& phase_name) const
 {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock lock(mutex_);
 
     auto it = phases_.find(phase_name);
@@ -276,6 +356,11 @@ std::vector<std::string> GraphPhaseGateOrchestrator::prerequisites(
 
 std::vector<std::string> GraphPhaseGateOrchestrator::topologicalOrder() const
 {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock lock(mutex_);
 
     // Kahn's algorithm — deterministic by sorting each round.
@@ -339,6 +424,11 @@ std::vector<std::string> GraphPhaseGateOrchestrator::topologicalOrder() const
 
 std::size_t GraphPhaseGateOrchestrator::passedPhaseCount() const
 {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock lock(mutex_);
 
     std::size_t count = 0;
@@ -357,6 +447,11 @@ std::size_t GraphPhaseGateOrchestrator::passedPhaseCount() const
 
 float GraphPhaseGateOrchestrator::completionRatio() const
 {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock lock(mutex_);
 
     if (phases_.empty()) {

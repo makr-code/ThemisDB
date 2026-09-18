@@ -27,43 +27,30 @@ namespace themis::llm {
 // IKVStateSerializer — abstraction over llama_state_seq_save/load_file
 // ─────────────────────────────────────────────────────────────────────────────
 
-/**
- * @brief Serialise the computed KV state for a prompt prefix into a byte
- *        buffer that can be transferred to another shard.
- *
- * The production implementation wraps @c llama_state_seq_save_file /
- * @c llama_state_seq_load_file from llama.cpp.  Tests and CI builds use
- * @c NullKVStateSerializer (see below).
- */
 struct IKVStateSerializer {
+    /**
+     * @brief IKVState Serializer.
+     * @return Return value.
+     */
     virtual ~IKVStateSerializer() = default;
 
     /**
-     * Serialise the KV state for the given prefix text.
-     *
-     * @param prefix_text  System-prompt text already evaluated on this shard.
-     * @param model_id     Model identifier used for evaluation.
-     * @return Serialised bytes, or empty if serialisation fails / not supported.
+     * @brief Serialise.
+     * @param[in] prefix_text Input parameter.
+     * @param[in] model_id Identifier of the model.
+     * @return Return value.
      */
     virtual std::vector<std::uint8_t> serialise(const std::string& prefix_text,
                                                  const std::string& model_id) = 0;
 
     /**
-     * Return an opaque fingerprint that identifies the model + quantisation.
-     * Two shards must have the same fingerprint for a transfer to make sense.
+     * @brief Model Fingerprint.
+     * @param[in] model_id Identifier of the model.
+     * @return Return value.
      */
     virtual std::string modelFingerprint(const std::string& model_id) const = 0;
 };
 
-/**
- * @brief Deterministic fallback serializer used when no backend-specific KV
- *        serializer is injected.
- *
- * The fallback payload is the evaluated prefix text encoded as bytes. That
- * keeps cross-shard transfer paths active even in builds without a live
- * llama.cpp model and allows downstream services to cache, hash, and inspect
- * a concrete prefix artifact instead of an empty placeholder.
- */
 class NullKVStateSerializer final : public IKVStateSerializer {
 public:
     ~NullKVStateSerializer() override = default;
@@ -74,10 +61,20 @@ public:
     using ModelFingerprintFn =
         std::function<std::string(const std::string& model_id)>;
 
+    /**
+     * @brief Set Serialise Fn.
+     * @param[in] fn Input parameter.
+     * @details Calls: lk(), serialiseFnMutex(), serialiseFnStorage(), std::move().
+     */
     static void setSerialiseFn(SerialiseFn fn) {
         std::lock_guard<std::mutex> lk(serialiseFnMutex());
         serialiseFnStorage() = std::move(fn);
     }
+    /**
+     * @brief Set Model Fingerprint Fn.
+     * @param[in] fn Input parameter.
+     * @details Calls: lk(), modelFingerprintFnMutex(), modelFingerprintFnStorage(), std::move().
+     */
     static void setModelFingerprintFn(ModelFingerprintFn fn) {
         std::lock_guard<std::mutex> lk(modelFingerprintFnMutex());
         modelFingerprintFnStorage() = std::move(fn);
@@ -117,18 +114,38 @@ public:
     }
 
 private:
+    /**
+     * @brief Serialise Fn Mutex.
+     * @return Return value.
+     * @details Implements serialiseFnMutex without additional internal calls.
+     */
     static std::mutex& serialiseFnMutex() {
         static std::mutex m;
         return m;
     }
+    /**
+     * @brief Serialise Fn Storage.
+     * @return Return value.
+     * @details Implements serialiseFnStorage without additional internal calls.
+     */
     static SerialiseFn& serialiseFnStorage() {
         static SerialiseFn fn;
         return fn;
     }
+    /**
+     * @brief Model Fingerprint Fn Mutex.
+     * @return Return value.
+     * @details Implements modelFingerprintFnMutex without additional internal calls.
+     */
     static std::mutex& modelFingerprintFnMutex() {
         static std::mutex m;
         return m;
     }
+    /**
+     * @brief Model Fingerprint Fn Storage.
+     * @return Return value.
+     * @details Implements modelFingerprintFnStorage without additional internal calls.
+     */
     static ModelFingerprintFn& modelFingerprintFnStorage() {
         static ModelFingerprintFn fn;
         return fn;
@@ -139,30 +156,16 @@ private:
 // KVPrefixTransferManager
 // ─────────────────────────────────────────────────────────────────────────────
 
-/**
- * @brief Orchestrates KV-prefix transfer between shards.
- *
- * Usage:
- * @code
- *   KVPrefixTransferManager mgr(remote_executor);
- *
- *   // In executeInfer(), after domain routing selected target_shard:
- *   if (system_prompt_tokens >= 256) {
- *       mgr.transferIfBeneficial(target_shard_info, system_prompt, model_id);
- *   }
- * @endcode
- */
 class KVPrefixTransferManager {
 public:
     using SerializerFactoryFn = std::function<std::unique_ptr<IKVStateSerializer>()>;
 
+    /**
+     * @brief Set Default Serializer Factory.
+     * @param[in] fn Input parameter.
+     */
     static void setDefaultSerializerFactory(SerializerFactoryFn fn);
 
-    /**
-     * @param remote_executor  Shared RemoteExecutor used to send the KV state.
-     * @param serializer       Optional custom serialiser (defaults to NullKVStateSerializer).
-     * @param min_prefix_tokens Minimum token count before a transfer is attempted (default: 256).
-     */
     explicit KVPrefixTransferManager(
         ::themis::sharding::RemoteExecutor& remote_executor,
         std::unique_ptr<IKVStateSerializer> serializer = nullptr,
@@ -172,33 +175,20 @@ public:
     KVPrefixTransferManager(const KVPrefixTransferManager&) = delete;
     KVPrefixTransferManager& operator=(const KVPrefixTransferManager&) = delete;
 
-    /**
-     * @brief Transfer KV prefix to @p target_shard if the system prompt is
-     *        long enough and the models are compatible.
-     *
-     * The call is fire-and-best-effort: a network failure is logged but never
-     * surfaced to the inference path.
-     *
-     * @param target_shard    Target shard that will receive the inference request.
-     * @param prefix_text     System-prompt / prefix text (already evaluated locally).
-     * @param model_id        Model identifier (used for fingerprint compatibility check).
-     * @param estimated_tokens Caller-supplied token count estimate (0 = auto-estimate via
-     *                         char/4 heuristic).
-     * @return true if a transfer was initiated (regardless of its success), false if
-     *         the preconditions (length, model compat) were not met.
-     */
     bool transferIfBeneficial(const ::themis::sharding::ShardInfo& target_shard,
                                const std::string& prefix_text,
                                const std::string& model_id,
                                std::size_t estimated_tokens = 0);
 
     /**
-     * @return Cumulative number of transfers attempted since construction.
+     * @brief Transfer Attempt Count.
+     * @return Return value.
      */
     std::size_t transferAttemptCount() const;
 
     /**
-     * @return Cumulative number of transfers that succeeded (HTTP 2xx).
+     * @brief Transfer Success Count.
+     * @return Return value.
      */
     std::size_t transferSuccessCount() const;
 
@@ -210,12 +200,19 @@ private:
     mutable std::atomic<std::size_t> attempt_count_{0};
     mutable std::atomic<std::size_t> success_count_{0};
 
-    /// Heuristic: 1 token ≈ 4 chars.
     static constexpr std::size_t kCharsPerToken = 4;
 
     static constexpr const char* kIngestPath = "/api/v1/kv-prefix/ingest";
 
+    /**
+     * @brief Serializer Factory Mutex.
+     * @return Return value.
+     */
     static std::mutex& serializerFactoryMutex();
+    /**
+     * @brief Serializer Factory Storage.
+     * @return Return value.
+     */
     static SerializerFactoryFn& serializerFactoryStorage();
 };
 

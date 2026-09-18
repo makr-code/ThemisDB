@@ -59,6 +59,12 @@ json AIDecisionAudit::toJson() const {
     return j;
 }
 
+/**
+ * @brief From Json.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: value(), contains(), std::chrono::system_clock::from_time_t(), is_array(), int64_t().
+ */
 AIDecisionAudit AIDecisionAudit::fromJson(const json& j) {
     AIDecisionAudit audit;
     
@@ -150,6 +156,12 @@ std::string AIDecisionAuditor::generateId() const {
     return oss.str();
 }
 
+/**
+ * @brief Sign Decision.
+ * @param[in] audit Input parameter.
+ * @return Return value.
+ * @details Calls: toJson(), erase(), dump(), SHA256(), c_str(), length(), std::setw(), std::setfill().
+ */
 std::string AIDecisionAuditor::signDecision(const AIDecisionAudit& audit) {
     if (!pki_client_) {
         return ""; // Signing disabled
@@ -186,6 +198,13 @@ bool AIDecisionAuditor::verifySignature(const AIDecisionAudit& audit) const {
     return expected_sig == audit.signature;
 }
 
+/**
+ * @brief Log Decision.
+ * @param[in] audit Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: empty(), generateId(), std::chrono::system_clock::now(), THEMIS_WARN(), signDecision(), toJson(), dump(), makeKey().
+ */
 AIDecisionAudit AIDecisionAuditor::logDecision(AIDecisionAudit audit) {
     // Generate ID if empty
     if (audit.decision_id.empty()) {
@@ -234,6 +253,12 @@ AIDecisionAudit AIDecisionAuditor::logDecision(AIDecisionAudit audit) {
     return audit;
 }
 
+/**
+ * @brief Generate Explanation.
+ * @param[in] decision_id Identifier of the decision.
+ * @return Return value.
+ * @details Calls: getDecision(), has_value(), empty(), std::setprecision(), size(), items(), dump(), str().
+ */
 std::string AIDecisionAuditor::generateExplanation(const std::string& decision_id) {
     auto audit_opt = getDecision(decision_id);
     if (!audit_opt.has_value()) {
@@ -311,6 +336,12 @@ std::optional<AIDecisionAudit> AIDecisionAuditor::getDecision(const std::string&
     }
 }
 
+/**
+ * @brief Query Audit Log.
+ * @param[in] filter Input parameter.
+ * @return Return value.
+ * @details Calls: reset(), NewIterator(), Seek(), Valid(), size(), Next(), key(), ToString().
+ */
 std::vector<AIDecisionAudit> AIDecisionAuditor::queryAuditLog(const QueryFilter& filter) {
     std::vector<AIDecisionAudit> results;
     
@@ -379,6 +410,13 @@ std::vector<AIDecisionAudit> AIDecisionAuditor::queryAuditLog(const QueryFilter&
     return results;
 }
 
+/**
+ * @brief Flag For Review.
+ * @param[in] decision_id Identifier of the decision.
+ * @param[in] reason Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: getDecision(), has_value(), THEMIS_WARN(), is_null(), json::object(), signDecision(), toJson(), dump().
+ */
 bool AIDecisionAuditor::flagForReview(const std::string& decision_id, 
                                       const std::string& reason) {
     auto audit_opt = getDecision(decision_id);
@@ -422,6 +460,14 @@ bool AIDecisionAuditor::flagForReview(const std::string& decision_id,
     return true;
 }
 
+/**
+ * @brief Record Override.
+ * @param[in] decision_id Identifier of the decision.
+ * @param[in] override_reason Input parameter.
+ * @param[in] reviewer_id Identifier of the reviewer.
+ * @return True when the operation succeeds.
+ * @details Calls: getDecision(), has_value(), THEMIS_WARN(), signDecision(), toJson(), dump(), makeKey(), Put().
+ */
 bool AIDecisionAuditor::recordOverride(
     const std::string& decision_id,
     const std::string& override_reason,
@@ -474,6 +520,13 @@ bool AIDecisionAuditor::verifyIntegrity(const std::string& decision_id) const {
     return verifySignature(*audit_opt);
 }
 
+/**
+ * @brief Export For Compliance.
+ * @param[in] output_path Path to the output.
+ * @param[in] filter Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: queryAuditLog(), out(), is_open(), THEMIS_ERROR(), std::chrono::system_clock::to_time_t(), std::chrono::system_clock::now(), size(), json::array().
+ */
 bool AIDecisionAuditor::exportForCompliance(
     const std::string& output_path, 
     const QueryFilter& filter) {

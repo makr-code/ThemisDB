@@ -23,6 +23,13 @@ namespace crdt {
 // CRDTRecord
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Merge.
+ * @param[in] left Input parameter.
+ * @param[in] right Input parameter.
+ * @return Return value.
+ * @details Implements merge without additional internal calls.
+ */
 CRDTTableState::CRDTRecord CRDTTableState::CRDTRecord::merge(const CRDTRecord &left, const CRDTRecord &right) {
     // LWW ordering: wall_clock_ns DESC → lamport_clock DESC → replica_id ASC (tiebreak)
     if (left.wall_clock_ns > right.wall_clock_ns) {
@@ -49,6 +56,12 @@ json CRDTTableState::CRDTRecord::toJson() const {
                 {"wall_clock_ns", wall_clock_ns}};
 }
 
+/**
+ * @brief From Json.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: at(), value().
+ */
 CRDTTableState::CRDTRecord CRDTTableState::CRDTRecord::fromJson(const json &j) {
     CRDTRecord r;
     r.id            = j.at("id").get<std::string>();
@@ -63,10 +76,23 @@ CRDTTableState::CRDTRecord CRDTTableState::CRDTRecord::fromJson(const json &j) {
 // CRDTTableState
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Tick Clock.
+ * @return Return value.
+ * @details Implements tickClock without additional internal calls.
+ */
 uint64_t CRDTTableState::tickClock() {
     return ++lamport_clock_;
 }
 
+/**
+ * @brief Import With CRDT.
+ * @param[in] table_name Name of the table.
+ * @param[in] records Input parameter.
+ * @param[in] replica_id Identifier of the replica.
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), contains(), at(), tickClock(), find(), end().
+ */
 size_t CRDTTableState::importWithCRDT(const std::string &table_name, const std::vector<json> &records,
                                       const std::string &replica_id) {
     size_t written  = 0;

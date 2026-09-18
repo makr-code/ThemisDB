@@ -35,6 +35,13 @@ EvaluationCache::~EvaluationCache() = default;
 // Private helpers
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Compute Key.
+ * @param[in] query Input parameter.
+ * @param[in] answer Input parameter.
+ * @return Return value.
+ * @details Calls: std::to_string().
+ */
 EvaluationCache::CacheKey EvaluationCache::computeKey(
     const std::string& query, const std::string& answer) {
     // F-018: replace ostringstream with direct integer-to-string conversion.
@@ -51,6 +58,10 @@ bool EvaluationCache::isExpired(const CacheEntry& entry) const {
     return age > config_.ttl;
 }
 
+/**
+ * @brief Evict LRU.
+ * @details Calls: empty(), back(), erase(), pop_back().
+ */
 void EvaluationCache::evictLRU() {
     if (lru_list_.empty()) {
       return;
@@ -66,6 +77,11 @@ void EvaluationCache::evictLRU() {
     ++stats_.evictions;
 }
 
+/**
+ * @brief Update LRU.
+ * @param[in] key Input parameter.
+ * @details Calls: find(), end(), erase(), push_front(), begin().
+ */
 void EvaluationCache::updateLRU(const CacheKey& key) {
     auto it = lru_map_.find(key);
     if (it != lru_map_.end()) {
@@ -76,6 +92,11 @@ void EvaluationCache::updateLRU(const CacheKey& key) {
     lru_map_[key] = lru_list_.begin();
 }
 
+/**
+ * @brief Remove From LRU.
+ * @param[in] key Input parameter.
+ * @details Calls: find(), end(), erase().
+ */
 void EvaluationCache::removeFromLRU(const CacheKey& key) {
     auto it = lru_map_.find(key);
     if (it != lru_map_.end()) {
@@ -88,6 +109,13 @@ void EvaluationCache::removeFromLRU(const CacheKey& key) {
 // Public API
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Get.
+ * @param[in] query Input parameter.
+ * @param[in] answer Input parameter.
+ * @return Pointer to the result.
+ * @details Calls: lock(), std::chrono::steady_clock::now(), computeKey(), find(), end(), isExpired(), removeFromLRU(), erase().
+ */
 const EvaluationResult* EvaluationCache::get(
     const std::string& query, const std::string& answer) {
     std::lock_guard<std::mutex> lock(mutex_);
@@ -129,6 +157,13 @@ const EvaluationResult* EvaluationCache::get(
     return &it->second.result;
 }
 
+/**
+ * @brief Put.
+ * @param[in] query Input parameter.
+ * @param[in] answer Input parameter.
+ * @param[in] result Input parameter.
+ * @details Calls: lock(), computeKey(), find(), end(), std::chrono::system_clock::now(), updateLRU(), size(), evictLRU().
+ */
 void EvaluationCache::put(
     const std::string& query,
     const std::string& answer,
@@ -166,6 +201,13 @@ void EvaluationCache::put(
     stats_.max_size     = std::max(stats_.max_size, stats_.current_size);
 }
 
+/**
+ * @brief Contains.
+ * @param[in] query Input parameter.
+ * @param[in] answer Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), computeKey(), find(), end(), isExpired(), removeFromLRU(), erase().
+ */
 bool EvaluationCache::contains(
     const std::string& query, const std::string& answer) {
     std::lock_guard<std::mutex> lock(mutex_);
@@ -183,6 +225,10 @@ bool EvaluationCache::contains(
     return true;
 }
 
+/**
+ * @brief Clear.
+ * @details Calls: lock(), size(), THEMIS_INFO(), invalidation_callback_().
+ */
 void EvaluationCache::clear() {
     std::lock_guard<std::mutex> lock(mutex_);
 
@@ -201,6 +247,12 @@ void EvaluationCache::clear() {
     }
 }
 
+/**
+ * @brief Invalidate.
+ * @param[in] trigger Input parameter.
+ * @param[in] param Input parameter.
+ * @details Calls: lock(), size(), begin(), end(), isExpired(), removeFromLRU(), erase(), THEMIS_INFO().
+ */
 void EvaluationCache::invalidate(
     InvalidationTrigger trigger, const std::string& /*metadata*/) {
     std::lock_guard<std::mutex> lock(mutex_);
@@ -238,6 +290,12 @@ void EvaluationCache::invalidate(
     }
 }
 
+/**
+ * @brief Warm Cache.
+ * @param[in,out] judge Input/output parameter.
+ * @param[in] queries Input parameter.
+ * @details Calls: THEMIS_INFO(), size(), contains(), evaluate(), put().
+ */
 void EvaluationCache::warmCache(
     RAGJudge& judge, const std::vector<EvaluationInput>& queries) {
     THEMIS_INFO("EvaluationCache: warming cache with {} queries",queries.size());
@@ -256,6 +314,11 @@ void EvaluationCache::warmCache(
 }
 
 CacheStatistics EvaluationCache::getStatistics() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     CacheStatistics s = stats_;
     s.current_size = cache_.size();
@@ -266,6 +329,10 @@ CacheStatistics EvaluationCache::getStatistics() const {
     return s;
 }
 
+/**
+ * @brief Reset Statistics.
+ * @details Calls: lock(), std::chrono::system_clock::now(), size().
+ */
 void EvaluationCache::resetStatistics() {
     std::lock_guard<std::mutex> lock(mutex_);
     stats_ = CacheStatistics{};
@@ -273,18 +340,33 @@ void EvaluationCache::resetStatistics() {
     stats_.current_size = cache_.size();
 }
 
+/**
+ * @brief Set Config.
+ * @param[in] config Input parameter.
+ * @details Calls: lock().
+ */
 void EvaluationCache::setConfig(const CacheConfig& config) {
     std::lock_guard<std::mutex> lock(mutex_);
     config_ = config;
 }
 
 CacheConfig EvaluationCache::getConfig() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return config_;
 }
 
 void EvaluationCache::registerInvalidationCallback(
     std::function<void(InvalidationTrigger, size_t)> callback) {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     invalidation_callback_ = std::move(callback);
 }

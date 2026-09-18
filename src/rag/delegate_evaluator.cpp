@@ -35,22 +35,26 @@ namespace themis::rag::delegate_eval {
 
 namespace {
 
+/**
+ * @brief Make Relay Id.
+ * @return Return value.
+ * @details Calls: std::to_string().
+ */
 std::string makeRelayId() {
     static std::atomic<std::uint64_t> seq{0};
     const auto id = ++seq;
     return "delegate-relay-" + std::to_string(id);
 }
 
-/**
- * @brief Clamp @p v to `[lo, hi]`.
- */
 double clamp01(double v) noexcept {
     return std::clamp(v, 0.0, 1.0);
 }
 
 /**
- * @brief Attempt to parse @p s as a JSON object.
- * @return Parsed object, or `nullopt` on failure.
+ * @brief Try Parse Json.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Calls: nlohmann::json::parse(), is_object(), THEMIS_DEBUG(), what().
  */
 std::optional<nlohmann::json> tryParseJson(const std::string& s) {
     try {
@@ -65,12 +69,11 @@ std::optional<nlohmann::json> tryParseJson(const std::string& s) {
 }
 
 /**
- * @brief Compute the fraction of top-level JSON fields in @p orig that are
- * unchanged (same key AND same value) in @p rec.
- *
- * @param orig  Parsed original JSON object.
- * @param rec   Parsed recovered JSON object.
- * @return RS in `[0.0, 1.0]`.
+ * @brief Json Field Overlap.
+ * @param[in] orig Input parameter.
+ * @param[in] rec Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), items(), find(), end(), size().
  */
 double jsonFieldOverlap(const nlohmann::json& orig, const nlohmann::json& rec) {
     if (orig.empty()) {
@@ -88,11 +91,10 @@ double jsonFieldOverlap(const nlohmann::json& orig, const nlohmann::json& rec) {
 }
 
 /**
- * @brief Tokenise a string on whitespace and common punctuation.
- *
- * Keeps AQL keywords, identifiers, numbers, and quoted literals intact as
- * individual tokens.  Splits on: space, tab, newline, commas, parens,
- * brackets, braces, semicolons, and operators `=<>!`.
+ * @brief Tokenise.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Calls: std::isspace(), empty(), push_back(), std::move().
  */
 std::vector<std::string> tokenise(const std::string& s) {
     std::vector<std::string> tokens;
@@ -116,7 +118,11 @@ std::vector<std::string> tokenise(const std::string& s) {
 }
 
 /**
- * @brief Token-level Jaccard similarity between two strings.
+ * @brief Jaccard Token Similarity.
+ * @param[in] a Input parameter.
+ * @param[in] b Input parameter.
+ * @return Return value.
+ * @details Calls: tokenise(), empty(), ma(), begin(), end(), mb(), count(), insert().
  */
 double jaccardTokenSimilarity(const std::string& a, const std::string& b) {
     const auto ta = tokenise(a);
@@ -154,18 +160,11 @@ double jaccardTokenSimilarity(const std::string& a, const std::string& b) {
 }
 
 /**
- * @brief Compute Levenshtein edit distance between @p a and @p b.
- *
- * Memory-optimised two-row DP — O(min(|a|, |b|)) space.
- *
- * @note For inputs above 10 000 characters, this function switches to an
- *       O(n) Hamming-style approximation to bound runtime for benchmark-sized
- *       payloads. This is an intentional performance/accuracy trade-off.
- *
- * The 10 000-character cap balances correctness and performance:
- * the DP is O(n×m) which becomes prohibitive beyond ~10k chars (100M ops).
- * For documents exceeding this limit, an O(n) Hamming-style approximation
- * is used instead, keeping RS computation under 5 ms for 100 KB inputs.
+ * @brief Edit Distance.
+ * @param[in] a Input parameter.
+ * @param[in] b Input parameter.
+ * @return Return value.
+ * @details Calls: size(), std::min(), prev(), curr(), std::swap().
  */
 size_t editDistance(const std::string& a, const std::string& b) {
     // Safety cap: use char-difference for very large strings
@@ -205,7 +204,11 @@ size_t editDistance(const std::string& a, const std::string& b) {
 }
 
 /**
- * @brief Normalised edit-distance score: `1 − dist / max(|a|, |b|)`.
+ * @brief Normalised Edit Distance Score.
+ * @param[in] a Input parameter.
+ * @param[in] b Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), editDistance(), std::max(), size(), clamp01().
  */
 double normalisedEditDistanceScore(const std::string& a, const std::string& b) {
     if (a.empty() && b.empty()) {
@@ -220,14 +223,13 @@ double normalisedEditDistanceScore(const std::string& a, const std::string& b) {
                              static_cast<double>(maxLen));
 }
 
-// ── XML helpers ──────────────────────────────────────────────────────────────
-
 /**
- * @brief Extract a multiset of XML element tag names from a string.
- *
- * Regex-based, not a full parser — sufficient for scoring structural
- * preservation in process-model XML.
+ * @brief ── XML helpers ──────────────────────────────────────────────────────────────
+ * @param[in] xml Input parameter.
+ * @return Return value.
+ * @details Calls: TAG_RE(), std::sregex_iterator(), begin(), end(), insert(), str().
  */
+
 std::unordered_multiset<std::string> extractXmlElements(const std::string& xml) {
     std::unordered_multiset<std::string> elems;
     // Matches opening tags: <TagName …> or <TagName/>
@@ -241,7 +243,10 @@ std::unordered_multiset<std::string> extractXmlElements(const std::string& xml) 
 }
 
 /**
- * @brief Extract a multiset of `key="value"` attribute pairs from XML.
+ * @brief Extract Xml Attributes.
+ * @param[in] xml Input parameter.
+ * @return Return value.
+ * @details Calls: ATTR_RE(), std::sregex_iterator(), begin(), end(), insert(), str().
  */
 std::unordered_multiset<std::string> extractXmlAttributes(const std::string& xml) {
     std::unordered_multiset<std::string> attrs;
@@ -257,7 +262,11 @@ std::unordered_multiset<std::string> extractXmlAttributes(const std::string& xml
 }
 
 /**
- * @brief Overlap fraction of two multisets (intersection / |a|).
+ * @brief Multiset Overlap.
+ * @param[in] a Input parameter.
+ * @param[in] b Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), count(), insert(), std::min(), size().
  */
 double multisetOverlap(const std::unordered_multiset<std::string>& a,
                        const std::unordered_multiset<std::string>& b) {
@@ -391,6 +400,11 @@ DelegateEvaluatorConfig RoundTripSimulator::getConfig() const {
     return config_;
 }
 
+/**
+ * @brief Set Config.
+ * @param[in] config Input parameter.
+ * @details Implements setConfig without additional internal calls.
+ */
 void RoundTripSimulator::setConfig(const DelegateEvaluatorConfig& config) {
     config_ = config;
 }
@@ -408,6 +422,14 @@ const std::string& RoundTripSimulator::getLastRelayId() const noexcept {
     return last_relay_id_;
 }
 
+/**
+ * @brief Run.
+ * @param[in] seed_doc Input parameter.
+ * @param[in] edit_pairs Input parameter.
+ * @param[in] evaluator Input parameter.
+ * @param[in] edit_fn Input parameter.
+ * @return Return value.
+ */
 RelayResult RoundTripSimulator::run(
     const std::string&                   seed_doc,
     const std::vector<RoundTripEditPair>& edit_pairs,

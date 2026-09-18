@@ -59,17 +59,33 @@ namespace {
     static std::function<std::string(const std::string&)> s_model_path_fn;
 } // namespace
 
+/**
+ * @brief Set Model Path Provider Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void LoRATrainingService::setModelPathProviderFn(ModelPathProviderFn fn) {
     std::lock_guard<std::mutex> lock(s_model_path_fn_mutex);
     s_model_path_fn = std::move(fn);
 }
 
+/**
+ * @brief Clear Model Path Provider Fn.
+ * @details Calls: lock().
+ */
 void LoRATrainingService::clearModelPathProviderFn() {
     std::lock_guard<std::mutex> lock(s_model_path_fn_mutex);
     s_model_path_fn = nullptr;
 }
 
-// Simple MSE loss function
+/**
+ * @brief Simple MSE loss function
+ * @param[in] predictions Input parameter.
+ * @param[in] targets Input parameter.
+ * @return Return value.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: size().
+ */
 float compute_mse_loss(const Tensor& predictions, const Tensor& targets) {
     if (predictions.size() != targets.size()) {
         throw std::invalid_argument("Predictions and targets must have same size");
@@ -84,7 +100,14 @@ float compute_mse_loss(const Tensor& predictions, const Tensor& targets) {
     return sum / static_cast<float>(predictions.size());
 }
 
-// Compute gradient of MSE loss w.r.t. predictions
+/**
+ * @brief Compute gradient of MSE loss w.
+ * @param[in] predictions Input parameter.
+ * @param[in] targets Input parameter.
+ * @return Return value.
+ * @throws std::invalid_argument if an error occurs.
+ * @details r.t. predictions Calls: shape(), grad(), size().
+ */
 Tensor compute_mse_gradient(const Tensor& predictions, const Tensor& targets) {
     if (predictions.shape() != targets.shape()) {
         throw std::invalid_argument("Predictions and targets must have same shape");
@@ -132,6 +155,12 @@ struct TrainingCheckpoint {
     }
     
     // Deserialize from JSON
+    /**
+     * @brief From JSON.
+     * @param[in] j Input parameter.
+     * @return Return value.
+     * @details Calls: contains(), std::chrono::system_clock::from_time_t().
+     */
     static TrainingCheckpoint fromJSON(const json& j) {
         TrainingCheckpoint checkpoint = {};
         if (j.contains("current_epoch")) {
@@ -163,11 +192,13 @@ struct TrainingCheckpoint {
     }
 };
 
-/**
- * @brief Implementation class for LoRATrainingService
- */
 class LoRATrainingService::Impl {
 public:
+    /**
+     * @brief Impl.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit Impl(const Config& config) 
         : config_(config), is_training_(false), stop_requested_(false) {
         spdlog::info("LoRATrainingService initialized:");
@@ -198,6 +229,16 @@ public:
     // Allow outer service to access internal configuration and metrics safely
     friend class LoRATrainingService;
     
+    /**
+     * @brief Train On The Fly.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @param[in] data Input parameter.
+     * @param[in] hyperparameters Input parameter.
+     * @return Return value.
+     * @throws std::runtime_error if an error occurs.
+     * @throws LoRATrainingException if an error occurs.
+     * @details Calls: load(), spdlog::warn(), store(), lock(), std::chrono::system_clock::now(), value_or(), find(), spdlog::info().
+     */
     TrainingResult trainOnTheFly(
         const std::string& adapter_id,
         const TrainingData& data,
@@ -1020,6 +1061,14 @@ public:
         return result;
     }
     
+    /**
+     * @brief Train Batch.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @param[in] dataset Input parameter.
+     * @param[in] hyperparameters Input parameter.
+     * @return Return value.
+     * @details Calls: insert(), end(), begin(), spdlog::info(), size(), trainOnTheFly().
+     */
     TrainingResult trainBatch(
         const std::string& adapter_id,
         const std::vector<TrainingData>& dataset,
@@ -1041,6 +1090,11 @@ public:
         return trainOnTheFly(adapter_id, combined, hyperparameters);
     }
     
+    /**
+     * @brief Set Training Config.
+     * @param[in] config Input parameter.
+     * @details Calls: lock(), spdlog::info().
+     */
     void setTrainingConfig(const Config& config) {
         std::unique_lock<std::shared_mutex> lock(config_mutex_);
         config_ = config;
@@ -1048,10 +1102,20 @@ public:
     }
     
     Config getTrainingConfig() const {
+        /**
+         * @brief Lock.
+         * @param[in] config_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::shared_lock<std::shared_mutex> lock(config_mutex_);
         return config_;
     }
     
+    /**
+     * @brief Set Hyperparameters.
+     * @param[in] hyperparameters Input parameter.
+     * @details Calls: lock(), spdlog::info().
+     */
     void setHyperparameters(const LoRAHyperparameters& hyperparameters) {
         std::unique_lock<std::shared_mutex> lock(config_mutex_);
         config_.default_hyperparameters = hyperparameters;
@@ -1059,11 +1123,21 @@ public:
     }
     
     LoRAHyperparameters getHyperparameters() const {
+        /**
+         * @brief Lock.
+         * @param[in] config_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::shared_lock<std::shared_mutex> lock(config_mutex_);
         return config_.default_hyperparameters;
     }
     
     TrainingMetrics getMetrics() const {
+        /**
+         * @brief Lock.
+         * @param[in] metrics_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(metrics_mutex_);
         return current_metrics_;
     }
@@ -1077,6 +1151,10 @@ public:
         return is_training_.load(std::memory_order_acquire);
     }
     
+    /**
+     * @brief Stop Training.
+     * @details Calls: load(), spdlog::debug(), spdlog::info(), store(), std::chrono::seconds(), std::chrono::steady_clock::now(), spdlog::error(), std::this_thread::sleep_for().
+     */
     void stopTraining() {
         if (!is_training_.load(std::memory_order_acquire)) {
             spdlog::debug("No training in progress to stop");
@@ -1104,6 +1182,13 @@ public:
     }
     
     // Save training checkpoint
+    /**
+     * @brief Save Checkpoint.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @param[in] params Input parameter.
+     * @return True when the operation succeeds.
+     * @details Calls: cfg_lock(), empty(), spdlog::warn(), std::chrono::system_clock::now(), std::to_string(), std::filesystem::path(), ofs(), is_open().
+     */
     bool saveCheckpoint(const std::string& adapter_id, const LoRAHyperparameters& params) {
         // Snapshot config_.checkpoint_dir under the config lock to avoid a data race
         // with concurrent setTrainingConfig() calls.
@@ -1164,6 +1249,12 @@ public:
     }
     
     // Load training checkpoint
+    /**
+     * @brief Load Checkpoint.
+     * @param[in] checkpoint_path Path to the checkpoint.
+     * @return True when the operation succeeds.
+     * @details Calls: std::filesystem::exists(), spdlog::error(), ifs(), is_open(), close(), TrainingCheckpoint::fromJSON(), cfg_lock(), spdlog::info().
+     */
     bool loadCheckpoint(const std::string& checkpoint_path) {
         if (!std::filesystem::exists(checkpoint_path)) {
             spdlog::error("Checkpoint file not found: {}", checkpoint_path);
@@ -1222,12 +1313,6 @@ private:
     std::string current_adapter_id_;
     std::vector<float> loss_history_;
     
-    /**
-     * @brief Generate hash-based embeddings as fallback when base model unavailable
-     * @param token_ids Vector of token IDs
-     * @param hidden_dim Hidden dimension size
-     * @return Flattened embedding tensor [batch_size * hidden_dim]
-     */
     std::vector<float> generateHashEmbeddings(
         const std::vector<int>& token_ids,
         size_t hidden_dim
@@ -1268,6 +1353,15 @@ LoRATrainingService::~LoRATrainingService() noexcept {
     }
 }
 
+/**
+ * @brief Train On The Fly.
+ * @param[in] adapter_id Identifier of the adapter.
+ * @param[in] data Input parameter.
+ * @param[in] hyperparameters Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: get().
+ */
 TrainingResult LoRATrainingService::trainOnTheFly(
     const std::string& adapter_id,
     const TrainingData& data,
@@ -1280,6 +1374,15 @@ TrainingResult LoRATrainingService::trainOnTheFly(
     return service_impl->trainOnTheFly(adapter_id, data, hyperparameters);
 }
 
+/**
+ * @brief Train Batch.
+ * @param[in] adapter_id Identifier of the adapter.
+ * @param[in] dataset Input parameter.
+ * @param[in] hyperparameters Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: get().
+ */
 TrainingResult LoRATrainingService::trainBatch(
     const std::string& adapter_id,
     const std::vector<TrainingData>& dataset,
@@ -1292,6 +1395,12 @@ TrainingResult LoRATrainingService::trainBatch(
     return service_impl->trainBatch(adapter_id, dataset, hyperparameters);
 }
 
+/**
+ * @brief Set Training Config.
+ * @param[in] config Input parameter.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: get().
+ */
 void LoRATrainingService::setTrainingConfig(const Config& config) {
     if (!impl_) {
         throw std::runtime_error("LoRATrainingService implementation is not initialized");
@@ -1308,6 +1417,12 @@ LoRATrainingService::Config LoRATrainingService::getTrainingConfig() const {
     return service_impl->getTrainingConfig();
 }
 
+/**
+ * @brief Set Hyperparameters.
+ * @param[in] hyperparameters Input parameter.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: get().
+ */
 void LoRATrainingService::setHyperparameters(const LoRAHyperparameters& hyperparameters) {
     if (!impl_) {
         throw std::runtime_error("LoRATrainingService implementation is not initialized");
@@ -1348,6 +1463,11 @@ bool LoRATrainingService::isTraining() const {
     return service_impl->isTraining();
 }
 
+/**
+ * @brief Stop Training.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: get().
+ */
 void LoRATrainingService::stopTraining() {
     if (!impl_) {
         throw std::runtime_error("LoRATrainingService implementation is not initialized");
@@ -1356,9 +1476,15 @@ void LoRATrainingService::stopTraining() {
     service_impl->stopTraining();
 }
 
-// ═══════════════════════════════════════════════════════════
-// QLoRA Training Methods
-// ═══════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════ QLoRA Training Methods ═══════════════════════════════════════════════════════════
+ * @param[in] adapter_id Identifier of the adapter.
+ * @param[in] data Input parameter.
+ * @param[in] hyperparameters Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: get(), getTrainingConfig(), std::chrono::system_clock::now(), value_or(), spdlog::warn(), trainOnTheFly(), spdlog::info(), ModelCompatibilityChecker::check_compatibility().
+ */
 
 TrainingResult LoRATrainingService::trainWithQuantization(
     const std::string& adapter_id,
@@ -1711,6 +1837,13 @@ TrainingResult LoRATrainingService::trainWithQuantization(
     return result;
 }
 
+/**
+ * @brief Create QLo RALayers.
+ * @param[in] model Input parameter.
+ * @param[in] rank Input parameter.
+ * @return Return value.
+ * @details Calls: layer_names(), get_layer(), push_back(), std::move().
+ */
 std::vector<std::unique_ptr<QLoRALayer>> LoRATrainingService::createQLoRALayers(
     const QuantizedModel& model,
     size_t rank
@@ -1743,6 +1876,14 @@ std::vector<std::unique_ptr<QLoRALayer>> LoRATrainingService::createQLoRALayers(
     return layers;
 }
 
+/**
+ * @brief Load Quantized Base Model.
+ * @param[in] model_path Path to the model.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @throws LoRATrainingException if an error occurs.
+ * @details Calls: spdlog::warn(), empty(), spdlog::error(), std::filesystem::exists(), gguf_file(), is_open(), read(), good().
+ */
 std::unique_ptr<QuantizedModel> LoRATrainingService::loadQuantizedBaseModel(
     const std::string& model_path,
     const QLoRAConfig& config
@@ -2082,6 +2223,13 @@ std::unique_ptr<QuantizedModel> LoRATrainingService::loadQuantizedBaseModel(
     }
 }
 
+/**
+ * @brief Estimate Memory Usage.
+ * @param[in] model_path Path to the model.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @details Calls: std::filesystem::exists(), model_file(), is_open(), read(), std::string(), key(), spdlog::info(), seekg().
+ */
 size_t LoRATrainingService::estimateMemoryUsage(
     const std::string& model_path,
     const QLoRAConfig& config
@@ -2204,6 +2352,16 @@ size_t LoRATrainingService::estimateMemoryUsage(
     );
 }
 
+/**
+ * @brief Train Distributed.
+ * @param[in] adapter_id Identifier of the adapter.
+ * @param[in] data Input parameter.
+ * @param[in] hyperparameters Input parameter.
+ * @return Return value.
+ * @throws LoRATrainingException if an error occurs.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: spdlog::error(), get(), getTrainingConfig(), empty(), std::chrono::system_clock::now(), spdlog::info(), size(), TrainingServiceRegistry::getInstance().
+ */
 TrainingResult LoRATrainingService::trainDistributed(
     const std::string& adapter_id,
     const TrainingData& data,

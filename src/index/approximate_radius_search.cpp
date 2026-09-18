@@ -19,6 +19,13 @@
 namespace themis {
 namespace vector {
 
+/**
+ * @brief Make Error.
+ * @param[in] code Input parameter.
+ * @param[in] message Input parameter.
+ * @return Return value.
+ * @details Calls: tl::unexpected(), Error(), std::move().
+ */
 inline tl::unexpected<Error> makeError(errors::ErrorCode code, std::string message) {
     return tl::unexpected(Error(code, std::move(message)));
 }
@@ -27,7 +34,12 @@ ApproximateRadiusSearch::ApproximateRadiusSearch(VectorIndexManager& vector_mana
     : vector_manager_(vector_manager) {
 }
 
-// Helper function to convert metric types
+/**
+ * @brief Helper function to convert metric types
+ * @param[in] metric Input parameter.
+ * @return Return value.
+ * @details Implements convertMetric without additional internal calls.
+ */
 static VectorIndexManager::Metric convertMetric(ApproximateRadiusSearch::Metric metric) {
     switch (metric) {
         case ApproximateRadiusSearch::Metric::L2:
@@ -249,6 +261,14 @@ ApproximateRadiusSearch::searchWithTargetCount(
     return best_result;
 }
 
+/**
+ * @brief Estimate Result Count.
+ * @param[in] query_vector Input parameter.
+ * @param[in] radius Input parameter.
+ * @param[in] metric Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), makeError(), getMetric(), convertMetric(), getVectorCount(), size_t(), std::min(), std::max().
+ */
 Result<size_t> ApproximateRadiusSearch::estimateResultCount(
     const std::vector<float>& query_vector,
     float radius,
@@ -324,6 +344,10 @@ Result<size_t> ApproximateRadiusSearch::estimateResultCount(
     }
 }
 
+/**
+ * @brief Reset Statistics.
+ * @details Implements resetStatistics without additional internal calls.
+ */
 void ApproximateRadiusSearch::resetStatistics() {
     stats_ = Statistics{};
 }

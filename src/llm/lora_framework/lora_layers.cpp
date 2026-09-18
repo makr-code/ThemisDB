@@ -17,8 +17,20 @@
 #else
 namespace spdlog {
     template<typename... Args>
+    /**
+     * @brief Debug.
+     * @param[in] param Input parameter.
+     * @param[in] param Input parameter.
+     * @details Implements debug without additional internal calls.
+     */
     inline void debug(const char*, ...) {}
     template<typename... Args>
+    /**
+     * @brief Info.
+     * @param[in] param Input parameter.
+     * @param[in] param Input parameter.
+     * @details Implements info without additional internal calls.
+     */
     inline void info(const char*, ...) {}
 }
 #endif
@@ -58,6 +70,11 @@ Tensor Tensor::operator+(const Tensor& other) const {
         throw std::invalid_argument("Tensor shapes must match for addition");
     }
     
+    /**
+     * @brief Result.
+     * @param[in] shape_ Input parameter.
+     * @return Return value.
+     */
     Tensor result(shape_);
     for (size_t i = 0; i < data_.size(); ++i) {
         result.data_[i] = data_[i] + other.data_[i];
@@ -70,6 +87,11 @@ Tensor Tensor::operator-(const Tensor& other) const {
         throw std::invalid_argument("Tensor shapes must match for subtraction");
     }
     
+    /**
+     * @brief Result.
+     * @param[in] shape_ Input parameter.
+     * @return Return value.
+     */
     Tensor result(shape_);
     for (size_t i = 0; i < data_.size(); ++i) {
         result.data_[i] = data_[i] - other.data_[i];
@@ -78,6 +100,11 @@ Tensor Tensor::operator-(const Tensor& other) const {
 }
 
 Tensor Tensor::operator*(float scalar) const {
+    /**
+     * @brief Result.
+     * @param[in] shape_ Input parameter.
+     * @return Return value.
+     */
     Tensor result(shape_);
     for (size_t i = 0; i < data_.size(); ++i) {
         result.data_[i] = data_[i] * scalar;
@@ -135,15 +162,29 @@ Tensor Tensor::transpose() const {
     return result;
 }
 
+/**
+ * @brief Fill.
+ * @param[in] value Input parameter.
+ * @details Calls: begin(), end().
+ */
 void Tensor::fill(float value) {
     std::fill(data_.begin(), data_.end(), value);
 }
 
+/**
+ * @brief Zero.
+ * @details Calls: fill().
+ */
 void Tensor::zero() {
     fill(0.0f);
 }
 
 Tensor Tensor::clone() const {
+    /**
+     * @brief Result.
+     * @param[in] shape_ Input parameter.
+     * @return Return value.
+     */
     Tensor result(shape_);
     result.data_ = data_;
     return result;
@@ -153,6 +194,14 @@ Tensor Tensor::clone() const {
 
 namespace tensor_utils {
 
+/**
+ * @brief Randn.
+ * @param[in] shape Input parameter.
+ * @param[in] mean Input parameter.
+ * @param[in] std Input parameter.
+ * @return Return value.
+ * @details Calls: gen(), dist(), result(), data().
+ */
 Tensor randn(const std::vector<size_t>& shape, float mean, float std) {
     // Use thread-local random number generator for thread safety
     // Note: random_device is used once per thread to seed the generator
@@ -166,6 +215,13 @@ Tensor randn(const std::vector<size_t>& shape, float mean, float std) {
     return result;
 }
 
+/**
+ * @brief Xavier uniform.
+ * @param[in] shape Input parameter.
+ * @return Return value.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: size(), std::sqrt(), randn().
+ */
 Tensor xavier_uniform(const std::vector<size_t>& shape) {
     if (shape.size() != 2) {
         throw std::invalid_argument("xavier_uniform only supports 2D tensors");
@@ -178,6 +234,14 @@ Tensor xavier_uniform(const std::vector<size_t>& shape) {
     return randn(shape, 0.0f, std);
 }
 
+/**
+ * @brief Kaiming uniform.
+ * @param[in] shape Input parameter.
+ * @param[in] a Input parameter.
+ * @return Return value.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: size(), std::sqrt(), randn().
+ */
 Tensor kaiming_uniform(const std::vector<size_t>& shape, float a) {
     if (shape.size() != 2) {
         throw std::invalid_argument("kaiming_uniform only supports 2D tensors");
@@ -189,10 +253,22 @@ Tensor kaiming_uniform(const std::vector<size_t>& shape, float a) {
     return randn(shape, 0.0f, std);
 }
 
+/**
+ * @brief Zeros.
+ * @param[in] shape Input parameter.
+ * @return Return value.
+ * @details Calls: Tensor().
+ */
 Tensor zeros(const std::vector<size_t>& shape) {
     return Tensor(shape, 0.0f);
 }
 
+/**
+ * @brief Ones.
+ * @param[in] shape Input parameter.
+ * @return Return value.
+ * @details Calls: Tensor().
+ */
 Tensor ones(const std::vector<size_t>& shape) {
     return Tensor(shape, 1.0f);
 }
@@ -234,6 +310,12 @@ LoRALayer::LoRALayer(size_t in_dim, size_t out_dim, size_t rank, float scaling)
     spdlog::debug("{}: Initialized with {} parameters", name_, parameter_count());
 }
 
+/**
+ * @brief Forward.
+ * @param[in] input Input parameter.
+ * @return Return value.
+ * @details Calls: spdlog::debug(), shape(), size(), clone(), matmul().
+ */
 Tensor LoRALayer::forward(const Tensor& input) {
     spdlog::debug("{}: forward with input shape ({}, {})", 
                   name_, input.shape()[0], input.shape().size() > 1 ? input.shape()[1] : 0);
@@ -251,6 +333,12 @@ Tensor LoRALayer::forward(const Tensor& input) {
     return output;
 }
 
+/**
+ * @brief Backward.
+ * @param[in] grad_output Input parameter.
+ * @return Return value.
+ * @details Calls: spdlog::debug(), shape(), size(), transpose(), matmul(), std::move().
+ */
 Tensor LoRALayer::backward(const Tensor& grad_output) {
     spdlog::debug("{}: backward with grad_output shape ({}, {})",
                   name_, grad_output.shape()[0], grad_output.shape().size() > 1 ? grad_output.shape()[1] : 0);
@@ -284,6 +372,11 @@ Tensor LoRALayer::backward(const Tensor& grad_output) {
     return grad_input;
 }
 
+/**
+ * @brief Parameters.
+ * @return Return value.
+ * @details Calls: get().
+ */
 std::vector<Tensor*> LoRALayer::parameters() {
     return {B_.get(), A_.get()};
 }
@@ -300,6 +393,13 @@ std::pair<Tensor, Tensor> LoRALayer::get_weights() const {
     return {B_->clone(), A_->clone()};
 }
 
+/**
+ * @brief Set weights.
+ * @param[in] B Input parameter.
+ * @param[in] A Input parameter.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: shape(), clone(), spdlog::debug().
+ */
 void LoRALayer::set_weights(const Tensor& B, const Tensor& A) {
     if (B.shape() != B_->shape() || A.shape() != A_->shape()) {
         throw std::invalid_argument("Weight shapes do not match");
@@ -354,6 +454,12 @@ AttentionLoRA::AttentionLoRA(size_t dim, size_t rank,
     spdlog::info("AttentionLoRA: Initialized with {} parameters", parameter_count());
 }
 
+/**
+ * @brief Forward.
+ * @param[in] input Input parameter.
+ * @return Return value.
+ * @details Calls: spdlog::debug(), shape(), size(), clone().
+ */
 Tensor AttentionLoRA::forward(const Tensor& input) {
     spdlog::debug("AttentionLoRA: forward with input shape ({}, {})",
                   input.shape()[0], input.shape().size() > 1 ? input.shape()[1] : 0);
@@ -378,6 +484,12 @@ Tensor AttentionLoRA::forward(const Tensor& input) {
     return output;
 }
 
+/**
+ * @brief Backward.
+ * @param[in] grad_output Input parameter.
+ * @return Return value.
+ * @details Calls: spdlog::debug(), shape(), size(), clone().
+ */
 Tensor AttentionLoRA::backward(const Tensor& grad_output) {
     spdlog::debug("AttentionLoRA: backward with grad_output shape ({}, {})",
                   grad_output.shape()[0], grad_output.shape().size() > 1 ? grad_output.shape()[1] : 0);
@@ -401,6 +513,11 @@ Tensor AttentionLoRA::backward(const Tensor& grad_output) {
     return grad;
 }
 
+/**
+ * @brief Parameters.
+ * @return Return value.
+ * @details Calls: insert(), end(), begin(), spdlog::debug(), size().
+ */
 std::vector<Tensor*> AttentionLoRA::parameters() {
     std::vector<Tensor*> params;
     
@@ -446,13 +563,23 @@ size_t AttentionLoRA::memory_bytes() const {
     return parameter_count() * sizeof(float);
 }
 
-// ===== Sequential =====
+/**
+ * @brief ===== Sequential =====
+ * @param[in] layer Input parameter.
+ * @details Calls: spdlog::info(), name(), push_back(), std::move().
+ */
 
 void Sequential::add(std::unique_ptr<ITrainableLayer> layer) {
     spdlog::info("Sequential: Adding layer {}", layer->name());
     layers_.push_back(std::move(layer));
 }
 
+/**
+ * @brief Forward.
+ * @param[in] input Input parameter.
+ * @return Return value.
+ * @details Calls: spdlog::debug(), size(), clone().
+ */
 Tensor Sequential::forward(const Tensor& input) {
     spdlog::debug("Sequential: forward through {} layers",layers_.size());
     
@@ -464,6 +591,12 @@ Tensor Sequential::forward(const Tensor& input) {
     return output;
 }
 
+/**
+ * @brief Backward.
+ * @param[in] grad_output Input parameter.
+ * @return Return value.
+ * @details Calls: spdlog::debug(), size(), clone(), rbegin(), rend().
+ */
 Tensor Sequential::backward(const Tensor& grad_output) {
     spdlog::debug("Sequential: backward through {} layers",layers_.size());
     
@@ -475,6 +608,11 @@ Tensor Sequential::backward(const Tensor& grad_output) {
     return grad;
 }
 
+/**
+ * @brief Parameters.
+ * @return Return value.
+ * @details Calls: spdlog::debug(), size(), insert(), end(), begin().
+ */
 std::vector<Tensor*> Sequential::parameters() {
     spdlog::debug("Sequential: collecting parameters from {} layers",layers_.size());
     
@@ -515,12 +653,21 @@ SGDOptimizer::SGDOptimizer(float learning_rate, float momentum, float weight_dec
                  learning_rate_, momentum_, weight_decay_);
 }
 
+/**
+ * @brief Add parameters.
+ * @param[in] params Input parameter.
+ * @details Calls: insert(), end(), begin(), spdlog::debug(), size().
+ */
 void SGDOptimizer::add_parameters(const std::vector<Tensor*>& params) {
     parameters_.insert(parameters_.end(), params.begin(), params.end());
     spdlog::debug("SGDOptimizer: Added {} parameters, total={}", 
                   params.size(),parameters_.size());
 }
 
+/**
+ * @brief Step.
+ * @details Calls: find(), end(), Tensor(), shape(), data(), size(), spdlog::debug().
+ */
 void SGDOptimizer::step() {
     for (auto* param : parameters_) {
         if (!param || !param->requires_grad) {
@@ -561,6 +708,10 @@ void SGDOptimizer::step() {
     spdlog::debug("SGDOptimizer: Updated {} parameters",parameters_.size());
 }
 
+/**
+ * @brief Zero grad.
+ * @details Calls: zero(), spdlog::debug(), size().
+ */
 void SGDOptimizer::zero_grad() {
     for (auto* param : parameters_) {
         if (param && param->requires_grad && param->grad) {
@@ -583,12 +734,21 @@ AdamOptimizer::AdamOptimizer(float learning_rate, float beta1, float beta2, floa
                  learning_rate_, beta1_, beta2_, epsilon_, weight_decay_);
 }
 
+/**
+ * @brief Add parameters.
+ * @param[in] params Input parameter.
+ * @details Calls: insert(), end(), begin(), spdlog::debug(), size().
+ */
 void AdamOptimizer::add_parameters(const std::vector<Tensor*>& params) {
     parameters_.insert(parameters_.end(), params.begin(), params.end());
     spdlog::debug("AdamOptimizer: Added {} parameters, total={}",
                   params.size(),parameters_.size());
 }
 
+/**
+ * @brief Step.
+ * @details Calls: std::pow(), themis::utils::conversion::clamp_double_to_float(), themis::utils::conversion::safe_size_to_int32(), find(), end(), Tensor(), shape(), data().
+ */
 void AdamOptimizer::step() {
     step_count_++;
     
@@ -648,6 +808,10 @@ void AdamOptimizer::step() {
     spdlog::debug("AdamOptimizer: Updated {} parameters at step {}",parameters_.size(), step_count_);
 }
 
+/**
+ * @brief Zero grad.
+ * @details Calls: zero(), spdlog::debug(), size().
+ */
 void AdamOptimizer::zero_grad() {
     for (auto* param : parameters_) {
         if (param && param->requires_grad) {
@@ -672,12 +836,21 @@ AdamWOptimizer::AdamWOptimizer(float learning_rate, float beta1, float beta2, fl
                  learning_rate_, beta1_, beta2_, epsilon_, weight_decay_);
 }
 
+/**
+ * @brief Add parameters.
+ * @param[in] params Input parameter.
+ * @details Calls: insert(), end(), begin(), spdlog::debug(), size().
+ */
 void AdamWOptimizer::add_parameters(const std::vector<Tensor*>& params) {
     parameters_.insert(parameters_.end(), params.begin(), params.end());
     spdlog::debug("AdamWOptimizer: Added {} parameters, total={}",
                   params.size(),parameters_.size());
 }
 
+/**
+ * @brief Step.
+ * @details Calls: std::pow(), find(), end(), Tensor(), shape(), data(), size(), std::sqrt().
+ */
 void AdamWOptimizer::step() {
     step_count_++;
     
@@ -733,6 +906,10 @@ void AdamWOptimizer::step() {
     spdlog::debug("AdamWOptimizer: Updated {} parameters at step {}",parameters_.size(), step_count_);
 }
 
+/**
+ * @brief Zero grad.
+ * @details Calls: zero(), spdlog::debug(), size().
+ */
 void AdamWOptimizer::zero_grad() {
     for (auto* param : parameters_) {
         if (param && param->requires_grad && param->grad) {

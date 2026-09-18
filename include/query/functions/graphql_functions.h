@@ -71,35 +71,6 @@ namespace functions {
 // GRAPHQL() function
 // ============================================================================
 
-/**
- * @brief GRAPHQL(query, variables?) — execute an embedded GraphQL document.
- *
- * Cost: CostComplexity::EXTERNAL, base_cost=100.0
- *   The optimizer treats every call as expensive external I/O.  Field
- *   pushdown and predicate pushdown across GRAPHQL() boundaries are
- *   therefore disabled — the optimizer will not place a GRAPHQL() call
- *   inside an inner FOR loop unless the calling query has been explicitly
- *   structured that way.
- *
- * Complexity guard:
- *   The embedded GraphQL document is scored by GraphQLComplexityEstimator
- *   before execution.  If the score exceeds kGraphQLMaxComplexity
- *   (1 000) the function throws, aborting the enclosing AQL query.
- *
- * Example AQL:
- * @code
- *   LET result = GRAPHQL("query { apiVersion schemaVersion }")
- *   RETURN result
- *   // → { "apiVersion": "1.8.0-rc1", "schemaVersion": "2.0.0" }
- *
- *   LET res = GRAPHQL(
- *     "query GetUser($id: ID!) { user(id: $id) { name } }",
- *     { "id": "42" }
- *   )
- *   FILTER res._graphql_errors == null
- *   RETURN res.user.name
- * @endcode
- */
 class GraphQLFunction : public IFunction {
 public:
     ~GraphQLFunction() override = default;
@@ -225,12 +196,7 @@ public:
 // ============================================================================
 
 /**
- * @brief Register all GraphQL integration AQL functions.
- *
- * Call once from registerBuiltinFunctions() in function_registry.cpp.
- *
- * Currently registers:
- *   - GRAPHQL(query [, variables]) → JSON
+ * @brief Register Graph QLFunctions.
  * @param[in,out] registry Input/output parameter.
  * @details Calls: registerFunction().
  */

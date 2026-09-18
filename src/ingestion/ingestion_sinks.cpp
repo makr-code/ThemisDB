@@ -28,6 +28,12 @@ using json = nlohmann::json;
 
 namespace {
 
+/**
+ * @brief To Storage Node.
+ * @param[in] node Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), themis::BaseEntity::fromFields().
+ */
 themis::BaseEntity toStorageNode(const BaseEntity& node) {
     themis::BaseEntity::FieldMap fields;
     fields["id"] = node.id;
@@ -48,6 +54,12 @@ themis::BaseEntity toStorageNode(const BaseEntity& node) {
     return themis::BaseEntity::fromFields(node.id, fields);
 }
 
+/**
+ * @brief To Storage Edge.
+ * @param[in] edge Input parameter.
+ * @return Return value.
+ * @details Calls: std::to_string(), themis::BaseEntity::fromFields().
+ */
 themis::BaseEntity toStorageEdge(const EntityRelation& edge) {
     const auto relation_tag = std::to_string(static_cast<int>(edge.relation_type));
     const auto edge_id = edge.from_id + "->" + edge.to_id + ":" + relation_tag;
@@ -62,6 +74,12 @@ themis::BaseEntity toStorageEdge(const EntityRelation& edge) {
     return themis::BaseEntity::fromFields(edge_id, fields);
 }
 
+/**
+ * @brief To Vector Entity.
+ * @param[in] record Input parameter.
+ * @return Return value.
+ * @details Calls: themis::BaseEntity::fromFields().
+ */
 themis::BaseEntity toVectorEntity(const VectorRecord& record) {
     themis::BaseEntity::FieldMap fields;
     fields["chunk_id"] = record.chunk_id;
@@ -80,6 +98,12 @@ themis::BaseEntity toVectorEntity(const VectorRecord& record) {
 // IGraphWriter — default write() implementation
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Write.
+ * @param[in] entity_set Input parameter.
+ * @return Return value.
+ * @details Calls: writeEntities(), writeRelations().
+ */
 Result<void> IGraphWriter::write(const BaseEntitySet& entity_set) {
     auto r1 = writeEntities(entity_set.nodes);
     if (!r1) {
@@ -92,6 +116,12 @@ Result<void> IGraphWriter::write(const BaseEntitySet& entity_set) {
 // InMemoryGraphWriter
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Write Entities.
+ * @param[in] nodes Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), find(), end(), emplace(), empty().
+ */
 Result<void> InMemoryGraphWriter::writeEntities(const std::vector<BaseEntity>& nodes) {
     std::lock_guard<std::mutex> lock(mtx_);
     for (const auto& n : nodes) {
@@ -117,6 +147,12 @@ Result<void> InMemoryGraphWriter::writeEntities(const std::vector<BaseEntity>& n
     return {};
 }
 
+/**
+ * @brief Write Relations.
+ * @param[in] edges Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), std::find_if(), begin(), end(), push_back().
+ */
 Result<void> InMemoryGraphWriter::writeRelations(const std::vector<EntityRelation>& edges) {
     std::lock_guard<std::mutex> lock(mtx_);
     for (const auto& e : edges) {
@@ -139,15 +175,29 @@ Result<void> InMemoryGraphWriter::writeRelations(const std::vector<EntityRelatio
 }
 
 std::size_t InMemoryGraphWriter::nodeCount() const {
+    /**
+     * @brief Lock.
+     * @param[in] mtx_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mtx_);
     return nodes_.size();
 }
 
 std::size_t InMemoryGraphWriter::edgeCount() const {
+    /**
+     * @brief Lock.
+     * @param[in] mtx_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mtx_);
     return edges_.size();
 }
 
+/**
+ * @brief Clear.
+ * @details Calls: lock().
+ */
 void InMemoryGraphWriter::clear() {
     std::lock_guard<std::mutex> lock(mtx_);
     nodes_.clear();
@@ -158,6 +208,12 @@ void InMemoryGraphWriter::clear() {
 // InMemoryVectorWriter
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Write Vectors.
+ * @param[in] records Input parameter.
+ * @return Return value.
+ * @details Calls: lock().
+ */
 Result<void> InMemoryVectorWriter::writeVectors(const std::vector<VectorRecord>& records) {
     std::lock_guard<std::mutex> lock(mtx_);
     for (const auto& rec : records) {
@@ -167,16 +223,30 @@ Result<void> InMemoryVectorWriter::writeVectors(const std::vector<VectorRecord>&
 }
 
 std::size_t InMemoryVectorWriter::vectorCount() const {
+    /**
+     * @brief Lock.
+     * @param[in] mtx_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mtx_);
     return records_.size();
 }
 
 const VectorRecord* InMemoryVectorWriter::findByChunkId(const std::string& chunk_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mtx_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mtx_);
     auto it = records_.find(chunk_id);
     return it != records_.end() ? &it->second : nullptr;
 }
 
+/**
+ * @brief Clear.
+ * @details Calls: lock().
+ */
 void InMemoryVectorWriter::clear() {
     std::lock_guard<std::mutex> lock(mtx_);
     records_.clear();
@@ -188,7 +258,12 @@ void InMemoryVectorWriter::clear() {
 
 namespace {
 
-/// Serialize a BaseEntitySet to a compact JSON string.
+/**
+ * @brief Serialize Entity Set.
+ * @param[in] es Input parameter.
+ * @return Return value.
+ * @details Calls: json::array(), push_back(), std::move(), size(), dump().
+ */
 std::string serializeEntitySet(const BaseEntitySet& es) {
     json j;
     j["source_file_id"] = es.source_file_id;
@@ -225,6 +300,13 @@ std::string serializeEntitySet(const BaseEntitySet& es) {
 
 } // anonymous namespace
 
+/**
+ * @brief Write Document.
+ * @param[in] entity_set Input parameter.
+ * @param[in] collection Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), std::to_string(), serializeEntitySet().
+ */
 Result<std::string> InMemoryDocWriter::writeDocument(const BaseEntitySet& entity_set,
                                                        const std::string& collection) {
     std::lock_guard<std::mutex> lock(mtx_);
@@ -235,16 +317,30 @@ Result<std::string> InMemoryDocWriter::writeDocument(const BaseEntitySet& entity
 }
 
 std::size_t InMemoryDocWriter::documentCount() const {
+    /**
+     * @brief Lock.
+     * @param[in] mtx_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mtx_);
     return docs_.size();
 }
 
 std::string InMemoryDocWriter::getDocument(const std::string& doc_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mtx_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mtx_);
     auto it = docs_.find(doc_id);
     return it != docs_.end() ? it->second : std::string{};
 }
 
+/**
+ * @brief Clear.
+ * @details Calls: lock().
+ */
 void InMemoryDocWriter::clear() {
     std::lock_guard<std::mutex> lock(mtx_);
     docs_.clear();
@@ -289,6 +385,12 @@ DocumentStoreSinkAdapter::DocumentStoreSinkAdapter(
     }
 }
 
+/**
+ * @brief Serialise.
+ * @param[in] es Input parameter.
+ * @return Return value.
+ * @details Calls: nlohmann::json::array(), std::move(), push_back(), find(), end().
+ */
 nlohmann::json DocumentStoreSinkAdapter::serialise(const BaseEntitySet& es) {
     nlohmann::json j;
     j["source_file_id"] = es.source_file_id;
@@ -355,6 +457,12 @@ nlohmann::json DocumentStoreSinkAdapter::serialise(const BaseEntitySet& es) {
     return j;
 }
 
+/**
+ * @brief Write Document.
+ * @param[in] entity_set Input parameter.
+ * @param[in] collection Input parameter.
+ * @return Return value.
+ */
 Result<std::string> DocumentStoreSinkAdapter::writeDocument(
     const BaseEntitySet& entity_set, const std::string& collection)
 {
@@ -382,6 +490,11 @@ Result<std::string> DocumentStoreSinkAdapter::writeDocument(
         }
     }
     {
+        /**
+         * @brief Lk.
+         * @param[in] mtx_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(mtx_);
         ++count_;
     }
@@ -389,6 +502,11 @@ Result<std::string> DocumentStoreSinkAdapter::writeDocument(
 }
 
 std::size_t DocumentStoreSinkAdapter::documentCount() const {
+    /**
+     * @brief Lk.
+     * @param[in] mtx_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mtx_);
     return count_;
 }
@@ -408,6 +526,12 @@ GraphStoreSinkAdapter::GraphStoreSinkAdapter(
     }
 }
 
+/**
+ * @brief Write Entities.
+ * @param[in] nodes Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), toStorageNode(), put(), serialize(), tl::make_unexpected(), Error(), insert().
+ */
 Result<void> GraphStoreSinkAdapter::writeEntities(const std::vector<BaseEntity>& nodes) {
     std::lock_guard<std::mutex> lock(mtx_);
     for (const auto& node : nodes) {
@@ -422,6 +546,12 @@ Result<void> GraphStoreSinkAdapter::writeEntities(const std::vector<BaseEntity>&
     return {};
 }
 
+/**
+ * @brief Write Relations.
+ * @param[in] edges Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), addEdge(), toStorageEdge(), tl::make_unexpected(), Error(), insert(), std::to_string().
+ */
 Result<void> GraphStoreSinkAdapter::writeRelations(const std::vector<EntityRelation>& edges) {
     std::lock_guard<std::mutex> lock(mtx_);
     for (const auto& edge : edges) {
@@ -441,11 +571,21 @@ Result<void> GraphStoreSinkAdapter::writeRelations(const std::vector<EntityRelat
 }
 
 std::size_t GraphStoreSinkAdapter::nodeCount() const {
+    /**
+     * @brief Lock.
+     * @param[in] mtx_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mtx_);
     return written_node_ids_.size();
 }
 
 std::size_t GraphStoreSinkAdapter::edgeCount() const {
+    /**
+     * @brief Lock.
+     * @param[in] mtx_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mtx_);
     return written_edge_ids_.size();
 }
@@ -471,11 +611,12 @@ VectorIndexSinkAdapter::VectorIndexSinkAdapter(
 }
 
 Result<void> VectorIndexSinkAdapter::ensureInitialized() const {
-    // ensureInitialized() is const because lazy initialization is logically
-    // const from the caller's perspective: the observable state of the adapter
-    // (the data it can write) does not change.  Only the internal `initialized_`
-    // flag and the vector index registration are mutated, both of which are
-    // declared `mutable` in the header to allow this pattern.
+    /**
+     * @brief ensureInitialized() is const because lazy initialization is logically const from the caller's perspective: the observable state of the adapter (the data it can write) does not change.
+     * @param[in] mtx_ Input parameter.
+     * @return Return value.
+     * @details Only the internal `initialized_` flag and the vector index registration are mutated, both of which are declared `mutable` in the header to allow this pattern.
+     */
     std::lock_guard<std::mutex> lock(mtx_);
     if (initialized_) {
         return {};
@@ -497,6 +638,12 @@ Result<void> VectorIndexSinkAdapter::ensureInitialized() const {
     return {};
 }
 
+/**
+ * @brief Write Vectors.
+ * @param[in] records Input parameter.
+ * @return Return value.
+ * @details Calls: ensureInitialized(), lock(), size(), tl::make_unexpected(), Error(), addEntity(), toVectorEntity().
+ */
 Result<void> VectorIndexSinkAdapter::writeVectors(const std::vector<VectorRecord>& records) {
     auto init_result = ensureInitialized();
     if (!init_result) {
@@ -525,6 +672,11 @@ std::size_t VectorIndexSinkAdapter::vectorCount() const {
 }
 
 const VectorRecord* VectorIndexSinkAdapter::findByChunkId(const std::string& chunk_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mtx_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mtx_);
     const auto it = last_written_records_.find(chunk_id);
     return it != last_written_records_.end() ? &it->second : nullptr;
@@ -534,11 +686,25 @@ const VectorRecord* VectorIndexSinkAdapter::findByChunkId(const std::string& chu
 // InMemoryTensorCoreBridge
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Make Key.
+ * @param[in] tenant_id Identifier of the tenant.
+ * @param[in] chunk_id Identifier of the chunk.
+ * @return Return value.
+ * @details Implements makeKey without additional internal calls.
+ */
 std::string InMemoryTensorCoreBridge::makeKey(const std::string& tenant_id,
                                              const std::string& chunk_id) {
     return tenant_id + ":" + chunk_id;
 }
 
+/**
+ * @brief Write.
+ * @param[in] record Input parameter.
+ * @param[in] tenant_id Identifier of the tenant.
+ * @return Return value.
+ * @details Calls: empty(), ErrVoid(), find(), std::any_of(), begin(), end(), lk(), makeKey().
+ */
 Result<void> InMemoryTensorCoreBridge::write(const TensorCoreRecord& record,
                                             const std::string&      tenant_id) {
     // Validate tenant_id: non-empty and no path-separator characters.
@@ -569,12 +735,22 @@ Result<void> InMemoryTensorCoreBridge::write(const TensorCoreRecord& record,
 }
 
 std::size_t InMemoryTensorCoreBridge::writeCount() const {
+    /**
+     * @brief Lk.
+     * @param[in] mtx_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mtx_);
     return write_count_;
 }
 
 const std::unordered_map<std::string, TensorCoreRecord>&
 InMemoryTensorCoreBridge::records() const {
+    /**
+     * @brief Lk.
+     * @param[in] mtx_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mtx_);
     return records_;
 }
@@ -582,11 +758,20 @@ InMemoryTensorCoreBridge::records() const {
 const TensorCoreRecord* InMemoryTensorCoreBridge::find(
     const std::string& tenant_id, const std::string& chunk_id) const
 {
+    /**
+     * @brief Lk.
+     * @param[in] mtx_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mtx_);
     auto it = records_.find(makeKey(tenant_id, chunk_id));
     return (it == records_.end()) ? nullptr : &it->second;
 }
 
+/**
+ * @brief Clear.
+ * @details Calls: lk().
+ */
 void InMemoryTensorCoreBridge::clear() {
     std::lock_guard<std::mutex> lk(mtx_);
     records_.clear();

@@ -43,6 +43,12 @@ GSSAPIAuthenticator::~GSSAPIAuthenticator() {
     cleanup();
 }
 
+/**
+ * @brief Initialize.
+ * @param[in] config Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: THEMIS_WARN(), empty(), THEMIS_ERROR(), _putenv_s(), c_str(), setenv(), THEMIS_INFO(), initializeServerCredentials().
+ */
 bool GSSAPIAuthenticator::initialize(const KerberosConfig& config) {
     if (initialized_) {
         THEMIS_WARN("GSSAPIAuthenticator already initialized");
@@ -89,6 +95,11 @@ bool GSSAPIAuthenticator::initialize(const KerberosConfig& config) {
     return true;
 }
 
+/**
+ * @brief Initialize Server Credentials.
+ * @return True when the operation succeeds.
+ * @details Calls: AcquireCredentialsHandle(), c_str(), THEMIS_ERROR(), length(), gss_import_name(), GSS_ERROR(), getGSSAPIError(), gss_acquire_cred().
+ */
 bool GSSAPIAuthenticator::initializeServerCredentials() {
 #ifdef _WIN32
     // Windows SSPI implementation
@@ -165,6 +176,12 @@ bool GSSAPIAuthenticator::initializeServerCredentials() {
 #endif
 }
 
+/**
+ * @brief Authenticate Token.
+ * @param[in] token Input parameter.
+ * @return Return value.
+ * @details Calls: logSecurityEvent(), GSSAPIAuthResult::Failed(), empty(), token_bytes(), begin(), end(), acceptSecurityContext(), mapPrincipalToRoles().
+ */
 GSSAPIAuthResult GSSAPIAuthenticator::authenticateToken(const std::string& token) {
     if (!initialized_) {
         if (audit_logger_) {
@@ -216,6 +233,13 @@ GSSAPIAuthResult GSSAPIAuthenticator::authenticateToken(const std::string& token
     return GSSAPIAuthResult::Success(principal_name, roles);
 }
 
+/**
+ * @brief Accept Security Context.
+ * @param[in] input_token Input parameter.
+ * @param[in,out] principal_name Name of the principal.
+ * @return True when the operation succeeds.
+ * @details Calls: size(), data(), output_buffer(), AcceptSecurityContext(), THEMIS_ERROR(), QueryContextAttributes(), FreeContextBuffer(), DeleteSecurityContext().
+ */
 bool GSSAPIAuthenticator::acceptSecurityContext(
     const std::vector<uint8_t>& input_token,
     std::string& principal_name) {
@@ -395,6 +419,10 @@ bool GSSAPIAuthenticator::principalMatchesPattern(
     return false;
 }
 
+/**
+ * @brief Cleanup.
+ * @details Calls: FreeCredentialsHandle(), gss_delete_sec_context(), gss_release_cred(), gss_release_name().
+ */
 void GSSAPIAuthenticator::cleanup() {
     if (!initialized_) {
         return;

@@ -41,15 +41,25 @@ namespace process {
 
 namespace {
 
-/// Maximum CMMN XML document size (10 MiB).
 static constexpr size_t kMaxCmmnXmlBytes = 10 * 1024 * 1024;
 
-/// Strip XML namespace prefix ("cmmn:humanTask" → "humanTask").
+/**
+ * @brief Strip Ns.
+ * @param[in] name Input parameter.
+ * @return Return value.
+ * @details Calls: rfind(), substr().
+ */
 static std::string_view stripNs(std::string_view name) {
     auto colon = name.rfind(':');
     return (colon != std::string_view::npos) ? name.substr(colon + 1) : name;
 }
 
+/**
+ * @brief Unescape Xml.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), find(), substr(), std::string(), find_first_not_of(), find_last_not_of().
+ */
 static std::string unescapeXml(std::string_view s) {
     std::string out = {};
     out.reserve(s.size());
@@ -140,6 +150,14 @@ static void parseAttrs(std::string_view src,
 }
 
 template<typename TagCb, typename TextCb>
+/**
+ * @brief Tokenize Cmmn Xml.
+ * @param[in] xml Input parameter.
+ * @param[in] tag_cb Input parameter.
+ * @param[in] text_cb Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: size(), text_cb(), substr(), std::isspace(), std::string(), stripNs(), std::move(), tag_cb().
+ */
 bool tokenizeCmmnXml(std::string_view xml, TagCb tag_cb, TextCb text_cb) {
     if (xml.size() > kMaxCmmnXmlBytes) {
       return false;
@@ -267,7 +285,6 @@ bool tokenizeCmmnXml(std::string_view xml, TagCb tag_cb, TextCb text_cb) {
     return true;
 }
 
-/// CMMN plan-item element names that map to ProcessNodeInfo nodes.
 static const std::set<std::string> kCmmnTaskTags = {
     "humanTask", "processTask", "caseTask",
     "stage", "casePlanModel", "milestone",
@@ -275,9 +292,12 @@ static const std::set<std::string> kCmmnTaskTags = {
 
 } // anonymous namespace
 
-// ─────────────────────────────────────────────────────────────────────────────
-// CmmnSerializer::escapeXml_
-// ─────────────────────────────────────────────────────────────────────────────
+/**
+ * @brief ───────────────────────────────────────────────────────────────────────────── CmmnSerializer::escapeXml_ ─────────────────────────────────────────────────────────────────────────────
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size().
+ */
 
 std::string CmmnSerializer::escapeXml_(std::string_view s) {
     std::string out = {};
@@ -295,9 +315,12 @@ std::string CmmnSerializer::escapeXml_(std::string_view s) {
     return out;
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// CmmnSerializer::importXml
-// ─────────────────────────────────────────────────────────────────────────────
+/**
+ * @brief ───────────────────────────────────────────────────────────────────────────── CmmnSerializer::importXml ─────────────────────────────────────────────────────────────────────────────
+ * @param[in] cmmn_xml Input parameter.
+ * @return Return value.
+ * @details Calls: SerializerInputValidator::validateInput(), ProcessDiagnostics::createMalformedInputIncident(), SPDLOG_WARN(), toFormattedMessage(), parser_state(), clear(), count(), find().
+ */
 
 CmmnSerializer::ImportResult CmmnSerializer::importXml(std::string_view cmmn_xml) {
     ImportResult result;
@@ -506,9 +529,12 @@ CmmnSerializer::ImportResult CmmnSerializer::importXml(std::string_view cmmn_xml
     return result;
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// CmmnSerializer::importFile
-// ─────────────────────────────────────────────────────────────────────────────
+/**
+ * @brief ───────────────────────────────────────────────────────────────────────────── CmmnSerializer::importFile ─────────────────────────────────────────────────────────────────────────────
+ * @param[in] file_path Path to the file.
+ * @return Return value.
+ * @details Calls: std::string(), is_open(), ProcessDiagnostics::createImportIncident(), SPDLOG_WARN(), toFormattedMessage(), content(), importXml().
+ */
 
 CmmnSerializer::ImportResult CmmnSerializer::importFile(std::string_view file_path) {
     std::ifstream f{std::string(file_path)};
@@ -529,9 +555,14 @@ CmmnSerializer::ImportResult CmmnSerializer::importFile(std::string_view file_pa
     return importXml(content);
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// CmmnSerializer::exportXml
-// ─────────────────────────────────────────────────────────────────────────────
+/**
+ * @brief ───────────────────────────────────────────────────────────────────────────── CmmnSerializer::exportXml ─────────────────────────────────────────────────────────────────────────────
+ * @param[in] case_id Identifier of the case.
+ * @param[in] case_name Name of the case.
+ * @param[in] nodes Input parameter.
+ * @param[in] edges Input parameter.
+ * @return Return value.
+ */
 
 std::string CmmnSerializer::exportXml(
     std::string_view                    case_id,

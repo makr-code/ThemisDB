@@ -26,24 +26,8 @@ namespace http = beast::http;
 namespace themis {
 namespace server {
 
-/**
- * @brief Handler for Policy Template API
- * 
- * This handler manages policy template endpoints:
- * - GET /policies/templates - List available templates
- * - GET /policies/templates/:id - Get template details
- * - POST /policies/templates/:id/instantiate - Create rule from template
- * - POST /policies/templates/:id/preview - Preview without creating
- */
 class PolicyTemplateApiHandler {
 public:
-    /**
-     * @brief Construct a new Policy Template API Handler
-     * 
-     * @param template_manager PolicyTemplateManager instance
-     * @param policy_manager PolicyManager for rule creation
-     * @param auth Authentication/authorization middleware
-     */
     PolicyTemplateApiHandler(
         std::shared_ptr<themis::governance::PolicyTemplateManager> template_manager,
         std::shared_ptr<themis::governance::PolicyManager> policy_manager,
@@ -51,19 +35,19 @@ public:
     );
     
     /**
-     * @brief Handle GET /policies/templates - List all templates
-     * @param req HTTP request
-     * @return HTTP response with JSON array of templates
+     * @brief Handle List Templates.
+     * @param[in] req Input parameter.
+     * @return Return value.
      */
     http::response<http::string_body> handleListTemplates(
         const http::request<http::string_body>& req
     );
     
     /**
-     * @brief Handle GET /policies/templates/:id - Get template details
-     * @param req HTTP request
-     * @param template_id Template identifier
-     * @return HTTP response with JSON template object
+     * @brief Handle Get Template.
+     * @param[in] req Input parameter.
+     * @param[in] template_id Identifier of the template.
+     * @return Return value.
      */
     http::response<http::string_body> handleGetTemplate(
         const http::request<http::string_body>& req,
@@ -71,10 +55,10 @@ public:
     );
     
     /**
-     * @brief Handle POST /policies/templates/:id/instantiate - Create rule from template
-     * @param req HTTP request with JSON parameters in body
-     * @param template_id Template identifier
-     * @return HTTP response with created rule
+     * @brief Handle Instantiate Template.
+     * @param[in] req Input parameter.
+     * @param[in] template_id Identifier of the template.
+     * @return Return value.
      */
     http::response<http::string_body> handleInstantiateTemplate(
         const http::request<http::string_body>& req,
@@ -82,10 +66,10 @@ public:
     );
     
     /**
-     * @brief Handle POST /policies/templates/:id/preview - Preview rule creation
-     * @param req HTTP request with JSON parameters in body
-     * @param template_id Template identifier
-     * @return HTTP response with preview of rule
+     * @brief Handle Preview Template.
+     * @param[in] req Input parameter.
+     * @param[in] template_id Identifier of the template.
+     * @return Return value.
      */
     http::response<http::string_body> handlePreviewTemplate(
         const http::request<http::string_body>& req,
@@ -97,17 +81,34 @@ private:
     std::shared_ptr<themis::governance::PolicyManager> policy_manager_;
     std::shared_ptr<themis::AuthMiddleware> auth_;
     
-    /// Helper: Check authentication and authorization
+    /**
+     * @brief Check Auth.
+     * @param[in] req Input parameter.
+     * @param[in] required_role Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool checkAuth(const http::request<http::string_body>& req, const std::string& required_role) const;
     
-    /// Helper: Make success response
+    /**
+     * @brief Make Response.
+     * @param[in] status Input parameter.
+     * @param[in] body Input parameter.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> makeResponse(
         http::status status,
         const std::string& body,
         const http::request<http::string_body>& req
     ) const;
     
-    /// Helper: Make error response
+    /**
+     * @brief Make Error Response.
+     * @param[in] status Input parameter.
+     * @param[in] message Input parameter.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> makeErrorResponse(
         http::status status,
         const std::string& message,

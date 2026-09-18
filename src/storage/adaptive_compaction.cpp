@@ -40,11 +40,21 @@ AdaptiveCompactionScheduler::~AdaptiveCompactionScheduler() {
 // Pattern monitoring
 // ──────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Record Read.
+ * @param[in] count Input parameter.
+ * @details Calls: fetch_add().
+ */
 void AdaptiveCompactionScheduler::recordRead(uint64_t count) {
     total_reads_.fetch_add(count, std::memory_order_relaxed);
     window_reads_.fetch_add(count, std::memory_order_relaxed);
 }
 
+/**
+ * @brief Record Write.
+ * @param[in] count Input parameter.
+ * @details Calls: fetch_add().
+ */
 void AdaptiveCompactionScheduler::recordWrite(uint64_t count) {
     total_writes_.fetch_add(count, std::memory_order_relaxed);
     window_writes_.fetch_add(count, std::memory_order_relaxed);
@@ -62,6 +72,10 @@ void AdaptiveCompactionScheduler::updateEMA(double new_value, double& ema) noexc
 // Background sampling
 // ──────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Start Sampling.
+ * @details Calls: lock(), joinable(), store(), std::thread(), samplingLoop().
+ */
 void AdaptiveCompactionScheduler::startSampling() {
     std::lock_guard<std::mutex> lock(sample_mutex_);
     if (sample_thread_.joinable()) return;  // already running
@@ -69,6 +83,10 @@ void AdaptiveCompactionScheduler::startSampling() {
     sample_thread_ = std::thread([this] { samplingLoop(); });
 }
 
+/**
+ * @brief Stop Sampling.
+ * @details Calls: lock(), store(), notify_all(), joinable(), utils::joinThreadWithin(), THEMIS_WARN().
+ */
 void AdaptiveCompactionScheduler::stopSampling() {
     {
         std::lock_guard<std::mutex> lock(sample_mutex_);
@@ -82,11 +100,20 @@ void AdaptiveCompactionScheduler::stopSampling() {
 }
 
 bool AdaptiveCompactionScheduler::isSamplingRunning() const {
+    /**
+     * @brief Lock.
+     * @param[in] sample_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(sample_mutex_);
     return sample_thread_.joinable() &&
            !sample_stop_.load(std::memory_order_relaxed);
 }
 
+/**
+ * @brief Sampling Loop.
+ * @details Calls: load(), lock(), wait_for(), unlock(), collectSample().
+ */
 void AdaptiveCompactionScheduler::samplingLoop() {
     while (!sample_stop_.load(std::memory_order_relaxed)) {
         std::unique_lock<std::mutex> lock(sample_mutex_);
@@ -106,6 +133,10 @@ void AdaptiveCompactionScheduler::samplingLoop() {
     }
 }
 
+/**
+ * @brief Collect Sample.
+ * @details Calls: std::chrono::steady_clock::now(), exchange(), lock(), count(), updateEMA(), push_back(), size(), pop_front().
+ */
 void AdaptiveCompactionScheduler::collectSample() {
     auto now = std::chrono::steady_clock::now();
 
@@ -153,6 +184,11 @@ AdaptiveCompactionScheduler::predictCompactionImpact(double current_write_amp) c
     double ema_write = 0.0;
     double ema_read  = 0.0;
     {
+        /**
+         * @brief Lock.
+         * @param[in] rates_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(rates_mutex_);
         ema_write = ema_write_rate_;
         ema_read  = ema_read_rate_;
@@ -191,11 +227,22 @@ AdaptiveCompactionScheduler::predictCompactionImpact(double current_write_amp) c
 // ──────────────────────────────────────────────────────────────────────────────
 
 bool AdaptiveCompactionScheduler::isLowLoadPeriod() const {
+    /**
+     * @brief Lock.
+     * @param[in] rates_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(rates_mutex_);
     return (ema_write_rate_ < config_.low_load_write_rate) &&
            (ema_read_rate_  < config_.low_load_read_rate);
 }
 
+/**
+ * @brief Should Trigger Compaction.
+ * @param[in] current_write_amp Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: predictCompactionImpact(), fetch_add().
+ */
 bool AdaptiveCompactionScheduler::shouldTriggerCompaction(double current_write_amp) {
     auto pred = predictCompactionImpact(current_write_amp);
 
@@ -217,6 +264,11 @@ AdaptiveCompactionScheduler::computeAdaptedConfig() const {
     double ema_write = 0.0;
     double ema_read  = 0.0;
     {
+        /**
+         * @brief Lock.
+         * @param[in] rates_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(rates_mutex_);
         ema_write = ema_write_rate_;
         ema_read  = ema_read_rate_;
@@ -263,6 +315,11 @@ AdaptiveCompactionScheduler::getAdaptedConfig() const {
     return computeAdaptedConfig();
 }
 
+/**
+ * @brief Apply Adapted Config.
+ * @param[in,out] mgr Input/output parameter.
+ * @details Calls: computeAdaptedConfig(), getConfig(), setConfig(), fetch_add().
+ */
 void AdaptiveCompactionScheduler::applyAdaptedConfig(CompactionManager& mgr) {
     auto adapted = computeAdaptedConfig();
 
@@ -284,6 +341,11 @@ AdaptiveCompactionScheduler::Stats AdaptiveCompactionScheduler::stats() const {
     s.total_reads  = total_reads_.load(std::memory_order_relaxed);
     s.total_writes = total_writes_.load(std::memory_order_relaxed);
     {
+        /**
+         * @brief Lock.
+         * @param[in] rates_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(rates_mutex_);
         s.ema_read_rate  = ema_read_rate_;
         s.ema_write_rate = ema_write_rate_;
@@ -291,6 +353,11 @@ AdaptiveCompactionScheduler::Stats AdaptiveCompactionScheduler::stats() const {
     s.compaction_schedules = compaction_schedules_.load(std::memory_order_relaxed);
     s.trigger_adjustments  = trigger_adjustments_.load(std::memory_order_relaxed);
     {
+        /**
+         * @brief Lock.
+         * @param[in] samples_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(samples_mutex_);
         s.sample_count = static_cast<uint32_t>(samples_.size());
     }

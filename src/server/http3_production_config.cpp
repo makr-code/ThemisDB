@@ -23,6 +23,11 @@ Http3FallbackManager::Http3FallbackManager(const Http3ProductionConfig& cfg)
 {
 }
 
+/**
+ * @brief Record Quic Failure.
+ * @param[in] client_ip Input parameter.
+ * @details Calls: lock(), std::chrono::steady_clock::now(), std::chrono::seconds().
+ */
 void Http3FallbackManager::recordQuicFailure(const std::string& client_ip) {
     if (!cfg_.enable_http2_fallback) {
         return;
@@ -40,6 +45,11 @@ void Http3FallbackManager::recordQuicFailure(const std::string& client_ip) {
     }
 }
 
+/**
+ * @brief Record Quic Success.
+ * @param[in] client_ip Input parameter.
+ * @details Calls: lock(), find(), end().
+ */
 void Http3FallbackManager::recordQuicSuccess(const std::string& client_ip) {
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = clients_.find(client_ip);
@@ -54,6 +64,11 @@ bool Http3FallbackManager::shouldFallbackToHttp2(const std::string& client_ip) c
         return false;
     }
 
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = clients_.find(client_ip);
     if (it == clients_.end()) {
@@ -83,6 +98,10 @@ std::string Http3FallbackManager::altSvcValue(uint16_t h3_port,
     return "h3=\":" + std::to_string(h3_port) + "\"; ma=86400";
 }
 
+/**
+ * @brief Purge Expired.
+ * @details Calls: lock(), std::chrono::steady_clock::now(), begin(), end(), erase().
+ */
 void Http3FallbackManager::purgeExpired() {
     std::lock_guard<std::mutex> lock(mutex_);
     auto now = std::chrono::steady_clock::now();
@@ -97,6 +116,11 @@ void Http3FallbackManager::purgeExpired() {
 }
 
 size_t Http3FallbackManager::fallbackClientCount() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     size_t count = 0;
     auto now = std::chrono::steady_clock::now();

@@ -44,6 +44,12 @@ bool RetentionRule::operator<(const RetentionRule& rhs) const noexcept {
 // Policy management
 // ============================================================================
 
+/**
+ * @brief Set Policy.
+ * @param[in] table_name Name of the retention policy.
+ * @param[in] policy Input parameter.
+ * @details Calls: lock().
+ */
 void RetentionManager::setPolicy(const std::string& table_name,
                                   const RetentionPolicy& policy) {
     std::lock_guard<std::mutex> lock(mutex_);
@@ -52,6 +58,11 @@ void RetentionManager::setPolicy(const std::string& table_name,
 
 std::optional<RetentionPolicy> RetentionManager::getPolicy(
     const std::string& table_name) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = policies_.find(table_name);
     if (it == policies_.end()) {
@@ -64,6 +75,12 @@ std::optional<RetentionPolicy> RetentionManager::getPolicy(
 // Enforcement
 // ============================================================================
 
+/**
+ * @brief Enforce Retention.
+ * @param[in,out] table Input/output parameter.
+ * @return Return value.
+ * @details Calls: lock(), find(), tableName(), end(), push_back(), std::max(), applyPolicy(), std::string().
+ */
 RetentionStats RetentionManager::enforceRetention(SystemVersionedTable& table) {
     RetentionPolicy policy;
     {
@@ -105,6 +122,13 @@ RetentionStats RetentionManager::enforceRetention(SystemVersionedTable& table) {
     return result;
 }
 
+/**
+ * @brief Enforce Retention.
+ * @param[in,out] table Input/output parameter.
+ * @param[in] policy Input parameter.
+ * @return Return value.
+ * @details Calls: std::max(), applyPolicy(), push_back(), std::string(), what(), empty(), lock().
+ */
 RetentionStats RetentionManager::enforceRetention(SystemVersionedTable& table,
                                                    const RetentionPolicy& policy) {
     int attempts = 0;
@@ -137,12 +161,22 @@ RetentionStats RetentionManager::enforceRetention(SystemVersionedTable& table,
 // ============================================================================
 
 std::vector<ArchivedRecord> RetentionManager::getArchivedRecords() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return archive_;
 }
 
 std::vector<ArchivedRecord> RetentionManager::getArchivedRecords(
     const std::string& table_name) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     std::vector<ArchivedRecord> result = {};
 
@@ -155,12 +189,21 @@ std::vector<ArchivedRecord> RetentionManager::getArchivedRecords(
     return result;
 }
 
+/**
+ * @brief Clear Archive.
+ * @details Calls: lock(), clear().
+ */
 void RetentionManager::clearArchive() {
     std::lock_guard<std::mutex> lock(mutex_);
     archive_.clear();
 }
 
 nlohmann::json RetentionManager::getCumulativeStats() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return {{"total_deleted", total_deleted_},
             {"total_archived", total_archived_},
@@ -177,6 +220,12 @@ RetentionManager::~RetentionManager() {
     stopScheduler();
 }
 
+/**
+ * @brief Schedule Table.
+ * @param[in,out] table Input/output parameter.
+ * @param[in] interval Input parameter.
+ * @details Calls: lock(), std::chrono::milliseconds(), std::chrono::steady_clock::now(), push_back(), std::move().
+ */
 void RetentionManager::scheduleTable(SystemVersionedTable& table,
                                      std::chrono::milliseconds interval) {
     std::lock_guard<std::mutex> lock(mutex_);
@@ -189,6 +238,10 @@ void RetentionManager::scheduleTable(SystemVersionedTable& table,
     scheduled_tables_.push_back(std::move(st));
 }
 
+/**
+ * @brief Start Scheduler.
+ * @details Calls: compare_exchange_strong(), store(), std::thread().
+ */
 void RetentionManager::startScheduler() {
     bool expected = false;
     if (!scheduler_running_.compare_exchange_strong(expected, true)) {
@@ -198,6 +251,10 @@ void RetentionManager::startScheduler() {
     scheduler_thread_ = std::thread(&RetentionManager::schedulerLoop, this);
 }
 
+/**
+ * @brief Stop Scheduler.
+ * @details Calls: load(), store(), joinable(), join().
+ */
 void RetentionManager::stopScheduler() {
     if (!scheduler_running_.load(std::memory_order_acquire)) {
         return;
@@ -213,6 +270,10 @@ bool RetentionManager::schedulerRunning() const noexcept {
     return scheduler_running_.load(std::memory_order_acquire);
 }
 
+/**
+ * @brief Scheduler Loop.
+ * @details Calls: load(), std::chrono::steady_clock::now(), lock(), push_back(), enforceRetention(), std::this_thread::sleep_for(), std::chrono::milliseconds().
+ */
 void RetentionManager::schedulerLoop() {
     while (!scheduler_stop_.load(std::memory_order_acquire)) {
         auto now_tp = std::chrono::steady_clock::now();
@@ -241,19 +302,25 @@ void RetentionManager::schedulerLoop() {
 // Private helpers
 // ============================================================================
 
-/// Estimate the serialised storage footprint of a single versioned document.
+/**
+ * @brief Estimate Version Size.
+ * @param[in] v Input parameter.
+ * @return Return value.
+ * @details Calls: size(), dump().
+ */
 static uint64_t estimateVersionSize(const VersionedDocument& v) {
     return static_cast<uint64_t>(v.key.size()) +
            static_cast<uint64_t>(v.data.dump().size()) +
            32; // overhead: timestamps + metadata fields
 }
 
-/// Resolve the archive tag:
-///   1. Explicit archive_tag  → used as-is (backwards compatible).
-///   2. compliance_tag only   → "<table_name>:<compliance_tag>" so that
-///      getArchivedRecords("<table>") (which filters by tags containing the
-///      table name) can still retrieve these records.
-///   3. Neither set           → table name alone.
+/**
+ * @brief Resolve Archive Tag.
+ * @param[in] policy Input parameter.
+ * @param[in] table_name Name of the table.
+ * @return Return value.
+ * @details Calls: empty().
+ */
 static std::string resolveArchiveTag(const RetentionPolicy& policy,
                                      const std::string& table_name) {
     if (!policy.archive_tag.empty()) {
@@ -265,13 +332,25 @@ static std::string resolveArchiveTag(const RetentionPolicy& policy,
     return table_name;
 }
 
-/// Return the per-run deletion quota (unlimited when incremental_batch_size == 0).
+/**
+ * @brief Batch Limit.
+ * @param[in] policy Input parameter.
+ * @return Return value.
+ * @details Calls: max().
+ */
 static size_t batchLimit(const RetentionPolicy& policy) {
     return policy.incremental_batch_size > 0
                ? policy.incremental_batch_size
                : std::numeric_limits<size_t>::max();
 }
 
+/**
+ * @brief Apply Policy.
+ * @param[in,out] table Input/output parameter.
+ * @param[in] policy Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::steady_clock::now(), now(), count(), getAllKeys(), getHistory(), size(), isCurrent(), estimateVersionSize().
+ */
 RetentionStats RetentionManager::applyPolicy(SystemVersionedTable& table,
                                               const RetentionPolicy& policy) {
     auto t_start = std::chrono::steady_clock::now();
@@ -289,7 +368,6 @@ RetentionStats RetentionManager::applyPolicy(SystemVersionedTable& table,
         min_keep_before -= policy.minimum_retention_period.count();
     }
 
-    /// Returns true when version v must be kept due to compliance minimum retention.
     auto isProtected = [&](const VersionedDocument& v) -> bool {
         return policy.minimum_retention_period.count() > 0 &&
                v.sys_time.start > min_keep_before;

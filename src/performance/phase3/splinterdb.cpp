@@ -26,9 +26,13 @@ struct CompactionTask {
     std::function<void()> fn;
 };
 
-/** @brief Task queue component. */
 class TaskQueue {
 public:
+    /**
+     * @brief Push.
+     * @param[in] task Input parameter.
+     * @details Calls: lock(), std::move(), notify_one().
+     */
     void push(CompactionTask task) {
         std::lock_guard<std::mutex> lock(mutex_);
         tasks_.push(std::move(task));
@@ -36,6 +40,11 @@ public:
     }
     
     bool pop(CompactionTask& task, bool wait = true) {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lock(mutex_);
         
         if (wait) {
@@ -51,6 +60,10 @@ public:
         return true;
     }
     
+    /**
+     * @brief Shutdown.
+     * @details Calls: lock(), notify_all().
+     */
     void shutdown() {
         std::lock_guard<std::mutex> lock(mutex_);
         shutdown_ = true;
@@ -58,6 +71,11 @@ public:
     }
     
     size_t size() const {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         return tasks_.size();
     }
@@ -87,6 +105,10 @@ ConcurrentCompactor::~ConcurrentCompactor() {
     stop();
 }
 
+/**
+ * @brief Start.
+ * @details Calls: exchange(), emplace_back(), worker_loop().
+ */
 void ConcurrentCompactor::start() {
     if (running_.exchange(true, std::memory_order_relaxed)) {
         return;  // Already running
@@ -100,6 +122,10 @@ void ConcurrentCompactor::start() {
     }
 }
 
+/**
+ * @brief Stop.
+ * @details Calls: exchange(), shutdown(), joinable(), join(), clear().
+ */
 void ConcurrentCompactor::stop() {
     if (!running_.exchange(false, std::memory_order_relaxed)) {
         return;  // Already stopped
@@ -142,6 +168,10 @@ ConcurrentCompactor::Stats ConcurrentCompactor::get_stats() const {
     return stats;
 }
 
+/**
+ * @brief Worker loop.
+ * @details Calls: load(), pop(), fetch_add(), std::chrono::high_resolution_clock::now(), fn(), fetch_sub(), count(), compare_exchange_weak().
+ */
 void ConcurrentCompactor::worker_loop() {
     while (running_.load(std::memory_order_relaxed)) {
         CompactionTask task = {};

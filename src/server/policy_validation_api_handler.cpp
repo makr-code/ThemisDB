@@ -29,6 +29,12 @@ PolicyValidationApiHandler::PolicyValidationApiHandler(
     }
 }
 
+/**
+ * @brief Handle Validate Ruleset.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), checkAuth(), makeErrorResponse(), validateRuleset(), makeResponse(), toJson(), dump(), THEMIS_ERROR().
+ */
 http::response<http::string_body> PolicyValidationApiHandler::handleValidateRuleset(
     const http::request<http::string_body>& req
 ) {
@@ -53,6 +59,12 @@ http::response<http::string_body> PolicyValidationApiHandler::handleValidateRule
     }
 }
 
+/**
+ * @brief Handle Validate Single Rule.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), checkAuth(), makeErrorResponse(), nlohmann::json::parse(), body(), themis::governance::PolicyRule::fromJson(), validateSingleRule(), empty().
+ */
 http::response<http::string_body> PolicyValidationApiHandler::handleValidateSingleRule(
     const http::request<http::string_body>& req
 ) {
@@ -87,6 +99,12 @@ http::response<http::string_body> PolicyValidationApiHandler::handleValidateSing
     }
 }
 
+/**
+ * @brief Handle Get Validation Report.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), checkAuth(), makeErrorResponse(), validateRuleset(), makeResponse(), toJson(), dump(), THEMIS_ERROR().
+ */
 http::response<http::string_body> PolicyValidationApiHandler::handleGetValidationReport(
     const http::request<http::string_body>& req
 ) {
@@ -111,6 +129,12 @@ http::response<http::string_body> PolicyValidationApiHandler::handleGetValidatio
     }
 }
 
+/**
+ * @brief Handle Get Metrics.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), checkAuth(), makeErrorResponse(), calculateEffectiveness(), nlohmann::json::array(), push_back(), toJson(), size().
+ */
 http::response<http::string_body> PolicyValidationApiHandler::handleGetMetrics(
     const http::request<http::string_body>& req
 ) {

@@ -37,6 +37,11 @@ void TsOperatorDiagnostics::recordIncident(
             nowNs(),
             error_code
         };
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         if (incidents_.size() >= kMaxIncidents) {
             incidents_.erase(incidents_.begin());
@@ -62,6 +67,11 @@ void TsOperatorDiagnostics::recordFromCallback(
 
 std::vector<TsIncident> TsOperatorDiagnostics::recentIncidents(
         std::size_t max_count) const noexcept {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     if (incidents_.empty()) return {};
     std::vector<TsIncident> result(incidents_.rbegin(), incidents_.rend());
@@ -73,6 +83,11 @@ std::vector<TsIncident> TsOperatorDiagnostics::recentIncidents(
 
 std::vector<TsIncident> TsOperatorDiagnostics::incidentsBySeverity(
         TsIncidentSeverity min_severity) const noexcept {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     std::vector<TsIncident> result = {};
 
@@ -85,6 +100,11 @@ std::vector<TsIncident> TsOperatorDiagnostics::incidentsBySeverity(
 }
 
 std::size_t TsOperatorDiagnostics::countBySeverity(TsIncidentSeverity severity) const noexcept {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return static_cast<std::size_t>(
         std::count_if(incidents_.begin(), incidents_.end(),
@@ -96,6 +116,11 @@ bool TsOperatorDiagnostics::hasCriticalIncidents() const noexcept {
 }
 
 uint64_t TsOperatorDiagnostics::totalIncidentCount() const noexcept {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return total_count_;
 }
@@ -125,6 +150,11 @@ std::string TsOperatorDiagnostics::formatSummary(std::size_t max_count) const no
 }
 
 void TsOperatorDiagnostics::clearIncidents() noexcept {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     incidents_.clear();
 }

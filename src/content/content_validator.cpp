@@ -40,6 +40,12 @@ json ContentValidationConfig::toJson() const {
     return j;
 }
 
+/**
+ * @brief From Json.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: contains(), std::chrono::seconds().
+ */
 ContentValidationConfig ContentValidationConfig::fromJson(const json &j) {
     ContentValidationConfig config = {};
 
@@ -114,6 +120,14 @@ json ContentValidationResult::toJson() const {
 ContentValidator::ContentValidator(const ContentValidationConfig &config, const ContentPolicy *policy)
     : config_(config), policy_(policy) {}
 
+/**
+ * @brief Validate.
+ * @param[in] data Input parameter.
+ * @param[in] filename Input parameter.
+ * @param[in] correlation_id Identifier of the correlation.
+ * @return Return value.
+ * @details Calls: std::chrono::steady_clock::now(), ContentError::ok(), size(), empty(), ContentError::error(), validateFilename(), failed(), detectMimeType().
+ */
 ContentValidationResult ContentValidator::validate(const std::string &data, const std::string &filename,
                                                    const std::string &correlation_id) {
     auto start = std::chrono::steady_clock::now();
@@ -205,6 +219,12 @@ ContentValidationResult ContentValidator::validate(const std::string &data, cons
     return result;
 }
 
+/**
+ * @brief Validate Mime Type.
+ * @param[in] mime_type Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), ContentError::error(), find(), ContentError::ok().
+ */
 ContentError ContentValidator::validateMimeType(const std::string &mime_type) {
     if (mime_type.empty() || mime_type == "application/octet-stream") {
         return ContentError::error(ContentErrorCode::CONTENT_MIME_TYPE_INVALID,
@@ -219,6 +239,13 @@ ContentError ContentValidator::validateMimeType(const std::string &mime_type) {
     return ContentError::ok();
 }
 
+/**
+ * @brief Validate Size.
+ * @param[in] size Input parameter.
+ * @param[in] mime_type Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), find(), std::min(), ContentError::error(), str(), ContentError::ok().
+ */
 ContentError ContentValidator::validateSize(uint64_t size, const std::string &mime_type) {
     uint64_t max_size = config_.max_content_size;
 
@@ -239,6 +266,13 @@ ContentError ContentValidator::validateSize(uint64_t size, const std::string &mi
     return ContentError::ok();
 }
 
+/**
+ * @brief Validate Format.
+ * @param[in] data Input parameter.
+ * @param[in] expected_mime Input parameter.
+ * @return Return value.
+ * @details Calls: size(), ContentError::ok(), checkMagicBytes(), ContentError::error().
+ */
 ContentError ContentValidator::validateFormat(const std::string &data, const std::string &expected_mime) {
     if (data.size() < 4) {
         // Too small to check magic bytes reliably
@@ -253,6 +287,12 @@ ContentError ContentValidator::validateFormat(const std::string &data, const std
     return ContentError::ok();
 }
 
+/**
+ * @brief Validate Filename.
+ * @param[in] filename Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), ContentError::ok(), size(), ContentError::error(), reserve(), push_back(), iss(), std::getline().
+ */
 ContentError ContentValidator::validateFilename(const std::string &filename) {
     if (filename.empty()) {
         return ContentError::ok(); // Empty filename is allowed (content addressed by ID)
@@ -315,6 +355,13 @@ ContentError ContentValidator::validateFilename(const std::string &filename) {
     return ContentError::ok();
 }
 
+/**
+ * @brief Check Timeout.
+ * @param[in] start_time Input parameter.
+ * @param[in] operation_type Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::steady_clock::now(), getOperationTimeout(), count(), ContentError::error(), str(), ContentError::ok().
+ */
 ContentError ContentValidator::checkTimeout(const std::chrono::steady_clock::time_point &start_time,
                                             const std::string &operation_type) {
     auto now     = std::chrono::steady_clock::now();
@@ -350,6 +397,11 @@ std::chrono::seconds ContentValidator::getOperationTimeout(const std::string &op
     }
 }
 
+/**
+ * @brief Set Config.
+ * @param[in] config Input parameter.
+ * @details Implements setConfig without additional internal calls.
+ */
 void ContentValidator::setConfig(const ContentValidationConfig &config) {
     config_ = config;
 }
@@ -358,6 +410,11 @@ const ContentValidationConfig &ContentValidator::getConfig() const {
     return config_;
 }
 
+/**
+ * @brief Set Policy.
+ * @param[in] policy Input parameter.
+ * @details Implements setPolicy without additional internal calls.
+ */
 void ContentValidator::setPolicy(const ContentPolicy *policy) {
     policy_ = policy;
 }
@@ -366,6 +423,10 @@ const ContentValidator::Stats &ContentValidator::getStats() const {
     return stats_;
 }
 
+/**
+ * @brief Reset Stats.
+ * @details Implements resetStats without additional internal calls.
+ */
 void ContentValidator::resetStats() {
     stats_ = Stats{};
 }
@@ -432,6 +493,13 @@ bool ContentValidator::checkMagicBytes(const std::string &data, const std::strin
     return true;
 }
 
+/**
+ * @brief Validate With Policy.
+ * @param[in] mime_type Input parameter.
+ * @param[in] size Input parameter.
+ * @return Return value.
+ * @details Calls: ContentError::ok(), isDenied(), getDenialReason(), ContentError::error(), empty(), getMaxSize(), str().
+ */
 ContentError ContentValidator::validateWithPolicy(const std::string &mime_type, uint64_t size) {
     if (!policy_) {
         return ContentError::ok();

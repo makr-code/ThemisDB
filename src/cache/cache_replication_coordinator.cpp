@@ -74,6 +74,14 @@ InProcessCacheCoordinator::~InProcessCacheCoordinator() {
     }
 }
 
+/**
+ * @brief Publish Entry.
+ * @param[in] key Input parameter.
+ * @param[in] result Input parameter.
+ * @param[in] ttl_seconds Input parameter.
+ * @param[in] tenant_id Identifier of the tenant.
+ * @details Calls: lk(), bus_lk(), deliver().
+ */
 void InProcessCacheCoordinator::publishEntry(const std::string& key,
                                               const nlohmann::json& result,
                                               int ttl_seconds,
@@ -107,6 +115,12 @@ void InProcessCacheCoordinator::publishEntry(const std::string& key,
     }
 }
 
+/**
+ * @brief Publish Invalidation.
+ * @param[in] pattern Input parameter.
+ * @param[in] tenant_id Identifier of the tenant.
+ * @details Calls: lk(), bus_lk(), deliver().
+ */
 void InProcessCacheCoordinator::publishInvalidation(const std::string& pattern,
                                                      const std::string& tenant_id) {
     ReplicationMessage msg;
@@ -137,15 +151,30 @@ void InProcessCacheCoordinator::publishInvalidation(const std::string& pattern,
 }
 
 void InProcessCacheCoordinator::subscribeEntries([[maybe_unused]] EntryCallback callback) {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     entry_cb_ = std::move(callback);
 }
 
 void InProcessCacheCoordinator::subscribeInvalidations([[maybe_unused]] InvalidationCallback callback) {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     invalidation_cb_ = std::move(callback);
 }
 
+/**
+ * @brief Deliver.
+ * @param[in] msg Input parameter.
+ * @details Calls: lk(), entry_cb(), inv_cb(), THEMIS_WARN(), what().
+ */
 void InProcessCacheCoordinator::deliver(const ReplicationMessage& msg) {
     EntryCallback        entry_cb;
     InvalidationCallback inv_cb;
@@ -176,6 +205,11 @@ void InProcessCacheCoordinator::deliver(const ReplicationMessage& msg) {
 nlohmann::json InProcessCacheCoordinator::getStats() const {
     uint64_t sent = 0, received = 0;
     {
+        /**
+         * @brief Lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(mutex_);
         sent     = messages_sent_;
         received = messages_received_;
@@ -214,6 +248,11 @@ CacheReplicationCoordinator::CacheReplicationCoordinator(
 
 CacheReplicationCoordinator::~CacheReplicationCoordinator() {
     {
+        /**
+         * @brief Lk.
+         * @param[in] queue_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(queue_mutex_);
         stopping_ = true;
     }
@@ -223,6 +262,10 @@ CacheReplicationCoordinator::~CacheReplicationCoordinator() {
     }
 }
 
+/**
+ * @brief Refresh Peers.
+ * @details Calls: getPeerAddresses(), lk(), reserve(), size(), address(), find(), end(), emplace_back().
+ */
 void CacheReplicationCoordinator::refreshPeers() {
     if (!cluster_view_ || !peer_factory_) {
         return;
@@ -262,6 +305,14 @@ void CacheReplicationCoordinator::refreshPeers() {
                  remote_peers_.size());
 }
 
+/**
+ * @brief Publish Entry.
+ * @param[in] key Input parameter.
+ * @param[in] result Input parameter.
+ * @param[in] ttl_seconds Input parameter.
+ * @param[in] tenant_id Identifier of the tenant.
+ * @details Implements publishEntry without additional internal calls.
+ */
 void CacheReplicationCoordinator::publishEntry(const std::string& key,
                                                 const nlohmann::json& result,
                                                 int ttl_seconds,
@@ -270,6 +321,12 @@ void CacheReplicationCoordinator::publishEntry(const std::string& key,
     local_.publishEntry(key, result, ttl_seconds, tenant_id);
 }
 
+/**
+ * @brief Publish Invalidation.
+ * @param[in] pattern Input parameter.
+ * @param[in] tenant_id Identifier of the tenant.
+ * @details Calls: enqueueFanout(), std::move().
+ */
 void CacheReplicationCoordinator::publishInvalidation(const std::string& pattern,
                                                        const std::string& tenant_id) {
     // Deliver to local bus synchronously.
@@ -299,6 +356,11 @@ bool CacheReplicationCoordinator::isConnected() const {
 nlohmann::json CacheReplicationCoordinator::getStats() const {
     uint64_t enqueued = 0, dropped = 0, delivered = 0, retried = 0, failed = 0;
     {
+        /**
+         * @brief Lk.
+         * @param[in] metrics_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(metrics_mutex_);
         enqueued  = fanout_enqueued_;
         dropped   = fanout_dropped_;
@@ -308,6 +370,11 @@ nlohmann::json CacheReplicationCoordinator::getStats() const {
     }
     std::size_t peer_count = 0;
     {
+        /**
+         * @brief Lk.
+         * @param[in] peers_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(peers_mutex_);
         peer_count = remote_peers_.size();
     }
@@ -322,7 +389,11 @@ nlohmann::json CacheReplicationCoordinator::getStats() const {
     return stats;
 }
 
-// ── Private helpers ───────────────────────────────────────────────────────────
+/**
+ * @brief ── Private helpers ───────────────────────────────────────────────────────────
+ * @param[in] item Input parameter.
+ * @details Calls: lk(), size(), THEMIS_WARN(), push(), std::move(), ml(), notify_one().
+ */
 
 void CacheReplicationCoordinator::enqueueFanout(FanoutItem item) {
     // LOCK ORDER: queue_mutex_ and metrics_mutex_ must never be nested.
@@ -364,6 +435,10 @@ void CacheReplicationCoordinator::enqueueFanout(FanoutItem item) {
     }
 }
 
+/**
+ * @brief Fanout Worker.
+ * @details Calls: lk(), wait_for(), empty(), std::move(), front(), pop(), pl(), invalidate().
+ */
 void CacheReplicationCoordinator::fanoutWorker() {
     while (true) {
         FanoutItem item;

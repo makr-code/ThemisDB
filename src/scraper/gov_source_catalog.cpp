@@ -99,6 +99,11 @@ std::vector<const GovDataSource*> GovSourceCatalog::byIds(
 // Mutation
 // ============================================================================
 
+/**
+ * @brief Upsert.
+ * @param[in] source Input parameter.
+ * @details Calls: std::move(), push_back().
+ */
 void GovSourceCatalog::upsert(GovDataSource source) {
     for (auto& s : sources_) {
         if (s.id == source.id) { s = std::move(source); return; }
@@ -106,6 +111,13 @@ void GovSourceCatalog::upsert(GovDataSource source) {
     sources_.push_back(std::move(source));
 }
 
+/**
+ * @brief Set Enabled.
+ * @param[in] id Input parameter.
+ * @param[in] en Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements setEnabled without additional internal calls.
+ */
 bool GovSourceCatalog::setEnabled(const std::string& id, bool en) {
     for (auto& s : sources_) {
         if (s.id == id) { s.enabled = en; return true; }
@@ -117,6 +129,12 @@ bool GovSourceCatalog::setEnabled(const std::string& id, bool en) {
 // YAML loading
 // ============================================================================
 
+/**
+ * @brief Load From File.
+ * @param[in] path Input parameter.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: f(), is_open(), rdbuf(), loadFromYaml(), str().
+ */
 void GovSourceCatalog::loadFromFile(const std::string& path) {
     std::ifstream f(path);
     if (!f.is_open())
@@ -126,6 +144,12 @@ void GovSourceCatalog::loadFromFile(const std::string& path) {
     loadFromYaml(ss.str());
 }
 
+/**
+ * @brief Load From Yaml.
+ * @param[in] yaml_content Input parameter.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: YAML::Load(), IsSequence(), IsMap(), empty(), upsert(), std::move(), std::string(), what().
+ */
 void GovSourceCatalog::loadFromYaml(const std::string& yaml_content) {
 #ifdef THEMIS_ENABLE_YAML
     try {
@@ -230,9 +254,10 @@ void GovSourceCatalog::loadFromYaml(const std::string& yaml_content) {
 #endif
 }
 
-// ============================================================================
-// Built-in catalog – Federal Germany (Bund)
-// ============================================================================
+/**
+ * @brief ============================================================================ Built-in catalog – Federal Germany (Bund) ============================================================================
+ * @details Calls: push_back(), std::move(), add().
+ */
 
 void GovSourceCatalog::populateBuiltinBund() {
     auto add = [&](GovDataSource s) { sources_.push_back(std::move(s)); };
@@ -333,9 +358,10 @@ void GovSourceCatalog::populateBuiltinBund() {
     }
 }
 
-// ============================================================================
-// Built-in catalog – 16 Bundesländer
-// ============================================================================
+/**
+ * @brief ============================================================================ Built-in catalog – 16 Bundesländer ============================================================================
+ * @details Calls: push_back(), std::move(), add().
+ */
 
 void GovSourceCatalog::populateBuiltinBundeslaender() {
     auto add = [&](GovDataSource s) { sources_.push_back(std::move(s)); };
@@ -443,9 +469,10 @@ void GovSourceCatalog::populateBuiltinBundeslaender() {
     }
 }
 
-// ============================================================================
-// Built-in catalog – European Union
-// ============================================================================
+/**
+ * @brief ============================================================================ Built-in catalog – European Union ============================================================================
+ * @details Calls: push_back(), std::move(), add().
+ */
 
 void GovSourceCatalog::populateBuiltinEU() {
     auto add = [&](GovDataSource s) { sources_.push_back(std::move(s)); };

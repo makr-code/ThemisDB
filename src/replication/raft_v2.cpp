@@ -57,6 +57,12 @@ namespace replication {
 RaftV2ClusterConfig::RaftV2ClusterConfig(const std::set<std::string>& members)
     : new_members_(members) {}
 
+/**
+ * @brief Begin Add Member.
+ * @param[in] node_id Identifier of the node.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: lock(), insert().
+ */
 void RaftV2ClusterConfig::beginAddMember(const std::string& node_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     if (in_joint_consensus_) {
@@ -68,6 +74,12 @@ void RaftV2ClusterConfig::beginAddMember(const std::string& node_id) {
     in_joint_consensus_ = true;
 }
 
+/**
+ * @brief Begin Remove Member.
+ * @param[in] node_id Identifier of the node.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: lock(), size(), erase().
+ */
 void RaftV2ClusterConfig::beginRemoveMember(const std::string& node_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     if (in_joint_consensus_) {
@@ -83,6 +95,11 @@ void RaftV2ClusterConfig::beginRemoveMember(const std::string& node_id) {
     in_joint_consensus_ = true;
 }
 
+/**
+ * @brief Commit Transition.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: lock(), clear().
+ */
 void RaftV2ClusterConfig::commitTransition() {
     std::lock_guard<std::mutex> lock(mutex_);
     if (!in_joint_consensus_) {
@@ -93,6 +110,11 @@ void RaftV2ClusterConfig::commitTransition() {
     in_joint_consensus_ = false;
 }
 
+/**
+ * @brief Rollback Transition.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: lock(), clear().
+ */
 void RaftV2ClusterConfig::rollbackTransition() {
     std::lock_guard<std::mutex> lock(mutex_);
     if (!in_joint_consensus_) {
@@ -105,11 +127,21 @@ void RaftV2ClusterConfig::rollbackTransition() {
 }
 
 bool RaftV2ClusterConfig::isInJointConsensus() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return in_joint_consensus_;
 }
 
 bool RaftV2ClusterConfig::isMember(const std::string& node_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     if (in_joint_consensus_) {
         return old_members_.count(node_id) > 0 ||
@@ -119,8 +151,18 @@ bool RaftV2ClusterConfig::isMember(const std::string& node_id) const {
 }
 
 std::set<std::string> RaftV2ClusterConfig::getAllMembers() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     if (in_joint_consensus_) {
+        /**
+         * @brief All.
+         * @param[in] old_members_ Input parameter.
+         * @return Return value.
+         */
         std::set<std::string> all(old_members_);
         all.insert(new_members_.begin(), new_members_.end());
         return all;
@@ -129,16 +171,31 @@ std::set<std::string> RaftV2ClusterConfig::getAllMembers() const {
 }
 
 std::set<std::string> RaftV2ClusterConfig::getNewMembers() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return new_members_;
 }
 
 std::set<std::string> RaftV2ClusterConfig::getOldMembers() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return old_members_;
 }
 
 bool RaftV2ClusterConfig::hasQuorum(const std::set<std::string>& votes) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     if (in_joint_consensus_) {
         // Joint consensus: need majority in BOTH old and new configurations.
@@ -162,6 +219,11 @@ bool RaftV2ClusterConfig::hasQuorum(const std::set<std::string>& votes) const {
 }
 
 size_t RaftV2ClusterConfig::quorumSize() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return majority(new_members_.size());
 }
@@ -178,11 +240,21 @@ MembershipChangeManager::MembershipChangeManager(
     , node_id_(node_id)
     , wal_(std::move(wal)) {}
 
+/**
+ * @brief Propose Add.
+ * @param[in] new_node_id Identifier of the new node.
+ * @return Return value.
+ */
 MembershipChangeEntry MembershipChangeManager::proposeAdd(
     const std::string& new_node_id)
 {
     MembershipChangeEntry entry;
     {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         if (pending_) {
             throw std::runtime_error(
@@ -228,6 +300,11 @@ MembershipChangeEntry MembershipChangeManager::proposeAdd(
         entry.log_index = wal_->getCurrentSequence();
     }
     {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         if (pending_ &&
             pending_->phase == MembershipChangeEntry::Phase::JOINT &&
@@ -239,11 +316,21 @@ MembershipChangeEntry MembershipChangeManager::proposeAdd(
     return entry;
 }
 
+/**
+ * @brief Propose Remove.
+ * @param[in] target_node_id Identifier of the target node.
+ * @return Return value.
+ */
 MembershipChangeEntry MembershipChangeManager::proposeRemove(
     const std::string& target_node_id)
 {
     MembershipChangeEntry entry;
     {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         if (pending_) {
             throw std::runtime_error(
@@ -289,6 +376,11 @@ MembershipChangeEntry MembershipChangeManager::proposeRemove(
         entry.log_index = wal_->getCurrentSequence();
     }
     {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         if (pending_ &&
             pending_->phase == MembershipChangeEntry::Phase::JOINT &&
@@ -300,6 +392,11 @@ MembershipChangeEntry MembershipChangeManager::proposeRemove(
     return entry;
 }
 
+/**
+ * @brief On Joint Committed.
+ * @param[in] log_index Input parameter.
+ * @details Calls: lock(), writeEntry(), str(), append(), getCurrentSequence().
+ */
 void MembershipChangeManager::onJointCommitted(uint64_t log_index) {
     MembershipChangeEntry commit;
     {
@@ -359,6 +456,10 @@ void MembershipChangeManager::onJointCommitted(uint64_t log_index) {
     }
 }
 
+/**
+ * @brief On New Config Committed.
+ * @details Calls: lock(), commitTransition(), reset().
+ */
 void MembershipChangeManager::onNewConfigCommitted() {
     std::lock_guard<std::mutex> lock(mutex_);
     if (!pending_ || pending_->phase != MembershipChangeEntry::Phase::COMMIT) {
@@ -368,6 +469,11 @@ void MembershipChangeManager::onNewConfigCommitted() {
     pending_.reset();
 }
 
+/**
+ * @brief Apply Entry.
+ * @param[in] entry Input parameter.
+ * @details Calls: lock(), isInJointConsensus(), empty(), count(), beginAddMember(), beginRemoveMember(), commitTransition(), reset().
+ */
 void MembershipChangeManager::applyEntry(const MembershipChangeEntry& entry) {
     std::lock_guard<std::mutex> lock(mutex_);
     if (entry.phase == MembershipChangeEntry::Phase::JOINT) {
@@ -408,12 +514,22 @@ void MembershipChangeManager::applyEntry(const MembershipChangeEntry& entry) {
 }
 
 bool MembershipChangeManager::isChangeInProgress() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return pending_.has_value();
 }
 
 std::optional<MembershipChangeEntry>
 MembershipChangeManager::pendingEntry() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return pending_;
 }
@@ -423,6 +539,13 @@ MembershipChangeManager::currentConfig() const {
     return config_;
 }
 
+/**
+ * @brief Write Entry.
+ * @param[in] phase Input parameter.
+ * @param[in] old_members Input parameter.
+ * @param[in] new_members Input parameter.
+ * @return Return value.
+ */
 MembershipChangeEntry MembershipChangeManager::writeEntry(
     MembershipChangeEntry::Phase phase,
     const std::set<std::string>& old_members,

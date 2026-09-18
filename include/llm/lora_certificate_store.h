@@ -20,30 +20,8 @@
 namespace themis {
 namespace llm {
 
-/**
- * @brief Certificate store for LoRA adapter signature verification.
- *
- * Provides X.509 certificate PEM lookup by SHA-256 fingerprint.
- * Certificates are sourced from:
- *   1. In-memory cache (populated via registerCertificate or loaded from disk).
- *   2. Filesystem store at the configured directory path
- *      (default: config/security/lora_certs/).
- *   3. System certificate store (/etc/ssl/certs on Linux) as a fallback.
- *
- * Thread-safe for concurrent lookups.
- */
 class LoRACertificateStore {
 public:
-    /**
-     * @brief Construct a certificate store backed by the given directory.
-     *
-     * @param store_path  Directory containing PEM files named by fingerprint
-     *                    (e.g., "config/security/lora_certs/").
-     *                    May be empty to disable filesystem lookup.
-     * @param system_store_path  Path to the system CA bundle or certificate
-     *                           directory (e.g., "/etc/ssl/certs").
-     *                           May be empty to disable system-store fallback.
-     */
     explicit LoRACertificateStore(
         const std::string& store_path = "config/security/lora_certs/",
         const std::string& system_store_path = "/etc/ssl/certs");
@@ -57,46 +35,29 @@ public:
     LoRACertificateStore& operator=(LoRACertificateStore&&) noexcept = default;
 
     /**
-     * @brief Look up a certificate PEM by its SHA-256 fingerprint.
-     *
-     * Lookup order:
-     *   1. In-memory cache.
-     *   2. Filesystem store (store_path/<fingerprint>.pem).
-     *   3. System certificate store (system_store_path/).
-     *
-     * @param fingerprint  Hex-encoded SHA-256 fingerprint (64 chars).
-     * @return PEM string if found, std::nullopt otherwise.
+     * @brief Lookup By Fingerprint.
+     * @param[in] fingerprint Input parameter.
+     * @return Return value.
      */
     std::optional<std::string> lookupByFingerprint(
         const std::string& fingerprint) const;
 
     /**
-     * @brief Register a certificate in the in-memory cache.
-     *
-     * Does not write to disk. Use this for transient trust anchors or
-     * test fixtures.
-     *
-     * @param fingerprint  Hex-encoded SHA-256 fingerprint.
-     * @param cert_pem     PEM-encoded X.509 certificate.
+     * @brief Register Certificate.
+     * @param[in] fingerprint Input parameter.
+     * @param[in] cert_pem Input parameter.
      */
     void registerCertificate(const std::string& fingerprint,
                              const std::string& cert_pem);
 
     /**
-     * @brief Remove a certificate from the in-memory cache.
-     *
-     * @param fingerprint  Fingerprint to evict.
+     * @brief Evict Certificate.
+     * @param[in] fingerprint Input parameter.
      */
     void evictCertificate(const std::string& fingerprint);
 
-    /**
-     * @brief Return the configured local store path.
-     */
     const std::string& storePath() const { return store_path_; }
 
-    /**
-     * @brief Return the configured system store path.
-     */
     const std::string& systemStorePath() const { return system_store_path_; }
 
 private:
@@ -106,21 +67,37 @@ private:
     mutable std::mutex cache_mutex_;
     mutable std::unordered_map<std::string, std::string> cert_cache_;
 
-    // Load a PEM file from disk and return its contents.
+    /**
+     * @brief Load a PEM file from disk and return its contents.
+     * @param[in] path Input parameter.
+     * @return Return value.
+     */
     static std::optional<std::string> loadPemFile(const std::string& path);
 
-    // Compute SHA-256 fingerprint of a PEM certificate and compare.
+    /**
+     * @brief Compute SHA-256 fingerprint of a PEM certificate and compare.
+     * @param[in] cert_pem Input parameter.
+     * @param[in] fingerprint Input parameter.
+     * @return True when the operation succeeds.
+     */
     static bool fingerprintMatches(const std::string& cert_pem,
                                    const std::string& fingerprint);
 
-    // Search the system certificate directory for a cert matching fingerprint
-    // (Linux/macOS: iterates PEM/CRT files under system_store_path_).
+    /**
+     * @brief Search the system certificate directory for a cert matching fingerprint (Linux/macOS: iterates PEM/CRT files under system_store_path_).
+     * @param[in] fingerprint Input parameter.
+     * @return Return value.
+     */
     std::optional<std::string> searchSystemStore(
         const std::string& fingerprint) const;
 
 #if defined(_WIN32)
-    // Search the Windows system certificate store (HCERTSTORE) for a cert
-    // matching fingerprint.  Falls back gracefully if the store cannot be opened.
+    /**
+     * @brief Search the Windows system certificate store (HCERTSTORE) for a cert matching fingerprint.
+     * @param[in] fingerprint Input parameter.
+     * @return Return value.
+     * @details Falls back gracefully if the store cannot be opened.
+     */
     static std::optional<std::string> searchWindowsCertStore(
         const std::string& fingerprint);
 #endif

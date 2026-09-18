@@ -95,6 +95,12 @@ namespace {
 // Basic statistics helpers
 // --------------------------------------------------------------------------
 
+/**
+ * @brief Compute Mean.
+ * @param[in] v Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), std::accumulate(), begin(), end(), size().
+ */
 double computeMean(const std::vector<double> &v) {
     if (v.empty()) {
         return 0.0;
@@ -102,6 +108,13 @@ double computeMean(const std::vector<double> &v) {
     return std::accumulate(v.begin(), v.end(), 0.0) / static_cast<double>(v.size());
 }
 
+/**
+ * @brief Compute Variance From Mean.
+ * @param[in] v Input parameter.
+ * @param[in] mean Input parameter.
+ * @return Return value.
+ * @details Calls: size().
+ */
 double computeVarianceFromMean(const std::vector<double> &v, double mean) {
     if (v.size() < 2) {
         return 0.0;
@@ -114,10 +127,23 @@ double computeVarianceFromMean(const std::vector<double> &v, double mean) {
     return acc / static_cast<double>(v.size());
 }
 
+/**
+ * @brief Compute Stddev.
+ * @param[in] v Input parameter.
+ * @param[in] mean Input parameter.
+ * @return Return value.
+ * @details Calls: std::sqrt(), computeVarianceFromMean().
+ */
 double computeStddev(const std::vector<double> &v, double mean) {
     return std::sqrt(computeVarianceFromMean(v, mean));
 }
 
+/**
+ * @brief Compute Median.
+ * @param[in] v Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), std::nth_element(), begin(), size(), end().
+ */
 double computeMedian(std::vector<double> v) { // takes by value – sorted locally
     if (v.empty()) {
         return 0.0;
@@ -131,6 +157,13 @@ double computeMedian(std::vector<double> v) { // takes by value – sorted local
     return (v[v.size() / 2 - 1] + hi) * 0.5;
 }
 
+/**
+ * @brief Compute MAD.
+ * @param[in] v Input parameter.
+ * @param[in] median Input parameter.
+ * @return Return value.
+ * @details Calls: dev(), size(), std::abs(), computeMedian().
+ */
 double computeMAD(const std::vector<double> &v, double median) {
     std::vector<double> dev(v.size());
     for (size_t i = 0; i < v.size(); ++i) {
@@ -139,7 +172,13 @@ double computeMAD(const std::vector<double> &v, double median) {
     return computeMedian(dev);
 }
 
-/// Compute Q1 and Q3 from a sorted vector.
+/**
+ * @brief Compute Quartiles.
+ * @param[in] sorted Input parameter.
+ * @param[in,out] q1 Input/output parameter.
+ * @param[in,out] q3 Input/output parameter.
+ * @details Calls: size(), lerp().
+ */
 void computeQuartiles(const std::vector<double> &sorted, double &q1, double &q3) {
     size_t n = sorted.size();
     if (n == 0) {
@@ -158,13 +197,10 @@ void computeQuartiles(const std::vector<double> &sorted, double &q1, double &q3)
     q3 = lerp(0.75 * (n - 1));
 }
 
-/// Logistic squash: maps a non-negative score s to (0,1).
-/// k controls steepness; s0 is the midpoint.
 inline double squash(double s, double s0 = 3.0, double k = 1.0) {
     return 1.0 / (1.0 + std::exp(-k * (s - s0)));
 }
 
-/// Clamp to [0,1].
 inline double clamp01([[maybe_unused]] double v) {
     return v < 0.0 ? 0.0 : (v > 1.0 ? 1.0 : v);
 }
@@ -178,6 +214,12 @@ struct FeatureMatrix {
     std::vector<std::string> names;        // feature name per column
 };
 
+/**
+ * @brief Build Matrix.
+ * @param[in] data Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), numericFieldNames(), reserve(), size(), push_back(), numericFeatures().
+ */
 FeatureMatrix buildMatrix(const std::vector<DataPoint> &data) {
     FeatureMatrix fm = {};
     if (data.empty()) {
@@ -195,6 +237,13 @@ FeatureMatrix buildMatrix(const std::vector<DataPoint> &data) {
 // --------------------------------------------------------------------------
 // Per-feature column accessor
 // --------------------------------------------------------------------------
+/**
+ * @brief Column.
+ * @param[in] fm Input parameter.
+ * @param[in] col Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), push_back().
+ */
 std::vector<double> column(const FeatureMatrix &fm, size_t col) {
     std::vector<double> out = {};
 
@@ -211,8 +260,12 @@ std::vector<double> column(const FeatureMatrix &fm, size_t col) {
 // Isolation Forest helpers
 // --------------------------------------------------------------------------
 
-/// Average path length of an unsuccessful BST search in a tree of n nodes.
-/// Liu et al. 2008, Eq. 1.
+/**
+ * @brief Iforest C.
+ * @param[in] n Input parameter.
+ * @return Return value.
+ * @details Calls: std::log().
+ */
 double iforestC(double n) {
     if (n <= 1.0) {
         return 0.0;
@@ -248,6 +301,16 @@ struct ITree {
     ~ITree() = default;
 };
 
+/**
+ * @brief Build ITree.
+ * @param[in] fm Input parameter.
+ * @param[in] indices Input parameter.
+ * @param[in] height Input parameter.
+ * @param[in] height_limit Input parameter.
+ * @param[in,out] rng Input/output parameter.
+ * @return Return value.
+ * @details Calls: size(), Frame(), push_back(), empty(), std::move(), back(), pop_back(), feat_dist().
+ */
 ITree buildITree(const FeatureMatrix &fm, const std::vector<size_t> &indices, int height, int height_limit,
                  std::mt19937 &rng) {
     ITree tree;
@@ -356,7 +419,13 @@ ITree buildITree(const FeatureMatrix &fm, const std::vector<size_t> &indices, in
     return tree;
 }
 
-/// Path length for a single query point through one ITree.
+/**
+ * @brief Iforest Path Length.
+ * @param[in] tree Input parameter.
+ * @param[in] x Input parameter.
+ * @return Return value.
+ * @details Calls: size(), iforestC().
+ */
 double iforestPathLength(const ITree &tree, const std::vector<double> &x) {
     int node  = 0;
     int depth = 0;
@@ -385,6 +454,13 @@ double iforestPathLength(const ITree &tree, const std::vector<double> &x) {
 // LOF helpers
 // --------------------------------------------------------------------------
 
+/**
+ * @brief Euclidean.
+ * @param[in] a Input parameter.
+ * @param[in] b Input parameter.
+ * @return Return value.
+ * @details Calls: std::min(), size(), std::sqrt().
+ */
 double euclidean(const std::vector<double> &a, const std::vector<double> &b) {
     double sum = 0.0;
     size_t n   = std::min(a.size(), b.size());
@@ -395,7 +471,6 @@ double euclidean(const std::vector<double> &a, const std::vector<double> &b) {
     return std::sqrt(sum);
 }
 
-/// Returns sorted (distance, index) for the k nearest neighbours of query.
 std::vector<std::pair<double, size_t>> knn(const std::vector<std::vector<double>> &train,
                                            const std::vector<double> &query, int k) {
     std::vector<std::pair<double, size_t>> dists;
@@ -520,7 +595,12 @@ struct AnomalyDetector::Impl {
         return c;
     }
 
-    // ---- Combined score from contributions vector ----
+    /**
+     * @brief ---- Combined score from contributions vector ----
+     * @param[in] c Input parameter.
+     * @return Return value.
+     * @details Calls: empty(), std::max_element(), begin(), end(), size(), squash().
+     */
     static double aggregateContributions(const std::vector<double> &c) {
         if (c.empty()) {
             return 0.0;
@@ -631,7 +711,12 @@ struct AnomalyDetector::Impl {
         }
     }
 
-    // ---- Train single-method model ----
+    /**
+     * @brief ---- Train single-method model ----
+     * @param[in] data Input parameter.
+     * @param[in] fm Input parameter.
+     * @details Calls: size(), resize(), column(), computeMean(), computeStddev(), computeMedian(), computeMAD(), std::sort().
+     */
     void trainSingleMethod(const std::vector<DataPoint> &data, const FeatureMatrix &fm) {
         n_features             = fm.names.size();
         feature_names          = fm.names;
@@ -798,6 +883,11 @@ struct AnomalyDetector::Impl {
         return contrib;
     }
 
+    /**
+     * @brief Build Ensemble.
+     * @param[in] data Input parameter.
+     * @details Calls: empty(), clear(), size(), train(), push_back(), std::move().
+     */
     void buildEnsemble(const std::vector<DataPoint> &data) {
         const std::vector<AnomalyMethod> default_methods = {
             AnomalyMethod::Z_SCORE, AnomalyMethod::MODIFIED_Z_SCORE,
@@ -842,9 +932,12 @@ AnomalyDetector &AnomalyDetector::operator=(AnomalyDetector &&o) noexcept {
     return *this;
 }
 
-// ============================================================================
-// AnomalyDetector::train
-// ============================================================================
+/**
+ * @brief ============================================================================ AnomalyDetector::train ============================================================================
+ * @param[in] data Input parameter.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: empty(), buildMatrix(), trainSingleMethod(), buildEnsemble(), insert(), end(), begin(), size().
+ */
 
 void AnomalyDetector::train(const std::vector<DataPoint> &data) {
     if (data.empty()) {
@@ -1008,9 +1101,12 @@ AnomalyExplanation AnomalyDetector::explain(const DataPoint &point) const {
     return exp;
 }
 
-// ============================================================================
-// AnomalyDetector::update (adaptive learning)
-// ============================================================================
+/**
+ * @brief ============================================================================ AnomalyDetector::update (adaptive learning) ============================================================================
+ * @param[in] point Input parameter.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: push_back(), size(), pop_front(), window(), begin(), end(), train().
+ */
 
 void AnomalyDetector::update(const DataPoint &point) {
     if (!impl_->cfg.adaptive) {
@@ -1069,6 +1165,12 @@ std::string AnomalyDetector::serialize() const {
     return ss.str();
 }
 
+/**
+ * @brief Deserialize.
+ * @param[in] data Input parameter.
+ * @return Return value.
+ * @details Calls: ss(), ls(), std::getline(), push_back(), splitComma(), std::stod(), find(), substr().
+ */
 AnomalyDetector AnomalyDetector::deserialize(const std::string &data) {
     AnomalyDetector det;
     std::istringstream ss(data);
@@ -1194,6 +1296,12 @@ DetectorConfig StreamingAnomalyDetector::makeDetectorConfig() const noexcept {
     return dc;
 }
 
+/**
+ * @brief Process.
+ * @param[in] point Input parameter.
+ * @return Return value.
+ * @details Calls: dl(), isTrained(), lk(), push_back(), size(), pop_front(), exchange(), load().
+ */
 std::optional<AnomalyResult> StreamingAnomalyDetector::process(const DataPoint &point) {
     // ── Phase 0: read trained state under a brief shared detector lock ────────
     bool is_trained = false;
@@ -1308,15 +1416,29 @@ std::optional<AnomalyResult> StreamingAnomalyDetector::process(const DataPoint &
 }
 
 std::vector<DataPoint> StreamingAnomalyDetector::snapshotWindow() const {
+    /**
+     * @brief Lk.
+     * @param[in] window_mu_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lk(window_mu_);
     return {window_.begin(), window_.end()};
 }
 
 std::vector<AnomalyResult> StreamingAnomalyDetector::getAnomalies() const {
+    /**
+     * @brief Lk.
+     * @param[in] window_mu_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lk(window_mu_);
     return anomalies_;
 }
 
+/**
+ * @brief Clear Anomalies.
+ * @details Calls: lk(), clear().
+ */
 void StreamingAnomalyDetector::clearAnomalies() {
     std::unique_lock<std::shared_mutex> lk(window_mu_);
     anomalies_.clear();
@@ -1330,6 +1452,11 @@ StreamingAnomalyDetector::WindowStats StreamingAnomalyDetector::getWindowStats()
     // mutexes simultaneously.
     WindowStats ws;
     {
+        /**
+         * @brief Wl.
+         * @param[in] window_mu_ Input parameter.
+         * @return Return value.
+         */
         std::shared_lock<std::shared_mutex> wl(window_mu_);
         ws.window_size   = window_.size();
         ws.anomaly_count = anomalies_.size();
@@ -1337,6 +1464,11 @@ StreamingAnomalyDetector::WindowStats StreamingAnomalyDetector::getWindowStats()
             = window_.empty() ? 0.0 : static_cast<double>(anomalies_.size()) / static_cast<double>(points_seen_);
     }
     {
+        /**
+         * @brief Dl.
+         * @param[in] detector_mu_ Input parameter.
+         * @return Return value.
+         */
         std::shared_lock<std::shared_mutex> dl(detector_mu_);
         ws.trained = detector_.isTrained();
     }

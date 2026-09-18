@@ -45,17 +45,9 @@ namespace server {
 // Configuration
 // ─────────────────────────────────────────────────────────────────────────────
 
-/**
- * @brief Configuration for HTTP/3 datagram support.
- */
 struct Http3DatagramConfig {
-    /// Enable datagram receive and send.  When false the dispatcher rejects
-    /// all registrations and silently discards all incoming datagrams.
     bool enable = true;
 
-    /// Maximum datagram payload size advertised to the remote peer via the
-    /// QUIC max_datagram_frame_size transport parameter.  The actual per-packet
-    /// limit is the minimum of this value and the QUIC MTU.
     uint64_t max_datagram_frame_size = 65535;
 
     Http3DatagramConfig() = default;
@@ -65,16 +57,6 @@ struct Http3DatagramConfig {
 // Callback type
 // ─────────────────────────────────────────────────────────────────────────────
 
-/**
- * @brief Callback invoked when an HTTP/3 datagram arrives for a registered
- *        context ID.
- *
- * @param context_id  The Quarter Stream ID (stream_id / 4) that identifies
- *                    the logical datagram channel.
- * @param data        Pointer to the application payload (Quarter Stream ID
- *                    prefix already stripped).
- * @param len         Length of @p data in bytes.
- */
 using DatagramHandler = std::function<void(uint64_t context_id,
                                            const uint8_t* data,
                                            size_t len)>;
@@ -83,9 +65,6 @@ using DatagramHandler = std::function<void(uint64_t context_id,
 // Context
 // ─────────────────────────────────────────────────────────────────────────────
 
-/**
- * @brief A registered HTTP/3 datagram context (one per logical stream / flow).
- */
 struct Http3DatagramContext {
     uint64_t        context_id = 0;  ///< Quarter Stream ID (stream_id / 4)
     DatagramHandler handler;     ///< Called on each incoming datagram
@@ -96,30 +75,6 @@ struct Http3DatagramContext {
 // Dispatcher
 // ─────────────────────────────────────────────────────────────────────────────
 
-/**
- * @brief HTTP/3 datagram dispatcher.
- *
- * Manages context registrations and routes incoming QUIC datagrams to the
- * appropriate application handler.  Also provides helpers for encoding
- * outbound HTTP/3 datagram frames.
- *
- * Usage (server-side):
- * @code
- *   Http3DatagramDispatcher dispatcher;
- *
- *   // Register a handler for real-time telemetry on stream 4 (context 1).
- *   dispatcher.registerContext(1, [](uint64_t ctx, const uint8_t* d, size_t n) {
- *       processTelemetry(ctx, d, n);
- *   });
- *
- *   // In the ngtcp2 recv_datagram callback:
- *   dispatcher.dispatch(data, datalen);
- *
- *   // Build an outbound datagram for context 1:
- *   auto frame = Http3DatagramDispatcher::encode(1, payload.data(), payload.size());
- *   // frame is ready to pass to ngtcp2_conn_write_datagram().
- * @endcode
- */
 class Http3DatagramDispatcher {
 public:
     // ── Construction ─────────────────────────────────────────────────────────
@@ -135,90 +90,69 @@ public:
     Http3DatagramDispatcher(Http3DatagramDispatcher&&)                 noexcept = default;
     Http3DatagramDispatcher& operator=(Http3DatagramDispatcher&&)      noexcept = default;
 
-    // ── Context Management ───────────────────────────────────────────────────
 
     /**
-     * @brief Register a handler for a given context ID.
-     *
-     * Replaces any existing handler for the same context ID.
-     *
-     * @param context_id  Quarter Stream ID (stream_id / 4).
-     * @param handler     Callback invoked on each incoming datagram.
-     * @return true on success, false when datagrams are disabled in config.
+     * @brief Register Context.
+     * @param[in] context_id Identifier of the context.
+     * @param[in] handler Input parameter.
+     * @return True when the operation succeeds.
      */
     bool registerContext(uint64_t context_id, DatagramHandler handler);
 
     /**
-     * @brief Remove a previously registered context.
-     *
-     * @return true if the context existed and was removed.
+     * @brief Unregister Context.
+     * @param[in] context_id Identifier of the context.
+     * @return True when the operation succeeds.
      */
     bool unregisterContext(uint64_t context_id);
 
     /**
-     * @brief Return true if a handler is registered for @p context_id.
+     * @brief Has Context.
+     * @param[in] context_id Identifier of the context.
+     * @return True when the operation succeeds.
      */
     bool hasContext(uint64_t context_id) const;
 
-    // ── Receive Path ─────────────────────────────────────────────────────────
 
     /**
-     * @brief Dispatch a raw HTTP/3 datagram received from the QUIC layer.
-     *
-     * Decodes the Quarter Stream ID prefix (RFC 9297 §2), looks up the
-     * registered handler, and invokes it with the remaining payload.
-     * Datagrams for unknown context IDs are dropped and counted.
-     *
-     * This method is designed to be called directly from the ngtcp2
-     * @c recv_datagram callback on an I/O thread.
-     *
-     * @param data    Pointer to the raw datagram payload (as passed by ngtcp2).
-     * @param len     Total length in bytes.
+     * @brief Dispatch.
+     * @param[in] data Input parameter.
+     * @param[in] len Input parameter.
      */
     void dispatch(const uint8_t* data, size_t len);
 
-    // ── Send Path ─────────────────────────────────────────────────────────────
 
     /**
-     * @brief Encode an HTTP/3 datagram frame ready for ngtcp2_conn_write_datagram().
-     *
-     * Prepends the Quarter Stream ID as a QUIC variable-length integer
-     * (RFC 9000 §16) to the application payload.
-     *
-     * @param context_id  Quarter Stream ID (stream_id / 4).
-     * @param payload     Application payload bytes.
-     * @param paylen      Length of @p payload.
-     * @return Encoded frame bytes (Quarter Stream ID varint + payload).
+     * @brief Encode.
+     * @param[in] context_id Identifier of the context.
+     * @param[in] payload Input parameter.
+     * @param[in] paylen Input parameter.
+     * @return Return value.
      */
     static std::vector<uint8_t> encode(uint64_t       context_id,
                                        const uint8_t* payload,
                                        size_t         paylen);
 
     /**
-     * @brief Record that one outbound datagram was successfully written.
-     *
-     * Called by the session layer after ngtcp2_conn_write_datagram() succeeds.
+     * @brief Record Sent.
      */
     void recordSent();
 
-    // ── Codec Helpers (public for testing) ───────────────────────────────────
 
     /**
-     * @brief Encode a QUIC variable-length integer into @p buf.
-     *
-     * @param value  Value to encode (must be < 2^62).
-     * @param buf    Output buffer (must have at least 8 bytes of capacity).
-     * @return Number of bytes written, or 0 if @p value is out of range.
+     * @brief Encode Varint.
+     * @param[in] value Input parameter.
+     * @param[in,out] buf Input/output parameter.
+     * @return Return value.
      */
     static size_t encodeVarint(uint64_t value, uint8_t* buf);
 
     /**
-     * @brief Decode a QUIC variable-length integer from @p data.
-     *
-     * @param data      Input buffer.
-     * @param len       Available bytes.
-     * @param value_out Decoded value on success.
-     * @return Bytes consumed, or 0 on error (buffer too short / invalid).
+     * @brief Decode Varint.
+     * @param[in] data Input parameter.
+     * @param[in] len Input parameter.
+     * @param[in,out] value_out Input/output parameter.
+     * @return Return value.
      */
     static size_t decodeVarint(const uint8_t* data, size_t len,
                                uint64_t& value_out);
@@ -232,6 +166,10 @@ public:
         uint64_t datagrams_sent       = 0;  ///< Successfully sent outbound datagrams
     };
 
+    /**
+     * @brief Get Stats.
+     * @return Return value.
+     */
     Stats getStats() const;
 
     // ── Config access ─────────────────────────────────────────────────────────

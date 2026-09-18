@@ -18,18 +18,36 @@
 
 namespace themis {
 
+/**
+ * @brief Dbl to bits.
+ * @param[in] v Input parameter.
+ * @return Return value.
+ * @details Calls: std::memcpy().
+ */
 static inline uint64_t dbl_to_bits(double v) {
     uint64_t b = 0;
     std::memcpy(&b, &v, sizeof(b));
     return b;
 }
 
+/**
+ * @brief Bits to dbl.
+ * @param[in] b Input parameter.
+ * @return Return value.
+ * @details Calls: std::memcpy().
+ */
 static inline double bits_to_dbl(uint64_t b) {
     double v = 0;
     std::memcpy(&v, &b, sizeof(v));
     return v;
 }
 
+/**
+ * @brief Clz64.
+ * @param[in] x Input parameter.
+ * @return Return value.
+ * @details Calls: defined(), _BitScanReverse64(), __builtin_clzll().
+ */
 static inline int clz64(uint64_t x) {
     if (x == 0) {
       return 64;
@@ -43,6 +61,12 @@ static inline int clz64(uint64_t x) {
 #endif
 }
 
+/**
+ * @brief Ctz64.
+ * @param[in] x Input parameter.
+ * @return Return value.
+ * @details Calls: defined(), _BitScanForward64(), __builtin_ctzll().
+ */
 static inline int ctz64(uint64_t x) {
     if (x == 0) {
       return 64;
@@ -56,7 +80,11 @@ static inline int ctz64(uint64_t x) {
 #endif
 }
 
-// ------- BitWriter -------
+/**
+ * @brief ------- BitWriter -------
+ * @param[in] bit Input parameter.
+ * @details Calls: push_back().
+ */
 void BitWriter::writeBit(bool bit) {
     cur_ |= (static_cast<uint8_t>(bit) & 1) << bitpos_;
     bitpos_++;
@@ -67,12 +95,23 @@ void BitWriter::writeBit(bool bit) {
     }
 }
 
+/**
+ * @brief Write Bits.
+ * @param[in] value Input parameter.
+ * @param[in] bits Input parameter.
+ * @details Calls: writeBit().
+ */
 void BitWriter::writeBits(uint64_t value, int bits) {
     for (int i = 0; i < bits; ++i) {
         writeBit((value >> i) & 1);
     }
 }
 
+/**
+ * @brief Write Var UInt.
+ * @param[in] v Input parameter.
+ * @details Calls: push_back().
+ */
 void BitWriter::writeVarUInt(uint64_t v) {
     // LEB128 unsigned
     while (v >= 0x80) {
@@ -82,11 +121,20 @@ void BitWriter::writeVarUInt(uint64_t v) {
     buf_.push_back(static_cast<uint8_t>(v & 0x7FUL));
 }
 
+/**
+ * @brief Write Zig Zag64.
+ * @param[in] value Input parameter.
+ * @details Calls: writeVarUInt().
+ */
 void BitWriter::writeZigZag64(int64_t value) {
     uint64_t zz = (static_cast<uint64_t>(value) << 1) ^ static_cast<uint64_t>(value >> 63);
     writeVarUInt(zz);
 }
 
+/**
+ * @brief Align To Byte.
+ * @details Calls: push_back().
+ */
 void BitWriter::alignToByte() {
     if (bitpos_ != 0) {
         buf_.push_back(cur_);
@@ -95,6 +143,11 @@ void BitWriter::alignToByte() {
     }
 }
 
+/**
+ * @brief Finish.
+ * @return Return value.
+ * @details Calls: push_back().
+ */
 std::vector<uint8_t> BitWriter::finish() {
     if (bitpos_ != 0) {
         buf_.push_back(cur_);
@@ -104,7 +157,12 @@ std::vector<uint8_t> BitWriter::finish() {
     return buf_;
 }
 
-// ------- GorillaEncoder -------
+/**
+ * @brief ------- GorillaEncoder -------
+ * @param[in] timestamp_ms Input parameter.
+ * @param[in] value Input parameter.
+ * @details Calls: writeZigZag64(), writeBits(), dbl_to_bits(), alignToByte(), writeBit(), clz64(), ctz64().
+ */
 void GorillaEncoder::add(int64_t timestamp_ms, double value) {
     if (first_) {
         // Write first timestamp and value in full
@@ -158,6 +216,11 @@ void GorillaEncoder::add(int64_t timestamp_ms, double value) {
     // After finishing value bits for this point, keep bitstream as-is; next call will align before varint
 }
 
+/**
+ * @brief Finish.
+ * @return Return value.
+ * @details Calls: reserve(), size(), push_back(), insert(), end(), begin().
+ */
 std::vector<uint8_t> GorillaEncoder::finish() {
     auto payload = bw_.finish();
     std::vector<uint8_t> result = {};

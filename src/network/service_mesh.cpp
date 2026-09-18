@@ -30,7 +30,6 @@ namespace {
 
 constexpr int kShutdownJoinTimeoutMs = 5000;
 
-/// @brief Join @p t within @p timeout_ms; log and detach on timeout.
 static void timedJoin(std::thread& t,
                       int timeout_ms = kShutdownJoinTimeoutMs) noexcept {
     if (!t.joinable()) {
@@ -76,7 +75,12 @@ ServiceMeshIntegration::~ServiceMeshIntegration() noexcept {
 // Port validation
 // ─────────────────────────────────────────────────────────────────────────────
 
-/* static */
+/**
+ * @brief static
+ * @param[in] port Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements isValidPort without additional internal calls.
+ */
 bool ServiceMeshIntegration::isValidPort(uint16_t port) {
     // Reject port 0 and well-known HTTP/HTTPS ports.
     if (port == 0 || port == 80 || port == 443) {
@@ -120,13 +124,20 @@ bool ServiceMeshIntegration::isEnvoyPresent() const {
 }
 
 ServiceMeshIntegration::Stats ServiceMeshIntegration::getStats() const {
+    /**
+     * @brief Lk.
+     * @param[in] stats_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(stats_mutex_);
     return stats_;
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Probe HTTP/1.1 connection handler
-// ─────────────────────────────────────────────────────────────────────────────
+/**
+ * @brief ───────────────────────────────────────────────────────────────────────────── Probe HTTP/1.
+ * @param[in] socket Input parameter.
+ * @details 1 connection handler ───────────────────────────────────────────────────────────────────────────── Calls: read_some(), net::buffer(), req(), data(), find(), lk(), defined(), setsockopt().
+ */
 
 void ServiceMeshIntegration::serveProbe(tcp::socket socket) {
     try {
@@ -221,6 +232,10 @@ void ServiceMeshIntegration::serveProbe(tcp::socket socket) {
 // Accept loop
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Accept Loop.
+ * @details Calls: std::chrono::milliseconds(), non_blocking(), THEMIS_WARN(), message(), load(), socket(), std::chrono::steady_clock::now(), clear().
+ */
 void ServiceMeshIntegration::acceptLoop() {
     // R10: Add timeout enforcement to accept loop using Boost.Asio deadline timer.
     // The mesh health probe server should not block indefinitely on accept().
@@ -287,6 +302,11 @@ void ServiceMeshIntegration::acceptLoop() {
 // start / stop
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Start.
+ * @return True when the operation succeeds.
+ * @details Calls: load(), THEMIS_WARN(), getAddress(), net::ip::make_address(), ep(), open(), protocol(), set_option().
+ */
 bool ServiceMeshIntegration::start() {
     if (running_.load(std::memory_order_acquire)) {
         THEMIS_WARN("[ServiceMesh] start() called while already running");
@@ -333,6 +353,10 @@ bool ServiceMeshIntegration::start() {
     return true;
 }
 
+/**
+ * @brief Stop.
+ * @details Calls: exchange(), THEMIS_INFO(), getAddress(), std::this_thread::sleep_for(), std::chrono::milliseconds(), is_open(), close(), timedJoin().
+ */
 void ServiceMeshIntegration::stop() {
     if (!running_.exchange(false, std::memory_order_acq_rel)) {
         return;

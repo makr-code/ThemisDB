@@ -19,6 +19,13 @@ namespace themis::security {
 // VALIDATION METHODS
 // ============================================================================
 
+/**
+ * @brief Validate User Input.
+ * @param[in] input Input parameter.
+ * @param[in] context Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), validateSqlInjectionRisk(), size(), std::to_string(), validateIdentifier(), validateJsonPayload(), validateUriParameter(), validateSearchQuery().
+ */
 ValidationResult InputValidator::validateUserInput(
     std::string_view input,
     ValidationContext context) {
@@ -86,6 +93,12 @@ ValidationResult InputValidator::validateUserInput(
   return {false, "Unknown validation context", ""};
 }
 
+/**
+ * @brief Validate Json Payload.
+ * @param[in] payload Input parameter.
+ * @return Return value.
+ * @details Calls: size(), std::to_string(), containsNullBytes(), isValidUtf8().
+ */
 ValidationResult InputValidator::validateJsonPayload(std::string_view payload) {
   // Check size limit
   if (payload.size() > MAX_JSON_SIZE) {
@@ -132,6 +145,14 @@ ValidationResult InputValidator::validateJsonPayload(std::string_view payload) {
   return {true, "", ""};
 }
 
+/**
+ * @brief Validate File Upload.
+ * @param[in] filename Input parameter.
+ * @param[in] file_size Input parameter.
+ * @param[in] mime_type Input parameter.
+ * @return Return value.
+ * @details Calls: validatePathTraversal(), isalnum(), std::string(), rfind(), ext(), substr(), std::transform(), begin().
+ */
 ValidationResult InputValidator::validateFileUpload(
     std::string_view filename,
     size_t file_size,
@@ -190,6 +211,12 @@ ValidationResult InputValidator::validateFileUpload(
   return {true, "", ""};
 }
 
+/**
+ * @brief Validate Uri Parameter.
+ * @param[in] uri_param Input parameter.
+ * @return Return value.
+ * @details Calls: size(), std::to_string(), containsNullBytes(), containsControlCharacters().
+ */
 ValidationResult InputValidator::validateUriParameter(std::string_view uri_param) {
   // Check size limit
   if (uri_param.size() > MAX_URI_PARAMETER_SIZE) {
@@ -215,6 +242,13 @@ ValidationResult InputValidator::validateUriParameter(std::string_view uri_param
   return {true, "", ""};
 }
 
+/**
+ * @brief Validate Request Header.
+ * @param[in] header_name Name of the header.
+ * @param[in] header_value Input parameter.
+ * @return Return value.
+ * @details Calls: size(), std::to_string(), containsNullBytes(), find().
+ */
 ValidationResult InputValidator::validateRequestHeader(
     std::string_view header_name,
     std::string_view header_value) {
@@ -245,6 +279,13 @@ ValidationResult InputValidator::validateRequestHeader(
   return {true, "", ""};
 }
 
+/**
+ * @brief Validate Search Query.
+ * @param[in] query Input parameter.
+ * @param[in] allow_wildcards Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), size(), validateSqlInjectionRisk().
+ */
 ValidationResult InputValidator::validateSearchQuery(
     std::string_view query,
     bool allow_wildcards) {
@@ -272,6 +313,12 @@ ValidationResult InputValidator::validateSearchQuery(
   return {true, "", ""};
 }
 
+/**
+ * @brief Validate Identifier.
+ * @param[in] identifier Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), size(), std::to_string(), isalpha(), isalnum(), std::string().
+ */
 ValidationResult InputValidator::validateIdentifier(std::string_view identifier) {
   // Check length
   if (identifier.empty() || identifier.size() > MAX_IDENTIFIER_LENGTH) {
@@ -299,6 +346,13 @@ ValidationResult InputValidator::validateIdentifier(std::string_view identifier)
   return {true, "", ""};
 }
 
+/**
+ * @brief Validate Config Path.
+ * @param[in] path Input parameter.
+ * @param[in] allowed_extension Input parameter.
+ * @return Return value.
+ * @details Calls: validatePathTraversal(), empty(), find(), std::string().
+ */
 ValidationResult InputValidator::validateConfigPath(
     std::string_view path,
     std::string_view allowed_extension) {
@@ -326,6 +380,12 @@ ValidationResult InputValidator::validateConfigPath(
 // SANITIZATION METHODS
 // ============================================================================
 
+/**
+ * @brief Sanitize For Html.
+ * @param[in] input Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size().
+ */
 std::string InputValidator::sanitizeForHtml(std::string_view input) {
   std::string output = {};
   output.reserve(input.size() + (input.size() / 5));  // Typical overhead ~20%
@@ -344,6 +404,12 @@ std::string InputValidator::sanitizeForHtml(std::string_view input) {
   return output;
 }
 
+/**
+ * @brief Sanitize For Sql Logging.
+ * @param[in] input Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size().
+ */
 std::string InputValidator::sanitizeForSqlLogging(std::string_view input) {
   // WARNING: For logging only, not for actual SQL queries!
   std::string output = {};
@@ -359,6 +425,12 @@ std::string InputValidator::sanitizeForSqlLogging(std::string_view input) {
   return output;
 }
 
+/**
+ * @brief Sanitize For Shell.
+ * @param[in] input Input parameter.
+ * @return Return value.
+ * @details Implements sanitizeForShell without additional internal calls.
+ */
 std::string InputValidator::sanitizeForShell(std::string_view input) {
   // WARNING: Avoid executing shell commands with user input
   // Wrap in single quotes and escape existing quotes
@@ -376,6 +448,12 @@ std::string InputValidator::sanitizeForShell(std::string_view input) {
   return output;
 }
 
+/**
+ * @brief Sanitize For Json.
+ * @param[in] input Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), snprintf().
+ */
 std::string InputValidator::sanitizeForJson(std::string_view input) {
   std::string output = {};
   output.reserve(input.size() + (input.size() / 5));
@@ -408,6 +486,12 @@ std::string InputValidator::sanitizeForJson(std::string_view input) {
 // UTILITY METHODS
 // ============================================================================
 
+/**
+ * @brief Is Alphanumeric With Underscore.
+ * @param[in] input Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: isalnum().
+ */
 bool InputValidator::isAlphanumericWithUnderscore(std::string_view input) {
   for (char c : input) {
     if (!isalnum(c) && c != '_') {
@@ -417,10 +501,22 @@ bool InputValidator::isAlphanumericWithUnderscore(std::string_view input) {
   return true;
 }
 
+/**
+ * @brief Contains Null Bytes.
+ * @param[in] input Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: find().
+ */
 bool InputValidator::containsNullBytes(std::string_view input) {
   return input.find('\0') != std::string_view::npos;
 }
 
+/**
+ * @brief Contains Control Characters.
+ * @param[in] input Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements containsControlCharacters without additional internal calls.
+ */
 bool InputValidator::containsControlCharacters(std::string_view input) {
   for (unsigned char c : input) {
     if (c <= 0x1F || c == 0x7F) {
@@ -430,6 +526,12 @@ bool InputValidator::containsControlCharacters(std::string_view input) {
   return false;
 }
 
+/**
+ * @brief Is Valid Utf8.
+ * @param[in] input Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: size().
+ */
 bool InputValidator::isValidUtf8(std::string_view input) {
   size_t i = 0;
   while (i < input.size()) {
@@ -473,6 +575,12 @@ bool InputValidator::isValidUtf8(std::string_view input) {
 // PRIVATE VALIDATION HELPERS
 // ============================================================================
 
+/**
+ * @brief Validate Sql Injection Risk.
+ * @param[in] input Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: upper_input(), std::transform(), begin(), end(), find().
+ */
 bool InputValidator::validateSqlInjectionRisk(std::string_view input) {
   // Check for common SQL injection patterns
   static constexpr std::string_view DANGEROUS_PATTERNS[] = {
@@ -503,6 +611,12 @@ bool InputValidator::validateSqlInjectionRisk(std::string_view input) {
   return true;  // No dangerous patterns detected
 }
 
+/**
+ * @brief Validate Xss Risk.
+ * @param[in] input Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lower_input(), std::transform(), begin(), end(), find().
+ */
 bool InputValidator::validateXssRisk(std::string_view input) {
   // Check for common XSS patterns
   static constexpr std::string_view XSS_PATTERNS[] = {
@@ -529,6 +643,12 @@ bool InputValidator::validateXssRisk(std::string_view input) {
   return true;  // No XSS patterns detected
 }
 
+/**
+ * @brief Validate Path Traversal.
+ * @param[in] path Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: find().
+ */
 bool InputValidator::validatePathTraversal(std::string_view path) {
   // Check for path traversal sequences
   if (path.find("../") != std::string_view::npos ||

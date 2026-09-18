@@ -46,6 +46,10 @@ TSAutoBuffer::~TSAutoBuffer() {
     }
 }
 
+/**
+ * @brief Start.
+ * @details Calls: exchange(), THEMIS_WARN(), THEMIS_INFO(), count(), std::thread().
+ */
 void TSAutoBuffer::start() {
     if (running_.exchange(true)) {
         THEMIS_WARN("TSAutoBuffer already running");
@@ -61,6 +65,10 @@ void TSAutoBuffer::start() {
     }
 }
 
+/**
+ * @brief Stop.
+ * @details Calls: exchange(), THEMIS_INFO(), notify_all(), joinable(), join(), flush().
+ */
 void TSAutoBuffer::stop() {
     if (!running_.exchange(false)) {
         return;
@@ -89,6 +97,12 @@ std::string TSAutoBuffer::makeBufferKey(const std::string& metric,
     return metric + ":" + entity;
 }
 
+/**
+ * @brief Add.
+ * @param[in] point Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), setAttribute(), empty(), ErrVoid(), load(), isBackpressure(), THEMIS_WARN(), recordBackpressure().
+ */
 Result<void> TSAutoBuffer::add(const TSStore::DataPoint& point) {
     auto span = Tracer::startSpan("TSAutoBuffer.add");
     span.setAttribute("metric", point.metric);
@@ -213,10 +227,22 @@ Result<void> TSAutoBuffer::add(const TSStore::DataPoint& point) {
     return OkVoid();
 }
 
+/**
+ * @brief Flush.
+ * @return Return value.
+ * @details Calls: flushInternal().
+ */
 size_t TSAutoBuffer::flush() {
     return flushInternal(false);
 }
 
+/**
+ * @brief Flush For.
+ * @param[in] metric Input parameter.
+ * @param[in] entity Input parameter.
+ * @return Return value.
+ * @details Calls: makeBufferKey(), lock(), find(), end(), empty(), flushBuffer().
+ */
 size_t TSAutoBuffer::flushFor(const std::string& metric, const std::string& entity) {
     std::string buffer_key = makeBufferKey(metric, entity);
     
@@ -233,6 +259,12 @@ size_t TSAutoBuffer::flushFor(const std::string& metric, const std::string& enti
 size_t TSAutoBuffer::flushInternal([[maybe_unused]] bool lock_held) {
     auto span = Tracer::startSpan("TSAutoBuffer.flush");
     
+    /**
+     * @brief Lock.
+     * @param[in] buffers_mutex_ Input parameter.
+     * @param[in] defer_lock Input parameter.
+     * @return Return value.
+     */
     std::unique_lock<std::mutex> lock(buffers_mutex_, std::defer_lock);
     if (!lock_held) {
         lock.lock();
@@ -263,6 +295,13 @@ size_t TSAutoBuffer::flushInternal([[maybe_unused]] bool lock_held) {
     return total_flushed;
 }
 
+/**
+ * @brief Flush Buffer.
+ * @param[in] buffer_key Input parameter.
+ * @param[in,out] buffer Input/output parameter.
+ * @return Return value.
+ * @details Calls: empty(), Tracer::startSpan(), setAttribute(), size(), std::chrono::steady_clock::now(), points(), begin(), end().
+ */
 size_t TSAutoBuffer::flushBuffer(const std::string& buffer_key, MetricBuffer& buffer) {
     if (buffer.points.empty()) {
         return 0;
@@ -351,6 +390,10 @@ bool TSAutoBuffer::shouldFlushGlobal() const {
     return false;
 }
 
+/**
+ * @brief Flush Thread.
+ * @details Calls: THEMIS_INFO(), load(), lock(), wait_for(), shouldFlushGlobal(), unlock(), std::chrono::steady_clock::now(), buf_lock().
+ */
 void TSAutoBuffer::flushThread() {
     THEMIS_INFO("TSAutoBuffer flush thread started");
     
@@ -416,6 +459,11 @@ size_t TSAutoBuffer::effectiveBatchSize() const {
 }
 
 TSAutoBufferStats TSAutoBuffer::getStats() const {
+    /**
+     * @brief Lock.
+     * @param[in] buffers_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(buffers_mutex_);
 
     TSAutoBufferStats stats;
@@ -439,6 +487,11 @@ TSAutoBufferStats TSAutoBuffer::getStats() const {
     return stats;
 }
 
+/**
+ * @brief Set Config.
+ * @param[in] config Input parameter.
+ * @details Calls: lock(), reset(), THEMIS_INFO(), count().
+ */
 void TSAutoBuffer::setConfig(const TSAutoBufferConfig& config) {
     std::lock_guard<std::mutex> lock(buffers_mutex_);
     config_ = config;
@@ -462,7 +515,12 @@ void TSAutoBuffer::setConfig(const TSAutoBufferConfig& config) {
                 config_.enable_adaptive_flush);
 }
 
-// ========== WAL Persistence ==========
+/**
+ * @brief ========== WAL Persistence ==========
+ * @param[in] wal_path Path to the wal.
+ * @return Return value.
+ * @details Calls: lock(), ofs(), is_open(), THEMIS_ERROR(), dump(), THEMIS_INFO().
+ */
 
 size_t TSAutoBuffer::persistToWAL(const std::string& wal_path) {
     std::lock_guard<std::mutex> lock(buffers_mutex_);
@@ -492,6 +550,12 @@ size_t TSAutoBuffer::persistToWAL(const std::string& wal_path) {
     return count;
 }
 
+/**
+ * @brief Restore From WAL.
+ * @param[in] wal_path Path to the wal.
+ * @return Return value.
+ * @details Calls: ifs(), is_open(), THEMIS_WARN(), std::getline(), empty(), nlohmann::json::parse(), at(), contains().
+ */
 std::ptrdiff_t TSAutoBuffer::restoreFromWAL(const std::string& wal_path) {
     std::ifstream ifs(wal_path);
     if (!ifs.is_open()) {
@@ -541,6 +605,12 @@ std::ptrdiff_t TSAutoBuffer::restoreFromWAL(const std::string& wal_path) {
     return static_cast<std::ptrdiff_t>(restored.size());
 }
 
+/**
+ * @brief Remove WAL.
+ * @param[in] wal_path Path to the wal.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), std::filesystem::exists(), std::filesystem::remove().
+ */
 bool TSAutoBuffer::removeWAL(const std::string& wal_path) {
     if (wal_path.empty()) {
       return true;
@@ -552,6 +622,12 @@ bool TSAutoBuffer::removeWAL(const std::string& wal_path) {
     return std::filesystem::remove(wal_path);
 }
 
+/**
+ * @brief Push.
+ * @param[in] point Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), makeBufferKey(), lock(), THEMIS_WARN(), add(), fetch_add(), effectiveBatchSize(), size().
+ */
 TSAutoBuffer::PushStatus TSAutoBuffer::push(const TSStore::DataPoint& point) {
     if (point.metric.empty() || point.entity.empty()) {
         return PushStatus::INVALID_INPUT;

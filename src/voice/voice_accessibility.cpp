@@ -16,7 +16,12 @@
 
 namespace themis { namespace voice {
 
-// ---- Free functions ----
+/**
+ * @brief ---- Free functions ----
+ * @param[in] fmt Input parameter.
+ * @return Return value.
+ * @details Implements captionFormatToString without additional internal calls.
+ */
 
 std::string captionFormatToString(CaptionFormat fmt) {
     switch (fmt) {
@@ -62,6 +67,12 @@ std::vector<CaptionCue> VoiceAccessibility::generateCaptions(
     return cues;
 }
 
+/**
+ * @brief Generate Captions From JSON.
+ * @param[in] transcript_json Input parameter.
+ * @return Return value.
+ * @details Calls: is_array(), contains(), is_string(), is_number(), push_back(), std::move(), size().
+ */
 std::vector<CaptionCue> VoiceAccessibility::generateCaptionsFromJSON(const json& transcript_json) {
     std::vector<CaptionCue> cues;
 
@@ -90,6 +101,12 @@ std::vector<CaptionCue> VoiceAccessibility::generateCaptionsFromJSON(const json&
     return cues;
 }
 
+/**
+ * @brief Export Transcript.
+ * @param[in] cues Input parameter.
+ * @param[in] options Input parameter.
+ * @return Return value.
+ */
 TranscriptExportResult VoiceAccessibility::exportTranscript(
     const std::vector<CaptionCue>& cues,
     const TranscriptExportOptions& options)

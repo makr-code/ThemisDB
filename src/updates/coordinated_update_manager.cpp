@@ -120,6 +120,11 @@ CoordinatedUpdateManager::CoordinatedUpdateManager(
 // Private helpers
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Local Status.
+ * @return Pointer to the result.
+ * @details Implements localStatus without additional internal calls.
+ */
 NodeUpdateStatus* CoordinatedUpdateManager::localStatus() {
     for (auto& s : node_statuses_) {
         if (s.is_local) {
@@ -161,6 +166,11 @@ const NodeDescriptor* CoordinatedUpdateManager::predecessorDescriptor() const {
     return nullptr;
 }
 
+/**
+ * @brief Report Progress.
+ * @param[in] message Input parameter.
+ * @details Calls: lock(), cb(), size(), LOG_WARN(), what().
+ */
 void CoordinatedUpdateManager::reportProgress(const std::string& message) {
     ProgressCallback cb;
     uint32_t done = 0;
@@ -189,6 +199,11 @@ void CoordinatedUpdateManager::reportProgress(const std::string& message) {
 // Core update operation
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Apply Local Update.
+ * @return Return value.
+ * @details Calls: lock(), LOG_WARN(), localStatus(), predecessorDescriptor(), LOG_INFO(), reportProgress(), wait_fn(), LOG_ERROR().
+ */
 CoordinatedUpdateResult CoordinatedUpdateManager::applyLocalUpdate() {
     CoordinatedUpdateResult result;
     result.success = false;
@@ -318,6 +333,12 @@ CoordinatedUpdateResult CoordinatedUpdateManager::applyLocalUpdate() {
 // Rollback
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Rollback.
+ * @param[in] reason Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), LOG_WARN(), localStatus(), empty().
+ */
 bool CoordinatedUpdateManager::rollback(const std::string& reason) {
     std::string rid = {};
 
@@ -373,6 +394,11 @@ bool CoordinatedUpdateManager::isLeader() const {
 }
 
 std::vector<NodeUpdateStatus> CoordinatedUpdateManager::nodeStatuses() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return node_statuses_;
 }
@@ -381,24 +407,43 @@ std::vector<NodeUpdateStatus> CoordinatedUpdateManager::nodeStatuses() const {
 // Callback registration
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Set Wait For Previous Func.
+ * @param[in] fn Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void CoordinatedUpdateManager::setWaitForPreviousFunc(WaitForPreviousFunc fn) {
     std::lock_guard<std::mutex> lock(mutex_);
     wait_for_previous_fn_ = std::move(fn);
 }
 
+/**
+ * @brief Set Signal Ready Func.
+ * @param[in] fn Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void CoordinatedUpdateManager::setSignalReadyFunc(SignalReadyFunc fn) {
     std::lock_guard<std::mutex> lock(mutex_);
     signal_ready_fn_ = std::move(fn);
 }
 
+/**
+ * @brief Set Progress Callback.
+ * @param[in] fn Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void CoordinatedUpdateManager::setProgressCallback(ProgressCallback fn) {
     std::lock_guard<std::mutex> lock(mutex_);
     progress_cb_ = std::move(fn);
 }
 
-// ---------------------------------------------------------------------------
-// Coordinated rollback enhancements (v1.8.1 – Q3 2026)
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- Coordinated rollback enhancements (v1.
+ * @param[in] node Input parameter.
+ * @param[in] reason Input parameter.
+ * @return True when the operation succeeds.
+ * @details 8.1 – Q3 2026) --------------------------------------------------------------------------- Calls: rollback(), LOG_INFO(), LOG_ERROR().
+ */
 
 bool CoordinatedUpdateManager::performNodeRollback(const NodeDescriptor& node,
                                                    const std::string& reason) {
@@ -422,6 +467,12 @@ bool CoordinatedUpdateManager::performNodeRollback(const NodeDescriptor& node,
     return false;
 }
 
+/**
+ * @brief Isolate Node.
+ * @param[in] node_id Identifier of the node.
+ * @param[in] reason Input parameter.
+ * @details Calls: lock(), std::find(), begin(), end(), push_back(), LOG_WARN().
+ */
 void CoordinatedUpdateManager::isolateNode(const std::string& node_id,
                                            const std::string& reason) {
     std::lock_guard<std::mutex> lock(mutex_);
@@ -444,6 +495,12 @@ void CoordinatedUpdateManager::isolateNode(const std::string& node_id,
     }
 }
 
+/**
+ * @brief Coordinated Rollback.
+ * @param[in] reason Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: LOG_INFO(), lock(), rbegin(), rend(), performNodeRollback(), LOG_ERROR(), reportProgress().
+ */
 bool CoordinatedUpdateManager::coordinatedRollback(const std::string& reason) {
     LOG_INFO("CoordinatedUpdateManager: starting coordinated rollback (reason={})",
             reason);
@@ -466,6 +523,12 @@ bool CoordinatedUpdateManager::coordinatedRollback(const std::string& reason) {
     return true;
 }
 
+/**
+ * @brief Coordinated Rollback With Isolation.
+ * @param[in] reason Input parameter.
+ * @return Return value.
+ * @details Calls: LOG_INFO(), lock(), std::reverse(), begin(), end(), performNodeRollback(), isolateNode(), LOG_WARN().
+ */
 CoordinatedUpdateResult CoordinatedUpdateManager::coordinatedRollbackWithIsolation(
     const std::string& reason) {
     
@@ -512,11 +575,21 @@ CoordinatedUpdateResult CoordinatedUpdateManager::coordinatedRollbackWithIsolati
 }
 
 bool CoordinatedUpdateManager::hasIsolatedNodes() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return !isolated_nodes_.empty();
 }
 
 uint32_t CoordinatedUpdateManager::isolatedNodeCount() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return static_cast<uint32_t>(isolated_nodes_.size());
 }

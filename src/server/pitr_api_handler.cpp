@@ -23,6 +23,11 @@ PITRApiHandler::PITRApiHandler(PITRManager& pitr_manager)
     : pitr_manager_(pitr_manager) {
 }
 
+/**
+ * @brief Register Routes.
+ * @param[in,out] server Input/output parameter.
+ * @details Calls: Post(), handleRestore(), handlePreview(), Get(), handleGetProgress(), spdlog::info().
+ */
 void PITRApiHandler::registerRoutes(httplib::Server& server) {
     // POST /api/v1/restore/pitr - Execute restore
     server.Post("/api/v1/restore/pitr", [this](const httplib::Request& req, httplib::Response& res) {
@@ -42,6 +47,12 @@ void PITRApiHandler::registerRoutes(httplib::Server& server) {
     spdlog::info("PITR API routes registered");
 }
 
+/**
+ * @brief Handle Restore.
+ * @param[in] req Input parameter.
+ * @param[in,out] res Input/output parameter.
+ * @details Calls: Tracer::startSpan(), json::parse(), contains(), sendError(), parseRestoreOptions(), std::stoull(), restoreToSequence(), fmt::format().
+ */
 void PITRApiHandler::handleRestore(const httplib::Request& req, httplib::Response& res) {
     try {
     auto span = Tracer::startSpan("handleRestore");
@@ -107,6 +118,12 @@ void PITRApiHandler::handleRestore(const httplib::Request& req, httplib::Respons
     }
 }
 
+/**
+ * @brief Handle Preview.
+ * @param[in] req Input parameter.
+ * @param[in,out] res Input/output parameter.
+ * @details Calls: Tracer::startSpan(), json::parse(), contains(), sendError(), parseRestoreOptions(), std::stoull(), fmt::format(), what().
+ */
 void PITRApiHandler::handlePreview(const httplib::Request& req, httplib::Response& res) {
     try {
     auto span = Tracer::startSpan("handlePreview");
@@ -172,6 +189,12 @@ void PITRApiHandler::handlePreview(const httplib::Request& req, httplib::Respons
     }
 }
 
+/**
+ * @brief Handle Get Progress.
+ * @param[in] param Input parameter.
+ * @param[in,out] res Input/output parameter.
+ * @details Calls: Tracer::startSpan(), getProgress(), has_value(), sendJson(), progressToJson(), value(), sendError(), fmt::format().
+ */
 void PITRApiHandler::handleGetProgress(const httplib::Request& /*req*/, httplib::Response& res) {
     try {
     auto span = Tracer::startSpan("handleGetProgress");

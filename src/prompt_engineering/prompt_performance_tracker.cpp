@@ -41,6 +41,12 @@ nlohmann::json PromptMetrics::toJson() const {
     return j;
 }
 
+/**
+ * @brief From Json.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: value(), contains(), std::chrono::system_clock::from_time_t().
+ */
 PromptMetrics PromptMetrics::fromJson(const nlohmann::json& j) {
     PromptMetrics m;
     m.prompt_id = j.value("prompt_id", "");
@@ -77,6 +83,14 @@ PromptPerformanceTracker::PromptPerformanceTracker(RocksDBWrapper* db, rocksdb::
     }
 }
 
+/**
+ * @brief Record Execution.
+ * @param[in] prompt_id Identifier of the prompt.
+ * @param[in] success Input parameter.
+ * @param[in] latency_ms Input parameter.
+ * @param[in] user_feedback Input parameter.
+ * @details Calls: lock(), find(), end(), std::chrono::system_clock::now(), emplace(), THEMIS_DEBUG(), updateAverages(), persist().
+ */
 void PromptPerformanceTracker::recordExecution(
     const std::string& prompt_id,
     bool success,
@@ -115,6 +129,11 @@ void PromptPerformanceTracker::recordExecution(
 }
 
 std::optional<PromptMetrics> PromptPerformanceTracker::getMetrics(const std::string& prompt_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] metrics_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(metrics_mutex_);
     
     auto it = metrics_.find(prompt_id);
@@ -126,6 +145,11 @@ std::optional<PromptMetrics> PromptPerformanceTracker::getMetrics(const std::str
 }
 
 std::vector<PromptMetrics> PromptPerformanceTracker::getAllMetrics() const {
+    /**
+     * @brief Lock.
+     * @param[in] metrics_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(metrics_mutex_);
     
     std::vector<PromptMetrics> result = {};
@@ -143,6 +167,11 @@ std::vector<std::string> PromptPerformanceTracker::getLowPerformingPrompts(
     double threshold,
     size_t min_executions
 ) const {
+    /**
+     * @brief Lock.
+     * @param[in] metrics_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(metrics_mutex_);
     
     std::vector<std::string> low_performers;
@@ -164,6 +193,11 @@ std::vector<std::pair<std::string, double>> PromptPerformanceTracker::getTopPerf
     size_t count,
     size_t min_executions
 ) const {
+    /**
+     * @brief Lock.
+     * @param[in] metrics_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(metrics_mutex_);
     
     // Filter prompts with sufficient executions
@@ -186,6 +220,12 @@ std::vector<std::pair<std::string, double>> PromptPerformanceTracker::getTopPerf
     return candidates;
 }
 
+/**
+ * @brief Reset Metrics.
+ * @param[in] prompt_id Identifier of the prompt.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), find(), end(), erase(), std::string(), del(), THEMIS_INFO().
+ */
 bool PromptPerformanceTracker::resetMetrics(const std::string& prompt_id) {
     std::lock_guard<std::mutex> lock(metrics_mutex_);
     
@@ -206,6 +246,10 @@ bool PromptPerformanceTracker::resetMetrics(const std::string& prompt_id) {
     return true;
 }
 
+/**
+ * @brief Clear All Metrics.
+ * @details Calls: lock(), clear(), scanPrefix(), del(), std::string(), THEMIS_INFO().
+ */
 void PromptPerformanceTracker::clearAllMetrics() {
     std::lock_guard<std::mutex> lock(metrics_mutex_);
     
@@ -224,6 +268,11 @@ void PromptPerformanceTracker::clearAllMetrics() {
 }
 
 nlohmann::json PromptPerformanceTracker::getSummaryStatistics() const {
+    /**
+     * @brief Lock.
+     * @param[in] metrics_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(metrics_mutex_);
     
     if (metrics_.empty()) {
@@ -269,6 +318,12 @@ nlohmann::json PromptPerformanceTracker::getSummaryStatistics() const {
 // Private Methods
 // ============================================================================
 
+/**
+ * @brief Persist.
+ * @param[in] prompt_id Identifier of the prompt.
+ * @param[in] metrics Input parameter.
+ * @details Calls: std::string(), toJson(), dump(), bytes(), begin(), end(), put(), THEMIS_ERROR().
+ */
 void PromptPerformanceTracker::persist(const std::string& prompt_id, const PromptMetrics& metrics) {
     if (!db_) {
       return;
@@ -283,6 +338,10 @@ void PromptPerformanceTracker::persist(const std::string& prompt_id, const Promp
     }
 }
 
+/**
+ * @brief Load From DB.
+ * @details Calls: scanPrefix(), nlohmann::json::parse(), std::string(), PromptMetrics::fromJson(), THEMIS_WARN(), what(), THEMIS_INFO().
+ */
 void PromptPerformanceTracker::loadFromDB() {
     if (!db_) {
       return;
@@ -306,6 +365,14 @@ void PromptPerformanceTracker::loadFromDB() {
     THEMIS_INFO("Loaded {} prompt metrics from DB", loaded);
 }
 
+/**
+ * @brief Update Averages.
+ * @param[in,out] metrics Input/output parameter.
+ * @param[in] success Input parameter.
+ * @param[in] latency_ms Input parameter.
+ * @param[in] user_feedback Input parameter.
+ * @details Calls: std::chrono::system_clock::now().
+ */
 void PromptPerformanceTracker::updateAverages(
     PromptMetrics& metrics,
     bool success,

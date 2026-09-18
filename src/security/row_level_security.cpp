@@ -24,8 +24,13 @@ namespace security {
 
 namespace {
 
-/// Retrieve the value to compare against from the security context.
-/// Returns empty string when the key is not found.
+/**
+ * @brief Resolve User Attr.
+ * @param[in] user_attr Input parameter.
+ * @param[in] ctx Input parameter.
+ * @return Return value.
+ * @details Calls: find(), end().
+ */
 std::string resolveUserAttr(const std::string& user_attr, const SecurityContext& ctx) {
     if (user_attr == "user_id") {
         return ctx.user_id;
@@ -37,8 +42,14 @@ std::string resolveUserAttr(const std::string& user_attr, const SecurityContext&
     return {};
 }
 
-/// Compare two JSON scalars (string / number / bool) with a given operator.
-/// Returns false if either operand cannot be compared.
+/**
+ * @brief Compare Scalar.
+ * @param[in] lhs Input parameter.
+ * @param[in] op Input parameter.
+ * @param[in] rhs Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: is_number(), is_string().
+ */
 bool compareScalar(const nlohmann::json& lhs, const std::string& op, const nlohmann::json& rhs) {
     if (op == "eq") {
       return lhs == rhs;
@@ -150,6 +161,12 @@ nlohmann::json RLSPredicate::toJson() const {
     };
 }
 
+/**
+ * @brief From Json.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: value().
+ */
 RLSPredicate RLSPredicate::fromJson(const nlohmann::json& j) {
     RLSPredicate p;
     p.field     = j.value("field",     "");
@@ -174,6 +191,12 @@ nlohmann::json RLSPolicy::toJson() const {
     };
 }
 
+/**
+ * @brief From Json.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: value(), contains(), is_array(), push_back(), is_object().
+ */
 RLSPolicy RLSPolicy::fromJson(const nlohmann::json& j) {
     RLSPolicy p;
     p.id         = j.value("id",         "");
@@ -200,6 +223,12 @@ RLSPolicy RLSPolicy::fromJson(const nlohmann::json& j) {
 // RLSManager – policy management
 // ============================================================================
 
+/**
+ * @brief Add Policy.
+ * @param[in] policy Input parameter.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: empty(), lock(), THEMIS_INFO().
+ */
 void RLSManager::addPolicy(const RLSPolicy& policy) {
     if (policy.id.empty()) {
         throw std::invalid_argument("RLSManager::addPolicy: policy id must not be empty");
@@ -210,6 +239,12 @@ void RLSManager::addPolicy(const RLSPolicy& policy) {
                 policy.id, policy.collection.empty() ? "*" : policy.collection);
 }
 
+/**
+ * @brief Remove a retention policy by name.
+ * @param[in] policy_id Identifier of the policy.
+ * @return True when the policy existed and was removed.
+ * @details Calls: lock(), find(), end(), erase(), THEMIS_INFO().
+ */
 bool RLSManager::removePolicy(const std::string& policy_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = policies_.find(policy_id);
@@ -222,6 +257,11 @@ bool RLSManager::removePolicy(const std::string& policy_id) {
 }
 
 std::optional<RLSPolicy> RLSManager::getPolicy(const std::string& policy_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = policies_.find(policy_id);
     if (it != policies_.end()) {
@@ -231,6 +271,11 @@ std::optional<RLSPolicy> RLSManager::getPolicy(const std::string& policy_id) con
 }
 
 std::vector<std::string> RLSManager::listPolicies() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     std::vector<std::string> ids = {};
 
@@ -241,6 +286,11 @@ std::vector<std::string> RLSManager::listPolicies() const {
     return ids;
 }
 
+/**
+ * @brief Clear Policies For Collection.
+ * @param[in] collection Input parameter.
+ * @details Calls: lock(), begin(), end(), erase(), THEMIS_INFO(), empty().
+ */
 void RLSManager::clearPoliciesForCollection(const std::string& collection) {
     std::lock_guard<std::mutex> lock(mutex_);
     for (auto it = policies_.begin(); it != policies_.end();) {
@@ -254,12 +304,22 @@ void RLSManager::clearPoliciesForCollection(const std::string& collection) {
                 collection.empty() ? "*" : collection);
 }
 
+/**
+ * @brief Clear All Policies.
+ * @details Calls: lock(), clear(), THEMIS_INFO().
+ */
 void RLSManager::clearAllPolicies() {
     std::lock_guard<std::mutex> lock(mutex_);
     policies_.clear();
     THEMIS_INFO("RLSManager: cleared all policies");
 }
 
+/**
+ * @brief Load From Json.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: contains(), is_array(), RLSPolicy::fromJson(), empty(), addPolicy(), THEMIS_WARN(), what().
+ */
 size_t RLSManager::loadFromJson(const nlohmann::json& j) {
     if (!j.contains("policies") || !j["policies"].is_array()) {
         return 0;
@@ -280,6 +340,11 @@ size_t RLSManager::loadFromJson(const nlohmann::json& j) {
 }
 
 nlohmann::json RLSManager::toJson() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     nlohmann::json arr = nlohmann::json::array();
     for (const auto& [_, p] : policies_) {
@@ -334,6 +399,11 @@ bool RLSManager::isActive(
     const std::string& collection,
     const SecurityContext& ctx
 ) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return !matchingPolicies(collection, ctx).empty();
 }
@@ -347,6 +417,11 @@ nlohmann::json RLSManager::filterRows(
         return rows;  // Not an array – pass through unchanged.
     }
 
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     auto applicable = matchingPolicies(collection, ctx);
 

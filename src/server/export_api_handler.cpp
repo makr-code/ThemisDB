@@ -40,6 +40,11 @@ namespace {
 
 constexpr size_t kMaxExportFieldLength = 256;
 
+/**
+ * @brief Resolve Export Output Dir.
+ * @return Return value.
+ * @details Calls: std::filesystem::temp_directory_path(), empty(), clear(), std::filesystem::current_path(), std::filesystem::path(), std::filesystem::create_directories().
+ */
 std::filesystem::path resolveExportOutputDir() {
     std::error_code ec = {};
     auto base_dir = std::filesystem::temp_directory_path(ec);
@@ -57,12 +62,24 @@ std::filesystem::path resolveExportOutputDir() {
     return export_dir;
 }
 
+/**
+ * @brief Is Valid Export Field.
+ * @param[in] value Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: validateStringLength(), std::string(), validateHeaderValue().
+ */
 bool isValidExportField(std::string_view value) {
     themis::utils::InputValidator validator;
     return validator.validateStringLength(std::string(value), kMaxExportFieldLength) &&
            validator.validateHeaderValue(std::string(value));
 }
 
+/**
+ * @brief Is Valid Export Id.
+ * @param[in] value Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), validateStringLength(), std::string(), validatePathSegment().
+ */
 bool isValidExportId(std::string_view value) {
     themis::utils::InputValidator validator;
     return !value.empty() &&
@@ -81,6 +98,12 @@ ExportApiHandler::ExportApiHandler(
 
 ExportApiHandler::~ExportApiHandler() = default;
 
+/**
+ * @brief Handle Export Jsonl Llm.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), validateAdminToken(), setStatus(), errorResponse(), json::parse(), body(), buildAqlQuery(), setAttribute().
+ */
 http::response<http::string_body> ExportApiHandler::handleExportJsonlLlm(
     const http::request<http::string_body>& req) {
     auto span = Tracer::startSpan("POST /export/jsonl-llm");
@@ -325,6 +348,12 @@ http::response<http::string_body> ExportApiHandler::handleExportJsonlLlm(
     }
 }
 
+/**
+ * @brief Handle Export Status.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), validateAdminToken(), setStatus(), errorResponse(), target(), data(), size(), find_last_of().
+ */
 http::response<http::string_body> ExportApiHandler::handleExportStatus(
     const http::request<http::string_body>& req) {
     auto span = Tracer::startSpan("GET /export/:id/status");
@@ -386,6 +415,13 @@ http::response<http::string_body> ExportApiHandler::handleExportStatus(
     }
 }
 
+/**
+ * @brief Build Aql Query.
+ * @param[in] request_json Input parameter.
+ * @return Return value.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: find(), size(), contains(), validateStringField(), push_back(), std::to_string(), empty(), syntax_check().
+ */
 std::string ExportApiHandler::buildAqlQuery(const json& request_json) {
     // GAP-004: Prevent AQL injection (CWE-89).
     // String fields (theme, domain, subject, from_date, to_date) are embedded
@@ -485,6 +521,11 @@ std::string ExportApiHandler::buildAqlQuery(const json& request_json) {
     return query;
 }
 
+/**
+ * @brief Generate Export Id.
+ * @return Return value.
+ * @details Calls: rd(), str().
+ */
 std::string ExportApiHandler::generateExportId() {
     // GAP-019: Use std::random_device directly for cryptographic-quality randomness.
     // mt19937 (a Mersenne Twister) is not cryptographically secure; export IDs
@@ -503,6 +544,12 @@ std::string ExportApiHandler::generateExportId() {
     return ss.str();
 }
 
+/**
+ * @brief Validate Admin Token.
+ * @param[in] req Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), auth_str(), data(), size(), find(), substr(), std::getenv(), THEMIS_WARN().
+ */
 bool ExportApiHandler::validateAdminToken(
     const http::request<http::string_body>& req) {
     
@@ -538,6 +585,13 @@ bool ExportApiHandler::validateAdminToken(
     return CRYPTO_memcmp(token.data(), expected.data(),expected.size()) == 0;
 }
 
+/**
+ * @brief Json Response.
+ * @param[in] status Input parameter.
+ * @param[in] json_body Input parameter.
+ * @return Return value.
+ * @details Calls: set(), body(), prepare_payload().
+ */
 http::response<http::string_body> ExportApiHandler::jsonResponse(
     http::status status,
     const std::string& json_body) {
@@ -549,6 +603,13 @@ http::response<http::string_body> ExportApiHandler::jsonResponse(
     return res;
 }
 
+/**
+ * @brief Error Response.
+ * @param[in] status Input parameter.
+ * @param[in] error_message Input parameter.
+ * @return Return value.
+ * @details Calls: jsonResponse(), dump().
+ */
 http::response<http::string_body> ExportApiHandler::errorResponse(
     http::status status,
     const std::string& error_message) {

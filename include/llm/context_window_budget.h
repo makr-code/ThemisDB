@@ -24,25 +24,13 @@ namespace themis::llm {
 // Token estimation
 // ---------------------------------------------------------------------------
 
-/// Method used to count tokens in a string.
 enum class TokenEstimationMethod {
     CHAR_HEURISTIC,  ///< ceil(chars / 3.5) — no external library required
     LLAMA_TOKENIZER  ///< Use llama.cpp llama_tokenize() (requires loaded model)
 };
 
-/// Characters-per-token divisor for the heuristic estimator.
 static constexpr double kCharsPerTokenHeuristic = 3.5;
 
-/**
- * @brief Estimate the number of tokens in @p text.
- *
- * Uses the CHAR_HEURISTIC regardless of @p method until a live tokenizer is
- * wired in.  The result is always >= 1 for non-empty input.
- *
- * @param text   Input string.
- * @param method Estimation method (currently CHAR_HEURISTIC is always used).
- * @return Estimated token count.
- */
 inline size_t estimateTokens(
     const std::string& text,
     TokenEstimationMethod method = TokenEstimationMethod::CHAR_HEURISTIC)
@@ -55,9 +43,6 @@ inline size_t estimateTokens(
         std::ceil(static_cast<double>(text.size()) / kCharsPerTokenHeuristic));
 }
 
-/**
- * @brief Estimate token count from a raw character count.
- */
 inline size_t estimateTokens(
     size_t char_count,
     TokenEstimationMethod method = TokenEstimationMethod::CHAR_HEURISTIC)
@@ -71,8 +56,9 @@ inline size_t estimateTokens(
 }
 
 /**
- * @brief Convert an estimated token count back to an approximate character
- *        budget (inverse of the heuristic).
+ * @brief Tokens To Chars.
+ * @param[in] tokens Input parameter.
+ * @return Return value.
  */
 inline size_t tokensToChars(size_t tokens)
 {
@@ -84,45 +70,16 @@ inline size_t tokensToChars(size_t tokens)
 // Constants
 // ---------------------------------------------------------------------------
 
-/// Fallback context-window size when ModelInfo::context_length is 0.
 static constexpr size_t kDefaultContextWindowTokens = 4096u;
 
-/// Minimum fraction of the total window reserved for the model response.
 static constexpr double kMinResponseFraction = 0.20;
 
-/// Default minimum tokens reserved for the model response.
 static constexpr size_t kDefaultMinResponseTokens = 512u;
 
 // ---------------------------------------------------------------------------
 // ContextWindowBudget
 // ---------------------------------------------------------------------------
 
-/**
- * @brief Decomposed token budget for a single RAG inference call.
- *
- * Fields:
- * @code
- *   model_max_tokens
- *   ├── system_prompt_tokens
- *   ├── query_tokens
- *   ├── reserved_response_tokens   (enforced lower bound)
- *   └── available_context_tokens   (what remains for retrieved chunks)
- * @endcode
- *
- * Invariant: available_context_tokens >= 0 (never negative; clamped at 0).
- *
- * Usage:
- * @code
- *   auto budget = ContextWindowBudget::compute(
- *       model_info.context_length,
- *       system_prompt,
- *       user_query,
- *       512u); // min_response_tokens
- *
- *   // Budget for context chunks (in characters):
- *   size_t char_budget = budget.availableContextChars();
- * @endcode
- */
 struct ContextWindowBudget {
     size_t model_max_tokens         = kDefaultContextWindowTokens;
     size_t system_prompt_tokens     = 0u;
@@ -132,19 +89,6 @@ struct ContextWindowBudget {
 
     // ── Factory ──────────────────────────────────────────────────────────────
 
-    /**
-     * @brief Compute a budget for a given model and request.
-     *
-     * @param model_ctx     Model's maximum context window in tokens.
-     *                      0 triggers the kDefaultContextWindowTokens fallback.
-     * @param system_prompt System / instruction prompt text (may be empty).
-     * @param query         User query text (may be empty).
-     * @param min_response  Caller-specified minimum response token budget.
-     *                      The actual reservation is max(min_response, 20% of
-     *                      the context window) to prevent the model from
-     *                      producing only a few tokens.
-     * @return Fully computed ContextWindowBudget.
-     */
     static ContextWindowBudget compute(
         size_t             model_ctx,
         const std::string& system_prompt,
@@ -180,25 +124,16 @@ struct ContextWindowBudget {
 
     // ── Helpers ───────────────────────────────────────────────────────────────
 
-    /// Approximate character count available for context chunks.
     size_t availableContextChars() const
     {
         return tokensToChars(available_context_tokens);
     }
 
-    /// True when there is at least one token of context budget remaining.
     bool hasContextBudget() const
     {
         return available_context_tokens > 0u;
     }
 
-    /**
-     * @brief Remaining response budget after @p context_tokens_used context
-     *        tokens have been consumed.
-     *
-     * @param context_tokens_used  Tokens actually used by assembled context.
-     * @return Tokens available for the model's response (>= reserved_response_tokens).
-     */
     size_t responseBudgetAfterContext(size_t context_tokens_used) const
     {
         const size_t used =

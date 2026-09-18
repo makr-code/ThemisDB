@@ -27,6 +27,11 @@ RateLimitingMiddleware::RateLimitingMiddleware()
 {}
 
 RateLimitingMiddleware::RateLimitingMiddleware(const Config& config) {
+    /**
+     * @brief Lock.
+     * @param[in] config_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(config_mutex_);
     config_ = config;
     rebuildLimiters();
@@ -37,6 +42,10 @@ RateLimitingMiddleware::RateLimitingMiddleware(const Config& config) {
                 config_.whitelist_ips.size());
 }
 
+/**
+ * @brief Rebuild Limiters.
+ * @details Calls: clear(), insert(), std::max(), reserve(), size(), push_back().
+ */
 void RateLimitingMiddleware::rebuildLimiters() {
     // Rebuild whitelist lookup set
     whitelist_set_.clear();
@@ -66,6 +75,11 @@ void RateLimitingMiddleware::rebuildLimiters() {
     }
 }
 
+/**
+ * @brief Update the access control configuration.
+ * @param[in] config New access control configuration.
+ * @details Calls: lock(), rebuildLimiters(), THEMIS_INFO().
+ */
 void RateLimitingMiddleware::updateConfig(const Config& config) {
     std::lock_guard<std::mutex> lock(config_mutex_);
     config_ = config;
@@ -75,6 +89,11 @@ void RateLimitingMiddleware::updateConfig(const Config& config) {
 }
 
 RateLimitingMiddleware::Config RateLimitingMiddleware::getConfig() const {
+    /**
+     * @brief Lock.
+     * @param[in] config_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(config_mutex_);
     return config_;
 }
@@ -134,6 +153,11 @@ RateLimitingMiddleware::check(const std::string& client_key,
 
     CheckResult result;
 
+    /**
+     * @brief Lock.
+     * @param[in] config_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::unique_lock<std::mutex> lock(config_mutex_);
 
     // ── Whitelist bypass ──────────────────────────────────────────────────
@@ -198,6 +222,11 @@ RateLimitingMiddleware::check(const std::string& client_key,
 
     // ── Build response headers ────────────────────────────────────────────
     {
+        /**
+         * @brief Hdr lock.
+         * @param[in] config_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> hdr_lock(config_mutex_);
         if (config_.send_rate_limit_headers) {
             result.headers["X-RateLimit-Limit"]     = std::to_string(result.limit);
@@ -222,6 +251,11 @@ RateLimitingMiddleware::Stats RateLimitingMiddleware::getStats() const {
     s.allowed_requests  = allowed_requests_.load(std::memory_order_relaxed);
     s.rejected_requests = rejected_requests_.load(std::memory_order_relaxed);
 
+    /**
+     * @brief Lock.
+     * @param[in] config_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(config_mutex_);
     // Sum active clients across default + override limiters
     s.active_clients = default_limiter_ ? default_limiter_->getActiveClients() : 0;
@@ -233,6 +267,10 @@ RateLimitingMiddleware::Stats RateLimitingMiddleware::getStats() const {
     return s;
 }
 
+/**
+ * @brief Reset the modification detection flag.
+ * @details Calls: store(), lock(), rebuildLimiters(), THEMIS_INFO().
+ */
 void RateLimitingMiddleware::reset() {
     total_requests_.store(0, std::memory_order_relaxed);
     allowed_requests_.store(0, std::memory_order_relaxed);

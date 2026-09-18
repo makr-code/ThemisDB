@@ -126,6 +126,13 @@ FuzzyMatcher::search(const std::string& query,
 // Static algorithm utilities
 // ============================================================================
 
+/**
+ * @brief Levenshtein.
+ * @param[in] a Input parameter.
+ * @param[in] b Input parameter.
+ * @return Return value.
+ * @details Calls: size(), prev(), curr(), std::min(), std::swap().
+ */
 int FuzzyMatcher::levenshtein(const std::string& a, const std::string& b) {
     const size_t la = a.size(), lb = b.size();
     if (la == 0) {
@@ -149,6 +156,12 @@ int FuzzyMatcher::levenshtein(const std::string& a, const std::string& b) {
     return prev[lb];
 }
 
+/**
+ * @brief Soundex.
+ * @param[in] word Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), std::toupper(), size().
+ */
 std::string FuzzyMatcher::soundex(const std::string& word) {
     if (word.empty()) {
       return "0000";
@@ -182,6 +195,12 @@ std::string FuzzyMatcher::soundex(const std::string& word) {
     return result;
 }
 
+/**
+ * @brief Metaphone.
+ * @param[in] word Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), std::toupper(), size(), isVowel().
+ */
 std::string FuzzyMatcher::metaphone(const std::string& word) {
     if (word.empty()) {
       return "";
@@ -266,6 +285,14 @@ std::string FuzzyMatcher::metaphone(const std::string& word) {
     return result;
 }
 
+/**
+ * @brief Ngram Similarity.
+ * @param[in] a Input parameter.
+ * @param[in] b Input parameter.
+ * @param[in] n Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), size(), insert(), substr(), ngrams(), begin(), end().
+ */
 double FuzzyMatcher::ngramSimilarity(const std::string& a, const std::string& b, size_t n) {
     if (a.empty() && b.empty()) {
       return 1.0;
@@ -314,6 +341,13 @@ double FuzzyMatcher::ngramSimilarity(const std::string& a, const std::string& b,
     return 2.0 * static_cast<double>(intersection) / denom;
 }
 
+/**
+ * @brief Distance To Score.
+ * @param[in] distance Input parameter.
+ * @param[in] query_len Input parameter.
+ * @return Return value.
+ * @details Calls: std::max().
+ */
 double FuzzyMatcher::distanceToScore(int distance, size_t query_len) {
     if (query_len == 0) {
       return distance == 0 ? 1.0 : 0.0;

@@ -66,6 +66,14 @@ DistributedHybridSearch::DistributedHybridSearch(
 // Distributed Search
 // ============================================================================
 
+/**
+ * @brief Search.
+ * @param[in] text_query Input parameter.
+ * @param[in] vector_query Input parameter.
+ * @param[in,out] stats Input/output parameter.
+ * @return Return value.
+ * @details Calls: empty(), std::chrono::steady_clock::now(), data(), size(), count(), THEMIS_DEBUG(), std::string(), what().
+ */
 std::vector<HybridSearch::Result> DistributedHybridSearch::search(
     const std::string& text_query,
     const std::vector<float>& vector_query,
@@ -432,6 +440,12 @@ DistributedHybridSearch::searchRemoteShard(
 // JSON deserialization
 // ============================================================================
 
+/**
+ * @brief Parse Shard Response.
+ * @param[in] data Input parameter.
+ * @return Return value.
+ * @details Calls: is_array(), is_object(), contains(), THEMIS_WARN(), reserve(), size(), is_string(), empty().
+ */
 std::vector<HybridSearch::Result> DistributedHybridSearch::parseShardResponse(
     const nlohmann::json& data
 ) {

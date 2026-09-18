@@ -24,16 +24,12 @@ namespace themis {
 namespace lora {
 namespace directx {
 
-/**
- * @brief DirectX 12 shader manager
- * 
- * Handles shader compilation, loading, and root signature creation.
- */
 class DirectXShader {
 public:
     /**
-     * @brief Load compiled shader from file
-     * @param shader_path Path to .cso or .dxil file
+     * @brief Direct XShader.
+     * @param[in] shader_path Path to the shader.
+     * @return Return value.
      */
     explicit DirectXShader(const std::string& shader_path);
     
@@ -46,25 +42,17 @@ public:
     DirectXShader& operator=(DirectXShader&&) noexcept;
     
     /**
-     * @brief Load shader bytecode from file
+     * @brief Load.
+     * @return True when the operation succeeds.
      */
     bool load();
     
-    /**
-     * @brief Get shader bytecode
-     */
     D3D12_SHADER_BYTECODE get_bytecode() const {
         return D3D12_SHADER_BYTECODE{bytecode_.data(), bytecode_.size()};
     }
     
-    /**
-     * @brief Check if shader is loaded
-     */
     bool is_loaded() const { return !bytecode_.empty(); }
     
-    /**
-     * @brief Get shader path
-     */
     const std::string& path() const { return shader_path_; }
 
 private:

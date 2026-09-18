@@ -38,6 +38,11 @@ LatencyHistogram::LatencyHistogram(size_t num_buckets, uint64_t max_latency_us)
     buckets_.resize(num_buckets + 1, 0);  // +1 for overflow bucket
 }
 
+/**
+ * @brief Record.
+ * @param[in] latency_us Input parameter.
+ * @details Calls: std::min(), std::max().
+ */
 void LatencyHistogram::record(uint64_t latency_us) {
     // Record a latency observation
     size_t bucket_idx = std::min(
@@ -117,9 +122,11 @@ std::string LatencyHistogram::describe() const {
     return oss.str();
 }
 
-// ============================================================================
-// § 2  Access Metrics (Per-Key / Per-Tier)
-// ============================================================================
+/**
+ * @brief ============================================================================ § 2 Access Metrics (Per-Key / Per-Tier) ============================================================================
+ * @param[in] latency_us Input parameter.
+ * @details Calls: std::chrono::system_clock::now(), record().
+ */
 
 void AccessMetrics::recordAccess(uint64_t latency_us) {
     access_count++;
@@ -130,16 +137,28 @@ void AccessMetrics::recordAccess(uint64_t latency_us) {
     }
 }
 
+/**
+ * @brief Record Cache Hit.
+ * @details Implements recordCacheHit without additional internal calls.
+ */
 void AccessMetrics::recordCacheHit() {
     cache_hits++;
     total_accesses++;
 }
 
+/**
+ * @brief Record Cache Miss.
+ * @details Implements recordCacheMiss without additional internal calls.
+ */
 void AccessMetrics::recordCacheMiss() {
     cache_misses++;
     total_accesses++;
 }
 
+/**
+ * @brief Record Eviction.
+ * @details Implements recordEviction without additional internal calls.
+ */
 void AccessMetrics::recordEviction() {
     evictions++;
 }
@@ -177,14 +196,29 @@ AccessModelMetrics::AccessModelMetrics()
 {
 }
 
+/**
+ * @brief Record Event Processing Latency.
+ * @param[in] latency_us Input parameter.
+ * @details Calls: record().
+ */
 void AccessModelMetrics::recordEventProcessingLatency(uint64_t latency_us) {
     event_processing_latency_us_.record(latency_us);
 }
 
+/**
+ * @brief Record Tier Promotion Latency.
+ * @param[in] latency_us Input parameter.
+ * @details Calls: record().
+ */
 void AccessModelMetrics::recordTierPromotionLatency(uint64_t latency_us) {
     tier_promotion_latency_us_.record(latency_us);
 }
 
+/**
+ * @brief Record Policy Decision Latency.
+ * @param[in] latency_us Input parameter.
+ * @details Calls: record().
+ */
 void AccessModelMetrics::recordPolicyDecisionLatency(uint64_t latency_us) {
     policy_decision_latency_us_.record(latency_us);
 }

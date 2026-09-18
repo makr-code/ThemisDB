@@ -179,11 +179,11 @@ std::string RootCauseReport::toReport() const {
 namespace {
 
 /**
- * @brief Compute the Pearson correlation coefficient between two equal-length vectors.
+ * @brief Pearson Correlation.
  * @param[in] x Input parameter.
  * @param[in] y Input parameter.
  * @return Return value.
- * @details Returns 0.0 if variance is zero on either side. Calls: size(), empty(), std::accumulate(), begin(), end(), std::sqrt().
+ * @details Calls: size(), empty(), std::accumulate(), begin(), end(), std::sqrt().
  */
 double pearsonCorrelation(const std::vector<double>& x,
                           const std::vector<double>& y) {
@@ -210,7 +210,12 @@ double pearsonCorrelation(const std::vector<double>& x,
     return cov / denom;
 }
 
-/// Extract the raw double values from a TimeSeries.
+/**
+ * @brief Extract Values.
+ * @param[in] ts Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), push_back().
+ */
 std::vector<double> extractValues(const TimeSeries& ts) {
     std::vector<double> v = {};
 
@@ -221,7 +226,12 @@ std::vector<double> extractValues(const TimeSeries& ts) {
     return v;
 }
 
-/// Align two value vectors to the same length by taking the overlapping suffix.
+/**
+ * @brief Align Vectors.
+ * @param[in,out] a Input/output parameter.
+ * @param[in,out] b Input/output parameter.
+ * @details Calls: std::min(), size(), erase(), begin(), end().
+ */
 void alignVectors(std::vector<double>& a, std::vector<double>& b) {
     const size_t n = std::min(a.size(), b.size());
     if (a.size() > n) {
@@ -233,11 +243,11 @@ void alignVectors(std::vector<double>& a, std::vector<double>& b) {
 }
 
 /**
- * @brief Compute the delta (percentage change) between before and after values.
+ * @brief Delta Percent.
  * @param[in] before Input parameter.
  * @param[in] after Input parameter.
  * @return Return value.
- * @details Returns 0.0 when before == 0. Calls: std::abs().
+ * @details Calls: std::abs().
  */
 double deltaPercent(double before, double after) {
     if (before == 0.0) {
@@ -252,7 +262,6 @@ double deltaPercent(double before, double after) {
 // RootCauseAnalyzer::Impl
 // ---------------------------------------------------------------------------
 
-/** @brief RootCauseAnalyzer::Impl. */
 class RootCauseAnalyzer::Impl {
 public:
     RootCauseAnalyzerConfig config;
@@ -471,7 +480,7 @@ RootCauseReport RootCauseAnalyzer::analyzeIssue(const PerformanceIssue& issue,
 
 /**
  * @brief Find Correlations.
- * @param[in] metric_name Input parameter.
+ * @param[in] metric_name Name of the metric.
  * @return Return value.
  * @details Calls: find(), end(), extractValues(), alignVectors(), size(), pearsonCorrelation(), std::abs(), std::string().
  */

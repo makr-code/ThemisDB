@@ -35,6 +35,12 @@ static constexpr float kDefaultInfiniBandLatencyUs = 2.0f;
 // Lifecycle
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Initialize.
+ * @param[in] config Input parameter.
+ * @param[in] devices Input parameter.
+ * @details Calls: lock(), GPUClusterTopology::detect(), empty(), push_back(), addNode().
+ */
 void GPUClusterCoordinator::initialize(const ClusterConfig &config, const std::vector<DeviceInfo> &devices) {
     std::lock_guard<std::mutex> lock(mutex_);
 
@@ -64,6 +70,12 @@ void GPUClusterCoordinator::initialize(const ClusterConfig &config, const std::v
 // Node management
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Register Node.
+ * @param[in] node Input parameter.
+ * @param[in] ib_bw_gbps Input parameter.
+ * @details Calls: lock(), addNode(), has_infiniband(), empty(), addLink().
+ */
 void GPUClusterCoordinator::registerNode(const ClusterNode &node, float ib_bw_gbps) {
     std::lock_guard<std::mutex> lock(mutex_);
 
@@ -92,11 +104,20 @@ void GPUClusterCoordinator::registerNode(const ClusterNode &node, float ib_bw_gb
     }
 }
 
+/**
+ * @brief Remove Node.
+ * @param[in] node_id Identifier of the node.
+ * @details Calls: lock().
+ */
 void GPUClusterCoordinator::removeNode(const std::string &node_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     topology_.removeNode(node_id);
 }
 
+/**
+ * @brief Update Topology.
+ * @details Calls: lock(), GPUClusterTopology::detect(), addNode(), is_inter_node(), addLink(), std::move().
+ */
 void GPUClusterCoordinator::updateTopology() {
     std::lock_guard<std::mutex> lock(mutex_);
     // Re-detect intra-node topology and preserve existing inter-node links.
@@ -122,6 +143,11 @@ void GPUClusterCoordinator::updateTopology() {
 // ---------------------------------------------------------------------------
 
 GPUClusterCoordinator::Placement GPUClusterCoordinator::selectDevice(uint64_t required_vram_bytes) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     Placement result;
@@ -203,6 +229,11 @@ GPUClusterCoordinator::Placement GPUClusterCoordinator::selectDevice(uint64_t re
 }
 
 GPUClusterCoordinator::Placement GPUClusterCoordinator::selectNodeForTransfer(const std::string &src_node_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     const std::string src = src_node_id.empty() ? config_.node_id : src_node_id;
@@ -243,6 +274,11 @@ GPUClusterCoordinator::Placement GPUClusterCoordinator::selectNodeForTransfer(co
 // ---------------------------------------------------------------------------
 
 GPUClusterCoordinator::ClusterHealth GPUClusterCoordinator::clusterHealth() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     ClusterHealth h;
@@ -271,6 +307,12 @@ GPUClusterCoordinator::NodeInfo *GPUClusterCoordinator::findNode(const std::stri
 // Lifecycle
 // ============================================================================
 
+/**
+ * @brief Initialize.
+ * @param[in] cfg Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), clear(), empty(), std::chrono::steady_clock::now(), push_back(), std::move().
+ */
 bool GPUClusterCoordinator::initialize(const ClusterConfig &cfg) {
     std::lock_guard<std::mutex> lock(mutex_);
 
@@ -322,6 +364,11 @@ bool GPUClusterCoordinator::initialize(const ClusterConfig &cfg) {
 // Node management
 // ============================================================================
 
+/**
+ * @brief Register Node.
+ * @param[in] node Input parameter.
+ * @details Calls: lock(), findNode(), push_back().
+ */
 void GPUClusterCoordinator::registerNode(const NodeInfo &node) {
     std::lock_guard<std::mutex> lock(mutex_);
     NodeInfo *existing = findNode(node.id);
@@ -332,6 +379,12 @@ void GPUClusterCoordinator::registerNode(const NodeInfo &node) {
     }
 }
 
+/**
+ * @brief Deregister Node.
+ * @param[in] node_id Identifier of the node.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), std::remove_if(), begin(), end(), erase().
+ */
 bool GPUClusterCoordinator::deregisterNode(const std::string &node_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = std::remove_if(nodes_.begin(), nodes_.end(), [&node_id](const NodeInfo &n) { return n.id == node_id; });
@@ -342,6 +395,12 @@ bool GPUClusterCoordinator::deregisterNode(const std::string &node_id) {
     return true;
 }
 
+/**
+ * @brief Update Heartbeat.
+ * @param[in] node_id Identifier of the node.
+ * @param[in] free_vram_bytes Input parameter.
+ * @details Calls: lock(), findNode(), std::chrono::steady_clock::now().
+ */
 void GPUClusterCoordinator::updateHeartbeat(const std::string &node_id, uint64_t free_vram_bytes) {
     std::lock_guard<std::mutex> lock(mutex_);
     NodeInfo *n = findNode(node_id);
@@ -353,6 +412,11 @@ void GPUClusterCoordinator::updateHeartbeat(const std::string &node_id, uint64_t
     n->last_heartbeat  = std::chrono::steady_clock::now();
 }
 
+/**
+ * @brief Mark Node Offline.
+ * @param[in] node_id Identifier of the node.
+ * @details Calls: lock(), findNode().
+ */
 void GPUClusterCoordinator::markNodeOffline(const std::string &node_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     NodeInfo *n = findNode(node_id);
@@ -361,6 +425,10 @@ void GPUClusterCoordinator::markNodeOffline(const std::string &node_id) {
     }
 }
 
+/**
+ * @brief Expire Stale Nodes.
+ * @details Calls: std::chrono::steady_clock::now(), std::chrono::milliseconds(), lock().
+ */
 void GPUClusterCoordinator::expireStaleNodes() {
     const auto now     = std::chrono::steady_clock::now();
     const auto timeout = std::chrono::milliseconds(config_.node_timeout_ms);
@@ -378,6 +446,11 @@ void GPUClusterCoordinator::expireStaleNodes() {
 // ============================================================================
 
 const GPUClusterCoordinator::NodeInfo *GPUClusterCoordinator::selectNode(uint64_t required_vram_bytes) {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     const NodeInfo *best = nullptr;
@@ -400,11 +473,21 @@ const GPUClusterCoordinator::NodeInfo *GPUClusterCoordinator::selectNode(uint64_
 // ============================================================================
 
 std::vector<GPUClusterCoordinator::NodeInfo> GPUClusterCoordinator::getClusterNodes() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return nodes_;
 }
 
 std::vector<GPUClusterCoordinator::NodeInfo> GPUClusterCoordinator::getOnlineNodes() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     std::vector<NodeInfo> result = {};
 
@@ -417,11 +500,21 @@ std::vector<GPUClusterCoordinator::NodeInfo> GPUClusterCoordinator::getOnlineNod
 }
 
 size_t GPUClusterCoordinator::totalNodes() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return nodes_.size();
 }
 
 size_t GPUClusterCoordinator::onlineNodeCount() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     size_t n = 0;
     for (const auto &node : nodes_) {

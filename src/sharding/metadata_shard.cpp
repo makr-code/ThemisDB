@@ -21,12 +21,17 @@
 namespace themisdb {
 namespace sharding {
 
-/** @brief Build stable cache key as "partition:key". */
+/**
+ * @brief Make Cache Key.
+ * @param[in] partition Input parameter.
+ * @param[in] key Input parameter.
+ * @return Return value.
+ * @details Calls: std::to_string().
+ */
 static std::string makeCacheKey(MetadataPartitionKey partition, const std::string& key) {
     return std::to_string(static_cast<int>(partition)) + ":" + key;
 }
 
-/** @brief Construct metadata shard and optional cache/persistence backends. */
 MetadataShard::MetadataShard(
     const MetadataShardConfig& config,
     std::shared_ptr<ConsensusModule> consensus
@@ -85,12 +90,15 @@ MetadataShard::MetadataShard(
     }
 }
 
-/** @brief Stop shard on destruction. */
 MetadataShard::~MetadataShard() {
     stop();
 }
 
-/** @brief Initialize shard storage and optional WAL/snapshot recovery. */
+/**
+ * @brief Initialize.
+ * @return True when the operation succeeds.
+ * @details Calls: spdlog::info(), spdlog::warn(), reset(), recoverFromWAL().
+ */
 bool MetadataShard::initialize() {
     spdlog::info("Initializing MetadataShard {}", config_.shard_id);
     
@@ -116,7 +124,11 @@ bool MetadataShard::initialize() {
     return true;
 }
 
-/** @brief Transition shard to running state. */
+/**
+ * @brief Start.
+ * @return True when the operation succeeds.
+ * @details Calls: load(), spdlog::warn(), spdlog::info(), store().
+ */
 bool MetadataShard::start() {
     if (running_.load()) {
         spdlog::warn("MetadataShard {} already running", config_.shard_id);
@@ -129,7 +141,10 @@ bool MetadataShard::start() {
     return true;
 }
 
-/** @brief Stop shard execution and clear cache state. */
+/**
+ * @brief Stop.
+ * @details Calls: load(), spdlog::info(), store(), clear().
+ */
 void MetadataShard::stop() {
     if (!running_.load()) {
         return;
@@ -144,7 +159,6 @@ void MetadataShard::stop() {
     }
 }
 
-/** @brief Read metadata entry with cache-first lookup strategy. */
 std::optional<MetadataEntry> MetadataShard::get(
     MetadataPartitionKey partition,
     const std::string& key
@@ -163,6 +177,11 @@ std::optional<MetadataEntry> MetadataShard::get(
     }
     
     // Check storage
+    /**
+     * @brief Lock.
+     * @param[in] storage_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(storage_mutex_);
     
     auto partition_it = storage_.find(partition);
@@ -184,7 +203,14 @@ std::optional<MetadataEntry> MetadataShard::get(
     return entry_it->second;
 }
 
-/** @brief Insert or update metadata entry with optional WAL/consensus path. */
+/**
+ * @brief Put.
+ * @param[in] partition Input parameter.
+ * @param[in] key Input parameter.
+ * @param[in] value Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: fetch_add(), std::chrono::system_clock::now(), logPut(), shouldCreateSnapshot(), spdlog::info(), createPeriodicSnapshot(), spdlog::warn(), what().
+ */
 bool MetadataShard::put(
     MetadataPartitionKey partition,
     const std::string& key,
@@ -259,7 +285,13 @@ bool MetadataShard::put(
     return true;
 }
 
-/** @brief Remove metadata entry with optional WAL/consensus path. */
+/**
+ * @brief Remove.
+ * @param[in] partition Input parameter.
+ * @param[in] key Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), find(), end(), logDelete(), spdlog::warn(), what(), applyChange(), erase().
+ */
 bool MetadataShard::remove(
     MetadataPartitionKey partition,
     const std::string& key
@@ -313,8 +345,12 @@ bool MetadataShard::remove(
     return true;
 }
 
-/** @brief List all keys currently present in one partition. */
 std::vector<std::string> MetadataShard::listKeys(MetadataPartitionKey partition) const {
+    /**
+     * @brief Lock.
+     * @param[in] storage_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(storage_mutex_);
     
     std::vector<std::string> keys;
@@ -329,8 +365,12 @@ std::vector<std::string> MetadataShard::listKeys(MetadataPartitionKey partition)
     return keys;
 }
 
-/** @brief Return entry-count statistics for one partition. */
 nlohmann::json MetadataShard::getPartitionStats(MetadataPartitionKey partition) const {
+    /**
+     * @brief Lock.
+     * @param[in] storage_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(storage_mutex_);
     
     auto partition_it = storage_.find(partition);
@@ -347,7 +387,6 @@ nlohmann::json MetadataShard::getPartitionStats(MetadataPartitionKey partition) 
     };
 }
 
-/** @brief Return aggregated shard/cache/partition statistics snapshot. */
 nlohmann::json MetadataShard::getStatistics() const {
     nlohmann::json stats = {
         {"shard_id", config_.shard_id},
@@ -374,16 +413,19 @@ nlohmann::json MetadataShard::getStatistics() const {
     return stats;
 }
 
-/** @brief Register callback subscriber for partition-level metadata changes. */
 void MetadataShard::subscribe(
     MetadataPartitionKey partition,
     std::function<void(const MetadataEntry&)> callback
 ) {
+    /**
+     * @brief Lock.
+     * @param[in] subscriptions_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(subscriptions_mutex_);
     subscriptions_[partition].push_back(callback);
 }
 
-/** @brief Determine shard owner id by hashing key into metadata shard space. */
 std::string MetadataShard::determineShardOwner(
     MetadataPartitionKey partition,
     const std::string& key
@@ -394,7 +436,11 @@ std::string MetadataShard::determineShardOwner(
     return "shard_" + std::to_string(shard_index);
 }
 
-/** @brief Put metadata entry into cache when enabled. */
+/**
+ * @brief Cache Entry.
+ * @param[in] entry Input parameter.
+ * @details Calls: makeCacheKey(), put(), toJson().
+ */
 void MetadataShard::cacheEntry(const MetadataEntry& entry) {
     if (cache_) {
         std::string cache_key = makeCacheKey(entry.partition, entry.key);
@@ -402,7 +448,6 @@ void MetadataShard::cacheEntry(const MetadataEntry& entry) {
     }
 }
 
-/** @brief Get metadata entry from cache by partition/key. */
 std::optional<MetadataEntry> MetadataShard::getCachedEntry(
     MetadataPartitionKey partition,
     const std::string& key
@@ -420,7 +465,12 @@ std::optional<MetadataEntry> MetadataShard::getCachedEntry(
     return std::nullopt;
 }
 
-/** @brief Remove cache entry by partition/key. */
+/**
+ * @brief Invalidate Cache.
+ * @param[in] partition Input parameter.
+ * @param[in] key Input parameter.
+ * @details Calls: makeCacheKey(), remove().
+ */
 void MetadataShard::invalidateCache(MetadataPartitionKey partition, const std::string& key) {
     if (cache_) {
         std::string cache_key = makeCacheKey(partition, key);
@@ -428,7 +478,15 @@ void MetadataShard::invalidateCache(MetadataPartitionKey partition, const std::s
     }
 }
 
-/** @brief Propose metadata mutation through consensus and wait for commit. */
+/**
+ * @brief Apply Change.
+ * @param[in] operation Input parameter.
+ * @param[in] partition Input parameter.
+ * @param[in] key Input parameter.
+ * @param[in] value Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: propose(), has_value(), spdlog::warn(), waitForCommit().
+ */
 bool MetadataShard::applyChange(
     const std::string& operation,
     MetadataPartitionKey partition,
@@ -469,26 +527,33 @@ bool MetadataShard::applyChange(
 
 // MetadataShardRouter implementation
 
-/** @brief Construct metadata router with fixed shard-count hashing domain. */
 MetadataShardRouter::MetadataShardRouter(size_t num_shards)
     : num_shards_(num_shards)
     , total_operations_(0)
     , routing_errors_(0) {
 }
 
-/** @brief Register shard instance for routing. */
+/**
+ * @brief Add Shard.
+ * @param[in] shard_id Identifier of the shard.
+ * @param[in] shard Input parameter.
+ * @details Calls: lock().
+ */
 void MetadataShardRouter::addShard(const std::string& shard_id, std::shared_ptr<MetadataShard> shard) {
     std::lock_guard<std::mutex> lock(shards_mutex_);
     shards_[shard_id] = shard;
 }
 
-/** @brief Remove shard instance from routing table. */
+/**
+ * @brief Remove Shard.
+ * @param[in] shard_id Identifier of the shard.
+ * @details Calls: lock(), erase().
+ */
 void MetadataShardRouter::removeShard(const std::string& shard_id) {
     std::lock_guard<std::mutex> lock(shards_mutex_);
     shards_.erase(shard_id);
 }
 
-/** @brief Route metadata read operation to owning shard. */
 std::optional<MetadataEntry> MetadataShardRouter::get(
     MetadataPartitionKey partition,
     const std::string& key
@@ -497,6 +562,11 @@ std::optional<MetadataEntry> MetadataShardRouter::get(
     
     std::string target_shard = routeToShard(partition, key);
     
+    /**
+     * @brief Lock.
+     * @param[in] shards_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(shards_mutex_);
     auto it = shards_.find(target_shard);
     if (it == shards_.end()) {
@@ -507,7 +577,14 @@ std::optional<MetadataEntry> MetadataShardRouter::get(
     return it->second->get(partition, key);
 }
 
-/** @brief Route metadata write operation to owning shard. */
+/**
+ * @brief Put.
+ * @param[in] partition Input parameter.
+ * @param[in] key Input parameter.
+ * @param[in] value Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: fetch_add(), routeToShard(), lock(), find(), end().
+ */
 bool MetadataShardRouter::put(
     MetadataPartitionKey partition,
     const std::string& key,
@@ -527,7 +604,13 @@ bool MetadataShardRouter::put(
     return it->second->put(partition, key, value);
 }
 
-/** @brief Route metadata delete operation to owning shard. */
+/**
+ * @brief Remove.
+ * @param[in] partition Input parameter.
+ * @param[in] key Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: fetch_add(), routeToShard(), lock(), find(), end().
+ */
 bool MetadataShardRouter::remove(
     MetadataPartitionKey partition,
     const std::string& key
@@ -546,8 +629,12 @@ bool MetadataShardRouter::remove(
     return it->second->remove(partition, key);
 }
 
-/** @brief Gather keys for a partition across all shards (scatter-gather). */
 std::vector<std::string> MetadataShardRouter::listKeys(MetadataPartitionKey partition) const {
+    /**
+     * @brief Lock.
+     * @param[in] shards_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(shards_mutex_);
     
     std::vector<std::string> all_keys;
@@ -561,8 +648,12 @@ std::vector<std::string> MetadataShardRouter::listKeys(MetadataPartitionKey part
     return all_keys;
 }
 
-/** @brief Return router operation/error counters plus per-shard statistics. */
 nlohmann::json MetadataShardRouter::getStatistics() const {
+    /**
+     * @brief Lock.
+     * @param[in] shards_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(shards_mutex_);
     
     nlohmann::json stats = {
@@ -580,7 +671,6 @@ nlohmann::json MetadataShardRouter::getStatistics() const {
     return stats;
 }
 
-/** @brief Resolve target shard id for key using hash-based routing. */
 std::string MetadataShardRouter::routeToShard(
     MetadataPartitionKey partition,
     const std::string& key
@@ -590,14 +680,17 @@ std::string MetadataShardRouter::routeToShard(
     return "shard_" + std::to_string(shard_index);
 }
 
-/** @brief Hash metadata key for shard routing. */
 size_t MetadataShardRouter::hashKey(const std::string& key) const {
     return std::hash<std::string>{}(key);
 }
 
 // Phase 2.2: Recovery and Snapshot methods
 
-/** @brief Create persisted snapshot from current in-memory metadata storage. */
+/**
+ * @brief Create Periodic Snapshot.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), createSnapshot(), has_value(), store(), spdlog::info(), value(), spdlog::error(), what().
+ */
 bool MetadataShard::createPeriodicSnapshot() {
     if (!wal_ || !snapshot_manager_) {
         return false;
@@ -627,7 +720,11 @@ bool MetadataShard::createPeriodicSnapshot() {
     }
 }
 
-/** @brief Recover metadata state from latest snapshot and WAL replay. */
+/**
+ * @brief Recover From WAL.
+ * @return True when the operation succeeds.
+ * @details Calls: spdlog::info(), loadLatestSnapshot(), has_value(), lock(), clear(), MetadataEntry::fromJson(), size(), LSN().
+ */
 bool MetadataShard::recoverFromWAL() {
     if (!wal_ || !snapshot_manager_) {
         return false;

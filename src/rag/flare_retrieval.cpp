@@ -24,13 +24,27 @@ namespace rag {
 // EmbeddingQueryFn injection bridge
 // ============================================================================
 
+/**
+ * @brief Embedding Query Fn Mutex.
+ * @return Return value.
+ * @details Implements embeddingQueryFnMutex without additional internal calls.
+ */
 static std::mutex& embeddingQueryFnMutex() { static std::mutex m; return m; }
+/**
+ * @brief Embedding Query Fn Storage.
+ * @return Return value.
+ * @details Implements embeddingQueryFnStorage without additional internal calls.
+ */
 static FlareRetrieval::EmbeddingQueryFn& embeddingQueryFnStorage() {
     static FlareRetrieval::EmbeddingQueryFn fn;
     return fn;
 }
 
-/*static*/
+/**
+ * @brief static
+ * @param[in] fn Input parameter.
+ * @details Calls: lk(), embeddingQueryFnMutex(), embeddingQueryFnStorage(), std::move().
+ */
 void FlareRetrieval::setEmbeddingQueryFn(EmbeddingQueryFn fn) {
     std::lock_guard<std::mutex> lk(embeddingQueryFnMutex());
     embeddingQueryFnStorage() = std::move(fn);
@@ -53,6 +67,12 @@ FlareRetrieval::FlareRetrieval(FlareConfig cfg)
 // notifyTokenEmitted
 // ============================================================================
 
+/**
+ * @brief Notify Token Emitted.
+ * @param[in] token_text Input parameter.
+ * @param[in] log_prob Input parameter.
+ * @details Calls: size(), erase(), begin(), push_back(), std::move().
+ */
 void FlareRetrieval::notifyTokenEmitted(const std::string& token_text,
                                         float              log_prob) {
     // ── Maintain sliding window ──────────────────────────────────────────
@@ -203,6 +223,10 @@ std::vector<float> FlareRetrieval::buildQueryEmbedding() const {
 // notifyRetrievalExecuted
 // ============================================================================
 
+/**
+ * @brief Notify Retrieval Executed.
+ * @details Implements notifyRetrievalExecuted without additional internal calls.
+ */
 void FlareRetrieval::notifyRetrievalExecuted() {
     consecutive_uncertain_ = 0;
     pending_retrieval_     = false;
@@ -214,6 +238,10 @@ void FlareRetrieval::notifyRetrievalExecuted() {
 // reset
 // ============================================================================
 
+/**
+ * @brief Reset the modification detection flag.
+ * @details Calls: clear().
+ */
 void FlareRetrieval::reset() {
     window_.clear();
     consecutive_uncertain_ = 0;

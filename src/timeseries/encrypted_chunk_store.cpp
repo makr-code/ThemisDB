@@ -55,6 +55,12 @@ namespace themis {
 // Helpers
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Write U32 BE.
+ * @param[in,out] buf Input/output parameter.
+ * @param[in] v Input parameter.
+ * @details Calls: push_back().
+ */
 static void writeU32BE(std::vector<uint8_t>& buf, uint32_t v) {
     buf.push_back(static_cast<uint8_t>((v >> 24) & 0xFFu));
     buf.push_back(static_cast<uint8_t>((v >> 16) & 0xFFu));
@@ -62,6 +68,12 @@ static void writeU32BE(std::vector<uint8_t>& buf, uint32_t v) {
     buf.push_back(static_cast<uint8_t>( v        & 0xFFu));
 }
 
+/**
+ * @brief Read U32 BE.
+ * @param[in] p Input parameter.
+ * @return Return value.
+ * @details Implements readU32BE without additional internal calls.
+ */
 static uint32_t readU32BE(const uint8_t* p) {
     return (static_cast<uint32_t>(p[0]) << 24)
          | (static_cast<uint32_t>(p[1]) << 16)
@@ -125,7 +137,12 @@ EncryptedChunkStore::encryptChunk(const std::string&          series_id,
     // 2. Derive a per-series DEK via HKDF.
     auto dek = deriveDEK(master_key, series_id);
 
-    // 3. Generate a random 12-byte IV (nonce).
+    /**
+     * @brief 3.
+     * @param[in] IV_LEN Input parameter.
+     * @return Return value.
+     * @details Generate a random 12-byte IV (nonce).
+     */
     std::vector<uint8_t> iv(IV_LEN);
     if (RAND_bytes(iv.data(), static_cast<int>(IV_LEN)) != 1) {
         throw std::runtime_error("EncryptedChunkStore: RAND_bytes failed");
@@ -133,6 +150,11 @@ EncryptedChunkStore::encryptChunk(const std::string&          series_id,
 
     // 4. AES-256-GCM encrypt.
     std::vector<uint8_t> ciphertext(plaintext.size());
+    /**
+     * @brief Tag.
+     * @param[in] TAG_LEN Input parameter.
+     * @return Return value.
+     */
     std::vector<uint8_t> tag(TAG_LEN);
 
     EVP_CIPHER_CTX* ctx = EVP_CIPHER_CTX_new();
@@ -239,7 +261,12 @@ EncryptedChunkStore::decryptChunk(const std::string&          series_id,
     const uint8_t* ct      = p;
     const uint8_t* tag_ptr = p + ct_len;
 
-    // 5. AES-256-GCM decrypt.
+    /**
+     * @brief 5.
+     * @param[in] ct_len Input parameter.
+     * @return Return value.
+     * @details AES-256-GCM decrypt.
+     */
     std::vector<uint8_t> plaintext(ct_len);
 
     EVP_CIPHER_CTX* ctx = EVP_CIPHER_CTX_new();
@@ -294,6 +321,13 @@ EncryptedChunkStore::decryptChunk(const std::string&          series_id,
 // Audit
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Audit Key Access.
+ * @param[in] operation Input parameter.
+ * @param[in] series_id Identifier of the series.
+ * @param[in] key_id Identifier of the key.
+ * @param[in] chunk_range Input parameter.
+ */
 void EncryptedChunkStore::auditKeyAccess(const std::string& operation,
                                           const std::string& series_id,
                                           const std::string& key_id,
@@ -304,6 +338,11 @@ void EncryptedChunkStore::auditKeyAccess(const std::string& operation,
     utils::AuditLogger* logger;
     std::string         accessor = {};
     {
+        /**
+         * @brief Lk.
+         * @param[in] rw_mu_ Input parameter.
+         * @return Return value.
+         */
         std::shared_lock<std::shared_mutex> lk(rw_mu_);
         logger   = audit_logger_;
         accessor = accessor_identity_;

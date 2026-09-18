@@ -25,46 +25,9 @@ namespace query {
 
 class QueryEngine;
 
-/**
- * @brief Common Table Expression (CTE) Support für AQL
- * 
- * Unterstützt WITH-Clause für temporary named result sets:
- * 
- * WITH high_earners AS (
- *   FOR u IN users
- *   FILTER u.salary > 100000
- *   RETURN u
- * ),
- * avg_salaries AS (
- *   FOR h IN high_earners
- *   COLLECT city = h.city
- *   AGGREGATE avg_salary = AVG(h.salary)
- *   RETURN {city, avg_salary}
- * )
- * FOR a IN avg_salaries
- *   FILTER a.avg_salary > 120000
- *   RETURN a
- * 
- * Recursive CTEs (Phase 2):
- * WITH RECURSIVE org_tree AS (
- *   FOR e IN employees
- *   FILTER e.manager_id == null
- *   RETURN e
- *   UNION
- *   FOR e IN employees, o IN org_tree
- *   FILTER e.manager_id == o.id
- *   RETURN e
- * )
- * FOR o IN org_tree RETURN o
- */
 
 // Use CTEDefinition from aql_parser.h
 
-/**
- * @brief CTE Evaluator with Recursive CTE Support
- * 
- * v1.3.0: Added recursive CTE support with fixpoint iteration
- */
 class CTEEvaluator {
 public:
     struct RecursiveCTEConfig {
@@ -76,13 +39,6 @@ public:
     CTEEvaluator() = default;
     explicit CTEEvaluator(const RecursiveCTEConfig& config) : recursiveConfig_(config) {}
     
-    /**
-     * @brief Evaluiert eine CTE und speichert Resultate
-     * @param cte Die CTE-Definition
-     * @param queryEngine Query Engine für Sub-Query Execution
-     * @param is_recursive true wenn CTE recursive ist
-     * @return Result indicating success or error
-     */
     Result<void> evaluateCTE(
         const CTEDefinition& cte,
         QueryEngine& queryEngine,
@@ -90,10 +46,10 @@ public:
     );
     
     /**
-     * @brief Evaluiert eine recursive CTE mit fixpoint iteration
-     * @param cte Die recursive CTE-Definition
-     * @param queryEngine Query Engine für Execution
-     * @return Result indicating success or error
+     * @brief Evaluate Recursive CTE.
+     * @param[in] cte Input parameter.
+     * @param[in,out] queryEngine Input/output parameter.
+     * @return Return value.
      */
     Result<void> evaluateRecursiveCTE(
         const CTEDefinition& cte,
@@ -101,26 +57,28 @@ public:
     );
     
     /**
-     * @brief Holt gespeicherte CTE-Resultate
-     * @param cteName CTE Name
-     * @return CTE Results (JSON array) oder empty wenn nicht vorhanden
+     * @brief Get CTEResults.
+     * @param[in] cteName Input parameter.
+     * @return Return value.
      */
     std::vector<nlohmann::json> getCTEResults(const std::string& cteName) const;
     
     /**
-     * @brief Prüft ob CTE existiert
-     * @param cteName CTE Name
-     * @return true wenn CTE evaluiert wurde
+     * @brief Has CTE.
+     * @param[in] cteName Input parameter.
+     * @return True when the operation succeeds.
      */
     bool hasCTE(const std::string& cteName) const;
     
     /**
-     * @brief Löscht alle CTE Results (nach Query-Completion)
+     * @brief Clear.
      */
     void clear();
     
     /**
-     * @brief Setzt Recursive CTE Konfiguration
+     * @brief Set Recursive Config.
+     * @param[in] config Input parameter.
+     * @details Implements setRecursiveConfig without additional internal calls.
      */
     void setRecursiveConfig(const RecursiveCTEConfig& config) {
         recursiveConfig_ = config;
@@ -134,7 +92,10 @@ private:
     RecursiveCTEConfig recursiveConfig_;
     
     /**
-     * @brief Prüft ob zwei Result-Sets identisch sind (für fixpoint check)
+     * @brief Are Results Equal.
+     * @param[in] a Input parameter.
+     * @param[in] b Input parameter.
+     * @return True when the operation succeeds.
      */
     bool areResultsEqual(
         const std::vector<nlohmann::json>& a,
@@ -142,7 +103,10 @@ private:
     ) const;
     
     /**
-     * @brief Erkennt Zyklen in recursive CTEs
+     * @brief Detect Cycle.
+     * @param[in] newResults Input parameter.
+     * @param[in] history Input parameter.
+     * @return True when the operation succeeds.
      */
     bool detectCycle(
         const std::vector<nlohmann::json>& newResults,
@@ -150,49 +114,13 @@ private:
     ) const;
 };
 
-/**
- * @brief Subquery Support für AQL
- * 
- * Unterstützt:
- * 1. Scalar Subqueries:
- *    FOR u IN users
- *    FILTER u.salary > (FOR a IN salaries RETURN AVG(a.value))
- *    RETURN u
- * 
- * 2. IN Subqueries:
- *    FOR u IN users
- *    FILTER u.id IN (FOR o IN orders FILTER o.status == "active" RETURN o.user_id)
- *    RETURN u
- * 
- * 3. EXISTS Subqueries:
- *    FOR u IN users
- *    FILTER EXISTS(FOR o IN orders FILTER o.user_id == u.id RETURN 1)
- *    RETURN u
- * 
- * 4. Correlated Subqueries:
- *    FOR u IN users
- *    RETURN {
- *      name: u.name,
- *      order_count: (FOR o IN orders FILTER o.user_id == u.id RETURN COUNT())
- *    }
- */
 
 // Use SubqueryExpr from aql_parser.h
 
-/**
- * @brief Subquery Evaluator
- */
 class SubqueryEvaluator {
 public:
     SubqueryEvaluator() = default;
     
-    /**
-     * @brief Evaluiert eine Subquery
-     * @param subquery Subquery Definition
-     * @param queryEngine Query Engine für Execution
-     * @param outerRow Outer Row (für correlated subqueries)
-     * @return Subquery Result (scalar value, array, or boolean) or error
-     */
     Result<nlohmann::json> evaluateSubquery(
         const query::SubqueryExpr& subquery,
         QueryEngine& queryEngine,
@@ -200,11 +128,11 @@ public:
     );
     
     /**
-     * @brief Evaluiert SCALAR Subquery (returns single value)
-     * @param query Subquery
-     * @param queryEngine Query Engine
-     * @param outerRow Outer Row
-     * @return Scalar value or error
+     * @brief Evaluate Scalar Subquery.
+     * @param[in] query Input parameter.
+     * @param[in,out] queryEngine Input/output parameter.
+     * @param[in] outerRow Input parameter.
+     * @return Return value.
      */
     Result<nlohmann::json> evaluateScalarSubquery(
         const std::shared_ptr<query::Query>& query,
@@ -213,12 +141,12 @@ public:
     );
     
     /**
-     * @brief Evaluiert IN Subquery (returns set)
-     * @param value Value to check
-     * @param query Subquery
-     * @param queryEngine Query Engine
-     * @param outerRow Outer Row
-     * @return Result containing boolean (true wenn value in result set)
+     * @brief Evaluate In Subquery.
+     * @param[in] value Input parameter.
+     * @param[in] query Input parameter.
+     * @param[in,out] queryEngine Input/output parameter.
+     * @param[in] outerRow Input parameter.
+     * @return Return value.
      */
     Result<bool> evaluateInSubquery(
         const nlohmann::json& value,
@@ -228,11 +156,11 @@ public:
     );
     
     /**
-     * @brief Evaluiert EXISTS Subquery
-     * @param query Subquery
-     * @param queryEngine Query Engine
-     * @param outerRow Outer Row
-     * @return Result containing boolean (true wenn Subquery mindestens ein Result liefert)
+     * @brief Evaluate Exists Subquery.
+     * @param[in] query Input parameter.
+     * @param[in,out] queryEngine Input/output parameter.
+     * @param[in] outerRow Input parameter.
+     * @return Return value.
      */
     Result<bool> evaluateExistsSubquery(
         const std::shared_ptr<query::Query>& query,
@@ -242,15 +170,11 @@ public:
     
 private:
     /**
-     * @brief Evaluates a correlated subquery, returning all matching rows as a JSON array.
-     *
-     * Used when the subquery AST references outer variables. Binds the outer row into
-     * the evaluation context so the subquery is executed once with those bindings.
-     *
-     * @param query     Subquery to execute
-     * @param queryEngine  Query engine
-     * @param outerRow  Outer row whose fields are injected as parent-context bindings
-     * @return JSON array of all result rows, or an error
+     * @brief Evaluate Array Subquery.
+     * @param[in] query Input parameter.
+     * @param[in,out] queryEngine Input/output parameter.
+     * @param[in] outerRow Input parameter.
+     * @return Return value.
      */
     Result<nlohmann::json> evaluateArraySubquery(
         const std::shared_ptr<query::Query>& query,
@@ -259,9 +183,9 @@ private:
     );
 
     /**
-     * @brief Bindet Outer Variables in Subquery Context
-     * @param query Subquery
-     * @param outerRow Outer Row
+     * @brief Bind Outer Variables.
+     * @param[in] query Input parameter.
+     * @param[in] outerRow Input parameter.
      */
     void bindOuterVariables(
         const std::shared_ptr<query::Query>& query,

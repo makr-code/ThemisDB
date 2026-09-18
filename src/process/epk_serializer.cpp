@@ -46,6 +46,12 @@ using json = nlohmann::json;
 // EPK type helpers
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Epk Node Type To Label.
+ * @param[in] t Input parameter.
+ * @return Return value.
+ * @details Implements epkNodeTypeToLabel_ without additional internal calls.
+ */
 std::string EpkSerializer::epkNodeTypeToLabel_(EPKNodeType t) {
     switch (t) {
         case EPKNodeType::EVENT:              return "EVENT";
@@ -61,6 +67,12 @@ std::string EpkSerializer::epkNodeTypeToLabel_(EPKNodeType t) {
     }
 }
 
+/**
+ * @brief Label To Epk Node Type.
+ * @param[in] label Input parameter.
+ * @return Return value.
+ * @details Implements labelToEpkNodeType_ without additional internal calls.
+ */
 EPKNodeType EpkSerializer::labelToEpkNodeType_(std::string_view label) {
     if (label == "EVENT"  || label == "Ereignis") {
       return EPKNodeType::EVENT;
@@ -92,6 +104,13 @@ EPKNodeType EpkSerializer::labelToEpkNodeType_(std::string_view label) {
 // importText
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Import Text.
+ * @param[in] epk_text Input parameter.
+ * @param[in] process_id Identifier of the process.
+ * @param[in] process_name Name of the process.
+ * @return Return value.
+ */
 EpkSerializer::ImportResult EpkSerializer::importText(
     std::string_view epk_text,
     std::string_view process_id,
@@ -225,6 +244,12 @@ EpkSerializer::ImportResult EpkSerializer::importText(
 // importJson
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Import Json.
+ * @param[in] epk_json Input parameter.
+ * @return Return value.
+ * @details Calls: is_null(), empty(), ProcessDiagnostics::createMalformedInputIncident(), SPDLOG_WARN(), toFormattedMessage(), is_array(), is_object(), contains().
+ */
 EpkSerializer::ImportResult EpkSerializer::importJson(const json& epk_json) {
     ImportResult result;
 
@@ -292,6 +317,13 @@ EpkSerializer::ImportResult EpkSerializer::importJson(const json& epk_json) {
 // exportText
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Export Text.
+ * @param[in] process_name Name of the process.
+ * @param[in] nodes Input parameter.
+ * @param[in] edges Input parameter.
+ * @return Return value.
+ */
 std::string EpkSerializer::exportText(
     std::string_view                    process_name,
     const std::vector<ProcessNodeInfo>& nodes,
@@ -379,6 +411,14 @@ std::string EpkSerializer::exportText(
 // exportJson
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Export Json.
+ * @param[in] process_id Identifier of the process.
+ * @param[in] process_name Name of the process.
+ * @param[in] nodes Input parameter.
+ * @param[in] edges Input parameter.
+ * @return Return value.
+ */
 json EpkSerializer::exportJson(
     std::string_view                    process_id,
     std::string_view                    process_name,

@@ -29,24 +29,13 @@ namespace server {
 
 using json = nlohmann::json;
 
-/**
- * @brief REST API handler for Three-Way Merge operations
- * 
- * Provides HTTP endpoints for performing Git-like three-way merges
- * between branches or snapshots in ThemisDB's MVCC system.
- * 
- * Endpoints:
- * - POST /api/v1/merge - Perform three-way merge
- * - POST /api/v1/merge/preview - Preview merge without applying
- * - POST /api/v1/merge/by-tag - Merge using snapshot tags
- * - GET /api/v1/merge/can-fast-forward - Check if fast-forward is possible
- */
 class MergeApiHandler {
 public:
     /**
-     * @brief Construct MergeApiHandler
-     * @param merge_engine Reference to MergeEngine instance
-     * @param snapshot_manager Reference to SnapshotManager for tag resolution
+     * @brief Merge Api Handler.
+     * @param[in,out] merge_engine Input/output parameter.
+     * @param[in,out] snapshot_manager Input/output parameter.
+     * @return Return value.
      */
     explicit MergeApiHandler(
         transaction::MergeEngine& merge_engine,
@@ -63,60 +52,36 @@ public:
 
 #ifdef THEMIS_ENABLE_HTTP_SERVER
     /**
-     * @brief Register routes with HTTP server
-     * @param server HTTP server instance
+     * @brief Register Routes.
+     * @param[in,out] server Input/output parameter.
      */
     void registerRoutes(httplib::Server& server);
 
     /**
-     * @brief Handle POST /api/v1/merge
-     * 
-     * Request body:
-     * {
-     *   "base_sequence": 100,
-     *   "source_sequence": 150,
-     *   "target_sequence": 200,
-     *   "strategy": "ours|theirs|manual|fast_forward",
-     *   "fail_on_conflict": false,
-     *   "manual_resolutions": [...]
-     * }
+     * @brief Handle Merge.
+     * @param[in] req Input parameter.
+     * @param[in,out] res Input/output parameter.
      */
     void handleMerge(const httplib::Request& req, httplib::Response& res);
 
     /**
-     * @brief Handle POST /api/v1/merge/preview
-     * 
-     * Request body:
-     * {
-     *   "base_sequence": 100,
-     *   "source_sequence": 150,
-     *   "target_sequence": 200
-     * }
+     * @brief Handle Merge Preview.
+     * @param[in] req Input parameter.
+     * @param[in,out] res Input/output parameter.
      */
     void handleMergePreview(const httplib::Request& req, httplib::Response& res);
 
     /**
-     * @brief Handle POST /api/v1/merge/by-tag
-     * 
-     * Request body:
-     * {
-     *   "base_tag": "v1.0.0",
-     *   "source_tag": "feature-branch",
-     *   "target_tag": "current",
-     *   "strategy": "ours|theirs|manual|fast_forward",
-     *   "fail_on_conflict": false,
-     *   "manual_resolutions": [...]
-     * }
+     * @brief Handle Merge By Tag.
+     * @param[in] req Input parameter.
+     * @param[in,out] res Input/output parameter.
      */
     void handleMergeByTag(const httplib::Request& req, httplib::Response& res);
 
     /**
-     * @brief Handle GET /api/v1/merge/can-fast-forward
-     * 
-     * Query parameters:
-     * - base_sequence: Base sequence number
-     * - source_sequence: Source sequence number
-     * - target_sequence: Target sequence number
+     * @brief Handle Can Fast Forward.
+     * @param[in] req Input parameter.
+     * @param[in,out] res Input/output parameter.
      */
     void handleCanFastForward(const httplib::Request& req, httplib::Response& res);
 #endif
@@ -127,18 +92,20 @@ private:
 
 #ifdef THEMIS_ENABLE_HTTP_SERVER
     /**
-     * @brief Parse merge options from request body
+     * @brief Parse Merge Options.
+     * @param[in] body Input parameter.
+     * @return Return value.
      */
     transaction::MergeEngine::MergeOptions parseMergeOptions(const json& body) const;
 
     /**
-     * @brief Create error response
+     * @brief Send Error.
+     * @param[in,out] res Input/output parameter.
+     * @param[in] status_code Input parameter.
+     * @param[in] message Input parameter.
      */
     void sendError(httplib::Response& res, int status_code, const std::string& message) const;
 
-    /**
-     * @brief Create success response with JSON body
-     */
     void sendJson(httplib::Response& res, const json& data, int status_code = 200) const;
 #endif
 };

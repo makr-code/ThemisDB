@@ -59,18 +59,13 @@ SloReporter::SloReporter() : SloReporter(Config{}) {}
 SloReporter::SloReporter(const Config& config) : config_(config) {}
 SloReporter::~SloReporter() = default;
 
+
 /**
- * @brief --------------------------------------------------------------------------- registerSlo / record ---------------------------------------------------------------------------
+ * @brief Register Slo.
  * @param[in] slo Input parameter.
  * @details Calls: lk().
  */
-
 void SloReporter::registerSlo(const SloDefinition& slo) {
-    /**
-     * @brief Lk.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lk(mutex_);
     SloState& state = slos_[slo.name];
     state.def = slo;
@@ -79,18 +74,13 @@ void SloReporter::registerSlo(const SloDefinition& slo) {
 
 /**
  * @brief Record.
- * @param[in] slo_name Input parameter.
+ * @param[in] slo_name Name of the slo.
  * @param[in] good_request Input parameter.
  * @param[in] timestamp Input parameter.
  * @details Calls: lk(), find(), end(), push_back(), size(), pop_front().
  */
 void SloReporter::record(const std::string& slo_name, bool good_request,
                           std::chrono::system_clock::time_point timestamp) {
-    /**
-     * @brief Lk.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lk(mutex_);
     auto it = slos_.find(slo_name);
     if (it == slos_.end()) return;  // unknown SLO – silently ignored
@@ -224,17 +214,12 @@ json SloReporter::generateReportJson() const {
     };
 }
 
+
 /**
- * @brief --------------------------------------------------------------------------- clear / sloCount ---------------------------------------------------------------------------
+ * @brief Clear.
  * @details Calls: lk().
  */
-
 void SloReporter::clear() {
-    /**
-     * @brief Lk.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lk(mutex_);
     slos_.clear();
 }
@@ -254,7 +239,7 @@ size_t SloReporter::sloCount() const {
 // ---------------------------------------------------------------------------
 
 /**
- * @brief static
+ * @brief Expire Samples.
  * @param[in,out] state Input/output parameter.
  * @param[in] now Input parameter.
  * @details Calls: empty(), front(), pop_front().
@@ -268,7 +253,7 @@ void SloReporter::expireSamples(SloState& state,
 }
 
 /**
- * @brief static
+ * @brief Compute Status.
  * @param[in] state Input parameter.
  * @return Return value.
  * @details Calls: size(), std::max(), std::chrono::system_clock::now(), std::chrono::hours(), burnRateMultiplier(), computeBurnRate(), burnRateSeverity(), std::setprecision().

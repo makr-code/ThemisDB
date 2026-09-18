@@ -61,7 +61,12 @@ using LineString = bg::model::linestring<Point>;
 
 static const double kBoostPi = 3.14159265358979323846;
 
-/// Convert GeometryInfo to Boost.Geometry polygon
+/**
+ * @brief To Boost Polygon.
+ * @param[in] geom Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), bg::append(), outer(), Point(), size(), inners(), push_back().
+ */
 static Polygon toBoostPolygon(const GeometryInfo& geom) {
     Polygon poly = {};
     
@@ -92,7 +97,6 @@ static Polygon toBoostPolygon(const GeometryInfo& geom) {
     return poly;
 }
 
-/// CPU exact backend using Boost.Geometry
 class BoostCpuExactBackend final : public ISpatialComputeBackend {
 public:
     const char* name() const noexcept override { 
@@ -116,8 +120,6 @@ public:
         return out;
     }
     
-    /// Exact intersects check between two geometries
-    /// This is the core exact check function called by the query engine
     bool exactIntersects(const GeometryInfo& geom1, const GeometryInfo& geom2) override {
         try {
             // Handle different geometry types
@@ -230,6 +232,11 @@ public:
 
             using MultiPoly = bg::model::multi_polygon<Polygon>;
 
+            /**
+             * @brief Dist strategy.
+             * @param[in] d_deg Input parameter.
+             * @return Return value.
+             */
             bg::strategy::buffer::distance_symmetric<double> dist_strategy(d_deg);
             bg::strategy::buffer::join_round join_strategy(static_cast<std::size_t>(arc_points));
             bg::strategy::buffer::end_round end_strategy(static_cast<std::size_t>(arc_points));
@@ -244,6 +251,11 @@ public:
                 if (buffered.empty()) return GeometryInfo{};
                 // Convert the first polygon of the result back to GeometryInfo.
                 const auto& out_poly = buffered[0];
+                /**
+                 * @brief Result.
+                 * @param[in] Polygon Input parameter.
+                 * @return Return value.
+                 */
                 GeometryInfo result(GeometryType::Polygon);
                 std::vector<Coordinate> ring = {};
 
@@ -260,6 +272,11 @@ public:
                            join_strategy, end_strategy, point_strategy);
                 if (buffered.empty()) return GeometryInfo{};
                 const auto& out_poly = buffered[0];
+                /**
+                 * @brief Result.
+                 * @param[in] Polygon Input parameter.
+                 * @return Return value.
+                 */
                 GeometryInfo result(GeometryType::Polygon);
                 std::vector<Coordinate> outer_ring = {};
 
@@ -299,6 +316,11 @@ public:
                 MultiPoly result;
                 bg::union_(poly1, poly2, result);
                 if (result.empty()) {
+                    /**
+                     * @brief Col.
+                     * @param[in] GeometryCollection Input parameter.
+                     * @return Return value.
+                     */
                     GeometryInfo col(GeometryType::GeometryCollection);
                     col.geometries.push_back(geom1);
                     col.geometries.push_back(geom2);
@@ -308,7 +330,11 @@ public:
                     // Single merged polygon.
                     return boostPolyToGeomInfo(result[0]);
                 }
-                // Multiple disjoint polygons.
+                /**
+                 * @brief Multiple disjoint polygons.
+                 * @param[in] GeometryCollection Input parameter.
+                 * @return Return value.
+                 */
                 GeometryInfo col(GeometryType::GeometryCollection);
                 for (const auto& p : result) {
                     col.geometries.push_back(boostPolyToGeomInfo(p));
@@ -337,6 +363,11 @@ public:
                 if (result.size() == 1) {
                     return boostPolyToGeomInfo(result[0]);
                 }
+                /**
+                 * @brief Col.
+                 * @param[in] GeometryCollection Input parameter.
+                 * @return Return value.
+                 */
                 GeometryInfo col(GeometryType::GeometryCollection);
                 for (const auto& p : result) {
                     col.geometries.push_back(boostPolyToGeomInfo(p));
@@ -358,7 +389,12 @@ public:
     }
 
 private:
-    // Convert a Boost polygon back to GeometryInfo.
+    /**
+     * @brief Convert a Boost polygon back to GeometryInfo.
+     * @param[in] poly Input parameter.
+     * @return Return value.
+     * @details Calls: result(), reserve(), outer(), size(), push_back(), std::move(), inners().
+     */
     static GeometryInfo boostPolyToGeomInfo(const Polygon& poly) {
         GeometryInfo result(GeometryType::Polygon);
         std::vector<Coordinate> outer = {};
@@ -384,6 +420,10 @@ private:
 // Global registry for backends (simple static storage for MVP)
 static std::unique_ptr<ISpatialComputeBackend> g_boost_backend;
 
+/**
+ * @brief Register boost backend.
+ * @details Calls: what().
+ */
 static void register_boost_backend() {
     // INTENTIONAL: Static initialization guard — exceptions must not propagate out of
     // static-init context. std::cerr fallback is used because the structured logger
@@ -402,14 +442,22 @@ static void register_boost_backend() {
 // Auto-register on module load
 static int s_boost_backend_anchor = (register_boost_backend(), 0);
 
-// Public API to get the backend
+/**
+ * @brief Public API to get the backend
+ * @return Pointer to the result.
+ * @details Calls: get().
+ */
 ISpatialComputeBackend* getBoostCpuBackend() {
     return g_boost_backend.get();
 }
 
 #else // !BOOST_GEO_AVAILABLE
 
-// Fallback when Boost.Geometry headers are not available
+/**
+ * @brief Fallback when Boost.
+ * @return Pointer to the result.
+ * @details Geometry headers are not available Calls: THEMIS_WARN().
+ */
 ISpatialComputeBackend* getBoostCpuBackend() {
     THEMIS_WARN("Boost Geometry backend requested but headers not found - returning nullptr");
     return nullptr;
@@ -419,7 +467,11 @@ ISpatialComputeBackend* getBoostCpuBackend() {
 
 #else // !THEMIS_GEO_BOOST_BACKEND
 
-// Fallback when Boost.Geometry is not enabled
+/**
+ * @brief Fallback when Boost.
+ * @return Pointer to the result.
+ * @details Geometry is not enabled Implements getBoostCpuBackend without additional internal calls.
+ */
 ISpatialComputeBackend* getBoostCpuBackend() {
     return nullptr;
 }

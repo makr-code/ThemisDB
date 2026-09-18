@@ -24,10 +24,22 @@ namespace {
 
 constexpr double kMinimumProfiledMs = 1.0;
 
+/**
+ * @brief Clamp Selectivity.
+ * @param[in] selectivity Input parameter.
+ * @return Return value.
+ * @details Calls: std::clamp().
+ */
 double clampSelectivity(float selectivity) {
     return std::clamp(static_cast<double>(selectivity), 0.001, 1.0);
 }
 
+/**
+ * @brief Normalized Dimension.
+ * @param[in] dimension Input parameter.
+ * @return Return value.
+ * @details Calls: std::max().
+ */
 double normalizedDimension(size_t dimension) {
     if (dimension == 0) {
         return 1.0;
@@ -35,10 +47,22 @@ double normalizedDimension(size_t dimension) {
     return std::max(1.0, static_cast<double>(dimension) / 128.0);
 }
 
+/**
+ * @brief Log2 Scaled.
+ * @param[in] value Input parameter.
+ * @return Return value.
+ * @details Calls: std::log2().
+ */
 double log2Scaled(size_t value) {
     return value > 1 ? std::log2(static_cast<double>(value)) : 1.0;
 }
 
+/**
+ * @brief Cpu Throughput Units Per Ms.
+ * @param[in] kernel Input parameter.
+ * @return Return value.
+ * @details Implements cpuThroughputUnitsPerMs without additional internal calls.
+ */
 double cpuThroughputUnitsPerMs(KernelType kernel) {
     switch (kernel) {
         case KernelType::kDistance:
@@ -58,6 +82,13 @@ double cpuThroughputUnitsPerMs(KernelType kernel) {
     }
 }
 
+/**
+ * @brief Gpu Throughput Units Per Ms.
+ * @param[in] kernel Input parameter.
+ * @param[in] device Input parameter.
+ * @return Return value.
+ * @details Implements gpuThroughputUnitsPerMs without additional internal calls.
+ */
 double gpuThroughputUnitsPerMs(KernelType kernel, DeviceType device) {
     const double device_factor = [&]() {
         switch (device) {
@@ -97,9 +128,10 @@ double gpuThroughputUnitsPerMs(KernelType kernel, DeviceType device) {
 }
 
 /**
- * @brief Returns per-device GPU launch overhead in milliseconds.
- * @return Launch overhead for known GPU-capable devices, or std::nullopt when
- *         the device type is unknown/unsupported for GPU profiling.
+ * @brief Gpu Launch Overhead Ms.
+ * @param[in] device Input parameter.
+ * @return Return value.
+ * @details Implements gpuLaunchOverheadMs without additional internal calls.
  */
 std::optional<double> gpuLaunchOverheadMs(DeviceType device) {
     switch (device) {
@@ -116,6 +148,12 @@ std::optional<double> gpuLaunchOverheadMs(DeviceType device) {
     }
 }
 
+/**
+ * @brief Estimate Transfer Bytes.
+ * @param[in] profile Input parameter.
+ * @return Return value.
+ * @details Calls: clampSelectivity().
+ */
 double estimateTransferBytes(const WorkloadProfile& profile) {
     const double input_size = static_cast<double>(profile.input_size);
     const double dimension = static_cast<double>(std::max<size_t>(profile.vector_dimension, 1));
@@ -139,6 +177,12 @@ double estimateTransferBytes(const WorkloadProfile& profile) {
     }
 }
 
+/**
+ * @brief Effective Bandwidth Bytes Per Ms.
+ * @param[in] device Input parameter.
+ * @return Return value.
+ * @details Implements effectiveBandwidthBytesPerMs without additional internal calls.
+ */
 double effectiveBandwidthBytesPerMs(DeviceType device) {
     switch (device) {
         case DeviceType::kNVIDIA_RTX:
@@ -225,6 +269,12 @@ BreakEvenValidator::BreakEvenValidator()
 
 BreakEvenValidator::~BreakEvenValidator() = default;
 
+/**
+ * @brief Should Use GPU.
+ * @param[in] profile Input parameter.
+ * @return Return value.
+ * @details Calls: ToCacheKey(), lock(), find(), end(), IsExpired(), erase(), Profile().
+ */
 BreakEvenDecision BreakEvenValidator::ShouldUseGPU(
     const WorkloadProfile& profile) {
     // Honor explicit caller overrides
@@ -269,6 +319,12 @@ BreakEvenDecision BreakEvenValidator::ShouldUseGPU(
     return Profile(profile);
 }
 
+/**
+ * @brief Profile.
+ * @param[in] profile Input parameter.
+ * @return Return value.
+ * @details Calls: ProfileCPU(), ProfileGPU(), count(), GetSpeedupThreshold(), lock(), ToCacheKey(), std::chrono::steady_clock::now(), metrics_sink().
+ */
 BreakEvenDecision BreakEvenValidator::Profile(
     const WorkloadProfile& profile) {
     // Profile CPU path
@@ -336,6 +392,12 @@ BreakEvenDecision BreakEvenValidator::Profile(
     return decision;
 }
 
+/**
+ * @brief Profile CPU.
+ * @param[in] profile Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), profile_fn(), RequiresVectorDimension(), cpuThroughputUnitsPerMs(), EstimateWorkUnits(), MillisecondsFromEstimate().
+ */
 std::optional<std::chrono::milliseconds> BreakEvenValidator::ProfileCPU(
     const WorkloadProfile& profile) {
     ProfileFn profile_fn;
@@ -371,6 +433,12 @@ std::optional<std::chrono::milliseconds> BreakEvenValidator::ProfileCPU(
     return MillisecondsFromEstimate(estimated_ms);
 }
 
+/**
+ * @brief Profile GPU.
+ * @param[in] profile Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), profile_fn(), RequiresVectorDimension(), IsGpuCapableDevice(), gpuThroughputUnitsPerMs(), effectiveBandwidthBytesPerMs(), EstimateWorkUnits(), clampSelectivity().
+ */
 std::optional<std::chrono::milliseconds> BreakEvenValidator::ProfileGPU(
     const WorkloadProfile& profile) {
     ProfileFn profile_fn;
@@ -420,27 +488,52 @@ std::optional<std::chrono::milliseconds> BreakEvenValidator::ProfileGPU(
     return MillisecondsFromEstimate(estimated_ms);
 }
 
+/**
+ * @brief Set Speedup Threshold.
+ * @param[in] kernel Input parameter.
+ * @param[in] threshold Input parameter.
+ * @details Calls: lock(), std::max().
+ */
 void BreakEvenValidator::SetSpeedupThreshold(KernelType kernel, float threshold) {
     std::lock_guard<std::mutex> lock(mutex_);
     speedup_thresholds_[static_cast<int>(kernel)] = std::max(1.0f, threshold);
 }
 
 float BreakEvenValidator::GetSpeedupThreshold(KernelType kernel) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = speedup_thresholds_.find(static_cast<int>(kernel));
     return it != speedup_thresholds_.end() ? it->second : 1.5f;
 }
 
+/**
+ * @brief Clear Cache.
+ * @details Calls: lock(), clear().
+ */
 void BreakEvenValidator::ClearCache() {
     std::lock_guard<std::mutex> lock(mutex_);
     decision_cache_.clear();
 }
 
+/**
+ * @brief Set Cache Validity Duration.
+ * @param[in] duration Input parameter.
+ * @details Calls: lock().
+ */
 void BreakEvenValidator::SetCacheValidityDuration(std::chrono::hours duration) {
     std::lock_guard<std::mutex> lock(mutex_);
     cache_validity_duration_ = duration;
 }
 
+/**
+ * @brief Set CPUProfile Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lock(), std::move(), clear().
+ */
 void BreakEvenValidator::SetCPUProfileFn(ProfileFn fn) {
     std::lock_guard<std::mutex> lock(mutex_);
     cpu_profile_fn_ = std::move(fn);
@@ -448,6 +541,11 @@ void BreakEvenValidator::SetCPUProfileFn(ProfileFn fn) {
     latest_speedup_ratios_.clear();
 }
 
+/**
+ * @brief Set GPUProfile Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lock(), std::move(), clear().
+ */
 void BreakEvenValidator::SetGPUProfileFn(ProfileFn fn) {
     std::lock_guard<std::mutex> lock(mutex_);
     gpu_profile_fn_ = std::move(fn);
@@ -455,40 +553,83 @@ void BreakEvenValidator::SetGPUProfileFn(ProfileFn fn) {
     latest_speedup_ratios_.clear();
 }
 
+/**
+ * @brief Set Metrics Sink.
+ * @param[in] fn Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void BreakEvenValidator::SetMetricsSink(MetricsSinkFn fn) {
     std::lock_guard<std::mutex> lock(mutex_);
     metrics_sink_ = std::move(fn);
 }
 
 float BreakEvenValidator::GetLatestBreakEvenRatio(KernelType kernel) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = latest_speedup_ratios_.find(static_cast<int>(kernel));
     return it != latest_speedup_ratios_.end() ? it->second : 0.0f;
 }
 
 size_t BreakEvenValidator::GetCacheHitCount() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return cache_hits_;
 }
 
 size_t BreakEvenValidator::GetCacheMissCount() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return cache_misses_;
 }
 
 size_t BreakEvenValidator::GetCacheSize() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return decision_cache_.size();
 }
 
+/**
+ * @brief Requires Vector Dimension.
+ * @param[in] kernel Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements RequiresVectorDimension without additional internal calls.
+ */
 bool BreakEvenValidator::RequiresVectorDimension(KernelType kernel) {
     return kernel == KernelType::kDistance || kernel == KernelType::kTopK;
 }
 
+/**
+ * @brief Is Gpu Capable Device.
+ * @param[in] device Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements IsGpuCapableDevice without additional internal calls.
+ */
 bool BreakEvenValidator::IsGpuCapableDevice(DeviceType device) {
     return device != DeviceType::kCPU && device != DeviceType::kUnknown;
 }
 
+/**
+ * @brief Estimate Work Units.
+ * @param[in] profile Input parameter.
+ * @return Return value.
+ * @details Calls: normalizedDimension(), clampSelectivity(), std::max(), log2Scaled().
+ */
 double BreakEvenValidator::EstimateWorkUnits(const WorkloadProfile& profile) {
     const double input_size = static_cast<double>(profile.input_size);
     const double dimension_factor = normalizedDimension(profile.vector_dimension);
@@ -513,6 +654,12 @@ double BreakEvenValidator::EstimateWorkUnits(const WorkloadProfile& profile) {
     }
 }
 
+/**
+ * @brief Milliseconds From Estimate.
+ * @param[in] estimated_ms Input parameter.
+ * @return Return value.
+ * @details Calls: std::isfinite(), std::ceil(), std::max(), std::chrono::milliseconds().
+ */
 std::optional<std::chrono::milliseconds> BreakEvenValidator::MillisecondsFromEstimate(
     double estimated_ms) {
     if (!std::isfinite(estimated_ms) || estimated_ms <= 0.0) {
@@ -522,6 +669,12 @@ std::optional<std::chrono::milliseconds> BreakEvenValidator::MillisecondsFromEst
     return std::chrono::milliseconds(rounded);
 }
 
+/**
+ * @brief Kernel Type To String.
+ * @param[in] kernel Input parameter.
+ * @return Return value.
+ * @details Implements KernelTypeToString without additional internal calls.
+ */
 std::string BreakEvenValidator::KernelTypeToString(KernelType kernel) {
     switch (kernel) {
         case KernelType::kDistance:
@@ -541,6 +694,12 @@ std::string BreakEvenValidator::KernelTypeToString(KernelType kernel) {
     }
 }
 
+/**
+ * @brief Device Type To String.
+ * @param[in] device Input parameter.
+ * @return Return value.
+ * @details Implements DeviceTypeToString without additional internal calls.
+ */
 std::string BreakEvenValidator::DeviceTypeToString(DeviceType device) {
     switch (device) {
         case DeviceType::kNVIDIA_RTX:
@@ -558,6 +717,12 @@ std::string BreakEvenValidator::DeviceTypeToString(DeviceType device) {
     }
 }
 
+/**
+ * @brief String To Kernel Type.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Implements StringToKernelType without additional internal calls.
+ */
 KernelType BreakEvenValidator::StringToKernelType(
     const std::string& s) {
     if (s == "distance") {
@@ -581,6 +746,12 @@ KernelType BreakEvenValidator::StringToKernelType(
     return KernelType::kUnknown;
 }
 
+/**
+ * @brief String To Device Type.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Implements StringToDeviceType without additional internal calls.
+ */
 DeviceType BreakEvenValidator::StringToDeviceType(
     const std::string& s) {
     if (s == "nvidia_rtx") {

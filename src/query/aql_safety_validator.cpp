@@ -28,19 +28,11 @@ namespace query {
 
 namespace {
 
-/// A mutation pattern: keyword to search for and its description.
 struct MutationPattern {
     const char* keyword;    ///< Uppercase token (with trailing space where needed)
     const char* label;      ///< Human-readable label for error messages
 };
 
-/// DML and DDL mutation keywords that indicate a write operation.
-/// Trailing space is intentional: it prevents false-positive matches on
-/// partial tokens.  For example, "REMOVE " matches "REMOVE u IN col" but
-/// NOT "REMOVES" or "REMOVE_BY".  Every keyword that can appear directly
-/// before an identifier or collection name must carry this trailing space.
-/// "CREATE COLLECTION" and "DROP " are exceptions that use a longer prefix
-/// or rely on context to avoid false positives.
 static constexpr MutationPattern kMutationPatterns[] = {
     {"UPSERT ",           "UPSERT"},
     {"INSERT ",           "INSERT"},
@@ -61,7 +53,7 @@ static constexpr MutationPattern kMutationPatterns[] = {
 // ---------------------------------------------------------------------------
 
 /**
- * @brief static
+ * @brief To Upper.
  * @param[in] s Input parameter.
  * @return Return value.
  * @details Calls: reserve(), size(), push_back(), std::toupper().
@@ -76,7 +68,7 @@ std::string AqlSafetyValidator::toUpper(const std::string& s) {
 }
 
 /**
- * @brief static
+ * @brief Find Keyword.
  * @param[in] haystack Input parameter.
  * @param[in] needle Input parameter.
  * @return Return value.
@@ -91,7 +83,7 @@ std::size_t AqlSafetyValidator::findKeyword(const std::string& haystack,
 std::optional<AqlSafetyValidator::Violation>
 AqlSafetyValidator::validateMutationSafety(std::string_view aql_query) const {
     /**
-     * @brief Convert to std::string for operations that rely on std::string APIs
+     * @brief Query str.
      * @param[in] aql_query Input parameter.
      * @return Return value.
      */
@@ -227,7 +219,7 @@ std::optional<AqlSafetyValidator::Violation>
 AqlSafetyValidator::validate(std::string_view aql_query) const {
     if (mode_ == ValidationMode::AllowMutations) {
         /**
-         * @brief Allow DML in this mode, but keep injection safety guards active.
+         * @brief Query str.
          * @param[in] aql_query Input parameter.
          * @return Return value.
          */

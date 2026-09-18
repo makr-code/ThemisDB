@@ -40,7 +40,12 @@ using     tcp   = net::ip::tcp;
 
 namespace {
 
-// Escape a string value for embedding in JSON.
+/**
+ * @brief Escape a string value for embedding in JSON.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), std::snprintf().
+ */
 static std::string jsonEscape(const std::string& s) {
     std::string out = {};
     out.reserve(s.size() + 4);
@@ -64,8 +69,13 @@ static std::string jsonEscape(const std::string& s) {
     return out;
 }
 
-// Extract the value of a simple top-level JSON string field.
-// Returns empty string if not found.
+/**
+ * @brief Extract the value of a simple top-level JSON string field.
+ * @param[in] json Input parameter.
+ * @param[in] key Input parameter.
+ * @return Return value.
+ * @details Returns empty string if not found. Calls: find(), size().
+ */
 static std::string extractString(const std::string& json, const std::string& key) {
     const std::string needle = "\"" + key + "\"";
     const auto pos = json.find(needle);
@@ -98,9 +108,13 @@ static std::string extractString(const std::string& json, const std::string& key
     return value;
 }
 
-// Extract the raw JSON value (object, array, string, number) for a key.
-// For arrays/objects this returns the complete bracketed content.
-// Returns empty string if not found.
+/**
+ * @brief Extract the raw JSON value (object, array, string, number) for a key.
+ * @param[in] json Input parameter.
+ * @param[in] key Input parameter.
+ * @return Return value.
+ * @details For arrays/objects this returns the complete bracketed content. Returns empty string if not found. Calls: find(), size(), substr().
+ */
 static std::string extractRawValue(const std::string& json, const std::string& key) {
     const std::string needle = "\"" + key + "\"";
     const auto pos = json.find(needle);
@@ -144,8 +158,12 @@ static std::string extractRawValue(const std::string& json, const std::string& k
     return json.substr(start, end - start);
 }
 
-// Split a JSON array body (the content inside '[' ... ']') into individual
-// object tokens, handling nesting correctly.
+/**
+ * @brief Split a JSON array body (the content inside '[' .
+ * @param[in] array_body Input parameter.
+ * @return Return value.
+ * @details .. ']') into individual object tokens, handling nesting correctly. Calls: size(), push_back(), substr().
+ */
 static std::vector<std::string> splitJsonArray(const std::string& array_body) {
     std::vector<std::string> items;
     int depth = 0;
@@ -183,7 +201,12 @@ static std::vector<std::string> splitJsonArray(const std::string& array_body) {
     return items;
 }
 
-// Parse a uint16 port from a string; returns 0 on failure.
+/**
+ * @brief Parse a uint16 port from a string; returns 0 on failure.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), std::stol().
+ */
 static uint16_t parsePort(const std::string& s) {
     if (s.empty()) {
       return 0;
@@ -229,6 +252,11 @@ EnvoyXdsClient::~EnvoyXdsClient() {
 // Lifecycle
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Start.
+ * @return True when the operation succeeds.
+ * @details Calls: load(), THEMIS_WARN(), store(), std::thread(), pollLoop(), THEMIS_INFO().
+ */
 bool EnvoyXdsClient::start() {
     if (running_.load(std::memory_order_acquire)) {
         THEMIS_WARN("[xDS] start() called while already running");
@@ -244,6 +272,10 @@ bool EnvoyXdsClient::start() {
     return true;
 }
 
+/**
+ * @brief Stop.
+ * @details Calls: exchange(), THEMIS_INFO(), lk(), notify_all(), joinable(), join().
+ */
 void EnvoyXdsClient::stop() {
     if (!running_.exchange(false, std::memory_order_acq_rel)) {
         return;
@@ -268,21 +300,41 @@ void EnvoyXdsClient::stop() {
 // Callback registration
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Set Listener Callback.
+ * @param[in] cb Input parameter.
+ * @details Calls: lk(), std::move().
+ */
 void EnvoyXdsClient::setListenerCallback(ListenerCallback cb) {
     std::lock_guard<std::mutex> lk(callbacks_mutex_);
     listener_cb_ = std::move(cb);
 }
 
+/**
+ * @brief Set Cluster Callback.
+ * @param[in] cb Input parameter.
+ * @details Calls: lk(), std::move().
+ */
 void EnvoyXdsClient::setClusterCallback(ClusterCallback cb) {
     std::lock_guard<std::mutex> lk(callbacks_mutex_);
     cluster_cb_ = std::move(cb);
 }
 
+/**
+ * @brief Set Route Callback.
+ * @param[in] cb Input parameter.
+ * @details Calls: lk(), std::move().
+ */
 void EnvoyXdsClient::setRouteCallback(RouteCallback cb) {
     std::lock_guard<std::mutex> lk(callbacks_mutex_);
     route_cb_ = std::move(cb);
 }
 
+/**
+ * @brief Set Endpoint Callback.
+ * @param[in] cb Input parameter.
+ * @details Calls: lk(), std::move().
+ */
 void EnvoyXdsClient::setEndpointCallback(EndpointCallback cb) {
     std::lock_guard<std::mutex> lk(callbacks_mutex_);
     endpoint_cb_ = std::move(cb);
@@ -293,26 +345,51 @@ void EnvoyXdsClient::setEndpointCallback(EndpointCallback cb) {
 // ─────────────────────────────────────────────────────────────────────────────
 
 EnvoyXdsClient::Stats EnvoyXdsClient::getStats() const {
+    /**
+     * @brief Lk.
+     * @param[in] stats_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(stats_mutex_);
     return stats_;
 }
 
 std::string EnvoyXdsClient::getListenerVersion() const {
+    /**
+     * @brief Lk.
+     * @param[in] versions_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(versions_mutex_);
     return lds_version_;
 }
 
 std::string EnvoyXdsClient::getClusterVersion() const {
+    /**
+     * @brief Lk.
+     * @param[in] versions_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(versions_mutex_);
     return cds_version_;
 }
 
 std::string EnvoyXdsClient::getRouteVersion() const {
+    /**
+     * @brief Lk.
+     * @param[in] versions_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(versions_mutex_);
     return rds_version_;
 }
 
 std::string EnvoyXdsClient::getEndpointVersion() const {
+    /**
+     * @brief Lk.
+     * @param[in] versions_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(versions_mutex_);
     return eds_version_;
 }
@@ -367,7 +444,14 @@ std::string EnvoyXdsClient::buildDiscoveryRequest(
 // DiscoveryResponse parser
 // ─────────────────────────────────────────────────────────────────────────────
 
-/* static */
+/**
+ * @brief static
+ * @param[in] json_body Input parameter.
+ * @param[in,out] out_version Input/output parameter.
+ * @param[in,out] out_nonce Input/output parameter.
+ * @param[in,out] out_resources_json Input/output parameter.
+ * @return True when the operation succeeds.
+ */
 bool EnvoyXdsClient::parseDiscoveryResponse(const std::string& json_body,
                                             std::string&       out_version,
                                             std::string&       out_nonce,
@@ -680,12 +764,22 @@ std::string EnvoyXdsClient::httpPost(const std::string& path,
 {
     try {
         net::io_context ioc;
+        /**
+         * @brief Resolver.
+         * @param[in] ioc Input parameter.
+         * @return Return value.
+         */
         tcp::resolver   resolver(ioc);
 
         const auto results = resolver.resolve(
             config_.control_plane_host,
             std::to_string(config_.control_plane_port));
 
+        /**
+         * @brief Stream.
+         * @param[in] ioc Input parameter.
+         * @return Return value.
+         */
         beast::tcp_stream stream(ioc);
         stream.expires_after(std::chrono::milliseconds(config_.request_timeout_ms));
         stream.connect(results);
@@ -723,15 +817,27 @@ std::string EnvoyXdsClient::httpPost(const std::string& path,
                     config_.control_plane_host,
                     static_cast<int>(config_.control_plane_port),
                     path, ex.what());
+        /**
+         * @brief Lk.
+         * @param[in] stats_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(stats_mutex_);
         ++stats_.connect_errors;
         return {};
     }
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Generic discovery-service poll helper
-// ─────────────────────────────────────────────────────────────────────────────
+/**
+ * @brief ───────────────────────────────────────────────────────────────────────────── Generic discovery-service poll helper ─────────────────────────────────────────────────────────────────────────────
+ * @param[in] type_url Input parameter.
+ * @param[in] rest_path Path to the rest.
+ * @param[in,out] inout_version Input/output parameter.
+ * @param[in,out] inout_nonce Input/output parameter.
+ * @param[in,out] out_resources_json Input/output parameter.
+ * @param[in,out] out_error Input/output parameter.
+ * @return True when the operation succeeds.
+ */
 
 bool EnvoyXdsClient::pollDiscoveryService(const std::string& type_url,
                                           const std::string& rest_path,
@@ -776,6 +882,10 @@ bool EnvoyXdsClient::pollDiscoveryService(const std::string& type_url,
 // Main polling loop
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Poll Loop.
+ * @details Calls: load(), pollDiscoveryService(), lk(), parseListeners(), listener_cb_(), parseClusters(), cluster_cb_(), parseEndpoints().
+ */
 void EnvoyXdsClient::pollLoop() {
     // Per-resource version/nonce state – local to the polling thread.
     std::string lds_ver, lds_nc, cds_ver, cds_nc, eds_ver, eds_nc, rds_ver, rds_nc;

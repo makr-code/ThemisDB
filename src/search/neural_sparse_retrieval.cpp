@@ -45,6 +45,11 @@ NeuralSparseRetrieval::NeuralSparseRetrieval(const Config& config)
 // Encoder management
 // ============================================================================
 
+/**
+ * @brief Set Encoder.
+ * @param[in] encoder Input parameter.
+ * @details Calls: std::move(), THEMIS_DEBUG().
+ */
 void NeuralSparseRetrieval::setEncoder(SparseEncoderBackend encoder) {
     encoder_ = std::move(encoder);
     THEMIS_DEBUG("NeuralSparseRetrieval: encoder {}", encoder_ ? "attached" : "removed");
@@ -54,6 +59,13 @@ void NeuralSparseRetrieval::setEncoder(SparseEncoderBackend encoder) {
 // sanitize (private static)
 // ============================================================================
 
+/**
+ * @brief Sanitize.
+ * @param[in] raw Input parameter.
+ * @param[in] max_terms Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), emplace_back(), std::partial_sort(), begin(), end(), resize(), emplace().
+ */
 SparseVector NeuralSparseRetrieval::sanitize(const SparseVector& raw, size_t max_terms) {
     // Clamp negatives, collect (weight, term) pairs for truncation
     std::vector<std::pair<float, std::string>> pairs;
@@ -85,6 +97,12 @@ SparseVector NeuralSparseRetrieval::sanitize(const SparseVector& raw, size_t max
 // insertVector / eraseFromIndex (private helpers)
 // ============================================================================
 
+/**
+ * @brief Insert Vector.
+ * @param[in] doc_id Identifier of the doc.
+ * @param[in] vec Input parameter.
+ * @details Calls: emplace_back().
+ */
 void NeuralSparseRetrieval::insertVector(const std::string& doc_id,
                                           const SparseVector& vec) {
     for (const auto& [term, weight] : vec) {
@@ -93,6 +111,12 @@ void NeuralSparseRetrieval::insertVector(const std::string& doc_id,
     forward_index_[doc_id] = vec;
 }
 
+/**
+ * @brief Erase From Index.
+ * @param[in] doc_id Identifier of the doc.
+ * @param[in] vec Input parameter.
+ * @details Calls: find(), end(), erase(), std::remove_if(), begin(), empty().
+ */
 void NeuralSparseRetrieval::eraseFromIndex(const std::string& doc_id,
                                             const SparseVector& vec) {
     for (const auto& [term, weight] : vec) {
@@ -114,6 +138,12 @@ void NeuralSparseRetrieval::eraseFromIndex(const std::string& doc_id,
 // addDocument
 // ============================================================================
 
+/**
+ * @brief Add Document.
+ * @param[in] doc_id Identifier of the doc.
+ * @param[in] sparse_vec Input parameter.
+ * @details Calls: empty(), THEMIS_WARN(), find(), end(), eraseFromIndex(), erase(), sanitize(), THEMIS_DEBUG().
+ */
 void NeuralSparseRetrieval::addDocument(const std::string& doc_id,
                                          const SparseVector& sparse_vec) {
     if (doc_id.empty()) {
@@ -144,6 +174,12 @@ void NeuralSparseRetrieval::addDocument(const std::string& doc_id,
 // addDocumentText
 // ============================================================================
 
+/**
+ * @brief Add Document Text.
+ * @param[in] doc_id Identifier of the doc.
+ * @param[in] text Input parameter.
+ * @details Calls: THEMIS_WARN(), encoder_(), addDocument().
+ */
 void NeuralSparseRetrieval::addDocumentText(const std::string& doc_id,
                                              const std::string& text) {
     if (!encoder_) {
@@ -159,6 +195,11 @@ void NeuralSparseRetrieval::addDocumentText(const std::string& doc_id,
 // removeDocument
 // ============================================================================
 
+/**
+ * @brief Remove Document.
+ * @param[in] doc_id Identifier of the doc.
+ * @details Calls: find(), end(), eraseFromIndex(), erase(), THEMIS_DEBUG().
+ */
 void NeuralSparseRetrieval::removeDocument(const std::string& doc_id) {
     auto fwd_it = forward_index_.find(doc_id);
     if (fwd_it == forward_index_.end()) {
@@ -173,6 +214,10 @@ void NeuralSparseRetrieval::removeDocument(const std::string& doc_id) {
 // clear
 // ============================================================================
 
+/**
+ * @brief Clear.
+ * @details Calls: THEMIS_DEBUG().
+ */
 void NeuralSparseRetrieval::clear() {
     inverted_index_.clear();
     forward_index_.clear();
@@ -191,6 +236,11 @@ size_t NeuralSparseRetrieval::size() const {
 // normalizeScores (public static)
 // ============================================================================
 
+/**
+ * @brief Normalize Scores.
+ * @param[in,out] results Input/output parameter.
+ * @details Calls: empty(), max(), lowest(), std::min(), std::max().
+ */
 void NeuralSparseRetrieval::normalizeScores(std::vector<Result>& results) {
     if (results.empty()) {
       return;

@@ -21,10 +21,11 @@
 namespace themis {
 namespace llm {
 
-/**
- * @brief Prefix cache entry storing common prompt prefixes
- */
 struct PrefixCacheEntry {
+    /**
+     * @brief Prefix Cache Entry.
+     * @return Return value.
+     */
     virtual ~PrefixCacheEntry() = default;
     std::string prefix;
     std::vector<float> embedding;
@@ -41,10 +42,11 @@ struct PrefixCacheEntry {
     std::string generated_text;
 };
 
-/**
- * @brief Statistics for prefix cache
- */
 struct PrefixCacheStatistics {
+    /**
+     * @brief Prefix Cache Statistics.
+     * @return Return value.
+     */
     virtual ~PrefixCacheStatistics() = default;
     size_t hits = 0;
     size_t misses = 0;
@@ -61,22 +63,6 @@ struct PrefixCacheStatistics {
     }
 };
 
-/**
- * @brief LLMPrefixCache - Reuses ThemisDB's EmbeddingCache for prefix sharing
- * 
- * Enables sharing of common prompt prefixes across requests:
- * - System prompts (e.g., "You are a helpful assistant...")
- * - RAG contexts (e.g., document chunks used across queries)
- * - Common instruction prefixes
- * 
- * Benefits:
- * - Skip tokenization for cached prefixes
- * - Reuse precomputed KV cache
- * - 65% cache hit rate (typical production)
- * - ~200 LOC saved via EmbeddingCache reuse
- * 
- * Based on ThemisDB's EmbeddingCache (HNSW similarity search)
- */
 class LLMPrefixCache {
 public:
     struct Config {
@@ -86,24 +72,18 @@ public:
         int ttl_seconds = 7200;              // 2 hours TTL
         bool enable_kv_caching = true;       // Precompute KV cache
         std::shared_ptr<utils::Clock> clock = nullptr;  // Injectable clock (uses SystemClock if null)
-        /// [W3-SEC-05] Configurable on-disk cache directory.
-        /// When empty the implementation falls back to "/tmp/themis_llm_prefix_cache".
-        /// Multi-tenant deployments MUST set a per-tenant path to prevent cache
-        /// file collisions and privilege-escalation via crafted cache entries.
         std::string cache_dir;
     };
     
+    /**
+     * @brief LLMPrefix Cache.
+     * @param[in] cache_name Name of the cache.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit LLMPrefixCache(const std::string& cache_name, const Config& config);
     ~LLMPrefixCache();
     
-    /**
-     * @brief Add a prefix to the cache
-     * @param prefix The prompt text prefix to cache (used as lookup key)
-     * @param tokens Tokenized version of the prefix
-     * @param embedding Embedding vector for similarity search
-     * @param precomputed_kv Optional precomputed KV cache tensors
-     * @param generated_text Optional generated response text to return on cache hits
-     */
     void put(const std::string& prefix,
              const std::vector<int>& tokens,
              const std::vector<float>& embedding,
@@ -111,40 +91,43 @@ public:
              const std::string& generated_text = {});
     
     /**
-     * @brief Find a similar cached prefix
-     * @param text Input text to match
-     * @param embedding Embedding of the input text
-     * @return Cached entry if similarity >= threshold, nullopt otherwise
+     * @brief Get.
+     * @param[in] text Input parameter.
+     * @param[in] embedding Input parameter.
+     * @return Return value.
      */
     std::optional<PrefixCacheEntry> get(const std::string& text,
                                          const std::vector<float>& embedding);
     
     /**
-     * @brief Find longest matching prefix
-     * @param text Input text
-     * @param embedding Input embedding
-     * @return Longest cached prefix that matches
+     * @brief Get Longest Match.
+     * @param[in] text Input parameter.
+     * @param[in] embedding Input parameter.
+     * @return Return value.
      */
     std::optional<PrefixCacheEntry> getLongestMatch(const std::string& text,
                                                      const std::vector<float>& embedding);
     
     /**
-     * @brief Update usage statistics for a prefix
+     * @brief Touch.
+     * @param[in] prefix Input parameter.
      */
     void touch(const std::string& prefix);
     
     /**
-     * @brief Invalidate prefixes by pattern
+     * @brief Invalidate By Pattern.
+     * @param[in] pattern Input parameter.
      */
     void invalidateByPattern(const std::string& pattern);
     
     /**
-     * @brief Clear all cached entries
+     * @brief Clear.
      */
     void clear();
     
     /**
-     * @brief Get cache statistics
+     * @brief Return access control statistics.
+     * @return Access control statistics.
      */
     PrefixCacheStatistics getStatistics() const;
     

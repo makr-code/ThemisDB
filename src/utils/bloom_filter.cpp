@@ -25,7 +25,7 @@ namespace utils {
 // ---------------------------------------------------------------------------
 
 /**
- * @brief m = ceil( -n * ln(p) / (ln(2))^2 )
+ * @brief Optimal Bits.
  * @param[in] n Input parameter.
  * @param[in] p Input parameter.
  * @return Return value.
@@ -40,7 +40,7 @@ size_t BloomFilter::optimalBits(size_t n, double p) {
 }
 
 /**
- * @brief k = ceil( (m/n) * ln(2) )
+ * @brief Optimal Hash Count.
  * @param[in] bits Input parameter.
  * @param[in] n Input parameter.
  * @return Return value.
@@ -65,19 +65,19 @@ BloomFilter::BloomFilter(size_t expected_elements, double false_positive_rate)
     bits_.assign(num_bits_, false);
 }
 
+
 /**
- * @brief --------------------------------------------------------------------------- Hash functions ---------------------------------------------------------------------------
+ * @brief Hash1.
  * @param[in] key Input parameter.
  * @return Return value.
  * @details Implements hash1 without additional internal calls.
  */
-
 uint64_t BloomFilter::hash1(const std::string& key) {
     return std::hash<std::string>{}(key);
 }
 
 /**
- * @brief Murmur-inspired finalizer mix on each byte accumulation
+ * @brief Hash2.
  * @param[in] key Input parameter.
  * @return Return value.
  * @details Implements hash2 without additional internal calls.
@@ -102,18 +102,13 @@ size_t BloomFilter::probeIndex(const std::string& key, size_t i) const {
     return static_cast<size_t>((h1 + i * h2) % static_cast<uint64_t>(num_bits_));
 }
 
+
 /**
- * @brief --------------------------------------------------------------------------- Public API ---------------------------------------------------------------------------
+ * @brief Insert.
  * @param[in] key Input parameter.
  * @details Calls: lock(), probeIndex().
  */
-
 void BloomFilter::insert(const std::string& key) {
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::unique_lock lock(mutex_);
     for (size_t i = 0; i < num_hashes_; ++i) {
         bits_[probeIndex(key, i)] = true;
@@ -141,11 +136,6 @@ bool BloomFilter::contains(const std::string& key) const {
  * @details Calls: lock(), std::fill(), begin(), end().
  */
 void BloomFilter::clear() {
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::unique_lock lock(mutex_);
     std::fill(bits_.begin(), bits_.end(), false);
     approx_count_ = 0;

@@ -247,9 +247,19 @@ public:
         LoadFailed,
     };
 
+    /**
+     * @brief Plugin Adapter Apply Service.
+     * @param[in] plugin Input parameter.
+     * @return Return value.
+     */
     explicit PluginAdapterApplyService(std::shared_ptr<ILLMPlugin> plugin)
         : plugin_(std::move(plugin)) {}
 
+    /**
+     * @brief Set Path Resolver.
+     * @param[in] resolver Input parameter.
+     * @details Calls: lock(), std::move().
+     */
     void setPathResolver(AdapterPathResolverFn resolver) {
         std::lock_guard<std::mutex> lock(mutex_);
         path_resolver_ = std::move(resolver);
@@ -260,6 +270,11 @@ public:
                                     float              scale) override {
         auto plugin = plugin_.lock();
         if (!plugin || adapter_id.empty()) {
+            /**
+             * @brief Lock.
+             * @param[in] mutex_ Input parameter.
+             * @return Return value.
+             */
             std::lock_guard<std::mutex> lock(mutex_);
             last_error_ = !plugin ? ErrorCode::PluginUnavailable : ErrorCode::EmptyAdapterId;
             return false;
@@ -271,6 +286,11 @@ public:
         // that acquire mutex_, which would deadlock with a non-reentrant mutex.
         std::string prev_adapter = {};
         {
+            /**
+             * @brief Lock.
+             * @param[in] mutex_ Input parameter.
+             * @return Return value.
+             */
             std::lock_guard<std::mutex> lock(mutex_);
             last_error_ = ErrorCode::None;
             prev_adapter = current_adapter_;
@@ -280,6 +300,11 @@ public:
         if (!prev_adapter.empty() && prev_adapter != adapter_id) {
             const bool unload_ok = plugin->unloadLoRA(prev_adapter);
             if (!unload_ok) {
+                /**
+                 * @brief Lock.
+                 * @param[in] mutex_ Input parameter.
+                 * @return Return value.
+                 */
                 std::lock_guard<std::mutex> lock(mutex_);
                 last_error_ = ErrorCode::UnloadFailed;
                 return false;
@@ -294,6 +319,11 @@ public:
             const auto resolved = path_resolver_(adapter_id, tenant);
             if (!resolved.has_value() || resolved->empty()) {
                 spdlog::warn("[AIOrchestrator] Adapter path resolver returned empty for '{}'", adapter_id);
+                /**
+                 * @brief Lock.
+                 * @param[in] mutex_ Input parameter.
+                 * @return Return value.
+                 */
                 std::lock_guard<std::mutex> lock(mutex_);
                 last_error_ = ErrorCode::ResolverReturnedEmpty;
                 return false;
@@ -304,6 +334,11 @@ public:
         // Load new adapter — called without lock.
         const bool ok = plugin->loadLoRA(adapter_id, lora_path, scale);
         {
+            /**
+             * @brief Lock.
+             * @param[in] mutex_ Input parameter.
+             * @return Return value.
+             */
             std::lock_guard<std::mutex> lock(mutex_);
             if (ok) {
                 current_adapter_ = adapter_id;
@@ -316,6 +351,11 @@ public:
     }
 
     [[nodiscard]] std::string currentAdapter() const override {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         return current_adapter_;
     }
@@ -329,6 +369,11 @@ public:
     }
 
     [[nodiscard]] std::string lastErrorCodeString() const {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         switch (last_error_) {
             case ErrorCode::None:
@@ -362,6 +407,13 @@ private:
 // ToolRegistry
 // ============================================================================
 
+/**
+ * @brief Register Tool.
+ * @param[in] spec Input parameter.
+ * @param[in] handler Input parameter.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: empty(), lock(), std::move(), spdlog::debug().
+ */
 void ToolRegistry::registerTool(const ToolSpec& spec, ToolHandler handler) {
     if (spec.name.empty()) {
         throw std::invalid_argument("ToolRegistry: tool name must not be empty");
@@ -407,6 +459,11 @@ json ToolRegistry::invokeTool(const std::string& tool_name,
     // or other read operations.
     ToolHandler handler_copy;
     {
+        /**
+         * @brief Lock.
+         * @param[in] tools_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::shared_lock lock(tools_mutex_);
         auto it = tools_.find(tool_name);
         if (it == tools_.end()) {
@@ -424,6 +481,11 @@ json ToolRegistry::invokeTool(const std::string& tool_name,
 }
 
 std::vector<std::string> ToolRegistry::listTools() const {
+    /**
+     * @brief Lock.
+     * @param[in] tools_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock lock(tools_mutex_);
     std::vector<std::string> names = {};
 
@@ -435,6 +497,11 @@ std::vector<std::string> ToolRegistry::listTools() const {
 }
 
 std::optional<ToolSpec> ToolRegistry::getSpec(const std::string& tool_name) const {
+    /**
+     * @brief Lock.
+     * @param[in] tools_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock lock(tools_mutex_);
     auto it = tools_.find(tool_name);
     if (it == tools_.end()) {
@@ -450,7 +517,11 @@ ToolRegistry::ToolRegistry()
 
 ToolRegistry::~ToolRegistry() = default;
 
-// ── Private helper ────────────────────────────────────────────────────────────
+/**
+ * @brief ── Private helper ────────────────────────────────────────────────────────────
+ * @param[in,out] tool Input/output parameter.
+ * @details Calls: getName(), getVersion(), inputSchema(), execute(), lock(), std::move(), spdlog::info().
+ */
 
 void ToolRegistry::registerPluginTool(IThemisTool* tool) {
     ToolSpec spec;
@@ -468,7 +539,13 @@ void ToolRegistry::registerPluginTool(IThemisTool* tool) {
     spdlog::info("[ToolRegistry] Plugin tool '{}' registered", tool->getName());
 }
 
-// ── Dynamic loading ────────────────────────────────────────────────────────────
+/**
+ * @brief ── Dynamic loading ────────────────────────────────────────────────────────────
+ * @param[in] path Input parameter.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @details Calls: loadPluginFromPath(), tl::unexpected(), error(), value(), unloadPlugin(), getName(), ErrVoid(), registerPluginTool().
+ */
 
 Result<void> ToolRegistry::loadToolPlugin(const std::string& path,
                                            const std::string& config) {
@@ -490,6 +567,12 @@ Result<void> ToolRegistry::loadToolPlugin(const std::string& path,
     return OkVoid();
 }
 
+/**
+ * @brief Load Tools From Directory.
+ * @param[in] directory Input parameter.
+ * @return Return value.
+ * @details Calls: scanPluginDirectory(), tl::unexpected(), error(), listPlugins(), isPluginLoaded(), loadPlugin(), spdlog::warn(), message().
+ */
 Result<size_t> ToolRegistry::loadToolsFromDirectory(const std::string& directory) {
     auto scan = plugin_manager_->scanPluginDirectory(directory);
     if (!scan) {
@@ -529,6 +612,12 @@ Result<size_t> ToolRegistry::loadToolsFromDirectory(const std::string& directory
     return loaded;
 }
 
+/**
+ * @brief Reload Tool.
+ * @param[in] name Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), find(), end(), ErrVoid(), reloadPlugin(), tl::unexpected(), error(), getPlugin().
+ */
 Result<void> ToolRegistry::reloadTool(const std::string& name) {
     // Verify it is a plugin-backed tool
     {
@@ -562,6 +651,12 @@ Result<void> ToolRegistry::reloadTool(const std::string& name) {
     return OkVoid();
 }
 
+/**
+ * @brief Unload Tool.
+ * @param[in] name Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), find(), end(), erase(), isPluginLoaded(), unloadPlugin(), OkVoid().
+ */
 Result<void> ToolRegistry::unloadTool(const std::string& name) {
     {
         std::unique_lock lock(tools_mutex_);
@@ -578,6 +673,11 @@ Result<void> ToolRegistry::unloadTool(const std::string& name) {
 }
 
 bool ToolRegistry::isPluginTool(const std::string& name) const {
+    /**
+     * @brief Lock.
+     * @param[in] tools_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock lock(tools_mutex_);
     auto it = tools_.find(name);
     return it != tools_.end() && it->second.is_plugin;
@@ -635,6 +735,11 @@ AIOrchestrator::AIOrchestrator(const ModePack& pack)
 
 AIOrchestrator::~AIOrchestrator() = default;
 
+/**
+ * @brief Set LLMPlugin.
+ * @param[in] plugin Input parameter.
+ * @details Calls: std::move(), lock(), setPathResolver().
+ */
 void AIOrchestrator::setLLMPlugin(std::shared_ptr<ILLMPlugin> plugin) {
     impl_->plugin = std::move(plugin);
 
@@ -647,23 +752,43 @@ void AIOrchestrator::setLLMPlugin(std::shared_ptr<ILLMPlugin> plugin) {
     }
 }
 
+/**
+ * @brief Set Adapter Candidate Provider.
+ * @param[in] provider Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void AIOrchestrator::setAdapterCandidateProvider(
         std::shared_ptr<IAdapterCandidateProvider> provider) {
     std::unique_lock lock(impl_->provider_mutex);
     impl_->adapter_candidate_provider = std::move(provider);
 }
 
+/**
+ * @brief Set Adapter Apply Service.
+ * @param[in] service Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void AIOrchestrator::setAdapterApplyService(
         std::shared_ptr<IAdapterApplyService> service) {
     std::unique_lock lock(impl_->provider_mutex);
     impl_->adapter_apply_service = std::move(service);
 }
 
+/**
+ * @brief Set Adapter Switch Policy.
+ * @param[in] policy Input parameter.
+ * @details Calls: lock().
+ */
 void AIOrchestrator::setAdapterSwitchPolicy(const AdapterSwitchPolicy& policy) {
     std::lock_guard<std::mutex> lock(impl_->adapter_switch_mutex);
     impl_->adapter_switch_policy = policy;
 }
 
+/**
+ * @brief Set Adapter Path Resolver.
+ * @param[in] resolver Input parameter.
+ * @details Calls: lock(), std::move(), get(), setPathResolver().
+ */
 void AIOrchestrator::setAdapterPathResolver(AdapterPathResolverFn resolver) {
     std::unique_lock lock(impl_->provider_mutex);
     impl_->adapter_path_resolver = std::move(resolver);
@@ -674,11 +799,21 @@ void AIOrchestrator::setAdapterPathResolver(AdapterPathResolverFn resolver) {
     }
 }
 
+/**
+ * @brief Set Rag Cost Model Service.
+ * @param[in] service Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void AIOrchestrator::setRagCostModelService(std::shared_ptr<IRagCostModelService> service) {
     std::unique_lock lock(impl_->provider_mutex);
     impl_->rag_cost_model_service = std::move(service);
 }
 
+/**
+ * @brief Tool Registry.
+ * @return Return value.
+ * @details Implements toolRegistry without additional internal calls.
+ */
 ToolRegistry& AIOrchestrator::toolRegistry() {
     return impl_->tool_registry;
 }

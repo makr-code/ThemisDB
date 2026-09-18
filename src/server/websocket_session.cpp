@@ -69,6 +69,11 @@ WebSocketSession::~WebSocketSession() {
     THEMIS_INFO("WebSocket session destroyed: {}", session_id_);
 }
 
+/**
+ * @brief Run.
+ * @param[in] req Input parameter.
+ * @details Calls: get(), set_option(), websocket::stream_base::timeout::suggested(), websocket::stream_base::decorator(), set(), async_accept(), beast::bind_front_handler(), shared_from_this().
+ */
 void WebSocketSession::run(http::request<http::string_body> req) {
     // Initialise the CdcWebSocketHandler for the /v2/cdc/stream endpoint so
     // that processMessage() can delegate named-subscription frames to it.
@@ -113,6 +118,11 @@ void WebSocketSession::run(http::request<http::string_body> req) {
     }
 }
 
+/**
+ * @brief On Accept.
+ * @param[in] ec Input parameter.
+ * @details Calls: THEMIS_ERROR(), message(), store(), THEMIS_INFO(), std::time(), send(), dump(), doRead().
+ */
 void WebSocketSession::onAccept(beast::error_code ec) {
     if (ec) {
         THEMIS_ERROR("WebSocket accept error ({}): {}", session_id_, ec.message());
@@ -136,6 +146,10 @@ void WebSocketSession::onAccept(beast::error_code ec) {
     doRead();
 }
 
+/**
+ * @brief Do Read.
+ * @details Calls: async_read(), beast::bind_front_handler(), shared_from_this().
+ */
 void WebSocketSession::doRead() {
     if (is_tls_) {
         ws_tls_->async_read(
@@ -150,6 +164,12 @@ void WebSocketSession::doRead() {
     }
 }
 
+/**
+ * @brief On Read.
+ * @param[in] ec Input parameter.
+ * @param[in] bytes_transferred Input parameter.
+ * @details Calls: boost::ignore_unused(), THEMIS_INFO(), store(), THEMIS_ERROR(), message(), got_binary(), data(), frame_data().
+ */
 void WebSocketSession::onRead(beast::error_code ec, std::size_t bytes_transferred) {
     boost::ignore_unused(bytes_transferred);
     
@@ -192,6 +212,11 @@ void WebSocketSession::onRead(beast::error_code ec, std::size_t bytes_transferre
     doRead();
 }
 
+/**
+ * @brief Process Message.
+ * @param[in] message Input parameter.
+ * @details Calls: json::parse(), handleFrame(), send(), dump(), contains(), value(), std::time(), THEMIS_INFO().
+ */
 void WebSocketSession::processMessage(const std::string& message) {
     try {
         // Parse JSON message
@@ -376,6 +401,11 @@ void WebSocketSession::processMessage(const std::string& message) {
     }
 }
 
+/**
+ * @brief Process Binary Message.
+ * @param[in] data Input parameter.
+ * @details Calls: THEMIS_WARN(), size(), send(), dump().
+ */
 void WebSocketSession::processBinaryMessage(const std::vector<uint8_t>& data) {
     // The HTTP WebSocket endpoint (/v1/ws, /v2/changes, /v2/cdc/stream) uses a
     // text/JSON protocol.  Binary frames are not part of its contract.
@@ -398,6 +428,11 @@ void WebSocketSession::processBinaryMessage(const std::vector<uint8_t>& data) {
     send(response.dump());
 }
 
+/**
+ * @brief Send.
+ * @param[in] message Input parameter.
+ * @details Calls: shared_from_this(), net::dispatch(), get_executor(), sendOnExecutor(), std::move().
+ */
 void WebSocketSession::send(const std::string& message) {
     auto self = shared_from_this();
     if (is_tls_) {
@@ -411,6 +446,11 @@ void WebSocketSession::send(const std::string& message) {
     }
 }
 
+/**
+ * @brief Send Binary.
+ * @param[in] data Input parameter.
+ * @details Calls: shared_from_this(), net::dispatch(), get_executor(), sendBinaryOnExecutor(), std::move().
+ */
 void WebSocketSession::sendBinary(const std::vector<uint8_t>& data) {
     auto self = shared_from_this();
     if (is_tls_) {
@@ -424,6 +464,11 @@ void WebSocketSession::sendBinary(const std::vector<uint8_t>& data) {
     }
 }
 
+/**
+ * @brief Send On Executor.
+ * @param[in] message Input parameter.
+ * @details Calls: lock(), size(), THEMIS_WARN(), store(), push(), std::move(), startWriteLocked(), closeInternalErrorOnExecutor().
+ */
 void WebSocketSession::sendOnExecutor(std::string message) {
     bool close_now = false;
     {
@@ -456,6 +501,11 @@ void WebSocketSession::sendOnExecutor(std::string message) {
     }
 }
 
+/**
+ * @brief Send Binary On Executor.
+ * @param[in] data Input parameter.
+ * @details Calls: lock(), size(), THEMIS_WARN(), store(), push(), std::string(), begin(), end().
+ */
 void WebSocketSession::sendBinaryOnExecutor(std::vector<uint8_t> data) {
     bool close_now = false;
     {
@@ -485,6 +535,10 @@ void WebSocketSession::sendBinaryOnExecutor(std::vector<uint8_t> data) {
     }
 }
 
+/**
+ * @brief Start Write Locked.
+ * @details Calls: empty(), front(), text(), async_write(), net::buffer(), beast::bind_front_handler(), shared_from_this().
+ */
 void WebSocketSession::startWriteLocked() {
     if (write_queue_.empty()) {
         return;
@@ -506,6 +560,10 @@ void WebSocketSession::startWriteLocked() {
     }
 }
 
+/**
+ * @brief Close Internal Error On Executor.
+ * @details Calls: close(), lock().
+ */
 void WebSocketSession::closeInternalErrorOnExecutor() {
     beast::error_code close_ec;
     if (is_tls_) {
@@ -518,6 +576,12 @@ void WebSocketSession::closeInternalErrorOnExecutor() {
     close_due_to_backpressure_ = false;
 }
 
+/**
+ * @brief On Write.
+ * @param[in] ec Input parameter.
+ * @param[in] bytes_transferred Input parameter.
+ * @details Calls: boost::ignore_unused(), lock(), THEMIS_ERROR(), message(), store(), pop(), empty(), startWriteLocked().
+ */
 void WebSocketSession::onWrite(beast::error_code ec, std::size_t bytes_transferred) {
     boost::ignore_unused(bytes_transferred);
     
@@ -555,6 +619,10 @@ void WebSocketSession::onWrite(beast::error_code ec, std::size_t bytes_transferr
     }
 }
 
+/**
+ * @brief Close.
+ * @details Calls: exchange(), unsubscribeFromCDC(), shared_from_this(), net::dispatch(), get_executor(), doClose().
+ */
 void WebSocketSession::close() {
     // Use exchange so only one caller wins and actually issues the close.
     // The atomic exchange ensures that concurrent calls (e.g. from
@@ -579,6 +647,10 @@ void WebSocketSession::close() {
     }
 }
 
+/**
+ * @brief Do Close.
+ * @details Calls: close(), THEMIS_ERROR(), message(), THEMIS_INFO().
+ */
 void WebSocketSession::doClose() {
     beast::error_code ec;
     
@@ -595,6 +667,13 @@ void WebSocketSession::doClose() {
     }
 }
 
+/**
+ * @brief Subscribe To CDC.
+ * @param[in] from_sequence Input parameter.
+ * @param[in] key_prefix Input parameter.
+ * @param[in] event_types Input parameter.
+ * @details Calls: lock(), THEMIS_INFO(), size().
+ */
 void WebSocketSession::subscribeToCDC(uint64_t from_sequence, const std::string& key_prefix,
                                       const std::set<Changefeed::ChangeEventType>& event_types) {
     std::lock_guard<std::mutex> lock(cdc_mutex_);
@@ -609,6 +688,10 @@ void WebSocketSession::subscribeToCDC(uint64_t from_sequence, const std::string&
                 session_id_, from_sequence, cdc_last_sent_sequence_, key_prefix,event_types.size());
 }
 
+/**
+ * @brief Unsubscribe From CDC.
+ * @details Calls: lock(), THEMIS_INFO().
+ */
 void WebSocketSession::unsubscribeFromCDC() {
     std::lock_guard<std::mutex> lock(cdc_mutex_);
     if (cdc_subscribed_) {
@@ -617,12 +700,22 @@ void WebSocketSession::unsubscribeFromCDC() {
     }
 }
 
+/**
+ * @brief Update CDCLast Sent Sequence.
+ * @param[in] sequence Input parameter.
+ * @details Calls: lock().
+ */
 void WebSocketSession::updateCDCLastSentSequence(uint64_t sequence) {
     std::lock_guard<std::mutex> lock(cdc_mutex_);
     cdc_last_sent_sequence_ = sequence;
 }
 
 WebSocketSession::CDCSubscription WebSocketSession::getCDCSubscription() const {
+    /**
+     * @brief Lock.
+     * @param[in] cdc_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(cdc_mutex_);
     return CDCSubscription{
         cdc_from_sequence_,
@@ -648,6 +741,12 @@ WebSocketManager::~WebSocketManager() {
     closeAll();
 }
 
+/**
+ * @brief Start CDCPolling.
+ * @param[in,out] ioc Input/output parameter.
+ * @param[in] interval_ms Input parameter.
+ * @details Calls: THEMIS_WARN(), load(), THEMIS_INFO(), pollCDCEvents().
+ */
 void WebSocketManager::startCDCPolling(net::io_context& ioc, uint32_t interval_ms) {
     if (!changefeed_) {
         THEMIS_WARN("Cannot start CDC polling: no changefeed configured");
@@ -667,6 +766,10 @@ void WebSocketManager::startCDCPolling(net::io_context& ioc, uint32_t interval_m
     pollCDCEvents();
 }
 
+/**
+ * @brief Stop CDCPolling.
+ * @details Calls: load(), cancel(), reset(), THEMIS_INFO().
+ */
 void WebSocketManager::stopCDCPolling() {
     if (cdc_polling_active_.load()) {
         cdc_polling_active_ = false;
@@ -678,6 +781,10 @@ void WebSocketManager::stopCDCPolling() {
     }
 }
 
+/**
+ * @brief Poll CDCEvents.
+ * @details Calls: load(), getCDCSubscribedSessions(), empty(), isActive(), getCdcStreamHandler(), hasSubscriptions(), pollEvents(), send().
+ */
 void WebSocketManager::pollCDCEvents() {
     if (!cdc_polling_active_.load() || !cdc_poll_timer_) {
         return;
@@ -789,6 +896,11 @@ void WebSocketManager::pollCDCEvents() {
 }
 
 std::vector<std::shared_ptr<WebSocketSession>> WebSocketManager::getCDCSubscribedSessions() const {
+    /**
+     * @brief Lock.
+     * @param[in] sessions_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(sessions_mutex_);
     
     std::vector<std::shared_ptr<WebSocketSession>> cdc_sessions;
@@ -800,6 +912,11 @@ std::vector<std::shared_ptr<WebSocketSession>> WebSocketManager::getCDCSubscribe
     return cdc_sessions;
 }
 
+/**
+ * @brief Add Session.
+ * @param[in] session Input parameter.
+ * @details Calls: lock(), getSessionId(), THEMIS_INFO(), size().
+ */
 void WebSocketManager::addSession(std::shared_ptr<WebSocketSession> session) {
     std::lock_guard<std::mutex> lock(sessions_mutex_);
     sessions_[session->getSessionId()] = session;
@@ -807,6 +924,11 @@ void WebSocketManager::addSession(std::shared_ptr<WebSocketSession> session) {
                 session->getSessionId(),sessions_.size());
 }
 
+/**
+ * @brief Remove Session.
+ * @param[in] session_id Identifier of the session.
+ * @details Calls: lock(), erase(), THEMIS_INFO(), size().
+ */
 void WebSocketManager::removeSession(const std::string& session_id) {
     std::lock_guard<std::mutex> lock(sessions_mutex_);
     sessions_.erase(session_id);
@@ -814,6 +936,11 @@ void WebSocketManager::removeSession(const std::string& session_id) {
                 session_id,sessions_.size());
 }
 
+/**
+ * @brief Broadcast.
+ * @param[in] message Input parameter.
+ * @details Calls: lock(), THEMIS_DEBUG(), size(), isActive(), send().
+ */
 void WebSocketManager::broadcast(const std::string& message) {
     std::lock_guard<std::mutex> lock(sessions_mutex_);
     
@@ -826,6 +953,12 @@ void WebSocketManager::broadcast(const std::string& message) {
     }
 }
 
+/**
+ * @brief Send To Session.
+ * @param[in] session_id Identifier of the session.
+ * @param[in] message Input parameter.
+ * @details Calls: lock(), find(), end(), isActive(), send(), THEMIS_WARN().
+ */
 void WebSocketManager::sendToSession(const std::string& session_id, const std::string& message) {
     std::lock_guard<std::mutex> lock(sessions_mutex_);
     
@@ -838,6 +971,11 @@ void WebSocketManager::sendToSession(const std::string& session_id, const std::s
 }
 
 size_t WebSocketManager::getActiveSessionCount() const {
+    /**
+     * @brief Lock.
+     * @param[in] sessions_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(sessions_mutex_);
     
     size_t count = 0;
@@ -849,6 +987,10 @@ size_t WebSocketManager::getActiveSessionCount() const {
     return count;
 }
 
+/**
+ * @brief Close All.
+ * @details Calls: lock(), THEMIS_INFO(), size(), isActive(), close(), clear().
+ */
 void WebSocketManager::closeAll() {
     std::lock_guard<std::mutex> lock(sessions_mutex_);
     

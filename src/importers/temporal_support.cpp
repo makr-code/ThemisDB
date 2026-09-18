@@ -38,14 +38,32 @@ static const std::set<std::string> TX_TIME_TO_HINTS{
     "row_updated"
 };
 
+/**
+ * @brief Is Valid Time Column.
+ * @param[in] col Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: count().
+ */
 bool TemporalDatabaseSupport::isValidTimeColumn(const std::string& col) {
     return VALID_TIME_FROM_HINTS.count(col) || VALID_TIME_TO_HINTS.count(col);
 }
 
+/**
+ * @brief Is Transaction Time Column.
+ * @param[in] col Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: count().
+ */
 bool TemporalDatabaseSupport::isTransactionTimeColumn(const std::string& col) {
     return TX_TIME_FROM_HINTS.count(col) || TX_TIME_TO_HINTS.count(col);
 }
 
+/**
+ * @brief Temporal Model To String.
+ * @param[in] m Input parameter.
+ * @return Return value.
+ * @details Implements temporalModelToString without additional internal calls.
+ */
 std::string TemporalDatabaseSupport::temporalModelToString(TemporalModel m) {
     switch (m) {
         case TemporalModel::VALID_TIME:        return "VALID_TIME";

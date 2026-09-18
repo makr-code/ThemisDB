@@ -73,7 +73,7 @@ public:
     
 protected:
     /**
-     * @brief Allow derived classes to call these helper methods
+     * @brief Compute L2 Distance.
      * @param[in] a Input parameter.
      * @param[in] b Input parameter.
      * @param[in] dim Input parameter.

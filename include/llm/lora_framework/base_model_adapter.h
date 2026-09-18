@@ -24,10 +24,11 @@ namespace themis {
 namespace llm {
 namespace lora {
 
-/**
- * @brief Layer information from base model
- */
 struct BaseLayerInfo {
+    /**
+     * @brief Base Layer Info.
+     * @return Return value.
+     */
     virtual ~BaseLayerInfo() = default;
     std::string name;              // Layer name (e.g., "layers.0.attention.wq")
     std::vector<size_t> shape;     // Tensor shape
@@ -37,10 +38,11 @@ struct BaseLayerInfo {
     int layer_idx = 0;                 // Layer index in model
 };
 
-/**
- * @brief Model architecture information
- */
 struct ModelArchitectureInfo {
+    /**
+     * @brief Model Architecture Info.
+     * @return Return value.
+     */
     virtual ~ModelArchitectureInfo() = default;
     std::string architecture;      // "llama", "mistral", "gpt-neox"
     int num_layers = 0;                // Number of transformer layers
@@ -52,136 +54,85 @@ struct ModelArchitectureInfo {
     float rope_freq_base = 0.0f;          // RoPE frequency base
 };
 
-/**
- * @brief Base Model Adapter - Loads and manages frozen base models for LoRA training
- * 
- * This class:
- * - Loads GGUF base models via GGUFLoader
- * - Extracts model architecture and layer information
- * - Identifies layers suitable for LoRA adaptation
- * - Provides frozen base model weights
- * - Maps model-specific layer names to standardized names
- */
 class BaseModelAdapter {
 public:
     BaseModelAdapter();
     ~BaseModelAdapter();
     
     /**
-     * @brief Load base model from GGUF file
-     * @param model_path Path to GGUF model file
-     * @return true if loaded successfully
+     * @brief Load Model.
+     * @param[in] model_path Path to the model.
+     * @return True when the operation succeeds.
      */
     bool loadModel(const std::string& model_path);
     
-    /**
-     * @brief Get model architecture information
-     * @return Model architecture details
-     */
     const ModelArchitectureInfo& getArchitecture() const { return architecture_; }
     
     /**
-     * @brief Get all available layers for LoRA adaptation
-     * @return Vector of layer information
+     * @brief Get Adaptable Layers.
+     * @return Return value.
      */
     std::vector<BaseLayerInfo> getAdaptableLayers() const;
     
     /**
-     * @brief Get layers matching target module names
-     * @param target_modules List of target module patterns (e.g., "attention.wq", "attention.wv")
-     * @return Vector of matching layer information
+     * @brief Get Layers By Target Modules.
+     * @param[in] target_modules Input parameter.
+     * @return Return value.
      */
     std::vector<BaseLayerInfo> getLayersByTargetModules(
         const std::vector<std::string>& target_modules) const;
     
     /**
-     * @brief Get base model layer weights (frozen, read-only)
-     * @param layer_name Name of the layer
-     * @return Optional tensor data (empty if layer not found)
+     * @brief Get Layer Weights.
+     * @param[in] layer_name Name of the layer.
+     * @return Return value.
      */
     std::optional<Tensor> getLayerWeights(const std::string& layer_name) const;
     
-    /**
-     * @brief Check if model is loaded
-     * @return true if model is loaded
-     */
     bool isLoaded() const { return model_loaded_; }
     
-    /**
-     * @brief Get model name
-     * @return Model name
-     */
     const std::string& getModelName() const { return model_name_; }
     
-    /**
-     * @brief Get model path
-     * @return Model file path
-     */
     const std::string& getModelPath() const { return model_path_; }
     
     /**
-     * @brief Get total number of parameters in base model
-     * @return Parameter count
+     * @brief Get Total Parameters.
+     * @return Return value.
      */
     size_t getTotalParameters() const;
     
     /**
-     * @brief Unload model and free resources
+     * @brief Unload.
      */
     void unload();
     
     /**
-     * @brief Extract raw token embedding vector from embedding matrix
-     * 
-     * This extracts the embedding from the model's embedding layer (first layer),
-     * NOT the contextualized sequence embeddings from llama_get_embeddings().
-     * 
-     * For LoRA training, we need these raw token embeddings as inputs to individual
-     * layers, not the final model output.
-     * 
-     * @param token_id Token ID to extract embedding for
-     * @return Embedding vector (size = model's hidden_dim), empty if failed
+     * @brief Get Token Embedding.
+     * @param[in] token_id Identifier of the token.
+     * @return Return value.
      */
     std::vector<float> getTokenEmbedding(int token_id) const;
     
     /**
-     * @brief Extract raw token embeddings for multiple tokens (batched)
-     * 
-     * Batch version of getTokenEmbedding() for efficiency.
-     * Returns raw embedding layer weights, not contextualized embeddings.
-     * 
-     * @param token_ids Vector of token IDs
-     * @return Flattened embedding matrix [num_tokens * hidden_dim]
+     * @brief Get Token Embeddings.
+     * @param[in] token_ids Input parameter.
+     * @return Return value.
      */
     std::vector<float> getTokenEmbeddings(const std::vector<int>& token_ids) const;
     
     /**
-     * @brief Get pointer to full embedding matrix (read-only)
-     * 
-     * Direct access to the embedding layer weight matrix.
-     * Use this for efficient access when processing many tokens.
-     * 
-     * @return Pointer to embedding matrix or nullptr if not available
-     * @note Matrix is [vocab_size * hidden_dim], row-major layout
-     * @note This is the raw embedding matrix, not contextualized embeddings
+     * @brief Get Embedding Matrix.
+     * @return Pointer to the result.
      */
     const float* getEmbeddingMatrix() const;
     
     /**
-     * @brief Get embedding cache statistics
+     * @brief Log Cache Stats.
      */
     void logCacheStats() const;
     
-    /**
-     * @brief Get vocabulary size from model architecture
-     * @return Vocabulary size
-     */
     int getVocabSize() const { return architecture_.vocab_size; }
     
-    /**
-     * @brief Get hidden dimension from model architecture
-     * @return Hidden dimension
-     */
     int getHiddenSize() const { return architecture_.hidden_size; }
     
 private:
@@ -207,32 +158,54 @@ private:
     mutable std::string embedding_tensor_name_;
     
     // Helper methods
+    /**
+     * @brief Parse Architecture.
+     * @return True when the operation succeeds.
+     */
     bool parseArchitecture();
+    /**
+     * @brief Identify Adaptable Layers.
+     * @return True when the operation succeeds.
+     */
     bool identifyAdaptableLayers();
+    /**
+     * @brief Parse Layer Info.
+     * @param[in] tensor Input parameter.
+     * @param[in,out] layer_info Input/output parameter.
+     * @return True when the operation succeeds.
+     */
     bool parseLayerInfo(const TensorMetadata& tensor, BaseLayerInfo& layer_info);
+    /**
+     * @brief Standardize Layer Name.
+     * @param[in] model_layer_name Name of the model layer.
+     * @return Return value.
+     */
     std::string standardizeLayerName(const std::string& model_layer_name) const;
+    /**
+     * @brief Matches Target Module.
+     * @param[in] layer_name Name of the layer.
+     * @param[in] target_pattern Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool matchesTargetModule(const std::string& layer_name, 
                             const std::string& target_pattern) const;
     
     // Embedding extraction helpers
+    /**
+     * @brief Find Embedding Tensor Name.
+     * @return Return value.
+     */
     std::string findEmbeddingTensorName() const;
+    /**
+     * @brief Extract Embedding From GGUF.
+     * @param[in] token_id Identifier of the token.
+     * @return Return value.
+     */
     std::vector<float> extractEmbeddingFromGGUF(int token_id) const;
 };
 
-/**
- * @brief LoRA-Enhanced Model - Combines base model with LoRA adapters
- * 
- * This class:
- * - Manages both frozen base model and trainable LoRA layers
- * - Coordinates forward pass: base + LoRA
- * - Manages backward pass: only through LoRA
- * - Handles layer injection and composition
- */
 class LoRAEnhancedModel {
 public:
-    /**
-     * @brief Configuration for LoRA-enhanced model
-     */
     struct Config {
         std::string base_model_path;
         LoRAHyperparameters lora_config;
@@ -241,79 +214,63 @@ public:
         bool use_gradient_checkpointing = false;
     };
     
+    /**
+     * @brief Lo RAEnhanced Model.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit LoRAEnhancedModel(const Config& config);
     ~LoRAEnhancedModel();
     
     /**
-     * @brief Initialize model (load base + create LoRA adapters)
-     * @return true if successful
+     * @brief Initialize.
+     * @return True when the operation succeeds.
      */
     bool initialize();
     
     /**
-     * @brief Forward pass through base model + LoRA adapters
-     * @param input Input tensor
-     * @param layer_idx Layer index to process
-     * @return Output tensor
+     * @brief Forward.
+     * @param[in] input Input parameter.
+     * @param[in] layer_idx Input parameter.
+     * @return Return value.
      */
     Tensor forward(const Tensor& input, int layer_idx);
     
     /**
-     * @brief Backward pass (only through LoRA adapters)
-     * @param grad_output Gradient from next layer
-     * @param layer_idx Layer index
-     * @return Gradient w.r.t. input
+     * @brief Backward.
+     * @param[in] grad_output Input parameter.
+     * @param[in] layer_idx Input parameter.
+     * @return Return value.
      */
     Tensor backward(const Tensor& grad_output, int layer_idx);
     
     /**
-     * @brief Get all trainable parameters (LoRA only)
-     * @return Vector of parameter pointers
+     * @brief Get Trainable Parameters.
+     * @return Return value.
      */
     std::vector<Tensor*> getTrainableParameters();
     
     /**
-     * @brief Get LoRA parameter count
-     * @return Number of trainable parameters
+     * @brief Get Lo RAParameter Count.
+     * @return Return value.
      */
     size_t getLoRAParameterCount() const;
     
     /**
-     * @brief Get base model parameter count
-     * @return Number of frozen parameters
+     * @brief Get Base Model Parameter Count.
+     * @return Return value.
      */
     size_t getBaseModelParameterCount() const;
     
-    /**
-     * @brief Get base model adapter (for accessing embeddings, etc.)
-     * @return Pointer to base model adapter, nullptr if not initialized
-     */
     const BaseModelAdapter* getBaseModel() const { return base_model_.get(); }
     
-    /**
-     * @brief Export LoRA adapter weights
-     * @return Map of layer name to (B, A) matrices
-     */
     std::unordered_map<std::string, std::pair<Tensor, Tensor>> exportLoRAWeights() const;
     
-    /**
-     * @brief Import LoRA adapter weights (for resuming training)
-     * @param weights Map of layer name to (B, A) matrices
-     * @return true if successful
-     */
     bool importLoRAWeights(
         const std::unordered_map<std::string, std::pair<Tensor, Tensor>>& weights);
     
-    /**
-     * @brief Check if initialized
-     * @return true if ready for training
-     */
     bool isInitialized() const { return initialized_; }
     
-    /**
-     * @brief Get configuration
-     * @return Current configuration
-     */
     const Config& getConfig() const { return config_; }
     
 private:
@@ -327,8 +284,24 @@ private:
     std::vector<BaseLayerInfo> active_layers_;
     
     // Helper methods
+    /**
+     * @brief Create Lo RAAdapters.
+     * @return True when the operation succeeds.
+     */
     bool createLoRAAdapters();
+    /**
+     * @brief Compute Base Output.
+     * @param[in] input Input parameter.
+     * @param[in] layer_name Name of the layer.
+     * @return Return value.
+     */
     Tensor computeBaseOutput(const Tensor& input, const std::string& layer_name);
+    /**
+     * @brief Compute Lo RAOutput.
+     * @param[in] input Input parameter.
+     * @param[in] layer_name Name of the layer.
+     * @return Return value.
+     */
     Tensor computeLoRAOutput(const Tensor& input, const std::string& layer_name);
 };
 

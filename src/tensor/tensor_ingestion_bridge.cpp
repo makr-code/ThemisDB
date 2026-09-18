@@ -55,6 +55,12 @@ constexpr size_t kMaxConcurrentDecompositions = 16;
 // inferModeShape — balanced 2D factorisation
 // ============================================================================
 
+/**
+ * @brief Infer Mode Shape.
+ * @param[in] n Input parameter.
+ * @return Return value.
+ * @details Calls: std::sqrt().
+ */
 std::vector<std::size_t> TensorIngestionBridge::inferModeShape(std::size_t n) {
     // Find the largest factor ≤ √n so that the two factors are balanced.
     // This gives a 2D tensor that is as square as possible.
@@ -156,6 +162,15 @@ bool TensorIngestionBridge::shouldDecompose(const std::vector<float>& embedding,
 // decompose — main decomposition path
 // ============================================================================
 
+/**
+ * @brief Decompose.
+ * @param[in] embedding Input parameter.
+ * @param[in] chunk_id Identifier of the chunk.
+ * @param[in] source_file_id Identifier of the source file.
+ * @param[in] epsilon Input parameter.
+ * @param[in] max_rank Input parameter.
+ * @return Return value.
+ */
 ingestion::TensorCoreRecord TensorIngestionBridge::decompose(
     const std::vector<float>& embedding,
     const std::string&        chunk_id,

@@ -30,23 +30,11 @@ namespace geo {
 
 namespace {
 
-/// Build a GeoDeviceCapability for the CPU-fallback sentinel device.
-/// STUB/SIMULATION NOTE:
-/// Purpose: Return a well-defined "no GPU available" sentinel so that callers
-///   of `GeoDeviceDetector::Detect()` can always inspect the device list
-///   without special-casing an empty result.  The sentinel device has
-///   `suitable_for_geo = false` and `reason = "no GPU device available; using
-///   CPU fallback"`, causing `GpuBatchBackend` to route all geo ops to the
-///   CPU path.
-/// Activation: Called when `themis::gpu::DeviceDiscovery::queryDevices()`
-///   returns an empty list (no GPU drivers or devices detected at runtime).
-/// Production Delta: All geo spatial operations run on the CPU exact backend.
-///   GPU distance and containment kernels are not invoked; expected ≥ 8× GPU
-///   speedup is absent.
-/// Removal Plan: Ensure a CUDA or HIP-capable GPU is present and that the
-///   CUDA/ROCm driver is installed.  `DeviceDiscovery::queryDevices()` will
-///   then return real devices and this sentinel path will not be taken.
-/// Roadmap ref: src/geo/FUTURE_ENHANCEMENTS.md §"CUDA Geospatial Kernels"
+/**
+ * @brief Make Cpu Fallback Capability.
+ * @return Return value.
+ * @details Implements MakeCpuFallbackCapability without additional internal calls.
+ */
 static GeoDeviceCapability MakeCpuFallbackCapability() {
     GeoDeviceCapability cap;
     cap.device.index              = -1;
@@ -67,6 +55,12 @@ static GeoDeviceCapability MakeCpuFallbackCapability() {
 // GeoDeviceDetector — public static methods
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Assess.
+ * @param[in] device Input parameter.
+ * @return Return value.
+ * @details Calls: std::to_string(), clear().
+ */
 GeoDeviceCapability GeoDeviceDetector::Assess(const themis::gpu::DeviceInfo &device) {
     GeoDeviceCapability cap;
     cap.device = device;
@@ -115,6 +109,11 @@ GeoDeviceCapability GeoDeviceDetector::Assess(const themis::gpu::DeviceInfo &dev
     return cap;
 }
 
+/**
+ * @brief Detect.
+ * @return Return value.
+ * @details Calls: lk(), GeoDeviceDetector::enumerateFnMutex(), GeoDeviceDetector::enumerateFnStorage(), fn(), themis::gpu::DeviceDiscovery::Enumerate(), reserve(), size(), push_back().
+ */
 std::vector<GeoDeviceCapability> GeoDeviceDetector::Detect() {
     EnumerateFn fn;
     {
@@ -139,6 +138,12 @@ std::vector<GeoDeviceCapability> GeoDeviceDetector::Detect() {
     return result;
 }
 
+/**
+ * @brief Best Device.
+ * @param[in] capabilities Input parameter.
+ * @return Return value.
+ * @details Calls: MakeCpuFallbackCapability().
+ */
 GeoDeviceCapability GeoDeviceDetector::BestDevice(const std::vector<GeoDeviceCapability> &capabilities) {
     const GeoDeviceCapability *best = nullptr;
     for (const auto &cap : capabilities) {
@@ -164,10 +169,21 @@ GeoDeviceCapability GeoDeviceDetector::BestDevice(const std::vector<GeoDeviceCap
     return MakeCpuFallbackCapability();
 }
 
+/**
+ * @brief Best Device.
+ * @return Return value.
+ * @details Calls: Detect().
+ */
 GeoDeviceCapability GeoDeviceDetector::BestDevice() {
     return BestDevice(Detect());
 }
 
+/**
+ * @brief Has Suitable Device.
+ * @param[in] capabilities Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements HasSuitableDevice without additional internal calls.
+ */
 bool GeoDeviceDetector::HasSuitableDevice(const std::vector<GeoDeviceCapability> &capabilities) {
     for (const auto &cap : capabilities) {
         if (cap.suitable_for_geo) {
@@ -177,10 +193,21 @@ bool GeoDeviceDetector::HasSuitableDevice(const std::vector<GeoDeviceCapability>
     return false;
 }
 
+/**
+ * @brief Has Suitable Device.
+ * @return True when the operation succeeds.
+ * @details Calls: Detect().
+ */
 bool GeoDeviceDetector::HasSuitableDevice() {
     return HasSuitableDevice(Detect());
 }
 
+/**
+ * @brief Report Json.
+ * @param[in] capabilities Input parameter.
+ * @return Return value.
+ * @details Calls: HasSuitableDevice(), str().
+ */
 std::string GeoDeviceDetector::ReportJson(const std::vector<GeoDeviceCapability> &capabilities) {
     const bool has_suitable = HasSuitableDevice(capabilities);
 
@@ -215,6 +242,11 @@ std::string GeoDeviceDetector::ReportJson(const std::vector<GeoDeviceCapability>
     return ss.str();
 }
 
+/**
+ * @brief Report Json.
+ * @return Return value.
+ * @details Calls: Detect().
+ */
 std::string GeoDeviceDetector::ReportJson() {
     return ReportJson(Detect());
 }

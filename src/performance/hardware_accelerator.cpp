@@ -72,7 +72,6 @@ namespace performance {
 
 namespace {
 
-/// High-resolution wall-clock timestamp in microseconds.
 inline uint64_t now_us() noexcept {
     using Clock = std::chrono::steady_clock;
     using US    = std::chrono::microseconds;
@@ -80,7 +79,6 @@ inline uint64_t now_us() noexcept {
         std::chrono::duration_cast<US>(Clock::now().time_since_epoch()).count());
 }
 
-/// Apply a comparison predicate.
 bool applyFilterOp(uint64_t lhs, const std::string& op, uint64_t rhs) noexcept {
     if (op == "==" || op == "=") {
       return lhs == rhs;
@@ -107,7 +105,6 @@ bool applyFilterOp(uint64_t lhs, const std::string& op, uint64_t rhs) noexcept {
 // Hash join helpers (CPU baseline)
 // ---------------------------------------------------------------------------
 
-/// Build a hash map from right relation keyed on right_key_col.
 std::unordered_map<uint64_t, std::vector<size_t>>
 buildHashTable(const std::vector<Row>& rows, size_t key_col) {
     std::unordered_map<uint64_t, std::vector<size_t>> ht;
@@ -120,7 +117,12 @@ buildHashTable(const std::vector<Row>& rows, size_t key_col) {
     return ht;
 }
 
-/// Perform a hash join on the CPU (scalar baseline).
+/**
+ * @brief Cpu Hash Join.
+ * @param[in] op Input parameter.
+ * @return Return value.
+ * @details Calls: buildHashTable(), size(), find(), end(), insert(), begin(), push_back(), std::move().
+ */
 ExecutionResult cpuHashJoin(const QueryOperator& op) {
     ExecutionResult r;
     r.used_hw_path = false;
@@ -148,14 +150,13 @@ ExecutionResult cpuHashJoin(const QueryOperator& op) {
     return r;
 }
 
-/// Perform a hash join in a GPU-simulated data-parallel fashion.
-///
-/// The implementation mirrors the blocked, batch-parallel structure of a
-/// real CUDA hash-join kernel: the left relation is partitioned into
-/// batches of `batch_size` rows; each batch is probed independently,
-/// which allows the work to be parallelised across GPU thread blocks.
-/// Here the batches are processed sequentially on the CPU so that the
-/// code remains dependency-free of actual GPU headers.
+/**
+ * @brief Gpu Sim Hash Join.
+ * @param[in] op Input parameter.
+ * @param[in] batch_size Input parameter.
+ * @return Return value.
+ * @details Calls: buildHashTable(), size(), std::min(), find(), end(), insert(), begin(), push_back().
+ */
 ExecutionResult gpuSimHashJoin(const QueryOperator& op, size_t batch_size) {
     ExecutionResult r;
     r.used_hw_path = true;
@@ -192,7 +193,12 @@ ExecutionResult gpuSimHashJoin(const QueryOperator& op, size_t batch_size) {
 // Sort-merge join helpers
 // ---------------------------------------------------------------------------
 
-/// Perform a sort-merge join on the CPU (scalar baseline).
+/**
+ * @brief Cpu Sort Merge Join.
+ * @param[in] op Input parameter.
+ * @return Return value.
+ * @details Calls: size(), std::sort(), begin(), end(), keyFn(), insert(), push_back(), std::move().
+ */
 ExecutionResult cpuSortMergeJoin(const QueryOperator& op) {
     ExecutionResult r;
     r.used_hw_path = false;
@@ -248,7 +254,13 @@ ExecutionResult cpuSortMergeJoin(const QueryOperator& op) {
     return r;
 }
 
-/// GPU-simulated sort-merge join.
+/**
+ * @brief Gpu Sim Sort Merge Join.
+ * @param[in] op Input parameter.
+ * @param[in] size_t Input parameter.
+ * @return Return value.
+ * @details Calls: cpuSortMergeJoin().
+ */
 ExecutionResult gpuSimSortMergeJoin(const QueryOperator& op, size_t /*batch_size*/) {
     // The merge phase is inherently sequential; GPU acceleration primarily
     // helps the sort phase (radix sort) which we simulate here.
@@ -261,6 +273,12 @@ ExecutionResult gpuSimSortMergeJoin(const QueryOperator& op, size_t /*batch_size
 // Aggregate helpers
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Simd Aggregate.
+ * @param[in] op Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), size().
+ */
 ExecutionResult simdAggregate(const QueryOperator& op) {
     ExecutionResult r;
     r.used_hw_path = true;
@@ -324,6 +342,12 @@ ExecutionResult simdAggregate(const QueryOperator& op) {
 // Filter helpers
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Simd Filter.
+ * @param[in] op Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), applyFilterOp(), push_back().
+ */
 ExecutionResult simdFilter(const QueryOperator& op) {
     ExecutionResult r;
     r.used_hw_path = true;
@@ -367,6 +391,12 @@ ExecutionResult simdSort(const QueryOperator& op, bool ascending = true) {
 // Pattern match helper
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Cpu Pattern Match.
+ * @param[in] op Input parameter.
+ * @return Return value.
+ * @details Calls: size(), front(), back(), find(), substr(), empty(), rfind(), compare().
+ */
 ExecutionResult cpuPatternMatch(const QueryOperator& op) {
     ExecutionResult r;
     r.used_hw_path = false;
@@ -396,9 +426,12 @@ ExecutionResult cpuPatternMatch(const QueryOperator& op) {
     return r;
 }
 
-// ---------------------------------------------------------------------------
-// Vector operation helper (dot product baseline)
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- Vector operation helper (dot product baseline) ---------------------------------------------------------------------------
+ * @param[in] op Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), std::min(), size().
+ */
 
 ExecutionResult simdVectorOp(const QueryOperator& op) {
     ExecutionResult r;
@@ -658,6 +691,13 @@ ExecutionResult HardwareAccelerator::dispatchVectorOp(const QueryOperator&    op
 // execute()
 // ============================================================================
 
+/**
+ * @brief Execute.
+ * @param[in] op Input parameter.
+ * @param[in] cfg Input parameter.
+ * @return Return value.
+ * @details Calls: now_us(), dispatchHashJoin(), dispatchSortMergeJoin(), dispatchAggregate(), dispatchFilter(), dispatchSort(), dispatchPatternMatch(), dispatchVectorOp().
+ */
 ExecutionResult HardwareAccelerator::execute(const QueryOperator&    op,
                                               const AcceleratorConfig& cfg) {
     if (op.op_type == OperatorType::Unknown) {
@@ -744,6 +784,12 @@ ExecutionResult HardwareAccelerator::execute(const QueryOperator&    op,
     return result;
 }
 
+/**
+ * @brief Execute.
+ * @param[in] op Input parameter.
+ * @return Return value.
+ * @details Implements execute without additional internal calls.
+ */
 ExecutionResult HardwareAccelerator::execute(const QueryOperator& op) {
     return execute(op, config_.default_device_config);
 }
@@ -753,10 +799,19 @@ ExecutionResult HardwareAccelerator::execute(const QueryOperator& op) {
 // ============================================================================
 
 HardwareAccelerator::Stats HardwareAccelerator::getStats() const {
+    /**
+     * @brief Lk.
+     * @param[in] stats_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(stats_mutex_);
     return stats_;
 }
 
+/**
+ * @brief Reset Stats.
+ * @details Calls: lk().
+ */
 void HardwareAccelerator::resetStats() {
     std::lock_guard<std::mutex> lk(stats_mutex_);
     stats_ = Stats{};

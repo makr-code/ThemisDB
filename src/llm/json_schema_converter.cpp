@@ -41,6 +41,12 @@ static const std::unordered_set<std::string> kPrimitiveRuleNames =
 // Internal helpers
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Escape Gbnf String.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size().
+ */
 std::string JsonSchemaConverter::escapeGbnfString(const std::string& s) {
     std::string result = {};
     result.reserve(s.size() + 4);
@@ -57,6 +63,12 @@ std::string JsonSchemaConverter::escapeGbnfString(const std::string& s) {
     return result;
 }
 
+/**
+ * @brief Sanitize Rule Name.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), std::isalnum(), empty().
+ */
 std::string JsonSchemaConverter::sanitizeRuleName(const std::string& s) {
     std::string result = {};
     result.reserve(s.size());
@@ -246,6 +258,12 @@ std::string JsonSchemaConverter::schemaNodeToRuleBody(
 // Public API
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Schema To Ebnf.
+ * @param[in] schema Input parameter.
+ * @return Return value.
+ * @details Calls: is_null(), is_object(), spdlog::debug(), schemaNodeToRuleBody(), str(), size(), spdlog::warn().
+ */
 std::string JsonSchemaConverter::schemaToEbnf(const json& schema) {
     if (schema.is_null() || !schema.is_object()) {
         spdlog::debug("JsonSchemaConverter::schemaToEbnf: empty/null schema, returning default grammar");
@@ -271,6 +289,12 @@ std::string JsonSchemaConverter::schemaToEbnf(const json& schema) {
     return result;
 }
 
+/**
+ * @brief Tools To Ebnf.
+ * @param[in] tools Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), spdlog::warn(), sanitizeRuleName(), is_null(), is_object(), schemaNodeToRuleBody(), count(), emplace_back().
+ */
 std::string JsonSchemaConverter::toolsToEbnf(const std::vector<ToolDefinition>& tools) {
     if (tools.empty()) {
         return "";
@@ -339,6 +363,12 @@ std::string JsonSchemaConverter::toolsToEbnf(const std::vector<ToolDefinition>& 
     return result;
 }
 
+/**
+ * @brief Parse Tool Call.
+ * @param[in] text Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), find(), size(), substr(), json::parse(), is_object(), contains(), is_string().
+ */
 std::optional<ToolCall> JsonSchemaConverter::parseToolCall(const std::string& text) {
     if (text.empty()) {
       return std::nullopt;

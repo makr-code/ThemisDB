@@ -716,7 +716,7 @@ private:
      */
     void timerLoop();
     /**
-     * @brief Marks window closed and returns a batch for deferred dispatch (lock must be held by caller; callback is NOT invoked here).
+     * @brief Close Window.
      * @param[in,out] window Input/output parameter.
      * @return Return value.
      */
@@ -987,12 +987,12 @@ public:
     
     bool isInitialized() const { return initialized_.load(); }
     
+    
     /**
-     * @brief ========== Stream Management ==========
+     * @brief Create Stream.
      * @param[in] config Input parameter.
      * @return Return value.
      */
-    
     std::shared_ptr<EventStream> createStream(const StreamConfig& config);
     
     /**
@@ -1015,12 +1015,12 @@ public:
      */
     bool removeStream(const std::string& stream_id);
     
+    
     /**
-     * @brief ========== Event Processing ==========
+     * @brief Submit Event.
      * @param[in] event Input parameter.
      * @return True when the operation succeeds.
      */
-    
     bool submitEvent(Event event);
     
     /**
@@ -1037,12 +1037,12 @@ public:
         const std::string& document_id,
         const std::map<std::string, CepFieldValue>& fields);
     
+    
     /**
-     * @brief ========== Rule Management ==========
+     * @brief Add Rule.
      * @param[in] config Input parameter.
      * @return True when the operation succeeds.
      */
-    
     bool addRule(const RuleConfig& config);
     
     /**
@@ -1121,11 +1121,11 @@ public:
      */
     std::string toPrometheusFormat() const;
     
+    
     /**
-     * @brief ========== Checkpointing ==========
+     * @brief Create Checkpoint.
      * @return True when the operation succeeds.
      */
-    
     bool createCheckpoint();
     
     /**
@@ -1182,10 +1182,10 @@ private:
     // The ring buffer is re-created if initialize() is called again.
     std::unique_ptr<themis::analytics::detail::EventRingBuffer<
         std::pair<std::string, Event>>> event_queue_;
-    /**
-     * @brief size_approx() is used for backpressure fill-ratio checks and getStats().
-     */
     
+    /**
+     * @brief Worker Loop.
+     */
     void workerLoop();
     /**
      * @brief Metrics Loop.

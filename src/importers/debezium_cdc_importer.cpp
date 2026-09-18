@@ -31,7 +31,6 @@ namespace importers {
 // ============================================================================
 namespace {
 
-/// Maps Kafka/broker error patterns to ImporterErrorCode.
 [[maybe_unused]] static ImportErrorCode mapDebeziumErrorToCode(const std::string& error_msg) {
     const auto lower = [](std::string s) {
         for (auto& c : s) {
@@ -80,6 +79,12 @@ std::vector<std::string> DebeziumCDCImporter::getSupportedTypes() const {
 // IImporter – initialize
 // ============================================================================
 
+/**
+ * @brief Initialize.
+ * @param[in] config_json Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: json::parse(), contains(), empty(), THEMIS_WARN(), value(), clear(), is_array(), push_back().
+ */
 bool DebeziumCDCImporter::initialize(const std::string& config_json) {
     try {
         const json cfg = json::parse(config_json);
@@ -120,6 +125,13 @@ bool DebeziumCDCImporter::initialize(const std::string& config_json) {
 // IImporter – validateSource
 // ============================================================================
 
+/**
+ * @brief Validate Source.
+ * @param[in] source_path Path to the source.
+ * @param[in,out] errors Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), push_back().
+ */
 bool DebeziumCDCImporter::validateSource(const std::string& source_path,
                                           std::vector<std::string>& errors) {
 #ifndef THEMIS_ENABLE_DEBEZIUM
@@ -157,14 +169,24 @@ bool DebeziumCDCImporter::validateSource(const std::string& source_path,
 // Static helpers
 // ============================================================================
 
-/*static*/
+/**
+ * @brief static
+ * @param[in] brokers Input parameter.
+ * @return Return value.
+ * @details Implements sanitiseBrokers without additional internal calls.
+ */
 std::string DebeziumCDCImporter::sanitiseBrokers(const std::string& brokers) {
     // Brokers string: "host1:9092,host2:9092" — no credentials to strip here.
     // SASL credentials are separate config fields and are never in the brokers string.
     return brokers;
 }
 
-/*static*/
+/**
+ * @brief static
+ * @param[in] op_str Input parameter.
+ * @return Return value.
+ * @details Implements mapOpChar without additional internal calls.
+ */
 DebeziumCDCImporter::ChangeOp DebeziumCDCImporter::mapOpChar(
     const std::string& op_str) {
     if (op_str == "c") {
@@ -182,7 +204,13 @@ DebeziumCDCImporter::ChangeOp DebeziumCDCImporter::mapOpChar(
     return ChangeOp::Unknown;
 }
 
-/*static*/
+/**
+ * @brief static
+ * @param[in] envelope Input parameter.
+ * @param[in,out] error_out Input/output parameter.
+ * @return Return value.
+ * @details Calls: contains(), mapOpChar(), value(), empty(), is_null(), std::string(), what().
+ */
 DebeziumCDCImporter::CDCEvent DebeziumCDCImporter::parseDebeziumEnvelope(
     const json& envelope, std::string& error_out) {
 
@@ -274,9 +302,13 @@ ImportStats DebeziumCDCImporter::importData(
         });
 }
 
-// ============================================================================
-// streamEvents – core CDC delivery loop
-// ============================================================================
+/**
+ * @brief ============================================================================ streamEvents – core CDC delivery loop ============================================================================
+ * @param[in] options Input parameter.
+ * @param[in] callback Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::steady_clock::now(), std::chrono::milliseconds(), empty(), load(), tableAllowed(), callback(), clear(), count().
+ */
 
 ImportStats DebeziumCDCImporter::streamEvents(const ImportOptions& options,
                                                CDCEventCallback callback) {
@@ -541,6 +573,13 @@ ImportStats DebeziumCDCImporter::streamEvents(const ImportOptions& options,
 // IImporter – importDataAsync
 // ============================================================================
 
+/**
+ * @brief Import Data Async.
+ * @param[in] source_path Path to the source.
+ * @param[in] options Input parameter.
+ * @return Return value.
+ * @details Calls: std::to_string(), std::chrono::steady_clock::now(), time_since_epoch(), count(), std::async(), importData().
+ */
 std::shared_ptr<ImportHandle> DebeziumCDCImporter::importDataAsync(
     const std::string& source_path,
     const ImportOptions& options) {
@@ -561,6 +600,10 @@ std::shared_ptr<ImportHandle> DebeziumCDCImporter::importDataAsync(
 // IImporter – cancel
 // ============================================================================
 
+/**
+ * @brief Cancel.
+ * @details Calls: store().
+ */
 void DebeziumCDCImporter::cancel() {
     cancelled_.store(true, std::memory_order_release);
 }
@@ -569,6 +612,12 @@ void DebeziumCDCImporter::cancel() {
 // IImporter – getSourceSchema
 // ============================================================================
 
+/**
+ * @brief Get Source Schema.
+ * @param[in] source_path Path to the source.
+ * @return Return value.
+ * @details Calls: empty(), json::object(), contains(), json::array(), is_null(), is_object(), items(), is_number_integer().
+ */
 json DebeziumCDCImporter::getSourceSchema(const std::string& source_path) {
     (void)source_path;
 

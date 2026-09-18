@@ -95,13 +95,13 @@ CrossClusterFederator::CrossClusterFederator(const Config& config)
         config_.cost_pruning_factor);
 }
 
+
 /**
- * @brief ============================================================================ Cluster registry ============================================================================
+ * @brief Register Cluster.
  * @param[in] endpoint Input parameter.
  * @throws std::invalid_argument if an error occurs.
  * @details Calls: empty(), compare(), find(), lock(), spdlog::info().
  */
-
 void CrossClusterFederator::registerCluster(const ClusterEndpoint& endpoint) {
     if (endpoint.cluster_id.empty()) {
         throw std::invalid_argument(
@@ -126,11 +126,6 @@ void CrossClusterFederator::registerCluster(const ClusterEndpoint& endpoint) {
             "for cluster '" + endpoint.cluster_id + "'");
     }
 
-    /**
-     * @brief Lock.
-     * @param[in] registry_mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lock(registry_mutex_);
     clusters_[endpoint.cluster_id] = endpoint;
     spdlog::info("CrossClusterFederator: registered cluster '{}' at {}",
@@ -139,15 +134,10 @@ void CrossClusterFederator::registerCluster(const ClusterEndpoint& endpoint) {
 
 /**
  * @brief Unregister Cluster.
- * @param[in] cluster_id Input parameter.
+ * @param[in] cluster_id Identifier of the cluster.
  * @details Calls: lock(), find(), end(), erase(), spdlog::info().
  */
 void CrossClusterFederator::unregisterCluster(const std::string& cluster_id) {
-    /**
-     * @brief Lock.
-     * @param[in] registry_mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lock(registry_mutex_);
     const auto it = clusters_.find(cluster_id);
     if (it != clusters_.end()) {
@@ -265,25 +255,20 @@ CrossClusterFederator::createExecutionPlan(const std::string& query) const {
     return plan;
 }
 
+
 /**
- * @brief ============================================================================ Query execution ============================================================================
+ * @brief Execute.
  * @param[in] query Input parameter.
  * @return Return value.
  * @throws std::runtime_error if an error occurs.
  * @details Calls: lock(), reserve(), size(), push_back(), empty(), spdlog::warn(), nlohmann::json::array(), createExecutionPlan().
  */
-
 nlohmann::json CrossClusterFederator::execute(const std::string& query) {
     total_queries_++;
 
     // Snapshot of registered endpoints (to avoid holding lock during I/O)
     std::vector<ClusterEndpoint> endpoints;
     {
-        /**
-         * @brief Lock.
-         * @param[in] registry_mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(registry_mutex_);
         endpoints.reserve(clusters_.size());
         for (const auto& [id, ep] : clusters_) {
@@ -424,25 +409,25 @@ nlohmann::json CrossClusterFederator::getStatistics() const {
     return stats;
 }
 
+
 /**
- * @brief ============================================================================ Test seam ============================================================================
+ * @brief Set Http Post For Testing.
  * @param[in] fn Input parameter.
  * @details Calls: std::move().
  */
-
 void CrossClusterFederator::setHttpPostForTesting(HttpPostFn fn) {
     http_post_fn_ = std::move(fn);
 }
 
+
 /**
- * @brief ============================================================================ Internal helpers ============================================================================
+ * @brief Query Cluster.
  * @param[in] endpoint Input parameter.
  * @param[in] query Input parameter.
  * @param[in,out] ok Input/output parameter.
  * @return Return value.
  * @details Calls: empty(), dump(), spdlog::debug(), http_post_fn_(), curlHttpPost(), spdlog::error(), nlohmann::json::array(), nlohmann::json::parse().
  */
-
 nlohmann::json CrossClusterFederator::queryCluster(
     const ClusterEndpoint& endpoint,
     const std::string&     query,

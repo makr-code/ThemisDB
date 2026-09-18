@@ -66,9 +66,15 @@ namespace provenance_aql {
 // ============================================================================
 // Impl
 // ============================================================================
-/** @brief Impl. */
 class ProvenanceTracker::Impl {
 public:
+    /**
+     * @brief Impl.
+     * @param[in] config Input parameter.
+     * @param[in] db_connection Input parameter.
+     * @param[in,out] engine Input/output parameter.
+     * @return Return value.
+     */
     explicit Impl(const ProvenanceTrackerConfig& config,
                   const std::string& db_connection,
                   query::QueryEngine* engine)
@@ -78,6 +84,12 @@ public:
     }
 
     // -------------------------------------------------------------------------
+    /**
+     * @brief Write.
+     * @param[in] records Input parameter.
+     * @return Return value.
+     * @details Calls: ProvenanceWriteStats(), std::chrono::steady_clock::now(), std::chrono::milliseconds(), size(), std::min(), empty(), fingerprints_arr(), dump().
+     */
     ProvenanceWriteStats write(const std::vector<ProvenanceRecord>& records) {
         ProvenanceWriteStats stats = ProvenanceWriteStats();
         auto t0 = std::chrono::steady_clock::now();
@@ -191,6 +203,14 @@ public:
     }
 
     // -------------------------------------------------------------------------
+    /**
+     * @brief Record Filtered Sample.
+     * @param[in] sample_id Identifier of the sample.
+     * @param[in] category Input parameter.
+     * @param[in] confidence Input parameter.
+     * @param[in] threshold_used Input parameter.
+     * @details Calls: push_back(), str().
+     */
     void recordFilteredSample(const std::string& sample_id,
                               const std::string& category,
                               float confidence,
@@ -353,6 +373,11 @@ public:
     }
 
     // -------------------------------------------------------------------------
+    /**
+     * @brief Set Query Engine.
+     * @param[in,out] engine Input/output parameter.
+     * @details Implements setQueryEngine without additional internal calls.
+     */
     void setQueryEngine(query::QueryEngine* engine) {
         query_engine_ = engine;
     }
@@ -387,7 +412,12 @@ private:
         return query;
     }
 
-    // Escape characters that would break an AQL inline string literal.
+    /**
+     * @brief Escape characters that would break an AQL inline string literal.
+     * @param[in] raw Input parameter.
+     * @return Return value.
+     * @details Calls: reserve(), size().
+     */
     static std::string escapedStr(const std::string& raw) {
         std::string out = {};
         out.reserve(raw.size());
@@ -415,10 +445,24 @@ ProvenanceTracker::ProvenanceTracker(const ProvenanceTrackerConfig& config,
 
 ProvenanceTracker::~ProvenanceTracker() = default;
 
+/**
+ * @brief Write.
+ * @param[in] records Input parameter.
+ * @return Return value.
+ * @details Implements write without additional internal calls.
+ */
 ProvenanceWriteStats ProvenanceTracker::write(const std::vector<ProvenanceRecord>& records) {
     return impl_->write(records);
 }
 
+/**
+ * @brief Record Filtered Sample.
+ * @param[in] sample_id Identifier of the sample.
+ * @param[in] category Input parameter.
+ * @param[in] confidence Input parameter.
+ * @param[in] threshold_used Input parameter.
+ * @details Implements recordFilteredSample without additional internal calls.
+ */
 void ProvenanceTracker::recordFilteredSample(const std::string& sample_id,
                                              const std::string& category,
                                              float confidence,
@@ -435,6 +479,11 @@ ProvenanceRecord ProvenanceTracker::getRecord(const std::string& sample_id) cons
     return impl_->getRecord(sample_id);
 }
 
+/**
+ * @brief Set Query Engine.
+ * @param[in,out] engine Input/output parameter.
+ * @details Implements setQueryEngine without additional internal calls.
+ */
 void ProvenanceTracker::setQueryEngine(query::QueryEngine* engine) {
     impl_->setQueryEngine(engine);
 }

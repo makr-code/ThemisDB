@@ -84,17 +84,6 @@ enum class BlobStatus {
 // Callback for chunk streaming
 using BlobChunkCallback = std::function<void(const themis::sharding::proto::BlobChunk&)>;
 
-/**
- * Handler for large binary blob transfers (LoRA adapters, models, etc.).
- * Provides efficient transfer with compression, resume support, and progress tracking.
- * 
- * Features:
- * - Optimized for large files (100 MB - 10 GB)
- * - High compression ratios (3-6x with Zstd)
- * - Resume support for interrupted transfers
- * - Progress tracking and monitoring
- * - Metadata attachment
- */
 class BlobTransferHandler {
 public:
     using ChecksumFn = std::function<std::string(const std::string&,
@@ -108,71 +97,67 @@ public:
     BlobTransferHandler& operator=(const BlobTransferHandler&) = delete;
     
     /**
-     * Start a blob transfer.
-     * 
-     * @param config Blob transfer configuration
-     * @return Status code
+     * @brief Start Transfer.
+     * @param[in] config Input parameter.
+     * @return Return value.
      */
     BlobStatus StartTransfer(const BlobConfig& config);
     
     /**
-     * Stream blob chunks to the callback.
-     * 
-     * @param callback Function to receive each chunk
-     * @return Status code
+     * @brief Stream Chunks.
+     * @param[in] callback Input parameter.
+     * @return Return value.
      */
     BlobStatus StreamChunks(BlobChunkCallback callback);
     
     /**
-     * Verify blob integrity after transfer.
-     * 
-     * @param expected_hash Expected SHA256 hash
-     * @return Status code
+     * @brief Verify Blob.
+     * @param[in] expected_hash Input parameter.
+     * @return Return value.
      */
     BlobStatus VerifyBlob(const std::string& expected_hash);
     
     /**
-     * Receive and save blob chunks.
-     * 
-     * @param chunk Received blob chunk
-     * @return Status code
+     * @brief Receive Chunk.
+     * @param[in] chunk Input parameter.
+     * @return Return value.
      */
     BlobStatus ReceiveChunk(const themis::sharding::proto::BlobChunk& chunk);
     
     /**
-     * Finalize blob after all chunks received.
-     * 
-     * @return Status code
+     * @brief Finalize Blob.
+     * @return Return value.
      */
     BlobStatus FinalizeBlob();
     
     /**
-     * Get current transfer progress.
-     * 
-     * @return Progress information
+     * @brief Get Progress.
+     * @return Return value.
      */
     BlobProgress GetProgress() const;
     
     /**
-     * Create a checkpoint for resume support.
-     * 
-     * @return Checkpoint ID
+     * @brief Create Checkpoint.
+     * @return Return value.
      */
     std::string CreateCheckpoint();
     
     /**
-     * Resume transfer from a checkpoint.
-     * 
-     * @param checkpoint_id Checkpoint to resume from
-     * @return Status code
+     * @brief Resume Transfer.
+     * @param[in] checkpoint_id Identifier of the checkpoint.
+     * @return Return value.
      */
     BlobStatus ResumeTransfer(const std::string& checkpoint_id);
     
     /**
-     * Cancel an in-progress transfer.
+     * @brief Cancel.
      */
     void Cancel();
 
+    /**
+     * @brief Set Checksum Fn.
+     * @param[in] fn Input parameter.
+     */
     static void setChecksumFn(ChecksumFn fn);
 
 private:

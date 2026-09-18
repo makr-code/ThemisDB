@@ -19,6 +19,12 @@
 namespace themis::server {
 
 // Parse version string
+/**
+ * @brief Parse.
+ * @param[in] version_str Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), substr(), version_regex(), std::regex_match(), std::stoul(), str().
+ */
 std::optional<APIVersion> APIVersion::parse(const std::string& version_str) {
     if (version_str.empty()) {
         return std::nullopt;
@@ -228,6 +234,12 @@ std::optional<APIDeprecationInfo> APIVersionManager::getDeprecationInfo(
     return std::nullopt;
 }
 
+/**
+ * @brief Register Deprecation.
+ * @param[in] endpoint Input parameter.
+ * @param[in] info Input parameter.
+ * @details Calls: spdlog::info(), toString().
+ */
 void APIVersionManager::registerDeprecation(
     const std::string& endpoint,
     const APIDeprecationInfo& info
@@ -243,6 +255,12 @@ std::vector<APIVersion> APIVersionManager::getSupportedVersions() const {
 
 // APIVersionRange implementation
 
+/**
+ * @brief Parse.
+ * @param[in] range_str Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), find(), find_first_not_of(), find_last_not_of(), substr(), trim().
+ */
 std::optional<APIVersionRange> APIVersionRange::parse(const std::string& range_str) {
     if (range_str.empty()) {
         return std::nullopt;
@@ -310,6 +328,11 @@ APIVersion APIVersionManager::resolveVersionRange(const APIVersionRange& range) 
 
 // Breaking change registry
 
+/**
+ * @brief Register Breaking Change.
+ * @param[in] info Input parameter.
+ * @details Calls: push_back(), spdlog::info(), toString(), empty().
+ */
 void APIVersionManager::registerBreakingChange(const BreakingChangeInfo& info) {
     breaking_changes_.push_back(info);
     spdlog::info("Registered breaking change at {}: {} (endpoint='{}')",
@@ -343,9 +366,13 @@ namespace themis::server {
 
 namespace {
 
-/// Determine whether @p new_type is a narrowing of @p old_type.
-/// Narrowing means the new type can represent fewer values than the old type
-/// (e.g. int64 → int32 is narrowing; int32 → int64 is widening).
+/**
+ * @brief Is Type Narrowing.
+ * @param[in] old_type Input parameter.
+ * @param[in] new_type Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements isTypeNarrowing without additional internal calls.
+ */
 bool isTypeNarrowing(const std::string& old_type, const std::string& new_type) {
     if (old_type == new_type) { return false; }
     // Well-known narrowing pairs

@@ -113,6 +113,11 @@ void DiskANNIndex::build(const std::vector<std::pair<VectorID, std::vector<float
     for (auto& node : nodes) {
         // Seek to end to capture the exact write position before appending
         {
+            /**
+             * @brief Lock.
+             * @param[in] file_mutex_ Input parameter.
+             * @return Return value.
+             */
             std::lock_guard<std::mutex> lock(file_mutex_);
             graph_file_->seekp(0, std::ios::end);
             vector_offsets_[node.id] = static_cast<uint64_t>(graph_file_->tellp());
@@ -126,6 +131,13 @@ void DiskANNIndex::build(const std::vector<std::pair<VectorID, std::vector<float
     flush();
 }
 
+/**
+ * @brief Add.
+ * @param[in] id Input parameter.
+ * @param[in] vector Input parameter.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: size(), load_node(), compute_distance(), push(), top(), pop(), empty(), push_back().
+ */
 void DiskANNIndex::add(VectorID id, const std::vector<float>& vector) {
     if (vector.size() != dimension_) {
         throw std::invalid_argument("Vector dimension mismatch");
@@ -170,6 +182,14 @@ void DiskANNIndex::add(VectorID id, const std::vector<float>& vector) {
     save_node(node);
 }
 
+/**
+ * @brief Search.
+ * @param[in] query Input parameter.
+ * @param[in] k Input parameter.
+ * @param[in] beam_width Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), find_entry_point(), begin(), greedy_search_internal(), load_node(), compute_distance(), push_back(), std::sort().
+ */
 std::vector<DiskANNIndex::SearchResult> DiskANNIndex::search(
     const std::vector<float>& query, int k, int beam_width) {
     
@@ -217,6 +237,10 @@ DiskANNIndex::Stats DiskANNIndex::get_stats() const {
     return stats;
 }
 
+/**
+ * @brief Flush.
+ * @details Implements flush without additional internal calls.
+ */
 void DiskANNIndex::flush() {
     if (graph_file_) {
         graph_file_->flush();
@@ -227,6 +251,12 @@ bool DiskANNIndex::save(const std::string& path) const {
     return save_metadata(path + ".meta");
 }
 
+/**
+ * @brief Load.
+ * @param[in] path Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: load_metadata().
+ */
 bool DiskANNIndex::load(const std::string& path) {
     return load_metadata(path + ".meta");
 }
@@ -256,6 +286,12 @@ bool DiskANNIndex::save_metadata(const std::string& meta_path) const {
     return ofs.good();
 }
 
+/**
+ * @brief Load metadata.
+ * @param[in] meta_path Path to the meta.
+ * @return True when the operation succeeds.
+ * @details Calls: ifs(), read(), store(), clear(), reserve(), good().
+ */
 bool DiskANNIndex::load_metadata(const std::string& meta_path) {
     std::ifstream ifs(meta_path, std::ios::binary);
     if (!ifs) {
@@ -289,6 +325,13 @@ bool DiskANNIndex::load_metadata(const std::string& meta_path) {
     return ifs.good();
 }
 
+/**
+ * @brief Load node.
+ * @param[in] id Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: get(), fetch_add(), lock(), find(), end(), seekg(), resize(), read().
+ */
 DiskANNNode DiskANNIndex::load_node(VectorID id) {
     // Check cache first
     DiskANNNode node = {};
@@ -333,6 +376,11 @@ DiskANNNode DiskANNIndex::load_node(VectorID id) {
     return node;
 }
 
+/**
+ * @brief Save node.
+ * @param[in] node Input parameter.
+ * @details Calls: lock(), seekp(), write(), data(), size().
+ */
 void DiskANNIndex::save_node(const DiskANNNode& node) {
     std::lock_guard<std::mutex> lock(file_mutex_);
     
@@ -365,6 +413,15 @@ float DiskANNIndex::compute_distance(const std::vector<float>& a, const std::vec
     return std::sqrt(sum);
 }
 
+/**
+ * @brief Greedy search internal.
+ * @param[in] query Input parameter.
+ * @param[in] entry_point Input parameter.
+ * @param[in] beam_width Input parameter.
+ * @param[in] k Input parameter.
+ * @return Return value.
+ * @details Calls: load_node(), compute_distance(), push(), insert(), empty(), size(), top(), pop().
+ */
 std::vector<VectorID> DiskANNIndex::greedy_search_internal(
     const std::vector<float>& query,
     VectorID entry_point,

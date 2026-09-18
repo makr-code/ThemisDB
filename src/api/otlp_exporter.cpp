@@ -39,15 +39,27 @@ using json = nlohmann::json;
 
 namespace {
 
-/// libcurl write callback — appends received bytes to a std::string.
+/**
+ * @brief Curl Write Callback.
+ * @param[in,out] ptr Input/output parameter.
+ * @param[in] size Input parameter.
+ * @param[in] nmemb Input parameter.
+ * @param[in,out] userdata Input/output parameter.
+ * @return Return value.
+ * @details Calls: append().
+ */
 static size_t curlWriteCallback(char *ptr, size_t size, size_t nmemb, void *userdata) {
     auto *buf = static_cast<std::string *>(userdata);
     buf->append(ptr, size * nmemb);
     return size * nmemb;
 }
 
-/// Convert a 128-bit hex string (correlation ID or UUID without dashes) to a
-/// lowercase 32-hex-char trace ID string.  UUIDs with dashes are normalised.
+/**
+ * @brief Normalise Trace Id.
+ * @param[in] raw Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), push_back(), std::tolower(), size(), resize(), substr().
+ */
 static std::string normaliseTraceId(const std::string &raw) {
     // Strip dashes from UUIDs ("xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx")
     std::string out = {};
@@ -66,9 +78,12 @@ static std::string normaliseTraceId(const std::string &raw) {
     return out;
 }
 
-/// Build a random 16-hex-char span ID from the lower 64 bits of a trace ID.
-/// When span_id is empty we derive it deterministically from trace_id + "span"
-/// to avoid a full random generator in the hot path.
+/**
+ * @brief Derive Span Id.
+ * @param[in] trace_id_32 Input parameter.
+ * @return Return value.
+ * @details Calls: size(), substr(), std::string().
+ */
 static std::string deriveSpanId(const std::string &trace_id_32) {
     // Use the last 16 hex chars of the trace ID as the span ID.
     if (trace_id_32.size() >= 16) {
@@ -77,7 +92,6 @@ static std::string deriveSpanId(const std::string &trace_id_32) {
     return trace_id_32 + std::string(16 - trace_id_32.size() , '0');
 }
 
-/// StatusCode constants (OTLP spec):
 static constexpr int kStatusUnset = 0;
 static constexpr int kStatusOk    = 1;
 static constexpr int kStatusError = 2;
@@ -98,6 +112,10 @@ OtlpExporter::~OtlpExporter() {
 // start() / stop()
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Start.
+ * @details Calls: joinable(), curl_easy_init(), curl_easy_setopt(), c_str(), empty(), curl_slist_append(), THEMIS_WARN(), prometheus::BuildCounter().
+ */
 void OtlpExporter::start() {
     if (!config_.enabled) {
         return;
@@ -219,6 +237,10 @@ void OtlpExporter::start() {
     THEMIS_INFO("OtlpExporter: started (endpoint={})", config_.endpoint);
 }
 
+/**
+ * @brief Stop.
+ * @details Calls: joinable(), lk(), store(), notify_all(), join(), curl_slist_free_all(), curl_easy_cleanup(), THEMIS_INFO().
+ */
 void OtlpExporter::stop() {
     if (!flush_thread_.joinable()) {
         return;
@@ -248,6 +270,11 @@ void OtlpExporter::stop() {
 // enqueue()
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Enqueue.
+ * @param[in] span Input parameter.
+ * @details Calls: lk(), size(), pop_front(), fetch_add(), Increment(), THEMIS_WARN(), push_back(), std::move().
+ */
 void OtlpExporter::enqueue(SpanData span) {
     if (!config_.enabled) {
         return;
@@ -290,6 +317,11 @@ uint64_t OtlpExporter::droppedSpanCount() const noexcept {
 // ---------------------------------------------------------------------------
 
 #ifdef THEMIS_HAS_PROMETHEUS
+/**
+ * @brief Set Prometheus Registry.
+ * @param[in] registry Input parameter.
+ * @details Calls: std::move().
+ */
 void OtlpExporter::setPrometheusRegistry(std::shared_ptr<prometheus::Registry> registry) {
     prom_registry_ = std::move(registry);
 }
@@ -299,6 +331,10 @@ void OtlpExporter::setPrometheusRegistry(std::shared_ptr<prometheus::Registry> r
 // Background flush loop
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Flush Loop.
+ * @details Calls: std::chrono::milliseconds(), reserve(), lk(), wait_for(), load(), size(), std::min(), assign().
+ */
 void OtlpExporter::flushLoop() {
     const auto flush_interval = std::chrono::milliseconds(config_.flush_interval_ms);
 
@@ -347,14 +383,10 @@ void OtlpExporter::flushLoop() {
 // ---------------------------------------------------------------------------
 
 namespace {
-/// Returns true for HTTP status codes that are transient and safe to retry.
 static bool isRetriableHttpCode(long code) noexcept {
     return code == 429 || code == 503;
 }
 
-/// Returns true for curl errors that are transient network/transport failures.
-/// Configuration errors (bad URL, unsupported protocol, etc.) are excluded
-/// because retrying them will never succeed.
 static bool isRetriableCurlError(CURLcode code) noexcept {
     switch (code) {
         case CURLE_COULDNT_RESOLVE_HOST:
@@ -371,6 +403,11 @@ static bool isRetriableCurlError(CURLcode code) noexcept {
 }
 } // namespace
 
+/**
+ * @brief Flush Batch.
+ * @param[in,out] batch Input/output parameter.
+ * @details Calls: buildOtlpJson(), std::max(), curl_easy_init(), THEMIS_ERROR(), size(), fetch_add(), Increment(), curl_easy_setopt().
+ */
 void OtlpExporter::flushBatch(std::vector<SpanData> &batch) {
     const std::string payload = buildOtlpJson(config_, batch);
 
@@ -532,7 +569,13 @@ void OtlpExporter::flushBatch(std::vector<SpanData> &batch) {
 //   }]
 // }
 
-/*static*/
+/**
+ * @brief static
+ * @param[in] cfg Input parameter.
+ * @param[in] spans Input parameter.
+ * @return Return value.
+ * @details Calls: json::array(), push_back(), addAttr(), empty(), normaliseTraceId(), deriveSpanId(), substr(), std::to_string().
+ */
 std::string OtlpExporter::buildOtlpJson(const OtlpExporterConfig &cfg, const std::vector<SpanData> &spans) {
     // Resource attributes
     json resource_attrs = json::array();

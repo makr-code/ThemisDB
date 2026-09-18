@@ -28,9 +28,10 @@ namespace themis {
 namespace sharding {
 
 /**
- * @brief Erstellt einen mTLS-Client aus DataMigratorConfig.
- * @param config DataMigrator-Konfiguration mit Zertifikatspfaden und Retrywerten.
- * @return Initialisierter mTLS-Client.
+ * @brief Create MTLSClient.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @details Implements createMTLSClient without additional internal calls.
  */
 static std::unique_ptr<themis::sharding::MTLSClient> createMTLSClient(const DataMigratorConfig& config) {
     themis::sharding::MTLSClient::Config mtls_config;
@@ -69,11 +70,14 @@ DataMigrator::DataMigrator(
 }
 
 /**
- * @brief Migriert einen Token-Bereich in Batches vom Quell- zum Ziel-Shard.
- *
- * Fuehrt Batch-Fetch, optionale Integritaetspruefung und idempotentes
- * Abschluss-Tracking aus. Bei aktivierter Idempotenz werden bereits
- * abgeschlossene Migrationen bzw. Batches uebersprungen.
+ * @brief Migrate.
+ * @param[in] source_shard_id Identifier of the source shard.
+ * @param[in] target_shard_id Identifier of the target shard.
+ * @param[in] token_range_start Input parameter.
+ * @param[in] token_range_end Input parameter.
+ * @param[in] progress_callback Input parameter.
+ * @return Return value.
+ * @details Calls: generateMigrationId(), isMigrationCompleted(), std::chrono::steady_clock::now(), createMTLSClient(), isReady(), get(), str(), is_object().
  */
 MigrationResult DataMigrator::migrate(
     const std::string& source_shard_id,
@@ -237,8 +241,13 @@ MigrationResult DataMigrator::migrate(
 }
 
 /**
- * @brief Verifiziert die Integritaet zwischen Quell- und Ziel-Shard.
- * @return true, wenn die Hashes der geladenen Datensaetze identisch sind.
+ * @brief Verify Integrity.
+ * @param[in] source_shard_id Identifier of the source shard.
+ * @param[in] target_shard_id Identifier of the target shard.
+ * @param[in] token_range_start Input parameter.
+ * @param[in] token_range_end Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: fetchBatch(), calculateHash().
  */
 bool DataMigrator::verifyIntegrity(
     const std::string& source_shard_id,
@@ -265,8 +274,14 @@ bool DataMigrator::verifyIntegrity(
 }
 
 /**
- * @brief Holt eine paginierte Batch aus dem Quell-Shard per mTLS.
- * @return Records-Array oder leeres Array bei Netzwerk-/Formatfehlern.
+ * @brief Fetch Batch.
+ * @param[in] source_shard_id Identifier of the source shard.
+ * @param[in] token_range_start Input parameter.
+ * @param[in] token_range_end Input parameter.
+ * @param[in] offset Input parameter.
+ * @param[in] limit Input parameter.
+ * @return Return value.
+ * @details Calls: createMTLSClient(), isReady(), nlohmann::json::array(), get(), str(), is_object(), contains(), is_array().
  */
 nlohmann::json DataMigrator::fetchBatch(
     const std::string& source_shard_id,
@@ -322,8 +337,11 @@ nlohmann::json DataMigrator::fetchBatch(
 }
 
 /**
- * @brief Schreibt eine Batch per mTLS auf den Ziel-Shard.
- * @return true bei erfolgreicher Zielbestaetigung oder HTTP-2xx.
+ * @brief Write Batch.
+ * @param[in] target_shard_id Identifier of the target shard.
+ * @param[in] batch Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: is_array(), empty(), createMTLSClient(), isReady(), retryOperation(), post(), is_object(), contains().
  */
 bool DataMigrator::writeBatch(
     const std::string& target_shard_id,
@@ -373,9 +391,10 @@ bool DataMigrator::writeBatch(
 }
 
 /**
- * @brief Berechnet SHA-256 ueber die serialisierte JSON-Repraesentation.
- * @param data Eingabedaten.
- * @return Hex-codierter Hashwert.
+ * @brief Calculate Hash.
+ * @param[in] data Input parameter.
+ * @return Return value.
+ * @details Calls: dump(), SHA256(), c_str(), size(), std::setw(), std::setfill(), str().
  */
 std::string DataMigrator::calculateHash(const nlohmann::json& data) {
     // Calculate SHA-256 hash of JSON data
@@ -396,10 +415,10 @@ std::string DataMigrator::calculateHash(const nlohmann::json& data) {
 
 template<typename Func>
 /**
- * @brief Fuehrt eine boolesche Operation mit Retry und linearem Backoff aus.
- * @tparam Func Callable mit Rueckgabetyp bool.
- * @param func Aufzurufende Operation.
- * @return true bei Erfolg eines Versuchs, sonst false.
+ * @brief Retry Operation.
+ * @param[in] func Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: func(), std::this_thread::sleep_for(), std::chrono::milliseconds().
  */
 bool DataMigrator::retryOperation(Func func) {
     for (uint32_t attempt = 0; attempt < config_.max_retries; ++attempt) {
@@ -426,6 +445,15 @@ bool DataMigrator::retryOperation(Func func) {
 // Idempotency Helper Methods
 // ============================================================================
 
+/**
+ * @brief Generate Migration Id.
+ * @param[in] source_shard_id Identifier of the source shard.
+ * @param[in] target_shard_id Identifier of the target shard.
+ * @param[in] token_range_start Input parameter.
+ * @param[in] token_range_end Input parameter.
+ * @return Return value.
+ * @details Calls: str(), SHA256(), c_str(), size(), std::setfill(), std::setw().
+ */
 std::string DataMigrator::generateMigrationId(
     const std::string& source_shard_id,
     const std::string& target_shard_id,
@@ -456,7 +484,11 @@ std::string DataMigrator::generateMigrationId(
 }
 
 /**
- * @brief Bildet eine eindeutige Batch-ID innerhalb einer Migration.
+ * @brief Generate Batch Id.
+ * @param[in] migration_id Identifier of the migration.
+ * @param[in] batch_index Input parameter.
+ * @return Return value.
+ * @details Calls: std::to_string().
  */
 std::string DataMigrator::generateBatchId(
     const std::string& migration_id,
@@ -465,13 +497,22 @@ std::string DataMigrator::generateBatchId(
     return migration_id + "_batch_" + std::to_string(batch_index);
 }
 
-/** @brief Prueft threadsicher, ob eine Migration bereits final markiert wurde. */
+/**
+ * @brief Is Migration Completed.
+ * @param[in] migration_id Identifier of the migration.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), find(), end().
+ */
 bool DataMigrator::isMigrationCompleted(const std::string& migration_id) {
     std::lock_guard<std::mutex> lock(idempotency_mutex_);
     return completed_migrations_.find(migration_id) != completed_migrations_.end();
 }
 
-/** @brief Markiert Migration als abgeschlossen und persistiert den Zustand. */
+/**
+ * @brief Mark Migration Completed.
+ * @param[in] migration_id Identifier of the migration.
+ * @details Calls: lock(), insert(), saveIdempotencyState().
+ */
 void DataMigrator::markMigrationCompleted(const std::string& migration_id) {
     {
         std::lock_guard<std::mutex> lock(idempotency_mutex_);
@@ -481,13 +522,22 @@ void DataMigrator::markMigrationCompleted(const std::string& migration_id) {
     saveIdempotencyState();
 }
 
-/** @brief Prueft threadsicher, ob eine Batch bereits verarbeitet wurde. */
+/**
+ * @brief Is Batch Completed.
+ * @param[in] batch_id Identifier of the batch.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), find(), end().
+ */
 bool DataMigrator::isBatchCompleted(const std::string& batch_id) {
     std::lock_guard<std::mutex> lock(idempotency_mutex_);
     return completed_batches_.find(batch_id) != completed_batches_.end();
 }
 
-/** @brief Markiert Batch als abgeschlossen und persistiert periodisch den Zustand. */
+/**
+ * @brief Mark Batch Completed.
+ * @param[in] batch_id Identifier of the batch.
+ * @details Calls: lock(), insert(), fetch_add(), saveIdempotencyState().
+ */
 void DataMigrator::markBatchCompleted(const std::string& batch_id) {
     bool should_persist = false;
     {
@@ -503,10 +553,8 @@ void DataMigrator::markBatchCompleted(const std::string& batch_id) {
 }
 
 /**
- * @brief Laedt den Idempotenzstatus aus Dateien in den Arbeitsspeicher.
- *
- * Datei-I/O erfolgt ausserhalb des Locks; das Uebernehmen in die geteilten
- * Datenstrukturen erfolgt anschliessend unter Mutexschutz.
+ * @brief Load Idempotency State.
+ * @details Calls: state_dir(), fs::exists(), fs::create_directories(), ifs(), is_array(), is_string(), insert(), what().
  */
 void DataMigrator::loadIdempotencyState() {
     // Read from disk first (no lock needed during I/O), then populate shared state.
@@ -564,10 +612,8 @@ void DataMigrator::loadIdempotencyState() {
 }
 
 /**
- * @brief Persistiert den aktuellen Idempotenzstatus atomar pro Datei.
- *
- * Die zu schreibenden Snapshots werden unter Lock erstellt; der eigentliche
- * Dateizugriff erfolgt ausserhalb des kritischen Abschnitts.
+ * @brief Save Idempotency State.
+ * @details Calls: nlohmann::json::array(), lock(), push_back(), state_dir(), fs::exists(), fs::create_directories(), ofs_migrations(), dump().
  */
 void DataMigrator::saveIdempotencyState() {
     // Snapshot shared state under lock, then write to disk outside the lock so
@@ -606,9 +652,19 @@ void DataMigrator::saveIdempotencyState() {
     }
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Live migration (dual-write protocol)
-// ─────────────────────────────────────────────────────────────────────────────
+/**
+ * @brief ───────────────────────────────────────────────────────────────────────────── Live migration (dual-write protocol) ─────────────────────────────────────────────────────────────────────────────
+ * @param[in] source_shard_id Identifier of the source shard.
+ * @param[in] target_shard_id Identifier of the target shard.
+ * @param[in] token_range_start Input parameter.
+ * @param[in] token_range_end Input parameter.
+ * @param[in] topology Input parameter.
+ * @param[in] wal_shipper Input parameter.
+ * @param[in] live_cfg Input parameter.
+ * @param[in] progress_callback Input parameter.
+ * @return Return value.
+ * @details Calls: generateMigrationId(), migrate(), verifyIntegrity(), addReplica(), std::chrono::steady_clock::now(), getReplicaInfo(), getStatistics(), std::this_thread::sleep_for().
+ */
 
 LiveMigrationResult DataMigrator::liveMigrate(
     const std::string& source_shard_id,

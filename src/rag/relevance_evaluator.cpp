@@ -31,7 +31,12 @@ struct RelevanceEvaluator::Impl {
     ResponseParser parser;
     mutable std::mutex state_mutex;  // Protect shared state access
 
-    // Tokenize text into lowercase, punctuation-stripped tokens of length > 2
+    /**
+     * @brief Tokenize text into lowercase, punctuation-stripped tokens of length > 2
+     * @param[in] text Input parameter.
+     * @return Return value.
+     * @details Calls: stream(), std::transform(), begin(), end(), erase(), std::remove_if(), length(), push_back().
+     */
     static std::vector<std::string> tokenize(const std::string& text) {
         std::vector<std::string> tokens;
         std::istringstream stream(text);
@@ -46,7 +51,13 @@ struct RelevanceEvaluator::Impl {
         return tokens;
     }
 
-    // Compute term-frequency vector for a token list over a shared vocabulary
+    /**
+     * @brief Compute term-frequency vector for a token list over a shared vocabulary
+     * @param[in] tokens Input parameter.
+     * @param[in] vocab Input parameter.
+     * @return Return value.
+     * @details Calls: vec(), size(), find(), end().
+     */
     static std::vector<double> termFrequencyVector(
         const std::vector<std::string>& tokens,
         const std::vector<std::string>& vocab
@@ -67,7 +78,13 @@ struct RelevanceEvaluator::Impl {
         return vec;
     }
 
-    // Cosine similarity between two equal-length vectors
+    /**
+     * @brief Cosine similarity between two equal-length vectors
+     * @param[in] a Input parameter.
+     * @param[in] b Input parameter.
+     * @return Return value.
+     * @details Calls: size(), std::sqrt().
+     */
     static double cosineSimilarity(
         const std::vector<double>& a,
         const std::vector<double>& b
@@ -84,8 +101,13 @@ struct RelevanceEvaluator::Impl {
         return dot / (std::sqrt(na) * std::sqrt(nb));
     }
 
-    // Semantic similarity using TF-cosine (bag-of-words cosine over shared vocab).
-    // Falls back to Jaccard when the vocabulary is empty.
+    /**
+     * @brief Semantic similarity using TF-cosine (bag-of-words cosine over shared vocab).
+     * @param[in] text1 Input parameter.
+     * @param[in] text2 Input parameter.
+     * @return Return value.
+     * @details Falls back to Jaccard when the vocabulary is empty. Calls: tokenize(), empty(), vocab_set(), begin(), end(), insert(), vocab(), termFrequencyVector().
+     */
     double computeSemanticSimilarity(const std::string& text1, const std::string& text2) {
         auto toks1 = tokenize(text1);
         auto toks2 = tokenize(text2);
@@ -125,6 +147,12 @@ RelevanceEvaluator::RelevanceEvaluator(const Config& config)
 
 RelevanceEvaluator::~RelevanceEvaluator() = default;
 
+/**
+ * @brief Generate Reverse Questions.
+ * @param[in] answer Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), empty(), std::to_string(), evaluateDimension(), parseJSONResponse(), contains(), is_array(), is_string().
+ */
 std::vector<std::string> RelevanceEvaluator::generateReverseQuestions(const std::string& answer) {
     std::vector<std::string> questions;
     questions.reserve(impl_->config.num_reverse_questions);
@@ -178,6 +206,12 @@ Questions:)";
     return questions;
 }
 
+/**
+ * @brief Analyze Intent.
+ * @param[in] query Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), std::transform(), begin(), end(), find(), count_matches(), std::max().
+ */
 QueryIntent RelevanceEvaluator::analyzeIntent(const std::string& query) {
     if (query.empty()) {
         return QueryIntent::UNKNOWN;
@@ -243,6 +277,13 @@ QueryIntent RelevanceEvaluator::analyzeIntent(const std::string& query) {
     }
 }
 
+/**
+ * @brief Detect Noise.
+ * @param[in] answer Input parameter.
+ * @param[in] query Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), sentence_regex(), std::sregex_iterator(), begin(), end(), str(), computeSemanticSimilarity(), push_back().
+ */
 std::vector<std::string> RelevanceEvaluator::detectNoise(
     const std::string& answer,
     const std::string& query
@@ -273,6 +314,13 @@ std::vector<std::string> RelevanceEvaluator::detectNoise(
     return irrelevant_segments;
 }
 
+/**
+ * @brief Calculate Semantic Similarity.
+ * @param[in] query Input parameter.
+ * @param[in] questions Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), computeSemanticSimilarity(), size().
+ */
 double RelevanceEvaluator::calculateSemanticSimilarity(
     const std::string& query,
     const std::vector<std::string>& questions
@@ -291,6 +339,13 @@ double RelevanceEvaluator::calculateSemanticSimilarity(
     return total_similarity / questions.size();
 }
 
+/**
+ * @brief Evaluate.
+ * @param[in] answer Input parameter.
+ * @param[in] query Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), generateReverseQuestions(), calculateSemanticSimilarity(), analyzeIntent(), detectNoise(), sentence_regex(), std::sregex_iterator(), begin().
+ */
 RelevanceResult RelevanceEvaluator::evaluate(
     const std::string& answer,
     const std::string& query

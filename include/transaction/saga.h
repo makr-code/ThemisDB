@@ -28,11 +28,6 @@ class SecondaryIndexManager;
 class GraphIndexManager;
 class VectorIndexManager;
 
-/// SAGA Pattern: Distributed Transaction with Compensating Actions
-/// 
-/// Each operation in a transaction records a compensating action that can undo it.
-/// On rollback, compensating actions are executed in reverse order.
-/// Guarantees eventual consistency even if individual operations fail.
 
 class Saga {
 public:
@@ -59,48 +54,58 @@ public:
     Saga(Saga&&) noexcept = default;
     Saga& operator=(Saga&&) noexcept = default;
     
-    /// Add a step with its compensating action
+    /**
+     * @brief Add Step.
+     * @param[in] operation_name Name of the operation.
+     * @param[in] compensate Input parameter.
+     */
     void addStep(std::string operation_name, CompensatingAction compensate);
     
-    /// Execute all compensating actions in reverse order
+    /**
+     * @brief Compensate.
+     */
     void compensate();
 
-    /// Execute all compensating actions with retry.
-    /// @param max_retries  Per-step retry attempts on exception (0 = no retry).
-    /// @param backoff_ms   Initial backoff in milliseconds; doubled on each retry.
     void compensateWithRetry(int max_retries = 3,
                              std::chrono::milliseconds backoff_ms = std::chrono::milliseconds(50));
 
-    /// Clear all steps (called after successful commit)
+    /**
+     * @brief Clear.
+     */
     void clear();
     
     /**
-     * @brief Discard all steps with index >= @p n, without compensating them.
-     *
-     * Used by the named-savepoint layer to remove SAGA entries that correspond
-     * to writes already undone by a RocksDB savepoint rollback.  Must only be
-     * called while the transaction is still active (i.e. before compensate()).
-     *
-     * @param n  Target size; if >= stepCount() this is a no-op.
+     * @brief Trim To Size.
+     * @param[in] n Input parameter.
      */
     void trimToSize(size_t n);
     
-    /// Get number of recorded steps
     size_t stepCount() const { return steps_.size(); }
     
-    /// Get number of compensated steps
+    /**
+     * @brief Compensated Count.
+     * @return Return value.
+     */
     size_t compensatedCount() const;
     
-    /// Check if all steps have been compensated
+    /**
+     * @brief Is Fully Compensated.
+     * @return True when the operation succeeds.
+     */
     bool isFullyCompensated() const;
     
-    /// Get step history for debugging
+    /**
+     * @brief Get Step History.
+     * @return Return value.
+     */
     std::vector<std::string> getStepHistory() const;
     
-    /// Get duration since first step
+    /**
+     * @brief Get Duration Ms.
+     * @return Return value.
+     */
     int64_t getDurationMs() const;
 
-    /// SAGA execution metrics.
     struct Metrics {
         uint64_t total_steps{0};
         uint64_t compensated_steps{0};
@@ -109,7 +114,10 @@ public:
         int64_t  duration_ms{0};
     };
 
-    /// Return accumulated execution metrics.
+    /**
+     * @brief Get Metrics.
+     * @return Return value.
+     */
     Metrics getMetrics() const;
 
 private:
@@ -121,11 +129,15 @@ private:
     uint64_t metrics_retried_{0};
 };
 
-/// SAGA-aware Transaction Operations
-/// These track compensating actions for each operation
 
 struct SagaOperation {
-    /// Put entity with compensating delete
+    /**
+     * @brief Put Entity With Compensation.
+     * @param[in,out] db Input/output parameter.
+     * @param[in] key Input parameter.
+     * @param[in] value Input parameter.
+     * @param[in,out] saga Input/output parameter.
+     */
     static void putEntityWithCompensation(
         RocksDBWrapper& db,
         const std::string& key,
@@ -133,14 +145,26 @@ struct SagaOperation {
         Saga& saga
     );
     
-    /// Delete entity with compensating restore
+    /**
+     * @brief Delete Entity With Compensation.
+     * @param[in,out] db Input/output parameter.
+     * @param[in] key Input parameter.
+     * @param[in,out] saga Input/output parameter.
+     */
     static void deleteEntityWithCompensation(
         RocksDBWrapper& db,
         const std::string& key,
         Saga& saga
     );
     
-    /// Secondary index put with compensating delete
+    /**
+     * @brief Index Put With Compensation.
+     * @param[in,out] idx Input/output parameter.
+     * @param[in] table Input parameter.
+     * @param[in] entity Input parameter.
+     * @param[in,out] batch Input/output parameter.
+     * @param[in,out] saga Input/output parameter.
+     */
     static void indexPutWithCompensation(
         SecondaryIndexManager& idx,
         const std::string& table,
@@ -149,7 +173,13 @@ struct SagaOperation {
         Saga& saga
     );
     
-    /// Graph edge add with compensating delete
+    /**
+     * @brief Graph Add With Compensation.
+     * @param[in,out] graph Input/output parameter.
+     * @param[in] edge Input parameter.
+     * @param[in,out] batch Input/output parameter.
+     * @param[in,out] saga Input/output parameter.
+     */
     static void graphAddWithCompensation(
         GraphIndexManager& graph,
         const BaseEntity& edge,
@@ -157,7 +187,14 @@ struct SagaOperation {
         Saga& saga
     );
     
-    /// Vector add with compensating cache cleanup
+    /**
+     * @brief Vector Add With Compensation.
+     * @param[in,out] vec Input/output parameter.
+     * @param[in] entity Input parameter.
+     * @param[in,out] batch Input/output parameter.
+     * @param[in] vectorField Input parameter.
+     * @param[in,out] saga Input/output parameter.
+     */
     static void vectorAddWithCompensation(
         VectorIndexManager& vec,
         const BaseEntity& entity,

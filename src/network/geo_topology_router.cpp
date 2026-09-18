@@ -21,9 +21,6 @@
 namespace themis::network {
 
 namespace {
-/// Latency (ms) assigned to regions without an explicit hint in
-/// LOWEST_LATENCY mode.  High enough to deprioritise unspecified regions
-/// while keeping them reachable if every hinted region is unavailable.
 constexpr uint32_t kUnhintedRegionLatencyMs = 999999;
 }  // namespace
 
@@ -134,6 +131,11 @@ const sharding::ShardInfo* GeoTopologyRouter::selectRoundRobin(
 
 std::string GeoTopologyRouter::selectEndpoint() const {
     if (!topology_) {
+        /**
+         * @brief Lk.
+         * @param[in] stats_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(stats_mutex_);
         ++stats_.routing_failures;
         return {};
@@ -141,6 +143,11 @@ std::string GeoTopologyRouter::selectEndpoint() const {
 
     const auto healthy = topology_->getHealthyShards();
     if (healthy.empty()) {
+        /**
+         * @brief Lk.
+         * @param[in] stats_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(stats_mutex_);
         ++stats_.routing_failures;
         THEMIS_WARN("[GeoTopologyRouter] no healthy shards available");
@@ -162,6 +169,11 @@ std::string GeoTopologyRouter::selectEndpoint() const {
     }
 
     if (!selected) {
+        /**
+         * @brief Lk.
+         * @param[in] stats_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(stats_mutex_);
         ++stats_.routing_failures;
         return {};
@@ -177,6 +189,11 @@ std::string GeoTopologyRouter::selectEndpoint() const {
     if (!is_local && !config_.fallback_cross_region &&
         !config_.local_region.empty())
     {
+        /**
+         * @brief Lk.
+         * @param[in] stats_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(stats_mutex_);
         ++stats_.routing_failures;
         THEMIS_WARN("[GeoTopologyRouter] rejecting request: no local shards "
@@ -185,6 +202,11 @@ std::string GeoTopologyRouter::selectEndpoint() const {
     }
 
     {
+        /**
+         * @brief Lk.
+         * @param[in] stats_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(stats_mutex_);
         ++stats_.requests_routed;
         if (is_local) {
@@ -206,6 +228,11 @@ std::string GeoTopologyRouter::selectEndpointInRegion(
     const std::string& region) const
 {
     if (!topology_) {
+        /**
+         * @brief Lk.
+         * @param[in] stats_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(stats_mutex_);
         ++stats_.routing_failures;
         return {};
@@ -213,6 +240,11 @@ std::string GeoTopologyRouter::selectEndpointInRegion(
 
     const auto shards = topology_->getHealthyShardsInRegion(region);
     if (shards.empty()) {
+        /**
+         * @brief Lk.
+         * @param[in] stats_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(stats_mutex_);
         ++stats_.routing_failures;
         THEMIS_WARN("[GeoTopologyRouter] no healthy shards in region '{}'",
@@ -237,6 +269,11 @@ std::string GeoTopologyRouter::selectEndpointInRegion(
     const bool is_local = (region == config_.local_region);
 
     {
+        /**
+         * @brief Lk.
+         * @param[in] stats_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(stats_mutex_);
         ++stats_.requests_routed;
         if (is_local) {
@@ -291,6 +328,11 @@ std::vector<sharding::ShardInfo> GeoTopologyRouter::getRankedShards() const {
 // ─────────────────────────────────────────────────────────────────────────────
 
 GeoTopologyRouter::Stats GeoTopologyRouter::getStats() const {
+    /**
+     * @brief Lk.
+     * @param[in] stats_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(stats_mutex_);
     return stats_;
 }

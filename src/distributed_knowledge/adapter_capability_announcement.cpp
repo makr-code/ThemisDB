@@ -31,6 +31,11 @@ GossipAdapterPublisher::GossipAdapterPublisher(
 
 GossipAdapterPublisher::~GossipAdapterPublisher() = default;
 
+/**
+ * @brief Announce.
+ * @param[in] announcement Input parameter.
+ * @details Calls: std::chrono::system_clock::now(), toJson(), lk(), gossip_message_fn_(), std::move().
+ */
 void GossipAdapterPublisher::announce(AdapterCapabilityAnnouncement announcement) {
     announcement.shard_id    = local_shard_id_;
     announcement.announced_at = std::chrono::system_clock::now();
@@ -48,6 +53,11 @@ void GossipAdapterPublisher::announce(AdapterCapabilityAnnouncement announcement
     }
 }
 
+/**
+ * @brief Handle Inbound Message.
+ * @param[in] payload Input parameter.
+ * @details Calls: AdapterCapabilityAnnouncement::fromJson(), lk(), cb().
+ */
 void GossipAdapterPublisher::handleInboundMessage(const nlohmann::json& payload) {
     auto announcement = AdapterCapabilityAnnouncement::fromJson(payload);
 
@@ -62,6 +72,11 @@ void GossipAdapterPublisher::handleInboundMessage(const nlohmann::json& payload)
     }
 }
 
+/**
+ * @brief Set Announcement Callback.
+ * @param[in] cb Input parameter.
+ * @details Calls: lk(), std::move().
+ */
 void GossipAdapterPublisher::setAnnouncementCallback(AnnouncementCallback cb) {
     std::lock_guard<std::mutex> lk(mutex_);
     on_announcement_ = std::move(cb);
@@ -69,18 +84,31 @@ void GossipAdapterPublisher::setAnnouncementCallback(AnnouncementCallback cb) {
 
 std::optional<AdapterCapabilityAnnouncement>
 GossipAdapterPublisher::lastAnnouncement() const {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     return last_announcement_;
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// DK-OR: GDPR erase
-// ─────────────────────────────────────────────────────────────────────────────
+/**
+ * @brief ───────────────────────────────────────────────────────────────────────────── DK-OR: GDPR erase ─────────────────────────────────────────────────────────────────────────────
+ * @param[in] param Input parameter.
+ * @param[in] Regulation Input parameter.
+ * @return Return value.
+ */
 
 themis::governance::StoreErasureResult GossipAdapterPublisher::erase(
     const std::string& /*subject_id*/,
     themis::governance::Regulation /*regulation*/)
 {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     last_announcement_.reset();
     ++erase_count_;
@@ -93,6 +121,11 @@ themis::governance::StoreErasureResult GossipAdapterPublisher::erase(
 }
 
 size_t GossipAdapterPublisher::eraseCount() const {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     return erase_count_;
 }

@@ -31,6 +31,12 @@ namespace governance {
 
 namespace {
 
+/**
+ * @brief Collect action candidates.
+ * @param[in] policy_mgr Input parameter.
+ * @return Return value.
+ * @details Calls: listRules(), empty(), insert().
+ */
 std::unordered_set<std::string> collect_action_candidates(const PolicyManager& policy_mgr) {
     std::unordered_set<std::string> action_candidates = {"*"};
     for (const auto& rule : policy_mgr.listRules()) {
@@ -48,6 +54,14 @@ std::unordered_set<std::string> collect_action_candidates(const PolicyManager& p
     return action_candidates;
 }
 
+/**
+ * @brief Find applicable rules for any action.
+ * @param[in] policy_mgr Input parameter.
+ * @param[in] resource Input parameter.
+ * @param[in] action_candidates Input parameter.
+ * @return Return value.
+ * @details Calls: findApplicableRules(), insert(), push_back().
+ */
 std::vector<PolicyRule> find_applicable_rules_for_any_action(
     const PolicyManager& policy_mgr,
     const std::string& resource,
@@ -106,6 +120,11 @@ bool ComplianceReporter::isReadyForReporting() const {
 }
 
 bool ComplianceReporter::transitionState(ReporterState expected, ReporterState target) const {
+    /**
+     * @brief Lock.
+     * @param[in] state_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(state_mutex_);
     
     ReporterState current = state_.load(std::memory_order_relaxed);
@@ -191,6 +210,12 @@ void ComplianceReporter::recordComplianceDiagnostic(
     aggregator.recordDiagnostic(diag);
 }
 
+/**
+ * @brief Generate Policy Summary With Result.
+ * @param[in] policy_mgr Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), isReadyForReporting(), recordComplianceDiagnostic(), transitionState(), generatePolicySummary(), toJson().
+ */
 ComplianceReporterResult ComplianceReporter::generatePolicySummaryWithResult(
     const PolicyManager& policy_mgr
 ) {
@@ -459,7 +484,11 @@ nlohmann::json ComplianceGapDetector::ComplianceStatus::toJson() const {
     return j;
 }
 
-// ========== ComplianceGapDetector Implementation ==========
+/**
+ * @brief ========== ComplianceGapDetector Implementation ==========
+ * @param[in] req Input parameter.
+ * @details Calls: lock(), push_back(), THEMIS_DEBUG().
+ */
 
 void ComplianceGapDetector::addRequirement(const ComplianceRequirement& req) {
     std::lock_guard<std::mutex> lock(mutex_);
@@ -471,6 +500,11 @@ std::vector<ComplianceGapDetector::ComplianceGap>
 ComplianceGapDetector::detectGaps(const PolicyManager& policy_mgr) const {
     std::vector<ComplianceRequirement> requirements_snapshot;
     {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         requirements_snapshot = requirements_;
     }
@@ -560,6 +594,11 @@ ComplianceGapDetector::ComplianceStatus ComplianceGapDetector::getComplianceStat
     // Filter requirements by framework
     std::vector<ComplianceRequirement> filtered_reqs;
     {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         for (const auto& req : requirements_) {
             if (framework.empty() || req.framework == framework) {
@@ -593,6 +632,12 @@ ComplianceGapDetector::ComplianceStatus ComplianceGapDetector::getComplianceStat
     return status;
 }
 
+/**
+ * @brief Load Requirements.
+ * @param[in] path Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: file(), is_open(), THEMIS_ERROR(), lock(), clear(), contains(), is_array(), push_back().
+ */
 bool ComplianceGapDetector::loadRequirements(const std::string& path) {
     try {
         std::ifstream file(path);
@@ -623,6 +668,11 @@ bool ComplianceGapDetector::loadRequirements(const std::string& path) {
 }
 
 nlohmann::json ComplianceGapDetector::exportRequirements() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     nlohmann::json j;
     
@@ -1301,7 +1351,12 @@ ComplianceReporter::ChangeHistoryReport ComplianceReporter::generateChangeHistor
 
 namespace {
 
-/// Escape special PDF string characters
+/**
+ * @brief Escape PDFString.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size().
+ */
 std::string escapePDFString(const std::string& s) {
     std::string result = {};
     result.reserve(s.size());
@@ -1315,7 +1370,12 @@ std::string escapePDFString(const std::string& s) {
     return result;
 }
 
-/// Escape a value for CSV: wrap in double-quotes if it contains commas, quotes, or newlines.
+/**
+ * @brief Csv Escape.
+ * @param[in] val Input parameter.
+ * @return Return value.
+ * @details Calls: find_first_of(), reserve(), size().
+ */
 std::string csvEscape(const std::string& val) {
     bool needs_quoting = val.find_first_of(",\"\n\r") != std::string::npos;
     if (!needs_quoting) {
@@ -1332,7 +1392,12 @@ std::string csvEscape(const std::string& val) {
     return out;
 }
 
-/// Convert a JSON scalar value to a plain string for CSV output.
+/**
+ * @brief Json Scalar To String.
+ * @param[in] v Input parameter.
+ * @return Return value.
+ * @details Calls: is_string(), is_null(), dump().
+ */
 std::string jsonScalarToString(const nlohmann::json& v) {
     if (v.is_string()) {
       return v.get<std::string>();
@@ -1343,9 +1408,12 @@ std::string jsonScalarToString(const nlohmann::json& v) {
     return v.dump();
 }
 
-/// Generate a CSV document from a compliance report JSON.
-/// Top-level object keys are emitted as rows: Field,Value.
-/// Nested objects/arrays are JSON-serialised into the value column.
+/**
+ * @brief Generate CSVFrom Json.
+ * @param[in] report Input parameter.
+ * @return Return value.
+ * @details Calls: is_object(), items(), csvEscape(), is_array(), dump(), jsonScalarToString(), str().
+ */
 std::string generateCSVFromJson(const nlohmann::json& report) {
     std::ostringstream csv = {};
     csv << "Field,Value\n";
@@ -1365,7 +1433,6 @@ std::string generateCSVFromJson(const nlohmann::json& report) {
     return csv.str();
 }
 
-/// Recursively render a JSON value to HTML
 void jsonToHtml(std::ostringstream& html, const nlohmann::json& j, int depth = 0) {
     if (j.is_object()) {
         html << "<table style='width:100%;border-collapse:collapse;margin:4px 0;'>";
@@ -1399,7 +1466,12 @@ void jsonToHtml(std::ostringstream& html, const nlohmann::json& j, int depth = 0
     }
 }
 
-/// Generate a full HTML document from a compliance report JSON
+/**
+ * @brief Generate HTMLFrom Json.
+ * @param[in] report Input parameter.
+ * @return Return value.
+ * @details Calls: contains(), is_number(), std::localtime(), std::strftime(), jsonToHtml(), str().
+ */
 std::string generateHTMLFromJson(const nlohmann::json& report) {
     std::ostringstream html;
     html << "<!DOCTYPE html><html><head>"
@@ -1439,7 +1511,6 @@ std::string generateHTMLFromJson(const nlohmann::json& report) {
     return html.str();
 }
 
-/// Flatten a JSON value to human-readable text lines, with optional key prefix
 void flattenJsonToLines(const nlohmann::json& j,
                         std::vector<std::string>& lines,
                         const std::string& prefix = "") {
@@ -1471,8 +1542,13 @@ void flattenJsonToLines(const nlohmann::json& j,
     }
 }
 
-/// Build a minimal valid PDF-1.4 document containing the given title and text lines.
-/// Uses only the Helvetica and Helvetica-Bold Type1 base fonts (no font embedding required).
+/**
+ * @brief Build PDF.
+ * @param[in] title Input parameter.
+ * @param[in] lines Input parameter.
+ * @return Return value.
+ * @details Calls: push_back(), back(), std::to_string(), escapePDFString(), size(), substr(), reserve(), offsets().
+ */
 std::string buildPDF(const std::string& title, const std::vector<std::string>& lines) {
     // PDF page geometry (US Letter)
     constexpr double PAGE_W  = 612.0;

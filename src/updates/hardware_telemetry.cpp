@@ -62,7 +62,6 @@ using json = nlohmann::json;
 
 namespace {
 
-/// Round `v` down to the nearest power of 2.  Returns 0 when v == 0.
 static uint32_t floorPow2(uint32_t v) noexcept {
     if (v == 0) { return 0; }
     uint32_t p = 1;
@@ -70,7 +69,6 @@ static uint32_t floorPow2(uint32_t v) noexcept {
     return p;
 }
 
-/// Round `v` down to a multiple of `bucket`.  Returns 0 when v == 0.
 template<typename T>
 static T floorBucket(T v, T bucket) noexcept {
     if (v == 0 || bucket == 0) { return 0; }
@@ -131,7 +129,12 @@ std::string HardwareSnapshot::toJson() const {
 namespace {
 
 #if defined(__linux__)
-/// Read the first occurrence of `key: value` from /proc/cpuinfo.
+/**
+ * @brief Read Proc Cpuinfo Field.
+ * @param[in] key Input parameter.
+ * @return Return value.
+ * @details Calls: f(), is_open(), std::getline(), rfind(), find(), substr(), find_first_not_of().
+ */
 static std::string readProcCpuinfoField(const std::string& key) {
     std::ifstream f("/proc/cpuinfo");
     if (!f.is_open()) { return {}; }
@@ -154,7 +157,11 @@ static std::string readProcCpuinfoField(const std::string& key) {
     return {};
 }
 
-/// Count the number of logical processors from /proc/cpuinfo.
+/**
+ * @brief Count Linux Cpu Cores.
+ * @return Return value.
+ * @details Calls: f(), is_open(), std::getline(), rfind().
+ */
 static unsigned int countLinuxCpuCores() {
     std::ifstream f("/proc/cpuinfo");
     if (!f.is_open()) { return 0; }
@@ -166,7 +173,11 @@ static unsigned int countLinuxCpuCores() {
     return count;
 }
 
-/// Read total RAM from /proc/meminfo (kB → MB).
+/**
+ * @brief Linux Total Ram Mb.
+ * @return Return value.
+ * @details Calls: f(), is_open(), std::getline(), rfind(), iss().
+ */
 static uint64_t linuxTotalRamMb() {
     std::ifstream f("/proc/meminfo");
     if (!f.is_open()) { return 0; }
@@ -184,7 +195,12 @@ static uint64_t linuxTotalRamMb() {
 }
 #endif // __linux__
 
-/// Round total_ram_mb down to the nearest 1 024 MiB bucket (privacy measure).
+/**
+ * @brief Bucket Ram Mb.
+ * @param[in] raw_mb Input parameter.
+ * @return Return value.
+ * @details Implements bucketRamMb without additional internal calls.
+ */
 static uint64_t bucketRamMb(uint64_t raw_mb) {
     if (raw_mb == 0) { return 0; }
     return (raw_mb / 1024) * 1024;
@@ -324,10 +340,6 @@ namespace {
 
 #ifdef THEMIS_ENABLE_CURL
 
-/**
- * @brief RAII wrapper for curl_slist to ensure cleanup in all paths
- * @see Error Code: 7402 (curl_slist memory leak prevention)
- */
 class CurlSlistRaii {
 public:
     explicit CurlSlistRaii(curl_slist* slist = nullptr) : slist_(slist) {}
@@ -371,19 +383,28 @@ private:
     curl_slist* slist_ = nullptr;
 };
 
+/**
+ * @brief Curl Null Sink.
+ * @param[in,out] param Input/output parameter.
+ * @param[in] size_t Input parameter.
+ * @param[in] nmemb Input parameter.
+ * @param[in,out] param Input/output parameter.
+ * @return Return value.
+ * @details Implements curlNullSink without additional internal calls.
+ */
 static std::size_t curlNullSink(char* /*buf*/, std::size_t /*size*/,
                                 std::size_t nmemb, void* /*userp*/) {
     return nmemb;
 }
 
 /**
- * @brief Perform HTTP POST with exception-safe resource management
- * @param url Target URL
- * @param body Request body
- * @param content_type Content-Type header value
- * @param timeout_seconds HTTP timeout in seconds
- * @return true if HTTP status 2xx received
- * @note Uses RAII for curl_slist to prevent memory leaks (Error 7402)
+ * @brief Curl Post.
+ * @param[in] url Input parameter.
+ * @param[in] body Input parameter.
+ * @param[in] content_type Input parameter.
+ * @param[in] timeout_seconds Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: curl_easy_init(), append(), c_str(), curl_easy_cleanup(), curl_easy_setopt(), size(), get(), curl_easy_perform().
  */
 static bool curlPost(const std::string& url, const std::string& body,
                      const std::string& content_type, int timeout_seconds) {
@@ -430,6 +451,15 @@ static bool curlPost(const std::string& url, const std::string& body,
 }
 #endif // THEMIS_ENABLE_CURL
 
+/**
+ * @brief Default Http Send.
+ * @param[in] url Input parameter.
+ * @param[in] body Input parameter.
+ * @param[in] content_type Input parameter.
+ * @param[in] timeout_seconds Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: curlPost(), else(), LOG_WARN().
+ */
 static bool defaultHttpSend(const std::string& url, const std::string& body,
                              const std::string& content_type, int timeout_seconds) {
 #ifdef THEMIS_ENABLE_CURL
@@ -447,6 +477,11 @@ static bool defaultHttpSend(const std::string& url, const std::string& body,
 // HardwareTelemetryReporter
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Generate Uuid.
+ * @return Return value.
+ * @details Calls: gen(), rd(), dist(), std::snprintf(), std::string().
+ */
 std::string HardwareTelemetryReporter::generateUuid() {
     std::random_device rd = {};
     std::mt19937_64 gen(rd());
@@ -493,6 +528,11 @@ HardwareTelemetryReporter::~HardwareTelemetryReporter() {
     stopBackgroundReporting();
 }
 
+/**
+ * @brief Set Performance Provider.
+ * @param[in] provider Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void HardwareTelemetryReporter::setPerformanceProvider(
         std::shared_ptr<IPerformanceMetricsProvider> provider) {
     std::lock_guard<std::mutex> lock(perf_provider_mutex_);
@@ -525,6 +565,11 @@ HardwareSnapshot HardwareTelemetryReporter::collect() const {
     if (config_.include_performance) {
         std::shared_ptr<IPerformanceMetricsProvider> provider;
         {
+            /**
+             * @brief Lock.
+             * @param[in] perf_provider_mutex_ Input parameter.
+             * @return Return value.
+             */
             std::lock_guard<std::mutex> lock(perf_provider_mutex_);
             provider = perf_provider_;
         }
@@ -582,11 +627,20 @@ bool HardwareTelemetryReporter::send(const HardwareSnapshot& snapshot) const {
     return false;
 }
 
+/**
+ * @brief Report.
+ * @return True when the operation succeeds.
+ * @details Calls: send(), collect().
+ */
 bool HardwareTelemetryReporter::report() {
     if (!config_.enabled) { return false; }
     return send(collect());
 }
 
+/**
+ * @brief Start Background Reporting.
+ * @details Calls: LOG_DEBUG(), load(), store(), std::thread(), LOG_INFO().
+ */
 void HardwareTelemetryReporter::startBackgroundReporting() {
     if (!config_.enabled) {
         LOG_DEBUG("Telemetry: disabled – background reporting not started");
@@ -604,6 +658,10 @@ void HardwareTelemetryReporter::startBackgroundReporting() {
              config_.send_interval_seconds, config_.endpoint_url);
 }
 
+/**
+ * @brief Stop Background Reporting.
+ * @details Calls: load(), store(), joinable(), join(), LOG_INFO().
+ */
 void HardwareTelemetryReporter::stopBackgroundReporting() {
     if (!running_.load(std::memory_order_acquire)) { return; }
     stop_requested_.store(true, std::memory_order_release);
@@ -628,6 +686,10 @@ const std::string& HardwareTelemetryReporter::instanceId() const noexcept {
     return instance_id_;
 }
 
+/**
+ * @brief Run Loop.
+ * @details Calls: load(), report(), std::chrono::seconds(), std::chrono::steady_clock::now(), std::chrono::milliseconds(), std::min(), std::this_thread::sleep_for().
+ */
 void HardwareTelemetryReporter::runLoop() {
     // Send an initial report immediately on start.
     if (!stop_requested_.load(std::memory_order_acquire)) {

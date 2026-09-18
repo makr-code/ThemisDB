@@ -140,11 +140,11 @@ public:
     
     [[nodiscard]] virtual std::optional<std::string> getConfig(const std::string& key) const = 0;
     
+    
     /**
-     * @brief ========== Integration with Core System ==========
+     * @brief Set Ethical Guidelines Manager.
      * @param[in,out] manager Input/output parameter.
      */
-    
     virtual void setEthicalGuidelinesManager(void* manager) = 0;
 };
 

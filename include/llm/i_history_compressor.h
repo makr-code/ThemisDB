@@ -18,9 +18,6 @@
 namespace themis {
 namespace aql {
 
-/**
- * @brief Compression result containing summary and metadata.
- */
 struct CompressionResult {
     std::string summary;                      // Compressed/summarized history
     std::string episode_id;                   // Unique ID for this episode
@@ -31,80 +28,24 @@ struct CompressionResult {
     std::vector<int32_t> selected_indices;    // Indices of extracted turns (for traceability)
 };
 
-/**
- * @brief Interface for conversation history compression strategies.
- *
- * Responsible for reducing conversation history size while preserving semantic
- * meaning. Triggered when conversation exceeds token budget or turn limit.
- *
- * **Design Pattern:**
- * - Hook-based: called by AQLConversationContext on overflow
- * - Strategy-based: different implementations (extractive, abstractive, etc.)
- * - Non-destructive: returns compressed history, doesn't modify input
- *
- * **Usage Example:**
- * @code
- * auto compressor = std::make_unique<LLMExtractiveCompressor>(handler, store);
- * std::vector<std::pair<std::string, std::string>> history = ...;
- * auto result = compressor->compressHistory(history, max_tokens, min_similarity);
- * if (result) {
- *     interaction_store->storeEpisode(result->episode_id, result->summary);
- * }
- * @endcode
- */
 struct IHistoryCompressor {
+    /**
+     * @brief IHistory Compressor.
+     * @return Return value.
+     */
     virtual ~IHistoryCompressor() = default;
 
-    /**
-     * @brief Compress conversation history while preserving semantics.
-     *
-     * Takes full conversation history and produces a compressed version that
-     * fits within token budget while maintaining semantic similarity.
-     *
-     * @param history Vector of {role, content} pairs from conversation context.
-     *                Typically includes "system", "user", and "assistant" roles.
-     * @param max_tokens Maximum token count for compressed output.
-     * @param min_similarity Minimum required semantic similarity (0.0-1.0).
-     *                       Returns empty result if similarity cannot be achieved.
-     *
-     * @return CompressionResult if successful, empty if compression failed.
-     *         Empty result indicates: failed to achieve min_similarity within
-     *         max_tokens, or internal error occurred.
-     *
-     * @throws std::invalid_argument if max_tokens < 128 or min_similarity < 0.5
-     * @throws std::runtime_error if LLM backend unavailable
-     *
-     * **Thread Safety:** Not thread-safe on same instance; use synchronization
-     * if calling from multiple threads.
-     *
-     * **Implementation Notes:**
-     * - System messages should be preserved at full fidelity
-     * - Extractive implementations preserve turn boundaries
-     * - Similarity computed using embedding distance or semantic similarity API
-     */
     virtual std::unique_ptr<CompressionResult> compressHistory(
         const std::vector<std::pair<std::string, std::string>>& history,
         int32_t max_tokens,
         float min_similarity = 0.85f) = 0;
 
     /**
-     * @brief Validate that compression can proceed.
-     *
-     * Returns true if the compressor is ready to compress (LLM available,
-     * required resources initialized, etc.).
-     *
-     * @return true if compression is available, false if blocked
+     * @brief Is Available.
+     * @return True when the operation succeeds.
      */
     virtual bool isAvailable() const = 0;
 
-    /**
-     * @brief Optional: Get compression statistics.
-     *
-     * Some implementations track compression metrics. This method allows
-     * inspection without side effects.
-     *
-     * @return JSON object with compression stats (may be empty for unsupported implementations)
-     */
     virtual std::string getStatistics() const { return "{}"; }
 };
 

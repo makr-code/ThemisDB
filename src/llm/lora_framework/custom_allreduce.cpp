@@ -33,6 +33,11 @@ CustomAllReduce::CustomAllReduce(const MultiGPUContext& ctx, int rank, int world
     spdlog::info("CustomAllReduce created: rank={}, world_size={}", rank_, world_size_);
 }
 
+/**
+ * @brief Initialize.
+ * @return True when the operation succeeds.
+ * @details Calls: spdlog::warn(), spdlog::info(), enable_p2p_access().
+ */
 bool CustomAllReduce::initialize() {
     if (initialized_) {
         spdlog::warn("CustomAllReduce already initialized");
@@ -49,6 +54,10 @@ bool CustomAllReduce::initialize() {
     return true;
 }
 
+/**
+ * @brief Finalize.
+ * @details Calls: spdlog::info().
+ */
 void CustomAllReduce::finalize() {
     if (!initialized_) {
         return;
@@ -58,6 +67,13 @@ void CustomAllReduce::finalize() {
     spdlog::info("CustomAllReduce finalized");
 }
 
+/**
+ * @brief Allreduce.
+ * @param[in,out] tensors Input/output parameter.
+ * @param[in] average Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: spdlog::error(), empty(), reserve(), size(), spdlog::warn(), cpu_data(), push_back(), std::move().
+ */
 bool CustomAllReduce::allreduce(std::vector<GPUTensor*>& tensors, bool average) {
     if (!initialized_) {
         spdlog::error("CustomAllReduce not initialized");
@@ -118,11 +134,25 @@ bool CustomAllReduce::allreduce(std::vector<GPUTensor*>& tensors, bool average) 
     return true;
 }
 
+/**
+ * @brief Allreduce.
+ * @param[in,out] tensor Input/output parameter.
+ * @param[in] average Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements allreduce without additional internal calls.
+ */
 bool CustomAllReduce::allreduce(GPUTensor& tensor, bool average) {
     std::vector<GPUTensor*> tensors = {&tensor};
     return allreduce(tensors, average);
 }
 
+/**
+ * @brief Broadcast.
+ * @param[in,out] tensor Input/output parameter.
+ * @param[in] root Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: spdlog::error(), get_device(), target_tensor(), size(), gpu_to_gpu_copy(), synchronize_all().
+ */
 bool CustomAllReduce::broadcast(GPUTensor& tensor, int root) {
     if (!initialized_) {
         spdlog::error("CustomAllReduce not initialized");
@@ -157,6 +187,10 @@ bool CustomAllReduce::broadcast(GPUTensor& tensor, int root) {
     return true;
 }
 
+/**
+ * @brief Barrier.
+ * @details Calls: dummy(), get_device(), fill(), allreduce().
+ */
 void CustomAllReduce::barrier() {
     if (!initialized_) {
         return;
@@ -168,10 +202,22 @@ void CustomAllReduce::barrier() {
     allreduce(dummy, false);
 }
 
+/**
+ * @brief Set Ring Allreduce Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: std::move().
+ */
 void CustomAllReduce::setRingAllreduceFn(RingAllreduceFn fn) {
     ring_allreduce_fn_ = std::move(fn);
 }
 
+/**
+ * @brief Ring allreduce.
+ * @param[in,out] tensor Input/output parameter.
+ * @param[in] average Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: spdlog::error().
+ */
 bool CustomAllReduce::ring_allreduce(GPUTensor& tensor, bool average) {
     if (ring_allreduce_fn_) {
         return (*ring_allreduce_fn_)(tensor, average);
@@ -186,6 +232,14 @@ bool CustomAllReduce::ring_allreduce(GPUTensor& tensor, bool average) {
     return false;
 }
 
+/**
+ * @brief Gpu to gpu copy.
+ * @param[in] src Input parameter.
+ * @param[in,out] dst Input/output parameter.
+ * @param[in] offset Input parameter.
+ * @param[in] count Input parameter.
+ * @details Calls: cpu_data(), size(), partial(), begin(), upload().
+ */
 void CustomAllReduce::gpu_to_gpu_copy(const GPUTensor& src, GPUTensor& dst,
                                        size_t offset, size_t count) {
     // Simple implementation: download to CPU then upload to target GPU
@@ -202,6 +256,10 @@ void CustomAllReduce::gpu_to_gpu_copy(const GPUTensor& src, GPUTensor& dst,
     }
 }
 
+/**
+ * @brief Enable p2p access.
+ * @details Calls: gpu_type(), is_homogeneous(), cudaDeviceCanAccessPeer(), get_device(), spdlog::warn(), cudaSetDevice(), cudaGetErrorString(), cudaDeviceEnablePeerAccess().
+ */
 void CustomAllReduce::enable_p2p_access() {
 #ifdef THEMIS_ENABLE_CUDA
     if (ctx_.gpu_type() == DeviceType::CUDA && ctx_.is_homogeneous()) {

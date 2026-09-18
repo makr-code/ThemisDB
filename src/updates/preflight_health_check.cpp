@@ -41,7 +41,12 @@ namespace updates {
 
 namespace {
 
-/// Default disk-space provider using std::filesystem::space().
+/**
+ * @brief Default Space Provider.
+ * @param[in] path Input parameter.
+ * @return Return value.
+ * @details Calls: std::filesystem::space(), LOG_WARN(), message().
+ */
 uint64_t defaultSpaceProvider(const std::string& path) {
     std::error_code ec = {};
     auto info = std::filesystem::space(path, ec);
@@ -53,7 +58,11 @@ uint64_t defaultSpaceProvider(const std::string& path) {
     return static_cast<uint64_t>(info.available);
 }
 
-/// Default memory provider: reads available RAM in bytes.
+/**
+ * @brief Default Memory Provider.
+ * @return Return value.
+ * @details Calls: defined(), GlobalMemoryStatusEx(), sysinfo().
+ */
 uint64_t defaultMemoryProvider() {
 #if defined(_WIN32)
     MEMORYSTATUSEX status{};
@@ -77,7 +86,12 @@ uint64_t defaultMemoryProvider() {
 #endif
 }
 
-/// Parse a dot-separated version string into a vector of integers.
+/**
+ * @brief Parse Version.
+ * @param[in] v Input parameter.
+ * @return Return value.
+ * @details Calls: ss(), std::getline(), push_back(), std::stoi().
+ */
 std::vector<int> parseVersion(const std::string& v) {
     std::vector<int> parts;
     std::istringstream ss(v);
@@ -111,6 +125,11 @@ std::string DiskSpaceChecker::name() const {
     return "disk_space";
 }
 
+/**
+ * @brief Run.
+ * @return Return value.
+ * @details Calls: name(), provider_(), std::to_string(), LOG_WARN().
+ */
 HealthCheckResult DiskSpaceChecker::run() {
     HealthCheckResult result;
     result.check_name = name();
@@ -148,6 +167,11 @@ std::string MemoryHeadroomChecker::name() const {
     return "memory_headroom";
 }
 
+/**
+ * @brief Run.
+ * @return Return value.
+ * @details Calls: name(), provider_(), LOG_WARN(), std::to_string().
+ */
 HealthCheckResult MemoryHeadroomChecker::run() {
     HealthCheckResult result;
     result.check_name = name();
@@ -201,6 +225,11 @@ std::string DependencyVersionChecker::name() const {
     return "dependency_version[" + dep_name_ + "]";
 }
 
+/**
+ * @brief Run.
+ * @return Return value.
+ * @details Calls: name(), version_provider_(), empty(), LOG_WARN(), compareVersions().
+ */
 HealthCheckResult DependencyVersionChecker::run() {
     HealthCheckResult result;
     result.check_name = name();
@@ -228,7 +257,12 @@ HealthCheckResult DependencyVersionChecker::run() {
     return result;
 }
 
-/*static*/
+/**
+ * @brief static
+ * @param[in] a Input parameter.
+ * @param[in] b Input parameter.
+ * @return Return value.
+ */
 int DependencyVersionChecker::compareVersions(
     const std::string& a, const std::string& b)
 {
@@ -250,6 +284,12 @@ int DependencyVersionChecker::compareVersions(
 // PreflightHealthChecker
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Add Check.
+ * @param[in] check Input parameter.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: push_back(), std::move().
+ */
 void PreflightHealthChecker::addCheck(std::unique_ptr<IHealthCheck> check) {
     if (!check) {
         throw std::invalid_argument("PreflightHealthChecker::addCheck: check must not be null");
@@ -257,6 +297,11 @@ void PreflightHealthChecker::addCheck(std::unique_ptr<IHealthCheck> check) {
     checks_.push_back(std::move(check));
 }
 
+/**
+ * @brief Run All.
+ * @return Return value.
+ * @details Calls: std::chrono::steady_clock::now(), run(), empty(), push_back(), std::move(), LOG_INFO(), size(), count().
+ */
 PreflightCheckResult PreflightHealthChecker::runAll() {
     PreflightCheckResult result;
     const auto start = std::chrono::steady_clock::now();

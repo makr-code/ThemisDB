@@ -66,6 +66,11 @@ OfficeProcessor::OfficeProcessor() : OfficeProcessor(Config{}) {}
 
 OfficeProcessor::OfficeProcessor(Config config) : config_(std::move(config)) {}
 
+/**
+ * @brief Is Available.
+ * @return True when the operation succeeds.
+ * @details Implements isAvailable without additional internal calls.
+ */
 bool OfficeProcessor::isAvailable() {
 #if OFFICE_LIBRARY_AVAILABLE
     return true;
@@ -74,6 +79,12 @@ bool OfficeProcessor::isAvailable() {
 #endif
 }
 
+/**
+ * @brief Detect Document Type.
+ * @param[in] blob Input parameter.
+ * @return Return value.
+ * @details Calls: size(), std::memcpy(), data(), find(), substr().
+ */
 OfficeDocumentType OfficeProcessor::detectDocumentType(const std::string &blob) {
     if (blob.size() < 4) {
         return OfficeDocumentType::UNKNOWN;
@@ -140,6 +151,13 @@ OfficeDocumentType OfficeProcessor::detectDocumentType(const std::string &blob) 
     return OfficeDocumentType::UNKNOWN;
 }
 
+/**
+ * @brief Extract.
+ * @param[in] blob Input parameter.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Calls: json::object(), empty(), recordExtractError(), size(), detectDocumentType(), extractDOCX(), extractXLSX(), extractPPTX().
+ */
 ExtractionResult OfficeProcessor::extract(const std::string &blob, const ContentType & /*content_type*/
 ) {
     ExtractionResult result;
@@ -244,6 +262,12 @@ ExtractionResult OfficeProcessor::extract(const std::string &blob, const Content
     return result;
 }
 
+/**
+ * @brief Extract DOCX.
+ * @param[in] blob Input parameter.
+ * @return Return value.
+ * @details Calls: json::object(), readZipEntry(), empty(), extractOOXMLMetadata(), themis::security::parseXmlSafe(), select_nodes(), node(), child_value().
+ */
 ExtractionResult OfficeProcessor::extractDOCX(const std::string &blob) {
     ExtractionResult result;
     result.ok                        = false;
@@ -328,6 +352,12 @@ ExtractionResult OfficeProcessor::extractDOCX(const std::string &blob) {
     return result;
 }
 
+/**
+ * @brief Extract XLSX.
+ * @param[in] blob Input parameter.
+ * @return Return value.
+ * @details Calls: json::object(), readZipEntry(), empty(), themis::security::parseXmlSafe(), select_nodes(), node(), child_value(), push_back().
+ */
 ExtractionResult OfficeProcessor::extractXLSX(const std::string &blob) {
     ExtractionResult result;
     result.ok                        = false;
@@ -458,6 +488,12 @@ ExtractionResult OfficeProcessor::extractXLSX(const std::string &blob) {
     return result;
 }
 
+/**
+ * @brief Extract PPTX.
+ * @param[in] blob Input parameter.
+ * @return Return value.
+ * @details Calls: json::object(), extractOOXMLMetadata(), listZipEntries(), find(), push_back(), std::sort(), begin(), end().
+ */
 ExtractionResult OfficeProcessor::extractPPTX(const std::string &blob) {
     ExtractionResult result;
     result.ok                        = false;
@@ -559,6 +595,13 @@ ExtractionResult OfficeProcessor::extractPPTX(const std::string &blob) {
     return result;
 }
 
+/**
+ * @brief Extract ODF.
+ * @param[in] blob Input parameter.
+ * @param[in] type Input parameter.
+ * @return Return value.
+ * @details Calls: json::object(), readZipEntry(), empty(), themis::security::parseXmlSafe(), select_nodes(), node(), children(), type().
+ */
 ExtractionResult OfficeProcessor::extractODF(const std::string &blob, OfficeDocumentType type) {
     ExtractionResult result;
     result.ok       = false;
@@ -634,6 +677,13 @@ ExtractionResult OfficeProcessor::extractODF(const std::string &blob, OfficeDocu
 }
 
 #if OFFICE_LIBRARY_AVAILABLE
+/**
+ * @brief Read Zip Entry.
+ * @param[in] zip_blob Input parameter.
+ * @param[in] entry_path Path to the entry.
+ * @return Return value.
+ * @details Calls: zip_error_init(), zip_source_buffer_create(), data(), size(), zip_error_fini(), zip_open_from_source(), zip_source_free(), zip_name_locate().
+ */
 std::string OfficeProcessor::readZipEntry(const std::string &zip_blob, const std::string &entry_path) {
     zip_error_t error;
     zip_error_init(&error);
@@ -679,6 +729,12 @@ std::string OfficeProcessor::readZipEntry(const std::string &zip_blob, const std
     return content;
 }
 
+/**
+ * @brief Extract OOXMLMetadata.
+ * @param[in] zip_blob Input parameter.
+ * @return Return value.
+ * @details Calls: readZipEntry(), empty(), themis::security::parseXmlSafe(), select_node(), node(), child_value(), get_text().
+ */
 OfficeMetadata OfficeProcessor::extractOOXMLMetadata(const std::string &zip_blob) {
     OfficeMetadata metadata;
 
@@ -725,6 +781,12 @@ OfficeMetadata OfficeProcessor::extractOOXMLMetadata(const std::string &zip_blob
     return metadata;
 }
 
+/**
+ * @brief List Zip Entries.
+ * @param[in] zip_blob Input parameter.
+ * @return Return value.
+ * @details Calls: zip_error_init(), zip_source_buffer_create(), data(), size(), zip_error_fini(), zip_open_from_source(), zip_source_free(), zip_get_num_entries().
+ */
 std::vector<std::string> OfficeProcessor::listZipEntries(const std::string &zip_blob) {
     std::vector<std::string> entries;
 
@@ -757,22 +819,45 @@ std::vector<std::string> OfficeProcessor::listZipEntries(const std::string &zip_
     return entries;
 }
 #else
+/**
+ * @brief Read Zip Entry.
+ * @param[in] param Input parameter.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Implements readZipEntry without additional internal calls.
+ */
 std::string OfficeProcessor::readZipEntry(const std::string &, const std::string &) {
     return "";
 }
 
+/**
+ * @brief Extract OOXMLMetadata.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Implements extractOOXMLMetadata without additional internal calls.
+ */
 OfficeMetadata OfficeProcessor::extractOOXMLMetadata(const std::string &) {
     return OfficeMetadata{};
 }
 
+/**
+ * @brief List Zip Entries.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Implements listZipEntries without additional internal calls.
+ */
 std::vector<std::string> OfficeProcessor::listZipEntries(const std::string &) {
     return {};
 }
 #endif
 
-// ============================================================================
-// LibreOffice headless fallback for legacy OLE formats (DOC/XLS/PPT)
-// ============================================================================
+/**
+ * @brief ============================================================================ LibreOffice headless fallback for legacy OLE formats (DOC/XLS/PPT) ============================================================================
+ * @param[in] blob Input parameter.
+ * @param[in] doc_type Input parameter.
+ * @return Return value.
+ * @details Calls: json::object(), size(), data(), std::string(), tmpdir_buf(), begin(), end(), push_back().
+ */
 
 ExtractionResult OfficeProcessor::extractLegacyViaLibreOffice(const std::string &blob, OfficeDocumentType doc_type) {
     ExtractionResult result;
@@ -1061,6 +1146,14 @@ ExtractionResult OfficeProcessor::extractLegacyViaLibreOffice(const std::string 
 #endif
 }
 
+/**
+ * @brief Chunk.
+ * @param[in] extraction_result Input parameter.
+ * @param[in] chunk_size Input parameter.
+ * @param[in] int Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), stream(), std::getline(), push_back(), countTokens().
+ */
 std::vector<json> OfficeProcessor::chunk(const ExtractionResult &extraction_result, int chunk_size, int /*overlap*/
 ) {
     std::vector<json> chunks;
@@ -1116,6 +1209,12 @@ std::vector<json> OfficeProcessor::chunk(const ExtractionResult &extraction_resu
     return chunks;
 }
 
+/**
+ * @brief Generate Embedding.
+ * @param[in] chunk_data Input parameter.
+ * @return Return value.
+ * @details Calls: embedding(), empty(), iss(), push_back(), size(), hasher(), std::sin(), std::sqrt().
+ */
 std::vector<float> OfficeProcessor::generateEmbedding(const std::string &chunk_data) {
     // Hash-projection embedding (768-dim, L2-normalised) matching the
     // approach used by TextProcessor::generateEmbedding().  Each token
@@ -1169,6 +1268,12 @@ std::vector<float> OfficeProcessor::generateEmbedding(const std::string &chunk_d
     return embedding;
 }
 
+/**
+ * @brief Count Tokens.
+ * @param[in] text Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), std::isspace().
+ */
 int OfficeProcessor::countTokens(const std::string &text) {
     if (text.empty()) {
         return 0;
@@ -1189,19 +1294,42 @@ int OfficeProcessor::countTokens(const std::string &text) {
     return count;
 }
 
+/**
+ * @brief Is Valid OOXML.
+ * @param[in] blob Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: find().
+ */
 bool OfficeProcessor::isValidOOXML(const std::string &blob) {
     return blob.find("[Content_Types].xml") != std::string::npos;
 }
 
+/**
+ * @brief Is Valid ODF.
+ * @param[in] blob Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: find().
+ */
 bool OfficeProcessor::isValidODF(const std::string &blob) {
     return blob.find("mimetype") != std::string::npos
            && blob.find("application/vnd.oasis.opendocument") != std::string::npos;
 }
 
+/**
+ * @brief Create Office Processor.
+ * @return Return value.
+ * @details Implements createOfficeProcessor without additional internal calls.
+ */
 std::unique_ptr<IContentProcessor> createOfficeProcessor() {
     return std::make_unique<OfficeProcessor>(OfficeProcessor::Config{});
 }
 
+/**
+ * @brief Create Office Processor.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @details Calls: std::move().
+ */
 std::unique_ptr<IContentProcessor> createOfficeProcessor(OfficeProcessor::Config config) {
     return std::make_unique<OfficeProcessor>(std::move(config));
 }

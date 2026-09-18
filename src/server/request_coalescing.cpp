@@ -59,6 +59,11 @@ http::response<http::string_body> RequestCoalescingManager::handle(
     std::shared_ptr<std::promise<http::response<http::string_body>>> my_promise;
 
     {
+        /**
+         * @brief Lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(mutex_);
 
         auto it = in_flight_.find(key);
@@ -100,6 +105,11 @@ http::response<http::string_body> RequestCoalescingManager::handle(
 
             // Remove the in-flight entry so new requests create a fresh slot.
             {
+                /**
+                 * @brief Lk.
+                 * @param[in] mutex_ Input parameter.
+                 * @return Return value.
+                 */
                 std::lock_guard<std::mutex> lk(mutex_);
                 in_flight_.erase(key);
             }
@@ -111,6 +121,11 @@ http::response<http::string_body> RequestCoalescingManager::handle(
             try { my_promise->set_exception(std::current_exception()); }
             catch (const std::future_error&) { /* promise already satisfied */ }
             {
+                /**
+                 * @brief Lk.
+                 * @param[in] mutex_ Input parameter.
+                 * @return Return value.
+                 */
                 std::lock_guard<std::mutex> lk(mutex_);
                 in_flight_.erase(key);
             }
@@ -157,6 +172,10 @@ RequestCoalescingManager::Stats RequestCoalescingManager::getStats() const {
     return s;
 }
 
+/**
+ * @brief Reset Stats.
+ * @details Calls: store().
+ */
 void RequestCoalescingManager::resetStats() {
     total_requests_.store(0, std::memory_order_relaxed);
     coalesced_requests_.store(0, std::memory_order_relaxed);
@@ -166,6 +185,11 @@ void RequestCoalescingManager::resetStats() {
 }
 
 std::size_t RequestCoalescingManager::inFlightCount() const {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     return in_flight_.size();
 }
@@ -174,6 +198,11 @@ std::size_t RequestCoalescingManager::inFlightCount() const {
 // Private helpers
 // ===========================================================================
 
+/**
+ * @brief Make Key.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ */
 std::string RequestCoalescingManager::makeKey(
     const http::request<http::string_body>& req)
 {

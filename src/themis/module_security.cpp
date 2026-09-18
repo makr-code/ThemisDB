@@ -52,6 +52,13 @@ public:
                      policy_.requireSignature);
     }
 
+    /**
+     * @brief Verify Module.
+     * @param[in] modulePath Input parameter.
+     * @param[in,out] errorMessage Input/output parameter.
+     * @return True when the operation succeeds.
+     * @details Calls: spdlog::debug(), verifyPlugin(), spdlog::info(), spdlog::error().
+     */
     bool verifyModule(const std::string& modulePath, std::string& errorMessage) {
         spdlog::debug("Verifying module: {}", modulePath);
 
@@ -66,25 +73,51 @@ public:
         return result;
     }
 
+    /**
+     * @brief Calculate File Hash.
+     * @param[in] modulePath Input parameter.
+     * @return Return value.
+     * @details Implements calculateFileHash without additional internal calls.
+     */
     std::string calculateFileHash(const std::string& modulePath) {
         return verifier_.calculateFileHash(modulePath);
     }
 
+    /**
+     * @brief Set Require Signature.
+     * @param[in] require Input parameter.
+     * @details Calls: updatePolicy().
+     */
     void setRequireSignature(bool require) {
         policy_.requireSignature = require;
         verifier_.updatePolicy(policy_);
     }
 
+    /**
+     * @brief Set Allow Unsigned.
+     * @param[in] allow Input parameter.
+     * @details Calls: updatePolicy().
+     */
     void setAllowUnsigned(bool allow) {
         policy_.allowUnsigned = allow;
         verifier_.updatePolicy(policy_);
     }
 
+    /**
+     * @brief Add Whitelisted Hash.
+     * @param[in] hash Input parameter.
+     * @details Calls: push_back(), updatePolicy().
+     */
     void addWhitelistedHash(const std::string& hash) {
         policy_.whitelistedHashes.push_back(hash);
         verifier_.updatePolicy(policy_);
     }
 
+    /**
+     * @brief Add Blacklisted Hash.
+     * @param[in] hash Input parameter.
+     * @details Calls: push_back(), updatePolicy().
+     */
     void addBlacklistedHash(const std::string& hash) {
         policy_.blacklistedHashes.push_back(hash);
         verifier_.updatePolicy(policy_);
@@ -105,27 +138,60 @@ ModuleSecurityVerifier::ModuleSecurityVerifier()
 
 ModuleSecurityVerifier::~ModuleSecurityVerifier() = default;
 
+/**
+ * @brief Verify Module.
+ * @param[in] modulePath Input parameter.
+ * @param[in,out] errorMessage Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Implements verifyModule without additional internal calls.
+ */
 bool ModuleSecurityVerifier::verifyModule(const std::string& modulePath,
                                           std::string& errorMessage) {
     return impl_->verifyModule(modulePath, errorMessage);
 }
 
+/**
+ * @brief Calculate File Hash.
+ * @param[in] modulePath Input parameter.
+ * @return Return value.
+ * @details Implements calculateFileHash without additional internal calls.
+ */
 std::string ModuleSecurityVerifier::calculateFileHash(const std::string& modulePath) {
     return impl_->calculateFileHash(modulePath);
 }
 
+/**
+ * @brief Set Require Signature.
+ * @param[in] require Input parameter.
+ * @details Implements setRequireSignature without additional internal calls.
+ */
 void ModuleSecurityVerifier::setRequireSignature(bool require) {
     impl_->setRequireSignature(require);
 }
 
+/**
+ * @brief Set Allow Unsigned.
+ * @param[in] allow Input parameter.
+ * @details Implements setAllowUnsigned without additional internal calls.
+ */
 void ModuleSecurityVerifier::setAllowUnsigned(bool allow) {
     impl_->setAllowUnsigned(allow);
 }
 
+/**
+ * @brief Add Whitelisted Hash.
+ * @param[in] hash Input parameter.
+ * @details Implements addWhitelistedHash without additional internal calls.
+ */
 void ModuleSecurityVerifier::addWhitelistedHash(const std::string& hash) {
     impl_->addWhitelistedHash(hash);
 }
 
+/**
+ * @brief Add Blacklisted Hash.
+ * @param[in] hash Input parameter.
+ * @details Implements addBlacklistedHash without additional internal calls.
+ */
 void ModuleSecurityVerifier::addBlacklistedHash(const std::string& hash) {
     impl_->addBlacklistedHash(hash);
 }

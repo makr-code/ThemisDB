@@ -124,28 +124,26 @@ enum class GeoPrecisionMode {
 };
 
 /**
- * @brief Get the Boost CPU backend (if available)
+ * @brief Get Boost Cpu Backend.
  * @return Pointer to the result.
  */
 ISpatialComputeBackend* getBoostCpuBackend();
 
 /**
- * @brief Get the built-in CPU exact backend (always available, no Boost dependency)
+ * @brief Get Cpu Exact Backend.
  * @return Pointer to the result.
  */
 ISpatialComputeBackend* getCpuExactBackend();
 
 /**
- * @brief Get the built-in CPU approximate backend (always available).
+ * @brief Get Cpu Approximate Backend.
  * @return Pointer to the result.
- * @details Uses MBR overlap checks for fast conservative spatial tests.
  */
 ISpatialComputeBackend* getCpuApproximateBackend();
 
 /**
- * @brief Get the global geo backend registry.
+ * @brief Get Geo Backend Registry.
  * @return Pointer to the result.
- * @details Backends self-register at startup so they are discoverable at runtime.
  */
 IGeoRegistry* getGeoBackendRegistry();
 
@@ -159,21 +157,20 @@ using GeoContainmentFn = std::function<bool(double px, double py,
 void setCpuExactContainmentFn(GeoContainmentFn fn);
 
 /**
- * @brief Get a backend for the requested precision mode.
+ * @brief Get Backend For Precision.
  * @param[in] mode Input parameter.
  * @return Pointer to the result.
- * @details Exact → getCpuExactBackend() Approximate → getCpuApproximateBackend()
  */
 ISpatialComputeBackend* getBackendForPrecision(GeoPrecisionMode mode);
 
 /**
- * @brief Get the GPU spatial backend (falls back to CPU when no GPU is present)
+ * @brief Get Gpu Spatial Backend.
  * @return Pointer to the result.
  */
 ISpatialComputeBackend* getGpuSpatialBackend();
 
 /**
- * @brief Get the production GPU backend (CUDA/OpenCL/CPU-parallel with automatic fallback)
+ * @brief Get Production Gpu Backend.
  * @return Pointer to the result.
  */
 ISpatialComputeBackend* getProductionGpuBackend();

@@ -37,10 +37,6 @@
 
 namespace themis::sharding {
 
-/**
- * @brief Construct TrueTime clock and optionally start sync thread.
- * @param config TrueTime configuration.
- */
 TrueTime::TrueTime(const Config& config)
     : config_(config)
     , uncertainty_ns_(config.base_uncertainty_us * 1000)
@@ -60,15 +56,10 @@ TrueTime::TrueTime(const Config& config)
     }
 }
 
-/** @brief Destructor stops background synchronization thread. */
 TrueTime::~TrueTime() {
     stopSyncThread();
 }
 
-/**
- * @brief Return current corrected time interval with uncertainty bounds.
- * @return TrueTime interval [earliest, latest].
- */
 TTInterval TrueTime::now() const {
     auto system_time = getSystemTime();
     
@@ -86,8 +77,9 @@ TTInterval TrueTime::now() const {
 }
 
 /**
- * @brief Wait until timestamp is definitely before TT.now().earliest.
- * @param timestamp Target timestamp.
+ * @brief Wait Until.
+ * @param[in] timestamp Input parameter.
+ * @details Calls: now(), uncertainty(), count(), std::chrono::milliseconds(), std::min(), std::this_thread::sleep_for(), std::this_thread::yield().
  */
 void TrueTime::waitUntil(std::chrono::nanoseconds timestamp) {
     // Wait until timestamp is definitely in the past
@@ -126,7 +118,6 @@ void TrueTime::waitUntil(std::chrono::nanoseconds timestamp) {
     }
 }
 
-/** @brief Alias for now() emphasizing uncertainty semantics. */
 TTInterval TrueTime::now_with_uncertainty() const {
     // Identical to now(); provided as an explicit named method for the
     // Percolator commit-wait pattern where callers need the [earliest, latest]
@@ -134,22 +125,23 @@ TTInterval TrueTime::now_with_uncertainty() const {
     return now();
 }
 
-/** @brief Return current uncertainty epsilon. */
 std::chrono::nanoseconds TrueTime::getUncertainty() const {
     return std::chrono::nanoseconds(calculateUncertainty());
 }
 
-/** @brief Return current drift estimate. */
 std::chrono::nanoseconds TrueTime::getDrift() const {
     return std::chrono::nanoseconds(drift_ns_.load(std::memory_order_relaxed));
 }
 
-/** @brief Trigger immediate synchronization attempt. */
+/**
+ * @brief Sync Now.
+ * @return True when the operation succeeds.
+ * @details Calls: performSync().
+ */
 bool TrueTime::syncNow() {
     return performSync();
 }
 
-/** @brief Return JSON stats snapshot for diagnostics/monitoring. */
 std::string TrueTime::getStats() const {
     std::ostringstream oss = {};
     oss << "{"
@@ -161,7 +153,10 @@ std::string TrueTime::getStats() const {
     return oss.str();
 }
 
-/** @brief Start periodic synchronization thread if not already running. */
+/**
+ * @brief Start Sync Thread.
+ * @details Calls: exchange(), std::thread().
+ */
 void TrueTime::startSyncThread() {
     if (sync_thread_running_.exchange(true)) {
         return; // Already running
@@ -170,7 +165,10 @@ void TrueTime::startSyncThread() {
     sync_thread_ = std::thread(&TrueTime::syncThreadFunc, this);
 }
 
-/** @brief Stop periodic synchronization thread if running. */
+/**
+ * @brief Stop Sync Thread.
+ * @details Calls: exchange(), themis::utils::joinThreadWithin(), THEMIS_WARN().
+ */
 void TrueTime::stopSyncThread() {
     if (!sync_thread_running_.exchange(false)) {
         return; // Not running
@@ -182,7 +180,6 @@ void TrueTime::stopSyncThread() {
     }
 }
 
-/** @brief Read raw system clock in nanoseconds since epoch. */
 std::chrono::nanoseconds TrueTime::getSystemTime() const {
     return std::chrono::duration_cast<std::chrono::nanoseconds>(
         std::chrono::system_clock::now().time_since_epoch()
@@ -190,8 +187,9 @@ std::chrono::nanoseconds TrueTime::getSystemTime() const {
 }
 
 /**
- * @brief Synchronize against configured NTP servers and update drift/uncertainty.
- * @return true if at least one server produced a valid offset.
+ * @brief Perform Sync.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), store(), reserve(), size(), queryNTPServer(), push_back(), load(), std::min().
  */
 bool TrueTime::performSync() {
     if (config_.ntp_servers.empty()) {
@@ -245,10 +243,11 @@ bool TrueTime::performSync() {
 }
 
 /**
- * @brief Query one NTP server and compute local clock offset.
- * @param server NTP server hostname/address.
- * @param offset Output offset in nanoseconds.
- * @return true on successful query and offset calculation.
+ * @brief Query NTPServer.
+ * @param[in] server Input parameter.
+ * @param[in,out] offset Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: SocketGuard(), fd_(), closesocket(), close(), get(), socket(), socketGuard(), setsockopt().
  */
 bool TrueTime::queryNTPServer(const std::string& server, int64_t& offset) {
     // Implement SNTP (Simple Network Time Protocol) client - RFC 4330
@@ -433,7 +432,6 @@ bool TrueTime::queryNTPServer(const std::string& server, int64_t& offset) {
     }
 }
 
-/** @brief Compute time uncertainty growth since last successful sync. */
 uint64_t TrueTime::calculateUncertainty() const {
     uint64_t base_uncertainty = uncertainty_ns_.load(std::memory_order_relaxed);
     
@@ -453,7 +451,10 @@ uint64_t TrueTime::calculateUncertainty() const {
     return std::min<uint64_t>(total_uncertainty, max_drift_ns);
 }
 
-/** @brief Background synchronization loop running at configured interval. */
+/**
+ * @brief Sync Thread Func.
+ * @details Calls: load(), performSync(), std::this_thread::sleep_for(), std::chrono::seconds().
+ */
 void TrueTime::syncThreadFunc() {
     while (sync_thread_running_.load()) {
         // Perform sync

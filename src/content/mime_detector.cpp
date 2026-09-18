@@ -30,6 +30,12 @@ MimeDetector::MimeDetector(const std::string& config_path,
     loadYamlConfig(path);
 }
 
+/**
+ * @brief Reload Config.
+ * @param[in] config_path Path to the retention policy configuration file.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), getDefaultConfigPath(), loadYamlConfig().
+ */
 bool MimeDetector::reloadConfig(const std::string& config_path) {
     std::string path = config_path.empty() ? getDefaultConfigPath() : config_path;
     return loadYamlConfig(path);
@@ -62,6 +68,12 @@ std::string MimeDetector::getDefaultConfigPath() const {
     return "config/mime_types.yaml";  // Default fallback
 }
 
+/**
+ * @brief Load Yaml Config.
+ * @param[in] config_path Path to the retention policy configuration file.
+ * @return True when the operation succeeds.
+ * @details Calls: fs::exists(), storage::SecuritySignatureManager::normalizeResourceId(), verifyFile(), YAML::LoadFile(), clear(), std::transform(), begin(), end().
+ */
 bool MimeDetector::loadYamlConfig(const std::string& config_path) {
     try {
         if (!fs::exists(config_path)) {
@@ -575,6 +587,11 @@ bool MimeDetector::shouldTriggerOcr(std::string_view mime_type, bool ocr_enabled
     return mime_type == "image/png" || mime_type == "image/jpeg" || mime_type == "image/tiff";
 }
 
+/**
+ * @brief Enable Ocr.
+ * @param[in] enable Input parameter.
+ * @details Implements enableOcr without additional internal calls.
+ */
 void MimeDetector::enableOcr(bool enable) {
     policy_.ocr_enabled = enable;
 }

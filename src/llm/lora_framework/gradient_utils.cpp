@@ -24,6 +24,12 @@ namespace lora {
 // GradientUtils Implementation
 // ============================================================================
 
+/**
+ * @brief Compute global norm.
+ * @param[in] gradients Input parameter.
+ * @return Return value.
+ * @details Calls: data(), std::sqrt().
+ */
 float GradientUtils::compute_global_norm(const std::vector<Tensor*>& gradients) {
     float sum_of_squares = 0.0f;
     
@@ -41,6 +47,13 @@ float GradientUtils::compute_global_norm(const std::vector<Tensor*>& gradients) 
     return std::sqrt(sum_of_squares);
 }
 
+/**
+ * @brief Clip by norm.
+ * @param[in,out] gradients Input/output parameter.
+ * @param[in] max_norm Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: compute_global_norm(), size(), spdlog::debug().
+ */
 bool GradientUtils::clip_by_norm(std::vector<Tensor*>& gradients, float max_norm) {
     float global_norm = compute_global_norm(gradients);
     
@@ -65,6 +78,13 @@ bool GradientUtils::clip_by_norm(std::vector<Tensor*>& gradients, float max_norm
     return true;
 }
 
+/**
+ * @brief Clip by value.
+ * @param[in,out] gradients Input/output parameter.
+ * @param[in] clip_value Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: size(), std::abs(), std::copysign(), spdlog::debug().
+ */
 bool GradientUtils::clip_by_value(std::vector<Tensor*>& gradients, float clip_value) {
     bool clipped = false;
     
@@ -89,6 +109,13 @@ bool GradientUtils::clip_by_value(std::vector<Tensor*>& gradients, float clip_va
     return clipped;
 }
 
+/**
+ * @brief Apply clipping.
+ * @param[in,out] gradients Input/output parameter.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @details Calls: compute_stats(), clip_by_norm(), clip_by_value().
+ */
 GradientStats GradientUtils::apply_clipping(
     std::vector<Tensor*>& gradients,
     const GradientClippingConfig& config
@@ -120,6 +147,13 @@ GradientStats GradientUtils::apply_clipping(
     return stats;
 }
 
+/**
+ * @brief Accumulate gradients.
+ * @param[in,out] accumulated Input/output parameter.
+ * @param[in] new_gradients Input parameter.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: empty(), push_back(), clone(), Tensor(), std::min(), size(), data(), spdlog::error().
+ */
 void GradientUtils::accumulate_gradients(
     std::vector<Tensor>& accumulated,
     const std::vector<Tensor*>& new_gradients
@@ -158,6 +192,12 @@ void GradientUtils::accumulate_gradients(
     }
 }
 
+/**
+ * @brief Normalize gradients.
+ * @param[in,out] accumulated Input/output parameter.
+ * @param[in] num_steps Input parameter.
+ * @details Calls: data().
+ */
 void GradientUtils::normalize_gradients(
     std::vector<Tensor>& accumulated,
     int num_steps
@@ -176,6 +216,12 @@ void GradientUtils::normalize_gradients(
     }
 }
 
+/**
+ * @brief Compute stats.
+ * @param[in] gradients Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), compute_global_norm(), infinity(), data(), std::max(), std::abs(), std::min(), has_invalid_gradients().
+ */
 GradientStats GradientUtils::compute_stats(const std::vector<Tensor*>& gradients) {
     GradientStats stats = {};
     
@@ -218,6 +264,12 @@ GradientStats GradientUtils::compute_stats(const std::vector<Tensor*>& gradients
     return stats;
 }
 
+/**
+ * @brief Has invalid gradients.
+ * @param[in] gradients Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: data(), std::isnan(), std::isinf().
+ */
 bool GradientUtils::has_invalid_gradients(const std::vector<Tensor*>& gradients) {
     for (const auto* grad_ptr : gradients) {
         if (!grad_ptr) {
@@ -234,6 +286,11 @@ bool GradientUtils::has_invalid_gradients(const std::vector<Tensor*>& gradients)
     return false;
 }
 
+/**
+ * @brief Zero gradients.
+ * @param[in,out] gradients Input/output parameter.
+ * @details Calls: zero().
+ */
 void GradientUtils::zero_gradients(std::vector<Tensor*>& gradients) {
     for (auto* grad_ptr : gradients) {
         if (grad_ptr) {
@@ -254,6 +311,11 @@ GradientAccumulator::GradientAccumulator(const GradientAccumulationConfig& confi
     spdlog::info("  Normalize: {}", config_.normalize);
 }
 
+/**
+ * @brief Accumulate.
+ * @param[in] gradients Input parameter.
+ * @details Calls: clear(), push_back(), Tensor(), shape(), GradientUtils::accumulate_gradients().
+ */
 void GradientAccumulator::accumulate(const std::vector<Tensor*>& gradients) {
     // Initialize on first accumulation
     if (!initialized_) {
@@ -277,6 +339,11 @@ bool GradientAccumulator::should_step() const {
     return current_step_ >= config_.accumulation_steps;
 }
 
+/**
+ * @brief Get accumulated gradients.
+ * @return Return value.
+ * @details Calls: GradientUtils::normalize_gradients(), reserve(), size(), push_back().
+ */
 std::vector<Tensor*> GradientAccumulator::get_accumulated_gradients() {
     // Normalize if configured
     if (config_.normalize && current_step_ > 0) {
@@ -294,6 +361,10 @@ std::vector<Tensor*> GradientAccumulator::get_accumulated_gradients() {
     return result;
 }
 
+/**
+ * @brief Reset the modification detection flag.
+ * @details Calls: zero().
+ */
 void GradientAccumulator::reset() {
     // Zero out accumulated gradients
     for (auto& grad : accumulated_gradients_) {

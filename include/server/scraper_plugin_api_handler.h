@@ -54,26 +54,8 @@ class RocksDBWrapper;
 
 namespace server {
 
-/**
- * @brief HTTP handler for scraper plugin endpoints.
- *
- * Bridges incoming HTTP requests to the `scraper` module's renderer and
- * metadata-writer interfaces. Scrape jobs are dispatched asynchronously;
- * callers poll `/scraper/jobs/{id}/status` for completion.
- *
- * ### Thread safety
- * All public methods are thread-safe.
- */
 class ScraperPluginApiHandler {
 public:
-    /**
-     * @brief Construct the scraper plugin API handler.
-     *
-     * @param storage  RocksDB storage backend (for persisting job state and results).
-     * @param auth     Authentication/authorisation middleware.
-     * @param renderer JS renderer implementation (subprocess or in-memory).
-     * @param writer   Metadata writer implementation.
-     */
     ScraperPluginApiHandler(
         std::shared_ptr<RocksDBWrapper>                          storage,
         std::shared_ptr<themis::AuthMiddleware>                  auth,
@@ -87,11 +69,10 @@ public:
     ScraperPluginApiHandler& operator=(const ScraperPluginApiHandler&) = delete;
 
     /**
-     * @brief Dispatch a scraper API request.
-     *
-     * @param req    Parsed HTTP request.
-     * @param target URL target path.
-     * @return       HTTP response.
+     * @brief Handle.
+     * @param[in] req Input parameter.
+     * @param[in] target Input parameter.
+     * @return Return value.
      */
     http::response<http::string_body> handle(
         const http::request<http::string_body>& req,
@@ -109,24 +90,53 @@ private:
         std::vector<std::string> links;
     };
 
+    /**
+     * @brief To Iso8601 Now.
+     * @return Return value.
+     */
     static std::string toIso8601Now();
 
-    /// @name Route handlers
-    /// @{
+    /**
+     * @brief Handle Crawl.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleCrawl(
         const http::request<http::string_body>& req);
+    /**
+     * @brief Handle List Jobs.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleListJobs(
         const http::request<http::string_body>& req);
+    /**
+     * @brief Handle Job Status.
+     * @param[in] req Input parameter.
+     * @param[in] job_id Identifier of the job.
+     * @return Return value.
+     */
     http::response<http::string_body> handleJobStatus(
         const http::request<http::string_body>& req,
         const std::string&                      job_id);
+    /**
+     * @brief Handle Job Result.
+     * @param[in] req Input parameter.
+     * @param[in] job_id Identifier of the job.
+     * @return Return value.
+     */
     http::response<http::string_body> handleJobResult(
         const http::request<http::string_body>& req,
         const std::string&                      job_id);
+    /**
+     * @brief Handle Cancel Job.
+     * @param[in] req Input parameter.
+     * @param[in] job_id Identifier of the job.
+     * @return Return value.
+     */
     http::response<http::string_body> handleCancelJob(
         const http::request<http::string_body>& req,
         const std::string&                      job_id);
-    /// @}
 
     std::shared_ptr<RocksDBWrapper>                          storage_;
     std::shared_ptr<themis::AuthMiddleware>                  auth_;

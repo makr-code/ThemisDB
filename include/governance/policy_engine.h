@@ -122,7 +122,7 @@ class PolicyEngine {
     PolicyEngine() = default;
 
     /**
-     * @brief Load policies from YAML file (returns false on error)
+     * @brief Load From YAML.
      * @param[in] yaml_path Path to the yaml.
      * @return True when the operation succeeds.
      */
@@ -137,7 +137,7 @@ class PolicyEngine {
     std::string getLoadedFilePath() const;
 
     /**
-     * @brief Set audit logger for automatic logging of policy evaluations
+     * @brief Set Audit Logger.
      * @param[in] logger Input parameter.
      */
     void setAuditLogger(std::shared_ptr<themis::utils::AuditLogger> logger);
@@ -148,11 +148,11 @@ class PolicyEngine {
      */
     void setOpaEvaluator(IPolicyEvaluator* evaluator);
 
+
     /**
-     * @brief ---- CCPA/CPRA opt-out registry ----------------------------------------
+     * @brief Set Ccpa Opt Out Subjects.
      * @param[in] opt_out_registry Input parameter.
      */
-
     void setCcpaOptOutSubjects(std::shared_ptr<std::unordered_set<std::string>> opt_out_registry);
 
     /**
@@ -162,11 +162,11 @@ class PolicyEngine {
      */
     bool isCcpaOptedOut(const std::string &subject_id) const;
 
+
     /**
-     * @brief ---- AI/ML Model Governance --------------------------------------------
+     * @brief Set Model Governance Policy.
      * @param[in] policy Input parameter.
      */
-
     void setModelGovernancePolicy(std::shared_ptr<ModelGovernancePolicy> policy);
 
     /**
@@ -214,7 +214,7 @@ class PolicyEngine {
     SafeAccessValidator& getSafeAccessValidator();
 
     /**
-     * @brief Get classification profile by name
+     * @brief Get Classification Profile.
      * @param[in] level Input parameter.
      * @return Return value.
      */

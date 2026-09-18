@@ -26,29 +26,12 @@ namespace plugins {
 namespace rpc {
 namespace grpc_plugin {
 
-/**
- * @brief Typed bidirectional streaming adapter for gRPC service handlers.
- *
- * @tparam Req    Inbound message type (client → server).
- * @tparam Resp   Outbound message type (server → client).
- * @tparam Stream Stream type that exposes `Read(Req*)` and `Write(const Resp&)`.
- *                Defaults to `grpc::ServerReaderWriter<Resp, Req>` (production).
- *                Can be overridden with a mock type for unit testing.
- */
 template <typename Req, typename Resp,
           typename Stream = grpc::ServerReaderWriter<Resp, Req>>
 class BidiStreamAdapter {
 public:
-    /// Callback type invoked for each inbound message.
     using MessageHandler = std::function<void(Req&&)>;
 
-    /**
-     * @brief Construct the adapter around a gRPC server reader/writer stream.
-     *
-     * @param stream         Pointer to the stream (not owned).
-     * @param max_queue_depth Maximum number of outbound messages buffered before
-     *                        `write()` blocks. Default: 100.
-     */
     explicit BidiStreamAdapter(
         Stream* stream,
         std::size_t max_queue_depth = 100)
@@ -60,7 +43,6 @@ public:
         }
     }
 
-    /// Non-copyable, non-movable.
     BidiStreamAdapter(const BidiStreamAdapter&) = delete;
     BidiStreamAdapter& operator=(const BidiStreamAdapter&) = delete;
     BidiStreamAdapter(BidiStreamAdapter&&) = delete;
@@ -69,23 +51,17 @@ public:
     ~BidiStreamAdapter() = default;
 
     /**
-     * @brief Register the inbound message handler.
-     *
-     * Must be called before `run()`.  The handler is invoked synchronously
-     * from the `run()` loop in the calling thread for each received message.
-     * It is safe to call `write()` from within the handler.
-     *
-     * @param handler Callable accepting `Req&&` for each received message.
+     * @brief On Message.
+     * @param[in] handler Input parameter.
+     * @details Calls: std::move().
      */
     void onMessage(MessageHandler handler) {
         handler_ = std::move(handler);
     }
 
     /**
-     * @brief Read all inbound messages and dispatch them to the handler.
-     *
-     * Blocks until the client half-closes the stream (no more messages).
-     * Call this from the gRPC service handler thread.
+     * @brief Run.
+     * @details Calls: Read(), handler_(), std::move().
      */
     void run() {
         Req msg;
@@ -98,14 +74,10 @@ public:
     }
 
     /**
-     * @brief Enqueue an outbound message.
-     *
-     * Thread-safe.  Blocks if the outbound queue is at capacity until
-     * space becomes available, or until `finish()` is called.
-     *
-     * @param response Message to send to the client.
-     * @return `true` if the message was written; `false` if the stream is
-     *         already finished.
+     * @brief Write.
+     * @param[in] response Input parameter.
+     * @return True when the operation succeeds.
+     * @details Calls: lock(), wait(), size(), push(), std::move(), flush().
      */
     bool write(Resp response) {
         {
@@ -127,14 +99,9 @@ public:
     }
 
     /**
-     * @brief Mark the stream as finished and unblock any waiting `write()` calls.
-     *
-     * After this call returns, further `write()` invocations return `false`
-     * immediately without blocking.
-     *
-     * @param status Final gRPC status to associate with this stream end.
-     *               Stored for introspection; actual `Finish()` must be called
-     *               by the service handler returning the status.
+     * @brief Finish.
+     * @param[in] status Input parameter.
+     * @details Calls: lock(), std::move(), notify_all().
      */
     void finish(grpc::Status status) {
         {
@@ -145,39 +112,34 @@ public:
         queue_not_full_.notify_all();
     }
 
-    /**
-     * @brief Return the status set by the last `finish()` call.
-     *
-     * Returns `grpc::Status::OK` if `finish()` has not been called yet.
-     */
     grpc::Status finishStatus() const {
+        /**
+         * @brief Lock.
+         * @param[in] queue_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(queue_mutex_);
         return finish_status_;
     }
 
-    /**
-     * @brief Return the current outbound queue depth.
-     *
-     * Primarily useful for testing and diagnostics.
-     */
     std::size_t queueDepth() const {
+        /**
+         * @brief Lock.
+         * @param[in] queue_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(queue_mutex_);
         return static_cast<int>(queue_.size());
     }
 
-    /**
-     * @brief Return whether `finish()` has been called.
-     */
     bool isFinished() const {
         return finished_.load();
     }
 
 private:
     /**
-     * @brief Drain the outbound queue, writing each message to the gRPC stream.
-     *
-     * Called after each successful `write()` enqueue.  Protected against
-     * concurrent draining by the queue mutex.
+     * @brief Flush.
+     * @details Calls: lock(), empty(), std::move(), front(), pop(), unlock(), Write(), notify_one().
      */
     void flush() {
         std::unique_lock<std::mutex> lock(queue_mutex_);

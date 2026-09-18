@@ -32,6 +32,15 @@ namespace themis {
 
 namespace {
 
+/**
+ * @brief Parse Temporal Field For Edge.
+ * @param[in] edge Input parameter.
+ * @param[in] field Input parameter.
+ * @param[in] edge_id Identifier of the edge.
+ * @param[in] context Input parameter.
+ * @return Return value.
+ * @details Calls: getFieldAsInt(), has_value(), getFieldAsString(), std::stoll(), size(), THEMIS_DEBUG(), what().
+ */
 std::optional<int64_t> parseTemporalFieldForEdge(const BaseEntity& edge,
                                                  std::string_view field,
                                                  std::string_view edge_id,
@@ -60,24 +69,43 @@ std::optional<int64_t> parseTemporalFieldForEdge(const BaseEntity& edge,
 
 } // namespace
 
-// static
+/**
+ * @brief static
+ * @param[in] sv Input parameter.
+ * @return Return value.
+ * @details Calls: begin(), end().
+ */
 std::vector<uint8_t> GraphIndexManager::toBytes(std::string_view sv) {
 	return std::vector<uint8_t>(sv.begin(), sv.end());
 }
 
 GraphIndexManager::GraphIndexManager(RocksDBWrapper& db) : db_(db) {}
 
-// Phase 1: Set audit logger for tracking graph operations
+/**
+ * @brief Phase 1: Set audit logger for tracking graph operations
+ * @param[in] logger Input parameter.
+ * @param[in] user_context Input parameter.
+ * @details Calls: std::move().
+ */
 void GraphIndexManager::setAuditLogger(std::shared_ptr<utils::AuditLogger> logger, std::string user_context) {
 	audit_logger_ = std::move(logger);
 	user_context_ = std::move(user_context);
 }
 
+/**
+ * @brief Set User Context.
+ * @param[in] user_id Identifier of the user.
+ * @details Calls: std::move().
+ */
 void GraphIndexManager::setUserContext(std::string user_id) {
 	user_context_ = std::move(user_id);
 }
 
-// Phase 4: Set expression evaluator for advanced filtering
+/**
+ * @brief Phase 4: Set expression evaluator for advanced filtering
+ * @param[in] evaluator Input parameter.
+ * @details Calls: std::move().
+ */
 void GraphIndexManager::setExpressionEvaluator(std::shared_ptr<IExpressionEvaluator> evaluator) {
 	expression_evaluator_ = std::move(evaluator);
 }
@@ -128,10 +156,21 @@ void GraphIndexManager::logAuditEvent_(const std::string& event_type, const std:
 	}
 }
 
+/**
+ * @brief Create Write Batch.
+ * @return Return value.
+ * @details Implements createWriteBatch without additional internal calls.
+ */
 std::unique_ptr<RocksDBWrapper::WriteBatchWrapper> GraphIndexManager::createWriteBatch() {
 	return db_.createWriteBatch();
 }
 
+/**
+ * @brief Add Edge.
+ * @param[in] edge Input parameter.
+ * @return Return value.
+ * @details Calls: isOpen(), Status::Error(), getFieldAsString(), empty(), THEMIS_ERROR(), createWriteBatch(), rollback(), commit().
+ */
 GraphIndexManager::Status GraphIndexManager::addEdge(const BaseEntity& edge) {
 	if (!db_.isOpen()) {
 	  return Status::Error("addEdge: Datenbank ist nicht geöffnet");
@@ -176,6 +215,12 @@ GraphIndexManager::Status GraphIndexManager::addEdge(const BaseEntity& edge) {
 	return Status::OK();
 }
 
+/**
+ * @brief Delete Edge.
+ * @param[in] edgeId Input parameter.
+ * @return Return value.
+ * @details Calls: isOpen(), Status::Error(), empty(), KeySchema::makeGraphEdgeKey(), get(), Status::OK(), BaseEntity::deserialize(), std::string().
+ */
 GraphIndexManager::Status GraphIndexManager::deleteEdge(std::string_view edgeId) {
 	if (!db_.isOpen()) {
 	  return Status::Error("deleteEdge: Datenbank ist nicht geöffnet");
@@ -213,6 +258,13 @@ GraphIndexManager::Status GraphIndexManager::deleteEdge(std::string_view edgeId)
 	return Status::OK();
 }
 
+/**
+ * @brief Add Edge.
+ * @param[in] edge Input parameter.
+ * @param[in,out] batch Input/output parameter.
+ * @return Return value.
+ * @details Calls: getFieldAsString(), Status::Error(), empty(), THEMIS_ERROR(), nlohmann::json::parse(), is_array(), size(), is_string().
+ */
 GraphIndexManager::Status GraphIndexManager::addEdge(const BaseEntity& edge, RocksDBWrapper::WriteBatchWrapper& batch) {
 	// Phase 3 A-6: Connection safety verified
 	// WriteBatch is RAII-compliant: automatically released on scope exit or exception.
@@ -378,6 +430,13 @@ GraphIndexManager::Status GraphIndexManager::addEdge(const BaseEntity& edge, Roc
 	return Status::OK();
 }
 
+/**
+ * @brief Delete Edge.
+ * @param[in] edgeId Input parameter.
+ * @param[in,out] batch Input/output parameter.
+ * @return Return value.
+ * @details Calls: empty(), Status::Error(), KeySchema::makeGraphEdgeKey(), get(), Status::OK(), BaseEntity::deserialize(), std::string(), getFieldAsString().
+ */
 GraphIndexManager::Status GraphIndexManager::deleteEdge(std::string_view edgeId, RocksDBWrapper::WriteBatchWrapper& batch) {
 	if (edgeId.empty()) {
 	  return Status::Error("deleteEdge(tx): edgeId leer");
@@ -416,6 +475,11 @@ GraphIndexManager::outNeighbors(std::string_view fromPk) const {
 
 	if (topologyLoaded_.load(std::memory_order_acquire)) {
 		{
+			/**
+			 * @brief Lock.
+			 * @param[in] topology_mutex_ Input parameter.
+			 * @return Return value.
+			 */
 			std::shared_lock<std::shared_mutex> lock(topology_mutex_);
 			auto it = outEdges_.find(std::string(fromPk));
 			if (it != outEdges_.end() && !it->second.empty()) {
@@ -432,6 +496,11 @@ GraphIndexManager::outNeighbors(std::string_view fromPk) const {
 		// RocksDB before deciding the node has no outgoing edges.
 		const auto rebuild = const_cast<GraphIndexManager*>(this)->rebuildTopology();
 		if (rebuild.ok) {
+			/**
+			 * @brief Lock.
+			 * @param[in] topology_mutex_ Input parameter.
+			 * @return Return value.
+			 */
 			std::shared_lock<std::shared_mutex> lock(topology_mutex_);
 			auto it = outEdges_.find(std::string(fromPk));
 			if (it != outEdges_.end() && !it->second.empty()) {
@@ -467,6 +536,11 @@ GraphIndexManager::inNeighbors(std::string_view toPk) const {
 
 	if (topologyLoaded_.load(std::memory_order_acquire)) {
 		{
+			/**
+			 * @brief Lock.
+			 * @param[in] topology_mutex_ Input parameter.
+			 * @return Return value.
+			 */
 			std::shared_lock<std::shared_mutex> lock(topology_mutex_);
 			auto it = inEdges_.find(std::string(toPk));
 			if (it != inEdges_.end() && !it->second.empty()) {
@@ -481,6 +555,11 @@ GraphIndexManager::inNeighbors(std::string_view toPk) const {
 
 		const auto rebuild = const_cast<GraphIndexManager*>(this)->rebuildTopology();
 		if (rebuild.ok) {
+			/**
+			 * @brief Lock.
+			 * @param[in] topology_mutex_ Input parameter.
+			 * @return Return value.
+			 */
 			std::shared_lock<std::shared_mutex> lock(topology_mutex_);
 			auto it = inEdges_.find(std::string(toPk));
 			if (it != inEdges_.end() && !it->second.empty()) {
@@ -510,6 +589,11 @@ GraphIndexManager::outAdjacency(std::string_view fromPk) const {
 
 	if (topologyLoaded_.load(std::memory_order_acquire)) {
 		{
+			/**
+			 * @brief Lock.
+			 * @param[in] topology_mutex_ Input parameter.
+			 * @return Return value.
+			 */
 			std::shared_lock<std::shared_mutex> lock(topology_mutex_);
 			auto it = outEdges_.find(std::string(fromPk));
 			if (it != outEdges_.end() && !it->second.empty()) {
@@ -519,6 +603,11 @@ GraphIndexManager::outAdjacency(std::string_view fromPk) const {
 
 		const auto rebuild = const_cast<GraphIndexManager*>(this)->rebuildTopology();
 		if (rebuild.ok) {
+			/**
+			 * @brief Lock.
+			 * @param[in] topology_mutex_ Input parameter.
+			 * @return Return value.
+			 */
 			std::shared_lock<std::shared_mutex> lock(topology_mutex_);
 			auto it = outEdges_.find(std::string(fromPk));
 			if (it != outEdges_.end() && !it->second.empty()) {
@@ -531,6 +620,11 @@ GraphIndexManager::outAdjacency(std::string_view fromPk) const {
 	std::vector<AdjacencyInfo> result;
 	const std::string prefix = std::string("graph:out:") + std::string(fromPk) + ":";
 	db_.scanPrefix(prefix, [&result](std::string_view key, std::string_view val){
+		/**
+		 * @brief Key Str.
+		 * @param[in] key Input parameter.
+		 * @return Return value.
+		 */
 		std::string keyStr(key);
 		size_t lastColon = keyStr.rfind(':');
 		if (lastColon != std::string::npos) {
@@ -548,6 +642,11 @@ GraphIndexManager::inAdjacency(std::string_view toPk) const {
 
 	if (topologyLoaded_.load(std::memory_order_acquire)) {
 		{
+			/**
+			 * @brief Lock.
+			 * @param[in] topology_mutex_ Input parameter.
+			 * @return Return value.
+			 */
 			std::shared_lock<std::shared_mutex> lock(topology_mutex_);
 			auto it = inEdges_.find(std::string(toPk));
 			if (it != inEdges_.end() && !it->second.empty()) {
@@ -557,6 +656,11 @@ GraphIndexManager::inAdjacency(std::string_view toPk) const {
 
 		const auto rebuild = const_cast<GraphIndexManager*>(this)->rebuildTopology();
 		if (rebuild.ok) {
+			/**
+			 * @brief Lock.
+			 * @param[in] topology_mutex_ Input parameter.
+			 * @return Return value.
+			 */
 			std::shared_lock<std::shared_mutex> lock(topology_mutex_);
 			auto it = inEdges_.find(std::string(toPk));
 			if (it != inEdges_.end() && !it->second.empty()) {
@@ -569,6 +673,11 @@ GraphIndexManager::inAdjacency(std::string_view toPk) const {
 	std::vector<AdjacencyInfo> result;
 	const std::string prefix = std::string("graph:in:") + std::string(toPk) + ":";
 	db_.scanPrefix(prefix, [&result](std::string_view key, std::string_view val){
+		/**
+		 * @brief Key Str.
+		 * @param[in] key Input parameter.
+		 * @return Return value.
+		 */
 		std::string keyStr(key);
 		size_t lastColon = keyStr.rfind(':');
 		if (lastColon != std::string::npos) {
@@ -641,7 +750,11 @@ GraphIndexManager::bfs(std::string_view startPk, int maxDepth) const {
 			  continue;
 			}
 
-   // LOCK: Tier 1 (Global topology protection, read-only) — Phase 3 A-5
+			/**
+			 * @brief LOCK: Tier 1 (Global topology protection, read-only) — Phase 3 A-5
+			 * @param[in] topology_mutex_ Input parameter.
+			 * @return Return value.
+			 */
 			std::shared_lock<std::shared_mutex> lock(topology_mutex_);
 			auto it = outEdges_.find(node);
 			if (it != outEdges_.end()) {
@@ -669,9 +782,11 @@ GraphIndexManager::bfs(std::string_view startPk, int maxDepth) const {
 
 		const std::string prefix = std::string("graph:out:");
 		db_.scanPrefix(prefix, [&](std::string_view key, std::string_view val){
-			// Robust parsing that supports both formats:
-			// - graph:out:<graphId>:<fromPk>:<edgeId>
-			// - graph:out:<fromPk>:<edgeId>
+			/**
+			 * @brief Robust parsing that supports both formats: - graph:out:<graphId>:<fromPk>:<edgeId> - graph:out:<fromPk>:<edgeId>
+			 * @param[in] key Input parameter.
+			 * @return Return value.
+			 */
 			std::string keyStr(key);
 			size_t lastColon = keyStr.rfind(':');
 			if (lastColon == std::string::npos) {
@@ -688,6 +803,11 @@ GraphIndexManager::bfs(std::string_view startPk, int maxDepth) const {
 			  return true;
 			}
 
+			/**
+			 * @brief Neigh.
+			 * @param[in] val Input parameter.
+			 * @return Return value.
+			 */
 			std::string neigh(val);
 			if (!visited.count(neigh)) {
 				visited.insert(neigh);
@@ -722,7 +842,17 @@ GraphIndexManager::bfs(std::string_view startPk, int maxDepth, std::string_view 
 	q.emplace(std::string(startPk), 0);
 	visited.insert(std::string(startPk));
 
+	/**
+	 * @brief Type Filter.
+	 * @param[in] edge_type Input parameter.
+	 * @return Return value.
+	 */
 	std::string typeFilter(edge_type);
+	/**
+	 * @brief Graph Filter.
+	 * @param[in] graph_id Identifier of the graph.
+	 * @return Return value.
+	 */
 	std::string graphFilter(graph_id);
 
 	// Use in-memory topology for faster BFS if available
@@ -736,7 +866,11 @@ GraphIndexManager::bfs(std::string_view startPk, int maxDepth, std::string_view 
 			  continue;
 			}
 
-   // LOCK: Tier 1 (Global topology protection, read-only) — Phase 3 A-5
+			/**
+			 * @brief LOCK: Tier 1 (Global topology protection, read-only) — Phase 3 A-5
+			 * @param[in] topology_mutex_ Input parameter.
+			 * @return Return value.
+			 */
 			std::shared_lock<std::shared_mutex> lock(topology_mutex_);
 			auto it = outEdges_.find(node);
 			if (it != outEdges_.end()) {
@@ -788,6 +922,11 @@ GraphIndexManager::bfs(std::string_view startPk, int maxDepth, std::string_view 
 				return true; // Skip edges with different type
 			}
 
+			/**
+			 * @brief Neigh.
+			 * @param[in] val Input parameter.
+			 * @return Return value.
+			 */
 			std::string neigh(val);
 			if (!visited.count(neigh)) {
 				visited.insert(neigh);
@@ -803,6 +942,11 @@ GraphIndexManager::bfs(std::string_view startPk, int maxDepth, std::string_view 
 // In-Memory Topology Management
 // ────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Rebuild Topology.
+ * @return Return value.
+ * @details Calls: isOpen(), Status::Error(), lock(), clear(), scanPrefix(), keyStr(), rfind(), substr().
+ */
 GraphIndexManager::Status GraphIndexManager::rebuildTopology() {
 	if (!db_.isOpen()) {
 	  return Status::Error("rebuildTopology: Datenbank ist nicht geöffnet");
@@ -879,23 +1023,55 @@ GraphIndexManager::Status GraphIndexManager::rebuildTopology() {
 	return Status::OK();
 }
 
+/**
+ * @brief Add Edge To Topology.
+ * @param[in] edgeId Input parameter.
+ * @param[in] fromPk Input parameter.
+ * @param[in] toPk Input parameter.
+ * @param[in] graphId Input parameter.
+ * @details Calls: lock(), addEdgeToTopologyUnlocked_().
+ */
 void GraphIndexManager::addEdgeToTopology_(const std::string& edgeId, const std::string& fromPk, const std::string& toPk, const std::string& graphId) {
  // LOCK: Tier 1 (Global topology protection) — Phase 3 A-5
 	std::lock_guard<std::shared_mutex> lock(topology_mutex_);
 	addEdgeToTopologyUnlocked_(edgeId, fromPk, toPk, graphId);
 }
 
+/**
+ * @brief Remove Edge From Topology.
+ * @param[in] edgeId Input parameter.
+ * @param[in] fromPk Input parameter.
+ * @param[in] toPk Input parameter.
+ * @param[in] graphId Input parameter.
+ * @details Calls: lock(), removeEdgeFromTopologyUnlocked_().
+ */
 void GraphIndexManager::removeEdgeFromTopology_(const std::string& edgeId, const std::string& fromPk, const std::string& toPk, const std::string& graphId) {
  // LOCK: Tier 1 (Global topology protection) — Phase 3 A-5
 	std::lock_guard<std::shared_mutex> lock(topology_mutex_);
 	removeEdgeFromTopologyUnlocked_(edgeId, fromPk, toPk, graphId);
 }
 
+/**
+ * @brief Add Edge To Topology Unlocked.
+ * @param[in] edgeId Input parameter.
+ * @param[in] fromPk Input parameter.
+ * @param[in] toPk Input parameter.
+ * @param[in] graphId Input parameter.
+ * @details Calls: push_back().
+ */
 void GraphIndexManager::addEdgeToTopologyUnlocked_(const std::string& edgeId, const std::string& fromPk, const std::string& toPk, const std::string& graphId) {
 	outEdges_[fromPk].push_back({edgeId, toPk, graphId});
 	inEdges_[toPk].push_back({edgeId, fromPk, graphId});
 }
 
+/**
+ * @brief Remove Edge From Topology Unlocked.
+ * @param[in] edgeId Input parameter.
+ * @param[in] fromPk Input parameter.
+ * @param[in] toPk Input parameter.
+ * @param[in] graphId Input parameter.
+ * @details Calls: find(), end(), erase(), std::remove_if(), begin(), empty().
+ */
 void GraphIndexManager::removeEdgeFromTopologyUnlocked_(const std::string& edgeId, const std::string& fromPk, const std::string& toPk, const std::string& graphId) {
 	// Remove from outEdges_
 	auto outIt = outEdges_.find(fromPk);
@@ -923,7 +1099,11 @@ void GraphIndexManager::removeEdgeFromTopologyUnlocked_(const std::string& edgeI
 }
 
 size_t GraphIndexManager::getTopologyNodeCount() const {
- // LOCK: Tier 1 (Global topology protection, read-only) — Phase 3 A-5
+	/**
+	 * @brief LOCK: Tier 1 (Global topology protection, read-only) — Phase 3 A-5
+	 * @param[in] topology_mutex_ Input parameter.
+	 * @return Return value.
+	 */
 	std::shared_lock<std::shared_mutex> lock(topology_mutex_);
 	std::unordered_set<std::string> nodes = {};
 
@@ -939,7 +1119,11 @@ size_t GraphIndexManager::getTopologyNodeCount() const {
 std::pair<GraphIndexManager::Status, std::vector<std::string>>
 GraphIndexManager::allVertices() const {
 	{
-  // LOCK: Tier 1 (Global topology protection, read-only) — Phase 3 A-5
+		/**
+		 * @brief LOCK: Tier 1 (Global topology protection, read-only) — Phase 3 A-5
+		 * @param[in] topology_mutex_ Input parameter.
+		 * @return Return value.
+		 */
 		std::shared_lock<std::shared_mutex> lock(topology_mutex_);
 		if (topologyLoaded_.load(std::memory_order_acquire)) {
 			// Fast path: in-memory topology is populated.
@@ -983,7 +1167,11 @@ GraphIndexManager::allVertices() const {
 }
 
 size_t GraphIndexManager::getTopologyEdgeCount() const {
- // LOCK: Tier 1 (Global topology protection, read-only) — Phase 3 A-5
+	/**
+	 * @brief LOCK: Tier 1 (Global topology protection, read-only) — Phase 3 A-5
+	 * @param[in] topology_mutex_ Input parameter.
+	 * @return Return value.
+	 */
 	std::shared_lock<std::shared_mutex> lock(topology_mutex_);
 	size_t total = 0;
 	for (const auto& [_, edges] : outEdges_) {
@@ -994,6 +1182,11 @@ size_t GraphIndexManager::getTopologyEdgeCount() const {
 
 std::vector<std::string> GraphIndexManager::getAllVertices() const {
 	{
+		/**
+		 * @brief Lock.
+		 * @param[in] topology_mutex_ Input parameter.
+		 * @return Return value.
+		 */
 		std::shared_lock<std::shared_mutex> lock(topology_mutex_);
 		if (topologyLoaded_.load(std::memory_order_acquire)) {
 			std::unordered_set<std::string> nodes = {};
@@ -1164,8 +1357,11 @@ std::optional<std::string> GraphIndexManager::getEdgeField(
 	const std::string edgeKey = std::string("edge:") + std::string(edgeId);
 	auto blob = db_.get(edgeKey);
 	if (!blob.has_value()) {
-		// Try the topology keys in the in-memory edge map to find a graphId
-  // LOCK: Tier 1 (Global topology protection, read-only) — Phase 3 A-5
+		/**
+		 * @brief Try the topology keys in the in-memory edge map to find a graphId LOCK: Tier 1 (Global topology protection, read-only) — Phase 3 A-5
+		 * @param[in] topology_mutex_ Input parameter.
+		 * @return Return value.
+		 */
 		std::shared_lock<std::shared_mutex> lk(topology_mutex_);
 		for (const auto& [from, adj_list] : outEdges_) {
 			for (const auto& adj : adj_list) {
@@ -1233,6 +1429,15 @@ std::string GraphIndexManager::getEdgeType_(std::string_view graphId, std::strin
 	return std::string();
 }
 
+/**
+ * @brief Parse Out Key.
+ * @param[in] key Input parameter.
+ * @param[in,out] graphId Input/output parameter.
+ * @param[in,out] fromPk Input/output parameter.
+ * @param[in,out] edgeId Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: rfind(), s(), substr(), find(), clear().
+ */
 bool GraphIndexManager::parseOutKey_(std::string_view key, std::string& graphId, std::string& fromPk, std::string& edgeId) {
 	// Expect: graph:out:<graph_id>:<fromPk>:<edgeId>
 	if (key.rfind("graph:out:", 0) != 0) {
@@ -1265,6 +1470,15 @@ bool GraphIndexManager::parseOutKey_(std::string_view key, std::string& graphId,
 	return true;
 }
 
+/**
+ * @brief Parse In Key.
+ * @param[in] key Input parameter.
+ * @param[in,out] graphId Input/output parameter.
+ * @param[in,out] toPk Input/output parameter.
+ * @param[in,out] edgeId Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: rfind(), s(), substr(), find(), clear().
+ */
 bool GraphIndexManager::parseInKey_(std::string_view key, std::string& graphId, std::string& toPk, std::string& edgeId) {
 	// Expect: graph:in:<graph_id>:<toPk>:<edgeId>
 	if (key.rfind("graph:in:", 0) != 0) {
@@ -1301,7 +1515,17 @@ GraphIndexManager::dijkstra(std::string_view startPk, std::string_view targetPk)
 		return {Status::Error("dijkstra: Start und Ziel dürfen nicht leer sein"), {}};
 	}
 
+	/**
+	 * @brief Start.
+	 * @param[in] startPk Input parameter.
+	 * @return Return value.
+	 */
 	std::string start(startPk);
+	/**
+	 * @brief Target.
+	 * @param[in] targetPk Input parameter.
+	 * @return Return value.
+	 */
 	std::string target(targetPk);
 
 	// Priority Queue: (cost, node)
@@ -1334,7 +1558,11 @@ GraphIndexManager::dijkstra(std::string_view startPk, std::string_view targetPk)
 		std::vector<std::string> neighbors = {};
 
 		if (topologyLoaded_.load(std::memory_order_acquire)) {
-   // LOCK: Tier 1 (Global topology protection, read-only) — Phase 3 A-5
+			/**
+			 * @brief LOCK: Tier 1 (Global topology protection, read-only) — Phase 3 A-5
+			 * @param[in] topology_mutex_ Input parameter.
+			 * @return Return value.
+			 */
 			std::shared_lock<std::shared_mutex> lock(topology_mutex_);
 			auto it = outEdges_.find(node);
 			if (it != outEdges_.end()) {
@@ -1356,7 +1584,11 @@ GraphIndexManager::dijkstra(std::string_view startPk, std::string_view targetPk)
 			// Fallback: RocksDB scan (all graphs)
 			const std::string prefix = std::string("graph:out:");
 			db_.scanPrefix(prefix, [&](std::string_view key, std::string_view val) {
-				// Robust parse (support optional graphId segment)
+				/**
+				 * @brief Robust parse (support optional graphId segment)
+				 * @param[in] key Input parameter.
+				 * @return Return value.
+				 */
 				std::string keyStr(key);
 				size_t lastColon = keyStr.rfind(':');
 				if (lastColon == std::string::npos) {
@@ -1380,6 +1612,11 @@ GraphIndexManager::dijkstra(std::string_view startPk, std::string_view targetPk)
 				}
 				else graphId = middle.substr(0, innerColon);
 
+				/**
+				 * @brief Neighbor.
+				 * @param[in] val Input parameter.
+				 * @return Return value.
+				 */
 				std::string neighbor(val);
 				double weight = getEdgeWeight_(graphId, edgeId);
 				double newCost = dist[node] + weight;
@@ -1427,9 +1664,29 @@ GraphIndexManager::dijkstra(std::string_view startPk, std::string_view targetPk,
 		return {Status::Error("dijkstra: Start und Ziel dürfen nicht leer sein"), {}};
 	}
 
+	/**
+	 * @brief Start.
+	 * @param[in] startPk Input parameter.
+	 * @return Return value.
+	 */
 	std::string start(startPk);
+	/**
+	 * @brief Target.
+	 * @param[in] targetPk Input parameter.
+	 * @return Return value.
+	 */
 	std::string target(targetPk);
+	/**
+	 * @brief Type Filter.
+	 * @param[in] edge_type Input parameter.
+	 * @return Return value.
+	 */
 	std::string typeFilter(edge_type);
+	/**
+	 * @brief Graph Filter.
+	 * @param[in] graph_id Identifier of the graph.
+	 * @return Return value.
+	 */
 	std::string graphFilter(graph_id);
 
 	// Priority Queue: (cost, node)
@@ -1460,7 +1717,11 @@ GraphIndexManager::dijkstra(std::string_view startPk, std::string_view targetPk,
 
 		// Nachbarn holen (In-Memory falls verfügbar)
 		if (topologyLoaded_.load(std::memory_order_acquire)) {
-   // LOCK: Tier 1 (Global topology protection, read-only) — Phase 3 A-5
+			/**
+			 * @brief LOCK: Tier 1 (Global topology protection, read-only) — Phase 3 A-5
+			 * @param[in] topology_mutex_ Input parameter.
+			 * @return Return value.
+			 */
 			std::shared_lock<std::shared_mutex> lock(topology_mutex_);
 			auto it = outEdges_.find(node);
 			if (it != outEdges_.end()) {
@@ -1503,6 +1764,11 @@ GraphIndexManager::dijkstra(std::string_view startPk, std::string_view targetPk,
 					return true; // Skip edges with different type
 				}
 
+				/**
+				 * @brief Neighbor.
+				 * @param[in] val Input parameter.
+				 * @return Return value.
+				 */
 				std::string neighbor(val);
 				double weight = getEdgeWeight_(gid, edgeId);
 				double newCost = dist[node] + weight;
@@ -1549,7 +1815,17 @@ GraphIndexManager::aStar(std::string_view startPk, std::string_view targetPk, He
 		return {Status::Error("aStar: Start und Ziel dürfen nicht leer sein"), {}};
 	}
 
+	/**
+	 * @brief Start.
+	 * @param[in] startPk Input parameter.
+	 * @return Return value.
+	 */
 	std::string start(startPk);
+	/**
+	 * @brief Target.
+	 * @param[in] targetPk Input parameter.
+	 * @return Return value.
+	 */
 	std::string target(targetPk);
 
 	// Wenn keine Heuristik angegeben, verwende konstante 0 (= Dijkstra)
@@ -1585,7 +1861,11 @@ GraphIndexManager::aStar(std::string_view startPk, std::string_view targetPk, He
 
 		// Nachbarn holen
 		if (topologyLoaded_.load(std::memory_order_acquire)) {
-   // LOCK: Tier 1 (Global topology protection, read-only) — Phase 3 A-5
+			/**
+			 * @brief LOCK: Tier 1 (Global topology protection, read-only) — Phase 3 A-5
+			 * @param[in] topology_mutex_ Input parameter.
+			 * @return Return value.
+			 */
 			std::shared_lock<std::shared_mutex> lock(topology_mutex_);
 			auto it = outEdges_.find(node);
 			if (it != outEdges_.end()) {
@@ -1619,6 +1899,11 @@ GraphIndexManager::aStar(std::string_view startPk, std::string_view targetPk, He
 				  return true;
 				}
 				
+				/**
+				 * @brief Neighbor.
+				 * @param[in] val Input parameter.
+				 * @return Return value.
+				 */
 				std::string neighbor(val);
 				if (visited.count(neighbor)) {
 				  return true;
@@ -1667,6 +1952,13 @@ GraphIndexManager::aStar(std::string_view startPk, std::string_view targetPk, He
 // MVCC Transaction Variants
 // ============================================================================
 
+/**
+ * @brief Add Edge.
+ * @param[in] edge Input parameter.
+ * @param[in,out] txn Input/output parameter.
+ * @return Return value.
+ * @details Calls: isActive(), Status::Error(), getFieldAsString(), empty(), THEMIS_ERROR(), nlohmann::json::parse(), is_array(), is_string().
+ */
 GraphIndexManager::Status GraphIndexManager::addEdge(const BaseEntity& edge, RocksDBWrapper::TransactionWrapper& txn) {
 	if (!txn.isActive()) {
 	  return Status::Error("addEdge(mvcc): Transaction ist nicht aktiv");
@@ -1824,6 +2116,13 @@ GraphIndexManager::Status GraphIndexManager::addEdge(const BaseEntity& edge, Roc
 	return Status::OK();
 }
 
+/**
+ * @brief Delete Edge.
+ * @param[in] edgeId Input parameter.
+ * @param[in,out] txn Input/output parameter.
+ * @return Return value.
+ * @details Calls: isActive(), Status::Error(), empty(), KeySchema::makeGraphEdgeKey(), get(), Status::OK(), BaseEntity::deserialize(), std::string().
+ */
 GraphIndexManager::Status GraphIndexManager::deleteEdge(std::string_view edgeId, RocksDBWrapper::TransactionWrapper& txn) {
 	if (!txn.isActive()) {
 	  return Status::Error("deleteEdge(mvcc): Transaction ist nicht aktiv");
@@ -1944,7 +2243,17 @@ GraphIndexManager::dijkstraAtTime(std::string_view startPk, std::string_view tar
 	using PQElem = std::pair<double, std::string>;
 	std::priority_queue<PQElem, std::vector<PQElem>, std::greater<>> pq;
 
+	/**
+	 * @brief Start.
+	 * @param[in] startPk Input parameter.
+	 * @return Return value.
+	 */
 	std::string start(startPk);
+	/**
+	 * @brief Target.
+	 * @param[in] targetPk Input parameter.
+	 * @return Return value.
+	 */
 	std::string target(targetPk);
 
 	dist[start] = 0.0;
@@ -2036,7 +2345,11 @@ GraphIndexManager::getEdgesInTimeRange(int64_t range_start_ms, int64_t range_end
 	// Scan all edges with prefix "graph:out:"
 	std::string prefix = "graph:out:";
 	db_.scanPrefix(prefix, [this, &filter, require_full_containment, &result](std::string_view key, std::string_view val) {
-		// Parse key: graph:out:<from_pk>:<edge_id>
+		/**
+		 * @brief Parse key: graph:out:<from_pk>:<edge_id>
+		 * @param[in] key Input parameter.
+		 * @return Return value.
+		 */
 		std::string keyStr(key);
 		size_t firstColon = keyStr.find(':');
 		if (firstColon == std::string::npos) {
@@ -2053,6 +2366,11 @@ GraphIndexManager::getEdgesInTimeRange(int64_t range_start_ms, int64_t range_end
 
 		std::string fromPk = keyStr.substr(secondColon + 1, thirdColon - secondColon - 1);
 		std::string edgeId = keyStr.substr(thirdColon + 1);
+		/**
+		 * @brief To Pk.
+		 * @param[in] val Input parameter.
+		 * @return Return value.
+		 */
 		std::string toPk(val);
 
 		// Load edge entity to check temporal fields (edges use "edge:" prefix, not "entity:")
@@ -2095,7 +2413,11 @@ GraphIndexManager::getOutEdgesInTimeRange(std::string_view fromPk, int64_t range
 	// Scan edges with prefix "graph:out:<from_pk>:"
 	std::string prefix = "graph:out:" + std::string(fromPk) + ":";
 	db_.scanPrefix(prefix, [this, &filter, &fromPk, require_full_containment, &result](std::string_view key, std::string_view val) {
-		// Parse key: graph:out:<from_pk>:<edge_id>
+		/**
+		 * @brief Parse key: graph:out:<from_pk>:<edge_id>
+		 * @param[in] key Input parameter.
+		 * @return Return value.
+		 */
 		std::string keyStr(key);
 		size_t lastColon = keyStr.rfind(':');
 		if (lastColon == std::string::npos) {
@@ -2103,6 +2425,11 @@ GraphIndexManager::getOutEdgesInTimeRange(std::string_view fromPk, int64_t range
 		}
 		
 		std::string edgeId = keyStr.substr(lastColon + 1);
+		/**
+		 * @brief To Pk.
+		 * @param[in] val Input parameter.
+		 * @return Return value.
+		 */
 		std::string toPk(val);
 
 		// Load edge entity to check temporal fields (edges use "edge:" prefix, not "entity:")
@@ -2152,12 +2479,12 @@ GraphIndexManager::aggregateEdgePropertyInTimeRange(std::string_view property, A
 		// - legacy: graph:out:<fromPk>:<edgeId>
 		std::string graphId, fromPk, edgeId;
 		if (!parseOutKey_(key, graphId, fromPk, edgeId)) {
-			// LEGACY PATH (requires human approval — INDEX-AUD-GI-03): fallback to pre-v2.0 key format
-			// Reason: parseOutKey_ may reject a key that parseInKey_ already fell back to legacy format.
-			// Activation: when parseOutKey_ returns false (key has no graphId segment).
-			// Primary Delta: v2.0+ code uses parseOutKey_ successfully; old keys fall through here.
-			// Approved By: Index module maintainer — INDEX-AUD-GI-03
-			// Removal Target: v2.6.0
+			/**
+			 * @brief LEGACY PATH (requires human approval — INDEX-AUD-GI-03): fallback to pre-v2.
+			 * @param[in] key Input parameter.
+			 * @return Return value.
+			 * @details 0 key format Reason: parseOutKey_ may reject a key that parseInKey_ already fell back to legacy format. Activation: when parseOutKey_ returns false (key has no graphId segment). Primary Delta: v2.0+ code uses parseOutKey_ successfully; old keys fall through here. Approved By: Index module maintainer — INDEX-AUD-GI-03 Removal Target: v2.6.0
+			 */
 			std::string keyStr(key);
 			size_t firstColon = keyStr.find(':');
 			if (firstColon == std::string::npos) {
@@ -2274,7 +2601,11 @@ GraphIndexManager::getTemporalStats(int64_t range_start_ms, int64_t range_end_ms
 	// Scan all edges with prefix "graph:out:"
 	std::string prefix = "graph:out:";
 	db_.scanPrefix(prefix, [this, &filter, require_full_containment, &stats](std::string_view key, std::string_view /*val*/) {
-		// Parse key: graph:out:<from_pk>:<edge_id>
+		/**
+		 * @brief Parse key: graph:out:<from_pk>:<edge_id>
+		 * @param[in] key Input parameter.
+		 * @return Return value.
+		 */
 		std::string keyStr(key);
 		size_t thirdColon = keyStr.rfind(':');
 		if (thirdColon == std::string::npos) {
@@ -2370,7 +2701,17 @@ GraphIndexManager::bfsWithConstraints(
 		visited.insert(std::string(startPk));
 	}
 
+	/**
+	 * @brief Type Filter.
+	 * @param[in] edge_type Input parameter.
+	 * @return Return value.
+	 */
 	std::string typeFilter(edge_type);
+	/**
+	 * @brief Graph Filter.
+	 * @param[in] graph_id Identifier of the graph.
+	 * @return Return value.
+	 */
 	std::string graphFilter(graph_id);
 
 	// Use in-memory topology if available
@@ -2390,7 +2731,11 @@ GraphIndexManager::bfsWithConstraints(
 			  continue;
 			}
 
-   // LOCK: Tier 1 (Global topology protection, read-only) — Phase 3 A-5
+			/**
+			 * @brief LOCK: Tier 1 (Global topology protection, read-only) — Phase 3 A-5
+			 * @param[in] topology_mutex_ Input parameter.
+			 * @return Return value.
+			 */
 			std::shared_lock<std::shared_mutex> lock(topology_mutex_);
 			auto it = outEdges_.find(node);
 			if (it != outEdges_.end()) {
@@ -2478,6 +2823,11 @@ GraphIndexManager::bfsWithConstraints(
 				  return true;
 				}
 
+				/**
+				 * @brief Neigh.
+				 * @param[in] val Input parameter.
+				 * @return Return value.
+				 */
 				std::string neigh(val);
 				
 				// Check vertex constraints
@@ -2573,7 +2923,17 @@ GraphIndexManager::dijkstraWithConstraints(
 	pq.push(std::move(start));
 	best_cost[std::string(startPk)] = 0.0;
 
+	/**
+	 * @brief Type Filter.
+	 * @param[in] edge_type Input parameter.
+	 * @return Return value.
+	 */
 	std::string typeFilter(edge_type);
+	/**
+	 * @brief Graph Filter.
+	 * @param[in] graph_id Identifier of the graph.
+	 * @return Return value.
+	 */
 	std::string graphFilter(graph_id);
 
 	while (!pq.empty()) {
@@ -2622,7 +2982,11 @@ GraphIndexManager::dijkstraWithConstraints(
 		std::vector<AdjacencyInfo> neighbors = {};
 
 		if (topologyLoaded_.load(std::memory_order_acquire)) {
-   // LOCK: Tier 1 (Global topology protection, read-only) — Phase 3 A-5
+			/**
+			 * @brief LOCK: Tier 1 (Global topology protection, read-only) — Phase 3 A-5
+			 * @param[in] topology_mutex_ Input parameter.
+			 * @return Return value.
+			 */
 			std::shared_lock<std::shared_mutex> lock(topology_mutex_);
 			auto adj_it = outEdges_.find(current.node);
 			if (adj_it != outEdges_.end()) {

@@ -37,6 +37,11 @@ AsyncInferenceEngine::AsyncInferenceEngine(
     // THREAD-SAFETY: Acquire plugin_mutex_ during construction for clarity
     // and to establish happens-before relationship with first worker access.
     {
+        /**
+         * @brief Lock.
+         * @param[in] plugin_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::shared_mutex> lock(plugin_mutex_);
         active_plugin_ = std::shared_ptr<ILLMPlugin>(plugin_, [](ILLMPlugin*){});
     }
@@ -74,6 +79,11 @@ AsyncInferenceEngine::AsyncInferenceEngine(
     // THREAD-SAFETY: Acquire plugin_mutex_ during construction for clarity
     // and to establish happens-before relationship with first worker access.
     {
+        /**
+         * @brief Lock.
+         * @param[in] plugin_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::shared_mutex> lock(plugin_mutex_);
         active_plugin_ = owned_plugin_;
     }
@@ -114,6 +124,11 @@ AsyncInferenceEngine::AsyncInferenceEngine(
     // Wrap raw pointer in a non-owning shared_ptr for hot-swap support.
     // THREAD-SAFETY: Acquire plugin_mutex_ during construction for clarity
     {
+        /**
+         * @brief Lock.
+         * @param[in] plugin_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::shared_mutex> lock(plugin_mutex_);
         active_plugin_ = std::shared_ptr<ILLMPlugin>(plugin_, [](ILLMPlugin*){});
     }
@@ -146,6 +161,11 @@ AsyncInferenceEngine::AsyncInferenceEngine(
     }
     // THREAD-SAFETY: Acquire plugin_mutex_ during construction for clarity
     {
+        /**
+         * @brief Lock.
+         * @param[in] plugin_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::shared_mutex> lock(plugin_mutex_);
         active_plugin_ = owned_plugin_;
     }
@@ -166,6 +186,15 @@ AsyncInferenceEngine::~AsyncInferenceEngine() {
     shutdown();
 }
 
+/**
+ * @brief Submit.
+ * @param[in] request Input parameter.
+ * @param[in] priority Input parameter.
+ * @param[in] timeout Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: std::chrono::steady_clock::now(), spdlog::info(), empty(), size(), count(), generateRequestId(), tracking_lock(), get_future().
+ */
 InferenceHandle AsyncInferenceEngine::submit(
     const InferenceRequest& request,
     int priority,
@@ -312,6 +341,11 @@ std::string AsyncInferenceEngine::submitAsync(
 
     // Track for cancellation and timeout monitoring
     {
+        /**
+         * @brief Tracking lock.
+         * @param[in] tracking_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> tracking_lock(tracking_mutex_);
         active_requests_[async_req->request_id] = async_req;
     }
@@ -321,6 +355,11 @@ std::string AsyncInferenceEngine::submitAsync(
         bool queued = shared_pool_->submit(
             [this, async_req, submit_time]() {
                 if (async_req->cancel_token->load(std::memory_order_acquire)) {
+                    /**
+                     * @brief Lock.
+                     * @param[in] tracking_mutex_ Input parameter.
+                     * @return Return value.
+                     */
                     std::lock_guard<std::mutex> lock(tracking_mutex_);
                     active_requests_.erase(async_req->request_id);
                     return;
@@ -335,6 +374,11 @@ std::string AsyncInferenceEngine::submitAsync(
                     spdlog::error("Async callback request {} failed: {}",
                                   async_req->request_id, e.what());
                 }
+                /**
+                 * @brief Lock.
+                 * @param[in] tracking_mutex_ Input parameter.
+                 * @return Return value.
+                 */
                 std::lock_guard<std::mutex> lock(tracking_mutex_);
                 active_requests_.erase(async_req->request_id);
             },
@@ -343,6 +387,11 @@ std::string AsyncInferenceEngine::submitAsync(
 
         if (!queued) {
             stats_.total_rejected.fetch_add(1, std::memory_order_relaxed);
+            /**
+             * @brief Lock.
+             * @param[in] tracking_mutex_ Input parameter.
+             * @return Return value.
+             */
             std::lock_guard<std::mutex> lock(tracking_mutex_);
             active_requests_.erase(async_req->request_id);
             throw std::runtime_error("SharedWorkerPool queue full");
@@ -353,11 +402,21 @@ std::string AsyncInferenceEngine::submitAsync(
         auto promise = std::make_shared<std::promise<InferenceResponse>>();
         async_req->shared_promise = promise;
 
+        /**
+         * @brief Lock.
+         * @param[in] queue_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lock(queue_mutex_);
 
         if (active_requests_.size() >= config_.max_queue_size && !request_queue_.empty()) {
             if (!handleBackpressure(lock)) {
                 stats_.total_rejected++;
+                /**
+                 * @brief Tl.
+                 * @param[in] tracking_mutex_ Input parameter.
+                 * @return Return value.
+                 */
                 std::lock_guard<std::mutex> tl(tracking_mutex_);
                 active_requests_.erase(async_req->request_id);
                 throw std::runtime_error("Request queue full");
@@ -385,6 +444,16 @@ std::string AsyncInferenceEngine::submitAsync(
     return async_req->request_id;
 }
 
+/**
+ * @brief Submit Streaming.
+ * @param[in] request Input parameter.
+ * @param[in] callback Input parameter.
+ * @param[in] priority Input parameter.
+ * @param[in] timeout Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: std::chrono::steady_clock::now(), spdlog::info(), empty(), size(), count(), generateRequestId(), std::move(), load().
+ */
 InferenceHandle AsyncInferenceEngine::submitStreaming(
     const InferenceRequest&   request,
     TokenCallback             callback,
@@ -529,6 +598,14 @@ InferenceHandle AsyncInferenceEngine::submitStreaming(
     return InferenceHandle(async_req->request_id, future, async_req->cancel_token);
 }
 
+/**
+ * @brief Submit RAG.
+ * @param[in] rag_context Input parameter.
+ * @param[in] request Input parameter.
+ * @param[in] priority Input parameter.
+ * @return Return value.
+ * @details Calls: spdlog::info(), size(), empty(), find(), replace(), replaceAll(), str(), submit().
+ */
 InferenceHandle AsyncInferenceEngine::submitRAG(
     const RAGContext& rag_context,
     const InferenceRequest& request,
@@ -619,6 +696,12 @@ InferenceHandle AsyncInferenceEngine::submitRAG(
     return handle;
 }
 
+/**
+ * @brief Cancel.
+ * @param[in] request_id Identifier of the request.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), find(), end(), store(), fetch_add(), spdlog::info().
+ */
 bool AsyncInferenceEngine::cancel(const std::string& request_id) {
     std::lock_guard<std::mutex> lock(tracking_mutex_);
     
@@ -637,6 +720,11 @@ bool AsyncInferenceEngine::cancel(const std::string& request_id) {
 }
 
 json AsyncInferenceEngine::getQueueStats() const {
+    /**
+     * @brief Lock.
+     * @param[in] queue_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(queue_mutex_);
     
     json stats;
@@ -673,6 +761,11 @@ json AsyncInferenceEngine::getWorkerStats() const {
     stats["total_tokens_generated"] = stats_.total_tokens_generated.load();
     double elapsed_s = {};
     {
+        /**
+         * @brief Lock.
+         * @param[in] stats_time_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(stats_time_mutex_);
         elapsed_s = std::chrono::duration<double>(
             std::chrono::steady_clock::now() - engine_start_time_).count();
@@ -684,6 +777,11 @@ json AsyncInferenceEngine::getWorkerStats() const {
 
     // p99 latency from per-request samples.
     {
+        /**
+         * @brief Lock.
+         * @param[in] latency_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(latency_mutex_);
         if (!latency_samples_.empty()) {
             std::vector<double> sorted(latency_samples_.begin(), latency_samples_.end());
@@ -696,6 +794,10 @@ json AsyncInferenceEngine::getWorkerStats() const {
     return stats;
 }
 
+/**
+ * @brief Wait For Completion.
+ * @details Calls: spdlog::info(), lock(), std::chrono::seconds(), wait_for(), empty(), spdlog::warn().
+ */
 void AsyncInferenceEngine::waitForCompletion() {
     spdlog::info("Waiting for all pending inference requests to complete...");
     
@@ -710,6 +812,10 @@ void AsyncInferenceEngine::waitForCompletion() {
     spdlog::info("All inference requests completed");
 }
 
+/**
+ * @brief Shutdown.
+ * @details Calls: load(), spdlog::info(), store(), notify_all(), joinable(), themis::utils::joinThreadWithin(), spdlog::warn(), clear().
+ */
 void AsyncInferenceEngine::shutdown() {
     if (!running_.load(std::memory_order_acquire)) {
         return;  // Already shutdown
@@ -741,9 +847,11 @@ void AsyncInferenceEngine::shutdown() {
     spdlog::info("AsyncInferenceEngine shutdown complete");
 }
 
-// ═══════════════════════════════════════════════════════════
-// Private Methods
-// ═══════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════ Private Methods ═══════════════════════════════════════════════════════════
+ * @param[in] worker_id Identifier of the worker.
+ * @details Calls: spdlog::info(), load(), lock(), std::chrono::seconds(), wait_for(), empty(), spdlog::warn(), std::pop_heap().
+ */
 
 void AsyncInferenceEngine::workerLoop(size_t worker_id) {
     spdlog::info("Inference worker {} started", worker_id);
@@ -857,6 +965,13 @@ void AsyncInferenceEngine::workerLoop(size_t worker_id) {
     spdlog::info("Inference worker {} stopped", worker_id);
 }
 
+/**
+ * @brief Process Request.
+ * @param[in] request Input parameter.
+ * @param[in] submit_time Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::steady_clock::now(), count(), fetch_add(), spdlog::info(), size(), std::move(), load(), store().
+ */
 InferenceResponse AsyncInferenceEngine::processRequest(
     const AsyncInferenceRequest& request,
     std::chrono::steady_clock::time_point submit_time
@@ -1012,6 +1127,11 @@ InferenceResponse AsyncInferenceEngine::processRequest(
     return response;
 }
 
+/**
+ * @brief Set Dedup Cache.
+ * @param[in] cache Input parameter.
+ * @details Calls: std::move().
+ */
 void AsyncInferenceEngine::setDedupCache(std::shared_ptr<LLMResponseCache> cache) {
     dedup_cache_ = std::move(cache);
 }
@@ -1023,6 +1143,12 @@ LLMResponseCache::CacheStatistics AsyncInferenceEngine::getDedupCacheStats() con
     return LLMResponseCache::CacheStatistics{};
 }
 
+/**
+ * @brief Swap Plugin.
+ * @param[in] new_plugin Input parameter.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: lock(), std::move(), get(), std::atomic_thread_fence(), spdlog::info().
+ */
 void AsyncInferenceEngine::swapPlugin(std::shared_ptr<ILLMPlugin> new_plugin) {
     if (!new_plugin) {
         throw std::invalid_argument("New plugin cannot be null");
@@ -1036,11 +1162,21 @@ void AsyncInferenceEngine::swapPlugin(std::shared_ptr<ILLMPlugin> new_plugin) {
     spdlog::info("AsyncInferenceEngine: plugin hot-swapped");
 }
 
+/**
+ * @brief Set Prompt Policy.
+ * @param[in] policy Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void AsyncInferenceEngine::setPromptPolicy(std::shared_ptr<PromptPolicy> policy) {
     std::lock_guard<std::mutex> lock(policy_mutex_);
     prompt_policy_ = std::move(policy);
 }
 
+/**
+ * @brief Generate Request Id.
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), fetch_add(), str().
+ */
 std::string AsyncInferenceEngine::generateRequestId() {
     static std::atomic<uint64_t> counter{0};
     
@@ -1056,6 +1192,12 @@ std::string AsyncInferenceEngine::generateRequestId() {
     return oss.str();
 }
 
+/**
+ * @brief Handle Backpressure.
+ * @param[in,out] lock Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: std::chrono::seconds(), wait_for(), size(), load(), spdlog::warn(), empty(), std::min_element(), begin().
+ */
 bool AsyncInferenceEngine::handleBackpressure(std::unique_lock<std::mutex>& lock) {
     // Already have lock on queue_mutex_
     
@@ -1134,9 +1276,10 @@ bool AsyncInferenceEngine::handleBackpressure(std::unique_lock<std::mutex>& lock
     return false;
 }
 
-// ═══════════════════════════════════════════════════════════
-// Timeout Monitoring
-// ═══════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════ Timeout Monitoring ═══════════════════════════════════════════════════════════
+ * @details Calls: spdlog::debug(), load(), checkAndHandleTimeouts(), std::this_thread::sleep_for(), std::chrono::milliseconds().
+ */
 
 void AsyncInferenceEngine::timeoutMonitorLoop() {
     spdlog::debug("AsyncInferenceEngine timeout monitor started");
@@ -1149,6 +1292,10 @@ void AsyncInferenceEngine::timeoutMonitorLoop() {
     spdlog::debug("AsyncInferenceEngine timeout monitor stopped");
 }
 
+/**
+ * @brief Check And Handle Timeouts.
+ * @details Calls: std::chrono::steady_clock::now(), lock(), load(), spdlog::warn(), store(), fetch_add(), set_exception(), std::make_exception_ptr().
+ */
 void AsyncInferenceEngine::checkAndHandleTimeouts() {
     auto now = std::chrono::steady_clock::now();
     const auto zero_tp = std::chrono::steady_clock::time_point{};

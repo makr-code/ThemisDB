@@ -28,8 +28,12 @@ namespace geo {
 
 namespace {
 
-/// Convert a slippy-map tile (zoom/x/y) to WGS-84 lon/lat bounds.
-/// Reference: https://wiki.openstreetmap.org/wiki/Slippy_map_tilenames
+/**
+ * @brief Tile To WGS84.
+ * @param[in] tile Input parameter.
+ * @return Return value.
+ * @details Calls: std::atan(), std::sinh().
+ */
 MBR tileToWGS84(const TileCoord &tile) {
     constexpr double kPi     = 3.14159265358979323846;
     const double n           = static_cast<double>(1 << tile.zoom);
@@ -119,6 +123,13 @@ RasterResult RasterGridQueryImpl::queryTile(const TileCoord &tile, const RasterC
 // Factory
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Make Raster Query Interface.
+ * @param[in] grid Input parameter.
+ * @param[in] crs_wkt Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), std::move().
+ */
 std::unique_ptr<IRasterQueryInterface> makeRasterQueryInterface(RasterGrid grid, const std::string &crs_wkt) {
     if (grid.empty()) {
         return std::make_unique<NoOpRasterQueryImpl>();

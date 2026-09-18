@@ -55,6 +55,12 @@ SchemaApiHandler::~SchemaApiHandler() {
     spdlog::info("SchemaApiHandler destroyed");
 }
 
+/**
+ * @brief Handle Get Schema.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), version(), set(), keep_alive(), setStatus(), body(), dump(), result().
+ */
 http::response<http::string_body> SchemaApiHandler::handleGetSchema(
     const http::request<http::string_body>& req
 ) {
@@ -100,6 +106,12 @@ http::response<http::string_body> SchemaApiHandler::handleGetSchema(
     }
 }
 
+/**
+ * @brief Handle Get Tables.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), version(), set(), keep_alive(), setStatus(), body(), dump(), result().
+ */
 http::response<http::string_body> SchemaApiHandler::handleGetTables(
     const http::request<http::string_body>& req
 ) {
@@ -161,6 +173,12 @@ http::response<http::string_body> SchemaApiHandler::handleGetTables(
     }
 }
 
+/**
+ * @brief Handle Get Table.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), version(), set(), keep_alive(), setStatus(), body(), dump(), result().
+ */
 http::response<http::string_body> SchemaApiHandler::handleGetTable(
     const http::request<http::string_body>& req
 ) {
@@ -258,6 +276,12 @@ http::response<http::string_body> SchemaApiHandler::handleGetTable(
     }
 }
 
+/**
+ * @brief Handle Get Capabilities.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), version(), set(), keep_alive(), setStatus(), body(), dump(), result().
+ */
 http::response<http::string_body> SchemaApiHandler::handleGetCapabilities(
     const http::request<http::string_body>& req
 ) {
@@ -332,6 +356,12 @@ std::string SchemaApiHandler::extractAndValidateSchemaTableName(
     return "";  // Success
 }
 
+/**
+ * @brief Handle Put Schema.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), version(), set(), keep_alive(), setStatus(), body(), dump(), result().
+ */
 http::response<http::string_body> SchemaApiHandler::handlePutSchema(
     const http::request<http::string_body>& req
 ) {
@@ -464,6 +494,12 @@ http::response<http::string_body> SchemaApiHandler::handlePutSchema(
     }
 }
 
+/**
+ * @brief Handle Patch Schema.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), version(), set(), keep_alive(), setStatus(), body(), dump(), result().
+ */
 http::response<http::string_body> SchemaApiHandler::handlePatchSchema(
     const http::request<http::string_body>& req
 ) {
@@ -564,26 +600,56 @@ http::response<http::string_body> SchemaApiHandler::handlePatchSchema(
 // Setter methods
 // ============================================================================
 
+/**
+ * @brief Set Statistics Collector.
+ * @param[in,out] stats_collector Input/output parameter.
+ * @details Implements setStatisticsCollector without additional internal calls.
+ */
 void SchemaApiHandler::setStatisticsCollector(StatisticsCollector* stats_collector) {
     stats_collector_ = stats_collector;
 }
 
+/**
+ * @brief Set Schema Constraints.
+ * @param[in,out] schema_constraints Input/output parameter.
+ * @details Implements setSchemaConstraints without additional internal calls.
+ */
 void SchemaApiHandler::setSchemaConstraints(SchemaConstraints* schema_constraints) {
     schema_constraints_ = schema_constraints;
 }
 
+/**
+ * @brief Set Schema Version Manager.
+ * @param[in,out] version_mgr Input/output parameter.
+ * @details Implements setSchemaVersionManager without additional internal calls.
+ */
 void SchemaApiHandler::setSchemaVersionManager(SchemaVersionManager* version_mgr) {
     version_mgr_ = version_mgr;
 }
 
+/**
+ * @brief Set Index Recommender.
+ * @param[in,out] index_recommender Input/output parameter.
+ * @details Implements setIndexRecommender without additional internal calls.
+ */
 void SchemaApiHandler::setIndexRecommender(metadata::IndexRecommender* index_recommender) {
     index_recommender_ = index_recommender;
 }
 
+/**
+ * @brief Set Audit Log.
+ * @param[in,out] audit_log Input/output parameter.
+ * @details Implements setAuditLog without additional internal calls.
+ */
 void SchemaApiHandler::setAuditLog(SchemaAuditLog* audit_log) {
     audit_log_ = audit_log;
 }
 
+/**
+ * @brief Set Column Lineage Tracker.
+ * @param[in,out] tracker Input/output parameter.
+ * @details Implements setColumnLineageTracker without additional internal calls.
+ */
 void SchemaApiHandler::setColumnLineageTracker(themis::metadata::ColumnLineageTracker* tracker) {
     column_lineage_tracker_ = tracker;
 }
@@ -633,6 +699,11 @@ std::string SchemaApiHandler::extractTableName(
 // Information Schema endpoints
 // ============================================================================
 
+/**
+ * @brief Handle Get Information Schema.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ */
 http::response<http::string_body> SchemaApiHandler::handleGetInformationSchema(
     const http::request<http::string_body>& req)
 {
@@ -712,6 +783,11 @@ http::response<http::string_body> SchemaApiHandler::handleGetInformationSchema(
 // Statistics endpoints
 // ============================================================================
 
+/**
+ * @brief Handle Get Stats.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ */
 http::response<http::string_body> SchemaApiHandler::handleGetStats(
     const http::request<http::string_body>& req)
 {
@@ -752,6 +828,11 @@ http::response<http::string_body> SchemaApiHandler::handleGetStats(
     }
 }
 
+/**
+ * @brief Handle Collect Stats.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ */
 http::response<http::string_body> SchemaApiHandler::handleCollectStats(
     const http::request<http::string_body>& req)
 {
@@ -798,6 +879,11 @@ http::response<http::string_body> SchemaApiHandler::handleCollectStats(
 // Constraints endpoints
 // ============================================================================
 
+/**
+ * @brief Handle Get Constraints.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ */
 http::response<http::string_body> SchemaApiHandler::handleGetConstraints(
     const http::request<http::string_body>& req)
 {
@@ -844,6 +930,11 @@ http::response<http::string_body> SchemaApiHandler::handleGetConstraints(
 // Schema version endpoints
 // ============================================================================
 
+/**
+ * @brief Handle Get Version History.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ */
 http::response<http::string_body> SchemaApiHandler::handleGetVersionHistory(
     const http::request<http::string_body>& req)
 {
@@ -885,6 +976,11 @@ http::response<http::string_body> SchemaApiHandler::handleGetVersionHistory(
     }
 }
 
+/**
+ * @brief Handle Create Version.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ */
 http::response<http::string_body> SchemaApiHandler::handleCreateVersion(
     const http::request<http::string_body>& req)
 {
@@ -937,6 +1033,11 @@ http::response<http::string_body> SchemaApiHandler::handleCreateVersion(
     }
 }
 
+/**
+ * @brief Handle Get Diff.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ */
 http::response<http::string_body> SchemaApiHandler::handleGetDiff(
     const http::request<http::string_body>& req)
 {
@@ -1012,6 +1113,11 @@ http::response<http::string_body> SchemaApiHandler::handleGetDiff(
 // Index recommendations endpoint
 // ============================================================================
 
+/**
+ * @brief Handle Get Index Recommendations.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ */
 http::response<http::string_body> SchemaApiHandler::handleGetIndexRecommendations(
     const http::request<http::string_body>& req)
 {
@@ -1087,6 +1193,11 @@ http::response<http::string_body> SchemaApiHandler::handleGetIndexRecommendation
 // Audit log endpoint
 // ============================================================================
 
+/**
+ * @brief Handle Get Audit Log.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ */
 http::response<http::string_body> SchemaApiHandler::handleGetAuditLog(
     const http::request<http::string_body>& req)
 {
@@ -1139,6 +1250,11 @@ http::response<http::string_body> SchemaApiHandler::handleGetAuditLog(
 // Schema import endpoint
 // ============================================================================
 
+/**
+ * @brief Handle Schema Import.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ */
 http::response<http::string_body> SchemaApiHandler::handleSchemaImport(
     const http::request<http::string_body>& req)
 {
@@ -1214,6 +1330,11 @@ http::response<http::string_body> SchemaApiHandler::handleSchemaImport(
 // Batch constraint validation
 // ============================================================================
 
+/**
+ * @brief Handle Batch Constraint Validation.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ */
 http::response<http::string_body> SchemaApiHandler::handleBatchConstraintValidation(
     const http::request<http::string_body>& req)
 {
@@ -1309,6 +1430,11 @@ http::response<http::string_body> SchemaApiHandler::handleBatchConstraintValidat
 // Column Lineage endpoints
 // ============================================================================
 
+/**
+ * @brief Handle Get Column Lineage.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ */
 http::response<http::string_body> SchemaApiHandler::handleGetColumnLineage(
     const http::request<http::string_body>& req)
 {
@@ -1368,6 +1494,11 @@ http::response<http::string_body> SchemaApiHandler::handleGetColumnLineage(
     }
 }
 
+/**
+ * @brief Handle Record Lineage Derivation.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ */
 http::response<http::string_body> SchemaApiHandler::handleRecordLineageDerivation(
     const http::request<http::string_body>& req)
 {

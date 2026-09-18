@@ -254,9 +254,10 @@ RocksDBWrapper& RocksDBWrapper::operator=(RocksDBWrapper&& other) noexcept {
     return *this;
 }
 
-// configureOptions() runs during construction before publication to other
-// threads, but it also takes options_mutex_ so later option snapshots (open(),
-// statistics export) see a consistently configured set of RocksDB options.
+/**
+ * @brief configureOptions() runs during construction before publication to other threads, but it also takes options_mutex_ so later option snapshots (open(), statistics export) see a consistently configured set of RocksDB options.
+ * @details Calls: options_lock(), rocksdb::CreateDBStatistics(), set_stats_level(), rocksdb::NewLRUCache(), reset(), rocksdb::NewBloomFilterPolicy(), rocksdb::NewBlockBasedTableFactory(), rocksdb::Env::Default().
+ */
 void RocksDBWrapper::configureOptions() {
     std::lock_guard<std::mutex> options_lock(options_mutex_);
 
@@ -635,6 +636,11 @@ void RocksDBWrapper::configureOptions() {
     }
 }
 
+/**
+ * @brief Open.
+ * @return True when the operation succeeds.
+ * @details Calls: close(), dbp(), parent_path(), empty(), std::filesystem::create_directories(), std::string(), string(), message().
+ */
 bool RocksDBWrapper::open() {
     // If already open, close cleanly to avoid stale handles before reopen
     if (db_) {
@@ -814,6 +820,10 @@ bool RocksDBWrapper::open() {
     return true;
 }
 
+/**
+ * @brief Close.
+ * @details Calls: THEMIS_INFO(), lock(), store(), load(), std::this_thread::sleep_for(), std::chrono::milliseconds(), THEMIS_WARN(), size().
+ */
 void RocksDBWrapper::close() {
     if (db_) {
         THEMIS_INFO("Closing RocksDB");
@@ -877,6 +887,11 @@ bool RocksDBWrapper::isOpen() const {
     return db_ != nullptr;
 }
 
+/**
+ * @brief Add Event Listener.
+ * @param[in] listener Input parameter.
+ * @details Calls: lock(), isOpen(), THEMIS_WARN(), emplace_back(), std::move().
+ */
 void RocksDBWrapper::addEventListener(std::shared_ptr<rocksdb::EventListener> listener) {
     if (!listener) {
       return;
@@ -890,6 +905,12 @@ void RocksDBWrapper::addEventListener(std::shared_ptr<rocksdb::EventListener> li
     options_->listeners.emplace_back(std::move(listener));
 }
 
+/**
+ * @brief Get.
+ * @param[in] key Input parameter.
+ * @return Return value.
+ * @details Calls: Get(), rocksdb::Slice(), data(), size(), ok(), begin(), end().
+ */
 std::optional<std::vector<uint8_t>> RocksDBWrapper::get(std::string_view key) {
     if (!db_) {
       return std::nullopt;
@@ -905,6 +926,13 @@ std::optional<std::vector<uint8_t>> RocksDBWrapper::get(std::string_view key) {
     return std::nullopt;
 }
 
+/**
+ * @brief Get.
+ * @param[in] key Input parameter.
+ * @param[in,out] out Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: Get(), rocksdb::Slice(), data(), size(), ok(), std::move().
+ */
 bool RocksDBWrapper::get(std::string_view key, std::string& out) {
     if (!db_) {
       return false;
@@ -918,6 +946,13 @@ bool RocksDBWrapper::get(std::string_view key, std::string& out) {
     return false;
 }
 
+/**
+ * @brief Put.
+ * @param[in] key Input parameter.
+ * @param[in] value Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: themis::utils::Logger::error(), beginTransaction(), rollback(), commit().
+ */
 bool RocksDBWrapper::put(std::string_view key, const std::vector<uint8_t>& value) {
     if (!db_) {
         themis::utils::Logger::error("RocksDBWrapper::put: db_ is null");
@@ -946,6 +981,13 @@ bool RocksDBWrapper::put(std::string_view key, const std::vector<uint8_t>& value
     return true;
 }
 
+/**
+ * @brief Put.
+ * @param[in] key Input parameter.
+ * @param[in] value Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: themis::utils::Logger::error(), beginTransaction(), val_vec(), begin(), end(), rollback(), commit().
+ */
 bool RocksDBWrapper::put(std::string_view key, std::string_view value) {
     if (!db_) {
         themis::utils::Logger::error("RocksDBWrapper::put (string_view): db_ is null");
@@ -975,6 +1017,12 @@ bool RocksDBWrapper::put(std::string_view key, std::string_view value) {
     return true;
 }
 
+/**
+ * @brief Del.
+ * @param[in] key Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: themis::utils::Logger::error(), beginTransaction(), rollback(), commit().
+ */
 bool RocksDBWrapper::del(std::string_view key) {
     if (!db_) {
         themis::utils::Logger::error("RocksDBWrapper::del: db_ is null");
@@ -1004,6 +1052,12 @@ bool RocksDBWrapper::del(std::string_view key) {
     return true;
 }
 
+/**
+ * @brief Put Batch.
+ * @param[in] pairs Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: themis::utils::Logger::error(), empty(), createWriteBatch(), put(), commit().
+ */
 bool RocksDBWrapper::putBatch(const std::vector<KeyValuePair>& pairs) {
     if (!db_) {
         themis::utils::Logger::error("RocksDBWrapper::putBatch: db_ is null");
@@ -1043,7 +1097,12 @@ bool RocksDBWrapper::putBatch(const std::vector<KeyValuePair>& pairs) {
 
 namespace {
 
-// Returns the internal manifest key for a logical blob key.
+/**
+ * @brief Returns the internal manifest key for a logical blob key.
+ * @param[in] key Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), append(), data().
+ */
 inline std::string blobManifestKey(std::string_view key) {
     std::string mk = {};
     mk.reserve(10 + key.size() );
@@ -1052,7 +1111,14 @@ inline std::string blobManifestKey(std::string_view key) {
     return mk;
 }
 
-// Returns the internal chunk key for chunk index `idx` of a logical blob key.
+/**
+ * @brief Returns the internal chunk key for chunk index `idx` of a logical blob key.
+ * @param[in] key Input parameter.
+ * @param[in] idx Input parameter.
+ * @return Return value.
+ * @throws std::overflow_error if an error occurs.
+ * @details Calls: std::snprintf(), reserve(), size(), append(), data(), push_back().
+ */
 inline std::string blobChunkKey(std::string_view key, uint32_t idx) {
     char buf[16];
     const int written = std::snprintf(buf, sizeof(buf), "%06u", idx);
@@ -1069,10 +1135,12 @@ inline std::string blobChunkKey(std::string_view key, uint32_t idx) {
     return ck;
 }
 
-// R-6: Explicit little-endian serialisation helpers so that blob manifests are
-// portable across mixed-endian architectures (e.g., big-endian POWER/SPARC
-// reading a manifest written on x86).  Plain memcpy() would use the host byte
-// order, producing a manifest that cannot be decoded on a different-endian host.
+/**
+ * @brief R-6: Explicit little-endian serialisation helpers so that blob manifests are portable across mixed-endian architectures (e.
+ * @param[in,out] dst Input/output parameter.
+ * @param[in] v Input parameter.
+ * @details g., big-endian POWER/SPARC reading a manifest written on x86). Plain memcpy() would use the host byte order, producing a manifest that cannot be decoded on a different-endian host. Implements writeLE32 without additional internal calls.
+ */
 inline void writeLE32(uint8_t* dst, uint32_t v) {
     dst[0] = static_cast<uint8_t>(v);
     dst[1] = static_cast<uint8_t>(v >> 8);
@@ -1080,6 +1148,12 @@ inline void writeLE32(uint8_t* dst, uint32_t v) {
     dst[3] = static_cast<uint8_t>(v >> 24);
 }
 
+/**
+ * @brief Write LE64.
+ * @param[in,out] dst Input/output parameter.
+ * @param[in] v Input parameter.
+ * @details Implements writeLE64 without additional internal calls.
+ */
 inline void writeLE64(uint8_t* dst, uint64_t v) {
     dst[0] = static_cast<uint8_t>(v);
     dst[1] = static_cast<uint8_t>(v >> 8);
@@ -1091,6 +1165,12 @@ inline void writeLE64(uint8_t* dst, uint64_t v) {
     dst[7] = static_cast<uint8_t>(v >> 56);
 }
 
+/**
+ * @brief Read LE32.
+ * @param[in] src Input parameter.
+ * @return Return value.
+ * @details Implements readLE32 without additional internal calls.
+ */
 inline uint32_t readLE32(const uint8_t* src) {
     return static_cast<uint32_t>(src[0])
          | (static_cast<uint32_t>(src[1]) << 8)
@@ -1098,6 +1178,12 @@ inline uint32_t readLE32(const uint8_t* src) {
          | (static_cast<uint32_t>(src[3]) << 24);
 }
 
+/**
+ * @brief Read LE64.
+ * @param[in] src Input parameter.
+ * @return Return value.
+ * @details Implements readLE64 without additional internal calls.
+ */
 inline uint64_t readLE64(const uint8_t* src) {
     return static_cast<uint64_t>(src[0])
          | (static_cast<uint64_t>(src[1]) << 8)
@@ -1111,6 +1197,13 @@ inline uint64_t readLE64(const uint8_t* src) {
 
 } // anonymous namespace
 
+/**
+ * @brief Put Blob.
+ * @param[in] key Input parameter.
+ * @param[in] data Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: THEMIS_ERROR(), size(), put(), std::max(), std::min(), encoded_chunks(), reserve(), emplace_back().
+ */
 bool RocksDBWrapper::putBlob(std::string_view key, const std::vector<uint8_t>& data) {
     if (!db_) {
         THEMIS_ERROR("putBlob: database not open");
@@ -1231,6 +1324,12 @@ bool RocksDBWrapper::putBlob(std::string_view key, const std::vector<uint8_t>& d
     return true;
 }
 
+/**
+ * @brief Get Blob.
+ * @param[in] key Input parameter.
+ * @return Return value.
+ * @details Calls: blobManifestKey(), Get(), rocksdb::Slice(), ok(), size(), data(), readLE32(), readLE64().
+ */
 std::optional<std::vector<uint8_t>> RocksDBWrapper::getBlob(std::string_view key) {
     if (!db_) {
       return std::nullopt;
@@ -1301,6 +1400,12 @@ std::optional<std::vector<uint8_t>> RocksDBWrapper::getBlob(std::string_view key
     return get(key);
 }
 
+/**
+ * @brief Del Blob.
+ * @param[in] key Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: THEMIS_ERROR(), blobManifestKey(), Get(), rocksdb::Slice(), ok(), size(), std::memcpy(), data().
+ */
 bool RocksDBWrapper::delBlob(std::string_view key) {
     if (!db_) {
         THEMIS_ERROR("delBlob: database not open");
@@ -1330,6 +1435,12 @@ bool RocksDBWrapper::delBlob(std::string_view key) {
     return del(key);
 }
 
+/**
+ * @brief Multi Get.
+ * @param[in] keys Input parameter.
+ * @return Return value.
+ * @details Calls: THEMIS_ERROR(), GetBaseDB(), reserve(), size(), emplace_back(), MultiGet(), ok(), empty().
+ */
 std::vector<std::optional<std::vector<uint8_t>>> RocksDBWrapper::multiGet(
     const std::vector<std::string>& keys
 ) {
@@ -1408,6 +1519,12 @@ RocksDBWrapper::WriteBatchWrapper::WriteBatchWrapper(RocksDBWrapper* db)
 
 RocksDBWrapper::WriteBatchWrapper::~WriteBatchWrapper() = default;
 
+/**
+ * @brief Put.
+ * @param[in] key Input parameter.
+ * @param[in] value Input parameter.
+ * @details Calls: Put(), rocksdb::Slice(), data(), size().
+ */
 void RocksDBWrapper::WriteBatchWrapper::put(std::string_view key, const std::vector<uint8_t>& value) {
     batch_->Put(
         rocksdb::Slice(key.data(),key.size()),
@@ -1415,20 +1532,39 @@ void RocksDBWrapper::WriteBatchWrapper::put(std::string_view key, const std::vec
     );
 }
 
+/**
+ * @brief Del.
+ * @param[in] key Input parameter.
+ * @details Calls: Delete(), rocksdb::Slice(), data(), size().
+ */
 void RocksDBWrapper::WriteBatchWrapper::del(std::string_view key) {
     batch_->Delete(rocksdb::Slice(key.data(),key.size()));
 }
 
+/**
+ * @brief Commit.
+ * @return True when the operation succeeds.
+ * @details Calls: commitBatch(), get().
+ */
 bool RocksDBWrapper::WriteBatchWrapper::commit() {
     // observability scanner alert (line 1299): WriteBatchWrapper::commit() delegates
     // to commitBatch() which contains its own THEMIS_DEBUG trace — false positive.
     return db_->commitBatch(batch_.get());
 }
 
+/**
+ * @brief Rollback.
+ * @details Calls: Clear().
+ */
 void RocksDBWrapper::WriteBatchWrapper::rollback() {
     batch_->Clear();
 }
 
+/**
+ * @brief Create Write Batch.
+ * @return Return value.
+ * @details Implements createWriteBatch without additional internal calls.
+ */
 std::unique_ptr<RocksDBWrapper::WriteBatchWrapper> RocksDBWrapper::createWriteBatch() {
     return std::make_unique<WriteBatchWrapper>(this);
 }
@@ -1442,6 +1578,12 @@ RocksDBWrapper::WriteBatchWithIndexWrapper::WriteBatchWithIndexWrapper(RocksDBWr
 
 RocksDBWrapper::WriteBatchWithIndexWrapper::~WriteBatchWithIndexWrapper() = default;
 
+/**
+ * @brief Put.
+ * @param[in] key Input parameter.
+ * @param[in] value Input parameter.
+ * @details Calls: Put(), rocksdb::Slice(), data(), size().
+ */
 void RocksDBWrapper::WriteBatchWithIndexWrapper::put(std::string_view key, const std::vector<uint8_t>& value) {
     batch_->Put(
         rocksdb::Slice(key.data(),key.size()),
@@ -1449,6 +1591,11 @@ void RocksDBWrapper::WriteBatchWithIndexWrapper::put(std::string_view key, const
     );
 }
 
+/**
+ * @brief Del.
+ * @param[in] key Input parameter.
+ * @details Calls: Delete(), rocksdb::Slice(), data(), size().
+ */
 void RocksDBWrapper::WriteBatchWithIndexWrapper::del(std::string_view key) {
     batch_->Delete(rocksdb::Slice(key.data(),key.size()));
 }
@@ -1490,6 +1637,11 @@ std::optional<std::vector<uint8_t>> RocksDBWrapper::WriteBatchWithIndexWrapper::
     return std::nullopt;
 }
 
+/**
+ * @brief Commit.
+ * @return True when the operation succeeds.
+ * @details Calls: get(), Write(), ok().
+ */
 bool RocksDBWrapper::WriteBatchWithIndexWrapper::commit() {
     // observability scanner alert (line 1364): WriteBatchWithIndex commit path is
     // intentionally lightweight; transactional tracing is provided by TransactionWrapper
@@ -1511,10 +1663,20 @@ bool RocksDBWrapper::WriteBatchWithIndexWrapper::commit() {
     return status.ok();
 }
 
+/**
+ * @brief Rollback.
+ * @details Calls: Clear().
+ */
 void RocksDBWrapper::WriteBatchWithIndexWrapper::rollback() {
     batch_->Clear();
 }
 
+/**
+ * @brief Create Write Batch With Index.
+ * @param[in] overwrite_key Input parameter.
+ * @return Return value.
+ * @details Implements createWriteBatchWithIndex without additional internal calls.
+ */
 std::unique_ptr<RocksDBWrapper::WriteBatchWithIndexWrapper> RocksDBWrapper::createWriteBatchWithIndex(bool overwrite_key) {
     return std::make_unique<WriteBatchWithIndexWrapper>(this, overwrite_key);
 }
@@ -1586,6 +1748,12 @@ RocksDBWrapper::TransactionWrapper::~TransactionWrapper() {
     }
 }
 
+/**
+ * @brief Get.
+ * @param[in] key Input parameter.
+ * @return Return value.
+ * @details Calls: THEMIS_ERROR(), GetSnapshot(), Get(), rocksdb::Slice(), data(), size(), ok(), begin().
+ */
 std::optional<std::vector<uint8_t>> RocksDBWrapper::TransactionWrapper::get(std::string_view key) {
     if (!txn_) {
       return std::nullopt;
@@ -1614,6 +1782,12 @@ std::optional<std::vector<uint8_t>> RocksDBWrapper::TransactionWrapper::get(std:
     return std::nullopt;
 }
 
+/**
+ * @brief Get For Update.
+ * @param[in] key Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: THEMIS_ERROR(), GetSnapshot(), GetForUpdate(), rocksdb::Slice(), data(), size(), ok(), IsNotFound().
+ */
 bool RocksDBWrapper::TransactionWrapper::getForUpdate(std::string_view key) {
     if (!txn_ || state_ != State::Active) {
         THEMIS_ERROR("TransactionWrapper::getForUpdate: transaction not active");
@@ -1645,6 +1819,13 @@ bool RocksDBWrapper::TransactionWrapper::getForUpdate(std::string_view key) {
     return false;
 }
 
+/**
+ * @brief Put.
+ * @param[in] key Input parameter.
+ * @param[in] value Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: THEMIS_ERROR(), Put(), rocksdb::Slice(), data(), size(), ok(), ToString(), what().
+ */
 bool RocksDBWrapper::TransactionWrapper::put(std::string_view key, const std::vector<uint8_t>& value) {
     if (!txn_) {
         THEMIS_ERROR("TransactionWrapper::put: txn_ is nullptr");
@@ -1676,6 +1857,12 @@ bool RocksDBWrapper::TransactionWrapper::put(std::string_view key, const std::ve
     }
 }
 
+/**
+ * @brief Del.
+ * @param[in] key Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: THEMIS_ERROR(), Delete(), rocksdb::Slice(), data(), size(), ok(), ToString(), what().
+ */
 bool RocksDBWrapper::TransactionWrapper::del(std::string_view key) {
     if (!txn_) {
         THEMIS_ERROR("TransactionWrapper::del: txn_ is nullptr");
@@ -1702,6 +1889,11 @@ bool RocksDBWrapper::TransactionWrapper::del(std::string_view key) {
     }
 }
 
+/**
+ * @brief Commit.
+ * @return True when the operation succeeds.
+ * @details Calls: Prepare(), ok(), THEMIS_ERROR(), ToString(), Commit(), IsBusy(), THEMIS_WARN(), IsTimedOut().
+ */
 bool RocksDBWrapper::TransactionWrapper::commit() {
     // observability scanner alert (line 1567): TransactionWrapper::commit() includes
     // THEMIS_ERROR logging on failure paths; success path logging is handled by the
@@ -1762,6 +1954,10 @@ bool RocksDBWrapper::TransactionWrapper::commit() {
     }
 }
 
+/**
+ * @brief Rollback.
+ * @details Calls: Rollback(), THEMIS_DEBUG(), THEMIS_ERROR(), what().
+ */
 void RocksDBWrapper::TransactionWrapper::rollback() {
     if (!txn_ || state_ != State::Active) {
       return;
@@ -1787,6 +1983,11 @@ Result<const rocksdb::Snapshot*> RocksDBWrapper::TransactionWrapper::getSnapshot
     return Ok(txn_->GetSnapshot());
 }
 
+/**
+ * @brief Prepare.
+ * @return True when the operation succeeds.
+ * @details Calls: Prepare(), ok(), THEMIS_ERROR(), ToString(), what().
+ */
 bool RocksDBWrapper::TransactionWrapper::prepare() {
     if (!txn_ || state_ != State::Active) {
       return false;
@@ -1809,6 +2010,10 @@ bool RocksDBWrapper::TransactionWrapper::prepare() {
     }
 }
 
+/**
+ * @brief Set Save Point.
+ * @details Calls: SetSavePoint().
+ */
 void RocksDBWrapper::TransactionWrapper::setSavePoint() {
     if (!txn_ || state_ != State::Active) {
       return;
@@ -1816,6 +2021,11 @@ void RocksDBWrapper::TransactionWrapper::setSavePoint() {
     txn_->SetSavePoint();
 }
 
+/**
+ * @brief Rollback To Save Point.
+ * @return True when the operation succeeds.
+ * @details Calls: RollbackToSavePoint(), IsNotFound(), THEMIS_WARN(), ok(), THEMIS_ERROR(), ToString().
+ */
 bool RocksDBWrapper::TransactionWrapper::rollbackToSavePoint() {
     if (!txn_ || state_ != State::Active) {
       return false;
@@ -1832,6 +2042,11 @@ bool RocksDBWrapper::TransactionWrapper::rollbackToSavePoint() {
     return true;
 }
 
+/**
+ * @brief Pop Save Point.
+ * @return True when the operation succeeds.
+ * @details Calls: PopSavePoint(), IsNotFound(), THEMIS_WARN(), ok(), THEMIS_ERROR(), ToString().
+ */
 bool RocksDBWrapper::TransactionWrapper::popSavePoint() {
     if (!txn_ || state_ != State::Active) {
       return false;
@@ -1848,10 +2063,22 @@ bool RocksDBWrapper::TransactionWrapper::popSavePoint() {
     return true;
 }
 
+/**
+ * @brief Begin Transaction.
+ * @param[in] isolation Input parameter.
+ * @return Return value.
+ * @details Implements beginTransaction without additional internal calls.
+ */
 std::unique_ptr<RocksDBWrapper::TransactionWrapper> RocksDBWrapper::beginTransaction(TransactionIsolationLevel isolation) {
     return std::make_unique<TransactionWrapper>(this, isolation);
 }
 
+/**
+ * @brief Commit Batch.
+ * @param[in,out] batch Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: Write(), ok().
+ */
 bool RocksDBWrapper::commitBatch(rocksdb::WriteBatch* batch) {
     if (!db_) {
       return false;
@@ -1866,6 +2093,12 @@ bool RocksDBWrapper::commitBatch(rocksdb::WriteBatch* batch) {
     return status.ok();
 }
 
+/**
+ * @brief Scan Prefix.
+ * @param[in] prefix Input parameter.
+ * @param[in] callback Input parameter.
+ * @details Calls: guard(), get(), GetBaseDB(), THEMIS_ERROR(), it(), NewIterator(), prefix_slice(), data().
+ */
 void RocksDBWrapper::scanPrefix(std::string_view prefix, ScanCallback callback) {
     // RACE CONDITION FIX #3: Protect iterator lifetime with OperationGuard
     OperationGuard guard(this);
@@ -1925,6 +2158,12 @@ void RocksDBWrapper::scanPrefix(std::string_view prefix, ScanCallback callback) 
     // OperationGuard destructor ensures db_ stays valid until here
 }
 
+/**
+ * @brief Prefix Iterator.
+ * @param[in] prefix Input parameter.
+ * @return Return value.
+ * @details Calls: newSafeIterator(), get(), std::move(), value(), Seek(), std::string(), Ok().
+ */
 Result<RocksDBWrapper::SafeIterator> RocksDBWrapper::prefixIterator(std::string_view prefix) {
     // Create a safe iterator positioned at the prefix start
     auto result = newSafeIterator(read_options_.get());
@@ -1943,6 +2182,13 @@ Result<RocksDBWrapper::SafeIterator> RocksDBWrapper::prefixIterator(std::string_
     return Ok(std::move(iter));
 }
 
+/**
+ * @brief Scan Range.
+ * @param[in] start_key Input parameter.
+ * @param[in] end_key Input parameter.
+ * @param[in] callback Input parameter.
+ * @details Calls: guard(), get(), GetBaseDB(), THEMIS_ERROR(), it(), NewIterator(), start_slice(), data().
+ */
 void RocksDBWrapper::scanRange(std::string_view start_key, std::string_view end_key, ScanCallback callback) {
     // RACE CONDITION FIX #3: Protect iterator lifetime with OperationGuard
     OperationGuard guard(this);
@@ -1988,6 +2234,13 @@ void RocksDBWrapper::scanRange(std::string_view start_key, std::string_view end_
     }
 }
 
+/**
+ * @brief Iterate Range.
+ * @param[in] start_key Input parameter.
+ * @param[in] end_key Input parameter.
+ * @param[in] callback Input parameter.
+ * @details Calls: guard(), get(), GetBaseDB(), THEMIS_ERROR(), it(), NewIterator(), start_slice(), data().
+ */
 void RocksDBWrapper::iterateRange(std::string_view start_key, std::string_view end_key, ScanCallback callback) {
     // Protect iterator lifetime with OperationGuard
     OperationGuard guard(this);
@@ -2019,6 +2272,11 @@ void RocksDBWrapper::iterateRange(std::string_view start_key, std::string_view e
     }
 }
 
+/**
+ * @brief Scan All.
+ * @param[in] callback Input parameter.
+ * @details Calls: guard(), get(), GetBaseDB(), THEMIS_ERROR(), it(), NewIterator(), SeekToFirst(), Valid().
+ */
 void RocksDBWrapper::scanAll(ScanCallback callback) {
     // RACE CONDITION FIX #3: Protect iterator lifetime with OperationGuard
     OperationGuard guard(this);
@@ -2098,6 +2356,11 @@ std::string RocksDBWrapper::getStats() const {
     std::string stats_counters = {};
     std::shared_ptr<rocksdb::Statistics> stats;
     {
+        /**
+         * @brief Options lock.
+         * @param[in] options_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> options_lock(options_mutex_);
         stats = options_->statistics;
     }
@@ -2179,6 +2442,12 @@ std::string RocksDBWrapper::getCompressionType() const {
     return "default=" + default_compression + ", bottommost=" + bottommost;
 }
 
+/**
+ * @brief Compact Range.
+ * @param[in] start_key Input parameter.
+ * @param[in] end_key Input parameter.
+ * @details Calls: start(), data(), size(), end(), CompactRange().
+ */
 void RocksDBWrapper::compactRange(std::string_view start_key, std::string_view end_key) {
     if (!db_) {
       return;
@@ -2191,6 +2460,10 @@ void RocksDBWrapper::compactRange(std::string_view start_key, std::string_view e
     db_->CompactRange(options, &start, &end);
 }
 
+/**
+ * @brief Flush.
+ * @details Calls: Flush().
+ */
 void RocksDBWrapper::flush() {
     if (!db_) {
       return;
@@ -2232,6 +2505,12 @@ uint64_t RocksDBWrapper::getLatestSequenceNumber() const {
     return db_->GetLatestSequenceNumber();
 }
 
+/**
+ * @brief Create Checkpoint.
+ * @param[in] checkpoint_dir Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: THEMIS_ERROR(), cpp(), parent_path(), empty(), std::filesystem::create_directories(), string(), message(), rocksdb::Checkpoint::Create().
+ */
 bool RocksDBWrapper::createCheckpoint(const std::string& checkpoint_dir) {
     if (!db_) {
         THEMIS_ERROR("createCheckpoint failed: DB is not open");
@@ -2269,6 +2548,12 @@ bool RocksDBWrapper::createCheckpoint(const std::string& checkpoint_dir) {
     }
 }
 
+/**
+ * @brief Restore From Checkpoint.
+ * @param[in] checkpoint_dir Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: std::filesystem::exists(), THEMIS_ERROR(), close(), std::filesystem::remove_all(), message(), std::filesystem::create_directories(), std::filesystem::copy(), open().
+ */
 bool RocksDBWrapper::restoreFromCheckpoint(const std::string& checkpoint_dir) {
     try {
         if (!std::filesystem::exists(checkpoint_dir)) {
@@ -2317,6 +2602,12 @@ bool RocksDBWrapper::restoreFromCheckpoint(const std::string& checkpoint_dir) {
     }
 }
 
+/**
+ * @brief Get Or Create Column Family.
+ * @param[in] cf_name Name of the cf.
+ * @return Return value.
+ * @details Calls: lock(), THEMIS_ERROR(), GetName(), THEMIS_DEBUG(), Ok(), CreateColumnFamily(), ok(), ToString().
+ */
 Result<rocksdb::ColumnFamilyHandle*> RocksDBWrapper::getOrCreateColumnFamily(const std::string& cf_name) {
     // RACE CONDITION FIX #1: Protect entire check-create-insert sequence with mutex
     // data_race scanner alert: cf_handles_ and CreateColumnFamily flow are serialized
@@ -2361,6 +2652,11 @@ Result<rocksdb::ColumnFamilyHandle*> RocksDBWrapper::getOrCreateColumnFamily(con
 
 std::vector<RocksDBWrapper::CFInfo> RocksDBWrapper::listColumnFamilies() const {
     std::vector<CFInfo> result;
+    /**
+     * @brief Lock.
+     * @param[in] cf_handles_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(cf_handles_mutex_);
     if (!db_) {
       return result;
@@ -2385,7 +2681,13 @@ std::vector<RocksDBWrapper::CFInfo> RocksDBWrapper::listColumnFamilies() const {
     return result;
 }
 
-// ===== v1.1.0: Advanced RocksDB Features =====
+/**
+ * @brief ===== v1.
+ * @param[in] backup_dir Input parameter.
+ * @param[in] flush_before_backup Input parameter.
+ * @return True when the operation succeeds.
+ * @details 1.0: Advanced RocksDB Features ===== Calls: THEMIS_HAS_ROCKSDB_BACKUP(), THEMIS_WARN(), THEMIS_ERROR(), GetBaseDB(), backup_opts(), rocksdb::BackupEngine::Open(), rocksdb::Env::Default(), ok().
+ */
 
 bool RocksDBWrapper::createIncrementalBackup(const std::string& backup_dir, bool flush_before_backup) {
 #if !THEMIS_HAS_ROCKSDB_BACKUP
@@ -2441,6 +2743,12 @@ bool RocksDBWrapper::createIncrementalBackup(const std::string& backup_dir, bool
 #endif
 }
 
+/**
+ * @brief Restore From Backup.
+ * @param[in] backup_dir Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: THEMIS_HAS_ROCKSDB_BACKUP(), THEMIS_WARN(), backup_opts(), rocksdb::BackupEngine::Open(), rocksdb::Env::Default(), ok(), THEMIS_ERROR(), ToString().
+ */
 bool RocksDBWrapper::restoreFromBackup(const std::string& backup_dir) {
 #if !THEMIS_HAS_ROCKSDB_BACKUP
     (void)backup_dir;
@@ -2498,8 +2806,11 @@ uint32_t RocksDBWrapper::getBackupCount(const std::string& backup_dir) const {
     return 0;
 #else
     try {
-        // no_timeout scanner alert: BackupEngine::Open/GetBackupInfo are single
-        // metadata probes delegated to RocksDB; this wrapper adds no retry loops.
+        /**
+         * @brief no_timeout scanner alert: BackupEngine::Open/GetBackupInfo are single metadata probes delegated to RocksDB; this wrapper adds no retry loops.
+         * @param[in] backup_dir Input parameter.
+         * @return Return value.
+         */
         rocksdb::BackupEngineOptions backup_opts(backup_dir);
         rocksdb::BackupEngine* backup_engine_ptr = nullptr;
         rocksdb::Status s = rocksdb::BackupEngine::Open(
@@ -2512,6 +2823,11 @@ uint32_t RocksDBWrapper::getBackupCount(const std::string& backup_dir) const {
             return 0;
         }
         
+        /**
+         * @brief Backup engine.
+         * @param[in] backup_engine_ptr Input parameter.
+         * @return Return value.
+         */
         std::unique_ptr<rocksdb::BackupEngine> backup_engine(backup_engine_ptr);
         std::vector<rocksdb::BackupInfo> backup_info;
         backup_engine->GetBackupInfo(&backup_info);
@@ -2532,6 +2848,11 @@ std::string RocksDBWrapper::exportStatisticsJSON() const {
 
     std::shared_ptr<rocksdb::Statistics> stats;
     {
+        /**
+         * @brief Options lock.
+         * @param[in] options_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> options_lock(options_mutex_);
         stats = options_->statistics;
     }
@@ -2573,6 +2894,11 @@ uint64_t RocksDBWrapper::getStatistic(const std::string& ticker_name) const {
 
     std::shared_ptr<rocksdb::Statistics> stats;
     {
+        /**
+         * @brief Options lock.
+         * @param[in] options_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> options_lock(options_mutex_);
         stats = options_->statistics;
     }
@@ -2797,6 +3123,12 @@ std::vector<std::pair<std::string, std::vector<uint8_t>>> RocksDBWrapper::revers
     return results;
 }
 
+/**
+ * @brief Multi Get With Async IO.
+ * @param[in] keys Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), THEMIS_ERROR(), GetBaseDB(), emplace_back(), MultiGet(), ok(), begin().
+ */
 std::vector<std::optional<std::vector<uint8_t>>> RocksDBWrapper::multiGetWithAsyncIO(
     const std::vector<std::string>& keys) {
     
@@ -2853,6 +3185,11 @@ std::vector<std::optional<std::vector<uint8_t>>> RocksDBWrapper::multiGetWithAsy
     return results;
 }
 
+/**
+ * @brief New Async Iterator.
+ * @return Return value.
+ * @details Calls: GetBaseDB(), NewIterator(), Ok(), std::move().
+ */
 Result<std::unique_ptr<rocksdb::Iterator>> RocksDBWrapper::newAsyncIterator() {
     if (!db_) {
         return Err<std::unique_ptr<rocksdb::Iterator>>(
@@ -2889,6 +3226,11 @@ Result<std::unique_ptr<rocksdb::Iterator>> RocksDBWrapper::newAsyncIterator() {
     return Ok(std::move(it));
 }
 
+/**
+ * @brief New Iterator.
+ * @return Return value.
+ * @details Calls: GetBaseDB(), NewIterator(), Ok(), std::move().
+ */
 Result<std::unique_ptr<rocksdb::Iterator>> RocksDBWrapper::newIterator() {
     if (!db_) {
         return Err<std::unique_ptr<rocksdb::Iterator>>(
@@ -2917,7 +3259,12 @@ Result<std::unique_ptr<rocksdb::Iterator>> RocksDBWrapper::newIterator() {
     return Ok(std::move(it));
 }
 
-// SafeIterator implementation - SOLUTION 1B for iterator lifecycle safety
+/**
+ * @brief SafeIterator implementation - SOLUTION 1B for iterator lifecycle safety
+ * @param[in] read_options Input parameter.
+ * @return Return value.
+ * @details Calls: get(), GetBaseDB(), NewIterator(), Ok(), SafeIterator(), std::move().
+ */
 Result<RocksDBWrapper::SafeIterator> RocksDBWrapper::newSafeIterator(const rocksdb::ReadOptions* read_options) {
     // Create operation guard first to extend database lifetime
     auto guard = std::make_unique<OperationGuard>(this);
@@ -2954,30 +3301,51 @@ Result<RocksDBWrapper::SafeIterator> RocksDBWrapper::newSafeIterator(const rocks
 }
 
 // SafeIterator method implementations
+/**
+ * @brief Seek.
+ * @param[in] target Input parameter.
+ * @details Implements Seek without additional internal calls.
+ */
 void RocksDBWrapper::SafeIterator::Seek(const std::string& target) {
     if (iterator_) {
       iterator_->Seek(target);
     }
 }
 
+/**
+ * @brief Seek To First.
+ * @details Implements SeekToFirst without additional internal calls.
+ */
 void RocksDBWrapper::SafeIterator::SeekToFirst() {
     if (iterator_) {
       iterator_->SeekToFirst();
     }
 }
 
+/**
+ * @brief Seek To Last.
+ * @details Implements SeekToLast without additional internal calls.
+ */
 void RocksDBWrapper::SafeIterator::SeekToLast() {
     if (iterator_) {
       iterator_->SeekToLast();
     }
 }
 
+/**
+ * @brief Next.
+ * @details Implements Next without additional internal calls.
+ */
 void RocksDBWrapper::SafeIterator::Next() {
     if (iterator_) {
       iterator_->Next();
     }
 }
 
+/**
+ * @brief Prev.
+ * @details Implements Prev without additional internal calls.
+ */
 void RocksDBWrapper::SafeIterator::Prev() {
     if (iterator_) {
       iterator_->Prev();

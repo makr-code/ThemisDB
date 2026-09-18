@@ -25,10 +25,20 @@ TokenBlacklist::TokenBlacklist(const Config &config)
 // ITokenBlacklist interface implementation
 // ============================================================================
 
+/**
+ * @brief Add.
+ * @param[in] jti Input parameter.
+ * @param[in] expiry Input parameter.
+ * @details Calls: revoke().
+ */
 void TokenBlacklist::add(const std::string &jti, std::chrono::system_clock::time_point expiry) {
     revoke(jti, expiry);
 }
 
+/**
+ * @brief Purge Expired.
+ * @details Calls: pruneExpired().
+ */
 void TokenBlacklist::purgeExpired() {
     pruneExpired();
 }
@@ -37,6 +47,12 @@ void TokenBlacklist::purgeExpired() {
 // Core implementation
 // ============================================================================
 
+/**
+ * @brief Revoke.
+ * @param[in] jti Input parameter.
+ * @param[in] expires_at Input parameter.
+ * @details Calls: empty(), THEMIS_WARN(), lock(), needsCleanup(), pruneExpiredLocked(), size(), begin(), end().
+ */
 void TokenBlacklist::revoke(const std::string &jti, std::chrono::system_clock::time_point expires_at) {
     if (jti.empty()) {
         THEMIS_WARN("TokenBlacklist::revoke called with empty JTI – ignored");
@@ -95,6 +111,11 @@ bool TokenBlacklist::isRevoked(const std::string &jti) const {
         return false;
     }
 
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     stats_.total_checks++;
 
@@ -120,6 +141,12 @@ bool TokenBlacklist::isRevoked(const std::string &jti) const {
     return true;
 }
 
+/**
+ * @brief Unrevoke.
+ * @param[in] jti Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), find(), end(), erase(), THEMIS_INFO().
+ */
 bool TokenBlacklist::unrevoke(const std::string &jti) {
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = blacklist_.find(jti);
@@ -134,11 +161,19 @@ bool TokenBlacklist::unrevoke(const std::string &jti) {
     return true;
 }
 
+/**
+ * @brief Prune Expired.
+ * @details Calls: lock(), pruneExpiredLocked().
+ */
 void TokenBlacklist::pruneExpired() {
     std::lock_guard<std::mutex> lock(mutex_);
     pruneExpiredLocked();
 }
 
+/**
+ * @brief Clear.
+ * @details Calls: lock(), reset(), THEMIS_INFO().
+ */
 void TokenBlacklist::clear() {
     std::lock_guard<std::mutex> lock(mutex_);
     blacklist_.clear();
@@ -147,11 +182,21 @@ void TokenBlacklist::clear() {
 }
 
 size_t TokenBlacklist::size() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return blacklist_.size();
 }
 
 TokenBlacklist::Statistics TokenBlacklist::getStatistics() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     Statistics s   = stats_;
     s.current_size = blacklist_.size();
@@ -164,6 +209,10 @@ bool TokenBlacklist::needsCleanup() const {
     return static_cast<uint32_t>(elapsed) >= config_.cleanup_interval_seconds;
 }
 
+/**
+ * @brief Prune Expired Locked.
+ * @details Calls: std::chrono::system_clock::now(), reset(), begin(), end(), erase(), add(), std::chrono::steady_clock::now().
+ */
 void TokenBlacklist::pruneExpiredLocked() {
     auto now = std::chrono::system_clock::now();
 
@@ -184,11 +233,20 @@ void TokenBlacklist::pruneExpiredLocked() {
     last_cleanup_ = std::chrono::steady_clock::now();
 }
 
+/**
+ * @brief Set On Revoke Callback.
+ * @param[in] cb Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void TokenBlacklist::setOnRevokeCallback(RevocationCallback cb) {
     std::lock_guard<std::mutex> lock(mutex_);
     on_revoke_callback_ = std::move(cb);
 }
 
+/**
+ * @brief Clear On Revoke Callback.
+ * @details Calls: lock().
+ */
 void TokenBlacklist::clearOnRevokeCallback() {
     std::lock_guard<std::mutex> lock(mutex_);
     on_revoke_callback_ = RevocationCallback{};

@@ -46,11 +46,6 @@ void ThreadPool::workerLoop() {
         std::shared_ptr<Task> task;
         
         {
-            /**
-             * @brief Lock.
-             * @param[in] mutex_ Input parameter.
-             * @return Return value.
-             */
             std::unique_lock<std::shared_mutex> lock(mutex_);
             
             // Wait for task
@@ -87,11 +82,6 @@ void ThreadPool::workerLoop() {
                 std::chrono::steady_clock::now() - exec_start
             ).count();
             {
-                /**
-                 * @brief Lk.
-                 * @param[in] mutex_ Input parameter.
-                 * @return Return value.
-                 */
                 std::unique_lock<std::shared_mutex> lk(mutex_);
                 latency_sum_ms_ += latency_ms;
                 ++latency_count_;
@@ -105,7 +95,7 @@ void ThreadPool::workerLoop() {
  * @brief Submit.
  * @param[in] task Input parameter.
  * @param[in] timeout Input parameter.
- * @return True on success.
+ * @return True when the operation succeeds.
  * @details Calls: themis::utils::makeErrorContext(), themis::utils::logErrorWithContext(), lock(), wait_for(), size(), std::to_string(), getName(), push().
  */
 bool ThreadPool::submit(std::shared_ptr<Task> task, std::chrono::milliseconds timeout) {
@@ -120,11 +110,6 @@ bool ThreadPool::submit(std::shared_ptr<Task> task, std::chrono::milliseconds ti
         return false;
     }
     
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::unique_lock<std::shared_mutex> lock(mutex_);
     
     // Wait for space in queue with timeout
@@ -155,7 +140,7 @@ bool ThreadPool::submit(std::shared_ptr<Task> task, std::chrono::milliseconds ti
 /**
  * @brief Wait All.
  * @param[in] timeout Input parameter.
- * @return True on success.
+ * @return True when the operation succeeds.
  * @details Calls: std::chrono::steady_clock::now(), lock(), empty(), std::this_thread::sleep_for(), std::chrono::milliseconds().
  */
 bool ThreadPool::waitAll(std::chrono::milliseconds timeout) {
@@ -163,11 +148,6 @@ bool ThreadPool::waitAll(std::chrono::milliseconds timeout) {
     
     while (true) {
         {
-            /**
-             * @brief Lock.
-             * @param[in] mutex_ Input parameter.
-             * @return Return value.
-             */
             std::shared_lock<std::shared_mutex> lock(mutex_);
             if (task_queue_.empty() && active_threads_ == 0) {
                 return true;
@@ -296,7 +276,7 @@ ThreadPoolManager::~ThreadPoolManager() {
  * @param[in] pool Input parameter.
  * @param[in] task Input parameter.
  * @param[in] timeout Input parameter.
- * @return True on success.
+ * @return True when the operation succeeds.
  * @details Calls: spdlog::error().
  */
 bool ThreadPoolManager::submit(
@@ -413,7 +393,7 @@ void ThreadPoolManager::metricsLoop() {
 }
 
 /**
- * @brief Global singleton
+ * @brief Get Thread Pool Manager.
  * @return Return value.
  * @details Implements getThreadPoolManager without additional internal calls.
  */

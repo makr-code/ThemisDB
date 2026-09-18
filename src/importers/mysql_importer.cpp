@@ -41,19 +41,6 @@ namespace importers {
 // ============================================================================
 namespace {
 
-/**
- * @brief Emit a structured JSON audit event via the THEMIS logger at WARN
- *        level so it is always captured in production log streams.
- *
- * The event payload is a single-line JSON object prefixed with "[AUDIT]":
- * @code
- *   [AUDIT] {"event":"import_start","source":"/data/dump.sql","ts_ms":...}
- * @endcode
- *
- * @param event_type  Short identifier, e.g. "import_start", "import_failure",
- *                    "auth_failure", "schema_change_detection", "importer_timeout"
- * @param fields      Key→value string pairs appended to the payload.
- */
 static void mysqlAuditLogEvent(
     const std::string& event_type,
     std::initializer_list<std::pair<const char*, std::string>> fields)
@@ -77,28 +64,20 @@ static void mysqlAuditLogEvent(
 // ============================================================================
 namespace {
 
-/// Connection pool state tracker for Phase 2 hardening
 struct ConnectionPoolState {
-    /// Current number of active connections (bounded by max_active_connections)
     std::atomic<size_t> active_connections{0};
     
-    /// Maximum concurrent connections allowed (MySQL default: 16)
     static constexpr size_t max_active_connections = 16;
     
-    /// Connection timeout in milliseconds (0 = no timeout)
     uint32_t connection_timeout_ms = 0;
     
-    /// Last connection error code for diagnostics
     std::atomic<ImportErrorCode> last_error{ImportErrorCode::SUCCESS};
     
-    /// Schema cache validity flag (invalidated on connection loss)
     std::atomic<bool> schema_cache_valid{true};
 };
 
-/// Global connection pool state (one per process; safe due to atomic operations)
 static thread_local ConnectionPoolState g_mysql_connection_pool;
 
-/// Maps MySQL-specific error patterns to ImporterErrorCode
 [[maybe_unused]] static ImportErrorCode mapMySQLErrorToCode(const std::string& error_msg) {
     // PHASE-2-HARDENING: Standardized error reporting
     const auto msg_lower = [](std::string s) {
@@ -147,10 +126,13 @@ static thread_local ConnectionPoolState g_mysql_connection_pool;
     return ImportErrorCode::UNKNOWN;
 }
 
-/// PHASE-2-HARDENING: Simple fallback parser for INSERT statements when regex fails
-/// This implements the prepared statement fallback mechanism for MySQL importer.
-/// When the main regex-based parser fails to parse an INSERT statement,
-/// this simple parser attempts to extract at least the table name for logging.
+/**
+ * @brief Simple Insert Fallback.
+ * @param[in] sql Input parameter.
+ * @param[in,out] out_table_name Name of the out table.
+ * @return True when the operation succeeds.
+ * @details Calls: std::toupper(), sql_upper(), find(), size(), substr().
+ */
 static bool simpleInsertFallback(const std::string& sql, std::string& out_table_name) {
     // Very simple fallback: find "INSERT ... INTO" and extract table name
     const auto sql_upper = [](std::string s) {
@@ -208,6 +190,12 @@ std::vector<std::string> MySQLImporter::getSupportedTypes() const {
     return {"mysql", "mariadb", "mysqldump"};
 }
 
+/**
+ * @brief Initialize.
+ * @param[in] config Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: clear(), empty(), THEMIS_INFO(), json::parse(), contains(), is_string(), parseJdbcUrl(), THEMIS_WARN().
+ */
 bool MySQLImporter::initialize(const std::string& config) {
     cancelled_ = false;
     schemas_.clear();
@@ -275,6 +263,13 @@ bool MySQLImporter::initialize(const std::string& config) {
     return true;
 }
 
+/**
+ * @brief Validate Source.
+ * @param[in] source_path Path to the source.
+ * @param[in,out] errors Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: file(), push_back(), std::getline(), find(), THEMIS_INFO().
+ */
 bool MySQLImporter::validateSource(const std::string& source_path,
                                    std::vector<std::string>& errors) {
     std::ifstream file(source_path);
@@ -307,6 +302,14 @@ bool MySQLImporter::validateSource(const std::string& source_path,
     return true;
 }
 
+/**
+ * @brief Import Data.
+ * @param[in] source_path Path to the source.
+ * @param[in] options Input parameter.
+ * @param[in] progress_callback Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::steady_clock::now(), THEMIS_INFO(), toJson(), dump(), mysqlAuditLogEvent(), std::to_string(), permission_check(), addError().
+ */
 ImportStats MySQLImporter::importData(
     const std::string& source_path,
     const ImportOptions& options,
@@ -413,6 +416,13 @@ ImportStats MySQLImporter::importData(
     return stats;
 }
 
+/**
+ * @brief Import Data Async.
+ * @param[in] source_path Path to the source.
+ * @param[in] options Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), std::to_string(), get(), store(), setStage(), get_future().
+ */
 std::shared_ptr<ImportHandle> MySQLImporter::importDataAsync(
     const std::string& source_path,
     const ImportOptions& options
@@ -472,11 +482,21 @@ std::shared_ptr<ImportHandle> MySQLImporter::importDataAsync(
     return handle;
 }
 
+/**
+ * @brief Cancel.
+ * @details Calls: THEMIS_INFO().
+ */
 void MySQLImporter::cancel() {
     cancelled_ = true;
     THEMIS_INFO("MySQL/MariaDB import cancelled");
 }
 
+/**
+ * @brief Get Source Schema.
+ * @param[in] source_path Path to the source.
+ * @return Return value.
+ * @details Calls: clear(), file(), json::array(), std::getline(), empty(), size(), find(), stripMySQLComments().
+ */
 json MySQLImporter::getSourceSchema(const std::string& source_path) {
     schemas_.clear();
 
@@ -531,6 +551,15 @@ json MySQLImporter::getSourceSchema(const std::string& source_path) {
 // Private Methods
 // ============================================================================
 
+/**
+ * @brief Parse Dump File.
+ * @param[in] file_path Path to the file.
+ * @param[in] options Input parameter.
+ * @param[in,out] stats Input/output parameter.
+ * @param[in,out] callback Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: file(), addError(), mysqlAuditLogEvent(), std::to_string(), load(), PoolGuard(), streamReadLine(), find().
+ */
 bool MySQLImporter::parseDumpFile(const std::string& file_path, const ImportOptions& options,
                                    ImportStats& stats, ProgressCallback& callback) {
     std::ifstream file(file_path);
@@ -776,6 +805,13 @@ bool MySQLImporter::parseDumpFile(const std::string& file_path, const ImportOpti
     return !cancelled_;
 }
 
+/**
+ * @brief Parse Create Table.
+ * @param[in] sql Input parameter.
+ * @param[in,out] schema Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: table_regex(), std::regex_search(), str(), empty(), find(), position(), size(), substr().
+ */
 bool MySQLImporter::parseCreateTable(const std::string& sql, TableSchema& schema) {
     // Match: CREATE [TEMPORARY] TABLE [`]table_name[`] (
     // Handles optional schema qualifier: `db`.`table`
@@ -964,6 +1000,16 @@ bool MySQLImporter::parseCreateTable(const std::string& sql, TableSchema& schema
     return !schema.name.empty();
 }
 
+/**
+ * @brief Parse Insert.
+ * @param[in] sql Input parameter.
+ * @param[in] options Input parameter.
+ * @param[in,out] stats Input/output parameter.
+ * @param[in] line_number Input parameter.
+ * @param[in,out] delta_hashes Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: insert_regex(), std::regex_search(), simpleInsertFallback(), mysqlAuditLogEvent(), std::to_string(), addError(), str(), shouldImportTable().
+ */
 bool MySQLImporter::parseInsert(const std::string& sql, const ImportOptions& options,
                                  ImportStats& stats, size_t line_number,
                                  std::unordered_set<uint64_t>& delta_hashes) {
@@ -1149,6 +1195,11 @@ std::string MySQLImporter::mapMySQLTypeToThemis(const std::string& mysql_type,
 
     // 2. Config-level overrides (from initialize())
     {
+        /**
+         * @brief Lock.
+         * @param[in] config_type_overrides_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(config_type_overrides_mutex_);
         auto ci = config_type_overrides_.find(mysql_type);
         if (ci != config_type_overrides_.end()) {
@@ -1332,6 +1383,13 @@ bool MySQLImporter::shouldImportTable(const std::string& table_name,
     return true;
 }
 
+/**
+ * @brief Convert Row To Entity.
+ * @param[in] schema Input parameter.
+ * @param[in] values Input parameter.
+ * @return Return value.
+ * @details Calls: size().
+ */
 json MySQLImporter::convertRowToEntity(const TableSchema& schema,
                                         const std::vector<std::string>& values) {
     json entity;
@@ -1468,17 +1526,11 @@ std::vector<std::string> MySQLImporter::parseInsertValues(
 // ============================================================================
 
 /**
- * @brief Parse a JDBC-style MySQL/MariaDB connection URL.
- *
- * Accepted formats:
- *   jdbc:mysql://host:port/database?param1=val1&param2=val2
- *   jdbc:mariadb://host:port/database?param1=val1&param2=val2
- *   jdbc:mysql://host/database
- *   jdbc:mysql://host:3306/
- *
- * Recognised query parameters:
- *   tinyInt1isBit=true/false  -> jdbc_config_.tinyint1_as_boolean
- *   useSSL=true/false         -> jdbc_config_.ssl
+ * @brief Parse Jdbc Url.
+ * @param[in] url Input parameter.
+ * @param[in,out] out Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: size(), substr(), find(), empty(), std::stoi(), THEMIS_WARN(), qs(), std::getline().
  */
 bool MySQLImporter::parseJdbcUrl(const std::string& url, JdbcConfig& out) {
     // Validate prefix
@@ -1560,6 +1612,12 @@ bool MySQLImporter::parseJdbcUrl(const std::string& url, JdbcConfig& out) {
     return !out.host.empty();
 }
 
+/**
+ * @brief Unquote Identifier.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Calls: find_first_not_of(), find_last_not_of(), substr(), size(), front(), back().
+ */
 std::string MySQLImporter::unquoteIdentifier(const std::string& s) {
     std::string t = s;
     // Trim surrounding whitespace
@@ -1580,6 +1638,12 @@ std::string MySQLImporter::unquoteIdentifier(const std::string& s) {
     return t;
 }
 
+/**
+ * @brief Strip My SQLComments.
+ * @param[in] sql Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size().
+ */
 std::string MySQLImporter::stripMySQLComments(const std::string& sql) {
     // Remove MySQL conditional comments: /*! ... */ and /*!NNNNN ... */
     // and regular block comments /* ... */
@@ -1649,6 +1713,14 @@ void MySQLImporter::emitSpan(const ImportOptions& options,
     }
 }
 
+/**
+ * @brief Report Progress.
+ * @param[in,out] callback Input/output parameter.
+ * @param[in] stage Input parameter.
+ * @param[in] current Input parameter.
+ * @param[in] total Input parameter.
+ * @details Calls: callback().
+ */
 void MySQLImporter::reportProgress(ProgressCallback& callback, const std::string& stage,
                                     size_t current, size_t total) {
     if (callback) {
@@ -1656,16 +1728,26 @@ void MySQLImporter::reportProgress(ProgressCallback& callback, const std::string
     }
 }
 
-// ============================================================================
-// Delta / incremental import helpers
-// ============================================================================
-//
-// FNV-1a 64-bit hash – matches the implementation in postgres_importer.cpp so
-// that hash files written by one importer can be read by the other.
+/**
+ * @brief ============================================================================ Delta / incremental import helpers ============================================================================ FNV-1a 64-bit hash – matches the implementation in postgres_importer.
+ * @param[in] data Input parameter.
+ * @param[in] len Input parameter.
+ * @return Return value.
+ * @details cpp so that hash files written by one importer can be read by the other. Calls: themis::hash::fnv1a64().
+ */
 static uint64_t mysql_fnv1a64(const char* data, size_t len) {
     return themis::hash::fnv1a64(data, len);
 }
 
+/**
+ * @brief Compute Row Hash.
+ * @param[in] tuple_str Input parameter.
+ * @param[in] values Input parameter.
+ * @param[in] key_columns Input parameter.
+ * @param[in] schema_columns Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), mysql_fnv1a64(), data(), size(), reserve(), emplace(), find(), end().
+ */
 uint64_t MySQLImporter::computeRowHash(const std::string& tuple_str,
                                         const std::vector<std::string>& values,
                                         const std::vector<std::string>& key_columns,
@@ -1698,6 +1780,12 @@ uint64_t MySQLImporter::computeRowHash(const std::string& tuple_str,
     return mysql_fnv1a64(key_data.data(),key_data.size());
 }
 
+/**
+ * @brief Load Delta Hashes.
+ * @param[in] delta_hash_file Input parameter.
+ * @return Return value.
+ * @details Calls: f(), std::getline(), empty(), insert(), std::stoull().
+ */
 std::unordered_set<uint64_t> MySQLImporter::loadDeltaHashes(const std::string& delta_hash_file) {
     std::unordered_set<uint64_t> hashes;
     std::ifstream f(delta_hash_file);
@@ -1716,6 +1804,12 @@ std::unordered_set<uint64_t> MySQLImporter::loadDeltaHashes(const std::string& d
     return hashes;
 }
 
+/**
+ * @brief Save Delta Hashes.
+ * @param[in] delta_hash_file Input parameter.
+ * @param[in] hashes Input parameter.
+ * @details Calls: f(), std::snprintf().
+ */
 void MySQLImporter::saveDeltaHashes(const std::string& delta_hash_file,
                                      const std::unordered_set<uint64_t>& hashes) {
     std::ofstream f(delta_hash_file, std::ios::trunc);
@@ -1745,6 +1839,12 @@ plugins::PluginCapabilities MySQLImporterPlugin::getCapabilities() const {
     return caps;
 }
 
+/**
+ * @brief Initialize.
+ * @param[in] config_json Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements initialize without additional internal calls.
+ */
 bool MySQLImporterPlugin::initialize(const char* config_json) {
     if (!importer_) {
       return false;
@@ -1752,6 +1852,10 @@ bool MySQLImporterPlugin::initialize(const char* config_json) {
     return importer_->initialize(config_json ? config_json : "{}");
 }
 
+/**
+ * @brief Shutdown.
+ * @details Calls: cancel().
+ */
 void MySQLImporterPlugin::shutdown() {
     if (importer_) {
       importer_->cancel();
@@ -1766,10 +1870,20 @@ void MySQLImporterPlugin::shutdown() {
 // ============================================================================
 
 extern "C" {
+    /**
+     * @brief Create My SQLPlugin.
+     * @return Pointer to the result.
+     * @details Calls: themis::importers::MySQLImporterPlugin().
+     */
     themis::plugins::IThemisPlugin* createMySQLPlugin() {
         return new themis::importers::MySQLImporterPlugin();
     }
 
+    /**
+     * @brief Destroy My SQLPlugin.
+     * @param[in,out] plugin Input/output parameter.
+     * @details Implements destroyMySQLPlugin without additional internal calls.
+     */
     void destroyMySQLPlugin(themis::plugins::IThemisPlugin* plugin) {
         delete plugin;
     }

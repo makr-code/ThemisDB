@@ -42,45 +42,28 @@ namespace llamacpp {
 // ============================================================================
 
 namespace {
-    /// Maximum supported context length (enforce hard limit)
     constexpr size_t MAX_CONTEXT_LENGTH = 131072;  // 128K tokens max
     
-    /// Minimum supported context length
     constexpr size_t MIN_CONTEXT_LENGTH = 128;     // 128 tokens min
     
-    /// Model loading timeout (seconds)
     constexpr int MODEL_LOAD_TIMEOUT_SECONDS = 30;
     
-    /// Maximum inference time without progress (seconds)
     constexpr int INFERENCE_TIMEOUT_SECONDS = 300;  // 5 minutes max
     
-    /// Memory allocation limit for GPU (GB) - typical gaming GPU
     constexpr size_t GPU_MEMORY_LIMIT_GB = 8;
     
-    /// CUDA device check interval (ms) - cooldown for repeated checks
     constexpr int CUDA_CHECK_COOLDOWN_MS = 1000;
     
-    /// Last CUDA check timestamp (thread-local cache)
     thread_local auto last_cuda_check = std::chrono::steady_clock::now();
     thread_local bool cuda_available_cached = false;
 }
 
-// ============================================================================
-// SECTION 2: CUDA Capability Detection with Caching
-// ============================================================================
-
 /**
- * @brief Detect CUDA availability (cached, fail-safe)
- * @return true if CUDA device is available
- * 
- * DETECTION STRATEGY:
- * - Check CUDA environment variable (THEMIS_CUDA_DISABLED)
- * - Query CUDA runtime for device availability
- * - Cache result with cooldown (reduce syscall overhead)
- * - Fall back to CPU-only if CUDA unavailable
- * 
- * THREAD-SAFE: Thread-local cache (read-mostly path)
+ * @brief ============================================================================ SECTION 2: CUDA Capability Detection with Caching ============================================================================
+ * @return True when the operation succeeds.
+ * @details Calls: std::getenv(), std::string(), THEMIS_INFO(), std::chrono::steady_clock::now(), count(), THEMIS_DEBUG(), THEMIS_WARN().
  */
+
 bool detectCudaAvailable() {
     // Check environment override
     if (const char* disabled = std::getenv("THEMIS_CUDA_DISABLED")) {
@@ -125,24 +108,14 @@ bool detectCudaAvailable() {
     return cuda_ok;
 }
 
-// ============================================================================
-// SECTION 3: Token Limit Validation
-// ============================================================================
-
 /**
- * @brief Validate token limits for generation request (fail-closed)
- * @param request Inference request with token/generation parameters
- * @param context_length Model's context window (tokens)
- * @param error_msg Output parameter for error details
- * @return true if all token limits are within valid ranges
- * 
- * VALIDATION RULES:
- * 1. max_tokens + prompt_length < context_length
- * 2. max_tokens >= 1 (must generate at least one token)
- * 3. prompt_length > 0 (must have input)
- * 4. temperature in [0.0, 2.0]
- * 5. top_p in [0.0, 1.0]
+ * @brief ============================================================================ SECTION 3: Token Limit Validation ============================================================================
+ * @param[in] request Input parameter.
+ * @param[in] context_length Input parameter.
+ * @param[in,out] error_msg Input/output parameter.
+ * @return True when the operation succeeds.
  */
+
 bool validateTokenLimits(
     const themis::llm::InferenceRequest& request,
     size_t context_length,
@@ -193,25 +166,14 @@ bool validateTokenLimits(
     return true;
 }
 
-// ============================================================================
-// SECTION 4: Fail-Closed Model Initialization
-// ============================================================================
-
 /**
- * @brief Validation gate for model initialization (fail-closed pattern)
- * @param model_path Path to GGUF model file
- * @param config JSON configuration
- * @param error_msg Output parameter for initialization errors
- * @return true if initialization succeeded, false if deferred to stub mode
- * 
- * FAIL-CLOSED BEHAVIOR:
- * - If model_path is empty → return true (stub mode OK)
- * - If model_path provided but file not found → CRITICAL error, return false
- * - If model_path provided but load fails → CRITICAL error, return false
- * - Only enter stub mode when model_path is explicitly empty
- * 
- * This prevents silent fallback when user expects a model to be loaded.
+ * @brief ============================================================================ SECTION 4: Fail-Closed Model Initialization ============================================================================
+ * @param[in] model_path Path to the model.
+ * @param[in] config Input parameter.
+ * @param[in,out] error_msg Input/output parameter.
+ * @return True when the operation succeeds.
  */
+
 bool validateModelInitialization(
     const std::string& model_path,
     const nlohmann::json& config,
@@ -251,6 +213,12 @@ bool validateModelInitialization(
     
     // Validate GGUF magic bytes
     try {
+        /**
+         * @brief File.
+         * @param[in] model_path Path to the model.
+         * @param[in] binary Input parameter.
+         * @return Return value.
+         */
         std::ifstream file(model_path, std::ios::binary);
         if (!file) {
             error_msg = "Cannot open model file for reading: " + model_path;
@@ -279,26 +247,14 @@ bool validateModelInitialization(
     return true;
 }
 
-// ============================================================================
-// SECTION 5: Memory Allocation Validation
-// ============================================================================
-
 /**
- * @brief Validate memory allocation before model loading
- * @param model_size Expected model size in bytes
- * @param gpu_layers Number of GPU layers to allocate
- * @param error_msg Output parameter for allocation errors
- * @return true if sufficient memory is available
- * 
- * CHECKS:
- * - GPU memory availability (if CUDA enabled)
- * - System RAM availability
- * - Memory pressure (don't allocate if system is swapping)
- * 
- * FAIL-CLOSED:
- * - If memory insufficient → return false
- * - Falls back to CPU mode (fewer GPU layers)
+ * @brief ============================================================================ SECTION 5: Memory Allocation Validation ============================================================================
+ * @param[in] model_size Input parameter.
+ * @param[in] gpu_layers Input parameter.
+ * @param[in,out] error_msg Input/output parameter.
+ * @return True when the operation succeeds.
  */
+
 bool validateMemoryAllocation(
     size_t model_size,
     int gpu_layers,
@@ -342,12 +298,6 @@ bool validateMemoryAllocation(
 // SECTION 6: Resource Guard (RAII Pattern)
 // ============================================================================
 
-/**
- * @brief RAII guard for model loading with timeout
- * 
- * Ensures clean state on scope exit (exception-safe)
- * Tracks loading progress and reports metrics
- */
 class ModelLoadingGuard {
 public:
     ModelLoadingGuard(const std::string& model_id, int timeout_seconds)
@@ -391,22 +341,14 @@ private:
 // SECTION 7: LLMPluginManager Validator Injection Interface
 // ============================================================================
 
-/**
- * @brief Plugin validator function signature
- * 
- * Used by LLMPluginManager to validate plugins before registration
- * 
- * @param model_path Path to model file
- * @param config JSON configuration
- * @return true if plugin passes validation gates
- */
 using LlamaPluginValidator = std::function<bool(
     const std::string& model_path,
     const nlohmann::json& config)>;
 
 /**
- * @brief Get default validator for llama_cpp plugin
- * @return Validator function with all gates enabled
+ * @brief Get Llama Plugin Validator.
+ * @return Return value.
+ * @details Calls: validateModelInitialization(), THEMIS_ERROR(), contains(), is_number(), validateMemoryAllocation(), detectCudaAvailable(), THEMIS_WARN(), THEMIS_INFO().
  */
 LlamaPluginValidator getLlamaPluginValidator() {
     return [](const std::string& model_path, const nlohmann::json& config) -> bool {
@@ -456,8 +398,9 @@ LlamaPluginValidator getLlamaPluginValidator() {
 
 extern "C" {
     /**
-     * @brief Export validator for plugin manager registration
-     * @return Opaque pointer to validator function
+     * @brief Get Llama Cpp Plugin Validator.
+     * @return Pointer to the result.
+     * @details Calls: themis::llamacpp::getLlamaPluginValidator().
      */
     const void* GetLlamaCppPluginValidator() {
         static auto validator = themis::llamacpp::getLlamaPluginValidator();
@@ -465,8 +408,9 @@ extern "C" {
     }
     
     /**
-     * @brief Check if llama_cpp plugin validation gates are enabled
-     * @return 1 if all gates enabled, 0 otherwise
+     * @brief Llama Cpp Plugin Validation Enabled.
+     * @return Return value.
+     * @details Implements LlamaCppPluginValidationEnabled without additional internal calls.
      */
     int LlamaCppPluginValidationEnabled() {
         return 1;  // Production: all gates enabled

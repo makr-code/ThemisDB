@@ -176,7 +176,7 @@ std::optional<nlohmann::json> QueryCacheManager::get(
  * @param[in] result Input parameter.
  * @param[in] characteristics Input parameter.
  * @param[in] dependencies Input parameter.
- * @return True on success.
+ * @return True when the operation succeeds.
  * @details Calls: generateFingerprint(), recordQuery(), shouldCache(), THEMIS_DEBUG(), substr(), calculateTTL(), putInBasicCache(), putInAdaptiveCache().
  */
 bool QueryCacheManager::put(
@@ -218,11 +218,6 @@ bool QueryCacheManager::put(
     }
     
     if (success) {
-        /**
-         * @brief Lock.
-         * @param[in] stats_mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(stats_mutex_);
         stats_.cache_stores++;
         
@@ -278,11 +273,6 @@ size_t QueryCacheManager::invalidateByDependency(const std::string& dependency) 
     // This could be added as an enhancement
     
     if (count > 0) {
-        /**
-         * @brief Lock.
-         * @param[in] stats_mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(stats_mutex_);
         stats_.cache_invalidations += count;
         
@@ -296,7 +286,7 @@ size_t QueryCacheManager::invalidateByDependency(const std::string& dependency) 
  * @brief Invalidate.
  * @param[in] query Input parameter.
  * @param[in] params Input parameter.
- * @return True on success.
+ * @return True when the operation succeeds.
  * @details Calls: has_value(), generateFingerprint(), lock().
  */
 bool QueryCacheManager::invalidate(
@@ -319,11 +309,6 @@ bool QueryCacheManager::invalidate(
     }
     
     if (removed) {
-        /**
-         * @brief Lock.
-         * @param[in] stats_mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(stats_mutex_);
         stats_.cache_invalidations++;
     }
@@ -350,11 +335,6 @@ void QueryCacheManager::clear() {
         workload_strategy_->reset();
     }
     
-    /**
-     * @brief Lock.
-     * @param[in] stats_mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lock(stats_mutex_);
     size_t max_mem = stats_.max_memory_bytes;  // Preserve max memory before reset
     stats_ = CacheStatistics();
@@ -506,11 +486,6 @@ std::string QueryCacheManager::generateFingerprint(
  * @details Calls: lock().
  */
 void QueryCacheManager::updateHitStats(bool hit, int64_t lookup_time_us) {
-    /**
-     * @brief Lock.
-     * @param[in] stats_mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lock(stats_mutex_);
     
     stats_.total_requests++;
@@ -610,7 +585,7 @@ void QueryCacheManager::reportStatsIfNeeded() {
  * @param[in] result Input parameter.
  * @param[in] dependencies Input parameter.
  * @param[in] ttl Input parameter.
- * @return True on success.
+ * @return True when the operation succeeds.
  * @details Calls: put(), has_value().
  */
 bool QueryCacheManager::putInBasicCache(
@@ -631,7 +606,7 @@ bool QueryCacheManager::putInBasicCache(
  * @param[in] params Input parameter.
  * @param[in] result Input parameter.
  * @param[in] ttl Input parameter.
- * @return True on success.
+ * @return True when the operation succeeds.
  * @details Calls: put().
  */
 bool QueryCacheManager::putInAdaptiveCache(

@@ -31,6 +31,12 @@ namespace auth {
 // Expiry encoding helpers
 // ============================================================================
 
+/**
+ * @brief Encode Expiry.
+ * @param[in] tp Input parameter.
+ * @return Return value.
+ * @details Calls: time_since_epoch(), count(), buf().
+ */
 std::string RocksDBTokenBlacklist::encodeExpiry(std::chrono::system_clock::time_point tp) {
     int64_t secs
         = static_cast<int64_t>(std::chrono::duration_cast<std::chrono::seconds>(tp.time_since_epoch()).count());
@@ -44,6 +50,12 @@ std::string RocksDBTokenBlacklist::encodeExpiry(std::chrono::system_clock::time_
     return buf;
 }
 
+/**
+ * @brief Decode Expiry.
+ * @param[in] val Input parameter.
+ * @return Return value.
+ * @details Calls: size().
+ */
 std::chrono::system_clock::time_point RocksDBTokenBlacklist::decodeExpiry(const std::string &val) {
     if (val.size() < 8) {
         return std::chrono::system_clock::time_point{};
@@ -112,6 +124,11 @@ RocksDBTokenBlacklist::RocksDBTokenBlacklist(const Config &config) : config_(con
         throw std::runtime_error("RocksDBTokenBlacklist: failed to open DB at '" + config_.db_path
                                  + "': " + s.ToString());
     }
+    /**
+     * @brief Db guard.
+     * @param[in] db_instance Input parameter.
+     * @return Return value.
+     */
     std::unique_ptr<rocksdb::DB> db_guard(db_instance);
 
     // Identify the blacklist CF handle; keep all others for proper cleanup.
@@ -157,6 +174,11 @@ RocksDBTokenBlacklist::RocksDBTokenBlacklist(const Config &config) : config_(con
 RocksDBTokenBlacklist::~RocksDBTokenBlacklist() {
     // Signal and join the background thread
     {
+        /**
+         * @brief Lk.
+         * @param[in] cv_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(cv_mutex_);
         running_.store(false);
     }
@@ -186,6 +208,12 @@ RocksDBTokenBlacklist::~RocksDBTokenBlacklist() {
 // ITokenBlacklist interface
 // ============================================================================
 
+/**
+ * @brief Add.
+ * @param[in] jti Input parameter.
+ * @param[in] expiry Input parameter.
+ * @details Calls: empty(), Put(), rocksdb::Slice(), encodeExpiry(), ok(), THEMIS_WARN(), ToString(), THEMIS_DEBUG().
+ */
 void RocksDBTokenBlacklist::add(const std::string &jti, std::chrono::system_clock::time_point expiry) {
     if (jti.empty()) {
         return;
@@ -223,6 +251,10 @@ bool RocksDBTokenBlacklist::isRevoked(const std::string &jti) const {
     return expiry > std::chrono::system_clock::now();
 }
 
+/**
+ * @brief Purge Expired.
+ * @details Calls: std::chrono::system_clock::now(), it(), NewIterator(), SeekToFirst(), Valid(), Next(), decodeExpiry(), value().
+ */
 void RocksDBTokenBlacklist::purgeExpired() {
     auto now = std::chrono::system_clock::now();
 
@@ -274,6 +306,10 @@ void RocksDBTokenBlacklist::purgeExpired() {
 // Background purge thread
 // ============================================================================
 
+/**
+ * @brief Purge Loop.
+ * @details Calls: load(), lk(), wait_for(), std::chrono::seconds(), unlock(), THEMIS_DEBUG(), purgeExpired().
+ */
 void RocksDBTokenBlacklist::purgeLoop() {
     while (running_.load()) {
         std::unique_lock<std::mutex> lk(cv_mutex_);

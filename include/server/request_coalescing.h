@@ -29,21 +29,6 @@ namespace themis::server {
 // RequestCoalescingManager
 // ---------------------------------------------------------------------------
 
-/**
- * @brief Coalesces duplicate in-flight GET requests to the same resource.
- *
- * Only idempotent (GET/HEAD) requests are eligible for coalescing; non-safe
- * methods are passed directly to the backend without waiting or sharing.
- *
- * Usage:
- * ```cpp
- * RequestCoalescingManager coalescer;
- *
- * auto response = coalescer.handle(req, [&](const auto& r) {
- *     return backend.execute(r);   // called at most once per in-flight key
- * });
- * ```
- */
 class RequestCoalescingManager {
 public:
     // -----------------------------------------------------------------------
@@ -51,16 +36,10 @@ public:
     // -----------------------------------------------------------------------
 
     struct Config {
-        /// Maximum number of waiters allowed per in-flight request.
-        /// If this limit is exceeded the new request is forwarded directly.
         uint32_t max_waiters_per_key{100};
 
-        /// How long a waiter will block for an in-flight response before
-        /// giving up and dispatching its own backend call.
         std::chrono::milliseconds waiter_timeout{5000};
 
-        /// When false, the manager is transparent and every request reaches
-        /// the backend (useful for benchmarking overhead).
         bool enabled{true};
     };
 
@@ -75,7 +54,6 @@ public:
         uint64_t timeout_fallbacks{0};   ///< Waiters that fell back after timeout
         uint64_t capacity_fallbacks{0};  ///< Waiters that fell back due to max_waiters
 
-        /// Fraction of requests that were served from coalescing (0.0–1.0).
         double coalescingRatio() const noexcept {
             if (total_requests == 0) {
               return 0.0;
@@ -101,6 +79,11 @@ public:
     // -----------------------------------------------------------------------
 
     RequestCoalescingManager();
+    /**
+     * @brief Request Coalescing Manager.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit RequestCoalescingManager(const Config& config);
 
     // Non-copyable, movable
@@ -115,14 +98,6 @@ public:
     // Core API
     // -----------------------------------------------------------------------
 
-    /**
-     * @brief Handle a request, coalescing it with any in-flight request to the
-     *        same resource key.
-     *
-     * @param req     Incoming HTTP request.
-     * @param handler Backend handler invoked at most once per in-flight key.
-     * @return HTTP response (either from the backend or shared from coalescing).
-     */
     http::response<http::string_body> handle(
         const http::request<http::string_body>& req,
         std::function<http::response<http::string_body>(
@@ -134,17 +109,19 @@ public:
     // -----------------------------------------------------------------------
 
     /**
-     * @brief Return a copy of current statistics.
+     * @brief Get Stats.
+     * @return Return value.
      */
     Stats getStats() const;
 
     /**
-     * @brief Reset all counters to zero.
+     * @brief Reset Stats.
      */
     void resetStats();
 
     /**
-     * @brief Return the number of requests currently in-flight (being coalesced).
+     * @brief In Flight Count.
+     * @return Return value.
      */
     std::size_t inFlightCount() const;
 
@@ -153,12 +130,6 @@ private:
     // Internal structures
     // -----------------------------------------------------------------------
 
-    /**
-     * @brief State for a single in-flight backend call.
-     *
-     * Multiple threads may read future_ once it is set; the originating thread
-     * owns the promise.
-     */
     struct InFlight {
         std::shared_ptr<std::promise<http::response<http::string_body>>> promise;
         std::shared_future<http::response<http::string_body>> future;
@@ -170,15 +141,17 @@ private:
     // -----------------------------------------------------------------------
 
     /**
-     * @brief Build the coalescing key for a request.
-     *
-     * For GET/HEAD the key is "<METHOD>|<path>" (query-string excluded so that
-     * minor query variations still share the same backend call).
+     * @brief Make Key.
+     * @param[in] req Input parameter.
+     * @return Return value.
      */
     static std::string makeKey(const http::request<http::string_body>& req);
 
     /**
-     * @brief Return true if the request method is eligible for coalescing.
+     * @brief Is Coalescible.
+     * @param[in] req Input parameter.
+     * @return True when the operation succeeds.
+     * @note Exception safety: noexcept.
      */
     static bool isCoalescible(const http::request<http::string_body>& req) noexcept;
 

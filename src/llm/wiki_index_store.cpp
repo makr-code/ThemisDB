@@ -51,6 +51,12 @@ namespace llm {
 
 namespace {
 
+/**
+ * @brief Make Cache Material.
+ * @param[in] chunk Input parameter.
+ * @return Return value.
+ * @details Implements makeCacheMaterial without additional internal calls.
+ */
 std::string makeCacheMaterial(const WikiChunk& chunk) {
     return chunk.doc_id + '\n' + chunk.text;
 }
@@ -59,20 +65,12 @@ double applyBm25PlusFloor(double bm25_score, double delta) noexcept {
     return bm25_score + std::max(0.0, delta);
 }
 
-/// Build a SecondaryIndexManager / VectorIndexManager-ready BaseEntity from a WikiChunk.
-///
-/// Fields written:
-///  - Primary key: chunk.chunk_id
-///  - "content"        → chunk text (indexed by the BM25 fulltext index)
-///  - "doc_id"         → source document identifier
-///  - "section_title"  → heading of the containing section
-///  - "source_path"    → originating file path
-///  - "line_start" / "line_end" → 1-based line range within the source file
-///  - "embedding"      → dense float vector (stored in the vector index when non-empty)
-///
-/// @param chunk  Source wiki chunk.
-/// @return       `themis::BaseEntity` ready for `SecondaryIndexManager::put()` and
-///               `VectorIndexManager::addEntity()`.
+/**
+ * @brief Chunk To Entity.
+ * @param[in] chunk Input parameter.
+ * @return Return value.
+ * @details Calls: e(), setField(), empty().
+ */
 themis::BaseEntity chunkToEntity(const WikiChunk& chunk) {
     themis::BaseEntity e(chunk.chunk_id);
     e.setField("content",       chunk.text);
@@ -188,6 +186,12 @@ WikiIndexStore::WikiIndexStore(SecondaryIndexManager& sim,
 // IWikiIndexWriter — writeChunk
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Write Chunk.
+ * @param[in] chunk Input parameter.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: lock(), probeEmbeddingDim(), empty(), tryResolveEmbeddingFromCaches(), embed(), makeEmbeddingCacheKey(), upsertEmbeddingCacheEntry(), persistEmbedding().
+ */
 void WikiIndexStore::writeChunk(WikiChunk chunk) {
     std::unique_lock lock(mutex_);
     if (!config_.enable_phase_b) {
@@ -228,6 +232,12 @@ void WikiIndexStore::writeChunk(WikiChunk chunk) {
 // IWikiIndexWriter — writeBatch
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Write Batch.
+ * @param[in] chunks Input parameter.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: lock(), probeEmbeddingDim(), std::max(), size(), empty(), tryResolveEmbeddingFromCaches(), push_back(), std::min().
+ */
 void WikiIndexStore::writeBatch(std::vector<WikiChunk> chunks) {
     std::unique_lock lock(mutex_);
     if (!config_.enable_phase_b) {
@@ -296,6 +306,10 @@ void WikiIndexStore::writeBatch(std::vector<WikiChunk> chunks) {
 // IWikiIndexWriter — flush
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Flush.
+ * @details Calls: spdlog::debug().
+ */
 void WikiIndexStore::flush() {
     // RocksDB WAL provides durability; explicit flush is not required.
     // Provided for API completeness and potential future override.
@@ -311,6 +325,11 @@ std::vector<WikiChunk> WikiIndexStore::query(const std::string& query_text,
                                               float              min_score) const {
     const auto t_start = std::chrono::steady_clock::now();
 
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock lock(mutex_);
     if (!config_.enable_phase_b) {
         spdlog::warn("[WikiIndexStore] query requested while Phase B gate is disabled");
@@ -347,6 +366,11 @@ std::vector<WikiChunk> WikiIndexStore::query(const std::string& query_text,
         // query_embed_mutex_.
         std::vector<float> qvec;
         {
+            /**
+             * @brief Qlock.
+             * @param[in] query_embed_mutex_ Input parameter.
+             * @return Return value.
+             */
             std::lock_guard<std::mutex> qlock(query_embed_mutex_);
             if (auto it = query_embed_cache_.find(query_text);
                 it != query_embed_cache_.end()) {
@@ -420,6 +444,11 @@ std::vector<WikiChunk> WikiIndexStore::query(const std::string& query_text,
     {
         const auto t_end = std::chrono::steady_clock::now();
         const double latency_ms = std::chrono::duration<double, std::milli>(t_end - t_start).count();
+        /**
+         * @brief Elk.
+         * @param[in] eval_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> elk(eval_mutex_);
         recordLatencyLocked(latency_ms);
         ++total_query_count_;
@@ -490,7 +519,11 @@ std::vector<WikiChunk> WikiIndexStore::evaluateQuery(
             }
         }
 
-        // ── Online mean update ──────────────────────────────────────────────
+        /**
+         * @brief ── Online mean update ──────────────────────────────────────────────
+         * @param[in] eval_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(eval_mutex_);
         const double n_prev = static_cast<double>(eval_query_count_);
         const double n_new  = n_prev + 1.0;
@@ -506,6 +539,11 @@ std::vector<WikiChunk> WikiIndexStore::evaluateQuery(
 }
 
 WikiEvalStats WikiIndexStore::getEvaluationStats() const {
+    /**
+     * @brief Lk.
+     * @param[in] eval_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(eval_mutex_);
     WikiEvalStats s;
     s.recall_at_k1        = eval_recall_at_1_;
@@ -539,6 +577,11 @@ WikiEvalStats WikiIndexStore::getEvaluationStats() const {
 }
 
 void WikiIndexStore::resetEvaluationStats() noexcept {
+    /**
+     * @brief Lk.
+     * @param[in] eval_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(eval_mutex_);
     eval_recall_at_1_  = 0.0;
     eval_recall_at_3_  = 0.0;
@@ -556,10 +599,22 @@ void WikiIndexStore::resetEvaluationStats() noexcept {
 
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief To Entity.
+ * @param[in] chunk Input parameter.
+ * @return Return value.
+ * @details Calls: chunkToEntity().
+ */
 themis::BaseEntity WikiIndexStore::toEntity(const WikiChunk& chunk) {
     return chunkToEntity(chunk);
 }
 
+/**
+ * @brief Make Embedding Cache Key.
+ * @param[in] chunk Input parameter.
+ * @return Return value.
+ * @details Calls: makeCacheMaterial(), core::concerns::SignedAdapterValidator::sha256Hex(), empty(), str().
+ */
 std::string WikiIndexStore::makeEmbeddingCacheKey(const WikiChunk& chunk) {
     const auto material = makeCacheMaterial(chunk);
     auto key = core::concerns::SignedAdapterValidator::sha256Hex(material);
@@ -577,9 +632,13 @@ std::size_t WikiIndexStore::estimateEmbeddingBytes(const std::string& cache_key,
     return cache_key.size() + embedding.size() * sizeof(float);
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// WikiIndexStore — Phase 3 helpers: persistent cache, auto-probe dim
-// ─────────────────────────────────────────────────────────────────────────────
+/**
+ * @brief ───────────────────────────────────────────────────────────────────────────── WikiIndexStore — Phase 3 helpers: persistent cache, auto-probe dim ─────────────────────────────────────────────────────────────────────────────
+ * @param[in] cache_key Input parameter.
+ * @param[in] chunk_id Identifier of the chunk.
+ * @param[in] embedding Input parameter.
+ * @details Calls: setPrimaryKey(), setField(), put(), spdlog::warn().
+ */
 
 void WikiIndexStore::persistEmbedding(const std::string&        cache_key,
                                       const std::string&        chunk_id,
@@ -632,6 +691,10 @@ std::optional<std::vector<float>> WikiIndexStore::fetchLegacyPersistedEmbeddingB
     return maybe_vec;
 }
 
+/**
+ * @brief Load Persistent Embed Cache.
+ * @details Calls: spdlog::debug().
+ */
 void WikiIndexStore::loadPersistentEmbedCache() {
     spdlog::debug("[WikiIndexStore] loadPersistentEmbedCache: persistent cache enabled; "
                   "embeddings will be fetched lazily from '{}' on cache miss; "
@@ -700,6 +763,12 @@ void WikiIndexStore::enforceEmbeddingCacheLimit() const {
     }
 }
 
+/**
+ * @brief Migrate Legacy Entry If Needed.
+ * @param[in] chunk Input parameter.
+ * @param[in] embedding Input parameter.
+ * @details Calls: makeEmbeddingCacheKey(), spdlog::info(), persistEmbedding().
+ */
 void WikiIndexStore::migrateLegacyEntryIfNeeded(const WikiChunk&              chunk,
                                                 const std::vector<float>& embedding) {
     if (!config_.enable_phase_a_cache_migration) {
@@ -711,6 +780,13 @@ void WikiIndexStore::migrateLegacyEntryIfNeeded(const WikiChunk&              ch
     persistEmbedding(cache_key, chunk.chunk_id, embedding);
 }
 
+/**
+ * @brief Try Resolve Embedding From Caches.
+ * @param[in] chunk Input parameter.
+ * @param[in,out] out_embedding Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: makeEmbeddingCacheKey(), find(), end(), touchEmbeddingCacheEntry(), fetchPersistedEmbedding(), has_value(), upsertEmbeddingCacheEntry(), fetchLegacyPersistedEmbeddingByChunkId().
+ */
 bool WikiIndexStore::tryResolveEmbeddingFromCaches(const WikiChunk& chunk,
                                                    std::vector<float>* out_embedding) {
     if (out_embedding == nullptr) {
@@ -740,15 +816,8 @@ bool WikiIndexStore::tryResolveEmbeddingFromCaches(const WikiChunk& chunk,
 }
 
 /**
- * @brief Probe the LLM to determine the actual embedding dimensionality.
- *
- * Embeds a short, deterministic sentinel string (`"__dim_probe__"`) and uses
- * the returned vector size as the authoritative `embedding_dim`.  If the
- * probed dimension differs from `config_.embedding_dim`, the vector index is
- * re-initialised with the correct size.
- *
- * This method is idempotent: subsequent calls are no-ops once `dim_probed_`
- * is set.  Call sites must hold the write lock.
+ * @brief Probe Embedding Dim.
+ * @details Calls: load(), embed(), empty(), spdlog::warn(), store(), size(), max(), spdlog::info().
  */
 void WikiIndexStore::probeEmbeddingDim() {
     // Double-checked pattern inside the held write lock.
@@ -815,6 +884,11 @@ JsonWikiIndexReader::JsonWikiIndexReader(std::string index_path, bool auto_load)
     }
 }
 
+/**
+ * @brief Load.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: f(), is_open(), std::string(), what(), is_array(), clear(), reserve(), size().
+ */
 void JsonWikiIndexReader::load() {
     std::ifstream f(index_path_);
     if (!f.is_open()) {

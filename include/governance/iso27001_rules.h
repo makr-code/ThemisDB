@@ -219,12 +219,12 @@ class Iso27001ControlSet {
 public:
     Iso27001ControlSet();
 
+
     /**
-     * @brief ---- Rule evaluation -------------------------------------------------
+     * @brief Evaluate Rule.
      * @param[in] rule Input parameter.
      * @return Return value.
      */
-
     std::vector<Iso27001ControlResult> evaluateRule(const PolicyRule& rule) const;
 
     /**
@@ -239,15 +239,15 @@ public:
         const std::string& scope = "All active policy rules"
     ) const;
 
+
     /**
-     * @brief ---- Evidence collection ---------------------------------------------
+     * @brief Collect Evidence.
      * @param[in] resource Input parameter.
      * @param[in] action Input parameter.
      * @param[in] principal Input parameter.
      * @param[in] access_granted Input parameter.
      * @param[in] encrypted Input parameter.
      */
-
     void collectEvidence(
         const std::string& resource,
         const std::string& action,

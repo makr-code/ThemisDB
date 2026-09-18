@@ -26,7 +26,13 @@ using namespace themis::whisper;
 using namespace themis::audio;
 using json = nlohmann::json;
 
-// ── helpers ───────────────────────────────────────────────────────────────────
+/**
+ * @brief ── helpers ───────────────────────────────────────────────────────────────────
+ * @param[in] name Input parameter.
+ * @param[in] bytes Input parameter.
+ * @return Return value.
+ * @details Calls: f(), write(), data(), size().
+ */
 
 static std::string writeTmpFile(const std::string& name,
                                 const std::vector<uint8_t>& bytes) {
@@ -56,7 +62,11 @@ static bool joinThreadWithTimeout(std::thread& th,
     return true;
 }
 
-// Minimal RIFF/WAV (16-bit PCM mono 16kHz, 4 zero samples)
+/**
+ * @brief Minimal RIFF/WAV (16-bit PCM mono 16kHz, 4 zero samples)
+ * @return Return value.
+ * @details Calls: b().
+ */
 static std::vector<uint8_t> minimalWav() {
     const uint32_t num_samples  = 4;
     const uint32_t data_bytes   = num_samples * 2;
@@ -978,8 +988,6 @@ TEST(WhisperPluginFocusedTests, R2_SetVadAfterTranscribeIsSafe) {
 // ─────────────────────────────────────────────────────────────────────────────
 
 namespace {
-/// Build a raw WAV byte buffer with configurable parameters.
-/// Caller is responsible for ensuring the header values are consistent.
 static std::vector<uint8_t> buildWav(uint16_t num_channels,
                                      uint16_t audio_format,
                                      uint16_t bits_per_sample,

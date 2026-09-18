@@ -129,7 +129,7 @@ struct ContentAssembly {
     int64_t total_size_bytes;                // Total size of all chunks
     
     /**
-     * @brief Helper: Get chunk by sequence number
+     * @brief Get Chunk By Seq Num.
      * @param[in] seq_num Input parameter.
      * @return Return value.
      */

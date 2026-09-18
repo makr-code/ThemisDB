@@ -257,15 +257,15 @@ public:
      */
     bool importRules(const nlohmann::json& j);
     
+    
     /**
-     * @brief ========== Phase 5: Versioning & History ==========
+     * @brief Update Rule.
      * @param[in] rule_id Identifier of the rule.
      * @param[in] updated_rule Input parameter.
      * @param[in] modified_by Input parameter.
      * @param[in] change_description Input parameter.
      * @return True when the operation succeeds.
      */
-    
     bool updateRule(const std::string& rule_id, const PolicyRule& updated_rule, 
                     const std::string& modified_by, const std::string& change_description);
     
@@ -328,13 +328,13 @@ public:
     std::vector<PolicyRuleVersion> getAuditTrailByUser(
         const std::string& user, int64_t start_time = 0, int64_t end_time = INT64_MAX) const;
 
+    
     /**
-     * @brief ========== Lifecycle State Management (Phase 2-3) ==========
+     * @brief Activate Rule With Validation.
      * @param[in] rule_id Identifier of the rule.
      * @param[in] user_id Identifier of the user.
      * @return Return value.
      */
-    
     PolicyResult activateRuleWithValidation(
         const std::string& rule_id, const std::string& user_id);
     

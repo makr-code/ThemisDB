@@ -116,14 +116,20 @@ ReplicationSlot::ReplicationSlot(
 // Control API
 // ---------------------------------------------------------------------------
 
-// Lock Hierarchy Note: This method acquires state_mutex_ (Level 2),
-// copies state within the lock, then releases the lock before calling
-// persistStateImpl() for blocking I/O. This ensures lock-free blocking
-// operations and prevents deadlocks.
+/**
+ * @brief Lock Hierarchy Note: This method acquires state_mutex_ (Level 2), copies state within the lock, then releases the lock before calling persistStateImpl() for blocking I/O.
+ * @return True when the operation succeeds.
+ * @details This ensures lock-free blocking operations and prevents deadlocks.
+ */
 bool ReplicationSlot::pause()
 {
     SlotState state_copy;
     {
+        /**
+         * @brief Lock.
+         * @param[in] state_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(state_mutex_);
         if (state_.status != SlotStatus::ACTIVE) {
           return false;
@@ -136,10 +142,19 @@ bool ReplicationSlot::pause()
     return true;
 }
 
+/**
+ * @brief Resume.
+ * @return True when the operation succeeds.
+ */
 bool ReplicationSlot::resume()
 {
     SlotState state_copy;
     {
+        /**
+         * @brief Lock.
+         * @param[in] state_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(state_mutex_);
         if (state_.status != SlotStatus::PAUSED) {
           return false;
@@ -152,10 +167,19 @@ bool ReplicationSlot::resume()
     return true;
 }
 
+/**
+ * @brief Drop.
+ * @return True when the operation succeeds.
+ */
 bool ReplicationSlot::drop()
 {
     SlotState state_copy;
     {
+        /**
+         * @brief Lock.
+         * @param[in] state_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(state_mutex_);
         if (state_.status == SlotStatus::DROPPED) {
           return false;
@@ -172,10 +196,20 @@ bool ReplicationSlot::drop()
 // Progress tracking
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Advance an iterator within the validated range.
+ * @param[in] confirmed_lsn Input parameter.
+ * @return None.
+ */
 bool ReplicationSlot::advance(uint64_t confirmed_lsn)
 {
     SlotState state_copy;
     {
+        /**
+         * @brief Lock.
+         * @param[in] state_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(state_mutex_);
         if (state_.status != SlotStatus::ACTIVE) {
           return false;
@@ -202,12 +236,22 @@ const std::string& ReplicationSlot::name() const
 
 ReplicationSlot::SlotStatus ReplicationSlot::status() const
 {
+    /**
+     * @brief Lock.
+     * @param[in] state_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(state_mutex_);
     return state_.status;
 }
 
 ReplicationSlot::SlotState ReplicationSlot::state() const
 {
+    /**
+     * @brief Lock.
+     * @param[in] state_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(state_mutex_);
     return state_;
 }
@@ -230,6 +274,11 @@ uint64_t ReplicationSlot::lag() const
 {
     uint64_t confirmed_lsn_copy = 0;
     {
+        /**
+         * @brief Lock.
+         * @param[in] state_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(state_mutex_);
         confirmed_lsn_copy = state_.confirmed_lsn;
     }  // Lock released; call external component outside lock
@@ -284,15 +333,25 @@ void ReplicationSlot::persistStateImpl(const SlotState& state) const
 
 void ReplicationSlot::persistState() const
 {
-    // Convenience wrapper that acquires lock and calls persistStateImpl
-    // This is safe for callers who don't already hold the lock
+    /**
+     * @brief Convenience wrapper that acquires lock and calls persistStateImpl This is safe for callers who don't already hold the lock
+     * @param[in] state_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(state_mutex_);
     persistStateImpl(state_);
 }
 
+/**
+ * @brief Load State.
+ */
 void ReplicationSlot::loadState()
 {
-    // Load state from JSON file (called at construction, without lock)
+    /**
+     * @brief Load state from JSON file (called at construction, without lock)
+     * @param[in] state_file_path_ Input parameter.
+     * @return Return value.
+     */
     std::ifstream ifs(state_file_path_);
     if (!ifs.is_open()) {
       return;
@@ -364,6 +423,11 @@ ReplicationSlotManager::createSlot(
     const std::string& plugin_name,
     const std::string& downstream_node_id)
 {
+    /**
+     * @brief Lock.
+     * @param[in] slots_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(slots_mutex_);
     if (slots_.count(name)) return nullptr; // already exists
 
@@ -379,13 +443,28 @@ ReplicationSlotManager::createSlot(
 std::shared_ptr<ReplicationSlot>
 ReplicationSlotManager::getSlot(const std::string& name) const
 {
+    /**
+     * @brief Lock.
+     * @param[in] slots_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(slots_mutex_);
     const auto it = slots_.find(name);
     return (it != slots_.end()) ? it->second : nullptr;
 }
 
+/**
+ * @brief Drop Slot.
+ * @param[in] name Input parameter.
+ * @return True when the operation succeeds.
+ */
 bool ReplicationSlotManager::dropSlot(const std::string& name)
 {
+    /**
+     * @brief Lock.
+     * @param[in] slots_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(slots_mutex_);
     const auto it = slots_.find(name);
     if (it == slots_.end()) {
@@ -399,6 +478,11 @@ bool ReplicationSlotManager::dropSlot(const std::string& name)
 std::vector<ReplicationSlot::SlotState>
 ReplicationSlotManager::listSlots() const
 {
+    /**
+     * @brief Lock.
+     * @param[in] slots_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(slots_mutex_);
     std::vector<ReplicationSlot::SlotState> states = {};
 
@@ -411,12 +495,22 @@ ReplicationSlotManager::listSlots() const
 
 size_t ReplicationSlotManager::slotCount() const
 {
+    /**
+     * @brief Lock.
+     * @param[in] slots_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(slots_mutex_);
     return slots_.size();
 }
 
 uint64_t ReplicationSlotManager::minConfirmedLsn() const
 {
+    /**
+     * @brief Lock.
+     * @param[in] slots_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(slots_mutex_);
     uint64_t min_lsn = std::numeric_limits<uint64_t>::max();
     bool found_active = false;
@@ -431,6 +525,9 @@ uint64_t ReplicationSlotManager::minConfirmedLsn() const
     return found_active ? min_lsn : 0;
 }
 
+/**
+ * @brief Load Persisted Slots.
+ */
 void ReplicationSlotManager::loadPersistedSlots()
 {
     const std::string slots_dir = config_.wal_directory + "/slots";
@@ -456,6 +553,11 @@ void ReplicationSlotManager::loadPersistedSlots()
 
         // Now check and insert with lock held
         {
+            /**
+             * @brief Lock.
+             * @param[in] slots_mutex_ Input parameter.
+             * @return Return value.
+             */
             std::lock_guard<std::mutex> lock(slots_mutex_);
             if (slots_.count(slot_name)) continue;  // already loaded
 

@@ -216,7 +216,7 @@ public:
     AnomalyDetector& operator=(AnomalyDetector&&)      noexcept;
 
     /**
-     * @brief ---- Training ----
+     * @brief Train.
      * @param[in] data Input parameter.
      */
     void train(const std::vector<DataPoint>& data);
@@ -228,7 +228,7 @@ public:
     bool isTrained() const noexcept;
 
     /**
-     * @brief ---- Inference ----
+     * @brief Predict.
      * @param[in] point Input parameter.
      * @return Return value.
      */
@@ -241,21 +241,20 @@ public:
     std::vector<AnomalyResult> predictBatch(const std::vector<DataPoint>& data) const;
 
     /**
-     * @brief ---- Explanation ----
+     * @brief Explain.
      * @param[in] point Input parameter.
      * @return Return value.
      */
     AnomalyExplanation explain(const DataPoint& point) const;
 
     /**
-     * @brief ---- Adaptive learning (only when config.
+     * @brief Update.
      * @param[in] point Input parameter.
-     * @details adaptive == true) ----
      */
     void update(const DataPoint& point);
 
     /**
-     * @brief ---- Serialisation ----
+     * @brief Serialize.
      * @return Return value.
      */
     std::string serialize() const;

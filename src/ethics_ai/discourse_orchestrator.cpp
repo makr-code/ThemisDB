@@ -40,17 +40,12 @@ namespace ethics {
 
 namespace {
 
-/// Deterministic stub LLM inference.
-/// Returns a verdict based on a simple hash of the school_id so tests are
-/// reproducible without a real language model.
-///
-/// Hash mapping:
-///   school_id.size() % 3 == 0 → PROHIBIT
-///   school_id.size() % 3 == 1 → PERMIT
-///   school_id.size() % 3 == 2 → CONDITIONAL
-///
-/// Stub never returns ABSTAIN spontaneously; timeout logic in the orchestrator
-/// is responsible for injecting ABSTAIN on deadline expiry.
+/**
+ * @brief Stub LLMInference.
+ * @param[in] school_id Identifier of the school.
+ * @param[in] dilemma_text Input parameter.
+ * @return Return value.
+ */
 DiscourseRoundOutput stubLLMInference(const std::string& school_id,
                                       const std::string& dilemma_text)
 {
@@ -85,8 +80,12 @@ DiscourseRoundOutput stubLLMInference(const std::string& school_id,
     return out;
 }
 
-/// Map a DiscourseVerdict to the dominant verdict in a cluster by simple
-/// plurality vote among non-ABSTAIN outputs.
+/**
+ * @brief Cluster Majority Verdict.
+ * @param[in] outputs Input parameter.
+ * @param[in] school_ids Input parameter.
+ * @return Return value.
+ */
 DiscourseVerdict clusterMajorityVerdict(
     const std::vector<DiscourseRoundOutput>& outputs,
     const std::vector<std::string>&          school_ids)
@@ -134,7 +133,6 @@ struct DiscourseOrchestrator::Impl {
         : registry(reg), config(cfg)
     {}
 
-    /// Returns the active inference function; falls back to stub when empty.
     LLMInferenceFn effectiveInferenceFn() const {
         if (inference_fn) {
           return inference_fn;
@@ -154,6 +152,10 @@ DiscourseOrchestrator::DiscourseOrchestrator(IEthicsProfileRegistry* registry,
 
 DiscourseOrchestrator::~DiscourseOrchestrator() = default;
 
+/**
+ * @brief Set LLMInference Fn.
+ * @param[in] fn Input parameter.
+ */
 void DiscourseOrchestrator::setLLMInferenceFn(LLMInferenceFn fn)
 {
     impl_->inference_fn = std::move(fn);
@@ -164,9 +166,13 @@ void DiscourseOrchestrator::setSchoolTimeoutMs(int timeout_ms) noexcept
     impl_->timeout_ms = timeout_ms;
 }
 
-// ============================================================================
-// runEbene1 — parallel equal-weight initial scoring
-// ============================================================================
+/**
+ * @brief ============================================================================ runEbene1 — parallel equal-weight initial scoring ============================================================================
+ * @param[in] plan Input parameter.
+ * @param[in] dilemma_text Input parameter.
+ * @param[in] mirror_policy Input parameter.
+ * @return Return value.
+ */
 
 std::vector<DiscourseRoundOutput> DiscourseOrchestrator::runEbene1(
     const DiscourseOrchestratorPlan& plan,
@@ -346,9 +352,13 @@ DiscourseOrchestrator::runEbene2(
     return {std::move(cluster_positions), std::move(episodic_entries)};
 }
 
-// ============================================================================
-// runMirrorSchools — lightweight parallel mirror step
-// ============================================================================
+/**
+ * @brief ============================================================================ runMirrorSchools — lightweight parallel mirror step ============================================================================
+ * @param[in] mirror_policy Input parameter.
+ * @param[in] dilemma_text Input parameter.
+ * @param[in] domain Input parameter.
+ * @return Return value.
+ */
 
 std::vector<DiscourseRoundOutput> DiscourseOrchestrator::runMirrorSchools(
     const MirrorSchoolPolicy& mirror_policy,

@@ -38,6 +38,12 @@ nlohmann::json PolicyRuleVersion::toJson() const {
     return j;
 }
 
+/**
+ * @brief From Json.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: contains().
+ */
 PolicyRuleVersion PolicyRuleVersion::fromJson(const nlohmann::json &j) {
     PolicyRuleVersion v = {};
     if (j.contains("version")) {
@@ -78,6 +84,12 @@ nlohmann::json AuditLogEntry::toJson() const {
     return j;
 }
 
+/**
+ * @brief From Json.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: contains().
+ */
 AuditLogEntry AuditLogEntry::fromJson(const nlohmann::json &j) {
     AuditLogEntry e = {};
     if (j.contains("rule_id")) {
@@ -120,6 +132,15 @@ nlohmann::json VersionDiff::toJson() const {
 
 PolicyVersionHistory::PolicyVersionHistory() {}
 
+/**
+ * @brief Record Version.
+ * @param[in] rule_id Identifier of the rule.
+ * @param[in] rule Input parameter.
+ * @param[in] author Input parameter.
+ * @param[in] change_description Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), getLatestVersion(), incrementVersion(), std::chrono::system_clock::now(), time_since_epoch(), count(), toJson(), push_back().
+ */
 std::string PolicyVersionHistory::recordVersion(const std::string &rule_id, const PolicyRule &rule,
                                                 const std::string &author, const std::string &change_description) {
     std::lock_guard<std::mutex> lock(mutex_);
@@ -146,6 +167,11 @@ std::string PolicyVersionHistory::recordVersion(const std::string &rule_id, cons
 }
 
 std::vector<PolicyRuleVersion> PolicyVersionHistory::getVersions(const std::string &rule_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     auto it = versions_.find(rule_id);
@@ -161,6 +187,11 @@ std::vector<PolicyRuleVersion> PolicyVersionHistory::getVersions(const std::stri
 
 std::optional<PolicyRuleVersion> PolicyVersionHistory::getVersion(const std::string &rule_id,
                                                                   const std::string &version) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     auto it = versions_.find(rule_id);
@@ -190,6 +221,11 @@ std::string PolicyVersionHistory::getLatestVersion(const std::string &rule_id) c
 }
 
 std::optional<std::string> PolicyVersionHistory::getPreviousVersion(const std::string &rule_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     auto it = versions_.find(rule_id);
@@ -201,6 +237,11 @@ std::optional<std::string> PolicyVersionHistory::getPreviousVersion(const std::s
 }
 
 std::string PolicyVersionHistory::getLastRecordedVersion(const std::string &rule_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     auto it = versions_.find(rule_id);
@@ -271,6 +312,11 @@ VersionDiff PolicyVersionHistory::compareVersions(const std::string &rule_id, co
     return diff;
 }
 
+/**
+ * @brief Record Audit.
+ * @param[in] entry Input parameter.
+ * @details Calls: lock(), push_back(), THEMIS_INFO().
+ */
 void PolicyVersionHistory::recordAudit(const AuditLogEntry &entry) {
     std::lock_guard<std::mutex> lock(mutex_);
     audit_log_.push_back(entry);
@@ -281,6 +327,11 @@ std::vector<AuditLogEntry> PolicyVersionHistory::queryAudit(const std::optional<
                                                             const std::optional<std::string> &user,
                                                             const std::optional<std::int64_t> &start_time,
                                                             const std::optional<std::int64_t> &end_time) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     std::vector<AuditLogEntry> result;
@@ -306,6 +357,11 @@ std::vector<AuditLogEntry> PolicyVersionHistory::queryAudit(const std::optional<
     return result;
 }
 
+/**
+ * @brief Delete Version History.
+ * @param[in] rule_id Identifier of the rule.
+ * @details Calls: lock(), erase(), THEMIS_INFO().
+ */
 void PolicyVersionHistory::deleteVersionHistory(const std::string &rule_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     versions_.erase(rule_id);
@@ -313,6 +369,11 @@ void PolicyVersionHistory::deleteVersionHistory(const std::string &rule_id) {
 }
 
 nlohmann::json PolicyVersionHistory::exportHistory() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     nlohmann::json j;
@@ -338,6 +399,12 @@ nlohmann::json PolicyVersionHistory::exportHistory() const {
     return j;
 }
 
+/**
+ * @brief Import History.
+ * @param[in] j Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), contains(), is_object(), items(), push_back(), PolicyRuleVersion::fromJson(), is_array(), AuditLogEntry::fromJson().
+ */
 bool PolicyVersionHistory::importHistory(const nlohmann::json &j) {
     std::lock_guard<std::mutex> lock(mutex_);
 
@@ -371,6 +438,11 @@ bool PolicyVersionHistory::importHistory(const nlohmann::json &j) {
 bool PolicyVersionHistory::saveToFile(const std::string &path) const {
     try {
         nlohmann::json j = exportHistory();
+        /**
+         * @brief File.
+         * @param[in] path Input parameter.
+         * @return Return value.
+         */
         std::ofstream file(path);
         if (!file.is_open()) {
             THEMIS_ERROR("Failed to open file for writing: {}", path);
@@ -385,6 +457,12 @@ bool PolicyVersionHistory::saveToFile(const std::string &path) const {
     }
 }
 
+/**
+ * @brief Load From File.
+ * @param[in] path Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: file(), is_open(), THEMIS_ERROR(), importHistory(), THEMIS_INFO(), what().
+ */
 bool PolicyVersionHistory::loadFromFile(const std::string &path) {
     try {
         std::ifstream file(path);

@@ -29,6 +29,12 @@ nlohmann::json TimeSeriesStore::DataPoint::toJson() const {
     return j;
 }
 
+/**
+ * @brief From Json.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: value(), int64_t(), nlohmann::json::object().
+ */
 TimeSeriesStore::DataPoint TimeSeriesStore::DataPoint::fromJson(const nlohmann::json& j) {
     DataPoint point;
     point.timestamp_ms = j.value("timestamp_ms", int64_t(0));
@@ -81,6 +87,14 @@ std::string TimeSeriesStore::makePrefix(std::string_view metric,
     return oss.str();
 }
 
+/**
+ * @brief Put.
+ * @param[in] metric Input parameter.
+ * @param[in] entity Input parameter.
+ * @param[in] point Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: THEMIS_ERROR(), resolveColumnFamily(), makeKey(), toJson(), dump(), Put(), ok(), ToString().
+ */
 bool TimeSeriesStore::put(std::string_view metric, 
                          std::string_view entity,
                          const DataPoint& point) {
@@ -219,6 +233,14 @@ TimeSeriesStore::Aggregation TimeSeriesStore::aggregate(
     return aggregate(metric, entity, RangeQuery{});
 }
 
+/**
+ * @brief Delete Old Points.
+ * @param[in] metric Input parameter.
+ * @param[in] entity Input parameter.
+ * @param[in] before_ms Input parameter.
+ * @return Return value.
+ * @details Calls: resolveColumnFamily(), THEMIS_ERROR(), makePrefix(), makeKey(), it(), NewIterator(), Seek(), Valid().
+ */
 size_t TimeSeriesStore::deleteOldPoints(std::string_view metric,
                                        std::string_view entity,
                                        int64_t before_ms) {

@@ -20,20 +20,13 @@
 namespace themis {
 namespace llm {
 
-/**
- * @brief Cache for compiled grammars
- * 
- * Grammars can be expensive to compile, so we cache them by name.
- * This allows reusing grammars across multiple requests.
- * 
- * Thread-safe for concurrent access.
- */
 class GrammarCache {
 public:
-    virtual ~GrammarCache() = default;
     /**
-     * @brief Configuration for grammar cache
+     * @brief Grammar Cache.
+     * @return Return value.
      */
+    virtual ~GrammarCache() = default;
     struct Config {
         size_t max_cached_grammars = 0;  // Maximum number of grammars to cache
         bool enabled = false;                 // Enable caching
@@ -41,53 +34,51 @@ public:
         Config() : max_cached_grammars(100), enabled(true) {}
     };
     
-    /**
-     * @brief Construct grammar cache with default configuration.
-     */
     GrammarCache();
     /**
-     * @brief Construct grammar cache with configuration.
-     * @param config Cache configuration.
+     * @brief Grammar Cache.
+     * @param[in] config Input parameter.
+     * @return Return value.
      */
     explicit GrammarCache(const Config& config);
     
     /**
-     * @brief Get a grammar from cache by name
-     * @param name Grammar name (e.g., "json_strict", "xml")
-     * @return Shared pointer to grammar or nullptr if not found
+     * @brief Get.
+     * @param[in] name Input parameter.
+     * @return Return value.
      */
     std::shared_ptr<Grammar> get(const std::string& name) const;
     
     /**
-     * @brief Put a grammar into cache
-     * @param name Grammar name
-     * @param grammar Grammar to cache
-     * @return true if cached successfully, false if cache is full
+     * @brief Put.
+     * @param[in] name Input parameter.
+     * @param[in] grammar Input parameter.
+     * @return True when the operation succeeds.
      */
     bool put(const std::string& name, std::shared_ptr<Grammar> grammar);
     
     /**
-     * @brief Clear all cached grammars
+     * @brief Clear.
      */
     void clear();
     
     /**
-     * @brief Get number of cached grammars
-     * @return Number of grammars in cache
+     * @brief Size.
+     * @return Return value.
      */
     size_t size() const;
     
     /**
-     * @brief Check if cache contains a grammar
-     * @param name Grammar name
-     * @return true if grammar exists in cache
+     * @brief Contains.
+     * @param[in] name Input parameter.
+     * @return True when the operation succeeds.
      */
     bool contains(const std::string& name) const;
     
     /**
-     * @brief Remove a specific grammar from cache
-     * @param name Grammar name
-     * @return true if removed, false if not found
+     * @brief Remove.
+     * @param[in] name Input parameter.
+     * @return True when the operation succeeds.
      */
     bool remove(const std::string& name);
     

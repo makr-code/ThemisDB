@@ -37,7 +37,10 @@ AggregateScheduler::~AggregateScheduler() {
     stop();
 }
 
-// ===== Lifecycle =====
+/**
+ * @brief ===== Lifecycle =====
+ * @details Calls: lock(), load(), THEMIS_WARN(), store(), std::thread(), THEMIS_INFO(), size(), count().
+ */
 
 void AggregateScheduler::start() {
     std::lock_guard<std::mutex> lock(mutex_);
@@ -55,6 +58,10 @@ void AggregateScheduler::start() {
                 config_.check_interval.count() / 1000);
 }
 
+/**
+ * @brief Stop.
+ * @details Calls: lock(), load(), store(), notify_all(), joinable(), join(), THEMIS_INFO().
+ */
 void AggregateScheduler::stop() {
     {
         std::lock_guard<std::mutex> lock(mutex_);
@@ -74,7 +81,11 @@ void AggregateScheduler::stop() {
                 total_refreshes_.load(), failed_refreshes_.load());
 }
 
-// ===== Aggregate Management =====
+/**
+ * @brief ===== Aggregate Management =====
+ * @param[in] agg Input parameter.
+ * @details Calls: lock(), empty(), generateAggregateId(), THEMIS_INFO(), count().
+ */
 
 void AggregateScheduler::registerAggregate(const ScheduledAggregate& agg) {
     std::lock_guard<std::mutex> lock(mutex_);
@@ -91,6 +102,11 @@ void AggregateScheduler::registerAggregate(const ScheduledAggregate& agg) {
                 id, agg.config.metric, agg.config.window.size.count(), agg.refresh_interval.count());
 }
 
+/**
+ * @brief Unregister Aggregate.
+ * @param[in] id Input parameter.
+ * @details Calls: lock(), find(), end(), THEMIS_INFO(), deleteWatermark(), erase().
+ */
 void AggregateScheduler::unregisterAggregate(const std::string& id) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -105,6 +121,11 @@ void AggregateScheduler::unregisterAggregate(const std::string& id) {
     }
 }
 
+/**
+ * @brief Enable Aggregate.
+ * @param[in] id Input parameter.
+ * @details Calls: lock(), find(), end(), THEMIS_INFO().
+ */
 void AggregateScheduler::enableAggregate(const std::string& id) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -115,6 +136,11 @@ void AggregateScheduler::enableAggregate(const std::string& id) {
     }
 }
 
+/**
+ * @brief Disable Aggregate.
+ * @param[in] id Input parameter.
+ * @details Calls: lock(), find(), end(), THEMIS_INFO().
+ */
 void AggregateScheduler::disableAggregate(const std::string& id) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -125,7 +151,11 @@ void AggregateScheduler::disableAggregate(const std::string& id) {
     }
 }
 
-// ===== Manual Operations =====
+/**
+ * @brief ===== Manual Operations =====
+ * @param[in] id Input parameter.
+ * @details Calls: Tracer::startSpan(), setAttribute(), lock(), find(), end(), THEMIS_WARN(), recordError(), refreshAggregate().
+ */
 
 void AggregateScheduler::refreshNow(const std::string& id) {
     auto span = Tracer::startSpan("AggregateScheduler.refreshNow");
@@ -143,6 +173,10 @@ void AggregateScheduler::refreshNow(const std::string& id) {
     refreshAggregate(it->second);
 }
 
+/**
+ * @brief Refresh All.
+ * @details Calls: Tracer::startSpan(), lock(), refreshAggregate(), setAttribute(), THEMIS_INFO().
+ */
 void AggregateScheduler::refreshAll() {
     auto span = Tracer::startSpan("AggregateScheduler.refreshAll");
     
@@ -163,6 +197,11 @@ void AggregateScheduler::refreshAll() {
 // ===== Statistics =====
 
 AggregateScheduler::Stats AggregateScheduler::getStats() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     Stats stats;
@@ -178,6 +217,11 @@ AggregateScheduler::Stats AggregateScheduler::getStats() const {
 }
 
 std::vector<AggregateScheduler::ScheduledAggregate> AggregateScheduler::listAggregates() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     std::vector<ScheduledAggregate> result = {};
@@ -191,12 +235,20 @@ std::vector<AggregateScheduler::ScheduledAggregate> AggregateScheduler::listAggr
     return result;
 }
 
+/**
+ * @brief Set Metrics.
+ * @param[in] metrics Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void AggregateScheduler::setMetrics(std::shared_ptr<TimeSeriesMetrics> metrics) {
     std::lock_guard<std::mutex> lock(mutex_);
     metrics_ = std::move(metrics);
 }
 
-// ===== Scheduler Loop =====
+/**
+ * @brief ===== Scheduler Loop =====
+ * @details Calls: THEMIS_INFO(), load(), Tracer::startSpan(), getCurrentTimeMs(), lock(), std::chrono::system_clock::now(), needsRefresh(), catchUpMissedWindows().
+ */
 
 void AggregateScheduler::schedulerLoop() {
     THEMIS_INFO("AggregateScheduler loop started");
@@ -242,6 +294,11 @@ void AggregateScheduler::schedulerLoop() {
     THEMIS_INFO("AggregateScheduler loop stopped");
 }
 
+/**
+ * @brief Refresh Aggregate.
+ * @param[in,out] agg Input/output parameter.
+ * @details Calls: Tracer::startSpan(), setAttribute(), std::chrono::steady_clock::now(), getCurrentTimeMs(), count(), getWatermark(), refreshIncremental(), recordAggRefreshLag().
+ */
 void AggregateScheduler::refreshAggregate(ScheduledAggregate& agg) {
     auto span = Tracer::startSpan("AggregateScheduler.refreshAggregate");
     span.setAttribute("aggregate_id", agg.id);
@@ -316,6 +373,12 @@ bool AggregateScheduler::needsRefresh(const ScheduledAggregate& agg, int64_t cur
     return elapsed_ms >= agg.refresh_interval.count();
 }
 
+/**
+ * @brief Catch Up Missed Windows.
+ * @param[in,out] agg Input/output parameter.
+ * @param[in] current_time_ms Input parameter.
+ * @details Calls: count(), std::min(), THEMIS_INFO(), Tracer::startSpan(), setAttribute(), refresh(), THEMIS_DEBUG(), THEMIS_ERROR().
+ */
 void AggregateScheduler::catchUpMissedWindows(ScheduledAggregate& agg, int64_t current_time_ms) {
     int64_t window_ms = agg.config.window.size.count();
     int64_t elapsed_ms = current_time_ms - agg.last_refresh_ms;

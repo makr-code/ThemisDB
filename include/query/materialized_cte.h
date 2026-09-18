@@ -47,22 +47,12 @@ namespace query {
 // Change record
 // ============================================================================
 
-/**
- * Type of data change in the base collection.
- */
 enum class CTEChangeType {
     INSERT,
     UPDATE,  ///< requires both before_row and after_row
     DELETE
 };
 
-/**
- * A single data-change record for incremental CTE maintenance.
- *
- * INSERT: after_row holds the new row; before_row is ignored.
- * DELETE: before_row holds the deleted row; after_row is ignored.
- * UPDATE: before_row is the old state; after_row is the new state.
- */
 struct CTEDataChange {
     CTEChangeType  type       = CTEChangeType::INSERT;
     std::string    collection;
@@ -74,9 +64,6 @@ struct CTEDataChange {
 // View definition
 // ============================================================================
 
-/**
- * Aggregation functions supported for incrementally maintained CTEs.
- */
 enum class CTEAggFunc {
     COUNT,          ///< COUNT(*) or COUNT(field)
     SUM,            ///< SUM(field)
@@ -86,19 +73,12 @@ enum class CTEAggFunc {
     COUNT_DISTINCT  ///< COUNT(DISTINCT field) — reference-counted
 };
 
-/**
- * Aggregation specification within a materialized CTE view.
- */
 struct CTEAggSpec {
     std::string output_name;   ///< Field name in the result row
     CTEAggFunc  func;
     std::string source_field;  ///< Source field (empty = COUNT(*))
 };
 
-/**
- * Optional base filter applied to each change record before maintenance.
- * Only rows that pass all base filters are incorporated into the view.
- */
 struct CTEBaseFilter {
     enum class Op { EQ, NE, LT, LE, GT, GE, IS_NULL, IS_NOT_NULL };
     std::string    field;
@@ -106,9 +86,6 @@ struct CTEBaseFilter {
     nlohmann::json value;  ///< Reference value for comparison (unused for IS_NULL / IS_NOT_NULL)
 };
 
-/**
- * Defines what a MaterializedCTEView computes.
- */
 struct MaterializedCTEDef {
     std::string                  name;
     std::string                  source_collection;
@@ -122,17 +99,10 @@ struct MaterializedCTEDef {
 // Query result
 // ============================================================================
 
-/**
- * One row returned by querying a materialized CTE.
- * `data` is a JSON object combining dimension key fields and aggregate values.
- */
 struct MaterializedCTERow {
     nlohmann::json data;
 };
 
-/**
- * Result of querying a materialized CTE view.
- */
 struct MaterializedCTEResult {
     std::vector<MaterializedCTERow>       rows;
     int64_t                               total_rows  = 0;
@@ -144,20 +114,13 @@ struct MaterializedCTEResult {
 // MaterializedCTEView
 // ============================================================================
 
-/**
- * @brief A single incrementally maintained materialized CTE view.
- *
- * Wraps analytics::IncrementalView with a JSON-friendly interface for
- * integration into the query module's CTE evaluation pipeline.
- *
- * The view maintains per-group aggregate states updated in O(1) per
- * change record, avoiding full re-evaluation of the CTE query.
- *
- * Thread-safety: applyChange/applyChanges use an exclusive writer lock;
- * query() uses a shared reader lock (delegated to IncrementalView).
- */
 class MaterializedCTEView {
 public:
+    /**
+     * @brief Materialized CTEView.
+     * @param[in] def Input parameter.
+     * @return Return value.
+     */
     explicit MaterializedCTEView(const MaterializedCTEDef& def);
     ~MaterializedCTEView();
 
@@ -165,65 +128,102 @@ public:
     MaterializedCTEView& operator=(const MaterializedCTEView&) = delete;
 
     /**
-     * Apply a single change record to this view.
-     * @return true  if the change was applied (passed base filters and
-     *               belongs to this view's source collection).
-     * @return false otherwise.
+     * @brief Apply Change.
+     * @param[in] change Input parameter.
+     * @return True when the operation succeeds.
      */
     bool applyChange(const CTEDataChange& change);
 
     /**
-     * Apply a batch of change records.
-     * Acquires the writer lock once for the entire batch.
-     * @return number of records actually applied.
+     * @brief Apply Changes.
+     * @param[in] changes Input parameter.
+     * @return Return value.
      */
     int applyChanges(const std::vector<CTEDataChange>& changes);
 
-    /**
-     * Query the current view state.
-     * @param limit  Maximum rows to return (0 = all).
-     * @param offset Row offset for pagination.
-     */
     MaterializedCTEResult query(int64_t limit = 0, int64_t offset = 0) const;
 
-    /** View definition. */
     const MaterializedCTEDef& definition() const { return def_; }
 
-    /** True if any change has been applied since the last clear(). */
+    /**
+     * @brief Is Dirty.
+     * @return True when the operation succeeds.
+     */
     bool isDirty() const;
 
-    /** True if staleness_seconds > 0 and last update was longer ago. */
+    /**
+     * @brief Is Stale.
+     * @return True when the operation succeeds.
+     */
     bool isStale() const;
 
-    /** Number of distinct groups currently tracked. */
+    /**
+     * @brief Group Count.
+     * @return Return value.
+     */
     int64_t groupCount() const;
 
-    /** Total number of change records applied (monotonically increasing). */
+    /**
+     * @brief Change Count.
+     * @return Return value.
+     */
     uint64_t changeCount() const;
 
-    /** Discard all aggregated state; after this, the view is empty. */
+    /**
+     * @brief Clear.
+     */
     void clear();
 
 private:
     MaterializedCTEDef                                        def_;
     std::unique_ptr<themisdb::analytics::IncrementalView>    view_;
 
-    // ---- type-conversion helpers ----
+    /**
+     * @brief ---- type-conversion helpers ----
+     * @param[in] def Input parameter.
+     * @return Return value.
+     */
 
     static themisdb::analytics::ViewDefinition buildViewDef(
         const MaterializedCTEDef& def);
 
+    /**
+     * @brief To View Agg Func.
+     * @param[in] f Input parameter.
+     * @return Return value.
+     */
     static themisdb::analytics::ViewAggFunc toViewAggFunc(CTEAggFunc f);
 
+    /**
+     * @brief To View Filter Op.
+     * @param[in] op Input parameter.
+     * @return Return value.
+     */
     static themisdb::analytics::ViewFilter::Op toViewFilterOp(
         CTEBaseFilter::Op op);
 
+    /**
+     * @brief Json To Row.
+     * @param[in] json_row Input parameter.
+     * @return Return value.
+     */
     static themisdb::analytics::ChangeRecord::Row jsonToRow(
         const nlohmann::json& json_row);
 
+    /**
+     * @brief To Change Record.
+     * @param[in] change Input parameter.
+     * @return Return value.
+     */
     static themisdb::analytics::ChangeRecord toChangeRecord(
         const CTEDataChange& change);
 
+    /**
+     * @brief From View Query Result.
+     * @param[in] vqr Input parameter.
+     * @param[in] def Input parameter.
+     * @return Return value.
+     */
     static MaterializedCTEResult fromViewQueryResult(
         const themisdb::analytics::ViewQueryResult& vqr,
         const MaterializedCTEDef& def);
@@ -233,82 +233,63 @@ private:
 // MaterializedCTERegistry
 // ============================================================================
 
-/**
- * @brief Registry and dispatcher for multiple MaterializedCTEViews.
- *
- * Manages a set of incrementally maintained materialized CTE views and
- * routes incoming data changes to all views that observe the affected
- * collection.
- *
- * @code
- *   MaterializedCTERegistry registry;
- *
- *   MaterializedCTEDef def;
- *   def.name = "sales_by_region";
- *   def.source_collection = "sales";
- *   def.dimensions = {"region"};
- *   def.aggregations = {
- *       {"total",  CTEAggFunc::SUM,   "amount"},
- *       {"orders", CTEAggFunc::COUNT, ""}
- *   };
- *   registry.registerCTE(def);
- *
- *   CTEDataChange change;
- *   change.type = CTEChangeType::INSERT;
- *   change.collection = "sales";
- *   change.after_row = {{"region", "EU"}, {"amount", 99.9}};
- *   registry.applyChange(change);
- *
- *   auto result = registry.query("sales_by_region");
- * @endcode
- */
 class MaterializedCTERegistry {
 public:
     MaterializedCTERegistry();
     ~MaterializedCTERegistry();
 
     /**
-     * Register a new CTE for incremental maintenance.
-     * @return false if a CTE with the same name already exists.
+     * @brief Register CTE.
+     * @param[in] def Input parameter.
+     * @return True when the operation succeeds.
      */
     bool registerCTE(const MaterializedCTEDef& def);
 
     /**
-     * Remove a CTE by name.
-     * @return false if the name is not found.
+     * @brief Unregister CTE.
+     * @param[in] name Input parameter.
+     * @return True when the operation succeeds.
      */
     bool unregisterCTE(const std::string& name);
 
-    /** Check if a CTE is registered. */
+    /**
+     * @brief Has CTE.
+     * @param[in] name Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool hasCTE(const std::string& name) const;
 
-    /** List all registered CTE names. */
+    /**
+     * @brief List CTEs.
+     * @return Return value.
+     */
     std::vector<std::string> listCTEs() const;
 
-    /** Get a specific CTE view (nullptr if not found). */
+    /**
+     * @brief Get View.
+     * @param[in] name Input parameter.
+     * @return Return value.
+     */
     std::shared_ptr<MaterializedCTEView> getView(const std::string& name) const;
 
     /**
-     * Apply a single change to all views that observe the change's collection.
+     * @brief Apply Change.
+     * @param[in] change Input parameter.
      */
     void applyChange(const CTEDataChange& change);
 
     /**
-     * Apply a batch of changes to all relevant views.
+     * @brief Apply Changes.
+     * @param[in] changes Input parameter.
      */
     void applyChanges(const std::vector<CTEDataChange>& changes);
 
-    /**
-     * Query a materialized CTE by name.
-     * Returns an empty result if the name is not found.
-     */
     MaterializedCTEResult query(
         const std::string& cte_name,
         int64_t limit  = 0,
         int64_t offset = 0
     ) const;
 
-    /** Total changes applied across all views since registry creation. */
     uint64_t totalChanges() const { return total_changes_.load(); }
 
 private:

@@ -34,6 +34,12 @@ nlohmann::json RegressionFixture::toJson() const {
     };
 }
 
+/**
+ * @brief From Json.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: value().
+ */
 RegressionFixture RegressionFixture::fromJson(const nlohmann::json& j) {
     RegressionFixture f;
     f.template_id     = j.value("template_id",     std::string{});
@@ -87,11 +93,23 @@ PromptRegressionRunner::PromptRegressionRunner(
 // Fixture management
 // ============================================================================
 
+/**
+ * @brief Set Fixtures.
+ * @param[in] fixtures Input parameter.
+ * @details Calls: std::move().
+ */
 void PromptRegressionRunner::setFixtures(
     std::vector<RegressionFixture> fixtures) {
     fixtures_ = std::move(fixtures);
 }
 
+/**
+ * @brief Load Feedback Fixtures.
+ * @param[in] collector Input parameter.
+ * @param[in] template_id Identifier of the template.
+ * @param[in] limit Input parameter.
+ * @details Calls: getFeedback(), push_back(), std::move().
+ */
 void PromptRegressionRunner::loadFeedbackFixtures(
     const FeedbackCollector& collector,
     const std::string&       template_id,
@@ -109,6 +127,10 @@ void PromptRegressionRunner::loadFeedbackFixtures(
     }
 }
 
+/**
+ * @brief Clear Fixtures.
+ * @details Calls: clear().
+ */
 void PromptRegressionRunner::clearFixtures() {
     fixtures_.clear();
 }
@@ -278,6 +300,11 @@ const RegressionConfig& PromptRegressionRunner::runConfig() const noexcept {
     return run_config_;
 }
 
+/**
+ * @brief Set Run Config.
+ * @param[in] cfg Input parameter.
+ * @details Implements setRunConfig without additional internal calls.
+ */
 void PromptRegressionRunner::setRunConfig(const RegressionConfig& cfg) {
     run_config_ = cfg;
 }

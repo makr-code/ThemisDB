@@ -22,9 +22,6 @@ namespace lora {
 
 namespace fs = std::filesystem;
 
-/**
- * @brief Implementation class for LoRAStorageService
- */
 class LoRAStorageService::Impl {
 public:
     explicit Impl(const Config& config) : config_(config) {
@@ -43,6 +40,14 @@ public:
         spdlog::info("  Max versions: {}", config_.max_versions);
     }
     
+    /**
+     * @brief Save Adapter.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @param[in] weights Input parameter.
+     * @param[in] metadata Input parameter.
+     * @return True when the operation succeeds.
+     * @details Calls: saveToFilesystem(), spdlog::error(), backendToString(), what().
+     */
     bool saveAdapter(
         const std::string& adapter_id,
         const AdapterWeights& weights,
@@ -65,6 +70,12 @@ public:
         }
     }
     
+    /**
+     * @brief Load Adapter.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @return Return value.
+     * @details Calls: loadFromFilesystem(), spdlog::error(), backendToString(), what().
+     */
     std::optional<AdapterWeights> loadAdapter(const std::string& adapter_id) {
         try {
             if (config_.backend == Backend::FileSystem) {
@@ -81,6 +92,12 @@ public:
         }
     }
     
+    /**
+     * @brief Load Metadata.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @return Return value.
+     * @details Calls: loadMetadataFromFilesystem(), spdlog::error(), backendToString(), what().
+     */
     std::optional<AdapterMetadata> loadMetadata(const std::string& adapter_id) {
         try {
             if (config_.backend == Backend::FileSystem) {
@@ -97,6 +114,12 @@ public:
         }
     }
     
+    /**
+     * @brief Delete Adapter.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @return True when the operation succeeds.
+     * @details Calls: fs::path(), fs::exists(), fs::remove_all(), spdlog::info(), spdlog::error(), backendToString(), what().
+     */
     bool deleteAdapter(const std::string& adapter_id) {
         try {
             if (config_.backend == Backend::FileSystem) {
@@ -145,6 +168,12 @@ public:
         return adapters;
     }
     
+    /**
+     * @brief Create Version.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @return Return value.
+     * @details Calls: listVersions(), size(), std::stoi(), substr(), std::max(), std::to_string(), fs::path(), fs::exists().
+     */
     std::string createVersion(const std::string& adapter_id) {
         if (!config_.enable_versioning) {
             return "v1";
@@ -179,6 +208,13 @@ public:
         return new_version;
     }
     
+    /**
+     * @brief Rollback To Version.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @param[in] version Input parameter.
+     * @return True when the operation succeeds.
+     * @details Calls: fs::path(), fs::exists(), fs::copy_file(), spdlog::info(), spdlog::error().
+     */
     bool rollbackToVersion(const std::string& adapter_id, const std::string& version) {
         if (config_.backend == Backend::FileSystem) {
             fs::path adapter_dir = fs::path(config_.filesystem_path) / adapter_id;
@@ -228,6 +264,13 @@ public:
         return versions;
     }
     
+    /**
+     * @brief Update Metadata.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @param[in] metadata Input parameter.
+     * @return True when the operation succeeds.
+     * @details Calls: fs::path(), toJSON(), file(), dump(), spdlog::info(), spdlog::error(), what().
+     */
     bool updateMetadata(const std::string& adapter_id, const AdapterMetadata& metadata) {
         if (config_.backend == Backend::FileSystem) {
             fs::path adapter_dir = fs::path(config_.filesystem_path) / adapter_id;
@@ -261,6 +304,12 @@ public:
 private:
     Config config_;
     
+    /**
+     * @brief Backend To String.
+     * @param[in] backend Input parameter.
+     * @return Return value.
+     * @details Implements backendToString without additional internal calls.
+     */
     static std::string backendToString(Backend backend) {
         switch (backend) {
             case Backend::ThemisDB: return "ThemisDB";
@@ -270,6 +319,14 @@ private:
         }
     }
     
+    /**
+     * @brief Save To Filesystem.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @param[in] weights Input parameter.
+     * @param[in] metadata Input parameter.
+     * @return True when the operation succeeds.
+     * @details Calls: fs::path(), fs::create_directories(), weights_file(), spdlog::error(), string(), write(), data(), size().
+     */
     bool saveToFilesystem(
         const std::string& adapter_id,
         const AdapterWeights& weights,
@@ -310,6 +367,12 @@ private:
         return true;
     }
     
+    /**
+     * @brief Load From Filesystem.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @return Return value.
+     * @details Calls: fs::path(), fs::exists(), spdlog::warn(), string(), weights_file(), spdlog::error(), tellg(), seekg().
+     */
     std::optional<AdapterWeights> loadFromFilesystem(const std::string& adapter_id) {
         fs::path adapter_dir = fs::path(config_.filesystem_path) / adapter_id;
         fs::path weights_path = adapter_dir / "weights.bin";
@@ -342,6 +405,12 @@ private:
         return weights;
     }
     
+    /**
+     * @brief Load Metadata From Filesystem.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @return Return value.
+     * @details Calls: fs::path(), fs::exists(), spdlog::warn(), string(), metadata_file(), spdlog::error(), AdapterMetadata::fromJSON().
+     */
     std::optional<AdapterMetadata> loadMetadataFromFilesystem(const std::string& adapter_id) {
         fs::path adapter_dir = fs::path(config_.filesystem_path) / adapter_id;
         fs::path metadata_path = adapter_dir / "metadata.json";
@@ -371,6 +440,14 @@ LoRAStorageService::LoRAStorageService(const Config& config)
 
 LoRAStorageService::~LoRAStorageService() = default;
 
+/**
+ * @brief Save Adapter.
+ * @param[in] adapter_id Identifier of the adapter.
+ * @param[in] weights Input parameter.
+ * @param[in] metadata Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements saveAdapter without additional internal calls.
+ */
 bool LoRAStorageService::saveAdapter(
     const std::string& adapter_id,
     const AdapterWeights& weights,
@@ -379,14 +456,32 @@ bool LoRAStorageService::saveAdapter(
     return impl_->saveAdapter(adapter_id, weights, metadata);
 }
 
+/**
+ * @brief Load Adapter.
+ * @param[in] adapter_id Identifier of the adapter.
+ * @return Return value.
+ * @details Implements loadAdapter without additional internal calls.
+ */
 std::optional<AdapterWeights> LoRAStorageService::loadAdapter(const std::string& adapter_id) {
     return impl_->loadAdapter(adapter_id);
 }
 
+/**
+ * @brief Load Metadata.
+ * @param[in] adapter_id Identifier of the adapter.
+ * @return Return value.
+ * @details Implements loadMetadata without additional internal calls.
+ */
 std::optional<AdapterMetadata> LoRAStorageService::loadMetadata(const std::string& adapter_id) {
     return impl_->loadMetadata(adapter_id);
 }
 
+/**
+ * @brief Delete Adapter.
+ * @param[in] adapter_id Identifier of the adapter.
+ * @return True when the operation succeeds.
+ * @details Implements deleteAdapter without additional internal calls.
+ */
 bool LoRAStorageService::deleteAdapter(const std::string& adapter_id) {
     return impl_->deleteAdapter(adapter_id);
 }
@@ -399,10 +494,23 @@ std::vector<std::string> LoRAStorageService::listAdapters() const {
     return impl_->listAdapters();
 }
 
+/**
+ * @brief Create Version.
+ * @param[in] adapter_id Identifier of the adapter.
+ * @return Return value.
+ * @details Implements createVersion without additional internal calls.
+ */
 std::string LoRAStorageService::createVersion(const std::string& adapter_id) {
     return impl_->createVersion(adapter_id);
 }
 
+/**
+ * @brief Rollback To Version.
+ * @param[in] adapter_id Identifier of the adapter.
+ * @param[in] version Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements rollbackToVersion without additional internal calls.
+ */
 bool LoRAStorageService::rollbackToVersion(const std::string& adapter_id, const std::string& version) {
     return impl_->rollbackToVersion(adapter_id, version);
 }
@@ -411,6 +519,13 @@ std::vector<std::string> LoRAStorageService::listVersions(const std::string& ada
     return impl_->listVersions(adapter_id);
 }
 
+/**
+ * @brief Update Metadata.
+ * @param[in] adapter_id Identifier of the adapter.
+ * @param[in] metadata Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements updateMetadata without additional internal calls.
+ */
 bool LoRAStorageService::updateMetadata(const std::string& adapter_id, const AdapterMetadata& metadata) {
     return impl_->updateMetadata(adapter_id, metadata);
 }

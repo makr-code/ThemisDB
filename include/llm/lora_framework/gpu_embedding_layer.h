@@ -20,29 +20,8 @@ namespace themis {
 namespace llm {
 namespace lora {
 
-/**
- * @brief GPU Embedding Layer - Converts token IDs to embeddings on GPU
- * 
- * This class provides efficient embedding lookup on GPU by:
- * 1. Storing embedding weights directly in GPU memory
- * 2. Performing lookups via GPU kernels (when available)
- * 3. Falling back to CPU-based lookup with GPU upload (initial implementation)
- * 
- * Design:
- * - Embedding weights are loaded from base model and kept on GPU
- * - Token IDs are looked up to produce embedding vectors
- * - No CPU-GPU transfers in the hot path (GPU kernels)
- * - CPU fallback available for compatibility
- */
 class GPUEmbeddingLayer {
 public:
-    /**
-     * @brief Construct GPU embedding layer from embedding weights
-     * @param embedding_weights Embedding matrix [vocab_size, hidden_dim] (CPU memory)
-     * @param vocab_size Vocabulary size
-     * @param hidden_dim Embedding dimension
-     * @param device Target GPU device (CUDA, HIP, Vulkan, DirectX)
-     */
     GPUEmbeddingLayer(const float* embedding_weights, 
                       size_t vocab_size,
                       size_t hidden_dim,
@@ -57,40 +36,18 @@ public:
     GPUEmbeddingLayer& operator=(GPUEmbeddingLayer&& other) noexcept;
     
     /**
-     * @brief Forward pass: token IDs → embeddings
-     * 
-     * Input: token_ids [batch_size, seq_len] on GPU
-     * Output: embeddings [batch_size, seq_len, hidden_dim] on GPU
-     * 
-     * Implementation:
-     * - For each token ID, lookup corresponding embedding vector
-     * - Use GPU kernel when available (CUDA/HIP/Vulkan)
-     * - Fall back to CPU lookup + GPU upload when needed
-     * 
-     * @param token_ids Token ID tensor (batch_size, seq_len) on GPU
-     * @return Embedding tensor (batch_size, seq_len, hidden_dim) on GPU
+     * @brief Forward.
+     * @param[in] token_ids Input parameter.
+     * @return Return value.
      */
     GPUTensor forward(const GPUTensor& token_ids);
     
-    /**
-     * @brief Get embedding weights tensor (read-only)
-     * @return Embedding weight matrix [vocab_size, hidden_dim] on GPU
-     */
     const GPUTensor& weights() const { return embedding_weights_; }
     
-    /**
-     * @brief Get vocabulary size
-     */
     size_t vocab_size() const { return vocab_size_; }
     
-    /**
-     * @brief Get embedding dimension
-     */
     size_t hidden_dim() const { return hidden_dim_; }
     
-    /**
-     * @brief Get device
-     */
     const Device& device() const { return device_; }
     
 private:
@@ -100,10 +57,35 @@ private:
     Device device_;
     
     // Helper methods
+    /**
+     * @brief Forward CPU.
+     * @param[in] token_ids Input parameter.
+     * @return Return value.
+     */
     GPUTensor forwardCPU(const GPUTensor& token_ids);
+    /**
+     * @brief Forward CUDA.
+     * @param[in] token_ids Input parameter.
+     * @return Return value.
+     */
     GPUTensor forwardCUDA(const GPUTensor& token_ids);
+    /**
+     * @brief Forward HIP.
+     * @param[in] token_ids Input parameter.
+     * @return Return value.
+     */
     GPUTensor forwardHIP(const GPUTensor& token_ids);
+    /**
+     * @brief Forward Vulkan.
+     * @param[in] token_ids Input parameter.
+     * @return Return value.
+     */
     GPUTensor forwardVulkan(const GPUTensor& token_ids);
+    /**
+     * @brief Forward Direct X.
+     * @param[in] token_ids Input parameter.
+     * @return Return value.
+     */
     GPUTensor forwardDirectX(const GPUTensor& token_ids);
 };
 

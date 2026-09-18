@@ -87,7 +87,14 @@ namespace performance {
 
 namespace {
 
-// ─── Value comparison helpers ────────────────────────────────────────────────
+/**
+ * @brief ─── Value comparison helpers ────────────────────────────────────────────────
+ * @param[in] lhs Input parameter.
+ * @param[in] op Input parameter.
+ * @param[in] rhs Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements compareInt64 without additional internal calls.
+ */
 
 static bool compareInt64(int64_t lhs, Predicate::Op op, int64_t rhs) {
     switch (op) {
@@ -101,6 +108,14 @@ static bool compareInt64(int64_t lhs, Predicate::Op op, int64_t rhs) {
     }
 }
 
+/**
+ * @brief Compare Double.
+ * @param[in] lhs Input parameter.
+ * @param[in] op Input parameter.
+ * @param[in] rhs Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements compareDouble without additional internal calls.
+ */
 static bool compareDouble(double lhs, Predicate::Op op, double rhs) {
     switch (op) {
         case Predicate::Op::EQ:   return lhs == rhs;
@@ -113,6 +128,14 @@ static bool compareDouble(double lhs, Predicate::Op op, double rhs) {
     }
 }
 
+/**
+ * @brief Compare String.
+ * @param[in] lhs Input parameter.
+ * @param[in] op Input parameter.
+ * @param[in] rhs Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), front(), back(), substr(), size(), find().
+ */
 static bool compareString(const std::string& lhs,
                            Predicate::Op      op,
                            const std::string& rhs) {
@@ -150,7 +173,13 @@ static bool compareString(const std::string& lhs,
     }
 }
 
-// ─── Resolve a predicate value (constant or bind parameter) ─────────────────
+/**
+ * @brief ─── Resolve a predicate value (constant or bind parameter) ─────────────────
+ * @param[in] pred Input parameter.
+ * @param[in] params Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), get().
+ */
 
 static QueryValue resolveValue(const Predicate&   pred,
                                 const QueryParams& params) {
@@ -165,7 +194,14 @@ static QueryValue resolveValue(const Predicate&   pred,
     return std::monostate{};
 }
 
-// ─── Evaluate a single predicate against a row ──────────────────────────────
+/**
+ * @brief ─── Evaluate a single predicate against a row ──────────────────────────────
+ * @param[in] row Input parameter.
+ * @param[in] pred Input parameter.
+ * @param[in] params Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: get(), resolveValue(), compareInt64(), compareDouble(), compareString().
+ */
 
 static bool evalPredicate(const QueryRow&    row,
                            const Predicate&   pred,
@@ -229,6 +265,14 @@ struct IRGenOptions {
     bool enable_inlining      = true;
 };
 
+/**
+ * @brief Generate LLVMIR.
+ * @param[in] query Input parameter.
+ * @param[in] schema Input parameter.
+ * @param[in] opts Input parameter.
+ * @return Return value.
+ * @details Calls: size(), empty(), str().
+ */
 static std::string generateLLVMIR(const ParsedQuery& query,
                                    const Schema&      schema,
                                    const IRGenOptions& opts) {
@@ -285,6 +329,13 @@ static std::string generateLLVMIR(const ParsedQuery& query,
     return ir.str();
 }
 
+/**
+ * @brief Generate Assembly.
+ * @param[in] query Input parameter.
+ * @param[in] opts Input parameter.
+ * @return Return value.
+ * @details Calls: str().
+ */
 static std::string generateAssembly(const ParsedQuery&  query,
                                      const IRGenOptions& opts) {
     std::ostringstream asm_str = {};
@@ -305,8 +356,15 @@ static std::string generateAssembly(const ParsedQuery&  query,
 
 // ─── Row factory for the interpreted / compiled paths ────────────────────────
 
-// Build a synthetic row used by the test / interpreted path.
-// In a real system this would come from the storage engine.
+/**
+ * @brief Build a synthetic row used by the test / interpreted path.
+ * @param[in] table Input parameter.
+ * @param[in] tschema Input parameter.
+ * @param[in] row_idx Input parameter.
+ * @param[in] params Input parameter.
+ * @return Return value.
+ * @details In a real system this would come from the storage engine. Calls: push_back(), std::to_string().
+ */
 static QueryRow makeRow(const std::string&       table,
                          const TableSchema*        tschema,
                          size_t                    row_idx,
@@ -348,7 +406,6 @@ static QueryRow makeRow(const std::string&       table,
 // AdaptiveQueryCompiler::Impl
 // ============================================================================
 
-/** @brief AdaptiveQueryCompiler::Impl. */
 class AdaptiveQueryCompiler::Impl {
 public:
     // ── Per-fingerprint tracking entry ───────────────────────────────────────
@@ -375,7 +432,14 @@ public:
 
     explicit Impl(CompilationConfig cfg) : cfg_(std::move(cfg)) {}
 
-    // ─── Core execute ─────────────────────────────────────────────────────────
+    /**
+     * @brief ─── Core execute ─────────────────────────────────────────────────────────
+     * @param[in] query Input parameter.
+     * @param[in] schema Input parameter.
+     * @param[in] params Input parameter.
+     * @return Return value.
+     * @details Calls: lock(), is_compilable(), unlock(), compileImpl(), std::move(), reset(), std::chrono::steady_clock::now(), fn().
+     */
 
     QueryResult execute(const ParsedQuery& query,
                         const Schema&      schema,
@@ -459,7 +523,14 @@ public:
         return result;
     }
 
-    // ─── Explicit compile ─────────────────────────────────────────────────────
+    /**
+     * @brief ─── Explicit compile ─────────────────────────────────────────────────────
+     * @param[in] query Input parameter.
+     * @param[in] schema Input parameter.
+     * @param[in] override_cfg Input parameter.
+     * @return Return value.
+     * @details Calls: compileImpl(), lock().
+     */
 
     CompiledQuery compile(const ParsedQuery&               query,
                           const Schema&                    schema,
@@ -481,7 +552,11 @@ public:
                !query.fingerprint.empty();
     }
 
-    // ─── Cache management ─────────────────────────────────────────────────────
+    /**
+     * @brief ─── Cache management ─────────────────────────────────────────────────────
+     * @param[in] fp Input parameter.
+     * @details Calls: lock(), find(), end(), reset().
+     */
 
     void invalidate(const std::string& fp) {
         std::lock_guard<std::mutex> lock(mutex_);
@@ -494,6 +569,10 @@ public:
         }
     }
 
+    /**
+     * @brief Invalidate All.
+     * @details Calls: lock(), reset().
+     */
     void invalidateAll() {
         std::lock_guard<std::mutex> lock(mutex_);
         for (auto& kv : entries_) {
@@ -505,12 +584,22 @@ public:
     }
 
     size_t executionCount(const std::string& fp) const {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         auto it = entries_.find(fp);
         return it == entries_.end() ? 0 : it->second.call_count;
     }
 
     bool isCompiled(const std::string& fp) const {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         auto it = entries_.find(fp);
         return it != entries_.end() &&
@@ -521,6 +610,11 @@ public:
     // ─── Statistics ───────────────────────────────────────────────────────────
 
     CompilationStats getStats() const {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         CompilationStats s = stats_;
         // Recount live cache entries
@@ -532,6 +626,10 @@ public:
         return s;
     }
 
+    /**
+     * @brief Reset Stats.
+     * @details Calls: lock().
+     */
     void resetStats() {
         std::lock_guard<std::mutex> lock(mutex_);
         stats_ = CompilationStats{};
@@ -638,6 +736,11 @@ private:
                 double val = 0.0;
                 if (std::holds_alternative<int64_t>(*v))
                     val = static_cast<double>(std::get<int64_t>(*v));
+                /**
+                 * @brief If.
+                 * @param[in,out] param Input/output parameter.
+                 * @return Return value.
+                 */
                 else if (std::holds_alternative<double>(*v))
                     val = std::get<double>(*v);
                 else
@@ -692,6 +795,11 @@ private:
             double val = 0.0;
             if (std::holds_alternative<int64_t>(*v))
                 val = static_cast<double>(std::get<int64_t>(*v));
+            /**
+             * @brief If.
+             * @param[in,out] param Input/output parameter.
+             * @return Return value.
+             */
             else if (std::holds_alternative<double>(*v))
                 val = std::get<double>(*v);
             else
@@ -721,6 +829,14 @@ private:
         return result;
     }
 
+    /**
+     * @brief Apply Agg Function.
+     * @param[in] fn Input parameter.
+     * @param[in] acc Input parameter.
+     * @param[in] total_rows Input parameter.
+     * @return Return value.
+     * @details Calls: max(), lowest().
+     */
     static double applyAggFunction(const std::string& fn,
                                     const AggAccum&    acc,
                                     size_t             total_rows) {
@@ -761,6 +877,11 @@ private:
             std::string kstr = {};
             if (std::holds_alternative<int64_t>(*key))
                 kstr = std::to_string(std::get<int64_t>(*key));
+            /**
+             * @brief If.
+             * @param[in,out] param Input/output parameter.
+             * @return Return value.
+             */
             else if (std::holds_alternative<std::string>(*key))
                 kstr = std::get<std::string>(*key);
             hash_table[kstr] = std::move(rrow);
@@ -776,6 +897,11 @@ private:
             std::string lkstr = {};
             if (std::holds_alternative<int64_t>(*lkey))
                 lkstr = std::to_string(std::get<int64_t>(*lkey));
+            /**
+             * @brief If.
+             * @param[in,out] param Input/output parameter.
+             * @return Return value.
+             */
             else if (std::holds_alternative<std::string>(*lkey))
                 lkstr = std::get<std::string>(*lkey);
 
@@ -860,7 +986,15 @@ private:
         return result;
     }
 
-    // ─── Specialisation compiler ───────────────────────────────────────────────
+    /**
+     * @brief ─── Specialisation compiler ───────────────────────────────────────────────
+     * @param[in] query Input parameter.
+     * @param[in] schema Input parameter.
+     * @param[in] cfg Input parameter.
+     * @param[in] record_stats Input parameter.
+     * @return Return value.
+     * @details Calls: std::chrono::steady_clock::now(), is_compilable(), lock(), generateLLVMIR(), generateAssembly(), size(), reserve(), getTable().
+     */
 
     CompiledQuery compileImpl(const ParsedQuery&       query,
                                const Schema&             schema,
@@ -1130,17 +1264,11 @@ private:
         return cq;
     }
 
-    // ─── Speedup estimation ───────────────────────────────────────────────────
-
     /**
-     * @brief Update average_speedup_percent from measured cold vs hot timings.
-     *
-     * Called under mutex_ after each hot-path invocation that has enough
-     * timing samples to produce a stable estimate.
-     *
-     * Speedup (%) = (cold_avg / hot_avg - 1) * 100
-     * A cold_avg of 50 µs and hot_avg of 10 µs → 400 %
+     * @brief ─── Speedup estimation ───────────────────────────────────────────────────
+     * @details Calls: std::max(), std::min().
      */
+
     void updateSpeedupEstimate() {
         // Require at least a few samples of each path for a stable estimate
         if (cold_exec_samples_ < 3 || hot_exec_samples_ < 1) {
@@ -1185,12 +1313,27 @@ AdaptiveQueryCompiler::AdaptiveQueryCompiler(CompilationConfig config)
 
 AdaptiveQueryCompiler::~AdaptiveQueryCompiler() = default;
 
+/**
+ * @brief Execute.
+ * @param[in] query Input parameter.
+ * @param[in] schema Input parameter.
+ * @param[in] params Input parameter.
+ * @return Return value.
+ * @details Implements execute without additional internal calls.
+ */
 QueryResult AdaptiveQueryCompiler::execute(const ParsedQuery& query,
                                             const Schema&      schema,
                                             const QueryParams& params) {
     return impl_->execute(query, schema, params);
 }
 
+/**
+ * @brief Execute.
+ * @param[in] compiled Input parameter.
+ * @param[in] params Input parameter.
+ * @return Return value.
+ * @details Implements execute without additional internal calls.
+ */
 QueryResult AdaptiveQueryCompiler::execute(const CompiledQuery& compiled,
                                             const QueryParams&   params) {
     if (!compiled.execute) {
@@ -1213,10 +1356,19 @@ bool AdaptiveQueryCompiler::is_compilable(const ParsedQuery& query) const noexce
     return impl_->is_compilable(query);
 }
 
+/**
+ * @brief Invalidate.
+ * @param[in] fingerprint Input parameter.
+ * @details Implements invalidate without additional internal calls.
+ */
 void AdaptiveQueryCompiler::invalidate(const std::string& fingerprint) {
     impl_->invalidate(fingerprint);
 }
 
+/**
+ * @brief Invalidate All.
+ * @details Implements invalidateAll without additional internal calls.
+ */
 void AdaptiveQueryCompiler::invalidateAll() {
     impl_->invalidateAll();
 }
@@ -1233,6 +1385,10 @@ AdaptiveQueryCompiler::CompilationStats AdaptiveQueryCompiler::getStats() const 
     return impl_->getStats();
 }
 
+/**
+ * @brief Reset Stats.
+ * @details Implements resetStats without additional internal calls.
+ */
 void AdaptiveQueryCompiler::resetStats() {
     impl_->resetStats();
 }

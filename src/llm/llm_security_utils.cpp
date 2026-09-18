@@ -14,6 +14,12 @@
 namespace themis {
 namespace llm {
 
+/**
+ * @brief Sanitize Api Key.
+ * @param[in] api_key Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), size(), std::string(), substr().
+ */
 std::string sanitizeApiKey(const std::string& api_key) {
     if (api_key.empty()) {
         return "<not set>";

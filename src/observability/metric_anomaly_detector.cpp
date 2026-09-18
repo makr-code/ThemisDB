@@ -55,45 +55,35 @@ MetricAnomalyDetector::StreamState::StreamState(const MonitoredMetric& cfg)
           return sc;
       }()) {}
 
+
 /**
- * @brief --------------------------------------------------------------------------- monitor / unmonitor ---------------------------------------------------------------------------
+ * @brief Monitor.
  * @param[in] config Input parameter.
  * @details Calls: lk().
  */
-
 void MetricAnomalyDetector::monitor(const MonitoredMetric& config) {
-    /**
-     * @brief Lk.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lk(mutex_);
     streams_[config.name] = std::make_unique<StreamState>(config);
 }
 
 /**
  * @brief Unmonitor.
- * @param[in] metric_name Input parameter.
+ * @param[in] metric_name Name of the metric.
  * @details Calls: lk(), erase().
  */
 void MetricAnomalyDetector::unmonitor(const std::string& metric_name) {
-    /**
-     * @brief Lk.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lk(mutex_);
     streams_.erase(metric_name);
 }
 
+
 /**
- * @brief --------------------------------------------------------------------------- observe ---------------------------------------------------------------------------
- * @param[in] metric_name Input parameter.
+ * @brief Observe.
+ * @param[in] metric_name Name of the metric.
  * @param[in] value Input parameter.
  * @param[in] timestamp Input parameter.
  * @return Return value.
  */
-
 std::optional<MetricAnomaly> MetricAnomalyDetector::observe(
     const std::string& metric_name,
     double value,
@@ -198,19 +188,14 @@ std::vector<MetricAnomaly> MetricAnomalyDetector::getAllAnomalies() const {
     return result;
 }
 
+
 /**
- * @brief --------------------------------------------------------------------------- clearAnomalies ---------------------------------------------------------------------------
- * @param[in] metric_name Input parameter.
+ * @brief Clear Anomalies.
+ * @param[in] metric_name Name of the metric.
  * @throws std::out_of_range if an error occurs.
  * @details Calls: lk(), find(), end(), clear().
  */
-
 void MetricAnomalyDetector::clearAnomalies(const std::string& metric_name) {
-    /**
-     * @brief Lk.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lk(mutex_);
     auto it = streams_.find(metric_name);
     if (it == streams_.end()) {
@@ -226,11 +211,6 @@ void MetricAnomalyDetector::clearAnomalies(const std::string& metric_name) {
  * @details Calls: lk(), clear(), clearAnomalies().
  */
 void MetricAnomalyDetector::clearAllAnomalies() {
-    /**
-     * @brief Lk.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lk(mutex_);
     for (auto& [name, state] : streams_) {
         state->anomalies.clear();
@@ -238,18 +218,13 @@ void MetricAnomalyDetector::clearAllAnomalies() {
     }
 }
 
+
 /**
- * @brief --------------------------------------------------------------------------- setCallback ---------------------------------------------------------------------------
+ * @brief Set Callback.
  * @param[in] cb Input parameter.
  * @details Calls: lk(), std::move().
  */
-
 void MetricAnomalyDetector::setCallback(AnomalyCallback cb) {
-    /**
-     * @brief Lk.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lk(mutex_);
     callback_ = std::move(cb);
 }

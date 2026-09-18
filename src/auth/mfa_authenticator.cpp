@@ -48,6 +48,12 @@ nlohmann::json MFAAuthenticator::EnrollmentData::to_json() const {
     return j;
 }
 
+/**
+ * @brief From json.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: at(), std::chrono::system_clock::from_time_t().
+ */
 MFAAuthenticator::EnrollmentData MFAAuthenticator::EnrollmentData::from_json(const nlohmann::json& j) {
     EnrollmentData data;
     data.user_id = j.at("user_id").get<std::string>();
@@ -97,6 +103,12 @@ MFAAuthenticator::MFAAuthenticator(const Config& config)
     spdlog::info("  Time window: ±{} steps", config_.time_window);
 }
 
+/**
+ * @brief Generate Enrollment.
+ * @param[in] user_id Identifier of the user.
+ * @return Return value.
+ * @details Calls: generateSecret(), generateRecoveryCodes(), std::chrono::system_clock::now(), spdlog::info(), logSecurityEvent().
+ */
 MFAAuthenticator::EnrollmentData MFAAuthenticator::generateEnrollment(const std::string& user_id) {
     EnrollmentData data;
     data.user_id = user_id;
@@ -179,6 +191,13 @@ bool MFAAuthenticator::validateTOTP(
     return false;
 }
 
+/**
+ * @brief Validate Recovery Code.
+ * @param[in,out] enrollment Input/output parameter.
+ * @param[in] recovery_code Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: size(), CRYPTO_memcmp(), data(), erase(), begin(), spdlog::info(), logSecurityEvent(), spdlog::debug().
+ */
 bool MFAAuthenticator::validateRecoveryCode(
     EnrollmentData& enrollment,
     const std::string& recovery_code
@@ -222,6 +241,12 @@ bool MFAAuthenticator::validateRecoveryCode(
     return false;
 }
 
+/**
+ * @brief Generate Recovery Codes.
+ * @param[in] user_id Identifier of the user.
+ * @return Return value.
+ * @details Calls: reserve(), push_back(), generateRecoveryCode(), spdlog::debug().
+ */
 std::vector<std::string> MFAAuthenticator::generateRecoveryCodes(const std::string& user_id) {
     std::vector<std::string> codes;
     codes.reserve(config_.recovery_codes_count);

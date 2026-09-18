@@ -46,6 +46,11 @@ DirectXShader& DirectXShader::operator=(DirectXShader&& other) noexcept {
     return *this;
 }
 
+/**
+ * @brief Load.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), p(), file(), string(), is_open(), tellg(), seekg(), resize().
+ */
 bool DirectXShader::load() {
     if (!bytecode_.empty()) {
         return true;  // Already loaded

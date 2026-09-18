@@ -18,6 +18,12 @@ namespace themis {
 namespace core {
 namespace concerns {
 
+/**
+ * @brief Level From String.
+ * @param[in] level Input parameter.
+ * @return Return value.
+ * @details Calls: std::transform(), begin(), end(), std::tolower().
+ */
 ILogger::Level ILogger::levelFromString(const std::string &level) {
     std::string lower = level;
     std::transform(lower.begin(), lower.end(), lower.begin(), [](unsigned char c) { return std::tolower(c); });

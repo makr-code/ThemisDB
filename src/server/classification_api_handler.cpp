@@ -20,6 +20,11 @@ ClassificationApiHandler::ClassificationApiHandler(std::shared_ptr<themis::utils
     : pii_detector_(pii_detector) {
 }
 
+/**
+ * @brief List Rules.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), THEMIS_WARN(), nlohmann::json::array(), themis::utils::PIITypeUtils::toString(), push_back(), THEMIS_INFO(), size(), THEMIS_ERROR().
+ */
 nlohmann::json ClassificationApiHandler::listRules() {
     try {
     auto span = Tracer::startSpan("listRules");
@@ -74,6 +79,12 @@ nlohmann::json ClassificationApiHandler::listRules() {
     }
 }
 
+/**
+ * @brief Test Classification.
+ * @param[in] body Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), THEMIS_ERROR(), contains(), is_string(), detectInText(), empty(), nlohmann::json::array(), push_back().
+ */
 nlohmann::json ClassificationApiHandler::testClassification(const nlohmann::json& body) {
     try {
     auto span = Tracer::startSpan("testClassification");

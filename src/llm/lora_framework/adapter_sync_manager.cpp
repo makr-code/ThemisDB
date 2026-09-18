@@ -32,9 +32,6 @@ namespace themis {
 namespace llm {
 namespace lora {
 
-/**
- * @brief Implementation class
- */
 class AdapterSyncManager::Impl {
 public:
     Impl(
@@ -91,6 +88,10 @@ public:
         stop();
     }
     
+    /**
+     * @brief Start.
+     * @details Calls: exchange(), spdlog::warn(), spdlog::info(), std::thread(), syncLoop().
+     */
     void start() {
         if (running_.exchange(true)) {
             spdlog::warn("AdapterSyncManager already running");
@@ -107,6 +108,10 @@ public:
         sync_thread_ = std::thread([this]() { syncLoop(); });
     }
     
+    /**
+     * @brief Stop.
+     * @details Calls: exchange(), spdlog::info(), lock(), notify_one(), joinable(), themis::utils::joinThreadWithin(), THEMIS_WARN().
+     */
     void stop() {
         if (!running_.exchange(false)) {
             return;
@@ -135,6 +140,12 @@ public:
         return running_.load(std::memory_order_acquire);
     }
     
+    /**
+     * @brief Sync Adapter.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @return True when the operation succeeds.
+     * @details Calls: lock(), std::chrono::steady_clock::now(), spdlog::info(), loadAdapter(), loadMetadata(), spdlog::error(), size(), checkAdapter().
+     */
     bool syncAdapter(const std::string& adapter_id) {
         std::lock_guard<std::mutex> lock(mutex_);
         
@@ -224,6 +235,11 @@ public:
         return success;
     }
     
+    /**
+     * @brief Sync All Adapters.
+     * @return Return value.
+     * @details Calls: lock(), std::chrono::steady_clock::now(), listAdapters(), size(), spdlog::info(), unlock(), syncAdapter(), push_back().
+     */
     SyncJobResult syncAllAdapters() {
         std::lock_guard<std::mutex> lock(mutex_);
         
@@ -283,6 +299,11 @@ public:
     }
     
     AdapterSyncStatus getSyncStatus(const std::string& adapter_id) const {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         
         auto it = sync_status_.find(adapter_id);
@@ -297,6 +318,11 @@ public:
     }
     
     std::vector<AdapterSyncStatus> getAllSyncStatus() const {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         
         std::vector<AdapterSyncStatus> result = {};
@@ -311,6 +337,11 @@ public:
     }
     
     json getStats() const {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         
         return json{
@@ -330,6 +361,11 @@ public:
     }
     
     void onSyncComplete(std::function<void(const SyncJobResult&)> callback) {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         sync_callback_ = callback;
     }
@@ -351,6 +387,10 @@ public:
     }
     
 private:
+    /**
+     * @brief Sync Loop.
+     * @details Calls: spdlog::info(), load(), lock(), wait_for(), unlock(), spdlog::debug(), syncAllAdapters(), spdlog::error().
+     */
     void syncLoop() {
         spdlog::info("Sync loop started");
         
@@ -376,6 +416,15 @@ private:
         spdlog::info("Sync loop exited");
     }
     
+    /**
+     * @brief Sync To Peer.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @param[in] peer_shard_id Identifier of the peer shard.
+     * @param[in] weights Input parameter.
+     * @param[in] metadata Input parameter.
+     * @return True when the operation succeeds.
+     * @details Calls: getHealthyShards(), empty(), spdlog::error(), isReady(), rfind(), spdlog::warn(), std::string(), begin().
+     */
     bool syncToPeer(
         const std::string& adapter_id,
         const std::string& peer_shard_id,
@@ -481,6 +530,10 @@ private:
     }
     
 #ifdef THEMIS_HAS_PROMETHEUS
+    /**
+     * @brief Initialize Metrics.
+     * @details Calls: prometheus::BuildCounter(), Name(), Help(), Register(), Add(), prometheus::BuildHistogram(), prometheus::BuildGauge(), spdlog::info().
+     */
     void initializeMetrics() {
         // Create registry if needed
         if (!metrics_registry_) {
@@ -534,6 +587,13 @@ private:
         spdlog::info("Prometheus metrics initialized for adapter sync");
     }
     
+    /**
+     * @brief Record Sync Metrics.
+     * @param[in] success Input parameter.
+     * @param[in] duration_seconds Input parameter.
+     * @param[in] bytes Input parameter.
+     * @details Calls: Increment(), Observe().
+     */
     void recordSyncMetrics(bool success, double duration_seconds, size_t bytes) {
 #ifdef THEMIS_HAS_PROMETHEUS
         if (config_.enable_metrics) {
@@ -556,6 +616,10 @@ private:
 #endif
     }
     
+    /**
+     * @brief Update Metrics Gauges.
+     * @details Calls: Set(), size(), std::chrono::system_clock::now(), time_since_epoch(), count(), std::max().
+     */
     void updateMetricsGauges() {
 #ifdef THEMIS_HAS_PROMETHEUS
         if (config_.enable_metrics) {
@@ -628,10 +692,18 @@ AdapterSyncManager::AdapterSyncManager(
 AdapterSyncManager::~AdapterSyncManager() = default;
 
 // Public methods
+/**
+ * @brief Start.
+ * @details Implements start without additional internal calls.
+ */
 void AdapterSyncManager::start() {
     impl_->start();
 }
 
+/**
+ * @brief Stop.
+ * @details Implements stop without additional internal calls.
+ */
 void AdapterSyncManager::stop() {
     impl_->stop();
 }
@@ -640,10 +712,21 @@ bool AdapterSyncManager::isRunning() const {
     return impl_->isRunning();
 }
 
+/**
+ * @brief Sync Adapter.
+ * @param[in] adapter_id Identifier of the adapter.
+ * @return True when the operation succeeds.
+ * @details Implements syncAdapter without additional internal calls.
+ */
 bool AdapterSyncManager::syncAdapter(const std::string& adapter_id) {
     return impl_->syncAdapter(adapter_id);
 }
 
+/**
+ * @brief Sync All Adapters.
+ * @return Return value.
+ * @details Implements syncAllAdapters without additional internal calls.
+ */
 SyncJobResult AdapterSyncManager::syncAllAdapters() {
     return impl_->syncAllAdapters();
 }

@@ -63,6 +63,12 @@ void GPUMetrics::setGauge(const std::string &name, const std::unordered_map<std:
 // Record helpers
 // ============================================================================
 
+/**
+ * @brief Record Alloc Success.
+ * @param[in] bytes Input parameter.
+ * @param[in] tenant_id Identifier of the tenant.
+ * @details Calls: lock(), empty(), incrCounter().
+ */
 void GPUMetrics::recordAllocSuccess(uint64_t bytes, const std::string &tenant_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     std::unordered_map<std::string, std::string> labels{{"result", "success"}};
@@ -73,6 +79,12 @@ void GPUMetrics::recordAllocSuccess(uint64_t bytes, const std::string &tenant_id
     incrCounter("themis_gpu_alloc_bytes_total", labels, static_cast<double>(bytes));
 }
 
+/**
+ * @brief Record Alloc Fail Global.
+ * @param[in] bytes Input parameter.
+ * @param[in] tenant_id Identifier of the tenant.
+ * @details Calls: lock(), empty(), incrCounter().
+ */
 void GPUMetrics::recordAllocFailGlobal(uint64_t bytes, const std::string &tenant_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     std::unordered_map<std::string, std::string> labels{{"result", "fail_global_limit"}};
@@ -82,12 +94,24 @@ void GPUMetrics::recordAllocFailGlobal(uint64_t bytes, const std::string &tenant
     incrCounter("themis_gpu_alloc_total", labels);
 }
 
+/**
+ * @brief Record Alloc Fail Tenant.
+ * @param[in] bytes Input parameter.
+ * @param[in] tenant_id Identifier of the tenant.
+ * @details Calls: lock(), incrCounter().
+ */
 void GPUMetrics::recordAllocFailTenant(uint64_t bytes, const std::string &tenant_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     std::unordered_map<std::string, std::string> labels{{"result", "fail_tenant_quota"}, {"tenant", tenant_id}};
     incrCounter("themis_gpu_alloc_total", labels);
 }
 
+/**
+ * @brief Record Dealloc.
+ * @param[in] bytes Input parameter.
+ * @param[in] tenant_id Identifier of the tenant.
+ * @details Calls: lock(), empty(), incrCounter().
+ */
 void GPUMetrics::recordDealloc(uint64_t bytes, const std::string &tenant_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     std::unordered_map<std::string, std::string> labels = {};
@@ -99,16 +123,31 @@ void GPUMetrics::recordDealloc(uint64_t bytes, const std::string &tenant_id) {
     incrCounter("themis_gpu_dealloc_bytes_total", labels, static_cast<double>(bytes));
 }
 
+/**
+ * @brief Record Fallback.
+ * @param[in] reason Input parameter.
+ * @details Calls: lock(), incrCounter().
+ */
 void GPUMetrics::recordFallback(const std::string &reason) {
     std::lock_guard<std::mutex> lock(mutex_);
     incrCounter("themis_gpu_fallback_total", {{"reason", reason}});
 }
 
+/**
+ * @brief Record Circuit Open.
+ * @details Calls: lock(), incrCounter().
+ */
 void GPUMetrics::recordCircuitOpen() {
     std::lock_guard<std::mutex> lock(mutex_);
     incrCounter("themis_gpu_circuit_open_total", {});
 }
 
+/**
+ * @brief Set VRAMAllocated.
+ * @param[in] bytes Input parameter.
+ * @param[in] tenant_id Identifier of the tenant.
+ * @details Calls: lock(), empty(), setGauge().
+ */
 void GPUMetrics::setVRAMAllocated(uint64_t bytes, const std::string &tenant_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     std::unordered_map<std::string, std::string> labels = {};
@@ -119,26 +158,54 @@ void GPUMetrics::setVRAMAllocated(uint64_t bytes, const std::string &tenant_id) 
     setGauge("themis_gpu_vram_allocated_bytes", labels, static_cast<double>(bytes));
 }
 
+/**
+ * @brief Set VRAMPeak.
+ * @param[in] bytes Input parameter.
+ * @details Calls: lock(), setGauge().
+ */
 void GPUMetrics::setVRAMPeak(uint64_t bytes) {
     std::lock_guard<std::mutex> lock(mutex_);
     setGauge("themis_gpu_vram_peak_bytes", {}, static_cast<double>(bytes));
 }
 
+/**
+ * @brief Set Temperature.
+ * @param[in] device_id Identifier of the device.
+ * @param[in] celsius Input parameter.
+ * @details Calls: lock(), setGauge(), std::to_string().
+ */
 void GPUMetrics::setTemperature(int device_id, double celsius) {
     std::lock_guard<std::mutex> lock(mutex_);
     setGauge("themis_gpu_temperature_celsius", {{"device", std::to_string(device_id)}}, celsius);
 }
 
+/**
+ * @brief Set Power Draw.
+ * @param[in] device_id Identifier of the device.
+ * @param[in] watts Input parameter.
+ * @details Calls: lock(), setGauge(), std::to_string().
+ */
 void GPUMetrics::setPowerDraw(int device_id, double watts) {
     std::lock_guard<std::mutex> lock(mutex_);
     setGauge("themis_gpu_power_draw_watts", {{"device", std::to_string(device_id)}}, watts);
 }
 
+/**
+ * @brief Set Power Limit.
+ * @param[in] device_id Identifier of the device.
+ * @param[in] watts Input parameter.
+ * @details Calls: lock(), setGauge(), std::to_string().
+ */
 void GPUMetrics::setPowerLimit(int device_id, double watts) {
     std::lock_guard<std::mutex> lock(mutex_);
     setGauge("themis_gpu_power_limit_watts", {{"device", std::to_string(device_id)}}, watts);
 }
 
+/**
+ * @brief Record Kernel Duration.
+ * @param[in] record Input parameter.
+ * @details Calls: lock(), push_back(), setGauge(), std::to_string().
+ */
 void GPUMetrics::recordKernelDuration(const KernelRecord &record) {
     std::lock_guard<std::mutex> lock(mutex_);
     kernels_.push_back(record);
@@ -151,6 +218,11 @@ void GPUMetrics::recordKernelDuration(const KernelRecord &record) {
 // ============================================================================
 
 std::string GPUMetrics::nsight_export() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     std::ostringstream oss = {};
@@ -192,6 +264,11 @@ std::string GPUMetrics::nsight_export() const {
 // ============================================================================
 
 std::string GPUMetrics::rocm_profiler_export() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     // Chrome trace format — compatible with:
@@ -237,6 +314,11 @@ std::string GPUMetrics::rocm_profiler_export() const {
 // ============================================================================
 
 std::vector<GPUMetrics::Sample> GPUMetrics::snapshot() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     std::vector<Sample> result = {};
 
@@ -259,6 +341,10 @@ std::vector<GPUMetrics::Sample> GPUMetrics::snapshot() const {
     return result;
 }
 
+/**
+ * @brief Reset the modification detection flag.
+ * @details Calls: lock(), clear().
+ */
 void GPUMetrics::reset() {
     std::lock_guard<std::mutex> lock(mutex_);
     counters_.clear();

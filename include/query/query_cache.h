@@ -26,40 +26,13 @@
 namespace themis {
 namespace query {
 
-/**
- * @brief Query Result Caching System
- * 
- * Implements a comprehensive caching layer for query results with:
- * - LRU (Least Recently Used) and LFU (Least Frequently Used) eviction policies
- * - TTL (Time-To-Live) based expiration
- * - Deterministic cache key generation (SHA256 fingerprinting)
- * - Dependency tracking and invalidation
- * - Thread-safe operations
- * - Memory-aware eviction
- * - Comprehensive statistics and monitoring
- * 
- * Thread Safety:
- * - All public methods are thread-safe
- * - Internal mutexes protect shared data structures
- * 
- * Performance Targets:
- * - >60% cache hit rate for workloads with repeated queries
- * - <1ms overhead for cache lookup
- * - Automatic invalidation on data changes
- */
 class QueryCache {
 public:
-    /**
-     * @brief Eviction policy for cache entries
-     */
     enum class EvictionPolicy {
         LRU,  // Least Recently Used - evict entries not accessed recently
         LFU   // Least Frequently Used - evict entries accessed least often
     };
     
-    /**
-     * @brief Configuration for the query cache
-     */
     struct Config {
         // Cache size limits
         size_t max_entries = 10000;              // Maximum number of cached queries
@@ -83,9 +56,6 @@ public:
         Config() = default;
     };
     
-    /**
-     * @brief Cache entry metadata
-     */
     struct CacheEntry {
         std::string query_fingerprint;           // SHA256 hash of query
         std::string original_query;              // Original query string
@@ -105,9 +75,6 @@ public:
         }
     };
     
-    /**
-     * @brief Cache statistics for monitoring
-     */
     struct CacheStats {
         uint64_t total_requests = 0;             // Total cache lookups
         uint64_t hits = 0;                       // Cache hits
@@ -131,9 +98,6 @@ public:
         }
     };
     
-    /**
-     * @brief Result of a cache lookup
-     */
     struct LookupResult {
         bool found = false;                      // Whether entry was found
         nlohmann::json result;                   // Cached result (if found)
@@ -144,15 +108,12 @@ public:
 
 public:
     /**
-     * @brief Construct a new Query Cache
-     * 
-     * @param config Cache configuration
+     * @brief Query Cache.
+     * @param[in] config Input parameter.
+     * @return Return value.
      */
     explicit QueryCache(const Config& config);
     
-    /**
-     * @brief Destructor - cleanup resources
-     */
     ~QueryCache();
     
     // Non-copyable, moveable
@@ -161,31 +122,11 @@ public:
     QueryCache(QueryCache&&) noexcept = default;
     QueryCache& operator=(QueryCache&&) noexcept = default;
     
-    /**
-     * @brief Generate deterministic fingerprint for a query
-     * 
-     * Creates a SHA256 hash from the query string and parameters.
-     * Identical queries with identical parameters produce identical fingerprints.
-     * 
-     * @param query Query string
-     * @param params Query parameters (optional)
-     * @return SHA256 fingerprint as hex string
-     */
     std::string generateFingerprint(
         const std::string& query,
         const nlohmann::json& params = nlohmann::json::object()
     ) const;
     
-    /**
-     * @brief Store query result in cache
-     * 
-     * @param query Original query string
-     * @param params Query parameters
-     * @param result Query result to cache
-     * @param dependencies Data dependencies (tables/collections accessed)
-     * @param ttl Optional TTL override (uses default if not specified)
-     * @return Result<void> Success or error
-     */
     Result<void> put(
         const std::string& query,
         const nlohmann::json& params,
@@ -194,86 +135,62 @@ public:
         std::optional<std::chrono::seconds> ttl = std::nullopt
     );
     
-    /**
-     * @brief Retrieve cached query result
-     * 
-     * @param query Query string
-     * @param params Query parameters
-     * @return Result<LookupResult> Lookup result or error
-     */
     Result<LookupResult> get(
         const std::string& query,
         const nlohmann::json& params = nlohmann::json::object()
     );
     
     /**
-     * @brief Invalidate cache entries by dependency
-     * 
-     * Invalidates all cached queries that depend on the specified resource.
-     * Useful for invalidating caches when data is modified.
-     * 
-     * @param dependency Dependency identifier (e.g., "users", "orders")
-     * @return Result<size_t> Number of entries invalidated
+     * @brief Invalidate By Dependency.
+     * @param[in] dependency Input parameter.
+     * @return Return value.
      */
     Result<size_t> invalidateByDependency(const std::string& dependency);
     
-    /**
-     * @brief Invalidate specific cached query
-     * 
-     * @param query Query string
-     * @param params Query parameters
-     * @return Result<bool> True if entry was found and removed
-     */
     Result<bool> invalidate(
         const std::string& query,
         const nlohmann::json& params = nlohmann::json::object()
     );
     
     /**
-     * @brief Clear all cache entries
-     * 
-     * @return Result<void> Success or error
+     * @brief Clear.
+     * @return Return value.
      */
     Result<void> clear();
     
     /**
-     * @brief Remove expired entries
-     * 
-     * @return Result<size_t> Number of entries removed
+     * @brief Clear Expired.
+     * @return Return value.
      */
     Result<size_t> clearExpired();
     
     /**
-     * @brief Get current cache statistics
-     * 
-     * @return CacheStats Current statistics
+     * @brief Get Stats.
+     * @return Return value.
      */
     CacheStats getStats() const;
     
     /**
-     * @brief Get detailed cache information
-     * 
-     * @return nlohmann::json Detailed cache info for monitoring
+     * @brief Get Detailed Info.
+     * @return Return value.
      */
     nlohmann::json getDetailedInfo() const;
     
     /**
-     * @brief Reset statistics counters
+     * @brief Reset Stats.
      */
     void resetStats();
     
     /**
-     * @brief Update cache configuration
-     * 
-     * @param config New configuration
-     * @return Result<void> Success or error
+     * @brief Set Config.
+     * @param[in] config Input parameter.
+     * @return Return value.
      */
     Result<void> setConfig(const Config& config);
     
     /**
-     * @brief Get current configuration
-     * 
-     * @return Config Current configuration
+     * @brief Get Config.
+     * @return Return value.
      */
     Config getConfig() const;
 
@@ -306,15 +223,51 @@ private:
     mutable std::mutex stats_mutex_;
     
     // Helper methods
+    /**
+     * @brief Evict LRU.
+     */
     void evictLRU();
+    /**
+     * @brief Evict LFU.
+     */
     void evictLFU();
+    /**
+     * @brief Evict One.
+     */
     void evictOne();
+    /**
+     * @brief Update LRU.
+     * @param[in] fingerprint Input parameter.
+     */
     void updateLRU(const std::string& fingerprint);
+    /**
+     * @brief Should Evict.
+     * @return True when the operation succeeds.
+     */
     bool shouldEvict() const;
+    /**
+     * @brief Estimate Entry Size.
+     * @param[in] entry Input parameter.
+     * @return Return value.
+     */
     size_t estimateEntrySize(const CacheEntry& entry) const;
+    /**
+     * @brief Update Stats.
+     * @param[in] hit Input parameter.
+     */
     void updateStats(bool hit);
+    /**
+     * @brief Add To Dependency Index.
+     * @param[in] fingerprint Input parameter.
+     * @param[in] dependencies Input parameter.
+     */
     void addToDependencyIndex(const std::string& fingerprint, 
                               const std::vector<std::string>& dependencies);
+    /**
+     * @brief Remove From Dependency Index.
+     * @param[in] fingerprint Input parameter.
+     * @param[in] dependencies Input parameter.
+     */
     void removeFromDependencyIndex(const std::string& fingerprint,
                                    const std::vector<std::string>& dependencies);
 };

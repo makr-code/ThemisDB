@@ -92,6 +92,11 @@ void *PluginLoader::getSymbol(void *handle, const std::string &symbolName) {
 #endif
 }
 
+/**
+ * @brief Unload Library.
+ * @param[in,out] handle Input/output parameter.
+ * @details Calls: FreeLibrary(), dlclose().
+ */
 void PluginLoader::unloadLibrary(void *handle) {
     if (!handle) {
         return;
@@ -104,6 +109,12 @@ void PluginLoader::unloadLibrary(void *handle) {
 #endif
 }
 
+/**
+ * @brief Load Plugin.
+ * @param[in] libraryPath Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: PluginSecurityVerifier::validatePluginPath(), PluginSecurityAuditor::instance(), logEvent(), std::time(), stat(), c_str(), verifier(), verifyPlugin().
+ */
 bool PluginLoader::loadPlugin(const std::string &libraryPath) {
     // SECURITY: Validate path to prevent path traversal attacks
     std::string pathError = {};
@@ -218,6 +229,12 @@ bool PluginLoader::loadPlugin(const std::string &libraryPath) {
     return true;
 }
 
+/**
+ * @brief Load Plugins From Directory.
+ * @param[in] directoryPath Input parameter.
+ * @return Return value.
+ * @details Calls: fs::exists(), fs::is_directory(), fs::canonical(), defined(), fs::directory_iterator(), is_symlink(), path(), value().
+ */
 size_t PluginLoader::loadPluginsFromDirectory(const std::string &directoryPath) {
     namespace fs = std::filesystem;
 
@@ -289,6 +306,11 @@ size_t PluginLoader::loadPluginsFromDirectory(const std::string &directoryPath) 
     return loadedCount;
 }
 
+/**
+ * @brief Unload Plugin.
+ * @param[in] pluginName Input parameter.
+ * @details Calls: begin(), end(), unloadLibrary(), erase().
+ */
 void PluginLoader::unloadPlugin(const std::string &pluginName) {
     for (auto it = plugins_.begin(); it != plugins_.end(); ++it) {
         if (it->name == pluginName) {
@@ -300,6 +322,10 @@ void PluginLoader::unloadPlugin(const std::string &pluginName) {
     }
 }
 
+/**
+ * @brief Unload All Plugins.
+ * @details Calls: unloadLibrary(), clear().
+ */
 void PluginLoader::unloadAllPlugins() {
     for (auto &plugin : plugins_) {
         std::cout << "Unloading plugin: " << plugin.name << std::endl;

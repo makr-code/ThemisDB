@@ -78,6 +78,11 @@ private:
 
 } // anonymous namespace
 
+/**
+ * @brief Create Image Extractor Adapter.
+ * @return Return value.
+ * @details Implements createImageExtractorAdapter without additional internal calls.
+ */
 std::shared_ptr<ingestion::IFormatExtractor> createImageExtractorAdapter() {
     return std::make_shared<ImageExtractorAdapter>();
 }

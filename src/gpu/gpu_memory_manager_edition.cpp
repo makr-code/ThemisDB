@@ -60,9 +60,12 @@ private:
     bool committed_;
 };
 
-// ============================================================================
-// Internal helper — rollback allocation on failure (must hold mutex_)
-// ============================================================================
+/**
+ * @brief ============================================================================ Internal helper — rollback allocation on failure (must hold mutex_) ============================================================================
+ * @param[in] tenant_id Identifier of the tenant.
+ * @param[in] size_bytes Input parameter.
+ * @details Calls: spdlog::get(), empty(), find(), end(), info().
+ */
 
 void GPUMemoryManager::RollbackAllocationUnderLock(const std::string &tenant_id, uint64_t size_bytes) {
     auto logger = spdlog::get("gpu");
@@ -93,10 +96,14 @@ void GPUMemoryManager::RollbackAllocationUnderLock(const std::string &tenant_id,
     }
 }
 
-// ============================================================================
-// Internal helper — must be called with mutex_ already held
-// Exception-safe allocation with RAII guards (Phase 3 Hardening)
-// ============================================================================
+/**
+ * @brief ============================================================================ Internal helper — must be called with mutex_ already held Exception-safe allocation with RAII guards (Phase 3 Hardening) ============================================================================
+ * @param[in] size_bytes Input parameter.
+ * @param[in] tag Input parameter.
+ * @param[in] tenant_id Identifier of the tenant.
+ * @return True when the operation succeeds.
+ * @details Calls: GetMaxGPUVRAMBytes(), spdlog::get(), warn(), empty(), find(), end(), guard(), push_back().
+ */
 
 bool GPUMemoryManager::TryAllocateUnderLock(uint64_t size_bytes, const std::string &tag, const std::string &tenant_id) {
     const uint64_t max_vram = GetMaxGPUVRAMBytes();
@@ -200,6 +207,11 @@ bool GPUMemoryManager::TryAllocateUnderLock(uint64_t size_bytes, const std::stri
 // ============================================================================
 
 bool GPUMemoryManager::canAllocate(uint64_t size_bytes, const std::string &tenant_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     const uint64_t max_vram  = GetMaxGPUVRAMBytes();
     const uint64_t new_total = gpu_memory_allocated_ + hint_reserved_bytes_ + size_bytes;
@@ -217,11 +229,24 @@ bool GPUMemoryManager::canAllocate(uint64_t size_bytes, const std::string &tenan
     return true;
 }
 
+/**
+ * @brief On Allocate.
+ * @param[in] size_bytes Input parameter.
+ * @param[in] tag Input parameter.
+ * @param[in] tenant_id Identifier of the tenant.
+ * @details Calls: lock(), TryAllocateUnderLock().
+ */
 void GPUMemoryManager::onAllocate(uint64_t size_bytes, const std::string &tag, const std::string &tenant_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     TryAllocateUnderLock(size_bytes, tag, tenant_id);
 }
 
+/**
+ * @brief On Deallocate.
+ * @param[in] size_bytes Input parameter.
+ * @param[in] tenant_id Identifier of the tenant.
+ * @details Calls: empty(), DeallocateGPU().
+ */
 void GPUMemoryManager::onDeallocate(uint64_t size_bytes, const std::string &tenant_id) {
     if (tenant_id.empty()) {
         DeallocateGPU(size_bytes);
@@ -242,11 +267,22 @@ bool GPUMemoryManager::isGPUEnabled() const noexcept {
 // Tenant quota management
 // ============================================================================
 
+/**
+ * @brief Set Tenant Quota.
+ * @param[in] tenant_id Identifier of the tenant.
+ * @param[in] quota_bytes Input parameter.
+ * @details Calls: lock().
+ */
 void GPUMemoryManager::SetTenantQuota(const std::string &tenant_id, uint64_t quota_bytes) {
     std::lock_guard<std::mutex> lock(mutex_);
     tenant_states_[tenant_id].quota_bytes = quota_bytes;
 }
 
+/**
+ * @brief Remove Tenant Quota.
+ * @param[in] tenant_id Identifier of the tenant.
+ * @details Calls: lock(), find(), end().
+ */
 void GPUMemoryManager::RemoveTenantQuota(const std::string &tenant_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     // Always set quota_bytes = 0 (no cap) regardless of current usage.
@@ -263,6 +299,14 @@ void GPUMemoryManager::RemoveTenantQuota(const std::string &tenant_id) {
 // Pre-allocation hint management
 // ============================================================================
 
+/**
+ * @brief Reserve Hint.
+ * @param[in] size_bytes Input parameter.
+ * @param[in] tag Input parameter.
+ * @param[in] tenant_id Identifier of the tenant.
+ * @return Return value.
+ * @details Calls: lock(), GetMaxGPUVRAMBytes(), empty(), find(), end(), push_back().
+ */
 GPUMemoryManager::HintHandle GPUMemoryManager::ReserveHint(uint64_t size_bytes, const std::string &tag,
                                                            const std::string &tenant_id) {
     std::lock_guard<std::mutex> lock(mutex_);
@@ -295,6 +339,11 @@ GPUMemoryManager::HintHandle GPUMemoryManager::ReserveHint(uint64_t size_bytes, 
     return {id, size_bytes, tag, tenant_id};
 }
 
+/**
+ * @brief Cancel Hint.
+ * @param[in] hint_id Identifier of the hint.
+ * @details Calls: lock(), begin(), end(), erase().
+ */
 void GPUMemoryManager::CancelHint(uint64_t hint_id) {
     if (hint_id == 0) {
         return;
@@ -313,6 +362,12 @@ void GPUMemoryManager::CancelHint(uint64_t hint_id) {
     }
 }
 
+/**
+ * @brief Consume Hint.
+ * @param[in] hint_id Identifier of the hint.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), begin(), end(), erase(), push_back(), empty().
+ */
 bool GPUMemoryManager::ConsumeHint(uint64_t hint_id) {
     if (hint_id == 0) {
         return false;
@@ -352,6 +407,11 @@ bool GPUMemoryManager::ConsumeHint(uint64_t hint_id) {
 }
 
 uint64_t GPUMemoryManager::GetHintReservedBytes() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return hint_reserved_bytes_;
 }
@@ -360,16 +420,36 @@ uint64_t GPUMemoryManager::GetHintReservedBytes() const {
 // GPUMemoryManager — allocation methods
 // ============================================================================
 
+/**
+ * @brief Try Allocate GPU.
+ * @param[in] size_bytes Input parameter.
+ * @param[in] tag Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), TryAllocateUnderLock().
+ */
 bool GPUMemoryManager::TryAllocateGPU(uint64_t size_bytes, const std::string &tag) {
     std::lock_guard<std::mutex> lock(mutex_);
     return TryAllocateUnderLock(size_bytes, tag, "");
 }
 
+/**
+ * @brief Try Allocate GPU.
+ * @param[in] size_bytes Input parameter.
+ * @param[in] tag Input parameter.
+ * @param[in] tenant_id Identifier of the tenant.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), TryAllocateUnderLock().
+ */
 bool GPUMemoryManager::TryAllocateGPU(uint64_t size_bytes, const std::string &tag, const std::string &tenant_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     return TryAllocateUnderLock(size_bytes, tag, tenant_id);
 }
 
+/**
+ * @brief Deallocate GPU.
+ * @param[in] size_bytes Input parameter.
+ * @details Calls: lock(), begin(), end(), erase(), empty(), find().
+ */
 void GPUMemoryManager::DeallocateGPU(uint64_t size_bytes) {
     std::lock_guard<std::mutex> lock(mutex_);
     if (gpu_memory_allocated_ >= size_bytes) {
@@ -400,6 +480,12 @@ void GPUMemoryManager::DeallocateGPU(uint64_t size_bytes) {
     }
 }
 
+/**
+ * @brief Deallocate GPU.
+ * @param[in] size_bytes Input parameter.
+ * @param[in] tenant_id Identifier of the tenant.
+ * @details Calls: lock(), begin(), end(), erase(), empty(), find().
+ */
 void GPUMemoryManager::DeallocateGPU(uint64_t size_bytes, const std::string &tenant_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     if (gpu_memory_allocated_ >= size_bytes) {
@@ -434,6 +520,12 @@ void GPUMemoryManager::DeallocateGPU(uint64_t size_bytes, const std::string &ten
 // ValidateAllocation
 // ============================================================================
 
+/**
+ * @brief Validate Allocation.
+ * @param[in] size_bytes Input parameter.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: GetMaxGPUVRAMBytes(), std::to_string(), GetMaxGPUVRAMGB(), std::string(), lock().
+ */
 void GPUMemoryManager::ValidateAllocation(uint64_t size_bytes) {
     const uint64_t max_vram = GetMaxGPUVRAMBytes();
 
@@ -467,12 +559,22 @@ void GPUMemoryManager::ValidateAllocation(uint64_t size_bytes) {
 // ============================================================================
 
 uint64_t GPUMemoryManager::GetGPUMemoryUsed() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return gpu_memory_allocated_;
 }
 
 float GPUMemoryManager::GetGPUMemoryUsagePercent() const {
     const uint64_t max_vram = GetMaxGPUVRAMBytes();
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return max_vram == 0 ? 0.0f : (static_cast<float>(gpu_memory_allocated_) / static_cast<float>(max_vram)) * 100.0f;
 }
@@ -482,6 +584,11 @@ bool GPUMemoryManager::IsGPUAccelerationEnabled() const noexcept {
 }
 
 GPUMemoryManager::Stats GPUMemoryManager::GetStats() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     Stats s;
     s.allocated_bytes    = gpu_memory_allocated_;
@@ -492,11 +599,21 @@ GPUMemoryManager::Stats GPUMemoryManager::GetStats() const {
 }
 
 std::vector<GPUMemoryManager::AllocationRecord> GPUMemoryManager::GetActiveAllocations() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return active_allocations_;
 }
 
 GPUMemoryManager::TenantStats GPUMemoryManager::GetTenantStats(const std::string &tenant_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     TenantStats ts;
     ts.tenant_id = tenant_id;
@@ -510,6 +627,11 @@ GPUMemoryManager::TenantStats GPUMemoryManager::GetTenantStats(const std::string
 }
 
 std::vector<GPUMemoryManager::TenantStats> GPUMemoryManager::GetAllTenantStats() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     std::vector<TenantStats> result = {};
 
@@ -526,6 +648,11 @@ std::vector<GPUMemoryManager::TenantStats> GPUMemoryManager::GetAllTenantStats()
 }
 
 uint64_t GPUMemoryManager::GetTenantHeadroom(const std::string &tenant_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     const uint64_t global_max  = GetMaxGPUVRAMBytes();
     const uint64_t global_used = gpu_memory_allocated_;
@@ -558,6 +685,11 @@ std::string GPUMemoryManager::GetEditionInfo() const {
 // GetGPUFallbackStrategy — free function implementation
 // ============================================================================
 
+/**
+ * @brief Get GPUFallback Strategy.
+ * @return Return value.
+ * @details Calls: edition::EditionInfo::Get(), std::to_string(), std::string().
+ */
 std::string GetGPUFallbackStrategy() {
     const auto info      = edition::EditionInfo::Get();
     std::string strategy = "GPU memory limit exceeded (";

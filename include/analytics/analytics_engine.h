@@ -65,12 +65,12 @@ public:
 
     ~AnalyticsEngine() noexcept;
 
+
     /**
-     * @brief ======================================================================== Core Query Execution (Gaps A-2-01 to A-2-05) ========================================================================
+     * @brief Execute Query.
      * @param[in] config Input parameter.
      * @return Return value.
      */
-
     QueryResult ExecuteQuery(const QueryConfig& config);
 
     /**

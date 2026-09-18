@@ -21,6 +21,12 @@ namespace themis {
 // profileSeries
 // ============================================================================
 
+/**
+ * @brief Profile Series.
+ * @param[in] points Input parameter.
+ * @return Return value.
+ * @details Calls: size(), reserve(), push_back(), empty(), std::count(), begin(), end(), std::abs().
+ */
 SeriesProfile profileSeries(const std::vector<TSStore::DataPoint>& points) {
     SeriesProfile p;
     p.sample_count = points.size();
@@ -143,12 +149,25 @@ PerSeriesCompressionRegistry::makeKey(const std::string& metric,
     return metric + ':' + entity;
 }
 
+/**
+ * @brief Set Selector.
+ * @param[in] selector Input parameter.
+ * @details Calls: std::move(), clear().
+ */
 void PerSeriesCompressionRegistry::setSelector(
     std::unique_ptr<ICompressionSelector> selector) {
     selector_ = std::move(selector);
     cached_.clear();
 }
 
+/**
+ * @brief Strategy For.
+ * @param[in] metric Input parameter.
+ * @param[in] entity Input parameter.
+ * @param[in] sample Input parameter.
+ * @return Return value.
+ * @details Calls: makeKey(), find(), end(), selectForPoints().
+ */
 CompressionStrategy PerSeriesCompressionRegistry::strategyFor(
     const std::string& metric,
     const std::string& entity,
@@ -181,6 +200,13 @@ CompressionStrategy PerSeriesCompressionRegistry::strategyFor(
     return strategy;
 }
 
+/**
+ * @brief Pin Strategy.
+ * @param[in] metric Input parameter.
+ * @param[in] entity Input parameter.
+ * @param[in] strategy Input parameter.
+ * @details Calls: makeKey().
+ */
 void PerSeriesCompressionRegistry::pinStrategy(
     const std::string& metric,
     const std::string& entity,
@@ -189,6 +215,12 @@ void PerSeriesCompressionRegistry::pinStrategy(
     pinned_[makeKey(metric, entity)] = strategy;
 }
 
+/**
+ * @brief Clear Pin.
+ * @param[in] metric Input parameter.
+ * @param[in] entity Input parameter.
+ * @details Calls: erase(), makeKey().
+ */
 void PerSeriesCompressionRegistry::clearPin(
     const std::string& metric,
     const std::string& entity) {
@@ -196,6 +228,10 @@ void PerSeriesCompressionRegistry::clearPin(
     pinned_.erase(makeKey(metric, entity));
 }
 
+/**
+ * @brief Clear Cache.
+ * @details Calls: clear().
+ */
 void PerSeriesCompressionRegistry::clearCache() {
     cached_.clear();
 }
@@ -204,6 +240,10 @@ size_t PerSeriesCompressionRegistry::registrySize() const {
     return pinned_.size() + cached_.size() ;
 }
 
+/**
+ * @brief Clear.
+ * @details Implements clear without additional internal calls.
+ */
 void PerSeriesCompressionRegistry::clear() {
     pinned_.clear();
     cached_.clear();

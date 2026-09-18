@@ -22,10 +22,11 @@ namespace lora {
 
 using json = nlohmann::json;
 
-/**
- * @brief LoRA hyperparameters for training
- */
 struct LoRAHyperparameters {
+    /**
+     * @brief Lo RAHyperparameters.
+     * @return Return value.
+     */
     virtual ~LoRAHyperparameters() = default;
     int rank = 8;                          // LoRA rank (r)
     float alpha = 16.0f;                   // LoRA alpha scaling
@@ -75,6 +76,12 @@ struct LoRAHyperparameters {
         };
     }
     
+    /**
+     * @brief From JSON.
+     * @param[in] j Input parameter.
+     * @return Return value.
+     * @details Calls: contains().
+     */
     static LoRAHyperparameters fromJSON(const json& j) {
         LoRAHyperparameters params = {};
         if (j.contains("rank")) {
@@ -135,11 +142,6 @@ struct LoRAHyperparameters {
     }
 };
 
-/**
- * @brief QLoRA (Quantized LoRA) configuration
- * 
- * Configuration for memory-efficient QLoRA training with quantized base models.
- */
 struct QLoRAConfig {
     bool enabled = false;                              // Enable QLoRA training mode
     std::string quantization_type = "nf4";             // "nf4", "int8", "none"
@@ -163,6 +165,12 @@ struct QLoRAConfig {
         };
     }
     
+    /**
+     * @brief From JSON.
+     * @param[in] j Input parameter.
+     * @return Return value.
+     * @details Calls: contains().
+     */
     static QLoRAConfig fromJSON(const json& j) {
         QLoRAConfig config = {};
         if (j.contains("enabled")) {
@@ -190,10 +198,11 @@ struct QLoRAConfig {
     }
 };
 
-/**
- * @brief LoRA adapter metadata
- */
 struct AdapterMetadata {
+    /**
+     * @brief Adapter Metadata.
+     * @return Return value.
+     */
     virtual ~AdapterMetadata() = default;
     std::string adapter_id;
     std::string version = {};
@@ -230,6 +239,12 @@ struct AdapterMetadata {
         };
     }
     
+    /**
+     * @brief From JSON.
+     * @param[in] j Input parameter.
+     * @return Return value.
+     * @details Calls: contains(), std::chrono::system_clock::from_time_t().
+     */
     static AdapterMetadata fromJSON(const json& j) {
         AdapterMetadata metadata = {};
         if (j.contains("adapter_id")) {
@@ -274,10 +289,11 @@ struct AdapterMetadata {
     }
 };
 
-/**
- * @brief LoRA adapter information
- */
 struct AdapterInfo {
+    /**
+     * @brief Adapter Info.
+     * @return Return value.
+     */
     virtual ~AdapterInfo() = default;
     std::string adapter_id;
     std::string version;
@@ -304,10 +320,11 @@ struct AdapterInfo {
     }
 };
 
-/**
- * @brief Cache statistics for adapter manager
- */
 struct CacheStats {
+    /**
+     * @brief Cache Stats.
+     * @return Return value.
+     */
     virtual ~CacheStats() = default;
     size_t total_loads = 0;
     size_t cache_hits = 0;
@@ -336,9 +353,6 @@ struct CacheStats {
     }
 };
 
-/**
- * @brief LoRA adapter configuration
- */
 struct LoRAConfig {
     // Adapter settings
     std::string adapter_id;
@@ -377,6 +391,12 @@ struct LoRAConfig {
         };
     }
     
+    /**
+     * @brief From JSON.
+     * @param[in] j Input parameter.
+     * @return Return value.
+     * @details Calls: contains(), std::chrono::seconds().
+     */
     static LoRAConfig fromJSON(const json& j) {
         LoRAConfig config = {};
         if (j.contains("adapter_id")) {

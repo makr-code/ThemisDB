@@ -41,6 +41,11 @@ std::mutex s_cuda_backend_fn_mutex;
 GPUStreamManager::CudaStreamBackendFn s_cuda_backend_fn;
 } // namespace
 
+/**
+ * @brief Set Cuda Stream Backend Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lk(), std::move().
+ */
 void GPUStreamManager::setCudaStreamBackendFn(CudaStreamBackendFn fn) {
     std::lock_guard<std::mutex> lk(s_cuda_backend_fn_mutex);
     s_cuda_backend_fn = std::move(fn);
@@ -51,6 +56,11 @@ void GPUStreamManager::setCudaStreamBackendFn(CudaStreamBackendFn fn) {
 // ============================================================================
 
 GPUStreamManager::~GPUStreamManager() {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     for (auto &kv : streams_) {
 #ifdef THEMIS_ENABLE_CUDA
@@ -70,6 +80,13 @@ GPUStreamManager::~GPUStreamManager() {
 // Stream lifecycle
 // ============================================================================
 
+/**
+ * @brief Create Stream.
+ * @param[in] cfg Input parameter.
+ * @param[in] backend Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), lock(), count(), std::move(), ROCmBackend::GetInstance(), createBackendFn(), emplace(), at().
+ */
 bool GPUStreamManager::createStream(const StreamConfig &cfg, GPULauncher::BackendFn backend) {
     if (cfg.name.empty()) {
         return false;
@@ -113,9 +130,13 @@ bool GPUStreamManager::createStream(const StreamConfig &cfg, GPULauncher::Backen
     return true;
 }
 
-// ----------------------------------------------------------------------------
-// createCudaStream — CUDA stream creation (resolves Stubs: 1)
-// ----------------------------------------------------------------------------
+/**
+ * @brief ---------------------------------------------------------------------------- createCudaStream — CUDA stream creation (resolves Stubs: 1) ----------------------------------------------------------------------------
+ * @param[in] cfg Input parameter.
+ * @param[in] device_index Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), lock(), count(), cudaSetDevice(), ROCmBackend::GetInstance(), createBackendFn(), cudaStreamCreate(), CudaStreamGuard::adopt().
+ */
 
 bool GPUStreamManager::createCudaStream(const StreamConfig &cfg, int device_index) {
     if (cfg.name.empty()) {
@@ -202,6 +223,12 @@ bool GPUStreamManager::createCudaStream(const StreamConfig &cfg, int device_inde
     return true;
 }
 
+/**
+ * @brief Destroy Stream.
+ * @param[in] name Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), find(), end(), erase(), ROCmBackend::GetInstance().
+ */
 bool GPUStreamManager::destroyStream(const std::string &name) {
     bool uses_rocm_stream = false;
     {
@@ -224,11 +251,21 @@ bool GPUStreamManager::destroyStream(const std::string &name) {
 }
 
 bool GPUStreamManager::hasStream(const std::string &name) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return streams_.count(name) > 0;
 }
 
 std::vector<std::string> GPUStreamManager::streamNames() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     std::vector<std::string> names = {};
 
@@ -240,6 +277,11 @@ std::vector<std::string> GPUStreamManager::streamNames() const {
 }
 
 size_t GPUStreamManager::streamCount() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return streams_.size();
 }
@@ -248,6 +290,13 @@ size_t GPUStreamManager::streamCount() const {
 // Work submission
 // ============================================================================
 
+/**
+ * @brief Submit.
+ * @param[in] stream_name Name of the stream.
+ * @param[in] item Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), find(), end(), set_value(), get_future(), std::async(), std::move(), get().
+ */
 std::future<GPULauncher::WorkResult> GPUStreamManager::submit(const std::string &stream_name,
                                                               GPULauncher::WorkItem item) {
     // Hold the mutex for the duration of launcher->submit() — that call uses
@@ -305,6 +354,11 @@ std::future<GPULauncher::WorkResult> GPUStreamManager::submit(const std::string 
 // ============================================================================
 
 GPUStreamManager::StreamStats GPUStreamManager::getStreamStats(const std::string &name) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = streams_.find(name);
     if (it == streams_.end()) {
@@ -316,6 +370,11 @@ GPUStreamManager::StreamStats GPUStreamManager::getStreamStats(const std::string
 }
 
 std::vector<GPUStreamManager::StreamStats> GPUStreamManager::getAllStreamStats() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     std::vector<StreamStats> result = {};
 

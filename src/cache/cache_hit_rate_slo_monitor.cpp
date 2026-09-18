@@ -37,6 +37,12 @@ CacheHitRateSloMonitor::CacheHitRateSloMonitor(const Config &config,
 // Core API
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Record Latency.
+ * @param[in] tier Input parameter.
+ * @param[in] latency_ms Input parameter.
+ * @details Calls: record().
+ */
 void CacheHitRateSloMonitor::recordLatency(Tier tier, double latency_ms) {
     const auto idx = static_cast<std::size_t>(tier);
     if (idx >= static_cast<std::size_t>(Tier::COUNT)) {
@@ -47,6 +53,12 @@ void CacheHitRateSloMonitor::recordLatency(Tier tier, double latency_ms) {
     latency_hist_[idx].record(latency_ms);
 }
 
+/**
+ * @brief Evaluate.
+ * @param[in] metrics Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), load(), percentileFromCombined(), isLatencyCooldownExpired(), resolveLatencyAlerts(), fireLatencyAlert(), isCooldownExpired(), resolveActiveAlerts().
+ */
 CacheHitRateSloMonitor::EvaluationResult CacheHitRateSloMonitor::evaluate(const CacheMetrics &metrics) {
     std::lock_guard<std::mutex> lock(mutex_);
 
@@ -171,21 +183,41 @@ CacheHitRateSloMonitor::EvaluationResult CacheHitRateSloMonitor::evaluate(const 
 // ---------------------------------------------------------------------------
 
 CacheHitRateSloMonitor::EvaluationResult CacheHitRateSloMonitor::getLastResult() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return last_result_;
 }
 
 CacheHitRateSloMonitor::ViolationLevel CacheHitRateSloMonitor::getCurrentViolationLevel() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return active_violation_;
 }
 
 bool CacheHitRateSloMonitor::isSloViolated() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return active_violation_ != ViolationLevel::NONE;
 }
 
 nlohmann::json CacheHitRateSloMonitor::getStatus() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     nlohmann::json j;
@@ -239,6 +271,11 @@ nlohmann::json CacheHitRateSloMonitor::getStatus() const {
 }
 
 std::vector<std::string> CacheHitRateSloMonitor::getActiveAlertIds() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     std::vector<std::string> ids = {};
 
@@ -251,6 +288,11 @@ std::vector<std::string> CacheHitRateSloMonitor::getActiveAlertIds() const {
     return ids;
 }
 
+/**
+ * @brief Set Alertmanager.
+ * @param[in] alertmanager Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void CacheHitRateSloMonitor::setAlertmanager(std::shared_ptr<observability::Alertmanager> alertmanager) {
     std::lock_guard<std::mutex> lock(mutex_);
     alertmanager_ = std::move(alertmanager);
@@ -260,6 +302,12 @@ void CacheHitRateSloMonitor::setAlertmanager(std::shared_ptr<observability::Aler
 // Static helpers
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Violation Level To String.
+ * @param[in] level Input parameter.
+ * @return Return value.
+ * @details Implements violationLevelToString without additional internal calls.
+ */
 std::string CacheHitRateSloMonitor::violationLevelToString(ViolationLevel level) {
     switch (level) {
         case ViolationLevel::NONE:
@@ -276,6 +324,14 @@ std::string CacheHitRateSloMonitor::violationLevelToString(ViolationLevel level)
 // Private helpers
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Fire Alert.
+ * @param[in] level Input parameter.
+ * @param[in] hit_rate Input parameter.
+ * @param[in] total_requests Input parameter.
+ * @param[in,out] result Input/output parameter.
+ * @details Calls: buildAlert(), std::chrono::steady_clock::now(), THEMIS_WARN(), violationLevelToString(), sendAlert(), THEMIS_ERROR(), error(), message().
+ */
 void CacheHitRateSloMonitor::fireAlert(ViolationLevel level, double hit_rate, uint64_t total_requests,
                                        EvaluationResult &result) {
     observability::Alert alert = buildAlert(level, hit_rate, total_requests);
@@ -312,6 +368,11 @@ void CacheHitRateSloMonitor::fireAlert(ViolationLevel level, double hit_rate, ui
     }
 }
 
+/**
+ * @brief Resolve Active Alerts.
+ * @param[in,out] result Input/output parameter.
+ * @details Calls: empty(), THEMIS_INFO(), resolveAlert(), THEMIS_ERROR(), error(), message(), clear().
+ */
 void CacheHitRateSloMonitor::resolveActiveAlerts(EvaluationResult &result) {
     result.alert_resolved = true;
 
@@ -387,6 +448,13 @@ bool CacheHitRateSloMonitor::isCooldownExpired(ViolationLevel level) const {
     return elapsed >= config_.alert_cooldown_seconds;
 }
 
+/**
+ * @brief Make Alert Id.
+ * @param[in] cache_name Name of the cache.
+ * @param[in] level Input parameter.
+ * @return Return value.
+ * @details Implements makeAlertId without additional internal calls.
+ */
 std::string CacheHitRateSloMonitor::makeAlertId(const std::string &cache_name, ViolationLevel level) {
     return "cache_hit_rate_" + cache_name + "_" + (level == ViolationLevel::CRITICAL ? "critical" : "warning");
 }
@@ -395,6 +463,13 @@ std::string CacheHitRateSloMonitor::makeAlertId(const std::string &cache_name, V
 // Latency alert helpers
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Fire Latency Alert.
+ * @param[in] level Input parameter.
+ * @param[in] p99_ms Input parameter.
+ * @param[in,out] result Input/output parameter.
+ * @details Calls: buildLatencyAlert(), std::chrono::steady_clock::now(), THEMIS_WARN(), violationLevelToString(), sendAlert(), THEMIS_ERROR(), error(), message().
+ */
 void CacheHitRateSloMonitor::fireLatencyAlert(ViolationLevel level, double p99_ms, EvaluationResult &result) {
     observability::Alert alert = buildLatencyAlert(level, p99_ms);
 
@@ -428,6 +503,11 @@ void CacheHitRateSloMonitor::fireLatencyAlert(ViolationLevel level, double p99_m
     }
 }
 
+/**
+ * @brief Resolve Latency Alerts.
+ * @param[in,out] result Input/output parameter.
+ * @details Calls: empty(), THEMIS_INFO(), resolveAlert(), THEMIS_ERROR(), error(), message(), clear().
+ */
 void CacheHitRateSloMonitor::resolveLatencyAlerts(EvaluationResult &result) {
     result.latency_alert_resolved = true;
 
@@ -497,13 +577,25 @@ bool CacheHitRateSloMonitor::isLatencyCooldownExpired(ViolationLevel level) cons
     return elapsed >= config_.alert_cooldown_seconds;
 }
 
+/**
+ * @brief Make Latency Alert Id.
+ * @param[in] cache_name Name of the cache.
+ * @param[in] level Input parameter.
+ * @return Return value.
+ * @details Implements makeLatencyAlertId without additional internal calls.
+ */
 std::string CacheHitRateSloMonitor::makeLatencyAlertId(const std::string &cache_name, ViolationLevel level) {
     return "cache_latency_" + cache_name + "_" + (level == ViolationLevel::CRITICAL ? "critical" : "warning");
 }
 
-// ---------------------------------------------------------------------------
-// Per-tenant eviction rate diagnostics (Wave D — Q4 2026)
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- Per-tenant eviction rate diagnostics (Wave D — Q4 2026) ---------------------------------------------------------------------------
+ * @param[in] tenant_id Identifier of the tenant.
+ * @param[in] eviction_rate Input parameter.
+ * @param[in] threshold Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: THEMIS_WARN().
+ */
 
 bool CacheHitRateSloMonitor::recordTenantEvictionRate(
         const std::string& tenant_id, double eviction_rate, double threshold) {

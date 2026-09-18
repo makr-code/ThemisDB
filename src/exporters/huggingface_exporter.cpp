@@ -38,6 +38,14 @@ HuggingFaceExporter::HuggingFaceExporter(const HuggingFaceExporterConfig &config
 // Export
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Export Entities.
+ * @param[in] entities Input parameter.
+ * @param[in] options Input parameter.
+ * @return Return value.
+ * @throws ExportIOException if an error occurs.
+ * @details Calls: enforceExportPolicy(), std::chrono::steady_clock::now(), empty(), push_back(), root_dir(), fs::create_directories(), inferFeatures(), jsonl_exporter().
+ */
 ExportStats HuggingFaceExporter::exportEntities(const std::vector<BaseEntity> &entities, const ExportOptions &options) {
     // Policy check before any cursor or file is opened (EXP-001).
     enforceExportPolicy(options);
@@ -186,14 +194,13 @@ std::string HuggingFaceExporter::generateDatasetInfoJson(const ExportStats &stat
     return info.dump(2);
 }
 
-// ---------------------------------------------------------------------------
-// README.md (dataset card) generation
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- README.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details md (dataset card) generation --------------------------------------------------------------------------- Calls: reserve(), size().
+ */
 
-/// Escape a string for safe embedding as a YAML double-quoted scalar.
-/// Wraps the value in double quotes and escapes backslashes, double-quotes,
-/// and control characters so that the resulting YAML front matter is always
-/// syntactically valid regardless of the input.
 static std::string yamlQuote(const std::string &s) {
     std::string out = {};
     out.reserve(s.size() + 2);
@@ -287,6 +294,12 @@ std::string HuggingFaceExporter::generateDatasetCard() const {
 // Feature inference helpers
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Infer Dtype.
+ * @param[in] value Input parameter.
+ * @return Return value.
+ * @details Calls: std::visit(), constexpr().
+ */
 std::string HuggingFaceExporter::inferDtype(const Value &value) {
     return std::visit(
         [](const auto &v) -> std::string {
@@ -310,6 +323,11 @@ std::string HuggingFaceExporter::inferDtype(const Value &value) {
         value);
 }
 
+/**
+ * @brief Infer Features.
+ * @param[in] entities Input parameter.
+ * @details Calls: clear(), empty(), getAllFields(), find(), end(), inferDtype(), push_back(), std::move().
+ */
 void HuggingFaceExporter::inferFeatures(const std::vector<BaseEntity> &entities) {
     inferred_features_.clear();
     if (entities.empty()) {

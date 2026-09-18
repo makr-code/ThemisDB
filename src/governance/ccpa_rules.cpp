@@ -121,6 +121,11 @@ CcpaRuleSet::CcpaRuleSet() {
     THEMIS_DEBUG("CcpaRuleSet initialized with {} rule evaluators",rules_.size());
 }
 
+/**
+ * @brief Add Opt Out.
+ * @param[in] subject_id Identifier of the subject.
+ * @details Calls: empty(), lock(), insert(), THEMIS_INFO().
+ */
 void CcpaRuleSet::addOptOut(const std::string &subject_id) {
     if (subject_id.empty()) {
         return;
@@ -130,6 +135,11 @@ void CcpaRuleSet::addOptOut(const std::string &subject_id) {
     THEMIS_INFO("CCPA: subject '{}' added to opt-out registry", subject_id);
 }
 
+/**
+ * @brief Remove Opt Out.
+ * @param[in] subject_id Identifier of the subject.
+ * @details Calls: lock(), erase(), THEMIS_INFO().
+ */
 void CcpaRuleSet::removeOptOut(const std::string &subject_id) {
     std::lock_guard<std::mutex> lock(opt_out_mutex_);
     opt_out_subjects_.erase(subject_id);
@@ -140,10 +150,20 @@ bool CcpaRuleSet::isOptedOut(const std::string &subject_id) const {
     if (subject_id.empty()) {
         return false;
     }
+    /**
+     * @brief Lock.
+     * @param[in] opt_out_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(opt_out_mutex_);
     return opt_out_subjects_.count(subject_id) > 0;
 }
 
+/**
+ * @brief Set Opt Out Registry.
+ * @param[in] subjects Input parameter.
+ * @details Calls: lock(), THEMIS_INFO(), size().
+ */
 void CcpaRuleSet::setOptOutRegistry(const std::unordered_set<std::string> &subjects) {
     std::lock_guard<std::mutex> lock(opt_out_mutex_);
     opt_out_subjects_ = subjects;
@@ -151,6 +171,11 @@ void CcpaRuleSet::setOptOutRegistry(const std::unordered_set<std::string> &subje
 }
 
 size_t CcpaRuleSet::optOutCount() const {
+    /**
+     * @brief Lock.
+     * @param[in] opt_out_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(opt_out_mutex_);
     return opt_out_subjects_.size();
 }
@@ -220,6 +245,11 @@ std::vector<std::string> CcpaRuleSet::detectHipaaConflicts(const PolicyRule &rul
     return conflicts;
 }
 
+/**
+ * @brief Record Request.
+ * @param[in] request Input parameter.
+ * @details Calls: lock(), push_back(), THEMIS_INFO().
+ */
 void CcpaRuleSet::recordRequest(const DataSubjectRequest &request) {
     std::lock_guard<std::mutex> lock(requests_mutex_);
     requests_.push_back(request);
@@ -227,6 +257,11 @@ void CcpaRuleSet::recordRequest(const DataSubjectRequest &request) {
 }
 
 std::vector<DataSubjectRequest> CcpaRuleSet::getRequestsForSubject(const std::string &subject_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] requests_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(requests_mutex_);
     std::vector<DataSubjectRequest> result = {};
 
@@ -240,6 +275,11 @@ std::vector<DataSubjectRequest> CcpaRuleSet::getRequestsForSubject(const std::st
 
 std::vector<DataSubjectRequest> CcpaRuleSet::getRequestsByType(const std::string &request_type, int64_t start_time,
                                                                int64_t end_time) const {
+    /**
+     * @brief Lock.
+     * @param[in] requests_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(requests_mutex_);
     std::vector<DataSubjectRequest> result = {};
 
@@ -252,6 +292,11 @@ std::vector<DataSubjectRequest> CcpaRuleSet::getRequestsByType(const std::string
 }
 
 int CcpaRuleSet::countOptOutRequests(int64_t start_time, int64_t end_time) const {
+    /**
+     * @brief Lock.
+     * @param[in] requests_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(requests_mutex_);
     int count = 0;
     for (const auto &req : requests_) {

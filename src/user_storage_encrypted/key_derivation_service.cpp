@@ -46,6 +46,12 @@ namespace plugins {
 namespace user_storage {
 
 namespace {
+/**
+ * @brief Secure Zero.
+ * @param[in,out] ptr Input/output parameter.
+ * @param[in] len Input parameter.
+ * @details Implements secureZero without additional internal calls.
+ */
 inline void secureZero(void* ptr, size_t len) {
     volatile unsigned char* p = static_cast<volatile unsigned char*>(ptr);
     while (len--) {
@@ -64,6 +70,14 @@ inline void secureZero(void* ptr, size_t len) {
 // keys.  Production deployments SHOULD link libargon2 instead (see ROADMAP.md).
 static constexpr uint32_t kPbkdf2FallbackIterations = 310'000;
 
+/**
+ * @brief Derive Fallback Pbkdf2.
+ * @param[in] password Input parameter.
+ * @param[in] salt Input parameter.
+ * @param[in] out_len Input parameter.
+ * @param[in] uint32_t Input parameter.
+ * @return Return value.
+ */
 std::vector<uint8_t> deriveFallbackPbkdf2(
     const std::vector<uint8_t>& password,
     const std::vector<uint8_t>& salt,
@@ -111,6 +125,11 @@ std::vector<uint8_t> deriveFallbackPbkdf2(
 static std::mutex s_kdf_fn_mutex_;
 static Argon2idKeyDerivationService::DeriveKeyFn s_derive_key_fn_;
 
+/**
+ * @brief Set Derive Key Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lk(), std::move().
+ */
 void Argon2idKeyDerivationService::setDeriveKeyFn(
     Argon2idKeyDerivationService::DeriveKeyFn fn) {
     std::lock_guard<std::mutex> lk(s_kdf_fn_mutex_);
@@ -131,6 +150,11 @@ Result<std::vector<uint8_t>> Argon2idKeyDerivationService::deriveKey(
     {
         DeriveKeyFn fn;
         {
+            /**
+             * @brief Lk.
+             * @param[in] s_kdf_fn_mutex_ Input parameter.
+             * @return Return value.
+             */
             std::lock_guard<std::mutex> lk(s_kdf_fn_mutex_);
             fn = s_derive_key_fn_;
         }
@@ -203,6 +227,12 @@ Result<std::vector<uint8_t>> Argon2idKeyDerivationService::loadOrCreateSalt(
 ) const {
     // Try to load existing salt
     {
+        /**
+         * @brief F.
+         * @param[in] salt_file_path Path to the salt file.
+         * @param[in] binary Input parameter.
+         * @return Return value.
+         */
         std::ifstream f(salt_file_path, std::ios::binary);
         if (f) {
             f.seekg(0, std::ios::end);
@@ -228,7 +258,12 @@ Result<std::vector<uint8_t>> Argon2idKeyDerivationService::loadOrCreateSalt(
     {
         std::ofstream out(salt_file_path, std::ios::binary | std::ios::trunc);
         if (!out) {
-            // Another process may have created it concurrently — try to read
+            /**
+             * @brief Another process may have created it concurrently — try to read
+             * @param[in] salt_file_path Path to the salt file.
+             * @param[in] binary Input parameter.
+             * @return Return value.
+             */
             std::ifstream f(salt_file_path, std::ios::binary);
             if (f) {
                 f.seekg(0, std::ios::end);
@@ -261,6 +296,17 @@ Result<std::vector<uint8_t>> Argon2idKeyDerivationService::loadOrCreateSalt(
 Argon2idKeyDerivationService::Argon2idKeyDerivationService(const Argon2idParams& params)
     : params_(params) {}
 
+/**
+ * @brief Derive.
+ * @param[in] master_key Input parameter.
+ * @param[in] user_id Identifier of the user.
+ * @param[in] container_id Identifier of the container.
+ * @param[in] salt Input parameter.
+ * @return Return value.
+ * @throws std::invalid_argument if an error occurs.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: empty(), size(), reserve(), insert(), end(), begin(), data(), derived_key().
+ */
 std::vector<uint8_t> Argon2idKeyDerivationService::derive(
     const std::vector<uint8_t>& master_key,
     const std::string& user_id,
@@ -315,6 +361,14 @@ std::vector<uint8_t> Argon2idKeyDerivationService::derive(
 #endif
 }
 
+/**
+ * @brief Generate Salt.
+ * @param[in] length Input parameter.
+ * @return Return value.
+ * @throws std::invalid_argument if an error occurs.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: salt(), rd(), open(), read(), data(), close().
+ */
 std::vector<uint8_t> Argon2idKeyDerivationService::generateSalt(size_t length) {
     if (length == 0) {
         throw std::invalid_argument("Salt length must be > 0");

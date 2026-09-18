@@ -33,11 +33,13 @@ namespace gpu {
 
 namespace {
 
-/// Singleton logger instance for GPU error diagnostics.
 std::shared_ptr<spdlog::logger> g_gpu_logger;
 std::once_flag g_logger_init;
 
-/// Initialize GPU logger (called once).
+/**
+ * @brief Init GPULogger.
+ * @details Calls: std::call_once(), set_level(), spdlog::register_logger().
+ */
 void InitGPULogger() {
   std::call_once(g_logger_init, []() {
     auto console_sink = std::make_shared<spdlog::sinks::stdout_color_sink_mt>();
@@ -54,17 +56,26 @@ void InitGPULogger() {
 // GPUErrorHandler Implementation
 // ============================================================================
 
-/** @brief GPUErrorHandler Implementation. */
 class GPUErrorHandlerImpl : public GPUErrorHandler {
  public:
   GPUErrorHandlerImpl() = default;
 
   void logError(cudaError_t cuda_err, const std::string& context) noexcept override {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     logErrorNoLock(cuda_err, context);
   }
 
   void logError(hipError_t hip_err, const std::string& context) noexcept override {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     logErrorNoLock(hip_err, context);
   }
@@ -72,6 +83,11 @@ class GPUErrorHandlerImpl : public GPUErrorHandler {
   void handleError(cudaError_t cuda_err,
                   const std::string& context,
                   const ErrorRecoveryPolicy* policy) override {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     auto error_class = classifyError(cuda_err);
@@ -87,6 +103,11 @@ class GPUErrorHandlerImpl : public GPUErrorHandler {
   void handleError(hipError_t hip_err,
                   const std::string& context,
                   const ErrorRecoveryPolicy* policy) override {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     auto error_class = classifyError(hip_err);
@@ -238,7 +259,6 @@ class GPUErrorHandlerImpl : public GPUErrorHandler {
  private:
   std::mutex mutex_ = {};
 
-  /// Log a CUDA error without acquiring the mutex (caller must hold it).
   void logErrorNoLock(cudaError_t cuda_err, const std::string& context) noexcept {
     InitGPULogger();
     auto error_class = classifyError(cuda_err);
@@ -251,7 +271,6 @@ class GPUErrorHandlerImpl : public GPUErrorHandler {
     }
   }
 
-  /// Log a HIP error without acquiring the mutex (caller must hold it).
   void logErrorNoLock(hipError_t hip_err, const std::string& context) noexcept {
     InitGPULogger();
     auto error_class = classifyError(hip_err);
@@ -264,7 +283,6 @@ class GPUErrorHandlerImpl : public GPUErrorHandler {
     }
   }
 
-  /// Apply recovery policy for error.
   void applyRecoveryPolicy(GPUErrorClass error_class,
                           ErrorRecoveryPolicy policy,
                           const std::string& context) noexcept {
@@ -307,6 +325,11 @@ class GPUErrorHandlerImpl : public GPUErrorHandler {
 // Factory Functions
 // ============================================================================
 
+/**
+ * @brief Create.
+ * @return Return value.
+ * @details Calls: std::call_once().
+ */
 std::shared_ptr<GPUErrorHandler> GPUErrorHandler::Create() {
   static std::shared_ptr<GPUErrorHandler> instance;
   static std::once_flag init_flag;

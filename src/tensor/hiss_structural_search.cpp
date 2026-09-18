@@ -31,16 +31,30 @@ namespace {
     HissReshaper::QuanticsFn g_quantics_fn;
 } // namespace
 
+/**
+ * @brief Set Quantics Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lk(), std::move().
+ */
 void HissReshaper::setQuanticsFn(HissReshaper::QuanticsFn fn) {
     std::lock_guard<std::mutex> lk(g_quantics_mtx);
     g_quantics_fn = std::move(fn);
 }
 
+/**
+ * @brief Clear Quantics Fn.
+ * @details Calls: lk().
+ */
 void HissReshaper::clearQuanticsFn() {
     std::lock_guard<std::mutex> lk(g_quantics_mtx);
     g_quantics_fn = nullptr;
 }
 
+/**
+ * @brief Get Quantics Fn.
+ * @return Return value.
+ * @details Calls: lk().
+ */
 HissReshaper::QuanticsFn HissReshaper::getQuanticsFn() {
     std::lock_guard<std::mutex> lk(g_quantics_mtx);
     return g_quantics_fn;
@@ -48,6 +62,12 @@ HissReshaper::QuanticsFn HissReshaper::getQuanticsFn() {
 
 namespace {
 
+/**
+ * @brief Core Entropy.
+ * @param[in] core Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), std::abs(), std::max(), epsilon(), std::min(), std::log2().
+ */
 double coreEntropy(const storage::TTCore& core) {
     if (core.data.empty()) {
       return 0.0;
@@ -82,6 +102,12 @@ double coreEntropy(const storage::TTCore& core) {
     return h / std::log2(static_cast<double>(kBins)); // normalized [0,1]
 }
 
+/**
+ * @brief Xorshift64.
+ * @param[in,out] x Input/output parameter.
+ * @return Return value.
+ * @details Implements xorshift64 without additional internal calls.
+ */
 std::uint64_t xorshift64(std::uint64_t& x) {
     x ^= x << 13;
     x ^= x >> 7;
@@ -89,6 +115,14 @@ std::uint64_t xorshift64(std::uint64_t& x) {
     return x;
 }
 
+/**
+ * @brief Dense Element Count.
+ * @param[in] shape Input parameter.
+ * @return Return value.
+ * @throws std::invalid_argument if an error occurs.
+ * @throws std::overflow_error if an error occurs.
+ * @details Calls: empty(), max().
+ */
 static std::size_t denseElementCount(const std::vector<std::size_t>& shape) {
     if (shape.empty()) {
       return 0;
@@ -106,6 +140,15 @@ static std::size_t denseElementCount(const std::vector<std::size_t>& shape) {
     return product;
 }
 
+/**
+ * @brief Build Exact Binary TT.
+ * @param[in] dense Input parameter.
+ * @param[in] bit_count Input parameter.
+ * @return Return value.
+ * @throws std::invalid_argument if an error occurs.
+ * @throws std::overflow_error if an error occurs.
+ * @details Calls: std::to_string(), size(), assign(), resize(), at(), back().
+ */
 static storage::TTTrain buildExactBinaryTT(const std::vector<float>& dense,
                                            std::size_t               bit_count) {
     if (bit_count == 0) {
@@ -204,7 +247,11 @@ std::size_t QTTMappingDescriptor::physicalToQTT(std::size_t physical_idx) const 
             " >= product(grid_sizes) " + std::to_string(total_physical));
     }
 
-    // Convert flat physical index to C-contiguous multi-index in grid_sizes.
+    /**
+     * @brief Convert flat physical index to C-contiguous multi-index in grid_sizes.
+     * @param[in] ndims Input parameter.
+     * @return Return value.
+     */
     std::vector<std::size_t> multi_idx(ndims);
     {
         auto remaining = physical_idx;
@@ -263,7 +310,11 @@ std::optional<std::size_t> QTTMappingDescriptor::qttToPhysical(std::size_t qtt_i
       B += b;
     }
 
-    // Decode per-dimension indices from the packed QTT bit sequence (MSB first).
+    /**
+     * @brief Decode per-dimension indices from the packed QTT bit sequence (MSB first).
+     * @param[in] ndims Input parameter.
+     * @return Return value.
+     */
     std::vector<std::size_t> multi_idx(ndims);
     std::size_t bit_pos = B;
     for (std::size_t d = 0; d < ndims; ++d) {
@@ -295,11 +346,23 @@ std::optional<std::size_t> QTTMappingDescriptor::qttToPhysical(std::size_t qtt_i
 // TensorNetworkGraph
 // ============================================================================
 
+/**
+ * @brief Add Node.
+ * @param[in] node Input parameter.
+ * @return Return value.
+ * @details Calls: push_back(), std::move(), size().
+ */
 std::size_t TensorNetworkGraph::addNode(TensorGraphNode node) {
     nodes_.push_back(std::move(node));
     return nodes_.size() - 1;
 }
 
+/**
+ * @brief Add Edge.
+ * @param[in] edge Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: size(), std::any_of(), begin(), end(), push_back(), std::move().
+ */
 bool TensorNetworkGraph::addEdge(TensorGraphEdge edge) {
     if (edge.from >= nodes_.size() || edge.to >= nodes_.size() || edge.from == edge.to) {
         return false;
@@ -313,6 +376,14 @@ bool TensorNetworkGraph::addEdge(TensorGraphEdge edge) {
     return true;
 }
 
+/**
+ * @brief Reroute Edge.
+ * @param[in] from Input parameter.
+ * @param[in] to Input parameter.
+ * @param[in] new_topology Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements rerouteEdge without additional internal calls.
+ */
 bool TensorNetworkGraph::rerouteEdge(std::size_t from, std::size_t to, const std::string& new_topology) {
     for (auto& e : edges_) {
         if (e.from == from && e.to == to) {
@@ -501,6 +572,11 @@ HissReshaper::exposeQuantics(const storage::TTTrain& train, const std::vector<st
 
     QuanticsFn quantics_fn;
     {
+        /**
+         * @brief Lk.
+         * @param[in] g_quantics_mtx Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(g_quantics_mtx);
         quantics_fn = g_quantics_fn;
     }
@@ -568,12 +644,23 @@ HissReshaper::exposeQuantics(const storage::TTTrain& train, const std::vector<st
     return qt;
 }
 
+/**
+ * @brief Register Template.
+ * @param[in] domain_tag Input parameter.
+ * @param[in] graph Input parameter.
+ * @details Calls: lk(), std::move().
+ */
 void TemplateCatalog::registerTemplate(const std::string& domain_tag, TensorNetworkGraph graph) {
     std::lock_guard<std::mutex> lk(mutex_);
     templates_[domain_tag] = std::move(graph);
 }
 
 std::optional<TensorNetworkGraph> TemplateCatalog::lookup(const std::string& domain_tag) const {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     const auto it = templates_.find(domain_tag);
     if (it == templates_.end()) {
@@ -583,6 +670,11 @@ std::optional<TensorNetworkGraph> TemplateCatalog::lookup(const std::string& dom
 }
 
 std::size_t TemplateCatalog::size() const {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     return templates_.size();
 }

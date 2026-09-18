@@ -31,6 +31,12 @@ ManifestStore::ManifestStore(observability::MetricsCollector* metrics) noexcept
 // store
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Store.
+ * @param[in] manifest Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: validate(), lock(), find(), end(), emplace(), std::move(), unlock(), addCounter().
+ */
 bool ManifestStore::store(const ArtifactManifest& manifest) {
     // SG-DT-01: Fail-closed validation.
     // Reject any manifest that fails invariant checks.
@@ -68,6 +74,12 @@ bool ManifestStore::store(const ArtifactManifest& manifest) {
 // evict
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Evict.
+ * @param[in] artifact_id Identifier of the artifact.
+ * @return Return value.
+ * @details Calls: lock(), begin(), end(), erase().
+ */
 std::size_t ManifestStore::evict(const std::string& artifact_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     std::size_t removed = 0;
@@ -86,6 +98,12 @@ std::size_t ManifestStore::evict(const std::string& artifact_id) {
 // evictStale
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Evict Stale.
+ * @param[in] max_age_s Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::now(), lock(), begin(), end(), isFresh(), erase().
+ */
 std::size_t ManifestStore::evictStale(double max_age_s) {
     const auto now = std::chrono::system_clock::now();
     std::lock_guard<std::mutex> lock(mutex_);
@@ -107,6 +125,11 @@ std::size_t ManifestStore::evictStale(double max_age_s) {
 
 std::optional<ArtifactManifest>
 ManifestStore::get(const std::string& tensor_name, uint32_t shard_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     const ArtifactManifest* best = nullptr;
@@ -130,6 +153,11 @@ ManifestStore::get(const std::string& tensor_name, uint32_t shard_id) const {
 
 std::vector<ArtifactManifest>
 ManifestStore::list(const std::string& tensor_name) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     std::vector<ArtifactManifest> result = {};
@@ -157,6 +185,11 @@ ManifestStore::list(const std::string& tensor_name) const {
 // ---------------------------------------------------------------------------
 
 std::size_t ManifestStore::size() const noexcept {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return entries_.size();
 }
@@ -176,6 +209,11 @@ void ManifestStore::refreshFreshnessMetrics() const {
     std::unordered_map<std::string, double> oldest_age;
 
     {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         for (const auto& [k, v] : entries_) {
             const double age = v.freshnessAgeSeconds(now);

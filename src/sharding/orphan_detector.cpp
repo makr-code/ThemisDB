@@ -19,10 +19,10 @@ namespace sharding {
 namespace {
 
 /**
- * @brief Return true when transaction state is configured as orphanable.
- * @param txn Transaction record to evaluate.
- * @param cfg Detector configuration with enabled state filters.
- * @return True when transaction state is selected for orphan checks.
+ * @brief Is Orphanable State.
+ * @param[in] txn Input parameter.
+ * @param[in] cfg Input parameter.
+ * @return True when the operation succeeds.
  */
 bool isOrphanableState(
     const themisdb::sharding::CrossShardTransaction& txn,
@@ -37,21 +37,20 @@ bool isOrphanableState(
 
 } // anonymous namespace
 
-/** @brief Construct detector with per-call coordinator mode only. */
 OrphanDetector::OrphanDetector(const Config& config)
     : config_(config) {
 }
 
-/** @brief Construct detector with optional distributed coordinator backend. */
 OrphanDetector::OrphanDetector(const Config& config,
                                themis::sharding::DistributedCoordinator* dist_coordinator)
     : config_(config), distributed_coordinator_(dist_coordinator) {
 }
 
 /**
- * @brief Scan active transactions and return IDs classified as orphaned.
- * @param coordinator Fallback transaction coordinator for active transaction scan.
- * @return List of orphaned transaction IDs.
+ * @brief Detect Orphans.
+ * @param[in] coordinator Input parameter.
+ * @return Return value.
+ * @details Calls: spdlog::warn(), spdlog::info(), listInFlightTransactions(), getActiveTransactions(), std::chrono::system_clock::now(), std::chrono::seconds(), isOrphanableState(), count().
  */
 std::vector<std::string> OrphanDetector::detectOrphans(
     const std::shared_ptr<themisdb::sharding::CrossShardTransactionCoordinator>& coordinator) {
@@ -98,10 +97,11 @@ std::vector<std::string> OrphanDetector::detectOrphans(
 }
 
 /**
- * @brief Check one transaction for orphan condition.
- * @param transaction_id Transaction identifier.
- * @param coordinator Fallback coordinator used when distributed coordinator is absent.
- * @return True when transaction exceeds timeout and is in configured orphanable state.
+ * @brief Is Orphaned.
+ * @param[in] transaction_id Identifier of the transaction.
+ * @param[in] coordinator Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: getTransaction(), has_value(), std::chrono::system_clock::now(), std::chrono::seconds(), isOrphanableState().
  */
 bool OrphanDetector::isOrphaned(
     const std::string& transaction_id,
@@ -136,9 +136,10 @@ bool OrphanDetector::isOrphaned(
 }
 
 /**
- * @brief Abort stale Percolator transactions to reclaim orphaned locks.
- * @param coordinator Coordinator used to enumerate and abort transactions.
- * @return Number of stale Percolator transactions successfully aborted.
+ * @brief Clean Percolator Locks.
+ * @param[in] coordinator Input parameter.
+ * @return Return value.
+ * @details Calls: spdlog::warn(), getActiveTransactions(), std::chrono::system_clock::now(), std::chrono::seconds(), spdlog::info(), count(), abort().
  */
 size_t OrphanDetector::cleanPercolatorLocks(
     const std::shared_ptr<themisdb::sharding::CrossShardTransactionCoordinator>& coordinator) {

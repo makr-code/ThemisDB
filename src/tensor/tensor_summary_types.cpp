@@ -12,9 +12,11 @@
 namespace themis {
 namespace tensor {
 
-// ============================================================================
-// Helper: Get current ISO-8601 timestamp
-// ============================================================================
+/**
+ * @brief ============================================================================ Helper: Get current ISO-8601 timestamp ============================================================================
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::now(), std::chrono::system_clock::to_time_t(), std::put_time(), std::gmtime(), str().
+ */
 
 static std::string getCurrentTimestamp() {
     auto now = std::chrono::system_clock::now();
@@ -28,6 +30,14 @@ static std::string getCurrentTimestamp() {
 // SummaryFactory implementation
 // ============================================================================
 
+/**
+ * @brief Create Adapter Summary.
+ * @param[in] adapter_key Input parameter.
+ * @param[in] base_model_id Identifier of the base model.
+ * @param[in] compression_result Input parameter.
+ * @return Return value.
+ * @details Calls: getCurrentTimestamp().
+ */
 AdapterSummary SummaryFactory::createAdapterSummary(
     const std::string&        adapter_key,
     const std::string&        base_model_id,
@@ -53,6 +63,13 @@ AdapterSummary SummaryFactory::createAdapterSummary(
     return summary;
 }
 
+/**
+ * @brief Create Package Summary.
+ * @param[in] package_id Identifier of the package.
+ * @param[in] adapter_keys Input parameter.
+ * @return Return value.
+ * @details Calls: size(), getCurrentTimestamp(), std::to_string().
+ */
 PackageSummary SummaryFactory::createPackageSummary(
     const std::string&              package_id,
     const std::vector<std::string>& adapter_keys) {
@@ -73,6 +90,14 @@ PackageSummary SummaryFactory::createPackageSummary(
     return summary;
 }
 
+/**
+ * @brief Create Shard Summary.
+ * @param[in] shard_id Identifier of the shard.
+ * @param[in] candidates_before Input parameter.
+ * @param[in] compression_result Input parameter.
+ * @return Return value.
+ * @details Calls: getCurrentTimestamp().
+ */
 ShardSummary SummaryFactory::createShardSummary(
     const std::string&        shard_id,
     std::size_t               candidates_before,
@@ -125,6 +150,11 @@ bool ShardSummary::isStale(const std::string& /*now_timestamp*/) const noexcept 
 
         // Parse last_update_timestamp (simplified parsing)
         std::tm tm = {};
+        /**
+         * @brief Iss.
+         * @param[in] last_update_timestamp Input parameter.
+         * @return Return value.
+         */
         std::istringstream iss(last_update_timestamp);
         iss >> std::get_time(&tm, "%Y-%m-%dT%H:%M:%SZ");
         

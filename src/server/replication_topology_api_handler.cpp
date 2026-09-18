@@ -40,6 +40,12 @@ namespace {
 
 constexpr size_t kMaxReplicationUiPrefixLength = 256;
 
+/**
+ * @brief Is Valid Ui Api Base Prefix.
+ * @param[in] value Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), front(), validateStringLength(), validateHeaderValue(), find().
+ */
 bool isValidUiApiBasePrefix(const std::string& value) {
     if (value.empty()) {
         return true;
@@ -93,9 +99,11 @@ ReplicationTopologyApiHandler::ReplicationTopologyApiHandler(
 {
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// GET /api/v1/replication/topology
-// ─────────────────────────────────────────────────────────────────────────────
+/**
+ * @brief ───────────────────────────────────────────────────────────────────────────── GET /api/v1/replication/topology ─────────────────────────────────────────────────────────────────────────────
+ * @param[in] req Input parameter.
+ * @return Return value.
+ */
 
 http::response<http::string_body> ReplicationTopologyApiHandler::handleTopologyGet(
     const http::request<http::string_body>& req)
@@ -174,6 +182,11 @@ http::response<http::string_body> ReplicationTopologyApiHandler::handleTopologyG
     }
 }
 
+/**
+ * @brief Handle Health Get.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ */
 http::response<http::string_body> ReplicationTopologyApiHandler::handleHealthGet(
     const http::request<http::string_body>& req)
 {
@@ -227,6 +240,11 @@ http::response<http::string_body> ReplicationTopologyApiHandler::handleHealthGet
     }
 }
 
+/**
+ * @brief Handle Ui Get.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ */
 http::response<http::string_body> ReplicationTopologyApiHandler::handleUiGet(
     const http::request<http::string_body>& req)
 {
@@ -274,6 +292,11 @@ http::response<http::string_body> ReplicationTopologyApiHandler::makeResponse(
     return res;
 }
 
+/**
+ * @brief Build Ui Html.
+ * @param[in] api_base Input parameter.
+ * @return Return value.
+ */
 std::string ReplicationTopologyApiHandler::buildUiHtml(const std::string& api_base)
 {
     const std::string encoded_api_base = json(api_base).dump();

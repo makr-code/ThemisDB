@@ -40,13 +40,38 @@
 #include <linux/io_uring.h>
 #include <signal.h>
 
-// Thin syscall wrappers (not exposed by all glibc versions).
+/**
+ * @brief Thin syscall wrappers (not exposed by all glibc versions).
+ * @param[in] entries Input parameter.
+ * @param[in,out] p Input/output parameter.
+ * @return Return value.
+ * @details Calls: syscall().
+ */
 static int themis_io_uring_setup(unsigned entries, struct io_uring_params *p) {
     return static_cast<int>(::syscall(__NR_io_uring_setup, entries, p));
 }
+/**
+ * @brief Themis io uring enter.
+ * @param[in] fd Input parameter.
+ * @param[in] to_submit Input parameter.
+ * @param[in] min_complete Input parameter.
+ * @param[in] flags Input parameter.
+ * @param[in,out] sig Input/output parameter.
+ * @return Return value.
+ * @details Calls: syscall().
+ */
 static int themis_io_uring_enter(int fd, unsigned to_submit, unsigned min_complete, unsigned flags, sigset_t *sig) {
     return static_cast<int>(::syscall(__NR_io_uring_enter, fd, to_submit, min_complete, flags, sig, _NSIG / 8));
 }
+/**
+ * @brief Themis io uring register.
+ * @param[in] fd Input parameter.
+ * @param[in] opcode Input parameter.
+ * @param[in,out] arg Input/output parameter.
+ * @param[in] nr_args Input parameter.
+ * @return Return value.
+ * @details Calls: syscall().
+ */
 static int themis_io_uring_register(int fd, unsigned opcode, void *arg, unsigned nr_args) {
     return static_cast<int>(::syscall(__NR_io_uring_register, fd, opcode, arg, nr_args));
 }
@@ -74,7 +99,6 @@ namespace {
 
 constexpr int kShutdownJoinTimeoutMs = 5000;
 
-/// @brief Join @p t within @p timeout_ms; log and detach on timeout.
 static void timedJoin(std::thread &t, int timeout_ms = kShutdownJoinTimeoutMs) noexcept {
     if (!t.joinable())
         return;
@@ -393,9 +417,11 @@ DPDKServer::~DPDKServer() {
     stop();
 }
 
-// =============================================================================
-// DPDKServer::start
-// =============================================================================
+/**
+ * @brief ============================================================================= DPDKServer::start =============================================================================
+ * @return True when the operation succeeds.
+ * @details Calls: load(), defined(), push_back(), std::to_string(), std::snprintf(), empty(), reserve(), size().
+ */
 
 bool DPDKServer::start() {
     if (running_.load(std::memory_order_relaxed)) {
@@ -570,9 +596,10 @@ bool DPDKServer::start() {
 #endif
 }
 
-// =============================================================================
-// DPDKServer::stop
-// =============================================================================
+/**
+ * @brief ============================================================================= DPDKServer::stop =============================================================================
+ * @details Calls: exchange(), timedJoin(), clear(), defined(), rte_eth_dev_stop(), rte_eal_cleanup(), THEMIS_INFO().
+ */
 
 void DPDKServer::stop() {
     if (!running_.exchange(false, std::memory_order_acq_rel))
@@ -589,9 +616,12 @@ void DPDKServer::stop() {
     THEMIS_INFO("DPDKServer: stopped");
 }
 
-// =============================================================================
-// DPDKServer::pollLoop
-// =============================================================================
+/**
+ * @brief ============================================================================= DPDKServer::pollLoop =============================================================================
+ * @param[in] core_id Identifier of the core.
+ * @param[in] queue_id Identifier of the queue.
+ * @details Calls: defined(), rte_get_tsc_cycles(), load(), rte_eth_rx_burst(), lk(), rte_pktmbuf_pkt_len(), rte_pktmbuf_free(), THEMIS_DEBUG().
+ */
 
 void DPDKServer::pollLoop(int core_id, int queue_id) {
 #if defined(THEMIS_ENABLE_DPDK)
@@ -643,6 +673,11 @@ void DPDKServer::pollLoop(int core_id, int queue_id) {
 // =============================================================================
 
 DPDKServer::Stats DPDKServer::stats() const noexcept {
+    /**
+     * @brief Lk.
+     * @param[in] stats_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(stats_mutex_);
     return stats_;
 }
@@ -703,9 +738,11 @@ IoUringServer::~IoUringServer() {
     stop();
 }
 
-// =============================================================================
-// IoUringServer::setupListenSocket
-// =============================================================================
+/**
+ * @brief ============================================================================= IoUringServer::setupListenSocket =============================================================================
+ * @return True when the operation succeeds.
+ * @details Calls: socket(), std::string(), std::strerror(), setsockopt(), htons(), inet_addr(), c_str(), bind().
+ */
 
 bool IoUringServer::setupListenSocket() {
 #ifdef __linux__
@@ -747,9 +784,11 @@ bool IoUringServer::setupListenSocket() {
 #endif
 }
 
-// =============================================================================
-// IoUringServer::setupIoUring
-// =============================================================================
+/**
+ * @brief ============================================================================= IoUringServer::setupIoUring =============================================================================
+ * @return True when the operation succeeds.
+ * @details Calls: defined(), std::memset(), themis_io_uring_setup(), std::string(), std::strerror(), reserve(), valid(), THEMIS_WARN().
+ */
 
 bool IoUringServer::setupIoUring() {
 #if defined(THEMIS_ENABLE_IO_URING) && defined(__linux__)
@@ -816,9 +855,11 @@ bool IoUringServer::setupIoUring() {
 #endif
 }
 
-// =============================================================================
-// IoUringServer::start
-// =============================================================================
+/**
+ * @brief ============================================================================= IoUringServer::start =============================================================================
+ * @return True when the operation succeeds.
+ * @details Calls: load(), setupListenSocket(), setupIoUring(), close(), store(), emplace_back(), workerLoop(), THEMIS_INFO().
+ */
 
 bool IoUringServer::start() {
     if (running_.load(std::memory_order_relaxed)) {
@@ -849,9 +890,11 @@ bool IoUringServer::start() {
     return true;
 }
 
-// =============================================================================
-// IoUringServer::workerLoop
-// =============================================================================
+/**
+ * @brief ============================================================================= IoUringServer::workerLoop =============================================================================
+ * @param[in] worker_id Identifier of the worker.
+ * @details Calls: defined(), CpuPinner::pinCallerToCore(), load(), themis_io_uring_enter(), THEMIS_WARN(), std::strerror(), lk().
+ */
 
 void IoUringServer::workerLoop(int worker_id) {
 #if defined(THEMIS_ENABLE_IO_URING) && defined(__linux__)
@@ -904,9 +947,10 @@ void IoUringServer::workerLoop(int worker_id) {
 #endif
 }
 
-// =============================================================================
-// IoUringServer::teardown
-// =============================================================================
+/**
+ * @brief ============================================================================= IoUringServer::teardown =============================================================================
+ * @details Calls: close(), clear().
+ */
 
 void IoUringServer::teardown() {
 #ifdef __linux__
@@ -922,9 +966,10 @@ void IoUringServer::teardown() {
     fixed_bufs_.clear();
 }
 
-// =============================================================================
-// IoUringServer::stop
-// =============================================================================
+/**
+ * @brief ============================================================================= IoUringServer::stop =============================================================================
+ * @details Calls: exchange(), close(), timedJoin(), clear(), teardown(), THEMIS_INFO().
+ */
 
 void IoUringServer::stop() {
     if (!running_.exchange(false, std::memory_order_acq_rel))
@@ -951,6 +996,11 @@ void IoUringServer::stop() {
 // =============================================================================
 
 IoUringServer::Stats IoUringServer::stats() const noexcept {
+    /**
+     * @brief Lk.
+     * @param[in] stats_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(stats_mutex_);
     return stats_;
 }

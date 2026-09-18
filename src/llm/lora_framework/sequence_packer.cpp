@@ -23,6 +23,12 @@ SequencePacker::SequencePacker(const Device& device)
     spdlog::debug("SequencePacker initialized for device: {}", static_cast<int>(device.type));
 }
 
+/**
+ * @brief Pack Sequences.
+ * @param[in] sequences Input parameter.
+ * @return Return value.
+ * @details Calls: size(), empty(), spdlog::warn(), push_back(), spdlog::debug(), reserve(), GPUTensor(), upload().
+ */
 SequencePacker::PackedBatch SequencePacker::packSequences(
     const std::vector<std::vector<int>>& sequences
 ) {
@@ -81,6 +87,13 @@ SequencePacker::PackedBatch SequencePacker::packSequences(
     return batch;
 }
 
+/**
+ * @brief Unpack Results.
+ * @param[in] packed_output Input parameter.
+ * @param[in] batch_info Input parameter.
+ * @return Return value.
+ * @details Calls: is_valid(), spdlog::error(), shape(), size(), spdlog::debug(), cpu_data(), reserve(), push_back().
+ */
 std::vector<GPUTensor> SequencePacker::unpackResults(
     const GPUTensor& packed_output,
     const PackedBatch& batch_info
@@ -139,6 +152,13 @@ std::vector<GPUTensor> SequencePacker::unpackResults(
     return unpacked;
 }
 
+/**
+ * @brief Calculate Memory Savings.
+ * @param[in] sequences Input parameter.
+ * @param[in] max_length Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), size().
+ */
 float SequencePacker::calculateMemorySavings(
     const std::vector<std::vector<int>>& sequences,
     size_t max_length

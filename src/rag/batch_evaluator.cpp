@@ -27,10 +27,15 @@ namespace themis::rag::judge {
 
 namespace {
 
-/// Sentinel efficiency value when total quality is ~0 but cost is non-zero.
-/// Forces release-gate failure so broken evaluations are never silently passed.
 static constexpr double kWorstCaseEfficiency = std::numeric_limits<double>::infinity();
 
+/**
+ * @brief Iequals.
+ * @param[in] a Input parameter.
+ * @param[in] b Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: size(), std::tolower().
+ */
 bool iequals(const std::string& a, const std::string& b) {
     if (a.size() != b.size()) {
         return false;
@@ -44,6 +49,12 @@ bool iequals(const std::string& a, const std::string& b) {
     return true;
 }
 
+/**
+ * @brief To Lower.
+ * @param[in] value Input parameter.
+ * @return Return value.
+ * @details Calls: std::tolower().
+ */
 std::string toLower(std::string value) {
     for (auto& c : value) {
         c = static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
@@ -51,6 +62,13 @@ std::string toLower(std::string value) {
     return value;
 }
 
+/**
+ * @brief Parse Double.
+ * @param[in] raw Input parameter.
+ * @param[in,out] out Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: std::stod(), size(), THEMIS_DEBUG(), what().
+ */
 bool parseDouble(const std::string& raw, double& out) {
     try {
         size_t consumed = 0;
@@ -62,6 +80,13 @@ bool parseDouble(const std::string& raw, double& out) {
     }
 }
 
+/**
+ * @brief Parse Bool.
+ * @param[in] raw Input parameter.
+ * @param[in,out] out Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: toLower().
+ */
 bool parseBool(const std::string& raw, bool& out) {
     const std::string v = toLower(raw);
     if (v == "true" || v == "1" || v == "yes") {
@@ -75,6 +100,12 @@ bool parseBool(const std::string& raw, bool& out) {
     return false;
 }
 
+/**
+ * @brief Metadata Has Prompt Injection Scenario.
+ * @param[in] input Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: find(), end(), iequals().
+ */
 bool metadataHasPromptInjectionScenario(const EvaluationInput& input) {
     auto it = input.metadata.find("attack_type");
     if (it != input.metadata.end() && iequals(it->second, "prompt_injection")) {
@@ -87,6 +118,12 @@ bool metadataHasPromptInjectionScenario(const EvaluationInput& input) {
     return false;
 }
 
+/**
+ * @brief Has Decision Traceability.
+ * @param[in] input Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: find(), end().
+ */
 bool hasDecisionTraceability(const EvaluationInput& input) {
     const bool has_model =
         input.metadata.find("model_version") != input.metadata.end();
@@ -98,6 +135,13 @@ bool hasDecisionTraceability(const EvaluationInput& input) {
     return has_model && has_guardrail && has_context;
 }
 
+/**
+ * @brief Extract Latency Ms.
+ * @param[in] input Input parameter.
+ * @param[in] result Input parameter.
+ * @return Return value.
+ * @details Calls: find(), end(), parseDouble(), count().
+ */
 double extractLatencyMs(const EvaluationInput& input, const EvaluationResult& result) {
     auto it = input.metadata.find("latency_ms");
     if (it != input.metadata.end()) {
@@ -109,6 +153,12 @@ double extractLatencyMs(const EvaluationInput& input, const EvaluationResult& re
     return static_cast<double>(result.evaluation_time.count());
 }
 
+/**
+ * @brief Extract Cost.
+ * @param[in] input Input parameter.
+ * @return Return value.
+ * @details Calls: find(), end(), parseDouble().
+ */
 double extractCost(const EvaluationInput& input) {
     static const std::vector<std::string> keys{
         "request_cost",
@@ -143,6 +193,12 @@ bool AsyncEvaluationHandle::isDone() const {
     return future_.wait_for(std::chrono::seconds(0)) == std::future_status::ready;
 }
 
+/**
+ * @brief Wait.
+ * @param[in] timeout Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: load(), std::chrono::milliseconds::max(), wait_for().
+ */
 bool AsyncEvaluationHandle::wait(std::chrono::milliseconds timeout) {
     if (cancelled_.load()) {
       return true;
@@ -154,6 +210,12 @@ bool AsyncEvaluationHandle::wait(std::chrono::milliseconds timeout) {
     return future_.wait_for(timeout) == std::future_status::ready;
 }
 
+/**
+ * @brief Get.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: load(), wait_for(), THEMIS_WARN(), std::string(), what().
+ */
 EvaluationResult AsyncEvaluationHandle::get() {
     // CRITICAL FIX: Add exception safety guard and timeout to prevent indefinite blocking
     // when accessing futures
@@ -183,6 +245,10 @@ EvaluationResult AsyncEvaluationHandle::get() {
     }
 }
 
+/**
+ * @brief Cancel.
+ * @details Calls: store().
+ */
 void AsyncEvaluationHandle::cancel() {
     cancelled_.store(true);
 }
@@ -227,6 +293,10 @@ BatchEvaluator::~BatchEvaluator() {
 // Worker thread
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Worker Thread.
+ * @details Calls: lock(), std::chrono::seconds(), wait_for(), load(), empty(), std::move(), front(), pop().
+ */
 void BatchEvaluator::workerThread() {
     while (true) {
         std::unique_lock<std::mutex> lock(queue_mutex_);
@@ -293,6 +363,12 @@ void BatchEvaluator::workerThread() {
 // Core evaluation helper
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Process Evaluation.
+ * @param[in] input Input parameter.
+ * @return Return value.
+ * @details Calls: size(), push_back(), THEMIS_WARN(), sanitize(), themis::llm::prompt_safety::sanitizePromptWithSharedPolicy(), std::move(), evaluate().
+ */
 EvaluationResult BatchEvaluator::processEvaluation(const EvaluationInput& input) {
     // ── INPUT VALIDATION ────────────────────────────────────────────────────
     // SECURITY BOUNDARY: All user-supplied input (query, documents, generated_answer) 
@@ -377,6 +453,12 @@ EvaluationResult BatchEvaluator::processEvaluation(const EvaluationInput& input)
 // Synchronous batch evaluation
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Evaluate Batch.
+ * @param[in] test_cases Input parameter.
+ * @return Return value.
+ * @details Calls: size(), THEMIS_ERROR(), reserve(), push_back(), std::move().
+ */
 BatchEvaluationResult BatchEvaluator::evaluateBatch(
     const std::vector<RAGTestCase>& test_cases) {
     // ── BATCH INPUT VALIDATION ──────────────────────────────────────────────
@@ -403,6 +485,12 @@ BatchEvaluationResult BatchEvaluator::evaluateBatch(
     return evaluateBatch(inputs);
 }
 
+/**
+ * @brief Evaluate Batch.
+ * @param[in] inputs Input parameter.
+ * @return Return value.
+ * @details Calls: size(), THEMIS_ERROR(), std::chrono::steady_clock::now(), reserve(), push_back(), processEvaluation(), progress_callback(), THEMIS_WARN().
+ */
 BatchEvaluationResult BatchEvaluator::evaluateBatch(
     const std::vector<EvaluationInput>& inputs) {
     // ── BATCH INPUT VALIDATION ──────────────────────────────────────────────
@@ -645,6 +733,12 @@ BatchEvaluationResult BatchEvaluator::evaluateBatch(
 // Async evaluation
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Evaluate Async.
+ * @param[in] input Input parameter.
+ * @return Return value.
+ * @details Calls: store(), get_future(), lock(), std::move(), push(), notify_one(), THEMIS_WARN(), what().
+ */
 std::shared_ptr<AsyncEvaluationHandle> BatchEvaluator::evaluateAsync(
     const EvaluationInput& input) {
     try {
@@ -678,6 +772,12 @@ std::shared_ptr<AsyncEvaluationHandle> BatchEvaluator::evaluateAsync(
     }
 }
 
+/**
+ * @brief Evaluate Async.
+ * @param[in] inputs Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), push_back().
+ */
 std::vector<std::shared_ptr<AsyncEvaluationHandle>> BatchEvaluator::evaluateAsync(
     const std::vector<EvaluationInput>& inputs) {
     std::vector<std::shared_ptr<AsyncEvaluationHandle>> handles;
@@ -695,6 +795,11 @@ std::vector<std::shared_ptr<AsyncEvaluationHandle>> BatchEvaluator::evaluateAsyn
 void BatchEvaluator::submit(
     const EvaluationInput& input,
     std::function<void(const EvaluationResult&)> callback) {
+    /**
+     * @brief Lock.
+     * @param[in] queue_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(queue_mutex_);
     QueuedEvaluation item;
     item.input    = input;
@@ -704,10 +809,21 @@ void BatchEvaluator::submit(
 }
 
 size_t BatchEvaluator::getQueueSize() const {
+    /**
+     * @brief Lock.
+     * @param[in] queue_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(queue_mutex_);
     return eval_queue_.size();
 }
 
+/**
+ * @brief Wait For All.
+ * @param[in] timeout Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: std::chrono::steady_clock::now(), lock(), empty(), std::chrono::milliseconds::max(), std::this_thread::sleep_for(), std::chrono::milliseconds().
+ */
 bool BatchEvaluator::waitForAll(std::chrono::milliseconds timeout) {
     const auto deadline = std::chrono::steady_clock::now() + timeout;
     while (true) {
@@ -729,6 +845,10 @@ bool BatchEvaluator::waitForAll(std::chrono::milliseconds timeout) {
 // Control
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Stop.
+ * @details Calls: store(), notify_all(), joinable(), themis::utils::joinThreadWithin(), THEMIS_WARN(), clear().
+ */
 void BatchEvaluator::stop() {
     stop_requested_.store(true);
     queue_cv_.notify_all();
@@ -741,6 +861,10 @@ void BatchEvaluator::stop() {
     workers_.clear();
 }
 
+/**
+ * @brief Resume.
+ * @details Calls: load(), store(), notify_all(), reserve(), emplace_back().
+ */
 void BatchEvaluator::resume() {
     if (!stop_requested_.load()) {
         paused_.store(false);
@@ -760,6 +884,11 @@ void BatchEvaluator::resume() {
 // Config
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Set Config.
+ * @param[in] config Input parameter.
+ * @details Implements setConfig without additional internal calls.
+ */
 void BatchEvaluator::setConfig(const BatchEvaluatorConfig& config) {
     config_ = config;
 }
@@ -772,6 +901,13 @@ BatchEvaluatorConfig BatchEvaluator::getConfig() const {
 // Aggregation helper
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Aggregate Results.
+ * @param[in] results Input parameter.
+ * @param[in] total_time Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), size(), load(), THEMIS_INFO().
+ */
 BatchEvaluationResult BatchEvaluator::aggregateResults(
     const std::vector<EvaluationResult>& results,
     std::chrono::milliseconds total_time) {

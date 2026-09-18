@@ -33,6 +33,12 @@ struct TokenStats {
     double      avg_word_len = 0.0;
 };
 
+/**
+ * @brief Compute Token Stats.
+ * @param[in] normalized Input parameter.
+ * @return Return value.
+ * @details Calls: iss(), size(), insert().
+ */
 TokenStats computeTokenStats(const std::string& normalized) {
     TokenStats stats;
     std::unordered_set<std::string> seen;
@@ -115,13 +121,21 @@ TextQualityScore TextQualityScorer::score(std::string_view text) const {
 // Free function
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Score Text.
+ * @param[in] text Input parameter.
+ * @return Return value.
+ * @details Calls: score().
+ */
 TextQualityScore scoreText(std::string_view text) {
     return TextQualityScorer{}.score(text);
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Phase 3: Metrics export for helper diagnostics
-// ─────────────────────────────────────────────────────────────────────────────
+/**
+ * @brief ───────────────────────────────────────────────────────────────────────────── Phase 3: Metrics export for helper diagnostics ─────────────────────────────────────────────────────────────────────────────
+ * @return Return value.
+ * @details Calls: load(), str().
+ */
 
 std::string getTextQualityScorerMetrics() {
     const uint64_t errors = g_text_quality_scorer_errors_total.load(std::memory_order_relaxed);

@@ -35,6 +35,12 @@ nlohmann::json ReviewRequest::toJson() const {
     return j;
 }
 
+/**
+ * @brief From Json.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: contains().
+ */
 ReviewRequest ReviewRequest::fromJson(const nlohmann::json &j) {
     ReviewRequest r = {};
     if (j.contains("review_id")) {
@@ -79,6 +85,12 @@ nlohmann::json ReviewSchedule::toJson() const {
     return j;
 }
 
+/**
+ * @brief From Json.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: contains().
+ */
 ReviewSchedule ReviewSchedule::fromJson(const nlohmann::json &j) {
     ReviewSchedule s = {};
     if (j.contains("rule_id")) {
@@ -108,6 +120,12 @@ ReviewScheduler::ReviewScheduler(std::shared_ptr<PolicyManager> policy_manager)
     }
 }
 
+/**
+ * @brief Configure Review Schedule.
+ * @param[in] rule_id Identifier of the rule.
+ * @param[in] period_days Input parameter.
+ * @details Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), calculateNextReviewDate(), THEMIS_INFO().
+ */
 void ReviewScheduler::configureReviewSchedule(const std::string &rule_id, int period_days) {
     ReviewSchedule schedule;
     schedule.rule_id            = rule_id;
@@ -120,6 +138,14 @@ void ReviewScheduler::configureReviewSchedule(const std::string &rule_id, int pe
     THEMIS_INFO("Configured review schedule for rule {} with {} day period", rule_id, period_days);
 }
 
+/**
+ * @brief Create Review Request.
+ * @param[in] rule_id Identifier of the rule.
+ * @param[in] requester Input parameter.
+ * @param[in] due_days Input parameter.
+ * @return Return value.
+ * @details Calls: generateReviewId(), std::chrono::system_clock::now(), time_since_epoch(), count(), THEMIS_INFO().
+ */
 std::string ReviewScheduler::createReviewRequest(const std::string &rule_id, const std::string &requester,
                                                  int due_days) {
     ReviewRequest request;
@@ -137,6 +163,13 @@ std::string ReviewScheduler::createReviewRequest(const std::string &rule_id, con
     return request.review_id;
 }
 
+/**
+ * @brief Approve Review.
+ * @param[in] review_id Identifier of the review.
+ * @param[in] reviewer Input parameter.
+ * @param[in] comments Input parameter.
+ * @details Calls: find(), end(), THEMIS_ERROR(), std::chrono::system_clock::now(), time_since_epoch(), count(), calculateNextReviewDate(), THEMIS_INFO().
+ */
 void ReviewScheduler::approveReview(const std::string &review_id, const std::string &reviewer,
                                     const std::string &comments) {
     auto it = reviews_.find(review_id);
@@ -160,6 +193,13 @@ void ReviewScheduler::approveReview(const std::string &review_id, const std::str
     THEMIS_INFO("Approved review {} for rule {} by {}", review_id, it->second.rule_id, reviewer);
 }
 
+/**
+ * @brief Reject Review.
+ * @param[in] review_id Identifier of the review.
+ * @param[in] reviewer Input parameter.
+ * @param[in] comments Input parameter.
+ * @details Calls: find(), end(), THEMIS_ERROR(), std::chrono::system_clock::now(), time_since_epoch(), count(), THEMIS_INFO().
+ */
 void ReviewScheduler::rejectReview(const std::string &review_id, const std::string &reviewer,
                                    const std::string &comments) {
     auto it = reviews_.find(review_id);
@@ -270,6 +310,12 @@ nlohmann::json ReviewScheduler::exportReviews() const {
     return j;
 }
 
+/**
+ * @brief Import Reviews.
+ * @param[in] j Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: contains(), is_array(), ReviewSchedule::fromJson(), ReviewRequest::fromJson(), THEMIS_ERROR(), what().
+ */
 bool ReviewScheduler::importReviews(const nlohmann::json &j) {
     try {
         // Import schedules

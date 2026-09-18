@@ -36,37 +36,19 @@ struct PiiMapping {
     std::string created_at; // ISO8601
     std::string updated_at; // ISO8601
 
+    /**
+     * @brief To Json.
+     * @return Return value.
+     */
     nlohmann::json toJson() const;
+    /**
+     * @brief From Json.
+     * @param[in] j Input parameter.
+     * @return Return value.
+     */
     static PiiMapping fromJson(const nlohmann::json& j);
 };
 
-/**
- * @brief PIIApiHandler - Personally Identifiable Information (PII) data handling and masking.
- * 
- * HTTP API handler for personally identifiable information (PII) data handling and masking.
- * Implements endpoint-specific routing, request validation, business logic,
- * and response formatting.
- * 
- * ### HTTP Endpoints
- * Supported operations depend on the specific handler implementation.
- * See handler methods for endpoint mappings and request/response schemas.
- * 
- * ### Thread Safety
- * Handler instance and all methods are thread-safe for concurrent requests.
- * Internal state modifications use appropriate synchronization primitives.
- * 
- * ### Error Handling
- * All endpoints follow consistent error response formatting:
- * - 400: Bad Request (invalid input)
- * - 401: Unauthorized (missing/invalid authentication)
- * - 403: Forbidden (insufficient permissions)
- * - 404: Not Found (resource doesn't exist)
- * - 500: Internal Server Error (unexpected failure)
- * 
- * @note Integrates with rate limiting, auth middleware, and validation pipeline
- * @note Request bodies are validated against JSON schemas before processing
- * @note All operations are auditable and logged
- */
 
 class PIIApiHandler {
 public:
@@ -74,18 +56,44 @@ public:
     PIIApiHandler(rocksdb::TransactionDB* db, rocksdb::ColumnFamilyHandle* cf);
 
     // CRUD
+    /**
+     * @brief Add Mapping.
+     * @param[in] mapping Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool addMapping(const PiiMapping& mapping); // false if duplicate
+    /**
+     * @brief Get Mapping.
+     * @param[in] original_uuid Input parameter.
+     * @return Return value.
+     */
     std::optional<PiiMapping> getMapping(const std::string& original_uuid) const;
+    /**
+     * @brief Delete Mapping.
+     * @param[in] original_uuid Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool deleteMapping(const std::string& original_uuid); // hard delete
 
-    // Listing helpers
-    // Returns a JSON object: { "items": [ ... ], "total": N, "page": p, "page_size": s }
+    /**
+     * @brief List Mappings.
+     * @param[in] filter Input parameter.
+     * @return Return value.
+     */
     nlohmann::json listMappings(const PiiQueryFilter& filter);
 
-    // Returns CSV string with header
+    /**
+     * @brief Export Csv.
+     * @param[in] filter Input parameter.
+     * @return Return value.
+     */
     std::string exportCsv(const PiiQueryFilter& filter);
 
-    // Backward-compatible demo method retained (delegates to deleteMapping)
+    /**
+     * @brief Delete By Uuid.
+     * @param[in] uuid Input parameter.
+     * @return Return value.
+     */
     nlohmann::json deleteByUuid(const std::string& uuid);
 
 private:
@@ -93,7 +101,17 @@ private:
     rocksdb::ColumnFamilyHandle* cf_{nullptr};
 
     static constexpr const char* KEY_PREFIX = "pii:";
+    /**
+     * @brief Make Key.
+     * @param[in] uuid Input parameter.
+     * @return Return value.
+     * @details Calls: std::string().
+     */
     static std::string makeKey(const std::string& uuid) { return std::string(KEY_PREFIX) + uuid; }
+    /**
+     * @brief Now Iso8601.
+     * @return Return value.
+     */
     static std::string nowIso8601();
 };
 

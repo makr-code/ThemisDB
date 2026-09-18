@@ -81,6 +81,11 @@ private:
 
 } // anonymous namespace
 
+/**
+ * @brief Create Audio Extractor Adapter.
+ * @return Return value.
+ * @details Implements createAudioExtractorAdapter without additional internal calls.
+ */
 std::shared_ptr<ingestion::IFormatExtractor> createAudioExtractorAdapter() {
     return std::make_shared<AudioExtractorAdapter>();
 }
@@ -92,6 +97,11 @@ std::shared_ptr<ingestion::IFormatExtractor> createAudioExtractorAdapter() {
 #else // !THEMIS_ENABLE_VOICE_ASSISTANT
 
 namespace themis { namespace content { namespace adapters {
+/**
+ * @brief Create Audio Extractor Adapter.
+ * @return Return value.
+ * @details Implements createAudioExtractorAdapter without additional internal calls.
+ */
 std::shared_ptr<ingestion::IFormatExtractor> createAudioExtractorAdapter() {
     return nullptr;
 }

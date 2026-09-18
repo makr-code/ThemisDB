@@ -30,18 +30,85 @@
 #include <cstdint>
 #include <cuda_runtime.h>
 extern "C" {
+/**
+ * @brief Launch Geo Distance Kernel.
+ * @param[in] d_lats1 Input parameter.
+ * @param[in] d_lons1 Input parameter.
+ * @param[in] d_lats2 Input parameter.
+ * @param[in] d_lons2 Input parameter.
+ * @param[in,out] d_distances Input/output parameter.
+ * @param[in] count Input parameter.
+ * @param[in] formula Input parameter.
+ * @param[in,out] stream Input/output parameter.
+ * @return Return value.
+ */
 int launchGeoDistanceKernel(const double *d_lats1, const double *d_lons1, const double *d_lats2, const double *d_lons2,
                             float *d_distances, int count, themis::acceleration::GeoDistanceFormula formula,
                             void *stream);
+/**
+ * @brief Launch Geo Containment Kernel.
+ * @param[in] d_point_lats Input parameter.
+ * @param[in] d_point_lons Input parameter.
+ * @param[in] numPoints Input parameter.
+ * @param[in] d_polygon_coords Input parameter.
+ * @param[in] numPolygonVertices Input parameter.
+ * @param[in,out] d_results Input/output parameter.
+ * @param[in,out] stream Input/output parameter.
+ * @return Return value.
+ */
 int launchGeoContainmentKernel(const double *d_point_lats, const double *d_point_lons, int numPoints,
                                const double *d_polygon_coords, int numPolygonVertices, uint8_t *d_results,
                                void *stream);
+/**
+ * @brief Launch Geo Point Union Kernel.
+ * @param[in] d_points_xy Input parameter.
+ * @param[in,out] d_out_points_xy Input/output parameter.
+ * @param[in,out] d_out_count Input/output parameter.
+ * @param[in,out] stream Input/output parameter.
+ * @return Return value.
+ */
 int launchGeoPointUnionKernel(const double *d_points_xy, double *d_out_points_xy, int *d_out_count, void *stream);
+/**
+ * @brief Launch Geo Point Difference Kernel.
+ * @param[in] d_points_xy Input parameter.
+ * @param[in,out] d_out_points_xy Input/output parameter.
+ * @param[in,out] d_out_count Input/output parameter.
+ * @param[in,out] stream Input/output parameter.
+ * @return Return value.
+ */
 int launchGeoPointDifferenceKernel(const double *d_points_xy, double *d_out_points_xy, int *d_out_count,
                                    void *stream);
+/**
+ * @brief Launch Geo Polygon Union Kernel.
+ * @param[in] d_ring1_xy Input parameter.
+ * @param[in] ring1_vertices Input parameter.
+ * @param[in] d_ring2_xy Input parameter.
+ * @param[in] ring2_vertices Input parameter.
+ * @param[in,out] d_out_ring1_xy Input/output parameter.
+ * @param[in,out] d_out_ring1_vertices Input/output parameter.
+ * @param[in,out] d_out_ring2_xy Input/output parameter.
+ * @param[in,out] d_out_ring2_vertices Input/output parameter.
+ * @param[in,out] d_out_status Input/output parameter.
+ * @param[in,out] stream Input/output parameter.
+ * @return Return value.
+ */
 int launchGeoPolygonUnionKernel(const double *d_ring1_xy, int ring1_vertices, const double *d_ring2_xy,
                                 int ring2_vertices, double *d_out_ring1_xy, int *d_out_ring1_vertices,
                                 double *d_out_ring2_xy, int *d_out_ring2_vertices, int *d_out_status, void *stream);
+/**
+ * @brief Launch Geo Polygon Difference Kernel.
+ * @param[in] d_ring1_xy Input parameter.
+ * @param[in] ring1_vertices Input parameter.
+ * @param[in] d_ring2_xy Input parameter.
+ * @param[in] ring2_vertices Input parameter.
+ * @param[in,out] d_out_ring1_xy Input/output parameter.
+ * @param[in,out] d_out_ring1_vertices Input/output parameter.
+ * @param[in,out] d_out_ring2_xy Input/output parameter.
+ * @param[in,out] d_out_ring2_vertices Input/output parameter.
+ * @param[in,out] d_out_status Input/output parameter.
+ * @param[in,out] stream Input/output parameter.
+ * @return Return value.
+ */
 int launchGeoPolygonDifferenceKernel(const double *d_ring1_xy, int ring1_vertices, const double *d_ring2_xy,
                                      int ring2_vertices, double *d_out_ring1_xy, int *d_out_ring1_vertices,
                                      double *d_out_ring2_xy, int *d_out_ring2_vertices, int *d_out_status,
@@ -52,9 +119,32 @@ int launchGeoPolygonDifferenceKernel(const double *d_ring1_xy, int ring1_vertice
 #ifdef THEMIS_GEO_HIP
 #include <cstdint>
 extern "C" {
+/**
+ * @brief Hip launch Geo Distance Kernel.
+ * @param[in] d_lats1 Input parameter.
+ * @param[in] d_lons1 Input parameter.
+ * @param[in] d_lats2 Input parameter.
+ * @param[in] d_lons2 Input parameter.
+ * @param[in,out] d_distances Input/output parameter.
+ * @param[in] count Input parameter.
+ * @param[in] formula Input parameter.
+ * @param[in,out] stream Input/output parameter.
+ * @return Return value.
+ */
 int hip_launchGeoDistanceKernel(const double *d_lats1, const double *d_lons1, const double *d_lats2,
                                 const double *d_lons2, float *d_distances, int count,
                                 themis::acceleration::GeoDistanceFormula formula, void *stream);
+/**
+ * @brief Hip launch Geo Containment Kernel.
+ * @param[in] d_point_lats Input parameter.
+ * @param[in] d_point_lons Input parameter.
+ * @param[in] numPoints Input parameter.
+ * @param[in] d_polygon_coords Input parameter.
+ * @param[in] numPolygonVertices Input parameter.
+ * @param[in,out] d_results Input/output parameter.
+ * @param[in,out] stream Input/output parameter.
+ * @return Return value.
+ */
 int hip_launchGeoContainmentKernel(const double *d_point_lats, const double *d_point_lons, int numPoints,
                                    const double *d_polygon_coords, int numPolygonVertices, uint8_t *d_results,
                                    void *stream);
@@ -81,7 +171,14 @@ namespace {
 
 constexpr double kEpsilon = 1e-9;
 
-/// Ray-casting point-in-polygon (closed outer ring).
+/**
+ * @brief Point In Ring.
+ * @param[in] px Input parameter.
+ * @param[in] py Input parameter.
+ * @param[in] ring Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: size().
+ */
 static bool pointInRing(double px, double py, const std::vector<Coordinate> &ring) {
     if (ring.size() < 3) {
         return false;
@@ -98,12 +195,29 @@ static bool pointInRing(double px, double py, const std::vector<Coordinate> &rin
     return inside;
 }
 
-/// Cross product of vectors OA and OB.
+/**
+ * @brief Cross.
+ * @param[in] ox Input parameter.
+ * @param[in] oy Input parameter.
+ * @param[in] ax Input parameter.
+ * @param[in] ay Input parameter.
+ * @param[in] bx Input parameter.
+ * @param[in] by Input parameter.
+ * @return Return value.
+ * @details Implements cross without additional internal calls.
+ */
 static double cross(double ox, double oy, double ax, double ay, double bx, double by) {
     return (ax - ox) * (by - oy) - (ay - oy) * (bx - ox);
 }
 
-/// True if value d is in [min(a,b), max(a,b)] (with epsilon).
+/**
+ * @brief On Segment1 D.
+ * @param[in] a Input parameter.
+ * @param[in] b Input parameter.
+ * @param[in] d Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: std::swap().
+ */
 static bool onSegment1D(double a, double b, double d) {
     if (a > b) {
         std::swap(a, b);
@@ -111,7 +225,19 @@ static bool onSegment1D(double a, double b, double d) {
     return d >= a - kEpsilon && d <= b + kEpsilon;
 }
 
-/// Returns true if segments AB and CD intersect (including endpoints).
+/**
+ * @brief Segments Intersect.
+ * @param[in] ax Input parameter.
+ * @param[in] ay Input parameter.
+ * @param[in] bx Input parameter.
+ * @param[in] by Input parameter.
+ * @param[in] cx Input parameter.
+ * @param[in] cy Input parameter.
+ * @param[in] dx Input parameter.
+ * @param[in] dy Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: cross(), std::abs(), onSegment1D(), collinearOn().
+ */
 static bool segmentsIntersect(double ax, double ay, double bx, double by, double cx, double cy, double dx, double dy) {
     double d1 = cross(cx, cy, dx, dy, ax, ay);
     double d2 = cross(cx, cy, dx, dy, bx, by);
@@ -129,8 +255,13 @@ static bool segmentsIntersect(double ax, double ay, double bx, double by, double
            || collinearOn(cx, cy, ax, ay, bx, by) || collinearOn(dx, dy, ax, ay, bx, by);
 }
 
-/// True if any edge of ring1 crosses any edge of ring2 OR a vertex of ring1
-/// is inside ring2 OR a vertex of ring2 is inside ring1.
+/**
+ * @brief Rings Intersect.
+ * @param[in] ring1 Input parameter.
+ * @param[in] ring2 Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), size(), segmentsIntersect(), pointInRing().
+ */
 static bool ringsIntersect(const std::vector<Coordinate> &ring1, const std::vector<Coordinate> &ring2) {
     if (ring1.empty() || ring2.empty()) {
         return false;
@@ -156,7 +287,6 @@ static bool ringsIntersect(const std::vector<Coordinate> &ring1, const std::vect
     return false;
 }
 
-/// Extract the outer ring from a GeometryInfo polygon.
 static const std::vector<Coordinate> &outerRing(const GeometryInfo &g) {
     return g.rings.empty() ? g.coords : g.rings[0];
 }
@@ -184,6 +314,14 @@ constexpr int kMaxPolygonKernelOutputVertices = 513;
 constexpr int kPolygonKernelInvalidStatus = -1001;
 constexpr int kPolygonKernelInvalidOutput = -1002;
 
+/**
+ * @brief Launch Point Set Op Kernel.
+ * @param[in] launch_fn Input parameter.
+ * @param[in] p1 Input parameter.
+ * @param[in] p2 Input parameter.
+ * @return Return value.
+ * @details Calls: cudaMalloc(), cudaFree(), cudaMemcpy(), data(), cudaMemset(), launch_fn(), cudaDeviceSynchronize().
+ */
 static PointKernelResult launchPointSetOpKernel(PointKernelLaunchFn launch_fn, const Coordinate &p1, const Coordinate &p2) {
     PointKernelResult result;
     if (!launch_fn) {
@@ -256,6 +394,12 @@ static PointKernelResult launchPointSetOpKernel(PointKernelLaunchFn launch_fn, c
     return result;
 }
 
+/**
+ * @brief Build Geometry From Point Kernel Result.
+ * @param[in] res Input parameter.
+ * @return Return value.
+ * @details Calls: point(), emplace_back(), collection(), p1(), p2(), push_back(), std::move().
+ */
 static GeometryInfo buildGeometryFromPointKernelResult(const PointKernelResult &res) {
     if (res.point_count <= 0) {
         return GeometryInfo{};
@@ -285,6 +429,12 @@ struct PolygonKernelResult {
     std::vector<double> ring2_xy;
 };
 
+/**
+ * @brief Normalized Vertex Count.
+ * @param[in] ring Input parameter.
+ * @return Return value.
+ * @details Calls: size(), std::abs(), front(), back().
+ */
 static int normalizedVertexCount(const std::vector<Coordinate> &ring) {
     if (ring.size() < 3) {
         return 0;
@@ -296,6 +446,13 @@ static int normalizedVertexCount(const std::vector<Coordinate> &ring) {
     return n >= 3 ? n : 0;
 }
 
+/**
+ * @brief Ring Coordinates Finite.
+ * @param[in] ring Input parameter.
+ * @param[in] n Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: std::isfinite().
+ */
 static bool ringCoordinatesFinite(const std::vector<Coordinate> &ring, int n) {
     for (int i = 0; i < n; ++i) {
         const auto &p = ring[static_cast<std::size_t>(i)];
@@ -306,6 +463,13 @@ static bool ringCoordinatesFinite(const std::vector<Coordinate> &ring, int n) {
     return true;
 }
 
+/**
+ * @brief Has Self Intersection.
+ * @param[in] ring Input parameter.
+ * @param[in] n Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: segmentsIntersect().
+ */
 static bool hasSelfIntersection(const std::vector<Coordinate> &ring, int n) {
     if (n < 4) {
         return false;
@@ -332,6 +496,12 @@ static bool hasSelfIntersection(const std::vector<Coordinate> &ring, int n) {
     return false;
 }
 
+/**
+ * @brief Polygon Eligible For Cuda Set Ops.
+ * @param[in] geom Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: isPolygon(), empty(), size(), outerRing(), normalizedVertexCount(), ringCoordinatesFinite(), hasSelfIntersection().
+ */
 static bool polygonEligibleForCudaSetOps(const GeometryInfo &geom) {
     if (!geom.isPolygon()) {
         return false;
@@ -350,6 +520,13 @@ static bool polygonEligibleForCudaSetOps(const GeometryInfo &geom) {
     return !hasSelfIntersection(ring, n);
 }
 
+/**
+ * @brief Write Ring Interleaved.
+ * @param[in] ring Input parameter.
+ * @param[in] n Input parameter.
+ * @param[in,out] dst Input/output parameter.
+ * @details Calls: assign().
+ */
 static void writeRingInterleaved(const std::vector<Coordinate> &ring, int n, std::vector<double> &dst) {
     dst.assign(static_cast<std::size_t>(n * 2), 0.0);
     for (int i = 0; i < n; ++i) {
@@ -358,11 +535,24 @@ static void writeRingInterleaved(const std::vector<Coordinate> &ring, int n, std
     }
 }
 
+/**
+ * @brief Known Polygon Kernel Status.
+ * @param[in] status Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements knownPolygonKernelStatus without additional internal calls.
+ */
 static bool knownPolygonKernelStatus(int status) {
     return status == kPolyStatusPolygon || status == kPolyStatusReturnGeom1 || status == kPolyStatusReturnGeom2
            || status == kPolyStatusCollection || status == kPolyStatusEmpty || status == kPolyStatusPolygonWithHole;
 }
 
+/**
+ * @brief Ring Output Is Valid.
+ * @param[in] xy Input parameter.
+ * @param[in] count Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: std::isfinite(), std::abs().
+ */
 static bool ringOutputIsValid(const std::vector<double> &xy, int count) {
     if (count < 4 || count > kMaxPolygonKernelOutputVertices) {
         return false;
@@ -381,6 +571,14 @@ static bool ringOutputIsValid(const std::vector<double> &xy, int count) {
     return std::abs(x0 - xn) <= kEpsilon && std::abs(y0 - yn) <= kEpsilon;
 }
 
+/**
+ * @brief Launch Polygon Set Op Kernel.
+ * @param[in] launch_fn Input parameter.
+ * @param[in] g1 Input parameter.
+ * @param[in] g2 Input parameter.
+ * @return Return value.
+ * @details Calls: isPolygon(), polygonEligibleForCudaSetOps(), outerRing(), normalizedVertexCount(), writeRingInterleaved(), host_out1(), host_out2(), size().
+ */
 static PolygonKernelResult launchPolygonSetOpKernel(PolygonKernelLaunchFn launch_fn, const GeometryInfo &g1,
                                                     const GeometryInfo &g2) {
     PolygonKernelResult result;
@@ -501,6 +699,13 @@ static PolygonKernelResult launchPolygonSetOpKernel(PolygonKernelLaunchFn launch
     return result;
 }
 
+/**
+ * @brief Read Ring.
+ * @param[in] xy Input parameter.
+ * @param[in] count Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), emplace_back().
+ */
 static std::vector<Coordinate> readRing(const std::vector<double> &xy, int count) {
     std::vector<Coordinate> ring;
     if (count <= 0) {
@@ -513,6 +718,14 @@ static std::vector<Coordinate> readRing(const std::vector<double> &xy, int count
     return ring;
 }
 
+/**
+ * @brief Build Geometry From Polygon Kernel Result.
+ * @param[in] res Input parameter.
+ * @param[in] g1 Input parameter.
+ * @param[in] g2 Input parameter.
+ * @return Return value.
+ * @details Calls: poly(), push_back(), readRing(), col().
+ */
 static GeometryInfo buildGeometryFromPolygonKernelResult(const PolygonKernelResult &res, const GeometryInfo &g1,
                                                          const GeometryInfo &g2) {
     switch (res.status) {
@@ -556,20 +769,21 @@ static GeometryInfo buildGeometryFromPolygonKernelResult(const PolygonKernelResu
 // GpuBatchBackend
 // ---------------------------------------------------------------------------
 
-/** @brief GpuBatchBackend. */
 class GpuBatchBackend final : public ISpatialComputeBackend {
   public:
     struct Config {
-        /// Minimum batch count to prefer GPU dispatch (future use).
         std::size_t gpu_batch_threshold = 64;
-        /// VRAM utilisation fraction above which an OOM warning is triggered.
         float vram_threshold_fraction = 0.90f;
-        /// Max acceptable CPU fallback latency (ms).
         int32_t fallback_budget_ms = 200;
     };
 
     GpuBatchBackend() : GpuBatchBackend(Config{}) {}
 
+    /**
+     * @brief Gpu Batch Backend.
+     * @param[in] cfg Input parameter.
+     * @return Return value.
+     */
     explicit GpuBatchBackend(Config cfg)
         : cfg_(cfg), safe_fail_(themis::gpu::GPUSafeFail::Config{/*failure_threshold=*/3,
                                                                  /*success_threshold=*/2,
@@ -746,9 +960,7 @@ class GpuBatchBackend final : public ISpatialComputeBackend {
         bool circuit_open              = false;
         bool gpu_kernel_available      = false; ///< true when CUDA dispatch is wired
         std::string device_name;
-        /// Average batch call latency in microseconds (0 when no calls yet).
         double batch_avg_latency_us = 0.0;
-        /// Maximum single batch call latency in microseconds.
         double batch_max_latency_us = 0.0;
     };
 
@@ -774,6 +986,13 @@ class GpuBatchBackend final : public ISpatialComputeBackend {
     // ------------------------------------------------------------------
     // Core geometry logic
     // ------------------------------------------------------------------
+    /**
+     * @brief Compute Exact Intersects.
+     * @param[in] g1 Input parameter.
+     * @param[in] g2 Input parameter.
+     * @return True when the operation succeeds.
+     * @details Calls: isPoint(), empty(), std::abs(), isPolygon(), pointInRing(), outerRing(), isLineString(), size().
+     */
     bool computeExactIntersects(const GeometryInfo &g1, const GeometryInfo &g2) {
         // Point × Point
         if (g1.isPoint() && g2.isPoint()) {
@@ -1031,7 +1250,6 @@ class GpuBatchBackend final : public ISpatialComputeBackend {
     // Private helpers
     // ------------------------------------------------------------------
 
-    /// Build the kernel dispatch table at construction time.
     static themis::acceleration::GeoKernelDispatch buildDispatchTable() noexcept {
 #ifdef THEMIS_GEO_CUDA
         themis::acceleration::GeoKernelDispatch d;
@@ -1068,8 +1286,6 @@ class GpuBatchBackend final : public ISpatialComputeBackend {
 #endif
     }
 
-    /// Returns true if the batch is all Points vs the same Polygon — the
-    /// pattern that maps directly to the GPU containment kernel.
     static bool isAllPointsVsPolygon(const SpatialBatchInputs &in, std::size_t n) noexcept {
         if (n == 0 || in.geoms_a.size() < n || in.geoms_b.size() < n) {
             return false;
@@ -1088,7 +1304,13 @@ class GpuBatchBackend final : public ISpatialComputeBackend {
         return true;
     }
 
-    /// Attempt GPU containment dispatch for a batch of points vs a polygon.
+    /**
+     * @brief Try Gpu Containment Dispatch.
+     * @param[in] in Input parameter.
+     * @param[in] n Input parameter.
+     * @return Return value.
+     * @details Calls: lats(), lons(), empty(), outerRing(), size(), reserve(), push_back(), dispatchContainment().
+     */
     GpuKernelDispatcher::ContainmentResult tryGpuContainmentDispatch(const SpatialBatchInputs &in, std::size_t n) {
         // Extract point coordinates.
         // Note: in ThemisDB's Coordinate struct, x = latitude and y = longitude.
@@ -1122,7 +1344,11 @@ class GpuBatchBackend final : public ISpatialComputeBackend {
                                                       poly_ring.size());
     }
 
-    /// Record batch latency atomics; called at the end of batchIntersects().
+    /**
+     * @brief Record Latency.
+     * @param[in] t0 Input parameter.
+     * @details Calls: std::chrono::steady_clock::now(), count(), load(), compare_exchange_weak().
+     */
     void recordLatency(const std::chrono::steady_clock::time_point &t0) {
         const uint64_t elapsed_ns = static_cast<uint64_t>(
             std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::steady_clock::now() - t0).count());
@@ -1148,6 +1374,11 @@ ISpatialComputeBackend *getGpuSpatialBackend() {
     return &getGpuSpatialBackendInstance();
 }
 
+/**
+ * @brief Get Gpu Spatial Backend Stats Json.
+ * @return Return value.
+ * @details Calls: getGpuSpatialBackendInstance(), getStats(), reserve(), size(), boolStr(), escStr(), str().
+ */
 std::string getGpuSpatialBackendStatsJson() {
     const auto s = getGpuSpatialBackendInstance().getStats();
     // Hand-rolled JSON to avoid a nlohmann/json dependency in this TU.
@@ -1188,6 +1419,11 @@ std::string getGpuSpatialBackendStatsJson() {
     return j.str();
 }
 
+/**
+ * @brief Get Geo Device Report Json.
+ * @return Return value.
+ * @details Calls: themis::geo::GeoDeviceDetector::ReportJson().
+ */
 std::string getGeoDeviceReportJson() {
     return themis::geo::GeoDeviceDetector::ReportJson();
 }

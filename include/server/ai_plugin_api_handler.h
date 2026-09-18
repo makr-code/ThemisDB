@@ -45,25 +45,8 @@ class RocksDBWrapper;
 
 namespace server {
 
-/**
- * @brief HTTP handler for AI Plugin Generator endpoints.
- *
- * Wraps `themis::plugins::ai::AIPluginGenerator` and exposes it via REST.
- * Follows the same handler contract as `EthicsApiHandler`, `ExportersApiHandler`, etc.
- *
- * ### Thread safety
- * All public methods are thread-safe. The underlying `AIPluginGenerator`
- * is accessed through its own internal locking.
- */
 class AiPluginApiHandler {
 public:
-    /**
-     * @brief Construct the AI Plugin API handler.
-     *
-     * @param storage       RocksDB storage backend (used for plugin metadata persistence).
-     * @param auth          Authentication/authorisation middleware.
-     * @param generator_cfg Configuration forwarded to the underlying `AIPluginGenerator`.
-     */
     AiPluginApiHandler(
         std::shared_ptr<RocksDBWrapper>                       storage,
         std::shared_ptr<themis::AuthMiddleware>               auth,
@@ -76,11 +59,10 @@ public:
     AiPluginApiHandler& operator=(const AiPluginApiHandler&) = delete;
 
     /**
-     * @brief Dispatch an incoming request to the appropriate sub-handler.
-     *
-     * @param req    Parsed HTTP request.
-     * @param target URL target path (may differ from `req.target()` after prefix stripping).
-     * @return       HTTP response.
+     * @brief Handle.
+     * @param[in] req Input parameter.
+     * @param[in] target Input parameter.
+     * @return Return value.
      */
     http::response<http::string_body> handle(
         const http::request<http::string_body>& req,
@@ -96,21 +78,44 @@ private:
         std::optional<themis::plugins::ai::GeneratedPlugin> generated;
     };
 
+    /**
+     * @brief To Iso8601 Now.
+     * @return Return value.
+     */
     static std::string toIso8601Now();
 
-    /// @name Route handlers
-    /// @{
+    /**
+     * @brief Handle Generate.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleGenerate(
         const http::request<http::string_body>& req);
+    /**
+     * @brief Handle List.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleList(
         const http::request<http::string_body>& req);
+    /**
+     * @brief Handle Status.
+     * @param[in] req Input parameter.
+     * @param[in] job_id Identifier of the job.
+     * @return Return value.
+     */
     http::response<http::string_body> handleStatus(
         const http::request<http::string_body>& req,
         const std::string&                      job_id);
+    /**
+     * @brief Handle Delete.
+     * @param[in] req Input parameter.
+     * @param[in] job_id Identifier of the job.
+     * @return Return value.
+     */
     http::response<http::string_body> handleDelete(
         const http::request<http::string_body>& req,
         const std::string&                      job_id);
-    /// @}
 
     std::shared_ptr<RocksDBWrapper>                   storage_;
     std::shared_ptr<themis::AuthMiddleware>            auth_;

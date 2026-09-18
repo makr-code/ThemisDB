@@ -32,14 +32,29 @@ TTSProcessor::~TTSProcessor() {
     }
 }
 
+/**
+ * @brief Set Mp3 Encoder Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: std::move().
+ */
 void TTSProcessor::setMp3EncoderFn(AudioEncoderFn fn) {
     mp3_encoder_fn_ = std::move(fn);
 }
 
+/**
+ * @brief Set Ogg Encoder Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: std::move().
+ */
 void TTSProcessor::setOggEncoderFn(AudioEncoderFn fn) {
     ogg_encoder_fn_ = std::move(fn);
 }
 
+/**
+ * @brief Set Synth Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: std::move().
+ */
 void TTSProcessor::setSynthFn(TTSSynthFn fn) {
     synth_fn_ = std::move(fn);
 }
@@ -66,6 +81,12 @@ PluginInfo TTSProcessor::getInfo() const {
     return info;
 }
 
+/**
+ * @brief Initialize.
+ * @param[in] config Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: loadTTSModel().
+ */
 bool TTSProcessor::initialize(const PluginConfig &config) {
     if (initialized_) {
         return true;
@@ -88,6 +109,10 @@ bool TTSProcessor::initialize(const PluginConfig &config) {
     return true;
 }
 
+/**
+ * @brief Shutdown.
+ * @details Calls: unloadTTSModel().
+ */
 void TTSProcessor::shutdown() {
     if (!initialized_) {
         return;
@@ -103,6 +128,14 @@ bool TTSProcessor::canProcess(const std::string &mime_type) const {
     return std::find(supported.begin(), supported.end(), mime_type) != supported.end();
 }
 
+/**
+ * @brief Extract.
+ * @param[in] blob Input parameter.
+ * @param[in] param Input parameter.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Calls: size().
+ */
 ContentExtractionResult TTSProcessor::extract(const std::vector<uint8_t> &blob, const std::string & /*mime_type*/,
                                               const ExtractionOptions & /*options*/
 ) {
@@ -113,6 +146,14 @@ ContentExtractionResult TTSProcessor::extract(const std::vector<uint8_t> &blob, 
     return result;
 }
 
+/**
+ * @brief Chunk.
+ * @param[in] param Input parameter.
+ * @param[in] int Input parameter.
+ * @param[in] int Input parameter.
+ * @return Return value.
+ * @details Implements chunk without additional internal calls.
+ */
 std::vector<ContentChunk> TTSProcessor::chunk(const ContentExtractionResult & /*result*/, int /*max_tokens*/,
                                               int /*overlap*/
 ) {
@@ -147,6 +188,13 @@ json TTSProcessor::getStatistics() const {
     return stats;
 }
 
+/**
+ * @brief Synthesize.
+ * @param[in] text Input parameter.
+ * @param[in] options Input parameter.
+ * @return Return value.
+ * @details Calls: synthesizeInternal().
+ */
 TTSResult TTSProcessor::synthesize(const std::string &text, const TTSOptions &options) {
     // Default fallback behavior: synthesize can still work without a loaded model
     // when the app is running in a no-backend / test-only configuration.  This
@@ -231,6 +279,11 @@ std::vector<std::string> TTSProcessor::getSupportedLanguages() const {
 
 // Private implementation methods
 
+/**
+ * @brief Load TTSModel.
+ * @return True when the operation succeeds.
+ * @details Calls: piper::PiperVoice(), piper::loadVoice().
+ */
 bool TTSProcessor::loadTTSModel() {
 #ifdef THEMIS_ENABLE_PIPER_TTS
     try {
@@ -255,6 +308,10 @@ bool TTSProcessor::loadTTSModel() {
 #endif
 }
 
+/**
+ * @brief Unload TTSModel.
+ * @details Implements unloadTTSModel without additional internal calls.
+ */
 void TTSProcessor::unloadTTSModel() {
 #ifdef THEMIS_ENABLE_PIPER_TTS
     if (tts_ctx_) {
@@ -266,6 +323,13 @@ void TTSProcessor::unloadTTSModel() {
 #endif
 }
 
+/**
+ * @brief Synthesize Internal.
+ * @param[in] text Input parameter.
+ * @param[in] options Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::steady_clock::now(), empty(), preprocessText(), generatePCM(), convertToFormat(), size(), length(), std::string().
+ */
 TTSResult TTSProcessor::synthesizeInternal(const std::string &text, const TTSOptions &options) {
     auto start = std::chrono::steady_clock::now();
 
@@ -320,6 +384,13 @@ TTSResult TTSProcessor::synthesizeInternal(const std::string &text, const TTSOpt
     return result;
 }
 
+/**
+ * @brief Generate PCM.
+ * @param[in] text Input parameter.
+ * @param[in] options Input parameter.
+ * @return Return value.
+ * @details Calls: length(), pcm_data(), std::fill(), begin(), end(), piper::textToAudio(), size(), synth_fn_().
+ */
 std::vector<uint8_t> TTSProcessor::generatePCM(const std::string &text, const TTSOptions &options) {
 #ifdef THEMIS_ENABLE_PIPER_TTS
     if (!tts_ctx_) {
@@ -393,6 +464,14 @@ std::vector<uint8_t> TTSProcessor::generatePCM(const std::string &text, const TT
 #endif
 }
 
+/**
+ * @brief Convert To Format.
+ * @param[in] pcm_data Input parameter.
+ * @param[in] format Input parameter.
+ * @param[in] sample_rate Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), insert(), end(), push_back(), begin(), mp3_encoder_fn_(), empty().
+ */
 std::vector<uint8_t> TTSProcessor::convertToFormat(const std::vector<uint8_t> &pcm_data, const std::string &format,
                                                    int sample_rate) {
     if (format == "wav") {
@@ -478,6 +557,12 @@ std::vector<uint8_t> TTSProcessor::convertToFormat(const std::vector<uint8_t> &p
     return pcm_data;
 }
 
+/**
+ * @brief Preprocess Text.
+ * @param[in] text Input parameter.
+ * @return Return value.
+ * @details Calls: std::regex_replace(), std::regex(), find_first_not_of(), find_last_not_of(), substr().
+ */
 std::string TTSProcessor::preprocessText(const std::string &text) {
     std::string processed = text;
 

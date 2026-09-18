@@ -31,6 +31,12 @@ namespace {
 
 constexpr const char* kBlockedCallbackMessage = "message blocked by prompt policy";
 
+/**
+ * @brief Sanitize Training Pipeline Message.
+ * @param[in] message Input parameter.
+ * @return Return value.
+ * @details Calls: llm::prompt_safety::sanitizePromptWithSharedPolicy().
+ */
 std::string sanitizeTrainingPipelineMessage(const std::string& message) {
     std::string sanitized = {};
     std::string blocked_rule = {};
@@ -54,10 +60,20 @@ struct PipelineMetrics {
     std::chrono::steady_clock::time_point stage_start;
     std::map<std::string, double> stage_durations_sec;
 
+    /**
+     * @brief Begin Stage.
+     * @param[in] name Input parameter.
+     * @details Calls: std::chrono::steady_clock::now().
+     */
     void beginStage(const std::string& name) {
         stage_start = std::chrono::steady_clock::now();
     }
 
+    /**
+     * @brief End Stage.
+     * @param[in] name Input parameter.
+     * @details Calls: std::chrono::steady_clock::now(), count().
+     */
     void endStage(const std::string& name) {
         auto end = std::chrono::steady_clock::now();
         stage_durations_sec[name] =
@@ -76,9 +92,14 @@ struct PipelineMetrics {
 // ============================================================================
 // Pimpl (Phase 7)
 // ============================================================================
-/** @brief Pimpl (Phase 7). */
 class TrainingPipeline::Impl {
 public:
+    /**
+     * @brief Impl.
+     * @param[in] config Input parameter.
+     * @param[in] db_connection Input parameter.
+     * @return Return value.
+     */
     explicit Impl(const PipelineConfig& config, const std::string& db_connection)
         : config_(config)
         , db_connection_(db_connection)
@@ -101,9 +122,12 @@ public:
 
     ~Impl() = default;
 
-    // -------------------------------------------------------------------------
-    // Phase 7: Full pipeline execution
-    // -------------------------------------------------------------------------
+    /**
+     * @brief ------------------------------------------------------------------------- Phase 7: Full pipeline execution -------------------------------------------------------------------------
+     * @param[in] callback Input parameter.
+     * @return Return value.
+     * @details Calls: PipelineStats(), PipelineMetrics(), std::chrono::steady_clock::now(), empty(), callback(), sanitizeTrainingPipelineMessage(), beginStage(), emitCallback().
+     */
     PipelineStats run(PipelineCallback callback) {
         PipelineStats stats = PipelineStats();
         PipelineMetrics metrics = PipelineMetrics();
@@ -299,9 +323,12 @@ public:
         return stats;
     }
 
-    // -------------------------------------------------------------------------
-    // Phase 7: Stage-specific entry points
-    // -------------------------------------------------------------------------
+    /**
+     * @brief ------------------------------------------------------------------------- Phase 7: Stage-specific entry points -------------------------------------------------------------------------
+     * @param[in] callback Input parameter.
+     * @return Return value.
+     * @details Calls: labelAll(), callback(), sanitizeTrainingPipelineMessage().
+     */
     LabelingStats runLabeling(LabelingCallback callback) {
         if (!callback) {
             return labeler_->labelAll(callback);
@@ -312,6 +339,12 @@ public:
             });
     }
 
+    /**
+     * @brief Run Enrichment.
+     * @param[in] callback Input parameter.
+     * @return Return value.
+     * @details Calls: enrichAll(), callback(), sanitizeTrainingPipelineMessage().
+     */
     EnrichmentStats runEnrichment(EnrichmentCallback callback) {
         if (!callback) {
             return enricher_->enrichAll(callback);
@@ -322,6 +355,12 @@ public:
             });
     }
 
+    /**
+     * @brief Run Training.
+     * @param[in] callback Input parameter.
+     * @return Return value.
+     * @details Calls: train(), callback(), sanitizeTrainingPipelineMessage().
+     */
     TrainingResult runTraining(TrainingCallback callback) {
         if (!callback) {
             return trainer_->train(TrainingMode::INITIAL, callback);
@@ -333,9 +372,12 @@ public:
             });
     }
 
-    // -------------------------------------------------------------------------
-    // Data selection stage (Quality & Diversity Layer)
-    // -------------------------------------------------------------------------
+    /**
+     * @brief ------------------------------------------------------------------------- Data selection stage (Quality & Diversity Layer) -------------------------------------------------------------------------
+     * @param[in] callback Input parameter.
+     * @return Return value.
+     * @details Calls: setConfig(), run(), std::move(), callback(), sanitizeTrainingPipelineMessage().
+     */
     DataSelectionResult runDataSelection(SelectionProgressCallback callback) {
         // In production: load candidate samples via AQL query:
         //   FOR sample IN @collection
@@ -359,9 +401,12 @@ public:
             });
     }
 
-    // -------------------------------------------------------------------------
-    // Phase 7: Data-quality checks
-    // -------------------------------------------------------------------------
+    /**
+     * @brief ------------------------------------------------------------------------- Phase 7: Data-quality checks -------------------------------------------------------------------------
+     * @param[in] min_confidence Input parameter.
+     * @return Return value.
+     * @details Calls: DataQualityReport().
+     */
     DataQualityReport checkDataQuality(float min_confidence) {
         DataQualityReport report = DataQualityReport();
 
@@ -387,9 +432,12 @@ public:
         return report;
     }
 
-    // -------------------------------------------------------------------------
-    // Phase 7: Label-drift detection
-    // -------------------------------------------------------------------------
+    /**
+     * @brief ------------------------------------------------------------------------- Phase 7: Label-drift detection -------------------------------------------------------------------------
+     * @param[in] reference_samples Input parameter.
+     * @return Return value.
+     * @details Calls: DriftReport().
+     */
     DriftReport detectLabelDrift(const std::vector<std::string>& reference_samples) {
         DriftReport report = DriftReport();
 
@@ -413,17 +461,23 @@ public:
         return last_stats_;
     }
 
-    // Phase 7: Schedule retraining (stored for reference; actual scheduling
-    //          requires a thread/timer service in production)
+    /**
+     * @brief Phase 7: Schedule retraining (stored for reference; actual scheduling requires a thread/timer service in production)
+     * @param[in] interval_hours Input parameter.
+     * @param[in] callback Input parameter.
+     * @details Implements scheduleRetraining without additional internal calls.
+     */
     void scheduleRetraining(size_t interval_hours, PipelineCallback callback) {
         scheduled_interval_hours_ = interval_hours;
         scheduled_callback_       = callback;
         // In production: submit a periodic task to the scheduler module
     }
 
-    // -------------------------------------------------------------------------
-    // Phase 3: Calibration wrappers
-    // -------------------------------------------------------------------------
+    /**
+     * @brief ------------------------------------------------------------------------- Phase 3: Calibration wrappers -------------------------------------------------------------------------
+     * @return Return value.
+     * @details Calls: calibrate(), empty(), serializeCalibrationResult(), saveCalibrationJson().
+     */
     CalibrationResult runCalibration() {
         auto result = calibrator_.calibrate();
         // Persist calibration manifest if checkpoint manager is active
@@ -438,13 +492,24 @@ public:
         return result;
     }
 
+    /**
+     * @brief Add Calibration Sample.
+     * @param[in] category Input parameter.
+     * @param[in] confidence Input parameter.
+     * @param[in] correct Input parameter.
+     * @details Calls: addSample().
+     */
     void addCalibrationSample(const std::string& category, float confidence, bool correct) {
         calibrator_.addSample(category, confidence, correct);
     }
 
-    // -------------------------------------------------------------------------
-    // Phase 2: Automated hyperparameter search (rank × lr grid sweep)
-    // -------------------------------------------------------------------------
+    /**
+     * @brief ------------------------------------------------------------------------- Phase 2: Automated hyperparameter search (rank × lr grid sweep) -------------------------------------------------------------------------
+     * @param[in] cfg Input parameter.
+     * @param[in] callback Input parameter.
+     * @return Return value.
+     * @details Calls: empty(), std::chrono::steady_clock::now(), reserve(), size(), push_back(), std::swap(), shuffle_lcg(), resize().
+     */
     HyperparamResult runHyperparamSearch(const HyperparamSearchConfig& cfg,
                                          HyperparamSearchCallback callback) {
         HyperparamResult result = {};
@@ -581,7 +646,12 @@ private:
     size_t                                  scheduled_interval_hours_ = 0;
     PipelineCallback                        scheduled_callback_;
 
-    // Serialise a CalibrationResult to a key=value text format (no JSON dep).
+    /**
+     * @brief Serialise a CalibrationResult to a key=value text format (no JSON dep).
+     * @param[in] r Input parameter.
+     * @return Return value.
+     * @details Calls: size(), str().
+     */
     static std::string serializeCalibrationResult(const CalibrationResult& r) {
         std::ostringstream oss = {};
         oss << "success=" << (r.success ? "true" : "false") << "\n"
@@ -606,49 +676,115 @@ TrainingPipeline::TrainingPipeline(const PipelineConfig& config,
 
 TrainingPipeline::~TrainingPipeline() = default;
 
+/**
+ * @brief Run.
+ * @param[in] callback Input parameter.
+ * @return Return value.
+ * @details Implements run without additional internal calls.
+ */
 PipelineStats TrainingPipeline::run(PipelineCallback callback) {
     return impl_->run(callback);
 }
 
+/**
+ * @brief Sanitize Callback Message.
+ * @param[in] message Input parameter.
+ * @return Return value.
+ * @details Calls: sanitizeTrainingPipelineMessage().
+ */
 std::string TrainingPipeline::sanitizeCallbackMessage(const std::string& message) {
     return sanitizeTrainingPipelineMessage(message);
 }
 
+/**
+ * @brief Run Labeling.
+ * @param[in] callback Input parameter.
+ * @return Return value.
+ * @details Implements runLabeling without additional internal calls.
+ */
 LabelingStats TrainingPipeline::runLabeling(LabelingCallback callback) {
     return impl_->runLabeling(callback);
 }
 
+/**
+ * @brief Run Enrichment.
+ * @param[in] callback Input parameter.
+ * @return Return value.
+ * @details Implements runEnrichment without additional internal calls.
+ */
 EnrichmentStats TrainingPipeline::runEnrichment(EnrichmentCallback callback) {
     return impl_->runEnrichment(callback);
 }
 
+/**
+ * @brief Run Data Selection.
+ * @param[in] callback Input parameter.
+ * @return Return value.
+ * @details Calls: std::move().
+ */
 DataSelectionResult TrainingPipeline::runDataSelection(
         SelectionProgressCallback callback) {
     return impl_->runDataSelection(std::move(callback));
 }
 
+/**
+ * @brief Run Training.
+ * @param[in] callback Input parameter.
+ * @return Return value.
+ * @details Implements runTraining without additional internal calls.
+ */
 TrainingResult TrainingPipeline::runTraining(TrainingCallback callback) {
     return impl_->runTraining(callback);
 }
 
+/**
+ * @brief Run Calibration.
+ * @return Return value.
+ * @details Implements runCalibration without additional internal calls.
+ */
 CalibrationResult TrainingPipeline::runCalibration() {
     return impl_->runCalibration();
 }
 
+/**
+ * @brief Add Calibration Sample.
+ * @param[in] category Input parameter.
+ * @param[in] confidence Input parameter.
+ * @param[in] model_correct Input parameter.
+ * @details Implements addCalibrationSample without additional internal calls.
+ */
 void TrainingPipeline::addCalibrationSample(const std::string& category,
                                              float confidence,
                                              bool model_correct) {
     impl_->addCalibrationSample(category, confidence, model_correct);
 }
 
+/**
+ * @brief Check Data Quality.
+ * @param[in] min_confidence Input parameter.
+ * @return Return value.
+ * @details Implements checkDataQuality without additional internal calls.
+ */
 DataQualityReport TrainingPipeline::checkDataQuality(float min_confidence) {
     return impl_->checkDataQuality(min_confidence);
 }
 
+/**
+ * @brief Detect Label Drift.
+ * @param[in] reference_samples Input parameter.
+ * @return Return value.
+ * @details Implements detectLabelDrift without additional internal calls.
+ */
 DriftReport TrainingPipeline::detectLabelDrift(const std::vector<std::string>& reference_samples) {
     return impl_->detectLabelDrift(reference_samples);
 }
 
+/**
+ * @brief Schedule Retraining.
+ * @param[in] interval_hours Input parameter.
+ * @param[in] callback Input parameter.
+ * @details Implements scheduleRetraining without additional internal calls.
+ */
 void TrainingPipeline::scheduleRetraining(size_t interval_hours, PipelineCallback callback) {
     impl_->scheduleRetraining(interval_hours, callback);
 }
@@ -657,15 +793,26 @@ PipelineStats TrainingPipeline::getLastStats() const {
     return impl_->getLastStats();
 }
 
+/**
+ * @brief Run Hyperparam Search.
+ * @param[in] config Input parameter.
+ * @param[in] callback Input parameter.
+ * @return Return value.
+ * @details Calls: std::move().
+ */
 HyperparamResult TrainingPipeline::runHyperparamSearch(
         const HyperparamSearchConfig& config,
         HyperparamSearchCallback callback) {
     return impl_->runHyperparamSearch(config, std::move(callback));
 }
 
-// ============================================================================
-// ConfidenceCalibrator implementation (Phase 3 – isotonic regression / PAV)
-// ============================================================================
+/**
+ * @brief ============================================================================ ConfidenceCalibrator implementation (Phase 3 – isotonic regression / PAV) ============================================================================
+ * @param[in] category Input parameter.
+ * @param[in] confidence Input parameter.
+ * @param[in] model_correct Input parameter.
+ * @details Calls: push_back().
+ */
 
 void ConfidenceCalibrator::addSample(const std::string& category,
                                      float confidence,
@@ -803,6 +950,10 @@ CalibrationResult ConfidenceCalibrator::calibrate() const {
     return result;
 }
 
+/**
+ * @brief Reset the modification detection flag.
+ * @details Calls: clear().
+ */
 void ConfidenceCalibrator::reset() {
     samples_.clear();
 }

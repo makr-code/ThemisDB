@@ -20,18 +20,6 @@ namespace themis {
 namespace ingestion {
 namespace builtin {
 
-/**
- * @brief `builtin.legal_metadata` — regex-based legal metadata extraction.
- *
- * Extracts norm identifiers (§-numbers, Article numbers), dates, and
- * Aktenzeichen from `ctx.raw_text` and adds them as `BaseEntity` objects
- * of appropriate legal types.
- *
- * Config keys (all optional; defaults are German legal patterns):
- *  - `norm_pattern`        regex pattern for §/Art. references
- *  - `date_pattern`        regex for German date format dd.mm.yyyy
- *  - `aktenzeichen_pattern` regex for file/ref number
- */
 class LegalMetadataStep : public IIngestionStep {
 public:
     const char* getName()    const override { return "builtin.legal_metadata"; }
@@ -73,6 +61,15 @@ public:
     }
 
 private:
+    /**
+     * @brief Extract By Pattern.
+     * @param[in,out] ctx Input/output parameter.
+     * @param[in] pattern Input parameter.
+     * @param[in] entity_type Input parameter.
+     * @param[in] prop_key Input parameter.
+     * @param[in] id_prefix Input parameter.
+     * @details Calls: re(), std::sregex_iterator(), begin(), end(), str(), std::to_string(), push_back(), std::move().
+     */
     static void extractByPattern(ExtractionContext& ctx,
                                   const std::string& pattern,
                                   EntityType entity_type,

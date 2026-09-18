@@ -66,7 +66,7 @@ std::optional<nlohmann::json> InputValidator::loadSchema(const std::string& sche
 /**
  * @brief Is Ascii Control.
  * @param[in] c Input parameter.
- * @return True on success.
+ * @return True when the operation succeeds.
  * @details Implements isAsciiControl without additional internal calls.
  */
 static bool isAsciiControl(char c) {
@@ -130,12 +130,11 @@ bool InputValidator::validatePathSegment(const std::string& segment) const {
 }
 
 /**
- * @brief Validate a single JSON value against a JSON Schema property descriptor.
- * @param[in] field_name Input parameter.
+ * @brief Validate Property Constraints.
+ * @param[in] field_name Name of the field.
  * @param[in] value Input parameter.
  * @param[in] prop Input parameter.
  * @return Return value.
- * @details Supports: type, minLength, maxLength, minimum, maximum, exclusiveMinimum, exclusiveMaximum, pattern, enum. Returns an error message on failure, std::nullopt on success.
  */
 static std::optional<std::string> validatePropertyConstraints(
     const std::string& field_name,
@@ -237,7 +236,7 @@ static std::optional<std::string> validatePropertyConstraints(
 }
 
 /**
- * @brief static
+ * @brief Validate Json.
  * @param[in] payload Input parameter.
  * @param[in] schema Input parameter.
  * @return Return value.

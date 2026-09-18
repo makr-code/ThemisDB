@@ -2470,11 +2470,6 @@ void ErrorRegistry::registerDefaultErrors() {
  * @details Calls: lock(), push_back().
  */
 void ErrorRegistry::registerError(const ErrorMetadata& metadata) {
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::unique_lock<std::shared_mutex> lock(mutex_);
     int code_value = static_cast<int>(metadata.code);
     errors_[code_value] = metadata;

@@ -30,13 +30,26 @@ namespace graph {
 
 namespace {
 
-/// Return true when `node` has a "type" key with the given string value.
+/**
+ * @brief Has Type.
+ * @param[in] node Input parameter.
+ * @param[in] t Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: find(), end(), is_string().
+ */
 bool hasType(const nlohmann::json &node, std::string_view t) {
     auto it = node.find("type");
     return it != node.end() && it->is_string() && it->get<std::string>() == t;
 }
 
-/// Count JSON nodes satisfying a predicate (recursive).
+/**
+ * @brief Count Nodes.
+ * @tparam Pred Template parameter.
+ * @param[in] node Input parameter.
+ * @param[in] pred Input parameter.
+ * @return Return value.
+ * @details Calls: pred(), is_object(), items(), is_array().
+ */
 template <typename Pred> size_t countNodes(const nlohmann::json &node, Pred pred) {
     size_t count = pred(node) ? 1 : 0;
     if (node.is_object()) {
@@ -51,7 +64,16 @@ template <typename Pred> size_t countNodes(const nlohmann::json &node, Pred pred
     return count;
 }
 
-/// Transform JSON nodes satisfying a predicate in-place (recursive).
+/**
+ * @brief Transform Nodes.
+ * @tparam Pred Template parameter.
+ * @tparam Xform Template parameter.
+ * @param[in,out] node Input/output parameter.
+ * @param[in] pred Input parameter.
+ * @param[in] xform Input parameter.
+ * @return Return value.
+ * @details Calls: pred(), xform(), is_object(), items(), is_array().
+ */
 template <typename Pred, typename Xform> size_t transformNodes(nlohmann::json &node, Pred pred, Xform xform) {
     size_t changes = 0;
     if (pred(node)) {
@@ -70,8 +92,12 @@ template <typename Pred, typename Xform> size_t transformNodes(nlohmann::json &n
     return changes;
 }
 
-/// Heuristic cardinality estimate for a plan node.
-/// Lower value = smaller expected result set = more selective.
+/**
+ * @brief Estimate Cardinality Impl.
+ * @param[in] node Input parameter.
+ * @return Return value.
+ * @details Calls: is_object(), find(), end(), is_number(), std::pow(), is_array(), std::max(), size().
+ */
 double estimateCardinalityImpl(const nlohmann::json &node) {
     if (!node.is_object()) {
         return 1.0;
@@ -423,6 +449,10 @@ void GraphQueryRewriter::addCustomRule(std::string_view name, std::function<size
     custom_rules_.push_back({std::string(name), std::move(rule)});
 }
 
+/**
+ * @brief Clear Custom Rules.
+ * @details Calls: clear().
+ */
 void GraphQueryRewriter::clearCustomRules() {
     custom_rules_.clear();
 }
@@ -431,13 +461,22 @@ void GraphQueryRewriter::clearCustomRules() {
 // estimateCardinality (public static)
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Estimate Cardinality.
+ * @param[in] node Input parameter.
+ * @return Return value.
+ * @details Calls: estimateCardinalityImpl().
+ */
 double GraphQueryRewriter::estimateCardinality(const nlohmann::json &node) {
     return estimateCardinalityImpl(node);
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Rule: PredicatePushdown
-// ─────────────────────────────────────────────────────────────────────────────
+/**
+ * @brief ───────────────────────────────────────────────────────────────────────────── Rule: PredicatePushdown ─────────────────────────────────────────────────────────────────────────────
+ * @param[in,out] plan Input/output parameter.
+ * @return Return value.
+ * @details Calls: hasType(), find(), end(), is_array(), empty(), contains(), nlohmann::json::array(), push_back().
+ */
 
 size_t GraphQueryRewriter::applyPredicatePushdown(nlohmann::json &plan) {
     size_t changes = 0;
@@ -524,9 +563,12 @@ size_t GraphQueryRewriter::applyPredicatePushdown(nlohmann::json &plan) {
     return changes;
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Rule: CommonSubexpressionElimination
-// ─────────────────────────────────────────────────────────────────────────────
+/**
+ * @brief ───────────────────────────────────────────────────────────────────────────── Rule: CommonSubexpressionElimination ─────────────────────────────────────────────────────────────────────────────
+ * @param[in,out] plan Input/output parameter.
+ * @return Return value.
+ * @details Calls: void(), is_object(), hasType(), dump(), items(), collect(), is_array(), std::to_string().
+ */
 
 size_t GraphQueryRewriter::applyCommonSubexpressionElimination(nlohmann::json &plan) {
     // Collect all graph_traversal sub-expressions and their occurrence count.
@@ -649,9 +691,12 @@ size_t GraphQueryRewriter::applyCommonSubexpressionElimination(nlohmann::json &p
     return changes;
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Rule: JoinReordering
-// ─────────────────────────────────────────────────────────────────────────────
+/**
+ * @brief ───────────────────────────────────────────────────────────────────────────── Rule: JoinReordering ─────────────────────────────────────────────────────────────────────────────
+ * @param[in,out] plan Input/output parameter.
+ * @return Return value.
+ * @details Calls: hasType(), find(), end(), estimateCardinalityImpl(), std::swap(), transformNodes(), is_object().
+ */
 
 size_t GraphQueryRewriter::applyJoinReordering(nlohmann::json &plan) {
     size_t changes = 0;
@@ -683,9 +728,13 @@ size_t GraphQueryRewriter::applyJoinReordering(nlohmann::json &plan) {
     return changes;
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Rule: MaterializedView
-// ─────────────────────────────────────────────────────────────────────────────
+/**
+ * @brief ───────────────────────────────────────────────────────────────────────────── Rule: MaterializedView ─────────────────────────────────────────────────────────────────────────────
+ * @param[in,out] plan Input/output parameter.
+ * @param[in] aggressive Input parameter.
+ * @return Return value.
+ * @details Calls: countNodes(), hasType(), find(), end(), dump(), contains(), is_boolean(), is_number().
+ */
 
 size_t GraphQueryRewriter::applyMaterializedView(nlohmann::json &plan, bool aggressive) {
     // First pass: count occurrences of each graph_traversal fingerprint.
@@ -770,9 +819,12 @@ size_t GraphQueryRewriter::applyMaterializedView(nlohmann::json &plan, bool aggr
     return changes;
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Rule: QueryDecomposition
-// ─────────────────────────────────────────────────────────────────────────────
+/**
+ * @brief ───────────────────────────────────────────────────────────────────────────── Rule: QueryDecomposition ─────────────────────────────────────────────────────────────────────────────
+ * @param[in,out] plan Input/output parameter.
+ * @return Return value.
+ * @details Calls: hasType(), find(), end(), is_array(), size(), nlohmann::json::array(), copy_field(), push_back().
+ */
 
 size_t GraphQueryRewriter::applyQueryDecomposition(nlohmann::json &plan) {
     size_t changes = 0;
@@ -830,6 +882,17 @@ size_t GraphQueryRewriter::applyQueryDecomposition(nlohmann::json &plan) {
 // Static factory helpers
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Make Traversal Plan.
+ * @param[in] graph_id Identifier of the graph.
+ * @param[in] start_vertex Input parameter.
+ * @param[in] direction Input parameter.
+ * @param[in] min_depth Input parameter.
+ * @param[in] max_depth Input parameter.
+ * @param[in] vertex_filters Input parameter.
+ * @return Return value.
+ * @details Calls: std::string(), std::move(), nlohmann::json::array().
+ */
 nlohmann::json GraphQueryRewriter::makeTraversalPlan(std::string_view graph_id, std::string_view start_vertex,
                                                      std::string_view direction, int min_depth, int max_depth,
                                                      nlohmann::json vertex_filters) {
@@ -845,6 +908,13 @@ nlohmann::json GraphQueryRewriter::makeTraversalPlan(std::string_view graph_id, 
     return plan;
 }
 
+/**
+ * @brief Make Filter Scan Plan.
+ * @param[in] filter Input parameter.
+ * @param[in] child Input parameter.
+ * @return Return value.
+ * @details Calls: std::move().
+ */
 nlohmann::json GraphQueryRewriter::makeFilterScanPlan(nlohmann::json filter, nlohmann::json child) {
     nlohmann::json plan;
     plan["type"]   = "filter_scan";
@@ -853,6 +923,14 @@ nlohmann::json GraphQueryRewriter::makeFilterScanPlan(nlohmann::json filter, nlo
     return plan;
 }
 
+/**
+ * @brief Make Join Plan.
+ * @param[in] left Input parameter.
+ * @param[in] right Input parameter.
+ * @param[in] join_key Input parameter.
+ * @return Return value.
+ * @details Calls: std::move(), std::string().
+ */
 nlohmann::json GraphQueryRewriter::makeJoinPlan(nlohmann::json left, nlohmann::json right, std::string_view join_key) {
     nlohmann::json plan;
     plan["type"]     = "traversal_join";
@@ -862,6 +940,16 @@ nlohmann::json GraphQueryRewriter::makeJoinPlan(nlohmann::json left, nlohmann::j
     return plan;
 }
 
+/**
+ * @brief Make Multi Traversal Plan.
+ * @param[in] graph_id Identifier of the graph.
+ * @param[in] start_vertices Input parameter.
+ * @param[in] direction Input parameter.
+ * @param[in] max_depth Input parameter.
+ * @param[in] vertex_filters Input parameter.
+ * @return Return value.
+ * @details Calls: std::string(), std::move(), nlohmann::json::array().
+ */
 nlohmann::json GraphQueryRewriter::makeMultiTraversalPlan(std::string_view graph_id,
                                                           const std::vector<std::string> &start_vertices,
                                                           std::string_view direction, int max_depth,

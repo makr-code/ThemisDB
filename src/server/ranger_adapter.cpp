@@ -34,6 +34,15 @@ using json = nlohmann::json;
 namespace themis { namespace server {
 
 namespace {
+    /**
+     * @brief Write To String.
+     * @param[in,out] contents Input/output parameter.
+     * @param[in] size Input parameter.
+     * @param[in] nmemb Input parameter.
+     * @param[in,out] userp Input/output parameter.
+     * @return Return value.
+     * @details Calls: append().
+     */
     size_t writeToString(void* contents, size_t size, size_t nmemb, void* userp) {
         size_t total = size * nmemb;
         std::string* s = static_cast<std::string*>(userp);
@@ -150,7 +159,12 @@ std::optional<json> RangerClient::fetchPolicies(std::string* err) const {
     return std::nullopt;
 }
 
-// Helper: to lower
+/**
+ * @brief Helper: to lower
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Calls: std::transform(), begin(), end(), std::tolower().
+ */
 static std::string lower(std::string s) {
     std::transform(s.begin(), s.end(), s.begin(), [](unsigned char c){ return (char)std::tolower(c); });
     return s;
@@ -230,6 +244,13 @@ RangerClient::convertFromRanger(const json& rangerJson) {
     return out;
 }
 
+/**
+ * @brief Convert To Ranger.
+ * @param[in] policies Input parameter.
+ * @param[in] service_name Name of the service.
+ * @return Return value.
+ * @details Calls: json::array(), empty(), json::object(), push_back(), std::move().
+ */
 json RangerClient::convertToRanger(const std::vector<themis::PolicyEngine::Policy>& policies,
                                    const std::string& service_name) {
     // Minimal, not 1:1 with Ranger schema; enough for inspection/testing

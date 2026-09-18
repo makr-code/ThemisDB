@@ -52,6 +52,12 @@ BinaryQuantizer::BinaryQuantizer(int dimension, const Config& config)
 
 BinaryQuantizer::~BinaryQuantizer() = default;
 
+/**
+ * @brief Train.
+ * @param[in] training_vectors Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), Status::Error(), size(), THEMIS_INFO(), std::fill(), begin(), end(), std::abs().
+ */
 BinaryQuantizer::Status BinaryQuantizer::train(
     const std::vector<std::vector<float>>& training_vectors) {
     
@@ -160,6 +166,11 @@ std::vector<float> BinaryQuantizer::decode(const std::vector<uint8_t>& codes) co
         return {};
     }
     
+    /**
+     * @brief Result.
+     * @param[in] dimension_ Input parameter.
+     * @return Return value.
+     */
     std::vector<float> result(dimension_);
     
     for (int d = 0; d < dimension_; d++) {

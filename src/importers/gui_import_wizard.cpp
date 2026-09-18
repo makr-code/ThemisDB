@@ -29,6 +29,11 @@ namespace importers {
 
 namespace {
 
+/**
+ * @brief Iso Now.
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::to_time_t(), std::chrono::system_clock::now(), std::put_time(), std::gmtime(), str().
+ */
 std::string isoNow() {
     auto t = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
     std::ostringstream oss = {};
@@ -36,6 +41,11 @@ std::string isoNow() {
     return oss.str();
 }
 
+/**
+ * @brief Make Uuid.
+ * @return Return value.
+ * @details Calls: lock(), rng(), str().
+ */
 std::string makeUuid() {
     static std::mt19937_64 rng{std::random_device{}()};
     static std::mutex mu;
@@ -51,6 +61,12 @@ std::string makeUuid() {
 // wizardStepName
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Wizard Step Name.
+ * @param[in] step Input parameter.
+ * @return Return value.
+ * @details Implements wizardStepName without additional internal calls.
+ */
 std::string wizardStepName(WizardStep step) {
     switch (step) {
         case WizardStep::SOURCE:  return "SOURCE";
@@ -103,6 +119,12 @@ json ImportWizardState::toJSON() const {
     };
 }
 
+/**
+ * @brief From JSON.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: value(), contains(), push_back(), std::move().
+ */
 ImportWizardState ImportWizardState::fromJSON(const json& j) {
     ImportWizardState s;
     s.session_id    = j.value("session_id",    std::string{});
@@ -155,6 +177,13 @@ std::string ImportWizard::generateSessionId() const {
     return makeUuid();
 }
 
+/**
+ * @brief Require Session.
+ * @param[in] session_id Identifier of the session.
+ * @return Return value.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: find(), end().
+ */
 ImportWizardState& ImportWizard::requireSession(const std::string& session_id) {
     auto it = sessions_.find(session_id);
     if (it == sessions_.end()) {
@@ -163,6 +192,11 @@ ImportWizardState& ImportWizard::requireSession(const std::string& session_id) {
     return it->second;
 }
 
+/**
+ * @brief Create a session for an authenticated user.
+ * @return Session token.
+ * @details Calls: generateSessionId(), THEMIS_INFO().
+ */
 std::string ImportWizard::createSession() {
     ImportWizardState state;
     state.session_id    = generateSessionId();
@@ -275,6 +309,12 @@ ImportWizard::setOptions(const std::string& session_id,
     return s;
 }
 
+/**
+ * @brief Run Import.
+ * @param[in] session_id Identifier of the session.
+ * @param[in] on_progress Input parameter.
+ * @details Calls: requireSession(), isoNow(), find(), end(), THEMIS_WARN(), second(), dump(), initialize().
+ */
 void ImportWizard::runImport(const std::string& session_id,
                               ProgressCallback   on_progress) {
     auto& s = requireSession(session_id);
@@ -346,6 +386,11 @@ void ImportWizard::runImport(const std::string& session_id,
     }
 }
 
+/**
+ * @brief Cancel.
+ * @param[in] session_id Identifier of the session.
+ * @details Calls: find(), end(), isoNow().
+ */
 void ImportWizard::cancel(const std::string& session_id) {
     auto it = sessions_.find(session_id);
     if (it == sessions_.end()) {
@@ -357,6 +402,11 @@ void ImportWizard::cancel(const std::string& session_id) {
     it->second.finished_at   = isoNow();
 }
 
+/**
+ * @brief Delete Session.
+ * @param[in] session_id Identifier of the session.
+ * @details Calls: erase().
+ */
 void ImportWizard::deleteSession(const std::string& session_id) {
     sessions_.erase(session_id);
 }
@@ -375,16 +425,31 @@ std::vector<std::string> ImportWizard::activeSessions() const {
 // ImportWizardManager
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Instance.
+ * @return Return value.
+ * @details Implements instance without additional internal calls.
+ */
 ImportWizardManager& ImportWizardManager::instance() {
     static ImportWizardManager mgr;
     return mgr;
 }
 
+/**
+ * @brief Configure.
+ * @param[in] config Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void ImportWizardManager::configure(ImportWizard::Config config) {
     std::lock_guard<std::mutex> lock(mutex_);
     wizard_ = std::make_unique<ImportWizard>(std::move(config));
 }
 
+/**
+ * @brief Wizard.
+ * @return Return value.
+ * @details Calls: lock().
+ */
 ImportWizard& ImportWizardManager::wizard() {
     std::lock_guard<std::mutex> lock(mutex_);
     if (!wizard_) {

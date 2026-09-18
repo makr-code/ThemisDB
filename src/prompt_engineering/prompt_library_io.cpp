@@ -33,13 +33,24 @@ namespace prompt_engineering {
 
 namespace {
 
+/**
+ * @brief To Hex16.
+ * @param[in] v Input parameter.
+ * @return Return value.
+ * @details Calls: std::setw(), std::setfill(), str().
+ */
 std::string toHex16(std::uint64_t v) {
     std::ostringstream ss = {};
     ss << std::hex << std::setw(16) << std::setfill('0') << v;
     return ss.str();
 }
 
-// Convert a system_clock time_point to a Unix timestamp (seconds).
+/**
+ * @brief Convert a system_clock time_point to a Unix timestamp (seconds).
+ * @param[in] tp Input parameter.
+ * @return Return value.
+ * @details Calls: time_since_epoch(), count().
+ */
 std::int64_t toUnixTime(std::chrono::system_clock::time_point tp) {
     return static_cast<std::int64_t>(
         std::chrono::duration_cast<std::chrono::seconds>(
@@ -47,11 +58,22 @@ std::int64_t toUnixTime(std::chrono::system_clock::time_point tp) {
         .count());
 }
 
+/**
+ * @brief From Unix Time.
+ * @param[in] t Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::time_point(), std::chrono::seconds().
+ */
 std::chrono::system_clock::time_point fromUnixTime(std::int64_t t) {
     return std::chrono::system_clock::time_point(std::chrono::seconds(t));
 }
 
-// Build a PromptTemplate from a YAML::Node.
+/**
+ * @brief Build a PromptTemplate from a YAML::Node.
+ * @param[in] node Input parameter.
+ * @return Return value.
+ * @details Calls: IsScalar(), nlohmann::json::parse(), nlohmann::json::object(), IsSequence(), push_back().
+ */
 PromptManager::PromptTemplate templateFromYaml(const YAML::Node& node) {
     PromptManager::PromptTemplate t;
     t.id          = node["id"]          ? node["id"].as<std::string>()          : "";
@@ -106,6 +128,12 @@ nlohmann::json PromptLibraryBundle::toJson() const {
     return j;
 }
 
+/**
+ * @brief From Json.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: value(), fromUnixTime(), contains(), is_array(), push_back(), std::move().
+ */
 PromptLibraryBundle PromptLibraryBundle::fromJson(const nlohmann::json& j) {
     PromptLibraryBundle b;
     b.name           = j.value("name",           std::string{});
@@ -147,6 +175,12 @@ PromptLibraryBundle PromptLibraryBundle::fromJson(const nlohmann::json& j) {
 // PromptLibraryIO — Checksum
 // ============================================================================
 
+/**
+ * @brief Compute Checksum.
+ * @param[in] bundle Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), push_back(), toJson(), dump(), std::sort(), begin(), end().
+ */
 std::string PromptLibraryIO::computeChecksum(
         const PromptLibraryBundle& bundle) {
     // Collect canonical JSON strings, sort by id for determinism.
@@ -164,6 +198,12 @@ std::string PromptLibraryIO::computeChecksum(
     return toHex16(themis::hash::fnv1a64(concat));
 }
 
+/**
+ * @brief Verify Checksum.
+ * @param[in] bundle Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: computeChecksum().
+ */
 bool PromptLibraryIO::verifyChecksum(const PromptLibraryBundle& bundle) {
     return bundle.checksum == computeChecksum(bundle);
 }
@@ -172,6 +212,12 @@ bool PromptLibraryIO::verifyChecksum(const PromptLibraryBundle& bundle) {
 // PromptLibraryIO — Export
 // ============================================================================
 
+/**
+ * @brief Export To Json.
+ * @param[in] bundle Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), computeChecksum(), std::chrono::system_clock::now(), toJson(), dump().
+ */
 std::string PromptLibraryIO::exportToJson(PromptLibraryBundle bundle) {
     if (bundle.checksum.empty()) {
         bundle.checksum = computeChecksum(bundle);
@@ -182,6 +228,12 @@ std::string PromptLibraryIO::exportToJson(PromptLibraryBundle bundle) {
     return bundle.toJson().dump(2);
 }
 
+/**
+ * @brief Export To Yaml.
+ * @param[in] bundle Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), computeChecksum(), std::chrono::system_clock::now(), toUnixTime(), dump(), std::string(), c_str().
+ */
 std::string PromptLibraryIO::exportToYaml(PromptLibraryBundle bundle) {
     if (bundle.checksum.empty()) {
         bundle.checksum = computeChecksum(bundle);
@@ -229,6 +281,11 @@ std::string PromptLibraryIO::exportToYaml(PromptLibraryBundle bundle) {
 
 bool PromptLibraryIO::isYamlPath(const std::string& path) noexcept {
     try {
+        /**
+         * @brief P.
+         * @param[in] path Input parameter.
+         * @return Return value.
+         */
         std::filesystem::path p(path);
         const std::string ext = p.extension().string();
         return ext == ".yaml" || ext == ".yml";
@@ -237,6 +294,14 @@ bool PromptLibraryIO::isYamlPath(const std::string& path) noexcept {
     }
 }
 
+/**
+ * @brief Export To File.
+ * @param[in] bundle Input parameter.
+ * @param[in] path Input parameter.
+ * @param[in] fmt Input parameter.
+ * @return Return value.
+ * @details Calls: size(), isYamlPath(), exportToYaml(), exportToJson(), ofs(), is_open(), fail(), std::string().
+ */
 ExportResult PromptLibraryIO::exportToFile(PromptLibraryBundle bundle,
                                             const std::string&  path,
                                             ExportFormat        fmt) {
@@ -274,6 +339,12 @@ ExportResult PromptLibraryIO::exportToFile(PromptLibraryBundle bundle,
 // PromptLibraryIO — Import
 // ============================================================================
 
+/**
+ * @brief Import From Json.
+ * @param[in] json_str Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), nlohmann::json::parse(), PromptLibraryBundle::fromJson().
+ */
 std::optional<PromptLibraryBundle> PromptLibraryIO::importFromJson(
         const std::string& json_str) {
     if (json_str.empty()) { return std::nullopt; }
@@ -285,6 +356,12 @@ std::optional<PromptLibraryBundle> PromptLibraryIO::importFromJson(
     }
 }
 
+/**
+ * @brief Import From Yaml.
+ * @param[in] yaml_str Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), YAML::Load(), IsMap(), fromUnixTime(), IsSequence(), push_back(), templateFromYaml().
+ */
 std::optional<PromptLibraryBundle> PromptLibraryIO::importFromYaml(
         const std::string& yaml_str) {
     if (yaml_str.empty()) { return std::nullopt; }
@@ -313,6 +390,13 @@ std::optional<PromptLibraryBundle> PromptLibraryIO::importFromYaml(
     }
 }
 
+/**
+ * @brief Import From File.
+ * @param[in] path Input parameter.
+ * @param[in,out] out_bundle Input/output parameter.
+ * @return Return value.
+ * @details Calls: std::filesystem::exists(), ifs(), is_open(), content(), isYamlPath(), importFromYaml(), importFromJson(), has_value().
+ */
 ImportResult PromptLibraryIO::importFromFile(const std::string&   path,
                                               PromptLibraryBundle& out_bundle) {
     ImportResult result;
@@ -360,6 +444,12 @@ ImportResult PromptLibraryIO::importFromFile(const std::string&   path,
 // PromptLibraryIO — templateFromYamlNode (public bridge)
 // ============================================================================
 
+/**
+ * @brief Template From Yaml Node.
+ * @param[in] node_ptr Input parameter.
+ * @return Return value.
+ * @details Calls: templateFromYaml().
+ */
 PromptManager::PromptTemplate PromptLibraryIO::templateFromYamlNode(
         const void* node_ptr) {
     if (!node_ptr) {

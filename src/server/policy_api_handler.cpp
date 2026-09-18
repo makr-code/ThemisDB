@@ -35,6 +35,12 @@ PolicyApiHandler::PolicyApiHandler(
 {
 }
 
+/**
+ * @brief Handle Import Ranger.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), makeErrorResponse(), fetchPolicies(), std::string(), RangerClient::convertFromRanger(), empty(), setPolicies(), saveToFile().
+ */
 http::response<http::string_body> PolicyApiHandler::handleImportRanger(
     const http::request<http::string_body>& req
 ) {
@@ -75,6 +81,12 @@ http::response<http::string_body> PolicyApiHandler::handleImportRanger(
     }
 }
 
+/**
+ * @brief Handle Export Ranger.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), makeErrorResponse(), listPolicies(), RangerClient::convertToRanger(), makeResponse(), dump(), what().
+ */
 http::response<http::string_body> PolicyApiHandler::handleExportRanger(
     const http::request<http::string_body>& req
 ) {
@@ -93,6 +105,14 @@ http::response<http::string_body> PolicyApiHandler::handleExportRanger(
     }
 }
 
+/**
+ * @brief Make Error Response.
+ * @param[in] status Input parameter.
+ * @param[in] message Input parameter.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: makeResponse(), dump().
+ */
 http::response<http::string_body> PolicyApiHandler::makeErrorResponse(
     http::status status, const std::string& message, const http::request<http::string_body>& req
 ) {
@@ -105,6 +125,14 @@ http::response<http::string_body> PolicyApiHandler::makeErrorResponse(
     return makeResponse(status, error_body.dump(), req);
 }
 
+/**
+ * @brief Make Response.
+ * @param[in] status Input parameter.
+ * @param[in] body Input parameter.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: version(), set(), keep_alive(), body(), prepare_payload().
+ */
 http::response<http::string_body> PolicyApiHandler::makeResponse(
     http::status status, const std::string& body, const http::request<http::string_body>& req
 ) {

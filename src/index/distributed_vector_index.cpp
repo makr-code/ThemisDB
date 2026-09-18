@@ -130,6 +130,10 @@ DistributedVectorIndex& DistributedVectorIndex::operator=(DistributedVectorIndex
 // Ring construction
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Build Ring.
+ * @details Calls: clear(), std::to_string(), hashString(), count().
+ */
 void DistributedVectorIndex::buildRing_() {
     ring_.clear();
     if (config_.strategy != ShardingStrategy::CONSISTENT_HASH) {
@@ -187,6 +191,12 @@ size_t DistributedVectorIndex::shardFor(const std::string& key) const {
     return shardFor_(key);
 }
 
+/**
+ * @brief Parse Global Id From Key.
+ * @param[in] key Input parameter.
+ * @return Return value.
+ * @details Calls: find_last_of(), size(), std::isdigit(), std::stoll(), substr().
+ */
 std::optional<int64_t> DistributedVectorIndex::parseGlobalIdFromKey_(const std::string& key) {
     const auto pos = key.find_last_of('_');
     if (pos == std::string::npos || pos + 1 >= key.size()) {
@@ -208,6 +218,14 @@ std::optional<int64_t> DistributedVectorIndex::parseGlobalIdFromKey_(const std::
 // Mutation
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Insert.
+ * @param[in] pk Input parameter.
+ * @param[in] vec Input parameter.
+ * @param[in] dim Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), shardFor_(), find(), end(), erase(), parseGlobalIdFromKey_(), add().
+ */
 bool DistributedVectorIndex::insert(const std::string& pk,
                                     const float* vec, size_t dim) {
     if (!vec || dim == 0) {
@@ -292,11 +310,24 @@ bool DistributedVectorIndex::insert(const std::string& pk,
     return ok;
 }
 
+/**
+ * @brief Insert.
+ * @param[in] pk Input parameter.
+ * @param[in] vec Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: data(), size().
+ */
 bool DistributedVectorIndex::insert(const std::string& pk,
                                     const std::vector<float>& vec) {
     return insert(pk, vec.data(),vec.size());
 }
 
+/**
+ * @brief Remove.
+ * @param[in] pk Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), find(), end(), erase().
+ */
 bool DistributedVectorIndex::remove(const std::string& pk) {
     std::lock_guard<std::mutex> lock(mutex_);
 
@@ -337,6 +368,11 @@ std::vector<AnnSearchResult> DistributedVectorIndex::search(const float* query,
     };
     std::unordered_map<int64_t, SearchCandidate> best_by_global_id;
     {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         best_by_global_id.reserve(static_cast<size_t>(k) * shards_.size());
         for (size_t s = 0; s < shards_.size(); ++s) {
@@ -397,6 +433,11 @@ std::vector<AnnSearchResult> DistributedVectorIndex::search(
 // ---------------------------------------------------------------------------
 
 size_t DistributedVectorIndex::size() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return pk_to_shard_.size();
 }
@@ -406,6 +447,11 @@ size_t DistributedVectorIndex::numShards() const {
 }
 
 std::vector<DistributedShardStats> DistributedVectorIndex::getShardStats() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     std::vector<DistributedShardStats> stats = {};
 
@@ -417,6 +463,11 @@ std::vector<DistributedShardStats> DistributedVectorIndex::getShardStats() const
 }
 
 DistributedVectorIndexStats DistributedVectorIndex::getStats() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     DistributedVectorIndexStats stats;
     stats.num_shards     = shards_.size();

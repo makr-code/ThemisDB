@@ -7,19 +7,11 @@
 
 namespace themis::storage::detail {
 
-/**
- * @brief Open a RocksDB database in a version-compatible way.
- *
- * Dispatches to the unique_ptr-based `DBType::Open` overload when available
- * (newer RocksDB releases), or falls back to the raw-pointer overload for older
- * versions. On success the caller owns the raw pointer stored in `*out_db` and
- * must delete it (or wrap it in a `std::unique_ptr`) when done.
- */
 template <typename DBType = rocksdb::DB>
 /**
  * @brief Open Db Compat.
  * @param[in] options Input parameter.
- * @param[in] db_path Input parameter.
+ * @param[in] db_path Path to the db.
  * @param[in,out] out_db Input/output parameter.
  * @return Return value.
  * @details Calls: constexpr(), requires(), DBType::Open(), ok(), release().
@@ -42,19 +34,11 @@ rocksdb::Status openDbCompat(
     }
 }
 
-/**
- * @brief Open a RocksDB database with column families in a version-compatible way.
- *
- * Dispatches to the unique_ptr-based `DBType::Open` overload when available
- * (newer RocksDB releases), or falls back to the raw-pointer overload for older
- * versions. On success the caller owns the raw pointer stored in `*out_db` and
- * must delete it (or wrap it in a `std::unique_ptr`) when done.
- */
 template <typename DBType = rocksdb::DB>
 /**
  * @brief Open Db With Column Families Compat.
  * @param[in] options Input parameter.
- * @param[in] db_path Input parameter.
+ * @param[in] db_path Path to the db.
  * @param[in] cf_descs Input parameter.
  * @param[in,out] cf_handles Input/output parameter.
  * @param[in,out] out_db Input/output parameter.
@@ -81,14 +65,6 @@ rocksdb::Status openDbWithColumnFamiliesCompat(
     }
 }
 
-/**
- * @brief Open a RocksDB database in read-only mode in a version-compatible way.
- *
- * Dispatches to the unique_ptr-based `DBType::OpenForReadOnly` overload when
- * available (newer RocksDB releases), or falls back to the raw-pointer
- * overload for older versions. On success the caller owns the raw pointer
- * stored in `*out_db` and must delete it (or wrap it in `std::unique_ptr`).
- */
 template <typename DBType = rocksdb::DB>
 rocksdb::Status openDbForReadOnlyCompat(
     const rocksdb::Options& options,

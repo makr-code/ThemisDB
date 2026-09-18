@@ -24,9 +24,6 @@
 namespace themis {
 namespace server {
 
-/**
- * @brief Token Bucket configuration for rate limiting
- */
 struct RateLimitConfig {
     // Maximum number of tokens in bucket (burst capacity)
     size_t bucket_capacity = 100;
@@ -61,42 +58,33 @@ struct RateLimitConfig {
     uint32_t adaptive_penalty_duration_seconds = 120; ///< how long the penalty lasts
 };
 
-/**
- * @brief Token Bucket for rate limiting
- * 
- * Implements the Token Bucket algorithm:
- * - Bucket holds tokens (capacity limit)
- * - Tokens refill at constant rate
- * - Each request consumes 1 token
- * - Request rejected if no tokens available
- */
 class TokenBucket {
 public:
     TokenBucket(size_t capacity, double refill_rate);
     
-    /**
-     * @brief Try to consume tokens from bucket
-     * @param tokens Number of tokens to consume (default: 1)
-     * @return true if tokens consumed, false if insufficient tokens
-     */
     bool tryConsume(size_t tokens = 1);
     
     /**
-     * @brief Get current token count
+     * @brief Get Tokens.
+     * @return Return value.
      */
     double getTokens() const;
     
     /**
-     * @brief Get time until next token available (milliseconds)
+     * @brief Get Retry After Ms.
+     * @return Return value.
      */
     uint64_t getRetryAfterMs() const;
     
     /**
-     * @brief Reset bucket to full capacity
+     * @brief Reset the modification detection flag.
      */
     void reset();
 
 private:
+    /**
+     * @brief Refill.
+     */
     void refill();
     
     size_t capacity_;
@@ -106,12 +94,6 @@ private:
     mutable std::shared_mutex mutex_;
 };
 
-/**
- * @brief Anomaly event fired by RateLimiter when suspicious behaviour is detected.
- *
- * Callers register a callback via RateLimiter::setAnomalyCallback() to receive
- * these events and forward them to their alerting / SIEM pipeline.
- */
 struct AnomalyEvent {
     enum class Type {
         ADAPTIVE_THROTTLE_TRIGGERED, ///< IP exceeded rejection threshold; penalty applied
@@ -123,86 +105,61 @@ struct AnomalyEvent {
     std::chrono::system_clock::time_point timestamp;
 };
 
-/// Callback invoked (with mutex NOT held) on each detected anomaly.
 using AnomalyCallback = std::function<void(const AnomalyEvent&)>;
 
-/**
- * @brief Rate Limiter with per-IP and per-user tracking
- * 
- * Features:
- * - Token bucket algorithm for smooth rate limiting
- * - Per-IP and per-user buckets
- * - Configurable limits and whitelists
- * - Thread-safe
- * - Automatic cleanup of old buckets
- * - Anomaly detection callbacks for SIEM / alerting integration
- */
 class RateLimiter {
 public:
     explicit RateLimiter(const RateLimitConfig& config = RateLimitConfig());
     
-    /**
-     * @brief Check if request is allowed
-     * @param ip Client IP address
-     * @param user_id Optional user identifier (from JWT/auth)
-     * @return true if request allowed, false if rate limit exceeded
-     */
     bool allowRequest(const std::string& ip, const std::string& user_id = "");
     
-    /**
-     * @brief Get retry-after time in seconds for rate-limited client
-     * @param ip Client IP address
-     * @param user_id Optional user identifier
-     * @return Seconds until next request allowed (0 if not rate limited)
-     */
     uint32_t getRetryAfter(const std::string& ip, const std::string& user_id = "") const;
     
     /**
-     * @brief Check if IP is whitelisted
+     * @brief Is Whitelisted.
+     * @param[in] ip Input parameter.
+     * @return True when the operation succeeds.
      */
     bool isWhitelisted(const std::string& ip) const;
     
     /**
-     * @brief Register a callback invoked whenever an anomaly is detected.
-     *
-     * The callback is invoked outside of the internal mutex so it is safe to
-     * perform I/O (e.g. write to an audit log or send to a SIEM) without risk
-     * of deadlock.  Pass nullptr or an empty function to deregister.
+     * @brief Set Anomaly Callback.
+     * @param[in] callback Input parameter.
      */
     void setAnomalyCallback(AnomalyCallback callback);
 
     /**
-     * @brief Add IP to blacklist (immediately block all requests from this IP)
-     * @param ip IP address to block
+     * @brief Blacklist IP.
+     * @param[in] ip Input parameter.
      */
     void blacklistIP(const std::string& ip);
     
     /**
-     * @brief Remove IP from blacklist
-     * @param ip IP address to unblock
+     * @brief Unblacklist IP.
+     * @param[in] ip Input parameter.
      */
     void unblacklistIP(const std::string& ip);
     
     /**
-     * @brief Check if IP is blacklisted
-     * @param ip IP address to check
+     * @brief Is Blacklisted.
+     * @param[in] ip Input parameter.
+     * @return True when the operation succeeds.
      */
     bool isBlacklisted(const std::string& ip) const;
 
     /**
-     * @brief Return true if an IP is currently under an adaptive throttle penalty.
-     * @param ip IP address to check.
+     * @brief Is Adaptively Throttled.
+     * @param[in] ip Input parameter.
+     * @return True when the operation succeeds.
      */
     bool isAdaptivelyThrottled(const std::string& ip) const;
     
     /**
-     * @brief Update configuration at runtime
+     * @brief Update the access control configuration.
+     * @param[in] config New access control configuration.
      */
     void updateConfig(const RateLimitConfig& config);
     
-    /**
-     * @brief Get current statistics
-     */
     struct Statistics {
         size_t total_requests = 0;
         size_t allowed_requests = 0;
@@ -212,15 +169,19 @@ public:
         size_t adaptive_throttle_penalties = 0; ///< IPs currently penalised
     };
     
+    /**
+     * @brief Return access control statistics.
+     * @return Access control statistics.
+     */
     Statistics getStatistics() const;
     
     /**
-     * @brief Clear all buckets (for testing)
+     * @brief Reset the modification detection flag.
      */
     void reset();
     
     /**
-     * @brief Cleanup old inactive buckets (called periodically)
+     * @brief Cleanup.
      */
     void cleanup();
 
@@ -253,13 +214,22 @@ private:
     };
     std::unordered_map<std::string, AdaptiveEntry> adaptive_state_;
 
+    /**
+     * @brief Record Rejection For Adaptive.
+     * @param[in] ip Input parameter.
+     */
     void recordRejectionForAdaptive(const std::string& ip);
 
     // Anomaly detection callback – protected by a dedicated mutex so that
     // fireAnomaly() can be called while mutex_ is held without risk of deadlock.
     mutable std::shared_mutex callback_mutex_;
     AnomalyCallback anomaly_callback_;
-    // Fire the anomaly callback (safe to call while mutex_ is held).
+    /**
+     * @brief Fire Anomaly.
+     * @param[in] type Input parameter.
+     * @param[in] ip Input parameter.
+     * @param[in] detail Input parameter.
+     */
     void fireAnomaly(AnomalyEvent::Type type, const std::string& ip, const std::string& detail) const;
     
     // Statistics

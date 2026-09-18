@@ -23,6 +23,12 @@ namespace importers {
 // EntityLink serialisation
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Link Type Name.
+ * @param[in] lt Input parameter.
+ * @return Return value.
+ * @details Implements linkTypeName without additional internal calls.
+ */
 static std::string linkTypeName(LinkType lt) {
     switch (lt) {
         case LinkType::SAME_AS:
@@ -45,6 +51,12 @@ static std::string linkTypeName(LinkType lt) {
     return "unknown";
 }
 
+/**
+ * @brief Resolution Status Name.
+ * @param[in] rs Input parameter.
+ * @return Return value.
+ * @details Implements resolutionStatusName without additional internal calls.
+ */
 static std::string resolutionStatusName(ResolutionStatus rs) {
     switch (rs) {
         case ResolutionStatus::UNRESOLVED:
@@ -76,6 +88,13 @@ json EntityLink::toJson() const {
 // EntityLinker
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Create Link.
+ * @param[in] link Input parameter.
+ * @param[in] options Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), push_back().
+ */
 bool EntityLinker::createLink(const EntityLink &link, const ImportOptions &options) {
     if (link.source_id.empty() || link.target_id.empty()) {
         return false;
@@ -87,6 +106,15 @@ bool EntityLinker::createLink(const EntityLink &link, const ImportOptions &optio
     return true;
 }
 
+/**
+ * @brief Link Batch.
+ * @param[in] param Input parameter.
+ * @param[in] links Input parameter.
+ * @param[in] options Input parameter.
+ * @param[in] size_t Input parameter.
+ * @return Return value.
+ * @details Calls: size(), createLink().
+ */
 ImportStats EntityLinker::linkBatch(const std::string & /*collection_name*/, const std::vector<EntityLink> &links,
                                     const ImportOptions &options, size_t /*batch_size*/
 ) {
@@ -178,6 +206,10 @@ size_t EntityLinker::linkCount() const {
     return links_.size();
 }
 
+/**
+ * @brief Clear.
+ * @details Implements clear without additional internal calls.
+ */
 void EntityLinker::clear() {
     links_.clear();
 }

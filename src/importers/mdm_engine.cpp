@@ -71,6 +71,11 @@ json MDMWorkflowResult::toJson() const {
 // UUID / timestamp helpers
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Generate UUID.
+ * @return Return value.
+ * @details Calls: dist(), std::setfill(), std::setw(), str().
+ */
 std::string MDMEngine::generateUUID() {
     static std::mt19937_64 rng{std::random_device{}()};
     static std::uniform_int_distribution<uint64_t> dist;
@@ -88,6 +93,11 @@ std::string MDMEngine::generateUUID() {
     return ss.str();
 }
 
+/**
+ * @brief Now Rfc3339.
+ * @return Return value.
+ * @details Calls: system_clock::now(), system_clock::to_time_t(), gmtime_s(), gmtime_r(), std::put_time(), str().
+ */
 std::string MDMEngine::nowRfc3339() {
     using namespace std::chrono;
     const auto now = system_clock::now();
@@ -103,6 +113,12 @@ std::string MDMEngine::nowRfc3339() {
     return ss.str();
 }
 
+/**
+ * @brief Entity Id.
+ * @param[in] entity Input parameter.
+ * @return Return value.
+ * @details Calls: contains(), is_null(), is_string(), dump().
+ */
 std::string MDMEngine::entityId(const json& entity) {
     if (entity.contains("_id") && !entity["_id"].is_null())
         return entity["_id"].is_string() ? entity["_id"].get<std::string>() : entity["_id"].dump();
@@ -286,6 +302,16 @@ MDMEngine::executeResolutionPhase(
 // Full MDM workflow
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Execute MDMWorkflow.
+ * @param[in] incoming_entities Input parameter.
+ * @param[in] existing_entities Input parameter.
+ * @param[in] collection_name Name of the collection.
+ * @param[in] config Input parameter.
+ * @param[in] options Input parameter.
+ * @return Return value.
+ * @details Calls: generateUUID(), size(), clear(), executeMatchingPhase(), empty(), executeLinkingPhase(), executeResolutionPhase(), entityId().
+ */
 MDMWorkflowResult MDMEngine::executeMDMWorkflow(
     const std::vector<json>& incoming_entities,
     const std::vector<json>& existing_entities,

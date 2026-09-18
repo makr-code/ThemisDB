@@ -62,8 +62,12 @@ static const int8_t kBase64Table[256] = {
     -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
 };
 
-/// Decode a standard Base64 string to raw bytes.
-/// Returns empty vector on invalid input.
+/**
+ * @brief Base64 Decode.
+ * @param[in] encoded Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), push_back(), resize().
+ */
 static std::vector<uint8_t> base64Decode(const std::string& encoded) {
     std::vector<uint8_t> out = {};
 
@@ -100,11 +104,14 @@ static std::vector<uint8_t> base64Decode(const std::string& encoded) {
 
 #ifdef THEMIS_HAVE_OPENSSL
 
-/// Verify an Ed25519 signature.
-/// @param pub_key_raw  32-byte raw Ed25519 public key.
-/// @param message      Message bytes.
-/// @param sig_raw      64-byte raw Ed25519 signature.
-/// @return true iff signature is valid.
+/**
+ * @brief Ed25519 Verify.
+ * @param[in] pub_key_raw Input parameter.
+ * @param[in] message Input parameter.
+ * @param[in] sig_raw Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: size(), EVP_PKEY_new_raw_public_key(), data(), LOG_ERROR(), ERR_reason_error_string(), ERR_get_error(), EVP_MD_CTX_new(), EVP_PKEY_free().
+ */
 static bool ed25519Verify(const std::vector<uint8_t>& pub_key_raw,
                           const std::string&           message,
                           const std::vector<uint8_t>& sig_raw) {
@@ -155,6 +162,11 @@ static bool ed25519Verify(const std::vector<uint8_t>& pub_key_raw,
 static BuildVerificationResult g_cached_result;
 static std::once_flag          g_once;
 
+/**
+ * @brief Do Verify.
+ * @return Return value.
+ * @details Calls: empty(), LOG_DEBUG(), LOG_WARN(), std::string(), base64Decode(), size(), LOG_ERROR(), ed25519Verify().
+ */
 static BuildVerificationResult doVerify() {
     BuildVerificationResult res;
     res.channel  = THEMIS_BUILD_CHANNEL;
@@ -228,6 +240,11 @@ static BuildVerificationResult doVerify() {
 // Public API
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Verify Build Signature.
+ * @return Return value.
+ * @details Calls: std::call_once(), doVerify().
+ */
 BuildVerificationResult verifyBuildSignature() {
     std::call_once(g_once, []() {
         g_cached_result = doVerify();

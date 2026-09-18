@@ -29,6 +29,11 @@ std::mutex                      s_noise_suppressor_bridge_mutex;
 NoiseSuppressor::ProcessFramesFn s_process_frames_fn;
 }
 
+/**
+ * @brief Set Process Frames Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lk(), std::move().
+ */
 void NoiseSuppressor::setProcessFramesFn(ProcessFramesFn fn) {
     std::lock_guard<std::mutex> lk(s_noise_suppressor_bridge_mutex);
     s_process_frames_fn = std::move(fn);
@@ -73,7 +78,11 @@ NoiseSuppressor::~NoiseSuppressor() = default;
 NoiseSuppressor::NoiseSuppressor(NoiseSuppressor&&) noexcept = default;
 NoiseSuppressor& NoiseSuppressor::operator=(NoiseSuppressor&&) noexcept = default;
 
-// static
+/**
+ * @brief static
+ * @return True when the operation succeeds.
+ * @details Implements isRNNoiseEnabled without additional internal calls.
+ */
 bool NoiseSuppressor::isRNNoiseEnabled() {
 #ifdef THEMIS_ENABLE_RNNOISE
     return true;
@@ -82,8 +91,14 @@ bool NoiseSuppressor::isRNNoiseEnabled() {
 #endif
 }
 
-// Linear-interpolation resampler (same logic used elsewhere in this file).
-// static
+/**
+ * @brief Linear-interpolation resampler (same logic used elsewhere in this file).
+ * @param[in] in Input parameter.
+ * @param[in] src_rate Input parameter.
+ * @param[in] dst_rate Input parameter.
+ * @return Return value.
+ * @details static
+ */
 std::vector<float> NoiseSuppressor::resampleLinear(
     const std::vector<float>& in, int src_rate, int dst_rate)
 {
@@ -93,6 +108,11 @@ std::vector<float> NoiseSuppressor::resampleLinear(
     double ratio = static_cast<double>(dst_rate) / static_cast<double>(src_rate);
     size_t out_size = static_cast<size_t>(static_cast<double>(in.size()) * ratio);
     if (out_size == 0) return {};
+    /**
+     * @brief Out.
+     * @param[in] out_size Input parameter.
+     * @return Return value.
+     */
     std::vector<float> out(out_size);
     for (size_t i = 0; i < out_size; ++i) {
         double src_pos = static_cast<double>(i) / ratio;
@@ -104,9 +124,13 @@ std::vector<float> NoiseSuppressor::resampleLinear(
     return out;
 }
 
-// Process samples_48k (already at 48 kHz, normalised [-1,1]) through
-// RNNoise in kRNNoiseFrameSamples-sized chunks.
-// Returns the mean VAD probability across all processed frames.
+/**
+ * @brief Process samples_48k (already at 48 kHz, normalised [-1,1]) through RNNoise in kRNNoiseFrameSamples-sized chunks.
+ * @param[in,out] samples_48k Input/output parameter.
+ * @param[in] vad_threshold Input parameter.
+ * @return Return value.
+ * @details Returns the mean VAD probability across all processed frames.
+ */
 float NoiseSuppressor::processRNNoiseFrames(
     std::vector<float>& samples_48k, float vad_threshold)
 {
@@ -142,6 +166,11 @@ float NoiseSuppressor::processRNNoiseFrames(
 #else
     ProcessFramesFn fn;
     {
+        /**
+         * @brief Lk.
+         * @param[in] s_noise_suppressor_bridge_mutex Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(s_noise_suppressor_bridge_mutex);
         fn = s_process_frames_fn;
     }
@@ -182,6 +211,13 @@ float NoiseSuppressor::processRNNoiseFrames(
 #endif
 }
 
+/**
+ * @brief Suppress.
+ * @param[in] frame Input parameter.
+ * @param[in] vad_threshold Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), resampleLinear(), processRNNoiseFrames().
+ */
 AudioFrame NoiseSuppressor::suppress(const AudioFrame& frame, float vad_threshold) {
     AudioFrame result = frame;
     ++frames_processed_;
@@ -213,6 +249,11 @@ std::vector<float> AudioPreprocessingPipeline::convertRawToFloat(
     if (raw.empty()) return {};
     if (bits_per_sample == 16) {
         size_t num_samples = raw.size() / 2;
+        /**
+         * @brief Result.
+         * @param[in] num_samples Input parameter.
+         * @return Return value.
+         */
         std::vector<float> result(num_samples);
         for (size_t i = 0; i < num_samples; ++i) {
             int16_t sample = static_cast<int16_t>(raw[2 * i] | (raw[2 * i + 1] << 8));
@@ -269,6 +310,13 @@ std::vector<float> AudioPreprocessingPipeline::applyHighPassFilter(
     return output;
 }
 
+/**
+ * @brief Apply Noise Reduction.
+ * @param[in] frame Input parameter.
+ * @param[in] strength Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), computeNoiseFloor(), std::abs().
+ */
 AudioFrame AudioPreprocessingPipeline::applyNoiseReduction(const AudioFrame& frame, float strength) {
     AudioFrame result = frame;
     if (frame.samples.empty()) {
@@ -288,12 +336,24 @@ AudioFrame AudioPreprocessingPipeline::applyNoiseReduction(const AudioFrame& fra
     return result;
 }
 
+/**
+ * @brief Apply RNNoise Suppression.
+ * @param[in] frame Input parameter.
+ * @param[in] vad_threshold Input parameter.
+ * @return Return value.
+ */
 AudioFrame AudioPreprocessingPipeline::applyRNNoiseSuppression(
     const AudioFrame& frame, float vad_threshold)
 {
     return noise_suppressor_.suppress(frame, vad_threshold);
 }
 
+/**
+ * @brief Apply Echo Cancellation.
+ * @param[in] input Input parameter.
+ * @param[in] reference Input parameter.
+ * @return Return value.
+ */
 AudioFrame AudioPreprocessingPipeline::applyEchoCancellation(
     const AudioFrame& input, const AudioFrame& reference)
 {
@@ -315,6 +375,12 @@ AudioFrame AudioPreprocessingPipeline::applyEchoCancellation(
     return result;
 }
 
+/**
+ * @brief Detect Voice Activity.
+ * @param[in] frame Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), std::max(), size(), computeRMS(), computeNoiseFloor(), std::sqrt().
+ */
 float AudioPreprocessingPipeline::detectVoiceActivity(const AudioFrame& frame) {
     if (frame.samples.empty()) {
       return 0.0f;
@@ -347,6 +413,13 @@ float AudioPreprocessingPipeline::detectVoiceActivity(const AudioFrame& frame) {
     return static_cast<float>(active_windows) / static_cast<float>(num_windows);
 }
 
+/**
+ * @brief Normalize.
+ * @param[in] frame Input parameter.
+ * @param[in] target_rms Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), computeRMS(), std::clamp().
+ */
 AudioFrame AudioPreprocessingPipeline::normalize(const AudioFrame& frame, float target_rms) {
     AudioFrame result = frame;
     if (frame.samples.empty()) {
@@ -365,6 +438,13 @@ AudioFrame AudioPreprocessingPipeline::normalize(const AudioFrame& frame, float 
     return result;
 }
 
+/**
+ * @brief Resample.
+ * @param[in] frame Input parameter.
+ * @param[in] target_sample_rate Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), size(), resize(), std::min().
+ */
 AudioFrame AudioPreprocessingPipeline::resample(const AudioFrame& frame, int target_sample_rate) {
     AudioFrame result = frame;
     result.sample_rate = target_sample_rate;
@@ -388,6 +468,12 @@ AudioFrame AudioPreprocessingPipeline::resample(const AudioFrame& frame, int tar
     return result;
 }
 
+/**
+ * @brief Score Confidence.
+ * @param[in] frame Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), computeRMS(), computeNoiseFloor(), std::clamp(), std::log10().
+ */
 ConfidenceScore AudioPreprocessingPipeline::scoreConfidence(const AudioFrame& frame) {
     ConfidenceScore score = {};
     if (frame.samples.empty()) {
@@ -413,6 +499,12 @@ ConfidenceScore AudioPreprocessingPipeline::scoreConfidence(const AudioFrame& fr
     return score;
 }
 
+/**
+ * @brief Detect Language.
+ * @param[in] param Input parameter.
+ * @param[in] hint Input parameter.
+ * @return Return value.
+ */
 LanguageDetectionResult AudioPreprocessingPipeline::detectLanguage(
     const AudioFrame& /*frame*/, const std::string& hint)
 {
@@ -430,6 +522,12 @@ LanguageDetectionResult AudioPreprocessingPipeline::detectLanguage(
     return result;
 }
 
+/**
+ * @brief Process.
+ * @param[in] raw_audio Input parameter.
+ * @param[in] source_sample_rate Input parameter.
+ * @return Return value.
+ */
 PreprocessingResult AudioPreprocessingPipeline::process(
     const std::vector<uint8_t>& raw_audio, int source_sample_rate)
 {
@@ -497,6 +595,12 @@ PreprocessingResult AudioPreprocessingPipeline::process(
     return res;
 }
 
+/**
+ * @brief Process Frame.
+ * @param[in] frame Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::steady_clock::now(), applyRNNoiseSuppression(), lastVadProbability(), spdlog::debug(), what(), applyNoiseReduction(), detectVoiceActivity(), normalize().
+ */
 PreprocessingResult AudioPreprocessingPipeline::processFrame(const AudioFrame& frame) {
     // TASK 2.2: Preprocessing chain with graceful fallback
     // Chain: normalize → resample → enhance (RNNoise) → filter (noise reduction)
@@ -600,14 +704,23 @@ json AudioPreprocessingPipeline::getStatistics() const {
     return stats;
 }
 
+/**
+ * @brief Reset Statistics.
+ * @details Implements resetStatistics without additional internal calls.
+ */
 void AudioPreprocessingPipeline::resetStatistics() {
     frames_processed_ = 0;
     total_processing_time_ms_ = 0;
 }
 
-// ============================================================================
-// Phase 3: Input Validation Hardening
-// ============================================================================
+/**
+ * @brief ============================================================================ Phase 3: Input Validation Hardening ============================================================================
+ * @param[in] raw_audio Input parameter.
+ * @param[in] declared_sample_rate Input parameter.
+ * @param[in] declared_channels Input parameter.
+ * @param[in] declared_bits_per_sample Input parameter.
+ * @return Return value.
+ */
 
 AudioValidationResult AudioPreprocessingPipeline::validateAudioPayload(
     const std::vector<uint8_t>& raw_audio,

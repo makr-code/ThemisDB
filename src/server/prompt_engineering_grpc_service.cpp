@@ -42,6 +42,11 @@ PromptEngineeringGrpcService::PromptEngineeringGrpcService(
     , integration_(std::move(integration)) {
     ServiceAccessorFn fn;
     {
+        /**
+         * @brief Lock.
+         * @param[in] g_prompt_grpc_service_accessor_mutex Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(g_prompt_grpc_service_accessor_mutex);
         fn = g_prompt_grpc_service_accessor_fn;
     }
@@ -62,6 +67,11 @@ void* PromptEngineeringGrpcService::service() const {
     return service_ptr_;
 }
 
+/**
+ * @brief Set Service Accessor Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void PromptEngineeringGrpcService::setServiceAccessorFn(ServiceAccessorFn fn) {
     std::lock_guard<std::mutex> lock(g_prompt_grpc_service_accessor_mutex);
     g_prompt_grpc_service_accessor_fn = std::move(fn);

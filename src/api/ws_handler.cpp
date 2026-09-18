@@ -29,16 +29,6 @@ namespace http = boost::beast::http;
 // Construction
 // ---------------------------------------------------------------------------
 
-/**
- * @brief Constructor for WsChangeHandler.
- * 
- * Creates a new change handler instance configured with necessary dependencies such as 
- * the event loop and connection provider.
- * 
- * @param executor A shared pointer to the execution context (e.g., ioc).
- * @param connector The service responsible for managing connections within this handler.
- * @param endpoint_config Configuration parameters specific to the WebSocket endpoint.
- */
 WsChangeHandler::WsChangeHandler(std::shared_ptr<asio::io_context> executor, std::shared_ptr<ConnectionProvider> connector, EndpointConfig& endpoint_config) : 
     executor_(executor), 
     connector_(connector), 
@@ -49,22 +39,21 @@ WsChangeHandler::WsChangeHandler(std::shared_ptr<asio::io_context> executor, std
 // ---------------------------------------------------------------------------
 
 /**
- * @brief Checks if a given raw path string matches known change stream endpoints.
- *
- * @param path The URL path to check against known streaming paths.
- * @return bool True if the path is for change/CDC streams, false otherwise.
+ * @brief Is Change Stream Path.
+ * @param[in] path Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements isChangeStreamPath without additional internal calls.
  */
 bool WsChangeHandler::isChangeStreamPath(std::string_view path) {
     return path == "/v2/changes" || path == "/v2/cdc/stream";
 }
 
-/// Decode a percent-encoded URL path/query component per RFC 3986.
-/// Only %XX sequences are expanded; '+' is left as a literal '+' (this is a
-/// raw URL query string, not application/x-www-form-urlencoded).
-/// Malformed sequences (e.g. bare '%', truncated '%3', non-hex '%ZZ') pass
-/// through unchanged.
-/// Note: HTTP form-param decoding in http_type_adapter.cpp intentionally uses
-/// different semantics ('+' → ' ') for application/x-www-form-urlencoded bodies.
+/**
+ * @brief Url decode.
+ * @param[in] encoded Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), std::isxdigit(), std::from_chars().
+ */
 static std::string url_decode(const std::string& encoded) {
     std::string result = {};
     result.reserve(encoded.size());
@@ -116,6 +105,11 @@ WsChangeHandler::validate(const http::request<http::string_body>& req) const
         std::string token = {};
 
         if (!auth_hdr.empty()) {
+            /**
+             * @brief Auth str.
+             * @param[in] auth_hdr Input parameter.
+             * @return Return value.
+             */
             const std::string auth_str(auth_hdr);
             constexpr std::string_view kBearer = "Bearer ";
             if (auth_str.size() > kBearer.size() &&
@@ -200,14 +194,9 @@ WsChangeHandler::validate(const http::request<http::string_body>& req) const
 // ---------------------------------------------------------------------------
 
 /**
- * @brief Processes incoming raw messages received over the active WebSocket connection.
- * 
- * This method is responsible for taking a raw message payload, validating its format according to 
- * internal schemas, and subsequently dispatching it to the appropriate internal handling pipeline 
- * within the handler. It ensures that all client-sent data is type-safe before further processing.
- * 
- * @param message The raw string content of the message received from the WebSocket stream.
- * @return void No return value; the outcome is managed via internal logging utilities or state changes.
+ * @brief Process Message.
+ * @param[in] message Input parameter.
+ * @details Implements ProcessMessage without additional internal calls.
  */
 void WsChangeHandler::ProcessMessage(const std::string& message) { /* implementation follows */ }
 
@@ -216,26 +205,17 @@ void WsChangeHandler::ProcessMessage(const std::string& message) { /* implementa
 // ---------------------------------------------------------------------------
 
 /**
- * @brief Handles the event fired when a new client connection is successfully established.
- * 
- * This function initializes necessary connection state variables and signals
- * that the handler is ready to begin processing messages for this specific connection.
- * It typically includes resource allocation or subscription registration logic.
- * 
- * @param ws The Boost::Beast WebSocket connection object representing the active stream interface.
- * @return void No return value. Status updates are handled via logging utilities.
+ * @brief On Connection Opened.
+ * @param[in,out] ws Input/output parameter.
+ * @details Implements OnConnectionOpened without additional internal calls.
  */
 void WsChangeHandler::OnConnectionOpened(boost::beast::websocket::stream<tcp::socket>& ws) { /* implementation follows */ }
 
 /**
- * @brief Handler function called when a new WebSocket connection is successfully established.
- * 
- * This hook should execute initialization logic necessary for handling an active 
- * session. Tasks include validating the initial payload, registering the session 
- * with internal service maps, and broadcasting user presence updates.
- * 
- * @param ws The fully connected WebSocket instance. This pointer is guaranteed to be valid.
- * @param userId The unique identifier of the user associated with this connection. Should never be empty.
+ * @brief On Connection Opened.
+ * @param[in,out] ws Input/output parameter.
+ * @param[in] userId Input parameter.
+ * @details Implements onConnectionOpened without additional internal calls.
  */
 void WsChangeHandler::onConnectionOpened(WebSocket* ws, const std::string& userId) {
     // Implementation details for successful connection setup and initialization logic
@@ -246,17 +226,11 @@ void WsChangeHandler::onConnectionOpened(WebSocket* ws, const std::string& userI
 // ---------------------------------------------------------------------------
 
 /**
- * @brief Handler function called when an active connection is closed unexpectedly or gracefully.
- * 
- * This hook should perform cleanup tasks related to the session, such as removing 
- * from user lists, logging the disconnection event with details (e.g., close code/reason), 
- * and potentially triggering persistence mechanisms if the connection state change needs 
- * to be recorded.
- * 
- * @param ws The WebSocket instance that was closed. Could be nullptr if the closure 
- *            was due to an external system failure before a valid pointer could be obtained.
- * @param closeCode A standardized code indicating the reason for the connection closure (e.g., 1000 for normal closure).
- * @param closeReason A string detailing the human-readable reason for the closure.
+ * @brief On Connection Closed.
+ * @param[in,out] ws Input/output parameter.
+ * @param[in] closeCode Input parameter.
+ * @param[in] closeReason Input parameter.
+ * @details Implements onConnectionClosed without additional internal calls.
  */
 void WsChangeHandler::onConnectionClosed(WebSocket* ws, int closeCode, const std::string& closeReason) {
     // Implementation details for connection closing logic
@@ -267,25 +241,16 @@ void WsChangeHandler::onConnectionClosed(WebSocket* ws, int closeCode, const std
 // ---------------------------------------------------------------------------
 
 /**
- * @brief Handles critical errors encountered during WebSocket connection management or message processing.
- * 
- * This is a centralized error logging mechanism. It records the exception details, including stack traces 
- * if available through the standard library, and ensures that the failure state is propagated to 
- * relevant internal subsystems for cleanup or retry logic.
- * 
- * @param e The standard C++ exception object containing details about the runtime error.
- * @return void No return value. The method logs the error context internally.
+ * @brief Handle Error.
+ * @param[in] e Input parameter.
+ * @details Implements handleError without additional internal calls.
  */
 void WsChangeHandler::handleError(const std::exception& e) { /* implementation follows */ }
 
 /**
- * @brief Processes an incoming raw message received on the WebSocket connection.
- * 
- * This is the main entry point for all incoming data from a connected client. It 
- * is responsible for message validation, payload type dispatching (e.g., 'AUTH', 
- * 'DATA', 'CMD'), and delegating the processing to the appropriate internal service module.
- * 
- * @param rawMessage The raw string or binary payload received via the WebSocket. Must not be null.
+ * @brief Handle Web Socket Message.
+ * @param[in] rawMessage Input parameter.
+ * @details Implements HandleWebSocketMessage without additional internal calls.
  */
 void WsChangeHandler::HandleWebSocketMessage(const std::string& rawMessage) {
     // Implementation details for parsing, validation, and dispatching messages go here.

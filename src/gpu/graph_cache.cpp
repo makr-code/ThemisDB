@@ -19,6 +19,11 @@ namespace gpu {
 // ============================================================================
 
 const GraphEntry *GPUGraphCache::lookup(const QueryShape &shape) {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     auto it = entries_.find(shape);
@@ -40,6 +45,11 @@ const GraphEntry *GPUGraphCache::lookup(const QueryShape &shape) {
 // capture
 // ============================================================================
 
+/**
+ * @brief Capture.
+ * @param[in] shape Input parameter.
+ * @details Calls: lock(), find(), end(), size(), evictLRU(), emplace(), std::move().
+ */
 void GPUGraphCache::capture(const QueryShape &shape) {
     std::lock_guard<std::mutex> lock(mutex_);
 
@@ -77,6 +87,11 @@ void GPUGraphCache::capture(const QueryShape &shape) {
 // invalidate
 // ============================================================================
 
+/**
+ * @brief Invalidate.
+ * @param[in] shape Input parameter.
+ * @details Calls: lock(), find(), end(), erase(), size().
+ */
 void GPUGraphCache::invalidate(const QueryShape &shape) {
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = entries_.find(shape);
@@ -96,6 +111,10 @@ void GPUGraphCache::invalidate(const QueryShape &shape) {
 // clear
 // ============================================================================
 
+/**
+ * @brief Clear.
+ * @details Calls: lock().
+ */
 void GPUGraphCache::clear() {
     std::lock_guard<std::mutex> lock(mutex_);
     // Production CUDA notes: iterate entries_ and call cudaGraphExecDestroy /
@@ -109,11 +128,21 @@ void GPUGraphCache::clear() {
 // ============================================================================
 
 size_t GPUGraphCache::size() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return entries_.size();
 }
 
 GPUGraphCache::Stats GPUGraphCache::getStats() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     Stats s   = stats_;
     s.entries = entries_.size();
@@ -124,6 +153,10 @@ GPUGraphCache::Stats GPUGraphCache::getStats() const {
 // evictLRU (private)
 // ============================================================================
 
+/**
+ * @brief Evict LRU.
+ * @details Calls: empty(), begin(), end(), erase(), size().
+ */
 void GPUGraphCache::evictLRU() {
     // Called with mutex_ already held.  O(n) scan is acceptable since n ≤ 32.
     if (entries_.empty()) {

@@ -96,11 +96,21 @@ SelectionVector::SelectionVector(size_t capacity) {
     indices_.reserve(capacity);
 }
 
+/**
+ * @brief Reset the modification detection flag.
+ * @param[in] total_rows Input parameter.
+ * @details Calls: resize(), std::iota(), begin(), end().
+ */
 void SelectionVector::reset(size_t total_rows) {
     indices_.resize(total_rows);
     std::iota(indices_.begin(), indices_.end(), static_cast<uint32_t>(0));
 }
 
+/**
+ * @brief Push back.
+ * @param[in] idx Input parameter.
+ * @details Implements push_back without additional internal calls.
+ */
 void SelectionVector::push_back(uint32_t idx) {
     indices_.push_back(idx);
 }
@@ -121,6 +131,12 @@ const std::vector<uint32_t> &SelectionVector::indices() const noexcept {
     return indices_;
 }
 
+/**
+ * @brief All.
+ * @param[in] n Input parameter.
+ * @return Return value.
+ * @details Calls: sv(), reset().
+ */
 SelectionVector SelectionVector::all(size_t n) {
     SelectionVector sv(n);
     sv.reset(n);
@@ -140,6 +156,12 @@ bool Column::isNull(size_t row) const {
     return null_bitmap_[row];
 }
 
+/**
+ * @brief Append Int64.
+ * @param[in] value Input parameter.
+ * @param[in] is_null Input parameter.
+ * @details Calls: push_back().
+ */
 void Column::appendInt64(int64_t value, bool is_null) {
     int64_data_.push_back(value);
     null_bitmap_.push_back(is_null);
@@ -149,6 +171,12 @@ void Column::appendInt64(int64_t value, bool is_null) {
     ++row_count_;
 }
 
+/**
+ * @brief Append Double.
+ * @param[in] value Input parameter.
+ * @param[in] is_null Input parameter.
+ * @details Calls: push_back().
+ */
 void Column::appendDouble(double value, bool is_null) {
     double_data_.push_back(value);
     null_bitmap_.push_back(is_null);
@@ -158,6 +186,12 @@ void Column::appendDouble(double value, bool is_null) {
     ++row_count_;
 }
 
+/**
+ * @brief Append String.
+ * @param[in] value Input parameter.
+ * @param[in] is_null Input parameter.
+ * @details Calls: push_back(), std::move().
+ */
 void Column::appendString(std::string value, bool is_null) {
     string_data_.push_back(std::move(value));
     null_bitmap_.push_back(is_null);
@@ -167,6 +201,12 @@ void Column::appendString(std::string value, bool is_null) {
     ++row_count_;
 }
 
+/**
+ * @brief Append Bool.
+ * @param[in] value Input parameter.
+ * @param[in] is_null Input parameter.
+ * @details Calls: push_back().
+ */
 void Column::appendBool(bool value, bool is_null) {
     bool_data_.push_back(value);
     null_bitmap_.push_back(is_null);
@@ -176,6 +216,10 @@ void Column::appendBool(bool value, bool is_null) {
     ++row_count_;
 }
 
+/**
+ * @brief Append Null.
+ * @details Calls: push_back().
+ */
 void Column::appendNull() {
     switch (type_) {
         case ColumnType::Int64:
@@ -219,6 +263,11 @@ ColumnValue Column::get(size_t row) const {
     return nullptr;
 }
 
+/**
+ * @brief Reserve.
+ * @param[in] n Input parameter.
+ * @details Implements reserve without additional internal calls.
+ */
 void Column::reserve(size_t n) {
     switch (type_) {
         case ColumnType::Int64:
@@ -240,6 +289,10 @@ void Column::reserve(size_t n) {
     null_bitmap_.reserve(n);
 }
 
+/**
+ * @brief Clear.
+ * @details Implements clear without additional internal calls.
+ */
 void Column::clear() {
     int64_data_.clear();
     double_data_.clear();
@@ -315,6 +368,11 @@ std::shared_ptr<Column> Column::slice(size_t offset, size_t length) const {
 
 ColumnBatch::ColumnBatch(size_t row_count) : row_count_(row_count) {}
 
+/**
+ * @brief Add Column.
+ * @param[in] col Input parameter.
+ * @details Calls: empty(), size(), name(), push_back(), std::move().
+ */
 void ColumnBatch::addColumn(std::shared_ptr<Column> col) {
     if (!col) {
         return;
@@ -354,6 +412,11 @@ const std::vector<std::shared_ptr<Column>> &ColumnBatch::columns() const noexcep
     return columns_;
 }
 
+/**
+ * @brief Set Selection.
+ * @param[in] sel Input parameter.
+ * @details Implements setSelection without additional internal calls.
+ */
 void ColumnBatch::setSelection(const SelectionVector &sel) {
     selection_     = sel;
     has_selection_ = true;
@@ -401,6 +464,10 @@ std::vector<ColumnBatch> ColumnBatch::split(size_t max_rows) const {
     return result;
 }
 
+/**
+ * @brief Clear.
+ * @details Implements clear without additional internal calls.
+ */
 void ColumnBatch::clear() {
     columns_.clear();
     column_index_.clear();
@@ -412,27 +479,81 @@ void ColumnBatch::clear() {
 // Predicate factories
 // ============================================================================
 
+/**
+ * @brief Eq.
+ * @param[in] col Input parameter.
+ * @param[in] val Input parameter.
+ * @return Return value.
+ * @details Calls: std::move().
+ */
 Predicate Predicate::eq(std::string col, ColumnValue val) {
     return {std::move(col), Op::Eq, std::move(val)};
 }
+/**
+ * @brief Ne.
+ * @param[in] col Input parameter.
+ * @param[in] val Input parameter.
+ * @return Return value.
+ * @details Calls: std::move().
+ */
 Predicate Predicate::ne(std::string col, ColumnValue val) {
     return {std::move(col), Op::Ne, std::move(val)};
 }
+/**
+ * @brief Lt.
+ * @param[in] col Input parameter.
+ * @param[in] val Input parameter.
+ * @return Return value.
+ * @details Calls: std::move().
+ */
 Predicate Predicate::lt(std::string col, ColumnValue val) {
     return {std::move(col), Op::Lt, std::move(val)};
 }
+/**
+ * @brief Le.
+ * @param[in] col Input parameter.
+ * @param[in] val Input parameter.
+ * @return Return value.
+ * @details Calls: std::move().
+ */
 Predicate Predicate::le(std::string col, ColumnValue val) {
     return {std::move(col), Op::Le, std::move(val)};
 }
+/**
+ * @brief Gt.
+ * @param[in] col Input parameter.
+ * @param[in] val Input parameter.
+ * @return Return value.
+ * @details Calls: std::move().
+ */
 Predicate Predicate::gt(std::string col, ColumnValue val) {
     return {std::move(col), Op::Gt, std::move(val)};
 }
+/**
+ * @brief Ge.
+ * @param[in] col Input parameter.
+ * @param[in] val Input parameter.
+ * @return Return value.
+ * @details Calls: std::move().
+ */
 Predicate Predicate::ge(std::string col, ColumnValue val) {
     return {std::move(col), Op::Ge, std::move(val)};
 }
+/**
+ * @brief Is Null.
+ * @param[in] col Input parameter.
+ * @return Return value.
+ * @details Calls: std::move().
+ */
 Predicate Predicate::isNull(std::string col) {
     return {std::move(col), Op::IsNull, nullptr};
 }
+/**
+ * @brief Is Not Null.
+ * @param[in] col Input parameter.
+ * @return Return value.
+ * @details Calls: std::move().
+ */
 Predicate Predicate::isNotNull(std::string col) {
     return {std::move(col), Op::IsNotNull, nullptr};
 }
@@ -445,7 +566,13 @@ FilterOperator::FilterOperator(std::vector<Predicate> predicates) : predicates_(
 
 namespace {
 
-// Sorted-merge intersection of two monotonically increasing index vectors.
+/**
+ * @brief Sorted-merge intersection of two monotonically increasing index vectors.
+ * @param[in] a Input parameter.
+ * @param[in] b Input parameter.
+ * @return Return value.
+ * @details Calls: out(), std::min(), size(), push_back().
+ */
 SelectionVector mergeIntersect(const SelectionVector &a, const SelectionVector &b) {
     SelectionVector out(std::min(a.size(), b.size()));
     size_t i = 0, j = 0;
@@ -463,7 +590,15 @@ SelectionVector mergeIntersect(const SelectionVector &a, const SelectionVector &
     return out;
 }
 
-// Helper: compare ColumnValue using an Op.
+/**
+ * @brief Helper: compare ColumnValue using an Op.
+ * @tparam T Template parameter.
+ * @param[in] lhs Input parameter.
+ * @param[in] rhs Input parameter.
+ * @param[in] op Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements compareValues without additional internal calls.
+ */
 template <typename T> bool compareValues(const T &lhs, const T &rhs, Predicate::Op op) {
     switch (op) {
         case Predicate::Op::Eq:
@@ -488,6 +623,11 @@ template <typename T> bool compareValues(const T &lhs, const T &rhs, Predicate::
 SelectionVector FilterOperator::evalPredicate(const ColumnBatch &batch, const Predicate &pred) const {
     const auto col = batch.getColumn(pred.column);
     size_t n       = batch.rowCount();
+    /**
+     * @brief Sel.
+     * @param[in] n Input parameter.
+     * @return Return value.
+     */
     SelectionVector sel(n);
 
     if (!col) {
@@ -804,7 +944,13 @@ struct AggState {
     std::unordered_set<std::string> distinct_set;
 };
 
-// Obtain numeric value from a column at position @p row (selected or not).
+/**
+ * @brief Obtain numeric value from a column at position @p row (selected or not).
+ * @param[in] col Input parameter.
+ * @param[in] row Input parameter.
+ * @return Return value.
+ * @details Calls: isNull(), type(), doubleData(), int64Data(), boolData().
+ */
 static std::optional<double> numericAt(const Column &col, size_t row) {
     if (col.isNull(row)) {
         return std::nullopt;
@@ -821,6 +967,13 @@ static std::optional<double> numericAt(const Column &col, size_t row) {
     }
 }
 
+/**
+ * @brief Update State.
+ * @param[in,out] state Input/output parameter.
+ * @param[in] col Input parameter.
+ * @param[in] row Input parameter.
+ * @details Calls: numericAt().
+ */
 static void updateState(AggState &state, const Column &col, size_t row) {
     ++state.count;
     auto v = numericAt(col, row);
@@ -835,6 +988,13 @@ static void updateState(AggState &state, const Column &col, size_t row) {
         state.max_val = *v;
 }
 
+/**
+ * @brief Update Distinct.
+ * @param[in,out] state Input/output parameter.
+ * @param[in] col Input parameter.
+ * @param[in] row Input parameter.
+ * @details Calls: isNull(), get(), std::visit(), constexpr(), insert(), str().
+ */
 static void updateDistinct(AggState &state, const Column &col, size_t row) {
     ++state.count;
     if (col.isNull(row)) {
@@ -856,6 +1016,13 @@ static void updateDistinct(AggState &state, const Column &col, size_t row) {
     state.distinct_set.insert(oss.str());
 }
 
+/**
+ * @brief Finalize Agg.
+ * @param[in] state Input parameter.
+ * @param[in] fn Input parameter.
+ * @return Return value.
+ * @details Calls: size().
+ */
 static double finalizeAgg(const AggState &state, AggregateSpec::Function fn) {
     switch (fn) {
         case AggregateSpec::Function::Count:
@@ -875,7 +1042,14 @@ static double finalizeAgg(const AggState &state, AggregateSpec::Function fn) {
     return 0.0;
 }
 
-// Produce a single string key for a group-by tuple at row @p row.
+/**
+ * @brief Produce a single string key for a group-by tuple at row @p row.
+ * @param[in] batch Input parameter.
+ * @param[in] group_cols Input parameter.
+ * @param[in] row Input parameter.
+ * @return Return value.
+ * @details Calls: getColumn(), get(), std::visit(), constexpr(), str().
+ */
 static std::string makeGroupKey(const ColumnBatch &batch, const std::vector<std::string> &group_cols, size_t row) {
     std::ostringstream oss = {};
     for (const auto &gc : group_cols) {
@@ -1029,6 +1203,11 @@ ColumnBatch AggregateOperator::aggregateGroupBy(const ColumnBatch &input,
 
     // Build result batch: one row per group.
     size_t num_rows = key_order.size();
+    /**
+     * @brief Result.
+     * @param[in] num_rows Input parameter.
+     * @return Return value.
+     */
     ColumnBatch result(num_rows);
 
     // Group-key columns
@@ -1105,7 +1284,11 @@ ColumnBatch SortOperator::execute(const ColumnBatch &input) const {
         return dense;
     }
 
-    // Build a row-index array and sort it.
+    /**
+     * @brief Build a row-index array and sort it.
+     * @param[in] n Input parameter.
+     * @return Return value.
+     */
     std::vector<size_t> order(n);
     std::iota(order.begin(), order.end(), 0);
 
@@ -1169,7 +1352,11 @@ ColumnBatch SortOperator::execute(const ColumnBatch &input) const {
         return false;
     });
 
-    // Produce reordered batch.
+    /**
+     * @brief Produce reordered batch.
+     * @param[in] n Input parameter.
+     * @return Return value.
+     */
     SelectionVector sel(n);
     for (size_t idx : order) {
         sel.push_back(static_cast<uint32_t>(idx));
@@ -1253,6 +1440,13 @@ ColumnarExecutionEngine::ColumnarExecutionEngine() : config_{} {}
 
 ColumnarExecutionEngine::ColumnarExecutionEngine(const Config &config) : config_(config) {}
 
+/**
+ * @brief Execute.
+ * @param[in] input Input parameter.
+ * @param[in] pipeline Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::high_resolution_clock::now(), rowCount(), selectedRowCount(), count().
+ */
 ColumnBatch ColumnarExecutionEngine::execute(const ColumnBatch &input, const VectorizedPipeline &pipeline) {
     auto t0 = std::chrono::high_resolution_clock::now();
 
@@ -1269,6 +1463,13 @@ ColumnBatch ColumnarExecutionEngine::execute(const ColumnBatch &input, const Vec
     return result;
 }
 
+/**
+ * @brief Execute Batched.
+ * @param[in] batches Input parameter.
+ * @param[in] pipeline Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), push_back(), execute().
+ */
 std::vector<ColumnBatch> ColumnarExecutionEngine::executeBatched(const std::vector<ColumnBatch> &batches,
                                                                  const VectorizedPipeline &pipeline) {
     std::vector<ColumnBatch> results = {};
@@ -1280,24 +1481,52 @@ std::vector<ColumnBatch> ColumnarExecutionEngine::executeBatched(const std::vect
     return results;
 }
 
+/**
+ * @brief Filter.
+ * @param[in] input Input parameter.
+ * @param[in] predicates Input parameter.
+ * @return Return value.
+ * @details Calls: addFilter(), std::move(), execute().
+ */
 ColumnBatch ColumnarExecutionEngine::filter(const ColumnBatch &input, std::vector<Predicate> predicates) {
     VectorizedPipeline p;
     p.addFilter(std::move(predicates));
     return execute(input, p);
 }
 
+/**
+ * @brief Aggregate.
+ * @param[in] input Input parameter.
+ * @param[in] specs Input parameter.
+ * @return Return value.
+ * @details Calls: addAggregate(), std::move(), execute().
+ */
 ColumnBatch ColumnarExecutionEngine::aggregate(const ColumnBatch &input, std::vector<AggregateSpec> specs) {
     VectorizedPipeline p;
     p.addAggregate(std::move(specs));
     return execute(input, p);
 }
 
+/**
+ * @brief Project.
+ * @param[in] input Input parameter.
+ * @param[in] columns Input parameter.
+ * @return Return value.
+ * @details Calls: addProject(), std::move(), execute().
+ */
 ColumnBatch ColumnarExecutionEngine::project(const ColumnBatch &input, std::vector<std::string> columns) {
     VectorizedPipeline p;
     p.addProject(std::move(columns));
     return execute(input, p);
 }
 
+/**
+ * @brief Sort.
+ * @param[in] input Input parameter.
+ * @param[in] keys Input parameter.
+ * @return Return value.
+ * @details Calls: addSort(), std::move(), execute().
+ */
 ColumnBatch ColumnarExecutionEngine::sort(const ColumnBatch &input, std::vector<SortOperator::SortKey> keys) {
     VectorizedPipeline p;
     p.addSort(std::move(keys));

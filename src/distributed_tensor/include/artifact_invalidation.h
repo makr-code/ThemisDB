@@ -18,18 +18,13 @@
 namespace themis {
 namespace distributed_tensor {
 
-/// @brief Artifact invalidation manager for marking stale/invalid artifacts.
-///
-/// Handles invalidation triggers such as:
-/// - Staleness threshold exceeded
-/// - Integrity check failures
-/// - Source artifact invalidation (cascade)
-/// - Rank cap breach
-/// - Residual threshold breach
-///
 class ArtifactInvalidationManager {
  public:
   ArtifactInvalidationManager() = default;
+  /**
+   * @brief Artifact Invalidation Manager.
+   * @return Return value.
+   */
   virtual ~ArtifactInvalidationManager() = default;
 
   // Prevent copy/move
@@ -38,85 +33,107 @@ class ArtifactInvalidationManager {
   ArtifactInvalidationManager(ArtifactInvalidationManager&&) = delete;
   ArtifactInvalidationManager& operator=(ArtifactInvalidationManager&&) = delete;
 
-  /// Checks if artifact should be invalidated based on staleness.
-  /// @param manifest Artifact manifest to check
-  /// @param now_unix_sec Current time
-  /// @return true if artifact exceeds staleness_threshold_sec
+  /**
+   * @brief Should Invalidate For Staleness.
+   * @param[in] manifest Input parameter.
+   * @param[in] now_unix_sec Input parameter.
+   * @return True when the operation succeeds.
+   */
   virtual bool shouldInvalidateForStaleness(const ArtifactManifest& manifest, int64_t now_unix_sec) const;
 
-  /// Checks if artifact integrity has been compromised.
-  /// @param manifest Artifact manifest to check
-  /// @return true if corruption detected
+  /**
+   * @brief Should Invalidate For Corruption.
+   * @param[in] manifest Input parameter.
+   * @return True when the operation succeeds.
+   */
   virtual bool shouldInvalidateForCorruption(const ArtifactManifest& manifest) const;
 
-  /// Checks if artifact should be invalidated due to rank cap breach.
-  /// @param manifest Artifact manifest to check
-  /// @return true if rank_status exceeds rank_cap
+  /**
+   * @brief Should Invalidate For Rank Breach.
+   * @param[in] manifest Input parameter.
+   * @return True when the operation succeeds.
+   */
   virtual bool shouldInvalidateForRankBreach(const ArtifactManifest& manifest) const;
 
-  /// Checks if artifact should be invalidated due to residual threshold.
-  /// @param manifest Artifact manifest to check
-  /// @param residual_threshold Maximum acceptable residual
-  /// @return true if residual exceeds threshold
+  /**
+   * @brief Should Invalidate For Residual.
+   * @param[in] manifest Input parameter.
+   * @param[in] residual_threshold Input parameter.
+   * @return True when the operation succeeds.
+   */
   virtual bool shouldInvalidateForResidual(const ArtifactManifest& manifest,
                                            double residual_threshold) const;
 
-  /// Marks artifact as stale (still usable but should be refreshed).
-  /// @param manifest Artifact manifest to mark stale
-  /// @return Updated manifest
+  /**
+   * @brief Mark Stale.
+   * @param[in] manifest Input parameter.
+   * @return Return value.
+   */
   virtual ArtifactManifest markStale(const ArtifactManifest& manifest) const;
 
-  /// Marks artifact as invalidated (no longer usable).
-  /// @param manifest Artifact manifest to invalidate
-  /// @param reason Reason for invalidation
-  /// @return Updated manifest
+  /**
+   * @brief Invalidate.
+   * @param[in] manifest Input parameter.
+   * @param[in] reason Input parameter.
+   * @return Return value.
+   */
   virtual ArtifactManifest invalidate(const ArtifactManifest& manifest, InvalidationReason reason) const;
 
-  /// Transitions an artifact into REBUILDING state for a selected update path.
-  /// @param manifest Artifact manifest to transition
-  /// @param mode Requested update mode (patch / partial refit / rebuild)
-  /// @param now_unix_sec Transition timestamp
-  /// @return Updated manifest in REBUILDING state
+  /**
+   * @brief Transition To Rebuilding.
+   * @param[in] manifest Input parameter.
+   * @param[in] mode Input parameter.
+   * @param[in] now_unix_sec Input parameter.
+   * @return Return value.
+   */
   virtual ArtifactManifest transitionToRebuilding(const ArtifactManifest& manifest,
                                                   UpdateMode mode,
                                                   int64_t now_unix_sec) const;
 
-  /// Finalizes a successful rebuild and rematerializes the artifact as READY.
-  /// @param manifest Artifact manifest currently in rebuild flow
-  /// @param rebuild_state Rebuild provenance to record
-  /// @param source_seq_start New source window start (inclusive)
-  /// @param source_seq_end New source window end (inclusive)
-  /// @param now_unix_sec Completion timestamp
-  /// @return Updated manifest in READY state with reset lag/age fields
+  /**
+   * @brief Transition To Ready After Rebuild.
+   * @param[in] manifest Input parameter.
+   * @param[in] rebuild_state Input parameter.
+   * @param[in] source_seq_start Input parameter.
+   * @param[in] source_seq_end Input parameter.
+   * @param[in] now_unix_sec Input parameter.
+   * @return Return value.
+   */
   virtual ArtifactManifest transitionToReadyAfterRebuild(const ArtifactManifest& manifest,
                                                          RebuildState rebuild_state,
                                                          uint64_t source_seq_start,
                                                          uint64_t source_seq_end,
                                                          int64_t now_unix_sec) const;
 
-  /// Marks an artifact as FAILED when rebuild/rematerialization fails.
-  /// @param manifest Artifact manifest to mark failed
-  /// @param reason Failure reason to persist for observability
-  /// @param now_unix_sec Transition timestamp
-  /// @return Updated manifest in FAILED state
+  /**
+   * @brief Transition To Failed.
+   * @param[in] manifest Input parameter.
+   * @param[in] reason Input parameter.
+   * @param[in] now_unix_sec Input parameter.
+   * @return Return value.
+   */
   virtual ArtifactManifest transitionToFailed(const ArtifactManifest& manifest,
                                               InvalidationReason reason,
                                               int64_t now_unix_sec) const;
 
-  /// Planner freshness gate: determines whether planner must reject this artifact.
-  /// @param manifest Artifact manifest to evaluate
-  /// @param now_unix_sec Current timestamp used for age-based staleness checks
-  /// @param max_delta_lag Maximum acceptable lag; 0 disables lag gate
-  /// @param max_residual Maximum acceptable residual; negative disables residual gate
-  /// @return true if planner should reject and fall back to exact graph
+  /**
+   * @brief Should Reject For Planner.
+   * @param[in] manifest Input parameter.
+   * @param[in] now_unix_sec Input parameter.
+   * @param[in] max_delta_lag Input parameter.
+   * @param[in] max_residual Input parameter.
+   * @return True when the operation succeeds.
+   */
   virtual bool shouldRejectForPlanner(const ArtifactManifest& manifest,
                                       int64_t now_unix_sec,
                                       uint64_t max_delta_lag,
                                       double max_residual) const;
 
-  /// Cascades invalidation to derived artifacts (for source invalidation).
-  /// @param source_artifact_id ID of source artifact that was invalidated
-  /// @return List of derived artifact IDs that should also be invalidated
+  /**
+   * @brief Get Cascade Invalidation Targets.
+   * @param[in] source_artifact_id Identifier of the source artifact.
+   * @return Return value.
+   */
   virtual std::vector<std::string> getCascadeInvalidationTargets(const std::string& source_artifact_id) const;
 };
 

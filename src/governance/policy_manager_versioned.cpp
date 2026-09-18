@@ -32,9 +32,14 @@ nlohmann::json ConflictInfo::toJson() const {
     return j;
 }
 
-// ========== Helpers ==========
+/**
+ * @brief ========== Helpers ==========
+ * @param[in] a Input parameter.
+ * @param[in] b Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements rulesOverlap without additional internal calls.
+ */
 
-/// True if two rules overlap on at least one resource AND one action pattern.
 static bool rulesOverlap(const PolicyRule &a, const PolicyRule &b) {
     bool res_overlap = false;
     for (const auto &ra : a.resources) {
@@ -62,7 +67,13 @@ static bool rulesOverlap(const PolicyRule &a, const PolicyRule &b) {
     return false;
 }
 
-/// Build a ConflictInfo for a contradictory pair of rules.
+/**
+ * @brief Make Contradictory Conflict.
+ * @param[in] new_rule Input parameter.
+ * @param[in] existing Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::now(), time_since_epoch(), count().
+ */
 static ConflictInfo makeContradictoryConflict(const PolicyRule &new_rule, const PolicyRule &existing) {
     ConflictInfo conflict;
     conflict.conflict_type        = "contradictory";
@@ -96,7 +107,13 @@ static ConflictInfo makeContradictoryConflict(const PolicyRule &new_rule, const 
     return conflict;
 }
 
-/// Build a ConflictInfo for two overlapping rules with the same priority.
+/**
+ * @brief Make Overlapping Conflict.
+ * @param[in] new_rule Input parameter.
+ * @param[in] existing Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::now(), time_since_epoch(), count().
+ */
 static ConflictInfo makeOverlappingConflict(const PolicyRule &new_rule, const PolicyRule &existing) {
     ConflictInfo conflict;
     conflict.conflict_type        = "overlapping";
@@ -131,6 +148,14 @@ std::shared_ptr<PolicyVersionHistory> PolicyManagerWithVersioning::getVersionHis
     return version_history_;
 }
 
+/**
+ * @brief Add Rule Versioned.
+ * @param[in] rule Input parameter.
+ * @param[in] user Input parameter.
+ * @param[in] change_description Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), recordVersion(), addRule(), checkConflictsForRule(), THEMIS_WARN(), recordAudit().
+ */
 std::string PolicyManagerWithVersioning::addRuleVersioned(const PolicyRule &rule, const std::string &user,
                                                           const std::string &change_description) {
     // Set timestamps
@@ -166,6 +191,15 @@ std::string PolicyManagerWithVersioning::addRuleVersioned(const PolicyRule &rule
     return version;
 }
 
+/**
+ * @brief Update Rule Versioned.
+ * @param[in] rule_id Identifier of the rule.
+ * @param[in] rule Input parameter.
+ * @param[in] user Input parameter.
+ * @param[in] change_description Input parameter.
+ * @return Return value.
+ * @details Calls: getRule(), has_value(), std::chrono::system_clock::now(), time_since_epoch(), count(), recordVersion(), addRule(), checkConflictsForRule().
+ */
 std::string PolicyManagerWithVersioning::updateRuleVersioned(const std::string &rule_id, const PolicyRule &rule,
                                                              const std::string &user,
                                                              const std::string &change_description) {
@@ -212,6 +246,12 @@ std::string PolicyManagerWithVersioning::updateRuleVersioned(const std::string &
     return new_version;
 }
 
+/**
+ * @brief Delete Rule Versioned.
+ * @param[in] rule_id Identifier of the rule.
+ * @param[in] user Input parameter.
+ * @details Calls: getRule(), has_value(), removeRule(), recordAudit(), THEMIS_INFO().
+ */
 void PolicyManagerWithVersioning::deleteRuleVersioned(const std::string &rule_id, const std::string &user) {
     // Get current version before deletion
     auto rule           = policy_manager_->getRule(rule_id);
@@ -229,6 +269,14 @@ void PolicyManagerWithVersioning::deleteRuleVersioned(const std::string &rule_id
     THEMIS_INFO("Deleted rule {} version {} by user {}", rule_id, version, user);
 }
 
+/**
+ * @brief Rollback To Version.
+ * @param[in] rule_id Identifier of the rule.
+ * @param[in] target_version Input parameter.
+ * @param[in] user Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: getVersion(), has_value(), THEMIS_ERROR(), getRule(), empty(), PolicyRule::fromJson(), THEMIS_WARN(), std::chrono::system_clock::now().
+ */
 bool PolicyManagerWithVersioning::rollbackToVersion(const std::string &rule_id, const std::string &target_version,
                                                     const std::string &user) {
     // Get target version
@@ -279,6 +327,13 @@ bool PolicyManagerWithVersioning::rollbackToVersion(const std::string &rule_id, 
     return true;
 }
 
+/**
+ * @brief Rollback To Previous Version.
+ * @param[in] rule_id Identifier of the rule.
+ * @param[in] user Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: getPreviousVersion(), has_value(), THEMIS_ERROR(), rollbackToVersion().
+ */
 bool PolicyManagerWithVersioning::rollbackToPreviousVersion(const std::string &rule_id, const std::string &user) {
     auto prev_version = version_history_->getPreviousVersion(rule_id);
     if (!prev_version.has_value()) {
@@ -289,6 +344,13 @@ bool PolicyManagerWithVersioning::rollbackToPreviousVersion(const std::string &r
     return rollbackToVersion(rule_id, *prev_version, user);
 }
 
+/**
+ * @brief Preview Rollback.
+ * @param[in] rule_id Identifier of the rule.
+ * @param[in] target_version Input parameter.
+ * @return Return value.
+ * @details Calls: getRule(), has_value(), push_back(), compareVersions().
+ */
 VersionDiff PolicyManagerWithVersioning::previewRollback(const std::string &rule_id,
                                                          const std::string &target_version) {
     // Get current rule
@@ -325,6 +387,12 @@ std::vector<AuditLogEntry> PolicyManagerWithVersioning::queryAudit(const std::op
     return version_history_->queryAudit(rule_id, user, start_time, end_time);
 }
 
+/**
+ * @brief Load Version History.
+ * @param[in] path Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: loadFromFile().
+ */
 bool PolicyManagerWithVersioning::loadVersionHistory(const std::string &path) {
     return version_history_->loadFromFile(path);
 }
@@ -404,6 +472,15 @@ std::vector<ConflictInfo> PolicyManagerWithVersioning::getActiveConflicts() cons
     return all_conflicts;
 }
 
+/**
+ * @brief Record Audit.
+ * @param[in] rule_id Identifier of the rule.
+ * @param[in] operation Input parameter.
+ * @param[in] user Input parameter.
+ * @param[in] old_version Input parameter.
+ * @param[in] new_version Input parameter.
+ * @details Calls: std::chrono::system_clock::now(), time_since_epoch(), count().
+ */
 void PolicyManagerWithVersioning::recordAudit(const std::string &rule_id, const std::string &operation,
                                               const std::string &user, const std::string &old_version,
                                               const std::string &new_version) {

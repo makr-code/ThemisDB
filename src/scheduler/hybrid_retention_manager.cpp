@@ -53,7 +53,10 @@ HybridRetentionManager::~HybridRetentionManager() noexcept {
     }
 }
 
-// ===== Lifecycle =====
+/**
+ * @brief ===== Lifecycle =====
+ * @details Calls: lock(), THEMIS_WARN(), THEMIS_INFO(), setupStage1Tasks(), setupStage2Tasks(), setupStage3Tasks(), setupCleanupTasks().
+ */
 
 void HybridRetentionManager::start() {
     std::unique_lock<std::shared_mutex> lock(mutex_);
@@ -84,6 +87,10 @@ void HybridRetentionManager::start() {
     THEMIS_INFO("HybridRetentionManager started successfully");
 }
 
+/**
+ * @brief Stop.
+ * @details Calls: lock(), THEMIS_INFO(), empty(), unregisterTask().
+ */
 void HybridRetentionManager::stop() {
     std::unique_lock<std::shared_mutex> lock(mutex_);
     
@@ -112,7 +119,11 @@ void HybridRetentionManager::stop() {
     THEMIS_INFO("HybridRetentionManager stopped");
 }
 
-// ===== Configuration =====
+/**
+ * @brief ===== Configuration =====
+ * @param[in] config New access control configuration.
+ * @details Calls: lock(), THEMIS_INFO().
+ */
 
 void HybridRetentionManager::updateConfig(const HybridRetentionConfig& config) {
     std::unique_lock<std::shared_mutex> lock(mutex_);
@@ -135,11 +146,19 @@ void HybridRetentionManager::updateConfig(const HybridRetentionConfig& config) {
 }
 
 HybridRetentionConfig HybridRetentionManager::getConfig() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::unique_lock<std::shared_mutex> lock(mutex_);
     return config_;
 }
 
-// ===== Manual Execution =====
+/**
+ * @brief ===== Manual Execution =====
+ * @details Calls: Tracer::startSpan(), THEMIS_INFO(), empty(), executeTaskNow().
+ */
 
 void HybridRetentionManager::executeStage1() {
     auto span = Tracer::startSpan("HybridRetentionManager.executeStage1");
@@ -150,6 +169,10 @@ void HybridRetentionManager::executeStage1() {
     }
 }
 
+/**
+ * @brief Execute Stage2.
+ * @details Calls: Tracer::startSpan(), THEMIS_INFO(), empty(), executeTaskNow().
+ */
 void HybridRetentionManager::executeStage2() {
     auto span = Tracer::startSpan("HybridRetentionManager.executeStage2");
     THEMIS_INFO("Manually executing Stage 2: Adaptive Retention");
@@ -159,6 +182,10 @@ void HybridRetentionManager::executeStage2() {
     }
 }
 
+/**
+ * @brief Execute Stage3.
+ * @details Calls: Tracer::startSpan(), THEMIS_INFO(), empty(), executeTaskNow().
+ */
 void HybridRetentionManager::executeStage3() {
     auto span = Tracer::startSpan("HybridRetentionManager.executeStage3");
     THEMIS_INFO("Manually executing Stage 3: Time-Based Retention");
@@ -168,6 +195,10 @@ void HybridRetentionManager::executeStage3() {
     }
 }
 
+/**
+ * @brief Execute All.
+ * @details Calls: Tracer::startSpan(), THEMIS_INFO(), executeStage1(), executeStage2(), executeStage3(), empty(), executeTaskNow().
+ */
 void HybridRetentionManager::executeAll() {
     auto span = Tracer::startSpan("HybridRetentionManager.executeAll");
     THEMIS_INFO("Manually executing all retention stages");
@@ -184,10 +215,19 @@ void HybridRetentionManager::executeAll() {
 // ===== Statistics =====
 
 HybridRetentionStats HybridRetentionManager::getStats() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(mutex_);
     return stats_;
 }
 
+/**
+ * @brief Reset Stats.
+ * @details Calls: lock(), THEMIS_INFO().
+ */
 void HybridRetentionManager::resetStats() {
     std::unique_lock<std::shared_mutex> lock(mutex_);
     stats_ = HybridRetentionStats{};
@@ -195,6 +235,11 @@ void HybridRetentionManager::resetStats() {
 }
 
 nlohmann::json HybridRetentionManager::getStatusReport() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(mutex_);
     
     nlohmann::json report;
@@ -232,7 +277,10 @@ nlohmann::json HybridRetentionManager::getStatusReport() const {
     return report;
 }
 
-// ===== Stage Setup =====
+/**
+ * @brief ===== Stage Setup =====
+ * @details Calls: registerFunction(), compressWithGorilla(), count(), updateStats(), registerTask(), THEMIS_INFO().
+ */
 
 void HybridRetentionManager::setupStage1Tasks() {
     // Register Gorilla compression function
@@ -266,6 +314,10 @@ void HybridRetentionManager::setupStage1Tasks() {
     THEMIS_INFO("Stage 1 (Gorilla) task registered: {}", stage1_task_id_);
 }
 
+/**
+ * @brief Setup Stage2 Tasks.
+ * @details Calls: registerFunction(), applyAdaptiveRetention(), count(), updateStats(), registerTask(), THEMIS_INFO().
+ */
 void HybridRetentionManager::setupStage2Tasks() {
     // Register adaptive retention function
     scheduler_->registerFunction("hybrid_stage2_adaptive",
@@ -304,6 +356,10 @@ void HybridRetentionManager::setupStage2Tasks() {
     THEMIS_INFO("Stage 2 (Adaptive) task registered: {}", stage2_task_id_);
 }
 
+/**
+ * @brief Setup Stage3 Tasks.
+ * @details Calls: registerFunction(), applyTimeBasedRetention(), count(), updateStats(), registerTask(), THEMIS_INFO().
+ */
 void HybridRetentionManager::setupStage3Tasks() {
     // Register time-based retention function
     scheduler_->registerFunction("hybrid_stage3_timebased",
@@ -336,6 +392,10 @@ void HybridRetentionManager::setupStage3Tasks() {
     THEMIS_INFO("Stage 3 (Time-Based) task registered: {}", stage3_task_id_);
 }
 
+/**
+ * @brief Setup Cleanup Tasks.
+ * @details Calls: registerFunction(), cleanupOriginalData(), std::chrono::hours(), registerTask(), THEMIS_INFO().
+ */
 void HybridRetentionManager::setupCleanupTasks() {
     // Register cleanup function
     scheduler_->registerFunction("hybrid_cleanup_original",
@@ -360,7 +420,12 @@ void HybridRetentionManager::setupCleanupTasks() {
     THEMIS_INFO("Cleanup task registered: {}", cleanup_task_id_);
 }
 
-// ===== Stage Implementations =====
+/**
+ * @brief ===== Stage Implementations =====
+ * @param[in] params Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), value(), executeAql(), str(), THEMIS_ERROR(), error(), message(), add().
+ */
 
 nlohmann::json HybridRetentionManager::compressWithGorilla(const nlohmann::json& params) {
     auto span = Tracer::startSpan("HybridRetentionManager.compressWithGorilla");
@@ -434,6 +499,12 @@ nlohmann::json HybridRetentionManager::compressWithGorilla(const nlohmann::json&
     };
 }
 
+/**
+ * @brief Apply Adaptive Retention.
+ * @param[in] params Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), value(), executeAql(), str(), THEMIS_ERROR(), error(), message(), is_array().
+ */
 nlohmann::json HybridRetentionManager::applyAdaptiveRetention(const nlohmann::json& params) {
     auto span = Tracer::startSpan("HybridRetentionManager.applyAdaptiveRetention");
     
@@ -520,6 +591,12 @@ nlohmann::json HybridRetentionManager::applyAdaptiveRetention(const nlohmann::js
     };
 }
 
+/**
+ * @brief Apply Time Based Retention.
+ * @param[in] params Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), value(), executeAql(), str(), THEMIS_ERROR(), error(), message(), is_array().
+ */
 nlohmann::json HybridRetentionManager::applyTimeBasedRetention(const nlohmann::json& params) {
     auto span = Tracer::startSpan("HybridRetentionManager.applyTimeBasedRetention");
     
@@ -579,6 +656,12 @@ nlohmann::json HybridRetentionManager::applyTimeBasedRetention(const nlohmann::j
     };
 }
 
+/**
+ * @brief Cleanup Original Data.
+ * @param[in] params Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), value(), count(), executeAql(), str(), THEMIS_ERROR(), error(), message().
+ */
 nlohmann::json HybridRetentionManager::cleanupOriginalData(const nlohmann::json& params) {
     auto span = Tracer::startSpan("HybridRetentionManager.cleanupOriginalData");
     
@@ -666,6 +749,13 @@ nlohmann::json HybridRetentionManager::cleanupOriginalData(const nlohmann::json&
     };
 }
 
+/**
+ * @brief Update Stats.
+ * @param[in] stage Input parameter.
+ * @param[in] success Input parameter.
+ * @param[in] result Input parameter.
+ * @details Calls: lock(), contains(), THEMIS_WARN(), std::chrono::system_clock::now().
+ */
 void HybridRetentionManager::updateStats(int stage, bool success, const nlohmann::json& result) {
     std::unique_lock<std::shared_mutex> lock(mutex_);
     

@@ -32,7 +32,13 @@ namespace tensor {
 
 namespace {
 
-// CRC32 (IEEE polynomial) — used to detect blob corruption on deserialize.
+/**
+ * @brief CRC32 (IEEE polynomial) — used to detect blob corruption on deserialize.
+ * @param[in] data Input parameter.
+ * @param[in] len Input parameter.
+ * @return Return value.
+ * @details Implements ht_crc32 without additional internal calls.
+ */
 static uint32_t ht_crc32(const void* data, size_t len) {
     static const auto table = []() {
         std::array<uint32_t, 256> t{};
@@ -53,6 +59,11 @@ static uint32_t ht_crc32(const void* data, size_t len) {
     return ~crc;
 }
 
+/**
+ * @brief Append Crc32.
+ * @param[in,out] buf Input/output parameter.
+ * @details Calls: ht_crc32(), data(), size(), push_back().
+ */
 static void appendCrc32(std::vector<uint8_t>& buf) {
     uint32_t crc = ht_crc32(buf.data(),buf.size());
     for (int i = 0; i < 4; ++i) {
@@ -72,6 +83,12 @@ std::size_t nodeTotal(const HTNode* n) noexcept {
     return s;
 }
 
+/**
+ * @brief Clone Node.
+ * @param[in] src Input parameter.
+ * @return Return value.
+ * @details Calls: get().
+ */
 std::unique_ptr<HTNode> cloneNode(const HTNode* src) {
     if (!src) {
       return nullptr;
@@ -119,9 +136,12 @@ double HTTrain::compressionRatio() const noexcept {
 
 namespace {
 
-// Expand one HTNode into its dense subtensor representation.
-// Returns flat row-major tensor of shape [n_{L}, n_{L+1}, ..., n_{R-1}, rank].
-// The trailing 'rank' dimension is squeezed at the root (rank == 1).
+/**
+ * @brief Expand one HTNode into its dense subtensor representation.
+ * @param[in] node Input parameter.
+ * @return Return value.
+ * @details Returns flat row-major tensor of shape [n_{L}, n_{L+1}, ..., n_{R-1}, rank]. The trailing 'rank' dimension is squeezed at the root (rank == 1). Calls: size(), result(), atB().
+ */
 std::vector<float> expandNode(const HTNode& node) {
     if (node.is_leaf) {
         // f_k(i_k)[alpha] = U_k[i_k, alpha]
@@ -228,28 +248,58 @@ namespace {
 constexpr uint64_t kHTMagic = 0x5448544D49535442ULL;  // "HTMISTB" in little-endian view
 constexpr uint8_t  kHTVersion = 1;
 
+/**
+ * @brief Write U64.
+ * @param[in,out] buf Input/output parameter.
+ * @param[in] v Input parameter.
+ * @details Calls: std::memcpy(), insert(), end().
+ */
 void writeU64(std::vector<uint8_t>& buf, uint64_t v) {
     uint8_t tmp[8];
     std::memcpy(tmp, &v, 8);
     buf.insert(buf.end(), tmp, tmp + 8);
 }
 
+/**
+ * @brief Write U8.
+ * @param[in,out] buf Input/output parameter.
+ * @param[in] v Input parameter.
+ * @details Calls: push_back().
+ */
 void writeU8(std::vector<uint8_t>& buf, uint8_t v) {
     buf.push_back(v);
 }
 
+/**
+ * @brief Write F64.
+ * @param[in,out] buf Input/output parameter.
+ * @param[in] v Input parameter.
+ * @details Calls: std::memcpy(), insert(), end().
+ */
 void writeF64(std::vector<uint8_t>& buf, double v) {
     uint8_t tmp[8];
     std::memcpy(tmp, &v, 8);
     buf.insert(buf.end(), tmp, tmp + 8);
 }
 
+/**
+ * @brief Write Floats.
+ * @param[in,out] buf Input/output parameter.
+ * @param[in] v Input parameter.
+ * @details Calls: writeU64(), size(), data(), insert(), end().
+ */
 void writeFloats(std::vector<uint8_t>& buf, const std::vector<float>& v) {
     writeU64(buf,v.size());
     const uint8_t* p = reinterpret_cast<const uint8_t*>(v.data());
     buf.insert(buf.end(), p, p + v.size() * sizeof(float));
 }
 
+/**
+ * @brief Serialize Node.
+ * @param[in,out] buf Input/output parameter.
+ * @param[in] node Input parameter.
+ * @details Calls: writeU8(), writeU64(), writeFloats(), get().
+ */
 void serializeNode(std::vector<uint8_t>& buf, const HTNode* node) {
     if (!node) { writeU8(buf, 0xFF); return; }
     writeU8(buf, node->is_leaf ? 1 : 0);
@@ -272,18 +322,42 @@ struct Reader {
     std::size_t    left = {};
     bool           ok = true;
 
+    /**
+     * @brief Read U64.
+     * @param[in,out] v Input/output parameter.
+     * @return True when the operation succeeds.
+     * @details Calls: std::memcpy().
+     */
     bool readU64(uint64_t& v) {
         if (left < 8) { ok = false; return false; }
         std::memcpy(&v, p, 8); p += 8; left -= 8; return true;
     }
+    /**
+     * @brief Read U8.
+     * @param[in,out] v Input/output parameter.
+     * @return True when the operation succeeds.
+     * @details Implements readU8 without additional internal calls.
+     */
     bool readU8(uint8_t& v) {
         if (left < 1) { ok = false; return false; }
         v = *p++; left--; return true;
     }
+    /**
+     * @brief Read F64.
+     * @param[in,out] v Input/output parameter.
+     * @return True when the operation succeeds.
+     * @details Calls: std::memcpy().
+     */
     bool readF64(double& v) {
         if (left < 8) { ok = false; return false; }
         std::memcpy(&v, p, 8); p += 8; left -= 8; return true;
     }
+    /**
+     * @brief Read Floats.
+     * @param[in,out] v Input/output parameter.
+     * @return True when the operation succeeds.
+     * @details Calls: readU64(), resize(), std::memcpy(), data().
+     */
     bool readFloats(std::vector<float>& v) {
         uint64_t n = 0;
         if (!readU64(n)) {
@@ -296,6 +370,12 @@ struct Reader {
     }
 };
 
+/**
+ * @brief Deserialize Node.
+ * @param[in,out] r Input/output parameter.
+ * @return Return value.
+ * @details Calls: readU8(), readU64(), readFloats().
+ */
 std::unique_ptr<HTNode> deserializeNode(Reader& r) {
     // data_race scanner alert: node is a freshly-allocated unique_ptr local to
     // this call; no other thread can observe its fields.  All writes below are
@@ -376,6 +456,12 @@ std::vector<uint8_t> HTTrain::serialize() const {
     return buf;
 }
 
+/**
+ * @brief Deserialize.
+ * @param[in] bytes Input parameter.
+ * @return Return value.
+ * @details Calls: data(), size(), ht_crc32(), readU64(), readU8(), resize(), readF64(), deserializeNode().
+ */
 std::optional<HTTrain> HTTrain::deserialize(const std::vector<uint8_t>& bytes) {
     // model_integrity_gap scanner alerts (this function and ht.root =
     // deserializeNode(r) below): integrity is verified by the CRC32 trailer
@@ -447,8 +533,13 @@ std::optional<HTTrain> HTTrain::deserialize(const std::vector<uint8_t>& bytes) {
 
 namespace {
 
-// Recursive Gram matrix computation.
-// Returns flat [r_A × r_B] matrix.
+/**
+ * @brief Recursive Gram matrix computation.
+ * @param[in] A Input parameter.
+ * @param[in] B Input parameter.
+ * @return Return value.
+ * @details Returns flat [r_A × r_B] matrix. Calls: assert(), G(), W(), V().
+ */
 std::vector<double> gramNode(const HTNode& A, const HTNode& B) {
     std::size_t rA = A.rank;
     std::size_t rB = B.rank;
@@ -525,12 +616,25 @@ std::vector<double> gramNode(const HTNode& A, const HTNode& B) {
 
 } // anonymous namespace
 
+/**
+ * @brief Compute Gram.
+ * @param[in] A Input parameter.
+ * @param[in] B Input parameter.
+ * @return Return value.
+ */
 std::vector<double> HTContractionEngine::computeGram(
     const HTNode& A, const HTNode& B)
 {
     return gramNode(A, B);
 }
 
+/**
+ * @brief Inner Product.
+ * @param[in] A Input parameter.
+ * @param[in] B Input parameter.
+ * @return Return value.
+ * @details Calls: gramNode(), empty().
+ */
 double HTContractionEngine::innerProduct(const HTTrain& A, const HTTrain& B) {
     if (!A.root || !B.root) {
       return 0.0;
@@ -543,10 +647,23 @@ double HTContractionEngine::innerProduct(const HTTrain& A, const HTTrain& B) {
     return G[0];
 }
 
+/**
+ * @brief Frobenius Norm.
+ * @param[in] A Input parameter.
+ * @return Return value.
+ * @details Calls: std::sqrt(), std::max(), innerProduct().
+ */
 double HTContractionEngine::frobeniusNorm(const HTTrain& A) {
     return std::sqrt(std::max(0.0, innerProduct(A, A)));
 }
 
+/**
+ * @brief Cosine Similarity.
+ * @param[in] A Input parameter.
+ * @param[in] B Input parameter.
+ * @return Return value.
+ * @details Calls: frobeniusNorm(), innerProduct().
+ */
 double HTContractionEngine::cosineSimilarity(const HTTrain& A, const HTTrain& B) {
     double na = frobeniusNorm(A);
     double nb = frobeniusNorm(B);
@@ -568,7 +685,13 @@ namespace storage {
 HierarchicalTuckerDecomposer::HierarchicalTuckerDecomposer(HTConfig cfg) noexcept
     : cfg_(cfg) {}
 
-// ── Mode-k unfolding ──────────────────────────────────────────────────────────
+/**
+ * @brief ── Mode-k unfolding ──────────────────────────────────────────────────────────
+ * @param[in] data Input parameter.
+ * @param[in] shape Input parameter.
+ * @param[in] mode_k Input parameter.
+ * @return Return value.
+ */
 
 std::vector<float> HierarchicalTuckerDecomposer::modeKUnfolding(
     const std::vector<float>&       data,
@@ -587,8 +710,11 @@ std::vector<float> HierarchicalTuckerDecomposer::modeKUnfolding(
     }
     std::size_t outer_k = N / (nk * stride_k);
 
-    // T_(k)[j, s] where j = mode-k index, s = combined other-mode index
-    // s runs over: outer blocks then inner stride blocks
+    /**
+     * @brief T_(k)[j, s] where j = mode-k index, s = combined other-mode index s runs over: outer blocks then inner stride blocks
+     * @param[in,out] N_other Input/output parameter.
+     * @return Return value.
+     */
     std::vector<float> mat(nk * N_other);
 
     for (std::size_t o = 0; o < outer_k; ++o) {
@@ -606,7 +732,16 @@ std::vector<float> HierarchicalTuckerDecomposer::modeKUnfolding(
     return mat;  // [nk × N_other]
 }
 
-// ── Mode-k product: T ×_k U^T ────────────────────────────────────────────────
+/**
+ * @brief ── Mode-k product: T ×_k U^T ────────────────────────────────────────────────
+ * @param[in] data Input parameter.
+ * @param[in] shape Input parameter.
+ * @param[in] mode_k Input parameter.
+ * @param[in] U Input parameter.
+ * @param[in] n_k Input parameter.
+ * @param[in] r Input parameter.
+ * @return Return value.
+ */
 
 std::vector<float> HierarchicalTuckerDecomposer::modeKProduct(
     const std::vector<float>&       data,
@@ -647,7 +782,18 @@ std::vector<float> HierarchicalTuckerDecomposer::modeKProduct(
     return result;
 }
 
-// ── Truncated SVD ─────────────────────────────────────────────────────────────
+/**
+ * @brief ── Truncated SVD ─────────────────────────────────────────────────────────────
+ * @param[in] mat Input parameter.
+ * @param[in] m Input parameter.
+ * @param[in] n Input parameter.
+ * @param[in] delta Input parameter.
+ * @param[in] max_rank_cap Input parameter.
+ * @param[in,out] U_out Input/output parameter.
+ * @param[in,out] S_out Input/output parameter.
+ * @param[in,out] Vt_out Input/output parameter.
+ * @param[in,out] rank_out Input/output parameter.
+ */
 
 void HierarchicalTuckerDecomposer::truncatedSVD(
     const std::vector<float>& mat,
@@ -801,16 +947,22 @@ HierarchicalTuckerDecomposer::buildHTNode(
                  delta, cfg_.max_rank,
                  U1, S1, Vt1, r_inner);
 
-    // G_left[i_left, gamma_inner] = U1[i_left, gamma_inner] * sqrt(S1[gamma_inner])
-    // Shape: [n_left, r_inner]  → will be reshaped to [phys_L,...,phys_{M-1}, r_inner]
+    /**
+     * @brief G_left[i_left, gamma_inner] = U1[i_left, gamma_inner] * sqrt(S1[gamma_inner]) Shape: [n_left, r_inner] → will be reshaped to [phys_L,.
+     * @param[in,out] r_inner Input/output parameter.
+     * @return Return value.
+     * @details ..,phys_{M-1}, r_inner]
+     */
     std::vector<float> G_left(n_left * r_inner);
     for (std::size_t il = 0; il < n_left; ++il)
         for (std::size_t g = 0; g < r_inner; ++g)
             G_left[il * r_inner + g] = U1[il * r_inner + g] * std::sqrt(S1[g]);
 
-    // G_right_raw[i_right_out, gamma_inner] = Vt1^T[i_right_out, gamma_inner] * sqrt(S1)
-    // Vt1 is [r_inner × n_right_out], so Vt1^T is [n_right_out × r_inner]
-    // G_right_raw shape: [n_right, r_out, r_inner] → reshaped as [n_right, r_out * r_inner]
+    /**
+     * @brief G_right_raw[i_right_out, gamma_inner] = Vt1^T[i_right_out, gamma_inner] * sqrt(S1) Vt1 is [r_inner × n_right_out], so Vt1^T is [n_right_out × r_inner] G_right_raw shape: [n_right, r_out, r_inner] → reshaped as [n_right, r_out * r_inner]
+     * @param[in,out] r_inner Input/output parameter.
+     * @return Return value.
+     */
     std::vector<float> G_right_raw(n_right_out * r_inner);
     for (std::size_t j = 0; j < n_right_out; ++j)
         for (std::size_t g = 0; g < r_inner; ++g)
@@ -826,17 +978,21 @@ HierarchicalTuckerDecomposer::buildHTNode(
                  U2, S2, Vt2, r_23);
 
     // G_right [n_right, r_23]
+    /**
+     * @brief G right.
+     * @param[in,out] r_23 Input/output parameter.
+     * @return Return value.
+     */
     std::vector<float> G_right(n_right * r_23);
     for (std::size_t ir = 0; ir < n_right; ++ir)
         for (std::size_t g = 0; g < r_23; ++g)
             G_right[ir * r_23 + g] = U2[ir * r_23 + g] * std::sqrt(S2[g]);
 
-    // B_node_raw: Vt2^T [r_out * r_inner, r_23]  →  Vt2 [r_23, r_out * r_inner]
-    // B_node_raw[j, g23] = Vt2[g23, j] * sqrt(S2[g23])
-    // Reshape to [r_out, r_inner, r_23]
-    // Then permute to [r_inner, r_23, r_out]:
-    //   B_node[g_inner, g23, g_out] = B_node_raw_reshaped[g_out, g_inner, g23]
-    //                                = Vt2[g23, g_out * r_inner + g_inner] * sqrt(S2[g23])
+    /**
+     * @brief B_node_raw: Vt2^T [r_out * r_inner, r_23] → Vt2 [r_23, r_out * r_inner] B_node_raw[j, g23] = Vt2[g23, j] * sqrt(S2[g23]) Reshape to [r_out, r_inner, r_23] Then permute to [r_inner, r_23, r_out]: B_node[g_inner, g23, g_out] = B_node_raw_reshaped[g_out, g_inner, g23] = Vt2[g23, g_out * r_inner + g_inner] * sqrt(S2[g23])
+     * @param[in,out] r_out Input/output parameter.
+     * @return Return value.
+     */
     std::vector<float> B_node(r_inner * r_23 * r_out);
     for (std::size_t gi = 0; gi < r_inner; ++gi)
         for (std::size_t g23 = 0; g23 < r_23; ++g23)
@@ -892,8 +1048,17 @@ HierarchicalTuckerDecomposer::decompose(
     if (data.size() != N)
         throw std::invalid_argument("HTDecomposer: data.size() != product of shape");
 
-    // ── Step 1: HOSVD — compute mode-k SVDs for leaf bases ────────────────────
+    /**
+     * @brief ── Step 1: HOSVD — compute mode-k SVDs for leaf bases ────────────────────
+     * @param[in] d Input parameter.
+     * @return Return value.
+     */
     std::vector<std::vector<float>> U_cache(d);  // U_cache[k] ∈ [n_k × r_k]
+    /**
+     * @brief Ranks.
+     * @param[in] d Input parameter.
+     * @return Return value.
+     */
     std::vector<std::size_t>        ranks(d);
 
     double total_sq = 0.0;

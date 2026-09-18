@@ -48,6 +48,12 @@ json CheckpointMeta::toJSON() const {
     };
 }
 
+/**
+ * @brief From JSON.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: value(), infinity().
+ */
 CheckpointMeta CheckpointMeta::fromJSON(const json& j) {
     CheckpointMeta m;
     m.adapter_id     = j.value("adapter_id",     std::string{});
@@ -67,7 +73,13 @@ CheckpointMeta CheckpointMeta::fromJSON(const json& j) {
 
 namespace {
 
-/** Compute SHA-256 hex digest of a byte buffer. */
+/**
+ * @brief Sha256 Hex.
+ * @param[in] data Input parameter.
+ * @param[in] len Input parameter.
+ * @return Return value.
+ * @details Calls: EVP_MD_CTX_new(), EVP_DigestInit_ex(), EVP_sha256(), EVP_DigestUpdate(), EVP_DigestFinal_ex(), EVP_MD_CTX_free(), std::setw(), std::setfill().
+ */
 std::string sha256Hex(const uint8_t* data, size_t len) {
     unsigned char digest[EVP_MAX_MD_SIZE];
     unsigned int  digest_len = 0;
@@ -85,7 +97,11 @@ std::string sha256Hex(const uint8_t* data, size_t len) {
     return oss.str();
 }
 
-/** Current UTC time as ISO-8601 string. */
+/**
+ * @brief Utc Now.
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::now(), std::chrono::system_clock::to_time_t(), std::put_time(), std::gmtime(), str().
+ */
 std::string utcNow() {
     auto now = std::chrono::system_clock::now();
     auto t   = std::chrono::system_clock::to_time_t(now);
@@ -94,7 +110,12 @@ std::string utcNow() {
     return oss.str();
 }
 
-/** Write bytes atomically: write to tmp file, then rename. */
+/**
+ * @brief Atomic Write.
+ * @param[in] dest Input parameter.
+ * @param[in] data Input parameter.
+ * @param[in] len Input parameter.
+ */
 void atomicWrite(const fs::path& dest,
                  const uint8_t* data,
                  size_t         len)
@@ -111,7 +132,13 @@ void atomicWrite(const fs::path& dest,
     fs::rename(tmp, dest);
 }
 
-/** Read all bytes from a file. */
+/**
+ * @brief Read File.
+ * @param[in] p Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: f(), string(), tellg(), seekg(), buf(), read(), data().
+ */
 std::vector<uint8_t> readFile(const fs::path& p) {
     std::ifstream f(p, std::ios::binary | std::ios::ate);
     if (!f) {
@@ -210,10 +237,22 @@ LoRACheckpointManager::readBestMeta(const std::string& adapter_id) const {
 // save
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Save.
+ * @param[in] adapter_id Identifier of the adapter.
+ * @param[in] weights Input parameter.
+ * @param[in] meta Input parameter.
+ * @return Return value.
+ */
 std::string LoRACheckpointManager::save(const std::string&         adapter_id,
                                          const std::vector<uint8_t>& weights,
                                          CheckpointMeta              meta)
 {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     fs::path dir = fs::path(adapterDir(adapter_id));
@@ -250,6 +289,11 @@ std::string LoRACheckpointManager::save(const std::string&         adapter_id,
 
 std::vector<CheckpointRef>
 LoRACheckpointManager::listCheckpoints(const std::string& adapter_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     fs::path dir = fs::path(adapterDir(adapter_id));
@@ -313,6 +357,11 @@ LoRACheckpointManager::loadLatest(const std::string& adapter_id) const {
 
 std::optional<CheckpointRef>
 LoRACheckpointManager::loadBest(const std::string& adapter_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     auto best_meta = readBestMeta(adapter_id);
     if (!best_meta) {
@@ -332,6 +381,11 @@ LoRACheckpointManager::loadBest(const std::string& adapter_id) const {
 std::optional<CheckpointRef>
 LoRACheckpointManager::loadByStep(const std::string& adapter_id,
                                    uint64_t           step) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     std::string wpath = weightPath(adapter_id, step);
     std::string mpath = metaPath(adapter_id, step);
@@ -375,6 +429,13 @@ LoRACheckpointManager::readWeights(const CheckpointRef& ref) const {
 // deleteCheckpoint / deleteAll / prune
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Delete Checkpoint.
+ * @param[in] adapter_id Identifier of the adapter.
+ * @param[in] step Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), fs::path(), weightPath(), metaPath(), fs::exists(), fs::remove().
+ */
 bool LoRACheckpointManager::deleteCheckpoint(const std::string& adapter_id,
                                               uint64_t           step) {
     std::lock_guard<std::mutex> lock(mutex_);
@@ -386,6 +447,11 @@ bool LoRACheckpointManager::deleteCheckpoint(const std::string& adapter_id,
     return removed;
 }
 
+/**
+ * @brief Delete All.
+ * @param[in] adapter_id Identifier of the adapter.
+ * @details Calls: lock(), fs::path(), adapterDir(), fs::exists(), fs::remove_all().
+ */
 void LoRACheckpointManager::deleteAll(const std::string& adapter_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     fs::path dir = fs::path(adapterDir(adapter_id));
@@ -394,6 +460,11 @@ void LoRACheckpointManager::deleteAll(const std::string& adapter_id) {
     }
 }
 
+/**
+ * @brief Prune.
+ * @param[in] adapter_id Identifier of the adapter.
+ * @details Calls: readBestMeta(), fs::path(), adapterDir(), fs::exists(), fs::directory_iterator(), path(), filename(), string().
+ */
 void LoRACheckpointManager::prune(const std::string& adapter_id) {
     // Caller must already hold mutex_
     if (config_.keep_last == 0) {

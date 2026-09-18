@@ -40,7 +40,11 @@ namespace performance {
     #define THEMIS_CPUID_MSVC 0
 #endif
 
-// CPUID detection for x86/x64
+/**
+ * @brief CPUID detection for x86/x64
+ * @param[in,out] caps Input/output parameter.
+ * @details Calls: __cpuidex(), __get_cpuid(), __get_cpuid_count().
+ */
 static void detect_x86_capabilities(HardwareCapabilities& caps) {
 #if THEMIS_CPUID_SUPPORTED
     unsigned int eax = 0, ebx = 0, ecx = 0, edx = 0;
@@ -75,6 +79,11 @@ static void detect_x86_capabilities(HardwareCapabilities& caps) {
 }
 
 // ARM NEON detection
+/**
+ * @brief Detect arm capabilities.
+ * @param[in,out] caps Input/output parameter.
+ * @details Calls: defined().
+ */
 static void detect_arm_capabilities(HardwareCapabilities& caps) {
     (void)caps;
 #if defined(__ARM_NEON) || defined(__aarch64__)
@@ -82,9 +91,11 @@ static void detect_arm_capabilities(HardwareCapabilities& caps) {
 #endif
 }
 
-// Storage detection for Linux: probe sysfs rotational flag to determine
-// whether any candidate block device (NVMe, virtio, SATA/SSD) is present.
-// Falls back to true on Windows/macOS where SSD is the common case.
+/**
+ * @brief Storage detection for Linux: probe sysfs rotational flag to determine whether any candidate block device (NVMe, virtio, SATA/SSD) is present.
+ * @param[in,out] caps Input/output parameter.
+ * @details Falls back to true on Windows/macOS where SSD is the common case. Calls: defined(), static_assert(), rot(), good(), dev().
+ */
 static void detect_storage_capabilities(HardwareCapabilities& caps) {
 #if defined(__linux__)
     // Ordered candidate list: NVMe, virtio, and conventional SATA block devices.
@@ -142,6 +153,10 @@ Phase2FeatureFlags::Phase2FeatureFlags() {
     detect_hardware_capabilities();
 }
 
+/**
+ * @brief Detect hardware capabilities.
+ * @details Calls: std::thread::hardware_concurrency(), detect_x86_capabilities(), detect_arm_capabilities(), detect_storage_capabilities().
+ */
 void Phase2FeatureFlags::detect_hardware_capabilities() {
     // Detect number of cores
     uint32_t cores = std::thread::hardware_concurrency();
@@ -159,6 +174,11 @@ void Phase2FeatureFlags::detect_hardware_capabilities() {
 // Configuration Loading
 // ============================================================================
 
+/**
+ * @brief Load from config.
+ * @param[in] config_path Path to the retention policy configuration file.
+ * @details Calls: file(), is_open(), contains(), wisckey_hardware_supported(), set_wisckey_enabled(), dostoevsky_hardware_supported(), set_dostoevsky_enabled(), cicada_hardware_supported().
+ */
 void Phase2FeatureFlags::load_from_config(const std::string& config_path) {
     try {
         std::ifstream file(config_path);

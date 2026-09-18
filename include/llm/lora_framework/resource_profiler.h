@@ -24,10 +24,11 @@ namespace lora {
 
 using json = nlohmann::json;
 
-/**
- * @brief Resource usage snapshot
- */
 struct ResourceSnapshot {
+    /**
+     * @brief Resource Snapshot.
+     * @return Return value.
+     */
     virtual ~ResourceSnapshot() = default;
     std::chrono::system_clock::time_point timestamp;
     
@@ -85,10 +86,11 @@ struct ResourceSnapshot {
     }
 };
 
-/**
- * @brief Resource profiling statistics
- */
 struct ResourceStats {
+    /**
+     * @brief Resource Stats.
+     * @return Return value.
+     */
     virtual ~ResourceStats() = default;
     // Memory peaks
     size_t peak_gpu_memory = 0;
@@ -128,17 +130,8 @@ struct ResourceStats {
     }
 };
 
-/**
- * @brief Callback for resource monitoring events
- */
 using ResourceMonitorCallback = std::function<void(const ResourceSnapshot&)>;
 
-/**
- * @brief Resource profiler for training
- * 
- * Monitors GPU/CPU memory usage, utilization, and throughput during training.
- * Can log snapshots periodically and compute statistics.
- */
 class ResourceProfiler {
 public:
     struct Config {
@@ -154,7 +147,16 @@ public:
         float gpu_utilization_alert_threshold = 0.95f;  // Alert at 95%
     };
     
+    /**
+     * @brief Resource Profiler.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit ResourceProfiler(const Config& config);
+    /**
+     * @brief Resource Profiler.
+     * @return Return value.
+     */
     explicit ResourceProfiler();
     ~ResourceProfiler();
     
@@ -163,83 +165,86 @@ public:
     ResourceProfiler& operator=(const ResourceProfiler&) = delete;
     
     /**
-     * @brief Start profiling
+     * @brief Start.
      */
     void start();
     
     /**
-     * @brief Stop profiling
+     * @brief Stop.
      */
     void stop();
     
     /**
-     * @brief Take a resource snapshot
-     * @param epoch Current epoch
-     * @param step Current step
-     * @param loss Current loss
-     * @param lr Current learning rate
+     * @brief Snapshot.
+     * @param[in] epoch Input parameter.
+     * @param[in] step Input parameter.
+     * @param[in] loss Input parameter.
+     * @param[in] lr Input parameter.
      */
     void snapshot(int epoch, int step, float loss, float lr);
     
     /**
-     * @brief Get current resource usage
-     * @return Resource snapshot
+     * @brief Get current snapshot.
+     * @return Return value.
      */
     ResourceSnapshot get_current_snapshot() const;
     
     /**
-     * @brief Get all snapshots
-     * @return Vector of all snapshots
+     * @brief Get snapshots.
+     * @return Return value.
      */
     std::vector<ResourceSnapshot> get_snapshots() const;
     
     /**
-     * @brief Compute statistics from snapshots
-     * @return Resource statistics
+     * @brief Compute stats.
+     * @return Return value.
      */
     ResourceStats compute_stats() const;
     
     /**
-     * @brief Register callback for monitoring events
-     * @param callback Callback function
+     * @brief Register callback.
+     * @param[in] callback Input parameter.
      */
     void register_callback(ResourceMonitorCallback callback);
     
     /**
-     * @brief Clear all snapshots
+     * @brief Clear.
      */
     void clear();
     
     /**
-     * @brief Check if profiler is running
+     * @brief Is running.
+     * @return True when the operation succeeds.
      */
     bool is_running() const;
     
     /**
-     * @brief Get configuration
+     * @brief Get config.
+     * @return Return value.
      */
     Config get_config() const;
     
     /**
-     * @brief Update configuration
+     * @brief Set config.
+     * @param[in] config Input parameter.
      */
     void set_config(const Config& config);
     
     /**
-     * @brief Export snapshots to JSON file
-     * @param filename Output file path
+     * @brief Export to json.
+     * @param[in] filename Input parameter.
      */
     void export_to_json(const std::string& filename) const;
     
     /**
-     * @brief Get peak GPU memory usage
-     * @return Peak memory in bytes
+     * @brief Get peak gpu memory.
+     * @return Return value.
      */
     size_t get_peak_gpu_memory() const;
     
     /**
-     * @brief Get peak CPU memory usage
-     * @return Peak memory in bytes
+     * @brief Get peak cpu memory.
+     * @return Return value.
      */
     size_t get_peak_cpu_memory() const;
 
@@ -248,27 +253,32 @@ private:
     std::unique_ptr<Impl> impl_;
     
     /**
-     * @brief Query GPU memory status
+     * @brief Query gpu memory.
+     * @param[in,out] snapshot Input/output parameter.
      */
     void query_gpu_memory(ResourceSnapshot& snapshot) const;
     
     /**
-     * @brief Query CPU memory status
+     * @brief Query cpu memory.
+     * @param[in,out] snapshot Input/output parameter.
      */
     void query_cpu_memory(ResourceSnapshot& snapshot) const;
     
     /**
-     * @brief Query GPU utilization
+     * @brief Query gpu utilization.
+     * @param[in,out] snapshot Input/output parameter.
      */
     void query_gpu_utilization(ResourceSnapshot& snapshot) const;
     
     /**
-     * @brief Check for resource alerts
+     * @brief Check alerts.
+     * @param[in] snapshot Input parameter.
      */
     void check_alerts(const ResourceSnapshot& snapshot);
     
     /**
-     * @brief Log snapshot to file
+     * @brief Log snapshot.
+     * @param[in] snapshot Input parameter.
      */
     void log_snapshot(const ResourceSnapshot& snapshot);
 };

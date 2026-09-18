@@ -40,6 +40,12 @@ json DiffEngine::Change::toJson() const {
     return j;
 }
 
+/**
+ * @brief From Json.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: contains().
+ */
 DiffEngine::Change DiffEngine::Change::fromJson(const json &j) {
     Change c;
     std::string type_str = j["type"];
@@ -111,6 +117,12 @@ json DiffEngine::DiffResult::toJson() const {
     return j;
 }
 
+/**
+ * @brief From Json.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: push_back(), contains().
+ */
 DiffEngine::DiffResult DiffEngine::DiffResult::fromJson(const json &j) {
     DiffResult result;
 
@@ -147,7 +159,15 @@ DiffEngine::DiffResult DiffEngine::DiffResult::fromJson(const json &j) {
 DiffEngine::DiffEngine(Changefeed &changefeed, transaction::SnapshotManager *snapshot_manager)
     : changefeed_(changefeed), snapshot_manager_(snapshot_manager) {}
 
-// Compute diff between sequences
+/**
+ * @brief Compute diff between sequences
+ * @param[in] from_sequence Input parameter.
+ * @param[in] to_sequence Input parameter.
+ * @param[in] options Input parameter.
+ * @return Return value.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: fmt::format(), spdlog::debug(), has_value(), lock(), count(), wait_for(), std::chrono::seconds(), erase().
+ */
 DiffEngine::DiffResult DiffEngine::computeDiff(uint64_t from_sequence, uint64_t to_sequence,
                                                const DiffOptions &options) {
     // Validate sequence range
@@ -287,7 +307,15 @@ DiffEngine::DiffResult DiffEngine::computeDiff(uint64_t from_sequence, uint64_t 
     return result;
 }
 
-// Compute diff by timestamp
+/**
+ * @brief Compute diff by timestamp
+ * @param[in] from_timestamp Input parameter.
+ * @param[in] to_timestamp Input parameter.
+ * @param[in] options Input parameter.
+ * @return Return value.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: fmt::format(), spdlog::debug(), findSequenceRange(), computeDiff().
+ */
 DiffEngine::DiffResult DiffEngine::computeDiffByTimestamp(int64_t from_timestamp, int64_t to_timestamp,
                                                           const DiffOptions &options) {
     if (from_timestamp >= to_timestamp) {
@@ -321,7 +349,15 @@ DiffEngine::DiffResult DiffEngine::computeDiffByTimestamp(int64_t from_timestamp
     return result;
 }
 
-// Compute diff by tag (now implemented with Phase 1)
+/**
+ * @brief Compute diff by tag (now implemented with Phase 1)
+ * @param[in] from_tag Input parameter.
+ * @param[in] to_tag Input parameter.
+ * @param[in] options Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: spdlog::debug(), getSequenceForTag(), has_value(), fmt::format(), computeDiff(), getTimestampForTag().
+ */
 DiffEngine::DiffResult DiffEngine::computeDiffByTag(const std::string &from_tag, const std::string &to_tag,
                                                     const DiffOptions &options) {
     // Check if SnapshotManager is available
@@ -359,6 +395,10 @@ DiffEngine::DiffResult DiffEngine::computeDiffByTag(const std::string &from_tag,
 }
 
 // Clear cache
+/**
+ * @brief Clear Cache.
+ * @details Calls: lock(), clear(), spdlog::info().
+ */
 void DiffEngine::clearCache() {
     std::lock_guard<std::mutex> lock(cache_mutex_);
     diff_cache_.clear();
@@ -367,6 +407,11 @@ void DiffEngine::clearCache() {
 
 // Get cache stats
 json DiffEngine::getCacheStats() const {
+    /**
+     * @brief Lock.
+     * @param[in] cache_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(cache_mutex_);
     json j;
     j["cache_size"]        = diff_cache_.size();
@@ -375,7 +420,14 @@ json DiffEngine::getCacheStats() const {
     return j;
 }
 
-// Process events and categorize them
+/**
+ * @brief Process events and categorize them
+ * @param[in] events Input parameter.
+ * @param[in] options Input parameter.
+ * @param[in] from_sequence Input parameter.
+ * @return Return value.
+ * @details Calls: shouldIncludeEvent(), push_back(), empty(), front(), back(), has_value(), size(), insert().
+ */
 DiffEngine::DiffResult DiffEngine::processEvents(const std::vector<Changefeed::ChangeEvent> &events,
                                                  const DiffOptions &options, uint64_t from_sequence) {
     DiffResult result;
@@ -606,11 +658,10 @@ bool DiffEngine::isCacheValid(const CachedDiff &cached) const {
     return age < CACHE_TTL;
 }
 
-// Evict oldest cache entries
-// NOTE: This function must NOT be called while holding cache_mutex_.
-// The copy-evict-then-lock pattern is implemented directly in computeDiff().
-// This function is retained for external callers (e.g. clearCache stress tests)
-// but is not used in the hot path.
+/**
+ * @brief Evict oldest cache entries NOTE: This function must NOT be called while holding cache_mutex_.
+ * @details The copy-evict-then-lock pattern is implemented directly in computeDiff(). This function is retained for external callers (e.g. clearCache stress tests) but is not used in the hot path. Calls: empty(), begin(), end(), spdlog::debug(), erase().
+ */
 void DiffEngine::evictOldCacheEntries() {
     if (diff_cache_.empty()) {
         return;

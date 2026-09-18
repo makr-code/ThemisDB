@@ -45,66 +45,40 @@ namespace evaluation {
 // Scenario taxonomy
 // ============================================================================
 
-/**
- * @brief Architecture paths that the benchmark matrix covers.
- *
- * Each enumerator corresponds to one column group in the matrix table
- * described in `docs/EPIC2_BENCHMARK_FRAMEWORK.md`.
- *
- * Ordering is stable; append-only for backward compatibility.
- */
 enum class BenchmarkScenario : uint8_t {
     // --- ANN-only baselines --------------------------------------------------
-    /// Pure HNSW-based ANN retrieval (hnswlib, no tensor or graph layer).
     HNSW_ANN_ONLY = 0,
-    /// DiskANN-based ANN retrieval (disk-resident graph index).
     DISKANN_ANN_ONLY = 1,
 
     // --- ANN + Tensor Mid-Layer ----------------------------------------------
-    /// ANN retrieval followed by tensor-compression routing.
     ANN_TENSOR = 2,
-    /// ANN retrieval with dynamic tensor-update worker active (write workload).
     ANN_TENSOR_DYNAMIC_UPDATE = 3,
-    /// ANN retrieval after a snapshot rebuild was triggered.
     ANN_TENSOR_SNAPSHOT_REBUILT = 4,
-    /// ANN retrieval after a partial tensor refit (patch path, not full rebuild).
     ANN_TENSOR_PATCH_REFIT = 5,
 
     // --- ANN + Tensor + Graph ------------------------------------------------
-    /// Full stack: ANN + tensor routing + graph evidence validation.
     ANN_TENSOR_GRAPH = 6,
 
     // --- Graph-direct paths --------------------------------------------------
-    /// Direct exact-graph traversal without ANN pre-filtering.
     DIRECT_EXACT_GRAPH = 7,
 
     // --- Distributed / summary-first -----------------------------------------
-    /// Summary-first routing across distributed shards.
     SUMMARY_FIRST_DISTRIBUTED = 8,
-    /// Direct exact shard load (no summary pre-filter).
     DISTRIBUTED_EXACT_LOAD = 9,
 
     // --- LLM / LoRA ----------------------------------------------------------
-    /// LLM inference with full-context prompt (no RAG filtering).
     LLM_FULL_PROMPT = 10,
-    /// LLM inference with tensor-compressed evidence context.
     LLM_TENSOR_COMPRESSED = 11,
-    /// LoRA fine-tuned LLM inference (adapter applied at runtime).
     LORA_INFERENCE = 12,
 
     // --- Overhead and cost scenarios -----------------------------------------
-    /// Commit-overhead measurement (write amplification vs. pure read path).
     COMMIT_OVERHEAD = 13,
-    /// CPU-side execution for GPU break-even validation.
     CPU_ONLY = 14,
-    /// GPU-accelerated execution for break-even comparison.
     GPU_ACCELERATED = 15,
 
-    /// Sentinel — keep last.
     _COUNT
 };
 
-/// Human-readable label for a `BenchmarkScenario`.
 [[nodiscard]] constexpr std::string_view scenarioName(BenchmarkScenario s) noexcept {
     switch (s) {
         case BenchmarkScenario::HNSW_ANN_ONLY:              return "HNSW_ANN_ONLY";
@@ -131,14 +105,6 @@ enum class BenchmarkScenario : uint8_t {
 // Evaluation dimensions
 // ============================================================================
 
-/**
- * @brief Measurable quality and cost dimensions for each scenario.
- *
- * Aligned with the evaluation axes defined in `EVALUATION_FRAMEWORK.md`
- * sections 3.1–3.6.
- *
- * Ordering is stable; append-only for backward compatibility.
- */
 enum class BenchmarkDimension : uint8_t {
     // Retrieval quality (section 3.1)
     RECALL_AT_K = 0,         ///< Recall@k — fraction of true positives in top-k.
@@ -174,11 +140,9 @@ enum class BenchmarkDimension : uint8_t {
     // Break-even
     GPU_SPEEDUP_FACTOR = 17, ///< GPU throughput / CPU throughput ratio.
 
-    /// Sentinel — keep last.
     _COUNT
 };
 
-/// Human-readable label for a `BenchmarkDimension`.
 [[nodiscard]] constexpr std::string_view dimensionName(BenchmarkDimension d) noexcept {
     switch (d) {
         case BenchmarkDimension::RECALL_AT_K:          return "RECALL_AT_K";
@@ -207,22 +171,12 @@ enum class BenchmarkDimension : uint8_t {
 // Edge-case flags
 // ============================================================================
 
-/**
- * @brief Flags that annotate a benchmark result with known anomaly conditions.
- *
- * Covered by Phase 3 of Issue #5438 (error handling / edge cases).
- */
 enum class BenchmarkEdgeCase : uint16_t {
     NONE                       = 0x0000,
-    /// Result was collected with a stale or invalidated artifact in place.
     STALE_ARTIFACT             = 0x0001,
-    /// Distributed shard summary was out-of-sync at measurement time.
     SHARD_SUMMARY_MISMATCH     = 0x0002,
-    /// Query planner fell back to residual-sensitive mode.
     RESIDUAL_PLANNER_FALLBACK  = 0x0004,
-    /// Dataset is new and has never been measured before.
     UNMEASURED_COMBINATION     = 0x0008,
-    /// Metric data was incomplete or below the minimum sample threshold.
     INSUFFICIENT_METRIC_DATA   = 0x0010,
 };
 
@@ -244,24 +198,16 @@ inline bool hasEdgeCase(BenchmarkEdgeCase flags, BenchmarkEdgeCase flag) noexcep
 // BenchmarkResult
 // ============================================================================
 
-/**
- * @brief A single measured value for one (scenario, dimension) cell.
- *
- * @note Values are always stored as `double` to accommodate the full range of
- *       metrics (fractions, large byte counts, high-precision latencies).
- */
 struct BenchmarkResult {
     double value{0.0};                           ///< Measured value.
     double stddev{0.0};                          ///< Standard deviation (0 if unavailable).
     uint32_t sample_count{0};                    ///< Number of samples aggregated.
     BenchmarkEdgeCase edge_flags{BenchmarkEdgeCase::NONE}; ///< Anomaly annotations.
 
-    /// @returns true if this result was collected without known anomalies.
     [[nodiscard]] bool isClean() const noexcept {
         return edge_flags == BenchmarkEdgeCase::NONE && sample_count > 0;
     }
 
-    /// @returns true if the result has at least @p min_samples clean samples.
     [[nodiscard]] bool hasSufficientData(uint32_t min_samples = 3) const noexcept {
         return sample_count >= min_samples &&
                !hasEdgeCase(edge_flags, BenchmarkEdgeCase::INSUFFICIENT_METRIC_DATA);
@@ -272,12 +218,6 @@ struct BenchmarkResult {
 // BenchmarkEntry (serialisable row)
 // ============================================================================
 
-/**
- * @brief Flat record representing one cell of the benchmark matrix.
- *
- * Suitable for storage in artifact files, CI result uploads, and comparisons
- * between runs (referencing the planner and lifecycle issue trackers).
- */
 struct BenchmarkEntry {
     BenchmarkScenario scenario{};   ///< Column group.
     BenchmarkDimension dimension{}; ///< Row.
@@ -291,31 +231,6 @@ struct BenchmarkEntry {
 // BenchmarkMatrix
 // ============================================================================
 
-/**
- * @brief In-memory benchmark matrix for HNSW, DiskANN, Tensor Mid-Layer,
- *        Graph validation, and LLM/LoRA flows.
- *
- * The matrix is a sparse map: `(BenchmarkScenario, BenchmarkDimension)` →
- * `BenchmarkResult`.  Missing cells are represented by `std::nullopt` from
- * `lookup()`.  This avoids polluting comparisons with default-zero values
- * when a measurement has genuinely not been taken.
- *
- * Thread safety: concurrent `lookup` calls are safe.  All mutating operations
- * (`record`, `clear`, `invalidateScenario`, `invalidateDimension`) must be
- * serialised by the caller.
- *
- * Usage example:
- * @code
- *   BenchmarkMatrix matrix;
- *   matrix.record(BenchmarkScenario::HNSW_ANN_ONLY,
- *                 BenchmarkDimension::RECALL_AT_K,
- *                 {0.95, 0.01, 100, BenchmarkEdgeCase::NONE});
- *
- *   auto r = matrix.lookup(BenchmarkScenario::HNSW_ANN_ONLY,
- *                          BenchmarkDimension::RECALL_AT_K);
- *   if (r) { ... }
- * @endcode
- */
 class BenchmarkMatrix {
 public:
     BenchmarkMatrix() = default;
@@ -332,109 +247,57 @@ public:
     // ------------------------------------------------------------------
 
     /**
-     * @brief Store or overwrite a measurement for `(scenario, dimension)`.
-     *
-     * @param scenario  The architecture path being measured.
-     * @param dimension The quality/cost dimension being measured.
-     * @param result    The measured value with metadata.
-     *
-     * @throws std::invalid_argument if @p result has zero sample_count when
-     *         edge_flags is NONE (would silently insert a vacuous result).
+     * @brief Record.
+     * @param[in] scenario Input parameter.
+     * @param[in] dimension Input parameter.
+     * @param[in] result Input parameter.
      */
     void record(BenchmarkScenario scenario,
                 BenchmarkDimension dimension,
                 const BenchmarkResult& result);
 
     /**
-     * @brief Remove all measurements for a given scenario.
-     *
-     * Used when a scenario is re-run (e.g., after a snapshot rebuild) and
-     * prior measurements are superseded.
-     *
-     * @param scenario The scenario whose measurements are invalidated.
+     * @brief Invalidate Scenario.
+     * @param[in] scenario Input parameter.
      */
     void invalidateScenario(BenchmarkScenario scenario);
 
     /**
-     * @brief Remove all measurements for a given dimension across all scenarios.
-     *
-     * Used when a measurement instrument is recalibrated.
-     *
-     * @param dimension The dimension to invalidate.
+     * @brief Invalidate Dimension.
+     * @param[in] dimension Input parameter.
      */
     void invalidateDimension(BenchmarkDimension dimension);
 
-    /// Remove all entries from the matrix.
+    /**
+     * @brief Clear.
+     * @note Exception safety: noexcept.
+     */
     void clear() noexcept;
 
     // ------------------------------------------------------------------
     // Query operations
     // ------------------------------------------------------------------
 
-    /**
-     * @brief Retrieve the stored result for `(scenario, dimension)`.
-     *
-     * @returns The `BenchmarkResult` if measured, `std::nullopt` otherwise.
-     *
-     * @note An absent result is distinct from a result flagged
-     *       `INSUFFICIENT_METRIC_DATA` — both should be treated as non-
-     *       authoritative, but for different reasons.
-     */
     [[nodiscard]] std::optional<BenchmarkResult>
     lookup(BenchmarkScenario scenario, BenchmarkDimension dimension) const noexcept;
 
-    /**
-     * @brief Return all (scenario, dimension, result) triples currently stored.
-     *
-     * Useful for serialisation and full-matrix comparisons.
-     */
     [[nodiscard]] std::vector<BenchmarkEntry> entries(
         std::string_view dataset_tag = "",
         std::string_view hardware_tag = "",
         std::string_view runner_version = "") const;
 
-    /**
-     * @brief Return all results for a given scenario (all measured dimensions).
-     *
-     * @param scenario The scenario to slice on.
-     * @returns A vector of `(dimension, result)` pairs.
-     */
     [[nodiscard]] std::vector<std::pair<BenchmarkDimension, BenchmarkResult>>
     scenarioSlice(BenchmarkScenario scenario) const;
 
-    /**
-     * @brief Return all results for a given dimension (all measured scenarios).
-     *
-     * @param dimension The dimension to slice on.
-     * @returns A vector of `(scenario, result)` pairs.
-     */
     [[nodiscard]] std::vector<std::pair<BenchmarkScenario, BenchmarkResult>>
     dimensionSlice(BenchmarkDimension dimension) const;
 
-    /**
-     * @brief Return only the scenarios for which every required dimension has
-     *        sufficient data (passes `hasSufficientData()`, default ≥ 3 samples
-     *        and no `INSUFFICIENT_METRIC_DATA` flag).
-     *
-     * @param required_dimensions Dimensions that must be present.
-     * @returns Scenarios satisfying the coverage requirement.
-     */
     [[nodiscard]] std::vector<BenchmarkScenario>
     scenariosWithFullCoverage(
         const std::vector<BenchmarkDimension>& required_dimensions) const;
 
-    /**
-     * @brief Count the number of cells currently populated.
-     *
-     * @returns Number of (scenario, dimension) pairs with a stored result.
-     */
     [[nodiscard]] std::size_t size() const noexcept;
 
-    /**
-     * @brief Check whether a specific cell has been measured.
-     *
-     * @returns true if `lookup(scenario, dimension)` would return a value.
-     */
     [[nodiscard]] bool contains(BenchmarkScenario scenario,
                                 BenchmarkDimension dimension) const noexcept;
 
@@ -442,35 +305,16 @@ public:
     // Comparison helpers
     // ------------------------------------------------------------------
 
-    /**
-     * @brief Compare two scenarios on a single dimension.
-     *
-     * @param a            First scenario.
-     * @param b            Second scenario.
-     * @param dimension    The dimension to compare on.
-     *
-     * @returns `a_value / b_value`, or `std::nullopt` if either scenario is
-     *          missing the measurement or `b_value` is zero.
-     */
     [[nodiscard]] std::optional<double>
     compareScenarios(BenchmarkScenario a,
                      BenchmarkScenario b,
                      BenchmarkDimension dimension) const noexcept;
 
-    /**
-     * @brief Return the scenario with the best (lowest or highest) value for
-     *        a given dimension.
-     *
-     * @param dimension  The dimension to rank.
-     * @param higher_is_better  If true, maximise; if false, minimise.
-     * @returns The best scenario, or `std::nullopt` if no measurements exist.
-     */
     [[nodiscard]] std::optional<BenchmarkScenario>
     bestScenario(BenchmarkDimension dimension,
                  bool higher_is_better = true) const noexcept;
 
 private:
-    /// Key for the internal sparse map.
     struct Key {
         BenchmarkScenario scenario;
         BenchmarkDimension dimension;

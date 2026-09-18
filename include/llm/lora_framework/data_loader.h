@@ -22,9 +22,6 @@ namespace themis {
 namespace llm {
 namespace lora {
 
-/**
- * @brief Training data sample with instruction-response format
- */
 struct InstructionDataSample {
     std::string instruction;     // User instruction/prompt
     std::string input;           // Optional additional context
@@ -43,10 +40,11 @@ struct InstructionDataSample {
     }
 };
 
-/**
- * @brief Batch of training samples
- */
 struct TrainingBatch {
+    /**
+     * @brief Training Batch.
+     * @return Return value.
+     */
     virtual ~TrainingBatch() = default;
     std::vector<std::vector<int>> input_ids;      // [batch_size, seq_len]
     std::vector<std::vector<int>> label_ids;      // [batch_size, seq_len]
@@ -58,9 +56,6 @@ struct TrainingBatch {
     size_t size() const { return input_ids.size(); }
 };
 
-/**
- * @brief Dataset format types
- */
 enum class DatasetFormat {
     JSONL,          // One JSON object per line
     ALPACA,         // Stanford Alpaca format
@@ -69,59 +64,29 @@ enum class DatasetFormat {
     CUSTOM          // Custom format with user-provided parser
 };
 
-/**
- * @brief Tokenizer interface (abstract - can be backed by llama.cpp or other tokenizers)
- */
 class ITokenizer {
 public:
+    /**
+     * @brief ITokenizer.
+     * @return Return value.
+     */
     virtual ~ITokenizer() = default;
     
-    /**
-     * @brief Encode text to token IDs
-     * @param text Input text
-     * @param add_bos Add beginning-of-sequence token
-     * @param add_eos Add end-of-sequence token
-     * @return Vector of token IDs
-     */
     [[nodiscard]] virtual std::vector<int> encode(const std::string& text, 
                                     bool add_bos = true, 
                                     bool add_eos = false) = 0;
     
-    /**
-     * @brief Decode token IDs to text
-     * @param tokens Token IDs
-     * @return Decoded text
-     */
     [[nodiscard]] virtual std::string decode(const std::vector<int>& tokens) = 0;
     
-    /**
-     * @brief Get vocabulary size
-     * @return Number of tokens in vocabulary
-     */
     [[nodiscard]] virtual int vocab_size() const = 0;
     
-    /**
-     * @brief Get BOS (beginning of sequence) token ID
-     * @return BOS token ID
-     */
     [[nodiscard]] virtual int bos_token_id() const = 0;
     
-    /**
-     * @brief Get EOS (end of sequence) token ID
-     * @return EOS token ID
-     */
     [[nodiscard]] virtual int eos_token_id() const = 0;
     
-    /**
-     * @brief Get PAD (padding) token ID
-     * @return PAD token ID
-     */
     [[nodiscard]] virtual int pad_token_id() const = 0;
 };
 
-/**
- * @brief Simple tokenizer implementation (for testing)
- */
 class SimpleTokenizer : public ITokenizer {
 public:
     SimpleTokenizer(int vocab_size = 32000);
@@ -140,15 +105,25 @@ public:
     
 private:
     int vocab_size_ = 0;
-    // Simple character-level tokenization for testing
+    /**
+     * @brief Simple character-level tokenization for testing
+     * @param[in] text Input parameter.
+     * @return Return value.
+     */
     std::vector<int> char_to_token(const std::string& text);
+    /**
+     * @brief Token to char.
+     * @param[in] tokens Input parameter.
+     * @return Return value.
+     */
     std::string token_to_char(const std::vector<int>& tokens);
 };
 
-/**
- * @brief Data loader configuration
- */
 struct DataLoaderConfig {
+    /**
+     * @brief Data Loader Config.
+     * @return Return value.
+     */
     virtual ~DataLoaderConfig() = default;
     DatasetFormat format = DatasetFormat::JSONL;
     int max_sequence_length = 2048;
@@ -171,15 +146,6 @@ struct DataLoaderConfig {
     float noise_probability = 0.0f;
 };
 
-/**
- * @brief Data loader for LoRA training
- * 
- * Loads and preprocesses text data for fine-tuning:
- * - Supports multiple dataset formats
- * - Tokenization via pluggable tokenizer interface
- * - Batching and padding
- * - Prompt formatting
- */
 class DataLoader {
 public:
     explicit DataLoader(std::shared_ptr<ITokenizer> tokenizer,
@@ -187,79 +153,67 @@ public:
     ~DataLoader();
     
     /**
-     * @brief Load dataset from file
-     * @param filepath Path to dataset file
-     * @return true if loaded successfully
+     * @brief Load From File.
+     * @param[in] filepath Input parameter.
+     * @return True when the operation succeeds.
      */
     bool loadFromFile(const std::string& filepath);
     
     /**
-     * @brief Load dataset from JSON string
-     * @param json_data JSON string containing dataset
-     * @return true if loaded successfully
+     * @brief Load From JSON.
+     * @param[in] json_data Input parameter.
+     * @return True when the operation succeeds.
      */
     bool loadFromJSON(const std::string& json_data);
     
     /**
-     * @brief Load dataset from vector of samples
-     * @param samples Vector of instruction samples
-     * @return true if loaded successfully
+     * @brief Load From Samples.
+     * @param[in] samples Input parameter.
+     * @return True when the operation succeeds.
      */
     bool loadFromSamples(const std::vector<InstructionDataSample>& samples);
     
-    /**
-     * @brief Get total number of samples
-     * @return Sample count
-     */
     size_t size() const { return samples_.size(); }
     
     /**
-     * @brief Get number of batches
-     * @return Batch count
+     * @brief Num batches.
+     * @return Return value.
      */
     size_t num_batches() const;
     
     /**
-     * @brief Get next batch
-     * @return Training batch (empty if no more batches)
+     * @brief Get Next Batch.
+     * @return Return value.
      */
     TrainingBatch getNextBatch();
     
     /**
-     * @brief Reset iterator to beginning
+     * @brief Reset the modification detection flag.
      */
     void reset();
     
     /**
-     * @brief Check if more batches available
-     * @return true if has next batch
+     * @brief Has Next.
+     * @return True when the operation succeeds.
      */
     bool hasNext() const;
     
     /**
-     * @brief Shuffle dataset
+     * @brief Shuffle.
      */
     void shuffle();
     
     /**
-     * @brief Get sample at index
-     * @param idx Sample index
-     * @return Sample (empty optional if out of bounds)
+     * @brief Get Sample.
+     * @param[in] idx Input parameter.
+     * @return Return value.
      */
     std::optional<InstructionDataSample> getSample(size_t idx) const;
     
-    /**
-     * @brief Set custom sample formatter
-     * @param formatter Function to format sample text
-     */
     void setFormatter(std::function<std::string(const InstructionDataSample&)> formatter) {
         custom_formatter_ = formatter;
     }
     
-    /**
-     * @brief Get configuration
-     * @return Current configuration
-     */
     const DataLoaderConfig& getConfig() const { return config_; }
     
 private:
@@ -274,48 +228,77 @@ private:
     std::function<std::string(const InstructionDataSample&)> custom_formatter_;
     
     // Helper methods
+    /**
+     * @brief Parse JSONL.
+     * @param[in] filepath Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool parseJSONL(const std::string& filepath);
+    /**
+     * @brief Parse Alpaca.
+     * @param[in] filepath Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool parseAlpaca(const std::string& filepath);
+    /**
+     * @brief Parse Share GPT.
+     * @param[in] filepath Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool parseShareGPT(const std::string& filepath);
+    /**
+     * @brief Parse Plain Text.
+     * @param[in] filepath Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool parsePlainText(const std::string& filepath);
     
+    /**
+     * @brief Format Sample.
+     * @param[in] sample Input parameter.
+     * @return Return value.
+     */
     std::string formatSample(const InstructionDataSample& sample) const;
+    /**
+     * @brief Tokenize Sample.
+     * @param[in,out] sample Input/output parameter.
+     */
     void tokenizeSample(InstructionDataSample& sample);
+    /**
+     * @brief Create Batch.
+     * @param[in] batch_indices Input parameter.
+     * @return Return value.
+     */
     TrainingBatch createBatch(const std::vector<size_t>& batch_indices);
+    /**
+     * @brief Pad Batch.
+     * @param[in,out] batch Input/output parameter.
+     */
     void padBatch(TrainingBatch& batch);
 };
 
-/**
- * @brief Helper functions for data loading
- */
 namespace data_utils {
     /**
-     * @brief Load samples from Alpaca JSON format
-     * @param json_data JSON string
-     * @return Vector of samples
+     * @brief Load Alpaca Format.
+     * @param[in] json_data Input parameter.
+     * @return Return value.
      */
     std::vector<InstructionDataSample> loadAlpacaFormat(const std::string& json_data);
     
     /**
-     * @brief Load samples from ShareGPT JSON format
-     * @param json_data JSON string
-     * @return Vector of samples
+     * @brief Load Share GPTFormat.
+     * @param[in] json_data Input parameter.
+     * @return Return value.
      */
     std::vector<InstructionDataSample> loadShareGPTFormat(const std::string& json_data);
     
     /**
-     * @brief Create synthetic toy dataset for testing
-     * @param num_samples Number of samples to generate
-     * @return Vector of samples
+     * @brief Create Toy Dataset.
+     * @param[in] num_samples Input parameter.
+     * @return Return value.
      */
     std::vector<InstructionDataSample> createToyDataset(size_t num_samples);
     
-    /**
-     * @brief Split dataset into train/validation sets
-     * @param samples Full dataset
-     * @param validation_split Fraction for validation (0.0-1.0)
-     * @return Pair of (train_samples, val_samples)
-     */
     std::pair<std::vector<InstructionDataSample>, std::vector<InstructionDataSample>>
     trainValSplit(const std::vector<InstructionDataSample>& samples, float validation_split = 0.1f);
 } // namespace data_utils

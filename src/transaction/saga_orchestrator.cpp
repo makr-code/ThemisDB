@@ -24,6 +24,12 @@
 namespace themis {
 namespace {
 
+/**
+ * @brief Json Escape.
+ * @param[in] input Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), push_back().
+ */
 std::string jsonEscape(const std::string& input) {
     std::string out = {};
     out.reserve(input.size() + 8);
@@ -40,11 +46,25 @@ std::string jsonEscape(const std::string& input) {
     return out;
 }
 
+/**
+ * @brief Effective Delay.
+ * @param[in] step Input parameter.
+ * @param[in] cfg Input parameter.
+ * @return Return value.
+ * @details Calls: count().
+ */
 std::chrono::milliseconds effectiveDelay(const SAGAStep& step,
                                          const SAGAOrchestrator::Config& cfg) {
     return (step.retry_delay.count() > 0) ? step.retry_delay : cfg.default_retry_delay;
 }
 
+/**
+ * @brief Effective Timeout.
+ * @param[in] step Input parameter.
+ * @param[in] cfg Input parameter.
+ * @return Return value.
+ * @details Calls: count().
+ */
 std::chrono::milliseconds effectiveTimeout(const SAGAStep& step,
                                            const SAGAOrchestrator::Config& cfg) {
     return (step.timeout.count() > 0) ? step.timeout : cfg.default_timeout;
@@ -100,6 +120,12 @@ SagaOrchestratorStatus SAGAOrchestrator::validate(const SAGADefinition& saga) co
     return SagaOrchestratorStatus::OK();
 }
 
+/**
+ * @brief Register Template.
+ * @param[in] template_name Name of the template.
+ * @param[in] tmpl Input parameter.
+ * @details Calls: lk(), std::move().
+ */
 void SAGAOrchestrator::registerTemplate(const std::string& template_name, SAGADefinition tmpl) {
     std::lock_guard<std::mutex> lk(templates_mutex_);
     // Sprint 8 Phase 1 (GAP A-3): Template is moved to map storage.
@@ -113,6 +139,11 @@ SAGADefinition SAGAOrchestrator::instantiateTemplate(
     const std::string& instance_id,
     std::map<std::string, std::string> context_overrides) const {
 
+    /**
+     * @brief Lk.
+     * @param[in] templates_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(templates_mutex_);
     auto it = templates_.find(template_name);
     if (it == templates_.end()) {
@@ -216,6 +247,12 @@ std::vector<std::string> SAGAOrchestrator::topologicalSort(const SAGADefinition&
     return order;
 }
 
+/**
+ * @brief Build Step Map.
+ * @param[in] saga Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), emplace().
+ */
 SAGAOrchestrator::StepMap SAGAOrchestrator::buildStepMap(const SAGADefinition& saga) {
     StepMap map;
     map.reserve(saga.steps.size());
@@ -225,6 +262,15 @@ SAGAOrchestrator::StepMap SAGAOrchestrator::buildStepMap(const SAGADefinition& s
     return map;
 }
 
+/**
+ * @brief Execute Step.
+ * @param[in] step Input parameter.
+ * @param[in] saga_id Identifier of the saga.
+ * @param[in] cfg Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: condition(), lk(), tryAcquireCircuitBreakerExecution(), journalWrite(), effectiveTimeout(), effectiveDelay(), count(), std::async().
+ */
 StepState SAGAOrchestrator::executeStep(const SAGAStep& step,
                                         const std::string& saga_id,
                                         const Config& cfg) {
@@ -302,6 +348,14 @@ StepState SAGAOrchestrator::executeStep(const SAGAStep& step,
     return StepState::FAILED;
 }
 
+/**
+ * @brief Compensate All.
+ * @param[in] param Input parameter.
+ * @param[in] step_map Input parameter.
+ * @param[in] executed_order Input parameter.
+ * @param[in,out] status_rec Input/output parameter.
+ * @details Calls: rbegin(), rend(), find(), end(), compensateStep().
+ */
 void SAGAOrchestrator::compensateAll(const SAGADefinition&,
                                      const StepMap& step_map,
                                      const std::vector<std::string>& executed_order,
@@ -315,6 +369,12 @@ void SAGAOrchestrator::compensateAll(const SAGADefinition&,
     }
 }
 
+/**
+ * @brief Compensate Step.
+ * @param[in] step Input parameter.
+ * @param[in,out] status_rec Input/output parameter.
+ * @details Calls: lk(), compensate(), what(), std::string().
+ */
 void SAGAOrchestrator::compensateStep(const SAGAStep& step,
                                       SAGAExecutionStatus& status_rec) {
     status_rec.step_states[step.name] = StepState::COMPENSATING;
@@ -347,6 +407,13 @@ void SAGAOrchestrator::compensateStep(const SAGAStep& step,
     }
 }
 
+/**
+ * @brief Journal Write.
+ * @param[in] saga_id Identifier of the saga.
+ * @param[in] event Input parameter.
+ * @param[in] detail Input parameter.
+ * @details Calls: empty(), lk(), out(), is_open(), std::chrono::system_clock::now(), time_since_epoch(), count(), jsonEscape().
+ */
 void SAGAOrchestrator::journalWrite(const std::string& saga_id,
                                     const std::string& event,
                                     const std::string& detail) {
@@ -371,6 +438,12 @@ void SAGAOrchestrator::journalWrite(const std::string& saga_id,
         << "\"}\n";
 }
 
+/**
+ * @brief Execute.
+ * @param[in] saga Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), std::chrono::steady_clock::now(), time_since_epoch(), count(), fetch_add(), std::to_string(), validate(), lk().
+ */
 SagaOrchestratorStatus SAGAOrchestrator::execute(const SAGADefinition& saga) {
     SAGADefinition saga_exec = saga;
     if (saga_exec.id.empty()) {
@@ -611,6 +684,11 @@ SagaOrchestratorStatus SAGAOrchestrator::execute(const SAGADefinition& saga) {
 
 std::optional<SAGAExecutionStatus>
 SAGAOrchestrator::getStatus(const std::string& saga_id) const {
+    /**
+     * @brief Lk.
+     * @param[in] status_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(status_mutex_);
     auto it = statuses_.find(saga_id);
     if (it == statuses_.end()) {
@@ -620,11 +698,21 @@ SAGAOrchestrator::getStatus(const std::string& saga_id) const {
 }
 
 SAGAOrchestrator::Metrics SAGAOrchestrator::getMetrics() const {
+    /**
+     * @brief Lk.
+     * @param[in] metrics_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(metrics_mutex_);
     return metrics_;
 }
 
 bool SAGAOrchestrator::isCircuitBreakerOpen(const std::string& step_name) const {
+    /**
+     * @brief Lk.
+     * @param[in] circuit_breaker_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(circuit_breaker_mutex_);
     
     auto it = consecutive_failures_.find(step_name);
@@ -646,6 +734,11 @@ bool SAGAOrchestrator::isCircuitBreakerOpen(const std::string& step_name) const 
     return true;  // Circuit remains OPEN
 }
 
+/**
+ * @brief Record Circuit Breaker Failure.
+ * @param[in] step_name Name of the step.
+ * @details Calls: lk(), std::chrono::system_clock::now().
+ */
 void SAGAOrchestrator::recordCircuitBreakerFailure(const std::string& step_name) {
     std::lock_guard<std::mutex> lk(circuit_breaker_mutex_);
     
@@ -655,6 +748,11 @@ void SAGAOrchestrator::recordCircuitBreakerFailure(const std::string& step_name)
     half_open_probe_in_flight_[step_name] = false;
 }
 
+/**
+ * @brief Record Circuit Breaker Success.
+ * @param[in] step_name Name of the step.
+ * @details Calls: lk().
+ */
 void SAGAOrchestrator::recordCircuitBreakerSuccess(const std::string& step_name) {
     std::lock_guard<std::mutex> lk(circuit_breaker_mutex_);
     
@@ -663,6 +761,12 @@ void SAGAOrchestrator::recordCircuitBreakerSuccess(const std::string& step_name)
     half_open_probe_in_flight_[step_name] = false;
 }
 
+/**
+ * @brief Try Acquire Circuit Breaker Execution.
+ * @param[in] step_name Name of the step.
+ * @return True when the operation succeeds.
+ * @details Calls: lk(), find(), end(), std::chrono::system_clock::now().
+ */
 bool SAGAOrchestrator::tryAcquireCircuitBreakerExecution(const std::string& step_name) {
     std::lock_guard<std::mutex> lk(circuit_breaker_mutex_);
 

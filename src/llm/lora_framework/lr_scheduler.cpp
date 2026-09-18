@@ -322,6 +322,12 @@ LRSchedulerConfig OneCycleLR::config() const {
 // LRSchedulerFactory Implementation
 // ============================================================================
 
+/**
+ * @brief Create.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @details Calls: spdlog::debug(), spdlog::warn().
+ */
 std::unique_ptr<LRScheduler> LRSchedulerFactory::create(const LRSchedulerConfig& config) {
     spdlog::debug("Creating LR scheduler: type={}", static_cast<int>(config.type));
     
@@ -386,22 +392,53 @@ std::unique_ptr<LRScheduler> LRSchedulerFactory::create(const LRSchedulerConfig&
     }
 }
 
+/**
+ * @brief Create Constant.
+ * @param[in] lr Input parameter.
+ * @return Return value.
+ * @details Implements createConstant without additional internal calls.
+ */
 std::unique_ptr<LRScheduler> LRSchedulerFactory::createConstant(float lr) {
     return std::make_unique<ConstantLR>(lr);
 }
 
+/**
+ * @brief Create Linear Decay.
+ * @param[in] start_lr Input parameter.
+ * @param[in] end_lr Input parameter.
+ * @param[in] steps Input parameter.
+ * @return Return value.
+ * @details Implements createLinearDecay without additional internal calls.
+ */
 std::unique_ptr<LRScheduler> LRSchedulerFactory::createLinearDecay(
     float start_lr, float end_lr, int steps
 ) {
     return std::make_unique<LinearLR>(start_lr, end_lr, steps);
 }
 
+/**
+ * @brief Create Cosine Annealing.
+ * @param[in] max_lr Input parameter.
+ * @param[in] min_lr Input parameter.
+ * @param[in] steps Input parameter.
+ * @return Return value.
+ * @details Implements createCosineAnnealing without additional internal calls.
+ */
 std::unique_ptr<LRScheduler> LRSchedulerFactory::createCosineAnnealing(
     float max_lr, float min_lr, int steps
 ) {
     return std::make_unique<CosineAnnealingLR>(max_lr, min_lr, steps);
 }
 
+/**
+ * @brief Create Warmup Cosine.
+ * @param[in] max_lr Input parameter.
+ * @param[in] min_lr Input parameter.
+ * @param[in] warmup_steps Input parameter.
+ * @param[in] total_steps Input parameter.
+ * @return Return value.
+ * @details Implements createWarmupCosine without additional internal calls.
+ */
 std::unique_ptr<LRScheduler> LRSchedulerFactory::createWarmupCosine(
     float max_lr, float min_lr, int warmup_steps, int total_steps
 ) {

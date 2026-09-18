@@ -52,6 +52,12 @@ plugins::PluginCapabilities WikipediaIngestionPlugin::getCapabilities() const {
     return capabilities;
 }
 
+/**
+ * @brief Initialize.
+ * @param[in] config Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), WikipediaIngestionConfig::fromJson(), json::parse(), setConfig(), init().
+ */
 bool WikipediaIngestionPlugin::initialize(const std::string& config) {
     if (!config.empty()) {
         try {
@@ -64,6 +70,13 @@ bool WikipediaIngestionPlugin::initialize(const std::string& config) {
     return init();
 }
 
+/**
+ * @brief Validate Source.
+ * @param[in] source_path Path to the source.
+ * @param[in,out] errors Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), emplace_back(), stream(), is_open(), header(), find().
+ */
 bool WikipediaIngestionPlugin::validateSource(
     const std::string& source_path,
     std::vector<std::string>& errors) {
@@ -88,6 +101,14 @@ bool WikipediaIngestionPlugin::validateSource(
     return true;
 }
 
+/**
+ * @brief Import Data.
+ * @param[in] source_path Path to the source.
+ * @param[in] options Input parameter.
+ * @param[in] cb Input parameter.
+ * @return Return value.
+ * @details Calls: permission_check(), emplace_back(), push_back(), init(), cb(), empty(), runIncrementalUpdate(), runFullImport().
+ */
 ImportStats WikipediaIngestionPlugin::importData(
     const std::string& source_path,
     const ImportOptions& options,
@@ -130,6 +151,13 @@ ImportStats WikipediaIngestionPlugin::importData(
     return stats;
 }
 
+/**
+ * @brief Import Data Async.
+ * @param[in] source_path Path to the source.
+ * @param[in] options Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), str(), store(), setStage(), get_future(), share().
+ */
 std::shared_ptr<ImportHandle> WikipediaIngestionPlugin::importDataAsync(
     const std::string& source_path,
     const ImportOptions& options) {
@@ -173,35 +201,74 @@ std::shared_ptr<ImportHandle> WikipediaIngestionPlugin::importDataAsync(
     return handle;
 }
 
+/**
+ * @brief Cancel.
+ * @details Calls: store().
+ */
 void WikipediaIngestionPlugin::cancel() {
     cancel_requested_.store(true);
     pipeline_.cancel();
 }
 
+/**
+ * @brief Get Source Schema.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Calls: sourceSchema().
+ */
 json WikipediaIngestionPlugin::getSourceSchema(const std::string& /*source_path*/) {
     return pipeline_.sourceSchema();
 }
 
+/**
+ * @brief Shutdown.
+ * @details Implements shutdown without additional internal calls.
+ */
 void WikipediaIngestionPlugin::shutdown() {
     pipeline_.shutdown();
 }
 
+/**
+ * @brief Init.
+ * @return True when the operation succeeds.
+ * @details Calls: initialize().
+ */
 bool WikipediaIngestionPlugin::init() {
     return pipeline_.initialize();
 }
 
+/**
+ * @brief Run Full Import.
+ * @param[in] source Input parameter.
+ * @param[in] options Input parameter.
+ * @return Return value.
+ * @details Implements runFullImport without additional internal calls.
+ */
 ImportStats WikipediaIngestionPlugin::runFullImport(
     const WikipediaDumpSource& source,
     const ImportOptions& options) {
     return pipeline_.runFullImport(source, options);
 }
 
+/**
+ * @brief Run Incremental Update.
+ * @param[in] source Input parameter.
+ * @param[in] options Input parameter.
+ * @return Return value.
+ * @details Implements runIncrementalUpdate without additional internal calls.
+ */
 ImportStats WikipediaIngestionPlugin::runIncrementalUpdate(
     const WikipediaDumpSource& source,
     const ImportOptions& options) {
     return pipeline_.runIncrementalUpdate(source, options);
 }
 
+/**
+ * @brief Rebuild Projection.
+ * @param[in] model Input parameter.
+ * @return Return value.
+ * @details Implements rebuildProjection without additional internal calls.
+ */
 WikipediaProjectionSummary WikipediaIngestionPlugin::rebuildProjection(WikipediaProjectionModel model) {
     return pipeline_.rebuildProjection(model);
 }
@@ -210,6 +277,13 @@ WikipediaValidationReport WikipediaIngestionPlugin::validateDatabase() const {
     return pipeline_.validate();
 }
 
+/**
+ * @brief Export Portable.
+ * @param[in] database_path Path to the database.
+ * @param[in] manifest_path Path to the manifest.
+ * @return Return value.
+ * @details Implements exportPortable without additional internal calls.
+ */
 WikipediaManifest WikipediaIngestionPlugin::exportPortable(
     const std::string& database_path,
     const std::string& manifest_path) {
@@ -220,10 +294,19 @@ const WikipediaIngestionPipeline& WikipediaIngestionPlugin::pipeline() const {
     return pipeline_;
 }
 
+/**
+ * @brief Pipeline.
+ * @return Return value.
+ * @details Implements pipeline without additional internal calls.
+ */
 WikipediaIngestionPipeline& WikipediaIngestionPlugin::pipeline() {
     return pipeline_;
 }
 
+/**
+ * @brief Register Plugin.
+ * @details Calls: ImporterPluginRegistry::instance(), registerFactory().
+ */
 void WikipediaIngestionPlugin::registerPlugin() {
     ImporterPluginRegistry::instance().registerFactory(
         kWikipediaPluginName,
@@ -237,6 +320,10 @@ void WikipediaIngestionPlugin::registerPlugin() {
         });
 }
 
+/**
+ * @brief Unregister Plugin.
+ * @details Calls: ImporterPluginRegistry::instance(), unregisterFactory().
+ */
 void WikipediaIngestionPlugin::unregisterPlugin() {
     ImporterPluginRegistry::instance().unregisterFactory(kWikipediaPluginName);
     plugins::PluginRegistry::unregisterFactory<IImporter>(kWikipediaPluginName);

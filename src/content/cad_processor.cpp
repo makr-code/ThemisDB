@@ -52,6 +52,12 @@ PluginInfo CADProcessor::getInfo() const {
     return info;
 }
 
+/**
+ * @brief Initialize.
+ * @param[in] config Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements initialize without additional internal calls.
+ */
 bool CADProcessor::initialize(const PluginConfig &config) {
     if (initialized_) {
         return true;
@@ -73,6 +79,10 @@ bool CADProcessor::initialize(const PluginConfig &config) {
     return true;
 }
 
+/**
+ * @brief Shutdown.
+ * @details Implements shutdown without additional internal calls.
+ */
 void CADProcessor::shutdown() {
     if (!initialized_) {
         return;
@@ -89,6 +99,14 @@ bool CADProcessor::canProcess(const std::string &mime_type) const {
     return std::find(supported.begin(), supported.end(), mime_type) != supported.end();
 }
 
+/**
+ * @brief Extract.
+ * @param[in] blob Input parameter.
+ * @param[in] mime_type Input parameter.
+ * @param[in] options Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::steady_clock::now(), size(), empty(), header(), begin(), std::min(), end(), find().
+ */
 ContentExtractionResult CADProcessor::extract(const std::vector<uint8_t> &blob, const std::string &mime_type,
                                               const ExtractionOptions &options) {
     auto start = std::chrono::steady_clock::now();
@@ -206,6 +224,14 @@ ContentExtractionResult CADProcessor::extract(const std::vector<uint8_t> &blob, 
     return result;
 }
 
+/**
+ * @brief Chunk.
+ * @param[in] result Input parameter.
+ * @param[in] int Input parameter.
+ * @param[in] int Input parameter.
+ * @return Return value.
+ * @details Calls: has_value(), value(), size(), empty(), contains(), str(), countTokens(), push_back().
+ */
 std::vector<ContentChunk> CADProcessor::chunk(const ContentExtractionResult &result, int /*max_tokens*/, int /*overlap*/
 ) {
     std::vector<ContentChunk> chunks;
@@ -261,6 +287,12 @@ json CADProcessor::getStatistics() const {
 
 // Private implementation methods
 
+/**
+ * @brief Parse STEP.
+ * @param[in] blob Input parameter.
+ * @return Return value.
+ * @details Calls: content(), begin(), end(), find(), std::max(), push_back(), std::to_string().
+ */
 CADExtractionData CADProcessor::parseSTEP(const std::vector<uint8_t> &blob) {
     CADExtractionData data;
 
@@ -299,6 +331,12 @@ CADExtractionData CADProcessor::parseSTEP(const std::vector<uint8_t> &blob) {
     return data;
 }
 
+/**
+ * @brief Parse IGES.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Implements parseIGES without additional internal calls.
+ */
 CADExtractionData CADProcessor::parseIGES(const std::vector<uint8_t> & /*blob*/) {
     CADExtractionData data;
 
@@ -311,6 +349,12 @@ CADExtractionData CADProcessor::parseIGES(const std::vector<uint8_t> & /*blob*/)
     return data;
 }
 
+/**
+ * @brief Parse DXF.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Implements parseDXF without additional internal calls.
+ */
 CADExtractionData CADProcessor::parseDXF(const std::vector<uint8_t> & /*blob*/) {
     CADExtractionData data;
 
@@ -324,6 +368,12 @@ CADExtractionData CADProcessor::parseDXF(const std::vector<uint8_t> & /*blob*/) 
     return data;
 }
 
+/**
+ * @brief Parse STL.
+ * @param[in] blob Input parameter.
+ * @return Return value.
+ * @details Calls: size(), std::memcpy(), data(), push_back(), std::to_string(), max(), lowest(), std::min().
+ */
 CADExtractionData CADProcessor::parseSTL(const std::vector<uint8_t> &blob) {
     CADExtractionData data;
     data.part_count = 1;
@@ -383,6 +433,12 @@ CADExtractionData CADProcessor::parseSTL(const std::vector<uint8_t> &blob) {
     return data;
 }
 
+/**
+ * @brief Parse OBJ.
+ * @param[in] blob Input parameter.
+ * @return Return value.
+ * @details Calls: content(), begin(), end(), stream(), max(), lowest(), std::getline(), empty().
+ */
 CADExtractionData CADProcessor::parseOBJ(const std::vector<uint8_t> &blob) {
     CADExtractionData data;
     data.part_count = 1;
@@ -432,6 +488,12 @@ CADExtractionData CADProcessor::parseOBJ(const std::vector<uint8_t> &blob) {
     return data;
 }
 
+/**
+ * @brief Render3 DPreview.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Implements render3DPreview without additional internal calls.
+ */
 std::vector<uint8_t> CADProcessor::render3DPreview(const std::vector<uint8_t> & /*blob*/) {
     // Real implementation would:
     // 1. Load CAD geometry
@@ -443,6 +505,12 @@ std::vector<uint8_t> CADProcessor::render3DPreview(const std::vector<uint8_t> & 
     return std::vector<uint8_t>();
 }
 
+/**
+ * @brief Extract Assembly Tree.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Implements extractAssemblyTree without additional internal calls.
+ */
 json CADProcessor::extractAssemblyTree(const std::vector<uint8_t> & /*blob*/) {
     json tree;
 
@@ -451,6 +519,12 @@ json CADProcessor::extractAssemblyTree(const std::vector<uint8_t> & /*blob*/) {
     return tree;
 }
 
+/**
+ * @brief Extract Bill Of Materials.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Implements extractBillOfMaterials without additional internal calls.
+ */
 json CADProcessor::extractBillOfMaterials(const std::vector<uint8_t> & /*blob*/) {
     json bom;
 

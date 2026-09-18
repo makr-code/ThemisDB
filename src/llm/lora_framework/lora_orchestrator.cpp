@@ -30,10 +30,23 @@ using Clock = std::chrono::system_clock;
 namespace {
 std::atomic<uint64_t> g_job_counter{0};
 
+/**
+ * @brief Make Job Id.
+ * @param[in] prefix Input parameter.
+ * @return Return value.
+ * @details Calls: std::to_string().
+ */
 std::string makeJobId(const std::string& prefix) {
     return prefix + "-" + std::to_string(++g_job_counter);
 }
 
+/**
+ * @brief Make Metadata.
+ * @param[in] adapter_id Identifier of the adapter.
+ * @param[in] version Input parameter.
+ * @return Return value.
+ * @details Calls: Clock::now().
+ */
 AdapterMetadata makeMetadata(const std::string& adapter_id, const std::string& version) {
     AdapterMetadata metadata;
     metadata.adapter_id = adapter_id;
@@ -45,6 +58,13 @@ AdapterMetadata makeMetadata(const std::string& adapter_id, const std::string& v
     return metadata;
 }
 
+/**
+ * @brief Make Adapter Info.
+ * @param[in] adapter_id Identifier of the adapter.
+ * @param[in] version Input parameter.
+ * @return Return value.
+ * @details Calls: makeMetadata().
+ */
 AdapterInfo makeAdapterInfo(const std::string& adapter_id, const std::string& version) {
     AdapterInfo info;
     info.adapter_id = adapter_id;
@@ -58,7 +78,6 @@ AdapterInfo makeAdapterInfo(const std::string& adapter_id, const std::string& ve
 }
 } // namespace
 
-/** @brief Implementation detail. */
 class LoRAOrchestrator::Impl {
 public:
     Impl() : is_initialized(false), advanced_enabled(false) {}
@@ -136,6 +155,15 @@ json LoRAOrchestrator::JobInfo::toJSON() const {
     return j;
 }
 
+/**
+ * @brief Create Adapter.
+ * @param[in] adapter_id Identifier of the adapter.
+ * @param[in] training_data Input parameter.
+ * @param[in] hyperparameters Input parameter.
+ * @param[in] async Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), makeAdapterInfo(), value_or(), size(), push_back(), makeJobId(), Clock::now().
+ */
 std::string LoRAOrchestrator::createAdapter(
     const std::string& adapter_id,
     const TrainingData& training_data,
@@ -163,6 +191,15 @@ std::string LoRAOrchestrator::createAdapter(
     return job.job_id;
 }
 
+/**
+ * @brief Create Adapter Batch.
+ * @param[in] adapter_id Identifier of the adapter.
+ * @param[in] datasets Input parameter.
+ * @param[in] hyperparameters Input parameter.
+ * @param[in] async Input parameter.
+ * @return Return value.
+ * @details Calls: insert(), end(), begin(), createAdapter().
+ */
 std::string LoRAOrchestrator::createAdapterBatch(
     const std::string& adapter_id,
     const std::vector<TrainingData>& datasets,
@@ -175,6 +212,14 @@ std::string LoRAOrchestrator::createAdapterBatch(
     return createAdapter(adapter_id, combined, hyperparameters, async);
 }
 
+/**
+ * @brief Import Adapter.
+ * @param[in] adapter_id Identifier of the adapter.
+ * @param[in] param Input parameter.
+ * @param[in] metadata Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), empty(), makeAdapterInfo(), push_back().
+ */
 bool LoRAOrchestrator::importAdapter(
     const std::string& adapter_id,
     const std::string& /*source_path*/,
@@ -247,6 +292,15 @@ std::vector<AdapterInfo> LoRAOrchestrator::searchAdapters(const json& /*criteria
     return listAdapters();
 }
 
+/**
+ * @brief Update Adapter.
+ * @param[in] adapter_id Identifier of the adapter.
+ * @param[in] training_data Input parameter.
+ * @param[in] bool Input parameter.
+ * @param[in] async Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), count(), makeAdapterInfo(), push_back(), size(), Clock::now(), makeJobId().
+ */
 std::string LoRAOrchestrator::updateAdapter(
     const std::string& adapter_id,
     const TrainingData& training_data,
@@ -275,6 +329,13 @@ std::string LoRAOrchestrator::updateAdapter(
     return job.job_id;
 }
 
+/**
+ * @brief Update Metadata.
+ * @param[in] adapter_id Identifier of the adapter.
+ * @param[in] metadata Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), find(), end(), push_back().
+ */
 bool LoRAOrchestrator::updateMetadata(const std::string& adapter_id, const AdapterMetadata& metadata) {
     std::unique_lock<std::shared_mutex> lock(impl_->state_mutex);
     auto it = impl_->adapters.find(adapter_id);
@@ -287,6 +348,13 @@ bool LoRAOrchestrator::updateMetadata(const std::string& adapter_id, const Adapt
     return true;
 }
 
+/**
+ * @brief Create Version.
+ * @param[in] adapter_id Identifier of the adapter.
+ * @param[in] description Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), find(), end(), size(), empty(), std::to_string(), count(), makeAdapterInfo().
+ */
 std::string LoRAOrchestrator::createVersion(const std::string& adapter_id, const std::string& description) {
     std::unique_lock<std::shared_mutex> lock(impl_->state_mutex);
     auto it = impl_->versions.find(adapter_id);
@@ -305,6 +373,13 @@ std::string LoRAOrchestrator::createVersion(const std::string& adapter_id, const
     return version;
 }
 
+/**
+ * @brief Switch Version.
+ * @param[in] adapter_id Identifier of the adapter.
+ * @param[in] version Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), find(), end(), std::find(), begin(), Clock::now().
+ */
 bool LoRAOrchestrator::switchVersion(const std::string& adapter_id, const std::string& version) {
     std::unique_lock<std::shared_mutex> lock(impl_->state_mutex);
     auto it = impl_->adapters.find(adapter_id);
@@ -324,6 +399,12 @@ bool LoRAOrchestrator::switchVersion(const std::string& adapter_id, const std::s
     return true;
 }
 
+/**
+ * @brief Rollback.
+ * @param[in] adapter_id Identifier of the adapter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), find(), end(), size(), pop_back(), back(), Clock::now().
+ */
 bool LoRAOrchestrator::rollback(const std::string& adapter_id) {
     std::unique_lock<std::shared_mutex> lock(impl_->state_mutex);
     auto it = impl_->versions.find(adapter_id);
@@ -339,6 +420,13 @@ bool LoRAOrchestrator::rollback(const std::string& adapter_id) {
     return true;
 }
 
+/**
+ * @brief Delete Adapter.
+ * @param[in] adapter_id Identifier of the adapter.
+ * @param[in] bool Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), erase().
+ */
 bool LoRAOrchestrator::deleteAdapter(const std::string& adapter_id, bool /*delete_all_versions*/) {
     std::unique_lock<std::shared_mutex> lock(impl_->state_mutex);
     size_t removed = impl_->adapters.erase(adapter_id);
@@ -346,6 +434,13 @@ bool LoRAOrchestrator::deleteAdapter(const std::string& adapter_id, bool /*delet
     return removed > 0;
 }
 
+/**
+ * @brief Delete Version.
+ * @param[in] adapter_id Identifier of the adapter.
+ * @param[in] version Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), find(), end(), std::remove(), begin(), erase(), empty(), back().
+ */
 bool LoRAOrchestrator::deleteVersion(const std::string& adapter_id, const std::string& version) {
     std::unique_lock<std::shared_mutex> lock(impl_->state_mutex);
     auto it = impl_->versions.find(adapter_id);
@@ -364,6 +459,13 @@ bool LoRAOrchestrator::deleteVersion(const std::string& adapter_id, const std::s
     return removed;
 }
 
+/**
+ * @brief Unload Adapter.
+ * @param[in] adapter_id Identifier of the adapter.
+ * @param[in] bool Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), find(), end().
+ */
 bool LoRAOrchestrator::unloadAdapter(const std::string& adapter_id, bool /*force*/) {
     std::unique_lock<std::shared_mutex> lock(impl_->state_mutex);
     auto it = impl_->adapters.find(adapter_id);
@@ -374,6 +476,13 @@ bool LoRAOrchestrator::unloadAdapter(const std::string& adapter_id, bool /*force
     return true;
 }
 
+/**
+ * @brief Load Adapter.
+ * @param[in] adapter_id Identifier of the adapter.
+ * @param[in] async Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), count(), makeAdapterInfo(), push_back(), Clock::now(), makeJobId(), submit(), std::move().
+ */
 std::string LoRAOrchestrator::loadAdapter(const std::string& adapter_id, bool async) {
     std::unique_lock<std::shared_mutex> lock(impl_->state_mutex);
     if (!impl_->adapters.count(adapter_id)) {
@@ -431,6 +540,12 @@ std::vector<LoRAOrchestrator::JobInfo> LoRAOrchestrator::listJobs(const std::opt
     return jobs;
 }
 
+/**
+ * @brief Cancel Job.
+ * @param[in] job_id Identifier of the job.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), find(), end(), Clock::now().
+ */
 bool LoRAOrchestrator::cancelJob(const std::string& job_id) {
     std::unique_lock<std::shared_mutex> lock(impl_->state_mutex);
     auto it = impl_->jobs.find(job_id);
@@ -442,6 +557,13 @@ bool LoRAOrchestrator::cancelJob(const std::string& job_id) {
     return true;
 }
 
+/**
+ * @brief Wait For Job.
+ * @param[in] job_id Identifier of the job.
+ * @param[in] int Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), find(), end().
+ */
 LoRAOrchestrator::JobInfo LoRAOrchestrator::waitForJob(const std::string& job_id, int /*timeout_seconds*/) {
     std::shared_lock<std::shared_mutex> lock(impl_->state_mutex);
     auto it = impl_->jobs.find(job_id);
@@ -456,6 +578,11 @@ LoRAOrchestrator::JobInfo LoRAOrchestrator::waitForJob(const std::string& job_id
     return missing;
 }
 
+/**
+ * @brief Register Event Callback.
+ * @param[in] callback Input parameter.
+ * @details Calls: lock(), push_back(), std::move().
+ */
 void LoRAOrchestrator::registerEventCallback(EventCallback callback) {
     std::unique_lock<std::shared_mutex> lock(impl_->state_mutex);
     impl_->callbacks.push_back(std::move(callback));
@@ -502,6 +629,10 @@ bool LoRAOrchestrator::healthCheck() const {
     return impl_->is_initialized.load(std::memory_order_acquire);
 }
 
+/**
+ * @brief Clear Cache.
+ * @details Calls: lock().
+ */
 void LoRAOrchestrator::clearCache() {
     std::unique_lock<std::shared_mutex> lock(impl_->state_mutex);
     for (auto& kv : impl_->adapters) {
@@ -509,6 +640,11 @@ void LoRAOrchestrator::clearCache() {
     }
 }
 
+/**
+ * @brief Get Multi Lo RAManager.
+ * @return Pointer to the result.
+ * @details Implements getMultiLoRAManager without additional internal calls.
+ */
 MultiLoRAManager* LoRAOrchestrator::getMultiLoRAManager() {
     return nullptr;
 }
@@ -525,9 +661,13 @@ std::shared_ptr<AdapterConsistencyChecker> LoRAOrchestrator::getConsistencyCheck
     return impl_->consistency_checker;
 }
 
-// ============================================================================
-// Provenance, Snapshots, and Audit Log
-// ============================================================================
+/**
+ * @brief ============================================================================ Provenance, Snapshots, and Audit Log ============================================================================
+ * @param[in] adapter_id Identifier of the adapter.
+ * @param[in] record Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), count(), spdlog::warn(), storeProvenance().
+ */
 
 bool LoRAOrchestrator::attachProvenance(const std::string& adapter_id,
                                          const LoRAProvenanceRecord& record) {
@@ -547,6 +687,14 @@ std::optional<LoRAProvenanceRecord> LoRAOrchestrator::getProvenanceRecord(
     return impl_->provenance_mgr.getProvenance(adapter_id);
 }
 
+/**
+ * @brief Create Adapter Snapshot.
+ * @param[in] adapter_id Identifier of the adapter.
+ * @param[in] version Input parameter.
+ * @param[in] weights_hash Input parameter.
+ * @return Return value.
+ * @details Calls: getProvenance(), createSnapshot().
+ */
 AdapterSnapshot LoRAOrchestrator::createAdapterSnapshot(
     const std::string& adapter_id,
     const std::string& version,
@@ -565,6 +713,13 @@ std::vector<AdapterSnapshot> LoRAOrchestrator::listAdapterSnapshots(
     return impl_->provenance_mgr.listSnapshots(adapter_id);
 }
 
+/**
+ * @brief Record Inference Audit.
+ * @param[in] adapter_id Identifier of the adapter.
+ * @param[in] entry Input parameter.
+ * @return Return value.
+ * @details Calls: appendAuditEntry(), std::move().
+ */
 InferenceAuditEntry LoRAOrchestrator::recordInferenceAudit(
     const std::string& adapter_id,
     InferenceAuditEntry entry) {
@@ -580,6 +735,10 @@ bool LoRAOrchestrator::verifyAuditChain(const std::string& adapter_id) const {
     return impl_->provenance_mgr.verifyAuditChain(adapter_id);
 }
 
+/**
+ * @brief Set Decision Record Processor.
+ * @param[in] processor Input parameter.
+ */
 void LoRAOrchestrator::setDecisionRecordProcessor(
     std::shared_ptr<themis::llm::DecisionRecordYamlProcessor> processor)
 {

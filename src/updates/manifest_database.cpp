@@ -36,10 +36,6 @@ namespace updates {
 // RAII wrapper for temporary file cleanup
 // ============================================================================
 
-/**
- * @brief RAII wrapper for temporary files with secure cleanup
- * @see Error Code: 7409 (temporary file cleanup on exception)
- */
 class TempFileRaii {
 public:
     explicit TempFileRaii(const std::string& path = "") : path_(path) {}
@@ -104,6 +100,10 @@ ManifestDatabase::~ManifestDatabase() {
     // Column family handles are managed by RocksDBWrapper
 }
 
+/**
+ * @brief Initialize Column Families.
+ * @details Calls: getOrCreateColumnFamily(), lock(), LOG_INFO(), LOG_ERROR(), error(), message().
+ */
 void ManifestDatabase::initializeColumnFamilies() {
     auto cf_manifests = storage_->getOrCreateColumnFamily("release_manifests");
     auto cf_files = storage_->getOrCreateColumnFamily("file_registry");
@@ -133,6 +133,12 @@ void ManifestDatabase::initializeColumnFamilies() {
     }
 }
 
+/**
+ * @brief Store Manifest.
+ * @param[in] manifest Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: toJson(), dump(), lock(), getRawDB(), Put(), rocksdb::WriteOptions(), DefaultColumnFamily(), ok().
+ */
 bool ManifestDatabase::storeManifest(const ReleaseManifest& manifest) {
     try {
         std::string key = manifest.version;
@@ -166,6 +172,12 @@ bool ManifestDatabase::storeManifest(const ReleaseManifest& manifest) {
     }
 }
 
+/**
+ * @brief Get Manifest.
+ * @param[in] version Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), getRawDB(), Get(), rocksdb::ReadOptions(), DefaultColumnFamily(), ok(), IsNotFound(), LOG_ERROR().
+ */
 std::optional<ReleaseManifest> ManifestDatabase::getManifest(const std::string& version) {
     try {
         std::string value;
@@ -194,6 +206,11 @@ std::optional<ReleaseManifest> ManifestDatabase::getManifest(const std::string& 
     }
 }
 
+/**
+ * @brief Get Latest Manifest.
+ * @return Return value.
+ * @details Calls: listVersions(), empty(), getManifest(), back().
+ */
 std::optional<ReleaseManifest> ManifestDatabase::getLatestManifest() {
     auto versions = listVersions();
     if (versions.empty()) {
@@ -208,6 +225,11 @@ std::vector<std::string> ManifestDatabase::listVersions() const {
     std::vector<std::string> versions;
     
     try {
+        /**
+         * @brief Lock.
+         * @param[in] cf_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(cf_mutex_);
         // Wrap in unique_ptr so iterator is freed on all paths (Phase 8.4 RAII).
         auto it = std::unique_ptr<rocksdb::Iterator>(storage_->getRawDB()->NewIterator(
@@ -229,6 +251,12 @@ std::vector<std::string> ManifestDatabase::listVersions() const {
     return versions;
 }
 
+/**
+ * @brief Verify Manifest.
+ * @param[in] manifest Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: calculateHash(), LOG_ERROR(), empty(), getCachedSignatureVerification(), std::filesystem::temp_directory_path(), RAND_bytes(), std::setw(), std::setfill().
+ */
 bool ManifestDatabase::verifyManifest(const ReleaseManifest& manifest) {
     // Calculate hash
     std::string calculated_hash = manifest.calculateHash();
@@ -322,6 +350,13 @@ bool ManifestDatabase::verifyManifest(const ReleaseManifest& manifest) {
     return true;
 }
 
+/**
+ * @brief Verify File.
+ * @param[in] path Input parameter.
+ * @param[in] version Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: getFile(), LOG_ERROR(), std::filesystem::exists(), empty(), calculateFileHash(), LOG_DEBUG(), getManifest(), verifySignature().
+ */
 bool ManifestDatabase::verifyFile(const std::string& path, const std::string& version) {
     auto file = getFile(path, version);
     if (!file) {
@@ -378,6 +413,13 @@ bool ManifestDatabase::verifyFile(const std::string& path, const std::string& ve
     return true;
 }
 
+/**
+ * @brief Get File.
+ * @param[in] path Input parameter.
+ * @param[in] version Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), getRawDB(), Get(), rocksdb::ReadOptions(), DefaultColumnFamily(), ok(), json::parse(), ReleaseFile::fromJson().
+ */
 std::optional<ReleaseFile> ManifestDatabase::getFile(
     const std::string& path,
     const std::string& version
@@ -408,6 +450,13 @@ std::optional<ReleaseFile> ManifestDatabase::getFile(
     }
 }
 
+/**
+ * @brief Store File.
+ * @param[in] file Input parameter.
+ * @param[in] version Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: toJson(), dump(), lock(), getRawDB(), Put(), rocksdb::WriteOptions(), DefaultColumnFamily(), ok().
+ */
 bool ManifestDatabase::storeFile(const ReleaseFile& file, const std::string& version) {
     try {
         std::string key = file.path + ":" + version;
@@ -428,6 +477,13 @@ bool ManifestDatabase::storeFile(const ReleaseFile& file, const std::string& ver
     }
 }
 
+/**
+ * @brief Cache Signature Verification.
+ * @param[in] hash Input parameter.
+ * @param[in] verified Input parameter.
+ * @param[in] certificate Input parameter.
+ * @details Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), dump(), lock(), getRawDB(), Put(), rocksdb::WriteOptions().
+ */
 void ManifestDatabase::cacheSignatureVerification(
     const std::string& hash,
     bool verified,
@@ -453,6 +509,12 @@ void ManifestDatabase::cacheSignatureVerification(
     }
 }
 
+/**
+ * @brief Get Cached Signature Verification.
+ * @param[in] hash Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), getRawDB(), Get(), rocksdb::ReadOptions(), DefaultColumnFamily(), ok(), json::parse(), value().
+ */
 std::optional<bool> ManifestDatabase::getCachedSignatureVerification(const std::string& hash) {
     try {
         std::string value;
@@ -477,6 +539,13 @@ std::optional<bool> ManifestDatabase::getCachedSignatureVerification(const std::
     }
 }
 
+/**
+ * @brief Cache Download.
+ * @param[in] version Input parameter.
+ * @param[in] filename Input parameter.
+ * @param[in] local_path Path to the local.
+ * @details Calls: lock(), getRawDB(), Put(), rocksdb::WriteOptions(), DefaultColumnFamily(), LOG_ERROR(), what().
+ */
 void ManifestDatabase::cacheDownload(
     const std::string& version,
     const std::string& filename,
@@ -497,6 +566,13 @@ void ManifestDatabase::cacheDownload(
     }
 }
 
+/**
+ * @brief Get Cached Download.
+ * @param[in] version Input parameter.
+ * @param[in] filename Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), getRawDB(), Get(), rocksdb::ReadOptions(), DefaultColumnFamily(), ok().
+ */
 std::optional<std::string> ManifestDatabase::getCachedDownload(
     const std::string& version,
     const std::string& filename
@@ -525,6 +601,12 @@ std::optional<std::string> ManifestDatabase::getCachedDownload(
     }
 }
 
+/**
+ * @brief Delete Manifest.
+ * @param[in] version Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: getManifest(), LOG_ERROR(), lock(), getRawDB(), DefaultColumnFamily(), Put(), rocksdb::WriteOptions(), Delete().
+ */
 bool ManifestDatabase::deleteManifest(const std::string& version) {
     try {
         // Retrieve manifest before deletion to obtain the list of associated files.

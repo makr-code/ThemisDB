@@ -28,6 +28,14 @@ using themis::sharding::PaxosWALEntryType;
 
 namespace {
 
+/**
+ * @brief Build Consensus Entry From Accepted Value.
+ * @param[in] value Input parameter.
+ * @param[in] slot Input parameter.
+ * @param[in] ballot_round Input parameter.
+ * @return Return value.
+ * @details Calls: json::parse(), is_discarded(), is_object(), value(), std::string().
+ */
 ConsensusLogEntry buildConsensusEntryFromAcceptedValue(const std::string& value,
                                                        uint64_t slot,
                                                        uint64_t ballot_round) {
@@ -51,6 +59,12 @@ ConsensusLogEntry buildConsensusEntryFromAcceptedValue(const std::string& value,
     return entry;
 }
 
+/**
+ * @brief Decode Accepted Value From Wal Payload.
+ * @param[in] payload Input parameter.
+ * @return Return value.
+ * @details Calls: is_object(), dump(), contains(), is_string().
+ */
 std::string decodeAcceptedValueFromWalPayload(const json& payload) {
     if (!payload.is_object()) {
         return payload.dump();
@@ -108,6 +122,12 @@ PaxosStatePersistence::PaxosStatePersistence(PaxosWAL*             wal,
 // open
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Open.
+ * @param[in] node_id Identifier of the node.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), try_lock_for(), THEMIS_ERROR(), load(), fs::create_directories(), loadLatestSnapshot(), THEMIS_INFO(), toString().
+ */
 bool PaxosStatePersistence::open(const std::string& node_id) {
     // FIXED: Use timed_lock with try_lock_for to enforce init_timeout
     std::unique_lock<std::timed_mutex> lock(mutex_, std::defer_lock);
@@ -153,6 +173,10 @@ bool PaxosStatePersistence::open(const std::string& node_id) {
     return true;
 }
 
+/**
+ * @brief Close.
+ * @details Calls: store().
+ */
 void PaxosStatePersistence::close() {
     is_open_.store(false);
 }
@@ -161,6 +185,11 @@ void PaxosStatePersistence::close() {
 // WAL replay
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Replay Wal.
+ * @param[in] from_lsn Input parameter.
+ * @details Calls: readEntries(), contains(), is_object(), is_string(), dump(), THEMIS_INFO().
+ */
 void PaxosStatePersistence::replayWal(LSN from_lsn) {
     // Read entries from the PaxosWAL since the last snapshot LSN
     auto entries = wal_->readEntries(from_lsn);
@@ -225,6 +254,14 @@ void PaxosStatePersistence::replayWal(LSN from_lsn) {
 // persistPromise
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Persist Promise.
+ * @param[in] slot Input parameter.
+ * @param[in] ballot_round Input parameter.
+ * @param[in] proposer_node_id Identifier of the proposer node.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), try_lock_for(), THEMIS_ERROR(), load(), logPromise(), empty(), json::parse(), flush().
+ */
 bool PaxosStatePersistence::persistPromise(uint64_t slot,
                                             uint64_t ballot_round,
                                             const std::string& proposer_node_id) {
@@ -259,6 +296,14 @@ bool PaxosStatePersistence::persistPromise(uint64_t slot,
 // persistAccept
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Persist Accept.
+ * @param[in] slot Input parameter.
+ * @param[in] ballot_round Input parameter.
+ * @param[in] value Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), try_lock_for(), THEMIS_ERROR(), load(), std::chrono::system_clock::now(), json::object(), json::parse(), is_discarded().
+ */
 bool PaxosStatePersistence::persistAccept(uint64_t slot,
                                            uint64_t ballot_round,
                                            const std::string& value) {
@@ -311,6 +356,12 @@ bool PaxosStatePersistence::persistAccept(uint64_t slot,
 // persistCommit
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Persist Commit.
+ * @param[in] slot Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), load(), find(), end(), count(), empty(), buildConsensusEntryFromAcceptedValue(), logCommit().
+ */
 bool PaxosStatePersistence::persistCommit(uint64_t slot) {
     std::unique_lock<std::timed_mutex> lock(mutex_);
     if (!is_open_.load()) {
@@ -379,6 +430,10 @@ PaxosStatePersistence::getAcceptorState(uint64_t slot) const {
 // maybeCompact / forceCompact
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Maybe Compact.
+ * @details Calls: lock(), try_lock_for(), THEMIS_WARN(), forceCompact().
+ */
 void PaxosStatePersistence::maybeCompact() {
     {
         std::unique_lock<std::timed_mutex> lock(mutex_, std::defer_lock);
@@ -393,6 +448,11 @@ void PaxosStatePersistence::maybeCompact() {
     forceCompact();
 }
 
+/**
+ * @brief Force Compact.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), try_lock_for(), THEMIS_ERROR(), buildConsensusEntryFromAcceptedValue(), createSnapshot(), THEMIS_INFO(), what().
+ */
 bool PaxosStatePersistence::forceCompact() {
     std::unique_lock<std::timed_mutex> lock(mutex_, std::defer_lock);
     if (!lock.try_lock_for(config_.init_timeout)) {

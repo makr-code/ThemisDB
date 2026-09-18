@@ -42,6 +42,11 @@ TransactionRetryManager::TransactionRetryManager(const TransactionRetryConfig& c
 TransactionRetryManager::~TransactionRetryManager() = default;
 
 RetryStatistics TransactionRetryManager::getStatistics() const {
+    /**
+     * @brief Lock.
+     * @param[in] stats_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(stats_mutex_);
     return stats_;
 }
@@ -51,6 +56,11 @@ CircuitState TransactionRetryManager::getCircuitState() const {
     bool state_changed = false;
     CircuitState current_state;
     {
+        /**
+         * @brief Lock.
+         * @param[in] circuit_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(circuit_mutex_);
 
         // Check if circuit should auto-reset
@@ -76,16 +86,31 @@ CircuitState TransactionRetryManager::getCircuitState() const {
     return current_state;
 }
 
+/**
+ * @brief Reset Statistics.
+ * @details Calls: lock(), RetryStatistics().
+ */
 void TransactionRetryManager::resetStatistics() {
     std::unique_lock<std::shared_mutex> lock(stats_mutex_);
     stats_ = RetryStatistics();
 }
 
+/**
+ * @brief Set Alert Callback.
+ * @param[in] callback Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void TransactionRetryManager::setAlertCallback(AlertCallback callback) {
     std::lock_guard<std::mutex> lock(callback_mutex_);
     alert_callback_ = std::move(callback);
 }
 
+/**
+ * @brief Classify Error.
+ * @param[in] error_message Input parameter.
+ * @return Return value.
+ * @details Calls: std::transform(), begin(), end(), std::tolower(), find().
+ */
 ErrorType TransactionRetryManager::classifyError(const std::string& error_message) {
     // Convert to lowercase for case-insensitive matching
     std::string lower_msg = error_message;
@@ -163,6 +188,12 @@ ErrorType TransactionRetryManager::classifyError(const std::string& error_messag
     return ErrorType::UNKNOWN;
 }
 
+/**
+ * @brief Is Retryable.
+ * @param[in] error_type Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements isRetryable without additional internal calls.
+ */
 bool TransactionRetryManager::isRetryable(ErrorType error_type) {
     switch (error_type) {
         // Retryable
@@ -195,6 +226,13 @@ bool TransactionRetryManager::isRetryable(ErrorType error_type) {
     }
 }
 
+/**
+ * @brief Calculate Delay.
+ * @param[in] attempt Input parameter.
+ * @param[in] policy Input parameter.
+ * @return Return value.
+ * @details Calls: std::pow(), std::isfinite(), std::min(), lock(), jitter_dist_().
+ */
 uint32_t TransactionRetryManager::calculateDelay(size_t attempt, const RetryPolicy* policy) {
     uint32_t base_delay = policy && policy->base_delay_ms > 0 
                          ? policy->base_delay_ms 
@@ -257,6 +295,10 @@ uint32_t TransactionRetryManager::calculateDelay(size_t attempt, const RetryPoli
     return delay;
 }
 
+/**
+ * @brief Record Success.
+ * @details Calls: lock(), transitionCircuitState(), invokeAlertCallback().
+ */
 void TransactionRetryManager::recordSuccess() {
     if (!config_.enable_circuit_breaker) {
         return;
@@ -281,6 +323,10 @@ void TransactionRetryManager::recordSuccess() {
     }
 }
 
+/**
+ * @brief Record Failure.
+ * @details Calls: lock(), std::chrono::steady_clock::now(), transitionCircuitState(), invokeAlertCallback().
+ */
 void TransactionRetryManager::recordFailure() {
     if (!config_.enable_circuit_breaker) {
         return;
@@ -319,6 +365,11 @@ bool TransactionRetryManager::isCircuitOpen() const {
     bool state_changed = false;
     bool open = {};
     {
+        /**
+         * @brief Lock.
+         * @param[in] circuit_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(circuit_mutex_);
 
         // Check if circuit should auto-reset
@@ -379,6 +430,11 @@ bool TransactionRetryManager::transitionCircuitState(CircuitState new_state, std
 void TransactionRetryManager::invokeAlertCallback(CircuitState state, const std::string& message) const {
     AlertCallback callback;
     {
+        /**
+         * @brief Lock.
+         * @param[in] callback_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(callback_mutex_);
         callback = alert_callback_;
     }

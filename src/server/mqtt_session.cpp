@@ -48,11 +48,20 @@ MqttSession::~MqttSession() noexcept {
     }
 }
 
+/**
+ * @brief Set Web Socket.
+ * @param[in] ws Input parameter.
+ * @details Implements setWebSocket without additional internal calls.
+ */
 void MqttSession::setWebSocket(std::shared_ptr<websocket::stream<asio::ip::tcp::socket>> ws) {
     wsStream_ = ws;
     transportType_ = TransportType::WebSocket;
 }
 
+/**
+ * @brief Start.
+ * @details Calls: doWebSocketRead(), doRead().
+ */
 void MqttSession::start() {
     if (transportType_ == TransportType::WebSocket) {
         doWebSocketRead();
@@ -61,6 +70,10 @@ void MqttSession::start() {
     }
 }
 
+/**
+ * @brief Stop.
+ * @details Calls: cancel(), close(), shutdown().
+ */
 void MqttSession::stop() {
     if (isConnected_) {
         keepaliveTimer_.cancel();
@@ -76,6 +89,12 @@ void MqttSession::stop() {
     }
 }
 
+/**
+ * @brief Check whether a user exceeds the current rate limit.
+ * @param[in] messageSize Input parameter.
+ * @return True when the user remains within the configured limit.
+ * @details Calls: updateRateLimiter().
+ */
 bool MqttSession::checkRateLimit(size_t messageSize) {
     if (!rateLimitConfig_.enabled) {
         return true;
@@ -100,6 +119,10 @@ bool MqttSession::checkRateLimit(size_t messageSize) {
     return true;
 }
 
+/**
+ * @brief Update Rate Limiter.
+ * @details Calls: std::chrono::steady_clock::now(), count().
+ */
 void MqttSession::updateRateLimiter() {
     auto now = std::chrono::steady_clock::now();
     auto elapsed = std::chrono::duration_cast<std::chrono::seconds>(now - lastRateLimitReset_);
@@ -112,6 +135,10 @@ void MqttSession::updateRateLimiter() {
     }
 }
 
+/**
+ * @brief Handle Connect.
+ * @details Calls: checkRateLimit(), MqttBroker::getInstance(), loadSession(), restoreSession(), sendConnAck(), expires_after(), async_wait(), shared_from_this().
+ */
 void MqttSession::handleConnect() {
     // MQTT CONNECT packet handler - production implementation
     // Parse CONNECT packet for protocol name, version, flags
@@ -145,6 +172,14 @@ void MqttSession::handleConnect() {
     });
 }
 
+/**
+ * @brief Handle Publish.
+ * @param[in] topic Input parameter.
+ * @param[in] payload Input parameter.
+ * @param[in] qos Input parameter.
+ * @param[in] packetId Input parameter.
+ * @details Calls: checkRateLimit(), size(), MqttBroker::getInstance(), publish(), sendPubAck(), contains(), std::chrono::steady_clock::now(), sendPubRec().
+ */
 void MqttSession::handlePublish(const std::string& topic, const std::string& payload, uint8_t qos, uint16_t packetId) {
     // MQTT PUBLISH packet handler - production implementation with QoS 0, 1, 2 support
     if (!isConnected_) {
@@ -197,6 +232,11 @@ void MqttSession::handlePublish(const std::string& topic, const std::string& pay
     }
 }
 
+/**
+ * @brief Handle Pub Rec.
+ * @param[in] packetId Input parameter.
+ * @details Calls: find(), end(), std::chrono::steady_clock::now(), sendPubRel().
+ */
 void MqttSession::handlePubRec(uint16_t packetId) {
     // QoS 2 step 2: Received PUBREC, send PUBREL
     auto it = outgoingQos2_.find(packetId);
@@ -207,6 +247,11 @@ void MqttSession::handlePubRec(uint16_t packetId) {
     }
 }
 
+/**
+ * @brief Handle Pub Rel.
+ * @param[in] packetId Input parameter.
+ * @details Calls: find(), end(), MqttBroker::getInstance(), publish(), sendPubComp(), erase().
+ */
 void MqttSession::handlePubRel(uint16_t packetId) {
     // QoS 2 step 3: Received PUBREL, publish message and send PUBCOMP
     auto it = incomingQos2_.find(packetId);
@@ -218,11 +263,23 @@ void MqttSession::handlePubRel(uint16_t packetId) {
     }
 }
 
+/**
+ * @brief Handle Pub Comp.
+ * @param[in] packetId Input parameter.
+ * @details Calls: erase().
+ */
 void MqttSession::handlePubComp(uint16_t packetId) {
     // QoS 2 step 4: Received PUBCOMP, complete delivery
     outgoingQos2_.erase(packetId);
 }
 
+/**
+ * @brief Handle Subscribe.
+ * @param[in] topic Input parameter.
+ * @param[in] qos Input parameter.
+ * @param[in] packetId Input parameter.
+ * @details Calls: checkRateLimit(), size(), starts_with(), find(), substr(), MqttBroker::getInstance(), subscribeShared(), shared_from_this().
+ */
 void MqttSession::handleSubscribe(const std::string& topic, uint8_t qos, uint16_t packetId) {
     // MQTT SUBSCRIBE packet handler - production implementation
     if (!isConnected_) {
@@ -261,6 +318,11 @@ void MqttSession::handleSubscribe(const std::string& topic, uint8_t qos, uint16_
     sendSubAck(packetId, return_codes);
 }
 
+/**
+ * @brief Handle Unsubscribe.
+ * @param[in] topic Input parameter.
+ * @details Calls: MqttBroker::getInstance(), unsubscribe(), shared_from_this(), erase().
+ */
 void MqttSession::handleUnsubscribe(const std::string& topic) {
     // MQTT UNSUBSCRIBE packet handler
     if (!isConnected_) {
@@ -271,6 +333,10 @@ void MqttSession::handleUnsubscribe(const std::string& topic) {
     sessionState_.subscriptions.erase(topic);
 }
 
+/**
+ * @brief Handle Ping Req.
+ * @details Calls: expires_after(), sendPingResp().
+ */
 void MqttSession::handlePingReq() {
     // MQTT PINGREQ packet handler
     // Reset keepalive timer
@@ -278,6 +344,10 @@ void MqttSession::handlePingReq() {
     sendPingResp();
 }
 
+/**
+ * @brief Handle Disconnect.
+ * @details Calls: clear(), MqttBroker::getInstance(), saveSession(), stop().
+ */
 void MqttSession::handleDisconnect() {
     // MQTT DISCONNECT packet handler
     // Clean disconnect - don't send will message
@@ -299,6 +369,11 @@ void MqttSession::triggerWillMessage() const {
     }
 }
 
+/**
+ * @brief Restore Session.
+ * @param[in] state Input parameter.
+ * @details Calls: MqttBroker::getInstance(), subscribe(), shared_from_this().
+ */
 void MqttSession::restoreSession(const MqttSessionState& state) {
     sessionState_ = state;
     
@@ -311,6 +386,12 @@ void MqttSession::restoreSession(const MqttSessionState& state) {
     outgoingQos2_ = state.qos2Messages;
 }
 
+/**
+ * @brief Send Conn Ack.
+ * @param[in] sessionPresent Input parameter.
+ * @param[in] returnCode Input parameter.
+ * @details Calls: reserve(), push_back(), std::move(), doWrite().
+ */
 void MqttSession::sendConnAck(bool sessionPresent, uint8_t returnCode) {
     // Build MQTT CONNACK packet
     // Format: [Type(0x20), RemainingLength, SessionPresent, ReturnCode]
@@ -334,6 +415,14 @@ void MqttSession::sendConnAck(bool sessionPresent, uint8_t returnCode) {
     doWrite();
 }
 
+/**
+ * @brief Send Publish.
+ * @param[in] topic Input parameter.
+ * @param[in] payload Input parameter.
+ * @param[in] qos Input parameter.
+ * @param[in] retain Input parameter.
+ * @details Calls: size(), reserve(), push_back(), max(), std::chrono::steady_clock::now(), insert(), end(), begin().
+ */
 void MqttSession::sendPublish(const std::string& topic, const std::string& payload, uint8_t qos, bool retain) {
     // Build MQTT PUBLISH packet
     std::vector<uint8_t> packet;
@@ -411,6 +500,11 @@ void MqttSession::sendPublish(const std::string& topic, const std::string& paylo
     doWrite();
 }
 
+/**
+ * @brief Send Pub Ack.
+ * @param[in] packetId Input parameter.
+ * @details Calls: push_back(), std::move(), doWrite().
+ */
 void MqttSession::sendPubAck(uint16_t packetId) {
     // Build MQTT PUBACK packet (QoS 1 acknowledgment)
     std::vector<uint8_t> packet = {0x40, 0x02};
@@ -420,6 +514,11 @@ void MqttSession::sendPubAck(uint16_t packetId) {
     doWrite();
 }
 
+/**
+ * @brief Send Pub Rec.
+ * @param[in] packetId Input parameter.
+ * @details Calls: push_back(), std::move(), doWrite().
+ */
 void MqttSession::sendPubRec(uint16_t packetId) {
     // Build MQTT PUBREC packet (QoS 2 step 1)
     std::vector<uint8_t> packet = {0x50, 0x02};
@@ -429,6 +528,11 @@ void MqttSession::sendPubRec(uint16_t packetId) {
     doWrite();
 }
 
+/**
+ * @brief Send Pub Rel.
+ * @param[in] packetId Input parameter.
+ * @details Calls: push_back(), std::move(), doWrite().
+ */
 void MqttSession::sendPubRel(uint16_t packetId) {
     // Build MQTT PUBREL packet (QoS 2 step 2)
     std::vector<uint8_t> packet = {0x62, 0x02}; // QoS 1 for PUBREL
@@ -438,6 +542,11 @@ void MqttSession::sendPubRel(uint16_t packetId) {
     doWrite();
 }
 
+/**
+ * @brief Send Pub Comp.
+ * @param[in] packetId Input parameter.
+ * @details Calls: push_back(), std::move(), doWrite().
+ */
 void MqttSession::sendPubComp(uint16_t packetId) {
     // Build MQTT PUBCOMP packet (QoS 2 step 3)
     std::vector<uint8_t> packet = {0x70, 0x02};
@@ -447,6 +556,12 @@ void MqttSession::sendPubComp(uint16_t packetId) {
     doWrite();
 }
 
+/**
+ * @brief Send Sub Ack.
+ * @param[in] packetId Input parameter.
+ * @param[in] returnCodes Input parameter.
+ * @details Calls: reserve(), size(), push_back(), max(), insert(), end(), begin(), std::move().
+ */
 void MqttSession::sendSubAck(uint16_t packetId, const std::vector<uint8_t>& returnCodes) {
     // Build MQTT SUBACK packet
     // Format: [Type(0x90), RemainingLength, PacketId(2), ReturnCodes...]
@@ -473,6 +588,10 @@ void MqttSession::sendSubAck(uint16_t packetId, const std::vector<uint8_t>& retu
     doWrite();
 }
 
+/**
+ * @brief Send Ping Resp.
+ * @details Calls: push_back(), std::move(), doWrite().
+ */
 void MqttSession::sendPingResp() {
     // Build MQTT PINGRESP packet
     // Format: [Type(0xD0), Length(0)]
@@ -482,6 +601,10 @@ void MqttSession::sendPingResp() {
     doWrite();
 }
 
+/**
+ * @brief Do Read.
+ * @details Calls: shared_from_this(), async_read_some(), asio::buffer(), stop(), handleConnect(), topic(), data(), payload().
+ */
 void MqttSession::doRead() {
     auto self = shared_from_this();
     
@@ -647,6 +770,10 @@ void MqttSession::doRead() {
         });
 }
 
+/**
+ * @brief Do Write.
+ * @details Calls: empty(), shared_from_this(), front(), size(), doWebSocketWrite(), asio::async_write(), asio::buffer(), pop_front().
+ */
 void MqttSession::doWrite() {
     if (writeQueue_.empty()) {
         return;
@@ -678,16 +805,34 @@ void MqttSession::doWrite() {
 
 // MqttBroker implementation
 
+/**
+ * @brief Get Instance.
+ * @return Return value.
+ * @details Implements getInstance without additional internal calls.
+ */
 MqttBroker& MqttBroker::getInstance() {
     static MqttBroker instance;
     return instance;
 }
 
+/**
+ * @brief Subscribe.
+ * @param[in] topic Input parameter.
+ * @param[in] session Input parameter.
+ * @param[in] uint8_t Input parameter.
+ * @details Calls: lock(), push_back().
+ */
 void MqttBroker::subscribe(const std::string& topic, std::shared_ptr<MqttSession> session, uint8_t) {
     std::lock_guard<std::mutex> lock(mutex_);
     subscriptions_[topic].push_back(session);
 }
 
+/**
+ * @brief Unsubscribe.
+ * @param[in] topic Input parameter.
+ * @param[in] param Input parameter.
+ * @details Calls: lock(), find(), end(), erase(), std::remove_if(), begin(), expired().
+ */
 void MqttBroker::unsubscribe(const std::string& topic, std::shared_ptr<MqttSession>) {
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = subscriptions_.find(topic);
@@ -701,17 +846,38 @@ void MqttBroker::unsubscribe(const std::string& topic, std::shared_ptr<MqttSessi
     }
 }
 
+/**
+ * @brief Subscribe Shared.
+ * @param[in] shareName Input parameter.
+ * @param[in] topic Input parameter.
+ * @param[in] session Input parameter.
+ * @param[in] uint8_t Input parameter.
+ * @details Calls: lock(), push_back().
+ */
 void MqttBroker::subscribeShared(const std::string& shareName, const std::string& topic, 
                                  std::shared_ptr<MqttSession> session, uint8_t) {
     std::lock_guard<std::mutex> lock(mutex_);
     sharedSubscriptions_[shareName][topic].push_back(session);
 }
 
+/**
+ * @brief Save Session.
+ * @param[in] clientId Input parameter.
+ * @param[in] state Input parameter.
+ * @details Calls: lock().
+ */
 void MqttBroker::saveSession(const std::string& clientId, const MqttSessionState& state) {
     std::lock_guard<std::mutex> lock(mutex_);
     persistentSessions_[clientId] = state;
 }
 
+/**
+ * @brief Load Session.
+ * @param[in] clientId Input parameter.
+ * @param[in,out] state Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), find(), end().
+ */
 bool MqttBroker::loadSession(const std::string& clientId, MqttSessionState& state) {
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = persistentSessions_.find(clientId);
@@ -722,11 +888,23 @@ bool MqttBroker::loadSession(const std::string& clientId, MqttSessionState& stat
     return false;
 }
 
+/**
+ * @brief Delete Session.
+ * @param[in] clientId Input parameter.
+ * @details Calls: lock(), erase().
+ */
 void MqttBroker::deleteSession(const std::string& clientId) {
     std::lock_guard<std::mutex> lock(mutex_);
     persistentSessions_.erase(clientId);
 }
 
+/**
+ * @brief Set Retained Message.
+ * @param[in] topic Input parameter.
+ * @param[in] payload Input parameter.
+ * @param[in] qos Input parameter.
+ * @details Calls: lock(), empty(), erase(), std::chrono::steady_clock::now().
+ */
 void MqttBroker::setRetainedMessage(const std::string& topic, const std::string& payload, uint8_t qos) {
     std::lock_guard<std::mutex> lock(mutex_);
     if (payload.empty()) {
@@ -742,6 +920,12 @@ void MqttBroker::setRetainedMessage(const std::string& topic, const std::string&
     }
 }
 
+/**
+ * @brief Get Retained Messages.
+ * @param[in] topicFilter Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), topicMatches(), push_back().
+ */
 std::vector<RetainedMessage> MqttBroker::getRetainedMessages(const std::string& topicFilter) {
     std::lock_guard<std::mutex> lock(mutex_);
     std::vector<RetainedMessage> results;
@@ -755,11 +939,23 @@ std::vector<RetainedMessage> MqttBroker::getRetainedMessages(const std::string& 
     return results;
 }
 
+/**
+ * @brief Clear Retained Message.
+ * @param[in] topic Input parameter.
+ * @details Calls: lock(), erase().
+ */
 void MqttBroker::clearRetainedMessage(const std::string& topic) {
     std::lock_guard<std::mutex> lock(mutex_);
     retainedMessages_.erase(topic);
 }
 
+/**
+ * @brief Topic Matches.
+ * @param[in] filter Input parameter.
+ * @param[in] topic Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: size().
+ */
 bool MqttBroker::topicMatches(const std::string& filter, const std::string& topic) {
     // MQTT topic matching with wildcards
     // + matches single level, # matches multiple levels
@@ -787,6 +983,14 @@ bool MqttBroker::topicMatches(const std::string& filter, const std::string& topi
     return filterPos == filter.size() && topicPos == topic.size();
 }
 
+/**
+ * @brief Publish.
+ * @param[in] topic Input parameter.
+ * @param[in] payload Input parameter.
+ * @param[in] qos Input parameter.
+ * @param[in] retain Input parameter.
+ * @details Calls: lock(), setRetainedMessage(), topicMatches(), sendPublish(), empty(), fetch_add(), size().
+ */
 void MqttBroker::publish(const std::string& topic, const std::string& payload, uint8_t qos, bool retain) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -822,6 +1026,11 @@ void MqttBroker::publish(const std::string& topic, const std::string& payload, u
     }
 }
 
+/**
+ * @brief Get Aggregated Metrics.
+ * @return Return value.
+ * @details Calls: lock(), insert(), get(), getMetrics(), load(), empty(), size().
+ */
 MqttMetrics MqttBroker::getAggregatedMetrics() {
     std::lock_guard<std::mutex> lock(mutex_);
     MqttMetrics aggregated;
@@ -866,7 +1075,10 @@ MqttMetrics MqttBroker::getAggregatedMetrics() {
     return aggregated;
 }
 
-// WebSocket transport support methods for MqttSession
+/**
+ * @brief WebSocket transport support methods for MqttSession
+ * @details Calls: shared_from_this(), async_read(), stop(), consume(), size().
+ */
 void MqttSession::doWebSocketRead() {
     if (!wsStream_) {
         return;
@@ -892,6 +1104,10 @@ void MqttSession::doWebSocketRead() {
         });
 }
 
+/**
+ * @brief Do Web Socket Write.
+ * @details Calls: empty(), shared_from_this(), front(), size(), async_write(), asio::buffer(), stop(), pop_front().
+ */
 void MqttSession::doWebSocketWrite() {
     if (!wsStream_ || writeQueue_.empty()) {
         return;

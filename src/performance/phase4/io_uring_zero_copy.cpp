@@ -35,17 +35,42 @@
 #include <signal.h>
 #include <linux/io_uring.h>
 
-// Thin wrappers around io_uring syscalls not exposed by glibc < 2.36
+/**
+ * @brief Thin wrappers around io_uring syscalls not exposed by glibc < 2.
+ * @param[in] entries Input parameter.
+ * @param[in,out] p Input/output parameter.
+ * @return Return value.
+ * @details 36 Calls: syscall().
+ */
 static int io_uring_setup(unsigned entries, struct io_uring_params* p) {
     return static_cast<int>(::syscall(__NR_io_uring_setup, entries, p));
 }
 
+/**
+ * @brief Io uring enter.
+ * @param[in] fd Input parameter.
+ * @param[in] to_submit Input parameter.
+ * @param[in] min_complete Input parameter.
+ * @param[in] flags Input parameter.
+ * @param[in,out] sig Input/output parameter.
+ * @return Return value.
+ * @details Calls: syscall().
+ */
 static int io_uring_enter(int fd, unsigned to_submit, unsigned min_complete,
                           unsigned flags, sigset_t* sig) {
     return static_cast<int>(::syscall(__NR_io_uring_enter, fd,
                                       to_submit, min_complete, flags, sig, _NSIG / 8));
 }
 
+/**
+ * @brief Io uring register.
+ * @param[in] fd Input parameter.
+ * @param[in] opcode Input parameter.
+ * @param[in,out] arg Input/output parameter.
+ * @param[in] nr_args Input parameter.
+ * @return Return value.
+ * @details Calls: syscall().
+ */
 static int io_uring_register(int fd, unsigned opcode, void* arg,
                               unsigned nr_args) {
     return static_cast<int>(::syscall(__NR_io_uring_register, fd, opcode, arg, nr_args));
@@ -194,6 +219,11 @@ IoUringZeroCopyIO::~IoUringZeroCopyIO() noexcept {
 void IoUringZeroCopyIO::setup_ring(const IoUringConfig& config) noexcept {
 #ifdef THEMIS_ENABLE_IO_URING
 #ifdef __linux__
+    /**
+     * @brief Lock.
+     * @param[in] ring_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(ring_mutex_);
     
     struct io_uring_params params{};
@@ -294,6 +324,11 @@ void IoUringZeroCopyIO::setup_ring(const IoUringConfig& config) noexcept {
 void IoUringZeroCopyIO::teardown_ring() noexcept {
 #ifdef THEMIS_ENABLE_IO_URING
 #ifdef __linux__
+    /**
+     * @brief Lock.
+     * @param[in] ring_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(ring_mutex_);
     
     if (!ring_) {
@@ -353,6 +388,11 @@ bool IoUringZeroCopyIO::register_buffers() noexcept {
 bool IoUringZeroCopyIO::register_fd(int fd) noexcept {
 #ifdef THEMIS_ENABLE_IO_URING
 #ifdef __linux__
+    /**
+     * @brief Lock.
+     * @param[in] ring_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(ring_mutex_);
     
     if (!available_ || !config_.fixed_files) {
@@ -381,6 +421,11 @@ int IoUringZeroCopyIO::send_zerocopy(int fd, uint32_t buf_index, size_t len) noe
 #ifdef THEMIS_ENABLE_IO_URING
 #ifdef __linux__
     {
+        /**
+         * @brief Lock.
+         * @param[in] ring_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(ring_mutex_);
         
         if (available_ && ring_->ring_fd >= 0) {
@@ -441,6 +486,11 @@ int IoUringZeroCopyIO::recv_zerocopy(int fd, uint32_t buf_index, size_t max_len)
 #ifdef THEMIS_ENABLE_IO_URING
 #ifdef __linux__
     {
+        /**
+         * @brief Lock.
+         * @param[in] ring_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(ring_mutex_);
         
         if (available_ && ring_->ring_fd >= 0) {
@@ -487,6 +537,11 @@ uint32_t IoUringZeroCopyIO::wait_completions(uint32_t min_completions) noexcept 
 #ifdef THEMIS_ENABLE_IO_URING
 #ifdef __linux__
     {
+        /**
+         * @brief Lock.
+         * @param[in] ring_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(ring_mutex_);
         
         if (!available_ || ring_->ring_fd < 0) {
@@ -546,6 +601,12 @@ int IoUringZeroCopyIO::submit_sqes() noexcept {
     return -1;
 }
 
+/**
+ * @brief Get buffer.
+ * @param[in] index Input parameter.
+ * @return Return value.
+ * @details Calls: at().
+ */
 ZeroCopyBuffer& IoUringZeroCopyIO::get_buffer(uint32_t index) {
     return buffers_.at(index);
 }

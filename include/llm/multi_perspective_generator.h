@@ -23,9 +23,6 @@ namespace llm {
 // Forward declarations
 class EthicalGuidelinesManager;
 
-/**
- * @brief Ethical perspective/framework
- */
 struct EthicalPerspective {
     std::string id;
     std::string name;
@@ -35,9 +32,6 @@ struct EthicalPerspective {
     std::string prompt_template;   ///< Template for generating perspective
 };
 
-/**
- * @brief Single perspective response
- */
 struct PerspectiveResponse {
     EthicalPerspective perspective;
     std::string response;
@@ -46,10 +40,11 @@ struct PerspectiveResponse {
     std::string reasoning;
 };
 
-/**
- * @brief Multi-perspective generation result
- */
 struct MultiPerspectiveResult {
+    /**
+     * @brief Multi Perspective Result.
+     * @return Return value.
+     */
     virtual ~MultiPerspectiveResult() = default;
     // Original query
     std::string query;
@@ -75,9 +70,6 @@ struct MultiPerspectiveResult {
     std::chrono::milliseconds generation_time;
 };
 
-/**
- * @brief Configuration for multi-perspective generation
- */
 struct MultiPerspectiveConfig {
     // Perspective selection
     int min_perspectives = 2;              ///< Minimum perspectives to generate
@@ -103,41 +95,19 @@ struct MultiPerspectiveConfig {
     bool async_generation = false;
 };
 
-/**
- * @brief Multi-perspective generator
- * 
- * Generates multiple ethical/moral perspectives for queries to ensure
- * balanced and diverse presentation. Prevents bias towards single moral
- * framework and respects moral pluralism.
- */
 class MultiPerspectiveGenerator {
 public:
-    /**
-     * @brief Constructor
-     * @param config Configuration
-     * @param guidelines_manager Optional ethical guidelines manager
-     */
     explicit MultiPerspectiveGenerator(
         const MultiPerspectiveConfig& config = {},
         EthicalGuidelinesManager* guidelines_manager = nullptr
     );
     
-    /**
-     * @brief Destructor
-     */
     ~MultiPerspectiveGenerator();
     
     // ═══════════════════════════════════════════════════════════
     // Core functionality
     // ═══════════════════════════════════════════════════════════
     
-    /**
-     * @brief Generate multiple perspectives for query
-     * @param query User query
-     * @param llm_wrapper LLM wrapper for generation
-     * @param context Optional conversation context
-     * @return Multi-perspective result
-     */
     MultiPerspectiveResult generatePerspectives(
         const std::string& query,
         void* llm_wrapper,  // LlamaWrapper* - forward declared
@@ -145,11 +115,11 @@ public:
     );
     
     /**
-     * @brief Generate single perspective response
-     * @param query User query
-     * @param perspective Perspective to apply
-     * @param llm_wrapper LLM wrapper for generation
-     * @return Perspective response
+     * @brief Generate Single Perspective.
+     * @param[in] query Input parameter.
+     * @param[in] perspective Input parameter.
+     * @param[in,out] llm_wrapper Input/output parameter.
+     * @return Return value.
      */
     PerspectiveResponse generateSinglePerspective(
         const std::string& query,
@@ -158,10 +128,10 @@ public:
     );
     
     /**
-     * @brief Synthesize multiple perspectives into balanced response
-     * @param perspectives Vector of perspective responses
-     * @param query Original query
-     * @return Synthesized response
+     * @brief Synthesize Perspectives.
+     * @param[in] perspectives Input parameter.
+     * @param[in] query Input parameter.
+     * @return Return value.
      */
     std::string synthesizePerspectives(
         const std::vector<PerspectiveResponse>& perspectives,
@@ -169,109 +139,92 @@ public:
     );
     
     /**
-     * @brief Detect if query requires multi-perspective analysis
-     * @param query User query
-     * @return true if multi-perspective analysis recommended
+     * @brief Requires Multi Perspective.
+     * @param[in] query Input parameter.
+     * @return True when the operation succeeds.
      */
     bool requiresMultiPerspective(const std::string& query);
     
     /**
-     * @brief Select appropriate perspectives for query
-     * @param query User query
-     * @return Vector of perspectives to generate
+     * @brief Select Perspectives.
+     * @param[in] query Input parameter.
+     * @return Return value.
      */
     std::vector<EthicalPerspective> selectPerspectives(const std::string& query);
     
-    // ═══════════════════════════════════════════════════════════
-    // Perspective management
-    // ═══════════════════════════════════════════════════════════
-    
     /**
-     * @brief Add ethical perspective
-     * @param perspective Perspective to add
+     * @brief ═══════════════════════════════════════════════════════════ Perspective management ═══════════════════════════════════════════════════════════
+     * @param[in] perspective Input parameter.
      */
+    
     void addPerspective(const EthicalPerspective& perspective);
     
     /**
-     * @brief Remove perspective by ID
-     * @param perspective_id Perspective ID to remove
+     * @brief Remove Perspective.
+     * @param[in] perspective_id Identifier of the perspective.
      */
     void removePerspective(const std::string& perspective_id);
     
     /**
-     * @brief Get all available perspectives
-     * @return Vector of all perspectives
+     * @brief Get Available Perspectives.
+     * @return Return value.
      */
     std::vector<EthicalPerspective> getAvailablePerspectives() const;
     
     /**
-     * @brief Load default ethical perspectives
-     * 
-     * Loads standard ethical frameworks:
-     * - Utilitarian (consequentialist)
-     * - Deontological (duty-based)
-     * - Virtue ethics (character-based)
-     * - Care ethics (relationship-based)
-     * - Rights-based ethics
-     * - Justice-based ethics
+     * @brief Load Default Perspectives.
      */
     void loadDefaultPerspectives();
     
-    // ═══════════════════════════════════════════════════════════
-    // Diversity analysis
-    // ═══════════════════════════════════════════════════════════
-    
     /**
-     * @brief Calculate diversity score for perspectives
-     * @param perspectives Vector of perspective responses
-     * @return Diversity score (0-1)
+     * @brief ═══════════════════════════════════════════════════════════ Diversity analysis ═══════════════════════════════════════════════════════════
+     * @param[in] perspectives Input parameter.
+     * @return Return value.
      */
+    
     float calculateDiversityScore(
         const std::vector<PerspectiveResponse>& perspectives
     );
     
     /**
-     * @brief Find common themes across perspectives
-     * @param perspectives Vector of perspective responses
-     * @return Vector of common themes
+     * @brief Find Common Themes.
+     * @param[in] perspectives Input parameter.
+     * @return Return value.
      */
     std::vector<std::string> findCommonThemes(
         const std::vector<PerspectiveResponse>& perspectives
     );
     
     /**
-     * @brief Find disagreements between perspectives
-     * @param perspectives Vector of perspective responses
-     * @return Vector of disagreement areas
+     * @brief Find Disagreements.
+     * @param[in] perspectives Input parameter.
+     * @return Return value.
      */
     std::vector<std::string> findDisagreements(
         const std::vector<PerspectiveResponse>& perspectives
     );
     
-    // ═══════════════════════════════════════════════════════════
-    // Configuration
-    // ═══════════════════════════════════════════════════════════
-    
     /**
-     * @brief Update configuration
-     * @param config New configuration
+     * @brief ═══════════════════════════════════════════════════════════ Configuration ═══════════════════════════════════════════════════════════
+     * @param[in] config Input parameter.
      */
+    
     void setConfig(const MultiPerspectiveConfig& config);
     
     /**
-     * @brief Get current configuration
-     * @return Current configuration
+     * @brief Get Config.
+     * @return Return value.
      */
     MultiPerspectiveConfig getConfig() const;
     
     /**
-     * @brief Set ethical guidelines manager
-     * @param manager Guidelines manager to use
+     * @brief Set Ethical Guidelines Manager.
+     * @param[in,out] manager Input/output parameter.
      */
     void setEthicalGuidelinesManager(EthicalGuidelinesManager* manager);
     
     /**
-     * @brief Clear perspective cache
+     * @brief Clear Cache.
      */
     void clearCache();
     
@@ -279,9 +232,6 @@ public:
     // Statistics
     // ═══════════════════════════════════════════════════════════
     
-    /**
-     * @brief Statistics for monitoring
-     */
     struct Statistics {
         uint64_t total_generations = 0;
         uint64_t multi_perspective_generated = 0;
@@ -300,20 +250,16 @@ public:
     };
     
     /**
-     * @brief Get statistics
-     * @return Current statistics
+     * @brief Return access control statistics.
+     * @return Access control statistics.
      */
     Statistics getStatistics() const;
     
     /**
-     * @brief Reset statistics
+     * @brief Reset Statistics.
      */
     void resetStatistics();
     
-    /**
-     * @brief Set callback for generation completion
-     * @param callback Function to call after each generation
-     */
     void setGenerationCallback(
         std::function<void(const MultiPerspectiveResult&)> callback
     );
@@ -323,51 +269,80 @@ private:
     std::unique_ptr<Impl> impl_;
     
     // Helper methods
+    /**
+     * @brief Build Perspective Prompt.
+     * @param[in] query Input parameter.
+     * @param[in] perspective Input parameter.
+     * @return Return value.
+     */
     std::string buildPerspectivePrompt(
         const std::string& query,
         const EthicalPerspective& perspective
     );
     
+    /**
+     * @brief Build Synthesis Prompt.
+     * @param[in] perspectives Input parameter.
+     * @param[in] query Input parameter.
+     * @return Return value.
+     */
     std::string buildSynthesisPrompt(
         const std::vector<PerspectiveResponse>& perspectives,
         const std::string& query
     );
     
+    /**
+     * @brief Detect Ethical Query.
+     * @param[in] query Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool detectEthicalQuery(const std::string& query);
     
+    /**
+     * @brief Extract Key Points.
+     * @param[in] response Input parameter.
+     * @param[in] perspective Input parameter.
+     * @return Return value.
+     */
     std::vector<std::string> extractKeyPoints(
         const std::string& response,
         const EthicalPerspective& perspective
     );
     
+    /**
+     * @brief Update Statistics.
+     * @param[in] result Input parameter.
+     */
     void updateStatistics(const MultiPerspectiveResult& result);
 };
 
-/**
- * @brief Factory for creating multi-perspective generators
- */
 class MultiPerspectiveGeneratorFactory {
 public:
     /**
-     * @brief Create generator with default configuration
+     * @brief Create Default.
+     * @return Return value.
      */
     static std::unique_ptr<MultiPerspectiveGenerator> createDefault();
     
     /**
-     * @brief Create generator requiring high diversity
+     * @brief Create High Diversity.
+     * @return Return value.
      */
     static std::unique_ptr<MultiPerspectiveGenerator> createHighDiversity();
     
     /**
-     * @brief Create generator with specific perspectives
-     * @param required_perspectives Vector of perspective IDs to require
+     * @brief Create With Perspectives.
+     * @param[in] required_perspectives Input parameter.
+     * @return Return value.
      */
     static std::unique_ptr<MultiPerspectiveGenerator> createWithPerspectives(
         const std::vector<std::string>& required_perspectives
     );
     
     /**
-     * @brief Create generator with custom configuration
+     * @brief Create.
+     * @param[in] config Input parameter.
+     * @return Return value.
      */
     static std::unique_ptr<MultiPerspectiveGenerator> create(
         const MultiPerspectiveConfig& config

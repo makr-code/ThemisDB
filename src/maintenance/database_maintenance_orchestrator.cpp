@@ -40,9 +40,11 @@ using observability::MetricsCollector;
 
 namespace {
 
-// ---------------------------------------------------------------------------
-// UUID-like ID generation (simple, not RFC-4122 compliant)
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- UUID-like ID generation (simple, not RFC-4122 compliant) ---------------------------------------------------------------------------
+ * @return Return value.
+ * @details Calls: std::setfill(), std::setw(), dist(), str().
+ */
 std::string generateUuid() {
     static std::mt19937_64 rng{std::random_device{}()};
     static std::uniform_int_distribution<uint64_t> dist;
@@ -60,12 +62,21 @@ std::string generateUuid() {
     return ss.str();
 }
 
+/**
+ * @brief Now Ms.
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::now(), time_since_epoch(), count().
+ */
 int64_t nowMs() {
     return std::chrono::duration_cast<std::chrono::milliseconds>(
         std::chrono::system_clock::now().time_since_epoch()).count();
 }
 
-/// Return the current UTC hour-of-day (0–23).
+/**
+ * @brief Current Utc Hour.
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::now(), std::chrono::system_clock::to_time_t(), gmtime_s(), gmtime_r().
+ */
 int currentUtcHour() {
     auto tp = std::chrono::system_clock::now();
     std::time_t t = std::chrono::system_clock::to_time_t(tp);
@@ -78,8 +89,13 @@ int currentUtcHour() {
     return tm.tm_hour;
 }
 
-/// Returns true when the current UTC hour is inside [start, end).
-/// Handles wrap-around (e.g., start=22, end=4 spans midnight).
+/**
+ * @brief Is In Maintenance Window.
+ * @param[in] window_start_hour Input parameter.
+ * @param[in] window_end_hour Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: currentUtcHour().
+ */
 bool isInMaintenanceWindow(int window_start_hour, int window_end_hour) {
     int h = currentUtcHour();
     if (window_start_hour < window_end_hour) {
@@ -114,6 +130,11 @@ DatabaseMaintenanceOrchestrator::~DatabaseMaintenanceOrchestrator() {
 // Lifecycle
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Start.
+ * @return Return value.
+ * @details Calls: load(), loadAll(), has_value(), spdlog::error(), error(), message(), lock(), insert_or_assign().
+ */
 Result<void> DatabaseMaintenanceOrchestrator::start() {
     if (running_.load()) {
         return {}; // Already running – idempotent
@@ -162,6 +183,10 @@ Result<void> DatabaseMaintenanceOrchestrator::start() {
     return {};
 }
 
+/**
+ * @brief Stop.
+ * @details Calls: exchange(), lock(), deregisterFromScheduler(), spdlog::info().
+ */
 void DatabaseMaintenanceOrchestrator::stop() {
     if (!running_.exchange(false)) {
       return;
@@ -184,6 +209,11 @@ bool DatabaseMaintenanceOrchestrator::isRunning() const noexcept {
 // Schedule CRUD – Create
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Create Schedule.
+ * @param[in] entry Input parameter.
+ * @return Return value.
+ */
 Result<MaintenanceScheduleEntry> DatabaseMaintenanceOrchestrator::createSchedule(
     MaintenanceScheduleEntry entry)
 {
@@ -211,6 +241,11 @@ Result<MaintenanceScheduleEntry> DatabaseMaintenanceOrchestrator::createSchedule
     }
 
     {
+        /**
+         * @brief Lock.
+         * @param[in] schedules_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::shared_mutex> lock(schedules_mutex_);
         // Persist to durable storage first; fail the operation if persistence
         // fails so the caller can retry rather than silently losing durability.
@@ -258,6 +293,11 @@ Result<MaintenanceScheduleEntry> DatabaseMaintenanceOrchestrator::createSchedule
 Result<MaintenanceScheduleEntry> DatabaseMaintenanceOrchestrator::getSchedule(
     const std::string& id) const
 {
+    /**
+     * @brief Lock.
+     * @param[in] schedules_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(schedules_mutex_);
     auto it = schedules_.find(id);
     if (it == schedules_.end()) {
@@ -270,6 +310,11 @@ Result<MaintenanceScheduleEntry> DatabaseMaintenanceOrchestrator::getSchedule(
 std::vector<MaintenanceScheduleEntry> DatabaseMaintenanceOrchestrator::listSchedules(
     const std::string& tenant_id_filter) const
 {
+    /**
+     * @brief Lock.
+     * @param[in] schedules_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(schedules_mutex_);
     std::vector<MaintenanceScheduleEntry> result = {};
 
@@ -287,6 +332,12 @@ std::vector<MaintenanceScheduleEntry> DatabaseMaintenanceOrchestrator::listSched
 // Schedule CRUD – Update (PUT)
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Update Schedule.
+ * @param[in] id Input parameter.
+ * @param[in] entry Input parameter.
+ * @return Return value.
+ */
 Result<MaintenanceScheduleEntry> DatabaseMaintenanceOrchestrator::updateSchedule(
     const std::string& id, MaintenanceScheduleEntry entry)
 {
@@ -296,6 +347,11 @@ Result<MaintenanceScheduleEntry> DatabaseMaintenanceOrchestrator::updateSchedule
         return tl::unexpected(Error(errors::ErrorCode::ERR_UTIL_INVALID_ARGUMENT, ex.what()));
     }
 
+    /**
+     * @brief Lock.
+     * @param[in] schedules_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::unique_lock<std::shared_mutex> lock(schedules_mutex_);
     auto it = schedules_.find(id);
     if (it == schedules_.end()) {
@@ -357,9 +413,20 @@ Result<MaintenanceScheduleEntry> DatabaseMaintenanceOrchestrator::updateSchedule
 // Schedule CRUD – Patch (PATCH)
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Patch Schedule.
+ * @param[in] id Input parameter.
+ * @param[in] patch Input parameter.
+ * @return Return value.
+ */
 Result<MaintenanceScheduleEntry> DatabaseMaintenanceOrchestrator::patchSchedule(
     const std::string& id, const nlohmann::json& patch)
 {
+    /**
+     * @brief Lock.
+     * @param[in] schedules_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::unique_lock<std::shared_mutex> lock(schedules_mutex_);
     auto it = schedules_.find(id);
     if (it == schedules_.end()) {
@@ -422,6 +489,12 @@ Result<MaintenanceScheduleEntry> DatabaseMaintenanceOrchestrator::patchSchedule(
 // Schedule CRUD – Delete
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Delete Schedule.
+ * @param[in] id Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), find(), end(), tl::unexpected(), Error(), remove(), has_value(), error().
+ */
 Result<void> DatabaseMaintenanceOrchestrator::deleteSchedule(const std::string& id) {
     std::unique_lock<std::shared_mutex> lock(schedules_mutex_);
     auto it = schedules_.find(id);
@@ -466,11 +539,22 @@ Result<void> DatabaseMaintenanceOrchestrator::deleteSchedule(const std::string& 
 // Job management
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Trigger Now.
+ * @param[in] schedule_id Identifier of the schedule.
+ * @param[in] force Input parameter.
+ * @return Return value.
+ */
 Result<OrchestratorJob> DatabaseMaintenanceOrchestrator::triggerNow(
     const std::string& schedule_id, bool force)
 {
     MaintenanceScheduleEntry entry;
     {
+        /**
+         * @brief Lock.
+         * @param[in] schedules_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::shared_lock<std::shared_mutex> lock(schedules_mutex_);
         auto it = schedules_.find(schedule_id);
         if (it == schedules_.end()) {
@@ -496,6 +580,11 @@ Result<OrchestratorJob> DatabaseMaintenanceOrchestrator::triggerNow(
     job.forced      = force;
 
     {
+        /**
+         * @brief Lock.
+         * @param[in] jobs_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::shared_mutex> lock(jobs_mutex_);
         jobs_[job.id] = job;
     }
@@ -523,6 +612,12 @@ Result<OrchestratorJob> DatabaseMaintenanceOrchestrator::triggerNow(
     return job;
 }
 
+/**
+ * @brief Cancel Job.
+ * @param[in] job_id Identifier of the job.
+ * @return Return value.
+ * @details Calls: lock(), find(), end(), tl::unexpected(), Error(), nowMs(), spdlog::warn(), logEvent().
+ */
 Result<void> DatabaseMaintenanceOrchestrator::cancelJob(const std::string& job_id) {
     std::unique_lock<std::shared_mutex> lock(jobs_mutex_);
     auto it = jobs_.find(job_id);
@@ -555,6 +650,11 @@ Result<void> DatabaseMaintenanceOrchestrator::cancelJob(const std::string& job_i
 Result<OrchestratorJob> DatabaseMaintenanceOrchestrator::getJob(
     const std::string& job_id) const
 {
+    /**
+     * @brief Lock.
+     * @param[in] jobs_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(jobs_mutex_);
     auto it = jobs_.find(job_id);
     if (it == jobs_.end()) {
@@ -567,6 +667,11 @@ Result<OrchestratorJob> DatabaseMaintenanceOrchestrator::getJob(
 std::vector<OrchestratorJob> DatabaseMaintenanceOrchestrator::listJobs(
     bool active_only) const
 {
+    /**
+     * @brief Lock.
+     * @param[in] jobs_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(jobs_mutex_);
     std::vector<OrchestratorJob> result = {};
 
@@ -590,6 +695,11 @@ nlohmann::json DatabaseMaintenanceOrchestrator::getStatus() const {
 
     int enabled = 0, total = 0;
     {
+        /**
+         * @brief Lock.
+         * @param[in] schedules_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::shared_lock<std::shared_mutex> lock(schedules_mutex_);
         total = schedules_.size();
         for (auto& [id, e] : schedules_) {
@@ -603,6 +713,11 @@ nlohmann::json DatabaseMaintenanceOrchestrator::getStatus() const {
 
     int active = 0;
     {
+        /**
+         * @brief Lock.
+         * @param[in] jobs_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::shared_lock<std::shared_mutex> lock(jobs_mutex_);
         for (auto& [id, job] : jobs_) {
             if (job.state == MaintenanceJobState::PENDING ||
@@ -622,6 +737,11 @@ MaintenanceHealthReport DatabaseMaintenanceOrchestrator::getHealthReport() const
 
     // Orchestrator counts
     {
+        /**
+         * @brief Lock.
+         * @param[in] schedules_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::shared_lock<std::shared_mutex> lock(schedules_mutex_);
         report.total_schedules = schedules_.size();
         for (auto& [id, e] : schedules_) {
@@ -633,6 +753,11 @@ MaintenanceHealthReport DatabaseMaintenanceOrchestrator::getHealthReport() const
 
     int64_t cutoff = nowMs() - 24LL * 60 * 60 * 1000;
     {
+        /**
+         * @brief Lock.
+         * @param[in] jobs_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::shared_lock<std::shared_mutex> lock(jobs_mutex_);
         for (auto& [id, job] : jobs_) {
             if (job.started_at_ms < cutoff) {
@@ -652,6 +777,11 @@ MaintenanceHealthReport DatabaseMaintenanceOrchestrator::getHealthReport() const
     // Collect module health signals
     ModuleHealthStatus worst = ModuleHealthStatus::OK;
     {
+        /**
+         * @brief Lock.
+         * @param[in] probes_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(probes_mutex_);
         for (auto& [name, probe] : health_probes_) {
             try {
@@ -683,6 +813,11 @@ MaintenanceHealthReport DatabaseMaintenanceOrchestrator::getHealthReport() const
 
     // ---- Phase 4: populate recent_dispatch_outcomes from ring buffer ------
     {
+        /**
+         * @brief Rb lock.
+         * @param[in] ring_buffer_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> rb_lock(ring_buffer_mutex_);
         report.recent_dispatch_outcomes.assign(
             dispatch_ring_buffer_.begin(), dispatch_ring_buffer_.end());
@@ -696,13 +831,28 @@ MaintenanceHealthReport DatabaseMaintenanceOrchestrator::getHealthReport() const
 // Module health probe registration
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Register Health Probe.
+ * @param[in] module_name Name of the module.
+ * @param[in] probe Input parameter.
+ */
 void DatabaseMaintenanceOrchestrator::registerHealthProbe(
     const std::string& module_name, HealthProbe probe)
 {
+    /**
+     * @brief Lock.
+     * @param[in] probes_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(probes_mutex_);
     health_probes_[module_name] = std::move(probe);
 }
 
+/**
+ * @brief Register Task Handler.
+ * @param[in] task_type Input parameter.
+ * @param[in] handler Input parameter.
+ */
 void DatabaseMaintenanceOrchestrator::registerTaskHandler(
     MaintenanceTaskType task_type,
     std::shared_ptr<IMaintenanceTaskHandler> handler)
@@ -712,13 +862,27 @@ void DatabaseMaintenanceOrchestrator::registerTaskHandler(
                      taskTypeToString(task_type));
         return;
     }
+    /**
+     * @brief Lock.
+     * @param[in] handlers_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::unique_lock<std::shared_mutex> lock(handlers_mutex_);
     task_handlers_[static_cast<int>(task_type)] = std::move(handler);
 }
 
+/**
+ * @brief Set Distributed Lock.
+ * @param[in] lock Input parameter.
+ */
 void DatabaseMaintenanceOrchestrator::setDistributedLock(
     std::shared_ptr<IDistributedLock> lock)
 {
+    /**
+     * @brief Lg.
+     * @param[in] dist_lock_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lg(dist_lock_mutex_);
     dist_lock_ = std::move(lock);
 }
@@ -726,6 +890,11 @@ void DatabaseMaintenanceOrchestrator::setDistributedLock(
 std::map<std::string, std::string>
 DatabaseMaintenanceOrchestrator::listTaskHandlers() const
 {
+    /**
+     * @brief Lock.
+     * @param[in] handlers_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(handlers_mutex_);
     std::map<std::string, std::string> result = {};
 
@@ -744,6 +913,11 @@ DatabaseMaintenanceOrchestrator::listTaskHandlers() const
 // Per-tenant maintenance configuration
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Set Tenant Maintenance Config.
+ * @param[in] tenant_id Identifier of the tenant.
+ * @param[in] config Input parameter.
+ */
 void DatabaseMaintenanceOrchestrator::setTenantMaintenanceConfig(
     const std::string& tenant_id, TenantMaintenanceConfig config)
 {
@@ -751,6 +925,11 @@ void DatabaseMaintenanceOrchestrator::setTenantMaintenanceConfig(
         spdlog::warn("setTenantMaintenanceConfig: tenant_id must not be empty; ignored");
         return;
     }
+    /**
+     * @brief Lock.
+     * @param[in] tenant_configs_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::unique_lock<std::shared_mutex> lock(tenant_configs_mutex_);
     tenant_configs_[tenant_id] = std::move(config);
     spdlog::info("TenantMaintenanceConfig set for tenant '{}'", tenant_id);
@@ -759,6 +938,11 @@ void DatabaseMaintenanceOrchestrator::setTenantMaintenanceConfig(
 TenantMaintenanceConfig DatabaseMaintenanceOrchestrator::getTenantMaintenanceConfig(
     const std::string& tenant_id) const
 {
+    /**
+     * @brief Lock.
+     * @param[in] tenant_configs_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(tenant_configs_mutex_);
     auto it = tenant_configs_.find(tenant_id);
     if (it != tenant_configs_.end()) {
@@ -785,6 +969,10 @@ std::string DatabaseMaintenanceOrchestrator::schedulerTaskId(
     return "maintenance_schedule_" + schedule_id;
 }
 
+/**
+ * @brief Register With Scheduler.
+ * @param[in] entry Input parameter.
+ */
 void DatabaseMaintenanceOrchestrator::registerWithScheduler(
     const MaintenanceScheduleEntry& entry)
 {
@@ -816,6 +1004,11 @@ void DatabaseMaintenanceOrchestrator::registerWithScheduler(
 
             MaintenanceScheduleEntry entry_copy;
             {
+                /**
+                 * @brief Lock.
+                 * @param[in] schedules_mutex_ Input parameter.
+                 * @return Return value.
+                 */
                 std::shared_lock<std::shared_mutex> lock(schedules_mutex_);
                 auto it = schedules_.find(eid);
                 if (it == schedules_.end()) {
@@ -829,12 +1022,22 @@ void DatabaseMaintenanceOrchestrator::registerWithScheduler(
             }
 
             {
+                /**
+                 * @brief Jlock.
+                 * @param[in] jobs_mutex_ Input parameter.
+                 * @return Return value.
+                 */
                 std::unique_lock<std::shared_mutex> jlock(jobs_mutex_);
                 jobs_[job_id] = job;
             }
 
             executeSchedule(eid, job_id);
 
+            /**
+             * @brief Jlock.
+             * @param[in] jobs_mutex_ Input parameter.
+             * @return Return value.
+             */
             std::shared_lock<std::shared_mutex> jlock(jobs_mutex_);
             auto it = jobs_.find(job_id);
             if (it != jobs_.end()) {
@@ -846,6 +1049,10 @@ void DatabaseMaintenanceOrchestrator::registerWithScheduler(
     scheduler_->registerTask(task);
 }
 
+/**
+ * @brief Deregister From Scheduler.
+ * @param[in] schedule_id Identifier of the schedule.
+ */
 void DatabaseMaintenanceOrchestrator::deregisterFromScheduler(
     const std::string& schedule_id)
 {
@@ -857,6 +1064,12 @@ void DatabaseMaintenanceOrchestrator::deregisterFromScheduler(
     scheduler_->unregisterFunction(tid);
 }
 
+/**
+ * @brief Execute Schedule.
+ * @param[in] schedule_id Identifier of the schedule.
+ * @param[in] job_id Identifier of the job.
+ * @param[in] force Input parameter.
+ */
 void DatabaseMaintenanceOrchestrator::executeSchedule(
     const std::string& schedule_id, const std::string& job_id, bool force)
 {
@@ -864,6 +1077,11 @@ void DatabaseMaintenanceOrchestrator::executeSchedule(
     // If this schedule is already executing on another thread, skip with
     // SKIPPED_CONCURRENT rather than running a duplicate job.
     {
+        /**
+         * @brief Ifl.
+         * @param[in] in_flight_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> ifl(in_flight_mutex_);
         if (!in_flight_schedules_.insert(schedule_id).second) {
             // Already in flight — emit diagnostic and skip.
@@ -871,6 +1089,11 @@ void DatabaseMaintenanceOrchestrator::executeSchedule(
                           schedule_id);
             int64_t now = themis::maintenance::nowMs();
             {
+                /**
+                 * @brief Jlock.
+                 * @param[in] jobs_mutex_ Input parameter.
+                 * @return Return value.
+                 */
                 std::unique_lock<std::shared_mutex> jlock(jobs_mutex_);
                 if (auto jit = jobs_.find(job_id); jit != jobs_.end()) {
                     jit->second.state         = MaintenanceJobState::SKIPPED;
@@ -879,6 +1102,11 @@ void DatabaseMaintenanceOrchestrator::executeSchedule(
                 }
             }
             {
+                /**
+                 * @brief Slock.
+                 * @param[in] schedules_mutex_ Input parameter.
+                 * @return Return value.
+                 */
                 std::unique_lock<std::shared_mutex> slock(schedules_mutex_);
                 if (auto it = schedules_.find(schedule_id); it != schedules_.end()) {
                     it->second.last_run_ms    = now;
@@ -915,9 +1143,19 @@ void DatabaseMaintenanceOrchestrator::executeSchedule(
         std::chrono::steady_clock::now().time_since_epoch()).count();
     MaintenanceScheduleEntry entry;
     {
+        /**
+         * @brief Lock.
+         * @param[in] schedules_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::shared_lock<std::shared_mutex> lock(schedules_mutex_);
         auto it = schedules_.find(schedule_id);
         if (it == schedules_.end()) {
+            /**
+             * @brief Jlock.
+             * @param[in] jobs_mutex_ Input parameter.
+             * @return Return value.
+             */
             std::unique_lock<std::shared_mutex> jlock(jobs_mutex_);
             if (auto jit = jobs_.find(job_id); jit != jobs_.end()) {
                 jit->second.state          = MaintenanceJobState::FAILED;
@@ -940,6 +1178,11 @@ void DatabaseMaintenanceOrchestrator::executeSchedule(
     {
         std::shared_ptr<IDistributedLock> dl;
         {
+            /**
+             * @brief Lg.
+             * @param[in] dist_lock_mutex_ Input parameter.
+             * @return Return value.
+             */
             std::lock_guard<std::mutex> lg(dist_lock_mutex_);
             dl = dist_lock_;
         }
@@ -960,6 +1203,11 @@ void DatabaseMaintenanceOrchestrator::executeSchedule(
 
                 int64_t now = themis::maintenance::nowMs();
                 {
+                    /**
+                     * @brief Jlock.
+                     * @param[in] jobs_mutex_ Input parameter.
+                     * @return Return value.
+                     */
                     std::unique_lock<std::shared_mutex> jlock(jobs_mutex_);
                     if (auto jit = jobs_.find(job_id); jit != jobs_.end()) {
                         jit->second.state         = MaintenanceJobState::SKIPPED;
@@ -969,6 +1217,11 @@ void DatabaseMaintenanceOrchestrator::executeSchedule(
                     }
                 }
                 {
+                    /**
+                     * @brief Slock.
+                     * @param[in] schedules_mutex_ Input parameter.
+                     * @return Return value.
+                     */
                     std::unique_lock<std::shared_mutex> slock(schedules_mutex_);
                     if (auto it = schedules_.find(schedule_id); it != schedules_.end()) {
                         it->second.last_run_ms    = now;
@@ -1008,6 +1261,11 @@ void DatabaseMaintenanceOrchestrator::executeSchedule(
     if (!entry.tenant_id.empty() && tenant_cfg.max_concurrent_jobs > 0) {
         int running_count = 0;
         {
+            /**
+             * @brief Jlock.
+             * @param[in] jobs_mutex_ Input parameter.
+             * @return Return value.
+             */
             std::shared_lock<std::shared_mutex> jlock(jobs_mutex_);
             for (const auto& [jid, jobj] : jobs_) {
                 if (jobj.tenant_id == entry.tenant_id &&
@@ -1025,6 +1283,11 @@ void DatabaseMaintenanceOrchestrator::executeSchedule(
 
             int64_t now = themis::maintenance::nowMs();
             {
+                /**
+                 * @brief Jlock.
+                 * @param[in] jobs_mutex_ Input parameter.
+                 * @return Return value.
+                 */
                 std::unique_lock<std::shared_mutex> jlock(jobs_mutex_);
                 if (auto jit = jobs_.find(job_id); jit != jobs_.end()) {
                     jit->second.state         = MaintenanceJobState::SKIPPED;
@@ -1033,6 +1296,11 @@ void DatabaseMaintenanceOrchestrator::executeSchedule(
                 }
             }
             {
+                /**
+                 * @brief Lock.
+                 * @param[in] schedules_mutex_ Input parameter.
+                 * @return Return value.
+                 */
                 std::unique_lock<std::shared_mutex> lock(schedules_mutex_);
                 if (auto it = schedules_.find(schedule_id); it != schedules_.end()) {
                     it->second.last_run_ms    = now;
@@ -1069,6 +1337,11 @@ void DatabaseMaintenanceOrchestrator::executeSchedule(
 
         int64_t now = themis::maintenance::nowMs();
         {
+            /**
+             * @brief Jlock.
+             * @param[in] jobs_mutex_ Input parameter.
+             * @return Return value.
+             */
             std::unique_lock<std::shared_mutex> jlock(jobs_mutex_);
             if (auto jit = jobs_.find(job_id); jit != jobs_.end()) {
                 jit->second.state          = MaintenanceJobState::SKIPPED;
@@ -1077,6 +1350,11 @@ void DatabaseMaintenanceOrchestrator::executeSchedule(
             }
         }
         {
+            /**
+             * @brief Lock.
+             * @param[in] schedules_mutex_ Input parameter.
+             * @return Return value.
+             */
             std::unique_lock<std::shared_mutex> lock(schedules_mutex_);
             if (auto it = schedules_.find(schedule_id); it != schedules_.end()) {
                 it->second.last_run_ms    = now;
@@ -1108,6 +1386,11 @@ void DatabaseMaintenanceOrchestrator::executeSchedule(
         const std::string err = std::string("Task order resolution failed: ") + ex.what();
         spdlog::error("MaintenanceJob {}: {}", job_id, err);
         {
+            /**
+             * @brief Jlock.
+             * @param[in] jobs_mutex_ Input parameter.
+             * @return Return value.
+             */
             std::unique_lock<std::shared_mutex> jlock(jobs_mutex_);
             auto jit = jobs_.find(job_id);
             if (jit != jobs_.end()) {
@@ -1126,6 +1409,11 @@ void DatabaseMaintenanceOrchestrator::executeSchedule(
     for (auto task_type : ordered_tasks) {
         // Check cancellation
         {
+            /**
+             * @brief Jlock.
+             * @param[in] jobs_mutex_ Input parameter.
+             * @return Return value.
+             */
             std::shared_lock<std::shared_mutex> jlock(jobs_mutex_);
             auto jit = jobs_.find(job_id);
             if (jit != jobs_.end() &&
@@ -1172,6 +1460,11 @@ void DatabaseMaintenanceOrchestrator::executeSchedule(
 
     // Update the job record
     {
+        /**
+         * @brief Jlock.
+         * @param[in] jobs_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::shared_mutex> jlock(jobs_mutex_);
         auto jit = jobs_.find(job_id);
         if (jit != jobs_.end() &&
@@ -1186,6 +1479,11 @@ void DatabaseMaintenanceOrchestrator::executeSchedule(
 
     // Update the schedule's runtime state
     {
+        /**
+         * @brief Lock.
+         * @param[in] schedules_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::shared_mutex> lock(schedules_mutex_);
         auto it = schedules_.find(schedule_id);
         if (it != schedules_.end()) {
@@ -1234,6 +1532,11 @@ void DatabaseMaintenanceOrchestrator::executeSchedule(
     }
 }
 
+/**
+ * @brief Execute Task.
+ * @param[in] task_type Input parameter.
+ * @param[in,out] job Input/output parameter.
+ */
 void DatabaseMaintenanceOrchestrator::executeTask(
     MaintenanceTaskType task_type, OrchestratorJob& job)
 {
@@ -1386,6 +1689,11 @@ void DatabaseMaintenanceOrchestrator::executeTask(
             // Look for a registered handler for this task type.
             std::shared_ptr<IMaintenanceTaskHandler> handler;
             {
+                /**
+                 * @brief Lock.
+                 * @param[in] handlers_mutex_ Input parameter.
+                 * @return Return value.
+                 */
                 std::shared_lock<std::shared_mutex> lock(handlers_mutex_);
                 auto it = task_handlers_.find(static_cast<int>(task_type));
                 if (it != task_handlers_.end()) {
@@ -1451,6 +1759,10 @@ void DatabaseMaintenanceOrchestrator::executeTask(
                  taskTypeToString(task_type), job.id, jobStateToString(job.state));
 }
 
+/**
+ * @brief Prune Completed Jobs.
+ * @details Calls: themis::maintenance::nowMs(), lock(), begin(), end(), erase().
+ */
 void DatabaseMaintenanceOrchestrator::pruneCompletedJobs() {
     int64_t cutoff = themis::maintenance::nowMs() - kJobRetentionMs;
     std::unique_lock<std::shared_mutex> lock(jobs_mutex_);
@@ -1604,9 +1916,11 @@ DatabaseMaintenanceOrchestrator::resolveTaskExecutionOrder(
     return result;
 }
 
-// ---------------------------------------------------------------------------
-// Phase 4: DispatchOutcome ring buffer
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- Phase 4: DispatchOutcome ring buffer ---------------------------------------------------------------------------
+ * @param[in] outcome Input parameter.
+ * @details Calls: lock(), push_back(), std::move(), size(), pop_front().
+ */
 
 void DatabaseMaintenanceOrchestrator::recordDispatchOutcome(DispatchOutcome outcome) {
     std::lock_guard<std::mutex> lock(ring_buffer_mutex_);
@@ -1616,9 +1930,12 @@ void DatabaseMaintenanceOrchestrator::recordDispatchOutcome(DispatchOutcome outc
     }
 }
 
-// ---------------------------------------------------------------------------
-// Phase 2: Churn rate-limit check
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- Phase 2: Churn rate-limit check ---------------------------------------------------------------------------
+ * @param[in] schedule_id Identifier of the schedule.
+ * @param[in] max_changes_per_interval Input parameter.
+ * @return True when the operation succeeds.
+ */
 
 bool DatabaseMaintenanceOrchestrator::checkChurnLimit(
     const std::string& schedule_id, uint32_t max_changes_per_interval)
@@ -1626,6 +1943,11 @@ bool DatabaseMaintenanceOrchestrator::checkChurnLimit(
     if (max_changes_per_interval == 0) return true; // disabled
 
     int64_t now = themis::maintenance::nowMs();
+    /**
+     * @brief Lock.
+     * @param[in] churn_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(churn_mutex_);
     auto& [count, interval_start] = churn_counts_[schedule_id];
     if (now - interval_start >= kChurnIntervalMs) {

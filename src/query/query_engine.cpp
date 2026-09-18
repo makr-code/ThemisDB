@@ -222,41 +222,16 @@ static void tbbWaitWithTimeout(
     }
 }
 
-/**
- * @brief Legacy constructor with direct RocksDB and secondary-index dependencies.
- * @param db Storage backend reference.
- * @param secIdx Secondary index manager reference.
- */
 QueryEngine::QueryEngine(RocksDBWrapper& db, SecondaryIndexManager& secIdx)
 	: db_(&db), secIdx_(&secIdx) {}
 
-/**
- * @brief Legacy constructor with graph-index support.
- * @param db Storage backend reference.
- * @param secIdx Secondary index manager reference.
- * @param graphIdx Graph index manager reference.
- */
 QueryEngine::QueryEngine(RocksDBWrapper& db, SecondaryIndexManager& secIdx, GraphIndexManager& graphIdx)
 	: db_(&db), secIdx_(&secIdx), graphIdx_(&graphIdx) {}
 
-/**
- * @brief Legacy constructor with optional vector/spatial index managers.
- * @param db Storage backend reference.
- * @param secIdx Secondary index manager reference.
- * @param graphIdx Graph index manager reference.
- * @param vectorIdx Optional vector index manager pointer.
- * @param spatialIdx Optional spatial index manager pointer.
- */
 QueryEngine::QueryEngine(RocksDBWrapper& db, SecondaryIndexManager& secIdx, GraphIndexManager& graphIdx,
                          VectorIndexManager* vectorIdx, SpatialIndexManager* spatialIdx)
 	: db_(&db), secIdx_(&secIdx), graphIdx_(&graphIdx), vectorIdx_(vectorIdx), spatialIdx_(spatialIdx) {}
 
-/**
- * @brief DI constructor using storage/index interfaces.
- * @param storage Storage interface (may be nullptr for late binding).
- * @param index_manager Index manager interface (must not be nullptr).
- * @throws std::invalid_argument if index_manager is nullptr.
- */
 QueryEngine::QueryEngine(
     IStorageEnginePtr storage,
     IIndexManagerPtr index_manager
@@ -268,8 +243,8 @@ QueryEngine::QueryEngine(
 }
 
 /**
- * @brief Inject storage dependency after construction.
- * @param storage Storage interface instance.
+ * @brief Set Storage.
+ * @param[in] storage Input parameter.
  * @details Implements setStorage without additional internal calls.
  */
 void QueryEngine::setStorage(IStorageEnginePtr storage) {
@@ -277,8 +252,8 @@ void QueryEngine::setStorage(IStorageEnginePtr storage) {
 }
 
 /**
- * @brief Create expression evaluator bound to this engine instance.
- * @return Shared pointer to query expression evaluator implementation.
+ * @brief Get expression evaluator.
+ * @return Return value.
  * @details Implements get_expression_evaluator without additional internal calls.
  */
 IExpressionEvaluatorPtr QueryEngine::get_expression_evaluator() {
@@ -286,8 +261,8 @@ IExpressionEvaluatorPtr QueryEngine::get_expression_evaluator() {
 }
 
 /**
- * @brief Create QueryEngine with default storage and index implementations.
- * @return Shared pointer to a ready-to-use QueryEngine.
+ * @brief Create Default.
+ * @return Return value.
  * @details Calls: StorageEngine::createDefaultIndexManager().
  */
 std::shared_ptr<QueryEngine> QueryEngine::createDefault() {
@@ -301,10 +276,6 @@ std::shared_ptr<QueryEngine> QueryEngine::createDefault() {
     );
 }
 
-/**
- * @brief Enumerate known collection names from document and relational key prefixes.
- * @return Sorted unique collection names.
- */
 std::vector<std::string> QueryEngine::listCollections() const {
     if (!db_) {
         return {};
@@ -354,7 +325,7 @@ static std::string stableJsonOrderKey(const nlohmann::json& doc) {
  * @brief Stable Json Less.
  * @param[in] a Input parameter.
  * @param[in] b Input parameter.
- * @return True on success.
+ * @return True when the operation succeeds.
  * @details Calls: stableJsonOrderKey(), dump().
  */
 static bool stableJsonLess(const nlohmann::json& a, const nlohmann::json& b) {
@@ -370,7 +341,7 @@ static bool stableJsonLess(const nlohmann::json& a, const nlohmann::json& b) {
  * @brief Stable Json Ptr Less.
  * @param[in] a Input parameter.
  * @param[in] b Input parameter.
- * @return True on success.
+ * @return True when the operation succeeds.
  * @details Calls: stableJsonLess().
  */
 static bool stableJsonPtrLess(const nlohmann::json* a, const nlohmann::json* b) {
@@ -394,12 +365,12 @@ static void logSortedDeserializeFailures(std::vector<std::string>& failed_pks, c
 }
 
 /**
- * @brief Parse `expression` as an AQL expression and evaluate it against `ctx`.
+ * @brief Eval Aql Expression.
  * @param[in] expression Input parameter.
  * @param[in] ctx Input parameter.
  * @param[in] engine Input parameter.
- * @return True on success.
- * @details Returns false on parse or evaluation errors. Calls: empty(), parseExpression(), evaluateCondition(), THEMIS_WARN().
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), parseExpression(), evaluateCondition(), THEMIS_WARN().
  */
 static bool evalAqlExpression(const std::string& expression,
                                const QueryEngine::EvaluationContext* ctx,
@@ -1777,7 +1748,7 @@ std::optional<std::vector<nlohmann::json>> QueryEngine::EvaluationContext::getCT
 }
 
 /**
- * @brief Basic helpers for AQL expression evaluation in QueryEngine
+ * @brief Qe to Number.
  * @param[in] v Input parameter.
  * @return Return value.
  * @details Calls: is_number(), is_boolean(), is_string(), std::stod().
@@ -1798,7 +1769,7 @@ static double qe_toNumber(const nlohmann::json& v) {
 /**
  * @brief Qe to Bool.
  * @param[in] v Input parameter.
- * @return True on success.
+ * @return True when the operation succeeds.
  * @details Calls: is_boolean(), is_number(), is_string(), empty(), is_array(), is_object().
  */
 static bool qe_toBool(const nlohmann::json& v) {
@@ -1850,7 +1821,7 @@ static nlohmann::json qe_getNested(const nlohmann::json& base, const std::vector
 }
 
 /**
- * @brief Forward decl
+ * @brief Qe eval Expr.
  * @param[in] expr Input parameter.
  * @param[in] ctx Input parameter.
  * @return Return value.
@@ -2451,11 +2422,6 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 				return Err<nlohmann::json>(ErrorCode::ERR_QUERY_EXECUTION_FAILED, "Invalid POINT WKT");
 			}
 			std::string coords = u.substr(a+1, b-a-1);
-			/**
-			 * @brief Iss.
-			 * @param[in] coords Input parameter.
-			 * @return Return value.
-			 */
 			std::istringstream iss(coords); double x,y,z;
 			if (!(iss>>x>>y)) {
 				return Err<nlohmann::json>(ErrorCode::ERR_QUERY_EXECUTION_FAILED, "Invalid POINT coords");
@@ -2482,11 +2448,6 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 			}
 			std::string inner = u.substr(a+2, b-(a+2));
 			nlohmann::json ring = nlohmann::json::array();
-			/**
-			 * @brief Ring Stream.
-			 * @param[in] inner Input parameter.
-			 * @return Return value.
-			 */
 			std::stringstream ringStream(inner);
 			std::string pointToken = {};
 			while (std::getline(ringStream, pointToken, ',')) {
@@ -2494,11 +2455,6 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 				if (pointToken.empty()) {
 				  continue;
 				}
-				/**
-				 * @brief Point Iss.
-				 * @param[in] pointToken Input parameter.
-				 * @return Return value.
-				 */
 				std::istringstream pointIss(pointToken);
 				double x, y, z;
 				if (!(pointIss >> x >> y)) {
@@ -3412,7 +3368,7 @@ QueryEngine::executeAndEntitiesRangeAware_(const ConjunctiveQuery& q) const {
 }
 
 /**
- * @brief ============================================================================ Join/LET/COLLECT Support (MVP) ============================================================================ Helper: Extract all variable names referenced in an expression
+ * @brief Collect Variables.
  * @param[in] expr Input parameter.
  * @param[in,out] vars Input/output parameter.
  * @details Calls: getType(), insert().
@@ -4213,7 +4169,7 @@ Result<std::vector<nlohmann::json>> QueryEngine::executeGroupBy(
 }
 
 /**
- * @brief Forward declaration for helper function
+ * @brief Extract BBox From Filter.
  * @param[in] expr Input parameter.
  * @return Return value.
  */
@@ -4754,16 +4710,13 @@ QueryEngine::executeGeneralTraversal(
 	return Ok(std::move(results));
 }
 
-// ============================================================================
-// Hybrid Multi-Model Query Implementations
-// ============================================================================
-
 /**
- * @brief Helper: Extract MBR from spatial filter expression for index optimization
+ * @brief ============================================================================ Hybrid Multi-Model Query Implementations ============================================================================
  * @param[in] expr Input parameter.
  * @return Return value.
  * @details Calls: getType(), size(), rfind(), find(), substr(), std::replace(), begin(), end().
  */
+
 static std::optional<utils::geo::MBR> extractBBoxFromFilter(
     const std::shared_ptr<themis::query::Expression>& expr
 ) {
@@ -4794,11 +4747,6 @@ static std::optional<utils::geo::MBR> extractBBoxFromFilter(
                                 if (start != std::string::npos && end != std::string::npos) {
                                     std::string coords = wkt.substr(start + 2, end - start - 2);
                                     std::replace(coords.begin(), coords.end(), ',', ' ');
-                                    /**
-                                     * @brief Iss.
-                                     * @param[in] coords Input parameter.
-                                     * @return Return value.
-                                     */
                                     std::istringstream iss(coords);
                                     double minx = std::numeric_limits<double>::max();
                                     double miny = std::numeric_limits<double>::max();

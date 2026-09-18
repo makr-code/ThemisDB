@@ -43,6 +43,10 @@ GraphQLWsHandler::~GraphQLWsHandler() {
 // reset()
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Reset the modification detection flag.
+ * @details Calls: store(), lock(), clear().
+ */
 void GraphQLWsHandler::reset() {
     // Signal any in-flight CDC callbacks to stop before the subscription
     // handles (and their associated RAII teardown) are destroyed.  This
@@ -59,6 +63,11 @@ void GraphQLWsHandler::reset() {
 // ---------------------------------------------------------------------------
 
 size_t GraphQLWsHandler::activeSubscriptionCount() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return subscriptions_.size();
 }
@@ -121,6 +130,11 @@ GraphQLWsHandler::handleFrame(std::string_view frame_text)
 
     // Flush CDC-queued next frames accumulated since the last handleFrame call.
     {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         if (!pending_frames_.empty()) {
             frames.insert(frames.end(),
@@ -164,6 +178,11 @@ GraphQLWsHandler::handleSubscribe(const std::string& id,
     // concurrent subscribe from another thread could slip between two separate
     // lock acquisitions and bypass either guard.
     {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         if (subscriptions_.count(id)) {
             THEMIS_WARN("GraphQLWsHandler: duplicate subscription id '{}'", id);
@@ -282,6 +301,11 @@ GraphQLWsHandler::handleSubscribe(const std::string& id,
     }
 
     {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         SubscriptionEntry entry;
         entry.cdc_handle = std::move(cdc_handle);
@@ -295,6 +319,11 @@ GraphQLWsHandler::handleSubscribe(const std::string& id,
     // wiring and registering (timing edge case – normally empty).
     std::vector<std::string> frames;
     {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         frames.swap(pending_frames_);
     }
@@ -308,6 +337,11 @@ GraphQLWsHandler::handleSubscribe(const std::string& id,
 std::vector<std::string>
 GraphQLWsHandler::handleComplete(const std::string& id)
 {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     const auto it = subscriptions_.find(id);
     if (it == subscriptions_.end()) {
@@ -333,12 +367,21 @@ GraphQLWsHandler::handlePing(const std::string& payload_json)
 // Static helpers
 // ---------------------------------------------------------------------------
 
-/*static*/
+/**
+ * @brief static
+ * @return Return value.
+ * @details Calls: dump().
+ */
 std::string GraphQLWsHandler::buildConnectionAck() {
     return json{{"type", "connection_ack"}}.dump();
 }
 
-/*static*/
+/**
+ * @brief static
+ * @param[in] payload Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), json::parse(), THEMIS_WARN(), what(), dump().
+ */
 std::string GraphQLWsHandler::buildPing(const std::string& payload) {
     json msg{{"type", "ping"}};
     if (!payload.empty()) {
@@ -351,7 +394,12 @@ std::string GraphQLWsHandler::buildPing(const std::string& payload) {
     return msg.dump();
 }
 
-/*static*/
+/**
+ * @brief static
+ * @param[in] payload Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), json::parse(), THEMIS_WARN(), what(), dump().
+ */
 std::string GraphQLWsHandler::buildPong(const std::string& payload) {
     json msg{{"type", "pong"}};
     if (!payload.empty()) {
@@ -364,7 +412,12 @@ std::string GraphQLWsHandler::buildPong(const std::string& payload) {
     return msg.dump();
 }
 
-/*static*/
+/**
+ * @brief static
+ * @param[in] id Input parameter.
+ * @param[in] data_json Input parameter.
+ * @return Return value.
+ */
 std::string GraphQLWsHandler::buildNext(const std::string& id,
                                          const std::string& data_json)
 {
@@ -382,7 +435,12 @@ std::string GraphQLWsHandler::buildNext(const std::string& id,
     }.dump();
 }
 
-/*static*/
+/**
+ * @brief static
+ * @param[in] id Input parameter.
+ * @param[in] message Input parameter.
+ * @return Return value.
+ */
 std::string GraphQLWsHandler::buildError(const std::string& id,
                                           const std::string& message)
 {
@@ -393,12 +451,22 @@ std::string GraphQLWsHandler::buildError(const std::string& id,
     }.dump();
 }
 
-/*static*/
+/**
+ * @brief static
+ * @param[in] id Input parameter.
+ * @return Return value.
+ * @details Calls: dump().
+ */
 std::string GraphQLWsHandler::buildComplete(const std::string& id) {
     return json{{"type", "complete"}, {"id", id}}.dump();
 }
 
-/*static*/
+/**
+ * @brief static
+ * @param[in] path Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements isGraphQLWsPath without additional internal calls.
+ */
 bool GraphQLWsHandler::isGraphQLWsPath(std::string_view path) {
     return path == "/graphql" || path == "/v2/graphql/subscriptions";
 }
@@ -407,7 +475,11 @@ bool GraphQLWsHandler::isGraphQLWsPath(std::string_view path) {
 // extractOnChangeCollection()
 // ---------------------------------------------------------------------------
 
-/*static*/
+/**
+ * @brief static
+ * @param[in] doc Input parameter.
+ * @return Return value.
+ */
 std::string GraphQLWsHandler::extractOnChangeCollection(const graphql::Document& doc)
 {
     // Walk the first subscription operation looking for:
@@ -436,7 +508,12 @@ std::string GraphQLWsHandler::extractOnChangeCollection(const graphql::Document&
 // validateVariables()
 // ---------------------------------------------------------------------------
 
-/*static*/
+/**
+ * @brief static
+ * @param[in] op Input parameter.
+ * @param[in] variables Input parameter.
+ * @return Return value.
+ */
 std::string GraphQLWsHandler::validateVariables(const graphql::Operation& op,
                                                   const nlohmann::json& variables)
 {

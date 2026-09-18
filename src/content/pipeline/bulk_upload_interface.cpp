@@ -17,6 +17,13 @@
 
 namespace themis::content::pipeline {
 
+/**
+ * @brief Upload.
+ * @param[in] content Input parameter.
+ * @param[in] metadata Input parameter.
+ * @return Return value.
+ * @details Calls: size(), progress_callback_().
+ */
 BulkUploadInterface::UploadResult BulkUploadInterface::upload(
     const std::vector<uint8_t>& content,
     const ContentMetadata& metadata) {
@@ -45,6 +52,13 @@ BulkUploadInterface::UploadResult BulkUploadInterface::upload(
     return result;
 }
 
+/**
+ * @brief Bulk upload.
+ * @param[in] contents Input parameter.
+ * @param[in] metadata_list Input parameter.
+ * @return Return value.
+ * @details Calls: size(), push_back(), upload().
+ */
 std::vector<BulkUploadInterface::UploadResult> BulkUploadInterface::bulk_upload(
     const std::vector<std::vector<uint8_t>>& contents,
     const std::vector<ContentMetadata>& metadata_list) {
@@ -82,10 +96,21 @@ std::vector<BulkUploadInterface::UploadResult> BulkUploadInterface::bulk_upload(
     return results;
 }
 
+/**
+ * @brief Set progress callback.
+ * @param[in] callback Input parameter.
+ * @details Implements set_progress_callback without additional internal calls.
+ */
 void BulkUploadInterface::set_progress_callback(ProgressCallback callback) {
     progress_callback_ = callback;
 }
 
+/**
+ * @brief Cancel upload.
+ * @param[in] param Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements cancel_upload without additional internal calls.
+ */
 bool BulkUploadInterface::cancel_upload(const std::string& /*content_id*/) {
     // Simple implementation doesn't support cancellation
     // Use AsyncIngestionWorker for cancellation support via cancelJob()

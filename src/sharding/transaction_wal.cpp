@@ -36,17 +36,16 @@ static_assert(static_cast<uint8_t>(TransactionWALEntryType::ABORTED)    == 136,
 static_assert(static_cast<uint8_t>(TransactionWALEntryType::COMPENSATE) == 137,
               "TWAL-2: TransactionWALEntryType::COMPENSATE must stay at 137 for WAL compatibility");
 
-/**
- * @brief Construct transaction WAL wrapper with provided runtime configuration.
- * @param config WAL directories, segment and sync settings.
- */
 TransactionWAL::TransactionWAL(const TransactionWALConfig& config)
     : config_(config), current_lsn_(0, 0) {}
 
-/** @brief Destroy transaction WAL wrapper and owned WAL manager. */
 TransactionWAL::~TransactionWAL() = default;
 
-/** @brief Create directories and initialize base WAL manager. */
+/**
+ * @brief Initialize.
+ * @return True when the operation succeeds.
+ * @details Calls: std::filesystem::exists(), std::filesystem::create_directories(), spdlog::info(), spdlog::error(), what().
+ */
 bool TransactionWAL::initialize() {
     try {
         // Create WAL directory
@@ -77,7 +76,14 @@ bool TransactionWAL::initialize() {
     }
 }
 
-/** @brief Append BEGIN transaction lifecycle record to WAL. */
+/**
+ * @brief Log Begin.
+ * @param[in] transaction_id Identifier of the transaction.
+ * @param[in] protocol Input parameter.
+ * @param[in] participants Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), toWALEntry(), append(), lsn_guard(), getCurrentLSN(), spdlog::debug().
+ */
 LSN TransactionWAL::logBegin(const std::string& transaction_id,
                               TransactionProtocol protocol,
                               const std::vector<std::string>& participants) {
@@ -104,7 +110,14 @@ LSN TransactionWAL::logBegin(const std::string& transaction_id,
     return lsn;
 }
 
-/** @brief Append PREPARE request record for one participant. */
+/**
+ * @brief Log Prepare.
+ * @param[in] transaction_id Identifier of the transaction.
+ * @param[in] participant_id Identifier of the participant.
+ * @param[in] data Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), toWALEntry(), append(), lsn_guard(), getCurrentLSN(), spdlog::debug().
+ */
 LSN TransactionWAL::logPrepare(const std::string& transaction_id,
                                 const std::string& participant_id,
                                 const nlohmann::json& data) {
@@ -126,7 +139,15 @@ LSN TransactionWAL::logPrepare(const std::string& transaction_id,
     return lsn;
 }
 
-/** @brief Append PREPARED participant vote record. */
+/**
+ * @brief Log Prepared.
+ * @param[in] transaction_id Identifier of the transaction.
+ * @param[in] participant_id Identifier of the participant.
+ * @param[in] vote Input parameter.
+ * @param[in] response Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), toWALEntry(), append(), lsn_guard(), getCurrentLSN(), spdlog::debug().
+ */
 LSN TransactionWAL::logPrepared(const std::string& transaction_id,
                                  const std::string& participant_id,
                                  bool vote,
@@ -155,7 +176,13 @@ LSN TransactionWAL::logPrepared(const std::string& transaction_id,
     return lsn;
 }
 
-/** @brief Append COMMIT decision record. */
+/**
+ * @brief Log Commit.
+ * @param[in] transaction_id Identifier of the transaction.
+ * @param[in] data Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), toWALEntry(), append(), lsn_guard(), getCurrentLSN(), spdlog::debug().
+ */
 LSN TransactionWAL::logCommit(const std::string& transaction_id,
                                const nlohmann::json& data) {
     TransactionWALEntry entry;
@@ -174,7 +201,13 @@ LSN TransactionWAL::logCommit(const std::string& transaction_id,
     return lsn;
 }
 
-/** @brief Append COMMITTED acknowledgment record for one participant. */
+/**
+ * @brief Log Committed.
+ * @param[in] transaction_id Identifier of the transaction.
+ * @param[in] participant_id Identifier of the participant.
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), toWALEntry(), append(), lsn_guard(), getCurrentLSN(), spdlog::debug().
+ */
 LSN TransactionWAL::logCommitted(const std::string& transaction_id,
                                   const std::string& participant_id) {
     TransactionWALEntry entry;
@@ -194,7 +227,13 @@ LSN TransactionWAL::logCommitted(const std::string& transaction_id,
     return lsn;
 }
 
-/** @brief Append ABORT decision record with reason text. */
+/**
+ * @brief Log Abort.
+ * @param[in] transaction_id Identifier of the transaction.
+ * @param[in] reason Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), toWALEntry(), append(), lsn_guard(), getCurrentLSN(), spdlog::debug().
+ */
 LSN TransactionWAL::logAbort(const std::string& transaction_id,
                               const std::string& reason) {
     TransactionWALEntry entry;
@@ -218,7 +257,13 @@ LSN TransactionWAL::logAbort(const std::string& transaction_id,
     return lsn;
 }
 
-/** @brief Append ABORTED acknowledgment record for one participant. */
+/**
+ * @brief Log Aborted.
+ * @param[in] transaction_id Identifier of the transaction.
+ * @param[in] participant_id Identifier of the participant.
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), toWALEntry(), append(), lsn_guard(), getCurrentLSN(), spdlog::debug().
+ */
 LSN TransactionWAL::logAborted(const std::string& transaction_id,
                                 const std::string& participant_id) {
     TransactionWALEntry entry;
@@ -238,7 +283,14 @@ LSN TransactionWAL::logAborted(const std::string& transaction_id,
     return lsn;
 }
 
-/** @brief Append SAGA compensation step execution record. */
+/**
+ * @brief Log Compensate.
+ * @param[in] transaction_id Identifier of the transaction.
+ * @param[in] step_id Identifier of the step.
+ * @param[in] compensation_data Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), toWALEntry(), append(), lsn_guard(), getCurrentLSN(), spdlog::debug().
+ */
 LSN TransactionWAL::logCompensate(const std::string& transaction_id,
                                    const std::string& step_id,
                                    const nlohmann::json& compensation_data) {
@@ -260,7 +312,12 @@ LSN TransactionWAL::logCompensate(const std::string& transaction_id,
     return lsn;
 }
 
-/** @brief Read and decode transaction-specific entries from WAL starting at LSN. */
+/**
+ * @brief Read Entries.
+ * @param[in] start_lsn Input parameter.
+ * @return Return value.
+ * @details Calls: readRange(), fromWALEntry(), has_value(), push_back(), value(), spdlog::debug(), size(), toString().
+ */
 std::vector<TransactionWALEntry> TransactionWAL::readEntries(LSN start_lsn) {
     std::vector<TransactionWALEntry> entries;
 
@@ -291,21 +348,29 @@ std::vector<TransactionWALEntry> TransactionWAL::readEntries(LSN start_lsn) {
     return entries;
 }
 
-/** @brief Return whether snapshot interval threshold has been reached. */
 bool TransactionWAL::shouldCreateSnapshot(uint64_t operations_count) const {
     return operations_count >= config_.snapshot_interval;
 }
 
-/** @brief Return current LSN from WAL manager if initialized, else cached value. */
 LSN TransactionWAL::getCurrentLSN() const {
     if (wal_manager_) {
         return wal_manager_->getCurrentLSN();
     }
+    /**
+     * @brief Lsn guard.
+     * @param[in] lsn_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lsn_guard(lsn_mutex_);
     return current_lsn_;
 }
 
-/** @brief Encode transaction WAL entry payload into generic WAL record. */
+/**
+ * @brief To WALEntry.
+ * @param[in] txn_entry Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), is_null().
+ */
 WALEntry TransactionWAL::toWALEntry(const TransactionWALEntry& txn_entry) {
     WALEntry wal_entry;
     wal_entry.lsn = txn_entry.lsn;
@@ -341,7 +406,12 @@ WALEntry TransactionWAL::toWALEntry(const TransactionWALEntry& txn_entry) {
     return wal_entry;
 }
 
-/** @brief Decode generic WAL record into transaction WAL entry payload. */
+/**
+ * @brief From WALEntry.
+ * @param[in] wal_entry Input parameter.
+ * @return Return value.
+ * @details Calls: value(), contains(), spdlog::error(), what().
+ */
 std::optional<TransactionWALEntry> TransactionWAL::fromWALEntry(const WALEntry& wal_entry) {
     try {
         TransactionWALEntry txn_entry;

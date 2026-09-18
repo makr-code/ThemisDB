@@ -37,17 +37,11 @@ namespace lora {
 }
 
 
-/**
- * @brief Feedback type enumeration
- */
 enum class FeedbackType {
     POSITIVE,   // User found the response helpful
     NEGATIVE    // User found the response unhelpful or incorrect
 };
 
-/**
- * @brief Feedback validation status
- */
 enum class ValidationStatus {
     PENDING,    // Not yet validated
     APPROVED,   // Approved for training
@@ -55,32 +49,10 @@ enum class ValidationStatus {
     FLAGGED     // Flagged for manual review
 };
 
-/**
- * @brief Feedback Store - persists and retrieves user feedback for LoRA training
- * 
- * Features:
- * - Support for positive and negative feedback
- * - Optional plugin-based validation and preprocessing
- * - Graph link integration (FEEDBACK_FOR edges to LoRA adapters)
- * - Versioning and timestamping
- * - Integration with LLM interactions
- * - Query and filtering capabilities
- * 
- * Storage: RocksDB with JSON serialization
- * Key format: "help_feedback:{feedback_id}"
- * 
- * Graph Links:
- * - Feedback entries can be linked to LoRA adapters via FEEDBACK_FOR edges
- * - Enables querying feedback by adapter
- * - Supports adapter lineage tracking
- */
 class FeedbackStore {
 public:
     using SpamKeywordsProviderFn = std::function<std::vector<std::string>()>;
 
-    /**
-     * @brief Feedback entry structure
-     */
     struct FeedbackEntry {
         std::string id;                        // UUID or generated ID
         std::string interaction_id;            // Reference to LLM interaction
@@ -100,13 +72,19 @@ public:
         nlohmann::json metadata;               // Additional fields
 
         // Serialization
+        /**
+         * @brief To Json.
+         * @return Return value.
+         */
         nlohmann::json toJson() const;
+        /**
+         * @brief From Json.
+         * @param[in] j Input parameter.
+         * @return Return value.
+         */
         static FeedbackEntry fromJson(const nlohmann::json& j);
     };
 
-    /**
-     * @brief List options for querying feedback
-     */
     struct ListOptions {
         size_t limit = 100;                          // Max entries to return
         std::optional<std::string> start_after_id;   // Pagination cursor
@@ -118,9 +96,6 @@ public:
         std::optional<bool> unused_for_training;     // Only unused entries
     };
 
-    /**
-     * @brief Feedback statistics
-     */
     struct Stats {
         size_t total_feedback = 0;
         size_t positive_count = 0;
@@ -133,188 +108,156 @@ public:
         double positive_ratio = 0.0;
     };
 
-    /**
-     * @brief Construct FeedbackStore
-     * @param db RocksDB TransactionDB instance (not owned)
-     * @param cf Optional column family handle (nullptr = default CF)
-     */
     explicit FeedbackStore(rocksdb::TransactionDB* db, 
                           rocksdb::ColumnFamilyHandle* cf = nullptr);
 
     ~FeedbackStore() = default;
     
     /**
-     * @brief Set validation plugin (optional)
-     * @param plugin Validation plugin to use (nullptr = no validation)
-     * 
-     * When a plugin is set, all feedback will be validated through it.
-     * If validation fails, the feedback may be rejected or flagged.
+     * @brief Set Validation Plugin.
+     * @param[in] plugin Input parameter.
      */
     void setValidationPlugin(std::shared_ptr<IFeedbackPlugin> plugin);
     
     /**
-     * @brief Get current validation plugin
+     * @brief Get Validation Plugin.
+     * @return Return value.
      */
     std::shared_ptr<IFeedbackPlugin> getValidationPlugin() const;
 
     /**
-     * @brief Set spam-keyword provider callback for runtime-configurable spam detection.
-     *
-     * When set, the provider is queried during validation and its returned keyword list
-     * is used for substring-based spam matching. If the provider is not set, throws, or
-     * returns an empty list, FeedbackStore falls back to the built-in default keywords.
-     *
-     * @param provider Callback returning the current spam keywords.
+     * @brief Set Spam Keywords Provider.
+     * @param[in] provider Input parameter.
      */
     static void setSpamKeywordsProvider(SpamKeywordsProviderFn provider);
 
     /**
-     * @brief Remove installed spam-keyword provider (fallback to defaults).
+     * @brief Clear Spam Keywords Provider.
      */
     static void clearSpamKeywordsProvider();
 
     /**
-     * @brief Store a new feedback entry
-     * @param feedback Feedback to store (id will be generated if empty)
-     * @return Stored feedback with generated ID
+     * @brief Create Feedback.
+     * @param[in] feedback Input parameter.
+     * @return Return value.
      */
     FeedbackEntry createFeedback(FeedbackEntry feedback);
 
     /**
-     * @brief Retrieve feedback by ID
-     * @param id Feedback ID
-     * @return Feedback entry if found, nullopt otherwise
+     * @brief Get Feedback.
+     * @param[in] id Input parameter.
+     * @return Return value.
      */
     std::optional<FeedbackEntry> getFeedback(const std::string& id) const;
 
     /**
-     * @brief List feedback entries with default options.
-     * @return Vector of feedback entries.
+     * @brief List Feedback.
+     * @return Return value.
      */
     std::vector<FeedbackEntry> listFeedback() const;
     /**
-     * @brief List feedback entries with optional filters.
-     * @param options List options (pagination, filters).
-     * @return Vector of feedback entries.
+     * @brief List Feedback.
+     * @param[in] options Input parameter.
+     * @return Return value.
      */
     std::vector<FeedbackEntry> listFeedback(const ListOptions& options) const;
 
     /**
-     * @brief Get feedback statistics
-     * @return Stats struct
+     * @brief Get Stats.
+     * @return Return value.
      */
     Stats getStats() const;
 
     /**
-     * @brief Delete feedback by ID
-     * @param id Feedback ID
-     * @return true if deleted, false if not found
+     * @brief Delete Feedback.
+     * @param[in] id Input parameter.
+     * @return True when the operation succeeds.
      */
     bool deleteFeedback(const std::string& id);
 
     /**
-     * @brief Update feedback validation status
-     * @param id Feedback ID
-     * @param status New validation status
-     * @return true if updated, false if not found
+     * @brief Update Validation Status.
+     * @param[in] id Input parameter.
+     * @param[in] status Input parameter.
+     * @return True when the operation succeeds.
      */
     bool updateValidationStatus(const std::string& id, ValidationStatus status);
 
     /**
-     * @brief Mark feedback as used for training
-     * @param id Feedback ID
-     * @param batch_id Training batch ID
-     * @return true if updated, false if not found
+     * @brief Mark Used For Training.
+     * @param[in] id Input parameter.
+     * @param[in] batch_id Identifier of the batch.
+     * @return True when the operation succeeds.
      */
     bool markUsedForTraining(const std::string& id, int batch_id);
 
     /**
-     * @brief Validate feedback entry (basic spam/quality checks)
-     * 
-     * NOTE: This is now optional. When a validation plugin is set,
-     * it will be used instead of this basic validation.
-     * 
-     * @param feedback Feedback entry to validate
-     * @return ValidationStatus result
+     * @brief Validate Feedback.
+     * @param[in] feedback Input parameter.
+     * @return Return value.
      */
     static ValidationStatus validateFeedback(const FeedbackEntry& feedback);
 
     /**
-     * @brief Install a runtime spam keywords provider.
-     *
-     * When set, getSpamKeywords() returns the result of this callable instead
-     * of the built-in static list, enabling runtime keyword updates.
-     * @param fn Callable returning a vector of lowercase spam keyword strings.
+     * @brief Set Spam Keywords Provider Fn.
+     * @param[in] fn Input parameter.
      */
     static void setSpamKeywordsProviderFn(SpamKeywordsProviderFn fn);
 
     /**
-     * @brief Remove the spam keywords provider bridge (reverts to static list).
+     * @brief Clear Spam Keywords Provider Fn.
      */
     static void clearSpamKeywordsProviderFn();
 
     /**
-     * @brief Clear all feedback entries
+     * @brief Clear.
      */
     void clear();
     
     // ===== Graph Link Methods =====
     
-    /**
-     * @brief Create graph link between feedback and LoRA adapter
-     * 
-     * Creates a FEEDBACK_FOR edge from feedback to adapter.
-     * This enables querying feedback by adapter and tracking adapter lineage.
-     * 
-     * @param feedback_id Feedback entry ID
-     * @param adapter_id LoRA adapter ID
-     * @param metadata Optional edge metadata
-     * @return true if link created successfully
-     */
     bool createAdapterLink(
         const std::string& feedback_id,
         const std::string& adapter_id,
         const nlohmann::json& metadata = nlohmann::json::object());
     
     /**
-     * @brief Get feedback linked to a specific adapter
-     * 
-     * @param adapter_id LoRA adapter ID
-     * @param options List options for filtering
-     * @return Vector of feedback entries
+     * @brief Get Feedback For Adapter.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @param[in] options Input parameter.
+     * @return Return value.
      */
     std::vector<FeedbackEntry> getFeedbackForAdapter(
         const std::string& adapter_id,
         const ListOptions& options) const;
+    /**
+     * @brief Get Feedback For Adapter.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @return Return value.
+     */
     std::vector<FeedbackEntry> getFeedbackForAdapter(
         const std::string& adapter_id) const;
     
     /**
-     * @brief Get adapters linked to a specific feedback
-     * 
-     * @param feedback_id Feedback ID
-     * @return Vector of adapter IDs
+     * @brief Get Linked Adapters.
+     * @param[in] feedback_id Identifier of the feedback.
+     * @return Return value.
      */
     std::vector<std::string> getLinkedAdapters(const std::string& feedback_id) const;
     
     /**
-     * @brief Check if feedback is linked to an adapter
-     * 
-     * @param feedback_id Feedback ID
-     * @param adapter_id Adapter ID
-     * @return true if linked
+     * @brief Is Linked To Adapter.
+     * @param[in] feedback_id Identifier of the feedback.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @return True when the operation succeeds.
      */
     bool isLinkedToAdapter(
         const std::string& feedback_id,
         const std::string& adapter_id) const;
 
     /**
-     * @brief Get the active spam-keyword list.
-     *
-     * Returns the injected provider output when one is configured and
-     * produces a non-empty list; otherwise returns the built-in static list.
-     *
-     * @return Active spam-keyword list used by feedback validation.
+     * @brief Get Spam Keywords.
+     * @return Return value.
      */
     static std::vector<std::string> getSpamKeywords();
 
@@ -326,15 +269,38 @@ private:
     static constexpr const char* KEY_PREFIX = "help_feedback:";
     static constexpr const char* GRAPH_EDGE_PREFIX = "feedback_graph_edge:";
     
+    /**
+     * @brief Make Key.
+     * @param[in] id Input parameter.
+     * @return Return value.
+     */
     std::string makeKey(const std::string& id) const;
+    /**
+     * @brief Make Graph Edge Key.
+     * @param[in] feedback_id Identifier of the feedback.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @return Return value.
+     */
     std::string makeGraphEdgeKey(const std::string& feedback_id, 
                                   const std::string& adapter_id) const;
+    /**
+     * @brief Generate Id.
+     * @return Return value.
+     */
     std::string generateId() const;
     
-    // Spam detection configuration (deprecated, use plugin instead)
+    /**
+     * @brief Spam detection configuration (deprecated, use plugin instead)
+     * @param[in] text Input parameter.
+     * @return True when the operation succeeds.
+     */
     static bool isLikelySpam(const std::string& text);
     
-    // Helper: Apply plugin validation if available
+    /**
+     * @brief Helper: Apply plugin validation if available
+     * @param[in,out] feedback Input/output parameter.
+     * @return Return value.
+     */
     ValidationStatus applyPluginValidation(FeedbackEntry& feedback);
 };
 

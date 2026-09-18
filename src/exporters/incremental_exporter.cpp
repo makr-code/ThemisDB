@@ -37,9 +37,15 @@ namespace themis::exporters {
 IncrementalExporter::IncrementalExporter(const IncrementalExportConfig& config)
     : config_(config), metrics_(std::make_shared<ExporterMetrics>()) {}
 
-// ─────────────────────────────────────────────────────────────────────────────
-// IExporter::exportEntities
-// ─────────────────────────────────────────────────────────────────────────────
+/**
+ * @brief ───────────────────────────────────────────────────────────────────────────── IExporter::exportEntities ─────────────────────────────────────────────────────────────────────────────
+ * @param[in] entities Input parameter.
+ * @param[in] options Input parameter.
+ * @return Return value.
+ * @throws ExporterException if an error occurs.
+ * @throws ExportIOException if an error occurs.
+ * @details Calls: enforceExportPolicy(), std::chrono::steady_clock::now(), readWatermark(), THEMIS_INFO(), writer(), empty(), std::string(), what().
+ */
 
 ExportStats IncrementalExporter::exportEntities(
     const std::vector<BaseEntity>& entities,
@@ -291,6 +297,12 @@ bool IncrementalExporter::writeWatermark(int64_t sequence,
                                           const std::string& timestamp) const {
     const std::string tmp_path = config_.watermark_path + ".tmp";
     {
+        /**
+         * @brief Tmp.
+         * @param[in] tmp_path Path to the tmp.
+         * @param[in] trunc Input parameter.
+         * @return Return value.
+         */
         std::ofstream tmp(tmp_path, std::ios::trunc);
         if (!tmp.is_open()) {
             return false;
@@ -334,6 +346,13 @@ int64_t IncrementalExporter::extractSequence(const BaseEntity& entity) const {
     return std::numeric_limits<int64_t>::min();  // absent or unparseable
 }
 
+/**
+ * @brief Format Entity.
+ * @param[in] entity Input parameter.
+ * @param[in] options Input parameter.
+ * @return Return value.
+ * @details Calls: getAllFields(), empty(), getPrimaryKey(), std::visit(), constexpr(), std::setfill(), std::setw(), str().
+ */
 std::string IncrementalExporter::formatEntity(const BaseEntity& entity,
                                               const ExportOptions& options) {
     auto all_fields = entity.getAllFields();

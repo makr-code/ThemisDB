@@ -23,6 +23,13 @@ namespace themis {
 
 using json = nlohmann::json;
 
+/**
+ * @brief Starts with.
+ * @param[in] s Input parameter.
+ * @param[in] prefix Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: size(), std::equal(), begin(), end().
+ */
 static bool starts_with(const std::string& s, const std::string& prefix) {
     return s.size() >= prefix.size()
            && std::equal(prefix.begin(), prefix.end(), s.begin());
@@ -49,6 +56,13 @@ static void emitPolicyAudit(utils::AuditLogger* logger,
                              meta);
 }
 
+/**
+ * @brief Load From File.
+ * @param[in] path Input parameter.
+ * @param[in,out] err Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: size(), compare(), ends_with(), YAML::LoadFile(), insert(), push_back(), THEMIS_WARN(), IsSequence().
+ */
 bool PolicyEngine::loadFromFile(const std::string& path, std::string* err) {
     try {
         auto ends_with = [](const std::string& s, const std::string& suffix) {
@@ -189,6 +203,11 @@ bool PolicyEngine::saveToFile(const std::string& path, std::string* err) const {
         for (const auto& p : list) {
           out.push_back(toJson(p));
         }
+        /**
+         * @brief F.
+         * @param[in] path Input parameter.
+         * @return Return value.
+         */
         std::ofstream f(path);
         if (!f) { if (err) *err = "cannot write policies file"; return false; }
         f << out.dump(2);
@@ -201,6 +220,12 @@ bool PolicyEngine::saveToFile(const std::string& path, std::string* err) const {
     }
 }
 
+/**
+ * @brief Reload If Changed.
+ * @param[in,out] err Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), empty(), std::filesystem::last_write_time(), clock::now(), std::chrono::system_clock::now(), std::string(), what(), loadFromFile().
+ */
 bool PolicyEngine::reloadIfChanged(std::string* err) {
     // Fast read of the stored path under the lock
     std::string path = {};
@@ -237,6 +262,11 @@ bool PolicyEngine::reloadIfChanged(std::string* err) {
     return loadFromFile(path, err);
 }
 
+/**
+ * @brief Set Policies.
+ * @param[in] policies Input parameter.
+ * @details Calls: size(), lock(), std::move(), emitPolicyAudit(), std::to_string().
+ */
 void PolicyEngine::setPolicies(std::vector<Policy> policies) {
     utils::AuditLogger* logger = nullptr;
     size_t count = policies.size();
@@ -250,6 +280,12 @@ void PolicyEngine::setPolicies(std::vector<Policy> policies) {
                     "replaced all policies, new count=" + std::to_string(count));
 }
 
+/**
+ * @brief Add Policy.
+ * @param[in] p Input parameter.
+ * @throws std::length_error if an error occurs.
+ * @details Calls: lock(), size(), std::to_string(), push_back(), emitPolicyAudit().
+ */
 void PolicyEngine::addPolicy(const Policy& p) {
     utils::AuditLogger* logger = nullptr;
     std::string id = p.id;
@@ -266,6 +302,12 @@ void PolicyEngine::addPolicy(const Policy& p) {
     emitPolicyAudit(logger, "add", id);
 }
 
+/**
+ * @brief Remove a retention policy by name.
+ * @param[in] id Input parameter.
+ * @return True when the policy existed and was removed.
+ * @details Calls: lock(), size(), erase(), std::remove_if(), begin(), end(), emitPolicyAudit().
+ */
 bool PolicyEngine::removePolicy(const std::string& id) {
     utils::AuditLogger* logger = nullptr;
     bool removed = false;
@@ -285,6 +327,11 @@ bool PolicyEngine::removePolicy(const std::string& id) {
 }
 
 std::vector<PolicyEngine::Policy> PolicyEngine::listPolicies() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return policies_;
 }
@@ -315,6 +362,11 @@ PolicyEngine::Decision PolicyEngine::authorize(const std::string& user_id,
             "governance_opa_fallback_total", 1, {{"source", "policy_engine"}});
     }
 
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     // If no policies defined, default deny (fail-closed).
@@ -434,6 +486,12 @@ bool PolicyEngine::matchConditions(const Policy& p,
     return true;
 }
 
+/**
+ * @brief To Json.
+ * @param[in] p Input parameter.
+ * @return Return value.
+ * @details Calls: json::array(), push_back(), empty().
+ */
 json PolicyEngine::toJson(const Policy& p) {
     json j;
     j["id"] = p.id;
@@ -457,6 +515,12 @@ json PolicyEngine::toJson(const Policy& p) {
     return j;
 }
 
+/**
+ * @brief From Json.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: value(), contains(), insert(), push_back(), std::string(), THEMIS_WARN().
+ */
 std::optional<PolicyEngine::Policy> PolicyEngine::fromJson(const json& j) {
     try {
         Policy p;

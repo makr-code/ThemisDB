@@ -28,9 +28,6 @@
 
 namespace themis::llm {
 
-/**
- * @brief Private implementation details
- */
 struct DocsAssistant::Impl {
     DocsAssistantConfig config;
     std::vector<DocumentEntry> documents;
@@ -45,6 +42,11 @@ struct DocsAssistant::Impl {
 
 namespace {
 
+/**
+ * @brief Resolve Default Model Path From Env.
+ * @return Return value.
+ * @details Calls: std::getenv(), std::string(), empty(), candidate(), dir(), std::filesystem::is_directory(), std::filesystem::exists(), string().
+ */
 std::string resolveDefaultModelPathFromEnv() {
     constexpr std::array<const char*, 3> kModelEnvVars = {
         "THEMIS_DEMO_LLM_MODEL_PATH",
@@ -80,6 +82,12 @@ std::string resolveDefaultModelPathFromEnv() {
     return "";
 }
 
+/**
+ * @brief Tokenize Lower.
+ * @param[in] text Input parameter.
+ * @return Return value.
+ * @details Calls: std::isalnum(), push_back(), std::tolower(), empty(), clear().
+ */
 std::vector<std::string> tokenizeLower(const std::string& text) {
     std::vector<std::string> tokens;
     std::string cur = {};
@@ -97,6 +105,12 @@ std::vector<std::string> tokenizeLower(const std::string& text) {
     return tokens;
 }
 
+/**
+ * @brief Fnv1a64.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Implements fnv1a64 without additional internal calls.
+ */
 uint64_t fnv1a64(const std::string& s) {
     constexpr uint64_t kOffset = 1469598103934665603;
     constexpr uint64_t kPrime = 1099511628211;
@@ -108,6 +122,13 @@ uint64_t fnv1a64(const std::string& s) {
     return hash;
 }
 
+/**
+ * @brief Hash Embed Query.
+ * @param[in] text Input parameter.
+ * @param[in] dim Input parameter.
+ * @return Return value.
+ * @details Calls: vec(), tokenizeLower(), empty(), fnv1a64(), std::log(), std::max(), std::sqrt().
+ */
 std::vector<float> hashEmbedQuery(const std::string& text, int dim) {
     std::vector<float> vec(static_cast<size_t>(dim), 0.0f);
     auto tokens = tokenizeLower(text);
@@ -144,6 +165,13 @@ std::vector<float> hashEmbedQuery(const std::string& text, int dim) {
     return vec;
 }
 
+/**
+ * @brief Cosine Dense.
+ * @param[in] a Input parameter.
+ * @param[in] b Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), size(), std::sqrt().
+ */
 float cosineDense(const std::vector<float>& a, const std::vector<float>& b) {
     if (a.empty() || b.empty() || a.size() != b.size()) {
         return 0.0f;
@@ -162,6 +190,14 @@ float cosineDense(const std::vector<float>& a, const std::vector<float>& b) {
     return dot / (std::sqrt(an) * std::sqrt(bn));
 }
 
+/**
+ * @brief Cosine Quantized.
+ * @param[in] q Input parameter.
+ * @param[in] vq Input parameter.
+ * @param[in] scale Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), size(), std::sqrt().
+ */
 float cosineQuantized(const std::vector<float>& q, const std::vector<int16_t>& vq, float scale) {
     if (q.empty() || vq.empty() || q.size() != vq.size() || scale <= 0.0f) {
         return 0.0f;
@@ -190,6 +226,12 @@ DocsAssistant::DocsAssistant(const DocsAssistantConfig& config)
 
 DocsAssistant::~DocsAssistant() = default;
 
+/**
+ * @brief Load Database.
+ * @param[in] path Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), file(), is_open(), close(), parseDatabase(), THEMIS_DEBUG().
+ */
 bool DocsAssistant::loadDatabase(const std::string& path) {
     std::string db_path = path.empty() ? impl_->config.docs_database_path : path;
     
@@ -211,6 +253,12 @@ bool DocsAssistant::loadDatabase(const std::string& path) {
     }
 }
 
+/**
+ * @brief Parse Database.
+ * @param[in] db_json Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: contains(), is_array(), find(), clear(), value(), empty(), end(), std::filesystem::path().
+ */
 bool DocsAssistant::parseDatabase(const json& db_json) {
     try {
         // Extract metadata
@@ -369,7 +417,11 @@ float DocsAssistant::computeRelevance(const DocumentEntry& doc, const std::strin
     std::transform(query_lower.begin(), query_lower.end(), query_lower.begin(), ::tolower);
     std::transform(content_lower.begin(), content_lower.end(), content_lower.begin(), ::tolower);
     
-    // Split query into words
+    /**
+     * @brief Split query into words
+     * @param[in] query_lower Input parameter.
+     * @return Return value.
+     */
     std::istringstream iss(query_lower);
     std::vector<std::string> query_words;
     std::string word = {};
@@ -408,6 +460,13 @@ float DocsAssistant::computeRelevance(const DocumentEntry& doc, const std::strin
     return std::min(score, 1.0f);
 }
 
+/**
+ * @brief Search Docs.
+ * @param[in] query Input parameter.
+ * @param[in] max_results Input parameter.
+ * @return Return value.
+ * @details Calls: isReady(), hashEmbedQuery(), computeRelevance(), cosineQuantized(), cosineDense(), push_back(), std::sort(), begin().
+ */
 std::vector<DocumentEntry> DocsAssistant::searchDocs(const std::string& query, int max_results) {
     if (!isReady()) {
         return {};
@@ -457,6 +516,13 @@ std::vector<DocumentEntry> DocsAssistant::searchDocs(const std::string& query, i
     return scored_docs;
 }
 
+/**
+ * @brief Generate Answer.
+ * @param[in] query Input parameter.
+ * @param[in] context_docs Input parameter.
+ * @return Return value.
+ * @details Calls: spdlog::info(), size(), empty(), length(), substr(), str(), push_back(), std::move().
+ */
 std::string DocsAssistant::generateAnswer(const std::string& query, 
                                          const std::vector<DocumentEntry>& context_docs) {
     spdlog::info(
@@ -620,6 +686,12 @@ std::string DocsAssistant::generateAnswer(const std::string& query,
     }
 }
 
+/**
+ * @brief Query.
+ * @param[in] query Input parameter.
+ * @return Return value.
+ * @details Calls: isReady(), find(), end(), std::chrono::high_resolution_clock::now(), max(), searchDocs(), saturating_to_int(), size().
+ */
 DocsQueryResult DocsAssistant::query(const std::string& query) {
     DocsQueryResult result = {};
     
@@ -677,6 +749,12 @@ DocsQueryResult DocsAssistant::query(const std::string& query) {
     return result;
 }
 
+/**
+ * @brief Get Config Help.
+ * @param[in] topic Input parameter.
+ * @return Return value.
+ * @details Calls: substr(), prompt_safety::sanitizePromptWithSharedPolicy(), THEMIS_WARN(), query().
+ */
 DocsQueryResult DocsAssistant::getConfigHelp(const std::string& topic) {
     // [W3-SEC-04] Prompt injection guard: cap length and check for blocked instruction
     // patterns before embedding caller-supplied strings into an LLM query.
@@ -700,6 +778,12 @@ DocsQueryResult DocsAssistant::getConfigHelp(const std::string& topic) {
     return this->query(query);
 }
 
+/**
+ * @brief Get Troubleshooting Help.
+ * @param[in] error_description Input parameter.
+ * @return Return value.
+ * @details Calls: substr(), prompt_safety::sanitizePromptWithSharedPolicy(), THEMIS_WARN(), query().
+ */
 DocsQueryResult DocsAssistant::getTroubleshootingHelp(const std::string& error_description) {
     // [W3-SEC-04] Prompt injection guard: cap length and check for blocked instruction
     // patterns before embedding caller-supplied strings into an LLM query.
@@ -732,6 +816,10 @@ json DocsAssistant::getStats() const {
     return stats;
 }
 
+/**
+ * @brief Clear Cache.
+ * @details Calls: clear().
+ */
 void DocsAssistant::clearCache() {
     impl_->cache.clear();
 }

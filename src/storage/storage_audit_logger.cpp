@@ -47,19 +47,73 @@ namespace fs = std::filesystem;
 
 #if defined(_WIN32)
 using themis_ssize_t = std::ptrdiff_t;
+/**
+ * @brief Themis open fd.
+ * @param[in] path Input parameter.
+ * @param[in] flags Input parameter.
+ * @param[in] mode Input parameter.
+ * @return Return value.
+ * @details Calls: _open().
+ */
 static int themis_open_fd(const char* path, int flags, int mode) { return _open(path, flags, mode); }
+/**
+ * @brief Themis close fd.
+ * @param[in] fd Input parameter.
+ * @return Return value.
+ * @details Calls: _close().
+ */
 static int themis_close_fd(int fd) { return _close(fd); }
+/**
+ * @brief Themis fsync fd.
+ * @param[in] fd Input parameter.
+ * @return Return value.
+ * @details Calls: _commit().
+ */
 static int themis_fsync_fd(int fd) { return _commit(fd); }
+/**
+ * @brief Themis write fd.
+ * @param[in] fd Input parameter.
+ * @param[in] data Input parameter.
+ * @param[in] len Input parameter.
+ * @return Return value.
+ * @details Calls: _write().
+ */
 static themis_ssize_t themis_write_fd(int fd, const void* data, size_t len) {
     return static_cast<themis_ssize_t>(_write(fd, data, static_cast<unsigned int>(len)));
 }
 #else
 using themis_ssize_t = ssize_t;
-// no_timeout scanner alert: these are thin POSIX syscall shims for local
-// audit-log files; block-device I/O does not require network-style timeouts.
+/**
+ * @brief no_timeout scanner alert: these are thin POSIX syscall shims for local audit-log files; block-device I/O does not require network-style timeouts.
+ * @param[in] path Input parameter.
+ * @param[in] flags Input parameter.
+ * @param[in] mode Input parameter.
+ * @return Return value.
+ * @details Calls: open().
+ */
 static int themis_open_fd(const char* path, int flags, int mode) { return ::open(path, flags, mode); }
+/**
+ * @brief Themis close fd.
+ * @param[in] fd Input parameter.
+ * @return Return value.
+ * @details Calls: close().
+ */
 static int themis_close_fd(int fd) { return ::close(fd); }
+/**
+ * @brief Themis fsync fd.
+ * @param[in] fd Input parameter.
+ * @return Return value.
+ * @details Calls: fsync().
+ */
 static int themis_fsync_fd(int fd) { return ::fsync(fd); }
+/**
+ * @brief Themis write fd.
+ * @param[in] fd Input parameter.
+ * @param[in] data Input parameter.
+ * @param[in] len Input parameter.
+ * @return Return value.
+ * @details Calls: write().
+ */
 static themis_ssize_t themis_write_fd(int fd, const void* data, size_t len) {
     // no_timeout scanner alert: local audit-log write — blocking POSIX write
     // on local storage; no network timeout applicable here.
@@ -71,6 +125,12 @@ static themis_ssize_t themis_write_fd(int fd, const void* data, size_t len) {
 // Helpers
 // ──────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Event Name.
+ * @param[in] e Input parameter.
+ * @return Return value.
+ * @details Implements eventName without additional internal calls.
+ */
 std::string_view StorageAuditLogger::eventName(Event e) {
     switch (e) {
         case Event::PUT:        return "PUT";
@@ -148,6 +208,11 @@ StorageAuditLogger::open(const Config& config) {
     return Ok(std::move(logger));
 }
 
+/**
+ * @brief Open Or Create.
+ * @return Return value.
+ * @details Calls: seg_re(), fs::directory_iterator(), path(), filename(), string(), std::regex_match(), push_back(), std::stoull().
+ */
 Result<void> StorageAuditLogger::openOrCreate() {
     // Discover existing segments
     std::vector<uint64_t> found;
@@ -185,6 +250,14 @@ Result<void> StorageAuditLogger::openOrCreate() {
 // Logging
 // ──────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Log.
+ * @param[in] event Input parameter.
+ * @param[in] key Input parameter.
+ * @param[in] extra Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), writeEntry().
+ */
 Result<void> StorageAuditLogger::log(Event event,
                                       std::string_view key,
                                       std::string_view extra) {
@@ -192,32 +265,78 @@ Result<void> StorageAuditLogger::log(Event event,
     return writeEntry(event, key, extra);
 }
 
+/**
+ * @brief Log Put.
+ * @param[in] key Input parameter.
+ * @param[in] extra Input parameter.
+ * @return Return value.
+ * @details Calls: log().
+ */
 Result<void> StorageAuditLogger::logPut(std::string_view key,
                                          std::string_view extra) {
     return log(Event::PUT, key, extra);
 }
 
+/**
+ * @brief Log Del.
+ * @param[in] key Input parameter.
+ * @param[in] extra Input parameter.
+ * @return Return value.
+ * @details Calls: log().
+ */
 Result<void> StorageAuditLogger::logDel(std::string_view key,
                                          std::string_view extra) {
     return log(Event::DEL, key, extra);
 }
 
+/**
+ * @brief Log Checkpoint.
+ * @param[in] detail Input parameter.
+ * @return Return value.
+ * @details Calls: log().
+ */
 Result<void> StorageAuditLogger::logCheckpoint(std::string_view detail) {
     return log(Event::CHECKPOINT, "", detail);
 }
 
+/**
+ * @brief Log Recovery.
+ * @param[in] detail Input parameter.
+ * @return Return value.
+ * @details Calls: log().
+ */
 Result<void> StorageAuditLogger::logRecovery(std::string_view detail) {
     return log(Event::RECOVERY, "", detail);
 }
 
+/**
+ * @brief Log Compaction.
+ * @param[in] detail Input parameter.
+ * @return Return value.
+ * @details Calls: log().
+ */
 Result<void> StorageAuditLogger::logCompaction(std::string_view detail) {
     return log(Event::COMPACTION, "", detail);
 }
 
+/**
+ * @brief Log Snapshot.
+ * @param[in] detail Input parameter.
+ * @return Return value.
+ * @details Calls: log().
+ */
 Result<void> StorageAuditLogger::logSnapshot(std::string_view detail) {
     return log(Event::SNAPSHOT, "", detail);
 }
 
+/**
+ * @brief Write Entry.
+ * @param[in] event Input parameter.
+ * @param[in] key Input parameter.
+ * @param[in] extra Input parameter.
+ * @return Return value.
+ * @details Calls: rotateIfNeeded(), has_value(), currentTimestamp(), std::setw(), std::setfill(), eventName(), empty(), str().
+ */
 Result<void> StorageAuditLogger::writeEntry(Event event,
                                              std::string_view key,
                                              std::string_view extra) {
@@ -266,6 +385,11 @@ Result<void> StorageAuditLogger::writeEntry(Event event,
     return OkVoid();
 }
 
+/**
+ * @brief Rotate If Needed.
+ * @return Return value.
+ * @details Calls: OkVoid(), themis_fsync_fd(), themis_close_fd(), back(), push_back(), fs::path(), segmentName(), string().
+ */
 Result<void> StorageAuditLogger::rotateIfNeeded() {
     if (segment_bytes_ < config_.max_file_bytes) {
       return OkVoid();
@@ -292,6 +416,10 @@ Result<void> StorageAuditLogger::rotateIfNeeded() {
     return OkVoid();
 }
 
+/**
+ * @brief Sync If Required.
+ * @details Calls: themis_fsync_fd().
+ */
 void StorageAuditLogger::syncIfRequired() {
     if (config_.sync_on_write && fd_ >= 0) {
         themis_fsync_fd(fd_);
@@ -303,18 +431,30 @@ void StorageAuditLogger::syncIfRequired() {
 // ──────────────────────────────────────────────────────────────────────────────
 
 uint64_t StorageAuditLogger::lastSequence() const {
-    // deadlock_risk scanner alert: mutex_ is acquired here in lastSequence() and also
-    // in log(), rotate(), and flush() methods; these are sequential, non-nested
-    // acquisitions — no two are held simultaneously — false positive.
+    /**
+     * @brief deadlock_risk scanner alert: mutex_ is acquired here in lastSequence() and also in log(), rotate(), and flush() methods; these are sequential, non-nested acquisitions — no two are held simultaneously — false positive.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return last_seq_;
 }
 
 size_t StorageAuditLogger::segmentCount() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return segments_.size();
 }
 
+/**
+ * @brief Flush.
+ * @return Return value.
+ * @details Calls: lock(), themis_fsync_fd(), ErrVoid(), std::string(), std::strerror(), OkVoid().
+ */
 Result<void> StorageAuditLogger::flush() {
     std::lock_guard<std::mutex> lock(mutex_);
     if (fd_ >= 0 && themis_fsync_fd(fd_) != 0) {

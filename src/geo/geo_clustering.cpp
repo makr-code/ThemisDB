@@ -25,9 +25,6 @@
 
 namespace {
 
-/// Converts WGS-84 (lon, lat) to ECEF unit-sphere Cartesian (x, y, z).
-/// The ECEF chord distance in 3D approximates the geodesic distance well
-/// enough for cluster assignment (error < 0.5% for distances < 5000 km).
 static void wgs84ToEcef(double lon_deg, double lat_deg, float &x, float &y, float &z) noexcept {
     constexpr double kPi = 3.14159265358979323846;
     const double lon     = lon_deg * kPi / 180.0;
@@ -42,8 +39,16 @@ static void wgs84ToEcef(double lon_deg, double lat_deg, float &x, float &y, floa
 // CUDA kernels
 // ---------------------------------------------------------------------------
 
-/// All-pairs Haversine adjacency kernel (n × n).
-/// Thread (i, j): result[i*n + j] = 1 if haversine(i,j) <= epsilon_m, else 0.
+/**
+ * @brief Cuda haversine adjacency kernel.
+ * @param[in] lons Input parameter.
+ * @param[in] lats Input parameter.
+ * @param[in,out] adj Input/output parameter.
+ * @param[in] n Input parameter.
+ * @param[in] epsilon_m Input parameter.
+ * @return Return value.
+ * @details Calls: sin(), cos(), asin(), sqrt().
+ */
 __global__ void cuda_haversine_adjacency_kernel(const double *lons, const double *lats, uint8_t *adj, int n,
                                                 double epsilon_m) {
     const int i = blockIdx.y * blockDim.y + threadIdx.y;
@@ -64,8 +69,15 @@ __global__ void cuda_haversine_adjacency_kernel(const double *lons, const double
     adj[i * n + j] = (dist_m <= epsilon_m) ? 1 : 0;
 }
 
-/// Build GPU adjacency matrix for DBSCAN.
-/// Returns a host-side flat vector (n×n), or empty on failure/VRAM OOM.
+/**
+ * @brief Build Gpu Adjacency.
+ * @param[in] lons Input parameter.
+ * @param[in] lats Input parameter.
+ * @param[in] epsilon_m Input parameter.
+ * @param[in] n Input parameter.
+ * @return Return value.
+ * @details Calls: alloc(), cudaMemcpy(), get(), data(), cudaMemset(), block(), grid(), cudaDeviceSynchronize().
+ */
 static std::vector<uint8_t> buildGpuAdjacency(const std::vector<double> &lons, const std::vector<double> &lats,
                                               double epsilon_m, std::size_t n) {
     std::vector<uint8_t> host_adj;
@@ -113,8 +125,6 @@ namespace geo {
 // Internal helpers
 // ---------------------------------------------------------------------------
 
-/// Extract (lon, lat) from a Point GeometryInfo.
-/// Returns {0.0, 0.0} and sets `valid` = false for non-Point geometries.
 struct LonLat {
     double lon{0.0};
     double lat{0.0};
@@ -132,6 +142,14 @@ static LonLat extractLonLat(const GeometryInfo &g) noexcept {
 // DBSCAN implementation
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Dbscan Cluster.
+ * @param[in] points Input parameter.
+ * @param[in] config Input parameter.
+ * @param[in] gpu_cfg Input parameter.
+ * @return Return value.
+ * @details Calls: size(), assign(), std::fill(), begin(), end(), coords(), extractLonLat(), lons().
+ */
 GeoClusterResult dbscanCluster(const std::vector<GeometryInfo> &points, const DbscanConfig &config,
                                const GpuClusteringConfig &gpu_cfg) {
     const std::size_t n = points.size();
@@ -272,6 +290,15 @@ GeoClusterResult dbscanCluster(const std::vector<GeometryInfo> &points, const Db
 // k-means implementation
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Kmeans Cluster.
+ * @param[in] points Input parameter.
+ * @param[in] config Input parameter.
+ * @param[in] gpu_cfg Input parameter.
+ * @return Return value.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: size(), assign(), coords(), reserve(), extractLonLat(), push_back(), std::to_string(), centroids().
+ */
 GeoClusterResult kmeansCluster(const std::vector<GeometryInfo> &points, const KMeansConfig &config,
                                const GpuClusteringConfig &gpu_cfg) {
     const std::size_t n = points.size();

@@ -40,6 +40,11 @@ LLMPluginManager::~LLMPluginManager() noexcept {
     // exception_in_destructor: plugins_ holds unique_ptr<ILLMPlugin>; plugin
     // destructors must not throw but we defensively swallow any that do.
     try {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         // Release all VRAM handles before destroying plugins so the allocator
         // sees the frees while it is still alive.
@@ -50,6 +55,13 @@ LLMPluginManager::~LLMPluginManager() noexcept {
     }
 }
 
+/**
+ * @brief Register Plugin.
+ * @param[in] name Input parameter.
+ * @param[in] plugin Input parameter.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: lock(), find(), end(), spdlog::warn(), std::move(), fetch_add(), empty(), spdlog::info().
+ */
 void LLMPluginManager::registerPlugin(
     const std::string& name,
     std::unique_ptr<ILLMPlugin> plugin
@@ -85,6 +97,11 @@ void LLMPluginManager::registerPlugin(
     spdlog::info("Registered LLM plugin: {}", name);
 }
 
+/**
+ * @brief Unregister Plugin.
+ * @param[in] name Input parameter.
+ * @details Calls: lock(), find(), end(), spdlog::warn(), clear(), empty(), spdlog::info(), erase().
+ */
 void LLMPluginManager::unregisterPlugin(const std::string& name) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -115,6 +132,11 @@ void LLMPluginManager::unregisterPlugin(const std::string& name) {
 }
 
 ILLMPlugin* LLMPluginManager::getPlugin(const std::string& name) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     auto it = plugins_.find(name);
@@ -126,6 +148,11 @@ ILLMPlugin* LLMPluginManager::getPlugin(const std::string& name) const {
 }
 
 ILLMPlugin* LLMPluginManager::getDefaultPlugin() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return getDefaultPluginLocked();
 }
@@ -143,6 +170,12 @@ ILLMPlugin* LLMPluginManager::getDefaultPluginLocked() const {
     return it->second.plugin.get();
 }
 
+/**
+ * @brief Set Default Plugin.
+ * @param[in] name Input parameter.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: lock(), find(), end(), spdlog::info().
+ */
 void LLMPluginManager::setDefaultPlugin(const std::string& name) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -155,6 +188,11 @@ void LLMPluginManager::setDefaultPlugin(const std::string& name) {
 }
 
 std::vector<std::string> LLMPluginManager::listPlugins() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     std::vector<std::string> result = {};
@@ -170,11 +208,21 @@ std::vector<std::string> LLMPluginManager::listPlugins() const {
 }
 
 bool LLMPluginManager::hasPlugin(const std::string& name) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return plugins_.find(name) != plugins_.end();
 }
 
 json LLMPluginManager::getAggregatedCapabilities() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     // Collect sorted plugin names for deterministic output (plugins_ is unordered_map)
@@ -235,6 +283,11 @@ json LLMPluginManager::getAggregatedCapabilities() const {
 }
 
 json LLMPluginManager::getAggregatedStats() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     json result;
@@ -257,6 +310,11 @@ json LLMPluginManager::getAggregatedStats() const {
     return result;
 }
 
+/**
+ * @brief Instance.
+ * @return Return value.
+ * @details Calls: std::call_once(), setOOMCallback(), spdlog::warn().
+ */
 LLMPluginManager& LLMPluginManager::instance() {
     static LLMPluginManager instance;
     // DATA-RACE-FIX(2026-08-26 Wave-7): The previous pattern used a plain
@@ -282,9 +340,13 @@ LLMPluginManager& LLMPluginManager::instance() {
     return instance;
 }
 
-// ═══════════════════════════════════════════════════════════
-// Convenience methods
-// ═══════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════ Convenience methods ═══════════════════════════════════════════════════════════
+ * @param[in] request Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: getDefaultPlugin().
+ */
 
 InferenceResponse LLMPluginManager::generate(const InferenceRequest& request) {
     auto* plugin = getDefaultPlugin();
@@ -295,6 +357,14 @@ InferenceResponse LLMPluginManager::generate(const InferenceRequest& request) {
     return plugin->generate(request);
 }
 
+/**
+ * @brief Generate RAG.
+ * @param[in] rag_context Input parameter.
+ * @param[in] request Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: spdlog::info(), empty(), size(), getDefaultPlugin(), spdlog::warn().
+ */
 InferenceResponse LLMPluginManager::generateRAG(
     const RAGContext& rag_context,
     const InferenceRequest& request
@@ -326,6 +396,13 @@ InferenceResponse LLMPluginManager::generateRAG(
     return response;
 }
 
+/**
+ * @brief Embed.
+ * @param[in] text Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: getDefaultPlugin().
+ */
 std::vector<float> LLMPluginManager::embed(const std::string& text) {
     auto* plugin = getDefaultPlugin();
     if (!plugin) {
@@ -335,6 +412,13 @@ std::vector<float> LLMPluginManager::embed(const std::string& text) {
     return plugin->embed(text);
 }
 
+/**
+ * @brief Load Model.
+ * @param[in] model_id Identifier of the model.
+ * @param[in] path Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), spdlog::error(), std::getenv(), model_root_str(), fs::canonical(), fs::path(), clear(), fs::weakly_canonical().
+ */
 bool LLMPluginManager::loadModel(const std::string& model_id, const std::string& path) {
     // Fail-closed: reject empty model_id or path immediately
     if (model_id.empty() || path.empty()) {
@@ -427,6 +511,12 @@ bool LLMPluginManager::loadModel(const std::string& model_id, const std::string&
     return ok;
 }
 
+/**
+ * @brief Unload Model.
+ * @param[in] model_id Identifier of the model.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: empty(), lock(), find(), end(), free(), erase(), getDefaultPluginLocked().
+ */
 void LLMPluginManager::unloadModel(const std::string& model_id) {
     // Free the VRAM handle first (before the plugin frees the underlying memory).
     if (!model_id.empty()) {
@@ -450,6 +540,11 @@ void LLMPluginManager::unloadModel(const std::string& model_id) {
 
 std::vector<std::string> LLMPluginManager::listModels() const {
     std::vector<std::string> models;
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     for (const auto& [name, entry] : plugins_) {
         // null_dereference: guard defensively
@@ -466,6 +561,15 @@ std::vector<std::string> LLMPluginManager::listModels() const {
     return models;
 }
 
+/**
+ * @brief Load Lo RA.
+ * @param[in] lora_id Identifier of the lora.
+ * @param[in] path Input parameter.
+ * @param[in] base_model Input parameter.
+ * @return True when the operation succeeds.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: empty(), spdlog::error(), getDefaultPlugin(), lock(), std::move(), announce(), spdlog::info().
+ */
 bool LLMPluginManager::loadLoRA(const std::string& lora_id, const std::string& path, 
                                 const std::string& base_model) {
     // Fail-closed: reject empty lora_id or path immediately
@@ -508,6 +612,13 @@ bool LLMPluginManager::loadLoRA(const std::string& lora_id, const std::string& p
     return ok;
 }
 
+/**
+ * @brief Unload Lo RA.
+ * @param[in] lora_id Identifier of the lora.
+ * @return True when the operation succeeds.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: getDefaultPlugin(), lock(), std::move(), announce(), spdlog::info().
+ */
 bool LLMPluginManager::unloadLoRA(const std::string& lora_id) {
     auto* plugin = getDefaultPlugin();
     if (!plugin) {
@@ -554,6 +665,13 @@ std::vector<LoRAInfo> LLMPluginManager::listLoRAs() const {
     return loras;
 }
 
+/**
+ * @brief Generate Stream.
+ * @param[in] request Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: getDefaultPlugin(), generate(), iss(), push_back().
+ */
 std::vector<std::string> LLMPluginManager::generateStream(const InferenceRequest& request) {
     auto* plugin = getDefaultPlugin();
     if (!plugin) {
@@ -570,6 +688,13 @@ std::vector<std::string> LLMPluginManager::generateStream(const InferenceRequest
     return tokens;
 }
 
+/**
+ * @brief Ingest Model.
+ * @param[in] model_id Identifier of the model.
+ * @param[in] data Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: loadModel().
+ */
 bool LLMPluginManager::ingestModel(const std::string& model_id, 
                                    const std::string& data) {
     return loadModel(model_id, model_id);
@@ -638,10 +763,20 @@ ActiveVRAMAllocator::Stats LLMPluginManager::getVRAMStats() const {
     return vram_allocator_.getStats();
 }
 
+/**
+ * @brief Set Adapter Publisher.
+ * @param[in,out] publisher Input/output parameter.
+ * @param[in] local_shard_id Identifier of the local shard.
+ */
 void LLMPluginManager::setAdapterPublisher(
     distributed_knowledge::GossipAdapterPublisher* publisher,
     std::string local_shard_id)
 {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     adapter_publisher_ = publisher;
     local_shard_id_    = std::move(local_shard_id);
@@ -649,6 +784,10 @@ void LLMPluginManager::setAdapterPublisher(
                  publisher ? "configured" : "disconnected");
 }
 
+/**
+ * @brief Clear All Caches.
+ * @details Calls: EmbeddedLLMManager::instance(), isInitialized(), get(), clearCache(), spdlog::info(), spdlog::debug().
+ */
 void LLMPluginManager::clearAllCaches() {
     // Clear embedding cache on the global EmbeddedLLM singleton if initialized.
     auto& mgr = EmbeddedLLMManager::instance();
@@ -662,9 +801,14 @@ void LLMPluginManager::clearAllCaches() {
                   "managed by individual plugins and reset on model reload");
 }
 
-// ═══════════════════════════════════════════════════════════
-// Helper functions
-// ═══════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════ Helper functions ═══════════════════════════════════════════════════════════
+ * @param[in] name Input parameter.
+ * @param[in] model_path Path to the model.
+ * @param[in] config Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: THEMIS_LLAMA_CPP_STUB_MODE(), contains(), std::chrono::seconds(), empty(), loadModel(), errors::logError(), LLMPluginManager::instance(), registerPlugin().
+ */
 
 bool createLlamaWrapper(
     const std::string& name,
@@ -773,16 +917,26 @@ bool createLlamaWrapper(
 #endif
 }
 
-// ═══════════════════════════════════════════════════════════
-// MSW: MetricsServer Admin Callback Wiring
-// ═══════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════ MSW: MetricsServer Admin Callback Wiring ═══════════════════════════════════════════════════════════
+ * @param[in] cb Input parameter.
+ */
 
 void LLMPluginManager::setCancelSessionCallback(CancelSessionCallback cb)
 {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     cancel_session_cb_ = std::move(cb);
 }
 
+/**
+ * @brief Wire Metrics Server Callbacks.
+ * @param[in,out] server Input/output parameter.
+ */
 void LLMPluginManager::wireMetricsServerCallbacks(monitoring::MetricsServer& server)
 {
     // ── Reload callback ────────────────────────────────────────────────────────
@@ -854,6 +1008,11 @@ void LLMPluginManager::wireMetricsServerCallbacks(monitoring::MetricsServer& ser
     // response instead of the generic "not_implemented" message.
     CancelSessionCallback cancel_cb;
     {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         cancel_cb = cancel_session_cb_;
     }
@@ -889,9 +1048,14 @@ void LLMPluginManager::wireMetricsServerCallbacks(monitoring::MetricsServer& ser
                  cancel_cb ? "session-delete" : "session-delete(not_configured)");
 }
 
-// ═══════════════════════════════════════════════════════════════════════════
-// SSM State Store Management (P2-D04 / P2-D05 Runtime Integration)
-// ═══════════════════════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════════════════════ SSM State Store Management (P2-D04 / P2-D05 Runtime Integration) ═══════════════════════════════════════════════════════════════════════════
+ * @param[in] config Input parameter.
+ * @return True when the operation succeeds.
+ * @throws std::invalid_argument if an error occurs.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: lock(), spdlog::info(), empty(), std::filesystem::create_directories(), rocksdb::TransactionDB::Open(), ok(), ToString(), reset().
+ */
 
 bool LLMPluginManager::initializeStateStore(const SSMStateStoreConfig& config) {
     std::lock_guard<std::mutex> lock(mutex_);
@@ -985,6 +1149,14 @@ bool LLMPluginManager::initializeStateStore(const SSMStateStoreConfig& config) {
     }
 }
 
+/**
+ * @brief Checkpoint State.
+ * @param[in] session_id Identifier of the session.
+ * @param[in] snapshot Input parameter.
+ * @return True when the operation succeeds.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: lock(), empty(), checkpoint(), spdlog::debug(), spdlog::warn(), spdlog::error(), what().
+ */
 bool LLMPluginManager::checkpointState(const std::string& session_id, const SSMStateSnapshot& snapshot) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -1010,6 +1182,13 @@ bool LLMPluginManager::checkpointState(const std::string& session_id, const SSMS
     }
 }
 
+/**
+ * @brief Recover State.
+ * @param[in] session_id Identifier of the session.
+ * @return Return value.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: lock(), empty(), resume(), spdlog::debug(), spdlog::error(), what().
+ */
 std::optional<SSMStateSnapshot> LLMPluginManager::recoverState(const std::string& session_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -1033,6 +1212,13 @@ std::optional<SSMStateSnapshot> LLMPluginManager::recoverState(const std::string
     }
 }
 
+/**
+ * @brief Invalidate State.
+ * @param[in] session_id Identifier of the session.
+ * @return True when the operation succeeds.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: lock(), empty(), invalidate(), spdlog::debug(), spdlog::error(), what().
+ */
 bool LLMPluginManager::invalidateState(const std::string& session_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -1056,6 +1242,11 @@ bool LLMPluginManager::invalidateState(const std::string& session_id) {
     }
 }
 
+/**
+ * @brief Compact State Store.
+ * @return Return value.
+ * @details Calls: lock(), compact(), spdlog::info(), spdlog::error(), what().
+ */
 uint64_t LLMPluginManager::compactStateStore() {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -1075,6 +1266,11 @@ uint64_t LLMPluginManager::compactStateStore() {
 }
 
 std::string LLMPluginManager::getStateStoreStatistics() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     if (!state_store_) {
@@ -1089,16 +1285,16 @@ std::string LLMPluginManager::getStateStoreStatistics() const {
     }
 }
 
-// ═══════════════════════════════════════════════════════════════════════════
-// PHASE2 CRITICAL GAPS: Exception-safe plugin creation and validation
-// ═══════════════════════════════════════════════════════════════════════════
-
 /**
- * CRITICAL GAP FIX: Plugin factory null check (CAT-4-001)
- * 
- * Ensures that factory return values are always validated before use.
- * This prevents null pointer dereferences in plugin initialization chains.
+ * @brief ═══════════════════════════════════════════════════════════════════════════ PHASE2 CRITICAL GAPS: Exception-safe plugin creation and validation ═══════════════════════════════════════════════════════════════════════════
+ * @param[in] plugin_name Name of the plugin.
+ * @param[in] config_json Input parameter.
+ * @return Return value.
+ * @throws std::invalid_argument if an error occurs.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: empty(), spdlog::error(), spdlog::debug(), size(), spdlog::info(), what().
  */
+
 std::unique_ptr<ILLMPlugin> LLMPluginManager::CreatePluginSafe(
     const std::string& plugin_name,
     const std::string& config_json
@@ -1140,10 +1336,12 @@ std::unique_ptr<ILLMPlugin> LLMPluginManager::CreatePluginSafe(
 }
 
 /**
- * CRITICAL GAP FIX: Exception-safe plugin initialization (CAT-4-2)
- * 
- * Wraps plugin initialization with proper exception handling and
- * cleanup on failure. Maintains strong exception safety guarantee.
+ * @brief Initialize Plugin Safe.
+ * @param[in] name Input parameter.
+ * @param[in,out] plugin Input/output parameter.
+ * @return True when the operation succeeds.
+ * @throws std::logic_error if an error occurs.
+ * @details Calls: spdlog::error(), spdlog::info(), what(), reset().
  */
 bool LLMPluginManager::InitializePluginSafe(
     const std::string& name,
@@ -1172,10 +1370,10 @@ bool LLMPluginManager::InitializePluginSafe(
 }
 
 /**
- * CRITICAL GAP FIX: Model validation before use (CAT-1-6)
- * 
- * Validates model state and metadata before allowing operations.
- * Prevents use of invalid or partially-loaded models.
+ * @brief Validate Model State.
+ * @param[in] model_id Identifier of the model.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), getDefaultPluginLocked(), spdlog::error(), getModelInfo(), spdlog::warn(), spdlog::debug(), what().
  */
 bool LLMPluginManager::ValidateModelState(const std::string& model_id) {
     std::lock_guard<std::mutex> lock(mutex_);
@@ -1208,10 +1406,12 @@ bool LLMPluginManager::ValidateModelState(const std::string& model_id) {
 }
 
 /**
- * CRITICAL GAP FIX: Token processing exception handling (CAT-2-5)
- * 
- * Safely processes token batches with cleanup on failure.
- * Prevents token buffer corruption and resource leaks.
+ * @brief Process Tokens Safe.
+ * @param[in] tokens Input parameter.
+ * @param[in] max_tokens Input parameter.
+ * @return Return value.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: empty(), spdlog::error(), reserve(), size(), spdlog::warn(), push_back(), spdlog::debug(), what().
  */
 std::vector<int32_t> LLMPluginManager::ProcessTokensSafe(
     const std::vector<std::string>& tokens,
@@ -1257,12 +1457,6 @@ std::vector<int32_t> LLMPluginManager::ProcessTokensSafe(
     }
 }
 
-/**
- * CRITICAL GAP FIX: Concurrent inference safety (CAT-3-4)
- * 
- * Tracks concurrent inference operations to prevent race conditions
- * and resource exhaustion.
- */
 struct ConcurrentInferenceTracker {
     // uninitialized_access: all fields have in-class initializers so POD values
     // are zero/value-initialised before first use regardless of constructor path.
@@ -1273,6 +1467,11 @@ struct ConcurrentInferenceTracker {
     ConcurrentInferenceTracker() noexcept = default;
 
     bool AcquireSlot() noexcept {
+        /**
+         * @brief G.
+         * @param[in] lock Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> g(lock);
         if (active_inferences >= max_concurrent) {
             return false;
@@ -1282,6 +1481,11 @@ struct ConcurrentInferenceTracker {
     }
     
     void ReleaseSlot() noexcept {
+        /**
+         * @brief G.
+         * @param[in] lock Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> g(lock);
         if (active_inferences > 0) {
             active_inferences--;

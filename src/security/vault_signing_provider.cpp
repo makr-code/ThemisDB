@@ -20,6 +20,15 @@ using json = nlohmann::json;
 
 namespace themis {
 
+/**
+ * @brief Vault Write Callback.
+ * @param[in,out] contents Input/output parameter.
+ * @param[in] size Input parameter.
+ * @param[in] nmemb Input parameter.
+ * @param[in,out] userp Input/output parameter.
+ * @return Return value.
+ * @details Calls: append().
+ */
 static size_t vaultWriteCallback(void* contents, size_t size, size_t nmemb, void* userp) {
     ((std::string*)userp)->append((char*)contents, size * nmemb);
     return size * nmemb;
@@ -31,6 +40,12 @@ static const std::string b64_chars =
     "abcdefghijklmnopqrstuvwxyz"
     "0123456789+/";
 
+/**
+ * @brief Vault Base64 Encode.
+ * @param[in] data Input parameter.
+ * @return Return value.
+ * @details Calls: push_back(), size().
+ */
 static std::string vaultBase64Encode(const std::vector<uint8_t>& data) {
     std::string ret = {};
     int val = 0, valb = -6;
@@ -51,6 +66,12 @@ static std::string vaultBase64Encode(const std::vector<uint8_t>& data) {
     return ret;
 }
 
+/**
+ * @brief Vault Base64 Decode.
+ * @param[in] encoded Input parameter.
+ * @return Return value.
+ * @details Calls: T(), push_back().
+ */
 static std::vector<uint8_t> vaultBase64Decode(const std::string& encoded) {
     std::vector<int> T(256, -1);
     for (int i = 0; i < 64; i++) {
@@ -81,6 +102,14 @@ VaultSigningProvider::VaultSigningProvider(const Config& cfg) {
 
 VaultSigningProvider::~VaultSigningProvider() = default;
 
+/**
+ * @brief Sign.
+ * @param[in] key_id Identifier of the key.
+ * @param[in] data Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: std::getenv(), std::string(), empty(), vault_addr(), back(), pop_back(), vaultBase64Encode(), curl_easy_init().
+ */
 SigningResult VaultSigningProvider::sign(const std::string& key_id, const std::vector<uint8_t>& data) {
     // Prototype behaviour:
     // - If environment doesn't provide a reachable Vault (empty vault_addr), fall back to a local mock

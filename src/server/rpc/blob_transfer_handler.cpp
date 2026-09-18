@@ -41,6 +41,11 @@ std::mutex                    s_blob_checksum_bridge_mutex;
 BlobTransferHandler::ChecksumFn s_blob_checksum_fn;
 }
 
+/**
+ * @brief Set Checksum Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lk(), std::move().
+ */
 void BlobTransferHandler::setChecksumFn(ChecksumFn fn) {
     std::lock_guard<std::mutex> lk(s_blob_checksum_bridge_mutex);
     s_blob_checksum_fn = std::move(fn);
@@ -69,6 +74,11 @@ struct Crc32Table {
 };
 inline constexpr Crc32Table kCrc32Table{};
 
+/**
+ * @brief Resolve Blob Checkpoint Dir.
+ * @return Return value.
+ * @details Calls: fs::temp_directory_path(), empty(), clear(), fs::current_path(), fs::path(), fs::create_directories().
+ */
 fs::path resolveBlobCheckpointDir() {
     std::error_code ec = {};
     auto base_dir = fs::temp_directory_path(ec);
@@ -86,7 +96,6 @@ fs::path resolveBlobCheckpointDir() {
     return checkpoint_dir;
 }
 
-/// Compute CRC-32 (Ethernet) over @p buf using the precomputed table.
 inline uint32_t crc32_table(const uint8_t* buf, size_t len) noexcept {
     uint32_t crc = 0xFFFFFFFFu;
     for (size_t i = 0; i < len; ++i) {
@@ -96,8 +105,6 @@ inline uint32_t crc32_table(const uint8_t* buf, size_t len) noexcept {
 }
 
 #if defined(__SSE4_2__) && defined(__x86_64__)
-/// Hardware-accelerated CRC-32C (Castagnoli) via SSE4.2 intrinsics.
-/// Only used when the caller explicitly requests CRC-32C in a future proto enum.
 inline uint32_t crc32c_hw(const uint8_t* buf, size_t len) noexcept {
     uint32_t crc = 0xFFFFFFFFu;
     size_t i = 0;
@@ -116,7 +123,6 @@ inline uint32_t crc32c_hw(const uint8_t* buf, size_t len) noexcept {
 }  // anonymous namespace
 
 // Implementation class
-/** @brief Implementation class. */
 class BlobTransferHandler::Impl {
 public:
     Impl() 
@@ -127,6 +133,12 @@ public:
         , cancelled_(false)
         , start_time_(std::chrono::steady_clock::now()) {}
     
+    /**
+     * @brief Start Transfer.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     * @details Calls: fs::exists(), fs::file_size().
+     */
     BlobStatus StartTransfer(const BlobConfig& config) {
         config_ = config;
         
@@ -141,6 +153,12 @@ public:
         return BlobStatus::OK;
     }
     
+    /**
+     * @brief Stream Chunks.
+     * @param[in] callback Input parameter.
+     * @return Return value.
+     * @details Calls: file(), buffer(), seekg(), read(), data(), size(), gcount(), set_blob_id().
+     */
     BlobStatus StreamChunks(BlobChunkCallback callback) {
         std::ifstream file(config_.source_path, std::ios::binary);
         if (!file) {
@@ -224,6 +242,12 @@ public:
         return BlobStatus::OK;
     }
     
+    /**
+     * @brief Verify Blob.
+     * @param[in] expected_hash Input parameter.
+     * @return Return value.
+     * @details Calls: CalculateBlobHash().
+     */
     BlobStatus VerifyBlob(const std::string& expected_hash) {
         if (CalculateBlobHash() != expected_hash) {
             return BlobStatus::ERROR_CHECKSUM_MISMATCH;
@@ -231,6 +255,12 @@ public:
         return BlobStatus::OK;
     }
     
+    /**
+     * @brief Receive Chunk.
+     * @param[in] chunk Input parameter.
+     * @return Return value.
+     * @details Calls: CalculateChecksum(), data(), checksum_crc32(), DecompressData(), is_open(), open(), write(), size().
+     */
     BlobStatus ReceiveChunk(const themis::sharding::proto::BlobChunk& chunk) {
         // Verify checksum (CRC32 as string)
         if (CalculateChecksum(chunk.data()) != chunk.checksum_crc32()) {
@@ -257,6 +287,11 @@ public:
         return BlobStatus::OK;
     }
     
+    /**
+     * @brief Finalize Blob.
+     * @return Return value.
+     * @details Calls: is_open(), close().
+     */
     BlobStatus FinalizeBlob() {
         if (output_file_.is_open()) {
             output_file_.close();
@@ -290,6 +325,11 @@ public:
         return progress;
     }
     
+    /**
+     * @brief Create Checkpoint.
+     * @return Return value.
+     * @details Calls: GenerateCheckpointId(), SaveCheckpoint().
+     */
     std::string CreateCheckpoint() {
         // Save current state
         checkpoint_.transferred_bytes = transferred_bytes_;
@@ -306,6 +346,12 @@ public:
         return checkpoint_.checkpoint_id;
     }
     
+    /**
+     * @brief Resume Transfer.
+     * @param[in] checkpoint_id Identifier of the checkpoint.
+     * @return Return value.
+     * @details Calls: LoadCheckpoint().
+     */
     BlobStatus ResumeTransfer(const std::string& checkpoint_id) {
         // Load checkpoint state from file
         BlobStatus status = LoadCheckpoint(checkpoint_id);
@@ -325,11 +371,22 @@ public:
         return BlobStatus::OK;
     }
     
+    /**
+     * @brief Cancel.
+     * @details Implements Cancel without additional internal calls.
+     */
     void Cancel() {
         cancelled_ = true;
     }
 
 private:
+    /**
+     * @brief Compress Data.
+     * @param[in] input Input parameter.
+     * @param[in,out] output Input/output parameter.
+     * @return Return value.
+     * @details Calls: size(), ZSTD_compressBound(), resize(), ZSTD_compress(), data(), ZSTD_isError().
+     */
     BlobStatus CompressData(const std::string& input, std::string* output) {
         // SECURITY: Check input size to prevent memory exhaustion
         if (input.size() > MAX_CHUNK_SIZE) {
@@ -361,6 +418,13 @@ private:
         }
     }
     
+    /**
+     * @brief Decompress Data.
+     * @param[in] input Input parameter.
+     * @param[in,out] output Input/output parameter.
+     * @return Return value.
+     * @details Calls: ZSTD_getFrameContentSize(), data(), size(), resize(), ZSTD_decompress(), ZSTD_isError().
+     */
     BlobStatus DecompressData(const std::string& input, std::string* output) {
         switch (config_.compression_type) {
             case themis::sharding::proto::COMPRESSION_NONE:
@@ -385,6 +449,12 @@ private:
         }
     }
     
+    /**
+     * @brief Calculate Checksum.
+     * @param[in] data Input parameter.
+     * @return Return value.
+     * @details Calls: lk(), fn(), empty(), data(), crc32_table(), size(), std::to_string(), SHA256().
+     */
     std::string CalculateChecksum(const std::string& data) {
         BlobTransferHandler::ChecksumFn fn;
         {
@@ -432,6 +502,11 @@ private:
         return ss.str();
     }
     
+    /**
+     * @brief Calculate Blob Hash.
+     * @return Return value.
+     * @details Calls: file(), SHA256_Init(), buffer(), read(), data(), size(), gcount(), SHA256_Update().
+     */
     std::string CalculateBlobHash() {
         std::ifstream file(config_.source_path, std::ios::binary);
         SHA256_CTX sha256;
@@ -453,6 +528,11 @@ private:
         return ss.str();
     }
     
+    /**
+     * @brief Generate Checkpoint Id.
+     * @return Return value.
+     * @details Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), std::to_string().
+     */
     std::string GenerateCheckpointId() {
         auto now = std::chrono::system_clock::now();
         auto timestamp = std::chrono::duration_cast<std::chrono::nanoseconds>(
@@ -464,6 +544,11 @@ private:
         return (resolveBlobCheckpointDir() / (checkpoint_id + ".json")).string();
     }
     
+    /**
+     * @brief Save Checkpoint.
+     * @return Return value.
+     * @details Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), GetCheckpointPath(), checkpoint_file(), THEMIS_ERROR(), dump(), close().
+     */
     BlobStatus SaveCheckpoint() {
         try {
             nlohmann::json checkpoint_json;
@@ -495,6 +580,12 @@ private:
         }
     }
     
+    /**
+     * @brief Load Checkpoint.
+     * @param[in] checkpoint_id Identifier of the checkpoint.
+     * @return Return value.
+     * @details Calls: GetCheckpointPath(), fs::exists(), THEMIS_ERROR(), checkpoint_file(), close(), what().
+     */
     BlobStatus LoadCheckpoint(const std::string& checkpoint_id) {
         try {
             std::string checkpoint_path = GetCheckpointPath(checkpoint_id);
@@ -567,22 +658,51 @@ BlobTransferHandler::BlobTransferHandler()
 
 BlobTransferHandler::~BlobTransferHandler() = default;
 
+/**
+ * @brief Start Transfer.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @details Implements StartTransfer without additional internal calls.
+ */
 BlobStatus BlobTransferHandler::StartTransfer(const BlobConfig& config) {
     return impl_->StartTransfer(config);
 }
 
+/**
+ * @brief Stream Chunks.
+ * @param[in] callback Input parameter.
+ * @return Return value.
+ * @details Implements StreamChunks without additional internal calls.
+ */
 BlobStatus BlobTransferHandler::StreamChunks(BlobChunkCallback callback) {
     return impl_->StreamChunks(callback);
 }
 
+/**
+ * @brief Verify Blob.
+ * @param[in] expected_hash Input parameter.
+ * @return Return value.
+ * @details Implements VerifyBlob without additional internal calls.
+ */
 BlobStatus BlobTransferHandler::VerifyBlob(const std::string& expected_hash) {
     return impl_->VerifyBlob(expected_hash);
 }
 
+/**
+ * @brief Receive Chunk.
+ * @param[in] chunk Input parameter.
+ * @return Return value.
+ * @details Implements ReceiveChunk without additional internal calls.
+ */
 BlobStatus BlobTransferHandler::ReceiveChunk(const themis::sharding::proto::BlobChunk& chunk) {
     return impl_->ReceiveChunk(chunk);
 }
 
+/**
+ * @brief Finalize Blob.
+ * @return Return value.
+ * @details Implements FinalizeBlob without additional internal calls.
+ */
 BlobStatus BlobTransferHandler::FinalizeBlob() {
     return impl_->FinalizeBlob();
 }
@@ -591,14 +711,29 @@ BlobProgress BlobTransferHandler::GetProgress() const {
     return impl_->GetProgress();
 }
 
+/**
+ * @brief Create Checkpoint.
+ * @return Return value.
+ * @details Implements CreateCheckpoint without additional internal calls.
+ */
 std::string BlobTransferHandler::CreateCheckpoint() {
     return impl_->CreateCheckpoint();
 }
 
+/**
+ * @brief Resume Transfer.
+ * @param[in] checkpoint_id Identifier of the checkpoint.
+ * @return Return value.
+ * @details Implements ResumeTransfer without additional internal calls.
+ */
 BlobStatus BlobTransferHandler::ResumeTransfer(const std::string& checkpoint_id) {
     return impl_->ResumeTransfer(checkpoint_id);
 }
 
+/**
+ * @brief Cancel.
+ * @details Implements Cancel without additional internal calls.
+ */
 void BlobTransferHandler::Cancel() {
     impl_->Cancel();
 }

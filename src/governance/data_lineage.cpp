@@ -23,7 +23,12 @@
 namespace themis {
 namespace governance {
 
-// ─── Helpers ────────────────────────────────────────────────────────────────
+/**
+ * @brief ─── Helpers ────────────────────────────────────────────────────────────────
+ * @param[in] type Input parameter.
+ * @return Return value.
+ * @details Implements lineageEventTypeToString without additional internal calls.
+ */
 
 std::string lineageEventTypeToString(LineageEventType type) {
     switch (type) {
@@ -86,13 +91,22 @@ nlohmann::json LineageRecord::toJson() const {
     return j;
 }
 
-// ─── DataLineageTracker ──────────────────────────────────────────────────────
+/**
+ * @brief ─── DataLineageTracker ──────────────────────────────────────────────────────
+ * @param[in] logger Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 
 void DataLineageTracker::setAuditLogger(std::shared_ptr<themis::utils::AuditLogger> logger) {
     std::lock_guard<std::mutex> lock(mutex_);
     audit_logger_ = std::move(logger);
 }
 
+/**
+ * @brief Assign Event Id.
+ * @return Return value.
+ * @details Calls: fetch_add(), str().
+ */
 std::string DataLineageTracker::assignEventId() {
     // Generates a simple monotonic ID; callers may supply their own UUID.
     uint64_t seq = next_event_seq_.fetch_add(1, std::memory_order_relaxed);
@@ -102,6 +116,11 @@ std::string DataLineageTracker::assignEventId() {
 }
 
 LineageRecord DataLineageTracker::getLineage(const std::string &dataset_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     LineageRecord record;
     record.dataset_id = dataset_id;
@@ -116,6 +135,11 @@ LineageRecord DataLineageTracker::getLineage(const std::string &dataset_id) cons
 }
 
 std::vector<LineageEvent> DataLineageTracker::getUpstreamLineage(const std::string &event_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     std::vector<LineageEvent> chain;
@@ -141,6 +165,11 @@ std::vector<LineageEvent> DataLineageTracker::getUpstreamLineage(const std::stri
 }
 
 std::vector<LineageEvent> DataLineageTracker::getDownstreamLineage(const std::string &event_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     std::vector<LineageEvent> result;
@@ -175,6 +204,11 @@ nlohmann::json DataLineageTracker::exportLineageAsJson(const std::string &datase
 }
 
 size_t DataLineageTracker::totalEventCount() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     size_t total = 0;
     for (const auto& [dataset_id, events] : lineage_store_) {
@@ -205,6 +239,11 @@ std::string LineageRecordResult::getErrorName() const {
 }
 
 CircuitBreakerState DataLineageTracker::getCircuitBreakerState() const {
+    /**
+     * @brief Lock.
+     * @param[in] cb_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(cb_mutex_);
     return circuit_breaker_state_;
 }
@@ -212,6 +251,11 @@ CircuitBreakerState DataLineageTracker::getCircuitBreakerState() const {
 LineageStatistics DataLineageTracker::getStatistics() const {
     LineageStatistics stats;
     {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         stats.total_events = 0;
         for (const auto& [dataset_id, events] : lineage_store_) {
@@ -221,6 +265,11 @@ LineageStatistics DataLineageTracker::getStatistics() const {
         stats.total_datasets = lineage_store_.size();
     }
     {
+        /**
+         * @brief Lock.
+         * @param[in] cb_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(cb_mutex_);
         stats.circuit_breaker_state = circuit_breaker_state_;
     }
@@ -231,6 +280,10 @@ LineageStatistics DataLineageTracker::getStatistics() const {
     return stats;
 }
 
+/**
+ * @brief Record Audit Success.
+ * @details Calls: lock(), store(), THEMIS_INFO().
+ */
 void DataLineageTracker::recordAuditSuccess() {
     std::lock_guard<std::mutex> lock(cb_mutex_);
     consecutive_failures_.store(0, std::memory_order_relaxed);
@@ -240,6 +293,10 @@ void DataLineageTracker::recordAuditSuccess() {
     }
 }
 
+/**
+ * @brief Record Audit Failure.
+ * @details Calls: lock(), fetch_add(), store(), std::chrono::system_clock::now(), time_since_epoch(), count(), THEMIS_WARN(), getGlobalDiagnosticAggregator().
+ */
 void DataLineageTracker::recordAuditFailure() {
     std::lock_guard<std::mutex> lock(cb_mutex_);
     int32_t failures = consecutive_failures_.fetch_add(1, std::memory_order_relaxed) + 1;
@@ -273,6 +330,10 @@ void DataLineageTracker::recordAuditFailure() {
     }
 }
 
+/**
+ * @brief Update Circuit Breaker State.
+ * @details Calls: lock(), std::chrono::system_clock::now(), time_since_epoch(), count(), THEMIS_INFO().
+ */
 void DataLineageTracker::updateCircuitBreakerState() {
     std::lock_guard<std::mutex> lock(cb_mutex_);
     
@@ -288,6 +349,12 @@ void DataLineageTracker::updateCircuitBreakerState() {
     }
 }
 
+/**
+ * @brief Check And Enforce Size Limits.
+ * @param[in] dataset_id Identifier of the dataset.
+ * @return Return value.
+ * @details Calls: size(), empty(), end(), max(), begin(), front(), erase(), THEMIS_DEBUG().
+ */
 LineageRecordResult DataLineageTracker::checkAndEnforceSizeLimits(const std::string& dataset_id) {
     // This is called under mutex_, no additional locking needed.
     size_t total_events = 0;
@@ -367,6 +434,12 @@ LineageRecordResult DataLineageTracker::checkAndEnforceSizeLimits(const std::str
     return result;
 }
 
+/**
+ * @brief Record Event.
+ * @param[in] event Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), store(), updateCircuitBreakerState(), std::chrono::system_clock::now(), time_since_epoch(), count(), assignEventId(), lineageEventTypeToString().
+ */
 LineageRecordResult DataLineageTracker::recordEvent(LineageEvent event) {
     // Validate event before any recording
     if (event.dataset_id.empty()) {
@@ -465,6 +538,13 @@ LineageRecordResult DataLineageTracker::recordEvent(LineageEvent event) {
     return result;
 }
 
+/**
+ * @brief Prune Old Events.
+ * @param[in] dataset_id Identifier of the dataset.
+ * @param[in] keep_count Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), find(), end(), size(), erase(), begin(), THEMIS_INFO(), getGlobalDiagnosticAggregator().
+ */
 LineageRecordResult DataLineageTracker::pruneOldEvents(const std::string& dataset_id, 
                                                        int32_t keep_count) {
     LineageRecordResult result;

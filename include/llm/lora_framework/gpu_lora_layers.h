@@ -22,30 +22,8 @@ namespace themis {
 namespace llm {
 namespace lora {
 
-/**
- * @brief GPU-accelerated LoRA Layer
- * 
- * Implements Low-Rank Adaptation with GPU support.
- * All tensors reside in VRAM for maximum performance.
- * 
- * Forward: output = input @ (B @ A) * scaling
- * Backward: Computes gradients for B, A, and input
- * 
- * B: (in_dim, rank) - Trainable
- * A: (rank, out_dim) - Trainable
- */
 class GPULoRALayer {
 public:
-    /**
-     * @brief Construct GPU LoRA layer
-     * @param in_dim Input dimension
-     * @param out_dim Output dimension
-     * @param rank Rank of low-rank decomposition (typically 4, 8, 16, 32)
-     * @param scaling Scaling factor (default: 1.0)
-     * @param device Target device (CPU, CUDA, HIP, Vulkan, DirectX)
-     * @param use_fused_kernels Enable kernel fusion optimization (default: true)
-     * @param use_flash_lora Enable FlashLoRA memory-efficient computation (default: false, CUDA only)
-     */
     GPULoRALayer(size_t in_dim, size_t out_dim, size_t rank, 
                  float scaling = 1.0f,
                  const Device& device = Device::cpu(),
@@ -60,80 +38,68 @@ public:
     GPULoRALayer(GPULoRALayer&&) noexcept = default;
     GPULoRALayer& operator=(GPULoRALayer&&) noexcept = default;
     
-    // ========== Forward/Backward ==========
-    
     /**
-     * @brief Forward pass (GPU-accelerated)
-     * @param input Input tensor (batch_size, in_dim)
-     * @return Output tensor (batch_size, out_dim)
-     * 
-     * Computation: output = input @ B @ A * scaling
-     * All operations execute on GPU if input is on GPU
+     * @brief ========== Forward/Backward ==========
+     * @param[in] input Input parameter.
+     * @return Return value.
      */
+    
     GPUTensor forward(const GPUTensor& input);
     
     /**
-     * @brief Backward pass (GPU-accelerated)
-     * @param grad_output Gradient from next layer (batch_size, out_dim)
-     * @return Gradient w.r.t. input (batch_size, in_dim)
-     * 
-     * Computes:
-     * - grad_A = cached_h^T @ grad_output
-     * - grad_B = cached_input^T @ (grad_output @ A^T)
-     * - grad_input = (grad_output @ A^T) @ B^T
+     * @brief Backward.
+     * @param[in] grad_output Input parameter.
+     * @return Return value.
      */
     GPUTensor backward(const GPUTensor& grad_output);
     
-    // ========== Parameter Access ==========
-    
     /**
-     * @brief Get trainable parameters
-     * @return Vector of pointers to B and A tensors
+     * @brief ========== Parameter Access ==========
+     * @return Return value.
      */
+    
     std::vector<GPUTensor*> parameters();
     
     /**
-     * @brief Get parameter gradients
-     * @return Vector of pointers to B.grad and A.grad
+     * @brief Gradients.
+     * @return Return value.
      */
     std::vector<GPUTensor*> gradients();
     
     /**
-     * @brief Zero out all gradients
+     * @brief Zero grad.
      */
     void zero_grad();
     
     // ========== Weight Export/Import ==========
     
-    /**
-     * @brief Export weights (for storage/checkpointing)
-     * @return Pair of (B, A) tensors
-     */
     std::pair<GPUTensor, GPUTensor> get_weights() const;
     
     /**
-     * @brief Import weights (for loading checkpoints)
-     * @param B B matrix (in_dim, rank)
-     * @param A A matrix (rank, out_dim)
+     * @brief Set weights.
+     * @param[in] B Input parameter.
+     * @param[in] A Input parameter.
      */
     void set_weights(const GPUTensor& B, const GPUTensor& A);
     
     // ========== Device Management ==========
     
-    /**
-     * @brief Get current device
-     */
     Device device() const { return device_; }
     
     /**
-     * @brief Move layer to different device
-     * @param target_device Destination device
+     * @brief To.
+     * @param[in] target_device Input parameter.
      */
     void to(const Device& target_device);
     
     // ========== Layer Metadata ==========
     
     const std::string& name() const { return name_; }
+    /**
+     * @brief Set name.
+     * @param[in] name Input parameter.
+     * @details Implements set_name without additional internal calls.
+     */
     void set_name(const std::string& name) { name_ = name; }
     
     size_t parameter_count() const { return in_dim_ * rank_ + rank_ * out_dim_; }
@@ -144,31 +110,37 @@ public:
     size_t rank() const { return rank_; }
     float scaling() const { return scaling_; }
     bool use_fused_kernels() const { return use_fused_kernels_; }
+    /**
+     * @brief Set use fused kernels.
+     * @param[in] use_fused Input parameter.
+     * @details Implements set_use_fused_kernels without additional internal calls.
+     */
     void set_use_fused_kernels(bool use_fused) { use_fused_kernels_ = use_fused; }
     bool use_flash_lora() const { return use_flash_lora_; }
+    /**
+     * @brief Set use flash lora.
+     * @param[in] use_flash Input parameter.
+     * @details Implements set_use_flash_lora without additional internal calls.
+     */
     void set_use_flash_lora(bool use_flash) { use_flash_lora_ = use_flash; }
     
-    // ========== Gradient Checkpointing ==========
-    
     /**
-     * @brief Enable gradient checkpointing for this layer
-     * @param enable Enable or disable checkpointing
+     * @brief ========== Gradient Checkpointing ==========
+     * @param[in] enable Input parameter.
+     * @details Implements set_checkpointing without additional internal calls.
      */
+    
     void set_checkpointing(bool enable) { use_checkpointing_ = enable; }
     
-    /**
-     * @brief Check if checkpointing is enabled
-     */
     bool use_checkpointing() const { return use_checkpointing_; }
     
     /**
-     * @brief Set layer ID for checkpointing
+     * @brief Set layer id.
+     * @param[in] layer_id Identifier of the layer.
+     * @details Implements set_layer_id without additional internal calls.
      */
     void set_layer_id(int layer_id) { layer_id_ = layer_id; }
     
-    /**
-     * @brief Get layer ID
-     */
     int layer_id() const { return layer_id_; }
 
 private:
@@ -195,60 +167,52 @@ private:
     GPUTensor cached_h_;       // Intermediate: input @ B
 };
 
-/**
- * @brief GPU-accelerated SGD Optimizer
- * 
- * Performs parameter updates directly in GPU VRAM.
- * Supports momentum and weight decay.
- */
 class GPUSGDOptimizer {
 public:
-    /**
-     * @brief Construct GPU SGD optimizer
-     * @param learning_rate Learning rate (default: 0.001)
-     * @param momentum Momentum factor (default: 0.0, range: [0, 1))
-     * @param weight_decay Weight decay (L2 penalty, default: 0.0)
-     */
     explicit GPUSGDOptimizer(float learning_rate = 0.001f, 
                              float momentum = 0.0f, 
                              float weight_decay = 0.0f);
     
     /**
-     * @brief Register parameters to optimize
-     * @param params Vector of parameter tensors
-     * 
-     * All parameters must be on the same device.
+     * @brief Add parameters.
+     * @param[in] params Input parameter.
      */
     void add_parameters(const std::vector<GPUTensor*>& params);
     
     /**
-     * @brief Perform optimization step (GPU-accelerated)
-     * 
-     * For each parameter p with gradient g:
-     * If momentum > 0:
-     *   v = momentum * v + (1 - momentum) * g
-     *   p = p - lr * (v + weight_decay * p)
-     * Else:
-     *   p = p - lr * (g + weight_decay * p)
-     * 
-     * All operations execute on GPU if parameters are on GPU.
+     * @brief Step.
      */
     void step();
     
     /**
-     * @brief Zero out all gradients
+     * @brief Zero grad.
      */
     void zero_grad();
     
     // ========== Getters/Setters ==========
     
     float learning_rate() const { return learning_rate_; }
+    /**
+     * @brief Set learning rate.
+     * @param[in] lr Input parameter.
+     * @details Implements set_learning_rate without additional internal calls.
+     */
     void set_learning_rate(float lr) { learning_rate_ = lr; }
     
     float momentum() const { return momentum_; }
+    /**
+     * @brief Set momentum.
+     * @param[in] m Input parameter.
+     * @details Implements set_momentum without additional internal calls.
+     */
     void set_momentum(float m) { momentum_ = m; }
     
     float weight_decay() const { return weight_decay_; }
+    /**
+     * @brief Set weight decay.
+     * @param[in] wd Input parameter.
+     * @details Implements set_weight_decay without additional internal calls.
+     */
     void set_weight_decay(float wd) { weight_decay_ = wd; }
     
     size_t num_parameters() const { return parameters_.size(); }
@@ -263,30 +227,23 @@ private:
     std::vector<std::unique_ptr<GPUTensor>> momentum_buffers_;
 };
 
-/**
- * @brief GPU Training Loop Helper
- * 
- * Simplifies GPU-accelerated LoRA training.
- */
 class GPULoRATrainer {
 public:
     GPULoRATrainer(GPULoRALayer* layer, GPUSGDOptimizer* optimizer);
     
     /**
-     * @brief Single training step
-     * @param input Input batch (batch_size, in_dim)
-     * @param target Target batch (batch_size, out_dim)
-     * @return Loss value
-     * 
-     * Performs: forward → loss → backward → optimizer.step()
+     * @brief Train step.
+     * @param[in] input Input parameter.
+     * @param[in] target Input parameter.
+     * @return Return value.
      */
     float train_step(const GPUTensor& input, const GPUTensor& target);
     
     /**
-     * @brief Validation step (no gradient computation)
-     * @param input Input batch
-     * @param target Target batch
-     * @return Loss value
+     * @brief Eval step.
+     * @param[in] input Input parameter.
+     * @param[in] target Input parameter.
+     * @return Return value.
      */
     float eval_step(const GPUTensor& input, const GPUTensor& target);
 
@@ -294,8 +251,19 @@ private:
     GPULoRALayer* layer_;
     GPUSGDOptimizer* optimizer_;
     
-    // MSE loss computation (GPU-accelerated)
+    /**
+     * @brief MSE loss computation (GPU-accelerated)
+     * @param[in] output Input parameter.
+     * @param[in] target Input parameter.
+     * @return Return value.
+     */
     float compute_mse_loss(const GPUTensor& output, const GPUTensor& target);
+    /**
+     * @brief Compute mse grad.
+     * @param[in] output Input parameter.
+     * @param[in] target Input parameter.
+     * @return Return value.
+     */
     GPUTensor compute_mse_grad(const GPUTensor& output, const GPUTensor& target);
 };
 

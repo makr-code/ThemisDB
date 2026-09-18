@@ -26,6 +26,14 @@ namespace temporal {
 // Public static methods
 // ============================================================================
 
+/**
+ * @brief Query As Of.
+ * @param[in] table Input parameter.
+ * @param[in] as_of Input parameter.
+ * @param[in] filters Input parameter.
+ * @return Return value.
+ * @details Calls: scan(), empty(), reserve(), size(), matchesFilters(), push_back(), std::move().
+ */
 std::vector<VersionedDocument> TemporalQueryEngine::queryAsOf(
     const SystemVersionedTable& table,
     Timestamp as_of,
@@ -48,6 +56,15 @@ std::vector<VersionedDocument> TemporalQueryEngine::queryAsOf(
     return result;
 }
 
+/**
+ * @brief Query From To.
+ * @param[in] table Input parameter.
+ * @param[in] from Input parameter.
+ * @param[in] to Input parameter.
+ * @param[in] filters Input parameter.
+ * @return Return value.
+ * @details Calls: getAllKeys(), getHistoryInRange(), empty(), matchesFilters(), push_back(), std::move().
+ */
 std::vector<VersionedDocument> TemporalQueryEngine::queryFromTo(
     const SystemVersionedTable& table,
     Timestamp from,
@@ -70,6 +87,15 @@ std::vector<VersionedDocument> TemporalQueryEngine::queryFromTo(
     return result;
 }
 
+/**
+ * @brief Query Key From To.
+ * @param[in] table Input parameter.
+ * @param[in] key Input parameter.
+ * @param[in] from Input parameter.
+ * @param[in] to Input parameter.
+ * @return Return value.
+ * @details Calls: getHistoryInRange().
+ */
 std::vector<VersionedDocument> TemporalQueryEngine::queryKeyFromTo(
     const SystemVersionedTable& table,
     const std::string& key,
@@ -163,9 +189,15 @@ TemporalQueryEngine::joinBiTemporal(
     return result;
 }
 
-// ============================================================================
-// Sequenced / Non-Sequenced query semantics
-// ============================================================================
+/**
+ * @brief ============================================================================ Sequenced / Non-Sequenced query semantics ============================================================================
+ * @param[in] table Input parameter.
+ * @param[in] semantics Input parameter.
+ * @param[in] period Input parameter.
+ * @param[in] filters Input parameter.
+ * @return Return value.
+ * @details Calls: getAllKeys(), getHistoryInRange(), empty(), matchesFilters(), push_back(), std::move(), queryFromTo().
+ */
 
 std::vector<VersionedDocument> TemporalQueryEngine::queryWithSemantics(
     const SystemVersionedTable& table,
@@ -198,6 +230,13 @@ std::vector<VersionedDocument> TemporalQueryEngine::queryWithSemantics(
 // Private helpers
 // ============================================================================
 
+/**
+ * @brief Matches Filters.
+ * @param[in] doc Input parameter.
+ * @param[in] filters Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: matches().
+ */
 bool TemporalQueryEngine::matchesFilters(const VersionedDocument& doc,
                                          const std::vector<RowFilter>& filters) {
     for (const auto& f : filters) {
@@ -208,9 +247,15 @@ bool TemporalQueryEngine::matchesFilters(const VersionedDocument& doc,
     return true;
 }
 
-// ============================================================================
-// FOR SYSTEM_TIME BETWEEN...AND (SQL:2011 §7.6)
-// ============================================================================
+/**
+ * @brief ============================================================================ FOR SYSTEM_TIME BETWEEN.
+ * @param[in] table Input parameter.
+ * @param[in] start Input parameter.
+ * @param[in] end Input parameter.
+ * @param[in] filters Input parameter.
+ * @return Return value.
+ * @details ..AND (SQL:2011 §7.6) ============================================================================ Calls: queryFromTo().
+ */
 
 std::vector<VersionedDocument> TemporalQueryEngine::queryBetween(
     const SystemVersionedTable& table,
@@ -227,9 +272,14 @@ std::vector<VersionedDocument> TemporalQueryEngine::queryBetween(
     return queryFromTo(table, start, to, filters);
 }
 
-// ============================================================================
-// FOR APPLICATION_TIME queries (SQL:2011 §7.6)
-// ============================================================================
+/**
+ * @brief ============================================================================ FOR APPLICATION_TIME queries (SQL:2011 §7.
+ * @param[in] table Input parameter.
+ * @param[in] valid_at Input parameter.
+ * @param[in] filters Input parameter.
+ * @return Return value.
+ * @details 6) ============================================================================ Calls: scanBiTemporal(), now(), empty(), reserve(), size(), matchesFilters(), push_back(), std::move().
+ */
 
 std::vector<VersionedDocument> TemporalQueryEngine::queryApplicationTime(
     const BiTemporalTable& table,
@@ -256,6 +306,15 @@ std::vector<VersionedDocument> TemporalQueryEngine::queryApplicationTime(
     return result;
 }
 
+/**
+ * @brief Query Application Time Range.
+ * @param[in] table Input parameter.
+ * @param[in] valid_from Input parameter.
+ * @param[in] valid_to Input parameter.
+ * @param[in] filters Input parameter.
+ * @return Return value.
+ * @details Calls: getAllKeys(), getHistory(), isCurrent(), overlaps(), empty(), matchesFilters(), push_back(), std::move().
+ */
 std::vector<VersionedDocument> TemporalQueryEngine::queryApplicationTimeRange(
     const BiTemporalTable& table,
     Timestamp valid_from,
@@ -287,9 +346,15 @@ std::vector<VersionedDocument> TemporalQueryEngine::queryApplicationTimeRange(
     return result;
 }
 
-// ============================================================================
-// Index-accelerated query (query optimization)
-// ============================================================================
+/**
+ * @brief ============================================================================ Index-accelerated query (query optimization) ============================================================================
+ * @param[in] table Input parameter.
+ * @param[in] index Input parameter.
+ * @param[in] as_of Input parameter.
+ * @param[in] filters Input parameter.
+ * @return Return value.
+ * @details Calls: queryPoint(), empty(), size(), queryAsOf(), reserve(), getHistoryInRange(), contains(), matchesFilters().
+ */
 
 std::vector<VersionedDocument> TemporalQueryEngine::queryAsOfWithIndex(
     const SystemVersionedTable& table,
@@ -346,6 +411,11 @@ QueryCache::QueryCache(size_t max_entries)
 std::optional<std::vector<VersionedDocument>> QueryCache::get(
     const std::string& table_name, Timestamp as_of) const {
 
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = store_.find(CacheKey{table_name, as_of});
     if (it == store_.end()) {
@@ -357,6 +427,13 @@ std::optional<std::vector<VersionedDocument>> QueryCache::get(
     return it->second.value;
 }
 
+/**
+ * @brief Put.
+ * @param[in] table_name Name of the table.
+ * @param[in] as_of Input parameter.
+ * @param[in] result Input parameter.
+ * @details Calls: lock(), find(), end(), std::move(), size(), begin(), erase(), emplace().
+ */
 void QueryCache::put(const std::string& table_name,
                      Timestamp as_of,
                      std::vector<VersionedDocument> result) {
@@ -387,6 +464,11 @@ void QueryCache::put(const std::string& table_name,
     store_.emplace(key, Entry{key, std::move(result), ++lru_counter_});
 }
 
+/**
+ * @brief Invalidate.
+ * @param[in] table_name Name of the table.
+ * @details Calls: lock(), begin(), end(), erase().
+ */
 void QueryCache::invalidate(const std::string& table_name) {
     std::lock_guard<std::mutex> lock(mutex_);
     for (auto it = store_.begin(); it != store_.end(); ) {
@@ -398,12 +480,21 @@ void QueryCache::invalidate(const std::string& table_name) {
     }
 }
 
+/**
+ * @brief Clear.
+ * @details Calls: lock().
+ */
 void QueryCache::clear() {
     std::lock_guard<std::mutex> lock(mutex_);
     store_.clear();
 }
 
 size_t QueryCache::size() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return store_.size();
 }
@@ -413,7 +504,12 @@ size_t QueryCache::size() const {
 // ============================================================================
 
 namespace {
-/// Remove logically-deleted rows from a result set when include_deleted==false.
+/**
+ * @brief Apply Deleted Filter.
+ * @param[in,out] rows Input/output parameter.
+ * @param[in] include_deleted Input parameter.
+ * @details Calls: erase(), std::remove_if(), begin(), end(), value().
+ */
 void applyDeletedFilter(std::vector<VersionedDocument>& rows, bool include_deleted) {
     if (include_deleted) {
       return;
@@ -427,6 +523,14 @@ void applyDeletedFilter(std::vector<VersionedDocument>& rows, bool include_delet
 }
 } // anonymous namespace
 
+/**
+ * @brief Execute Temporal Query.
+ * @param[in] table Input parameter.
+ * @param[in] spec Input parameter.
+ * @param[in] filters Input parameter.
+ * @return Return value.
+ * @details Calls: queryAsOf(), queryFromTo(), queryBetween(), reserve(), size(), push_back(), std::move(), queryWithSemantics().
+ */
 std::vector<VersionedDocument> TemporalQueryEngine::executeTemporalQuery(
     const SystemVersionedTable& table,
     const TemporalQuerySpec& spec,
@@ -473,6 +577,14 @@ std::vector<VersionedDocument> TemporalQueryEngine::executeTemporalQuery(
     return result;
 }
 
+/**
+ * @brief Execute Temporal Query.
+ * @param[in] table Input parameter.
+ * @param[in] spec Input parameter.
+ * @param[in] filters Input parameter.
+ * @return Return value.
+ * @details Calls: queryApplicationTime(), queryApplicationTimeRange(), reserve(), size(), push_back(), std::move(), applyDeletedFilter().
+ */
 std::vector<VersionedDocument> TemporalQueryEngine::executeTemporalQuery(
     const BiTemporalTable& table,
     const TemporalQuerySpec& spec,
@@ -531,7 +643,14 @@ std::vector<VersionedDocument> TemporalQueryEngine::executeTemporalQuery(
 
 namespace {
 
-/// Compare two Documents by a subset of fields, or fully if fields is empty.
+/**
+ * @brief Documents Equal.
+ * @param[in] a Input parameter.
+ * @param[in] b Input parameter.
+ * @param[in] fields Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), find(), end().
+ */
 bool documentsEqual(const Document& a,
                     const Document& b,
                     const std::vector<std::string>& fields) {
@@ -553,9 +672,13 @@ bool documentsEqual(const Document& a,
     return true;
 }
 
-/// Coalesce a sorted (by sys_start) list of versions for a single key.
-/// Adjacent versions whose compared fields are equal and whose intervals are
-/// contiguous (i.e. v[i].sys_time.end == v[i+1].sys_time.start) are merged.
+/**
+ * @brief Coalesce Versions.
+ * @param[in] versions Input parameter.
+ * @param[in] compare_fields Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), std::sort(), begin(), end(), push_back(), front(), size(), back().
+ */
 std::vector<VersionedDocument> coalesceVersions(
     std::vector<VersionedDocument> versions,
     const std::vector<std::string>& compare_fields) {
@@ -591,6 +714,13 @@ std::vector<VersionedDocument> coalesceVersions(
 
 } // anonymous namespace
 
+/**
+ * @brief Sequenced Distinct.
+ * @param[in] table Input parameter.
+ * @param[in] compare_fields Input parameter.
+ * @return Return value.
+ * @details Calls: getAllKeys(), coalesceVersions(), getHistory(), push_back(), std::move(), std::sort(), begin(), end().
+ */
 std::vector<VersionedDocument> TemporalQueryEngine::sequencedDistinct(
     const SystemVersionedTable& table,
     const std::vector<std::string>& compare_fields) {
@@ -617,6 +747,14 @@ std::vector<VersionedDocument> TemporalQueryEngine::sequencedDistinct(
     return result;
 }
 
+/**
+ * @brief Sequenced Distinct For Key.
+ * @param[in] table Input parameter.
+ * @param[in] key Input parameter.
+ * @param[in] compare_fields Input parameter.
+ * @return Return value.
+ * @details Calls: coalesceVersions(), getHistory().
+ */
 std::vector<VersionedDocument> TemporalQueryEngine::sequencedDistinctForKey(
     const SystemVersionedTable& table,
     const std::string& key,
@@ -629,6 +767,15 @@ std::vector<VersionedDocument> TemporalQueryEngine::sequencedDistinctForKey(
 
 namespace detail {
 
+/**
+ * @brief Query As Of Cached.
+ * @param[in] table Input parameter.
+ * @param[in] as_of Input parameter.
+ * @param[in,out] cache Input/output parameter.
+ * @param[in] filters Input parameter.
+ * @return Return value.
+ * @details Calls: get(), tableName(), has_value(), std::move(), value(), TemporalQueryEngine::queryAsOf(), put(), empty().
+ */
 std::vector<VersionedDocument> queryAsOfCached(
     const SystemVersionedTable& table,
     Timestamp as_of,

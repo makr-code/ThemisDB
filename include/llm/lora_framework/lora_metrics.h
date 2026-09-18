@@ -31,7 +31,6 @@ namespace prometheus {
     class Counter {};
     class Gauge {};
     class Histogram {};
-    /** @brief Summary. */
     class Summary {};
 }
 #endif
@@ -50,9 +49,6 @@ namespace themis::llm::lora::metrics {
 // Metric Types
 // ============================================================================
 
-/**
- * @brief Prometheus metrics collector for LoRA framework
- */
 class LoRAMetricsCollector {
 public:
     struct Config {
@@ -61,65 +57,241 @@ public:
         bool enable_histograms = true;
     };
     
+    /**
+     * @brief Lo RAMetrics Collector.
+     * @param[in] registry Input parameter.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit LoRAMetricsCollector(std::shared_ptr<prometheus::Registry> registry,
                                  const Config& config);
+    /**
+     * @brief Lo RAMetrics Collector.
+     * @param[in] registry Input parameter.
+     * @return Return value.
+     */
     explicit LoRAMetricsCollector(std::shared_ptr<prometheus::Registry> registry);
     
     // Adapter Lifecycle Metrics
+    /**
+     * @brief Record Adapter Load.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @param[in] duration_ms Input parameter.
+     */
     void recordAdapterLoad(const std::string& adapter_id, double duration_ms);
+    /**
+     * @brief Record Adapter Unload.
+     * @param[in] adapter_id Identifier of the adapter.
+     */
     void recordAdapterUnload(const std::string& adapter_id);
+    /**
+     * @brief Record Adapter Switch.
+     * @param[in] from_id Identifier of the from.
+     * @param[in] to_id Identifier of the to.
+     * @param[in] duration_ms Input parameter.
+     */
     void recordAdapterSwitch(const std::string& from_id, const std::string& to_id, double duration_ms);
+    /**
+     * @brief Record Adapter Load Error.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @param[in] error Input parameter.
+     */
     void recordAdapterLoadError(const std::string& adapter_id, const std::string& error);
     
     // Cache Metrics
+    /**
+     * @brief Record Cache Hit.
+     * @param[in] adapter_id Identifier of the adapter.
+     */
     void recordCacheHit(const std::string& adapter_id);
+    /**
+     * @brief Record Cache Miss.
+     * @param[in] adapter_id Identifier of the adapter.
+     */
     void recordCacheMiss(const std::string& adapter_id);
+    /**
+     * @brief Record Cache Eviction.
+     * @param[in] adapter_id Identifier of the adapter.
+     */
     void recordCacheEviction(const std::string& adapter_id);
+    /**
+     * @brief Update Cache Size.
+     * @param[in] size Input parameter.
+     */
     void updateCacheSize(size_t size);
+    /**
+     * @brief Update Cache Memory Usage.
+     * @param[in] bytes Input parameter.
+     */
     void updateCacheMemoryUsage(size_t bytes);
     
     // Training Metrics
+    /**
+     * @brief Record Training Start.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @param[in] mode Input parameter.
+     */
     void recordTrainingStart(const std::string& adapter_id, const std::string& mode);
+    /**
+     * @brief Record Training Complete.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @param[in] mode Input parameter.
+     * @param[in] duration_seconds Input parameter.
+     * @param[in] success Input parameter.
+     */
     void recordTrainingComplete(const std::string& adapter_id, const std::string& mode, 
                                double duration_seconds, bool success);
+    /**
+     * @brief Record Training Samples.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @param[in] num_samples Input parameter.
+     */
     void recordTrainingSamples(const std::string& adapter_id, size_t num_samples);
+    /**
+     * @brief Update Training Loss.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @param[in] loss Input parameter.
+     */
     void updateTrainingLoss(const std::string& adapter_id, double loss);
+    /**
+     * @brief Update Validation Accuracy.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @param[in] accuracy Input parameter.
+     */
     void updateValidationAccuracy(const std::string& adapter_id, double accuracy);
     
     // Storage Metrics
+    /**
+     * @brief Record Storage Read.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @param[in] duration_ms Input parameter.
+     * @param[in] bytes Input parameter.
+     */
     void recordStorageRead(const std::string& adapter_id, double duration_ms, size_t bytes);
+    /**
+     * @brief Record Storage Write.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @param[in] duration_ms Input parameter.
+     * @param[in] bytes Input parameter.
+     */
     void recordStorageWrite(const std::string& adapter_id, double duration_ms, size_t bytes);
+    /**
+     * @brief Record Storage Delete.
+     * @param[in] adapter_id Identifier of the adapter.
+     */
     void recordStorageDelete(const std::string& adapter_id);
+    /**
+     * @brief Record Storage Error.
+     * @param[in] operation Input parameter.
+     * @param[in] error Input parameter.
+     */
     void recordStorageError(const std::string& operation, const std::string& error);
     
     // Versioning Metrics
+    /**
+     * @brief Record Version Create.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @param[in] version Input parameter.
+     */
     void recordVersionCreate(const std::string& adapter_id, const std::string& version);
+    /**
+     * @brief Record Version Rollback.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @param[in] from_version Input parameter.
+     * @param[in] to_version Input parameter.
+     */
     void recordVersionRollback(const std::string& adapter_id, const std::string& from_version,
                               const std::string& to_version);
+    /**
+     * @brief Update Version Count.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @param[in] count Input parameter.
+     */
     void updateVersionCount(const std::string& adapter_id, size_t count);
     
     // Inference Metrics
+    /**
+     * @brief Record Inference.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @param[in] duration_ms Input parameter.
+     * @param[in] input_tokens Input parameter.
+     * @param[in] output_tokens Input parameter.
+     */
     void recordInference(const std::string& adapter_id, double duration_ms, 
                         size_t input_tokens, size_t output_tokens);
+    /**
+     * @brief Record Inference Error.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @param[in] error Input parameter.
+     */
     void recordInferenceError(const std::string& adapter_id, const std::string& error);
+    /**
+     * @brief Update Inference Queue Size.
+     * @param[in] size Input parameter.
+     */
     void updateInferenceQueueSize(size_t size);
     
     // Audit Metrics
+    /**
+     * @brief Record Audit Log Write.
+     * @param[in] duration_ms Input parameter.
+     * @param[in] bytes Input parameter.
+     */
     void recordAuditLogWrite(double duration_ms, size_t bytes);
+    /**
+     * @brief Record Audit Query.
+     * @param[in] duration_ms Input parameter.
+     * @param[in] results Input parameter.
+     */
     void recordAuditQuery(double duration_ms, size_t results);
+    /**
+     * @brief Update Audit Log Size.
+     * @param[in] entries Input parameter.
+     */
     void updateAuditLogSize(size_t entries);
     
     // Resource Usage Metrics
+    /**
+     * @brief Update Memory Usage.
+     * @param[in] category Input parameter.
+     * @param[in] bytes Input parameter.
+     */
     void updateMemoryUsage(const std::string& category, size_t bytes);
+    /**
+     * @brief Update GPUVRAMUsage.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @param[in] bytes Input parameter.
+     */
     void updateGPUVRAMUsage(const std::string& adapter_id, size_t bytes);
+    /**
+     * @brief Update CPUUsage.
+     * @param[in] percentage Input parameter.
+     */
     void updateCPUUsage(double percentage);
     
     // Orchestrator Metrics
+    /**
+     * @brief Record Orchestrator Operation.
+     * @param[in] operation Input parameter.
+     * @param[in] duration_ms Input parameter.
+     * @param[in] success Input parameter.
+     */
     void recordOrchestratorOperation(const std::string& operation, double duration_ms, bool success);
+    /**
+     * @brief Update Active Adapters.
+     * @param[in] count Input parameter.
+     */
     void updateActiveAdapters(size_t count);
+    /**
+     * @brief Update Total Adapters.
+     * @param[in] count Input parameter.
+     */
     void updateTotalAdapters(size_t count);
     
-    // Get metrics in Prometheus format
+    /**
+     * @brief Get metrics in Prometheus format
+     * @return Return value.
+     */
     std::string getMetrics() const;
     
 private:
@@ -192,9 +364,6 @@ private:
 // Metrics Helper Classes
 // ============================================================================
 
-/**
- * @brief RAII timer for automatic duration measurement
- */
 class MetricTimer {
 public:
     explicit MetricTimer() : start_(std::chrono::high_resolution_clock::now()) {}
@@ -212,9 +381,6 @@ private:
     std::chrono::time_point<std::chrono::high_resolution_clock> start_;
 };
 
-/**
- * @brief Scoped metric recording for operations
- */
 template<typename Func>
 class ScopedMetric {
 public:
@@ -235,6 +401,12 @@ private:
 
 // Helper function to create scoped metrics
 template<typename Func>
+/**
+ * @brief Make Scoped Metric.
+ * @param[in] func Input parameter.
+ * @return Return value.
+ * @details Calls: std::move().
+ */
 ScopedMetric<Func> makeScopedMetric(Func func) {
     return ScopedMetric<Func>(std::move(func));
 }

@@ -94,7 +94,7 @@ std::optional<PostingList> IndexCache::lookup(const std::string& term) const {
  * @brief Insert.
  * @param[in] term Input parameter.
  * @param[in] list Input parameter.
- * @return True on success.
+ * @return True when the operation succeeds.
  * @details Calls: empty(), estimatePostingListSize(), lock(), find(), end(), erase(), back(), pop_back().
  */
 bool IndexCache::insert(const std::string& term, PostingList&& list) {
@@ -108,11 +108,6 @@ bool IndexCache::insert(const std::string& term, PostingList&& list) {
     return false;
   }
 
-  /**
-   * @brief Lock.
-   * @param[in] lock_ Input parameter.
-   * @return Return value.
-   */
   std::unique_lock<std::shared_mutex> lock(lock_);
   stats_.max_size_bytes = max_bytes;
 
@@ -161,11 +156,6 @@ bool IndexCache::insert(const std::string& term, PostingList&& list) {
  * @details Calls: lock(), std::fill(), begin(), end().
  */
 void IndexCache::clear() {
-  /**
-   * @brief Lock.
-   * @param[in] lock_ Input parameter.
-   * @return Return value.
-   */
   std::unique_lock<std::shared_mutex> lock(lock_);
   entries_.clear();
   lru_.clear();

@@ -29,7 +29,15 @@ namespace auth {
 
 namespace {
 
-// libcurl write callback – appends received data to a std::string.
+/**
+ * @brief libcurl write callback – appends received data to a std::string.
+ * @param[in,out] ptr Input/output parameter.
+ * @param[in] size Input parameter.
+ * @param[in] nmemb Input parameter.
+ * @param[in,out] userdata Input/output parameter.
+ * @return Return value.
+ * @details Calls: append().
+ */
 size_t oauthDeviceWriteCallback(char *ptr, size_t size, size_t nmemb, void *userdata) {
     const auto total = size * nmemb;
     static_cast<std::string *>(userdata)->append(ptr, total);
@@ -66,9 +74,12 @@ void OAuthDeviceFlow::setHttpPostForTesting(
     http_post_fn_ = std::move(fn);
 }
 
-// ============================================================================
-// RFC 8628 §3.1 – Device Authorization Request
-// ============================================================================
+/**
+ * @brief ============================================================================ RFC 8628 §3.
+ * @return Return value.
+ * @throws AuthException if an error occurs.
+ * @details 1 – Device Authorization Request ============================================================================ Calls: empty(), size(), emplace_back(), buildFormBody(), spdlog::debug(), httpPost(), spdlog::error(), what().
+ */
 
 OAuthDeviceFlow::DeviceCodeResponse OAuthDeviceFlow::requestDeviceCode() {
     std::vector<std::pair<std::string, std::string>> params = {{"client_id", config_.client_id}};
@@ -133,9 +144,14 @@ OAuthDeviceFlow::DeviceCodeResponse OAuthDeviceFlow::requestDeviceCode() {
     return resp;
 }
 
-// ============================================================================
-// RFC 8628 §3.4 – Device Access Token Request
-// ============================================================================
+/**
+ * @brief ============================================================================ RFC 8628 §3.
+ * @param[in] device_code Input parameter.
+ * @param[in,out] status_out Input/output parameter.
+ * @return Return value.
+ * @throws AuthException if an error occurs.
+ * @details 4 – Device Access Token Request ============================================================================ Calls: empty(), emplace_back(), buildFormBody(), spdlog::debug(), httpPost(), what(), find(), spdlog::error().
+ */
 
 OAuthDeviceFlow::TokenResponse OAuthDeviceFlow::pollForToken(const std::string &device_code, PollStatus &status_out) {
     std::vector<std::pair<std::string, std::string>> params
@@ -262,6 +278,13 @@ OAuthDeviceFlow::TokenResponse OAuthDeviceFlow::pollForToken(const std::string &
 // id_token Validation
 // ============================================================================
 
+/**
+ * @brief Validate Id Token.
+ * @param[in] token_response Input parameter.
+ * @return Return value.
+ * @throws AuthException if an error occurs.
+ * @details Calls: empty(), AuthError(), validator(), parseAndValidate().
+ */
 JWTClaims OAuthDeviceFlow::validateIdToken(const TokenResponse &token_response) {
     if (token_response.id_token.empty()) {
         throw AuthException(AuthError(AuthErrorCode::JWT_MISSING_REQUIRED_CLAIM, "No id_token in token response",
@@ -358,6 +381,14 @@ JWTClaims OAuthDeviceFlow::authenticate(std::function<void(const DeviceCodeRespo
 // HTTP helper
 // ============================================================================
 
+/**
+ * @brief Http Post.
+ * @param[in] url Input parameter.
+ * @param[in] body Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: http_post_fn_(), curl_easy_init(), curl_easy_setopt(), c_str(), size(), curl_slist_append(), curl_multi_init(), curl_slist_free_all().
+ */
 std::string OAuthDeviceFlow::httpPost(const std::string &url, const std::string &body) {
     if (http_post_fn_) {
         return http_post_fn_(url, body);
@@ -446,6 +477,12 @@ std::string OAuthDeviceFlow::httpPost(const std::string &url, const std::string 
 // URL encoding helpers
 // ============================================================================
 
+/**
+ * @brief Url Encode.
+ * @param[in] value Input parameter.
+ * @return Return value.
+ * @details Calls: curl_easy_init(), curl_easy_escape(), c_str(), size(), curl_free(), curl_easy_cleanup().
+ */
 std::string OAuthDeviceFlow::urlEncode(const std::string &value) {
     CURL *curl = curl_easy_init();
     if (!curl) {

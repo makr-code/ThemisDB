@@ -20,22 +20,8 @@ namespace themis {
 namespace llm {
 namespace lora {
 
-/**
- * @brief GPU utilization monitoring for training optimization
- * 
- * Tracks real-time GPU metrics to identify optimization opportunities:
- * - GPU compute utilization
- * - Memory utilization
- * - Memory bandwidth
- * - SM (Streaming Multiprocessor) occupancy
- * 
- * Provides actionable recommendations for improving GPU utilization.
- */
 class GPUUtilizationMonitor {
 public:
-    /**
-     * @brief GPU performance metrics
-     */
     struct Metrics {
         float gpu_utilization_pct = 0.0f;    // % of time GPU executing kernels
         float memory_utilization_pct = 0.0f; // % of VRAM used
@@ -49,53 +35,35 @@ public:
     };
     
     /**
-     * @brief Construct GPU utilization monitor
-     * @param device Target GPU device to monitor
+     * @brief GPUUtilization Monitor.
+     * @param[in] device Input parameter.
+     * @return Return value.
      */
     explicit GPUUtilizationMonitor(const Device& device);
     
     ~GPUUtilizationMonitor();
     
     /**
-     * @brief Query current GPU utilization
-     * 
-     * Uses backend-specific APIs:
-     * - CUDA: NVML (NVIDIA Management Library)
-     * - HIP: ROCm SMI
-     * - Vulkan: Performance queries
-     * - DirectX: D3D12 performance counters
-     * 
-     * @return Current GPU metrics
+     * @brief Query Metrics.
+     * @return Return value.
      */
     Metrics queryMetrics();
     
-    /**
-     * @brief Check if GPU is underutilized
-     * @param threshold Utilization threshold (default: 0.8 = 80%)
-     * @return true if GPU utilization < threshold
-     */
     bool isUnderutilized(float threshold = 0.8f) const;
     
     /**
-     * @brief Get recommendations for better utilization
-     * @return Vector of optimization suggestions
+     * @brief Get Optimization Recommendations.
+     * @return Return value.
      */
     std::vector<std::string> getOptimizationRecommendations() const;
     
-    /**
-     * @brief Get average metrics over recent history
-     * @param num_samples Number of recent samples to average (default: 10)
-     * @return Average metrics
-     */
     Metrics getAverageMetrics(size_t num_samples = 10) const;
     
-    /**
-     * @brief Check if monitoring is available for this device
-     */
     bool isAvailable() const { return is_available_; }
     
     /**
-     * @brief Get device information
+     * @brief Get Device Info.
+     * @return Return value.
      */
     std::string getDeviceInfo() const;
     
@@ -120,24 +88,71 @@ private:
 #endif
     
     // Initialization
+    /**
+     * @brief Initialize NVML.
+     * @return True when the operation succeeds.
+     */
     bool initializeNVML();
+    /**
+     * @brief Initialize ROCm.
+     * @return True when the operation succeeds.
+     */
     bool initializeROCm();
+    /**
+     * @brief Initialize Vulkan.
+     * @return True when the operation succeeds.
+     */
     bool initializeVulkan();
+    /**
+     * @brief Initialize Direct X.
+     * @return True when the operation succeeds.
+     */
     bool initializeDirectX();
     
     // Cleanup
+    /**
+     * @brief Shutdown NVML.
+     */
     void shutdownNVML();
+    /**
+     * @brief Shutdown ROCm.
+     */
     void shutdownROCm();
+    /**
+     * @brief Shutdown Vulkan.
+     */
     void shutdownVulkan();
+    /**
+     * @brief Shutdown Direct X.
+     */
     void shutdownDirectX();
     
     // Query methods
+    /**
+     * @brief Query NVML.
+     * @return Return value.
+     */
     Metrics queryNVML();
+    /**
+     * @brief Query ROCm.
+     * @return Return value.
+     */
     Metrics queryROCm();
+    /**
+     * @brief Query Vulkan.
+     * @return Return value.
+     */
     Metrics queryVulkan();
+    /**
+     * @brief Query Direct X.
+     * @return Return value.
+     */
     Metrics queryDirectX();
     
-    // Fallback when monitoring not available
+    /**
+     * @brief Fallback when monitoring not available
+     * @return Return value.
+     */
     Metrics getFallbackMetrics() const;
 };
 

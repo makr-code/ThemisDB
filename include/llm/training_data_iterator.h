@@ -22,12 +22,13 @@
 namespace themis {
 namespace llm {
 
-/// Training data iterator with zero-copy streaming from RocksDB
-/// Extends JSONLLMExporter for data export functionality
 class TrainingDataIterator {
 public:
+    /**
+     * @brief Training Data Iterator.
+     * @return Return value.
+     */
     virtual ~TrainingDataIterator() = default;
-    /// Configuration for training data iteration
     struct Config {
         // Batch configuration
         size_t batch_size = 32;
@@ -51,7 +52,6 @@ public:
         size_t progress_interval = 100;
     };
     
-    /// Training sample - Single training instance
     struct TrainingSample {
         std::string instruction;     // Instruction/prompt
         std::string input;           // Optional input context
@@ -64,25 +64,54 @@ public:
         std::optional<std::string> vector_context;    // Similar documents
         std::optional<std::string> relational_context; // Joined data
         
+        /**
+         * @brief To Json.
+         * @return Return value.
+         */
         nlohmann::json toJson() const;
+        /**
+         * @brief From Json.
+         * @param[in] j Input parameter.
+         * @return Return value.
+         */
         static TrainingSample fromJson(const nlohmann::json& j);
     };
     
-    /// Training batch - Multiple samples for batch training
     struct TrainingBatch {
         std::vector<TrainingSample> samples;
         size_t batch_id = 0;
         size_t total_batches = 0;
         
+        /**
+         * @brief Get Total Tokens.
+         * @return Return value.
+         */
         size_t getTotalTokens() const;  // Estimate total tokens
+        /**
+         * @brief To Json.
+         * @return Return value.
+         */
         nlohmann::json toJson() const;
     };
     
+    /**
+     * @brief Training Data Iterator.
+     * @param[in] db Input parameter.
+     * @param[in] exporter Input parameter.
+     * @return Return value.
+     */
     explicit TrainingDataIterator(
         std::shared_ptr<RocksDBWrapper> db,
         std::shared_ptr<exporters::JSONLLLMExporter> exporter
     );
 
+    /**
+     * @brief Training Data Iterator.
+     * @param[in] db Input parameter.
+     * @param[in] exporter Input parameter.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit TrainingDataIterator(
         std::shared_ptr<RocksDBWrapper> db,
         std::shared_ptr<exporters::JSONLLLMExporter> exporter,
@@ -91,29 +120,35 @@ public:
     
     // Iterator Operations
     
-    /// Initialize iterator with AQL query
-    /// @param aql_query AQL query to select training data
-    /// @param metadata Adapter metadata for configuration
-    /// @return true if initialization successful
+    /**
+     * @brief Initialize.
+     * @param[in] aql_query Input parameter.
+     * @param[in] metadata Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool initialize(const std::string& aql_query, const AdapterMetadata& metadata);
     
-    /// Check if more batches available
+    /**
+     * @brief Has Next.
+     * @return True when the operation succeeds.
+     */
     bool hasNext() const;
     
-    /// Get next batch of training samples
-    /// @return Next batch or nullopt if no more data
+    /**
+     * @brief Get Next Batch.
+     * @return Return value.
+     */
     std::optional<TrainingBatch> getNextBatch();
     
-    /// Reset iterator to beginning
+    /**
+     * @brief Reset the modification detection flag.
+     */
     void reset();
     
-    /// Get total number of samples
     size_t getTotalSamples() const { return total_samples_; }
     
-    /// Get total number of batches
     size_t getTotalBatches() const { return total_batches_; }
     
-    /// Get current position
     size_t getCurrentPosition() const { return current_position_; }
     
     // Statistics
@@ -129,15 +164,21 @@ public:
         size_t total_tokens = 0;
         std::chrono::milliseconds iteration_time{0};
         
+        /**
+         * @brief To Json.
+         * @return Return value.
+         */
         nlohmann::json toJson() const;
     };
     
     IteratorStats getStats() const { return stats_; }
     
-    /// Get current configuration
     const Config& getConfig() const { return config_; }
     
-    /// Update configuration (only before initialization)
+    /**
+     * @brief Set Config.
+     * @param[in] config Input parameter.
+     */
     void setConfig(const Config& config);
     
 private:
@@ -161,43 +202,85 @@ private:
     std::chrono::steady_clock::time_point start_time_;
     
     // Internal helpers
+    /**
+     * @brief Load Samples.
+     * @param[in] aql_query Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool loadSamples(const std::string& aql_query);
+    /**
+     * @brief Convert To Training Sample.
+     * @param[in] entity Input parameter.
+     * @return Return value.
+     */
     TrainingSample convertToTrainingSample(const BaseEntity& entity);
+    /**
+     * @brief Shuffle Samples.
+     */
     void shuffleSamples();
+    /**
+     * @brief Enrich Sample With Graph Context.
+     * @param[in,out] sample Input/output parameter.
+     */
     void enrichSampleWithGraphContext(TrainingSample& sample);
+    /**
+     * @brief Enrich Sample With Vector Context.
+     * @param[in,out] sample Input/output parameter.
+     */
     void enrichSampleWithVectorContext(TrainingSample& sample);
+    /**
+     * @brief Enrich Sample With Relational Context.
+     * @param[in,out] sample Input/output parameter.
+     */
     void enrichSampleWithRelationalContext(TrainingSample& sample);
+    /**
+     * @brief Passes Quality Filter.
+     * @param[in] sample Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool passesQualityFilter(const TrainingSample& sample) const;
 };
 
-/// Training query builder - Helper for constructing AQL queries
 class TrainingQueryBuilder {
 public:
     TrainingQueryBuilder() = default;
     
-    /// Set base FROM clause
+    /**
+     * @brief From.
+     * @param[in] collection Input parameter.
+     * @return Return value.
+     */
     TrainingQueryBuilder& from(const std::string& collection);
     
-    /// Add WHERE condition
+    /**
+     * @brief Where.
+     * @param[in] condition Input parameter.
+     * @return Return value.
+     */
     TrainingQueryBuilder& where(const std::string& condition);
     
-    /// Add GRAPH_CONTEXT enrichment
     TrainingQueryBuilder& withGraphContext(
         const std::vector<std::string>& relationships,
         int max_depth = 2
     );
     
-    /// Add VECTOR_SIMILARITY enrichment
     TrainingQueryBuilder& withVectorSimilarity(
         const std::string& embedding_field,
         double threshold = 0.8,
         size_t top_k = 5
     );
     
-    /// Add LIMIT clause
+    /**
+     * @brief Limit.
+     * @param[in] max_samples Input parameter.
+     * @return Return value.
+     */
     TrainingQueryBuilder& limit(size_t max_samples);
     
-    /// Build final AQL query
+    /**
+     * @brief Build.
+     * @return Return value.
+     */
     std::string build() const;
     
 private:

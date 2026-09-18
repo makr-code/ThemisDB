@@ -97,26 +97,14 @@ namespace fs = std::filesystem;
 
 namespace {
 
-/**
- * @brief Execute a blocking operation on a worker thread, returning within
- *        the specified deadline regardless of whether the operation completes.
- *
- * If the operation completes within @p timeout_ms the worker is joined and
- * the result is returned.  If the deadline expires the worker thread is
- * detached, allowing the caller to proceed immediately.
- *
- * @warning Callers MUST NOT pass lambdas that capture local variables by
- *          reference unless they can guarantee those variables remain valid
- *          for the lifetime of the potentially-detached worker thread.
- *          Use value captures (or heap-allocated shared state) for all
- *          objects that may be destroyed before the worker finishes.
- *
- * @param timeout_ms Timeout duration in milliseconds; 0 disables the timeout.
- * @param operation  Callable to execute. Must be safe to run on a detached
- *                   thread after the caller returns on timeout.
- * @return true if operation completed within timeout, false if timed out or failed.
- */
 template<typename Func>
+/**
+ * @brief Execute With Timeout.
+ * @param[in] timeout_ms Input parameter.
+ * @param[in] operation Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: operation_copy(), THEMIS_ERROR(), what(), void(), task(), std::move(), get_future(), worker().
+ */
 bool executeWithTimeout(uint32_t timeout_ms, Func&& operation) {
     using Operation = std::decay_t<Func>;
     Operation operation_copy(std::forward<Func>(operation));
@@ -159,16 +147,6 @@ bool executeWithTimeout(uint32_t timeout_ms, Func&& operation) {
     return true;
 }
 
-/**
- * @brief Join a thread on the cooperative shutdown path.
- *
- * Replication worker loops observe stop flags and condition-variable
- * notifications, so shutdown must wait for the worker to exit before
- * destroying the owning object graph.
- *
- * @param t          Thread to join.
- * @param timeout_ms Unused legacy timeout parameter.
- */
 static void timedJoin(std::thread& t, int timeout_ms = 5000) noexcept {
     if (!t.joinable()) {
       return;
@@ -255,6 +233,13 @@ std::vector<uint8_t> WALEntry::serialize() const {
     return result;
 }
 
+/**
+ * @brief Deserialize.
+ * @param[in] data Input parameter.
+ * @return Return value.
+ * @throws std::out_of_range if an error occurs.
+ * @details Calls: size(), THEMIS_DEBUG(), THEMIS_ERROR(), s(), begin(), readUint64(), std::chrono::system_clock::time_point(), std::chrono::milliseconds().
+ */
 std::optional<WALEntry> WALEntry::deserialize(const std::vector<uint8_t>& data) {
     // BATCH A FIX: Enhanced buffer validation
     // BATCH D FIX: Add bounds checking before index operations
@@ -355,6 +340,12 @@ int64_t ReplicaInfo::replicationLagMs() const {
     ).count();
 }
 
+/**
+ * @brief Update Health Status.
+ * @param[in] heartbeat_timeout_ms Input parameter.
+ * @param[in] degraded_lag_threshold_ms Input parameter.
+ * @details Calls: std::chrono::system_clock::now(), count().
+ */
 void ReplicaInfo::updateHealthStatus(uint32_t heartbeat_timeout_ms, uint32_t degraded_lag_threshold_ms) {
     auto now = std::chrono::system_clock::now();
     auto elapsed_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
@@ -469,6 +460,12 @@ WALManager::~WALManager() {
     sync();
 }
 
+/**
+ * @brief Append.
+ * @param[in] entry Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), load(), empty(), SHA256(), c_str(), size(), std::setw(), std::setfill().
+ */
 uint64_t WALManager::append(const WALEntry& entry) {
     std::lock_guard<std::mutex> lock(wal_mutex_);
     
@@ -517,6 +514,13 @@ uint64_t WALManager::append(const WALEntry& entry) {
     return seq;
 }
 
+/**
+ * @brief Read From.
+ * @param[in] start_sequence Input parameter.
+ * @param[in] limit Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), reserve(), size(), std::to_string(), std::filesystem::exists(), ifs(), THEMIS_ERROR(), read().
+ */
 std::vector<WALEntry> WALManager::readFrom(uint64_t start_sequence, uint32_t limit) {
     // BATCH A FIX: Add timeout protection for file reads
     std::lock_guard<std::mutex> lock(wal_mutex_);
@@ -640,10 +644,20 @@ std::vector<WALEntry> WALManager::readFrom(uint64_t start_sequence, uint32_t lim
     return entries;
 }
 
+/**
+ * @brief Increment Term.
+ * @return Return value.
+ * @details Implements incrementTerm without additional internal calls.
+ */
 uint64_t WALManager::incrementTerm() {
     return ++current_term_;
 }
 
+/**
+ * @brief Truncate Before.
+ * @param[in] sequence Input parameter.
+ * @details Calls: lock(), std::to_string(), std::filesystem::remove().
+ */
 void WALManager::truncateBefore(uint64_t sequence) {
     std::lock_guard<std::mutex> lock(wal_mutex_);
     
@@ -657,6 +671,10 @@ void WALManager::truncateBefore(uint64_t sequence) {
     }
 }
 
+/**
+ * @brief Sync.
+ * @details Calls: dir(), empty(), fs::exists(), THEMIS_WARN(), message(), fs::directory_iterator(), path(), extension().
+ */
 void WALManager::sync() {
     // Purpose: Force synchronization of all WAL files to persistent storage.
     // Minimal portable implementation: iterate WAL files and call fsync/_commit
@@ -738,6 +756,10 @@ uint64_t WALManager::getSize() const {
     return total;
 }
 
+/**
+ * @brief Load From Disk.
+ * @details Calls: std::filesystem::directory_iterator(), path(), extension(), ifs(), read(), eof(), data(), WALEntry::deserialize().
+ */
 void WALManager::loadFromDisk() {
     // Find highest sequence number from existing WAL files
     uint64_t max_seq = 0;
@@ -794,12 +816,20 @@ LeaderElection::~LeaderElection() {
     timedJoin(election_thread_);
 }
 
+/**
+ * @brief Start.
+ * @details Calls: store(), std::chrono::steady_clock::now(), std::thread().
+ */
 void LeaderElection::start() {
     running_.store(true);
     last_heartbeat_time_ = std::chrono::steady_clock::now();
     election_thread_ = std::thread(&LeaderElection::electionLoop, this);
 }
 
+/**
+ * @brief Election Loop.
+ * @details Calls: gen(), rd(), load(), lock(), wait_for(), std::chrono::milliseconds(), std::chrono::steady_clock::now(), count().
+ */
 void LeaderElection::electionLoop() {
     std::random_device rd = {};
     std::mt19937 gen(rd());
@@ -849,6 +879,10 @@ void LeaderElection::electionLoop() {
     }
 }
 
+/**
+ * @brief Start Election.
+ * @details Calls: lock(), load(), incrementTerm(), store(), std::chrono::steady_clock::now(), THEMIS_INFO(), becomeLeader().
+ */
 void LeaderElection::startElection() {
     std::lock_guard<std::mutex> lock(election_mutex_);
     
@@ -879,6 +913,15 @@ void LeaderElection::startElection() {
     }
 }
 
+/**
+ * @brief Request Vote.
+ * @param[in] term Input parameter.
+ * @param[in] candidate_id Identifier of the candidate.
+ * @param[in] last_log_sequence Input parameter.
+ * @param[in] last_log_term Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), store(), clear(), empty(), getCurrentSequence(), getCurrentTerm().
+ */
 bool LeaderElection::requestVote(
     uint64_t term,
     const std::string& candidate_id,
@@ -915,6 +958,13 @@ bool LeaderElection::requestVote(
     return false;
 }
 
+/**
+ * @brief Receive Heartbeat.
+ * @param[in] term Input parameter.
+ * @param[in] leader_id Identifier of the leader.
+ * @param[in] leader_commit Input parameter.
+ * @details Calls: lock(), load(), std::chrono::steady_clock::now(), becomeFollower(), notify_one(), getCurrentSequence(), std::min(), compare_exchange_weak().
+ */
 void LeaderElection::receiveHeartbeat(
     uint64_t term,
     const std::string& leader_id,
@@ -952,12 +1002,22 @@ std::string LeaderElection::getLeaderId() const {
     return current_leader_;
 }
 
+/**
+ * @brief Become Leader.
+ * @details Calls: store(), notify_all().
+ */
 void LeaderElection::becomeLeader() {
     role_.store(ReplicationRole::LEADER);
     current_leader_ = node_id_;
     election_cv_.notify_all();  // Wake the election loop so it can skip re-checking
 }
 
+/**
+ * @brief Become Follower.
+ * @param[in] term Input parameter.
+ * @param[in] leader_id Identifier of the leader.
+ * @details Calls: store(), clear(), std::chrono::steady_clock::now().
+ */
 void LeaderElection::becomeFollower(uint64_t term, const std::string& leader_id) {
     current_term_ = term;
     role_.store(ReplicationRole::FOLLOWER);
@@ -966,6 +1026,11 @@ void LeaderElection::becomeFollower(uint64_t term, const std::string& leader_id)
     last_heartbeat_time_ = std::chrono::steady_clock::now();
 }
 
+/**
+ * @brief Grant Vote.
+ * @param[in] term Input parameter.
+ * @details Calls: lock(), load(), THEMIS_INFO(), becomeLeader().
+ */
 void LeaderElection::grantVote(uint64_t term) {
     std::lock_guard<std::mutex> lock(election_mutex_);
     
@@ -990,6 +1055,11 @@ void LeaderElection::grantVote(uint64_t term) {
 // LeaderElection lease management
 // ============================================================================
 
+/**
+ * @brief Renew Lease.
+ * @param[in] duration_ms Input parameter.
+ * @details Calls: isLeader(), lock(), std::chrono::steady_clock::now(), std::chrono::milliseconds(), THEMIS_DEBUG().
+ */
 void LeaderElection::renewLease(uint32_t duration_ms) {
     if (!isLeader()) {
         return;
@@ -1004,11 +1074,21 @@ bool LeaderElection::hasValidLease() const {
     if (!isLeader()) {
         return false;
     }
+    /**
+     * @brief Lock.
+     * @param[in] lease_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(lease_mutex_);
     return std::chrono::steady_clock::now() < lease_expires_at_;
 }
 
 std::chrono::steady_clock::time_point LeaderElection::leaseExpiresAt() const {
+    /**
+     * @brief Lock.
+     * @param[in] lease_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(lease_mutex_);
     return lease_expires_at_;
 }
@@ -1063,11 +1143,19 @@ ReplicationStream::~ReplicationStream() {
     stop();
 }
 
+/**
+ * @brief Start.
+ * @details Calls: store(), std::thread().
+ */
 void ReplicationStream::start() {
     running_.store(true);
     stream_thread_ = std::thread(&ReplicationStream::streamLoop, this);
 }
 
+/**
+ * @brief Stop.
+ * @details Calls: store(), notify_all(), joinable(), timedJoin().
+ */
 void ReplicationStream::stop() {
     running_.store(false);
     wait_cv_.notify_all();
@@ -1081,6 +1169,10 @@ bool ReplicationStream::isHealthy() const {
     return running_.load() && follower_info_.isHealthy();
 }
 
+/**
+ * @brief Stream Loop.
+ * @details Calls: load(), computeBackoffMs(), lk(), wait_for(), std::chrono::milliseconds(), readFrom(), empty(), sendBatch().
+ */
 void ReplicationStream::streamLoop() {
     // BATCH D ANNOTATION: Replication Acknowledgment and Consensus Semantics
     // This loop implements a pull-based replication model with explicit acknowledgment tracking.
@@ -1158,6 +1250,12 @@ uint32_t ReplicationStream::computeBackoffMs() const {
     return backoff;
 }
 
+/**
+ * @brief Send Batch.
+ * @param[in] entries Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements sendBatch without additional internal calls.
+ */
 bool ReplicationStream::sendBatch(const std::vector<WALEntry>& entries) {
     // BATCH D ANNOTATION: Consensus and Acknowledgment Handling
     // This method is the critical juncture between local WAL and follower replication.
@@ -1215,6 +1313,11 @@ ReplicationManager::~ReplicationManager() {
     shutdown();
 }
 
+/**
+ * @brief Initialize.
+ * @return True when the operation succeeds.
+ * @details Calls: load(), lock(), validateConfig(), reserve(), size(), std::chrono::system_clock::now(), push_back(), setClusterSize().
+ */
 bool ReplicationManager::initialize() {
     if (initialized_.load()) {
         return true;
@@ -1263,6 +1366,10 @@ bool ReplicationManager::initialize() {
     return true;
 }
 
+/**
+ * @brief Shutdown.
+ * @details Calls: load(), store(), timedJoin(), stop(), clear().
+ */
 void ReplicationManager::shutdown() {
     if (!initialized_.load()) {
         return;
@@ -1282,6 +1389,12 @@ void ReplicationManager::shutdown() {
     initialized_.store(false);
 }
 
+/**
+ * @brief Replicate.
+ * @param[in] entry Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: load(), THEMIS_ERROR(), isLeader(), append(), size(), notifyListeners(), onWALEntryApplied(), waitForReplication().
+ */
 bool ReplicationManager::replicate(const WALEntry& entry) {
     if (!initialized_.load()) {
         THEMIS_ERROR("Replication not initialized");
@@ -1326,11 +1439,13 @@ bool ReplicationManager::replicate(const WALEntry& entry) {
     }
 }
 
-// Wait for replication consensus acknowledgment from replica set
-// - SYNC mode: requires all replicas to acknowledge
-// - SEMI_SYNC mode: requires min_sync_replicas to acknowledge (quorum)
-// - ASYNC mode: no waiting (checked in replicate() above)
-// This implements the replicated state machine consensus pattern
+/**
+ * @brief Wait for replication consensus acknowledgment from replica set - SYNC mode: requires all replicas to acknowledge - SEMI_SYNC mode: requires min_sync_replicas to acknowledge (quorum) - ASYNC mode: no waiting (checked in replicate() above) This implements the replicated state machine consensus pattern
+ * @param[in] sequence Input parameter.
+ * @param[in] timeout_ms Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: std::chrono::steady_clock::now(), std::chrono::milliseconds(), lock(), size(), THEMIS_ERROR(), getLastAckedSequence(), std::this_thread::sleep_for().
+ */
 bool ReplicationManager::waitForReplication(uint64_t sequence, uint32_t timeout_ms) {
     auto deadline = std::chrono::steady_clock::now() + 
                    std::chrono::milliseconds(timeout_ms > 0 ? timeout_ms : config_.replication_timeout_ms);
@@ -1395,10 +1510,20 @@ std::string ReplicationManager::getLeaderEndpoint() const {
 }
 
 std::vector<ReplicaInfo> ReplicationManager::getReplicas() const {
+    /**
+     * @brief Lock.
+     * @param[in] replicas_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(replicas_mutex_);
     return replicas_;
 }
 
+/**
+ * @brief Add Replica.
+ * @param[in] replica Input parameter.
+ * @details Calls: empty(), spdlog::error(), lock(), load(), spdlog::warn(), push_back(), isLeader(), start().
+ */
 void ReplicationManager::addReplica(const ReplicaInfo& replica) {
     // Fail-closed: reject empty node_id
     if (replica.node_id.empty()) {
@@ -1441,6 +1566,11 @@ void ReplicationManager::addReplica(const ReplicaInfo& replica) {
     });
 }
 
+/**
+ * @brief Remove Replica.
+ * @param[in] node_id Identifier of the node.
+ * @details Calls: lock(), erase(), std::remove_if(), begin(), end(), setClusterSize(), size(), notifyListeners().
+ */
 void ReplicationManager::removeReplica(const std::string& node_id) {
     {
         std::unique_lock<std::shared_mutex> lock(replicas_mutex_);
@@ -1461,10 +1591,21 @@ void ReplicationManager::removeReplica(const std::string& node_id) {
     });
 }
 
+/**
+ * @brief Set Conflict Resolver.
+ * @param[in] resolver Input parameter.
+ * @details Implements setConflictResolver without additional internal calls.
+ */
 void ReplicationManager::setConflictResolver(std::shared_ptr<IConflictResolver> resolver) {
     conflict_resolver_ = resolver;
 }
 
+/**
+ * @brief Add Witness Node.
+ * @param[in] node_id Identifier of the node.
+ * @param[in] endpoint Input parameter.
+ * @details Calls: std::chrono::system_clock::now(), addReplica().
+ */
 void ReplicationManager::addWitnessNode(const std::string& node_id,
                                         const std::string& endpoint) {
     ReplicaInfo witness;
@@ -1479,11 +1620,22 @@ void ReplicationManager::addWitnessNode(const std::string& node_id,
     addReplica(witness);
 }
 
+/**
+ * @brief Add Listener.
+ * @param[in] listener Input parameter.
+ * @details Calls: lock(), push_back().
+ */
 void ReplicationManager::addListener(std::shared_ptr<IReplicationListener> listener) {
     std::lock_guard<std::mutex> lock(manager_mutex_);
     listeners_.push_back(listener);
 }
 
+/**
+ * @brief Trigger Failover.
+ * @param[in] target_node_id Identifier of the target node.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), THEMIS_WARN(), startElection(), isLeader(), notifyListeners(), onFailoverCompleted().
+ */
 bool ReplicationManager::triggerFailover(const std::string& target_node_id) {
     // Manual failover
     stats_.manual_failovers++;
@@ -1519,6 +1671,11 @@ bool ReplicationManager::triggerFailover(const std::string& target_node_id) {
     return false;
 }
 
+/**
+ * @brief Promote To Leader.
+ * @return True when the operation succeeds.
+ * @details Calls: startElection(), isLeader().
+ */
 bool ReplicationManager::promoteToLeader() {
     if (election_) {
         election_->startElection();
@@ -1527,11 +1684,23 @@ bool ReplicationManager::promoteToLeader() {
     return false;
 }
 
+/**
+ * @brief Demote To Follower.
+ * @return True when the operation succeeds.
+ * @details Implements demoteToFollower without additional internal calls.
+ */
 bool ReplicationManager::demoteToFollower() {
     // Implementation would step down from leader role
     return true;
 }
 
+/**
+ * @brief Enable Multi Region.
+ * @param[in] region_id Identifier of the region.
+ * @param[in] peer_regions Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), THEMIS_INFO(), std::chrono::system_clock::now(), push_back(), isLeader(), start(), std::move(), setClusterSize().
+ */
 bool ReplicationManager::enableMultiRegion(const std::string& region_id,
                                           const std::vector<std::string>& peer_regions) {
     std::unique_lock<std::shared_mutex> lock(replicas_mutex_);
@@ -1568,6 +1737,12 @@ bool ReplicationManager::enableMultiRegion(const std::string& region_id,
     return true;
 }
 
+/**
+ * @brief Promote Replica.
+ * @param[in] replica_id Identifier of the replica.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), THEMIS_INFO(), std::find_if(), begin(), end(), THEMIS_ERROR(), getCurrentSequence(), THEMIS_WARN().
+ */
 bool ReplicationManager::promoteReplica(const std::string& replica_id) {
     std::unique_lock<std::shared_mutex> lock(replicas_mutex_);
     
@@ -1638,6 +1813,13 @@ bool ReplicationManager::promoteReplica(const std::string& replica_id) {
     return true;
 }
 
+/**
+ * @brief Setup Cascading Replication.
+ * @param[in] source_replica Input parameter.
+ * @param[in] target_replicas Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: THEMIS_INFO(), size().
+ */
 bool ReplicationManager::setupCascadingReplication(const std::string& source_replica,
                                                    const std::vector<std::string>& target_replicas) {
     THEMIS_INFO("Setting up cascading replication: {} -> {} targets",
@@ -1650,6 +1832,11 @@ bool ReplicationManager::setupCascadingReplication(const std::string& source_rep
 }
 
 int64_t ReplicationManager::getReplicationLag(const std::string& replica_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] replicas_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(replicas_mutex_);
     
     // Find replica
@@ -1664,6 +1851,11 @@ int64_t ReplicationManager::getReplicationLag(const std::string& replica_id) con
 }
 
 std::map<std::string, bool> ReplicationManager::getClusterHealth() const {
+    /**
+     * @brief Lock.
+     * @param[in] replicas_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(replicas_mutex_);
     std::map<std::string, bool> health;
     
@@ -1703,6 +1895,11 @@ std::string ReplicationManager::exportPrometheusMetrics() const {
     oss << "\n# HELP themisdb_replication_lag_per_replica Replication lag per replica\n"
         << "# TYPE themisdb_replication_lag_per_replica gauge\n";
     
+    /**
+     * @brief Lock.
+     * @param[in] replicas_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(replicas_mutex_);
     for (const auto& replica : replicas_) {
         oss << "themisdb_replication_lag_per_replica{node_id=\"" << replica.node_id
@@ -1713,6 +1910,10 @@ std::string ReplicationManager::exportPrometheusMetrics() const {
     return oss.str();
 }
 
+/**
+ * @brief Heartbeat Loop.
+ * @details Calls: load(), isLeader(), getCurrentTerm(), lock(), receiveHeartbeat(), getCurrentSequence(), renewLease(), std::this_thread::sleep_for().
+ */
 void ReplicationManager::heartbeatLoop() {
     while (running_.load()) {
         if (election_ && election_->isLeader()) {
@@ -1746,6 +1947,10 @@ void ReplicationManager::heartbeatLoop() {
     }
 }
 
+/**
+ * @brief Compaction Loop.
+ * @details Calls: load(), getCurrentSequence(), lock(), std::min(), getLastAckedSequence(), truncateBefore(), std::this_thread::sleep_for(), std::chrono::seconds().
+ */
 void ReplicationManager::compactionLoop() {
     while (running_.load()) {
         // Find minimum acked sequence across all replicas
@@ -1779,6 +1984,11 @@ void ReplicationManager::notifyListeners(
 }
 
 std::vector<std::pair<std::string, HealthStatus>> ReplicationManager::getReplicaHealthStatus() const {
+    /**
+     * @brief Lock.
+     * @param[in] replicas_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(replicas_mutex_);
     std::vector<std::pair<std::string, HealthStatus>> result;
     result.reserve(replicas_.size());  // Pre-allocate to avoid reallocations
@@ -1791,6 +2001,11 @@ std::vector<std::pair<std::string, HealthStatus>> ReplicationManager::getReplica
 }
 
 bool ReplicationManager::hasQuorum() const {
+    /**
+     * @brief Lock.
+     * @param[in] replicas_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(replicas_mutex_);
     
     size_t healthy_voting_members = 0;
@@ -1826,6 +2041,10 @@ bool ReplicationManager::hasQuorum() const {
     return healthy_voting_members > (total_voting_members / 2);
 }
 
+/**
+ * @brief Perform Health Check.
+ * @details Calls: lock(), reserve(), size(), updateReplicaHealth(), push_back(), notifyListeners(), onReplicaHealthChanged().
+ */
 void ReplicationManager::performHealthCheck() {
     // Collect all health status changes under the write lock, then
     // notify listeners outside the lock to avoid holding it during callbacks.
@@ -1856,6 +2075,11 @@ void ReplicationManager::performHealthCheck() {
 }
 
 bool ReplicationManager::detectNetworkPartition() const {
+    /**
+     * @brief Lock.
+     * @param[in] replicas_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(replicas_mutex_);
     
     // Count failed replicas
@@ -1870,6 +2094,11 @@ bool ReplicationManager::detectNetworkPartition() const {
     return failed_count < static_cast<int>(replicas_.size() / 2);
 }
 
+/**
+ * @brief Set Read Preference.
+ * @param[in] preference Input parameter.
+ * @details Implements setReadPreference without additional internal calls.
+ */
 void ReplicationManager::setReadPreference(ReadPreference preference) {
     config_.default_read_preference = preference;
 }
@@ -1924,9 +2153,11 @@ ReplicationManager::LeaseReadResult ReplicationManager::leaseRead(
     return result;
 }
 
-// ============================================================================
-// Geographic replica placement policies (v1.8.0+)
-// ============================================================================
+/**
+ * @brief ============================================================================ Geographic replica placement policies (v1.
+ * @param[in] constraints Input parameter.
+ * @details 8.0+) ============================================================================ Calls: lock(), THEMIS_INFO(), size().
+ */
 
 void ReplicationManager::setPlacementPolicy(const PlacementConstraints& constraints) {
     std::lock_guard<std::mutex> lock(placement_policy_mutex_);
@@ -1949,6 +2180,11 @@ void ReplicationManager::setPlacementPolicy(const PlacementConstraints& constrai
 }
 
 const PlacementConstraints& ReplicationManager::getPlacementPolicy() const {
+    /**
+     * @brief Lock.
+     * @param[in] placement_policy_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(placement_policy_mutex_);
      
     if (!active_placement_policy_) {
@@ -1961,16 +2197,30 @@ const PlacementConstraints& ReplicationManager::getPlacementPolicy() const {
 }
 
 PlacementValidationResult ReplicationManager::validatePlacementPolicy() const {
+    /**
+     * @brief Lock.
+     * @param[in] placement_policy_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(placement_policy_mutex_);
      
     if (!placement_manager_ || !active_placement_policy_) {
         return PlacementValidationResult();
     }
      
+    /**
+     * @brief Replicas lock.
+     * @param[in] replicas_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> replicas_lock(replicas_mutex_);
     return placement_manager_->validatePlacement(replicas_, *active_placement_policy_);
 }
 
+/**
+ * @brief Health Monitor Loop.
+ * @details Calls: load(), performHealthCheck(), isLeader(), getLeaderId(), lock(), empty(), fetch_add(), attemptAutomaticFailover().
+ */
 void ReplicationManager::healthMonitorLoop() {
     while (running_.load()) {
         performHealthCheck();
@@ -2050,6 +2300,11 @@ void ReplicationManager::healthMonitorLoop() {
     }
 }
 
+/**
+ * @brief Attempt Automatic Failover.
+ * @param[in] failed_node_id Identifier of the failed node.
+ * @details Calls: hasQuorum(), electNewLeader(), getLeaderId(), notifyListeners(), onFailoverStarted(), onFailoverCompleted().
+ */
 void ReplicationManager::attemptAutomaticFailover(const std::string& failed_node_id) {
     // Check if we have quorum to proceed with failover
     if (!hasQuorum()) {
@@ -2078,6 +2333,11 @@ void ReplicationManager::attemptAutomaticFailover(const std::string& failed_node
     }
 }
 
+/**
+ * @brief Elect New Leader.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), size(), startElection(), isLeader().
+ */
 bool ReplicationManager::electNewLeader() {
     if (!election_) {
         return false;
@@ -2118,6 +2378,11 @@ bool ReplicationManager::electNewLeader() {
     return false;
 }
 
+/**
+ * @brief Update Replica Health.
+ * @param[in,out] replica Input/output parameter.
+ * @details Calls: updateHealthStatus().
+ */
 void ReplicationManager::updateReplicaHealth(ReplicaInfo& replica) {
     replica.updateHealthStatus(
         config_.failure_detection_timeout_ms,
@@ -2125,6 +2390,11 @@ void ReplicationManager::updateReplicaHealth(ReplicaInfo& replica) {
     );
 }
 
+/**
+ * @brief Validate Config.
+ * @return True when the operation succeeds.
+ * @details Calls: THEMIS_ERROR(), empty(), THEMIS_WARN().
+ */
 bool ReplicationManager::validateConfig() {
     if (config_.batch_size == 0 || config_.batch_size > 1000000) {
         THEMIS_ERROR("batch_size must be 1-1000000, got {}", config_.batch_size);
@@ -2184,17 +2454,12 @@ bool ReplicationManager::validateConfig() {
 // LWWConflictResolver Implementation
 // ============================================================================
 
-// Extract the "updated_at" field from a minimal JSON payload.
-// We intentionally avoid a full JSON parser dependency; we just scan for the
-// first occurrence of "updated_at":<number> pattern.
-//
-// BATCH B ANNOTATION:
-// Version Tracking: This method extracts a monotonic timestamp that serves
-// as a version vector component for causality tracking. The extracted timestamp
-// represents the write's logical time in the system and should be propagated
-// to all conflict resolution decision points.
-// Consensus Expectation: All replicas must produce deterministic timestamp
-// extraction from the same JSON payload to ensure convergence.
+/**
+ * @brief Extract the "updated_at" field from a minimal JSON payload.
+ * @param[in] json_doc Input parameter.
+ * @return Return value.
+ * @details We intentionally avoid a full JSON parser dependency; we just scan for the first occurrence of "updated_at":<number> pattern. BATCH B ANNOTATION: Version Tracking: This method extracts a monotonic timestamp that serves as a version vector component for causality tracking. The extracted timestamp represents the write's logical time in the system and should be propagated to all conflict resolution decision points. Consensus Expectation: All replicas must produce deterministic timestamp extraction from the same JSON payload to ensure convergence. Calls: find(), size(), std::stoll(), substr(), THEMIS_DEBUG().
+ */
 int64_t LWWConflictResolver::extractTimestamp(const std::string& json_doc) {
     const std::string key = "\"updated_at\"";
     auto pos = json_doc.find(key);
@@ -2220,6 +2485,14 @@ int64_t LWWConflictResolver::extractTimestamp(const std::string& json_doc) {
     }
 }
 
+/**
+ * @brief Resolve.
+ * @param[in] local Input parameter.
+ * @param[in] remote Input parameter.
+ * @param[in] param Input parameter.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ */
 std::string LWWConflictResolver::resolve(
     const std::string& local,
     const std::string& remote,
@@ -2251,6 +2524,14 @@ std::string LWWConflictResolver::resolve(
 // CRDTConflictResolver Implementation
 // ============================================================================
 
+/**
+ * @brief Resolve.
+ * @param[in] local Input parameter.
+ * @param[in] remote Input parameter.
+ * @param[in] collection Input parameter.
+ * @param[in] document_id Identifier of the document.
+ * @return Return value.
+ */
 std::string CRDTConflictResolver::resolve(
     const std::string& local,
     const std::string& remote,
@@ -2399,6 +2680,11 @@ HybridLogicalClock::HybridLogicalClock(const std::string& node_id)
     , logical_counter_(0) {
 }
 
+/**
+ * @brief Now.
+ * @return Return value.
+ * @details Calls: lock(), time_since_epoch(), count(), load(), store().
+ */
 HybridLogicalClock::Timestamp HybridLogicalClock::now() {
     std::lock_guard<std::mutex> lock(mutex_);
 
@@ -2420,6 +2706,12 @@ HybridLogicalClock::Timestamp HybridLogicalClock::now() {
     return Timestamp{last_physical_.load(), logical_counter_.load(), node_id_};
 }
 
+/**
+ * @brief Receive.
+ * @param[in] received Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), std::chrono::system_clock::now(), time_since_epoch(), count(), load(), std::max(), store().
+ */
 HybridLogicalClock::Timestamp HybridLogicalClock::receive(const Timestamp& received) {
     std::lock_guard<std::mutex> lock(mutex_);
 
@@ -2475,6 +2767,11 @@ VectorClock::VectorClock(VectorClock&& other) noexcept {
 
 VectorClock& VectorClock::operator=(const VectorClock& other) {
     if (this != &other) {
+        /**
+         * @brief Wlock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::shared_mutex> wlock(mutex_);
         std::shared_lock<std::shared_mutex> rlock(other.mutex_);
         clocks_ = other.clocks_;
@@ -2484,6 +2781,11 @@ VectorClock& VectorClock::operator=(const VectorClock& other) {
 
 VectorClock& VectorClock::operator=(VectorClock&& other) noexcept {
     if (this != &other) {
+        /**
+         * @brief Wlock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::shared_mutex> wlock(mutex_);
         std::unique_lock<std::shared_mutex> rlock(other.mutex_);
         clocks_ = std::move(other.clocks_);
@@ -2491,11 +2793,21 @@ VectorClock& VectorClock::operator=(VectorClock&& other) noexcept {
     return *this;
 }
 
+/**
+ * @brief Increment.
+ * @param[in] node_id Identifier of the node.
+ * @details Calls: lock().
+ */
 void VectorClock::increment(const std::string& node_id) {
     std::unique_lock<std::shared_mutex> lock(mutex_);
     clocks_[node_id]++;
 }
 
+/**
+ * @brief Merge.
+ * @param[in] other Input parameter.
+ * @details Calls: lk_lo(), lk_hi().
+ */
 void VectorClock::merge(const VectorClock& other) {
     if (this == &other) {
       return;
@@ -2517,6 +2829,11 @@ void VectorClock::merge(const VectorClock& other) {
 }
 
 uint64_t VectorClock::get(const std::string& node_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(mutex_);
     auto it = clocks_.find(node_id);
     return it != clocks_.end() ? it->second : 0;
@@ -2568,6 +2885,11 @@ bool VectorClock::isConcurrent(const VectorClock& other) const {
 }
 
 std::string VectorClock::toJson() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(mutex_);
     std::ostringstream oss = {};
     oss << "{";
@@ -2583,6 +2905,12 @@ std::string VectorClock::toJson() const {
     return oss.str();
 }
 
+/**
+ * @brief From Json.
+ * @param[in] json Input parameter.
+ * @return Return value.
+ * @details Calls: size(), find(), substr(), std::isdigit(), std::stoull().
+ */
 VectorClock VectorClock::fromJson(const std::string& json) {
     // BATCH A ANNOTATION: Version Clock Deserialization and Consensus
     // This method reconstructs vector clock state from JSON, which is critical for
@@ -2640,15 +2968,12 @@ VectorClock VectorClock::fromJson(const std::string& json) {
     return vc;
 }
 
-// ============================================================================
-// Multi-master ConflictResolver implementations (MMWriteEntry variants)
-// ============================================================================
-// NOTE: All conflict resolution operations implement proper causal ordering through:
-// - Vector clocks for happened-before relationships
-// - Hybrid logical clocks (HLC) for total ordering of concurrent writes
-// - Explicit dependency tracking for write-before constraints
-// - LWW (Last-Write-Wins) semantics based on HLC timestamp
-// These mechanisms ensure strong eventual consistency in multi-master scenarios.
+/**
+ * @brief ============================================================================ Multi-master ConflictResolver implementations (MMWriteEntry variants) ============================================================================ NOTE: All conflict resolution operations implement proper causal ordering through: - Vector clocks for happened-before relationships - Hybrid logical clocks (HLC) for total ordering of concurrent writes - Explicit dependency tracking for write-before constraints - LWW (Last-Write-Wins) semantics based on HLC timestamp These mechanisms ensure strong eventual consistency in multi-master scenarios.
+ * @param[in] param Input parameter.
+ * @param[in] conflicting_writes Input parameter.
+ * @return Return value.
+ */
 
 MMWriteEntry LastWriteWinsResolver::resolve(
     const std::string& /*document_id*/,
@@ -2751,6 +3076,12 @@ CRDTMergeResolver::CRDTMergeResolver(CRDTType type)
     : crdt_type_(type) {
 }
 
+/**
+ * @brief Resolve.
+ * @param[in] document_id Identifier of the document.
+ * @param[in] conflicting_writes Input parameter.
+ * @return Return value.
+ */
 MMWriteEntry CRDTMergeResolver::resolve(
     const std::string& document_id,
     const std::vector<MMWriteEntry>& conflicting_writes)
@@ -2808,14 +3139,12 @@ std::string CRDTMergeResolver::strategyName() const {
     return "UNKNOWN";
 }
 
-// CRDT merge strategies implement distributed consistency semantics:
-// - LWW_REGISTER: Last-write-wins based on HLC timestamps (totally ordered)
-// - MV_REGISTER: Multi-value register preserving all concurrent writes
-// - G_COUNTER/PN_COUNTER: Grow-only/positive-negative counters (monotonic)
-// - G_SET/OR_SET/TWO_P_SET: Set-based CRDTs (add/remove semantics)
-// - LWW_MAP/RGA: Ordered map/sequence CRDTs
-// - FLAG_EW/FLAG_DW: Enabled-wins/disabled-wins flags
-// All implement strong eventual consistency (SEC) guarantees.
+/**
+ * @brief CRDT merge strategies implement distributed consistency semantics: - LWW_REGISTER: Last-write-wins based on HLC timestamps (totally ordered) - MV_REGISTER: Multi-value register preserving all concurrent writes - G_COUNTER/PN_COUNTER: Grow-only/positive-negative counters (monotonic) - G_SET/OR_SET/TWO_P_SET: Set-based CRDTs (add/remove semantics) - LWW_MAP/RGA: Ordered map/sequence CRDTs - FLAG_EW/FLAG_DW: Enabled-wins/disabled-wins flags All implement strong eventual consistency (SEC) guarantees.
+ * @param[in] writes Input parameter.
+ * @return Return value.
+ * @details Implements mergeLWWRegister without additional internal calls.
+ */
 
 std::string CRDTMergeResolver::mergeLWWRegister(const std::vector<MMWriteEntry>& writes) {
     // Last-write-wins: select entry with latest HLC timestamp
@@ -2828,6 +3157,12 @@ std::string CRDTMergeResolver::mergeLWWRegister(const std::vector<MMWriteEntry>&
     return latest->data;
 }
 
+/**
+ * @brief Merge MVRegister.
+ * @param[in] writes Input parameter.
+ * @return Return value.
+ * @details Calls: str().
+ */
 std::string CRDTMergeResolver::mergeMVRegister(const std::vector<MMWriteEntry>& writes) {
     // Multi-value register: return all concurrent values as a JSON array
     std::ostringstream oss = {};
@@ -2902,8 +3237,13 @@ static std::map<std::string, int64_t> extractJsonInts(const std::string& doc) {
     return fields;
 }
 
-// Helper: extract the sub-object string for a named key, e.g. extractSubObject(doc,"P")
-// returns the raw content between the outermost braces of "P": { ... }
+/**
+ * @brief Helper: extract the sub-object string for a named key, e.
+ * @param[in] doc Input parameter.
+ * @param[in] key Input parameter.
+ * @return Return value.
+ * @details g. extractSubObject(doc,"P") returns the raw content between the outermost braces of "P": { ... } Calls: find(), size(), substr().
+ */
 static std::string extractSubObject(const std::string& doc, const std::string& key) {
     std::string search = "\"" + key + "\"";
     auto pos = doc.find(search);
@@ -2924,9 +3264,12 @@ static std::string extractSubObject(const std::string& doc, const std::string& k
     return "";
 }
 
-// Helper: extract quoted string tokens from a JSON array  e.g. ["a","b"] → {"a","b"}
-// BATCH C FIX: Add bounds checking and container stability guards to prevent
-// iterator invalidation and out-of-bounds access during iteration.
+/**
+ * @brief Helper: extract quoted string tokens from a JSON array e.
+ * @param[in] arr Input parameter.
+ * @return Return value.
+ * @details g. ["a","b"] → {"a","b"} BATCH C FIX: Add bounds checking and container stability guards to prevent iterator invalidation and out-of-bounds access during iteration. Calls: empty(), size(), find(), insert(), substr().
+ */
 static std::set<std::string> extractJsonArrayStrings(const std::string& arr) {
     std::set<std::string> result = {};
 
@@ -2961,7 +3304,13 @@ static std::set<std::string> extractJsonArrayStrings(const std::string& arr) {
     return result;
 }
 
-// Helper: find the raw JSON array string for a named key, e.g. extractSubArray(doc,"add")
+/**
+ * @brief Helper: find the raw JSON array string for a named key, e.
+ * @param[in] doc Input parameter.
+ * @param[in] key Input parameter.
+ * @return Return value.
+ * @details g. extractSubArray(doc,"add") Calls: find(), size(), substr().
+ */
 static std::string extractSubArray(const std::string& doc, const std::string& key) {
     std::string search = "\"" + key + "\"";
     auto pos = doc.find(search);
@@ -2986,6 +3335,12 @@ static std::string extractSubArray(const std::string& doc, const std::string& ke
     return "";
 }
 
+/**
+ * @brief Merge GCounter.
+ * @param[in] writes Input parameter.
+ * @return Return value.
+ * @details Calls: extractJsonInts(), std::max(), str().
+ */
 std::string CRDTMergeResolver::mergeGCounter(const std::vector<MMWriteEntry>& writes) {
     // Grow-only counter: for each node-keyed counter take the maximum value
     std::map<std::string, int64_t> merged = {};
@@ -3010,6 +3365,12 @@ std::string CRDTMergeResolver::mergeGCounter(const std::vector<MMWriteEntry>& wr
     return oss.str();
 }
 
+/**
+ * @brief Merge PNCounter.
+ * @param[in] writes Input parameter.
+ * @return Return value.
+ * @details Calls: extractSubObject(), empty(), extractJsonInts(), std::max(), str(), serializeMap().
+ */
 std::string CRDTMergeResolver::mergePNCounter(const std::vector<MMWriteEntry>& writes) {
     // PN-Counter: two separate G-Counters (P = increments, N = decrements) per node.
     // Expected data format: {"P":{"nodeA":5,"nodeB":3},"N":{"nodeA":2,"nodeB":1}}
@@ -3047,6 +3408,12 @@ std::string CRDTMergeResolver::mergePNCounter(const std::vector<MMWriteEntry>& w
     return oss.str();
 }
 
+/**
+ * @brief Merge GSet.
+ * @param[in] writes Input parameter.
+ * @return Return value.
+ * @details Calls: size(), find(), insert(), substr(), str().
+ */
 std::string CRDTMergeResolver::mergeGSet(const std::vector<MMWriteEntry>& writes) {
     // Grow-only set: union of all quoted string tokens across all payloads
     std::set<std::string> seen = {};
@@ -3080,6 +3447,12 @@ std::string CRDTMergeResolver::mergeGSet(const std::vector<MMWriteEntry>& writes
     return oss.str();
 }
 
+/**
+ * @brief Merge ORSet.
+ * @param[in] writes Input parameter.
+ * @return Return value.
+ * @details Calls: extractSubArray(), extractJsonArrayStrings(), insert(), size(), find(), substr(), begin(), emplace_back().
+ */
 std::string CRDTMergeResolver::mergeORSet(const std::vector<MMWriteEntry>& writes) {
     // OR-Set (Observed-Remove Set): each add operation tags an element with a unique id;
     // a remove operation records the tag in the tombstone set.  An element is present iff
@@ -3151,6 +3524,12 @@ std::string CRDTMergeResolver::mergeORSet(const std::vector<MMWriteEntry>& write
     return oss.str();
 }
 
+/**
+ * @brief Merge LWWMap.
+ * @param[in] writes Input parameter.
+ * @return Return value.
+ * @details Calls: extractJsonInts(), find(), end(), std::to_string(), str().
+ */
 std::string CRDTMergeResolver::mergeLWWMap(const std::vector<MMWriteEntry>& writes) {
     // LWW-Map: per-key last-write-wins; use HLC to pick winner per key
     std::map<std::string, std::pair<HybridLogicalClock::Timestamp, std::string>> best;
@@ -3177,6 +3556,12 @@ std::string CRDTMergeResolver::mergeLWWMap(const std::vector<MMWriteEntry>& writ
     return oss.str();
 }
 
+/**
+ * @brief Merge Two PSet.
+ * @param[in] writes Input parameter.
+ * @return Return value.
+ * @details Calls: extractSubArray(), extractJsonArrayStrings(), insert(), count(), str().
+ */
 std::string CRDTMergeResolver::mergeTwoPSet(const std::vector<MMWriteEntry>& writes) {
     // Two-Phase Set (2P-Set): an element may be added and removed; once removed it cannot
     // be re-added (tombstone is permanent).
@@ -3213,6 +3598,12 @@ std::string CRDTMergeResolver::mergeTwoPSet(const std::vector<MMWriteEntry>& wri
     return oss.str();
 }
 
+/**
+ * @brief Merge RGA.
+ * @param[in] writes Input parameter.
+ * @return Return value.
+ * @details Calls: size(), find(), substr(), empty(), end(), std::move(), str().
+ */
 std::string CRDTMergeResolver::mergeRGA(const std::vector<MMWriteEntry>& writes) {
     // Replicated Growable Array (RGA): an ordered sequence where each element carries a
     // unique logical identifier.  Concurrent inserts are ordered deterministically by id;
@@ -3324,6 +3715,12 @@ std::string CRDTMergeResolver::mergeRGA(const std::vector<MMWriteEntry>& writes)
     return oss.str();
 }
 
+/**
+ * @brief Merge Flag EW.
+ * @param[in] writes Input parameter.
+ * @return Return value.
+ * @details Calls: extractSubArray(), extractJsonArrayStrings(), insert(), find(), end(), str().
+ */
 std::string CRDTMergeResolver::mergeFlagEW(const std::vector<MMWriteEntry>& writes) {
     // Enable-Wins Flag: concurrent enable + disable → enabled.
     //
@@ -3352,6 +3749,12 @@ std::string CRDTMergeResolver::mergeFlagEW(const std::vector<MMWriteEntry>& writ
     return oss.str();
 }
 
+/**
+ * @brief Merge Flag DW.
+ * @param[in] writes Input parameter.
+ * @return Return value.
+ * @details Calls: extractSubArray(), extractJsonArrayStrings(), insert(), empty(), str().
+ */
 std::string CRDTMergeResolver::mergeFlagDW(const std::vector<MMWriteEntry>& writes) {
     // Disable-Wins Flag: concurrent enable + disable → disabled.
     //
@@ -3413,6 +3816,12 @@ std::vector<uint8_t> MMWriteEntry::serialize() const {
     return result;
 }
 
+/**
+ * @brief Deserialize.
+ * @param[in] raw Input parameter.
+ * @return Return value.
+ * @details Calls: size(), THEMIS_WARN(), readUint32(), s(), begin(), readString(), VectorClock::fromJson(), readUint64().
+ */
 std::optional<MMWriteEntry> MMWriteEntry::deserialize(const std::vector<uint8_t>& raw) {
     if (raw.size() < 4) {
       return std::nullopt;
@@ -3482,6 +3891,12 @@ CustomResolver::CustomResolver(ResolverFunc resolver)
     : resolver_(std::move(resolver)) {
 }
 
+/**
+ * @brief Resolve.
+ * @param[in] document_id Identifier of the document.
+ * @param[in] conflicting_writes Input parameter.
+ * @return Return value.
+ */
 MMWriteEntry CustomResolver::resolve(
     const std::string& document_id,
     const std::vector<MMWriteEntry>& conflicting_writes)
@@ -3499,9 +3914,12 @@ MMWriteEntry CustomResolver::resolve(
 // MultiMasterReplicationManager Implementation
 // ============================================================================
 
-// WAVE1-FIX [no_timeout:3331]: generateWriteId is O(1) — no blocking I/O or wait.
-// The system_clock::now() call is non-blocking (kernel vDSO); seq.fetch_add is
-// lock-free atomic.  No deadline is required.  Documented here to close the gap.
+/**
+ * @brief WAVE1-FIX [no_timeout:3331]: generateWriteId is O(1) — no blocking I/O or wait.
+ * @param[in] node_id Identifier of the node.
+ * @return Return value.
+ * @details The system_clock::now() call is non-blocking (kernel vDSO); seq.fetch_add is lock-free atomic. No deadline is required. Documented here to close the gap. Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), std::to_string(), fetch_add().
+ */
 static std::string generateWriteId(const std::string& node_id) {
     static std::atomic<uint64_t> seq{0};
     uint64_t ts = static_cast<uint64_t>(
@@ -3533,6 +3951,11 @@ MultiMasterReplicationManager::~MultiMasterReplicationManager() {
 // Lifecycle
 // -------------------------
 
+/**
+ * @brief Start.
+ * @return True when the operation succeeds.
+ * @details Calls: exchange(), std::thread(), THEMIS_INFO().
+ */
 bool MultiMasterReplicationManager::start() {
     if (running_.exchange(true)) {
         return true;  // Already running
@@ -3546,6 +3969,10 @@ bool MultiMasterReplicationManager::start() {
     return true;
 }
 
+/**
+ * @brief Stop.
+ * @details Calls: exchange(), notify_all(), timedJoin(), THEMIS_INFO().
+ */
 void MultiMasterReplicationManager::stop() {
     if (!running_.exchange(false)) {
         return;  // Already stopped
@@ -3568,6 +3995,15 @@ bool MultiMasterReplicationManager::isRunning() const {
 // Write Operations
 // -------------------------
 
+/**
+ * @brief Write.
+ * @param[in] collection Input parameter.
+ * @param[in] document_id Identifier of the document.
+ * @param[in] operation Input parameter.
+ * @param[in] data Input parameter.
+ * @param[in] callback Input parameter.
+ * @return Return value.
+ */
 std::string MultiMasterReplicationManager::write(
     const std::string& collection,
     const std::string& document_id,
@@ -3607,6 +4043,11 @@ std::string MultiMasterReplicationManager::write(
     }
 
     {
+        /**
+         * @brief Lock.
+         * @param[in] writes_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(writes_mutex_);
         pending_writes_.push(entry);
         if (callback) {
@@ -3621,6 +4062,15 @@ std::string MultiMasterReplicationManager::write(
     return entry.write_id;
 }
 
+/**
+ * @brief Write Sync.
+ * @param[in] collection Input parameter.
+ * @param[in] document_id Identifier of the document.
+ * @param[in] operation Input parameter.
+ * @param[in] data Input parameter.
+ * @param[in] timeout Input parameter.
+ * @return True when the operation succeeds.
+ */
 bool MultiMasterReplicationManager::writeSync(
     const std::string& collection,
     const std::string& document_id,
@@ -3645,6 +4095,13 @@ bool MultiMasterReplicationManager::writeSync(
 // Read Operations
 // -------------------------
 
+/**
+ * @brief Read.
+ * @param[in] param Input parameter.
+ * @param[in] param Input parameter.
+ * @param[in] read_quorum Input parameter.
+ * @return Return value.
+ */
 MultiMasterReplicationManager::ReadResult MultiMasterReplicationManager::read(
     const std::string& /*collection*/,
     const std::string& /*document_id*/,
@@ -3667,6 +4124,11 @@ MultiMasterReplicationManager::ReadResult MultiMasterReplicationManager::read(
     // Snapshot the peer list under the shared lock
     std::vector<MMPeerInfo> peers_snapshot;
     {
+        /**
+         * @brief Lk.
+         * @param[in] peers_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::shared_lock<std::shared_mutex> lk(peers_mutex_);
         peers_snapshot.reserve(peers_.size());
         for (const auto& [id, info] : peers_) {
@@ -3722,12 +4184,22 @@ MultiMasterReplicationManager::ReadResult MultiMasterReplicationManager::read(
 // Peer Management
 // -------------------------
 
+/**
+ * @brief Add Peer.
+ * @param[in] peer Input parameter.
+ * @details Calls: lock(), THEMIS_INFO().
+ */
 void MultiMasterReplicationManager::addPeer(const MMPeerInfo& peer) {
     std::unique_lock<std::shared_mutex> lock(peers_mutex_);
     peers_[peer.node_id] = peer;
     THEMIS_INFO("MM peer added: node_id={} endpoint={}", peer.node_id, peer.endpoint);
 }
 
+/**
+ * @brief Remove Peer.
+ * @param[in] node_id Identifier of the node.
+ * @details Calls: lock(), erase(), THEMIS_INFO().
+ */
 void MultiMasterReplicationManager::removePeer(const std::string& node_id) {
     std::unique_lock<std::shared_mutex> lock(peers_mutex_);
     peers_.erase(node_id);
@@ -3735,6 +4207,11 @@ void MultiMasterReplicationManager::removePeer(const std::string& node_id) {
 }
 
 std::vector<MMPeerInfo> MultiMasterReplicationManager::getPeers() const {
+    /**
+     * @brief Lock.
+     * @param[in] peers_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(peers_mutex_);
     std::vector<MMPeerInfo> result = {};
 
@@ -3761,20 +4238,40 @@ MMPeerInfo MultiMasterReplicationManager::getLocalInfo() const {
 // Conflict Management
 // -------------------------
 
+/**
+ * @brief Register Conflict Callback.
+ * @param[in] callback Input parameter.
+ * @details Calls: lock(), push_back(), std::move().
+ */
 void MultiMasterReplicationManager::registerConflictCallback(ConflictCallback callback) {
     std::lock_guard<std::mutex> lock(conflicts_mutex_);
     conflict_callbacks_.push_back(std::move(callback));
 }
 
+/**
+ * @brief Set Conflict Resolver.
+ * @param[in] collection Input parameter.
+ * @param[in] resolver Input parameter.
+ */
 void MultiMasterReplicationManager::setConflictResolver(
     const std::string& collection,
     std::shared_ptr<ConflictResolver> resolver)
 {
+    /**
+     * @brief Lock.
+     * @param[in] conflicts_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(conflicts_mutex_);
     resolvers_[collection] = std::move(resolver);
 }
 
 std::vector<ConflictRecord> MultiMasterReplicationManager::getUnresolvedConflicts() const {
+    /**
+     * @brief Lock.
+     * @param[in] conflicts_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(conflicts_mutex_);
     std::vector<ConflictRecord> result = {};
 
@@ -3786,10 +4283,21 @@ std::vector<ConflictRecord> MultiMasterReplicationManager::getUnresolvedConflict
     return result;
 }
 
+/**
+ * @brief Resolve Conflict.
+ * @param[in] conflict_id Identifier of the conflict.
+ * @param[in] winning_write_id Identifier of the winning write.
+ * @return True when the operation succeeds.
+ */
 bool MultiMasterReplicationManager::resolveConflict(
     const std::string& conflict_id,
     const std::string& winning_write_id)
 {
+    /**
+     * @brief Lock.
+     * @param[in] conflicts_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(conflicts_mutex_);
     for (auto& rec : conflicts_) {
         if (rec.conflict_id == conflict_id && !rec.resolved) {
@@ -3806,12 +4314,21 @@ bool MultiMasterReplicationManager::resolveConflict(
 // Synchronization
 // -------------------------
 
+/**
+ * @brief Trigger Sync.
+ * @details Calls: notify_all().
+ */
 void MultiMasterReplicationManager::triggerSync() {
     // Wake up the sync loop immediately
     writes_cv_.notify_all();
 }
 
 uint64_t MultiMasterReplicationManager::getReplicationLag() const {
+    /**
+     * @brief Lock.
+     * @param[in] peers_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(peers_mutex_);
     uint64_t max_lag = 0;
     for (const auto& [id, peer] : peers_) {
@@ -3835,6 +4352,11 @@ MultiMasterReplicationManager::Stats MultiMasterReplicationManager::getStats() c
     s.bytes_received        = stats_bytes_received_.load();
 
     {
+        /**
+         * @brief Lock.
+         * @param[in] writes_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(writes_mutex_);
         s.writes_pending = pending_writes_.size();
     }
@@ -3872,6 +4394,11 @@ MultiMasterReplicationManager::TopologySnapshot MultiMasterReplicationManager::g
     snapshot.nodes.push_back(std::move(local));
 
     {
+        /**
+         * @brief Lock.
+         * @param[in] peers_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::shared_lock<std::shared_mutex> lock(peers_mutex_);
         snapshot.nodes.reserve(snapshot.nodes.size() + peers_.size() );
         snapshot.edges.reserve(peers_.size() * 2);
@@ -3937,6 +4464,10 @@ std::string MultiMasterReplicationManager::exportPrometheusMetrics() const {
 // Background Loops
 // -------------------------
 
+/**
+ * @brief Replication Loop.
+ * @details Calls: load(), lock(), wait_for(), std::chrono::milliseconds(), empty(), std::move(), front(), pop().
+ */
 void MultiMasterReplicationManager::replicationLoop() {
     while (running_.load()) {
         // Drain a batch of pending writes under the lock, then release the
@@ -3987,6 +4518,10 @@ void MultiMasterReplicationManager::replicationLoop() {
     }
 }
 
+/**
+ * @brief Heartbeat Loop.
+ * @details Calls: load(), std::this_thread::sleep_for(), std::chrono::milliseconds(), now(), lock().
+ */
 void MultiMasterReplicationManager::heartbeatLoop() {
     while (running_.load()) {
         std::this_thread::sleep_for(std::chrono::milliseconds(config_.heartbeat_interval_ms));
@@ -4005,6 +4540,10 @@ void MultiMasterReplicationManager::heartbeatLoop() {
     }
 }
 
+/**
+ * @brief Sync Loop.
+ * @details Calls: load(), std::this_thread::sleep_for(), std::chrono::milliseconds(), lock(), push_back(), antiEntropySync(), fetch_add().
+ */
 void MultiMasterReplicationManager::syncLoop() {
     while (running_.load()) {
         std::this_thread::sleep_for(std::chrono::milliseconds(config_.sync_interval_ms));
@@ -4035,10 +4574,12 @@ void MultiMasterReplicationManager::syncLoop() {
 // Internal: Replication
 // -------------------------
 
-// Multi-master consensus: write is committed only after quorum acknowledges
-// This implements quorum-based distributed consensus for concurrent writes.
-// The quorum size is configurable (typically ceil((n_nodes+1)/2) for majority quorum).
-// All writes carry vector clocks and HLC timestamps to maintain causal ordering.
+/**
+ * @brief Multi-master consensus: write is committed only after quorum acknowledges This implements quorum-based distributed consensus for concurrent writes.
+ * @param[in] entry Input parameter.
+ * @return True when the operation succeeds.
+ * @details The quorum size is configurable (typically ceil((n_nodes+1)/2) for majority quorum). All writes carry vector clocks and HLC timestamps to maintain causal ordering. Calls: lock(), empty(), THEMIS_ERROR(), THEMIS_WARN(), sendToPeer().
+ */
 bool MultiMasterReplicationManager::replicateWrite(const MMWriteEntry& entry) {
     std::shared_lock<std::shared_mutex> lock(peers_mutex_);
 
@@ -4088,6 +4629,12 @@ bool MultiMasterReplicationManager::replicateWrite(const MMWriteEntry& entry) {
     return acked >= quorum;
 }
 
+/**
+ * @brief Send To Peer.
+ * @param[in] node_id Identifier of the node.
+ * @param[in] entry Input parameter.
+ * @return True when the operation succeeds.
+ */
 bool MultiMasterReplicationManager::sendToPeer(
     const std::string& node_id,
     const MMWriteEntry& entry)
@@ -4095,6 +4642,11 @@ bool MultiMasterReplicationManager::sendToPeer(
     // In a full implementation this would serialize the entry and send it
     // over a mTLS connection to the peer node.  For now we simulate success
     // for ACTIVE peers and record bytes_sent.
+    /**
+     * @brief Lock.
+     * @param[in] peers_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(peers_mutex_);
     auto it = peers_.find(node_id);
     if (it == peers_.end()) {
@@ -4111,6 +4663,11 @@ bool MultiMasterReplicationManager::sendToPeer(
     return true;
 }
 
+/**
+ * @brief Receive From Peer.
+ * @param[in] node_id Identifier of the node.
+ * @param[in] incoming Input parameter.
+ */
 void MultiMasterReplicationManager::receiveFromPeer(
     const std::string& node_id,
     const MMWriteEntry& incoming)
@@ -4127,6 +4684,11 @@ void MultiMasterReplicationManager::receiveFromPeer(
     // (In production this would consult a local document store.)
     bool has_conflict = false;
     {
+        /**
+         * @brief Lock.
+         * @param[in] conflicts_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(conflicts_mutex_);
         for (const auto& rec : conflicts_) {
             if (!rec.resolved &&
@@ -4141,7 +4703,11 @@ void MultiMasterReplicationManager::receiveFromPeer(
     if (has_conflict) {
         THEMIS_WARN("MM conflict detected for doc={}/{} from peer={}",
                     incoming.collection, incoming.document_id, node_id);
-        // For each unresolved conflict on this document, add the incoming entry
+        /**
+         * @brief For each unresolved conflict on this document, add the incoming entry
+         * @param[in] conflicts_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(conflicts_mutex_);
         for (auto& rec : conflicts_) {
             if (!rec.resolved &&
@@ -4155,9 +4721,12 @@ void MultiMasterReplicationManager::receiveFromPeer(
     }
 }
 
-// -------------------------
-// Internal: Conflict Detection & Resolution
-// -------------------------
+/**
+ * @brief ------------------------- Internal: Conflict Detection & Resolution -------------------------
+ * @param[in] incoming Input parameter.
+ * @param[in] existing Input parameter.
+ * @return True when the operation succeeds.
+ */
 
 bool MultiMasterReplicationManager::detectConflict(
     const MMWriteEntry& incoming,
@@ -4168,6 +4737,11 @@ bool MultiMasterReplicationManager::detectConflict(
     return incoming.vector_clock.isConcurrent(existing.vector_clock);
 }
 
+/**
+ * @brief Handle Conflict.
+ * @param[in] document_id Identifier of the document.
+ * @param[in] conflicting_writes Input parameter.
+ */
 void MultiMasterReplicationManager::handleConflict(
     const std::string& document_id,
     const std::vector<MMWriteEntry>& conflicting_writes)
@@ -4181,6 +4755,11 @@ void MultiMasterReplicationManager::handleConflict(
     // Find the appropriate resolver (collection-specific or default)
     std::shared_ptr<ConflictResolver> resolver;
     {
+        /**
+         * @brief Lock.
+         * @param[in] conflicts_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(conflicts_mutex_);
         auto it = resolvers_.find(collection);
         resolver = (it != resolvers_.end()) ? it->second : default_resolver_;
@@ -4201,6 +4780,11 @@ void MultiMasterReplicationManager::handleConflict(
     record.winning_write_id   = winner.write_id;
 
     {
+        /**
+         * @brief Lock.
+         * @param[in] conflicts_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(conflicts_mutex_);
         conflicts_.push_back(record);
 
@@ -4214,9 +4798,11 @@ void MultiMasterReplicationManager::handleConflict(
     stats_conflicts_resolved_.fetch_add(1);
 }
 
-// -------------------------
-// Internal: Anti-Entropy
-// -------------------------
+/**
+ * @brief ------------------------- Internal: Anti-Entropy -------------------------
+ * @param[in] peer_id Identifier of the peer.
+ * @details Calls: lock(), find(), end(), getMissingWrites(), sendToPeer().
+ */
 
 void MultiMasterReplicationManager::antiEntropySync(const std::string& peer_id) {
     // Retrieve the peer's known vector clock
@@ -4254,14 +4840,20 @@ void MultiMasterReplicationManager::antiEntropySync(const std::string& peer_id) 
     } // iterator 'it' goes out of scope here, before the lock releases
 }
 
+/**
+ * @brief Get Missing Writes.
+ * @param[in] peer_clock Input parameter.
+ * @return Return value.
+ */
 std::vector<MMWriteEntry> MultiMasterReplicationManager::getMissingWrites(
     const VectorClock& peer_clock)
 {
-    // Return all committed entries whose vector clock is NOT already dominated
-    // by the peer's clock.  An entry's vector clock `VC_e` is dominated by
-    // `peer_clock` if `VC_e.happensBefore(peer_clock)` is true — meaning the
-    // peer has already seen this entry.  Any entry where that is false is
-    // potentially missing from the peer and must be resent.
+    /**
+     * @brief Return all committed entries whose vector clock is NOT already dominated by the peer's clock.
+     * @param[in] committed_log_mutex_ Input parameter.
+     * @return Return value.
+     * @details An entry's vector clock `VC_e` is dominated by `peer_clock` if `VC_e.happensBefore(peer_clock)` is true — meaning the peer has already seen this entry. Any entry where that is false is potentially missing from the peer and must be resent.
+     */
     std::lock_guard<std::mutex> log_lock(committed_log_mutex_);
 
     std::vector<MMWriteEntry> missing = {};
@@ -4298,6 +4890,11 @@ ParallelReplicationWorker::~ParallelReplicationWorker() {
     }
 }
 
+/**
+ * @brief Submit.
+ * @param[in] entry Input parameter.
+ * @details Calls: std::chrono::steady_clock::now(), dep_lock(), find(), end(), push_back(), fetch_add(), q_lock(), size().
+ */
 void ParallelReplicationWorker::submit(const WALEntry& entry) {
     auto done_flag = std::make_shared<std::atomic<bool>>(false);
 
@@ -4335,6 +4932,10 @@ void ParallelReplicationWorker::submit(const WALEntry& entry) {
     queue_cv_.notify_one();
 }
 
+/**
+ * @brief Sync.
+ * @details Calls: lock(), empty(), load(), std::this_thread::sleep_for(), std::chrono::milliseconds().
+ */
 void ParallelReplicationWorker::sync() {
     // Wait until the queue is drained AND all workers have finished processing
     while (true) {
@@ -4364,6 +4965,10 @@ ParallelReplicationWorker::Stats ParallelReplicationWorker::getStats() const {
     return s;
 }
 
+/**
+ * @brief Worker Loop.
+ * @details Calls: load(), lock(), wait_for(), std::chrono::milliseconds(), empty(), push_back(), std::move(), front().
+ */
 void ParallelReplicationWorker::workerLoop() {
     while (running_.load()) {
         // Collect a batch of work items (or a single item when group_transactions
@@ -4442,6 +5047,14 @@ QuorumReadManager::QuorumReadManager(
 {
 }
 
+/**
+ * @brief Read.
+ * @param[in] collection Input parameter.
+ * @param[in] document_id Identifier of the document.
+ * @param[in] quorum Input parameter.
+ * @param[in] session_token Input parameter.
+ * @return Return value.
+ */
 QuorumReadManager::QuorumReadResult QuorumReadManager::read(
     const std::string& collection,
     const std::string& document_id,
@@ -4455,6 +5068,11 @@ QuorumReadManager::QuorumReadResult QuorumReadManager::read(
 
     std::vector<ReplicaInfo> snapshot;
     {
+        /**
+         * @brief Lock.
+         * @param[in] replicas_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::shared_lock<std::shared_mutex> lock(replicas_mutex_);
         snapshot = replicas_;
     }
@@ -4472,6 +5090,11 @@ QuorumReadManager::QuorumReadResult QuorumReadManager::read(
 
         LocalDocumentFetchFn local_fn;
         {
+            /**
+             * @brief Lock.
+             * @param[in] replicas_mutex_ Input parameter.
+             * @return Return value.
+             */
             std::shared_lock<std::shared_mutex> lock(replicas_mutex_);
             local_fn = local_doc_fetch_fn_;
         }
@@ -4677,16 +5300,31 @@ uint64_t QuorumReadManager::parseSessionToken(const std::string& token) const {
     }
 }
 
+/**
+ * @brief Set Replicas.
+ * @param[in] replicas Input parameter.
+ * @details Calls: lock().
+ */
 void QuorumReadManager::setReplicas(const std::vector<ReplicaInfo>& replicas) {
     std::unique_lock<std::shared_mutex> lock(replicas_mutex_);
     replicas_ = replicas;
 }
 
+/**
+ * @brief Set Document Fetch Callback.
+ * @param[in] fn Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void QuorumReadManager::setDocumentFetchCallback(DocumentFetchFn fn) {
     std::unique_lock<std::shared_mutex> lock(replicas_mutex_);
     doc_fetch_fn_ = std::move(fn);
 }
 
+/**
+ * @brief Set Local Document Fetch Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void QuorumReadManager::setLocalDocumentFetchFn(LocalDocumentFetchFn fn) {
     std::unique_lock<std::shared_mutex> lock(replicas_mutex_);
     local_doc_fetch_fn_ = std::move(fn);
@@ -4730,6 +5368,12 @@ PersistentReplicationState::PersistentReplicationState(
 {
 }
 
+/**
+ * @brief Persist.
+ * @param[in] state Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), ofs(), is_open(), THEMIS_ERROR(), time_since_epoch(), count(), flush(), good().
+ */
 bool PersistentReplicationState::persist(const State& state) {
     std::lock_guard<std::mutex> lock(file_mutex_);
     try {
@@ -4762,12 +5406,22 @@ bool PersistentReplicationState::persist(const State& state) {
 }
 
 PersistentReplicationState::State PersistentReplicationState::load() const {
+    /**
+     * @brief Lock.
+     * @param[in] file_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(file_mutex_);
     State state = {};
     if (!std::filesystem::exists(path_)) {
         return state;  // First-run: return default
     }
     try {
+        /**
+         * @brief Ifs.
+         * @param[in] path_ Input parameter.
+         * @return Return value.
+         */
         std::ifstream ifs(path_);
         if (!ifs.is_open()) {
           return state;
@@ -4812,6 +5466,10 @@ bool PersistentReplicationState::exists() const {
     return std::filesystem::exists(path_);
 }
 
+/**
+ * @brief Remove.
+ * @details Calls: lock().
+ */
 void PersistentReplicationState::remove() {
     std::lock_guard<std::mutex> lock(file_mutex_);
     std::filesystem::remove(path_);
@@ -4833,6 +5491,12 @@ CompressedReplicationStream::CompressedReplicationStream(const std::string& endp
     : CompressedReplicationStream(endpoint, CompressionConfig{})
 {
 }
+/**
+ * @brief Algorithm Name.
+ * @param[in] algo Input parameter.
+ * @return Return value.
+ * @details Implements algorithmName without additional internal calls.
+ */
 std::string CompressedReplicationStream::algorithmName(CompressionAlgorithm algo) {
     switch (algo) {
         case CompressionAlgorithm::NONE:   return "NONE";
@@ -4913,6 +5577,11 @@ std::vector<uint8_t> CompressedReplicationStream::compress(
 
         case CompressionAlgorithm::ZSTD: {
             size_t bound = ZSTD_compressBound(data.size());
+            /**
+             * @brief Out.
+             * @param[in] bound Input parameter.
+             * @return Return value.
+             */
             std::vector<uint8_t> out(bound);
             size_t compressed = ZSTD_compress(
                 out.data(), bound,
@@ -4985,6 +5654,11 @@ std::vector<uint8_t> CompressedReplicationStream::decompress(
                 THEMIS_ERROR("ZSTD: cannot determine decompressed size");
                 return {};  // Production behavior: return empty on size error
             }
+            /**
+             * @brief Out.
+             * @param[in] dsize Input parameter.
+             * @return Return value.
+             */
             std::vector<uint8_t> out(dsize);
             size_t result = ZSTD_decompress(
                 out.data(), dsize,
@@ -5014,6 +5688,12 @@ std::vector<uint8_t> CompressedReplicationStream::decompress(
     }
 }
 
+/**
+ * @brief Send Batch.
+ * @param[in] entries Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), serializeEntries(), size(), selectAlgorithm(), compress(), lock(), algorithmName().
+ */
 bool CompressedReplicationStream::sendBatch(const std::vector<WALEntry>& entries) {
     if (entries.empty()) {
       return true;
@@ -5044,10 +5724,19 @@ bool CompressedReplicationStream::sendBatch(const std::vector<WALEntry>& entries
 }
 
 CompressedReplicationStream::CompressionStats CompressedReplicationStream::getStats() const {
+    /**
+     * @brief Lock.
+     * @param[in] stats_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(stats_mutex_);
     return stats_;
 }
 
+/**
+ * @brief Reset Stats.
+ * @details Calls: lock().
+ */
 void CompressedReplicationStream::resetStats() {
     std::lock_guard<std::mutex> lock(stats_mutex_);
     stats_ = CompressionStats{};
@@ -5075,6 +5764,11 @@ BatchedAckTracker::~BatchedAckTracker() {
     timedJoin(flush_thread_);
 }
 
+/**
+ * @brief Record Applied.
+ * @param[in] sequence_number Input parameter.
+ * @details Calls: lock(), push_back(), load(), store(), size(), flushPending(), notify_one().
+ */
 void BatchedAckTracker::recordApplied(uint64_t sequence_number) {
     {
         std::lock_guard<std::mutex> lock(pending_mutex_);
@@ -5089,6 +5783,11 @@ void BatchedAckTracker::recordApplied(uint64_t sequence_number) {
     flush_cv_.notify_one();
 }
 
+/**
+ * @brief Dequeue Pending Acks.
+ * @return Return value.
+ * @details Calls: lock(), empty(), std::move(), front(), pop().
+ */
 std::optional<BatchedAckTracker::AckBatch> BatchedAckTracker::dequeuePendingAcks() {
     std::lock_guard<std::mutex> lock(ready_mutex_);
     if (ready_batches_.empty()) {
@@ -5099,11 +5798,19 @@ std::optional<BatchedAckTracker::AckBatch> BatchedAckTracker::dequeuePendingAcks
     return batch;
 }
 
+/**
+ * @brief Force Flush.
+ * @details Calls: lock(), flushPending().
+ */
 void BatchedAckTracker::forceFlush() {
     std::lock_guard<std::mutex> lock(pending_mutex_);
     flushPending();
 }
 
+/**
+ * @brief Flush Pending.
+ * @details Calls: empty(), std::move(), std::chrono::system_clock::now(), fetch_add(), size(), rlock(), push().
+ */
 void BatchedAckTracker::flushPending() {
     // Called with pending_mutex_ held
     if (pending_.empty()) {
@@ -5134,6 +5841,10 @@ BatchedAckTracker::Stats BatchedAckTracker::getStats() const {
     return s;
 }
 
+/**
+ * @brief Flush Loop.
+ * @details Calls: load(), lock(), wait_for(), std::chrono::milliseconds(), empty(), flushPending().
+ */
 void BatchedAckTracker::flushLoop() {
     while (running_.load()) {
         {
@@ -5157,10 +5868,21 @@ void BatchedAckTracker::flushLoop() {
 
 ReplicationAnalytics::ReplicationAnalytics() = default;
 
+/**
+ * @brief Set Config.
+ * @param[in] config Input parameter.
+ * @details Implements setConfig without additional internal calls.
+ */
 void ReplicationAnalytics::setConfig(const AnalyticsConfig& config) {
     config_ = config;
 }
 
+/**
+ * @brief Record Lag.
+ * @param[in] replica_id Identifier of the replica.
+ * @param[in] lag_ms Input parameter.
+ * @details Calls: lock(), push_back(), std::chrono::system_clock::now(), size(), pop_front().
+ */
 void ReplicationAnalytics::recordLag(const std::string& replica_id, int64_t lag_ms) {
     std::unique_lock<std::shared_mutex> lock(data_mutex_);
     auto& history = lag_history_[replica_id];
@@ -5171,6 +5893,13 @@ void ReplicationAnalytics::recordLag(const std::string& replica_id, int64_t lag_
     }
 }
 
+/**
+ * @brief Percentile.
+ * @param[in] sorted Input parameter.
+ * @param[in] p Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), size(), std::min().
+ */
 int64_t ReplicationAnalytics::percentile(const std::vector<int64_t>& sorted, double p) {
     if (sorted.empty()) {
       return 0;
@@ -5184,6 +5913,11 @@ ReplicationAnalytics::LagHistory ReplicationAnalytics::getLagHistory(
     const std::string& replica_id,
     std::chrono::hours duration) const
 {
+    /**
+     * @brief Lock.
+     * @param[in] data_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(data_mutex_);
     LagHistory result;
 
@@ -5216,6 +5950,11 @@ ReplicationAnalytics::LagHistory ReplicationAnalytics::getLagHistory(
 }
 
 std::vector<ReplicationAnalytics::Insight> ReplicationAnalytics::getInsights() const {
+    /**
+     * @brief Lock.
+     * @param[in] data_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(data_mutex_);
     std::vector<Insight> insights;
     auto now = std::chrono::system_clock::now();
@@ -5266,6 +6005,11 @@ std::vector<ReplicationAnalytics::Insight> ReplicationAnalytics::getInsights() c
 }
 
 std::vector<ReplicationAnalytics::Bottleneck> ReplicationAnalytics::detectBottlenecks() const {
+    /**
+     * @brief Lock.
+     * @param[in] data_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(data_mutex_);
     std::vector<Bottleneck> bottlenecks;
 
@@ -5327,6 +6071,11 @@ std::vector<ReplicationAnalytics::Bottleneck> ReplicationAnalytics::detectBottle
 }
 
 std::string ReplicationAnalytics::exportPrometheusMetrics() const {
+    /**
+     * @brief Lock.
+     * @param[in] data_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(data_mutex_);
     std::ostringstream oss = {};
     oss << "# HELP themisdb_replication_lag_ms Current replication lag\n"
@@ -5354,6 +6103,11 @@ LagBasedReadRouter::LagBasedReadRouter(const RouterConfig& config)
 {
 }
 
+/**
+ * @brief Set Config.
+ * @param[in] config Input parameter.
+ * @details Implements setConfig without additional internal calls.
+ */
 void LagBasedReadRouter::setConfig(const RouterConfig& config) {
     config_ = config;
 }
@@ -5477,6 +6231,11 @@ LagBasedReadRouter::RoutingDecision ReplicationManager::selectReadReplica(
             true
         });
 
+    /**
+     * @brief Lock.
+     * @param[in] replicas_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(replicas_mutex_);
     return router.selectReplica(pref, replicas_, node_id_);
 }
@@ -5498,6 +6257,11 @@ ReplicationBenchmark::ReplicationBenchmark(
 {
 }
 
+/**
+ * @brief Run.
+ * @return Return value.
+ * @details Calls: payload(), std::to_string(), append(), reserve(), std::chrono::high_resolution_clock::now(), push_back(), count(), std::sort().
+ */
 ReplicationBenchmark::BenchmarkResult ReplicationBenchmark::run() {
     // Build a dummy payload of the requested size
     std::string payload(config_.entry_size_bytes, 'x');
@@ -5564,6 +6328,12 @@ ReplicationBenchmark::BenchmarkResult ReplicationBenchmark::run() {
     return r;
 }
 
+/**
+ * @brief Format.
+ * @param[in] r Input parameter.
+ * @return Return value.
+ * @details Calls: str().
+ */
 std::string ReplicationBenchmark::format(const BenchmarkResult& r) {
     std::ostringstream oss = {};
     oss << "=== ReplicationBenchmark Results ===\n"
@@ -5578,9 +6348,13 @@ std::string ReplicationBenchmark::format(const BenchmarkResult& r) {
     return oss.str();
 }
 
-// ============================================================================
-// CDCManager Implementation (v1.6.0)
-// ============================================================================
+/**
+ * @brief ============================================================================ CDCManager Implementation (v1.
+ * @param[in] collection Input parameter.
+ * @param[in] callback Input parameter.
+ * @return Return value.
+ * @details 6.0) ============================================================================ Calls: fetch_add(), lock(), push_back(), std::move().
+ */
 
 uint64_t CDCManager::subscribe(const std::string& collection, CDCCallback callback) {
     uint64_t id = next_id_.fetch_add(1);
@@ -5589,6 +6363,11 @@ uint64_t CDCManager::subscribe(const std::string& collection, CDCCallback callba
     return id;
 }
 
+/**
+ * @brief Unsubscribe.
+ * @param[in] subscription_id Identifier of the subscription.
+ * @details Calls: lock(), erase(), std::remove_if(), begin(), end().
+ */
 void CDCManager::unsubscribe(uint64_t subscription_id) {
     std::unique_lock<std::shared_mutex> lock(subs_mutex_);
     subscriptions_.erase(
@@ -5600,10 +6379,20 @@ void CDCManager::unsubscribe(uint64_t subscription_id) {
 }
 
 size_t CDCManager::subscriptionCount() const {
+    /**
+     * @brief Lock.
+     * @param[in] subs_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(subs_mutex_);
     return subscriptions_.size();
 }
 
+/**
+ * @brief On WALEntry Applied.
+ * @param[in] entry Input parameter.
+ * @details Calls: lock(), empty(), callback(), THEMIS_ERROR(), what().
+ */
 void CDCManager::onWALEntryApplied(const WALEntry& entry) {
     std::shared_lock<std::shared_mutex> lock(subs_mutex_);
     for (const auto& sub : subscriptions_) {
@@ -5659,16 +6448,32 @@ CrossClusterPublication::CrossClusterPublication(const std::string& name)
 
 const std::string& CrossClusterPublication::name() const { return name_; }
 
+/**
+ * @brief Set Filter.
+ * @param[in] filter Input parameter.
+ * @details Calls: lock().
+ */
 void CrossClusterPublication::setFilter(const PublicationFilter& filter) {
     std::unique_lock<std::shared_mutex> lock(filter_mutex_);
     filter_ = filter;
 }
 
 PublicationFilter CrossClusterPublication::getFilter() const {
+    /**
+     * @brief Lock.
+     * @param[in] filter_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(filter_mutex_);
     return filter_;
 }
 
+/**
+ * @brief Add Remote Subscriber.
+ * @param[in] callback Input parameter.
+ * @return Return value.
+ * @details Calls: fetch_add(), lock(), push_back(), std::move().
+ */
 uint64_t CrossClusterPublication::addRemoteSubscriber(RemoteSubscriberCallback callback) {
     uint64_t id = next_id_.fetch_add(1);
     std::unique_lock<std::shared_mutex> lock(subs_mutex_);
@@ -5676,6 +6481,11 @@ uint64_t CrossClusterPublication::addRemoteSubscriber(RemoteSubscriberCallback c
     return id;
 }
 
+/**
+ * @brief Remove Remote Subscriber.
+ * @param[in] subscriber_id Identifier of the subscriber.
+ * @details Calls: lock(), erase(), std::remove_if(), begin(), end().
+ */
 void CrossClusterPublication::removeRemoteSubscriber(uint64_t subscriber_id) {
     std::unique_lock<std::shared_mutex> lock(subs_mutex_);
     subscribers_.erase(
@@ -5687,6 +6497,11 @@ void CrossClusterPublication::removeRemoteSubscriber(uint64_t subscriber_id) {
 }
 
 size_t CrossClusterPublication::subscriberCount() const {
+    /**
+     * @brief Lock.
+     * @param[in] subs_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(subs_mutex_);
     return subscribers_.size();
 }
@@ -5695,6 +6510,11 @@ uint64_t CrossClusterPublication::publishedCount() const {
     return published_count_.load();
 }
 
+/**
+ * @brief Publish.
+ * @param[in] entry Input parameter.
+ * @details Calls: lock(), matches(), fetch_add(), callback(), THEMIS_ERROR(), what().
+ */
 void CrossClusterPublication::publish(const WALEntry& entry) {
     {
         std::shared_lock<std::shared_mutex> lock(filter_mutex_);
@@ -5717,6 +6537,11 @@ void CrossClusterPublication::publish(const WALEntry& entry) {
     }
 }
 
+/**
+ * @brief On WALEntry Applied.
+ * @param[in] entry Input parameter.
+ * @details Calls: publish().
+ */
 void CrossClusterPublication::onWALEntryApplied(const WALEntry& entry) {
     publish(entry);
 }
@@ -5749,6 +6574,10 @@ CrossClusterSubscription::~CrossClusterSubscription() {
 
 const std::string& CrossClusterSubscription::name() const { return name_; }
 
+/**
+ * @brief Enable.
+ * @details Calls: lock(), load(), addRemoteSubscriber(), on_apply_(), fetch_add(), compare_exchange_weak(), THEMIS_WARN(), store().
+ */
 void CrossClusterSubscription::enable() {
     std::lock_guard<std::mutex> lock(enable_mutex_);
     if (enabled_.load()) return;  // idempotent
@@ -5770,6 +6599,10 @@ void CrossClusterSubscription::enable() {
     enabled_.store(true);
 }
 
+/**
+ * @brief Disable.
+ * @details Calls: lock(), load(), removeRemoteSubscriber(), store().
+ */
 void CrossClusterSubscription::disable() {
     std::lock_guard<std::mutex> lock(enable_mutex_);
     if (!enabled_.load()) return;  // idempotent
@@ -5958,6 +6791,11 @@ std::string WALArchivalManager::archivePath(uint64_t segment_id) const {
 /* static */ std::vector<uint8_t> WALArchivalManager::compressData(
     const std::vector<uint8_t>& data) {
     size_t bound = ZSTD_compressBound(data.size());
+    /**
+     * @brief Out.
+     * @param[in] bound Input parameter.
+     * @return Return value.
+     */
     std::vector<uint8_t> out(bound);
     size_t compressed = ZSTD_compress(
         out.data(), bound, data.data(),data.size(), /*level=*/3);
@@ -5972,6 +6810,11 @@ void WALArchivalManager::saveIndex() const {
     // Index format (one line per segment, fields separated by spaces):
     //   segment_id start_sequence end_sequence size_bytes compressed ts archive_path storage_tier encrypted
     std::string index_path = config_.archive_directory + "/index.txt";
+    /**
+     * @brief F.
+     * @param[in] index_path Path to the index.
+     * @return Return value.
+     */
     std::ofstream f(index_path);
     if (!f) {
       return;
@@ -5991,6 +6834,10 @@ void WALArchivalManager::saveIndex() const {
     }
 }
 
+/**
+ * @brief Load Index.
+ * @details Calls: f(), std::getline(), empty(), iss(), THEMIS_WARN(), std::chrono::system_clock::time_point(), std::chrono::seconds(), push_back().
+ */
 void WALArchivalManager::loadIndex() {
     std::string index_path = config_.archive_directory + "/index.txt";
     std::ifstream f(index_path);
@@ -6031,6 +6878,12 @@ void WALArchivalManager::loadIndex() {
     }
 }
 
+/**
+ * @brief Archive Segments.
+ * @param[in] segment_paths Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), src(), THEMIS_WARN(), raw(), rfind(), substr(), empty(), std::all_of().
+ */
 uint32_t WALArchivalManager::archiveSegments(
     const std::vector<std::string>& segment_paths) {
     uint32_t archived = 0;
@@ -6151,6 +7004,11 @@ uint32_t WALArchivalManager::archiveSegments(
 
 std::optional<std::vector<uint8_t>> WALArchivalManager::retrieveSegment(
     uint64_t segment_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] archive_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(archive_mutex_);
 
     auto it = std::find_if(index_.begin(), index_.end(),
@@ -6222,6 +7080,11 @@ std::optional<std::vector<uint8_t>> WALArchivalManager::retrieveSegment(
                      segment_id);
         return std::nullopt;
     }
+    /**
+     * @brief Out.
+     * @param[in] decompressed_size Input parameter.
+     * @return Return value.
+     */
     std::vector<uint8_t> out(decompressed_size);
     size_t result = ZSTD_decompress(
         out.data(),out.size(), raw.data(),raw.size());
@@ -6235,6 +7098,11 @@ std::optional<std::vector<uint8_t>> WALArchivalManager::retrieveSegment(
 
 std::vector<WALArchivalManager::ArchivedSegment>
 WALArchivalManager::listArchived() const {
+    /**
+     * @brief Lock.
+     * @param[in] archive_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(archive_mutex_);
     auto copy = index_;
     std::sort(copy.begin(), copy.end(),
@@ -6244,6 +7112,11 @@ WALArchivalManager::listArchived() const {
     return copy;
 }
 
+/**
+ * @brief Purge Expired.
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::time_point::max(), std::chrono::system_clock::now(), std::chrono::hours(), lock(), begin(), end(), deleteObject(), std::filesystem::remove().
+ */
 uint32_t WALArchivalManager::purgeExpired() {
     // delete_after_days == 0 means purge everything immediately (no retention)
     auto cutoff = (config_.delete_after_days == 0)
@@ -6276,6 +7149,11 @@ uint32_t WALArchivalManager::purgeExpired() {
     return purged;
 }
 
+/**
+ * @brief Transition Storage Tiers.
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::now(), std::chrono::hours(), lock(), THEMIS_INFO(), setStorageTier(), saveIndex().
+ */
 uint32_t WALArchivalManager::transitionStorageTiers() {
     if (config_.transition_to_cold_after_days == 0) return 0;  // lifecycle disabled
 
@@ -6314,6 +7192,11 @@ uint32_t WALArchivalManager::transitionStorageTiers() {
     return transitioned;
 }
 
+/**
+ * @brief Run Archival Cycle.
+ * @return Return value.
+ * @details Calls: std::chrono::steady_clock::now(), std::chrono::milliseconds(), std::chrono::steady_clock::time_point::max(), std::filesystem::exists(), std::filesystem::directory_iterator(), THEMIS_ERROR(), is_regular_file(), push_back().
+ */
 uint32_t WALArchivalManager::runArchivalCycle() {
     // WAVE1-FIX [no_timeout:6024]: enforce a configurable deadline over the
     // entire archival scan so a hung filesystem or cloud backend call cannot
@@ -6468,6 +7351,11 @@ MultiRegionActiveActiveManager::write(
 
     // Update local region staleness to 0 (we just wrote here)
     {
+        /**
+         * @brief Lock.
+         * @param[in] staleness_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::shared_mutex> lock(staleness_mutex_);
         auto& local = region_staleness_[config_.local_region_id];
         local.staleness_ms           = 0;
@@ -6508,6 +7396,11 @@ MultiRegionActiveActiveManager::read(
     int64_t local_staleness_ms = 0;
     uint64_t local_seq = 0;
     {
+        /**
+         * @brief Lock.
+         * @param[in] staleness_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::shared_lock<std::shared_mutex> lock(staleness_mutex_);
         auto it = region_staleness_.find(config_.local_region_id);
         if (it != region_staleness_.end()) {
@@ -6610,6 +7503,11 @@ bool MultiRegionActiveActiveManager::validateSessionToken(
 std::chrono::milliseconds MultiRegionActiveActiveManager::getStaleness(
     const std::string& region_id) const
 {
+    /**
+     * @brief Lock.
+     * @param[in] staleness_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(staleness_mutex_);
     auto it = region_staleness_.find(region_id);
     if (it == region_staleness_.end()) {
@@ -6628,6 +7526,11 @@ bool MultiRegionActiveActiveManager::isWithinStalenessBound(
 std::vector<RegionStalenessInfo>
 MultiRegionActiveActiveManager::getAllRegionStaleness() const
 {
+    /**
+     * @brief Lock.
+     * @param[in] staleness_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(staleness_mutex_);
     std::vector<RegionStalenessInfo> result = {};
 
@@ -6638,11 +7541,22 @@ MultiRegionActiveActiveManager::getAllRegionStaleness() const
     return result;
 }
 
+/**
+ * @brief Update Region Staleness.
+ * @param[in] region_id Identifier of the region.
+ * @param[in] staleness_ms Input parameter.
+ * @param[in] last_applied_sequence Input parameter.
+ */
 void MultiRegionActiveActiveManager::updateRegionStaleness(
     const std::string& region_id,
     int64_t            staleness_ms,
     uint64_t           last_applied_sequence)
 {
+    /**
+     * @brief Lock.
+     * @param[in] staleness_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::unique_lock<std::shared_mutex> lock(staleness_mutex_);
     auto& info              = region_staleness_[region_id];
     info.region_id          = region_id;
@@ -6672,6 +7586,11 @@ bool MultiRegionActiveActiveManager::isSplitBrain() const
       return false;
     }
 
+    /**
+     * @brief Lock.
+     * @param[in] staleness_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(staleness_mutex_);
     for (const auto& peer_id : config_.peer_region_ids) {
         auto it = region_staleness_.find(peer_id);
@@ -6729,6 +7648,11 @@ std::string MultiRegionActiveActiveManager::exportPrometheusMetrics() const {
 
     // Per-region staleness gauges
     {
+        /**
+         * @brief Lock.
+         * @param[in] staleness_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::shared_lock<std::shared_mutex> lock(staleness_mutex_);
         oss << "# HELP themisdb_mraaa_region_staleness_ms Current replication staleness per region\n"
             << "# TYPE themisdb_mraaa_region_staleness_ms gauge\n";
@@ -6754,7 +7678,12 @@ namespace replication {
 
 namespace {
 
-// Generate a short unique ID using timestamp + counter.
+/**
+ * @brief Generate a short unique ID using timestamp + counter.
+ * @param[in] prefix Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), std::to_string(), fetch_add().
+ */
 std::string generateBidiId(const std::string& prefix) {
     static std::atomic<uint64_t> counter{0};
     auto now_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
@@ -6776,7 +7705,11 @@ BidirectionalReplicationManager::~BidirectionalReplicationManager() {
     stop();
 }
 
-// ── Lifecycle ────────────────────────────────────────────────────────────────
+/**
+ * @brief ── Lifecycle ────────────────────────────────────────────────────────────────
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), compare_exchange_strong().
+ */
 
 bool BidirectionalReplicationManager::start() {
     if (config_.local_node_id.empty() || config_.remote_node_id.empty()) {
@@ -6789,11 +7722,23 @@ bool BidirectionalReplicationManager::start() {
     return running_.compare_exchange_strong(expected, true);
 }
 
+/**
+ * @brief Stop.
+ * @details Calls: store().
+ */
 void BidirectionalReplicationManager::stop() {
     running_.store(false);
 }
 
-// ── Write path ───────────────────────────────────────────────────────────────
+/**
+ * @brief ── Write path ───────────────────────────────────────────────────────────────
+ * @param[in] document_id Identifier of the document.
+ * @param[in] collection Input parameter.
+ * @param[in] operation Input parameter.
+ * @param[in] data Input parameter.
+ * @param[in] is_ddl Input parameter.
+ * @return Return value.
+ */
 
 uint64_t BidirectionalReplicationManager::submitWrite(
     const std::string& document_id,
@@ -6826,6 +7771,11 @@ uint64_t BidirectionalReplicationManager::submitWrite(
 
     // Update origin map
     if (config_.track_origin) {
+        /**
+         * @brief Lk.
+         * @param[in] origin_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(origin_mutex_);
         origin_map_[key] = { config_.local_node_id, seq,
                              std::chrono::system_clock::now() };
@@ -6833,6 +7783,11 @@ uint64_t BidirectionalReplicationManager::submitWrite(
 
     // Enqueue as a pending local write
     {
+        /**
+         * @brief Lk.
+         * @param[in] pending_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(pending_mutex_);
         pending_writes_[key] = entry;
     }
@@ -6840,14 +7795,12 @@ uint64_t BidirectionalReplicationManager::submitWrite(
     return seq;
 }
 
-// Apply a remote write in bidirectional (multi-master) scenario
-// Key consistency guarantees:
-// 1. Loop prevention: Track origin node and sequence to avoid re-applying local writes
-// 2. Causal ordering: Use origin_sequence to detect causal relationships
-// 3. Conflict detection: Identify concurrent writes via timestamps/clocks
-// 4. Conflict resolution: Apply configured strategy (LWW, CRDT, etc.) to merge state
-// This ensures strong eventual consistency: all replicas converge to same state
-// when all writes have been exchanged and conflicts resolved.
+/**
+ * @brief Apply a remote write in bidirectional (multi-master) scenario Key consistency guarantees: 1.
+ * @param[in] entry Input parameter.
+ * @return True when the operation succeeds.
+ * @details Loop prevention: Track origin node and sequence to avoid re-applying local writes 2. Causal ordering: Use origin_sequence to detect causal relationships 3. Conflict detection: Identify concurrent writes via timestamps/clocks 4. Conflict resolution: Apply configured strategy (LWW, CRDT, etc.) to merge state This ensures strong eventual consistency: all replicas converge to same state when all writes have been exchanged and conflicts resolved. Calls: empty(), makeDocKey(), lk(), find(), end(), detectConflict(), handleConflict(), erase().
+ */
 bool BidirectionalReplicationManager::applyRemoteWrite(const BidiWriteEntry& entry) {
     if (entry.document_id.empty() || entry.collection.empty()) {
         return false;
@@ -6939,6 +7892,11 @@ BidirectionalReplicationManager::getSyncStatus() const {
 
     // Compute conflicts_last_hour: count entries within the last 60 minutes.
     {
+        /**
+         * @brief Lk.
+         * @param[in] conflicts_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(conflicts_mutex_);
         const auto cutoff = std::chrono::system_clock::now()
                             - std::chrono::hours(1);
@@ -6950,6 +7908,11 @@ BidirectionalReplicationManager::getSyncStatus() const {
     // "Synchronized" when running, no outstanding pending writes, and lag is
     // within one sync interval.
     {
+        /**
+         * @brief Lk.
+         * @param[in] pending_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(pending_mutex_);
         const bool no_pending = pending_writes_.empty();
         s.is_synchronized = s.is_running && no_pending
@@ -6961,12 +7924,22 @@ BidirectionalReplicationManager::getSyncStatus() const {
 
 std::vector<BidirectionalReplicationManager::BidiConflictRecord>
 BidirectionalReplicationManager::getConflictHistory() const {
+    /**
+     * @brief Lk.
+     * @param[in] conflicts_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(conflicts_mutex_);
     return conflict_history_;
 }
 
 std::vector<BidirectionalReplicationManager::BidiConflictRecord>
 BidirectionalReplicationManager::getPendingConflicts() const {
+    /**
+     * @brief Lk.
+     * @param[in] conflicts_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(conflicts_mutex_);
     std::vector<BidiConflictRecord> result = {};
 
@@ -6979,7 +7952,12 @@ BidirectionalReplicationManager::getPendingConflicts() const {
     return result;
 }
 
-// ── Conflict resolution ───────────────────────────────────────────────────────
+/**
+ * @brief ── Conflict resolution ───────────────────────────────────────────────────────
+ * @param[in] document_id Identifier of the document.
+ * @param[in] winner_node Input parameter.
+ * @return True when the operation succeeds.
+ */
 
 bool BidirectionalReplicationManager::resolveConflict(
     const std::string& document_id,
@@ -6990,6 +7968,11 @@ bool BidirectionalReplicationManager::resolveConflict(
         return false;
     }
 
+    /**
+     * @brief Lk.
+     * @param[in] conflicts_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(conflicts_mutex_);
     // Walk in reverse to find the most-recent conflict for this document.
     for (auto it = conflict_history_.rbegin(); it != conflict_history_.rend(); ++it) {
@@ -7004,7 +7987,11 @@ bool BidirectionalReplicationManager::resolveConflict(
     return false;
 }
 
-// ── Configuration helpers ─────────────────────────────────────────────────────
+/**
+ * @brief ── Configuration helpers ─────────────────────────────────────────────────────
+ * @param[in] collection Input parameter.
+ * @param[in] strategy Input parameter.
+ */
 
 void BidirectionalReplicationManager::setCollectionStrategy(
     const std::string& collection,
@@ -7024,6 +8011,11 @@ ConflictResolution BidirectionalReplicationManager::getEffectiveStrategy(
 
 // ── Simulation helpers ────────────────────────────────────────────────────────
 
+/**
+ * @brief Update Remote Sequence.
+ * @param[in] remote_seq Input parameter.
+ * @param[in] lag_ms Input parameter.
+ */
 void BidirectionalReplicationManager::updateRemoteSequence(
     uint64_t remote_seq, int64_t lag_ms)
 {
@@ -7036,6 +8028,13 @@ void BidirectionalReplicationManager::updateRemoteSequence(
     replication_lag_ms_.store(lag_ms);
 }
 
+/**
+ * @brief Apply Remote DDL.
+ * @param[in] ddl_statement Input parameter.
+ * @param[in] schema_version Input parameter.
+ * @param[in] origin_seq Input parameter.
+ * @return True when the operation succeeds.
+ */
 bool BidirectionalReplicationManager::applyRemoteDDL(
     const std::string& ddl_statement,
     const std::string& schema_version,
@@ -7072,9 +8071,12 @@ std::string BidirectionalReplicationManager::makeDocKey(
 BidirectionalReplicationManager::OriginInfo
 BidirectionalReplicationManager::getOrigin(const std::string& document_id) const
 {
-    // document_id here is expected to be the raw doc id (not the compound key).
-    // Callers that need to look up by collection+doc should use the origin_map_
-    // directly with makeDocKey.
+    /**
+     * @brief document_id here is expected to be the raw doc id (not the compound key).
+     * @param[in] origin_mutex_ Input parameter.
+     * @return Return value.
+     * @details Callers that need to look up by collection+doc should use the origin_map_ directly with makeDocKey.
+     */
     std::lock_guard<std::mutex> lk(origin_mutex_);
     for (const auto& kv : origin_map_) {
         // The key is "collection\0doc_id"; strip the collection prefix.
@@ -7133,6 +8135,12 @@ bool BidirectionalReplicationManager::detectConflict(
     return true;
 }
 
+/**
+ * @brief Handle Conflict.
+ * @param[in] local_write Input parameter.
+ * @param[in] remote_write Input parameter.
+ * @param[in] is_ddl Input parameter.
+ */
 void BidirectionalReplicationManager::handleConflict(
     const BidiWriteEntry& local_write,
     const BidiWriteEntry& remote_write,
@@ -7157,6 +8165,11 @@ void BidirectionalReplicationManager::handleConflict(
     rec.is_ddl_conflict = is_ddl;
 
     {
+        /**
+         * @brief Lk.
+         * @param[in] conflicts_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(conflicts_mutex_);
         conflict_history_.push_back(std::move(rec));
         // Record timestamp for conflicts_last_hour sliding window.
@@ -7260,12 +8273,22 @@ std::string GeoReplicationManager::getSessionToken() const
     return generateSessionToken(local_sequence_.load());
 }
 
-// ── Staleness management ──────────────────────────────────────────────────────
+/**
+ * @brief ── Staleness management ──────────────────────────────────────────────────────
+ * @param[in] region Input parameter.
+ * @param[in] staleness_ms Input parameter.
+ * @param[in] last_applied_sequence Input parameter.
+ */
 
 void GeoReplicationManager::updateRegionStaleness(const std::string& region,
                                                    int64_t            staleness_ms,
                                                    uint64_t           last_applied_sequence)
 {
+    /**
+     * @brief Lock.
+     * @param[in] staleness_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::unique_lock<std::shared_mutex> lock(staleness_mutex_);
     auto& info                  = region_staleness_[region];
     info.region_id              = region;
@@ -7278,6 +8301,11 @@ void GeoReplicationManager::updateRegionStaleness(const std::string& region,
 std::chrono::milliseconds GeoReplicationManager::getStaleness(
     const std::string& region) const
 {
+    /**
+     * @brief Lock.
+     * @param[in] staleness_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(staleness_mutex_);
     auto it = region_staleness_.find(region);
     if (it == region_staleness_.end()) {
@@ -7292,6 +8320,11 @@ std::string GeoReplicationManager::selectReadRegion(
     ConsistencyLevel   consistency,
     const std::string& session_token) const
 {
+    /**
+     * @brief Lock.
+     * @param[in] staleness_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(staleness_mutex_);
 
     switch (consistency) {
@@ -7351,7 +8384,13 @@ std::string GeoReplicationManager::selectReadRegion(
     }
 }
 
-// ── Write ─────────────────────────────────────────────────────────────────────
+/**
+ * @brief ── Write ─────────────────────────────────────────────────────────────────────
+ * @param[in] key Input parameter.
+ * @param[in] value Input parameter.
+ * @param[in] consistency Input parameter.
+ * @return True when the operation succeeds.
+ */
 
 bool GeoReplicationManager::write(
     const std::string& key,
@@ -7375,6 +8414,11 @@ bool GeoReplicationManager::write(
     uint64_t seq = ++local_sequence_;
     ++writes_total_;
     {
+        /**
+         * @brief Lock.
+         * @param[in] staleness_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::shared_mutex> lock(staleness_mutex_);
         auto& local               = region_staleness_[config_.local_region];
         local.staleness_ms        = 0;
@@ -7389,7 +8433,13 @@ bool GeoReplicationManager::write(
     return true;
 }
 
-// ── Read ──────────────────────────────────────────────────────────────────────
+/**
+ * @brief ── Read ──────────────────────────────────────────────────────────────────────
+ * @param[in] key Input parameter.
+ * @param[in] consistency Input parameter.
+ * @param[in] session_token Input parameter.
+ * @return Return value.
+ */
 
 std::optional<std::string> GeoReplicationManager::read(
     const std::string& key,
@@ -7477,6 +8527,11 @@ std::string GeoReplicationManager::exportPrometheusMetrics() const
     oss << "# HELP themisdb_geo_repl_region_staleness_ms Replication lag per region (ms)\n"
         << "# TYPE themisdb_geo_repl_region_staleness_ms gauge\n";
     {
+        /**
+         * @brief Lock.
+         * @param[in] staleness_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::shared_lock<std::shared_mutex> lock(staleness_mutex_);
         for (const auto& [rid, info] : region_staleness_) {
             int64_t lag = (info.staleness_ms == std::numeric_limits<int64_t>::max())

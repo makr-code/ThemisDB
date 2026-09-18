@@ -22,16 +22,6 @@
 namespace themis {
 namespace llm {
 
-/**
- * @brief KV Cache Buffer based on VectorAutoBuffer
- * 
- * Reuses ThemisDB's VectorAutoBuffer for efficient KV cache batching:
- * - Auto-flush when batch size reached
- * - Memory-efficient buffer management
- * - Lock-free append operations
- * 
- * Phase 2.2: Cache Reuse Integration
- */
 class KVCacheBuffer {
 public:
     struct Config {
@@ -57,31 +47,62 @@ public:
         double avg_batch_utilization = 0.0;
     };
 
+    /**
+     * @brief KVCache Buffer.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit KVCacheBuffer(const Config& config);
     ~KVCacheBuffer() noexcept;
 
-    // Append KV cache for a single token
-    // Returns: true if auto-flush triggered
+    /**
+     * @brief Append KV cache for a single token Returns: true if auto-flush triggered
+     * @param[in] sequence_id Identifier of the sequence.
+     * @param[in] key Input parameter.
+     * @param[in] value Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool appendToken(int sequence_id, const float* key, const float* value);
 
-    // Append multiple tokens at once
+    /**
+     * @brief Append multiple tokens at once
+     * @param[in] sequence_id Identifier of the sequence.
+     * @param[in] keys Input parameter.
+     * @param[in] values Input parameter.
+     * @param[in] n_tokens Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool appendTokens(int sequence_id, const std::vector<float>& keys, 
                      const std::vector<float>& values, size_t n_tokens);
 
-    // Manual flush (e.g., at end of sequence)
+    /**
+     * @brief Manual flush (e.
+     * @details g., at end of sequence)
+     */
     void flush();
 
     // Get current batch (for inspection)
     const std::vector<KVCache>& getCurrentBatch() const { return current_batch_; }
 
-    // Clear all cached data
+    /**
+     * @brief Clear all cached data
+     */
     void clear();
 
     // Get statistics
+    /**
+     * @brief Get Stats.
+     * @return Return value.
+     */
     Stats getStats() const;
 
     // Set flush callback (called when batch is flushed)
     using FlushCallback = std::function<void(const std::vector<KVCache>&)>;
+    /**
+     * @brief Set Flush Callback.
+     * @param[in] callback Input parameter.
+     * @details Implements setFlushCallback without additional internal calls.
+     */
     void setFlushCallback(FlushCallback callback) { flush_callback_ = callback; }
 
 private:
@@ -104,21 +125,20 @@ private:
     // Auto-flush timer
     std::chrono::steady_clock::time_point last_flush_time_;
     
-    // Helper: Trigger flush if needed
+    /**
+     * @brief Helper: Trigger flush if needed
+     * @return True when the operation succeeds.
+     */
     bool checkAndFlush();
     
-    // Helper: Get or create cache for sequence
+    /**
+     * @brief Helper: Get or create cache for sequence
+     * @param[in] sequence_id Identifier of the sequence.
+     * @return Return value.
+     */
     KVCache& getCacheForSequence(int sequence_id);
 };
 
-/**
- * @brief Shared KV Cache Buffer Pool
- * 
- * Manages multiple KVCacheBuffer instances for parallel inference.
- * Each worker thread gets its own buffer to avoid contention.
- * 
- * Thread-safe allocation from shared pool.
- */
 class KVCacheBufferPool {
 public:
     struct Config {
@@ -126,13 +146,24 @@ public:
         KVCacheBuffer::Config buffer_config;     // Config for each buffer
     };
 
+    /**
+     * @brief KVCache Buffer Pool.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit KVCacheBufferPool(const Config& config);
     ~KVCacheBufferPool();
 
-    // Acquire buffer for thread (thread-safe)
+    /**
+     * @brief Acquire buffer for thread (thread-safe)
+     * @return Return value.
+     */
     std::shared_ptr<KVCacheBuffer> acquireBuffer();
 
-    // Release buffer back to pool
+    /**
+     * @brief Release buffer back to pool
+     * @param[in] buffer Input parameter.
+     */
     void releaseBuffer(std::shared_ptr<KVCacheBuffer> buffer);
 
     // Get pool statistics
@@ -141,6 +172,10 @@ public:
         size_t available_buffers = 0;
         size_t acquired_buffers = 0;
     };
+    /**
+     * @brief Get Pool Stats.
+     * @return Return value.
+     */
     PoolStats getPoolStats() const;
 
 private:

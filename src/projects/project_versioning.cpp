@@ -27,12 +27,6 @@ namespace projects {
 
 // ─── Diagnostic helpers ───────────────────────────────────────────────────────
 
-/**
- * @brief Safely parse JSON with unified error reporting for versioning faults.
- * @param data String to parse
- * @param context Diagnostic context label for error messages
- * @return Parsed JSON on success, null JSON on failure
- */
 static json safeJsonParse(const std::string& data, const char* context) noexcept {
     (void)context;
     try {
@@ -66,6 +60,12 @@ json SnapshotMeta::toJson() const {
     };
 }
 
+/**
+ * @brief From Json.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: value(), json::object().
+ */
 SnapshotMeta SnapshotMeta::fromJson(const json& j) {
     SnapshotMeta m;
     m.id             = j.value("id", std::string{});
@@ -143,6 +143,11 @@ std::variant<SnapshotId, Status> ProjectVersioning::createSnapshot(
     if (project_id.empty())
         return Status::Error("createSnapshot: project_id must not be empty");
 
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::unique_lock lock(mutex_);
 
     const auto snap_uuid = generateUuid();
@@ -207,6 +212,11 @@ std::variant<SnapshotId, Status> ProjectVersioning::createSnapshot(
 std::optional<SnapshotMeta> ProjectVersioning::getSnapshot(
     const SnapshotId& snap_id) const
 {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock lock(mutex_);
     std::string val = {};
     if (!storage_->get(snap_id, val))
@@ -224,6 +234,11 @@ std::optional<SnapshotMeta> ProjectVersioning::getSnapshot(
 std::vector<SnapshotMeta> ProjectVersioning::listSnapshots(
     const std::string& project_id) const
 {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock lock(mutex_);
     std::vector<SnapshotMeta> result;
 
@@ -257,6 +272,12 @@ std::vector<SnapshotMeta> ProjectVersioning::listSnapshots(
     return result;
 }
 
+/**
+ * @brief Delete Snapshot.
+ * @param[in] snap_id Identifier of the snap.
+ * @return Return value.
+ * @details Calls: empty(), Status::Error(), starts_with(), lock(), get(), safeJsonParse(), is_null(), is_object().
+ */
 Status ProjectVersioning::deleteSnapshot(const SnapshotId& snap_id) {
     // ── Entry validation: enforce bounded runtime contract ─────────────────────
     if (snap_id.empty())
@@ -298,6 +319,12 @@ Status ProjectVersioning::deleteSnapshot(const SnapshotId& snap_id) {
     return Status::OK();
 }
 
+/**
+ * @brief Restore Snapshot.
+ * @param[in] snap_id Identifier of the snap.
+ * @param[in] target_project_id Identifier of the target project.
+ * @return Return value.
+ */
 Status ProjectVersioning::restoreSnapshot(
     const SnapshotId& snap_id,
     const std::string& target_project_id)
@@ -310,6 +337,11 @@ Status ProjectVersioning::restoreSnapshot(
     if (!snap_id.starts_with("snap:"))
         return Status::Error("restoreSnapshot: invalid snapshot_id format (must start with 'snap:')");
 
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::unique_lock lock(mutex_);
 
     std::string meta_str = {};
@@ -370,6 +402,11 @@ Status ProjectVersioning::restoreSnapshot(
 }
 
 bool ProjectVersioning::verifySnapshot(const SnapshotId& snap_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock lock(mutex_);
 
     if (snap_id.empty() || !snap_id.starts_with("snap:"))

@@ -35,6 +35,12 @@ nlohmann::json ColumnRef::toJSON() const {
     return {{"table", table_name}, {"column", column_name}};
 }
 
+/**
+ * @brief From JSON.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: at().
+ */
 ColumnRef ColumnRef::fromJSON(const nlohmann::json& j) {
     ColumnRef ref;
     ref.table_name  = j.at("table").get<std::string>();
@@ -51,7 +57,12 @@ std::size_t ColumnRefHash::operator()(const ColumnRef& ref) const noexcept {
     return h1 ^ (h2 * 0x9e3779b9 + (h1 << 6) + (h1 >> 2));
 }
 
-// ─── TransformationType helpers ──────────────────────────────────────────────
+/**
+ * @brief ─── TransformationType helpers ──────────────────────────────────────────────
+ * @param[in] t Input parameter.
+ * @return Return value.
+ * @details Implements transformationTypeToString without additional internal calls.
+ */
 
 std::string transformationTypeToString(TransformationType t) {
     switch (t) {
@@ -67,6 +78,12 @@ std::string transformationTypeToString(TransformationType t) {
     return "UNKNOWN";
 }
 
+/**
+ * @brief Transformation Type From String.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Calls: std::transform(), begin(), end().
+ */
 TransformationType transformationTypeFromString(const std::string& s) {
     std::string upper = s;
     std::transform(upper.begin(), upper.end(), upper.begin(), ::toupper);
@@ -135,7 +152,11 @@ nlohmann::json ColumnLineageRecord::toJSON() const {
     return j;
 }
 
-// ─── ColumnLineageTracker ────────────────────────────────────────────────────
+/**
+ * @brief ─── ColumnLineageTracker ────────────────────────────────────────────────────
+ * @return Return value.
+ * @details Calls: fetch_add(), str().
+ */
 
 std::string ColumnLineageTracker::assignEntryId() {
     uint64_t seq = next_entry_seq_.fetch_add(1, std::memory_order_relaxed);
@@ -144,6 +165,11 @@ std::string ColumnLineageTracker::assignEntryId() {
     return oss.str();
 }
 
+/**
+ * @brief Record Derivation.
+ * @param[in] entry Input parameter.
+ * @details Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), empty(), assignEntryId(), spdlog::info(), transformationTypeToString(), size().
+ */
 void ColumnLineageTracker::recordDerivation(ColumnLineageEntry entry) {
     // Auto-assign timestamp
     if (entry.timestamp_ms == 0) {
@@ -180,6 +206,11 @@ void ColumnLineageTracker::recordDerivation(ColumnLineageEntry entry) {
 }
 
 ColumnLineageRecord ColumnLineageTracker::getColumnLineage(const ColumnRef& col) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     ColumnLineageRecord record;
     record.column = col;
@@ -191,6 +222,11 @@ ColumnLineageRecord ColumnLineageTracker::getColumnLineage(const ColumnRef& col)
 }
 
 std::vector<ColumnRef> ColumnLineageTracker::getUpstreamColumns(const ColumnRef& col) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     std::vector<ColumnRef> result;
@@ -225,6 +261,11 @@ std::vector<ColumnRef> ColumnLineageTracker::getUpstreamColumns(const ColumnRef&
 }
 
 std::vector<ColumnRef> ColumnLineageTracker::getDownstreamColumns(const ColumnRef& col) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     std::vector<ColumnRef> result;
@@ -288,6 +329,11 @@ nlohmann::json ColumnLineageTracker::getColumnProvenance(const ColumnRef& col) c
 }
 
 nlohmann::json ColumnLineageTracker::exportTableLineage(const std::string& table_name) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     nlohmann::json result = nlohmann::json::array();
@@ -304,6 +350,11 @@ nlohmann::json ColumnLineageTracker::exportTableLineage(const std::string& table
 }
 
 nlohmann::json ColumnLineageTracker::exportAllLineage() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     nlohmann::json entries_arr = nlohmann::json::array();
@@ -317,6 +368,11 @@ nlohmann::json ColumnLineageTracker::exportAllLineage() const {
 }
 
 size_t ColumnLineageTracker::totalEntryCount() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return all_entries_.size();
 }

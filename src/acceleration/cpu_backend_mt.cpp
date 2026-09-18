@@ -50,7 +50,6 @@ namespace acceleration {
 // Multi-Threaded CPUVectorBackend Implementation
 // ============================================================================
 
-/** @brief Multi-Threaded CPUVectorBackend Implementation. */
 class CPUVectorBackendMT : public CPUVectorBackend {
   private:
     int numThreads_ = {};
@@ -80,6 +79,11 @@ class CPUVectorBackendMT : public CPUVectorBackend {
 #endif
     }
 
+    /**
+     * @brief Set Thread Count.
+     * @param[in] threads Input parameter.
+     * @details Calls: omp_set_num_threads().
+     */
     void setThreadCount(int threads) {
         numThreads_ = threads;
 #if THEMIS_HAS_OPENMP
@@ -87,6 +91,11 @@ class CPUVectorBackendMT : public CPUVectorBackend {
 #endif
     }
 
+    /**
+     * @brief Enable SIMD.
+     * @param[in] enable Input parameter.
+     * @details Implements enableSIMD without additional internal calls.
+     */
     void enableSIMD(bool enable) {
         enableSIMD_ = enable;
     }
@@ -127,6 +136,11 @@ class CPUVectorBackendMT : public CPUVectorBackend {
             return {};
         }
 
+        /**
+         * @brief Distances.
+         * @param[in,out] numVectors Input/output parameter.
+         * @return Return value.
+         */
         std::vector<float> distances(numQueries * numVectors);
 
 #if THEMIS_HAS_OPENMP
@@ -210,7 +224,6 @@ class CPUVectorBackendMT : public CPUVectorBackend {
 // Multi-Threaded CPUGeoBackend Implementation
 // ============================================================================
 
-/** @brief Multi-Threaded CPUGeoBackend Implementation. */
 class CPUGeoBackendMT : public CPUGeoBackend {
   private:
     int numThreads_ = {};
@@ -230,6 +243,11 @@ class CPUGeoBackendMT : public CPUGeoBackend {
 
     std::vector<float> batchDistances(const double *latitudes1, const double *longitudes1, const double *latitudes2,
                                       const double *longitudes2, size_t count, bool useHaversine) override {
+        /**
+         * @brief Distances.
+         * @param[in] count Input parameter.
+         * @return Return value.
+         */
         std::vector<float> distances(count);
 
 #if THEMIS_HAS_OPENMP
@@ -248,10 +266,20 @@ class CPUGeoBackendMT : public CPUGeoBackend {
 };
 
 // Factory functions
+/**
+ * @brief Create Multi Threaded CPUVector Backend.
+ * @return Return value.
+ * @details Implements createMultiThreadedCPUVectorBackend without additional internal calls.
+ */
 std::unique_ptr<CPUVectorBackend> createMultiThreadedCPUVectorBackend() {
     return std::make_unique<CPUVectorBackendMT>();
 }
 
+/**
+ * @brief Create Multi Threaded CPUGeo Backend.
+ * @return Return value.
+ * @details Implements createMultiThreadedCPUGeoBackend without additional internal calls.
+ */
 std::unique_ptr<CPUGeoBackend> createMultiThreadedCPUGeoBackend() {
     return std::make_unique<CPUGeoBackendMT>();
 }

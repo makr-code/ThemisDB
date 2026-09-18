@@ -29,16 +29,6 @@ namespace llm {
 
 using json = nlohmann::json;
 
-/**
- * @brief Implementation of LLMModelStorage using ThemisDB Base Infrastructure
- * 
- * Integrates with:
- * - BaseEntity for structured storage
- * - RocksDBWrapper for CRUD operations
- * - BlobStorageManager for large model files
- * - SecuritySignatureManager for integrity verification
- * - Encryption for data at rest
- */
 class LLMModelStorage::Impl {
 public:
     explicit Impl(const Config& config) : config_(config) {
@@ -72,6 +62,13 @@ public:
         }
     }
     
+    /**
+     * @brief Store Model.
+     * @param[in] metadata Input parameter.
+     * @param[in] model_data Input parameter.
+     * @return True when the operation succeeds.
+     * @details Calls: lock(), spdlog::error(), setPrimaryKey(), setField(), Value(), empty(), dump(), size().
+     */
     bool storeModel(
         const LLMModelMetadata& metadata,
         const std::optional<std::vector<uint8_t>>& model_data
@@ -207,6 +204,12 @@ public:
         }
     }
     
+    /**
+     * @brief Load Model.
+     * @param[in] model_id Identifier of the model.
+     * @return Return value.
+     * @details Calls: lock(), spdlog::error(), get(), spdlog::warn(), data_str(), begin(), end(), EncryptedBlob::fromBase64().
+     */
     std::optional<LLMModelMetadata> loadModel(const std::string& model_id) {
         std::lock_guard<std::mutex> lock(mutex_);
         try {
@@ -358,6 +361,12 @@ public:
         }
     }
     
+    /**
+     * @brief Load Model Blob.
+     * @param[in] model_id Identifier of the model.
+     * @return Return value.
+     * @details Calls: lock(), spdlog::error(), get(), spdlog::warn(), data_str(), begin(), end(), EncryptedBlob::fromBase64().
+     */
     std::optional<std::vector<uint8_t>> loadModelBlob(const std::string& model_id) {
         std::lock_guard<std::mutex> lock(mutex_);
         try {
@@ -477,12 +486,25 @@ public:
         }
     }
     
+    /**
+     * @brief Update Model.
+     * @param[in] param Input parameter.
+     * @param[in] metadata Input parameter.
+     * @return True when the operation succeeds.
+     * @details Calls: lock(), storeModel().
+     */
     bool updateModel(const std::string& /*model_id*/, const LLMModelMetadata& metadata) {
         std::lock_guard<std::mutex> lock(mutex_);
         // For simplicity, just store again
         return storeModel(metadata, std::nullopt);
     }
     
+    /**
+     * @brief Delete Model.
+     * @param[in] model_id Identifier of the model.
+     * @return True when the operation succeeds.
+     * @details Calls: lock(), spdlog::error(), get(), data_str(), begin(), end(), EncryptedBlob::fromBase64(), decryptToBytes().
+     */
     bool deleteModel(const std::string& model_id) {
         std::lock_guard<std::mutex> lock(mutex_);
         try {
@@ -547,6 +569,11 @@ public:
     }
     
     bool exists(const std::string& model_id) const {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         if (!config_.db) {
             return false;
@@ -558,6 +585,11 @@ public:
     }
     
     std::vector<std::string> listModels(const std::optional<std::string>& filter) const {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         std::vector<std::string> model_ids;
         
@@ -587,6 +619,13 @@ public:
         return model_ids;
     }
     
+    /**
+     * @brief Update Usage Stats.
+     * @param[in] model_id Identifier of the model.
+     * @param[in] tokens_generated Input parameter.
+     * @return True when the operation succeeds.
+     * @details Calls: lock(), spdlog::error(), get(), spdlog::warn(), data_str(), begin(), end(), EncryptedBlob::fromBase64().
+     */
     bool updateUsageStats(const std::string& model_id, int64_t tokens_generated) {
         std::lock_guard<std::mutex> lock(mutex_);
         try {
@@ -656,6 +695,11 @@ public:
     }
     
     json getStats() const {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         json stats;
         stats["collection"] = config_.key_prefix;
@@ -669,7 +713,12 @@ public:
         return stats;
     }
     
-    // Helper: Get blob reference from metadata
+    /**
+     * @brief Helper: Get blob reference from metadata
+     * @param[in] model_id Identifier of the model.
+     * @return Return value.
+     * @details Calls: lock(), get(), data_str(), begin(), end(), EncryptedBlob::fromBase64(), decryptToBytes(), BaseEntity::deserialize().
+     */
     std::optional<storage::BlobRef> getBlobReference(const std::string& model_id) {
         std::lock_guard<std::mutex> lock(mutex_);
         if (!config_.db) {
@@ -723,6 +772,15 @@ public:
     }
     
     // Graph Operations
+    /**
+     * @brief Add Edge.
+     * @param[in] from_id Identifier of the from.
+     * @param[in] to_id Identifier of the to.
+     * @param[in] edge_type Input parameter.
+     * @param[in] weight Input parameter.
+     * @return True when the operation succeeds.
+     * @details Calls: lock(), spdlog::error(), std::to_string(), std::chrono::system_clock::now(), time_since_epoch(), count(), dump(), edge_bytes().
+     */
     bool addEdge(
         const std::string& from_id,
         const std::string& to_id,
@@ -766,6 +824,11 @@ public:
         const std::string& model_id,
         const std::string& direction
     ) const {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         std::vector<json> edges;
         
@@ -831,6 +894,13 @@ public:
     }
     
     // Vector Operations
+    /**
+     * @brief Store Embedding.
+     * @param[in] model_id Identifier of the model.
+     * @param[in] embedding Input parameter.
+     * @return True when the operation succeeds.
+     * @details Calls: lock(), spdlog::error(), empty(), size(), dump(), embedding_bytes(), begin(), end().
+     */
     bool storeEmbedding(
         const std::string& model_id,
         const std::vector<float>& embedding
@@ -876,6 +946,11 @@ public:
         int k,
         float threshold
     ) const {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         std::vector<std::pair<std::string, float>> similar_models;
         
@@ -1010,6 +1085,13 @@ LLMModelStorage::LLMModelStorage(const Config& config)
 
 LLMModelStorage::~LLMModelStorage() = default;
 
+/**
+ * @brief Store Model.
+ * @param[in] metadata Input parameter.
+ * @param[in] model_data Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements storeModel without additional internal calls.
+ */
 bool LLMModelStorage::storeModel(
     const LLMModelMetadata& metadata,
     const std::optional<std::vector<uint8_t>>& model_data
@@ -1017,18 +1099,43 @@ bool LLMModelStorage::storeModel(
     return impl_->storeModel(metadata, model_data);
 }
 
+/**
+ * @brief Load Model.
+ * @param[in] model_id Identifier of the model.
+ * @return Return value.
+ * @details Implements loadModel without additional internal calls.
+ */
 std::optional<LLMModelMetadata> LLMModelStorage::loadModel(const std::string& model_id) {
     return impl_->loadModel(model_id);
 }
 
+/**
+ * @brief Load Model Blob.
+ * @param[in] model_id Identifier of the model.
+ * @return Return value.
+ * @details Implements loadModelBlob without additional internal calls.
+ */
 std::optional<std::vector<uint8_t>> LLMModelStorage::loadModelBlob(const std::string& model_id) {
     return impl_->loadModelBlob(model_id);
 }
 
+/**
+ * @brief Update Model.
+ * @param[in] model_id Identifier of the model.
+ * @param[in] metadata Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements updateModel without additional internal calls.
+ */
 bool LLMModelStorage::updateModel(const std::string& model_id, const LLMModelMetadata& metadata) {
     return impl_->updateModel(model_id, metadata);
 }
 
+/**
+ * @brief Delete Model.
+ * @param[in] model_id Identifier of the model.
+ * @return True when the operation succeeds.
+ * @details Implements deleteModel without additional internal calls.
+ */
 bool LLMModelStorage::deleteModel(const std::string& model_id) {
     return impl_->deleteModel(model_id);
 }
@@ -1041,6 +1148,15 @@ std::vector<std::string> LLMModelStorage::listModels(const std::optional<std::st
     return impl_->listModels(filter);
 }
 
+/**
+ * @brief Add Edge.
+ * @param[in] from_id Identifier of the from.
+ * @param[in] to_id Identifier of the to.
+ * @param[in] edge_type Input parameter.
+ * @param[in] weight Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements addEdge without additional internal calls.
+ */
 bool LLMModelStorage::addEdge(
     const std::string& from_id,
     const std::string& to_id,
@@ -1057,6 +1173,13 @@ std::vector<json> LLMModelStorage::getEdges(
     return impl_->getEdges(model_id, direction);
 }
 
+/**
+ * @brief Store Embedding.
+ * @param[in] model_id Identifier of the model.
+ * @param[in] embedding Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements storeEmbedding without additional internal calls.
+ */
 bool LLMModelStorage::storeEmbedding(
     const std::string& model_id,
     const std::vector<float>& embedding
@@ -1072,6 +1195,13 @@ std::vector<std::pair<std::string, float>> LLMModelStorage::findSimilarModels(
     return impl_->findSimilarModels(model_id, k, threshold);
 }
 
+/**
+ * @brief Update Usage Stats.
+ * @param[in] model_id Identifier of the model.
+ * @param[in] tokens_generated Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements updateUsageStats without additional internal calls.
+ */
 bool LLMModelStorage::updateUsageStats(const std::string& model_id, int64_t tokens_generated) {
     return impl_->updateUsageStats(model_id, tokens_generated);
 }

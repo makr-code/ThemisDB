@@ -35,6 +35,12 @@ const char* ResponseParser::SCORE_PATTERN_3 = R"(^[\s]*([1-5])[\s]*$)";
 const char* ResponseParser::EXPLANATION_PATTERN = R"((?:reasoning|explanation|rationale)[\s:]+(.+))";
 const char* ResponseParser::CLAIMS_PATTERN = R"((?:supporting_claims|supported|verified)[\s:]+\[(.+?)\])";
 
+/**
+ * @brief Parse.
+ * @param[in] response Input parameter.
+ * @return Return value.
+ * @details Calls: parseJSON(), THEMIS_DEBUG(), parseWithRegex(), THEMIS_WARN().
+ */
 ParsedResponse ResponseParser::parse(const std::string& response) {
     // Try JSON parsing first
     auto result = parseJSON(response);
@@ -55,6 +61,12 @@ ParsedResponse ResponseParser::parse(const std::string& response) {
     return result;
 }
 
+/**
+ * @brief Parse JSON.
+ * @param[in] response Input parameter.
+ * @return Return value.
+ * @details Calls: find(), rfind(), substr(), padded(), iterate(), error(), std::string(), simdjson::error_message().
+ */
 ParsedResponse ResponseParser::parseJSON(const std::string& response) {
     ParsedResponse result;
     result.success = false;
@@ -137,6 +149,12 @@ ParsedResponse ResponseParser::parseJSON(const std::string& response) {
     return result;
 }
 
+/**
+ * @brief Parse With Regex.
+ * @param[in] response Input parameter.
+ * @return Return value.
+ * @details Calls: extractScore(), extractExplanation(), extractClaims(), has_value().
+ */
 ParsedResponse ResponseParser::parseWithRegex(const std::string& response) {
     ParsedResponse result;
     result.success = false;
@@ -167,6 +185,12 @@ ParsedResponse ResponseParser::parseWithRegex(const std::string& response) {
     return result;
 }
 
+/**
+ * @brief Parse JSONResponse.
+ * @param[in] response Input parameter.
+ * @return Return value.
+ * @details Calls: find(), rfind(), nlohmann::json::object(), substr(), padded_json_response(), iterate(), error(), THEMIS_DEBUG().
+ */
 nlohmann::json ResponseParser::parseJSONResponse(const std::string& response) {
     try {
         size_t start = response.find('{');
@@ -193,6 +217,12 @@ nlohmann::json ResponseParser::parseJSONResponse(const std::string& response) {
     }
 }
 
+/**
+ * @brief Validate.
+ * @param[in] parsed Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: THEMIS_WARN().
+ */
 bool ResponseParser::validate(const ParsedResponse& parsed) {
     if (!parsed.score) {
         return false;
@@ -212,6 +242,14 @@ bool ResponseParser::validate(const ParsedResponse& parsed) {
     return true;
 }
 
+/**
+ * @brief Normalize Score.
+ * @param[in] score Input parameter.
+ * @param[in] min_range Input parameter.
+ * @param[in] max_range Input parameter.
+ * @return Return value.
+ * @details Calls: epsilon(), std::abs(), std::max(), std::min().
+ */
 double ResponseParser::normalizeScore(double score, double min_range, double max_range) {
     // Normalize to 0-1 range
     constexpr double EPSILON = std::numeric_limits<double>::epsilon();
@@ -227,6 +265,12 @@ double ResponseParser::normalizeScore(double score, double min_range, double max
     return normalized;
 }
 
+/**
+ * @brief Extract Score.
+ * @param[in] text Input parameter.
+ * @return Return value.
+ * @details Calls: pattern1(), pattern2(), std::regex_search(), std::stod(), str(), find(), position(), THEMIS_DEBUG().
+ */
 std::optional<double> ResponseParser::extractScore(const std::string& text) {
     std::regex pattern1(SCORE_PATTERN_1, std::regex::icase);
     std::regex pattern2(SCORE_PATTERN_2, std::regex::icase);
@@ -279,6 +323,12 @@ std::optional<double> ResponseParser::extractScore(const std::string& text) {
     return std::nullopt;
 }
 
+/**
+ * @brief Extract Explanation.
+ * @param[in] response Input parameter.
+ * @return Return value.
+ * @details Calls: pattern(), std::regex_search(), str(), erase(), find_first_not_of(), find_last_not_of(), length(), substr().
+ */
 std::string ResponseParser::extractExplanation(const std::string& response) {
     std::regex pattern(EXPLANATION_PATTERN, std::regex::icase);
     std::smatch match = {};
@@ -314,6 +364,13 @@ std::string ResponseParser::extractExplanation(const std::string& response) {
     return response;
 }
 
+/**
+ * @brief Extract Claims.
+ * @param[in] response Input parameter.
+ * @param[in] supported Input parameter.
+ * @return Return value.
+ * @details Calls: pattern(), std::regex_search(), str(), stream(), std::getline(), erase(), std::remove(), begin().
+ */
 std::vector<std::string> ResponseParser::extractClaims(
     const std::string& response,
     bool supported
@@ -347,6 +404,12 @@ std::vector<std::string> ResponseParser::extractClaims(
     return claims;
 }
 
+/**
+ * @brief Validate Schema.
+ * @param[in] json Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: contains(), THEMIS_DEBUG().
+ */
 bool ResponseParser::validateSchema(const nlohmann::json& json) {
     // Check for required fields
     if (!json.contains("score") && !json.contains("rating")) {

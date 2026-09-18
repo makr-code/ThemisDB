@@ -24,6 +24,12 @@ namespace themis {
 // Internal helpers
 // ============================================================================
 
+/**
+ * @brief Escape Mermaid.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), std::isalnum().
+ */
 std::string ERDiagramExporter::escapeMermaid(const std::string& s) {
     // Mermaid identifiers must not contain spaces, quotes, or special characters.
     // Replace runs of disallowed characters with underscores.
@@ -39,6 +45,12 @@ std::string ERDiagramExporter::escapeMermaid(const std::string& s) {
     return out;
 }
 
+/**
+ * @brief Escape DOT.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size().
+ */
 std::string ERDiagramExporter::escapeDOT(const std::string& s) {
     // Inside a DOT record label the following characters must be escaped:
     //   <  >  |  {  }  \  "

@@ -865,7 +865,13 @@ nlohmann::json PolicyMetricsCollector::PerformanceImpact::toJson() const {
     return j;
 }
 
-// ========== PolicyMetricsCollector Implementation ==========
+/**
+ * @brief ========== PolicyMetricsCollector Implementation ==========
+ * @param[in] rule_id Identifier of the rule.
+ * @param[in] matched Input parameter.
+ * @param[in] evaluation_time_us Input parameter.
+ * @details Calls: lock(), std::chrono::system_clock::now(), time_since_epoch(), count().
+ */
 
 void PolicyMetricsCollector::recordEvaluation(const std::string &rule_id, bool matched, int64_t evaluation_time_us) {
     std::lock_guard<std::mutex> lock(mutex_);
@@ -891,6 +897,11 @@ void PolicyMetricsCollector::recordEvaluation(const std::string &rule_id, bool m
 
 std::optional<PolicyMetricsCollector::RuleMetrics>
 PolicyMetricsCollector::getRuleMetrics(const std::string &rule_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     auto it = metrics_.find(rule_id);
@@ -901,11 +912,21 @@ PolicyMetricsCollector::getRuleMetrics(const std::string &rule_id) const {
 }
 
 std::unordered_map<std::string, PolicyMetricsCollector::RuleMetrics> PolicyMetricsCollector::getAllMetrics() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return metrics_;
 }
 
 std::vector<PolicyMetricsCollector::PerformanceImpact> PolicyMetricsCollector::analyzePerformanceImpact() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     std::vector<PerformanceImpact> impacts;
@@ -946,6 +967,11 @@ std::vector<PolicyMetricsCollector::PerformanceImpact> PolicyMetricsCollector::a
 }
 
 std::vector<std::string> PolicyMetricsCollector::getSlowRules(int64_t threshold_us) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     std::vector<std::string> slow_rules;
@@ -960,6 +986,11 @@ std::vector<std::string> PolicyMetricsCollector::getSlowRules(int64_t threshold_
 }
 
 nlohmann::json PolicyMetricsCollector::exportMetrics() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     nlohmann::json j = nlohmann::json::array();
@@ -971,6 +1002,12 @@ nlohmann::json PolicyMetricsCollector::exportMetrics() const {
     return j;
 }
 
+/**
+ * @brief Import Metrics.
+ * @param[in] j Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: is_array(), THEMIS_ERROR(), lock(), contains(), empty(), THEMIS_INFO(), size(), what().
+ */
 bool PolicyMetricsCollector::importMetrics(const nlohmann::json &j) {
     if (!j.is_array()) {
         THEMIS_ERROR("Import metrics: expected array");
@@ -1018,12 +1055,21 @@ bool PolicyMetricsCollector::importMetrics(const nlohmann::json &j) {
     }
 }
 
+/**
+ * @brief Reset Metrics.
+ * @details Calls: lock(), clear(), THEMIS_INFO().
+ */
 void PolicyMetricsCollector::resetMetrics() {
     std::lock_guard<std::mutex> lock(mutex_);
     metrics_.clear();
     THEMIS_INFO("All metrics reset");
 }
 
+/**
+ * @brief Reset Rule Metrics.
+ * @param[in] rule_id Identifier of the rule.
+ * @details Calls: lock(), erase(), THEMIS_DEBUG().
+ */
 void PolicyMetricsCollector::resetRuleMetrics(const std::string &rule_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     metrics_.erase(rule_id);

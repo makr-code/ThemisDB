@@ -151,21 +151,49 @@ std::string bytesToHex(const std::array<uint8_t, 32>& bytes) {
 // IntegrityHelper
 // ============================================================================
 
+/**
+ * @brief Sha256 Hex.
+ * @param[in] data Input parameter.
+ * @param[in] size Input parameter.
+ * @return Return value.
+ * @details Calls: update(), bytesToHex(), finalise().
+ */
 std::string IntegrityHelper::sha256Hex(const uint8_t* data, size_t size) {
     Sha256State s;
     s.update(data, size);
     return bytesToHex(s.finalise());
 }
 
+/**
+ * @brief Sha256 Hex.
+ * @param[in] input Input parameter.
+ * @return Return value.
+ * @details Calls: data(), size().
+ */
 std::string IntegrityHelper::sha256Hex(const std::string& input) {
     return sha256Hex(reinterpret_cast<const uint8_t*>(input.data()), input.size());
 }
 
+/**
+ * @brief Verify Hash.
+ * @param[in] data Input parameter.
+ * @param[in] size Input parameter.
+ * @param[in] expected_hex Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: sha256Hex().
+ */
 bool IntegrityHelper::verifyHash(const uint8_t* data, size_t size,
                                   const std::string& expected_hex) {
     return sha256Hex(data, size) == expected_hex;
 }
 
+/**
+ * @brief Verify Hash.
+ * @param[in] input Input parameter.
+ * @param[in] expected_hex Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: sha256Hex().
+ */
 bool IntegrityHelper::verifyHash(const std::string& input,
                                   const std::string& expected_hex) {
     return sha256Hex(input) == expected_hex;
@@ -185,6 +213,12 @@ json AdapterUsagePolicy::to_json() const {
     return j;
 }
 
+/**
+ * @brief From json.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: contains(), at().
+ */
 AdapterUsagePolicy AdapterUsagePolicy::from_json(const json& j) {
     AdapterUsagePolicy p = {};
     if (j.contains("license")) {
@@ -225,6 +259,12 @@ json LoRAPackageProvenance::to_json() const {
     return j;
 }
 
+/**
+ * @brief From json.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: contains(), at().
+ */
 LoRAPackageProvenance LoRAPackageProvenance::from_json(const json& j) {
     LoRAPackageProvenance p = {};
     if (j.contains("trainer_id")) {
@@ -279,6 +319,12 @@ json ArtifactIntegrity::to_json() const {
     return j;
 }
 
+/**
+ * @brief From json.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: contains(), at().
+ */
 ArtifactIntegrity ArtifactIntegrity::from_json(const json& j) {
     ArtifactIntegrity i = {};
     if (j.contains("weights_hash")) {
@@ -328,6 +374,13 @@ json LoRAPackage::to_json() const {
     return j;
 }
 
+/**
+ * @brief From json.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: contains(), at(), statusFromString().
+ */
 LoRAPackage LoRAPackage::from_json(const json& j) {
     // Validate required fields
     if (!j.contains("package_id") || !j.contains("name") || !j.contains("version")) {
@@ -381,6 +434,10 @@ LoRAPackage LoRAPackage::from_json(const json& j) {
     return p;
 }
 
+/**
+ * @brief Compute Manifest Hash.
+ * @details Calls: to_json(), dump(), IntegrityHelper::sha256Hex().
+ */
 void LoRAPackage::computeManifestHash() {
     // Temporarily clear signature fields AND manifest_hash to obtain the
     // canonical content bytes that the hash covers.  Only non-signature
@@ -426,6 +483,13 @@ std::string LoRAPackage::statusToString() const {
     return "DRAFT";
 }
 
+/**
+ * @brief Status From String.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Implements statusFromString without additional internal calls.
+ */
 LoRAPackageStatus LoRAPackage::statusFromString(const std::string& s) {
     if (s == "DRAFT") {
       return LoRAPackageStatus::DRAFT;
@@ -469,6 +533,13 @@ json PortableAdapterProduct::to_json() const {
     return j;
 }
 
+/**
+ * @brief From json.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: contains(), at(), statusFromString().
+ */
 PortableAdapterProduct PortableAdapterProduct::from_json(const json& j) {
     if (!j.contains("product_id") || !j.contains("source_package_id") ||
         !j.contains("target_base_model_id")) {
@@ -528,6 +599,10 @@ PortableAdapterProduct PortableAdapterProduct::from_json(const json& j) {
     return p;
 }
 
+/**
+ * @brief Compute Manifest Hash.
+ * @details Calls: to_json(), dump(), IntegrityHelper::sha256Hex().
+ */
 void PortableAdapterProduct::computeManifestHash() {
     const ArtifactIntegrity saved = integrity;
     integrity.manifest_hash       = "";
@@ -551,6 +626,13 @@ std::string PortableAdapterProduct::statusToString() const {
     return "BUILDING";
 }
 
+/**
+ * @brief Status From String.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Implements statusFromString without additional internal calls.
+ */
 AdapterProductStatus PortableAdapterProduct::statusFromString(const std::string& s) {
     if (s == "BUILDING") {
       return AdapterProductStatus::BUILDING;
@@ -575,12 +657,22 @@ AdapterProductStatus PortableAdapterProduct::statusFromString(const std::string&
 // LoRAManifestStore
 // ============================================================================
 
+/**
+ * @brief Set Signature Verifier.
+ * @param[in] verifier Input parameter.
+ * @details Calls: lk(), std::move().
+ */
 void LoRAManifestStore::setSignatureVerifier(SignatureVerifier verifier) {
     std::lock_guard<std::mutex> lk(mutex_);
     signature_verifier_ = std::move(verifier);
 }
 
-// ── LoRAPackage CRUD ──────────────────────────────────────────────────────────
+/**
+ * @brief ── LoRAPackage CRUD ──────────────────────────────────────────────────────────
+ * @param[in] pkg Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), lk().
+ */
 
 bool LoRAManifestStore::storePackage(const LoRAPackage& pkg) {
     if (pkg.package_id.empty()) {
@@ -593,6 +685,11 @@ bool LoRAManifestStore::storePackage(const LoRAPackage& pkg) {
 
 std::optional<LoRAPackage> LoRAManifestStore::loadPackage(
     const std::string& package_id) const {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     auto it = packages_.find(package_id);
     if (it == packages_.end()) {
@@ -601,12 +698,23 @@ std::optional<LoRAPackage> LoRAManifestStore::loadPackage(
     return it->second;
 }
 
+/**
+ * @brief Delete Package.
+ * @param[in] package_id Identifier of the package.
+ * @return True when the operation succeeds.
+ * @details Calls: lk(), erase().
+ */
 bool LoRAManifestStore::deletePackage(const std::string& package_id) {
     std::lock_guard<std::mutex> lk(mutex_);
     return packages_.erase(package_id) > 0;
 }
 
 std::vector<std::string> LoRAManifestStore::listPackageIds() const {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     std::vector<std::string> ids = {};
 
@@ -619,6 +727,11 @@ std::vector<std::string> LoRAManifestStore::listPackageIds() const {
 
 std::vector<LoRAPackage> LoRAManifestStore::listPackagesByStatus(
     LoRAPackageStatus status) const {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     std::vector<LoRAPackage> out = {};
 
@@ -630,7 +743,12 @@ std::vector<LoRAPackage> LoRAManifestStore::listPackagesByStatus(
     return out;
 }
 
-// ── PortableAdapterProduct CRUD ───────────────────────────────────────────────
+/**
+ * @brief ── PortableAdapterProduct CRUD ───────────────────────────────────────────────
+ * @param[in] product Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), lk().
+ */
 
 bool LoRAManifestStore::storeProduct(const PortableAdapterProduct& product) {
     if (product.product_id.empty() || product.source_package_id.empty()) {
@@ -643,6 +761,11 @@ bool LoRAManifestStore::storeProduct(const PortableAdapterProduct& product) {
 
 std::optional<PortableAdapterProduct> LoRAManifestStore::loadProduct(
     const std::string& product_id) const {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     auto it = products_.find(product_id);
     if (it == products_.end()) {
@@ -651,12 +774,23 @@ std::optional<PortableAdapterProduct> LoRAManifestStore::loadProduct(
     return it->second;
 }
 
+/**
+ * @brief Delete Product.
+ * @param[in] product_id Identifier of the product.
+ * @return True when the operation succeeds.
+ * @details Calls: lk(), erase().
+ */
 bool LoRAManifestStore::deleteProduct(const std::string& product_id) {
     std::lock_guard<std::mutex> lk(mutex_);
     return products_.erase(product_id) > 0;
 }
 
 std::vector<std::string> LoRAManifestStore::listProductIds() const {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     std::vector<std::string> ids = {};
 
@@ -669,6 +803,11 @@ std::vector<std::string> LoRAManifestStore::listProductIds() const {
 
 std::vector<PortableAdapterProduct> LoRAManifestStore::listProductsByPackage(
     const std::string& package_id) const {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     std::vector<PortableAdapterProduct> out = {};
 
@@ -682,6 +821,11 @@ std::vector<PortableAdapterProduct> LoRAManifestStore::listProductsByPackage(
 
 std::vector<PortableAdapterProduct> LoRAManifestStore::listProductsByStatus(
     AdapterProductStatus status) const {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     std::vector<PortableAdapterProduct> out = {};
 
@@ -701,6 +845,11 @@ bool LoRAManifestStore::verifyPackageIntegrity(
     std::optional<LoRAPackage> maybe;
     SignatureVerifier verifier;
     {
+        /**
+         * @brief Lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(mutex_);
         auto it = packages_.find(package_id);
         if (it == packages_.end()) {
@@ -740,6 +889,11 @@ bool LoRAManifestStore::verifyProductIntegrity(
     std::optional<PortableAdapterProduct> maybe;
     SignatureVerifier verifier;
     {
+        /**
+         * @brief Lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(mutex_);
         auto it = products_.find(product_id);
         if (it == products_.end()) {
@@ -778,6 +932,11 @@ bool LoRAManifestStore::verifyProductIntegrity(
 // ── Bulk export / import ──────────────────────────────────────────────────────
 
 json LoRAManifestStore::exportPackages() const {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     // Collect keys and sort for stable, deterministic output order.
     std::vector<std::string> keys = {};
@@ -794,6 +953,12 @@ json LoRAManifestStore::exportPackages() const {
     return arr;
 }
 
+/**
+ * @brief Import Packages.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: is_array(), LoRAPackage::from_json(), lk(), std::move().
+ */
 size_t LoRAManifestStore::importPackages(const json& j) {
     if (!j.is_array()) {
       return 0;
@@ -813,6 +978,11 @@ size_t LoRAManifestStore::importPackages(const json& j) {
 }
 
 json LoRAManifestStore::exportProducts() const {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     // Collect keys and sort for stable, deterministic output order.
     std::vector<std::string> keys = {};
@@ -829,6 +999,12 @@ json LoRAManifestStore::exportProducts() const {
     return arr;
 }
 
+/**
+ * @brief Import Products.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: is_array(), PortableAdapterProduct::from_json(), lk(), std::move().
+ */
 size_t LoRAManifestStore::importProducts(const json& j) {
     if (!j.is_array()) {
       return 0;
@@ -849,11 +1025,21 @@ size_t LoRAManifestStore::importProducts(const json& j) {
 // ── Statistics ────────────────────────────────────────────────────────────────
 
 size_t LoRAManifestStore::packageCount() const {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     return packages_.size();
 }
 
 size_t LoRAManifestStore::productCount() const {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     return products_.size();
 }

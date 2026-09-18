@@ -37,6 +37,12 @@ IndexApiHandler::IndexApiHandler(
 {
 }
 
+/**
+ * @brief Handle Create.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: json::parse(), body(), contains(), makeErrorResponse(), validateStringLength(), validatePathSegment(), THEMIS_ERROR(), createRangeIndex().
+ */
 http::response<http::string_body> IndexApiHandler::handleCreate(
     const http::request<http::string_body>& req
 ) {
@@ -159,6 +165,12 @@ http::response<http::string_body> IndexApiHandler::handleCreate(
     }
 }
 
+/**
+ * @brief Handle Drop.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: json::parse(), body(), contains(), makeErrorResponse(), validateStringLength(), validatePathSegment(), THEMIS_ERROR(), is_string().
+ */
 http::response<http::string_body> IndexApiHandler::handleDrop(
     const http::request<http::string_body>& req
 ) {
@@ -202,6 +214,12 @@ http::response<http::string_body> IndexApiHandler::handleDrop(
     }
 }
 
+/**
+ * @brief Handle Stats.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: body(), empty(), json::parse(), contains(), std::string(), target(), find(), substr().
+ */
 http::response<http::string_body> IndexApiHandler::handleStats(
     const http::request<http::string_body>& req
 ) {
@@ -307,6 +325,12 @@ http::response<http::string_body> IndexApiHandler::handleStats(
     }
 }
 
+/**
+ * @brief Handle Rebuild.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: json::parse(), body(), contains(), makeErrorResponse(), value(), rebuildIndexOnline(), rebuildIndex(), getIndexStats().
+ */
 http::response<http::string_body> IndexApiHandler::handleRebuild(
     const http::request<http::string_body>& req
 ) {
@@ -348,6 +372,12 @@ http::response<http::string_body> IndexApiHandler::handleRebuild(
     }
 }
 
+/**
+ * @brief Handle Reindex.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: json::parse(), body(), contains(), makeErrorResponse(), reindexTable(), getAllIndexStats(), size(), json::array().
+ */
 http::response<http::string_body> IndexApiHandler::handleReindex(
     const http::request<http::string_body>& req
 ) {
@@ -391,6 +421,12 @@ http::response<http::string_body> IndexApiHandler::handleReindex(
     }
 }
 
+/**
+ * @brief Handle Suggestions.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), std::string(), target(), find(), substr(), iss(), std::getline(), std::stod().
+ */
 http::response<http::string_body> IndexApiHandler::handleSuggestions(
     const http::request<http::string_body>& req
 ) {
@@ -449,6 +485,12 @@ http::response<http::string_body> IndexApiHandler::handleSuggestions(
     }
 }
 
+/**
+ * @brief Handle Patterns.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), std::string(), target(), find(), substr(), setAttribute(), getPatterns(), json::array().
+ */
 http::response<http::string_body> IndexApiHandler::handlePatterns(
     const http::request<http::string_body>& req
 ) {
@@ -491,6 +533,12 @@ http::response<http::string_body> IndexApiHandler::handlePatterns(
     }
 }
 
+/**
+ * @brief Handle Record Pattern.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), json::parse(), body(), value(), int64_t(), empty(), setStatus(), makeErrorResponse().
+ */
 http::response<http::string_body> IndexApiHandler::handleRecordPattern(
     const http::request<http::string_body>& req
 ) {
@@ -538,6 +586,12 @@ http::response<http::string_body> IndexApiHandler::handleRecordPattern(
     }
 }
 
+/**
+ * @brief Handle Clear Patterns.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), getPatternTracker(), size(), clear(), setAttribute(), setStatus(), makeResponse(), dump().
+ */
 http::response<http::string_body> IndexApiHandler::handleClearPatterns(
     const http::request<http::string_body>& req
 ) {
@@ -563,6 +617,14 @@ http::response<http::string_body> IndexApiHandler::handleClearPatterns(
     }
 }
 
+/**
+ * @brief Make Error Response.
+ * @param[in] status Input parameter.
+ * @param[in] message Input parameter.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: makeResponse(), dump().
+ */
 http::response<http::string_body> IndexApiHandler::makeErrorResponse(
     http::status status, const std::string& message, const http::request<http::string_body>& req
 ) {
@@ -574,6 +636,14 @@ http::response<http::string_body> IndexApiHandler::makeErrorResponse(
     return makeResponse(status, error_body.dump(), req);
 }
 
+/**
+ * @brief Make Response.
+ * @param[in] status Input parameter.
+ * @param[in] body Input parameter.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: version(), set(), keep_alive(), body(), prepare_payload().
+ */
 http::response<http::string_body> IndexApiHandler::makeResponse(
     http::status status, const std::string& body, const http::request<http::string_body>& req
 ) {

@@ -35,6 +35,15 @@ using clock = std::chrono::system_clock;
 
 namespace {
 
+/**
+ * @brief Curl write cb.
+ * @param[in,out] ptr Input/output parameter.
+ * @param[in] sz Input parameter.
+ * @param[in] nmemb Input parameter.
+ * @param[in,out] data Input/output parameter.
+ * @return Return value.
+ * @details Calls: append().
+ */
 size_t curl_write_cb(void* ptr, size_t sz, size_t nmemb, void* data) {
     auto* buf = static_cast<std::string*>(data);
     buf->append(static_cast<char*>(ptr), sz * nmemb);
@@ -107,15 +116,31 @@ OAuthTokenManager::OAuthTokenManager(
 // ─────────────────────────────────────────────────────────────────────────────
 
 std::chrono::system_clock::time_point OAuthTokenManager::getExpiryTime() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return expiry_time_;
 }
 
+/**
+ * @brief Set Token For Testing.
+ * @param[in] access_token Input parameter.
+ * @param[in] refresh_token Input parameter.
+ * @param[in] expiry Input parameter.
+ */
 void OAuthTokenManager::setTokenForTesting(
     const std::string& access_token,
     const std::string& refresh_token,
     std::chrono::system_clock::time_point expiry)
 {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     config_.access_token  = access_token;
     config_.refresh_token = refresh_token;
@@ -134,6 +159,13 @@ bool OAuthTokenManager::isNearExpiry() const {
 
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Get Access Token.
+ * @return Return value.
+ * @throws OAuthRefreshExpiredError if an error occurs.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: lock(), isNearExpiry(), doHttpPost(), jitter(), THEMIS_WARN(), std::this_thread::sleep_for(), std::chrono::milliseconds(), std::to_string().
+ */
 std::string OAuthTokenManager::getAccessToken() {
     std::lock_guard<std::mutex> lock(mutex_);
     if (isNearExpiry()) {
@@ -180,6 +212,12 @@ std::string OAuthTokenManager::getAccessToken() {
 
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Refresh Token.
+ * @throws OAuthRefreshExpiredError if an error occurs.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: lock(), doHttpPost(), jitter(), THEMIS_WARN(), std::this_thread::sleep_for(), std::chrono::milliseconds(), std::to_string(), parseTokenResponse().
+ */
 void OAuthTokenManager::refreshToken() {
     std::lock_guard<std::mutex> lock(mutex_);
     const auto body = "grant_type=refresh_token"
@@ -219,6 +257,11 @@ void OAuthTokenManager::refreshToken() {
 
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Get Bearer Authorization Header.
+ * @return Return value.
+ * @details Calls: getAccessToken().
+ */
 std::string OAuthTokenManager::getBearerAuthorizationHeader() {
     return "Bearer " + getAccessToken();
 }
@@ -232,6 +275,12 @@ std::pair<int, std::string> OAuthTokenManager::doHttpPost(const std::string& bod
 
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Parse Token Response.
+ * @param[in] body Input parameter.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: json::parse(), contains(), value(), clock::now(), std::chrono::seconds(), THEMIS_INFO(), THEMIS_ERROR(), what().
+ */
 void OAuthTokenManager::parseTokenResponse(const std::string& body) {
     // Must be called while holding mutex_
     try {

@@ -24,6 +24,10 @@ namespace themis {
 // enableAuditing
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Enable Auditing.
+ * @param[in] enabled Input parameter.
+ */
 void TransactionAuditor::enableAuditing(bool enabled)
 {
     enabled_.store(enabled, std::memory_order_release);
@@ -33,12 +37,21 @@ void TransactionAuditor::enableAuditing(bool enabled)
 // record
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Record.
+ * @param[in] record Input parameter.
+ */
 void TransactionAuditor::record(AuditRecord record)
 {
     if (!enabled_.load(std::memory_order_acquire)) {
       return;
     }
 
+    /**
+     * @brief Lk.
+     * @param[in] log_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(log_mutex_);
     // Sprint 8 Phase 1 (GAP A-2): Record is moved to log vector.
     // All subsequent accesses use index-based iteration (queryAuditLog), never direct references.
@@ -57,6 +70,11 @@ TransactionAuditor::queryAuditLog(
     std::optional<std::chrono::system_clock::time_point> end_time,
     size_t                                               limit) const
 {
+    /**
+     * @brief Lk.
+     * @param[in] log_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(log_mutex_);
 
     std::vector<AuditRecord> result = {};
@@ -92,12 +110,25 @@ TransactionAuditor::queryAuditLog(
 
 size_t TransactionAuditor::size() const
 {
+    /**
+     * @brief Lk.
+     * @param[in] log_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(log_mutex_);
     return log_.size();
 }
 
+/**
+ * @brief Clear.
+ */
 void TransactionAuditor::clear()
 {
+    /**
+     * @brief Lk.
+     * @param[in] log_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(log_mutex_);
     log_.clear();
 }
@@ -108,7 +139,12 @@ void TransactionAuditor::clear()
 
 namespace {
 
-/// Serialise a single AuditRecord to a compact JSON object.
+/**
+ * @brief Record To Json.
+ * @param[in] rec Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::to_time_t(), std::put_time(), std::gmtime(), json::array(), push_back(), std::move(), str(), result_str().
+ */
 nlohmann::json recordToJson(const TransactionAuditor::AuditRecord& rec) {
     using json = nlohmann::json;
 
@@ -159,7 +195,12 @@ nlohmann::json recordToJson(const TransactionAuditor::AuditRecord& rec) {
     };
 }
 
-/// Serialise all records to newline-delimited JSON (NDJSON).
+/**
+ * @brief Serialize To NDJSON.
+ * @param[in] records Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), recordToJson(), dump().
+ */
 std::string serializeToNDJSON(const std::vector<TransactionAuditor::AuditRecord>& records) {
     std::string out = {};
     out.reserve(records.size() * 256);
@@ -170,7 +211,12 @@ std::string serializeToNDJSON(const std::vector<TransactionAuditor::AuditRecord>
     return out;
 }
 
-/// Build an S3 object key from a prefix and the current UTC time.
+/**
+ * @brief Build S3 Key.
+ * @param[in] prefix Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::now(), std::chrono::system_clock::to_time_t(), std::put_time(), std::gmtime(), empty(), back(), str().
+ */
 std::string buildS3Key(const std::string& prefix) {
     auto now = std::chrono::system_clock::now();
     auto t   = std::chrono::system_clock::to_time_t(now);
@@ -190,8 +236,17 @@ std::string buildS3Key(const std::string& prefix) {
 // setExportTransport
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Set Export Transport.
+ * @param[in,out] transport Input/output parameter.
+ */
 void TransactionAuditor::setExportTransport(IAuditExportTransport* transport)
 {
+    /**
+     * @brief Lk.
+     * @param[in] log_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(log_mutex_);
     export_transport_ = transport;
 }
@@ -200,8 +255,18 @@ void TransactionAuditor::setExportTransport(IAuditExportTransport* transport)
 // exportToKafka / exportToS3
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Export To Kafka.
+ * @param[in] topic Input parameter.
+ * @return Return value.
+ */
 TransactionAuditor::Status TransactionAuditor::exportToKafka(const std::string& topic)
 {
+    /**
+     * @brief Lk.
+     * @param[in] log_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(log_mutex_);
     if (!export_transport_) {
         return Status::Error("export transport not configured — "
@@ -214,9 +279,20 @@ TransactionAuditor::Status TransactionAuditor::exportToKafka(const std::string& 
     return export_transport_->sendKafka(topic, payload);
 }
 
+/**
+ * @brief Export To S3.
+ * @param[in] bucket Input parameter.
+ * @param[in] prefix Input parameter.
+ * @return Return value.
+ */
 TransactionAuditor::Status TransactionAuditor::exportToS3(const std::string& bucket,
                                                           const std::string& prefix)
 {
+    /**
+     * @brief Lk.
+     * @param[in] log_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(log_mutex_);
     if (!export_transport_) {
         return Status::Error("export transport not configured — "

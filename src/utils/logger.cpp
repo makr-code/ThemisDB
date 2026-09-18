@@ -39,10 +39,10 @@ LogMetrics Logger::metrics_{};
 
 namespace {
 /**
- * @brief Minimal JSON-string escape for embedding a value inside "…".
+ * @brief Json Escape Trace Id.
  * @param[in] s Input parameter.
  * @return Return value.
- * @details Only escapes characters that would break JSON: backslash and double-quote. Control characters (< 0x20) are replaced with their \uXXXX representation. Calls: reserve(), size(), std::snprintf().
+ * @details Calls: reserve(), size(), std::snprintf().
  */
 std::string jsonEscapeTraceId(const std::string& s) {
     std::string out = {};
@@ -64,13 +64,13 @@ std::string jsonEscapeTraceId(const std::string& s) {
 }
 } // anonymous namespace
 
+
 /**
- * @brief ───────────────────────────────────────────────────────────────────────────── Private helper ─────────────────────────────────────────────────────────────────────────────
+ * @brief To Spdlog Level.
  * @param[in] level Input parameter.
  * @return Return value.
  * @details Implements toSpdlogLevel without additional internal calls.
  */
-
 spdlog::level::level_enum Logger::toSpdlogLevel(Level level) {
     switch (level) {
         case Level::TRACE:    return spdlog::level::trace;
@@ -92,13 +92,13 @@ LogMetrics& Logger::metricsStorage() {
     return metrics_;
 }
 
+
 /**
- * @brief ───────────────────────────────────────────────────────────────────────────── Standard init ─────────────────────────────────────────────────────────────────────────────
+ * @brief Init.
  * @param[in] log_file Input parameter.
  * @param[in] level Input parameter.
  * @details Calls: begin(), end(), set_level(), toSpdlogLevel(), set_pattern(), spdlog::set_default_logger(), info(), themis::utils::makeErrorContext().
  */
-
 void Logger::init(const std::string& log_file, Level level) {
     try {
         auto console_sink = std::make_shared<spdlog::sinks::stdout_color_sink_mt>();
@@ -131,13 +131,13 @@ void Logger::init(const std::string& log_file, Level level) {
     }
 }
 
+
 /**
- * @brief ───────────────────────────────────────────────────────────────────────────── JSON-structured init ─────────────────────────────────────────────────────────────────────────────
+ * @brief Init Json.
  * @param[in] log_file Input parameter.
  * @param[in] level Input parameter.
  * @details Calls: begin(), end(), set_level(), toSpdlogLevel(), set_pattern(), spdlog::set_default_logger(), info(), themis::utils::makeErrorContext().
  */
-
 void Logger::initJson(const std::string& log_file, Level level) {
     try {
         auto console_sink = std::make_shared<spdlog::sinks::stdout_color_sink_mt>();
@@ -172,15 +172,15 @@ void Logger::initJson(const std::string& log_file, Level level) {
     }
 }
 
+
 /**
- * @brief ───────────────────────────────────────────────────────────────────────────── Rotating-file init ─────────────────────────────────────────────────────────────────────────────
+ * @brief Init Rotating.
  * @param[in] log_file Input parameter.
  * @param[in] max_file_size Input parameter.
  * @param[in] max_files Input parameter.
  * @param[in] level Input parameter.
  * @details Calls: begin(), end(), set_level(), toSpdlogLevel(), set_pattern(), spdlog::set_default_logger(), info(), themis::utils::makeErrorContext().
  */
-
 void Logger::initRotating(const std::string& log_file,
                            std::size_t max_file_size,
                            std::size_t max_files,
@@ -218,11 +218,11 @@ void Logger::initRotating(const std::string& log_file,
     }
 }
 
+
 /**
- * @brief ───────────────────────────────────────────────────────────────────────────── Shutdown ─────────────────────────────────────────────────────────────────────────────
+ * @brief Shutdown.
  * @details Calls: flush(), reset().
  */
-
 void Logger::shutdown() {
     if (logger_) {
         logger_->flush();
@@ -232,12 +232,12 @@ void Logger::shutdown() {
     }
 }
 
+
 /**
- * @brief ───────────────────────────────────────────────────────────────────────────── Accessors ─────────────────────────────────────────────────────────────────────────────
+ * @brief Get.
  * @return Return value.
  * @details Calls: init().
  */
-
 std::shared_ptr<spdlog::logger> Logger::get() {
     if (!logger_) {
         init();
@@ -285,15 +285,10 @@ void Logger::setPattern(const std::string& pattern) {
 
 /**
  * @brief Set Trace Context.
- * @param[in] trace_id Input parameter.
+ * @param[in] trace_id Identifier of the trace.
  * @details Calls: lk(), empty(), set_pattern(), jsonEscapeTraceId().
  */
 void Logger::setTraceContext(const std::string& trace_id) {
-    /**
-     * @brief Lk.
-     * @param[in] trace_context_mu_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lk(trace_context_mu_);
     trace_context_ = trace_id;
     if (!logger_) { return; }
@@ -324,21 +319,16 @@ void Logger::setTraceContext(const std::string& trace_id) {
  * @details Calls: lk().
  */
 std::string Logger::getTraceContext() {
-    /**
-     * @brief Lk.
-     * @param[in] trace_context_mu_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lk(trace_context_mu_);
     return trace_context_;
 }
 
+
 /**
- * @brief ───────────────────────────────────────────────────────────────────────────── Performance metrics ─────────────────────────────────────────────────────────────────────────────
+ * @brief Get Metrics.
  * @return Return value.
  * @details Calls: metricsStorage().
  */
-
 const LogMetrics& Logger::getMetrics() {
     return metricsStorage();
 }
@@ -351,13 +341,13 @@ void Logger::resetMetrics() {
     metricsStorage().reset();
 }
 
+
 /**
- * @brief ───────────────────────────────────────────────────────────────────────────── Level helpers ─────────────────────────────────────────────────────────────────────────────
+ * @brief Level From String.
  * @param[in] lvl Input parameter.
  * @return Return value.
  * @details Calls: tolower().
  */
-
 Logger::Level Logger::levelFromString(const std::string& lvl) {
     std::string s = lvl;
     for (auto& c : s) {

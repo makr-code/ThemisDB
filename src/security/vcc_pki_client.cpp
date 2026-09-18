@@ -52,10 +52,23 @@ using X509_STORE_CTX_ptr = std::unique_ptr<X509_STORE_CTX, X509_STORE_CTX_Delete
 using BIGNUM_ptr = std::unique_ptr<BIGNUM, BIGNUM_Deleter>;
 using OPENSSL_string_ptr = std::unique_ptr<char, OPENSSL_Free_Deleter>;
 
+/**
+ * @brief Starts with.
+ * @param[in] value Input parameter.
+ * @param[in] prefix Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: rfind().
+ */
 bool starts_with(const std::string& value, const char* prefix) {
     return value.rfind(prefix, 0) == 0;
 }
 
+/**
+ * @brief Extract url host.
+ * @param[in] url Input parameter.
+ * @return Return value.
+ * @details Calls: find(), size(), substr(), find_first_of().
+ */
 std::string extract_url_host(const std::string& url) {
     const size_t scheme_pos = url.find("://");
     const size_t host_start = (scheme_pos == std::string::npos) ? 0 : scheme_pos + 3;
@@ -76,14 +89,34 @@ std::string extract_url_host(const std::string& url) {
                                                                 : host_end - host_start);
 }
 
+/**
+ * @brief Is loopback host.
+ * @param[in] host Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements is_loopback_host without additional internal calls.
+ */
 bool is_loopback_host(const std::string& host) {
     return host == "localhost" || host == "127.0.0.1" || host == "::1";
 }
 
+/**
+ * @brief Is loopback url.
+ * @param[in] url Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: is_loopback_host(), extract_url_host().
+ */
 bool is_loopback_url(const std::string& url) {
     return is_loopback_host(extract_url_host(url));
 }
 
+/**
+ * @brief Validate transport config.
+ * @param[in] base_url Input parameter.
+ * @param[in] tls_config Input parameter.
+ * @param[in] timeout_ms Input parameter.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: empty(), starts_with(), is_loopback_url().
+ */
 void validate_transport_config(const std::string& base_url, const TLSConfig& tls_config, int timeout_ms) {
     if (base_url.empty()) {
         throw std::invalid_argument("PKI base URL must not be empty");
@@ -108,7 +141,12 @@ void validate_transport_config(const std::string& base_url, const TLSConfig& tls
 
 } // anonymous namespace
 
-// Helper function to convert ASN1_TIME to milliseconds since epoch
+/**
+ * @brief Helper function to convert ASN1_TIME to milliseconds since epoch
+ * @param[in] asn1_time Input parameter.
+ * @return Return value.
+ * @details Calls: std::memset(), ASN1_TIME_to_tm(), _mkgmtime(), timegm().
+ */
 static int64_t asn1_time_to_milliseconds(const ASN1_TIME* asn1_time) {
     if (!asn1_time) {
         return 0;
@@ -167,6 +205,12 @@ nlohmann::json X509Certificate::toJson() const {
     };
 }
 
+/**
+ * @brief From Json.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: value().
+ */
 X509Certificate X509Certificate::fromJson(const nlohmann::json& j) {
     X509Certificate cert;
     cert.id = j.value("id", "");
@@ -192,6 +236,12 @@ nlohmann::json CRLEntry::toJson() const {
     };
 }
 
+/**
+ * @brief From Json.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: value().
+ */
 CRLEntry CRLEntry::fromJson(const nlohmann::json& j) {
     CRLEntry entry;
     entry.serial_number = j.value("serial_number", "");
@@ -249,13 +299,31 @@ struct VCCPKIClient::Impl {
         curl_global_cleanup();
     }
     
-    // Callback for reading response data
+    /**
+     * @brief Callback for reading response data
+     * @param[in,out] contents Input/output parameter.
+     * @param[in] size Input parameter.
+     * @param[in] nmemb Input parameter.
+     * @param[in,out] userp Input/output parameter.
+     * @return Return value.
+     * @details Calls: append().
+     */
     static size_t writeCallback(void* contents, size_t size, size_t nmemb, std::string* userp) {
         size_t total_size = size * nmemb;
         userp->append(static_cast<char*>(contents), total_size);
         return total_size;
     }
     
+    /**
+     * @brief Execute.
+     * @param[in] url Input parameter.
+     * @param[in] method Input parameter.
+     * @param[in] body Input parameter.
+     * @param[in] timeout_ms Input parameter.
+     * @return Return value.
+     * @throws std::runtime_error if an error occurs.
+     * @details Calls: curl_easy_reset(), curl_easy_setopt(), c_str(), empty(), size(), curl_easy_perform(), curl_easy_strerror(), curl_easy_getinfo().
+     */
     std::string execute(const std::string& url, const std::string& method, const std::string& body, int timeout_ms) {
         std::string response;
         
@@ -359,17 +427,36 @@ VCCPKIClient::~VCCPKIClient() = default;
 VCCPKIClient::VCCPKIClient(VCCPKIClient&&) noexcept = default;
 VCCPKIClient& VCCPKIClient::operator=(VCCPKIClient&&) noexcept = default;
 
+/**
+ * @brief Http Get.
+ * @param[in] path Input parameter.
+ * @return Return value.
+ * @details Calls: execute().
+ */
 std::string VCCPKIClient::httpGet(const std::string& path) {
     std::string url = base_url_ + path;
     return impl_->execute(url, "GET", "", timeout_ms_);
 }
 
+/**
+ * @brief Http Post.
+ * @param[in] path Input parameter.
+ * @param[in] body Input parameter.
+ * @return Return value.
+ * @details Calls: dump(), execute().
+ */
 std::string VCCPKIClient::httpPost(const std::string& path, const nlohmann::json& body) {
     std::string url = base_url_ + path;
     std::string body_str = body.dump();
     return impl_->execute(url, "POST", body_str, timeout_ms_);
 }
 
+/**
+ * @brief Request Certificate.
+ * @param[in] request Input parameter.
+ * @return Return value.
+ * @details Calls: toJson(), httpPost(), nlohmann::json::parse(), X509Certificate::fromJson().
+ */
 X509Certificate VCCPKIClient::requestCertificate(const CertificateRequest& request) {
     nlohmann::json body = request.toJson();
     
@@ -380,6 +467,12 @@ X509Certificate VCCPKIClient::requestCertificate(const CertificateRequest& reque
     return X509Certificate::fromJson(response_json);
 }
 
+/**
+ * @brief Get Certificate.
+ * @param[in] cert_id Identifier of the cert.
+ * @return Return value.
+ * @details Calls: httpGet(), nlohmann::json::parse(), X509Certificate::fromJson().
+ */
 X509Certificate VCCPKIClient::getCertificate(const std::string& cert_id) {
     std::string path = "/api/v1/certificates/" + cert_id;
     
@@ -390,6 +483,11 @@ X509Certificate VCCPKIClient::getCertificate(const std::string& cert_id) {
     return X509Certificate::fromJson(response_json);
 }
 
+/**
+ * @brief Get CRL.
+ * @return Return value.
+ * @details Calls: httpGet(), nlohmann::json::parse(), contains(), push_back(), CRLEntry::fromJson().
+ */
 std::vector<CRLEntry> VCCPKIClient::getCRL() {
     std::string response = httpGet("/api/v1/crl");
     
@@ -412,6 +510,11 @@ bool VCCPKIClient::isRevoked(const std::string& cert_id, const std::vector<CRLEn
     });
 }
 
+/**
+ * @brief Health Check.
+ * @return True when the operation succeeds.
+ * @details Calls: httpGet(), nlohmann::json::parse(), value().
+ */
 bool VCCPKIClient::healthCheck() {
     try {
         std::string response = httpGet("/api/v1/health");
@@ -422,6 +525,13 @@ bool VCCPKIClient::healthCheck() {
     }
 }
 
+/**
+ * @brief Parse Certificate.
+ * @param[in] pem Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: bio(), BIO_new_mem_buf(), c_str(), size(), x509(), PEM_read_bio_X509(), get(), X509_get_serialNumber().
+ */
 X509Certificate VCCPKIClient::parseCertificate(const std::string& pem) {
     X509Certificate cert;
     

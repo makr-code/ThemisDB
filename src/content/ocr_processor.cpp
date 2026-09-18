@@ -47,6 +47,11 @@ OcrProcessor::OcrProcessor(Config config) : config_(std::move(config)) {}
 // Static capability queries
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Is Available.
+ * @return True when the operation succeeds.
+ * @details Implements isAvailable without additional internal calls.
+ */
 bool OcrProcessor::isAvailable() {
 #if OCR_LIBRARY_AVAILABLE
     return true;
@@ -55,6 +60,11 @@ bool OcrProcessor::isAvailable() {
 #endif
 }
 
+/**
+ * @brief Get Tesseract Version.
+ * @return Return value.
+ * @details Calls: std::string(), tesseract::TessBaseAPI::Version().
+ */
 std::string OcrProcessor::getTesseractVersion() {
 #if OCR_LIBRARY_AVAILABLE
     return std::string(OCR_LIBRARY_NAME " ") + tesseract::TessBaseAPI::Version();
@@ -125,6 +135,13 @@ std::string OcrProcessor::getTesseractVersion() {
 // Core Tesseract invocation
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Run Tesseract.
+ * @param[in] blob Input parameter.
+ * @param[in,out] preprocess_info Input/output parameter.
+ * @return Return value.
+ * @details Calls: empty(), themis::config::ConfigPathResolver::tryResolve(), c_str(), Init(), SetPageSegMode(), SetVariable(), data(), pixReadMem().
+ */
 std::string OcrProcessor::runTesseract(const std::string &blob,
                                        PreprocessInfo *preprocess_info) {
 #if OCR_LIBRARY_AVAILABLE
@@ -255,9 +272,13 @@ std::string OcrProcessor::runTesseract(const std::string &blob,
 #endif
 }
 
-// ---------------------------------------------------------------------------
-// IContentProcessor::extract
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- IContentProcessor::extract ---------------------------------------------------------------------------
+ * @param[in] blob Input parameter.
+ * @param[in] content_type Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::steady_clock::now(), isAvailable(), recordExtractError(), empty(), isSupportedImageFormat(), runTesseract(), size(), count().
+ */
 
 ExtractionResult OcrProcessor::extract(const std::string &blob, const ContentType &content_type) {
     ExtractionResult result;
@@ -324,9 +345,14 @@ ExtractionResult OcrProcessor::extract(const std::string &blob, const ContentTyp
     return result;
 }
 
-// ---------------------------------------------------------------------------
-// IContentProcessor::chunk
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- IContentProcessor::chunk ---------------------------------------------------------------------------
+ * @param[in] extraction_result Input parameter.
+ * @param[in] chunk_size Input parameter.
+ * @param[in] overlap Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), countTokens(), push_back(), std::move(), size(), clear(), find(), substr().
+ */
 
 std::vector<json> OcrProcessor::chunk(const ExtractionResult &extraction_result, int chunk_size, int overlap) {
     std::vector<json> chunks;
@@ -423,13 +449,12 @@ std::vector<json> OcrProcessor::chunk(const ExtractionResult &extraction_result,
     return chunks;
 }
 
-// ---------------------------------------------------------------------------
-// IContentProcessor::generateEmbedding
-// Deterministic hash-based 768-dim embedding – same approach as
-// TextProcessor and HtmlProcessor.  Delegates to the EmbeddingPipeline
-// when one is wired in; falls back to the inline hash implementation so
-// that OCR chunks are always indexable even without an external model.
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- IContentProcessor::generateEmbedding Deterministic hash-based 768-dim embedding – same approach as TextProcessor and HtmlProcessor.
+ * @param[in] chunk_data Input parameter.
+ * @return Return value.
+ * @details Delegates to the EmbeddingPipeline when one is wired in; falls back to the inline hash implementation so that OCR chunks are always indexable even without an external model. --------------------------------------------------------------------------- Calls: embedding(), empty(), iss(), push_back(), size(), hasher(), std::sin(), std::sqrt().
+ */
 
 std::vector<float> OcrProcessor::generateEmbedding(const std::string &chunk_data) {
     const int DIM = 768;
@@ -514,6 +539,11 @@ std::vector<float> OcrProcessor::generateEmbedding(const std::string &chunk_data
     Config cfg;
     cfg.language = language;
     cfg.data_dir = data_dir;
+    /**
+     * @brief Proc.
+     * @param[in] cfg Input parameter.
+     * @return Return value.
+     */
     OcrProcessor proc(cfg);
 
     ContentType ct;
@@ -534,10 +564,21 @@ std::vector<float> OcrProcessor::generateEmbedding(const std::string &chunk_data
 // Factory functions
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Create Ocr Processor.
+ * @return Return value.
+ * @details Implements createOcrProcessor without additional internal calls.
+ */
 std::unique_ptr<IContentProcessor> createOcrProcessor() {
     return std::make_unique<OcrProcessor>();
 }
 
+/**
+ * @brief Create Ocr Processor.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @details Calls: std::move().
+ */
 std::unique_ptr<IContentProcessor> createOcrProcessor(OcrProcessor::Config config) {
     return std::make_unique<OcrProcessor>(std::move(config));
 }

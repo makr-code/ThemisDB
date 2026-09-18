@@ -44,6 +44,12 @@ nlohmann::json PromptVersion::toJson() const {
     return j;
 }
 
+/**
+ * @brief From Json.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: value(), nlohmann::json::object(), contains(), std::chrono::system_clock::from_time_t().
+ */
 PromptVersion PromptVersion::fromJson(const nlohmann::json& j) {
     PromptVersion v;
     v.version_id = j.value("version_id", "");
@@ -126,6 +132,17 @@ PromptVersionControl::PromptVersionControl(RocksDBWrapper* db, rocksdb::ColumnFa
     }
 }
 
+/**
+ * @brief Commit.
+ * @param[in] prompt_id Identifier of the prompt.
+ * @param[in] content Input parameter.
+ * @param[in] message Input parameter.
+ * @param[in] author Input parameter.
+ * @param[in] branch Input parameter.
+ * @param[in] metadata Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), count(), generateVersionId(), std::chrono::system_clock::now(), persistVersion(), persistBranch(), THEMIS_DEBUG(), substr().
+ */
 std::string PromptVersionControl::commit(
     const std::string& prompt_id,
     const std::string& content,
@@ -183,6 +200,11 @@ std::string PromptVersionControl::commit(
 std::optional<PromptVersion> PromptVersionControl::getVersion(
     const std::string& version_id
 ) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     auto it = versions_.find(version_id);
@@ -198,6 +220,11 @@ std::vector<PromptVersion> PromptVersionControl::getHistory(
     const std::string& branch,
     size_t limit
 ) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     std::vector<PromptVersion> history;
@@ -231,6 +258,11 @@ std::optional<PromptVersion> PromptVersionControl::getLatest(
     const std::string& prompt_id,
     const std::string& branch
 ) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     auto prompt_it = branches_.find(prompt_id);
@@ -252,6 +284,14 @@ std::optional<PromptVersion> PromptVersionControl::getLatest(
     return std::nullopt;
 }
 
+/**
+ * @brief Rollback.
+ * @param[in] prompt_id Identifier of the prompt.
+ * @param[in] version_id Identifier of the version.
+ * @param[in] message Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), find(), end(), THEMIS_ERROR(), generateVersionId(), substr(), std::chrono::system_clock::now(), persistVersion().
+ */
 std::string PromptVersionControl::rollback(
     const std::string& prompt_id,
     const std::string& version_id,
@@ -300,6 +340,14 @@ std::string PromptVersionControl::rollback(
     return new_version_id;
 }
 
+/**
+ * @brief Rollback N.
+ * @param[in] prompt_id Identifier of the prompt.
+ * @param[in] versions Input parameter.
+ * @param[in] branch Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), find(), end(), count(), THEMIS_ERROR(), empty(), THEMIS_WARN(), unlock().
+ */
 std::string PromptVersionControl::rollbackN(
     const std::string& prompt_id,
     size_t versions,
@@ -333,6 +381,14 @@ std::string PromptVersionControl::rollbackN(
     return rollback(prompt_id, current_id, message);
 }
 
+/**
+ * @brief Create Branch.
+ * @param[in] prompt_id Identifier of the prompt.
+ * @param[in] branch_name Name of the branch.
+ * @param[in] from_version Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), count(), THEMIS_WARN(), empty(), THEMIS_ERROR(), std::chrono::system_clock::now(), persistBranch(), THEMIS_INFO().
+ */
 bool PromptVersionControl::createBranch(
     const std::string& prompt_id,
     const std::string& branch_name,
@@ -385,6 +441,11 @@ bool PromptVersionControl::createBranch(
 std::vector<BranchInfo> PromptVersionControl::listBranches(
     const std::string& prompt_id
 ) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     std::vector<BranchInfo> result;
@@ -430,6 +491,11 @@ PromptDiff PromptVersionControl::diff(
     const std::string& version_a,
     const std::string& version_b
 ) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     auto it_a = versions_.find(version_a);
@@ -444,6 +510,16 @@ PromptDiff PromptVersionControl::diff(
                       version_b, it_b->second.content);
 }
 
+/**
+ * @brief Merge.
+ * @param[in] prompt_id Identifier of the prompt.
+ * @param[in] source_branch Input parameter.
+ * @param[in] target_branch Input parameter.
+ * @param[in] strategy Input parameter.
+ * @param[in] message Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), find(), end(), push_back(), count(), at(), empty(), size().
+ */
 MergeResult PromptVersionControl::merge(
     const std::string& prompt_id,
     const std::string& source_branch,
@@ -592,6 +668,11 @@ MergeResult PromptVersionControl::merge(
 std::unordered_map<std::string, std::string> PromptVersionControl::getGenealogy(
     const std::string& prompt_id
 ) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     std::unordered_map<std::string, std::string> genealogy;
@@ -605,6 +686,13 @@ std::unordered_map<std::string, std::string> PromptVersionControl::getGenealogy(
     return genealogy;
 }
 
+/**
+ * @brief Tag.
+ * @param[in] version_id Identifier of the version.
+ * @param[in] tag_name Name of the tag.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), find(), end(), THEMIS_ERROR(), THEMIS_INFO(), substr().
+ */
 bool PromptVersionControl::tag(const std::string& version_id, const std::string& tag_name) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -626,6 +714,11 @@ std::optional<PromptVersion> PromptVersionControl::getByTag(
     const std::string& prompt_id,
     const std::string& tag_name
 ) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     auto prompt_it = tags_.find(prompt_id);
@@ -649,6 +742,11 @@ std::optional<PromptVersion> PromptVersionControl::getByTag(
 std::unordered_map<std::string, std::string> PromptVersionControl::listTags(
     const std::string& prompt_id
 ) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     auto it = tags_.find(prompt_id);
@@ -659,6 +757,12 @@ std::unordered_map<std::string, std::string> PromptVersionControl::listTags(
     return {};
 }
 
+/**
+ * @brief Update Performance Score.
+ * @param[in] version_id Identifier of the version.
+ * @param[in] score Input parameter.
+ * @details Calls: lock(), find(), end(), std::max(), std::min(), persistVersion().
+ */
 void PromptVersionControl::updatePerformanceScore(
     const std::string& version_id,
     double score
@@ -676,6 +780,11 @@ void PromptVersionControl::updatePerformanceScore(
 }
 
 nlohmann::json PromptVersionControl::getStats(const std::string& prompt_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     nlohmann::json stats;
@@ -738,6 +847,11 @@ std::string PromptVersionControl::generateVersionId(
     return oss.str();
 }
 
+/**
+ * @brief Persist Version.
+ * @param[in] version Input parameter.
+ * @details Calls: std::string(), toJson(), dump(), bytes(), begin(), end(), put(), THEMIS_ERROR().
+ */
 void PromptVersionControl::persistVersion(const PromptVersion& version) {
     if (!db_) {
       return;
@@ -752,6 +866,12 @@ void PromptVersionControl::persistVersion(const PromptVersion& version) {
     }
 }
 
+/**
+ * @brief Persist Branch.
+ * @param[in] prompt_id Identifier of the prompt.
+ * @param[in] branch Input parameter.
+ * @details Calls: std::string(), toJson(), dump(), bytes(), begin(), end(), put(), THEMIS_ERROR().
+ */
 void PromptVersionControl::persistBranch(
     const std::string& prompt_id,
     const BranchInfo& branch
@@ -769,6 +889,10 @@ void PromptVersionControl::persistBranch(
     }
 }
 
+/**
+ * @brief Load From DB.
+ * @details Calls: scanPrefix(), nlohmann::json::parse(), std::string(), PromptVersion::fromJson(), THEMIS_WARN(), what(), THEMIS_INFO().
+ */
 void PromptVersionControl::loadFromDB() {
     if (!db_) {
       return;
@@ -808,6 +932,11 @@ PromptDiff PromptVersionControl::computeDiff(
     // Split into lines
     auto split_lines = [](const std::string& text) {
         std::vector<std::string> lines;
+        /**
+         * @brief Iss.
+         * @param[in] text Input parameter.
+         * @return Return value.
+         */
         std::istringstream iss(text);
         std::string line = {};
         while (std::getline(iss, line)) {
@@ -969,6 +1098,11 @@ MergeResult PromptVersionControl::autoMerge(
 
     auto split_lines = [](const std::string& text) {
         std::vector<std::string> lines;
+        /**
+         * @brief Iss.
+         * @param[in] text Input parameter.
+         * @return Return value.
+         */
         std::istringstream iss(text);
         std::string line = {};
         while (std::getline(iss, line)) {

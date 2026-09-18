@@ -19,26 +19,24 @@ namespace themis {
 namespace utils {
 
 /**
- * @brief Forward declaration of factory implemented in regex_detection_engine.
+ * @brief Create Regex Engine.
  * @return Return value.
- * @details cpp
  */
 std::unique_ptr<IPIIDetectionEngine> createRegexEngine();
 
 /**
- * @brief Forward declaration of factory implemented in ner_detection_engine.
+ * @brief Create NEREngine.
  * @return Return value.
- * @details cpp
  */
 std::unique_ptr<IPIIDetectionEngine> createNEREngine();
 
+
 /**
- * @brief ============================================================================ PluginSignature Implementation ============================================================================
+ * @brief Compute Config Hash.
  * @param[in] config Input parameter.
  * @return Return value.
  * @details Calls: contains(), erase(), dump(), SHA256(), c_str(), length(), std::setw(), std::setfill().
  */
-
 std::string PluginSignature::computeConfigHash(const nlohmann::json& config) {
     // Remove signature block if present
     auto config_copy = config;
@@ -104,13 +102,13 @@ bool PluginSignature::verify(const VCCPKIClient& pki_client,
     return true;
 }
 
+
 /**
- * @brief ============================================================================ PIITypeUtils Implementation ============================================================================
+ * @brief To String.
  * @param[in] type Input parameter.
  * @return Return value.
  * @details Implements toString without additional internal calls.
  */
-
 std::string PIITypeUtils::toString(PIIType type) {
     switch (type) {
         case PIIType::EMAIL: return "EMAIL";
@@ -301,15 +299,15 @@ std::string PIITypeUtils::maskValue(PIIType type, const std::string& value,
     return value;
 }
 
+
 /**
- * @brief ============================================================================ PIIDetectionEngineFactory Implementation ============================================================================
+ * @brief Create Signed.
  * @param[in] engine_type Input parameter.
  * @param[in] config Input parameter.
  * @param[in] pki_client Input parameter.
  * @return Return value.
  * @details Calls: contains(), spdlog::error(), value(), std::string(), what(), verify(), spdlog::info(), createUnsigned().
  */
-
 Result<std::unique_ptr<IPIIDetectionEngine>> PIIDetectionEngineFactory::createSigned(
     const std::string& engine_type,
     const nlohmann::json& config,
@@ -426,7 +424,7 @@ std::vector<std::string> PIIDetectionEngineFactory::getAvailableEngines() {
  * @param[in] config Input parameter.
  * @param[in] pki_client Input parameter.
  * @param[in,out] error_msg Input/output parameter.
- * @return True on success.
+ * @return True when the operation succeeds.
  * @details Calls: contains(), value(), std::string(), what(), verify().
  */
 bool PIIDetectionEngineFactory::verifyPluginSignature(

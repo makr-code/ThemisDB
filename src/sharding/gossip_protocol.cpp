@@ -66,16 +66,6 @@ namespace sharding {
 
 namespace {
 
-/**
- * @brief Helper function to execute an operation with exponential backoff retry.
- * 
- * @tparam Func Callable that returns bool (true = success, false = transient failure)
- * @param func Operation to retry
- * @param max_retries Maximum number of retry attempts (default: 3)
- * @param initial_delay_ms Initial backoff delay in milliseconds (default: 100)
- * @param max_delay_ms Maximum backoff delay cap (default: 5000)
- * @return true if operation succeeded, false if all retries exhausted
- */
 template <typename Func>
 inline bool retryWithBackoff(
     Func&& func,
@@ -128,6 +118,10 @@ GossipProtocol::~GossipProtocol() {
     stop();
 }
 
+/**
+ * @brief Start.
+ * @details Calls: load(), store(), bootstrapFromSeedNodes(), std::thread().
+ */
 void GossipProtocol::start() {
     if (!config_.enabled) {
         return;  // Gossip disabled
@@ -149,6 +143,10 @@ void GossipProtocol::start() {
     cleanup_thread_ = std::thread(&GossipProtocol::cleanupLoop, this);
 }
 
+/**
+ * @brief Stop.
+ * @details Calls: load(), sendLeaveMessage(), store(), themis::utils::joinThreadWithin(), THEMIS_WARN().
+ */
 void GossipProtocol::stop() {
     if (!running_.load()) {
         return;  // Already stopped
@@ -170,11 +168,21 @@ void GossipProtocol::stop() {
 }
 
 std::map<std::string, PeerInfo> GossipProtocol::getPeers() const {
+    /**
+     * @brief Lock.
+     * @param[in] peers_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(peers_mutex_);
     return peers_;
 }
 
 std::vector<PeerInfo> GossipProtocol::getHealthyPeers() const {
+    /**
+     * @brief Lock.
+     * @param[in] peers_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(peers_mutex_);
     std::vector<PeerInfo> healthy;
     
@@ -188,10 +196,20 @@ std::vector<PeerInfo> GossipProtocol::getHealthyPeers() const {
 }
 
 size_t GossipProtocol::getPeerCount() const {
+    /**
+     * @brief Lock.
+     * @param[in] peers_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(peers_mutex_);
     return peers_.size();
 }
 
+/**
+ * @brief Add Peer.
+ * @param[in] peer Input parameter.
+ * @details Calls: lock(), size(), find(), end(), std::chrono::system_clock::now(), syncWithTopologyLocked(), std::move(), peer_discovered_callback().
+ */
 void GossipProtocol::addPeer(const PeerInfo& peer) {
     PeerDiscoveryCallback peer_discovered_callback;
     PeerInfo discovered_peer;
@@ -237,6 +255,11 @@ void GossipProtocol::addPeer(const PeerInfo& peer) {
     }
 }
 
+/**
+ * @brief Remove Peer.
+ * @param[in] peer_id Identifier of the peer.
+ * @details Calls: lock(), find(), end(), erase(), syncWithTopologyLocked(), peer_lost_callback().
+ */
 void GossipProtocol::removePeer(const std::string& peer_id) {
     PeerLostCallback peer_lost_callback;
 
@@ -262,6 +285,12 @@ void GossipProtocol::removePeer(const std::string& peer_id) {
     }
 }
 
+/**
+ * @brief Handle Message.
+ * @param[in] message Input parameter.
+ * @return Return value.
+ * @details Calls: verifyMessage(), checkRateLimit(), std::chrono::system_clock::now(), time_since_epoch(), count(), void(), lock(), find().
+ */
 GossipMessage GossipProtocol::handleMessage(const GossipMessage& message) {
     messages_received_++;
     
@@ -357,16 +386,31 @@ GossipMessage GossipProtocol::handleMessage(const GossipMessage& message) {
     return GossipMessage{};
 }
 
+/**
+ * @brief On Peer Discovered.
+ * @param[in] callback Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void GossipProtocol::onPeerDiscovered(PeerDiscoveryCallback callback) {
     std::lock_guard<std::mutex> lock(peers_mutex_);
     on_peer_discovered_ = std::move(callback);
 }
 
+/**
+ * @brief On Peer Lost.
+ * @param[in] callback Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void GossipProtocol::onPeerLost(PeerLostCallback callback) {
     std::lock_guard<std::mutex> lock(peers_mutex_);
     on_peer_lost_ = std::move(callback);
 }
 
+/**
+ * @brief Set Raft Membership Gate Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void GossipProtocol::setRaftMembershipGateFn(RaftMembershipGateFn fn) {
     std::lock_guard<std::mutex> lock(peers_mutex_);
     raft_membership_gate_fn_ = std::move(fn);
@@ -376,6 +420,11 @@ void GossipProtocol::registerCustomHandler(
     const std::string& message_type,
     std::function<void(const GossipMessage&)> handler
 ) {
+    /**
+     * @brief Lock.
+     * @param[in] peers_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(peers_mutex_);
     auto it = custom_handlers_.find(message_type);
     if (it != custom_handlers_.end()) {
@@ -403,6 +452,10 @@ nlohmann::json GossipProtocol::getStatistics() const {
 
 // Private methods
 
+/**
+ * @brief Gossip Loop.
+ * @details Calls: load(), performGossipRound(), std::this_thread::sleep_for(), std::chrono::seconds().
+ */
 void GossipProtocol::gossipLoop() {
     while (running_.load()) {
         performGossipRound();
@@ -414,6 +467,10 @@ void GossipProtocol::gossipLoop() {
     }
 }
 
+/**
+ * @brief Cleanup Loop.
+ * @details Calls: load(), updatePeerHealth(), std::this_thread::sleep_for(), std::chrono::seconds().
+ */
 void GossipProtocol::cleanupLoop() {
     while (running_.load()) {
         updatePeerHealth();
@@ -426,6 +483,10 @@ void GossipProtocol::cleanupLoop() {
     }
 }
 
+/**
+ * @brief Perform Gossip Round.
+ * @details Calls: selectRandomPeers(), sendHeartbeat(), sendPeerList().
+ */
 void GossipProtocol::performGossipRound() {
     gossip_rounds_++;
     
@@ -443,6 +504,11 @@ void GossipProtocol::performGossipRound() {
     }
 }
 
+/**
+ * @brief Send Heartbeat.
+ * @param[in] peer Input parameter.
+ * @details Calls: createHeartbeatMessage(), signMessage(), retryWithBackoff(), post(), toJson(), GossipMessage::fromJson(), empty(), handleMessage().
+ */
 void GossipProtocol::sendHeartbeat(const PeerInfo& peer) {
     if (!client_) {
       return;
@@ -486,6 +552,11 @@ void GossipProtocol::sendHeartbeat(const PeerInfo& peer) {
     }
 }
 
+/**
+ * @brief Send Peer List.
+ * @param[in] peer Input parameter.
+ * @details Calls: createPeerListMessage(), signMessage(), retryWithBackoff(), post(), toJson(), GossipMessage::fromJson(), handleMessage().
+ */
 void GossipProtocol::sendPeerList(const PeerInfo& peer) {
     if (!client_) {
       return;
@@ -520,6 +591,10 @@ void GossipProtocol::sendPeerList(const PeerInfo& peer) {
     }, 3, 100, 5000);  // max_retries=3, initial_delay=100ms, max_delay=5000ms
 }
 
+/**
+ * @brief Send Leave Message.
+ * @details Calls: createLeaveMessage(), signMessage(), lock(), push_back(), retryWithBackoff(), post(), toJson().
+ */
 void GossipProtocol::sendLeaveMessage() {
     if (!client_) {
       return;
@@ -555,6 +630,10 @@ void GossipProtocol::sendLeaveMessage() {
     }
 }
 
+/**
+ * @brief Bootstrap From Seed Nodes.
+ * @details Calls: std::chrono::system_clock::now(), addPeer(), sendHeartbeat().
+ */
 void GossipProtocol::bootstrapFromSeedNodes() {
     for (const auto& seed : config_.seed_nodes) {
         PeerInfo peer;
@@ -570,6 +649,12 @@ void GossipProtocol::bootstrapFromSeedNodes() {
     }
 }
 
+/**
+ * @brief Select Random Peers.
+ * @param[in] count Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), empty(), push_back(), gen(), std::shuffle(), begin(), end(), std::min().
+ */
 std::vector<PeerInfo> GossipProtocol::selectRandomPeers(size_t count) {
     std::vector<PeerInfo> selected;
     
@@ -603,6 +688,11 @@ std::vector<PeerInfo> GossipProtocol::selectRandomPeers(size_t count) {
     return selected;
 }
 
+/**
+ * @brief Merge Peer List.
+ * @param[in] peers Input parameter.
+ * @details Calls: addPeer().
+ */
 void GossipProtocol::mergePeerList(const std::vector<PeerInfo>& peers) {
     for (const auto& peer : peers) {
         // Don't add ourselves
@@ -614,6 +704,10 @@ void GossipProtocol::mergePeerList(const std::vector<PeerInfo>& peers) {
     }
 }
 
+/**
+ * @brief Update Peer Health.
+ * @details Calls: std::chrono::system_clock::now(), lock(), count(), push_back(), removePeer().
+ */
 void GossipProtocol::updatePeerHealth() {
     auto now = std::chrono::system_clock::now();
     std::vector<std::string> to_remove;
@@ -642,6 +736,10 @@ void GossipProtocol::updatePeerHealth() {
     }
 }
 
+/**
+ * @brief Sync With Topology.
+ * @details Calls: lock(), syncWithTopologyLocked().
+ */
 void GossipProtocol::syncWithTopology() {
     if (!topology_) {
       return;
@@ -653,7 +751,10 @@ void GossipProtocol::syncWithTopology() {
     syncWithTopologyLocked();
 }
 
-// Called only when peers_mutex_ is already held by the current thread.
+/**
+ * @brief Called only when peers_mutex_ is already held by the current thread.
+ * @details Calls: hasShard(), raft_membership_gate_fn_(), addShard(), spdlog::debug(), spdlog::warn(), updateHealth().
+ */
 void GossipProtocol::syncWithTopologyLocked() {
     if (!topology_) {
       return;
@@ -745,6 +846,11 @@ std::string GossipProtocol::signMessage(const GossipMessage& message) const {
             if (EVP_DigestSignUpdate(ctx.get(), to_sign.c_str(), to_sign.length()) == 1) {
                 size_t sig_len = 0;
                 if (EVP_DigestSignFinal(ctx.get(), nullptr, &sig_len) == 1) {
+                    /**
+                     * @brief Sig.
+                     * @param[in] sig_len Input parameter.
+                     * @return Return value.
+                     */
                     std::vector<unsigned char> sig(sig_len);
                     if (EVP_DigestSignFinal(ctx.get(), sig.data(), &sig_len) == 1) {
                         // Base64 encode
@@ -858,6 +964,12 @@ bool GossipProtocol::verifyMessage(const GossipMessage& message) const {
     }
 }
 
+/**
+ * @brief Check whether a user exceeds the current rate limit.
+ * @param[in] peer_id Identifier of the peer.
+ * @return True when the user remains within the configured limit.
+ * @details Calls: lock(), std::chrono::system_clock::now(), std::chrono::seconds(), erase(), std::remove_if(), begin(), end(), size().
+ */
 bool GossipProtocol::checkRateLimit(const std::string& peer_id) {
     std::lock_guard<std::mutex> lock(rate_limit_mutex_);
     
@@ -910,6 +1022,11 @@ GossipMessage GossipProtocol::createPeerListMessage() const {
     
     nlohmann::json peers_json = nlohmann::json::array();
     {
+        /**
+         * @brief Lock.
+         * @param[in] peers_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(peers_mutex_);
         for (const auto& [id, peer] : peers_) {
             if (peer.is_healthy) {

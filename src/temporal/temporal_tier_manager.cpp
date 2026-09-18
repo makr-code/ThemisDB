@@ -148,6 +148,13 @@ TemporalTierManager::~TemporalTierManager() {
 // Write path
 // ============================================================================
 
+/**
+ * @brief Insert.
+ * @param[in] table_name Name of the table.
+ * @param[in] doc Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: isCurrent(), lk(), makeContext(), evaluate(), flushWarmToColdLocked(), size(), flushHotToWarmLocked().
+ */
 bool TemporalTierManager::insert(const std::string& table_name,
                                   const VersionedDocument& doc) {
     if (doc.isCurrent()) return false;  // Current versions live in hot table
@@ -184,6 +191,11 @@ std::optional<VersionedDocument>
 TemporalTierManager::getAsOf(const std::string& table_name,
                               const std::string& doc_key,
                               Timestamp as_of) const {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock lk(mutex_);
 
     // 1. Hot tier — O(log h): upper_bound(as_of) then step back
@@ -236,6 +248,11 @@ TemporalTierManager::getAsOf(const std::string& table_name,
 std::vector<VersionedDocument>
 TemporalTierManager::getHistory(const std::string& table_name,
                                  const std::string& doc_key) const {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock lk(mutex_);
     std::vector<VersionedDocument> result;
 
@@ -286,6 +303,11 @@ std::vector<VersionedDocument>
 TemporalTierManager::getHistoryInRange(const std::string& table_name,
                                         const std::string& doc_key,
                                         const TimeRange& range) const {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock lk(mutex_);
     std::vector<VersionedDocument> result;
 
@@ -346,6 +368,13 @@ TemporalTierManager::getHistoryInRange(const std::string& table_name,
 // Compaction — public API
 // ============================================================================
 
+/**
+ * @brief Flush Hot To Warm.
+ * @param[in] table_name Name of the table.
+ * @param[in] doc_key Input parameter.
+ * @return Return value.
+ * @details Calls: lk(), flushHotToWarmLocked().
+ */
 size_t TemporalTierManager::flushHotToWarm(const std::string& table_name,
                                             const std::string& doc_key) {
     std::unique_lock lk(mutex_);
@@ -354,6 +383,13 @@ size_t TemporalTierManager::flushHotToWarm(const std::string& table_name,
     return flushHotToWarmLocked(table_name, doc_key, hot_map, warm_blocks);
 }
 
+/**
+ * @brief Flush Warm To Cold.
+ * @param[in] table_name Name of the table.
+ * @param[in] doc_key Input parameter.
+ * @return Return value.
+ * @details Calls: lk(), flushWarmToColdLocked().
+ */
 size_t TemporalTierManager::flushWarmToCold(const std::string& table_name,
                                              const std::string& doc_key) {
     std::unique_lock lk(mutex_);
@@ -361,6 +397,12 @@ size_t TemporalTierManager::flushWarmToCold(const std::string& table_name,
     return flushWarmToColdLocked(table_name, doc_key, warm_blocks);
 }
 
+/**
+ * @brief Compact Table.
+ * @param[in] table_name Name of the table.
+ * @return Return value.
+ * @details Calls: lk(), find(), end(), push_back(), std::find(), begin(), makeContext(), evaluate().
+ */
 size_t TemporalTierManager::compactTable(const std::string& table_name) {
     std::unique_lock lk(mutex_);
     size_t total = 0;
@@ -401,6 +443,11 @@ size_t TemporalTierManager::compactTable(const std::string& table_name) {
 // Policy
 // ============================================================================
 
+/**
+ * @brief Set Policy.
+ * @param[in] policy Input parameter.
+ * @details Calls: lk().
+ */
 void TemporalTierManager::setPolicy(const TierPolicy& policy) {
     std::unique_lock lk(mutex_);
     policy_ = policy;
@@ -410,12 +457,20 @@ void TemporalTierManager::setPolicy(const TierPolicy& policy) {
 // Background compaction worker
 // ============================================================================
 
+/**
+ * @brief Start Compaction Worker.
+ * @details Calls: joinable(), std::thread(), compactionLoop().
+ */
 void TemporalTierManager::startCompactionWorker() {
     if (compact_thread_.joinable()) return;  // already running
     compact_stop_ = false;
     compact_thread_ = std::thread([this]() { compactionLoop(); });
 }
 
+/**
+ * @brief Stop Compaction Worker.
+ * @details Calls: notify_all(), joinable(), join().
+ */
 void TemporalTierManager::stopCompactionWorker() {
     compact_stop_ = true;
     compact_cv_.notify_all();
@@ -424,6 +479,10 @@ void TemporalTierManager::stopCompactionWorker() {
     }
 }
 
+/**
+ * @brief Compaction Loop.
+ * @details Calls: lk(), wait_for(), load(), push_back(), std::find(), begin(), end(), compactTable().
+ */
 void TemporalTierManager::compactionLoop() {
     while (!compact_stop_) {
         {
@@ -462,6 +521,11 @@ void TemporalTierManager::compactionLoop() {
 TemporalTierManager::KeyTierStats
 TemporalTierManager::keyStats(const std::string& table_name,
                                const std::string& doc_key) const {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock lk(mutex_);
     KeyTierStats s = {};
 
@@ -485,6 +549,11 @@ TemporalTierManager::keyStats(const std::string& table_name,
 
 TemporalTierManager::TableTierStats
 TemporalTierManager::tableStats(const std::string& table_name) const {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock lk(mutex_);
     TableTierStats s;
     s.flush_hot_to_warm_count  = stat_flush_hot_warm_.load();
@@ -638,7 +707,13 @@ size_t TemporalTierManager::flushWarmToColdLocked(
     return moved;
 }
 
-// static
+/**
+ * @brief static
+ * @param[in] doc_key Input parameter.
+ * @param[in] versions Input parameter.
+ * @return Return value.
+ * @details Calls: std::sort(), begin(), end(), size(), BloomFilter(), reserve(), std::min(), std::max().
+ */
 VersionBlock TemporalTierManager::makeBlock(
     const std::string& doc_key,
     std::vector<VersionedDocument> versions) {

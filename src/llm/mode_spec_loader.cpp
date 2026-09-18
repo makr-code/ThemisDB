@@ -24,6 +24,12 @@ namespace themis::llm {
 // ModeId helpers
 // ============================================================================
 
+/**
+ * @brief Mode Id From String.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Calls: std::transform(), begin(), end().
+ */
 ModeId modeIdFromString(const std::string& s) {
     std::string lower = s;
     std::transform(lower.begin(), lower.end(), lower.begin(), ::tolower);
@@ -48,6 +54,12 @@ ModeId modeIdFromString(const std::string& s) {
     return ModeId::Custom;
 }
 
+/**
+ * @brief Mode Id To String.
+ * @param[in] id Input parameter.
+ * @return Return value.
+ * @details Implements modeIdToString without additional internal calls.
+ */
 std::string modeIdToString(ModeId id) {
     switch (id) {
         case ModeId::Ask:        return "ask";
@@ -77,6 +89,12 @@ T safeAs(const YAML::Node& n, const T& def) {
     return def;
 }
 
+/**
+ * @brief Parse Retrieval.
+ * @param[in] node Input parameter.
+ * @return Return value.
+ * @details Calls: IsMap().
+ */
 RetrievalSpec parseRetrieval(const YAML::Node& node) {
     RetrievalSpec spec = {};
     if (!node || !node.IsMap()) {
@@ -100,6 +118,12 @@ RetrievalSpec parseRetrieval(const YAML::Node& node) {
     return spec;
 }
 
+/**
+ * @brief Parse Output.
+ * @param[in] node Input parameter.
+ * @return Return value.
+ * @details Calls: IsMap(), IsNull().
+ */
 OutputSpec parseOutput(const YAML::Node& node) {
     OutputSpec spec = {};
     if (!node || !node.IsMap()) {
@@ -116,6 +140,12 @@ OutputSpec parseOutput(const YAML::Node& node) {
     return spec;
 }
 
+/**
+ * @brief Parse Budgets.
+ * @param[in] node Input parameter.
+ * @return Return value.
+ * @details Calls: IsMap().
+ */
 BudgetSpec parseBudgets(const YAML::Node& node) {
     BudgetSpec spec = {};
     if (!node || !node.IsMap()) {
@@ -131,6 +161,12 @@ BudgetSpec parseBudgets(const YAML::Node& node) {
     return spec;
 }
 
+/**
+ * @brief Parse Observability.
+ * @param[in] node Input parameter.
+ * @return Return value.
+ * @details Calls: IsMap().
+ */
 ObservabilitySpec parseObservability(const YAML::Node& node) {
     ObservabilitySpec spec = {};
     if (!node || !node.IsMap()) {
@@ -144,6 +180,12 @@ ObservabilitySpec parseObservability(const YAML::Node& node) {
     return spec;
 }
 
+/**
+ * @brief Parse Tool Spec.
+ * @param[in] node Input parameter.
+ * @return Return value.
+ * @details Calls: IsNull(), json::parse(), str(), THEMIS_DEBUG(), json::object().
+ */
 ToolSpec parseToolSpec(const YAML::Node& node) {
     ToolSpec spec;
     spec.name        = safeAs<std::string>(node["name"],        "");
@@ -163,6 +205,12 @@ ToolSpec parseToolSpec(const YAML::Node& node) {
     return spec;
 }
 
+/**
+ * @brief Parse String List.
+ * @param[in] node Input parameter.
+ * @return Return value.
+ * @details Calls: IsSequence(), push_back().
+ */
 std::vector<std::string> parseStringList(const YAML::Node& node) {
     std::vector<std::string> result = {};
 
@@ -175,6 +223,12 @@ std::vector<std::string> parseStringList(const YAML::Node& node) {
     return result;
 }
 
+/**
+ * @brief Parse Mode Spec.
+ * @param[in] node Input parameter.
+ * @return Return value.
+ * @details Calls: modeIdFromString(), parseStringList(), parseRetrieval(), parseOutput(), parseBudgets(), parseObservability(), IsMap().
+ */
 ModeSpec parseModeSpec(const YAML::Node& node) {
     ModeSpec spec;
     spec.id          = safeAs<std::string>(node["id"],          "");
@@ -214,6 +268,12 @@ ModeSpec parseModeSpec(const YAML::Node& node) {
     return spec;
 }
 
+/**
+ * @brief Parse Model Entry.
+ * @param[in] node Input parameter.
+ * @return Return value.
+ * @details Implements parseModelEntry without additional internal calls.
+ */
 ModelEntry parseModelEntry(const YAML::Node& node) {
     ModelEntry entry;
     entry.id         = safeAs<std::string>(node["id"],         "default");
@@ -223,6 +283,12 @@ ModelEntry parseModelEntry(const YAML::Node& node) {
     return entry;
 }
 
+/**
+ * @brief Parse Mode Pack.
+ * @param[in] root Input parameter.
+ * @return Return value.
+ * @details Calls: IsMap(), IsSequence(), push_back(), parseModelEntry(), empty(), parseToolSpec(), parseModeSpec().
+ */
 ModePack parseModePack(const YAML::Node& root) {
     ModePack pack;
     pack.apiVersion    = safeAs<std::string>(root["apiVersion"], "");
@@ -267,6 +333,13 @@ ModePack parseModePack(const YAML::Node& root) {
 // ModeSpecLoader
 // ============================================================================
 
+/**
+ * @brief Load From File.
+ * @param[in] path Input parameter.
+ * @param[in,out] result_out Input/output parameter.
+ * @return Return value.
+ * @details Calls: YAML::LoadFile(), parseModePack(), push_back(), what(), spdlog::error(), back(), validate(), spdlog::info().
+ */
 ModePack ModeSpecLoader::loadFromFile(const std::string& path,
                                       ValidationResult*  result_out) {
     ValidationResult local;
@@ -305,6 +378,13 @@ ModePack ModeSpecLoader::loadFromFile(const std::string& path,
     return pack;
 }
 
+/**
+ * @brief Load From String.
+ * @param[in] yaml_text Input parameter.
+ * @param[in,out] result_out Input/output parameter.
+ * @return Return value.
+ * @details Calls: YAML::Load(), parseModePack(), push_back(), std::string(), what(), spdlog::error(), back(), validate().
+ */
 ModePack ModeSpecLoader::loadFromString(const std::string& yaml_text,
                                         ValidationResult*  result_out) {
     ValidationResult local;
@@ -330,6 +410,12 @@ ModePack ModeSpecLoader::loadFromString(const std::string& yaml_text,
     return pack;
 }
 
+/**
+ * @brief Validate.
+ * @param[in] pack Input parameter.
+ * @return Return value.
+ * @details Calls: push_back(), spdlog::error(), spdlog::warn(), empty(), warn(), err(), std::to_string(), std::find().
+ */
 ValidationResult ModeSpecLoader::validate(const ModePack& pack) {
     ValidationResult res;
     auto err = [&](const std::string& msg) {

@@ -97,6 +97,11 @@ SelfImprovementOrchestrator::SelfImprovementOrchestrator(
                 config_.min_success_rate, config_.min_executions);
 }
 
+/**
+ * @brief Run Auto Optimization.
+ * @return Return value.
+ * @details Calls: lock(), THEMIS_ERROR(), getAllMetrics(), THEMIS_INFO(), size(), shouldOptimize(), buildTestCasesFromFeedback(), empty().
+ */
 std::vector<OptimizationResult> SelfImprovementOrchestrator::runAutoOptimization() {
     // Collect candidate prompt IDs and their test cases while holding the lock.
     // The actual optimization is run without the lock to avoid holding it during
@@ -145,6 +150,13 @@ std::vector<OptimizationResult> SelfImprovementOrchestrator::runAutoOptimization
     return results;
 }
 
+/**
+ * @brief Optimize Prompt.
+ * @param[in] prompt_id Identifier of the prompt.
+ * @param[in] test_cases Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), std::chrono::system_clock::now(), push_back(), THEMIS_ERROR(), finalizeResult(), getTemplate(), has_value(), getMetrics().
+ */
 OptimizationResult SelfImprovementOrchestrator::optimizePrompt(
     const std::string& prompt_id,
     const std::vector<TestCase>& test_cases
@@ -301,6 +313,15 @@ OptimizationResult SelfImprovementOrchestrator::optimizePrompt(
                               : result.status);
 }
 
+/**
+ * @brief Start ABTest.
+ * @param[in] prompt_id Identifier of the prompt.
+ * @param[in] version_a Input parameter.
+ * @param[in] version_b Input parameter.
+ * @param[in] sample_size Input parameter.
+ * @return Return value.
+ * @details Calls: generateTestId(), std::chrono::system_clock::now(), THEMIS_INFO().
+ */
 std::string SelfImprovementOrchestrator::startABTest(
     const std::string& prompt_id,
     const std::string& version_a,
@@ -328,6 +349,14 @@ std::string SelfImprovementOrchestrator::startABTest(
     return test.test_id;
 }
 
+/**
+ * @brief Record ABTest Observation.
+ * @param[in] test_id Identifier of the test.
+ * @param[in] version_used Input parameter.
+ * @param[in] success Input parameter.
+ * @param[in] double Input parameter.
+ * @details Calls: lock(), find(), end(), THEMIS_WARN(), THEMIS_DEBUG(), checkABTestCompletion().
+ */
 void SelfImprovementOrchestrator::recordABTestObservation(
     const std::string& test_id,
     const std::string& version_used,
@@ -366,6 +395,12 @@ void SelfImprovementOrchestrator::recordABTestObservation(
     checkABTestCompletion(test_id);
 }
 
+/**
+ * @brief Check ABTest Completion.
+ * @param[in] test_id Identifier of the test.
+ * @return True when the operation succeeds.
+ * @details Calls: find(), end(), analyzeABTest(), std::chrono::system_clock::now(), THEMIS_INFO(), deployOptimizedVersion(), contains(), THEMIS_WARN().
+ */
 bool SelfImprovementOrchestrator::checkABTestCompletion(const std::string& test_id) {
     // Note: Lock already held by caller in most cases
     
@@ -420,6 +455,11 @@ bool SelfImprovementOrchestrator::checkABTestCompletion(const std::string& test_
 }
 
 std::optional<ABTest> SelfImprovementOrchestrator::getABTestResults(const std::string& test_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     auto it = active_ab_tests_.find(test_id);
@@ -430,6 +470,12 @@ std::optional<ABTest> SelfImprovementOrchestrator::getABTestResults(const std::s
     return std::nullopt;
 }
 
+/**
+ * @brief Rollback Prompt.
+ * @param[in] prompt_id Identifier of the prompt.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), find(), end(), empty(), THEMIS_WARN(), rbegin(), rend(), deployOptimizedVersion().
+ */
 bool SelfImprovementOrchestrator::rollbackPrompt(const std::string& prompt_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -460,6 +506,11 @@ bool SelfImprovementOrchestrator::rollbackPrompt(const std::string& prompt_id) {
 std::vector<OptimizationResult> SelfImprovementOrchestrator::getOptimizationHistory(
     const std::string& prompt_id
 ) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     auto it = optimization_history_.find(prompt_id);
@@ -471,6 +522,11 @@ std::vector<OptimizationResult> SelfImprovementOrchestrator::getOptimizationHist
 }
 
 std::vector<ABTest> SelfImprovementOrchestrator::getActiveABTests() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     std::vector<ABTest> tests = {};
@@ -484,6 +540,11 @@ std::vector<ABTest> SelfImprovementOrchestrator::getActiveABTests() const {
     return tests;
 }
 
+/**
+ * @brief Set Config.
+ * @param[in] config Input parameter.
+ * @details Calls: lock(), THEMIS_INFO().
+ */
 void SelfImprovementOrchestrator::setConfig(const ImprovementConfig& config) {
     std::lock_guard<std::mutex> lock(mutex_);
     config_ = config;
@@ -553,6 +614,11 @@ bool SelfImprovementOrchestrator::canReoptimize(const std::string& prompt_id) co
     return elapsed >= config_.reoptimize_interval;
 }
 
+/**
+ * @brief Analyze ABTest.
+ * @param[in,out] test Input/output parameter.
+ * @details Calls: std::sqrt(), std::abs(), std::erfc().
+ */
 void SelfImprovementOrchestrator::analyzeABTest(ABTest& test) {
     // Two-proportion z-test for A/B test significance
     
@@ -589,6 +655,12 @@ void SelfImprovementOrchestrator::analyzeABTest(ABTest& test) {
     test.is_significant = (p_one_tailed < alpha) && (test.score_b > test.score_a);
 }
 
+/**
+ * @brief Deploy Optimized Version.
+ * @param[in] prompt_id Identifier of the prompt.
+ * @param[in] version Input parameter.
+ * @details Calls: THEMIS_ERROR(), getTemplate(), has_value(), value(), std::chrono::system_clock::to_time_t(), std::chrono::system_clock::now(), createTemplate(), THEMIS_INFO().
+ */
 void SelfImprovementOrchestrator::deployOptimizedVersion(
     const std::string& prompt_id,
     const std::string& version

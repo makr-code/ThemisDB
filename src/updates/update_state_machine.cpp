@@ -31,6 +31,12 @@ namespace updates {
 // UpdateTransactionEntry serialisation
 // ============================================================================
 
+/**
+ * @brief State To String.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Implements stateToString without additional internal calls.
+ */
 static std::string stateToString(UpdateState s) {
     switch (s) {
         case UpdateState::IDLE:         return "idle";
@@ -43,6 +49,12 @@ static std::string stateToString(UpdateState s) {
     return "unknown";
 }
 
+/**
+ * @brief State From String.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Implements stateFromString without additional internal calls.
+ */
 static UpdateState stateFromString(const std::string& s) {
     if (s == "idle") {
       return UpdateState::IDLE;
@@ -85,6 +97,12 @@ json UpdateTransactionEntry::toJson() const {
     return j;
 }
 
+/**
+ * @brief From Json.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: stateFromString(), value(), empty(), ss(), std::get_time(), fail(), _mkgmtime(), timegm().
+ */
 std::optional<UpdateTransactionEntry> UpdateTransactionEntry::fromJson(const json& j) {
     try {
         UpdateTransactionEntry e;
@@ -137,6 +155,12 @@ json Checkpoint::toJson() const {
     return j;
 }
 
+/**
+ * @brief From Json.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: value(), stateFromString(), empty(), ss(), std::get_time(), fail(), _mkgmtime(), timegm().
+ */
 std::optional<Checkpoint> Checkpoint::fromJson(const json& j) {
     try {
         Checkpoint cp;
@@ -185,6 +209,11 @@ UpdateState UpdateStateMachine::currentState() const {
 }
 
 std::string UpdateStateMachine::currentVersion() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return current_version_;
 }
@@ -219,6 +248,14 @@ bool UpdateStateMachine::isValidTransition(UpdateState from, UpdateState to) con
     return false;
 }
 
+/**
+ * @brief Transition.
+ * @param[in] to Input parameter.
+ * @param[in] version Input parameter.
+ * @param[in] message Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), load(), isValidTransition(), LOG_WARN(), stateToString(), empty(), store(), std::chrono::system_clock::now().
+ */
 bool UpdateStateMachine::transition(UpdateState to,
                                     const std::string& version,
                                     const std::string& message) {
@@ -282,6 +319,10 @@ bool UpdateStateMachine::transition(UpdateState to,
     return true;
 }
 
+/**
+ * @brief Reset the modification detection flag.
+ * @details Calls: lock(), load(), LOG_WARN(), store(), clear(), std::chrono::system_clock::now(), push_back(), empty().
+ */
 void UpdateStateMachine::reset() {
     std::vector<StateChangeCallback> callbacks_copy;
     UpdateState from;
@@ -321,28 +362,54 @@ void UpdateStateMachine::reset() {
     }
 }
 
+/**
+ * @brief Add State Change Callback.
+ * @param[in] cb Input parameter.
+ * @details Calls: lock(), push_back(), std::move().
+ */
 void UpdateStateMachine::addStateChangeCallback(StateChangeCallback cb) {
     std::lock_guard<std::mutex> lock(mutex_);
     callbacks_.push_back(std::move(cb));
 }
 
 bool UpdateStateMachine::hasInFlightUpdate() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return has_inflight_update_;
 }
 
 std::string UpdateStateMachine::inFlightVersion() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return inflight_version_;
 }
 
 std::vector<UpdateTransactionEntry> UpdateStateMachine::transactionLog() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     auto log = transaction_log_;
     std::reverse(log.begin(), log.end());  // newest first
     return log;
 }
 
+/**
+ * @brief Persist State.
+ * @param[in] version Input parameter.
+ * @param[in] message Input parameter.
+ * @details Calls: lock(), load(), std::chrono::system_clock::now(), appendLogEntry().
+ */
 void UpdateStateMachine::persistState(const std::string& version,
                                       const std::string& message) {
     std::lock_guard<std::mutex> lock(mutex_);
@@ -357,6 +424,10 @@ void UpdateStateMachine::persistState(const std::string& version,
     appendLogEntry(entry);
 }
 
+/**
+ * @brief Load Persisted State.
+ * @details Calls: f(), std::getline(), empty(), json::parse(), UpdateTransactionEntry::fromJson(), push_back(), back(), LOG_WARN().
+ */
 void UpdateStateMachine::loadPersistedState() {
     try {
         std::ifstream f(log_path_);
@@ -400,6 +471,11 @@ void UpdateStateMachine::loadPersistedState() {
     }
 }
 
+/**
+ * @brief Append Log Entry.
+ * @param[in] entry Input parameter.
+ * @details Calls: f(), toJson(), dump(), LOG_ERROR(), what().
+ */
 void UpdateStateMachine::appendLogEntry(const UpdateTransactionEntry& entry) {
     try {
         std::ofstream f(log_path_, std::ios::app);
@@ -411,6 +487,11 @@ void UpdateStateMachine::appendLogEntry(const UpdateTransactionEntry& entry) {
     }
 }
 
+/**
+ * @brief Persist Checkpoint.
+ * @param[in] cp Input parameter.
+ * @details Calls: f(), toJson(), dump(), LOG_DEBUG(), LOG_ERROR(), what().
+ */
 void UpdateStateMachine::persistCheckpoint(const Checkpoint& cp) {
     // Error Code: 7401 - Checkpoint file write failed
     try {
@@ -426,6 +507,10 @@ void UpdateStateMachine::persistCheckpoint(const Checkpoint& cp) {
     }
 }
 
+/**
+ * @brief Load Checkpoints.
+ * @details Calls: f(), std::getline(), empty(), json::parse(), Checkpoint::fromJson(), push_back(), std::max(), LOG_DEBUG().
+ */
 void UpdateStateMachine::loadCheckpoints() {
     // Error Code: 7402 - Checkpoint file read failed
     try {
@@ -468,7 +553,12 @@ void UpdateStateMachine::loadCheckpoints() {
     }
 }
 
-/*static*/
+/**
+ * @brief static
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Calls: stateToString().
+ */
 std::string UpdateStateMachine::stateName(UpdateState s) {
     return stateToString(s);
 }
@@ -477,11 +567,22 @@ std::string UpdateStateMachine::stateName(UpdateState s) {
 // Rollback checkpoint API
 // ============================================================================
 
+/**
+ * @brief Set History Logger.
+ * @param[in,out] logger Input/output parameter.
+ * @details Calls: lock().
+ */
 void UpdateStateMachine::setHistoryLogger(UpdateHistoryLogger* logger) {
     std::lock_guard<std::mutex> lock(mutex_);
     history_logger_ = logger;
 }
 
+/**
+ * @brief Create Checkpoint.
+ * @param[in] description Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), load(), std::chrono::system_clock::now(), push_back(), LOG_INFO(), stateToString(), empty(), persistCheckpoint().
+ */
 CheckpointId UpdateStateMachine::createCheckpoint(const std::string& description) {
     CheckpointId assigned_id = 0;
     std::string  snap_version = {};
@@ -534,6 +635,12 @@ CheckpointId UpdateStateMachine::createCheckpoint(const std::string& description
     return assigned_id;
 }
 
+/**
+ * @brief Rollback To Checkpoint.
+ * @param[in] id Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), has_value(), value(), std::chrono::system_clock::now(), LOG_WARN(), load(), std::to_string(), push_back().
+ */
 bool UpdateStateMachine::rollbackToCheckpoint(CheckpointId id) {
     std::vector<StateChangeCallback> callbacks_copy;
     UpdateState from_state;
@@ -660,25 +767,41 @@ bool UpdateStateMachine::rollbackToCheckpoint(CheckpointId id) {
 }
 
 std::vector<Checkpoint> UpdateStateMachine::listCheckpoints() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return checkpoints_;
 }
 
+/**
+ * @brief Clear Checkpoints.
+ * @details Calls: lock(), clear(), LOG_INFO().
+ */
 void UpdateStateMachine::clearCheckpoints() {
     std::lock_guard<std::mutex> lock(mutex_);
     checkpoints_.clear();
     LOG_INFO("UpdateStateMachine: all checkpoints cleared");
 }
 
-// ============================================================================
-// Partial and coordinated rollback enhancements (v1.8.1 – Q3 2026)
-// ============================================================================
+/**
+ * @brief ============================================================================ Partial and coordinated rollback enhancements (v1.
+ * @param[in] callback Input parameter.
+ * @details 8.1 – Q3 2026) ============================================================================ Calls: lock(), std::move().
+ */
 
 void UpdateStateMachine::setRollbackCallback(RollbackCallback callback) {
     std::lock_guard<std::mutex> lock(mutex_);
     rollback_callback_ = std::move(callback);
 }
 
+/**
+ * @brief Rollback To Latest Checkpoint.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), empty(), LOG_ERROR(), back(), rollbackToCheckpoint().
+ */
 bool UpdateStateMachine::rollbackToLatestCheckpoint() {
     CheckpointId latest_id;
     {
@@ -692,6 +815,13 @@ bool UpdateStateMachine::rollbackToLatestCheckpoint() {
     return rollbackToCheckpoint(latest_id);
 }
 
+/**
+ * @brief Rollback To Checkpoint With Fallback.
+ * @param[in] checkpoint_id Identifier of the checkpoint.
+ * @param[in] fallback_strategy Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), rollbackToCheckpoint(), push_back(), LOG_WARN(), LOG_ERROR().
+ */
 bool UpdateStateMachine::rollbackToCheckpointWithFallback(
     CheckpointId checkpoint_id,
     RollbackFallbackStrategy fallback_strategy) {
@@ -728,15 +858,32 @@ bool UpdateStateMachine::rollbackToCheckpointWithFallback(
 }
 
 size_t UpdateStateMachine::checkpointCount() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return checkpoints_.size();
 }
 
 bool UpdateStateMachine::hasPendingRollback() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return !deferred_rollbacks_.empty();
 }
 
+/**
+ * @brief Emit Rollback Diagnostic.
+ * @param[in] checkpoint_id Identifier of the checkpoint.
+ * @param[in] success Input parameter.
+ * @param[in] reason Input parameter.
+ * @details Calls: LOG_WARN(), LOG_ERROR(), lock(), rollback_callback_(), what().
+ */
 void UpdateStateMachine::emitRollbackDiagnostic(CheckpointId checkpoint_id,
                                                bool success,
                                                const std::string& reason) {
@@ -761,6 +908,11 @@ void UpdateStateMachine::emitRollbackDiagnostic(CheckpointId checkpoint_id,
 }
 
 bool UpdateStateMachine::isRollbackSafe(CheckpointId id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     // Check: checkpoint exists
@@ -789,6 +941,13 @@ bool UpdateStateMachine::isRollbackSafe(CheckpointId id) const {
     return true;
 }
 
+/**
+ * @brief Validate Rollback State.
+ * @param[in] id Input parameter.
+ * @param[in] reason Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), std::find_if(), begin(), end(), LOG_ERROR(), load(), stateToString(), LOG_INFO().
+ */
 bool UpdateStateMachine::validateRollbackState(CheckpointId id, const std::string& reason) {
     std::lock_guard<std::mutex> lock(mutex_);
 
@@ -821,16 +980,31 @@ bool UpdateStateMachine::validateRollbackState(CheckpointId id, const std::strin
 }
 
 CheckpointId UpdateStateMachine::lastRollbackCheckpoint() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return last_rollback_id_.has_value() ? last_rollback_id_.value() : 0;
 }
 
 uint32_t UpdateStateMachine::rollbackAttemptCount() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return rollback_attempt_count_;
 }
 
 bool UpdateStateMachine::isLastRollbackIdempotent() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return last_rollback_was_idempotent_;
 }

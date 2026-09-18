@@ -53,13 +53,6 @@ static constexpr size_t kWasmPageBytes = 65536;
 // Helpers: LEB-128 unsigned integer decoder
 // =============================================================================
 
-/**
- * @brief Read a WASM unsigned LEB-128 integer.
- * @param data   Pointer to the first byte.
- * @param end    One-past-end of the available buffer.
- * @param out    Decoded value.
- * @return Number of bytes consumed, or 0 on error.
- */
 static size_t readUleb128(const uint8_t *data, const uint8_t *end, uint64_t &out) noexcept {
     out             = 0;
     int shift       = 0;
@@ -79,10 +72,6 @@ static size_t readUleb128(const uint8_t *data, const uint8_t *end, uint64_t &out
     return 0; // unterminated LEB-128
 }
 
-/**
- * @brief Read a WASM UTF-8 name (u32 length followed by bytes).
- * @return Number of bytes consumed, or 0 on error.
- */
 static size_t readWasmName(const uint8_t *data, const uint8_t *end, std::string &out) noexcept {
     uint64_t len = 0;
     size_t hdr   = readUleb128(data, end, len);
@@ -348,6 +337,11 @@ WasmPluginSandbox::~WasmPluginSandbox() {
 // Runtime injection
 // =============================================================================
 
+/**
+ * @brief Set Runtime.
+ * @param[in] runtime Input parameter.
+ * @details Calls: std::move().
+ */
 void WasmPluginSandbox::setRuntime(std::unique_ptr<WasmRuntime> runtime) {
     runtime_ = std::move(runtime);
 }
@@ -367,10 +361,19 @@ std::string WasmPluginSandbox::engineName() const {
 // Host-function allowlist
 // =============================================================================
 
+/**
+ * @brief Add Host Function.
+ * @param[in] fn Input parameter.
+ * @details Calls: push_back(), std::move().
+ */
 void WasmPluginSandbox::addHostFunction(WasmHostFunction fn) {
     host_fns_.push_back(std::move(fn));
 }
 
+/**
+ * @brief Clear Host Functions.
+ * @details Calls: clear().
+ */
 void WasmPluginSandbox::clearHostFunctions() {
     host_fns_.clear();
 }
@@ -383,6 +386,12 @@ size_t WasmPluginSandbox::hostFunctionCount() const noexcept {
 // Loading from file
 // =============================================================================
 
+/**
+ * @brief Load From File.
+ * @param[in] path Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: clear(), file(), is_open(), spdlog::error(), tellg(), seekg(), bytes(), read().
+ */
 bool WasmPluginSandbox::loadFromFile(const std::string &path) {
     last_error_.clear();
     load_warnings_.clear();
@@ -418,6 +427,13 @@ bool WasmPluginSandbox::loadFromFile(const std::string &path) {
 // Loading from bytes
 // =============================================================================
 
+/**
+ * @brief Load From Bytes.
+ * @param[in] bytes Input parameter.
+ * @param[in] module_name Name of the module.
+ * @return True when the operation succeeds.
+ * @details Calls: clear(), unload(), validateWasmHeader(), WasmModuleValidator::validate(), empty(), spdlog::debug(), size(), parseImportsExports().
+ */
 bool WasmPluginSandbox::loadFromBytes(const std::vector<uint8_t> &bytes, const std::string &module_name) {
     last_error_.clear();
     load_warnings_.clear();
@@ -489,6 +505,10 @@ bool WasmPluginSandbox::loadFromBytes(const std::vector<uint8_t> &bytes, const s
 // Unload
 // =============================================================================
 
+/**
+ * @brief Unload.
+ * @details Calls: destroy(), isActive(), shutdown(), reset(), clear(), spdlog::debug().
+ */
 void WasmPluginSandbox::unload() {
     if (!loaded_) {
         return;
@@ -516,6 +536,13 @@ void WasmPluginSandbox::unload() {
 // callExport
 // =============================================================================
 
+/**
+ * @brief Call Export.
+ * @param[in] export_name Name of the export.
+ * @param[in] args Input parameter.
+ * @return Return value.
+ * @details Calls: std::to_string(), spdlog::warn(), std::chrono::steady_clock::now(), call(), count().
+ */
 WasmCallResult WasmPluginSandbox::callExport(const std::string &export_name, const std::vector<uint8_t> &args) {
     WasmCallResult result = {};
 
@@ -593,6 +620,12 @@ uint64_t WasmPluginSandbox::remainingFuel() const noexcept {
 // Private helpers
 // =============================================================================
 
+/**
+ * @brief Validate Wasm Header.
+ * @param[in] bytes Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: size(), std::to_string(), spdlog::error(), std::memcmp(), data().
+ */
 bool WasmPluginSandbox::validateWasmHeader(const std::vector<uint8_t> &bytes) {
     if (bytes.size() < 8) {
         last_error_ = "Binary too small to be a valid WASM module (" + std::to_string(bytes.size()) + " bytes)";
@@ -618,6 +651,12 @@ bool WasmPluginSandbox::validateWasmHeader(const std::vector<uint8_t> &bytes) {
     return true;
 }
 
+/**
+ * @brief Parse Imports Exports.
+ * @param[in] bytes Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), spdlog::error().
+ */
 bool WasmPluginSandbox::parseImportsExports(const std::vector<uint8_t> &bytes) {
     // The validator already does the heavy lifting; results are in module_info_.
     // This method is a hook for future extended validation.
@@ -629,6 +668,11 @@ bool WasmPluginSandbox::parseImportsExports(const std::vector<uint8_t> &bytes) {
     return true;
 }
 
+/**
+ * @brief Check Import Allowlist.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), reserve(), size(), insert(), find(), end(), push_back(), str().
+ */
 bool WasmPluginSandbox::checkImportAllowlist() {
     if (config_.allow_unregistered_imports) {
         return true;
@@ -672,6 +716,11 @@ bool WasmPluginSandbox::checkImportAllowlist() {
     return true;
 }
 
+/**
+ * @brief Allocate Linear Memory.
+ * @return True when the operation succeeds.
+ * @details Calls: push_back(), std::to_string(), spdlog::error(), std::memset(), get().
+ */
 bool WasmPluginSandbox::allocateLinearMemory() {
     if (config_.linear_memory_pages == 0) {
         load_warnings_.push_back("linear_memory_pages=0: WASM module gets no linear memory");
@@ -695,6 +744,12 @@ bool WasmPluginSandbox::allocateLinearMemory() {
     return true;
 }
 
+/**
+ * @brief Launch Os Sandbox.
+ * @param[in] module_name Name of the module.
+ * @return True when the operation succeeds.
+ * @details Calls: launch(), lastError(), spdlog::error(), launchWarnings(), reserve(), size(), push_back(), std::string().
+ */
 bool WasmPluginSandbox::launchOsSandbox(const std::string &module_name) {
     ModuleSandbox::Config os_cfg;
     os_cfg.max_memory_mb        = config_.max_memory_mb;

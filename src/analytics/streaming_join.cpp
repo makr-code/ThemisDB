@@ -25,8 +25,12 @@ namespace analytics {
 
 namespace {
 
-/// Serialize a ColumnValue to a string for use as a composite hash-map key.
-/// Format: type_tag ':' value '\0' (null separator prevents ambiguity).
+/**
+ * @brief Encode Value.
+ * @param[in] v Input parameter.
+ * @return Return value.
+ * @details Calls: std::visit(), constexpr(), std::string(), std::memcpy(), reserve(), size().
+ */
 std::string encodeValue(const ColumnValue &v) {
     return std::visit(
         [](auto &&arg) -> std::string {
@@ -59,8 +63,13 @@ std::string encodeValue(const ColumnValue &v) {
         v);
 }
 
-/// Get the column index for a column name in a ColumnBatch.
-/// Returns SIZE_MAX if not found.
+/**
+ * @brief Find Column Index.
+ * @param[in] batch Input parameter.
+ * @param[in] name Input parameter.
+ * @return Return value.
+ * @details Calls: columnCount(), getColumnAt(), name().
+ */
 size_t findColumnIndex(const ColumnBatch &batch, const std::string &name) {
     for (size_t i = 0; i < batch.columnCount(); ++i) {
         if (batch.getColumnAt(i)->name() == name) {
@@ -70,7 +79,14 @@ size_t findColumnIndex(const ColumnBatch &batch, const std::string &name) {
     return SIZE_MAX;
 }
 
-/// Make a composite key from given columns at a specific row.
+/**
+ * @brief Make Composite Key.
+ * @param[in] cols Input parameter.
+ * @param[in] key_indices Input parameter.
+ * @param[in] row Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), encodeValue(), get().
+ */
 std::string makeCompositeKey(const std::vector<std::shared_ptr<Column>> &cols, const std::vector<size_t> &key_indices,
                              size_t row) {
     std::string key = {};
@@ -82,7 +98,13 @@ std::string makeCompositeKey(const std::vector<std::shared_ptr<Column>> &cols, c
     return key;
 }
 
-/// Append row `src_row` from `src_col` to `dst_col`.
+/**
+ * @brief Append Row.
+ * @param[in,out] dst Input/output parameter.
+ * @param[in] src Input parameter.
+ * @param[in] src_row Input parameter.
+ * @details Calls: isNull(), appendNull(), type(), appendInt64(), int64Data(), appendDouble(), doubleData(), appendString().
+ */
 void appendRow(Column &dst, const Column &src, size_t src_row) {
     if (src.isNull(src_row)) {
         dst.appendNull();
@@ -119,6 +141,13 @@ HashJoin::HashJoin(Config config) : cfg_(std::move(config)) {
     }
 }
 
+/**
+ * @brief Add Build Batch.
+ * @param[in] batch Input parameter.
+ * @return True when the operation succeeds.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: rowCount(), empty(), columnCount(), getColumnAt(), push_back(), name(), type(), getColumn().
+ */
 bool HashJoin::addBuildBatch(const ColumnBatch &batch) {
     if (batch.rowCount() == 0) {
         return true;
@@ -191,6 +220,13 @@ bool HashJoin::addBuildBatch(const ColumnBatch &batch) {
     return true;
 }
 
+/**
+ * @brief Probe.
+ * @param[in] probe_batch Input parameter.
+ * @return Return value.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: empty(), reserve(), columnCount(), push_back(), getColumnAt(), back(), name(), size().
+ */
 ColumnBatch HashJoin::probe(const ColumnBatch &probe_batch) {
     // Determine probe columns to project.
     std::vector<std::shared_ptr<Column>> probe_cols;
@@ -305,6 +341,10 @@ ColumnBatch HashJoin::probe(const ColumnBatch &probe_batch) {
     return result;
 }
 
+/**
+ * @brief Reset the modification detection flag.
+ * @details Calls: clear().
+ */
 void HashJoin::reset() {
     hash_table_.clear();
     build_columns_.clear();
@@ -331,6 +371,12 @@ IntervalJoin::IntervalJoin(Config config) : cfg_(std::move(config)) {
     }
 }
 
+/**
+ * @brief Add Build Batch.
+ * @param[in] batch Input parameter.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: rowCount(), empty(), columnCount(), push_back(), getColumnAt(), name(), findColumnIndex(), int64Data().
+ */
 void IntervalJoin::addBuildBatch(const ColumnBatch &batch) {
     if (batch.rowCount() == 0) {
         return;
@@ -375,6 +421,10 @@ size_t IntervalJoin::buildSideSize() const noexcept {
     return build_buffer_.size();
 }
 
+/**
+ * @brief Sort Build Buffer.
+ * @details Calls: std::sort(), begin(), end().
+ */
 void IntervalJoin::sortBuildBuffer() {
     if (!build_sorted_) {
         std::sort(build_buffer_.begin(), build_buffer_.end(),
@@ -383,6 +433,11 @@ void IntervalJoin::sortBuildBuffer() {
     }
 }
 
+/**
+ * @brief Prune Build Buffer.
+ * @param[in] min_keep_ms Input parameter.
+ * @details Calls: std::lower_bound(), begin(), end(), erase().
+ */
 void IntervalJoin::pruneBuildBuffer(int64_t min_keep_ms) {
     auto it = std::lower_bound(build_buffer_.begin(), build_buffer_.end(), min_keep_ms,
                                [](const BuildRow &row, int64_t val) { return row.timestamp_ms < val; });
@@ -391,6 +446,13 @@ void IntervalJoin::pruneBuildBuffer(int64_t min_keep_ms) {
     }
 }
 
+/**
+ * @brief Probe.
+ * @param[in] probe_batch Input parameter.
+ * @return Return value.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: rowCount(), sortBuildBuffer(), findColumnIndex(), empty(), columnCount(), push_back(), getColumnAt(), back().
+ */
 ColumnBatch IntervalJoin::probe(const ColumnBatch &probe_batch) {
     if (probe_batch.rowCount() == 0) {
         return ColumnBatch{0};
@@ -651,6 +713,10 @@ ColumnBatch IntervalJoin::probe(const ColumnBatch &probe_batch) {
     return final_result;
 }
 
+/**
+ * @brief Reset the modification detection flag.
+ * @details Calls: clear().
+ */
 void IntervalJoin::reset() {
     build_buffer_.clear();
     build_col_names_.clear();

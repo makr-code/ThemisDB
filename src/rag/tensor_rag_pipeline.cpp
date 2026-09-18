@@ -26,13 +26,27 @@ namespace rag {
 // EmbeddingQueryFn injection bridge
 // ============================================================================
 
+/**
+ * @brief Pipeline Embed Fn Mutex.
+ * @return Return value.
+ * @details Implements pipelineEmbedFnMutex without additional internal calls.
+ */
 static std::mutex& pipelineEmbedFnMutex() { static std::mutex m; return m; }
+/**
+ * @brief Pipeline Embed Fn Storage.
+ * @return Return value.
+ * @details Implements pipelineEmbedFnStorage without additional internal calls.
+ */
 static TensorRAGPipeline::EmbeddingQueryFn& pipelineEmbedFnStorage() {
     static TensorRAGPipeline::EmbeddingQueryFn fn;
     return fn;
 }
 
-/*static*/
+/**
+ * @brief static
+ * @param[in] fn Input parameter.
+ * @details Calls: lk(), pipelineEmbedFnMutex(), pipelineEmbedFnStorage(), std::move().
+ */
 void TensorRAGPipeline::setEmbeddingQueryFn(EmbeddingQueryFn fn) {
     std::lock_guard<std::mutex> lk(pipelineEmbedFnMutex());
     pipelineEmbedFnStorage() = std::move(fn);
@@ -49,24 +63,43 @@ TensorRAGPipeline::TensorRAGPipeline(TensorRAGPipelineConfig cfg)
     , stats_{}
 {}
 
+/**
+ * @brief Set Tensor Mid Layer.
+ * @param[in] tensor_mid_layer Input parameter.
+ * @details Calls: std::move().
+ */
 void TensorRAGPipeline::setTensorMidLayer(
     std::shared_ptr<tensor::TensorMidLayer> tensor_mid_layer) {
     tensor_mid_layer_ = std::move(tensor_mid_layer);
 }
 
+/**
+ * @brief Set Graph Truth Validator.
+ * @param[in] graph_truth_validator Input parameter.
+ * @details Calls: std::move().
+ */
 void TensorRAGPipeline::setGraphTruthValidator(
     std::shared_ptr<GraphTruthValidator> graph_truth_validator) {
     graph_truth_validator_ = std::move(graph_truth_validator);
 }
 
+/**
+ * @brief Set Final Layer Orchestrator.
+ * @param[in] final_layer_orchestrator Input parameter.
+ * @details Calls: std::move().
+ */
 void TensorRAGPipeline::setFinalLayerOrchestrator(
     std::shared_ptr<llm::FinalLayerOrchestrator> final_layer_orchestrator) {
     final_layer_orchestrator_ = std::move(final_layer_orchestrator);
 }
 
-// ============================================================================
-// step() — core per-token evaluation
-// ============================================================================
+/**
+ * @brief ============================================================================ step() — core per-token evaluation ============================================================================
+ * @param[in] token_text Input parameter.
+ * @param[in] log_prob Input parameter.
+ * @param[in] logits Input parameter.
+ * @return Return value.
+ */
 
 RAGDecision TensorRAGPipeline::step(const std::string&        token_text,
                                     float                     log_prob,
@@ -283,6 +316,9 @@ RAGDecision TensorRAGPipeline::step(const std::string&        token_text,
 // notifyRetrievalDone()
 // ============================================================================
 
+/**
+ * @brief Notify Retrieval Done.
+ */
 void TensorRAGPipeline::notifyRetrievalDone()
 {
     if (cfg_.use_flare) {
@@ -298,6 +334,9 @@ void TensorRAGPipeline::notifyRetrievalDone()
 // reset()
 // ============================================================================
 
+/**
+ * @brief Reset the modification detection flag.
+ */
 void TensorRAGPipeline::reset()
 {
     flare_.reset();

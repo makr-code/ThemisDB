@@ -29,6 +29,11 @@ namespace importers {
 // Helpers
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Generate UUID.
+ * @return Return value.
+ * @details Calls: dist(), std::setfill(), std::setw(), str().
+ */
 std::string MDMAuditTrail::generateUUID() {
     static std::mt19937_64 rng{std::random_device{}()};
     static std::uniform_int_distribution<uint64_t> dist;
@@ -43,6 +48,11 @@ std::string MDMAuditTrail::generateUUID() {
     return ss.str();
 }
 
+/**
+ * @brief Now Rfc3339.
+ * @return Return value.
+ * @details Calls: system_clock::now(), system_clock::to_time_t(), gmtime_s(), gmtime_r(), std::put_time(), str().
+ */
 std::string MDMAuditTrail::nowRfc3339() {
     using namespace std::chrono;
     const auto now = system_clock::now();
@@ -58,6 +68,13 @@ std::string MDMAuditTrail::nowRfc3339() {
     return ss.str();
 }
 
+/**
+ * @brief Compute Chain Hash.
+ * @param[in] previous_hash Input parameter.
+ * @param[in] event Input parameter.
+ * @return Return value.
+ * @details Calls: themis::hash::fnv1a64(), std::setfill(), std::setw(), str().
+ */
 std::string MDMAuditTrail::computeChainHash(const std::string &previous_hash, const AuditEvent &event) {
     const std::string payload
         = previous_hash + event.event_id + event.timestamp + event.source_entity_id + event.target_entity_id;
@@ -85,6 +102,12 @@ json MDMAuditTrail::AuditEvent::toJson() const {
                 {"chain_hash", chain_hash}};
 }
 
+/**
+ * @brief Operation Name.
+ * @param[in] op Input parameter.
+ * @return Return value.
+ * @details Implements operationName without additional internal calls.
+ */
 std::string MDMAuditTrail::operationName(Operation op) {
     switch (op) {
         case Operation::MATCH_FOUND:
@@ -111,6 +134,11 @@ std::string MDMAuditTrail::operationName(Operation op) {
 // recordEvent
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Record Event.
+ * @param[in] event Input parameter.
+ * @details Calls: lk(), empty(), generateUUID(), nowRfc3339(), back(), computeChainHash(), push_back(), std::move().
+ */
 void MDMAuditTrail::recordEvent(AuditEvent event) {
     std::lock_guard<std::mutex> lk(mutex_);
 
@@ -134,6 +162,11 @@ void MDMAuditTrail::recordEvent(AuditEvent event) {
 std::vector<MDMAuditTrail::AuditEvent>
 MDMAuditTrail::getAuditFor(const std::string &entity_id, const std::string &collection_name,
                            const std::optional<Operation> &operation_filter) const {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     std::vector<AuditEvent> result;
 
@@ -157,6 +190,11 @@ MDMAuditTrail::getAuditFor(const std::string &entity_id, const std::string &coll
 // ---------------------------------------------------------------------------
 
 bool MDMAuditTrail::verifyAuditChain() const {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     std::string prev_hash = {};
     for (const auto &e : events_) {
@@ -175,6 +213,11 @@ bool MDMAuditTrail::verifyAuditChain() const {
 
 json MDMAuditTrail::exportAuditReport(const std::string &collection_name, const std::string &start_date,
                                       const std::string &end_date) const {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
 
     json events_arr = json::array();
@@ -203,10 +246,19 @@ json MDMAuditTrail::exportAuditReport(const std::string &collection_name, const 
 }
 
 size_t MDMAuditTrail::eventCount() const {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     return events_.size();
 }
 
+/**
+ * @brief Clear.
+ * @details Calls: lk().
+ */
 void MDMAuditTrail::clear() {
     std::lock_guard<std::mutex> lk(mutex_);
     events_.clear();

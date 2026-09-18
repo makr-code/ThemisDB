@@ -30,6 +30,12 @@ PromptTemplateManager::PromptTemplateManager() {
     few_shot_examples_[EvaluationDimension::COHERENCE] = getCoherenceExamples();
 }
 
+/**
+ * @brief Load Templates From Directory.
+ * @param[in] template_dir Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: THEMIS_INFO(), loadTemplate(), THEMIS_WARN().
+ */
 bool PromptTemplateManager::loadTemplatesFromDirectory(const std::string& template_dir) {
     THEMIS_INFO("Loading prompt templates from directory: {}", template_dir);
     
@@ -55,6 +61,13 @@ bool PromptTemplateManager::loadTemplatesFromDirectory(const std::string& templa
     return success;
 }
 
+/**
+ * @brief Load Template.
+ * @param[in] dimension Input parameter.
+ * @param[in] filepath Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: file(), is_open(), THEMIS_ERROR(), rdbuf(), str(), THEMIS_DEBUG().
+ */
 bool PromptTemplateManager::loadTemplate(EvaluationDimension dimension, const std::string& filepath) {
     std::ifstream file(filepath);
     if (!file.is_open()) {
@@ -97,6 +110,12 @@ std::string PromptTemplateManager::generatePrompt(
     return prompt;
 }
 
+/**
+ * @brief Set Few Shot Examples.
+ * @param[in] dimension Input parameter.
+ * @param[in] examples Input parameter.
+ * @details Calls: THEMIS_DEBUG(), size().
+ */
 void PromptTemplateManager::setFewShotExamples(
     EvaluationDimension dimension,
     const std::vector<FewShotExample>& examples
@@ -114,16 +133,32 @@ std::string PromptTemplateManager::getTemplate(EvaluationDimension dimension) co
     return "";
 }
 
+/**
+ * @brief Set Template.
+ * @param[in] dimension Input parameter.
+ * @param[in] template_str Input parameter.
+ * @details Implements setTemplate without additional internal calls.
+ */
 void PromptTemplateManager::setTemplate(EvaluationDimension dimension, const std::string& template_str) {
     templates_[dimension] = template_str;
 }
 
+/**
+ * @brief Create Default.
+ * @return Return value.
+ * @details Calls: PromptTemplateManager().
+ */
 PromptTemplateManager PromptTemplateManager::createDefault() {
     return PromptTemplateManager();
 }
 
 // Default template implementations
 
+/**
+ * @brief Get Faithfulness Template.
+ * @return Return value.
+ * @details Implements getFaithfulnessTemplate without additional internal calls.
+ */
 std::string PromptTemplateManager::getFaithfulnessTemplate() {
     return R"(You are an expert evaluator assessing the faithfulness of a generated answer to its source documents.
 
@@ -156,6 +191,11 @@ std::string PromptTemplateManager::getFaithfulnessTemplate() {
 )";
 }
 
+/**
+ * @brief Get Relevance Template.
+ * @return Return value.
+ * @details Implements getRelevanceTemplate without additional internal calls.
+ */
 std::string PromptTemplateManager::getRelevanceTemplate() {
     return R"(You are an expert evaluator assessing the relevance of an answer to a query.
 
@@ -192,6 +232,11 @@ std::string PromptTemplateManager::getRelevanceTemplate() {
 )";
 }
 
+/**
+ * @brief Get Completeness Template.
+ * @return Return value.
+ * @details Implements getCompletenessTemplate without additional internal calls.
+ */
 std::string PromptTemplateManager::getCompletenessTemplate() {
     return R"(You are an expert evaluator assessing the completeness of an answer.
 
@@ -228,6 +273,11 @@ std::string PromptTemplateManager::getCompletenessTemplate() {
 )";
 }
 
+/**
+ * @brief Get Coherence Template.
+ * @return Return value.
+ * @details Implements getCoherenceTemplate without additional internal calls.
+ */
 std::string PromptTemplateManager::getCoherenceTemplate() {
     return R"(You are an expert evaluator assessing the coherence and quality of an answer.
 
@@ -261,7 +311,11 @@ std::string PromptTemplateManager::getCoherenceTemplate() {
 )";
 }
 
-// Default few-shot examples
+/**
+ * @brief Default few-shot examples
+ * @return Return value.
+ * @details Implements getFaithfulnessExamples without additional internal calls.
+ */
 
 std::vector<FewShotExample> PromptTemplateManager::getFaithfulnessExamples() {
     return {
@@ -282,6 +336,11 @@ std::vector<FewShotExample> PromptTemplateManager::getFaithfulnessExamples() {
     };
 }
 
+/**
+ * @brief Get Relevance Examples.
+ * @return Return value.
+ * @details Implements getRelevanceExamples without additional internal calls.
+ */
 std::vector<FewShotExample> PromptTemplateManager::getRelevanceExamples() {
     return {
         {
@@ -294,6 +353,11 @@ std::vector<FewShotExample> PromptTemplateManager::getRelevanceExamples() {
     };
 }
 
+/**
+ * @brief Get Completeness Examples.
+ * @return Return value.
+ * @details Implements getCompletenessExamples without additional internal calls.
+ */
 std::vector<FewShotExample> PromptTemplateManager::getCompletenessExamples() {
     return {
         {
@@ -306,6 +370,11 @@ std::vector<FewShotExample> PromptTemplateManager::getCompletenessExamples() {
     };
 }
 
+/**
+ * @brief Get Coherence Examples.
+ * @return Return value.
+ * @details Implements getCoherenceExamples without additional internal calls.
+ */
 std::vector<FewShotExample> PromptTemplateManager::getCoherenceExamples() {
     return {
         {

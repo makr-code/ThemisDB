@@ -21,6 +21,15 @@ namespace index {
 // HnswProductionDefaults Implementation
 // ============================================================================
 
+/**
+ * @brief Get Recommended Params.
+ * @param[in] dataset_size Input parameter.
+ * @param[in] dimension Input parameter.
+ * @param[in] profile Input parameter.
+ * @param[in] workload Input parameter.
+ * @return Return value.
+ * @details Calls: getRecommendedM(), std::max(), std::min(), getRecommendedEfConstruction(), getRecommendedEfSearch(), std::log().
+ */
 HnswProductionDefaults::HnswParams HnswProductionDefaults::getRecommendedParams(
     size_t dataset_size,
     size_t dimension,
@@ -141,6 +150,14 @@ HnswProductionDefaults::HnswParams HnswProductionDefaults::getRecommendedParams(
     return params;
 }
 
+/**
+ * @brief Get Workload Optimized Params.
+ * @param[in] dataset_size Input parameter.
+ * @param[in] dimension Input parameter.
+ * @param[in] workload Input parameter.
+ * @return Return value.
+ * @details Calls: getRecommendedParams().
+ */
 HnswProductionDefaults::HnswParams HnswProductionDefaults::getWorkloadOptimizedParams(
     size_t dataset_size,
     size_t dimension,
@@ -190,6 +207,13 @@ int HnswProductionDefaults::getRecommendedM([[maybe_unused]] size_t dataset_size
     }
 }
 
+/**
+ * @brief Get Recommended Ef Construction.
+ * @param[in] M Input parameter.
+ * @param[in] dataset_size Input parameter.
+ * @return Return value.
+ * @details Implements getRecommendedEfConstruction without additional internal calls.
+ */
 int HnswProductionDefaults::getRecommendedEfConstruction(int M, size_t dataset_size) {
     // ef_construction should be significantly larger than M for good recall
     // Typical recommendation: 10-20x M
@@ -210,6 +234,13 @@ int HnswProductionDefaults::getRecommendedEfConstruction(int M, size_t dataset_s
     }
 }
 
+/**
+ * @brief Get Recommended Ef Search.
+ * @param[in] k Input parameter.
+ * @param[in] profile Input parameter.
+ * @return Return value.
+ * @details Calls: std::max(), std::clamp().
+ */
 int HnswProductionDefaults::getRecommendedEfSearch(
     size_t k,
     PerformanceProfile profile) {
@@ -242,6 +273,16 @@ int HnswProductionDefaults::getRecommendedEfSearch(
     return std::clamp(ef, static_cast<int>(k), 512);
 }
 
+/**
+ * @brief Auto Tune Parameters.
+ * @param[in] dataset_size Input parameter.
+ * @param[in] dimension Input parameter.
+ * @param[in] size_t Input parameter.
+ * @param[in] target_latency_ms Input parameter.
+ * @param[in] target_recall Input parameter.
+ * @return Return value.
+ * @details Calls: getWorkloadOptimizedParams(), getRecommendedEfSearch(), validateParams(), spdlog::info().
+ */
 HnswProductionDefaults::HnswParams HnswProductionDefaults::autoTuneParameters(
     size_t dataset_size,
     size_t dimension,
@@ -297,6 +338,13 @@ HnswProductionDefaults::HnswParams HnswProductionDefaults::autoTuneParameters(
     return params;
 }
 
+/**
+ * @brief Validate Params.
+ * @param[in] params Input parameter.
+ * @param[in] dataset_size Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: spdlog::warn(), estimateMemoryUsage().
+ */
 bool HnswProductionDefaults::validateParams(
     const HnswParams& params, 
     size_t dataset_size) {
@@ -334,6 +382,14 @@ bool HnswProductionDefaults::validateParams(
     return valid;
 }
 
+/**
+ * @brief Estimate Memory Usage.
+ * @param[in] params Input parameter.
+ * @param[in] dataset_size Input parameter.
+ * @param[in] dimension Input parameter.
+ * @return Return value.
+ * @details Implements estimateMemoryUsage without additional internal calls.
+ */
 size_t HnswProductionDefaults::estimateMemoryUsage(
     const HnswParams& params,
     size_t dataset_size,
@@ -357,6 +413,14 @@ size_t HnswProductionDefaults::estimateMemoryUsage(
     return total;
 }
 
+/**
+ * @brief Estimate Build Time.
+ * @param[in] params Input parameter.
+ * @param[in] dataset_size Input parameter.
+ * @param[in] dimension Input parameter.
+ * @return Return value.
+ * @details Calls: std::sqrt().
+ */
 double HnswProductionDefaults::estimateBuildTime(
     const HnswParams& params,
     size_t dataset_size,
@@ -387,6 +451,16 @@ double HnswProductionDefaults::estimateBuildTime(
 // HnswRuntimeAdapter Implementation
 // ============================================================================
 
+/**
+ * @brief Adjust Ef Search.
+ * @param[in] current_ef Input parameter.
+ * @param[in] actual_latency_ms Input parameter.
+ * @param[in] target_latency_ms Input parameter.
+ * @param[in] actual_recall Input parameter.
+ * @param[in] target_recall Input parameter.
+ * @return Return value.
+ * @details Calls: std::min(), std::max(), std::clamp(), spdlog::debug().
+ */
 int HnswRuntimeAdapter::adjustEfSearch(
     int current_ef,
     double actual_latency_ms,
@@ -427,6 +501,13 @@ int HnswRuntimeAdapter::adjustEfSearch(
     return new_ef;
 }
 
+/**
+ * @brief Should Rebuild Index.
+ * @param[in] current_size Input parameter.
+ * @param[in] initial_size Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: spdlog::info(), std::max(), size_t().
+ */
 bool HnswRuntimeAdapter::shouldRebuildIndex(
     size_t current_size,
     size_t initial_size) {
@@ -450,6 +531,13 @@ bool HnswRuntimeAdapter::shouldRebuildIndex(
     return false;
 }
 
+/**
+ * @brief Get Overfetch Multiplier.
+ * @param[in] filter_selectivity Input parameter.
+ * @param[in] k Input parameter.
+ * @return Return value.
+ * @details Calls: std::min(), std::max().
+ */
 double HnswRuntimeAdapter::getOverfetchMultiplier(
     double filter_selectivity,
     size_t k) {

@@ -16,6 +16,12 @@ namespace ingestion {
 // Error classification functions
 // ============================================================================
 
+/**
+ * @brief Is Transient Error.
+ * @param[in] code Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements isTransientError without additional internal calls.
+ */
 bool isTransientError(IngestionErrorCode code) {
     switch (code) {
         // Network timeouts and temporary failures (retryable)
@@ -65,6 +71,12 @@ bool isTransientError(IngestionErrorCode code) {
     }
 }
 
+/**
+ * @brief Is Permanent Error.
+ * @param[in] code Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements isPermanentError without additional internal calls.
+ */
 bool isPermanentError(IngestionErrorCode code) {
     switch (code) {
         // Validation errors (permanent)
@@ -144,6 +156,12 @@ bool isPermanentError(IngestionErrorCode code) {
     }
 }
 
+/**
+ * @brief Is Resource Exhaustion Error.
+ * @param[in] code Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements isResourceExhaustionError without additional internal calls.
+ */
 bool isResourceExhaustionError(IngestionErrorCode code) {
     switch (code) {
         case IngestionErrorCode::MEMORY_EXHAUSTION:
@@ -172,6 +190,12 @@ bool isResourceExhaustionError(IngestionErrorCode code) {
     }
 }
 
+/**
+ * @brief Is Backpressure Error.
+ * @param[in] code Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements isBackpressureError without additional internal calls.
+ */
 bool isBackpressureError(IngestionErrorCode code) {
     switch (code) {
         case IngestionErrorCode::QUEUE_SATURATED:
@@ -198,6 +222,12 @@ bool isBackpressureError(IngestionErrorCode code) {
     }
 }
 
+/**
+ * @brief Get Error Message.
+ * @param[in] code Input parameter.
+ * @return Return value.
+ * @details Calls: std::to_string().
+ */
 std::string getErrorMessage(IngestionErrorCode code) {
     switch (code) {
         case IngestionErrorCode::OK:

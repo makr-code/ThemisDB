@@ -91,6 +91,11 @@ private:
 
 } // anonymous namespace
 
+/**
+ * @brief Create Archive Extractor Adapter.
+ * @return Return value.
+ * @details Implements createArchiveExtractorAdapter without additional internal calls.
+ */
 std::shared_ptr<ingestion::IFormatExtractor> createArchiveExtractorAdapter() {
     return std::make_shared<ArchiveExtractorAdapter>();
 }

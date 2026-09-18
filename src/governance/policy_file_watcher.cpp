@@ -34,6 +34,11 @@ PolicyFileWatcher::~PolicyFileWatcher() {
     stop();
 }
 
+/**
+ * @brief Start.
+ * @return True when the operation succeeds.
+ * @details Calls: load(), store(), std::thread(), THEMIS_INFO().
+ */
 bool PolicyFileWatcher::start() {
     if (running_.load(std::memory_order_acquire)) {
         return true;  // Already running
@@ -48,6 +53,10 @@ bool PolicyFileWatcher::start() {
     return true;
 }
 
+/**
+ * @brief Stop.
+ * @details Calls: store(), joinable(), join(), THEMIS_INFO(), load().
+ */
 void PolicyFileWatcher::stop() {
     running_.store(false, std::memory_order_release);
     if (thread_.joinable()) {
@@ -59,6 +68,10 @@ void PolicyFileWatcher::stop() {
                 reload_failure_count_.load(std::memory_order_relaxed));
 }
 
+/**
+ * @brief Run.
+ * @details Calls: getLoadedFilePath(), empty(), fs::last_write_time(), load(), std::this_thread::sleep_for(), std::chrono::steady_clock::now(), THEMIS_DEBUG(), reloadIfChanged().
+ */
 void PolicyFileWatcher::run() {
     namespace fs = std::filesystem;
 

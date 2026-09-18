@@ -21,6 +21,12 @@ MaintenanceScheduleStore::MaintenanceScheduleStore(IStorageEngine* engine)
 // Private helpers
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Make Key.
+ * @param[in] id Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), append().
+ */
 std::string MaintenanceScheduleStore::makeKey(const std::string& id) {
     std::string key = {};
     key.reserve(kKeyPrefix.size() + id.size() );
@@ -33,12 +39,24 @@ std::string MaintenanceScheduleStore::makeKey(const std::string& id) {
 // Public API
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Save.
+ * @param[in] entry Input parameter.
+ * @return Return value.
+ * @details Calls: makeKey(), toJson(), dump(), put().
+ */
 Result<void> MaintenanceScheduleStore::save(const MaintenanceScheduleEntry& entry) {
     const std::string key   = makeKey(entry.id);
     const std::string value = entry.toJson().dump();
     return engine_->put(key, value);
 }
 
+/**
+ * @brief Remove.
+ * @param[in] id Input parameter.
+ * @return Return value.
+ * @details Calls: del(), makeKey().
+ */
 Result<void> MaintenanceScheduleStore::remove(const std::string& id) {
     return engine_->del(makeKey(id));
 }

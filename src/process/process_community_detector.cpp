@@ -51,6 +51,12 @@ struct Graph {
     float total_weight{0.f};                // 2m = sum of all edge weights
 };
 
+/**
+ * @brief Build Graph.
+ * @param[in] normalized Input parameter.
+ * @return Return value.
+ * @details Calls: contains(), value(), empty(), find(), end(), size(), push_back(), resize().
+ */
 Graph buildGraph(const json& normalized) {
     Graph g = {};
     if (!normalized.contains("nodes") || !normalized.contains("edges")) {
@@ -99,10 +105,14 @@ Graph buildGraph(const json& normalized) {
     return g;
 }
 
-/// Modularity gain when moving node u into community C.
-/// ΔQ = [Σ(in) / m − (Σ(tot) + k_u)^2 / (2m)^2]
-///     − [Σ(in) / m − Σ(tot)^2 / (2m)^2 − k_u^2 / (2m)^2]
-/// Simplified: ΔQ = (k_u_in / m) − (Σ(tot) * k_u / (2m)^2) * resolution
+/**
+ * @brief Modularity Gain.
+ * @param[in] u Input parameter.
+ * @param[in] community_nodes Input parameter.
+ * @param[in] g Input parameter.
+ * @param[in] resolution Input parameter.
+ * @return Return value.
+ */
 float modularityGain(
     int u,
     const std::set<int>& community_nodes,
@@ -127,8 +137,13 @@ float modularityGain(
     return (k_u_in / g.total_weight) - (resolution * sigma_tot * g.degree[u] / (two_m * two_m / 2.f));
 }
 
-/// Run one phase of Louvain: iterate nodes and move each to the neighbouring
-/// community with the best modularity gain. Returns true if any node moved.
+/**
+ * @brief Louvain Phase.
+ * @param[in,out] assignment Input/output parameter.
+ * @param[in] g Input parameter.
+ * @param[in] resolution Input parameter.
+ * @return True when the operation succeeds.
+ */
 bool louvainPhase(
     std::vector<int>& assignment,         // node → community label
     const Graph& g,
@@ -190,6 +205,11 @@ std::vector<ProcessCommunity> ProcessCommunityDetector::detect(
     std::string_view model_id,
     float resolution) const
 {
+    /**
+     * @brief Mgr.
+     * @param[in] db_ Input parameter.
+     * @return Return value.
+     */
     ProcessModelManager mgr(db_);
     auto opt = mgr.load(model_id);
     if (!opt.has_value()) {
@@ -219,7 +239,11 @@ std::vector<ProcessCommunity> ProcessCommunityDetector::detect(
         }
     }
 
-    // Initialise: each node in its own community (community label = node index)
+    /**
+     * @brief Initialise: each node in its own community (community label = node index)
+     * @param[in] n Input parameter.
+     * @return Return value.
+     */
     std::vector<int> assignment(n);
     std::iota(assignment.begin(), assignment.end(), 0);
 
@@ -271,6 +295,11 @@ std::vector<ProcessCommunity> ProcessCommunityDetector::detect(
                 }
             }
             if (sg.total_weight > 0.f) {
+                /**
+                 * @brief Sg assign.
+                 * @param[in] comm_count Input parameter.
+                 * @return Return value.
+                 */
                 std::vector<int> sg_assign(comm_count);
                 std::iota(sg_assign.begin(), sg_assign.end(), 0);
                 for (int iter = 0; iter < kMaxIterations; ++iter) {
@@ -424,6 +453,12 @@ std::string ProcessCommunityDetector::generateReport(
     return oss.str();
 }
 
+/**
+ * @brief Persist Communities.
+ * @param[in] model_id Identifier of the model.
+ * @param[in] communities Input parameter.
+ * @return True when the operation succeeds.
+ */
 bool ProcessCommunityDetector::persistCommunities(
     std::string_view model_id,
     const std::vector<ProcessCommunity>& communities)

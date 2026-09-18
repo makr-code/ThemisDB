@@ -39,6 +39,11 @@ ZeroTrustPolicyEnforcer::ZeroTrustPolicyEnforcer(TokenVerifier token_verifier)
 // Policy management
 // ============================================================================
 
+/**
+ * @brief Register a network policy.
+ * @param[in] policy Network policy to add.
+ * @details Calls: lock(), THEMIS_INFO().
+ */
 void ZeroTrustPolicyEnforcer::addNetworkPolicy(const NetworkPolicy& policy) {
     std::lock_guard<std::mutex> lock(mutex_);
     policies_[policy.policy_id] = policy;
@@ -46,6 +51,12 @@ void ZeroTrustPolicyEnforcer::addNetworkPolicy(const NetworkPolicy& policy) {
                 policy.policy_id, policy.identity);
 }
 
+/**
+ * @brief Remove a network policy by id.
+ * @param[in] policy_id Identifier of the policy to remove.
+ * @return True when a policy was removed.
+ * @details Calls: lock(), find(), end(), THEMIS_INFO(), erase().
+ */
 bool ZeroTrustPolicyEnforcer::removeNetworkPolicy(const std::string& policy_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = policies_.find(policy_id);
@@ -58,6 +69,11 @@ bool ZeroTrustPolicyEnforcer::removeNetworkPolicy(const std::string& policy_id) 
 }
 
 std::vector<NetworkPolicy> ZeroTrustPolicyEnforcer::getNetworkPolicies() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     std::vector<NetworkPolicy> result = {};
 
@@ -68,9 +84,12 @@ std::vector<NetworkPolicy> ZeroTrustPolicyEnforcer::getNetworkPolicies() const {
     return result;
 }
 
-// ============================================================================
-// Core: per-request verification
-// ============================================================================
+/**
+ * @brief ============================================================================ Core: per-request verification ============================================================================
+ * @param[in] context Zero-trust request context to verify.
+ * @return Verification result.
+ * @details Calls: fetch_add(), lock(), findPolicyForIdentity(), THEMIS_WARN(), VerificationResult::Deny(), count(), std::chrono::system_clock::now(), THEMIS_DEBUG().
+ */
 
 VerificationResult ZeroTrustPolicyEnforcer::verify(const ZeroTrustContext& context) {
     metrics_.requests_total.fetch_add(1, std::memory_order_relaxed);
@@ -199,6 +218,11 @@ bool ZeroTrustPolicyEnforcer::verifyToken(const std::string& token,
 
 bool ZeroTrustPolicyEnforcer::isIpAllowed(const std::string& client_ip,
                                            const std::string& identity) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     const NetworkPolicy* policy = findPolicyForIdentity(identity);
 
@@ -294,6 +318,13 @@ const NetworkPolicy* ZeroTrustPolicyEnforcer::findPolicyForIdentity(
     return nullptr;
 }
 
+/**
+ * @brief Parse an IPv4 address into an integer representation.
+ * @param[in] ip IPv4 address string.
+ * @param[in,out] out Output numeric IPv4 value.
+ * @return True when the IPv4 address parsed successfully.
+ * @details Calls: std::sscanf(), c_str().
+ */
 bool ZeroTrustPolicyEnforcer::parseIpv4(const std::string& ip, uint32_t& out) {
     // Parse dotted-decimal IPv4 (e.g. "192.168.1.100")
     unsigned int a = 0, b = 0, c = 0, d = 0;
@@ -310,6 +341,13 @@ bool ZeroTrustPolicyEnforcer::parseIpv4(const std::string& ip, uint32_t& out) {
     return true;
 }
 
+/**
+ * @brief Check whether an IP address matches a CIDR range.
+ * @param[in] ip IP address to check.
+ * @param[in] cidr CIDR range to compare against.
+ * @return True when the IP matches the CIDR.
+ * @details Calls: find(), substr(), std::stoi(), THEMIS_WARN(), what(), parseIpv4().
+ */
 bool ZeroTrustPolicyEnforcer::ipMatchesCidr(const std::string& ip,
                                               const std::string& cidr) {
     // Split CIDR into address and prefix length
@@ -366,6 +404,13 @@ bool ZeroTrustPolicyEnforcer::parseIpv6(const std::string& ip,
     return rc == 1;
 }
 
+/**
+ * @brief Check whether an IPv6 address matches a CIDR range.
+ * @param[in] ip IPv6 address to check.
+ * @param[in] cidr CIDR range to compare against.
+ * @return True when the IP matches the CIDR.
+ * @details Calls: find(), parseIpv6(), substr(), std::stoi(), THEMIS_WARN().
+ */
 bool ZeroTrustPolicyEnforcer::ipv6MatchesCidr(const std::string& ip,
                                                 const std::string& cidr) {
     auto slash = cidr.find('/');
@@ -421,6 +466,12 @@ bool ZeroTrustPolicyEnforcer::ipv6MatchesCidr(const std::string& ip,
     return true;
 }
 
+/**
+ * @brief Normalize an IPv4-mapped IPv6 address.
+ * @param[in] ip IP address to normalize.
+ * @return Normalized IP string.
+ * @details Calls: size(), substr(), parseIpv4().
+ */
 std::string ZeroTrustPolicyEnforcer::normaliseIpv4MappedIpv6(const std::string& ip) {
     // IPv4-mapped IPv6 addresses start with ::ffff: in text form
     constexpr std::string_view kPrefix = "::ffff:";
@@ -435,6 +486,13 @@ std::string ZeroTrustPolicyEnforcer::normaliseIpv4MappedIpv6(const std::string& 
     return ip;
 }
 
+/**
+ * @brief Check whether an IP matches any CIDR in a policy.
+ * @param[in] ip IP address to check.
+ * @param[in] cidr CIDR range to compare against.
+ * @return True when the IP matches at least one CIDR.
+ * @details Calls: normaliseIpv4MappedIpv6(), find(), ipv6MatchesCidr(), ipMatchesCidr().
+ */
 bool ZeroTrustPolicyEnforcer::ipMatchesCidrAny(const std::string& ip,
                                                 const std::string& cidr) {
     // Detect IPv6 by presence of ':' in either the IP or the CIDR base address.

@@ -43,26 +43,13 @@ namespace {
 // BATCH 2.1.2: Command Injection Prevention
 // ============================================================================
 
-/**
- * @brief CommandArgumentValidator: Whitelist-based validation for gocryptfs args
- * 
- * Prevents command injection via execvp() by strictly validating all dynamic
- * arguments used in command execution.
- * 
- * Validation Rules:
- * - Paths: must be absolute (start with /) OR relative (start with ./)
- *   - Must NOT contain .. sequences (path traversal prevention)
- *   - Must NOT contain shell metacharacters: $, `, ;, &, |, <, >, (, ), etc.
- * - Hex-encoded keys: must match [0-9a-f]+ (only lowercase hex)
- * - Gocryptfs flags: must match known safe flags only
- */
 namespace CommandArgumentValidator {
 
 /**
- * @brief Validate a filesystem path for security.
- * 
- * @param path The path to validate
- * @return Result<std::string> containing the validated path or error message
+ * @brief Validate Path.
+ * @param[in] path Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), error(), size(), substr(), find(), invalid_chars(), std::regex_search().
  */
 inline Result<std::string> validatePath(const std::string& path) {
     if (path.empty()) {
@@ -96,10 +83,10 @@ inline Result<std::string> validatePath(const std::string& path) {
 }
 
 /**
- * @brief Validate a hex-encoded key string.
- * 
- * @param hex_key The hex string to validate
- * @return Result<std::string> containing the validated hex or error message
+ * @brief Validate Hex Key.
+ * @param[in] hex_key Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), error(), valid_hex(), std::regex_match(), size().
  */
 inline Result<std::string> validateHexKey(const std::string& hex_key) {
     if (hex_key.empty()) {
@@ -125,12 +112,10 @@ inline Result<std::string> validateHexKey(const std::string& hex_key) {
 }
 
 /**
- * @brief Validate a gocryptfs flag argument.
- * 
- * Only allows known safe flags to prevent arbitrary gocryptfs options.
- * 
- * @param flag The flag to validate (e.g., "-allow-other", "-foreground")
- * @return Result<std::string> containing the validated flag or error message
+ * @brief Validate Gocryptfs Flag.
+ * @param[in] flag Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), error(), find(), end().
  */
 inline Result<std::string> validateGocryptfsFlag(const std::string& flag) {
     if (flag.empty()) {
@@ -167,6 +152,12 @@ inline Result<std::string> validateGocryptfsFlag(const std::string& flag) {
 
 } // namespace CommandArgumentValidator
 
+/**
+ * @brief Secure Zero.
+ * @param[in,out] ptr Input/output parameter.
+ * @param[in] len Input parameter.
+ * @details Implements secureZero without additional internal calls.
+ */
 inline void secureZero(void* ptr, size_t len) {
     volatile unsigned char* p = static_cast<volatile unsigned char*>(ptr);
     while (len--) {
@@ -175,9 +166,9 @@ inline void secureZero(void* ptr, size_t len) {
 }
 
 /**
- * @brief Generate a unique correlation ID for request tracing.
- * 
- * @return A UUID-like random string for end-to-end tracing
+ * @brief Generate Correlation Id.
+ * @return Return value.
+ * @details Calls: gen(), rd(), dis(), str().
  */
 inline std::string generateCorrelationId() {
     static std::random_device rd;
@@ -229,6 +220,12 @@ GocryptfsBackend::GocryptfsBackend(KeyDerivationService* kdf_service)
 
 GocryptfsBackend::~GocryptfsBackend() = default;
 
+/**
+ * @brief Initialize.
+ * @param[in] config_json Input parameter.
+ * @return Return value.
+ * @details Implements initialize without additional internal calls.
+ */
 Result<void> GocryptfsBackend::initialize(const std::string& config_json) {
     // For now, simple initialization
     // Could parse config_json to customize gocryptfs_binary path
@@ -236,6 +233,11 @@ Result<void> GocryptfsBackend::initialize(const std::string& config_json) {
     return Result<void>();
 }
 
+/**
+ * @brief Check Availability.
+ * @return Return value.
+ * @details Calls: executeCommandSafe(), isError(), emitDiagnosticEvent(), error(), stat(), modules(), is_open(), std::getline().
+ */
 Result<void> GocryptfsBackend::checkAvailability() {
     // Check if gocryptfs is available in PATH
     auto result = executeCommandSafe({"which", "gocryptfs"});
@@ -313,6 +315,14 @@ std::string GocryptfsBackend::getBackendVersion() const {
     return "unknown";
 }
 
+/**
+ * @brief Create Container.
+ * @param[in] encrypted_dir Input parameter.
+ * @param[in] mount_point Input parameter.
+ * @param[in] key_material Input parameter.
+ * @return Return value.
+ * @details Calls: CommandArgumentValidator::validatePath(), isError(), error(), directoryExists(), value(), createDirectory(), resolveKey(), executeCommandWithStdin().
+ */
 Result<void> GocryptfsBackend::createContainer(
     const std::string& encrypted_dir,
     const std::string& mount_point,
@@ -370,6 +380,14 @@ Result<void> GocryptfsBackend::createContainer(
     return Result<void>();
 }
 
+/**
+ * @brief Mount Container.
+ * @param[in] encrypted_dir Input parameter.
+ * @param[in] mount_point Input parameter.
+ * @param[in] key_material Input parameter.
+ * @return Return value.
+ * @details Calls: CommandArgumentValidator::validatePath(), isError(), error(), isMounted(), value(), resolveKey(), executeCommandWithStdin().
+ */
 Result<void> GocryptfsBackend::mountContainer(
     const std::string& encrypted_dir,
     const std::string& mount_point,
@@ -419,6 +437,12 @@ Result<void> GocryptfsBackend::mountContainer(
     return Result<void>();
 }
 
+/**
+ * @brief Unmount Container.
+ * @param[in] mount_point Input parameter.
+ * @return Return value.
+ * @details Calls: isMounted(), CommandArgumentValidator::validatePath(), isError(), error(), value(), executeCommandSafe().
+ */
 Result<void> GocryptfsBackend::unmountContainer(const std::string& mount_point) {
     if (!isMounted(mount_point)) {
         return Result<void>(); // Not mounted is success
@@ -448,6 +472,12 @@ Result<void> GocryptfsBackend::unmountContainer(const std::string& mount_point) 
     return Result<void>();
 }
 
+/**
+ * @brief Is Mounted.
+ * @param[in] mount_point Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: mounts(), std::getline(), find(), executeCommandSafe(), isSuccess(), value().
+ */
 bool GocryptfsBackend::isMounted(const std::string& mount_point) {
     // Check /proc/mounts (Linux) or mount output
 #ifdef __linux__
@@ -469,9 +499,13 @@ bool GocryptfsBackend::isMounted(const std::string& mount_point) {
 #endif
 }
 
-// ---------------------------------------------------------------------------
-// Stdin key delivery (Feature 1)
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- Stdin key delivery (Feature 1) ---------------------------------------------------------------------------
+ * @param[in] write_fd Input parameter.
+ * @param[in] key_material Input parameter.
+ * @return Return value.
+ * @details Calls: defined(), error(), reserve(), size(), std::setfill(), std::setw(), str(), data().
+ */
 
 Result<void> GocryptfsBackend::deliverKeyViaStdin(
     int write_fd,
@@ -531,6 +565,13 @@ Result<void> GocryptfsBackend::deliverKeyViaStdin(
 #endif
 }
 
+/**
+ * @brief Execute Command With Stdin.
+ * @param[in] args Input parameter.
+ * @param[in] key_material Input parameter.
+ * @return Return value.
+ * @details Calls: defined(), error(), empty(), PipeGuard::create(), isValid(), fork(), closeWrite(), closeRead().
+ */
 Result<std::string> GocryptfsBackend::executeCommandWithStdin(
     const std::vector<std::string>& args,
     const std::vector<uint8_t>& key_material
@@ -640,6 +681,14 @@ Result<std::string> GocryptfsBackend::executeCommandWithStdin(
 // KDF helper (Feature 2)
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Resolve Key.
+ * @param[in] encrypted_dir Input parameter.
+ * @param[in] key_material Input parameter.
+ * @param[in] create_salt Input parameter.
+ * @return Return value.
+ * @details Calls: generateSalt(), error(), std::string(), what(), out(), write(), data(), size().
+ */
 Result<std::vector<uint8_t>> GocryptfsBackend::resolveKey(
     const std::string& encrypted_dir,
     const std::vector<uint8_t>& key_material,
@@ -708,9 +757,13 @@ Result<std::vector<uint8_t>> GocryptfsBackend::resolveKey(
 }
 
 
-// ---------------------------------------------------------------------------
-// Public string-based stdin helpers (test/integration interface)
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- Public string-based stdin helpers (test/integration interface) ---------------------------------------------------------------------------
+ * @param[in] args Input parameter.
+ * @param[in] stdin_data Input parameter.
+ * @return Return value.
+ * @details Calls: defined(), error(), empty(), PipeGuard::create(), isValid(), fork(), closeWrite(), closeRead().
+ */
 
 Result<std::string> GocryptfsBackend::executeCommandWithStdin(
     const std::vector<std::string>& args,
@@ -841,6 +894,13 @@ Result<std::string> GocryptfsBackend::executeCommandWithStdin(
 #endif
 }
 
+/**
+ * @brief Deliver Key Via Stdin.
+ * @param[in] args Input parameter.
+ * @param[in] key_hex Input parameter.
+ * @return Return value.
+ * @details Calls: executeCommandWithStdin().
+ */
 Result<std::string> GocryptfsBackend::deliverKeyViaStdin(
     const std::vector<std::string>& args,
     const std::string& key_hex
@@ -856,6 +916,12 @@ Result<std::string> GocryptfsBackend::deliverKeyViaStdin(
 // Remaining helpers
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Execute Command Safe.
+ * @param[in] args Input parameter.
+ * @return Return value.
+ * @details Calls: defined(), error(), empty(), PipeGuard::create(), isValid(), fork(), closeRead(), dup2().
+ */
 Result<std::string> GocryptfsBackend::executeCommandSafe(
     const std::vector<std::string>& args
 ) {
@@ -944,11 +1010,23 @@ Result<std::string> GocryptfsBackend::executeCommandSafe(
 #endif
 }
 
+/**
+ * @brief Directory Exists.
+ * @param[in] path Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: std::filesystem::is_directory().
+ */
 bool GocryptfsBackend::directoryExists(const std::string& path) {
     std::error_code ec = {};
     return std::filesystem::is_directory(path, ec);
 }
 
+/**
+ * @brief Create Directory.
+ * @param[in] path Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: std::filesystem::exists(), std::filesystem::create_directories().
+ */
 bool GocryptfsBackend::createDirectory(const std::string& path) {
     std::error_code ec = {};
     if (std::filesystem::exists(path, ec)) {

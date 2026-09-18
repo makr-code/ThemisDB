@@ -18,20 +18,8 @@ namespace themis {
 
 namespace {
 
-/**
- * @brief SigningService backed by an HSMProvider instance.
- *
- * sign()   – delegates to HSMProvider::sign(), stores the returned
- *            base64 signature string as raw UTF-8 bytes.
- * verify() – rehydrates those bytes as a string and delegates to
- *            HSMProvider::verify().
- */
 class HsmSigningService : public SigningService {
 public:
-    /**
-     * @param hsm   Fully initialised HSMProvider (initialize() already called).
-     * @param default_key_label  Key label used when key_id is empty.
-     */
     HsmSigningService(std::shared_ptr<security::HSMProvider> hsm,
                       std::string default_key_label)
         : hsm_(std::move(hsm))
@@ -86,6 +74,12 @@ private:
 
 } // anonymous namespace
 
+/**
+ * @brief Create Hsm Signing Service.
+ * @param[in] hsm Input parameter.
+ * @param[in] default_key_label Input parameter.
+ * @return Return value.
+ */
 std::shared_ptr<SigningService> createHsmSigningService(
     std::shared_ptr<security::HSMProvider> hsm,
     const std::string& default_key_label)

@@ -24,15 +24,6 @@ namespace lora {
 
 using json = nlohmann::json;
 
-/**
- * @brief LoRA-specific audit event types
- * 
- * Critical for compliance and quality assurance:
- * - Track which LLM generated which response
- * - Track which LoRA adapter was used
- * - Track training provenance
- * - Track feedback and corrections
- */
 enum class LoRAAuditEventType {
     // Inference Events (CRITICAL for traceability)
     INFERENCE_STARTED,          // LLM inference started with LoRA
@@ -94,13 +85,11 @@ enum class LoRAAuditEventType {
     AUDIT_CHAIN_TAMPERED        // Merkle audit chain integrity check FAILED
 };
 
-/**
- * @brief Audit record for LoRA inference
- * 
- * This is THE most critical audit record - it tracks exactly
- * which LLM with which LoRA adapter generated which response.
- */
 struct LoRAInferenceAudit {
+    /**
+     * @brief Lo RAInference Audit.
+     * @return Return value.
+     */
     virtual ~LoRAInferenceAudit() = default;
     // Timestamps
     std::chrono::system_clock::time_point timestamp;
@@ -185,50 +174,23 @@ struct LoRAInferenceAudit {
     }
 };
 
-/**
- * @brief LoRA Audit Logger
- * 
- * Specialized audit logger for LoRA operations with focus on:
- * 1. Inference traceability (which LLM + which LoRA = which response)
- * 2. Training provenance
- * 3. Quality assurance
- * 4. Compliance (GDPR, SOC2, etc.)
- */
 class LoRAAuditLogger {
 public:
     explicit LoRAAuditLogger(const utils::AuditLoggerConfig& config = utils::AuditLoggerConfig{});
     ~LoRAAuditLogger();
     
     /**
-     * @brief Log inference event (MOST IMPORTANT)
-     * 
-     * This logs the complete context of an LLM inference including:
-     * - Base model used
-     * - LoRA adapter used
-     * - Prompt and response
-     * - Quality metrics
-     * - Configuration
-     * 
-     * Essential for:
-     * - Debugging quality issues
-     * - Compliance audits
-     * - A/B testing analysis
-     * - Model performance tracking
+     * @brief Log Inference.
+     * @param[in] audit Input parameter.
      */
     void logInference(const LoRAInferenceAudit& audit);
     
-    /**
-     * @brief Log generic LoRA event
-     */
     void logEvent(
         LoRAAuditEventType event_type,
         const std::string& adapter_id,
         const json& details = json::object()
     );
     
-    /**
-     * @brief Log adapter lifecycle event
-     */
     void logAdapterLifecycle(
         LoRAAuditEventType event_type,
         const std::string& adapter_id,
@@ -236,9 +198,6 @@ public:
         const json& metadata = json::object()
     );
     
-    /**
-     * @brief Log training event
-     */
     void logTraining(
         LoRAAuditEventType event_type,
         const std::string& adapter_id,
@@ -248,9 +207,6 @@ public:
         const json& hyperparameters = json::object()
     );
     
-    /**
-     * @brief Log feedback event
-     */
     void logFeedback(
         LoRAAuditEventType event_type,
         const std::string& adapter_id,
@@ -260,9 +216,6 @@ public:
         const std::string& user_id = ""
     );
     
-    /**
-     * @brief Log version management event
-     */
     void logVersioning(
         LoRAAuditEventType event_type,
         const std::string& adapter_id,
@@ -271,80 +224,63 @@ public:
         const std::string& reason = ""
     );
     
-    /**
-     * @brief Query audit logs for specific adapter
-     * 
-     * @param adapter_id Adapter identifier
-     * @param start_time Start of time range
-     * @param end_time End of time range
-     * @return Vector of audit records
-     */
     std::vector<json> queryLogs(
         const std::string& adapter_id,
         std::optional<std::chrono::system_clock::time_point> start_time = std::nullopt,
         std::optional<std::chrono::system_clock::time_point> end_time = std::nullopt
     );
     
-    /**
-     * @brief Get inference history for adapter
-     * 
-     * Returns all inferences made with a specific adapter.
-     * Critical for quality analysis and debugging.
-     */
     std::vector<LoRAInferenceAudit> getInferenceHistory(
         const std::string& adapter_id,
         int limit = 100
     );
     
     /**
-     * @brief Get statistics for adapter
+     * @brief Get Adapter Stats.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @return Return value.
      */
     json getAdapterStats(const std::string& adapter_id);
     
     /**
-     * @brief Enable/disable audit logging
+     * @brief Set Enabled.
+     * @param[in] enabled Input parameter.
      */
     void setEnabled(bool enabled);
     
     /**
-     * @brief Flush logs to disk
+     * @brief Flush.
      */
     void flush();
 
-    // ── Provenance & Merkle-chain integration ────────────────────────────────
-
     /**
-     * @brief Wire a LoRAProvenanceManager so that every logInference() call
-     *        also appends an InferenceAuditEntry to the cryptographic Merkle chain.
-     *
-     * Must be called before the first logInference() for chain-based audit to work.
-     * Passing nullptr disconnects the provenance manager.
+     * @brief ── Provenance & Merkle-chain integration ────────────────────────────────
+     * @param[in] mgr Input parameter.
      */
+
     void setProvenanceManager(std::shared_ptr<LoRAProvenanceManager> mgr);
 
     /**
-     * @brief Log that a provenance record was attached to an adapter.
-     *
-     * Emits a PROVENANCE_ATTACHED event and, if a provenance manager is set,
-     * records the attachment in the Merkle chain metadata.
+     * @brief Log Provenance Attached.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @param[in] record Input parameter.
      */
     void logProvenanceAttached(const std::string& adapter_id,
                                 const LoRAProvenanceRecord& record);
 
     /**
-     * @brief Log that an MVCC snapshot was created.
-     *
-     * Emits a SNAPSHOT_CREATED event containing snapshot_id, version, and
-     * weights_hash.
+     * @brief Log Snapshot Created.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @param[in] snapshot Input parameter.
      */
     void logSnapshotCreated(const std::string& adapter_id,
                              const AdapterSnapshot& snapshot);
 
     /**
-     * @brief Log the result of a Merkle audit-chain verification.
-     *
-     * Emits AUDIT_CHAIN_VERIFIED or AUDIT_CHAIN_TAMPERED based on @p valid,
-     * and includes the entry count.
+     * @brief Log Audit Chain Verified.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @param[in] valid Input parameter.
+     * @param[in] entry_count Input parameter.
      */
     void logAuditChainVerified(const std::string& adapter_id,
                                 bool valid,
@@ -356,12 +292,15 @@ private:
 };
 
 /**
- * @brief Helper function to create unique request ID
+ * @brief Generate Request Id.
+ * @return Return value.
  */
 std::string generateRequestId();
 
 /**
- * @brief Helper to compute SHA256 hash of adapter weights
+ * @brief Compute Adapter Hash.
+ * @param[in] weights Input parameter.
+ * @return Return value.
  */
 std::string computeAdapterHash(const std::vector<uint8_t>& weights);
 

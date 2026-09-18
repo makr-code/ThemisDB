@@ -27,41 +27,6 @@ namespace builtin {
 // LlmExtractStep — builtin.llm_extract
 // ─────────────────────────────────────────────────────────────────────────────
 
-/**
- * @brief `builtin.llm_extract` — generic LLM extraction step.
- *
- * Renders a prompt template from the YAML config, calls the injected
- * `ITextGenerationBackend`, and parses the response.  Extracted entities
- * (if `output_entities` is true) are appended to `ctx.entities`; raw output
- * is stored in `ctx.extra["llm_extract.<step_name>"]`.
- *
- * Config keys:
- *  - `prompt_template`  string  REQUIRED — prompt template with placeholders:
- *                              `{text}` → ctx.raw_text (first 4000 chars)
- *                              `{language}` → ctx.text_language or config `language`
- *                              `{filename}` → ctx.manifest.filename_stem
- *  - `language`         string  default "de"
- *  - `max_tokens`       int     default 512
- *  - `temperature`      float   default 0.1
- *  - `lora_adapter`     string  default ""
- *  - `output_entities`  bool    default false
- *                              when true, the response is parsed as a JSON array
- *                              of {text, type, confidence?} objects
- *  - `entity_type`      string  default "CHUNK" — entity type for all extracted entities
- *  - `min_confidence`   float   default 0.5
- *
- * Example YAML config:
- * @code
- * - name: llm_summarise
- *   plugin: builtin.llm_extract
- *   config:
- *     prompt_template: |
- *       Summarise the following {language} legal text in 3 sentences.
- *       Text: {text}
- *     max_tokens: 256
- *     temperature: 0.2
- * @endcode
- */
 class LlmExtractStep : public IIngestionStep {
 public:
     explicit LlmExtractStep(
@@ -85,6 +50,11 @@ public:
         return ctx.hasText() && backend_ && backend_->isAvailable();
     }
 
+    /**
+     * @brief Set Backend.
+     * @param[in] b Input parameter.
+     * @details Calls: std::move().
+     */
     void setBackend(std::shared_ptr<ITextGenerationBackend> b) {
         backend_ = std::move(b);
     }
@@ -149,6 +119,14 @@ public:
 private:
     std::shared_ptr<ITextGenerationBackend> backend_;
 
+    /**
+     * @brief Replace All.
+     * @param[in] str Input parameter.
+     * @param[in] from Input parameter.
+     * @param[in] to Input parameter.
+     * @return Return value.
+     * @details Calls: find(), replace(), size().
+     */
     static std::string replaceAll(std::string str,
                                    const std::string& from,
                                    const std::string& to) {
@@ -160,6 +138,12 @@ private:
         return str;
     }
 
+    /**
+     * @brief Entity Type From Str.
+     * @param[in] s Input parameter.
+     * @return Return value.
+     * @details Implements entityTypeFromStr without additional internal calls.
+     */
     static EntityType entityTypeFromStr(const std::string& s) {
         if (s == "PERSON" || s == "PER") {
           return EntityType::PERSON;
@@ -191,6 +175,15 @@ private:
         return EntityType::CHUNK;
     }
 
+    /**
+     * @brief Parse And Append Entities.
+     * @param[in,out] ctx Input/output parameter.
+     * @param[in] response Input parameter.
+     * @param[in] default_etype Input parameter.
+     * @param[in] step_name Name of the step.
+     * @param[in] min_conf Input parameter.
+     * @details Calls: json::parse(), is_array(), value(), empty(), entityTypeFromStr(), std::to_string(), push_back(), std::move().
+     */
     static void parseAndAppendEntities(ExtractionContext& ctx,
                                         const std::string& response,
                                         const std::string& default_etype,
@@ -244,6 +237,12 @@ namespace themis {
 namespace ingestion {
 namespace builtin {
 
+/**
+ * @brief Create Llm Extract Step.
+ * @param[in] backend Input parameter.
+ * @return Return value.
+ * @details Calls: std::move().
+ */
 std::shared_ptr<IIngestionStep> createLlmExtractStep(
         std::shared_ptr<ITextGenerationBackend> backend) {
     return std::make_shared<LlmExtractStep>(std::move(backend));

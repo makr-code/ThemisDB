@@ -43,12 +43,22 @@ DspySignature::DspySignature(std::string name, std::string description)
     , description_(std::move(description))
 {}
 
+/**
+ * @brief Add Input.
+ * @param[in] field Input parameter.
+ * @return Return value.
+ */
 DspySignature& DspySignature::addInput(DspyField field)
 {
     inputs_.push_back(std::move(field));
     return *this;
 }
 
+/**
+ * @brief Add Output.
+ * @param[in] field Input parameter.
+ * @return Return value.
+ */
 DspySignature& DspySignature::addOutput(DspyField field)
 {
     outputs_.push_back(std::move(field));
@@ -166,11 +176,20 @@ std::unordered_map<std::string, std::string> DspySignature::parseResponse(
 // EchoDspyLLMProvider
 // ============================================================================
 
+/**
+ * @brief Complete.
+ * @param[in] prompt Input parameter.
+ * @return Return value.
+ */
 std::string EchoDspyLLMProvider::complete(const std::string& prompt)
 {
     std::ostringstream response = {};
 
-    // Scan the prompt for output field labels (lines ending with ":")
+    /**
+     * @brief Scan the prompt for output field labels (lines ending with ":")
+     * @param[in] prompt Input parameter.
+     * @return Return value.
+     */
     std::istringstream iss(prompt);
     std::string line = {};
     while (std::getline(iss, line)) {
@@ -229,6 +248,11 @@ DspyModule::DspyModule(DspySignature signature)
     : signature_(std::move(signature))
 {}
 
+/**
+ * @brief Set LLMProvider.
+ * @param[in] provider Input parameter.
+ * @return Return value.
+ */
 DspyModule& DspyModule::setLLMProvider(std::shared_ptr<IDspyLLMProvider> provider)
 {
     llm_provider_ = std::move(provider);

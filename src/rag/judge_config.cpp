@@ -20,6 +20,12 @@ using json = nlohmann::json;
 
 namespace themis::rag::judge {
 
+/**
+ * @brief Load From YAML.
+ * @param[in] filepath Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: THEMIS_INFO(), file(), is_open(), THEMIS_ERROR(), std::getline(), empty(), find_first_not_of(), substr().
+ */
 bool JudgeConfigManager::loadFromYAML(const std::string& filepath) {
     // Note: Simplified YAML parsing for basic key-value pairs
     // For complex YAML structures, use yaml-cpp library
@@ -82,6 +88,12 @@ bool JudgeConfigManager::loadFromYAML(const std::string& filepath) {
     return validate();
 }
 
+/**
+ * @brief Load From JSON.
+ * @param[in] filepath Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: THEMIS_INFO(), file(), is_open(), THEMIS_ERROR(), loadFromJSONString(), dump(), what().
+ */
 bool JudgeConfigManager::loadFromJSON(const std::string& filepath) {
     THEMIS_INFO("Loading judge configuration from JSON: {}", filepath);
     
@@ -101,6 +113,12 @@ bool JudgeConfigManager::loadFromJSON(const std::string& filepath) {
     }
 }
 
+/**
+ * @brief Load From JSONString.
+ * @param[in] json_str Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: json::parse(), clear(), void(), begin(), end(), empty(), key(), value().
+ */
 bool JudgeConfigManager::loadFromJSONString(const std::string& json_str) {
     try {
         json j = json::parse(json_str);
@@ -136,12 +154,24 @@ bool JudgeConfigManager::loadFromJSONString(const std::string& json_str) {
     }
 }
 
+/**
+ * @brief Update the access control configuration.
+ * @param[in] key Input parameter.
+ * @param[in] value Input parameter.
+ * @return None.
+ * @details Calls: THEMIS_DEBUG().
+ */
 bool JudgeConfigManager::updateConfig(const std::string& key, const std::string& value) {
     config_[key] = value;
     THEMIS_DEBUG("Updated configuration: {} = {}", key, value);
     return true;
 }
 
+/**
+ * @brief Validate.
+ * @return True when the operation succeeds.
+ * @details Calls: getDouble(), std::abs(), THEMIS_WARN(), THEMIS_ERROR().
+ */
 bool JudgeConfigManager::validate() {
     // Validate required keys and value ranges
     bool valid = true;
@@ -240,12 +270,21 @@ bool JudgeConfigManager::has(const std::string& key) const {
     return config_.find(key) != config_.end();
 }
 
+/**
+ * @brief Clear.
+ * @details Implements clear without additional internal calls.
+ */
 void JudgeConfigManager::clear() {
     config_.clear();
 }
 
 std::vector<std::string> JudgeConfigManager::splitKey(const std::string& key) const {
     std::vector<std::string> parts;
+    /**
+     * @brief Stream.
+     * @param[in] key Input parameter.
+     * @return Return value.
+     */
     std::istringstream stream(key);
     std::string part = {};
     

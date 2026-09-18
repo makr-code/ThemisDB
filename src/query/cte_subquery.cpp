@@ -308,7 +308,7 @@ namespace {
     }
     
     /**
-     * @brief Helper: Convert entity to JSON
+     * @brief Entity To JSON.
      * @param[in] entity Input parameter.
      * @return Return value.
      * @details Calls: toJson(), nlohmann::json::parse(), getPrimaryKey().
@@ -323,11 +323,11 @@ namespace {
     }
 
     /**
-     * @brief Helper: Recursively check if an expression references any of the given variable names.
+     * @brief Expression References Variables.
      * @param[in] expr Input parameter.
      * @param[in] vars Input parameter.
-     * @return True on success.
-     * @details This is used to detect correlated subqueries that reference outer-scope variables. Calls: getType(), count().
+     * @return True when the operation succeeds.
+     * @details Calls: getType(), count().
      */
     bool expressionReferencesVariables(
         const std::shared_ptr<query::Expression>& expr,
@@ -386,11 +386,11 @@ namespace {
     }
 
     /**
-     * @brief Helper: Detect whether a subquery AST references any of the outer variable names.
+     * @brief Is Correlated Subquery.
      * @param[in] subquery Input parameter.
      * @param[in] outerVarNames Input parameter.
-     * @return True on success.
-     * @details Inspects filter conditions and the RETURN expression. Calls: empty(), expressionReferencesVariables().
+     * @return True when the operation succeeds.
+     * @details Calls: empty(), expressionReferencesVariables().
      */
     bool isCorrelatedSubquery(
         const std::shared_ptr<query::Query>& subquery,

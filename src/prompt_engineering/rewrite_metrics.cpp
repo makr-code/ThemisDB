@@ -22,12 +22,6 @@
 namespace themis {
 namespace prompt_engineering {
 
-/**
- * @class RewriteMetrics
- * @brief Standalone metrics collector for rewrite operations (optional utility).
- *
- * Can be used to supplement the built-in stats in RewriteEngine.
- */
 class RewriteMetrics {
 public:
     struct PerPhaseMetrics {
@@ -49,7 +43,10 @@ public:
     RewriteMetrics() = default;
 
     /**
-     * @brief Record a rule match event.
+     * @brief Record rule match.
+     * @param[in] rule_id Identifier of the rule.
+     * @param[in] phase Input parameter.
+     * @details Implements record_rule_match without additional internal calls.
      */
     void record_rule_match(const std::string& rule_id, RewritePhase phase) {
         phase_metrics_[static_cast<int>(phase)].rules_evaluated++;
@@ -57,7 +54,11 @@ public:
     }
 
     /**
-     * @brief Record a rule application event with latency.
+     * @brief Record rule apply.
+     * @param[in] rule_id Identifier of the rule.
+     * @param[in] phase Input parameter.
+     * @param[in] latency_micros Input parameter.
+     * @details Calls: std::max(), std::min().
      */
     void record_rule_apply(const std::string& rule_id, RewritePhase phase, uint64_t latency_micros) {
         auto& phase_metric = phase_metrics_[static_cast<int>(phase)];
@@ -73,15 +74,14 @@ public:
     }
 
     /**
-     * @brief Record a rule error.
+     * @brief Record rule error.
+     * @param[in] rule_id Identifier of the rule.
+     * @details Implements record_rule_error without additional internal calls.
      */
     void record_rule_error(const std::string& rule_id) {
         rule_metrics_[rule_id].error_count++;
     }
 
-    /**
-     * @brief Get metrics for a specific phase.
-     */
     PerPhaseMetrics get_phase_metrics(RewritePhase phase) const {
         int idx = static_cast<int>(phase);
         if (phase_metrics_.count(idx)) {
@@ -90,9 +90,6 @@ public:
         return PerPhaseMetrics{};
     }
 
-    /**
-     * @brief Get metrics for a specific rule.
-     */
     PerRuleMetrics get_rule_metrics(const std::string& rule_id) const {
         if (rule_metrics_.count(rule_id)) {
             return rule_metrics_.at(rule_id);
@@ -100,9 +97,6 @@ public:
         return PerRuleMetrics{};
     }
 
-    /**
-     * @brief Export all metrics as JSON.
-     */
     std::string export_json() const {
         nlohmann::json metrics_obj;
 
@@ -152,7 +146,8 @@ public:
     }
 
     /**
-     * @brief Reset all collected metrics.
+     * @brief Reset the modification detection flag.
+     * @details Calls: clear().
      */
     void reset() {
         phase_metrics_.clear();
@@ -167,23 +162,49 @@ private:
 // Global metrics instance (optional singleton pattern)
 static RewriteMetrics g_metrics;
 
-// Utility functions for external access
+/**
+ * @brief Utility functions for external access
+ * @param[in] rule_id Identifier of the rule.
+ * @param[in] phase Input parameter.
+ * @details Calls: record_rule_match().
+ */
 void record_rewrite_rule_match(const std::string& rule_id, RewritePhase phase) {
     g_metrics.record_rule_match(rule_id, phase);
 }
 
+/**
+ * @brief Record rewrite rule apply.
+ * @param[in] rule_id Identifier of the rule.
+ * @param[in] phase Input parameter.
+ * @param[in] latency_micros Input parameter.
+ * @details Calls: record_rule_apply().
+ */
 void record_rewrite_rule_apply(const std::string& rule_id, RewritePhase phase, uint64_t latency_micros) {
     g_metrics.record_rule_apply(rule_id, phase, latency_micros);
 }
 
+/**
+ * @brief Record rewrite rule error.
+ * @param[in] rule_id Identifier of the rule.
+ * @details Calls: record_rule_error().
+ */
 void record_rewrite_rule_error(const std::string& rule_id) {
     g_metrics.record_rule_error(rule_id);
 }
 
+/**
+ * @brief Export rewrite metrics json.
+ * @return Return value.
+ * @details Calls: export_json().
+ */
 std::string export_rewrite_metrics_json() {
     return g_metrics.export_json();
 }
 
+/**
+ * @brief Reset rewrite metrics.
+ * @details Calls: reset().
+ */
 void reset_rewrite_metrics() {
     g_metrics.reset();
 }

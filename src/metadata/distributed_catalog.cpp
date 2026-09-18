@@ -26,6 +26,11 @@ DistributedMetadataCatalog::DistributedMetadataCatalog(
 // Write API
 // ============================================================================
 
+/**
+ * @brief Publish Schema.
+ * @param[in] schema Input parameter.
+ * @return True when the operation succeeds.
+ */
 bool DistributedMetadataCatalog::publishSchema(
     const SchemaManager::TableSchema& schema)
 {
@@ -50,6 +55,11 @@ bool DistributedMetadataCatalog::publishSchema(
     return ok;
 }
 
+/**
+ * @brief Sync From Schema Manager.
+ * @param[in,out] schema_mgr Input/output parameter.
+ * @return Return value.
+ */
 size_t DistributedMetadataCatalog::syncFromSchemaManager(SchemaManager& schema_mgr)
 {
     auto tables = schema_mgr.getAllTables();
@@ -67,6 +77,11 @@ size_t DistributedMetadataCatalog::syncFromSchemaManager(SchemaManager& schema_m
     return synced;
 }
 
+/**
+ * @brief Remove Schema.
+ * @param[in] table_name Name of the table.
+ * @return True when the operation succeeds.
+ */
 bool DistributedMetadataCatalog::removeSchema(const std::string& table_name)
 {
     if (table_name.empty()) {

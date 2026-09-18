@@ -42,6 +42,11 @@ Registry &globalRegistry() {
 // WasmRuntimeInjector implementation
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Register Runtime.
+ * @param[in] desc Input parameter.
+ * @details Calls: globalRegistry(), lock(), THEMIS_INFO(), std::move(), push_back().
+ */
 void WasmRuntimeInjector::registerRuntime(WasmRuntimeDescriptor desc) {
     auto &reg = globalRegistry();
     std::lock_guard<std::mutex> lock(reg.mu);
@@ -58,6 +63,12 @@ void WasmRuntimeInjector::registerRuntime(WasmRuntimeDescriptor desc) {
     reg.entries.push_back(std::move(desc));
 }
 
+/**
+ * @brief Create.
+ * @param[in] runtime_name Name of the runtime.
+ * @return Return value.
+ * @details Calls: globalRegistry(), lock(), empty(), THEMIS_WARN(), THEMIS_INFO(), factory().
+ */
 std::unique_ptr<IWasmRuntime> WasmRuntimeInjector::create(const std::string &runtime_name) {
     auto &reg = globalRegistry();
     std::lock_guard<std::mutex> lock(reg.mu);
@@ -99,6 +110,11 @@ bool WasmRuntimeInjector::available() noexcept {
     return !reg.entries.empty();
 }
 
+/**
+ * @brief Registered Names.
+ * @return Return value.
+ * @details Calls: globalRegistry(), lock(), reserve(), size(), push_back(), std::sort(), begin(), end().
+ */
 std::vector<std::string> WasmRuntimeInjector::registeredNames() {
     auto &reg = globalRegistry();
     std::lock_guard<std::mutex> lock(reg.mu);
@@ -122,6 +138,10 @@ std::vector<std::string> WasmRuntimeInjector::registeredNames() {
     return names;
 }
 
+/**
+ * @brief Clear All.
+ * @details Calls: globalRegistry(), lock(), clear().
+ */
 void WasmRuntimeInjector::clearAll() {
     auto &reg = globalRegistry();
     std::lock_guard<std::mutex> lock(reg.mu);

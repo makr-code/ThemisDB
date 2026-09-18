@@ -23,6 +23,15 @@ PromptOptimizer::PromptOptimizer(const OptimizationConfig& config)
                  config_.max_iterations, config_.target_score);
 }
 
+/**
+ * @brief Optimize.
+ * @param[in] initial_prompt Input parameter.
+ * @param[in] test_cases Input parameter.
+ * @param[in] eval_fn Input parameter.
+ * @param[in] improve_fn Input parameter.
+ * @return Return value.
+ * @details Calls: THEMIS_INFO(), size(), empty(), THEMIS_ERROR(), eval_fn(), push_back(), shouldContinue(), generateFeedback().
+ */
 OptimizerResult PromptOptimizer::optimize(
     const std::string& initial_prompt,
     const std::vector<TestCase>& test_cases,
@@ -153,6 +162,14 @@ std::string PromptOptimizer::generateFeedback(
     return feedback.str();
 }
 
+/**
+ * @brief Default Improve Prompt.
+ * @param[in] current_prompt Input parameter.
+ * @param[in] current_score Input parameter.
+ * @param[in] feedback Input parameter.
+ * @return Return value.
+ * @details Calls: generateImprovementPrompt(), empty(), str().
+ */
 std::string PromptOptimizer::defaultImprovePrompt(
     const std::string& current_prompt,
     double current_score,
@@ -202,6 +219,10 @@ std::vector<std::pair<std::string, double>> PromptOptimizer::getHistory() const 
     return history_;
 }
 
+/**
+ * @brief Clear History.
+ * @details Calls: clear(), THEMIS_DEBUG().
+ */
 void PromptOptimizer::clearHistory() {
     history_.clear();
     THEMIS_DEBUG("Cleared optimization history");

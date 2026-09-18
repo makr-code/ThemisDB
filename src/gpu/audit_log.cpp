@@ -30,6 +30,15 @@ GPUAuditLog::GPUAuditLog(size_t capacity) : capacity_(capacity > 0 ? capacity : 
 // Core record
 // ============================================================================
 
+/**
+ * @brief Record.
+ * @param[in] type Input parameter.
+ * @param[in] size_bytes Input parameter.
+ * @param[in] tag Input parameter.
+ * @param[in] tenant_id Identifier of the tenant.
+ * @param[in] message Input parameter.
+ * @details Calls: lock(), std::chrono::system_clock::now().
+ */
 void GPUAuditLog::record(EventType type, uint64_t size_bytes, const std::string &tag, const std::string &tenant_id,
                          const std::string &message) {
     std::lock_guard<std::mutex> lock(mutex_);
@@ -52,34 +61,82 @@ void GPUAuditLog::record(EventType type, uint64_t size_bytes, const std::string 
 // Convenience overloads
 // ============================================================================
 
+/**
+ * @brief Record Alloc Success.
+ * @param[in] bytes Input parameter.
+ * @param[in] tag Input parameter.
+ * @param[in] tenant_id Identifier of the tenant.
+ * @details Calls: record().
+ */
 void GPUAuditLog::recordAllocSuccess(uint64_t bytes, const std::string &tag, const std::string &tenant_id) {
     record(EventType::ALLOC_SUCCESS, bytes, tag, tenant_id);
 }
 
+/**
+ * @brief Record Alloc Fail Global Limit.
+ * @param[in] bytes Input parameter.
+ * @param[in] tag Input parameter.
+ * @param[in] tenant_id Identifier of the tenant.
+ * @details Calls: record().
+ */
 void GPUAuditLog::recordAllocFailGlobalLimit(uint64_t bytes, const std::string &tag, const std::string &tenant_id) {
     record(EventType::ALLOC_FAIL_GLOBAL_LIMIT, bytes, tag, tenant_id, "Rejected: edition VRAM limit exceeded");
 }
 
+/**
+ * @brief Record Alloc Fail Tenant Quota.
+ * @param[in] bytes Input parameter.
+ * @param[in] tag Input parameter.
+ * @param[in] tenant_id Identifier of the tenant.
+ * @details Calls: record().
+ */
 void GPUAuditLog::recordAllocFailTenantQuota(uint64_t bytes, const std::string &tag, const std::string &tenant_id) {
     record(EventType::ALLOC_FAIL_TENANT_QUOTA, bytes, tag, tenant_id, "Rejected: per-tenant quota exceeded");
 }
 
+/**
+ * @brief Record Dealloc.
+ * @param[in] bytes Input parameter.
+ * @param[in] tag Input parameter.
+ * @param[in] tenant_id Identifier of the tenant.
+ * @details Calls: record().
+ */
 void GPUAuditLog::recordDealloc(uint64_t bytes, const std::string &tag, const std::string &tenant_id) {
     record(EventType::DEALLOC, bytes, tag, tenant_id);
 }
 
+/**
+ * @brief Record Fallback To CPU.
+ * @param[in] reason Input parameter.
+ * @param[in] tenant_id Identifier of the tenant.
+ * @details Calls: record().
+ */
 void GPUAuditLog::recordFallbackToCPU(const std::string &reason, const std::string &tenant_id) {
     record(EventType::FALLBACK_TO_CPU, 0, "cpu_fallback", tenant_id, reason);
 }
 
+/**
+ * @brief Record Device Unavailable.
+ * @param[in] detail Input parameter.
+ * @details Calls: record().
+ */
 void GPUAuditLog::recordDeviceUnavailable(const std::string &detail) {
     record(EventType::DEVICE_UNAVAILABLE, 0, "", "", detail);
 }
 
+/**
+ * @brief Record Circuit Opened.
+ * @param[in] detail Input parameter.
+ * @details Calls: record().
+ */
 void GPUAuditLog::recordCircuitOpened(const std::string &detail) {
     record(EventType::CIRCUIT_OPENED, 0, "", "", detail);
 }
 
+/**
+ * @brief Record Circuit Reset.
+ * @details Calls: record().
+ */
 void GPUAuditLog::recordCircuitReset() {
     record(EventType::CIRCUIT_RESET, 0, "", "", "Circuit breaker reset");
 }
@@ -89,6 +146,11 @@ void GPUAuditLog::recordCircuitReset() {
 // ============================================================================
 
 std::vector<GPUAuditLog::Event> GPUAuditLog::snapshot() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     if (count_ == 0) {
         return {};
@@ -112,6 +174,11 @@ std::vector<GPUAuditLog::Event> GPUAuditLog::snapshot() const {
 }
 
 size_t GPUAuditLog::size() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return count_;
 }
@@ -121,10 +188,19 @@ size_t GPUAuditLog::capacity() const {
 }
 
 uint64_t GPUAuditLog::totalRecorded() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return total_;
 }
 
+/**
+ * @brief Clear.
+ * @details Calls: lock().
+ */
 void GPUAuditLog::clear() {
     std::lock_guard<std::mutex> lock(mutex_);
     count_ = 0;

@@ -33,10 +33,6 @@ extern char** environ;  // POSIX environ for posix_spawn
 
 namespace {
 
-/// @brief Validate a network interface name for use in shell-adjacent tc calls.
-/// Allows only: ASCII alphanumeric, hyphen, underscore, dot — max 15 chars.
-/// Rejects leading '-' to prevent argument injection (e.g. "--help").
-/// This is a defence-in-depth guard; the primary protection is posix_spawn().
 static bool isValidInterfaceName(std::string_view iface) noexcept {
     if (iface.empty() || iface.size() > 15) {
       return false;
@@ -51,10 +47,6 @@ static bool isValidInterfaceName(std::string_view iface) noexcept {
 }
 
 #if defined(__linux__)
-/// @brief Execute a tc(8) command via posix_spawn() — no shell involved.
-/// @param tc_bin  Absolute path to the tc binary (already validated by access()).
-/// @param argv    Null-terminated argument array; argv[0] must equal tc_bin.
-/// @return true on success (exit status 0), false otherwise.
 static bool runTcCommand(const char* tc_bin, char* const argv[]) noexcept {
     pid_t pid = 0;
     if (::posix_spawn(&pid, tc_bin, nullptr, nullptr, argv, environ) != 0) {
@@ -87,6 +79,10 @@ TokenBucket::TokenBucket(uint64_t rate_bps, uint64_t burst_bytes)
     , last_refill_(std::chrono::steady_clock::now())
 {}
 
+/**
+ * @brief Refill.
+ * @details Calls: std::chrono::steady_clock::now(), count(), std::min().
+ */
 void TokenBucket::refill() {
     auto now     = std::chrono::steady_clock::now();
     auto elapsed = std::chrono::duration<double>(now - last_refill_).count();
@@ -102,6 +98,12 @@ void TokenBucket::refill() {
     }
 }
 
+/**
+ * @brief Try Consume.
+ * @param[in] bytes Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), refill().
+ */
 bool TokenBucket::tryConsume(uint64_t bytes) {
     std::lock_guard<std::mutex> lock(mutex_);
     refill();
@@ -118,6 +120,13 @@ bool TokenBucket::tryConsume(uint64_t bytes) {
     return false;
 }
 
+/**
+ * @brief Consume.
+ * @param[in] bytes Input parameter.
+ * @param[in] timeout Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: std::chrono::steady_clock::now(), tryConsume(), count(), lock(), availableBytes(), std::min(), std::this_thread::sleep_for(), std::chrono::milliseconds().
+ */
 bool TokenBucket::consume(uint64_t bytes, std::chrono::milliseconds timeout) {
     auto deadline = std::chrono::steady_clock::now() + timeout;
 
@@ -149,6 +158,12 @@ bool TokenBucket::consume(uint64_t bytes, std::chrono::milliseconds timeout) {
     }
 }
 
+/**
+ * @brief Reconfigure.
+ * @param[in] rate_bps Input parameter.
+ * @param[in] burst_bytes Input parameter.
+ * @details Calls: lock(), std::min().
+ */
 void TokenBucket::reconfigure(uint64_t rate_bps, uint64_t burst_bytes) {
     std::lock_guard<std::mutex> lock(mutex_);
     rate_bps_    = rate_bps;
@@ -158,6 +173,11 @@ void TokenBucket::reconfigure(uint64_t rate_bps, uint64_t burst_bytes) {
 }
 
 double TokenBucket::availableBytes() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     // Perform a non-destructive refill estimate
     auto now     = std::chrono::steady_clock::now();
@@ -173,11 +193,21 @@ double TokenBucket::availableBytes() const {
 }
 
 uint64_t TokenBucket::rateBps() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return rate_bps_;
 }
 
 uint64_t TokenBucket::burstBytes() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return burst_bytes_;
 }
@@ -193,6 +223,10 @@ LeakyBucket::LeakyBucket(uint64_t drain_rate_bps, uint64_t capacity_bytes)
     , last_drain_(std::chrono::steady_clock::now())
 {}
 
+/**
+ * @brief Drain.
+ * @details Calls: std::chrono::steady_clock::now(), count().
+ */
 void LeakyBucket::drain() {
     auto now     = std::chrono::steady_clock::now();
     auto elapsed = std::chrono::duration<double>(now - last_drain_).count();
@@ -207,6 +241,12 @@ void LeakyBucket::drain() {
     }
 }
 
+/**
+ * @brief Add.
+ * @param[in] bytes Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), drain().
+ */
 bool LeakyBucket::add(uint64_t bytes) {
     std::lock_guard<std::mutex> lock(mutex_);
     drain();
@@ -222,6 +262,11 @@ bool LeakyBucket::add(uint64_t bytes) {
 }
 
 bool LeakyBucket::tryConform(uint64_t bytes) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     // Estimate fill after draining elapsed time
     auto now     = std::chrono::steady_clock::now();
@@ -240,6 +285,12 @@ bool LeakyBucket::tryConform(uint64_t bytes) const {
            static_cast<double>(capacity_bytes_);
 }
 
+/**
+ * @brief Reconfigure.
+ * @param[in] drain_rate_bps Input parameter.
+ * @param[in] capacity_bytes Input parameter.
+ * @details Calls: lock().
+ */
 void LeakyBucket::reconfigure(uint64_t drain_rate_bps, uint64_t capacity_bytes) {
     std::lock_guard<std::mutex> lock(mutex_);
     drain_rate_bps_ = drain_rate_bps;
@@ -250,16 +301,31 @@ void LeakyBucket::reconfigure(uint64_t drain_rate_bps, uint64_t capacity_bytes) 
 }
 
 double LeakyBucket::currentFill() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return fill_;
 }
 
 uint64_t LeakyBucket::capacityBytes() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return capacity_bytes_;
 }
 
 uint64_t LeakyBucket::drainRateBps() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return drain_rate_bps_;
 }
@@ -275,6 +341,12 @@ CongestionController::CongestionController()
     , in_slow_start_(true)
 {}
 
+/**
+ * @brief Record Ack.
+ * @param[in] bytes_acked Input parameter.
+ * @param[in] rtt Input parameter.
+ * @details Calls: lock(), count(), std::chrono::microseconds(), std::max().
+ */
 void CongestionController::recordAck(uint64_t bytes_acked,
                                       std::chrono::microseconds rtt) {
     std::lock_guard<std::mutex> lock(mutex_);
@@ -305,6 +377,10 @@ void CongestionController::recordAck(uint64_t bytes_acked,
     }
 }
 
+/**
+ * @brief Record Loss.
+ * @details Calls: lock(), std::max().
+ */
 void CongestionController::recordLoss() {
     std::lock_guard<std::mutex> lock(mutex_);
     ssthresh_      = std::max(cwnd_ / 2, kDefaultMss * 2);
@@ -313,20 +389,39 @@ void CongestionController::recordLoss() {
 }
 
 uint64_t CongestionController::cwnd() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return cwnd_;
 }
 
 uint64_t CongestionController::ssthresh() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return ssthresh_;
 }
 
 std::chrono::microseconds CongestionController::smoothedRtt() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return srtt_;
 }
 
+/**
+ * @brief Reset the modification detection flag.
+ * @details Calls: lock(), std::chrono::microseconds().
+ */
 void CongestionController::reset() {
     std::lock_guard<std::mutex> lock(mutex_);
     cwnd_          = kDefaultInitialCwnd;
@@ -361,6 +456,11 @@ QoSManager::~QoSManager() = default;
 
 std::shared_ptr<QoSManager::ConnectionState>
 QoSManager::findConnection(uint64_t id) const {
+    /**
+     * @brief Lock.
+     * @param[in] connections_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(connections_mutex_);
     auto it = connections_.find(id);
     if (it == connections_.end()) {
@@ -373,6 +473,12 @@ QoSManager::findConnection(uint64_t id) const {
 // Connection lifecycle
 // -------------------------------------------------------------------------
 
+/**
+ * @brief Register Connection.
+ * @param[in] connection_id Identifier of the connection.
+ * @param[in] priority Input parameter.
+ * @details Calls: store(), effectiveDefaultRateBps(), lock(), std::move().
+ */
 void QoSManager::registerConnection(uint64_t connection_id, Priority priority) {
     auto state            = std::make_shared<ConnectionState>();
     state->connection_id  = connection_id;
@@ -390,6 +496,11 @@ void QoSManager::registerConnection(uint64_t connection_id, Priority priority) {
     connections_[connection_id] = std::move(state);
 }
 
+/**
+ * @brief Unregister Connection.
+ * @param[in] connection_id Identifier of the connection.
+ * @details Calls: lock(), find(), end(), erase(), empty(), findTenant(), load(), fetch_sub().
+ */
 void QoSManager::unregisterConnection(uint64_t connection_id) {
     // Clean up tenant assignment and decrement tenant connection count
     std::string old_tenant_id = {};
@@ -416,6 +527,12 @@ void QoSManager::unregisterConnection(uint64_t connection_id) {
 // Per-connection controls
 // -------------------------------------------------------------------------
 
+/**
+ * @brief Set Priority.
+ * @param[in] connection_id Identifier of the connection.
+ * @param[in] priority Input parameter.
+ * @details Calls: findConnection(), store().
+ */
 void QoSManager::setPriority(uint64_t connection_id, Priority priority) {
     auto state = findConnection(connection_id);
     if (!state) {
@@ -424,6 +541,13 @@ void QoSManager::setPriority(uint64_t connection_id, Priority priority) {
     state->priority.store(static_cast<uint8_t>(priority), std::memory_order_relaxed);
 }
 
+/**
+ * @brief Set Token Bucket.
+ * @param[in] connection_id Identifier of the connection.
+ * @param[in] rate_bps Input parameter.
+ * @param[in] burst_bytes Input parameter.
+ * @details Calls: findConnection(), lock(), reconfigure().
+ */
 void QoSManager::setTokenBucket(uint64_t connection_id,
                                  uint64_t rate_bps,
                                  uint64_t burst_bytes) {
@@ -445,6 +569,11 @@ void QoSManager::setTokenBucket(uint64_t connection_id,
     }
 }
 
+/**
+ * @brief Clear Token Bucket.
+ * @param[in] connection_id Identifier of the connection.
+ * @details Calls: findConnection(), lock(), reset().
+ */
 void QoSManager::clearTokenBucket(uint64_t connection_id) {
     auto state = findConnection(connection_id);
     if (!state) {
@@ -476,6 +605,12 @@ uint64_t QoSManager::effectiveDefaultRateBps() const {
 // Snake-case API
 // -------------------------------------------------------------------------
 
+/**
+ * @brief Set bandwidth limit.
+ * @param[in] connection_id Identifier of the connection.
+ * @param[in] bytes_per_second Input parameter.
+ * @details Calls: setTokenBucket().
+ */
 void QoSManager::set_bandwidth_limit(uint64_t connection_id,
                                       uint64_t bytes_per_second) {
     // Convert bytes/sec → bits/sec; burst = 1 second of sustained throughput
@@ -488,6 +623,13 @@ void QoSManager::set_bandwidth_limit(uint64_t connection_id,
 // Leaky bucket shaping
 // -------------------------------------------------------------------------
 
+/**
+ * @brief Set Leaky Bucket.
+ * @param[in] connection_id Identifier of the connection.
+ * @param[in] drain_rate_bps Input parameter.
+ * @param[in] capacity_bytes Input parameter.
+ * @details Calls: findConnection(), lock(), reconfigure().
+ */
 void QoSManager::setLeakyBucket(uint64_t connection_id,
                                   uint64_t drain_rate_bps,
                                   uint64_t capacity_bytes) {
@@ -503,6 +645,11 @@ void QoSManager::setLeakyBucket(uint64_t connection_id,
     }
 }
 
+/**
+ * @brief Clear Leaky Bucket.
+ * @param[in] connection_id Identifier of the connection.
+ * @details Calls: findConnection(), lock(), reset().
+ */
 void QoSManager::clearLeakyBucket(uint64_t connection_id) {
     auto state = findConnection(connection_id);
     if (!state) {
@@ -516,6 +663,13 @@ void QoSManager::clearLeakyBucket(uint64_t connection_id) {
 // Priority queue scheduling
 // -------------------------------------------------------------------------
 
+/**
+ * @brief Enqueue Send.
+ * @param[in] connection_id Identifier of the connection.
+ * @param[in] bytes Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: findConnection(), load(), lock(), push_back().
+ */
 bool QoSManager::enqueueSend(uint64_t connection_id, uint64_t bytes) {
     auto state = findConnection(connection_id);
     if (!state) {
@@ -540,6 +694,11 @@ bool QoSManager::enqueueSend(uint64_t connection_id, uint64_t bytes) {
     return true;
 }
 
+/**
+ * @brief Dequeue For Send.
+ * @return Return value.
+ * @details Calls: lock(), empty(), front(), pop_front().
+ */
 std::optional<QoSManager::PendingSend> QoSManager::dequeueForSend() {
     std::lock_guard<std::mutex> lock(pq_mutex_);
 
@@ -597,6 +756,11 @@ std::optional<QoSManager::PendingSend> QoSManager::dequeueForSend() {
 }
 
 size_t QoSManager::getPendingQueueDepth(Priority priority) const {
+    /**
+     * @brief Lock.
+     * @param[in] pq_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(pq_mutex_);
     switch (priority) {
         case Priority::CRITICAL: return pq_critical_.size();
@@ -611,6 +775,13 @@ size_t QoSManager::getPendingQueueDepth(Priority priority) const {
 // Congestion control
 // -------------------------------------------------------------------------
 
+/**
+ * @brief Record Ack.
+ * @param[in] connection_id Identifier of the connection.
+ * @param[in] bytes_acked Input parameter.
+ * @param[in] rtt Input parameter.
+ * @details Calls: findConnection(), lock().
+ */
 void QoSManager::recordAck(uint64_t connection_id,
                              uint64_t bytes_acked,
                              std::chrono::microseconds rtt) {
@@ -629,6 +800,11 @@ void QoSManager::recordAck(uint64_t connection_id,
     cc->recordAck(bytes_acked, rtt);
 }
 
+/**
+ * @brief Record Loss.
+ * @param[in] connection_id Identifier of the connection.
+ * @details Calls: findConnection(), lock().
+ */
 void QoSManager::recordLoss(uint64_t connection_id) {
     auto state = findConnection(connection_id);
     if (!state) {
@@ -661,6 +837,12 @@ uint64_t QoSManager::getCongestionWindow(uint64_t connection_id) const {
 // Linux tc integration
 // -------------------------------------------------------------------------
 
+/**
+ * @brief Configure Tc.
+ * @param[in] tc_config Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), isValidInterfaceName(), THEMIS_ERROR(), defined(), access(), c_str(), effectiveMaxBandwidthBps(), std::max().
+ */
 bool QoSManager::configureTc(const TcConfig& tc_config) {
     if (!tc_config.enabled || tc_config.interface_name.empty()) {
         return false;
@@ -777,6 +959,14 @@ bool QoSManager::configureTc(const TcConfig& tc_config) {
 // Hot-path
 // -------------------------------------------------------------------------
 
+/**
+ * @brief Allow Send.
+ * @param[in] connection_id Identifier of the connection.
+ * @param[in] bytes Input parameter.
+ * @param[in] timeout Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: findConnection(), load(), fetch_add(), cb_lock(), backpressure_cb_(), lock(), find(), end().
+ */
 bool QoSManager::allowSend(uint64_t connection_id,
                             uint64_t bytes,
                             std::chrono::milliseconds timeout) {
@@ -898,6 +1088,12 @@ bool QoSManager::allowSend(uint64_t connection_id,
     return true;
 }
 
+/**
+ * @brief Record Bytes Sent.
+ * @param[in] connection_id Identifier of the connection.
+ * @param[in] bytes Input parameter.
+ * @details Calls: findConnection(), fetch_add(), load(), std::min(), fetch_sub(), lock(), find(), end().
+ */
 void QoSManager::recordBytesSent(uint64_t connection_id, uint64_t bytes) {
     auto state = findConnection(connection_id);
     if (!state) {
@@ -936,6 +1132,12 @@ void QoSManager::recordBytesSent(uint64_t connection_id, uint64_t bytes) {
     }
 }
 
+/**
+ * @brief Record Bytes Received.
+ * @param[in] connection_id Identifier of the connection.
+ * @param[in] bytes Input parameter.
+ * @details Calls: findConnection(), fetch_add().
+ */
 void QoSManager::recordBytesReceived(uint64_t connection_id, uint64_t bytes) {
     auto state = findConnection(connection_id);
     if (!state) {
@@ -958,11 +1160,21 @@ QoSManager::Stats QoSManager::getStats() const {
     s.backpressure_events  = total_backpressure_events_.load(std::memory_order_relaxed);
 
     {
+        /**
+         * @brief Lock.
+         * @param[in] connections_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(connections_mutex_);
         s.active_connections = connections_.size();
     }
 
     {
+        /**
+         * @brief Lock.
+         * @param[in] priority_stats_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(priority_stats_mutex_);
         s.bytes_per_priority = bytes_per_priority_;
     }
@@ -1012,6 +1224,11 @@ std::vector<QoSManager::ConnectionStats>
 QoSManager::getAllConnectionStats() const {
     std::vector<uint64_t> ids;
     {
+        /**
+         * @brief Lock.
+         * @param[in] connections_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(connections_mutex_);
         ids.reserve(connections_.size());
         for (const auto& [id, _] : connections_) {
@@ -1034,6 +1251,11 @@ QoSManager::getAllConnectionStats() const {
 
 void QoSManager::setBackpressureCallback(
     std::function<void(uint64_t, uint64_t)> cb) {
+    /**
+     * @brief Lock.
+     * @param[in] callback_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(callback_mutex_);
     backpressure_cb_ = std::move(cb);
 }
@@ -1044,6 +1266,11 @@ void QoSManager::setBackpressureCallback(
 
 std::shared_ptr<QoSManager::TenantState>
 QoSManager::findTenant(const std::string& id) const {
+    /**
+     * @brief Lock.
+     * @param[in] tenants_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(tenants_mutex_);
     auto it = tenants_.find(id);
     if (it == tenants_.end()) {
@@ -1052,6 +1279,13 @@ QoSManager::findTenant(const std::string& id) const {
     return it->second;
 }
 
+/**
+ * @brief Register Tenant Quota.
+ * @param[in] tenant_id Identifier of the tenant.
+ * @param[in] rate_bps Input parameter.
+ * @param[in] burst_bytes Input parameter.
+ * @details Calls: lock(), find(), end(), tb_lock(), reconfigure(), std::move().
+ */
 void QoSManager::registerTenantQuota(const std::string& tenant_id,
                                       uint64_t rate_bps,
                                       uint64_t burst_bytes) {
@@ -1079,17 +1313,35 @@ void QoSManager::registerTenantQuota(const std::string& tenant_id,
     }
 }
 
+/**
+ * @brief Unregister Tenant Quota.
+ * @param[in] tenant_id Identifier of the tenant.
+ * @details Calls: lock(), erase().
+ */
 void QoSManager::unregisterTenantQuota(const std::string& tenant_id) {
     std::lock_guard<std::mutex> lock(tenants_mutex_);
     tenants_.erase(tenant_id);
 }
 
+/**
+ * @brief Set Tenant Quota.
+ * @param[in] tenant_id Identifier of the tenant.
+ * @param[in] rate_bps Input parameter.
+ * @param[in] burst_bytes Input parameter.
+ * @details Calls: registerTenantQuota().
+ */
 void QoSManager::setTenantQuota(const std::string& tenant_id,
                                   uint64_t rate_bps,
                                   uint64_t burst_bytes) {
     registerTenantQuota(tenant_id, rate_bps, burst_bytes);
 }
 
+/**
+ * @brief Assign Tenant.
+ * @param[in] connection_id Identifier of the connection.
+ * @param[in] tenant_id Identifier of the tenant.
+ * @details Calls: lock(), find(), end(), empty(), findTenant(), fetch_sub(), fetch_add().
+ */
 void QoSManager::assignTenant(uint64_t connection_id,
                                 const std::string& tenant_id) {
     std::string old_tenant_id = {};
@@ -1146,6 +1398,11 @@ std::vector<QoSManager::TenantQuotaStats>
 QoSManager::getAllTenantStats() const {
     std::vector<std::string> ids;
     {
+        /**
+         * @brief Lock.
+         * @param[in] tenants_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(tenants_mutex_);
         ids.reserve(tenants_.size());
         for (const auto& [id, _] : tenants_) {

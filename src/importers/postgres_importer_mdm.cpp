@@ -18,6 +18,11 @@ namespace importers {
 // buildMDMConfig – translate EntityLinkingConfig → MDMConfig
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Build MDMConfig.
+ * @param[in] elc Input parameter.
+ * @return Return value.
+ */
 MDMConfig PostgreSQLImporterWithMDM::buildMDMConfig(const EntityLinkingConfig& elc)
 {
     MDMConfig cfg;
@@ -66,9 +71,13 @@ MDMConfig PostgreSQLImporterWithMDM::buildMDMConfig(const EntityLinkingConfig& e
     return cfg;
 }
 
-// ---------------------------------------------------------------------------
-// importData – standard import + optional MDM phase
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- importData – standard import + optional MDM phase ---------------------------------------------------------------------------
+ * @param[in] source_path Path to the source.
+ * @param[in] options Input parameter.
+ * @param[in] progress_callback Input parameter.
+ * @return Return value.
+ */
 
 ImportStats PostgreSQLImporterWithMDM::importData(
     const std::string&   source_path,
@@ -118,6 +127,13 @@ ImportStats PostgreSQLImporterWithMDM::importData(
 // applyMDMWorkflow
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Apply MDMWorkflow.
+ * @param[in] imported_entities Input parameter.
+ * @param[in] config Input parameter.
+ * @param[in] options Input parameter.
+ * @return Return value.
+ */
 MDMWorkflowResult PostgreSQLImporterWithMDM::applyMDMWorkflow(
     const std::vector<json>& imported_entities,
     const MDMConfig&         config,

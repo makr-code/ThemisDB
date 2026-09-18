@@ -19,7 +19,12 @@
 
 namespace themis { namespace voice {
 
-// ---- Free functions ----
+/**
+ * @brief ---- Free functions ----
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Implements batchJobStatusToString without additional internal calls.
+ */
 
 std::string batchJobStatusToString(BatchJobStatus s) {
     switch (s) {
@@ -36,6 +41,11 @@ std::string batchJobStatusToString(BatchJobStatus s) {
 VoiceBatchProcessor::VoiceBatchProcessor(const BatchProcessorConfig& config)
     : config_(config) {}
 
+/**
+ * @brief Generate Job Id.
+ * @return Return value.
+ * @details Calls: std::setfill(), std::setw(), str().
+ */
 std::string VoiceBatchProcessor::generateJobId() {
     static std::atomic<uint64_t> counter{0};
     uint64_t id = ++counter;
@@ -44,6 +54,12 @@ std::string VoiceBatchProcessor::generateJobId() {
     return ss.str();
 }
 
+/**
+ * @brief Submit Batch.
+ * @param[in] items Input parameter.
+ * @param[in] progress_cb Input parameter.
+ * @return Return value.
+ */
 std::string VoiceBatchProcessor::submitBatch(
     const std::vector<BatchAudioItem>& items,
     BatchProgressCallback progress_cb)
@@ -57,6 +73,11 @@ std::string VoiceBatchProcessor::submitBatch(
     summary.total_items = items.size();
 
     {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         job_summaries_[job_id] = summary;
     }
@@ -91,6 +112,11 @@ std::string VoiceBatchProcessor::submitBatch(
     summary.status = summary.failed_items == items.size() ? BatchJobStatus::FAILED : BatchJobStatus::COMPLETED;
 
     {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         job_summaries_[job_id] = summary;
     }
@@ -98,6 +124,12 @@ std::string VoiceBatchProcessor::submitBatch(
     return job_id;
 }
 
+/**
+ * @brief Process Batch Sync.
+ * @param[in] items Input parameter.
+ * @param[in] progress_cb Input parameter.
+ * @return Return value.
+ */
 std::vector<BatchItemResult> VoiceBatchProcessor::processBatchSync(
     const std::vector<BatchAudioItem>& items,
     BatchProgressCallback progress_cb)
@@ -122,11 +154,22 @@ std::vector<BatchItemResult> VoiceBatchProcessor::processBatchSync(
     return results;
 }
 
+/**
+ * @brief Set STTProcessor.
+ * @param[in] stt Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void VoiceBatchProcessor::setSTTProcessor(std::shared_ptr<content::STTProcessor> stt) {
     std::lock_guard<std::mutex> lock(mutex_);
     stt_processor_ = std::move(stt);
 }
 
+/**
+ * @brief Process Item.
+ * @param[in] item Input parameter.
+ * @return Return value.
+ * @details Calls: steady_clock::now(), lock(), empty(), process(), streamTranscribe(), std::move(), computeQualityMetrics(), computeWER().
+ */
 BatchItemResult VoiceBatchProcessor::processItem(const BatchAudioItem& item) {
     using namespace std::chrono;
     auto start = steady_clock::now();
@@ -308,6 +351,12 @@ float VoiceBatchProcessor::estimateSNR(
     return 20.0f * std::log10(signal_rms / noise_floor);
 }
 
+/**
+ * @brief Run Load Test.
+ * @param[in] num_concurrent Input parameter.
+ * @param[in] template_item Input parameter.
+ * @return Return value.
+ */
 BatchSummary VoiceBatchProcessor::runLoadTest(
     size_t num_concurrent,
     const BatchAudioItem& template_item)
@@ -327,6 +376,11 @@ BatchSummary VoiceBatchProcessor::runLoadTest(
 
     BatchSummary summary;
     {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         auto it = job_summaries_.find(job_id);
         if (it != job_summaries_.end()) {
@@ -346,6 +400,11 @@ json VoiceBatchProcessor::getStatistics() const {
 }
 
 BatchSummary VoiceBatchProcessor::getJobSummary(const std::string& job_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = job_summaries_.find(job_id);
     if (it == job_summaries_.end()) {
@@ -361,6 +420,11 @@ BatchSummary VoiceBatchProcessor::getJobSummary(const std::string& job_id) const
 
 std::vector<std::string> VoiceBatchProcessor::tokenize(const std::string& text) const {
     std::vector<std::string> tokens;
+    /**
+     * @brief Iss.
+     * @param[in] text Input parameter.
+     * @return Return value.
+     */
     std::istringstream iss(text);
     std::string word = {};
     while (iss >> word) {

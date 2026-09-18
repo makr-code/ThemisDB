@@ -44,7 +44,11 @@ WsTransport::~WsTransport() {
     stopPolling();
 }
 
-// ── Session lifecycle ─────────────────────────────────────────────────────────
+/**
+ * @brief ── Session lifecycle ─────────────────────────────────────────────────────────
+ * @param[in] session_id Identifier of the session.
+ * @details Calls: lock(), find(), end(), emplace(), THEMIS_INFO().
+ */
 
 void WsTransport::addSession(const std::string& session_id) {
     std::lock_guard<std::mutex> lock(mutex_);
@@ -54,6 +58,11 @@ void WsTransport::addSession(const std::string& session_id) {
     }
 }
 
+/**
+ * @brief Remove Session.
+ * @param[in] session_id Identifier of the session.
+ * @details Calls: lock(), find(), end(), THEMIS_INFO(), size(), erase().
+ */
 void WsTransport::removeSession(const std::string& session_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = sessions_.find(session_id);
@@ -64,7 +73,13 @@ void WsTransport::removeSession(const std::string& session_id) {
     }
 }
 
-// ── Subscription management ───────────────────────────────────────────────────
+/**
+ * @brief ── Subscription management ───────────────────────────────────────────────────
+ * @param[in] session_id Identifier of the session.
+ * @param[in] sub_id Identifier of the sub.
+ * @param[in] filter Input parameter.
+ * @details Calls: lock(), find(), end(), THEMIS_WARN(), std::move(), THEMIS_INFO(), size().
+ */
 
 void WsTransport::subscribe(const std::string& session_id,
                             const std::string& sub_id,
@@ -89,6 +104,12 @@ void WsTransport::subscribe(const std::string& session_id,
                 filter.event_types.size());
 }
 
+/**
+ * @brief Unsubscribe.
+ * @param[in] session_id Identifier of the session.
+ * @param[in] sub_id Identifier of the sub.
+ * @details Calls: lock(), find(), end(), erase(), THEMIS_INFO().
+ */
 void WsTransport::unsubscribe(const std::string& session_id,
                               const std::string& sub_id) {
     std::lock_guard<std::mutex> lock(mutex_);
@@ -101,7 +122,12 @@ void WsTransport::unsubscribe(const std::string& session_id,
     }
 }
 
-// ── Event delivery ────────────────────────────────────────────────────────────
+/**
+ * @brief ── Event delivery ────────────────────────────────────────────────────────────
+ * @param[in] send_fn Input parameter.
+ * @param[in] close_fn Input parameter.
+ * @details Calls: lock(), empty(), push_back(), std::move(), listEvents(), THEMIS_ERROR(), what(), find().
+ */
 
 void WsTransport::pollAndDeliver(const SendFn& send_fn, const CloseFn& close_fn) {
     if (!changefeed_) {
@@ -260,7 +286,13 @@ void WsTransport::pollAndDeliver(const SendFn& send_fn, const CloseFn& close_fn)
     }
 }
 
-// ── Background polling ────────────────────────────────────────────────────────
+/**
+ * @brief ── Background polling ────────────────────────────────────────────────────────
+ * @param[in,out] ioc Input/output parameter.
+ * @param[in] send_fn Input parameter.
+ * @param[in] close_fn Input parameter.
+ * @details Calls: load(), THEMIS_WARN(), std::move(), THEMIS_INFO(), scheduleNextPoll().
+ */
 
 void WsTransport::startPolling(boost::asio::io_context& ioc,
                                SendFn send_fn,
@@ -279,6 +311,10 @@ void WsTransport::startPolling(boost::asio::io_context& ioc,
     scheduleNextPoll();
 }
 
+/**
+ * @brief Stop Polling.
+ * @details Calls: exchange(), cancel(), reset(), THEMIS_INFO().
+ */
 void WsTransport::stopPolling() {
     if (polling_active_.exchange(false)) {
         if (poll_timer_) {
@@ -289,6 +325,10 @@ void WsTransport::stopPolling() {
     }
 }
 
+/**
+ * @brief Schedule Next Poll.
+ * @details Calls: load(), expires_after(), std::chrono::milliseconds(), async_wait(), pollAndDeliver().
+ */
 void WsTransport::scheduleNextPoll() {
     if (!polling_active_.load() || !poll_timer_) {
         return;
@@ -307,6 +347,11 @@ void WsTransport::scheduleNextPoll() {
 // ── Observability ─────────────────────────────────────────────────────────────
 
 WsTransport::Stats WsTransport::getStats() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     size_t total_subs = 0;

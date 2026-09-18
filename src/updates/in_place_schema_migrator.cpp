@@ -41,6 +41,12 @@ InPlaceSchemaMigrator::InPlaceSchemaMigrator(const Config& config)
 // isAdditiveMigration (static)
 // ----------------------------------------------------------------------------
 
+/**
+ * @brief Is Additive Migration.
+ * @param[in] from_schema Input parameter.
+ * @param[in] to_schema Input parameter.
+ * @return True when the operation succeeds.
+ */
 bool InPlaceSchemaMigrator::isAdditiveMigration(
     const SchemaManager::TableSchema& from_schema,
     const SchemaManager::TableSchema& to_schema)
@@ -82,6 +88,12 @@ bool InPlaceSchemaMigrator::isAdditiveMigration(
 // findAddedColumns (static, private)
 // ----------------------------------------------------------------------------
 
+/**
+ * @brief Find Added Columns.
+ * @param[in] from_schema Input parameter.
+ * @param[in] to_schema Input parameter.
+ * @return Return value.
+ */
 std::vector<std::string> InPlaceSchemaMigrator::findAddedColumns(
     const SchemaManager::TableSchema& from_schema,
     const SchemaManager::TableSchema& to_schema)
@@ -109,6 +121,12 @@ std::vector<std::string> InPlaceSchemaMigrator::findAddedColumns(
 // preview (static)
 // ----------------------------------------------------------------------------
 
+/**
+ * @brief Preview.
+ * @param[in] from_schema Input parameter.
+ * @param[in] to_schema Input parameter.
+ * @return Return value.
+ */
 MigrationChangePreview InPlaceSchemaMigrator::preview(
     const SchemaManager::TableSchema& from_schema,
     const SchemaManager::TableSchema& to_schema)
@@ -192,6 +210,16 @@ MigrationChangePreview InPlaceSchemaMigrator::preview(
 // apply
 // ----------------------------------------------------------------------------
 
+/**
+ * @brief Apply.
+ * @param[in] table_name Name of the table.
+ * @param[in] from_schema Input parameter.
+ * @param[in] to_schema Input parameter.
+ * @param[in,out] schema_mgr Input/output parameter.
+ * @param[in,out] version_mgr Input/output parameter.
+ * @param[in] author Input parameter.
+ * @return Return value.
+ */
 InPlaceMigrationResult InPlaceSchemaMigrator::apply(
     const std::string& table_name,
     const SchemaManager::TableSchema& from_schema,

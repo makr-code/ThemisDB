@@ -81,6 +81,11 @@ GPUUtilizationMonitor::~GPUUtilizationMonitor() {
     }
 }
 
+/**
+ * @brief Query Metrics.
+ * @return Return value.
+ * @details Calls: getFallbackMetrics(), queryNVML(), queryROCm(), queryVulkan(), queryDirectX(), std::chrono::system_clock::now(), time_since_epoch(), count().
+ */
 GPUUtilizationMonitor::Metrics GPUUtilizationMonitor::queryMetrics() {
     Metrics metrics = {};
     
@@ -199,6 +204,11 @@ std::string GPUUtilizationMonitor::getDeviceInfo() const {
 }
 
 // NVML (NVIDIA) implementation
+/**
+ * @brief Initialize NVML.
+ * @return True when the operation succeeds.
+ * @details Calls: nvmlInit(), spdlog::warn(), nvmlErrorString(), nvmlDeviceGetHandleByIndex(), nvmlShutdown(), spdlog::info(), spdlog::debug().
+ */
 bool GPUUtilizationMonitor::initializeNVML() {
 #ifdef THEMIS_ENABLE_CUDA
     nvmlReturn_t result = nvmlInit();
@@ -224,6 +234,10 @@ bool GPUUtilizationMonitor::initializeNVML() {
 #endif
 }
 
+/**
+ * @brief Shutdown NVML.
+ * @details Calls: nvmlShutdown().
+ */
 void GPUUtilizationMonitor::shutdownNVML() {
 #ifdef THEMIS_ENABLE_CUDA
     if (nvml_device_) {
@@ -233,6 +247,11 @@ void GPUUtilizationMonitor::shutdownNVML() {
 #endif
 }
 
+/**
+ * @brief Query NVML.
+ * @return Return value.
+ * @details Calls: nvmlDeviceGetUtilizationRates(), nvmlDeviceGetMemoryInfo(), spdlog::debug().
+ */
 GPUUtilizationMonitor::Metrics GPUUtilizationMonitor::queryNVML() {
     Metrics metrics;
     
@@ -266,6 +285,11 @@ GPUUtilizationMonitor::Metrics GPUUtilizationMonitor::queryNVML() {
 }
 
 // ROCm implementation
+/**
+ * @brief Initialize ROCm.
+ * @return True when the operation succeeds.
+ * @details Calls: rsmi_init(), spdlog::warn(), spdlog::info(), spdlog::debug().
+ */
 bool GPUUtilizationMonitor::initializeROCm() {
 #ifdef THEMIS_ENABLE_HIP
     rsmi_status_t result = rsmi_init(0);
@@ -283,12 +307,21 @@ bool GPUUtilizationMonitor::initializeROCm() {
 #endif
 }
 
+/**
+ * @brief Shutdown ROCm.
+ * @details Calls: rsmi_shut_down().
+ */
 void GPUUtilizationMonitor::shutdownROCm() {
 #ifdef THEMIS_ENABLE_HIP
     rsmi_shut_down();
 #endif
 }
 
+/**
+ * @brief Query ROCm.
+ * @return Return value.
+ * @details Calls: rsmi_dev_busy_percent_get(), rsmi_dev_memory_usage_get(), rsmi_dev_memory_total_get(), spdlog::debug().
+ */
 GPUUtilizationMonitor::Metrics GPUUtilizationMonitor::queryROCm() {
     Metrics metrics;
     
@@ -320,6 +353,11 @@ GPUUtilizationMonitor::Metrics GPUUtilizationMonitor::queryROCm() {
 }
 
 // Vulkan implementation
+/**
+ * @brief Initialize Vulkan.
+ * @return True when the operation succeeds.
+ * @details Calls: spdlog::info(), spdlog::debug().
+ */
 bool GPUUtilizationMonitor::initializeVulkan() {
 #ifdef THEMIS_ENABLE_VULKAN
     // Vulkan doesn't have a built-in GPU utilization query like NVML
@@ -333,10 +371,19 @@ bool GPUUtilizationMonitor::initializeVulkan() {
 #endif
 }
 
+/**
+ * @brief Shutdown Vulkan.
+ * @details Implements shutdownVulkan without additional internal calls.
+ */
 void GPUUtilizationMonitor::shutdownVulkan() {
     // No cleanup needed for Vulkan monitoring
 }
 
+/**
+ * @brief Query Vulkan.
+ * @return Return value.
+ * @details Calls: spdlog::debug().
+ */
 GPUUtilizationMonitor::Metrics GPUUtilizationMonitor::queryVulkan() {
     Metrics metrics;
     
@@ -361,6 +408,11 @@ GPUUtilizationMonitor::Metrics GPUUtilizationMonitor::queryVulkan() {
 }
 
 // DirectX implementation
+/**
+ * @brief Initialize Direct X.
+ * @return True when the operation succeeds.
+ * @details Calls: spdlog::info(), spdlog::debug().
+ */
 bool GPUUtilizationMonitor::initializeDirectX() {
 #ifdef THEMIS_ENABLE_DIRECTX
     // DirectX 12 provides DXGI adapter queries for memory info
@@ -373,10 +425,19 @@ bool GPUUtilizationMonitor::initializeDirectX() {
 #endif
 }
 
+/**
+ * @brief Shutdown Direct X.
+ * @details Implements shutdownDirectX without additional internal calls.
+ */
 void GPUUtilizationMonitor::shutdownDirectX() {
     // No cleanup needed for DirectX monitoring
 }
 
+/**
+ * @brief Query Direct X.
+ * @return Return value.
+ * @details Calls: spdlog::debug().
+ */
 GPUUtilizationMonitor::Metrics GPUUtilizationMonitor::queryDirectX() {
     Metrics metrics;
     

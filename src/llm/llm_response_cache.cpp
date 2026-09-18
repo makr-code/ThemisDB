@@ -115,6 +115,12 @@ LLMResponseCache::LLMResponseCache(const std::string& cache_name, const Config& 
 
 LLMResponseCache::~LLMResponseCache() = default;
 
+/**
+ * @brief Put.
+ * @param[in] prompt Input parameter.
+ * @param[in] response Input parameter.
+ * @details Calls: lock(), generateEmbedding(), empty(), THEMIS_WARN(), std::to_string(), hasher(), setPrimaryKey(), setField().
+ */
 void LLMResponseCache::put(const std::string& prompt, const InferenceResponse& response) {
     std::lock_guard<std::mutex> lock(cache_mutex_);
     
@@ -190,6 +196,12 @@ void LLMResponseCache::put(const std::string& prompt, const InferenceResponse& r
     }
 }
 
+/**
+ * @brief Get.
+ * @param[in] prompt Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::high_resolution_clock::now(), lock(), std::to_string(), hasher(), find(), end(), isExpired(), count().
+ */
 std::optional<InferenceResponse> LLMResponseCache::get(const std::string& prompt) {
     auto start = std::chrono::high_resolution_clock::now();
     std::lock_guard<std::mutex> lock(cache_mutex_);
@@ -373,6 +385,12 @@ std::optional<InferenceResponse> LLMResponseCache::get(const std::string& prompt
     return std::nullopt;
 }
 
+/**
+ * @brief Invalidate.
+ * @param[in] pattern Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), regex_pattern(), begin(), end(), std::regex_search(), removeByPk(), erase(), store().
+ */
 size_t LLMResponseCache::invalidate(const std::string& pattern) {
     std::lock_guard<std::mutex> lock(cache_mutex_);
     
@@ -400,6 +418,10 @@ size_t LLMResponseCache::invalidate(const std::string& pattern) {
     }
 }
 
+/**
+ * @brief Clear.
+ * @details Calls: lock(), shutdown(), init(), store(), recordCacheSize().
+ */
 void LLMResponseCache::clear() {
     std::lock_guard<std::mutex> lock(cache_mutex_);
     
@@ -427,6 +449,11 @@ void LLMResponseCache::clear() {
 }
 
 LLMResponseCache::CacheStatistics LLMResponseCache::getStatistics() const {
+    /**
+     * @brief Lock.
+     * @param[in] cache_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(cache_mutex_);
     CacheStatistics result;
     result.hits.store(stats_.hits.load(std::memory_order_relaxed), std::memory_order_relaxed);

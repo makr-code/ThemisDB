@@ -19,7 +19,15 @@
 
 namespace themis::lora::vulkan {
 
-// Debug callback for validation layers
+/**
+ * @brief Debug callback for validation layers
+ * @param[in] message_severity Input parameter.
+ * @param[in] message_type Input parameter.
+ * @param[in] callback_data Input parameter.
+ * @param[in,out] user_data Input/output parameter.
+ * @return Return value.
+ * @details Implements DebugCallback without additional internal calls.
+ */
 static VKAPI_ATTR VkBool32 VKAPI_CALL DebugCallback(
     VkDebugUtilsMessageSeverityFlagBitsEXT message_severity,
     VkDebugUtilsMessageTypeFlagsEXT message_type,
@@ -88,6 +96,13 @@ VulkanContext& VulkanContext::operator=(VulkanContext&& other) noexcept {
     return *this;
 }
 
+/**
+ * @brief Initialize.
+ * @param[in] device_id Identifier of the device.
+ * @param[in] enable_validation Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: check_validation_layer_support(), create_instance(), cleanup(), setup_debug_messenger(), select_physical_device(), find_queue_family(), create_device(), create_command_pool().
+ */
 bool VulkanContext::initialize(int device_id, bool enable_validation) {
     if (initialized_) {
         return true;
@@ -140,6 +155,10 @@ bool VulkanContext::initialize(int device_id, bool enable_validation) {
     return true;
 }
 
+/**
+ * @brief Cleanup.
+ * @details Calls: vkDeviceWaitIdle(), vkDestroyCommandPool(), vkDestroyDevice(), vkGetInstanceProcAddr(), func(), vkDestroyInstance().
+ */
 void VulkanContext::cleanup() {
     // Wait for device to be idle
     if (device_ != VK_NULL_HANDLE) {
@@ -185,6 +204,11 @@ void VulkanContext::cleanup() {
     initialized_ = false;
 }
 
+/**
+ * @brief Is available.
+ * @return True when the operation succeeds.
+ * @details Calls: vkCreateInstance(), vkDestroyInstance().
+ */
 bool VulkanContext::is_available() {
     // Try to create a minimal instance to check Vulkan availability
     VkApplicationInfo app_info = {};
@@ -206,6 +230,12 @@ bool VulkanContext::is_available() {
     return false;
 }
 
+/**
+ * @brief Create instance.
+ * @param[in] enable_validation Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: VK_MAKE_VERSION(), validation_layers(), size(), data(), vkCreateInstance().
+ */
 bool VulkanContext::create_instance(bool enable_validation) {
     VkApplicationInfo app_info = {};
     app_info.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
@@ -240,6 +270,12 @@ bool VulkanContext::create_instance(bool enable_validation) {
     return true;
 }
 
+/**
+ * @brief Select physical device.
+ * @param[in] device_id Identifier of the device.
+ * @return True when the operation succeeds.
+ * @details Calls: vkEnumeratePhysicalDevices(), devices(), data(), at(), vkGetPhysicalDeviceProperties(), vkGetPhysicalDeviceMemoryProperties().
+ */
 bool VulkanContext::select_physical_device(int device_id) {
     uint32_t device_count = 0;
     VkResult enum_result = vkEnumeratePhysicalDevices(instance_, &device_count, nullptr);
@@ -290,6 +326,11 @@ bool VulkanContext::select_physical_device(int device_id) {
     return true;
 }
 
+/**
+ * @brief Find queue family.
+ * @return True when the operation succeeds.
+ * @details Calls: vkGetPhysicalDeviceQueueFamilyProperties(), queue_families(), data(), at().
+ */
 bool VulkanContext::find_queue_family() {
     uint32_t queue_family_count = 0;
     vkGetPhysicalDeviceQueueFamilyProperties(physical_device_, &queue_family_count, nullptr);
@@ -312,6 +353,11 @@ bool VulkanContext::find_queue_family() {
     return false;
 }
 
+/**
+ * @brief Create device.
+ * @return True when the operation succeeds.
+ * @details Calls: validation_layers(), size(), data(), vkCreateDevice(), vkGetDeviceQueue().
+ */
 bool VulkanContext::create_device() {
     // Specify queue priorities
     float queue_priority = 1.0F;
@@ -350,6 +396,11 @@ bool VulkanContext::create_device() {
     return true;
 }
 
+/**
+ * @brief Create command pool.
+ * @return True when the operation succeeds.
+ * @details Calls: vkCreateCommandPool().
+ */
 bool VulkanContext::create_command_pool() {
     VkCommandPoolCreateInfo pool_info = {};
     pool_info.sType = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO;
@@ -365,6 +416,11 @@ bool VulkanContext::create_command_pool() {
     return true;
 }
 
+/**
+ * @brief Setup debug messenger.
+ * @return True when the operation succeeds.
+ * @details Calls: vkGetInstanceProcAddr(), func().
+ */
 bool VulkanContext::setup_debug_messenger() {
     if (!validation_enabled_) {
         return true;
@@ -395,6 +451,13 @@ bool VulkanContext::setup_debug_messenger() {
     return false;
 }
 
+/**
+ * @brief Allocate command buffer.
+ * @param[in] level Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: vkAllocateCommandBuffers().
+ */
 VkCommandBuffer VulkanContext::allocate_command_buffer(VkCommandBufferLevel level) {
     VkCommandBufferAllocateInfo alloc_info = {};
     alloc_info.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
@@ -412,6 +475,11 @@ VkCommandBuffer VulkanContext::allocate_command_buffer(VkCommandBufferLevel leve
     return command_buffer;
 }
 
+/**
+ * @brief Free command buffer.
+ * @param[in] command_buffer Input parameter.
+ * @details Calls: vkFreeCommandBuffers().
+ */
 void VulkanContext::free_command_buffer(VkCommandBuffer command_buffer) {
     if (device_ == VK_NULL_HANDLE || command_pool_ == VK_NULL_HANDLE ||
         command_buffer == VK_NULL_HANDLE) {
@@ -420,6 +488,13 @@ void VulkanContext::free_command_buffer(VkCommandBuffer command_buffer) {
     vkFreeCommandBuffers(device_, command_pool_, 1, &command_buffer);
 }
 
+/**
+ * @brief Create fence.
+ * @param[in] signaled Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: vkCreateFence().
+ */
 VkFence VulkanContext::create_fence(bool signaled) {
     VkFenceCreateInfo fence_info = {};
     fence_info.sType = VK_STRUCTURE_TYPE_FENCE_CREATE_INFO;
@@ -437,6 +512,11 @@ VkFence VulkanContext::create_fence(bool signaled) {
     return fence;
 }
 
+/**
+ * @brief Destroy fence.
+ * @param[in] fence Input parameter.
+ * @details Calls: vkDestroyFence().
+ */
 void VulkanContext::destroy_fence(VkFence fence) {
     if (device_ == VK_NULL_HANDLE || fence == VK_NULL_HANDLE) {
         return;
@@ -444,6 +524,13 @@ void VulkanContext::destroy_fence(VkFence fence) {
     vkDestroyFence(device_, fence, nullptr);
 }
 
+/**
+ * @brief Wait for fence.
+ * @param[in] fence Input parameter.
+ * @param[in] timeout_ns Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: vkWaitForFences().
+ */
 bool VulkanContext::wait_for_fence(VkFence fence, uint64_t timeout_ns) {
     if (device_ == VK_NULL_HANDLE || fence == VK_NULL_HANDLE) {
         return false;
@@ -458,6 +545,12 @@ bool VulkanContext::wait_for_fence(VkFence fence, uint64_t timeout_ns) {
     return false;
 }
 
+/**
+ * @brief Reset fence.
+ * @param[in] fence Input parameter.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: vkResetFences().
+ */
 void VulkanContext::reset_fence(VkFence fence) {
     if (device_ == VK_NULL_HANDLE || fence == VK_NULL_HANDLE) {
         throw std::runtime_error("Cannot reset invalid fence handle");
@@ -481,6 +574,11 @@ int32_t VulkanContext::find_memory_type(uint32_t type_filter,
     return -1;
 }
 
+/**
+ * @brief Check validation layer support.
+ * @return True when the operation succeeds.
+ * @details Calls: vkEnumerateInstanceLayerProperties(), available_layers(), data(), validation_layers(), strcmp().
+ */
 bool VulkanContext::check_validation_layer_support() {
     uint32_t layer_count = 0;
     VkResult result = vkEnumerateInstanceLayerProperties(&layer_count, nullptr);

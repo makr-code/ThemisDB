@@ -163,6 +163,11 @@ std::vector<float> EncryptedField<std::vector<float>>::deserialize(const std::st
     }
     
     // Read floats
+    /**
+     * @brief Result.
+     * @param[in] size Input parameter.
+     * @return Return value.
+     */
     std::vector<float> result(size);
     if (size > 0) {
         std::memcpy(result.data(), 

@@ -20,9 +20,6 @@
 namespace themis {
 namespace auth {
 
-/**
- * @brief Default implementation of IAuthEventBus using in-process pub/sub.
- */
 class DefaultAuthEventBus : public IAuthEventBus {
 private:
     mutable std::shared_mutex subscribers_mutex_;
@@ -32,6 +29,11 @@ public:
     DefaultAuthEventBus() = default;
 
     void publish(const AuthEvent& event) override {
+        /**
+         * @brief Lock.
+         * @param[in] subscribers_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::shared_lock lock(subscribers_mutex_);
         for (const auto& subscriber : subscribers_) {
             try {
@@ -48,6 +50,11 @@ public:
           return false;
         }
 
+        /**
+         * @brief Lock.
+         * @param[in] subscribers_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock lock(subscribers_mutex_);
         // Check for duplicates
         for (const auto& existing : subscribers_) {
@@ -60,6 +67,11 @@ public:
     }
 
     bool unsubscribe(const std::string& subscriber_id) override {
+        /**
+         * @brief Lock.
+         * @param[in] subscribers_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock lock(subscribers_mutex_);
         auto it = std::remove_if(subscribers_.begin(), subscribers_.end(),
                                  [&subscriber_id](const auto& s) {
@@ -73,6 +85,11 @@ public:
     }
 
     size_t subscriberCount() const override {
+        /**
+         * @brief Lock.
+         * @param[in] subscribers_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::shared_lock lock(subscribers_mutex_);
         return subscribers_.size();
     }
@@ -83,16 +100,18 @@ static std::shared_ptr<IAuthEventBus> g_auth_event_bus =
     std::make_shared<DefaultAuthEventBus>();
 
 /**
- * @brief Get the global auth event bus instance.
- * @return Reference to the global IAuthEventBus.
+ * @brief Get Auth Event Bus.
+ * @return Return value.
+ * @details Implements getAuthEventBus without additional internal calls.
  */
 IAuthEventBus& getAuthEventBus() {
     return *g_auth_event_bus;
 }
 
 /**
- * @brief Set a custom auth event bus implementation (e.g., for testing).
- * @param bus The custom bus implementation.
+ * @brief Set Auth Event Bus.
+ * @param[in] bus Input parameter.
+ * @details Implements setAuthEventBus without additional internal calls.
  */
 void setAuthEventBus(std::shared_ptr<IAuthEventBus> bus) {
     if (bus) {

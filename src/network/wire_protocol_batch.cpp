@@ -27,6 +27,15 @@ namespace network {
 
 namespace {
 
+/**
+ * @brief Set Sock Opt Int.
+ * @param[in] fd Input parameter.
+ * @param[in] level Input parameter.
+ * @param[in] optname Input parameter.
+ * @param[in] value Input parameter.
+ * @return Return value.
+ * @details Calls: setsockopt().
+ */
 inline int setSockOptInt(int fd, int level, int optname, const int* value) {
 #ifdef _WIN32
     return ::setsockopt(static_cast<SOCKET>(fd), level, optname,
@@ -138,6 +147,13 @@ WireProtocolBatcher::WireProtocolBatcher(int fd, const Config& cfg)
     std::memset(iov_, 0, sizeof(iov_));
 }
 
+/**
+ * @brief Add.
+ * @param[in] data Input parameter.
+ * @param[in] size Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: flush().
+ */
 bool WireProtocolBatcher::add(const void* data, size_t size) {
     if (size == 0) return true; // Nothing to add.
 
@@ -166,6 +182,11 @@ bool WireProtocolBatcher::add(const void* data, size_t size) {
     return true;
 }
 
+/**
+ * @brief Flush.
+ * @return Return value.
+ * @details Calls: WSASend(), reserve(), push_back(), writev(), data(), size().
+ */
 ssize_t WireProtocolBatcher::flush() {
     if (iov_count_ == 0) {
       return 0;

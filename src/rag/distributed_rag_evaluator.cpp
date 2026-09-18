@@ -32,6 +32,12 @@ struct DistributedRAGEvaluator::Impl {
     std::atomic<uint64_t>             total_evaluations{0};
     mutable std::mutex                config_mutex;
 
+    /**
+     * @brief Impl.
+     * @param[in] w Input parameter.
+     * @param[in] c Input parameter.
+     * @return Return value.
+     */
     explicit Impl(std::vector<JudgeWorkerConfig> w, DistributedEvaluatorConfig c)
         : workers(std::move(w)), config(std::move(c)) {}
 };
@@ -251,6 +257,10 @@ DistributedRAGEvaluator::batchEvaluate(
 // Configuration / accessors
 // ============================================================================
 
+/**
+ * @brief Set Aggregation Strategy.
+ * @param[in] strategy Input parameter.
+ */
 void DistributedRAGEvaluator::setAggregationStrategy(AggregationStrategy strategy)
 {
     std::lock_guard<std::mutex> lk(impl_->config_mutex);
@@ -377,6 +387,11 @@ judge::EvaluationResult DistributedRAGEvaluator::aggregateResults(
 // computeAgreement() — static helper
 // ============================================================================
 
+/**
+ * @brief Compute Agreement.
+ * @param[in] results Input parameter.
+ * @return Return value.
+ */
 double DistributedRAGEvaluator::computeAgreement(
     const std::vector<judge::EvaluationResult>& results)
 {

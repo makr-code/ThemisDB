@@ -70,12 +70,22 @@ struct QueryExecStatus {
     bool ok = 0;
     std::string message;
 
+    /**
+     * @brief OK.
+     * @return Return value.
+     * @details Implements OK without additional internal calls.
+     */
     static QueryExecStatus OK() {
         return QueryExecStatus{true, ""};
     }
 };
 
-// Portable time conversion helpers (static)
+/**
+ * @brief Portable time conversion helpers (static)
+ * @param[in] tmin Input parameter.
+ * @return Return value.
+ * @details Calls: _mkgmtime(), timegm().
+ */
 static inline time_t portable_mkgmtime_impl(std::tm const* tmin) {
 #ifdef _WIN32
     return _mkgmtime(const_cast<std::tm*>(tmin));
@@ -84,6 +94,12 @@ static inline time_t portable_mkgmtime_impl(std::tm const* tmin) {
 #endif
 }
 
+/**
+ * @brief Portable gmtime r impl.
+ * @param[in] t Input parameter.
+ * @param[in,out] out Input/output parameter.
+ * @details Calls: gmtime_s(), gmtime_r().
+ */
 static inline void portable_gmtime_r_impl(const time_t* t, std::tm* out) {
 #ifdef _WIN32
     gmtime_s(out, t);
@@ -131,6 +147,14 @@ QueryApiHandler::QueryApiHandler(
 }
 
 // Helper methods implementations
+/**
+ * @brief Make Error Response.
+ * @param[in] status Input parameter.
+ * @param[in] message Input parameter.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: makeResponse(), dump().
+ */
 http::response<http::string_body> QueryApiHandler::makeErrorResponse(
     http::status status, const std::string& message, const http::request<http::string_body>& req
 ) {
@@ -142,6 +166,14 @@ http::response<http::string_body> QueryApiHandler::makeErrorResponse(
     return makeResponse(status, error_body.dump(), req);
 }
 
+/**
+ * @brief Make Response.
+ * @param[in] status Input parameter.
+ * @param[in] body Input parameter.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: version(), set(), keep_alive(), body(), prepare_payload().
+ */
 http::response<http::string_body> QueryApiHandler::makeResponse(
     http::status status, const std::string& body, const http::request<http::string_body>& req
 ) {
@@ -154,6 +186,12 @@ http::response<http::string_body> QueryApiHandler::makeResponse(
     return res;
 }
 
+/**
+ * @brief Apply Masking.
+ * @param[in] entities Input parameter.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ */
 nlohmann::json QueryApiHandler::applyMasking(
     const nlohmann::json& entities,
     const http::request<http::string_body>& req)
@@ -166,7 +204,12 @@ nlohmann::json QueryApiHandler::applyMasking(
     return masking_policy->maskResultSet(entities, auth_ctx.groups);
 }
 
-// Implementation extracted from http_server.cpp (lines 5950-6222)
+/**
+ * @brief Implementation extracted from http_server.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details cpp (lines 5950-6222) Calls: isEnabled(), std::string(), target(), find(), substr(), requireAccess(), Tracer::startSpan(), setStatus().
+ */
 http::response<http::string_body> QueryApiHandler::handleQuery(
     const http::request<http::string_body>& req
 ) {
@@ -679,7 +722,12 @@ http::response<http::string_body> QueryApiHandler::handleQuery(
 }
 
 
-// Implementation extracted from http_server.cpp (lines 6223-8688)
+/**
+ * @brief Implementation extracted from http_server.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details cpp (lines 6223-8688) Calls: Tracer::startSpan(), setStatus(), makeErrorResponse(), json::parse(), body(), contains(), setAttribute(), themis::utils::Cursor::normalizePageSize().
+ */
 http::response<http::string_body> QueryApiHandler::handleQueryAql(
     const http::request<http::string_body>& req
 ) {
@@ -3817,7 +3865,12 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
     }
 }
 
-// Implementation extracted from http_server.cpp (lines 12042-12167)
+/**
+ * @brief Implementation extracted from http_server.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details cpp (lines 12042-12167) Calls: makeErrorResponse(), Tracer::startSpan(), setAttribute(), json::parse(), body(), contains(), dump(), prepare_payload().
+ */
 http::response<http::string_body> QueryApiHandler::handleQueryEnhanced(
     const http::request<http::string_body>& req
 ) {
@@ -3951,6 +4004,15 @@ http::response<http::string_body> QueryApiHandler::handleQueryEnhanced(
 }
 
 // Helper method implementations
+/**
+ * @brief Require Access.
+ * @param[in] req Input parameter.
+ * @param[in] param Input parameter.
+ * @param[in] param Input parameter.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Calls: isEnabled(), empty(), version(), set(), keep_alive(), body(), prepare_payload(), themis::AuthMiddleware::extractBearerToken().
+ */
 std::optional<http::response<http::string_body>> QueryApiHandler::requireAccess(
     const http::request<http::string_body>& req,
     const std::string& /*permission*/,
@@ -3990,6 +4052,12 @@ std::optional<http::response<http::string_body>> QueryApiHandler::requireAccess(
     return std::nullopt;
 }
 
+/**
+ * @brief Extract Auth Context.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: isEnabled(), empty(), themis::AuthMiddleware::extractBearerToken(), std::string_view(), data(), size(), validateToken().
+ */
 QueryApiHandler::AuthContext QueryApiHandler::extractAuthContext(const http::request<http::string_body>& req) {
     AuthContext ctx;
     
@@ -4022,6 +4090,12 @@ QueryApiHandler::AuthContext QueryApiHandler::extractAuthContext(const http::req
     return ctx;
 }
 
+/**
+ * @brief Handle Query Stream Sse.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: isEnabled(), std::string(), target(), find(), substr(), requireAccess(), Tracer::startSpan(), size().
+ */
 http::response<http::string_body> QueryApiHandler::handleQueryStreamSse(
     const http::request<http::string_body>& req
 ) {

@@ -189,7 +189,7 @@ private:
     AiHardwareDispatcher& operator=(const AiHardwareDispatcher&) = delete;
 
     /**
-     * @brief ── Internal probe helpers ─────────────────────────────────────────────
+     * @brief Probe Apple ANE.
      * @return Return value.
      * @note Exception safety: noexcept.
      */
@@ -245,7 +245,7 @@ private:
     AiHardwareCapability probeCpuFallback() const noexcept;
 
     /**
-     * @brief ── Internal dispatch helpers ──────────────────────────────────────────
+     * @brief Dispatch Apple ANE.
      * @param[in,out] req Input/output parameter.
      * @return Return value.
      */

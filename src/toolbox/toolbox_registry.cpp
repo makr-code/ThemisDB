@@ -38,6 +38,12 @@ std::atomic<uint64_t> g_registry_misuse_total(0);  ///< not_initialized + double
 // ToolboxRegistry
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Initialize.
+ * @param[in] toolbox Input parameter.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: lk(), fetch_add(), THEMIS_WARN(), std::move().
+ */
 void ToolboxRegistry::initialize(std::shared_ptr<IngestionToolbox> toolbox) {
     if (!toolbox) {
         throw std::invalid_argument(
@@ -52,6 +58,12 @@ void ToolboxRegistry::initialize(std::shared_ptr<IngestionToolbox> toolbox) {
     g_instance = std::move(toolbox);
 }
 
+/**
+ * @brief Instance.
+ * @return Return value.
+ * @throws std::logic_error if an error occurs.
+ * @details Calls: lk(), fetch_add().
+ */
 std::shared_ptr<IngestionToolbox> ToolboxRegistry::instance() {
     std::lock_guard<std::mutex> lk(g_mutex);
     if (!g_instance) {
@@ -65,11 +77,21 @@ std::shared_ptr<IngestionToolbox> ToolboxRegistry::instance() {
 }
 
 bool ToolboxRegistry::isInitialized() noexcept {
+    /**
+     * @brief Lk.
+     * @param[in] g_mutex Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(g_mutex);
     return g_instance != nullptr;
 }
 
 void ToolboxRegistry::reset() noexcept {
+    /**
+     * @brief Lk.
+     * @param[in] g_mutex Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(g_mutex);
     g_instance.reset();
 }
@@ -78,14 +100,31 @@ void ToolboxRegistry::reset() noexcept {
 // Free functions
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Initialize Toolbox.
+ * @param[in] toolbox Input parameter.
+ * @details Calls: ToolboxRegistry::initialize(), std::move().
+ */
 void initializeToolbox(std::shared_ptr<IngestionToolbox> toolbox) {
     ToolboxRegistry::initialize(std::move(toolbox));
 }
 
+/**
+ * @brief Global Toolbox.
+ * @return Return value.
+ * @details Calls: ToolboxRegistry::instance().
+ */
 std::shared_ptr<IngestionToolbox> globalToolbox() {
     return ToolboxRegistry::instance();
 }
 
+/**
+ * @brief Extract Entities.
+ * @param[in] text Input parameter.
+ * @param[in] mime Input parameter.
+ * @param[in] filename Input parameter.
+ * @return Return value.
+ */
 std::vector<ingestion::BaseEntity> extractEntities(
     const std::string& text,
     const std::string& mime,
@@ -94,6 +133,13 @@ std::vector<ingestion::BaseEntity> extractEntities(
     return ToolboxRegistry::instance()->extractEntities(text, mime, filename);
 }
 
+/**
+ * @brief Extract Entity Set.
+ * @param[in] text Input parameter.
+ * @param[in] mime Input parameter.
+ * @param[in] filename Input parameter.
+ * @return Return value.
+ */
 ingestion::BaseEntitySet extractEntitySet(
     const std::string& text,
     const std::string& mime,
@@ -102,6 +148,11 @@ ingestion::BaseEntitySet extractEntitySet(
     return ToolboxRegistry::instance()->extractEntitySet(text, mime, filename);
 }
 
+/**
+ * @brief Get Metrics Text.
+ * @return Return value.
+ * @details Calls: ToolboxRegistry::instance(), load(), str().
+ */
 std::string getMetricsText() {
     std::string base = ToolboxRegistry::instance()->getMetricsText();
     

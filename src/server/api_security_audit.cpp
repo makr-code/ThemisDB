@@ -32,11 +32,24 @@ constexpr std::array<std::string_view, 6> k_sensitive_prefixes = {
     "/auth/sessions"
 };
 
+/**
+ * @brief Starts with.
+ * @param[in] str Input parameter.
+ * @param[in] prefix Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: size(), compare(), data().
+ */
 bool starts_with(const std::string& str, std::string_view prefix) {
     return str.size() >= prefix.size() &&
            str.compare(0, prefix.size(), prefix.data(), prefix.size()) == 0;
 }
 
+/**
+ * @brief Is sensitive pattern.
+ * @param[in] pattern Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: starts_with().
+ */
 bool is_sensitive_pattern(const std::string& pattern) {
     for (const auto& prefix : k_sensitive_prefixes) {
         if (starts_with(pattern, prefix)) {
@@ -46,6 +59,15 @@ bool is_sensitive_pattern(const std::string& pattern) {
     return false;
 }
 
+/**
+ * @brief Add finding.
+ * @param[in,out] findings Input/output parameter.
+ * @param[in] severity Input parameter.
+ * @param[in] endpoint_pattern Input parameter.
+ * @param[in] http_method Input parameter.
+ * @param[in] finding Input parameter.
+ * @param[in] recommendation Input parameter.
+ */
 void add_finding(std::vector<ApiSecurityAuditFinding>& findings,
                  AuditSeverity severity,
                  const std::string& endpoint_pattern,
@@ -62,6 +84,11 @@ void add_finding(std::vector<ApiSecurityAuditFinding>& findings,
 // Individual checks
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Check Global Auth Disabled.
+ * @param[in] config Input parameter.
+ * @param[in,out] findings Input/output parameter.
+ */
 void ApiSecurityAuditor::checkGlobalAuthDisabled(
     const ApiAuthConfig& config,
     std::vector<ApiSecurityAuditFinding>& findings)
@@ -76,6 +103,11 @@ void ApiSecurityAuditor::checkGlobalAuthDisabled(
     }
 }
 
+/**
+ * @brief Check Missing Scope On Auth Endpoints.
+ * @param[in] config Input parameter.
+ * @param[in,out] findings Input/output parameter.
+ */
 void ApiSecurityAuditor::checkMissingScopeOnAuthEndpoints(
     const ApiAuthConfig& config,
     std::vector<ApiSecurityAuditFinding>& findings)
@@ -93,6 +125,11 @@ void ApiSecurityAuditor::checkMissingScopeOnAuthEndpoints(
     }
 }
 
+/**
+ * @brief Check Sensitive Endpoints Require Auth.
+ * @param[in] config Input parameter.
+ * @param[in,out] findings Input/output parameter.
+ */
 void ApiSecurityAuditor::checkSensitiveEndpointsRequireAuth(
     const ApiAuthConfig& config,
     std::vector<ApiSecurityAuditFinding>& findings)
@@ -110,6 +147,11 @@ void ApiSecurityAuditor::checkSensitiveEndpointsRequireAuth(
     }
 }
 
+/**
+ * @brief Check Rate Limiting Disabled.
+ * @param[in] config Input parameter.
+ * @param[in,out] findings Input/output parameter.
+ */
 void ApiSecurityAuditor::checkRateLimitingDisabled(
     const ApiAuthConfig& config,
     std::vector<ApiSecurityAuditFinding>& findings)
@@ -124,6 +166,11 @@ void ApiSecurityAuditor::checkRateLimitingDisabled(
     }
 }
 
+/**
+ * @brief Check Missing Rate Limit On Auth Endpoints.
+ * @param[in] config Input parameter.
+ * @param[in,out] findings Input/output parameter.
+ */
 void ApiSecurityAuditor::checkMissingRateLimitOnAuthEndpoints(
     const ApiAuthConfig& config,
     std::vector<ApiSecurityAuditFinding>& findings)
@@ -141,6 +188,11 @@ void ApiSecurityAuditor::checkMissingRateLimitOnAuthEndpoints(
     }
 }
 
+/**
+ * @brief Check Excessive Burst Capacity.
+ * @param[in] config Input parameter.
+ * @param[in,out] findings Input/output parameter.
+ */
 void ApiSecurityAuditor::checkExcessiveBurstCapacity(
     const ApiAuthConfig& config,
     std::vector<ApiSecurityAuditFinding>& findings)
@@ -166,6 +218,11 @@ void ApiSecurityAuditor::checkExcessiveBurstCapacity(
 // Main audit entry point
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Audit.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ */
 ApiSecurityAuditReport ApiSecurityAuditor::audit(const ApiAuthConfig& config)
 {
     ApiSecurityAuditReport report;

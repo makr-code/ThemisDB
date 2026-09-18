@@ -47,6 +47,15 @@ struct EVP_MD_CTX_Deleter {
 
 using UniqueEvpMdCtx = std::unique_ptr<EVP_MD_CTX, EVP_MD_CTX_Deleter>;
 
+/**
+ * @brief Curl Write String.
+ * @param[in,out] contents Input/output parameter.
+ * @param[in] size Input parameter.
+ * @param[in] nmemb Input parameter.
+ * @param[in,out] userp Input/output parameter.
+ * @return Return value.
+ * @details Calls: append().
+ */
 size_t curlWriteString(void* contents, size_t size, size_t nmemb, void* userp) {
     auto* buf = static_cast<std::string*>(userp);
     buf->append(static_cast<char*>(contents), size * nmemb);
@@ -58,6 +67,15 @@ struct CurlFileWriter {
     bool ok = true;
 };
 
+/**
+ * @brief Curl Write File.
+ * @param[in,out] contents Input/output parameter.
+ * @param[in] size Input parameter.
+ * @param[in] nmemb Input parameter.
+ * @param[in,out] userp Input/output parameter.
+ * @return Return value.
+ * @details Calls: write().
+ */
 size_t curlWriteFile(void* contents, size_t size, size_t nmemb, void* userp) {
     auto* writer = static_cast<CurlFileWriter*>(userp);
     writer->file.write(static_cast<char*>(contents),
@@ -69,7 +87,15 @@ size_t curlWriteFile(void* contents, size_t size, size_t nmemb, void* userp) {
     return size * nmemb;
 }
 
-// Collect response headers into a map (lower-case key -> value).
+/**
+ * @brief Collect response headers into a map (lower-case key -> value).
+ * @param[in,out] buffer Input/output parameter.
+ * @param[in] size Input parameter.
+ * @param[in] nitems Input parameter.
+ * @param[in,out] userp Input/output parameter.
+ * @return Return value.
+ * @details Calls: line(), empty(), back(), pop_back(), find(), substr(), std::transform(), begin().
+ */
 size_t curlHeaderCallback(char* buffer, size_t size, size_t nitems, void* userp) {
     auto* headers = static_cast<std::unordered_map<std::string, std::string>*>(userp);
     std::string line(buffer, size * nitems);
@@ -93,7 +119,12 @@ size_t curlHeaderCallback(char* buffer, size_t size, size_t nitems, void* userp)
     return size * nitems;
 }
 
-// Compute hex-encoded SHA-256 of a file.
+/**
+ * @brief Compute hex-encoded SHA-256 of a file.
+ * @param[in] path Input parameter.
+ * @return Return value.
+ * @details Calls: f(), ctx(), EVP_MD_CTX_new(), EVP_DigestInit_ex(), get(), EVP_sha256(), read(), data().
+ */
 std::string sha256HexFile(const std::string& path) {
     std::ifstream f(path, std::ios::binary);
     if (!f) return {};
@@ -137,6 +168,12 @@ std::string sha256HexFile(const std::string& path) {
 // OciReference
 // ============================================================================
 
+/**
+ * @brief Parse.
+ * @param[in] raw Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), rfind(), substr(), find(), Ok().
+ */
 Result<OciReference> OciReference::parse(const std::string& raw) {
     if (raw.empty()) {
         return Err<OciReference>(ErrorCode::ERR_PLUGIN_OCI_INVALID_REFERENCE,
@@ -231,11 +268,22 @@ OciRegistryClient::OciRegistryClient() {
 
 OciRegistryClient::~OciRegistryClient() = default;
 
+/**
+ * @brief Set Auth.
+ * @param[in] registry Input parameter.
+ * @param[in] auth Input parameter.
+ * @details Calls: lk(), std::move().
+ */
 void OciRegistryClient::setAuth(const std::string& registry, OciAuthConfig auth) {
     std::lock_guard<std::mutex> lk(mutex_);
     auth_configs_[registry] = std::move(auth);
 }
 
+/**
+ * @brief Set Timeout.
+ * @param[in] timeout_seconds Input parameter.
+ * @details Calls: lk().
+ */
 void OciRegistryClient::setTimeout(long timeout_seconds) {
     std::lock_guard<std::mutex> lk(mutex_);
     timeout_seconds_ = timeout_seconds;
@@ -254,6 +302,12 @@ void OciRegistryClient::setTimeout(long timeout_seconds) {
     return scheme + "://" + registry;
 }
 
+/**
+ * @brief Http Get.
+ * @param[in] url Input parameter.
+ * @param[in] extra_headers Input parameter.
+ * @return Return value.
+ */
 Result<std::string> OciRegistryClient::httpGet(
     const std::string& url,
     const std::vector<std::string>& extra_headers)
@@ -269,6 +323,11 @@ Result<std::string> OciRegistryClient::httpGet(
 
     long timeout = 30;
     {
+        /**
+         * @brief Lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(mutex_);
         timeout = timeout_seconds_;
     }
@@ -321,6 +380,13 @@ Result<std::string> OciRegistryClient::httpGet(
     return Ok(response_body);
 }
 
+/**
+ * @brief Http Get To File.
+ * @param[in] url Input parameter.
+ * @param[in] dest_path Path to the dest.
+ * @param[in] extra_headers Input parameter.
+ * @return Return value.
+ */
 Result<void> OciRegistryClient::httpGetToFile(
     const std::string& url,
     const std::string& dest_path,
@@ -341,6 +407,11 @@ Result<void> OciRegistryClient::httpGetToFile(
 
     long timeout = 30;
     {
+        /**
+         * @brief Lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(mutex_);
         timeout = timeout_seconds_;
     }
@@ -395,6 +466,12 @@ Result<void> OciRegistryClient::httpGetToFile(
     return OkVoid();
 }
 
+/**
+ * @brief Obtain Bearer Token.
+ * @param[in] registry Input parameter.
+ * @param[in] scope Input parameter.
+ * @return Return value.
+ */
 Result<std::string> OciRegistryClient::obtainBearerToken(
     const std::string& registry,
     const std::string& scope)
@@ -457,6 +534,11 @@ Result<std::string> OciRegistryClient::obtainBearerToken(
     std::vector<std::string> token_headers;
     OciAuthConfig auth;
     {
+        /**
+         * @brief Lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(mutex_);
         auto ait = auth_configs_.find(registry);
         if (ait != auth_configs_.end()) {
@@ -530,6 +612,12 @@ Result<std::string> OciRegistryClient::obtainBearerToken(
 // Public API
 // ============================================================================
 
+/**
+ * @brief Fetch Manifest.
+ * @param[in] ref Input parameter.
+ * @return Return value.
+ * @details Calls: registryBaseUrl(), empty(), lk(), find(), end(), push_back(), obtainBearerToken(), has_value().
+ */
 Result<OciManifest> OciRegistryClient::fetchManifest(const OciReference& ref) {
     const std::string base = registryBaseUrl(ref.registry);
     const std::string name_enc = ref.name;  // URL path segments don't need percent-encoding here
@@ -606,6 +694,12 @@ Result<OciManifest> OciRegistryClient::fetchManifest(const OciReference& ref) {
     return Ok(manifest);
 }
 
+/**
+ * @brief Pull Plugin Binary.
+ * @param[in] ref Input parameter.
+ * @param[in] dest_dir Input parameter.
+ * @return Return value.
+ */
 Result<std::string> OciRegistryClient::pullPluginBinary(
     const OciReference& ref,
     const std::string& dest_dir)
@@ -687,6 +781,11 @@ Result<std::string> OciRegistryClient::pullPluginBinary(
     {
         OciAuthConfig auth;
         {
+            /**
+             * @brief Lk.
+             * @param[in] mutex_ Input parameter.
+             * @return Return value.
+             */
             std::lock_guard<std::mutex> lk(mutex_);
             auto it = auth_configs_.find(ref.registry);
             if (it != auth_configs_.end()) {

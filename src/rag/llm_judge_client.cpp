@@ -34,6 +34,12 @@ namespace themis::rag::judge {
 namespace {
 namespace fs = std::filesystem;
 
+/**
+ * @brief Is Model File.
+ * @param[in] path Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: fs::exists(), fs::is_regular_file(), extension(), string().
+ */
 bool isModelFile(const fs::path& path) {
     if (!fs::exists(path) || !fs::is_regular_file(path)) {
         return false;
@@ -43,6 +49,11 @@ bool isModelFile(const fs::path& path) {
     return extension == ".gguf" || extension == ".bin";
 }
 
+/**
+ * @brief Candidate Model Dirs.
+ * @return Return value.
+ * @details Calls: std::getenv(), emplace_back(), fs::current_path().
+ */
 std::vector<fs::path> candidateModelDirs() {
     std::vector<fs::path> dirs;
 
@@ -67,6 +78,12 @@ std::vector<fs::path> candidateModelDirs() {
     return dirs;
 }
 
+/**
+ * @brief Candidate Model Names.
+ * @param[in] model_name Name of the model.
+ * @return Return value.
+ * @details Calls: empty(), push_back(), as_path(), extension().
+ */
 std::vector<std::string> candidateModelNames(const std::string& model_name) {
     if (model_name.empty()) {
         return {};
@@ -84,6 +101,12 @@ std::vector<std::string> candidateModelNames(const std::string& model_name) {
     return names;
 }
 
+/**
+ * @brief Resolve Local Model Paths.
+ * @param[in] model_name Name of the model.
+ * @return Return value.
+ * @details Calls: isModelFile(), lexically_normal(), string(), insert(), push_back(), std::getenv(), push_unique_if_model(), fs::path().
+ */
 std::vector<fs::path> resolveLocalModelPaths(const std::string& model_name) {
     std::vector<fs::path> candidates;
     std::unordered_set<std::string> seen;
@@ -143,6 +166,12 @@ std::vector<fs::path> resolveLocalModelPaths(const std::string& model_name) {
     return candidates;
 }
 
+/**
+ * @brief Normalize Expected Sha256.
+ * @param[in] sidecar_line Input parameter.
+ * @return Return value.
+ * @details Calls: erase(), std::remove_if(), begin(), end(), std::isspace(), size(), substr(), std::transform().
+ */
 std::string normalizeExpectedSha256(std::string sidecar_line) {
     sidecar_line.erase(
         std::remove_if(sidecar_line.begin(), sidecar_line.end(), [](unsigned char ch) {
@@ -171,6 +200,10 @@ struct LLMJudgeClient::Impl {
     std::string model_id = {};
     mutable std::mutex state_mutex;  // Protect shared state access
 
+    /**
+     * @brief Try Auto Register Local Model.
+     * @details Calls: std::getenv(), std::string_view(), THEMIS_INFO(), resolveLocalModelPaths(), empty(), THEMIS_DEBUG(), string(), std::filesystem::exists().
+     */
     void tryAutoRegisterLocalModel() {
         if (const char* disable_auto_register = std::getenv("THEMIS_DISABLE_LLM_AUTO_REGISTER");
             disable_auto_register != nullptr &&
@@ -271,6 +304,12 @@ LLMJudgeClient::LLMJudgeClient(const Config& config)
 
 LLMJudgeClient::~LLMJudgeClient() = default;
 
+/**
+ * @brief Evaluate.
+ * @param[in] prompt Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::steady_clock::now(), std::chrono::milliseconds(), generateRequestId(), lock(), submit(), get(), THEMIS_DEBUG(), count().
+ */
 std::string LLMJudgeClient::evaluate(const std::string& prompt) {
     auto start_time = std::chrono::steady_clock::now();
     
@@ -311,6 +350,12 @@ std::string LLMJudgeClient::evaluate(const std::string& prompt) {
     }
 }
 
+/**
+ * @brief Evaluate Batch.
+ * @param[in] prompts Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), push_back(), evaluate(), std::chrono::steady_clock::now(), std::chrono::milliseconds(), generateRequestId(), lock().
+ */
 std::vector<std::string> LLMJudgeClient::evaluateBatch(
     const std::vector<std::string>& prompts
 ) {
@@ -440,6 +485,11 @@ EvaluationResponse LLMJudgeClient::evaluateDimension(
     }
 }
 
+/**
+ * @brief Set Inference Engine.
+ * @param[in] engine Input parameter.
+ * @details Calls: THEMIS_INFO().
+ */
 void LLMJudgeClient::setInferenceEngine(
     std::shared_ptr<llm::InferenceEngineEnhanced> engine
 ) {
@@ -447,6 +497,12 @@ void LLMJudgeClient::setInferenceEngine(
     THEMIS_INFO("Custom inference engine set");
 }
 
+/**
+ * @brief Register Model.
+ * @param[in] model_id Identifier of the model.
+ * @param[in] plugin Input parameter.
+ * @details Calls: THEMIS_INFO().
+ */
 void LLMJudgeClient::registerModel(
     const std::string& model_id,
     std::shared_ptr<llm::ILLMPlugin> plugin
@@ -462,10 +518,20 @@ LLMJudgeClient::Config LLMJudgeClient::getConfig() const {
     return impl_->config;
 }
 
+/**
+ * @brief Set Config.
+ * @param[in] config Input parameter.
+ * @details Implements setConfig without additional internal calls.
+ */
 void LLMJudgeClient::setConfig(const Config& config) {
     impl_->config = config;
 }
 
+/**
+ * @brief Generate Request Id.
+ * @return Return value.
+ * @details Calls: fetch_add(), std::setfill(), std::setw(), str().
+ */
 std::string LLMJudgeClient::generateRequestId() {
     static std::atomic<uint64_t> counter{0};
     auto count = counter.fetch_add(1);
@@ -475,6 +541,12 @@ std::string LLMJudgeClient::generateRequestId() {
     return oss.str();
 }
 
+/**
+ * @brief Parse Evaluation Response.
+ * @param[in] response Input parameter.
+ * @param[in,out] parsed Input/output parameter.
+ * @details Calls: json::parse(), contains(), find(), substr(), erase(), find_first_not_of(), find_last_not_of(), std::stod().
+ */
 void LLMJudgeClient::parseEvaluationResponse(
     const std::string& response,
     EvaluationResponse& parsed

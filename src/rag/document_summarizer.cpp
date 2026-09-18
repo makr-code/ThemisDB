@@ -27,7 +27,12 @@ namespace themis::rag {
 
 namespace {
 
-/// Tokenise @p text into lower-cased words, stripping punctuation.
+/**
+ * @brief Tokenise Words.
+ * @param[in] text Input parameter.
+ * @return Return value.
+ * @details Calls: std::isalnum(), std::tolower(), empty(), push_back(), std::move().
+ */
 std::vector<std::string> tokeniseWords(const std::string& text) {
     std::vector<std::string> tokens;
     std::string cur = {};
@@ -44,10 +49,12 @@ std::vector<std::string> tokeniseWords(const std::string& text) {
     return tokens;
 }
 
-/// Compute a relevance score for @p sentence relative to @p query_terms.
-/// Score = (number of distinct query terms appearing in the sentence) /
-///         (number of distinct query terms).
-/// Falls back to sentence length heuristic when the query is empty.
+/**
+ * @brief Score Sentence.
+ * @param[in] sentence Input parameter.
+ * @param[in] query_terms Input parameter.
+ * @return Return value.
+ */
 double scoreSentence(const std::string& sentence,
                      const std::unordered_set<std::string>& query_terms)
 {
@@ -69,7 +76,12 @@ double scoreSentence(const std::string& sentence,
     return static_cast<double>(hits) / static_cast<double>(query_terms.size());
 }
 
-/// Split @p text into sentences (split on '.', '!', '?').
+/**
+ * @brief Split Sentences Simple.
+ * @param[in] text Input parameter.
+ * @return Return value.
+ * @details Calls: size(), find_first_not_of(), find_last_not_of(), substr(), empty(), push_back(), clear().
+ */
 std::vector<std::string> splitSentencesSimple(const std::string& text) {
     std::vector<std::string> sentences;
     std::string current = {};
@@ -99,9 +111,15 @@ std::vector<std::string> splitSentencesSimple(const std::string& text) {
     return sentences;
 }
 
-/// Build an extractive summary of @p content by picking up to
-/// @p max_sentences sentences that best match @p query_terms.
-/// The returned string has total length <= @p budget_chars (0 = unlimited).
+/**
+ * @brief Extractive Summary.
+ * @param[in] content Input parameter.
+ * @param[in] query_terms Input parameter.
+ * @param[in] max_sentences Input parameter.
+ * @param[in] min_sentence_chars Input parameter.
+ * @param[in] budget_chars Input parameter.
+ * @return Return value.
+ */
 std::string extractiveSummary(
     const std::string& content,
     const std::unordered_set<std::string>& query_terms,
@@ -157,7 +175,14 @@ std::string extractiveSummary(
     return ss.str();
 }
 
-/// Build an abstractive (LLM-based) summary prompt for one document.
+/**
+ * @brief Build Single Doc Prompt.
+ * @param[in] query Input parameter.
+ * @param[in] document_id Identifier of the document.
+ * @param[in] content Input parameter.
+ * @param[in] max_chars Input parameter.
+ * @return Return value.
+ */
 std::string buildSingleDocPrompt(const std::string& query,
                                   const std::string& document_id,
                                   const std::string& content,
@@ -176,7 +201,6 @@ std::string buildSingleDocPrompt(const std::string& query,
     return oss.str();
 }
 
-/// Build an abstractive prompt for multiple documents.
 std::string buildMultiDocPrompt(
     const std::string& query,
     const std::vector<std::pair<std::string, std::string>>& id_content,
@@ -206,7 +230,6 @@ std::string buildMultiDocPrompt(
 struct DocumentSummarizer::Impl {
     DocumentSummarizerConfig config;
 
-    /// Determine the effective strategy at runtime.
     DocumentSummarizerConfig::Strategy effectiveStrategy() const {
         if (config.strategy != DocumentSummarizerConfig::Strategy::AUTO) {
             return config.strategy;
@@ -217,7 +240,6 @@ struct DocumentSummarizer::Impl {
             : DocumentSummarizerConfig::Strategy::EXTRACTIVE;
     }
 
-    /// Build the set of query terms for extractive scoring.
     std::unordered_set<std::string> queryTerms(const std::string& query) const {
         std::unordered_set<std::string> terms = {};
 
@@ -229,7 +251,6 @@ struct DocumentSummarizer::Impl {
         return terms;
     }
 
-    /// Produce a DocumentSummary for one (id, content) pair.
     DocumentSummary summarizeOne(const std::string& id,
                                   const std::string& content,
                                   const std::string& query,
@@ -298,6 +319,11 @@ const DocumentSummarizerConfig& DocumentSummarizer::getConfig() const {
     return impl_->config;
 }
 
+/**
+ * @brief Set Config.
+ * @param[in] config Input parameter.
+ * @details Implements setConfig without additional internal calls.
+ */
 void DocumentSummarizer::setConfig(const DocumentSummarizerConfig& config) {
     impl_->config = config;
 }
@@ -465,6 +491,11 @@ MultiDocumentSummary DocumentSummarizer::summarizeMultiple(
 // DocumentSummarizerFactory
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Create Extractive.
+ * @param[in] max_sentences Input parameter.
+ * @return Return value.
+ */
 std::unique_ptr<DocumentSummarizer> DocumentSummarizerFactory::createExtractive(
     size_t max_sentences)
 {
@@ -474,6 +505,11 @@ std::unique_ptr<DocumentSummarizer> DocumentSummarizerFactory::createExtractive(
     return std::make_unique<DocumentSummarizer>(cfg);
 }
 
+/**
+ * @brief Create Abstractive.
+ * @param[in] max_summary_chars Input parameter.
+ * @return Return value.
+ */
 std::unique_ptr<DocumentSummarizer> DocumentSummarizerFactory::createAbstractive(
     size_t max_summary_chars)
 {
@@ -483,6 +519,11 @@ std::unique_ptr<DocumentSummarizer> DocumentSummarizerFactory::createAbstractive
     return std::make_unique<DocumentSummarizer>(cfg);
 }
 
+/**
+ * @brief Create Auto.
+ * @return Return value.
+ * @details Implements createAuto without additional internal calls.
+ */
 std::unique_ptr<DocumentSummarizer> DocumentSummarizerFactory::createAuto() {
     return std::make_unique<DocumentSummarizer>();
 }

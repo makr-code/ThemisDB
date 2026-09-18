@@ -27,6 +27,12 @@ UpdateApiHandler::UpdateApiHandler(std::shared_ptr<utils::UpdateChecker> checker
     : checker_(std::move(checker)) {
 }
 
+/**
+ * @brief Handle Request.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), std::string(), target(), method(), handleGetStatus(), handleCheckNow(), handleGetConfig(), handleUpdateConfig().
+ */
 http::response<http::string_body> UpdateApiHandler::handleRequest(
     const http::request<http::string_body>& req
 ) {
@@ -52,6 +58,12 @@ http::response<http::string_body> UpdateApiHandler::handleRequest(
     }
 }
 
+/**
+ * @brief Handle Get Status.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), getLastResult(), toJson(), createJsonResponse(), LOG_ERROR(), what(), createErrorResponse(), std::string().
+ */
 http::response<http::string_body> UpdateApiHandler::handleGetStatus(
     const http::request<http::string_body>& req
 ) {
@@ -71,6 +83,12 @@ http::response<http::string_body> UpdateApiHandler::handleGetStatus(
     }
 }
 
+/**
+ * @brief Handle Check Now.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), LOG_INFO(), checkNow(), toJson(), createJsonResponse(), LOG_ERROR(), what(), createErrorResponse().
+ */
 http::response<http::string_body> UpdateApiHandler::handleCheckNow(
     const http::request<http::string_body>& req
 ) {
@@ -93,6 +111,12 @@ http::response<http::string_body> UpdateApiHandler::handleCheckNow(
     }
 }
 
+/**
+ * @brief Handle Get Config.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), getConfig(), toJson(), isRunning(), createJsonResponse(), LOG_ERROR(), what(), createErrorResponse().
+ */
 http::response<http::string_body> UpdateApiHandler::handleGetConfig(
     const http::request<http::string_body>& req
 ) {
@@ -115,6 +139,12 @@ http::response<http::string_body> UpdateApiHandler::handleGetConfig(
     }
 }
 
+/**
+ * @brief Handle Update Config.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), json::parse(), body(), createErrorResponse(), std::string(), what(), utils::UpdateCheckerConfig::fromJson(), updateConfig().
+ */
 http::response<http::string_body> UpdateApiHandler::handleUpdateConfig(
     const http::request<http::string_body>& req
 ) {
@@ -157,6 +187,14 @@ http::response<http::string_body> UpdateApiHandler::handleUpdateConfig(
     }
 }
 
+/**
+ * @brief Create Json Response.
+ * @param[in] status Input parameter.
+ * @param[in] body Input parameter.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), version(), set(), body(), dump(), prepare_payload(), keep_alive().
+ */
 http::response<http::string_body> UpdateApiHandler::createJsonResponse(
     http::status status,
     const json& body,
@@ -172,6 +210,14 @@ http::response<http::string_body> UpdateApiHandler::createJsonResponse(
     return res;
 }
 
+/**
+ * @brief Create Error Response.
+ * @param[in] status Input parameter.
+ * @param[in] message Input parameter.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: createJsonResponse().
+ */
 http::response<http::string_body> UpdateApiHandler::createErrorResponse(
     http::status status,
     const std::string& message,

@@ -31,9 +31,19 @@ namespace themis {
 namespace acceleration {
 namespace tensor_core {
 
-// =============================================================================
-// CPU fallback — naive triple-loop FP32 GEMM (always compiled)
-// =============================================================================
+/**
+ * @brief ============================================================================= CPU fallback — naive triple-loop FP32 GEMM (always compiled) =============================================================================
+ * @param[in] A Input parameter.
+ * @param[in] B Input parameter.
+ * @param[in,out] C Input/output parameter.
+ * @param[in] M Input parameter.
+ * @param[in] K Input parameter.
+ * @param[in] N Input parameter.
+ * @param[in] alpha Input parameter.
+ * @param[in] beta Input parameter.
+ * @return Return value.
+ * @details Calls: std::memset().
+ */
 
 int launchCPUMatmulKernel(const float *A, const float *B, float *C, int M, int K, int N, float alpha, float beta) {
     if (!A || !B || !C || M <= 0 || K <= 0 || N <= 0) {
@@ -67,6 +77,13 @@ int launchCPUMatmulKernel(const float *A, const float *B, float *C, int M, int K
 // Unified dispatcher
 // =============================================================================
 
+/**
+ * @brief Dispatch Matmul.
+ * @param[in] params Input parameter.
+ * @param[in,out] opaque_stream Input/output parameter.
+ * @return Return value.
+ * @details Calls: THEMIS_ENABLE_CUDA(), launchFP16MatmulKernel(), launchBF16MatmulKernel(), launchINT8MatmulKernel(), launchFP32MatmulKernel(), launchCPUMatmulKernel().
+ */
 int dispatchMatmul(const MatrixKernelParams &params, void *opaque_stream) {
 #ifndef THEMIS_ENABLE_CUDA
     (void)opaque_stream;
@@ -113,6 +130,14 @@ int dispatchMatmul(const MatrixKernelParams &params, void *opaque_stream) {
 // FP32 ↔ INT8 quantisation helpers
 // =============================================================================
 
+/**
+ * @brief Quantize.
+ * @param[in] src Input parameter.
+ * @param[in,out] dst Input/output parameter.
+ * @param[in] n Input parameter.
+ * @param[in] scale Input parameter.
+ * @details Calls: std::round(), std::max(), std::min().
+ */
 void quantize(const float *src, int8_t *dst, size_t n, float scale) {
     if (!src || !dst || n == 0 || scale <= 0.0f) {
         return;
@@ -126,6 +151,14 @@ void quantize(const float *src, int8_t *dst, size_t n, float scale) {
     }
 }
 
+/**
+ * @brief Dequantize.
+ * @param[in] src Input parameter.
+ * @param[in,out] dst Input/output parameter.
+ * @param[in] n Input parameter.
+ * @param[in] scale Input parameter.
+ * @details Implements dequantize without additional internal calls.
+ */
 void dequantize(const int8_t *src, float *dst, size_t n, float scale) {
     if (!src || !dst || n == 0) {
         return;

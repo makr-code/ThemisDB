@@ -22,17 +22,6 @@
 
 namespace themis::rag {
 
-/**
- * @brief PIMPL (Pointer to Implementation) for FairnessDetector.
- *
- * Holds opaque implementation details (word embeddings, bias models, etc.)
- * to avoid exposing external library headers in the public interface.
- * 
- * Phase 2 Implementation:
- *  - Real word embedding loading (GloVe/FastText format)
- *  - PCA bias projection computation
- *  - Stereotype term dictionaries
- */
 class FairnessDetector::Impl {
 public:
     Impl(const FairnessDetectorConfig& config) : config(config) {}
@@ -70,11 +59,10 @@ public:
     };
 
     /**
-     * @brief Load word embeddings from GloVe/FastText format
-     * 
-     * Expected format:
-     *   word dim1 dim2 dim3 ...
-     *   word2 dim1 dim2 dim3 ...
+     * @brief Load Embeddings.
+     * @param[in] embedding_path Path to the embedding.
+     * @return True when the operation succeeds.
+     * @details Calls: file(), is_open(), THEMIS_WARN(), std::getline(), empty(), iss(), push_back(), close().
      */
     bool loadEmbeddings(const std::string& embedding_path) {
         std::ifstream file(embedding_path);
@@ -118,12 +106,8 @@ public:
     }
     
     /**
-     * @brief Compute PCA bias vector from gender word pairs
-     * 
-     * Based on Bolukbasi et al. method:
-     *   1. Select gender word pairs (man-woman, prince-princess, etc.)
-     *   2. Compute difference vectors for each pair
-     *   3. Average the difference vectors to get gender bias direction
+     * @brief Compute Gender Bias Vector.
+     * @details Calls: find(), end(), size(), diff(), push_back(), empty(), resize(), THEMIS_INFO().
      */
     void computeGenderBiasVector() {
         // Gender word pairs for PCA computation
@@ -176,7 +160,8 @@ public:
     }
     
     /**
-     * @brief Compute occupational bias vector
+     * @brief Compute Occupational Bias Vector.
+     * @details Calls: find(), end(), size(), diff(), push_back(), empty(), resize(), THEMIS_INFO().
      */
     void computeOccupationalBiasVector() {
         // Occupational word pairs
@@ -225,7 +210,8 @@ public:
     }
 
     /**
-     * @brief Compute ethnicity bias vector from contrastive word pairs.
+     * @brief Compute Ethnicity Bias Vector.
+     * @details Calls: find(), end(), size(), diff(), push_back(), std::move(), empty(), assign().
      */
     void computeEthnicityBiasVector() {
         std::vector<std::pair<std::string, std::string>> ethnicity_pairs = {
@@ -271,7 +257,11 @@ public:
     }
     
     /**
-     * @brief Compute bias score for a word using PCA projection
+     * @brief Compute Word Bias Score.
+     * @param[in] word Input parameter.
+     * @param[in] bias_vector Input parameter.
+     * @return Return value.
+     * @details Calls: find(), end(), empty(), size(), std::abs().
      */
     double computeWordBiasScore(const std::string& word, 
                                 const std::vector<float>& bias_vector) {
@@ -297,7 +287,10 @@ public:
     }
     
     /**
-     * @brief Convert text to lowercase
+     * @brief To Lower.
+     * @param[in] text Input parameter.
+     * @return Return value.
+     * @details Calls: std::transform(), begin(), end(), std::tolower().
      */
     static std::string toLower(const std::string& text) {
         std::string result = text;
@@ -320,6 +313,10 @@ FairnessDetector::~FairnessDetector() = default;
 
 // ─────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Initialize.
+ * @details Calls: THEMIS_INFO(), empty(), loadEmbeddings(), THEMIS_WARN(), computeGenderBiasVector(), computeOccupationalBiasVector(), computeEthnicityBiasVector(), THEMIS_ERROR().
+ */
 void FairnessDetector::initialize() {
     if (initialized_) {
         return;
@@ -368,6 +365,14 @@ bool FairnessDetector::isInitialized() const {
 
 // ─────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Detect Bias.
+ * @param[in] document Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: isInitialized(), THEMIS_WARN(), empty(), std::isalnum(), push_back(), Impl::toLower(), clear(), count().
+ */
 judge::BiasScore FairnessDetector::detectBias(const std::string& document) {
     if (!isInitialized()) {
         THEMIS_WARN("FairnessDetector::detectBias called before initialize()");
@@ -498,6 +503,13 @@ judge::BiasScore FairnessDetector::detectBias(const std::string& document) {
 
 // ─────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Detect Bias Batch.
+ * @param[in] documents Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: isInitialized(), THEMIS_WARN(), THEMIS_DEBUG(), size(), reserve(), push_back(), detectBias().
+ */
 std::vector<judge::BiasScore> FairnessDetector::detectBiasBatch(
     const std::vector<std::string>& documents) {
     if (!isInitialized()) {
@@ -548,6 +560,11 @@ const FairnessDetectorConfig& FairnessDetector::getConfig() const {
     return config_;
 }
 
+/**
+ * @brief Set Bias Threshold.
+ * @param[in] threshold Input parameter.
+ * @details Calls: std::clamp().
+ */
 void FairnessDetector::setBiasThreshold(double threshold) {
     config_.bias_threshold = std::clamp(threshold, 0.0, 1.0);
 }

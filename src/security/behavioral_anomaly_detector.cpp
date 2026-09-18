@@ -30,6 +30,12 @@ BehavioralAnomalyDetector::BehavioralAnomalyDetector(const Config& config)
 // Public API
 // ============================================================================
 
+/**
+ * @brief Score Event.
+ * @param[in] event Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), THEMIS_WARN(), lock(), push_back(), size(), pop_front(), maxScore(), checkBurstRate().
+ */
 ThreatScore BehavioralAnomalyDetector::scoreEvent(const AccessEvent& event) {
     // Input validation: basic sanity checks
     if (event.session_id.empty()) {
@@ -82,6 +88,11 @@ ThreatScore BehavioralAnomalyDetector::scoreEvent(const AccessEvent& event) {
     return result;
 }
 
+/**
+ * @brief Clear Session.
+ * @param[in] session_id Identifier of the session.
+ * @details Calls: lock(), erase().
+ */
 void BehavioralAnomalyDetector::clearSession(const std::string& session_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     sessions_.erase(session_id);
@@ -89,6 +100,11 @@ void BehavioralAnomalyDetector::clearSession(const std::string& session_id) {
 
 size_t BehavioralAnomalyDetector::sessionEventCount(
     const std::string& session_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = sessions_.find(session_id);
     return it != sessions_.end() ? it->second.events.size() : 0;
@@ -219,6 +235,13 @@ ThreatScore BehavioralAnomalyDetector::checkUnusualResource(
 // Helpers
 // ============================================================================
 
+/**
+ * @brief Max Score.
+ * @param[in] a Input parameter.
+ * @param[in] b Input parameter.
+ * @return Return value.
+ * @details Implements maxScore without additional internal calls.
+ */
 ThreatScore BehavioralAnomalyDetector::maxScore(const ThreatScore& a,
                                                   const ThreatScore& b) {
     if (static_cast<int>(b.level) > static_cast<int>(a.level)) {

@@ -23,41 +23,9 @@ namespace llm {
 class ILLMPlugin;
 class ModelInfo;
 
-/**
- * @brief Exception-safe RAII guard for model lifecycle
- * 
- * Provides strong exception safety guarantees:
- * - Constructor either fully succeeds or throws (no partial init)
- * - Destructor never throws
- * - Model is guaranteed to be cleaned up on scope exit
- * 
- * @tparam ModelT Type of model (must be default-constructible)
- * 
- * @example
- * @code
- * try {
- *   ModelGuard<LlamaModel> model_guard(plugin, "gpt2");
- *   auto& model = model_guard.Get();
- *   // Use model
- *   // Auto-cleanup on scope exit
- * } catch (const std::exception& e) {
- *   spdlog::error("Model failed: {}", e.what());
- *   // Model cleaned up automatically
- * }
- * @endcode
- */
 template <typename ModelT>
 class ModelGuard {
 public:
-    /**
-     * @brief Construct and load model with validation
-     * 
-     * @param plugin LLM plugin instance (not owned, must outlive this guard)
-     * @param model_id Unique model identifier
-     * @throws std::invalid_argument if plugin is null
-     * @throws std::runtime_error if model loading fails
-     * @throws std::logic_error if model is invalid after load
-     */
     ModelGuard(ILLMPlugin* plugin, const std::string& model_id)
         : plugin_(plugin), model_id_(model_id), model_(nullptr) {
         
@@ -98,11 +66,6 @@ public:
         }
     }
     
-    /**
-     * @brief Destructor: guaranteed no-throw cleanup
-     * 
-     * Ensures model is properly cleaned up even if not explicitly released.
-     */
     ~ModelGuard() noexcept {
         try {
             if (model_) {
@@ -149,9 +112,10 @@ public:
     }
     
     /**
-     * @brief Get reference to loaded model
-     * @return Reference to model
-     * @throws std::logic_error if model is invalid
+     * @brief Get.
+     * @return Return value.
+     * @throws std::logic_error if an error occurs.
+     * @details Implements Get without additional internal calls.
      */
     ModelT& Get() {
         if (!model_) {
@@ -160,11 +124,6 @@ public:
         return *model_;
     }
     
-    /**
-     * @brief Get const reference to loaded model
-     * @return Const reference to model
-     * @throws std::logic_error if model is invalid
-     */
     const ModelT& Get() const {
         if (!model_) {
             throw std::logic_error("ModelGuard: model accessed after release or error");
@@ -172,29 +131,13 @@ public:
         return *model_;
     }
     
-    /**
-     * @brief Get pointer to loaded model
-     * @return Pointer to model or nullptr if invalid
-     */
     ModelT* GetPtr() noexcept { return model_; }
     const ModelT* GetPtr() const noexcept { return model_; }
     
-    /**
-     * @brief Check if model is valid
-     * @return true if model is loaded and valid
-     */
     bool IsValid() const noexcept { return model_ != nullptr; }
     
-    /**
-     * @brief Get model identifier
-     * @return Model ID string
-     */
     const std::string& GetModelId() const noexcept { return model_id_; }
     
-    /**
-     * @brief Release ownership (model cleanup becomes caller's responsibility)
-     * @return Pointer to model (caller owns)
-     */
     ModelT* Release() noexcept {
         auto temp = model_;
         model_ = nullptr;
@@ -203,9 +146,9 @@ public:
 
 private:
     /**
-     * @brief Internal model loading implementation
-     * @return Pointer to loaded model or nullptr
-     * @throws std::exception on load failure
+     * @brief Load Model Internal.
+     * @return Pointer to the result.
+     * @details Implements LoadModelInternal without additional internal calls.
      */
     ModelT* LoadModelInternal() {
         // Virtual method to be implemented by specializations
@@ -213,10 +156,6 @@ private:
         return nullptr;
     }
     
-    /**
-     * @brief Validate loaded model state
-     * @return true if model is valid and ready to use
-     */
     bool ValidateModel() const noexcept {
         // Check basic validity: model exists and has expected size
         if (!model_) {
@@ -226,12 +165,6 @@ private:
         return true;
     }
     
-    /**
-     * @brief Cleanup model resources (guaranteed no-throw)
-     * 
-     * Called from destructor and error paths.
-     * Must not throw under any circumstances.
-     */
     void CleanupModelInternal() noexcept {
         if (plugin_ && model_) {
             try {
@@ -249,20 +182,13 @@ private:
     ModelT* model_;                ///< Pointer to loaded model
 };
 
-/**
- * @brief Concrete specialization for generic LLM models
- * 
- * Handles model loading via plugin interface.
- */
 class LLMModelGuard {
 public:
     /**
-     * @brief Load model through plugin interface
-     * 
-     * @param plugin ILLMPlugin instance
-     * @param model_id Model identifier
-     * @throws std::invalid_argument if parameters invalid
-     * @throws std::runtime_error if load fails
+     * @brief LLMModel Guard.
+     * @param[in,out] plugin Input/output parameter.
+     * @param[in] model_id Identifier of the model.
+     * @return Return value.
      */
     explicit LLMModelGuard(ILLMPlugin* plugin, const std::string& model_id);
     
@@ -276,18 +202,13 @@ public:
     LLMModelGuard(LLMModelGuard&&) noexcept;
     LLMModelGuard& operator=(LLMModelGuard&&) noexcept;
     
-    /**
-     * @brief Check if model is loaded
-     */
     bool IsLoaded() const noexcept { return loaded_; }
     
-    /**
-     * @brief Get model ID
-     */
     const std::string& GetModelId() const noexcept { return model_id_; }
     
     /**
-     * @brief Get model info
+     * @brief Get Model Info.
+     * @return Return value.
      */
     std::optional<ModelInfo> GetModelInfo() const;
 

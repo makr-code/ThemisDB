@@ -43,6 +43,11 @@ LearningMetrics::LearningMetrics(const Config& config)
 
 LearningMetrics::~LearningMetrics() = default;
 
+/**
+ * @brief Record Evaluation.
+ * @param[in] entry Input parameter.
+ * @details Calls: lock(), push_back(), size(), pop_front().
+ */
 void LearningMetrics::recordEvaluation(const EvaluationEntry& entry) {
     std::lock_guard<std::mutex> lock(impl_->mtx);
 
@@ -94,6 +99,11 @@ MetricsSnapshot LearningMetrics::computeMetrics() const {
 void LearningMetrics::exportMetrics(const std::string& filepath) const {
     std::lock_guard<std::mutex> lock(impl_->mtx);
 
+    /**
+     * @brief File.
+     * @param[in] filepath Input parameter.
+     * @return Return value.
+     */
     std::ofstream file(filepath);
     if (!file.is_open()) {
         return;

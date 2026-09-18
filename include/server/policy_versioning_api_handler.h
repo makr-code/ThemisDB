@@ -25,35 +25,18 @@ namespace http = beast::http;
 namespace themis {
 namespace server {
 
-/**
- * @brief Handler for Policy Versioning API
- * 
- * This handler manages policy versioning endpoints:
- * - GET /policies/rules/:id/versions - List all versions of a rule
- * - GET /policies/rules/:id/versions/:version - Get specific version
- * - POST /policies/rules/:id/rollback/:version - Rollback to version
- * - GET /policies/rules/:id/diff/:v1/:v2 - Compare versions
- * - GET /policies/audit - Query audit trail
- * - GET /policies/conflicts - Real-time policy conflict report
- */
 class PolicyVersioningApiHandler {
 public:
-    /**
-     * @brief Construct a new Policy Versioning API Handler
-     * 
-     * @param policy_manager_versioned PolicyManagerWithVersioning instance
-     * @param auth Authentication/authorization middleware
-     */
     PolicyVersioningApiHandler(
         std::shared_ptr<themis::governance::PolicyManagerWithVersioning> policy_manager_versioned,
         std::shared_ptr<themis::AuthMiddleware> auth
     );
     
     /**
-     * @brief Handle GET /policies/rules/:id/versions - List all versions
-     * @param req HTTP request
-     * @param rule_id Rule identifier
-     * @return HTTP response with JSON array of versions
+     * @brief Handle List Versions.
+     * @param[in] req Input parameter.
+     * @param[in] rule_id Identifier of the rule.
+     * @return Return value.
      */
     http::response<http::string_body> handleListVersions(
         const http::request<http::string_body>& req,
@@ -61,11 +44,11 @@ public:
     );
     
     /**
-     * @brief Handle GET /policies/rules/:id/versions/:version - Get specific version
-     * @param req HTTP request
-     * @param rule_id Rule identifier
-     * @param version Version number
-     * @return HTTP response with JSON version object
+     * @brief Handle Get Version.
+     * @param[in] req Input parameter.
+     * @param[in] rule_id Identifier of the rule.
+     * @param[in] version Input parameter.
+     * @return Return value.
      */
     http::response<http::string_body> handleGetVersion(
         const http::request<http::string_body>& req,
@@ -74,11 +57,11 @@ public:
     );
     
     /**
-     * @brief Handle POST /policies/rules/:id/rollback/:version - Rollback to version
-     * @param req HTTP request
-     * @param rule_id Rule identifier
-     * @param target_version Version to rollback to
-     * @return HTTP response confirming rollback
+     * @brief Handle Rollback.
+     * @param[in] req Input parameter.
+     * @param[in] rule_id Identifier of the rule.
+     * @param[in] target_version Input parameter.
+     * @return Return value.
      */
     http::response<http::string_body> handleRollback(
         const http::request<http::string_body>& req,
@@ -87,12 +70,12 @@ public:
     );
     
     /**
-     * @brief Handle GET /policies/rules/:id/diff/:v1/:v2 - Compare versions
-     * @param req HTTP request
-     * @param rule_id Rule identifier
-     * @param version1 First version
-     * @param version2 Second version
-     * @return HTTP response with version diff
+     * @brief Handle Compare Versions.
+     * @param[in] req Input parameter.
+     * @param[in] rule_id Identifier of the rule.
+     * @param[in] version1 Input parameter.
+     * @param[in] version2 Input parameter.
+     * @return Return value.
      */
     http::response<http::string_body> handleCompareVersions(
         const http::request<http::string_body>& req,
@@ -102,24 +85,18 @@ public:
     );
     
     /**
-     * @brief Handle GET /policies/audit - Query audit trail
-     * @param req HTTP request (may include query parameters: rule_id, user, start_time, end_time)
-     * @return HTTP response with JSON array of audit entries
+     * @brief Handle Query Audit.
+     * @param[in] req Input parameter.
+     * @return Return value.
      */
     http::response<http::string_body> handleQueryAudit(
         const http::request<http::string_body>& req
     );
 
     /**
-     * @brief Handle GET /policies/conflicts - Real-time policy conflict report
-     *
-     * Returns a JSON object containing all currently active policy conflicts
-     * across the entire rule set.  Conflicts are detected pairwise for every
-     * enabled rule and classify contradictory or overlapping conditions with
-     * their severity and concrete resolution suggestions.
-     *
-     * @param req HTTP request
-     * @return HTTP response with JSON array of ConflictInfo objects
+     * @brief Handle Get Conflicts.
+     * @param[in] req Input parameter.
+     * @return Return value.
      */
     http::response<http::string_body> handleGetConflicts(
         const http::request<http::string_body>& req
@@ -129,24 +106,46 @@ private:
     std::shared_ptr<themis::governance::PolicyManagerWithVersioning> policy_manager_versioned_;
     std::shared_ptr<themis::AuthMiddleware> auth_;
     
-    /// Helper: Check authentication and authorization
+    /**
+     * @brief Check Auth.
+     * @param[in] req Input parameter.
+     * @param[in] required_role Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool checkAuth(const http::request<http::string_body>& req, const std::string& required_role) const;
     
-    /// Helper: Make success response
+    /**
+     * @brief Make Response.
+     * @param[in] status Input parameter.
+     * @param[in] body Input parameter.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> makeResponse(
         http::status status,
         const std::string& body,
         const http::request<http::string_body>& req
     ) const;
     
-    /// Helper: Make error response
+    /**
+     * @brief Make Error Response.
+     * @param[in] status Input parameter.
+     * @param[in] message Input parameter.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> makeErrorResponse(
         http::status status,
         const std::string& message,
         const http::request<http::string_body>& req
     ) const;
     
-    /// Helper: Extract query parameter from URL
+    /**
+     * @brief Get Query Param.
+     * @param[in] url Input parameter.
+     * @param[in] param Input parameter.
+     * @return Return value.
+     */
     std::optional<std::string> getQueryParam(
         const std::string& url,
         const std::string& param

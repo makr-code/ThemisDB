@@ -20,8 +20,6 @@ struct SearchNode {
   std::string term;
   std::vector<SearchNode> children;
   float boost{1.0f};
-  /// For phrase nodes, 0 requires adjacent terms in-order; values > 0 allow
-  /// gaps of up to N tokens between successive phrase terms.
   uint32_t proximity_distance{0};
   std::string field;
 
@@ -46,6 +44,13 @@ struct SearchNode {
     return node;
   }
 
+  /**
+   * @brief Make Boolean.
+   * @param[in] boolean_type Input parameter.
+   * @param[in] operands Input parameter.
+   * @return Return value.
+   * @details Calls: std::move().
+   */
   static SearchNode makeBoolean(SearchNodeType boolean_type,
                                 std::vector<SearchNode> operands) {
     SearchNode node;

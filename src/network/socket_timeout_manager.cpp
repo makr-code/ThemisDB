@@ -47,6 +47,12 @@ SocketTimeoutManager::~SocketTimeoutManager() noexcept {
     }
 }
 
+/**
+ * @brief Configure Socket.
+ * @param[in] socket Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: spdlog::error(), count(), setsockopt(), spdlog::warn(), WSAGetLastError(), strerror(), configureTCPKeepalive(), configureTCPNoDelay().
+ */
 bool SocketTimeoutManager::configureSocket(socket_t socket) {
     if (socket == INVALID_SOCKET_VALUE) {
         spdlog::error("Cannot configure invalid socket");
@@ -109,6 +115,12 @@ bool SocketTimeoutManager::configureSocket(socket_t socket) {
     return success;
 }
 
+/**
+ * @brief Set Non Blocking.
+ * @param[in] socket Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: ioctlsocket(), spdlog::error(), WSAGetLastError(), fcntl(), strerror().
+ */
 bool SocketTimeoutManager::setNonBlocking(socket_t socket) {
 #ifdef _WIN32
     u_long mode = 1;
@@ -130,6 +142,12 @@ bool SocketTimeoutManager::setNonBlocking(socket_t socket) {
     return true;
 }
 
+/**
+ * @brief Configure TCPKeepalive.
+ * @param[in] socket Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: setsockopt(), spdlog::error(), WSAGetLastError(), count(), WSAIoctl(), spdlog::warn(), strerror().
+ */
 bool SocketTimeoutManager::configureTCPKeepalive(socket_t socket) {
     int enable = 1;
 #ifdef _WIN32
@@ -175,6 +193,12 @@ bool SocketTimeoutManager::configureTCPKeepalive(socket_t socket) {
     return true;
 }
 
+/**
+ * @brief Configure TCPNo Delay.
+ * @param[in] socket Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: setsockopt(), spdlog::error(), WSAGetLastError(), strerror().
+ */
 bool SocketTimeoutManager::configureTCPNoDelay(socket_t socket) {
     int enable = 1;
 #ifdef _WIN32
@@ -192,6 +216,13 @@ bool SocketTimeoutManager::configureTCPNoDelay(socket_t socket) {
     return true;
 }
 
+/**
+ * @brief Accept With Timeout.
+ * @param[in] server_socket Input parameter.
+ * @param[in] timeout_ms Input parameter.
+ * @return Return value.
+ * @details Calls: shouldAcceptConnection(), spdlog::warn(), count(), FD_ZERO(), FD_SET(), select(), recordTimeout(), spdlog::debug().
+ */
 socket_t SocketTimeoutManager::acceptWithTimeout(socket_t server_socket,
                                                    std::chrono::milliseconds timeout_ms) {
     if (!shouldAcceptConnection()) {
@@ -288,6 +319,15 @@ socket_t SocketTimeoutManager::acceptWithTimeout(socket_t server_socket,
     return client_socket;
 }
 
+/**
+ * @brief Read With Timeout.
+ * @param[in] socket Input parameter.
+ * @param[in,out] buffer Input/output parameter.
+ * @param[in] size Input parameter.
+ * @param[in] timeout_ms Input parameter.
+ * @return Return value.
+ * @details Calls: recv(), WSAGetLastError(), recordTimeout(), spdlog::debug(), spdlog::error(), strerror(), recordSuccess().
+ */
 ssize_t SocketTimeoutManager::readWithTimeout(socket_t socket, void* buffer, size_t size,
                                                 std::chrono::milliseconds timeout_ms) {
     if (socket == INVALID_SOCKET_VALUE || buffer == nullptr || size == 0) {
@@ -333,6 +373,15 @@ ssize_t SocketTimeoutManager::readWithTimeout(socket_t socket, void* buffer, siz
     return bytes;
 }
 
+/**
+ * @brief Write With Timeout.
+ * @param[in] socket Input parameter.
+ * @param[in] buffer Input parameter.
+ * @param[in] size Input parameter.
+ * @param[in] timeout_ms Input parameter.
+ * @return Return value.
+ * @details Calls: send(), WSAGetLastError(), recordTimeout(), spdlog::debug(), spdlog::error(), strerror(), recordSuccess().
+ */
 ssize_t SocketTimeoutManager::writeWithTimeout(socket_t socket, const void* buffer, size_t size,
                                                  std::chrono::milliseconds timeout_ms) {
     if (socket == INVALID_SOCKET_VALUE || buffer == nullptr || size == 0) {
@@ -378,6 +427,11 @@ ssize_t SocketTimeoutManager::writeWithTimeout(socket_t socket, const void* buff
     return bytes;
 }
 
+/**
+ * @brief Close Socket.
+ * @param[in] socket Input parameter.
+ * @details Calls: closesocket(), close(), spdlog::debug().
+ */
 void SocketTimeoutManager::closeSocket(socket_t socket) {
     if (socket == INVALID_SOCKET_VALUE) {
         return;
@@ -403,17 +457,29 @@ bool SocketTimeoutManager::shouldAcceptConnection() const {
     return elapsed >= config_.reset_timeout;
 }
 
+/**
+ * @brief Record Timeout.
+ * @details Calls: updateHealthState().
+ */
 void SocketTimeoutManager::recordTimeout() {
     consecutive_timeouts_++;
     updateHealthState();
 }
 
+/**
+ * @brief Record Success.
+ * @details Calls: updateHealthState().
+ */
 void SocketTimeoutManager::recordSuccess() {
     consecutive_timeouts_ = 0;
     // Any successful operation resets timeout streak and should recover health state.
     updateHealthState();
 }
 
+/**
+ * @brief Update Health State.
+ * @details Calls: load(), std::chrono::steady_clock::now(), std::to_string(), spdlog::warn(), triggerAlert().
+ */
 void SocketTimeoutManager::updateHealthState() {
     SocketHealthState old_state = health_state_;
     size_t timeouts = consecutive_timeouts_.load();
@@ -444,6 +510,12 @@ void SocketTimeoutManager::updateHealthState() {
     }
 }
 
+/**
+ * @brief Trigger Alert.
+ * @param[in] new_state Input parameter.
+ * @param[in] message Input parameter.
+ * @details Calls: alert_callback_(), spdlog::error(), what().
+ */
 void SocketTimeoutManager::triggerAlert(SocketHealthState new_state, const std::string& message) {
     if (alert_callback_) {
         try {

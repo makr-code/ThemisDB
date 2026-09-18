@@ -33,6 +33,16 @@ TimeSeriesAggregates::TimeSeriesAggregates(const Config& config)
 
 TimeSeriesAggregates::~TimeSeriesAggregates() = default;
 
+/**
+ * @brief Aggregate.
+ * @param[in] timestamps Input parameter.
+ * @param[in] values Input parameter.
+ * @param[in] count Input parameter.
+ * @param[in] window Input parameter.
+ * @param[in] func Input parameter.
+ * @return Return value.
+ * @details Calls: push_back(), applyAggregate(), data(), size(), THEMIS_INFO().
+ */
 TimeSeriesAggregates::AggregateResult TimeSeriesAggregates::aggregate(
     const int64_t* timestamps,
     const double* values,
@@ -74,6 +84,16 @@ TimeSeriesAggregates::AggregateResult TimeSeriesAggregates::aggregate(
     return result;
 }
 
+/**
+ * @brief Resample.
+ * @param[in] timestamps Input parameter.
+ * @param[in] values Input parameter.
+ * @param[in] count Input parameter.
+ * @param[in] new_interval_seconds Input parameter.
+ * @param[in] func Input parameter.
+ * @return Return value.
+ * @details Calls: std::min_element(), std::max_element(), aggregate(), THEMIS_INFO().
+ */
 TimeSeriesAggregates::AggregateResult TimeSeriesAggregates::resample(
     const int64_t* timestamps,
     const double* values,
@@ -102,6 +122,16 @@ TimeSeriesAggregates::AggregateResult TimeSeriesAggregates::resample(
     return result;
 }
 
+/**
+ * @brief Rolling Window.
+ * @param[in] timestamps Input parameter.
+ * @param[in] values Input parameter.
+ * @param[in] count Input parameter.
+ * @param[in] window_size_seconds Input parameter.
+ * @param[in] func Input parameter.
+ * @return Return value.
+ * @details Calls: push_back(), empty(), applyAggregate(), data(), size(), THEMIS_INFO().
+ */
 TimeSeriesAggregates::AggregateResult TimeSeriesAggregates::rollingWindow(
     const int64_t* timestamps,
     const double* values,
@@ -144,6 +174,14 @@ TimeSeriesAggregates::AggregateResult TimeSeriesAggregates::rollingWindow(
     return result;
 }
 
+/**
+ * @brief Apply Aggregate.
+ * @param[in] values Input parameter.
+ * @param[in] count Input parameter.
+ * @param[in] func Input parameter.
+ * @return Return value.
+ * @details Calls: std::accumulate(), std::min_element(), std::max_element(), std::sqrt(), computePercentile().
+ */
 double TimeSeriesAggregates::applyAggregate(
     const double* values,
     size_t count,
@@ -211,6 +249,14 @@ double TimeSeriesAggregates::applyAggregate(
     }
 }
 
+/**
+ * @brief Compute Percentile.
+ * @param[in] values Input parameter.
+ * @param[in] count Input parameter.
+ * @param[in] percentile Input parameter.
+ * @return Return value.
+ * @details Calls: sorted(), std::sort(), begin(), end(), std::floor(), std::ceil().
+ */
 double TimeSeriesAggregates::computePercentile(
     const double* values,
     size_t count,

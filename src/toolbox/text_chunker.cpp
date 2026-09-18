@@ -44,6 +44,11 @@ const rag::DocumentSplitterConfig& TextChunker::getConfig() const {
     return splitter_.getConfig();
 }
 
+/**
+ * @brief Set Config.
+ * @param[in] config Input parameter.
+ * @details Implements setConfig without additional internal calls.
+ */
 void TextChunker::setConfig(const rag::DocumentSplitterConfig& config) {
     splitter_.setConfig(config);
 }
@@ -77,6 +82,13 @@ std::size_t TextChunker::estimateTokens(const std::string& text) const {
 // Free function
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Chunk Text.
+ * @param[in] text Input parameter.
+ * @param[in] chunk_size Input parameter.
+ * @param[in] overlap Input parameter.
+ * @return Return value.
+ */
 std::vector<std::string> chunkText(
     const std::string& text,
     std::size_t        chunk_size,
@@ -86,13 +98,20 @@ std::vector<std::string> chunkText(
     cfg.chunk_size = chunk_size;
     cfg.overlap    = overlap;
     cfg.strategy   = rag::SplitStrategy::Sentence;
+    /**
+     * @brief Chunker.
+     * @param[in] cfg Input parameter.
+     * @return Return value.
+     */
     TextChunker chunker(cfg);
     return chunker.chunkTexts(text);
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Phase 3: Metrics export for helper diagnostics
-// ─────────────────────────────────────────────────────────────────────────────
+/**
+ * @brief ───────────────────────────────────────────────────────────────────────────── Phase 3: Metrics export for helper diagnostics ─────────────────────────────────────────────────────────────────────────────
+ * @return Return value.
+ * @details Calls: load(), str().
+ */
 
 std::string getTextChunkerMetrics() {
     const uint64_t errors = g_text_chunker_errors_total.load(std::memory_order_relaxed);

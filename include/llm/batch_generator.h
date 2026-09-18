@@ -24,9 +24,6 @@
 
 namespace themis::llm {
 
-/**
- * @brief Batch sampling strategy
- */
 enum class SamplingStrategy {
     SEQUENTIAL,      // Sequential order
     RANDOM,          // Random sampling
@@ -35,9 +32,6 @@ enum class SamplingStrategy {
     WEIGHTED         // Weighted sampling by quality
 };
 
-/**
- * @brief Batch configuration
- */
 struct BatchConfig {
     int batch_size = 4;
     int max_sequence_length = 2048;
@@ -57,14 +51,24 @@ struct BatchConfig {
     std::optional<int> min_length;
     std::optional<int> max_length;
     
+    /**
+     * @brief To JSON.
+     * @return Return value.
+     */
     nlohmann::json toJSON() const;
+    /**
+     * @brief From JSON.
+     * @param[in] j Input parameter.
+     * @return Return value.
+     */
     static BatchConfig fromJSON(const nlohmann::json& j);
 };
 
-/**
- * @brief A batch of training examples
- */
 struct TrainingBatch {
+    /**
+     * @brief Training Batch.
+     * @return Return value.
+     */
     virtual ~TrainingBatch() = default;
     std::vector<TrainingSample> examples;
     
@@ -82,13 +86,18 @@ struct TrainingBatch {
     std::vector<std::string> graph_contexts;
     std::vector<std::string> vector_similarities;
     
+    /**
+     * @brief To JSON.
+     * @return Return value.
+     */
     nlohmann::json toJSON() const;
 };
 
-/**
- * @brief Statistics about batch generation
- */
 struct BatchStatistics {
+    /**
+     * @brief Batch Statistics.
+     * @return Return value.
+     */
     virtual ~BatchStatistics() = default;
     int total_batches = 0;
     int total_examples = 0;
@@ -105,26 +114,15 @@ struct BatchStatistics {
     int max_length = 0;
     float avg_length = 0.0f;
     
+    /**
+     * @brief To JSON.
+     * @return Return value.
+     */
     nlohmann::json toJSON() const;
 };
 
-/**
- * @brief Batch generator with prefetching and multi-model enrichment
- * 
- * Generates batches of training data from TrainingDataIterator with:
- * - Zero-copy data access from RocksDB
- * - Prefetching for performance
- * - Multiple sampling strategies
- * - Quality filtering
- * - Multi-model enrichment (Graph + Vector + Relational)
- */
 class BatchGenerator {
 public:
-    /**
-     * @brief Constructor
-     * @param data_iterator Source of training data
-     * @param config Batch generation configuration
-     */
     BatchGenerator(
         std::shared_ptr<TrainingDataIterator> data_iterator,
         const BatchConfig& config
@@ -133,45 +131,42 @@ public:
     ~BatchGenerator();
     
     /**
-     * @brief Get next batch of training examples
-     * @return Batch or nullopt if no more data
+     * @brief Next Batch.
+     * @return Return value.
      */
     std::optional<TrainingBatch> nextBatch();
     
-    /**
-     * @brief Reset to beginning of data
-     * @param reshuffle Whether to reshuffle data
-     */
     void reset(bool reshuffle = true);
     
     /**
-     * @brief Get total number of batches for one epoch
+     * @brief Get Batch Count.
+     * @return Return value.
      */
     int getBatchCount() const;
     
     /**
-     * @brief Get current batch index
+     * @brief Get Current Batch Index.
+     * @return Return value.
      */
     int getCurrentBatchIndex() const;
     
     /**
-     * @brief Check if there are more batches
+     * @brief Has Next Batch.
+     * @return True when the operation succeeds.
      */
     bool hasNextBatch() const;
     
     /**
-     * @brief Get batch generation statistics
+     * @brief Return access control statistics.
+     * @return Access control statistics.
      */
     BatchStatistics getStatistics() const;
     
-    /**
-     * @brief Set a filter function for examples
-     * @param filter Function that returns true if example should be included
-     */
     void setFilter(std::function<bool(const TrainingSample&)> filter);
     
     /**
-     * @brief Enable/disable prefetching
+     * @brief Set Prefetch Enabled.
+     * @param[in] enabled Input parameter.
      */
     void setPrefetchEnabled(bool enabled);
     
@@ -180,33 +175,51 @@ private:
     class Impl;
     std::unique_ptr<Impl> impl_;
     
-    // Prefetch next batch in background
+    /**
+     * @brief Prefetch next batch in background
+     */
     void prefetchNextBatch();
     
     // Apply sampling strategy
+    /**
+     * @brief Sample Indices.
+     * @param[in] total_count Input parameter.
+     * @param[in] batch_size Input parameter.
+     * @return Return value.
+     */
     std::vector<size_t> sampleIndices(size_t total_count, size_t batch_size);
     
     // Tokenize batch
+    /**
+     * @brief Tokenize Batch.
+     * @param[in,out] batch Input/output parameter.
+     */
     void tokenizeBatch(TrainingBatch& batch);
     
     // Apply padding
+    /**
+     * @brief Apply Padding.
+     * @param[in,out] batch Input/output parameter.
+     */
     void applyPadding(TrainingBatch& batch);
 };
 
-/**
- * @brief Factory for creating batch generators
- */
 class BatchGeneratorFactory {
 public:
     /**
-     * @brief Create batch generator with default configuration
+     * @brief Create.
+     * @param[in] data_iterator Input parameter.
+     * @return Return value.
      */
     static std::unique_ptr<BatchGenerator> create(
         std::shared_ptr<TrainingDataIterator> data_iterator
     );
     
     /**
-     * @brief Create batch generator with custom configuration
+     * @brief Create.
+     * @param[in] data_iterator Input parameter.
+     * @param[in] config Input parameter.
+     * @return Return value.
      */
     static std::unique_ptr<BatchGenerator> create(
         std::shared_ptr<TrainingDataIterator> data_iterator,

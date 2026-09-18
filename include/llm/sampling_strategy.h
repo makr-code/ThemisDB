@@ -22,14 +22,12 @@ using llama_token = std::int32_t;
 namespace themis {
 namespace llm {
 
-/**
- * @brief Abstract Strategy for Token Sampling
- * 
- * Design Pattern: Strategy Pattern
- * Allows different sampling algorithms without changing client code
- */
 class ISamplingStrategy {
 public:
+    /**
+     * @brief ISampling Strategy.
+     * @return Return value.
+     */
     virtual ~ISamplingStrategy() = default;
     
     [[nodiscard]] virtual llama_token sample(
@@ -41,9 +39,6 @@ public:
     [[nodiscard]] virtual std::string name() const = 0;
 };
 
-/**
- * @brief Greedy Sampling (always highest probability)
- */
 class GreedySampling : public ISamplingStrategy {
 public:
     GreedySampling() = default;
@@ -58,9 +53,6 @@ public:
     std::string name() const override { return "greedy"; }
 };
 
-/**
- * @brief Top-K + Top-P (Nucleus) Sampling
- */
 class NucleusSampling : public ISamplingStrategy {
 public:
     explicit NucleusSampling(float temperature = 0.8f,
@@ -84,9 +76,6 @@ private:
     float repeat_penalty_ = 0.0f;
 };
 
-/**
- * @brief Mirostat Sampling (adaptive, better quality)
- */
 class MirostatSampling : public ISamplingStrategy {
 public:
     explicit MirostatSampling(float tau = 5.0f, float eta = 0.1f);
@@ -106,9 +95,6 @@ private:
     float mu_ = 0.0f;     // Current mu value (adaptive)
 };
 
-/**
- * @brief Factory for Sampling Strategies
- */
 class SamplingStrategyFactory {
 public:
     static std::unique_ptr<ISamplingStrategy> create(

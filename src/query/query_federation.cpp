@@ -133,7 +133,7 @@ namespace {
      * @brief Stable Json Less.
      * @param[in] a Input parameter.
      * @param[in] b Input parameter.
-     * @return True on success.
+     * @return True when the operation succeeds.
      * @details Calls: stableJsonOrderKey(), dump().
      */
     static bool stableJsonLess(const nlohmann::json& a, const nlohmann::json& b) {
@@ -204,11 +204,11 @@ namespace themis::query {
                  config_.enable_result_streaming);
 }
 
+
 /**
- * @brief ───────────────────────────────────────────────────────────────────────────── DK-4: Federated RAG merge (Layer C) ─────────────────────────────────────────────────────────────────────────────
+ * @brief Set RAGMerger.
  * @param[in] merger Input parameter.
  */
-
 void QueryFederation::setRAGMerger(
     std::shared_ptr<distributed_knowledge::FederatedRAGMerger> merger)
 {
@@ -346,14 +346,14 @@ distributed_knowledge::MergedRAGContext QueryFederation::executeFederatedRAGQuer
     return rag_merger_->merge(rag_results);
 }
 
+
 /**
- * @brief ─────────────────────────────────────────────────────────────────────────────
+ * @brief Execute.
  * @param[in] query Input parameter.
  * @return Return value.
  * @throws std::invalid_argument if an error occurs.
  * @details Calls: std::chrono::steady_clock::now(), spdlog::info(), substr(), analyzeQuery(), join_keyword_regex(), std::regex_search(), empty(), createExecutionPlan().
  */
-
 nlohmann::json QueryFederation::execute(const std::string& query) {
     total_queries_++;
     auto start_time = std::chrono::steady_clock::now();
@@ -1214,11 +1214,6 @@ QueryFederation::QueryMetadata QueryFederation::analyzeQuery(
 std::vector<std::string> QueryFederation::determineRelevantShards(
     const QueryMetadata& metadata
 ) {
-    /**
-     * @brief Lock.
-     * @param[in] routing_mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lock(routing_mutex_);
 
     const auto normalizeShardIds = [](std::vector<std::string> shards) {
@@ -1318,7 +1313,7 @@ std::vector<std::string> QueryFederation::determineRelevantShards(
 /**
  * @brief Rewrite Query For Shard.
  * @param[in] query Input parameter.
- * @param[in] shard_id Input parameter.
+ * @param[in] shard_id Identifier of the shard.
  * @return Return value.
  * @details Implements rewriteQueryForShard without additional internal calls.
  */

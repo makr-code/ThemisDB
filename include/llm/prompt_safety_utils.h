@@ -24,6 +24,12 @@
 
 namespace {
 
+/**
+ * @brief Normalize Prompt For Safety.
+ * @param[in] text Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), std::isalnum(), push_back(), std::tolower(), std::isspace().
+ */
 inline std::string normalizePromptForSafety(std::string_view text) {
     std::string normalized = {};
     normalized.reserve(text.size());
@@ -40,6 +46,12 @@ inline std::string normalizePromptForSafety(std::string_view text) {
     return normalized;
 }
 
+/**
+ * @brief Contains Blocked Instruction Pattern.
+ * @param[in] text Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: normalizePromptForSafety(), find().
+ */
 inline bool containsBlockedInstructionPattern(std::string_view text) {
     const std::string normalized = normalizePromptForSafety(text);
     return normalized.find("ignore all previous instructions") != std::string::npos ||
@@ -48,6 +60,13 @@ inline bool containsBlockedInstructionPattern(std::string_view text) {
            normalized.find("disregard previous instructions") != std::string::npos;
 }
 
+/**
+ * @brief Redact Literal Token.
+ * @param[in,out] text Input/output parameter.
+ * @param[in] token Input parameter.
+ * @param[in] replacement Input parameter.
+ * @details Calls: find(), data(), size(), replace().
+ */
 inline void redactLiteralToken(std::string& text, std::string_view token,
                               std::string_view replacement) {
     std::size_t pos = 0;
@@ -57,6 +76,11 @@ inline void redactLiteralToken(std::string& text, std::string_view token,
     }
 }
 
+/**
+ * @brief Redact Control Tokens.
+ * @param[in,out] text Input/output parameter.
+ * @details Calls: redactLiteralToken().
+ */
 inline void redactControlTokens(std::string& text) {
     redactLiteralToken(text, "<|im_start|>", "[CONTROL_TOKEN]");
     redactLiteralToken(text, "<|im_end|>", "[CONTROL_TOKEN]");
@@ -71,10 +95,9 @@ inline void redactControlTokens(std::string& text) {
 namespace themis::llm::prompt_safety {
 
 /**
- * @brief Shared prompt-safety policy used across LLM, RAG, and training paths.
- *
- * The policy is initialized once and reused to ensure consistent rule behavior
- * for blocking and control-token redaction.
+ * @brief Shared Prompt Safety Policy.
+ * @return Return value.
+ * @details Calls: addBlockRule(), addRedactRule().
  */
 inline PromptPolicy& sharedPromptSafetyPolicy() {
     static PromptPolicy policy = [] {
@@ -92,12 +115,12 @@ inline PromptPolicy& sharedPromptSafetyPolicy() {
 }
 
 /**
- * @brief Apply shared prompt safety policy to input text.
- * @param input Raw input text.
- * @param sanitized Receives sanitized text when allowed.
- * @param blocked_rule Optional receiver for triggering rule id.
- * @param blocked_reason Optional receiver for human-readable reason.
- * @return true when prompt is allowed; false when blocked.
+ * @brief Sanitize Prompt With Shared Policy.
+ * @param[in] input Input parameter.
+ * @param[in,out] sanitized Input/output parameter.
+ * @param[in,out] blocked_rule Input/output parameter.
+ * @param[in,out] blocked_reason Input/output parameter.
+ * @return True when the operation succeeds.
  */
 inline bool sanitizePromptWithSharedPolicy(
     const std::string& input,

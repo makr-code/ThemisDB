@@ -27,6 +27,10 @@ TokenBucket::TokenBucket(size_t capacity, double refill_rate)
     , last_refill_(std::chrono::steady_clock::now())
 {}
 
+/**
+ * @brief Refill.
+ * @details Calls: std::chrono::steady_clock::now(), count(), std::min().
+ */
 void TokenBucket::refill() {
     auto now = std::chrono::steady_clock::now();
     auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(now - last_refill_).count();
@@ -38,6 +42,12 @@ void TokenBucket::refill() {
     }
 }
 
+/**
+ * @brief Try Consume.
+ * @param[in] tokens Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), refill().
+ */
 bool TokenBucket::tryConsume(size_t tokens) {
     std::unique_lock<std::shared_mutex> lock(mutex_);
     refill();
@@ -50,11 +60,21 @@ bool TokenBucket::tryConsume(size_t tokens) {
 }
 
 double TokenBucket::getTokens() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(mutex_);
     return tokens_;
 }
 
 uint64_t TokenBucket::getRetryAfterMs() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(mutex_);
     
     if (tokens_ >= 1.0) {
@@ -67,6 +87,10 @@ uint64_t TokenBucket::getRetryAfterMs() const {
     return static_cast<uint64_t>(seconds * 1000.0);
 }
 
+/**
+ * @brief Reset the modification detection flag.
+ * @details Calls: lock(), std::chrono::steady_clock::now().
+ */
 void TokenBucket::reset() {
     std::unique_lock<std::shared_mutex> lock(mutex_);
     tokens_ = static_cast<double>(capacity_);
@@ -90,6 +114,11 @@ bool RateLimiter::isWhitelisted(const std::string& ip) const {
                      config_.whitelist_ips.end(), ip) != config_.whitelist_ips.end();
 }
 
+/**
+ * @brief Set Anomaly Callback.
+ * @param[in] callback Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void RateLimiter::setAnomalyCallback(AnomalyCallback callback) {
     std::unique_lock<std::shared_mutex> lock(callback_mutex_);
     anomaly_callback_ = std::move(callback);
@@ -101,6 +130,11 @@ void RateLimiter::fireAnomaly(AnomalyEvent::Type type,
     // Use a separate mutex so this is safe to call while mutex_ is held.
     AnomalyCallback cb;
     {
+        /**
+         * @brief Lock.
+         * @param[in] callback_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::shared_lock<std::shared_mutex> lock(callback_mutex_);
         cb = anomaly_callback_;
     }
@@ -110,6 +144,11 @@ void RateLimiter::fireAnomaly(AnomalyEvent::Type type,
     }
 }
 
+/**
+ * @brief Blacklist IP.
+ * @param[in] ip Input parameter.
+ * @details Calls: lock(), insert(), THEMIS_WARN(), fireAnomaly().
+ */
 void RateLimiter::blacklistIP(const std::string& ip) {
     {
         std::unique_lock<std::shared_mutex> lock(mutex_);
@@ -119,6 +158,11 @@ void RateLimiter::blacklistIP(const std::string& ip) {
     fireAnomaly(AnomalyEvent::Type::IP_BLACKLISTED, ip, "IP manually blacklisted");
 }
 
+/**
+ * @brief Unblacklist IP.
+ * @param[in] ip Input parameter.
+ * @details Calls: lock(), erase(), THEMIS_INFO().
+ */
 void RateLimiter::unblacklistIP(const std::string& ip) {
     std::unique_lock<std::shared_mutex> lock(mutex_);
     blacklisted_ips_.erase(ip);
@@ -126,11 +170,21 @@ void RateLimiter::unblacklistIP(const std::string& ip) {
 }
 
 bool RateLimiter::isBlacklisted(const std::string& ip) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(mutex_);
     return blacklisted_ips_.count(ip) > 0;
 }
 
 bool RateLimiter::isAdaptivelyThrottled(const std::string& ip) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(mutex_);
     auto it = adaptive_state_.find(ip);
     if (it == adaptive_state_.end()) {
@@ -142,6 +196,11 @@ bool RateLimiter::isAdaptivelyThrottled(const std::string& ip) const {
     return std::chrono::steady_clock::now() < it->second.penalty_until;
 }
 
+/**
+ * @brief Record Rejection For Adaptive.
+ * @param[in] ip Input parameter.
+ * @details Calls: std::chrono::steady_clock::now(), std::chrono::seconds(), erase(), std::remove_if(), begin(), end(), push_back(), size().
+ */
 void RateLimiter::recordRejectionForAdaptive(const std::string& ip) {
     // Called with mutex_ held
     if (!config_.adaptive_throttling_enabled) {
@@ -202,6 +261,13 @@ std::shared_ptr<TokenBucket> RateLimiter::getOrCreateBucket(
     return bucket;
 }
 
+/**
+ * @brief Allow Request.
+ * @param[in] ip Input parameter.
+ * @param[in] user_id Identifier of the user.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), count(), THEMIS_WARN(), isWhitelisted(), empty(), std::chrono::steady_clock::now(), clear(), THEMIS_INFO().
+ */
 bool RateLimiter::allowRequest(const std::string& ip, const std::string& user_id) {
     std::unique_lock<std::shared_mutex> lock(mutex_);
     
@@ -293,6 +359,11 @@ bool RateLimiter::allowRequest(const std::string& ip, const std::string& user_id
 }
 
 uint32_t RateLimiter::getRetryAfter(const std::string& ip, const std::string& user_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(mutex_);
     
     uint64_t max_retry_ms = 0;
@@ -317,6 +388,11 @@ uint32_t RateLimiter::getRetryAfter(const std::string& ip, const std::string& us
     return static_cast<uint32_t>((max_retry_ms + 999) / 1000);
 }
 
+/**
+ * @brief Update the access control configuration.
+ * @param[in] config New access control configuration.
+ * @details Calls: lock(), THEMIS_INFO().
+ */
 void RateLimiter::updateConfig(const RateLimitConfig& config) {
     std::unique_lock<std::shared_mutex> lock(mutex_);
     config_ = config;
@@ -326,6 +402,11 @@ void RateLimiter::updateConfig(const RateLimitConfig& config) {
 }
 
 RateLimiter::Statistics RateLimiter::getStatistics() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(mutex_);
     
     Statistics stats = stats_;
@@ -345,6 +426,10 @@ RateLimiter::Statistics RateLimiter::getStatistics() const {
     return stats;
 }
 
+/**
+ * @brief Reset the modification detection flag.
+ * @details Calls: lock(), clear(), Statistics(), THEMIS_INFO().
+ */
 void RateLimiter::reset() {
     std::unique_lock<std::shared_mutex> lock(mutex_);
     
@@ -360,6 +445,10 @@ void RateLimiter::reset() {
     THEMIS_INFO("Rate Limiter reset");
 }
 
+/**
+ * @brief Cleanup.
+ * @details Calls: std::chrono::steady_clock::now(), begin(), end(), count(), erase(), THEMIS_DEBUG().
+ */
 void RateLimiter::cleanup() {
     auto now = std::chrono::steady_clock::now();
     

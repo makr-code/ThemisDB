@@ -57,56 +57,61 @@ struct IndexStatistics {
 // ============================================================================
 class FtsIndex {
  public:
-  /// @brief Open an existing FTS index from disk.
-  /// @param index_path: filesystem path to index directory
-  /// @return FtsIndex instance or error
+  /**
+   * @brief Open.
+   * @param[in] index_path Path to the index.
+   * @return Return value.
+   */
   static std::unique_ptr<FtsIndex> open(const std::string& index_path);
   
-  /// Virtual destructor
+  /**
+   * @brief Fts Index.
+   * @return Return value.
+   */
   virtual ~FtsIndex() = default;
   
-  // ========================================================================
-  // Query API (Read-only operations)
-  // ========================================================================
+  /**
+   * @brief ======================================================================== Query API (Read-only operations) ========================================================================
+   * @param[in] term Input parameter.
+   * @return Return value.
+   */
   
-  /// Lookup documents containing a term
-  /// @param term: search term
-  /// @return posting list (doc_id + term_freq + positions)
-  /// @throws if index corrupted or term invalid
   virtual PostingList lookupTerm(const std::string& term) const = 0;
   
-  /// Get document metadata
-  /// @param doc_id: document identifier
-  /// @return metadata (length, avg_tf, language)
-  /// @throws if document not found
+  /**
+   * @brief Get Document Stats.
+   * @param[in] doc_id Identifier of the doc.
+   * @return Return value.
+   */
   virtual DocumentMetadata getDocumentStats(uint64_t doc_id) const = 0;
   
-  /// Get index statistics
-  /// @return document count, term count, size, etc.
+  /**
+   * @brief Return access control statistics.
+   * @return Access control statistics.
+   */
   virtual IndexStatistics getStatistics() const = 0;
   
-  /// Check index integrity
-  /// @return true if index passes CRC check, false if corrupted
+  /**
+   * @brief Is Healthy.
+   * @return True when the operation succeeds.
+   */
   virtual bool isHealthy() const = 0;
   
   // ========================================================================
   // Update API (Write operations)
   // ========================================================================
   
-  /// Add documents to index
-  /// @param documents: vector of (doc_id, text) pairs
-  /// @throws on write error or index locked
   virtual void addDocuments(
       const std::vector<std::pair<uint64_t, std::string>>& documents) = 0;
   
-  /// Remove documents from index
-  /// @param doc_ids: vector of document IDs to remove
-  /// @throws on write error or index locked
+  /**
+   * @brief Remove Documents.
+   * @param[in] doc_ids Input parameter.
+   */
   virtual void removeDocuments(
       const std::vector<uint64_t>& doc_ids) = 0;
 };
 
-/// Batch update descriptor
 struct IndexUpdateBatch {
   std::vector<std::pair<uint64_t, std::string>> additions;  ///< Docs to add
   std::vector<uint64_t> deletions;                          ///< Doc IDs to remove

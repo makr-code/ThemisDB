@@ -29,28 +29,12 @@ namespace themis {
 namespace llm {
 namespace testing {
 
-/**
- * @brief Production Validation Framework
- * 
- * Week 13-14 Implementation: End-to-end system integration testing,
- * production validation, and stress testing for 72+ hours stability.
- * 
- * LOCK HIERARCHY (always acquire in this order to prevent deadlocks):
- * 1. validation_state_lock_ → State machine transitions (exclusive)
- *    └─ validation_queue_lock_ → Results queue access (exclusive)
- *       └─ metrics_lock_ → Telemetry updates (exclusive)
- *
- * Memory Ordering:
- * - stress_test_running_: std::memory_order_acquire/release
- * - total_requests_processed_, total_failures_: std::memory_order_relaxed
- * 
- * Thread Safety:
- * - All public methods are thread-safe via internal mutexes
- * - Validation state machine (IDLE → RUNNING → COMPLETE) uses atomics
- * - Latency samples protected by latency_mutex_
- */
 class ProductionValidator {
 public:
+    /**
+     * @brief Production Validator.
+     * @return Return value.
+     */
     virtual ~ProductionValidator() = default;
     struct ValidationConfig {
         // Stress test duration
@@ -104,12 +88,6 @@ public:
         std::chrono::seconds total_uptime{0};
     };
     
-    /**
-     * @brief Production Metrics for LLM inference benchmarking
-     * 
-     * Returned by benchmarkInference() to provide detailed performance
-     * metrics for a specific model.
-     */
     struct ProductionMetrics {
         std::string model_id;
         bool passed = false;
@@ -145,52 +123,107 @@ public:
         size_t skipped_requests = 0;
     };
     
+    /**
+     * @brief Production Validator.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit ProductionValidator(const ValidationConfig& config);
     
     // Main validation methods
+    /**
+     * @brief Run End To End Tests.
+     * @return Return value.
+     */
     ValidationResult runEndToEndTests();
+    /**
+     * @brief Run Stress Test.
+     * @return Return value.
+     */
     ValidationResult runStressTest();
+    /**
+     * @brief Run Load Test.
+     * @return Return value.
+     */
     ValidationResult runLoadTest();
+    /**
+     * @brief Check Performance Regression.
+     * @param[in] baseline_file Input parameter.
+     * @return Return value.
+     */
     ValidationResult checkPerformanceRegression(
         const std::string& baseline_file
     );
     
     /**
-     * @brief Benchmark LLM inference performance
-     * 
-     * Runs a comprehensive benchmark suite with 100 requests of varying lengths,
-     * measures latency percentiles (P50, P95, P99), throughput, quality tests,
-     * and memory usage. Validates against SLA thresholds.
-     * 
-     * @param model_id Identifier of the model to benchmark
-     * @return ProductionMetrics with detailed performance and quality metrics
+     * @brief Benchmark Inference.
+     * @param[in] model_id Identifier of the model.
+     * @return Return value.
      */
     ProductionMetrics benchmarkInference(const std::string& model_id);
     
     /**
-     * @brief Validate model quality with standard test suite
-     * 
-     * Runs math, knowledge, and reasoning tests to verify model quality.
-     * Requires ≥80% pass rate to meet acceptance criteria.
-     * 
-     * @param model_id Identifier of the model to validate
-     * @return true if quality score ≥ 80%, false otherwise
+     * @brief Validate Quality.
+     * @param[in] model_id Identifier of the model.
+     * @return True when the operation succeeds.
      */
     bool validateQuality(const std::string& model_id);
     
     // Individual test suites
+    /**
+     * @brief Test Model Loading.
+     * @return True when the operation succeeds.
+     */
     bool testModelLoading();
+    /**
+     * @brief Test Inference Pipeline.
+     * @return True when the operation succeeds.
+     */
     bool testInferencePipeline();
+    /**
+     * @brief Test Batch Scheduling.
+     * @return True when the operation succeeds.
+     */
     bool testBatchScheduling();
+    /**
+     * @brief Test Memory Management.
+     * @return True when the operation succeeds.
+     */
     bool testMemoryManagement();
+    /**
+     * @brief Test GPUOffload.
+     * @return True when the operation succeeds.
+     */
     bool testGPUOffload();
+    /**
+     * @brief Test Quantization.
+     * @return True when the operation succeeds.
+     */
     bool testQuantization();
+    /**
+     * @brief Test Continuous Batching.
+     * @return True when the operation succeeds.
+     */
     bool testContinuousBatching();
+    /**
+     * @brief Test Kernel Fusion.
+     * @return True when the operation succeeds.
+     */
     bool testKernelFusion();
     
     // Stress testing
+    /**
+     * @brief Start Stress Test.
+     */
     void startStressTest();
+    /**
+     * @brief Stop Stress Test.
+     */
     void stopStressTest();
+    /**
+     * @brief Is Stress Test Running.
+     * @return True when the operation succeeds.
+     */
     bool isStressTestRunning() const;
     
     // Monitoring
@@ -202,14 +235,15 @@ public:
         size_t uptime_seconds = 0;
     };
     
+    /**
+     * @brief Get Live Stats.
+     * @return Return value.
+     */
     LiveStats getLiveStats() const;
 
     /**
-     * @brief Set the inference engine used by benchmark and stress test.
-     *
-     * When set, benchmarkInference() and runStressTest() route requests
-     * through this engine.  Without an engine the benchmark logs a warning
-     * and reports skipped requests.
+     * @brief Set Inference Engine.
+     * @param[in] engine Input parameter.
      */
     void setInferenceEngine(std::shared_ptr<InferenceEngineEnhanced> engine);
     
@@ -223,46 +257,58 @@ private:
     // │     └─ metrics_lock_ : std::mutex (telemetry)
     // └─ latency_mutex_ : std::mutex (independent statistics)
     
-    /// Exclusive lock for validation state transitions (IDLE → RUNNING → COMPLETE)
     mutable std::mutex validation_state_lock_;
     
-    /// Exclusive lock for validation results queue
     mutable std::mutex validation_queue_lock_;
     
-    /// Exclusive lock for telemetry and statistics updates
     mutable std::mutex metrics_lock_;
 
     // Test state (protected by validation_state_lock_)
-    /// Atomic flag: stress test is running (memory_order_acquire/release)
     std::atomic<bool> stress_test_running_{false};
     
-    /// Stress test start time (protected by validation_state_lock_)
     std::chrono::system_clock::time_point stress_test_start_;
     
-    /// Memory baseline in MB (protected by validation_state_lock_)
     size_t memory_baseline_mb_ = 0;   ///< Set on first checkMemoryLeaks() call or reset()
     
     // Statistics (protected by metrics_lock_ or latency_mutex_)
     
-    /// Latency samples (protected by latency_mutex_; use deque for efficient removal)
     std::deque<double> latency_samples_;
     
-    /// Protects latency_samples_ in const and non-const paths
     mutable std::mutex latency_mutex_;
     
-    /// Total requests processed (protected by metrics_lock_; may use std::memory_order_relaxed)
     std::atomic<size_t> total_requests_processed_{0};
     
-    /// Total failures (protected by metrics_lock_; may use std::memory_order_relaxed)
     std::atomic<size_t> total_failures_{0};
     
     // Helper methods
+    /**
+     * @brief Calculate Percentile.
+     * @param[in] data Input parameter.
+     * @param[in] percentile Input parameter.
+     * @return Return value.
+     */
     double calculatePercentile(const std::vector<double>& data, double percentile);
+    /**
+     * @brief Record Latency.
+     * @param[in] latency_ms Input parameter.
+     */
     void recordLatency(double latency_ms);
+    /**
+     * @brief Check Memory Leaks.
+     */
     void checkMemoryLeaks();
     
     // Benchmark helpers
+    /**
+     * @brief Generate Benchmark Prompt.
+     * @param[in] variant Input parameter.
+     * @return Return value.
+     */
     std::string generateBenchmarkPrompt(int variant);
+    /**
+     * @brief Measure Memory Usage.
+     * @return Return value.
+     */
     size_t measureMemoryUsage();
     
     // Quality test helpers
@@ -271,17 +317,26 @@ private:
         std::string prompt;
         std::vector<std::string> expected_answers;
     };
+    /**
+     * @brief Get Quality Tests.
+     * @return Return value.
+     */
     std::vector<QualityTest> getQualityTests();
+    /**
+     * @brief Evaluate Quality Test.
+     * @param[in] test Input parameter.
+     * @param[in] model_id Identifier of the model.
+     * @return True when the operation succeeds.
+     */
     bool evaluateQualityTest(const QualityTest& test, const std::string& model_id);
 };
 
-/**
- * @brief Performance Regression Framework
- * 
- * Detects performance degradation by comparing against baselines.
- */
 class PerformanceRegressionDetector {
 public:
+    /**
+     * @brief Performance Regression Detector.
+     * @return Return value.
+     */
     virtual ~PerformanceRegressionDetector() = default;
     struct Baseline {
         double avg_latency_ms = 0.0;
@@ -306,7 +361,19 @@ public:
     };
     
     // Save/load baselines
+    /**
+     * @brief Save Baseline.
+     * @param[in] filepath Input parameter.
+     * @param[in] baseline Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool saveBaseline(const std::string& filepath, const Baseline& baseline);
+    /**
+     * @brief Load Baseline.
+     * @param[in] filepath Input parameter.
+     * @param[in,out] baseline Input/output parameter.
+     * @return True when the operation succeeds.
+     */
     bool loadBaseline(const std::string& filepath, Baseline& baseline);
     
     // Compare current performance against baseline
@@ -320,33 +387,84 @@ private:
     std::vector<Baseline> historical_baselines_;
 };
 
-/**
- * @brief Integration Test Suite
- * 
- * Tests all components working together.
- */
 class IntegrationTestSuite {
 public:
     // Component integration tests
+    /**
+     * @brief Test Lazy Loader With GPUMemory.
+     * @return True when the operation succeeds.
+     */
     bool testLazyLoaderWithGPUMemory();
+    /**
+     * @brief Test Scheduler With Paged Attention.
+     * @return True when the operation succeeds.
+     */
     bool testSchedulerWithPagedAttention();
+    /**
+     * @brief Test Kernel Fusion With Inference.
+     * @return True when the operation succeeds.
+     */
     bool testKernelFusionWithInference();
+    /**
+     * @brief Test Full Pipeline E2 E.
+     * @return True when the operation succeeds.
+     */
     bool testFullPipelineE2E();
     
     // Multi-model scenarios
+    /**
+     * @brief Test Multi Model Serving.
+     * @return True when the operation succeeds.
+     */
     bool testMultiModelServing();
+    /**
+     * @brief Test Model Switching.
+     * @return True when the operation succeeds.
+     */
     bool testModelSwitching();
+    /**
+     * @brief Test Lo RAAdapter Management.
+     * @return True when the operation succeeds.
+     */
     bool testLoRAAdapterManagement();
     
     // Failure scenarios
+    /**
+     * @brief Test GPUOut Of Memory.
+     * @return True when the operation succeeds.
+     */
     bool testGPUOutOfMemory();
+    /**
+     * @brief Test Model Load Failure.
+     * @return True when the operation succeeds.
+     */
     bool testModelLoadFailure();
+    /**
+     * @brief Test Request Cancellation.
+     * @return True when the operation succeeds.
+     */
     bool testRequestCancellation();
+    /**
+     * @brief Test Preemption.
+     * @return True when the operation succeeds.
+     */
     bool testPreemption();
     
     // Performance scenarios
+    /**
+     * @brief Test High Concurrency.
+     * @return True when the operation succeeds.
+     */
     bool testHighConcurrency();
+    /**
+     * @brief Test Long Running Requests.
+     * @return True when the operation succeeds.
+     */
     bool testLongRunningRequests();
+    /**
+     * @brief Test Burst Traffic.
+     * @return True when the operation succeeds.
+     */
     bool testBurstTraffic();
     
     struct TestResult {
@@ -356,6 +474,10 @@ public:
         double duration_ms = 0.0;
     };
     
+    /**
+     * @brief Run All Tests.
+     * @return Return value.
+     */
     std::vector<TestResult> runAllTests();
 };
 

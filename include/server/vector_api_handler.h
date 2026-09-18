@@ -38,40 +38,8 @@ struct AuthContext {
     std::map<std::string, std::string> attributes;
 };
 
-/**
- * @brief Handler for Vector Operations
- * 
- * This handler manages all vector-related endpoints:
- * - POST /vector/search - Perform vector similarity search
- * - POST /vector/batch_insert - Batch insert vectors
- * - DELETE /vector/by-filter - Delete vectors by filter
- * - POST /vector/index/save - Save vector index to disk
- * - POST /vector/index/load - Load vector index from disk
- * - GET /vector/index/config - Get vector index configuration
- * - PUT /vector/index/config - Update vector index configuration
- * - GET /vector/index/stats - Get vector index statistics
- * - POST /vector/index/incremental-reindex - Incremental HNSW re-index without full rebuild
- * 
- * Features:
- * - HNSW-based vector similarity search
- * - GPU acceleration support (optional)
- * - Index persistence and loading
- * - Configuration management
- * - Performance statistics
- * 
- * Extracted from http_server.cpp (~450 lines) to improve maintainability.
- */
 class VectorApiHandler {
 public:
-    /**
-     * @brief Construct a new Vector API Handler
-     * 
-     * @param storage Storage backend
-     * @param vector_index Vector index manager (HNSW/Faiss)
-     * @param auth Authentication/authorization middleware
-     * @param field_encryption Field-level encryption (optional)
-     * @param key_provider Key provider for encryption (optional)
-     */
     VectorApiHandler(
         std::shared_ptr<RocksDBWrapper> storage,
         std::shared_ptr<VectorIndexManager> vector_index,
@@ -81,70 +49,65 @@ public:
     );
 
     /**
-     * @brief Handle POST /vector/search request
-     * @param req HTTP request with query vector and search parameters
-     * @return HTTP response with nearest neighbors
+     * @brief Handle Search.
+     * @param[in] req Input parameter.
+     * @return Return value.
      */
     http::response<http::string_body> handleSearch(const http::request<http::string_body>& req);
 
     /**
-     * @brief Handle POST /vector/batch_insert request
-     * @param req HTTP request with vectors to insert
-     * @return HTTP response with insertion status
+     * @brief Handle Batch Insert.
+     * @param[in] req Input parameter.
+     * @return Return value.
      */
     http::response<http::string_body> handleBatchInsert(const http::request<http::string_body>& req);
 
     /**
-     * @brief Handle DELETE /vector/by-filter request
-     * @param req HTTP request with filter criteria
-     * @return HTTP response with deletion status
+     * @brief Handle Delete By Filter.
+     * @param[in] req Input parameter.
+     * @return Return value.
      */
     http::response<http::string_body> handleDeleteByFilter(const http::request<http::string_body>& req);
 
     /**
-     * @brief Handle POST /vector/index/save request
-     * @param req HTTP request with save path
-     * @return HTTP response with save status
+     * @brief Handle Index Save.
+     * @param[in] req Input parameter.
+     * @return Return value.
      */
     http::response<http::string_body> handleIndexSave(const http::request<http::string_body>& req);
 
     /**
-     * @brief Handle POST /vector/index/load request
-     * @param req HTTP request with load path
-     * @return HTTP response with load status
+     * @brief Handle Index Load.
+     * @param[in] req Input parameter.
+     * @return Return value.
      */
     http::response<http::string_body> handleIndexLoad(const http::request<http::string_body>& req);
 
     /**
-     * @brief Handle GET /vector/index/config request
-     * @param req HTTP request
-     * @return HTTP response with current configuration
+     * @brief Handle Index Config Get.
+     * @param[in] req Input parameter.
+     * @return Return value.
      */
     http::response<http::string_body> handleIndexConfigGet(const http::request<http::string_body>& req);
 
     /**
-     * @brief Handle PUT /vector/index/config request
-     * @param req HTTP request with new configuration
-     * @return HTTP response with update status
+     * @brief Handle Index Config Put.
+     * @param[in] req Input parameter.
+     * @return Return value.
      */
     http::response<http::string_body> handleIndexConfigPut(const http::request<http::string_body>& req);
 
     /**
-     * @brief Handle GET /vector/index/stats request
-     * @param req HTTP request
-     * @return HTTP response with index statistics
+     * @brief Handle Index Stats.
+     * @param[in] req Input parameter.
+     * @return Return value.
      */
     http::response<http::string_body> handleIndexStats(const http::request<http::string_body>& req);
 
     /**
-     * @brief Handle POST /vector/index/incremental-reindex request
-     * 
-     * Syncs the in-memory HNSW index with current storage without a full rebuild.
-     * Accepts optional JSON body:
-     *   { "rebuild_threshold": 0.20, "vector_field": "embedding" }
-     * 
-     * @param req HTTP request (body optional)
-     * @return HTTP response with IncrementalReindexStats as JSON
+     * @brief Handle Incremental Reindex.
+     * @param[in] req Input parameter.
+     * @return Return value.
      */
     http::response<http::string_body> handleIncrementalReindex(const http::request<http::string_body>& req);
 
@@ -156,17 +119,44 @@ private:
     std::shared_ptr<KeyProvider> key_provider_;
 
     // Helper methods
+    /**
+     * @brief Make Error Response.
+     * @param[in] status Input parameter.
+     * @param[in] message Input parameter.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> makeErrorResponse(
         http::status status, const std::string& message, const http::request<http::string_body>& req);
+    /**
+     * @brief Make Response.
+     * @param[in] status Input parameter.
+     * @param[in] body Input parameter.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> makeResponse(
         http::status status, const std::string& body, const http::request<http::string_body>& req);
     
+    /**
+     * @brief Require Access.
+     * @param[in] req Input parameter.
+     * @param[in] permission Input parameter.
+     * @param[in] resource Input parameter.
+     * @param[in] path Input parameter.
+     * @return Return value.
+     */
     std::optional<http::response<http::string_body>> requireAccess(
         const http::request<http::string_body>& req,
         const std::string& permission,
         const std::string& resource,
         const std::string& path);
     
+    /**
+     * @brief Extract Auth Context.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     AuthContext extractAuthContext(const http::request<http::string_body>& req) const;
 };
 

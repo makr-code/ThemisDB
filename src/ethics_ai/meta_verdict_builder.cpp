@@ -38,9 +38,6 @@ namespace ethics {
 
 namespace {
 
-/// Static cultural region table.
-/// Regions: Western-European, Islamic, East-Asian, Indic, Jewish, Other.
-/// Used for cross_cultural_flag computation.
 const std::unordered_map<std::string, std::string>& culturalRegionTable()
 {
     static const std::unordered_map<std::string, std::string> kRegions = {
@@ -76,8 +73,11 @@ const std::unordered_map<std::string, std::string>& culturalRegionTable()
     return kRegions;
 }
 
-/// Return the dominant verdict among the provided school outputs.
-/// Ties are broken by lowest enum value (PROHIBIT < PERMIT < CONDITIONAL < ABSTAIN).
+/**
+ * @brief Dominant Verdict Among.
+ * @param[in] outputs Input parameter.
+ * @return Return value.
+ */
 DiscourseVerdict dominantVerdictAmong(
     const std::vector<DiscourseRoundOutput>& outputs)
 {

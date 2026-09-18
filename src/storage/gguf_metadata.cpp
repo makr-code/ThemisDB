@@ -120,7 +120,12 @@ namespace {
     return static_cast<unsigned char>(cmp_ok & lhs_ok & rhs_ok) == 1;
 }
 
-// ─── Serialisation helpers ────────────────────────────────────────────────
+/**
+ * @brief ─── Serialisation helpers ────────────────────────────────────────────────
+ * @param[in,out] buf Input/output parameter.
+ * @param[in] v Input parameter.
+ * @details Calls: push_back().
+ */
 
 void writeU32(std::vector<uint8_t>& buf, uint32_t v) {
     buf.push_back(static_cast<uint8_t>(v >>  0));
@@ -129,15 +134,36 @@ void writeU32(std::vector<uint8_t>& buf, uint32_t v) {
     buf.push_back(static_cast<uint8_t>(v >> 24));
 }
 
+/**
+ * @brief Write I32.
+ * @param[in,out] buf Input/output parameter.
+ * @param[in] v Input parameter.
+ * @details Calls: writeU32().
+ */
 void writeI32(std::vector<uint8_t>& buf, int32_t v) {
     writeU32(buf, static_cast<uint32_t>(v));
 }
 
+/**
+ * @brief Write Str.
+ * @param[in,out] buf Input/output parameter.
+ * @param[in] s Input parameter.
+ * @details Calls: writeU32(), size(), insert(), end(), begin().
+ */
 void writeStr(std::vector<uint8_t>& buf, const std::string& s) {
     writeU32(buf, static_cast<uint32_t>(s.size()));
     buf.insert(buf.end(), s.begin(), s.end());
 }
 
+/**
+ * @brief Read U32.
+ * @param[in] data Input parameter.
+ * @param[in] size Input parameter.
+ * @param[in,out] pos Input/output parameter.
+ * @param[in,out] out Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Implements readU32 without additional internal calls.
+ */
 bool readU32(const uint8_t* data, std::size_t size, std::size_t& pos,
              uint32_t& out) {
     if (pos + 4 > size) {
@@ -151,6 +177,15 @@ bool readU32(const uint8_t* data, std::size_t size, std::size_t& pos,
     return true;
 }
 
+/**
+ * @brief Read I32.
+ * @param[in] data Input parameter.
+ * @param[in] size Input parameter.
+ * @param[in,out] pos Input/output parameter.
+ * @param[in,out] out Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: readU32().
+ */
 bool readI32(const uint8_t* data, std::size_t size, std::size_t& pos,
              int32_t& out) {
     uint32_t u = 0;
@@ -161,6 +196,15 @@ bool readI32(const uint8_t* data, std::size_t size, std::size_t& pos,
     return true;
 }
 
+/**
+ * @brief Read Str.
+ * @param[in] data Input parameter.
+ * @param[in] size Input parameter.
+ * @param[in,out] pos Input/output parameter.
+ * @param[in,out] out Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: readU32(), assign().
+ */
 bool readStr(const uint8_t* data, std::size_t size, std::size_t& pos,
              std::string& out) {
     uint32_t len = 0;
@@ -181,13 +225,27 @@ bool readStr(const uint8_t* data, std::size_t size, std::size_t& pos,
 // GGUFMetadata — HmacFn injection bridge
 // ============================================================================
 
+/**
+ * @brief Hmac Fn Mutex.
+ * @return Return value.
+ * @details Implements hmacFnMutex without additional internal calls.
+ */
 static std::mutex& hmacFnMutex() { static std::mutex m; return m; }
+/**
+ * @brief Hmac Fn Storage.
+ * @return Return value.
+ * @details Implements hmacFnStorage without additional internal calls.
+ */
 static GGUFMetadata::HmacFn& hmacFnStorage() {
     static GGUFMetadata::HmacFn fn;
     return fn;
 }
 
-/*static*/
+/**
+ * @brief static
+ * @param[in] fn Input parameter.
+ * @details Calls: lk(), hmacFnMutex(), hmacFnStorage(), std::move().
+ */
 void GGUFMetadata::setHmacFn(HmacFn fn) {
     std::lock_guard<std::mutex> lk(hmacFnMutex());
     hmacFnStorage() = std::move(fn);
@@ -197,12 +255,24 @@ void GGUFMetadata::setHmacFn(HmacFn fn) {
 // GGUFMetadata — attach / detach
 // ============================================================================
 
+/**
+ * @brief Attach.
+ * @param[in] storage_key Input parameter.
+ * @param[in] record Input parameter.
+ * @details Calls: lock().
+ */
 void GGUFMetadata::attach(const std::string& storage_key,
                            const ProvenanceRecord& record) {
     std::unique_lock lock(mutex_);
     store_[storage_key] = record;
 }
 
+/**
+ * @brief Detach.
+ * @param[in] storage_key Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), erase().
+ */
 bool GGUFMetadata::detach(const std::string& storage_key) {
     std::unique_lock lock(mutex_);
     return store_.erase(storage_key) > 0;
@@ -214,6 +284,11 @@ bool GGUFMetadata::detach(const std::string& storage_key) {
 
 std::optional<ProvenanceRecord>
 GGUFMetadata::retrieve(const std::string& storage_key) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock lock(mutex_);
     auto it = store_.find(storage_key);
     if (it == store_.end()) {
@@ -223,11 +298,21 @@ GGUFMetadata::retrieve(const std::string& storage_key) const {
 }
 
 bool GGUFMetadata::has(const std::string& storage_key) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock lock(mutex_);
     return store_.count(storage_key) > 0;
 }
 
 std::vector<std::string> GGUFMetadata::keys() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock lock(mutex_);
     std::vector<std::string> result = {};
 
@@ -240,6 +325,11 @@ std::vector<std::string> GGUFMetadata::keys() const {
 }
 
 std::size_t GGUFMetadata::size() const noexcept {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock lock(mutex_);
     return store_.size();
 }
@@ -248,6 +338,12 @@ std::size_t GGUFMetadata::size() const noexcept {
 // GGUFMetadata — sign / verify
 // ============================================================================
 
+/**
+ * @brief Sign.
+ * @param[in,out] record Input/output parameter.
+ * @param[in] hmac_key Input parameter.
+ * @details Calls: canonicalBytes(), lk(), hmacFnMutex(), hmacFnStorage(), fn(), empty(), THEMIS_WARN(), clear().
+ */
 void GGUFMetadata::sign(ProvenanceRecord& record,
                          const std::string& hmac_key) {
     const std::string canonical = record.canonicalBytes();
@@ -287,6 +383,13 @@ void GGUFMetadata::sign(ProvenanceRecord& record,
     }
 }
 
+/**
+ * @brief Verify identity and enforce network policies for a request.
+ * @param[in] record Input parameter.
+ * @param[in] hmac_key Input parameter.
+ * @return Verification result.
+ * @details Calls: empty(), canonicalBytes(), lk(), hmacFnMutex(), hmacFnStorage(), fn(), THEMIS_WARN(), constantTimeEquals().
+ */
 bool GGUFMetadata::verify(const ProvenanceRecord& record,
                             const std::string& hmac_key) {
     if (record.hmac_signature.empty()) {
@@ -331,6 +434,11 @@ bool GGUFMetadata::verify(const ProvenanceRecord& record,
 // ============================================================================
 
 std::vector<uint8_t> GGUFMetadata::serialize() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock lock(mutex_);
 
     std::vector<uint8_t> buf = {};
@@ -351,6 +459,12 @@ std::vector<uint8_t> GGUFMetadata::serialize() const {
     return buf;
 }
 
+/**
+ * @brief Deserialize.
+ * @param[in] bytes Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), data(), size(), readU32(), reserve(), readStr(), readI32(), std::move().
+ */
 bool GGUFMetadata::deserialize(const std::vector<uint8_t>& bytes) {
     // model_integrity_gap scanner alert: each ProvenanceRecord contains an
     // hmac_signature field that was computed over the record's content at ingest

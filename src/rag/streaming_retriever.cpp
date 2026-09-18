@@ -26,8 +26,11 @@ namespace themis::rag::streaming {
 namespace {
 
 /**
- * Compute Jaccard similarity between two token sets derived from
- * lowercased whitespace-split words.  Used for MMR deduplication.
+ * @brief Jaccard Similarity.
+ * @param[in] a Input parameter.
+ * @param[in] b Input parameter.
+ * @return Return value.
+ * @details Calls: stream(), std::transform(), begin(), end(), insert(), std::move(), tokenize(), empty().
  */
 double jaccardSimilarity(const std::string& a, const std::string& b) {
     auto tokenize = [](const std::string& text) {
@@ -83,6 +86,12 @@ size_t ContextWindowFiller::estimateTokens(const std::string& text) const {
     return static_cast<size_t>(std::ceil(estimated));
 }
 
+/**
+ * @brief Try Add.
+ * @param[in] doc Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: estimateTokens(), push_back(), std::move().
+ */
 bool ContextWindowFiller::tryAdd(const StreamedDocument& doc) {
     const size_t needed = doc.token_count > 0
         ? doc.token_count
@@ -124,6 +133,10 @@ const std::vector<StreamedDocument>& ContextWindowFiller::documents() const {
     return documents_;
 }
 
+/**
+ * @brief Reset the modification detection flag.
+ * @details Calls: clear().
+ */
 void ContextWindowFiller::reset() {
     documents_.clear();
     tokens_used_ = 0;
@@ -146,10 +159,6 @@ struct StreamingRetriever::Impl {
     // Synchronization for thread-safe callback access
     mutable std::mutex callback_mutex;
 
-    /**
-     * Check whether @p candidate is too similar to any already-selected
-     * document.  Returns true when the document should be skipped.
-     */
     bool isDuplicate(const StreamedDocument& candidate,
                      const std::vector<StreamedDocument>& selected) const {
         if (!config.enable_mmr_deduplication) {
@@ -181,21 +190,40 @@ StreamingRetriever::StreamingRetriever(const StreamingRetrieverConfig& config)
 
 StreamingRetriever::~StreamingRetriever() = default;
 
+/**
+ * @brief Set Document Accepted Callback.
+ * @param[in] cb Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void StreamingRetriever::setDocumentAcceptedCallback(DocumentAcceptedCallback cb) {
     std::lock_guard<std::mutex> lock(impl_->callback_mutex);
     impl_->on_accepted = std::move(cb);
 }
 
+/**
+ * @brief Set Document Skipped Callback.
+ * @param[in] cb Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void StreamingRetriever::setDocumentSkippedCallback(DocumentSkippedCallback cb) {
     std::lock_guard<std::mutex> lock(impl_->callback_mutex);
     impl_->on_skipped = std::move(cb);
 }
 
+/**
+ * @brief Set Window Full Callback.
+ * @param[in] cb Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void StreamingRetriever::setWindowFullCallback(WindowFullCallback cb) {
     std::lock_guard<std::mutex> lock(impl_->callback_mutex);
     impl_->on_window_full = std::move(cb);
 }
 
+/**
+ * @brief Cancel.
+ * @details Calls: store().
+ */
 void StreamingRetriever::cancel() {
     impl_->cancel_requested.store(true, std::memory_order_relaxed);
 }
@@ -208,10 +236,22 @@ StreamingRetrieverConfig StreamingRetriever::getConfig() const {
     return impl_->config;
 }
 
+/**
+ * @brief Set Config.
+ * @param[in] config Input parameter.
+ * @details Implements setConfig without additional internal calls.
+ */
 void StreamingRetriever::setConfig(const StreamingRetrieverConfig& config) {
     impl_->config = config;
 }
 
+/**
+ * @brief Stream.
+ * @param[in] query Input parameter.
+ * @param[in] candidates Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::steady_clock::now(), store(), THEMIS_INFO(), size(), filler(), erase(), std::remove_if(), begin().
+ */
 StreamingResult StreamingRetriever::stream(const std::string& query,
                                            std::vector<StreamedDocument> candidates) {
     const auto t_start = std::chrono::steady_clock::now();

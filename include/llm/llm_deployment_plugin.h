@@ -28,19 +28,17 @@ namespace llm {
 
 using json = nlohmann::json;
 
-/**
- * @brief Deployment mode for LLM models
- */
 enum class DeploymentMode {
     OFFLINE,    // Only use locally cached models
     ONLINE,     // Download from remote sources
     AUTO        // Try local first, download if missing
 };
 
-/**
- * @brief Source configuration for model deployment
- */
 struct ModelSource {
+    /**
+     * @brief Model Source.
+     * @return Return value.
+     */
     virtual ~ModelSource() = default;
     std::string type;              // "local", "ollama", "http", "https"
     std::string location;          // Path or URL
@@ -51,9 +49,6 @@ struct ModelSource {
     json metadata;                 // Additional source-specific config
 };
 
-/**
- * @brief Configuration for LLM deployment plugin
- */
 struct DeploymentConfig {
     DeploymentMode mode = DeploymentMode::AUTO;
     
@@ -101,10 +96,11 @@ struct DeploymentConfig {
     int keep_versions = 3;         // Keep N most recent versions
 };
 
-/**
- * @brief Status of a deployed model
- */
 struct ModelStatus {
+    /**
+     * @brief Model Status.
+     * @return Return value.
+     */
     virtual ~ModelStatus() = default;
     std::string model_id;
     std::string model_path;
@@ -125,9 +121,6 @@ struct ModelStatus {
     json metadata;
 };
 
-/**
- * @brief Audit log entry for deployment operations
- */
 struct AuditEntry {
     std::string operation;         // "deploy", "fetch", "remove", "update", "verify"
     std::string model_id;
@@ -138,24 +131,12 @@ struct AuditEntry {
     json details;
 };
 
-/**
- * @brief Production-ready LLM deployment plugin
- * 
- * This plugin provides enterprise-grade model deployment capabilities:
- * - Offline/online/auto deployment modes
- * - Multiple source support (local, Ollama, HTTP/S)
- * - Integrity verification with checksums
- * - Proxy and authentication support
- * - Version tracking and management
- * - Audit logging for compliance
- * - Automatic cleanup policies
- * 
- * Inspired by Ollama's deployment model with enhanced enterprise features.
- */
 class LLMDeploymentPlugin {
 public:
     /**
-     * @brief Construct deployment plugin with configuration
+     * @brief LLMDeployment Plugin.
+     * @param[in] config Input parameter.
+     * @return Return value.
      */
     explicit LLMDeploymentPlugin(const DeploymentConfig& config);
     
@@ -165,171 +146,111 @@ public:
     // Thread-local request context (JWT user propagation)
     // ═══════════════════════════════════════════════════════════
 
-    /// Authentication context set by HTTP handlers before invoking deployment operations.
     struct RequestContext {
         std::string user_id;    ///< Authenticated user / service account
         std::string client_ip;  ///< Originating client IP address (may be empty)
     };
 
-    /// Set the authentication context for the calling thread.
-    /// Must be called before any method that performs audit logging.
+    /**
+     * @brief Set Request Context.
+     * @param[in] ctx Input parameter.
+     * @note Exception safety: noexcept.
+     */
     static void setRequestContext(const RequestContext& ctx) noexcept;
 
-    /// Clear the authentication context for the calling thread.
+    /**
+     * @brief Clear Request Context.
+     * @note Exception safety: noexcept.
+     */
     static void clearRequestContext() noexcept;
 
-    /// Return the user_id from the thread-local request context, or @p fallback.
     static std::string currentUserId(const char* fallback = "system") noexcept;
 
     
-    /**
-     * @brief Deploy a model (download if needed, verify, make available)
-     * 
-     * This is the main entry point for model deployment. It:
-     * 1. Checks if model exists locally in cache directory
-     * 2. Downloads from configured sources if needed (respecting deployment mode)
-     * 3. Verifies integrity (checksum) if verify_checksums is enabled
-     * 4. Makes model available for loading
-     * 5. Updates status tracking
-     * 6. Logs to audit log
-     * 
-     * @param model_id Model identifier (e.g., "llama2:7b")
-     * @param force_download Force re-download even if cached
-     * @return Model status or nullopt on failure
-     */
     std::optional<ModelStatus> deployModel(const std::string& model_id, 
                                            bool force_download = false);
     
-    /**
-     * @brief Download a model from configured sources
-     * 
-     * @param model_id Model identifier
-     * @param progress_callback Optional progress tracking
-     * @return Download result
-     */
     ModelDownloadResult downloadModel(const std::string& model_id,
                                       DownloadProgressCallback progress_callback = nullptr);
     
     /**
-     * @brief Load a model into memory using the LLM plugin
-     * 
-     * @param model_id Model identifier
-     * @param llm_plugin LLM plugin instance to load into
-     * @return true if loaded successfully
+     * @brief Load Model.
+     * @param[in] model_id Identifier of the model.
+     * @param[in,out] llm_plugin Input/output parameter.
+     * @return True when the operation succeeds.
      */
     bool loadModel(const std::string& model_id, ILLMPlugin* llm_plugin);
     
-    // ═══════════════════════════════════════════════════════════
-    // Model Management
-    // ═══════════════════════════════════════════════════════════
-    
     /**
-     * @brief List all available models from configured sources
-     * 
-     * @return List of model identifiers
+     * @brief ═══════════════════════════════════════════════════════════ Model Management ═══════════════════════════════════════════════════════════
+     * @return Return value.
      */
+    
     std::vector<std::string> listAvailableModels();
     
     /**
-     * @brief List locally cached models
-     * 
-     * @return List of model statuses
+     * @brief List Cached Models.
+     * @return Return value.
      */
     std::vector<ModelStatus> listCachedModels();
     
     /**
-     * @brief Get status of a specific model
-     * 
-     * @param model_id Model identifier
-     * @return Model status or nullopt if not found
+     * @brief Get Model Status.
+     * @param[in] model_id Identifier of the model.
+     * @return Return value.
      */
     std::optional<ModelStatus> getModelStatus(const std::string& model_id);
     
     /**
-     * @brief Verify model integrity (checksum)
-     * 
-     * @param model_id Model identifier
-     * @return true if verification passed
+     * @brief Verify Model.
+     * @param[in] model_id Identifier of the model.
+     * @return True when the operation succeeds.
      */
     bool verifyModel(const std::string& model_id);
     
     /**
-     * @brief Update a model to the latest version
-     * 
-     * @param model_id Model identifier
-     * @return Updated model status or nullopt on failure
+     * @brief Update Model.
+     * @param[in] model_id Identifier of the model.
+     * @return Return value.
      */
     std::optional<ModelStatus> updateModel(const std::string& model_id);
     
-    /**
-     * @brief Remove a model from cache
-     * 
-     * @param model_id Model identifier
-     * @param force Force removal even if currently loaded
-     * @return true if removed successfully
-     */
     bool removeModel(const std::string& model_id, bool force = false);
     
-    // ═══════════════════════════════════════════════════════════
-    // Cleanup and Maintenance
-    // ═══════════════════════════════════════════════════════════
-    
     /**
-     * @brief Clean up old models based on policy
-     * 
-     * Removes models that:
-     * - Haven't been used for max_model_age_days
-     * - Would reduce cache size below max_cache_size_gb
-     * 
-     * @return Number of models removed
+     * @brief ═══════════════════════════════════════════════════════════ Cleanup and Maintenance ═══════════════════════════════════════════════════════════
+     * @return Return value.
      */
+    
     int cleanupOldModels();
     
     /**
-     * @brief Get current cache size
-     * 
-     * @return Cache size in bytes
+     * @brief Get Cache Size.
+     * @return Return value.
      */
     size_t getCacheSize() const;
     
     /**
-     * @brief Get cache usage statistics
-     * 
-     * @return JSON with cache stats
+     * @brief Get Cache Stats.
+     * @return Return value.
      */
     json getCacheStats() const;
     
-    // ═══════════════════════════════════════════════════════════
-    // Configuration and Audit
-    // ═══════════════════════════════════════════════════════════
-    
     /**
-     * @brief Update deployment configuration
-     * 
-     * @param config New configuration
+     * @brief ═══════════════════════════════════════════════════════════ Configuration and Audit ═══════════════════════════════════════════════════════════
+     * @param[in] config New access control configuration.
      */
+    
     void updateConfig(const DeploymentConfig& config);
     
-    /**
-     * @brief Get current configuration
-     * 
-     * @return Current configuration
-     */
     const DeploymentConfig& getConfig() const { return config_; }
     
-    /**
-     * @brief Get audit log entries
-     * 
-     * @param limit Maximum number of entries (0 = all)
-     * @return Audit log entries
-     */
     std::vector<AuditEntry> getAuditLog(size_t limit = 100) const;
     
     /**
-     * @brief Load configuration from YAML file
-     * 
-     * @param config_path Path to YAML configuration
-     * @return Loaded configuration or nullopt on failure
+     * @brief Load Config From YAML.
+     * @param[in] config_path Path to the retention policy configuration file.
+     * @return Return value.
      */
     static std::optional<DeploymentConfig> loadConfigFromYAML(const std::string& config_path);
     
@@ -341,22 +262,74 @@ private:
     std::vector<AuditEntry> audit_log_;
     
     // Helper methods
+    /**
+     * @brief Log Audit.
+     * @param[in] entry Input parameter.
+     */
     void logAudit(const AuditEntry& entry);
+    /**
+     * @brief Save Model Registry.
+     */
     void saveModelRegistry();
+    /**
+     * @brief Load Model Registry.
+     */
     void loadModelRegistry();
+    /**
+     * @brief Find Best Source.
+     * @param[in] model_id Identifier of the model.
+     * @return Return value.
+     */
     std::optional<ModelSource> findBestSource(const std::string& model_id);
+    /**
+     * @brief Get Model Path.
+     * @param[in] model_id Identifier of the model.
+     * @return Return value.
+     */
     std::string getModelPath(const std::string& model_id) const;
-    /// Converts a model_id into a sanitised filename (colons/slashes → '_', '.gguf' appended
-    /// when no recognised extension is present). Shared by getModelPath() and findBestSource().
+    /**
+     * @brief Model Id To Filename.
+     * @param[in] model_id Identifier of the model.
+     * @return Return value.
+     */
     static std::string modelIdToFilename(const std::string& model_id);
+    /**
+     * @brief Verify Checksum.
+     * @param[in] file_path Path to the file.
+     * @param[in] expected_checksum Input parameter.
+     * @param[in] checksum_type Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool verifyChecksum(const std::string& file_path, 
                         const std::string& expected_checksum,
                         const std::string& checksum_type);
     
     // BaseEntity storage helpers
+    /**
+     * @brief Save Model To Storage.
+     * @param[in] status Input parameter.
+     * @param[in] file_path Path to the file.
+     * @return True when the operation succeeds.
+     */
     bool saveModelToStorage(const ModelStatus& status, const std::string& file_path);
+    /**
+     * @brief Load Model From Storage.
+     * @param[in] model_id Identifier of the model.
+     * @return Return value.
+     */
     std::optional<LLMModelMetadata> loadModelFromStorage(const std::string& model_id);
+    /**
+     * @brief Update Model In Storage.
+     * @param[in] model_id Identifier of the model.
+     * @param[in] status Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool updateModelInStorage(const std::string& model_id, const ModelStatus& status);
+    /**
+     * @brief Delete Model From Storage.
+     * @param[in] model_id Identifier of the model.
+     * @return True when the operation succeeds.
+     */
     bool deleteModelFromStorage(const std::string& model_id);
 };
 

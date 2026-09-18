@@ -23,9 +23,6 @@ namespace lora {
 
 using json = nlohmann::json;
 
-/**
- * @brief Precision mode for training
- */
 enum class PrecisionMode {
     FP32,   // Full precision (32-bit float)
     FP16,   // Half precision (16-bit float)
@@ -33,9 +30,6 @@ enum class PrecisionMode {
     AMP     // Automatic Mixed Precision
 };
 
-/**
- * @brief Configuration for mixed precision training
- */
 struct MixedPrecisionConfig {
     PrecisionMode mode = PrecisionMode::FP32;
     float loss_scale = 1024.0f;           // Initial loss scaling factor
@@ -61,89 +55,66 @@ struct MixedPrecisionConfig {
     }
 };
 
-/**
- * @brief Mixed precision trainer for LoRA
- * 
- * Features:
- * - FP16/BF16 forward and backward passes
- * - FP32 master weights and optimizer state
- * - Loss scaling to prevent underflow
- * - Dynamic loss scaling with overflow detection
- * - Memory efficiency (2x reduction)
- * - Speed improvement (up to 2x on compatible hardware)
- */
 class MixedPrecisionTrainer {
 public:
     explicit MixedPrecisionTrainer(const MixedPrecisionConfig& config = MixedPrecisionConfig{});
     ~MixedPrecisionTrainer() = default;
     
     /**
-     * @brief Convert tensor to lower precision for forward pass
-     * @param input FP32 input tensor
-     * @return Lower precision tensor
+     * @brief To lower precision.
+     * @param[in] input Input parameter.
+     * @return Return value.
      */
     Tensor to_lower_precision(const Tensor& input) const;
     
     /**
-     * @brief Convert tensor back to FP32
-     * @param input Lower precision tensor
-     * @return FP32 tensor
+     * @brief To fp32.
+     * @param[in] input Input parameter.
+     * @return Return value.
      */
     Tensor to_fp32(const Tensor& input) const;
     
     /**
-     * @brief Scale loss for backward pass (prevents underflow)
-     * @param loss Original loss value
-     * @return Scaled loss
+     * @brief Scale loss.
+     * @param[in] loss Input parameter.
+     * @return Return value.
      */
     float scale_loss(float loss);
     
     /**
-     * @brief Unscale gradients after backward pass
-     * @param gradients Vector of gradient tensors
-     * @return true if no overflow detected, false otherwise
+     * @brief Unscale gradients.
+     * @param[in,out] gradients Input/output parameter.
+     * @return True when the operation succeeds.
      */
     bool unscale_gradients(std::vector<Tensor*>& gradients);
     
     /**
-     * @brief Check for NaN or Inf in gradients
-     * @param gradients Vector of gradient tensors
-     * @return true if overflow/underflow detected
+     * @brief Has overflow.
+     * @param[in] gradients Input parameter.
+     * @return True when the operation succeeds.
      */
     static bool has_overflow(const std::vector<Tensor*>& gradients);
     
     /**
-     * @brief Update loss scale based on overflow history
-     * @param had_overflow Whether overflow occurred in this step
+     * @brief Update loss scale.
+     * @param[in] had_overflow Input parameter.
      */
     void update_loss_scale(bool had_overflow);
     
-    /**
-     * @brief Get current loss scale
-     * @return Current loss scaling factor
-     */
     float get_loss_scale() const { return current_loss_scale_; }
     
-    /**
-     * @brief Get precision mode
-     * @return Current precision mode
-     */
     PrecisionMode get_precision_mode() const { return config_.mode; }
     
-    /**
-     * @brief Check if mixed precision is enabled
-     * @return true if mode is not FP32
-     */
     bool is_enabled() const { return config_.mode != PrecisionMode::FP32; }
     
     /**
-     * @brief Get statistics
-     * @return JSON with training statistics
+     * @brief Get stats.
+     * @return Return value.
      */
     json get_stats() const;
     
     /**
-     * @brief Reset statistics
+     * @brief Reset stats.
      */
     void reset_stats();
 
@@ -154,25 +125,27 @@ private:
     int total_overflows_ = 0;
     int total_steps_ = 0;
     
-    // Helper for FP16/BF16 conversion (simplified for CPU)
+    /**
+     * @brief Helper for FP16/BF16 conversion (simplified for CPU)
+     * @param[in] value Input parameter.
+     * @return Return value.
+     */
     static float fp32_to_fp16(float value);
+    /**
+     * @brief Fp16 to fp32.
+     * @param[in] value Input parameter.
+     * @return Return value.
+     */
     static float fp16_to_fp32(float value);
 };
 
-/**
- * @brief RAII wrapper for mixed precision training scope
- * 
- * Usage:
- * ```cpp
- * MixedPrecisionTrainer trainer(config);
- * {
- *     auto scope = trainer.train_scope();
- *     // Training code here with mixed precision
- * }
- * ```
- */
 class MixedPrecisionScope {
 public:
+    /**
+     * @brief Mixed Precision Scope.
+     * @param[in,out] trainer Input/output parameter.
+     * @return Return value.
+     */
     explicit MixedPrecisionScope(MixedPrecisionTrainer* trainer)
         : trainer_(trainer) {}
     

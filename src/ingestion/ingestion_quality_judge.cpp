@@ -58,7 +58,13 @@ namespace ingestion {
 
 namespace {
 
-/// Return up to @p max_chars from @p s, appending "..." if truncated.
+/**
+ * @brief Truncate.
+ * @param[in] s Input parameter.
+ * @param[in] max_chars Input parameter.
+ * @return Return value.
+ * @details Calls: size(), substr().
+ */
 std::string truncate(const std::string& s, size_t max_chars) {
     if (s.size() <= max_chars) {
       return s;
@@ -66,7 +72,6 @@ std::string truncate(const std::string& s, size_t max_chars) {
     return s.substr(0, max_chars) + "...";
 }
 
-/// Join entity labels in @p ctx to a comma-separated summary string.
 std::string entitySummary(const ExtractionContext& ctx, size_t max = 30) {
     std::ostringstream oss = {};
     size_t n = 0;
@@ -84,7 +89,6 @@ std::string entitySummary(const ExtractionContext& ctx, size_t max = 30) {
     return oss.str();
 }
 
-/// Build a concise relation summary (subject → predicate → object).
 std::string relationSummary(const ExtractionContext& ctx, size_t max = 20) {
     std::ostringstream oss = {};
     size_t n = 0;
@@ -143,26 +147,49 @@ const IngestionJudgeConfig& IngestionQualityJudge::config() const noexcept {
     return config_;
 }
 
+/**
+ * @brief Set Config.
+ * @param[in] cfg Input parameter.
+ * @details Implements setConfig without additional internal calls.
+ */
 void IngestionQualityJudge::setConfig(const IngestionJudgeConfig& cfg) {
     config_ = cfg;
 }
 
+/**
+ * @brief Add Observer.
+ * @param[in] observer Input parameter.
+ */
 void IngestionQualityJudge::addObserver(
     std::shared_ptr<IIngestionQualityObserver> observer)
 {
     if (!observer) {
       return;
     }
+    /**
+     * @brief Lk.
+     * @param[in] observer_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(observer_mutex_);
     observers_.push_back(std::move(observer));
 }
 
+/**
+ * @brief Remove Observer.
+ * @param[in] observer Input parameter.
+ */
 void IngestionQualityJudge::removeObserver(
     const IIngestionQualityObserver* observer)
 {
     if (!observer) {
       return;
     }
+    /**
+     * @brief Lk.
+     * @param[in] observer_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(observer_mutex_);
     observers_.erase(
         std::remove_if(observers_.begin(), observers_.end(),
@@ -573,6 +600,11 @@ void IngestionQualityJudge::notifyEvaluated(
 {
     std::vector<std::shared_ptr<IIngestionQualityObserver>> snapshot;
     {
+        /**
+         * @brief Lk.
+         * @param[in] observer_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(observer_mutex_);
         snapshot = observers_;
     }
@@ -603,12 +635,20 @@ ReIngestionController::~ReIngestionController() = default;
 // Configuration / observers
 // ============================================================================
 
+/**
+ * @brief Set Re Ingestion Profile.
+ * @param[in] profile_name Name of the profile.
+ */
 void ReIngestionController::setReIngestionProfile(
     const std::string& profile_name)
 {
     reingestion_profile_ = profile_name;
 }
 
+/**
+ * @brief Add Observer.
+ * @param[in] observer Input parameter.
+ */
 void ReIngestionController::addObserver(
     std::shared_ptr<IIngestionQualityObserver> observer)
 {
@@ -618,6 +658,10 @@ void ReIngestionController::addObserver(
     observers_.push_back(std::move(observer));
 }
 
+/**
+ * @brief Remove Observer.
+ * @param[in] observer Input parameter.
+ */
 void ReIngestionController::removeObserver(
     const IIngestionQualityObserver* observer)
 {
@@ -632,9 +676,11 @@ void ReIngestionController::removeObserver(
         observers_.end());
 }
 
-// ============================================================================
-// process() — the quality-controlled ingestion loop
-// ============================================================================
+/**
+ * @brief ============================================================================ process() — the quality-controlled ingestion loop ============================================================================
+ * @param[in] manifest Input parameter.
+ * @return Return value.
+ */
 
 ReIngestionController::RunResult ReIngestionController::process(
     const FileManifest& manifest)

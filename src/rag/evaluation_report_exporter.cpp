@@ -23,6 +23,12 @@ namespace themis::rag::judge {
 // Internal helpers
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Escape JSON.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), append(), std::snprintf(), push_back().
+ */
 std::string EvaluationReportExporter::escapeJSON(const std::string& s) {
     // Optimize: Use std::string with proper reserve to avoid reallocation
     // Worst-case: each character becomes \uXXXX (6 chars), but typically 1-2
@@ -57,6 +63,12 @@ std::string EvaluationReportExporter::escapeJSON(const std::string& s) {
     return out;
 }
 
+/**
+ * @brief Escape HTML.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), append(), push_back().
+ */
 std::string EvaluationReportExporter::escapeHTML(const std::string& s) {
     // Optimize: Use std::string with proper reserve to avoid reallocation
     // Common HTML entities: & (5 chars), <, >, ", ' (each 4-6 chars)
@@ -80,6 +92,14 @@ std::string EvaluationReportExporter::escapeHTML(const std::string& s) {
     return out;
 }
 
+/**
+ * @brief Score Bar HTML.
+ * @param[in] label Input parameter.
+ * @param[in] score Input parameter.
+ * @param[in] is_critical Input parameter.
+ * @return Return value.
+ * @details Calls: std::max(), std::min(), std::round(), escapeHTML(), std::setprecision(), str().
+ */
 std::string EvaluationReportExporter::scoreBarHTML(const std::string& label,
                                                    double score,
                                                    bool is_critical) {
@@ -402,6 +422,11 @@ bool EvaluationReportExporter::exportJSON(const PerQueryReport& report,
                     filepath);
         return false;
     }
+    /**
+     * @brief To JSON.
+     * @param[in] report Input parameter.
+     * @return Return value.
+     */
     ofs << toJSON(report);
     THEMIS_INFO("EvaluationReportExporter: JSON report written to '{}'", filepath);
     return ofs.good();
@@ -415,6 +440,11 @@ bool EvaluationReportExporter::exportHTML(const PerQueryReport& report,
                     filepath);
         return false;
     }
+    /**
+     * @brief To HTML.
+     * @param[in] report Input parameter.
+     * @return Return value.
+     */
     ofs << toHTML(report);
     THEMIS_INFO("EvaluationReportExporter: HTML report written to '{}'", filepath);
     return ofs.good();
@@ -424,6 +454,11 @@ bool EvaluationReportExporter::exportHTML(const PerQueryReport& report,
 // Factory
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Create.
+ * @return Return value.
+ * @details Implements create without additional internal calls.
+ */
 std::unique_ptr<EvaluationReportExporter> EvaluationReportExporterFactory::create() {
     return std::make_unique<EvaluationReportExporter>();
 }

@@ -48,7 +48,6 @@ namespace {
 
 #if THEMIS_EBPF_LINUX
 
-/** Thin syscall wrapper — same pattern as pmu_counters.cpp */
 static long perf_event_open_syscall(struct perf_event_attr* attr,
                                      pid_t pid, int cpu,
                                      int group_fd,
@@ -57,13 +56,6 @@ static long perf_event_open_syscall(struct perf_event_attr* attr,
     return ::syscall(__NR_perf_event_open, attr, pid, cpu, group_fd, flags);
 }
 
-/**
- * @brief Open a single PERF_TYPE_SOFTWARE perf counter for the current
- *        process across all CPUs.
- *
- * @param sw_config  A PERF_COUNT_SW_* constant.
- * @return           A non-negative file descriptor, or -1 on failure.
- */
 static int openSoftwareCounter(uint64_t sw_config) noexcept {
     struct perf_event_attr attr{};
     attr.type        = PERF_TYPE_SOFTWARE;
@@ -82,7 +74,6 @@ static int openSoftwareCounter(uint64_t sw_config) noexcept {
     return (fd < 0) ? -1 : static_cast<int>(fd);
 }
 
-/** Enable a perf counter fd; no-op if fd < 0. */
 static void enableCounter(int fd) noexcept {
     if (fd >= 0) {
         ::ioctl(fd, PERF_EVENT_IOC_RESET,  0);
@@ -90,14 +81,12 @@ static void enableCounter(int fd) noexcept {
     }
 }
 
-/** Disable a perf counter fd; no-op if fd < 0. */
 static void disableCounter(int fd) noexcept {
     if (fd >= 0) {
         ::ioctl(fd, PERF_EVENT_IOC_DISABLE, 0);
     }
 }
 
-/** Read the current absolute count from a perf fd.  Returns -1 on error. */
 static int64_t readCounter(int fd) noexcept {
     if (fd < 0) {
       return -1;
@@ -109,7 +98,6 @@ static int64_t readCounter(int fd) noexcept {
                : -1;
 }
 
-/** Close a perf fd; no-op if fd < 0. */
 static void closeCounter(int& fd) noexcept {
     if (fd >= 0) {
         ::close(fd);
@@ -125,7 +113,6 @@ static void closeCounter(int& fd) noexcept {
 // EbpfTracer::Impl
 // ============================================================================
 
-/** @brief EbpfTracer::Impl. */
 class EbpfTracer::Impl {
 public:
     /**
@@ -156,15 +143,10 @@ public:
     }
 
     /**
-     * @brief -----------------------------------------------------------------------
+     * @brief Start.
      * @details Calls: lk(), openCounters(), unlock(), std::thread().
      */
     void start() {
-        /**
-         * @brief Lk.
-         * @param[in] mu_ Input parameter.
-         * @return Return value.
-         */
         std::unique_lock<std::mutex> lk(mu_);
         if (running_) {
           return;
@@ -185,11 +167,6 @@ public:
      */
     void stop() {
         {
-            /**
-             * @brief Lk.
-             * @param[in] mu_ Input parameter.
-             * @return Return value.
-             */
             std::unique_lock<std::mutex> lk(mu_);
             if (!running_) {
               return;
@@ -263,16 +240,11 @@ public:
     }
 
     /**
-     * @brief Reset.
+     * @brief Reset the modification detection flag.
      * @details Calls: lk(), clear(), store().
      */
     void reset() {
         {
-            /**
-             * @brief Lk.
-             * @param[in] mu_ Input parameter.
-             * @return Return value.
-             */
             std::lock_guard<std::mutex> lk(mu_);
             stats_ = {};
             events_.clear();
@@ -374,12 +346,7 @@ private:
     }
 
     /**
-     * @brief Read all perf counters and return a batch of delta events.
-     *        Called from the background thread while NOT holding mu_.
-     *
-     *        If a reset was requested via pending_reset_, the function
-     *        re-reads all baselines and returns an empty batch so that the
-     *        next call produces fresh deltas.
+     * @brief Collect Deltas.
      * @return Return value.
      * @details Calls: exchange(), readCounter(), std::chrono::system_clock::now(), push_back(), std::move(), delta().
      */
@@ -455,7 +422,7 @@ private:
 #endif // THEMIS_EBPF_LINUX
 
     /**
-     * @brief ----------------------------------------------------------------------- Background collection loop (all platforms) -----------------------------------------------------------------------
+     * @brief Collection Loop.
      * @details Calls: wlk(), wait_for(), collectDeltas(), slk(), accumulateEvent(), appendEvent(), publishMetrics(), empty().
      */
     void collectionLoop() {
@@ -465,11 +432,6 @@ private:
         while (true) {
             // Wait for interval or stop signal
             {
-                /**
-                 * @brief Wlk.
-                 * @param[in] mu_ Input parameter.
-                 * @return Return value.
-                 */
                 std::unique_lock<std::mutex> wlk(mu_);
                 cv_.wait_for(wlk, interval, [this]{ return !running_; });
                 if (!running_) {
@@ -485,11 +447,6 @@ private:
             // Accumulate stats and publish metrics under the lock,
             // regardless of whether events were collected.
             {
-                /**
-                 * @brief Slk.
-                 * @param[in] mu_ Input parameter.
-                 * @return Return value.
-                 */
                 std::lock_guard<std::mutex> slk(mu_);
                 for (const auto& ev : batch) {
                     accumulateEvent(ev);
@@ -503,11 +460,6 @@ private:
             if (!batch.empty()) {
                 std::function<void(const std::vector<KernelEvent>&)> cb;
                 {
-                    /**
-                     * @brief Slk.
-                     * @param[in] mu_ Input parameter.
-                     * @return Return value.
-                     */
                     std::lock_guard<std::mutex> slk(mu_);
                     cb = callback_;
                 }
@@ -590,8 +542,6 @@ private:
     bool running_{false};
 
 #if THEMIS_EBPF_LINUX
-    /// Set by reset() to signal the background thread to re-baseline prev_*.
-    /// Only cleared by the background thread — no data race with prev_*.
     std::atomic<bool> pending_reset_{false};
 #endif
 
@@ -644,7 +594,7 @@ void EbpfTracer::registerEventCallback(
 }
 
 /**
- * @brief Reset.
+ * @brief Reset the modification detection flag.
  * @details Implements reset without additional internal calls.
  */
 void EbpfTracer::reset() { impl_->reset(); }

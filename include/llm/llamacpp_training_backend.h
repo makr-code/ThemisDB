@@ -24,6 +24,10 @@ namespace llm {
 
 // llama.cpp configuration for model loading
 struct LlamaCppConfig {
+    /**
+     * @brief Llama Cpp Config.
+     * @return Return value.
+     */
     virtual ~LlamaCppConfig() = default;
     std::string model_path;              // Path to base model GGUF file
     int n_ctx = 2048;                    // Context length
@@ -49,6 +53,12 @@ struct LlamaCppConfig {
         };
     }
     
+    /**
+     * @brief From JSON.
+     * @param[in] j Input parameter.
+     * @return Return value.
+     * @details Calls: value().
+     */
     static LlamaCppConfig fromJSON(const nlohmann::json& j) {
         LlamaCppConfig config;
         config.model_path = j.value("model_path", "");
@@ -80,6 +90,12 @@ struct LoRALayerConfig {
         };
     }
     
+    /**
+     * @brief From JSON.
+     * @param[in] j Input parameter.
+     * @return Return value.
+     * @details Calls: value().
+     */
     static LoRALayerConfig fromJSON(const nlohmann::json& j) {
         LoRALayerConfig config;
         config.rank = j.value("rank", 8);
@@ -92,9 +108,29 @@ struct LoRALayerConfig {
 
 // Common target module configurations
 namespace TargetModules {
+    /**
+     * @brief QV ONLY.
+     * @return Return value.
+     * @details Implements QV_ONLY without additional internal calls.
+     */
     inline std::vector<std::string> QV_ONLY() { return {"q_proj", "v_proj"}; }
+    /**
+     * @brief QKV.
+     * @return Return value.
+     * @details Implements QKV without additional internal calls.
+     */
     inline std::vector<std::string> QKV() { return {"q_proj", "k_proj", "v_proj"}; }
+    /**
+     * @brief QKVO.
+     * @return Return value.
+     * @details Implements QKVO without additional internal calls.
+     */
     inline std::vector<std::string> QKVO() { return {"q_proj", "k_proj", "v_proj", "o_proj"}; }
+    /**
+     * @brief ALL LINEAR.
+     * @return Return value.
+     * @details Implements ALL_LINEAR without additional internal calls.
+     */
     inline std::vector<std::string> ALL_LINEAR() { 
         return {"q_proj", "k_proj", "v_proj", "o_proj", 
                 "gate_proj", "up_proj", "down_proj"}; 
@@ -103,6 +139,10 @@ namespace TargetModules {
 
 // Training step result
 struct TrainingStepResult {
+    /**
+     * @brief Training Step Result.
+     * @return Return value.
+     */
     virtual ~TrainingStepResult() = default;
     float loss = 0.0f;                          // Training loss
     float grad_norm = 0.0f;                     // Gradient norm (for monitoring)
@@ -125,6 +165,10 @@ struct TrainingStepResult {
 
 // Evaluation result
 struct EvaluationResult {
+    /**
+     * @brief Evaluation Result.
+     * @return Return value.
+     */
     virtual ~EvaluationResult() = default;
     float loss = 0.0f;                          // Evaluation loss
     float perplexity = 0.0f;                    // Perplexity
@@ -145,6 +189,10 @@ struct EvaluationResult {
 
 // Checkpoint data structure
 struct CheckpointData {
+    /**
+     * @brief Checkpoint Data.
+     * @return Return value.
+     */
     virtual ~CheckpointData() = default;
     int epoch = 0;                           // Current epoch
     int global_step = 0;                     // Global training step
@@ -167,6 +215,12 @@ struct CheckpointData {
         return j;
     }
     
+    /**
+     * @brief From JSON.
+     * @param[in] j Input parameter.
+     * @return Return value.
+     * @details Calls: value().
+     */
     static CheckpointData fromJSON(const nlohmann::json& j) {
         CheckpointData data;
         data.epoch = j.value("epoch", 0);
@@ -184,16 +238,23 @@ struct llama_context;
 struct llama_model;
 
 // llama.cpp training backend
-/** @brief llama.cpp training backend. */
 class LlamaCppTrainingBackend {
 public:
     LlamaCppTrainingBackend();
     ~LlamaCppTrainingBackend();
     
-    // Load base model from GGUF file
+    /**
+     * @brief Load base model from GGUF file
+     * @param[in] config Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool loadModel(const LlamaCppConfig& config);
     
-    // Initialize LoRA layers on top of base model
+    /**
+     * @brief Initialize LoRA layers on top of base model
+     * @param[in] lora_config Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool initLoRA(const LoRALayerConfig& lora_config);
     
     // Single training step (forward + backward + optimizer step)
@@ -204,37 +265,78 @@ public:
         const std::map<std::string, std::vector<float>>& optimizer_state
     );
     
-    // Evaluation step (no gradient computation)
+    /**
+     * @brief Evaluation step (no gradient computation)
+     * @param[in] input_ids Input parameter.
+     * @param[in] labels Input parameter.
+     * @return Return value.
+     */
     EvaluationResult evaluate(
         const std::vector<int>& input_ids,
         const std::vector<int>& labels
     );
     
-    // Save LoRA weights to file (GGUF format compatible with llama.cpp inference)
+    /**
+     * @brief Save LoRA weights to file (GGUF format compatible with llama.
+     * @param[in] output_path Path to the output.
+     * @return True when the operation succeeds.
+     * @details cpp inference)
+     */
     bool saveLoRAWeights(const std::string& output_path);
     
-    // Load LoRA weights from checkpoint (for resuming training)
+    /**
+     * @brief Load LoRA weights from checkpoint (for resuming training)
+     * @param[in] checkpoint_path Path to the checkpoint.
+     * @return True when the operation succeeds.
+     */
     bool loadLoRAWeights(const std::string& checkpoint_path);
     
-    // Save complete checkpoint (weights + optimizer state + metadata)
+    /**
+     * @brief Save complete checkpoint (weights + optimizer state + metadata)
+     * @param[in] checkpoint_path Path to the checkpoint.
+     * @param[in] data Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool saveCheckpoint(const std::string& checkpoint_path, const CheckpointData& data);
     
     // Load complete checkpoint
+    /**
+     * @brief Load Checkpoint.
+     * @param[in] checkpoint_path Path to the checkpoint.
+     * @return Return value.
+     */
     std::optional<CheckpointData> loadCheckpoint(const std::string& checkpoint_path);
     
-    // Get base model hash (for checkpoint verification)
+    /**
+     * @brief Get base model hash (for checkpoint verification)
+     * @return Return value.
+     */
     std::string getModelHash() const;
     
-    // Get LoRA parameter count
+    /**
+     * @brief Get LoRA parameter count
+     * @return Return value.
+     */
     size_t getLoRAParameterCount() const;
     
-    // Get base model parameter count
+    /**
+     * @brief Get base model parameter count
+     * @return Return value.
+     */
     size_t getBaseModelParameterCount() const;
     
-    // Set gradient clipping threshold
+    /**
+     * @brief Set gradient clipping threshold
+     * @param[in] max_norm Input parameter.
+     * @details Implements setGradientClipping without additional internal calls.
+     */
     void setGradientClipping(float max_norm) { gradient_clip_max_norm_ = max_norm; }
     
-    // Enable/disable mixed precision training
+    /**
+     * @brief Enable/disable mixed precision training
+     * @param[in] enable Input parameter.
+     * @details Implements setMixedPrecision without additional internal calls.
+     */
     void setMixedPrecision(bool enable) { use_mixed_precision_ = enable; }
     
     // Get current configuration
@@ -261,18 +363,40 @@ private:
     bool use_mixed_precision_ = false;
     
     // Helper methods
+    /**
+     * @brief Initialize Lo RAMatrices.
+     * @param[in] module_name Name of the module.
+     * @param[in] in_features Input parameter.
+     * @param[in] out_features Input parameter.
+     */
     void initializeLoRAMatrices(const std::string& module_name, int in_features, int out_features);
+    /**
+     * @brief Compute Gradients.
+     * @param[in] loss_grad Input parameter.
+     */
     void computeGradients(const std::vector<float>& loss_grad);
+    /**
+     * @brief Clip Gradients.
+     */
     void clipGradients();
     void applyOptimizerStep(float learning_rate, 
                            const std::map<std::string, std::vector<float>>& optimizer_state);
+    /**
+     * @brief Compute Model Hash.
+     * @return Return value.
+     */
     std::string computeModelHash() const;
 };
 
 // Factory for creating backends
-/** @brief Factory for creating backends. */
 class LlamaCppBackendFactory {
 public:
+    /**
+     * @brief Create.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     * @details Calls: loadModel().
+     */
     static std::unique_ptr<LlamaCppTrainingBackend> create(const LlamaCppConfig& config) {
         auto backend = std::make_unique<LlamaCppTrainingBackend>();
         if (!backend->loadModel(config)) {
@@ -281,6 +405,13 @@ public:
         return backend;
     }
     
+    /**
+     * @brief Create With Lo RA.
+     * @param[in] model_config Input parameter.
+     * @param[in] lora_config Input parameter.
+     * @return Return value.
+     * @details Calls: create(), initLoRA().
+     */
     static std::unique_ptr<LlamaCppTrainingBackend> createWithLoRA(
         const LlamaCppConfig& model_config,
         const LoRALayerConfig& lora_config

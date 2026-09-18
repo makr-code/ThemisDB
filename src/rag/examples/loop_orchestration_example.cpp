@@ -50,6 +50,12 @@ struct QueryExecutionOutcome {
     bool        used_index;
 };
 
+/**
+ * @brief Print Causal Chain.
+ * @param[in] decision Input parameter.
+ * @param[in] trigger Input parameter.
+ * @details Implements printCausalChain without additional internal calls.
+ */
 void printCausalChain(const std::string& decision, const std::string& trigger) {
     // Simulates what ExplainabilityReasonBuilder::build() would produce (IMPL-B9)
     std::cout << "\n  [ExplainabilityReasonBuilder — PLANNED]\n"
@@ -65,6 +71,11 @@ void printCausalChain(const std::string& decision, const std::string& trigger) {
 
 } // namespace
 
+/**
+ * @brief Main.
+ * @return Return value.
+ * @details Calls: PLANNED(), triggerLoop1QueryExecution(), printCausalChain(), triggerLoop2WorkloadAdaptation(), triggerLoop4AdapterImprovement(), activeAdapterVersion(), build().
+ */
 int main() {
     std::cout << "=== Loop 1–4 Orchestration Example (IMPL-A2 + IMPL-A3 + IMPL-B9) ===\n\n";
 

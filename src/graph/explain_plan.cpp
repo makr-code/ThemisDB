@@ -17,6 +17,12 @@ namespace themis {
 namespace graph {
 namespace {
 
+/**
+ * @brief Node Type To String.
+ * @param[in] type Input parameter.
+ * @return Pointer to the result.
+ * @details Implements nodeTypeToString without additional internal calls.
+ */
 const char* nodeTypeToString(GraphPlanNodeType type) {
     switch (type) {
         case GraphPlanNodeType::VERTEX_SCAN: return "VERTEX_SCAN";
@@ -36,6 +42,12 @@ const char* nodeTypeToString(GraphPlanNodeType type) {
     return "UNKNOWN";
 }
 
+/**
+ * @brief Escape Json.
+ * @param[in] value Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size().
+ */
 std::string escapeJson(const std::string& value) {
     std::string out = {};
     out.reserve(value.size());

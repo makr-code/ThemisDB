@@ -19,6 +19,12 @@ namespace llm {
 
 // BasicSpamDetectionPlugin implementation
 
+/**
+ * @brief Initialize.
+ * @param[in] config Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: contains(), is_array(), is_string(), push_back(), empty(), THEMIS_INFO(), size().
+ */
 bool BasicSpamDetectionPlugin::initialize(const json& config) {
     // Load spam keywords from config or use defaults
     if (config.contains("spam_keywords") && config["spam_keywords"].is_array()) {
@@ -93,6 +99,12 @@ bool BasicSpamDetectionPlugin::isLowQuality(const FeedbackData& feedback) const 
     return false;
 }
 
+/**
+ * @brief Validate.
+ * @param[in] feedback Input parameter.
+ * @return Return value.
+ * @details Calls: containsSpamKeywords(), THEMIS_DEBUG(), isLowQuality().
+ */
 ValidationResponse BasicSpamDetectionPlugin::validate(const FeedbackData& feedback) {
     validation_count_++;
     
@@ -126,6 +138,10 @@ ValidationResponse BasicSpamDetectionPlugin::validate(const FeedbackData& feedba
     return response;
 }
 
+/**
+ * @brief Shutdown.
+ * @details Calls: THEMIS_INFO().
+ */
 void BasicSpamDetectionPlugin::shutdown() {
     THEMIS_INFO("BasicSpamDetectionPlugin shutting down. Stats: {} validated, {} rejected",
                 validation_count_, rejected_count_);

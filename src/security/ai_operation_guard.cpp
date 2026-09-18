@@ -48,11 +48,14 @@ const char* operationClassName(OperationClass c) noexcept {
 
 namespace {
 
-/// Worst-case estimated affected rows for a CRITICAL (full-scope) AQL operation.
-/// Used in operation previews when no query plan is available.
 constexpr uint64_t k_critical_op_max_affected = 9'999'999;
 
-/// Case-insensitive uppercase conversion.
+/**
+ * @brief To Upper.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), push_back(), std::toupper().
+ */
 std::string toUpper(const std::string& s) {
     std::string out = {};
     out.reserve(s.size());
@@ -62,12 +65,17 @@ std::string toUpper(const std::string& s) {
     return out;
 }
 
-/// System collections that must never be touched by AI agents.
 constexpr std::array<std::string_view, 8> k_system_collections = {
     "_system", "_graphs", "_analyzers", "_jobs",
     "_users", "_queues", "_wal", "_snapshots"
 };
 
+/**
+ * @brief Is System Collection.
+ * @param[in] col Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: std::transform(), begin(), end(), std::tolower(), std::any_of().
+ */
 bool isSystemCollection(const std::string& col) {
     const std::string lower = [&] {
         std::string s = col;
@@ -415,7 +423,13 @@ bool AiOperationGuard::isCollectionDenied(
 // extractCollection()
 // ---------------------------------------------------------------------------
 
-// static
+/**
+ * @brief static
+ * @param[in] tool_name Name of the tool.
+ * @param[in] args Input parameter.
+ * @return Return value.
+ * @details Calls: value(), find(), substr(), std::transform(), begin(), end(), std::toupper(), size().
+ */
 std::string AiOperationGuard::extractCollection(
     const std::string& tool_name,
     const json&        args
@@ -469,7 +483,12 @@ std::string AiOperationGuard::extractCollection(
 // toIso8601()
 // ---------------------------------------------------------------------------
 
-// static
+/**
+ * @brief static
+ * @param[in] tp Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::to_time_t(), defined(), gmtime_s(), gmtime_r(), std::put_time(), str().
+ */
 std::string AiOperationGuard::toIso8601(
     std::chrono::system_clock::time_point tp
 ) {

@@ -26,14 +26,24 @@ RobotsTxtCache::RobotsTxtCache(FetchFn fetch_fn)
 
 namespace {
 
-/// Convert a string to lower-case in-place.
+/**
+ * @brief To Lower.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Calls: std::transform(), begin(), end(), std::tolower().
+ */
 std::string toLower(std::string s) {
     std::transform(s.begin(), s.end(), s.begin(),
                    [](unsigned char c) { return static_cast<char>(std::tolower(c)); });
     return s;
 }
 
-/// Strip leading and trailing whitespace from a string.
+/**
+ * @brief Trim.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Calls: find_first_not_of(), find_last_not_of(), substr().
+ */
 std::string trim(const std::string& s) {
     const auto begin = s.find_first_not_of(" \t\r\n");
     if (begin == std::string::npos) return {};
@@ -92,6 +102,11 @@ std::string trim(const std::string& s) {
     RobotsTxtRules result;
 
     bool in_wildcard_block = false;
+    /**
+     * @brief Ss.
+     * @param[in] content Input parameter.
+     * @return Return value.
+     */
     std::istringstream ss(content);
     std::string line = {};
 
@@ -146,17 +161,34 @@ std::string trim(const std::string& s) {
 // Cache operations
 // ============================================================================
 
+/**
+ * @brief Inject Robots.
+ * @param[in] domain Input parameter.
+ * @param[in] content Input parameter.
+ * @details Calls: lk(), parse().
+ */
 void RobotsTxtCache::injectRobots(const std::string& domain,
                                    const std::string& content) {
     std::lock_guard<std::mutex> lk(mutex_);
     cache_[domain] = parse(content);
 }
 
+/**
+ * @brief Clear.
+ * @details Calls: lk().
+ */
 void RobotsTxtCache::clear() {
     std::lock_guard<std::mutex> lk(mutex_);
     cache_.clear();
 }
 
+/**
+ * @brief Fetch And Cache.
+ * @param[in] domain Input parameter.
+ * @param[in] scheme Input parameter.
+ * @param[in] user_agent Input parameter.
+ * @details Calls: fetch_fn_(), empty(), parse().
+ */
 void RobotsTxtCache::fetchAndCache(const std::string& domain,
                                     const std::string& scheme,
                                     const std::string& user_agent) {
@@ -177,6 +209,13 @@ void RobotsTxtCache::fetchAndCache(const std::string& domain,
 // isAllowed()
 // ============================================================================
 
+/**
+ * @brief Is Allowed.
+ * @param[in] url Input parameter.
+ * @param[in] user_agent Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: extractDomain(), extractPath(), extractScheme(), lk(), find(), end(), fetchAndCache(), at().
+ */
 bool RobotsTxtCache::isAllowed(const std::string& url,
                                 const std::string& user_agent) {
     const std::string domain = extractDomain(url);

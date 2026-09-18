@@ -72,6 +72,12 @@ EncryptedBlobBackend::EncryptedBlobBackend(
 // put()
 // ============================================================================
 
+/**
+ * @brief Put.
+ * @param[in] blob_id Identifier of the blob.
+ * @param[in] data Input parameter.
+ * @return Return value.
+ */
 Result<BlobRef> EncryptedBlobBackend::put(const std::string& blob_id,
                                           const std::vector<uint8_t>& data)
 {
@@ -82,6 +88,11 @@ Result<BlobRef> EncryptedBlobBackend::put(const std::string& blob_id,
         return result;
     }
 
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     stats_.blobs_encrypted++;
     stats_.bytes_encrypted += data.size();
@@ -93,6 +104,11 @@ Result<BlobRef> EncryptedBlobBackend::put(const std::string& blob_id,
 // get()
 // ============================================================================
 
+/**
+ * @brief Get.
+ * @param[in] ref Input parameter.
+ * @return Return value.
+ */
 Result<std::vector<uint8_t>> EncryptedBlobBackend::get(const BlobRef& ref)
 {
     // null_dereference scanner alert: inner_ is validated non-null in the
@@ -105,6 +121,11 @@ Result<std::vector<uint8_t>> EncryptedBlobBackend::get(const BlobRef& ref)
 
     std::vector<uint8_t> plaintext = decrypt(raw.value());
 
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     stats_.blobs_decrypted++;
     stats_.bytes_decrypted += plaintext.size();
@@ -116,6 +137,11 @@ Result<std::vector<uint8_t>> EncryptedBlobBackend::get(const BlobRef& ref)
 // remove()
 // ============================================================================
 
+/**
+ * @brief Remove.
+ * @param[in] ref Input parameter.
+ * @return Return value.
+ */
 Result<void> EncryptedBlobBackend::remove(const BlobRef& ref)
 {
     // null_dereference scanner alerts in these thin forwarding methods are false
@@ -127,6 +153,11 @@ Result<void> EncryptedBlobBackend::remove(const BlobRef& ref)
 // exists()
 // ============================================================================
 
+/**
+ * @brief Exists.
+ * @param[in] ref Input parameter.
+ * @return True when the operation succeeds.
+ */
 bool EncryptedBlobBackend::exists(const BlobRef& ref)
 {
     return inner_->exists(ref);
@@ -156,6 +187,11 @@ bool EncryptedBlobBackend::isAvailable() const
 
 EncryptionStats EncryptedBlobBackend::stats() const
 {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     return stats_;
 }
@@ -229,6 +265,11 @@ std::vector<uint8_t>
 EncryptedBlobBackend::decrypt(const std::vector<uint8_t>& ciphertext) const
 {
     if (ciphertext.size() < static_cast<std::size_t>(kIvLen + kTagLen)) {
+        /**
+         * @brief Lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(mutex_);
         stats_.decrypt_failures++;
         throw std::runtime_error(
@@ -242,6 +283,11 @@ EncryptedBlobBackend::decrypt(const std::vector<uint8_t>& ciphertext) const
     const uint8_t* ct_ptr  = ciphertext.data() + kIvLen;
     const uint8_t* tag_ptr = ciphertext.data() + kIvLen + ct_len;
 
+    /**
+     * @brief Plaintext.
+     * @param[in] ct_len Input parameter.
+     * @return Return value.
+     */
     std::vector<uint8_t> plaintext(ct_len);
 
     std::unique_ptr<EVP_CIPHER_CTX, decltype(&EVP_CIPHER_CTX_free)>
@@ -280,6 +326,11 @@ EncryptedBlobBackend::decrypt(const std::vector<uint8_t>& ciphertext) const
     int ret = EVP_DecryptFinal_ex(ctx.get(), plaintext.data() + len, &final_len);
 
     if (ret <= 0) {
+        /**
+         * @brief Lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(mutex_);
         stats_.decrypt_failures++;
         throw std::runtime_error(

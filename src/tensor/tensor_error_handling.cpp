@@ -15,9 +15,11 @@
 namespace themis {
 namespace tensor {
 
-// ============================================================================
-// Helper: Get current ISO-8601 timestamp
-// ============================================================================
+/**
+ * @brief ============================================================================ Helper: Get current ISO-8601 timestamp ============================================================================
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::now(), std::chrono::system_clock::to_time_t(), std::put_time(), std::gmtime(), str().
+ */
 
 static std::string getCurrentTimestamp() {
     auto now = std::chrono::system_clock::now();
@@ -31,10 +33,21 @@ static std::string getCurrentTimestamp() {
 // TensorErrorHandler implementation
 // ============================================================================
 
+/**
+ * @brief Set Error Callback.
+ * @param[in] callback Input parameter.
+ * @details Calls: std::move().
+ */
 void TensorErrorHandler::setErrorCallback(ErrorCallback callback) {
     error_callback_ = std::move(callback);
 }
 
+/**
+ * @brief Register Recovery Fn.
+ * @param[in] operation Input parameter.
+ * @param[in] recovery_fn Input parameter.
+ * @details Calls: std::move().
+ */
 void TensorErrorHandler::registerRecoveryFn(
     const std::string& operation,
     RecoveryFn recovery_fn) {
@@ -68,6 +81,13 @@ std::pair<bool, std::string> TensorErrorHandler::handleCompressionFailure(
     return {false, "All compression strategies failed"};
 }
 
+/**
+ * @brief Handle Routing Failure.
+ * @param[in] original_error Input parameter.
+ * @param[in] fallback_target Input parameter.
+ * @return Return value.
+ * @details Calls: logError().
+ */
 RoutingDecision TensorErrorHandler::handleRoutingFailure(
     const ErrorContext&        original_error,
     const std::string&         fallback_target) {
@@ -432,11 +452,21 @@ RoutingDecision FallbackRoutingStrategy::createSafeDefault(
 // ============================================================================
 
 ResilienceMetrics ResilienceMonitor::getMetrics() const noexcept {
+    /**
+     * @brief Lock.
+     * @param[in] metrics_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(metrics_mutex_);
     return metrics_;
 }
 
 void ResilienceMonitor::resetMetrics() noexcept {
+    /**
+     * @brief Lock.
+     * @param[in] metrics_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(metrics_mutex_);
     metrics_ = ResilienceMetrics();
 }
@@ -446,6 +476,11 @@ void ResilienceMonitor::recordResult(
     const std::string& error_message,
     double             recovery_time_ms) noexcept {
 
+    /**
+     * @brief Lock.
+     * @param[in] metrics_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(metrics_mutex_);
 
     metrics_.total_operations++;
@@ -475,11 +510,21 @@ void ResilienceMonitor::recordResult(
 }
 
 bool ResilienceMonitor::isHealthy(float min_success_rate) const noexcept {
+    /**
+     * @brief Lock.
+     * @param[in] metrics_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(metrics_mutex_);
     return metrics_.success_rate >= min_success_rate;
 }
 
 std::string ResilienceMonitor::getHealthStatus() const noexcept {
+    /**
+     * @brief Lock.
+     * @param[in] metrics_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(metrics_mutex_);
 
     std::ostringstream oss;
@@ -500,15 +545,6 @@ std::string ResilienceMonitor::getHealthStatus() const noexcept {
 // Diagnostic Emission Implementations — Phase 3 Task 3.2 Unified Incidents
 // ============================================================================
 
-/**
- * @brief Internal helper to emit unified incident diagnostics.
- * 
- * All Phase 3 error paths (tensor_fingerprint_graph.cpp, tensor_index_manager.cpp,
- * tensor_core_bridge.cpp, tensor_ingestion_bridge.cpp) call through here to ensure
- * consistent incident categorization and diagnostic telemetry.
- * 
- * @see Phase 3 Task 3.2 Acceptance Criteria: "All error paths use unified emission"
- */
 static void emitUnifiedDiagnostic(
     TensorIncidentClass incident_class,
     const std::string& error_code,

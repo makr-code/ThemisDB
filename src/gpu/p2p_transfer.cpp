@@ -78,8 +78,12 @@ const char *p2pStatusName(GPUP2PTransferManager::Status s) noexcept {
 
 namespace {
 
-// Return the effective device list, falling back to DeviceDiscovery when the
-// caller passed an empty vector.
+/**
+ * @brief Return the effective device list, falling back to DeviceDiscovery when the caller passed an empty vector.
+ * @param[in] devices Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), DeviceDiscovery::Enumerate().
+ */
 std::vector<DeviceInfo> resolveDevices(const std::vector<DeviceInfo> &devices) {
     if (!devices.empty()) {
         return devices;
@@ -87,7 +91,14 @@ std::vector<DeviceInfo> resolveDevices(const std::vector<DeviceInfo> &devices) {
     return DeviceDiscovery::Enumerate();
 }
 
-// Validate that both indices are within the device list.
+/**
+ * @brief Validate that both indices are within the device list.
+ * @param[in] src Input parameter.
+ * @param[in] dst Input parameter.
+ * @param[in] devs Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: size().
+ */
 bool devicesValid(int src, int dst, const std::vector<DeviceInfo> &devs) {
     if (src < 0 || dst < 0) {
         return false;
@@ -100,6 +111,14 @@ bool devicesValid(int src, int dst, const std::vector<DeviceInfo> &devs) {
 // Uses GPUClusterTopology::detect() when no explicit topology is provided.
 // Only needed in GPU builds — the CPU simulation path does not track interconnect types.
 #if defined(THEMIS_ENABLE_CUDA) || defined(THEMIS_ENABLE_HIP)
+/**
+ * @brief Detect Interconnect.
+ * @param[in] src Input parameter.
+ * @param[in] dst Input parameter.
+ * @param[in] devs Input parameter.
+ * @return Return value.
+ * @details Calls: devicesValid(), GPUClusterTopology::detect(), preferredInterconnect().
+ */
 InterconnectType detectInterconnect(int src, int dst, const std::vector<DeviceInfo> &devs) {
     if (!devicesValid(src, dst, devs)) {
         return InterconnectType::CPU;
@@ -145,6 +164,14 @@ bool GPUP2PTransferManager::canAccessPeer(int src_device, int dst_device,
 // enablePeerAccess
 // ============================================================================
 
+/**
+ * @brief Enable Peer Access.
+ * @param[in] src_device Input parameter.
+ * @param[in] dst_device Input parameter.
+ * @param[in] devices Input parameter.
+ * @return Return value.
+ * @details Calls: GPUFeatureFlags::GetInstance(), isEnabled(), resolveDevices(), devicesValid(), lock(), pairKey(), count(), cudaDeviceCanAccessPeer().
+ */
 GPUP2PTransferManager::Status GPUP2PTransferManager::enablePeerAccess(int src_device, int dst_device,
                                                                       const std::vector<DeviceInfo> &devices) {
     if (!GPUFeatureFlags::GetInstance().isEnabled(GPUFeatureFlags::Feature::PEER_TO_PEER)) {
@@ -222,6 +249,13 @@ GPUP2PTransferManager::Status GPUP2PTransferManager::enablePeerAccess(int src_de
 // disablePeerAccess
 // ============================================================================
 
+/**
+ * @brief Disable Peer Access.
+ * @param[in] src_device Input parameter.
+ * @param[in] dst_device Input parameter.
+ * @return Return value.
+ * @details Calls: GPUFeatureFlags::GetInstance(), isEnabled(), lock(), pairKey(), find(), end(), cudaGetDevice(), cudaSetDevice().
+ */
 GPUP2PTransferManager::Status GPUP2PTransferManager::disablePeerAccess(int src_device, int dst_device) {
     if (!GPUFeatureFlags::GetInstance().isEnabled(GPUFeatureFlags::Feature::PEER_TO_PEER)) {
         return Status::FEATURE_DISABLED;
@@ -263,6 +297,11 @@ GPUP2PTransferManager::Status GPUP2PTransferManager::disablePeerAccess(int src_d
 // ============================================================================
 
 bool GPUP2PTransferManager::isPeerAccessEnabled(int src_device, int dst_device) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return enabled_pairs_.count(pairKey(src_device, dst_device)) > 0;
 }
@@ -271,6 +310,13 @@ bool GPUP2PTransferManager::isPeerAccessEnabled(int src_device, int dst_device) 
 // transfer
 // ============================================================================
 
+/**
+ * @brief Transfer.
+ * @param[in] req Input parameter.
+ * @param[in] devices Input parameter.
+ * @return Return value.
+ * @details Calls: GPUFeatureFlags::GetInstance(), isEnabled(), lock(), resolveDevices(), devicesValid(), defined(), count(), pairKey().
+ */
 GPUP2PTransferManager::TransferResult GPUP2PTransferManager::transfer(const TransferRequest &req,
                                                                       const std::vector<DeviceInfo> &devices) {
     TransferResult result = {};
@@ -396,10 +442,19 @@ GPUP2PTransferManager::TransferResult GPUP2PTransferManager::transfer(const Tran
 // ============================================================================
 
 GPUP2PTransferManager::Stats GPUP2PTransferManager::getStats() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return stats_;
 }
 
+/**
+ * @brief Reset the modification detection flag.
+ * @details Calls: lock(), clear().
+ */
 void GPUP2PTransferManager::reset() {
     std::lock_guard<std::mutex> lock(mutex_);
     enabled_pairs_.clear();

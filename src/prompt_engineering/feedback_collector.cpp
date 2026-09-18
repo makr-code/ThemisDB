@@ -29,6 +29,12 @@ namespace prompt_engineering {
 // FeedbackType Utilities
 // ============================================================================
 
+/**
+ * @brief Feedback Type To String.
+ * @param[in] type Input parameter.
+ * @return Return value.
+ * @details Implements feedbackTypeToString without additional internal calls.
+ */
 std::string feedbackTypeToString(FeedbackType type) {
     switch (type) {
         case FeedbackType::USER_POSITIVE: return "USER_POSITIVE";
@@ -45,6 +51,12 @@ std::string feedbackTypeToString(FeedbackType type) {
     }
 }
 
+/**
+ * @brief String To Feedback Type.
+ * @param[in] str Input parameter.
+ * @return Return value.
+ * @details Calls: find(), end().
+ */
 std::optional<FeedbackType> stringToFeedbackType(const std::string& str) {
     static const std::unordered_map<std::string, FeedbackType> map = {
         {"USER_POSITIVE", FeedbackType::USER_POSITIVE},
@@ -88,6 +100,12 @@ nlohmann::json FeedbackEntry::toJson() const {
     return j;
 }
 
+/**
+ * @brief From Json.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: value(), stringToFeedbackType(), value_or(), nlohmann::json::object(), contains(), std::chrono::system_clock::from_time_t().
+ */
 FeedbackEntry FeedbackEntry::fromJson(const nlohmann::json& j) {
     FeedbackEntry entry;
     entry.id = j.value("id", "");
@@ -178,6 +196,18 @@ FeedbackCollector::FeedbackCollector(RocksDBWrapper* db, rocksdb::ColumnFamilyHa
     }
 }
 
+/**
+ * @brief Record Feedback.
+ * @param[in] prompt_id Identifier of the prompt.
+ * @param[in] query Input parameter.
+ * @param[in] response Input parameter.
+ * @param[in] type Input parameter.
+ * @param[in] feedback_text Input parameter.
+ * @param[in] severity Input parameter.
+ * @param[in] metadata Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), generateId(), std::max(), std::min(), std::chrono::system_clock::now(), computeChecksum(), push_back(), persist().
+ */
 std::string FeedbackCollector::recordFeedback(
     const std::string& prompt_id,
     const std::string& query,
@@ -232,17 +262,34 @@ std::string FeedbackCollector::recordFeedback(
     return entry.id;
 }
 
-// ── DK-5: DI setters ─────────────────────────────────────────────────────────
+/**
+ * @brief ── DK-5: DI setters ─────────────────────────────────────────────────────────
+ * @param[in] sync Input parameter.
+ */
 
 void FeedbackCollector::setCrossShardSync(
     std::shared_ptr<distributed_knowledge::CrossShardFeedbackSync> sync)
 {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     cross_shard_sync_ = std::move(sync);
 }
 
+/**
+ * @brief Set Embedding Model.
+ * @param[in] model Input parameter.
+ */
 void FeedbackCollector::setEmbeddingModel(std::shared_ptr<IEmbeddingModel> model)
 {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     embedding_model_ = std::move(model);
 }
@@ -252,6 +299,11 @@ std::vector<FeedbackEntry> FeedbackCollector::getFeedback(
     size_t limit,
     std::optional<FeedbackType> type_filter
 ) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     auto it = feedback_.find(prompt_id);
@@ -279,6 +331,11 @@ std::vector<FeedbackEntry> FeedbackCollector::getFeedback(
 }
 
 FeedbackStats FeedbackCollector::getStats(const std::string& prompt_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     auto it = feedback_.find(prompt_id);
@@ -295,6 +352,11 @@ std::vector<std::string> FeedbackCollector::getPromptsWithNegativeFeedback(
     double threshold,
     size_t min_feedback
 ) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     std::vector<std::string> result;
@@ -322,6 +384,11 @@ FeedbackCollector::getFailedQueries(
     size_t limit,
     std::optional<FeedbackType> type_filter
 ) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     auto it = feedback_.find(prompt_id);
@@ -359,6 +426,11 @@ std::vector<FailedQueryPattern> FeedbackCollector::analyzeFailurePatterns(
     const std::string& prompt_id,
     size_t min_occurrences
 ) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     auto it = feedback_.find(prompt_id);
@@ -383,6 +455,11 @@ std::vector<FeedbackEntry> FeedbackCollector::getFeedbackInTimeRange(
     const std::chrono::system_clock::time_point& start,
     const std::chrono::system_clock::time_point& end
 ) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     // When a DB is available, use the time-keyed secondary index for an O(log n)
@@ -426,6 +503,12 @@ std::vector<FeedbackEntry> FeedbackCollector::getFeedbackInTimeRange(
     return result;
 }
 
+/**
+ * @brief Prune Old Feedback.
+ * @param[in] older_than Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), std::remove_if(), begin(), end(), std::distance(), erase(), scanPrefix(), nlohmann::json::parse().
+ */
 size_t FeedbackCollector::pruneOldFeedback(
     const std::chrono::system_clock::time_point& older_than
 ) {
@@ -476,6 +559,12 @@ size_t FeedbackCollector::pruneOldFeedback(
     return deleted;
 }
 
+/**
+ * @brief Clear Feedback.
+ * @param[in] prompt_id Identifier of the prompt.
+ * @return Return value.
+ * @details Calls: lock(), find(), end(), size(), erase(), std::string(), scanPrefix(), nlohmann::json::parse().
+ */
 size_t FeedbackCollector::clearFeedback(const std::string& prompt_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -516,6 +605,11 @@ std::vector<FeedbackEntry> FeedbackCollector::getFeedbackPaged(
     size_t page_size,
     std::optional<FeedbackType> type_filter
 ) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     auto it = feedback_.find(prompt_id);
@@ -547,6 +641,11 @@ std::vector<FeedbackEntry> FeedbackCollector::detectOutliers(
     const std::string& prompt_id,
     double z_threshold
 ) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     auto it = feedback_.find(prompt_id);
@@ -594,6 +693,11 @@ std::vector<FeedbackEntry> FeedbackCollector::detectOutliers(
 }
 
 nlohmann::json FeedbackCollector::getSummary() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     size_t total_feedback = 0;
@@ -652,7 +756,12 @@ std::string FeedbackCollector::generateId() const {
     return oss.str();
 }
 
-// static
+/**
+ * @brief static
+ * @param[in] tp Input parameter.
+ * @return Return value.
+ * @details Calls: time_since_epoch(), count(), std::setfill(), std::setw(), str().
+ */
 std::string FeedbackCollector::formatTimestampKey(
     const std::chrono::system_clock::time_point& tp
 ) {
@@ -664,6 +773,11 @@ std::string FeedbackCollector::formatTimestampKey(
     return oss.str();
 }
 
+/**
+ * @brief Persist.
+ * @param[in] entry Input parameter.
+ * @details Calls: std::string(), toJson(), dump(), bytes(), begin(), end(), put(), THEMIS_ERROR().
+ */
 void FeedbackCollector::persist(const FeedbackEntry& entry) {
     if (!db_) {
       return;
@@ -691,6 +805,11 @@ void FeedbackCollector::persist(const FeedbackEntry& entry) {
     db_->put(idx_key, idx_bytes);
 }
 
+/**
+ * @brief Delete From DB.
+ * @param[in] entry Input parameter.
+ * @details Calls: std::string(), del(), formatTimestampKey().
+ */
 void FeedbackCollector::deleteFromDB(const FeedbackEntry& entry) {
     if (!db_) {
       return;
@@ -706,6 +825,10 @@ void FeedbackCollector::deleteFromDB(const FeedbackEntry& entry) {
     db_->del(idx_key);
 }
 
+/**
+ * @brief Load From DB.
+ * @details Calls: scanPrefix(), nlohmann::json::parse(), std::string(), FeedbackEntry::fromJson(), push_back(), THEMIS_WARN(), what(), THEMIS_INFO().
+ */
 void FeedbackCollector::loadFromDB() {
     if (!db_) {
       return;
@@ -831,7 +954,11 @@ std::vector<FailedQueryPattern> FeedbackCollector::extractPatterns(
 
     // document_frequency[term] = number of documents containing the term
     std::unordered_map<std::string, size_t> document_frequency;
-    // per_entry_tokens[i] = token list for entries[i]
+    /**
+     * @brief per_entry_tokens[i] = token list for entries[i]
+     * @param[in] num_docs Input parameter.
+     * @return Return value.
+     */
     std::vector<std::vector<std::string>> per_entry_tokens(num_docs);
 
     for (size_t i = 0; i < num_docs; ++i) {
@@ -916,6 +1043,11 @@ std::vector<FailedQueryPattern> FeedbackCollector::extractPatterns(
 }
 
 size_t FeedbackCollector::newEntryCount() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     size_t total = 0;
     for (const auto& [prompt_id, entries] : feedback_) {

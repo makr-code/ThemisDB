@@ -19,6 +19,11 @@ namespace security {
 // UserRegistrationPluginManager
 // ============================================================================
 
+/**
+ * @brief Register Plugin.
+ * @param[in] plugin Input parameter.
+ * @details Calls: THEMIS_WARN(), lock(), getName(), THEMIS_INFO().
+ */
 void UserRegistrationPluginManager::registerPlugin(std::shared_ptr<IUserRegistrationPlugin> plugin) {
     if (!plugin) {
         THEMIS_WARN("Attempted to register null user registration plugin");
@@ -33,6 +38,11 @@ void UserRegistrationPluginManager::registerPlugin(std::shared_ptr<IUserRegistra
 std::shared_ptr<IUserRegistrationPlugin> UserRegistrationPluginManager::getPlugin(
     const std::string& name
 ) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     auto it = plugins_.find(name);
@@ -45,6 +55,11 @@ std::shared_ptr<IUserRegistrationPlugin> UserRegistrationPluginManager::getPlugi
 
 std::vector<std::shared_ptr<IUserRegistrationPlugin>> 
 UserRegistrationPluginManager::getAvailablePlugins() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     std::vector<std::shared_ptr<IUserRegistrationPlugin>> available;

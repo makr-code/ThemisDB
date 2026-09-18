@@ -54,6 +54,11 @@ AccessControlManager::AccessControlManager(const AccessControlConfig& config)
     THEMIS_INFO("AccessControlManager initialized");
 }
 
+/**
+ * @brief Initialize.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), loadConfig(), THEMIS_WARN(), load(), loadFromFile(), THEMIS_INFO(), rls_file(), is_open().
+ */
 bool AccessControlManager::initialize() {
     try {
         // Load RBAC configuration
@@ -108,6 +113,13 @@ bool AccessControlManager::initialize() {
     }
 }
 
+/**
+ * @brief Authenticate.
+ * @param[in] token Input parameter.
+ * @param[in] source_ip Input parameter.
+ * @return Authentication result.
+ * @details Calls: THEMIS_ERROR(), std::chrono::system_clock::now(), time_since_epoch(), count(), THEMIS_INFO(), dump(), validateToken(), THEMIS_DEBUG().
+ */
 std::optional<SecurityContext> AccessControlManager::authenticate(
     const std::string& token,
     const std::string& source_ip
@@ -187,6 +199,14 @@ std::optional<SecurityContext> AccessControlManager::authenticate(
     }
 }
 
+/**
+ * @brief Authorize an access control context.
+ * @param[in] context Authorization context to evaluate.
+ * @param[in] resource Input parameter.
+ * @param[in] action Input parameter.
+ * @return True when the context is authorized.
+ * @details Calls: custom_authorizer(), auditAccessDecision(), checkPermission(), empty(), std::make_optional(), AccessDecision::Deny(), THEMIS_INFO(), AccessDecision::Allow().
+ */
 AccessDecision AccessControlManager::authorize(
     const SecurityContext& context,
     const std::string& resource,
@@ -289,6 +309,15 @@ AccessDecision AccessControlManager::authorize(
     }
 }
 
+/**
+ * @brief Check Access.
+ * @param[in] token Input parameter.
+ * @param[in] resource Input parameter.
+ * @param[in] action Input parameter.
+ * @param[in] source_ip Input parameter.
+ * @return Return value.
+ * @details Calls: authenticate(), AccessDecision::Deny(), std::chrono::system_clock::now(), verify(), THEMIS_WARN(), auditAccessDecision(), THEMIS_DEBUG(), authorize().
+ */
 AccessDecision AccessControlManager::checkAccess(
     const std::string& token,
     const std::string& resource,
@@ -328,11 +357,23 @@ AccessDecision AccessControlManager::checkAccess(
     return authorize(*context, resource, action);
 }
 
+/**
+ * @brief Assign a role to a user.
+ * @param[in] user_id User identifier.
+ * @param[in] role Role to assign.
+ * @details Calls: THEMIS_INFO().
+ */
 void AccessControlManager::assignRole(const std::string& user_id, const std::string& role) {
     user_store_->assignRole(user_id, role);
     THEMIS_INFO("Assigned role '{}' to user '{}'", role, user_id);
 }
 
+/**
+ * @brief Revoke a role from a user.
+ * @param[in] user_id User identifier.
+ * @param[in] role Role to revoke.
+ * @details Calls: THEMIS_INFO().
+ */
 void AccessControlManager::revokeRole(const std::string& user_id, const std::string& role) {
     user_store_->revokeRole(user_id, role);
     THEMIS_INFO("Revoked role '{}' from user '{}'", role, user_id);
@@ -347,11 +388,21 @@ std::vector<Permission> AccessControlManager::getUserPermissions(const std::stri
     return rbac_->getUserPermissions(roles);
 }
 
+/**
+ * @brief Set Auth Middleware.
+ * @param[in] auth_middleware Input parameter.
+ * @details Calls: THEMIS_INFO().
+ */
 void AccessControlManager::setAuthMiddleware(std::shared_ptr<AuthMiddleware> auth_middleware) {
     auth_middleware_ = auth_middleware;
     THEMIS_INFO("AuthMiddleware configured for AccessControlManager");
 }
 
+/**
+ * @brief Set Zero Trust Enforcer.
+ * @param[in,out] enforcer Input/output parameter.
+ * @details Calls: THEMIS_INFO().
+ */
 void AccessControlManager::setZeroTrustEnforcer(ZeroTrustPolicyEnforcer* enforcer) {
     zero_trust_enforcer_ = enforcer;
     if (enforcer) {
@@ -361,11 +412,22 @@ void AccessControlManager::setZeroTrustEnforcer(ZeroTrustPolicyEnforcer* enforce
     }
 }
 
+/**
+ * @brief Add an ABAC policy.
+ * @param[in] policy ABAC policy to add.
+ * @details Calls: addPolicy(), THEMIS_INFO().
+ */
 void AccessControlManager::addABACPolicy(const PolicyEngine::Policy& policy) {
     policy_engine_.addPolicy(policy);
     THEMIS_INFO("Added ABAC policy '{}' to AccessControlManager", policy.id);
 }
 
+/**
+ * @brief Remove an ABAC policy.
+ * @param[in] policy_id Identifier of the ABAC policy to remove.
+ * @return True when the policy was removed.
+ * @details Calls: removePolicy(), THEMIS_INFO().
+ */
 bool AccessControlManager::removeABACPolicy(const std::string& policy_id) {
     bool removed = policy_engine_.removePolicy(policy_id);
     if (removed) {
@@ -374,7 +436,11 @@ bool AccessControlManager::removeABACPolicy(const std::string& policy_id) {
     return removed;
 }
 
-// ── Row-level security (RLS) ─────────────────────────────────────────────────
+/**
+ * @brief ── Row-level security (RLS) ─────────────────────────────────────────────────
+ * @param[in] policy Input parameter.
+ * @details Calls: addPolicy(), THEMIS_INFO(), empty().
+ */
 
 void AccessControlManager::addRLSPolicy(const RLSPolicy& policy) {
     rls_manager_.addPolicy(policy);
@@ -382,6 +448,12 @@ void AccessControlManager::addRLSPolicy(const RLSPolicy& policy) {
                 policy.id, policy.collection.empty() ? "*" : policy.collection);
 }
 
+/**
+ * @brief Remove RLSPolicy.
+ * @param[in] policy_id Identifier of the policy.
+ * @return True when the operation succeeds.
+ * @details Calls: removePolicy(), THEMIS_INFO().
+ */
 bool AccessControlManager::removeRLSPolicy(const std::string& policy_id) {
     bool removed = rls_manager_.removePolicy(policy_id);
     if (removed) {
@@ -405,6 +477,11 @@ bool AccessControlManager::isRLSActive(
     return rls_manager_.isActive(collection, ctx);
 }
 
+/**
+ * @brief Reload Configuration.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), loadConfig(), THEMIS_ERROR(), load(), loadFromFile(), THEMIS_INFO(), rls_file(), is_open().
+ */
 bool AccessControlManager::reloadConfiguration() {
     try {
         if (!config_.rbac_config_path.empty()) {
@@ -459,6 +536,11 @@ bool AccessControlManager::reloadConfiguration() {
     }
 }
 
+/**
+ * @brief Save Configuration.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), saveConfig(), THEMIS_ERROR(), save(), THEMIS_INFO(), what().
+ */
 bool AccessControlManager::saveConfiguration() {
     try {
         if (!config_.rbac_config_path.empty()) {
@@ -484,6 +566,14 @@ bool AccessControlManager::saveConfiguration() {
     }
 }
 
+/**
+ * @brief Audit Access Decision.
+ * @param[in] context Input parameter.
+ * @param[in] resource Input parameter.
+ * @param[in] action Input parameter.
+ * @param[in] decision Input parameter.
+ * @details Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), THEMIS_INFO(), dump(), THEMIS_ERROR(), what().
+ */
 void AccessControlManager::auditAccessDecision(
     const SecurityContext& context,
     const std::string& resource,

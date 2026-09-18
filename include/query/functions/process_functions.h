@@ -20,49 +20,11 @@ namespace themis {
 namespace query {
 namespace functions {
 
-/**
- * @brief Process Functions - AQL Functions for Process Management
- * 
- * Provides specialized functions for:
- * - Milestone management (creation, tracking, reporting)
- * - Workflow execution (start, advance, complete)
- * - Conformance checking (model comparison, deviations)
- * - SLA monitoring (remaining time, escalation)
- * - Predictive analytics (next step, duration, end date)
- * 
- * ## Categories
- * 
- * ### Milestone Functions
- * - MILESTONE_CREATE, MILESTONE_REACH, MILESTONE_STATUS
- * - MILESTONE_NEXT, MILESTONE_OVERDUE, MILESTONE_REPORT
- * 
- * ### Workflow Functions
- * - WORKFLOW_START, WORKFLOW_ADVANCE, WORKFLOW_COMPLETE
- * - WORKFLOW_CANCEL, WORKFLOW_VARIABLES, WORKFLOW_HISTORY
- * 
- * ### Conformance Functions
- * - PROCESS_CONFORMANCE, PROCESS_DEVIATIONS
- * - PROCESS_PREDICT_NEXT, PROCESS_PREDICT_DURATION, PROCESS_PREDICT_END
- * 
- * ### SLA Functions
- * - SLA_CHECK, SLA_REMAINING, SLA_ESCALATE
- */
 
 // ============================================================================
 // Milestone Functions
 // ============================================================================
 
-/**
- * @brief MILESTONE_STATUS - Get current milestone status for a case
- * 
- * Returns the current status of all milestones for a given case,
- * including reached, pending, overdue, and skipped milestones.
- * 
- * @code
- * LET status = MILESTONE_STATUS("V-2024-0001")
- * // Returns: { reached: 3, pending: 2, overdue: 0, next: {...} }
- * @endcode
- */
 class MilestoneStatusFunction : public IFunction {
 public:
     ~MilestoneStatusFunction() override = default;
@@ -136,9 +98,6 @@ public:
     }
 };
 
-/**
- * @brief MILESTONE_NEXT - Get next pending milestone
- */
 class MilestoneNextFunction : public IFunction {
 public:
     ~MilestoneNextFunction() override = default;
@@ -202,9 +161,6 @@ public:
     }
 };
 
-/**
- * @brief MILESTONE_OVERDUE - Get all overdue milestones
- */
 class MilestoneOverdueFunction : public IFunction {
 public:
     ~MilestoneOverdueFunction() override = default;
@@ -261,9 +217,6 @@ public:
 // Workflow Functions
 // ============================================================================
 
-/**
- * @brief WORKFLOW_ADVANCE - Advance workflow to next activity
- */
 class WorkflowAdvanceFunction : public IFunction {
 public:
     ~WorkflowAdvanceFunction() override = default;
@@ -298,9 +251,6 @@ public:
     }
 };
 
-/**
- * @brief WORKFLOW_VARIABLES - Get workflow variables
- */
 class WorkflowVariablesFunction : public IFunction {
 public:
     ~WorkflowVariablesFunction() override = default;
@@ -331,12 +281,6 @@ public:
 // Conformance Functions
 // ============================================================================
 
-/**
- * @brief PROCESS_CONFORMANCE - Calculate conformance score
- * 
- * Compares the actual execution path of a case with the expected
- * process model and returns a conformance score (0-100%).
- */
 class ProcessConformanceFunction : public IFunction {
 public:
     ~ProcessConformanceFunction() override = default;
@@ -370,9 +314,6 @@ public:
     }
 };
 
-/**
- * @brief PROCESS_DEVIATIONS - Find all process deviations
- */
 class ProcessDeviationsFunction : public IFunction {
 public:
     ~ProcessDeviationsFunction() override = default;
@@ -400,9 +341,6 @@ public:
     }
 };
 
-/**
- * @brief PROCESS_PREDICT_NEXT - Predict next activity
- */
 class ProcessPredictNextFunction : public IFunction {
 public:
     ~ProcessPredictNextFunction() override = default;
@@ -430,9 +368,6 @@ public:
     }
 };
 
-/**
- * @brief PROCESS_PREDICT_END - Predict process end date
- */
 class ProcessPredictEndFunction : public IFunction {
 public:
     ~ProcessPredictEndFunction() override = default;
@@ -474,9 +409,6 @@ public:
 // SLA Functions
 // ============================================================================
 
-/**
- * @brief SLA_CHECK - Check SLA compliance for a case
- */
 class SlaCheckFunction : public IFunction {
 public:
     ~SlaCheckFunction() override = default;
@@ -509,9 +441,6 @@ public:
     }
 };
 
-/**
- * @brief SLA_REMAINING - Get remaining time until SLA deadline
- */
 class SlaRemainingFunction : public IFunction {
 public:
     ~SlaRemainingFunction() override = default;
@@ -551,7 +480,7 @@ public:
 // ============================================================================
 
 /**
- * @brief Register all process functions with the registry
+ * @brief Register Process Functions.
  * @param[in,out] registry Input/output parameter.
  * @details Calls: registerFunction().
  */

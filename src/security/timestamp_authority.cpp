@@ -43,6 +43,11 @@
 namespace themis { namespace security {
 
 // Helper: check production mode (mirrors HSM stub pattern)
+/**
+ * @brief Is Production Mode.
+ * @return True when the operation succeeds.
+ * @details Calls: std::getenv(), s().
+ */
 static bool isProductionMode() {
     const char* prod_mode = std::getenv("THEMIS_PRODUCTION_MODE");
     const char* environment = std::getenv("THEMIS_ENVIRONMENT");
@@ -77,12 +82,22 @@ static bool isProductionMode() {
 }
 
 // Helper: check if TSA stub is explicitly allowed
+/**
+ * @brief Is Stub Allowed.
+ * @return True when the operation succeeds.
+ * @details Calls: std::getenv(), std::string().
+ */
 static bool isStubAllowed() {
     const char* allow_stub = std::getenv("THEMIS_ALLOW_TSA_STUB");
     return allow_stub && std::string(allow_stub) == "1";
 }
 
 // Helper: return a failed token indicating stub is blocked in production
+/**
+ * @brief Make Production Error.
+ * @return Return value.
+ * @details Calls: THEMIS_ERROR().
+ */
 static TimestampToken makeProductionError() {
     TimestampToken tok;
     tok.success = false;
@@ -104,7 +119,6 @@ static TimestampToken makeProductionError() {
 // @note This Impl is the PERMANENT no-TSA fallback; the real Impl (with CURL* and
 //       OpenSSL TS context) lives in timestamp_authority_openssl.cpp and activates
 //       when `-DTHEMIS_USE_OPENSSL_TSA=ON` is set (Wave-2 CMake guard).
-/** @brief when `-DTHEMIS_USE_OPENSSL_TSA=ON` is set (Wave-2 CMake guard). */
 class TimestampAuthority::Impl {
 public:
     mutable std::mutex state_mutex;
@@ -112,7 +126,12 @@ public:
     std::optional<std::string> cached_tsa_cert_pem;
 };
 
-// Helper: hex encode
+/**
+ * @brief Helper: hex encode
+ * @param[in] data Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), push_back().
+ */
 static std::string hex(const std::vector<uint8_t>& data) {
     static const char* d = "0123456789abcdef";
     std::string out; out.reserve(data.size()*2);
@@ -120,7 +139,12 @@ static std::string hex(const std::vector<uint8_t>& data) {
     return out;
 }
 
-// Very weak deterministic hash (not cryptographic!)
+/**
+ * @brief Very weak deterministic hash (not cryptographic!
+ * @param[in] data Input parameter.
+ * @return Return value.
+ * @details ) Calls: reserve(), size(), push_back().
+ */
 static std::vector<uint8_t> pseudo_hash(const std::vector<uint8_t>& data) {
     std::vector<uint8_t> h; h.reserve(data.size());
     for (size_t i = 0; i < data.size();++i) {
@@ -136,6 +160,12 @@ TimestampAuthority::~TimestampAuthority() = default;
 TimestampAuthority::TimestampAuthority(TimestampAuthority&&) noexcept = default;
 TimestampAuthority& TimestampAuthority::operator=(TimestampAuthority&&) noexcept = default;
 
+/**
+ * @brief Get Timestamp.
+ * @param[in] data Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), THEMIS_ERROR(), isProductionMode(), isStubAllowed(), makeProductionError(), THEMIS_WARN(), getTimestampForHash(), computeHash().
+ */
 TimestampToken TimestampAuthority::getTimestamp(const std::vector<uint8_t>& data) {
     // Input validation: reject empty data
     if (data.empty()) {
@@ -159,6 +189,12 @@ TimestampToken TimestampAuthority::getTimestamp(const std::vector<uint8_t>& data
     return getTimestampForHash(computeHash(data));
 }
 
+/**
+ * @brief Get Timestamp For Hash.
+ * @param[in] hash Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), THEMIS_ERROR(), isProductionMode(), isStubAllowed(), makeProductionError(), lk(), TimestampAuthority::getTimestampForHashFnMutex(), TimestampAuthority::getTimestampForHashFnStorage().
+ */
 TimestampToken TimestampAuthority::getTimestampForHash(const std::vector<uint8_t>& hash) {
     // Input validation: reject empty hash
     if (hash.empty()) {
@@ -220,6 +256,13 @@ TimestampToken TimestampAuthority::getTimestampForHash(const std::vector<uint8_t
     return tok;
 }
 
+/**
+ * @brief Verify Timestamp.
+ * @param[in] data Input parameter.
+ * @param[in] token Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), THEMIS_ERROR(), verifyTimestampForHash(), computeHash().
+ */
 bool TimestampAuthority::verifyTimestamp(const std::vector<uint8_t>& data, const TimestampToken& token) {
     if (data.empty()) {
         THEMIS_ERROR("Cannot verify timestamp for empty data");
@@ -228,6 +271,13 @@ bool TimestampAuthority::verifyTimestamp(const std::vector<uint8_t>& data, const
     return verifyTimestampForHash(computeHash(data), token);
 }
 
+/**
+ * @brief Verify Timestamp For Hash.
+ * @param[in] hash Input parameter.
+ * @param[in] token Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), THEMIS_ERROR(), lk(), TimestampAuthority::verifyTimestampForHashFnMutex(), TimestampAuthority::verifyTimestampForHashFnStorage(), fn(), what(), std::string().
+ */
 bool TimestampAuthority::verifyTimestampForHash(const std::vector<uint8_t>& hash, const TimestampToken& token) {
     if (hash.empty()) {
         THEMIS_ERROR("Cannot verify timestamp for empty hash");
@@ -253,6 +303,12 @@ bool TimestampAuthority::verifyTimestampForHash(const std::vector<uint8_t>& hash
     return token.success && token.token_b64 == std::string("hex:")+hex(hash);
 }
 
+/**
+ * @brief Parse Token.
+ * @param[in] token_data Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), THEMIS_WARN(), std::string(), hex().
+ */
 TimestampToken TimestampAuthority::parseToken(const std::vector<uint8_t>& token_data) {
     TimestampToken tok = {};
     if (token_data.empty()) {
@@ -267,6 +323,12 @@ TimestampToken TimestampAuthority::parseToken(const std::vector<uint8_t>& token_
     return tok;
 }
 
+/**
+ * @brief Parse Token.
+ * @param[in] token_b64 Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), THEMIS_WARN().
+ */
 TimestampToken TimestampAuthority::parseToken(const std::string& token_b64) {
     TimestampToken tok = {};
     if (token_b64.empty()) {
@@ -280,6 +342,11 @@ TimestampToken TimestampAuthority::parseToken(const std::string& token_b64) {
     return tok;
 }
 
+/**
+ * @brief Get TSACertificate.
+ * @return Return value.
+ * @details Calls: lk(), isProductionMode(), isStubAllowed(), THEMIS_ERROR(), std::string().
+ */
 std::optional<std::string> TimestampAuthority::getTSACertificate() {
     std::lock_guard<std::mutex> lk(impl_->state_mutex);
     if (!impl_->cached_tsa_cert_pem) {
@@ -293,13 +360,43 @@ std::optional<std::string> TimestampAuthority::getTSACertificate() {
     }
     return impl_->cached_tsa_cert_pem;
 }
+/**
+ * @brief Is Available.
+ * @return True when the operation succeeds.
+ * @details Implements isAvailable without additional internal calls.
+ */
 bool TimestampAuthority::isAvailable() { return true; }
 std::string TimestampAuthority::getLastError() const { return last_error_; }
 
 // Private helpers (stubs)
+/**
+ * @brief Create TSPRequest.
+ * @param[in] param Input parameter.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Implements createTSPRequest without additional internal calls.
+ */
 std::vector<uint8_t> TimestampAuthority::createTSPRequest(const std::vector<uint8_t>&, const std::vector<uint8_t>&) { return {}; }
+/**
+ * @brief Parse TSPResponse.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Implements parseTSPResponse without additional internal calls.
+ */
 TimestampToken TimestampAuthority::parseTSPResponse(const std::vector<uint8_t>&) { TimestampToken t; t.success = true; return t; }
+/**
+ * @brief Send TSPRequest.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Implements sendTSPRequest without additional internal calls.
+ */
 std::vector<uint8_t> TimestampAuthority::sendTSPRequest(const std::vector<uint8_t>&) { return {}; }
+/**
+ * @brief Generate Nonce.
+ * @param[in] bytes Input parameter.
+ * @return Return value.
+ * @details Calls: max(), THEMIS_ERROR(), n(), RAND_bytes(), data().
+ */
 std::vector<uint8_t> TimestampAuthority::generateNonce(size_t bytes) {
     // Cryptographically random nonce using OpenSSL RAND_bytes.
     // Sequential counter bytes were previously used here (security gap) —
@@ -325,6 +422,12 @@ std::vector<uint8_t> TimestampAuthority::generateNonce(size_t bytes) {
     }
     return n;
 }
+/**
+ * @brief Compute Hash.
+ * @param[in] data Input parameter.
+ * @return Return value.
+ * @details Calls: pseudo_hash().
+ */
 std::vector<uint8_t> TimestampAuthority::computeHash(const std::vector<uint8_t>& data) { return pseudo_hash(data); }
 
 // ============================================================================
@@ -348,6 +451,13 @@ std::vector<uint8_t> TimestampAuthority::computeHash(const std::vector<uint8_t>&
 // Enable with -DTHEMIS_USE_OPENSSL_TSA=ON; see
 // src/security/FUTURE_ENHANCEMENTS.md §"eIDAS TSA Validation".
 
+/**
+ * @brief Validatee IDASTimestamp.
+ * @param[in] token Input parameter.
+ * @param[in] trust_anchors Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: clear(), lk(), eIDASTimestampValidator::validateFnMutex(), eIDASTimestampValidator::validateFnStorage(), fn(), push_back(), std::string(), what().
+ */
 bool eIDASTimestampValidator::validateeIDASTimestamp(
     const TimestampToken& token,
     const std::vector<std::string>& trust_anchors) {
@@ -389,6 +499,13 @@ bool eIDASTimestampValidator::validateeIDASTimestamp(
     return true;
 }
 
+/**
+ * @brief Validate Age.
+ * @param[in] token Input parameter.
+ * @param[in] max_age_days Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: clear(), push_back(), std::chrono::system_clock::now(), time_since_epoch(), count().
+ */
 bool eIDASTimestampValidator::validateAge(const TimestampToken& token, int max_age_days) {
     validation_errors_.clear();
     
@@ -434,6 +551,13 @@ bool eIDASTimestampValidator::validateAge(const TimestampToken& token, int max_a
     return true;
 }
 
+/**
+ * @brief Is Qualified TSA.
+ * @param[in] tsa_cert Input parameter.
+ * @param[in] qtsp_list Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: clear(), lk(), eIDASTimestampValidator::qualifiedTSAFnMutex(), eIDASTimestampValidator::qualifiedTSAFnStorage(), fn(), push_back(), std::string(), what().
+ */
 bool eIDASTimestampValidator::isQualifiedTSA(
     const std::string& tsa_cert,
     const std::vector<std::string>& qtsp_list) {

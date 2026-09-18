@@ -73,6 +73,11 @@ Result<UserRegistrationData> ArrowUserRegistrationPlugin::registerUser(
     }
 
     {
+        /**
+         * @brief Lock.
+         * @param[in] store_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(store_mutex_);
         user_store_[user_id] = data;
     }
@@ -86,6 +91,12 @@ Result<UserRegistrationData> ArrowUserRegistrationPlugin::registerUser(
 #endif
 }
 
+/**
+ * @brief Authenticate User.
+ * @param[in] user_id Identifier of the user.
+ * @param[in] password Input parameter.
+ * @return Return value.
+ */
 Result<UserRegistrationData> ArrowUserRegistrationPlugin::authenticateUser(
     const std::string& user_id,
     const std::string& password)
@@ -102,6 +113,11 @@ Result<UserRegistrationData> ArrowUserRegistrationPlugin::authenticateUser(
 #endif
 }
 
+/**
+ * @brief Sync Users.
+ * @return Return value.
+ * @details Calls: THEMIS_INFO(), lock(), reserve(), size(), push_back(), themis::Ok(), std::move().
+ */
 Result<std::vector<UserRegistrationData>> ArrowUserRegistrationPlugin::syncUsers() {
     THEMIS_INFO("Arrow plugin: Syncing users from source '{}'", config_.arrow_source_uri);
 
@@ -126,12 +142,22 @@ Result<std::vector<UserRegistrationData>> ArrowUserRegistrationPlugin::syncUsers
 #endif
 }
 
+/**
+ * @brief Update User.
+ * @param[in] user_id Identifier of the user.
+ * @return Return value.
+ */
 Result<UserRegistrationData> ArrowUserRegistrationPlugin::updateUser(
     const std::string& user_id)
 {
     THEMIS_INFO("Arrow plugin: Updating user '{}'", user_id);
 
 #ifdef THEMIS_ENABLE_ARROW
+    /**
+     * @brief Lock.
+     * @param[in] store_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(store_mutex_);
     auto it = user_store_.find(user_id);
     if (it == user_store_.end()) {
@@ -151,6 +177,11 @@ Result<UserRegistrationData> ArrowUserRegistrationPlugin::updateUser(
 
 #ifdef THEMIS_ENABLE_ARROW
 
+/**
+ * @brief Bulk Sync From Arrow.
+ * @param[in] batch Input parameter.
+ * @return Return value.
+ */
 Result<size_t> ArrowUserRegistrationPlugin::bulkSyncFromArrow(
     const arrow::RecordBatch& batch)
 {
@@ -187,6 +218,11 @@ Result<size_t> ArrowUserRegistrationPlugin::bulkSyncFromArrow(
         email_col = std::static_pointer_cast<arrow::StringArray>(batch.column(email_idx));
     }
 
+    /**
+     * @brief Lock.
+     * @param[in] store_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(store_mutex_);
     const int64_t num_rows = batch.num_rows();
     for (int64_t i = 0; i < num_rows; ++i) {
@@ -225,10 +261,21 @@ Result<size_t> ArrowUserRegistrationPlugin::bulkSyncFromArrow(
     return themis::Ok(static_cast<size_t>(num_rows));
 }
 
+/**
+ * @brief Authenticate From Arrow.
+ * @param[in] user_id Identifier of the user.
+ * @param[in] credentials Input parameter.
+ * @return Return value.
+ */
 Result<UserRegistrationData> ArrowUserRegistrationPlugin::authenticateFromArrow(
     const std::string& user_id,
     const std::string& credentials)
 {
+    /**
+     * @brief Lock.
+     * @param[in] store_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(store_mutex_);
     auto it = user_store_.find(user_id);
     if (it == user_store_.end()) {

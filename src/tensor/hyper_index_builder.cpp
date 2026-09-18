@@ -34,7 +34,6 @@ HyperIndexBuilder::BucketAssignmentFn g_bucket_assignment_fn;
 // Bucket helpers
 // ============================================================================
 
-/// Assign bucket index for a NUMERIC value given quantile thresholds.
 std::size_t numericBucket(double value,
                           const std::vector<double>& thresholds,
                           std::size_t bucket_count) noexcept {
@@ -46,7 +45,14 @@ std::size_t numericBucket(double value,
                                  bucket_count - 1);
 }
 
-/// Assign bucket index for a CATEGORY value given ordered category list.
+/**
+ * @brief Category Bucket.
+ * @param[in] value Input parameter.
+ * @param[in] categories Input parameter.
+ * @param[in] bucket_count Input parameter.
+ * @return Return value.
+ * @details Calls: size(), std::min().
+ */
 std::size_t categoryBucket(const std::string&              value,
                              const std::vector<std::string>& categories,
                              std::size_t                     bucket_count) {
@@ -59,14 +65,21 @@ std::size_t categoryBucket(const std::string&              value,
     return bucket_count - 1;
 }
 
-/// Assign bucket index for a BOOLEAN value (false=0, true=1).
 std::size_t boolBucket(bool value, std::size_t bucket_count) noexcept {
     return value ? std::min(std::size_t{1}, bucket_count - 1) : 0;
 }
 
-// ============================================================================
-// Row → per-column bucket index vector
-// ============================================================================
+/**
+ * @brief ============================================================================ Row → per-column bucket index vector ============================================================================
+ * @param[in] row Input parameter.
+ * @param[in] schema Input parameter.
+ * @param[in] numeric_thresholds Input parameter.
+ * @param[in] category_orders Input parameter.
+ * @param[in] bucket_count Input parameter.
+ * @return Return value.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: reserve(), size(), push_back(), numericBucket(), categoryBucket(), boolBucket().
+ */
 
 std::vector<std::size_t> bucketiseRow(const TableRow&                  row,
                                       const std::vector<ColumnSchema>& schema,
@@ -115,9 +128,13 @@ std::vector<std::size_t> bucketiseRow(const TableRow&                  row,
     return buckets;
 }
 
-// ============================================================================
-// Co-occurrence tensor linearisation helpers
-// ============================================================================
+/**
+ * @brief ============================================================================ Co-occurrence tensor linearisation helpers ============================================================================
+ * @param[in] buckets Input parameter.
+ * @param[in] bucket_count Input parameter.
+ * @return Return value.
+ * @details Implements flattenBuckets without additional internal calls.
+ */
 
 std::size_t flattenBuckets(const std::vector<std::size_t>& buckets,
                              std::size_t                     bucket_count) {
@@ -128,6 +145,15 @@ std::size_t flattenBuckets(const std::vector<std::size_t>& buckets,
     return idx;
 }
 
+/**
+ * @brief Build Numeric Thresholds.
+ * @param[in] schema Input parameter.
+ * @param[in] rows Input parameter.
+ * @param[in] bucket_count Input parameter.
+ * @param[in] strategy Input parameter.
+ * @return Return value.
+ * @details Calls: thresholds(), clear(), reserve(), push_back(), size(), empty(), std::sort(), begin().
+ */
 std::vector<std::vector<double>> buildNumericThresholds(
     const std::vector<ColumnSchema>& schema,
     const std::vector<TableRow>& rows,
@@ -215,6 +241,14 @@ std::vector<std::vector<double>> buildNumericThresholds(
     return thresholds;
 }
 
+/**
+ * @brief Build Category Orders.
+ * @param[in] schema Input parameter.
+ * @param[in] rows Input parameter.
+ * @param[in] strategy Input parameter.
+ * @return Return value.
+ * @details Calls: category_orders(), empty(), size(), ordered(), begin(), end(), std::sort(), reserve().
+ */
 std::vector<std::vector<std::string>> buildCategoryOrders(
     const std::vector<ColumnSchema>& schema,
     const std::vector<TableRow>& rows,
@@ -276,14 +310,6 @@ std::vector<std::vector<std::string>> buildCategoryOrders(
     return category_orders;
 }
 
-/**
- * @brief Clamp a propagated floating-point signal to a valid bucket index.
- *
- * @param value Input signal; NaN/negative values map to bucket 0 as a
- *        conservative fallback to avoid invalid indexing.
- * @param bucket_count Number of buckets; caller guarantees bucket_count > 0.
- * @return Bucket index in [0, bucket_count-1].
- */
 [[nodiscard]] std::size_t clampBucketFromSignal(double value, std::size_t bucket_count) {
     if (std::isnan(value) || value < 0.0) {
         return 0;
@@ -301,17 +327,6 @@ struct FkResolvedEdge {
     double weight;      ///< Validated join strength in [0,1]
 };
 
-/**
- * @brief Validate FK edges and resolve effective join strengths.
- *
- * @param edges FK edge definitions from config.
- * @param schema_size Number of schema columns for index validation.
- * @param fk_cfg FK propagation config with fallback rules.
- * @return Filtered, validated FK edges with resolved weights.
- *
- * @throws std::invalid_argument on invalid column indices or invalid weights.
- * @throws std::runtime_error when join statistics are missing and fallback is THROW.
- */
 [[nodiscard]] std::vector<FkResolvedEdge> resolveForeignKeyEdges(
     const std::vector<HyperIndexConfig::ForeignKeyEdge>& edges,
     std::size_t schema_size,
@@ -367,19 +382,13 @@ struct FkResolvedEdge {
 }
 
 /**
- * @brief Propagate FK join signals across bucket assignments.
- *
- * Traversal is cycle-protected via per-root visited sets and bounded by
- * `max_hops` (minimum effective value is 1). Direct FK hops keep full weight;
- * deeper hops apply `propagation_decay` (clamped to [0,1]).
- *
- * @param buckets In/out bucket assignments for one row (modified in place).
- * @param edges FK graph edges.
- * @param fk_cfg FK graph traversal/fallback settings.
- * @param schema_size Number of schema columns.
- * @param bucket_count Number of buckets per dimension.
- *
- * @throws std::invalid_argument / std::runtime_error from FK edge validation.
+ * @brief Apply Foreign Key Propagation.
+ * @param[in,out] buckets Input/output parameter.
+ * @param[in] edges Input parameter.
+ * @param[in] fk_cfg Input parameter.
+ * @param[in] schema_size Input parameter.
+ * @param[in] bucket_count Input parameter.
+ * @details Calls: empty(), resolveForeignKeyEdges(), adjacency(), indegree(), push_back(), reserve(), std::clamp(), signal_weight().
  */
 void applyForeignKeyPropagation(std::vector<std::size_t>& buckets,
                                 const std::vector<HyperIndexConfig::ForeignKeyEdge>& edges,
@@ -547,9 +556,18 @@ double HyperIndexTensor::contract(
     return carry.empty() ? 0.0 : carry[0];
 }
 
-// ============================================================================
-// HyperIndexBuilder::fromSchema
-// ============================================================================
+/**
+ * @brief ============================================================================ HyperIndexBuilder::fromSchema ============================================================================
+ * @param[in] tenant_id Identifier of the tenant.
+ * @param[in] schema Input parameter.
+ * @param[in] rows Input parameter.
+ * @param[in] cfg Input parameter.
+ * @return Return value.
+ * @throws std::invalid_argument if an error occurs.
+ * @throws std::overflow_error if an error occurs.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: size(), std::to_string(), empty(), shape(), max(), count_tensor(), buildNumericThresholds(), buildCategoryOrders().
+ */
 
 HyperIndexTensor HyperIndexBuilder::fromSchema(
         const std::string&               tenant_id,
@@ -650,16 +668,30 @@ HyperIndexTensor HyperIndexBuilder::fromSchema(
     return result;
 }
 
+/**
+ * @brief Set Bucket Assignment Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lk(), std::move().
+ */
 void HyperIndexBuilder::setBucketAssignmentFn(BucketAssignmentFn fn) {
     std::lock_guard<std::mutex> lk(g_bucket_assignment_fn_mu);
     g_bucket_assignment_fn = std::move(fn);
 }
 
+/**
+ * @brief Clear Bucket Assignment Fn.
+ * @details Calls: lk().
+ */
 void HyperIndexBuilder::clearBucketAssignmentFn() {
     std::lock_guard<std::mutex> lk(g_bucket_assignment_fn_mu);
     g_bucket_assignment_fn = nullptr;
 }
 
+/**
+ * @brief Get Bucket Assignment Fn.
+ * @return Return value.
+ * @details Calls: lk().
+ */
 HyperIndexBuilder::BucketAssignmentFn HyperIndexBuilder::getBucketAssignmentFn() {
     std::lock_guard<std::mutex> lk(g_bucket_assignment_fn_mu);
     return g_bucket_assignment_fn;

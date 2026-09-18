@@ -26,7 +26,6 @@
 namespace themisdb {
 namespace sharding {
 
-/** @brief Compute SHA-256 checksum for serialized snapshot payload. */
 std::string MetadataSnapshot::calculateChecksum() const {
     // Serialize snapshot to JSON string (excluding checksum field)
     nlohmann::json j = toJson();
@@ -45,7 +44,6 @@ std::string MetadataSnapshot::calculateChecksum() const {
     return ss.str();
 }
 
-/** @brief Construct snapshot manager and ensure snapshot directory exists. */
 MetadataSnapshotManager::MetadataSnapshotManager(
     const std::string& snapshot_directory,
     size_t max_snapshots
@@ -59,12 +57,16 @@ MetadataSnapshotManager::MetadataSnapshotManager(
     }
 }
 
-/** @brief Create snapshot file, persist JSON, and trigger retention cleanup. */
 std::optional<uint64_t> MetadataSnapshotManager::createSnapshot(
     const std::string& shard_id,
     const LSN& last_lsn,
     const std::map<MetadataPartitionKey, std::map<std::string, MetadataEntry>>& storage
 ) {
+    /**
+     * @brief Lock.
+     * @param[in] snapshot_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(snapshot_mutex_);
     
     try {
@@ -97,6 +99,11 @@ std::optional<uint64_t> MetadataSnapshotManager::createSnapshot(
         
         // Write to file
         std::string snapshot_path = getSnapshotPath(snapshot.snapshot_id);
+        /**
+         * @brief File.
+         * @param[in] snapshot_path Path to the snapshot.
+         * @return Return value.
+         */
         std::ofstream file(snapshot_path);
         if (!file.is_open()) {
             spdlog::error("Failed to create snapshot file: {}", snapshot_path);
@@ -123,7 +130,11 @@ std::optional<uint64_t> MetadataSnapshotManager::createSnapshot(
     }
 }
 
-/** @brief Load newest snapshot if available. */
+/**
+ * @brief Load Latest Snapshot.
+ * @return Return value.
+ * @details Calls: lock(), listSnapshots(), empty(), spdlog::info(), loadSnapshot().
+ */
 std::optional<MetadataSnapshot> MetadataSnapshotManager::loadLatestSnapshot() {
     std::lock_guard<std::mutex> lock(snapshot_mutex_);
     
@@ -138,7 +149,12 @@ std::optional<MetadataSnapshot> MetadataSnapshotManager::loadLatestSnapshot() {
     return loadSnapshot(latest_id);
 }
 
-/** @brief Load snapshot by id and validate checksum integrity. */
+/**
+ * @brief Load Snapshot.
+ * @param[in] snapshot_id Identifier of the snapshot.
+ * @return Return value.
+ * @details Calls: getSnapshotPath(), std::filesystem::exists(), spdlog::warn(), file(), is_open(), spdlog::error(), close(), MetadataSnapshot::fromJson().
+ */
 std::optional<MetadataSnapshot> MetadataSnapshotManager::loadSnapshot(uint64_t snapshot_id) {
     try {
         std::string snapshot_path = getSnapshotPath(snapshot_id);
@@ -182,7 +198,6 @@ std::optional<MetadataSnapshot> MetadataSnapshotManager::loadSnapshot(uint64_t s
     }
 }
 
-/** @brief Enumerate snapshot files and return IDs sorted newest-first. */
 std::vector<uint64_t> MetadataSnapshotManager::listSnapshots() const {
     std::vector<uint64_t> snapshot_ids;
     
@@ -223,7 +238,10 @@ std::vector<uint64_t> MetadataSnapshotManager::listSnapshots() const {
     return snapshot_ids;
 }
 
-/** @brief Enforce snapshot retention by deleting oldest surplus snapshots. */
+/**
+ * @brief Cleanup Old Snapshots.
+ * @details Calls: listSnapshots(), size(), deleteSnapshot(), spdlog::info(), spdlog::error(), what().
+ */
 void MetadataSnapshotManager::cleanupOldSnapshots() {
     try {
         auto snapshots = listSnapshots();
@@ -242,7 +260,12 @@ void MetadataSnapshotManager::cleanupOldSnapshots() {
     }
 }
 
-/** @brief Delete one snapshot file from disk when present. */
+/**
+ * @brief Delete Snapshot.
+ * @param[in] snapshot_id Identifier of the snapshot.
+ * @return True when the operation succeeds.
+ * @details Calls: getSnapshotPath(), std::filesystem::exists(), std::filesystem::remove(), spdlog::debug(), spdlog::error(), what().
+ */
 bool MetadataSnapshotManager::deleteSnapshot(uint64_t snapshot_id) {
     try {
         std::string snapshot_path = getSnapshotPath(snapshot_id);
@@ -260,7 +283,6 @@ bool MetadataSnapshotManager::deleteSnapshot(uint64_t snapshot_id) {
     }
 }
 
-/** @brief Build full file path for snapshot id. */
 std::string MetadataSnapshotManager::getSnapshotPath(uint64_t snapshot_id) const {
     return snapshot_directory_ + "/metadata_snapshot_" + std::to_string(snapshot_id) + ".json";
 }

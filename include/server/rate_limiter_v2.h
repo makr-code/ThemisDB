@@ -29,73 +29,24 @@
 namespace themis {
 namespace server {
 
-/**
- * @brief Redis connection configuration for distributed rate limiting.
- *
- * Used by TokenBucketRateLimiter and PerClientRateLimiter when
- * Backend::REDIS is selected.  When THEMIS_ENABLE_REDIS is not defined,
- * the struct is still present but the Redis code path is compiled out;
- * the limiter silently falls back to the local token bucket and emits a
- * one-time WARN log.
- */
 struct RedisRateLimiterConfig {
-    /// Redis server hostname or IP address.
     std::string host = "127.0.0.1";
 
-    /// Redis server TCP port.
     int port = 6379;
 
-    /// Optional AUTH password.  Empty = no authentication.
     std::string auth;
 
-    /// Key namespace prefix, e.g. "themis:rl".
-    /// The full key becomes "{key_prefix}:{client_key}:{priority}".
     std::string key_prefix = "themis:rl";
 
-    /// Connect / command timeout in milliseconds.
     int timeout_ms = 5000;
 
-    /// Maximum number of consecutive Redis errors before declaring the
-    /// backend unhealthy and triggering the local fallback.
     int max_errors = 3;
 
-    /// TTL (in seconds) for rate-limit keys stored in Redis.
-    /// Should be at least capacity / refill_rate seconds.
     int key_ttl_seconds = 3600;
 
-    /// F-008: Number of pooled Redis connections.  Each connection can
-    /// execute one EVALSHA call concurrently, so pool_size determines the
-    /// maximum concurrency of distributed rate-limit checks.
-    /// Minimum: 1.  Recommended: number of worker threads / 4.
     int pool_size = 4;
 };
 
-/**
- * @brief Token-Bucket Rate Limiter with priority lanes
- * 
- * Enterprise-grade rate limiting using the Token Bucket algorithm:
- * - Burst traffic support (capacity > refill_rate)
- * - Priority lanes (HIGH/NORMAL/LOW)
- * - Per-client rate limiting
- * - Thread-safe
- * - Optional Redis backend for cluster-wide distributed rate limiting
- * 
- * Algorithm:
- * 1. Bucket holds 'capacity' tokens
- * 2. Refills at 'refill_rate' tokens/second
- * 3. Request consumes 1 token (customizable)
- * 4. If bucket empty → reject (429)
- * 
- * Example:
- *   capacity=1000, refill_rate=100
- *   → Can handle 1000 req/s burst, 100 req/s sustained
- *
- * Redis backend example:
- *   TokenBucketRateLimiter::Config cfg;
- *   cfg.backend = TokenBucketRateLimiter::Backend::REDIS;
- *   cfg.redis.host = "redis.internal";
- *   TokenBucketRateLimiter limiter(cfg);
- */
 class TokenBucketRateLimiter {
 public:
     enum class Priority {
@@ -104,7 +55,6 @@ public:
         LOW = 2     // Batch/background jobs
     };
 
-    /// Selects where the bucket state is stored.
     enum class Backend {
         LOCAL, ///< In-process token bucket (default, original behaviour).
         REDIS  ///< Distributed token bucket backed by Redis EVALSHA.
@@ -121,18 +71,18 @@ public:
         size_t low_capacity = 500;           // Low-priority burst
         size_t low_refill_rate = 50;         // Low-priority sustained
 
-        /// Storage backend.  Defaults to LOCAL for backwards compatibility.
         Backend backend = Backend::LOCAL;
 
-        /// Redis configuration (only used when backend == Backend::REDIS).
         RedisRateLimiterConfig redis;
 
-        /// Identifies this bucket in Redis keys (e.g., "global" or a route name).
-        /// Must be unique across all TokenBucketRateLimiter instances sharing
-        /// the same Redis keyspace.
         std::string bucket_id = "default";
     };
 
+    /**
+     * @brief Token Bucket Rate Limiter.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit TokenBucketRateLimiter(const Config& config);
     ~TokenBucketRateLimiter();
 
@@ -142,166 +92,34 @@ public:
     TokenBucketRateLimiter(TokenBucketRateLimiter&&) = delete;
     TokenBucketRateLimiter& operator=(TokenBucketRateLimiter&&) = delete;
 
-    /**
-     * @brief Try to acquire tokens from the token bucket.
-     * 
-     * Attempts to consume the requested number of tokens from the appropriate priority lane.
-     * If not enough tokens are available, the request is rejected immediately (fail-fast).
-     * This method is called for every incoming request as part of rate-limit enforcement.
-     * 
-     * ### Priority Lanes
-     * - HIGH: VIP clients with higher burst and sustained rate limits
-     * - NORMAL: Standard clients with default limits
-     * - LOW: Batch/background jobs with lower limits
-     * 
-     * ### Token Bucket Algorithm
-     * 1. Calculate refill amount based on time elapsed since last refill
-     * 2. Add refilled tokens to current bucket (capped at capacity)
-     * 3. If bucket has enough tokens, consume and return true
-     * 4. Otherwise, return false (rate limit exceeded)
-     * 
-     * ### Distributed Mode (Redis backend)
-     * When Backend::REDIS is configured, the token bucket state is stored in Redis
-     * and shared across all server instances. This ensures consistent rate limiting
-     * across the entire cluster. If Redis becomes unhealthy, the local bucket is used
-     * as fallback.
-     * 
-     * @param tokens Number of tokens to consume (default: 1).
-     *               A value of 0 is treated as a no-op acquisition and succeeds.
-     * @param prio Priority lane to use (HIGH, NORMAL, LOW)
-     * 
-     * @return true if tokens were successfully acquired and consumed; false if rate limit exceeded
-     *         (bucket did not have enough tokens)
-     * 
-     * @note Thread-safe; concurrent calls allowed on the same limiter
-     * @note Time-based refills are processed only when tryAcquire is called
-     * @note In distributed mode (Redis), Redis errors trigger local fallback; see isRedisHealthy()
-     * @note Does NOT block; returns immediately with success/failure status
-     * 
-     * @see getAvailableTokens() to query current token count without consuming
-     * @see getTotalRequests() and getTotalRejections() for metrics
-     * @see isRedisHealthy() to check distributed backend status
-     */
     bool tryAcquire(size_t tokens = 1, Priority prio = Priority::NORMAL);
 
-    /**
-     * @brief Query the current number of available tokens without consuming any.
-     * 
-     * Useful for monitoring and debugging rate-limiter state.
-     * 
-     * @param prio Priority lane to query (HIGH, NORMAL, LOW)
-     * 
-     * @return Current number of tokens in the specified priority lane bucket
-     * 
-     * @note Thread-safe; returns snapshot of current state
-     * @note Does NOT consume tokens; subsequent tryAcquire() calls are unaffected
-     * @note Returns local in-process bucket counters only; this call does not query Redis
-     * @note Does not trigger refill; values may lag until tryAcquire() or explicit refill paths run
-     * 
-     * @see tryAcquire() to consume tokens and enforce the limit
-     */
     size_t getAvailableTokens(Priority prio = Priority::NORMAL) const;
 
-    /**
-     * @brief Get total number of requests that attempted token acquisition.
-     * 
-     * Includes both successful acquisitions and rejections.
-     * Useful for calculating rejection rate and monitoring traffic volume.
-     * 
-     * @return Cumulative count of all tryAcquire() calls
-     * 
-     * @note Thread-safe; returns snapshot
-     * @note Covers both successful and failed acquisitions; see getTotalRejections() for failures only
-     * 
-     * @see getTotalRejections() for count of rate-limited requests
-     */
     uint64_t getTotalRequests() const { return total_requests_.load(); }
 
-    /**
-     * @brief Get total number of rate-limited requests (failed token acquisitions).
-     * 
-     * Useful for calculating rejection rate and monitoring rate-limit effectiveness.
-     * Rejection rate = getTotalRejections() / getTotalRequests()
-     * 
-     * @return Cumulative count of all tryAcquire() calls that returned false
-     * 
-     * @note Thread-safe; returns snapshot
-     * @note Only counts failed attempts; successful acquisitions are not counted here
-     * 
-     * @see getTotalRequests() for total attempt count (successful + rejected)
-     */
     uint64_t getTotalRejections() const { return total_rejections_.load(); }
 
     /**
-     * @brief Check if the distributed Redis backend is currently healthy and reachable.
-     * 
-     * Returns true only when:
-     * - Backend::REDIS is configured
-     * - Redis connection is established
-     * - Recent EVALSHA calls have succeeded
-     * 
-     * Returns false when:
-     * - Backend::LOCAL is configured (no Redis)
-     * - Redis connection failed or timed out
-     * - Too many consecutive Redis errors (max_errors threshold exceeded)
-     * 
-     * When Redis becomes unhealthy, the rate limiter automatically falls back to
-     * local token bucket mode. When Redis recovers, health checks resume periodically.
-     * 
-     * @return true if Redis backend is healthy; false if unavailable or not configured
-     * 
-     * @note Thread-safe; returns snapshot
-     * @note Even when isRedisHealthy() returns false, rate limiting continues using local fallback
-     * @note This is informational; rate limiter behavior is unaffected by return value
-     * 
-     * @see Backend enum for configuration options
+     * @brief Is Redis Healthy.
+     * @return True when the operation succeeds.
      */
     bool isRedisHealthy() const;
 
     /**
-     * @brief Reset all counters and token buckets to initial state.
-     * 
-     * Useful for testing and performance profiling. Resets:
-     * - Total requests counter
-     * - Total rejections counter
-     * - Token bucket levels to capacity for each priority lane
-     * 
-     * @note Thread-safe; safe to call while other threads are using tryAcquire()
-     * @note Does NOT change configuration; only affects counters and token state
-     * @note Does NOT reset Redis backend (if configured); only affects local state
-     * @note Intended for testing only; avoid in production
-     * 
-     * @see Config for initial configuration
+     * @brief Reset the modification detection flag.
      */
     void reset();
 
     /**
-     * @brief OP-HEALTH-001: Check if rate limiter is healthy and operational.
-     * 
-     * Returns true if the rate limiter can process requests without degradation:
-     * - Local backend: always true (cannot fail)
-     * - Redis backend: true if Redis is reachable and responding
-     * 
-     * @return true if healthy; false if degraded
-     * @note Thread-safe atomic read
-     * @note Operational observability; informs /health probes
+     * @brief Is Healthy.
+     * @return True when the operation succeeds.
      */
     bool isHealthy() const;
 
     /**
-     * @brief OP-HEALTH-002: Get detailed health status as JSON (readiness probe).
-     * 
-     * Returns operational metrics suitable for /health/{module} endpoint:
-     * - status: "healthy" or "unhealthy"
-     * - total_requests: cumulative request count
-     * - total_rejections: cumulative rejection count
-     * - backend: "redis" or "local"
-     * - redis_healthy: Redis backend status
-     * - timeout_count: deadlines exceeded
-     * 
-     * @return JSON string with health metrics
-     * @note Thread-safe; uses atomic reads
-     * @note Suitable for Prometheus scraping or health endpoint
+     * @brief Get Health Status.
+     * @return Return value.
      */
     std::string getHealthStatus() const;
 
@@ -320,43 +138,81 @@ private:
             , last_refill(std::chrono::steady_clock::now())
         {}
 
+        /**
+         * @brief Refill.
+         */
         void refill();
+        /**
+         * @brief Consume.
+         * @param[in] count Input parameter.
+         * @return True when the operation succeeds.
+         */
         bool consume(size_t count);
     };
 
-    // ---- Redis helpers (compiled out when THEMIS_ENABLE_REDIS is not set) ----
 
-    /// Build the Redis key for a given priority lane.
+    /**
+     * @brief Redis Key.
+     * @param[in] bucket_id Identifier of the bucket.
+     * @param[in] prio Input parameter.
+     * @return Return value.
+     */
     std::string redisKey(const std::string& bucket_id, Priority prio) const;
 
-    /// Initialise all pool slots (connect + load Lua script).  Returns false
-    /// if no slot could be connected; redis_healthy_ is set accordingly.
+    /**
+     * @brief Redis Connect.
+     * @return True when the operation succeeds.
+     */
     bool redisConnect();
 
-    /// Execute the EVALSHA token-bucket Lua script on Redis.
-    /// Borrows a connection from the pool, executes, and returns it.
-    /// Returns -1 on Redis error (triggers local fallback), 1 if allowed, 0 if rejected.
+    /**
+     * @brief Redis Eval Bucket.
+     * @param[in] prio Input parameter.
+     * @param[in] capacity Input parameter.
+     * @param[in] refill_rate Input parameter.
+     * @param[in] consume_count Input parameter.
+     * @return Return value.
+     */
     int redisEvalBucket(Priority prio, size_t capacity, size_t refill_rate,
                         size_t consume_count);
 
 #ifdef THEMIS_ENABLE_REDIS
-    /// Execute EVALSHA on a borrowed slot (caller holds the slot exclusively).
-    /// Returns -1 on error, 1 if allowed, 0 if rejected.
+    /**
+     * @brief Redis Exec Evalsha.
+     * @param[in,out] slot Input/output parameter.
+     * @param[in] key Input parameter.
+     * @param[in] capacity Input parameter.
+     * @param[in] refill_rate Input parameter.
+     * @param[in] consume_count Input parameter.
+     * @return Return value.
+     */
     int redisExecEvalsha(RedisConnectionPool::Slot& slot,
                          const std::string& key, size_t capacity,
                          size_t refill_rate, size_t consume_count);
 #endif
 
-    /// Mark Redis as unhealthy; increments error counter and, if max_errors
-    /// reached, sets redis_healthy_ = false and emits a WARN log.
+    /**
+     * @brief Mark Redis Error.
+     */
     void markRedisError();
 
-    /// Perform a probe to see whether Redis has recovered; if so, resets the
-    /// error counter and sets redis_healthy_ = true.
+    /**
+     * @brief Try Redis Recover.
+     */
     void tryRedisRecover();
 
-    // ---- Local (in-process) helpers ----
+    /**
+     * @brief Local Try Acquire.
+     * @param[in] tokens Input parameter.
+     * @param[in] prio Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool localTryAcquire(size_t tokens, Priority prio);
+    /**
+     * @brief Local Available Tokens.
+     * @param[in] prio Input parameter.
+     * @return Return value.
+     */
     size_t localAvailableTokens(Priority prio) const;
 
     Config config_;
@@ -392,21 +248,6 @@ private:
     std::atomic<int>  redis_errors_{0};
 };
 
-/**
- * @brief Per-client rate limiter (uses client_id as key)
- * 
- * Usage:
- *   auto limiter = std::make_shared<PerClientRateLimiter>();
- *   if (!limiter->allowRequest(client_id)) {
- *     return HTTP 429;
- *   }
- *
- * Redis backend usage:
- *   PerClientRateLimiter::Config cfg;
- *   cfg.backend = TokenBucketRateLimiter::Backend::REDIS;
- *   cfg.redis.host = "redis.internal";
- *   auto limiter = std::make_shared<PerClientRateLimiter>(cfg);
- */
 class PerClientRateLimiter {
 public:
     struct Config {
@@ -415,10 +256,8 @@ public:
         size_t max_clients;
         std::chrono::minutes cleanup_interval;
 
-        /// Storage backend forwarded to each per-client TokenBucketRateLimiter.
         TokenBucketRateLimiter::Backend backend = TokenBucketRateLimiter::Backend::LOCAL;
 
-        /// Redis configuration (only used when backend == Backend::REDIS).
         RedisRateLimiterConfig redis;
         
         // Default constructor with values
@@ -430,39 +269,39 @@ public:
     };
 
     PerClientRateLimiter();
+    /**
+     * @brief Per Client Rate Limiter.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit PerClientRateLimiter(const Config& config);
 
-    /**
-     * @brief Check if request from client is allowed
-     * 
-     * @param client_id Client identifier (e.g., API key, IP, user_id)
-     * @param tokens Number of tokens to consume
-     * @param prio Priority for this client
-     * @return true if allowed, false if rate limited
-     */
     bool allowRequest(
         const std::string& client_id,
         size_t tokens = 1,
         TokenBucketRateLimiter::Priority prio = TokenBucketRateLimiter::Priority::NORMAL
     );
 
-    /**
-     * @brief Get metrics for a specific client
-     */
     struct ClientMetrics {
         uint64_t total_requests = 0;
         uint64_t total_rejections = 0;
         size_t available_tokens = 0;
     };
+    /**
+     * @brief Get Client Metrics.
+     * @param[in] client_id Identifier of the client.
+     * @return Return value.
+     */
     ClientMetrics getClientMetrics(const std::string& client_id) const;
 
     /**
-     * @brief Get total number of tracked clients
+     * @brief Get Active Clients.
+     * @return Return value.
      */
     size_t getActiveClients() const;
 
     /**
-     * @brief Manually cleanup idle clients (automatic via background thread)
+     * @brief Cleanup Idle Clients.
      */
     void cleanupIdleClients();
 

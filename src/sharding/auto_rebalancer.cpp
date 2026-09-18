@@ -34,17 +34,19 @@ namespace sharding {
 // HotShardSplitPolicy
 // ─────────────────────────────────────────────────────────────────────────────
 
-/** @brief Construct split policy with default thresholds. */
 HotShardSplitPolicy::HotShardSplitPolicy(std::shared_ptr<ShardLoadDetector> detector)
     : detector_(std::move(detector)), config_(Config{}) {}
 
-/** @brief Construct split policy with explicit thresholds. */
 HotShardSplitPolicy::HotShardSplitPolicy(
     std::shared_ptr<ShardLoadDetector> detector,
     const Config& config
 ) : detector_(std::move(detector)), config_(config) {}
 
-/** @brief Attach optional non-owning ML predictive detector. */
+/**
+ * @brief Set Predictive Detector.
+ * @param[in,out] pd Input/output parameter.
+ * @details Implements setPredictiveDetector without additional internal calls.
+ */
 void HotShardSplitPolicy::setPredictiveDetector(
     themisdb::sharding::PredictiveFailureDetector* pd
 ) {
@@ -53,7 +55,6 @@ void HotShardSplitPolicy::setPredictiveDetector(
     predictive_detector_ = pd;
 }
 
-/** @brief Evaluate reactive/statistical/ML split triggers and return proposals. */
 std::vector<HotShardSplitPolicy::SplitProposal> HotShardSplitPolicy::evaluate() const {
     if (!detector_) {
         return {};
@@ -146,7 +147,6 @@ std::vector<HotShardSplitPolicy::SplitProposal> HotShardSplitPolicy::evaluate() 
 // AutoRebalancer
 // ─────────────────────────────────────────────────────────────────────────────
 
-/** @brief Construct auto rebalancer with default config. */
 AutoRebalancer::AutoRebalancer(
     std::shared_ptr<ShardTopology> topology,
     std::shared_ptr<ShardLoadDetector> load_detector,
@@ -154,7 +154,6 @@ AutoRebalancer::AutoRebalancer(
     std::shared_ptr<DataMigrator> migrator
 ) : AutoRebalancer(topology, load_detector, metrics, migrator, Config{}) {}
 
-/** @brief Construct auto rebalancer with explicit config. */
 AutoRebalancer::AutoRebalancer(
     std::shared_ptr<ShardTopology> topology,
     std::shared_ptr<ShardLoadDetector> load_detector,
@@ -172,12 +171,14 @@ AutoRebalancer::AutoRebalancer(
                config_.check_interval.count() / 1000, config_.max_concurrent_operations);
 }
 
-/** @brief Stop monitor thread and active operations on destruction. */
 AutoRebalancer::~AutoRebalancer() {
     stop();
 }
 
-/** @brief Start periodic monitor loop thread. */
+/**
+ * @brief Start.
+ * @details Calls: exchange(), THEMIS_WARN(), THEMIS_INFO(), std::thread(), monitorLoop(), setGauge().
+ */
 void AutoRebalancer::start() {
     if (running_.exchange(true)) {
         THEMIS_WARN("AutoRebalancer already running");
@@ -195,7 +196,10 @@ void AutoRebalancer::start() {
     }
 }
 
-/** @brief Stop monitor loop thread and update running gauge. */
+/**
+ * @brief Stop.
+ * @details Calls: exchange(), THEMIS_INFO(), notify_all(), joinable(), themis::utils::joinThreadWithin(), THEMIS_WARN(), setGauge().
+ */
 void AutoRebalancer::stop() {
     if (!running_.exchange(false)) {
         return;
@@ -219,7 +223,10 @@ void AutoRebalancer::stop() {
     THEMIS_INFO("AutoRebalancer stopped");
 }
 
-/** @brief Monitor loop: detect imbalance, enforce safety limits, dispatch operations. */
+/**
+ * @brief Monitor Loop.
+ * @details Calls: THEMIS_INFO(), load(), Tracer::startSpan(), lock(), std::chrono::system_clock::now(), cleanupCompletedOperations(), handleTopologyChange(), canTriggerRebalance().
+ */
 void AutoRebalancer::monitorLoop() {
     THEMIS_INFO("AutoRebalancer monitor loop started");
     
@@ -315,7 +322,12 @@ void AutoRebalancer::monitorLoop() {
     THEMIS_INFO("AutoRebalancer monitor loop stopped");
 }
 
-/** @brief Execute one rebalance recommendation by creating and starting operation object. */
+/**
+ * @brief Execute Rebalance.
+ * @param[in] recommendation Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: Tracer::startSpan(), setAttribute(), generateOperationId(), THEMIS_INFO(), signOperation(), empty(), THEMIS_ERROR(), recordError().
+ */
 bool AutoRebalancer::executeRebalance(const LoadImbalanceResult::RebalanceRecommendation& recommendation) {
     auto span = Tracer::startSpan("AutoRebalancer.executeRebalance");
     span.setAttribute("source_shard", recommendation.source_shard);
@@ -384,7 +396,6 @@ bool AutoRebalancer::executeRebalance(const LoadImbalanceResult::RebalanceRecomm
     return true;
 }
 
-/** @brief Generate operation id from current wall-clock milliseconds. */
 std::string AutoRebalancer::generateOperationId() const {
     auto now = std::chrono::system_clock::now();
     auto now_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
@@ -396,7 +407,6 @@ std::string AutoRebalancer::generateOperationId() const {
     return oss.str();
 }
 
-/** @brief Sign rebalance operation id using configured private key material. */
 std::string AutoRebalancer::signOperation(const std::string& operation_id) const {
     // RSA-SHA256 signing using operator certificate
     // Enforce fail-closed signing (stub #310): when fail_closed_signing is enabled,
@@ -489,7 +499,11 @@ std::string AutoRebalancer::signOperation(const std::string& operation_id) const
         return {};
     }
     
-    // Allocate buffer and perform signing
+    /**
+     * @brief Allocate buffer and perform signing
+     * @param[in] sig_len Input parameter.
+     * @return Return value.
+     */
     std::vector<unsigned char> signature(sig_len);
     if (EVP_PKEY_sign(ctx, signature.data(), &sig_len, hash, SHA256_DIGEST_LENGTH) <= 0) {
         EVP_PKEY_CTX_free(ctx);
@@ -505,6 +519,11 @@ std::string AutoRebalancer::signOperation(const std::string& operation_id) const
     // Encode signature as Base64 using OpenSSL
     // Calculate required buffer size: ((input_len + 2) / 3) * 4 + 1 for null terminator
     size_t b64_len = ((signature.size() + 2) / 3) * 4 + 1;
+    /**
+     * @brief B64 buf.
+     * @param[in] b64_len Input parameter.
+     * @return Return value.
+     */
     std::vector<unsigned char> b64_buf(b64_len);
     
     int encoded_len = EVP_EncodeBlock(b64_buf.data(), signature.data(), 
@@ -529,8 +548,12 @@ std::string AutoRebalancer::signOperation(const std::string& operation_id) const
     return result.str();
 }
 
-/** @brief Check cooldown, concurrency and daily-rate limits for new operations. */
 bool AutoRebalancer::canTriggerRebalance() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     // Check if load detector is in cooldown
@@ -563,7 +586,6 @@ bool AutoRebalancer::canTriggerRebalance() const {
     return true;
 }
 
-/** @brief Validate imbalance recommendation batch against safety constraints. */
 bool AutoRebalancer::isWithinSafetyLimits(const LoadImbalanceResult& imbalance) const {
     // Check if total data movement is within limits
     // Simplified - in production, calculate actual data size
@@ -576,7 +598,10 @@ bool AutoRebalancer::isWithinSafetyLimits(const LoadImbalanceResult& imbalance) 
     return imbalance.recommendations.size() <= config_.max_concurrent_operations * 2;
 }
 
-/** @brief Remove completed operations from active map and update history/counters. */
+/**
+ * @brief Cleanup Completed Operations.
+ * @details Calls: lock(), getState(), push_back(), std::chrono::system_clock::now(), getProgress(), THEMIS_INFO(), erase(), setGauge().
+ */
 void AutoRebalancer::cleanupCompletedOperations() {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -625,7 +650,11 @@ void AutoRebalancer::cleanupCompletedOperations() {
     }
 }
 
-/** @brief Trigger immediate monitor wake-up for manual rebalance check. */
+/**
+ * @brief Trigger Check.
+ * @return True when the operation succeeds.
+ * @details Calls: load(), THEMIS_WARN(), THEMIS_INFO(), notify_one().
+ */
 bool AutoRebalancer::triggerCheck() {
     if (!running_.load()) {
         THEMIS_WARN("AutoRebalancer not running, cannot trigger check");
@@ -637,7 +666,12 @@ bool AutoRebalancer::triggerCheck() {
     return true;
 }
 
-/** @brief Approve pending recommendation and execute associated operation. */
+/**
+ * @brief Approve Operation.
+ * @param[in] operation_id Identifier of the operation.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), find(), end(), THEMIS_WARN(), erase(), THEMIS_INFO(), executeRebalance().
+ */
 bool AutoRebalancer::approveOperation(const std::string& operation_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -656,7 +690,12 @@ bool AutoRebalancer::approveOperation(const std::string& operation_id) {
     return executeRebalance(recommendation);
 }
 
-/** @brief Cancel active operation by invoking rollback path. */
+/**
+ * @brief Cancel Operation.
+ * @param[in] operation_id Identifier of the operation.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), find(), end(), THEMIS_WARN(), rollback(), THEMIS_INFO(), incrementCounter(), THEMIS_ERROR().
+ */
 bool AutoRebalancer::cancelOperation(const std::string& operation_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -682,8 +721,12 @@ bool AutoRebalancer::cancelOperation(const std::string& operation_id) {
     return rolled_back;
 }
 
-/** @brief Return merged historical+active status view for all operations. */
 std::vector<AutoRebalancer::OperationStatus> AutoRebalancer::getOperationStatuses() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     std::vector<OperationStatus> statuses = operation_history_;
@@ -713,8 +756,12 @@ std::vector<AutoRebalancer::OperationStatus> AutoRebalancer::getOperationStatuse
     return statuses;
 }
 
-/** @brief Return runtime statistics for monitor checks and operation outcomes. */
 nlohmann::json AutoRebalancer::getStatistics() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     nlohmann::json stats;
@@ -738,13 +785,21 @@ nlohmann::json AutoRebalancer::getStatistics() const {
     return stats;
 }
 
-/** @brief Install or replace hot-shard split policy. */
+/**
+ * @brief Set Split Policy.
+ * @param[in] policy Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void AutoRebalancer::setSplitPolicy(std::shared_ptr<HotShardSplitPolicy> policy) {
     std::lock_guard<std::mutex> lock(mutex_);
     split_policy_ = std::move(policy);
 }
 
-/** @brief Install or replace audit logger used for split compliance events. */
+/**
+ * @brief Set Audit Logger.
+ * @param[in] audit_logger Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void AutoRebalancer::setAuditLogger(
     std::shared_ptr<themis::utils::AuditLogger> audit_logger
 ) {
@@ -752,11 +807,11 @@ void AutoRebalancer::setAuditLogger(
     audit_logger_ = std::move(audit_logger);
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Hot-shard split evaluation and execution
-// ─────────────────────────────────────────────────────────────────────────────
+/**
+ * @brief ───────────────────────────────────────────────────────────────────────────── Hot-shard split evaluation and execution ─────────────────────────────────────────────────────────────────────────────
+ * @details Calls: lock(), evaluate(), empty(), THEMIS_DEBUG(), THEMIS_INFO(), size(), setGauge(), load().
+ */
 
-/** @brief Evaluate split proposals and execute those that pass safety checks. */
 void AutoRebalancer::evaluateAndExecuteSplits() {
     std::shared_ptr<HotShardSplitPolicy> policy;
     {
@@ -793,7 +848,12 @@ void AutoRebalancer::evaluateAndExecuteSplits() {
     }
 }
 
-/** @brief Execute one split proposal by mapping it to rebalance recommendation. */
+/**
+ * @brief Execute Split Proposal.
+ * @param[in] proposal Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: Tracer::startSpan(), setAttribute(), THEMIS_INFO(), lock(), logSecurityEvent(), THEMIS_WARN(), what(), detectImbalance().
+ */
 bool AutoRebalancer::executeSplitProposal(const HotShardSplitPolicy::SplitProposal& proposal) {
     auto span = Tracer::startSpan("AutoRebalancer.executeSplitProposal");
     span.setAttribute("hot_shard", proposal.hot_shard_id);
@@ -881,18 +941,19 @@ bool AutoRebalancer::executeSplitProposal(const HotShardSplitPolicy::SplitPropos
     return ok;
 }
 
-/** @brief Install custom operation-signing callback override. */
+/**
+ * @brief Set Sign Operation Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void AutoRebalancer::setSignOperationFn(SignOperationFn fn) {
     std::lock_guard<std::mutex> lock(sign_fn_mutex_);
     sign_fn_ = std::move(fn);
 }
 
 /**
- * @brief Detect and handle automatic rebalancing for topology changes (node join/leave).
- *
- * Monitors the cluster topology for changes (nodes joining or leaving) and
- * automatically triggers rebalancing to redistribute shards and maintain balance.
- * Completion must occur at >=80% throughput with no data loss.
+ * @brief Handle Topology Change.
+ * @details Calls: getAllShards(), push_back(), size(), THEMIS_WARN(), canTriggerRebalance(), THEMIS_DEBUG(), THEMIS_INFO(), incrementCounter().
  */
 void AutoRebalancer::handleTopologyChange() {
     if (!topology_) {

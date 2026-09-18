@@ -22,6 +22,12 @@ namespace governance {
 // Static helpers
 // ============================================================================
 
+/**
+ * @brief Mechanism To Header Value.
+ * @param[in] m Input parameter.
+ * @return Return value.
+ * @details Implements mechanismToHeaderValue without additional internal calls.
+ */
 std::string CrossBorderTransferPolicy::mechanismToHeaderValue(TransferMechanism m) {
     switch (m) {
         case TransferMechanism::ADEQUACY_DECISION:           return "ADEQUACY_DECISION";
@@ -33,6 +39,12 @@ std::string CrossBorderTransferPolicy::mechanismToHeaderValue(TransferMechanism 
     return "PROHIBITED";
 }
 
+/**
+ * @brief Mechanism Description.
+ * @param[in] m Input parameter.
+ * @return Return value.
+ * @details Implements mechanismDescription without additional internal calls.
+ */
 std::string CrossBorderTransferPolicy::mechanismDescription(TransferMechanism m) {
     switch (m) {
         case TransferMechanism::ADEQUACY_DECISION:
@@ -111,12 +123,23 @@ CrossBorderTransferPolicy::CrossBorderTransferPolicy() {
 
 void CrossBorderTransferPolicy::loadAdequacyList(
     const std::unordered_map<std::string, TransferMechanism>& region_to_mechanism) {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     region_map_ = region_to_mechanism;
     THEMIS_INFO("CrossBorderTransferPolicy: loaded {} region entries",
                 region_map_.size());
 }
 
+/**
+ * @brief Set Region Mechanism.
+ * @param[in] region Input parameter.
+ * @param[in] mechanism Input parameter.
+ * @details Calls: lock().
+ */
 void CrossBorderTransferPolicy::setRegionMechanism(
     const std::string& region, TransferMechanism mechanism) {
     std::lock_guard<std::mutex> lock(mutex_);
@@ -130,6 +153,11 @@ TransferMechanism CrossBorderTransferPolicy::getMechanism(
     std::transform(upper.begin(), upper.end(), upper.begin(),
                    [](unsigned char c) { return std::toupper(c); });
 
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = region_map_.find(upper);
     if (it == region_map_.end()) {
@@ -140,6 +168,11 @@ TransferMechanism CrossBorderTransferPolicy::getMechanism(
 
 std::unordered_map<std::string, TransferMechanism>
 CrossBorderTransferPolicy::getAdequacyList() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return region_map_;
 }

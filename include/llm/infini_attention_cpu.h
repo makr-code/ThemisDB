@@ -16,117 +16,138 @@
 
 namespace themis::llm::attention {
 
-/**
- * @brief CPU-based Infini-attention compressive memory backend (P1-D04).
- *
- * Implements unbounded context via associative memory compression:
- * - Compressive memory matrix M (dim: d_model × memory_size)
- * - Associative write: M += k^T · v (token update)
- * - Associative read: output ← (M^T · q) / normalization
- * - Fallback path when CUDA unavailable or INFINI_COMPRESSIVE backend selected
- *
- * Key properties:
- * - No GPU VRAM requirement
- * - Supports very long contexts (>32K tokens) via compression
- * - Numerical stable matrix operations via Eigen3
- * - Single-threaded (Phase 1); multi-threaded optimization deferred to Phase 2
- *
- * **Integration:**
- * - Used by `FlashAttentionFactory::create()` when Backend::INFINI_COMPRESSIVE selected
- * - Fallback path when `infini_attention_mode = "cpu"` in config
- * - Test harness: `tests/llm/test_infini_attention.cpp`
- */
 class InfiniAttentionCPU {
 public:
-    /// Configuration for CPU Infini-attention
     struct Config {
-        /// Model hidden dimension (d_model)
         int32_t hidden_dim = 1024;
 
-        /// Sequence length for current batch
         int32_t seq_len = 2048;
 
-        /// Memory buffer size for compressive matrix
         int32_t memory_size = 4096;
 
-        /// Numerical stability epsilon
         float epsilon = 1e-6f;
 
-        /// Use float64 for numerical stability (default: float32)
         bool use_fp64 = false;
     };
 
+    /**
+     * @brief Infini Attention CPU.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit InfiniAttentionCPU(const Config& config);
     ~InfiniAttentionCPU() = default;
 
-    /// Initialize attention engine
+    /**
+     * @brief Initialize.
+     * @return True when the operation succeeds.
+     */
     bool initialize();
 
-    /// Forward pass: compute attention scores and update compressive memory
-    /// @param Q Query tensor (seq_len, hidden_dim)
-    /// @param K Key tensor (seq_len, hidden_dim)
-    /// @param V Value tensor (seq_len, hidden_dim)
-    /// @param output Output tensor (seq_len, hidden_dim)
-    /// @return true on success, false on error
+    /**
+     * @brief Forward.
+     * @param[in] Q Input parameter.
+     * @param[in] K Input parameter.
+     * @param[in] V Input parameter.
+     * @param[in,out] output Input/output parameter.
+     * @return True when the operation succeeds.
+     */
     bool forward(const Eigen::MatrixXf& Q, const Eigen::MatrixXf& K,
                  const Eigen::MatrixXf& V, Eigen::MatrixXf& output);
 
-    /// Forward pass with float64 precision
+    /**
+     * @brief Forward64.
+     * @param[in] Q Input parameter.
+     * @param[in] K Input parameter.
+     * @param[in] V Input parameter.
+     * @param[in,out] output Input/output parameter.
+     * @return True when the operation succeeds.
+     */
     bool forward64(const Eigen::MatrixXd& Q, const Eigen::MatrixXd& K,
                    const Eigen::MatrixXd& V, Eigen::MatrixXd& output);
 
-    /// Get compressive memory state snapshot (for state serialization)
+    /**
+     * @brief Get Memory Snapshot.
+     * @return Return value.
+     */
     std::vector<float> getMemorySnapshot() const;
 
-    /// Restore compressive memory from snapshot
+    /**
+     * @brief Restore Memory.
+     * @param[in] snapshot Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool restoreMemory(const std::vector<float>& snapshot);
 
-    /// Reset compressive memory to zero
+    /**
+     * @brief Reset Memory.
+     */
     void resetMemory();
 
-    /// Get memory usage statistics
     struct MemStats {
         size_t memory_matrix_bytes = 0;
         size_t temp_buffer_bytes;
         size_t total_bytes;
     };
 
+    /**
+     * @brief Get Memory Stats.
+     * @return Return value.
+     */
     MemStats getMemoryStats() const;
 
 private:
     Config config_;
 
-    /// Compressive memory matrix (hidden_dim × memory_size)
     Eigen::MatrixXf memory_matrix_;
     Eigen::MatrixXd memory_matrix_fp64_;
 
-    /// Normalization vector (memory_size,) for numerical stability
     std::vector<float> norm_vector_;
     std::vector<double> norm_vector_fp64_;
 
-    /// Temporary buffers for computation
     Eigen::MatrixXf temp_kv_product_;
     Eigen::MatrixXd temp_kv_product_fp64_;
 
-    /// Initialization flag
     bool initialized_ = false;
 
-    /// Helper: compute attention with float32
+    /**
+     * @brief Compute Attention FP32.
+     * @param[in] Q Input parameter.
+     * @param[in] K Input parameter.
+     * @param[in] V Input parameter.
+     * @param[in,out] output Input/output parameter.
+     * @return True when the operation succeeds.
+     */
     bool computeAttentionFP32(const Eigen::MatrixXf& Q,
                               const Eigen::MatrixXf& K,
                               const Eigen::MatrixXf& V,
                               Eigen::MatrixXf& output);
 
-    /// Helper: compute attention with float64
+    /**
+     * @brief Compute Attention FP64.
+     * @param[in] Q Input parameter.
+     * @param[in] K Input parameter.
+     * @param[in] V Input parameter.
+     * @param[in,out] output Input/output parameter.
+     * @return True when the operation succeeds.
+     */
     bool computeAttentionFP64(const Eigen::MatrixXd& Q,
                               const Eigen::MatrixXd& K,
                               const Eigen::MatrixXd& V,
                               Eigen::MatrixXd& output);
 
-    /// Helper: update memory matrix (M += K^T · V)
+    /**
+     * @brief Update Memory.
+     * @param[in] K Input parameter.
+     * @param[in] V Input parameter.
+     */
     void updateMemory(const Eigen::MatrixXf& K, const Eigen::MatrixXf& V);
 
-    /// Helper: update memory matrix (FP64 version)
+    /**
+     * @brief Update Memory FP64.
+     * @param[in] K Input parameter.
+     * @param[in] V Input parameter.
+     */
     void updateMemoryFP64(const Eigen::MatrixXd& K,
                           const Eigen::MatrixXd& V);
 };
@@ -136,6 +157,11 @@ private:
 // Minimal inline implementation to satisfy focused tests (Phase 1 stub)
 namespace themis::llm::attention {
 
+/**
+ * @brief Infini Attention CPU.
+ * @param[in] cfg Input parameter.
+ * @return Return value.
+ */
 inline InfiniAttentionCPU::InfiniAttentionCPU(const Config& cfg)
     : config_(cfg) {
     memory_matrix_.resize(config_.hidden_dim, config_.memory_size);
@@ -144,11 +170,25 @@ inline InfiniAttentionCPU::InfiniAttentionCPU(const Config& cfg)
     temp_kv_product_.setZero();
 }
 
+/**
+ * @brief Initialize.
+ * @return True when the operation succeeds.
+ * @details Implements initialize without additional internal calls.
+ */
 inline bool InfiniAttentionCPU::initialize() {
     initialized_ = true;
     return true;
 }
 
+/**
+ * @brief Forward.
+ * @param[in] Q Input parameter.
+ * @param[in] K Input parameter.
+ * @param[in] V Input parameter.
+ * @param[in,out] output Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: std::min(), rows(), cols(), output(), Q(), V().
+ */
 inline bool InfiniAttentionCPU::forward(const Eigen::MatrixXf& Q, const Eigen::MatrixXf& K,
                                        const Eigen::MatrixXf& V, Eigen::MatrixXf& output) {
     if (!initialized_) {
@@ -163,6 +203,15 @@ inline bool InfiniAttentionCPU::forward(const Eigen::MatrixXf& Q, const Eigen::M
     return true;
 }
 
+/**
+ * @brief Forward64.
+ * @param[in] Q Input parameter.
+ * @param[in] K Input parameter.
+ * @param[in] V Input parameter.
+ * @param[in,out] output Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: std::min(), rows(), cols(), output(), Q(), V().
+ */
 inline bool InfiniAttentionCPU::forward64(const Eigen::MatrixXd& Q, const Eigen::MatrixXd& K,
                                          const Eigen::MatrixXd& V, Eigen::MatrixXd& output) {
     if (!initialized_) {
@@ -185,6 +234,12 @@ inline std::vector<float> InfiniAttentionCPU::getMemorySnapshot() const {
     return out;
 }
 
+/**
+ * @brief Restore Memory.
+ * @param[in] snapshot Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: size(), memory_matrix_().
+ */
 inline bool InfiniAttentionCPU::restoreMemory(const std::vector<float>& snapshot) {
     if (snapshot.size() != static_cast<size_t>(config_.hidden_dim) * static_cast<size_t>(config_.memory_size)) {
       return false;
@@ -195,6 +250,10 @@ inline bool InfiniAttentionCPU::restoreMemory(const std::vector<float>& snapshot
     return true;
 }
 
+/**
+ * @brief Reset Memory.
+ * @details Calls: setZero().
+ */
 inline void InfiniAttentionCPU::resetMemory() {
     memory_matrix_.setZero();
 }
@@ -207,6 +266,15 @@ inline InfiniAttentionCPU::MemStats InfiniAttentionCPU::getMemoryStats() const {
     return s;
 }
 
+/**
+ * @brief Compute Attention FP32.
+ * @param[in] Q Input parameter.
+ * @param[in] K Input parameter.
+ * @param[in] V Input parameter.
+ * @param[in,out] output Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: forward().
+ */
 inline bool InfiniAttentionCPU::computeAttentionFP32(const Eigen::MatrixXf& Q,
                                                     const Eigen::MatrixXf& K,
                                                     const Eigen::MatrixXf& V,
@@ -214,6 +282,15 @@ inline bool InfiniAttentionCPU::computeAttentionFP32(const Eigen::MatrixXf& Q,
     return forward(Q, K, V, output);
 }
 
+/**
+ * @brief Compute Attention FP64.
+ * @param[in] Q Input parameter.
+ * @param[in] K Input parameter.
+ * @param[in] V Input parameter.
+ * @param[in,out] output Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: forward64().
+ */
 inline bool InfiniAttentionCPU::computeAttentionFP64(const Eigen::MatrixXd& Q,
                                                     const Eigen::MatrixXd& K,
                                                     const Eigen::MatrixXd& V,
@@ -221,10 +298,22 @@ inline bool InfiniAttentionCPU::computeAttentionFP64(const Eigen::MatrixXd& Q,
     return forward64(Q, K, V, output);
 }
 
+/**
+ * @brief Update Memory.
+ * @param[in] K Input parameter.
+ * @param[in] V Input parameter.
+ * @details Implements updateMemory without additional internal calls.
+ */
 inline void InfiniAttentionCPU::updateMemory(const Eigen::MatrixXf& K, const Eigen::MatrixXf& V) {
     // No-op minimal
 }
 
+/**
+ * @brief Update Memory FP64.
+ * @param[in] K Input parameter.
+ * @param[in] V Input parameter.
+ * @details Implements updateMemoryFP64 without additional internal calls.
+ */
 inline void InfiniAttentionCPU::updateMemoryFP64(const Eigen::MatrixXd& K, const Eigen::MatrixXd& V) {
     // No-op minimal
 }

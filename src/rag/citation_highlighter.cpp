@@ -25,7 +25,12 @@ namespace themis::rag {
 
 namespace {
 
-/// Tokenise @p text into lower-cased words of at least 2 characters.
+/**
+ * @brief Token Set.
+ * @param[in] text Input parameter.
+ * @return Return value.
+ * @details Calls: std::isalnum(), std::tolower(), size(), insert(), clear().
+ */
 std::unordered_set<std::string> tokenSet(const std::string& text) {
     std::unordered_set<std::string> tokens;
     std::string cur = {};
@@ -45,7 +50,11 @@ std::unordered_set<std::string> tokenSet(const std::string& text) {
     return tokens;
 }
 
-/// Trim leading and trailing whitespace from @p s in-place.
+/**
+ * @brief Trim.
+ * @param[in,out] s Input/output parameter.
+ * @details Calls: std::isspace(), erase(), begin(), std::find_if_not(), end(), rbegin(), rend(), base().
+ */
 void trim(std::string& s) {
     const auto isSpace = [](unsigned char c) { return std::isspace(c); };
     s.erase(s.begin(), std::find_if_not(s.begin(), s.end(), isSpace));
@@ -80,6 +89,11 @@ CitationHighlighterConfig CitationHighlighter::getConfig() const {
     return impl_->config;
 }
 
+/**
+ * @brief Set Config.
+ * @param[in] config Input parameter.
+ * @details Calls: lock().
+ */
 void CitationHighlighter::setConfig(const CitationHighlighterConfig& config) {
     std::lock_guard<std::mutex> lock(impl_->mtx);
     impl_->config = config;
@@ -90,7 +104,13 @@ void CitationHighlighter::setConfig(const CitationHighlighterConfig& config) {
 // ---------------------------------------------------------------------------
 
 namespace {
-/// Core sentence-splitting logic; works on a pre-copied config snapshot.
+/**
+ * @brief Do Split Sentences.
+ * @param[in] text Input parameter.
+ * @param[in] cfg Input parameter.
+ * @return Return value.
+ * @details Calls: size(), find(), std::isspace(), std::isupper(), trim(), push_back(), clear().
+ */
 std::vector<std::string> doSplitSentences(const std::string&              text,
                                           const CitationHighlighterConfig& cfg) {
     std::vector<std::string> sentences;
@@ -147,6 +167,13 @@ CitationHighlighter::splitSentences(const std::string& text) const {
     return doSplitSentences(text, cfg);
 }
 
+/**
+ * @brief Compute Similarity.
+ * @param[in] a Input parameter.
+ * @param[in] b Input parameter.
+ * @return Return value.
+ * @details Calls: tokenSet(), empty(), count(), size().
+ */
 double CitationHighlighter::computeSimilarity(const std::string& a,
                                                const std::string& b) {
     auto setA = tokenSet(a);

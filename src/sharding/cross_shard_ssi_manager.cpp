@@ -30,6 +30,12 @@ CrossShardSSIManager::CrossShardSSIManager(const Config& config)
 // Registration API
 // ============================================================================
 
+/**
+ * @brief Register Read Set.
+ * @param[in] txn_id Identifier of the txn.
+ * @param[in] shard_id Identifier of the shard.
+ * @param[in] predicates Input parameter.
+ */
 void CrossShardSSIManager::registerReadSet(
     const std::string& txn_id,
     const std::string& shard_id,
@@ -39,6 +45,11 @@ void CrossShardSSIManager::registerReadSet(
         return;
     }
 
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
 
     if (!config_.enable_predicate_locking) {
@@ -62,6 +73,12 @@ void CrossShardSSIManager::registerReadSet(
     }
 }
 
+/**
+ * @brief Register Write Set.
+ * @param[in] txn_id Identifier of the txn.
+ * @param[in] shard_id Identifier of the shard.
+ * @param[in] keys Input parameter.
+ */
 void CrossShardSSIManager::registerWriteSet(
     const std::string& txn_id,
     const std::string& shard_id,
@@ -71,6 +88,11 @@ void CrossShardSSIManager::registerWriteSet(
         return;
     }
 
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
 
     auto& shard_map = write_sets_[txn_id];
@@ -102,6 +124,11 @@ CrossShardSSIManager::validateAtPrepare(const std::string& txn_id) const
         return conflicts;
     }
 
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
 
     if (!config_.enable_predicate_locking) {
@@ -243,11 +270,20 @@ CrossShardSSIManager::validateAtPrepare(const std::string& txn_id) const
 // Lifecycle
 // ============================================================================
 
+/**
+ * @brief Clear Transaction.
+ * @param[in] txn_id Identifier of the txn.
+ */
 void CrossShardSSIManager::clearTransaction(const std::string& txn_id)
 {
     if (txn_id.empty()) {
         return;
     }
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     read_sets_.erase(txn_id);
     write_sets_.erase(txn_id);
@@ -257,14 +293,28 @@ void CrossShardSSIManager::clearTransaction(const std::string& txn_id)
 // Configuration
 // ============================================================================
 
+/**
+ * @brief Set Config.
+ * @param[in] config Input parameter.
+ */
 void CrossShardSSIManager::setConfig(const Config& config)
 {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     config_ = config;
 }
 
 CrossShardSSIManager::Config CrossShardSSIManager::getConfig() const
 {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     return config_;
 }
@@ -275,6 +325,11 @@ CrossShardSSIManager::Config CrossShardSSIManager::getConfig() const
 
 size_t CrossShardSSIManager::trackedTransactionCount() const
 {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     // Union of txn IDs that appear in either read_sets_ or write_sets_.
     size_t count = read_sets_.size();

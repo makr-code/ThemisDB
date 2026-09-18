@@ -23,7 +23,11 @@
 namespace themis {
 namespace governance {
 
-// Helper function to get current time in milliseconds
+/**
+ * @brief Helper function to get current time in milliseconds
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::now(), time_since_epoch(), count().
+ */
 static int64_t getCurrentTimeMs() {
     return std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch())
         .count();
@@ -46,6 +50,12 @@ nlohmann::json PolicyReview::toJson() const {
     return j;
 }
 
+/**
+ * @brief From Json.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: contains().
+ */
 PolicyReview PolicyReview::fromJson(const nlohmann::json &j) {
     PolicyReview review = {};
     if (j.contains("review_id")) {
@@ -93,6 +103,12 @@ nlohmann::json ReviewScheduler::ReviewSchedule::toJson() const {
     return j;
 }
 
+/**
+ * @brief From Json.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: contains().
+ */
 ReviewScheduler::ReviewSchedule ReviewScheduler::ReviewSchedule::fromJson(const nlohmann::json &j) {
     ReviewSchedule schedule = {};
     if (j.contains("rule_id")) {
@@ -113,7 +129,12 @@ ReviewScheduler::ReviewSchedule ReviewScheduler::ReviewSchedule::fromJson(const 
     return schedule;
 }
 
-// ========== ReviewScheduler Implementation ==========
+/**
+ * @brief ========== ReviewScheduler Implementation ==========
+ * @param[in] rule_id Identifier of the rule.
+ * @param[in] review_period_days Input parameter.
+ * @details Calls: lock(), getCurrentTimeMs(), THEMIS_DEBUG().
+ */
 
 void ReviewScheduler::setSchedule(const std::string &rule_id, int review_period_days) {
     std::lock_guard<std::mutex> lock(mutex_);
@@ -134,6 +155,11 @@ void ReviewScheduler::setSchedule(const std::string &rule_id, int review_period_
 }
 
 std::optional<ReviewScheduler::ReviewSchedule> ReviewScheduler::getSchedule(const std::string &rule_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     auto it = schedules_.find(rule_id);
@@ -143,6 +169,11 @@ std::optional<ReviewScheduler::ReviewSchedule> ReviewScheduler::getSchedule(cons
     return std::nullopt;
 }
 
+/**
+ * @brief Remove Schedule.
+ * @param[in] rule_id Identifier of the rule.
+ * @details Calls: lock(), find(), end(), erase(), THEMIS_DEBUG().
+ */
 void ReviewScheduler::removeSchedule(const std::string &rule_id) {
     std::lock_guard<std::mutex> lock(mutex_);
 
@@ -154,6 +185,11 @@ void ReviewScheduler::removeSchedule(const std::string &rule_id) {
 }
 
 std::vector<ReviewScheduler::ReviewSchedule> ReviewScheduler::getAllSchedules() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     std::vector<ReviewSchedule> result = {};
@@ -168,6 +204,11 @@ std::vector<ReviewScheduler::ReviewSchedule> ReviewScheduler::getAllSchedules() 
 }
 
 std::vector<std::string> ReviewScheduler::getRulesDueForReview(int64_t current_time) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     if (current_time == 0) {
@@ -188,6 +229,11 @@ std::vector<std::string> ReviewScheduler::getRulesDueForReview(int64_t current_t
 }
 
 std::vector<std::string> ReviewScheduler::getOverdueReviews(int64_t current_time) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     if (current_time == 0) {
@@ -209,6 +255,12 @@ std::vector<std::string> ReviewScheduler::getOverdueReviews(int64_t current_time
     return overdue_rules;
 }
 
+/**
+ * @brief Mark As Reviewed.
+ * @param[in] rule_id Identifier of the rule.
+ * @param[in] review_time Input parameter.
+ * @details Calls: lock(), find(), end(), getCurrentTimeMs(), THEMIS_INFO().
+ */
 void ReviewScheduler::markAsReviewed(const std::string &rule_id, int64_t review_time) {
     std::lock_guard<std::mutex> lock(mutex_);
 
@@ -227,6 +279,11 @@ void ReviewScheduler::markAsReviewed(const std::string &rule_id, int64_t review_
 }
 
 nlohmann::json ReviewScheduler::exportSchedules() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     nlohmann::json j;
@@ -242,6 +299,12 @@ nlohmann::json ReviewScheduler::exportSchedules() const {
     return j;
 }
 
+/**
+ * @brief Import Schedules.
+ * @param[in] j Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: contains(), is_array(), THEMIS_ERROR(), lock(), clear(), ReviewSchedule::fromJson(), THEMIS_INFO(), size().
+ */
 bool ReviewScheduler::importSchedules(const nlohmann::json &j) {
     try {
         if (!j.contains("schedules") || !j["schedules"].is_array()) {
@@ -279,6 +342,15 @@ std::string ReviewWorkflow::generateReviewId() const {
     return oss.str();
 }
 
+/**
+ * @brief Create Review.
+ * @param[in] rule_id Identifier of the rule.
+ * @param[in] reviewer Input parameter.
+ * @param[in] requester Input parameter.
+ * @param[in] days_to_complete Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), generateReviewId(), getCurrentTimeMs(), THEMIS_INFO().
+ */
 std::string ReviewWorkflow::createReview(const std::string &rule_id, const std::string &reviewer,
                                          const std::string &requester, int days_to_complete) {
     std::lock_guard<std::mutex> lock(mutex_);
@@ -302,6 +374,11 @@ std::string ReviewWorkflow::createReview(const std::string &rule_id, const std::
 }
 
 std::optional<PolicyReview> ReviewWorkflow::getReview(const std::string &review_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     auto it = reviews_.find(review_id);
@@ -312,6 +389,11 @@ std::optional<PolicyReview> ReviewWorkflow::getReview(const std::string &review_
 }
 
 std::vector<PolicyReview> ReviewWorkflow::listReviews() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     std::vector<PolicyReview> result = {};
@@ -326,6 +408,11 @@ std::vector<PolicyReview> ReviewWorkflow::listReviews() const {
 }
 
 std::vector<PolicyReview> ReviewWorkflow::listReviewsByStatus(const std::string &status) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     std::vector<PolicyReview> result;
@@ -340,6 +427,11 @@ std::vector<PolicyReview> ReviewWorkflow::listReviewsByStatus(const std::string 
 }
 
 std::vector<PolicyReview> ReviewWorkflow::listReviewsByReviewer(const std::string &reviewer) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     std::vector<PolicyReview> result;
@@ -357,6 +449,13 @@ std::vector<PolicyReview> ReviewWorkflow::listPendingReviews() const {
     return listReviewsByStatus("pending");
 }
 
+/**
+ * @brief Approve Review.
+ * @param[in] review_id Identifier of the review.
+ * @param[in] notes Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), find(), end(), THEMIS_ERROR(), getCurrentTimeMs(), THEMIS_INFO().
+ */
 bool ReviewWorkflow::approveReview(const std::string &review_id, const std::string &notes) {
     std::lock_guard<std::mutex> lock(mutex_);
 
@@ -379,6 +478,14 @@ bool ReviewWorkflow::approveReview(const std::string &review_id, const std::stri
     return true;
 }
 
+/**
+ * @brief Reject Review.
+ * @param[in] review_id Identifier of the review.
+ * @param[in] reason Input parameter.
+ * @param[in] notes Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), find(), end(), THEMIS_ERROR(), getCurrentTimeMs(), THEMIS_INFO().
+ */
 bool ReviewWorkflow::rejectReview(const std::string &review_id, const std::string &reason, const std::string &notes) {
     std::lock_guard<std::mutex> lock(mutex_);
 
@@ -403,6 +510,11 @@ bool ReviewWorkflow::rejectReview(const std::string &review_id, const std::strin
 }
 
 std::vector<PolicyReview> ReviewWorkflow::getReviewHistory(const std::string &rule_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     std::vector<PolicyReview> result;
@@ -421,6 +533,11 @@ std::vector<PolicyReview> ReviewWorkflow::getReviewHistory(const std::string &ru
 }
 
 std::vector<PolicyReview> ReviewWorkflow::getOverdueReviews(int64_t current_time) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     if (current_time == 0) {
@@ -439,6 +556,12 @@ std::vector<PolicyReview> ReviewWorkflow::getOverdueReviews(int64_t current_time
     return result;
 }
 
+/**
+ * @brief Cancel Review.
+ * @param[in] review_id Identifier of the review.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), find(), end(), THEMIS_ERROR(), getCurrentTimeMs(), THEMIS_INFO().
+ */
 bool ReviewWorkflow::cancelReview(const std::string &review_id) {
     std::lock_guard<std::mutex> lock(mutex_);
 
@@ -461,6 +584,11 @@ bool ReviewWorkflow::cancelReview(const std::string &review_id) {
 }
 
 nlohmann::json ReviewWorkflow::exportReviews() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     nlohmann::json j;
@@ -476,6 +604,12 @@ nlohmann::json ReviewWorkflow::exportReviews() const {
     return j;
 }
 
+/**
+ * @brief Import Reviews.
+ * @param[in] j Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: contains(), is_array(), THEMIS_ERROR(), lock(), clear(), PolicyReview::fromJson(), THEMIS_INFO(), size().
+ */
 bool ReviewWorkflow::importReviews(const nlohmann::json &j) {
     try {
         if (!j.contains("reviews") || !j["reviews"].is_array()) {
@@ -512,6 +646,12 @@ nlohmann::json PolicyExpiration::ExpirationConfig::toJson() const {
     return j;
 }
 
+/**
+ * @brief From Json.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: contains().
+ */
 PolicyExpiration::ExpirationConfig PolicyExpiration::ExpirationConfig::fromJson(const nlohmann::json &j) {
     ExpirationConfig config = {};
     if (j.contains("rule_id")) {
@@ -543,7 +683,13 @@ nlohmann::json PolicyExpiration::ExpirationWarning::toJson() const {
     return j;
 }
 
-// ========== PolicyExpiration Implementation ==========
+/**
+ * @brief ========== PolicyExpiration Implementation ==========
+ * @param[in] rule_id Identifier of the rule.
+ * @param[in] expiration_date Input parameter.
+ * @param[in] grace_period_days Input parameter.
+ * @details Calls: lock(), THEMIS_DEBUG().
+ */
 
 void PolicyExpiration::setExpiration(const std::string &rule_id, int64_t expiration_date, int grace_period_days) {
     std::lock_guard<std::mutex> lock(mutex_);
@@ -561,6 +707,11 @@ void PolicyExpiration::setExpiration(const std::string &rule_id, int64_t expirat
 }
 
 std::optional<PolicyExpiration::ExpirationConfig> PolicyExpiration::getExpiration(const std::string &rule_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     auto it = expirations_.find(rule_id);
@@ -570,6 +721,11 @@ std::optional<PolicyExpiration::ExpirationConfig> PolicyExpiration::getExpiratio
     return std::nullopt;
 }
 
+/**
+ * @brief Remove Expiration.
+ * @param[in] rule_id Identifier of the rule.
+ * @details Calls: lock(), find(), end(), erase(), THEMIS_DEBUG().
+ */
 void PolicyExpiration::removeExpiration(const std::string &rule_id) {
     std::lock_guard<std::mutex> lock(mutex_);
 
@@ -581,6 +737,11 @@ void PolicyExpiration::removeExpiration(const std::string &rule_id) {
 }
 
 std::vector<PolicyExpiration::ExpirationConfig> PolicyExpiration::getAllExpirations() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     std::vector<ExpirationConfig> result = {};
@@ -595,6 +756,11 @@ std::vector<PolicyExpiration::ExpirationConfig> PolicyExpiration::getAllExpirati
 }
 
 std::vector<std::string> PolicyExpiration::getExpiredRules(int64_t current_time) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     if (current_time == 0) {
@@ -615,6 +781,11 @@ std::vector<std::string> PolicyExpiration::getExpiredRules(int64_t current_time)
 }
 
 std::vector<PolicyExpiration::ExpirationWarning> PolicyExpiration::getRulesExpiringSoon(int64_t current_time) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     if (current_time == 0) {
@@ -660,6 +831,13 @@ std::vector<PolicyExpiration::ExpirationWarning> PolicyExpiration::getRulesExpir
     return warnings;
 }
 
+/**
+ * @brief Process Expirations.
+ * @param[in,out] policy_mgr Input/output parameter.
+ * @param[in] current_time Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), getCurrentTimeMs(), getRule(), has_value(), value(), updateRule(), push_back(), THEMIS_INFO().
+ */
 std::vector<std::string> PolicyExpiration::processExpirations(PolicyManager &policy_mgr, int64_t current_time) {
     std::lock_guard<std::mutex> lock(mutex_);
 
@@ -700,6 +878,12 @@ std::vector<std::string> PolicyExpiration::processExpirations(PolicyManager &pol
     return disabled_rules;
 }
 
+/**
+ * @brief Extend Expiration.
+ * @param[in] rule_id Identifier of the rule.
+ * @param[in] additional_days Input parameter.
+ * @details Calls: lock(), find(), end(), THEMIS_INFO(), THEMIS_ERROR().
+ */
 void PolicyExpiration::extendExpiration(const std::string &rule_id, int additional_days) {
     std::lock_guard<std::mutex> lock(mutex_);
 
@@ -716,6 +900,11 @@ void PolicyExpiration::extendExpiration(const std::string &rule_id, int addition
 }
 
 nlohmann::json PolicyExpiration::exportExpirations() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     nlohmann::json j;
@@ -731,6 +920,12 @@ nlohmann::json PolicyExpiration::exportExpirations() const {
     return j;
 }
 
+/**
+ * @brief Import Expirations.
+ * @param[in] j Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: contains(), is_array(), THEMIS_ERROR(), lock(), clear(), ExpirationConfig::fromJson(), THEMIS_INFO(), size().
+ */
 bool PolicyExpiration::importExpirations(const nlohmann::json &j) {
     try {
         if (!j.contains("expirations") || !j["expirations"].is_array()) {
@@ -786,6 +981,12 @@ nlohmann::json NotificationManager::NotificationConfig::toJson() const {
     return j;
 }
 
+/**
+ * @brief From Json.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: contains().
+ */
 NotificationManager::NotificationConfig NotificationManager::NotificationConfig::fromJson(const nlohmann::json &j) {
     NotificationConfig config = {};
     if (j.contains("email_enabled")) {
@@ -830,6 +1031,11 @@ std::string NotificationManager::generateNotificationId() const {
     return oss.str();
 }
 
+/**
+ * @brief Configure.
+ * @param[in] config Input parameter.
+ * @details Calls: lock(), THEMIS_INFO().
+ */
 void NotificationManager::configure(const NotificationConfig &config) {
     std::lock_guard<std::mutex> lock(mutex_);
     config_ = config;
@@ -839,10 +1045,22 @@ void NotificationManager::configure(const NotificationConfig &config) {
 }
 
 NotificationManager::NotificationConfig NotificationManager::getConfig() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return config_;
 }
 
+/**
+ * @brief Notify Review Due.
+ * @param[in] recipient Input parameter.
+ * @param[in] review Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: createNotification(), str().
+ */
 bool NotificationManager::notifyReviewDue(const std::string &recipient, const PolicyReview &review) {
     std::ostringstream subject = {};
     subject << "Policy Review Due: " << review.rule_id;
@@ -858,6 +1076,14 @@ bool NotificationManager::notifyReviewDue(const std::string &recipient, const Po
     return true;
 }
 
+/**
+ * @brief Notify Review Overdue.
+ * @param[in] recipient Input parameter.
+ * @param[in] review Input parameter.
+ * @param[in] days_overdue Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: createNotification(), str().
+ */
 bool NotificationManager::notifyReviewOverdue(const std::string &recipient, const PolicyReview &review,
                                               int days_overdue) {
     std::ostringstream subject = {};
@@ -875,6 +1101,13 @@ bool NotificationManager::notifyReviewOverdue(const std::string &recipient, cons
     return true;
 }
 
+/**
+ * @brief Notify Expiration Warning.
+ * @param[in] recipient Input parameter.
+ * @param[in] warning Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: createNotification(), str().
+ */
 bool NotificationManager::notifyExpirationWarning(const std::string &recipient,
                                                   const PolicyExpiration::ExpirationWarning &warning) {
     std::ostringstream subject = {};
@@ -891,6 +1124,13 @@ bool NotificationManager::notifyExpirationWarning(const std::string &recipient,
     return true;
 }
 
+/**
+ * @brief Notify Rule Expired.
+ * @param[in] recipient Input parameter.
+ * @param[in] rule_id Identifier of the rule.
+ * @return True when the operation succeeds.
+ * @details Calls: createNotification(), str().
+ */
 bool NotificationManager::notifyRuleExpired(const std::string &recipient, const std::string &rule_id) {
     std::ostringstream subject = {};
     subject << "Policy Rule Expired: " << rule_id;
@@ -903,6 +1143,15 @@ bool NotificationManager::notifyRuleExpired(const std::string &recipient, const 
     return true;
 }
 
+/**
+ * @brief Create Notification.
+ * @param[in] type Input parameter.
+ * @param[in] recipient Input parameter.
+ * @param[in] subject Input parameter.
+ * @param[in] message Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), generateNotificationId(), getCurrentTimeMs(), THEMIS_DEBUG(), sendEmail(), sendWebhook().
+ */
 std::string NotificationManager::createNotification(const std::string &type, const std::string &recipient,
                                                     const std::string &subject, const std::string &message) {
     std::lock_guard<std::mutex> lock(mutex_);
@@ -931,6 +1180,11 @@ std::string NotificationManager::createNotification(const std::string &type, con
 }
 
 std::vector<NotificationManager::Notification> NotificationManager::getPendingNotifications() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     std::vector<Notification> result;
@@ -944,6 +1198,11 @@ std::vector<NotificationManager::Notification> NotificationManager::getPendingNo
     return result;
 }
 
+/**
+ * @brief Mark As Sent.
+ * @param[in] notification_id Identifier of the notification.
+ * @details Calls: lock(), find(), end(), getCurrentTimeMs(), THEMIS_DEBUG().
+ */
 void NotificationManager::markAsSent(const std::string &notification_id) {
     std::lock_guard<std::mutex> lock(mutex_);
 
@@ -957,6 +1216,11 @@ void NotificationManager::markAsSent(const std::string &notification_id) {
 }
 
 std::vector<NotificationManager::Notification> NotificationManager::getNotificationHistory(int64_t since) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     std::vector<Notification> result;
@@ -974,6 +1238,12 @@ std::vector<NotificationManager::Notification> NotificationManager::getNotificat
     return result;
 }
 
+/**
+ * @brief Send Email.
+ * @param[in] notification Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: themis::security::PIIRedactionPolicy::get(), redactForLog(), THEMIS_INFO().
+ */
 bool NotificationManager::sendEmail(const Notification &notification) {
     if (!config_.email_enabled) {
         return false;
@@ -987,6 +1257,12 @@ bool NotificationManager::sendEmail(const Notification &notification) {
     return true;
 }
 
+/**
+ * @brief Send Webhook.
+ * @param[in] notification Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: THEMIS_INFO(), toJson(), dump().
+ */
 bool NotificationManager::sendWebhook(const Notification &notification) {
     if (!config_.webhook_enabled) {
         return false;

@@ -76,86 +76,65 @@ using Result = tl::expected<T, FtsError>;
 // ============================================================================
 class FtsExecutor {
  public:
-  /// @brief Construct an executor bound to one on-disk FTS index.
-  /// @param index_path: filesystem path to FTS index directory
-  /// @throws std::invalid_argument if index_path invalid
+  /**
+   * @brief Fts Executor.
+   * @param[in] index_path Path to the index.
+   * @return Return value.
+   */
   explicit FtsExecutor(const std::string& index_path);
   
-  /// @brief Construct an executor with explicit cache configuration.
-  /// @param index_path: filesystem path to FTS index directory
-  /// @param cache_config: cache budget and bloom-filter configuration
-  /// @throws std::invalid_argument if index_path invalid
   FtsExecutor(const std::string& index_path, const IndexCache::Config& cache_config);
   
-  /// @brief Destroy the executor and release owned resources.
-  /// @note flushes cache and releases index locks
   ~FtsExecutor();
   
   // ========================================================================
   // Public Query Execution API (Thread-safe for concurrent reads)
   // ========================================================================
   
-  /// @brief Execute one parsed FTS query.
-  /// @param query: SearchNode AST from FtsParser (already parsed)
-  /// @param options: execution options (limit, timeout, snippets, etc.)
-  /// @return vector of SearchResult sorted by score (descending)
-  /// @note Thread safety: acquires shared_lock (multiple readers allowed).
-  /// @note Returns EXECUTION_TIMEOUT if query exceeds timeout_ms.
-  /// @note Returns OUT_OF_MEMORY if cache eviction fails.
   Result<std::vector<SearchResult>> execute(
       const SearchNode& query,
       const ExecutionOptions& options = ExecutionOptions{});
   
-  /// @brief Execute multiple queries in one batch.
-  /// @param queries: vector of SearchNode ASTs
-  /// @param options: common execution options for all queries
-  /// @return vector of result vectors (one per input query)
-  /// @note Thread safety: acquires shared_lock once to amortize lock overhead.
   Result<std::vector<std::vector<SearchResult>>> executeBatch(
       const std::vector<SearchNode>& queries,
       const ExecutionOptions& options = ExecutionOptions{});
   
-  // ========================================================================
-  // Index Update API (Exclusive lock required)
-  // ========================================================================
+  /**
+   * @brief ======================================================================== Index Update API (Exclusive lock required) ========================================================================
+   * @param[in] updates Input parameter.
+   * @return Return value.
+   */
   
-  /// @brief Apply additions and deletions to the FTS index.
-  /// @param updates: batch of document additions/deletions
-  /// @return status (OK or FtsError)
-  /// @note Thread safety: acquires unique_lock (exclusive access, blocks readers).
-  /// @note Returns INDEX_LOCKED if waiting for readers times out.
   Result<void> updateIndex(const IndexUpdateBatch& updates);
   
-  // ========================================================================
-  // Diagnostic API (Read-only, thread-safe)
-  // ========================================================================
+  /**
+   * @brief ======================================================================== Diagnostic API (Read-only, thread-safe) ========================================================================
+   * @return Access control statistics.
+   */
   
-  /// @brief Get read-only index statistics for diagnostics.
-  /// @note Thread safety: acquires shared_lock.
-  /// @return index metadata (document count, term count, size, etc.)
   IndexStatistics getStatistics() const;
   
-  /// @brief Check whether index integrity checks currently pass.
-  /// @note Thread safety: acquires shared_lock.
-  /// @return true if index passes integrity checks, false otherwise
+  /**
+   * @brief Is Index Healthy.
+   * @return True when the operation succeeds.
+   */
   bool isIndexHealthy() const;
   
-  /// @brief Cache hit/miss counters for executor diagnostics.
   struct CacheStats {
     uint64_t hits = 0;
     uint64_t misses = 0;
     uint64_t evictions = 0;
     
-    /// @brief Compute hit ratio over all cache lookups.
-    /// @return Hit ratio in range [0, 1].
     float hitRate() const {
       uint64_t total = hits + misses;
       return total > 0 ? static_cast<float>(hits) / total : 0.0f;
     }
   };
   
-  /// @brief Return current cache hit/miss counters.
-  /// @note Thread safety: no locking required (reads atomic counters).
+  /**
+   * @brief Get Cache Stats.
+   * @return Return value.
+   */
   CacheStats getCacheStats() const;
   
  private:
@@ -163,28 +142,26 @@ class FtsExecutor {
   // Private Implementation Details
   // ========================================================================
   
-  /// Synchronization primitive for concurrent access
-  /// @note: shared_lock for queries, unique_lock for updates
   mutable std::shared_mutex index_lock_;
   
-  /// In-memory cache for hot posting lists
-  /// @note Thread safety: IndexCache provides internal synchronization.
   std::unique_ptr<IndexCache> cache_;
   
-  /// FTS index abstraction
   std::unique_ptr<FtsIndex> index_;
   
-  /// BM25 scorer instance
   std::unique_ptr<BM25Scorer> scorer_;
   
-  /// Execution metrics (latency, hit rate, etc.)
   struct ExecutionMetrics {
     std::atomic<uint64_t> total_queries{0};
     std::atomic<uint64_t> total_timeout_queries{0};
     std::atomic<uint64_t> total_result_count{0};
   } metrics_;
   
-  // Internal helper methods (implementation detail)
+  /**
+   * @brief Internal helper methods (implementation detail)
+   * @param[in] query Input parameter.
+   * @param[in] options Input parameter.
+   * @return Return value.
+   */
   Result<std::vector<SearchResult>> traverseAndScore(
       const SearchNode& query,
       const ExecutionOptions& options);

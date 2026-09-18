@@ -27,7 +27,11 @@ namespace themis {
 namespace observability {
 namespace detail {
 
-/// Generate a 128-bit random hex string for use as a W3C trace-id.
+/**
+ * @brief Generate Trace Id.
+ * @return Return value.
+ * @details Calls: dist(), std::setfill(), std::setw(), str().
+ */
 inline std::string generateTraceId() {
     thread_local std::mt19937_64 rng{std::random_device{}()};
     std::uniform_int_distribution<uint64_t> dist;
@@ -40,7 +44,11 @@ inline std::string generateTraceId() {
     return oss.str();
 }
 
-/// Generate a 64-bit random hex string for use as a W3C span-id.
+/**
+ * @brief Generate Span Id.
+ * @return Return value.
+ * @details Calls: std::setfill(), std::setw(), dist(), str().
+ */
 inline std::string generateSpanId() {
     thread_local std::mt19937_64 rng{std::random_device{}()};
     std::uniform_int_distribution<uint64_t> dist;
@@ -49,7 +57,12 @@ inline std::string generateSpanId() {
     return oss.str();
 }
 
-/// Probabilistic sampling decision for a given rate in [0.0, 1.0].
+/**
+ * @brief Should Sample.
+ * @param[in] rate Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: dist().
+ */
 inline bool shouldSample(double rate) {
     if (rate >= 1.0) {
       return true;
@@ -62,9 +75,6 @@ inline bool shouldSample(double rate) {
     return dist(rng) < rate;
 }
 
-/// Parse a W3C traceparent of the form
-///   "00-<32hexTraceId>-<16hexSpanId>-<2hexFlags>"
-/// Returns {trace_id, span_id} or {"", ""} on failure.
 inline std::pair<std::string, std::string> parseTraceparent(
     const std::string& value) noexcept
 {
@@ -84,14 +94,12 @@ inline std::pair<std::string, std::string> parseTraceparent(
     return {trace_id, parent_id};
 }
 
-/// Build a W3C traceparent header value.
 inline std::string buildTraceparent(const std::string& trace_id,
                                      const std::string& span_id,
                                      bool sampled = true) {
     return "00-" + trace_id + "-" + span_id + (sampled ? "-01" : "-00");
 }
 
-/// Case-insensitive header lookup.
 inline std::string findHeader(const std::map<std::string, std::string>& headers,
                                const std::string& lower_key) {
     for (const auto& [k, v] : headers) {

@@ -30,6 +30,12 @@ namespace {
 
 static const char kB64Chars[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 
+/**
+ * @brief Base64 Encode.
+ * @param[in] data Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size().
+ */
 std::string base64Encode(const std::vector<uint8_t> &data) {
     std::string out = {};
     out.reserve(((data.size() + 2) / 3) * 4);
@@ -52,6 +58,12 @@ std::string base64Encode(const std::vector<uint8_t> &data) {
     return out;
 }
 
+/**
+ * @brief Base64 Decode.
+ * @param[in] encoded Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), decodeChar(), push_back().
+ */
 std::vector<uint8_t> base64Decode(const std::string &encoded) {
     auto decodeChar = [](char c) -> int {
         if (c >= 'A' && c <= 'Z') {
@@ -112,6 +124,13 @@ std::string ConfigEncryptedBlob::toJson() const {
     return j.dump();
 }
 
+/**
+ * @brief From Json.
+ * @param[in] json_str Input parameter.
+ * @return Return value.
+ * @throws ConfigEncryptionException if an error occurs.
+ * @details Calls: nlohmann::json::parse(), at(), base64Decode(), std::string(), what().
+ */
 ConfigEncryptedBlob ConfigEncryptedBlob::fromJson(const std::string &json_str) {
     try {
         auto j = nlohmann::json::parse(json_str);
@@ -139,6 +158,13 @@ ConfigEncryptedStore::ConfigEncryptedStore() {
 // CRUD
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Set.
+ * @param[in] config_key Input parameter.
+ * @param[in] plaintext Input parameter.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: empty(), lock(), encryptValue().
+ */
 void ConfigEncryptedStore::set(const std::string &config_key, const std::string &plaintext) {
     if (config_key.empty()) {
         throw std::invalid_argument("ConfigEncryptedStore::set: config_key must not be empty");
@@ -148,15 +174,30 @@ void ConfigEncryptedStore::set(const std::string &config_key, const std::string 
 }
 
 std::string ConfigEncryptedStore::get(const std::string &config_key) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(mutex_);
     auto it = store_.find(config_key);
     if (it == store_.end()) {
+        /**
+         * @brief Config Key Not Found Exception.
+         * @param[in] config_key Input parameter.
+         * @return Return value.
+         */
         throw ConfigKeyNotFoundException(config_key);
     }
     return decryptBlob(it->second);
 }
 
 std::optional<std::string> ConfigEncryptedStore::tryGet(const std::string &config_key) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(mutex_);
     auto it = store_.find(config_key);
     if (it == store_.end()) {
@@ -177,17 +218,33 @@ std::optional<std::string> ConfigEncryptedStore::tryGet(const std::string &confi
     }
 }
 
+/**
+ * @brief Remove.
+ * @param[in] config_key Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), erase().
+ */
 bool ConfigEncryptedStore::remove(const std::string &config_key) {
     std::unique_lock<std::shared_mutex> lock(mutex_);
     return store_.erase(config_key) > 0;
 }
 
 bool ConfigEncryptedStore::contains(const std::string &config_key) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(mutex_);
     return store_.count(config_key) > 0;
 }
 
 std::vector<std::string> ConfigEncryptedStore::keys() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(mutex_);
     std::vector<std::string> result = {};
 
@@ -199,10 +256,19 @@ std::vector<std::string> ConfigEncryptedStore::keys() const {
 }
 
 std::size_t ConfigEncryptedStore::size() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(mutex_);
     return store_.size();
 }
 
+/**
+ * @brief Clear.
+ * @details Calls: lock().
+ */
 void ConfigEncryptedStore::clear() {
     std::unique_lock<std::shared_mutex> lock(mutex_);
     store_.clear();
@@ -212,6 +278,11 @@ void ConfigEncryptedStore::clear() {
 // Key rotation
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Rotate Key.
+ * @return Return value.
+ * @details Calls: lock(), generateKey(), reserve(), size(), decryptBlob(), aesGcmEncrypt(), std::move(), std::fill().
+ */
 uint32_t ConfigEncryptedStore::rotateKey() {
     std::unique_lock<std::shared_mutex> lock(mutex_);
 
@@ -253,6 +324,11 @@ uint32_t ConfigEncryptedStore::rotateKey() {
 }
 
 uint32_t ConfigEncryptedStore::currentKeyVersion() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(mutex_);
     return key_.version;
 }
@@ -262,6 +338,11 @@ uint32_t ConfigEncryptedStore::currentKeyVersion() const {
 // ---------------------------------------------------------------------------
 
 std::string ConfigEncryptedStore::serialize() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(mutex_);
 
     nlohmann::json j;
@@ -277,6 +358,12 @@ std::string ConfigEncryptedStore::serialize() const {
     return j.dump();
 }
 
+/**
+ * @brief Deserialize.
+ * @param[in] json_str Input parameter.
+ * @throws ConfigEncryptionException if an error occurs.
+ * @details Calls: nlohmann::json::parse(), at(), base64Decode(), size(), std::to_string(), begin(), end(), key().
+ */
 void ConfigEncryptedStore::deserialize(const std::string &json_str) {
     try {
         auto j = nlohmann::json::parse(json_str);
@@ -311,6 +398,12 @@ void ConfigEncryptedStore::deserialize(const std::string &json_str) {
 // Private helpers
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Generate Key.
+ * @return Return value.
+ * @throws ConfigEncryptionException if an error occurs.
+ * @details Calls: key(), RAND_bytes(), data(), size().
+ */
 std::vector<uint8_t> ConfigEncryptedStore::generateKey() {
     std::vector<uint8_t> key(32);
     if (RAND_bytes(key.data(), key.size()) != 1) {
@@ -319,6 +412,12 @@ std::vector<uint8_t> ConfigEncryptedStore::generateKey() {
     return key;
 }
 
+/**
+ * @brief Generate IV.
+ * @return Return value.
+ * @throws ConfigEncryptionException if an error occurs.
+ * @details Calls: iv(), RAND_bytes(), data(), size().
+ */
 std::vector<uint8_t> ConfigEncryptedStore::generateIV() {
     std::vector<uint8_t> iv(12);
     if (RAND_bytes(iv.data(), iv.size()) != 1) {
@@ -327,6 +426,16 @@ std::vector<uint8_t> ConfigEncryptedStore::generateIV() {
     return iv;
 }
 
+/**
+ * @brief Aes Gcm Encrypt.
+ * @param[in] plaintext Input parameter.
+ * @param[in] key Input parameter.
+ * @param[in,out] out_iv Input/output parameter.
+ * @param[in,out] out_tag Input/output parameter.
+ * @return Return value.
+ * @throws ConfigEncryptionException if an error occurs.
+ * @details Calls: generateIV(), resize(), EVP_CIPHER_CTX_new(), CtxGuard(), EVP_CIPHER_CTX_free(), EVP_EncryptInit_ex(), EVP_aes_256_gcm(), EVP_CIPHER_CTX_ctrl().
+ */
 std::vector<uint8_t> ConfigEncryptedStore::aesGcmEncrypt(const std::string &plaintext, const std::vector<uint8_t> &key,
                                                          std::vector<uint8_t> &out_iv, std::vector<uint8_t> &out_tag) {
     out_iv = generateIV();
@@ -376,6 +485,16 @@ std::vector<uint8_t> ConfigEncryptedStore::aesGcmEncrypt(const std::string &plai
     return ciphertext;
 }
 
+/**
+ * @brief Aes Gcm Decrypt.
+ * @param[in] ciphertext Input parameter.
+ * @param[in] key Input parameter.
+ * @param[in] iv Input parameter.
+ * @param[in] tag Input parameter.
+ * @return Return value.
+ * @throws ConfigEncryptionException if an error occurs.
+ * @details Calls: size(), EVP_CIPHER_CTX_new(), CtxGuard(), EVP_CIPHER_CTX_free(), EVP_DecryptInit_ex(), EVP_aes_256_gcm(), EVP_CIPHER_CTX_ctrl(), data().
+ */
 std::string ConfigEncryptedStore::aesGcmDecrypt(const std::vector<uint8_t> &ciphertext, const std::vector<uint8_t> &key,
                                                 const std::vector<uint8_t> &iv, const std::vector<uint8_t> &tag) {
     if (iv.size() != 12) {

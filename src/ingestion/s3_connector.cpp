@@ -49,12 +49,12 @@ namespace ingestion {
 
 #ifdef THEMIS_ENABLE_S3
 namespace {
-/// AWS SDK must be initialised once per process before any SDK calls are made.
-/// Guard it with call_once so that multiple connectors / importers running in
-/// the same process share the single SDK lifecycle (matches s3_importer.cpp
-/// and blob_backend_s3.cpp).
 std::once_flag g_s3_sdk_init_flag;
 
+/**
+ * @brief Init S3 Sdk.
+ * @details Calls: Aws::InitAPI().
+ */
 void initS3Sdk() {
     Aws::SDKOptions options;
     options.loggingOptions.logLevel = Aws::Utils::Logging::LogLevel::Warn;
@@ -71,12 +71,22 @@ namespace fs = std::filesystem;
 
 namespace {
 
-/// Guard against path-traversal sequences in object keys.
+/**
+ * @brief Is S3 Key Safe.
+ * @param[in] key Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: find().
+ */
 static bool isS3KeySafe(const std::string& key) {
     return key.find("..") == std::string::npos;
 }
 
-/// Determine file extension (lower-cased) of an object key.
+/**
+ * @brief S3 Key Extension.
+ * @param[in] key Input parameter.
+ * @return Return value.
+ * @details Calls: rfind(), substr(), std::transform(), begin(), end(), std::tolower().
+ */
 static std::string s3KeyExtension(const std::string& key) {
     auto dot = key.rfind('.');
     if (dot == std::string::npos) return {};
@@ -86,10 +96,12 @@ static std::string s3KeyExtension(const std::string& key) {
     return ext;
 }
 
-/// Return true if the extension should be processed through FileSystemIngester.
-/// Note: .json is intentionally excluded here because .json objects use the
-/// configurable `text_field` extraction path (s3JsonExtractField) rather than
-/// returning raw bytes; the fallback in extractText() handles .json separately.
+/**
+ * @brief Is Flat File Extension.
+ * @param[in] ext Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements isFlatFileExtension without additional internal calls.
+ */
 static bool isFlatFileExtension(const std::string& ext) {
     return ext == ".jsonl" || ext == ".ndjson" ||
            ext == ".csv"   || ext == ".tsv"    ||
@@ -99,7 +111,12 @@ static bool isFlatFileExtension(const std::string& ext) {
            ext == ".xml";
 }
 
-/// Sanitise a source_id so it is safe to use as a filename component.
+/**
+ * @brief Sanitise Id.
+ * @param[in] id Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), std::isalnum(), empty().
+ */
 static std::string sanitiseId(const std::string& id) {
     std::string out = {};
     out.reserve(id.size());
@@ -110,15 +127,26 @@ static std::string sanitiseId(const std::string& id) {
     return out.empty() ? "s3" : out;
 }
 
-/// Produce a unique temporary directory path (does not create it).
+/**
+ * @brief Make Tmp Dir.
+ * @param[in] source_id Identifier of the source.
+ * @return Return value.
+ * @details Calls: std::chrono::steady_clock::now(), time_since_epoch(), count(), fs::temp_directory_path(), sanitiseId(), std::to_string().
+ */
 static fs::path makeTmpDir(const std::string& source_id) {
     auto ts = std::chrono::steady_clock::now().time_since_epoch().count();
     return fs::temp_directory_path() /
            ("themis_s3_" + sanitiseId(source_id) + "_" + std::to_string(ts));
 }
 
-/// Write body to a temp file whose name carries the extension of key.
-/// Returns the path on success, empty on failure.
+/**
+ * @brief Write To Temp File.
+ * @param[in] tmp_dir Input parameter.
+ * @param[in] key Input parameter.
+ * @param[in] body Input parameter.
+ * @return Return value.
+ * @details Calls: rfind(), substr(), empty(), std::isalnum(), out(), is_open(), write(), data().
+ */
 static fs::path writeToTempFile(const fs::path& tmp_dir,
                                 const std::string& key,
                                 const std::string& body) {
@@ -149,8 +177,15 @@ static fs::path writeToTempFile(const fs::path& tmp_dir,
     return dest;
 }
 
-/// Extract text from an object body using FileSystemIngester.
-/// Returns empty string on failure (file not written or parse error).
+/**
+ * @brief Extract Via File System Ingester.
+ * @param[in] tmp_dir Input parameter.
+ * @param[in] key Input parameter.
+ * @param[in] body Input parameter.
+ * @param[in] source_id Identifier of the source.
+ * @return Return value.
+ * @details Calls: writeToTempFile(), empty(), string(), initialize(), ingest(), f(), is_open(), fs::remove().
+ */
 static std::string extractViaFileSystemIngester(const fs::path& tmp_dir,
                                                 const std::string& key,
                                                 const std::string& body,
@@ -192,7 +227,13 @@ static std::string extractViaFileSystemIngester(const fs::path& tmp_dir,
     return result;
 }
 
-/// Minimal JSON text-field extractor (for .json objects).
+/**
+ * @brief S3 Json Extract Field.
+ * @param[in] body Input parameter.
+ * @param[in] field Input parameter.
+ * @return Return value.
+ * @details Calls: find(), size().
+ */
 static std::string s3JsonExtractField(const std::string& body,
                                       const std::string& field) {
     std::string needle = "\"" + field + "\":\"";
@@ -219,12 +260,17 @@ static std::string s3JsonExtractField(const std::string& body,
 // Pimpl
 // ---------------------------------------------------------------------------
 
-/** @brief Pimpl. */
 class S3Connector::Impl {
 public:
     Impl() = default;
     ~Impl() = default;
 
+    /**
+     * @brief Initialize.
+     * @param[in] config Input parameter.
+     * @return True when the operation succeeds.
+     * @details Calls: find(), end(), opt(), std::stoull(), max(), empty().
+     */
     bool initialize(const SourceConfig& config) {
         if (config.type != SourceType::OBJECT_STORAGE) {
           return false;
@@ -290,6 +336,13 @@ public:
 
     size_t getDocumentCount() const { return 0; }
 
+    /**
+     * @brief Ingest.
+     * @param[in] target_collection Input parameter.
+     * @param[in] progress_callback Input parameter.
+     * @return Return value.
+     * @details Calls: std::chrono::steady_clock::now(), empty(), addError(), finaliseStats(), read(), makeTmpDir(), fs::create_directories(), ingestFromMock().
+     */
     IngestionStats ingest(const std::string& target_collection,
                           ProgressCallback progress_callback) {
         (void)target_collection;
@@ -384,20 +437,53 @@ public:
         return stats;
     }
 
+    /**
+     * @brief Set Checkpoint Store.
+     * @param[in] store Input parameter.
+     * @details Calls: std::move().
+     */
     void setCheckpointStore(std::shared_ptr<CheckpointStore> store) {
         checkpoint_store_ = std::move(store);
     }
 
+    /**
+     * @brief Set Retry Config.
+     * @param[in] c Input parameter.
+     * @details Implements setRetryConfig without additional internal calls.
+     */
     void setRetryConfig(const RetryConfig& c) { retry_config_ = c; }
 
+    /**
+     * @brief Set Object List For Testing.
+     * @param[in] fn Input parameter.
+     * @details Calls: std::move().
+     */
     void setObjectListForTesting(ObjectListFn fn) { list_fn_  = std::move(fn); }
+    /**
+     * @brief Set Object Fetch For Testing.
+     * @param[in] fn Input parameter.
+     * @details Calls: std::move().
+     */
     void setObjectFetchForTesting(ObjectFetchFn fn) { fetch_fn_ = std::move(fn); }
+    /**
+     * @brief Set Document Write For Testing.
+     * @param[in] fn Input parameter.
+     * @details Calls: std::move().
+     */
     void setDocumentWriteForTesting(S3Connector::DocumentWriteFn fn) { doc_write_fn_ = std::move(fn); }
 
 private:
     // -----------------------------------------------------------------------
     // Document text extraction
     // -----------------------------------------------------------------------
+    /**
+     * @brief Extract Text.
+     * @param[in] key Input parameter.
+     * @param[in] body Input parameter.
+     * @param[in] tmp_dir Input parameter.
+     * @return Return value.
+     * @details Calls: s3KeyExtension(), isFlatFileExtension(), extractViaFileSystemIngester(), empty(), s3JsonExtractField().
+     */
     std::string extractText(const std::string& key,
                             const std::string& body,
                             const fs::path& tmp_dir) {
@@ -504,6 +590,14 @@ private:
     // Roadmap ref: src/ingestion/ROADMAP.md § "Phase 3: Distributed Sources & Connectors"
     // Removal Plan: Not removed — remains the test-injection path.
     // -----------------------------------------------------------------------
+    /**
+     * @brief Ingest From Mock.
+     * @param[in,out] stats Input/output parameter.
+     * @param[in,out] progress_callback Input/output parameter.
+     * @param[in] start_after Input parameter.
+     * @param[in] tmp_dir Input parameter.
+     * @details Calls: list_fn_(), empty(), reserve(), size(), isS3KeySafe(), addError(), push_back(), processBatch().
+     */
     void ingestFromMock(IngestionStats& stats,
                         ProgressCallback& progress_callback,
                         const std::string& start_after,
@@ -572,6 +666,12 @@ private:
         const bool use_virtual = !path_style_;
 
         if (!access_key_.empty() && !secret_key_.empty()) {
+            /**
+             * @brief Creds.
+             * @param[in] access_key_ Input parameter.
+             * @param[in] secret_key_ Input parameter.
+             * @return Return value.
+             */
             Aws::Auth::AWSCredentials creds(access_key_, secret_key_);
             return std::make_unique<Aws::S3::S3Client>(
                 creds, client_cfg,
@@ -605,6 +705,14 @@ private:
     // -----------------------------------------------------------------------
     // AWS S3 ingestion
     // -----------------------------------------------------------------------
+    /**
+     * @brief Ingest From S3.
+     * @param[in,out] stats Input/output parameter.
+     * @param[in,out] progress_callback Input/output parameter.
+     * @param[in] start_after Input parameter.
+     * @param[in] tmp_dir Input parameter.
+     * @details Calls: buildS3Client(), SetBucket(), empty(), SetPrefix(), SetMaxKeys(), SetContinuationToken(), SetStartAfter(), ListObjectsV2().
+     */
     void ingestFromS3(IngestionStats& stats,
                       ProgressCallback& progress_callback,
                       const std::string& start_after,
@@ -724,6 +832,12 @@ S3Connector::S3Connector()
 
 S3Connector::~S3Connector() = default;
 
+/**
+ * @brief Initialize.
+ * @param[in] config Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements initialize without additional internal calls.
+ */
 bool S3Connector::initialize(const SourceConfig& config) {
     return impl_->initialize(config);
 }
@@ -736,35 +850,77 @@ size_t S3Connector::getDocumentCount() const {
     return impl_->getDocumentCount();
 }
 
+/**
+ * @brief Ingest.
+ * @param[in] target_collection Input parameter.
+ * @param[in] progress_callback Input parameter.
+ * @return Return value.
+ * @details Implements ingest without additional internal calls.
+ */
 IngestionStats S3Connector::ingest(const std::string& target_collection,
                                    ProgressCallback progress_callback) {
     return impl_->ingest(target_collection, progress_callback);
 }
 
+/**
+ * @brief Set Checkpoint Store.
+ * @param[in] store Input parameter.
+ * @details Calls: std::move().
+ */
 void S3Connector::setCheckpointStore(std::shared_ptr<CheckpointStore> store) {
     impl_->setCheckpointStore(std::move(store));
 }
 
+/**
+ * @brief Set Retry Config.
+ * @param[in] config Input parameter.
+ * @details Implements setRetryConfig without additional internal calls.
+ */
 void S3Connector::setRetryConfig(const RetryConfig& config) {
     impl_->setRetryConfig(config);
 }
 
+/**
+ * @brief Set Object List For Testing.
+ * @param[in] fn Input parameter.
+ * @details Calls: setObjectListProvider(), std::move().
+ */
 void S3Connector::setObjectListForTesting(ObjectListFn fn) {
     setObjectListProvider(std::move(fn));
 }
 
+/**
+ * @brief Set Object List Provider.
+ * @param[in] fn Input parameter.
+ * @details Calls: setObjectListForTesting(), std::move().
+ */
 void S3Connector::setObjectListProvider(ObjectListFn fn) {
     impl_->setObjectListForTesting(std::move(fn));
 }
 
+/**
+ * @brief Set Object Fetch For Testing.
+ * @param[in] fn Input parameter.
+ * @details Calls: setObjectFetchProvider(), std::move().
+ */
 void S3Connector::setObjectFetchForTesting(ObjectFetchFn fn) {
     setObjectFetchProvider(std::move(fn));
 }
 
+/**
+ * @brief Set Object Fetch Provider.
+ * @param[in] fn Input parameter.
+ * @details Calls: setObjectFetchForTesting(), std::move().
+ */
 void S3Connector::setObjectFetchProvider(ObjectFetchFn fn) {
     impl_->setObjectFetchForTesting(std::move(fn));
 }
 
+/**
+ * @brief Set Document Write For Testing.
+ * @param[in] fn Input parameter.
+ * @details Calls: std::move().
+ */
 void S3Connector::setDocumentWriteForTesting(DocumentWriteFn fn) {
     impl_->setDocumentWriteForTesting(std::move(fn));
 }

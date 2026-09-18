@@ -39,7 +39,7 @@ std::string sanitizeDiagnosticLabelValue(const std::string& value) {
 } // namespace
 
 /**
- * @brief Singleton instance
+ * @brief Get Instance.
  * @return Return value.
  * @details Implements getInstance without additional internal calls.
  */
@@ -48,14 +48,14 @@ MetricsCollector& MetricsCollector::getInstance() {
     return instance;
 }
 
+
 /**
- * @brief ===== TSStore Metrics =====
+ * @brief Record TSStore Write.
  * @param[in] metric Input parameter.
  * @param[in] batch_size Input parameter.
  * @param[in] latency_ms Input parameter.
  * @details Calls: incrementCounter(), observeHistogram(), setGauge().
  */
-
 void MetricsCollector::recordTSStoreWrite(const std::string& metric, size_t batch_size, double latency_ms) {
     incrementCounter("tsstore_writes_total", {{"metric", metric}});
     incrementCounter("tsstore_points_written", {{"metric", metric}});
@@ -100,14 +100,14 @@ void MetricsCollector::recordTSStoreCompression(const std::string& compression_t
     observeHistogram("tsstore_compression_ratio", ratio, {{"type", compression_type}});
 }
 
+
 /**
- * @brief ===== Query Engine Metrics =====
+ * @brief Record Query.
  * @param[in] query_type Input parameter.
  * @param[in] latency_ms Input parameter.
  * @param[in] result_count Input parameter.
  * @details Calls: incrementCounter(), observeHistogram(), setGauge().
  */
-
 void MetricsCollector::recordQuery(const std::string& query_type, double latency_ms, size_t result_count) {
     incrementCounter("queries_total", {{"type", query_type}});
     observeHistogram("query_latency_ms", latency_ms, {{"type", query_type}});
@@ -136,12 +136,12 @@ void MetricsCollector::recordFullScan(const std::string& table, size_t keys_scan
     setGauge("full_scan_keys", static_cast<double>(keys_scanned), {{"table", table}});
 }
 
+
 /**
- * @brief ===== Cache Metrics =====
+ * @brief Record Cache Hit.
  * @param[in] cache_type Input parameter.
  * @details Calls: incrementCounter().
  */
-
 void MetricsCollector::recordCacheHit(const std::string& cache_type) {
     incrementCounter("cache_hits_total", {{"type", cache_type}});
 }
@@ -164,20 +164,20 @@ void MetricsCollector::recordCacheEviction(const std::string& cache_type) {
     incrementCounter("cache_evictions_total", {{"type", cache_type}});
 }
 
+
 /**
- * @brief ===== Sharding Metrics =====
- * @param[in] shard_id Input parameter.
+ * @brief Record Shard Request.
+ * @param[in] shard_id Identifier of the shard.
  * @param[in] operation Input parameter.
  * @details Calls: incrementCounter().
  */
-
 void MetricsCollector::recordShardRequest(const std::string& shard_id, const std::string& operation) {
     incrementCounter("shard_requests_total", {{"shard_id", shard_id}, {"operation", operation}});
 }
 
 /**
  * @brief Record Shard Latency.
- * @param[in] shard_id Input parameter.
+ * @param[in] shard_id Identifier of the shard.
  * @param[in] latency_ms Input parameter.
  * @details Calls: observeHistogram().
  */
@@ -187,7 +187,7 @@ void MetricsCollector::recordShardLatency(const std::string& shard_id, double la
 
 /**
  * @brief Record Rebalance Progress.
- * @param[in] operation_id Input parameter.
+ * @param[in] operation_id Identifier of the operation.
  * @param[in] records Input parameter.
  * @param[in] percent Input parameter.
  * @details Calls: setGauge().
@@ -197,13 +197,13 @@ void MetricsCollector::recordRebalanceProgress(const std::string& operation_id, 
     setGauge("rebalance_progress_percent", percent, {{"operation_id", operation_id}});
 }
 
+
 /**
- * @brief ===== Content Processing Metrics =====
+ * @brief Record Content Import.
  * @param[in] mime_type Input parameter.
  * @param[in] size_bytes Input parameter.
  * @details Calls: incrementCounter(), setGauge().
  */
-
 void MetricsCollector::recordContentImport(const std::string& mime_type, size_t size_bytes) {
     incrementCounter("content_imports_total", {{"mime_type", mime_type}});
     setGauge("content_bytes_imported", static_cast<double>(size_bytes), {{"mime_type", mime_type}});
@@ -229,12 +229,12 @@ void MetricsCollector::recordEmbeddingGeneration(size_t count, double latency_ms
     observeHistogram("embedding_generation_latency_ms", latency_ms, {});
 }
 
+
 /**
- * @brief ===== Security Metrics =====
+ * @brief Record Auth Attempt.
  * @param[in] success Input parameter.
  * @details Calls: incrementCounter().
  */
-
 void MetricsCollector::recordAuthAttempt(bool success) {
     incrementCounter("auth_attempts_total", {{"result", success ? "success" : "failure"}});
 }
@@ -261,12 +261,12 @@ void MetricsCollector::recordEncryptionOperation(const std::string& operation, d
     observeHistogram("encryption_latency_ms", latency_ms, {{"operation", operation}});
 }
 
+
 /**
- * @brief ===== System Metrics =====
+ * @brief Record Memory Usage.
  * @param[in] bytes Input parameter.
  * @details Calls: setGauge().
  */
-
 void MetricsCollector::recordMemoryUsage(size_t bytes) {
     setGauge("memory_usage_bytes", static_cast<double>(bytes), {});
 }
@@ -293,13 +293,13 @@ void MetricsCollector::recordDiskIOps(size_t read_ops, size_t write_ops) {
     setGauge("disk_write_ops_last", static_cast<double>(write_ops), {});
 }
 
+
 /**
- * @brief ===== Tracing Metrics =====
- * @param[in] span_name Input parameter.
+ * @brief Record Span Duration.
+ * @param[in] span_name Name of the span.
  * @param[in] duration_ms Input parameter.
  * @details Calls: observeHistogram(), incrementCounter().
  */
-
 void MetricsCollector::recordSpanDuration(const std::string& span_name, double duration_ms) {
     observeHistogram("trace_span_duration_ms", duration_ms, {{"span", span_name}});
     incrementCounter("trace_spans_total", {{"span", span_name}});
@@ -395,15 +395,10 @@ std::string MetricsCollector::getPrometheusMetrics() const {
 }
 
 /**
- * @brief Reset.
+ * @brief Reset the modification detection flag.
  * @details Calls: lock(), clear(), store().
  */
 void MetricsCollector::reset() {
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::unique_lock<std::shared_mutex> lock(mutex_);
     counters_.clear();
     gauges_.clear();
@@ -413,18 +408,13 @@ void MetricsCollector::reset() {
     dropped_series_.store(0);
 }
 
+
 /**
- * @brief ===== Cardinality control =====
+ * @brief Set Cardinality Limit.
  * @param[in] limit Input parameter.
  * @details Calls: lock().
  */
-
 void MetricsCollector::setCardinalityLimit(size_t limit) {
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::unique_lock<std::shared_mutex> lock(mutex_);
     cardinality_limit_ = limit;
 }
@@ -451,7 +441,7 @@ int64_t MetricsCollector::getDroppedSeriesCount() const {
  * @brief Check Cardinality.
  * @param[in] name Input parameter.
  * @param[in] key Input parameter.
- * @return True on success.
+ * @return True when the operation succeeds.
  * @details Calls: count(), makeKey().
  */
 bool MetricsCollector::checkCardinality(const std::string& name, const std::string& key) {
@@ -477,12 +467,12 @@ bool MetricsCollector::checkCardinality(const std::string& name, const std::stri
     return true;
 }
 
+
 /**
- * @brief ===== Exporter health =====
- * @param[in] exporter_name Input parameter.
+ * @brief Record Exporter Failure.
+ * @param[in] exporter_name Name of the exporter.
  * @details Calls: incrementCounter(), setGauge().
  */
-
 void MetricsCollector::recordExporterFailure(const std::string& exporter_name) {
     incrementCounter("exporter_failures_total", {{"exporter", exporter_name}});
     setGauge("exporter_health_status", 0.0, {{"exporter", exporter_name}});
@@ -490,7 +480,7 @@ void MetricsCollector::recordExporterFailure(const std::string& exporter_name) {
 
 /**
  * @brief Record Exporter Recovery.
- * @param[in] exporter_name Input parameter.
+ * @param[in] exporter_name Name of the exporter.
  * @details Calls: incrementCounter(), setGauge().
  */
 void MetricsCollector::recordExporterRecovery(const std::string& exporter_name) {
@@ -500,7 +490,7 @@ void MetricsCollector::recordExporterRecovery(const std::string& exporter_name) 
 
 /**
  * @brief Record Malformed Telemetry.
- * @param[in] metric_name Input parameter.
+ * @param[in] metric_name Name of the metric.
  * @param[in] reason Input parameter.
  * @details Calls: sanitizeDiagnosticLabelValue(), incrementCounter().
  */
@@ -759,12 +749,12 @@ bool MetricsCollector::areLabelsValid(const std::map<std::string, std::string>& 
     return true;
 }
 
+
 /**
- * @brief ===== Histogram Implementation =====
+ * @brief Observe.
  * @param[in] value Input parameter.
  * @details Calls: push_back(), size(), erase(), begin().
  */
-
 void MetricsCollector::Histogram::observe(double value) {
     values.push_back(value);
     
@@ -776,7 +766,7 @@ void MetricsCollector::Histogram::observe(double value) {
 }
 
 /**
- * @brief Reset.
+ * @brief Reset the modification detection flag.
  * @details Calls: clear(), std::chrono::steady_clock::now().
  */
 void MetricsCollector::Histogram::reset() {

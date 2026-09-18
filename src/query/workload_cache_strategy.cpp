@@ -19,13 +19,13 @@
 namespace themis {
 namespace query {
 
+
 /**
- * @brief ============================================================================ WorkloadCacheConfig Implementation ============================================================================
+ * @brief For Workload.
  * @param[in] type Input parameter.
  * @return Return value.
  * @details Calls: std::chrono::seconds(), THEMIS_INFO(), count().
  */
-
 WorkloadCacheConfig WorkloadCacheConfig::forWorkload(WorkloadType type) {
     WorkloadCacheConfig config;
     config.type = type;
@@ -176,11 +176,6 @@ void WorkloadCacheStrategy::recordQuery(
     bool should_detect = false;
     
     {
-        /**
-         * @brief Lock.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(mutex_);
         
         // Update or create query pattern entry
@@ -229,11 +224,6 @@ void WorkloadCacheStrategy::recordQuery(
  * @details Calls: lock(), size(), THEMIS_DEBUG(), classifyWorkload(), load(), THEMIS_INFO(), store(), updateStats().
  */
 WorkloadType WorkloadCacheStrategy::detectWorkload() {
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     if (query_patterns_.size() < config_.min_samples_for_detection) {
@@ -494,15 +484,10 @@ WorkloadCacheStrategy::WorkloadStats WorkloadCacheStrategy::getStats() const {
 }
 
 /**
- * @brief Reset.
+ * @brief Reset the modification detection flag.
  * @details Calls: lock(), clear(), WorkloadStats(), store(), std::chrono::system_clock::now(), THEMIS_INFO().
  */
 void WorkloadCacheStrategy::reset() {
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     query_patterns_.clear();
@@ -519,11 +504,6 @@ void WorkloadCacheStrategy::reset() {
  * @details Calls: lock(), THEMIS_INFO().
  */
 void WorkloadCacheStrategy::setConfig(const Config& config) {
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lock(mutex_);
     config_ = config;
     THEMIS_INFO("WorkloadCacheStrategy config updated");

@@ -36,9 +36,19 @@ AdaptiveRateLimiter::AdaptiveRateLimiter(const Config& config)
 // Public API
 // ============================================================================
 
+/**
+ * @brief Record Sample.
+ * @param[in] tenant_id Identifier of the tenant.
+ * @param[in] sample Input parameter.
+ */
 void AdaptiveRateLimiter::recordSample(const std::string& tenant_id,
                                        const BackendHealthSample& sample)
 {
+    /**
+     * @brief Lock.
+     * @param[in] tenants_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::unique_lock<std::shared_mutex> lock(tenants_mutex_);
 
     auto it = tenants_.find(tenant_id);
@@ -60,10 +70,20 @@ void AdaptiveRateLimiter::recordSample(const std::string& tenant_id,
     }
 }
 
+/**
+ * @brief Allow Request.
+ * @param[in] tenant_id Identifier of the tenant.
+ * @return True when the operation succeeds.
+ */
 bool AdaptiveRateLimiter::allowRequest(const std::string& tenant_id)
 {
     total_requests_.fetch_add(1, std::memory_order_relaxed);
 
+    /**
+     * @brief Lock.
+     * @param[in] tenants_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::unique_lock<std::shared_mutex> lock(tenants_mutex_);
 
     auto it = tenants_.find(tenant_id);
@@ -96,6 +116,11 @@ bool AdaptiveRateLimiter::allowRequest(const std::string& tenant_id)
 
 size_t AdaptiveRateLimiter::getCurrentCapacity(const std::string& tenant_id) const
 {
+    /**
+     * @brief Lock.
+     * @param[in] tenants_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(tenants_mutex_);
 
     auto it = tenants_.find(tenant_id);
@@ -105,8 +130,16 @@ size_t AdaptiveRateLimiter::getCurrentCapacity(const std::string& tenant_id) con
     return it->second.current_capacity;
 }
 
+/**
+ * @brief Reset the modification detection flag.
+ */
 void AdaptiveRateLimiter::reset()
 {
+    /**
+     * @brief Lock.
+     * @param[in] tenants_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::unique_lock<std::shared_mutex> lock(tenants_mutex_);
     tenants_.clear();
     tenants_.emplace("", TenantState{config_.base_capacity});
@@ -118,6 +151,10 @@ void AdaptiveRateLimiter::reset()
 // Private helpers
 // ============================================================================
 
+/**
+ * @brief Prune And Adapt.
+ * @param[in,out] state Input/output parameter.
+ */
 void AdaptiveRateLimiter::pruneAndAdapt(TenantState& state)
 {
     // Remove samples outside the sliding window.
@@ -178,6 +215,11 @@ void AdaptiveRateLimiter::pruneAndAdapt(TenantState& state)
     }
 }
 
+/**
+ * @brief Compute P99.
+ * @param[in] samples Input parameter.
+ * @return Return value.
+ */
 std::chrono::milliseconds AdaptiveRateLimiter::computeP99(
     const std::vector<TimedSample>& samples)
 {
@@ -202,6 +244,11 @@ std::chrono::milliseconds AdaptiveRateLimiter::computeP99(
     return std::chrono::milliseconds{latencies[clamped]};
 }
 
+/**
+ * @brief Compute Error Rate.
+ * @param[in] samples Input parameter.
+ * @return Return value.
+ */
 double AdaptiveRateLimiter::computeErrorRate(
     const std::vector<TimedSample>& samples)
 {

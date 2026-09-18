@@ -51,6 +51,11 @@ AutoFailoverManager::~AutoFailoverManager() {
     }
 }
 
+/**
+ * @brief Start.
+ * @return True when the operation succeeds.
+ * @details Calls: exchange(), spdlog::warn(), transitionState(), std::thread(), spdlog::info(), spdlog::error(), what().
+ */
 bool AutoFailoverManager::start() {
     if (running_.exchange(true)) {
         spdlog::warn("AutoFailoverManager already running");
@@ -70,6 +75,11 @@ bool AutoFailoverManager::start() {
     }
 }
 
+/**
+ * @brief Stop.
+ * @return True when the operation succeeds.
+ * @details Calls: exchange(), notify_all(), std::chrono::steady_clock::now(), std::chrono::seconds(), joinable(), count(), spdlog::warn(), join().
+ */
 bool AutoFailoverManager::stop() {
     if (!running_.exchange(false)) {
         return false;
@@ -124,6 +134,13 @@ bool AutoFailoverManager::isRunning() const {
     return running_.load();
 }
 
+/**
+ * @brief Trigger Manual Failover.
+ * @param[in] failed_node_id Identifier of the failed node.
+ * @param[in] target_promote_id Identifier of the target promote.
+ * @return True when the operation succeeds.
+ * @details Calls: load(), spdlog::error(), lock(), config_lock(), size(), stats_lock(), std::chrono::steady_clock::now(), push().
+ */
 bool AutoFailoverManager::triggerManualFailover(
     const std::string& failed_node_id,
     const std::string& target_promote_id
@@ -218,6 +235,11 @@ bool AutoFailoverManager::isFailoverInProgress() const {
 }
 
 std::vector<std::string> AutoFailoverManager::getFailingNodes() const {
+    /**
+     * @brief Lock.
+     * @param[in] tracking_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(tracking_mutex_);
     std::vector<std::string> failing_nodes;
 
@@ -231,10 +253,20 @@ std::vector<std::string> AutoFailoverManager::getFailingNodes() const {
 }
 
 std::optional<FailoverResult> AutoFailoverManager::getLastFailoverResult() const {
+    /**
+     * @brief Lock.
+     * @param[in] stats_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(stats_mutex_);
     return last_failover_result_;
 }
 
+/**
+ * @brief Update the access control configuration.
+ * @param[in] config New access control configuration.
+ * @details Calls: lock(), spdlog::info().
+ */
 void AutoFailoverManager::updateConfig(const AutoFailoverConfig& config) {
     {
         std::lock_guard<std::mutex> lock(monitor_mutex_);
@@ -244,20 +276,39 @@ void AutoFailoverManager::updateConfig(const AutoFailoverConfig& config) {
 }
 
 AutoFailoverConfig AutoFailoverManager::getConfig() const {
+    /**
+     * @brief Lock.
+     * @param[in] monitor_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(monitor_mutex_);
     return config_;
 }
 
 AutoFailoverManager::Statistics AutoFailoverManager::getStatistics() const {
+    /**
+     * @brief Lock.
+     * @param[in] stats_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(stats_mutex_);
     return stats_;
 }
 
+/**
+ * @brief Register Event Callback.
+ * @param[in] callback Input parameter.
+ * @details Calls: lock(), push_back(), std::move().
+ */
 void AutoFailoverManager::registerEventCallback(FailoverEventCallback callback) {
     std::lock_guard<std::mutex> lock(callbacks_mutex_);
     event_callbacks_.push_back(std::move(callback));
 }
 
+/**
+ * @brief Monitoring Loop.
+ * @details Calls: load(), performHealthChecks(), checkForNetworkPartitions(), detectNodeFailures(), std::this_thread::sleep_for(), spdlog::error(), what().
+ */
 void AutoFailoverManager::monitoringLoop() {
     while (running_.load()) {
         try {
@@ -272,6 +323,10 @@ void AutoFailoverManager::monitoringLoop() {
     }
 }
 
+/**
+ * @brief Perform Health Checks.
+ * @details Calls: valid(), wait_for(), std::chrono::seconds(), get(), spdlog::debug(), getConfig(), std::chrono::steady_clock::now(), std::async().
+ */
 void AutoFailoverManager::performHealthChecks() {
 #ifdef THEMIS_TEST_BUILD
     const bool has_source = replication_mgr_ || health_check_override_;
@@ -341,6 +396,10 @@ void AutoFailoverManager::performHealthChecks() {
     }
 }
 
+/**
+ * @brief Check For Network Partitions.
+ * @details Calls: isNetworkPartitionedFromQuorum(), spdlog::warn(), emitEvent(), lock(), handleNetworkPartition().
+ */
 void AutoFailoverManager::checkForNetworkPartitions() {
     if (!config_.enable_network_partition_detection) {
         return;
@@ -360,6 +419,10 @@ void AutoFailoverManager::checkForNetworkPartitions() {
     }
 }
 
+/**
+ * @brief Detect Node Failures.
+ * @details Calls: lock(), captureTopologySnapshot(), getFailingNodes(), has_topology_change(), spdlog::warn(), triggerManualFailover().
+ */
 void AutoFailoverManager::detectNodeFailures() {
     // Take snapshot before computing failing nodes
     TopologySnapshot snap_before;
@@ -397,6 +460,12 @@ TopologySnapshot AutoFailoverManager::captureTopologySnapshot() const {
                                      consecutive_failures_);
 }
 
+/**
+ * @brief Update Failure Tracking.
+ * @param[in] node_id Identifier of the node.
+ * @param[in] is_healthy Input parameter.
+ * @details Calls: lock(), find(), end(), fetch_add(), checkAndApplyGcGrace(), emitEvent(), std::to_string().
+ */
 void AutoFailoverManager::updateFailureTracking(const std::string& node_id, bool is_healthy) {
     std::unique_lock<std::shared_mutex> lock(tracking_mutex_);
 
@@ -418,6 +487,10 @@ void AutoFailoverManager::updateFailureTracking(const std::string& node_id, bool
     }
 }
 
+/**
+ * @brief Failover Loop.
+ * @details Calls: load(), lock(), wait_for(), std::chrono::seconds(), empty(), front(), pop(), stats_lock().
+ */
 void AutoFailoverManager::failoverLoop() {
     while (running_.load()) {
         try {
@@ -479,6 +552,12 @@ void AutoFailoverManager::failoverLoop() {
     }
 }
 
+/**
+ * @brief Process Failover.
+ * @param[in] task Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::steady_clock::now(), transitionState(), spdlog::info(), emitEvent(), checkAndWaitForQuorum(), spdlog::error(), preventSplitBrain(), selectAndPromoteReplica().
+ */
 FailoverResult AutoFailoverManager::processFailover(const FailoverTask& task) {
     auto start_time = std::chrono::steady_clock::now();
     FailoverResult result;
@@ -571,6 +650,11 @@ FailoverResult AutoFailoverManager::processFailover(const FailoverTask& task) {
     return result;
 }
 
+/**
+ * @brief Check And Wait For Quorum.
+ * @return True when the operation succeeds.
+ * @details Calls: spdlog::warn(), getConfig(), std::chrono::steady_clock::now(), hasQuorum(), append(), spdlog::error(), emitDiagnostic(), std::this_thread::sleep_for().
+ */
 bool AutoFailoverManager::checkAndWaitForQuorum() {
     if (!replication_mgr_) {
         spdlog::warn("ReplicationManager not available");
@@ -601,6 +685,12 @@ bool AutoFailoverManager::checkAndWaitForQuorum() {
     return false;
 }
 
+/**
+ * @brief Start Leader Election.
+ * @param[in] failed_node_id Identifier of the failed node.
+ * @return True when the operation succeeds.
+ * @details Calls: transitionState(), emitEvent(), triggerFailover().
+ */
 bool AutoFailoverManager::startLeaderElection(const std::string& failed_node_id) {
     transitionState(FailoverOrchestratorState::LEADER_ELECTION_IN_PROGRESS);
     emitEvent(FailoverEventType::LEADER_ELECTION_STARTED, failed_node_id, "");
@@ -619,6 +709,13 @@ bool AutoFailoverManager::startLeaderElection(const std::string& failed_node_id)
     return result;
 }
 
+/**
+ * @brief Select And Promote Replica.
+ * @param[in] failed_node_id Identifier of the failed node.
+ * @param[in,out] promoted_id Identifier of the promoted.
+ * @return True when the operation succeeds.
+ * @details Calls: getReplicas(), getReplicaHealthStatus(), push_back(), empty(), spdlog::error(), size(), getConfig(), front().
+ */
 bool AutoFailoverManager::selectAndPromoteReplica(const std::string& failed_node_id,
                                                   std::string& promoted_id) {
     if (!replication_mgr_) {
@@ -694,6 +791,12 @@ bool AutoFailoverManager::selectAndPromoteReplica(const std::string& failed_node
     return true;
 }
 
+/**
+ * @brief Activate Spare If Needed.
+ * @param[in] failed_node_id Identifier of the failed node.
+ * @return True when the operation succeeds.
+ * @details Calls: spdlog::info(), emitEvent().
+ */
 bool AutoFailoverManager::activateSpareIfNeeded(const std::string& failed_node_id) {
     if (!spare_manager_) {
         return true;  // Spare manager not configured
@@ -710,6 +813,13 @@ bool AutoFailoverManager::activateSpareIfNeeded(const std::string& failed_node_i
     return false;
 }
 
+/**
+ * @brief Update Metadata.
+ * @param[in] old_leader_id Identifier of the old leader.
+ * @param[in] new_leader_id Identifier of the new leader.
+ * @return True when the operation succeeds.
+ * @details Calls: spdlog::info().
+ */
 bool AutoFailoverManager::updateMetadata(const std::string& old_leader_id,
                                          const std::string& new_leader_id) {
     spdlog::info("Updating metadata: {} -> {}", old_leader_id, new_leader_id);
@@ -717,11 +827,23 @@ bool AutoFailoverManager::updateMetadata(const std::string& old_leader_id,
     return true;
 }
 
+/**
+ * @brief Verify Failover Completion.
+ * @param[in] task Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: spdlog::info(), hasQuorum().
+ */
 bool AutoFailoverManager::verifyFailoverCompletion(const FailoverTask& task) {
     spdlog::info("Verifying failover completion for: {}", task.failed_node_id);
     return replication_mgr_ && replication_mgr_->hasQuorum();
 }
 
+/**
+ * @brief Prevent Split Brain.
+ * @param[in] failed_node_id Identifier of the failed node.
+ * @return True when the operation succeeds.
+ * @details Calls: emitDiagnostic(), spdlog::error(), spdlog::info(), bumpEpoch(), lock().
+ */
 bool AutoFailoverManager::preventSplitBrain(const std::string& failed_node_id) {
     if (!fencing_manager_) {
         // Fail closed: split-brain prevention requires a fencing manager.
@@ -757,6 +879,11 @@ bool AutoFailoverManager::preventSplitBrain(const std::string& failed_node_id) {
     return true;
 }
 
+/**
+ * @brief Handle Network Partition.
+ * @return True when the operation succeeds.
+ * @details Calls: spdlog::warn(), isNetworkPartitionedFromQuorum(), spdlog::error().
+ */
 bool AutoFailoverManager::handleNetworkPartition() {
     spdlog::warn("Handling network partition...");
 
@@ -773,6 +900,12 @@ bool AutoFailoverManager::isNetworkPartitionedFromQuorum() const {
     return replication_mgr_ && replication_mgr_->detectNetworkPartition();
 }
 
+/**
+ * @brief Attempt Recovery.
+ * @param[in] failed_node_id Identifier of the failed node.
+ * @return True when the operation succeeds.
+ * @details Calls: spdlog::info(), recovery_override_(), stats_lock(), emitDiagnostic(), waitForNodeRecovery(), updateFailureTracking(), emitEvent(), std::this_thread::sleep_for().
+ */
 bool AutoFailoverManager::attemptRecovery(const std::string& failed_node_id) {
     spdlog::info("Attempting recovery for node: {}", failed_node_id);
 
@@ -849,6 +982,13 @@ bool AutoFailoverManager::attemptRecovery(const std::string& failed_node_id) {
     return false;
 }
 
+/**
+ * @brief Wait For Node Recovery.
+ * @param[in] node_id Identifier of the node.
+ * @param[in] max_attempts Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: getHealthStatus(), isHealthy(), std::this_thread::sleep_for(), std::chrono::milliseconds().
+ */
 bool AutoFailoverManager::waitForNodeRecovery(const std::string& node_id, uint32_t max_attempts) {
     if (!health_monitor_) {
         return false;
@@ -864,6 +1004,11 @@ bool AutoFailoverManager::waitForNodeRecovery(const std::string& node_id, uint32
     return false;
 }
 
+/**
+ * @brief Transition State.
+ * @param[in] new_state Input parameter.
+ * @details Calls: exchange(), canTransition(), spdlog::warn(), spdlog::debug().
+ */
 void AutoFailoverManager::transitionState(FailoverOrchestratorState new_state) {
     auto current_state = state_.exchange(new_state);
 
@@ -942,6 +1087,11 @@ bool AutoFailoverManager::canTransition(FailoverOrchestratorState from,
     }
 }
 
+/**
+ * @brief Update Adaptive Interval.
+ * @param[in] last_latency Input parameter.
+ * @details Calls: lock(), push_back(), size(), erase(), begin(), std::sort(), end(), std::min().
+ */
 void AutoFailoverManager::updateAdaptiveInterval(std::chrono::milliseconds last_latency) {
     // Called without holding monitor_mutex_; acquire it here.
     std::lock_guard<std::mutex> lock(monitor_mutex_);
@@ -963,6 +1113,12 @@ void AutoFailoverManager::updateAdaptiveInterval(std::chrono::milliseconds last_
                   new_interval.count(), p95.count());
 }
 
+/**
+ * @brief Check And Apply Gc Grace.
+ * @param[in] node_id Identifier of the node.
+ * @return True when the operation succeeds.
+ * @details Calls: std::chrono::steady_clock::now(), lock(), spdlog::debug(), push_back(), erase(), std::remove_if(), begin(), end().
+ */
 bool AutoFailoverManager::checkAndApplyGcGrace(const std::string& node_id) {
     // tracking_mutex_ (exclusive) is already held by the caller (updateFailureTracking).
     const auto now = std::chrono::steady_clock::now();
@@ -1040,6 +1196,11 @@ void AutoFailoverManager::emitEvent(FailoverEventType type,
                                     const std::string& node_id,
                                     const std::string& detail) noexcept {
     try {
+        /**
+         * @brief Lock.
+         * @param[in] callbacks_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(callbacks_mutex_);
 
         for (auto& callback : event_callbacks_) {
@@ -1062,6 +1223,11 @@ void AutoFailoverManager::emitEvent(FailoverEventType type,
     }
 }
 
+/**
+ * @brief Update Statistics.
+ * @param[in] result Input parameter.
+ * @details Calls: push_back(), size(), erase(), begin(), empty(), std::accumulate(), end(), std::chrono::milliseconds().
+ */
 void AutoFailoverManager::updateStatistics(const FailoverResult& result) {
     stats_.total_failovers++;
 
@@ -1090,6 +1256,10 @@ void AutoFailoverManager::updateStatistics(const FailoverResult& result) {
     }
 }
 
+/**
+ * @brief Reset Statistics.
+ * @details Calls: lock(), clear().
+ */
 void AutoFailoverManager::resetStatistics() {
     std::lock_guard<std::mutex> lock(stats_mutex_);
     stats_ = Statistics{};

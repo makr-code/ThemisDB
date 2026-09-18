@@ -28,47 +28,63 @@ class GraphContextProvider;
 class VectorSimilarityProvider;
 class RelationalJoinProvider;
 
-/**
- * @brief Graph context enrichment result
- */
 struct GraphContext {
+    /**
+     * @brief Graph Context.
+     * @return Return value.
+     */
     virtual ~GraphContext() = default;
     std::vector<std::string> related_nodes;
     std::vector<std::string> relationship_types;
     std::vector<std::string> paths;
     int depth = 0;
     
+    /**
+     * @brief To String.
+     * @return Return value.
+     */
     std::string toString() const;
+    /**
+     * @brief To JSON.
+     * @return Return value.
+     */
     nlohmann::json toJSON() const;
 };
 
-/**
- * @brief Vector similarity enrichment result
- */
 struct VectorSimilarity {
     std::vector<std::string> similar_documents;
     std::vector<float> similarity_scores;
     std::vector<std::string> document_texts;
     
+    /**
+     * @brief To String.
+     * @return Return value.
+     */
     std::string toString() const;
+    /**
+     * @brief To JSON.
+     * @return Return value.
+     */
     nlohmann::json toJSON() const;
 };
 
-/**
- * @brief Relational join enrichment result
- */
 struct RelationalJoin {
     std::vector<std::string> joined_fields;
     std::vector<std::string> joined_values;
     std::string join_type;
     
+    /**
+     * @brief To String.
+     * @return Return value.
+     */
     std::string toString() const;
+    /**
+     * @brief To JSON.
+     * @return Return value.
+     */
     nlohmann::json toJSON() const;
 };
 
-/**
- * @brief Enriched training example with multi-model data
- */
 struct EnrichedTrainingExample {
     TrainingSample base_example;
     
@@ -77,23 +93,21 @@ struct EnrichedTrainingExample {
     std::optional<VectorSimilarity> vector_similarity;
     std::optional<RelationalJoin> relational_join;
     
-    /**
-     * @brief Combine all enrichments into a single context string
-     * @param format Format template (e.g., "Graph: {graph}\nVector: {vector}")
-     */
     std::string getCombinedContext(const std::string& format = "default") const;
     
     /**
-     * @brief Get enriched instruction with context
+     * @brief Get Enriched Instruction.
+     * @return Return value.
      */
     std::string getEnrichedInstruction() const;
     
+    /**
+     * @brief To JSON.
+     * @return Return value.
+     */
     nlohmann::json toJSON() const;
 };
 
-/**
- * @brief Configuration for multi-model enrichment
- */
 struct MultiModelEnrichmentConfig {
     // Graph enrichment
     bool enable_graph = false;
@@ -115,14 +129,24 @@ struct MultiModelEnrichmentConfig {
     std::string context_format = "default";
     int max_context_length = 512;
     
+    /**
+     * @brief To JSON.
+     * @return Return value.
+     */
     nlohmann::json toJSON() const;
+    /**
+     * @brief From JSON.
+     * @param[in] j Input parameter.
+     * @return Return value.
+     */
     static MultiModelEnrichmentConfig fromJSON(const nlohmann::json& j);
 };
 
-/**
- * @brief Statistics about multi-model enrichment
- */
 struct EnrichmentStatistics {
+    /**
+     * @brief Enrichment Statistics.
+     * @return Return value.
+     */
     virtual ~EnrichmentStatistics() = default;
     int total_examples = 0;
     int graph_enriched = 0;
@@ -138,26 +162,15 @@ struct EnrichmentStatistics {
     float avg_context_length = 0.0f;
     int max_context_length = 0;
     
+    /**
+     * @brief To JSON.
+     * @return Return value.
+     */
     nlohmann::json toJSON() const;
 };
 
-/**
- * @brief Multi-model training data fusion engine
- * 
- * Enriches training examples with data from:
- * - Graph database (relationships, paths, connected nodes)
- * - Vector database (similar documents, embeddings)
- * - Relational database (joined data, foreign keys)
- * 
- * This creates richer training examples by combining multiple data sources.
- */
 class MultiModelTrainingData {
 public:
-    /**
-     * @brief Constructor
-     * @param base_iterator Base training data iterator
-     * @param config Enrichment configuration
-     */
     MultiModelTrainingData(
         std::shared_ptr<TrainingDataIterator> base_iterator,
         const MultiModelEnrichmentConfig& config
@@ -166,40 +179,44 @@ public:
     ~MultiModelTrainingData();
     
     /**
-     * @brief Get next enriched training example
-     * @return Enriched example or nullopt if no more data
+     * @brief Next Example.
+     * @return Return value.
      */
     std::optional<EnrichedTrainingExample> nextExample();
     
     /**
-     * @brief Get batch of enriched examples
-     * @param batch_size Number of examples to return
-     * @return Vector of enriched examples
+     * @brief Next Batch.
+     * @param[in] batch_size Input parameter.
+     * @return Return value.
      */
     std::vector<EnrichedTrainingExample> nextBatch(int batch_size);
     
     /**
-     * @brief Reset to beginning
+     * @brief Reset the modification detection flag.
      */
     void reset();
     
     /**
-     * @brief Get enrichment statistics
+     * @brief Return access control statistics.
+     * @return Access control statistics.
      */
     EnrichmentStatistics getStatistics() const;
     
     /**
-     * @brief Set graph context provider
+     * @brief Set Graph Provider.
+     * @param[in] provider Input parameter.
      */
     void setGraphProvider(std::shared_ptr<GraphContextProvider> provider);
     
     /**
-     * @brief Set vector similarity provider
+     * @brief Set Vector Provider.
+     * @param[in] provider Input parameter.
      */
     void setVectorProvider(std::shared_ptr<VectorSimilarityProvider> provider);
     
     /**
-     * @brief Set relational join provider
+     * @brief Set Relational Provider.
+     * @param[in] provider Input parameter.
      */
     void setRelationalProvider(std::shared_ptr<RelationalJoinProvider> provider);
     
@@ -209,27 +226,48 @@ private:
     std::unique_ptr<Impl> impl_;
     
     // Enrich single example
+    /**
+     * @brief Enrich Example.
+     * @param[in] example Input parameter.
+     * @return Return value.
+     */
     EnrichedTrainingExample enrichExample(const TrainingSample& example);
     
     // Individual enrichment methods
+    /**
+     * @brief Enrich With Graph.
+     * @param[in] example Input parameter.
+     * @return Return value.
+     */
     std::optional<GraphContext> enrichWithGraph(const TrainingSample& example);
+    /**
+     * @brief Enrich With Vector.
+     * @param[in] example Input parameter.
+     * @return Return value.
+     */
     std::optional<VectorSimilarity> enrichWithVector(const TrainingSample& example);
+    /**
+     * @brief Enrich With Relational.
+     * @param[in] example Input parameter.
+     * @return Return value.
+     */
     std::optional<RelationalJoin> enrichWithRelational(const TrainingSample& example);
 };
 
-/**
- * @brief Graph context provider interface
- */
 class GraphContextProvider {
 public:
+    /**
+     * @brief Graph Context Provider.
+     * @return Return value.
+     */
     virtual ~GraphContextProvider() = default;
     
     /**
-     * @brief Get graph context for a document/entity
-     * @param entity_id ID of the entity to get context for
-     * @param relationships Types of relationships to traverse
-     * @param max_depth Maximum depth to traverse
-     * @return Graph context
+     * @brief Get Context.
+     * @param[in] entity_id Identifier of the entity.
+     * @param[in] relationships Input parameter.
+     * @param[in] max_depth Input parameter.
+     * @return Return value.
      */
     virtual GraphContext getContext(
         const std::string& entity_id,
@@ -238,19 +276,20 @@ public:
     ) = 0;
 };
 
-/**
- * @brief Vector similarity provider interface
- */
 class VectorSimilarityProvider {
 public:
+    /**
+     * @brief Vector Similarity Provider.
+     * @return Return value.
+     */
     virtual ~VectorSimilarityProvider() = default;
     
     /**
-     * @brief Find similar documents using vector similarity
-     * @param query_embedding Query embedding vector
-     * @param threshold Minimum similarity threshold
-     * @param top_k Number of results to return
-     * @return Vector similarity results
+     * @brief Find Similar.
+     * @param[in] query_embedding Input parameter.
+     * @param[in] threshold Input parameter.
+     * @param[in] top_k Input parameter.
+     * @return Return value.
      */
     virtual VectorSimilarity findSimilar(
         const std::vector<float>& query_embedding,
@@ -259,20 +298,21 @@ public:
     ) = 0;
 };
 
-/**
- * @brief Relational join provider interface
- */
 class RelationalJoinProvider {
 public:
+    /**
+     * @brief Relational Join Provider.
+     * @return Return value.
+     */
     virtual ~RelationalJoinProvider() = default;
     
     /**
-     * @brief Perform relational join
-     * @param base_table Base table name
-     * @param join_tables Tables to join
-     * @param join_type Type of join (INNER, LEFT, etc.)
-     * @param key Join key
-     * @return Relational join results
+     * @brief Perform Join.
+     * @param[in] base_table Input parameter.
+     * @param[in] join_tables Input parameter.
+     * @param[in] join_type Input parameter.
+     * @param[in] key Input parameter.
+     * @return Return value.
      */
     virtual RelationalJoin performJoin(
         const std::string& base_table,
@@ -282,20 +322,22 @@ public:
     ) = 0;
 };
 
-/**
- * @brief Factory for creating multi-model training data
- */
 class MultiModelTrainingDataFactory {
 public:
     /**
-     * @brief Create with default configuration
+     * @brief Create.
+     * @param[in] base_iterator Input parameter.
+     * @return Return value.
      */
     static std::unique_ptr<MultiModelTrainingData> create(
         std::shared_ptr<TrainingDataIterator> base_iterator
     );
     
     /**
-     * @brief Create with custom configuration
+     * @brief Create.
+     * @param[in] base_iterator Input parameter.
+     * @param[in] config Input parameter.
+     * @return Return value.
      */
     static std::unique_ptr<MultiModelTrainingData> create(
         std::shared_ptr<TrainingDataIterator> base_iterator,

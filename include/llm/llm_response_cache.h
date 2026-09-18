@@ -37,37 +37,6 @@ class LLMMetricsCollector;
 namespace themis {
 namespace llm {
 
-/**
- * @brief LLM response cache using VectorIndexManager for semantic similarity caching
- * 
- * Thread-Safety:
- * - All public methods are thread-safe (protected by internal mutex)
- * - Cache statistics use atomic operations for lock-free updates
- * - Concurrent get() and put() operations are safe
- * - Statistics updates happen outside the main cache lock for better concurrency
- * 
- * Uses ThemisDB's VectorIndexManager with HNSW indexing to provide:
- * - Semantic similarity matching via cosine similarity
- * - Fast ANN search with HNSW index from ThemisDB core
- * - TTL-based expiration
- * - Hit/miss statistics
- * 
- * Benefits:
- * - 75x faster cached inference (2ms vs 150ms)
- * - 70-90% cache hit rate in production with semantic matching
- * - Efficient similarity search (not just exact prompts)
- * - Automatic eviction with LRU policy
- * 
- * Integration:
- * - Uses pointer exchange pattern with ThemisDB's VectorIndexManager
- * - Leverages existing HNSW infrastructure for efficient ANN search
- * - No duplication of vector index functionality
- * 
- * Embedding Strategy:
- * - Uses existing LLM embedding infrastructure (LlamaWrapper::embed, EmbeddedLLM::embed)
- * - Supports custom embedding function via callback for flexibility
- * - Falls back to simple feature-based embeddings if no LLM available
- */
 class LLMResponseCache {
 public:
     struct Config {
@@ -118,6 +87,12 @@ public:
         }
     };
 
+    /**
+     * @brief LLMResponse Cache.
+     * @param[in] cache_name Name of the cache.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit LLMResponseCache(const std::string& cache_name, const Config& config);
     ~LLMResponseCache();  // Must be defined in .cpp where VectorIndexManager is complete
 
@@ -128,45 +103,41 @@ public:
     LLMResponseCache& operator=(LLMResponseCache&&) noexcept = default;
 
     /**
-     * @brief Cache an inference response
-     * @param prompt The input prompt
-     * @param response The LLM response
+     * @brief Put.
+     * @param[in] prompt Input parameter.
+     * @param[in] response Input parameter.
      */
     void put(const std::string& prompt, const InferenceResponse& response);
 
     /**
-     * @brief Get cached response for a prompt
-     * @param prompt The input prompt
-     * @return Cached response if found (exact or semantic match), nullopt otherwise
+     * @brief Get.
+     * @param[in] prompt Input parameter.
+     * @return Return value.
      */
     std::optional<InferenceResponse> get(const std::string& prompt);
 
     /**
-     * @brief Invalidate cache entries matching a pattern
-     * 
-     * Thread-safety: This operation is atomic with respect to the cache structure,
-     * but concurrent get() calls may still return entries that match the
-     * invalidation pattern if they are in progress. This is expected cache
-     * behavior (eventual consistency).
-     * 
-     * @param pattern Regex pattern to match prompts
-     * @return Number of entries invalidated
+     * @brief Invalidate.
+     * @param[in] pattern Input parameter.
+     * @return Return value.
      */
     size_t invalidate(const std::string& pattern);
 
     /**
-     * @brief Clear all cache entries
+     * @brief Clear.
      */
     void clear();
 
     /**
-     * @brief Get cache statistics
+     * @brief Return access control statistics.
+     * @return Access control statistics.
      */
     CacheStatistics getStatistics() const;
 
     /**
-     * @brief Set metrics collector for recording cache metrics
-     * @param collector Pointer to metrics collector (optional)
+     * @brief Set Metrics Collector.
+     * @param[in,out] collector Input/output parameter.
+     * @details Implements setMetricsCollector without additional internal calls.
      */
     void setMetricsCollector(monitoring::LLMMetricsCollector* collector) {
         metrics_collector_ = collector;
@@ -196,26 +167,23 @@ private:
     mutable std::mutex cache_mutex_;
 
     /**
-     * @brief Generate embedding for a prompt
-     * 
-     * Priority:
-     * 1. Use custom embedding_fn if provided
-     * 2. Use LLM instance (llm_ptr) if available
-     * 3. Fall back to simple feature-based embeddings
-     * 
-     * @param prompt The input prompt
-     * @return Embedding vector or empty vector on error
+     * @brief Generate Embedding.
+     * @param[in] prompt Input parameter.
+     * @return Return value.
      */
     std::vector<float> generateEmbedding(const std::string& prompt) const;
     
     /**
-     * @brief Generate simple feature-based embedding (fallback)
-     * Used when no LLM is available
+     * @brief Generate Simple Embedding.
+     * @param[in] prompt Input parameter.
+     * @return Return value.
      */
     std::vector<float> generateSimpleEmbedding(const std::string& prompt) const;
 
     /**
-     * @brief Check if entry has expired based on TTL
+     * @brief Is Expired.
+     * @param[in] entry Input parameter.
+     * @return True when the operation succeeds.
      */
     bool isExpired(const CachedEntry& entry) const;
 };

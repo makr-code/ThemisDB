@@ -45,14 +45,6 @@ namespace llm_wiki {
 // Pattern registry
 // ============================================================================
 
-/**
- * @brief Canonical guardrail pattern library.
- *
- * Organized by attack category. Each pattern is a substring that, if detected
- * in normalized query/content, flags the input as unsafe.
- *
- * Normalization: all lowercase, runs of whitespace collapsed to single space.
- */
 namespace guardrail_patterns {
 
 // Shell command execution
@@ -101,10 +93,10 @@ static constexpr std::string_view kControlFlowPatterns[] = {
 // ============================================================================
 
 /**
- * @brief Normalize text for pattern matching: lowercase + whitespace collapse.
- *
- * @param text  Input text.
- * @return      Normalized copy (lowercase, runs of whitespace → single space).
+ * @brief Normalize For Guardrail Check.
+ * @param[in] text Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), std::isspace(), push_back(), std::tolower(), empty(), back(), pop_back().
  */
 inline std::string normalizeForGuardrailCheck(std::string_view text) {
     std::string result = {};
@@ -136,11 +128,6 @@ inline std::string normalizeForGuardrailCheck(std::string_view text) {
 // Guardrail check interface
 // ============================================================================
 
-/**
- * @brief Primary guardrail checker for the LLM Wiki plugin.
- *
- * Thread-safe (no mutable state; read-only pattern arrays).
- */
 class WikiGuardrails {
 public:
     WikiGuardrails() = default;
@@ -152,31 +139,10 @@ public:
     WikiGuardrails(WikiGuardrails&&) = delete;
     WikiGuardrails& operator=(WikiGuardrails&&) = delete;
 
-    /**
-     * @brief Check if a query contains prompt-injection patterns.
-     *
-     * A query is flagged as unsafe if the normalized text contains any
-     * guardrail pattern from the registries.
-     *
-     * @param query_text  User-supplied query string.
-     * @return            True if dangerous patterns detected.
-     */
     [[nodiscard]] bool isUnsafeQuery(std::string_view query_text) const noexcept {
         return checkPatterns(query_text);
     }
 
-    /**
-     * @brief Check if a content chunk contains unsafe patterns.
-     *
-     * Content guardrails are typically more lenient than query guardrails
-     * (e.g., a page titled "Understanding sudo" is safe content but
-     * a query requesting "show me how to use sudo" is flagged).
-     *
-     * For now, uses the same pattern set; this can be customized per phase.
-     *
-     * @param chunk_text  Content text to check.
-     * @return            True if dangerous patterns detected.
-     */
     [[nodiscard]] bool isUnsafeContent(std::string_view chunk_text) const noexcept {
         // Phase 3: Content uses same guardrails as query.
         // Phase 5: May add content-specific allowlists (e.g., markdown code blocks).
@@ -184,12 +150,6 @@ public:
     }
 
 private:
-    /**
-     * @brief Internal pattern matching against all registries.
-     *
-     * @param text  Input text (not normalized yet).
-     * @return      True if any pattern matches (case-insensitive, with whitespace normalization).
-     */
     [[nodiscard]] bool checkPatterns(std::string_view text) const noexcept {
         std::string normalized = normalizeForGuardrailCheck(text);
         

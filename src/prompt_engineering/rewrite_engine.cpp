@@ -29,10 +29,6 @@
 namespace themis {
 namespace prompt_engineering {
 
-/**
- * @class RewriteEngine
- * @brief Production implementation of IRewriteEngine.
- */
 class RewriteEngine : public IRewriteEngine {
 public:
     RewriteEngine() : rule_lock_(), rules_(), stats_() {
@@ -48,6 +44,11 @@ public:
             return false;
         }
 
+        /**
+         * @brief Lock.
+         * @param[in] rule_lock_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock lock(rule_lock_);
 
         // Check for duplicate rule ID
@@ -72,6 +73,11 @@ public:
     }
 
     bool unregister_rule(const std::string& rule_id) override {
+        /**
+         * @brief Lock.
+         * @param[in] rule_lock_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock lock(rule_lock_);
 
         auto it = std::find_if(rules_.begin(), rules_.end(),
@@ -86,6 +92,11 @@ public:
     }
 
     std::shared_ptr<const IRewriteRule> get_rule(const std::string& rule_id) const override {
+        /**
+         * @brief Lock.
+         * @param[in] rule_lock_ Input parameter.
+         * @return Return value.
+         */
         std::shared_lock lock(rule_lock_);
 
         for (const auto& rule : rules_) {
@@ -98,6 +109,11 @@ public:
     }
 
     std::vector<std::string> list_rules() const override {
+        /**
+         * @brief Lock.
+         * @param[in] rule_lock_ Input parameter.
+         * @return Return value.
+         */
         std::shared_lock lock(rule_lock_);
 
         std::vector<std::string> rule_ids = {};
@@ -120,6 +136,11 @@ public:
             return false;
         }
 
+        /**
+         * @brief Lock.
+         * @param[in] rule_lock_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock lock(rule_lock_);
         for (auto& rule : new_rules) {
             bool duplicate = false;
@@ -193,6 +214,11 @@ public:
         result.rules_matched = 0;
         result.total_transformations = 0;
 
+        /**
+         * @brief Lock.
+         * @param[in] rule_lock_ Input parameter.
+         * @return Return value.
+         */
         std::shared_lock lock(rule_lock_);
 
         // Get rules for this phase, sorted by priority then registration order
@@ -275,6 +301,11 @@ public:
     }
 
     std::string get_stats_json() const override {
+        /**
+         * @brief Lock.
+         * @param[in] rule_lock_ Input parameter.
+         * @return Return value.
+         */
         std::shared_lock lock(rule_lock_);
 
         nlohmann::json stats_obj;
@@ -292,6 +323,11 @@ public:
     }
 
     void reset_stats() override {
+        /**
+         * @brief Lock.
+         * @param[in] rule_lock_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock lock(rule_lock_);
         stats_ = Stats{};
     }
@@ -331,6 +367,11 @@ private:
 };
 
 // Factory function
+/**
+ * @brief Create rewrite engine.
+ * @return Return value.
+ * @details Implements create_rewrite_engine without additional internal calls.
+ */
 std::unique_ptr<IRewriteEngine> create_rewrite_engine() {
     return std::make_unique<RewriteEngine>();
 }

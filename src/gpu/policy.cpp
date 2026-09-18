@@ -32,6 +32,12 @@ GPUPolicy::GPUPolicy(const std::vector<std::string> &pre_granted_callers) {
 // Grant / revoke
 // ============================================================================
 
+/**
+ * @brief Grant.
+ * @param[in] caller_id Identifier of the caller.
+ * @param[in] cap Input parameter.
+ * @details Calls: lock(), insert(), cap_to_int().
+ */
 void GPUPolicy::grant(const std::string &caller_id, Capability cap) {
     std::lock_guard<std::mutex> lock(mutex_);
     if (cap == Capability::GPU_ANY) {
@@ -45,6 +51,12 @@ void GPUPolicy::grant(const std::string &caller_id, Capability cap) {
     }
 }
 
+/**
+ * @brief Revoke.
+ * @param[in] caller_id Identifier of the caller.
+ * @param[in] cap Input parameter.
+ * @details Calls: lock(), find(), end(), erase(), cap_to_int(), empty().
+ */
 void GPUPolicy::revoke(const std::string &caller_id, Capability cap) {
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = grants_.find(caller_id);
@@ -64,6 +76,11 @@ void GPUPolicy::revoke(const std::string &caller_id, Capability cap) {
     }
 }
 
+/**
+ * @brief Revoke All.
+ * @param[in] caller_id Identifier of the caller.
+ * @details Calls: lock(), erase().
+ */
 void GPUPolicy::revokeAll(const std::string &caller_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     grants_.erase(caller_id);
@@ -90,6 +107,11 @@ GPUPolicy::PolicyDecision GPUPolicy::check(const std::string &caller_id, Capabil
     d.caller_id  = caller_id;
     d.capability = cap;
 
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     if (hasCapability(caller_id, cap)) {
         d.allowed = true;
@@ -111,6 +133,11 @@ bool GPUPolicy::isAllowed(const std::string &caller_id, Capability cap) const {
 // ============================================================================
 
 std::vector<std::string> GPUPolicy::grantedCallers() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     std::vector<std::string> result = {};
 
@@ -122,6 +149,11 @@ std::vector<std::string> GPUPolicy::grantedCallers() const {
 }
 
 std::vector<GPUPolicy::Capability> GPUPolicy::capabilitiesOf(const std::string &caller_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     std::vector<Capability> result;
     auto it = grants_.find(caller_id);
@@ -135,6 +167,11 @@ std::vector<GPUPolicy::Capability> GPUPolicy::capabilitiesOf(const std::string &
 }
 
 size_t GPUPolicy::grantedCount() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return grants_.size();
 }

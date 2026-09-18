@@ -31,6 +31,12 @@ namespace {
 constexpr uint64_t kMinWasmCpuTimeLimitMs = 1;
 constexpr uint64_t kMaxWasmCpuTimeLimitMs = 60'000;
 
+/**
+ * @brief Sanitize Wasm Config.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @details Calls: count(), spdlog::warn(), std::clamp(), std::chrono::milliseconds().
+ */
 WasmHandlerConfig sanitizeWasmConfig(const WasmHandlerConfig& config) {
     WasmHandlerConfig sanitized = config;
 
@@ -91,6 +97,11 @@ json WasmHandlerEntry::toJson() const {
 // Utilities
 // =============================================================================
 
+/**
+ * @brief Utc Now.
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::now(), std::chrono::system_clock::to_time_t(), gmtime_s(), gmtime_r(), std::put_time(), str().
+ */
 std::string WasmHandlerRegistry::utcNow() {
     auto now = std::chrono::system_clock::now();
     std::time_t t = std::chrono::system_clock::to_time_t(now);
@@ -109,10 +120,22 @@ std::string WasmHandlerRegistry::utcNow() {
 static constexpr char kBase64Chars[] =
     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 
+/**
+ * @brief Is Base64.
+ * @param[in] c Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: isalnum().
+ */
 static bool isBase64(unsigned char c) {
     return (isalnum(c) || (c == '+') || (c == '/'));
 }
 
+/**
+ * @brief Base64 Decode.
+ * @param[in] encoded Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), isBase64(), std::find(), push_back().
+ */
 std::vector<uint8_t> WasmHandlerRegistry::base64Decode(const std::string& encoded) {
     std::vector<uint8_t> result = {};
 
@@ -197,6 +220,17 @@ WasmHandlerRegistry::makeErrorResponse(
 // Programmatic API
 // =============================================================================
 
+/**
+ * @brief Register Handler.
+ * @param[in] id Input parameter.
+ * @param[in] wasm_bytes Input parameter.
+ * @param[in] config Input parameter.
+ * @param[in] tenant_id Identifier of the tenant.
+ * @param[in] name Input parameter.
+ * @param[in] description Input parameter.
+ * @param[in,out] error Input/output parameter.
+ * @return True when the operation succeeds.
+ */
 bool WasmHandlerRegistry::registerHandler(
     const std::string&          id,
     const std::vector<uint8_t>& wasm_bytes,
@@ -217,6 +251,11 @@ bool WasmHandlerRegistry::registerHandler(
 
     const WasmHandlerConfig sanitized_config = sanitizeWasmConfig(config);
 
+    /**
+     * @brief Lock.
+     * @param[in] registry_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::unique_lock lock(registry_mutex_);
 
     auto it = registry_.find(id);
@@ -253,17 +292,33 @@ bool WasmHandlerRegistry::registerHandler(
     return true;
 }
 
+/**
+ * @brief Unregister Handler.
+ * @param[in] id Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), erase().
+ */
 bool WasmHandlerRegistry::unregisterHandler(const std::string& id) {
     std::unique_lock lock(registry_mutex_);
     return registry_.erase(id) > 0;
 }
 
 bool WasmHandlerRegistry::hasHandler(const std::string& id) const {
+    /**
+     * @brief Lock.
+     * @param[in] registry_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock lock(registry_mutex_);
     return registry_.count(id) > 0;
 }
 
 size_t WasmHandlerRegistry::size() const {
+    /**
+     * @brief Lock.
+     * @param[in] registry_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock lock(registry_mutex_);
     return registry_.size();
 }
@@ -271,6 +326,11 @@ size_t WasmHandlerRegistry::size() const {
 std::vector<json> WasmHandlerRegistry::listHandlers(
     const std::string& tenant_id_filter) const
 {
+    /**
+     * @brief Lock.
+     * @param[in] registry_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock lock(registry_mutex_);
     std::vector<json> result = {};
 
@@ -286,6 +346,12 @@ std::vector<json> WasmHandlerRegistry::listHandlers(
     return result;
 }
 
+/**
+ * @brief Invoke.
+ * @param[in] id Input parameter.
+ * @param[in] input Input parameter.
+ * @return Return value.
+ */
 WasmInvokeResult WasmHandlerRegistry::invoke(
     const std::string& id,
     const json&        input)
@@ -297,6 +363,11 @@ WasmInvokeResult WasmHandlerRegistry::invoke(
     std::string          entry_point = {};
 
     {
+        /**
+         * @brief Lock.
+         * @param[in] registry_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::shared_lock lock(registry_mutex_);
         auto it = registry_.find(id);
         if (it == registry_.end()) {
@@ -331,6 +402,11 @@ WasmInvokeResult WasmHandlerRegistry::invoke(
         [wasm_bytes, sandbox_cfg, id, entry_point, args]() -> WasmInvokeResult {
         WasmInvokeResult r;
 
+        /**
+         * @brief Sandbox.
+         * @param[in] sandbox_cfg Input parameter.
+         * @return Return value.
+         */
         themis::modules::WasmPluginSandbox sandbox(sandbox_cfg);
 
         if (!sandbox.loadFromBytes(wasm_bytes, id)) {
@@ -377,6 +453,11 @@ WasmInvokeResult WasmHandlerRegistry::invoke(
     // Increment invocation counter for successful calls.
     // Re-acquire the lock to safely access the entry (it may have been removed).
     if (r.success) {
+        /**
+         * @brief Lock.
+         * @param[in] registry_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::shared_lock lock(registry_mutex_);
         auto it = registry_.find(id);
         if (it != registry_.end()) {
@@ -391,6 +472,12 @@ WasmInvokeResult WasmHandlerRegistry::invoke(
 // HTTP endpoint handlers
 // =============================================================================
 
+/**
+ * @brief Handle Upload.
+ * @param[in] req Input parameter.
+ * @param[in] id Input parameter.
+ * @return Return value.
+ */
 http::response<http::string_body> WasmHandlerRegistry::handleUpload(
     const http::request<http::string_body>& req,
     const std::string&                      id)
@@ -476,6 +563,11 @@ http::response<http::string_body> WasmHandlerRegistry::handleUpload(
     // Build response payload.
     json response;
     {
+        /**
+         * @brief Lock.
+         * @param[in] registry_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::shared_lock lock(registry_mutex_);
         auto it = registry_.find(id);
         if (it != registry_.end()) {
@@ -489,6 +581,11 @@ http::response<http::string_body> WasmHandlerRegistry::handleUpload(
     return makeJsonResponse(resp_status, response, req);
 }
 
+/**
+ * @brief Handle List.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ */
 http::response<http::string_body> WasmHandlerRegistry::handleList(
     const http::request<http::string_body>& req)
 {
@@ -516,10 +613,21 @@ http::response<http::string_body> WasmHandlerRegistry::handleList(
                             req);
 }
 
+/**
+ * @brief Handle Get.
+ * @param[in] req Input parameter.
+ * @param[in] id Input parameter.
+ * @return Return value.
+ */
 http::response<http::string_body> WasmHandlerRegistry::handleGet(
     const http::request<http::string_body>& req,
     const std::string&                      id)
 {
+    /**
+     * @brief Lock.
+     * @param[in] registry_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock lock(registry_mutex_);
     auto it = registry_.find(id);
     if (it == registry_.end()) {
@@ -529,6 +637,12 @@ http::response<http::string_body> WasmHandlerRegistry::handleGet(
     return makeJsonResponse(http::status::ok, it->second.toJson(), req);
 }
 
+/**
+ * @brief Handle Delete.
+ * @param[in] req Input parameter.
+ * @param[in] id Input parameter.
+ * @return Return value.
+ */
 http::response<http::string_body> WasmHandlerRegistry::handleDelete(
     const http::request<http::string_body>& req,
     const std::string&                      id)
@@ -544,6 +658,12 @@ http::response<http::string_body> WasmHandlerRegistry::handleDelete(
     return res;
 }
 
+/**
+ * @brief Handle Invoke.
+ * @param[in] req Input parameter.
+ * @param[in] id Input parameter.
+ * @return Return value.
+ */
 http::response<http::string_body> WasmHandlerRegistry::handleInvoke(
     const http::request<http::string_body>& req,
     const std::string&                      id)

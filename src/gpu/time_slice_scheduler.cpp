@@ -37,6 +37,12 @@ namespace gpu {
 // Tenant lifecycle
 // ============================================================================
 
+/**
+ * @brief Register Tenant.
+ * @param[in] config Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), lock(), count(), emplace(), std::move(), push_back().
+ */
 bool GPUTimeSliceScheduler::registerTenant(const TenantConfig &config) {
     if (config.tenant_id.empty() || config.slice_ms == 0) {
         return false;
@@ -56,6 +62,12 @@ bool GPUTimeSliceScheduler::registerTenant(const TenantConfig &config) {
     return true;
 }
 
+/**
+ * @brief Unregister Tenant.
+ * @param[in] tenant_id Identifier of the tenant.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), find(), end(), erase(), std::remove(), begin().
+ */
 bool GPUTimeSliceScheduler::unregisterTenant(const std::string &tenant_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = tenants_.find(tenant_id);
@@ -70,16 +82,31 @@ bool GPUTimeSliceScheduler::unregisterTenant(const std::string &tenant_id) {
 }
 
 bool GPUTimeSliceScheduler::hasTenant(const std::string &tenant_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return tenants_.count(tenant_id) > 0;
 }
 
 size_t GPUTimeSliceScheduler::tenantCount() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return tenants_.size();
 }
 
 std::vector<std::string> GPUTimeSliceScheduler::tenantIds() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return round_robin_order_;
 }
@@ -88,6 +115,13 @@ std::vector<std::string> GPUTimeSliceScheduler::tenantIds() const {
 // Work submission
 // ============================================================================
 
+/**
+ * @brief Submit.
+ * @param[in] tenant_id Identifier of the tenant.
+ * @param[in] item Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), find(), end(), push_back(), std::move().
+ */
 bool GPUTimeSliceScheduler::submit(const std::string &tenant_id, GPULauncher::WorkItem item) {
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = tenants_.find(tenant_id);
@@ -102,6 +136,11 @@ bool GPUTimeSliceScheduler::submit(const std::string &tenant_id, GPULauncher::Wo
 }
 
 size_t GPUTimeSliceScheduler::queueDepth(const std::string &tenant_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = tenants_.find(tenant_id);
     if (it == tenants_.end()) {
@@ -114,6 +153,11 @@ size_t GPUTimeSliceScheduler::queueDepth(const std::string &tenant_id) const {
 // Dispatch
 // ============================================================================
 
+/**
+ * @brief Dispatch.
+ * @param[in] backend Input parameter.
+ * @details Calls: std::move(), lock(), find(), end(), empty(), std::chrono::milliseconds(), std::chrono::steady_clock::now(), front().
+ */
 void GPUTimeSliceScheduler::dispatch(GPULauncher::BackendFn backend) {
     // Build a CPU no-op backend when none is supplied.
     GPULauncher::BackendFn fn
@@ -202,6 +246,11 @@ void GPUTimeSliceScheduler::dispatch(GPULauncher::BackendFn backend) {
     std::atomic_thread_fence(std::memory_order_release);
 }
 
+/**
+ * @brief Drain All.
+ * @param[in] backend Input parameter.
+ * @details Calls: std::move(), lock(), empty(), dispatch().
+ */
 void GPUTimeSliceScheduler::drainAll(GPULauncher::BackendFn backend) {
     GPULauncher::BackendFn fn
         = backend ? std::move(backend) : [](const GPULauncher::WorkItem &) -> bool { return true; };
@@ -225,6 +274,11 @@ void GPUTimeSliceScheduler::drainAll(GPULauncher::BackendFn backend) {
 }
 
 bool GPUTimeSliceScheduler::allQueuesEmpty() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     for (const auto &kv : tenants_) {
         if (!kv.second.queue.empty()) {
@@ -239,6 +293,11 @@ bool GPUTimeSliceScheduler::allQueuesEmpty() const {
 // ============================================================================
 
 GPUTimeSliceScheduler::TenantStats GPUTimeSliceScheduler::getTenantStats(const std::string &tenant_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = tenants_.find(tenant_id);
     if (it == tenants_.end()) {
@@ -252,6 +311,11 @@ GPUTimeSliceScheduler::TenantStats GPUTimeSliceScheduler::getTenantStats(const s
 }
 
 std::vector<GPUTimeSliceScheduler::TenantStats> GPUTimeSliceScheduler::getAllTenantStats() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     std::vector<TenantStats> result = {};
 
@@ -268,6 +332,11 @@ std::vector<GPUTimeSliceScheduler::TenantStats> GPUTimeSliceScheduler::getAllTen
 }
 
 GPUTimeSliceScheduler::Stats GPUTimeSliceScheduler::getStats() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     // Ensure memory visibility of counter updates from dispatch() calls.
     std::atomic_thread_fence(std::memory_order_acquire);
@@ -281,6 +350,10 @@ GPUTimeSliceScheduler::Stats GPUTimeSliceScheduler::getStats() const {
     return s;
 }
 
+/**
+ * @brief Reset Stats.
+ * @details Calls: lock(), clear().
+ */
 void GPUTimeSliceScheduler::resetStats() {
     std::lock_guard<std::mutex> lock(mutex_);
     total_submitted_ = 0;

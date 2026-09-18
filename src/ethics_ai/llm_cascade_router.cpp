@@ -95,6 +95,11 @@ CascadeModelTier LlmCascadeRouter::tierForRound(const std::string& round_role) c
     return resolveTier(round_role);
 }
 
+/**
+ * @brief Set Llm Invoke Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: std::move().
+ */
 void LlmCascadeRouter::setLlmInvokeFn(LlmInvokeFn fn) {
     llm_invoke_fn_ = std::move(fn);
 }

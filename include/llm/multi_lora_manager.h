@@ -34,9 +34,6 @@ namespace llm {
 
 using json = nlohmann::json;
 
-/**
- * @brief Multi-GPU placement strategy for LoRA adapters (v1.4.0)
- */
 enum class MultiGPUStrategy {
     NONE = 0,           // Single GPU (default)
     ROUND_ROBIN = 1,    // Distribute LoRAs evenly across GPUs
@@ -44,17 +41,11 @@ enum class MultiGPUStrategy {
     MODEL_PARALLEL = 3  // Split large adapter across GPUs
 };
 
-/**
- * @brief GPU placement configuration for a LoRA adapter (v1.4.0)
- */
 enum class GPUPlacement {
     SINGLE_GPU = 0,     // LoRA on single GPU
     MULTI_GPU = 1       // LoRA spans multiple GPUs
 };
 
-/**
- * @brief Multi-GPU configuration for LoRA adapters (v1.4.0)
- */
 struct MultiGPUConfig {
     bool enabled = false;
     std::vector<int> devices;                    // GPU device IDs to use (e.g., {0, 1, 2, 3})
@@ -73,18 +64,12 @@ struct MultiGPUConfig {
     int health_check_interval_sec = 30;
 };
 
-/**
- * @brief Quantization mode for LoRA adapters
- */
 enum class QuantizationMode {
     NONE = 0,    // No quantization (FP32/FP16)
     INT8 = 1,    // 8-bit integer quantization (4× compression)
     INT4 = 2     // 4-bit integer quantization (8× compression)
 };
 
-/**
- * @brief LoRA quantization configuration
- */
 struct LoRAQuantizationConfig {
     bool enabled = false;
     QuantizationMode mode = QuantizationMode::INT8;
@@ -97,10 +82,11 @@ struct LoRAQuantizationConfig {
     int group_size = 128;                // For INT4 grouping (0 = per-channel)
 };
 
-/**
- * @brief Quantization statistics for a LoRA adapter
- */
 struct QuantizationStats {
+    /**
+     * @brief Quantization Stats.
+     * @return Return value.
+     */
     virtual ~QuantizationStats() = default;
     std::string lora_id;
     QuantizationMode mode = QuantizationMode::NONE;
@@ -119,18 +105,12 @@ struct QuantizationStats {
     float avg_scale = 0.0f;              // Average scale factor
 };
 
-/**
- * @brief Fusion strategy for combining multiple LoRA adapters
- */
 enum class FusionStrategy {
     STATIC = 0,        // Fixed weights, cached permanently
     DYNAMIC = 1,       // Runtime adjustable weights
     SCHEDULED = 2      // Time-varying weights (A/B testing, smooth transitions)
 };
 
-/**
- * @brief Scheduling strategy for SCHEDULED fusion mode
- */
 enum class SchedulingStrategy {
     LINEAR = 0,        // Linear interpolation between weights
     EXPONENTIAL = 1,   // Exponential decay/growth between weights
@@ -138,15 +118,11 @@ enum class SchedulingStrategy {
     CUSTOM = 3         // User-defined custom schedule function
 };
 
-/**
- * @brief Alpha scheduling function for dynamic fusion
- * 
- * Allows runtime computation of blend weights based on various factors:
- * - Time-based: gradual transition between adapters
- * - Performance-based: A/B testing with feedback
- * - Context-based: different weights per request type
- */
 struct AlphaSchedule {
+    /**
+     * @brief Alpha Schedule.
+     * @return Return value.
+     */
     virtual ~AlphaSchedule() = default;
     std::string schedule_id;
     FusionStrategy strategy = FusionStrategy::STATIC;
@@ -184,9 +160,6 @@ struct AlphaSchedule {
     std::vector<double> performance_scores;  // Per-adapter performance
 };
 
-/**
- * @brief Configuration for LoRA fusion operation
- */
 struct FusionConfig {
     FusionStrategy strategy = FusionStrategy::STATIC;
     std::vector<std::string> source_lora_ids;
@@ -205,10 +178,11 @@ struct FusionConfig {
     AlphaSchedule alpha_schedule;
 };
 
-/**
- * @brief Fusion cache entry metadata
- */
 struct FusionCacheEntry {
+    /**
+     * @brief Fusion Cache Entry.
+     * @return Return value.
+     */
     virtual ~FusionCacheEntry() = default;
     std::string fusion_id;
     std::vector<std::string> source_lora_ids;
@@ -225,10 +199,11 @@ struct FusionCacheEntry {
     size_t inference_count = 0;
 };
 
-/**
- * @brief Fusion performance metrics
- */
 struct FusionMetrics {
+    /**
+     * @brief Fusion Metrics.
+     * @return Return value.
+     */
     virtual ~FusionMetrics() = default;
     std::string fusion_id;
     FusionStrategy strategy;
@@ -246,12 +221,11 @@ struct FusionMetrics {
     std::map<FusionStrategy, double> avg_time_by_strategy;
 };
 
-/**
- * @brief LoRA adapter slot
- * 
- * Represents a loaded LoRA adapter with its metadata and handle.
- */
 struct LoRASlot {
+    /**
+     * @brief Lo RASlot.
+     * @return Return value.
+     */
     virtual ~LoRASlot() = default;
     std::string lora_id;
     std::string path;
@@ -288,34 +262,6 @@ struct LoRASlot {
     bool is_replicated = false;          // True if replicated across multiple nodes/GPUs for HA
 };
 
-/**
- * @brief Multi-LoRA Manager (vLLM-inspired)
- * 
- * Manages multiple LoRA adapters for a single base model.
- * Supports efficient switching between adapters and even batched
- * inference with different adapters per request.
- * 
- * Example workflow:
- * 1. Load base model (mistral-7b)
- * 2. Load multiple LoRAs: legal-qa, medical-diagnosis, code-assistant
- * 3. Request 1: Use legal-qa adapter
- * 4. Request 2: Use medical-diagnosis adapter
- * 5. Both can be in the same inference batch (if backend supports it)
- * 
- * LOCK HIERARCHY (always acquire in this order to prevent deadlocks):
- * 1. adapter_state_lock_ → Top-level shared state (read-write for queries)
- *    └─ adapter_cache_lock_ → Adapter cache modifications (exclusive)
- *       └─ metrics_lock_ → Telemetry updates (exclusive)
- *
- * Memory Ordering:
- * - eviction_thread_running_: std::memory_order_acquire/release
- * - eviction_thread_done_: std::memory_order_acquire/release
- * 
- * Thread Safety:
- * - All public methods are thread-safe
- * - Shared state (loras_, gpu_vram_usage_, fusion_cache_) protected by locks
- * - No circular lock dependencies enforced by documentation
- */
 class MultiLoRAManager {
 public:
     struct Config {
@@ -349,39 +295,19 @@ public:
         // validateMetadata() before any GGUF parse.  Optional: null disables
         // validation (legacy / test deployments).
         std::shared_ptr<LoRASecurityValidator> security_validator;
-        /// When true and security_validator is set, a metadata-validation
-        /// failure causes loadLoRA() to reject the adapter hard.
-        /// When false the failure is logged as a warning and loading continues.
         bool enforce_security_validation = true;
     };
     
+    /**
+     * @brief Multi Lo RAManager.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit MultiLoRAManager(const Config& config);
     ~MultiLoRAManager();
     
-    /**
-     * @brief Move constructor for resource transfer
-     * 
-     * Transfers ownership of internal resources (threads, GPU state) from other
-     * to this object. The source object is left in a valid empty state.
-     * 
-     * @param other Source object to move from (left in valid empty state)
-     * @note Marked noexcept: move operations don't throw
-     * @cwe CWE-457 (Uninitialized Variable) prevention: ensures moved-from state is valid
-     */
     MultiLoRAManager(MultiLoRAManager&& other) noexcept;
     
-    /**
-     * @brief Move assignment operator for resource transfer
-     * 
-     * Transfers ownership of internal resources from other to this object.
-     * Cleans up existing resources before transfer. Self-assignment safe.
-     * 
-     * @param other Source object to move from
-     * @return Reference to this object
-     * @note Marked noexcept: move operations don't throw
-     * @cwe CWE-415 (Double Free) prevention: proper cleanup before reassignment
-     * @cwe CWE-672 (Use After Free) prevention: source left in valid state
-     */
     MultiLoRAManager& operator=(MultiLoRAManager&& other) noexcept;
     
     // Delete copy constructor and assignment (Rule of Five)
@@ -390,36 +316,17 @@ public:
     MultiLoRAManager& operator=(const MultiLoRAManager&) = delete;
     
     /**
-     * @brief Set quantization configuration
-     * 
-     * Configures quantization parameters for subsequently loaded LoRAs.
-     * Does not affect already-loaded LoRAs.
-     * 
-     * @param config Quantization configuration
+     * @brief Set Quantization Config.
+     * @param[in] config Input parameter.
      */
     void setQuantizationConfig(const LoRAQuantizationConfig& config);
     
     /**
-     * @brief Get quantization configuration
-     * 
-     * @return Current quantization configuration
+     * @brief Get Quantization Config.
+     * @return Return value.
      */
     LoRAQuantizationConfig getQuantizationConfig() const;
     
-    /**
-     * @brief Load a LoRA adapter (lazy loading)
-     * 
-     * If adapter is already loaded, returns immediately.
-     * Otherwise, loads it on-demand.
-     * 
-     * Thread-safe.
-     * 
-     * @param lora_id Unique LoRA identifier
-     * @param lora_path Path to LoRA weights file
-     * @param base_model_id Compatible base model
-     * @param scale LoRA scaling factor (default: 1.0)
-     * @return true if loaded successfully
-     */
     bool loadLoRA(
         const std::string& lora_id,
         const std::string& lora_path,
@@ -427,18 +334,6 @@ public:
         float scale = 1.0f
     );
     
-    /**
-     * @brief Load a LoRA adapter with optional quantization
-     * 
-     * Loads a LoRA adapter and optionally applies quantization.
-     * 
-     * @param lora_id Unique LoRA identifier
-     * @param lora_path Path to LoRA weights file
-     * @param base_model_id Compatible base model
-     * @param quantize Whether to apply quantization (uses current config)
-     * @param scale LoRA scaling factor (default: 1.0)
-     * @return true if loaded successfully
-     */
     bool loadLoRA(
         const std::string& lora_id,
         const std::string& lora_path,
@@ -447,19 +342,6 @@ public:
         float scale = 1.0f
     );
     
-    /**
-     * @brief Load a LoRA adapter with multi-GPU placement (v1.4.0)
-     * 
-     * Loads a LoRA adapter with explicit GPU placement control.
-     * 
-     * @param lora_id Unique LoRA identifier
-     * @param lora_path Path to LoRA weights file
-     * @param base_model_id Compatible base model
-     * @param quantize Whether to apply quantization
-     * @param placement GPU placement strategy (SINGLE_GPU or MULTI_GPU)
-     * @param scale LoRA scaling factor (default: 1.0)
-     * @return true if loaded successfully
-     */
     bool loadLoRA(
         const std::string& lora_id,
         const std::string& lora_path,
@@ -470,88 +352,57 @@ public:
     );
     
     /**
-     * @brief Initialize LoRA adapter with llama.cpp model handle
-     * 
-     * This method actually loads the LoRA adapter weights using llama.cpp's
-     * llama_lora_adapter_init() API. Must be called with a valid model handle
-     * before the LoRA can be applied to contexts.
-     * 
-     * @param lora_id LoRA identifier (must already exist in loras_ map)
-     * @param model llama_model handle for loading the adapter
-     * @return true if initialization successful
+     * @brief Initialize Lo RAWith Model.
+     * @param[in] lora_id Identifier of the lora.
+     * @param[in,out] model Input/output parameter.
+     * @return True when the operation succeeds.
      */
     bool initializeLoRAWithModel(const std::string& lora_id, void* model);
     
-    /**
-     * @brief Unload a LoRA adapter
-     * 
-     * @param lora_id LoRA to unload
-     * @param force If true, unload even if pinned
-     */
     bool unloadLoRA(const std::string& lora_id, bool force = false);
     
     /**
-     * @brief Get LoRA slot (if loaded)
-     * 
-     * Returns pointer to loaded LoRA slot, or nullptr if not loaded.
-     * Updates last_used timestamp.
+     * @brief Get Lo RA.
+     * @param[in] lora_id Identifier of the lora.
+     * @return Pointer to the result.
      */
     LoRASlot* getLoRA(const std::string& lora_id);
     
-    /**
-     * @brief Apply LoRA to model context
-     * 
-     * Activates a specific LoRA adapter for the next inference.
-     * Multiple LoRAs can be active simultaneously if backend supports it.
-     * 
-     * @param lora_id LoRA to activate
-     * @param context Model context to apply to (llama_context*)
-     * @return true if applied successfully
-     */
-    /// Bridge callback for applying a LoRA adapter when no llama_context is available.
     using ApplyAdapterFn = std::function<bool(const LoRASlot& slot)>;
-    /// Bridge callback for removing a LoRA adapter when no llama_context is available.
     using RemoveAdapterFn = std::function<bool(const LoRASlot& slot)>;
 
+    /**
+     * @brief Set Apply Adapter Fn.
+     * @param[in] fn Input parameter.
+     */
     void setApplyAdapterFn(ApplyAdapterFn fn);
+    /**
+     * @brief Set Remove Adapter Fn.
+     * @param[in] fn Input parameter.
+     */
     void setRemoveAdapterFn(RemoveAdapterFn fn);
 
+    /**
+     * @brief Apply Lo RA.
+     * @param[in] lora_id Identifier of the lora.
+     * @param[in,out] context Input/output parameter.
+     * @return True when the operation succeeds.
+     */
     bool applyLoRA(const std::string& lora_id, llama_context* context);
     
     /**
-     * @brief Remove LoRA from model context
-     * 
-     * Deactivates a LoRA adapter.
+     * @brief Remove Lo RA.
+     * @param[in] lora_id Identifier of the lora.
+     * @param[in,out] context Input/output parameter.
+     * @return True when the operation succeeds.
      */
     bool removeLoRA(const std::string& lora_id, llama_context* context);
     
-    /**
-     * @brief Batch inference with multiple LoRAs (vLLM-style)
-     * 
-     * Processes multiple inference requests, each with its own LoRA adapter,
-     * in a single batch for efficiency.
-     * 
-     * Requires backend support for multi-LoRA batching.
-     * 
-     * @param requests Vector of inference requests with LoRA IDs
-     * @return Vector of responses (same order as requests)
-     */
     std::vector<InferenceResponse> batchInferenceMultiLoRA(
         const std::vector<std::pair<InferenceRequest, std::string>>& requests,
         llama_context* model_context
     );
     
-    /**
-     * @brief Fuse multiple LoRAs into a single adapter
-     * 
-     * Combines multiple LoRA adapters into one for efficiency.
-     * Useful when always using the same combination of adapters.
-     * 
-     * @param lora_ids LoRAs to fuse
-     * @param fused_id New identifier for fused adapter
-     * @param weights Weights for each LoRA (default: equal)
-     * @return true if fusion successful
-     */
     bool fuseLoRAs(
         const std::vector<std::string>& lora_ids,
         const std::string& fused_id,
@@ -559,14 +410,10 @@ public:
     );
     
     /**
-     * @brief Fuse multiple LoRAs with advanced configuration
-     * 
-     * Extended fusion API with dynamic composition, alpha scheduling,
-     * and fine-grained control over caching and compatibility checks.
-     * 
-     * @param fused_id New identifier for fused adapter
-     * @param config Fusion configuration including strategy and scheduling
-     * @return true if fusion successful
+     * @brief Fuse Lo RAs Advanced.
+     * @param[in] fused_id Identifier of the fused.
+     * @param[in] config Input parameter.
+     * @return True when the operation succeeds.
      */
     bool fuseLoRAsAdvanced(
         const std::string& fused_id,
@@ -574,14 +421,10 @@ public:
     );
     
     /**
-     * @brief Update weights for a dynamically fused adapter
-     * 
-     * Allows runtime adjustment of blend weights for DYNAMIC fusion strategy.
-     * The fused adapter must have been created with FusionStrategy::DYNAMIC.
-     * 
-     * @param fusion_id ID of the fused adapter
-     * @param new_weights New blend weights (must match number of source LoRAs)
-     * @return true if weights updated successfully
+     * @brief Update Fusion Weights.
+     * @param[in] fusion_id Identifier of the fusion.
+     * @param[in] new_weights Input parameter.
+     * @return True when the operation succeeds.
      */
     bool updateFusionWeights(
         const std::string& fusion_id,
@@ -589,14 +432,10 @@ public:
     );
     
     /**
-     * @brief Set alpha schedule for scheduled fusion
-     * 
-     * Configures time-varying weights for SCHEDULED fusion strategy.
-     * Used for A/B testing, gradual transitions, and adaptive blending.
-     * 
-     * @param fusion_id ID of the fused adapter
-     * @param schedule Alpha scheduling configuration
-     * @return true if schedule set successfully
+     * @brief Set Alpha Schedule.
+     * @param[in] fusion_id Identifier of the fusion.
+     * @param[in] schedule Input parameter.
+     * @return True when the operation succeeds.
      */
     bool setAlphaSchedule(
         const std::string& fusion_id,
@@ -604,61 +443,42 @@ public:
     );
     
     /**
-     * @brief Get current fusion weights (resolves scheduled weights)
-     * 
-     * Returns the current effective weights for a fused adapter,
-     * accounting for any active alpha scheduling.
-     * 
-     * @param fusion_id ID of the fused adapter
-     * @return Current weights, or empty vector if fusion not found
+     * @brief Get Current Fusion Weights.
+     * @param[in] fusion_id Identifier of the fusion.
+     * @return Return value.
      */
     std::vector<float> getCurrentFusionWeights(const std::string& fusion_id) const;
     
     /**
-     * @brief Invalidate fusion cache entry
-     * 
-     * Forces re-computation of a fused adapter on next use.
-     * Useful when source LoRAs have been modified or reloaded.
-     * 
-     * @param fusion_id ID of the fused adapter to invalidate
-     * @return true if cache entry was invalidated
+     * @brief Invalidate Fusion Cache.
+     * @param[in] fusion_id Identifier of the fusion.
+     * @return True when the operation succeeds.
      */
     bool invalidateFusionCache(const std::string& fusion_id);
     
     /**
-     * @brief Clear all fusion cache entries
-     * 
-     * Removes all cached fused adapters. Source LoRAs remain loaded.
-     * 
-     * @return Number of cache entries cleared
+     * @brief Clear Fusion Cache.
+     * @return Return value.
      */
     size_t clearFusionCache();
     
     /**
-     * @brief Get fusion cache statistics
-     * 
-     * Returns metrics about fusion caching and performance.
-     * 
-     * @return Fusion metrics including cache hit rate and timing
+     * @brief Get Fusion Metrics.
+     * @return Return value.
      */
     FusionMetrics getFusionMetrics() const;
     
     /**
-     * @brief List all cached fusion entries
-     * 
-     * @return Vector of fusion cache entry metadata
+     * @brief List Fusion Cache.
+     * @return Return value.
      */
     std::vector<FusionCacheEntry> listFusionCache() const;
     
     /**
-     * @brief Check compatibility of LoRAs for fusion
-     * 
-     * Validates that a set of LoRAs can be safely fused together
-     * based on quantization mode, base model, rank, and GPU placement.
-     * 
-     * @param lora_ids LoRAs to check for compatibility
-     * @param config Fusion configuration with compatibility requirements
-     * @return true if all LoRAs are compatible for fusion
+     * @brief Check Fusion Compatibility.
+     * @param[in] lora_ids Input parameter.
+     * @param[in] config Input parameter.
+     * @return True when the operation succeeds.
      */
     bool checkFusionCompatibility(
         const std::vector<std::string>& lora_ids,
@@ -666,187 +486,128 @@ public:
     ) const;
     
     /**
-     * @brief Pin a LoRA in memory (prevent eviction)
+     * @brief Pin Lo RA.
+     * @param[in] lora_id Identifier of the lora.
      */
     void pinLoRA(const std::string& lora_id);
     
     /**
-     * @brief Unpin a LoRA (allow eviction)
+     * @brief Unpin Lo RA.
+     * @param[in] lora_id Identifier of the lora.
      */
     void unpinLoRA(const std::string& lora_id);
     
     /**
-     * @brief Check if LoRA is loaded
+     * @brief Is Lo RALoaded.
+     * @param[in] lora_id Identifier of the lora.
+     * @return True when the operation succeeds.
      */
     bool isLoRALoaded(const std::string& lora_id) const;
     
     /**
-     * @brief Get quantization statistics for a LoRA adapter
-     * 
-     * Returns statistics about quantization for a specific LoRA,
-     * including compression ratio and memory savings.
-     * 
-     * @param lora_id LoRA identifier
-     * @return Quantization statistics, or nullopt if LoRA not loaded or not quantized
+     * @brief Get Quantization Stats.
+     * @param[in] lora_id Identifier of the lora.
+     * @return Return value.
      */
     std::optional<QuantizationStats> getQuantizationStats(const std::string& lora_id) const;
     
     /**
-     * @brief Get multi-GPU configuration (v1.4.0)
-     * 
-     * @return Current multi-GPU configuration
+     * @brief Get Multi GPUConfig.
+     * @return Return value.
      */
     MultiGPUConfig getMultiGPUConfig() const;
     
     /**
-     * @brief Set multi-GPU configuration (v1.4.0)
-     * 
-     * Updates multi-GPU configuration. Affects subsequently loaded LoRAs.
-     * 
-     * @param config Multi-GPU configuration
+     * @brief Set Multi GPUConfig.
+     * @param[in] config Input parameter.
      */
     void setMultiGPUConfig(const MultiGPUConfig& config);
     
     /**
-     * @brief Get GPU placement for a LoRA adapter (v1.4.0)
-     * 
-     * @param lora_id LoRA identifier
-     * @return GPU device IDs where the LoRA is placed, empty if not loaded
+     * @brief Get Lo RAGPUPlacement.
+     * @param[in] lora_id Identifier of the lora.
+     * @return Return value.
      */
     std::vector<int> getLoRAGPUPlacement(const std::string& lora_id) const;
     
-    /**
-     * @brief Get per-GPU memory statistics (v1.4.0)
-     * 
-     * @return Map of GPU ID to VRAM usage in bytes
-     */
     std::unordered_map<int, size_t> getPerGPUMemoryUsage() const;
     
     /**
-     * @brief Balance LoRA load across GPUs (v1.4.0)
-     * 
-     * Redistributes LoRAs across GPUs for better load balancing.
-     * Only effective when multi-GPU is enabled with ROUND_ROBIN strategy.
-     * 
-     * @return Number of LoRAs moved
+     * @brief Balance GPULoad.
+     * @return Return value.
      */
     size_t balanceGPULoad();
     
     /**
-     * @brief Get usage heatmap for all LoRAs (v1.5.0)
-     * 
-     * Returns a heatmap showing access patterns and usage statistics
-     * for resource-aware eviction decisions.
-     * 
-     * @return Map of LoRA ID to usage metrics (access count, last used, etc.)
+     * @brief Get Usage Heatmap.
+     * @return Return value.
      */
     json getUsageHeatmap() const;
     
-    /**
-     * @brief Resource-aware eviction based on GPU VRAM pressure (v1.5.0)
-     * 
-     * Evicts LoRAs based on GPU-specific resource constraints, usage patterns,
-     * and priority. More intelligent than simple LRU eviction.
-     * 
-     * @param gpu_id GPU device to free memory on (-1 for global)
-     * @param target_vram_mb Target VRAM to free
-     * @return Amount of VRAM freed (MB)
-     */
     size_t evictResourceAware(int gpu_id = -1, size_t target_vram_mb = 0);
     
-    /**
-     * @brief Get scheduling recommendations for LoRA placement (v1.5.0)
-     * 
-     * Provides intelligent placement recommendations based on available
-     * slots, VRAM, expected latency, and current GPU loads.
-     * 
-     * @param lora_vram_bytes Expected VRAM usage of LoRA
-     * @param priority Priority level (0-10)
-     * @return Recommended GPU ID and placement metrics
-     */
     json getSchedulingRecommendation(size_t lora_vram_bytes, int priority = 5) const;
     
     /**
-     * @brief Migrate LoRA adapter to another GPU (v1.5.0)
-     * 
-     * Performs warm migration of a LoRA adapter from current GPU to target GPU
-     * with minimal service interruption.
-     * 
-     * @param lora_id LoRA to migrate
-     * @param target_gpu Target GPU device ID
-     * @return true if migration successful
+     * @brief Migrate Lo RATo GPU.
+     * @param[in] lora_id Identifier of the lora.
+     * @param[in] target_gpu Input parameter.
+     * @return True when the operation succeeds.
      */
     bool migrateLoRAToGPU(const std::string& lora_id, int target_gpu);
     
     /**
-     * @brief Check GPU health and trigger auto-migration on failure (v1.5.0)
-     * 
-     * Monitors GPU health and automatically migrates adapters from
-     * unhealthy GPUs to healthy ones.
-     * 
-     * @return Number of adapters migrated due to GPU failures
+     * @brief Check GPUHealth And Migrate.
+     * @return Return value.
      */
     size_t checkGPUHealthAndMigrate();
     
     /**
-     * @brief List all loaded LoRAs
+     * @brief List Lo RAs.
+     * @return Return value.
      */
     std::vector<LoRAInfo> listLoRAs() const;
     
     /**
-     * @brief Set tenant ID for a LoRA adapter (v1.5.0 - Security)
-     * 
-     * Associates a LoRA adapter with a specific tenant for
-     * GPU memory isolation and audit logging.
-     * 
-     * @param lora_id LoRA identifier
-     * @param tenant_id Tenant identifier
+     * @brief Set Lo RATenant.
+     * @param[in] lora_id Identifier of the lora.
+     * @param[in] tenant_id Identifier of the tenant.
      */
     void setLoRATenant(const std::string& lora_id, const std::string& tenant_id);
     
-    /**
-     * @brief Get audit log for GPU transfer events (v1.5.0 - Security)
-     * 
-     * Returns audit log of all GPU transfer events including LoRA
-     * migrations, load/unload operations with timestamps and tenant info.
-     * 
-     * @param limit Maximum number of recent events to return (0 = all)
-     * @return JSON array of audit events
-     */
     json getGPUTransferAuditLog(size_t limit = 100) const;
 
     /**
-     * @brief List loaded LoRAs filtered by base model id
+     * @brief List Lo RAs.
+     * @param[in] base_model_id Identifier of the base model.
+     * @return Return value.
      */
     std::vector<LoRAInfo> listLoRAs(const std::string& base_model_id) const;
 
     /**
-     * @brief Get LoRA info by id
+     * @brief Get Lo RAInfo.
+     * @param[in] lora_id Identifier of the lora.
+     * @return Return value.
      */
     std::optional<LoRAInfo> getLoRAInfo(const std::string& lora_id) const;
     
-    /**
-     * @brief Evict least recently used LoRA(s)
-     * 
-     * @param target_vram_mb Target VRAM to free
-     * @return Amount of VRAM freed (MB)
-     */
     size_t evictLRU(size_t target_vram_mb = 0);
     
     /**
-     * @brief Evict LoRAs that exceeded their TTL
-     * 
-     * @return Number of LoRAs evicted
+     * @brief Evict Expired.
+     * @return Return value.
      */
     size_t evictExpired();
     
     /**
-     * @brief Get memory usage statistics
+     * @brief Get Memory Stats.
+     * @return Return value.
      */
     json getMemoryStats() const;
     
     /**
-     * @brief Get LoRA cache statistics
+     * @brief Get Cache Stats.
+     * @return Return value.
      */
     json getCacheStats() const;
 
@@ -859,22 +620,28 @@ public:
         size_t switches = 0;
     };
 
+    /**
+     * @brief Return access control statistics.
+     * @return Access control statistics.
+     */
     Stats getStatistics() const;
 
     // Backward-compat: legacy tests expect getStats()
     Stats getStats() const { return getStatistics(); }
     
     /**
-     * @brief Export LoRA for cross-shard transfer
-     * 
-     * Serializes a LoRA adapter for transfer to another shard.
+     * @brief Export Lo RA.
+     * @param[in] lora_id Identifier of the lora.
+     * @return Return value.
      */
     std::vector<uint8_t> exportLoRA(const std::string& lora_id);
     
     /**
-     * @brief Import LoRA from another shard
-     * 
-     * Deserializes and loads a LoRA adapter received from another shard.
+     * @brief Import Lo RA.
+     * @param[in] lora_id Identifier of the lora.
+     * @param[in] data Input parameter.
+     * @param[in] base_model_id Identifier of the base model.
+     * @return True when the operation succeeds.
      */
     bool importLoRA(
         const std::string& lora_id,
@@ -893,21 +660,14 @@ private:
     // │     └─ metrics_lock_ : std::mutex
     // └─ eviction_cv_ : std::condition_variable (paired with adapter_cache_lock_)
     
-    /// Read-write lock for adapter state queries (many readers, few writers)
     mutable std::shared_mutex adapter_state_lock_;
     
-    /// Exclusive lock for adapter cache modifications (loading/unloading)
     mutable std::mutex adapter_cache_lock_;
 
-    /// Compatibility fallback lock for legacy code paths that still use mutex_.
-    /// Retained to satisfy legacy implementation code and tests without
-    /// changing unrelated concurrency behavior.
     mutable std::mutex mutex_;
     
-    /// Exclusive lock for telemetry updates (statistics)
     mutable std::mutex metrics_lock_;
     
-    /// Condition variable for eviction thread signaling (paired with adapter_cache_lock_)
     std::condition_variable eviction_cv_;
     
     // Statistics (protected by metrics_lock_)
@@ -946,7 +706,12 @@ private:
                              int source_gpu, int target_gpu, size_t vram_bytes,
                              const std::string& details = "");
     
-    // Helper for access frequency calculation
+    /**
+     * @brief Helper for access frequency calculation
+     * @param[in] lora Input parameter.
+     * @param[in] now Input parameter.
+     * @return Return value.
+     */
     double calculateAccessFrequency(const LoRASlot* lora, 
                                    const std::chrono::system_clock::time_point& now) const;
     // Fusion cache and metrics (v1.5.0) (protected by adapter_cache_lock_)
@@ -963,12 +728,8 @@ private:
     // Background eviction thread
     std::unique_ptr<std::thread> eviction_thread_;
     
-    /// Atomic flag: eviction thread is running (memory_order_acquire/release)
     std::atomic<bool> eviction_thread_running_{false};
     
-    /// @brief Set to true when the eviction thread has fully exited.
-    /// Used by stopEvictionThread() to implement a timed join (W1-L01 no_timeout fix).
-    /// Protected by memory_order_acquire/release for thread synchronization.
     std::atomic<bool> eviction_thread_done_{true};
     
     ApplyAdapterFn apply_adapter_fn_;
@@ -985,49 +746,161 @@ private:
     );
 
     /**
-     * @brief Verify that @p lora_path is contained within the trusted
-     *        @c config_.lora_base_dir directory (F1-1/F1-2 fix).
-     *
-     * Returns true when the check passes or when @c config_.lora_base_dir is
-     * empty (legacy/unconfigured deployments).  Returns false when the path
-     * escapes the base directory; callers must reject the request in that case.
+     * @brief Is Lo RAPath Trusted.
+     * @param[in] lora_path Path to the lora.
+     * @return True when the operation succeeds.
      */
     bool isLoRAPathTrusted(const std::string& lora_path) const;
     
     // Background eviction worker
+    /**
+     * @brief Eviction Worker.
+     */
     void evictionWorker();
+    /**
+     * @brief Start Eviction Thread.
+     */
     void startEvictionThread();
+    /**
+     * @brief Stop Eviction Thread.
+     */
     void stopEvictionThread();
     
-    // Multi-GPU helpers (v1.4.0)
+    /**
+     * @brief Multi-GPU helpers (v1.
+     * @param[in] vram_bytes Input parameter.
+     * @return Return value.
+     * @details 4.0)
+     */
     int selectGPUForLoRA(size_t vram_bytes);  // Select best GPU for new LoRA
+    /**
+     * @brief Load Lo RAOn GPU.
+     * @param[in,out] lora Input/output parameter.
+     * @param[in] gpu_id Identifier of the gpu.
+     * @return True when the operation succeeds.
+     */
     bool loadLoRAOnGPU(LoRASlot* lora, int gpu_id);  // Load LoRA on specific GPU
+    /**
+     * @brief Load Lo RAMulti GPU.
+     * @param[in,out] lora Input/output parameter.
+     * @return True when the operation succeeds.
+     */
     bool loadLoRAMultiGPU(LoRASlot* lora);  // Load LoRA across multiple GPUs
+    /**
+     * @brief Update GPUMemory Tracking.
+     */
     void updateGPUMemoryTracking();  // Recalculate per-GPU memory usage
+    /**
+     * @brief Is GPUHealthy.
+     * @param[in] gpu_id Identifier of the gpu.
+     * @return True when the operation succeeds.
+     */
     bool isGPUHealthy(int gpu_id) const;  // Check GPU health status
+    /**
+     * @brief Get Available GPUs.
+     * @return Return value.
+     */
     std::vector<int> getAvailableGPUs() const;  // Get list of available GPUs
     
     // Quantization helpers
+    /**
+     * @brief Quantize Lo RA.
+     * @param[in,out] lora Input/output parameter.
+     * @return True when the operation succeeds.
+     */
     bool quantizeLoRA(LoRASlot* lora);
+    /**
+     * @brief Quantize INT8.
+     * @param[in,out] lora Input/output parameter.
+     * @param[in] weights Input parameter.
+     */
     void quantizeINT8(LoRASlot* lora, const std::vector<float>& weights);
+    /**
+     * @brief Quantize INT4.
+     * @param[in,out] lora Input/output parameter.
+     * @param[in] weights Input parameter.
+     */
     void quantizeINT4(LoRASlot* lora, const std::vector<float>& weights);
+    /**
+     * @brief Calibrate Scales.
+     * @param[in] weights Input parameter.
+     * @param[in,out] scales Input/output parameter.
+     */
     void calibrateScales(const std::vector<float>& weights, std::vector<float>& scales);
+    /**
+     * @brief Simulate Weights.
+     * @param[in] count Input parameter.
+     * @return Return value.
+     */
     std::vector<float> simulateWeights(size_t count);  // For testing without real weights
     
-    // Fusion helpers (v1.5.0)
+    /**
+     * @brief Fusion helpers (v1.
+     * @param[in] fused_id Identifier of the fused.
+     * @param[in] config Input parameter.
+     * @return True when the operation succeeds.
+     * @details 5.0)
+     */
     bool fuseLoRAsInternal(const std::string& fused_id, const FusionConfig& config);
+    /**
+     * @brief Compute Scheduled Weights.
+     * @param[in] fusion_id Identifier of the fusion.
+     * @return Return value.
+     */
     std::vector<float> computeScheduledWeights(const std::string& fusion_id) const;
+    /**
+     * @brief Compute Linear Schedule.
+     * @param[in] schedule Input parameter.
+     * @param[in] time_offset Input parameter.
+     * @return Return value.
+     */
     std::vector<float> computeLinearSchedule(const AlphaSchedule& schedule, double time_offset) const;
+    /**
+     * @brief Compute Exponential Schedule.
+     * @param[in] schedule Input parameter.
+     * @param[in] time_offset Input parameter.
+     * @return Return value.
+     */
     std::vector<float> computeExponentialSchedule(const AlphaSchedule& schedule, double time_offset) const;
+    /**
+     * @brief Compute Step Wise Schedule.
+     * @param[in] schedule Input parameter.
+     * @param[in] time_offset Input parameter.
+     * @return Return value.
+     */
     std::vector<float> computeStepWiseSchedule(const AlphaSchedule& schedule, double time_offset) const;
+    /**
+     * @brief Validate Fusion Compatibility.
+     * @param[in] source_loras Input parameter.
+     * @param[in] config Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool validateFusionCompatibility(
         const std::vector<LoRASlot*>& source_loras,
         const FusionConfig& config
     ) const;
+    /**
+     * @brief Update Fusion Metrics.
+     * @param[in] fusion_id Identifier of the fusion.
+     * @param[in] fusion_time_ms Input parameter.
+     */
     void updateFusionMetrics(const std::string& fusion_id, double fusion_time_ms);
+    /**
+     * @brief Update Inference Metrics.
+     * @param[in] fusion_id Identifier of the fusion.
+     * @param[in] inference_time_ms Input parameter.
+     */
     void updateInferenceMetrics(const std::string& fusion_id, double inference_time_ms);
     
+    /**
+     * @brief Has Capacity.
+     * @param[in] vram_bytes Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool hasCapacity(size_t vram_bytes) const;
+    /**
+     * @brief Update Memory Usage.
+     */
     void updateMemoryUsage();
 };
 

@@ -24,14 +24,16 @@ namespace themis {
 namespace plugins {
 namespace ethics {
 
-/// Maximum number of characters kept from a profile's `description` field
-/// in the lightweight metadata index.  150 chars is enough for semantic
-/// routing (Stage-2 term-overlap) while keeping index RAM at ~500 B/profile.
 static constexpr size_t kDescriptionSnippetMaxLength = 150;
 
 namespace {
 #ifdef HAVE_YAML_CPP
-/// Helper: read a sequence of strings from a YAML node (scalar or sequence).
+/**
+ * @brief Yaml String Seq.
+ * @param[in] node Input parameter.
+ * @return Return value.
+ * @details Calls: IsScalar(), empty(), push_back(), IsSequence().
+ */
 std::vector<std::string> yamlStringSeq(const YAML::Node& node) {
     std::vector<std::string> result = {};
 
@@ -65,6 +67,11 @@ std::vector<std::string> yamlStringSeq(const YAML::Node& node) {
 std::vector<EthicsProfileMeta> EthicsProfileRegistry::queryIndex(
     const EthicsIndexQuery& query) const
 {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     std::vector<EthicsProfileMeta> results = {};
@@ -129,11 +136,21 @@ EthicsProfileRegistry::EthicsProfileRegistry(size_t lru_capacity)
 }
 
 size_t EthicsProfileRegistry::indexSize() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return index_.size();
 }
 
 bool EthicsProfileRegistry::hasProfile(const std::string& school_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return index_.find(school_id) != index_.end();
 }
@@ -141,6 +158,11 @@ bool EthicsProfileRegistry::hasProfile(const std::string& school_id) const {
 std::variant<PhilosophyProfile, Status> EthicsProfileRegistry::getProfile(
     const std::string& school_id)
 {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     // LRU hit
@@ -202,6 +224,11 @@ std::variant<size_t, Status> EthicsProfileRegistry::rebuildIndex(
         }
     }
 
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     index_ = std::move(new_index);
     // Flush LRU cache after index rebuild
@@ -216,6 +243,11 @@ std::variant<size_t, Status> EthicsProfileRegistry::rebuildIndex(
 // LRU cache helpers
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Lru Put.
+ * @param[in] id Input parameter.
+ * @param[in] profile Input parameter.
+ */
 void EthicsProfileRegistry::lruPut(const std::string& id,
                                     const PhilosophyProfile& profile)
 {
@@ -235,6 +267,11 @@ void EthicsProfileRegistry::lruPut(const std::string& id,
     lru_map_[id] = lru_list_.begin();
 }
 
+/**
+ * @brief Lru Get.
+ * @param[in] id Input parameter.
+ * @return Pointer to the result.
+ */
 const PhilosophyProfile* EthicsProfileRegistry::lruGet(const std::string& id)
 {
     auto it = lru_map_.find(id);
@@ -247,6 +284,9 @@ const PhilosophyProfile* EthicsProfileRegistry::lruGet(const std::string& id)
     return &(lru_list_.front().second);
 }
 
+/**
+ * @brief Lru Evict.
+ */
 void EthicsProfileRegistry::lruEvict()
 {
     if (lru_list_.empty()) {
@@ -261,6 +301,11 @@ void EthicsProfileRegistry::lruEvict()
 // Header-only YAML scan
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Scan Header.
+ * @param[in] filepath Input parameter.
+ * @return Return value.
+ */
 EthicsProfileMeta EthicsProfileRegistry::scanHeader(const std::string& filepath)
 {
     EthicsProfileMeta meta;

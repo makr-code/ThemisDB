@@ -42,6 +42,12 @@ CrossShardFeedbackSync::~CrossShardFeedbackSync() noexcept = default;
 // publishFeedback
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Publish Feedback.
+ * @param[in] summary Input parameter.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: empty(), size(), std::to_string(), generateSummaryId(), std::chrono::system_clock::now(), toJson(), lk(), emitFeedbackDecisionRecord().
+ */
 void CrossShardFeedbackSync::publishFeedback(FeedbackSummary summary) {
     // Validate embedding dimension
     if (config_.validate_embedding_dim &&
@@ -90,6 +96,12 @@ void CrossShardFeedbackSync::publishFeedback(FeedbackSummary summary) {
 // handleInboundSummary
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Handle Inbound Summary.
+ * @param[in] payload Input parameter.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: FeedbackSummary::fromJson(), lk(), count(), zero_trust_enforcer_(), policy_check_(), size(), clear(), insert().
+ */
 void CrossShardFeedbackSync::handleInboundSummary(const nlohmann::json& payload) {
     FeedbackSummary summary = FeedbackSummary::fromJson(payload);
 
@@ -142,11 +154,21 @@ void CrossShardFeedbackSync::handleInboundSummary(const nlohmann::json& payload)
 // setFeedbackCallback / setInboundPolicyCheck
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Set Feedback Callback.
+ * @param[in] cb Input parameter.
+ * @details Calls: lk(), std::move().
+ */
 void CrossShardFeedbackSync::setFeedbackCallback(FeedbackCallback cb) {
     std::lock_guard<std::mutex> lk(mutex_);
     on_feedback_ = std::move(cb);
 }
 
+/**
+ * @brief Set Inbound Policy Check.
+ * @param[in] check Input parameter.
+ * @details Calls: lk(), std::move().
+ */
 void CrossShardFeedbackSync::setInboundPolicyCheck(InboundPolicyCheck check) {
     std::lock_guard<std::mutex> lk(mutex_);
     policy_check_ = std::move(check);
@@ -157,26 +179,51 @@ void CrossShardFeedbackSync::setInboundPolicyCheck(InboundPolicyCheck check) {
 // ─────────────────────────────────────────────────────────────────────────────
 
 size_t CrossShardFeedbackSync::publishedCount() const {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     return published_count_;
 }
 
 size_t CrossShardFeedbackSync::receivedCount() const {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     return received_count_;
 }
 
 size_t CrossShardFeedbackSync::deduplicatedCount() const {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     return deduplicated_count_;
 }
 
 size_t CrossShardFeedbackSync::rejectedByPolicyCount() const {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     return rejected_by_policy_;
 }
 
 nlohmann::json CrossShardFeedbackSync::getStats() const {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     return {{"shard_id",             local_shard_id_},
             {"published",            published_count_},
@@ -190,6 +237,11 @@ nlohmann::json CrossShardFeedbackSync::getStats() const {
 // generateSummaryId (static helper)
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Generate Summary Id.
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), rng(), dist(), str().
+ */
 std::string CrossShardFeedbackSync::generateSummaryId() {
     // Simple pseudo-UUID using timestamp + random suffix
     const auto now_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
@@ -207,9 +259,18 @@ std::string CrossShardFeedbackSync::generateSummaryId() {
 // Decision Record integration
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Set Decision Record Processor.
+ * @param[in] processor Input parameter.
+ */
 void CrossShardFeedbackSync::setDecisionRecordProcessor(
     std::shared_ptr<themis::llm::DecisionRecordYamlProcessor> processor)
 {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     dr_processor_ = std::move(processor);
 }
@@ -237,9 +298,11 @@ void CrossShardFeedbackSync::emitFeedbackDecisionRecord(
     dr_processor_->submit(std::move(rec));
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// DK-OR: ZeroTrust setter, skipped-publish counter, erase
-// ─────────────────────────────────────────────────────────────────────────────
+/**
+ * @brief ───────────────────────────────────────────────────────────────────────────── DK-OR: ZeroTrust setter, skipped-publish counter, erase ─────────────────────────────────────────────────────────────────────────────
+ * @param[in] enforcer Input parameter.
+ * @details Calls: lk(), std::move().
+ */
 
 void CrossShardFeedbackSync::setZeroTrustEnforcer(ZeroTrustEnforcer enforcer) {
     std::lock_guard<std::mutex> lk(mutex_);
@@ -247,14 +310,30 @@ void CrossShardFeedbackSync::setZeroTrustEnforcer(ZeroTrustEnforcer enforcer) {
 }
 
 size_t CrossShardFeedbackSync::getSkippedPublishCount() const {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     return skipped_publish_count_;
 }
 
+/**
+ * @brief Erase.
+ * @param[in] param Input parameter.
+ * @param[in] Regulation Input parameter.
+ * @return Return value.
+ */
 themis::governance::StoreErasureResult CrossShardFeedbackSync::erase(
     const std::string& /*subject_id*/,
     themis::governance::Regulation /*regulation*/)
 {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     seen_ids_.clear();
     ++erase_count_;
@@ -267,6 +346,11 @@ themis::governance::StoreErasureResult CrossShardFeedbackSync::erase(
 }
 
 size_t CrossShardFeedbackSync::eraseCount() const {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     return erase_count_;
 }

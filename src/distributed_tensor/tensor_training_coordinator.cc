@@ -7,6 +7,12 @@ namespace themis::distributed_tensor {
 
 namespace {
 
+/**
+ * @brief Has Consistent Shard Dimensions.
+ * @param[in] shard_outputs Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), front(), size().
+ */
 bool hasConsistentShardDimensions(const std::vector<std::vector<float>>& shard_outputs) {
     if (shard_outputs.empty()) {
         return true;
@@ -22,6 +28,12 @@ bool hasConsistentShardDimensions(const std::vector<std::vector<float>>& shard_o
 
 }  // namespace
 
+/**
+ * @brief Register Worker.
+ * @param[in] node_id Identifier of the node.
+ * @param[in] worker Input parameter.
+ * @details Calls: empty(), std::move().
+ */
 void TensorTrainingCoordinator::registerWorker(const std::string& node_id,
                                                std::shared_ptr<ITensorTrainingWorker> worker) {
     if (node_id.empty() || !worker) {
@@ -30,6 +42,12 @@ void TensorTrainingCoordinator::registerWorker(const std::string& node_id,
     workers_[node_id] = std::move(worker);
 }
 
+/**
+ * @brief Submit Job.
+ * @param[in] spec Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), count(), push_back().
+ */
 bool TensorTrainingCoordinator::submitJob(const TensorTrainingJobSpec& spec) {
     if (spec.job_id.empty() || spec.shard_work.empty() || jobs_.count(spec.job_id) != 0) {
         return false;
@@ -45,6 +63,12 @@ bool TensorTrainingCoordinator::submitJob(const TensorTrainingJobSpec& spec) {
     return true;
 }
 
+/**
+ * @brief Cancel Job.
+ * @param[in] job_id Identifier of the job.
+ * @return True when the operation succeeds.
+ * @details Calls: find(), end().
+ */
 bool TensorTrainingCoordinator::cancelJob(const std::string& job_id) {
     auto it = results_.find(job_id);
     if (it == results_.end()) {
@@ -55,6 +79,11 @@ bool TensorTrainingCoordinator::cancelJob(const std::string& job_id) {
     return true;
 }
 
+/**
+ * @brief Run Next Job.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), front(), pop_front(), find(), end(), reserve(), size(), runShardWithRetry().
+ */
 bool TensorTrainingCoordinator::runNextJob() {
     if (job_queue_.empty() || workers_.empty()) {
         return false;
@@ -162,6 +191,12 @@ TensorTrainingCoordinator::runShardWithRetry(const TensorTrainingJobSpec& spec,
     return std::nullopt;
 }
 
+/**
+ * @brief Aggregate Shard Results.
+ * @param[in] shard_results Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), front(), size(), aggregate().
+ */
 std::vector<float> TensorTrainingCoordinator::aggregateShardResults(
     const std::vector<std::vector<float>>& shard_results) {
     if (shard_results.empty()) {
@@ -187,6 +222,14 @@ std::vector<float> TensorTrainingCoordinator::aggregateShardResults(
     return aggregate;
 }
 
+/**
+ * @brief Has Converged.
+ * @param[in] prev Input parameter.
+ * @param[in] next Input parameter.
+ * @param[in] epsilon Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: size(), std::max(), std::fabs().
+ */
 bool TensorTrainingCoordinator::hasConverged(const std::vector<float>& prev,
                                              const std::vector<float>& next,
                                              double epsilon) {

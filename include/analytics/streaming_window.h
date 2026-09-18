@@ -340,7 +340,7 @@ private:
      */
     WindowResult computeResult(const InternalWindow& win, bool late) const;
     /**
-     * @brief Returns results to emit; caller fires the callback outside the mutex.
+     * @brief Close Expired Windows.
      * @param[in] watermark_us Input parameter.
      * @return Return value.
      */
@@ -464,7 +464,7 @@ private:
     void ensureWindowsExist(const std::chrono::system_clock::time_point& event_time,
                             const std::string& partition_key);
     /**
-     * @brief Returns results to emit; caller fires the callback outside the mutex.
+     * @brief Close Expired Windows.
      * @param[in] watermark_us Input parameter.
      * @return Return value.
      */
@@ -684,7 +684,7 @@ private:
      */
     void ensureWindowsExist(const std::chrono::system_clock::time_point& event_time);
     /**
-     * @brief Returns results to emit; caller fires the callback outside the mutex.
+     * @brief Close Expired Windows.
      * @param[in] watermark_us Input parameter.
      * @return Return value.
      */
@@ -740,12 +740,12 @@ public:
                                             std::chrono::milliseconds hop,
                                             WatermarkConfig wm = {});
 
+
     /**
-     * @brief ---- Builder methods ----
+     * @brief Aggregate.
      * @param[in] spec Input parameter.
      * @return Return value.
      */
-
     StreamingWindowPipeline& aggregate(const WindowAggregateSpec& spec);
     StreamingWindowPipeline& onResult(std::function<void(WindowResult)> callback);
 
@@ -755,12 +755,12 @@ public:
      */
     std::shared_ptr<StreamingWindowPipeline> build();
 
+
     /**
-     * @brief ---- Runtime interface (available after build()) ----
+     * @brief Ingest.
      * @param[in] record Input parameter.
      * @return True when the operation succeeds.
      */
-
     bool ingest(const StreamRecord& record);
 
     /**

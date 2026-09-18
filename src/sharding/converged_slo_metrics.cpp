@@ -74,6 +74,10 @@ double ConvergedSLOMetrics::getLatencyP99(const std::string& op_type) const {
     return sorted[index];
 }
 
+/**
+ * @brief Reset the modification detection flag.
+ * @details Calls: lock(), clear().
+ */
 void ConvergedSLOMetrics::reset() {
     total_operations = 0;
     successful_operations = 0;
@@ -196,6 +200,11 @@ ConvergedSLOMonitor::ConvergedSLOMonitor(const Config& config)
                  config_.window_duration.count());
 }
 
+/**
+ * @brief Record Operation.
+ * @param[in] metrics Input parameter.
+ * @details Calls: spdlog::warn(), spdlog::error().
+ */
 void ConvergedSLOMonitor::recordOperation(const ConvergedOperationMetrics& metrics) {
     metrics_.recordOperation(metrics);
     
@@ -223,6 +232,12 @@ void ConvergedSLOMonitor::recordOperation(const ConvergedOperationMetrics& metri
     }
 }
 
+/**
+ * @brief Record Error.
+ * @param[in] error_type Input parameter.
+ * @param[in] message Input parameter.
+ * @details Calls: recordOperation().
+ */
 void ConvergedSLOMonitor::recordError(ConvergedErrorType error_type, const std::string& message) {
     ConvergedOperationMetrics metrics;
     metrics.error_type = error_type;
@@ -233,6 +248,13 @@ void ConvergedSLOMonitor::recordError(ConvergedErrorType error_type, const std::
     recordOperation(metrics);
 }
 
+/**
+ * @brief Record Cross Shard KVStale.
+ * @param[in] shard_id Identifier of the shard.
+ * @param[in] stale_version Input parameter.
+ * @param[in] current_version Input parameter.
+ * @details Calls: spdlog::warn(), std::to_string(), recordOperation().
+ */
 void ConvergedSLOMonitor::recordCrossShardKVStale(
     const std::string& shard_id, 
     uint64_t stale_version, 
@@ -254,6 +276,12 @@ void ConvergedSLOMonitor::recordCrossShardKVStale(
     recordOperation(metrics);
 }
 
+/**
+ * @brief Record Inference Preemption.
+ * @param[in] tokens_generated Input parameter.
+ * @param[in] tokens_lost Input parameter.
+ * @details Calls: spdlog::warn(), std::to_string(), recordOperation().
+ */
 void ConvergedSLOMonitor::recordInferencePreemption(
     uint64_t tokens_generated, 
     uint64_t tokens_lost
@@ -370,6 +398,10 @@ ConvergedSLOMetrics ConvergedSLOMonitor::getCurrentMetrics() const {
     return metrics_;
 }
 
+/**
+ * @brief Reset the modification detection flag.
+ * @details Calls: std::chrono::steady_clock::now(), spdlog::info().
+ */
 void ConvergedSLOMonitor::reset() {
     metrics_.reset();
     window_start_ = std::chrono::steady_clock::now();
@@ -380,9 +412,6 @@ void ConvergedSLOMonitor::reset() {
 // Helper Functions
 // ============================================================================
 
-/**
- * @brief Create a ConvergedOperationMetrics for a successful operation
- */
 ConvergedOperationMetrics createConvergedMetrics(
     const std::string& op_id,
     const std::string& op_type,
@@ -421,9 +450,6 @@ ConvergedOperationMetrics createConvergedMetrics(
     return metrics;
 }
 
-/**
- * @brief Create a ConvergedOperationMetrics for a failed operation
- */
 ConvergedOperationMetrics createFailedConvergedMetrics(
     const std::string& op_id,
     const std::string& op_type,

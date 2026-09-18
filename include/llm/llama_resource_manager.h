@@ -26,16 +26,11 @@ struct llama_context_params;
 namespace themis {
 namespace llm {
 
-/**
- * @brief GPU Backend Configuration for llama.cpp
- * 
- * Integrates ThemisDB Backend-Infrastructure with llama.cpp.
- * Vulkan backend is prioritized for cross-platform compatibility.
- * 
- * Enhanced with multi-GPU distribution, load balancing, health checks,
- * and persistent pinning support.
- */
 struct GPUBackendConfig {
+    /**
+     * @brief GPUBackend Config.
+     * @return Return value.
+     */
     virtual ~GPUBackendConfig() = default;
     // Backend Selection (Vulkan prioritized)
     acceleration::BackendType preferred_backend = acceleration::BackendType::VULKAN;
@@ -101,14 +96,14 @@ struct GPUBackendConfig {
     int pinned_resource_priority = 10;  // Priority for pinned resources (higher = more important)
 };
 
-/**
- * @brief RAII wrapper for llama.cpp Model-Handle
- * 
- * Design Pattern: RAII (Resource Acquisition Is Initialization)
- * Ensures automatic cleanup of llama resources
- */
 class LlamaModelHandle {
 public:
+    /**
+     * @brief Llama Model Handle.
+     * @param[in] model_path Path to the model.
+     * @param[in] params Input parameter.
+     * @return Return value.
+     */
     explicit LlamaModelHandle(const std::string& model_path, 
                              const llama_model_params& params);
     ~LlamaModelHandle() noexcept;
@@ -123,8 +118,20 @@ public:
     explicit operator bool() const noexcept { return model_ != nullptr; }
     
     // Metadata queries
+    /**
+     * @brief N vocab.
+     * @return Return value.
+     */
     size_t n_vocab() const;
+    /**
+     * @brief N embd.
+     * @return Return value.
+     */
     size_t n_embd() const;
+    /**
+     * @brief Model type.
+     * @return Return value.
+     */
     std::string model_type() const;
 
 private:
@@ -135,11 +142,14 @@ private:
     std::unique_ptr<llama_model, ModelDeleter> model_;
 };
 
-/**
- * @brief RAII wrapper for llama.cpp Context-Handle
- */
 class LlamaContextHandle {
 public:
+    /**
+     * @brief Llama Context Handle.
+     * @param[in,out] model Input/output parameter.
+     * @param[in] params Input parameter.
+     * @return Return value.
+     */
     explicit LlamaContextHandle(llama_model* model,
                                const llama_context_params& params);
     ~LlamaContextHandle() noexcept;
@@ -153,7 +163,14 @@ public:
     explicit operator bool() const noexcept { return context_ != nullptr; }
     
     // KV-Cache Management
+    /**
+     * @brief Clear kv cache.
+     */
     void clear_kv_cache();
+    /**
+     * @brief Kv cache token count.
+     * @return Return value.
+     */
     size_t kv_cache_token_count() const;
 
 private:
@@ -164,14 +181,15 @@ private:
     std::unique_ptr<llama_context, ContextDeleter> context_;
 };
 
-/**
- * @brief Backend-Aware llama.cpp Model Handle
- * 
- * Integrates ThemisDB GPU backend infrastructure with llama.cpp.
- * Vulkan is prioritized for maximum hardware compatibility.
- */
 class BackendAwareLlamaModelHandle {
 public:
+    /**
+     * @brief Backend Aware Llama Model Handle.
+     * @param[in] model_path Path to the model.
+     * @param[in] params Input parameter.
+     * @param[in] gpu_config Input parameter.
+     * @return Return value.
+     */
     explicit BackendAwareLlamaModelHandle(
         const std::string& model_path,
         const llama_model_params& params,
@@ -190,14 +208,26 @@ public:
     
     // Backend Information
     acceleration::BackendType active_backend() const { return active_backend_; }
+    /**
+     * @brief Backend name.
+     * @return Return value.
+     */
     std::string backend_name() const;
     
     // GPU Memory Information
     size_t vram_usage() const { return vram_allocated_; }
     std::vector<int> gpu_devices() const { return gpu_devices_; }
     
-    // Memory Transfer (for Multi-GPU)
+    /**
+     * @brief Memory Transfer (for Multi-GPU)
+     * @param[in] target_gpu_id Identifier of the target gpu.
+     * @return True when the operation succeeds.
+     */
     bool transferToGPU(int target_gpu_id);
+    /**
+     * @brief Prefetch To GPU.
+     * @return True when the operation succeeds.
+     */
     bool prefetchToGPU();
 
 private:
@@ -217,9 +247,27 @@ private:
     size_t vram_allocated_ = 0;
     
     // Helper methods
+    /**
+     * @brief Select Best Backend.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     acceleration::BackendType selectBestBackend(const GPUBackendConfig& config);
+    /**
+     * @brief Determine Optimal GPULayers.
+     * @param[in] config Input parameter.
+     * @param[in] model_size Input parameter.
+     * @return Return value.
+     */
     int determineOptimalGPULayers(const GPUBackendConfig& config, size_t model_size);
+    /**
+     * @brief Allocate GPUMemory.
+     * @param[in] config Input parameter.
+     */
     void allocateGPUMemory(const GPUBackendConfig& config);
+    /**
+     * @brief Configure Backend Specific Features.
+     */
     void configureBackendSpecificFeatures();
 };
 

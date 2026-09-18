@@ -38,10 +38,21 @@ LearnableRotaryEmbedding::LearnableRotaryEmbedding(
     theta_gradients_.resize(learnable_theta_.size(), 0.0);
 }
 
+/**
+ * @brief Set Training Mode.
+ * @param[in] training Input parameter.
+ * @details Implements setTrainingMode without additional internal calls.
+ */
 void LearnableRotaryEmbedding::setTrainingMode(bool training) {
     training_mode_ = training;
 }
 
+/**
+ * @brief Set Learnable Theta.
+ * @param[in] theta Input parameter.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: size(), std::to_string().
+ */
 void LearnableRotaryEmbedding::setLearnableTheta(const std::vector<double>& theta) {
     if (theta.size() != learnable_theta_.size()) {
         throw std::invalid_argument(
@@ -52,6 +63,10 @@ void LearnableRotaryEmbedding::setLearnableTheta(const std::vector<double>& thet
     learnable_theta_ = theta;
 }
 
+/**
+ * @brief Reset To Base.
+ * @details Calls: getConfig().
+ */
 void LearnableRotaryEmbedding::resetToBase() {
     learnable_theta_ = getConfig().theta_cache;
 }
@@ -134,6 +149,15 @@ std::pair<double, double> LearnableRotaryEmbedding::computeLearnableRotationAngl
 // Gradient Computation
 // ============================================================================
 
+/**
+ * @brief Compute Gradients.
+ * @param[in] embedding Input parameter.
+ * @param[in] target_similarity Input parameter.
+ * @param[in] position Input parameter.
+ * @return Return value.
+ * @throws std::logic_error if an error occurs.
+ * @details Calls: gradients(), size(), rotate().
+ */
 std::vector<double> LearnableRotaryEmbedding::computeGradients(
     const std::vector<float>& embedding,
     float target_similarity,
@@ -193,6 +217,14 @@ std::vector<double> LearnableRotaryEmbedding::computeGradients(
 // Parameter Updates
 // ============================================================================
 
+/**
+ * @brief Update Parameters.
+ * @param[in] gradients Input parameter.
+ * @param[in] learning_rate Input parameter.
+ * @throws std::logic_error if an error occurs.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: size().
+ */
 void LearnableRotaryEmbedding::updateParameters(
     const std::vector<double>& gradients,
     float learning_rate
@@ -216,6 +248,12 @@ void LearnableRotaryEmbedding::updateParameters(
     }
 }
 
+/**
+ * @brief Update SGD.
+ * @param[in] gradients Input parameter.
+ * @param[in] learning_rate Input parameter.
+ * @details Calls: updateParameters().
+ */
 void LearnableRotaryEmbedding::updateSGD(
     const std::vector<double>& gradients,
     float learning_rate
@@ -223,6 +261,13 @@ void LearnableRotaryEmbedding::updateSGD(
     updateParameters(gradients, learning_rate);
 }
 
+/**
+ * @brief Update Adam.
+ * @param[in] gradients Input parameter.
+ * @param[in] learning_rate Input parameter.
+ * @param[in] config Input parameter.
+ * @details Calls: empty(), initializeOptimizer(), size(), std::pow(), std::sqrt().
+ */
 void LearnableRotaryEmbedding::updateAdam(
     const std::vector<double>& gradients,
     float learning_rate,
@@ -257,6 +302,11 @@ void LearnableRotaryEmbedding::updateAdam(
     }
 }
 
+/**
+ * @brief Initialize Optimizer.
+ * @param[in] config Input parameter.
+ * @details Calls: resize(), size().
+ */
 void LearnableRotaryEmbedding::initializeOptimizer(const TrainingConfig& config) {
     if (config.use_adam) {
         adam_m_.resize(learnable_theta_.size(), 0.0);
@@ -334,6 +384,15 @@ LearnableRotaryEmbedding::splitTrainValidation(
     return {train_samples, val_samples};
 }
 
+/**
+ * @brief Train.
+ * @param[in] samples Input parameter.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @throws std::logic_error if an error occurs.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: empty(), initializeOptimizer(), splitTrainValidation(), reserve(), max(), setTrainingMode(), g(), rd().
+ */
 std::vector<float> LearnableRotaryEmbedding::train(
     const std::vector<TrainingSample>& samples,
     const TrainingConfig& config
@@ -444,6 +503,11 @@ std::vector<float> LearnableRotaryEmbedding::train(
 
 bool LearnableRotaryEmbedding::saveParameters(const std::string& path) const {
     try {
+        /**
+         * @brief File.
+         * @param[in] path Input parameter.
+         * @return Return value.
+         */
         std::ofstream file(path);
         if (!file.is_open()) {
             return false;
@@ -474,6 +538,12 @@ bool LearnableRotaryEmbedding::saveParameters(const std::string& path) const {
     }
 }
 
+/**
+ * @brief Load Parameters.
+ * @param[in] path Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: file(), is_open(), std::getline(), find(), substr(), ss(), erase(), std::remove_if().
+ */
 bool LearnableRotaryEmbedding::loadParameters(const std::string& path) {
     try {
         std::ifstream file(path);

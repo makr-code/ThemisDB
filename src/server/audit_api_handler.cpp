@@ -21,7 +21,13 @@
 namespace themis {
 namespace server {
 
-// Helper: Case-insensitive string contains
+/**
+ * @brief Helper: Case-insensitive string contains
+ * @param[in] haystack Input parameter.
+ * @param[in] needle Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), std::search(), begin(), end(), std::tolower().
+ */
 static bool containsCaseInsensitive(const std::string& haystack, const std::string& needle) {
     if (needle.empty()) {
       return true;
@@ -66,6 +72,12 @@ nlohmann::json AuditLogEntry::toJson() const {
     return j;
 }
 
+/**
+ * @brief Decrypt Payload.
+ * @param[in] payload Input parameter.
+ * @return Return value.
+ * @details Calls: contains(), value(), std::string(), themis::EncryptedBlob::fromJson(), decrypt(), what().
+ */
 std::string AuditApiHandler::decryptPayload(const nlohmann::json& payload) {
     try {
         if (!payload.contains("ciphertext_b64")) {
@@ -100,6 +112,13 @@ std::string AuditApiHandler::decryptPayload(const nlohmann::json& payload) {
     }
 }
 
+/**
+ * @brief Parse Log Line.
+ * @param[in] j Input parameter.
+ * @param[in] line_id Identifier of the line.
+ * @return Return value.
+ * @details Calls: value(), contains(), decryptPayload(), is_string(), empty(), nlohmann::json::parse(), THEMIS_DEBUG().
+ */
 AuditLogEntry AuditApiHandler::parseLogLine(const nlohmann::json& j, int64_t line_id) {
     AuditLogEntry entry;
     entry.id = line_id;
@@ -139,6 +158,12 @@ AuditLogEntry AuditApiHandler::parseLogLine(const nlohmann::json& j, int64_t lin
     return entry;
 }
 
+/**
+ * @brief Read Audit Logs.
+ * @param[in] filter Input parameter.
+ * @return Return value.
+ * @details Calls: ifs(), is_open(), std::getline(), empty(), nlohmann::json::parse(), parseLogLine(), containsCaseInsensitive(), push_back().
+ */
 std::vector<AuditLogEntry> AuditApiHandler::readAuditLogs(const AuditQueryFilter& filter) {
     std::vector<AuditLogEntry> entries;
     
@@ -204,6 +229,12 @@ std::vector<AuditLogEntry> AuditApiHandler::readAuditLogs(const AuditQueryFilter
     return entries;
 }
 
+/**
+ * @brief Query Audit Logs.
+ * @param[in] filter Input parameter.
+ * @return Return value.
+ * @details Calls: readAuditLogs(), size(), std::min(), nlohmann::json::array(), Tracer::startSpan(), push_back(), toJson().
+ */
 nlohmann::json AuditApiHandler::queryAuditLogs(const AuditQueryFilter& filter) {
     auto all_entries = readAuditLogs(filter);
     
@@ -229,6 +260,12 @@ nlohmann::json AuditApiHandler::queryAuditLogs(const AuditQueryFilter& filter) {
     return result;
 }
 
+/**
+ * @brief Export Audit Logs Csv.
+ * @param[in] filter Input parameter.
+ * @return Return value.
+ * @details Calls: readAuditLogs(), Tracer::startSpan(), find(), std::chrono::system_clock::time_point(), std::chrono::milliseconds(), std::chrono::system_clock::to_time_t(), std::gmtime(), std::strftime().
+ */
 std::string AuditApiHandler::exportAuditLogsCsv(const AuditQueryFilter& filter) {
     auto entries = readAuditLogs(filter);
     

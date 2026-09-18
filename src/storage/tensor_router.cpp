@@ -286,6 +286,11 @@ struct TensorRouter::Impl {
                 } else {
                     TemplateTopologyApplyFn apply_fn;
                     {
+                        /**
+                         * @brief Lk.
+                         * @param[in] template_apply_mu Input parameter.
+                         * @return Return value.
+                         */
                         std::lock_guard<std::mutex> lk(template_apply_mu);
                         apply_fn = template_topology_apply_fn;
                     }
@@ -461,16 +466,30 @@ const TensorRoutingPolicy& TensorRouter::policy() const noexcept {
     return impl_->policy;
 }
 
+/**
+ * @brief Set Policy.
+ * @param[in] p Input parameter.
+ * @details Calls: std::move().
+ */
 void TensorRouter::setPolicy(TensorRoutingPolicy p) {
     impl_->policy = std::move(p);
 }
 
+/**
+ * @brief Set Template Catalog.
+ * @param[in] catalog Input parameter.
+ */
 void TensorRouter::setTemplateCatalog(
     std::shared_ptr<tensor::TemplateCatalog> catalog)
 {
     impl_->template_catalog = std::move(catalog);
 }
 
+/**
+ * @brief Set Template Topology Apply Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lk(), std::move().
+ */
 void TensorRouter::setTemplateTopologyApplyFn(TemplateTopologyApplyFn fn) {
     // deadlock_risk scanner alert (line 476): setTemplateTopologyApplyFn and
     // clearTemplateTopologyApplyFn each acquire template_apply_mu independently;
@@ -484,6 +503,10 @@ void TensorRouter::setTemplateTopologyApplyFn(TemplateTopologyApplyFn fn) {
     impl_->template_topology_apply_fn = std::move(fn);
 }
 
+/**
+ * @brief Clear Template Topology Apply Fn.
+ * @details Calls: lk().
+ */
 void TensorRouter::clearTemplateTopologyApplyFn() {
     std::lock_guard<std::mutex> lk(impl_->template_apply_mu);
     impl_->template_topology_apply_fn = nullptr;

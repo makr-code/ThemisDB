@@ -18,7 +18,12 @@
 
 namespace themis {
 
-// ===== GraphAutoBuffer Implementation =====
+/**
+ * @brief ===== GraphAutoBuffer Implementation =====
+ * @param[in] entity Input parameter.
+ * @return Return value.
+ * @details Calls: getFormat(), toJson(), size(), getBlobSize().
+ */
 
 size_t GraphAutoBuffer::BufferedOp::estimateEntitySize(const BaseEntity& entity) {
     try {
@@ -55,6 +60,10 @@ GraphAutoBuffer::~GraphAutoBuffer() noexcept {
     }
 }
 
+/**
+ * @brief Start.
+ * @details Calls: exchange(), THEMIS_WARN(), THEMIS_INFO(), count(), std::thread().
+ */
 void GraphAutoBuffer::start() {
     if (running_.exchange(true)) {
         THEMIS_WARN("GraphAutoBuffer already running");
@@ -71,6 +80,10 @@ void GraphAutoBuffer::start() {
     }
 }
 
+/**
+ * @brief Stop.
+ * @details Calls: exchange(), THEMIS_INFO(), notify_all(), joinable(), utils::joinThreadWithin(), THEMIS_WARN(), flush().
+ */
 void GraphAutoBuffer::stop() {
     if (!running_.exchange(false)) {
         return;
@@ -92,6 +105,13 @@ void GraphAutoBuffer::stop() {
     THEMIS_INFO("GraphAutoBuffer stopped, final flush: {} operations", flushed);
 }
 
+/**
+ * @brief Add Node.
+ * @param[in] node Input parameter.
+ * @param[in] graph_id Identifier of the graph.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), setAttribute(), std::string(), getPrimaryKey(), empty(), PropertyGraphManager::Status::Error(), lock(), THEMIS_WARN().
+ */
 PropertyGraphManager::Status GraphAutoBuffer::addNode(const BaseEntity& node, 
                                                        std::string_view graph_id) {
     auto span = Tracer::startSpan("GraphAutoBuffer.addNode");
@@ -151,6 +171,13 @@ PropertyGraphManager::Status GraphAutoBuffer::addNode(const BaseEntity& node,
     return PropertyGraphManager::Status::OK();
 }
 
+/**
+ * @brief Add Edge.
+ * @param[in] edge Input parameter.
+ * @param[in] graph_id Identifier of the graph.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), setAttribute(), std::string(), getPrimaryKey(), empty(), PropertyGraphManager::Status::Error(), lock(), THEMIS_WARN().
+ */
 PropertyGraphManager::Status GraphAutoBuffer::addEdge(const BaseEntity& edge, 
                                                        std::string_view graph_id) {
     auto span = Tracer::startSpan("GraphAutoBuffer.addEdge");
@@ -210,10 +237,21 @@ PropertyGraphManager::Status GraphAutoBuffer::addEdge(const BaseEntity& edge,
     return PropertyGraphManager::Status::OK();
 }
 
+/**
+ * @brief Flush.
+ * @return Return value.
+ * @details Calls: flushInternal().
+ */
 size_t GraphAutoBuffer::flush() {
     return flushInternal(false);
 }
 
+/**
+ * @brief Flush For.
+ * @param[in] graph_id Identifier of the graph.
+ * @return Return value.
+ * @details Calls: lock(), find(), end(), empty(), flushBuffer().
+ */
 size_t GraphAutoBuffer::flushFor(const std::string& graph_id) {
     std::lock_guard<std::timed_mutex> lock(buffers_mutex_);
     
@@ -225,6 +263,12 @@ size_t GraphAutoBuffer::flushFor(const std::string& graph_id) {
     return flushBuffer(graph_id, it->second);
 }
 
+/**
+ * @brief Flush Internal.
+ * @param[in] lock_held Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), lock(), try_lock_for(), std::chrono::seconds(), THEMIS_WARN(), empty(), flushBuffer(), std::chrono::steady_clock::now().
+ */
 size_t GraphAutoBuffer::flushInternal(bool lock_held) {
     auto span = Tracer::startSpan("GraphAutoBuffer.flush");
     
@@ -261,6 +305,13 @@ size_t GraphAutoBuffer::flushInternal(bool lock_held) {
     return total_flushed;
 }
 
+/**
+ * @brief Flush Buffer.
+ * @param[in] graph_id Identifier of the graph.
+ * @param[in,out] buffer Input/output parameter.
+ * @return Return value.
+ * @details Calls: empty(), Tracer::startSpan(), setAttribute(), size(), addNode(), addEdge(), THEMIS_ERROR(), what().
+ */
 size_t GraphAutoBuffer::flushBuffer(const std::string& graph_id, GraphBuffer& buffer) {
     if (buffer.operations.empty()) {
         return 0;
@@ -346,6 +397,10 @@ bool GraphAutoBuffer::shouldFlushGlobal() const {
     return false;
 }
 
+/**
+ * @brief Flush Thread.
+ * @details Calls: THEMIS_INFO(), load(), lock(), wait_for(), shouldFlushGlobal(), unlock(), flushInternal(), THEMIS_DEBUG().
+ */
 void GraphAutoBuffer::flushThread() {
     THEMIS_INFO("GraphAutoBuffer flush thread started");
     
@@ -378,6 +433,11 @@ void GraphAutoBuffer::flushThread() {
 }
 
 GraphAutoBufferStats GraphAutoBuffer::getStats() const {
+    /**
+     * @brief Lock.
+     * @param[in] buffers_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::timed_mutex> lock(buffers_mutex_);
     
     GraphAutoBufferStats stats;
@@ -398,6 +458,11 @@ GraphAutoBufferStats GraphAutoBuffer::getStats() const {
     return stats;
 }
 
+/**
+ * @brief Set Config.
+ * @param[in] config Input parameter.
+ * @details Calls: lock(), THEMIS_INFO(), count().
+ */
 void GraphAutoBuffer::setConfig(const GraphAutoBufferConfig& config) {
     std::lock_guard<std::timed_mutex> lock(buffers_mutex_);
     config_ = config;

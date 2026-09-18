@@ -84,11 +84,10 @@ public:
      */
     void recordDedupHit();
 
-    /**
-     * @brief ======================================================================== Format-specific Metrics (content_pdf_extracted_total, etc.
-     * @details ) ========================================================================
-     */
 
+    /**
+     * @brief Record Pdf Extracted.
+     */
     void recordPdfExtracted();
 
     /**

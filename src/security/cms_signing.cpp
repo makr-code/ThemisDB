@@ -46,6 +46,14 @@ CMSSigningService::CMSSigningService(X509* cert, EVP_PKEY* pkey)
 
 CMSSigningService::~CMSSigningService() = default;
 
+/**
+ * @brief Sign.
+ * @param[in] data Input parameter.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: in(), BIO_new_mem_buf(), data(), size(), cms(), CMS_sign(), get(), out().
+ */
 SigningResult CMSSigningService::sign(const std::vector<uint8_t>& data, const std::string& /*key_id*/) {
     SigningResult res;
     res.algorithm = "CMS/DETACHED+SHA256";
@@ -78,6 +86,14 @@ SigningResult CMSSigningService::sign(const std::vector<uint8_t>& data, const st
     return res;
 }
 
+/**
+ * @brief Verify identity and enforce network policies for a request.
+ * @param[in] data Input parameter.
+ * @param[in] signature Input parameter.
+ * @param[in] param Input parameter.
+ * @return Verification result.
+ * @details Calls: sig_bio(), BIO_new_mem_buf(), data(), size(), cms(), d2i_CMS_bio(), get(), in().
+ */
 bool CMSSigningService::verify(const std::vector<uint8_t>& data,
                                 const std::vector<uint8_t>& signature,
                                 const std::string& /*key_id*/) {

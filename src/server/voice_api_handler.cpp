@@ -35,6 +35,12 @@ namespace {
     static std::mutex s_token_validator_mutex;
     static VoiceApiHandler::TokenValidatorFn s_token_validator_fn;
 
+    /**
+     * @brief Is Valid Voice Path Identifier.
+     * @param[in] value Input parameter.
+     * @return True when the operation succeeds.
+     * @details Calls: empty(), validateStringLength(), std::string(), validatePathSegment(), validateHeaderValue().
+     */
     bool isValidVoicePathIdentifier(std::string_view value) {
         if (value.empty()) {
             return false;
@@ -47,10 +53,11 @@ namespace {
     }
 
     /**
-     * @brief Parse and validate IPv4 address, returning octets
-     * @param str Input string
-     * @param octets Output array of 4 octets
-     * @return true if valid IPv4, false otherwise
+     * @brief Parse IPv4.
+     * @param[in] str Input parameter.
+     * @param[in] octets Input parameter.
+     * @return True when the operation succeeds.
+     * @details Calls: ipv4_regex(), std::regex_match(), std::stoi(), str(), THEMIS_WARN().
      */
     bool parseIPv4(const std::string& str, int octets[4]) {
         std::regex ipv4_regex(R"(^(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})$)");
@@ -79,9 +86,10 @@ namespace {
     }
     
     /**
-     * @brief Check if an IPv4 address is in a private or restricted range
-     * @param ip IPv4 address string
-     * @return true if the address is restricted, false otherwise
+     * @brief Is Restricted IPv4.
+     * @param[in] ip Input parameter.
+     * @return True when the operation succeeds.
+     * @details Calls: parseIPv4().
      */
     bool isRestrictedIPv4(const std::string& ip) {
         int octets[4];
@@ -211,6 +219,12 @@ VoiceApiHandler::VoiceApiHandler(
     }
 }
 
+/**
+ * @brief Handle Request.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), createErrorResponse(), validateBearerToken(), std::string(), target(), find(), substr(), method().
+ */
 http::response<http::string_body> VoiceApiHandler::handleRequest(
     const http::request<http::string_body>& req
 ) {
@@ -394,6 +408,12 @@ http::response<http::string_body> VoiceApiHandler::handleRequest(
     );
 }
 
+/**
+ * @brief Handle Transcribe.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), parseRequestBody(), createErrorResponse(), contains(), is_string(), empty(), decodeBase64(), downloadAudioFromUrl().
+ */
 http::response<http::string_body> VoiceApiHandler::handleTranscribe(
     const http::request<http::string_body>& req
 ) {
@@ -504,6 +524,12 @@ http::response<http::string_body> VoiceApiHandler::handleTranscribe(
     return createJsonResponse(result);
 }
 
+/**
+ * @brief Handle Synthesize.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), parseRequestBody(), createErrorResponse(), contains(), is_string(), empty(), is_number(), is_boolean().
+ */
 http::response<http::string_body> VoiceApiHandler::handleSynthesize(
     const http::request<http::string_body>& req
 ) {
@@ -624,6 +650,12 @@ http::response<http::string_body> VoiceApiHandler::handleSynthesize(
     }
 }
 
+/**
+ * @brief Handle Voice Command.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), parseRequestBody(), createErrorResponse(), contains(), is_string(), value(), empty(), isValidVoicePathIdentifier().
+ */
 http::response<http::string_body> VoiceApiHandler::handleVoiceCommand(
     const http::request<http::string_body>& req
 ) {
@@ -721,6 +753,12 @@ http::response<http::string_body> VoiceApiHandler::handleVoiceCommand(
     );
 }
 
+/**
+ * @brief Handle Stream Command.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), parseRequestBody(), createErrorResponse(), contains(), is_string(), empty(), value(), isValidVoicePathIdentifier().
+ */
 http::response<http::string_body> VoiceApiHandler::handleStreamCommand(
     const http::request<http::string_body>& req
 ) {
@@ -818,6 +856,12 @@ http::response<http::string_body> VoiceApiHandler::handleStreamCommand(
     return createJsonResponse(result);
 }
 
+/**
+ * @brief Handle Wake Word Detect.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), extractAudioData(), empty(), createErrorResponse(), detectWakeWord(), createJsonResponse().
+ */
 http::response<http::string_body> VoiceApiHandler::handleWakeWordDetect(
     const http::request<http::string_body>& req
 ) {
@@ -842,6 +886,12 @@ http::response<http::string_body> VoiceApiHandler::handleWakeWordDetect(
     return createJsonResponse(result);
 }
 
+/**
+ * @brief Handle Record Call.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), parseRequestBody(), createErrorResponse(), contains(), is_string(), decodeBase64(), empty(), is_number_integer().
+ */
 http::response<http::string_body> VoiceApiHandler::handleRecordCall(
     const http::request<http::string_body>& req
 ) {
@@ -967,6 +1017,12 @@ http::response<http::string_body> VoiceApiHandler::handleRecordCall(
     return createJsonResponse(result);
 }
 
+/**
+ * @brief Handle Generate Protocol.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), parseRequestBody(), createErrorResponse(), contains(), is_string(), decodeBase64(), empty(), is_number_integer().
+ */
 http::response<http::string_body> VoiceApiHandler::handleGenerateProtocol(
     const http::request<http::string_body>& req
 ) {
@@ -1104,6 +1160,13 @@ http::response<http::string_body> VoiceApiHandler::handleGenerateProtocol(
     return createJsonResponse(result);
 }
 
+/**
+ * @brief Handle Get Session.
+ * @param[in] req Input parameter.
+ * @param[in] session_id Identifier of the session.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), getSession(), createJsonResponse().
+ */
 http::response<http::string_body> VoiceApiHandler::handleGetSession(
     const http::request<http::string_body>& req,
     const std::string& session_id
@@ -1123,6 +1186,13 @@ http::response<http::string_body> VoiceApiHandler::handleGetSession(
     return createJsonResponse(result);
 }
 
+/**
+ * @brief Handle Update Session Context.
+ * @param[in] req Input parameter.
+ * @param[in] session_id Identifier of the session.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), parseRequestBody(), contains(), createErrorResponse(), is_object(), updateSession(), createJsonResponse().
+ */
 http::response<http::string_body> VoiceApiHandler::handleUpdateSessionContext(
     const http::request<http::string_body>& req,
     const std::string& session_id
@@ -1153,6 +1223,13 @@ http::response<http::string_body> VoiceApiHandler::handleUpdateSessionContext(
     return createJsonResponse(result);
 }
 
+/**
+ * @brief Handle Delete Session.
+ * @param[in] req Input parameter.
+ * @param[in] session_id Identifier of the session.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), deleteSession(), createErrorResponse(), createJsonResponse().
+ */
 http::response<http::string_body> VoiceApiHandler::handleDeleteSession(
     const http::request<http::string_body>& req,
     const std::string& session_id
@@ -1175,6 +1252,12 @@ http::response<http::string_body> VoiceApiHandler::handleDeleteSession(
     return createJsonResponse(result);
 }
 
+/**
+ * @brief Handle Get Voices.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), getAvailableVoices(), createJsonResponse().
+ */
 http::response<http::string_body> VoiceApiHandler::handleGetVoices(
     const http::request<http::string_body>& req
 ) {
@@ -1185,6 +1268,12 @@ http::response<http::string_body> VoiceApiHandler::handleGetVoices(
     return createJsonResponse(result);
 }
 
+/**
+ * @brief Handle Get Languages.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), json::array(), createJsonResponse().
+ */
 http::response<http::string_body> VoiceApiHandler::handleGetLanguages(
     const http::request<http::string_body>& req
 ) {
@@ -1204,6 +1293,12 @@ http::response<http::string_body> VoiceApiHandler::handleGetLanguages(
 
 namespace {
 
+/**
+ * @brief Validate Macro Step Json.
+ * @param[in] step_json Input parameter.
+ * @return Return value.
+ * @details Calls: is_object(), contains(), is_string(), begin(), end(), value().
+ */
 std::optional<std::string> validateMacroStepJson(const json& step_json) {
     if (!step_json.is_object()) {
         return "Each step must be an object";
@@ -1230,7 +1325,12 @@ std::optional<std::string> validateMacroStepJson(const json& step_json) {
     return std::nullopt;
 }
 
-/** Convert a MacroStep JSON object from the request body into a MacroStep. */
+/**
+ * @brief Parse Step.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: value(), contains(), is_object(), begin(), end(), key().
+ */
 voice::MacroStep parseStep(const json& j) {
     voice::MacroStep step;
     std::string type_str = j.value("type", "QUERY");
@@ -1253,6 +1353,12 @@ voice::MacroStep parseStep(const json& j) {
     return step;
 }
 
+/**
+ * @brief Step Type To String.
+ * @param[in] t Input parameter.
+ * @return Return value.
+ * @details Implements stepTypeToString without additional internal calls.
+ */
 std::string stepTypeToString(voice::StepType t) {
     switch (t) {
     case voice::StepType::COMMAND:   return "COMMAND";
@@ -1264,6 +1370,12 @@ std::string stepTypeToString(voice::StepType t) {
     }
 }
 
+/**
+ * @brief Macro Info To Response Json.
+ * @param[in] m Input parameter.
+ * @return Return value.
+ * @details Calls: json::array(), stepTypeToString(), json::object(), push_back().
+ */
 json macroInfoToResponseJson(const voice::MacroInfo& m) {
     json j;
     j["macro_id"]       = m.macro_id;
@@ -1301,6 +1413,12 @@ json macroInfoToResponseJson(const voice::MacroInfo& m) {
 
 } // anonymous namespace
 
+/**
+ * @brief Handle Create Macro.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), parseRequestBody(), createErrorResponse(), contains(), is_string(), empty(), is_array(), validateMacroStepJson().
+ */
 http::response<http::string_body> VoiceApiHandler::handleCreateMacro(
     const http::request<http::string_body>& req
 ) {
@@ -1432,6 +1550,12 @@ http::response<http::string_body> VoiceApiHandler::handleCreateMacro(
     return createJsonResponse(result, http::status::created);
 }
 
+/**
+ * @brief Handle List Macros.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), parseQueryParam(), std::string(), target(), empty(), ss(), std::getline(), push_back().
+ */
 http::response<http::string_body> VoiceApiHandler::handleListMacros(
     const http::request<http::string_body>& req
 ) {
@@ -1463,6 +1587,13 @@ http::response<http::string_body> VoiceApiHandler::handleListMacros(
     return createJsonResponse(result);
 }
 
+/**
+ * @brief Handle Get Macro.
+ * @param[in] req Input parameter.
+ * @param[in] macro_id Identifier of the macro.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), macroManager(), getMacro(), createErrorResponse(), createJsonResponse(), macroInfoToResponseJson().
+ */
 http::response<http::string_body> VoiceApiHandler::handleGetMacro(
     const http::request<http::string_body>& req,
     const std::string& macro_id
@@ -1478,6 +1609,13 @@ http::response<http::string_body> VoiceApiHandler::handleGetMacro(
     return createJsonResponse(macroInfoToResponseJson(*info));
 }
 
+/**
+ * @brief Handle Update Macro.
+ * @param[in] req Input parameter.
+ * @param[in] macro_id Identifier of the macro.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), parseRequestBody(), createErrorResponse(), contains(), is_array(), validateMacroStepJson(), has_value(), push_back().
+ */
 http::response<http::string_body> VoiceApiHandler::handleUpdateMacro(
     const http::request<http::string_body>& req,
     const std::string& macro_id
@@ -1602,6 +1740,13 @@ http::response<http::string_body> VoiceApiHandler::handleUpdateMacro(
     return createJsonResponse(result);
 }
 
+/**
+ * @brief Handle Delete Macro.
+ * @param[in] req Input parameter.
+ * @param[in] macro_id Identifier of the macro.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), macroManager(), deleteMacro(), createErrorResponse(), createJsonResponse().
+ */
 http::response<http::string_body> VoiceApiHandler::handleDeleteMacro(
     const http::request<http::string_body>& req,
     const std::string& macro_id
@@ -1620,6 +1765,12 @@ http::response<http::string_body> VoiceApiHandler::handleDeleteMacro(
     return createJsonResponse(result);
 }
 
+/**
+ * @brief Handle List Recordings.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), parseQueryParam(), std::string(), target(), empty(), createErrorResponse(), std::stoll(), THEMIS_DEBUG().
+ */
 http::response<http::string_body> VoiceApiHandler::handleListRecordings(
     const http::request<http::string_body>& req
 ) {
@@ -1677,6 +1828,13 @@ http::response<http::string_body> VoiceApiHandler::handleListRecordings(
     return createJsonResponse(result);
 }
 
+/**
+ * @brief Handle Get Recording.
+ * @param[in] req Input parameter.
+ * @param[in] record_id Identifier of the record.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), parseQueryParam(), std::string(), target(), empty(), createErrorResponse(), audioStorage(), getRecord().
+ */
 http::response<http::string_body> VoiceApiHandler::handleGetRecording(
     const http::request<http::string_body>& req,
     const std::string& record_id
@@ -1728,6 +1886,12 @@ http::response<http::string_body> VoiceApiHandler::handleGetRecording(
     return createJsonResponse(result);
 }
 
+/**
+ * @brief Handle Search Transcripts.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), parseQueryParam(), std::string(), target(), empty(), createErrorResponse(), std::stoll(), THEMIS_DEBUG().
+ */
 http::response<http::string_body> VoiceApiHandler::handleSearchTranscripts(
     const http::request<http::string_body>& req
 ) {
@@ -1779,6 +1943,12 @@ http::response<http::string_body> VoiceApiHandler::handleSearchTranscripts(
     return createJsonResponse(result);
 }
 
+/**
+ * @brief Handle Stats.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), getStatistics(), createJsonResponse().
+ */
 http::response<http::string_body> VoiceApiHandler::handleStats(
     const http::request<http::string_body>& req
 ) {
@@ -1788,6 +1958,12 @@ http::response<http::string_body> VoiceApiHandler::handleStats(
     return createJsonResponse(stats);
 }
 
+/**
+ * @brief Handle Health.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), std::chrono::system_clock::now(), time_since_epoch(), count(), createJsonResponse().
+ */
 http::response<http::string_body> VoiceApiHandler::handleHealth(
     const http::request<http::string_body>& req
 ) {
@@ -1803,6 +1979,12 @@ http::response<http::string_body> VoiceApiHandler::handleHealth(
 
 // Helper methods
 
+/**
+ * @brief Validate Bearer Token.
+ * @param[in] req Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), THEMIS_DEBUG(), themis::AuthMiddleware::extractBearerToken(), std::string_view(), data(), size(), lock(), s_token_validator_fn().
+ */
 bool VoiceApiHandler::validateBearerToken(
     const http::request<http::string_body>& req
 ) {
@@ -1857,6 +2039,14 @@ bool VoiceApiHandler::validateBearerToken(
     }
 }
 
+/**
+ * @brief Create Error Response.
+ * @param[in] status Input parameter.
+ * @param[in] error Input parameter.
+ * @param[in] details Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), set(), body(), dump(), prepare_payload().
+ */
 http::response<http::string_body> VoiceApiHandler::createErrorResponse(
     http::status status,
     std::string_view error,
@@ -1875,6 +2065,13 @@ http::response<http::string_body> VoiceApiHandler::createErrorResponse(
     return res;
 }
 
+/**
+ * @brief Create Json Response.
+ * @param[in] data Input parameter.
+ * @param[in] status Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), set(), body(), dump(), prepare_payload().
+ */
 http::response<http::string_body> VoiceApiHandler::createJsonResponse(
     const json& data,
     http::status status
@@ -1887,6 +2084,13 @@ http::response<http::string_body> VoiceApiHandler::createJsonResponse(
     return res;
 }
 
+/**
+ * @brief Create Audio Response.
+ * @param[in] audio_data Input parameter.
+ * @param[in] mime_type Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), set(), body(), std::string(), begin(), end(), prepare_payload().
+ */
 http::response<http::string_body> VoiceApiHandler::createAudioResponse(
     const std::vector<uint8_t>& audio_data,
     const std::string& mime_type
@@ -1899,6 +2103,12 @@ http::response<http::string_body> VoiceApiHandler::createAudioResponse(
     return res;
 }
 
+/**
+ * @brief Parse Request Body.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: json::parse(), body(), THEMIS_DEBUG().
+ */
 std::optional<json> VoiceApiHandler::parseRequestBody(
     const http::request<http::string_body>& req
 ) {
@@ -1910,6 +2120,12 @@ std::optional<json> VoiceApiHandler::parseRequestBody(
     }
 }
 
+/**
+ * @brief Extract Audio Data.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: find(), parseRequestBody(), is_object(), end(), is_string(), decodeBase64(), downloadAudioFromUrl(), body().
+ */
 std::vector<uint8_t> VoiceApiHandler::extractAudioData(
     const http::request<http::string_body>& req
 ) {
@@ -1938,6 +2154,12 @@ std::vector<uint8_t> VoiceApiHandler::extractAudioData(
     return std::vector<uint8_t>(req.body().begin(), req.body().end());
 }
 
+/**
+ * @brief Decode Base64.
+ * @param[in] encoded Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), push_back().
+ */
 std::vector<uint8_t> VoiceApiHandler::decodeBase64(const std::string& encoded) {
     static const int T[256] = {
         -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
@@ -1979,6 +2201,12 @@ std::vector<uint8_t> VoiceApiHandler::decodeBase64(const std::string& encoded) {
     return out;
 }
 
+/**
+ * @brief Encode Base64.
+ * @param[in] data Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), push_back().
+ */
 std::string VoiceApiHandler::encodeBase64(const std::vector<uint8_t>& data) {
     static const char b64_table[] =
         "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
@@ -2012,6 +2240,14 @@ std::string VoiceApiHandler::encodeBase64(const std::vector<uint8_t>& data) {
     return out;
 }
 
+/**
+ * @brief Download Audio From Url.
+ * @param[in] url Input parameter.
+ * @return Return value.
+ * @throws std::invalid_argument if an error occurs.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: empty(), utils::parseURL(), THEMIS_DEBUG(), std::transform(), begin(), end(), find(), parseIPv4().
+ */
 std::vector<uint8_t> VoiceApiHandler::downloadAudioFromUrl(const std::string& url) {
     // Validate URL format - parseURL will handle this
     if (url.empty()) {
@@ -2105,6 +2341,12 @@ std::vector<uint8_t> VoiceApiHandler::downloadAudioFromUrl(const std::string& ur
     return audio_data;
 }
 
+/**
+ * @brief Parse Query Param.
+ * @param[in] target Input parameter.
+ * @param[in] key Input parameter.
+ * @return Return value.
+ */
 std::string VoiceApiHandler::parseQueryParam(
     const std::string& target, const std::string& key)
 {
@@ -2135,6 +2377,11 @@ std::string VoiceApiHandler::parseQueryParam(
 // Voice Biometric Authentication endpoints
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Handle Auth Enroll.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ */
 http::response<http::string_body> VoiceApiHandler::handleAuthEnroll(
     const http::request<http::string_body>& req)
 {
@@ -2250,6 +2497,11 @@ http::response<http::string_body> VoiceApiHandler::handleAuthEnroll(
     return createJsonResponse(result, http::status::created);
 }
 
+/**
+ * @brief Handle Auth Verify.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ */
 http::response<http::string_body> VoiceApiHandler::handleAuthVerify(
     const http::request<http::string_body>& req)
 {
@@ -2307,6 +2559,11 @@ http::response<http::string_body> VoiceApiHandler::handleAuthVerify(
     return createJsonResponse(resp);
 }
 
+/**
+ * @brief Handle Auth Authenticate.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ */
 http::response<http::string_body> VoiceApiHandler::handleAuthAuthenticate(
     const http::request<http::string_body>& req)
 {
@@ -2370,6 +2627,11 @@ http::response<http::string_body> VoiceApiHandler::handleAuthAuthenticate(
     return createJsonResponse(resp, status);
 }
 
+/**
+ * @brief Handle Auth Identify.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ */
 http::response<http::string_body> VoiceApiHandler::handleAuthIdentify(
     const http::request<http::string_body>& req)
 {
@@ -2449,6 +2711,11 @@ http::response<http::string_body> VoiceApiHandler::handleAuthIdentify(
     return createJsonResponse(resp);
 }
 
+/**
+ * @brief Handle Auth List Profiles.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ */
 http::response<http::string_body> VoiceApiHandler::handleAuthListProfiles(
     const http::request<http::string_body>& req)
 {
@@ -2464,6 +2731,12 @@ http::response<http::string_body> VoiceApiHandler::handleAuthListProfiles(
     return createJsonResponse(resp);
 }
 
+/**
+ * @brief Handle Auth Delete Profile.
+ * @param[in] req Input parameter.
+ * @param[in] profile_id Identifier of the profile.
+ * @return Return value.
+ */
 http::response<http::string_body> VoiceApiHandler::handleAuthDeleteProfile(
     const http::request<http::string_body>& req,
     const std::string& profile_id)
@@ -2488,6 +2761,11 @@ http::response<http::string_body> VoiceApiHandler::handleAuthDeleteProfile(
 
 // CRITICAL FIX for stub #302: Static token validator implementation.
 // Enables injection of proper JWT/OIDC validation at runtime.
+/**
+ * @brief Set Token Validator Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lock(), std::move(), THEMIS_INFO().
+ */
 void VoiceApiHandler::setTokenValidatorFn(TokenValidatorFn fn) {
     std::lock_guard<std::mutex> lock(s_token_validator_mutex);
     s_token_validator_fn = std::move(fn);

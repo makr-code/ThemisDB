@@ -30,28 +30,20 @@ namespace importers {
 // ============================================================================
 namespace {
 
-/// Connection pool state tracker for Phase 2 hardening
 struct SQLiteConnectionPoolState {
-    /// Current number of active connections (bounded by max_active_connections)
     std::atomic<size_t> active_connections{0};
     
-    /// Maximum concurrent connections allowed (SQLite default: 16)
     static constexpr size_t max_active_connections = 16;
     
-    /// Connection timeout in milliseconds (0 = no timeout)
     uint32_t connection_timeout_ms = 0;
     
-    /// Last connection error code for diagnostics
     std::atomic<ImportErrorCode> last_error{ImportErrorCode::SUCCESS};
     
-    /// Schema cache validity flag (invalidated on connection loss)
     std::atomic<bool> schema_cache_valid{true};
 };
 
-/// Global connection pool state (one per process; safe due to atomic operations)
 static thread_local SQLiteConnectionPoolState g_sqlite_connection_pool;
 
-/// Maps SQLite-specific error patterns to ImporterErrorCode
 [[maybe_unused]] static ImportErrorCode mapSQLiteErrorToCode(const std::string& error_msg) {
     // PHASE-2-HARDENING: Standardized error reporting
     const auto msg_lower = [](std::string s) {
@@ -100,10 +92,13 @@ static thread_local SQLiteConnectionPoolState g_sqlite_connection_pool;
     return ImportErrorCode::UNKNOWN;
 }
 
-/// PHASE-2-HARDENING: Simple fallback parser for INSERT statements when regex fails
-/// This implements the prepared statement fallback mechanism for SQLite importer.
-/// When the main regex-based parser fails to parse an INSERT statement,
-/// this simple parser attempts to extract at least the table name for logging.
+/**
+ * @brief Simple Insert Fallback SQLite.
+ * @param[in] sql Input parameter.
+ * @param[in,out] out_table_name Name of the out table.
+ * @return True when the operation succeeds.
+ * @details Calls: std::toupper(), sql_upper(), find(), size(), substr().
+ */
 static bool simpleInsertFallbackSQLite(const std::string& sql, std::string& out_table_name) {
     // Very simple fallback: find "INTO" and extract table name
     const auto sql_upper = [](std::string s) {
@@ -161,6 +156,12 @@ std::vector<std::string> SQLiteImporter::getSupportedTypes() const {
     return {"sqlite", "sqlite3"};
 }
 
+/**
+ * @brief Initialize.
+ * @param[in] param Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: clear(), THEMIS_INFO().
+ */
 bool SQLiteImporter::initialize(const std::string& /*config*/) {
     cancelled_ = false;
     schemas_.clear();
@@ -168,6 +169,13 @@ bool SQLiteImporter::initialize(const std::string& /*config*/) {
     return true;
 }
 
+/**
+ * @brief Validate Source.
+ * @param[in] source_path Path to the source.
+ * @param[in,out] errors Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: file(), push_back(), std::getline(), size(), THEMIS_WARN(), resize(), find(), THEMIS_INFO().
+ */
 bool SQLiteImporter::validateSource(const std::string& source_path,
                                     std::vector<std::string>& errors) {
     std::ifstream file(source_path);
@@ -210,6 +218,14 @@ bool SQLiteImporter::validateSource(const std::string& source_path,
     return true;
 }
 
+/**
+ * @brief Import Data.
+ * @param[in] source_path Path to the source.
+ * @param[in] options Input parameter.
+ * @param[in] progress_callback Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::steady_clock::now(), THEMIS_INFO(), toJson(), dump(), permission_check(), addError(), parseDumpFile(), empty().
+ */
 ImportStats SQLiteImporter::importData(
     const std::string& source_path,
     const ImportOptions& options,
@@ -286,6 +302,13 @@ ImportStats SQLiteImporter::importData(
     return stats;
 }
 
+/**
+ * @brief Import Data Async.
+ * @param[in] source_path Path to the source.
+ * @param[in] options Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), std::to_string(), get(), store(), setStage(), get_future().
+ */
 std::shared_ptr<ImportHandle> SQLiteImporter::importDataAsync(
     const std::string& source_path,
     const ImportOptions& options
@@ -350,11 +373,21 @@ std::shared_ptr<ImportHandle> SQLiteImporter::importDataAsync(
     return handle;
 }
 
+/**
+ * @brief Cancel.
+ * @details Calls: THEMIS_INFO().
+ */
 void SQLiteImporter::cancel() {
     cancelled_ = true;
     THEMIS_INFO("SQLite import cancelled");
 }
 
+/**
+ * @brief Get Source Schema.
+ * @param[in] source_path Path to the source.
+ * @return Return value.
+ * @details Calls: clear(), file(), json::array(), std::getline(), size(), THEMIS_WARN(), resize(), empty().
+ */
 json SQLiteImporter::getSourceSchema(const std::string& source_path) {
     schemas_.clear();
 
@@ -430,6 +463,15 @@ json SQLiteImporter::getSourceSchema(const std::string& source_path) {
 // Private Methods
 // ============================================================================
 
+/**
+ * @brief Parse Dump File.
+ * @param[in] file_path Path to the file.
+ * @param[in] options Input parameter.
+ * @param[in,out] stats Input/output parameter.
+ * @param[in,out] callback Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: file(), addError(), std::to_string(), PoolGuard(), std::getline(), size(), THEMIS_WARN(), resize().
+ */
 bool SQLiteImporter::parseDumpFile(const std::string& file_path,
                                    const ImportOptions& options,
                                    ImportStats& stats,
@@ -624,6 +666,13 @@ bool SQLiteImporter::parseDumpFile(const std::string& file_path,
     return !cancelled_;
 }
 
+/**
+ * @brief Parse Create Table.
+ * @param[in] sql Input parameter.
+ * @param[in,out] schema Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: table_regex(), std::regex_search(), str(), empty(), find(), position(), size(), substr().
+ */
 bool SQLiteImporter::parseCreateTable(const std::string& sql,
                                       TableSchema& schema) {
     // Match: CREATE [TEMP|TEMPORARY] TABLE [IF NOT EXISTS]
@@ -822,6 +871,15 @@ bool SQLiteImporter::parseCreateTable(const std::string& sql,
     return !schema.name.empty();
 }
 
+/**
+ * @brief Parse Insert.
+ * @param[in] sql Input parameter.
+ * @param[in] options Input parameter.
+ * @param[in,out] stats Input/output parameter.
+ * @param[in] line_number Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: insert_regex(), std::regex_search(), simpleInsertFallbackSQLite(), addError(), std::to_string(), str(), shouldImportTable(), empty().
+ */
 bool SQLiteImporter::parseInsert(const std::string& sql,
                                  const ImportOptions& options,
                                  ImportStats& stats,
@@ -1082,6 +1140,13 @@ bool SQLiteImporter::shouldImportTable(const std::string& table_name,
     return true;
 }
 
+/**
+ * @brief Convert Row To Entity.
+ * @param[in] schema Input parameter.
+ * @param[in] values Input parameter.
+ * @return Return value.
+ * @details Calls: size().
+ */
 json SQLiteImporter::convertRowToEntity(const TableSchema& schema,
                                         const std::vector<std::string>& values) {
     json entity;
@@ -1252,6 +1317,14 @@ void SQLiteImporter::emitSpan(const ImportOptions& options,
     }
 }
 
+/**
+ * @brief Report Progress.
+ * @param[in,out] callback Input/output parameter.
+ * @param[in] stage Input parameter.
+ * @param[in] current Input parameter.
+ * @param[in] total Input parameter.
+ * @details Calls: callback().
+ */
 void SQLiteImporter::reportProgress(ProgressCallback& callback,
                                      const std::string& stage,
                                      size_t current, size_t total) {
@@ -1275,6 +1348,12 @@ plugins::PluginCapabilities SQLiteImporterPlugin::getCapabilities() const {
     return caps;
 }
 
+/**
+ * @brief Initialize.
+ * @param[in] config_json Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements initialize without additional internal calls.
+ */
 bool SQLiteImporterPlugin::initialize(const char* config_json) {
     if (!importer_) {
       return false;
@@ -1282,6 +1361,10 @@ bool SQLiteImporterPlugin::initialize(const char* config_json) {
     return importer_->initialize(config_json ? config_json : "{}");
 }
 
+/**
+ * @brief Shutdown.
+ * @details Calls: cancel().
+ */
 void SQLiteImporterPlugin::shutdown() {
     if (importer_) {
       importer_->cancel();

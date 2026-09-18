@@ -23,9 +23,6 @@ namespace lora {
 
 using json = nlohmann::json;
 
-/**
- * @brief Supported model formats
- */
 enum class ModelFormat {
     UNKNOWN,
     GGUF,           // llama.cpp GGUF format
@@ -35,9 +32,6 @@ enum class ModelFormat {
     TENSORFLOW      // TensorFlow SavedModel
 };
 
-/**
- * @brief Supported model architectures
- */
 enum class ModelArchitecture {
     UNKNOWN,
     LLAMA,          // LLaMA 1, 2, 3
@@ -53,10 +47,11 @@ enum class ModelArchitecture {
     STABLELM        // StableLM
 };
 
-/**
- * @brief Model metadata extracted from file
- */
 struct ModelMetadata {
+    /**
+     * @brief Model Metadata.
+     * @return Return value.
+     */
     virtual ~ModelMetadata() = default;
     std::string model_path;
     ModelFormat format = ModelFormat::UNKNOWN;
@@ -98,15 +93,32 @@ struct ModelMetadata {
         };
     }
     
+    /**
+     * @brief Format to string.
+     * @param[in] fmt Input parameter.
+     * @return Return value.
+     */
     static std::string format_to_string(ModelFormat fmt);
+    /**
+     * @brief Architecture to string.
+     * @param[in] arch Input parameter.
+     * @return Return value.
+     */
     static std::string architecture_to_string(ModelArchitecture arch);
+    /**
+     * @brief String to format.
+     * @param[in] str Input parameter.
+     * @return Return value.
+     */
     static ModelFormat string_to_format(const std::string& str);
+    /**
+     * @brief String to architecture.
+     * @param[in] str Input parameter.
+     * @return Return value.
+     */
     static ModelArchitecture string_to_architecture(const std::string& str);
 };
 
-/**
- * @brief Compatibility check result
- */
 struct CompatibilityResult {
     bool is_compatible = false;
     std::vector<std::string> errors;
@@ -119,11 +131,21 @@ struct CompatibilityResult {
     size_t recommended_rank = 8;
     size_t recommended_batch_size = 4;
     
+    /**
+     * @brief Add error.
+     * @param[in] error Input parameter.
+     * @details Calls: push_back().
+     */
     void add_error(const std::string& error) {
         errors.push_back(error);
         is_compatible = false;
     }
     
+    /**
+     * @brief Add warning.
+     * @param[in] warning Input parameter.
+     * @details Calls: push_back().
+     */
     void add_warning(const std::string& warning) {
         warnings.push_back(warning);
     }
@@ -142,51 +164,39 @@ struct CompatibilityResult {
     }
 };
 
-/**
- * @brief Model compatibility checker for QLoRA training
- * 
- * Validates model format, architecture, and quantization compatibility
- * before starting QLoRA training.
- */
 class ModelCompatibilityChecker {
 public:
     /**
-     * @brief Detect model format from file
-     * @param model_path Path to model file
-     * @return Detected format
+     * @brief Detect format.
+     * @param[in] model_path Path to the model.
+     * @return Return value.
      */
     static ModelFormat detect_format(const std::string& model_path);
     
     /**
-     * @brief Extract model metadata from file
-     * @param model_path Path to model file
-     * @return Model metadata
+     * @brief Extract metadata.
+     * @param[in] model_path Path to the model.
+     * @return Return value.
      */
     static std::optional<ModelMetadata> extract_metadata(const std::string& model_path);
     
-    /**
-     * @brief Check if model is compatible with QLoRA training
-     * @param model_path Path to model file
-     * @param quantization_type Desired quantization type ("nf4", "int8", etc.)
-     * @return Compatibility result
-     */
     static CompatibilityResult check_compatibility(
         const std::string& model_path,
         const std::string& quantization_type = "nf4"
     );
     
     /**
-     * @brief Validate model architecture for LoRA
-     * @param metadata Model metadata
-     * @return Compatibility result
+     * @brief Validate architecture.
+     * @param[in] metadata Input parameter.
+     * @return Return value.
      */
     static CompatibilityResult validate_architecture(const ModelMetadata& metadata);
     
     /**
-     * @brief Check quantization compatibility
-     * @param metadata Model metadata
-     * @param target_quantization Desired quantization type
-     * @return Compatibility result
+     * @brief Check quantization compatibility.
+     * @param[in] metadata Input parameter.
+     * @param[in] target_quantization Input parameter.
+     * @return Return value.
      */
     static CompatibilityResult check_quantization_compatibility(
         const ModelMetadata& metadata,
@@ -194,21 +204,21 @@ public:
     );
     
     /**
-     * @brief Get recommended LoRA target modules for architecture
-     * @param architecture Model architecture
-     * @return List of recommended target modules
+     * @brief Get recommended target modules.
+     * @param[in] architecture Input parameter.
+     * @return Return value.
      */
     static std::vector<std::string> get_recommended_target_modules(
         ModelArchitecture architecture
     );
     
     /**
-     * @brief Estimate memory requirements for QLoRA training
-     * @param metadata Model metadata
-     * @param quantization_type Quantization type
-     * @param batch_size Training batch size
-     * @param rank LoRA rank
-     * @return Estimated memory in bytes
+     * @brief Estimate memory requirements.
+     * @param[in] metadata Input parameter.
+     * @param[in] quantization_type Input parameter.
+     * @param[in] batch_size Input parameter.
+     * @param[in] rank Input parameter.
+     * @return Return value.
      */
     static size_t estimate_memory_requirements(
         const ModelMetadata& metadata,
@@ -219,22 +229,30 @@ public:
 
 private:
     /**
-     * @brief Read GGUF metadata
+     * @brief Read gguf metadata.
+     * @param[in] path Input parameter.
+     * @return Return value.
      */
     static std::optional<ModelMetadata> read_gguf_metadata(const std::string& path);
     
     /**
-     * @brief Read SafeTensors metadata
+     * @brief Read safetensors metadata.
+     * @param[in] path Input parameter.
+     * @return Return value.
      */
     static std::optional<ModelMetadata> read_safetensors_metadata(const std::string& path);
     
     /**
-     * @brief Detect architecture from metadata
+     * @brief Detect architecture.
+     * @param[in] metadata Input parameter.
+     * @return Return value.
      */
     static ModelArchitecture detect_architecture(const json& metadata);
     
     /**
-     * @brief Get quantization memory reduction factor
+     * @brief Get quantization reduction.
+     * @param[in] quant_type Input parameter.
+     * @return Return value.
      */
     static float get_quantization_reduction(const std::string& quant_type);
 };

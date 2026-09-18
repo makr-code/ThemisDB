@@ -27,17 +27,19 @@ namespace {
 // Utilities
 // ============================================================================
 
-/// Returns true if n is a positive power of two.
 [[nodiscard]] constexpr bool isPow2(std::size_t n) noexcept {
     return n > 0 && (n & (n - 1)) == 0;
 }
 
-/// Compute the n×n normalised Hadamard matrix (H/sqrt(n)) in row-major order.
-/// Requires n to be a power of two.
 [[nodiscard]] std::vector<float> buildHadamardMatrix(std::size_t n) {
     assert(isPow2(n));
     // H[i][j] = (-1)^{popcount(i & j)} / sqrt(n)
     const float scale = 1.0f / std::sqrt(static_cast<float>(n));
+    /**
+     * @brief H.
+     * @param[in,out] n Input/output parameter.
+     * @return Return value.
+     */
     std::vector<float> H(n * n);
     for (std::size_t i = 0; i < n; ++i) {
         for (std::size_t j = 0; j < n; ++j) {
@@ -53,11 +55,12 @@ namespace {
     return H;
 }
 
-// ============================================================================
-// WHT butterfly applied in-place to a fiber of length n.
-// Entry point for apply(): operates on a pre-allocated float* slice.
-// Complexity: O(n log₂ n) — butterfly-structured.
-// ============================================================================
+/**
+ * @brief ============================================================================ WHT butterfly applied in-place to a fiber of length n.
+ * @param[in,out] data Input/output parameter.
+ * @param[in] n Input parameter.
+ * @details Entry point for apply(): operates on a pre-allocated float* slice. Complexity: O(n log₂ n) — butterfly-structured. ============================================================================ Calls: assert(), isPow2(), std::sqrt().
+ */
 
 void whtTransform(float* data, std::size_t n) {
     assert(isPow2(n));
@@ -108,18 +111,12 @@ void whtTransform(float* data, std::size_t n) {
 
 namespace {
 
-/// @brief Composite Simpson's-rule Radon projection of a 1-D fiber.
-///
-/// Treats `data[0..n-1]` as a uniform grid f(0), f(1), …, f(n-1) and
-/// replaces each entry with the discrete line integral (projection angle α_i):
-///
-///   data[i] ← (1/n) * Σ_{j} w_j * f(j) * cos(π * i * j / n)
-///
-/// The cosine modulation is the discrete Radon basis at angle i*π/n;
-/// the weights w_j follow Simpson's 1/3 rule (1-4-2-4-…-4-1) scaled by n/3.
-///
-/// @param data  In/out array of length n (must be ≥ 2).
-/// @param n     Length of the fiber.
+/**
+ * @brief Radon Fiber Transform.
+ * @param[in,out] data Input/output parameter.
+ * @param[in] n Input parameter.
+ * @details Calls: result(), std::cos().
+ */
 void radonFiberTransform(float* data, std::size_t n) {
     if (n < 2) return; // trivial fiber — nothing to transform
     const float h = 1.0f / static_cast<float>(n - 1); // step size
@@ -147,15 +144,12 @@ void radonFiberTransform(float* data, std::size_t n) {
     }
 }
 
-/// @brief Trapezoidal-rule Green's function convolution of a 1-D fiber.
-///
-/// Kernel: g(r) = 1 / (1 + r)  where r = |i - j|.
-/// Output: y[i] = h * Σ_{j} w_j * g(|i-j|) * f(j),
-///   with trapezoidal weights (h/2 at endpoints, h interior).
-/// Normalised by the DC gain so that a constant input is preserved.
-///
-/// @param data  In/out array of length n (must be ≥ 2).
-/// @param n     Length of the fiber.
+/**
+ * @brief Greens Fiber Transform.
+ * @param[in,out] data Input/output parameter.
+ * @param[in] n Input parameter.
+ * @details Calls: kernel(), ones(), result().
+ */
 void greensFiberTransform(float* data, std::size_t n) {
     if (n < 2) {
       return;
@@ -201,60 +195,111 @@ void greensFiberTransform(float* data, std::size_t n) {
 #endif // THEMIS_HAS_BUTTERFLY_NATIVE
 
 namespace {
+/**
+ * @brief Fourier Transform Fn Mutex.
+ * @return Return value.
+ * @details Implements fourierTransformFnMutex without additional internal calls.
+ */
 std::mutex& fourierTransformFnMutex() { static std::mutex m; return m; }
+/**
+ * @brief Fourier Transform Fn Storage.
+ * @return Return value.
+ * @details Implements fourierTransformFnStorage without additional internal calls.
+ */
 TensorButterflyOperator::FourierTransformFn& fourierTransformFnStorage() {
     static TensorButterflyOperator::FourierTransformFn fn;
     return fn;
 }
 
 // STUB #268 — RADON bridge storage
+/**
+ * @brief Radon Transform Fn Mutex.
+ * @return Return value.
+ * @details Implements radonTransformFnMutex without additional internal calls.
+ */
 std::mutex& radonTransformFnMutex() { static std::mutex m; return m; }
+/**
+ * @brief Radon Transform Fn Storage.
+ * @return Return value.
+ * @details Implements radonTransformFnStorage without additional internal calls.
+ */
 TensorButterflyOperator::RadonTransformFn& radonTransformFnStorage() {
     static TensorButterflyOperator::RadonTransformFn fn;
     return fn;
 }
 
 // STUB #268 — GREENS_FUNCTION bridge storage
+/**
+ * @brief Greens Transform Fn Mutex.
+ * @return Return value.
+ * @details Implements greensTransformFnMutex without additional internal calls.
+ */
 std::mutex& greensTransformFnMutex() { static std::mutex m; return m; }
+/**
+ * @brief Greens Transform Fn Storage.
+ * @return Return value.
+ * @details Implements greensTransformFnStorage without additional internal calls.
+ */
 TensorButterflyOperator::GreensTransformFn& greensTransformFnStorage() {
     static TensorButterflyOperator::GreensTransformFn fn;
     return fn;
 }
 } // namespace
 
-/*static*/
+/**
+ * @brief static
+ * @param[in] fn Input parameter.
+ * @details Calls: lk(), fourierTransformFnMutex(), fourierTransformFnStorage(), std::move().
+ */
 void TensorButterflyOperator::setFourierTransformFn(FourierTransformFn fn) {
     std::lock_guard<std::mutex> lk(fourierTransformFnMutex());
     fourierTransformFnStorage() = std::move(fn);
 }
 
-/*static*/
+/**
+ * @brief static
+ * @details Calls: lk(), fourierTransformFnMutex(), fourierTransformFnStorage().
+ */
 void TensorButterflyOperator::clearFourierTransformFn() {
     std::lock_guard<std::mutex> lk(fourierTransformFnMutex());
     fourierTransformFnStorage() = {};
 }
 
 // STUB #268 — RADON bridge
-/*static*/
+/**
+ * @brief static
+ * @param[in] fn Input parameter.
+ * @details Calls: lk(), radonTransformFnMutex(), radonTransformFnStorage(), std::move().
+ */
 void TensorButterflyOperator::setRadonTransformFn(RadonTransformFn fn) {
     std::lock_guard<std::mutex> lk(radonTransformFnMutex());
     radonTransformFnStorage() = std::move(fn);
 }
 
-/*static*/
+/**
+ * @brief static
+ * @details Calls: lk(), radonTransformFnMutex(), radonTransformFnStorage().
+ */
 void TensorButterflyOperator::clearRadonTransformFn() {
     std::lock_guard<std::mutex> lk(radonTransformFnMutex());
     radonTransformFnStorage() = {};
 }
 
 // STUB #268 — GREENS_FUNCTION bridge
-/*static*/
+/**
+ * @brief static
+ * @param[in] fn Input parameter.
+ * @details Calls: lk(), greensTransformFnMutex(), greensTransformFnStorage(), std::move().
+ */
 void TensorButterflyOperator::setGreensTransformFn(GreensTransformFn fn) {
     std::lock_guard<std::mutex> lk(greensTransformFnMutex());
     greensTransformFnStorage() = std::move(fn);
 }
 
-/*static*/
+/**
+ * @brief static
+ * @details Calls: lk(), greensTransformFnMutex(), greensTransformFnStorage().
+ */
 void TensorButterflyOperator::clearGreensTransformFn() {
     std::lock_guard<std::mutex> lk(greensTransformFnMutex());
     greensTransformFnStorage() = {};
@@ -369,6 +414,11 @@ TensorButterflyOperator::apply(const storage::TTTrain& data) const {
             const std::size_t r_left  = core.r_left;
             const std::size_t n_k     = core.n;
             const std::size_t r_right = core.r_right;
+            /**
+             * @brief Fiber.
+             * @param[in] n_k Input parameter.
+             * @return Return value.
+             */
             std::vector<float> fiber(n_k);
             for (std::size_t al = 0; al < r_left; ++al) {
                 for (std::size_t ar = 0; ar < r_right; ++ar) {
@@ -391,6 +441,11 @@ TensorButterflyOperator::apply(const storage::TTTrain& data) const {
             const std::size_t r_left  = core.r_left;
             const std::size_t n_k     = core.n;
             const std::size_t r_right = core.r_right;
+            /**
+             * @brief Fiber.
+             * @param[in] n_k Input parameter.
+             * @return Return value.
+             */
             std::vector<float> fiber(n_k);
             for (std::size_t al = 0; al < r_left; ++al) {
                 for (std::size_t ar = 0; ar < r_right; ++ar) {
@@ -427,6 +482,11 @@ TensorButterflyOperator::apply(const storage::TTTrain& data) const {
             const std::size_t r_left  = core.r_left;
             const std::size_t n_k     = core.n;
             const std::size_t r_right = core.r_right;
+            /**
+             * @brief Fiber.
+             * @param[in] n_k Input parameter.
+             * @return Return value.
+             */
             std::vector<float> fiber(n_k);
             for (std::size_t al = 0; al < r_left; ++al) {
                 for (std::size_t ar = 0; ar < r_right; ++ar) {
@@ -498,6 +558,11 @@ TensorButterflyOperator::apply(const storage::TTTrain& data) const {
         const std::size_t n_k     = core.n;
         const std::size_t r_right = core.r_right;
 
+        /**
+         * @brief Fiber.
+         * @param[in] n_k Input parameter.
+         * @return Return value.
+         */
         std::vector<float> fiber(n_k);
 
         for (std::size_t al = 0; al < r_left; ++al) {

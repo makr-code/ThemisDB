@@ -54,9 +54,12 @@ const char *interconnectTypeName(InterconnectType t) noexcept {
     }
 }
 
-// ---------------------------------------------------------------------------
-// GPUClusterTopology::detect
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- GPUClusterTopology::detect ---------------------------------------------------------------------------
+ * @param[in] devices Input parameter.
+ * @return Return value.
+ * @details Calls: size(), empty(), assign(), cudaDeviceCanAccessPeer(), push_back().
+ */
 
 GPUClusterTopology GPUClusterTopology::detect(const std::vector<DeviceInfo> &devices) {
     GPUClusterTopology topo;
@@ -167,6 +170,11 @@ GPUClusterTopology GPUClusterTopology::detect(const std::vector<DeviceInfo> &dev
 // Cluster node management
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Add Node.
+ * @param[in] node Input parameter.
+ * @details Calls: empty(), emplace(), push_back().
+ */
 void GPUClusterTopology::addNode(const ClusterNode &node) {
     if (node.node_id.empty()) {
         return;
@@ -182,6 +190,11 @@ void GPUClusterTopology::addNode(const ClusterNode &node) {
     nodes.push_back(node);
 }
 
+/**
+ * @brief Remove Node.
+ * @param[in] node_id Identifier of the node.
+ * @details Calls: erase(), std::remove_if(), begin(), end().
+ */
 void GPUClusterTopology::removeNode(const std::string &node_id) {
     node_map_.erase(node_id);
 
@@ -195,6 +208,11 @@ void GPUClusterTopology::removeNode(const std::string &node_id) {
                 links.end());
 }
 
+/**
+ * @brief Add Link.
+ * @param[in] link Input parameter.
+ * @details Calls: is_inter_node(), find(), end(), push_back().
+ */
 void GPUClusterTopology::addLink(const TopologyLink &link) {
     if (link.is_inter_node()) {
         if (node_map_.find(link.src_node_id) == node_map_.end()) {

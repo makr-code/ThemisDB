@@ -26,6 +26,12 @@ nlohmann::json SemanticCache::CacheEntry::toJson() const {
         {"response", response}, {"metadata", metadata}, {"timestamp_ms", timestamp_ms}, {"ttl_seconds", ttl_seconds}};
 }
 
+/**
+ * @brief From Json.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: at(), value(), nlohmann::json::object(), THEMIS_DEBUG().
+ */
 std::optional<SemanticCache::CacheEntry> SemanticCache::CacheEntry::fromJson(const nlohmann::json &j) {
     try {
         CacheEntry entry;
@@ -67,6 +73,11 @@ SemanticCache::SemanticCache(rocksdb::TransactionDB *db, rocksdb::ColumnFamilyHa
         const auto interval = std::chrono::seconds(bg_expiry_interval_s);
         bg_expiry_thread_   = std::thread([this, interval]() {
             while (!bg_stop_.load(std::memory_order_acquire)) {
+                /**
+                 * @brief Lk.
+                 * @param[in] bg_cv_mutex_ Input parameter.
+                 * @return Return value.
+                 */
                 std::unique_lock<std::mutex> lk(bg_cv_mutex_);
                 bg_cv_.wait_for(lk, interval, [this]() { return bg_stop_.load(std::memory_order_acquire); });
                 if (!bg_stop_.load(std::memory_order_acquire)) {
@@ -112,6 +123,16 @@ bool SemanticCache::isExpired(const CacheEntry &entry) const {
     return now_ms > expiry_ms;
 }
 
+/**
+ * @brief Put.
+ * @param[in] prompt Input parameter.
+ * @param[in] params Input parameter.
+ * @param[in] response Input parameter.
+ * @param[in] metadata Input parameter.
+ * @param[in] ttl_seconds Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: computeKey(), getCurrentTimestampMs(), toJson(), dump(), Put(), ok(), fetch_add(), size().
+ */
 bool SemanticCache::put(const std::string &prompt, const nlohmann::json &params, const std::string &response,
                         const nlohmann::json &metadata, int ttl_seconds) {
     std::string key = computeKey(prompt, params);
@@ -143,6 +164,13 @@ bool SemanticCache::put(const std::string &prompt, const nlohmann::json &params,
     return s.ok();
 }
 
+/**
+ * @brief Query.
+ * @param[in] prompt Input parameter.
+ * @param[in] params Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::steady_clock::now(), computeKey(), Get(), count(), fetch_add(), ok(), nlohmann::json::parse(), THEMIS_DEBUG().
+ */
 std::optional<SemanticCache::CacheEntry> SemanticCache::query(const std::string &prompt, const nlohmann::json &params) {
     auto start = std::chrono::steady_clock::now();
 
@@ -216,6 +244,11 @@ SemanticCache::Stats SemanticCache::getStats() const {
     return stats;
 }
 
+/**
+ * @brief Clear Expired.
+ * @return Return value.
+ * @details Calls: it(), NewIterator(), THEMIS_ERROR(), SeekToFirst(), Valid(), Next(), value(), ToString().
+ */
 uint64_t SemanticCache::clearExpired() {
     rocksdb::ReadOptions read_opts;
     std::unique_ptr<rocksdb::Iterator> it(cf_handle_ ? db_->NewIterator(read_opts, cf_handle_)
@@ -299,6 +332,11 @@ uint64_t SemanticCache::clearExpired() {
     return removed;
 }
 
+/**
+ * @brief Clear.
+ * @return True when the operation succeeds.
+ * @details Calls: it(), NewIterator(), THEMIS_ERROR(), SeekToFirst(), Valid(), Next(), Delete(), key().
+ */
 bool SemanticCache::clear() {
     rocksdb::ReadOptions read_opts;
     std::unique_ptr<rocksdb::Iterator> it(cf_handle_ ? db_->NewIterator(read_opts, cf_handle_)

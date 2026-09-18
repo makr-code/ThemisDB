@@ -32,6 +32,12 @@ nlohmann::json DLQEntry::toJson() const {
     };
 }
 
+/**
+ * @brief From Json.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: value(), uint64_t(), int64_t(), contains().
+ */
 DLQEntry DLQEntry::fromJson(const nlohmann::json& j) {
     DLQEntry entry;
     entry.dlq_sequence    = j.value("dlq_sequence",   uint64_t(0));
@@ -61,6 +67,12 @@ std::string DeadLetterQueue::makeKey(uint64_t dlq_sequence) const {
     return std::string(buf);
 }
 
+/**
+ * @brief Next Sequence.
+ * @return Return value.
+ * @throws error::sequenceGenerationFailed if an error occurs.
+ * @details Calls: lock(), Get(), ok(), empty(), std::stoull(), std::to_string(), Put(), ToString().
+ */
 uint64_t DeadLetterQueue::nextSequence() {
     std::lock_guard<std::mutex> lock(sequence_mutex_);
 
@@ -96,6 +108,15 @@ uint64_t DeadLetterQueue::nextSequence() {
     return next_seq;
 }
 
+/**
+ * @brief Enqueue.
+ * @param[in] event Input parameter.
+ * @param[in] failure_reason Input parameter.
+ * @param[in] attempt_count Input parameter.
+ * @return Return value.
+ * @throws error::dbOperationFailed if an error occurs.
+ * @details Calls: nextSequence(), std::chrono::system_clock::now(), time_since_epoch(), count(), makeKey(), toJson(), dump(), Put().
+ */
 DLQEntry DeadLetterQueue::enqueue(const Changefeed::ChangeEvent& event,
                                   const std::string& failure_reason,
                                   int attempt_count) {
@@ -151,6 +172,13 @@ DLQEntry DeadLetterQueue::getEntry(uint64_t dlq_sequence) const {
     return DLQEntry::fromJson(nlohmann::json::parse(value));
 }
 
+/**
+ * @brief Replay.
+ * @param[in] dlq_sequence Input parameter.
+ * @param[in,out] changefeed Input/output parameter.
+ * @return Return value.
+ * @details Calls: getEntry(), recordEvent(), remove(), THEMIS_WARN(), THEMIS_INFO().
+ */
 Changefeed::ChangeEvent DeadLetterQueue::replay(uint64_t dlq_sequence,
                                                  Changefeed& changefeed) {
     DLQEntry entry = getEntry(dlq_sequence);
@@ -171,6 +199,12 @@ Changefeed::ChangeEvent DeadLetterQueue::replay(uint64_t dlq_sequence,
     return recorded;
 }
 
+/**
+ * @brief Remove.
+ * @param[in] dlq_sequence Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: makeKey(), Get(), IsNotFound(), ok(), THEMIS_ERROR(), ToString(), Delete(), THEMIS_DEBUG().
+ */
 bool DeadLetterQueue::remove(uint64_t dlq_sequence) {
     const std::string key = makeKey(dlq_sequence);
     rocksdb::ReadOptions read_opts;
@@ -211,6 +245,11 @@ bool DeadLetterQueue::remove(uint64_t dlq_sequence) {
     return false;
 }
 
+/**
+ * @brief Drain.
+ * @return Return value.
+ * @details Calls: reset(), NewIterator(), makeKey(), Seek(), Valid(), key(), ToString(), compare().
+ */
 size_t DeadLetterQueue::drain() {
     rocksdb::ReadOptions  read_opts;
     rocksdb::WriteOptions write_opts;

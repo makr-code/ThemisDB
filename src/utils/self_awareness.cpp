@@ -46,8 +46,8 @@
 namespace themis::util {
 
 /**
- * @brief Load configuration from YAML
- * @param[in] yaml_path Input parameter.
+ * @brief Load From YAML.
+ * @param[in] yaml_path Path to the yaml.
  * @return Return value.
  * @details Calls: THEMIS_UTILS_HAS_YAML_CPP(), YAML::LoadFile(), std::chrono::seconds().
  */
@@ -123,7 +123,7 @@ SelfAwareness::~SelfAwareness() {
 }
 
 /**
- * @brief Take snapshot
+ * @brief Take Snapshot.
  * @param[in] triggered_by Input parameter.
  * @return Return value.
  * @details Calls: std::chrono::system_clock::now(), collectHealthMetrics(), collectCapabilityState(), collectQueryPerformance(), detectAnomalies(), assessOverallHealth(), size(), std::min().
@@ -176,7 +176,7 @@ SelfAwareness::Snapshot SelfAwareness::takeSnapshot(const std::string& triggered
 }
 
 /**
- * @brief Trigger on audit signing
+ * @brief On Audit Signing.
  * @param[in] audit_entry Input parameter.
  * @return Return value.
  * @details Calls: takeSnapshot(), empty(), audit_file(), is_open(), time_since_epoch(), count(), is_null(), dump().
@@ -196,12 +196,6 @@ SelfAwareness::Snapshot SelfAwareness::onAuditSigning(const nlohmann::json& audi
         try {
             std::string audit_log_path =
                 config_.snapshot_directory + "/self_awareness_audit.jsonl";
-            /**
-             * @brief Audit file.
-             * @param[in] audit_log_path Input parameter.
-             * @param[in] app Input parameter.
-             * @return Return value.
-             */
             std::ofstream audit_file(audit_log_path, std::ios::app);
             if (audit_file.is_open()) {
                 nlohmann::json entry;
@@ -661,7 +655,7 @@ nlohmann::json SelfAwareness::Snapshot::toJSON() const {
 }
 
 /**
- * @brief Persist snapshot
+ * @brief Persist Snapshot.
  * @param[in] snapshot Input parameter.
  * @details Calls: std::filesystem::create_directories(), time_since_epoch(), count(), std::to_string(), ofs(), toJSON(), dump().
  */
@@ -675,11 +669,6 @@ void SelfAwareness::persistSnapshot(const Snapshot& snapshot) {
         std::string filename = config_.snapshot_directory + "/snapshot_" +
                                std::to_string(ms) + ".json";
         
-        /**
-         * @brief Ofs.
-         * @param[in] filename Input parameter.
-         * @return Return value.
-         */
         std::ofstream ofs(filename);
         if (ofs) {
             ofs << snapshot.toJSON().dump(2) << "\n";
@@ -696,7 +685,7 @@ void SelfAwareness::persistSnapshot(const Snapshot& snapshot) {
 }
 
 /**
- * @brief Load snapshots
+ * @brief Load Snapshots.
  * @details Calls: std::filesystem::exists(), std::filesystem::directory_iterator(), is_regular_file(), path(), filename(), string(), rfind(), push_back().
  */
 void SelfAwareness::loadSnapshots() {
@@ -725,11 +714,6 @@ void SelfAwareness::loadSnapshots() {
 
         for (const auto& path : files) {
             try {
-                /**
-                 * @brief Ifs.
-                 * @param[in] path Input parameter.
-                 * @return Return value.
-                 */
                 std::ifstream ifs(path);
                 if (!ifs) {
                   continue;
@@ -780,7 +764,7 @@ void SelfAwareness::loadSnapshots() {
 }
 
 /**
- * @brief Prune snapshots
+ * @brief Prune Snapshots.
  * @details Calls: size(), erase(), begin().
  */
 void SelfAwareness::pruneSnapshots() {

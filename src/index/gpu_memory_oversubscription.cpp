@@ -34,7 +34,6 @@ namespace index {
 // GPUMemoryOversubscriptionManager::Impl
 // =============================================================================
 
-/** @brief GPUMemoryOversubscriptionManager::Impl. */
 class GPUMemoryOversubscriptionManager::Impl {
 public:
     // -----------------------------------------------------------------------
@@ -95,9 +94,6 @@ public:
 
     explicit Impl(const Config& cfg) : config(cfg) {}
 
-    /// @brief RAII cleanup: frees all VRAM-resident partitions on destruction.
-    /// @note  Does not acquire the mutex (destructor invariant: no concurrent access).
-    /// @note  Does not update vram_used_bytes / eviction counters (object teardown).
     ~Impl() noexcept {
         // RAII cleanup: evict all VRAM-resident partitions on destruction
         for (auto& [id, p] : partitions) {
@@ -116,6 +112,11 @@ public:
     // Helpers
     // -----------------------------------------------------------------------
 
+    /**
+     * @brief Now Ns.
+     * @return Return value.
+     * @details Calls: steady_clock::now(), time_since_epoch(), count().
+     */
     static uint64_t nowNs() {
         using namespace std::chrono;
         return static_cast<uint64_t>(
@@ -129,13 +130,21 @@ public:
                    : SIZE_MAX;
     }
 
+    /**
+     * @brief Partition Bytes.
+     * @param[in] p Input parameter.
+     * @return Return value.
+     * @details Implements partitionBytes without additional internal calls.
+     */
     static size_t partitionBytes(const Partition& p) {
         return p.num_vectors * p.dimension * sizeof(float);
     }
 
-    // -----------------------------------------------------------------------
-    // Internal: evict one partition from VRAM (caller holds mutex).
-    // -----------------------------------------------------------------------
+    /**
+     * @brief ----------------------------------------------------------------------- Internal: evict one partition from VRAM (caller holds mutex).
+     * @param[in,out] p Input/output parameter.
+     * @details ----------------------------------------------------------------------- Calls: partitionBytes(), defined(), data(), themis::gpu::GPUUnifiedMemoryAllocator::GetInstance(), free().
+     */
 
     void evictPartitionLocked(Partition& p) {
         if (!p.in_vram) {
@@ -158,9 +167,10 @@ public:
         ++evictions;
     }
 
-    // -----------------------------------------------------------------------
-    // Internal: evict the LRU hot partition (caller holds mutex).
-    // -----------------------------------------------------------------------
+    /**
+     * @brief ----------------------------------------------------------------------- Internal: evict the LRU hot partition (caller holds mutex).
+     * @details ----------------------------------------------------------------------- Calls: empty(), back(), pop_back(), erase(), find(), end(), evictPartitionLocked().
+     */
 
     void evictLRULocked() {
         if (lru_list.empty()) {
@@ -177,11 +187,12 @@ public:
         }
     }
 
-    // -----------------------------------------------------------------------
-    // Internal: ensure the VRAM budget has room for `needed_bytes`.
-    // Evicts LRU partitions until enough room is available or no more hot
-    // partitions exist.  Returns true when room was found.
-    // -----------------------------------------------------------------------
+    /**
+     * @brief ----------------------------------------------------------------------- Internal: ensure the VRAM budget has room for `needed_bytes`.
+     * @param[in] needed_bytes Input parameter.
+     * @return True when the operation succeeds.
+     * @details Evicts LRU partitions until enough room is available or no more hot partitions exist. Returns true when room was found. ----------------------------------------------------------------------- Calls: vramBudgetBytes(), empty(), evictLRULocked().
+     */
 
     bool ensureVRAMRoom(size_t needed_bytes) {
         const size_t budget = vramBudgetBytes();
@@ -194,9 +205,12 @@ public:
         return (vram_used_bytes + needed_bytes <= budget);
     }
 
-    // -----------------------------------------------------------------------
-    // Internal: load a partition into VRAM (caller holds mutex).
-    // -----------------------------------------------------------------------
+    /**
+     * @brief ----------------------------------------------------------------------- Internal: load a partition into VRAM (caller holds mutex).
+     * @param[in,out] p Input/output parameter.
+     * @return True when the operation succeeds.
+     * @details ----------------------------------------------------------------------- Calls: partitionBytes(), ensureVRAMRoom(), THEMIS_ERROR(), defined(), themis::gpu::GPUUnifiedMemoryAllocator::isSupported(), std::to_string(), themis::gpu::GPUUnifiedMemoryAllocator::GetInstance(), allocate().
+     */
 
     bool loadPartitionLocked(Partition& p) {
         if (p.in_vram) {
@@ -245,9 +259,11 @@ public:
         return true;
     }
 
-    // -----------------------------------------------------------------------
-    // Internal: update LRU position (caller holds mutex).
-    // -----------------------------------------------------------------------
+    /**
+     * @brief ----------------------------------------------------------------------- Internal: update LRU position (caller holds mutex).
+     * @param[in] partition_id Identifier of the partition.
+     * @details ----------------------------------------------------------------------- Calls: find(), end(), erase(), push_front(), begin().
+     */
 
     void touchLRULocked(size_t partition_id) {
         // Iterator Safety (A-2.1): Ensure safe iterator handling
@@ -276,10 +292,11 @@ public:
         return -1;
     }
 
-    // -----------------------------------------------------------------------
-    // Internal: apply prefetch strategy after accessing `accessed_id`.
-    // Caller holds mutex.
-    // -----------------------------------------------------------------------
+    /**
+     * @brief ----------------------------------------------------------------------- Internal: apply prefetch strategy after accessing `accessed_id`.
+     * @param[in] accessed_id Identifier of the accessed.
+     * @details Caller holds mutex. ----------------------------------------------------------------------- Calls: insertionIndex(), size(), rbegin(), rend(), find(), end(), begin(), partitionBytes().
+     */
 
     void applyPrefetchLocked(size_t accessed_id) {
         if (config.prefetch_strategy == PrefetchStrategy::NONE) {
@@ -401,6 +418,15 @@ GPUMemoryOversubscriptionManager::~GPUMemoryOversubscriptionManager() {
 // addPartition
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Add Partition.
+ * @param[in] flat_data Input parameter.
+ * @param[in] num_vectors Input parameter.
+ * @param[in] dimension Input parameter.
+ * @param[in] tag Input parameter.
+ * @return Return value.
+ * @details Calls: lk(), push_back(), emplace(), std::move().
+ */
 size_t GPUMemoryOversubscriptionManager::addPartition(
     const std::vector<float>& flat_data,
     size_t num_vectors,
@@ -429,6 +455,12 @@ size_t GPUMemoryOversubscriptionManager::addPartition(
 // removePartition
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Remove Partition.
+ * @param[in] partition_id Identifier of the partition.
+ * @return True when the operation succeeds.
+ * @details Calls: lk(), find(), end(), evictPartitionLocked(), Impl::partitionBytes(), erase(), std::remove(), begin().
+ */
 bool GPUMemoryOversubscriptionManager::removePartition(size_t partition_id) {
     std::lock_guard<std::mutex> lk(pImpl_->mutex);
 
@@ -468,6 +500,12 @@ bool GPUMemoryOversubscriptionManager::removePartition(size_t partition_id) {
 // accessPartition
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Access Partition.
+ * @param[in] partition_id Identifier of the partition.
+ * @return True when the operation succeeds.
+ * @details Calls: lk(), find(), end(), loadPartitionLocked(), touchLRULocked(), Impl::nowNs(), applyPrefetchLocked().
+ */
 bool GPUMemoryOversubscriptionManager::accessPartition(size_t partition_id) {
     std::lock_guard<std::mutex> lk(pImpl_->mutex);
 
@@ -500,6 +538,12 @@ bool GPUMemoryOversubscriptionManager::accessPartition(size_t partition_id) {
 // evictPartition
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Evict Partition.
+ * @param[in] partition_id Identifier of the partition.
+ * @return True when the operation succeeds.
+ * @details Calls: lk(), find(), end(), erase(), evictPartitionLocked().
+ */
 bool GPUMemoryOversubscriptionManager::evictPartition(size_t partition_id) {
     std::lock_guard<std::mutex> lk(pImpl_->mutex);
 
@@ -619,6 +663,11 @@ std::vector<size_t> GPUMemoryOversubscriptionManager::getAllPartitionIds() const
 // prefetchPartition
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Prefetch Partition.
+ * @param[in] partition_id Identifier of the partition.
+ * @details Calls: lk(), find(), end(), Impl::partitionBytes(), vramBudgetBytes(), loadPartitionLocked().
+ */
 void GPUMemoryOversubscriptionManager::prefetchPartition(size_t partition_id) {
     std::lock_guard<std::mutex> lk(pImpl_->mutex);
 
@@ -648,6 +697,11 @@ void GPUMemoryOversubscriptionManager::prefetchPartition(size_t partition_id) {
 // setPrefetchStrategy
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Set Prefetch Strategy.
+ * @param[in] strategy Input parameter.
+ * @details Calls: lk().
+ */
 void GPUMemoryOversubscriptionManager::setPrefetchStrategy(
     PrefetchStrategy strategy) {
     std::lock_guard<std::mutex> lk(pImpl_->mutex);
@@ -667,6 +721,11 @@ PrefetchStrategy GPUMemoryOversubscriptionManager::getPrefetchStrategy() const {
 // setVRAMBudgetMB
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Set VRAMBudget MB.
+ * @param[in] mb Input parameter.
+ * @details Calls: lk(), empty(), evictLRULocked().
+ */
 void GPUMemoryOversubscriptionManager::setVRAMBudgetMB(size_t mb) {
     std::lock_guard<std::mutex> lk(pImpl_->mutex);
     pImpl_->config.vram_budget_mb = mb;

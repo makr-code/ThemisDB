@@ -34,6 +34,10 @@ PagedKVCacheManager::~PagedKVCacheManager() noexcept {
     // Members are destroyed automatically after the try/catch block exits.
 }
 
+/**
+ * @brief Initialize Blocks.
+ * @details Calls: resize(), reserve(), push_back().
+ */
 void PagedKVCacheManager::initializeBlocks() {
     blocks_.resize(config_.num_blocks);
     free_block_ids_.reserve(config_.num_blocks);
@@ -49,6 +53,12 @@ void PagedKVCacheManager::initializeBlocks() {
     }
 }
 
+/**
+ * @brief Allocate Blocks.
+ * @param[in] num_blocks Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), empty(), getFreeBlock(), push_back().
+ */
 std::vector<int> PagedKVCacheManager::allocateBlocks(size_t num_blocks) {
     std::vector<int> allocated;
     allocated.reserve(num_blocks);
@@ -65,6 +75,11 @@ std::vector<int> PagedKVCacheManager::allocateBlocks(size_t num_blocks) {
     return allocated;
 }
 
+/**
+ * @brief Free Blocks.
+ * @param[in] block_ids Input parameter.
+ * @details Calls: size(), releaseBlock().
+ */
 void PagedKVCacheManager::freeBlocks(const std::vector<int>& block_ids) {
     for (int block_id : block_ids) {
         if (block_id >= 0  && static_cast<size_t>(block_id) < blocks_.size()) {
@@ -73,6 +88,14 @@ void PagedKVCacheManager::freeBlocks(const std::vector<int>& block_ids) {
     }
 }
 
+/**
+ * @brief Enable Prefix Caching.
+ * @param[in] seq_id Identifier of the seq.
+ * @param[in] parent_seq_id Identifier of the parent seq.
+ * @param[in] prefix_length Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: find(), end(), std::min(), size(), push_back().
+ */
 bool PagedKVCacheManager::enablePrefixCaching(
     uint64_t seq_id,
     uint64_t parent_seq_id,
@@ -159,6 +182,11 @@ PagedKVCacheManager::addSequence(uint64_t seq_id, size_t num_tokens) {
     return table;
 }
 
+/**
+ * @brief Remove Sequence.
+ * @param[in] seq_id Identifier of the seq.
+ * @details Calls: find(), end(), freeBlocks(), erase().
+ */
 void PagedKVCacheManager::removeSequence(uint64_t seq_id) {
     auto it = sequence_tables_.find(seq_id);
     if (it != sequence_tables_.end()) {
@@ -236,6 +264,11 @@ PagedKVCacheManager::getBlockInfo(int block_id) const {
     return invalid;
 }
 
+/**
+ * @brief Defragment.
+ * @return Return value.
+ * @details Calls: known_free(), begin(), end(), load(), find(), push_back(), insert(), spdlog::debug().
+ */
 size_t PagedKVCacheManager::defragment() {
     // Thread-safety note: like all other methods in this class, defragment()
     // assumes external synchronisation (or single-threaded use).  It is the
@@ -264,6 +297,11 @@ size_t PagedKVCacheManager::defragment() {
     return reclaimed;
 }
 
+/**
+ * @brief Get Free Block.
+ * @return Return value.
+ * @details Calls: empty(), back(), pop_back().
+ */
 int PagedKVCacheManager::getFreeBlock() {
     if (free_block_ids_.empty()) {
         return -1;
@@ -274,6 +312,11 @@ int PagedKVCacheManager::getFreeBlock() {
     return block_id;
 }
 
+/**
+ * @brief Release Block.
+ * @param[in] block_id Identifier of the block.
+ * @details Calls: size(), fetch_sub(), push_back().
+ */
 void PagedKVCacheManager::releaseBlock(int block_id) {
     if (block_id < 0 || block_id >= blocks_.size()) {
         return;
@@ -311,10 +354,20 @@ PagedKVCacheManager::CacheType PagedKVCacheManager::getCacheType() const {
     return current_cache_type_;
 }
 
+/**
+ * @brief Set Cache Type.
+ * @param[in] type Input parameter.
+ * @details Implements setCacheType without additional internal calls.
+ */
 void PagedKVCacheManager::setCacheType(CacheType type) {
     current_cache_type_ = type;
 }
 
+/**
+ * @brief Analyze And Adapt Cache Type.
+ * @return True when the operation succeeds.
+ * @details Calls: updateWorkloadMetrics(), detectWorkloadPattern(), selectOptimalCacheType().
+ */
 bool PagedKVCacheManager::analyzeAndAdaptCacheType() {
     updateWorkloadMetrics();
     
@@ -338,12 +391,22 @@ PagedKVCacheManager::WorkloadMetrics PagedKVCacheManager::getWorkloadMetrics() c
     return workload_metrics_;
 }
 
+/**
+ * @brief Set Automatic Adaptation.
+ * @param[in] enable Input parameter.
+ * @param[in] check_interval_sequences Input parameter.
+ * @details Implements setAutomaticAdaptation without additional internal calls.
+ */
 void PagedKVCacheManager::setAutomaticAdaptation(bool enable, size_t check_interval_sequences) {
     auto_adaptation_enabled_ = enable;
     adaptation_check_interval_ = check_interval_sequences;
     sequences_since_last_check_ = 0;
 }
 
+/**
+ * @brief Update Workload Metrics.
+ * @details Calls: size(), load().
+ */
 void PagedKVCacheManager::updateWorkloadMetrics() {
     workload_metrics_.total_sequences = sequence_tables_.size();
     

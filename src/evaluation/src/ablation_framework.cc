@@ -49,7 +49,6 @@ namespace evaluation {
 
 namespace {
 
-/// @brief Find the result with the best value for a metric getter.
 template <typename Getter>
 [[nodiscard]] std::string bestResult(
     const std::vector<AblationResult>& results, Getter get)
@@ -62,7 +61,6 @@ template <typename Getter>
     return it->name;
 }
 
-/// @brief Find a result by name; return nullptr if not found.
 [[nodiscard]] const AblationResult* findResult(
     const std::vector<AblationResult>& results,
     std::string_view                   name) noexcept
@@ -126,6 +124,13 @@ std::optional<double> AblationReport::ndcgGain(
 // AblationRunner
 // ============================================================================
 
+/**
+ * @brief Add Experiment.
+ * @param[in] name Input parameter.
+ * @param[in] config Input parameter.
+ * @throws AblationError if an error occurs.
+ * @details Calls: empty(), push_back(), std::move().
+ */
 void AblationRunner::addExperiment(std::string name, AblationConfig config) {
     if (name.empty()) {
         throw AblationError("Experiment name must not be empty");

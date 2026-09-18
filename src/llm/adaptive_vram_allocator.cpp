@@ -21,10 +21,6 @@ namespace themis {
 namespace llm {
 
 namespace {
-/**
- * @brief Safe multiplication with overflow checking
- * @return true if result fits in size_t, false if overflow would occur
- */
 bool checked_mul(size_t a, size_t b, size_t& out) noexcept {
     if (a != 0 && b > std::numeric_limits<size_t>::max() / a) {
         return false;
@@ -33,10 +29,6 @@ bool checked_mul(size_t a, size_t b, size_t& out) noexcept {
     return true;
 }
 
-/**
- * @brief Safe addition with overflow checking
- * @return true if result fits in size_t, false if overflow would occur
- */
 bool checked_add(size_t a, size_t b, size_t& out) noexcept {
     if (b > std::numeric_limits<size_t>::max() - a) {
         return false;
@@ -45,10 +37,6 @@ bool checked_add(size_t a, size_t b, size_t& out) noexcept {
     return true;
 }
 
-/**
- * @brief Safe scaling operation with bounds checking
- * @return true if scaled value fits in size_t, false otherwise
- */
 bool checked_scale(size_t value, double factor, size_t& out) noexcept {
     if (!std::isfinite(factor) || factor < 0.0) {
         return false;
@@ -63,7 +51,6 @@ bool checked_scale(size_t value, double factor, size_t& out) noexcept {
 } // namespace
 
 // Private implementation
-/** @brief Private implementation. */
 class AdaptiveVRAMAllocator::Impl {
 public:
     Impl() : active_allocator_(ActiveVRAMAllocator::Config{}) {}
@@ -77,6 +64,14 @@ AdaptiveVRAMAllocator::AdaptiveVRAMAllocator()
 
 AdaptiveVRAMAllocator::~AdaptiveVRAMAllocator() = default;
 
+/**
+ * @brief Calculate Optimal Allocation.
+ * @param[in] model Input parameter.
+ * @param[in] hw Input parameter.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @details Calls: std::isfinite(), checked_mul(), checked_scale(), estimateActivationMemory(), checked_add(), max(), str().
+ */
 AdaptiveVRAMAllocator::AllocationPlan AdaptiveVRAMAllocator::calculateOptimalAllocation(
     const ModelConfig& model,
     const HardwareInfo& hw,

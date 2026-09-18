@@ -20,9 +20,13 @@
 namespace themis {
 namespace llm {
 
-/** @brief Subagent coordinator implementation detail. */
 class SubagentCoordinatorImpl : public SubagentCoordinator {
 public:
+    /**
+     * @brief Subagent Coordinator Impl.
+     * @param[in] factory Input parameter.
+     * @return Return value.
+     */
     explicit SubagentCoordinatorImpl(std::shared_ptr<SubagentFactory> factory)
         : factory_(factory)
         , stats_()
@@ -51,6 +55,11 @@ public:
                 result.summary = "Subagent not found: " + id;
                 local_diagnostics.summary = result.summary;
                 {
+                    /**
+                     * @brief Lock.
+                     * @param[in] stats_mutex_ Input parameter.
+                     * @return Return value.
+                     */
                     std::lock_guard<std::mutex> lock(stats_mutex_);
                     stats_.failed_coordinations++;
                     stats_.total_coordinations++;
@@ -267,6 +276,11 @@ public:
         coordination_success = result.success;
 
         {
+            /**
+             * @brief Lock.
+             * @param[in] stats_mutex_ Input parameter.
+             * @return Return value.
+             */
             std::lock_guard<std::mutex> lock(stats_mutex_);
             stats_.total_subagent_requests += local_subagent_requests;
             stats_.total_subagent_successes += local_subagent_successes;
@@ -297,16 +311,31 @@ public:
     }
 
     CoordinationDiagnostics getLastDiagnostics() override {
+        /**
+         * @brief Lock.
+         * @param[in] stats_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(stats_mutex_);
         return diagnostics_;
     }
 
     CoordinatorStats getStats() override {
+        /**
+         * @brief Lock.
+         * @param[in] stats_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(stats_mutex_);
         return stats_;
     }
 
     void resetStats() override {
+        /**
+         * @brief Lock.
+         * @param[in] stats_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(stats_mutex_);
         stats_ = CoordinatorStats{};
     }
@@ -318,6 +347,12 @@ private:
     CoordinationDiagnostics diagnostics_;
 };
 
+/**
+ * @brief Create.
+ * @param[in] factory Input parameter.
+ * @return Return value.
+ * @details Calls: tl::make_unexpected(), std::string().
+ */
 SubagentResult<std::unique_ptr<SubagentCoordinator>> SubagentCoordinator::create(
     std::shared_ptr<SubagentFactory> factory) {
     if (!factory) {

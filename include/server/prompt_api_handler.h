@@ -31,32 +31,8 @@ class PromptManager;
 
 namespace server {
 
-/**
- * @brief Handler for Prompt Template Operations
- * 
- * This handler manages all prompt template-related endpoints:
- * - POST /prompt_template - Create a new prompt template
- * - GET /prompt_template - List all prompt templates
- * - GET /prompt_template/:id - Get a specific prompt template
- * - PUT /prompt_template/:id - Update a prompt template
- * 
- * Features:
- * - Prompt template management for LLM operations
- * - Template versioning
- * - Variable substitution support
- * - Template metadata and tagging
- * 
- * Extracted from http_server.cpp (~250 lines) to improve maintainability.
- */
 class PromptApiHandler {
 public:
-    /**
-     * @brief Construct a new Prompt API Handler
-     * 
-     * @param storage Storage backend
-     * @param prompt_manager Prompt template manager
-     * @param auth Authentication/authorization middleware
-     */
     PromptApiHandler(
         std::shared_ptr<RocksDBWrapper> storage,
         std::shared_ptr<prompt_engineering::PromptManager> prompt_manager,
@@ -64,30 +40,30 @@ public:
     );
 
     /**
-     * @brief Handle POST /prompt_template request
-     * @param req HTTP request with template data
-     * @return HTTP response with creation status and template ID
+     * @brief Handle Post.
+     * @param[in] req Input parameter.
+     * @return Return value.
      */
     http::response<http::string_body> handlePost(const http::request<http::string_body>& req);
 
     /**
-     * @brief Handle GET /prompt_template request (list all)
-     * @param req HTTP request
-     * @return HTTP response with list of templates
+     * @brief Handle List.
+     * @param[in] req Input parameter.
+     * @return Return value.
      */
     http::response<http::string_body> handleList(const http::request<http::string_body>& req);
 
     /**
-     * @brief Handle GET /prompt_template/:id request
-     * @param req HTTP request
-     * @return HTTP response with template data
+     * @brief Handle Get.
+     * @param[in] req Input parameter.
+     * @return Return value.
      */
     http::response<http::string_body> handleGet(const http::request<http::string_body>& req);
 
     /**
-     * @brief Handle PUT /prompt_template/:id request
-     * @param req HTTP request with updated template data
-     * @return HTTP response with update status
+     * @brief Handle Put.
+     * @param[in] req Input parameter.
+     * @return Return value.
      */
     http::response<http::string_body> handlePut(const http::request<http::string_body>& req);
 
@@ -96,10 +72,29 @@ private:
     std::shared_ptr<prompt_engineering::PromptManager> prompt_manager_;
     std::shared_ptr<themis::AuthMiddleware> auth_;
 
-    // Helper methods (to be implemented)
+    /**
+     * @brief Extract Path Param.
+     * @param[in] target Input parameter.
+     * @param[in] prefix Input parameter.
+     * @return Return value.
+     */
     std::string extractPathParam(const std::string& target, const std::string& prefix);
+    /**
+     * @brief Make Error Response.
+     * @param[in] status Input parameter.
+     * @param[in] message Input parameter.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> makeErrorResponse(
         http::status status, const std::string& message, const http::request<http::string_body>& req);
+    /**
+     * @brief Make Response.
+     * @param[in] status Input parameter.
+     * @param[in] body Input parameter.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> makeResponse(
         http::status status, const std::string& body, const http::request<http::string_body>& req);
 };

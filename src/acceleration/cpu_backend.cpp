@@ -41,6 +41,17 @@ float CPUVectorBackend::computeCosineDistance(const float *a, const float *b, si
     return themis::simd::cosine_distance(a, b, dim);
 }
 
+/**
+ * @brief Compute Distances.
+ * @param[in] queries Input parameter.
+ * @param[in] numQueries Input parameter.
+ * @param[in] dim Input parameter.
+ * @param[in] vectors Input parameter.
+ * @param[in] numVectors Input parameter.
+ * @param[in] useL2 Input parameter.
+ * @return Return value.
+ * @details Calls: clearError(), setError(), std::move(), BatchValidator::validateVectorBatch(), name(), distances(), computeL2Distance(), computeCosineDistance().
+ */
 std::vector<float> CPUVectorBackend::computeDistances(const float *queries, size_t numQueries, size_t dim,
                                                       const float *vectors, size_t numVectors, bool useL2) {
     clearError();
@@ -115,6 +126,16 @@ CPUVectorBackend::batchKnnSearch(const float *queries, size_t numQueries, size_t
 // CPUGraphBackend Implementation
 // ============================================================================
 
+/**
+ * @brief Batch BFS.
+ * @param[in] adjacency Input parameter.
+ * @param[in] numVertices Input parameter.
+ * @param[in] startVertices Input parameter.
+ * @param[in] numStarts Input parameter.
+ * @param[in] maxDepth Input parameter.
+ * @return Return value.
+ * @details Calls: clearError(), setError(), std::move(), BatchValidator::validateGraphBFSBatch(), name(), results(), visited(), push().
+ */
 std::vector<std::vector<uint32_t>> CPUGraphBackend::batchBFS(const uint32_t *adjacency, size_t numVertices,
                                                              const uint32_t *startVertices, size_t numStarts,
                                                              uint32_t maxDepth) {
@@ -166,6 +187,17 @@ std::vector<std::vector<uint32_t>> CPUGraphBackend::batchBFS(const uint32_t *adj
     return results;
 }
 
+/**
+ * @brief Batch Shortest Path.
+ * @param[in] adjacency Input parameter.
+ * @param[in] weights Input parameter.
+ * @param[in] numVertices Input parameter.
+ * @param[in] startVertices Input parameter.
+ * @param[in] endVertices Input parameter.
+ * @param[in] numPairs Input parameter.
+ * @return Return value.
+ * @details Calls: clearError(), setError(), std::move(), BatchValidator::validateShortestPathBatch(), name(), results(), dist(), parent().
+ */
 std::vector<std::vector<uint32_t>> CPUGraphBackend::batchShortestPath(const uint32_t *adjacency, const float *weights,
                                                                       size_t numVertices, const uint32_t *startVertices,
                                                                       const uint32_t *endVertices, size_t numPairs) {
@@ -284,6 +316,17 @@ double CPUGeoBackend::vincentyDistance(double lat1, double lon1, double lat2, do
     return haversineDistance(lat1, lon1, lat2, lon2);
 }
 
+/**
+ * @brief Batch Distances.
+ * @param[in] latitudes1 Input parameter.
+ * @param[in] longitudes1 Input parameter.
+ * @param[in] latitudes2 Input parameter.
+ * @param[in] longitudes2 Input parameter.
+ * @param[in] count Input parameter.
+ * @param[in] useHaversine Input parameter.
+ * @return Return value.
+ * @details Calls: clearError(), setError(), std::move(), BatchValidator::validateGeoBatch(), name(), distances(), haversineDistance(), vincentyDistance().
+ */
 std::vector<float> CPUGeoBackend::batchDistances(const double *latitudes1, const double *longitudes1,
                                                  const double *latitudes2, const double *longitudes2, size_t count,
                                                  bool useHaversine) {
@@ -307,6 +350,16 @@ std::vector<float> CPUGeoBackend::batchDistances(const double *latitudes1, const
     return distances;
 }
 
+/**
+ * @brief Batch Point In Polygon.
+ * @param[in] pointLats Input parameter.
+ * @param[in] pointLons Input parameter.
+ * @param[in] numPoints Input parameter.
+ * @param[in] polygonCoords Input parameter.
+ * @param[in] numPolygonVertices Input parameter.
+ * @return Return value.
+ * @details Calls: clearError(), setError(), std::move(), BatchValidator::validatePointInPolygonBatch(), name(), results().
+ */
 std::vector<bool> CPUGeoBackend::batchPointInPolygon(const double *pointLats, const double *pointLons, size_t numPoints,
                                                      const double *polygonCoords, size_t numPolygonVertices) {
     clearError();
@@ -362,6 +415,18 @@ namespace {
 // ANN dispatch functions
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Cpu ann l2 distance.
+ * @param[in] queries Input parameter.
+ * @param[in] vectors Input parameter.
+ * @param[in,out] distances Input/output parameter.
+ * @param[in] numQueries Input parameter.
+ * @param[in] numVectors Input parameter.
+ * @param[in] dim Input parameter.
+ * @param[in,out] param Input/output parameter.
+ * @return Return value.
+ * @details Implements cpu_ann_l2_distance without additional internal calls.
+ */
 static int cpu_ann_l2_distance(const float *queries, const float *vectors, float *distances, int numQueries,
                                int numVectors, int dim, void * /*stream*/) {
     for (int q = 0; q < numQueries; ++q) {
@@ -377,6 +442,18 @@ static int cpu_ann_l2_distance(const float *queries, const float *vectors, float
     return 0;
 }
 
+/**
+ * @brief Cpu ann cosine distance.
+ * @param[in] queries Input parameter.
+ * @param[in] vectors Input parameter.
+ * @param[in,out] distances Input/output parameter.
+ * @param[in] numQueries Input parameter.
+ * @param[in] numVectors Input parameter.
+ * @param[in] dim Input parameter.
+ * @param[in,out] param Input/output parameter.
+ * @return Return value.
+ * @details Calls: std::sqrt().
+ */
 static int cpu_ann_cosine_distance(const float *queries, const float *vectors, float *distances, int numQueries,
                                    int numVectors, int dim, void * /*stream*/) {
     // Minimum denominator (|a|*|b|) below which cosine is undefined: treat as max distance.
@@ -398,6 +475,18 @@ static int cpu_ann_cosine_distance(const float *queries, const float *vectors, f
     return 0;
 }
 
+/**
+ * @brief Cpu ann inner product.
+ * @param[in] queries Input parameter.
+ * @param[in] vectors Input parameter.
+ * @param[in,out] distances Input/output parameter.
+ * @param[in] numQueries Input parameter.
+ * @param[in] numVectors Input parameter.
+ * @param[in] dim Input parameter.
+ * @param[in,out] param Input/output parameter.
+ * @return Return value.
+ * @details Implements cpu_ann_inner_product without additional internal calls.
+ */
 static int cpu_ann_inner_product(const float *queries, const float *vectors, float *distances, int numQueries,
                                  int numVectors, int dim, void * /*stream*/) {
     // Negative inner product so that smaller is better (consistent with L2/cosine)
@@ -413,6 +502,18 @@ static int cpu_ann_inner_product(const float *queries, const float *vectors, flo
     return 0;
 }
 
+/**
+ * @brief Cpu ann topk.
+ * @param[in] distances Input parameter.
+ * @param[in,out] topk_indices Input/output parameter.
+ * @param[in,out] topk_dists Input/output parameter.
+ * @param[in] numQueries Input parameter.
+ * @param[in] numVectors Input parameter.
+ * @param[in] topK Input parameter.
+ * @param[in,out] param Input/output parameter.
+ * @return Return value.
+ * @details Calls: emplace(), size(), pop(), empty(), top().
+ */
 static int cpu_ann_topk(const float *distances, uint32_t *topk_indices, float *topk_dists, int numQueries,
                         int numVectors, int topK, void * /*stream*/) {
     if (topK <= 0) {
@@ -452,6 +553,19 @@ static int cpu_ann_topk(const float *distances, uint32_t *topk_indices, float *t
 // Geospatial dispatch functions
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Cpu geo distance.
+ * @param[in] lats1 Input parameter.
+ * @param[in] lons1 Input parameter.
+ * @param[in] lats2 Input parameter.
+ * @param[in] lons2 Input parameter.
+ * @param[in,out] out_distances Input/output parameter.
+ * @param[in] count Input parameter.
+ * @param[in] GeoDistanceFormula Input parameter.
+ * @param[in,out] param Input/output parameter.
+ * @return Return value.
+ * @details Calls: themis::geo::haversine_km().
+ */
 static int cpu_geo_distance(const double *lats1, const double *lons1, const double *lats2, const double *lons2,
                             float *out_distances, int count,
                             GeoDistanceFormula /*formula*/, // Vincenty falls back to Haversine (CPU impl)
@@ -462,6 +576,18 @@ static int cpu_geo_distance(const double *lats1, const double *lons1, const doub
     return 0;
 }
 
+/**
+ * @brief Cpu geo containment.
+ * @param[in] point_lats Input parameter.
+ * @param[in] point_lons Input parameter.
+ * @param[in] numPoints Input parameter.
+ * @param[in] polygon_coords Input parameter.
+ * @param[in] numVertices Input parameter.
+ * @param[in,out] results Input/output parameter.
+ * @param[in,out] param Input/output parameter.
+ * @return Return value.
+ * @details Implements cpu_geo_containment without additional internal calls.
+ */
 static int cpu_geo_containment(const double *point_lats, const double *point_lons, int numPoints,
                                const double *polygon_coords, int numVertices, uint8_t *results, void * /*stream*/) {
     for (int p = 0; p < numPoints; ++p) {
@@ -511,6 +637,13 @@ GeoKernelDispatch CPUGeoBackend::populateGeoDispatch() const {
 // CPUMatrixBackend Implementation
 // =============================================================================
 
+/**
+ * @brief Matmul.
+ * @param[in] params Input parameter.
+ * @param[in,out] param Input/output parameter.
+ * @return Return value.
+ * @details Calls: tensor_core::launchCPUMatmulKernel().
+ */
 int CPUMatrixBackend::matmul(const MatrixKernelParams &params, void * /*opaque_stream*/) {
     return tensor_core::launchCPUMatmulKernel(
         static_cast<const float *>(params.A), static_cast<const float *>(params.B), static_cast<float *>(params.C),
@@ -519,6 +652,13 @@ int CPUMatrixBackend::matmul(const MatrixKernelParams &params, void * /*opaque_s
 
 namespace {
 
+/**
+ * @brief Cpu matrix matmul.
+ * @param[in] params Input parameter.
+ * @param[in,out] stream Input/output parameter.
+ * @return Return value.
+ * @details Calls: matmul().
+ */
 static int cpu_matrix_matmul(const MatrixKernelParams &params, void *stream) {
     CPUMatrixBackend backend = {};
     return backend.matmul(params, stream);

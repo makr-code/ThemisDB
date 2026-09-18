@@ -20,7 +20,12 @@
 namespace themis {
 namespace server {
 
-// Helper: Base64 encode
+/**
+ * @brief Helper: Base64 encode
+ * @param[in] data Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), push_back().
+ */
 static std::string base64_encode_local(const std::vector<uint8_t>& data) {
     static const char b64[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
     std::string out = {};
@@ -116,6 +121,12 @@ nlohmann::json SAGABatchDetail::toJson() const {
     return j;
 }
 
+/**
+ * @brief Parse Batch Info.
+ * @param[in] batch_id Identifier of the batch.
+ * @return Return value.
+ * @details Calls: ifs(), is_open(), std::getline(), empty(), nlohmann::json::parse(), value(), std::chrono::system_clock::from_time_t(), time_since_epoch().
+ */
 SAGABatchInfo SAGAApiHandler::parseBatchInfo(const std::string& batch_id) {
     SAGABatchInfo info;
     info.batch_id = batch_id;
@@ -167,6 +178,11 @@ SAGABatchInfo SAGAApiHandler::parseBatchInfo(const std::string& batch_id) {
     return info;
 }
 
+/**
+ * @brief List Batches.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), nlohmann::json::array(), size(), parseBatchInfo(), empty(), push_back(), toJson(), std::string().
+ */
 nlohmann::json SAGAApiHandler::listBatches() {
     if (!saga_logger_) {
     auto span = Tracer::startSpan("listBatches");
@@ -194,6 +210,12 @@ nlohmann::json SAGAApiHandler::listBatches() {
     }
 }
 
+/**
+ * @brief Get Batch Detail.
+ * @param[in] batch_id Identifier of the batch.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), parseBatchInfo(), empty(), verifyBatch(), loadBatch(), ifs(), is_open(), std::getline().
+ */
 nlohmann::json SAGAApiHandler::getBatchDetail(const std::string& batch_id) {
     if (!saga_logger_) {
     auto span = Tracer::startSpan("getBatchDetail");
@@ -255,6 +277,12 @@ nlohmann::json SAGAApiHandler::getBatchDetail(const std::string& batch_id) {
     }
 }
 
+/**
+ * @brief Verify Batch.
+ * @param[in] batch_id Identifier of the batch.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), parseBatchInfo(), std::string(), what().
+ */
 nlohmann::json SAGAApiHandler::verifyBatch(const std::string& batch_id) {
     if (!saga_logger_) {
     auto span = Tracer::startSpan("verifyBatch");
@@ -288,6 +316,11 @@ nlohmann::json SAGAApiHandler::verifyBatch(const std::string& batch_id) {
     }
 }
 
+/**
+ * @brief Flush Current Batch.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), flush(), std::string(), what().
+ */
 nlohmann::json SAGAApiHandler::flushCurrentBatch() {
     if (!saga_logger_) {
     auto span = Tracer::startSpan("flushCurrentBatch");

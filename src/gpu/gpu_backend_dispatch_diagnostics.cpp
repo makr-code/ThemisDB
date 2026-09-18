@@ -48,6 +48,11 @@ void GPUBackendDispatchDiagnostics::emitDiagnostic(
 
         // Event callback emission
         {
+            /**
+             * @brief Lock.
+             * @param[in] g_callback_mutex Input parameter.
+             * @return Return value.
+             */
             std::lock_guard<std::mutex> lock(g_callback_mutex);
             if (g_event_callback) {
                 GPUDispatchEventType event_type = errorCodeToEventType(error_code);
@@ -64,11 +69,21 @@ void GPUBackendDispatchDiagnostics::emitDiagnostic(
 // ============================================================================
 
 void GPUBackendDispatchDiagnostics::setEventCallback(GPUDispatchEventCallback callback) noexcept {
+    /**
+     * @brief Lock.
+     * @param[in] g_callback_mutex Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(g_callback_mutex);
     g_event_callback = callback;
 }
 
 GPUDispatchEventCallback GPUBackendDispatchDiagnostics::getEventCallback() noexcept {
+    /**
+     * @brief Lock.
+     * @param[in] g_callback_mutex Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(g_callback_mutex);
     return g_event_callback;
 }

@@ -18,11 +18,21 @@ namespace themis {
 namespace llm {
 namespace lora {
 
+/**
+ * @brief Get Instance.
+ * @return Return value.
+ * @details Implements getInstance without additional internal calls.
+ */
 TrainingServiceRegistry& TrainingServiceRegistry::getInstance() {
     static TrainingServiceRegistry instance;
     return instance;
 }
 
+/**
+ * @brief Register Shard Router.
+ * @param[in] router Input parameter.
+ * @details Calls: lock(), spdlog::info().
+ */
 void TrainingServiceRegistry::registerShardRouter(
     std::shared_ptr<themis::sharding::ShardRouter> router
 ) {
@@ -35,6 +45,11 @@ void TrainingServiceRegistry::registerShardRouter(
     }
 }
 
+/**
+ * @brief Register Shard Topology.
+ * @param[in] topology Input parameter.
+ * @details Calls: lock(), spdlog::info().
+ */
 void TrainingServiceRegistry::registerShardTopology(
     std::shared_ptr<themis::sharding::ShardTopology> topology
 ) {
@@ -49,21 +64,40 @@ void TrainingServiceRegistry::registerShardTopology(
 
 std::shared_ptr<themis::sharding::ShardRouter> 
 TrainingServiceRegistry::getShardRouter() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return shard_router_;
 }
 
 std::shared_ptr<themis::sharding::ShardTopology> 
 TrainingServiceRegistry::getShardTopology() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return shard_topology_;
 }
 
 bool TrainingServiceRegistry::hasShardInfrastructure() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return shard_router_ != nullptr && shard_topology_ != nullptr;
 }
 
+/**
+ * @brief Clear.
+ * @details Calls: lock(), spdlog::info().
+ */
 void TrainingServiceRegistry::clear() {
     std::lock_guard<std::mutex> lock(mutex_);
     shard_router_ = nullptr;

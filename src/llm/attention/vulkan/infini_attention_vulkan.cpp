@@ -28,7 +28,11 @@ VkQueue InfiniAttentionVulkan::compute_queue_ = VK_NULL_HANDLE;
 VkCommandPool InfiniAttentionVulkan::command_pool_ = VK_NULL_HANDLE;
 
 /**
- * @brief Check extension support on physical device
+ * @brief Has Device Extension.
+ * @param[in] phys_dev Input parameter.
+ * @param[in] ext_name Name of the ext.
+ * @return True when the operation succeeds.
+ * @details Calls: vkEnumerateDeviceExtensionProperties(), extensions(), data(), std::strcmp().
  */
 static bool hasDeviceExtension(
     VkPhysicalDevice phys_dev,
@@ -88,6 +92,11 @@ InfiniAttentionVulkan::~InfiniAttentionVulkan() {
     }
 }
 
+/**
+ * @brief Initialize.
+ * @return Return value.
+ * @details Calls: initializeVulkanRuntime(), allocateGPUBuffer(), releaseGPUBuffer(), loadShaderModule(), createComputePipeline(), vkDestroyShaderModule().
+ */
 Status InfiniAttentionVulkan::initialize() {
     if (initialized_) {
         return Status::SUCCESS;
@@ -148,6 +157,15 @@ Status InfiniAttentionVulkan::initialize() {
     return Status::SUCCESS;
 }
 
+/**
+ * @brief Forward.
+ * @param[in] Q Input parameter.
+ * @param[in] K Input parameter.
+ * @param[in] V Input parameter.
+ * @param[in,out] O Input/output parameter.
+ * @return Return value.
+ * @details Calls: initialize(), computeLocalAttention(), computeCompressiveAttention(), updateCompressiveMemory(), blendOutputs().
+ */
 Status InfiniAttentionVulkan::forward(
     const Tensor& Q,
     const Tensor& K,
@@ -189,6 +207,15 @@ Status InfiniAttentionVulkan::forward(
     return Status::SUCCESS;
 }
 
+/**
+ * @brief Backward.
+ * @param[in] dO Input parameter.
+ * @param[in,out] dQ Input/output parameter.
+ * @param[in,out] dK Input/output parameter.
+ * @param[in,out] dV Input/output parameter.
+ * @return Return value.
+ * @details Implements backward without additional internal calls.
+ */
 Status InfiniAttentionVulkan::backward(
     const Tensor& dO,
     Tensor& dQ,
@@ -207,6 +234,11 @@ AttentionMemoryStats InfiniAttentionVulkan::getMemoryStats() const {
     return stats;
 }
 
+/**
+ * @brief Is Available.
+ * @return True when the operation succeeds.
+ * @details Calls: vkGetInstanceProcAddr(), vkEnumerateInstanceVersion(), VK_API_VERSION_MAJOR(), VK_API_VERSION_MINOR().
+ */
 bool InfiniAttentionVulkan::isAvailable() {
     // Check if Vulkan 1.2+ is available
     PFN_vkEnumerateInstanceVersion vkEnumerateInstanceVersion =
@@ -225,6 +257,11 @@ bool InfiniAttentionVulkan::isAvailable() {
     return VK_API_VERSION_MAJOR(version) >= 1 && VK_API_VERSION_MINOR(version) >= 2;
 }
 
+/**
+ * @brief Initialize Vulkan Runtime.
+ * @return Return value.
+ * @details Calls: VK_MAKE_API_VERSION(), vkCreateInstance(), vkEnumeratePhysicalDevices(), vkDestroyInstance(), physical_devices(), data(), vkGetPhysicalDeviceProperties(), vkGetPhysicalDeviceQueueFamilyProperties().
+ */
 Status InfiniAttentionVulkan::initializeVulkanRuntime() {
     if (logical_device_) {
         return Status::SUCCESS;  // Already initialized
@@ -330,6 +367,11 @@ Status InfiniAttentionVulkan::initializeVulkanRuntime() {
     return Status::SUCCESS;
 }
 
+/**
+ * @brief Reset Memory.
+ * @return Return value.
+ * @details Calls: vkAllocateCommandBuffers(), vkBeginCommandBuffer(), vkCmdFillBuffer(), vkEndCommandBuffer(), vkQueueSubmit(), vkFreeCommandBuffers(), vkQueueWaitIdle().
+ */
 Status InfiniAttentionVulkan::resetMemory() {
     if (!buffer_memory_ || !logical_device_) {
         return Status::ERROR_BACKEND_NOT_AVAILABLE;
@@ -390,6 +432,13 @@ std::vector<float> InfiniAttentionVulkan::getCompressiveMemory() const {
     return checkpoint;
 }
 
+/**
+ * @brief Restore Compressive Memory.
+ * @param[in] checkpoint Input parameter.
+ * @return Return value.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: size().
+ */
 Status InfiniAttentionVulkan::restoreCompressiveMemory(const std::vector<float>& checkpoint) {
     size_t expected_size = config_.memory_dim * config_.memory_dim;
         if (checkpoint.size() != expected_size) {
@@ -405,6 +454,13 @@ Status InfiniAttentionVulkan::restoreCompressiveMemory(const std::vector<float>&
     return Status::SUCCESS;
 }
 
+/**
+ * @brief Allocate GPUBuffer.
+ * @param[in] size Input parameter.
+ * @param[in] usage Input parameter.
+ * @return Return value.
+ * @details Calls: vkCreateBuffer(), vkGetBufferMemoryRequirements(), vkGetPhysicalDeviceMemoryProperties(), vkAllocateMemory(), vkDestroyBuffer(), vkBindBufferMemory().
+ */
 VkBuffer InfiniAttentionVulkan::allocateGPUBuffer(size_t size, VkBufferUsageFlags usage) {
     if (!logical_device_) {
         return VK_NULL_HANDLE;
@@ -456,6 +512,12 @@ VkBuffer InfiniAttentionVulkan::allocateGPUBuffer(size_t size, VkBufferUsageFlag
     return buffer;
 }
 
+/**
+ * @brief Release GPUBuffer.
+ * @param[in] buffer Input parameter.
+ * @return Return value.
+ * @details Calls: vkDestroyBuffer(), vkFreeMemory().
+ */
 Status InfiniAttentionVulkan::releaseGPUBuffer(VkBuffer buffer) {
     if (!buffer || !logical_device_) {
         return Status::SUCCESS;
@@ -478,6 +540,11 @@ VkShaderModule InfiniAttentionVulkan::loadShaderModule(const char* path) const {
     size_t size = file.tellg();
     file.seekg(0, std::ios::beg);
 
+    /**
+     * @brief Buffer.
+     * @param[in] size Input parameter.
+     * @return Return value.
+     */
     std::vector<char> buffer(size);
     file.read(buffer.data(), size);
     file.close();
@@ -495,6 +562,13 @@ VkShaderModule InfiniAttentionVulkan::loadShaderModule(const char* path) const {
     return shader_module;
 }
 
+/**
+ * @brief Create Compute Pipeline.
+ * @param[in] shader_module Input parameter.
+ * @param[in,out] pipeline Input/output parameter.
+ * @return Return value.
+ * @details Calls: vkCreateDescriptorSetLayout(), vkCreatePipelineLayout(), vkDestroyDescriptorSetLayout(), vkCreateComputePipelines(), vkDestroyPipelineLayout().
+ */
 Status InfiniAttentionVulkan::createComputePipeline(
     VkShaderModule shader_module,
     VulkanPipeline& pipeline) {
@@ -551,6 +625,15 @@ Status InfiniAttentionVulkan::createComputePipeline(
     return Status::SUCCESS;
 }
 
+/**
+ * @brief Dispatch Kernel.
+ * @param[in] pipeline Input parameter.
+ * @param[in] grid_x Input parameter.
+ * @param[in] grid_y Input parameter.
+ * @param[in] grid_z Input parameter.
+ * @return Return value.
+ * @details Calls: vkAllocateCommandBuffers(), vkBeginCommandBuffer(), vkCmdBindPipeline(), vkCmdDispatch(), vkEndCommandBuffer(), vkQueueSubmit(), vkFreeCommandBuffers(), vkQueueWaitIdle().
+ */
 Status InfiniAttentionVulkan::dispatchKernel(
     const VulkanPipeline& pipeline,
     uint32_t grid_x,
@@ -596,8 +679,15 @@ Status InfiniAttentionVulkan::dispatchKernel(
     return Status::SUCCESS;
 }
 
-    // These entry points currently return success after dispatch setup because
-    // the Vulkan kernels are not wired in yet.
+/**
+ * @brief These entry points currently return success after dispatch setup because the Vulkan kernels are not wired in yet.
+ * @param[in] Q Input parameter.
+ * @param[in] K Input parameter.
+ * @param[in] V Input parameter.
+ * @param[in,out] O Input/output parameter.
+ * @return Return value.
+ * @details Implements computeLocalAttention without additional internal calls.
+ */
 Status InfiniAttentionVulkan::computeLocalAttention(
     const Tensor& Q,
     const Tensor& K,
@@ -606,18 +696,40 @@ Status InfiniAttentionVulkan::computeLocalAttention(
     return Status::SUCCESS;
 }
 
+/**
+ * @brief Compute Compressive Attention.
+ * @param[in] Q Input parameter.
+ * @param[in,out] O Input/output parameter.
+ * @return Return value.
+ * @details Implements computeCompressiveAttention without additional internal calls.
+ */
 Status InfiniAttentionVulkan::computeCompressiveAttention(
     const Tensor& Q,
     Tensor& O) {
     return Status::SUCCESS;
 }
 
+/**
+ * @brief Update Compressive Memory.
+ * @param[in] K Input parameter.
+ * @param[in] V Input parameter.
+ * @return Return value.
+ * @details Implements updateCompressiveMemory without additional internal calls.
+ */
 Status InfiniAttentionVulkan::updateCompressiveMemory(
     const Tensor& K,
     const Tensor& V) {
     return Status::SUCCESS;
 }
 
+/**
+ * @brief Blend Outputs.
+ * @param[in] O_local Input parameter.
+ * @param[in] O_comp Input parameter.
+ * @param[in,out] O_final Input/output parameter.
+ * @return Return value.
+ * @details Implements blendOutputs without additional internal calls.
+ */
 Status InfiniAttentionVulkan::blendOutputs(
     const Tensor& O_local,
     const Tensor& O_comp,
@@ -633,6 +745,14 @@ Status InfiniAttentionVulkan::copyDeviceToHost(
     return Status::SUCCESS;
 }
 
+/**
+ * @brief Copy Host To Device.
+ * @param[in] host_data Input parameter.
+ * @param[in] device_buffer Input parameter.
+ * @param[in] size Input parameter.
+ * @return Return value.
+ * @details Implements copyHostToDevice without additional internal calls.
+ */
 Status InfiniAttentionVulkan::copyHostToDevice(
     const void* host_data,
     VkBuffer device_buffer,

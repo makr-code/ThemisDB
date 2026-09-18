@@ -22,7 +22,13 @@
 
 namespace themis {
 
-// ===== BufferedOp Helper =====
+/**
+ * @brief ===== BufferedOp Helper =====
+ * @param[in] entity Input parameter.
+ * @param[in] fallback_dim Input parameter.
+ * @return Return value.
+ * @details Calls: extractVector(), has_value(), size().
+ */
 
 size_t VectorAutoBuffer::BufferedOp::estimateVectorSize(const BaseEntity& entity,
                                                          size_t fallback_dim) {
@@ -71,6 +77,10 @@ VectorAutoBuffer::~VectorAutoBuffer() noexcept {
     }
 }
 
+/**
+ * @brief Start.
+ * @details Calls: exchange(), THEMIS_WARN(), THEMIS_INFO(), count(), std::thread().
+ */
 void VectorAutoBuffer::start() {
     if (running_.exchange(true)) {
         THEMIS_WARN("VectorAutoBuffer already running");
@@ -86,6 +96,10 @@ void VectorAutoBuffer::start() {
     }
 }
 
+/**
+ * @brief Stop.
+ * @details Calls: exchange(), THEMIS_INFO(), notify_all(), joinable(), utils::joinThreadWithin(), THEMIS_WARN(), flush().
+ */
 void VectorAutoBuffer::stop() {
     if (!running_.exchange(false)) {
         return;
@@ -114,6 +128,12 @@ std::string VectorAutoBuffer::makeBufferKey(const BaseEntity& /*entity*/) const 
     return "vectors";
 }
 
+/**
+ * @brief Add.
+ * @param[in] entity Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), setAttribute(), getPrimaryKey(), empty(), VectorIndexManager::Status::Error(), makeBufferKey(), lock(), THEMIS_WARN().
+ */
 VectorIndexManager::Status VectorAutoBuffer::add(const BaseEntity& entity) {
     auto span = Tracer::startSpan("VectorAutoBuffer.add");
     span.setAttribute("pk", entity.getPrimaryKey());
@@ -172,6 +192,12 @@ VectorIndexManager::Status VectorAutoBuffer::add(const BaseEntity& entity) {
     return VectorIndexManager::Status::OK();
 }
 
+/**
+ * @brief Update.
+ * @param[in] entity Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), setAttribute(), getPrimaryKey(), empty(), VectorIndexManager::Status::Error(), makeBufferKey(), lock(), op().
+ */
 VectorIndexManager::Status VectorAutoBuffer::update(const BaseEntity& entity) {
     auto span = Tracer::startSpan("VectorAutoBuffer.update");
     span.setAttribute("pk", entity.getPrimaryKey());
@@ -207,6 +233,12 @@ VectorIndexManager::Status VectorAutoBuffer::update(const BaseEntity& entity) {
     return VectorIndexManager::Status::OK();
 }
 
+/**
+ * @brief Remove.
+ * @param[in] pk Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), setAttribute(), empty(), VectorIndexManager::Status::Error(), lock(), op(), add(), std::move().
+ */
 VectorIndexManager::Status VectorAutoBuffer::remove(const std::string& pk) {
     auto span = Tracer::startSpan("VectorAutoBuffer.remove");
     span.setAttribute("pk", pk);
@@ -242,10 +274,21 @@ VectorIndexManager::Status VectorAutoBuffer::remove(const std::string& pk) {
     return VectorIndexManager::Status::OK();
 }
 
+/**
+ * @brief Flush.
+ * @return Return value.
+ * @details Calls: flushInternal().
+ */
 size_t VectorAutoBuffer::flush() {
     return flushInternal(false);
 }
 
+/**
+ * @brief Flush For.
+ * @param[in] namespace_key Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), find(), end(), empty(), flushBuffer().
+ */
 size_t VectorAutoBuffer::flushFor(const std::string& namespace_key) {
     std::lock_guard<std::timed_mutex> lock(buffers_mutex_);
     
@@ -257,6 +300,12 @@ size_t VectorAutoBuffer::flushFor(const std::string& namespace_key) {
     return flushBuffer(namespace_key, it->second);
 }
 
+/**
+ * @brief Flush Internal.
+ * @param[in] lock_held Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), lock(), try_lock_for(), std::chrono::seconds(), THEMIS_WARN(), empty(), flushBuffer(), std::chrono::steady_clock::now().
+ */
 size_t VectorAutoBuffer::flushInternal(bool lock_held) {
     auto span = Tracer::startSpan("VectorAutoBuffer.flush");
     
@@ -293,6 +342,13 @@ size_t VectorAutoBuffer::flushInternal(bool lock_held) {
     return total_flushed;
 }
 
+/**
+ * @brief Flush Buffer.
+ * @param[in] buffer_key Input parameter.
+ * @param[in,out] buffer Input/output parameter.
+ * @return Return value.
+ * @details Calls: empty(), Tracer::startSpan(), setAttribute(), size(), reserve(), push_back(), VectorIndexManager::Status::Error(), applyCompression().
+ */
 size_t VectorAutoBuffer::flushBuffer(const std::string& buffer_key, NamespaceBuffer& buffer) {
     if (buffer.operations.empty()) {
         return 0;
@@ -418,6 +474,10 @@ bool VectorAutoBuffer::shouldFlushGlobal() const {
     return false;
 }
 
+/**
+ * @brief Flush Thread.
+ * @details Calls: THEMIS_INFO(), load(), lock(), wait_for(), shouldFlushGlobal(), unlock(), flushInternal(), THEMIS_DEBUG().
+ */
 void VectorAutoBuffer::flushThread() {
     THEMIS_INFO("VectorAutoBuffer flush thread started");
     
@@ -450,6 +510,11 @@ void VectorAutoBuffer::flushThread() {
 }
 
 VectorAutoBufferStats VectorAutoBuffer::getStats() const {
+    /**
+     * @brief Lock.
+     * @param[in] buffers_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::timed_mutex> lock(buffers_mutex_);
 
     VectorAutoBufferStats stats;
@@ -468,6 +533,11 @@ VectorAutoBufferStats VectorAutoBuffer::getStats() const {
     return stats;
 }
 
+/**
+ * @brief Set Config.
+ * @param[in] config Input parameter.
+ * @details Calls: lock(), THEMIS_INFO(), count().
+ */
 void VectorAutoBuffer::setConfig(const VectorAutoBufferConfig& config) {
     std::lock_guard<std::timed_mutex> lock(buffers_mutex_);
     config_ = config;
@@ -477,6 +547,12 @@ void VectorAutoBuffer::setConfig(const VectorAutoBufferConfig& config) {
                 config_.flush_interval.count());
 }
 
+/**
+ * @brief Apply Compression.
+ * @param[in] entities Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), THEMIS_DEBUG(), std::max(), reserve(), size(), extractVector(), has_value(), push_back().
+ */
 std::vector<BaseEntity> VectorAutoBuffer::applyCompression(const std::vector<BaseEntity>& entities) {
     if (entities.empty()) {
         THEMIS_DEBUG("VectorAutoBuffer::applyCompression: called with empty entities");

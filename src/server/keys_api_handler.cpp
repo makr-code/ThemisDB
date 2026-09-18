@@ -22,6 +22,11 @@ KeysApiHandler::KeysApiHandler(std::shared_ptr<KeyProvider> key_provider)
     : key_provider_(key_provider) {
 }
 
+/**
+ * @brief List Keys.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), THEMIS_WARN(), nlohmann::json::array(), std::put_time(), std::gmtime(), str(), push_back(), THEMIS_INFO().
+ */
 nlohmann::json KeysApiHandler::listKeys() {
     try {
     auto span = Tracer::startSpan("listKeys");
@@ -87,6 +92,13 @@ nlohmann::json KeysApiHandler::listKeys() {
     }
 }
 
+/**
+ * @brief Rotate Key.
+ * @param[in] key_id Identifier of the key.
+ * @param[in] body Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), is_null(), is_object(), THEMIS_WARN(), contains(), is_string(), THEMIS_DEBUG(), THEMIS_ERROR().
+ */
 nlohmann::json KeysApiHandler::rotateKey(const std::string& key_id, const nlohmann::json& body) {
     try {
     auto span = Tracer::startSpan("rotateKey");

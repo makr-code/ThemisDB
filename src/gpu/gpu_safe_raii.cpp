@@ -59,6 +59,10 @@ KernelTimeoutGuard::~KernelTimeoutGuard() noexcept {
     }
 }
 
+/**
+ * @brief Monitor Thread.
+ * @details Calls: std::chrono::steady_clock::now(), load(), count(), store(), std::this_thread::sleep_for().
+ */
 void KernelTimeoutGuard::monitorThread() {
     const auto start = std::chrono::steady_clock::now();
 

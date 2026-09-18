@@ -24,6 +24,12 @@ namespace importers {
 // MerkleTreeBuilder – private helpers
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Sha256 Hex.
+ * @param[in] input Input parameter.
+ * @return Return value.
+ * @details Calls: std::setw(), std::setfill(), str().
+ */
 std::string BlockchainIntegrityVerifier::MerkleTreeBuilder::sha256Hex(const std::string &input) {
     // Portable fallback: std::hash (NOT cryptographic).
     // Production builds replace this with OpenSSL EVP_DigestUpdate (SHA-256).
@@ -37,6 +43,13 @@ std::string BlockchainIntegrityVerifier::MerkleTreeBuilder::sha256Hex(const std:
     return hex.str(); // 64 hex chars
 }
 
+/**
+ * @brief Combine Hashes.
+ * @param[in] left Input parameter.
+ * @param[in] right Input parameter.
+ * @return Return value.
+ * @details Calls: sha256Hex().
+ */
 std::string BlockchainIntegrityVerifier::MerkleTreeBuilder::combineHashes(const std::string &left,
                                                                           const std::string &right) {
     return sha256Hex(left + right);
@@ -83,6 +96,14 @@ BlockchainIntegrityVerifier::MerkleTreeBuilder::buildMerkleTree(const std::vecto
 // verifyRecordInTree
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Verify Record In Tree.
+ * @param[in] record Input parameter.
+ * @param[in] merkle_root Input parameter.
+ * @param[in] sibling_hashes Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: sha256Hex(), dump(), combineHashes(), empty().
+ */
 bool BlockchainIntegrityVerifier::MerkleTreeBuilder::verifyRecordInTree(
     const json &record, const std::string &merkle_root, const std::vector<std::string> &sibling_hashes) {
     std::string current = sha256Hex(record.dump());
@@ -140,6 +161,12 @@ BlockchainIntegrityVerifier::BlockchainAnchor::anchorToBlockchain(const std::str
     return proof;
 }
 
+/**
+ * @brief Verify Blockchain Anchor.
+ * @param[in] proof Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), size(), std::isxdigit().
+ */
 bool BlockchainIntegrityVerifier::BlockchainAnchor::verifyBlockchainAnchor(const IntegrityProof &proof) {
     // Offline verification: check that proof fields are non-empty and
     // the root is 64 hex characters (our SHA-256 format).

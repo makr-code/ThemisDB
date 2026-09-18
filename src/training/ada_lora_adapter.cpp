@@ -31,8 +31,18 @@ namespace {
 
 std::vector<float> kaimingUniform(size_t rows, size_t cols, uint32_t seed = 0) {
     const float bound = std::sqrt(2.0f / static_cast<float>(rows));
+    /**
+     * @brief Gen.
+     * @param[in] seed Input parameter.
+     * @return Return value.
+     */
     std::mt19937 gen(seed);
     std::uniform_real_distribution<float> dist(-bound, bound);
+    /**
+     * @brief W.
+     * @param[in,out] cols Input/output parameter.
+     * @return Return value.
+     */
     std::vector<float> w(rows * cols);
     for (auto& v : w) {
       v = dist(gen);
@@ -40,6 +50,12 @@ std::vector<float> kaimingUniform(size_t rows, size_t cols, uint32_t seed = 0) {
     return w;
 }
 
+/**
+ * @brief Zeros.
+ * @param[in] count Input parameter.
+ * @return Return value.
+ * @details Implements zeros without additional internal calls.
+ */
 std::vector<float> zeros(size_t count) {
     return std::vector<float>(count, 0.0f);
 }
@@ -50,7 +66,6 @@ std::vector<float> zeros(size_t count) {
 // Impl
 // ============================================================================
 
-/** @brief Impl. */
 class AdaLoRAAdapter::Impl {
 public:
     // Per-layer state
@@ -66,6 +81,13 @@ public:
         std::vector<float> A; ///< max_rank × out_dim
     };
 
+    /**
+     * @brief Impl.
+     * @param[in] default_rank Input parameter.
+     * @param[in] default_alpha Input parameter.
+     * @param[in] rank_budget Input parameter.
+     * @return Return value.
+     */
     explicit Impl(size_t default_rank, float default_alpha, size_t rank_budget)
         : default_rank_(default_rank > 0 ? default_rank : 4)
         , default_alpha_(default_alpha > 0.0f ? default_alpha : 8.0f)
@@ -76,6 +98,16 @@ public:
     // Layer management
     // -------------------------------------------------------------------------
 
+    /**
+     * @brief Add Layer.
+     * @param[in] name Input parameter.
+     * @param[in] in_dim Input parameter.
+     * @param[in] out_dim Input parameter.
+     * @param[in] max_rank Input parameter.
+     * @param[in] alpha Input parameter.
+     * @throws std::invalid_argument if an error occurs.
+     * @details Calls: empty(), count(), kaimingUniform(), zeros(), std::move(), push_back().
+     */
     void addLayer(const std::string& name, size_t in_dim, size_t out_dim,
                   size_t max_rank, float alpha) {
         if (name.empty())
@@ -105,6 +137,12 @@ public:
         insertion_order_.push_back(name);
     }
 
+    /**
+     * @brief Remove Layer.
+     * @param[in] name Input parameter.
+     * @return True when the operation succeeds.
+     * @details Calls: find(), end(), erase(), std::remove(), begin().
+     */
     bool removeLayer(const std::string& name) {
         auto it = layers_.find(name);
         if (it == layers_.end()) {
@@ -131,9 +169,11 @@ public:
     // Importance update
     // -------------------------------------------------------------------------
 
-    // Importance ≈ mean_i( ||B[:,i]||_F^2 * ||A[i,:]||_F^2 ) for i in active_rank.
-    // This is a rank-component outer-product approximation to the nuclear-norm
-    // importance used in the original AdaLoRA paper.
+    /**
+     * @brief Importance ≈ mean_i( ||B[:,i]||_F^2 * ||A[i,:]||_F^2 ) for i in active_rank.
+     * @param[in] name Input parameter.
+     * @details This is a rank-component outer-product approximation to the nuclear-norm importance used in the original AdaLoRA paper. Calls: getLayer().
+     */
     void updateImportance(const std::string& name) {
         Layer& lay = getLayer(name);
         const size_t r = lay.active_rank;
@@ -163,6 +203,10 @@ public:
         lay.importance = (r > 0) ? total / static_cast<float>(r) : 0.0f;
     }
 
+    /**
+     * @brief Update All Importances.
+     * @details Calls: updateImportance().
+     */
     void updateAllImportances() {
         for (auto& [name, _] : layers_) {
             updateImportance(name);
@@ -173,6 +217,13 @@ public:
     // Rank reallocation
     // -------------------------------------------------------------------------
 
+    /**
+     * @brief Reallocate Ranks.
+     * @param[in] total_budget Input parameter.
+     * @return Return value.
+     * @throws std::invalid_argument if an error occurs.
+     * @details Calls: empty(), size(), std::min(), allocs(), at(), std::round().
+     */
     ReallocResult reallocateRanks(size_t total_budget) {
         if (total_budget == 0)
             throw std::invalid_argument("total_budget must be > 0");
@@ -293,6 +344,14 @@ public:
         return total;
     }
 
+    /**
+     * @brief Set Weights.
+     * @param[in] name Input parameter.
+     * @param[in] B Input parameter.
+     * @param[in] A Input parameter.
+     * @throws std::invalid_argument if an error occurs.
+     * @details Calls: getLayer(), size().
+     */
     void setWeights(const std::string& name,
                     const std::vector<float>& B,
                     const std::vector<float>& A) {
@@ -355,6 +414,11 @@ public:
     }
 
     size_t rankBudget() const { return rank_budget_; }
+    /**
+     * @brief Set Rank Budget.
+     * @param[in] b Input parameter.
+     * @details Implements setRankBudget without additional internal calls.
+     */
     void setRankBudget(size_t b) { rank_budget_ = b; }
 
 private:
@@ -365,6 +429,13 @@ private:
     std::unordered_map<std::string, Layer> layers_;
     std::vector<std::string> insertion_order_;
 
+    /**
+     * @brief Get Layer.
+     * @param[in] name Input parameter.
+     * @return Return value.
+     * @throws std::out_of_range if an error occurs.
+     * @details Calls: find(), end().
+     */
     Layer& getLayer(const std::string& name) {
         auto it = layers_.find(name);
         if (it == layers_.end())
@@ -392,12 +463,27 @@ AdaLoRAAdapter::~AdaLoRAAdapter() = default;
 AdaLoRAAdapter::AdaLoRAAdapter(AdaLoRAAdapter&&) noexcept = default;
 AdaLoRAAdapter& AdaLoRAAdapter::operator=(AdaLoRAAdapter&&) noexcept = default;
 
+/**
+ * @brief Add Layer.
+ * @param[in] layer_name Name of the layer.
+ * @param[in] in_dim Input parameter.
+ * @param[in] out_dim Input parameter.
+ * @param[in] max_rank Input parameter.
+ * @param[in] alpha Input parameter.
+ * @details Implements addLayer without additional internal calls.
+ */
 void AdaLoRAAdapter::addLayer(const std::string& layer_name,
                               size_t in_dim, size_t out_dim,
                               size_t max_rank, float alpha) {
     impl_->addLayer(layer_name, in_dim, out_dim, max_rank, alpha);
 }
 
+/**
+ * @brief Remove Layer.
+ * @param[in] layer_name Name of the layer.
+ * @return True when the operation succeeds.
+ * @details Implements removeLayer without additional internal calls.
+ */
 bool AdaLoRAAdapter::removeLayer(const std::string& layer_name) {
     return impl_->removeLayer(layer_name);
 }
@@ -414,18 +500,38 @@ size_t AdaLoRAAdapter::layerCount() const {
     return impl_->layerCount();
 }
 
+/**
+ * @brief Update Importance.
+ * @param[in] layer_name Name of the layer.
+ * @details Implements updateImportance without additional internal calls.
+ */
 void AdaLoRAAdapter::updateImportance(const std::string& layer_name) {
     impl_->updateImportance(layer_name);
 }
 
+/**
+ * @brief Update All Importances.
+ * @details Implements updateAllImportances without additional internal calls.
+ */
 void AdaLoRAAdapter::updateAllImportances() {
     impl_->updateAllImportances();
 }
 
+/**
+ * @brief Reallocate Ranks.
+ * @param[in] total_budget Input parameter.
+ * @return Return value.
+ * @details Implements reallocateRanks without additional internal calls.
+ */
 ReallocResult AdaLoRAAdapter::reallocateRanks(size_t total_budget) {
     return impl_->reallocateRanks(total_budget);
 }
 
+/**
+ * @brief Reallocate Ranks.
+ * @return Return value.
+ * @details Calls: rankBudget().
+ */
 ReallocResult AdaLoRAAdapter::reallocateRanks() {
     return impl_->reallocateRanks(impl_->rankBudget());
 }
@@ -450,6 +556,13 @@ size_t AdaLoRAAdapter::totalActiveParameterCount() const {
     return impl_->totalActiveParameterCount();
 }
 
+/**
+ * @brief Set Weights.
+ * @param[in] layer_name Name of the layer.
+ * @param[in] B Input parameter.
+ * @param[in] A Input parameter.
+ * @details Implements setWeights without additional internal calls.
+ */
 void AdaLoRAAdapter::setWeights(const std::string& layer_name,
                                 const std::vector<float>& B,
                                 const std::vector<float>& A) {
@@ -471,6 +584,11 @@ size_t AdaLoRAAdapter::rankBudget() const {
     return impl_->rankBudget();
 }
 
+/**
+ * @brief Set Rank Budget.
+ * @param[in] budget Input parameter.
+ * @details Implements setRankBudget without additional internal calls.
+ */
 void AdaLoRAAdapter::setRankBudget(size_t budget) {
     impl_->setRankBudget(budget);
 }
@@ -487,6 +605,12 @@ constexpr uint32_t kFormatVersion = 1;
 constexpr size_t   kFingerprintBytes = 64; // 64-char hex SHA-256 + NUL-pad
 
 template <typename T>
+/**
+ * @brief Write LE.
+ * @param[in,out] os Input/output parameter.
+ * @param[in] val Input parameter.
+ * @details Calls: write().
+ */
 void writeLE(std::ostream& os, T val) {
     os.write(reinterpret_cast<const char*>(&val), sizeof(T));
 }
@@ -501,12 +625,26 @@ T readLE(std::istream& is) {
     return val;
 }
 
+/**
+ * @brief Write Floats.
+ * @param[in,out] os Input/output parameter.
+ * @param[in] v Input parameter.
+ * @details Calls: empty(), write(), data(), size().
+ */
 void writeFloats(std::ostream& os, const std::vector<float>& v) {
     if (!v.empty())
         os.write(reinterpret_cast<const char*>(v.data()),
                  static_cast<std::streamsize>(v.size() * sizeof(float)));
 }
 
+/**
+ * @brief Read Floats.
+ * @param[in,out] is Input/output parameter.
+ * @param[in] count Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: v(), read(), data().
+ */
 std::vector<float> readFloats(std::istream& is, size_t count) {
     std::vector<float> v(count);
     if (count > 0) {
@@ -593,7 +731,13 @@ void AdaLoRAAdapter::saveToFile(const std::string& path,
         throw std::runtime_error("AdaLoRAAdapter::saveToFile: write error on '" + path + "'");
 }
 
-// ─── loadFromFile ─────────────────────────────────────────────────────────────
+/**
+ * @brief ─── loadFromFile ─────────────────────────────────────────────────────────────
+ * @param[in] path Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: ifs(), read(), std::memcmp(), data(), std::to_string(), fingerprint(), layerNames(), removeLayer().
+ */
 
 std::string AdaLoRAAdapter::loadFromFile(const std::string& path) {
     std::ifstream ifs(path, std::ios::binary);
@@ -669,7 +813,13 @@ std::string AdaLoRAAdapter::loadFromFile(const std::string& path) {
     return fingerprint;
 }
 
-// ─── isCacheValid ─────────────────────────────────────────────────────────────
+/**
+ * @brief ─── isCacheValid ─────────────────────────────────────────────────────────────
+ * @param[in] checkpoint_path Path to the checkpoint.
+ * @param[in] current_fingerprint Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: ifs(), read(), std::memcmp(), data(), stored_fp(), empty().
+ */
 
 bool AdaLoRAAdapter::isCacheValid(const std::string& checkpoint_path,
                                   const std::string& current_fingerprint) {

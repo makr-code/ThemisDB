@@ -110,6 +110,13 @@ MigrationResult AQLMigrationAssistant::migrate(const std::string &arango_aql) co
 // Private helpers — static utilities
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Extract Args.
+ * @param[in] src Input parameter.
+ * @param[in] open_paren Input parameter.
+ * @return Return value.
+ * @details Calls: size(), substr().
+ */
 std::string AQLMigrationAssistant::extractArgs(const std::string &src, std::size_t open_paren) {
     if (open_paren >= src.size() || src[open_paren] != '(') {
         return {};
@@ -139,7 +146,12 @@ std::string AQLMigrationAssistant::extractArgs(const std::string &src, std::size
 
 namespace {
 
-/// Split a raw argument string on top-level commas (not inside nested parens).
+/**
+ * @brief Split Args.
+ * @param[in] args_str Input parameter.
+ * @return Return value.
+ * @details Calls: size(), substr(), find_first_not_of(), find_last_not_of(), push_back().
+ */
 std::vector<std::string> splitArgs(const std::string &args_str) {
     std::vector<std::string> result;
     int depth         = 0;
@@ -169,7 +181,6 @@ std::vector<std::string> splitArgs(const std::string &args_str) {
     return result;
 }
 
-/// Case-insensitive find of needle in haystack; returns position or npos.
 std::size_t findCI(const std::string &haystack, const std::string &needle, std::size_t pos = 0) {
     if (needle.empty()) {
         return pos;
@@ -183,8 +194,13 @@ std::size_t findCI(const std::string &haystack, const std::string &needle, std::
     return static_cast<std::size_t>(it - haystack.begin());
 }
 
-/// Return true when the character at position @p pos (if valid) is NOT an
-/// identifier character, making it a word boundary.
+/**
+ * @brief Is Word Boundary.
+ * @param[in] s Input parameter.
+ * @param[in] pos Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: size(), std::isalnum().
+ */
 bool isWordBoundary(const std::string &s, std::size_t pos) {
     if (pos >= s.size()) {
         return true;
@@ -194,19 +210,14 @@ bool isWordBoundary(const std::string &s, std::size_t pos) {
 }
 
 /**
- * @brief Find the next occurrence of @p keyword that is a function call (followed by '(')
- *        and is preceded by a word boundary.
- *
- * Searches from @p start_pos forward, skipping any keyword occurrences that are:
- *   - embedded inside a longer identifier (no word boundary before)
- *   - not followed by '(' (not a function call)
- *
- * @param query      The query string to search.
- * @param keyword    The keyword to locate (searched case-insensitively).
- * @param start_pos  The position to start searching from.
- * @param kw_pos     [out] Position of the keyword when found.
- * @param paren_pos  [out] Position of the '(' when found.
- * @return true when a valid function call was found; false when none remain.
+ * @brief Find Next Function Call.
+ * @param[in] query Input parameter.
+ * @param[in] keyword Input parameter.
+ * @param[in] start_pos Input parameter.
+ * @param[in,out] kw_pos Input/output parameter.
+ * @param[in,out] paren_pos Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: findCI(), isWordBoundary(), size(), std::isspace().
  */
 bool findNextFunctionCall(const std::string &query, const std::string &keyword, std::size_t start_pos,
                           std::size_t &kw_pos, std::size_t &paren_pos) {

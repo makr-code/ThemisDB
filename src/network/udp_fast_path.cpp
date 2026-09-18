@@ -51,6 +51,10 @@ UDPFastPath::~UDPFastPath() {
 // start / stop
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Start.
+ * @details Calls: load(), endpoint(), net::ip::make_address(), store(), THEMIS_INFO(), doReceive(), reserve(), emplace_back().
+ */
 void UDPFastPath::start() {
     if (running_.load(std::memory_order_acquire)) {
         return;  // Already running
@@ -73,6 +77,10 @@ void UDPFastPath::start() {
     }
 }
 
+/**
+ * @brief Stop.
+ * @details Calls: exchange(), close(), joinable(), join(), clear(), restart(), THEMIS_INFO().
+ */
 void UDPFastPath::stop() {
     if (!running_.exchange(false, std::memory_order_acq_rel)) {
         return;  // Already stopped
@@ -99,6 +107,10 @@ void UDPFastPath::stop() {
 // Receive loop
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Do Receive.
+ * @details Calls: async_receive_from(), net::buffer(), THEMIS_ERROR(), message(), datagram(), begin(), lk(), handleDatagram().
+ */
 void UDPFastPath::doReceive() {
     socket_->async_receive_from(
         net::buffer(recv_buf_),
@@ -135,6 +147,12 @@ void UDPFastPath::doReceive() {
 // Datagram dispatch
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Handle Datagram.
+ * @param[in] sender Input parameter.
+ * @param[in] data Input parameter.
+ * @details Calls: address(), to_string(), checkRateLimit(), lk(), THEMIS_WARN(), size(), std::memcpy(), data().
+ */
 void UDPFastPath::handleDatagram(const udp::endpoint&        sender,
                                   const std::vector<uint8_t>& data) {
     const std::string ip = sender.address().to_string();
@@ -243,6 +261,12 @@ void UDPFastPath::handleDatagram(const udp::endpoint&        sender,
 // Rate limiting
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Check whether a user exceeds the current rate limit.
+ * @param[in] ip Input parameter.
+ * @return True when the user remains within the configured limit.
+ * @details Calls: std::chrono::steady_clock::now(), time_since_epoch(), count(), lk(), max().
+ */
 bool UDPFastPath::checkRateLimit(const std::string& ip) {
     const uint64_t now_ms =
         static_cast<uint64_t>(
@@ -273,6 +297,13 @@ bool UDPFastPath::checkRateLimit(const std::string& ip) {
 // Opcode handlers
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Dispatch Get.
+ * @param[in] request_id Identifier of the request.
+ * @param[in] payload_json Input parameter.
+ * @return Return value.
+ * @details Calls: buildResponse(), json::parse(), at(), std::string(), what(), dump(), empty(), get().
+ */
 std::vector<uint8_t> UDPFastPath::dispatchGet(uint32_t           request_id,
                                                const std::string& payload_json) {
     if (!storage_) {
@@ -308,6 +339,13 @@ std::vector<uint8_t> UDPFastPath::dispatchGet(uint32_t           request_id,
     return buildResponse(request_id, UdpStatus::OK, result.dump());
 }
 
+/**
+ * @brief Dispatch Query.
+ * @param[in] request_id Identifier of the request.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Calls: buildResponse().
+ */
 std::vector<uint8_t> UDPFastPath::dispatchQuery(uint32_t           request_id,
                                                  const std::string& /*payload_json*/) {
     // AQL query execution over UDP is intentionally limited to simple look-ups;
@@ -318,12 +356,25 @@ std::vector<uint8_t> UDPFastPath::dispatchQuery(uint32_t           request_id,
                          R"({"error":"AQL queries not available on UDP fast-path; use TCP wire protocol"})");
 }
 
+/**
+ * @brief Dispatch Vector Search.
+ * @param[in] request_id Identifier of the request.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Calls: buildResponse().
+ */
 std::vector<uint8_t> UDPFastPath::dispatchVectorSearch(uint32_t           request_id,
                                                         const std::string& /*payload_json*/) {
     return buildResponse(request_id, UdpStatus::ERROR,
                          R"({"error":"vector search not available on UDP fast-path; use TCP wire protocol"})");
 }
 
+/**
+ * @brief Dispatch Ping.
+ * @param[in] request_id Identifier of the request.
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), buildResponse(), dump().
+ */
 std::vector<uint8_t> UDPFastPath::dispatchPing(uint32_t request_id) {
     const uint64_t now_ms =
         static_cast<uint64_t>(
@@ -341,6 +392,12 @@ std::vector<uint8_t> UDPFastPath::dispatchPing(uint32_t request_id) {
 // Static helpers
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Validate Packet.
+ * @param[in] data Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: size(), std::memcpy(), data(), ntohs().
+ */
 bool UDPFastPath::validatePacket(const std::vector<uint8_t>& data) {
     if (data.size() < kUdpFastPathHeaderSize) {
         return false;
@@ -363,6 +420,12 @@ bool UDPFastPath::validatePacket(const std::vector<uint8_t>& data) {
     return true;
 }
 
+/**
+ * @brief Is Read Only Op Code.
+ * @param[in] opcode Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements isReadOnlyOpCode without additional internal calls.
+ */
 bool UDPFastPath::isReadOnlyOpCode(uint8_t opcode) {
     switch (static_cast<UdpOpCode>(opcode)) {
         case UdpOpCode::GET:
@@ -384,6 +447,14 @@ bool UDPFastPath::isReadOnlyOpCode(uint8_t opcode) {
     }
 }
 
+/**
+ * @brief Build Response.
+ * @param[in] request_id Identifier of the request.
+ * @param[in] status Input parameter.
+ * @param[in] payload Input parameter.
+ * @return Return value.
+ * @details Calls: size(), reserve(), push_back(), htonl(), insert(), end(), htons(), data().
+ */
 std::vector<uint8_t> UDPFastPath::buildResponse(uint32_t           request_id,
                                                   UdpStatus          status,
                                                   const std::string& payload) {
@@ -423,6 +494,11 @@ std::vector<uint8_t> UDPFastPath::buildResponse(uint32_t           request_id,
 // ─────────────────────────────────────────────────────────────────────────────
 
 UDPFastPath::Stats UDPFastPath::getStats() const {
+    /**
+     * @brief Lk.
+     * @param[in] stats_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(stats_mutex_);
     return stats_;
 }

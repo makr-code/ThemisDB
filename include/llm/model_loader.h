@@ -27,18 +27,12 @@
 namespace themis {
 namespace llm {
 
-/**
- * @brief Model loading phases for progress tracking
- */
 enum class LoadPhase {
     PARSING,        // 0-20% - Parse GGUF file
     ALLOCATING,     // 20-70% - Allocate model weights
     INITIALIZING    // 70-100% - Initialize context
 };
 
-/**
- * @brief Progress information for async model loading
- */
 struct LoadProgress {
     LoadPhase phase;
     double phase_progress = 0.0;        // 0.0-1.0 within current phase
@@ -53,18 +47,16 @@ struct LoadProgress {
           start_time(std::chrono::steady_clock::now()) {}
 };
 
-/**
- * @brief Progress callback function type
- */
 using ProgressCallback = std::function<void(const LoadProgress&)>;
 
-/**
- * @brief Cancellation token for async operations
- */
 class CancellationToken {
 public:
     CancellationToken() : cancelled_(std::make_shared<std::atomic<bool>>(false)) {}
     
+    /**
+     * @brief Cancel.
+     * @details Calls: store().
+     */
     void cancel() { cancelled_->store(true); }
     bool is_cancelled() const { return cancelled_->load(); }
     
@@ -72,16 +64,11 @@ private:
     std::shared_ptr<std::atomic<bool>> cancelled_;
 };
 
-/**
- * @brief Model cache entry with metadata
- */
 struct CachedModel {
     /**
-     * @brief Release any owned llama.cpp handles.
-     *
-     * Frees the cached context before the underlying model handle so
-     * outstanding shared owners can rely on RAII cleanup once the final
-     * reference leaves scope.
+     * @brief Cached Model.
+     * @return Return value.
+     * @note Exception safety: noexcept.
      */
     virtual ~CachedModel() noexcept;
     std::string model_id;
@@ -102,19 +89,6 @@ struct CachedModel {
     bool keep_loaded = false;           // Pin in memory (don't evict)
 };
 
-/**
- * @brief Lazy Model Loader (Ollama-inspired)
- * 
- * Manages multiple models with lazy loading and automatic eviction.
- * Models are loaded on first use and can be kept in memory for fast switching.
- * 
- * Example workflow:
- * 1. Request model "mistral-7b" for inference
- * 2. If not loaded, load it lazily (first request is slower)
- * 3. Subsequent requests use the cached model (fast)
- * 4. After TTL expires without use, model is unloaded to free memory
- * 5. Next request loads it again (lazy)
- */
 class LazyModelLoader {
 public:
     struct Config {
@@ -140,55 +114,26 @@ public:
         bool require_model_integrity = false;   // Require SHA-256 checksum for model loading
     };
     
+    /**
+     * @brief Lazy Model Loader.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit LazyModelLoader(const Config& config);
     ~LazyModelLoader() noexcept;
     
-    /**
-     * @brief Get or load a model (lazy loading)
-     * 
-     * If model is already loaded, returns immediately.
-     * If not loaded, loads it on-demand (blocking).
-     * 
-     * Thread-safe.
-     * 
-     * @param model_id Unique model identifier
-     * @param model_path Path to model file (if not loaded)
-     * @param load_config Optional loading configuration. Supports SHA-256
-     *        integrity keys `expected_checksum`, `model_checksum`, or `checksum`.
-     *        When no expected checksum is provided, the loader emits a security
-     *        warning and continues with a non-blocking integrity check.
-     * @return Model handle or nullptr on failure, including checksum mismatches
-     *         or digest calculation failures when an expected checksum is supplied
-     */
     CachedModel* getOrLoadModel(
         const std::string& model_id,
         const std::string& model_path,
         const json& load_config = {}
     );
     
-    /**
-     * @brief Get or load a model with shared ownership (thread-safe access)
-     * 
-     * Same as getOrLoadModel() but returns a shared_ptr to ensure the model
-     * remains valid even if another thread unloads or evicts it from the cache.
-     * 
-     * Thread-safe.
-     * 
-     * @param model_id Unique model identifier
-     * @param model_path Path to model file (if not loaded)
-     * @param load_config Optional loading configuration
-     * @return shared_ptr to CachedModel or nullptr on failure
-     */
     std::shared_ptr<CachedModel> getOrLoadModelShared(
         const std::string& model_id,
         const std::string& model_path,
         const json& load_config = {}
     );
 
-    /**
-     * @brief Backwards-compat wrapper: historical API `getModel` forwarded
-     * to `getOrLoadModel` for tests and older callers.
-     */
     CachedModel* getModel(
         const std::string& model_id,
         const std::string& model_path,
@@ -197,40 +142,12 @@ public:
         return getOrLoadModel(model_id, model_path, load_config);
     }
     
-    /**
-     * @brief Preload a model (background loading)
-     * 
-     * Loads a model asynchronously in the background.
-     * Useful for warming up the cache before actual requests.
-     * Applies the same SHA-256 integrity verification rules as getOrLoadModel().
-     * 
-     * @param model_id Unique model identifier
-     * @param model_path Path to model file
-     * @param load_config Optional loading configuration with checksum hints
-     * @return true if preload started successfully
-     */
     bool preloadModel(
         const std::string& model_id,
         const std::string& model_path,
         const json& load_config = {}
     );
     
-    /**
-     * @brief Load model asynchronously with progress callback
-     * 
-     * Non-blocking model load with progress reporting and cancellation support.
-     * This prevents query threads from blocking during model initialization.
-     * 
-     * @param model_id Unique model identifier
-     * @param model_path Path to model file
-     * @param progress_cb Optional callback for progress updates
-     * @param cancel_token Optional cancellation token
-     * @param load_config Optional loading configuration, including optional
-     *        SHA-256 checksum hints via `expected_checksum`, `model_checksum`,
-     *        or `checksum`
-     * @return Future that resolves to model handle or nullptr on failure,
-     *         including checksum mismatches when an expected hash is supplied
-     */
     std::future<CachedModel*> loadAsync(
         const std::string& model_id,
         const std::string& model_path,
@@ -239,68 +156,57 @@ public:
         const json& load_config = {}
     );
     
-    /**
-     * @brief Unload a specific model
-     * 
-     * Immediately unloads a model from memory.
-     * 
-     * @param model_id Model to unload
-     * @param force If true, unload even if pinned
-     */
     bool unloadModel(const std::string& model_id, bool force = false);
     
     /**
-     * @brief Pin a model in memory (prevent eviction)
-     * 
-     * Useful for frequently used models that should always be available.
+     * @brief Pin Model.
+     * @param[in] model_id Identifier of the model.
      */
     void pinModel(const std::string& model_id);
     
     /**
-     * @brief Unpin a model (allow eviction)
+     * @brief Unpin Model.
+     * @param[in] model_id Identifier of the model.
      */
     void unpinModel(const std::string& model_id);
     
     /**
-     * @brief Check if model is loaded
+     * @brief Is Model Loaded.
+     * @param[in] model_id Identifier of the model.
+     * @return True when the operation succeeds.
      */
     bool isModelLoaded(const std::string& model_id) const;
     
     /**
-     * @brief Get model info (if loaded)
+     * @brief Get Model Info.
+     * @param[in] model_id Identifier of the model.
+     * @return Return value.
      */
     std::optional<ModelInfo> getModelInfo(const std::string& model_id) const;
     
     /**
-     * @brief List all loaded models
+     * @brief List Loaded Models.
+     * @return Return value.
      */
     std::vector<std::string> listLoadedModels() const;
     
-    /**
-     * @brief Evict least recently used model(s) to free memory
-     * 
-     * Called automatically when memory limits are exceeded.
-     * Can also be called manually.
-     * 
-     * @param target_vram_mb Target VRAM to free
-     * @return Amount of VRAM freed (MB)
-     */
     size_t evictLRU(size_t target_vram_mb = 0);
     
     /**
-     * @brief Evict models that exceeded their TTL
-     * 
-     * @return Number of models evicted
+     * @brief Evict Expired.
+     * @return Return value.
      */
     size_t evictExpired();
     
     /**
-     * @brief Get memory usage statistics
+     * @brief Get Memory Stats.
+     * @return Return value.
      */
     json getMemoryStats() const;
     
     /**
-     * @brief Get cache statistics
+     * @brief Get Cache Stats.
+     * @return Return value.
      */
     json getCacheStats() const;
 
@@ -312,6 +218,10 @@ public:
         size_t models_loaded = 0;
     };
 
+    /**
+     * @brief Return access control statistics.
+     * @return Access control statistics.
+     */
     Stats getStatistics() const;
     
 private:
@@ -336,6 +246,13 @@ private:
     std::atomic<size_t> models_loaded_{0};
     
     // Internal helpers
+    /**
+     * @brief Load Model Internal.
+     * @param[in] model_id Identifier of the model.
+     * @param[in] model_path Path to the model.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     Result<CachedModel*> loadModelInternal(
         const std::string& model_id,
         const std::string& model_path,
@@ -347,8 +264,23 @@ private:
         const json& config
     ) const;
     
+    /**
+     * @brief Has Capacity.
+     * @param[in] vram_mb Input parameter.
+     * @param[in] ram_mb Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool hasCapacity(size_t vram_mb, size_t ram_mb) const;
+    /**
+     * @brief Update Memory Usage.
+     */
     void updateMemoryUsage();
+    /**
+     * @brief Unload Model Unlocked.
+     * @param[in] model_id Identifier of the model.
+     * @param[in] force Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool unloadModelUnlocked(const std::string& model_id, bool force);
     size_t evictLRUUnlocked(size_t target_vram_mb = 0);
 };

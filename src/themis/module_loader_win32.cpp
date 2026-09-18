@@ -56,6 +56,12 @@ int ModuleLoader::getZoneIdentifier(const std::string& modulePath) const {
     ReadFile(hFile, buffer, kZoneIdBufferSize - 1, &bytesRead, nullptr);
     CloseHandle(hFile);
 
+    /**
+     * @brief Content.
+     * @param[in] buffer Input parameter.
+     * @param[in] bytesRead Input parameter.
+     * @return Return value.
+     */
     std::string content(buffer, bytesRead);
     // Zone.Identifier format: "[ZoneTransfer]\r\nZoneId=<N>"
     const std::string zoneIdKey = "ZoneId=";
@@ -70,6 +76,12 @@ int ModuleLoader::getZoneIdentifier(const std::string& modulePath) const {
     }
 }
 
+/**
+ * @brief Remove Zone Identifier.
+ * @param[in] modulePath Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: DeleteFileA(), c_str(), spdlog::info(), GetLastError(), spdlog::warn().
+ */
 bool ModuleLoader::removeZoneIdentifier(const std::string& modulePath) {
     std::string adsPath = modulePath + ":Zone.Identifier";
     if (DeleteFileA(adsPath.c_str())) {

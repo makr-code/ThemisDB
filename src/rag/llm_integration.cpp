@@ -42,6 +42,12 @@ static std::shared_ptr<llm::InferenceEngineEnhanced> g_inference_engine = nullpt
 static std::mutex g_engine_mutex;
 
 namespace {
+/**
+ * @brief Build Fallback Response.
+ * @param[in] prompt Input parameter.
+ * @return Return value.
+ * @details Calls: find(), response().
+ */
 std::string buildFallbackResponse(const std::string& prompt) {
     // Deterministischer Offline-Fallback fuer Test-/No-Model-Umgebungen.
     if (prompt.find("\"questions\"") != std::string::npos ||
@@ -101,21 +107,44 @@ std::string PromptTemplate::format(
 // LLMIntegration Implementation
 // ============================================================================
 
+/**
+ * @brief Set Inference Engine.
+ * @param[in] engine Input parameter.
+ * @details Calls: lock(), THEMIS_INFO().
+ */
 void LLMIntegration::setInferenceEngine(std::shared_ptr<llm::InferenceEngineEnhanced> engine) {
     std::lock_guard<std::mutex> lock(g_engine_mutex);
     g_inference_engine = engine;
     THEMIS_INFO("LLM Integration: Inference engine configured");
 }
 
+/**
+ * @brief Get Inference Engine.
+ * @return Return value.
+ * @details Calls: lock().
+ */
 std::shared_ptr<llm::InferenceEngineEnhanced> LLMIntegration::getInferenceEngine() {
     std::lock_guard<std::mutex> lock(g_engine_mutex);
     return g_inference_engine;
 }
 
+/**
+ * @brief Generate.
+ * @param[in] prompt Input parameter.
+ * @return Return value.
+ * @details Implements generate without additional internal calls.
+ */
 std::string LLMIntegration::generate(const std::string& prompt) {
     return generate(prompt, LLMGenerationOptions{});
 }
 
+/**
+ * @brief Generate.
+ * @param[in] prompt Input parameter.
+ * @param[in] options Input parameter.
+ * @return Return value.
+ * @details Calls: THEMIS_DEBUG(), length(), getInferenceEngine(), std::min(), max(), llm::LLMPluginManager::instance(), empty(), THEMIS_WARN().
+ */
 std::string LLMIntegration::generate(
     const std::string& prompt,
     const LLMGenerationOptions& options
@@ -209,6 +238,13 @@ std::string LLMIntegration::generate(
     }
 }
 
+/**
+ * @brief Generate Multiple Samples.
+ * @param[in] prompt Input parameter.
+ * @param[in] num_samples Input parameter.
+ * @return Return value.
+ * @details Implements generateMultipleSamples without additional internal calls.
+ */
 std::vector<std::string> LLMIntegration::generateMultipleSamples(
     const std::string& prompt,
     size_t num_samples
@@ -216,6 +252,14 @@ std::vector<std::string> LLMIntegration::generateMultipleSamples(
     return generateMultipleSamples(prompt, num_samples, LLMGenerationOptions{});
 }
 
+/**
+ * @brief Generate Multiple Samples.
+ * @param[in] prompt Input parameter.
+ * @param[in] num_samples Input parameter.
+ * @param[in] options Input parameter.
+ * @return Return value.
+ * @details Calls: THEMIS_DEBUG(), reserve(), gen(), rd(), seed_dist(), size(), std::min(), push_back().
+ */
 std::vector<std::string> LLMIntegration::generateMultipleSamples(
     const std::string& prompt,
     size_t num_samples,
@@ -254,6 +298,12 @@ std::vector<std::string> LLMIntegration::generateMultipleSamples(
     return samples;
 }
 
+/**
+ * @brief Parse Evaluation Response.
+ * @param[in] response Input parameter.
+ * @return Return value.
+ * @details Calls: score_regex(), std::regex_search(), std::stod(), confidence_regex(), explanation_regex(), THEMIS_DEBUG(), THEMIS_ERROR(), what().
+ */
 LLMEvaluationResponse LLMIntegration::parseEvaluationResponse(
     const std::string& response
 ) {
@@ -299,6 +349,12 @@ LLMEvaluationResponse LLMIntegration::parseEvaluationResponse(
     return result;
 }
 
+/**
+ * @brief Calculate Perplexity.
+ * @param[in] token_probs Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), std::log(), size(), std::exp().
+ */
 double LLMIntegration::calculatePerplexity(const std::vector<double>& token_probs) {
     if (token_probs.empty()) {
         return 0.0;
@@ -316,6 +372,13 @@ double LLMIntegration::calculatePerplexity(const std::vector<double>& token_prob
     return std::exp(-avg_log_prob);
 }
 
+/**
+ * @brief Calculate Semantic Similarity.
+ * @param[in] text1 Input parameter.
+ * @param[in] text2 Input parameter.
+ * @return Return value.
+ * @details Calls: THEMIS_DEBUG(), empty(), iss(), std::transform(), begin(), end(), push_back(), tokenize().
+ */
 double LLMIntegration::calculateSemanticSimilarity(
     const std::string& text1,
     const std::string& text2
@@ -388,6 +451,11 @@ double LLMIntegration::calculateSemanticSimilarity(
 // PromptLibrary Implementation
 // ============================================================================
 
+/**
+ * @brief Get Confidence Evaluation Prompt.
+ * @return Return value.
+ * @details Implements getConfidenceEvaluationPrompt without additional internal calls.
+ */
 PromptTemplate PromptLibrary::getConfidenceEvaluationPrompt() {
     PromptTemplate tmpl;
     
@@ -414,6 +482,11 @@ PromptTemplate PromptLibrary::getConfidenceEvaluationPrompt() {
     return tmpl;
 }
 
+/**
+ * @brief Get Claim Verification Prompt.
+ * @return Return value.
+ * @details Implements getClaimVerificationPrompt without additional internal calls.
+ */
 PromptTemplate PromptLibrary::getClaimVerificationPrompt() {
     PromptTemplate tmpl;
     
@@ -436,6 +509,11 @@ PromptTemplate PromptLibrary::getClaimVerificationPrompt() {
     return tmpl;
 }
 
+/**
+ * @brief Get Consistency Check Prompt.
+ * @return Return value.
+ * @details Implements getConsistencyCheckPrompt without additional internal calls.
+ */
 PromptTemplate PromptLibrary::getConsistencyCheckPrompt() {
     PromptTemplate tmpl;
     
@@ -459,6 +537,11 @@ PromptTemplate PromptLibrary::getConsistencyCheckPrompt() {
     return tmpl;
 }
 
+/**
+ * @brief Get Faithfulness Evaluation Prompt.
+ * @return Return value.
+ * @details Implements getFaithfulnessEvaluationPrompt without additional internal calls.
+ */
 PromptTemplate PromptLibrary::getFaithfulnessEvaluationPrompt() {
     PromptTemplate tmpl;
     
@@ -493,6 +576,11 @@ PromptTemplate PromptLibrary::getFaithfulnessEvaluationPrompt() {
     return tmpl;
 }
 
+/**
+ * @brief Get Relevance Evaluation Prompt.
+ * @return Return value.
+ * @details Implements getRelevanceEvaluationPrompt without additional internal calls.
+ */
 PromptTemplate PromptLibrary::getRelevanceEvaluationPrompt() {
     PromptTemplate tmpl;
     
@@ -514,6 +602,11 @@ PromptTemplate PromptLibrary::getRelevanceEvaluationPrompt() {
     return tmpl;
 }
 
+/**
+ * @brief Get Completeness Evaluation Prompt.
+ * @return Return value.
+ * @details Implements getCompletenessEvaluationPrompt without additional internal calls.
+ */
 PromptTemplate PromptLibrary::getCompletenessEvaluationPrompt() {
     PromptTemplate tmpl;
     
@@ -535,6 +628,11 @@ PromptTemplate PromptLibrary::getCompletenessEvaluationPrompt() {
     return tmpl;
 }
 
+/**
+ * @brief Get Coherence Evaluation Prompt.
+ * @return Return value.
+ * @details Implements getCoherenceEvaluationPrompt without additional internal calls.
+ */
 PromptTemplate PromptLibrary::getCoherenceEvaluationPrompt() {
     PromptTemplate tmpl;
     
@@ -555,6 +653,11 @@ PromptTemplate PromptLibrary::getCoherenceEvaluationPrompt() {
     return tmpl;
 }
 
+/**
+ * @brief Get Pairwise Comparison Prompt.
+ * @return Return value.
+ * @details Implements getPairwiseComparisonPrompt without additional internal calls.
+ */
 PromptTemplate PromptLibrary::getPairwiseComparisonPrompt() {
     PromptTemplate tmpl;
     

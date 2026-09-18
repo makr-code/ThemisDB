@@ -22,12 +22,6 @@ namespace query {
 // MutationStepType
 // ---------------------------------------------------------------------------
 
-/**
- * @brief Step types in a mutation execution plan.
- *
- * Each value represents a discrete operation that the MutationExecutor
- * performs in sequence when executing a MutationExecutionPlan.
- */
 enum class MutationStepType {
     GenerateKeys,       ///< Generate unique _key values for new documents.
     Serialize,          ///< Serialize document(s) to storage format (JSON bytes).
@@ -44,22 +38,11 @@ enum class MutationStepType {
 // MutationStep
 // ---------------------------------------------------------------------------
 
-/**
- * @brief A single step in a mutation execution plan.
- *
- * Steps are executed in order by MutationExecutor::execute().
- * The @c params field carries step-specific configuration as a JSON object
- * (e.g. collection name, key prefix, predicate description).
- */
 struct MutationStep {
     MutationStepType type;        ///< Discriminator for executor dispatch.
     std::string      description; ///< Human-readable description for diagnostics.
     nlohmann::json   params;      ///< Step-specific parameters (JSON object).
 
-    /**
-     * @brief Serialise the step to a JSON object.
-     * @return JSON representation with "type", "description", and "params" keys.
-     */
     [[nodiscard]] nlohmann::json toJSON() const;
 };
 
@@ -67,14 +50,6 @@ struct MutationStep {
 // MutationResult
 // ---------------------------------------------------------------------------
 
-/**
- * @brief Result structure returned after mutation execution.
- *
- * Produced by MutationExecutor::execute() and returned to the caller.
- * On success, @c success is @c true and @c affected_count reflects the number
- * of documents modified.  On failure, @c success is @c false and @c errors
- * plus @c error_code carry the diagnostic information.
- */
 struct MutationResult {
     bool                     success        = false; ///< True when execution succeeded.
     int64_t                  affected_count = 0;     ///< Documents affected (inserted/updated/removed).
@@ -82,27 +57,11 @@ struct MutationResult {
     std::vector<std::string> errors;                 ///< Error messages on failure.
     std::string              error_code;             ///< Machine-readable error code (empty on success).
 
-    /**
-     * @brief Construct a successful result.
-     * @param affected  Number of affected documents.
-     * @param ids       Optional list of inserted document keys.
-     * @return Populated success result.
-     */
     [[nodiscard]] static MutationResult Ok(int64_t                  affected,
                                            std::vector<std::string> ids = {});
 
-    /**
-     * @brief Construct a failure result.
-     * @param code  Machine-readable error code (e.g. "LOCK_TIMEOUT").
-     * @param msg   Human-readable error description.
-     * @return Populated failure result.
-     */
     [[nodiscard]] static MutationResult Failure(std::string code, std::string msg);
 
-    /**
-     * @brief Serialise the result to a JSON object.
-     * @return JSON representation.
-     */
     [[nodiscard]] nlohmann::json toJSON() const;
 };
 
@@ -110,21 +69,6 @@ struct MutationResult {
 // MutationExecutionPlan
 // ---------------------------------------------------------------------------
 
-/**
- * @brief Execution plan for a DML mutation operation (EPIC-004 Phase 3).
- *
- * Produced by AqlMutationTranslator::translate() and consumed by
- * MutationExecutor::execute().  Describes the ordered sequence of steps
- * required to execute a mutation atomically against the storage layer.
- *
- * ### Lifecycle
- * ```
- * AQLParser::parseMutation()          → MutationNode
- * AqlMutationValidator::validate()    → MutationValidationResult (errors block progress)
- * AqlMutationTranslator::translate()  → MutationExecutionPlan
- * MutationExecutor::execute()         → MutationResult
- * ```
- */
 struct MutationExecutionPlan {
     ASTNodeType                  mutation_type;         ///< INSERT/UPDATE/REMOVE/REPLACE/UPSERT.
     std::string                  collection;             ///< Target collection name.
@@ -133,10 +77,6 @@ struct MutationExecutionPlan {
     bool                         requires_transaction  = false; ///< Whether a transaction context is needed.
     std::optional<int64_t>       affected_limit;         ///< Max rows from LIMIT clause (nullopt = unlimited).
 
-    /**
-     * @brief Serialise the plan to a JSON object for debugging/logging.
-     * @return JSON representation of the full plan including all steps.
-     */
     [[nodiscard]] nlohmann::json toJSON() const;
 };
 
@@ -155,6 +95,13 @@ inline nlohmann::json MutationStep::toJSON() const {
     return {{"type", typeName}, {"description", description}, {"params", params}};
 }
 
+/**
+ * @brief Ok.
+ * @param[in] affected Input parameter.
+ * @param[in] ids Input parameter.
+ * @return Return value.
+ * @details Calls: std::move().
+ */
 inline MutationResult MutationResult::Ok(int64_t affected, std::vector<std::string> ids) {
     MutationResult r;
     r.success        = true;
@@ -163,6 +110,13 @@ inline MutationResult MutationResult::Ok(int64_t affected, std::vector<std::stri
     return r;
 }
 
+/**
+ * @brief Failure.
+ * @param[in] code Input parameter.
+ * @param[in] msg Input parameter.
+ * @return Return value.
+ * @details Calls: std::move(), push_back().
+ */
 inline MutationResult MutationResult::Failure(std::string code, std::string msg) {
     MutationResult r;
     r.success    = false;

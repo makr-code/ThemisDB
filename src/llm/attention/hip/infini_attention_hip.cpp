@@ -29,6 +29,11 @@ InfiniAttentionHIP::~InfiniAttentionHIP() {
     releaseGPUMemory();
 }
 
+/**
+ * @brief Initialize.
+ * @return Return value.
+ * @details Calls: initializeHIPDevice(), allocateGPUMemory(), releaseGPUMemory().
+ */
 Status InfiniAttentionHIP::initialize() {
     if (initialized_) {
         return Status::SUCCESS;
@@ -61,6 +66,15 @@ Status InfiniAttentionHIP::initialize() {
     return Status::SUCCESS;
 }
 
+/**
+ * @brief Forward.
+ * @param[in] Q Input parameter.
+ * @param[in] K Input parameter.
+ * @param[in] V Input parameter.
+ * @param[in,out] O Input/output parameter.
+ * @return Return value.
+ * @details Calls: initialize(), computeLocalAttention(), computeCompressiveAttention(), updateCompressiveMemory(), blendOutputs().
+ */
 Status InfiniAttentionHIP::forward(
     const Tensor& Q,
     const Tensor& K,
@@ -102,6 +116,15 @@ Status InfiniAttentionHIP::forward(
     return Status::SUCCESS;
 }
 
+/**
+ * @brief Backward.
+ * @param[in] dO Input parameter.
+ * @param[in,out] dQ Input/output parameter.
+ * @param[in,out] dK Input/output parameter.
+ * @param[in,out] dV Input/output parameter.
+ * @return Return value.
+ * @details Implements backward without additional internal calls.
+ */
 Status InfiniAttentionHIP::backward(
     const Tensor& dO,
     Tensor& dQ,
@@ -120,12 +143,22 @@ AttentionMemoryStats InfiniAttentionHIP::getMemoryStats() const {
     return stats;
 }
 
+/**
+ * @brief Is Available.
+ * @return True when the operation succeeds.
+ * @details Calls: hipGetDeviceCount().
+ */
 bool InfiniAttentionHIP::isAvailable() {
     int device_count = 0;
     hipError_t err = hipGetDeviceCount(&device_count);
     return (err == hipSuccess) && (device_count > 0);
 }
 
+/**
+ * @brief Initialize HIPDevice.
+ * @return Return value.
+ * @details Calls: hipSetDevice(), hipGetDeviceProperties(), hipLaunchKernel(), HIP_KERNEL_NAME(), dim3(), hipDeviceSynchronize().
+ */
 Status InfiniAttentionHIP::initializeHIPDevice() {
     // Set device 0 as active
     hipError_t err = hipSetDevice(0);
@@ -161,6 +194,11 @@ void* InfiniAttentionHIP::allocateGPUMemory(size_t bytes) const {
     return ptr;
 }
 
+/**
+ * @brief Release GPUMemory.
+ * @return Return value.
+ * @details Calls: hipFree().
+ */
 Status InfiniAttentionHIP::releaseGPUMemory() {
     if (gpu_memory_) {
         hipFree(gpu_memory_);
@@ -177,6 +215,11 @@ Status InfiniAttentionHIP::releaseGPUMemory() {
     return Status::SUCCESS;
 }
 
+/**
+ * @brief Reset Memory.
+ * @return Return value.
+ * @details Calls: hipMemset().
+ */
 Status InfiniAttentionHIP::resetMemory() {
     if (!gpu_memory_) {
         return Status::ERROR_BACKEND_NOT_AVAILABLE;
@@ -213,6 +256,13 @@ std::vector<float> InfiniAttentionHIP::getCompressiveMemory() const {
     return checkpoint;
 }
 
+/**
+ * @brief Restore Compressive Memory.
+ * @param[in] checkpoint Input parameter.
+ * @return Return value.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: size(), hipMemcpy(), data().
+ */
 Status InfiniAttentionHIP::restoreCompressiveMemory(const std::vector<float>& checkpoint) {
     size_t expected_size = config_.memory_dim * config_.memory_dim;
     if (checkpoint.size() != expected_size) {
@@ -239,6 +289,15 @@ Status InfiniAttentionHIP::restoreCompressiveMemory(const std::vector<float>& ch
 }
 
 // Phase 2.2 placeholder implementations
+/**
+ * @brief Compute Local Attention.
+ * @param[in] Q Input parameter.
+ * @param[in] K Input parameter.
+ * @param[in] V Input parameter.
+ * @param[in,out] O Input/output parameter.
+ * @return Return value.
+ * @details Implements computeLocalAttention without additional internal calls.
+ */
 Status InfiniAttentionHIP::computeLocalAttention(
     const Tensor& Q,
     const Tensor& K,
@@ -248,6 +307,13 @@ Status InfiniAttentionHIP::computeLocalAttention(
     return Status::SUCCESS;
 }
 
+/**
+ * @brief Compute Compressive Attention.
+ * @param[in] Q Input parameter.
+ * @param[in,out] O Input/output parameter.
+ * @return Return value.
+ * @details Implements computeCompressiveAttention without additional internal calls.
+ */
 Status InfiniAttentionHIP::computeCompressiveAttention(
     const Tensor& Q,
     Tensor& O) {
@@ -262,6 +328,13 @@ Status InfiniAttentionHIP::computeCompressiveAttention(
     return Status::SUCCESS;
 }
 
+/**
+ * @brief Update Compressive Memory.
+ * @param[in] K Input parameter.
+ * @param[in] V Input parameter.
+ * @return Return value.
+ * @details Implements updateCompressiveMemory without additional internal calls.
+ */
 Status InfiniAttentionHIP::updateCompressiveMemory(
     const Tensor& K,
     const Tensor& V) {
@@ -276,6 +349,14 @@ Status InfiniAttentionHIP::updateCompressiveMemory(
     return Status::SUCCESS;
 }
 
+/**
+ * @brief Blend Outputs.
+ * @param[in] O_local Input parameter.
+ * @param[in] O_comp Input parameter.
+ * @param[in,out] O_final Input/output parameter.
+ * @return Return value.
+ * @details Implements blendOutputs without additional internal calls.
+ */
 Status InfiniAttentionHIP::blendOutputs(
     const Tensor& O_local,
     const Tensor& O_comp,
@@ -302,14 +383,37 @@ InfiniAttentionHIP::InfiniAttentionHIP(const Config &config)
 
 InfiniAttentionHIP::~InfiniAttentionHIP() = default;
 
+/**
+ * @brief Initialize.
+ * @return Return value.
+ * @details Implements initialize without additional internal calls.
+ */
 Status InfiniAttentionHIP::initialize() {
     return Status::ERROR_BACKEND_NOT_AVAILABLE;
 }
 
+/**
+ * @brief Forward.
+ * @param[in] param Input parameter.
+ * @param[in] param Input parameter.
+ * @param[in] param Input parameter.
+ * @param[in,out] param Input/output parameter.
+ * @return Return value.
+ * @details Implements forward without additional internal calls.
+ */
 Status InfiniAttentionHIP::forward(const Tensor &, const Tensor &, const Tensor &, Tensor &) {
     return Status::ERROR_BACKEND_NOT_AVAILABLE;
 }
 
+/**
+ * @brief Backward.
+ * @param[in] param Input parameter.
+ * @param[in,out] param Input/output parameter.
+ * @param[in,out] param Input/output parameter.
+ * @param[in,out] param Input/output parameter.
+ * @return Return value.
+ * @details Implements backward without additional internal calls.
+ */
 Status InfiniAttentionHIP::backward(const Tensor &, Tensor &, Tensor &, Tensor &) {
     return Status::ERROR_NOT_IMPLEMENTED;
 }
@@ -318,14 +422,29 @@ AttentionMemoryStats InfiniAttentionHIP::getMemoryStats() const {
     return {};
 }
 
+/**
+ * @brief Is Available.
+ * @return True when the operation succeeds.
+ * @details Implements isAvailable without additional internal calls.
+ */
 bool InfiniAttentionHIP::isAvailable() {
     return false;
 }
 
+/**
+ * @brief Initialize HIPDevice.
+ * @return Return value.
+ * @details Implements initializeHIPDevice without additional internal calls.
+ */
 Status InfiniAttentionHIP::initializeHIPDevice() {
     return Status::ERROR_BACKEND_NOT_AVAILABLE;
 }
 
+/**
+ * @brief Reset Memory.
+ * @return Return value.
+ * @details Implements resetMemory without additional internal calls.
+ */
 Status InfiniAttentionHIP::resetMemory() {
     return Status::ERROR_BACKEND_NOT_AVAILABLE;
 }
@@ -334,6 +453,12 @@ std::vector<float> InfiniAttentionHIP::getCompressiveMemory() const {
     return {};
 }
 
+/**
+ * @brief Restore Compressive Memory.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Implements restoreCompressiveMemory without additional internal calls.
+ */
 Status InfiniAttentionHIP::restoreCompressiveMemory(const std::vector<float> &) {
     return Status::ERROR_BACKEND_NOT_AVAILABLE;
 }
@@ -342,22 +467,58 @@ void *InfiniAttentionHIP::allocateGPUMemory(size_t) const {
     return nullptr;
 }
 
+/**
+ * @brief Release GPUMemory.
+ * @return Return value.
+ * @details Implements releaseGPUMemory without additional internal calls.
+ */
 Status InfiniAttentionHIP::releaseGPUMemory() {
     return Status::SUCCESS;
 }
 
+/**
+ * @brief Compute Local Attention.
+ * @param[in] param Input parameter.
+ * @param[in] param Input parameter.
+ * @param[in] param Input parameter.
+ * @param[in,out] param Input/output parameter.
+ * @return Return value.
+ * @details Implements computeLocalAttention without additional internal calls.
+ */
 Status InfiniAttentionHIP::computeLocalAttention(const Tensor &, const Tensor &, const Tensor &, Tensor &) {
     return Status::ERROR_BACKEND_NOT_AVAILABLE;
 }
 
+/**
+ * @brief Compute Compressive Attention.
+ * @param[in] param Input parameter.
+ * @param[in,out] param Input/output parameter.
+ * @return Return value.
+ * @details Implements computeCompressiveAttention without additional internal calls.
+ */
 Status InfiniAttentionHIP::computeCompressiveAttention(const Tensor &, Tensor &) {
     return Status::ERROR_BACKEND_NOT_AVAILABLE;
 }
 
+/**
+ * @brief Update Compressive Memory.
+ * @param[in] param Input parameter.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Implements updateCompressiveMemory without additional internal calls.
+ */
 Status InfiniAttentionHIP::updateCompressiveMemory(const Tensor &, const Tensor &) {
     return Status::ERROR_BACKEND_NOT_AVAILABLE;
 }
 
+/**
+ * @brief Blend Outputs.
+ * @param[in] param Input parameter.
+ * @param[in] param Input parameter.
+ * @param[in,out] param Input/output parameter.
+ * @return Return value.
+ * @details Implements blendOutputs without additional internal calls.
+ */
 Status InfiniAttentionHIP::blendOutputs(const Tensor &, const Tensor &, Tensor &) {
     return Status::ERROR_BACKEND_NOT_AVAILABLE;
 }

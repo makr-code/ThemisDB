@@ -46,7 +46,6 @@ constexpr float kPi = std::numbers::pi_v<float>;
 // RotatEModel::Impl — private implementation
 // ============================================================================
 
-/** @brief RotatEModel::Impl — private implementation. */
 class RotatEModel::Impl {
 public:
     explicit Impl(RotatEConfig cfg) : cfg_(std::move(cfg)) {}
@@ -55,6 +54,12 @@ public:
     // Registry
     // ──────────────────────────────────────────────────────────────────
 
+    /**
+     * @brief Add Entity.
+     * @param[in] id Input parameter.
+     * @return Return value.
+     * @details Calls: lk(), emplace(), size(), push_back().
+     */
     size_t addEntity(const std::string& id) {
         std::unique_lock lk(mu_);
         auto [it, inserted] = entity_index_.emplace(id,entity_names_.size());
@@ -64,6 +69,12 @@ public:
         return it->second;
     }
 
+    /**
+     * @brief Add Relation.
+     * @param[in] id Input parameter.
+     * @return Return value.
+     * @details Calls: lk(), emplace(), size(), push_back().
+     */
     size_t addRelation(const std::string& id) {
         std::unique_lock lk(mu_);
         auto [it, inserted] = relation_index_.emplace(id,relation_names_.size());
@@ -74,11 +85,21 @@ public:
     }
 
     size_t entityCount() const {
+        /**
+         * @brief Lk.
+         * @param[in] mu_ Input parameter.
+         * @return Return value.
+         */
         std::shared_lock lk(mu_);
         return entity_names_.size();
     }
 
     size_t relationCount() const {
+        /**
+         * @brief Lk.
+         * @param[in] mu_ Input parameter.
+         * @return Return value.
+         */
         std::shared_lock lk(mu_);
         return relation_names_.size();
     }
@@ -105,26 +126,12 @@ public:
     // Embedding access
     // ──────────────────────────────────────────────────────────────────
 
-    /**
-     * @brief Export entity embedding (real + imaginary parts interleaved).
-     *
-     * **Defensive Guard**: Returns empty vector if model is untrained (documented behavior).
-     * This is NOT a gap or stub — it is intentional defensive programming:
-     * - Prevents access to uninitialized embedding tables
-     * - Allows safe querying before training without exception
-     * - Caller can check empty() and act accordingly
-     *
-     * **Production Logic**:
-     * After training, embeddings are normalized complex vectors of modulus ≈ 1.
-     * The output is interleaved: [re_0, im_0, re_1, im_1, ..., re_{d-1}, im_{d-1}]
-     * where d = embedding_dim (from config).
-     *
-     * @param id Entity identifier (must be registered via addEntity())
-     * @return Vector of 2×embedding_dim floats (interleaved real/imaginary)
-     *         or empty vector if model is untrained
-     * @throws std::out_of_range if entity is not registered
-     */
     std::vector<float> entityEmbedding(const std::string& id) const {
+        /**
+         * @brief Lk.
+         * @param[in] mu_ Input parameter.
+         * @return Return value.
+         */
         std::shared_lock lk(mu_);
         
         // Defensive guard: untrained model returns empty vector
@@ -148,6 +155,11 @@ public:
     }
 
     std::vector<float> relationPhase(const std::string& id) const {
+        /**
+         * @brief Lk.
+         * @param[in] mu_ Input parameter.
+         * @return Return value.
+         */
         std::shared_lock lk(mu_);
         if (!trained_) return {};
         size_t idx = relationIdx(id);
@@ -157,6 +169,11 @@ public:
     }
 
     bool isTrained() const {
+        /**
+         * @brief Lk.
+         * @param[in] mu_ Input parameter.
+         * @return Return value.
+         */
         std::shared_lock lk(mu_);
         return trained_;
     }
@@ -188,6 +205,11 @@ public:
     double score(const std::string& h, const std::string& r,
                  const std::string& t) const
     {
+        /**
+         * @brief Lk.
+         * @param[in] mu_ Input parameter.
+         * @return Return value.
+         */
         std::shared_lock lk(mu_);
         if (!trained_)
             throw std::runtime_error("RotatEModel: model not trained yet");
@@ -198,6 +220,12 @@ public:
     // Training — Stub RTE-S01
     // ──────────────────────────────────────────────────────────────────
 
+    /**
+     * @brief Train.
+     * @param[in] triples Input parameter.
+     * @return Return value.
+     * @details Calls: lk(), size(), empty(), entityIdx(), relationIdx(), rng(), init_dist(), phase_dist().
+     */
     RotatETrainResult train(const std::vector<KGTriple>& triples) {
         std::unique_lock lk(mu_);
 
@@ -415,6 +443,11 @@ public:
 
     // Expose entity name for a given index (for injection into KGReasoner).
     std::string entityName(size_t idx) const {
+        /**
+         * @brief Lk.
+         * @param[in] mu_ Input parameter.
+         * @return Return value.
+         */
         std::shared_lock lk(mu_);
         return entity_names_.at(idx);
     }
@@ -423,42 +456,18 @@ public:
     // Constraint Rotation Predicates (Phase 2.1 — RTE-C01..03)
     // ──────────────────────────────────────────────────────────────────
 
-    /**
-     * @brief Test if a score meets a plausibility constraint (threshold predicate).
-     *
-     * Deterministic predicate for filtering high-confidence predictions in constrained
-     * traversals. Used by the query optimizer for high fan-out scenarios where early
-     * termination is critical.
-     *
-     * @param score RotatE distance score (output of scoreImpl)
-     * @param threshold Distance threshold (lower = stricter constraint)
-     * @return true if score < threshold (passes constraint)
-     *
-     * **Thread-safety**: Lock-free (pure computation, no state access)
-     * **Determinism**: Bitwise deterministic across runs
-     */
     static bool constraintThreshold(double score, double threshold) noexcept {
         // Phase 2.1 RTE-C01: Threshold predicate (no special logic needed; simple comparison)
         // All RotatE scores are non-negative finite values; comparison is deterministic.
         return score < threshold;
     }
 
-    /**
-     * @brief Test if relation permits high fan-out traversal under constraints.
-     *
-     * Heuristic for optimizer: some relations (e.g., 'subclass') have narrow tails;
-     * others (e.g., 'mentions') have wide fan-outs. This predicate guides constraint
-     * application and fallback decisions for large KGs.
-     *
-     * @param relation_name Relation identifier
-     * @param entity_count Total entities in model (for comparison)
-     * @return true if relation likely has low fan-out (safe for full traversal)
-     *
-     * **Thread-safety**: Lock-free (metadata-only lookup)
-     * **Fallback**: Always returns true if relation is unknown (conservative)
-     * @note Phase 2.1 RTE-C02: Heuristic fan-out predicate
-     */
     bool canTraverseFullFanOut(const std::string& relation_name, size_t entity_count) const {
+        /**
+         * @brief Lk.
+         * @param[in] mu_ Input parameter.
+         * @return Return value.
+         */
         std::shared_lock lk(mu_);
         
         // Heuristic: if relation ID < entity_count / 10, assume low fan-out
@@ -479,19 +488,6 @@ public:
         }
     }
 
-    /**
-     * @brief Deterministic fallback score for unsupported constraints.
-     *
-     * When constraint type is not recognized or GPU/CPU capability mismatch occurs,
-     * return a neutral score that allows the prediction through without breaking ordering.
-     *
-     * **Phase 2.1 RTE-C03**: Fallback behavior for mixed-capability environments.
-     *
-     * @return Very high score (worst plausibility) for unsafe fallback predictions
-     *
-     * @note Production behavior: logged as THEMIS_WARN for audit trail
-     * @note Guarantees: deterministic, finite, non-negative, comparable across calls
-     */
     static double fallbackFitnessScore() noexcept {
         // Fallback uses a high (worst-case) score: 1e9.
         // This ensures fallback predictions sort last, behind normal scored results.
@@ -504,6 +500,11 @@ public:
                                                 const std::string& relation,
                                                 size_t             top_k) const
     {
+        /**
+         * @brief Lk.
+         * @param[in] mu_ Input parameter.
+         * @return Return value.
+         */
         std::shared_lock lk(mu_);
         size_t h_idx = entityIdx(head);
         size_t r_idx = relationIdx(relation);
@@ -514,6 +515,11 @@ public:
                                                 const std::string& tail,
                                                 size_t             top_k) const
     {
+        /**
+         * @brief Lk.
+         * @param[in] mu_ Input parameter.
+         * @return Return value.
+         */
         std::shared_lock lk(mu_);
         size_t t_idx = entityIdx(tail);
         size_t r_idx = relationIdx(relation);
@@ -546,12 +552,30 @@ RotatEModel::RotatEModel(RotatEConfig cfg)
 
 RotatEModel::~RotatEModel() = default;
 
+/**
+ * @brief Add Entity.
+ * @param[in] id Input parameter.
+ * @return Return value.
+ * @details Implements addEntity without additional internal calls.
+ */
 size_t RotatEModel::addEntity(const std::string& id)   { return impl_->addEntity(id); }
+/**
+ * @brief Add Relation.
+ * @param[in] id Input parameter.
+ * @return Return value.
+ * @details Implements addRelation without additional internal calls.
+ */
 size_t RotatEModel::addRelation(const std::string& id) { return impl_->addRelation(id); }
 size_t RotatEModel::entityCount()   const { return impl_->entityCount(); }
 size_t RotatEModel::relationCount() const { return impl_->relationCount(); }
 bool   RotatEModel::isTrained()     const { return impl_->isTrained(); }
 
+/**
+ * @brief Train.
+ * @param[in] triples Input parameter.
+ * @return Return value.
+ * @details Implements train without additional internal calls.
+ */
 RotatETrainResult RotatEModel::train(const std::vector<KGTriple>& triples) {
     return impl_->train(triples);
 }
@@ -614,6 +638,11 @@ std::vector<LinkPrediction> LinkPredictionHead::predictHead(
 KGCompletionEngine::KGCompletionEngine(RotatEConfig cfg)
     : cfg_(cfg), model_(cfg), link_head_(model_) {}
 
+/**
+ * @brief Set Reasoner.
+ * @param[in,out] reasoner Input/output parameter.
+ * @param[in] inject_threshold Input parameter.
+ */
 void KGCompletionEngine::setReasoner(KnowledgeGraphReasoner* reasoner,
                                       double                  inject_threshold)
 {
@@ -621,13 +650,38 @@ void KGCompletionEngine::setReasoner(KnowledgeGraphReasoner* reasoner,
     inject_threshold_ = inject_threshold;
 }
 
+/**
+ * @brief Add Entity.
+ * @param[in] id Input parameter.
+ * @return Return value.
+ * @details Implements addEntity without additional internal calls.
+ */
 size_t KGCompletionEngine::addEntity(const std::string& id)   { return model_.addEntity(id); }
+/**
+ * @brief Add Relation.
+ * @param[in] id Input parameter.
+ * @return Return value.
+ * @details Implements addRelation without additional internal calls.
+ */
 size_t KGCompletionEngine::addRelation(const std::string& id) { return model_.addRelation(id); }
 
+/**
+ * @brief Train.
+ * @param[in] triples Input parameter.
+ * @return Return value.
+ * @details Implements train without additional internal calls.
+ */
 RotatETrainResult KGCompletionEngine::train(const std::vector<KGTriple>& triples) {
     return model_.train(triples);
 }
 
+/**
+ * @brief Complete Tail.
+ * @param[in] head Input parameter.
+ * @param[in] relation Input parameter.
+ * @param[in] top_k Input parameter.
+ * @return Return value.
+ */
 std::vector<LinkPrediction> KGCompletionEngine::completeTail(
         const std::string& head,
         const std::string& relation,
@@ -659,6 +713,13 @@ std::vector<LinkPrediction> KGCompletionEngine::completeTail(
     return preds;
 }
 
+/**
+ * @brief Complete Head.
+ * @param[in] relation Input parameter.
+ * @param[in] tail Input parameter.
+ * @param[in] top_k Input parameter.
+ * @return Return value.
+ */
 std::vector<LinkPrediction> KGCompletionEngine::completeHead(
         const std::string& relation,
         const std::string& tail,

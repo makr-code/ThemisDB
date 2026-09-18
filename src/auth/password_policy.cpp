@@ -147,6 +147,12 @@ bool PasswordPolicy::isCompliant(const std::string &password) const {
 // computeEntropy
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Compute Entropy.
+ * @param[in] password Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), size(), std::log2().
+ */
 double PasswordPolicy::computeEntropy(const std::string &password) {
     if (password.empty()) {
         return 0.0;
@@ -171,6 +177,11 @@ double PasswordPolicy::computeEntropy(const std::string &password) {
 // Preset factories
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Nist Guidelines.
+ * @return Return value.
+ * @details Calls: Config(), PasswordPolicy().
+ */
 PasswordPolicy PasswordPolicy::nistGuidelines() {
     Config cfg = Config();
     cfg.min_length                = 8;
@@ -184,6 +195,11 @@ PasswordPolicy PasswordPolicy::nistGuidelines() {
     return PasswordPolicy(cfg);
 }
 
+/**
+ * @brief Strict.
+ * @return Return value.
+ * @details Calls: Config(), PasswordPolicy().
+ */
 PasswordPolicy PasswordPolicy::strict() {
     Config cfg = Config();
     cfg.min_length                = 16;
@@ -198,6 +214,11 @@ PasswordPolicy PasswordPolicy::strict() {
     return PasswordPolicy(cfg);
 }
 
+/**
+ * @brief Basic.
+ * @return Return value.
+ * @details Calls: Config(), PasswordPolicy().
+ */
 PasswordPolicy PasswordPolicy::basic() {
     Config cfg = Config();
     cfg.min_length                = 8;

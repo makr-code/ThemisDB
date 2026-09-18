@@ -83,7 +83,7 @@ std::string statusStr(AlertStatus status) {
 }
 
 /**
- * @brief Build a JSON object representing the alert for webhook payloads.
+ * @brief Alert To Json.
  * @param[in] alert Input parameter.
  * @return Return value.
  * @details Calls: severityStr(), statusStr(), toISO8601Engine(), json::object().
@@ -114,13 +114,13 @@ json alertToJson(const Alert& alert) {
 
 } // anonymous namespace
 
+
 /**
- * @brief ============================================================================ LogNotificationChannel ============================================================================
+ * @brief Send.
  * @param[in] alert Input parameter.
  * @return Return value.
  * @details Calls: severityStr(), statusStr(), THEMIS_CRITICAL(), THEMIS_ERROR(), THEMIS_WARN(), THEMIS_INFO().
  */
-
 Result<void> LogNotificationChannel::send(const Alert& alert) {
     const std::string prefix =
         "[ALERT][" + severityStr(alert.severity) + "] " +
@@ -172,11 +172,6 @@ Result<void> WebhookNotificationChannel::send(const Alert& alert) {
     pool_cfg.io_threads       = 1;
     pool_cfg.lock_stripes     = 1;
 
-    /**
-     * @brief Pool.
-     * @param[in] pool_cfg Input parameter.
-     * @return Return value.
-     */
     utils::HTTPClientPool pool(pool_cfg);
 
     std::unordered_map<std::string, std::string> headers{
@@ -216,7 +211,7 @@ SlackNotificationChannel::SlackNotificationChannel(SlackChannelConfig config)
     : config_(std::move(config)) {}
 
 /**
- * @brief static
+ * @brief Severity Color.
  * @param[in] severity Input parameter.
  * @return Return value.
  * @details Implements severityColor without additional internal calls.
@@ -284,11 +279,6 @@ Result<void> SlackNotificationChannel::send(const Alert& alert) {
     pool_cfg.io_threads       = 1;
     pool_cfg.lock_stripes     = 1;
 
-    /**
-     * @brief Pool.
-     * @param[in] pool_cfg Input parameter.
-     * @return Return value.
-     */
     utils::HTTPClientPool pool(pool_cfg);
 
     std::unordered_map<std::string, std::string> headers{
@@ -321,21 +311,16 @@ Result<void> SlackNotificationChannel::send(const Alert& alert) {
 AlertingEngine::AlertingEngine(std::shared_ptr<Alertmanager> backend)
     : backend_(std::move(backend)) {}
 
+
 /**
- * @brief --- Channel management ------------------------------------------------------
+ * @brief Add Channel.
  * @param[in] channel Input parameter.
  * @details Calls: lock(), push_back(), std::move().
  */
-
 void AlertingEngine::addChannel(std::shared_ptr<INotificationChannel> channel) {
     if (!channel) {
       return;
     }
-    /**
-     * @brief Lock.
-     * @param[in] channels_mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lock(channels_mutex_);
     channels_.push_back(std::move(channel));
 }
@@ -345,11 +330,6 @@ void AlertingEngine::addChannel(std::shared_ptr<INotificationChannel> channel) {
  * @details Calls: lock(), clear().
  */
 void AlertingEngine::clearChannels() {
-    /**
-     * @brief Lock.
-     * @param[in] channels_mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lock(channels_mutex_);
     channels_.clear();
 }
@@ -374,11 +354,11 @@ size_t AlertingEngine::channelCount() const {
     return channels_.size();
 }
 
+
 /**
- * @brief --- Predefined rules --------------------------------------------------------
+ * @brief Load Default Rules.
  * @details Calls: getRule(), has_value(), addRule(), THEMIS_WARN(), error(), message().
  */
-
 void AlertingEngine::loadDefaultRules() {
     struct DefaultRuleDef {
         const char* rule_id;
@@ -496,21 +476,16 @@ int AlertingEngine::evaluateAndNotify(const std::map<std::string, double>& metri
     return rule_manager_.evaluateRules(metrics, *this);
 }
 
+
 /**
- * @brief --- Alertmanager overrides --------------------------------------------------
+ * @brief Dispatch To Channels.
  * @param[in] alert Input parameter.
  * @return Return value.
  * @details Calls: lock(), send(), has_value(), push_back(), channelType(), error(), message(), THEMIS_WARN().
  */
-
 Result<void> AlertingEngine::dispatchToChannels(const Alert& alert) {
     std::vector<std::shared_ptr<INotificationChannel>> snapshot;
     {
-        /**
-         * @brief Lock.
-         * @param[in] channels_mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(channels_mutex_);
         snapshot = channels_;
     }
@@ -573,7 +548,7 @@ Result<void> AlertingEngine::sendAlert(const Alert& alert) {
 
 /**
  * @brief Resolve Alert.
- * @param[in] alert_id Input parameter.
+ * @param[in] alert_id Identifier of the alert.
  * @return Return value.
  * @details Calls: findActiveAlertById(), has_value(), std::chrono::system_clock::now(), dispatchToChannels(), removeActiveAlertById(), THEMIS_WARN(), error(), message().
  */
@@ -610,7 +585,7 @@ Result<void> AlertingEngine::resolveAlert(const std::string& alert_id) {
 
 /**
  * @brief Silence Alert.
- * @param[in] alert_id Input parameter.
+ * @param[in] alert_id Identifier of the alert.
  * @param[in] duration_minutes Input parameter.
  * @return Return value.
  * @details Calls: findActiveAlertById(), has_value(), upsertActiveAlert().

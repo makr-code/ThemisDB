@@ -178,7 +178,7 @@ private:
     ExtractionResult extractODF(const std::string& blob, OfficeDocumentType type);
 
     /**
-     * @brief LibreOffice headless fallback for legacy OLE formats (DOC/XLS/PPT) Spawns soffice --headless via posix_spawn with a configurable timeout.
+     * @brief Extract Legacy Via Libre Office.
      * @param[in] blob Input parameter.
      * @param[in] doc_type Input parameter.
      * @return Return value.
@@ -229,7 +229,7 @@ private:
     int countTokens(const std::string& text);
 
     /**
-     * @brief Validate ZIP/OOXML structure
+     * @brief Is Valid OOXML.
      * @param[in] blob Input parameter.
      * @return True when the operation succeeds.
      */

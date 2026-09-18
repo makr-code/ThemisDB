@@ -39,6 +39,12 @@ TaskAuditManager::TaskAuditManager(
                 config_.enable_anomaly_detection);
 }
 
+/**
+ * @brief Log Audit Event.
+ * @param[in] event Input parameter.
+ * @return Return value.
+ * @details Calls: recordExecution(), on_anomaly_detected(), writeToAuditLog(), cacheAuditEvent(), on_audit_event().
+ */
 AnomalyMetrics TaskAuditManager::logAuditEvent(const TaskAuditEvent& event) {
     AnomalyMetrics anomaly_metrics;
     
@@ -82,6 +88,11 @@ AnomalyMetrics TaskAuditManager::logAuditEvent(const TaskAuditEvent& event) {
     return anomaly_metrics;
 }
 
+/**
+ * @brief Log a security event.
+ * @param[in] event Input parameter.
+ * @details Calls: writeToSecurityLog(), cacheSecurityEvent(), on_security_event(), THEMIS_WARN(), taskSecurityEventTypeToString().
+ */
 void TaskAuditManager::logSecurityEvent(const TaskSecurityEvent& event) {
     if (!config_.enable_security_logging) {
         return;
@@ -100,6 +111,11 @@ void TaskAuditManager::logSecurityEvent(const TaskSecurityEvent& event) {
                 event.severity);
 }
 
+/**
+ * @brief Write To Audit Log.
+ * @param[in] event Input parameter.
+ * @details Calls: lock(), ofs(), is_open(), toJson(), dump(), THEMIS_ERROR(), what(), logEvent().
+ */
 void TaskAuditManager::writeToAuditLog(const TaskAuditEvent& event) {
     // Write to dedicated task audit log
     std::unique_lock<std::shared_mutex> lock(mutex_);
@@ -123,6 +139,11 @@ void TaskAuditManager::writeToAuditLog(const TaskAuditEvent& event) {
     }
 }
 
+/**
+ * @brief Write To Security Log.
+ * @param[in] event Input parameter.
+ * @details Calls: lock(), ofs(), is_open(), toJson(), dump(), THEMIS_ERROR(), what(), logSecurityEvent().
+ */
 void TaskAuditManager::writeToSecurityLog(const TaskSecurityEvent& event) {
     std::unique_lock<std::shared_mutex> lock(mutex_);
     
@@ -151,6 +172,11 @@ void TaskAuditManager::writeToSecurityLog(const TaskSecurityEvent& event) {
     }
 }
 
+/**
+ * @brief Cache Audit Event.
+ * @param[in] event Input parameter.
+ * @details Calls: lock(), push_back(), size(), pop_front().
+ */
 void TaskAuditManager::cacheAuditEvent(const TaskAuditEvent& event) {
     std::unique_lock<std::shared_mutex> lock(mutex_);
     
@@ -162,6 +188,11 @@ void TaskAuditManager::cacheAuditEvent(const TaskAuditEvent& event) {
     }
 }
 
+/**
+ * @brief Cache Security Event.
+ * @param[in] event Input parameter.
+ * @details Calls: lock(), push_back(), size(), pop_front().
+ */
 void TaskAuditManager::cacheSecurityEvent(const TaskSecurityEvent& event) {
     std::unique_lock<std::shared_mutex> lock(mutex_);
     
@@ -216,6 +247,11 @@ bool TaskAuditManager::matchesQuery(const TaskAuditEvent& event,
 }
 
 std::vector<TaskAuditEvent> TaskAuditManager::queryAuditEvents(const AuditQueryParams& params) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(mutex_);
     
     std::vector<TaskAuditEvent> results;
@@ -297,6 +333,11 @@ std::vector<TaskAuditEvent> TaskAuditManager::loadEventsFromFile(
     const size_t read_limit = std::min(params.offset + params.limit, config_.max_query_results);
     
     try {
+        /**
+         * @brief Ifs.
+         * @param[in] file_path Path to the file.
+         * @return Return value.
+         */
         std::ifstream ifs(file_path);
         if (!ifs.is_open()) {
             return results;
@@ -398,6 +439,11 @@ std::vector<TaskAuditEvent> TaskAuditManager::loadEventsFromFile(
 }
 
 std::vector<TaskSecurityEvent> TaskAuditManager::querySecurityEvents(const AuditQueryParams& params) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(mutex_);
     
     std::vector<TaskSecurityEvent> results;
@@ -461,6 +507,11 @@ std::vector<TaskSecurityEvent> TaskAuditManager::loadSecurityEventsFromFile(
     const size_t read_limit = std::min(params.offset + params.limit, config_.max_query_results);
     
     try {
+        /**
+         * @brief Ifs.
+         * @param[in] file_path Path to the file.
+         * @return Return value.
+         */
         std::ifstream ifs(file_path);
         if (!ifs.is_open()) {
             return results;
@@ -552,6 +603,11 @@ size_t TaskAuditManager::exportAuditEvents(const AuditQueryParams& params,
     }
     
     try {
+        /**
+         * @brief Ofs.
+         * @param[in] output_path Path to the output.
+         * @return Return value.
+         */
         std::ofstream ofs(output_path);
         if (!ofs.is_open()) {
             THEMIS_ERROR(
@@ -648,7 +704,11 @@ bool TaskAuditManager::hasAnomalies(const std::string& task_id) const {
         return false;
     }
     
-    // Check recent events for anomalies
+    /**
+     * @brief Check recent events for anomalies
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(mutex_);
     for (const auto& event : recent_audit_events_) {
         if (event.task_id == task_id && event.anomaly_metrics.is_anomalous) {
@@ -659,6 +719,11 @@ bool TaskAuditManager::hasAnomalies(const std::string& task_id) const {
     return false;
 }
 
+/**
+ * @brief Reset Task Statistics.
+ * @param[in] task_id Identifier of the task.
+ * @details Implements resetTaskStatistics without additional internal calls.
+ */
 void TaskAuditManager::resetTaskStatistics(const std::string& task_id) {
     if (anomaly_detector_) {
         anomaly_detector_->resetTaskStatistics(task_id);
@@ -666,10 +731,20 @@ void TaskAuditManager::resetTaskStatistics(const std::string& task_id) {
 }
 
 TaskAuditConfig TaskAuditManager::getConfig() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(mutex_);
     return config_;
 }
 
+/**
+ * @brief Update the access control configuration.
+ * @param[in] config New access control configuration.
+ * @details Calls: lock().
+ */
 void TaskAuditManager::updateConfig(const TaskAuditConfig& config) {
     std::unique_lock<std::shared_mutex> lock(mutex_);
     config_ = config;
@@ -681,6 +756,10 @@ void TaskAuditManager::updateConfig(const TaskAuditConfig& config) {
     }
 }
 
+/**
+ * @brief Flush.
+ * @details Implements flush without additional internal calls.
+ */
 void TaskAuditManager::flush() {
     if (audit_logger_) {
         audit_logger_->flush();
@@ -688,6 +767,11 @@ void TaskAuditManager::flush() {
 }
 
 nlohmann::json TaskAuditManager::exportAnomalyStatistics() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(mutex_);
     if (anomaly_detector_) {
         return anomaly_detector_->exportStatistics();
@@ -695,6 +779,11 @@ nlohmann::json TaskAuditManager::exportAnomalyStatistics() const {
     return nlohmann::json::object();
 }
 
+/**
+ * @brief Import Anomaly Statistics.
+ * @param[in] data Input parameter.
+ * @details Calls: lock(), importStatistics().
+ */
 void TaskAuditManager::importAnomalyStatistics(const nlohmann::json& data) {
     std::unique_lock<std::shared_mutex> lock(mutex_);
     if (anomaly_detector_) {
@@ -757,7 +846,11 @@ bool TaskAuditManager::verifyAuditEntryIntegrity(const TaskAuditEvent& event,
     return true;
 }
 
-// GAP 2 FIX: Retention policy enforcement
+/**
+ * @brief GAP 2 FIX: Retention policy enforcement
+ * @return Return value.
+ * @details Calls: lock(), count(), std::chrono::system_clock::now(), ifs(), is_open(), std::getline(), empty(), nlohmann::json::parse().
+ */
 size_t TaskAuditManager::enforceRetentionPolicy() {
     std::unique_lock<std::shared_mutex> lock(mutex_);
     
@@ -838,7 +931,11 @@ size_t TaskAuditManager::enforceRetentionPolicy() {
     return removed_count;
 }
 
-// GAP 3 FIX: Corruption detection and recovery
+/**
+ * @brief GAP 3 FIX: Corruption detection and recovery
+ * @return Return value.
+ * @details Calls: lock(), ifs(), is_open(), std::getline(), empty(), nlohmann::json::parse(), contains(), THEMIS_WARN().
+ */
 size_t TaskAuditManager::detectAndRecoverCorruption() {
     std::unique_lock<std::shared_mutex> lock(mutex_);
     

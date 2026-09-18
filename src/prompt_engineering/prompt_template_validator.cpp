@@ -19,9 +19,13 @@
 namespace themis {
 namespace prompt_engineering {
 
-// ============================================================================
-// Helper utilities for injection detection
-// ============================================================================
+/**
+ * @brief ============================================================================ Helper utilities for injection detection ============================================================================
+ * @param[in] haystack Input parameter.
+ * @param[in] needle Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: std::search(), begin(), end(), std::tolower().
+ */
 
 static bool containsIgnoreCase(const std::string& haystack, const std::string& needle) {
     auto it = std::search(

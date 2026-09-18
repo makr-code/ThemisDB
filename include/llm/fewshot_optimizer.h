@@ -19,9 +19,6 @@
 namespace themis {
 namespace llm {
 
-/**
- * @brief Few-shot example with metadata
- */
 struct FewShotExample {
     std::string input;                 ///< Example input
     std::string output;                ///< Example output
@@ -31,9 +28,6 @@ struct FewShotExample {
     nlohmann::json metadata;           ///< Additional metadata
 };
 
-/**
- * @brief Configuration for few-shot optimization
- */
 struct FewShotConfig {
     size_t max_examples = 5;           ///< Maximum number of examples
     size_t min_examples = 1;           ///< Minimum number of examples
@@ -43,9 +37,6 @@ struct FewShotConfig {
     size_t cache_size = 1000;          ///< Maximum cache entries
 };
 
-/**
- * @brief Few-shot selection result
- */
 struct SelectionResult {
     std::vector<FewShotExample> selected_examples; ///< Selected examples
     double avg_relevance = 0.0;        ///< Average relevance score
@@ -54,30 +45,10 @@ struct SelectionResult {
     nlohmann::json metadata;           ///< Additional metadata
 };
 
-/**
- * @brief Few-shot optimizer class
- * 
- * Implements automatic example selection:
- * - Relevance-based ranking (similarity to query)
- * - Diversity-based sampling (coverage of input space)
- * - Performance-based caching (reuse successful selections)
- * - Dynamic example count (optimize for quality vs context length)
- */
 class FewShotOptimizer {
 public:
-    /**
-     * @brief Constructor
-     * @param config Few-shot configuration
-     */
     explicit FewShotOptimizer(const FewShotConfig& config = FewShotConfig{});
     
-    /**
-     * @brief Select optimal few-shot examples for a query
-     * @param query Input query
-     * @param candidate_examples Pool of candidate examples
-     * @param num_examples Number of examples to select (optional)
-     * @return Selection result with chosen examples
-     */
     SelectionResult selectExamples(
         const std::string& query,
         const std::vector<FewShotExample>& candidate_examples,
@@ -85,32 +56,26 @@ public:
     );
     
     /**
-     * @brief Add examples to the cache
-     * @param examples Examples to cache
+     * @brief Cache Examples.
+     * @param[in] examples Input parameter.
      */
     void cacheExamples(const std::vector<FewShotExample>& examples);
     
-    /**
-     * @brief Get cached examples similar to query
-     * @param query Input query
-     * @param max_results Maximum number of results
-     * @return Cached examples sorted by relevance
-     */
     std::vector<FewShotExample> getCachedExamples(
         const std::string& query,
         size_t max_results = 10
     ) const;
     
     /**
-     * @brief Clear the example cache
+     * @brief Clear Cache.
      */
     void clearCache();
     
     /**
-     * @brief Compute relevance score between query and example
-     * @param query Input query
-     * @param example Candidate example
-     * @return Relevance score (0.0-1.0)
+     * @brief Compute Relevance.
+     * @param[in] query Input parameter.
+     * @param[in] example Input parameter.
+     * @return Return value.
      */
     static double computeRelevance(
         const std::string& query,
@@ -118,37 +83,31 @@ public:
     );
     
     /**
-     * @brief Compute diversity score for a set of examples
-     * @param examples Set of examples
-     * @return Diversity score (0.0-1.0)
+     * @brief Compute Diversity.
+     * @param[in] examples Input parameter.
+     * @return Return value.
      */
     static double computeDiversity(
         const std::vector<FewShotExample>& examples
     );
     
-    /**
-     * @brief Format examples for prompt injection
-     * @param examples Examples to format
-     * @param format Format template (optional)
-     * @return Formatted examples string
-     */
     static std::string formatExamples(
         const std::vector<FewShotExample>& examples,
         const std::string& format = "Input: {input}\nOutput: {output}\n\n"
     );
     
-    /**
-     * @brief Get current configuration
-     */
     const FewShotConfig& getConfig() const { return config_; }
     
     /**
-     * @brief Update configuration
+     * @brief Set Config.
+     * @param[in] config Input parameter.
+     * @details Implements setConfig without additional internal calls.
      */
     void setConfig(const FewShotConfig& config) { config_ = config; }
     
     /**
-     * @brief Get cache statistics
+     * @brief Get Cache Stats.
+     * @return Return value.
      */
     nlohmann::json getCacheStats() const;
 
@@ -158,7 +117,11 @@ private:
     std::unordered_map<std::string, std::vector<size_t>> query_index_;
     
     /**
-     * @brief Select examples using greedy diversity sampling
+     * @brief Greedy Diversity Selection.
+     * @param[in] query Input parameter.
+     * @param[in] candidates Input parameter.
+     * @param[in] num_examples Input parameter.
+     * @return Return value.
      */
     std::vector<FewShotExample> greedyDiversitySelection(
         const std::string& query,
@@ -167,7 +130,10 @@ private:
     );
     
     /**
-     * @brief Compute pairwise similarity between examples
+     * @brief Compute Similarity.
+     * @param[in] ex1 Input parameter.
+     * @param[in] ex2 Input parameter.
+     * @return Return value.
      */
     static double computeSimilarity(
         const FewShotExample& ex1,
@@ -175,7 +141,7 @@ private:
     );
     
     /**
-     * @brief Update query index for faster lookup
+     * @brief Update Query Index.
      */
     void updateQueryIndex();
 };

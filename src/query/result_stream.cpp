@@ -315,7 +315,7 @@ template class ResultStream<double>;
 template class ResultStream<nlohmann::json>;
 
 /**
- * @brief Helper function implementation
+ * @brief Create Key Stream.
  * @param[in] keys Input parameter.
  * @param[in] config Input parameter.
  * @return Return value.

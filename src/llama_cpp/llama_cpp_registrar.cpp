@@ -17,7 +17,12 @@
 namespace themis {
 namespace llamacpp {
 
-// ── createPlugin ─────────────────────────────────────────────────────────────
+/**
+ * @brief ── createPlugin ─────────────────────────────────────────────────────────────
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @details Calls: contains(), is_string(), empty(), loadModel().
+ */
 
 std::unique_ptr<LlamaCppPlugin> LlamaCppPluginRegistrar::createPlugin(
         const json& config) {
@@ -31,7 +36,12 @@ std::unique_ptr<LlamaCppPlugin> LlamaCppPluginRegistrar::createPlugin(
     return plugin;
 }
 
-// ── createAdapter ─────────────────────────────────────────────────────────────
+/**
+ * @brief ── createAdapter ─────────────────────────────────────────────────────────────
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @details Calls: createPlugin(), std::move().
+ */
 
 std::unique_ptr<llm::LLMPluginAdapter> LlamaCppPluginRegistrar::createAdapter(
         const json& config) {
@@ -39,7 +49,14 @@ std::unique_ptr<llm::LLMPluginAdapter> LlamaCppPluginRegistrar::createAdapter(
     return std::make_unique<llm::LLMPluginAdapter>(std::move(plugin));
 }
 
-// ── registerWithLLMManager ────────────────────────────────────────────────────
+/**
+ * @brief ── registerWithLLMManager ────────────────────────────────────────────────────
+ * @param[in,out] manager Input/output parameter.
+ * @param[in] plugin_name Name of the plugin.
+ * @param[in] config Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: createPlugin(), registerPlugin(), std::move().
+ */
 
 bool LlamaCppPluginRegistrar::registerWithLLMManager(
         llm::LLMPluginManager& manager,
@@ -89,7 +106,12 @@ LlamaCppPluginRegistrar::defaultReloadCallback() {
     };
 }
 
-// ── initFromServerConfig ──────────────────────────────────────────────────────
+/**
+ * @brief ── initFromServerConfig ──────────────────────────────────────────────────────
+ * @param[in] server_config Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: contains(), value(), empty(), themis::llm::LLMPluginManager::instance(), registerWithLLMManager().
+ */
 
 bool LlamaCppPluginRegistrar::initFromServerConfig(const json& server_config) {
     if (!server_config.contains("llm")) {

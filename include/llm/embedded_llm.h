@@ -23,37 +23,16 @@
 namespace themis {
 namespace llm {
 
-/**
- * @brief Simple embedded LLM interface for system-wide use
- * 
- * This provides a simplified, high-level API for using LLM inference
- * throughout the ThemisDB system. It handles common patterns and provides
- * convenient methods for:
- * - AQL LLM_GENERATE() function
- * - Content analysis and summarization
- * - Chat/conversation interfaces
- * - Embeddings for semantic search
- * - SSE streaming for real-time responses
- * - MCP protocol integration
- * 
- * Thread-safe and designed for embedded use.
- */
 class EmbeddedLLM {
 public:
     using GenerateFullFn = std::function<InferenceResponse(const InferenceRequest&)>;
     using EmbedFn = std::function<std::vector<float>(const std::string&)>;
 
-    /**
-     * @brief Configuration for embedded LLM
-     */
     struct Config {
         std::string model_path = "models/default.gguf";
         std::string model_id = "default";
         int n_gpu_layers = 0;          // 0 = CPU only
         int n_ctx = 4096;              // Context size
-        /// @brief Batch size passed to llama_context. Must be >= the longest
-        /// prompt that will be submitted in a single llama_decode call.
-        /// Defaults to n_ctx so RAG/docs prompts are never truncated.
         int n_batch = 4096;
         int n_threads = 4;             // CPU threads
         bool enable_caching = true;    // Response caching
@@ -64,7 +43,16 @@ public:
         std::string ethical_guidelines_config = "config/ethical_guidelines.yaml";
     };
     
+    /**
+     * @brief Embedded LLM.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit EmbeddedLLM(const Config& config);
+    /**
+     * @brief Embedded LLM.
+     * @return Return value.
+     */
     explicit EmbeddedLLM(); // Default constructor
     ~EmbeddedLLM();
     
@@ -72,17 +60,8 @@ public:
     // Simple text generation (for AQL, content analysis, etc.)
     // ═══════════════════════════════════════════════════════════
     
-    /**
-     * @brief Generate text completion (blocking)
-     * @param prompt Input prompt
-     * @param max_tokens Maximum tokens to generate
-     * @return Generated text
-     */
     std::string generate(const std::string& prompt, int max_tokens = 512);
     
-    /**
-     * @brief Generate with custom parameters
-     */
     std::string generateWithParams(
         const std::string& prompt,
         float temperature = 0.7f,
@@ -94,44 +73,34 @@ public:
     // Chat interface (for multi-turn conversations)
     // ═══════════════════════════════════════════════════════════
     
-    /**
-     * @brief Chat completion with message history
-     * @param messages Conversation history
-     * @param format Chat template format (ChatML, Llama2, etc.)
-     * @return Assistant's response
-     */
     std::string chat(
         const std::vector<ChatMessage>& messages,
         ChatFormat format = ChatFormat::ChatML
     );
     
     /**
-     * @brief Simple chat (system + user message)
+     * @brief Chat Simple.
+     * @param[in] system_prompt Input parameter.
+     * @param[in] user_message Input parameter.
+     * @return Return value.
      */
     std::string chatSimple(
         const std::string& system_prompt,
         const std::string& user_message
     );
     
-    // ═══════════════════════════════════════════════════════════
-    // Embeddings (for semantic search, vector DB)
-    // ═══════════════════════════════════════════════════════════
-    
     /**
-     * @brief Generate embedding vector for text
-     * @param text Input text
-     * @return Normalized embedding vector
+     * @brief ═══════════════════════════════════════════════════════════ Embeddings (for semantic search, vector DB) ═══════════════════════════════════════════════════════════
+     * @param[in] text Input parameter.
+     * @return Return value.
      */
+    
     std::vector<float> embed(const std::string& text);
     
     /**
-     * @brief Batch embed multiple texts while preserving the single-text
-     *        embedding contract for every entry.
-     *
-     * The implementation may delegate to the configured backend one item at a
-     * time when no native batch API is available. Callers can therefore rely on
-     * each returned vector being equivalent to a corresponding `embed(text)`
-     * invocation, including deterministic fallback behavior and normalization.
+     * @brief Embed Batch.
+     * @param[in] texts Input parameter.
+     * @return Return value.
      */
     std::vector<std::vector<float>> embedBatch(const std::vector<std::string>& texts);
     
@@ -139,23 +108,12 @@ public:
     // Streaming (for SSE, real-time UI)
     // ═══════════════════════════════════════════════════════════
     
-    /**
-     * @brief Generate with streaming callback
-     * @param prompt Input prompt
-     * @param callback Called for each generated token
-     * @param max_tokens Maximum tokens
-     * @return Full generated text
-     */
     std::string generateStreaming(
         const std::string& prompt,
         std::function<void(const std::string& token)> callback,
         int max_tokens = 512
     );
     
-    /**
-     * @brief Generate streaming response formatted as SSE
-     * Callback receives SSE-formatted strings ready to send
-     */
     std::string generateStreamingSSE(
         const std::string& prompt,
         std::function<void(const std::string& sse_event)> callback,
@@ -167,76 +125,63 @@ public:
     // Output formatting (for MCP, AQL, JSON responses)
     // ═══════════════════════════════════════════════════════════
     
-    /**
-     * @brief Generate and format as MCP response
-     */
     json generateAsMCP(const std::string& prompt, int max_tokens = 512);
     
-    /**
-     * @brief Generate and format as JSON with markdown
-     */
     json generateAsJsonMarkdown(const std::string& prompt, int max_tokens = 512);
     
     /**
-     * @brief Generate with full response metadata
+     * @brief Generate Full.
+     * @param[in] request Input parameter.
+     * @return Return value.
      */
     InferenceResponse generateFull(const InferenceRequest& request);
     
-    // ═══════════════════════════════════════════════════════════
-    // Utility methods
-    // ═══════════════════════════════════════════════════════════
-    
     /**
-     * @brief Check if model is loaded
+     * @brief ═══════════════════════════════════════════════════════════ Utility methods ═══════════════════════════════════════════════════════════
+     * @return True when the operation succeeds.
      */
+    
     bool isReady() const;
     
     /**
-     * @brief Get model information
+     * @brief Get Model Info.
+     * @return Return value.
      */
     std::string getModelInfo() const;
     
     /**
-     * @brief Get performance statistics
+     * @brief Get Stats.
+     * @return Return value.
      */
     json getStats() const;
 
     /**
-     * @brief Inject a generation backend override.
-     *
-     * When set, generation methods delegate to this callback before using the
-     * built-in wrapper/fallback path.
+     * @brief Set Generate Full Fn.
+     * @param[in] fn Input parameter.
      */
     void setGenerateFullFn(GenerateFullFn fn);
 
     /**
-     * @brief Inject an embedding backend override.
-     *
-     * When set, embedding methods delegate to this callback before using the
-     * built-in wrapper/fallback path.
+     * @brief Set Embed Fn.
+     * @param[in] fn Input parameter.
      */
     void setEmbedFn(EmbedFn fn);
     
     /**
-     * @brief Clear response cache
-     *
-     * Clears the in-memory embedding cache.  Subsequent calls to embed()
-     * will recompute embeddings from the model.
+     * @brief Clear Cache.
      */
     void clearCache();
     
-    // ═══════════════════════════════════════════════════════════
-    // Ethical Guidelines Support
-    // ═══════════════════════════════════════════════════════════
-    
     /**
-     * @brief Get ethical guidelines manager (if enabled)
-     * @return Pointer to manager or nullptr if not enabled
+     * @brief ═══════════════════════════════════════════════════════════ Ethical Guidelines Support ═══════════════════════════════════════════════════════════
+     * @return Pointer to the result.
      */
+    
     EthicalGuidelinesManager* getEthicalGuidelines();
     
     /**
-     * @brief Check if ethical guidelines are enabled
+     * @brief Has Ethical Guidelines.
+     * @return True when the operation succeeds.
      */
     bool hasEthicalGuidelines() const;
     
@@ -268,28 +213,29 @@ private:
     );
 };
 
-/**
- * @brief Global embedded LLM instance accessor
- * 
- * Provides singleton-like access to embedded LLM for system-wide use.
- * Thread-safe and lazy-initialized.
- */
 class EmbeddedLLMManager {
 public:
+    /**
+     * @brief Instance.
+     * @return Return value.
+     */
     static EmbeddedLLMManager& instance();
     
     /**
-     * @brief Initialize with configuration
+     * @brief Initialize.
+     * @param[in] config Input parameter.
      */
     void initialize(const EmbeddedLLM::Config& config);
     
     /**
-     * @brief Get the embedded LLM instance
+     * @brief Get.
+     * @return Return value.
      */
     EmbeddedLLM& get();
     
     /**
-     * @brief Check if initialized
+     * @brief Is Initialized.
+     * @return True when the operation succeeds.
      */
     bool isInitialized() const;
     

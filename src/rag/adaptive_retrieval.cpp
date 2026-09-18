@@ -21,6 +21,11 @@ namespace themis::rag {
 
 namespace {
 
+/**
+ * @brief Sanitize Config.
+ * @param[in] cfg Input parameter.
+ * @return Return value.
+ */
 AdaptiveRetrievalConfig sanitizeConfig(const AdaptiveRetrievalConfig& cfg)
 {
     AdaptiveRetrievalConfig out = cfg;
@@ -55,7 +60,11 @@ AdaptiveRetrievalConfig sanitizeConfig(const AdaptiveRetrievalConfig& cfg)
     return out;
 }
 
-/** Lowercase a string (ASCII only). */
+/**
+ * @brief To Lower.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ */
 std::string toLower(const std::string& s)
 {
     std::string r = s;
@@ -66,10 +75,19 @@ std::string toLower(const std::string& s)
     return r;
 }
 
-/** Split a string into whitespace-delimited tokens. */
+/**
+ * @brief Tokenize.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ */
 std::vector<std::string> tokenize(const std::string& s)
 {
     std::vector<std::string> tokens;
+    /**
+     * @brief Ss.
+     * @param[in] s Input parameter.
+     * @return Return value.
+     */
     std::istringstream ss(s);
     std::string tok = {};
     while (ss >> tok) {
@@ -78,7 +96,11 @@ std::vector<std::string> tokenize(const std::string& s)
     return tokens;
 }
 
-/** Strip punctuation from a token for comparison. */
+/**
+ * @brief Strip Punct.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ */
 std::string stripPunct(const std::string& s)
 {
     std::string r = {};
@@ -118,11 +140,19 @@ const AdaptiveRetrievalConfig& AdaptiveRetrieval::getConfig() const
     return config_;
 }
 
+/**
+ * @brief Set Config.
+ * @param[in] config Input parameter.
+ */
 void AdaptiveRetrieval::setConfig(const AdaptiveRetrievalConfig& config)
 {
     config_ = sanitizeConfig(config);
 }
 
+/**
+ * @brief Set Scorer.
+ * @param[in,out] scorer Input/output parameter.
+ */
 void AdaptiveRetrieval::setScorer(IComplexityScorer* scorer)
 {
     scorer_ = scorer;
@@ -225,6 +255,11 @@ ComplexityAnalysis AdaptiveRetrieval::analyzeComplexity(
 // scoreToComplexity
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Score To Complexity.
+ * @param[in] raw_score Input parameter.
+ * @return Return value.
+ */
 QueryComplexity AdaptiveRetrieval::scoreToComplexity(double raw_score)
 {
     if (raw_score < 0.30) {
@@ -239,6 +274,11 @@ QueryComplexity AdaptiveRetrieval::scoreToComplexity(double raw_score)
     return QueryComplexity::VERY_COMPLEX;
 }
 
+/**
+ * @brief Complexity To String.
+ * @param[in] complexity Input parameter.
+ * @return Pointer to the result.
+ */
 const char* AdaptiveRetrieval::complexityToString(QueryComplexity complexity)
 {
     switch (complexity) {
@@ -324,6 +364,10 @@ AdaptiveRetrievalParams AdaptiveRetrieval::computeParams(
 // AdaptiveRetrievalFactory
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Create Lightweight.
+ * @return Return value.
+ */
 std::unique_ptr<AdaptiveRetrieval> AdaptiveRetrievalFactory::createLightweight()
 {
     AdaptiveRetrievalConfig cfg;
@@ -335,6 +379,10 @@ std::unique_ptr<AdaptiveRetrieval> AdaptiveRetrievalFactory::createLightweight()
     return std::make_unique<AdaptiveRetrieval>(cfg);
 }
 
+/**
+ * @brief Create Balanced.
+ * @return Return value.
+ */
 std::unique_ptr<AdaptiveRetrieval> AdaptiveRetrievalFactory::createBalanced()
 {
     AdaptiveRetrievalConfig cfg;
@@ -346,6 +394,10 @@ std::unique_ptr<AdaptiveRetrieval> AdaptiveRetrievalFactory::createBalanced()
     return std::make_unique<AdaptiveRetrieval>(cfg);
 }
 
+/**
+ * @brief Create High Recall.
+ * @return Return value.
+ */
 std::unique_ptr<AdaptiveRetrieval> AdaptiveRetrievalFactory::createHighRecall()
 {
     AdaptiveRetrievalConfig cfg;

@@ -35,6 +35,12 @@ ABTestingFramework::ABTestingFramework() : impl_(std::make_unique<Impl>()) {}
 
 ABTestingFramework::~ABTestingFramework() = default;
 
+/**
+ * @brief Start Test.
+ * @param[in] config Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), count(), std::chrono::system_clock::now().
+ */
 bool ABTestingFramework::startTest(const ABTestConfig &config) {
     std::lock_guard<std::mutex> lock(impl_->mutex);
 
@@ -51,6 +57,14 @@ bool ABTestingFramework::startTest(const ABTestConfig &config) {
     return true;
 }
 
+/**
+ * @brief Record Observation.
+ * @param[in] test_id Identifier of the test.
+ * @param[in] is_treatment Input parameter.
+ * @param[in] success Input parameter.
+ * @param[in] metric_value Input parameter.
+ * @details Calls: lock(), find(), end(), push_back(), std::accumulate(), begin(), std::sqrt().
+ */
 void ABTestingFramework::recordObservation(const std::string &test_id, bool is_treatment, bool success,
                                            double metric_value) {
     std::lock_guard<std::mutex> lock(impl_->mutex);
@@ -88,6 +102,13 @@ void ABTestingFramework::recordObservation(const std::string &test_id, bool is_t
     }
 }
 
+/**
+ * @brief Should Use Treatment.
+ * @param[in] test_id Identifier of the test.
+ * @param[in] user_id Identifier of the user.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), find(), end(), hashUserId().
+ */
 bool ABTestingFramework::shouldUseTreatment(const std::string &test_id, const std::string &user_id) {
     std::lock_guard<std::mutex> lock(impl_->mutex);
 
@@ -103,6 +124,12 @@ bool ABTestingFramework::shouldUseTreatment(const std::string &test_id, const st
     return normalized < it->second.config.traffic_split;
 }
 
+/**
+ * @brief Evaluate Test.
+ * @param[in] test_id Identifier of the test.
+ * @return Return value.
+ * @details Calls: lock(), find(), end(), calculateTStatistic(), calculatePValue().
+ */
 ABTestResult ABTestingFramework::evaluateTest(const std::string &test_id) {
     std::lock_guard<std::mutex> lock(impl_->mutex);
 
@@ -157,6 +184,12 @@ ABTestStatus ABTestingFramework::getTestStatus(const std::string &test_id) const
     return it->second.status;
 }
 
+/**
+ * @brief Complete Test.
+ * @param[in] test_id Identifier of the test.
+ * @param[in] promote Input parameter.
+ * @details Calls: lock(), find(), end().
+ */
 void ABTestingFramework::completeTest(const std::string &test_id, bool promote) {
     std::lock_guard<std::mutex> lock(impl_->mutex);
 
@@ -168,6 +201,11 @@ void ABTestingFramework::completeTest(const std::string &test_id, bool promote) 
     it->second.status = promote ? ABTestStatus::PROMOTED : ABTestStatus::ROLLED_BACK;
 }
 
+/**
+ * @brief Cancel Test.
+ * @param[in] test_id Identifier of the test.
+ * @details Calls: lock(), find(), end().
+ */
 void ABTestingFramework::cancelTest(const std::string &test_id) {
     std::lock_guard<std::mutex> lock(impl_->mutex);
 
@@ -177,6 +215,13 @@ void ABTestingFramework::cancelTest(const std::string &test_id) {
     }
 }
 
+/**
+ * @brief Calculate TStatistic.
+ * @param[in] control Input parameter.
+ * @param[in] treatment Input parameter.
+ * @return Return value.
+ * @details Calls: std::sqrt().
+ */
 double ABTestingFramework::calculateTStatistic(const GroupMetrics &control, const GroupMetrics &treatment) {
     // Two-sample t-test (Welch's t-test for unequal variances)
     double mean_diff = treatment.mean - control.mean;
@@ -191,6 +236,13 @@ double ABTestingFramework::calculateTStatistic(const GroupMetrics &control, cons
     return mean_diff / std::sqrt(se_squared);
 }
 
+/**
+ * @brief Calculate PValue.
+ * @param[in] t_statistic Input parameter.
+ * @param[in] df Input parameter.
+ * @return Return value.
+ * @details Calls: std::abs(), std::sqrt(), std::tanh().
+ */
 double ABTestingFramework::calculatePValue(double t_statistic, size_t df) {
     static_cast<void>(df);
     // Simplified p-value calculation using normal approximation
@@ -208,6 +260,12 @@ double ABTestingFramework::calculatePValue(double t_statistic, size_t df) {
     return 2.0 * (1.0 - cdf);
 }
 
+/**
+ * @brief Hash User Id.
+ * @param[in] user_id Identifier of the user.
+ * @return Return value.
+ * @details Calls: hasher().
+ */
 size_t ABTestingFramework::hashUserId(const std::string &user_id) {
     // Simple hash function for user assignment
     std::hash<std::string> hasher;

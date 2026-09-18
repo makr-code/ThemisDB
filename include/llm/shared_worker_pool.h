@@ -27,66 +27,57 @@ using json = nlohmann::json;
 namespace themis {
 namespace llm {
 
-/**
- * @brief Shared work-stealing thread pool for AsyncInferenceEngine and
- *        InferenceEngineEnhanced.
- *
- * Design:
- * - A single global priority queue receives new tasks from either engine.
- * - Each worker drains from the global queue into its own local deque
- *   (reduces contention on the global mutex).
- * - Idle workers steal tasks from the back of sibling workers' deques.
- *
- * Thread-count defaults to std::thread::hardware_concurrency();
- * configurable via Config::num_threads.
- *
- * Both engines can share one instance:
- * @code
- *   auto pool = std::make_shared<SharedWorkerPool>();
- *   AsyncInferenceEngine async_eng(plugin, async_cfg, pool);
- *   InferenceEngineEnhanced enh_eng(enh_cfg, pool);
- * @endcode
- */
 class SharedWorkerPool {
 public:
     struct Config {
-        /// Worker thread count; 0 = std::thread::hardware_concurrency().
         size_t num_threads    = 0;
-        /// Maximum tasks that may be queued across the whole pool.
         size_t max_queue_size = 10000;
     };
 
     SharedWorkerPool();
+    /**
+     * @brief Shared Worker Pool.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit SharedWorkerPool(const Config& config);
     ~SharedWorkerPool();
 
     SharedWorkerPool(const SharedWorkerPool&)            = delete;
     SharedWorkerPool& operator=(const SharedWorkerPool&) = delete;
 
-    /**
-     * @brief Submit a callable with a priority.
-     *
-     * Higher priority value → picked up sooner.
-     * Returns false and drops the task when the queue is at capacity.
-     *
-     * @param task     Callable to execute on a worker thread.
-     * @param priority Scheduling hint (higher = more urgent).
-     * @return true if queued, false if queue is full.
-     */
     bool submit(std::function<void()> task, int priority = 0);
 
-    /// Current number of tasks queued (not yet executing).
+    /**
+     * @brief Queue Depth.
+     * @return Return value.
+     */
     size_t   queueDepth()      const;
-    /// Total tasks completed since pool creation.
+    /**
+     * @brief Tasks Completed.
+     * @return Return value.
+     */
     uint64_t tasksCompleted()  const;
-    /// Number of worker threads in the pool.
+    /**
+     * @brief Num Threads.
+     * @return Return value.
+     */
     size_t   numThreads()      const;
 
-    /// JSON metrics snapshot (queue_depth, tasks_completed, num_threads).
+    /**
+     * @brief Get Metrics.
+     * @return Return value.
+     */
     json getMetrics() const;
 
-    /// Graceful shutdown — stops accepting new tasks and joins workers.
+    /**
+     * @brief Shutdown.
+     */
     void shutdown();
+    /**
+     * @brief Is Running.
+     * @return True when the operation succeeds.
+     */
     bool isRunning() const;
 
 private:
@@ -120,7 +111,17 @@ private:
 
     Config config_;
 
+    /**
+     * @brief Worker Loop.
+     * @param[in] thread_id Identifier of the thread.
+     */
     void workerLoop(size_t thread_id);
+    /**
+     * @brief Try Steal.
+     * @param[in] thread_id Identifier of the thread.
+     * @param[in,out] out_task Input/output parameter.
+     * @return True when the operation succeeds.
+     */
     bool trySteal(size_t thread_id, Task& out_task);
 };
 

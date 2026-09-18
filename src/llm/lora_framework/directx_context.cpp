@@ -81,6 +81,11 @@ DirectXContext& DirectXContext::operator=(DirectXContext&& other) noexcept {
     return *this;
 }
 
+/**
+ * @brief Initialize.
+ * @return True when the operation succeeds.
+ * @details Calls: enable_debug_layer(), std::getenv(), std::string(), CreateDXGIFactory2(), IID_PPV_ARGS(), FAILED(), create_device(), create_command_queue().
+ */
 bool DirectXContext::initialize() {
     if (initialized_) {
         return true;
@@ -124,6 +129,10 @@ bool DirectXContext::initialize() {
     return true;
 }
 
+/**
+ * @brief Cleanup.
+ * @details Calls: wait_for_gpu(), CloseHandle(), Reset().
+ */
 void DirectXContext::cleanup() {
     if (!initialized_) {
         return;
@@ -150,6 +159,11 @@ void DirectXContext::cleanup() {
     initialized_ = false;
 }
 
+/**
+ * @brief Create device.
+ * @return True when the operation succeeds.
+ * @details Calls: EnumAdapters1(), GetDesc1(), D3D12CreateDevice(), Get(), IID_PPV_ARGS(), SUCCEEDED(), w_desc(), std::string().
+ */
 bool DirectXContext::create_device() {
     // Enumerate adapters
     ComPtr<IDXGIAdapter1> temp_adapter;
@@ -197,6 +211,11 @@ bool DirectXContext::create_device() {
     return false;
 }
 
+/**
+ * @brief Create command queue.
+ * @return True when the operation succeeds.
+ * @details Calls: CreateCommandQueue(), IID_PPV_ARGS(), FAILED().
+ */
 bool DirectXContext::create_command_queue() {
     D3D12_COMMAND_QUEUE_DESC queue_desc = {};
     queue_desc.Type = D3D12_COMMAND_LIST_TYPE_COMPUTE;
@@ -213,6 +232,11 @@ bool DirectXContext::create_command_queue() {
     return true;
 }
 
+/**
+ * @brief Create command allocator.
+ * @return True when the operation succeeds.
+ * @details Calls: CreateCommandAllocator(), IID_PPV_ARGS(), FAILED().
+ */
 bool DirectXContext::create_command_allocator() {
     HRESULT hr = device_->CreateCommandAllocator(
         D3D12_COMMAND_LIST_TYPE_COMPUTE,
@@ -227,6 +251,11 @@ bool DirectXContext::create_command_allocator() {
     return true;
 }
 
+/**
+ * @brief Create command list.
+ * @return True when the operation succeeds.
+ * @details Calls: CreateCommandList(), Get(), IID_PPV_ARGS(), FAILED(), Close().
+ */
 bool DirectXContext::create_command_list() {
     HRESULT hr = device_->CreateCommandList(
         0,
@@ -248,6 +277,11 @@ bool DirectXContext::create_command_list() {
     return true;
 }
 
+/**
+ * @brief Create fence.
+ * @return True when the operation succeeds.
+ * @details Calls: CreateFence(), IID_PPV_ARGS(), FAILED(), CreateEvent().
+ */
 bool DirectXContext::create_fence() {
     HRESULT hr = device_->CreateFence(0, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&fence_));
     if (FAILED(hr)) {
@@ -267,6 +301,10 @@ bool DirectXContext::create_fence() {
     return true;
 }
 
+/**
+ * @brief Enable debug layer.
+ * @details Calls: SUCCEEDED(), D3D12GetDebugInterface(), IID_PPV_ARGS(), EnableDebugLayer().
+ */
 void DirectXContext::enable_debug_layer() {
     ComPtr<ID3D12Debug> debug_controller;
     if (SUCCEEDED(D3D12GetDebugInterface(IID_PPV_ARGS(&debug_controller)))) {
@@ -275,6 +313,12 @@ void DirectXContext::enable_debug_layer() {
     }
 }
 
+/**
+ * @brief Wait for gpu.
+ * @param[in] timeout_ms Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: Signal(), Get(), FAILED(), GetCompletedValue(), SetEventOnCompletion(), WaitForSingleObject().
+ */
 bool DirectXContext::wait_for_gpu(uint32_t timeout_ms) {
     if (!fence_ || !fence_event_) {
         return false;
@@ -309,6 +353,11 @@ bool DirectXContext::wait_for_gpu(uint32_t timeout_ms) {
     return true;
 }
 
+/**
+ * @brief Reset command list.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: execute_command_list(), Reset(), FAILED(), Get().
+ */
 void DirectXContext::reset_command_list() {
     // If a command list is already recording, execute it first to free the allocator
     if (command_list_recording_) {
@@ -329,6 +378,12 @@ void DirectXContext::reset_command_list() {
     command_list_recording_ = true;
 }
 
+/**
+ * @brief Execute command list.
+ * @param[in] timeout_ms Input parameter.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: Close(), FAILED(), Get(), ExecuteCommandLists(), wait_for_gpu(), GetNumStoredMessagesAllowedByRetrievalFilter(), GetMessage(), buffer().
+ */
 void DirectXContext::execute_command_list(uint32_t timeout_ms) {
     // Close command list
     HRESULT hr = command_list_->Close();

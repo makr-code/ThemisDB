@@ -29,6 +29,12 @@ namespace {
 
 #ifdef THEMIS_ENABLE_YAML
 
+/**
+ * @brief Parse Gap Context.
+ * @param[in] n Input parameter.
+ * @return Return value.
+ * @details Calls: IsSequence(), push_back().
+ */
 static GapContext parseGapContext(const YAML::Node& n) {
     GapContext g = {};
     if (n["gap_id"]) {
@@ -44,6 +50,12 @@ static GapContext parseGapContext(const YAML::Node& n) {
     return g;
 }
 
+/**
+ * @brief Parse Crawl Options.
+ * @param[in] n Input parameter.
+ * @return Return value.
+ * @details Implements parseCrawlOptions without additional internal calls.
+ */
 static CrawlOptions parseCrawlOptions(const YAML::Node& n) {
     CrawlOptions o = {};
     if (n["max_depth"]) {
@@ -82,6 +94,12 @@ static CrawlOptions parseCrawlOptions(const YAML::Node& n) {
     return o;
 }
 
+/**
+ * @brief Parse Search Options.
+ * @param[in] n Input parameter.
+ * @return Return value.
+ * @details Calls: IsSequence(), push_back().
+ */
 static SearchOptions parseSearchOptions(const YAML::Node& n) {
     SearchOptions o = {};
     if (n["enabled"]) {
@@ -103,6 +121,12 @@ static SearchOptions parseSearchOptions(const YAML::Node& n) {
     return o;
 }
 
+/**
+ * @brief Parse Api Options.
+ * @param[in] n Input parameter.
+ * @return Return value.
+ * @details Calls: IsMap().
+ */
 static ApiOptions parseApiOptions(const YAML::Node& n) {
     ApiOptions o = {};
     if (n["pagination_mode"]) {
@@ -130,6 +154,12 @@ static ApiOptions parseApiOptions(const YAML::Node& n) {
     return o;
 }
 
+/**
+ * @brief Parse Llm Options.
+ * @param[in] n Input parameter.
+ * @return Return value.
+ * @details Implements parseLlmOptions without additional internal calls.
+ */
 static LlmOptions parseLlmOptions(const YAML::Node& n) {
     LlmOptions o = {};
     if (n["quality_threshold"]) {
@@ -144,6 +174,12 @@ static LlmOptions parseLlmOptions(const YAML::Node& n) {
     return o;
 }
 
+/**
+ * @brief Parse Gov Sources.
+ * @param[in] n Input parameter.
+ * @return Return value.
+ * @details Calls: IsSequence(), push_back().
+ */
 static GovSourcesOptions parseGovSources(const YAML::Node& n) {
     GovSourcesOptions o = {};
     if (n["bund_enabled"]) {
@@ -165,6 +201,12 @@ static GovSourcesOptions parseGovSources(const YAML::Node& n) {
     return o;
 }
 
+/**
+ * @brief Parse Node.
+ * @param[in] root Input parameter.
+ * @return Return value.
+ * @details Calls: parseGapContext(), parseCrawlOptions(), parseSearchOptions(), parseApiOptions(), parseLlmOptions(), parseGovSources(), IsSequence(), push_back().
+ */
 static ScraperConfig parseNode(const YAML::Node& root) {
     ScraperConfig cfg = {};
     if (root["gap_context"]) {
@@ -205,6 +247,13 @@ static ScraperConfig parseNode(const YAML::Node& root) {
 
 } // anonymous namespace
 
+/**
+ * @brief Load From File.
+ * @param[in] path Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: YAML::LoadFile(), parseNode(), what(), else().
+ */
 ScraperConfig ScraperConfig::loadFromFile(const std::string& path) {
 #ifdef THEMIS_ENABLE_YAML
     try {
@@ -220,6 +269,13 @@ ScraperConfig ScraperConfig::loadFromFile(const std::string& path) {
 #endif
 }
 
+/**
+ * @brief Load From Yaml.
+ * @param[in] yaml_content Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: YAML::Load(), parseNode(), std::string(), what(), else().
+ */
 ScraperConfig ScraperConfig::loadFromYaml(const std::string& yaml_content) {
 #ifdef THEMIS_ENABLE_YAML
     try {

@@ -46,11 +46,21 @@ GpuKernelDispatcher::ContainmentDispatchFn s_containment_dispatch_fn;
 GpuKernelDispatcher::DistanceDispatchFn    s_distance_dispatch_fn;
 }
 
+/**
+ * @brief Set Containment Dispatch Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lk(), std::move().
+ */
 void GpuKernelDispatcher::setContainmentDispatchFn(ContainmentDispatchFn fn) {
     std::lock_guard<std::mutex> lk(s_dispatch_mutex);
     s_containment_dispatch_fn = std::move(fn);
 }
 
+/**
+ * @brief Set Distance Dispatch Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lk(), std::move().
+ */
 void GpuKernelDispatcher::setDistanceDispatchFn(DistanceDispatchFn fn) {
     std::lock_guard<std::mutex> lk(s_dispatch_mutex);
     s_distance_dispatch_fn = std::move(fn);
@@ -62,11 +72,26 @@ GpuKernelDispatcher::GpuKernelDispatcher(
 {}
 
 bool GpuKernelDispatcher::isAvailable() const noexcept {
+    /**
+     * @brief Lk.
+     * @param[in] s_dispatch_mutex Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(s_dispatch_mutex);
     return static_cast<bool>(s_containment_dispatch_fn) ||
            static_cast<bool>(s_distance_dispatch_fn);
 }
 
+/**
+ * @brief Dispatch Containment.
+ * @param[in] point_lats Input parameter.
+ * @param[in] point_lons Input parameter.
+ * @param[in] numPoints Input parameter.
+ * @param[in] polygon_coords Input parameter.
+ * @param[in] numPolygonVertices Input parameter.
+ * @return Return value.
+ * @details Calls: lk(), fn().
+ */
 GpuKernelDispatcher::ContainmentResult GpuKernelDispatcher::dispatchContainment(
     const double* point_lats,
     const double* point_lons,
@@ -92,6 +117,17 @@ GpuKernelDispatcher::ContainmentResult GpuKernelDispatcher::dispatchContainment(
     return ContainmentResult{};
 }
 
+/**
+ * @brief Dispatch Distance.
+ * @param[in] lats1 Input parameter.
+ * @param[in] lons1 Input parameter.
+ * @param[in] lats2 Input parameter.
+ * @param[in] lons2 Input parameter.
+ * @param[in] count Input parameter.
+ * @param[in] formula Input parameter.
+ * @return Return value.
+ * @details Calls: lk(), fn().
+ */
 GpuKernelDispatcher::DistanceResult GpuKernelDispatcher::dispatchDistance(
     const double* lats1,
     const double* lons1,

@@ -50,7 +50,17 @@
             return *this;
           }
           T* Get() const { return ptr; }
+          /**
+           * @brief Get Address Of.
+           * @return Pointer to the result.
+           * @details Implements GetAddressOf without additional internal calls.
+           */
           T** GetAddressOf() { return &ptr; }
+          /**
+           * @brief Release And Get Address Of.
+           * @return Pointer to the result.
+           * @details Calls: Reset().
+           */
           T** ReleaseAndGetAddressOf() { Reset(); return &ptr; }
           T** operator&() { return GetAddressOf(); }
           bool operator==(std::nullptr_t) const { return ptr == nullptr; }
@@ -58,6 +68,10 @@
           T* operator->() const { return ptr; }
           T& operator*() const { return *ptr; }
           explicit operator bool() const { return ptr != nullptr; }
+          /**
+           * @brief Reset.
+           * @details Calls: Release().
+           */
           void Reset() { if (ptr) { ptr->Release(); ptr = nullptr; } }
           ComPtr& operator=(T* p) {
             if (ptr) {
@@ -88,18 +102,8 @@ namespace themis {
 namespace lora {
 namespace directx {
 
-/**
- * @brief DirectX 12 context for compute operations
- * 
- * Manages D3D12 device, command queue, and synchronization primitives
- * for GPU-accelerated LoRA training on Windows.
- */
 class DirectXContext {
 public:
-    /**
-     * @brief Initialize DirectX 12 context
-     * @param adapter_id GPU adapter ID (0 for default adapter)
-     */
     explicit DirectXContext(int adapter_id = 0);
     
     ~DirectXContext();
@@ -111,85 +115,72 @@ public:
     DirectXContext& operator=(DirectXContext&&) noexcept;
     
     /**
-     * @brief Initialize D3D12 device and resources
-     * @return true if successful
+     * @brief Initialize.
+     * @return True when the operation succeeds.
      */
     bool initialize();
     
     /**
-     * @brief Cleanup DirectX resources
+     * @brief Cleanup.
      */
     void cleanup();
     
-    /**
-     * @brief Check if context is initialized
-     */
     bool is_initialized() const { return initialized_; }
     
-    /**
-     * @brief Get D3D12 device
-     */
     ID3D12Device* device() const { return device_.Get(); }
     
-    /**
-     * @brief Get compute command queue
-     */
     ID3D12CommandQueue* command_queue() const { return command_queue_.Get(); }
     
-    /**
-     * @brief Get command allocator
-     */
     ID3D12CommandAllocator* command_allocator() const { return command_allocator_.Get(); }
     
-    /**
-     * @brief Get command list
-     */
     ID3D12GraphicsCommandList* command_list() const { return command_list_.Get(); }
     
-    /**
-     * @brief Get fence for GPU synchronization
-     */
     ID3D12Fence* fence() const { return fence_.Get(); }
     
-    /**
-     * @brief Get current fence value
-     */
     uint64_t fence_value() const { return fence_value_; }
     
-    /**
-     * @brief Get adapter ID
-     */
     int adapter_id() const { return adapter_id_; }
     
-    /**
-     * @brief Wait for GPU to complete all pending work
-     * @param timeout_ms Timeout in milliseconds
-     * @return true if the GPU completed within timeout
-     */
     bool wait_for_gpu(uint32_t timeout_ms = 30000);
     
     /**
-     * @brief Reset command list for new recording
+     * @brief Reset command list.
      */
     void reset_command_list();
     
-    /**
-     * @brief Execute command list and wait for completion
-     * @param timeout_ms Timeout in milliseconds
-     */
     void execute_command_list(uint32_t timeout_ms = 30000);
     
-    /**
-     * @brief Get GPU description string
-     */
     const std::string& get_gpu_description() const { return gpu_description_; }
 
 private:
+    /**
+     * @brief Create device.
+     * @return True when the operation succeeds.
+     */
     bool create_device();
+    /**
+     * @brief Create command queue.
+     * @return True when the operation succeeds.
+     */
     bool create_command_queue();
+    /**
+     * @brief Create command allocator.
+     * @return True when the operation succeeds.
+     */
     bool create_command_allocator();
+    /**
+     * @brief Create command list.
+     * @return True when the operation succeeds.
+     */
     bool create_command_list();
+    /**
+     * @brief Create fence.
+     * @return True when the operation succeeds.
+     */
     bool create_fence();
+    /**
+     * @brief Enable debug layer.
+     */
     void enable_debug_layer();
     
     int adapter_id_ = 0;

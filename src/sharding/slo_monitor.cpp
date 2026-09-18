@@ -27,10 +27,6 @@ namespace sharding {
 
 // ==================== SLOWindow Implementation ====================
 
-/**
- * @brief Initialize SLO measurement window buffers and counters.
- * @param window_duration Rolling window duration.
- */
 SLOWindow::SLOWindow(std::chrono::seconds window_duration)
     : window_duration_(window_duration)
     , window_start_(std::chrono::steady_clock::now()) {
@@ -39,24 +35,27 @@ SLOWindow::SLOWindow(std::chrono::seconds window_duration)
 }
 
 /**
- * @brief Record uptime duration in milliseconds.
- * @param duration Uptime duration sample.
+ * @brief Record Uptime.
+ * @param[in] duration Input parameter.
+ * @details Calls: fetch_add(), count().
  */
 void SLOWindow::recordUptime(std::chrono::milliseconds duration) {
     total_uptime_ms_.fetch_add(duration.count(), std::memory_order_relaxed);
 }
 
 /**
- * @brief Record downtime duration in milliseconds.
- * @param duration Downtime duration sample.
+ * @brief Record Downtime.
+ * @param[in] duration Input parameter.
+ * @details Calls: fetch_add(), count().
  */
 void SLOWindow::recordDowntime(std::chrono::milliseconds duration) {
     total_downtime_ms_.fetch_add(duration.count(), std::memory_order_relaxed);
 }
 
 /**
- * @brief Append a latency sample.
- * @param latency_ms Latency value in milliseconds.
+ * @brief Record Latency.
+ * @param[in] latency_ms Input parameter.
+ * @details Calls: lock(), push_back(), size(), erase(), begin().
  */
 void SLOWindow::recordLatency(double latency_ms) {
     std::lock_guard<std::mutex> lock(mutex_);
@@ -69,16 +68,18 @@ void SLOWindow::recordLatency(double latency_ms) {
 }
 
 /**
- * @brief Record bytes lost for durability accounting.
- * @param bytes_lost Lost bytes.
+ * @brief Record Data Loss.
+ * @param[in] bytes_lost Input parameter.
+ * @details Calls: fetch_add().
  */
 void SLOWindow::recordDataLoss(uint64_t bytes_lost) {
     total_bytes_lost_.fetch_add(bytes_lost, std::memory_order_relaxed);
 }
 
 /**
- * @brief Append replication lag sample.
- * @param lag_ms Lag value in milliseconds.
+ * @brief Record Replication Lag.
+ * @param[in] lag_ms Input parameter.
+ * @details Calls: lock(), push_back(), size(), erase(), begin().
  */
 void SLOWindow::recordReplicationLag(double lag_ms) {
     std::lock_guard<std::mutex> lock(mutex_);
@@ -90,10 +91,6 @@ void SLOWindow::recordReplicationLag(double lag_ms) {
     }
 }
 
-/**
- * @brief Compute availability ratio from accumulated uptime/downtime.
- * @return Availability in [0,1].
- */
 double SLOWindow::getAvailability() const {
     uint64_t uptime = total_uptime_ms_.load(std::memory_order_relaxed);
     uint64_t downtime = total_downtime_ms_.load(std::memory_order_relaxed);
@@ -106,22 +103,26 @@ double SLOWindow::getAvailability() const {
     return static_cast<double>(uptime) / static_cast<double>(total);
 }
 
-/** @brief Compute p50 latency in milliseconds. */
 double SLOWindow::getLatencyP50() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return calculatePercentile(latency_samples_, 0.5);
 }
 
-/** @brief Compute p99 latency in milliseconds. */
 double SLOWindow::getLatencyP99() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return calculatePercentile(latency_samples_, 0.99);
 }
 
-/**
- * @brief Compute data-loss rate.
- * @return lost_bytes / written_bytes (0 when no bytes written are known).
- */
 double SLOWindow::getDataLossRate() const {
     uint64_t bytes_lost = total_bytes_lost_.load(std::memory_order_relaxed);
     uint64_t bytes_written = total_bytes_written_.load(std::memory_order_relaxed);
@@ -133,11 +134,12 @@ double SLOWindow::getDataLossRate() const {
     return static_cast<double>(bytes_lost) / static_cast<double>(bytes_written);
 }
 
-/**
- * @brief Compute average replication lag.
- * @return Average lag in milliseconds.
- */
 double SLOWindow::getAvgReplicationLag() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     if (replication_lag_samples_.empty()) {
@@ -152,11 +154,6 @@ double SLOWindow::getAvgReplicationLag() const {
     return sum / replication_lag_samples_.size();
 }
 
-/**
- * @brief Compute remaining error budget for a target availability.
- * @param target_availability SLO target in [0,1].
- * @return Remaining budget ratio where 1.0 is full budget remaining.
- */
 double SLOWindow::getErrorBudget(double target_availability) const {
     double current_availability = getAvailability();
     double error_budget = 1.0 - target_availability;
@@ -166,7 +163,8 @@ double SLOWindow::getErrorBudget(double target_availability) const {
 }
 
 /**
- * @brief Reset counters and sample buffers.
+ * @brief Reset the modification detection flag.
+ * @details Calls: lock(), store(), clear(), std::chrono::steady_clock::now().
  */
 void SLOWindow::reset() {
     std::lock_guard<std::mutex> lock(mutex_);
@@ -182,12 +180,6 @@ void SLOWindow::reset() {
     window_start_ = std::chrono::steady_clock::now();
 }
 
-/**
- * @brief Compute percentile for a sample vector.
- * @param samples Input samples.
- * @param percentile Percentile as fraction (0..1).
- * @return Percentile value or 0 when samples are empty.
- */
 double SLOWindow::calculatePercentile(const std::vector<double>& samples, double percentile) const {
     if (samples.empty()) {
         return 0.0;
@@ -202,12 +194,16 @@ double SLOWindow::calculatePercentile(const std::vector<double>& samples, double
 
 // ==================== SLOMonitor Implementation ====================
 
-/** @brief Construct SLO monitor with target thresholds and alerting config. */
 SLOMonitor::SLOMonitor(const Config& config)
     : config_(config) {
 }
 
-/** @brief Record shard availability tick sample and evaluate alert state. */
+/**
+ * @brief Record Shard Availability.
+ * @param[in] shard_id Identifier of the shard.
+ * @param[in] is_available Input parameter.
+ * @details Calls: std::chrono::milliseconds(), getOrCreateShardWindow(), recordUptime(), recordDowntime(), checkAndGenerateAlerts().
+ */
 void SLOMonitor::recordShardAvailability(const std::string& shard_id, bool is_available) {
     // Sample interval for availability tracking
     static constexpr auto kAvailabilitySampleInterval = std::chrono::milliseconds(1000);
@@ -223,7 +219,13 @@ void SLOMonitor::recordShardAvailability(const std::string& shard_id, bool is_av
     checkAndGenerateAlerts();
 }
 
-/** @brief Record query latency sample into per-query rolling window. */
+/**
+ * @brief Record Query Latency.
+ * @param[in] shard_id Identifier of the shard.
+ * @param[in] query_type Input parameter.
+ * @param[in] latency_ms Input parameter.
+ * @details Calls: getOrCreateQueryWindow(), recordLatency(), checkAndGenerateAlerts().
+ */
 void SLOMonitor::recordQueryLatency(const std::string& shard_id, const std::string& query_type, double latency_ms) {
     auto window = getOrCreateQueryWindow(query_type);
     window->recordLatency(latency_ms);
@@ -231,7 +233,12 @@ void SLOMonitor::recordQueryLatency(const std::string& shard_id, const std::stri
     checkAndGenerateAlerts();
 }
 
-/** @brief Record transaction latency sample into per-type rolling window. */
+/**
+ * @brief Record Transaction Latency.
+ * @param[in] transaction_type Input parameter.
+ * @param[in] latency_ms Input parameter.
+ * @details Calls: getOrCreateTransactionWindow(), recordLatency(), checkAndGenerateAlerts().
+ */
 void SLOMonitor::recordTransactionLatency(const std::string& transaction_type, double latency_ms) {
     auto window = getOrCreateTransactionWindow(transaction_type);
     window->recordLatency(latency_ms);
@@ -239,7 +246,12 @@ void SLOMonitor::recordTransactionLatency(const std::string& transaction_type, d
     checkAndGenerateAlerts();
 }
 
-/** @brief Record durability-impacting data-loss observation for shard. */
+/**
+ * @brief Record Data Loss.
+ * @param[in] shard_id Identifier of the shard.
+ * @param[in] bytes_lost Input parameter.
+ * @details Calls: getOrCreateShardWindow(), checkAndGenerateAlerts().
+ */
 void SLOMonitor::recordDataLoss(const std::string& shard_id, uint64_t bytes_lost) {
     auto window = getOrCreateShardWindow(shard_id);
     window->recordDataLoss(bytes_lost);
@@ -247,7 +259,12 @@ void SLOMonitor::recordDataLoss(const std::string& shard_id, uint64_t bytes_lost
     checkAndGenerateAlerts();
 }
 
-/** @brief Record replication lag observation for shard consistency tracking. */
+/**
+ * @brief Record Replication Lag.
+ * @param[in] shard_id Identifier of the shard.
+ * @param[in] lag_ms Input parameter.
+ * @details Calls: getOrCreateShardWindow(), checkAndGenerateAlerts().
+ */
 void SLOMonitor::recordReplicationLag(const std::string& shard_id, double lag_ms) {
     auto window = getOrCreateShardWindow(shard_id);
     window->recordReplicationLag(lag_ms);
@@ -255,7 +272,12 @@ void SLOMonitor::recordReplicationLag(const std::string& shard_id, double lag_ms
     checkAndGenerateAlerts();
 }
 
-/** @brief Record leader-election duration and emit violation alert when exceeded. */
+/**
+ * @brief Record Leader Election.
+ * @param[in] shard_id Identifier of the shard.
+ * @param[in] duration_s Input parameter.
+ * @details Calls: lock(), push_back(), formatSLOViolation().
+ */
 void SLOMonitor::recordLeaderElection(const std::string& shard_id, double duration_s) {
     double max_leader_election_time_s = 0;
     {
@@ -272,8 +294,12 @@ void SLOMonitor::recordLeaderElection(const std::string& shard_id, double durati
     }
 }
 
-/** @brief Check shard availability against configured target. */
 bool SLOMonitor::isAvailabilitySLOMet(const std::string& shard_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     auto it = shard_windows_.find(shard_id);
@@ -285,8 +311,12 @@ bool SLOMonitor::isAvailabilitySLOMet(const std::string& shard_id) const {
     return availability >= config_.targets.availability_target;
 }
 
-/** @brief Check query latency p99 against target selected by query type label. */
 bool SLOMonitor::isLatencySLOMet(const std::string& query_type) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     auto it = query_latency_windows_.find(query_type);
@@ -306,11 +336,15 @@ bool SLOMonitor::isLatencySLOMet(const std::string& query_type) const {
     return true;
 }
 
-/** @brief Check shard durability (data-loss rate) against configured tolerance. */
 bool SLOMonitor::isDurabilitySLOMet(const std::string& shard_id) const {
     std::shared_ptr<SLOWindow> window;
     double data_loss_tolerance = {};
     {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         auto it = shard_windows_.find(shard_id);
         if (it == shard_windows_.end()) {
@@ -328,11 +362,15 @@ bool SLOMonitor::isDurabilitySLOMet(const std::string& shard_id) const {
     return data_loss_rate <= data_loss_tolerance;
 }
 
-/** @brief Check shard consistency (avg replication lag) against configured cap. */
 bool SLOMonitor::isConsistencySLOMet(const std::string& shard_id) const {
     std::shared_ptr<SLOWindow> window;
     double max_replication_lag_ms = {};
     {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         auto it = shard_windows_.find(shard_id);
         if (it == shard_windows_.end()) {
@@ -350,11 +388,15 @@ bool SLOMonitor::isConsistencySLOMet(const std::string& shard_id) const {
     return avg_lag <= max_replication_lag_ms;
 }
 
-/** @brief Return remaining error budget fraction for one shard. */
 double SLOMonitor::getErrorBudget(const std::string& shard_id) const {
     std::shared_ptr<SLOWindow> window;
     double availability_target = {};
     {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         auto it = shard_windows_.find(shard_id);
         if (it == shard_windows_.end()) {
@@ -371,11 +413,15 @@ double SLOMonitor::getErrorBudget(const std::string& shard_id) const {
     return window->getErrorBudget(availability_target);
 }
 
-/** @brief Return mean remaining error budget across all tracked shards. */
 double SLOMonitor::getGlobalErrorBudget() const {
     std::vector<std::shared_ptr<SLOWindow>> windows;
     double availability_target = {};
     {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         if (shard_windows_.empty()) {
             return 1.0;
@@ -399,10 +445,14 @@ double SLOMonitor::getGlobalErrorBudget() const {
     return total_budget / windows.size();
 }
 
-/** @brief Return true when shard's remaining budget crosses exhaustion threshold. */
 bool SLOMonitor::isErrorBudgetExhausted(const std::string& shard_id) const {
     double alert_threshold = 0;
     {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         alert_threshold = config_.alert_threshold;
     }
@@ -410,7 +460,6 @@ bool SLOMonitor::isErrorBudgetExhausted(const std::string& shard_id) const {
     return budget <= (1.0 - alert_threshold);
 }
 
-/** @brief Render human-readable SLO report text snapshot. */
 std::string SLOMonitor::generateSLOReport() const {
     SLOTarget targets;
     std::chrono::seconds window_duration;
@@ -418,6 +467,11 @@ std::string SLOMonitor::generateSLOReport() const {
     std::map<std::string, std::shared_ptr<SLOWindow>> query_latency_windows;
     std::vector<std::string> active_alerts;
     {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         targets = config_.targets;
         window_duration = config_.window_duration;
@@ -480,7 +534,6 @@ std::string SLOMonitor::generateSLOReport() const {
     return oss.str();
 }
 
-/** @brief Render structured JSON SLO report snapshot. */
 std::string SLOMonitor::generateSLOReportJSON() const {
     SLOTarget targets;
     std::chrono::seconds window_duration;
@@ -488,6 +541,11 @@ std::string SLOMonitor::generateSLOReportJSON() const {
     std::map<std::string, std::shared_ptr<SLOWindow>> query_latency_windows;
     std::vector<std::string> active_alerts;
     {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         targets = config_.targets;
         window_duration = config_.window_duration;
@@ -544,11 +602,15 @@ std::string SLOMonitor::generateSLOReportJSON() const {
     return report.dump(2);
 }
 
-/** @brief Return aggregate compliance metrics map for dashboards/tests. */
 std::map<std::string, double> SLOMonitor::getSLOCompliance() const {
     std::map<std::string, std::shared_ptr<SLOWindow>> shard_windows;
     double availability_target = {};
     {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         shard_windows = shard_windows_;
         availability_target = config_.targets.availability_target;
@@ -575,26 +637,42 @@ std::map<std::string, double> SLOMonitor::getSLOCompliance() const {
     return compliance;
 }
 
-/** @brief Return current in-memory alert list. */
 std::vector<std::string> SLOMonitor::getActiveAlerts() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return active_alerts_;
 }
 
-/** @brief Replace monitor target thresholds at runtime. */
+/**
+ * @brief Update Targets.
+ * @param[in] targets Input parameter.
+ * @details Calls: lock().
+ */
 void SLOMonitor::updateTargets(const SLOTarget& targets) {
     std::lock_guard<std::mutex> lock(mutex_);
     config_.targets = targets;
 }
 
-/** @brief Upsert repair progress record by job id. */
+/**
+ * @brief Record Repair Progress.
+ * @param[in] progress Input parameter.
+ * @details Calls: lock().
+ */
 void SLOMonitor::recordRepairProgress(const RepairProgress& progress) {
     std::lock_guard<std::mutex> lock(mutex_);
     repair_progress_[progress.job_id] = progress;
 }
 
-/** @brief Retrieve repair progress record for job id or empty placeholder. */
 SLOMonitor::RepairProgress SLOMonitor::getRepairProgress(const std::string& job_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = repair_progress_.find(job_id);
     if (it == repair_progress_.end()) {
@@ -605,8 +683,12 @@ SLOMonitor::RepairProgress SLOMonitor::getRepairProgress(const std::string& job_
     return it->second;
 }
 
-/** @brief List all repair jobs currently not marked completed. */
 std::vector<SLOMonitor::RepairProgress> SLOMonitor::getActiveRepairJobs() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     std::vector<RepairProgress> active = {};
 
@@ -618,7 +700,12 @@ std::vector<SLOMonitor::RepairProgress> SLOMonitor::getActiveRepairJobs() const 
     return active;
 }
 
-/** @brief Fetch or create per-shard SLO window. */
+/**
+ * @brief Get Or Create Shard Window.
+ * @param[in] shard_id Identifier of the shard.
+ * @return Return value.
+ * @details Calls: lock(), find(), end().
+ */
 std::shared_ptr<SLOWindow> SLOMonitor::getOrCreateShardWindow(const std::string& shard_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -632,7 +719,12 @@ std::shared_ptr<SLOWindow> SLOMonitor::getOrCreateShardWindow(const std::string&
     return it->second;
 }
 
-/** @brief Fetch or create per-query-type SLO window. */
+/**
+ * @brief Get Or Create Query Window.
+ * @param[in] query_type Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), find(), end().
+ */
 std::shared_ptr<SLOWindow> SLOMonitor::getOrCreateQueryWindow(const std::string& query_type) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -646,7 +738,12 @@ std::shared_ptr<SLOWindow> SLOMonitor::getOrCreateQueryWindow(const std::string&
     return it->second;
 }
 
-/** @brief Fetch or create per-transaction-type SLO window. */
+/**
+ * @brief Get Or Create Transaction Window.
+ * @param[in] tx_type Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), find(), end().
+ */
 std::shared_ptr<SLOWindow> SLOMonitor::getOrCreateTransactionWindow(const std::string& tx_type) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -660,7 +757,10 @@ std::shared_ptr<SLOWindow> SLOMonitor::getOrCreateTransactionWindow(const std::s
     return it->second;
 }
 
-/** @brief Recompute active alert list from current window samples and thresholds. */
+/**
+ * @brief Check And Generate Alerts.
+ * @details Calls: lock(), getAvailability(), push_back(), formatSLOViolation(), getErrorBudget(), std::to_string(), getLatencyP99(), find().
+ */
 void SLOMonitor::checkAndGenerateAlerts() {
     Config config_snapshot;
     std::map<std::string, std::shared_ptr<SLOWindow>> shard_windows;
@@ -726,7 +826,6 @@ void SLOMonitor::checkAndGenerateAlerts() {
     }
 }
 
-/** @brief Format one SLO violation message line for alert/report output. */
 std::string SLOMonitor::formatSLOViolation(const std::string& slo_name, double actual, double target) const {
     std::ostringstream oss = {};
     oss << "SLO VIOLATION: " << slo_name 
@@ -737,18 +836,19 @@ std::string SLOMonitor::formatSLOViolation(const std::string& slo_name, double a
 
 // ==================== SLOReporter Implementation ====================
 
-/** @brief Construct SLO reporter with monitor reference and output configuration. */
 SLOReporter::SLOReporter(SLOMonitor& monitor, const Config& config)
     : monitor_(monitor)
     , config_(config) {
 }
 
-/** @brief Stop reporter loop on destruction. */
 SLOReporter::~SLOReporter() {
     stop();
 }
 
-/** @brief Start background report-generation thread if not already running. */
+/**
+ * @brief Start.
+ * @details Calls: exchange().
+ */
 void SLOReporter::start() {
     if (running_.exchange(true)) {
         return;  // Already running
@@ -757,7 +857,10 @@ void SLOReporter::start() {
     reporter_thread_ = std::make_unique<std::thread>(&SLOReporter::reporterLoop, this);
 }
 
-/** @brief Stop background report-generation thread and join it. */
+/**
+ * @brief Stop.
+ * @details Calls: exchange(), joinable(), join().
+ */
 void SLOReporter::stop() {
     if (!running_.exchange(false)) {
         return;  // Not running
@@ -768,7 +871,10 @@ void SLOReporter::stop() {
     }
 }
 
-/** @brief Generate one text report and optional JSON companion file. */
+/**
+ * @brief Generate Report.
+ * @details Calls: generateSLOReport(), writeReport(), generateSLOReportJSON(), generateReportFilename(), json_file(), is_open(), close().
+ */
 void SLOReporter::generateReport() {
     std::string report_text = monitor_.generateSLOReport();
     writeReport(report_text);
@@ -784,7 +890,10 @@ void SLOReporter::generateReport() {
     }
 }
 
-/** @brief Background reporting loop honoring configured frequency cadence. */
+/**
+ * @brief Reporter Loop.
+ * @details Calls: generateReport(), std::chrono::hours(), std::chrono::steady_clock::now(), std::this_thread::sleep_for(), std::chrono::seconds().
+ */
 void SLOReporter::reporterLoop() {
     while (running_) {
         generateReport();
@@ -814,7 +923,6 @@ void SLOReporter::reporterLoop() {
     }
 }
 
-/** @brief Build timestamped report filename for text output. */
 std::string SLOReporter::generateReportFilename() const {
     auto now = std::chrono::system_clock::now();
     auto time_t = std::chrono::system_clock::to_time_t(now);
@@ -835,7 +943,11 @@ std::string SLOReporter::generateReportFilename() const {
     return oss.str();
 }
 
-/** @brief Write report content to filesystem target path. */
+/**
+ * @brief Write Report.
+ * @param[in] content Input parameter.
+ * @details Calls: generateReportFilename(), file(), is_open(), close().
+ */
 void SLOReporter::writeReport(const std::string& content) {
     std::string filename = generateReportFilename();
     std::ofstream file(filename);

@@ -48,6 +48,12 @@ namespace analytics {
 // Utility
 // ============================================================================
 
+/**
+ * @brief Field Value To Str.
+ * @param[in] v Input parameter.
+ * @return Return value.
+ * @details Calls: std::to_string().
+ */
 std::string fieldValueToStr(const FieldValue &v) {
     if (std::holds_alternative<std::nullptr_t>(v)) {
         return "";
@@ -69,6 +75,12 @@ std::string fieldValueToStr(const FieldValue &v) {
 
 namespace {
 
+/**
+ * @brief Field Value To Double.
+ * @param[in] v Input parameter.
+ * @return Return value.
+ * @details Implements fieldValueToDouble without additional internal calls.
+ */
 double fieldValueToDouble(const FieldValue &v) {
     if (auto *d = std::get_if<double>(&v)) {
         return *d;
@@ -82,6 +94,14 @@ double fieldValueToDouble(const FieldValue &v) {
     return 0.0;
 }
 
+/**
+ * @brief Apply Filter Op.
+ * @param[in] field_val Input parameter.
+ * @param[in] op Input parameter.
+ * @param[in] filter_val Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: fieldValueToStr(), fieldValueToDouble().
+ */
 bool applyFilterOp(const FieldValue &field_val, ViewFilter::Op op, const FieldValue &filter_val) {
     std::string fs  = fieldValueToStr(field_val);
     std::string fvs = fieldValueToStr(filter_val);
@@ -110,6 +130,11 @@ bool applyFilterOp(const FieldValue &field_val, ViewFilter::Op op, const FieldVa
     return false;
 }
 
+/**
+ * @brief Now Micros.
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::now(), time_since_epoch(), count().
+ */
 int64_t nowMicros() {
     return std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::system_clock::now().time_since_epoch())
         .count();
@@ -121,6 +146,12 @@ int64_t nowMicros() {
 // AggState
 // ============================================================================
 
+/**
+ * @brief Add.
+ * @param[in] v Input parameter.
+ * @param[in] sign Input parameter.
+ * @details Calls: fieldValueToDouble(), fieldValueToStr(), insert(), find(), end(), erase().
+ */
 void IncrementalView::AggState::add(const FieldValue &v, int sign) {
     double d      = fieldValueToDouble(v);
     std::string s = fieldValueToStr(v);
@@ -230,6 +261,11 @@ std::string IncrementalView::makeGroupKey(const ChangeRecord::Row &row) const {
 
 std::unordered_map<std::string, std::string> IncrementalView::parseGroupKey(const GroupKey &gk) const {
     std::unordered_map<std::string, std::string> result;
+    /**
+     * @brief Iss.
+     * @param[in] gk Input parameter.
+     * @return Return value.
+     */
     std::istringstream iss(gk);
     std::string token = {};
     for (const auto &dim : def_.dimensions) {
@@ -267,6 +303,12 @@ bool IncrementalView::passesRuntimeFilters(const std::unordered_map<std::string,
     return true;
 }
 
+/**
+ * @brief Apply Row.
+ * @param[in] row Input parameter.
+ * @param[in] sign Input parameter.
+ * @details Calls: makeGroupKey(), empty(), find(), end(), add().
+ */
 void IncrementalView::applyRow(const ChangeRecord::Row &row, int sign) {
     GroupKey gk = makeGroupKey(row);
     auto &group = groups_[gk];
@@ -288,7 +330,11 @@ void IncrementalView::applyRow(const ChangeRecord::Row &row, int sign) {
     }
 }
 
-/// Remove a group from groups_ if all its aggregation states have count == 0.
+/**
+ * @brief Prune Empty Group.
+ * @param[in] gk Input parameter.
+ * @details Calls: find(), end(), erase().
+ */
 void IncrementalView::pruneEmptyGroup(const GroupKey &gk) {
     auto git = groups_.find(gk);
     if (git == groups_.end()) {
@@ -302,6 +348,12 @@ void IncrementalView::pruneEmptyGroup(const GroupKey &gk) {
     groups_.erase(git);
 }
 
+/**
+ * @brief Apply Change.
+ * @param[in] change Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: passesBaseFilters(), lk(), applyRow(), pruneEmptyGroup(), makeGroupKey(), store(), nowMicros().
+ */
 bool IncrementalView::applyChange(const ChangeRecord &change) {
     if (change.collection != def_.source_collection) {
         return false;
@@ -374,6 +426,12 @@ bool IncrementalView::applyChange(const ChangeRecord &change) {
     return applied;
 }
 
+/**
+ * @brief Apply Changes.
+ * @param[in] changes Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), passesBaseFilters(), push_back(), std::min(), lk(), applyRow(), pruneEmptyGroup().
+ */
 int IncrementalView::applyChanges(const std::vector<ChangeRecord> &changes) {
     static constexpr size_t kMicroBatchSize = 256;
 
@@ -484,6 +542,11 @@ int IncrementalView::applyChanges(const std::vector<ChangeRecord> &changes) {
 }
 
 ViewQueryResult IncrementalView::query(const std::vector<ViewFilter> &filters, int64_t limit, int64_t offset) const {
+    /**
+     * @brief Lk.
+     * @param[in] rw_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock lk(rw_mutex_);
 
     ViewQueryResult result;
@@ -527,6 +590,10 @@ ViewQueryResult IncrementalView::query(const std::vector<ViewFilter> &filters, i
     return result;
 }
 
+/**
+ * @brief Clear.
+ * @details Calls: lk(), store().
+ */
 void IncrementalView::clear() {
     std::unique_lock lk(rw_mutex_);
     groups_.clear();
@@ -535,6 +602,11 @@ void IncrementalView::clear() {
 }
 
 int64_t IncrementalView::groupCount() const {
+    /**
+     * @brief Lk.
+     * @param[in] rw_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock lk(rw_mutex_);
     return static_cast<int64_t>(groups_.size());
 }
@@ -567,6 +639,12 @@ std::chrono::system_clock::time_point IncrementalView::lastUpdateTime() const {
 IncrementalViewManager::IncrementalViewManager()  = default;
 IncrementalViewManager::~IncrementalViewManager() = default;
 
+/**
+ * @brief Create View.
+ * @param[in] def Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lk(), count(), THEMIS_WARN(), THEMIS_INFO().
+ */
 bool IncrementalViewManager::createView(const ViewDefinition &def) {
     std::unique_lock lk(views_mutex_);
     if (views_.count(def.name)) {
@@ -578,6 +656,12 @@ bool IncrementalViewManager::createView(const ViewDefinition &def) {
     return true;
 }
 
+/**
+ * @brief Drop View.
+ * @param[in] name Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lk(), count(), erase(), THEMIS_INFO().
+ */
 bool IncrementalViewManager::dropView(const std::string &name) {
     std::unique_lock lk(views_mutex_);
     if (!views_.count(name)) {
@@ -589,17 +673,32 @@ bool IncrementalViewManager::dropView(const std::string &name) {
 }
 
 bool IncrementalViewManager::hasView(const std::string &name) const {
+    /**
+     * @brief Lk.
+     * @param[in] views_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock lk(views_mutex_);
     return views_.count(name) > 0;
 }
 
 std::shared_ptr<IncrementalView> IncrementalViewManager::getView(const std::string &name) const {
+    /**
+     * @brief Lk.
+     * @param[in] views_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock lk(views_mutex_);
     auto it = views_.find(name);
     return (it != views_.end()) ? it->second : nullptr;
 }
 
 std::vector<std::string> IncrementalViewManager::listViews() const {
+    /**
+     * @brief Lk.
+     * @param[in] views_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock lk(views_mutex_);
     std::vector<std::string> names = {};
 
@@ -610,6 +709,11 @@ std::vector<std::string> IncrementalViewManager::listViews() const {
     return names;
 }
 
+/**
+ * @brief Apply Change.
+ * @param[in] change Input parameter.
+ * @details Calls: lk().
+ */
 void IncrementalViewManager::applyChange(const ChangeRecord &change) {
     std::shared_lock lk(views_mutex_);
     uint64_t applied = 0;
@@ -621,6 +725,11 @@ void IncrementalViewManager::applyChange(const ChangeRecord &change) {
     total_changes_ += applied;
 }
 
+/**
+ * @brief Apply Changes.
+ * @param[in] changes Input parameter.
+ * @details Calls: lk().
+ */
 void IncrementalViewManager::applyChanges(const std::vector<ChangeRecord> &changes) {
     std::shared_lock lk(views_mutex_);
     uint64_t applied = 0;
@@ -632,6 +741,11 @@ void IncrementalViewManager::applyChanges(const std::vector<ChangeRecord> &chang
 
 ViewQueryResult IncrementalViewManager::query(const std::string &view_name, const std::vector<ViewFilter> &filters,
                                               int64_t limit, int64_t offset) const {
+    /**
+     * @brief Lk.
+     * @param[in] views_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock lk(views_mutex_);
     auto it = views_.find(view_name);
     if (it == views_.end()) {

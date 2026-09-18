@@ -41,6 +41,13 @@ SSMStateRocksDBStore::~SSMStateRocksDBStore() {
     // DB and CF are not owned; cleanup is caller's responsibility
 }
 
+/**
+ * @brief Checkpoint.
+ * @param[in] session_id Identifier of the session.
+ * @param[in] snapshot Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), lock(), makeSSMStateKey(), serializeSnapshot(), Put(), ok().
+ */
 bool SSMStateRocksDBStore::checkpoint(
     const std::string& session_id,
     const SSMStateSnapshot& snapshot) {
@@ -82,6 +89,13 @@ bool SSMStateRocksDBStore::checkpoint(
     }
 }
 
+/**
+ * @brief Resume.
+ * @param[in] session_id Identifier of the session.
+ * @param[in] snapshot_ts Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), lock(), has_value(), makeSSMStateKey(), Get(), rocksdb::ReadOptions(), ok(), deserializeSnapshot().
+ */
 std::optional<SSMStateSnapshot> SSMStateRocksDBStore::resume(
     const std::string& session_id,
     const std::optional<HLCTimestamp>& snapshot_ts) {
@@ -122,6 +136,12 @@ std::optional<SSMStateSnapshot> SSMStateRocksDBStore::resume(
     }
 }
 
+/**
+ * @brief Invalidate.
+ * @param[in] session_id Identifier of the session.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), lock(), NewIterator(), rocksdb::ReadOptions(), Seek(), Valid(), key(), starts_with().
+ */
 bool SSMStateRocksDBStore::invalidate(const std::string& session_id) {
     if (session_id.empty()) {
         return false;
@@ -168,6 +188,11 @@ bool SSMStateRocksDBStore::invalidate(const std::string& session_id) {
 }
 
 uint64_t SSMStateRocksDBStore::compact([[maybe_unused]] uint64_t retention_window_ms) {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     if (retention_window_ms == 0) {
@@ -225,6 +250,11 @@ uint64_t SSMStateRocksDBStore::compact([[maybe_unused]] uint64_t retention_windo
 }
 
 std::string SSMStateRocksDBStore::getStats() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     nlohmann::json stats;
@@ -239,6 +269,13 @@ std::string SSMStateRocksDBStore::getStats() const {
     return stats.dump();
 }
 
+/**
+ * @brief Make SSMState Key.
+ * @param[in] session_id Identifier of the session.
+ * @param[in] ts Input parameter.
+ * @return Return value.
+ * @details Calls: physical(), logical(), str().
+ */
 std::string SSMStateRocksDBStore::makeSSMStateKey(
     const std::string& session_id,
     const HLCTimestamp& ts) {
@@ -251,6 +288,12 @@ std::string SSMStateRocksDBStore::makeSSMStateKey(
     return key.str();
 }
 
+/**
+ * @brief Serialize Snapshot.
+ * @param[in] snapshot Input parameter.
+ * @return Return value.
+ * @details Calls: push_back(), physical(), logical(), std::setw(), std::setfill(), str(), dump(), append().
+ */
 std::string SSMStateRocksDBStore::serializeSnapshot(
     const SSMStateSnapshot& snapshot) {
     
@@ -279,6 +322,12 @@ std::string SSMStateRocksDBStore::serializeSnapshot(
     return result;
 }
 
+/**
+ * @brief Deserialize Snapshot.
+ * @param[in] data Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), nlohmann::json::parse(), substr(), HLCTimestamp::from(), value(), std::string(), clear(), reserve().
+ */
 std::optional<SSMStateSnapshot> SSMStateRocksDBStore::deserializeSnapshot(
     const std::string& data) {
     
@@ -318,6 +367,12 @@ std::optional<SSMStateSnapshot> SSMStateRocksDBStore::deserializeSnapshot(
     }
 }
 
+/**
+ * @brief Parse Timestamp From Key.
+ * @param[in] key Input parameter.
+ * @return Return value.
+ * @details Calls: rfind(), std::stoll(), substr(), HLCTimestamp::from().
+ */
 std::optional<HLCTimestamp> SSMStateRocksDBStore::parseTimestampFromKey(
     const std::string& key) {
     

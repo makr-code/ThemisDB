@@ -28,7 +28,6 @@ namespace observability {
 
 namespace {
 
-/** Parse pprof folded-stacks text into a {stack → count} map. */
 [[nodiscard]] std::map<std::string, uint64_t> parseFolded(const std::string& text) {
     std::map<std::string, uint64_t> result;
     /**
@@ -105,7 +104,6 @@ json MergedFlameGraph::toJSON() const {
 // DistributedFlameGraph::Impl
 // ---------------------------------------------------------------------------
 
-/** @brief DistributedFlameGraph::Impl. */
 class DistributedFlameGraph::Impl {
 public:
     explicit Impl(const DistributedFlameGraphConfig& config) : config_(config) {}
@@ -116,11 +114,6 @@ public:
      * @details Calls: lk(), find(), end(), push_back(), size(), empty(), front(), erase().
      */
     void addNodeProfile(const NodeProfile& profile) {
-        /**
-         * @brief Lk.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lk(mutex_);
         auto it = profiles_.find(profile.node_id);
         if (it != profiles_.end() && profile.version < it->second.version) {
@@ -145,11 +138,6 @@ public:
      * @details Calls: lk(), clear().
      */
     void clearProfiles() {
-        /**
-         * @brief Lk.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lk(mutex_);
         profiles_.clear();
         insertion_order_.clear();

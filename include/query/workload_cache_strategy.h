@@ -25,15 +25,6 @@
 namespace themis {
 namespace query {
 
-/**
- * @brief Workload types for cache optimization
- * 
- * Different workload patterns benefit from different caching strategies:
- * - OLTP: High-frequency, small results, short TTL
- * - OLAP: Low-frequency, large results, long TTL
- * - MIXED: Adaptive behavior based on query patterns
- * - STREAMING: Minimal caching with very short TTL (real-time data)
- */
 enum class WorkloadType {
     OLTP,         // Online Transaction Processing - frequent small queries
     OLAP,         // Online Analytical Processing - infrequent large queries
@@ -42,9 +33,6 @@ enum class WorkloadType {
     UNKNOWN       // Not yet classified
 };
 
-/**
- * @brief Query characteristics for workload detection
- */
 struct QueryCharacteristics {
     size_t result_size_bytes = 0;        // Size of query result
     size_t rows_scanned = 0;             // Number of rows scanned
@@ -71,9 +59,6 @@ struct QueryCharacteristics {
     }
 };
 
-/**
- * @brief Workload-specific cache configuration
- */
 struct WorkloadCacheConfig {
     WorkloadType type = WorkloadType::UNKNOWN;
     
@@ -101,24 +86,13 @@ struct WorkloadCacheConfig {
     size_t small_result_threshold = 10 * 1024;    // 10KB
     
     /**
-     * @brief Create configuration optimized for specific workload type
+     * @brief For Workload.
+     * @param[in] type Input parameter.
+     * @return Return value.
      */
     static WorkloadCacheConfig forWorkload(WorkloadType type);
 };
 
-/**
- * @brief Detects workload patterns and provides optimized cache strategies
- * 
- * This class analyzes query patterns over time to classify workloads and
- * automatically configure caching strategies for optimal performance.
- * 
- * Features:
- * - Automatic workload detection (OLTP, OLAP, Mixed)
- * - Dynamic cache configuration adjustment
- * - Query pattern tracking and analysis
- * - Cache warming for frequently accessed queries
- * - Performance metrics and monitoring
- */
 class WorkloadCacheStrategy {
 public:
     struct Config {
@@ -150,9 +124,18 @@ public:
                 : 0.0;
         }
         
+        /**
+         * @brief To Json.
+         * @return Return value.
+         */
         nlohmann::json toJson() const;
     };
     
+    /**
+     * @brief Workload Cache Strategy.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit WorkloadCacheStrategy(const Config& config);
     ~WorkloadCacheStrategy() = default;
     
@@ -163,10 +146,9 @@ public:
     WorkloadCacheStrategy& operator=(WorkloadCacheStrategy&&) noexcept = default;
     
     /**
-     * @brief Record query execution characteristics
-     * 
-     * @param query_fingerprint Unique identifier for query pattern
-     * @param characteristics Query execution metrics
+     * @brief Record Query.
+     * @param[in] query_fingerprint Input parameter.
+     * @param[in] characteristics Input parameter.
      */
     void recordQuery(
         const std::string& query_fingerprint,
@@ -174,85 +156,64 @@ public:
     );
     
     /**
-     * @brief Detect current workload type based on recorded patterns
-     * 
-     * Analyzes recent query patterns to classify workload as OLTP, OLAP, or Mixed.
-     * This may trigger reconfiguration of cache strategies.
-     * 
-     * @return Detected workload type
+     * @brief Detect Workload.
+     * @return Return value.
      */
     WorkloadType detectWorkload();
     
     /**
-     * @brief Get cache configuration for current workload
-     * 
-     * Returns an optimized cache configuration based on detected workload patterns.
-     * 
-     * @return Workload-specific cache configuration
+     * @brief Get Cache Config.
+     * @return Return value.
      */
     WorkloadCacheConfig getCacheConfig() const;
     
     /**
-     * @brief Get cache configuration for specific query
-     * 
-     * Analyzes individual query characteristics to determine optimal caching strategy.
-     * 
-     * @param characteristics Query characteristics
-     * @return Recommended cache configuration for this query
+     * @brief Get Cache Config For Query.
+     * @param[in] characteristics Input parameter.
+     * @return Return value.
      */
     WorkloadCacheConfig getCacheConfigForQuery(
         const QueryCharacteristics& characteristics
     ) const;
     
     /**
-     * @brief Check if query should be cached
-     * 
-     * Some queries (e.g., very large results, streaming queries) should not be cached.
-     * 
-     * @param characteristics Query characteristics
-     * @return True if query should be cached
+     * @brief Should Cache.
+     * @param[in] characteristics Input parameter.
+     * @return True when the operation succeeds.
      */
     bool shouldCache(const QueryCharacteristics& characteristics) const;
     
     /**
-     * @brief Calculate optimal TTL for a query
-     * 
-     * TTL is calculated based on query frequency and workload type:
-     * - High frequency queries: shorter TTL
-     * - Low frequency queries: longer TTL
-     * 
-     * @param characteristics Query characteristics
-     * @return Optimal TTL in seconds
+     * @brief Calculate TTL.
+     * @param[in] characteristics Input parameter.
+     * @return Return value.
      */
     std::chrono::seconds calculateTTL(
         const QueryCharacteristics& characteristics
     ) const;
     
-    /**
-     * @brief Get frequently accessed queries for cache warming
-     * 
-     * @param limit Maximum number of queries to return
-     * @return List of query fingerprints sorted by frequency
-     */
     std::vector<std::string> getHotQueries(size_t limit = 100) const;
     
     /**
-     * @brief Get current workload statistics
+     * @brief Get Stats.
+     * @return Return value.
      */
     WorkloadStats getStats() const;
     
     /**
-     * @brief Reset workload detection state
+     * @brief Reset the modification detection flag.
      */
     void reset();
     
     /**
-     * @brief Update configuration
+     * @brief Set Config.
+     * @param[in] config Input parameter.
      */
     void setConfig(const Config& config);
     
     /**
-     * @brief Get current configuration
+     * @brief Get Config.
+     * @return Return value.
      */
     Config getConfig() const;
 
@@ -273,8 +234,19 @@ private:
     std::chrono::system_clock::time_point last_detection_;
     
     // Helper methods
+    /**
+     * @brief Classify Workload.
+     * @return Return value.
+     */
     WorkloadType classifyWorkload() const;
+    /**
+     * @brief Update Stats.
+     */
     void updateStats();
+    /**
+     * @brief Should Run Detection.
+     * @return True when the operation succeeds.
+     */
     bool shouldRunDetection() const;
 };
 

@@ -21,6 +21,12 @@ namespace themis::llm::safety {
 
 namespace {
 
+/**
+ * @brief To String.
+ * @param[in] type Input parameter.
+ * @return Pointer to the result.
+ * @details Implements toString without additional internal calls.
+ */
 const char* toString(SafetyEventType type) {
     switch (type) {
         case SafetyEventType::ALLOWED: return "allowed";
@@ -30,6 +36,12 @@ const char* toString(SafetyEventType type) {
     return "unknown";
 }
 
+/**
+ * @brief Json Escape.
+ * @param[in] value Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), push_back().
+ */
 std::string jsonEscape(const std::string& value) {
     std::string out = {};
     out.reserve(value.size());
@@ -48,6 +60,12 @@ std::string jsonEscape(const std::string& value) {
 
 } // namespace
 
+/**
+ * @brief Set Durable Sink Path.
+ * @param[in] path Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), lock(), sink_path(), has_parent_path(), std::filesystem::create_directories(), parent_path(), test(), is_open().
+ */
 bool SafetyMonitoring::setDurableSinkPath(const std::string& path) {
     if (path.empty()) {
         return false;
@@ -72,21 +90,39 @@ bool SafetyMonitoring::setDurableSinkPath(const std::string& path) {
     return true;
 }
 
+/**
+ * @brief Clear Durable Sink Path.
+ * @details Calls: lock(), reset().
+ */
 void SafetyMonitoring::clearDurableSinkPath() {
     std::lock_guard<std::mutex> lock(sink_mutex_);
     durable_sink_path_.reset();
 }
 
+/**
+ * @brief Set Exporter Sink.
+ * @param[in] sink Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void SafetyMonitoring::setExporterSink(ExporterSink sink) {
     std::lock_guard<std::mutex> lock(sink_mutex_);
     exporter_sink_ = std::move(sink);
 }
 
+/**
+ * @brief Clear Exporter Sink.
+ * @details Calls: lock().
+ */
 void SafetyMonitoring::clearExporterSink() {
     std::lock_guard<std::mutex> lock(sink_mutex_);
     exporter_sink_ = nullptr;
 }
 
+/**
+ * @brief Record.
+ * @param[in] event Input parameter.
+ * @details Calls: fetch_add(), lock(), exporter_sink_(), out(), is_open(), toJsonLine().
+ */
 void SafetyMonitoring::record(const SafetyEvent& event) {
     switch (event.type) {
         case SafetyEventType::ALLOWED:
@@ -122,6 +158,12 @@ SafetyCountersSnapshot SafetyMonitoring::snapshot() const {
     return out;
 }
 
+/**
+ * @brief To Json Line.
+ * @param[in] event Input parameter.
+ * @return Return value.
+ * @details Calls: jsonEscape(), toString(), str().
+ */
 std::string SafetyMonitoring::toJsonLine(const SafetyEvent& event) {
     std::ostringstream oss = {};
     oss << "{"

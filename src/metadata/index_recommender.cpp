@@ -86,20 +86,42 @@ IndexRecommender::~IndexRecommender() {
 // IndexRecommender – public API
 // ============================================================================
 
+/**
+ * @brief Set Statistics Collector.
+ * @param[in,out] collector Input/output parameter.
+ * @details Implements setStatisticsCollector without additional internal calls.
+ */
 void IndexRecommender::setStatisticsCollector(StatisticsCollector* collector) {
     stats_collector_ = collector;
 }
 
+/**
+ * @brief Set Metrics Collector.
+ * @param[in,out] metrics Input/output parameter.
+ * @details Implements setMetricsCollector without additional internal calls.
+ */
 void IndexRecommender::setMetricsCollector(observability::MetricsCollector* metrics) {
     metrics_collector_ = metrics;
 }
 
+/**
+ * @brief Record Access.
+ * @param[in] table_name Name of the table.
+ * @param[in] column_name Name of the column.
+ * @param[in] access_type Input parameter.
+ * @param[in] selectivity Input parameter.
+ */
 void IndexRecommender::recordAccess(
     std::string_view table_name,
     std::string_view column_name,
     AccessType       access_type,
     double           selectivity)
 {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     auto& col_access = stats_[std::string(table_name)][std::string(column_name)];
@@ -122,6 +144,10 @@ void IndexRecommender::recordAccess(
                   (access_type == AccessType::FILTER) ? "filter" : "sort");
 }
 
+/**
+ * @brief Record Query.
+ * @details Implements recordQuery without additional internal calls.
+ */
 void IndexRecommender::recordQuery() {
     ++total_queries_;
 }
@@ -130,6 +156,11 @@ std::vector<IndexRecommendation> IndexRecommender::recommend(
     std::string_view table_name,
     const std::vector<std::string>& existing_indexes) const
 {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     std::vector<IndexRecommendation> recs;
@@ -213,6 +244,11 @@ std::map<std::string, std::vector<IndexRecommendation>> IndexRecommender::recomm
     // Collect table names first (brief lock) then call recommend() per table
     std::vector<std::string> table_names;
     {
+        /**
+         * @brief Lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(mutex_);
         for (const auto& [tn, _] : stats_) {
             table_names.push_back(tn);
@@ -233,6 +269,11 @@ std::map<std::string, std::vector<IndexRecommendation>> IndexRecommender::recomm
 }
 
 std::vector<ColumnAccess> IndexRecommender::getAccessStats(std::string_view table_name) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     std::vector<ColumnAccess> result;
 
@@ -247,6 +288,10 @@ std::vector<ColumnAccess> IndexRecommender::getAccessStats(std::string_view tabl
     return result;
 }
 
+/**
+ * @brief Reset the modification detection flag.
+ * @details Calls: lock(), push_back(), clear(), store(), del(), spdlog::debug(), size().
+ */
 void IndexRecommender::reset() {
     std::vector<std::string> table_names_to_delete;
     {
@@ -272,6 +317,11 @@ void IndexRecommender::reset() {
 }
 
 json IndexRecommender::toJSON() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     json j = json::object();
@@ -289,6 +339,10 @@ json IndexRecommender::toJSON() const {
 // Private helpers
 // ============================================================================
 
+/**
+ * @brief Persist Stats.
+ * @details Calls: lock(), load(), json::array(), push_back(), toJSON(), dump(), put(), spdlog::warn().
+ */
 void IndexRecommender::persistStats() {
     if (!db_) {
       return;
@@ -331,6 +385,10 @@ void IndexRecommender::persistStats() {
     }
 }
 
+/**
+ * @brief Load Stats.
+ * @details Calls: start_key(), back(), lock(), iterateRange(), size(), table_name(), substr(), std::stoull().
+ */
 void IndexRecommender::loadStats() {
     if (!db_) {
       return;
@@ -423,6 +481,10 @@ void IndexRecommender::loadStats() {
                   stats_.size());
 }
 
+/**
+ * @brief Persist Loop.
+ * @details Calls: load(), lk(), wait_for(), persistStats().
+ */
 void IndexRecommender::persistLoop_() {
     while (!stop_persist_.load()) {
         std::unique_lock<std::mutex> lk(persist_mutex_);

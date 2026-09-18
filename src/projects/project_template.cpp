@@ -136,7 +136,12 @@ json ProjectTemplate::getBuiltinTemplateSchema(BuiltinTemplate tmpl) const {
     return json{{"name","unknown"},{"objects",json::array()}};
 }
 
-// ─── Validation ───────────────────────────────────────────────────────────────
+/**
+ * @brief ─── Validation ───────────────────────────────────────────────────────────────
+ * @param[in] def Input parameter.
+ * @return Return value.
+ * @details Calls: is_object(), Status::Error(), contains(), is_string(), is_array(), Status::OK().
+ */
 
 Status ProjectTemplate::validateTemplateDefinition(const json& def) {
     if (!def.is_object())
@@ -157,7 +162,13 @@ Status ProjectTemplate::validateTemplateDefinition(const json& def) {
     return Status::OK();
 }
 
-// ─── Object creation ─────────────────────────────────────────────────────────
+/**
+ * @brief ─── Object creation ─────────────────────────────────────────────────────────
+ * @param[in] project_id Identifier of the project.
+ * @param[in] obj_def Input parameter.
+ * @param[in] include_sample_data Input parameter.
+ * @return Return value.
+ */
 
 std::optional<std::string> ProjectTemplate::createObjectFromDefinition(
     const std::string& project_id,
@@ -195,7 +206,12 @@ std::optional<std::string> ProjectTemplate::createObjectFromDefinition(
     return name;
 }
 
-// ─── instantiate ─────────────────────────────────────────────────────────────
+/**
+ * @brief ─── instantiate ─────────────────────────────────────────────────────────────
+ * @param[in] tmpl Input parameter.
+ * @param[in] options Input parameter.
+ * @return Return value.
+ */
 
 TemplateInstantiationResult ProjectTemplate::instantiate(
     BuiltinTemplate        tmpl,
@@ -204,6 +220,12 @@ TemplateInstantiationResult ProjectTemplate::instantiate(
     return instantiateFromDefinition(getBuiltinTemplateSchema(tmpl), options);
 }
 
+/**
+ * @brief Instantiate From Definition.
+ * @param[in] template_def Input parameter.
+ * @param[in] options Input parameter.
+ * @return Return value.
+ */
 TemplateInstantiationResult ProjectTemplate::instantiateFromDefinition(
     const json&            template_def,
     const TemplateOptions& options)
@@ -267,7 +289,11 @@ TemplateInstantiationResult ProjectTemplate::instantiateFromDefinition(
     return result;
 }
 
-// ─── listBuiltinTemplates ─────────────────────────────────────────────────────
+/**
+ * @brief ─── listBuiltinTemplates ─────────────────────────────────────────────────────
+ * @return Return value.
+ * @details Calls: builtinTemplateToString().
+ */
 
 std::vector<std::string> ProjectTemplate::listBuiltinTemplates() {
     return {

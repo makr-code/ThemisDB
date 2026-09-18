@@ -12,6 +12,12 @@
 namespace themis {
 namespace whisper {
 
+/**
+ * @brief From Json.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: contains().
+ */
 WhisperConfig WhisperConfig::fromJson(const json& j) {
     WhisperConfig cfg = {};
     if (j.contains("model_path")) {

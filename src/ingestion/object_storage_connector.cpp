@@ -52,7 +52,13 @@ namespace ingestion {
 
 namespace {
 
-/// Extract the first string value for `"key":"<value>"` from a JSON blob.
+/**
+ * @brief Obj Storage Json Extract String.
+ * @param[in] json Input parameter.
+ * @param[in] key Input parameter.
+ * @return Return value.
+ * @details Calls: find(), size().
+ */
 static std::string objStorageJsonExtractString(const std::string& json,
                                                const std::string& key) {
     std::string needle = "\"" + key + "\":\"";
@@ -73,7 +79,12 @@ static std::string objStorageJsonExtractString(const std::string& json,
     return value;
 }
 
-/// Determine whether a key refers to a JSON object (ends with .json).
+/**
+ * @brief Is Json Key.
+ * @param[in] key Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: size(), substr(), std::transform(), begin(), end(), std::tolower().
+ */
 static bool isJsonKey(const std::string& key) {
     if (key.size() < 5) {
       return false;
@@ -85,8 +96,12 @@ static bool isJsonKey(const std::string& key) {
     return suffix == ".json";
 }
 
-/// Guard against path-traversal sequences in object keys.
-/// Returns true if the key is safe (no ".." components).
+/**
+ * @brief Is Key Safe.
+ * @param[in] key Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: find().
+ */
 static bool isKeySafe(const std::string& key) {
     // Reject any key containing ".." to prevent path traversal when the key
     // is later written to a local temp path or used as a document identifier.
@@ -102,12 +117,17 @@ static bool isKeySafe(const std::string& key) {
 // Pimpl
 // ---------------------------------------------------------------------------
 
-/** @brief Pimpl. */
 class ObjectStorageConnector::Impl {
 public:
     Impl() = default;
     ~Impl() = default;
 
+    /**
+     * @brief Initialize.
+     * @param[in] config Input parameter.
+     * @return True when the operation succeeds.
+     * @details Calls: find(), end(), opt(), std::stoull(), empty().
+     */
     bool initialize(const SourceConfig& config) {
         if (config.type != SourceType::OBJECT_STORAGE) {
           return false;
@@ -187,6 +207,13 @@ public:
         return 0;
     }
 
+    /**
+     * @brief Ingest.
+     * @param[in] param Input parameter.
+     * @param[in] progress_callback Input parameter.
+     * @return Return value.
+     * @details Calls: std::chrono::steady_clock::now(), empty(), addError(), finaliseStats(), ingestFromMock(), ingestFromS3(), ingestFromGCS(), ingestFromAzure().
+     */
     IngestionStats ingest(const std::string& /*target_collection*/,
                           ProgressCallback progress_callback) {
         IngestionStats stats;
@@ -251,8 +278,23 @@ public:
         return stats;
     }
 
+    /**
+     * @brief Set Retry Config.
+     * @param[in] c Input parameter.
+     * @details Implements setRetryConfig without additional internal calls.
+     */
     void setRetryConfig(const RetryConfig& c)       { retry_config_ = c; }
+    /**
+     * @brief Set Object List For Testing.
+     * @param[in] fn Input parameter.
+     * @details Calls: std::move().
+     */
     void setObjectListForTesting(ObjectListFn fn)    { list_fn_  = std::move(fn); }
+    /**
+     * @brief Set Object Fetch For Testing.
+     * @param[in] fn Input parameter.
+     * @details Calls: std::move().
+     */
     void setObjectFetchForTesting(ObjectFetchFn fn)  { fetch_fn_ = std::move(fn); }
 
 private:
@@ -284,6 +326,12 @@ private:
     // Removal Plan: Not removed — remains the test-injection path.
     // Roadmap ref: src/ingestion/FUTURE_ENHANCEMENTS.md § "Stub/Simulation Lifecycle"
     // -----------------------------------------------------------------------
+    /**
+     * @brief Ingest From Mock.
+     * @param[in,out] stats Input/output parameter.
+     * @param[in,out] progress_callback Input/output parameter.
+     * @details Calls: list_fn_(), empty(), isKeySafe(), addError(), fetch_fn_(), extractText(), size(), progress_callback().
+     */
     void ingestFromMock(IngestionStats& stats,
                         ProgressCallback& progress_callback) {
         size_t processed = 0;
@@ -364,6 +412,12 @@ private:
             std::unique_ptr<Aws::S3::S3Client> s3 = {};
 
             if (!access_key_.empty() && !secret_key_.empty()) {
+                /**
+                 * @brief Creds.
+                 * @param[in] access_key_ Input parameter.
+                 * @param[in] secret_key_ Input parameter.
+                 * @return Return value.
+                 */
                 Aws::Auth::AWSCredentials creds(access_key_, secret_key_);
                 s3 = std::make_unique<Aws::S3::S3Client>(creds, client_cfg);
             } else {
@@ -384,6 +438,12 @@ private:
         }
     }
 
+    /**
+     * @brief Ingest From S3.
+     * @param[in,out] stats Input/output parameter.
+     * @param[in,out] progress_callback Input/output parameter.
+     * @details Calls: empty(), creds(), SetBucket(), SetPrefix(), SetMaxKeys(), SetContinuationToken(), ListObjectsV2(), IsSuccess().
+     */
     void ingestFromS3(IngestionStats& stats,
                       ProgressCallback& progress_callback) {
         Aws::Client::ClientConfiguration client_cfg;
@@ -516,6 +576,12 @@ private:
         }
     }
 
+    /**
+     * @brief Ingest From GCS.
+     * @param[in,out] stats Input/output parameter.
+     * @param[in,out] progress_callback Input/output parameter.
+     * @details Calls: gcs::Client(), ListObjects(), gcs::Prefix(), addError(), status(), message(), name(), isKeySafe().
+     */
     void ingestFromGCS(IngestionStats& stats,
                        ProgressCallback& progress_callback) {
         try {
@@ -601,6 +667,12 @@ private:
         }
     }
 
+    /**
+     * @brief Ingest From Azure.
+     * @param[in,out] stats Input/output parameter.
+     * @param[in,out] progress_callback Input/output parameter.
+     * @details Calls: BlobContainerClient::CreateFromConnectionString(), empty(), ListBlobs(), HasPage(), MoveToNextPage(), isKeySafe(), addError(), GetBlockBlobClient().
+     */
     void ingestFromAzure(IngestionStats& stats,
                          ProgressCallback& progress_callback) {
         try {
@@ -717,6 +789,12 @@ ObjectStorageConnector::ObjectStorageConnector()
 
 ObjectStorageConnector::~ObjectStorageConnector() = default;
 
+/**
+ * @brief Initialize.
+ * @param[in] config Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements initialize without additional internal calls.
+ */
 bool ObjectStorageConnector::initialize(const SourceConfig& config) {
     return impl_->initialize(config);
 }
@@ -729,28 +807,60 @@ size_t ObjectStorageConnector::getDocumentCount() const {
     return impl_->getDocumentCount();
 }
 
+/**
+ * @brief Ingest.
+ * @param[in] target_collection Input parameter.
+ * @param[in] progress_callback Input parameter.
+ * @return Return value.
+ * @details Implements ingest without additional internal calls.
+ */
 IngestionStats ObjectStorageConnector::ingest(
         const std::string& target_collection,
         ProgressCallback progress_callback) {
     return impl_->ingest(target_collection, progress_callback);
 }
 
+/**
+ * @brief Set Retry Config.
+ * @param[in] config Input parameter.
+ * @details Implements setRetryConfig without additional internal calls.
+ */
 void ObjectStorageConnector::setRetryConfig(const RetryConfig& config) {
     impl_->setRetryConfig(config);
 }
 
+/**
+ * @brief Set Object List For Testing.
+ * @param[in] fn Input parameter.
+ * @details Calls: setObjectListProvider(), std::move().
+ */
 void ObjectStorageConnector::setObjectListForTesting(ObjectListFn fn) {
     setObjectListProvider(std::move(fn));
 }
 
+/**
+ * @brief Set Object List Provider.
+ * @param[in] fn Input parameter.
+ * @details Calls: setObjectListForTesting(), std::move().
+ */
 void ObjectStorageConnector::setObjectListProvider(ObjectListFn fn) {
     impl_->setObjectListForTesting(std::move(fn));
 }
 
+/**
+ * @brief Set Object Fetch For Testing.
+ * @param[in] fn Input parameter.
+ * @details Calls: setObjectFetchProvider(), std::move().
+ */
 void ObjectStorageConnector::setObjectFetchForTesting(ObjectFetchFn fn) {
     setObjectFetchProvider(std::move(fn));
 }
 
+/**
+ * @brief Set Object Fetch Provider.
+ * @param[in] fn Input parameter.
+ * @details Calls: setObjectFetchForTesting(), std::move().
+ */
 void ObjectStorageConnector::setObjectFetchProvider(ObjectFetchFn fn) {
     impl_->setObjectFetchForTesting(std::move(fn));
 }

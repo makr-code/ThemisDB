@@ -27,8 +27,6 @@ namespace importers {
 // ============================================================================
 namespace {
 
-/// Maps MongoDB-specific error patterns to ImporterErrorCode for standardized
-/// error reporting across all importers.
 [[maybe_unused]] static ImportErrorCode mapMongoDBErrorToCode(const std::string& error_msg) {
     // PHASE-2-HARDENING: Standardized error mapping
     const auto msg_lower = [](std::string s) {
@@ -76,10 +74,6 @@ namespace {
     return ImportErrorCode::UNKNOWN;
 }
 
-/// Attempts exponential backoff retry with connection timeout.
-/// Parameters: initial_timeout_ms (e.g., 3000), max_retries (e.g., 3)
-/// Returns: true if successful, false if all retries exhausted.
-/// PHASE-2-HARDENING: Connection Timeout with Exponential Backoff
 static bool retryWithExponentialBackoff(
     const std::function<bool()>& operation,
     int initial_timeout_ms = 3000,
@@ -119,6 +113,12 @@ std::vector<std::string> MongoDBImporter::getSupportedTypes() const {
     return {"mongodb", "mongoexport", "json", "jsonl", "ndjson"};
 }
 
+/**
+ * @brief Initialize.
+ * @param[in] config Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: clear(), empty(), json::parse(), contains(), is_string(), THEMIS_INFO().
+ */
 bool MongoDBImporter::initialize(const std::string& config) {
     cancelled_ = false;
     configured_collection_.clear();
@@ -139,6 +139,13 @@ bool MongoDBImporter::initialize(const std::string& config) {
     return true;
 }
 
+/**
+ * @brief Validate Source.
+ * @param[in] source_path Path to the source.
+ * @param[in,out] errors Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: file(), push_back(), std::getline(), find_first_not_of(), THEMIS_INFO().
+ */
 bool MongoDBImporter::validateSource(const std::string& source_path,
                                      std::vector<std::string>& errors) {
     std::ifstream file(source_path);
@@ -176,6 +183,14 @@ bool MongoDBImporter::validateSource(const std::string& source_path,
     return true;
 }
 
+/**
+ * @brief Import Data.
+ * @param[in] source_path Path to the source.
+ * @param[in] options Input parameter.
+ * @param[in] progress_callback Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::steady_clock::now(), THEMIS_INFO(), toJson(), dump(), permission_check(), addError(), empty(), collectionFromPath().
+ */
 ImportStats MongoDBImporter::importData(
     const std::string& source_path,
     const ImportOptions& options,
@@ -338,6 +353,13 @@ ImportStats MongoDBImporter::importData(
     return stats;
 }
 
+/**
+ * @brief Import Data Async.
+ * @param[in] source_path Path to the source.
+ * @param[in] options Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), std::to_string(), get(), store(), setStage(), get_future().
+ */
 std::shared_ptr<ImportHandle> MongoDBImporter::importDataAsync(
     const std::string& source_path,
     const ImportOptions& options
@@ -398,11 +420,21 @@ std::shared_ptr<ImportHandle> MongoDBImporter::importDataAsync(
     return handle;
 }
 
+/**
+ * @brief Cancel.
+ * @details Calls: THEMIS_INFO().
+ */
 void MongoDBImporter::cancel() {
     cancelled_ = true;
     THEMIS_INFO("MongoDB import cancelled");
 }
 
+/**
+ * @brief Get Source Schema.
+ * @param[in] source_path Path to the source.
+ * @return Return value.
+ * @details Calls: file(), json::array(), is_object(), unwrapDocument(), begin(), end(), key(), inferThemisType().
+ */
 json MongoDBImporter::getSourceSchema(const std::string& source_path) {
     std::ifstream file(source_path);
     if (!file) {
@@ -554,6 +586,16 @@ json MongoDBImporter::getSourceSchema(const std::string& source_path) {
 // Private Methods — Parsing
 // ============================================================================
 
+/**
+ * @brief Parse Json Lines.
+ * @param[in] file_path Path to the file.
+ * @param[in] collection Input parameter.
+ * @param[in] options Input parameter.
+ * @param[in,out] stats Input/output parameter.
+ * @param[in,out] callback Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: file(), addError(), std::getline(), find_first_not_of(), size(), std::to_string(), push_back(), json::parse().
+ */
 bool MongoDBImporter::parseJsonLines(const std::string& file_path,
                                      const std::string& collection,
                                      const ImportOptions& options,
@@ -642,6 +684,16 @@ bool MongoDBImporter::parseJsonLines(const std::string& file_path,
     return !cancelled_;
 }
 
+/**
+ * @brief Parse Json Array.
+ * @param[in] file_path Path to the file.
+ * @param[in] collection Input parameter.
+ * @param[in] options Input parameter.
+ * @param[in,out] stats Input/output parameter.
+ * @param[in,out] callback Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: file(), addError(), json::parse(), std::string(), what(), is_array(), empty(), emitSpan().
+ */
 bool MongoDBImporter::parseJsonArray(const std::string& file_path,
                                      const std::string& collection,
                                      const ImportOptions& options,
@@ -689,6 +741,16 @@ bool MongoDBImporter::parseJsonArray(const std::string& file_path,
     return !cancelled_;
 }
 
+/**
+ * @brief Import Document.
+ * @param[in] doc Input parameter.
+ * @param[in] collection Input parameter.
+ * @param[in] options Input parameter.
+ * @param[in,out] stats Input/output parameter.
+ * @param[in] doc_index Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: std::chrono::steady_clock::now(), is_object(), addError(), std::to_string(), push_back(), shouldImportCollection(), unwrapDocument(), emitMetric().
+ */
 bool MongoDBImporter::importDocument(const json& doc,
                                      const std::string& collection,
                                      const ImportOptions& options,
@@ -764,9 +826,12 @@ bool MongoDBImporter::importDocument(const json& doc,
     return true;
 }
 
-// ============================================================================
-// Private Methods — Type mapping / BSON helpers
-// ============================================================================
+/**
+ * @brief ============================================================================ Private Methods — Type mapping / BSON helpers ============================================================================
+ * @param[in] value Input parameter.
+ * @return Return value.
+ * @details Calls: is_null(), is_boolean(), is_number_integer(), is_number_float(), is_string(), is_array(), is_object(), contains().
+ */
 
 std::string MongoDBImporter::inferThemisType(const json& value) {
     if (value.is_null()) {
@@ -834,6 +899,12 @@ std::string MongoDBImporter::inferThemisType(const json& value) {
     return "string";
 }
 
+/**
+ * @brief Unwrap Bson Value.
+ * @param[in] value Input parameter.
+ * @return Return value.
+ * @details Calls: is_object(), contains(), is_string(), is_number(), dump(), std::stoi(), std::stod().
+ */
 json MongoDBImporter::unwrapBsonValue(const json& value) {
     if (!value.is_object()) {
       return value;
@@ -937,6 +1008,12 @@ json MongoDBImporter::unwrapBsonValue(const json& value) {
     return value;
 }
 
+/**
+ * @brief Unwrap Document.
+ * @param[in] doc Input parameter.
+ * @return Return value.
+ * @details Calls: is_object(), json::object(), begin(), end(), key(), value(), unwrapBsonValue(), is_array().
+ */
 json MongoDBImporter::unwrapDocument(const json& doc) {
     if (!doc.is_object()) {
       return doc;
@@ -984,6 +1061,12 @@ json MongoDBImporter::unwrapDocument(const json& doc) {
 // Private Methods — Utilities
 // ============================================================================
 
+/**
+ * @brief Collection From Path.
+ * @param[in] path Input parameter.
+ * @return Return value.
+ * @details Calls: find_last_of(), substr(), rfind(), empty().
+ */
 std::string MongoDBImporter::collectionFromPath(const std::string& path) {
     // Extract the base filename without extension
     // e.g. "/data/exports/users.json" -> "users"
@@ -996,6 +1079,13 @@ std::string MongoDBImporter::collectionFromPath(const std::string& path) {
     return basename.empty() ? "documents" : basename;
 }
 
+/**
+ * @brief Should Import Collection.
+ * @param[in] collection Input parameter.
+ * @param[in] options Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: std::find(), begin(), end(), empty().
+ */
 bool MongoDBImporter::shouldImportCollection(const std::string& collection,
                                              const ImportOptions& options) {
     if (std::find(options.exclude_tables.begin(), options.exclude_tables.end(),
@@ -1047,6 +1137,14 @@ void MongoDBImporter::emitSpan(const ImportOptions& options,
     }
 }
 
+/**
+ * @brief Report Progress.
+ * @param[in,out] callback Input/output parameter.
+ * @param[in] stage Input parameter.
+ * @param[in] current Input parameter.
+ * @param[in] total Input parameter.
+ * @details Calls: callback().
+ */
 void MongoDBImporter::reportProgress(ProgressCallback& callback,
                                      const std::string& stage,
                                      size_t current, size_t total) {
@@ -1071,6 +1169,12 @@ plugins::PluginCapabilities MongoDBImporterPlugin::getCapabilities() const {
     return caps;
 }
 
+/**
+ * @brief Initialize.
+ * @param[in] config_json Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements initialize without additional internal calls.
+ */
 bool MongoDBImporterPlugin::initialize(const char* config_json) {
     if (!importer_) {
       return false;
@@ -1078,6 +1182,10 @@ bool MongoDBImporterPlugin::initialize(const char* config_json) {
     return importer_->initialize(config_json ? config_json : "{}");
 }
 
+/**
+ * @brief Shutdown.
+ * @details Calls: cancel().
+ */
 void MongoDBImporterPlugin::shutdown() {
     if (importer_) {
       importer_->cancel();
@@ -1092,10 +1200,20 @@ void MongoDBImporterPlugin::shutdown() {
 // ============================================================================
 
 extern "C" {
+    /**
+     * @brief Create Mongo DBPlugin.
+     * @return Pointer to the result.
+     * @details Calls: themis::importers::MongoDBImporterPlugin().
+     */
     themis::plugins::IThemisPlugin* createMongoDBPlugin() {
         return new themis::importers::MongoDBImporterPlugin();
     }
 
+    /**
+     * @brief Destroy Mongo DBPlugin.
+     * @param[in,out] plugin Input/output parameter.
+     * @details Implements destroyMongoDBPlugin without additional internal calls.
+     */
     void destroyMongoDBPlugin(themis::plugins::IThemisPlugin* plugin) {
         delete plugin;
     }

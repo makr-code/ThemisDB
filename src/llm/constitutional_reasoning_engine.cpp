@@ -17,14 +17,24 @@
 namespace themis {
 namespace llm {
 
-// ═══════════════════════════════════════════════════════════
-// Implementation details
-// ═══════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════ Implementation details ═══════════════════════════════════════════════════════════
+ * @param[in,out] llm_wrapper Input/output parameter.
+ * @return Pointer to the result.
+ * @details Implements asPromptRunner without additional internal calls.
+ */
 
 const ConstitutionalReasoningEngine::PromptRunner* asPromptRunner(void* llm_wrapper) {
     return static_cast<const ConstitutionalReasoningEngine::PromptRunner*>(llm_wrapper);
 }
 
+/**
+ * @brief Invoke Prompt Runner.
+ * @param[in,out] llm_wrapper Input/output parameter.
+ * @param[in] prompt Input parameter.
+ * @return Return value.
+ * @details Calls: asPromptRunner().
+ */
 std::string invokePromptRunner(void* llm_wrapper, const std::string& prompt) {
     const auto* runner = asPromptRunner(llm_wrapper);
     if (runner == nullptr || !(*runner)) {
@@ -62,9 +72,14 @@ ConstitutionalReasoningEngine::ConstitutionalReasoningEngine(
 
 ConstitutionalReasoningEngine::~ConstitutionalReasoningEngine() = default;
 
-// ═══════════════════════════════════════════════════════════
-// Core functionality
-// ═══════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════ Core functionality ═══════════════════════════════════════════════════════════
+ * @param[in] response Input parameter.
+ * @param[in] query Input parameter.
+ * @param[in,out] llm_wrapper Input/output parameter.
+ * @return Return value.
+ * @details Calls: lock(), std::chrono::steady_clock::now(), scoreResponse(), checkViolations(), empty(), std::find_if(), begin(), end().
+ */
 
 ConstitutionalReasoningResult ConstitutionalReasoningEngine::reason(
     const std::string& response,
@@ -218,6 +233,15 @@ ConstitutionalReasoningResult ConstitutionalReasoningEngine::reason(
     return result;
 }
 
+/**
+ * @brief Generate Critique.
+ * @param[in] response Input parameter.
+ * @param[in] query Input parameter.
+ * @param[in] principle Input parameter.
+ * @param[in,out] llm_wrapper Input/output parameter.
+ * @return Return value.
+ * @details Calls: lock(), find(), end(), empty(), buildCritiquePrompt(), invokePromptRunner(), std::transform(), begin().
+ */
 std::string ConstitutionalReasoningEngine::generateCritique(
     const std::string& response,
     const std::string& query,
@@ -289,6 +313,15 @@ std::string ConstitutionalReasoningEngine::generateCritique(
     return critique;
 }
 
+/**
+ * @brief Generate Revision.
+ * @param[in] response Input parameter.
+ * @param[in] critiques Input parameter.
+ * @param[in] query Input parameter.
+ * @param[in,out] llm_wrapper Input/output parameter.
+ * @return Return value.
+ * @details Calls: buildRevisionPrompt(), invokePromptRunner(), empty(), must_pattern(), std::regex_replace(), should_pattern(), find().
+ */
 std::string ConstitutionalReasoningEngine::generateRevision(
     const std::string& response,
     const std::vector<std::string>& critiques,
@@ -325,6 +358,12 @@ std::string ConstitutionalReasoningEngine::generateRevision(
     return revised;
 }
 
+/**
+ * @brief Check Violations.
+ * @param[in] response Input parameter.
+ * @return Return value.
+ * @details Calls: checkAutonomyRespect(), checkTransparency(), checkNonHarmfulness(), checkFairness(), push_back().
+ */
 std::vector<std::string> ConstitutionalReasoningEngine::checkViolations(
     const std::string& response
 ) {
@@ -354,6 +393,12 @@ std::vector<std::string> ConstitutionalReasoningEngine::checkViolations(
     return violations;
 }
 
+/**
+ * @brief Score Response.
+ * @param[in] response Input parameter.
+ * @return Return value.
+ * @details Calls: checkViolations(), empty(), size(), std::max(), std::min().
+ */
 float ConstitutionalReasoningEngine::scoreResponse(const std::string& response) {
     // Score based on principle compliance
     auto violations = checkViolations(response);
@@ -368,15 +413,22 @@ float ConstitutionalReasoningEngine::scoreResponse(const std::string& response) 
     return std::max(0.0f, std::min(1.0f, compliance_rate));
 }
 
-// ═══════════════════════════════════════════════════════════
-// Principle management
-// ═══════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════ Principle management ═══════════════════════════════════════════════════════════
+ * @param[in] principle Input parameter.
+ * @details Calls: lock(), push_back().
+ */
 
 void ConstitutionalReasoningEngine::addPrinciple(const ConstitutionalPrinciple& principle) {
     std::lock_guard<std::recursive_mutex> lock(impl_->mutex);
     impl_->config.principles.push_back(principle);
 }
 
+/**
+ * @brief Remove Principle.
+ * @param[in] principle_id Identifier of the principle.
+ * @details Calls: lock(), erase(), std::remove_if(), begin(), end().
+ */
 void ConstitutionalReasoningEngine::removePrinciple(const std::string& principle_id) {
     std::lock_guard<std::recursive_mutex> lock(impl_->mutex);
     auto& principles = impl_->config.principles;
@@ -395,6 +447,10 @@ std::vector<ConstitutionalPrinciple> ConstitutionalReasoningEngine::getPrinciple
     return impl_->config.principles;
 }
 
+/**
+ * @brief Load Default Principles.
+ * @details Calls: lock(), clear(), push_back(), add().
+ */
 void ConstitutionalReasoningEngine::loadDefaultPrinciples() {
     std::lock_guard<std::recursive_mutex> lock(impl_->mutex);
     impl_->config.principles.clear();
@@ -589,9 +645,11 @@ void ConstitutionalReasoningEngine::loadDefaultPrinciples() {
         1);
 }
 
-// ═══════════════════════════════════════════════════════════
-// Configuration
-// ═══════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════ Configuration ═══════════════════════════════════════════════════════════
+ * @param[in] config Input parameter.
+ * @details Calls: lock().
+ */
 
 void ConstitutionalReasoningEngine::setConfig(const ConstitutionalReasoningConfig& config) {
     std::lock_guard<std::recursive_mutex> lock(impl_->mutex);
@@ -603,6 +661,10 @@ ConstitutionalReasoningConfig ConstitutionalReasoningEngine::getConfig() const {
     return impl_->config;
 }
 
+/**
+ * @brief Clear Cache.
+ * @details Calls: lock(), clear().
+ */
 void ConstitutionalReasoningEngine::clearCache() {
     std::lock_guard<std::recursive_mutex> lock(impl_->mutex);
     impl_->critique_cache.clear();
@@ -617,6 +679,10 @@ ConstitutionalReasoningEngine::Statistics ConstitutionalReasoningEngine::getStat
     return impl_->stats;
 }
 
+/**
+ * @brief Reset Statistics.
+ * @details Calls: lock(), Statistics().
+ */
 void ConstitutionalReasoningEngine::resetStatistics() {
     std::lock_guard<std::recursive_mutex> lock(impl_->mutex);
     impl_->stats = Statistics();
@@ -629,9 +695,14 @@ void ConstitutionalReasoningEngine::setReasoningCallback(
     impl_->callback = callback;
 }
 
-// ═══════════════════════════════════════════════════════════
-// Helper methods
-// ═══════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════ Helper methods ═══════════════════════════════════════════════════════════
+ * @param[in] response Input parameter.
+ * @param[in] query Input parameter.
+ * @param[in] principle Input parameter.
+ * @return Return value.
+ * @details Calls: str().
+ */
 
 std::string ConstitutionalReasoningEngine::buildCritiquePrompt(
     const std::string& response,
@@ -648,6 +719,14 @@ std::string ConstitutionalReasoningEngine::buildCritiquePrompt(
     return oss.str();
 }
 
+/**
+ * @brief Build Revision Prompt.
+ * @param[in] response Input parameter.
+ * @param[in] critiques Input parameter.
+ * @param[in] query Input parameter.
+ * @return Return value.
+ * @details Calls: size(), str().
+ */
 std::string ConstitutionalReasoningEngine::buildRevisionPrompt(
     const std::string& response,
     const std::vector<std::string>& critiques,
@@ -665,6 +744,13 @@ std::string ConstitutionalReasoningEngine::buildRevisionPrompt(
     return oss.str();
 }
 
+/**
+ * @brief Should Continue Iterating.
+ * @param[in] result Input parameter.
+ * @param[in] iteration Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty().
+ */
 bool ConstitutionalReasoningEngine::shouldContinueIterating(
     const ConstitutionalReasoningResult& result,
     int iteration
@@ -687,6 +773,11 @@ bool ConstitutionalReasoningEngine::shouldContinueIterating(
     return true;
 }
 
+/**
+ * @brief Update Statistics.
+ * @param[in] result Input parameter.
+ * @details Calls: count(), std::chrono::milliseconds().
+ */
 void ConstitutionalReasoningEngine::updateStatistics(
     const ConstitutionalReasoningResult& result
 ) {
@@ -719,9 +810,12 @@ void ConstitutionalReasoningEngine::updateStatistics(
     }
 }
 
-// ═══════════════════════════════════════════════════════════
-// Violation detection helpers
-// ═══════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════ Violation detection helpers ═══════════════════════════════════════════════════════════
+ * @param[in] response Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: std::transform(), begin(), end(), find().
+ */
 
 bool ConstitutionalReasoningEngine::checkAutonomyRespect(const std::string& response) {
     std::string lower = response;
@@ -742,6 +836,12 @@ bool ConstitutionalReasoningEngine::checkAutonomyRespect(const std::string& resp
     return true;
 }
 
+/**
+ * @brief Check Transparency.
+ * @param[in] response Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: std::transform(), begin(), end(), find().
+ */
 bool ConstitutionalReasoningEngine::checkTransparency(const std::string& response) {
     std::string lower = response;
     std::transform(lower.begin(), lower.end(), lower.begin(), ::tolower);
@@ -773,6 +873,12 @@ bool ConstitutionalReasoningEngine::checkTransparency(const std::string& respons
     return false;
 }
 
+/**
+ * @brief Check Non Harmfulness.
+ * @param[in] response Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: std::transform(), begin(), end(), find().
+ */
 bool ConstitutionalReasoningEngine::checkNonHarmfulness(const std::string& response) {
     std::string lower = response;
     std::transform(lower.begin(), lower.end(), lower.begin(), ::tolower);
@@ -799,6 +905,12 @@ bool ConstitutionalReasoningEngine::checkNonHarmfulness(const std::string& respo
     return true;
 }
 
+/**
+ * @brief Check Fairness.
+ * @param[in] response Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: std::transform(), begin(), end(), find().
+ */
 bool ConstitutionalReasoningEngine::checkFairness(const std::string& response) {
     std::string lower = response;
     std::transform(lower.begin(), lower.end(), lower.begin(), ::tolower);
@@ -818,14 +930,21 @@ bool ConstitutionalReasoningEngine::checkFairness(const std::string& response) {
     return true;
 }
 
-// ═══════════════════════════════════════════════════════════
-// Factory methods
-// ═══════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════ Factory methods ═══════════════════════════════════════════════════════════
+ * @return Return value.
+ * @details Implements createDefault without additional internal calls.
+ */
 
 std::unique_ptr<ConstitutionalReasoningEngine> ConstitutionalReasoningFactory::createDefault() {
     return std::make_unique<ConstitutionalReasoningEngine>();
 }
 
+/**
+ * @brief Create Strict.
+ * @return Return value.
+ * @details Implements createStrict without additional internal calls.
+ */
 std::unique_ptr<ConstitutionalReasoningEngine> ConstitutionalReasoningFactory::createStrict() {
     ConstitutionalReasoningConfig config;
     config.max_iterations = 5;
@@ -835,6 +954,11 @@ std::unique_ptr<ConstitutionalReasoningEngine> ConstitutionalReasoningFactory::c
     return std::make_unique<ConstitutionalReasoningEngine>(config);
 }
 
+/**
+ * @brief Create Lenient.
+ * @return Return value.
+ * @details Implements createLenient without additional internal calls.
+ */
 std::unique_ptr<ConstitutionalReasoningEngine> ConstitutionalReasoningFactory::createLenient() {
     ConstitutionalReasoningConfig config;
     config.max_iterations = 2;
@@ -844,6 +968,12 @@ std::unique_ptr<ConstitutionalReasoningEngine> ConstitutionalReasoningFactory::c
     return std::make_unique<ConstitutionalReasoningEngine>(config);
 }
 
+/**
+ * @brief Create.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @details Implements create without additional internal calls.
+ */
 std::unique_ptr<ConstitutionalReasoningEngine> ConstitutionalReasoningFactory::create(
     const ConstitutionalReasoningConfig& config
 ) {

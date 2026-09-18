@@ -61,6 +61,14 @@ int HnswParameterTuner::getOptimalEfSearch(size_t k, size_t dataset_size) const 
     return ef;
 }
 
+/**
+ * @brief Record Query Result.
+ * @param[in] k Input parameter.
+ * @param[in] ef_used Input parameter.
+ * @param[in] latency_ms Input parameter.
+ * @param[in] recall Input parameter.
+ * @details Calls: lock(), push_back(), size(), erase(), begin(), fetch_add(), adapt().
+ */
 void HnswParameterTuner::recordQueryResult(size_t k, int ef_used, double latency_ms, double recall) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -91,6 +99,11 @@ void HnswParameterTuner::recordQueryResult(size_t k, int ef_used, double latency
     }
 }
 
+/**
+ * @brief Update the access control configuration.
+ * @param[in] config New access control configuration.
+ * @details Calls: lock(), store().
+ */
 void HnswParameterTuner::updateConfig(const Config& config) {
     std::lock_guard<std::mutex> lock(mutex_);
     config_ = config;
@@ -98,6 +111,11 @@ void HnswParameterTuner::updateConfig(const Config& config) {
 }
 
 HnswParameterTuner::Stats HnswParameterTuner::getStats() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     Stats stats;
@@ -117,6 +135,10 @@ HnswParameterTuner::Stats HnswParameterTuner::getStats() const {
     return stats;
 }
 
+/**
+ * @brief Reset Stats.
+ * @details Calls: lock(), clear(), store().
+ */
 void HnswParameterTuner::resetStats() {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -128,6 +150,13 @@ void HnswParameterTuner::resetStats() {
     recall_count_ = 0;
 }
 
+/**
+ * @brief Get Recommended M.
+ * @param[in] dataset_size Input parameter.
+ * @param[in] workload Input parameter.
+ * @return Return value.
+ * @details Calls: std::max(), std::min().
+ */
 int HnswParameterTuner::getRecommendedM(size_t dataset_size, WorkloadType workload) {
     // Based on HNSW paper recommendations and empirical results
     // Adjusted for workload-specific requirements per PERFORMANCE_TIPS.md
@@ -173,6 +202,14 @@ int HnswParameterTuner::getRecommendedM(size_t dataset_size, WorkloadType worklo
     }
 }
 
+/**
+ * @brief Get Recommended Ef Construction.
+ * @param[in] dataset_size Input parameter.
+ * @param[in] M Input parameter.
+ * @param[in] workload Input parameter.
+ * @return Return value.
+ * @details Implements getRecommendedEfConstruction without additional internal calls.
+ */
 int HnswParameterTuner::getRecommendedEfConstruction(size_t dataset_size, int M, WorkloadType workload) {
     // ef_construction should be roughly 10-20x M for good recall
     // Scale with dataset size and adjust for workload
@@ -215,6 +252,10 @@ int HnswParameterTuner::getRecommendedEfConstruction(size_t dataset_size, int M,
     }
 }
 
+/**
+ * @brief Adapt.
+ * @details Calls: empty(), size(), load(), count(), std::max(), std::min(), store(), fetch_add().
+ */
 void HnswParameterTuner::adapt() {
     if (!config_.adaptive || recent_queries_.empty()) {
         return;
@@ -309,6 +350,13 @@ int HnswParameterTuner::calculateEfSearch(size_t k, size_t dataset_size) const {
     return std::clamp(ef, config_.ef_search_min, config_.ef_search_max);
 }
 
+/**
+ * @brief Get Workload Optimized Config.
+ * @param[in] dataset_size Input parameter.
+ * @param[in] workload Input parameter.
+ * @return Return value.
+ * @details Calls: getRecommendedM(), getRecommendedEfConstruction(), std::chrono::milliseconds().
+ */
 HnswParameterTuner::Config HnswParameterTuner::getWorkloadOptimizedConfig(
     size_t dataset_size,
     WorkloadType workload) {
@@ -396,11 +444,12 @@ HnswParameterTuner::ConstructionParams HnswParameterTuner::getAutoTunedConstruct
     WorkloadType effective_workload = workload_hint;
 
     if (effective_workload == WorkloadType::MIXED) {
-        // Infer from recorded query patterns.
-        // Use average k as a simple heuristic:
-        //   k <= 5         → likely OLTP (point-lookups, small neighborhoods)
-        //   6 <= k <= 19   → likely RAG  (retrieval-augmented generation)
-        //   k >= 20        → likely ANALYTICS (large result sets)
+        /**
+         * @brief Infer from recorded query patterns.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         * @details Use average k as a simple heuristic: k <= 5 → likely OLTP (point-lookups, small neighborhoods) 6 <= k <= 19 → likely RAG (retrieval-augmented generation) k >= 20 → likely ANALYTICS (large result sets)
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         if (!recent_queries_.empty()) {
             double avg_k = 0.0;
@@ -430,18 +479,33 @@ HnswParameterTuner::ConstructionParams HnswParameterTuner::getAutoTunedConstruct
 // WorkloadClassifier implementation
 
 void WorkloadClassifier::recordInsert([[maybe_unused]] size_t batch_size) {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     total_inserts_ += batch_size;
     insert_events_ += 1;
 }
 
 void WorkloadClassifier::recordQuery([[maybe_unused]] size_t k) {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     total_k_      += k;
     query_events_ += 1;
 }
 
 HnswParameterTuner::WorkloadType WorkloadClassifier::detectWorkload() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     const bool has_inserts = insert_events_ > 0;
@@ -489,6 +553,10 @@ HnswParameterTuner::WorkloadType WorkloadClassifier::detectWorkload() const {
     return HnswParameterTuner::WorkloadType::RAG;
 }
 
+/**
+ * @brief Reset the modification detection flag.
+ * @details Calls: lock().
+ */
 void WorkloadClassifier::reset() {
     std::lock_guard<std::mutex> lock(mutex_);
     total_inserts_  = 0;
@@ -498,6 +566,11 @@ void WorkloadClassifier::reset() {
 }
 
 WorkloadClassifier::Stats WorkloadClassifier::getStats() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     Stats s;
     s.total_inserts  = total_inserts_;
@@ -533,6 +606,11 @@ void HnswMemoryOptimizer::prefetchNodes([[maybe_unused]] const std::vector<size_
 #endif
 }
 
+/**
+ * @brief Get Cache Line Size.
+ * @return Return value.
+ * @details Calls: defined(), sysconf(), sysctlbyname(), GetLogicalProcessorInformation(), buf(), data(), __cpuid(), volatile().
+ */
 size_t HnswMemoryOptimizer::getCacheLineSize() {
 #if defined(__linux__)
     // Use POSIX sysconf on Linux; returns -1 on unsupported systems.
@@ -601,6 +679,11 @@ size_t HnswMemoryOptimizer::alignToCacheLine([[maybe_unused]] size_t size) {
     return ((size + cache_line - 1) / cache_line) * cache_line;
 }
 
+/**
+ * @brief Has SIMDPrefetch.
+ * @return True when the operation succeeds.
+ * @details Implements hasSIMDPrefetch without additional internal calls.
+ */
 bool HnswMemoryOptimizer::hasSIMDPrefetch() {
 #ifdef __SSE__
     return true;

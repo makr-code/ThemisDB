@@ -76,7 +76,12 @@ struct FileDescriptorDeleter {
 
 using UniqueFileDescriptor = std::unique_ptr<int, FileDescriptorDeleter>;
 
-// Helper function to create RAII-wrapped file descriptor
+/**
+ * @brief Helper function to create RAII-wrapped file descriptor
+ * @param[in] fd Input parameter.
+ * @return Return value.
+ * @details Calls: UniqueFileDescriptor(), release().
+ */
 inline UniqueFileDescriptor makeUniqueFileDescriptor(int fd) {
     auto fd_ptr = std::make_unique<int>(fd);
     return UniqueFileDescriptor(fd_ptr.release());
@@ -133,6 +138,11 @@ bool PluginHotPlugMonitor::isPluginFile(const std::string& filename) const {
 }
 
 std::string PluginHotPlugMonitor::extractPluginName(const std::string& filepath) const {
+    /**
+     * @brief P.
+     * @param[in] filepath Input parameter.
+     * @return Return value.
+     */
     fs::path p(filepath);
     
     // If it's plugin.json, the parent directory name is the plugin name
@@ -148,6 +158,12 @@ std::string PluginHotPlugMonitor::extractPluginName(const std::string& filepath)
 // Event Handling
 // ============================================================================
 
+/**
+ * @brief Handle File Event.
+ * @param[in] filename Input parameter.
+ * @param[in] event Input parameter.
+ * @details Calls: isPluginFile(), extractPluginName(), empty(), THEMIS_INFO(), std::this_thread::sleep_for(), std::chrono::milliseconds(), scanPluginDirectory(), loadPlugin().
+ */
 void PluginHotPlugMonitor::handleFileEvent(
     const std::string& filename,
     FileEvent event
@@ -233,6 +249,10 @@ void PluginHotPlugMonitor::handleFileEvent(
 #ifndef _WIN32
 #ifndef __APPLE__
 
+/**
+ * @brief Watch Directory Linux.
+ * @details Calls: __attribute__(), aligned(), __alignof__(), poll(), THEMIS_ERROR(), strerror(), read(), handleFileEvent().
+ */
 void PluginHotPlugMonitor::watchDirectoryLinux() {
     char buffer[4096] __attribute__((aligned(__alignof__(struct inotify_event))));
     
@@ -300,6 +320,10 @@ void PluginHotPlugMonitor::watchDirectoryLinux() {
 
 #ifdef _WIN32
 
+/**
+ * @brief Watch Directory Windows.
+ * @details Calls: ReadDirectoryChangesW(), wfilename(), reserve(), size(), push_back(), handleFileEvent().
+ */
 void PluginHotPlugMonitor::watchDirectoryWindows() {
     char buffer[4096];
     DWORD bytes_returned;
@@ -388,6 +412,10 @@ void PluginHotPlugMonitor::watchDirectoryWindows() {
 
 #ifdef __APPLE__
 
+/**
+ * @brief Watch Directory Mac OS.
+ * @details Calls: kqueue(), THEMIS_ERROR(), strerror(), makeUniqueFileDescriptor(), open(), c_str(), EV_SET(), kevent().
+ */
 void PluginHotPlugMonitor::watchDirectoryMacOS() {
     // Use kqueue for macOS
     int kq = kqueue();
@@ -505,6 +533,11 @@ void PluginHotPlugMonitor::watchDirectoryMacOS() {
 // Public Interface
 // ============================================================================
 
+/**
+ * @brief Start.
+ * @return True when the operation succeeds.
+ * @details Calls: THEMIS_WARN(), fs::exists(), THEMIS_ERROR(), fs::is_directory(), CreateFileA(), c_str(), std::thread(), watchDirectoryWindows().
+ */
 bool PluginHotPlugMonitor::start() {
     if (running_) {
         THEMIS_WARN("Hot-plug monitor already running");
@@ -584,6 +617,10 @@ bool PluginHotPlugMonitor::start() {
     return true;
 }
 
+/**
+ * @brief Stop.
+ * @details Calls: CloseHandle(), joinable(), get_future(), joiner(), std::move(), join(), set_value(), detach().
+ */
 void PluginHotPlugMonitor::stop() {
     if (!running_) {
         return;

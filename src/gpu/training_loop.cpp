@@ -35,6 +35,15 @@ GPUTrainingLoop::GPUTrainingLoop(const Config &config) : config_(config) {
 // run
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Run.
+ * @param[in] batches Input parameter.
+ * @param[in] loss_fn Input parameter.
+ * @param[in] checkpoint Input parameter.
+ * @return Return value.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: empty(), order(), size(), std::iota(), begin(), end(), std::swap(), max().
+ */
 GPUTrainingLoop::EpochStats GPUTrainingLoop::run(const std::vector<Batch> &batches, LossFn loss_fn,
                                                  CheckpointFn checkpoint) {
     if (batches.empty() || !loss_fn) {
@@ -140,11 +149,21 @@ GPUTrainingLoop::EpochStats GPUTrainingLoop::run(const std::vector<Batch> &batch
 // ---------------------------------------------------------------------------
 
 size_t GPUTrainingLoop::currentStep() const {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     return step_;
 }
 
 double GPUTrainingLoop::lastLoss() const {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     return last_loss_;
 }
@@ -155,15 +174,29 @@ const std::vector<GPUTrainingLoop::StepRecord> &GPUTrainingLoop::history() const
 }
 
 GPUTrainingLoop::EpochStats GPUTrainingLoop::lastEpochStats() const {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     return last_epoch_;
 }
 
 bool GPUTrainingLoop::isStopped() const {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     return stopped_;
 }
 
+/**
+ * @brief Reset the modification detection flag.
+ * @details Calls: lk(), clear().
+ */
 void GPUTrainingLoop::reset() {
     std::lock_guard<std::mutex> lk(mutex_);
     step_      = 0;

@@ -141,6 +141,11 @@ json ObjectCentricTracer::computeDfmg(
     // or (when object_type is non-empty) for all edges as a baseline DFMG approach.
     // O(n) over edges — meets the performance target.
     std::map<std::string, std::map<std::string, int>> freq;
+    /**
+     * @brief Obj type str.
+     * @param[in] object_type Input parameter.
+     * @return Return value.
+     */
     const std::string obj_type_str(object_type);
 
     for (const auto& e : normalized["edges"]) {

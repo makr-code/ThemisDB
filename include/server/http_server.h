@@ -232,20 +232,8 @@ using tcp = net::ip::tcp;
 using RequestHandler = std::function<http::response<http::string_body>(
     const http::request<http::string_body>&)>;
 
-/**
- * @brief Async HTTP/REST API Server for THEMIS
- * 
- * Features:
- * - Thread pool for handling requests
- * - RESTful endpoints for CRUD, Query, Graph, Vector operations
- * - JSON request/response format
- * - Connection pooling and session management
- */
 class HttpServer {
 public:
-    /**
-     * @brief Server configuration
-     */
     struct Config {
         std::string host = "0.0.0.0";
         uint16_t port = 8080;
@@ -303,9 +291,6 @@ public:
         }
     };
 
-    /**
-     * @brief Construct HTTP server with database access
-     */
     HttpServer(
         const Config& config,
         std::shared_ptr<RocksDBWrapper> storage,
@@ -335,37 +320,28 @@ public:
         std::shared_ptr<sharding::ShardTopology> shard_topology = nullptr
     );
 
-    /** @brief Destructor performs graceful server shutdown. */
     ~HttpServer();
 
     /**
-     * @brief Start the HTTP server (listens and spins worker threads)
+     * @brief Start.
      */
     void start();
 
     /**
-     * @brief Stop the HTTP server and join worker threads
+     * @brief Stop.
      */
     void stop();
 
     /**
-     * @brief Wait for server to finish (blocking)
+     * @brief Wait.
      */
     void wait();
 
-    /**
-     * @brief Check if server is running
-     */
     bool isRunning() const { return running_; }
 
     /**
-     * @brief Hot-reload TLS certificate and private key without downtime (SIGHUP)
-     *
-     * Reloads certificate/key files from the paths stored in Config. New TLS
-     * sessions will use the fresh certificate; existing sessions are unaffected.
-     * Thread-safe: protected by ssl_ctx_mutex_.
-     *
-     * @return true if reload succeeded, false if TLS is not enabled or reload failed
+     * @brief Reload Tls.
+     * @return True when the operation succeeds.
      */
     bool reloadTls();
 
@@ -375,18 +351,9 @@ public:
     }
 
     /**
-     * @brief Inject a ConcernsContext for lifecycle management and health probes.
-     *
-     * When set before calling start(), the server will:
-     *  - forward the context to MonitoringApiHandler so that /health/live and
-     *    /health/ready report per-concern health;
-     *  - call concerns->shutdown() during stop() after all other teardown is done.
-     *
-     * This method is idempotent: calling it multiple times replaces the previous
-     * context.  It is safe to call only from the thread that owns the server
-     * (before start()).
-     *
-     * @param concerns Shared ownership of the ConcernsContext to use.
+     * @brief Set Concerns.
+     * @param[in] concerns Input parameter.
+     * @details Calls: std::move().
      */
     void setConcerns(std::shared_ptr<core::concerns::ConcernsContext> concerns) {
         concerns_ = std::move(concerns);
@@ -397,17 +364,19 @@ public:
         }
     }
 
-    /// @return the current ConcernsContext (may be nullptr).
     std::shared_ptr<core::concerns::ConcernsContext> getConcerns() const {
         return concerns_;
     }
 
-    /// @return the shared AuditLogger instance (may be nullptr if audit init failed).
     std::shared_ptr<themis::utils::AuditLogger> getAuditLogger() const {
         return audit_logger_;
     }
 
-    /// @return the RequestValidationMiddleware for external schema registration (never nullptr after start()).
+    /**
+     * @brief Get Request Validator.
+     * @return Pointer to the result.
+     * @details Calls: get().
+     */
     RequestValidationMiddleware* getRequestValidator() {
         return request_validator_.get();
     }
@@ -416,35 +385,21 @@ public:
     }
 
     /**
-     * @brief Enable and configure the SAML 2.0 Service Provider.
-     *
-     * SAML SP endpoints (/api/v1/auth/saml/login, /acs, /slo, /metadata) are
-     * only active after this method is called.  Without it every SAML endpoint
-     * returns HTTP 503.
-     *
-     * Call this after constructing the server and before calling start().
-     * It is NOT thread-safe with concurrent request handlers — do not call it
-     * while the server is running.  Replacing an already-initialized SAML
-     * provider at runtime is not supported.
-     *
-     * @param config  Full SamlAuthProvider::Config including SAMLConfig (IdP
-     *                certificate, entity IDs, ACS URL), optional SLO URL, and
-     *                an optional custom token factory.
-     * @throws std::invalid_argument if required config fields are empty.
-     * @throws std::runtime_error   if the IdP certificate cannot be parsed.
+     * @brief Enable Saml.
+     * @param[in] config Input parameter.
+     * @details Implements enableSaml without additional internal calls.
      */
     void enableSaml(const SamlAuthProvider::Config& config) {
         saml_provider_ = std::make_unique<SamlAuthProvider>(config);
     }
 
-    /**
-     * @brief Return whether SAML SP has been enabled (i.e. enableSaml() was called).
-     */
     bool isSamlEnabled() const { return saml_provider_ != nullptr; }
 
 #ifdef THEMIS_ENABLE_WEBSOCKET
     /**
-     * @brief Get WebSocket manager for broadcasting
+     * @brief Get Web Socket Manager.
+     * @return Return value.
+     * @details Implements getWebSocketManager without additional internal calls.
      */
     std::shared_ptr<WebSocketManager> getWebSocketManager() { return websocket_manager_; }
     std::shared_ptr<const WebSocketManager> getWebSocketManager() const { return websocket_manager_; }
@@ -458,20 +413,18 @@ public:
 #endif
 
     /**
-     * @brief Inject the live ShardingManager into the HTTP server.
-     *
-     * Must be called before start() to activate /v1/admin/shards endpoints.
-     * The pointer must remain valid for the lifetime of the HttpServer.
-     *
-     * @param mgr Pointer to the live ShardingManager (typically the singleton).
+     * @brief Set Sharding Manager.
+     * @param[in,out] mgr Input/output parameter.
+     * @details Implements setShardingManager without additional internal calls.
      */
     void setShardingManager(sharding::ShardingManager* mgr) {
         sharding_manager_ = mgr;
     }
 
     /**
-     * @brief Inject shard repair engine and wire metrics handler integration.
-     * @param engine Shared shard repair engine instance.
+     * @brief Set Shard Repair Engine.
+     * @param[in] engine Input parameter.
+     * @details Calls: std::move(), setRepairEngine(), setPrometheusMetrics(), setShardingMetrics().
      */
     void setShardRepairEngine(std::shared_ptr<sharding::ShardRepairEngine> engine) {
         shard_repair_engine_ = std::move(engine);
@@ -507,59 +460,37 @@ public:
         }
     }
 
-    /// @return the injected ShardingManager (may be nullptr before injection).
     sharding::ShardingManager* getShardingManager() const {
         return sharding_manager_;
     }
 
     /**
-     * @brief Inject the live ModuleLoader for /v1/admin/modules/{name} endpoints.
-     *
-     * Must be called before start() to activate module management endpoints.
-     * The pointer must remain valid for the lifetime of the HttpServer.
-     *
-     * @param loader Pointer to the live ModuleLoader instance (or nullptr to disable).
+     * @brief Set Module Loader.
+     * @param[in,out] loader Input/output parameter.
+     * @details Implements setModuleLoader without additional internal calls.
      */
     void setModuleLoader(modules::ModuleLoader* loader) {
         module_loader_ = loader;
     }
 
-    /// @return the injected ModuleLoader (may be nullptr before injection).
     modules::ModuleLoader* getModuleLoader() const {
         return module_loader_;
     }
 
     /**
-     * @brief Wire a ContinuousQueryEngine and activate the CQL REST endpoints.
-     *
-     * Registers the engine with the internal ContinuousQueryApiHandler so that
-     * the following endpoints become active:
-     *   POST   /v1/queries/continuous
-     *   DELETE /v1/queries/continuous/:name
-     *   GET    /v1/queries/continuous
-     *   GET    /v1/queries/continuous/:name/results   (SSE)
-     *
-     * Must be called after construction and before start().
-     * Calling it multiple times replaces the previous engine.
-     *
-     * @param engine  Shared engine instance; passing nullptr disables the endpoints.
+     * @brief Set Continuous Query Engine.
+     * @param[in] engine Input parameter.
      */
     void setContinuousQueryEngine(
         std::shared_ptr<themis::query::ContinuousQueryEngine> engine);
 
     /**
-     * @brief Attach an MCP server instance to enable the AI Safety Layer
-     *        HILG approval endpoints (`/v1/ai/\*`).
-     *
-     * The pointer must remain valid for the lifetime of the HttpServer.
-     * Docs: docs/de/security/ai_safety/AI_SAFETY_OPERATION_GUARD.md
+     * @brief Set Mcp Server.
+     * @param[in] mcp_server Input parameter.
      */
     void setMcpServer(std::shared_ptr<themis::server::McpServer> mcp_server);
 
 
-    /**
-     * @brief Registered endpoint information (dynamically assembled from config)
-     */
     struct RegisteredEndpoint {
         std::string method;    // GET, POST, PUT, DELETE, PATCH, etc.
         std::string path;      // e.g. "/query", "/entities/:id"
@@ -567,38 +498,55 @@ public:
     };
 
     /**
-     * @brief Get list of all registered API endpoints (dynamic)
-     *
-     * Returns dynamically constructed endpoint list based on:
-     *  - Always-available core endpoints (/health, /query, /entities, etc.)
-     *  - Config-enabled feature endpoints (LLM, CDC, TimeSeries, etc.)
-     *  - SAML endpoints (if enableSaml() was called)
-     *
-     * Useful for:
-     *  - Startup logs (no more hardcoding endpoint lists)
-     *  - API documentation generation
-     *  - Health checks / capability discovery
-     *
-     * @return vector of RegisteredEndpoint structs, sorted by path
+     * @brief Get Registered Endpoints.
+     * @return Return value.
      */
     std::vector<RegisteredEndpoint> getRegisteredEndpoints() const;
 
 private:
     // Session class for handling individual connections
-    /** @brief Session class for handling individual connections. */
     class Session : public std::enable_shared_from_this<Session> {
     public:
         Session(tcp::socket socket, HttpServer* server, bool connection_slot_reserved = false);
         ~Session();
+        /**
+         * @brief Start.
+         */
         void start();
 
     private:
+        /**
+         * @brief Do Read.
+         */
         void doRead();
+        /**
+         * @brief On Read.
+         * @param[in] ec Input parameter.
+         * @param[in] bytes_transferred Input parameter.
+         */
         void onRead(beast::error_code ec, std::size_t bytes_transferred);
+        /**
+         * @brief Process Request.
+         */
         void processRequest();
+        /**
+         * @brief Do Write.
+         */
         void doWrite();
+        /**
+         * @brief On Write.
+         * @param[in] close Input parameter.
+         * @param[in] ec Input parameter.
+         * @param[in] bytes_transferred Input parameter.
+         */
         void onWrite(bool close, beast::error_code ec, std::size_t bytes_transferred);
+        /**
+         * @brief Arm Read Timer.
+         */
         void armReadTimer();
+        /**
+         * @brief Cancel Read Timer.
+         */
         void cancelReadTimer();
 
         tcp::socket socket_;
@@ -610,23 +558,61 @@ private:
     };
 
     // SSL Session class for handling TLS connections
-    /** @brief SSL Session class for handling TLS connections. */
     class SslSession : public std::enable_shared_from_this<SslSession> {
     public:
         SslSession(tcp::socket socket, boost::asio::ssl::context& ssl_ctx, HttpServer* server, bool connection_slot_reserved = false);
         ~SslSession();
+        /**
+         * @brief Start.
+         */
         void start();
 
     private:
+        /**
+         * @brief Do Handshake.
+         */
         void doHandshake();
+        /**
+         * @brief On Handshake.
+         * @param[in] ec Input parameter.
+         */
         void onHandshake(beast::error_code ec);
+        /**
+         * @brief Do Read.
+         */
         void doRead();
+        /**
+         * @brief On Read.
+         * @param[in] ec Input parameter.
+         * @param[in] bytes_transferred Input parameter.
+         */
         void onRead(beast::error_code ec, std::size_t bytes_transferred);
+        /**
+         * @brief Process Request.
+         */
         void processRequest();
+        /**
+         * @brief Do Write.
+         */
         void doWrite();
+        /**
+         * @brief On Write.
+         * @param[in] close Input parameter.
+         * @param[in] ec Input parameter.
+         * @param[in] bytes_transferred Input parameter.
+         */
         void onWrite(bool close, beast::error_code ec, std::size_t bytes_transferred);
+        /**
+         * @brief Do Shutdown.
+         */
         void doShutdown();
+        /**
+         * @brief Arm Read Timer.
+         */
         void armReadTimer();
+        /**
+         * @brief Cancel Read Timer.
+         */
         void cancelReadTimer();
 
         beast::ssl_stream<tcp::socket> stream_;
@@ -638,263 +624,830 @@ private:
     };
 
     // Request routing
+    /**
+     * @brief Setup Routes.
+     */
     void setupRoutes();
     
     /**
-     * @brief Route an HTTP request to the appropriate handler and return a response.
-     * 
-     * This is the main request dispatcher that implements the core routing logic:
-     * 1. Parse method and path from request
-     * 2. Check rate limits (per-client and global)
-     * 3. Apply request validation middleware (JSON schema checks for body-carrying methods)
-     * 4. Enforce routing-layer authorization before handler dispatch
-     * 5. Dispatch to registered handler or return 404/405
-     * 6. Optionally apply response transformation middleware
-     * 7. Return HTTP response
-     * 
-     * ### Authorization Enforcement
-     * All privileged routes must pass auth checks before reaching their handler.
-     * Special-case routes (early-routing blocks, admin paths, metrics/reporting paths)
-     * are explicitly gated with authorization checks.
-     * 
-     * ### Failure Responses
-     * - 400 Bad Request: Malformed request body or header
-     * - 401 Unauthorized: Authentication failed
-     * - 403 Forbidden: Authenticated but insufficient scope
-     * - 404 Not Found: No route registered for (method, path)
-     * - 405 Method Not Allowed: Route exists but method not supported
-     * - 429 Too Many Requests: Rate limit exceeded
-     * - 500 Internal Server Error: Handler exception or internal error
-     * - 503 Service Unavailable: Server overloaded or shutting down
-     * 
-     * @param req HTTP request with method, target, headers, and body
-     * 
-     * @return HTTP response with appropriate status code and body:
-     *         - Status 2xx: Successfully routed and handler succeeded
-     *         - Status 4xx: Client error (bad request, auth failure, rate limited, not found)
-     *         - Status 5xx: Server error (handler exception, internal failure)
-     * 
-     * @note Thread-safe; multiple threads may call concurrently
-     * @note Most expected failures are converted to HTTP error responses; std/json exceptions
-     *       are handled at guarded call sites, while non-standard exceptions are not guaranteed
-     * @note All authorization decisions are audit-logged (without logging sensitive request data)
-     * @note Request body size is limited by max_request_size_mb in Config
-     * 
-     * @see AuthMiddleware::authorize() for authorization logic
-     * @see RequestValidationMiddleware::validate() for request validation
-     * @see TokenBucketRateLimiter::tryAcquire() for rate limiting
+     * @brief Route Request.
+     * @param[in] req Input parameter.
+     * @return Return value.
      */
     http::response<http::string_body> routeRequest(const http::request<http::string_body>& req);
 
 
-    // Endpoint handlers
-    // Note: Health, Version, Stats, Capabilities, and MetricsJson handlers have been
-    // moved to MonitoringApiHandler
+    /**
+     * @brief Handle Metrics.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleMetrics(const http::request<http::string_body>& req);  // Old content-specific metrics (deprecated)
+    /**
+     * @brief Handle Config.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleConfig(const http::request<http::string_body>& req);
-    // Entity handlers moved to EntityApiHandler (entity_api_)
-    // Query handlers moved to QueryApiHandler
+    /**
+     * @brief Handle Graph Traverse.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleGraphTraverse(const http::request<http::string_body>& req);
+    /**
+     * @brief Handle Graph Edge Create.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleGraphEdgeCreate(const http::request<http::string_body>& req);
+    /**
+     * @brief Handle Graph Edge Delete.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleGraphEdgeDelete(const http::request<http::string_body>& req);
     
-    // Vector operations - delegated to VectorApiHandler (vector_api_)
-    // Declarations removed - handled by vector_api_
     
+    /**
+     * @brief Handle Create Index.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleCreateIndex(const http::request<http::string_body>& req);
+    /**
+     * @brief Handle Drop Index.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleDropIndex(const http::request<http::string_body>& req);
+    /**
+     * @brief Handle Index Stats.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleIndexStats(const http::request<http::string_body>& req);
+    /**
+     * @brief Handle Index Rebuild.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleIndexRebuild(const http::request<http::string_body>& req);
+    /**
+     * @brief Handle Index Reindex.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleIndexReindex(const http::request<http::string_body>& req);
     
     // Admin handlers moved to AdminApiHandler (admin_api_)
     // Previously: handleAdminBackup, handleAdminRestore
 
     // Content API endpoints
+    /**
+     * @brief Handle Content Import.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleContentImport(const http::request<http::string_body>& req);
+    /**
+     * @brief Handle Content Search.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleContentSearch(const http::request<http::string_body>& req);
+    /**
+     * @brief Handle Get Content.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleGetContent(const http::request<http::string_body>& req);
+    /**
+     * @brief Handle Get Content Blob.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleGetContentBlob(const http::request<http::string_body>& req);
+    /**
+     * @brief Handle Get Content Chunks.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleGetContentChunks(const http::request<http::string_body>& req);
+    /**
+     * @brief Handle Content Assemble.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleContentAssemble(const http::request<http::string_body>& req);
+    /**
+     * @brief Handle Chunk Navigation.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleChunkNavigation(const http::request<http::string_body>& req);
     
     // Virtual Filesystem API
+    /**
+     * @brief Handle Filesystem Get.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleFilesystemGet(const http::request<http::string_body>& req);
+    /**
+     * @brief Handle Filesystem Put.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleFilesystemPut(const http::request<http::string_body>& req);
+    /**
+     * @brief Handle Filesystem Delete.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleFilesystemDelete(const http::request<http::string_body>& req);
+    /**
+     * @brief Handle Filesystem List.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleFilesystemList(const http::request<http::string_body>& req);
+    /**
+     * @brief Handle Filesystem Mkdir.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleFilesystemMkdir(const http::request<http::string_body>& req);
     
+    /**
+     * @brief Handle Hybrid Search.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleHybridSearch(const http::request<http::string_body>& req);
+    /**
+     * @brief Handle Fusion Search.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleFusionSearch(const http::request<http::string_body>& req);
+    /**
+     * @brief Handle Fulltext Search.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleFulltextSearch(const http::request<http::string_body>& req);
+    /**
+     * @brief Handle Content Filter Schema Get.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleContentFilterSchemaGet(const http::request<http::string_body>& req);
+    /**
+     * @brief Handle Content Filter Schema Put.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleContentFilterSchemaPut(const http::request<http::string_body>& req);
+    /**
+     * @brief Handle Content Config Get.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleContentConfigGet(const http::request<http::string_body>& req);
+    /**
+     * @brief Handle Content Config Put.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleContentConfigPut(const http::request<http::string_body>& req);
+    /**
+     * @brief Handle Edge Weight Config Get.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleEdgeWeightConfigGet(const http::request<http::string_body>& req);
+    /**
+     * @brief Handle Edge Weight Config Put.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleEdgeWeightConfigPut(const http::request<http::string_body>& req);
+    /**
+     * @brief Handle Encryption Schema Get.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleEncryptionSchemaGet(const http::request<http::string_body>& req);
+    /**
+     * @brief Handle Encryption Schema Put.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleEncryptionSchemaPut(const http::request<http::string_body>& req);
-    // Capabilities (Core/Enterprise) endpoint
+    /**
+     * @brief Capabilities (Core/Enterprise) endpoint
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
 
-    // Sprint A beta endpoints (feature-flagged)
     http::response<http::string_body> handleLlmInteractionPost(const http::request<http::string_body>& req);
+    /**
+     * @brief Handle Llm Interaction List.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleLlmInteractionList(const http::request<http::string_body>& req);
+    /**
+     * @brief Handle Llm Interaction Get.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleLlmInteractionGet(const http::request<http::string_body>& req);
+    /**
+     * @brief Handle Llm Interaction Update Metadata.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleLlmInteractionUpdateMetadata(const http::request<http::string_body>& req);
 
-    // Sprint B: Time-Series endpoints
-    // Note: Time-Series methods have been extracted to TimeSeriesApiHandler
-    // See: include/server/timeseries_api_handler.h
+    /**
+     * @brief Sprint B: Time-Series endpoints Note: Time-Series methods have been extracted to TimeSeriesApiHandler See: include/server/timeseries_api_handler.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     * @details h
+     */
     
-    // Sprint C: Adaptive Indexing endpoints
     http::response<http::string_body> handleIndexSuggestions(const http::request<http::string_body>& req);
+    /**
+     * @brief Handle Index Patterns.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleIndexPatterns(const http::request<http::string_body>& req);
+    /**
+     * @brief Handle Index Record Pattern.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleIndexRecordPattern(const http::request<http::string_body>& req);
+    /**
+     * @brief Handle Index Clear Patterns.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleIndexClearPatterns(const http::request<http::string_body>& req);
     
     // Audit API endpoints
+    /**
+     * @brief Handle Audit Query.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleAuditQuery(const http::request<http::string_body>& req);
+    /**
+     * @brief Handle Audit Export Csv.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleAuditExportCsv(const http::request<http::string_body>& req);
     
-    // Security Signatures API endpoints
+    /**
+     * @brief Handle Security Signatures List.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleSecuritySignaturesList(const http::request<http::string_body>& req);
+    /**
+     * @brief Handle Security Signature Get.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleSecuritySignatureGet(const http::request<http::string_body>& req);
+    /**
+     * @brief Handle Security Signature Post.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleSecuritySignaturePost(const http::request<http::string_body>& req);
+    /**
+     * @brief Handle Security Signature Delete.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleSecuritySignatureDelete(const http::request<http::string_body>& req);
+    /**
+     * @brief Handle Security Verify.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleSecurityVerify(const http::request<http::string_body>& req);
     
-    // Content Policy Validation endpoint
+    /**
+     * @brief Handle Content Validate.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleContentValidate(const http::request<http::string_body>& req);
 
-    // ContentFS API (binary content over HTTP)
+    /**
+     * @brief Handle Content Fs Get.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleContentFsGet(const http::request<http::string_body>& req);
+    /**
+     * @brief Handle Content Fs Put.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleContentFsPut(const http::request<http::string_body>& req);
+    /**
+     * @brief Handle Content Fs Head.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleContentFsHead(const http::request<http::string_body>& req);
+    /**
+     * @brief Handle Content Fs Delete.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleContentFsDelete(const http::request<http::string_body>& req);
     
     // SAGA API endpoints
+    /**
+     * @brief Handle Saga List Batches.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleSagaListBatches(const http::request<http::string_body>& req);
+    /**
+     * @brief Handle Saga Batch Detail.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleSagaBatchDetail(const http::request<http::string_body>& req);
+    /**
+     * @brief Handle Saga Verify Batch.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleSagaVerifyBatch(const http::request<http::string_body>& req);
+    /**
+     * @brief Handle Saga Flush.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleSagaFlush(const http::request<http::string_body>& req);
 
     // PII API endpoints
+    /**
+     * @brief Handle Pii List Mappings.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handlePiiListMappings(const http::request<http::string_body>& req);
+    /**
+     * @brief Handle Pii Create Mapping.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handlePiiCreateMapping(const http::request<http::string_body>& req);
+    /**
+     * @brief Handle Pii Get By Uuid.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handlePiiGetByUuid(const http::request<http::string_body>& req);
+    /**
+     * @brief Handle Pii Export Csv.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handlePiiExportCsv(const http::request<http::string_body>& req);
+    /**
+     * @brief Handle Pii Delete By Uuid.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handlePiiDeleteByUuid(const http::request<http::string_body>& req);
+    /**
+     * @brief Handle Pii Reveal By Uuid.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handlePiiRevealByUuid(const http::request<http::string_body>& req);
 
     // Retention API endpoints
+    /**
+     * @brief Handle Retention List Policies.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleRetentionListPolicies(const http::request<http::string_body>& req);
+    /**
+     * @brief Handle Retention Create Policy.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleRetentionCreatePolicy(const http::request<http::string_body>& req);
+    /**
+     * @brief Handle Retention Delete Policy.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleRetentionDeletePolicy(const http::request<http::string_body>& req);
+    /**
+     * @brief Handle Retention Get History.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleRetentionGetHistory(const http::request<http::string_body>& req);
+    /**
+     * @brief Handle Retention Get Policy Stats.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleRetentionGetPolicyStats(const http::request<http::string_body>& req);
 
-    // Keys API endpoints (Skeleton)
+    /**
+     * @brief Handle Keys List Keys.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleKeysListKeys(const http::request<http::string_body>& req);
+    /**
+     * @brief Handle Keys Rotate Key.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleKeysRotateKey(const http::request<http::string_body>& req);
 
-    // API Key Management endpoints
+    /**
+     * @brief Handle Api Key Create.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleApiKeyCreate(const http::request<http::string_body>& req);
+    /**
+     * @brief Handle Api Key List.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleApiKeyList(const http::request<http::string_body>& req);
+    /**
+     * @brief Handle Api Key Get.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleApiKeyGet(const http::request<http::string_body>& req);
+    /**
+     * @brief Handle Api Key Update.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleApiKeyUpdate(const http::request<http::string_body>& req);
+    /**
+     * @brief Handle Api Key Delete.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleApiKeyDelete(const http::request<http::string_body>& req);
 
     // Session Management endpoints
+    /**
+     * @brief Handle Session Create.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleSessionCreate(const http::request<http::string_body>& req);
+    /**
+     * @brief Handle Session List.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleSessionList(const http::request<http::string_body>& req);
+    /**
+     * @brief Handle Session Revoke By Id.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleSessionRevokeById(const http::request<http::string_body>& req);
+    /**
+     * @brief Handle Session Revoke Others.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleSessionRevokeOthers(const http::request<http::string_body>& req);
 
-    // SAML 2.0 SP endpoints
+    /**
+     * @brief Handle Saml Login.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleSamlLogin(const http::request<http::string_body>& req);
+    /**
+     * @brief Handle Saml Acs.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleSamlAcs(const http::request<http::string_body>& req);
+    /**
+     * @brief Handle Saml Slo.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleSamlSlo(const http::request<http::string_body>& req);
+    /**
+     * @brief Handle Saml Metadata.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleSamlMetadata(const http::request<http::string_body>& req);
 
-    // PKI endpoints (sign/verify)
+    /**
+     * @brief Handle Pki Sign.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handlePkiSign(const http::request<http::string_body>& req);
+    /**
+     * @brief Handle Pki Verify.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handlePkiVerify(const http::request<http::string_body>& req);
     
-    // PKI HSM, TSA, eIDAS endpoints
+    /**
+     * @brief Handle Pki Hsm Sign.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handlePkiHsmSign(const http::request<http::string_body>& req);
+    /**
+     * @brief Handle Pki Hsm Keys.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handlePkiHsmKeys(const http::request<http::string_body>& req);
+    /**
+     * @brief Handle Pki Timestamp.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handlePkiTimestamp(const http::request<http::string_body>& req);
+    /**
+     * @brief Handle Pki Timestamp Verify.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handlePkiTimestampVerify(const http::request<http::string_body>& req);
+    /**
+     * @brief Handle Pki Eidas Sign.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handlePkiEidasSign(const http::request<http::string_body>& req);
+    /**
+     * @brief Handle Pki Eidas Verify.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handlePkiEidasVerify(const http::request<http::string_body>& req);
+    /**
+     * @brief Handle Pki Certificates.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handlePkiCertificates(const http::request<http::string_body>& req);
+    /**
+     * @brief Handle Pki Certificate.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handlePkiCertificate(const http::request<http::string_body>& req);
+    /**
+     * @brief Handle Pki Status.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handlePkiStatus(const http::request<http::string_body>& req);
 
-    // Classification API endpoints (Skeleton)
+    /**
+     * @brief Handle Classification List Rules.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleClassificationListRules(const http::request<http::string_body>& req);
+    /**
+     * @brief Handle Classification Test.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleClassificationTest(const http::request<http::string_body>& req);
 
-    // Reports API endpoints (Skeleton)
+    /**
+     * @brief Handle Reports Compliance.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleReportsCompliance(const http::request<http::string_body>& req);
 
     // Error API endpoints
+    /**
+     * @brief Handle Error Api List.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleErrorApiList(const http::request<http::string_body>& req);
+    /**
+     * @brief Handle Error Api Get By Code.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleErrorApiGetByCode(const http::request<http::string_body>& req);
+    /**
+     * @brief Handle Error Api Categories.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleErrorApiCategories(const http::request<http::string_body>& req);
+    /**
+     * @brief Handle Error Api Search.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleErrorApiSearch(const http::request<http::string_body>& req);
 
     // Schema API endpoints
+    /**
+     * @brief Handle Schema Get Full.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleSchemaGetFull(const http::request<http::string_body>& req);
+    /**
+     * @brief Handle Schema Get Tables.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleSchemaGetTables(const http::request<http::string_body>& req);
+    /**
+     * @brief Handle Schema Get Table.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleSchemaGetTable(const http::request<http::string_body>& req);
+    /**
+     * @brief Handle Schema Put.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleSchemaPut(const http::request<http::string_body>& req);
+    /**
+     * @brief Handle Schema Patch.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleSchemaPatch(const http::request<http::string_body>& req);
 
     // Metadata extended endpoints
+    /**
+     * @brief Handle Metadata Information Schema.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleMetadataInformationSchema(const http::request<http::string_body>& req);
+    /**
+     * @brief Handle Metadata Get Stats.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleMetadataGetStats(const http::request<http::string_body>& req);
+    /**
+     * @brief Handle Metadata Collect Stats.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleMetadataCollectStats(const http::request<http::string_body>& req);
+    /**
+     * @brief Handle Metadata Get Constraints.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleMetadataGetConstraints(const http::request<http::string_body>& req);
+    /**
+     * @brief Handle Metadata Index Recommendations.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleMetadataIndexRecommendations(const http::request<http::string_body>& req);
+    /**
+     * @brief Handle Metadata Audit Log.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleMetadataAuditLog(const http::request<http::string_body>& req);
+    /**
+     * @brief Handle Metadata Schema Import.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleMetadataSchemaImport(const http::request<http::string_body>& req);
+    /**
+     * @brief Handle Metadata Batch Validate.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleMetadataBatchValidate(const http::request<http::string_body>& req);
+    /**
+     * @brief Handle Metadata Get Column Lineage.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleMetadataGetColumnLineage(const http::request<http::string_body>& req);
+    /**
+     * @brief Handle Metadata Record Lineage Derivation.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleMetadataRecordLineageDerivation(const http::request<http::string_body>& req);
+    /**
+     * @brief Handle Schema Version History.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleSchemaVersionHistory(const http::request<http::string_body>& req);
+    /**
+     * @brief Handle Schema Create Version.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleSchemaCreateVersion(const http::request<http::string_body>& req);
+    /**
+     * @brief Handle Schema Diff.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleSchemaDiff(const http::request<http::string_body>& req);
 
     // Utility methods
+    /**
+     * @brief Make Response.
+     * @param[in] status Input parameter.
+     * @param[in] body Input parameter.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> makeResponse(
         http::status status,
         const std::string& body,
         const http::request<http::string_body>& req
     );
     
+    /**
+     * @brief Make Error Response.
+     * @param[in] status Input parameter.
+     * @param[in] message Input parameter.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> makeErrorResponse(
         http::status status,
         const std::string& message,
         const http::request<http::string_body>& req
     );
 
-    // Apply governance-related headers (X-Themis-*) to all responses
+    /**
+     * @brief Apply Governance Headers.
+     * @param[in] req Input parameter.
+     * @param[in,out] res Input/output parameter.
+     */
     void applyGovernanceHeaders(
         const http::request<http::string_body>& req,
         http::response<http::string_body>& res
     );
 
-    // Authorization helper: returns optional error response if unauthorized
+    /**
+     * @brief Require Scope.
+     * @param[in] req Input parameter.
+     * @param[in] scope Input parameter.
+     * @return Return value.
+     */
     std::optional<http::response<http::string_body>> requireScope(
         const http::request<http::string_body>& req,
         std::string_view scope
     );
 
-    // Combined scope + policy authorization; resource_path is e.g. request target path
+    /**
+     * @brief Require Access.
+     * @param[in] req Input parameter.
+     * @param[in] required_scope Input parameter.
+     * @param[in] action Input parameter.
+     * @param[in] resource_path Path to the resource.
+     * @return Return value.
+     */
     std::optional<http::response<http::string_body>> requireAccess(
         const http::request<http::string_body>& req,
         std::string_view required_scope,
@@ -908,18 +1461,43 @@ private:
         std::string user_id;
         std::vector<std::string> groups;
     };
+    /**
+     * @brief Extract Auth Context.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     AuthContext extractAuthContext(const http::request<http::string_body>& req) const;
 
+    /**
+     * @brief Extract Path Param.
+     * @param[in] path Input parameter.
+     * @param[in] prefix Input parameter.
+     * @return Return value.
+     */
     std::string extractPathParam(const std::string& path, const std::string& prefix);
 
-    // Lazy initialization for PIIPseudonymizer
+    /**
+     * @brief Ensure PIIPseudonymizer.
+     */
     void ensurePIIPseudonymizer();
 
-    // Rate limiting helper for Audit endpoints
+    /**
+     * @brief Enforce Audit Rate Limit.
+     * @param[in] req Input parameter.
+     * @param[in] route_key Input parameter.
+     * @return Return value.
+     */
     std::optional<http::response<http::string_body>> enforceAuditRateLimit(
         const http::request<http::string_body>& req,
         std::string_view route_key);
 
+    /**
+     * @brief Record Continuous Learning Query Telemetry.
+     * @param[in] req Input parameter.
+     * @param[in] res Input parameter.
+     * @param[in] request_start Input parameter.
+     * @param[in] is_aql Input parameter.
+     */
     void recordContinuousLearningQueryTelemetry(
         const http::request<http::string_body>& req,
         const http::response<http::string_body>& res,
@@ -927,7 +1505,15 @@ private:
         bool is_aql);
 
     // Accept new connections
+    /**
+     * @brief Do Accept.
+     */
     void doAccept();
+    /**
+     * @brief On Accept.
+     * @param[in] ec Input parameter.
+     * @param[in] socket Input parameter.
+     */
     void onAccept(beast::error_code ec, tcp::socket socket);
 
     Config config_;
@@ -1228,9 +1814,6 @@ private:
     std::shared_ptr<sharding::ReplicationCoordinator> replication_coordinator_;
     std::shared_ptr<sharding::MultiPrimaryCoordinator> multi_primary_coordinator_;
     std::shared_ptr<sharding::HealthMonitor> health_monitor_;
-    /**
-     * @brief Construct HTTP server with extended sharding coordination dependencies.
-     */
     std::string wal_shared_secret_;
     std::string wal_hmac_secret_;
 
@@ -1332,18 +1915,33 @@ private:
     std::atomic<uint64_t> latency_bucket_inf_{0};
     std::atomic<uint64_t> latency_sum_us_{0}; // Total latency in microseconds
     
-    // Helper to record latency
+    /**
+     * @brief Record Latency.
+     * @param[in] duration Input parameter.
+     */
     void recordLatency(std::chrono::microseconds duration);
     
-    // Extract client IP from request
+    /**
+     * @brief Extract Client IP.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     std::string extractClientIP(const http::request<http::string_body>& req) const;
     
-    // Check rate limit and return error response if exceeded
+    /**
+     * @brief Check whether a user exceeds the current rate limit.
+     * @param[in] req Input parameter.
+     * @return True when the user remains within the configured limit.
+     */
     std::optional<http::response<http::string_body>> checkRateLimit(
         const http::request<http::string_body>& req
     );
 
-    // Preflight response for CORS (OPTIONS)
+    /**
+     * @brief Make Preflight Response.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> makePreflightResponse(
         const http::request<http::string_body>& req
     );
@@ -1373,6 +1971,10 @@ private:
     std::atomic<uint64_t> page_sum_ms_{0};
     std::atomic<uint64_t> page_count_{0};
     
+    /**
+     * @brief Record Page Fetch.
+     * @param[in] duration_ms Input parameter.
+     */
     void recordPageFetch(std::chrono::milliseconds duration_ms);
 
     // ContentFS instance

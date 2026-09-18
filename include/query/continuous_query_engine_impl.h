@@ -34,23 +34,29 @@ namespace query {
 // Bounded result queue consumed by CQResultStreamImpl
 // ──────────────────────────────────────────────────────────────────────────────
 
-/** Maximum items buffered per subscriber before oldest entries are dropped. */
 static constexpr size_t kDefaultResultQueueCapacity = 65536;
 
 class ResultQueue {
 public:
     explicit ResultQueue(size_t capacity = kDefaultResultQueueCapacity);
 
-    /** Push item; drops oldest if capacity is exceeded. */
+    /**
+     * @brief Push.
+     * @param[in] item Input parameter.
+     */
     void push(CQResult item);
 
     /**
-     * @brief Pop next item, blocking up to `timeout`.
-     * @return item, or empty on timeout or after cancel().
+     * @brief Pop.
+     * @param[in] timeout Input parameter.
+     * @return Return value.
      */
     std::optional<CQResult> pop(std::chrono::milliseconds timeout);
 
-    /** Signal all blocked pop() callers to return immediately. */
+    /**
+     * @brief Cancel.
+     * @note Exception safety: noexcept.
+     */
     void cancel() noexcept;
 
     [[nodiscard]] size_t depth() const noexcept;
@@ -68,10 +74,14 @@ private:
 // CQResultStreamImpl — concrete CQResultStream
 // ──────────────────────────────────────────────────────────────────────────────
 
-/** @brief CQResultStreamImpl — concrete CQResultStream. */
 class CQResultStreamImpl : public CQResultStream {
 public:
     ~CQResultStreamImpl() override = default;
+    /**
+     * @brief CQResult Stream Impl.
+     * @param[in] queue Input parameter.
+     * @return Return value.
+     */
     explicit CQResultStreamImpl(std::shared_ptr<ResultQueue> queue);
 
     bool hasMore() const noexcept override;
@@ -100,12 +110,6 @@ struct QueryRegistryEntry {
 // ContinuousQueryEngineImpl
 // ──────────────────────────────────────────────────────────────────────────────
 
-/**
- * @brief Concrete implementation of ContinuousQueryEngine.
- *
- * A single background thread drives the evaluation loop, waking every
- * `tick_interval_ms` milliseconds and evaluating each registered query.
- */
 class ContinuousQueryEngineImpl : public ContinuousQueryEngine {
 public:
     explicit ContinuousQueryEngineImpl(
@@ -123,8 +127,17 @@ public:
                      int64_t            event_ts) override;
 
 private:
+    /**
+     * @brief Start Loop.
+     */
     void startLoop();
+    /**
+     * @brief Stop Loop.
+     */
     void stopLoop();
+    /**
+     * @brief Tick Once.
+     */
     void tickOnce();
 
     ContinuousQueryPlanner planner_;

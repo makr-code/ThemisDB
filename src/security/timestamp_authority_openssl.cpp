@@ -115,6 +115,12 @@ using TSA_curl_slist_ptr     = std::unique_ptr<struct curl_slist, TSA_curl_slist
 
 namespace {
 
+/**
+ * @brief Starts With Https.
+ * @param[in] url Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: size(), std::equal(), begin(), std::tolower().
+ */
 bool startsWithHttps(const std::string& url) {
     constexpr char kHttpsPrefix[] = "https://";
     constexpr std::size_t kPrefixLen = sizeof(kHttpsPrefix) - 1;
@@ -129,6 +135,14 @@ bool startsWithHttps(const std::string& url) {
         });
 }
 
+/**
+ * @brief Apply TSATransport Hardening.
+ * @param[in,out] curl Input/output parameter.
+ * @param[in] config Input parameter.
+ * @param[in,out] lastError Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: startsWithHttps(), std::clamp(), curl_easy_setopt(), empty().
+ */
 bool applyTSATransportHardening(CURL* curl, const TSAConfig& config, std::string& lastError) {
     if (curl == nullptr) {
         lastError = "CURL init failed";
@@ -156,6 +170,12 @@ bool applyTSATransportHardening(CURL* curl, const TSAConfig& config, std::string
 
 } // namespace
 
+/**
+ * @brief Select Digest.
+ * @param[in] algo Input parameter.
+ * @return Pointer to the result.
+ * @details Calls: EVP_sha384(), EVP_sha512(), EVP_sha256().
+ */
 static const EVP_MD* selectDigest(const std::string& algo){
     if(algo == "SHA384") {
       return EVP_sha384();
@@ -166,6 +186,13 @@ static const EVP_MD* selectDigest(const std::string& algo){
     return EVP_sha256();
 }
 
+/**
+ * @brief B64 Encode.
+ * @param[in] data Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: b64_ptr(), BIO_new(), BIO_f_base64(), mem_ptr(), BIO_s_mem(), get(), BIO_set_flags(), BIO_push().
+ */
 static std::string b64Encode(const std::vector<uint8_t>& data){
     TSA_BIO_ptr b64_ptr(BIO_new(BIO_f_base64()));
     TSA_BIO_ptr mem_ptr(BIO_new(BIO_s_mem()));
@@ -193,6 +220,13 @@ static std::string b64Encode(const std::vector<uint8_t>& data){
     return out;
 }
 
+/**
+ * @brief B64 Decode.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: b64_ptr(), BIO_new(), BIO_f_base64(), mem_ptr(), BIO_new_mem_buf(), data(), size(), get().
+ */
 static std::vector<uint8_t> b64Decode(const std::string& s){
     TSA_BIO_ptr b64_ptr(BIO_new(BIO_f_base64()));
     TSA_BIO_ptr mem_ptr(BIO_new_mem_buf(s.data(), (int)s.size()));
@@ -218,7 +252,12 @@ static std::vector<uint8_t> b64Decode(const std::string& s){
     return out;
 }
 
-// Helper: Convert ASN1_GENERALIZEDTIME to Unix milliseconds
+/**
+ * @brief Helper: Convert ASN1_GENERALIZEDTIME to Unix milliseconds
+ * @param[in,out] gen Input/output parameter.
+ * @return Return value.
+ * @details Calls: ASN1_TIME_to_tm(), _mkgmtime(), defined(), timegm(), getenv(), setenv(), tzset(), mktime().
+ */
 static uint64_t asn1TimeToUnixMs(ASN1_GENERALIZEDTIME* gen) {
     if (!gen || !gen->data) {
       return 0;
@@ -275,6 +314,13 @@ TimestampAuthority::~TimestampAuthority() = default;
 TimestampAuthority::TimestampAuthority(TimestampAuthority&&) noexcept = default;
 TimestampAuthority& TimestampAuthority::operator=(TimestampAuthority&&) noexcept = default;
 
+/**
+ * @brief Compute Hash.
+ * @param[in] data Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: selectDigest(), ctx(), EVP_MD_CTX_new(), get(), out(), EVP_MD_size(), EVP_DigestInit_ex(), EVP_DigestUpdate().
+ */
 std::vector<uint8_t> TimestampAuthority::computeHash(const std::vector<uint8_t>& data){
     const EVP_MD* md = selectDigest(config_.hash_algorithm);
     TSA_EVP_MD_CTX_ptr ctx(EVP_MD_CTX_new());
@@ -296,6 +342,12 @@ std::vector<uint8_t> TimestampAuthority::computeHash(const std::vector<uint8_t>&
     return out;
 }
 
+/**
+ * @brief Generate Nonce.
+ * @param[in] bytes Input parameter.
+ * @return Return value.
+ * @details Calls: max(), THEMIS_ERROR(), n(), RAND_bytes(), data().
+ */
 std::vector<uint8_t> TimestampAuthority::generateNonce(size_t bytes){
     if (bytes == 0) {
         return {};
@@ -315,6 +367,13 @@ std::vector<uint8_t> TimestampAuthority::generateNonce(size_t bytes){
     return n;
 }
 
+/**
+ * @brief Create TSPRequest.
+ * @param[in] hash Input parameter.
+ * @param[in] nonce Input parameter.
+ * @return Return value.
+ * @details Calls: req(), TS_REQ_new(), get(), TS_REQ_set_version(), imprint(), TS_MSG_IMPRINT_new(), selectDigest(), algo().
+ */
 std::vector<uint8_t> TimestampAuthority::createTSPRequest(const std::vector<uint8_t>& hash,const std::vector<uint8_t>& nonce){
     TSA_TS_REQ_ptr req(TS_REQ_new()); 
     if(!req.get()){ last_error_="TS_REQ_new failed"; return {}; }
@@ -372,6 +431,15 @@ std::vector<uint8_t> TimestampAuthority::createTSPRequest(const std::vector<uint
     return out;
 }
 
+/**
+ * @brief Curl Write.
+ * @param[in,out] ptr Input/output parameter.
+ * @param[in] size Input parameter.
+ * @param[in] nmemb Input parameter.
+ * @param[in,out] userdata Input/output parameter.
+ * @return Return value.
+ * @details Calls: insert(), end().
+ */
 size_t curlWrite(char* ptr,size_t size,size_t nmemb,void* userdata){
     auto* vec = reinterpret_cast<std::vector<uint8_t>*>(userdata);
     size_t total = size*nmemb;
@@ -379,6 +447,12 @@ size_t curlWrite(char* ptr,size_t size,size_t nmemb,void* userdata){
     return total;
 }
 
+/**
+ * @brief Send TSPRequest.
+ * @param[in] request Input parameter.
+ * @return Return value.
+ * @details Calls: applyTSATransportHardening(), curl_easy_setopt(), c_str(), data(), size(), empty(), headers(), reset().
+ */
 std::vector<uint8_t> TimestampAuthority::sendTSPRequest(const std::vector<uint8_t>& request){
     if(!impl_->curl){ last_error_="CURL init failed"; return {}; }
     if(!applyTSATransportHardening(impl_->curl, config_, last_error_)){ return {}; }
@@ -421,6 +495,12 @@ std::vector<uint8_t> TimestampAuthority::sendTSPRequest(const std::vector<uint8_
     return response;
 }
 
+/**
+ * @brief Parse TSPResponse.
+ * @param[in] respBytes Input parameter.
+ * @return Return value.
+ * @details Calls: data(), resp(), d2i_TS_RESP(), size(), get(), TS_RESP_get_status_info(), TS_STATUS_INFO_get0_status(), ASN1_INTEGER_get().
+ */
 TimestampToken TimestampAuthority::parseTSPResponse(const std::vector<uint8_t>& respBytes){
     TimestampToken token;
     const unsigned char* p = respBytes.data();
@@ -548,6 +628,12 @@ TimestampToken TimestampAuthority::parseTSPResponse(const std::vector<uint8_t>& 
 }
 
 
+/**
+ * @brief Get Timestamp For Hash.
+ * @param[in] hash Input parameter.
+ * @return Return value.
+ * @details Calls: generateNonce(), createTSPRequest(), empty(), sendTSPRequest(), parseTSPResponse().
+ */
 TimestampToken TimestampAuthority::getTimestampForHash(const std::vector<uint8_t>& hash){
     auto nonce = generateNonce();
     auto req = createTSPRequest(hash, nonce);
@@ -566,11 +652,24 @@ TimestampToken TimestampAuthority::getTimestampForHash(const std::vector<uint8_t
     return token;
 }
 
+/**
+ * @brief Get Timestamp.
+ * @param[in] data Input parameter.
+ * @return Return value.
+ * @details Calls: computeHash(), getTimestampForHash().
+ */
 TimestampToken TimestampAuthority::getTimestamp(const std::vector<uint8_t>& data){
     auto h = computeHash(data);
     return getTimestampForHash(h);
 }
 
+/**
+ * @brief Verify Timestamp For Hash.
+ * @param[in] hash Input parameter.
+ * @param[in] token Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), data(), pkcs7(), d2i_PKCS7(), size(), tst(), PKCS7_to_TS_TST_INFO(), get().
+ */
 bool TimestampAuthority::verifyTimestampForHash(const std::vector<uint8_t>& hash,const TimestampToken& token){
     if(token.token_der.empty()) {
       return false;
@@ -605,14 +704,38 @@ bool TimestampAuthority::verifyTimestampForHash(const std::vector<uint8_t>& hash
     }
 }
 
+/**
+ * @brief Verify Timestamp.
+ * @param[in] data Input parameter.
+ * @param[in] token Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: computeHash(), verifyTimestampForHash().
+ */
 bool TimestampAuthority::verifyTimestamp(const std::vector<uint8_t>& data,const TimestampToken& token){
     auto h = computeHash(data);
     return verifyTimestampForHash(h, token);
 }
 
+/**
+ * @brief Parse Token.
+ * @param[in] der Input parameter.
+ * @return Return value.
+ * @details Calls: parseTSPResponse().
+ */
 TimestampToken TimestampAuthority::parseToken(const std::vector<uint8_t>& der){ return parseTSPResponse(der); }
+/**
+ * @brief Parse Token.
+ * @param[in] b64 Input parameter.
+ * @return Return value.
+ * @details Calls: b64Decode(), parseTSPResponse().
+ */
 TimestampToken TimestampAuthority::parseToken(const std::string& b64){ auto der = b64Decode(b64); return parseTSPResponse(der); }
 
+/**
+ * @brief Get TSACertificate.
+ * @return Return value.
+ * @details Calls: empty(), data(), size(), THEMIS_ERROR(), cert(), d2i_X509(), bio(), BIO_new().
+ */
 std::optional<std::string> TimestampAuthority::getTSACertificate(){
     if(cached_tsa_cert_.empty()) {
       return std::nullopt;
@@ -649,6 +772,11 @@ std::optional<std::string> TimestampAuthority::getTSACertificate(){
     }
 }
 
+/**
+ * @brief Is Available.
+ * @return True when the operation succeeds.
+ * @details Calls: applyTSATransportHardening(), curl_easy_setopt(), c_str(), empty(), curl_easy_perform().
+ */
 bool TimestampAuthority::isAvailable(){
     if(!impl_->curl) {
       return false;
@@ -673,6 +801,13 @@ std::string TimestampAuthority::getLastError() const { return last_error_; }
 // eIDAS Timestamp Validator Implementation
 // ============================================================================
 
+/**
+ * @brief Validatee IDASTimestamp.
+ * @param[in] token Input parameter.
+ * @param[in] trust_anchors Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: clear(), push_back(), empty(), data(), size(), d2i_PKCS7(), PKCS7_to_TS_TST_INFO(), PKCS7_free().
+ */
 bool eIDASTimestampValidator::validateeIDASTimestamp(
     const TimestampToken& token,
     const std::vector<std::string>& trust_anchors) {
@@ -749,6 +884,13 @@ bool eIDASTimestampValidator::validateeIDASTimestamp(
     return valid;
 }
 
+/**
+ * @brief Validate Age.
+ * @param[in] token Input parameter.
+ * @param[in] max_age_days Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: clear(), push_back(), std::chrono::system_clock::now(), time_since_epoch(), count().
+ */
 bool eIDASTimestampValidator::validateAge(const TimestampToken& token, int max_age_days) {
     validation_errors_.clear();
     
@@ -794,6 +936,13 @@ bool eIDASTimestampValidator::validateAge(const TimestampToken& token, int max_a
     return true;
 }
 
+/**
+ * @brief Is Qualified TSA.
+ * @param[in] tsa_cert Input parameter.
+ * @param[in] qtsp_list Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: clear(), size(), push_back(), bio(), BIO_new_mem_buf(), data(), cert(), PEM_read_bio_X509().
+ */
 bool eIDASTimestampValidator::isQualifiedTSA(
     const std::string& tsa_cert,
     const std::vector<std::string>& qtsp_list) {

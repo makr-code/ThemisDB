@@ -28,13 +28,31 @@
 
 // llama.cpp forward declarations (newer API may not be present in headers)
 extern "C" {
-    // F1-3 fix: pass the adapter handle as a pointer (void*) rather than a
-    // pointer-to-int cast.  On 64-bit platforms any heap address lies above
-    // INT_MAX so the old range-check always failed, permanently preventing
-    // LoRA activation in production.
+    /**
+     * @brief F1-3 fix: pass the adapter handle as a pointer (void*) rather than a pointer-to-int cast.
+     * @param[in,out] ctx Input/output parameter.
+     * @param[in,out] adapter Input/output parameter.
+     * @param[in] scale Input parameter.
+     * @return Return value.
+     * @details On 64-bit platforms any heap address lies above INT_MAX so the old range-check always failed, permanently preventing LoRA activation in production.
+     */
     int llama_lora_adapter_set(struct llama_context* ctx, void* adapter, float scale);
+    /**
+     * @brief Llama lora adapter free.
+     * @param[in,out] adapter Input/output parameter.
+     */
     void llama_lora_adapter_free(void* adapter);
+    /**
+     * @brief Themis llama lora available.
+     * @return True when the operation succeeds.
+     */
     bool themis_llama_lora_available();
+    /**
+     * @brief Llama lora adapter init.
+     * @param[in,out] model Input/output parameter.
+     * @param[in] path_lora Input parameter.
+     * @return Pointer to the result.
+     */
     void* llama_lora_adapter_init(struct llama_model* model, const char* path_lora);
 }
 
@@ -66,7 +84,12 @@ namespace {
     constexpr double BASE_LOAD_LATENCY_MS = 10.0;  // Base latency for LoRA loading
     constexpr double LOAD_LATENCY_SCALE = 20.0;    // Scale factor for load-dependent latency
     
-    // Helper to convert QuantizationMode to string
+    /**
+     * @brief Helper to convert QuantizationMode to string
+     * @param[in] mode Input parameter.
+     * @return Pointer to the result.
+     * @details Implements quantizationModeToString without additional internal calls.
+     */
     const char* quantizationModeToString(QuantizationMode mode) {
         switch (mode) {
             case QuantizationMode::INT8: return "INT8";
@@ -173,7 +196,11 @@ MultiLoRAManager::~MultiLoRAManager() {
     // to avoid deadlock where destructor holds lock and thread waits for it
     stopEvictionThread();
     
-    // Now safe to take lock for cleanup
+    /**
+     * @brief Now safe to take lock for cleanup
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     // Unload all LoRAs with proper cleanup
@@ -199,14 +226,6 @@ MultiLoRAManager::~MultiLoRAManager() {
     spdlog::info("MultiLoRAManager destroyed, all LoRAs unloaded");
 }
 
-/**
- * @brief Move constructor implementation
- * 
- * Transfers ownership of internal resources (eviction thread, LoRA slots, GPU state)
- * from the source object to this object. The source object is left in a valid empty state.
- * 
- * @cwe CWE-457: Ensures moved-from state is valid
- */
 MultiLoRAManager::MultiLoRAManager(MultiLoRAManager&& other) noexcept
     : config_(std::move(other.config_)),
       loras_(std::move(other.loras_)),
@@ -242,22 +261,16 @@ MultiLoRAManager::MultiLoRAManager(MultiLoRAManager&& other) noexcept
     other.fusion_invalidations_ = 0;
 }
 
-/**
- * @brief Move assignment operator implementation
- * 
- * Transfers ownership of internal resources from the source object to this object.
- * Cleans up existing resources before transfer. Safe for self-assignment.
- * 
- * @param other Source object to move from
- * @return Reference to this object
- * @cwe CWE-415: Proper cleanup before reassignment prevents double-free
- * @cwe CWE-672: Source left in valid state prevents use-after-free
- */
 MultiLoRAManager& MultiLoRAManager::operator=(MultiLoRAManager&& other) noexcept {
     if (this != &other) {
         // Clean up existing resources first
         stopEvictionThread();
         {
+            /**
+             * @brief Lock.
+             * @param[in] mutex_ Input parameter.
+             * @return Return value.
+             */
             std::lock_guard<std::mutex> lock(mutex_);
             
             // Free all existing LoRAs
@@ -310,6 +323,11 @@ MultiLoRAManager& MultiLoRAManager::operator=(MultiLoRAManager&& other) noexcept
     return *this;
 }
 
+/**
+ * @brief Set Quantization Config.
+ * @param[in] config Input parameter.
+ * @details Calls: lock(), spdlog::info(), quantizationModeToString().
+ */
 void MultiLoRAManager::setQuantizationConfig(const LoRAQuantizationConfig& config) {
     std::lock_guard<std::mutex> lock(mutex_);
     config_.quantization = config;
@@ -318,10 +336,24 @@ void MultiLoRAManager::setQuantizationConfig(const LoRAQuantizationConfig& confi
 }
 
 LoRAQuantizationConfig MultiLoRAManager::getQuantizationConfig() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return config_.quantization;
 }
 
+/**
+ * @brief Load Lo RA.
+ * @param[in] lora_id Identifier of the lora.
+ * @param[in] lora_path Path to the lora.
+ * @param[in] base_model_id Identifier of the base model.
+ * @param[in] scale Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements loadLoRA without additional internal calls.
+ */
 bool MultiLoRAManager::loadLoRA(
     const std::string& lora_id,
     const std::string& lora_path,
@@ -331,6 +363,16 @@ bool MultiLoRAManager::loadLoRA(
     return loadLoRA(lora_id, lora_path, base_model_id, config_.quantization.enabled, scale);
 }
 
+/**
+ * @brief Load Lo RA.
+ * @param[in] lora_id Identifier of the lora.
+ * @param[in] lora_path Path to the lora.
+ * @param[in] base_model_id Identifier of the base model.
+ * @param[in] quantize Input parameter.
+ * @param[in] scale Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), find(), end(), spdlog::debug(), get(), spdlog::warn(), erase(), size().
+ */
 bool MultiLoRAManager::loadLoRA(
     const std::string& lora_id,
     const std::string& lora_path,
@@ -379,6 +421,13 @@ bool MultiLoRAManager::loadLoRA(
     return lora != nullptr;
 }
 
+/**
+ * @brief Unload Lo RA.
+ * @param[in] lora_id Identifier of the lora.
+ * @param[in] force Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), find(), end(), get(), erase(), spdlog::warn(), spdlog::info(), logGPUTransferEvent().
+ */
 bool MultiLoRAManager::unloadLoRA(const std::string& lora_id, bool force) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -442,6 +491,13 @@ bool MultiLoRAManager::unloadLoRA(const std::string& lora_id, bool force) {
     return true;
 }
 
+/**
+ * @brief Initialize Lo RAWith Model.
+ * @param[in] lora_id Identifier of the lora.
+ * @param[in,out] model Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: spdlog::error(), lock(), find(), end(), spdlog::debug(), spdlog::info(), themis_llama_lora_available(), spdlog::warn().
+ */
 bool MultiLoRAManager::initializeLoRAWithModel(const std::string& lora_id, void* model) {
     if (!model) {
         spdlog::error("Cannot initialize LoRA: null model handle");
@@ -498,6 +554,12 @@ bool MultiLoRAManager::initializeLoRAWithModel(const std::string& lora_id, void*
     return true;
 }
 
+/**
+ * @brief Get Lo RA.
+ * @param[in] lora_id Identifier of the lora.
+ * @return Pointer to the result.
+ * @details Calls: lock(), find(), end(), get(), std::chrono::system_clock::now().
+ */
 LoRASlot* MultiLoRAManager::getLoRA(const std::string& lora_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -517,16 +579,33 @@ LoRASlot* MultiLoRAManager::getLoRA(const std::string& lora_id) {
     return slot;
 }
 
+/**
+ * @brief Set Apply Adapter Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void MultiLoRAManager::setApplyAdapterFn(ApplyAdapterFn fn) {
     std::lock_guard<std::mutex> lock(mutex_);
     apply_adapter_fn_ = std::move(fn);
 }
 
+/**
+ * @brief Set Remove Adapter Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void MultiLoRAManager::setRemoveAdapterFn(RemoveAdapterFn fn) {
     std::lock_guard<std::mutex> lock(mutex_);
     remove_adapter_fn_ = std::move(fn);
 }
 
+/**
+ * @brief Apply Lo RA.
+ * @param[in] lora_id Identifier of the lora.
+ * @param[in,out] context Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: ApplyAdapterFn(), lock(), find(), end(), errors::logError(), get(), spdlog::error(), std::chrono::system_clock::now().
+ */
 bool MultiLoRAManager::applyLoRA(const std::string& lora_id, llama_context* context) {
     // Acquire mutex for the full lookup + field snapshot.
     // The raw pointer returned by getLoRA() is unsafe to use after the lock is released
@@ -634,6 +713,13 @@ bool MultiLoRAManager::applyLoRA(const std::string& lora_id, llama_context* cont
     return false;
 }
 
+/**
+ * @brief Remove Lo RA.
+ * @param[in] lora_id Identifier of the lora.
+ * @param[in,out] context Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: RemoveAdapterFn(), lock(), find(), end(), get(), spdlog::warn(), std::chrono::system_clock::now(), spdlog::error().
+ */
 bool MultiLoRAManager::removeLoRA(const std::string& lora_id, llama_context* context) {
     // Same lock-then-snapshot pattern as applyLoRA to prevent use-after-free.
     void* adapter_handle = nullptr;
@@ -959,6 +1045,14 @@ std::vector<InferenceResponse> MultiLoRAManager::batchInferenceMultiLoRA(
     return responses;
 }
 
+/**
+ * @brief Fuse Lo RAs.
+ * @param[in] lora_ids Input parameter.
+ * @param[in] fused_id Identifier of the fused.
+ * @param[in] weights Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: spdlog::info(), size(), spdlog::error(), empty(), errors::logError(), lock(), find(), end().
+ */
 bool MultiLoRAManager::fuseLoRAs(
     const std::vector<std::string>& lora_ids,
     const std::string& fused_id,
@@ -1095,6 +1189,11 @@ bool MultiLoRAManager::fuseLoRAs(
     return true;
 }
 
+/**
+ * @brief Pin Lo RA.
+ * @param[in] lora_id Identifier of the lora.
+ * @details Calls: lock(), find(), end(), get(), spdlog::info().
+ */
 void MultiLoRAManager::pinLoRA(const std::string& lora_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -1109,6 +1208,11 @@ void MultiLoRAManager::pinLoRA(const std::string& lora_id) {
     }
 }
 
+/**
+ * @brief Unpin Lo RA.
+ * @param[in] lora_id Identifier of the lora.
+ * @details Calls: lock(), find(), end(), get(), spdlog::info().
+ */
 void MultiLoRAManager::unpinLoRA(const std::string& lora_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -1124,11 +1228,21 @@ void MultiLoRAManager::unpinLoRA(const std::string& lora_id) {
 }
 
 bool MultiLoRAManager::isLoRALoaded(const std::string& lora_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return loras_.find(lora_id) != loras_.end();
 }
 
 std::vector<LoRAInfo> MultiLoRAManager::listLoRAs() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     std::vector<LoRAInfo> result = {};
@@ -1157,6 +1271,11 @@ std::vector<LoRAInfo> MultiLoRAManager::listLoRAs() const {
 }
 
 std::vector<LoRAInfo> MultiLoRAManager::listLoRAs(const std::string& base_model_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     std::vector<LoRAInfo> result = {};
 
@@ -1183,6 +1302,11 @@ std::vector<LoRAInfo> MultiLoRAManager::listLoRAs(const std::string& base_model_
 }
 
 std::optional<LoRAInfo> MultiLoRAManager::getLoRAInfo(const std::string& lora_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = loras_.find(lora_id);
     if (it == loras_.end()) {
@@ -1251,6 +1375,11 @@ size_t MultiLoRAManager::evictLRU([[maybe_unused]] size_t /*target_vram_mb*/) {
     return freed_vram;
 }
 
+/**
+ * @brief Evict Expired.
+ * @return Return value.
+ * @details Calls: lock(), std::chrono::system_clock::now(), push_back(), spdlog::info(), unloadLoRA().
+ */
 size_t MultiLoRAManager::evictExpired() {
     std::vector<std::string> to_evict;
     {
@@ -1283,6 +1412,11 @@ size_t MultiLoRAManager::evictExpired() {
 }
 
 json MultiLoRAManager::getMemoryStats() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     // FIND-015: Use named constant for byte to MB conversion.
@@ -1306,6 +1440,11 @@ json MultiLoRAManager::getMemoryStats() const {
 }
 
 json MultiLoRAManager::getCacheStats() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     json stats;
@@ -1325,6 +1464,11 @@ json MultiLoRAManager::getCacheStats() const {
 }
 
 MultiLoRAManager::Stats MultiLoRAManager::getStatistics() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     Stats s = Stats();
     s.total_loras_loaded = loras_.size();
@@ -1335,6 +1479,12 @@ MultiLoRAManager::Stats MultiLoRAManager::getStatistics() const {
     return s;
 }
 
+/**
+ * @brief Export Lo RA.
+ * @param[in] lora_id Identifier of the lora.
+ * @return Return value.
+ * @details Calls: getLoRA(), errors::logError(), spdlog::info(), size(), resize(), spdlog::error(), std::memcpy(), data().
+ */
 std::vector<uint8_t> MultiLoRAManager::exportLoRA(const std::string& lora_id) {
     auto* lora = getLoRA(lora_id);
     if (!lora) {
@@ -1384,6 +1534,14 @@ std::vector<uint8_t> MultiLoRAManager::exportLoRA(const std::string& lora_id) {
     return serialized;
 }
 
+/**
+ * @brief Import Lo RA.
+ * @param[in] lora_id Identifier of the lora.
+ * @param[in] data Input parameter.
+ * @param[in] base_model_id Identifier of the base model.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), spdlog::info(), size(), spdlog::warn(), spdlog::error(), errors::logError(), empty(), std::memcpy().
+ */
 bool MultiLoRAManager::importLoRA(
     const std::string& lora_id,
     const std::vector<uint8_t>& data,
@@ -1497,6 +1655,11 @@ bool MultiLoRAManager::importLoRA(
 }
 
 bool MultiLoRAManager::hasCapacity([[maybe_unused]] size_t vram_bytes) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     // FIND-015: Use named constant for byte to MB conversion
     size_t vram_mb = vram_bytes / BYTES_PER_MB;
@@ -1504,6 +1667,10 @@ bool MultiLoRAManager::hasCapacity([[maybe_unused]] size_t vram_bytes) const {
     return (total_mb + vram_mb) <= config_.max_lora_vram_mb;
 }
 
+/**
+ * @brief Update Memory Usage.
+ * @details Calls: lock().
+ */
 void MultiLoRAManager::updateMemoryUsage() {
     std::lock_guard<std::mutex> lock(mutex_);
     // Recalculate from scratch
@@ -1518,6 +1685,11 @@ void MultiLoRAManager::updateMemoryUsage() {
 }
 
 std::optional<QuantizationStats> MultiLoRAManager::getQuantizationStats(const std::string& lora_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     auto it = loras_.find(lora_id);
@@ -1554,6 +1726,12 @@ std::optional<QuantizationStats> MultiLoRAManager::getQuantizationStats(const st
 
 // Quantization implementation methods
 
+/**
+ * @brief Quantize Lo RA.
+ * @param[in,out] lora Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: std::chrono::high_resolution_clock::now(), empty(), isLoRAPathTrusted(), spdlog::error(), parseFile(), getMetadata(), getTensorData(), front().
+ */
 bool MultiLoRAManager::quantizeLoRA(LoRASlot* lora) {
     if (!lora) {
         return false;
@@ -1673,6 +1851,12 @@ bool MultiLoRAManager::quantizeLoRA(LoRASlot* lora) {
     }
 }
 
+/**
+ * @brief Quantize INT8.
+ * @param[in,out] lora Input/output parameter.
+ * @param[in] weights Input parameter.
+ * @details Calls: spdlog::error(), size(), resize(), calibrateScales(), std::max(), std::min(), std::round(), spdlog::debug().
+ */
 void MultiLoRAManager::quantizeINT8(LoRASlot* lora, const std::vector<float>& weights) {
     // INT8 quantization: 4× memory reduction (FP32 → INT8)
     // Uses symmetric quantization: Q = round(x / scale) where scale = max(abs(x)) / INT8_MAX_VALUE
@@ -1745,6 +1929,12 @@ void MultiLoRAManager::quantizeINT8(LoRASlot* lora, const std::vector<float>& we
     }
 }
 
+/**
+ * @brief Quantize INT4.
+ * @param[in,out] lora Input/output parameter.
+ * @param[in] weights Input parameter.
+ * @details Calls: spdlog::error(), size(), resize(), std::min(), std::max(), std::abs(), std::round(), spdlog::debug().
+ */
 void MultiLoRAManager::quantizeINT4(LoRASlot* lora, const std::vector<float>& weights) {
     // INT4 quantization: 8× memory reduction (FP32 → INT4)
     // Uses group-based quantization for better accuracy
@@ -1822,6 +2012,12 @@ void MultiLoRAManager::quantizeINT4(LoRASlot* lora, const std::vector<float>& we
     }
 }
 
+/**
+ * @brief Calibrate Scales.
+ * @param[in] weights Input parameter.
+ * @param[in,out] scales Input/output parameter.
+ * @details Calls: empty(), spdlog::error(), size(), std::max(), std::abs(), std::isfinite(), spdlog::warn().
+ */
 void MultiLoRAManager::calibrateScales(const std::vector<float>& weights, std::vector<float>& scales) {
     // Calibrate scale factors for quantization
     // Uses symmetric quantization: scale = max(abs(x)) / max_quantized_value
@@ -1891,6 +2087,11 @@ std::vector<float> MultiLoRAManager::simulateWeights([[maybe_unused]] size_t cou
         return std::vector<float>();
     }
     try {
+        /**
+         * @brief Weights.
+         * @param[in] actual Input parameter.
+         * @return Return value.
+         */
         std::vector<float> weights(actual);
         for (size_t i = 0; i < actual; ++i) {
             weights[i] = static_cast<float>((i % 255) - 127) / 127.0f;
@@ -1903,7 +2104,17 @@ std::vector<float> MultiLoRAManager::simulateWeights([[maybe_unused]] size_t cou
     }
 }
 
-// Multi-GPU support methods (v1.4.0)
+/**
+ * @brief Multi-GPU support methods (v1.
+ * @param[in] lora_id Identifier of the lora.
+ * @param[in] lora_path Path to the lora.
+ * @param[in] base_model_id Identifier of the base model.
+ * @param[in] quantize Input parameter.
+ * @param[in] placement Input parameter.
+ * @param[in] scale Input parameter.
+ * @return True when the operation succeeds.
+ * @details 4.0) Calls: lock(), find(), end(), spdlog::debug(), get(), spdlog::warn(), erase(), size().
+ */
 
 bool MultiLoRAManager::loadLoRA(
     const std::string& lora_id,
@@ -1953,10 +2164,20 @@ bool MultiLoRAManager::loadLoRA(
 }
 
 MultiGPUConfig MultiLoRAManager::getMultiGPUConfig() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return config_.multi_gpu;
 }
 
+/**
+ * @brief Set Multi GPUConfig.
+ * @param[in] config Input parameter.
+ * @details Calls: lock(), clear(), spdlog::info(), size().
+ */
 void MultiLoRAManager::setMultiGPUConfig(const MultiGPUConfig& config) {
     std::lock_guard<std::mutex> lock(mutex_);
     config_.multi_gpu = config;
@@ -1974,6 +2195,11 @@ void MultiLoRAManager::setMultiGPUConfig(const MultiGPUConfig& config) {
 }
 
 std::vector<int> MultiLoRAManager::getLoRAGPUPlacement(const std::string& lora_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     auto it = loras_.find(lora_id);
@@ -1990,10 +2216,20 @@ std::vector<int> MultiLoRAManager::getLoRAGPUPlacement(const std::string& lora_i
 }
 
 std::unordered_map<int, size_t> MultiLoRAManager::getPerGPUMemoryUsage() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return gpu_vram_usage_;
 }
 
+/**
+ * @brief Balance GPULoad.
+ * @return Return value.
+ * @details Calls: lock(), size(), push_back(), empty(), spdlog::debug(), spdlog::info().
+ */
 size_t MultiLoRAManager::balanceGPULoad() {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -2187,6 +2423,13 @@ int MultiLoRAManager::selectGPUForLoRA([[maybe_unused]] size_t vram_bytes) {
     }
 }
 
+/**
+ * @brief Load Lo RAOn GPU.
+ * @param[in,out] lora Input/output parameter.
+ * @param[in] gpu_id Identifier of the gpu.
+ * @return True when the operation succeeds.
+ * @details Calls: spdlog::debug(), spdlog::info().
+ */
 bool MultiLoRAManager::loadLoRAOnGPU(LoRASlot* lora, int gpu_id) {
     // Already locked by caller
     
@@ -2213,6 +2456,12 @@ bool MultiLoRAManager::loadLoRAOnGPU(LoRASlot* lora, int gpu_id) {
     return true;
 }
 
+/**
+ * @brief Load Lo RAMulti GPU.
+ * @param[in,out] lora Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), spdlog::error(), spdlog::info(), size(), spdlog::debug().
+ */
 bool MultiLoRAManager::loadLoRAMultiGPU(LoRASlot* lora) {
     // Already locked by caller
     
@@ -2292,6 +2541,10 @@ bool MultiLoRAManager::loadLoRAMultiGPU(LoRASlot* lora) {
     return true;
 }
 
+/**
+ * @brief Update GPUMemory Tracking.
+ * @details Calls: size().
+ */
 void MultiLoRAManager::updateGPUMemoryTracking() {
     // Already locked by caller
     
@@ -2403,7 +2656,17 @@ bool MultiLoRAManager::isLoRAPathTrusted(const std::string& lora_path) const {
     }
 }
 
-// Update loadLoRAInternal to support multi-GPU placement
+/**
+ * @brief Update loadLoRAInternal to support multi-GPU placement
+ * @param[in] lora_id Identifier of the lora.
+ * @param[in] lora_path Path to the lora.
+ * @param[in] base_model_id Identifier of the base model.
+ * @param[in] scale Input parameter.
+ * @param[in] quantize Input parameter.
+ * @param[in] placement Input parameter.
+ * @return Pointer to the result.
+ * @details Calls: isLoRAPathTrusted(), spdlog::error(), validateMetadata(), spdlog::warn(), spdlog::debug(), file_check(), good(), close().
+ */
 LoRASlot* MultiLoRAManager::loadLoRAInternal(
     const std::string& lora_id,
     const std::string& lora_path,
@@ -2578,9 +2841,10 @@ LoRASlot* MultiLoRAManager::loadLoRAInternal(
     return result;
 }
 
-// ═══════════════════════════════════════════════════════════
-// Background Eviction Thread Implementation
-// ═══════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════ Background Eviction Thread Implementation ═══════════════════════════════════════════════════════════
+ * @details Calls: load(), spdlog::warn(), store(), spdlog::debug().
+ */
 
 void MultiLoRAManager::startEvictionThread() {
     if (eviction_thread_running_.load(std::memory_order_acquire)) {
@@ -2593,6 +2857,10 @@ void MultiLoRAManager::startEvictionThread() {
     spdlog::debug("Background eviction thread started");
 }
 
+/**
+ * @brief Stop Eviction Thread.
+ * @details Calls: load(), spdlog::debug(), store(), notify_all(), joinable(), themis::utils::joinThreadWithin(), spdlog::warn(), reset().
+ */
 void MultiLoRAManager::stopEvictionThread() {
     if (!eviction_thread_running_.load(std::memory_order_acquire)) {
         return;
@@ -2612,6 +2880,10 @@ void MultiLoRAManager::stopEvictionThread() {
     spdlog::debug("Background eviction thread stopped");
 }
 
+/**
+ * @brief Eviction Worker.
+ * @details Calls: spdlog::info(), count(), std::min(), std::chrono::seconds(), load(), lock(), wait_for(), evictExpired().
+ */
 void MultiLoRAManager::evictionWorker() {
     spdlog::info("Eviction worker thread started (TTL: {}s)", config_.lora_ttl.count());
     
@@ -2670,6 +2942,11 @@ void MultiLoRAManager::evictionWorker() {
 // ═══════════════════════════════════════════════════════════
 
 json MultiLoRAManager::getUsageHeatmap() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     json heatmap = json::array();
@@ -2710,6 +2987,13 @@ json MultiLoRAManager::getUsageHeatmap() const {
     return heatmap;
 }
 
+/**
+ * @brief Evict Resource Aware.
+ * @param[in] gpu_id Identifier of the gpu.
+ * @param[in] target_vram_mb Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), empty(), spdlog::info(), std::to_string(), std::chrono::system_clock::now(), count(), calculateAccessFrequency(), get().
+ */
 size_t MultiLoRAManager::evictResourceAware(int gpu_id, size_t target_vram_mb) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -2821,6 +3105,11 @@ size_t MultiLoRAManager::evictResourceAware(int gpu_id, size_t target_vram_mb) {
 }
 
 json MultiLoRAManager::getSchedulingRecommendation(size_t lora_vram_bytes, int priority) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     json recommendation;
@@ -2919,6 +3208,13 @@ json MultiLoRAManager::getSchedulingRecommendation(size_t lora_vram_bytes, int p
     return recommendation;
 }
 
+/**
+ * @brief Migrate Lo RATo GPU.
+ * @param[in] lora_id Identifier of the lora.
+ * @param[in] target_gpu Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), find(), end(), spdlog::error(), get(), spdlog::warn(), erase(), spdlog::debug().
+ */
 bool MultiLoRAManager::migrateLoRAToGPU(const std::string& lora_id, int target_gpu) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -3001,6 +3297,11 @@ bool MultiLoRAManager::migrateLoRAToGPU(const std::string& lora_id, int target_g
     return true;
 }
 
+/**
+ * @brief Check GPUHealth And Migrate.
+ * @return Return value.
+ * @details Calls: lock(), spdlog::debug(), std::chrono::system_clock::now(), count(), isGPUHealthy(), spdlog::warn(), push_back(), empty().
+ */
 size_t MultiLoRAManager::checkGPUHealthAndMigrate() {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -3128,6 +3429,12 @@ size_t MultiLoRAManager::checkGPUHealthAndMigrate() {
     return migrated;
 }
 
+/**
+ * @brief Set Lo RATenant.
+ * @param[in] lora_id Identifier of the lora.
+ * @param[in] tenant_id Identifier of the tenant.
+ * @details Calls: lock(), find(), end(), get(), spdlog::debug().
+ */
 void MultiLoRAManager::setLoRATenant(const std::string& lora_id, const std::string& tenant_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -3144,6 +3451,11 @@ void MultiLoRAManager::setLoRATenant(const std::string& lora_id, const std::stri
 }
 
 json MultiLoRAManager::getGPUTransferAuditLog([[maybe_unused]] size_t limit) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     json log = json::array();
@@ -3171,6 +3483,16 @@ json MultiLoRAManager::getGPUTransferAuditLog([[maybe_unused]] size_t limit) con
     return log;
 }
 
+/**
+ * @brief Log GPUTransfer Event.
+ * @param[in] event_type Input parameter.
+ * @param[in] lora_id Identifier of the lora.
+ * @param[in] source_gpu Input parameter.
+ * @param[in] target_gpu Input parameter.
+ * @param[in] vram_bytes Input parameter.
+ * @param[in] details Input parameter.
+ * @details Calls: AuditEvent(), std::chrono::system_clock::now(), count(), push_back(), size(), erase(), begin(), spdlog::info().
+ */
 void MultiLoRAManager::logGPUTransferEvent(const std::string& event_type,
                                            const std::string& lora_id,
                                            int source_gpu, int target_gpu,
@@ -3221,8 +3543,13 @@ double MultiLoRAManager::calculateAccessFrequency(const LoRASlot* lora,
     return 0.0;
 }
 
-// Advanced Fusion API Implementation (v1.5.0)
-// ═══════════════════════════════════════════════════════════
+/**
+ * @brief Advanced Fusion API Implementation (v1.
+ * @param[in] fused_id Identifier of the fused.
+ * @param[in] config Input parameter.
+ * @return True when the operation succeeds.
+ * @details 5.0) ═══════════════════════════════════════════════════════════ Calls: std::chrono::high_resolution_clock::now(), spdlog::info(), spdlog::error(), lock(), find(), end(), std::chrono::system_clock::now(), spdlog::debug().
+ */
 
 bool MultiLoRAManager::fuseLoRAsAdvanced(
     const std::string& fused_id,
@@ -3315,6 +3642,13 @@ bool MultiLoRAManager::fuseLoRAsAdvanced(
     return success;
 }
 
+/**
+ * @brief Fuse Lo RAs Internal.
+ * @param[in] fused_id Identifier of the fused.
+ * @param[in] config Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), empty(), errors::logError(), size(), find(), end(), get(), spdlog::warn().
+ */
 bool MultiLoRAManager::fuseLoRAsInternal(
     const std::string& fused_id,
     const FusionConfig& config
@@ -3416,6 +3750,13 @@ bool MultiLoRAManager::fuseLoRAsInternal(
     return true;
 }
 
+/**
+ * @brief Update Fusion Weights.
+ * @param[in] fusion_id Identifier of the fusion.
+ * @param[in] new_weights Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), find(), end(), spdlog::error(), size(), invalidateFusionCache(), spdlog::info().
+ */
 bool MultiLoRAManager::updateFusionWeights(
     const std::string& fusion_id,
     const std::vector<float>& new_weights
@@ -3449,6 +3790,13 @@ bool MultiLoRAManager::updateFusionWeights(
     return true;
 }
 
+/**
+ * @brief Set Alpha Schedule.
+ * @param[in] fusion_id Identifier of the fusion.
+ * @param[in] schedule Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), find(), end(), spdlog::error(), spdlog::info().
+ */
 bool MultiLoRAManager::setAlphaSchedule(
     const std::string& fusion_id,
     const AlphaSchedule& schedule
@@ -3476,6 +3824,11 @@ bool MultiLoRAManager::setAlphaSchedule(
 std::vector<float> MultiLoRAManager::getCurrentFusionWeights(
     const std::string& fusion_id
 ) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     auto config_it = fusion_configs_.find(fusion_id);
@@ -3708,6 +4061,12 @@ std::vector<float> MultiLoRAManager::computeStepWiseSchedule(
     return schedule.static_weights;
 }
 
+/**
+ * @brief Invalidate Fusion Cache.
+ * @param[in] fusion_id Identifier of the fusion.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), find(), end(), erase(), spdlog::info().
+ */
 bool MultiLoRAManager::invalidateFusionCache(const std::string& fusion_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -3723,6 +4082,11 @@ bool MultiLoRAManager::invalidateFusionCache(const std::string& fusion_id) {
     return true;
 }
 
+/**
+ * @brief Clear Fusion Cache.
+ * @return Return value.
+ * @details Calls: lock(), size(), clear(), spdlog::info().
+ */
 size_t MultiLoRAManager::clearFusionCache() {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -3735,6 +4099,11 @@ size_t MultiLoRAManager::clearFusionCache() {
 }
 
 FusionMetrics MultiLoRAManager::getFusionMetrics() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     FusionMetrics metrics = FusionMetrics();
@@ -3765,6 +4134,11 @@ FusionMetrics MultiLoRAManager::getFusionMetrics() const {
 }
 
 std::vector<FusionCacheEntry> MultiLoRAManager::listFusionCache() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     std::vector<FusionCacheEntry> entries = {};
@@ -3782,6 +4156,11 @@ bool MultiLoRAManager::checkFusionCompatibility(
     const std::vector<std::string>& lora_ids,
     const FusionConfig& config
 ) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     if (lora_ids.empty()) {
@@ -3875,6 +4254,12 @@ bool MultiLoRAManager::validateFusionCompatibility(
     return true;
 }
 
+/**
+ * @brief Update Fusion Metrics.
+ * @param[in] fusion_id Identifier of the fusion.
+ * @param[in] fusion_time_ms Input parameter.
+ * @details Calls: find(), end().
+ */
 void MultiLoRAManager::updateFusionMetrics(
     const std::string& fusion_id,
     double fusion_time_ms
@@ -3888,6 +4273,12 @@ void MultiLoRAManager::updateFusionMetrics(
     }
 }
 
+/**
+ * @brief Update Inference Metrics.
+ * @param[in] fusion_id Identifier of the fusion.
+ * @param[in] inference_time_ms Input parameter.
+ * @details Calls: find(), end().
+ */
 void MultiLoRAManager::updateInferenceMetrics(
     const std::string& fusion_id,
     double inference_time_ms

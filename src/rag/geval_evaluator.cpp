@@ -27,9 +27,28 @@ extern "C" {
     struct llama_context;
     typedef int32_t llama_token;
     
-    // llama.cpp functions we need
+    /**
+     * @brief llama.
+     * @param[in,out] ctx Input/output parameter.
+     * @param[in] i Input parameter.
+     * @return Pointer to the result.
+     * @details cpp functions we need
+     */
     float* llama_get_logits_ith(struct llama_context* ctx, int32_t i);
+    /**
+     * @brief Llama n vocab.
+     * @param[in] model Input parameter.
+     * @return Return value.
+     */
     int32_t llama_n_vocab(const struct llama_model* model);
+    /**
+     * @brief Llama token to piece.
+     * @param[in] model Input parameter.
+     * @param[in] token Input parameter.
+     * @param[in,out] buf Input/output parameter.
+     * @param[in] length Input parameter.
+     * @return Return value.
+     */
     llama_token llama_token_to_piece(
         const struct llama_model* model,
         llama_token token,
@@ -56,9 +75,6 @@ struct GEvalEvaluator::Impl {
         llm = std::make_shared<llm::InferenceEngineEnhanced>(engine_cfg);
     }
     
-    /**
-     * @brief Generate evaluation prompt for G-Eval
-     */
     std::string generatePrompt(
         const std::string& query,
         const std::string& answer,
@@ -103,7 +119,10 @@ struct GEvalEvaluator::Impl {
     }
     
     /**
-     * @brief Find token IDs for score levels
+     * @brief Find Score Tokens.
+     * @param[in,out] model Input/output parameter.
+     * @return Return value.
+     * @details Calls: reserve(), llama_n_vocab(), llama_token_to_piece(), token_text(), erase(), find_first_not_of(), find_last_not_of(), push_back().
      */
     std::vector<int> findScoreTokens(llama_model* model) {
         std::vector<int> score_tokens;
@@ -142,7 +161,11 @@ struct GEvalEvaluator::Impl {
     }
     
     /**
-     * @brief Compute softmax probabilities from logits
+     * @brief Compute Softmax.
+     * @param[in,out] logits Input/output parameter.
+     * @param[in] n_vocab Input parameter.
+     * @return Return value.
+     * @details Calls: probs(), std::max_element(), std::exp().
      */
     std::vector<float> computeSoftmax(float* logits, int n_vocab) {
         std::vector<float> probs(n_vocab);
@@ -165,13 +188,6 @@ struct GEvalEvaluator::Impl {
         return probs;
     }
     
-    /**
-     * @brief Derive a probability distribution centered on a parsed score (1-5)
-     *
-     * Used both as a fallback (no LLM engine) and when the engine response
-     * contains no logprobs.  The distribution is Gaussian-shaped around the
-     * score level so that adjacent levels receive decreasing probability mass.
-     */
     std::vector<double> probsFromScore(double score_1_to_5) const {
         // Clamp score to [1, kNumScoreLevels]
         double s = std::max(1.0, std::min(static_cast<double>(kNumScoreLevels),
@@ -189,10 +205,6 @@ struct GEvalEvaluator::Impl {
         return probs;
     }
 
-    /**
-     * @brief Derive a probability distribution from a dimension label when
-     * no LLM engine is available (pure heuristic fallback).
-     */
     std::vector<double> heuristicProbsForDimension(const std::string& dimension) const {
         // Representative score (1-5) for each dimension based on expected
         // average quality.  These are used only when no engine is configured.
@@ -210,11 +222,11 @@ struct GEvalEvaluator::Impl {
     }
 
     /**
-     * @brief Query the LLM engine with a prompt and derive a score distribution.
-     *
-     * If the engine provides per-token logprobs, extract the 5 score-level
-     * probabilities directly from them.  Otherwise parse the score text from
-     * the response and build a Gaussian distribution around it.
+     * @brief Probs From LLM.
+     * @param[in] prompt Input parameter.
+     * @param[in] dimension Input parameter.
+     * @return Return value.
+     * @details Calls: heuristicProbsForDimension(), getAvailableModels(), empty(), std::to_string(), fetch_add(), submit(), get(), iss().
      */
     std::vector<double> probsFromLLM(
         const std::string& prompt,
@@ -377,6 +389,13 @@ GEvalResult GEvalEvaluator::evaluate(
     return result;
 }
 
+/**
+ * @brief Extract Token Probabilities.
+ * @param[in] prompt Input parameter.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Calls: probsFromLLM().
+ */
 std::vector<double> GEvalEvaluator::extractTokenProbabilities(
     const std::string& prompt,
     const std::vector<int>&
@@ -386,6 +405,12 @@ std::vector<double> GEvalEvaluator::extractTokenProbabilities(
     return impl_->probsFromLLM(prompt, "overall");
 }
 
+/**
+ * @brief Compute GEval Score.
+ * @param[in] probabilities Input parameter.
+ * @return Return value.
+ * @details Calls: size(), spdlog::warn(), std::max(), std::min().
+ */
 double GEvalEvaluator::computeGEvalScore(const std::vector<double>& probabilities) {
     if (probabilities.size() != kNumScoreLevels) {
         spdlog::warn("Expected {} probabilities for levels 1-{}, got {}",
@@ -408,6 +433,12 @@ double GEvalEvaluator::computeGEvalScore(const std::vector<double>& probabilitie
     return std::max(0.0, std::min(1.0, normalized));
 }
 
+/**
+ * @brief Compute Confidence.
+ * @param[in] probabilities Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), std::log2(), std::max(), std::min().
+ */
 double GEvalEvaluator::computeConfidence(const std::vector<double>& probabilities) {
     if (probabilities.empty()) {
         return 0.0;
@@ -433,6 +464,13 @@ double GEvalEvaluator::computeConfidence(const std::vector<double>& probabilitie
     return std::max(0.0, std::min(1.0, confidence));
 }
 
+/**
+ * @brief Aggregate Scores.
+ * @param[in] samples Input parameter.
+ * @param[in] method Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), size(), std::accumulate(), begin(), end(), std::sort().
+ */
 double GEvalEvaluator::aggregateScores(
     const std::vector<double>& samples,
     AggregationMethod method

@@ -19,6 +19,12 @@ namespace importers {
 // Utility Functions
 // ============================================================================
 
+/**
+ * @brief Failure Category To String.
+ * @param[in] cat Input parameter.
+ * @return Return value.
+ * @details Implements failureCategoryToString without additional internal calls.
+ */
 std::string failureCategoryToString(FailureCategory cat) {
     // PHASE-3-ERROR-HANDLING: Convert enum to string for diagnostics
     switch (cat) {
@@ -38,8 +44,9 @@ std::string failureCategoryToString(FailureCategory cat) {
 }
 
 /**
- * Get current nanosecond-precision timestamp
- * Deterministic: always returns current time
+ * @brief Get Current Timestamp Ns.
+ * @return Return value.
+ * @details Calls: std::chrono::high_resolution_clock::now(), time_since_epoch(), count().
  */
 static uint64_t getCurrentTimestampNs() {
     auto now = std::chrono::high_resolution_clock::now();
@@ -430,6 +437,15 @@ DiagnosticRecord produceIntegrityDiagnostic(
 // Diagnostic Aggregation
 // ============================================================================
 
+/**
+ * @brief Aggregate Diagnostics.
+ * @param[in] import_id Identifier of the import.
+ * @param[in] import_duration_ms Input parameter.
+ * @param[in] total_records_attempted Input parameter.
+ * @param[in] all_diagnostics Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), sorted_causes(), begin(), end(), std::sort(), size(), resize(), sorted_remediation().
+ */
 DiagnosticSummary aggregateDiagnostics(
     const std::string& import_id,
     uint64_t import_duration_ms,

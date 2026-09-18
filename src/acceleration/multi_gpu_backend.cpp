@@ -60,7 +60,6 @@ int MultiGPUVectorBackend::detectGPUCount() noexcept {
 // MultiGPUVectorBackend::Impl
 // =============================================================================
 
-/** @brief MultiGPUVectorBackend::Impl. */
 class MultiGPUVectorBackend::Impl {
   public:
     Config config;
@@ -92,6 +91,11 @@ class MultiGPUVectorBackend::Impl {
 
     // -------------------------------------------------------------------------
 
+    /**
+     * @brief Initialize.
+     * @return True when the operation succeeds.
+     * @details Calls: empty(), push_back(), MultiGPUVectorBackend::detectGPUCount(), size(), resize(), clear(), reserve(), std::move().
+     */
     bool initialize() {
         // Determine actual device IDs to use
         std::vector<int> deviceIds = config.deviceIds;
@@ -153,6 +157,10 @@ class MultiGPUVectorBackend::Impl {
         return true;
     }
 
+    /**
+     * @brief Shutdown.
+     * @details Calls: clear(), reset().
+     */
     void shutdown() {
         subBackends.clear();
         shardDescs.clear();
@@ -180,6 +188,11 @@ class MultiGPUVectorBackend::Impl {
 
     std::vector<ShardDescriptor> buildRanges(size_t numVectors) const {
         size_t n = shardDescs.size();
+        /**
+         * @brief Ranges.
+         * @param[in] n Input parameter.
+         * @return Return value.
+         */
         std::vector<ShardDescriptor> ranges(n);
 
         size_t base      = (n > 0) ? numVectors / n : 0;
@@ -197,9 +210,17 @@ class MultiGPUVectorBackend::Impl {
         return ranges;
     }
 
-    // -------------------------------------------------------------------------
-    // computeDistances — per-shard distance computation + global concat
-    // -------------------------------------------------------------------------
+    /**
+     * @brief ------------------------------------------------------------------------- computeDistances — per-shard distance computation + global concat -------------------------------------------------------------------------
+     * @param[in] queries Input parameter.
+     * @param[in] numQueries Input parameter.
+     * @param[in] dim Input parameter.
+     * @param[in] vectors Input parameter.
+     * @param[in] numVectors Input parameter.
+     * @param[in] useL2 Input parameter.
+     * @return Return value.
+     * @details Calls: empty(), buildRanges(), result(), size(), numVectors().
+     */
 
     std::vector<float> computeDistances(const float *queries, size_t numQueries, size_t dim, const float *vectors,
                                         size_t numVectors, bool useL2) {
@@ -302,6 +323,11 @@ class MultiGPUVectorBackend::Impl {
     // Communication backend helpers
     // -------------------------------------------------------------------------
 
+    /**
+     * @brief Init Comm Backend.
+     * @param[in] deviceIds Input parameter.
+     * @details Calls: NCCLVectorBackend::isNCCLAvailable(), RCCLVectorBackend::isRCCLAvailable(), size(), initialize(), reset().
+     */
     void initCommBackend(const std::vector<int> &deviceIds) {
         (void)deviceIds;
         CommBackend target = config.commBackend;
@@ -423,6 +449,11 @@ BackendCapabilities MultiGPUVectorBackend::getCapabilities() const {
     return caps;
 }
 
+/**
+ * @brief Initialize.
+ * @return True when the operation succeeds.
+ * @details Calls: clearError(), setError(), ErrorContext(), name().
+ */
 bool MultiGPUVectorBackend::initialize() {
     if (pImpl_->initialize()) {
         clearError();
@@ -433,10 +464,25 @@ bool MultiGPUVectorBackend::initialize() {
     return false;
 }
 
+/**
+ * @brief Shutdown.
+ * @details Implements shutdown without additional internal calls.
+ */
 void MultiGPUVectorBackend::shutdown() {
     pImpl_->shutdown();
 }
 
+/**
+ * @brief Compute Distances.
+ * @param[in] queries Input parameter.
+ * @param[in] numQueries Input parameter.
+ * @param[in] dim Input parameter.
+ * @param[in] vectors Input parameter.
+ * @param[in] numVectors Input parameter.
+ * @param[in] useL2 Input parameter.
+ * @return Return value.
+ * @details Implements computeDistances without additional internal calls.
+ */
 std::vector<float> MultiGPUVectorBackend::computeDistances(const float *queries, size_t numQueries, size_t dim,
                                                            const float *vectors, size_t numVectors, bool useL2) {
     return pImpl_->computeDistances(queries, numQueries, dim, vectors, numVectors, useL2);

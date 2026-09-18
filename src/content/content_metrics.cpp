@@ -19,6 +19,12 @@ namespace content {
 // Throughput Metrics
 // ============================================================================
 
+/**
+ * @brief Record Ingestion.
+ * @param[in] mime_type Input parameter.
+ * @param[in] size_bytes Input parameter.
+ * @details Calls: lock().
+ */
 void ContentMetrics::recordIngestion(const std::string& mime_type, uint64_t size_bytes) {
     total_ingestions_++;
     total_bytes_processed_ += size_bytes;
@@ -27,6 +33,11 @@ void ContentMetrics::recordIngestion(const std::string& mime_type, uint64_t size
     mime_type_counts_[mime_type]++;
 }
 
+/**
+ * @brief Record Validation.
+ * @param[in] success Input parameter.
+ * @details Implements recordValidation without additional internal calls.
+ */
 void ContentMetrics::recordValidation(bool success) {
     total_validations_++;
     if (success) {
@@ -36,6 +47,12 @@ void ContentMetrics::recordValidation(bool success) {
     }
 }
 
+/**
+ * @brief Record Processing.
+ * @param[in] param Input parameter.
+ * @param[in] success Input parameter.
+ * @details Implements recordProcessing without additional internal calls.
+ */
 void ContentMetrics::recordProcessing(const std::string& /*mime_type*/, bool success) {
     total_processing_++;
     if (success) {
@@ -45,6 +62,11 @@ void ContentMetrics::recordProcessing(const std::string& /*mime_type*/, bool suc
     }
 }
 
+/**
+ * @brief Record Extraction.
+ * @param[in] success Input parameter.
+ * @details Implements recordExtraction without additional internal calls.
+ */
 void ContentMetrics::recordExtraction(bool success) {
     total_extractions_++;
     if (success) {
@@ -54,38 +76,76 @@ void ContentMetrics::recordExtraction(bool success) {
     }
 }
 
+/**
+ * @brief Record Chunking.
+ * @param[in] chunk_count Input parameter.
+ * @details Implements recordChunking without additional internal calls.
+ */
 void ContentMetrics::recordChunking(uint64_t chunk_count) {
     total_chunks_ += chunk_count;
 }
 
+/**
+ * @brief Record Embedding.
+ * @param[in] count Input parameter.
+ * @details Implements recordEmbedding without additional internal calls.
+ */
 void ContentMetrics::recordEmbedding(uint64_t count) {
     total_embeddings_ += count;
 }
 
+/**
+ * @brief Record Embedding Failure.
+ * @details Implements recordEmbeddingFailure without additional internal calls.
+ */
 void ContentMetrics::recordEmbeddingFailure() {
     embedding_failures_++;
 }
 
+/**
+ * @brief Record Dedup Check.
+ * @details Implements recordDedupCheck without additional internal calls.
+ */
 void ContentMetrics::recordDedupCheck() {
     dedup_checks_++;
 }
 
+/**
+ * @brief Record Dedup Hit.
+ * @details Implements recordDedupHit without additional internal calls.
+ */
 void ContentMetrics::recordDedupHit() {
     dedup_hits_++;
 }
 
+/**
+ * @brief Record Pdf Extracted.
+ * @details Implements recordPdfExtracted without additional internal calls.
+ */
 void ContentMetrics::recordPdfExtracted() {
     pdf_extracted_total_++;
 }
 
+/**
+ * @brief Record Office Extracted.
+ * @details Implements recordOfficeExtracted without additional internal calls.
+ */
 void ContentMetrics::recordOfficeExtracted() {
     office_extracted_total_++;
 }
 
+/**
+ * @brief Record Ocr Extracted.
+ * @details Implements recordOcrExtracted without additional internal calls.
+ */
 void ContentMetrics::recordOcrExtracted() {
     ocr_extracted_total_++;
 }
 
+/**
+ * @brief Record Extract Error.
+ * @details Implements recordExtractError without additional internal calls.
+ */
 void ContentMetrics::recordExtractError() {
     extract_errors_total_++;
 }
@@ -94,10 +154,22 @@ void ContentMetrics::recordExtractError() {
 // Latency Metrics
 // ============================================================================
 
+/**
+ * @brief Record Latency.
+ * @param[in] operation Input parameter.
+ * @param[in] latency_ms Input parameter.
+ * @details Calls: recordLatencyInternal().
+ */
 void ContentMetrics::recordLatency(const std::string& operation, double latency_ms) {
     recordLatencyInternal(operation, latency_ms);
 }
 
+/**
+ * @brief Record Latency Internal.
+ * @param[in] operation Input parameter.
+ * @param[in] latency_ms Input parameter.
+ * @details Calls: lock(), push_back(), std::min(), std::max().
+ */
 void ContentMetrics::recordLatencyInternal(const std::string& operation, double latency_ms) {
     std::lock_guard<std::mutex> lock(latency_mutex_);
     auto& stats = latency_stats_[operation];
@@ -116,6 +188,11 @@ void ContentMetrics::recordLatencyInternal(const std::string& operation, double 
 }
 
 std::map<std::string, double> ContentMetrics::getLatencyPercentiles(const std::string& operation) const {
+    /**
+     * @brief Lock.
+     * @param[in] latency_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(latency_mutex_);
     std::map<std::string, double> result;
     
@@ -160,6 +237,11 @@ double ContentMetrics::calculatePercentile(const std::vector<double>& sorted_sam
 // Error Metrics
 // ============================================================================
 
+/**
+ * @brief Record Error.
+ * @param[in] error_code Input parameter.
+ * @details Calls: lock().
+ */
 void ContentMetrics::recordError(int error_code) {
     total_errors_++;
     
@@ -167,11 +249,21 @@ void ContentMetrics::recordError(int error_code) {
     error_code_counts_[error_code]++;
 }
 
+/**
+ * @brief Record Error Category.
+ * @param[in] category Input parameter.
+ * @details Calls: lock().
+ */
 void ContentMetrics::recordErrorCategory(const std::string& category) {
     std::lock_guard<std::mutex> lock(error_category_mutex_);
     error_category_counts_[category]++;
 }
 
+/**
+ * @brief Record Timeout.
+ * @param[in] operation Input parameter.
+ * @details Calls: lock().
+ */
 void ContentMetrics::recordTimeout(const std::string& operation) {
     total_timeouts_++;
     
@@ -183,6 +275,11 @@ void ContentMetrics::recordTimeout(const std::string& operation) {
 // Validation Metrics
 // ============================================================================
 
+/**
+ * @brief Record Validation Violation.
+ * @param[in] violation_type Input parameter.
+ * @details Calls: lock().
+ */
 void ContentMetrics::recordValidationViolation(const std::string& violation_type) {
     std::lock_guard<std::mutex> lock(violation_mutex_);
     violation_counts_[violation_type]++;
@@ -192,10 +289,18 @@ void ContentMetrics::recordValidationViolation(const std::string& violation_type
 // Cache Metrics
 // ============================================================================
 
+/**
+ * @brief Record Cache Hit.
+ * @details Implements recordCacheHit without additional internal calls.
+ */
 void ContentMetrics::recordCacheHit() {
     cache_hits_++;
 }
 
+/**
+ * @brief Record Cache Miss.
+ * @details Implements recordCacheMiss without additional internal calls.
+ */
 void ContentMetrics::recordCacheMiss() {
     cache_misses_++;
 }
@@ -216,12 +321,22 @@ double ContentMetrics::getCacheHitRate() const {
 // ============================================================================
 
 uint64_t ContentMetrics::getCountByMimeType(const std::string& mime_type) const {
+    /**
+     * @brief Lock.
+     * @param[in] mime_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mime_mutex_);
     auto it = mime_type_counts_.find(mime_type);
     return it != mime_type_counts_.end() ? it->second : 0;
 }
 
 std::map<std::string, uint64_t> ContentMetrics::getMimeTypeCounts() const {
+    /**
+     * @brief Lock.
+     * @param[in] mime_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mime_mutex_);
     return mime_type_counts_;
 }
@@ -291,16 +406,31 @@ json ContentMetrics::toJson() const {
     j["format_stats"]["ocr_extracted_total"] = ocr_extracted_total_.load();
     
     {
+        /**
+         * @brief Lock.
+         * @param[in] error_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(error_mutex_);
         j["errors"]["by_code"] = error_code_counts_;
     }
     
     {
+        /**
+         * @brief Lock.
+         * @param[in] error_category_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(error_category_mutex_);
         j["errors"]["by_category"] = error_category_counts_;
     }
     
     {
+        /**
+         * @brief Lock.
+         * @param[in] timeout_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(timeout_mutex_);
         j["errors"]["timeouts_by_operation"] = timeout_counts_;
     }
@@ -311,17 +441,32 @@ json ContentMetrics::toJson() const {
     
     // MIME types
     {
+        /**
+         * @brief Lock.
+         * @param[in] mime_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mime_mutex_);
         j["mime_types"] = mime_type_counts_;
     }
     
     // Violations
     {
+        /**
+         * @brief Lock.
+         * @param[in] violation_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(violation_mutex_);
         j["validation_violations"] = violation_counts_;
     }
     
     // Latency
+    /**
+     * @brief Lock.
+     * @param[in] latency_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(latency_mutex_);
     for (const auto& [operation, stats] : latency_stats_) {
         auto sorted = stats.samples;
@@ -431,6 +576,11 @@ std::string ContentMetrics::toPrometheusFormat() const {
     
     // MIME type distribution
     {
+        /**
+         * @brief Lock.
+         * @param[in] mime_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mime_mutex_);
         if (!mime_type_counts_.empty()) {
             oss << "# HELP content_by_mime_type_total Content items by MIME type\n";
@@ -444,6 +594,11 @@ std::string ContentMetrics::toPrometheusFormat() const {
     
     // Error categories
     {
+        /**
+         * @brief Lock.
+         * @param[in] error_category_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(error_category_mutex_);
         if (!error_category_counts_.empty()) {
             oss << "# HELP content_errors_by_category_total Errors by category\n";
@@ -457,6 +612,11 @@ std::string ContentMetrics::toPrometheusFormat() const {
     
     // Latency percentiles
     {
+        /**
+         * @brief Lock.
+         * @param[in] latency_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(latency_mutex_);
         for (const auto& [operation, stats] : latency_stats_) {
             if (stats.samples.empty()) {
@@ -479,6 +639,10 @@ std::string ContentMetrics::toPrometheusFormat() const {
     return oss.str();
 }
 
+/**
+ * @brief Reset the modification detection flag.
+ * @details Calls: lock(), clear().
+ */
 void ContentMetrics::reset() {
     // Reset atomic counters
     total_ingestions_ = 0;

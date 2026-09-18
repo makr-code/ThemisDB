@@ -28,7 +28,6 @@ namespace themis {
 namespace llm {
 
 // Private implementation
-/** @brief Private implementation. */
 class MultiGPUMemoryCoordinator::Impl {
 public:
     std::vector<GPUDevice> gpus_;
@@ -40,6 +39,12 @@ MultiGPUMemoryCoordinator::MultiGPUMemoryCoordinator()
 
 MultiGPUMemoryCoordinator::~MultiGPUMemoryCoordinator() = default;
 
+/**
+ * @brief Initialize.
+ * @param[in] gpu_ids Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), spdlog::error(), clear(), cudaGetDeviceCount(), cudaGetErrorString(), spdlog::info(), spdlog::warn(), cudaSetDevice().
+ */
 bool MultiGPUMemoryCoordinator::initialize(const std::vector<int>& gpu_ids) {
     if (gpu_ids.empty()) {
         spdlog::error("MultiGPUMemoryCoordinator: No GPU IDs provided");
@@ -316,6 +321,12 @@ MultiGPUMemoryCoordinator::balanceInferenceLoad(
     return plan;
 }
 
+/**
+ * @brief Enable P2 P.
+ * @param[in] gpu_ids Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: size(), spdlog::warn(), spdlog::info(), cudaDeviceCanAccessPeer(), cudaSetDevice(), cudaGetErrorString(), cudaDeviceEnablePeerAccess(), defined().
+ */
 bool MultiGPUMemoryCoordinator::enableP2P(const std::vector<int>& gpu_ids) {
     if (gpu_ids.size() < 2) {
         spdlog::warn("MultiGPUMemoryCoordinator::enableP2P: Need at least 2 GPUs");
@@ -546,6 +557,16 @@ bool MultiGPUMemoryCoordinator::canAccessPeer(int src_gpu, int dst_gpu) const {
 #endif
 }
 
+/**
+ * @brief Transfer P2 P.
+ * @param[in] src_gpu Input parameter.
+ * @param[in] dst_gpu Input parameter.
+ * @param[in] src_ptr Input parameter.
+ * @param[in,out] dst_ptr Input/output parameter.
+ * @param[in] bytes Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: spdlog::warn(), cudaMemcpyPeer(), spdlog::error(), cudaGetErrorString(), spdlog::debug(), defined(), hipMemcpyPeer(), hipGetErrorString().
+ */
 bool MultiGPUMemoryCoordinator::transferP2P(
     int src_gpu,
     int dst_gpu,
@@ -592,6 +613,10 @@ bool MultiGPUMemoryCoordinator::transferP2P(
 #endif
 }
 
+/**
+ * @brief Synchronize All.
+ * @details Calls: cudaSetDevice(), spdlog::warn(), cudaGetErrorString(), cudaDeviceSynchronize(), defined(), hipSetDevice(), hipGetErrorString(), hipDeviceSynchronize().
+ */
 void MultiGPUMemoryCoordinator::synchronizeAll() {
 #ifdef THEMIS_ENABLE_CUDA
     // Synchronize all GPUs

@@ -41,10 +41,23 @@ constexpr std::array<uint32_t, 64> kSha256K = {
     0x748f82eeU, 0x78a5636fU, 0x84c87814U, 0x8cc70208U, 0x90befffaU, 0xa4506cebU, 0xbef9a3f7U, 0xc67178f2U
 };
 
+/**
+ * @brief Rotr.
+ * @param[in] x Input parameter.
+ * @param[in] n Input parameter.
+ * @return Return value.
+ * @details Implements rotr without additional internal calls.
+ */
 inline uint32_t rotr(uint32_t x, uint32_t n) {
     return (x >> n) | (x << (32 - n));
 }
 
+/**
+ * @brief Sha256 Transform.
+ * @param[in,out] state Input/output parameter.
+ * @param[in] block Input parameter.
+ * @details Calls: rotr().
+ */
 void sha256Transform(Sha256State& state, const uint8_t* block) {
     uint32_t w[64];
     for (int i = 0; i < 16; ++i) {
@@ -86,6 +99,12 @@ std::string toLowerHex(const std::array<uint8_t, 32>& digest) {
     return out;
 }
 
+/**
+ * @brief Normalize Lower Hex.
+ * @param[in] value Input parameter.
+ * @return Return value.
+ * @details Implements normalizeLowerHex without additional internal calls.
+ */
 std::string normalizeLowerHex(std::string value) {
     for (char& c : value) {
         if (c >= 'A' && c <= 'F') {
@@ -95,6 +114,13 @@ std::string normalizeLowerHex(std::string value) {
     return value;
 }
 
+/**
+ * @brief Compute File Sha256.
+ * @param[in] path Input parameter.
+ * @param[in,out] out_hex Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: file(), is_open(), read(), data(), size(), gcount(), std::memcpy(), sha256Transform().
+ */
 bool computeFileSha256(const std::string& path, std::string& out_hex) {
     std::ifstream file(path, std::ios::binary);
     if (!file.is_open()) {
@@ -172,6 +198,12 @@ WhisperCppTranscriber::WhisperCppTranscriber() = default;
 
 WhisperCppTranscriber::~WhisperCppTranscriber() = default;
 
+/**
+ * @brief Initialize.
+ * @param[in] cfg Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: clear(), empty(), computeFileSha256(), normalizeLowerHex(), whisper_context_default_params(), whisper_init_from_file_with_params(), c_str(), reset().
+ */
 bool WhisperCppTranscriber::initialize(const WhisperConfig& cfg) {
     if (initialized_) {
       return true;
@@ -211,6 +243,13 @@ bool WhisperCppTranscriber::initialize(const WhisperConfig& cfg) {
     return true;
 }
 
+/**
+ * @brief Transcribe.
+ * @param[in] pcm Input parameter.
+ * @param[in] sample_rate Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), size(), std::chrono::system_clock::now(), time_since_epoch(), count(), whisper_full_default_params(), c_str(), get().
+ */
 audio::TranscriptionResult WhisperCppTranscriber::transcribe(
         const std::vector<float>& pcm, float sample_rate) {
     audio::TranscriptionResult result;
@@ -253,6 +292,13 @@ audio::TranscriptionResult WhisperCppTranscriber::transcribe(
     return result;
 }
 
+/**
+ * @brief Detect Language.
+ * @param[in] pcm Input parameter.
+ * @param[in] float Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), get(), whisper_full_lang_id(), whisper_lang_auto_detect(), whisper_lang_str().
+ */
 audio::LanguageDetectionResult WhisperCppTranscriber::detectLanguage(
         const std::vector<float>& pcm, float /*sample_rate*/) {
     audio::LanguageDetectionResult res;
@@ -271,6 +317,14 @@ audio::LanguageDetectionResult WhisperCppTranscriber::detectLanguage(
     return res;
 }
 
+/**
+ * @brief Diarize.
+ * @param[in] pcm Input parameter.
+ * @param[in] sample_rate Input parameter.
+ * @param[in] cfg Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), transcribe(), std::max(), std::to_string(), push_back(), std::move().
+ */
 DiarisationResult WhisperCppTranscriber::diarize(
         const std::vector<float>& pcm,
         float sample_rate,

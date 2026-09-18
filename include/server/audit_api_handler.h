@@ -37,6 +37,10 @@ struct AuditLogEntry {
     std::string session_id;
     std::string error_message;
     
+    /**
+     * @brief To Json.
+     * @return Return value.
+     */
     nlohmann::json toJson() const;
 };
 
@@ -52,33 +56,6 @@ struct AuditQueryFilter {
     int page_size = 100;
 };
 
-/**
- * @brief AuditApiHandler - Audit log API operations.
- * 
- * HTTP API handler for audit log API operations.
- * Implements endpoint-specific routing, request validation, business logic,
- * and response formatting.
- * 
- * ### HTTP Endpoints
- * Supported operations depend on the specific handler implementation.
- * See handler methods for endpoint mappings and request/response schemas.
- * 
- * ### Thread Safety
- * Handler instance and all methods are thread-safe for concurrent requests.
- * Internal state modifications use appropriate synchronization primitives.
- * 
- * ### Error Handling
- * All endpoints follow consistent error response formatting:
- * - 400: Bad Request (invalid input)
- * - 401: Unauthorized (missing/invalid authentication)
- * - 403: Forbidden (insufficient permissions)
- * - 404: Not Found (resource doesn't exist)
- * - 500: Internal Server Error (unexpected failure)
- * 
- * @note Integrates with rate limiting, auth middleware, and validation pipeline
- * @note Request bodies are validated against JSON schemas before processing
- * @note All operations are auditable and logged
- */
 
 class AuditApiHandler {
 public:
@@ -86,10 +63,18 @@ public:
                     std::shared_ptr<themis::utils::VCCPKIClient> pki,
                     const std::string& log_path);
 
-    // Query audit logs with filtering and pagination
+    /**
+     * @brief Query Audit Logs.
+     * @param[in] filter Input parameter.
+     * @return Return value.
+     */
     nlohmann::json queryAuditLogs(const AuditQueryFilter& filter);
     
-    // Export audit logs as CSV
+    /**
+     * @brief Export Audit Logs Csv.
+     * @param[in] filter Input parameter.
+     * @return Return value.
+     */
     std::string exportAuditLogsCsv(const AuditQueryFilter& filter);
 
 private:
@@ -97,13 +82,26 @@ private:
     std::shared_ptr<themis::utils::VCCPKIClient> pki_;
     std::string log_path_;
 
-    // Read and decrypt audit log entries from JSONL file
+    /**
+     * @brief Read Audit Logs.
+     * @param[in] filter Input parameter.
+     * @return Return value.
+     */
     std::vector<AuditLogEntry> readAuditLogs(const AuditQueryFilter& filter);
     
-    // Parse single JSON line to AuditLogEntry
+    /**
+     * @brief Parse Log Line.
+     * @param[in] j Input parameter.
+     * @param[in] line_id Identifier of the line.
+     * @return Return value.
+     */
     AuditLogEntry parseLogLine(const nlohmann::json& j, int64_t line_id);
     
-    // Decrypt encrypted audit payload
+    /**
+     * @brief Decrypt Payload.
+     * @param[in] payload Input parameter.
+     * @return Return value.
+     */
     std::string decryptPayload(const nlohmann::json& payload);
 };
 

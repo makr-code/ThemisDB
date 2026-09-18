@@ -41,6 +41,12 @@ namespace themis::network {
 
 namespace {
 
+/**
+ * @brief Fnv1a64.
+ * @param[in] value Input parameter.
+ * @return Return value.
+ * @details Implements fnv1a64 without additional internal calls.
+ */
 uint64_t fnv1a64(std::string_view value) {
     uint64_t hash = 1469598103934665603;
     for (unsigned char ch : value) {
@@ -50,6 +56,12 @@ uint64_t fnv1a64(std::string_view value) {
     return hash;
 }
 
+/**
+ * @brief Anonymize Ip For Log.
+ * @param[in] ip Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), std::snprintf(), fnv1a64(), std::string().
+ */
 std::string anonymizeIpForLog(std::string_view ip) {
     if (ip.empty()) {
         return "peer#unknown";
@@ -60,14 +72,8 @@ std::string anonymizeIpForLog(std::string_view ip) {
     return std::string(buffer);
 }
 
-/// Maximum ms to wait for any single thread to join during shutdown.
-/// thread_join_no_timeout (W3): capped to prevent indefinite block.
 constexpr int kUdpShutdownJoinTimeoutMs = 5000;
 
-/// @brief Join @p t within @p timeout_ms; log and detach on timeout.
-///
-/// @param t          Thread to join (moved into the internal watcher).
-/// @param timeout_ms Maximum wait time in milliseconds (default 5 s).
 static void timedJoin(std::thread& t,
                       int timeout_ms = kUdpShutdownJoinTimeoutMs) noexcept {
     if (!t.joinable()) {
@@ -112,6 +118,10 @@ UDPServer::~UDPServer() {
 // start / stop
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Start.
+ * @details Calls: load(), endpoint(), net::ip::make_address(), lock(), store(), THEMIS_INFO(), std::thread(), batchFlushLoop().
+ */
 void UDPServer::start() {
     if (running_.load(std::memory_order_acquire)) {
         return;  // Already running
@@ -142,6 +152,10 @@ void UDPServer::start() {
     }
 }
 
+/**
+ * @brief Stop.
+ * @details Calls: exchange(), lk(), notify_all(), joinable(), timedJoin(), lock(), cancel(), close().
+ */
 void UDPServer::stop() {
     if (!running_.exchange(false, std::memory_order_acq_rel)) {
         return;  // Already stopped
@@ -189,6 +203,10 @@ void UDPServer::stop() {
 // Receive loop
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Do Receive.
+ * @details Calls: lock(), get(), async_receive_from(), net::buffer(), THEMIS_ERROR(), message(), datagram(), begin().
+ */
 void UDPServer::doReceive() {
     udp::socket* socket = nullptr;
     {
@@ -233,6 +251,12 @@ void UDPServer::doReceive() {
 // Datagram dispatch
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Handle Datagram.
+ * @param[in] sender Input parameter.
+ * @param[in] data Input parameter.
+ * @details Calls: address(), to_string(), port(), checkRateLimit(), lk(), THEMIS_WARN(), anonymizeIpForLog(), size().
+ */
 void UDPServer::handleDatagram(udp::endpoint sender, std::vector<uint8_t> data) {
     const std::string ip   = sender.address().to_string();
     const uint16_t    port = sender.port();
@@ -331,6 +355,12 @@ void UDPServer::handleDatagram(udp::endpoint sender, std::vector<uint8_t> data) 
 // Rate limiting
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Check whether a user exceeds the current rate limit.
+ * @param[in] ip Input parameter.
+ * @return True when the user remains within the configured limit.
+ * @details Calls: std::chrono::steady_clock::now(), time_since_epoch(), count(), lk(), max().
+ */
 bool UDPServer::checkRateLimit(const std::string& ip) {
     const uint64_t now_ms =
         static_cast<uint64_t>(
@@ -355,9 +385,13 @@ bool UDPServer::checkRateLimit(const std::string& ip) {
     return entry.count <= config_.max_packets_per_second_per_ip;
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Duplicate detection (sliding window per source IP)
-// ─────────────────────────────────────────────────────────────────────────────
+/**
+ * @brief ───────────────────────────────────────────────────────────────────────────── Duplicate detection (sliding window per source IP) ─────────────────────────────────────────────────────────────────────────────
+ * @param[in] ip Input parameter.
+ * @param[in] seq_num Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lk(), count(), push_back(), insert(), size(), front(), pop_front(), erase().
+ */
 
 bool UDPServer::checkDuplicate(const std::string& ip, uint32_t seq_num) {
     std::lock_guard<std::mutex> lk(dedup_mutex_);
@@ -385,6 +419,13 @@ bool UDPServer::checkDuplicate(const std::string& ip, uint32_t seq_num) {
 // ACK dispatch
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Send Ack.
+ * @param[in] dest Input parameter.
+ * @param[in] seq_num Input parameter.
+ * @param[in] status Input parameter.
+ * @details Calls: buildAck(), lock(), is_open(), send_to(), net::buffer(), lk(), THEMIS_ERROR(), anonymizeIpForLog().
+ */
 void UDPServer::sendAck(const udp::endpoint& dest,
                          uint32_t             seq_num,
                          UdpServerStatus      status) {
@@ -406,9 +447,11 @@ void UDPServer::sendAck(const udp::endpoint& dest,
     }
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Packet dispatch (batching or direct)
-// ─────────────────────────────────────────────────────────────────────────────
+/**
+ * @brief ───────────────────────────────────────────────────────────────────────────── Packet dispatch (batching or direct) ─────────────────────────────────────────────────────────────────────────────
+ * @param[in] pkt Input parameter.
+ * @details Calls: lk(), push_back(), handler_(), THEMIS_ERROR(), what().
+ */
 
 void UDPServer::dispatchPacket(const UdpPacket& pkt) {
     if (config_.enable_batching) {
@@ -446,6 +489,10 @@ void UDPServer::dispatchPacket(const UdpPacket& pkt) {
 // Batch-flush loop
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Batch Flush Loop.
+ * @details Calls: std::chrono::milliseconds(), lk(), wait_for(), swap(), empty(), handler_(), THEMIS_ERROR(), what().
+ */
 void UDPServer::batchFlushLoop() {
     const auto interval =
         std::chrono::milliseconds(std::max<uint32_t>(1, config_.batch_interval_ms));
@@ -533,6 +580,12 @@ void UDPServer::batchFlushLoop() {
 // Static packet helpers
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Validate Packet.
+ * @param[in] data Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: size(), std::memcpy(), data(), ntohs().
+ */
 bool UDPServer::validatePacket(const std::vector<uint8_t>& data) {
     if (data.size() < kUdpServerHeaderSize) {
         return false;
@@ -553,6 +606,13 @@ bool UDPServer::validatePacket(const std::vector<uint8_t>& data) {
     return true;
 }
 
+/**
+ * @brief Build Ack.
+ * @param[in] seq_num Input parameter.
+ * @param[in] status Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), push_back(), htonl(), insert(), end().
+ */
 std::vector<uint8_t> UDPServer::buildAck(uint32_t        seq_num,
                                           UdpServerStatus status) {
     std::vector<uint8_t> ack;
@@ -576,6 +636,11 @@ std::vector<uint8_t> UDPServer::buildAck(uint32_t        seq_num,
 // ─────────────────────────────────────────────────────────────────────────────
 
 UDPServer::Stats UDPServer::getStats() const {
+    /**
+     * @brief Lk.
+     * @param[in] stats_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(stats_mutex_);
     return stats_;
 }

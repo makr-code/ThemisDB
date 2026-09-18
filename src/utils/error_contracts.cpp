@@ -96,13 +96,13 @@ std::string ErrorContext::toFormattedString() const {
     return oss.str();
 }
 
+
 /**
- * @brief ───────────────────────────────────────────────────────────────────────────── Error Code Naming ─────────────────────────────────────────────────────────────────────────────
+ * @brief Error Code Name.
  * @param[in] code Input parameter.
  * @return Return value.
  * @details Calls: fmt::format().
  */
-
 std::string errorCodeName(ErrorCode code) {
     switch (code) {
         // General utility errors
@@ -283,13 +283,13 @@ std::string incidentName(IncidentCategory incident) {
     }
 }
 
+
 /**
- * @brief ───────────────────────────────────────────────────────────────────────────── Incident Categorization ─────────────────────────────────────────────────────────────────────────────
+ * @brief Categorize Incident.
  * @param[in] code Input parameter.
  * @return Return value.
  * @details Implements categorizeIncident without additional internal calls.
  */
-
 IncidentCategory categorizeIncident(ErrorCode code) {
     // Categorize based on error code patterns and semantics
     switch (code) {
@@ -394,8 +394,9 @@ IncidentCategory categorizeIncident(ErrorCode code) {
     }
 }
 
+
 /**
- * @brief ───────────────────────────────────────────────────────────────────────────── Error Context Creation ─────────────────────────────────────────────────────────────────────────────
+ * @brief Make Error Context.
  * @param[in] code Input parameter.
  * @param[in] message Input parameter.
  * @param[in] component Input parameter.
@@ -404,7 +405,6 @@ IncidentCategory categorizeIncident(ErrorCode code) {
  * @return Return value.
  * @details Calls: std::chrono::system_clock::now(), std::chrono::milliseconds().
  */
-
 ErrorContext makeErrorContext(ErrorCode code,
                               const std::string& message,
                               const std::string& component,
@@ -487,13 +487,13 @@ ErrorContext makeErrorContext(ErrorCode code,
     return ctx;
 }
 
+
 /**
- * @brief ───────────────────────────────────────────────────────────────────────────── Diagnostic Logging ─────────────────────────────────────────────────────────────────────────────
+ * @brief Log Error With Context.
  * @param[in] ctx Input parameter.
  * @param[in] logger Input parameter.
  * @details Calls: spdlog::get(), spdlog::default_logger(), critical(), toFormattedString(), error(), warn(), info(), debug().
  */
-
 void logErrorWithContext(const ErrorContext& ctx,
                          std::shared_ptr<spdlog::logger> logger) {
     if (!logger) {

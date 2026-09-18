@@ -25,15 +25,9 @@ namespace themis {
 class RocksDBWrapper;
 class SchemaManager;
 
-/**
- * @brief Manages prompt templates in-memory with optional RocksDB persistence.
- */
 
 class PromptManager {
 public:
-    /**
-     * @brief Persistent representation of a prompt template.
-     */
 
     struct PromptTemplate {
         std::string id;           // generated id
@@ -44,10 +38,6 @@ public:
         nlohmann::json metadata;  // arbitrary metadata (experiment flags etc.)
         bool active = true;
 
-        /**
-         * @brief Serializes this prompt template into JSON.
-         * @return JSON object containing all prompt template fields.
-         */
 
         nlohmann::json toJson() const {
             nlohmann::json j;
@@ -62,99 +52,73 @@ public:
         }
     };
 
-    /**
-     * @brief Constructs an in-memory prompt manager.
-     */
     PromptManager();
 
-    /**
-     * @brief Constructs a prompt manager backed by RocksDB handles.
-     * @param db Non-owning pointer to the RocksDB wrapper.
-     * @param cf Non-owning pointer to the column family used for prompt records.
-     */
     PromptManager(RocksDBWrapper* db, rocksdb::ColumnFamilyHandle* cf = nullptr);
 
-    /**
-     * @brief Destroys the prompt manager.
-     */
     ~PromptManager() = default;
 
     /**
-     * @brief Creates a prompt template entry.
-     * @param t Template to store; an id is generated when empty.
-     * @return Stored prompt template including generated fields.
+     * @brief Create Template.
+     * @param[in] t Input parameter.
+     * @return Return value.
      */
     PromptTemplate createTemplate(PromptTemplate t);
 
     /**
-     * @brief Retrieves a template by id.
-     * @param id Template id to look up.
-     * @return Found template or std::nullopt when no template exists for id.
+     * @brief Get Template.
+     * @param[in] id Input parameter.
+     * @return Return value.
      */
     std::optional<PromptTemplate> getTemplate(const std::string& id) const;
 
     /**
-     * @brief Lists all known templates.
-     * @return Snapshot vector of all stored templates.
+     * @brief List Templates.
+     * @return Return value.
      */
     std::vector<PromptTemplate> listTemplates() const;
 
     /**
-     * @brief Updates metadata and active flag for an existing template.
-     * @param id Template id to update.
-     * @param metadata Metadata payload to store.
-     * @param active New active flag value.
-     * @return true when the template exists and was updated, otherwise false.
+     * @brief Update Template.
+     * @param[in] id Input parameter.
+     * @param[in] metadata Input parameter.
+     * @param[in] active Input parameter.
+     * @return True when the operation succeeds.
      */
     bool updateTemplate(const std::string& id, const nlohmann::json& metadata, bool active);
 
     /**
-     * @brief Assigns an experiment id to a template.
-     * @param id Template id to update.
-     * @param experiment_id Experiment identifier to store in metadata.
-     * @return true when the template exists and was updated, otherwise false.
+     * @brief Assign Experiment.
+     * @param[in] id Input parameter.
+     * @param[in] experiment_id Identifier of the experiment.
+     * @return True when the operation succeeds.
      */
     bool assignExperiment(const std::string& id, const std::string& experiment_id);
 
     /**
-     * @brief Loads prompt templates from a YAML configuration file.
-     * @param yaml_path Path to the YAML file.
-     * @return Number of templates loaded successfully.
+     * @brief Load From YAML.
+     * @param[in] yaml_path Path to the yaml.
+     * @return Return value.
      */
     size_t loadFromYAML(const std::string& yaml_path);
 
-    /**
-     * @brief Injects context variables into a template string.
-     * @param template_str Template source text containing {variable} placeholders.
-     * @param context Mapping from placeholder key to replacement value.
-     * @return Prompt text with placeholder substitutions applied.
-     */
     std::string injectContext(const std::string& template_str, 
                              const std::unordered_map<std::string, std::string>& context) const;
 
-    /**
-     * @brief Retrieves a template and returns context-injected prompt text.
-     * @param id Template id to render.
-     * @param context Mapping from placeholder key to replacement value.
-     * @return Rendered prompt text or std::nullopt when the template is absent.
-     */
     std::optional<std::string> getPromptWithContext(
         const std::string& id,
         const std::unordered_map<std::string, std::string>& context) const;
 
-    /**
-     * @brief Builds standard prompt context variables from schema metadata.
-     * @param schema_mgr Schema manager used to derive schema-dependent variables.
-     * @param edition Product edition label used in context fields.
-     * @param version Product version string used in context fields.
-     * @return Context map containing canonical keys such as version and schema data.
-     */
     static std::unordered_map<std::string, std::string> buildContextFromSchema(
         SchemaManager* schema_mgr,
         const std::string& edition = "Community",
         const std::string& version = "1.5.0");
 
 private:
+    /**
+     * @brief Generate Id.
+     * @return Return value.
+     */
     std::string generateId() const;
 
     // v1.1.0: Lock-free concurrent hash map (2-3x throughput)

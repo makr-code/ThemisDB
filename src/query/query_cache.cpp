@@ -122,11 +122,6 @@ Result<void> QueryCache::put(
                         " exceeds max entry size " + std::to_string(config_.max_entry_size));
     }
     
-    /**
-     * @brief Lock.
-     * @param[in] cache_mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lock(cache_mutex_);
     
     // Check if we need to evict entries
@@ -193,11 +188,6 @@ Result<QueryCache::LookupResult> QueryCache::get(
 ) {
     std::string fingerprint = generateFingerprint(query, params);
     
-    /**
-     * @brief Lock.
-     * @param[in] cache_mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lock(cache_mutex_);
     
     auto it = cache_.find(fingerprint);
@@ -241,11 +231,6 @@ Result<QueryCache::LookupResult> QueryCache::get(
     // Update LRU position (move to front)
     updateLRU(fingerprint);
     
-    /**
-     * @brief Prepare result
-     * @param[in] true Input parameter.
-     * @return Return value.
-     */
     LookupResult result(true);
     result.result = entry.result;
     result.query_fingerprint = fingerprint;
@@ -267,11 +252,6 @@ Result<size_t> QueryCache::invalidateByDependency(const std::string& dependency)
     
     // Find all fingerprints with this dependency
     {
-        /**
-         * @brief Lock.
-         * @param[in] dependency_mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(dependency_mutex_);
         auto it = dependency_index_.find(dependency);
         if (it != dependency_index_.end()) {
@@ -287,11 +267,6 @@ Result<size_t> QueryCache::invalidateByDependency(const std::string& dependency)
     // Remove from cache
     size_t count = 0;
     {
-        /**
-         * @brief Lock.
-         * @param[in] cache_mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(cache_mutex_);
         for (const auto& fingerprint : to_invalidate) {
             auto it = cache_.find(fingerprint);
@@ -326,11 +301,6 @@ Result<bool> QueryCache::invalidate(
 ) {
     std::string fingerprint = generateFingerprint(query, params);
     
-    /**
-     * @brief Lock.
-     * @param[in] cache_mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lock(cache_mutex_);
     
     auto it = cache_.find(fingerprint);
@@ -362,11 +332,6 @@ Result<bool> QueryCache::invalidate(
  * @details Calls: lock(), size(), dep_lock(), THEMIS_INFO(), OkVoid().
  */
 Result<void> QueryCache::clear() {
-    /**
-     * @brief Lock.
-     * @param[in] cache_mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lock(cache_mutex_);
     
     size_t old_count = cache_.size();
@@ -375,11 +340,6 @@ Result<void> QueryCache::clear() {
     lru_list_.clear();
     
     {
-        /**
-         * @brief Dep lock.
-         * @param[in] dependency_mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> dep_lock(dependency_mutex_);
         dependency_index_.clear();
     }
@@ -404,11 +364,6 @@ Result<size_t> QueryCache::clearExpired() {
     std::vector<std::string> to_remove;
     
     {
-        /**
-         * @brief Lock.
-         * @param[in] cache_mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(cache_mutex_);
         
         for (const auto& [fingerprint, internal_entry] : cache_) {
@@ -493,11 +448,6 @@ nlohmann::json QueryCache::getDetailedInfo() const {
  * @details Calls: lock().
  */
 void QueryCache::resetStats() {
-    /**
-     * @brief Lock.
-     * @param[in] stats_mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lock(stats_mutex_);
     stats_.total_requests = 0;
     stats_.hits = 0;
@@ -515,11 +465,6 @@ void QueryCache::resetStats() {
  * @details Calls: lock(), shouldEvict(), empty(), evictOne(), THEMIS_INFO(), OkVoid().
  */
 Result<void> QueryCache::setConfig(const Config& config) {
-    /**
-     * @brief Lock.
-     * @param[in] cache_mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lock(cache_mutex_);
     config_ = config;
     
@@ -542,11 +487,11 @@ QueryCache::Config QueryCache::getConfig() const {
     return config_;
 }
 
+
 /**
- * @brief Private helper methods
+ * @brief Evict LRU.
  * @details Calls: empty(), back(), find(), end(), removeFromDependencyIndex(), THEMIS_DEBUG(), substr(), erase().
  */
-
 void QueryCache::evictLRU() {
     if (lru_list_.empty() || cache_.empty()) {
         return;
@@ -721,11 +666,6 @@ size_t QueryCache::estimateEntrySize(const CacheEntry& entry) const {
  * @details Calls: lock().
  */
 void QueryCache::updateStats(bool hit) {
-    /**
-     * @brief Lock.
-     * @param[in] stats_mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lock(stats_mutex_);
     stats_.total_requests++;
     if (hit) {
@@ -749,11 +689,6 @@ void QueryCache::addToDependencyIndex(
         return;
     }
     
-    /**
-     * @brief Lock.
-     * @param[in] dependency_mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lock(dependency_mutex_);
     for (const auto& dep : dependencies) {
         dependency_index_[dep].push_back(fingerprint);
@@ -774,11 +709,6 @@ void QueryCache::removeFromDependencyIndex(
         return;
     }
     
-    /**
-     * @brief Lock.
-     * @param[in] dependency_mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lock(dependency_mutex_);
     for (const auto& dep : dependencies) {
         auto it = dependency_index_.find(dep);

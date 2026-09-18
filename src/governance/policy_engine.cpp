@@ -28,6 +28,12 @@
 namespace themis {
 namespace governance {
 
+/**
+ * @brief Normalize.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Calls: std::transform(), begin(), end(), tolower(), empty(), is_space(), front(), erase().
+ */
 std::string PolicyEngine::normalize(const std::string &s) {
     std::string out = s;
     std::transform(out.begin(), out.end(), out.begin(),
@@ -43,11 +49,23 @@ std::string PolicyEngine::normalize(const std::string &s) {
     return out;
 }
 
+/**
+ * @brief Is Strict Class.
+ * @param[in] cls Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: normalize().
+ */
 bool PolicyEngine::isStrictClass(const std::string &cls) {
     auto c = normalize(cls);
     return (c == "geheim" || c == "streng-geheim");
 }
 
+/**
+ * @brief Load From YAML.
+ * @param[in] yaml_path Path to the yaml.
+ * @return True when the operation succeeds.
+ * @details Calls: YAML::LoadFile(), normalize(), IsSequence(), THEMIS_WARN(), empty(), push_back(), std::move(), std::filesystem::last_write_time().
+ */
 bool PolicyEngine::loadFromYAML(const std::string &yaml_path) {
     try {
         YAML::Node config = YAML::LoadFile(yaml_path);
@@ -191,6 +209,12 @@ bool PolicyEngine::loadFromYAML(const std::string &yaml_path) {
     }
 }
 
+/**
+ * @brief Reload If Changed.
+ * @param[in,out] err Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), empty(), std::filesystem::last_write_time(), std::string(), what(), observability::MetricsCollector::getInstance(), addCounter(), time_since_epoch().
+ */
 bool PolicyEngine::reloadIfChanged(std::string *err) {
     // Read state under the lock then release before touching the filesystem
     std::string path = {};
@@ -258,11 +282,21 @@ bool PolicyEngine::reloadIfChanged(std::string *err) {
 }
 
 std::string PolicyEngine::getLoadedFilePath() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return loaded_yaml_path_;
 }
 
 std::optional<ClassificationProfile> PolicyEngine::getClassificationProfile(const std::string &level) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = classification_profiles_.find(normalize(level));
     if (it == classification_profiles_.end()) {
@@ -271,16 +305,31 @@ std::optional<ClassificationProfile> PolicyEngine::getClassificationProfile(cons
     return it->second;
 }
 
+/**
+ * @brief Set Audit Logger.
+ * @param[in] logger Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void PolicyEngine::setAuditLogger(std::shared_ptr<themis::utils::AuditLogger> logger) {
     std::lock_guard<std::mutex> lock(mutex_);
     audit_logger_ = std::move(logger);
 }
 
+/**
+ * @brief Set Opa Evaluator.
+ * @param[in,out] evaluator Input/output parameter.
+ * @details Calls: lock().
+ */
 void PolicyEngine::setOpaEvaluator(IPolicyEvaluator *evaluator) {
     std::lock_guard<std::mutex> lock(mutex_);
     opa_evaluator_ = evaluator;
 }
 
+/**
+ * @brief Set Ccpa Opt Out Subjects.
+ * @param[in] opt_out_registry Input parameter.
+ * @details Calls: lock(), std::move(), THEMIS_INFO(), size().
+ */
 void PolicyEngine::setCcpaOptOutSubjects(std::shared_ptr<std::unordered_set<std::string>> opt_out_registry) {
     std::lock_guard<std::mutex> lock(mutex_);
     ccpa_opt_out_subjects_ = std::move(opt_out_registry);
@@ -292,6 +341,11 @@ bool PolicyEngine::isCcpaOptedOut(const std::string &subject_id) const {
     if (subject_id.empty()) {
         return false;
     }
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     if (!ccpa_opt_out_subjects_) {
         return false;
@@ -317,6 +371,11 @@ PolicyDecision PolicyEngine::evaluate(const std::unordered_map<std::string, std:
     std::shared_ptr<std::unordered_set<std::string>> ccpa_registry;
     IPolicyEvaluator *evaluator = nullptr;
     {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         profiles      = classification_profiles_;
         resource_map  = resource_mapping_;
@@ -486,6 +545,11 @@ SimulationResult PolicyEngine::simulateDecision(const SimulationRequest &request
     std::string mode = {};
     IPolicyEvaluator *evaluator = nullptr;
     {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         profiles     = classification_profiles_;
         resource_map = resource_mapping_;
@@ -579,6 +643,11 @@ SimulationResult PolicyEngine::simulateDecision(const SimulationRequest &request
     return result;
 }
 
+/**
+ * @brief Set Model Governance Policy.
+ * @param[in] policy Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void PolicyEngine::setModelGovernancePolicy(std::shared_ptr<ModelGovernancePolicy> policy) {
     std::lock_guard<std::mutex> lock(mutex_);
     model_governance_policy_ = std::move(policy);
@@ -588,6 +657,11 @@ ModelGovernanceDecision PolicyEngine::checkExportPermission(const ModelTrainingE
     // Snapshot the model governance policy under the lock (may be null)
     std::shared_ptr<ModelGovernancePolicy> mgp;
     {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         mgp = model_governance_policy_;
     }
@@ -622,6 +696,11 @@ ModelGovernanceDecision PolicyEngine::checkExportPermission(const ModelTrainingE
 }
 
 FieldMaskingPolicy PolicyEngine::getMaskingPolicy() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return masking_rules_;
 }
@@ -637,6 +716,11 @@ QueryPermissionResult PolicyEngine::checkQueryPermission(const std::unordered_ma
 
     // Attach the masking policy (snapshot under the lock).
     {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         result.masking_policy = masking_rules_;
     }
@@ -737,6 +821,12 @@ PolicyEngine::checkInferencePermission(const std::unordered_map<std::string, std
     return result;
 }
 
+/**
+ * @brief Validate Access Safety.
+ * @param[in] request Input parameter.
+ * @return Return value.
+ * @details Calls: getGlobalDiagnosticAggregator(), validateAccessRequest().
+ */
 SafeAccessResult PolicyEngine::validateAccessSafety(const AccessRequest& request) {
     // Lazily initialize safety validator if not already done
     if (!safety_validator_) {
@@ -748,6 +838,11 @@ SafeAccessResult PolicyEngine::validateAccessSafety(const AccessRequest& request
     return safety_validator_->validateAccessRequest(request);
 }
 
+/**
+ * @brief Get Safe Access Validator.
+ * @return Return value.
+ * @details Calls: getGlobalDiagnosticAggregator().
+ */
 SafeAccessValidator& PolicyEngine::getSafeAccessValidator() {
     if (!safety_validator_) {
         safety_validator_ = std::make_unique<SafeAccessValidator>(

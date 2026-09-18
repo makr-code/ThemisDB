@@ -21,10 +21,11 @@ namespace themis {
 namespace llm {
 namespace lora {
 
-/**
- * @brief Result of consistency check
- */
 struct ConsistencyCheckResult {
+    /**
+     * @brief Consistency Check Result.
+     * @return Return value.
+     */
     virtual ~ConsistencyCheckResult() = default;
     bool is_valid = false;
     std::string checksum;          // SHA-256 hex
@@ -37,20 +38,8 @@ struct ConsistencyCheckResult {
     uint64_t timestamp = 0;        // Unix timestamp (nanoseconds)
 };
 
-/**
- * @brief Adapter Consistency Checker
- * 
- * Validates LoRA adapters for consistency across shards:
- * - Checksum validation (SHA-256)
- * - Digital signature verification
- * - Version comparison
- * - Conflict detection and resolution
- */
 class AdapterConsistencyChecker {
 public:
-    /**
-     * @brief Configuration for consistency checker
-     */
     struct Config {
         bool enable_checksums = true;
         bool enable_signatures = true;
@@ -58,7 +47,16 @@ public:
         std::string signature_algorithm = "ed25519";
     };
     
+    /**
+     * @brief Adapter Consistency Checker.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit AdapterConsistencyChecker(const Config& config);
+    /**
+     * @brief Adapter Consistency Checker.
+     * @return Return value.
+     */
     explicit AdapterConsistencyChecker();
     ~AdapterConsistencyChecker();
     
@@ -67,41 +65,28 @@ public:
     AdapterConsistencyChecker& operator=(const AdapterConsistencyChecker&) = delete;
     
     /**
-     * @brief Calculate checksum for adapter data
-     * @param data Binary adapter data
-     * @return SHA-256 checksum (hex string)
+     * @brief Calculate Checksum.
+     * @param[in] data Input parameter.
+     * @return Return value.
      */
     std::string calculateChecksum(const std::vector<uint8_t>& data) const;
     
     /**
-     * @brief Verify checksum of adapter data
-     * @param data Binary adapter data
-     * @param expected_checksum Expected checksum
-     * @return true if checksum matches
+     * @brief Verify Checksum.
+     * @param[in] data Input parameter.
+     * @param[in] expected_checksum Input parameter.
+     * @return True when the operation succeeds.
      */
     bool verifyChecksum(
         const std::vector<uint8_t>& data,
         const std::string& expected_checksum
     ) const;
     
-    /**
-     * @brief Generate digital signature for adapter
-     * @param data Binary adapter data
-     * @param private_key Private key for signing (optional, uses default if empty)
-     * @return Base64-encoded signature
-     */
     std::string generateSignature(
         const std::vector<uint8_t>& data,
         const std::string& private_key = ""
     ) const;
     
-    /**
-     * @brief Verify digital signature
-     * @param data Binary adapter data
-     * @param signature Base64-encoded signature
-     * @param public_key Public key for verification (optional, uses default if empty)
-     * @return true if signature is valid
-     */
     bool verifySignature(
         const std::vector<uint8_t>& data,
         const std::string& signature,
@@ -109,11 +94,11 @@ public:
     ) const;
     
     /**
-     * @brief Perform full consistency check on adapter
-     * @param adapter_id Adapter identifier
-     * @param data Binary adapter data
-     * @param metadata Adapter metadata
-     * @return Consistency check result
+     * @brief Check Adapter.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @param[in] data Input parameter.
+     * @param[in] metadata Input parameter.
+     * @return Return value.
      */
     ConsistencyCheckResult checkAdapter(
         const std::string& adapter_id,
@@ -122,10 +107,10 @@ public:
     ) const;
     
     /**
-     * @brief Compare two adapter versions
-     * @param local_result Local adapter check result
-     * @param remote_result Remote adapter check result
-     * @return -1 if local is older, 0 if same, 1 if local is newer
+     * @brief Compare Versions.
+     * @param[in] local_result Input parameter.
+     * @param[in] remote_result Input parameter.
+     * @return Return value.
      */
     int compareVersions(
         const ConsistencyCheckResult& local_result,
@@ -133,10 +118,10 @@ public:
     ) const;
     
     /**
-     * @brief Resolve conflict between adapters
-     * @param local_result Local adapter
-     * @param remote_result Remote adapter
-     * @return Winning adapter result (highest version/timestamp)
+     * @brief Resolve Conflict.
+     * @param[in] local_result Input parameter.
+     * @param[in] remote_result Input parameter.
+     * @return Return value.
      */
     ConsistencyCheckResult resolveConflict(
         const ConsistencyCheckResult& local_result,

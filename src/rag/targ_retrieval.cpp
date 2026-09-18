@@ -24,16 +24,37 @@ namespace rag {
 // FullEntropyFn injection bridge (STUB #262)
 // ============================================================================
 
+/**
+ * @brief Full Entropy Fn Mutex.
+ * @return Return value.
+ * @details Implements fullEntropyFnMutex without additional internal calls.
+ */
 static std::mutex& fullEntropyFnMutex() { static std::mutex m; return m; }
+/**
+ * @brief Full Entropy Fn Storage.
+ * @return Return value.
+ * @details Implements fullEntropyFnStorage without additional internal calls.
+ */
 static TARGRetrieval::FullEntropyFn& fullEntropyFnStorage() {
     static TARGRetrieval::FullEntropyFn fn;
     return fn;
 }
+/**
+ * @brief Thread Local Full Entropy Fn Stack.
+ * @return Return value.
+ * @details Implements threadLocalFullEntropyFnStack without additional internal calls.
+ */
 static std::vector<TARGRetrieval::FullEntropyFn>& threadLocalFullEntropyFnStack() {
     static thread_local std::vector<TARGRetrieval::FullEntropyFn> stack;
     return stack;
 }
 
+/**
+ * @brief Compute Exact Full Entropy.
+ * @param[in] logits Input parameter.
+ * @return Return value.
+ * @details Calls: std::max_element(), begin(), end(), std::exp(), std::isfinite(), std::log().
+ */
 static float computeExactFullEntropy(const std::vector<float>& logits) {
     const float max_v = *std::max_element(logits.begin(), logits.end());
     double sum_exp = 0.0;
@@ -56,13 +77,20 @@ static float computeExactFullEntropy(const std::vector<float>& logits) {
     return static_cast<float>(entropy);
 }
 
-/*static*/
+/**
+ * @brief static
+ * @param[in] fn Input parameter.
+ * @details Calls: lk(), fullEntropyFnMutex(), fullEntropyFnStorage(), std::move().
+ */
 void TARGRetrieval::setFullEntropyFn(FullEntropyFn fn) {
     std::lock_guard<std::mutex> lk(fullEntropyFnMutex());
     fullEntropyFnStorage() = std::move(fn);
 }
 
-/*static*/
+/**
+ * @brief static
+ * @details Calls: lk(), fullEntropyFnMutex(), fullEntropyFnStorage().
+ */
 void TARGRetrieval::clearFullEntropyFn() {
     std::lock_guard<std::mutex> lk(fullEntropyFnMutex());
     fullEntropyFnStorage() = {};
@@ -99,6 +127,15 @@ TARGRetrieval::TARGRetrieval(TARGConfig cfg)
 // computeMetrics
 // ============================================================================
 
+/**
+ * @brief Compute Metrics.
+ * @param[in] logits Input parameter.
+ * @param[in,out] out_gap Input/output parameter.
+ * @param[in,out] out_entropy Input/output parameter.
+ * @param[in] compute_entropy Input parameter.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: size(), threadLocalFullEntropyFnStack(), empty(), back(), lk(), fullEntropyFnMutex(), fullEntropyFnStorage(), fn_copy().
+ */
 void TARGRetrieval::computeMetrics(const std::vector<float>& logits,
                                     float& out_gap,
                                     float& out_entropy,
@@ -151,6 +188,12 @@ void TARGRetrieval::computeMetrics(const std::vector<float>& logits,
 // gate
 // ============================================================================
 
+/**
+ * @brief Gate.
+ * @param[in] logits Input parameter.
+ * @return Return value.
+ * @details Calls: computeMetrics().
+ */
 TARGDecision TARGRetrieval::gate(const std::vector<float>& logits) {
     TARGDecision decision;
 
@@ -212,6 +255,12 @@ TARGDecision TARGRetrieval::gate(const std::vector<float>& logits) {
 // shouldRetrieve
 // ============================================================================
 
+/**
+ * @brief Should Retrieve.
+ * @param[in] logits Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: gate().
+ */
 bool TARGRetrieval::shouldRetrieve(const std::vector<float>& logits) {
     return gate(logits).should_retrieve;
 }
@@ -220,6 +269,10 @@ bool TARGRetrieval::shouldRetrieve(const std::vector<float>& logits) {
 // notifyRetrievalExecuted
 // ============================================================================
 
+/**
+ * @brief Notify Retrieval Executed.
+ * @details Implements notifyRetrievalExecuted without additional internal calls.
+ */
 void TARGRetrieval::notifyRetrievalExecuted() {
     consecutive_uncertain_ = 0;
     cooldown_remaining_    = cfg_.retrieval_cooldown_tokens;
@@ -229,6 +282,10 @@ void TARGRetrieval::notifyRetrievalExecuted() {
 // notifyTokenEmitted
 // ============================================================================
 
+/**
+ * @brief Notify Token Emitted.
+ * @details Implements notifyTokenEmitted without additional internal calls.
+ */
 void TARGRetrieval::notifyTokenEmitted() {
     if (cooldown_remaining_ > 0) {
         --cooldown_remaining_;
@@ -240,6 +297,10 @@ void TARGRetrieval::notifyTokenEmitted() {
 // reset
 // ============================================================================
 
+/**
+ * @brief Reset the modification detection flag.
+ * @details Implements reset without additional internal calls.
+ */
 void TARGRetrieval::reset() {
     consecutive_uncertain_ = 0;
     cooldown_remaining_    = 0;

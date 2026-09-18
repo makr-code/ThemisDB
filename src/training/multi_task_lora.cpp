@@ -26,7 +26,6 @@ namespace training {
 // Impl
 // ============================================================================
 
-/** @brief Impl. */
 class MultiTaskLoRATrainer::Impl {
 public:
     explicit Impl(MultiTaskLoRAConfig cfg) : cfg_(std::move(cfg)) {}
@@ -35,6 +34,12 @@ public:
     // Task management
     // ──────────────────────────────────────────────────────────────────
 
+    /**
+     * @brief Add Task.
+     * @param[in] task Input parameter.
+     * @throws std::invalid_argument if an error occurs.
+     * @details Calls: empty(), count(), size(), push_back().
+     */
     void addTask(const TaskConfig& task) {
         if (task.id.empty())
             throw std::invalid_argument("MultiTaskLoRATrainer: task id must not be empty");
@@ -55,6 +60,14 @@ public:
     // Training
     // ──────────────────────────────────────────────────────────────────
 
+    /**
+     * @brief Train.
+     * @param[in] samples Input parameter.
+     * @return Return value.
+     * @throws std::runtime_error if an error occurs.
+     * @throws std::invalid_argument if an error occurs.
+     * @details Calls: empty(), size(), rng(), init(), assign(), resize(), std::min(), count().
+     */
     MTLTrainResult train(const std::vector<MTLSample>& samples) {
         if (tasks_.empty())
             throw std::runtime_error("MultiTaskLoRATrainer: no tasks registered");
@@ -511,6 +524,11 @@ public:
             }
 
             MultiTaskLoRAConfig separate_cfg = cfg_;
+            /**
+             * @brief Separate trainer.
+             * @param[in] separate_cfg Input parameter.
+             * @return Return value.
+             */
             MultiTaskLoRATrainer separate_trainer(separate_cfg);
             separate_trainer.addTask(task);
 
@@ -595,6 +613,11 @@ MultiTaskLoRATrainer::MultiTaskLoRATrainer(MultiTaskLoRAConfig cfg)
 
 MultiTaskLoRATrainer::~MultiTaskLoRATrainer() = default;
 
+/**
+ * @brief Add Task.
+ * @param[in] task Input parameter.
+ * @details Implements addTask without additional internal calls.
+ */
 void MultiTaskLoRATrainer::addTask(const TaskConfig& task) {
     impl_->addTask(task);
 }
@@ -603,6 +626,12 @@ size_t MultiTaskLoRATrainer::taskCount() const {
     return impl_->taskCount();
 }
 
+/**
+ * @brief Train.
+ * @param[in] samples Input parameter.
+ * @return Return value.
+ * @details Implements train without additional internal calls.
+ */
 MTLTrainResult MultiTaskLoRATrainer::train(const std::vector<MTLSample>& samples) {
     return impl_->train(samples);
 }
@@ -627,6 +656,12 @@ AcceptanceGateMetrics MultiTaskLoRATrainer::validateAcceptanceGates() const {
     return impl_->validateAcceptanceGates();
 }
 
+/**
+ * @brief Benchmark Three Task Transfer.
+ * @param[in] num_samples Input parameter.
+ * @return Return value.
+ * @details Implements benchmarkThreeTaskTransfer without additional internal calls.
+ */
 MTLTrainResult MultiTaskLoRATrainer::benchmarkThreeTaskTransfer(size_t num_samples) {
     return impl_->benchmarkThreeTaskTransfer(num_samples);
 }

@@ -29,9 +29,6 @@ namespace ingestion {
 // Internal constants
 // ============================================================================
 
-/// Cursor value written to the shared checkpoint store when a source has been
-/// fully ingested by a worker.  Failover workers can use this to skip sources
-/// that have already been completed.
 static constexpr const char* kCompletedCursor = "completed";
 
 // ============================================================================
@@ -40,7 +37,12 @@ static constexpr const char* kCompletedCursor = "completed";
 
 namespace {
 
-/// FNV-1a 64-bit hash — deterministic, no external dependency.
+/**
+ * @brief Fnv1a64.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Calls: UINT64_C().
+ */
 inline uint64_t fnv1a64(const std::string& s) {
     uint64_t h = UINT64_C(14695981039346656037);
     for (unsigned char c : s) {
@@ -50,7 +52,13 @@ inline uint64_t fnv1a64(const std::string& s) {
     return h;
 }
 
-/// Build a unique virtual-node key: "<node_id>#<replica_index>".
+/**
+ * @brief Vnode Key.
+ * @param[in] node_id Identifier of the node.
+ * @param[in] replica Input parameter.
+ * @return Return value.
+ * @details Calls: std::to_string().
+ */
 inline std::string vnodeKey(const std::string& node_id, size_t replica) {
     return node_id + '#' + std::to_string(replica);
 }
@@ -61,6 +69,12 @@ inline std::string vnodeKey(const std::string& node_id, size_t replica) {
 // InMemorySharedCheckpointStore
 // ============================================================================
 
+/**
+ * @brief Write.
+ * @param[in] cp Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock().
+ */
 bool InMemorySharedCheckpointStore::write(const IngestionCheckpoint& cp) {
     std::lock_guard<std::mutex> lock(mutex_);
     store_[cp.source_id] = cp;
@@ -69,6 +83,11 @@ bool InMemorySharedCheckpointStore::write(const IngestionCheckpoint& cp) {
 
 bool InMemorySharedCheckpointStore::read(const std::string& source_id,
                                           IngestionCheckpoint& out) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = store_.find(source_id);
     if (it == store_.end()) {
@@ -78,17 +97,33 @@ bool InMemorySharedCheckpointStore::read(const std::string& source_id,
     return true;
 }
 
+/**
+ * @brief Clear.
+ * @param[in] source_id Identifier of the source.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), erase().
+ */
 bool InMemorySharedCheckpointStore::clear(const std::string& source_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     return store_.erase(source_id) > 0;
 }
 
 bool InMemorySharedCheckpointStore::exists(const std::string& source_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return store_.count(source_id) > 0;
 }
 
 size_t InMemorySharedCheckpointStore::size() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return store_.size();
 }
@@ -97,6 +132,13 @@ size_t InMemorySharedCheckpointStore::size() const {
 // InProcessLeaderElection
 // ============================================================================
 
+/**
+ * @brief Try Acquire Lease.
+ * @param[in] node_id Identifier of the node.
+ * @param[in] ttl Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), std::chrono::steady_clock::now(), isValid().
+ */
 bool InProcessLeaderElection::tryAcquireLease(const std::string& node_id,
                                                std::chrono::milliseconds ttl) {
     std::lock_guard<std::mutex> lock(mutex_);
@@ -121,10 +163,20 @@ bool InProcessLeaderElection::tryAcquireLease(const std::string& node_id,
 }
 
 LeaderLease InProcessLeaderElection::getCurrentLease() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return current_lease_;
 }
 
+/**
+ * @brief Revoke Lease.
+ * @param[in] node_id Identifier of the node.
+ * @details Calls: lock().
+ */
 void InProcessLeaderElection::revokeLease(const std::string& node_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     if (current_lease_.owner_node_id == node_id) {
@@ -141,6 +193,11 @@ ConsistentHashRing::ConsistentHashRing(size_t virtual_nodes_per_node)
                                    ? kDefaultVirtualNodes
                                    : virtual_nodes_per_node) {}
 
+/**
+ * @brief Add Node.
+ * @param[in] node_id Identifier of the node.
+ * @details Calls: std::find(), begin(), end(), push_back(), hashKey(), vnodeKey().
+ */
 void ConsistentHashRing::addNode(const std::string& node_id) {
     // Idempotent: skip if already present.
     if (std::find(node_ids_.begin(), node_ids_.end(), node_id) != node_ids_.end()) {
@@ -153,6 +210,11 @@ void ConsistentHashRing::addNode(const std::string& node_id) {
     }
 }
 
+/**
+ * @brief Remove Node.
+ * @param[in] node_id Identifier of the node.
+ * @details Calls: std::find(), begin(), end(), erase(), hashKey(), vnodeKey().
+ */
 void ConsistentHashRing::removeNode(const std::string& node_id) {
     auto it = std::find(node_ids_.begin(), node_ids_.end(), node_id);
     if (it == node_ids_.end()) {
@@ -195,13 +257,23 @@ bool InProcessWorkerNode::isAvailable() const {
     return !busy_.load(std::memory_order_acquire);
 }
 
+/**
+ * @brief Ingest.
+ * @param[in] sources Input parameter.
+ * @param[in] target_collection Input parameter.
+ * @param[in] progress_callback Input parameter.
+ * @return Return value.
+ */
 IngestionReport InProcessWorkerNode::ingest(
     const std::vector<SourceConfig>& sources,
     const std::string& target_collection,
     ProgressCallback progress_callback)
 {
-    // Serialise concurrent calls from the same coordinator (should not happen
-    // in normal operation, but protects against misuse).
+    /**
+     * @brief Serialise concurrent calls from the same coordinator (should not happen in normal operation, but protects against misuse).
+     * @param[in] busy_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(busy_mutex_);
     busy_.store(true, std::memory_order_release);
 
@@ -214,8 +286,12 @@ IngestionReport InProcessWorkerNode::ingest(
         return IngestionReport{};
     }
 
-    // Create a local IngestionManager for this node and register all assigned
-    // sources.  Using a per-run manager keeps the state isolated between nodes.
+    /**
+     * @brief Create a local IngestionManager for this node and register all assigned sources.
+     * @param[in] db_connection_ Input parameter.
+     * @return Return value.
+     * @details Using a per-run manager keeps the state isolated between nodes.
+     */
     IngestionManager manager(db_connection_);
     manager.setTargetCollection(target_collection);
     manager.setParallelProcessing(true);
@@ -241,6 +317,12 @@ WorkStealingPool::WorkStealingPool(
     , deques_(nodes_.size())
 {}
 
+/**
+ * @brief Submit To.
+ * @param[in] worker_idx Input parameter.
+ * @param[in] source Input parameter.
+ * @details Calls: assert(), size(), lock(), push_back(), std::move(), fetch_add().
+ */
 void WorkStealingPool::submitTo(size_t worker_idx, SourceConfig source) {
     assert(worker_idx < deques_.size());
     {
@@ -250,6 +332,13 @@ void WorkStealingPool::submitTo(size_t worker_idx, SourceConfig source) {
     remaining_.fetch_add(1, std::memory_order_relaxed);
 }
 
+/**
+ * @brief Try Pop Own.
+ * @param[in] idx Input parameter.
+ * @param[in,out] out Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), empty(), std::move(), front(), pop_front().
+ */
 bool WorkStealingPool::tryPopOwn(size_t idx, SourceConfig& out) {
     std::lock_guard<std::mutex> lock(deques_[idx].mtx);
     if (deques_[idx].tasks.empty()) {
@@ -260,6 +349,13 @@ bool WorkStealingPool::tryPopOwn(size_t idx, SourceConfig& out) {
     return true;
 }
 
+/**
+ * @brief Try Steal.
+ * @param[in] thief_idx Input parameter.
+ * @param[in,out] out Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: size(), lock(), empty(), std::move(), back(), pop_back().
+ */
 bool WorkStealingPool::trySteal(size_t thief_idx, SourceConfig& out) {
     size_t n = deques_.size();
     for (size_t i = 1; i < n; ++i) {
@@ -276,6 +372,12 @@ bool WorkStealingPool::trySteal(size_t thief_idx, SourceConfig& out) {
     return false;
 }
 
+/**
+ * @brief Worker Fn.
+ * @param[in] my_idx Input parameter.
+ * @param[in] cb Input parameter.
+ * @details Calls: tryPopOwn(), trySteal(), load(), std::this_thread::yield(), fetch_sub(), ingest(), lock(), push_back().
+ */
 void WorkStealingPool::workerFn(size_t my_idx, ProgressCallback cb) {
     SourceConfig src;
     while (true) {
@@ -325,6 +427,12 @@ void WorkStealingPool::workerFn(size_t my_idx, ProgressCallback cb) {
     }
 }
 
+/**
+ * @brief Run.
+ * @param[in] cb Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), load(), reserve(), size(), emplace_back(), joinable(), join(), lock().
+ */
 std::vector<IngestionReport> WorkStealingPool::run(ProgressCallback cb) {
     if (nodes_.empty() || remaining_.load(std::memory_order_relaxed) == 0) {
         return {};
@@ -352,7 +460,11 @@ std::vector<IngestionReport> WorkStealingPool::run(ProgressCallback cb) {
 
 namespace {
 
-/// Generate a unique coordinator node ID (hex timestamp + counter).
+/**
+ * @brief Make Coordinator Node Id.
+ * @return Return value.
+ * @details Calls: std::chrono::steady_clock::now(), time_since_epoch(), count(), str().
+ */
 std::string makeCoordinatorNodeId() {
     static std::atomic<uint64_t> counter{0};
     auto ts = static_cast<uint64_t>(
@@ -390,6 +502,10 @@ IngestionCoordinator::~IngestionCoordinator() {
 // IngestionCoordinator — lifecycle
 // ============================================================================
 
+/**
+ * @brief Start.
+ * @details Calls: exchange(), lock(), empty(), std::to_string(), push_back(), addNode(), store(), std::thread().
+ */
 void IngestionCoordinator::start() {
     if (running_.exchange(true)) {
         return;  // already running
@@ -414,6 +530,10 @@ void IngestionCoordinator::start() {
     lease_renewal_thread_ = std::thread(&IngestionCoordinator::leaseRenewalLoop, this);
 }
 
+/**
+ * @brief Stop.
+ * @details Calls: exchange(), lk(), store(), notify_all(), joinable(), join(), revokeLease().
+ */
 void IngestionCoordinator::stop() {
     if (!running_.exchange(false)) {
         return;  // already stopped
@@ -438,6 +558,11 @@ void IngestionCoordinator::stop() {
 // IngestionCoordinator — node management
 // ============================================================================
 
+/**
+ * @brief Register Node.
+ * @param[in] node Input parameter.
+ * @details Calls: lock(), nodeId(), push_back(), addNode().
+ */
 void IngestionCoordinator::registerNode(std::shared_ptr<IIngestionWorkerNode> node) {
     if (!node) {
       return;
@@ -454,6 +579,11 @@ void IngestionCoordinator::registerNode(std::shared_ptr<IIngestionWorkerNode> no
 }
 
 std::vector<NodeInfo> IngestionCoordinator::getNodes() const {
+    /**
+     * @brief Lock.
+     * @param[in] nodes_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(nodes_mutex_);
     std::string leader_id = leader_election_->getCurrentLease().owner_node_id;
 
@@ -483,6 +613,11 @@ std::unordered_map<std::string, std::vector<SourceConfig>>
 IngestionCoordinator::partitionSources(
     const std::vector<SourceConfig>& sources) const
 {
+    /**
+     * @brief Lock.
+     * @param[in] nodes_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(nodes_mutex_);
 
     std::unordered_map<std::string, std::vector<SourceConfig>> partitions;
@@ -505,6 +640,12 @@ IngestionCoordinator::partitionSources(
 // IngestionCoordinator — distributed ingestion
 // ============================================================================
 
+/**
+ * @brief Ingest All.
+ * @param[in] sources Input parameter.
+ * @param[in] progress_callback Input parameter.
+ * @return Return value.
+ */
 IngestionReport IngestionCoordinator::ingestAll(
     const std::vector<SourceConfig>& sources,
     ProgressCallback progress_callback)
@@ -528,6 +669,11 @@ IngestionReport IngestionCoordinator::ingestAll(
 
     // Update election counter metric.
     {
+        /**
+         * @brief Ml.
+         * @param[in] metrics_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> ml(metrics_mutex_);
         ++metrics_.leader_elections;
     }
@@ -537,6 +683,11 @@ IngestionReport IngestionCoordinator::ingestAll(
     std::vector<std::shared_ptr<IIngestionWorkerNode>> active_nodes;
     std::unordered_map<std::string, size_t> node_idx_map;
     {
+        /**
+         * @brief Lock.
+         * @param[in] nodes_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(nodes_mutex_);
         active_nodes = nodes_;
         for (size_t i = 0; i < active_nodes.size(); ++i) {
@@ -556,6 +707,11 @@ IngestionReport IngestionCoordinator::ingestAll(
 
     size_t tasks_submitted = 0;
     {
+        /**
+         * @brief Lock.
+         * @param[in] nodes_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(nodes_mutex_);
         for (const auto& src : sources) {
             size_t worker_idx = 0;
@@ -616,6 +772,11 @@ IngestionReport IngestionCoordinator::ingestAll(
 
     // Update metrics.
     {
+        /**
+         * @brief Ml.
+         * @param[in] metrics_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> ml(metrics_mutex_);
         metrics_.nodes_active    = active_nodes.size();
         metrics_.tasks_submitted = tasks_submitted;
@@ -631,6 +792,11 @@ IngestionReport IngestionCoordinator::ingestAll(
 // ============================================================================
 
 IngestionCoordinator::CoordinatorMetrics IngestionCoordinator::getMetrics() const {
+    /**
+     * @brief Lock.
+     * @param[in] metrics_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(metrics_mutex_);
     return metrics_;
 }
@@ -639,6 +805,10 @@ IngestionCoordinator::CoordinatorMetrics IngestionCoordinator::getMetrics() cons
 // IngestionCoordinator — checkpoint store
 // ============================================================================
 
+/**
+ * @brief Set Shared Checkpoint Store.
+ * @param[in] store Input parameter.
+ */
 void IngestionCoordinator::setSharedCheckpointStore(
     std::shared_ptr<ISharedCheckpointStore> store)
 {
@@ -660,12 +830,20 @@ IngestionCoordinator::getSharedCheckpointStore() const
 // IngestionCoordinator — testing hooks
 // ============================================================================
 
+/**
+ * @brief Set Leader Election For Testing.
+ * @param[in] election Input parameter.
+ */
 void IngestionCoordinator::setLeaderElectionForTesting(
     std::shared_ptr<ILeaderElection> election)
 {
     leader_election_ = std::move(election);
 }
 
+/**
+ * @brief Set Shared Checkpoint Store For Testing.
+ * @param[in] store Input parameter.
+ */
 void IngestionCoordinator::setSharedCheckpointStoreForTesting(
     std::shared_ptr<ISharedCheckpointStore> store)
 {
@@ -677,6 +855,10 @@ void IngestionCoordinator::setSharedCheckpointStoreForTesting(
 // IngestionCoordinator — private helpers
 // ============================================================================
 
+/**
+ * @brief Lease Renewal Loop.
+ * @details Calls: std::chrono::milliseconds(), lk(), load(), wait_for(), getCurrentLease(), isValid(), tryAcquireLease().
+ */
 void IngestionCoordinator::leaseRenewalLoop() {
     // Renew the leader lease every lease_ttl / 2 to avoid expiry under load.
     auto interval = config_.lease_ttl / 2;

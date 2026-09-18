@@ -35,6 +35,13 @@ namespace temporal {
 // InMemoryBackend
 // ============================================================================
 
+/**
+ * @brief Put.
+ * @param[in] key Input parameter.
+ * @param[in] value Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lk().
+ */
 bool InMemoryBackend::put(const std::string& key, const std::string& value) {
     std::unique_lock lk(mutex_);
     data_[key] = value;
@@ -42,11 +49,22 @@ bool InMemoryBackend::put(const std::string& key, const std::string& value) {
 }
 
 std::string InMemoryBackend::get(const std::string& key) const {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock lk(mutex_);
     auto it = data_.find(key);
     return (it != data_.end()) ? it->second : std::string{};
 }
 
+/**
+ * @brief Del.
+ * @param[in] key Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lk(), erase().
+ */
 bool InMemoryBackend::del(const std::string& key) {
     std::unique_lock lk(mutex_);
     return data_.erase(key) > 0;
@@ -54,6 +72,11 @@ bool InMemoryBackend::del(const std::string& key) {
 
 std::vector<std::string>
 InMemoryBackend::listKeysWithPrefix(const std::string& prefix) const {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock lk(mutex_);
     std::vector<std::string> result = {};
 
@@ -66,6 +89,12 @@ InMemoryBackend::listKeysWithPrefix(const std::string& prefix) const {
     return result;
 }
 
+/**
+ * @brief Delete Prefix.
+ * @param[in] prefix Input parameter.
+ * @return Return value.
+ * @details Calls: lk(), lower_bound(), end(), substr(), size(), erase().
+ */
 size_t InMemoryBackend::deletePrefix(const std::string& prefix) {
     std::unique_lock lk(mutex_);
     size_t count = 0;
@@ -77,6 +106,10 @@ size_t InMemoryBackend::deletePrefix(const std::string& prefix) {
     return count;
 }
 
+/**
+ * @brief Clear All.
+ * @details Calls: lk(), clear().
+ */
 void InMemoryBackend::clearAll() {
     std::unique_lock lk(mutex_);
     data_.clear();
@@ -86,8 +119,12 @@ void InMemoryBackend::clearAll() {
 // FileSystemBackend — helpers
 // ============================================================================
 
-// Percent-encode a string so every byte is safe as a filesystem path component.
-// Encodes everything except unreserved URI characters (A-Z a-z 0-9 - _ . ~).
+/**
+ * @brief Percent-encode a string so every byte is safe as a filesystem path component.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Encodes everything except unreserved URI characters (A-Z a-z 0-9 - _ . ~). Calls: reserve(), size().
+ */
 std::string FileSystemBackend::percentEncode(const std::string& s) {
     static const char hex[] = "0123456789abcdef";
     std::string out = {};
@@ -106,6 +143,12 @@ std::string FileSystemBackend::percentEncode(const std::string& s) {
     return out;
 }
 
+/**
+ * @brief Percent Decode.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), hexVal().
+ */
 std::string FileSystemBackend::percentDecode(const std::string& s) {
     std::string out = {};
     out.reserve(s.size());
@@ -185,6 +228,13 @@ FileSystemBackend::FileSystemBackend(fs::path base_dir)
     fs::create_directories(base_dir_);
 }
 
+/**
+ * @brief Put.
+ * @param[in] key Input parameter.
+ * @param[in] value Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lk(), keyToPath(), fs::create_directories(), parent_path(), fs::path(), string(), ofs(), fs::remove().
+ */
 bool FileSystemBackend::put(const std::string& key, const std::string& value) {
     std::unique_lock lk(mutex_);
     try {
@@ -212,9 +262,19 @@ bool FileSystemBackend::put(const std::string& key, const std::string& value) {
 }
 
 std::string FileSystemBackend::get(const std::string& key) const {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock lk(mutex_);
     try {
         const fs::path target = keyToPath(key);
+        /**
+         * @brief Ifs.
+         * @param[in] target Input parameter.
+         * @return Return value.
+         */
         std::ifstream ifs(target);
         if (!ifs) return {};
         std::ostringstream ss = {};
@@ -225,6 +285,12 @@ std::string FileSystemBackend::get(const std::string& key) const {
     }
 }
 
+/**
+ * @brief Del.
+ * @param[in] key Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lk(), keyToPath(), fs::remove().
+ */
 bool FileSystemBackend::del(const std::string& key) {
     std::unique_lock lk(mutex_);
     try {
@@ -237,9 +303,12 @@ bool FileSystemBackend::del(const std::string& key) {
 
 std::vector<std::string>
 FileSystemBackend::listKeysWithPrefix(const std::string& prefix) const {
-    // Reconstruct the directory path the prefix maps to.
-    // prefix format: table'\x01'doc_key'\x01'  (with trailing sep → per-key list)
-    //                table'\x01'               (with one sep → per-table list)
+    /**
+     * @brief Reconstruct the directory path the prefix maps to.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     * @details prefix format: table'\x01'doc_key'\x01' (with trailing sep → per-key list) table'\x01' (with one sep → per-table list)
+     */
     std::shared_lock lk(mutex_);
     std::vector<std::string> result;
     try {
@@ -263,6 +332,12 @@ FileSystemBackend::listKeysWithPrefix(const std::string& prefix) const {
     return result;
 }
 
+/**
+ * @brief Delete Prefix.
+ * @param[in] prefix Input parameter.
+ * @return Return value.
+ * @details Calls: lk(), fs::recursive_directory_iterator(), is_regular_file(), path(), extension(), pathToKey(), substr(), size().
+ */
 size_t FileSystemBackend::deletePrefix(const std::string& prefix) {
     std::unique_lock lk(mutex_);
     size_t count = 0;
@@ -289,6 +364,10 @@ size_t FileSystemBackend::deletePrefix(const std::string& prefix) {
     return count;
 }
 
+/**
+ * @brief Clear All.
+ * @details Calls: lk(), fs::directory_iterator(), fs::remove_all(), path().
+ */
 void FileSystemBackend::clearAll() {
     std::unique_lock lk(mutex_);
     try {
@@ -306,7 +385,14 @@ uint64_t TemporalColdStore::biasedTimestamp(Timestamp t) noexcept {
     return static_cast<uint64_t>(t) + kTimestampBias;
 }
 
-// static
+/**
+ * @brief static
+ * @param[in] table_name Name of the table.
+ * @param[in] doc_key Input parameter.
+ * @param[in] sys_start Input parameter.
+ * @return Return value.
+ * @details Calls: std::snprintf(), biasedTimestamp(), reserve(), size().
+ */
 std::string TemporalColdStore::encodeKey(const std::string& table_name,
                                           const std::string& doc_key,
                                           Timestamp sys_start) {
@@ -324,7 +410,13 @@ std::string TemporalColdStore::encodeKey(const std::string& table_name,
     return key;
 }
 
-// static
+/**
+ * @brief static
+ * @param[in] table_name Name of the table.
+ * @param[in] doc_key Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size().
+ */
 std::string TemporalColdStore::keyPrefix(const std::string& table_name,
                                           const std::string& doc_key) {
     std::string p = {};
@@ -336,7 +428,12 @@ std::string TemporalColdStore::keyPrefix(const std::string& table_name,
     return p;
 }
 
-// static
+/**
+ * @brief static
+ * @param[in] table_name Name of the table.
+ * @return Return value.
+ * @details Implements tablePrefix without additional internal calls.
+ */
 std::string TemporalColdStore::tablePrefix(const std::string& table_name) {
     return table_name + '\x01';
 }
@@ -377,6 +474,10 @@ TemporalColdStore::TemporalColdStore(std::unique_ptr<IColdStoreBackend> backend)
     rebuildIndexFromBackend();
 }
 
+/**
+ * @brief Rebuild Index From Backend.
+ * @details Calls: listKeysWithPrefix(), lk(), clear(), insert(), std::move(), size(), load().
+ */
 void TemporalColdStore::rebuildIndexFromBackend() {
     auto all_keys = backend_->listKeysWithPrefix("");
     std::unique_lock lk(mutex_);
@@ -392,6 +493,13 @@ void TemporalColdStore::rebuildIndexFromBackend() {
 // TemporalColdStore — mutation
 // ============================================================================
 
+/**
+ * @brief Store.
+ * @param[in] table_name Name of the table.
+ * @param[in] doc Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: isCurrent(), encodeKey(), toJson(), dump(), put(), lk(), insert().
+ */
 bool TemporalColdStore::store(const std::string& table_name,
                                const VersionedDocument& doc) {
     if (doc.isCurrent()) {
@@ -416,6 +524,13 @@ bool TemporalColdStore::store(const std::string& table_name,
     return true;
 }
 
+/**
+ * @brief Remove.
+ * @param[in] table_name Name of the table.
+ * @param[in] doc_key Input parameter.
+ * @return Return value.
+ * @details Calls: keyPrefix(), lk(), lower_bound(), end(), substr(), size(), push_back(), del().
+ */
 size_t TemporalColdStore::remove(const std::string& table_name,
                                   const std::string& doc_key) {
     const std::string prefix = keyPrefix(table_name, doc_key);
@@ -438,6 +553,12 @@ size_t TemporalColdStore::remove(const std::string& table_name,
     return removed;
 }
 
+/**
+ * @brief Remove Table.
+ * @param[in] table_name Name of the table.
+ * @return Return value.
+ * @details Calls: tablePrefix(), lk(), lower_bound(), end(), substr(), size(), push_back(), del().
+ */
 size_t TemporalColdStore::removeTable(const std::string& table_name) {
     const std::string prefix = tablePrefix(table_name);
     std::unique_lock lk(mutex_);
@@ -459,6 +580,10 @@ size_t TemporalColdStore::removeTable(const std::string& table_name) {
     return removed;
 }
 
+/**
+ * @brief Clear.
+ * @details Calls: lk(), clearAll().
+ */
 void TemporalColdStore::clear() {
     std::unique_lock lk(mutex_);
     backend_->clearAll();
@@ -478,6 +603,11 @@ TemporalColdStore::getAsOf(const std::string& table_name,
     const std::string search_key = encodeKey(table_name, doc_key, as_of);
     const std::string prefix     = keyPrefix(table_name, doc_key);
 
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock lk(mutex_);
 
     // upper_bound gives first key > search_key; step back to find candidates.
@@ -507,6 +637,11 @@ std::vector<VersionedDocument>
 TemporalColdStore::getAll(const std::string& table_name,
                            const std::string& doc_key) const {
     const std::string prefix = keyPrefix(table_name, doc_key);
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock lk(mutex_);
 
     std::vector<VersionedDocument> result = {};
@@ -529,6 +664,11 @@ TemporalColdStore::getRange(const std::string& table_name,
                              const std::string& doc_key,
                              const TimeRange& range) const {
     const std::string prefix = keyPrefix(table_name, doc_key);
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock lk(mutex_);
 
     std::vector<VersionedDocument> result = {};
@@ -559,6 +699,11 @@ TemporalColdStore::getRange(const std::string& table_name,
 size_t TemporalColdStore::versionCount(const std::string& table_name,
                                         const std::string& doc_key) const {
     const std::string prefix = keyPrefix(table_name, doc_key);
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock lk(mutex_);
     size_t count = 0;
     for (auto it = key_index_.lower_bound(prefix);
@@ -572,6 +717,11 @@ size_t TemporalColdStore::totalVersionCount() const noexcept {
 }
 
 ColdStoreStats TemporalColdStore::stats() const {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock lk(mutex_);
     stats_.total_versions = total_count_.load();
     return stats_;

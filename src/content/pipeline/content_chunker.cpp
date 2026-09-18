@@ -25,6 +25,12 @@ ContentChunker::ContentChunker(const ChunkConfig& config)
     : config_(config) {
 }
 
+/**
+ * @brief Chunk.
+ * @param[in] data Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), size(), std::min(), begin(), push_back(), std::move().
+ */
 std::vector<ContentChunker::Chunk> ContentChunker::chunk(const std::vector<uint8_t>& data) {
     // Generic byte-based chunking implementation
     // 
@@ -64,6 +70,12 @@ std::vector<ContentChunker::Chunk> ContentChunker::chunk(const std::vector<uint8
     return chunks;
 }
 
+/**
+ * @brief Reassemble.
+ * @param[in] chunks Input parameter.
+ * @return Return value.
+ * @details Calls: insert(), end(), begin().
+ */
 std::vector<uint8_t> ContentChunker::reassemble(const std::vector<Chunk>& chunks) {
     // Simple concatenation for generic chunks
     // For content-type-specific reassembly, use the respective processor's
@@ -83,6 +95,11 @@ const ContentChunker::ChunkConfig& ContentChunker::get_config() const {
     return config_;
 }
 
+/**
+ * @brief Set config.
+ * @param[in] config Input parameter.
+ * @details Implements set_config without additional internal calls.
+ */
 void ContentChunker::set_config(const ChunkConfig& config) {
     config_ = config;
 }

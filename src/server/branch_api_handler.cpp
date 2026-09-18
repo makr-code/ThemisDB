@@ -20,6 +20,11 @@ BranchApiHandler::BranchApiHandler(transaction::BranchManager& branch_manager)
     : branch_manager_(branch_manager) {
 }
 
+/**
+ * @brief Register Routes.
+ * @param[in,out] server Input/output parameter.
+ * @details Calls: Post(), handleCreateBranch(), Get(), handleListBranches(), handleGetActiveBranch(), handleGetBranch(), handleSwitchBranch(), handlePreviewMergeBranches().
+ */
 void BranchApiHandler::registerRoutes(httplib::Server& server) {
     // POST /api/v1/branches - Create a new branch
     server.Post("/api/v1/branches", [this](const httplib::Request& req, httplib::Response& res) {
@@ -72,6 +77,12 @@ void BranchApiHandler::registerRoutes(httplib::Server& server) {
     });
 }
 
+/**
+ * @brief Handle Create Branch.
+ * @param[in] req Input parameter.
+ * @param[in,out] res Input/output parameter.
+ * @details Calls: parseJsonBody(), Tracer::startSpan(), value(), empty(), sendError(), contains(), createBranch(), has_value().
+ */
 void BranchApiHandler::handleCreateBranch(const httplib::Request& req, httplib::Response& res) {
     json body = {};
     if (!parseJsonBody(req, body, res)) {
@@ -122,6 +133,12 @@ void BranchApiHandler::handleCreateBranch(const httplib::Request& req, httplib::
     sendJson(res, branch->toJson(), 201);
 }
 
+/**
+ * @brief Handle List Branches.
+ * @param[in] req Input parameter.
+ * @param[in,out] res Input/output parameter.
+ * @details Calls: has_param(), Tracer::startSpan(), std::stoull(), get_param_value(), listBranches(), json::array(), push_back(), toJson().
+ */
 void BranchApiHandler::handleListBranches(const httplib::Request& req, httplib::Response& res) {
     // Parse query parameters
     size_t limit = 0;
@@ -152,6 +169,12 @@ void BranchApiHandler::handleListBranches(const httplib::Request& req, httplib::
     sendJson(res, result);
 }
 
+/**
+ * @brief Handle Get Branch.
+ * @param[in] req Input parameter.
+ * @param[in,out] res Input/output parameter.
+ * @details Calls: getBranch(), has_value(), Tracer::startSpan(), sendError(), sendJson(), toJson().
+ */
 void BranchApiHandler::handleGetBranch(const httplib::Request& req, httplib::Response& res) {
     std::string branch_name = req.matches[1];
     
@@ -165,6 +188,12 @@ void BranchApiHandler::handleGetBranch(const httplib::Request& req, httplib::Res
     sendJson(res, branch->toJson());
 }
 
+/**
+ * @brief Handle Switch Branch.
+ * @param[in] req Input parameter.
+ * @param[in,out] res Input/output parameter.
+ * @details Calls: switchBranch(), Tracer::startSpan(), sendError(), sendJson().
+ */
 void BranchApiHandler::handleSwitchBranch(const httplib::Request& req, httplib::Response& res) {
     std::string branch_name = req.matches[1];
     
@@ -183,6 +212,12 @@ void BranchApiHandler::handleSwitchBranch(const httplib::Request& req, httplib::
     sendJson(res, result);
 }
 
+/**
+ * @brief Handle Merge Branches.
+ * @param[in] req Input parameter.
+ * @param[in,out] res Input/output parameter.
+ * @details Calls: parseJsonBody(), Tracer::startSpan(), value(), empty(), sendError(), contains(), mergeBranches(), sendJson().
+ */
 void BranchApiHandler::handleMergeBranches(const httplib::Request& req, httplib::Response& res) {
     json body = {};
     if (!parseJsonBody(req, body, res)) {
@@ -216,6 +251,12 @@ void BranchApiHandler::handleMergeBranches(const httplib::Request& req, httplib:
     sendJson(res, result.toJson(), result.success ? 200 : 409);
 }
 
+/**
+ * @brief Handle Delete Branch.
+ * @param[in] req Input parameter.
+ * @param[in,out] res Input/output parameter.
+ * @details Calls: has_param(), Tracer::startSpan(), get_param_value(), deleteBranch(), sendError(), sendJson().
+ */
 void BranchApiHandler::handleDeleteBranch(const httplib::Request& req, httplib::Response& res) {
     std::string branch_name = req.matches[1];
     
@@ -239,11 +280,23 @@ void BranchApiHandler::handleDeleteBranch(const httplib::Request& req, httplib::
     sendJson(res, result);
 }
 
+/**
+ * @brief Handle Get Stats.
+ * @param[in] param Input parameter.
+ * @param[in,out] res Input/output parameter.
+ * @details Calls: getStats(), sendJson(), toJson().
+ */
 void BranchApiHandler::handleGetStats(const httplib::Request& /*req*/, httplib::Response& res) {
     auto stats = branch_manager_.getStats();
     sendJson(res, stats.toJson());
 }
 
+/**
+ * @brief Handle Get Active Branch.
+ * @param[in] param Input parameter.
+ * @param[in,out] res Input/output parameter.
+ * @details Calls: Tracer::startSpan(), getActiveBranch(), sendJson().
+ */
 void BranchApiHandler::handleGetActiveBranch(const httplib::Request& /*req*/, httplib::Response& res) {
     auto span = Tracer::startSpan("handleGetActiveBranch");
     std::string active_branch = branch_manager_.getActiveBranch();
@@ -254,6 +307,12 @@ void BranchApiHandler::handleGetActiveBranch(const httplib::Request& /*req*/, ht
     sendJson(res, result);
 }
 
+/**
+ * @brief Handle Preview Merge Branches.
+ * @param[in] req Input parameter.
+ * @param[in,out] res Input/output parameter.
+ * @details Calls: parseJsonBody(), Tracer::startSpan(), value(), empty(), sendError(), previewBranchMerge(), toJson(), find().
+ */
 void BranchApiHandler::handlePreviewMergeBranches(const httplib::Request& req, httplib::Response& res) {
     json body = {};
     if (!parseJsonBody(req, body, res)) {
@@ -294,6 +353,12 @@ void BranchApiHandler::handlePreviewMergeBranches(const httplib::Request& req, h
     sendJson(res, response, status);
 }
 
+/**
+ * @brief Handle Resolve Merge Branches.
+ * @param[in] req Input parameter.
+ * @param[in,out] res Input/output parameter.
+ * @details Calls: parseJsonBody(), Tracer::startSpan(), value(), empty(), sendError(), contains(), is_array(), push_back().
+ */
 void BranchApiHandler::handleResolveMergeBranches(const httplib::Request& req, httplib::Response& res) {
     json body = {};
     if (!parseJsonBody(req, body, res)) {
@@ -352,11 +417,25 @@ void BranchApiHandler::handleResolveMergeBranches(const httplib::Request& req, h
     sendJson(res, response, status);
 }
 
+/**
+ * @brief Send Json.
+ * @param[in,out] res Input/output parameter.
+ * @param[in] data Input parameter.
+ * @param[in] status_code Input parameter.
+ * @details Calls: set_content(), dump().
+ */
 void BranchApiHandler::sendJson(httplib::Response& res, const json& data, int status_code) {
     res.status = status_code;
     res.set_content(data.dump(2), "application/json");
 }
 
+/**
+ * @brief Send Error.
+ * @param[in,out] res Input/output parameter.
+ * @param[in] status_code Input parameter.
+ * @param[in] message Input parameter.
+ * @details Calls: sendJson().
+ */
 void BranchApiHandler::sendError(httplib::Response& res, int status_code, const std::string& message) {
     json error = {
         {"error", message},
@@ -365,6 +444,14 @@ void BranchApiHandler::sendError(httplib::Response& res, int status_code, const 
     sendJson(res, error, status_code);
 }
 
+/**
+ * @brief Parse Json Body.
+ * @param[in] req Input parameter.
+ * @param[in,out] out Input/output parameter.
+ * @param[in,out] res Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: json::parse(), sendError(), std::string(), what().
+ */
 bool BranchApiHandler::parseJsonBody(const httplib::Request& req, json& out, httplib::Response& res) {
     try {
         out = json::parse(req.body);

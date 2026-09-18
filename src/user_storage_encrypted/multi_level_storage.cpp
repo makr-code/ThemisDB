@@ -59,6 +59,12 @@ MultiLevelEncryptedStorage::~MultiLevelEncryptedStorage() {
     shutdown();
 }
 
+/**
+ * @brief Initialize.
+ * @param[in] config_json Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: loadConfiguration(), isError(), validateConfiguration(), reconcileStaleMounts(), empty(), rfind(), substr(), insert().
+ */
 bool MultiLevelEncryptedStorage::initialize(const char* config_json) {
     try {
         auto result = loadConfiguration(config_json ? config_json : "{}");
@@ -108,6 +114,10 @@ bool MultiLevelEncryptedStorage::initialize(const char* config_json) {
     }
 }
 
+/**
+ * @brief Shutdown.
+ * @details Calls: unmountAll(), clear().
+ */
 void MultiLevelEncryptedStorage::shutdown() {
     if (impl_->initialized) {
         unmountAll();
@@ -117,6 +127,11 @@ void MultiLevelEncryptedStorage::shutdown() {
     }
 }
 
+/**
+ * @brief Reconcile Stale Mounts.
+ * @param[in] base_path Path to the base.
+ * @details Calls: empty(), insert(), defined(), mounts(), std::getline(), iss(), size(), compare().
+ */
 void MultiLevelEncryptedStorage::reconcileStaleMounts(const std::string& base_path) {
     if (base_path.empty()) {
         return;
@@ -200,6 +215,12 @@ void MultiLevelEncryptedStorage::reconcileStaleMounts(const std::string& base_pa
     }
 }
 
+/**
+ * @brief Load Configuration.
+ * @param[in] config_json Input parameter.
+ * @return Return value.
+ * @details Calls: json::parse(), contains(), LevelConfig(), error(), value(), stringToSecurityLevel(), std::string(), what().
+ */
 Result<void> MultiLevelEncryptedStorage::loadConfiguration(const std::string& config_json) {
     try {
         json config = json::parse(config_json);
@@ -269,6 +290,11 @@ Result<void> MultiLevelEncryptedStorage::loadConfiguration(const std::string& co
     }
 }
 
+/**
+ * @brief Validate Configuration.
+ * @return Return value.
+ * @details Calls: empty(), error().
+ */
 Result<void> MultiLevelEncryptedStorage::validateConfiguration() {
     // Ensure at least one level is configured
     if (impl_->level_configs.empty()) {
@@ -299,6 +325,12 @@ Result<void> MultiLevelEncryptedStorage::validateConfiguration() {
     return Result<void>();
 }
 
+/**
+ * @brief Initialize Level.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), initialize(), isError(), checkAvailability(), getKeyProvider(), error(), mountLevel(), std::filesystem::exists().
+ */
 Result<void> MultiLevelEncryptedStorage::initializeLevel(const LevelConfig& config) {
     std::lock_guard<std::mutex> lock(impl_->mutex);
     
@@ -344,6 +376,12 @@ Result<void> MultiLevelEncryptedStorage::initializeLevel(const LevelConfig& conf
     return Result<void>();
 }
 
+/**
+ * @brief Mount Level.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @details Calls: find(), end(), error(), getKeyProvider(), isError(), value(), getKey(), std::string().
+ */
 Result<void> MultiLevelEncryptedStorage::mountLevel(const LevelConfig& config) {
     if (!config.encrypted) {
         return Result<void>(); // Nothing to mount
@@ -397,6 +435,12 @@ Result<void> MultiLevelEncryptedStorage::mountLevel(const LevelConfig& config) {
     return mount_result;
 }
 
+/**
+ * @brief Unmount Level.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @details Calls: find(), end(), unmountContainer(), isSuccess().
+ */
 Result<void> MultiLevelEncryptedStorage::unmountLevel(const LevelConfig& config) {
     if (!config.encrypted) {
         return Result<void>();
@@ -417,6 +461,12 @@ Result<void> MultiLevelEncryptedStorage::unmountLevel(const LevelConfig& config)
     return unmount_result;
 }
 
+/**
+ * @brief Get Key Provider.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @details Calls: find(), end(), empty(), error(), std::getenv(), initialize().
+ */
 Result<std::shared_ptr<KeyProvider>> MultiLevelEncryptedStorage::getKeyProvider(
     const LevelConfig& config
 ) {
@@ -484,6 +534,11 @@ Result<std::shared_ptr<KeyProvider>> MultiLevelEncryptedStorage::getKeyProvider(
     return Result<std::shared_ptr<KeyProvider>>(provider);
 }
 
+/**
+ * @brief Mount All.
+ * @return Return value.
+ * @details Calls: mountLevel(), isError().
+ */
 Result<void> MultiLevelEncryptedStorage::mountAll() {
     for (const auto& pair : impl_->level_configs) {
         auto result = mountLevel(pair.second);
@@ -494,6 +549,11 @@ Result<void> MultiLevelEncryptedStorage::mountAll() {
     return Result<void>();
 }
 
+/**
+ * @brief Unmount All.
+ * @return Return value.
+ * @details Calls: unmountLevel().
+ */
 Result<void> MultiLevelEncryptedStorage::unmountAll() {
     for (const auto& pair : impl_->level_configs) {
         unmountLevel(pair.second);
@@ -501,6 +561,12 @@ Result<void> MultiLevelEncryptedStorage::unmountAll() {
     return Result<void>();
 }
 
+/**
+ * @brief Mount Level.
+ * @param[in] level Input parameter.
+ * @return Return value.
+ * @details Calls: find(), end(), error(), securityLevelToString().
+ */
 Result<void> MultiLevelEncryptedStorage::mountLevel(SecurityLevel level) {
     auto it = impl_->level_configs.find(level);
     if (it == impl_->level_configs.end()) {
@@ -509,6 +575,12 @@ Result<void> MultiLevelEncryptedStorage::mountLevel(SecurityLevel level) {
     return mountLevel(it->second);
 }
 
+/**
+ * @brief Unmount Level.
+ * @param[in] level Input parameter.
+ * @return Return value.
+ * @details Calls: find(), end(), error(), securityLevelToString().
+ */
 Result<void> MultiLevelEncryptedStorage::unmountLevel(SecurityLevel level) {
     auto it = impl_->level_configs.find(level);
     if (it == impl_->level_configs.end()) {
@@ -517,6 +589,12 @@ Result<void> MultiLevelEncryptedStorage::unmountLevel(SecurityLevel level) {
     return unmountLevel(it->second);
 }
 
+/**
+ * @brief Rotate Key.
+ * @param[in] level Input parameter.
+ * @return Return value.
+ * @details Calls: find(), end(), error(), securityLevelToString(), getKeyProvider(), isError(), value(), getKey().
+ */
 Result<void> MultiLevelEncryptedStorage::rotateKey(SecurityLevel level) {
     auto it = impl_->level_configs.find(level);
     if (it == impl_->level_configs.end()) {
@@ -633,6 +711,12 @@ Result<void> MultiLevelEncryptedStorage::rotateKey(SecurityLevel level) {
     return Result<void>();
 }
 
+/**
+ * @brief Get Base Path.
+ * @param[in] level Input parameter.
+ * @return Return value.
+ * @details Calls: find(), end().
+ */
 std::string MultiLevelEncryptedStorage::getBasePath(SecurityLevel level) {
     auto it = impl_->level_configs.find(level);
     if (it == impl_->level_configs.end()) {
@@ -681,10 +765,22 @@ std::string MultiLevelEncryptedStorage::getMetricsText() const {
     return out;
 }
 
+/**
+ * @brief Record Key Rotation.
+ * @param[in] SecurityLevel Input parameter.
+ * @details Implements recordKeyRotation without additional internal calls.
+ */
 void MultiLevelEncryptedStorage::recordKeyRotation(SecurityLevel /*level*/) {
     ++impl_->metrics.key_rotations_total;
 }
 
+/**
+ * @brief Get User Path.
+ * @param[in] level Input parameter.
+ * @param[in] user_id Identifier of the user.
+ * @return Return value.
+ * @details Calls: getBasePath(), empty().
+ */
 std::string MultiLevelEncryptedStorage::getUserPath(SecurityLevel level, const std::string& user_id) {
     std::string base = getBasePath(level);
     if (base.empty()) {
@@ -693,6 +789,13 @@ std::string MultiLevelEncryptedStorage::getUserPath(SecurityLevel level, const s
     return base + "/users/" + user_id + ".json";
 }
 
+/**
+ * @brief Get Group Path.
+ * @param[in] level Input parameter.
+ * @param[in] group_id Identifier of the group.
+ * @return Return value.
+ * @details Calls: getBasePath(), empty().
+ */
 std::string MultiLevelEncryptedStorage::getGroupPath(SecurityLevel level, const std::string& group_id) {
     std::string base = getBasePath(level);
     if (base.empty()) {
@@ -701,6 +804,13 @@ std::string MultiLevelEncryptedStorage::getGroupPath(SecurityLevel level, const 
     return base + "/groups/" + group_id + ".json";
 }
 
+/**
+ * @brief Write User File.
+ * @param[in] path Input parameter.
+ * @param[in] user Input parameter.
+ * @return Return value.
+ * @details Calls: securityLevelToString(), std::filesystem::path(), parent_path(), empty(), std::filesystem::create_directories(), error(), string(), message().
+ */
 Result<void> MultiLevelEncryptedStorage::writeUserFile(const std::string& path, const User& user) {
     try {
         json j;
@@ -737,6 +847,12 @@ Result<void> MultiLevelEncryptedStorage::writeUserFile(const std::string& path, 
     }
 }
 
+/**
+ * @brief Read User File.
+ * @param[in] path Input parameter.
+ * @return Return value.
+ * @details Calls: file(), is_open(), error(), value(), stringToSecurityLevel(), std::string(), what().
+ */
 Result<User> MultiLevelEncryptedStorage::readUserFile(const std::string& path) {
     try {
         std::ifstream file(path);
@@ -763,6 +879,13 @@ Result<User> MultiLevelEncryptedStorage::readUserFile(const std::string& path) {
     }
 }
 
+/**
+ * @brief Write Group File.
+ * @param[in] path Input parameter.
+ * @param[in] group Input parameter.
+ * @return Return value.
+ * @details Calls: securityLevelToString(), std::filesystem::path(), parent_path(), empty(), std::filesystem::create_directories(), error(), string(), message().
+ */
 Result<void> MultiLevelEncryptedStorage::writeGroupFile(const std::string& path, const Group& group) {
     try {
         json j;
@@ -797,6 +920,12 @@ Result<void> MultiLevelEncryptedStorage::writeGroupFile(const std::string& path,
     }
 }
 
+/**
+ * @brief Read Group File.
+ * @param[in] path Input parameter.
+ * @return Return value.
+ * @details Calls: file(), is_open(), error(), value(), stringToSecurityLevel(), std::string(), what().
+ */
 Result<Group> MultiLevelEncryptedStorage::readGroupFile(const std::string& path) {
     try {
         std::ifstream file(path);
@@ -821,7 +950,13 @@ Result<Group> MultiLevelEncryptedStorage::readGroupFile(const std::string& path)
     }
 }
 
-// User Management API Implementation
+/**
+ * @brief User Management API Implementation
+ * @param[in] user Input parameter.
+ * @param[in] level Input parameter.
+ * @return Return value.
+ * @details Calls: getUserPath(), empty(), error(), writeUserFile().
+ */
 Result<void> MultiLevelEncryptedStorage::createUser(const User& user, SecurityLevel level) {
     std::string path = getUserPath(level, user.user_id);
     if (path.empty()) {
@@ -831,6 +966,13 @@ Result<void> MultiLevelEncryptedStorage::createUser(const User& user, SecurityLe
     return writeUserFile(path, user);
 }
 
+/**
+ * @brief Get User.
+ * @param[in] user_id Identifier of the user.
+ * @param[in] level Input parameter.
+ * @return Return value.
+ * @details Calls: getUserPath(), empty(), error(), readUserFile().
+ */
 Result<User> MultiLevelEncryptedStorage::getUser(const std::string& user_id, SecurityLevel level) {
     std::string path = getUserPath(level, user_id);
     if (path.empty()) {
@@ -840,10 +982,24 @@ Result<User> MultiLevelEncryptedStorage::getUser(const std::string& user_id, Sec
     return readUserFile(path);
 }
 
+/**
+ * @brief Update User.
+ * @param[in] user Input parameter.
+ * @param[in] level Input parameter.
+ * @return Return value.
+ * @details Calls: createUser().
+ */
 Result<void> MultiLevelEncryptedStorage::updateUser(const User& user, SecurityLevel level) {
     return createUser(user, level); // Overwrite
 }
 
+/**
+ * @brief Delete User.
+ * @param[in] user_id Identifier of the user.
+ * @param[in] level Input parameter.
+ * @return Return value.
+ * @details Calls: getUserPath(), empty(), error(), std::remove(), c_str().
+ */
 Result<void> MultiLevelEncryptedStorage::deleteUser(const std::string& user_id, SecurityLevel level) {
     std::string path = getUserPath(level, user_id);
     if (path.empty()) {
@@ -857,6 +1013,12 @@ Result<void> MultiLevelEncryptedStorage::deleteUser(const std::string& user_id, 
     return Result<void>();
 }
 
+/**
+ * @brief List Users.
+ * @param[in] level Input parameter.
+ * @return Return value.
+ * @details Calls: getBasePath(), empty(), error(), std::filesystem::path(), std::filesystem::exists(), std::filesystem::is_directory(), std::filesystem::directory_iterator(), is_regular_file().
+ */
 Result<std::vector<User>> MultiLevelEncryptedStorage::listUsers(SecurityLevel level) {
     std::string base = getBasePath(level);
     if (base.empty()) {
@@ -889,7 +1051,13 @@ Result<std::vector<User>> MultiLevelEncryptedStorage::listUsers(SecurityLevel le
     return Result<std::vector<User>>(users);
 }
 
-// Group Management API Implementation
+/**
+ * @brief Group Management API Implementation
+ * @param[in] group Input parameter.
+ * @param[in] level Input parameter.
+ * @return Return value.
+ * @details Calls: getGroupPath(), empty(), error(), writeGroupFile().
+ */
 Result<void> MultiLevelEncryptedStorage::createGroup(const Group& group, SecurityLevel level) {
     std::string path = getGroupPath(level, group.group_id);
     if (path.empty()) {
@@ -899,6 +1067,13 @@ Result<void> MultiLevelEncryptedStorage::createGroup(const Group& group, Securit
     return writeGroupFile(path, group);
 }
 
+/**
+ * @brief Get Group.
+ * @param[in] group_id Identifier of the group.
+ * @param[in] level Input parameter.
+ * @return Return value.
+ * @details Calls: getGroupPath(), empty(), error(), readGroupFile().
+ */
 Result<Group> MultiLevelEncryptedStorage::getGroup(const std::string& group_id, SecurityLevel level) {
     std::string path = getGroupPath(level, group_id);
     if (path.empty()) {
@@ -908,10 +1083,24 @@ Result<Group> MultiLevelEncryptedStorage::getGroup(const std::string& group_id, 
     return readGroupFile(path);
 }
 
+/**
+ * @brief Update Group.
+ * @param[in] group Input parameter.
+ * @param[in] level Input parameter.
+ * @return Return value.
+ * @details Calls: createGroup().
+ */
 Result<void> MultiLevelEncryptedStorage::updateGroup(const Group& group, SecurityLevel level) {
     return createGroup(group, level); // Overwrite
 }
 
+/**
+ * @brief Delete Group.
+ * @param[in] group_id Identifier of the group.
+ * @param[in] level Input parameter.
+ * @return Return value.
+ * @details Calls: getGroupPath(), empty(), error(), std::remove(), c_str().
+ */
 Result<void> MultiLevelEncryptedStorage::deleteGroup(const std::string& group_id, SecurityLevel level) {
     std::string path = getGroupPath(level, group_id);
     if (path.empty()) {
@@ -925,6 +1114,12 @@ Result<void> MultiLevelEncryptedStorage::deleteGroup(const std::string& group_id
     return Result<void>();
 }
 
+/**
+ * @brief List Groups.
+ * @param[in] level Input parameter.
+ * @return Return value.
+ * @details Calls: getBasePath(), empty(), error(), std::filesystem::path(), std::filesystem::exists(), std::filesystem::is_directory(), std::filesystem::directory_iterator(), is_regular_file().
+ */
 Result<std::vector<Group>> MultiLevelEncryptedStorage::listGroups(SecurityLevel level) {
     std::string base = getBasePath(level);
     if (base.empty()) {
@@ -958,6 +1153,11 @@ Result<std::vector<Group>> MultiLevelEncryptedStorage::listGroups(SecurityLevel 
 }
 
 // Health Check Implementation
+/**
+ * @brief Check Health.
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), checkLevelHealth(), isError(), push_back(), error(), value().
+ */
 Result<HealthStatus> MultiLevelEncryptedStorage::checkHealth() {
     HealthStatus status;
     status.healthy = true;
@@ -987,6 +1187,12 @@ Result<HealthStatus> MultiLevelEncryptedStorage::checkHealth() {
     return Result<HealthStatus>(status);
 }
 
+/**
+ * @brief Check Level Health.
+ * @param[in] level Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), find(), end(), isMounted().
+ */
 Result<HealthStatus> MultiLevelEncryptedStorage::checkLevelHealth(SecurityLevel level) {
     HealthStatus status;
     status.checked_at_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
@@ -1022,6 +1228,10 @@ Result<HealthStatus> MultiLevelEncryptedStorage::checkLevelHealth(SecurityLevel 
     return Result<HealthStatus>(status);
 }
 
+/**
+ * @brief Reconcile Stale Mounts.
+ * @details Calls: empty(), push_back(), mounts_file(), std::getline(), iss(), find(), fork(), c_str().
+ */
 void MultiLevelEncryptedStorage::reconcileStaleMounts() {
     // Collect known mount points from configuration
     std::vector<std::string> known_mount_points = {};

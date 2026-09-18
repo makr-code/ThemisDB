@@ -58,6 +58,10 @@ enum class SQLExprType {
 };
 
 struct SQLExpr {
+    /**
+     * @brief SQLExpr.
+     * @return Return value.
+     */
     virtual ~SQLExpr() = default;
     [[nodiscard]] virtual SQLExprType type() const = 0;
     [[nodiscard]] virtual std::string toAQL(const std::string& var) const = 0;
@@ -179,25 +183,14 @@ struct SQLParseError {
 // with a mutex (same constraint as AQLParser).
 // ============================================================================
 
-/** @brief with a mutex (same constraint as AQLParser). */
 class SQLParser {
 public:
     SQLParser() = default;
 
     /**
-     * Parse a SQL query string into an AST.
-     *
-     * Supported dialects: PostgreSQL / MySQL compatible subset covering
-     * SELECT, INSERT INTO, UPDATE … SET, DELETE FROM.
-     *
-     * @param sql_query  The SQL statement to parse.
-     * @return           Result<SQLASTNode> – the AST on success, or a
-     *                   SQLParseError converted to themis::Error on failure.
-     *
-     * Example:
-     *   SQLParser parser;
-     *   auto result = parser.parse("SELECT name, age FROM users WHERE age > 30");
-     *   if (result) { ... use result.value() ... }
+     * @brief Parse.
+     * @param[in] sql_query Input parameter.
+     * @return Return value.
      */
     Result<SQLASTNode> parse(const std::string& sql_query);
 
@@ -214,39 +207,47 @@ private:
 // through the existing AQL pipeline (executeAql / AQLParser / AQLTranslator).
 // ============================================================================
 
-/** @brief through the existing AQL pipeline (executeAql / AQLParser / AQLTranslator). */
 class SQLToAQLTranspiler {
 public:
     SQLToAQLTranspiler() = default;
 
     /**
-     * Translate a SQL AST into an AQL query string.
-     *
-     * @param ast  The parsed SQL AST.
-     * @return     Result<std::string> – the AQL string on success.
-     *
-     * Translation examples:
-     *   SELECT name, age FROM users WHERE age > 30 ORDER BY name
-     *   →  FOR _doc IN users FILTER _doc.age > 30 SORT _doc.name ASC
-     *      RETURN {name: _doc.name, age: _doc.age}
-     *
-     *   INSERT INTO users (name, age) VALUES ("Alice", 30)
-     *   →  INSERT {name: "Alice", age: 30} INTO users
-     *
-     *   UPDATE users SET age = 31 WHERE name == "Alice"
-     *   →  FOR _doc IN users FILTER _doc.name == "Alice"
-     *      UPDATE _doc WITH {age: 31} IN users
-     *
-     *   DELETE FROM users WHERE age < 18
-     *   →  FOR _doc IN users FILTER _doc.age < 18 REMOVE _doc IN users
+     * @brief Transpile.
+     * @param[in] ast Input parameter.
+     * @return Return value.
      */
     Result<std::string> transpile(const SQLASTNode& ast);
 
 private:
+    /**
+     * @brief Transpile Select.
+     * @param[in] stmt Input parameter.
+     * @return Return value.
+     */
     static std::string transpileSelect(const SQLSelectStatement& stmt);
+    /**
+     * @brief Transpile Insert.
+     * @param[in] stmt Input parameter.
+     * @return Return value.
+     */
     static std::string transpileInsert(const SQLInsertStatement& stmt);
+    /**
+     * @brief Transpile Update.
+     * @param[in] stmt Input parameter.
+     * @return Return value.
+     */
     static std::string transpileUpdate(const SQLUpdateStatement& stmt);
+    /**
+     * @brief Transpile Delete.
+     * @param[in] stmt Input parameter.
+     * @return Return value.
+     */
     static std::string transpileDelete(const SQLDeleteStatement& stmt);
+    /**
+     * @brief Value To AQL.
+     * @param[in] val Input parameter.
+     * @return Return value.
+     */
     static std::string valueToAQL(const SQLValue& val);
 };
 

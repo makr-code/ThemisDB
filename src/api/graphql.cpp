@@ -26,6 +26,12 @@ using errors::ErrorCode;
 
 Parser::Parser(std::string_view query, const QueryLimits &limits) : source_(query), limits_(limits) {}
 
+/**
+ * @brief Parse.
+ * @param[in] query Input parameter.
+ * @return Return value.
+ * @details Calls: query_str(), QueryPlanCache::instance(), get(), QueryLimits::defaults(), parser(), parseDocument(), put().
+ */
 Parser::Result Parser::parse(std::string_view query) {
     const std::string query_str(query);
 
@@ -59,11 +65,23 @@ Parser::Result Parser::parse(std::string_view query) {
     return result;
 }
 
+/**
+ * @brief Parse.
+ * @param[in] query Input parameter.
+ * @param[in] limits Input parameter.
+ * @return Return value.
+ * @details Calls: parser(), parseDocument().
+ */
 Parser::Result Parser::parse(std::string_view query, const QueryLimits &limits) {
     Parser parser(query, limits);
     return parser.parseDocument();
 }
 
+/**
+ * @brief Check Query Size.
+ * @return True when the operation succeeds.
+ * @details Calls: size(), error(), std::to_string().
+ */
 bool Parser::checkQuerySize() {
     if (source_.size() > limits_.max_query_size_bytes) {
         error("Query size exceeds maximum allowed size of " + std::to_string(limits_.max_query_size_bytes) + " bytes");
@@ -72,6 +90,12 @@ bool Parser::checkQuerySize() {
     return true;
 }
 
+/**
+ * @brief Check Depth Limit.
+ * @param[in] depth Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: error(), std::to_string().
+ */
 bool Parser::checkDepthLimit(size_t depth) {
     if (depth > max_depth_reached_) {
         max_depth_reached_ = depth;
@@ -83,6 +107,11 @@ bool Parser::checkDepthLimit(size_t depth) {
     return true;
 }
 
+/**
+ * @brief Check Field Limit.
+ * @return True when the operation succeeds.
+ * @details Calls: error(), std::to_string().
+ */
 bool Parser::checkFieldLimit() {
     if (field_count_ > limits_.max_fields) {
         error("Query field count exceeds maximum allowed fields of " + std::to_string(limits_.max_fields));
@@ -91,6 +120,11 @@ bool Parser::checkFieldLimit() {
     return true;
 }
 
+/**
+ * @brief Check ASTNode Limit.
+ * @return True when the operation succeeds.
+ * @details Calls: error(), std::to_string().
+ */
 bool Parser::checkASTNodeLimit() {
     if (ast_node_count_ > limits_.max_ast_nodes) {
         error("Query AST node count exceeds maximum allowed nodes of " + std::to_string(limits_.max_ast_nodes));
@@ -104,6 +138,11 @@ bool Parser::isIntrospectionFieldName(std::string_view field_name) noexcept {
     return field_name == "__schema" || field_name == "__type" || field_name == "__typename";
 }
 
+/**
+ * @brief Parse Document.
+ * @return Return value.
+ * @details Calls: checkQuerySize(), skipWhitespace(), size(), push_back(), parseOperation(), std::move(), convertToParseError(), error().
+ */
 Parser::Result Parser::parseDocument() {
     Result result;
     result.success = true;
@@ -146,6 +185,11 @@ Parser::Result Parser::parseDocument() {
     return result;
 }
 
+/**
+ * @brief Parse Operation.
+ * @return Return value.
+ * @details Calls: incrementASTNodeCount(), checkASTNodeLimit(), skipWhitespace(), match(), peek(), getLocationContext(), parseName(), size().
+ */
 themis::Result<Operation> Parser::parseOperation() {
     Operation op;
     incrementASTNodeCount();
@@ -232,6 +276,12 @@ themis::Result<Operation> Parser::parseOperation() {
     return themis::Ok(std::move(op));
 }
 
+/**
+ * @brief Parse Field.
+ * @param[in] depth Input parameter.
+ * @return Return value.
+ * @details Calls: incrementFieldCount(), incrementASTNodeCount(), checkDepthLimit(), checkFieldLimit(), checkASTNodeLimit(), skipWhitespace(), match(), parseName().
+ */
 themis::Result<Field> Parser::parseField(size_t depth) {
     Field field;
     incrementFieldCount();
@@ -341,6 +391,11 @@ themis::Result<Field> Parser::parseField(size_t depth) {
     return themis::Ok(std::move(field));
 }
 
+/**
+ * @brief Parse Value.
+ * @return Return value.
+ * @details Calls: skipWhitespace(), match(), themis::Ok(), Value::null(), Value::boolean(), peek(), parseString(), error().
+ */
 themis::Result<std::shared_ptr<Value>> Parser::parseValue() {
     skipWhitespace();
 
@@ -485,6 +540,11 @@ themis::Result<std::shared_ptr<Value>> Parser::parseValue() {
                                                getLocationContext() + ": Expected value");
 }
 
+/**
+ * @brief Parse Variable Definition.
+ * @return Return value.
+ * @details Calls: match(), getLocationContext(), parseName(), error(), code(), context(), skipWhitespace(), parseValue().
+ */
 themis::Result<VariableDefinition> Parser::parseVariableDefinition() {
     VariableDefinition def = {};
 
@@ -551,6 +611,10 @@ themis::Result<VariableDefinition> Parser::parseVariableDefinition() {
     return themis::Ok(std::move(def));
 }
 
+/**
+ * @brief Skip Whitespace.
+ * @details Calls: size(), skipComment().
+ */
 void Parser::skipWhitespace() {
     while (pos_ < source_.size()) {
         char c = source_[pos_];
@@ -569,6 +633,10 @@ void Parser::skipWhitespace() {
     }
 }
 
+/**
+ * @brief Skip Comment.
+ * @details Calls: size().
+ */
 void Parser::skipComment() {
     // Skip from # to end of line
     while (pos_ < source_.size() && source_[pos_] != '\n') {
@@ -577,6 +645,12 @@ void Parser::skipComment() {
     }
 }
 
+/**
+ * @brief Match.
+ * @param[in] c Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: size().
+ */
 bool Parser::match(char c) {
     if (pos_ < source_.size() && source_[pos_] == c) {
         ++pos_;
@@ -586,6 +660,12 @@ bool Parser::match(char c) {
     return false;
 }
 
+/**
+ * @brief Match.
+ * @param[in] s Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: size(), substr(), std::isalnum().
+ */
 bool Parser::match(std::string_view s) {
     if (pos_ + s.size() <= source_.size()) {
         if (source_.substr(pos_,s.size()) == s) {
@@ -608,6 +688,11 @@ bool Parser::peek(char c) const {
     return pos_ < source_.size() && source_[pos_] == c;
 }
 
+/**
+ * @brief Parse Name.
+ * @return Return value.
+ * @details Calls: size(), std::isalpha(), std::isalnum(), themis::Ok(), std::string(), substr(), getLocationContext().
+ */
 themis::Result<std::string> Parser::parseName() {
     size_t start = pos_;
 
@@ -624,6 +709,11 @@ themis::Result<std::string> Parser::parseName() {
     return themis::Err<std::string>(ErrorCode::ERR_QUERY_INVALID_SYNTAX, getLocationContext() + ": Expected name");
 }
 
+/**
+ * @brief Parse String.
+ * @return Return value.
+ * @details Calls: match(), getLocationContext(), size(), themis::Ok(), std::move().
+ */
 themis::Result<std::string> Parser::parseString() {
     if (!match('"')) {
         return themis::Err<std::string>(ErrorCode::ERR_QUERY_INVALID_SYNTAX,
@@ -677,6 +767,11 @@ themis::Result<std::string> Parser::parseString() {
     return themis::Ok(std::move(result));
 }
 
+/**
+ * @brief Error.
+ * @param[in] message Input parameter.
+ * @details Calls: std::move(), push_back().
+ */
 void Parser::error(std::string message) {
     ParseError err;
     err.message = std::move(message);
@@ -689,6 +784,12 @@ std::string Parser::getLocationContext() const {
     return "Line " + std::to_string(line_) + ", Column " + std::to_string(column_);
 }
 
+/**
+ * @brief Convert To Parse Error.
+ * @param[in] error Input parameter.
+ * @return Return value.
+ * @details Calls: message().
+ */
 ParseError Parser::convertToParseError(const themis::Error &error) {
     ParseError err;
     err.message = error.message();
@@ -715,6 +816,14 @@ static size_t computeSelectionDepth(const std::vector<Field> &selections, size_t
     return max_depth;
 }
 
+/**
+ * @brief Execute.
+ * @param[in] document Input parameter.
+ * @param[in] context Input parameter.
+ * @param[in] operation_name Name of the operation.
+ * @return Return value.
+ * @details Calls: getOperation(), addError(), std::string(), size(), empty(), computeSelectionDepth(), timer(), executeOperation().
+ */
 Executor::Result Executor::execute(const Document &document, const ExecutionContext &context,
                                    std::string_view operation_name) {
     Result result;
@@ -772,6 +881,13 @@ Executor::Result Executor::execute(const Document &document, const ExecutionCont
     return result;
 }
 
+/**
+ * @brief Execute Operation.
+ * @param[in] operation Input parameter.
+ * @param[in] context Input parameter.
+ * @return Return value.
+ * @details Calls: find(), end(), executeSelections().
+ */
 std::shared_ptr<Value> Executor::executeOperation(const Operation &operation, const ExecutionContext &context) {
     // Build a context with variable defaults merged in for this operation.
     // Runtime values in context.variables take precedence; only variables that
@@ -787,6 +903,14 @@ std::shared_ptr<Value> Executor::executeOperation(const Operation &operation, co
     return executeSelections(operation.selections, nullptr, resolvedCtx);
 }
 
+/**
+ * @brief Execute Selections.
+ * @param[in] selections Input parameter.
+ * @param[in] parent Input parameter.
+ * @param[in] context Input parameter.
+ * @return Return value.
+ * @details Calls: executeField(), responseName(), Value::object(), std::move().
+ */
 std::shared_ptr<Value> Executor::executeSelections(const std::vector<Field> &selections,
                                                    const std::shared_ptr<Value> &parent,
                                                    const ExecutionContext &context) {
@@ -800,6 +924,13 @@ std::shared_ptr<Value> Executor::executeSelections(const std::vector<Field> &sel
     return Value::object(std::move(result));
 }
 
+/**
+ * @brief Resolve Value.
+ * @param[in] value Input parameter.
+ * @param[in] context Input parameter.
+ * @return Return value.
+ * @details Calls: isVariableRef(), asVariableRef(), find(), end(), Value::null().
+ */
 std::shared_ptr<Value> Executor::resolveValue(const std::shared_ptr<Value> &value, const ExecutionContext &context) {
     if (!value || !value->isVariableRef()) {
         return value;
@@ -812,6 +943,14 @@ std::shared_ptr<Value> Executor::resolveValue(const std::shared_ptr<Value> &valu
     return Value::null();
 }
 
+/**
+ * @brief Execute Field.
+ * @param[in] field Input parameter.
+ * @param[in] parent Input parameter.
+ * @param[in] context Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), isVariableRef(), resolveValue(), find(), end(), second(), isObject(), asObject().
+ */
 std::shared_ptr<Value> Executor::executeField(const Field &field, const std::shared_ptr<Value> &parent,
                                               const ExecutionContext &context) {
     // Resolve any variable-reference arguments before invoking the resolver so
@@ -931,6 +1070,11 @@ Schema::Schema() {
     types_["ID"]       = idType;
 }
 
+/**
+ * @brief Add Type.
+ * @param[in] type Input parameter.
+ * @details Calls: std::move().
+ */
 void Schema::addType(TypeDefinition type) {
     types_[type.name] = std::move(type);
 }
@@ -1196,6 +1340,12 @@ std::shared_ptr<Value> Schema::introspect(const Field &field) const {
     return Value::null();
 }
 
+/**
+ * @brief Build.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: addGeoScalarTypes(), addDocumentTypes(), addGraphTypes(), addVectorTypes(), addTimeseriesTypes(), addQueryType(), addMutationType(), addSubscriptionType().
+ */
 Schema ThemisSchemaBuilder::build() {
     // All schema sub-builders use value-type RAII (TypeDefinition, FieldDefinition,
     // std::unordered_map<string, TypeDefinition>).  If any sub-builder throws
@@ -1225,6 +1375,11 @@ Schema ThemisSchemaBuilder::build() {
     return schema;
 }
 
+/**
+ * @brief Add Geo Scalar Types.
+ * @param[in,out] schema Input/output parameter.
+ * @details Calls: addType(), push_back().
+ */
 void ThemisSchemaBuilder::addGeoScalarTypes(Schema &schema) {
     // Latitude scalar type
     TypeDefinition latType;
@@ -1290,6 +1445,11 @@ void ThemisSchemaBuilder::addGeoScalarTypes(Schema &schema) {
     schema.addType(geoJSONType);
 }
 
+/**
+ * @brief Add Document Types.
+ * @param[in,out] schema Input/output parameter.
+ * @details Calls: push_back(), addType().
+ */
 void ThemisSchemaBuilder::addDocumentTypes(Schema &schema) {
     // Document type
     TypeDefinition docType;
@@ -1344,6 +1504,11 @@ void ThemisSchemaBuilder::addDocumentTypes(Schema &schema) {
     schema.addType(docInput);
 }
 
+/**
+ * @brief Add Graph Types.
+ * @param[in,out] schema Input/output parameter.
+ * @details Calls: push_back(), addType().
+ */
 void ThemisSchemaBuilder::addGraphTypes(Schema &schema) {
     // Node type
     TypeDefinition nodeType;
@@ -1402,6 +1567,11 @@ void ThemisSchemaBuilder::addGraphTypes(Schema &schema) {
     schema.addType(edgeType);
 }
 
+/**
+ * @brief Add Vector Types.
+ * @param[in,out] schema Input/output parameter.
+ * @details Calls: push_back(), addType().
+ */
 void ThemisSchemaBuilder::addVectorTypes(Schema &schema) {
     // VectorSearchResult type
     TypeDefinition resultType;
@@ -1427,6 +1597,11 @@ void ThemisSchemaBuilder::addVectorTypes(Schema &schema) {
     schema.addType(resultType);
 }
 
+/**
+ * @brief Add Timeseries Types.
+ * @param[in,out] schema Input/output parameter.
+ * @details Calls: push_back(), addType().
+ */
 void ThemisSchemaBuilder::addTimeseriesTypes(Schema &schema) {
     // TimeseriesPoint type
     TypeDefinition pointType;
@@ -1452,6 +1627,11 @@ void ThemisSchemaBuilder::addTimeseriesTypes(Schema &schema) {
     schema.addType(pointType);
 }
 
+/**
+ * @brief Add Query Type.
+ * @param[in,out] schema Input/output parameter.
+ * @details Calls: push_back(), addType().
+ */
 void ThemisSchemaBuilder::addQueryType(Schema &schema) {
     TypeDefinition queryType;
     queryType.kind        = TypeDefinition::Kind::Object;
@@ -1558,6 +1738,11 @@ void ThemisSchemaBuilder::addQueryType(Schema &schema) {
     schema.addType(queryType);
 }
 
+/**
+ * @brief Add Mutation Type.
+ * @param[in,out] schema Input/output parameter.
+ * @details Calls: push_back(), addType().
+ */
 void ThemisSchemaBuilder::addMutationType(Schema &schema) {
     TypeDefinition mutationType;
     mutationType.kind        = TypeDefinition::Kind::Object;
@@ -1628,6 +1813,11 @@ void ThemisSchemaBuilder::addMutationType(Schema &schema) {
     schema.addType(mutationType);
 }
 
+/**
+ * @brief Add Subscription Type.
+ * @param[in,out] schema Input/output parameter.
+ * @details Calls: addType(), push_back(), setSubscriptionType().
+ */
 void ThemisSchemaBuilder::addSubscriptionType(Schema &schema) {
     // ChangeType enum
     TypeDefinition changeTypeEnum;

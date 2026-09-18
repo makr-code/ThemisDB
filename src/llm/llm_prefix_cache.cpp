@@ -21,14 +21,14 @@
 namespace themis {
 namespace llm {
 
-/**
- * @brief Implementation using real EmbeddingCache with HNSW-based similarity search
- * 
- * Integrates ThemisDB's EmbeddingCache for fast similarity search over prefix embeddings.
- * Uses HNSW index for ~10-20x first-token speedup through KV-cache reuse.
- */
 class LLMPrefixCache::Impl {
 public:
+    /**
+     * @brief Impl.
+     * @param[in] name Input parameter.
+     * @param[in] cfg Input parameter.
+     * @return Return value.
+     */
     explicit Impl(const std::string& name, const Config& cfg)
         : cache_name_(name), config_(cfg) {
         // Use provided clock or default to system clock
@@ -67,6 +67,11 @@ public:
             return;  // Too short to cache
         }
         
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::scoped_lock lock(mutex_);
         
         PrefixCacheEntry entry;
@@ -97,6 +102,13 @@ public:
         }
     }
     
+    /**
+     * @brief Get.
+     * @param[in] text Input parameter.
+     * @param[in] embedding Input parameter.
+     * @return Return value.
+     * @details Calls: std::chrono::steady_clock::now(), lock(), find(), end(), isExpired(), now(), updateLookupTime(), erase().
+     */
     std::optional<PrefixCacheEntry> get(const std::string& text,
                                          const std::vector<float>& embedding) {
         auto start = std::chrono::steady_clock::now();
@@ -173,6 +185,13 @@ public:
         return std::nullopt;
     }
     
+    /**
+     * @brief Get Longest Match.
+     * @param[in] text Input parameter.
+     * @param[in] param Input parameter.
+     * @return Return value.
+     * @details Calls: lock(), isExpired(), length(), starts_with(), size().
+     */
     std::optional<PrefixCacheEntry> getLongestMatch(const std::string& text,
                                                      const std::vector<float>& /*embedding*/) {
         std::scoped_lock lock(mutex_);
@@ -205,6 +224,11 @@ public:
         return longest;
     }
     
+    /**
+     * @brief Touch.
+     * @param[in] prefix Input parameter.
+     * @details Calls: lock(), find(), end(), now().
+     */
     void touch(const std::string& prefix) {
         std::scoped_lock lock(mutex_);
         auto it = cache_.find(prefix);
@@ -214,6 +238,11 @@ public:
         }
     }
     
+    /**
+     * @brief Invalidate By Pattern.
+     * @param[in] pattern Input parameter.
+     * @details Calls: lock(), regex_pattern(), begin(), end(), std::regex_search(), erase().
+     */
     void invalidateByPattern(const std::string& pattern) {
         std::scoped_lock lock(mutex_);
         std::regex regex_pattern(pattern);
@@ -228,6 +257,10 @@ public:
         }
     }
     
+    /**
+     * @brief Clear.
+     * @details Calls: lock().
+     */
     void clear() {
         std::scoped_lock lock(mutex_);
         cache_.clear();
@@ -240,6 +273,11 @@ public:
     }
     
     PrefixCacheStatistics getStatistics() const {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::scoped_lock lock(mutex_);
         auto stats = stats_;
         stats.total_entries = cache_.size();
@@ -253,6 +291,10 @@ private:
         return age.count() > config_.ttl_seconds;
     }
     
+    /**
+     * @brief Evict LRU.
+     * @details Calls: empty(), begin(), end(), erase().
+     */
     void evictLRU() {
         if (cache_.empty()) {
             return;
@@ -294,6 +336,11 @@ private:
         return dot / (std::sqrt(mag_a) * std::sqrt(mag_b));
     }
     
+    /**
+     * @brief Update Lookup Time.
+     * @param[in] start Input parameter.
+     * @details Calls: std::chrono::steady_clock::now(), count().
+     */
     void updateLookupTime(const std::chrono::steady_clock::time_point& start) {
         auto end = std::chrono::steady_clock::now();
         auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
@@ -320,6 +367,15 @@ LLMPrefixCache::LLMPrefixCache(const std::string& cache_name, const Config& conf
 
 LLMPrefixCache::~LLMPrefixCache() = default;
 
+/**
+ * @brief Put.
+ * @param[in] prefix Input parameter.
+ * @param[in] tokens Input parameter.
+ * @param[in] embedding Input parameter.
+ * @param[in] precomputed_kv Input parameter.
+ * @param[in] generated_text Input parameter.
+ * @details Implements put without additional internal calls.
+ */
 void LLMPrefixCache::put(const std::string& prefix,
                           const std::vector<int>& tokens,
                           const std::vector<float>& embedding,
@@ -328,24 +384,52 @@ void LLMPrefixCache::put(const std::string& prefix,
     impl_->put(prefix, tokens, embedding, precomputed_kv, generated_text);
 }
 
+/**
+ * @brief Get.
+ * @param[in] text Input parameter.
+ * @param[in] embedding Input parameter.
+ * @return Return value.
+ * @details Implements get without additional internal calls.
+ */
 std::optional<PrefixCacheEntry> LLMPrefixCache::get(const std::string& text,
                                                      const std::vector<float>& embedding) {
     return impl_->get(text, embedding);
 }
 
+/**
+ * @brief Get Longest Match.
+ * @param[in] text Input parameter.
+ * @param[in] embedding Input parameter.
+ * @return Return value.
+ * @details Implements getLongestMatch without additional internal calls.
+ */
 std::optional<PrefixCacheEntry> LLMPrefixCache::getLongestMatch(const std::string& text,
                                                                  const std::vector<float>& embedding) {
     return impl_->getLongestMatch(text, embedding);
 }
 
+/**
+ * @brief Touch.
+ * @param[in] prefix Input parameter.
+ * @details Implements touch without additional internal calls.
+ */
 void LLMPrefixCache::touch(const std::string& prefix) {
     impl_->touch(prefix);
 }
 
+/**
+ * @brief Invalidate By Pattern.
+ * @param[in] pattern Input parameter.
+ * @details Implements invalidateByPattern without additional internal calls.
+ */
 void LLMPrefixCache::invalidateByPattern(const std::string& pattern) {
     impl_->invalidateByPattern(pattern);
 }
 
+/**
+ * @brief Clear.
+ * @details Implements clear without additional internal calls.
+ */
 void LLMPrefixCache::clear() {
     impl_->clear();
 }

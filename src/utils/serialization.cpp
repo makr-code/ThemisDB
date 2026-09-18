@@ -293,7 +293,7 @@ bool Serialization::Decoder::isNull() const {
 
 /**
  * @brief Decode Bool.
- * @return True on success.
+ * @return True when the operation succeeds.
  * @details Calls: readTag().
  */
 bool Serialization::Decoder::decodeBool() {
@@ -431,11 +431,6 @@ std::vector<float> Serialization::Decoder::decodeFloatVector() {
         return std::vector<float>();  // Return empty vector
     }
     
-    /**
-     * @brief Vec.
-     * @param[in] count Input parameter.
-     * @return Return value.
-     */
     std::vector<float> vec(count);
     const uint8_t* data = &data_[pos_];
     std::memcpy(vec.data(), data, bytes_needed);

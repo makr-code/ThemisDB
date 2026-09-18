@@ -30,6 +30,12 @@ struct ErrorRegistry {
     enum class ErrorCode { VALIDATION_FAILED, INVALID_STATE, NOT_FOUND };
 };
 
+/**
+ * @brief Map Error Code.
+ * @param[in] code Input parameter.
+ * @return Return value.
+ * @details Implements mapErrorCode without additional internal calls.
+ */
 inline errors::ErrorCode mapErrorCode(ErrorRegistry::ErrorCode code) {
     switch (code) {
         case ErrorRegistry::ErrorCode::VALIDATION_FAILED:
@@ -42,6 +48,13 @@ inline errors::ErrorCode mapErrorCode(ErrorRegistry::ErrorCode code) {
     return errors::ErrorCode::ERR_UNKNOWN;
 }
 
+/**
+ * @brief Make Error.
+ * @param[in] code Input parameter.
+ * @param[in] message Input parameter.
+ * @return Return value.
+ * @details Calls: Error(), mapErrorCode(), std::move().
+ */
 inline tl::unexpected<Error> makeError(ErrorRegistry::ErrorCode code, std::string message) {
     return tl::unexpected<Error>(Error(mapErrorCode(code), std::move(message)));
 }
@@ -74,6 +87,11 @@ bool PathConstraints::isValidFieldName(std::string_view s) noexcept {
     return true;
 }
 
+/**
+ * @brief Set Graph Manager.
+ * @param[in,out] graph_mgr Input/output parameter.
+ * @details Implements setGraphManager without additional internal calls.
+ */
 void PathConstraints::setGraphManager(GraphIndexManager *graph_mgr) {
     graph_mgr_ = graph_mgr;
 }
@@ -86,6 +104,11 @@ void PathConstraints::addMaxLength([[maybe_unused]] int max_length) {
     constraints_.emplace_back(ConstraintType::MAX_LENGTH, max_length);
 }
 
+/**
+ * @brief Add Forbidden Node.
+ * @param[in] node_id Identifier of the node.
+ * @details Calls: isValidIdentifier(), insert(), std::string(), emplace_back().
+ */
 void PathConstraints::addForbiddenNode(std::string_view node_id) {
     if (!isValidIdentifier(node_id)) {
         return;
@@ -94,6 +117,11 @@ void PathConstraints::addForbiddenNode(std::string_view node_id) {
     constraints_.emplace_back(ConstraintType::FORBIDDEN_NODE, std::string(node_id));
 }
 
+/**
+ * @brief Add Required Node.
+ * @param[in] node_id Identifier of the node.
+ * @details Calls: isValidIdentifier(), insert(), std::string(), emplace_back().
+ */
 void PathConstraints::addRequiredNode(std::string_view node_id) {
     if (!isValidIdentifier(node_id)) {
         return;
@@ -102,6 +130,11 @@ void PathConstraints::addRequiredNode(std::string_view node_id) {
     constraints_.emplace_back(ConstraintType::REQUIRED_NODE, std::string(node_id));
 }
 
+/**
+ * @brief Add Forbidden Edge.
+ * @param[in] edge_id Identifier of the edge.
+ * @details Calls: isValidIdentifier(), insert(), std::string(), emplace_back().
+ */
 void PathConstraints::addForbiddenEdge(std::string_view edge_id) {
     if (!isValidIdentifier(edge_id)) {
         return;
@@ -110,6 +143,11 @@ void PathConstraints::addForbiddenEdge(std::string_view edge_id) {
     constraints_.emplace_back(ConstraintType::FORBIDDEN_EDGE, std::string(edge_id));
 }
 
+/**
+ * @brief Add Required Edge.
+ * @param[in] edge_id Identifier of the edge.
+ * @details Calls: isValidIdentifier(), insert(), std::string(), emplace_back().
+ */
 void PathConstraints::addRequiredEdge(std::string_view edge_id) {
     if (!isValidIdentifier(edge_id)) {
         return;
@@ -118,6 +156,12 @@ void PathConstraints::addRequiredEdge(std::string_view edge_id) {
     constraints_.emplace_back(ConstraintType::REQUIRED_EDGE, std::string(edge_id));
 }
 
+/**
+ * @brief Add Edge Property Constraint.
+ * @param[in] field_name Name of the field.
+ * @param[in] expected_value Input parameter.
+ * @details Calls: isValidFieldName(), size(), find(), c(), std::string(), push_back(), std::move().
+ */
 void PathConstraints::addEdgePropertyConstraint(std::string_view field_name, std::string_view expected_value) {
     if (!isValidFieldName(field_name)) {
         return;
@@ -132,6 +176,12 @@ void PathConstraints::addEdgePropertyConstraint(std::string_view field_name, std
     constraints_.push_back(std::move(c));
 }
 
+/**
+ * @brief Add Node Property Constraint.
+ * @param[in] field_name Name of the field.
+ * @param[in] expected_value Input parameter.
+ * @details Calls: isValidFieldName(), size(), find(), c(), std::string(), push_back(), std::move().
+ */
 void PathConstraints::addNodePropertyConstraint(std::string_view field_name, std::string_view expected_value) {
     if (!isValidFieldName(field_name)) {
         return;
@@ -154,19 +204,36 @@ void PathConstraints::addMinWeight([[maybe_unused]] double min_weight) {
     constraints_.emplace_back(ConstraintType::MIN_WEIGHT, min_weight);
 }
 
+/**
+ * @brief Require Acyclic.
+ * @details Calls: emplace_back().
+ */
 void PathConstraints::requireAcyclic() {
     constraints_.emplace_back(ConstraintType::NO_CYCLES);
 }
 
+/**
+ * @brief Require Unique Nodes.
+ * @details Calls: emplace_back().
+ */
 void PathConstraints::requireUniqueNodes() {
     constraints_.emplace_back(ConstraintType::UNIQUE_NODES);
 }
 
+/**
+ * @brief Require Unique Edges.
+ * @details Calls: emplace_back().
+ */
 void PathConstraints::requireUniqueEdges() {
     constraints_.emplace_back(ConstraintType::UNIQUE_EDGES);
 }
 
 void PathConstraints::addCustomPredicate(std::function<bool(const std::vector<std::string> &)> predicate) {
+    /**
+     * @brief C.
+     * @param[in] CUSTOM_PREDICATE Input parameter.
+     * @return Return value.
+     */
     Constraint c(ConstraintType::CUSTOM_PREDICATE);
     c.predicate = std::move(predicate);
     constraints_.emplace_back(std::move(c));
@@ -640,6 +707,10 @@ PathConstraints::findConstrainedPaths(std::string_view start_node, std::string_v
     }
 }
 
+/**
+ * @brief Clear Constraints.
+ * @details Calls: clear().
+ */
 void PathConstraints::clearConstraints() {
     constraints_.clear();
     forbidden_nodes_.clear();
@@ -726,6 +797,12 @@ std::string PathConstraints::describeConstraints() const {
 // Semantic constraint methods
 // ============================================================================
 
+/**
+ * @brief Add Semantic Constraint.
+ * @param[in] ontology Input parameter.
+ * @param[in] ruleset Input parameter.
+ * @details Implements addSemanticConstraint without additional internal calls.
+ */
 void PathConstraints::addSemanticConstraint(const OntologyManager *ontology, OntologyManager::Ruleset ruleset) {
     ontology_         = ontology;
     ontology_ruleset_ = ruleset;

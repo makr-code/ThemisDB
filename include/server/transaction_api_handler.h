@@ -28,35 +28,8 @@ class TransactionManager;
 
 namespace server {
 
-/**
- * @brief Handler for Transaction Operations
- *
- * This handler manages all transaction-related endpoints:
- * - POST /transaction            - Execute a list of operations atomically
- * - POST /transaction/begin      - Begin a multi-statement transaction
- * - POST /transaction/commit     - Commit an active transaction
- * - POST /transaction/rollback   - Rollback an active transaction
- * - GET  /transaction/stats      - Get transaction statistics
- * - GET  /transaction/version    - Get OCC entity version (optimistic locking)
- *
- * Features:
- * - ACID transaction support
- * - Isolation levels: read_committed, snapshot, serializable
- * - Multi-statement transactions
- * - Optimistic Concurrency Control (OCC) via optimistic_put / optimistic_erase
- * - Transaction statistics and monitoring
- *
- * Extracted from http_server.cpp (~250 lines) to improve maintainability.
- */
 class TransactionApiHandler {
 public:
-    /**
-     * @brief Construct a new Transaction API Handler
-     * 
-     * @param storage Storage backend
-     * @param tx_manager Transaction manager
-     * @param auth Authentication/authorization middleware
-     */
     TransactionApiHandler(
         std::shared_ptr<RocksDBWrapper> storage,
         std::shared_ptr<TransactionManager> tx_manager,
@@ -64,76 +37,51 @@ public:
     );
 
     /**
-     * @brief Handle POST /transaction request
-     * @param req HTTP request with transaction operations
-     * @return HTTP response with transaction results
+     * @brief Handle Transaction.
+     * @param[in] req Input parameter.
+     * @return Return value.
      */
     http::response<http::string_body> handleTransaction(const http::request<http::string_body>& req);
 
     /**
-     * @brief Handle POST /transaction/begin request
-     * @param req HTTP request
-     * @return HTTP response with transaction ID
+     * @brief Handle Begin.
+     * @param[in] req Input parameter.
+     * @return Return value.
      */
     http::response<http::string_body> handleBegin(const http::request<http::string_body>& req);
 
     /**
-     * @brief Handle POST /transaction/commit request
-     * @param req HTTP request with transaction ID
-     * @return HTTP response with commit status
+     * @brief Handle Commit.
+     * @param[in] req Input parameter.
+     * @return Return value.
      */
     http::response<http::string_body> handleCommit(const http::request<http::string_body>& req);
 
     /**
-     * @brief Handle POST /transaction/rollback request
-     * @param req HTTP request with transaction ID
-     * @return HTTP response with rollback status
+     * @brief Handle Rollback.
+     * @param[in] req Input parameter.
+     * @return Return value.
      */
     http::response<http::string_body> handleRollback(const http::request<http::string_body>& req);
 
     /**
-     * @brief Handle GET /transaction/stats request
-     * @param req HTTP request
-     * @return HTTP response with transaction statistics
+     * @brief Handle Stats.
+     * @param[in] req Input parameter.
+     * @return Return value.
      */
     http::response<http::string_body> handleStats(const http::request<http::string_body>& req);
 
     /**
-     * @brief Handle GET /transaction/version request
-     *
-     * Returns the current OCC version of an entity without acquiring a lock.
-     * The caller supplies the active transaction ID, table name, and primary
-     * key via query parameters or request body.
-     *
-     * Request body:
-     * @code{.json}
-     * {
-     *   "transaction_id": 42,
-     *   "table": "users",
-     *   "key": "u1"
-     * }
-     * @endcode
-     *
-     * Response body:
-     * @code{.json}
-     * { "transaction_id": 42, "table": "users", "key": "u1", "version": 3 }
-     * @endcode
-     *
-     * Returns version 0 when the entity does not exist.
-     *
-     * @param req HTTP request
-     * @return HTTP response with entity version
+     * @brief Handle Get Version.
+     * @param[in] req Input parameter.
+     * @return Return value.
      */
     http::response<http::string_body> handleGetVersion(const http::request<http::string_body>& req);
 
     /**
-     * @brief Handle GET /transaction/{id}/explain request
-     *
-     * Returns the locks currently held and the write set (MVCC version chain
-     * entries) accumulated by the transaction with the given ID.
-     *
-     * @param req HTTP request; the transaction ID is extracted from the URL path.
-     * @return HTTP response with the explain report as JSON, or 404 if not found.
+     * @brief Handle Explain.
+     * @param[in] req Input parameter.
+     * @return Return value.
      */
     http::response<http::string_body> handleExplain(const http::request<http::string_body>& req);
 
@@ -142,8 +90,22 @@ private:
     std::shared_ptr<TransactionManager> tx_manager_;
     std::shared_ptr<themis::AuthMiddleware> auth_;
 
+    /**
+     * @brief Make Error Response.
+     * @param[in] status Input parameter.
+     * @param[in] message Input parameter.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> makeErrorResponse(
         http::status status, const std::string& message, const http::request<http::string_body>& req);
+    /**
+     * @brief Make Response.
+     * @param[in] status Input parameter.
+     * @param[in] body Input parameter.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> makeResponse(
         http::status status, const std::string& body, const http::request<http::string_body>& req);
 };

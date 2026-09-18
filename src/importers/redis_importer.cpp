@@ -32,7 +32,6 @@ namespace importers {
 // ============================================================================
 namespace {
 
-/// Maps Redis-specific error patterns to ImporterErrorCode.
 [[maybe_unused]] static ImportErrorCode mapRedisErrorToCode(const std::string& error_msg) {
     const auto lower = [](std::string s) {
         for (auto& c : s) {
@@ -82,6 +81,12 @@ std::vector<std::string> RedisImporter::getSupportedTypes() const {
 // IImporter – initialize
 // ============================================================================
 
+/**
+ * @brief Initialize.
+ * @param[in] config_json Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: json::parse(), value(), THEMIS_WARN(), std::string(), what().
+ */
 bool RedisImporter::initialize(const std::string& config_json) {
     try {
         const json cfg = json::parse(config_json);
@@ -110,6 +115,13 @@ bool RedisImporter::initialize(const std::string& config_json) {
 // IImporter – validateSource
 // ============================================================================
 
+/**
+ * @brief Validate Source.
+ * @param[in] source_path Path to the source.
+ * @param[in,out] errors Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: push_back(), empty(), rfind(), substr(), std::stoi(), mock_command_fn_(), find(), sanitiseEndpoint().
+ */
 bool RedisImporter::validateSource(const std::string& source_path,
                                     std::vector<std::string>& errors) {
 #ifndef THEMIS_ENABLE_REDIS
@@ -166,7 +178,13 @@ bool RedisImporter::validateSource(const std::string& source_path,
 // Endpoint sanitisation (no password)
 // ============================================================================
 
-/*static*/
+/**
+ * @brief static
+ * @param[in] host Input parameter.
+ * @param[in] port Input parameter.
+ * @return Return value.
+ * @details Calls: std::to_string().
+ */
 std::string RedisImporter::sanitiseEndpoint(const std::string& host, int port) {
     return host + ":" + std::to_string(port);
 }
@@ -175,7 +193,12 @@ std::string RedisImporter::sanitiseEndpoint(const std::string& host, int port) {
 // Type helpers
 // ============================================================================
 
-/*static*/
+/**
+ * @brief static
+ * @param[in] type_str Input parameter.
+ * @return Return value.
+ * @details Implements parseRedisType without additional internal calls.
+ */
 RedisImporter::RedisValueType RedisImporter::parseRedisType(
     const std::string& type_str) {
     if (type_str == "string") {
@@ -196,9 +219,15 @@ RedisImporter::RedisValueType RedisImporter::parseRedisType(
     return RedisValueType::Unknown;
 }
 
-// ============================================================================
-// fetchKeyDocument – builds a ThemisDB document from one Redis key
-// ============================================================================
+/**
+ * @brief ============================================================================ fetchKeyDocument – builds a ThemisDB document from one Redis key ============================================================================
+ * @param[in] key Input parameter.
+ * @param[in] vtype Input parameter.
+ * @param[in,out] error_out Input/output parameter.
+ * @param[in,out] conn Input/output parameter.
+ * @return Return value.
+ * @details Calls: mock_command_fn_(), executeHiredisCommand(), sendCmd(), std::stoll(), json::parse(), json::object(), is_array(), size().
+ */
 
 json RedisImporter::fetchKeyDocument(const std::string& key,
                       RedisValueType vtype,
@@ -291,6 +320,14 @@ json RedisImporter::fetchKeyDocument(const std::string& key,
 // IImporter – importData
 // ============================================================================
 
+/**
+ * @brief Import Data.
+ * @param[in] source_path Path to the source.
+ * @param[in] options Input parameter.
+ * @param[in] progress_callback Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::steady_clock::now(), empty(), rfind(), substr(), std::stoi(), sanitiseEndpoint(), push_back(), std::chrono::milliseconds().
+ */
 ImportStats RedisImporter::importData(
     const std::string& source_path,
     const ImportOptions& options,
@@ -443,6 +480,13 @@ ImportStats RedisImporter::importData(
 // IImporter – importDataAsync
 // ============================================================================
 
+/**
+ * @brief Import Data Async.
+ * @param[in] source_path Path to the source.
+ * @param[in] options Input parameter.
+ * @return Return value.
+ * @details Calls: std::to_string(), std::chrono::steady_clock::now(), time_since_epoch(), count(), std::async(), importData().
+ */
 std::shared_ptr<ImportHandle> RedisImporter::importDataAsync(
     const std::string& source_path,
     const ImportOptions& options) {
@@ -463,6 +507,10 @@ std::shared_ptr<ImportHandle> RedisImporter::importDataAsync(
 // IImporter – cancel
 // ============================================================================
 
+/**
+ * @brief Cancel.
+ * @details Calls: store().
+ */
 void RedisImporter::cancel() {
     cancelled_.store(true, std::memory_order_release);
 }
@@ -471,6 +519,12 @@ void RedisImporter::cancel() {
 // IImporter – getSourceSchema
 // ============================================================================
 
+/**
+ * @brief Get Source Schema.
+ * @param[in] source_path Path to the source.
+ * @return Return value.
+ * @details Calls: mock_command_fn_(), sendCmd(), json::parse(), is_array(), size(), contains(), std::move().
+ */
 json RedisImporter::getSourceSchema(const std::string& source_path) {
     (void)source_path;
 
@@ -520,6 +574,11 @@ json RedisImporter::getSourceSchema(const std::string& source_path) {
 // Testing support
 // ============================================================================
 
+/**
+ * @brief Set Mock Command For Testing.
+ * @param[in] fn Input parameter.
+ * @details Calls: std::move().
+ */
 void RedisImporter::setMockCommandForTesting(MockCommandFn fn) {
     mock_command_fn_ = std::move(fn);
 }

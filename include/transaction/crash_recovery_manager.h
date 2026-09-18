@@ -30,33 +30,6 @@ class RocksDBWrapper;
 
 namespace transaction {
 
-/**
- * @brief Phase 8 – Durability & Crash-Recovery
- *
- * CrashRecoveryManager provides a transaction-level Write-Ahead Log (WAL)
- * that records every transaction lifecycle event and every individual write
- * operation (with its "before" value for undo).
- *
- * ## WAL layout (one append-only file per session)
- * Each entry is a newline-terminated JSON record:
- *   {"t":<ms>,"txn":<id>,"type":"BEGIN"|"OP"|"COMMIT"|"ABORT",
- *    "iso":<int>,          // BEGIN only
- *    "op":"put"|"del",     // OP only
- *    "key":"...",          // OP only
- *    "old":"...",          // OP only – base64 for undo
- *    "new":"..."}          // OP only – base64 for redo
- *
- * ## Recovery procedure (called at startup)
- * 1. Scan the WAL file for all BEGIN entries that do NOT have a matching
- *    COMMIT or ABORT entry → these are in-flight transactions.
- * 2. For each in-flight transaction, replay its OPerations in reverse order,
- *    writing the "old" value back (or deleting the key when old is absent).
- * 3. Mark the recovery as complete and append a CHECKPOINT record so that
- *    the next startup can skip already-recovered entries.
- *
- * ## Thread-Safety
- * All public methods are thread-safe.
- */
 class CrashRecoveryManager {
 public:
     // ── Types ────────────────────────────────────────────────────────────────
@@ -69,7 +42,6 @@ public:
         CHECKPOINT = 4,  ///< Recovery checkpoint – entries before this are safe to prune
     };
 
-    /// A single undo/redo operation logged inside a transaction.
     struct OperationEntry {
         std::string op;           ///< "put" | "del"
         std::string key;          ///< Key affected
@@ -78,7 +50,6 @@ public:
         bool        had_old{false};///< true → old_value is valid (key existed before op)
     };
 
-    /// A WAL record.
     struct LogEntry {
         int64_t        timestamp_ms{0};
         uint64_t       txn_id{0};
@@ -89,7 +60,6 @@ public:
 
     // ── Result types ─────────────────────────────────────────────────────────
 
-    /// Result returned by recover().
     struct RecoveryResult {
         bool   success{false};
         size_t in_flight_found{0};       ///< In-flight txns detected in WAL
@@ -101,7 +71,6 @@ public:
         bool hadWorkToDo() const { return in_flight_found > 0; }
     };
 
-    /// Aggregate metrics for monitoring.
     struct RecoveryMetrics {
         uint64_t total_begins_logged{0};
         uint64_t total_operations_logged{0};
@@ -118,11 +87,6 @@ public:
 
     // ── Constructor / destructor ──────────────────────────────────────────────
 
-    /**
-     * @brief Construct a CrashRecoveryManager.
-     * @param wal_path  Full path to the WAL file.  Created on first write.
-     * @param sync_on_write  If true, fdatasync after every append (safe but slower).
-     */
     explicit CrashRecoveryManager(const std::string& wal_path,
                                    bool sync_on_write = true);
     ~CrashRecoveryManager();
@@ -130,26 +94,21 @@ public:
     CrashRecoveryManager(const CrashRecoveryManager&) = delete;
     CrashRecoveryManager& operator=(const CrashRecoveryManager&) = delete;
 
-    // ── WAL write methods (called by TransactionManager) ─────────────────────
 
     /**
-     * @brief Log the start of a new transaction.
-     * @param txn_id    Transaction identifier.
-     * @param isolation Isolation level for this transaction.
+     * @brief Log Begin.
+     * @param[in] txn_id Identifier of the txn.
+     * @param[in] isolation Input parameter.
      */
     void logBegin(uint64_t txn_id, IsolationLevel isolation);
 
     /**
-     * @brief Log a write operation within a transaction.
-     *
-     * Should be called *before* the write is applied to the DB so that
-     * the old value is still readable.
-     *
-     * @param txn_id     Transaction identifier.
-     * @param op         "put" or "del".
-     * @param key        Key being written.
-     * @param old_value  Previous value for the key (nullopt if key was absent).
-     * @param new_value  New value for the key (nullopt for "del").
+     * @brief Log Operation.
+     * @param[in] txn_id Identifier of the txn.
+     * @param[in] op Input parameter.
+     * @param[in] key Input parameter.
+     * @param[in] old_value Input parameter.
+     * @param[in] new_value Input parameter.
      */
     void logOperation(uint64_t txn_id,
                       const std::string& op,
@@ -158,75 +117,60 @@ public:
                       const std::optional<std::string>& new_value);
 
     /**
-     * @brief Log a successful commit.
-     * @param txn_id Transaction identifier.
+     * @brief Log Commit.
+     * @param[in] txn_id Identifier of the txn.
      */
     void logCommit(uint64_t txn_id);
 
     /**
-     * @brief Log an abort / rollback.
-     * @param txn_id Transaction identifier.
+     * @brief Log Abort.
+     * @param[in] txn_id Identifier of the txn.
      */
     void logAbort(uint64_t txn_id);
 
-    // ── Recovery methods ──────────────────────────────────────────────────────
 
     /**
-     * @brief Check whether the WAL contains in-flight transactions.
-     *
-     * Should be called at startup *before* accepting new transactions.
-     * Returns true if recover() needs to be run.
+     * @brief Needs Recovery.
+     * @return True when the operation succeeds.
      */
     bool needsRecovery() const;
 
     /**
-     * @brief Perform crash recovery.
-     *
-     * Scans the WAL file for uncommitted transactions and undoes their
-     * operations by writing old values (or deleting new keys) via @p db.
-     * Appends a CHECKPOINT entry when done.
-     *
-     * @param db  RocksDB wrapper used to apply undo operations.
-     * @return    Summary of the recovery run.
+     * @brief Recover.
+     * @param[in,out] db Input/output parameter.
+     * @return Return value.
      */
     RecoveryResult recover(RocksDBWrapper& db);
 
     /**
-     * @brief Get the IDs of transactions that were in-flight at last scan.
-     *
-     * Updated by needsRecovery() and recover().
+     * @brief Get In Flight Transaction Ids.
+     * @return Return value.
      */
     std::vector<uint64_t> getInFlightTransactionIds() const;
 
-    // ── Maintenance ───────────────────────────────────────────────────────────
 
     /**
-     * @brief Remove log entries for committed/aborted transactions to keep
-     *        the WAL file small.
-     *
-     * Rewrites the WAL file keeping only:
-     * - Entries for currently in-flight transactions.
-     * - The final CHECKPOINT entry.
-     *
-     * @return Number of entries removed.
+     * @brief Prune Log.
+     * @return Return value.
      */
     size_t pruneLog();
 
     /**
-     * @brief Aggregate runtime metrics.
+     * @brief Get Metrics.
+     * @return Return value.
      */
     RecoveryMetrics getMetrics() const;
 
-    // ── Introspection (for testing / monitoring) ──────────────────────────────
 
     /**
-     * @brief Read all log entries from the WAL file.
+     * @brief Read All Entries.
+     * @return Return value.
      */
     std::vector<LogEntry> readAllEntries() const;
 
     /**
-     * @brief Number of entries currently in the in-memory pending map
-     *        (transactions started but not yet committed/aborted).
+     * @brief Pending Transaction Count.
+     * @return Return value.
      */
     size_t pendingTransactionCount() const;
 
@@ -252,25 +196,50 @@ private:
     // Cache of in-flight ids after last scan (mutable for const methods)
     mutable std::vector<uint64_t> last_in_flight_ids_;
 
-    /// Append a raw JSON line to the WAL file (mutex must be held).
+    /**
+     * @brief Append Line.
+     * @param[in] json_line Input parameter.
+     */
     void appendLine(const std::string& json_line);
 
-    /// Scan WAL to find in-flight transaction IDs.
+    /**
+     * @brief Scan In Flight.
+     * @return Return value.
+     */
     std::unordered_set<uint64_t> scanInFlight() const;
 
-    /// Serialize a LogEntry to a JSON string (single line, no newline).
+    /**
+     * @brief Serialize.
+     * @param[in] e Input parameter.
+     * @return Return value.
+     */
     static std::string serialize(const LogEntry& e);
 
-    /// Deserialize a JSON string into a LogEntry.  Returns nullopt on error.
+    /**
+     * @brief Deserialize.
+     * @param[in] line Input parameter.
+     * @return Return value.
+     */
     static std::optional<LogEntry> deserialize(const std::string& line);
 
-    /// Base64-encode raw bytes (for storing binary values in JSON).
+    /**
+     * @brief Base64 Encode.
+     * @param[in] s Input parameter.
+     * @return Return value.
+     */
     static std::string base64Encode(const std::string& s);
 
-    /// Base64-decode a base64 string back to raw bytes.
+    /**
+     * @brief Base64 Decode.
+     * @param[in] s Input parameter.
+     * @return Return value.
+     */
     static std::string base64Decode(const std::string& s);
 
-    /// Current monotonic timestamp in milliseconds.
+    /**
+     * @brief Now Ms.
+     * @return Return value.
+     */
     static int64_t nowMs();
 };
 

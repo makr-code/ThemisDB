@@ -24,9 +24,9 @@ namespace maintenance {
 // ---------------------------------------------------------------------------
 
 /**
- * @brief Returns the recommended DAILY maintenance schedule.
- *
- * Covers: metrics collection, fragmentation monitoring, quota checks.
+ * @brief Default Daily Schedule.
+ * @return Return value.
+ * @details Implements defaultDailySchedule without additional internal calls.
  */
 MaintenanceScheduleEntry defaultDailySchedule() {
     MaintenanceScheduleEntry e;
@@ -46,10 +46,9 @@ MaintenanceScheduleEntry defaultDailySchedule() {
 }
 
 /**
- * @brief Returns the recommended WEEKLY maintenance schedule.
- *
- * Covers: consistency checks, replica validation, performance analysis,
- *         MVCC cleanup.
+ * @brief Default Weekly Schedule.
+ * @return Return value.
+ * @details Implements defaultWeeklySchedule without additional internal calls.
  */
 MaintenanceScheduleEntry defaultWeeklySchedule() {
     MaintenanceScheduleEntry e;
@@ -71,10 +70,9 @@ MaintenanceScheduleEntry defaultWeeklySchedule() {
 }
 
 /**
- * @brief Returns the recommended MONTHLY maintenance schedule.
- *
- * Covers: full CHECKDB, backup verification, capacity trend analysis,
- *         index fragmentation report.
+ * @brief Default Monthly Schedule.
+ * @return Return value.
+ * @details Implements defaultMonthlySchedule without additional internal calls.
  */
 MaintenanceScheduleEntry defaultMonthlySchedule() {
     MaintenanceScheduleEntry e;
@@ -96,9 +94,9 @@ MaintenanceScheduleEntry defaultMonthlySchedule() {
 }
 
 /**
- * @brief Returns the recommended QUARTERLY maintenance schedule.
- *
- * Covers: disaster recovery drill, performance baseline update.
+ * @brief Default Quarterly Schedule.
+ * @return Return value.
+ * @details Implements defaultQuarterlySchedule without additional internal calls.
  */
 MaintenanceScheduleEntry defaultQuarterlySchedule() {
     MaintenanceScheduleEntry e;
@@ -121,10 +119,9 @@ MaintenanceScheduleEntry defaultQuarterlySchedule() {
 // ---------------------------------------------------------------------------
 
 /**
- * @brief Create a HealthProbe for the IndexMaintenanceManager.
- *
- * @param mgr  Shared pointer to the IndexMaintenanceManager.
- * @return     HealthProbe callable suitable for registerHealthProbe().
+ * @brief Make Index Maintenance Health Probe.
+ * @param[in] mgr Input parameter.
+ * @return Return value.
  */
 HealthProbe makeIndexMaintenanceHealthProbe(
     std::shared_ptr<IndexMaintenanceManager> mgr)
@@ -172,13 +169,9 @@ HealthProbe makeIndexMaintenanceHealthProbe(
 }
 
 /**
- * @brief Register all default schedules and the IndexMaintenance health probe
- *        with the given orchestrator.
- *
- * Call this once during server start-up after constructing the orchestrator.
- *
- * @param orchestrator  The DatabaseMaintenanceOrchestrator to configure.
- * @param index_mgr     Optional IndexMaintenanceManager (may be nullptr).
+ * @brief Register Default Maintenance Setup.
+ * @param[in,out] orchestrator Input/output parameter.
+ * @param[in] index_mgr Input parameter.
  */
 void registerDefaultMaintenanceSetup(
     DatabaseMaintenanceOrchestrator& orchestrator,

@@ -86,12 +86,12 @@ public:
      */
     explicit TimeSeries(std::vector<TimeSeriesPoint> points);
 
+
     /**
-     * @brief ---- Mutation ----
+     * @brief Push.
      * @param[in] timestamp_ms Input parameter.
      * @param[in] value Input parameter.
      */
-
     void push(int64_t timestamp_ms, double value);
     /**
      * @brief Push.
@@ -127,11 +127,11 @@ public:
 
     std::pair<TimeSeries, TimeSeries> trainTestSplit(double train_ratio = 0.8) const;
 
+
     /**
-     * @brief ---- Statistics ----
+     * @brief Mean.
      * @return Return value.
      */
-
     double mean()   const;
     /**
      * @brief Stddev.
@@ -259,11 +259,11 @@ public:
     ForecastModel(ForecastModel&&)                 noexcept;
     ForecastModel& operator=(ForecastModel&&)      noexcept;
 
+
     /**
-     * @brief ---- Training ----
+     * @brief Fit.
      * @param[in] ts Input parameter.
      */
-
     void fit(const TimeSeries& ts);
     /**
      * @brief Fit.
@@ -279,12 +279,12 @@ public:
      */
     bool isFitted() const noexcept;
 
+
     /**
-     * @brief ---- Prediction ----
+     * @brief Predict.
      * @param[in] steps Input parameter.
      * @return Return value.
      */
-
     std::vector<ForecastPoint> predict(int steps) const;
 
     /**
@@ -302,23 +302,23 @@ public:
      */
     void update(double new_value);
 
+
     /**
-     * @brief ---- Evaluation ----
+     * @brief Evaluate.
      * @param[in] test_ts Input parameter.
      * @return Return value.
      */
-
     ForecastMetrics evaluate(const TimeSeries& test_ts) const;
 
     // ---- Seasonal decomposition ----
 
     DecompositionResult decompose(bool multiplicative = false) const;
 
+
     /**
-     * @brief ---- Serialisation ----
+     * @brief Serialize.
      * @return Return value.
      */
-
     std::string serialize() const;
     /**
      * @brief Deserialize.

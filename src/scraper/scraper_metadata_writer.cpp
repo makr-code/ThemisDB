@@ -32,7 +32,12 @@ namespace scraper {
 
 namespace {
 
-/// FNV-1a 64-bit hash for quick doc-id generation (no libssl needed).
+/**
+ * @brief Fnv1a64.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Implements fnv1a64 without additional internal calls.
+ */
 uint64_t fnv1a64(const std::string& s) {
     uint64_t hash = 14695981039346656037;
     for (unsigned char c : s) {
@@ -42,12 +47,23 @@ uint64_t fnv1a64(const std::string& s) {
     return hash;
 }
 
+/**
+ * @brief To Hex16.
+ * @param[in] v Input parameter.
+ * @return Return value.
+ * @details Calls: std::setfill(), std::setw(), str().
+ */
 std::string toHex16(uint64_t v) {
     std::ostringstream ss = {};
     ss << std::hex << std::setfill('0') << std::setw(16) << v;
     return ss.str();
 }
 
+/**
+ * @brief Iso8601 Now.
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::now(), std::chrono::system_clock::to_time_t(), std::put_time(), std::gmtime(), str().
+ */
 std::string iso8601Now() {
     const auto now = std::chrono::system_clock::now();
     const std::time_t t = std::chrono::system_clock::to_time_t(now);
@@ -188,6 +204,15 @@ std::string iso8601Now() {
 // InMemoryScraperMetadataWriter
 // ============================================================================
 
+/**
+ * @brief Write.
+ * @param[in] rel Input parameter.
+ * @param[in] node Input parameter.
+ * @param[in] edges Input parameter.
+ * @param[in] vec Input parameter.
+ * @return Return value.
+ * @details Calls: push_back(), insert(), end(), begin().
+ */
 WriteResult InMemoryScraperMetadataWriter::write(
         const ScraperRelationalRecord& rel,
         const ScraperGraphNode&        node,

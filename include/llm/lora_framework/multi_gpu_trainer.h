@@ -21,35 +21,8 @@ namespace themis {
 namespace llm {
 namespace lora {
 
-/**
- * @brief Multi-GPU trainer for data-parallel LoRA training
- * 
- * Coordinates training across multiple GPUs with:
- * - Data parallelism (each GPU processes different batch)
- * - Gradient synchronization via all-reduce
- * - Distributed checkpointing
- * - Automatic load balancing
- * 
- * Example:
- * ```cpp
- * MultiGPUContext ctx(4);
- * MultiGPULoRATrainer trainer(ctx);
- * 
- * auto layer = trainer.create_layer(768, 768, 8, 1.0f);
- * 
- * for (int epoch = 0; epoch < 10; ++epoch) {
- *     for (auto& batch : data_loader) {
- *         auto sharded_batches = trainer.shard_batch(batch, 4);
- *         float loss = trainer.train_step(layer, sharded_batches, targets);
- *     }
- * }
- * ```
- */
 class MultiGPULoRATrainer {
 public:
-    /**
-     * @brief Training configuration
-     */
     struct Config {
         float learning_rate = 0.001f;
         int gradient_accumulation_steps = 1;
@@ -60,30 +33,32 @@ public:
     };
     
     /**
-     * @brief Construct multi-GPU trainer
-     * @param ctx Multi-GPU context
-     * @param config Training configuration
+     * @brief Multi GPULo RATrainer.
+     * @param[in] ctx Input parameter.
+     * @param[in] config Input parameter.
+     * @return Return value.
      */
     explicit MultiGPULoRATrainer(const MultiGPUContext& ctx, 
                                  const Config& config);
+    /**
+     * @brief Multi GPULo RATrainer.
+     * @param[in] ctx Input parameter.
+     * @return Return value.
+     */
     explicit MultiGPULoRATrainer(const MultiGPUContext& ctx);
     
     ~MultiGPULoRATrainer() = default;
     
-    /**
-     * @brief Create multi-GPU LoRA layer
-     */
     std::shared_ptr<MultiGPULoRALayer> create_layer(
         size_t in_dim, size_t out_dim, size_t rank, float scaling,
         CommBackend backend = CommBackend::AUTO);
     
     /**
-     * @brief Single training step
-     * 
-     * @param layer Multi-GPU layer
-     * @param inputs Input tensors, one per GPU
-     * @param targets Target tensors, one per GPU
-     * @return Average loss across all GPUs
+     * @brief Train step.
+     * @param[in,out] layer Input/output parameter.
+     * @param[in] inputs Input parameter.
+     * @param[in] targets Input parameter.
+     * @return Return value.
      */
     float train_step(
         MultiGPULoRALayer& layer,
@@ -91,7 +66,11 @@ public:
         const std::vector<GPUTensor>& targets);
     
     /**
-     * @brief Evaluation step (no gradient update)
+     * @brief Eval step.
+     * @param[in,out] layer Input/output parameter.
+     * @param[in] inputs Input parameter.
+     * @param[in] targets Input parameter.
+     * @return Return value.
      */
     float eval_step(
         MultiGPULoRALayer& layer,
@@ -99,27 +78,28 @@ public:
         const std::vector<GPUTensor>& targets);
     
     /**
-     * @brief Shard a batch across GPUs.
-     *
-     * Splits a single large batch into N smaller batches, one per GPU.
-     *
-     * @param batch Full batch tensor (batch_size, features).
-     * @param ctx Multi-GPU context describing available devices.
-     * @return Vector of sharded tensors, one per GPU.
+     * @brief Shard batch.
+     * @param[in] batch Input parameter.
+     * @param[in] ctx Input parameter.
+     * @return Return value.
      */
     static std::vector<GPUTensor> shard_batch(
         const GPUTensor& batch,
         const MultiGPUContext& ctx);
     
     /**
-     * @brief Gather results from all GPUs to CPU
+     * @brief Gather to cpu.
+     * @param[in] tensors Input parameter.
+     * @return Return value.
      */
     static GPUTensor gather_to_cpu(const std::vector<GPUTensor>& tensors);
     
     /**
-     * @brief Save checkpoint (distributed)
-     * 
-     * Saves model parameters from rank 0 GPU only.
+     * @brief Save checkpoint.
+     * @param[in,out] layer Input/output parameter.
+     * @param[in] path Input parameter.
+     * @param[in] step Input parameter.
+     * @return True when the operation succeeds.
      */
     bool save_checkpoint(
         MultiGPULoRALayer& layer,
@@ -127,15 +107,15 @@ public:
         int step);
     
     /**
-     * @brief Load checkpoint (broadcast to all GPUs)
+     * @brief Load checkpoint.
+     * @param[in,out] layer Input/output parameter.
+     * @param[in] path Input parameter.
+     * @return True when the operation succeeds.
      */
     bool load_checkpoint(
         MultiGPULoRALayer& layer,
         const std::string& path);
     
-    /**
-     * @brief Get training statistics
-     */
     struct Stats {
         int total_steps = 0;
         float avg_loss = 0.0f;
@@ -149,11 +129,11 @@ public:
     };
     
     Stats get_stats() const { return stats_; }
+    /**
+     * @brief Reset stats.
+     */
     void reset_stats();
     
-    /**
-     * @brief Get multi-GPU context
-     */
     const MultiGPUContext& context() const { return ctx_; }
     
 private:
@@ -165,9 +145,19 @@ private:
     int accumulation_counter_ = 0;
     
     // Compute loss (MSE)
+    /**
+     * @brief Compute loss.
+     * @param[in] output Input parameter.
+     * @param[in] target Input parameter.
+     * @return Return value.
+     */
     float compute_loss(const GPUTensor& output, const GPUTensor& target);
     
     // Gradient descent step
+    /**
+     * @brief Update parameters.
+     * @param[in,out] layer Input/output parameter.
+     */
     void update_parameters(MultiGPULoRALayer& layer);
 };
 

@@ -116,7 +116,7 @@ SanitisedChunk PIIStreamDetectorAdapter::pseudonymise(
     auto findings = scanner.scan_chunk(sv, /*is_last=*/true);
 
     /**
-     * @brief Build the sanitised output by masking each finding.
+     * @brief Text.
      * @param[in] sv Input parameter.
      * @return Return value.
      */
@@ -262,7 +262,7 @@ size_t HKDFKeyCacheAdapter::maxCacheSize() const {
 }
 
 /**
- * @brief static
+ * @brief Ikm Hash.
  * @param[in] ikm Input parameter.
  * @return Return value.
  * @details Calls: SHA256(), data(), size(), std::setw(), std::setfill(), str().
@@ -372,7 +372,7 @@ SAGALogEntry VectorReplayIterator::next() {
 }
 
 /**
- * @brief Reset.
+ * @brief Reset the modification detection flag.
  * @details Implements reset without additional internal calls.
  */
 void VectorReplayIterator::reset() {
@@ -398,11 +398,6 @@ std::future<CompactionResult> SAGALogCompactorAdapter::compact(SegmentRange rang
         auto start = std::chrono::steady_clock::now();
         CompactionResult result;
         try {
-            /**
-             * @brief Compactor.
-             * @param[in] cfg_ Input parameter.
-             * @return Return value.
-             */
             SAGALogCompactor compactor(cfg_);
             // Use toTxnId as the upper boundary for the existing API.
             size_t archived = compactor.compact(range.toTxnId);
@@ -462,11 +457,6 @@ SequentialUtilsPipeline::~SequentialUtilsPipeline() {
  * @details Calls: lock(), push_back(), std::move().
  */
 void SequentialUtilsPipeline::registerStage(std::unique_ptr<IUtilsStage> stage) {
-    /**
-     * @brief Lock.
-     * @param[in] mu_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lock(mu_);
     stages_.push_back(std::move(stage));
 }
@@ -480,11 +470,6 @@ std::future<PipelineResult> SequentialUtilsPipeline::run() {
     // Snapshot stage pointers under the lock; execution is off-lock.
     std::vector<IUtilsStage*> snapshot;
     {
-        /**
-         * @brief Lock.
-         * @param[in] mu_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(mu_);
         for (auto& s : stages_) {
           snapshot.push_back(s.get());

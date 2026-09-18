@@ -29,7 +29,13 @@ constexpr double Z_BUCKET_SIZE = 10.0;  // 10 meter buckets for elevation
 
 // ===== Morton Encoder Implementation =====
 
-// Interleave bits for 2D Morton code
+/**
+ * @brief Interleave bits for 2D Morton code
+ * @param[in] x Input parameter.
+ * @param[in] y Input parameter.
+ * @return Return value.
+ * @details Implements interleaveBits2D without additional internal calls.
+ */
 uint64_t MortonEncoder::interleaveBits2D(uint32_t x, uint32_t y) {
     uint64_t result = 0;
     for (int i = 0; i < 32; ++i) {
@@ -38,7 +44,14 @@ uint64_t MortonEncoder::interleaveBits2D(uint32_t x, uint32_t y) {
     return result;
 }
 
-// Interleave bits for 3D Morton code (21 bits each)
+/**
+ * @brief Interleave bits for 3D Morton code (21 bits each)
+ * @param[in] x Input parameter.
+ * @param[in] y Input parameter.
+ * @param[in] z Input parameter.
+ * @return Return value.
+ * @details Implements interleaveBits3D without additional internal calls.
+ */
 uint64_t MortonEncoder::interleaveBits3D(uint32_t x, uint32_t y, uint32_t z) {
     uint64_t result = 0;
     for (int i = 0; i < 21; ++i) {
@@ -49,7 +62,14 @@ uint64_t MortonEncoder::interleaveBits3D(uint32_t x, uint32_t y, uint32_t z) {
     return result;
 }
 
-// Normalize coordinate to [0, 2^32-1]
+/**
+ * @brief Normalize coordinate to [0, 2^32-1]
+ * @param[in] coord Input parameter.
+ * @param[in] min_val Input parameter.
+ * @param[in] max_val Input parameter.
+ * @return Return value.
+ * @details Calls: std::clamp().
+ */
 uint32_t MortonEncoder::normalizeCoord(double coord, double min_val, double max_val) {
     if (max_val <= min_val) {
       return 0;
@@ -61,14 +81,29 @@ uint32_t MortonEncoder::normalizeCoord(double coord, double min_val, double max_
     return static_cast<uint32_t>(normalized * 0xFFFFFFFFULL);
 }
 
-// Encode 2D to Morton code
+/**
+ * @brief Encode 2D to Morton code
+ * @param[in] x Input parameter.
+ * @param[in] y Input parameter.
+ * @param[in] bounds Input parameter.
+ * @return Return value.
+ * @details Calls: normalizeCoord(), interleaveBits2D().
+ */
 uint64_t MortonEncoder::encode2D(double x, double y, const geo::MBR& bounds) {
     uint32_t nx = normalizeCoord(x, bounds.minx, bounds.maxx);
     uint32_t ny = normalizeCoord(y, bounds.miny, bounds.maxy);
     return interleaveBits2D(nx, ny);
 }
 
-// Encode 3D to Morton code
+/**
+ * @brief Encode 3D to Morton code
+ * @param[in] x Input parameter.
+ * @param[in] y Input parameter.
+ * @param[in] z Input parameter.
+ * @param[in] bounds Input parameter.
+ * @return Return value.
+ * @details Calls: normalizeCoord(), value_or(), interleaveBits3D().
+ */
 uint64_t MortonEncoder::encode3D(double x, double y, double z, const geo::MBR& bounds) {
     // Use 21 bits per dimension for 3D
     uint32_t nx = normalizeCoord(x, bounds.minx, bounds.maxx) >> 11;
@@ -250,10 +285,13 @@ std::string SpatialIndexManager::makeSpatialPerPKKey(
     return getSpatialKeyPrefix(table) + "pk:" + buf + ":" + std::string(pk);
 }
 
-// ── R-tree helpers ────────────────────────────────────────────────────────
+/**
+ * @brief ── R-tree helpers ────────────────────────────────────────────────────────
+ * @param[in] mbr Input parameter.
+ * @return Return value.
+ * @details Calls: g(), push_back().
+ */
 
-/// Convert an MBR to a minimal Polygon GeometryInfo for GeoRTree indexing.
-/// The polygon's computeMBR() returns the same MBR, ensuring stable insert/remove.
 geo::GeometryInfo SpatialIndexManager::mbrToGeometryInfo(const geo::MBR& mbr) {
     geo::GeometryInfo g(geo::GeometryType::Polygon);
     g.rings.push_back({
@@ -264,25 +302,33 @@ geo::GeometryInfo SpatialIndexManager::mbrToGeometryInfo(const geo::MBR& mbr) {
     return g;
 }
 
-/// Lazily build the in-memory R-tree for `table` from per-PK RocksDB keys.
-/// No-op if the R-tree has already been initialised for this table.
-/// Falls back gracefully when per-PK keys are absent (e.g. very old data);
-/// in that case the table's R-tree remains empty and searchIntersects uses
-/// the Morton code scan instead.
 void SpatialIndexManager::ensureRTree(std::string_view table) const {
+    /**
+     * @brief Table str.
+     * @param[in] table Input parameter.
+     * @return Return value.
+     */
     std::string table_str(table);
 
     // Fast path: already built — check with a shared (read) lock.
     {
-        // LOCK: Tier 1 (Global R-tree protection, read-only) — Phase 3 A-5
+        /**
+         * @brief LOCK: Tier 1 (Global R-tree protection, read-only) — Phase 3 A-5
+         * @param[in] rtree_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::shared_lock<std::shared_mutex> rlock(rtree_mutex_);
         if (rtree_built_.count(table_str)) {
           return;
         }
     }
 
-    // Slow path: acquire exclusive write lock and build.
-    // LOCK: Tier 1 (Global R-tree protection) — Phase 3 A-5
+    /**
+     * @brief Slow path: acquire exclusive write lock and build.
+     * @param[in] rtree_mutex_ Input parameter.
+     * @return Return value.
+     * @details LOCK: Tier 1 (Global R-tree protection) — Phase 3 A-5
+     */
     std::unique_lock<std::shared_mutex> lock(rtree_mutex_);
     // Double-check after acquiring write lock to avoid redundant work.
     if (rtree_built_.count(table_str)) {
@@ -377,6 +423,13 @@ std::optional<RTreeConfig> SpatialIndexManager::getConfig(std::string_view table
     }
 }
 
+/**
+ * @brief Save Config.
+ * @param[in] table Input parameter.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @details Calls: dump(), bytes(), begin(), end(), put(), getConfigKey(), Status::OK(), Status::Error().
+ */
 SpatialIndexManager::Status SpatialIndexManager::saveConfig(std::string_view table, const RTreeConfig& config) {
     json j;
     j["max_entries"] = config.max_entries_per_node;
@@ -394,6 +447,14 @@ SpatialIndexManager::Status SpatialIndexManager::saveConfig(std::string_view tab
 }
 
 // Create spatial index
+/**
+ * @brief Create Spatial Index.
+ * @param[in] table Input parameter.
+ * @param[in] geometry_column Input parameter.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @details Calls: geo::MBR(), table_str(), lock(), erase(), saveConfig().
+ */
 SpatialIndexManager::Status SpatialIndexManager::createSpatialIndex(
     std::string_view table,
     std::string_view geometry_column,
@@ -422,6 +483,12 @@ SpatialIndexManager::Status SpatialIndexManager::createSpatialIndex(
 }
 
 // Drop spatial index
+/**
+ * @brief Drop Spatial Index.
+ * @param[in] table Input parameter.
+ * @return Return value.
+ * @details Calls: del(), getConfigKey(), getSpatialKeyPrefix(), scanRange(), table_str(), lock(), erase(), Status::OK().
+ */
 SpatialIndexManager::Status SpatialIndexManager::dropSpatialIndex(std::string_view table) {
     // Delete config
     db_.del(getConfigKey(table));
@@ -521,13 +588,22 @@ SpatialIndexManager::Status SpatialIndexManager::bulkLoad(
         return Status::Error("Spatial index not found for table: " + std::string(table));
     }
 
+    /**
+     * @brief Table str.
+     * @param[in] table Input parameter.
+     * @return Return value.
+     */
     std::string table_str(table);
 
     // Purge all spatial keys (legacy Morton buckets + per-PK keys) so that
     // empty bulk-load fully clears query-visible state and restart rebuilds
     // cannot resurrect stale entries.
     {
-        // LOCK: Tier 1 (Global R-tree protection) — Phase 3 A-5
+        /**
+         * @brief LOCK: Tier 1 (Global R-tree protection) — Phase 3 A-5
+         * @param[in] rtree_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::shared_mutex> lock(rtree_mutex_);
         rtrees_[table_str].clear();
         mbr_cache_[table_str].clear();
@@ -579,7 +655,11 @@ SpatialIndexManager::Status SpatialIndexManager::bulkLoad(
 
     // Atomically swap in the new in-memory state under the write lock.
     {
-        // LOCK: Tier 1 (Global R-tree protection) — Phase 3 A-5
+        /**
+         * @brief LOCK: Tier 1 (Global R-tree protection) — Phase 3 A-5
+         * @param[in] rtree_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::shared_mutex> lock(rtree_mutex_);
         mbr_cache_[table_str] = std::move(local_cache);
         rtrees_[table_str].clear();
@@ -591,7 +671,11 @@ SpatialIndexManager::Status SpatialIndexManager::bulkLoad(
     }
 
     {
-        // LOCK: Tier 1 (Global R-tree protection, read-only) — Phase 3 A-5
+        /**
+         * @brief LOCK: Tier 1 (Global R-tree protection, read-only) — Phase 3 A-5
+         * @param[in] rtree_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::shared_lock<std::shared_mutex> rlock(rtree_mutex_);
         THEMIS_INFO("SpatialIndexManager::bulkLoad: table='{}', entries={}, "
                     "geo_index_bytes_allocated={}",
@@ -603,6 +687,14 @@ SpatialIndexManager::Status SpatialIndexManager::bulkLoad(
 }
 
 // Insert
+/**
+ * @brief Insert.
+ * @param[in] table Input parameter.
+ * @param[in] primary_key Input parameter.
+ * @param[in] sidecar Input parameter.
+ * @return Return value.
+ * @details Calls: getConfig(), Status::Error(), std::string(), MortonEncoder::encode2D(), makeSpatialKey(), get(), s(), data().
+ */
 SpatialIndexManager::Status SpatialIndexManager::insert(
     std::string_view table,
     std::string_view primary_key,
@@ -682,7 +774,15 @@ SpatialIndexManager::Status SpatialIndexManager::insert(
     return Status::OK();
 }
 
-// Insert with WriteBatch (atomic)
+/**
+ * @brief Insert with WriteBatch (atomic)
+ * @param[in,out] batch Input/output parameter.
+ * @param[in] table Input parameter.
+ * @param[in] primary_key Input parameter.
+ * @param[in] sidecar Input parameter.
+ * @return Return value.
+ * @details Calls: getConfig(), Status::Error(), std::string(), MortonEncoder::encode2D(), makeSpatialPerPKKey(), dump(), pk_bytes(), begin().
+ */
 SpatialIndexManager::Status SpatialIndexManager::insertBatch(
     RocksDBWrapper::WriteBatchWrapper& batch,
     std::string_view table,
@@ -743,7 +843,15 @@ SpatialIndexManager::Status SpatialIndexManager::insertBatch(
     return Status::OK();
 }
 
-// Remove with WriteBatch (atomic)
+/**
+ * @brief Remove with WriteBatch (atomic)
+ * @param[in,out] batch Input/output parameter.
+ * @param[in] table Input parameter.
+ * @param[in] primary_key Input parameter.
+ * @param[in] sidecar Input parameter.
+ * @return Return value.
+ * @details Calls: getConfig(), Status::OK(), MortonEncoder::encode2D(), makeSpatialPerPKKey(), del(), makeSpatialKey(), get(), s().
+ */
 SpatialIndexManager::Status SpatialIndexManager::removeBatch(
     RocksDBWrapper::WriteBatchWrapper& batch,
     std::string_view table,
@@ -823,6 +931,14 @@ SpatialIndexManager::Status SpatialIndexManager::removeBatch(
 }
 
 // Remove
+/**
+ * @brief Remove.
+ * @param[in] table Input parameter.
+ * @param[in] primary_key Input parameter.
+ * @param[in] sidecar Input parameter.
+ * @return Return value.
+ * @details Calls: getConfig(), Status::OK(), MortonEncoder::encode2D(), makeSpatialKey(), get(), s(), data(), size().
+ */
 SpatialIndexManager::Status SpatialIndexManager::remove(
     std::string_view table,
     std::string_view primary_key,
@@ -901,6 +1017,15 @@ SpatialIndexManager::Status SpatialIndexManager::remove(
 }
 
 // Update
+/**
+ * @brief Update.
+ * @param[in] table Input parameter.
+ * @param[in] primary_key Input parameter.
+ * @param[in] old_sidecar Input parameter.
+ * @param[in] new_sidecar Input parameter.
+ * @return Return value.
+ * @details Calls: remove(), insert().
+ */
 SpatialIndexManager::Status SpatialIndexManager::update(
     std::string_view table,
     std::string_view primary_key,
@@ -962,6 +1087,11 @@ std::vector<SpatialResult> SpatialIndexManager::searchIntersects(
     // first call; subsequent calls are no-ops (O(1) set-lookup).
     ensureRTree(table);
 
+    /**
+     * @brief Table str.
+     * @param[in] table Input parameter.
+     * @return Return value.
+     */
     std::string table_str(table);
 
     // Snapshot candidate keys and their MBRs under a shared lock, then
@@ -970,7 +1100,11 @@ std::vector<SpatialResult> SpatialIndexManager::searchIntersects(
     std::unordered_map<std::string, geo::MBR> candidate_mbrs;
     bool rtree_populated = false;
     {
-        // LOCK: Tier 1 (Global R-tree protection, read-only) — Phase 3 A-5
+        /**
+         * @brief LOCK: Tier 1 (Global R-tree protection, read-only) — Phase 3 A-5
+         * @param[in] rtree_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::shared_lock<std::shared_mutex> slock(rtree_mutex_);
         const auto& rtree = rtrees_[table_str];
         if (rtree.size() > 0) {
@@ -1017,6 +1151,11 @@ std::vector<SpatialResult> SpatialIndexManager::searchIntersects(
                             if (j.contains("geometry") && j["geometry"].is_object()) {
                                 std::string geojson = j["geometry"].dump();
                                 auto entity_geom = geo::EWKBParser::parseGeoJSON(geojson);
+                                /**
+                                 * @brief Query geom.
+                                 * @param[in] Polygon Input parameter.
+                                 * @return Return value.
+                                 */
                                 geo::GeometryInfo query_geom(geo::GeometryType::Polygon);
                                 query_geom.coords = {
                                     geo::Coordinate(query_bbox.minx, query_bbox.miny),
@@ -1095,6 +1234,11 @@ std::vector<SpatialResult> SpatialIndexManager::searchIntersects(
                                 if (j.contains("geometry") && j["geometry"].is_object()) {
                                     std::string geojson = j["geometry"].dump();
                                     auto entity_geom = geo::EWKBParser::parseGeoJSON(geojson);
+                                    /**
+                                     * @brief Query geom.
+                                     * @param[in] Polygon Input parameter.
+                                     * @return Return value.
+                                     */
                                     geo::GeometryInfo query_geom(geo::GeometryType::Polygon);
                                     query_geom.coords = {
                                         geo::Coordinate(query_bbox.minx, query_bbox.miny),
@@ -1188,6 +1332,11 @@ std::vector<SpatialResult> SpatialIndexManager::searchContains(
     // the tiny-bbox workaround and avoids a redundant filter pass.
     ensureRTree(table);
 
+    /**
+     * @brief Table str.
+     * @param[in] table Input parameter.
+     * @return Return value.
+     */
     std::string table_str(table);
 
     // Snapshot candidate keys and their MBRs under a shared lock.
@@ -1195,7 +1344,11 @@ std::vector<SpatialResult> SpatialIndexManager::searchContains(
     std::unordered_map<std::string, geo::MBR> candidate_mbrs;
     bool rtree_populated = false;
     {
-        // LOCK: Tier 1 (Global R-tree protection, read-only) — Phase 3 A-5
+        /**
+         * @brief LOCK: Tier 1 (Global R-tree protection, read-only) — Phase 3 A-5
+         * @param[in] rtree_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::shared_lock<std::shared_mutex> slock(rtree_mutex_);
         const auto& rtree = rtrees_[table_str];
         if (rtree.size() > 0) {
@@ -1371,6 +1524,11 @@ std::vector<SpatialResult> SpatialIndexManager::searchZRange(
     const std::string pk_prefix = getSpatialKeyPrefix(table) + "pk:";
 
     std::vector<SpatialResult> results;
+    /**
+     * @brief Table str.
+     * @param[in] table Input parameter.
+     * @return Return value.
+     */
     std::string table_str(table);
 
     db_.scanRange(pk_prefix, pk_prefix + "~",

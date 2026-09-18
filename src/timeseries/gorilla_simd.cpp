@@ -64,20 +64,25 @@ bool gorilla_simd_has_neon() noexcept {
 // Helpers shared across paths
 // ──────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Bits to dbl simd.
+ * @param[in] b Input parameter.
+ * @return Return value.
+ * @details Calls: std::memcpy().
+ */
 static inline double bits_to_dbl_simd(uint64_t b) {
     double v = 0;
     std::memcpy(&v, &b, sizeof(v));
     return v;
 }
 
-// ──────────────────────────────────────────────────────────────────────────
-// Phase 2a: in-place prefix-sum on int64_t array (for timestamps)
-//
-//   On exit: arr[i] = seed + arr[0] + arr[1] + … + arr[i]
-//
-// AVX2 path processes 4 × int64_t per iteration using an in-register
-// Kogge-Stone prefix scan.  Falls back to scalar on non-AVX2 targets.
-// ──────────────────────────────────────────────────────────────────────────
+/**
+ * @brief ────────────────────────────────────────────────────────────────────────── Phase 2a: in-place prefix-sum on int64_t array (for timestamps) On exit: arr[i] = seed + arr[0] + arr[1] + … + arr[i] AVX2 path processes 4 × int64_t per iteration using an in-register Kogge-Stone prefix scan.
+ * @param[in,out] arr Input/output parameter.
+ * @param[in] n Input parameter.
+ * @param[in] seed Input parameter.
+ * @details Falls back to scalar on non-AVX2 targets. ────────────────────────────────────────────────────────────────────────── Calls: defined(), _mm256_loadu_si256(), _mm256_setzero_si256(), _mm256_permute4x64_epi64(), _mm256_blend_epi32(), _mm256_add_epi64(), _mm256_permute2x128_si256(), _mm256_set1_epi64x().
+ */
 
 static void prefix_sum_i64(int64_t* arr, size_t n, int64_t seed) {
     size_t i = 0;
@@ -153,14 +158,13 @@ static void prefix_sum_i64(int64_t* arr, size_t n, int64_t seed) {
 #endif
 }
 
-// ──────────────────────────────────────────────────────────────────────────
-// Phase 2b: in-place prefix-XOR on uint64_t array (for double bit-patterns)
-//
-//   On exit: arr[i] = seed XOR arr[0] XOR arr[1] XOR … XOR arr[i]
-//
-// The XOR operation is associative and commutative; the in-register prefix
-// scan uses the same shift structure as the prefix sum above.
-// ──────────────────────────────────────────────────────────────────────────
+/**
+ * @brief ────────────────────────────────────────────────────────────────────────── Phase 2b: in-place prefix-XOR on uint64_t array (for double bit-patterns) On exit: arr[i] = seed XOR arr[0] XOR arr[1] XOR … XOR arr[i] The XOR operation is associative and commutative; the in-register prefix scan uses the same shift structure as the prefix sum above.
+ * @param[in,out] arr Input/output parameter.
+ * @param[in] n Input parameter.
+ * @param[in] seed Input parameter.
+ * @details ────────────────────────────────────────────────────────────────────────── Calls: defined(), _mm256_loadu_si256(), _mm256_setzero_si256(), _mm256_permute4x64_epi64(), _mm256_blend_epi32(), _mm256_xor_si256(), _mm256_permute2x128_si256(), _mm256_set1_epi64x().
+ */
 
 static void prefix_xor_u64(uint64_t* arr, size_t n, uint64_t seed) {
     size_t i = 0;
@@ -239,6 +243,11 @@ size_t GorillaSIMDDecoder::decodeAll(std::vector<std::pair<int64_t, double>>& ou
     // executed only once per process lifetime (not on every decode call).
     static const bool kHasAVX2 = gorilla_simd_has_avx2();
     if (!kHasAVX2) {
+        /**
+         * @brief Fallback.
+         * @param[in] data_ Input parameter.
+         * @return Return value.
+         */
         GorillaDecoder fallback(data_);
         const size_t out_begin = out.size();
         // Same conservative estimate used by the SIMD path below:
@@ -275,8 +284,12 @@ size_t GorillaSIMDDecoder::decodeAll(std::vector<std::pair<int64_t, double>>& ou
       return 0;
     }
 
-    // Pass raw pointer+size directly — avoids an unnecessary heap allocation
-    // that would otherwise be needed just to strip the 3-byte header.
+    /**
+     * @brief Pass raw pointer+size directly — avoids an unnecessary heap allocation that would otherwise be needed just to strip the 3-byte header.
+     * @param[in] payload_ptr Input parameter.
+     * @param[in] payload_size Input parameter.
+     * @return Return value.
+     */
     BitReader br(payload_ptr, payload_size);
 
     // ── First point ───────────────────────────────────────────────────────

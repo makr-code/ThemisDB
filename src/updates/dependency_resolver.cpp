@@ -54,8 +54,6 @@ namespace updates {
 
 namespace {
 
-/// Parse "major.minor.patch" into a comparable tuple.
-/// Non-parseable or empty strings yield (0, 0, 0).
 static std::tuple<int, int, int> parseVersion(const std::string& v) {
     int major = 0, minor = 0, patch = 0;
     if (!v.empty()) {
@@ -64,10 +62,14 @@ static std::tuple<int, int, int> parseVersion(const std::string& v) {
     return {major, minor, patch};
 }
 
-/// Trim leading and trailing whitespace.
-// Using themis::utils::trim() from string_utils.h (Phase 1 consolidation)
+/**
+ * @brief Using themis::utils::trim() from string_utils.
+ * @param[in] s Input parameter.
+ * @param[in] ch Input parameter.
+ * @return Return value.
+ * @details h (Phase 1 consolidation) Calls: reserve(), std::count(), begin(), end(), push_back(), themis::utils::trim(), clear().
+ */
 
-/// Split @p s on delimiter @p ch and trim each part.
 static std::vector<std::string> splitOn(const std::string& s, char ch) {
     std::vector<std::string> parts;
     // Pre-allocate to reduce reallocations (Error Code: 7455)
@@ -92,9 +94,13 @@ struct ConstraintPart {
     std::string  version; // e.g. "1.4.0"
 };
 
-/// Parse a single constraint token (e.g. ">=1.4.0") into a ConstraintPart.
-/// Returns false when the token is malformed or does not start with a
-/// recognised operator.
+/**
+ * @brief Parse Constraint Token.
+ * @param[in] token Input parameter.
+ * @param[in,out] out Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: size(), themis::utils::trim(), substr(), empty().
+ */
 static bool parseConstraintToken(const std::string& token, ConstraintPart& out) {
     if (token.size() < 2) {
       return false;
@@ -119,7 +125,6 @@ static bool parseConstraintToken(const std::string& token, ConstraintPart& out) 
     return !out.version.empty();
 }
 
-/// Evaluate whether @p ver satisfies a single ConstraintPart.
 static bool evalConstraint(const std::tuple<int, int, int>& ver,
                             const ConstraintPart& c) {
     const auto cv = parseVersion(c.version);
@@ -202,10 +207,22 @@ static bool evalConstraint(const std::tuple<int, int, int>& ver,
 // DependencyResolver – registration
 // ============================================================================
 
+/**
+ * @brief Add Dependency.
+ * @param[in] version Input parameter.
+ * @param[in] dep Input parameter.
+ * @details Calls: push_back(), std::move().
+ */
 void DependencyResolver::addDependency(const std::string& version, Dependency dep) {
     deps_[""][version].push_back(std::move(dep));
 }
 
+/**
+ * @brief Add Package Dependency.
+ * @param[in] package Input parameter.
+ * @param[in] version Input parameter.
+ * @param[in] dep Input parameter.
+ */
 void DependencyResolver::addPackageDependency(const std::string& package,
                                                const std::string& version,
                                                Dependency dep)

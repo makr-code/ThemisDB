@@ -23,11 +23,26 @@ StaleArtifactDetector::StaleArtifactDetector() {
   policy_.fallback_threshold = StalenessLevel::MODERATELY_STALE;
 }
 
+/**
+ * @brief Get Current Time Unix Sec.
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::now(), time_since_epoch(), count().
+ */
 int64_t StaleArtifactDetector::getCurrentTimeUnixSec() {
   auto now = std::chrono::system_clock::now();
   return std::chrono::duration_cast<std::chrono::seconds>(now.time_since_epoch()).count();
 }
 
+/**
+ * @brief Analyze Artifact Staleness.
+ * @param[in] artifact_id Identifier of the artifact.
+ * @param[in] manifest Input parameter.
+ * @param[in] current_source_seq Input parameter.
+ * @param[in] worker_throughput Input parameter.
+ * @param[in] delta_arrival_rate Input parameter.
+ * @return Return value.
+ * @details Calls: getCurrentTimeUnixSec(), classifyStaleness(), shouldFallback(), std::to_string().
+ */
 StaleArtifactMetrics StaleArtifactDetector::analyzeArtifactStaleness(
     const std::string& artifact_id,
     const ArtifactManifest& manifest,
@@ -76,6 +91,12 @@ StaleArtifactMetrics StaleArtifactDetector::analyzeArtifactStaleness(
   return metrics;
 }
 
+/**
+ * @brief Classify Staleness.
+ * @param[in] metrics Input parameter.
+ * @return Return value.
+ * @details Implements classifyStaleness without additional internal calls.
+ */
 StalenessLevel StaleArtifactDetector::classifyStaleness(const StaleArtifactMetrics& metrics) {
   // Check based on age first (higher priority)
   if (metrics.age_seconds >= policy_.age_threshold_critical_sec) {
@@ -113,6 +134,12 @@ StalenessLevel StaleArtifactDetector::classifyStaleness(const StaleArtifactMetri
   return StalenessLevel::FRESH;
 }
 
+/**
+ * @brief Should Fallback.
+ * @param[in] metrics Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements shouldFallback without additional internal calls.
+ */
 bool StaleArtifactDetector::shouldFallback(const StaleArtifactMetrics& metrics) {
   if (metrics.staleness >= policy_.fallback_threshold) {
     return true;
@@ -129,6 +156,12 @@ bool StaleArtifactDetector::shouldFallback(const StaleArtifactMetrics& metrics) 
   return false;
 }
 
+/**
+ * @brief Should Invalidate.
+ * @param[in] metrics Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements shouldInvalidate without additional internal calls.
+ */
 bool StaleArtifactDetector::shouldInvalidate(const StaleArtifactMetrics& metrics) {
   // Only invalidate on critical staleness if policy enables it
   if (policy_.cascade_invalidate_on_critical && metrics.staleness == StalenessLevel::CRITICALLY_STALE) {
@@ -142,10 +175,21 @@ StalenessPolicy StaleArtifactDetector::getPolicy() const {
   return policy_;
 }
 
+/**
+ * @brief Set Policy.
+ * @param[in] policy Input parameter.
+ * @details Implements setPolicy without additional internal calls.
+ */
 void StaleArtifactDetector::setPolicy(const StalenessPolicy& policy) {
   policy_ = policy;
 }
 
+/**
+ * @brief Update Staleness History.
+ * @param[in] artifact_id Identifier of the artifact.
+ * @param[in] metrics Input parameter.
+ * @details Calls: find(), end(), getCurrentTimeUnixSec().
+ */
 void StaleArtifactDetector::updateStalenessHistory(const std::string& artifact_id,
                                                    const StaleArtifactMetrics& metrics) {
   auto it = history_.find(artifact_id);
@@ -195,6 +239,12 @@ void StaleArtifactDetector::updateStalenessHistory(const std::string& artifact_i
   stats_.total_staleness_detections++;
 }
 
+/**
+ * @brief Get Staleness History.
+ * @param[in] artifact_id Identifier of the artifact.
+ * @return Return value.
+ * @details Calls: find(), end().
+ */
 std::optional<StaleArtifactDetector::StalenessHistory> StaleArtifactDetector::getStalenessHistory(
     const std::string& artifact_id) {
   auto it = history_.find(artifact_id);

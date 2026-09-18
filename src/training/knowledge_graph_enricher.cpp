@@ -82,7 +82,6 @@ namespace graph_aql {
 // ============================================================================
 // Thread-safe LRU cache for enrichment results (Phase 9)
 // ============================================================================
-/** @brief Thread-safe LRU cache for enrichment results (Phase 9). */
 class EnrichmentLRUCache {
 public:
     using Key   = std::string;
@@ -90,7 +89,13 @@ public:
 
     explicit EnrichmentLRUCache(size_t capacity) : capacity_(capacity) {}
 
-    // Attempt to retrieve a cached result. Returns true on hit.
+    /**
+     * @brief Attempt to retrieve a cached result.
+     * @param[in] key Input parameter.
+     * @param[in,out] out Input/output parameter.
+     * @return True when the operation succeeds.
+     * @details Returns true on hit. Calls: lock(), find(), end(), splice(), begin().
+     */
     bool get(const Key& key, Value& out) {
         std::unique_lock<std::mutex> lock(mutex_);
         auto it = map_.find(key);
@@ -105,7 +110,12 @@ public:
         return true;
     }
 
-    // Insert or update a cache entry.
+    /**
+     * @brief Insert or update a cache entry.
+     * @param[in] key Input parameter.
+     * @param[in] value Input parameter.
+     * @details Calls: lock(), find(), end(), std::move(), splice(), begin(), size(), erase().
+     */
     void put(const Key& key, Value value) {
         std::unique_lock<std::mutex> lock(mutex_);
         auto it = map_.find(key);
@@ -126,7 +136,10 @@ public:
         map_[key] = list_.begin();
     }
 
-    // Evict all entries (e.g., on graph-version change).
+    /**
+     * @brief Evict all entries (e.
+     * @details g., on graph-version change). Calls: lock(), size(), clear().
+     */
     void evictAll() {
         std::unique_lock<std::mutex> lock(mutex_);
         stats_.evictions += list_.size();
@@ -135,12 +148,21 @@ public:
     }
 
     EnrichmentCacheStats stats() const {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lock(mutex_);
         EnrichmentCacheStats s = stats_;
         s.size = list_.size();
         return s;
     }
 
+    /**
+     * @brief Reset Stats.
+     * @details Calls: lock().
+     */
     void resetStats() {
         std::unique_lock<std::mutex> lock(mutex_);
         stats_ = {};
@@ -161,11 +183,16 @@ private:
 // ============================================================================
 // Pimpl implementation (Phase 6)
 // ============================================================================
-/** @brief Pimpl implementation (Phase 6). */
 class KnowledgeGraphEnricher::Impl {
 public:
     friend class KnowledgeGraphEnricher;
 
+    /**
+     * @brief Impl.
+     * @param[in] config Input parameter.
+     * @param[in] db_connection Input parameter.
+     * @return Return value.
+     */
     explicit Impl(const EnrichmentConfig& config, const std::string& db_connection)
         : config_(config)
         , db_connection_(db_connection) {
@@ -178,9 +205,12 @@ public:
 
     ~Impl() = default;
 
-    // -------------------------------------------------------------------------
-    // Phase 6: Enrich all samples in collection
-    // -------------------------------------------------------------------------
+    /**
+     * @brief ------------------------------------------------------------------------- Phase 6: Enrich all samples in collection -------------------------------------------------------------------------
+     * @param[in] callback Input parameter.
+     * @return Return value.
+     * @details Calls: EnrichmentStats(), std::chrono::steady_clock::now(), enrichSample(), size(), empty(), persistContext(), callback(), count().
+     */
     EnrichmentStats enrichAll(EnrichmentCallback callback) {
         EnrichmentStats stats = EnrichmentStats();
         auto start_time = std::chrono::steady_clock::now();
@@ -226,9 +256,12 @@ public:
         return stats;
     }
 
-    // -------------------------------------------------------------------------
-    // Phase 6: Enrich a single sample
-    // -------------------------------------------------------------------------
+    /**
+     * @brief ------------------------------------------------------------------------- Phase 6: Enrich a single sample -------------------------------------------------------------------------
+     * @param[in] sample_id Identifier of the sample.
+     * @return Return value.
+     * @details Calls: empty(), resolveSourceDocumentId(), get(), cacheKey(), findRelatedProvisions(), findRelatedCaseLaw(), findSimilarDocuments(), push_back().
+     */
     GraphContext enrichSample(const std::string& sample_id) {
         GraphContext context = {};
 
@@ -289,9 +322,13 @@ public:
         return context;
     }
 
-    // -------------------------------------------------------------------------
-    // Phase 6: Query-based enrichment
-    // -------------------------------------------------------------------------
+    /**
+     * @brief ------------------------------------------------------------------------- Phase 6: Query-based enrichment -------------------------------------------------------------------------
+     * @param[in] aql_query Input parameter.
+     * @param[in] callback Input parameter.
+     * @return Return value.
+     * @details Calls: empty(), std::chrono::steady_clock::now(), enrichSample(), size(), persistContext(), callback(), count().
+     */
     EnrichmentStats enrichQuery(const std::string& aql_query, EnrichmentCallback callback) {
         EnrichmentStats stats = {};
 
@@ -338,9 +375,13 @@ public:
         return stats;
     }
 
-    // -------------------------------------------------------------------------
-    // Phase 6: Graph traversal helpers
-    // -------------------------------------------------------------------------
+    /**
+     * @brief ------------------------------------------------------------------------- Phase 6: Graph traversal helpers -------------------------------------------------------------------------
+     * @param[in] document_id Identifier of the document.
+     * @param[in] max_results Input parameter.
+     * @return Return value.
+     * @details Calls: empty(), find().
+     */
     std::vector<std::string> findRelatedProvisions(const std::string& document_id,
                                                     size_t max_results) {
         std::vector<std::string> provisions;
@@ -365,6 +406,13 @@ public:
         return provisions;
     }
 
+    /**
+     * @brief Find Related Case Law.
+     * @param[in] document_id Identifier of the document.
+     * @param[in] max_results Input parameter.
+     * @return Return value.
+     * @details Calls: empty(), find().
+     */
     std::vector<std::string> findRelatedCaseLaw(const std::string& document_id,
                                                  size_t max_results) {
         std::vector<std::string> case_law;
@@ -381,6 +429,13 @@ public:
         return case_law;
     }
 
+    /**
+     * @brief Find Related Guidance.
+     * @param[in] document_id Identifier of the document.
+     * @param[in] max_results Input parameter.
+     * @return Return value.
+     * @details Calls: empty(), find().
+     */
     std::vector<std::string> findRelatedGuidance(const std::string& document_id,
                                                   size_t max_results) {
         std::vector<std::string> guidance;
@@ -454,10 +509,21 @@ public:
         return similar;
     }
 
+    /**
+     * @brief Set Custom Query.
+     * @param[in] query_name Name of the query.
+     * @param[in] aql_query Input parameter.
+     * @details Implements setCustomQuery without additional internal calls.
+     */
     void setCustomQuery(const std::string& query_name, const std::string& aql_query) {
         custom_queries_[query_name] = aql_query;
     }
 
+    /**
+     * @brief Set Vector Index.
+     * @param[in,out] vim Input/output parameter.
+     * @details Implements setVectorIndex without additional internal calls.
+     */
     void setVectorIndex(VectorIndexManager* vim) {
         vector_index_ = vim;
     }
@@ -490,14 +556,20 @@ public:
         return "";
     }
 
-    // -------------------------------------------------------------------------
-    // Phase 9: LRU cache management
-    // -------------------------------------------------------------------------
+    /**
+     * @brief ------------------------------------------------------------------------- Phase 9: LRU cache management -------------------------------------------------------------------------
+     * @param[in] cfg Input parameter.
+     * @details Implements enableCache without additional internal calls.
+     */
     void enableCache(const EnrichmentCacheConfig& cfg) {
         cache_ = std::make_unique<EnrichmentLRUCache>(
             cfg.capacity > 0 ? cfg.capacity : 50000);
     }
 
+    /**
+     * @brief Disable Cache.
+     * @details Calls: evictAll(), reset().
+     */
     void disableCache() {
         if (cache_) {
             cache_->evictAll();
@@ -521,10 +593,12 @@ private:
     std::string graph_version_ = "v0"; ///< version appended to cache keys; updateable via setGraphVersion()
     std::unordered_map<std::string, std::string> source_doc_map_; ///< sample_id → doc_id registry
 
-    // Convert a VectorIndexManager distance to a cosine similarity score [0, 1].
-    // For the COSINE metric VectorIndexManager stores distance = 1 - cosine, so
-    // similarity = 1 - distance.  Clamped to [0, 1] to guard against floating-
-    // point rounding artefacts near the boundaries.
+    /**
+     * @brief Convert a VectorIndexManager distance to a cosine similarity score [0, 1].
+     * @param[in] distance Input parameter.
+     * @return Return value.
+     * @details For the COSINE metric VectorIndexManager stores distance = 1 - cosine, so similarity = 1 - distance. Clamped to [0, 1] to guard against floating- point rounding artefacts near the boundaries. Calls: std::max(), std::min().
+     */
     static float distanceToSimilarityScore(float distance) {
         return std::max(0.0f, std::min(1.0f, 1.0f - distance));
     }
@@ -538,14 +612,23 @@ private:
         return oss.str();
     }
 
-    // Set the graph schema version used in cache-key generation.
+    /**
+     * @brief Set the graph schema version used in cache-key generation.
+     * @param[in] version Input parameter.
+     * @details Calls: empty().
+     */
     void setGraphVersion(const std::string& version) {
         if (!version.empty()) {
             graph_version_ = version;
         }
     }
 
-    // Register a sample → source-document mapping for offline/in-process use.
+    /**
+     * @brief Register a sample → source-document mapping for offline/in-process use.
+     * @param[in] sample_id Identifier of the sample.
+     * @param[in] document_id Identifier of the document.
+     * @details Implements registerSourceDocument without additional internal calls.
+     */
     void registerSourceDocument(const std::string& sample_id,
                                 const std::string& document_id) {
         source_doc_map_[sample_id] = document_id;
@@ -578,7 +661,12 @@ private:
         // In production: execute UPDATE_SAMPLE_CONTEXT binding @context, @quality_score
     }
 
-    // Phase 6: Compute context quality score [0..1]
+    /**
+     * @brief Phase 6: Compute context quality score [0.
+     * @param[in] context Input parameter.
+     * @return Return value.
+     * @details .1] Calls: empty(), std::min().
+     */
     static double computeContextQuality(const GraphContext& context) {
         double score = 0.0;
         if (!context.related_provisions.empty()) {
@@ -625,31 +713,71 @@ KnowledgeGraphEnricher::KnowledgeGraphEnricher(const EnrichmentConfig& config,
 
 KnowledgeGraphEnricher::~KnowledgeGraphEnricher() = default;
 
+/**
+ * @brief Enrich All.
+ * @param[in] callback Input parameter.
+ * @return Return value.
+ * @details Implements enrichAll without additional internal calls.
+ */
 EnrichmentStats KnowledgeGraphEnricher::enrichAll(EnrichmentCallback callback) {
     return impl_->enrichAll(callback);
 }
 
+/**
+ * @brief Enrich Sample.
+ * @param[in] sample_id Identifier of the sample.
+ * @return Return value.
+ * @details Implements enrichSample without additional internal calls.
+ */
 GraphContext KnowledgeGraphEnricher::enrichSample(const std::string& sample_id) {
     return impl_->enrichSample(sample_id);
 }
 
+/**
+ * @brief Enrich Query.
+ * @param[in] aql_query Input parameter.
+ * @param[in] callback Input parameter.
+ * @return Return value.
+ * @details Implements enrichQuery without additional internal calls.
+ */
 EnrichmentStats KnowledgeGraphEnricher::enrichQuery(const std::string& aql_query,
                                                    EnrichmentCallback callback) {
     return impl_->enrichQuery(aql_query, callback);
 }
 
+/**
+ * @brief Find Related Provisions.
+ * @param[in] document_id Identifier of the document.
+ * @param[in] max_results Input parameter.
+ * @return Return value.
+ * @details Implements findRelatedProvisions without additional internal calls.
+ */
 std::vector<std::string> KnowledgeGraphEnricher::findRelatedProvisions(
     const std::string& document_id,
     size_t max_results) {
     return impl_->findRelatedProvisions(document_id, max_results);
 }
 
+/**
+ * @brief Find Related Case Law.
+ * @param[in] document_id Identifier of the document.
+ * @param[in] max_results Input parameter.
+ * @return Return value.
+ * @details Implements findRelatedCaseLaw without additional internal calls.
+ */
 std::vector<std::string> KnowledgeGraphEnricher::findRelatedCaseLaw(
     const std::string& document_id,
     size_t max_results) {
     return impl_->findRelatedCaseLaw(document_id, max_results);
 }
 
+/**
+ * @brief Find Related Guidance.
+ * @param[in] document_id Identifier of the document.
+ * @param[in] max_results Input parameter.
+ * @return Return value.
+ * @details Implements findRelatedGuidance without additional internal calls.
+ */
 std::vector<std::string> KnowledgeGraphEnricher::findRelatedGuidance(
     const std::string& document_id,
     size_t max_results) {
@@ -662,20 +790,42 @@ std::vector<std::pair<std::string, float>> KnowledgeGraphEnricher::findSimilarDo
     return impl_->findSimilarDocuments(document_id, max_results);
 }
 
+/**
+ * @brief Set Custom Query.
+ * @param[in] query_name Name of the query.
+ * @param[in] aql_query Input parameter.
+ * @details Implements setCustomQuery without additional internal calls.
+ */
 void KnowledgeGraphEnricher::setCustomQuery(const std::string& query_name,
                                            const std::string& aql_query) {
     impl_->setCustomQuery(query_name, aql_query);
 }
 
+/**
+ * @brief Set Graph Version.
+ * @param[in] version Input parameter.
+ * @details Implements setGraphVersion without additional internal calls.
+ */
 void KnowledgeGraphEnricher::setGraphVersion(const std::string& version) {
     impl_->setGraphVersion(version);
 }
 
+/**
+ * @brief Register Source Document.
+ * @param[in] sample_id Identifier of the sample.
+ * @param[in] document_id Identifier of the document.
+ * @details Implements registerSourceDocument without additional internal calls.
+ */
 void KnowledgeGraphEnricher::registerSourceDocument(const std::string& sample_id,
                                                     const std::string& document_id) {
     impl_->registerSourceDocument(sample_id, document_id);
 }
 
+/**
+ * @brief Set Vector Index.
+ * @param[in,out] vim Input/output parameter.
+ * @details Implements setVectorIndex without additional internal calls.
+ */
 void KnowledgeGraphEnricher::setVectorIndex(VectorIndexManager* vim) {
     impl_->setVectorIndex(vim);
 }
@@ -684,10 +834,19 @@ std::string KnowledgeGraphEnricher::getQueryTemplate(const std::string& query_na
     return impl_->getQueryTemplate(query_name);
 }
 
+/**
+ * @brief Enable Cache.
+ * @param[in] config Input parameter.
+ * @details Implements enableCache without additional internal calls.
+ */
 void KnowledgeGraphEnricher::enableCache(const EnrichmentCacheConfig& config) {
     impl_->enableCache(config);
 }
 
+/**
+ * @brief Disable Cache.
+ * @details Implements disableCache without additional internal calls.
+ */
 void KnowledgeGraphEnricher::disableCache() {
     impl_->disableCache();
 }

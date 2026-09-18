@@ -18,63 +18,108 @@ using namespace query;
 
 namespace {
 
-/// Build an AcquireLock step for the given collection.
+/**
+ * @brief Step Acquire Lock.
+ * @param[in] collection Input parameter.
+ * @return Return value.
+ * @details Implements stepAcquireLock without additional internal calls.
+ */
 MutationStep stepAcquireLock(const std::string& collection) {
     return {MutationStepType::AcquireLock,
             "Acquire write lock on collection '" + collection + "'",
             {{"collection", collection}}};
 }
 
-/// Build a ReleaseLock step for the given collection.
+/**
+ * @brief Step Release Lock.
+ * @param[in] collection Input parameter.
+ * @return Return value.
+ * @details Implements stepReleaseLock without additional internal calls.
+ */
 MutationStep stepReleaseLock(const std::string& collection) {
     return {MutationStepType::ReleaseLock,
             "Release write lock on collection '" + collection + "'",
             {{"collection", collection}}};
 }
 
-/// Build a GenerateKeys step.
+/**
+ * @brief Step Generate Keys.
+ * @param[in] collection Input parameter.
+ * @return Return value.
+ * @details Implements stepGenerateKeys without additional internal calls.
+ */
 MutationStep stepGenerateKeys(const std::string& collection) {
     return {MutationStepType::GenerateKeys,
             "Generate unique _key values for new documents",
             {{"collection", collection}, {"id_field", "_key"}}};
 }
 
-/// Build a Serialize step.
+/**
+ * @brief Step Serialize.
+ * @return Return value.
+ * @details Implements stepSerialize without additional internal calls.
+ */
 MutationStep stepSerialize() {
     return {MutationStepType::Serialize,
             "Serialize document(s) to storage format",
             {{"format", "json"}}};
 }
 
-/// Build a WriteWAL step.
+/**
+ * @brief Step Write WAL.
+ * @param[in] collection Input parameter.
+ * @param[in] op Input parameter.
+ * @return Return value.
+ * @details Implements stepWriteWAL without additional internal calls.
+ */
 MutationStep stepWriteWAL(const std::string& collection, const std::string& op) {
     return {MutationStepType::WriteWAL,
             "Write mutation record to write-ahead log",
             {{"collection", collection}, {"operation", op}}};
 }
 
-/// Build a RocksDbPut step.
+/**
+ * @brief Step Rocks Db Put.
+ * @param[in] collection Input parameter.
+ * @return Return value.
+ * @details Implements stepRocksDbPut without additional internal calls.
+ */
 MutationStep stepRocksDbPut(const std::string& collection) {
     return {MutationStepType::RocksDbPut,
             "Write serialised document to RocksDB",
             {{"collection", collection}, {"key_prefix", collection + "/"}}};
 }
 
-/// Build a RocksDbDelete step.
+/**
+ * @brief Step Rocks Db Delete.
+ * @param[in] collection Input parameter.
+ * @return Return value.
+ * @details Implements stepRocksDbDelete without additional internal calls.
+ */
 MutationStep stepRocksDbDelete(const std::string& collection) {
     return {MutationStepType::RocksDbDelete,
             "Delete document key-value pair from RocksDB",
             {{"collection", collection}}};
 }
 
-/// Build an UpdateIndexes step.
+/**
+ * @brief Step Update Indexes.
+ * @param[in] collection Input parameter.
+ * @return Return value.
+ * @details Implements stepUpdateIndexes without additional internal calls.
+ */
 MutationStep stepUpdateIndexes(const std::string& collection) {
     return {MutationStepType::UpdateIndexes,
             "Update secondary indexes for collection '" + collection + "'",
             {{"collection", collection}}};
 }
 
-/// Build a ValidatePredicate step (with optional description).
+/**
+ * @brief Step Validate Predicate.
+ * @param[in] description Input parameter.
+ * @return Return value.
+ * @details Implements stepValidatePredicate without additional internal calls.
+ */
 MutationStep stepValidatePredicate(const std::string& description) {
     return {MutationStepType::ValidatePredicate,
             "Validate predicate: " + description,

@@ -252,7 +252,7 @@ public:
     void registerEventCallback(FailoverEventCallback callback);
 
     /**
-     * @brief State machine query — pure read, safe to call from any context.
+     * @brief Can Transition.
      * @param[in] from Input parameter.
      * @param[in] to Input parameter.
      * @return True when the operation succeeds.
@@ -261,7 +261,7 @@ public:
 
 #ifdef THEMIS_TEST_BUILD
     /**
-     * @brief Test-only accessors for phase-gated unit coverage (Phase 2/3).
+     * @brief Test Prevent Split Brain.
      * @param[in] node_id Identifier of the node.
      * @return True when the operation succeeds.
      * @details Calls: preventSplitBrain().
@@ -291,7 +291,7 @@ public:
         emitDiagnostic(code, node_id, detail);
     }
     /**
-     * @brief FO-IMPL-003: exposes processFailover for Wave A fencing tests.
+     * @brief Test Process Failover.
      * @param[in] failed_node_id Identifier of the failed node.
      * @return Return value.
      * @details Calls: std::chrono::steady_clock::now(), processFailover().
@@ -307,7 +307,7 @@ public:
         health_check_override_ = std::move(fn);
     }
     /**
-     * @brief ── Wave D test helpers ──────────────────────────────────────────────────
+     * @brief Auto Failover Manager.
      * @param[in] config Input parameter.
      * @return Return value.
      */
@@ -426,7 +426,7 @@ private:
     std::vector<FailoverEventCallback> event_callbacks_;
 
     /**
-     * @brief Helper methods - monitoring loop
+     * @brief Monitoring Loop.
      */
     void monitoringLoop();
     /**
@@ -457,7 +457,7 @@ private:
     bool performBoundedHealthCheck(const std::string& node_id) noexcept;
 
     /**
-     * @brief ── Part B1: Adaptive interval + GC grace helpers ─────────────────────────
+     * @brief Update Adaptive Interval.
      * @param[in] last_latency Input parameter.
      */
     void updateAdaptiveInterval(std::chrono::milliseconds last_latency);
@@ -470,7 +470,7 @@ private:
     bool checkAndApplyGcGrace(const std::string& node_id);
 
     /**
-     * @brief Helper methods - failover orchestration
+     * @brief Failover Loop.
      */
     void failoverLoop();
     /**
@@ -567,19 +567,18 @@ private:
     void transitionState(FailoverOrchestratorState new_state);
 
     /**
-     * @brief Unified diagnostics helper — logs the canonical error code and fires event callbacks.
+     * @brief Emit Diagnostic.
      * @param[in] code Input parameter.
      * @param[in] node_id Identifier of the node.
      * @param[in] detail Input parameter.
      * @note Exception safety: noexcept.
-     * @details Exception-safe guarantee: Basic (noexcept wrapper ensures no exceptions escape to caller)
      */
     void emitDiagnostic(FailoverErrorCode code,
                         const std::string& node_id,
                         const std::string& detail) noexcept;
 
     /**
-     * @brief Logging and callbacks Exception-safe guarantee: Basic (catches all exceptions from callbacks internally)
+     * @brief Emit Event.
      * @param[in] type Input parameter.
      * @param[in] node_id Identifier of the node.
      * @param[in] detail Input parameter.

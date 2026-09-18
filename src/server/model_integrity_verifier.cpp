@@ -33,6 +33,12 @@ std::unordered_map<std::string, std::string> ModelIntegrityVerifier::manifest_ha
 // Public API
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Compute Sha256.
+ * @param[in] path Input parameter.
+ * @return Return value.
+ * @details Calls: file(), is_open(), THEMIS_WARN(), operator(), EVP_MD_CTX_free(), ctx(), EVP_MD_CTX_new(), THEMIS_ERROR().
+ */
 std::string ModelIntegrityVerifier::computeSha256(const std::string& path) {
     std::ifstream file(path, std::ios::binary);
     if (!file.is_open()) {
@@ -80,6 +86,13 @@ std::string ModelIntegrityVerifier::computeSha256(const std::string& path) {
     return hex.str();
 }
 
+/**
+ * @brief Verify Model.
+ * @param[in] path Input parameter.
+ * @param[in] expected_sha256 Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), computeSha256(), size(), CRYPTO_memcmp(), c_str().
+ */
 bool ModelIntegrityVerifier::verifyModel(const std::string& path,
                                          const std::string& expected_sha256) {
     if (path.empty() || expected_sha256.empty()) {
@@ -98,6 +111,12 @@ bool ModelIntegrityVerifier::verifyModel(const std::string& path,
     return (CRYPTO_memcmp(actual.c_str(), expected_sha256.c_str(),actual.size()) == 0);
 }
 
+/**
+ * @brief Load Manifest.
+ * @param[in] manifest_path Path to the manifest.
+ * @return True when the operation succeeds.
+ * @details Calls: f(), is_open(), THEMIS_WARN(), THEMIS_ERROR(), what(), contains(), is_object(), items().
+ */
 bool ModelIntegrityVerifier::loadManifest(const std::string& manifest_path) {
     std::ifstream f(manifest_path);
     if (!f.is_open()) {
@@ -138,6 +157,12 @@ bool ModelIntegrityVerifier::loadManifest(const std::string& manifest_path) {
     return true;
 }
 
+/**
+ * @brief Get Expected Hash.
+ * @param[in] model_id Identifier of the model.
+ * @return Return value.
+ * @details Calls: lock(), find(), end().
+ */
 std::optional<std::string> ModelIntegrityVerifier::getExpectedHash(
     const std::string& model_id) {
     std::shared_lock<std::shared_mutex> lock(manifest_mutex_);
@@ -148,6 +173,10 @@ std::optional<std::string> ModelIntegrityVerifier::getExpectedHash(
     return it->second;
 }
 
+/**
+ * @brief Clear Manifest.
+ * @details Calls: lock(), clear().
+ */
 void ModelIntegrityVerifier::clearManifest() {
     std::unique_lock<std::shared_mutex> lock(manifest_mutex_);
     manifest_hashes_.clear();

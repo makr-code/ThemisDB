@@ -28,7 +28,12 @@ namespace vector {
 
 namespace {
 
-// Helper function to normalize scores to [0, 1]
+/**
+ * @brief Helper function to normalize scores to [0, 1]
+ * @param[in] scores Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), THEMIS_DEBUG(), std::min_element(), begin(), end(), std::max_element(), size(), reserve().
+ */
 std::vector<float> normalizeScores(const std::vector<float>& scores) {
     if (scores.empty()) {
         THEMIS_DEBUG("normalizeScores called with empty scores");
@@ -53,7 +58,13 @@ std::vector<float> normalizeScores(const std::vector<float>& scores) {
     return normalized;
 }
 
-// Linear combination: weighted sum of scores
+/**
+ * @brief Linear combination: weighted sum of scores
+ * @param[in] scores Input parameter.
+ * @param[in] weights Input parameter.
+ * @return Return value.
+ * @details Calls: size().
+ */
 float linearCombination(const std::vector<float>& scores,
                        const std::vector<float>& weights) {
     float sum = 0.0f;
@@ -63,7 +74,13 @@ float linearCombination(const std::vector<float>& scores,
     return sum;
 }
 
-// RRF: Reciprocal rank fusion
+/**
+ * @brief RRF: Reciprocal rank fusion
+ * @param[in] ranks Input parameter.
+ * @param[in] k Input parameter.
+ * @return Return value.
+ * @details Calls: max().
+ */
 float reciprocalRankFusion(const std::vector<int>& ranks, float k) {
     float score = 0.0f;
     for (int rank : ranks) {
@@ -74,7 +91,12 @@ float reciprocalRankFusion(const std::vector<int>& ranks, float k) {
     return score;
 }
 
-// Borda count: rank-based voting
+/**
+ * @brief Borda count: rank-based voting
+ * @param[in] ranks Input parameter.
+ * @return Return value.
+ * @details Calls: max().
+ */
 float rankFusion(const std::vector<int>& ranks) {
     int max_rank = 0;
     for (int rank : ranks) {
@@ -543,6 +565,13 @@ MultiVectorSearch::batchSearch(
     return results;
 }
 
+/**
+ * @brief Optimize Weights.
+ * @param[in] queries Input parameter.
+ * @param[in] relevance_judgments Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), size(), void(), push_back(), search(), relevant_doc_set(), begin(), end().
+ */
 Result<std::vector<float>> MultiVectorSearch::optimizeWeights(
     const std::vector<MultiQuery>& queries,
     const std::vector<std::vector<std::string>>& relevance_judgments) {
@@ -643,6 +672,10 @@ Result<std::vector<float>> MultiVectorSearch::optimizeWeights(
     return best_weights;
 }
 
+/**
+ * @brief Reset Statistics.
+ * @details Implements resetStatistics without additional internal calls.
+ */
 void MultiVectorSearch::resetStatistics() {
     stats_ = Statistics{};
 }

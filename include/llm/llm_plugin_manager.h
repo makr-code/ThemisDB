@@ -33,13 +33,6 @@ namespace llm {
 // Forward declaration
 class SSMStateRocksDBStore;
 
-/**
- * @brief LLM Plugin Manager
- * 
- * Central manager for all LLM plugins in ThemisDB.
- * Provides a simplified interface for LLM operations while
- * managing multiple backend plugins underneath.
- */
 class LLMPluginManager {
 public:
     LLMPluginManager();
@@ -50,9 +43,9 @@ public:
     LLMPluginManager& operator=(const LLMPluginManager&) = delete;
     
     /**
-     * @brief Register an LLM plugin
-     * @param name Plugin identifier
-     * @param plugin Plugin instance
+     * @brief Register Plugin.
+     * @param[in] name Input parameter.
+     * @param[in] plugin Input parameter.
      */
     void registerPlugin(
         const std::string& name,
@@ -60,68 +53,74 @@ public:
     );
     
     /**
-     * @brief Unregister a plugin
-     * @param name Plugin identifier
+     * @brief Unregister Plugin.
+     * @param[in] name Input parameter.
      */
     void unregisterPlugin(const std::string& name);
     
     /**
-     * @brief Get a specific plugin
-     * @param name Plugin identifier
-     * @return Plugin instance or nullptr if not found
+     * @brief Get Plugin.
+     * @param[in] name Input parameter.
+     * @return Pointer to the result.
      */
     ILLMPlugin* getPlugin(const std::string& name) const;
     
     /**
-     * @brief Get the default/primary plugin
-     * @return Primary plugin or nullptr if none registered
+     * @brief Get Default Plugin.
+     * @return Pointer to the result.
      */
     ILLMPlugin* getDefaultPlugin() const;
     
     /**
-     * @brief Set the default plugin
-     * @param name Plugin identifier
+     * @brief Set Default Plugin.
+     * @param[in] name Input parameter.
      */
     void setDefaultPlugin(const std::string& name);
     
     /**
-     * @brief List all registered plugins
-     * @return Vector of plugin names
+     * @brief List Plugins.
+     * @return Return value.
      */
     std::vector<std::string> listPlugins() const;
     
     /**
-     * @brief Check if a plugin is registered
-     * @param name Plugin identifier
+     * @brief Has Plugin.
+     * @param[in] name Input parameter.
+     * @return True when the operation succeeds.
      */
     bool hasPlugin(const std::string& name) const;
     
     /**
-     * @brief Get aggregated capabilities from all plugins
+     * @brief Get Aggregated Capabilities.
+     * @return Return value.
      */
     json getAggregatedCapabilities() const;
     
     /**
-     * @brief Get aggregated statistics from all plugins
+     * @brief Get Aggregated Stats.
+     * @return Return value.
      */
     json getAggregatedStats() const;
     
     /**
-     * @brief Singleton instance
+     * @brief Instance.
+     * @return Return value.
      */
     static LLMPluginManager& instance();
     
-    // ═══════════════════════════════════════════════════════════
-    // Convenience methods (delegate to default plugin)
-    // ═══════════════════════════════════════════════════════════
-    
     /**
-     * @brief Generate text using default plugin
+     * @brief ═══════════════════════════════════════════════════════════ Convenience methods (delegate to default plugin) ═══════════════════════════════════════════════════════════
+     * @param[in] request Input parameter.
+     * @return Return value.
      */
+    
     InferenceResponse generate(const InferenceRequest& request);
     
     /**
-     * @brief RAG generation using default plugin
+     * @brief Generate RAG.
+     * @param[in] rag_context Input parameter.
+     * @param[in] request Input parameter.
+     * @return Return value.
      */
     InferenceResponse generateRAG(
         const RAGContext& rag_context,
@@ -129,44 +128,70 @@ public:
     );
     
     /**
-     * @brief Embed text using default plugin
+     * @brief Embed.
+     * @param[in] text Input parameter.
+     * @return Return value.
      */
     std::vector<float> embed(const std::string& text);
 
-    // Convenience wrappers for model management
     /**
-     * @brief Load an LLM model via the default plugin
-     * @param model_id Unique model identifier
-     * @param path Model file path
-     * @return true if loaded successfully, false if model_id/path empty or load failed
+     * @brief Convenience wrappers for model management
+     * @param[in] model_id Identifier of the model.
+     * @param[in] path Input parameter.
+     * @return True when the operation succeeds.
      */
     bool loadModel(const std::string& model_id, const std::string& path);
+    /**
+     * @brief Unload Model.
+     * @param[in] model_id Identifier of the model.
+     */
     void unloadModel(const std::string& model_id);
+    /**
+     * @brief List Models.
+     * @return Return value.
+     */
     std::vector<std::string> listModels() const;
 
-    // Convenience wrappers for LoRA management
     /**
-     * @brief Load a LoRA adapter via the default plugin
-     * @param lora_id Unique LoRA adapter identifier
-     * @param path LoRA file path
-     * @param base_model Base model context identifier
-     * @return true if loaded successfully, false if lora_id/path empty or load failed
+     * @brief Convenience wrappers for LoRA management
+     * @param[in] lora_id Identifier of the lora.
+     * @param[in] path Input parameter.
+     * @param[in] base_model Input parameter.
+     * @return True when the operation succeeds.
      */
     bool loadLoRA(const std::string& lora_id, const std::string& path, const std::string& base_model);
+    /**
+     * @brief Unload Lo RA.
+     * @param[in] lora_id Identifier of the lora.
+     * @return True when the operation succeeds.
+     */
     bool unloadLoRA(const std::string& lora_id);
+    /**
+     * @brief List Lo RAs.
+     * @return Return value.
+     */
     std::vector<LoRAInfo> listLoRAs() const;
 
-    // Streaming and ingestion helpers
+    /**
+     * @brief Streaming and ingestion helpers
+     * @param[in] request Input parameter.
+     * @return Return value.
+     */
     std::vector<std::string> generateStream(const InferenceRequest& request);
+    /**
+     * @brief Ingest Model.
+     * @param[in] model_id Identifier of the model.
+     * @param[in] data Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool ingestModel(const std::string& model_id, const std::string& data);
+    /**
+     * @brief Get Model Info.
+     * @param[in] model_id Identifier of the model.
+     * @return Return value.
+     */
     std::optional<ModelInfo> getModelInfo(const std::string& model_id) const;
 
-    /**
-     * @brief Return the total number of registerPlugin() calls since construction.
-     *
-     * Thread-safe: the underlying counter is std::atomic<uint64_t>.
-     * Intended for observability, tests (L7-TS-04), and metrics endpoints.
-     */
     uint64_t getPluginOperationCount() const {
         return plugin_operation_count_.load(std::memory_order_acquire);
     }
@@ -206,12 +231,6 @@ public:
         bool   vram_oom_threshold_exceeded = false;
     };
 
-    /**
-     * @brief Configuration for SSM state store initialization (P2-D04).
-     *
-     * Controls whether and how the LLMPluginManager manages persistent SSM state
-     * snapshots via RocksDB. Used by initializeStateStore() during setup.
-     */
     struct SSMStateStoreConfig {
         // Enable SSM state persistence
         bool enabled = false;
@@ -232,220 +251,103 @@ public:
         bool sync_on_checkpoint = false;
     };
 
+    /**
+     * @brief Return access control statistics.
+     * @return Access control statistics.
+     */
     PluginStatistics getStatistics() const;
+    /**
+     * @brief Get Cache Statistics.
+     * @return Return value.
+     */
     CacheStatistics getCacheStatistics() const;
+    /**
+     * @brief Get Health Status.
+     * @return Return value.
+     */
     HealthStatus getHealthStatus() const;
+    /**
+     * @brief Clear All Caches.
+     */
     void clearAllCaches();
 
     /**
-     * @brief Return a snapshot of tracked VRAM statistics.
-     *
-     * Includes total/free/used bytes, peak usage, live allocation count,
-     * OOM event and recovery counters, and the OOM-threshold flag.
-     * In CPU-simulation builds (no CUDA) the numbers reflect
-     * the simulation budget configured in ActiveVRAMAllocator::Config.
+     * @brief Get VRAMStats.
+     * @return Return value.
      */
     ActiveVRAMAllocator::Stats getVRAMStats() const;
 
     // ── MSW: MetricsServer Admin Callback Wiring ─────────────────────────────
 
-    /**
-     * @brief Callable type for session-cancellation callbacks (MSW).
-     *
-     * Receives a `session_id` string and returns `true` if the session was
-     * found and cancelled, `false` if the session was not found.
-     *
-     * Wire this via `setCancelSessionCallback()` from wherever the
-     * `ContinuousBatchScheduler` is owned (e.g. the `LlamaWrapper` or
-     * `InferenceEngineEnhanced` that holds `batch_scheduler_`).
-     */
     using CancelSessionCallback = std::function<bool(const std::string& session_id)>;
 
     /**
-     * @brief Inject a session-cancellation callback for the MetricsServer
-     *        DELETE /admin/sessions/{id} endpoint (MSW).
-     *
-     * When set, `wireMetricsServerCallbacks()` connects this callback to the
-     * `MetricsServer::setSessionDeleteCallback()` slot so that DELETEs are
-     * forwarded to the `ContinuousBatchScheduler::cancelRequest()` of the
-     * underlying inference runtime.
-     *
-     * @param cb  `bool(const std::string& session_id)`.  May be `nullptr`
-     *            to clear an existing registration.
+     * @brief Set Cancel Session Callback.
+     * @param[in] cb Input parameter.
      */
     void setCancelSessionCallback(CancelSessionCallback cb);
 
     /**
-     * @brief Wire the three MetricsServer admin callbacks to this manager.
-     *
-     * After this call, the following HTTP endpoints on @p server become
-     * operational instead of returning `{"status":"not_implemented"}`:
-     *
-     * | Endpoint                           | Wired to                          |
-     * |------------------------------------|-----------------------------------|
-     * | POST /admin/models/reload          | `loadModel(model_id, path)`       |
-     * | POST /admin/prompt/simulate        | `estimateTokens(prompt)` heuristic|
-     * | DELETE /admin/sessions/{id}        | `cancel_session_cb_` (if set)     |
-     *
-     * **Thread safety**: the lambdas capture `this` by raw pointer.  Ensure
-     * that `server` lifetime does not exceed that of this `LLMPluginManager`.
-     *
-     * **Session-delete**: only operational if `setCancelSessionCallback()` was
-     * called before `wireMetricsServerCallbacks()`.  Otherwise the DELETE
-     * endpoint returns a clear `{"status":"not_configured"}` JSON body.
-     *
-     * @param server  `MetricsServer` instance to wire.  Must outlive the
-     *                callbacks (i.e. must not be destroyed before this manager).
+     * @brief Wire Metrics Server Callbacks.
+     * @param[in,out] server Input/output parameter.
      */
     void wireMetricsServerCallbacks(monitoring::MetricsServer& server);
-    /**
-     * @brief Wire a @c GossipAdapterPublisher into the manager.
-     *
-     * When set, successful @c loadLoRA() calls broadcast an
-     * @c AdapterCapabilityAnnouncement to the gossip network, and
-     * @c unloadLoRA() broadcasts a zeroed-out withdrawal announcement.
-     *
-     * The pointer is non-owning: the caller must keep the publisher alive
-     * for the lifetime of this @c LLMPluginManager instance.
-     *
-     * Pass @c nullptr to disconnect.
-     *
-     * @param publisher  Pointer to an initialised @c GossipAdapterPublisher,
-     *                   or @c nullptr to disable gossip announcements.
-     * @param local_shard_id  Shard ID embedded in outgoing announcements.
-     */
     void setAdapterPublisher(
         distributed_knowledge::GossipAdapterPublisher* publisher,
         std::string local_shard_id = "");
 
-    // ═══════════════════════════════════════════════════════════
-    // SSM State Store Management (P2-D04 / P2-D05 Runtime Integration)
-    // ═══════════════════════════════════════════════════════════
-
     /**
-     * @brief Initialize and configure SSM state persistence via RocksDB.
-     *
-     * Creates an SSMStateRocksDBStore instance for durable session state snapshots.
-     * Must be called before checkpoint() or recovery operations. If called multiple
-     * times, the previous state store is replaced.
-     *
-     * @param config SSMStateStoreConfig specifying database path, retention policy, etc.
-     * @return true if initialization succeeded, false if disabled or failed
-     * @throws std::runtime_error if RocksDB initialization fails (when enabled)
-     *
-     * **Thread Safety:** Safe to call concurrently with plugin registration.
-     * Acquires internal mutex briefly to swap state store instance.
-     *
-     * **Typical Usage:**
-     * @code
-     * LLMPluginManager mgr;
-     * LLMPluginManager::SSMStateStoreConfig cfg;
-     * cfg.enabled = true;
-     * cfg.rocksdb_path = "/var/lib/themis/ssm_state";
-     * mgr.initializeStateStore(cfg);
-     *
-     * // Later, checkpoint LLM operation results:
-     * SSMStateSnapshot snap = {...};
-     * mgr.checkpointState("session_123", snap);
-     *
-     * // And recover on restart:
-     * auto restored = mgr.recoverState("session_123");
-     * @endcode
+     * @brief ═══════════════════════════════════════════════════════════ SSM State Store Management (P2-D04 / P2-D05 Runtime Integration) ═══════════════════════════════════════════════════════════
+     * @param[in] config Input parameter.
+     * @return True when the operation succeeds.
      */
+
     bool initializeStateStore(const SSMStateStoreConfig& config);
 
     /**
-     * @brief Persist an SSM state snapshot to durable storage.
-     *
-     * Checkpoints the given SSMStateSnapshot for later recovery. Requires a prior
-     * call to initializeStateStore(). Does nothing if state store is not initialized.
-     *
-     * @param session_id Unique session identifier
-     * @param snapshot SSMStateSnapshot to persist (includes LLM response, drift signal, etc.)
-     * @return true if checkpoint succeeded or state store is disabled, false on error
-     *
-     * **Thread Safety:** Safe to call concurrently from multiple threads/sessions.
-     * Each session_id is independently keyed.
-     *
-     * **Performance:** O(log N) RocksDB write with HLC-ordered key (typically <1ms).
+     * @brief Checkpoint State.
+     * @param[in] session_id Identifier of the session.
+     * @param[in] snapshot Input parameter.
+     * @return True when the operation succeeds.
      */
     bool checkpointState(const std::string& session_id, const SSMStateSnapshot& snapshot);
 
     /**
-     * @brief Recover the most recent SSM state snapshot for a session.
-     *
-     * Retrieves the latest persisted SSM state snapshot for the given session_id.
-     * Returns std::nullopt if no snapshots exist or state store is not initialized.
-     *
-     * @param session_id Unique session identifier
-     * @return Most recent SSMStateSnapshot if available, nullopt otherwise
-     *
-     * **Thread Safety:** Safe to call concurrently.
-     *
-     * **Performance:** O(log N) RocksDB range scan (typically <5ms for 1000+ snapshots).
-     *
-     * **Use Case:**
-     * - Load LLM session state on recovery/reconnect
-     * - Validate that a session's episodic memory compressions are consistent
-     * - Support point-in-time recovery via overload with explicit HLC timestamp
+     * @brief Recover State.
+     * @param[in] session_id Identifier of the session.
+     * @return Return value.
      */
     std::optional<SSMStateSnapshot> recoverState(const std::string& session_id);
 
     /**
-     * @brief Clear all persisted snapshots for a session.
-     *
-     * Invalidates all stored state for the session_id (useful for session cleanup
-     * or explicit state reset).
-     *
-     * @param session_id Unique session identifier
-     * @return true if invalidation succeeded, false if state store not initialized or error
-     *
-     * **Thread Safety:** Safe to call concurrently.
+     * @brief Invalidate State.
+     * @param[in] session_id Identifier of the session.
+     * @return True when the operation succeeds.
      */
     bool invalidateState(const std::string& session_id);
 
     /**
-     * @brief Run compaction to remove expired SSM state snapshots.
-     *
-     * Removes snapshots older than the configured retention window (default 24h).
-     * Typically called during maintenance or low-traffic periods.
-     *
-     * @return Number of snapshots removed (0 if disabled or no expired snapshots)
-     *
-     * **Thread Safety:** Safe to call concurrently. Acquires mutex briefly.
-     *
-     * **Performance:** O(N) full-table scan (can take 100s of milliseconds for large databases).
+     * @brief Compact State Store.
+     * @return Return value.
      */
     uint64_t compactStateStore();
 
     /**
-     * @brief Get statistics about persisted SSM state snapshots.
-     *
-     * Returns a JSON string with session count, total snapshot count, storage size, etc.
-     * Useful for monitoring and capacity planning.
-     *
-     * @return JSON object as string, or "{}" if state store not initialized
+     * @brief Get State Store Statistics.
+     * @return Return value.
      */
     std::string getStateStoreStatistics() const;
 
-    /**
-     * @brief Safely create plugin with null checks and exception handling (CRITICAL-4-1)
-     * @param plugin_name Factory identifier
-     * @param config_json Configuration JSON
-     * @return Unique pointer to created plugin
-     * @throws std::invalid_argument if plugin_name is empty
-     * @throws std::runtime_error if factory not found or creation fails
-     */
     std::unique_ptr<ILLMPlugin> CreatePluginSafe(
         const std::string& plugin_name,
         const std::string& config_json = ""
     );
 
     /**
-     * @brief Safely initialize plugin with exception handling (CRITICAL-4-2)
-     * @param name Plugin name
-     * @param plugin Plugin instance reference
-     * @return true if initialization succeeded
+     * @brief Initialize Plugin Safe.
+     * @param[in] name Input parameter.
+     * @param[in,out] plugin Input/output parameter.
+     * @return True when the operation succeeds.
      */
     bool InitializePluginSafe(
         const std::string& name,
@@ -453,20 +355,12 @@ public:
     );
 
     /**
-     * @brief Validate model state and resources (CRITICAL-1-6)
-     * @param model_id Model identifier
-     * @return true if model is valid and ready
+     * @brief Validate Model State.
+     * @param[in] model_id Identifier of the model.
+     * @return True when the operation succeeds.
      */
     bool ValidateModelState(const std::string& model_id);
 
-    /**
-     * @brief Process tokens safely with bounds checking (CRITICAL-2-5)
-     * @param tokens Token strings to process
-     * @param max_tokens Maximum tokens to process
-     * @return Vector of token IDs
-     * @throws std::invalid_argument if inputs invalid
-     * @throws std::overflow_error if token limit exceeded
-     */
     std::vector<int32_t> ProcessTokensSafe(
         const std::vector<std::string>& tokens,
         size_t max_tokens = 8192
@@ -488,8 +382,6 @@ private:
     // (verified by test L7-TS-04 via 8-thread stress).
     std::atomic<uint64_t> plugin_operation_count_{0};
 
-    /// VRAM budget tracker — registers externally-managed GPU memory (loaded models)
-    /// for system-wide VRAM pressure monitoring and OOM-threshold alerting.
     ActiveVRAMAllocator vram_allocator_;
     
     // THREAD-SAFETY: Protects vram_allocator_ and vram_handles_ to ensure
@@ -497,47 +389,28 @@ private:
     // loadModel() / unloadModel() / getHealthStatus() sequences.
     mutable std::mutex vram_mutex_;
 
-    /// Maps model_id → VRAM handle so we can deregister on unload.
     std::unordered_map<std::string, ActiveVRAMAllocator::AllocationHandle> vram_handles_;
 
-    /// MSW: injectable session-cancellation callback wired to the DELETE
-    /// /admin/sessions/{id} endpoint of the MetricsServer.
     CancelSessionCallback cancel_session_cb_;
-    /// Optional gossip publisher wired via setAdapterPublisher().
-    /// Non-owning; may be nullptr when gossip is not configured.
     distributed_knowledge::GossipAdapterPublisher* adapter_publisher_ = nullptr;
 
-    /// Shard ID used in outgoing adapter capability announcements.
     std::string local_shard_id_;
 
-    /// SSM state store for persistent snapshot storage (P2-D04 / P2-D05)
     std::unique_ptr<SSMStateRocksDBStore> state_store_;
     
-    /// RocksDB TransactionDB instance opened by initializeStateStore() (owned).
-    /// When set, state_db_ below points to the same object.
     std::unique_ptr<rocksdb::TransactionDB> owned_state_db_;
 
-    /// RocksDB instance for state storage.
-    /// May point to owned_state_db_.get() (opened internally) or to an
-    /// externally-injected instance.  Lifetime is always >= state_store_.
     rocksdb::TransactionDB* state_db_ = nullptr;
     
-    /// Column family handle for SSM state (not owned by this class)
     rocksdb::ColumnFamilyHandle* state_cf_ = nullptr;
     
+    /**
+     * @brief Get Default Plugin Locked.
+     * @return Pointer to the result.
+     */
     ILLMPlugin* getDefaultPluginLocked() const;
 };
 
-/**
- * @brief Helper function to create and register a llama.cpp plugin
- * 
- * This is a convenience function for the most common use case.
- * 
- * @param name Plugin name (default: "llamacpp")
- * @param model_path Path to GGUF model file
- * @param config Plugin configuration
- * @return true if created and registered successfully
- */
 bool createLlamaWrapper(
     const std::string& name = "llamacpp",
     const std::string& model_path = "",

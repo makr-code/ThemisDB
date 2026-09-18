@@ -502,7 +502,7 @@ float l2_distance(const float* a, const float* b, std::size_t dim) {
 }
 
 /**
- * @brief Batch compute L2 squared distances - optimized with explicit prefetching
+ * @brief Batch l2 distance sq.
  * @param[in] query Input parameter.
  * @param[in] database Input parameter.
  * @param[in] n Input parameter.
@@ -597,13 +597,13 @@ float cosine_distance(const float* a, const float* b, std::size_t dim) {
 }
 
 /**
- * @brief batch_cosine_similarity: compute cosine_similarity(query, db[i]) for all i.
+ * @brief Batch cosine similarity.
  * @param[in] query Input parameter.
  * @param[in] database Input parameter.
  * @param[in] n Input parameter.
  * @param[in] dim Input parameter.
  * @param[in,out] results Input/output parameter.
- * @details Implemented as 1.0f - cosine_distance per element; future SIMD optimisation can fuse the norm computation across the batch. Calls: cosine_distance().
+ * @details Calls: cosine_distance().
  */
 void batch_cosine_similarity(const float* query, const float* database,
                               std::size_t n, std::size_t dim, float* results) {

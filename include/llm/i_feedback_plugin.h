@@ -25,9 +25,6 @@ namespace llm {
 
 using json = nlohmann::json;
 
-/**
- * @brief Feedback validation result
- */
 enum class FeedbackValidationResult {
     ACCEPT,     // Accept feedback as-is
     REJECT,     // Reject feedback (spam, invalid)
@@ -35,9 +32,6 @@ enum class FeedbackValidationResult {
     MODIFY      // Accept but with modifications
 };
 
-/**
- * @brief Result of feedback validation with optional modifications
- */
 struct ValidationResponse {
     FeedbackValidationResult result = FeedbackValidationResult::ACCEPT;
     std::optional<std::string> reason;           // Reason for rejection/flag
@@ -47,9 +41,6 @@ struct ValidationResponse {
     json plugin_data;                            // Plugin-specific data
 };
 
-/**
- * @brief Feedback data for validation (simplified structure)
- */
 struct FeedbackData {
     std::string question;
     std::string answer;
@@ -62,74 +53,24 @@ struct FeedbackData {
     json metadata;
 };
 
-/**
- * @brief Plugin interface for feedback validation and preprocessing
- * 
- * Plugins can implement custom logic for:
- * - Spam detection (e.g., using ML models)
- * - Content moderation
- * - PII detection and redaction
- * - Quality scoring
- * - Custom transformations
- * 
- * Example implementations:
- * - SpamFilterPlugin: ML-based spam detection
- * - PIIDetectionPlugin: Detect and redact PII
- * - QualityScorePlugin: Assign quality scores
- * - CustomAnalyticsPlugin: Extract custom metrics
- */
 class IFeedbackPlugin {
 public:
+    /**
+     * @brief IFeedback Plugin.
+     * @return Return value.
+     */
     virtual ~IFeedbackPlugin() = default;
     
-    /**
-     * @brief Get plugin name
-     */
     [[nodiscard]] virtual std::string getName() const = 0;
     
-    /**
-     * @brief Get plugin version
-     */
     [[nodiscard]] virtual std::string getVersion() const = 0;
     
-    /**
-     * @brief Get plugin description
-     */
     [[nodiscard]] virtual std::string getDescription() const = 0;
     
-    /**
-     * @brief Initialize plugin with configuration
-     * @param config Plugin-specific configuration
-     * @return true if initialization successful
-     */
     [[nodiscard]] virtual bool initialize(const json& config) = 0;
     
-    /**
-     * @brief Validate and optionally preprocess feedback
-     * 
-     * This is called before feedback is stored in the database.
-     * Plugins can:
-     * - Accept/reject/flag feedback
-     * - Modify metadata or comments (e.g., redact PII)
-     * - Add plugin-specific data for later use
-     * 
-     * @param feedback Feedback data to validate
-     * @return ValidationResponse with result and optional modifications
-     */
     [[nodiscard]] virtual ValidationResponse validate(const FeedbackData& feedback) = 0;
     
-    /**
-     * @brief Post-storage hook (optional)
-     * 
-     * Called after feedback is successfully stored.
-     * Useful for:
-     * - Analytics collection
-     * - Triggering workflows
-     * - Sending notifications
-     * 
-     * @param feedback_id ID of stored feedback
-     * @param feedback Original feedback data
-     */
     virtual void onFeedbackStored(
         [[maybe_unused]] const std::string& feedback_id,
         [[maybe_unused]] const FeedbackData& feedback) {
@@ -137,34 +78,15 @@ public:
     }
     
     /**
-     * @brief Shutdown plugin
-     * 
-     * Called when plugin is being unloaded.
-     * Plugins should clean up resources here.
+     * @brief Shutdown.
      */
     virtual void shutdown() = 0;
     
-    /**
-     * @brief Get plugin statistics (optional)
-     * 
-     * Return plugin-specific statistics like:
-     * - Number of validations performed
-     * - Spam detection accuracy
-     * - Processing time metrics
-     * 
-     * @return JSON object with statistics
-     */
     virtual json getStatistics() const {
         return json::object();
     }
 };
 
-/**
- * @brief Default no-op feedback plugin
- * 
- * This plugin accepts all feedback without validation.
- * Useful as a starting point or for disabling validation.
- */
 class NoOpFeedbackPlugin : public IFeedbackPlugin {
 public:
     ~NoOpFeedbackPlugin() override = default;
@@ -196,12 +118,6 @@ public:
     }
 };
 
-/**
- * @brief Basic spam detection plugin (example implementation)
- * 
- * This is a simple example plugin that demonstrates the interface.
- * Production plugins should use more sophisticated ML-based detection.
- */
 class BasicSpamDetectionPlugin : public IFeedbackPlugin {
 public:
     ~BasicSpamDetectionPlugin() override = default;
@@ -228,7 +144,17 @@ private:
     size_t validation_count_ = 0;
     size_t rejected_count_ = 0;
     
+    /**
+     * @brief Contains Spam Keywords.
+     * @param[in] text Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool containsSpamKeywords(const std::string& text) const;
+    /**
+     * @brief Is Low Quality.
+     * @param[in] feedback Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool isLowQuality(const FeedbackData& feedback) const;
 };
 

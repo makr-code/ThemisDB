@@ -99,18 +99,13 @@ std::string GCSBlobBackend::objectName(const std::string& blob_id) const {
     return pfx + "/" + blob_id + ".blob";
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// IBlobStorageBackend interface
-// ─────────────────────────────────────────────────────────────────────────────
-// null_dereference/pointer_arithmetic/delete_no_nullptr scanner alerts
-// (lines 91, 95, 104, 114, 129, 154, 214, 219, 239): all GCS API calls that
-// dereference impl_->client are inside #ifdef THEMIS_ENABLE_GCS blocks that are
-// only reached when impl_->available == true.  impl_->available is set to true
-// only after impl_->client is successfully constructed (see Impl::Impl()).
-// impl_->client is therefore always non-null at these call sites.
-// The "delete_no_nullptr" alert at line 219 misidentifies the GCS API method
-// DeleteObject() as a raw pointer delete — false positives.
-// ─────────────────────────────────────────────────────────────────────────────
+/**
+ * @brief ───────────────────────────────────────────────────────────────────────────── IBlobStorageBackend interface ───────────────────────────────────────────────────────────────────────────── null_dereference/pointer_arithmetic/delete_no_nullptr scanner alerts (lines 91, 95, 104, 114, 129, 154, 214, 219, 239): all GCS API calls that dereference impl_->client are inside #ifdef THEMIS_ENABLE_GCS blocks that are only reached when impl_->available == true.
+ * @param[in] blob_id Identifier of the blob.
+ * @param[in] data Input parameter.
+ * @return Return value.
+ * @details impl_->available is set to true only after impl_->client is successfully constructed (see Impl::Impl()). impl_->client is therefore always non-null at these call sites. The "delete_no_nullptr" alert at line 219 misidentifies the GCS API method DeleteObject() as a raw pointer delete — false positives. ───────────────────────────────────────────────────────────────────────────── Calls: lock(), objectName(), WriteObject(), write(), data(), size(), Close(), metadata().
+ */
 Result<BlobRef> GCSBlobBackend::put(const std::string& blob_id,
                                     const std::vector<uint8_t>& data) {
     std::lock_guard<std::mutex> lock(impl_->mutex);
@@ -154,6 +149,12 @@ Result<BlobRef> GCSBlobBackend::put(const std::string& blob_id,
 #endif
 }
 
+/**
+ * @brief Get.
+ * @param[in] ref Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), objectName(), ReadObject(), status(), code(), THEMIS_WARN(), THEMIS_ERROR(), message().
+ */
 Result<std::vector<uint8_t>> GCSBlobBackend::get(const BlobRef& ref) {
     std::lock_guard<std::mutex> lock(impl_->mutex);
 
@@ -218,6 +219,12 @@ Result<std::vector<uint8_t>> GCSBlobBackend::get(const BlobRef& ref) {
 #endif
 }
 
+/**
+ * @brief Remove.
+ * @param[in] ref Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), objectName(), DeleteObject(), ok(), THEMIS_ERROR(), message(), THEMIS_DEBUG(), OkVoid().
+ */
 Result<void> GCSBlobBackend::remove(const BlobRef& ref) {
     std::lock_guard<std::mutex> lock(impl_->mutex);
 
@@ -246,6 +253,12 @@ Result<void> GCSBlobBackend::remove(const BlobRef& ref) {
 #endif
 }
 
+/**
+ * @brief Exists.
+ * @param[in] ref Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), objectName(), GetObjectMetadata(), ok(), THEMIS_TRACE().
+ */
 bool GCSBlobBackend::exists(const BlobRef& ref) {
     std::lock_guard<std::mutex> lock(impl_->mutex);
 

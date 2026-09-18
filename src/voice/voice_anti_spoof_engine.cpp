@@ -16,16 +16,12 @@ namespace voice {
 
 namespace {
 
-/// Threshold for extremely low audio variance (indicates synthetic/replayed)
 constexpr double LOW_VARIANCE_THRESHOLD = 0.001;
 
-/// Threshold for detecting clipped waveforms (saturation)
 constexpr double CLIPPING_THRESHOLD = 0.95;
 
-/// Spectral entropy threshold for live audio (synthetic has lower entropy)
 constexpr double MIN_SPECTRAL_ENTROPY = 0.4;
 
-/// Maximum allowed silence duration for live audio (ms)
 constexpr size_t MAX_SILENCE_DURATION_MS = 500;
 
 [[nodiscard]] std::vector<double> parsePcm16Le(const std::string& audio_data) {
@@ -106,6 +102,13 @@ VoiceAntiSpoofEngine::VoiceAntiSpoofEngine(const Config& config)
     : config_(config) {
 }
 
+/**
+ * @brief Analyze Spoof Risk.
+ * @param[in] audio_data Input parameter.
+ * @param[in] speaker_baseline Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), size(), lock(), analyzeAudioFreshness(), analyzeSpeakerMatch(), analyzeNoisePattern(), clamp01().
+ */
 SpoofAnalysis VoiceAntiSpoofEngine::analyzeSpoofRisk(
     const std::string& audio_data,
     const std::string& speaker_baseline) {
@@ -160,6 +163,12 @@ SpoofAnalysis VoiceAntiSpoofEngine::analyzeSpoofRisk(
     return result;
 }
 
+/**
+ * @brief Analyze Audio Freshness.
+ * @param[in] audio_data Input parameter.
+ * @return Return value.
+ * @details Calls: extractSpectralFeatures(), empty(), clamp01(), std::abs().
+ */
 double VoiceAntiSpoofEngine::analyzeAudioFreshness(const std::string& audio_data) {
     auto features = extractSpectralFeatures(audio_data);
     if (features.empty()) {
@@ -185,6 +194,13 @@ double VoiceAntiSpoofEngine::analyzeAudioFreshness(const std::string& audio_data
                    0.15 * range_score);
 }
 
+/**
+ * @brief Analyze Speaker Match.
+ * @param[in] audio_data Input parameter.
+ * @param[in] baseline Input parameter.
+ * @return Return value.
+ * @details Calls: normalizeVector(), extractSpeakerEmbedding(), parseNumericVector(), empty(), clamp01(), cosineSimilarity().
+ */
 double VoiceAntiSpoofEngine::analyzeSpeakerMatch(
     const std::string& audio_data,
     const std::string& baseline) {
@@ -202,6 +218,12 @@ double VoiceAntiSpoofEngine::analyzeSpeakerMatch(
     return clamp01(cosineSimilarity(current_embedding, baseline_embedding));
 }
 
+/**
+ * @brief Analyze Noise Pattern.
+ * @param[in] audio_data Input parameter.
+ * @return Return value.
+ * @details Calls: extractNoiseProfile(), size(), std::accumulate(), begin(), end(), std::max(), std::abs(), clamp01().
+ */
 double VoiceAntiSpoofEngine::analyzeNoisePattern(const std::string& audio_data) {
     auto noise_profile = extractNoiseProfile(audio_data);
     if (noise_profile.size() < 3U) {
@@ -226,6 +248,12 @@ double VoiceAntiSpoofEngine::analyzeNoisePattern(const std::string& audio_data) 
     return clamp01(0.65 * variance_score + 0.35 * jump_score);
 }
 
+/**
+ * @brief Extract Spectral Features.
+ * @param[in] audio Input parameter.
+ * @return Return value.
+ * @details Calls: parsePcm16Le(), size(), std::abs(), std::max(), std::log(), std::sqrt(), std::exp(), std::min().
+ */
 std::vector<double> VoiceAntiSpoofEngine::extractSpectralFeatures(const std::string& audio) {
     auto samples = parsePcm16Le(audio);
     if (samples.size() < (config_.min_audio_bytes / 2)) {
@@ -292,6 +320,12 @@ std::vector<double> VoiceAntiSpoofEngine::extractSpectralFeatures(const std::str
     };
 }
 
+/**
+ * @brief Extract Speaker Embedding.
+ * @param[in] audio Input parameter.
+ * @return Return value.
+ * @details Calls: parsePcm16Le(), size(), embedding(), std::sqrt().
+ */
 std::vector<double> VoiceAntiSpoofEngine::extractSpeakerEmbedding(const std::string& audio) {
     auto samples = parsePcm16Le(audio);
     if (samples.size() < (config_.min_audio_bytes / 2)) {
@@ -324,6 +358,12 @@ std::vector<double> VoiceAntiSpoofEngine::extractSpeakerEmbedding(const std::str
     return embedding;
 }
 
+/**
+ * @brief Extract Noise Profile.
+ * @param[in] audio Input parameter.
+ * @return Return value.
+ * @details Calls: parsePcm16Le(), size(), push_back(), std::sqrt().
+ */
 std::vector<double> VoiceAntiSpoofEngine::extractNoiseProfile(const std::string& audio) {
     auto samples = parsePcm16Le(audio);
     if (samples.size() < (config_.min_audio_bytes / 2)) {

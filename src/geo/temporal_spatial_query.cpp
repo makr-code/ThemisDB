@@ -26,9 +26,12 @@ namespace geo {
 // Internal helpers
 // ---------------------------------------------------------------------------
 
-/// Extract the representative point (lon, lat) for a geometry.
-/// For Point geometries the single coordinate is returned; for all other
-/// types the centroid is used.
+/**
+ * @brief Geometry Centroid TSQ.
+ * @param[in] geom Input parameter.
+ * @return Return value.
+ * @details Calls: isPoint(), empty(), computeCentroid().
+ */
 static Coordinate geometryCentroidTSQ(const GeometryInfo& geom) {
     if (geom.isPoint() && !geom.coords.empty()) {
         return geom.coords[0];
@@ -40,6 +43,12 @@ static Coordinate geometryCentroidTSQ(const GeometryInfo& geom) {
 // TemporalSpatialQuery implementation
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Extract Geometry.
+ * @param[in] doc Input parameter.
+ * @param[in] geo_field Input parameter.
+ * @return Return value.
+ */
 std::optional<GeometryInfo> TemporalSpatialQuery::extractGeometry(
     const themisdb::temporal::VersionedDocument& doc,
     const std::string& geo_field)
@@ -71,6 +80,14 @@ std::optional<GeometryInfo> TemporalSpatialQuery::extractGeometry(
     }
 }
 
+/**
+ * @brief Location At Time.
+ * @param[in] table Input parameter.
+ * @param[in] key Input parameter.
+ * @param[in] as_of Input parameter.
+ * @param[in] geo_field Input parameter.
+ * @return Return value.
+ */
 std::optional<GeometryInfo> TemporalSpatialQuery::locationAtTime(
     const themisdb::temporal::SystemVersionedTable& table,
     const std::string& key,
@@ -164,6 +181,11 @@ TemporalSpatialQuery::entitiesWithinDistanceAtTime(
             }
             // Use a synthetic centroid-point geometry as the index entry.
             const Coordinate centroid = geometryCentroidTSQ(*geom);
+            /**
+             * @brief Pt.
+             * @param[in] Point Input parameter.
+             * @return Return value.
+             */
             GeometryInfo pt(GeometryType::Point);
             pt.coords.push_back(centroid);
             geo_entries.emplace_back(rows[i].key, std::move(pt));

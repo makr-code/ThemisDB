@@ -88,7 +88,6 @@ constexpr size_t MAX_PENDING_PREDICTIONS = 4096;
 
 // ─── Impl class ───────────────────────────────────────────────────────────────
 
-/** @brief ─── Impl class ───────────────────────────────────────────────────────────────. */
 class IntelligentPrefetcher::Impl {
 public:
     struct AccessEntry {
@@ -96,6 +95,11 @@ public:
         uint64_t timestamp;
     };
 
+    /**
+     * @brief Impl.
+     * @param[in] cfg Input parameter.
+     * @return Return value.
+     */
     explicit Impl(PrefetchConfig cfg)
         : config_(std::move(cfg)),
           adaptive_distance_(std::min(size_t{8}, config_.max_prefetch_distance)),
@@ -103,7 +107,12 @@ public:
         // F-005: stat counters are atomics; mu_ is held only for history/pending/pattern.
         {}
 
-    // ── record_access ────────────────────────────────────────────────────────
+    /**
+     * @brief ── record_access ────────────────────────────────────────────────────────
+     * @param[in] address Input parameter.
+     * @param[in] timestamp Input parameter.
+     * @details Calls: fetch_add(), lk(), find(), end(), erase(), empty(), back(), std::min().
+     */
 
     void record_access(uint64_t address, uint64_t timestamp) {
         // F-005: increment total_accesses without holding mu_
@@ -151,7 +160,13 @@ public:
         }
     }
 
-    // ── predict_next_accesses ────────────────────────────────────────────────
+    /**
+     * @brief ── predict_next_accesses ────────────────────────────────────────────────
+     * @param[in] current_address Input parameter.
+     * @param[in] lookahead Input parameter.
+     * @return Return value.
+     * @details Calls: lk(), std::min(), reserve(), push_back().
+     */
 
     std::vector<uint64_t> predict_next_accesses(uint64_t current_address,
                                                 size_t   lookahead) {
@@ -177,7 +192,11 @@ public:
         return predictions;
     }
 
-    // ── prefetch_predicted ───────────────────────────────────────────────────
+    /**
+     * @brief ── prefetch_predicted ───────────────────────────────────────────────────
+     * @param[in] addresses Input parameter.
+     * @details Calls: lk(), fetch_add(), confidence_to_level(), issue_prefetch(), size(), insert(), erase(), begin().
+     */
 
     void prefetch_predicted(const std::vector<uint64_t>& addresses) {
         std::lock_guard<std::mutex> lk(mu_);
@@ -208,6 +227,11 @@ public:
     // ── current_pattern ──────────────────────────────────────────────────────
 
     AccessPattern current_pattern() const {
+        /**
+         * @brief Lk.
+         * @param[in] mu_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(mu_);
         return pattern_;
     }
@@ -215,6 +239,11 @@ public:
     // ── adaptive_prefetch_distance ───────────────────────────────────────────
 
     size_t adaptive_prefetch_distance() const {
+        /**
+         * @brief Lk.
+         * @param[in] mu_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(mu_);
         return adaptive_distance_;
     }
@@ -238,6 +267,10 @@ public:
         return s;
     }
 
+    /**
+     * @brief Reset stats.
+     * @details Calls: store(), lk(), clear().
+     */
     void reset_stats() {
         stat_total_accesses_.store(0, std::memory_order_relaxed);
         stat_useful_prefetches_.store(0, std::memory_order_relaxed);
@@ -247,6 +280,10 @@ public:
         pending_.clear();
     }
 
+    /**
+     * @brief Reset the modification detection flag.
+     * @details Calls: store(), lk(), clear(), std::min().
+     */
     void reset() {
         stat_total_accesses_.store(0, std::memory_order_relaxed);
         stat_useful_prefetches_.store(0, std::memory_order_relaxed);
@@ -263,21 +300,11 @@ public:
     const PrefetchConfig& config() const noexcept { return config_; }
 
 private:
-    // ── Internals ─────────────────────────────────────────────────────────────
-
     /**
-     * Recompute pattern_.stride and pattern_.confidence from the most-recent
-     * ANALYSIS_WINDOW entries.
-     *
-     * Algorithm:
-     *  1. Gather up to ANALYSIS_WINDOW addresses from the tail of history_.
-     *  2. Compute differences between consecutive addresses.
-     *  3. Find the modal (most-frequent) difference → candidate stride.
-     *  4. Confidence = (count of differences == stride) / (window - 1).
-     *
-     * A stride of 0 (duplicate addresses) or very rare strides are treated
-     * as no-pattern (confidence = 0).
+     * @brief ── Internals ─────────────────────────────────────────────────────────────
+     * @details Calls: size(), std::abs(), clear(), push_back(), empty(), back().
      */
+
     void analyse_pattern() {
         if (history_.size() < MIN_HISTORY_FOR_STRIDE) {
             pattern_.confidence = 0.0;
@@ -396,15 +423,33 @@ IntelligentPrefetcher::IntelligentPrefetcher(PrefetchConfig config)
 
 IntelligentPrefetcher::~IntelligentPrefetcher() = default;
 
+/**
+ * @brief Record access.
+ * @param[in] address Input parameter.
+ * @param[in] timestamp Input parameter.
+ * @details Implements record_access without additional internal calls.
+ */
 void IntelligentPrefetcher::record_access(uint64_t address, uint64_t timestamp) {
     impl_->record_access(address, timestamp);
 }
 
+/**
+ * @brief Predict next accesses.
+ * @param[in] current_address Input parameter.
+ * @param[in] lookahead Input parameter.
+ * @return Return value.
+ * @details Implements predict_next_accesses without additional internal calls.
+ */
 std::vector<uint64_t> IntelligentPrefetcher::predict_next_accesses(
     uint64_t current_address, size_t lookahead) {
     return impl_->predict_next_accesses(current_address, lookahead);
 }
 
+/**
+ * @brief Prefetch predicted.
+ * @param[in] addresses Input parameter.
+ * @details Implements prefetch_predicted without additional internal calls.
+ */
 void IntelligentPrefetcher::prefetch_predicted(const std::vector<uint64_t>& addresses) {
     impl_->prefetch_predicted(addresses);
 }
@@ -421,10 +466,18 @@ IntelligentPrefetcher::PrefetchStats IntelligentPrefetcher::get_stats() const {
     return impl_->get_stats();
 }
 
+/**
+ * @brief Reset stats.
+ * @details Implements reset_stats without additional internal calls.
+ */
 void IntelligentPrefetcher::reset_stats() {
     impl_->reset_stats();
 }
 
+/**
+ * @brief Reset the modification detection flag.
+ * @details Implements reset without additional internal calls.
+ */
 void IntelligentPrefetcher::reset() {
     impl_->reset();
 }

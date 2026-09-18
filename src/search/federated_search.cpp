@@ -36,16 +36,33 @@ FederatedSearch::FederatedSearch(const Config& config) : config_(config) {
 // Tenant management
 // ============================================================================
 
+/**
+ * @brief Register Tenant.
+ * @param[in] tenant_id Identifier of the tenant.
+ * @param[in,out] hybrid_search Input/output parameter.
+ * @details Implements registerTenant without additional internal calls.
+ */
 void FederatedSearch::registerTenant(const std::string& tenant_id,
                                      HybridSearch* hybrid_search) {
     tenants_[tenant_id] = hybrid_search;
 }
 
+/**
+ * @brief Remove Tenant.
+ * @param[in] tenant_id Identifier of the tenant.
+ * @details Calls: erase().
+ */
 void FederatedSearch::removeTenant(const std::string& tenant_id) {
     tenants_.erase(tenant_id);
     tenant_weights_.erase(tenant_id);
 }
 
+/**
+ * @brief Set Tenant Weight.
+ * @param[in] tenant_id Identifier of the tenant.
+ * @param[in] weight Input parameter.
+ * @details Calls: std::max(), std::min().
+ */
 void FederatedSearch::setTenantWeight(const std::string& tenant_id,
                                       double weight) {
     // Clamp to [0, 1]
@@ -61,6 +78,12 @@ double FederatedSearch::getTenantWeight(const std::string& tenant_id) const {
 // setConfig
 // ============================================================================
 
+/**
+ * @brief Set Config.
+ * @param[in] config Input parameter.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Implements setConfig without additional internal calls.
+ */
 void FederatedSearch::setConfig(const Config& config) {
     if (config.k == 0) {
         throw std::invalid_argument("FederatedSearch: k must be > 0");
@@ -75,6 +98,14 @@ void FederatedSearch::setConfig(const Config& config) {
 // search
 // ============================================================================
 
+/**
+ * @brief Search.
+ * @param[in] query Input parameter.
+ * @param[in] vector_query Input parameter.
+ * @param[in,out] tenant_stats Input/output parameter.
+ * @return Return value.
+ * @details Calls: getTenantWeight(), push_back(), THEMIS_ERROR(), size(), std::move(), what(), mergeTenantResults().
+ */
 std::vector<FederatedSearch::Result> FederatedSearch::search(
     const std::string& query,
     const std::vector<float>& vector_query,

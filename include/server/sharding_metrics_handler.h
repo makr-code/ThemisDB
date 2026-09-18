@@ -24,11 +24,6 @@ class ShardRepairEngine;
 
 namespace server {
 
-/**
- * Handler for exposing sharding metrics in Prometheus format.
- * Enhanced in Phase 1.5 to include SLO monitoring.
- * Enhanced in v1.5 to include Shard Repair / Anti-Entropy metrics.
- */
 class ShardingMetricsHandler {
 public:
     explicit ShardingMetricsHandler(
@@ -37,39 +32,38 @@ public:
     );
 
     /**
-     * Optionally attach a ShardRepairEngine so that its metrics are
-     * appended to the main Prometheus scrape response.
+     * @brief Set Repair Engine.
+     * @param[in] repair_engine Input parameter.
      */
     void setRepairEngine(std::shared_ptr<sharding::ShardRepairEngine> repair_engine);
 
     /**
-     * Get all sharding metrics in Prometheus format with annotations.
-     * Includes repair metrics when a ShardRepairEngine has been set.
-     * @return Prometheus-formatted metrics with HELP and TYPE
+     * @brief Get Metrics.
+     * @return Return value.
      */
     std::string getMetrics() const;
 
     /**
-     * Get plain metrics without annotations
-     * @return Plain Prometheus metrics
+     * @brief Get Metrics Plain.
+     * @return Return value.
      */
     std::string getMetricsPlain() const;
     
     /**
-     * Get SLO status in JSON format
-     * @return JSON with SLO compliance and error budgets
+     * @brief Get SLOStatus.
+     * @return Return value.
      */
     std::string getSLOStatus() const;
     
     /**
-     * Get SLO status in Prometheus format
-     * @return Prometheus-formatted SLO metrics
+     * @brief Get SLOMetrics.
+     * @return Return value.
      */
     std::string getSLOMetrics() const;
 
     /**
-     * Get repair/anti-entropy metrics in Prometheus format.
-     * Returns an empty string when no ShardRepairEngine is attached.
+     * @brief Get Repair Metrics.
+     * @return Return value.
      */
     std::string getRepairMetrics() const;
 

@@ -44,6 +44,12 @@ SlabClass BufferPool::indexToClass(std::size_t idx) noexcept {
 // Pre-allocation
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Preallocate Slab.
+ * @param[in,out] s Input/output parameter.
+ * @param[in] count Input parameter.
+ * @details Calls: reserve(), size(), std::malloc(), push_back().
+ */
 void BufferPool::preallocateSlab(Slab& s, std::size_t count) {
     s.free_list.reserve(s.free_list.size() + count);
     for (std::size_t i = 0; i < count; ++i) {

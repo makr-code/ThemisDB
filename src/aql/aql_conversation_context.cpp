@@ -27,7 +27,6 @@ namespace aql {
 // Pimpl
 // ============================================================================
 
-/** @brief Pimpl. */
 class AQLConversationContext::Impl {
   public:
     explicit Impl(LLMAQLHandler &handler, AQLConversationContext::Config config,
@@ -74,7 +73,12 @@ class AQLConversationContext::Impl {
         return prompt;
     }
 
-    // Strip markdown code fences from the LLM response
+    /**
+     * @brief Strip markdown code fences from the LLM response
+     * @param[in] raw Input parameter.
+     * @return Return value.
+     * @details Calls: find(), substr(), find_first_not_of(), find_last_not_of().
+     */
     static std::string cleanQuery(const std::string &raw) {
         std::string out = raw;
         // Remove ```aql ... ``` or ``` ... ``` blocks
@@ -110,10 +114,11 @@ class AQLConversationContext::Impl {
         return total;
     }
 
-    // Evict oldest user+assistant pairs until both the turn-count and
-    // token-budget constraints are satisfied (or no more pairs remain).
-    // The system message at index 0 is always preserved.
-    // Caller must hold history_mutex_.
+    /**
+     * @brief Evict oldest user+assistant pairs until both the turn-count and token-budget constraints are satisfied (or no more pairs remain).
+     * @param[in] extra_tokens Input parameter.
+     * @details The system message at index 0 is always preserved. Caller must hold history_mutex_. Calls: empty(), estimateHistoryTokens(), front(), size(), erase(), begin().
+     */
     void evictOldestPairs(std::size_t extra_tokens) {
         // history_ layout: [system?, user, assistant, user, assistant, ...]
         // A "pair" is two consecutive messages starting at an odd index.
@@ -143,9 +148,12 @@ class AQLConversationContext::Impl {
         }
     }
 
-    // Common implementation for one LLM round-trip.
-    // Caller MUST hold call_mutex_.  Acquires/releases history_mutex_ internally
-    // only for brief state reads and writes; the LLM call itself runs lock-free.
+    /**
+     * @brief Common implementation for one LLM round-trip.
+     * @param[in] user_message Input parameter.
+     * @return Return value.
+     * @details Caller MUST hold call_mutex_. Acquires/releases history_mutex_ internally only for brief state reads and writes; the LLM call itself runs lock-free. Calls: lock(), estimate(), evictOldestPairs(), emplace_back(), reserve(), size(), llm_executor(), executeChat().
+     */
     std::string callLLMImpl(const std::string &user_message) {
         // Evict oldest pairs if needed, push the new user message, and snapshot.
         std::vector<llm::ChatMessage> history_snapshot;
@@ -256,7 +264,12 @@ class AQLConversationContext::Impl {
         }
     }
 
-    // External entry point: acquires call_mutex_ then delegates.
+    /**
+     * @brief External entry point: acquires call_mutex_ then delegates.
+     * @param[in] user_message Input parameter.
+     * @return Return value.
+     * @details Calls: call_lock(), callLLMImpl().
+     */
     std::string callLLM(const std::string &user_message) {
         std::lock_guard<std::mutex> call_lock(call_mutex_);
         return callLLMImpl(user_message);
@@ -288,6 +301,11 @@ AQLConversationContext &AQLConversationContext::operator=(AQLConversationContext
 // Configuration
 // ============================================================================
 
+/**
+ * @brief Set Schema Context.
+ * @param[in] schema Input parameter.
+ * @details Calls: lock(), empty(), front(), buildSystemPrompt().
+ */
 void AQLConversationContext::setSchemaContext(const std::string &schema) {
     std::unique_lock<std::shared_mutex> lock(impl_->history_mutex_);
     impl_->schema_context_ = schema;
@@ -302,6 +320,11 @@ std::string AQLConversationContext::getSchemaContext() const {
     return impl_->schema_context_;
 }
 
+/**
+ * @brief Set Compressor.
+ * @param[in,out] compressor Input/output parameter.
+ * @details Calls: lock().
+ */
 void AQLConversationContext::setCompressor(IHistoryCompressor* compressor) {
     std::unique_lock<std::shared_mutex> lock(impl_->history_mutex_);
     impl_->compressor_ = compressor;
@@ -317,6 +340,13 @@ IHistoryCompressor* AQLConversationContext::getCompressor() const {
 // Conversation
 // ============================================================================
 
+/**
+ * @brief Start.
+ * @param[in] intent Input parameter.
+ * @return Return value.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: empty(), call_lock(), lock(), clear(), emplace_back(), buildSystemPrompt(), callLLMImpl().
+ */
 std::string AQLConversationContext::start(const std::string &intent) {
     if (intent.empty()) {
         throw std::invalid_argument("AQLConversationContext::start: intent must not be empty");
@@ -336,6 +366,14 @@ std::string AQLConversationContext::start(const std::string &intent) {
     return impl_->callLLMImpl(intent);
 }
 
+/**
+ * @brief Refine.
+ * @param[in] instruction Input parameter.
+ * @return Return value.
+ * @throws std::invalid_argument if an error occurs.
+ * @throws std::logic_error if an error occurs.
+ * @details Calls: empty(), lock(), callLLM(), str().
+ */
 std::string AQLConversationContext::refine(const std::string &instruction) {
     if (instruction.empty()) {
         throw std::invalid_argument("AQLConversationContext::refine: instruction must not be empty");
@@ -360,6 +398,10 @@ std::string AQLConversationContext::refine(const std::string &instruction) {
     return impl_->callLLM(msg.str());
 }
 
+/**
+ * @brief Reset the modification detection flag.
+ * @details Calls: call_lock(), lock(), clear().
+ */
 void AQLConversationContext::reset() {
     // Acquire call_mutex_ so that any in-flight LLM call finishes before the
     // history is cleared; otherwise a finishing callLLMImpl could append to an

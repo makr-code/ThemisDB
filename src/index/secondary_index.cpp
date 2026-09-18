@@ -39,12 +39,25 @@
 namespace themis {
 
 namespace {
-// Convert bytes to vector<uint8_t>
+/**
+ * @brief Convert bytes to vector<uint8_t>
+ * @param[in] sv Input parameter.
+ * @return Return value.
+ * @details Calls: begin(), end().
+ */
 inline std::vector<uint8_t> toBytes(std::string_view sv) {
 	return std::vector<uint8_t>(sv.begin(), sv.end());
 }
 } // namespace
-// static
+/**
+ * @brief static
+ * @param[in] table Input parameter.
+ * @param[in] column Input parameter.
+ * @param[in] token Input parameter.
+ * @param[in] pk Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), append(), data().
+ */
 std::string SecondaryIndexManager::makeFulltextTFKey(std::string_view table, std::string_view column, std::string_view token, std::string_view pk) {
 	std::string key = {};
 	key.reserve(5 + table.size() + 1 + column.size() + 1 + token.size() + 1 + pk.size() );
@@ -59,7 +72,14 @@ std::string SecondaryIndexManager::makeFulltextTFKey(std::string_view table, std
 	return key;
 }
 
-// static
+/**
+ * @brief static
+ * @param[in] table Input parameter.
+ * @param[in] column Input parameter.
+ * @param[in] pk Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), append(), data().
+ */
 std::string SecondaryIndexManager::makeFulltextDocLenKey(std::string_view table, std::string_view column, std::string_view pk) {
 	std::string key = {};
 	key.reserve(7 + table.size() + 1 + column.size() + 1 + pk.size() );
@@ -72,7 +92,13 @@ std::string SecondaryIndexManager::makeFulltextDocLenKey(std::string_view table,
 	return key;
 }
 
-// static
+/**
+ * @brief static
+ * @param[in] table Input parameter.
+ * @param[in] column Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), append(), data().
+ */
 std::string SecondaryIndexManager::makeFulltextDocLenPrefix(std::string_view table, std::string_view column) {
 	std::string key = {};
 	key.reserve(7 + table.size() + 1 + column.size() + 1);
@@ -107,7 +133,11 @@ SecondaryIndexManager::SecondaryIndexManager(RocksDBWrapper& db, const Config& c
 	transactional_put_batch_size_ = std::max<size_t>(size_t{1}, config.transactional_put_batch_size);
 }
 
-// Phase 4: Set expression evaluator for advanced filtering
+/**
+ * @brief Phase 4: Set expression evaluator for advanced filtering
+ * @param[in] evaluator Input parameter.
+ * @details Calls: std::move().
+ */
 void SecondaryIndexManager::setExpressionEvaluator(std::shared_ptr<IExpressionEvaluator> evaluator) {
 	expression_evaluator_ = std::move(evaluator);
 }
@@ -116,7 +146,11 @@ std::shared_ptr<IExpressionEvaluator> SecondaryIndexManager::getExpressionEvalua
 	return expression_evaluator_;
 }
 
-// Phase 2: Set spatial index manager for atomic geo index updates
+/**
+ * @brief Phase 2: Set spatial index manager for atomic geo index updates
+ * @param[in,out] spatial_mgr Input/output parameter.
+ * @details Implements setSpatialIndexManager without additional internal calls.
+ */
 void SecondaryIndexManager::setSpatialIndexManager(index::SpatialIndexManager* spatial_mgr) {
 	spatial_index_mgr_ = spatial_mgr;
 }
@@ -125,7 +159,13 @@ index::SpatialIndexManager* SecondaryIndexManager::getSpatialIndexManager() cons
 	return spatial_index_mgr_;
 }
 
-// static
+/**
+ * @brief static
+ * @param[in] table Input parameter.
+ * @param[in] column Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), append(), data().
+ */
 std::string SecondaryIndexManager::makeIndexMetaKey(std::string_view table, std::string_view column) {
 	std::string key = {};
 	key.reserve(8 + table.size() + 1 + column.size() );
@@ -136,7 +176,13 @@ std::string SecondaryIndexManager::makeIndexMetaKey(std::string_view table, std:
 	return key;
 }
 
-// static
+/**
+ * @brief static
+ * @param[in] table Input parameter.
+ * @param[in] columns Input parameter.
+ * @return Return value.
+ * @details Calls: size(), reserve(), append(), data().
+ */
 std::string SecondaryIndexManager::makeCompositeIndexMetaKey(std::string_view table, const std::vector<std::string>& columns) {
 	size_t total = 8 + table.size() + 1;
 	for (size_t i = 0; i < columns.size(); ++i) {
@@ -159,12 +205,28 @@ std::string SecondaryIndexManager::makeCompositeIndexMetaKey(std::string_view ta
 	return key;
 }
 
-// static
+/**
+ * @brief static
+ * @param[in] table Input parameter.
+ * @param[in] column Input parameter.
+ * @param[in] value Input parameter.
+ * @param[in] pk Input parameter.
+ * @return Return value.
+ * @details Calls: KeySchema::makeSecondaryIndexKey().
+ */
 std::string SecondaryIndexManager::makeIndexKey(std::string_view table, std::string_view column, std::string_view value, std::string_view pk) {
 	return KeySchema::makeSecondaryIndexKey(table, column, value, pk);
 }
 
-// static
+/**
+ * @brief static
+ * @param[in] table Input parameter.
+ * @param[in] columns Input parameter.
+ * @param[in] values Input parameter.
+ * @param[in] pk Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), emplace_back(), encodeKeyComponent(), back(), append(), data().
+ */
 std::string SecondaryIndexManager::makeCompositeIndexKey(std::string_view table, const std::vector<std::string>& columns, const std::vector<std::string>& values, std::string_view pk) {
 	// Format: idx:table:col1+col2:val1:val2:PK
 	std::vector<std::string> encoded_values = {};
@@ -201,7 +263,14 @@ std::string SecondaryIndexManager::makeCompositeIndexKey(std::string_view table,
 	return key;
 }
 
-// static
+/**
+ * @brief static
+ * @param[in] table Input parameter.
+ * @param[in] columns Input parameter.
+ * @param[in] values Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), emplace_back(), encodeKeyComponent(), back(), append(), data().
+ */
 std::string SecondaryIndexManager::makeCompositeIndexPrefix(std::string_view table, const std::vector<std::string>& columns, const std::vector<std::string>& values) {
 	// Gleich wie makeCompositeIndexKey aber ohne PK am Ende
 	std::vector<std::string> encoded_values = {};
@@ -237,8 +306,14 @@ std::string SecondaryIndexManager::makeCompositeIndexPrefix(std::string_view tab
 	return key;
 }
 
-// static — unique-constraint sentinel keys for GetForUpdate locking
-// Format: "uidx:table:col:encodedVal" (single-column)
+/**
+ * @brief static — unique-constraint sentinel keys for GetForUpdate locking Format: "uidx:table:col:encodedVal" (single-column)
+ * @param[in] table Input parameter.
+ * @param[in] col Input parameter.
+ * @param[in] encodedVal Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size().
+ */
 std::string SecondaryIndexManager::makeUniqueSentinelKey_(
 		std::string_view table, std::string_view col, std::string_view encodedVal) {
 	std::string key = {};
@@ -252,8 +327,14 @@ std::string SecondaryIndexManager::makeUniqueSentinelKey_(
 	return key;
 }
 
-// static — composite unique-constraint sentinel key for GetForUpdate locking
-// Format: "uidx:table:col1+col2:encVal1:encVal2"
+/**
+ * @brief static — composite unique-constraint sentinel key for GetForUpdate locking Format: "uidx:table:col1+col2:encVal1:encVal2"
+ * @param[in] table Input parameter.
+ * @param[in] columns Input parameter.
+ * @param[in] values Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), emplace_back(), encodeKeyComponent(), back().
+ */
 std::string SecondaryIndexManager::makeCompositeUniqueSentinelKey_(
 		std::string_view table,
 		const std::vector<std::string>& columns,
@@ -290,7 +371,12 @@ std::string SecondaryIndexManager::makeCompositeUniqueSentinelKey_(
 	return key;
 }
 
-// static
+/**
+ * @brief static
+ * @param[in] raw Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), empty(), std::isdigit(), append(), data(), push_back().
+ */
 std::string SecondaryIndexManager::encodeKeyComponent(std::string_view raw) {
 	std::string out = {};
 	out.reserve(raw.size());
@@ -322,9 +408,14 @@ std::string SecondaryIndexManager::encodeKeyComponent(std::string_view raw) {
 	return out;
 }
 
-// ---------------------------------------------------------------------------
-// Backward-compatibility API: createIndex with IndexType enum
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- Backward-compatibility API: createIndex with IndexType enum ---------------------------------------------------------------------------
+ * @param[in] table Input parameter.
+ * @param[in] column Input parameter.
+ * @param[in] type Input parameter.
+ * @return Return value.
+ * @details Calls: createRangeIndex(), createSparseIndex(), createGeoIndex(), Status::Error(), createFulltextIndex().
+ */
 SecondaryIndexManager::Status SecondaryIndexManager::createIndex(std::string_view table, std::string_view column, IndexType type) {
 	switch (type) {
 		case IndexType::REGULAR:
@@ -348,32 +439,70 @@ SecondaryIndexManager::Status SecondaryIndexManager::createIndex(std::string_vie
 	}
 }
 
-// static
+/**
+ * @brief static
+ * @param[in] table Input parameter.
+ * @param[in] column Input parameter.
+ * @return Return value.
+ * @details Calls: std::string().
+ */
 std::string SecondaryIndexManager::makeRangeIndexMetaKey(std::string_view table, std::string_view column) {
 	return std::string("ridxmeta:") + std::string(table) + ":" + std::string(column);
 }
 
-// static
+/**
+ * @brief static
+ * @param[in] table Input parameter.
+ * @param[in] column Input parameter.
+ * @return Return value.
+ * @details Calls: std::string().
+ */
 std::string SecondaryIndexManager::makeSparseIndexMetaKey(std::string_view table, std::string_view column) {
 	return std::string("sidxmeta:") + std::string(table) + ":" + std::string(column);
 }
 
-// static
+/**
+ * @brief static
+ * @param[in] table Input parameter.
+ * @param[in] column Input parameter.
+ * @return Return value.
+ * @details Calls: std::string().
+ */
 std::string SecondaryIndexManager::makeGeoIndexMetaKey(std::string_view table, std::string_view column) {
 	return std::string("gidxmeta:") + std::string(table) + ":" + std::string(column);
 }
 
-// static
+/**
+ * @brief static
+ * @param[in] table Input parameter.
+ * @param[in] column Input parameter.
+ * @return Return value.
+ * @details Calls: std::string().
+ */
 std::string SecondaryIndexManager::makeTTLIndexMetaKey(std::string_view table, std::string_view column) {
 	return std::string("ttlidxmeta:") + std::string(table) + ":" + std::string(column);
 }
 
-// static
+/**
+ * @brief static
+ * @param[in] table Input parameter.
+ * @param[in] column Input parameter.
+ * @return Return value.
+ * @details Calls: std::string().
+ */
 std::string SecondaryIndexManager::makeFulltextIndexMetaKey(std::string_view table, std::string_view column) {
 	return std::string("ftidxmeta:") + std::string(table) + ":" + std::string(column);
 }
 
-// static
+/**
+ * @brief static
+ * @param[in] table Input parameter.
+ * @param[in] column Input parameter.
+ * @param[in] value Input parameter.
+ * @param[in] pk Input parameter.
+ * @return Return value.
+ * @details Calls: std::string(), encodeKeyComponent().
+ */
 std::string SecondaryIndexManager::makeRangeIndexKey(std::string_view table, std::string_view column, std::string_view value, std::string_view pk) {
 	std::string key = "ridx:" + std::string(table) + ":" + std::string(column) + ":";
 	key += encodeKeyComponent(value);
@@ -382,7 +511,14 @@ std::string SecondaryIndexManager::makeRangeIndexKey(std::string_view table, std
 	return key;
 }
 
-// static
+/**
+ * @brief static
+ * @param[in] table Input parameter.
+ * @param[in] column Input parameter.
+ * @param[in] valuePrefix Input parameter.
+ * @return Return value.
+ * @details Calls: std::string(), empty(), encodeKeyComponent().
+ */
 std::string SecondaryIndexManager::makeRangeIndexPrefix(std::string_view table, std::string_view column, std::string_view valuePrefix) {
 	std::string key = "ridx:" + std::string(table) + ":" + std::string(column) + ":";
 	if (!valuePrefix.empty()) {
@@ -392,7 +528,15 @@ std::string SecondaryIndexManager::makeRangeIndexPrefix(std::string_view table, 
 	return key;
 }
 
-// static
+/**
+ * @brief static
+ * @param[in] table Input parameter.
+ * @param[in] column Input parameter.
+ * @param[in] value Input parameter.
+ * @param[in] pk Input parameter.
+ * @return Return value.
+ * @details Calls: std::string(), encodeKeyComponent().
+ */
 std::string SecondaryIndexManager::makeSparseIndexKey(std::string_view table, std::string_view column, std::string_view value, std::string_view pk) {
 	std::string key = "sidx:" + std::string(table) + ":" + std::string(column) + ":";
 	key += encodeKeyComponent(value);
@@ -401,7 +545,15 @@ std::string SecondaryIndexManager::makeSparseIndexKey(std::string_view table, st
 	return key;
 }
 
-// static
+/**
+ * @brief static
+ * @param[in] table Input parameter.
+ * @param[in] column Input parameter.
+ * @param[in] geohash Input parameter.
+ * @param[in] pk Input parameter.
+ * @return Return value.
+ * @details Calls: std::string().
+ */
 std::string SecondaryIndexManager::makeGeoIndexKey(std::string_view table, std::string_view column, std::string_view geohash, std::string_view pk) {
 	std::string key = "gidx:" + std::string(table) + ":" + std::string(column) + ":";
 	key += std::string(geohash);
@@ -410,7 +562,14 @@ std::string SecondaryIndexManager::makeGeoIndexKey(std::string_view table, std::
 	return key;
 }
 
-// static
+/**
+ * @brief static
+ * @param[in] table Input parameter.
+ * @param[in] column Input parameter.
+ * @param[in] geohashPrefix Input parameter.
+ * @return Return value.
+ * @details Calls: std::string(), empty().
+ */
 std::string SecondaryIndexManager::makeGeoIndexPrefix(std::string_view table, std::string_view column, std::string_view geohashPrefix) {
 	std::string key = "gidx:" + std::string(table) + ":" + std::string(column) + ":";
 	if (!geohashPrefix.empty()) {
@@ -419,7 +578,15 @@ std::string SecondaryIndexManager::makeGeoIndexPrefix(std::string_view table, st
 	return key;
 }
 
-// static
+/**
+ * @brief static
+ * @param[in] table Input parameter.
+ * @param[in] column Input parameter.
+ * @param[in] expireTimestamp Input parameter.
+ * @param[in] pk Input parameter.
+ * @return Return value.
+ * @details Calls: snprintf(), std::string().
+ */
 std::string SecondaryIndexManager::makeTTLIndexKey(std::string_view table, std::string_view column, int64_t expireTimestamp, std::string_view pk) {
 	// Format: ttlidx:table:column:timestamp:PK
 	// timestamp wird mit führenden Nullen auf 20 Zeichen padded für lexikografische Sortierung
@@ -429,12 +596,26 @@ std::string SecondaryIndexManager::makeTTLIndexKey(std::string_view table, std::
 	return key;
 }
 
-// static
+/**
+ * @brief static
+ * @param[in] table Input parameter.
+ * @param[in] column Input parameter.
+ * @return Return value.
+ * @details Calls: std::string().
+ */
 std::string SecondaryIndexManager::makeTTLIndexPrefix(std::string_view table, std::string_view column) {
 	return "ttlidx:" + std::string(table) + ":" + std::string(column) + ":";
 }
 
-// static
+/**
+ * @brief static
+ * @param[in] table Input parameter.
+ * @param[in] column Input parameter.
+ * @param[in] token Input parameter.
+ * @param[in] pk Input parameter.
+ * @return Return value.
+ * @details Calls: std::string(), encodeKeyComponent().
+ */
 std::string SecondaryIndexManager::makeFulltextIndexKey(std::string_view table, std::string_view column, std::string_view token, std::string_view pk) {
 	std::string key = "ftidx:" + std::string(table) + ":" + std::string(column) + ":";
 	key += encodeKeyComponent(token);
@@ -443,7 +624,14 @@ std::string SecondaryIndexManager::makeFulltextIndexKey(std::string_view table, 
 	return key;
 }
 
-// static
+/**
+ * @brief static
+ * @param[in] table Input parameter.
+ * @param[in] column Input parameter.
+ * @param[in] token Input parameter.
+ * @return Return value.
+ * @details Calls: std::string(), empty(), encodeKeyComponent().
+ */
 std::string SecondaryIndexManager::makeFulltextIndexPrefix(std::string_view table, std::string_view column, std::string_view token) {
 	std::string key = "ftidx:" + std::string(table) + ":" + std::string(column) + ":";
 	if (!token.empty()) {
@@ -456,12 +644,26 @@ std::string SecondaryIndexManager::makeFulltextIndexPrefix(std::string_view tabl
 // Partial (Filtered) Index: Key-Builder
 // ────────────────────────────────────────────────────────────────────────────
 
-// static
+/**
+ * @brief static
+ * @param[in] table Input parameter.
+ * @param[in] column Input parameter.
+ * @return Return value.
+ * @details Calls: std::string().
+ */
 std::string SecondaryIndexManager::makePartialIndexMetaKey(std::string_view table, std::string_view column) {
 	return "pidxmeta:" + std::string(table) + ":" + std::string(column);
 }
 
-// static
+/**
+ * @brief static
+ * @param[in] table Input parameter.
+ * @param[in] column Input parameter.
+ * @param[in] value Input parameter.
+ * @param[in] pk Input parameter.
+ * @return Return value.
+ * @details Calls: std::string(), encodeKeyComponent().
+ */
 std::string SecondaryIndexManager::makePartialIndexKey(std::string_view table, std::string_view column, std::string_view value, std::string_view pk) {
 	std::string key = "pidx:" + std::string(table) + ":" + std::string(column) + ":";
 	key += encodeKeyComponent(value);
@@ -470,7 +672,14 @@ std::string SecondaryIndexManager::makePartialIndexKey(std::string_view table, s
 	return key;
 }
 
-// static
+/**
+ * @brief static
+ * @param[in] table Input parameter.
+ * @param[in] column Input parameter.
+ * @param[in] valuePrefix Input parameter.
+ * @return Return value.
+ * @details Calls: std::string(), empty(), encodeKeyComponent().
+ */
 std::string SecondaryIndexManager::makePartialIndexPrefix(std::string_view table, std::string_view column, std::string_view valuePrefix) {
 	std::string key = "pidx:" + std::string(table) + ":" + std::string(column) + ":";
 	if (!valuePrefix.empty()) {
@@ -480,6 +689,14 @@ std::string SecondaryIndexManager::makePartialIndexPrefix(std::string_view table
 	return key;
 }
 
+/**
+ * @brief Create Index.
+ * @param[in] table Input parameter.
+ * @param[in] column Input parameter.
+ * @param[in] unique Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), Status::Error(), std::string(), find(), makeIndexMetaKey(), marker(), begin(), end().
+ */
 SecondaryIndexManager::Status SecondaryIndexManager::createIndex(std::string_view table, std::string_view column, bool unique) {
 	if (table.empty() || column.empty()) {
 		return Status::Error("createIndex: table/column darf nicht leer sein");
@@ -502,6 +719,14 @@ SecondaryIndexManager::Status SecondaryIndexManager::createIndex(std::string_vie
 	return Status::OK();
 }
 
+/**
+ * @brief Create Composite Index.
+ * @param[in] table Input parameter.
+ * @param[in] columns Input parameter.
+ * @param[in] unique Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), Status::Error(), size(), find(), makeCompositeIndexMetaKey(), marker(), begin(), end().
+ */
 SecondaryIndexManager::Status SecondaryIndexManager::createCompositeIndex(std::string_view table, const std::vector<std::string>& columns, bool unique) {
 	if (table.empty() || columns.empty()) {
 		return Status::Error("createCompositeIndex: table/columns darf nicht leer sein");
@@ -533,6 +758,13 @@ SecondaryIndexManager::Status SecondaryIndexManager::createCompositeIndex(std::s
 	return Status::OK();
 }
 
+/**
+ * @brief Drop Index.
+ * @param[in] table Input parameter.
+ * @param[in] column Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), Status::Error(), makeIndexMetaKey(), del(), SecondaryIndexMetadataCache::instance(), invalidate(), THEMIS_INFO(), Status::OK().
+ */
 SecondaryIndexManager::Status SecondaryIndexManager::dropIndex(std::string_view table, std::string_view column) {
 	if (table.empty() || column.empty()) {
 		return Status::Error("dropIndex: table/column darf nicht leer sein");
@@ -549,6 +781,13 @@ SecondaryIndexManager::Status SecondaryIndexManager::dropIndex(std::string_view 
 	return Status::OK();
 }
 
+/**
+ * @brief Drop Composite Index.
+ * @param[in] table Input parameter.
+ * @param[in] columns Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), Status::Error(), makeCompositeIndexMetaKey(), del(), SecondaryIndexMetadataCache::instance(), invalidate(), size(), THEMIS_INFO().
+ */
 SecondaryIndexManager::Status SecondaryIndexManager::dropCompositeIndex(std::string_view table, const std::vector<std::string>& columns) {
 	if (table.empty() || columns.empty()) {
 		return Status::Error("dropCompositeIndex: table/columns darf nicht leer sein");
@@ -582,6 +821,13 @@ bool SecondaryIndexManager::hasCompositeIndex(std::string_view table, const std:
 	return db_.get(metaKey).has_value();
 }
 
+/**
+ * @brief Create Range Index.
+ * @param[in] table Input parameter.
+ * @param[in] column Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), Status::Error(), std::string(), find(), makeRangeIndexMetaKey(), put(), SecondaryIndexMetadataCache::instance(), invalidate().
+ */
 SecondaryIndexManager::Status SecondaryIndexManager::createRangeIndex(std::string_view table, std::string_view column) {
 	if (table.empty() || column.empty()) {
 	  return Status::Error("createRangeIndex: table/column darf nicht leer sein");
@@ -599,6 +845,13 @@ SecondaryIndexManager::Status SecondaryIndexManager::createRangeIndex(std::strin
 	return Status::OK();
 }
 
+/**
+ * @brief Drop Range Index.
+ * @param[in] table Input parameter.
+ * @param[in] column Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), Status::Error(), makeRangeIndexMetaKey(), del(), SecondaryIndexMetadataCache::instance(), invalidate(), THEMIS_INFO(), Status::OK().
+ */
 SecondaryIndexManager::Status SecondaryIndexManager::dropRangeIndex(std::string_view table, std::string_view column) {
 	if (table.empty() || column.empty()) {
 	  return Status::Error("dropRangeIndex: table/column darf nicht leer sein");
@@ -617,9 +870,14 @@ bool SecondaryIndexManager::hasRangeIndex(std::string_view table, std::string_vi
 	return db_.get(metaKey).has_value();
 }
 
-// ────────────────────────────────────────────────────────────────────────────
-// Sparse-Index: überspringt NULL/leere Werte
-// ────────────────────────────────────────────────────────────────────────────
+/**
+ * @brief ──────────────────────────────────────────────────────────────────────────── Sparse-Index: überspringt NULL/leere Werte ────────────────────────────────────────────────────────────────────────────
+ * @param[in] table Input parameter.
+ * @param[in] column Input parameter.
+ * @param[in] unique Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), Status::Error(), find(), makeSparseIndexMetaKey(), markerBytes(), begin(), end(), put().
+ */
 
 SecondaryIndexManager::Status SecondaryIndexManager::createSparseIndex(std::string_view table, std::string_view column, bool unique) {
 	if (table.empty() || column.empty()) {
@@ -639,6 +897,13 @@ SecondaryIndexManager::Status SecondaryIndexManager::createSparseIndex(std::stri
 	return Status::OK();
 }
 
+/**
+ * @brief Drop Sparse Index.
+ * @param[in] table Input parameter.
+ * @param[in] column Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), Status::Error(), makeSparseIndexMetaKey(), del(), SecondaryIndexMetadataCache::instance(), invalidate(), THEMIS_INFO(), Status::OK().
+ */
 SecondaryIndexManager::Status SecondaryIndexManager::dropSparseIndex(std::string_view table, std::string_view column) {
 	if (table.empty() || column.empty()) {
 	  return Status::Error("dropSparseIndex: table/column darf nicht leer sein");
@@ -657,9 +922,13 @@ bool SecondaryIndexManager::hasSparseIndex(std::string_view table, std::string_v
 	return db_.get(metaKey).has_value();
 }
 
-// ────────────────────────────────────────────────────────────────────────────
-// Geo-Index: GeoJSON-Punkt-Speicherung mit Geohash
-// ────────────────────────────────────────────────────────────────────────────
+/**
+ * @brief ──────────────────────────────────────────────────────────────────────────── Geo-Index: GeoJSON-Punkt-Speicherung mit Geohash ────────────────────────────────────────────────────────────────────────────
+ * @param[in] table Input parameter.
+ * @param[in] column Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), Status::Error(), find(), makeGeoIndexMetaKey(), markerBytes(), begin(), end(), put().
+ */
 
 SecondaryIndexManager::Status SecondaryIndexManager::createGeoIndex(std::string_view table, std::string_view column) {
 	if (table.empty() || column.empty()) {
@@ -679,6 +948,13 @@ SecondaryIndexManager::Status SecondaryIndexManager::createGeoIndex(std::string_
 	return Status::OK();
 }
 
+/**
+ * @brief Drop Geo Index.
+ * @param[in] table Input parameter.
+ * @param[in] column Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), Status::Error(), makeGeoIndexMetaKey(), del(), SecondaryIndexMetadataCache::instance(), invalidate(), THEMIS_INFO(), Status::OK().
+ */
 SecondaryIndexManager::Status SecondaryIndexManager::dropGeoIndex(std::string_view table, std::string_view column) {
 	if (table.empty() || column.empty()) {
 	  return Status::Error("dropGeoIndex: table/column darf nicht leer sein");
@@ -701,6 +977,14 @@ bool SecondaryIndexManager::hasGeoIndex(std::string_view table, std::string_view
 // TTL-Index
 // ────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Create TTLIndex.
+ * @param[in] table Input parameter.
+ * @param[in] column Input parameter.
+ * @param[in] ttl_seconds Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), Status::Error(), find(), makeTTLIndexMetaKey(), std::to_string(), ttlBytes(), begin(), end().
+ */
 SecondaryIndexManager::Status SecondaryIndexManager::createTTLIndex(std::string_view table, std::string_view column, int64_t ttl_seconds) {
 	if (table.empty() || column.empty()) {
 	  return Status::Error("createTTLIndex: table/column darf nicht leer sein");
@@ -722,6 +1006,13 @@ SecondaryIndexManager::Status SecondaryIndexManager::createTTLIndex(std::string_
 	return Status::OK();
 }
 
+/**
+ * @brief Drop TTLIndex.
+ * @param[in] table Input parameter.
+ * @param[in] column Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), Status::Error(), makeTTLIndexMetaKey(), del(), SecondaryIndexMetadataCache::instance(), invalidate(), THEMIS_INFO(), Status::OK().
+ */
 SecondaryIndexManager::Status SecondaryIndexManager::dropTTLIndex(std::string_view table, std::string_view column) {
 	if (table.empty() || column.empty()) {
 	  return Status::Error("dropTTLIndex: table/column darf nicht leer sein");
@@ -744,6 +1035,14 @@ bool SecondaryIndexManager::hasTTLIndex(std::string_view table, std::string_view
 // Fulltext-Index
 // ────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Create Fulltext Index.
+ * @param[in] table Input parameter.
+ * @param[in] column Input parameter.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), Status::Error(), find(), dump(), configBytes(), begin(), end(), makeFulltextIndexMetaKey().
+ */
 SecondaryIndexManager::Status SecondaryIndexManager::createFulltextIndex(
 	std::string_view table, 
 	std::string_view column,
@@ -780,11 +1079,24 @@ SecondaryIndexManager::Status SecondaryIndexManager::createFulltextIndex(
 	return Status::OK();
 }
 
-// Overload that uses default config
+/**
+ * @brief Overload that uses default config
+ * @param[in] table Input parameter.
+ * @param[in] column Input parameter.
+ * @return Return value.
+ * @details Implements createFulltextIndex without additional internal calls.
+ */
 SecondaryIndexManager::Status SecondaryIndexManager::createFulltextIndex(std::string_view table, std::string_view column) {
 	return createFulltextIndex(table, column, FulltextConfig{});
 }
 
+/**
+ * @brief Drop Fulltext Index.
+ * @param[in] table Input parameter.
+ * @param[in] column Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), Status::Error(), makeFulltextIndexMetaKey(), del(), SecondaryIndexMetadataCache::instance(), invalidate(), THEMIS_INFO(), Status::OK().
+ */
 SecondaryIndexManager::Status SecondaryIndexManager::dropFulltextIndex(std::string_view table, std::string_view column) {
 	if (table.empty() || column.empty()) {
 	  return Status::Error("dropFulltextIndex: table/column darf nicht leer sein");
@@ -976,7 +1288,13 @@ bool SecondaryIndexManager::isPartialIndexUnique_(std::string_view table, std::s
 // Partial Index: Predicate Evaluator
 // ────────────────────────────────────────────────────────────────────────────
 
-// static
+/**
+ * @brief static
+ * @param[in] entity Input parameter.
+ * @param[in] predicate Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: find_first_not_of(), find_last_not_of(), substr(), trim(), empty(), reserve(), size(), std::toupper().
+ */
 bool SecondaryIndexManager::evaluatePartialPredicate_(const BaseEntity& entity, const std::string& predicate) {
 	// Trim whitespace helper
 	auto trim = [](std::string s) -> std::string {
@@ -1080,9 +1398,15 @@ bool SecondaryIndexManager::evaluatePartialPredicate_(const BaseEntity& entity, 
 	return false;
 }
 
-// ────────────────────────────────────────────────────────────────────────────
-// Partial Index: Lifecycle
-// ────────────────────────────────────────────────────────────────────────────
+/**
+ * @brief ──────────────────────────────────────────────────────────────────────────── Partial Index: Lifecycle ────────────────────────────────────────────────────────────────────────────
+ * @param[in] table Input parameter.
+ * @param[in] column Input parameter.
+ * @param[in] predicate Input parameter.
+ * @param[in] unique Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), Status::Error(), std::string(), find(), metaValue(), makePartialIndexMetaKey(), marker(), begin().
+ */
 
 SecondaryIndexManager::Status SecondaryIndexManager::createPartialIndex(
 		std::string_view table, std::string_view column,
@@ -1110,6 +1434,13 @@ SecondaryIndexManager::Status SecondaryIndexManager::createPartialIndex(
 	return Status::OK();
 }
 
+/**
+ * @brief Drop Partial Index.
+ * @param[in] table Input parameter.
+ * @param[in] column Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), Status::Error(), makePartialIndexMetaKey(), del(), SecondaryIndexMetadataCache::instance(), invalidate(), THEMIS_INFO(), Status::OK().
+ */
 SecondaryIndexManager::Status SecondaryIndexManager::dropPartialIndex(
 		std::string_view table, std::string_view column) {
 	if (table.empty() || column.empty())
@@ -1162,6 +1493,13 @@ SecondaryIndexManager::scanKeysEqualPartial(std::string_view table,
 	return {Status::OK(), std::move(pks)};
 }
 
+/**
+ * @brief Put.
+ * @param[in] table Input parameter.
+ * @param[in] entity Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), Status::Error(), getPrimaryKey(), isOpen(), createWriteBatch(), rollback(), commit(), Status::OK().
+ */
 SecondaryIndexManager::Status SecondaryIndexManager::put(std::string_view table, const BaseEntity& entity) {
 	if (table.empty()) {
 	  return Status::Error("put: table darf nicht leer sein");
@@ -1187,6 +1525,13 @@ SecondaryIndexManager::Status SecondaryIndexManager::put(std::string_view table,
 	return Status::OK();
 }
 
+/**
+ * @brief Erase.
+ * @param[in] table Input parameter.
+ * @param[in] pk Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), Status::Error(), isOpen(), createWriteBatch(), rollback(), commit(), Status::OK().
+ */
 SecondaryIndexManager::Status SecondaryIndexManager::erase(std::string_view table, std::string_view pk) {
 	if (table.empty()) {
 	  return Status::Error("erase: table darf nicht leer sein");
@@ -1211,6 +1556,14 @@ SecondaryIndexManager::Status SecondaryIndexManager::erase(std::string_view tabl
 	return Status::OK();
 }
 
+/**
+ * @brief Put.
+ * @param[in] table Input parameter.
+ * @param[in] entity Input parameter.
+ * @param[in,out] batch Input/output parameter.
+ * @return Return value.
+ * @details Calls: empty(), Status::Error(), getPrimaryKey(), isOpen(), KeySchema::makeRelationalKey(), get(), BaseEntity::deserialize(), THEMIS_WARN().
+ */
 SecondaryIndexManager::Status SecondaryIndexManager::put(std::string_view table, const BaseEntity& entity, RocksDBWrapper::WriteBatchWrapper& batch) {
 	if (table.empty()) {
 	  return Status::Error("put(tx): table darf nicht leer sein");
@@ -1253,6 +1606,14 @@ SecondaryIndexManager::Status SecondaryIndexManager::put(std::string_view table,
 	return updateIndexesForPut_(table, pk, entity, batch);
 }
 
+/**
+ * @brief Erase.
+ * @param[in] table Input parameter.
+ * @param[in] pk Input parameter.
+ * @param[in,out] batch Input/output parameter.
+ * @return Return value.
+ * @details Calls: empty(), Status::Error(), isOpen(), KeySchema::makeRelationalKey(), get(), BaseEntity::deserialize(), std::string(), THEMIS_WARN().
+ */
 SecondaryIndexManager::Status SecondaryIndexManager::erase(std::string_view table, std::string_view pk, RocksDBWrapper::WriteBatchWrapper& batch) {
 	if (table.empty()) {
 	  return Status::Error("erase(tx): table darf nicht leer sein");
@@ -1277,7 +1638,13 @@ SecondaryIndexManager::Status SecondaryIndexManager::erase(std::string_view tabl
 	return updateIndexesForDelete_(table, pk, oldEntity.get(), batch);
 }
 
-// v1.3.4+: Batch Insert API - entities are committed in transaction chunks.
+/**
+ * @brief v1.
+ * @param[in] table Input parameter.
+ * @param[in] entities Input parameter.
+ * @return Return value.
+ * @details 3.4+: Batch Insert API - entities are committed in transaction chunks. Implements putBatch without additional internal calls.
+ */
 SecondaryIndexManager::Status SecondaryIndexManager::putBatch(std::string_view table, const std::vector<BaseEntity>& entities) {
 	return putBatch(table, entities, transactional_put_batch_size_);
 }
@@ -1286,6 +1653,14 @@ void SecondaryIndexManager::setTransactionalPutBatchSize([[maybe_unused]] size_t
 	transactional_put_batch_size_ = std::max<size_t>(size_t{1}, batch_size);
 }
 
+/**
+ * @brief Put Batch.
+ * @param[in] table Input parameter.
+ * @param[in] entities Input parameter.
+ * @param[in] transaction_batch_size Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), Status::Error(), Status::OK(), isOpen(), size(), std::min(), createWriteBatch(), getPrimaryKey().
+ */
 SecondaryIndexManager::Status SecondaryIndexManager::putBatch(std::string_view table, const std::vector<BaseEntity>& entities, size_t transaction_batch_size) {
 	if (table.empty()) {
 	  return Status::Error("putBatch: table darf nicht leer sein");
@@ -1350,6 +1725,15 @@ SecondaryIndexManager::Status SecondaryIndexManager::putBatch(std::string_view t
 	return Status::OK();
 }
 
+/**
+ * @brief Update Indexes For Put.
+ * @param[in] table Input parameter.
+ * @param[in] pk Input parameter.
+ * @param[in] newEntity Input parameter.
+ * @param[in,out] batch Input/output parameter.
+ * @return Return value.
+ * @details Calls: SecondaryIndexMetadataCache::instance(), get(), has_value(), loadIndexedColumns_(), loadRangeIndexedColumns_(), begin(), end(), isUniqueIndex_().
+ */
 SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(std::string_view table,
 																		  std::string_view pk,
 																		  const BaseEntity& newEntity,
@@ -1839,6 +2223,15 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(std::s
 
 	return Status::OK();
 }
+/**
+ * @brief Update Indexes For Delete.
+ * @param[in] table Input parameter.
+ * @param[in] pk Input parameter.
+ * @param[in] oldEntityOpt Input parameter.
+ * @param[in,out] batch Input/output parameter.
+ * @return Return value.
+ * @details Calls: SecondaryIndexMetadataCache::instance(), get(), has_value(), begin(), end(), find(), loadIndexedColumns_(), loadRangeIndexedColumns_().
+ */
 SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForDelete_(std::string_view table,
 																			 std::string_view pk,
 																			 const BaseEntity* oldEntityOpt,
@@ -2541,6 +2934,15 @@ std::pair<double, double> SecondaryIndexManager::decodeGeohash(std::string_view 
 	return {lat, lon};
 }
 
+/**
+ * @brief Haversine Distance.
+ * @param[in] lat1 Input parameter.
+ * @param[in] lon1 Input parameter.
+ * @param[in] lat2 Input parameter.
+ * @param[in] lon2 Input parameter.
+ * @return Return value.
+ * @details Calls: themis::geo::haversine_km().
+ */
 double SecondaryIndexManager::haversineDistance(double lat1, double lon1, double lat2, double lon2) {
 	return themis::geo::haversine_km(lat1, lon1, lat2, lon2);
 }
@@ -3123,6 +3525,13 @@ SecondaryIndexManager::scanFulltextPhrase(
 
 // Helper function to calculate Levenshtein distance
 namespace {
+	/**
+	 * @brief Levenshtein Distance.
+	 * @param[in] s1 Input parameter.
+	 * @param[in] s2 Input parameter.
+	 * @return Return value.
+	 * @details Calls: size(), dp(), std::min().
+	 */
 	int levenshteinDistance(const std::string& s1, const std::string& s2) {
 		const size_t m = s1.size();
 		const size_t n = s2.size();
@@ -3193,7 +3602,11 @@ SecondaryIndexManager::scanFulltextFuzzy(
 	
 	// Single scan: collect similar tokens and their documents
 	db_.scanPrefix(prefix, [&](std::string_view key, [[maybe_unused]] std::string_view val) {
-		// Extract token from ftidx:table:column:token:pk
+		/**
+		 * @brief Extract token from ftidx:table:column:token:pk
+		 * @param[in] key Input parameter.
+		 * @return Return value.
+		 */
 		std::string keyStr(key);
 		size_t thirdColon = keyStr.find(':',prefix.size());
 		if (thirdColon != std::string::npos) {
@@ -3245,11 +3658,22 @@ SecondaryIndexManager::scanFulltextFuzzy(
 	return {Status::OK(), std::move(results)};
 }
 
+/**
+ * @brief Is Null Or Empty.
+ * @param[in] value Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: has_value(), empty().
+ */
 bool SecondaryIndexManager::isNullOrEmpty_(const std::optional<std::string>& value) {
 	return !value.has_value() || value->empty() || *value == "null";
 }
 
-// Tokenizer: Whitespace-based, converts to lowercase
+/**
+ * @brief Tokenizer: Whitespace-based, converts to lowercase
+ * @param[in] text Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), std::isspace(), std::ispunct(), empty(), std::transform(), begin(), end().
+ */
 std::vector<std::string> SecondaryIndexManager::tokenize(std::string_view text) {
 	std::vector<std::string> tokens = {};
 
@@ -3280,7 +3704,13 @@ std::vector<std::string> SecondaryIndexManager::tokenize(std::string_view text) 
 	return tokens;
 }
 
-// Tokenizer with Stemming support
+/**
+ * @brief Tokenizer with Stemming support
+ * @param[in] text Input parameter.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @details Calls: utils::Normalizer::normalizeUmlauts(), empty(), std::string_view(), utils::Stopwords::defaults(), utils::Stopwords::merge(), erase(), std::remove_if(), begin().
+ */
 std::vector<std::string> SecondaryIndexManager::tokenize(std::string_view text, const FulltextConfig& config) {
 	// Optional: normalize umlauts/ß for German-like content before tokenization
 	std::string normalized = {};
@@ -3314,6 +3744,12 @@ std::vector<std::string> SecondaryIndexManager::tokenize(std::string_view text, 
 // Index Statistics & Maintenance
 // =============================================================================
 
+/**
+ * @brief Get All Index Stats.
+ * @param[in] table Input parameter.
+ * @return Return value.
+ * @details Calls: scanPrefix(), keyStr(), find(), substr(), resize(), insert(), scanMetaPrefix(), reserve().
+ */
 std::vector<SecondaryIndexManager::IndexStats> SecondaryIndexManager::getAllIndexStats(const std::string& table) {
 	std::vector<SecondaryIndexManager::IndexStats> allStats;
 	std::unordered_set<std::string> processedColumns;
@@ -3362,6 +3798,12 @@ std::vector<SecondaryIndexManager::IndexStats> SecondaryIndexManager::getAllInde
 	return allStats;
 }
 
+/**
+ * @brief Rebuild Index.
+ * @param[in] table Input parameter.
+ * @param[in] column Input parameter.
+ * @details Implements rebuildIndex without additional internal calls.
+ */
 void SecondaryIndexManager::rebuildIndex(const std::string& table, const std::string& column) {
     // Delegiert auf Overload mit optionalem Progress-Callback
     rebuildIndex(table, column, nullptr);
@@ -3975,7 +4417,17 @@ void SecondaryIndexManager::rebuildIndexOnline(const std::string& table, const s
 SecondaryIndexManager::IndexStats
 SecondaryIndexManager::getIndexStats(std::string_view table, std::string_view column) const {
 	IndexStats stats;
+	/**
+	 * @brief Table Str.
+	 * @param[in] table Input parameter.
+	 * @return Return value.
+	 */
 	const std::string tableStr(table);
+	/**
+	 * @brief Column Str.
+	 * @param[in] column Input parameter.
+	 * @return Return value.
+	 */
 	const std::string columnStr(column);
 	stats.table = tableStr;
 	stats.column = columnStr;
@@ -4161,6 +4613,11 @@ SecondaryIndexManager::getIndexStats(std::string_view table, std::string_view co
 	return stats;
 }
 
+/**
+ * @brief Reindex Table.
+ * @param[in] table Input parameter.
+ * @details Calls: scanPrefix(), keyStr(), find(), substr(), resize(), insert(), scanMetaPrefix(), rebuildIndex().
+ */
 void SecondaryIndexManager::reindexTable(const std::string& table) {
 	std::unordered_set<std::string> columns;
 	
@@ -4202,6 +4659,14 @@ void SecondaryIndexManager::reindexTable(const std::string& table) {
 // MVCC Transaction Variants
 // ============================================================================
 
+/**
+ * @brief Put.
+ * @param[in] table Input parameter.
+ * @param[in] entity Input parameter.
+ * @param[in,out] txn Input/output parameter.
+ * @return Return value.
+ * @details Calls: empty(), Status::Error(), getPrimaryKey(), isOpen(), isActive(), KeySchema::makeRelationalKey(), get(), BaseEntity::deserialize().
+ */
 SecondaryIndexManager::Status SecondaryIndexManager::put(
 	std::string_view table, 
 	const BaseEntity& entity, 
@@ -4249,6 +4714,14 @@ SecondaryIndexManager::Status SecondaryIndexManager::put(
 	return updateIndexesForPut_(table, pk, entity, txn);
 }
 
+/**
+ * @brief Erase.
+ * @param[in] table Input parameter.
+ * @param[in] pk Input parameter.
+ * @param[in,out] txn Input/output parameter.
+ * @return Return value.
+ * @details Calls: empty(), Status::Error(), isOpen(), isActive(), KeySchema::makeRelationalKey(), get(), BaseEntity::deserialize(), std::string().
+ */
 SecondaryIndexManager::Status SecondaryIndexManager::erase(
 	std::string_view table, 
 	std::string_view pk, 
@@ -4290,6 +4763,15 @@ SecondaryIndexManager::Status SecondaryIndexManager::erase(
 // MVCC Helper Methods
 // ============================================================================
 
+/**
+ * @brief Update Indexes For Put.
+ * @param[in] table Input parameter.
+ * @param[in] pk Input parameter.
+ * @param[in] newEntity Input parameter.
+ * @param[in,out] txn Input/output parameter.
+ * @return Return value.
+ * @details Calls: SecondaryIndexMetadataCache::instance(), get(), has_value(), begin(), end(), loadIndexedColumns_(), loadRangeIndexedColumns_(), isUniqueIndex_().
+ */
 SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(
 	std::string_view table,
 	std::string_view pk,
@@ -4793,6 +5275,15 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(
 	return Status::OK();
 }
 
+/**
+ * @brief Update Indexes For Delete.
+ * @param[in] table Input parameter.
+ * @param[in] pk Input parameter.
+ * @param[in] oldEntityOpt Input parameter.
+ * @param[in,out] txn Input/output parameter.
+ * @return Return value.
+ * @details Calls: SecondaryIndexMetadataCache::instance(), get(), has_value(), begin(), end(), find(), loadIndexedColumns_(), loadRangeIndexedColumns_().
+ */
 SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForDelete_(
 	std::string_view table,
 	std::string_view pk,

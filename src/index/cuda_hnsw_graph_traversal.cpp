@@ -30,6 +30,25 @@
 #  include <cuda_runtime.h>
 // Forward-declare device kernels (defined in src/acceleration/cuda/cuda_hnsw_kernels.cu)
 namespace themis::cuda {
+/**
+ * @brief Launch Hnsw Search Kernel.
+ * @param[in] d_vectors Input parameter.
+ * @param[in] dim Input parameter.
+ * @param[in] d_offsets Input parameter.
+ * @param[in] d_neighbours Input parameter.
+ * @param[in] num_nodes Input parameter.
+ * @param[in] d_queries Input parameter.
+ * @param[in] num_queries Input parameter.
+ * @param[in] k Input parameter.
+ * @param[in] ef Input parameter.
+ * @param[in] metric Input parameter.
+ * @param[in] entry_node Input parameter.
+ * @param[in,out] d_result_ids Input/output parameter.
+ * @param[in,out] d_result_scores Input/output parameter.
+ * @param[in] stream Input parameter.
+ * @param[in,out] h_overflow Input/output parameter.
+ * @param[in,out] d_visited Input/output parameter.
+ */
 void launchHnswSearchKernel(const float* d_vectors, uint32_t dim,
                              const int32_t* d_offsets, const int32_t* d_neighbours,
                              uint32_t num_nodes,
@@ -51,6 +70,14 @@ namespace themis {
 // ─────────────────────────────────────────────────────────────────────────────
 namespace {
 
+/**
+ * @brief L2 Distance.
+ * @param[in] a Input parameter.
+ * @param[in] b Input parameter.
+ * @param[in] dim Input parameter.
+ * @return Return value.
+ * @details Implements l2Distance without additional internal calls.
+ */
 inline float l2Distance(const float* a, const float* b, uint32_t dim) {
     float acc = 0.0f;
     for (uint32_t i = 0; i < dim; ++i) {
@@ -60,6 +87,14 @@ inline float l2Distance(const float* a, const float* b, uint32_t dim) {
     return acc;
 }
 
+/**
+ * @brief Cosine Distance.
+ * @param[in] a Input parameter.
+ * @param[in] b Input parameter.
+ * @param[in] dim Input parameter.
+ * @return Return value.
+ * @details Calls: std::sqrt().
+ */
 inline float cosineDistance(const float* a, const float* b, uint32_t dim) {
     float dot = 0.0f, na = 0.0f, nb = 0.0f;
     for (uint32_t i = 0; i < dim; ++i) {
@@ -74,6 +109,14 @@ inline float cosineDistance(const float* a, const float* b, uint32_t dim) {
     return 1.0f - dot / denom;
 }
 
+/**
+ * @brief Dot Distance.
+ * @param[in] a Input parameter.
+ * @param[in] b Input parameter.
+ * @param[in] dim Input parameter.
+ * @return Return value.
+ * @details Implements dotDistance without additional internal calls.
+ */
 inline float dotDistance(const float* a, const float* b, uint32_t dim) {
     float dot = 0.0f;
     for (uint32_t i = 0; i < dim; ++i) {
@@ -82,6 +125,15 @@ inline float dotDistance(const float* a, const float* b, uint32_t dim) {
     return -dot;  // Negate so that "smaller = more similar" invariant holds
 }
 
+/**
+ * @brief Compute Distance.
+ * @param[in] a Input parameter.
+ * @param[in] b Input parameter.
+ * @param[in] dim Input parameter.
+ * @param[in] metric Input parameter.
+ * @return Return value.
+ * @details Calls: cosineDistance(), dotDistance(), l2Distance().
+ */
 float computeDistance(const float* a, const float* b, uint32_t dim,
                       HnswDistanceMetric metric) {
     switch (metric) {
@@ -91,12 +143,6 @@ float computeDistance(const float* a, const float* b, uint32_t dim,
     }
 }
 
-/**
- * @brief CPU greedy best-first HNSW search (ef-limited candidate heap).
- *
- * Traverses from the top layer down to layer 0, keeping a candidate list of
- * ef entries at the bottom layer, then extracts the top-k results.
- */
 std::vector<HnswTraversalResult>
 cpuHnswSearch(const std::vector<HnswLayerGraph>& layers,
               const std::vector<float>&           flat_vectors,
@@ -275,12 +321,10 @@ struct CudaHnswTraversalEngine::Impl {
     // result/visited GPU buffers (INDEX-CUDA-BATCHSEARCH-RACE-01).
     mutable std::mutex search_mutex_;  // Tier 1: Global search protection
 
-    /// @brief Release all CUDA device resources.
-    ///
-    /// CudaUniquePtr members free device memory automatically on reset().
-    /// The stream handle requires cudaStreamDestroy (not cudaFree) and is
-    /// managed explicitly here.  Called before re-building the index and from
-    /// the destructor (via ~Impl()).
+    /**
+     * @brief Free Device.
+     * @details Calls: reset(), cudaStreamDestroy().
+     */
     void freeDevice() {
         // Wave-B I1: CudaUniquePtr RAII — reset() calls cudaFree() automatically.
         d_vectors.reset();
@@ -339,6 +383,14 @@ CudaHnswTraversalEngine& CudaHnswTraversalEngine::operator=(CudaHnswTraversalEng
 // buildIndex
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Build Index.
+ * @param[in] layers Input parameter.
+ * @param[in] vectors Input parameter.
+ * @param[in] num_vectors Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), clear(), assign(), freeDevice(), THEMIS_ERROR(), cudaMemcpy(), get(), size().
+ */
 bool CudaHnswTraversalEngine::buildIndex(const std::vector<HnswLayerGraph>& layers,
                                           const float*                        vectors,
                                           size_t                              num_vectors) {
@@ -528,6 +580,11 @@ CudaHnswTraversalEngine::batchSearch(const float* queries, size_t num_queries,
       ef = k;
     }
 
+    /**
+     * @brief Results.
+     * @param[in] num_queries Input parameter.
+     * @return Return value.
+     */
     std::vector<std::vector<HnswTraversalResult>> results(num_queries);
 
 #ifdef THEMIS_ENABLE_CUDA
@@ -633,8 +690,17 @@ CudaHnswTraversalEngine::batchSearch(const float* queries, size_t num_queries,
                         break;
                     }
 
-                    // Copy chunk results to host and append to global results
+                    /**
+                     * @brief Copy chunk results to host and append to global results
+                     * @param[in,out] k Input/output parameter.
+                     * @return Return value.
+                     */
                     std::vector<int64_t> h_ids(this_chunk * k);
+                    /**
+                     * @brief H scores.
+                     * @param[in,out] k Input/output parameter.
+                     * @return Return value.
+                     */
                     std::vector<float>   h_scores(this_chunk * k);
                     if (cudaMemcpy(h_ids.data(), impl_->d_result_ids.get(),
                                    h_ids.size() * sizeof(int64_t),
@@ -709,6 +775,11 @@ CudaHnswTraversalEngine::batchSearch(const float* queries, size_t num_queries,
                 if (queries_ok) {
                     // Accumulate all candidates across passes and chunks (per query)
                     using Candidate = std::pair<float, int64_t>;  // (score, id)
+                    /**
+                     * @brief All cands.
+                     * @param[in] num_queries Input parameter.
+                     * @return Return value.
+                     */
                     std::vector<std::vector<Candidate>> all_cands(num_queries);
 
                     bool mp_ok = true;
@@ -748,7 +819,17 @@ CudaHnswTraversalEngine::batchSearch(const float* queries, size_t num_queries,
                                 break;
                             }
 
+                            /**
+                             * @brief H ids.
+                             * @param[in,out] pass_k Input/output parameter.
+                             * @return Return value.
+                             */
                             std::vector<int64_t> h_ids(this_chunk * pass_k);
+                            /**
+                             * @brief H sc.
+                             * @param[in,out] pass_k Input/output parameter.
+                             * @return Return value.
+                             */
                             std::vector<float>   h_sc(this_chunk * pass_k);
                             if (cudaMemcpy(h_ids.data(), d_pass_ids.get(),
                                            h_ids.size() * sizeof(int64_t),

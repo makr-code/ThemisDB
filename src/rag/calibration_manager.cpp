@@ -39,6 +39,12 @@ CalibrationManager::CalibrationManager(const CalibrationConfig& config)
 // Ground truth management
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Load Ground Truth.
+ * @param[in] filepath Input parameter.
+ * @return Return value.
+ * @details Calls: file(), is_open(), THEMIS_WARN(), what(), value(), contains(), is_array(), push_back().
+ */
 size_t CalibrationManager::loadGroundTruth(const std::string& filepath) {
     std::ifstream file(filepath);
     if (!file.is_open()) {
@@ -82,6 +88,11 @@ size_t CalibrationManager::loadGroundTruth(const std::string& filepath) {
     return loaded;
 }
 
+/**
+ * @brief Add Ground Truth.
+ * @param[in] annotation Input parameter.
+ * @details Calls: push_back().
+ */
 void CalibrationManager::addGroundTruth(const GroundTruthAnnotation& annotation) {
     ground_truth_.push_back(annotation);
 }
@@ -90,6 +101,13 @@ void CalibrationManager::addGroundTruth(const GroundTruthAnnotation& annotation)
 // Private calibration helpers
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Apply Temperature Scaling.
+ * @param[in] score Input parameter.
+ * @param[in] temperature Input parameter.
+ * @return Return value.
+ * @details Calls: std::clamp(), std::log(), std::exp().
+ */
 double CalibrationManager::applyTemperatureScaling(double score, double temperature) {
     if (temperature <= 0.0) {
       return score;
@@ -102,6 +120,13 @@ double CalibrationManager::applyTemperatureScaling(double score, double temperat
     return 1.0 / (1.0 + std::exp(-calibrated_logit));
 }
 
+/**
+ * @brief Apply Platt Scaling.
+ * @param[in] score Input parameter.
+ * @param[in] params Input parameter.
+ * @return Return value.
+ * @details Calls: std::exp().
+ */
 double CalibrationManager::applyPlattScaling(
     double score, const PlattParameters& params) {
     // Platt scaling: P = 1 / (1 + exp(A * score + B))
@@ -116,7 +141,11 @@ std::vector<std::pair<double, double>> CalibrationManager::buildIsotonicModel(
 
     const size_t n = predictions.size();
 
-    // Sort by prediction value
+    /**
+     * @brief Sort by prediction value
+     * @param[in] n Input parameter.
+     * @return Return value.
+     */
     std::vector<size_t> idx(n);
     std::iota(idx.begin(), idx.end(), 0);
     std::sort(idx.begin(), idx.end(),
@@ -229,6 +258,12 @@ std::pair<CalibrationMetrics, CalibrationMetrics> CalibrationManager::train(
 // Calibrate a result
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Calibrate.
+ * @param[in] result Input parameter.
+ * @return Return value.
+ * @details Calls: find(), end(), applyTemperatureScaling(), applyPlattScaling(), applyDim().
+ */
 EvaluationResult CalibrationManager::calibrate(const EvaluationResult& result) {
     if (config_.method == CalibrationMethod::NONE) {
       return result;
@@ -272,6 +307,13 @@ EvaluationResult CalibrationManager::calibrate(const EvaluationResult& result) {
 // Metrics
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Calculate Metrics.
+ * @param[in] predictions Input parameter.
+ * @param[in] ground_truth Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), size(), reserve(), push_back(), std::abs(), std::sqrt(), calculateECE(), calculateBrierScore().
+ */
 CalibrationMetrics CalibrationManager::calculateMetrics(
     const std::vector<EvaluationResult>& predictions,
     const std::vector<GroundTruthAnnotation>& ground_truth) {
@@ -329,6 +371,14 @@ CalibrationMetrics CalibrationManager::calculateMetrics(
     return m;
 }
 
+/**
+ * @brief Calculate ECE.
+ * @param[in] predictions Input parameter.
+ * @param[in] ground_truth Input parameter.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), bin_accuracy(), bin_confidence(), bin_count(), size(), std::clamp(), std::abs().
+ */
 double CalibrationManager::calculateECE(
     const std::vector<double>& predictions,
     const std::vector<double>& ground_truth,
@@ -365,6 +415,13 @@ double CalibrationManager::calculateECE(
     return ece;
 }
 
+/**
+ * @brief Calculate Brier Score.
+ * @param[in] predictions Input parameter.
+ * @param[in] ground_truth Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), size().
+ */
 double CalibrationManager::calculateBrierScore(
     const std::vector<double>& predictions,
     const std::vector<double>& ground_truth) {
@@ -380,6 +437,12 @@ double CalibrationManager::calculateBrierScore(
     return sum / static_cast<double>(predictions.size());
 }
 
+/**
+ * @brief Calculate Inter Annotator Agreement.
+ * @param[in] annotations Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), size().
+ */
 double CalibrationManager::calculateInterAnnotatorAgreement(
     const std::vector<std::vector<double>>& annotations) {
     if (annotations.empty() || annotations[0].empty()) {
@@ -435,6 +498,12 @@ double CalibrationManager::calculateInterAnnotatorAgreement(
 // Model persistence
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Save Model.
+ * @param[in] filepath Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: json::object(), file(), is_open(), THEMIS_WARN(), dump(), THEMIS_INFO().
+ */
 bool CalibrationManager::saveModel(const std::string& filepath) {
     json j;
     j["method"]      = static_cast<int>(config_.method);
@@ -462,6 +531,12 @@ bool CalibrationManager::saveModel(const std::string& filepath) {
     return true;
 }
 
+/**
+ * @brief Load Model.
+ * @param[in] filepath Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: std::filesystem::exists(), sidecar(), is_open(), std::getline(), close(), themis::utils::calculateSHA256(), empty(), THEMIS_ERROR().
+ */
 bool CalibrationManager::loadModel(const std::string& filepath) {
     // Verify model integrity via SHA-256 sidecar if available
     std::string sha_path = filepath + ".sha256";
@@ -523,6 +598,11 @@ bool CalibrationManager::loadModel(const std::string& filepath) {
 // Config accessors
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Set Config.
+ * @param[in] config Input parameter.
+ * @details Implements setConfig without additional internal calls.
+ */
 void CalibrationManager::setConfig(const CalibrationConfig& config) {
     config_ = config;
 }

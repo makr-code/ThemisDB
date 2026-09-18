@@ -28,12 +28,6 @@ namespace utils {
  * @details Calls: file(), rdbuf(), str().
  */
 std::string readFileContents(const std::string& path) {
-    /**
-     * @brief File.
-     * @param[in] path Input parameter.
-     * @param[in] binary Input parameter.
-     * @return Return value.
-     */
     std::ifstream file(path, std::ios::binary);
     if (!file) {
         throw std::runtime_error("Failed to open file: " + path);

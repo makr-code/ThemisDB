@@ -24,16 +24,7 @@
 namespace themis {
 namespace query {
 
-/**
- * @brief Histogram for spatial data distributions
- * 
- * Extends ColumnHistogram to support spatial ranges (bounding boxes, grids).
- * Used for estimating selectivity of spatial predicates.
- */
 struct SpatialHistogram {
-    /**
-     * @brief Grid cell for spatial distribution
-     */
     struct GridCell {
         double minLon, maxLon;    // Longitude range
         double minLat, maxLat;    // Latitude range
@@ -50,34 +41,38 @@ struct SpatialHistogram {
     double globalMinLat = 90.0, globalMaxLat = -90.0;
     
     /**
-     * @brief Get grid cell containing the point
+     * @brief Get Cell For Point.
+     * @param[in] lon Input parameter.
+     * @param[in] lat Input parameter.
+     * @return Pointer to the result.
      */
     const GridCell* getCellForPoint(double lon, double lat) const;
     
     /**
-     * @brief Estimate points within a bounding box
+     * @brief Estimate Points In Box.
+     * @param[in] minLon Input parameter.
+     * @param[in] maxLon Input parameter.
+     * @param[in] minLat Input parameter.
+     * @param[in] maxLat Input parameter.
+     * @return Return value.
      */
     size_t estimatePointsInBox(double minLon, double maxLon, 
                               double minLat, double maxLat) const;
     
     /**
-     * @brief Estimate selectivity for spatial predicate
+     * @brief Estimate Spatial Selectivity.
+     * @param[in] minLon Input parameter.
+     * @param[in] maxLon Input parameter.
+     * @param[in] minLat Input parameter.
+     * @param[in] maxLat Input parameter.
+     * @return Return value.
      */
     double estimateSpatialSelectivity(double minLon, double maxLon,
                                      double minLat, double maxLat) const;
 };
 
-/**
- * @brief Geospatial cost estimator using Phase 2 framework
- * 
- * Estimates costs for ST_DISTANCE, ST_CONTAINS, ST_INTERSECTS predicates
- * using histogram-based selectivity and index characteristics.
- */
 class GeospatialCostEstimator {
 public:
-    /**
-     * @brief Cost estimate result
-     */
     struct CostEstimate {
         double cpuCostUs = 0.0;      // CPU cost in microseconds
         double ioCostMs = 0.0;       // I/O cost in milliseconds
@@ -86,89 +81,40 @@ public:
         std::string indexUsed;       // Index name or "FULL_SCAN"
     };
     
-    /**
-     * @brief Estimate cost for ST_DISTANCE predicate
-     * 
-     * @param totalRows Total documents in collection
-     * @param distanceMeters Search radius in meters
-     * @param hasRtreeIndex Whether R-tree index is available
-     * @param histogram Spatial histogram (optional)
-     * @return Cost estimate with CPU time, I/O, and selectivity
-     * 
-     * Example cost model:
-     * - With R-tree index: log(N) * 10µs + k * 5µs (k = result count)
-     * - Without index: N * 50µs (full scan + distance calc)
-     */
     static CostEstimate estimateDistanceCost(
         size_t totalRows,
         double distanceMeters,
         bool hasRtreeIndex = false,
         const SpatialHistogram* histogram = nullptr);
     
-    /**
-     * @brief Estimate cost for ST_CONTAINS predicate (point-in-polygon)
-     * 
-     * @param totalRows Total documents in collection
-     * @param polygonComplexity Number of vertices in polygon
-     * @param hasRtreeIndex Whether R-tree index is available
-     * @param histogram Spatial histogram (optional)
-     * @return Cost estimate
-     * 
-     * Example cost model:
-     * - With R-tree index: log(N) * 15µs + m * 2µs (m = candidates to check)
-     * - Without index: N * (100µs + polygonComplexity * 10µs)
-     */
     static CostEstimate estimateContainsCost(
         size_t totalRows,
         size_t polygonComplexity,
         bool hasRtreeIndex = false,
         const SpatialHistogram* histogram = nullptr);
     
-    /**
-     * @brief Estimate cost for ST_INTERSECTS predicate (geometry overlap)
-     * 
-     * @param totalRows Total documents in collection
-     * @param queryGeometryComplexity Complexity of query geometry
-     * @param hasRtreeIndex Whether R-tree index is available
-     * @param histogram Spatial histogram (optional)
-     * @return Cost estimate
-     * 
-     * Example cost model:
-     * - With R-tree index: log(N) * 20µs + m * 3µs (m = overlap checks)
-     * - Without index: N * (150µs + queryGeometryComplexity * 15µs)
-     */
     static CostEstimate estimateIntersectsCost(
         size_t totalRows,
         size_t queryGeometryComplexity,
         bool hasRtreeIndex = false,
         const SpatialHistogram* histogram = nullptr);
     
-    /**
-     * @brief Estimate selectivity using histogram if available
-     * 
-     * Falls back to heuristic if histogram unavailable.
-     */
     static double estimateSpatialSelectivity(
         const std::string& predicateType,  // "DISTANCE", "CONTAINS", "INTERSECTS"
         double searchRadius,               // For DISTANCE
         size_t geometryComplexity,         // For CONTAINS/INTERSECTS
         const SpatialHistogram* histogram = nullptr);
     
-    /**
-     * @brief Build spatial histogram from sample data
-     * 
-     * @param dataPoints Vector of {longitude, latitude} pairs
-     * @param gridDimension Number of grid cells per dimension (default: 10)
-     * @return Spatial histogram for selectivity estimation
-     */
     static SpatialHistogram buildSpatialHistogram(
         const std::vector<std::pair<double, double>>& dataPoints,
         size_t gridDimension = 10);
     
     /**
-     * @brief Validate cost estimate against actual execution
-     * 
-     * Records estimate vs. actual for bias detection.
+     * @brief Record Actual Cost.
+     * @param[in] estimated Input parameter.
+     * @param[in] actualRows Input parameter.
+     * @param[in] actualCostUs Input parameter.
+     * @param[in] predicateType Input parameter.
      */
     static void recordActualCost(
         const CostEstimate& estimated,
@@ -177,52 +123,58 @@ public:
         const std::string& predicateType);
     
     /**
-     * @brief Get cost estimation metrics
+     * @brief Get Metrics.
+     * @return Return value.
      */
     static const EstimateValidation& getMetrics();
     
     /**
-     * @brief Clear cost metrics
+     * @brief Clear Metrics.
      */
     static void clearMetrics();
     
 private:
     /**
-     * @brief Estimate selectivity for distance query
-     * 
-     * Using histogram: interpolate from grid cells within radius.
-     * Without histogram: heuristic based on radius size.
+     * @brief Estimate Distance Selectivity.
+     * @param[in] distanceMeters Input parameter.
+     * @param[in] histogram Input parameter.
+     * @return Return value.
      */
     static double estimateDistanceSelectivity(
         double distanceMeters,
         const SpatialHistogram* histogram);
     
     /**
-     * @brief Estimate selectivity for containment query
+     * @brief Estimate Contains Selectivity.
+     * @param[in] polygonComplexity Input parameter.
+     * @param[in] histogram Input parameter.
+     * @return Return value.
      */
     static double estimateContainsSelectivity(
         size_t polygonComplexity,
         const SpatialHistogram* histogram);
     
     /**
-     * @brief Estimate selectivity for intersection query
+     * @brief Estimate Intersects Selectivity.
+     * @param[in] queryGeometryComplexity Input parameter.
+     * @param[in] histogram Input parameter.
+     * @return Return value.
      */
     static double estimateIntersectsSelectivity(
         size_t queryGeometryComplexity,
         const SpatialHistogram* histogram);
     
     /**
-     * @brief R-tree traversal cost in microseconds
-     * 
-     * log(N) * costPerLevel where costPerLevel ≈ 10µs
+     * @brief Rtree Traversal Cost.
+     * @param[in] totalRows Input parameter.
+     * @return Return value.
      */
     static double rtreeTraversalCost(size_t totalRows);
     
     /**
-     * @brief Point geometry check cost
-     * 
-     * Interior point check cost in microseconds.
-     * Varies with geometry complexity (number of vertices).
+     * @brief Geometry Check Cost.
+     * @param[in] complexity Input parameter.
+     * @return Return value.
      */
     static double geometryCheckCost(size_t complexity);
 };

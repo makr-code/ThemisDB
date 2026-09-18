@@ -25,8 +25,11 @@
 namespace themis {
 namespace llm {
 
-/// Semantic versioning for adapters
 struct AdapterVersion {
+    /**
+     * @brief Adapter Version.
+     * @return Return value.
+     */
     virtual ~AdapterVersion() = default;
     int major = 1;
     int minor = 0;
@@ -43,6 +46,11 @@ struct AdapterVersion {
         return version;
     }
     
+    /**
+     * @brief From String.
+     * @param[in] version_str Input parameter.
+     * @return Return value.
+     */
     static AdapterVersion fromString(const std::string& version_str);
     
     bool operator<(const AdapterVersion& other) const {
@@ -63,7 +71,6 @@ struct AdapterVersion {
     }
 };
 
-/// Adapter signature for authenticity and integrity
 struct AdapterSignature {
     std::string content_hash;       // SHA-256 hash of adapter weights
     std::string signature;          // Ed25519 digital signature
@@ -71,11 +78,19 @@ struct AdapterSignature {
     std::string signing_timestamp;  // ISO 8601 timestamp
     std::string parent_adapter_signature;  // Chain of trust for incremental training
     
+    /**
+     * @brief To Json.
+     * @return Return value.
+     */
     nlohmann::json toJson() const;
+    /**
+     * @brief From Json.
+     * @param[in] j Input parameter.
+     * @return Return value.
+     */
     static AdapterSignature fromJson(const nlohmann::json& j);
 };
 
-/// Adapter provenance tracking
 struct AdapterProvenance {
     std::string dataset_name;
     std::string data_source_uri;    // ThemisDB connection string or query
@@ -85,12 +100,24 @@ struct AdapterProvenance {
     std::string parent_adapter_id;   // For incremental/continual training
     std::map<std::string, std::string> custom_metadata;
     
+    /**
+     * @brief To Json.
+     * @return Return value.
+     */
     nlohmann::json toJson() const;
+    /**
+     * @brief From Json.
+     * @param[in] j Input parameter.
+     * @return Return value.
+     */
     static AdapterProvenance fromJson(const nlohmann::json& j);
 };
 
-/// Training configuration
 struct TrainingConfig {
+    /**
+     * @brief Training Config.
+     * @return Return value.
+     */
     virtual ~TrainingConfig() = default;
     std::string dataset_name;
     size_t num_samples = 0;
@@ -107,12 +134,24 @@ struct TrainingConfig {
     double warmup_ratio = 0.03;
     std::string lr_scheduler = "cosine";
     
+    /**
+     * @brief To Json.
+     * @return Return value.
+     */
     nlohmann::json toJson() const;
+    /**
+     * @brief From Json.
+     * @param[in] j Input parameter.
+     * @return Return value.
+     */
     static TrainingConfig fromJson(const nlohmann::json& j);
 };
 
-/// Quality metrics from training
 struct QualityMetrics {
+    /**
+     * @brief Quality Metrics.
+     * @return Return value.
+     */
     virtual ~QualityMetrics() = default;
     double final_loss = 0.0;
     double perplexity = 0.0;
@@ -122,23 +161,29 @@ struct QualityMetrics {
     size_t validation_samples = 0;
     std::string metrics_json;  // Full metrics as JSON
     
+    /**
+     * @brief To Json.
+     * @return Return value.
+     */
     nlohmann::json toJson() const;
+    /**
+     * @brief From Json.
+     * @param[in] j Input parameter.
+     * @return Return value.
+     */
     static QualityMetrics fromJson(const nlohmann::json& j);
 };
 
-/// Adapter role within the inference pipeline.
-///
-/// GENERAL  – standard task/domain fine-tuning adapter (default).
-/// DRAFT    – small speculative-decoding draft model registered alongside a
-///            larger target model.  Registered with a quantized (INT4) weight
-///            set; @see AdaptiveVRAMAllocator::calculateDualModelAllocation().
 enum class AdapterRole {
     GENERAL,  ///< Default: task/domain LoRA adapter.
     DRAFT,    ///< Speculative-decoding draft model adapter.
 };
 
-/// Adapter metadata - Complete information about a LoRA adapter
 struct AdapterMetadata {
+    /**
+     * @brief Adapter Metadata.
+     * @return Return value.
+     */
     virtual ~AdapterMetadata() = default;
     // Identification
     std::string adapter_id;          // Unique identifier (includes base_model)
@@ -147,10 +192,6 @@ struct AdapterMetadata {
     std::string domain;              // e.g., "legal", "medical", "general"
     std::string language = "en";
 
-    /// Role of this adapter in the inference pipeline.
-    /// Set to AdapterRole::DRAFT when registering a speculative-decoding draft
-    /// model so that InferenceEngineEnhanced can auto-discover it via
-    /// AdapterRegistry::findDraftAdapterForFamily().
     AdapterRole role = AdapterRole::GENERAL;
     
     // Model compatibility
@@ -189,74 +230,123 @@ struct AdapterMetadata {
     std::string updated_at;          // ISO 8601 timestamp
     
     // Validation
+    /**
+     * @brief Is Compatible With.
+     * @param[in] base_model Input parameter.
+     * @param[in] model_version Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool isCompatibleWith(const std::string& base_model, const std::string& model_version) const;
     
+    /**
+     * @brief To Json.
+     * @return Return value.
+     */
     nlohmann::json toJson() const;
+    /**
+     * @brief From Json.
+     * @param[in] j Input parameter.
+     * @return Return value.
+     */
     static AdapterMetadata fromJson(const nlohmann::json& j);
 };
 
-/// Adapter Registry - Manages adapter metadata with base-model grouping
-/// Extends SecuritySignatureManager for cryptographic signing
 class AdapterRegistry {
 public:
+    /**
+     * @brief Adapter Registry.
+     * @param[in] sig_manager Input parameter.
+     * @return Return value.
+     */
     explicit AdapterRegistry(std::shared_ptr<storage::SecuritySignatureManager> sig_manager);
     ~AdapterRegistry();
     
     // CRUD Operations
     
-    /// Register a new adapter
+    /**
+     * @brief Register Adapter.
+     * @param[in] metadata Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool registerAdapter(const AdapterMetadata& metadata);
     
-    /// Get adapter metadata by ID
+    /**
+     * @brief Get Adapter.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @return Return value.
+     */
     std::optional<AdapterMetadata> getAdapter(const std::string& adapter_id);
     
-    /// Update adapter metadata
+    /**
+     * @brief Update Adapter.
+     * @param[in] metadata Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool updateAdapter(const AdapterMetadata& metadata);
     
-    /// Delete adapter
+    /**
+     * @brief Delete Adapter.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @return True when the operation succeeds.
+     */
     bool deleteAdapter(const std::string& adapter_id);
     
-    /// List all adapters
+    /**
+     * @brief List Adapters.
+     * @return Return value.
+     */
     std::vector<AdapterMetadata> listAdapters();
     
-    /// List adapters for a specific base model
+    /**
+     * @brief List Adapters By Base Model.
+     * @param[in] base_model Input parameter.
+     * @return Return value.
+     */
     std::vector<AdapterMetadata> listAdaptersByBaseModel(const std::string& base_model);
     
-    /// List adapters for a specific domain
+    /**
+     * @brief List Adapters By Domain.
+     * @param[in] domain Input parameter.
+     * @return Return value.
+     */
     std::vector<AdapterMetadata> listAdaptersByDomain(const std::string& domain);
 
-    /// List all adapters with a specific role.
-    ///
-    /// Useful for discovering registered DRAFT adapters:
-    /// @code
-    ///   auto drafts = registry.listAdaptersByRole(AdapterRole::DRAFT);
-    /// @endcode
+    /**
+     * @brief List Adapters By Role.
+     * @param[in] role Input parameter.
+     * @return Return value.
+     */
     std::vector<AdapterMetadata> listAdaptersByRole(AdapterRole role);
 
-    /// Find the best DRAFT adapter for a given model family (architecture).
-    ///
-    /// Searches adapters whose role == DRAFT and whose `architecture` field
-    /// contains @p model_family (case-insensitive substring match).  Among
-    /// multiple candidates the adapter in DEPLOYED status is preferred; ties
-    /// are broken by the highest version number.
-    ///
-    /// @param model_family  Model family string, e.g. "llama", "mistral".
-    /// @return              Matching DRAFT adapter metadata, or std::nullopt
-    ///                      when no DRAFT adapter for the family is registered.
+    /**
+     * @brief Find Draft Adapter For Family.
+     * @param[in] model_family Input parameter.
+     * @return Return value.
+     */
     std::optional<AdapterMetadata> findDraftAdapterForFamily(
         const std::string& model_family);
     
     // Compatibility Validation
     
-    /// Validate adapter compatibility with base model
     struct ValidationResult {
         bool compatible = false;
         std::vector<std::string> errors;
         std::vector<std::string> warnings;
         
+        /**
+         * @brief To String.
+         * @return Return value.
+         */
         std::string toString() const;
     };
     
+    /**
+     * @brief Validate Compatibility.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @param[in] base_model Input parameter.
+     * @param[in] model_version Input parameter.
+     * @return Return value.
+     */
     ValidationResult validateCompatibility(
         const std::string& adapter_id,
         const std::string& base_model,
@@ -265,29 +355,54 @@ public:
     
     // Signature Operations
     
-    /// Sign adapter with private key
+    /**
+     * @brief Sign Adapter.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @param[in] private_key Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool signAdapter(const std::string& adapter_id, const std::string& private_key);
     
-    /// Verify adapter signature
+    /**
+     * @brief Verify Signature.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @return True when the operation succeeds.
+     */
     bool verifySignature(const std::string& adapter_id);
     
-    /// Get adapter signature
+    /**
+     * @brief Get Signature.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @return Return value.
+     */
     std::optional<AdapterSignature> getSignature(const std::string& adapter_id);
     
     // Version Management
     
-    /// Get latest version of adapter
+    /**
+     * @brief Get Latest Version.
+     * @param[in] adapter_base_id Identifier of the adapter base.
+     * @return Return value.
+     */
     std::optional<AdapterMetadata> getLatestVersion(const std::string& adapter_base_id);
     
-    /// Get specific version of adapter
+    /**
+     * @brief Get Version.
+     * @param[in] adapter_base_id Identifier of the adapter base.
+     * @param[in] version Input parameter.
+     * @return Return value.
+     */
     std::optional<AdapterMetadata> getVersion(const std::string& adapter_base_id, const AdapterVersion& version);
     
-    /// List all versions of adapter
+    /**
+     * @brief List Versions.
+     * @param[in] adapter_base_id Identifier of the adapter base.
+     * @return Return value.
+     */
     std::vector<AdapterMetadata> listVersions(const std::string& adapter_base_id);
     
     // Search and Discovery
     
-    /// Search adapters by criteria
     struct SearchCriteria {
         std::optional<std::string> base_model;
         std::optional<std::string> domain;
@@ -296,6 +411,11 @@ public:
         std::optional<AdapterMetadata::Status> status;
     };
     
+    /**
+     * @brief Search Adapters.
+     * @param[in] criteria Input parameter.
+     * @return Return value.
+     */
     std::vector<AdapterMetadata> searchAdapters(const SearchCriteria& criteria);
     
     // Statistics
@@ -308,69 +428,78 @@ public:
         size_t signed_adapters = 0;
         size_t deployed_adapters = 0;
         
+        /**
+         * @brief To Json.
+         * @return Return value.
+         */
         nlohmann::json toJson() const;
     };
     
+    /**
+     * @brief Get Stats.
+     * @return Return value.
+     */
     RegistryStats getStats() const;
 
     // Hot-Loading Interface
 
-    /// Callback type invoked when an adapter is hot-loaded via hotLoad().
-    /// @param adapter_id   The unique adapter identifier.
-    /// @param weights_path Filesystem path to the adapter weights file.
-    /// @param scale        LoRA scaling factor.
     using HotLoadCallback = std::function<void(const std::string& adapter_id,
                                                const std::string& weights_path,
                                                float scale)>;
 
-    /// Register a LoRA adapter for hot-loading at inference time without
-    /// engine restart.  Registers (or updates) the adapter metadata and then
-    /// invokes all callbacks previously registered with addHotLoadObserver().
-    ///
-    /// Thread-safe: metadata update is protected by the registry mutex;
-    /// callbacks are dispatched outside the lock to avoid inversion.
-    ///
-    /// @param adapter_id   Unique identifier for the adapter; must not be empty.
-    /// @param weights_path Filesystem path to the adapter weights; must not be empty.
-    /// @param metadata     Adapter metadata (base_model_name, version, etc.).
-    /// @param scale        LoRA scaling factor (default 1.0).
-    /// @return true if the adapter was registered/updated and callbacks fired
-    ///         successfully, false on validation failure.
     bool hotLoad(const std::string& adapter_id,
                  const std::string& weights_path,
                  const AdapterMetadata& metadata,
                  float scale = 1.0f);
 
-    /// Register an observer callback that is invoked whenever hotLoad() is
-    /// called successfully.  Callbacks are dispatched in registration order.
-    ///
-    /// Thread-safe: protected by the registry mutex.
-    ///
-    /// @param callback Observer to register; must be non-null.
+    /**
+     * @brief Add Hot Load Observer.
+     * @param[in] callback Input parameter.
+     */
     void addHotLoadObserver(HotLoadCallback callback);
 
     // Provenance Integration
     
-    /// Attach a cryptographic provenance record to a registered adapter.
-    /// Returns false if the adapter does not exist.
+    /**
+     * @brief Attach Provenance.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @param[in] record Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool attachProvenance(const std::string& adapter_id,
                           const lora::LoRAProvenanceRecord& record);
 
-    /// Retrieve the provenance record attached to an adapter.
+    /**
+     * @brief Get Provenance Record.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @return Return value.
+     */
     std::optional<lora::LoRAProvenanceRecord> getProvenanceRecord(
         const std::string& adapter_id) const;
 
-    /// Record one inference event in the Merkle-chained audit log for an adapter.
-    /// Populates entry_id, timestamp, previous_hash and entry_hash automatically.
+    /**
+     * @brief Record Inference Audit.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @param[in] entry Input parameter.
+     * @return Return value.
+     */
     lora::InferenceAuditEntry recordInferenceAudit(
         const std::string& adapter_id,
         lora::InferenceAuditEntry entry);
 
-    /// Retrieve the full Merkle-chained inference audit log for an adapter.
+    /**
+     * @brief Get Inference Audit Log.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @return Return value.
+     */
     std::vector<lora::InferenceAuditEntry> getInferenceAuditLog(
         const std::string& adapter_id) const;
 
-    /// Verify the integrity of the Merkle audit chain for an adapter.
+    /**
+     * @brief Verify Audit Chain.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @return True when the operation succeeds.
+     */
     bool verifyAuditChain(const std::string& adapter_id) const;
 
 private:
@@ -386,8 +515,23 @@ private:
     struct Impl;
     std::unique_ptr<Impl> impl_;
 
+    /**
+     * @brief Make Adapter Key.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @return Return value.
+     */
     std::string makeAdapterKey(const std::string& adapter_id) const;
+    /**
+     * @brief Make Base Model Index Key.
+     * @param[in] base_model Input parameter.
+     * @return Return value.
+     */
     std::string makeBaseModelIndexKey(const std::string& base_model) const;
+    /**
+     * @brief Make Domain Index Key.
+     * @param[in] domain Input parameter.
+     * @return Return value.
+     */
     std::string makeDomainIndexKey(const std::string& domain) const;
 
     // Helper: Update indices when adapter is registered/updated/deleted

@@ -29,6 +29,16 @@ constexpr double LORA_INIT_STD_DEV = 0.01;
 // LoRARopeAdapter Implementation
 // ============================================================================
 
+/**
+ * @brief Create Random.
+ * @param[in] name Input parameter.
+ * @param[in] domain Input parameter.
+ * @param[in] num_rotation_pairs Input parameter.
+ * @param[in] rank Input parameter.
+ * @param[in] alpha Input parameter.
+ * @return Return value.
+ * @details Calls: gen(), rd(), dist(), resize().
+ */
 LoRARopeAdapter LoRARopeAdapter::createRandom(
     const std::string& name,
     const std::string& domain,
@@ -73,6 +83,16 @@ LoRARopeAdapter LoRARopeAdapter::createRandom(
     return adapter;
 }
 
+/**
+ * @brief Create Zero.
+ * @param[in] name Input parameter.
+ * @param[in] domain Input parameter.
+ * @param[in] num_rotation_pairs Input parameter.
+ * @param[in] rank Input parameter.
+ * @param[in] alpha Input parameter.
+ * @return Return value.
+ * @details Calls: resize().
+ */
 LoRARopeAdapter LoRARopeAdapter::createZero(
     const std::string& name,
     const std::string& domain,
@@ -110,6 +130,12 @@ LoRARopeAdapter LoRARopeAdapter::createZero(
 // LoRARopeAdapterRegistry Implementation
 // ============================================================================
 
+/**
+ * @brief Register Adapter.
+ * @param[in] adapter Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), find(), end().
+ */
 bool LoRARopeAdapterRegistry::registerAdapter(const LoRARopeAdapter& adapter) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -122,12 +148,23 @@ bool LoRARopeAdapterRegistry::registerAdapter(const LoRARopeAdapter& adapter) {
     return true;
 }
 
+/**
+ * @brief Unregister Adapter.
+ * @param[in] name Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), erase().
+ */
 bool LoRARopeAdapterRegistry::unregisterAdapter(const std::string& name) {
     std::lock_guard<std::mutex> lock(mutex_);
     return adapters_.erase(name) > 0;
 }
 
 std::optional<LoRARopeAdapter> LoRARopeAdapterRegistry::getAdapter(const std::string& name) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     auto it = adapters_.find(name);
@@ -138,11 +175,21 @@ std::optional<LoRARopeAdapter> LoRARopeAdapterRegistry::getAdapter(const std::st
 }
 
 bool LoRARopeAdapterRegistry::hasAdapter(const std::string& name) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return adapters_.find(name) != adapters_.end();
 }
 
 std::vector<std::string> LoRARopeAdapterRegistry::listAdapters() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     std::vector<std::string> names = {};
@@ -156,6 +203,13 @@ std::vector<std::string> LoRARopeAdapterRegistry::listAdapters() const {
     return names;
 }
 
+/**
+ * @brief Set Adapter Enabled.
+ * @param[in] name Input parameter.
+ * @param[in] enabled Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), find(), end().
+ */
 bool LoRARopeAdapterRegistry::setAdapterEnabled(const std::string& name, bool enabled) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -167,12 +221,21 @@ bool LoRARopeAdapterRegistry::setAdapterEnabled(const std::string& name, bool en
     return false;
 }
 
+/**
+ * @brief Clear.
+ * @details Calls: lock().
+ */
 void LoRARopeAdapterRegistry::clear() {
     std::lock_guard<std::mutex> lock(mutex_);
     adapters_.clear();
 }
 
 size_t LoRARopeAdapterRegistry::size() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return adapters_.size();
 }
@@ -285,6 +348,13 @@ std::vector<std::vector<float>> LoRARotaryEmbedding::rotateBatchWithAdapter(
     return results;
 }
 
+/**
+ * @brief Register Adapter.
+ * @param[in] param Input parameter.
+ * @param[in] adapter Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: isValid(), getConfig().
+ */
 bool LoRARotaryEmbedding::registerAdapter(
     const std::string& /*name*/,
     const LoRARopeAdapter& adapter
@@ -297,6 +367,12 @@ bool LoRARotaryEmbedding::registerAdapter(
     return adapter_registry_->registerAdapter(adapter);
 }
 
+/**
+ * @brief Unregister Adapter.
+ * @param[in] name Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements unregisterAdapter without additional internal calls.
+ */
 bool LoRARotaryEmbedding::unregisterAdapter(const std::string& name) {
     return adapter_registry_->unregisterAdapter(name);
 }
@@ -309,6 +385,13 @@ bool LoRARotaryEmbedding::hasAdapter(const std::string& adapter_name) const {
     return adapter_registry_->hasAdapter(adapter_name);
 }
 
+/**
+ * @brief Set Adapter Enabled.
+ * @param[in] name Input parameter.
+ * @param[in] enabled Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements setAdapterEnabled without additional internal calls.
+ */
 bool LoRARotaryEmbedding::setAdapterEnabled(const std::string& name, bool enabled) {
     return adapter_registry_->setAdapterEnabled(name, enabled);
 }

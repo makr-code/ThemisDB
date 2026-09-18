@@ -139,11 +139,11 @@ class CcpaRuleSet {
 public:
     CcpaRuleSet();
 
+
     /**
-     * @brief ---- Subject opt-out registry ----------------------------------------
+     * @brief Add Opt Out.
      * @param[in] subject_id Identifier of the subject.
      */
-
     void addOptOut(const std::string& subject_id);
 
     /**
@@ -171,12 +171,12 @@ public:
      */
     size_t optOutCount() const;
 
+
     /**
-     * @brief ---- Rule evaluation -------------------------------------------------
+     * @brief Evaluate Rule.
      * @param[in] rule Input parameter.
      * @return Return value.
      */
-
     std::vector<CcpaRuleEvalResult> evaluateRule(const PolicyRule& rule) const;
 
     /**
@@ -193,11 +193,11 @@ public:
      */
     std::vector<std::string> detectHipaaConflicts(const PolicyRule& rule) const;
 
+
     /**
-     * @brief ---- Data subject requests -------------------------------------------
+     * @brief Record Request.
      * @param[in] request Input parameter.
      */
-
     void recordRequest(const DataSubjectRequest& request);
 
     /**

@@ -101,20 +101,8 @@ constexpr uint32_t kMaxWireFrameSizeMb =
 constexpr int kBindListenMaxRetries = 3; // kept for reference; active retry uses WireRetryPolicy
 constexpr auto kBindListenRetryBaseDelay = std::chrono::milliseconds(100); // kept for reference
 
-/// Maximum ms to wait for a single I/O thread to join during shutdown.
-/// thread_join_no_timeout (W3): capped to prevent indefinite block.
 constexpr int kShutdownJoinTimeoutMs = 5000;
 
-/// @brief Join @p t within @p timeout_ms; log and detach on timeout.
-///
-/// @param t       Thread to join (moved into the internal watcher).
-/// @param timeout_ms  Maximum wait time in milliseconds (default 5 s).
-///
-/// Rationale: calling t.join() without a deadline can block indefinitely if
-/// the thread is stuck in a syscall.  This helper spawns a watcher thread
-/// that performs the join and signals a std::promise.  The caller waits on
-/// the future with a deadline; if the deadline expires the watcher is detached
-/// and the caller returns promptly.
 static void timedJoin(std::thread& t,
                       int timeout_ms = kShutdownJoinTimeoutMs) noexcept {
     if (!t.joinable()) {
@@ -137,6 +125,12 @@ static void timedJoin(std::thread& t,
     }
 }
 
+/**
+ * @brief Fnv1a64.
+ * @param[in] value Input parameter.
+ * @return Return value.
+ * @details Implements fnv1a64 without additional internal calls.
+ */
 uint64_t fnv1a64(std::string_view value) {
     uint64_t hash = 1469598103934665603;
     for (unsigned char ch : value) {
@@ -146,6 +140,12 @@ uint64_t fnv1a64(std::string_view value) {
     return hash;
 }
 
+/**
+ * @brief Anonymize Peer For Log.
+ * @param[in] value Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), std::snprintf(), fnv1a64(), std::string().
+ */
 std::string anonymizePeerForLog(std::string_view value) {
     if (value.empty()) {
         return "peer#unknown";
@@ -156,23 +156,47 @@ std::string anonymizePeerForLog(std::string_view value) {
     return std::string(buffer);
 }
 
+/**
+ * @brief Has Control Characters.
+ * @param[in] value Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: std::any_of(), begin(), end().
+ */
 bool hasControlCharacters(std::string_view value) {
     return std::any_of(value.begin(), value.end(), [](unsigned char ch) {
         return ch < 0x20 || ch == 0x7F;
     });
 }
 
+/**
+ * @brief Is Reasonable Wire Identifier.
+ * @param[in] value Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), size(), hasControlCharacters().
+ */
 bool isReasonableWireIdentifier(std::string_view value) {
     return !value.empty() && value.size() <= kMaxWireIdentifierLength &&
            !hasControlCharacters(value);
 }
 
+/**
+ * @brief Is Blank String.
+ * @param[in] value Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: std::all_of(), begin(), end(), std::isspace().
+ */
 bool isBlankString(std::string_view value) {
     return std::all_of(value.begin(), value.end(), [](unsigned char ch) {
         return std::isspace(ch) != 0;
     });
 }
 
+/**
+ * @brief Escaped Json String Length.
+ * @param[in] value Input parameter.
+ * @return Return value.
+ * @details Implements escapedJsonStringLength without additional internal calls.
+ */
 std::size_t escapedJsonStringLength(std::string_view value) {
     std::size_t escaped_length = 0;
     for (unsigned char ch : value) {
@@ -200,6 +224,12 @@ std::size_t escapedJsonStringLength(std::string_view value) {
     return escaped_length;
 }
 
+/**
+ * @brief Is Auth Token Payload Within Limit.
+ * @param[in] token Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: constexpr(), escapedJsonStringLength().
+ */
 bool isAuthTokenPayloadWithinLimit(std::string_view token) {
     constexpr std::size_t kAuthTokenJsonOverhead = sizeof("{\"token\":\"\"}") - 1;
     if constexpr (kAuthTokenJsonOverhead > kMaxAuthPayloadBytes) {
@@ -209,12 +239,25 @@ bool isAuthTokenPayloadWithinLimit(std::string_view token) {
     return escaped_token_length <= (kMaxAuthPayloadBytes - kAuthTokenJsonOverhead);
 }
 
+/**
+ * @brief Is Unsigned Integer String.
+ * @param[in] value Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), std::all_of(), begin(), end(), std::isdigit().
+ */
 bool isUnsignedIntegerString(std::string_view value) {
     return !value.empty() && std::all_of(value.begin(), value.end(), [](unsigned char ch) {
         return std::isdigit(ch) != 0;
     });
 }
 
+/**
+ * @brief Validate Bpmn Variables Object.
+ * @param[in] variables Input parameter.
+ * @param[in,out] error_message Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: is_object(), size(), begin(), end(), key(), empty(), isBlankString(), isReasonableWireIdentifier().
+ */
 bool validateBpmnVariablesObject(const json& variables, std::string& error_message) {
     if (!variables.is_object()) {
         error_message = "variables must be a JSON object";
@@ -285,8 +328,14 @@ const uint32_t kCrc32Table[256] = {
     0xB40BBE37, 0xC30C8EA1, 0x5A05DF1B, 0x2D02EF8D
 };
 
-// Compute CRC32 (ISO-HDLC) over [data, data+len).  Seed with 0 for first call;
-// pass previous result to chain multiple buffers.
+/**
+ * @brief Compute CRC32 (ISO-HDLC) over [data, data+len).
+ * @param[in] crc Input parameter.
+ * @param[in] data Input parameter.
+ * @param[in] len Input parameter.
+ * @return Return value.
+ * @details Seed with 0 for first call; pass previous result to chain multiple buffers. Implements crc32Update without additional internal calls.
+ */
 uint32_t crc32Update(uint32_t crc, const uint8_t* data, size_t len) {
     crc = ~crc;
     for (size_t i = 0; i < len; ++i)
@@ -294,7 +343,18 @@ uint32_t crc32Update(uint32_t crc, const uint8_t* data, size_t len) {
     return ~crc;
 }
 
+/**
+ * @brief Parse Payload Json.
+ * @param[in] payload_buffer Input parameter.
+ * @return Return value.
+ */
 json parsePayloadJson(const std::vector<uint8_t>& payload_buffer);
+/**
+ * @brief Parse Payload Json With Retry.
+ * @param[in] payload_buffer Input parameter.
+ * @param[in] max_attempts Input parameter.
+ * @return Return value.
+ */
 json parsePayloadJsonWithRetry(const std::vector<uint8_t>& payload_buffer, int max_attempts);
 
 // ---------------------------------------------------------------------------
@@ -305,6 +365,11 @@ GeoQueryFn         g_network_geo_query_fn;
 
 } // anonymous namespace
 
+/**
+ * @brief Set Network Geo Query Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void setNetworkGeoQueryFn(GeoQueryFn fn) {
     std::lock_guard<std::mutex> lock(g_network_geo_fn_mutex);
     g_network_geo_query_fn = std::move(fn);
@@ -345,6 +410,11 @@ WireProtocolServer::~WireProtocolServer() {
     stop();
 }
 
+/**
+ * @brief Set Spatial Index Manager.
+ * @param[in] idx Input parameter.
+ * @details Calls: std::move().
+ */
 void WireProtocolServer::setSpatialIndexManager(
     std::shared_ptr<index::SpatialIndexManager> idx) {
     spatial_index_ = std::move(idx);
@@ -359,6 +429,10 @@ bool WireProtocolServer::validateTransportSecurity(int argc, const char* const a
     );
 }
 
+/**
+ * @brief Start.
+ * @details Calls: validateTransportSecurity(), lock(), wire_bootstrap::validateRequiredBackends(), empty(), isBlankString(), hasControlCharacters(), isAuthTokenPayloadWithinLimit(), std::any_of().
+ */
 void WireProtocolServer::start() {
     // Enforce transport security validation as a startup gate
     // We do not have argc/argv here, so we pass an empty argument list
@@ -626,6 +700,10 @@ void WireProtocolServer::start() {
     doAccept();
 }
 
+/**
+ * @brief Stop.
+ * @details Calls: exchange(), empty(), is_open(), cancel(), close(), timedJoin(), clear(), wait().
+ */
 void WireProtocolServer::stop() {
     const bool was_running = running_.exchange(false, std::memory_order_acq_rel);
     if (!was_running && io_threads_.empty()) {
@@ -655,6 +733,10 @@ void WireProtocolServer::stop() {
     }
 }
 
+/**
+ * @brief Wait.
+ * @details Calls: timedJoin().
+ */
 void WireProtocolServer::wait() {
     for (auto& t : io_threads_) {
         // thread_join_no_timeout (W3): bounded join via timedJoin helper.
@@ -663,6 +745,11 @@ void WireProtocolServer::wait() {
 }
 
 size_t WireProtocolServer::getActiveConnections() const {
+    /**
+     * @brief Lock.
+     * @param[in] connections_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(connections_mutex_);
 #ifdef THEMIS_ENABLE_WEBSOCKET
     return active_sessions_.size() + active_ws_sessions_.size() ;
@@ -672,13 +759,22 @@ size_t WireProtocolServer::getActiveConnections() const {
 }
 
 WireProtocolServer::Stats WireProtocolServer::getStats() const {
+    /**
+     * @brief Lock.
+     * @param[in] stats_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(stats_mutex_);
     return stats_;
 }
 
-// -------------------------------------------------------------------------
-// Per-tenant bandwidth quota management – public forwarding API
-// -------------------------------------------------------------------------
+/**
+ * @brief ------------------------------------------------------------------------- Per-tenant bandwidth quota management – public forwarding API -------------------------------------------------------------------------
+ * @param[in] tenant_id Identifier of the tenant.
+ * @param[in] rate_bps Input parameter.
+ * @param[in] burst_bytes Input parameter.
+ * @details Implements registerTenantQuota without additional internal calls.
+ */
 
 void WireProtocolServer::registerTenantQuota(const std::string& tenant_id,
                                                uint64_t rate_bps,
@@ -686,12 +782,24 @@ void WireProtocolServer::registerTenantQuota(const std::string& tenant_id,
     qos_manager_.registerTenantQuota(tenant_id, rate_bps, burst_bytes);
 }
 
+/**
+ * @brief Set Tenant Quota.
+ * @param[in] tenant_id Identifier of the tenant.
+ * @param[in] rate_bps Input parameter.
+ * @param[in] burst_bytes Input parameter.
+ * @details Implements setTenantQuota without additional internal calls.
+ */
 void WireProtocolServer::setTenantQuota(const std::string& tenant_id,
                                           uint64_t rate_bps,
                                           uint64_t burst_bytes) {
     qos_manager_.setTenantQuota(tenant_id, rate_bps, burst_bytes);
 }
 
+/**
+ * @brief Unregister Tenant Quota.
+ * @param[in] tenant_id Identifier of the tenant.
+ * @details Implements unregisterTenantQuota without additional internal calls.
+ */
 void WireProtocolServer::unregisterTenantQuota(const std::string& tenant_id) {
     qos_manager_.unregisterTenantQuota(tenant_id);
 }
@@ -710,6 +818,12 @@ WireProtocolServer::getAllTenantBandwidthStats() const {
 // Geospatial query injection bridge (stub #284)
 // -------------------------------------------------------------------------
 
+/**
+ * @brief Check Connection Limit.
+ * @param[in] remote_ip Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: load(), lock(), find(), end().
+ */
 bool WireProtocolServer::checkConnectionLimit(const std::string& remote_ip) {
     // Global connection limit – fast path via atomic counter.
     if (config_.max_connections > 0 &&
@@ -724,6 +838,12 @@ bool WireProtocolServer::checkConnectionLimit(const std::string& remote_ip) {
     return true;
 }
 
+/**
+ * @brief Check whether a user exceeds the current rate limit.
+ * @param[in] remote_ip Input parameter.
+ * @return True when the user remains within the configured limit.
+ * @details Calls: lock(), std::chrono::system_clock::now(), time_since_epoch(), count(), size(), clear().
+ */
 bool WireProtocolServer::checkRateLimit(const std::string& remote_ip) {
     std::lock_guard<std::mutex> lock(rate_limit_mutex_);
     
@@ -765,12 +885,22 @@ bool WireProtocolServer::checkRateLimit(const std::string& remote_ip) {
     return true;
 }
 
+/**
+ * @brief Register Connection.
+ * @param[in] remote_ip Input parameter.
+ * @details Calls: lock(), fetch_add().
+ */
 void WireProtocolServer::registerConnection(const std::string& remote_ip) {
     std::lock_guard<std::mutex> lock(connections_mutex_);
     connections_per_ip_[remote_ip]++;
     active_connection_count_.fetch_add(1, std::memory_order_relaxed);
 }
 
+/**
+ * @brief Unregister Connection.
+ * @param[in] remote_ip Input parameter.
+ * @details Calls: lock(), find(), end(), erase(), fetch_sub(), load(), store().
+ */
 void WireProtocolServer::unregisterConnection(const std::string& remote_ip) {
     bool was_registered = false;
     {
@@ -804,6 +934,10 @@ void WireProtocolServer::unregisterConnection(const std::string& remote_ip) {
     }
 }
 
+/**
+ * @brief Do Accept.
+ * @details Calls: load(), fetch_add(), tcp::socket(), async_accept(), handleAccept().
+ */
 void WireProtocolServer::doAccept() {
     if (!running_.load(std::memory_order_acquire)) {
       return;
@@ -821,6 +955,12 @@ void WireProtocolServer::doAccept() {
         });
 }
 
+/**
+ * @brief Handle Accept.
+ * @param[in] session Input parameter.
+ * @param[in] error Input parameter.
+ * @details Calls: remote_endpoint(), address(), to_string(), what(), checkConnectionLimit(), close(), exchange(), load().
+ */
 void WireProtocolServer::handleAccept(std::shared_ptr<Session> session, const boost::system::error_code& error) {
     if (!error) {
         // Get remote IP from accepted socket
@@ -900,6 +1040,10 @@ WireProtocolServer::Session::~Session() {
     close();
 }
 
+/**
+ * @brief Start.
+ * @details Calls: remote_endpoint(), address(), to_string(), registerConnection(), startTimeout(), std::chrono::seconds(), asyncDetectProtocol(), asyncReadHeader().
+ */
 void WireProtocolServer::Session::start() {
     try {
         // Now that socket is accepted, we can get the remote endpoint
@@ -923,6 +1067,10 @@ void WireProtocolServer::Session::start() {
     asyncReadHeader();
 }
 
+/**
+ * @brief Close.
+ * @details Calls: exchange(), cancelTimeout(), is_open(), shutdown(), unregisterConnection(), lock(), erase().
+ */
 void WireProtocolServer::Session::close() {
     if (closed_.exchange(true, std::memory_order_acq_rel)) {
         return;
@@ -958,11 +1106,20 @@ std::string WireProtocolServer::Session::getRemoteIP() const {
     }
 }
 
+/**
+ * @brief Set Tenant.
+ * @param[in] tenant_id Identifier of the tenant.
+ * @details Calls: assignTenant().
+ */
 void WireProtocolServer::Session::setTenant(const std::string& tenant_id) {
     tenant_id_ = tenant_id;
     server_->qos_manager_.assignTenant(session_id_, tenant_id);
 }
 
+/**
+ * @brief Async Read Header.
+ * @details Calls: shared_from_this(), net::async_read(), net::buffer(), size(), std::memcpy(), ntohl(), sendError(), close().
+ */
 void WireProtocolServer::Session::asyncReadHeader() {
     auto self = shared_from_this();
     net::async_read(
@@ -1023,7 +1180,10 @@ void WireProtocolServer::Session::asyncReadHeader() {
 // WebSocket upgrade detection
 // ---------------------------------------------------------------------------
 
-// Step 1: read first 4 bytes to detect "GET " (HTTP) vs binary magic ("TMDB")
+/**
+ * @brief Step 1: read first 4 bytes to detect "GET " (HTTP) vs binary magic ("TMDB")
+ * @details Calls: shared_from_this(), net::async_read(), net::buffer(), data(), handleError(), std::copy(), begin(), asyncUpgradeToWebSocket().
+ */
 void WireProtocolServer::Session::asyncDetectProtocol() {
     auto self = shared_from_this();
     // Reuse the first 4 bytes of header_buffer_ as the peek buffer
@@ -1057,7 +1217,10 @@ void WireProtocolServer::Session::asyncDetectProtocol() {
         });
 }
 
-// Step 2a (binary): read remaining 8 header bytes after the first 4 were peeked
+/**
+ * @brief Step 2a (binary): read remaining 8 header bytes after the first 4 were peeked
+ * @details Calls: shared_from_this(), net::async_read(), net::buffer(), data(), std::memcpy(), ntohl(), sendError(), close().
+ */
 void WireProtocolServer::Session::asyncReadRemainingHeader() {
     auto self = shared_from_this();
     // header_buffer_[0..3] already filled; read bytes [4..11]
@@ -1175,6 +1338,11 @@ void WireProtocolServer::Session::asyncUpgradeToWebSocket(
 }
 #endif // THEMIS_ENABLE_WEBSOCKET
 
+/**
+ * @brief Async Read Payload.
+ * @param[in] payload_size Input parameter.
+ * @details Calls: clear(), asyncReadChecksum(), handleMessage(), asyncReadHeader(), resize(), shared_from_this(), net::async_read(), net::buffer().
+ */
 void WireProtocolServer::Session::asyncReadPayload(uint32_t payload_size) {
     if (payload_size == 0) {
         // No payload, check if we need to read checksum
@@ -1217,6 +1385,10 @@ void WireProtocolServer::Session::asyncReadPayload(uint32_t payload_size) {
         });
 }
 
+/**
+ * @brief Async Read Checksum.
+ * @details Calls: shared_from_this(), net::async_read(), net::buffer(), ntohl(), crc32Update(), data(), size(), empty().
+ */
 void WireProtocolServer::Session::asyncReadChecksum() {
     auto self = shared_from_this();
     net::async_read(
@@ -1305,6 +1477,10 @@ void WireProtocolServer::Session::dispatchToWorkerPool(std::function<void()> han
     }
 }
 
+/**
+ * @brief Handle Message.
+ * @details Calls: fetch_add(), size(), sendError(), handleHello(), handleAuthRequest(), handleGet(), handlePut(), handleDelete().
+ */
 void WireProtocolServer::Session::handleMessage() {
     requests_processed_.fetch_add(1, std::memory_order_relaxed);
     bytes_received_.fetch_add(header_buffer_.size() + payload_buffer_.size() , std::memory_order_relaxed);
@@ -1401,6 +1577,12 @@ void WireProtocolServer::Session::handleMessage() {
     }
 }
 
+/**
+ * @brief Send Error.
+ * @param[in] error_code Input parameter.
+ * @param[in] message Input parameter.
+ * @details Calls: dump(), error_data(), begin(), end(), asyncWriteResponse().
+ */
 void WireProtocolServer::Session::sendError(uint32_t error_code, const std::string& message) {
     // Build error response with header
     json error_json;
@@ -1413,6 +1595,10 @@ void WireProtocolServer::Session::sendError(uint32_t error_code, const std::stri
     asyncWriteResponse(error_data);
 }
 
+/**
+ * @brief Handle Ping.
+ * @details Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), dump(), response_data(), begin(), end(), asyncWriteResponse().
+ */
 void WireProtocolServer::Session::handlePing() {
     // Simple ping response
     json response;
@@ -1426,10 +1612,20 @@ void WireProtocolServer::Session::handlePing() {
     asyncWriteResponse(response_data);
 }
 
+/**
+ * @brief Handle Close.
+ * @details Calls: close().
+ */
 void WireProtocolServer::Session::handleClose() {
     close();
 }
 
+/**
+ * @brief Handle Error.
+ * @param[in] context Input parameter.
+ * @param[in] ec Input parameter.
+ * @details Calls: close().
+ */
 void WireProtocolServer::Session::handleError(const std::string& context, const boost::system::error_code& ec) {
     if (ec != net::error::operation_aborted) {
         // Log error
@@ -1437,6 +1633,11 @@ void WireProtocolServer::Session::handleError(const std::string& context, const 
     close();
 }
 
+/**
+ * @brief Start Timeout.
+ * @param[in] timeout Input parameter.
+ * @details Calls: shared_from_this(), async_wait(), close().
+ */
 void WireProtocolServer::Session::startTimeout(std::chrono::seconds timeout) {
     timeout_timer_ = std::make_unique<net::steady_timer>(*server_->io_context_, timeout);
     auto self = shared_from_this();
@@ -1447,12 +1648,21 @@ void WireProtocolServer::Session::startTimeout(std::chrono::seconds timeout) {
     });
 }
 
+/**
+ * @brief Cancel Timeout.
+ * @details Calls: cancel().
+ */
 void WireProtocolServer::Session::cancelTimeout() {
     if (timeout_timer_) {
         timeout_timer_->cancel();
     }
 }
 
+/**
+ * @brief Async Write Response.
+ * @param[in] data Input parameter.
+ * @details Calls: shared_from_this(), net::dispatch(), get_executor(), std::move(), lock(), push_back(), doWrite().
+ */
 void WireProtocolServer::Session::asyncWriteResponse(const std::vector<uint8_t>& data) {
     // Enqueue under the write mutex, then dispatch to the socket's executor so that
     // doWrite() is always initiated from the correct I/O thread (required by Boost.Asio).
@@ -1475,6 +1685,10 @@ void WireProtocolServer::Session::asyncWriteResponse(const std::vector<uint8_t>&
     });
 }
 
+/**
+ * @brief Do Write.
+ * @details Calls: lock(), empty(), std::move(), front(), pop_front(), shared_from_this(), net::async_write(), net::buffer().
+ */
 void WireProtocolServer::Session::doWrite() {
     std::shared_ptr<std::vector<uint8_t>> write_buffer;
     {
@@ -1509,6 +1723,10 @@ void WireProtocolServer::Session::doWrite() {
 // Message Handler Implementations
 // =============================================================================
 
+/**
+ * @brief Handle Hello.
+ * @details Calls: json::array(), dump(), response_data(), begin(), end(), asyncWriteResponse(), sendError(), std::string().
+ */
 void WireProtocolServer::Session::handleHello() {
     // HELLO handshake: return server capabilities and version information.
     // No authentication is required for HELLO – it must be the first message
@@ -1537,6 +1755,10 @@ void WireProtocolServer::Session::handleHello() {
     }
 }
 
+/**
+ * @brief Handle Auth Request.
+ * @details Calls: empty(), size(), sendError(), parsePayloadJsonWithRetry(), is_object(), contains(), is_string(), value().
+ */
 void WireProtocolServer::Session::handleAuthRequest() {
     // Token-based authentication.
     // Expected payload (JSON): {"token": "<bearer-token>", "username": "<optional>"}
@@ -1626,6 +1848,11 @@ void WireProtocolServer::Session::handleAuthRequest() {
     }
 }
 
+/**
+ * @brief Handle Get.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: load(), sendError(), size(), parsePayloadJsonWithRetry(), is_object(), contains(), is_string(), value().
+ */
 void WireProtocolServer::Session::handleGet() {
     // GET: retrieve a document by collection and key from RocksDB.
     // Expected payload (JSON): {"collection": "...", "key": "..."}
@@ -1700,6 +1927,11 @@ void WireProtocolServer::Session::handleGet() {
     }
 }
 
+/**
+ * @brief Handle Put.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: load(), sendError(), size(), parsePayloadJsonWithRetry(), is_object(), contains(), is_string(), value().
+ */
 void WireProtocolServer::Session::handlePut() {
     // PUT: store a document by collection and key in RocksDB.
     // Expected payload (JSON): {"collection": "...", "key": "...", "value": {...}}
@@ -1771,6 +2003,11 @@ void WireProtocolServer::Session::handlePut() {
     }
 }
 
+/**
+ * @brief Handle Delete.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: load(), sendError(), size(), parsePayloadJsonWithRetry(), is_object(), contains(), is_string(), value().
+ */
 void WireProtocolServer::Session::handleDelete() {
     // DELETE: remove a document by collection and key from RocksDB.
     // Expected payload (JSON): {"collection": "...", "key": "..."}
@@ -1830,6 +2067,11 @@ void WireProtocolServer::Session::handleDelete() {
     }
 }
 
+/**
+ * @brief Handle Batch Get.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: load(), sendError(), size(), parsePayloadJsonWithRetry(), is_object(), contains(), is_string(), value().
+ */
 void WireProtocolServer::Session::handleBatchGet() {
     // BATCH_GET: retrieve multiple documents by collection and key list.
     // Expected payload (JSON): {"collection": "...", "keys": ["key1", "key2", ...]}
@@ -1950,6 +2192,11 @@ void WireProtocolServer::Session::handleBatchGet() {
     }
 }
 
+/**
+ * @brief Handle Batch Put.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: load(), sendError(), size(), parsePayloadJsonWithRetry(), is_object(), contains(), is_string(), value().
+ */
 void WireProtocolServer::Session::handleBatchPut() {
     // BATCH_PUT: store multiple documents by collection.
     // Expected payload (JSON): {"collection": "...", "items": [{"key": "...", "value": {...}}, ...]}
@@ -2111,6 +2358,11 @@ void WireProtocolServer::Session::handleBatchPut() {
     }
 }
 
+/**
+ * @brief Handle Transaction Begin.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: load(), sendError(), size(), parsePayloadJsonWithRetry(), is_object(), contains(), is_string(), is_number_integer().
+ */
 void WireProtocolServer::Session::handleTransactionBegin() {
     // TRANSACTION_BEGIN: begin a new transaction.
     // Expected payload (JSON): {"isolation_level": "read_committed|snapshot|serializable", "timeout_ms": 5000}
@@ -2183,6 +2435,11 @@ void WireProtocolServer::Session::handleTransactionBegin() {
     }
 }
 
+/**
+ * @brief Handle Transaction Commit.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: load(), sendError(), size(), parsePayloadJsonWithRetry(), is_object(), contains(), is_string(), value().
+ */
 void WireProtocolServer::Session::handleTransactionCommit() {
     // TRANSACTION_COMMIT: commit an open transaction.
     // Expected payload (JSON): {"transaction_id": "<numeric-string>"}
@@ -2251,6 +2508,11 @@ void WireProtocolServer::Session::handleTransactionCommit() {
     }
 }
 
+/**
+ * @brief Handle Transaction Abort.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: load(), sendError(), size(), parsePayloadJsonWithRetry(), is_object(), contains(), is_string(), value().
+ */
 void WireProtocolServer::Session::handleTransactionAbort() {
     // TRANSACTION_ABORT: abort/roll back an open transaction.
     // Expected payload (JSON): {"transaction_id": "<numeric-string>"}
@@ -2315,6 +2577,10 @@ void WireProtocolServer::Session::handleTransactionAbort() {
     }
 }
 
+/**
+ * @brief Handle Graph Traverse.
+ * @details Calls: load(), sendError(), size(), parsePayloadJsonWithRetry(), is_object(), contains(), is_string(), is_number_integer().
+ */
 void WireProtocolServer::Session::handleGraphTraverse() {
     // GRAPH_TRAVERSE: traverse graph edges from a start vertex.
     // Expected payload (JSON):
@@ -2458,6 +2724,10 @@ void WireProtocolServer::Session::handleGraphTraverse() {
     }
 }
 
+/**
+ * @brief Handle Query.
+ * @details Calls: load(), sendError(), size(), parsePayloadJsonWithRetry(), is_object(), contains(), is_string(), is_number_integer().
+ */
 void WireProtocolServer::Session::handleQuery() {
     // QUERY_AQL: execute an AQL query string.
     // Expected payload (JSON): {"query": "FOR doc IN collection RETURN doc", "bind_vars": {...}}
@@ -2583,6 +2853,10 @@ void WireProtocolServer::Session::handleQuery() {
     }
 }
 
+/**
+ * @brief Handle Cursor Next.
+ * @details Calls: load(), sendError(), size(), parsePayloadJsonWithRetry(), is_object(), contains(), is_string(), is_number_integer().
+ */
 void WireProtocolServer::Session::handleCursorNext() {
     // CURSOR_NEXT: fetch the next batch of results from an open AQL query cursor.
     // Expected payload (JSON): {"cursor_id": "...", "batch_size": 100}
@@ -2680,6 +2954,10 @@ void WireProtocolServer::Session::handleCursorNext() {
     }
 }
 
+/**
+ * @brief Handle Cursor Close.
+ * @details Calls: load(), sendError(), size(), parsePayloadJsonWithRetry(), is_object(), contains(), is_string(), value().
+ */
 void WireProtocolServer::Session::handleCursorClose() {
     // CURSOR_CLOSE: close an open AQL query cursor and free server-side resources.
     // Expected payload (JSON): {"cursor_id": "..."}
@@ -2733,6 +3011,10 @@ void WireProtocolServer::Session::handleCursorClose() {
     }
 }
 
+/**
+ * @brief Handle Vector Search.
+ * @details Calls: load(), sendError(), parsePayloadJsonWithRetry(), contains(), is_number_integer(), is_string(), value(), empty().
+ */
 void WireProtocolServer::Session::handleVectorSearch() {
     // VECTOR_SEARCH: k-nearest-neighbour search via VectorIndexManager.
     // Expected payload (JSON):
@@ -2840,6 +3122,10 @@ void WireProtocolServer::Session::handleVectorSearch() {
     }
 }
 
+/**
+ * @brief Handle Geo Query.
+ * @details Calls: load(), sendError(), parsePayloadJsonWithRetry(), contains(), is_string(), is_number_integer(), value(), empty().
+ */
 void WireProtocolServer::Session::handleGeoQuery() {
     // GEO_QUERY: geospatial proximity / containment queries.
     // Expected payload (JSON):
@@ -3123,6 +3409,10 @@ void WireProtocolServer::Session::handleGeoQuery() {
     }
 }
 
+/**
+ * @brief Handle Timeseries Query.
+ * @details Calls: load(), sendError(), TimeSeriesQueryRequest::parse(), empty(), isReasonableWireIdentifier(), isBlankString(), max(), std::chrono::high_resolution_clock::now().
+ */
 void WireProtocolServer::Session::handleTimeseriesQuery() {
     if (!authenticated_.load()) {
         sendError(401, "Authentication required");
@@ -3443,13 +3733,25 @@ void WireProtocolServer::Session::handleTimeseriesQuery() {
 // =============================================================================
 
 namespace {
-    // Helper to parse JSON from payload buffer
+    /**
+     * @brief Helper to parse JSON from payload buffer
+     * @param[in] payload_buffer Input parameter.
+     * @return Return value.
+     * @details Calls: payload_str(), begin(), end(), json::parse().
+     */
     json parsePayloadJson(const std::vector<uint8_t>& payload_buffer) {
         std::string payload_str(payload_buffer.begin(), payload_buffer.end());
         return json::parse(payload_str);
     }
 
-    // Retry parsing a bounded number of times for transient/incomplete payload edge cases.
+    /**
+     * @brief Retry parsing a bounded number of times for transient/incomplete payload edge cases.
+     * @param[in] payload_buffer Input parameter.
+     * @param[in] max_attempts Input parameter.
+     * @return Return value.
+     * @throws std::runtime_error if an error occurs.
+     * @details Calls: payload_str(), begin(), end(), std::max(), json::parse(), std::current_exception(), std::rethrow_exception().
+     */
     json parsePayloadJsonWithRetry(const std::vector<uint8_t>& payload_buffer, int max_attempts) {
         std::string payload_str(payload_buffer.begin(), payload_buffer.end());
         std::exception_ptr last_error = {};
@@ -3471,6 +3773,11 @@ namespace {
     }
 }
 
+/**
+ * @brief Handle Bpmn Start Process.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: load(), sendError(), size(), parsePayloadJsonWithRetry(), is_object(), contains(), is_string(), value().
+ */
 void WireProtocolServer::Session::handleBpmnStartProcess() {
     if (!authenticated_.load()) {
         sendError(401, "Authentication required");
@@ -3607,6 +3914,11 @@ void WireProtocolServer::Session::handleBpmnStartProcess() {
     }
 }
 
+/**
+ * @brief Handle Bpmn Task Complete.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: load(), sendError(), size(), parsePayloadJsonWithRetry(), is_object(), contains(), is_string(), value().
+ */
 void WireProtocolServer::Session::handleBpmnTaskComplete() {
     if (!authenticated_.load()) {
         sendError(401, "Authentication required");
@@ -3747,6 +4059,11 @@ void WireProtocolServer::Session::handleBpmnTaskComplete() {
     }
 }
 
+/**
+ * @brief Handle Bpmn Query Instance.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: load(), sendError(), size(), parsePayloadJsonWithRetry(), is_object(), contains(), is_string(), is_boolean().
+ */
 void WireProtocolServer::Session::handleBpmnQueryInstance() {
     if (!authenticated_.load()) {
         sendError(401, "Authentication required");

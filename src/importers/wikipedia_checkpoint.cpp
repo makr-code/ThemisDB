@@ -16,6 +16,11 @@ namespace themis::importers {
 WikipediaCheckpointStore::WikipediaCheckpointStore(std::string path)
     : path_(std::move(path)) {}
 
+/**
+ * @brief Set Path.
+ * @param[in] path Input parameter.
+ * @details Calls: std::move().
+ */
 void WikipediaCheckpointStore::setPath(std::string path) {
     path_ = std::move(path);
 }
@@ -37,6 +42,11 @@ WikipediaCheckpointState WikipediaCheckpointStore::load() const {
         return {};
     }
 
+    /**
+     * @brief Input.
+     * @param[in] path_ Input parameter.
+     * @return Return value.
+     */
     std::ifstream input(path_);
     if (!input.is_open()) {
         return {};
@@ -57,6 +67,11 @@ bool WikipediaCheckpointStore::save(const WikipediaCheckpointState& state) const
         std::filesystem::create_directories(parent);
     }
 
+    /**
+     * @brief Output.
+     * @param[in] path_ Input parameter.
+     * @return Return value.
+     */
     std::ofstream output(path_);
     if (!output.is_open()) {
         return false;

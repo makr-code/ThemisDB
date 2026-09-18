@@ -77,6 +77,12 @@ int NumaTopology::local_node() const noexcept {
 
 #ifdef __linux__
 
+/**
+ * @brief Parse cpu list.
+ * @param[in] list_str Input parameter.
+ * @return Return value.
+ * @details Calls: ss(), std::getline(), find(), push_back(), std::stoi(), substr().
+ */
 static std::vector<int> parse_cpu_list(const std::string& list_str) {
     std::vector<int> cpus;
     std::stringstream ss(list_str);
@@ -99,6 +105,12 @@ static std::vector<int> parse_cpu_list(const std::string& list_str) {
     return cpus;
 }
 
+/**
+ * @brief Read sysfs file.
+ * @param[in] path Input parameter.
+ * @return Return value.
+ * @details Calls: f(), is_open(), std::getline(), empty(), back(), pop_back().
+ */
 static std::string read_sysfs_file(const std::string& path) {
     std::ifstream f(path);
     if (!f.is_open()) return {};
@@ -165,6 +177,11 @@ static NumaTopology detect_linux() noexcept {
             std::string line = {};
             while (std::getline(meminfo, line)) {
                 if (line.find("MemTotal") != std::string::npos) {
+                    /**
+                     * @brief Iss.
+                     * @param[in] line Input parameter.
+                     * @return Return value.
+                     */
                     std::istringstream iss(line);
                     std::string tok = {};
                     uint64_t kb = 0;
@@ -181,6 +198,11 @@ static NumaTopology detect_linux() noexcept {
         // Distances
         std::string dist_str = read_sysfs_file(base + "/distance");
         if (!dist_str.empty()) {
+            /**
+             * @brief Iss.
+             * @param[in] dist_str Input parameter.
+             * @return Return value.
+             */
             std::istringstream iss(dist_str);
             int d = 0;
             while (iss >> d) {
@@ -282,6 +304,11 @@ const NumaTopology& NumaTopologyDetector::detect() noexcept {
     if (g_topo_valid.load(std::memory_order_acquire)) {
         return g_cached_topo;
     }
+    /**
+     * @brief Lk.
+     * @param[in] g_topo_mutex Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(g_topo_mutex);
     if (!g_topo_valid.load(std::memory_order_relaxed)) {
         g_cached_topo = detect_impl();
@@ -291,6 +318,11 @@ const NumaTopology& NumaTopologyDetector::detect() noexcept {
 }
 
 void NumaTopologyDetector::invalidate_cache() noexcept {
+    /**
+     * @brief Lk.
+     * @param[in] g_topo_mutex Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(g_topo_mutex);
     g_topo_valid.store(false, std::memory_order_relaxed);
 }

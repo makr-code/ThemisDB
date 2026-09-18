@@ -35,9 +35,6 @@ namespace themis {
 namespace llm {
 namespace lora {
 
-/**
- * @brief Training data sample
- */
 struct TrainingDataSample {
     std::string input;          // Input text or prompt
     std::string output;         // Expected output or completion
@@ -51,6 +48,12 @@ struct TrainingDataSample {
         };
     }
     
+    /**
+     * @brief From JSON.
+     * @param[in] j Input parameter.
+     * @return Return value.
+     * @details Calls: contains().
+     */
     static TrainingDataSample fromJSON(const json& j) {
         TrainingDataSample sample = {};
         if (j.contains("input")) {
@@ -66,9 +69,6 @@ struct TrainingDataSample {
     }
 };
 
-/**
- * @brief Training dataset
- */
 struct TrainingData {
     std::vector<TrainingDataSample> samples;
     std::string dataset_name = {};
@@ -87,6 +87,12 @@ struct TrainingData {
         return j;
     }
     
+    /**
+     * @brief From JSON.
+     * @param[in] j Input parameter.
+     * @return Return value.
+     * @details Calls: contains(), push_back().
+     */
     static TrainingData fromJSON(const json& j) {
         TrainingData data = {};
         if (j.contains("dataset_name")) {
@@ -104,10 +110,11 @@ struct TrainingData {
     }
 };
 
-/**
- * @brief Training result
- */
 struct TrainingResult {
+    /**
+     * @brief Training Result.
+     * @return Return value.
+     */
     virtual ~TrainingResult() = default;
     bool success = false;
     std::string adapter_id;
@@ -134,10 +141,11 @@ struct TrainingResult {
     }
 };
 
-/**
- * @brief Training metrics
- */
 struct TrainingMetrics {
+    /**
+     * @brief Training Metrics.
+     * @return Return value.
+     */
     virtual ~TrainingMetrics() = default;
     int current_epoch = 0;
     int total_epochs = 0;
@@ -162,25 +170,10 @@ struct TrainingMetrics {
     }
 };
 
-/**
- * @brief Callback for training progress
- */
 using TrainingCallback = std::function<void(const TrainingMetrics&)>;
 
-/**
- * @brief Manages LoRA adapter training
- * 
- * Features:
- * - On-the-fly training
- * - Batch training
- * - Configuration management
- * - Progress monitoring
- */
 class LoRATrainingService {
 public:
-    /**
-     * @brief Configuration for training service
-     */
     struct Config {
         LoRAHyperparameters default_hyperparameters;
         std::string base_model_path = "models/default.gguf";
@@ -193,18 +186,6 @@ public:
         std::vector<std::string> target_modules = {"attention.wq", "attention.wv"};  // Layers to adapt
         bool use_base_model = false;         // Enable base model integration (Phase 2b)
 
-        /**
-         * @brief Optional model-path resolver.
-         *
-         * When set, this function is called with a model identifier (e.g. the
-         * base_model_path stem) to return the actual filesystem path of the GGUF
-         * file.  Implement with LLMModelStorage::resolveGGUFPath() or any other
-         * model registry.  When nullptr the raw @p base_model_path string is used
-         * directly, preserving backward-compatible behaviour.
-         *
-         * @param model_id  Model identifier string.
-         * @return Absolute or relative path to the GGUF file.
-         */
         using ModelPathProviderFn = std::function<std::string(const std::string& model_id)>;
         ModelPathProviderFn model_path_provider;
         
@@ -228,7 +209,16 @@ public:
         bool auto_discover_shards = true;          // Auto-discover shards from topology
     };
     
+    /**
+     * @brief Lo RATraining Service.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit LoRATrainingService(const Config& config);
+    /**
+     * @brief Lo RATraining Service.
+     * @return Return value.
+     */
     explicit LoRATrainingService();
     ~LoRATrainingService() noexcept;
     
@@ -236,26 +226,12 @@ public:
     LoRATrainingService(const LoRATrainingService&) = delete;
     LoRATrainingService& operator=(const LoRATrainingService&) = delete;
     
-    /**
-     * @brief Train adapter on-the-fly with small dataset
-     * @param adapter_id Adapter identifier
-     * @param data Training data
-     * @param hyperparameters LoRA hyperparameters (optional)
-     * @return Training result
-     */
     TrainingResult trainOnTheFly(
         const std::string& adapter_id,
         const TrainingData& data,
         const std::optional<LoRAHyperparameters>& hyperparameters = std::nullopt
     );
     
-    /**
-     * @brief Train adapter with batch processing
-     * @param adapter_id Adapter identifier
-     * @param dataset Large training dataset
-     * @param hyperparameters LoRA hyperparameters (optional)
-     * @return Training result
-     */
     TrainingResult trainBatch(
         const std::string& adapter_id,
         const std::vector<TrainingData>& dataset,
@@ -263,79 +239,58 @@ public:
     );
     
     /**
-     * @brief Set training configuration
-     * @param config Training configuration
+     * @brief Set Training Config.
+     * @param[in] config Input parameter.
      */
     void setTrainingConfig(const Config& config);
     
     /**
-     * @brief Get training configuration
-     * @return Current configuration
+     * @brief Get Training Config.
+     * @return Return value.
      */
     Config getTrainingConfig() const;
     
     /**
-     * @brief Set hyperparameters for training
-     * @param hyperparameters LoRA hyperparameters
+     * @brief Set Hyperparameters.
+     * @param[in] hyperparameters Input parameter.
      */
     void setHyperparameters(const LoRAHyperparameters& hyperparameters);
     
     /**
-     * @brief Get current hyperparameters
-     * @return LoRA hyperparameters
+     * @brief Get Hyperparameters.
+     * @return Return value.
      */
     LoRAHyperparameters getHyperparameters() const;
     
     /**
-     * @brief Get current training metrics
-     * @return Training metrics
+     * @brief Get Metrics.
+     * @return Return value.
      */
     TrainingMetrics getMetrics() const;
     
     /**
-     * @brief Register callback for training progress
-     * @param callback Callback function
+     * @brief Register Callback.
+     * @param[in] callback Input parameter.
      */
     void registerCallback(TrainingCallback callback);
     
     /**
-     * @brief Check if training is in progress
-     * @return true if training
+     * @brief Is Training.
+     * @return True when the operation succeeds.
      */
     bool isTraining() const;
     
     /**
-     * @brief Stop current training
+     * @brief Stop Training.
      */
     void stopTraining();
     
-    /**
-     * @brief Train adapter with QLoRA (quantized base model)
-     * @param adapter_id Adapter identifier
-     * @param data Training data
-     * @param hyperparameters LoRA hyperparameters (optional)
-     * @return Training result
-     */
     TrainingResult trainWithQuantization(
         const std::string& adapter_id,
         const TrainingData& data,
         const std::optional<LoRAHyperparameters>& hyperparameters = std::nullopt
     );
     
-    /**
-     * @brief Train adapter in distributed mode across multiple shards
-     * 
-     * Coordinates distributed training across shards with:
-     * - Gradient synchronization and aggregation
-     * - Fault tolerance (shard failures)
-     * - Checkpointing and recovery
-     * - Byzantine fault detection
-     * 
-     * @param adapter_id Adapter identifier
-     * @param data Training data (distributed across shards)
-     * @param hyperparameters LoRA hyperparameters (optional)
-     * @return Training result with distributed statistics
-     */
     TrainingResult trainDistributed(
         const std::string& adapter_id,
         const TrainingData& data,
@@ -346,12 +301,11 @@ private:
     class Impl;
     std::unique_ptr<Impl> impl_;
     
-    // Helper methods for QLoRA
     /**
-     * @brief Create QLoRA layers for training
-     * @param model Quantized base model
-     * @param rank LoRA rank
-     * @return Vector of QLoRA layers
+     * @brief Helper methods for QLoRA
+     * @param[in] model Input parameter.
+     * @param[in] rank Input parameter.
+     * @return Return value.
      */
     std::vector<std::unique_ptr<class QLoRALayer>> createQLoRALayers(
         const class QuantizedModel& model,
@@ -359,10 +313,10 @@ private:
     );
     
     /**
-     * @brief Load and optionally quantize base model
-     * @param model_path Path to base model
-     * @param config QLoRA configuration
-     * @return Quantized model
+     * @brief Load Quantized Base Model.
+     * @param[in] model_path Path to the model.
+     * @param[in] config Input parameter.
+     * @return Return value.
      */
     std::unique_ptr<class QuantizedModel> loadQuantizedBaseModel(
         const std::string& model_path,
@@ -371,29 +325,24 @@ private:
 
     // ─── ModelPathProvider bridge (stub #289) ────────────────────────────────
 
-    /// @brief Type alias for model path lookup injection.
     using ModelPathProviderFn = std::function<std::string(const std::string& model_name)>;
 
     /**
-     * @brief Install a model path lookup callback for loadQuantizedBaseModel().
-     *
-     * When set, loadQuantizedBaseModel() calls this function to resolve the GGUF
-     * file path for a given model name instead of relying on the caller-provided
-     * path.  Replaces the synthetic 3-layer fallback when the path is not found.
-     * @param fn Callable receiving a model name → resolved absolute file path.
+     * @brief Set Model Path Provider Fn.
+     * @param[in] fn Input parameter.
      */
     static void setModelPathProviderFn(ModelPathProviderFn fn);
 
     /**
-     * @brief Remove the model path lookup bridge (reverts to caller-supplied path).
+     * @brief Clear Model Path Provider Fn.
      */
     static void clearModelPathProviderFn();
     
     /**
-     * @brief Estimate memory usage for QLoRA training
-     * @param model_path Path to base model
-     * @param config QLoRA configuration
-     * @return Estimated memory in bytes
+     * @brief Estimate Memory Usage.
+     * @param[in] model_path Path to the model.
+     * @param[in] config Input parameter.
+     * @return Return value.
      */
     size_t estimateMemoryUsage(
         const std::string& model_path,

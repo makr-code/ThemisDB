@@ -34,40 +34,8 @@ namespace http = beast::http;
 // Bring nested AuthMiddleware types into scope for use in this namespace
 using AuthContext = AuthMiddleware::AuthContext;
 
-/**
- * @brief API Gateway - Unified entry point for all API requests
- * 
- * The API Gateway provides:
- * - Request routing to appropriate backend services/shards
- * - Load balancing across multiple backends
- * - Authentication and authorization
- * - Rate limiting and load shedding
- * - Circuit breaking for failing backends
- * - Request/response transformation
- * - Metrics and monitoring
- * - Query federation for distributed queries
- * 
- * Architecture:
- * ```
- * Client → API Gateway → [Auth] → [Rate Limit] → [Load Shedding] 
- *                           ↓
- *                      Route Decision
- *                           ↓
- *         ┌────────────────┴────────────────┐
- *         ↓                                   ↓
- *   Local Handler                      Shard Router
- *   (Single Node)                      (Distributed)
- *         ↓                                   ↓
- *   Response Aggregation ←──────────────────┘
- *         ↓
- *     Client
- * ```
- */
 class APIGateway {
 public:
-    /**
-     * @brief Configuration for API Gateway
-     */
     struct Config {
         // Gateway identity
         std::string gateway_id = "gateway-001";
@@ -104,9 +72,6 @@ public:
         std::vector<std::string> trusted_proxies;  // Trusted proxy IPs (empty = trust all)
     };
     
-    /**
-     * @brief Route target for requests
-     */
     enum class RouteTarget {
         LOCAL,          // Execute on local node
         SHARD,          // Route to specific shard
@@ -114,16 +79,6 @@ public:
         FEDERATION      // Execute federated query across shards
     };
     
-    /**
-     * @brief Construct API Gateway
-     * 
-     * @param config Gateway configuration
-     * @param auth Authentication middleware
-     * @param rate_limiter Rate limiter instance (V1 - deprecated, prefer V2)
-     * @param load_shedder Load shedder instance
-     * @param shard_router Shard router for distributed requests (optional)
-     * @param metrics Prometheus metrics collector (optional)
-     */
     APIGateway(
         const Config& config,
         std::shared_ptr<AuthMiddleware> auth,
@@ -133,16 +88,6 @@ public:
         std::shared_ptr<sharding::PrometheusMetrics> metrics = nullptr
     );
     
-    /**
-     * @brief Construct API Gateway with V2 rate limiter (preferred)
-     * 
-     * @param config Gateway configuration
-     * @param auth Authentication middleware
-     * @param rate_limiter_v2 Rate limiter V2 with priority lanes
-     * @param load_shedder Load shedder instance
-     * @param shard_router Shard router for distributed requests (optional)
-     * @param metrics Prometheus metrics collector (optional)
-     */
     APIGateway(
         const Config& config,
         std::shared_ptr<AuthMiddleware> auth,
@@ -152,38 +97,16 @@ public:
         std::shared_ptr<sharding::PrometheusMetrics> metrics = nullptr
     );
     
-    /**
-     * @brief Route and handle incoming HTTP request
-     * 
-     * This is the main entry point for all requests. It:
-     * 1. Authenticates the request
-     * 2. Checks rate limits
-     * 3. Applies load shedding if needed
-     * 4. Determines routing target
-     * 5. Executes request (local or distributed)
-     * 6. Returns response
-     * 
-     * @param req HTTP request
-     * @param local_handler Function to handle local requests
-     * @return HTTP response
-     */
     http::response<http::string_body> handleRequest(
         const http::request<http::string_body>& req,
         std::function<http::response<http::string_body>(const http::request<http::string_body>&)> local_handler
     );
     
     /**
-     * @brief Execute federated query across shards
-     * 
-     * Executes a query that spans multiple shards:
-     * 1. Analyzes query to determine sharding strategy
-     * 2. Distributes query to relevant shards
-     * 3. Merges and aggregates results
-     * 4. Applies global ordering/pagination
-     * 
-     * @param query Query string (AQL format)
-     * @param auth_context Authentication context
-     * @return Query results
+     * @brief Execute Federated Query.
+     * @param[in] query Input parameter.
+     * @param[in] auth_context Input parameter.
+     * @return Return value.
      */
     nlohmann::json executeFederatedQuery(
         const std::string& query,
@@ -191,46 +114,32 @@ public:
     );
     
     /**
-     * @brief Get gateway statistics
-     * 
-     * @return Statistics including request counts, latencies, errors
+     * @brief Return access control statistics.
+     * @return Access control statistics.
      */
     nlohmann::json getStatistics() const;
     
     /**
-     * @brief Get gateway health status
-     * 
-     * @return Health status including component health
+     * @brief Get Health Status.
+     * @return Return value.
      */
     nlohmann::json getHealthStatus() const;
     
     /**
-     * @brief Update gateway configuration
-     * 
-     * @param config New configuration
+     * @brief Update the access control configuration.
+     * @param[in] config New access control configuration.
      */
     void updateConfig(const Config& config);
     
-    /**
-     * @brief Register local request handler for a path pattern
-     * 
-     * @param pattern Path pattern (e.g., "/api/v1/entities/{name}")
-     * @param handler Handler function
-     */
     void registerHandler(
         const std::string& pattern,
         std::function<http::response<http::string_body>(const http::request<http::string_body>&)> handler
     );
 
     /**
-     * @brief Register a deprecated API endpoint
-     * 
-     * Delegates to the internal APIVersionManager so callers can register
-     * endpoint deprecations that will cause the gateway to emit Deprecation,
-     * Sunset, and Link headers for the affected versions.
-     * 
-     * @param endpoint Endpoint path (e.g., "/api/v1/old-endpoint")
-     * @param info Deprecation details
+     * @brief Register Deprecation.
+     * @param[in] endpoint Input parameter.
+     * @param[in] info Input parameter.
      */
     void registerDeprecation(
         const std::string& endpoint,
@@ -267,55 +176,43 @@ private:
     std::atomic<uint64_t> federated_queries_{0};
     
     /**
-     * @brief Determine routing target for request
-     * 
-     * @param req HTTP request
-     * @return Route target
+     * @brief Determine Route Target.
+     * @param[in] req Input parameter.
+     * @return Return value.
      */
     RouteTarget determineRouteTarget(const http::request<http::string_body>& req);
     
     /**
-     * @brief Check if request should be rate limited
-     * 
-     * @param req HTTP request
-     * @return true if request should be allowed
+     * @brief Check whether a user exceeds the current rate limit.
+     * @param[in] req Input parameter.
+     * @return True when the user remains within the configured limit.
      */
     bool checkRateLimit(const http::request<http::string_body>& req);
     
     /**
-     * @brief Check if request should be load shed
-     * 
-     * @param req HTTP request
-     * @return true if request should be allowed
+     * @brief Check Load Shedding.
+     * @param[in] req Input parameter.
+     * @return True when the operation succeeds.
      */
     bool checkLoadShedding(const http::request<http::string_body>& req);
     
     /**
-     * @brief Get circuit breaker for a backend
-     * 
-     * @param backend_id Backend identifier
-     * @return Circuit breaker instance
+     * @brief Get Circuit Breaker.
+     * @param[in] backend_id Identifier of the backend.
+     * @return Return value.
      */
     std::shared_ptr<sharding::CircuitBreaker> getCircuitBreaker(const std::string& backend_id);
     
-    /**
-     * @brief Execute request on local node
-     * 
-     * @param req HTTP request
-     * @param handler Local request handler
-     * @return HTTP response
-     */
     http::response<http::string_body> executeLocal(
         const http::request<http::string_body>& req,
         std::function<http::response<http::string_body>(const http::request<http::string_body>&)> handler
     );
     
     /**
-     * @brief Execute request on remote shard
-     * 
-     * @param req HTTP request
-     * @param shard_id Target shard ID
-     * @return HTTP response
+     * @brief Execute Remote.
+     * @param[in] req Input parameter.
+     * @param[in] shard_id Identifier of the shard.
+     * @return Return value.
      */
     http::response<http::string_body> executeRemote(
         const http::request<http::string_body>& req,
@@ -323,21 +220,19 @@ private:
     );
     
     /**
-     * @brief Execute scatter-gather request across all shards
-     * 
-     * @param req HTTP request
-     * @return HTTP response with aggregated results
+     * @brief Execute Scatter Gather.
+     * @param[in] req Input parameter.
+     * @return Return value.
      */
     http::response<http::string_body> executeScatterGather(
         const http::request<http::string_body>& req
     );
     
     /**
-     * @brief Process API version headers and add response headers
-     * 
-     * @param req Request to parse version from
-     * @param response Response to add version headers to
-     * @return Resolved API version
+     * @brief Process Version Headers.
+     * @param[in] req Input parameter.
+     * @param[in,out] response Input/output parameter.
+     * @return Return value.
      */
     APIVersion processVersionHeaders(
         const http::request<http::string_body>& req,
@@ -345,11 +240,10 @@ private:
     );
     
     /**
-     * @brief Add deprecation headers if endpoint is deprecated
-     * 
-     * @param req Request
-     * @param response Response to add headers to
-     * @param version API version being used
+     * @brief Add Deprecation Headers.
+     * @param[in] req Input parameter.
+     * @param[in,out] response Input/output parameter.
+     * @param[in] version Input parameter.
      */
     void addDeprecationHeaders(
         const http::request<http::string_body>& req,
@@ -358,12 +252,11 @@ private:
     );
     
     /**
-     * @brief Make error response
-     * 
-     * @param status HTTP status code
-     * @param message Error message
-     * @param req Original request
-     * @return HTTP error response
+     * @brief Make Error Response.
+     * @param[in] status Input parameter.
+     * @param[in] message Input parameter.
+     * @param[in] req Input parameter.
+     * @return Return value.
      */
     http::response<http::string_body> makeErrorResponse(
         http::status status,
@@ -372,12 +265,11 @@ private:
     );
 
     /**
-     * @brief Make generic response
-     *
-     * @param status HTTP status code
-     * @param body Response body
-     * @param req Original request
-     * @return HTTP response
+     * @brief Make Response.
+     * @param[in] status Input parameter.
+     * @param[in] body Input parameter.
+     * @param[in] req Input parameter.
+     * @return Return value.
      */
     http::response<http::string_body> makeResponse(
         http::status status,
@@ -386,74 +278,38 @@ private:
     );
 
     /**
-     * @brief Extract the raw version string from a URL path prefix (e.g., /v1/ or /v2/)
-     *
-     * Recognises paths starting with /v{major}/, /v{major}.{minor}/,
-     * or /v{major}.{minor}.{patch}/ at the beginning of the path.
-     * Returns the raw version token as it appears in the URL (e.g., "v1", "v1.4",
-     * "v1.4.1") so that it can be passed directly to APIVersionManager::resolveVersion()
-     * for proper partial-version resolution (major-only → latest minor.patch).
-     * Query strings must already be stripped by the caller.
-     *
-     * @param path URL path without query string (e.g., "/v1/entities/123")
-     * @return Raw version string (e.g., "v1") if a version prefix is found, std::nullopt otherwise
+     * @brief Extract Version From Path.
+     * @param[in] path Input parameter.
+     * @return Return value.
      */
     std::optional<std::string> extractVersionFromPath(const std::string& path) const;
 
     /**
-     * @brief Strip version prefix from URL path
-     *
-     * Removes the leading /v{N}/ (or /v{N}.{M}/ etc.) segment so that
-     * downstream handlers and URN extractors see a clean, unversioned path.
-     *
-     * Examples:
-     *  - "/v1/entities/foo"  → "/entities/foo"
-     *  - "/v2/query/aql"     → "/query/aql"
-     *  - "/entities/foo"     → "/entities/foo"   (no-op)
-     *
-     * @param path URL path (e.g., "/v1/entities/123")
-     * @return Path without version prefix (e.g., "/entities/123")
+     * @brief Strip Version Prefix.
+     * @param[in] path Input parameter.
+     * @return Return value.
      */
     std::string stripVersionPrefix(const std::string& path) const;
 
     /**
-     * @brief Extract a urn:themis: URN from an HTTP request path
-     *
-     * Looks for either:
-     *  - /entities/{urn}   (entity endpoints)
-     *  - any path segment that starts with urn:themis:
-     *
-     * Query strings are stripped before returning.
-     *
-     * @param path HTTP target path (e.g. "/entities/urn:themis:...")
-     * @return Parsed URN if found and valid, std::nullopt otherwise
+     * @brief Extract Urn From Path.
+     * @param[in] path Input parameter.
+     * @return Return value.
      */
     std::optional<sharding::URN> extractUrnFromPath(const std::string& path) const;
 
     /**
-     * @brief Extract the real client IP address from a request
-     *
-     * When ThemisDB is deployed behind an external API gateway (Kong, Nginx),
-     * the actual client IP is propagated via the X-Real-IP or X-Forwarded-For
-     * headers.  This method returns the leftmost (originating) IP from those
-     * headers when enable_trusted_proxy_headers is set, otherwise falls back to
-     * a fixed placeholder (real peer address is not available at this layer).
-     *
-     * @param req HTTP request
-     * @return Client IP string, or empty string if unavailable
+     * @brief Extract Client Ip.
+     * @param[in] req Input parameter.
+     * @return Return value.
      */
     std::string extractClientIp(const http::request<http::string_body>& req) const;
 
     /**
-     * @brief Dispatch a shard operation using the shard router
-     *
-     * Performs GET/PUT/POST/DELETE on the shard router using the resolved URN,
-     * then wraps the result in an HTTP response. Falls back to a 404 response
-     * when the operation fails.
-     *
-     * @param urn     Resolved URN for the target entity
-     * @param req     Incoming HTTP request (method + body used)
-     * @return HTTP response (200 on success, 404/400 on failure)
+     * @brief Dispatch Shard Operation.
+     * @param[in] urn Input parameter.
+     * @param[in] req Input parameter.
+     * @return Return value.
      */
     http::response<http::string_body> dispatchShardOperation(
         const sharding::URN& urn,
@@ -461,12 +317,11 @@ private:
     );
 
     /**
-     * @brief Record request metrics
-     * 
-     * @param req Request
-     * @param response Response
-     * @param duration_ms Request duration in milliseconds
-     * @param target Route target used
+     * @brief Record Metrics.
+     * @param[in] req Input parameter.
+     * @param[in] response Input parameter.
+     * @param[in] duration_ms Input parameter.
+     * @param[in] target Input parameter.
      */
     void recordMetrics(
         const http::request<http::string_body>& req,

@@ -36,15 +36,6 @@ namespace {
 // Portable hash helper (matches blockchain_integrity module)
 // ─────────────────────────────────────────────────────────────────────────────
 
-/**
- * @brief Compute a deterministic, cross-platform SHA-256 hex digest of @p input.
- *
- * Uses OpenSSL's EVP interface for a real SHA-256 computation, guaranteeing
- * stable, cryptographically-sound output across all platforms and builds.
- * Returns a 64-character lowercase hex string.
- *
- * @throws std::runtime_error if the OpenSSL context cannot be allocated.
- */
 [[nodiscard]] static std::string portableSha256Hex(const std::string& input) {
     EVP_MD_CTX* ctx = EVP_MD_CTX_new();
     if (!ctx) {
@@ -74,10 +65,14 @@ namespace {
     return portableSha256Hex(left + right);
 }
 
-/// Generate a random UUID-like event identifier.
 [[nodiscard]] static std::string generateEventId() {
     static std::mutex rng_mu;
     static std::mt19937_64 rng{std::random_device{}()};
+    /**
+     * @brief Lock.
+     * @param[in] rng_mu Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(rng_mu);
     const uint64_t a = rng();
     const uint64_t b = rng();
@@ -97,19 +92,17 @@ namespace {
 // InMemoryAdapterDistributionStore
 // ─────────────────────────────────────────────────────────────────────────────
 
-/**
- * @brief Thread-safe in-memory implementation of IAdapterDistributionStore.
- *
- * Suitable for testing and single-node deployments.  For multi-node durability
- * this class should be replaced by a RocksDB-backed or metadata-shard-backed
- * implementation.
- */
 class InMemoryAdapterDistributionStore final : public IAdapterDistributionStore {
 public:
     [[nodiscard]] bool storeReceipt(const AdapterDistributionReceipt& receipt) override {
         if (receipt.event_id.empty()) {
             throw std::invalid_argument("storeReceipt: event_id must not be empty");
         }
+        /**
+         * @brief Lock.
+         * @param[in] mu_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock lock(mu_);
         if (receipts_.count(receipt.event_id)) {
             return false; // idempotent: already stored
@@ -121,6 +114,11 @@ public:
 
     [[nodiscard]] std::optional<AdapterDistributionReceipt> getReceipt(
         const DistributionEventId& event_id) const override {
+        /**
+         * @brief Lock.
+         * @param[in] mu_ Input parameter.
+         * @return Return value.
+         */
         std::shared_lock lock(mu_);
         auto it = receipts_.find(event_id);
         if (it == receipts_.end()) {
@@ -134,6 +132,11 @@ public:
         ArtifactDistributionStatus new_status,
         const std::string& target_signature = {},
         const std::string& error_message = {}) override {
+        /**
+         * @brief Lock.
+         * @param[in] mu_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock lock(mu_);
         auto it = receipts_.find(event_id);
         if (it == receipts_.end()) {
@@ -155,6 +158,11 @@ public:
     [[nodiscard]] std::vector<AdapterDistributionReceipt> listReceiptsForShard(
         const DistributionShardId& shard_id,
         std::optional<ArtifactDistributionStatus> status) const override {
+        /**
+         * @brief Lock.
+         * @param[in] mu_ Input parameter.
+         * @return Return value.
+         */
         std::shared_lock lock(mu_);
         std::vector<AdapterDistributionReceipt> result;
         auto it = shard_event_index_.find(shard_id);
@@ -178,6 +186,11 @@ public:
         if (snapshot.snapshot_id.empty()) {
             throw std::invalid_argument("storeSnapshot: snapshot_id must not be empty");
         }
+        /**
+         * @brief Lock.
+         * @param[in] mu_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock lock(mu_);
         if (snapshots_.count(snapshot.snapshot_id)) {
             return false; // idempotent
@@ -194,6 +207,11 @@ public:
 
     [[nodiscard]] std::optional<ShardDistributionSnapshot> getLatestSnapshot(
         const DistributionShardId& shard_id) const override {
+        /**
+         * @brief Lock.
+         * @param[in] mu_ Input parameter.
+         * @return Return value.
+         */
         std::shared_lock lock(mu_);
         auto it = latest_snapshot_per_shard_.find(shard_id);
         if (it == latest_snapshot_per_shard_.end()) {
@@ -205,6 +223,11 @@ public:
     [[nodiscard]] uint64_t countReceiptsSinceSnapshot(
         const DistributionShardId& shard_id,
         uint64_t after_count) const override {
+        /**
+         * @brief Lock.
+         * @param[in] mu_ Input parameter.
+         * @return Return value.
+         */
         std::shared_lock lock(mu_);
         auto it = shard_event_index_.find(shard_id);
         if (it == shard_event_index_.end()) {
@@ -224,7 +247,6 @@ public:
 private:
     mutable std::shared_mutex mu_;
     std::unordered_map<DistributionEventId, AdapterDistributionReceipt> receipts_;
-    /// target_shard_id → ordered list of event_ids (insertion order)
     std::unordered_map<DistributionShardId, std::vector<DistributionEventId>> shard_event_index_;
     std::unordered_map<DistributionSnapshotId, ShardDistributionSnapshot> snapshots_;
     std::unordered_map<DistributionShardId, std::optional<ShardDistributionSnapshot>>
@@ -235,12 +257,6 @@ private:
 // DefaultMerkleProofEngine
 // ─────────────────────────────────────────────────────────────────────────────
 
-/**
- * @brief SHA-256 Merkle proof engine.
- *
- * Deterministic leaf ordering: artifacts are sorted by (adapter_id, version)
- * before tree construction to guarantee reproducible roots.
- */
 class DefaultMerkleProofEngine final : public IArtifactMerkleProofEngine {
 public:
     [[nodiscard]] std::string buildRoot(
@@ -396,19 +412,8 @@ private:
 // DefaultLoRADistributionManager
 // ─────────────────────────────────────────────────────────────────────────────
 
-/**
- * @brief Default orchestrator for LoRA artifact distribution.
- *
- * Uses an IAdapterDistributionStore for persistence and an
- * IArtifactMerkleProofEngine for proof generation.
- */
 class DefaultLoRADistributionManager final : public ILoRADistributionManager {
 public:
-    /**
-     * @param store         Receipt/snapshot persistence backend.
-     * @param proof_engine  Merkle proof builder (optional; uses DefaultMerkleProofEngine
-     *                      if nullptr is passed).
-     */
     explicit DefaultLoRADistributionManager(
         std::shared_ptr<IAdapterDistributionStore> store,
         std::shared_ptr<IArtifactMerkleProofEngine> proof_engine = nullptr)
@@ -651,7 +656,11 @@ public:
             throw std::runtime_error("takeDistributionSnapshot: failed to persist shard snapshot");
         }
 
-        // Track known shard IDs for batch proof lookup
+        /**
+         * @brief Track known shard IDs for batch proof lookup
+         * @param[in] known_shards_mu_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(known_shards_mu_);
         known_shards_.insert(shard_id);
 
@@ -696,11 +705,22 @@ private:
     std::unordered_set<DistributionShardId> known_shards_;
 
     [[nodiscard]] std::string lastReceiptHash(const DistributionShardId& shard_id) const {
+        /**
+         * @brief Lock.
+         * @param[in] chain_mu_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(chain_mu_);
         auto it = last_receipt_hash_.find(shard_id);
         return it != last_receipt_hash_.end() ? it->second : std::string{};
     }
 
+    /**
+     * @brief Set Last Receipt Hash.
+     * @param[in] shard_id Identifier of the shard.
+     * @param[in] hash Input parameter.
+     * @details Calls: lock(), slock(), insert().
+     */
     void setLastReceiptHash(const DistributionShardId& shard_id, const std::string& hash) {
         std::lock_guard<std::mutex> lock(chain_mu_);
         last_receipt_hash_[shard_id] = hash;
@@ -719,6 +739,11 @@ private:
     }
 
     [[nodiscard]] std::unordered_set<DistributionShardId> knownShardIds() const {
+        /**
+         * @brief Lock.
+         * @param[in] known_shards_mu_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(known_shards_mu_);
         return known_shards_;
     }
@@ -729,25 +754,29 @@ private:
 // ─────────────────────────────────────────────────────────────────────────────
 
 /**
- * @brief Create an in-memory distribution store (suitable for tests and single-node use).
+ * @brief Make In Memory Distribution Store.
+ * @return Return value.
+ * @details Implements makeInMemoryDistributionStore without additional internal calls.
  */
 std::shared_ptr<IAdapterDistributionStore> makeInMemoryDistributionStore() {
     return std::make_shared<InMemoryAdapterDistributionStore>();
 }
 
 /**
- * @brief Create the default Merkle proof engine.
+ * @brief Make Default Merkle Proof Engine.
+ * @return Return value.
+ * @details Implements makeDefaultMerkleProofEngine without additional internal calls.
  */
 std::shared_ptr<IArtifactMerkleProofEngine> makeDefaultMerkleProofEngine() {
     return std::make_shared<DefaultMerkleProofEngine>();
 }
 
 /**
- * @brief Create a distribution manager backed by the given store and proof engine.
- *
- * @param store         Receipt/snapshot backend.  Pass nullptr to use a fresh
- *                      in-memory store.
- * @param proof_engine  Merkle proof engine.  Pass nullptr for the default.
+ * @brief Make Lo RADistribution Manager.
+ * @param[in] store Input parameter.
+ * @param[in] proof_engine Input parameter.
+ * @return Return value.
+ * @details Calls: makeInMemoryDistributionStore(), std::move().
  */
 std::shared_ptr<ILoRADistributionManager> makeLoRADistributionManager(
     std::shared_ptr<IAdapterDistributionStore> store,

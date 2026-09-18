@@ -19,6 +19,13 @@ namespace themis::llm {
 InMemorySSMStateStore::InMemorySSMStateStore(size_t max_snapshots_per_session)
     : max_snapshots_per_session_(max_snapshots_per_session) {}
 
+/**
+ * @brief Checkpoint.
+ * @param[in] session_id Identifier of the session.
+ * @param[in] snapshot Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), find(), end(), push_back(), size(), std::sort(), begin(), erase().
+ */
 bool InMemorySSMStateStore::checkpoint(const std::string& session_id,
                                         const SSMStateSnapshot& snapshot) {
     std::lock_guard<std::mutex> lock(mu_);
@@ -51,6 +58,13 @@ bool InMemorySSMStateStore::checkpoint(const std::string& session_id,
     return true;
 }
 
+/**
+ * @brief Resume.
+ * @param[in] session_id Identifier of the session.
+ * @param[in] snapshot_ts Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), find(), end(), empty(), has_value(), std::max_element(), begin(), value().
+ */
 std::optional<SSMStateSnapshot> InMemorySSMStateStore::resume(
     const std::string& session_id,
     const std::optional<core::HLCTimestamp>& snapshot_ts) {
@@ -81,6 +95,12 @@ std::optional<SSMStateSnapshot> InMemorySSMStateStore::resume(
     return std::nullopt;
 }
 
+/**
+ * @brief Invalidate.
+ * @param[in] session_id Identifier of the session.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), find(), end(), erase().
+ */
 bool InMemorySSMStateStore::invalidate(const std::string& session_id) {
     std::lock_guard<std::mutex> lock(mu_);
 
@@ -93,6 +113,12 @@ bool InMemorySSMStateStore::invalidate(const std::string& session_id) {
     return true;
 }
 
+/**
+ * @brief Compact.
+ * @param[in] retention_window_ms Input parameter.
+ * @return Return value.
+ * @details Calls: lock().
+ */
 uint64_t InMemorySSMStateStore::compact(uint64_t retention_window_ms) {
     std::lock_guard<std::mutex> lock(mu_);
 
@@ -106,6 +132,11 @@ uint64_t InMemorySSMStateStore::compact(uint64_t retention_window_ms) {
 }
 
 std::string InMemorySSMStateStore::getStats() const {
+    /**
+     * @brief Lock.
+     * @param[in] mu_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mu_);
 
     json stats;

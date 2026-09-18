@@ -117,6 +117,13 @@ TokenBucketRateLimiter::~TokenBucketRateLimiter() {
 #endif
 }
 
+/**
+ * @brief Try Acquire.
+ * @param[in] tokens Input parameter.
+ * @param[in] prio Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: std::chrono::steady_clock::now(), std::chrono::milliseconds(), fetch_add(), load(), THEMIS_WARN(), redisEvalBucket(), localTryAcquire().
+ */
 bool TokenBucketRateLimiter::tryAcquire(size_t tokens, Priority prio) {
     // OP-TIMEOUT-001: Deadline enforcement — ensures we never block indefinitely
     // This is a fast-path check; we fail-safe if deadline has passed.
@@ -169,6 +176,13 @@ bool TokenBucketRateLimiter::tryAcquire(size_t tokens, Priority prio) {
     return true;
 }
 
+/**
+ * @brief Local Try Acquire.
+ * @param[in] tokens Input parameter.
+ * @param[in] prio Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: find(), end(), THEMIS_ERROR(), refill(), consume().
+ */
 bool TokenBucketRateLimiter::localTryAcquire(size_t tokens, Priority prio) {
     // If priority lanes disabled, use NORMAL bucket for all
     auto bucket_it = buckets_.find(prio);
@@ -208,6 +222,10 @@ bool TokenBucketRateLimiter::isRedisHealthy() const {
            redis_healthy_.load(std::memory_order_acquire);
 }
 
+/**
+ * @brief Reset the modification detection flag.
+ * @details Calls: store(), lock(), std::chrono::steady_clock::now().
+ */
 void TokenBucketRateLimiter::reset() {
     total_requests_.store(0, std::memory_order_relaxed);
     total_rejections_.store(0, std::memory_order_relaxed);
@@ -229,6 +247,11 @@ std::string TokenBucketRateLimiter::redisKey(const std::string& bucket_id,
     return oss.str();
 }
 
+/**
+ * @brief Redis Connect.
+ * @return True when the operation succeeds.
+ * @details Calls: std::max(), redisFree(), redisConnectWithTimeout(), c_str(), THEMIS_WARN(), empty(), redisCommand(), freeReplyObject().
+ */
 bool TokenBucketRateLimiter::redisConnect() {
 #ifdef THEMIS_ENABLE_REDIS
     // F-008: initialise / replenish the connection pool.
@@ -315,6 +338,15 @@ bool TokenBucketRateLimiter::redisConnect() {
 #endif
 }
 
+/**
+ * @brief Redis Eval Bucket.
+ * @param[in] prio Input parameter.
+ * @param[in] capacity Input parameter.
+ * @param[in] refill_rate Input parameter.
+ * @param[in] consume_count Input parameter.
+ * @return Return value.
+ * @details Calls: lk(), wait(), empty(), front(), pop_front(), redisKey(), redisExecEvalsha(), redisConnectWithTimeout().
+ */
 int TokenBucketRateLimiter::redisEvalBucket(Priority prio,
                                              size_t capacity,
                                              size_t refill_rate,
@@ -394,6 +426,16 @@ int TokenBucketRateLimiter::redisEvalBucket(Priority prio,
 }
 
 #ifdef THEMIS_ENABLE_REDIS
+/**
+ * @brief Redis Exec Evalsha.
+ * @param[in,out] slot Input/output parameter.
+ * @param[in] key Input parameter.
+ * @param[in] capacity Input parameter.
+ * @param[in] refill_rate Input parameter.
+ * @param[in] consume_count Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), redisCommand(), c_str(), THEMIS_WARN(), freeReplyObject(), redisFree().
+ */
 int TokenBucketRateLimiter::redisExecEvalsha(
     RedisConnectionPool::Slot& slot,
     const std::string& key,
@@ -440,6 +482,10 @@ int TokenBucketRateLimiter::redisExecEvalsha(
 }
 #endif
 
+/**
+ * @brief Mark Redis Error.
+ * @details Calls: fetch_add(), store(), THEMIS_WARN().
+ */
 void TokenBucketRateLimiter::markRedisError() {
     int errors = redis_errors_.fetch_add(1, std::memory_order_relaxed) + 1;
     if (errors >= config_.redis.max_errors) {
@@ -449,6 +495,10 @@ void TokenBucketRateLimiter::markRedisError() {
     }
 }
 
+/**
+ * @brief Try Redis Recover.
+ * @details Calls: load(), THEMIS_INFO(), redisConnect().
+ */
 void TokenBucketRateLimiter::tryRedisRecover() {
 #ifdef THEMIS_ENABLE_REDIS
     if (config_.backend != Backend::REDIS) {
@@ -463,7 +513,10 @@ void TokenBucketRateLimiter::tryRedisRecover() {
 #endif
 }
 
-// ===== Bucket Implementation =====
+/**
+ * @brief ===== Bucket Implementation =====
+ * @details Calls: lock(), std::chrono::steady_clock::now(), count(), load(), std::min(), store().
+ */
 
 void TokenBucketRateLimiter::Bucket::refill() {
     std::lock_guard<std::mutex> lock(mutex);
@@ -487,6 +540,12 @@ void TokenBucketRateLimiter::Bucket::refill() {
     }
 }
 
+/**
+ * @brief Consume.
+ * @param[in] count Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: load(), compare_exchange_weak().
+ */
 bool TokenBucketRateLimiter::Bucket::consume(size_t count) {
     // Atomic decrement if sufficient tokens available
     size_t current = tokens.load(std::memory_order_acquire);
@@ -515,6 +574,14 @@ PerClientRateLimiter::PerClientRateLimiter(const Config& config)
 {
 }
 
+/**
+ * @brief Allow Request.
+ * @param[in] client_id Identifier of the client.
+ * @param[in] tokens Input parameter.
+ * @param[in] prio Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: std::chrono::steady_clock::now(), cleanupIdleClients(), lock(), find(), end(), size(), THEMIS_WARN(), emplace().
+ */
 bool PerClientRateLimiter::allowRequest(
     const std::string& client_id,
     size_t tokens,
@@ -571,6 +638,11 @@ bool PerClientRateLimiter::allowRequest(
 
 PerClientRateLimiter::ClientMetrics
 PerClientRateLimiter::getClientMetrics(const std::string& client_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] clients_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(clients_mutex_);
 
     auto it = client_buckets_.find(client_id);
@@ -587,10 +659,19 @@ PerClientRateLimiter::getClientMetrics(const std::string& client_id) const {
 }
 
 size_t PerClientRateLimiter::getActiveClients() const {
+    /**
+     * @brief Lock.
+     * @param[in] clients_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(clients_mutex_);
     return client_buckets_.size();
 }
 
+/**
+ * @brief Cleanup Idle Clients.
+ * @details Calls: lock(), std::chrono::steady_clock::now(), std::chrono::minutes(), begin(), end(), THEMIS_DEBUG(), erase().
+ */
 void PerClientRateLimiter::cleanupIdleClients() {
     std::lock_guard<std::mutex> lock(clients_mutex_);
 

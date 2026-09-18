@@ -43,24 +43,59 @@ namespace themis {
 namespace index {
 
 #ifndef THEMIS_VULKAN_VECTOR_INDEX_BACKEND_DECLARED
-/**
- * @brief Vulkan backend implementation for GPU vector indexing (forward declaration)
- */
 class VulkanVectorIndexBackend {
 public:
+    /**
+     * @brief Vulkan Vector Index Backend.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit VulkanVectorIndexBackend(const GPUVectorIndex::Config& config);
     ~VulkanVectorIndexBackend();
     
+    /**
+     * @brief Initialize.
+     * @param[in] dimension Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool initialize(int dimension);
+    /**
+     * @brief Shutdown.
+     */
     void shutdown();
+    /**
+     * @brief Upload Vectors.
+     * @param[in] vectors Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool uploadVectors(const std::vector<std::vector<float>>& vectors);
     std::vector<std::pair<float, size_t>> searchIndices(const std::vector<float>& query, size_t k);
     std::vector<std::vector<std::pair<float, size_t>>> searchBatchIndices(
         const std::vector<std::vector<float>>& queries, size_t k);
+    /**
+     * @brief Search.
+     * @param[in] query Input parameter.
+     * @param[in] k Input parameter.
+     * @return Return value.
+     */
     std::vector<GPUVectorIndex::SearchResult> search(const std::vector<float>& query, size_t k);
+    /**
+     * @brief Search Batch.
+     * @param[in] queries Input parameter.
+     * @param[in] k Input parameter.
+     * @return Return value.
+     */
     std::vector<std::vector<GPUVectorIndex::SearchResult>> searchBatch(
         const std::vector<std::vector<float>>& queries, size_t k);
+    /**
+     * @brief Return access control statistics.
+     * @return Access control statistics.
+     */
     GPUVectorIndex::Statistics getStatistics() const;
+    /**
+     * @brief Is Initialized.
+     * @return True when the operation succeeds.
+     */
     bool isInitialized() const;
 
     // Callback bridge types for non-Vulkan builds (VVI-BRIDGE)
@@ -71,30 +106,90 @@ public:
     using SearchBatchFn  = std::function<std::vector<std::vector<GPUVectorIndex::SearchResult>>(
                                const std::vector<std::vector<float>>&, size_t /*k*/)>;
 
+    /**
+     * @brief Set Initialize Fn.
+     * @param[in] fn Input parameter.
+     * @details Calls: lk(), initializeFnMutex(), initializeFnStorage(), std::move().
+     */
     static void setInitializeFn(InitializeFn fn) {
         std::lock_guard<std::mutex> lk(initializeFnMutex());
         initializeFnStorage() = std::move(fn);
     }
+    /**
+     * @brief Set Upload Fn.
+     * @param[in] fn Input parameter.
+     * @details Calls: lk(), uploadFnMutex(), uploadFnStorage(), std::move().
+     */
     static void setUploadFn(UploadFn fn) {
         std::lock_guard<std::mutex> lk(uploadFnMutex());
         uploadFnStorage() = std::move(fn);
     }
+    /**
+     * @brief Set Search Fn.
+     * @param[in] fn Input parameter.
+     * @details Calls: lk(), searchFnMutex(), searchFnStorage(), std::move().
+     */
     static void setSearchFn(SearchFn fn) {
         std::lock_guard<std::mutex> lk(searchFnMutex());
         searchFnStorage() = std::move(fn);
     }
+    /**
+     * @brief Set Search Batch Fn.
+     * @param[in] fn Input parameter.
+     * @details Calls: lk(), searchBatchFnMutex(), searchBatchFnStorage(), std::move().
+     */
     static void setSearchBatchFn(SearchBatchFn fn) {
         std::lock_guard<std::mutex> lk(searchBatchFnMutex());
         searchBatchFnStorage() = std::move(fn);
     }
 
+    /**
+     * @brief Initialize Fn Mutex.
+     * @return Return value.
+     * @details Implements initializeFnMutex without additional internal calls.
+     */
     static std::mutex& initializeFnMutex()  { static std::mutex m; return m; }
+    /**
+     * @brief Initialize Fn Storage.
+     * @return Return value.
+     * @details Implements initializeFnStorage without additional internal calls.
+     */
     static InitializeFn&  initializeFnStorage()  { static InitializeFn f;  return f; }
+    /**
+     * @brief Upload Fn Mutex.
+     * @return Return value.
+     * @details Implements uploadFnMutex without additional internal calls.
+     */
     static std::mutex& uploadFnMutex()      { static std::mutex m; return m; }
+    /**
+     * @brief Upload Fn Storage.
+     * @return Return value.
+     * @details Implements uploadFnStorage without additional internal calls.
+     */
     static UploadFn&      uploadFnStorage()      { static UploadFn f;      return f; }
+    /**
+     * @brief Search Fn Mutex.
+     * @return Return value.
+     * @details Implements searchFnMutex without additional internal calls.
+     */
     static std::mutex& searchFnMutex()      { static std::mutex m; return m; }
+    /**
+     * @brief Search Fn Storage.
+     * @return Return value.
+     * @details Implements searchFnStorage without additional internal calls.
+     */
     static SearchFn&      searchFnStorage()      { static SearchFn f;      return f; }
+    /**
+     * @brief Search Batch Fn Mutex.
+     * @return Return value.
+     * @details Implements searchBatchFnMutex without additional internal calls.
+     */
     static std::mutex& searchBatchFnMutex() { static std::mutex m; return m; }
+    /**
+     * @brief Search Batch Fn Storage.
+     * @return Return value.
+     * @details Implements searchBatchFnStorage without additional internal calls.
+     */
     static SearchBatchFn& searchBatchFnStorage() { static SearchBatchFn f; return f; }
 
 private:
@@ -111,19 +206,6 @@ private:
 namespace themis {
 namespace index {
 
-/**
- * @brief Move-only RAII scope guard for a raw VkBuffer + VkDeviceMemory pair.
- *
- * Use this for ad-hoc allocations (e.g., staging buffers in Wave-B compute
- * shader kernels) that do not go through lora::vulkan::VulkanBuffer.  For
- * buffers that need re-use, upload helpers, or copy_from, prefer
- * lora::vulkan::VulkanBuffer instead.
- *
- * Removal plan: Once Wave-B GPU ANN kernels (L2/cosine/inner-product) are
- * integrated, graduate any remaining uses to lora::vulkan::VulkanBuffer and
- * remove this guard.  Roadmap ref: src/index/FUTURE_ENHANCEMENTS.md
- * §"GPU Vector Index (Vulkan)" — Wave-B Q4 2026.
- */
 struct VkBufferRaii {
     VkDevice       device = VK_NULL_HANDLE;
     VkBuffer       buffer = VK_NULL_HANDLE;
@@ -170,7 +252,6 @@ struct VkBufferRaii {
         return *this;
     }
 
-    /// Release ownership without destroying (e.g. after successful vkBindBufferMemory).
     void release() noexcept {
         device = VK_NULL_HANDLE;
         buffer = VK_NULL_HANDLE;
@@ -178,9 +259,6 @@ struct VkBufferRaii {
     }
 };
 
-/**
- * @brief Implementation class for Vulkan backend
- */
 class VulkanVectorIndexBackend::Impl {
 public:
     struct QueryFingerprint {
@@ -190,6 +268,12 @@ public:
         float last = 0.0f;
     };
 
+    /**
+     * @brief Make Query Fingerprint.
+     * @param[in] query Input parameter.
+     * @return Return value.
+     * @details Calls: size(), empty(), front(), back().
+     */
     static QueryFingerprint makeQueryFingerprint(const std::vector<float>& query) {
         QueryFingerprint fp;
         fp.size = query.size();
@@ -201,6 +285,13 @@ public:
         return fp;
     }
 
+    /**
+     * @brief Fingerprint Equal.
+     * @param[in] a Input parameter.
+     * @param[in] b Input parameter.
+     * @return True when the operation succeeds.
+     * @details Implements fingerprintEqual without additional internal calls.
+     */
     static bool fingerprintEqual(const QueryFingerprint& a, const QueryFingerprint& b) {
         return a.size == b.size &&
                a.first == b.first &&
@@ -208,6 +299,18 @@ public:
                a.last == b.last;
     }
 
+        /**
+         * @brief Bind Search Buffers If Needed.
+         * @param[in,out] pipeline Input/output parameter.
+         * @param[in,out] queryBuffer Input/output parameter.
+         * @param[in,out] vectorBuffer Input/output parameter.
+         * @param[in,out] distanceBuffer Input/output parameter.
+         * @param[in,out] lastPipeline Input/output parameter.
+         * @param[in,out] lastQueryBuffer Input/output parameter.
+         * @param[in,out] lastVectorBuffer Input/output parameter.
+         * @param[in,out] lastDistanceBuffer Input/output parameter.
+         * @details Calls: bind_buffer().
+         */
         static void bindSearchBuffersIfNeeded(
             lora::vulkan::VulkanComputePipeline* pipeline,
             lora::vulkan::VulkanBuffer* queryBuffer,
@@ -272,23 +375,22 @@ public:
     }
 
     /**
-     * @brief Constructor
-     * @param config Configuration for the backend
+     * @brief Impl.
+     * @param[in] config Input parameter.
+     * @return Return value.
      */
     explicit Impl(const GPUVectorIndex::Config& config)
         : config_(config), context_(nullptr), initialized_(false), dimension_(0) {}
     
-    /**
-     * @brief Destructor - cleanup Vulkan resources
-     */
     ~Impl() {
         shutdown();
     }
     
     /**
-     * @brief Initialize Vulkan backend
-     * @param dimension Vector dimension
-     * @return true if initialization successful
+     * @brief Initialize.
+     * @param[in] dimension Input parameter.
+     * @return True when the operation succeeds.
+     * @details Calls: THEMIS_ERROR(), device_properties(), THEMIS_INFO(), VK_VERSION_MAJOR(), VK_VERSION_MINOR(), VK_VERSION_PATCH(), createPipelines(), shutdown().
      */
     bool initialize(int dimension) {
         if (initialized_) {
@@ -340,7 +442,8 @@ public:
     }
     
     /**
-     * @brief Shutdown and cleanup Vulkan resources
+     * @brief Shutdown.
+     * @details Calls: reset(), clear(), cleanup().
      */
     void shutdown() {
         // Always clean up resources, even if initialization failed
@@ -375,9 +478,10 @@ public:
     }
     
     /**
-     * @brief Add vectors to GPU memory
-     * @param vectors Vector data to upload
-     * @return true if successful
+     * @brief Upload Vectors.
+     * @param[in] vectors Input parameter.
+     * @return True when the operation succeeds.
+     * @details Calls: empty(), size(), flatData(), THEMIS_ERROR(), std::copy(), begin(), end(), get().
      */
     bool uploadVectors(const std::vector<std::vector<float>>& vectors) {
         if (!initialized_ || vectors.empty()) {
@@ -423,12 +527,6 @@ public:
         }
     }
     
-    /**
-     * @brief Search for nearest neighbors using Vulkan compute (returns indices)
-     * @param query Query vector
-     * @param k Number of nearest neighbors
-     * @return Pairs of (distance, index) sorted by distance
-     */
     std::vector<std::pair<float, size_t>> searchIndices(
         const std::vector<float>& query, size_t k) {
         
@@ -567,10 +665,11 @@ public:
     }
     
     /**
-     * @brief Search for nearest neighbors using Vulkan compute
-     * @param query Query vector
-     * @param k Number of nearest neighbors
-     * @return Search results (without IDs, to be filled by main implementation)
+     * @brief Search.
+     * @param[in] query Input parameter.
+     * @param[in] k Input parameter.
+     * @return Return value.
+     * @details Calls: searchIndices(), reserve(), size(), push_back().
      */
     std::vector<GPUVectorIndex::SearchResult> search(
         const std::vector<float>& query, size_t k) {
@@ -588,6 +687,13 @@ public:
         return results;
     }
 
+    /**
+     * @brief Search Batch.
+     * @param[in] queries Input parameter.
+     * @param[in] k Input parameter.
+     * @return Return value.
+     * @details Calls: searchBatchIndices(), reserve(), size(), push_back(), std::move().
+     */
     std::vector<std::vector<GPUVectorIndex::SearchResult>> searchBatch(
         const std::vector<std::vector<float>>& queries, size_t k) {
         const auto indexedResults = searchBatchIndices(queries, k);
@@ -609,12 +715,6 @@ public:
         return results;
     }
     
-    /**
-     * @brief Batch search for nearest neighbors returning indices
-     * @param queries Query vectors
-     * @param k Number of nearest neighbors
-     * @return Batch search results as (distance, index) pairs
-     */
     std::vector<std::vector<std::pair<float, size_t>>> searchBatchIndices(
         const std::vector<std::vector<float>>& queries, size_t k) {
         if (queries.empty() || !initialized_) {
@@ -638,6 +738,11 @@ public:
             const size_t numQueries = queries.size();
 
             const size_t dim = static_cast<size_t>(dimension_);
+            /**
+             * @brief Flat Queries.
+             * @param[in,out] dim Input/output parameter.
+             * @return Return value.
+             */
             std::vector<float> flatQueries(numQueries * dim);
             {
                 size_t queryOffset = 0;
@@ -747,9 +852,6 @@ public:
         }
     }
     
-    /**
-     * @brief Get statistics
-     */
     GPUVectorIndex::Statistics getStatistics() const {
         GPUVectorIndex::Statistics stats;
         stats.numVectors = num_vectors_;
@@ -762,19 +864,10 @@ public:
         return stats;
     }
     
-    /**
-     * @brief Check if backend is initialized
-     */
     bool isInitialized() const {
         return initialized_;
     }
 
-    /**
-     * @brief Update query statistics
-     * 
-     * Note: This method is const because it only updates cached statistics
-     * (marked mutable) and doesn't modify the logical state of the backend.
-     */
     void updateQueryStats(const std::chrono::steady_clock::time_point& start,
                          const std::chrono::steady_clock::time_point& end) const {
         auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
@@ -794,7 +887,9 @@ public:
     }
     
     /**
-     * @brief Create compute pipelines for distance metrics
+     * @brief Create Pipelines.
+     * @return True when the operation succeeds.
+     * @details Calls: testFile(), good(), empty(), THEMIS_ERROR(), THEMIS_INFO(), get(), create(), what().
      */
     bool createPipelines() {
         try {
@@ -870,9 +965,6 @@ public:
         }
     }
     
-    /**
-     * @brief Calculate VRAM usage
-     */
     size_t calculateVRAMUsage() const {
         size_t usage = 0;
         if (vector_buffer_) {
@@ -945,14 +1037,30 @@ VulkanVectorIndexBackend::VulkanVectorIndexBackend(const GPUVectorIndex::Config&
 
 VulkanVectorIndexBackend::~VulkanVectorIndexBackend() = default;
 
+/**
+ * @brief Initialize.
+ * @param[in] dimension Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements initialize without additional internal calls.
+ */
 bool VulkanVectorIndexBackend::initialize(int dimension) {
     return pImpl->initialize(dimension);
 }
 
+/**
+ * @brief Shutdown.
+ * @details Implements shutdown without additional internal calls.
+ */
 void VulkanVectorIndexBackend::shutdown() {
     pImpl->shutdown();
 }
 
+/**
+ * @brief Upload Vectors.
+ * @param[in] vectors Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements uploadVectors without additional internal calls.
+ */
 bool VulkanVectorIndexBackend::uploadVectors(const std::vector<std::vector<float>>& vectors) {
     return pImpl->uploadVectors(vectors);
 }
@@ -967,11 +1075,25 @@ std::vector<std::vector<std::pair<float, size_t>>> VulkanVectorIndexBackend::sea
     return pImpl->searchBatchIndices(queries, k);
 }
 
+/**
+ * @brief Search.
+ * @param[in] query Input parameter.
+ * @param[in] k Input parameter.
+ * @return Return value.
+ * @details Implements search without additional internal calls.
+ */
 std::vector<GPUVectorIndex::SearchResult> VulkanVectorIndexBackend::search(
     const std::vector<float>& query, size_t k) {
     return pImpl->search(query, k);
 }
 
+/**
+ * @brief Search Batch.
+ * @param[in] queries Input parameter.
+ * @param[in] k Input parameter.
+ * @return Return value.
+ * @details Implements searchBatch without additional internal calls.
+ */
 std::vector<std::vector<GPUVectorIndex::SearchResult>> VulkanVectorIndexBackend::searchBatch(
     const std::vector<std::vector<float>>& queries, size_t k) {
     return pImpl->searchBatch(queries, k);
@@ -1010,13 +1132,24 @@ bool VulkanVectorIndexBackend::isInitialized() const {
 namespace themis {
 namespace index {
 
-/** @brief Implementation detail. */
 class VulkanVectorIndexBackend::Impl {
 public:
+    /**
+     * @brief Impl.
+     * @param[in] param Input parameter.
+     * @return Return value.
+     * @details Implements Impl without additional internal calls.
+     */
     explicit Impl(const GPUVectorIndex::Config&) {}
     ~Impl() = default;
     bool initialized_ = false;
 
+    /**
+     * @brief Initialize.
+     * @param[in] dimension Input parameter.
+     * @return True when the operation succeeds.
+     * @details Calls: lk(), VulkanVectorIndexBackend::initializeFnMutex(), VulkanVectorIndexBackend::initializeFnStorage(), fn(), THEMIS_WARN(), THEMIS_DEBUG().
+     */
     bool initialize(int dimension) {
         InitializeFn fn;
         {
@@ -1036,8 +1169,18 @@ public:
         return false;
     }
 
+    /**
+     * @brief Shutdown.
+     * @details Implements shutdown without additional internal calls.
+     */
     void shutdown() { initialized_ = false; }
 
+    /**
+     * @brief Upload Vectors.
+     * @param[in] vectors Input parameter.
+     * @return True when the operation succeeds.
+     * @details Calls: lk(), VulkanVectorIndexBackend::uploadFnMutex(), VulkanVectorIndexBackend::uploadFnStorage(), fn(), THEMIS_ERROR(), THEMIS_DEBUG().
+     */
     bool uploadVectors(const std::vector<std::vector<float>>& vectors) {
         UploadFn fn;
         {
@@ -1062,6 +1205,13 @@ public:
         return {};
     }
 
+    /**
+     * @brief Search.
+     * @param[in] query Input parameter.
+     * @param[in] k Input parameter.
+     * @return Return value.
+     * @details Calls: lk(), VulkanVectorIndexBackend::searchFnMutex(), VulkanVectorIndexBackend::searchFnStorage(), fn(), THEMIS_ERROR(), THEMIS_DEBUG().
+     */
     std::vector<GPUVectorIndex::SearchResult> search(
         const std::vector<float>& query, size_t k) {
         SearchFn fn;
@@ -1076,6 +1226,13 @@ public:
         return {};
     }
 
+    /**
+     * @brief Search Batch.
+     * @param[in] queries Input parameter.
+     * @param[in] k Input parameter.
+     * @return Return value.
+     * @details Calls: lk(), VulkanVectorIndexBackend::searchBatchFnMutex(), VulkanVectorIndexBackend::searchBatchFnStorage(), fn(), THEMIS_ERROR(), THEMIS_DEBUG().
+     */
     std::vector<std::vector<GPUVectorIndex::SearchResult>> searchBatch(
         const std::vector<std::vector<float>>& queries, size_t k) {
         SearchBatchFn fn;
@@ -1099,10 +1256,26 @@ VulkanVectorIndexBackend::VulkanVectorIndexBackend(const GPUVectorIndex::Config&
 
 VulkanVectorIndexBackend::~VulkanVectorIndexBackend() = default;
 
+/**
+ * @brief Initialize.
+ * @param[in] dimension Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements initialize without additional internal calls.
+ */
 bool VulkanVectorIndexBackend::initialize(int dimension) {
     return pImpl->initialize(dimension);
 }
+/**
+ * @brief Shutdown.
+ * @details Implements shutdown without additional internal calls.
+ */
 void VulkanVectorIndexBackend::shutdown() { pImpl->shutdown(); }
+/**
+ * @brief Upload Vectors.
+ * @param[in] v Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements uploadVectors without additional internal calls.
+ */
 bool VulkanVectorIndexBackend::uploadVectors(const std::vector<std::vector<float>>& v) {
     return pImpl->uploadVectors(v);
 }
@@ -1115,9 +1288,23 @@ std::vector<std::vector<std::pair<float, size_t>>> VulkanVectorIndexBackend::sea
     return pImpl->searchBatchIndices(qs, k);
 }
 
+/**
+ * @brief Search.
+ * @param[in] q Input parameter.
+ * @param[in] k Input parameter.
+ * @return Return value.
+ * @details Implements search without additional internal calls.
+ */
 std::vector<GPUVectorIndex::SearchResult> VulkanVectorIndexBackend::search(
     const std::vector<float>& q, size_t k) { return pImpl->search(q, k); }
 
+/**
+ * @brief Search Batch.
+ * @param[in] qs Input parameter.
+ * @param[in] k Input parameter.
+ * @return Return value.
+ * @details Implements searchBatch without additional internal calls.
+ */
 std::vector<std::vector<GPUVectorIndex::SearchResult>> VulkanVectorIndexBackend::searchBatch(
     const std::vector<std::vector<float>>& qs, size_t k) {
     return pImpl->searchBatch(qs, k);

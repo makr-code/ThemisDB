@@ -32,7 +32,10 @@ TaskAnomalyDetector::~TaskAnomalyDetector() {
     stop();
 }
 
-// GAP 2 FIX: Lifecycle management for background callback thread
+/**
+ * @brief GAP 2 FIX: Lifecycle management for background callback thread
+ * @details Calls: lock(), load(), store(), std::thread(), THEMIS_INFO().
+ */
 void TaskAnomalyDetector::start() {
     std::lock_guard<std::mutex> lock(queue_mutex_);
     if (running_.load()) {
@@ -44,6 +47,10 @@ void TaskAnomalyDetector::start() {
     THEMIS_INFO("TaskAnomalyDetector: background callback thread started");
 }
 
+/**
+ * @brief Stop.
+ * @details Calls: lock(), load(), store(), notify_all(), joinable(), join(), THEMIS_INFO().
+ */
 void TaskAnomalyDetector::stop() {
     {
         std::lock_guard<std::mutex> lock(queue_mutex_);
@@ -62,7 +69,10 @@ void TaskAnomalyDetector::stop() {
     THEMIS_INFO("TaskAnomalyDetector: background callback thread stopped");
 }
 
-// Background worker thread for async anomaly callbacks
+/**
+ * @brief Background worker thread for async anomaly callbacks
+ * @details Calls: THEMIS_DEBUG(), load(), lock(), wait_for(), std::chrono::milliseconds(), empty(), std::move(), front().
+ */
 void TaskAnomalyDetector::anomalyCallbackWorker() {
     THEMIS_DEBUG("TaskAnomalyDetector callback worker started");
     
@@ -96,6 +106,12 @@ void TaskAnomalyDetector::anomalyCallbackWorker() {
     THEMIS_DEBUG("TaskAnomalyDetector callback worker stopped");
 }
 
+/**
+ * @brief Record Execution.
+ * @param[in] event Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), updateStatistics(), hasBaseline(), detectFrequencyAnomaly(), detectPatternAnomaly(), detectResourceAnomaly(), detectFailureRateAnomaly(), push_back().
+ */
 AnomalyMetrics TaskAnomalyDetector::recordExecution(const TaskAuditEvent& event) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -180,6 +196,12 @@ AnomalyMetrics TaskAnomalyDetector::recordExecution(const TaskAuditEvent& event)
     return metrics;
 }
 
+/**
+ * @brief Update Statistics.
+ * @param[in] task_id Identifier of the task.
+ * @param[in] event Input parameter.
+ * @details Calls: push_back(), size(), pop_front(), empty(), calculateMean(), calculateStdDev(), std::min_element(), begin().
+ */
 void TaskAnomalyDetector::updateStatistics(const std::string& task_id, 
                                            const TaskAuditEvent& event) {
     auto& stats = task_stats_[task_id];
@@ -432,6 +454,11 @@ bool TaskAnomalyDetector::hasBaseline(const std::string& task_id) const {
 
 // GAP 1 FIX: On-demand anomaly detection
 AnomalyMetrics TaskAnomalyDetector::checkAnomaly(const std::string& task_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     AnomalyMetrics metrics;
@@ -516,7 +543,11 @@ AnomalyMetrics TaskAnomalyDetector::checkAnomaly(const std::string& task_id) con
     return metrics;
 }
 
-// GAP 3 FIX: Explicit baseline recalibration
+/**
+ * @brief GAP 3 FIX: Explicit baseline recalibration
+ * @param[in] task_id Identifier of the task.
+ * @details Calls: lock(), find(), end(), THEMIS_WARN(), cleanupOldData(), empty(), calculateMean(), calculateStdDev().
+ */
 void TaskAnomalyDetector::recalibrateBaseline(const std::string& task_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -569,6 +600,11 @@ void TaskAnomalyDetector::recalibrateBaseline(const std::string& task_id) {
 }
 
 std::optional<TaskStatistics> TaskAnomalyDetector::getTaskStatistics(const std::string& task_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     auto it = task_stats_.find(task_id);
@@ -580,31 +616,60 @@ std::optional<TaskStatistics> TaskAnomalyDetector::getTaskStatistics(const std::
 }
 
 std::map<std::string, TaskStatistics> TaskAnomalyDetector::getAllStatistics() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return task_stats_;
 }
 
+/**
+ * @brief Reset Task Statistics.
+ * @param[in] task_id Identifier of the task.
+ * @details Calls: lock(), erase().
+ */
 void TaskAnomalyDetector::resetTaskStatistics(const std::string& task_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     task_stats_.erase(task_id);
 }
 
+/**
+ * @brief Reset All Statistics.
+ * @details Calls: lock(), clear().
+ */
 void TaskAnomalyDetector::resetAllStatistics() {
     std::lock_guard<std::mutex> lock(mutex_);
     task_stats_.clear();
 }
 
 AnomalyDetectorConfig TaskAnomalyDetector::getConfig() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return config_;
 }
 
+/**
+ * @brief Update the access control configuration.
+ * @param[in] config New access control configuration.
+ * @details Calls: lock().
+ */
 void TaskAnomalyDetector::updateConfig(const AnomalyDetectorConfig& config) {
     std::lock_guard<std::mutex> lock(mutex_);
     config_ = config;
 }
 
 nlohmann::json TaskAnomalyDetector::exportStatistics() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     nlohmann::json j;
@@ -665,6 +730,11 @@ nlohmann::json TaskAnomalyDetector::exportStatistics() const {
     return j;
 }
 
+/**
+ * @brief Import Statistics.
+ * @param[in] data Input parameter.
+ * @details Calls: lock(), contains(), items(), push_back(), jsonToDequeDouble(), clear(), std::chrono::system_clock::time_point(), std::chrono::milliseconds().
+ */
 void TaskAnomalyDetector::importStatistics(const nlohmann::json& data) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -787,6 +857,11 @@ double TaskAnomalyDetector::calculatePercentile(const std::deque<double>& values
     return sorted[index];
 }
 
+/**
+ * @brief Cleanup Old Data.
+ * @param[in,out] stats Input/output parameter.
+ * @details Calls: empty(), front(), pop_front().
+ */
 void TaskAnomalyDetector::cleanupOldData(TaskStatistics& stats) {
     if (stats.execution_times.empty()) {
         return;

@@ -39,6 +39,13 @@
 
 using namespace themis;
 
+/**
+ * @brief Main.
+ * @param[in] argc Input parameter.
+ * @param[in,out] argv Input/output parameter.
+ * @return Return value.
+ * @details Calls: themis::cli::is_version_flag(), themis::cli::is_help_flag(), print_usage(), themis::cli::consume_next_value(), c_str(), utils::Logger::init(), cfg_stream(), is_open().
+ */
 int main(int argc, char* argv[]) {
     // --- Early flag handling (no heavy initialization) ---
     auto print_usage = [](const char* prog) {

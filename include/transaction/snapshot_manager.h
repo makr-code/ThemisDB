@@ -25,27 +25,8 @@ namespace transaction {
 
 using json = nlohmann::json;
 
-/**
- * @brief SnapshotManager provides Git-like named snapshots for ThemisDB's MVCC system
- * 
- * Enables semantic tagging of database states for:
- * - Audit/compliance checkpoints
- * - Pre-deployment safe points
- * - Point-in-time recovery markers
- * - Tag-based diff operations
- * 
- * Features:
- * - Named tags with descriptions
- * - Persistent storage in RocksDB
- * - Tag CRUD operations
- * - Integration with Changefeed for sequence mapping
- * - REST API endpoints
- */
 class SnapshotManager {
 public:
-    /**
-     * @brief Snapshot metadata
-     */
     struct Snapshot {
         std::string tag_name;           // Unique tag identifier
         uint64_t sequence_number;       // Changefeed sequence at tag creation
@@ -53,13 +34,19 @@ public:
         std::string description;        // Human-readable description
         std::string created_by;         // User/service that created the tag
         
+        /**
+         * @brief To Json.
+         * @return Return value.
+         */
         json toJson() const;
+        /**
+         * @brief From Json.
+         * @param[in] j Input parameter.
+         * @return Return value.
+         */
         static Snapshot fromJson(const json& j);
     };
     
-    /**
-     * @brief Statistics about snapshots
-     */
     struct SnapshotStats {
         size_t total_snapshots = 0;
         int64_t oldest_timestamp_ms = 0;
@@ -67,13 +54,18 @@ public:
         uint64_t oldest_sequence = 0;
         uint64_t newest_sequence = 0;
         
+        /**
+         * @brief To Json.
+         * @return Return value.
+         */
         json toJson() const;
     };
     
     /**
-     * @brief Construct SnapshotManager
-     * @param db Reference to RocksDB wrapper
-     * @param changefeed Reference to Changefeed for sequence numbers
+     * @brief Snapshot Manager.
+     * @param[in,out] db Input/output parameter.
+     * @param[in,out] changefeed Input/output parameter.
+     * @return Return value.
      */
     explicit SnapshotManager(RocksDBWrapper& db, Changefeed& changefeed);
     
@@ -85,18 +77,6 @@ public:
     SnapshotManager(SnapshotManager&&) noexcept = default;
     SnapshotManager& operator=(SnapshotManager&&) noexcept = default;
 
-    /**
-     * @brief Create a new named snapshot/tag
-     * @param tag_name Unique tag name (alphanumeric, hyphens, underscores)
-     * @param description Human-readable description
-     * @param created_by Optional user/service identifier
-     * @return Snapshot metadata if successful, nullopt on error
-     * 
-     * Error conditions:
-     * - Tag name already exists
-     * - Invalid tag name format
-     * - Database write failure
-     */
     std::optional<Snapshot> createTag(
         const std::string& tag_name,
         const std::string& description,
@@ -104,19 +84,12 @@ public:
     );
     
     /**
-     * @brief Get snapshot metadata by tag name
-     * @param tag_name Tag to retrieve
-     * @return Snapshot metadata if found, nullopt otherwise
+     * @brief Get Tag.
+     * @param[in] tag_name Name of the tag.
+     * @return Return value.
      */
     std::optional<Snapshot> getTag(const std::string& tag_name) const;
     
-    /**
-     * @brief List all snapshots
-     * @param limit Maximum number of snapshots to return (0 = all)
-     * @param sort_by Sort order: "timestamp" (default), "sequence", "name"
-     * @param ascending Sort direction (default: false = newest first)
-     * @return Vector of snapshot metadata
-     */
     std::vector<Snapshot> listTags(
         size_t limit = 0,
         const std::string& sort_by = "timestamp",
@@ -124,54 +97,48 @@ public:
     ) const;
     
     /**
-     * @brief Delete a snapshot/tag
-     * @param tag_name Tag to delete
-     * @return true if deleted, false if not found or error
+     * @brief Delete Tag.
+     * @param[in] tag_name Name of the tag.
+     * @return True when the operation succeeds.
      */
     bool deleteTag(const std::string& tag_name);
     
     /**
-     * @brief Check if a tag exists
-     * @param tag_name Tag to check
-     * @return true if exists, false otherwise
+     * @brief Tag Exists.
+     * @param[in] tag_name Name of the tag.
+     * @return True when the operation succeeds.
      */
     bool tagExists(const std::string& tag_name) const;
     
     /**
-     * @brief Get statistics about all snapshots
-     * @return Snapshot statistics
+     * @brief Get Stats.
+     * @return Return value.
      */
     SnapshotStats getStats() const;
     
     /**
-     * @brief Get sequence number for a tag
-     * @param tag_name Tag to query
-     * @return Sequence number if found, nullopt otherwise
+     * @brief Get Sequence For Tag.
+     * @param[in] tag_name Name of the tag.
+     * @return Return value.
      */
     std::optional<uint64_t> getSequenceForTag(const std::string& tag_name) const;
     
     /**
-     * @brief Get timestamp for a tag
-     * @param tag_name Tag to query
-     * @return Timestamp in milliseconds if found, nullopt otherwise
+     * @brief Get Timestamp For Tag.
+     * @param[in] tag_name Name of the tag.
+     * @return Return value.
      */
     std::optional<int64_t> getTimestampForTag(const std::string& tag_name) const;
     
     /**
-     * @brief Validate tag name format
-     * @param tag_name Tag to validate
-     * @return true if valid, false otherwise
-     * 
-     * Valid format: alphanumeric, hyphens, underscores, periods
-     * Length: 1-128 characters
+     * @brief Is Valid Tag Name.
+     * @param[in] tag_name Name of the tag.
+     * @return True when the operation succeeds.
      */
     static bool isValidTagName(const std::string& tag_name);
 
     // ---- Phase 7: GC & Retention Policy ----
 
-    /**
-     * @brief Retention policy for automatic snapshot pruning.
-     */
     struct RetentionPolicy {
         size_t  max_snapshots{0};          ///< 0 = unlimited
         int64_t max_age_ms{0};             ///< 0 = unlimited; prune older than this
@@ -179,32 +146,25 @@ public:
     };
 
     /**
-     * @brief Set the retention policy applied during pruneOldSnapshots().
+     * @brief Set Retention Policy.
+     * @param[in] policy Input parameter.
      */
     void setRetentionPolicy(const RetentionPolicy& policy);
 
     /**
-     * @brief Prune snapshots that exceed the current retention policy.
-     *
-     * Removes the oldest snapshots until max_snapshots and max_age_ms
-     * constraints are satisfied. The newest snapshot is never deleted when
-     * protect_latest is true.
-     *
-     * @return Number of snapshots deleted.
+     * @brief Prune Old Snapshots.
+     * @return Return value.
      */
     size_t pruneOldSnapshots();
 
     /**
-     * @brief Consistency check: verify all stored snapshots are readable.
-     * @return Number of corrupted/unreadable snapshots found (0 = healthy).
+     * @brief Check Consistency.
+     * @return Return value.
      */
     size_t checkConsistency() const;
 
     // ---- Phase 7: Snapshot Restore ----
 
-    /**
-     * @brief Result of a restore operation.
-     */
     struct RestoreResult {
         bool     success{false};
         std::string tag_name = {};
@@ -212,26 +172,13 @@ public:
         int64_t  timestamp_ms{0};      ///< Unix timestamp of the tag
         std::string message;           ///< Human-readable status or error
 
+        /**
+         * @brief To Json.
+         * @return Return value.
+         */
         json toJson() const;
     };
 
-    /**
-     * @brief Restore the database view to the state captured by @p tag_name.
-     *
-     * This method validates that the tag exists and returns its sequence
-     * number so callers can reset their changefeed position or RocksDB
-     * iterator to replay / re-read data as-of that point in time.
-     *
-     * Full block-level restore (WAL replay) is a Phase 8 concern; this
-     * method covers the Phase 7 "Snapshot-Restore" requirement by:
-     *   1. Verifying the tag is present and readable.
-     *   2. Returning the exact changefeed sequence to restore to.
-     *   3. Creating a "restore-point" tag so the restore is auditable.
-     *
-     * @param tag_name  Named snapshot / tag to restore to.
-     * @param created_by  Optional actor name for audit trail.
-     * @return RestoreResult with target sequence and audit info.
-     */
     RestoreResult restoreToTag(const std::string& tag_name,
                                const std::string& created_by = "system");
 
@@ -246,22 +193,30 @@ private:
     static constexpr const char* SNAPSHOT_PREFIX = "snapshot:";
     
     /**
-     * @brief Make RocksDB key for a tag
+     * @brief Make Key.
+     * @param[in] tag_name Name of the tag.
+     * @return Return value.
      */
     std::string makeKey(const std::string& tag_name) const;
     
     /**
-     * @brief Extract tag name from RocksDB key
+     * @brief Extract Tag Name.
+     * @param[in] key Input parameter.
+     * @return Return value.
      */
     std::string extractTagName(const std::string& key) const;
     
     /**
-     * @brief Serialize snapshot to bytes
+     * @brief Serialize.
+     * @param[in] snapshot Input parameter.
+     * @return Return value.
      */
     std::vector<uint8_t> serialize(const Snapshot& snapshot) const;
     
     /**
-     * @brief Deserialize snapshot from bytes
+     * @brief Deserialize.
+     * @param[in] data Input parameter.
+     * @return Return value.
      */
     std::optional<Snapshot> deserialize(const std::vector<uint8_t>& data) const;
 };

@@ -52,6 +52,12 @@ PluginInfo AudioProcessor::getInfo() const {
     return info;
 }
 
+/**
+ * @brief Initialize.
+ * @param[in] config Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: stt_config(), reset().
+ */
 bool AudioProcessor::initialize(const PluginConfig &config) {
     if (initialized_) {
         return true;
@@ -85,6 +91,10 @@ bool AudioProcessor::initialize(const PluginConfig &config) {
     return true;
 }
 
+/**
+ * @brief Shutdown.
+ * @details Calls: reset().
+ */
 void AudioProcessor::shutdown() {
     if (!initialized_) {
         return;
@@ -106,6 +116,14 @@ bool AudioProcessor::canProcess(const std::string &mime_type) const {
     return std::find(supported.begin(), supported.end(), mime_type) != supported.end();
 }
 
+/**
+ * @brief Extract.
+ * @param[in] blob Input parameter.
+ * @param[in] param Input parameter.
+ * @param[in] options Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::steady_clock::now(), size(), empty(), extractMetadata(), extractTags(), extractWaveform(), json::array(), push_back().
+ */
 ContentExtractionResult AudioProcessor::extract(const std::vector<uint8_t> &blob, const std::string & /*mime_type*/,
                                                 const ExtractionOptions &options) {
     auto start = std::chrono::steady_clock::now();
@@ -249,6 +267,14 @@ ContentExtractionResult AudioProcessor::extract(const std::vector<uint8_t> &blob
     return result;
 }
 
+/**
+ * @brief Chunk.
+ * @param[in] result Input parameter.
+ * @param[in] max_tokens Input parameter.
+ * @param[in] int Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), splitSentences(), countTokens(), push_back().
+ */
 std::vector<ContentChunk> AudioProcessor::chunk(const ContentExtractionResult &result, int max_tokens, int /*overlap*/
 ) {
     std::vector<ContentChunk> chunks;
@@ -311,7 +337,13 @@ json AudioProcessor::getStatistics() const {
 
 // Private implementation methods
 
-// Helper: read a little-endian 16-bit integer from blob at offset (returns 0 if out of bounds)
+/**
+ * @brief Helper: read a little-endian 16-bit integer from blob at offset (returns 0 if out of bounds)
+ * @param[in] blob Input parameter.
+ * @param[in] offset Input parameter.
+ * @return Return value.
+ * @details Calls: size().
+ */
 static uint16_t readLE16(const std::vector<uint8_t> &blob, size_t offset) {
     if (offset + 1 >= blob.size()) {
         return 0;
@@ -319,7 +351,13 @@ static uint16_t readLE16(const std::vector<uint8_t> &blob, size_t offset) {
     return static_cast<uint16_t>(blob[offset]) | (static_cast<uint16_t>(blob[offset + 1]) << 8);
 }
 
-// Helper: read a little-endian 32-bit integer from blob at offset (returns 0 if out of bounds)
+/**
+ * @brief Helper: read a little-endian 32-bit integer from blob at offset (returns 0 if out of bounds)
+ * @param[in] blob Input parameter.
+ * @param[in] offset Input parameter.
+ * @return Return value.
+ * @details Calls: size().
+ */
 static uint32_t readLE32(const std::vector<uint8_t> &blob, size_t offset) {
     if (offset + 3 >= blob.size()) {
         return 0;
@@ -328,7 +366,13 @@ static uint32_t readLE32(const std::vector<uint8_t> &blob, size_t offset) {
            | (static_cast<uint32_t>(blob[offset + 2]) << 16) | (static_cast<uint32_t>(blob[offset + 3]) << 24);
 }
 
-// Helper: read a big-endian 32-bit integer from blob at offset (returns 0 if out of bounds)
+/**
+ * @brief Helper: read a big-endian 32-bit integer from blob at offset (returns 0 if out of bounds)
+ * @param[in] blob Input parameter.
+ * @param[in] offset Input parameter.
+ * @return Return value.
+ * @details Calls: size().
+ */
 static uint32_t readBE32(const std::vector<uint8_t> &blob, size_t offset) {
     if (offset + 3 >= blob.size()) {
         return 0;
@@ -337,7 +381,12 @@ static uint32_t readBE32(const std::vector<uint8_t> &blob, size_t offset) {
            | (static_cast<uint32_t>(blob[offset + 2]) << 8) | static_cast<uint32_t>(blob[offset + 3]);
 }
 
-// Parse WAV/RIFF header to extract audio metadata
+/**
+ * @brief Parse WAV/RIFF header to extract audio metadata
+ * @param[in] blob Input parameter.
+ * @param[in,out] data Input/output parameter.
+ * @details Calls: size(), readLE32(), readLE16().
+ */
 static void parseWavMetadata(const std::vector<uint8_t> &blob, MediaExtractionData &data) {
     // WAV header minimum size: 44 bytes (RIFF + WAVE + fmt chunk + data chunk)
     if (blob.size() < 44) {
@@ -401,7 +450,12 @@ static void parseWavMetadata(const std::vector<uint8_t> &blob, MediaExtractionDa
     }
 }
 
-// Parse FLAC STREAMINFO metadata block to extract audio metadata
+/**
+ * @brief Parse FLAC STREAMINFO metadata block to extract audio metadata
+ * @param[in] blob Input parameter.
+ * @param[in,out] data Input/output parameter.
+ * @details Calls: size().
+ */
 static void parseFlacMetadata(const std::vector<uint8_t> &blob, MediaExtractionData &data) {
     // FLAC file starts with "fLaC" (4 bytes), then metadata blocks
     // Minimum STREAMINFO block: 4 (marker) + 4 (block header) + 34 (STREAMINFO) = 42 bytes
@@ -473,7 +527,12 @@ static void parseFlacMetadata(const std::vector<uint8_t> &blob, MediaExtractionD
     }
 }
 
-// Parse the first valid MPEG frame header to extract MP3 metadata
+/**
+ * @brief Parse the first valid MPEG frame header to extract MP3 metadata
+ * @param[in] blob Input parameter.
+ * @param[in,out] data Input/output parameter.
+ * @details Calls: size().
+ */
 static void parseMp3FrameHeader(const std::vector<uint8_t> &blob, MediaExtractionData &data) {
     // Bitrate table for MPEG1 Layer3 (kbps)
     static const int mpeg1_l3_bitrates[16] = {0, 32, 40, 48, 56, 64, 80, 96, 112, 128, 160, 192, 224, 256, 320, 0};
@@ -559,7 +618,12 @@ static void parseMp3FrameHeader(const std::vector<uint8_t> &blob, MediaExtractio
     }
 }
 
-// Parse Ogg/Vorbis identification header to extract audio metadata
+/**
+ * @brief Parse Ogg/Vorbis identification header to extract audio metadata
+ * @param[in] blob Input parameter.
+ * @param[in,out] data Input/output parameter.
+ * @details Calls: size(), readLE32().
+ */
 static void parseOggVorbisMetadata(const std::vector<uint8_t> &blob, MediaExtractionData &data) {
     // Ogg page header layout (from RFC 3533):
     //   Bytes 0-3:   capture pattern "OggS"
@@ -616,6 +680,12 @@ static void parseOggVorbisMetadata(const std::vector<uint8_t> &blob, MediaExtrac
     // Duration cannot be derived without decoding all pages; leave as 0
 }
 
+/**
+ * @brief Extract Metadata.
+ * @param[in] blob Input parameter.
+ * @return Return value.
+ * @details Calls: size(), parseMp3FrameHeader(), parseWavMetadata(), parseFlacMetadata(), parseOggVorbisMetadata().
+ */
 MediaExtractionData AudioProcessor::extractMetadata(const std::vector<uint8_t> &blob) {
     MediaExtractionData data = {};
 
@@ -645,7 +715,13 @@ MediaExtractionData AudioProcessor::extractMetadata(const std::vector<uint8_t> &
     return data;
 }
 
-// Helper: decode a UTF-16LE string to UTF-8 (basic BMP-only conversion)
+/**
+ * @brief Helper: decode a UTF-16LE string to UTF-8 (basic BMP-only conversion)
+ * @param[in] data Input parameter.
+ * @param[in] len Input parameter.
+ * @return Return value.
+ * @details Implements decodeUtf16Le without additional internal calls.
+ */
 static std::string decodeUtf16Le(const uint8_t *data, size_t len) {
     std::string result = {};
     for (size_t i = 0; i + 1 < len; i += 2) {
@@ -667,7 +743,12 @@ static std::string decodeUtf16Le(const uint8_t *data, size_t len) {
     return result;
 }
 
-// Helper: strip leading BOM and null bytes from a text string
+/**
+ * @brief Helper: strip leading BOM and null bytes from a text string
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Calls: size(), substr(), find_last_not_of().
+ */
 static std::string stripBom(const std::string &s) {
     if (s.size() >= 3 && static_cast<uint8_t>(s[0]) == 0xEF && static_cast<uint8_t>(s[1]) == 0xBB
         && static_cast<uint8_t>(s[2]) == 0xBF) {
@@ -713,6 +794,12 @@ static const char *id3FrameToTagName(const std::string &frame_id) {
     return nullptr;
 }
 
+/**
+ * @brief Extract Tags.
+ * @param[in] blob Input parameter.
+ * @return Return value.
+ * @details Calls: size(), readBE32(), frame_id(), id3FrameToTagName(), decodeUtf16Le(), std::string(), stripBom(), empty().
+ */
 json AudioProcessor::extractTags(const std::vector<uint8_t> &blob) {
     json tags;
 
@@ -886,6 +973,12 @@ json AudioProcessor::extractTags(const std::vector<uint8_t> &blob) {
     return tags;
 }
 
+/**
+ * @brief Extract Waveform.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Calls: reserve().
+ */
 std::vector<float> AudioProcessor::extractWaveform(const std::vector<uint8_t> & /*blob*/) {
     std::vector<float> waveform;
     waveform.reserve(waveform_samples_);
@@ -898,6 +991,12 @@ std::vector<float> AudioProcessor::extractWaveform(const std::vector<uint8_t> & 
     return waveform;
 }
 
+/**
+ * @brief Transcribe.
+ * @param[in] blob Input parameter.
+ * @return Return value.
+ * @details Implements transcribe without additional internal calls.
+ */
 std::string AudioProcessor::transcribe(const std::vector<uint8_t> &blob) {
     if (!stt_processor_) {
         return "";

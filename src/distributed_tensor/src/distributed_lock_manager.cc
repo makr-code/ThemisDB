@@ -12,11 +12,22 @@ namespace distributed_tensor {
 
 DistributedLockManager::DistributedLockManager() {}
 
+/**
+ * @brief Get Current Time Unix Sec.
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::now(), time_since_epoch(), count().
+ */
 int64_t DistributedLockManager::getCurrentTimeUnixSec() {
   auto now = std::chrono::system_clock::now();
   return std::chrono::duration_cast<std::chrono::seconds>(now.time_since_epoch()).count();
 }
 
+/**
+ * @brief Is Expired.
+ * @param[in] lock Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: getCurrentTimeUnixSec().
+ */
 bool DistributedLockManager::isExpired(const DistributedLock& lock) {
   if (lock.ttl_seconds == 0) {
     return false;  // No expiry
@@ -26,6 +37,15 @@ bool DistributedLockManager::isExpired(const DistributedLock& lock) {
   return now >= lock.expires_at_unix_sec;
 }
 
+/**
+ * @brief Acquire Lock.
+ * @param[in] artifact_id Identifier of the artifact.
+ * @param[in] holder_id Identifier of the holder.
+ * @param[in] ttl_seconds Input parameter.
+ * @param[in] lock_reason Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), lock(), find(), end(), isExpired(), erase(), getCurrentTimeUnixSec().
+ */
 LockStatus DistributedLockManager::acquireLock(const std::string& artifact_id,
                                                const std::string& holder_id,
                                                int64_t ttl_seconds,
@@ -67,6 +87,13 @@ LockStatus DistributedLockManager::acquireLock(const std::string& artifact_id,
   return LockStatus::OK;
 }
 
+/**
+ * @brief Release Lock.
+ * @param[in] artifact_id Identifier of the artifact.
+ * @param[in] holder_id Identifier of the holder.
+ * @return Return value.
+ * @details Calls: empty(), lock(), find(), end(), getCurrentTimeUnixSec(), erase().
+ */
 LockStatus DistributedLockManager::releaseLock(const std::string& artifact_id,
                                                const std::string& holder_id) {
   if (artifact_id.empty() || holder_id.empty()) {
@@ -97,6 +124,14 @@ LockStatus DistributedLockManager::releaseLock(const std::string& artifact_id,
   return LockStatus::OK;
 }
 
+/**
+ * @brief Renew Lock.
+ * @param[in] artifact_id Identifier of the artifact.
+ * @param[in] holder_id Identifier of the holder.
+ * @param[in] ttl_seconds Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), lock(), find(), end(), getCurrentTimeUnixSec().
+ */
 LockStatus DistributedLockManager::renewLock(const std::string& artifact_id,
                                              const std::string& holder_id,
                                              int64_t ttl_seconds) {
@@ -124,6 +159,12 @@ LockStatus DistributedLockManager::renewLock(const std::string& artifact_id,
   return LockStatus::OK;
 }
 
+/**
+ * @brief Is Locked.
+ * @param[in] artifact_id Identifier of the artifact.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), lock(), find(), end(), isExpired().
+ */
 bool DistributedLockManager::isLocked(const std::string& artifact_id) {
   if (artifact_id.empty()) {
     return false;
@@ -139,6 +180,12 @@ bool DistributedLockManager::isLocked(const std::string& artifact_id) {
   return !isExpired(it->second);
 }
 
+/**
+ * @brief Get Lock Info.
+ * @param[in] artifact_id Identifier of the artifact.
+ * @return Return value.
+ * @details Calls: empty(), lock(), find(), end(), isExpired().
+ */
 std::optional<DistributedLock> DistributedLockManager::getLockInfo(const std::string& artifact_id) {
   if (artifact_id.empty()) {
     return std::nullopt;
@@ -158,6 +205,14 @@ std::optional<DistributedLock> DistributedLockManager::getLockInfo(const std::st
   return it->second;
 }
 
+/**
+ * @brief Forcefully Acquire Lock.
+ * @param[in] artifact_id Identifier of the artifact.
+ * @param[in] holder_id Identifier of the holder.
+ * @param[in] ttl_seconds Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), lock(), find(), end(), isExpired(), getCurrentTimeUnixSec().
+ */
 LockStatus DistributedLockManager::forcefullyAcquireLock(const std::string& artifact_id,
                                                         const std::string& holder_id,
                                                         int64_t ttl_seconds) {
@@ -194,6 +249,11 @@ LockStatus DistributedLockManager::forcefullyAcquireLock(const std::string& arti
   return LockStatus::OK;
 }
 
+/**
+ * @brief Cleanup Expired Locks.
+ * @return Return value.
+ * @details Calls: lock(), begin(), end(), isExpired(), erase().
+ */
 uint64_t DistributedLockManager::cleanupExpiredLocks() {
   uint64_t cleanup_count = 0;
 
@@ -217,10 +277,20 @@ uint64_t DistributedLockManager::cleanupExpiredLocks() {
 }
 
 DistributedLockManager::LockStats DistributedLockManager::getStats() const {
+  /**
+   * @brief Lock.
+   * @param[in] locks_mutex_ Input parameter.
+   * @return Return value.
+   */
   std::lock_guard<std::mutex> lock(locks_mutex_);
   return stats_;
 }
 
+/**
+ * @brief Clear All Locks.
+ * @param[in] force Input parameter.
+ * @details Calls: lock(), clear(), begin(), end(), isExpired(), erase().
+ */
 void DistributedLockManager::clearAllLocks(bool force) {
   std::lock_guard<std::mutex> lock(locks_mutex_);
 

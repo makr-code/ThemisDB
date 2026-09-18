@@ -25,7 +25,11 @@ PagedKVCache::PagedKVCache(const Config& config, std::shared_ptr<PagedBlockManag
 }
 
 PagedKVCache::~PagedKVCache() {
-    // Clean up all sequences
+    /**
+     * @brief Clean up all sequences
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     block_tables_.clear();
     kv_storage_.clear();
@@ -33,6 +37,14 @@ PagedKVCache::~PagedKVCache() {
     quantization_metadata_.clear();
 }
 
+/**
+ * @brief Store.
+ * @param[in] sequence_id Identifier of the sequence.
+ * @param[in] layer_id Identifier of the layer.
+ * @param[in] kv_data Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), find(), end(), calculateKVSize(), size(), getBlockMapping(), allocateBlocks(), evictLRU().
+ */
 bool PagedKVCache::store(uint64_t sequence_id, size_t layer_id, const std::vector<float>& kv_data) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -113,6 +125,11 @@ bool PagedKVCache::store(uint64_t sequence_id, size_t layer_id, const std::vecto
 }
 
 std::vector<float> PagedKVCache::retrieve(uint64_t sequence_id, size_t layer_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     auto it = block_tables_.find(sequence_id);
@@ -148,6 +165,13 @@ std::vector<float> PagedKVCache::retrieve(uint64_t sequence_id, size_t layer_id)
     return result;
 }
 
+/**
+ * @brief Share Prefix.
+ * @param[in] new_sequence_id Identifier of the new sequence.
+ * @param[in] parent_sequence_id Identifier of the parent sequence.
+ * @param[in] prefix_length Input parameter.
+ * @details Calls: lock(), find(), end().
+ */
 void PagedKVCache::sharePrefix(uint64_t new_sequence_id, uint64_t parent_sequence_id, size_t prefix_length) {
     if (!config_.enable_prefix_caching) {
         return;
@@ -174,6 +198,12 @@ void PagedKVCache::sharePrefix(uint64_t new_sequence_id, uint64_t parent_sequenc
     block_tables_[new_sequence_id] = new_block_table;
 }
 
+/**
+ * @brief Get Block Table.
+ * @param[in] sequence_id Identifier of the sequence.
+ * @return Return value.
+ * @details Calls: lock(), find(), end().
+ */
 std::shared_ptr<BlockTable> PagedKVCache::getBlockTable(uint64_t sequence_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -185,6 +215,11 @@ std::shared_ptr<BlockTable> PagedKVCache::getBlockTable(uint64_t sequence_id) {
     return nullptr;
 }
 
+/**
+ * @brief Remove Sequence.
+ * @param[in] sequence_id Identifier of the sequence.
+ * @details Calls: lock(), find(), end(), erase().
+ */
 void PagedKVCache::removeSequence(uint64_t sequence_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -202,6 +237,11 @@ void PagedKVCache::removeSequence(uint64_t sequence_id) {
     }
 }
 
+/**
+ * @brief Evict LRU.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), back(), pop_back(), erase(), find(), end(), getBlockMapping(), fetch_add().
+ */
 bool PagedKVCache::evictLRU() {
     // Must be called while holding mutex_
     if (lru_order_.empty()) {
@@ -236,6 +276,11 @@ bool PagedKVCache::evictLRU() {
 }
 
 PagedKVCache::Stats PagedKVCache::getStats() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     Stats stats;
@@ -421,6 +466,12 @@ std::vector<float> PagedKVCache::dequantizeKVData(
     return {};
 }
 
+/**
+ * @brief Get Compression Factor.
+ * @param[in] type Input parameter.
+ * @return Return value.
+ * @details Implements getCompressionFactor without additional internal calls.
+ */
 float PagedKVCache::getCompressionFactor(KVQuantizationType type) {
     switch (type) {
         case KVQuantizationType::FP16:
@@ -434,6 +485,12 @@ float PagedKVCache::getCompressionFactor(KVQuantizationType type) {
     return 1.0f;
 }
 
+/**
+ * @brief Get Expected Accuracy.
+ * @param[in] type Input parameter.
+ * @return Return value.
+ * @details Implements getExpectedAccuracy without additional internal calls.
+ */
 float PagedKVCache::getExpectedAccuracy(KVQuantizationType type) {
     switch (type) {
         case KVQuantizationType::FP16:
@@ -447,6 +504,12 @@ float PagedKVCache::getExpectedAccuracy(KVQuantizationType type) {
     return 1.0f;
 }
 
+/**
+ * @brief Get Bit Width For Quantization Type.
+ * @param[in] type Input parameter.
+ * @return Return value.
+ * @details Implements getBitWidthForQuantizationType without additional internal calls.
+ */
 int PagedKVCache::getBitWidthForQuantizationType(KVQuantizationType type) {
     switch (type) {
         case KVQuantizationType::FP16:
@@ -460,6 +523,12 @@ int PagedKVCache::getBitWidthForQuantizationType(KVQuantizationType type) {
     return 32;  // Default to FP32 (no quantization)
 }
 
+/**
+ * @brief Quantize To NVFP4.
+ * @param[in] value Input parameter.
+ * @return Return value.
+ * @details Calls: std::min().
+ */
 uint8_t PagedKVCache::quantizeToNVFP4(float value) {
     // NVFP4: [s1e2m1] format (1 sign, 2 exponent, 1 mantissa)
     // Range: [-448, +448], ~4-5% precision loss vs FP16
@@ -482,6 +551,12 @@ uint8_t PagedKVCache::quantizeToNVFP4(float value) {
     return result;
 }
 
+/**
+ * @brief Dequantize From NVFP4.
+ * @param[in] packed Input parameter.
+ * @return Return value.
+ * @details Implements dequantizeFromNVFP4 without additional internal calls.
+ */
 float PagedKVCache::dequantizeFromNVFP4(uint8_t packed) {
     // NVFP4: [s1e2m1] format — reconstruct to FP32
     
@@ -503,6 +578,14 @@ float PagedKVCache::dequantizeFromNVFP4(uint8_t packed) {
     return result;
 }
 
+/**
+ * @brief Quantize To INT8.
+ * @param[in] values Input parameter.
+ * @param[in,out] scale Input/output parameter.
+ * @param[in,out] zero_point Input/output parameter.
+ * @return Return value.
+ * @details Calls: empty(), std::min(), std::max(), std::round(), reserve(), size(), int8_t(), push_back().
+ */
 std::vector<int8_t> PagedKVCache::quantizeToINT8(
     const std::vector<float>& values,
     float& scale,
@@ -540,6 +623,14 @@ std::vector<int8_t> PagedKVCache::quantizeToINT8(
     return result;
 }
 
+/**
+ * @brief Dequantize From INT8.
+ * @param[in] quantized Input parameter.
+ * @param[in] scale Input parameter.
+ * @param[in] zero_point Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), push_back().
+ */
 std::vector<float> PagedKVCache::dequantizeFromINT8(
     const std::vector<int8_t>& quantized,
     float scale,

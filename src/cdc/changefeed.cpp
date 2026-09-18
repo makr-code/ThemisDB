@@ -137,6 +137,12 @@ nlohmann::json Changefeed::ChangeEvent::toJson() const {
     return j;
 }
 
+/**
+ * @brief From Json.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: value(), uint64_t(), contains(), is_null(), int64_t(), is_string().
+ */
 Changefeed::ChangeEvent Changefeed::ChangeEvent::fromJson(const nlohmann::json &j) {
     ChangeEvent event;
     event.sequence = j.value("sequence", uint64_t(0));
@@ -181,7 +187,11 @@ Changefeed::ChangeEvent Changefeed::ChangeEvent::fromJson(const nlohmann::json &
     return event;
 }
 
-// ===== Changefeed Implementation =====
+/**
+ * @brief ===== Changefeed Implementation =====
+ * @return Return value.
+ * @details Implements makeSequenceMergeOperator without additional internal calls.
+ */
 
 std::shared_ptr<rocksdb::MergeOperator> Changefeed::makeSequenceMergeOperator() {
     return std::make_shared<SequenceIncrementOperator>();
@@ -320,6 +330,11 @@ std::string Changefeed::makeKey(uint64_t sequence) const {
     return std::string(buf);
 }
 
+/**
+ * @brief Next Sequence.
+ * @return Return value.
+ * @details Calls: fetch_add(), load(), delta_slice(), Merge(), ok(), compare_exchange_weak(), store(), THEMIS_ERROR().
+ */
 uint64_t Changefeed::nextSequence() {
     // Atomically increment the in-process counter — lock-free, O(1).
     // No mutex needed; std::atomic<uint64_t> guarantees uniqueness across threads.
@@ -385,6 +400,13 @@ uint64_t Changefeed::nextSequence() {
     return seq;
 }
 
+/**
+ * @brief Record Event.
+ * @param[in] event Input parameter.
+ * @return Return value.
+ * @throws error::eventRecordFailed if an error occurs.
+ * @details Calls: nextSequence(), std::chrono::system_clock::now(), time_since_epoch(), count(), toJson(), dump(), makeKey(), Put().
+ */
 Changefeed::ChangeEvent Changefeed::recordEvent(ChangeEvent event) {
     // Assign sequence number
     event.sequence = nextSequence();
@@ -566,6 +588,10 @@ Changefeed::Stats Changefeed::getStats() const {
     return stats;
 }
 
+/**
+ * @brief Clear.
+ * @details Calls: reset(), NewIterator(), Seek(), Valid(), Next(), key(), ToString(), compare().
+ */
 void Changefeed::clear() {
     rocksdb::ReadOptions read_opts;
     rocksdb::WriteOptions write_opts;
@@ -634,6 +660,11 @@ Changefeed::ChangeEvent Changefeed::getEvent(uint64_t sequence) const {
     return ChangeEvent::fromJson(j);
 }
 
+/**
+ * @brief Compact By Key.
+ * @return Return value.
+ * @details Calls: reset(), NewIterator(), Seek(), Valid(), Next(), key(), ToString(), compare().
+ */
 Changefeed::CompactionResult Changefeed::compactByKey() {
     CompactionResult result;
 
@@ -745,6 +776,13 @@ Changefeed::CompactionResult Changefeed::compactByKey() {
     return result;
 }
 
+/**
+ * @brief Redact By Key Prefix.
+ * @param[in] key_prefix Input parameter.
+ * @return Return value.
+ * @throws error::invalidArgument if an error occurs.
+ * @details Calls: empty(), reset(), NewIterator(), Seek(), makeKey(), Valid(), Next(), key().
+ */
 Changefeed::RedactionResult Changefeed::redactByKeyPrefix(const std::string &key_prefix) {
     if (key_prefix.empty()) {
         throw error::invalidArgument("redactByKeyPrefix: key_prefix cannot be empty");
@@ -822,6 +860,12 @@ Changefeed::RedactionResult Changefeed::redactByKeyPrefix(const std::string &key
     return result;
 }
 
+/**
+ * @brief Delete Old Events.
+ * @param[in] before_sequence Input parameter.
+ * @return Return value.
+ * @details Calls: reset(), NewIterator(), Seek(), Valid(), Next(), key(), ToString(), compare().
+ */
 size_t Changefeed::deleteOldEvents(uint64_t before_sequence) {
     rocksdb::ReadOptions read_opts;
     rocksdb::WriteOptions write_opts;
@@ -924,6 +968,12 @@ Changefeed::Watermarks Changefeed::getWatermarks() const {
     return wm;
 }
 
+/**
+ * @brief Delete Old Events By Timestamp.
+ * @param[in] before_timestamp_ms Input parameter.
+ * @return Return value.
+ * @details Calls: reset(), NewIterator(), Seek(), Valid(), Next(), key(), ToString(), compare().
+ */
 size_t Changefeed::deleteOldEventsByTimestamp(int64_t before_timestamp_ms) {
     rocksdb::ReadOptions read_opts;
     rocksdb::WriteOptions write_opts;
@@ -971,6 +1021,11 @@ size_t Changefeed::deleteOldEventsByTimestamp(int64_t before_timestamp_ms) {
     return count;
 }
 
+/**
+ * @brief Apply Retention Policy.
+ * @return Return value.
+ * @details Calls: plk(), getStats(), count(), std::chrono::system_clock::now(), time_since_epoch(), deleteOldEventsByTimestamp(), THEMIS_DEBUG(), deleteOldEvents().
+ */
 size_t Changefeed::applyRetentionPolicy() {
     // Take a local snapshot of the policy under the lock to avoid data races
     // with concurrent calls to updateRetentionPolicy().
@@ -1035,6 +1090,11 @@ size_t Changefeed::applyRetentionPolicy() {
     return total_deleted;
 }
 
+/**
+ * @brief Update Retention Policy.
+ * @param[in] policy Input parameter.
+ * @details Calls: lock(), THEMIS_INFO(), count(), startRetentionCleanup(), stopRetentionCleanup(), notify_all().
+ */
 void Changefeed::updateRetentionPolicy(const RetentionPolicy &policy) {
     bool was_enabled = 0;
     {
@@ -1059,10 +1119,19 @@ void Changefeed::updateRetentionPolicy(const RetentionPolicy &policy) {
 }
 
 Changefeed::RetentionPolicy Changefeed::getRetentionPolicy() const {
+    /**
+     * @brief Lock.
+     * @param[in] retention_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(retention_mutex_);
     return retention_policy_;
 }
 
+/**
+ * @brief Start Retention Cleanup.
+ * @details Calls: exchange(), THEMIS_WARN(), std::thread(), lk(), THEMIS_INFO(), count().
+ */
 void Changefeed::startRetentionCleanup() {
     if (retention_thread_running_.exchange(true)) {
         THEMIS_WARN("Retention cleanup thread already running");
@@ -1076,6 +1145,10 @@ void Changefeed::startRetentionCleanup() {
     }
 }
 
+/**
+ * @brief Stop Retention Cleanup.
+ * @details Calls: exchange(), notify_all(), joinable(), join(), THEMIS_INFO().
+ */
 void Changefeed::stopRetentionCleanup() {
     if (!retention_thread_running_.exchange(false)) {
         return;
@@ -1097,6 +1170,10 @@ bool Changefeed::isRetentionCleanupRunning() const noexcept {
     return retention_thread_running_.load();
 }
 
+/**
+ * @brief Retention Cleanup Thread.
+ * @details Calls: load(), applyRetentionPolicy(), plk(), compactByKey(), THEMIS_DEBUG(), lock(), wait_for(), THEMIS_ERROR().
+ */
 void Changefeed::retentionCleanupThread() {
     constexpr int ERROR_RETRY_DELAY_SECONDS = 60;
 
@@ -1150,6 +1227,13 @@ bool Changefeed::SubscriptionFilter::matches(const ChangeEvent &ev) const noexce
     return true;
 }
 
+/**
+ * @brief Subscribe.
+ * @param[in] filter Input parameter.
+ * @param[in] callback Input parameter.
+ * @return Return value.
+ * @details Calls: fetch_add(), lk(), emplace(), std::move(), THEMIS_DEBUG().
+ */
 Changefeed::SubscriptionHandle Changefeed::subscribe(SubscriptionFilter filter, SubscriptionCallback callback) {
     const uint64_t id = next_subscription_id_.fetch_add(1, std::memory_order_relaxed);
     {
@@ -1162,6 +1246,11 @@ Changefeed::SubscriptionHandle Changefeed::subscribe(SubscriptionFilter filter, 
 }
 
 void Changefeed::unsubscribe(uint64_t subscription_id) noexcept {
+    /**
+     * @brief Lk.
+     * @param[in] subscriptions_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(subscriptions_mutex_);
     if (subscriptions_.erase(subscription_id) > 0) {
         subscription_count_.fetch_sub(1, std::memory_order_release);
@@ -1169,6 +1258,11 @@ void Changefeed::unsubscribe(uint64_t subscription_id) noexcept {
     THEMIS_DEBUG("Changefeed: subscription {} cancelled", subscription_id);
 }
 
+/**
+ * @brief Notify Subscribers.
+ * @param[in] event Input parameter.
+ * @details Calls: load(), lk(), reserve(), size(), push_back(), matches(), callback(), THEMIS_WARN().
+ */
 void Changefeed::notifySubscribers(const ChangeEvent &event) {
     // Fast path: skip snapshot + mutex acquisition when no subscribers registered.
     if (subscription_count_.load(std::memory_order_acquire) == 0) {

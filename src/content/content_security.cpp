@@ -22,7 +22,12 @@
 
 namespace {
 
-/// Compute a short SHA-256 hex digest of @p data (first 16 hex chars = 8 bytes).
+/**
+ * @brief Content Hash.
+ * @param[in] data Input parameter.
+ * @return Return value.
+ * @details Calls: SHA256(), data(), size(), std::setw(), std::setfill(), str().
+ */
 std::string contentHash(const std::string &data) {
     unsigned char digest[SHA256_DIGEST_LENGTH] = {};
     SHA256(reinterpret_cast<const unsigned char *>(data.data()),data.size(), digest);
@@ -61,6 +66,12 @@ json ContentSecurityConfig::toJson() const {
     return j;
 }
 
+/**
+ * @brief From Json.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: contains().
+ */
 ContentSecurityConfig ContentSecurityConfig::fromJson(const json &j) {
     ContentSecurityConfig config = {};
 
@@ -139,26 +150,60 @@ json SecurityCheckResult::toJson() const {
 
 ContentSecurityManager::ContentSecurityManager(const ContentSecurityConfig &config) : config_(config) {}
 
+/**
+ * @brief Set Malware Filter.
+ * @param[in] filter Input parameter.
+ * @details Implements setMalwareFilter without additional internal calls.
+ */
 void ContentSecurityManager::setMalwareFilter(std::shared_ptr<security::MalwareFilterManager> filter) {
     malware_filter_ = filter;
 }
 
+/**
+ * @brief Set Pii Detector.
+ * @param[in] detector Input parameter.
+ * @details Implements setPiiDetector without additional internal calls.
+ */
 void ContentSecurityManager::setPiiDetector(std::shared_ptr<utils::PIIDetector> detector) {
     pii_detector_ = detector;
 }
 
+/**
+ * @brief Set Photo Abuse Detector.
+ * @param[in] detector Input parameter.
+ * @details Implements setPhotoAbuseDetector without additional internal calls.
+ */
 void ContentSecurityManager::setPhotoAbuseDetector(std::shared_ptr<IAbuseDetector> detector) {
     photo_abuse_detector_ = detector;
 }
 
+/**
+ * @brief Set Text Abuse Detector.
+ * @param[in] detector Input parameter.
+ * @details Implements setTextAbuseDetector without additional internal calls.
+ */
 void ContentSecurityManager::setTextAbuseDetector(std::shared_ptr<IAbuseDetector> detector) {
     text_abuse_detector_ = detector;
 }
 
+/**
+ * @brief Set Audit Logger.
+ * @param[in,out] logger Input/output parameter.
+ * @details Implements setAuditLogger without additional internal calls.
+ */
 void ContentSecurityManager::setAuditLogger(utils::AuditLogger *logger) {
     audit_logger_ = logger;
 }
 
+/**
+ * @brief Check Content.
+ * @param[in] data Input parameter.
+ * @param[in] mime_type Input parameter.
+ * @param[in] content_id Identifier of the content.
+ * @param[in] filename Input parameter.
+ * @return Return value.
+ * @details Calls: ContentError::ok(), checkMalware(), failed(), find(), checkPii(), checkAbuse().
+ */
 SecurityCheckResult ContentSecurityManager::checkContent(const std::string &data, const std::string &mime_type,
                                                          const std::string &content_id, const std::string &filename) {
     metrics_.total_checks++;
@@ -211,6 +256,15 @@ SecurityCheckResult ContentSecurityManager::checkContent(const std::string &data
     return result;
 }
 
+/**
+ * @brief Check Zip Bomb.
+ * @param[in] compressed_size Input parameter.
+ * @param[in] uncompressed_size Input parameter.
+ * @param[in] file_count Input parameter.
+ * @param[in] content_id Identifier of the content.
+ * @return Return value.
+ * @details Calls: ContentError::ok(), ContentError::error().
+ */
 SecurityCheckResult ContentSecurityManager::checkZipBomb(uint64_t compressed_size, uint64_t uncompressed_size,
                                                          size_t file_count, const std::string &content_id) {
     SecurityCheckResult result;
@@ -258,6 +312,13 @@ SecurityCheckResult ContentSecurityManager::checkZipBomb(uint64_t compressed_siz
     return result;
 }
 
+/**
+ * @brief Check Text For Pii.
+ * @param[in] text Input parameter.
+ * @param[in] content_id Identifier of the content.
+ * @return Return value.
+ * @details Calls: ContentError::ok(), checkPii().
+ */
 SecurityCheckResult ContentSecurityManager::checkTextForPii(const std::string &text, const std::string &content_id) {
     SecurityCheckResult result;
     result.error = ContentError::ok();
@@ -310,6 +371,11 @@ std::string ContentSecurityManager::sanitizeErrorMessage(const std::string &mess
     return sanitized;
 }
 
+/**
+ * @brief Set Config.
+ * @param[in] config Input parameter.
+ * @details Implements setConfig without additional internal calls.
+ */
 void ContentSecurityManager::setConfig(const ContentSecurityConfig &config) {
     config_ = config;
 }
@@ -322,6 +388,10 @@ const ContentSecurityManager::Metrics &ContentSecurityManager::getMetrics() cons
     return metrics_;
 }
 
+/**
+ * @brief Reset Metrics.
+ * @details Calls: store().
+ */
 void ContentSecurityManager::resetMetrics() {
     metrics_.total_checks.store(0, std::memory_order_relaxed);
     metrics_.malware_scans.store(0, std::memory_order_relaxed);
@@ -342,6 +412,15 @@ void ContentSecurityManager::resetMetrics() {
 // Private Helper Methods
 // ============================================================================
 
+/**
+ * @brief Check Malware.
+ * @param[in] data Input parameter.
+ * @param[in] filename Input parameter.
+ * @param[in] mime_type Input parameter.
+ * @param[in] content_id Identifier of the content.
+ * @return Return value.
+ * @details Calls: ContentError::ok(), scan(), empty(), ContentError::error(), security::threatLevelToString().
+ */
 SecurityCheckResult ContentSecurityManager::checkMalware(const std::string &data, const std::string &filename,
                                                          const std::string &mime_type, const std::string &content_id) {
     SecurityCheckResult result;
@@ -380,6 +459,13 @@ SecurityCheckResult ContentSecurityManager::checkMalware(const std::string &data
     return result;
 }
 
+/**
+ * @brief Check Pii.
+ * @param[in] text Input parameter.
+ * @param[in] content_id Identifier of the content.
+ * @return Return value.
+ * @details Calls: ContentError::ok(), detectInText(), empty(), utils::PIITypeUtils::toString(), insert(), push_back(), ContentError::error(), size().
+ */
 SecurityCheckResult ContentSecurityManager::checkPii(const std::string &text, const std::string &content_id) {
     SecurityCheckResult result;
     result.error       = ContentError::ok();
@@ -426,6 +512,14 @@ SecurityCheckResult ContentSecurityManager::checkPii(const std::string &text, co
     return result;
 }
 
+/**
+ * @brief Check Abuse.
+ * @param[in] data Input parameter.
+ * @param[in] mime_type Input parameter.
+ * @param[in] content_id Identifier of the content.
+ * @return Return value.
+ * @details Calls: ContentError::ok(), abuseActionToString(), contentHash(), detect(), logEvent(), ContentError::error().
+ */
 SecurityCheckResult ContentSecurityManager::checkAbuse(const std::string &data, const std::string &mime_type,
                                                        const std::string &content_id) {
     SecurityCheckResult result;

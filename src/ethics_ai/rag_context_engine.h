@@ -20,69 +20,34 @@ namespace themis {
 namespace plugins {
 namespace ethics {
 
-/**
- * @brief RAG Context Engine
- * 
- * Implements 7 AQL query patterns for retrieving ethical context:
- * 1. Textual similarity search
- * 2. Philosophy-specific arguments
- * 3. Best-practice synthesis
- * 4. Vector semantic search
- * 5. Argument chain traversal
- * 6. Temporal filtering
- * 7. Multi-philosophy consensus
- */
 class RAGContextEngine {
 public:
+    /**
+     * @brief RAGContext Engine.
+     * @param[in] store Input parameter.
+     * @return Return value.
+     */
     explicit RAGContextEngine(std::shared_ptr<ArgumentStore> store);
     ~RAGContextEngine() = default;
     
-    /**
-     * @brief Build comprehensive RAG context
-     * @param dilemma_description Description of the dilemma
-     * @param philosophy_schools Participating philosophies
-     * @param category Dilemma category
-     * @return RAG context or error
-     */
     std::variant<RAGContext, Status> buildContext(
         const std::string& dilemma_description,
         const std::vector<std::string>& philosophy_schools,
         const std::string& category
     );
     
-    /**
-     * @brief Find similar dilemmas (Pattern 1)
-     * @param query_text Query text
-     * @param threshold Similarity threshold
-     * @param limit Maximum results
-     * @return List of dilemma IDs or error
-     */
     std::variant<std::vector<std::string>, Status> findSimilarDilemmas(
         const std::string& query_text,
         double threshold,
         size_t limit
     );
     
-    /**
-     * @brief Get best practices (Pattern 3)
-     * @param category Dilemma category
-     * @param min_satisfaction Minimum satisfaction score
-     * @param limit Maximum results
-     * @return List of decision IDs or error
-     */
     std::variant<std::vector<std::string>, Status> getBestPractices(
         const std::string& category,
         double min_satisfaction,
         size_t limit
     );
     
-    /**
-     * @brief Vector semantic search (Pattern 4)
-     * @param query_embedding Query vector
-     * @param philosophy_school Optional filter
-     * @param limit Maximum results
-     * @return List of (argument_id, similarity) pairs or error
-     */
     std::variant<std::vector<std::pair<std::string, double>>, Status> 
     vectorSemanticSearch(
         const std::vector<float>& query_embedding,
@@ -90,34 +55,19 @@ public:
         size_t limit
     );
     
-    /**
-     * @brief Traverse argument chains (Pattern 5)
-     * @param start_argument_id Starting argument
-     * @param max_depth Maximum depth
-     * @param direction Traversal direction
-     * @return List of argument IDs or error
-     */
     std::variant<std::vector<std::string>, Status> traverseArgumentChain(
         const std::string& start_argument_id,
         size_t max_depth,
         const std::string& direction
     );
 
-    /**
-     * @brief Retrieve compliance-relevant legal grounding from legal_db.
-     *
-     * Retrieves canonical norm references used by EU AI Act Art. 13/22 evidence:
-     * GG Art. 1, DSGVO Art. 5, EU AI Act Art. 22.
-     *
-     * @param dilemma_description Current dilemma context.
-     * @return Legal grounding payload with availability/unavailability flags.
-     */
     [[nodiscard]] LegalGrounding retrieveLegalGrounding(
         const std::string& dilemma_description) const;
 
     /**
-     * @brief Toggle legal_db availability simulation for compliance testing.
-     * @param available true when legal_db is reachable.
+     * @brief Set Legal Db Available.
+     * @param[in] available Input parameter.
+     * @note Exception safety: noexcept.
      */
     void setLegalDbAvailable(bool available) noexcept;
     
@@ -125,11 +75,21 @@ private:
     std::shared_ptr<ArgumentStore> store_;
     bool legal_db_available_{true};
     
-    /// CRITICAL FIX: Protect shared store access (data_race: shared data without lock at lines 56, 218)
     mutable std::mutex store_access_mutex_;
     
     // Helper methods
+    /**
+     * @brief Calculate Text Similarity.
+     * @param[in] text1 Input parameter.
+     * @param[in] text2 Input parameter.
+     * @return Return value.
+     */
     double calculateTextSimilarity(const std::string& text1, const std::string& text2);
+    /**
+     * @brief Generate Embedding.
+     * @param[in] text Input parameter.
+     * @return Return value.
+     */
     std::vector<float> generateEmbedding(const std::string& text);
 };
 

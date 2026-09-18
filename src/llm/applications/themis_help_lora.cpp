@@ -32,6 +32,12 @@ using json = nlohmann::json;
 using namespace themis::llm::lora;
 
 namespace {
+/**
+ * @brief Resolve Model Path.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @details Calls: model_path_provider(), empty(), spdlog::warn(), what().
+ */
 std::string resolveModelPath(const ThemisHelpLoRA::Config& config) {
     if (config.model_path_provider) {
         try {
@@ -52,7 +58,6 @@ std::string resolveModelPath(const ThemisHelpLoRA::Config& config) {
 }
 } // namespace
 
-/** @brief Implementation detail. */
 class ThemisHelpLoRA::Impl {
 public:
     // Configuration
@@ -77,6 +82,11 @@ public:
     std::vector<FeedbackItem> feedback_buffer;
     mutable std::mutex feedback_mutex;
     
+    /**
+     * @brief Impl.
+     * @param[in] cfg Input parameter.
+     * @return Return value.
+     */
     explicit Impl(const Config& cfg)
         : config(cfg)
         , current_adapter_version("v1.0")
@@ -149,6 +159,12 @@ public:
         return "models/" + config.base_model_id + ".gguf";
     }
     
+    /**
+     * @brief Build Documentation Prompt.
+     * @param[in] question Input parameter.
+     * @return Return value.
+     * @details Calls: str().
+     */
     std::string buildDocumentationPrompt(const std::string& question) {
         // Build a prompt template for documentation Q&A
         std::ostringstream prompt = {};
@@ -162,6 +178,13 @@ public:
         return prompt.str();
     }
     
+    /**
+     * @brief Query Internal.
+     * @param[in] question Input parameter.
+     * @param[in] param Input parameter.
+     * @return Return value.
+     * @details Calls: std::chrono::system_clock::now(), isModelLoaded(), spdlog::info(), model_path_provider(), empty(), spdlog::warn(), loadModel(), what().
+     */
     std::string queryInternal(const std::string& question, const std::string& /*user_id*/) {
         auto start = std::chrono::system_clock::now();
         
@@ -258,6 +281,12 @@ public:
         }
     }
     
+    /**
+     * @brief Generate Placeholder Response.
+     * @param[in] question Input parameter.
+     * @return Return value.
+     * @details Calls: std::transform(), begin(), end(), find().
+     */
     std::string generatePlaceholderResponse(const std::string& question) {
         
         std::string lower_question = question;
@@ -316,10 +345,24 @@ ThemisHelpLoRA::ThemisHelpLoRA()
 
 ThemisHelpLoRA::~ThemisHelpLoRA() = default;
 
+/**
+ * @brief Query.
+ * @param[in] question Input parameter.
+ * @param[in] user_id Identifier of the user.
+ * @return Return value.
+ * @details Calls: queryInternal().
+ */
 std::string ThemisHelpLoRA::query(const std::string& question, const std::string& user_id) {
     return impl_->queryInternal(question, user_id);
 }
 
+/**
+ * @brief Add Positive Feedback.
+ * @param[in] question Input parameter.
+ * @param[in] answer Input parameter.
+ * @param[in] user_id Identifier of the user.
+ * @details Calls: lock(), std::chrono::system_clock::now(), push_back(), spdlog::debug(), length().
+ */
 void ThemisHelpLoRA::addPositiveFeedback(
     const std::string& question,
     const std::string& answer,
@@ -339,6 +382,14 @@ void ThemisHelpLoRA::addPositiveFeedback(
     spdlog::debug("Positive feedback added (user: {}, question_length: {})", user_id, question.length());
 }
 
+/**
+ * @brief Add Negative Feedback.
+ * @param[in] question Input parameter.
+ * @param[in] answer Input parameter.
+ * @param[in] correction Input parameter.
+ * @param[in] user_id Identifier of the user.
+ * @details Calls: lock(), std::chrono::system_clock::now(), push_back(), spdlog::info(), length().
+ */
 void ThemisHelpLoRA::addNegativeFeedback(
     const std::string& question,
     const std::string& answer,
@@ -360,6 +411,12 @@ void ThemisHelpLoRA::addNegativeFeedback(
     spdlog::info("Negative feedback with correction (user: {}, question_length: {}, correction_length: {})", user_id, question.length(), correction.length());
 }
 
+/**
+ * @brief Train From Feedback.
+ * @return True when the operation succeeds.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: lock(), empty(), spdlog::warn(), spdlog::info(), size(), std::chrono::system_clock::now(), logTraining(), push_back().
+ */
 bool ThemisHelpLoRA::trainFromFeedback() {
     std::lock_guard<std::mutex> lock(impl_->feedback_mutex);
 
@@ -464,6 +521,12 @@ bool ThemisHelpLoRA::trainFromFeedback() {
     }
 }
 
+/**
+ * @brief Train From Documentation.
+ * @return True when the operation succeeds.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: spdlog::info(), std::chrono::system_clock::now(), logTraining(), trainOnTheFly(), count(), isLoaded(), unloadAdapter(), loadAdapter().
+ */
 bool ThemisHelpLoRA::trainFromDocumentation() {
     spdlog::info("Starting training from documentation corpus");
 
@@ -597,6 +660,11 @@ bool ThemisHelpLoRA::isAdapterLoaded() const {
     return impl_->orchestrator->isLoaded(impl_->config.adapter_id);
 }
 
+/**
+ * @brief Reload Adapter.
+ * @return True when the operation succeeds.
+ * @details Calls: isLoaded(), unloadAdapter(), loadAdapter(), empty(), spdlog::error(), what().
+ */
 bool ThemisHelpLoRA::reloadAdapter() {
     try {
         // Unload if currently loaded
@@ -625,6 +693,11 @@ bool ThemisHelpLoRA::isTrained() const {
     return impl_->is_trained.load(std::memory_order_acquire);
 }
 
+/**
+ * @brief Rollback To Previous Version.
+ * @return True when the operation succeeds.
+ * @details Calls: rollback(), size(), pop_back(), back(), decrementVersion(), spdlog::info(), spdlog::error(), what().
+ */
 bool ThemisHelpLoRA::rollbackToPreviousVersion() {
     try {
         bool success = impl_->orchestrator->rollback(impl_->config.adapter_id);
@@ -648,9 +721,12 @@ bool ThemisHelpLoRA::rollbackToPreviousVersion() {
     }
 }
 
-// ═══════════════════════════════════════════════════════════
-// Helper Functions
-// ═══════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════ Helper Functions ═══════════════════════════════════════════════════════════
+ * @param[in] version Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), find(), substr(), std::stoi(), std::to_string().
+ */
 
 std::string ThemisHelpLoRA::incrementVersion(const std::string& version) {
     // Parse version string (e.g., "v1.2" -> "v1.3")
@@ -675,6 +751,12 @@ std::string ThemisHelpLoRA::incrementVersion(const std::string& version) {
     }
 }
 
+/**
+ * @brief Decrement Version.
+ * @param[in] version Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), find(), substr(), std::stoi(), std::to_string().
+ */
 std::string ThemisHelpLoRA::decrementVersion(const std::string& version) {
     // Parse version string (e.g., "v1.3" -> "v1.2")
     if (version.empty() || version[0] != 'v') {

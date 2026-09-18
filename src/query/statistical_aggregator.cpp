@@ -21,14 +21,14 @@ namespace query {
 
 using errors::ErrorCode;
 
+
 /**
- * @brief ============================================================================ Percentile Calculation ============================================================================
+ * @brief Calculate Percentile.
  * @param[in] values Input parameter.
  * @param[in] percentile Input parameter.
  * @return Return value.
  * @details Calls: empty(), fmt::format(), std::sort(), begin(), end(), size(), Ok(), nlohmann::json().
  */
-
 Result<nlohmann::json> StatisticalAggregator::calculatePercentile(
     std::vector<double> values,
     double percentile
@@ -81,13 +81,13 @@ Result<nlohmann::json> StatisticalAggregator::calculateMedian(std::vector<double
     return calculatePercentile(std::move(values), 50.0);
 }
 
+
 /**
- * @brief ============================================================================ Standard Deviation & Variance ============================================================================
+ * @brief Calculate Mean.
  * @param[in] values Input parameter.
  * @return Return value.
  * @details Calls: empty(), std::accumulate(), begin(), end(), size().
  */
-
 double StatisticalAggregator::calculateMean(const std::vector<double>& values) {
     if (values.empty()) {
         return 0.0;
@@ -184,13 +184,13 @@ Result<nlohmann::json> StatisticalAggregator::calculateStdDevPop(const std::vect
     return Ok(nlohmann::json(std::sqrt(variance.value().get<double>())));
 }
 
+
 /**
- * @brief ============================================================================ Additional Statistical Measures ============================================================================
+ * @brief Calculate Range.
  * @param[in] values Input parameter.
  * @return Return value.
  * @details Calls: empty(), std::minmax_element(), begin(), end(), Ok(), nlohmann::json().
  */
-
 Result<nlohmann::json> StatisticalAggregator::calculateRange(const std::vector<double>& values) {
     if (values.empty()) {
         return Err<nlohmann::json>(
@@ -255,13 +255,13 @@ Result<nlohmann::json> StatisticalAggregator::calculateMAD(const std::vector<dou
     return Ok(nlohmann::json(sumAbsDiffs / values.size()));
 }
 
+
 /**
- * @brief ============================================================================ Helper Functions ============================================================================
+ * @brief Extract Numeric Values.
  * @param[in] jsonValues Input parameter.
  * @return Return value.
  * @details Calls: reserve(), size(), is_number(), push_back().
  */
-
 std::vector<double> StatisticalAggregator::extractNumericValues(
     const std::vector<nlohmann::json>& jsonValues
 ) {

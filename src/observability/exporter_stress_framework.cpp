@@ -519,13 +519,13 @@ private:
     std::function<void(std::uint32_t progress_percent)> progress_callback_;
 };
 
+
 /**
- * @brief ============================================================================ Factory functions ============================================================================
+ * @brief Create Mock Exporter Backend.
  * @param[in] failure_mode Input parameter.
  * @return Return value.
  * @details Implements createMockExporterBackend without additional internal calls.
  */
-
 std::unique_ptr<MockExporterBackend> createMockExporterBackend(FailureMode failure_mode) {
     return std::make_unique<MockExporterBackendImpl>(failure_mode);
 }

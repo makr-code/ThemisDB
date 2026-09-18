@@ -30,20 +30,43 @@ LagAlertManager::LagAlertManager()
 // Configuration
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Set Thresholds.
+ * @param[in] thresholds Input parameter.
+ */
 void LagAlertManager::setThresholds(const SLOThresholds& thresholds)
 {
+    /**
+     * @brief Lock.
+     * @param[in] state_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(state_mutex_);
     thresholds_ = thresholds;
 }
 
 SLOThresholds LagAlertManager::thresholds() const
 {
+    /**
+     * @brief Lock.
+     * @param[in] state_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(state_mutex_);
     return thresholds_;
 }
 
+/**
+ * @brief Set Alert Callback.
+ * @param[in] callback Input parameter.
+ */
 void LagAlertManager::setAlertCallback(AlertCallback callback)
 {
+    /**
+     * @brief Lock.
+     * @param[in] state_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(state_mutex_);
     alert_callback_ = std::move(callback);
 }
@@ -52,9 +75,19 @@ void LagAlertManager::setAlertCallback(AlertCallback callback)
 // Replica lag updates
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Update Replica Lag.
+ * @param[in] replica_id Identifier of the replica.
+ * @param[in] lag_ms Input parameter.
+ */
 void LagAlertManager::updateReplicaLag(const std::string& replica_id,
                                        int64_t           lag_ms)
 {
+    /**
+     * @brief Lock.
+     * @param[in] state_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(state_mutex_);
 
     auto& state = replicas_[replica_id];
@@ -70,6 +103,11 @@ void LagAlertManager::updateReplicaLag(const std::string& replica_id,
 void LagAlertManager::updateReplicaLags(
     const std::map<std::string, int64_t>& lags)
 {
+    /**
+     * @brief Lock.
+     * @param[in] state_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(state_mutex_);
 
     const int64_t now = currentTimeMs();
@@ -87,19 +125,41 @@ void LagAlertManager::updateReplicaLags(
 
 int64_t LagAlertManager::getReplicaLag(const std::string& replica_id) const
 {
+    /**
+     * @brief Lock.
+     * @param[in] state_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(state_mutex_);
     const auto it = replicas_.find(replica_id);
     return (it != replicas_.end()) ? it->second.lag.lag_ms : 0;
 }
 
+/**
+ * @brief Remove Replica.
+ * @param[in] replica_id Identifier of the replica.
+ */
 void LagAlertManager::removeReplica(const std::string& replica_id)
 {
+    /**
+     * @brief Lock.
+     * @param[in] state_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(state_mutex_);
     replicas_.erase(replica_id);
 }
 
+/**
+ * @brief Clear All Replicas.
+ */
 void LagAlertManager::clearAllReplicas()
 {
+    /**
+     * @brief Lock.
+     * @param[in] state_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(state_mutex_);
     replicas_.clear();
 }
@@ -108,8 +168,17 @@ void LagAlertManager::clearAllReplicas()
 // Alert evaluation
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Check And Alert Lag Violations.
+ * @return True when the operation succeeds.
+ */
 bool LagAlertManager::checkAndAlertLagViolations()
 {
+    /**
+     * @brief Lock.
+     * @param[in] state_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(state_mutex_);
 
     bool any_alert = false;
@@ -122,8 +191,18 @@ bool LagAlertManager::checkAndAlertLagViolations()
     return any_alert;
 }
 
+/**
+ * @brief Check Replica Lag.
+ * @param[in] replica_id Identifier of the replica.
+ * @return True when the operation succeeds.
+ */
 bool LagAlertManager::checkReplicaLag(const std::string& replica_id)
 {
+    /**
+     * @brief Lock.
+     * @param[in] state_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(state_mutex_);
 
     const auto it = replicas_.find(replica_id);
@@ -137,6 +216,11 @@ bool LagAlertManager::checkReplicaLag(const std::string& replica_id)
 
 std::vector<std::string> LagAlertManager::replicasInAlert() const
 {
+    /**
+     * @brief Lock.
+     * @param[in] state_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(state_mutex_);
 
     std::vector<std::string> result = {};
@@ -151,6 +235,11 @@ std::vector<std::string> LagAlertManager::replicasInAlert() const
 
 std::vector<std::string> LagAlertManager::replicasInCritical() const
 {
+    /**
+     * @brief Lock.
+     * @param[in] state_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(state_mutex_);
 
     std::vector<std::string> result = {};
@@ -165,6 +254,11 @@ std::vector<std::string> LagAlertManager::replicasInCritical() const
 
 std::vector<std::string> LagAlertManager::replicasEligibleForFailover() const
 {
+    /**
+     * @brief Lock.
+     * @param[in] state_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(state_mutex_);
 
     std::vector<std::string> result;
@@ -193,6 +287,11 @@ std::vector<std::string> LagAlertManager::replicasEligibleForFailover() const
 
 std::map<std::string, int64_t> LagAlertManager::allReplicaLags() const
 {
+    /**
+     * @brief Lock.
+     * @param[in] state_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(state_mutex_);
 
     std::map<std::string, int64_t> result = {};
@@ -205,6 +304,11 @@ std::map<std::string, int64_t> LagAlertManager::allReplicaLags() const
 
 std::string LagAlertManager::exportPrometheusMetrics() const
 {
+    /**
+     * @brief Lock.
+     * @param[in] state_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(state_mutex_);
 
     std::ostringstream oss = {};
@@ -257,6 +361,11 @@ std::string LagAlertManager::exportPrometheusMetrics() const
 std::tuple<uint64_t, uint64_t, uint64_t> LagAlertManager::getAlertStats(
     const std::string& replica_id) const
 {
+    /**
+     * @brief Lock.
+     * @param[in] state_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(state_mutex_);
 
     const auto it = replicas_.find(replica_id);
@@ -272,6 +381,11 @@ std::tuple<uint64_t, uint64_t, uint64_t> LagAlertManager::getAlertStats(
 // Internal helpers
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Evaluate Replica Alerts.
+ * @param[in,out] state Input/output parameter.
+ * @param[in] replica_id Identifier of the replica.
+ */
 void LagAlertManager::evaluateReplicaAlerts(ReplicaState&      state,
                                             const std::string& replica_id)
 {
@@ -358,10 +472,19 @@ void LagAlertManager::evaluateReplicaAlerts(ReplicaState&      state,
     }
 }
 
+/**
+ * @brief Emit Alert.
+ * @param[in] event Input parameter.
+ */
 void LagAlertManager::emitAlert(const AlertEvent& event)
 {
-    // Note: Caller must hold state_mutex_.
-    // Adopt the caller-held lock so we can safely unlock/lock around callback.
+    /**
+     * @brief Note: Caller must hold state_mutex_.
+     * @param[in] state_mutex_ Input parameter.
+     * @param[in] adopt_lock Input parameter.
+     * @return Return value.
+     * @details Adopt the caller-held lock so we can safely unlock/lock around callback.
+     */
     std::unique_lock<std::mutex> lock(state_mutex_, std::adopt_lock);
 
     AlertCallback cb;
@@ -383,6 +506,10 @@ void LagAlertManager::emitAlert(const AlertEvent& event)
     lock.release();  // caller's lock_guard still owns final unlock
 }
 
+/**
+ * @brief Current Time Ms.
+ * @return Return value.
+ */
 int64_t LagAlertManager::currentTimeMs()
 {
     using Clock = std::chrono::system_clock;

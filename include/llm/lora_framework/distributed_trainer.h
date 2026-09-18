@@ -24,9 +24,6 @@ namespace lora {
 
 using json = nlohmann::json;
 
-/**
- * @brief Distributed training backend
- */
 enum class DistributedBackend {
     NONE,       // Single GPU/CPU
     NCCL,       // NVIDIA Collective Communications Library
@@ -34,10 +31,11 @@ enum class DistributedBackend {
     MPI         // Message Passing Interface
 };
 
-/**
- * @brief Configuration for distributed training
- */
 struct DistributedConfig {
+    /**
+     * @brief Distributed Config.
+     * @return Return value.
+     */
     virtual ~DistributedConfig() = default;
     DistributedBackend backend = DistributedBackend::NONE;
     int world_size = 1;                 // Total number of processes
@@ -59,6 +57,12 @@ struct DistributedConfig {
         };
     }
     
+    /**
+     * @brief From JSON.
+     * @param[in] j Input parameter.
+     * @return Return value.
+     * @details Calls: contains().
+     */
     static DistributedConfig fromJSON(const json& j) {
         DistributedConfig config = {};
         if (j.contains("backend")) {
@@ -86,10 +90,11 @@ struct DistributedConfig {
     }
 };
 
-/**
- * @brief Statistics for distributed training
- */
 struct DistributedStats {
+    /**
+     * @brief Distributed Stats.
+     * @return Return value.
+     */
     virtual ~DistributedStats() = default;
     int world_size = 1;
     int rank = 0;
@@ -111,202 +116,99 @@ struct DistributedStats {
     }
 };
 
-/**
- * @brief Distributed trainer for multi-GPU LoRA training
- * 
- * Features:
- * - Data parallelism (each GPU trains on different batch)
- * - Gradient synchronization via AllReduce
- * - Support for NCCL (NVIDIA) and Gloo (generic) backends
- * - Automatic load balancing
- * - Communication overlap with computation
- * 
- * Note: This is a simplified CPU-based implementation for the initial phase.
- * Full GPU support with NCCL/Gloo will be added in future PRs when GPU
- * acceleration is fully integrated.
- */
 class DistributedTrainer {
 public:
-    /**
-     * @brief Function type for barrier synchronization.
-     *
-     * Callers inject a real NCCL/MPI/Gloo barrier via setBarrierFn().
-     * The injected function must block until all world_size ranks have
-     * called barrier().
-     */
     using BarrierFn = std::function<void()>;
 
-    /**
-     * @brief Function type for parameter broadcast.
-     *
-     * Callers MUST inject a real MPI_Bcast / Gloo broadcast via setBroadcastFn()
-     * before calling broadcast_parameters() when world_size > 1. This enforces
-     * fail-closed: training will not proceed silently without real collective
-     * operations.
-     *
-     * The function receives the rank-0 data vector in-place; non-root ranks
-     * are expected to overwrite their copy with rank-0's values.
-     * 
-     * @throws std::runtime_error if called in distributed mode without callback.
-     */
     using BroadcastFn = std::function<void(std::vector<float>&)>;
 
-    /**
-     * @brief Function type for CPU gradient all-reduce.
-     *
-     * Callers MUST inject a real MPI_Allreduce / Gloo allreduce via
-     * setAllReduceCpuFn() before calling synchronize_gradients() when
-     * world_size > 1. This enforces fail-closed: training will not proceed
-     * silently without real collective operations.
-     *
-     * The injected function receives the local gradient vector and must
-     * perform an in-place SUM-then-divide-by-world_size across all ranks.
-     *
-     * @param data Gradient vector to reduce in-place.
-     * @throws std::runtime_error if called in distributed mode without callback.
-     */
     using AllReduceCpuFn = std::function<void(std::vector<float>& data)>;
+    /**
+     * @brief Distributed Trainer.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit DistributedTrainer(const DistributedConfig& config);
     ~DistributedTrainer();
     
     /**
-     * @brief Initialize distributed training
-        *
-        * Fail-closed validation:
-        * - world_size must be >= 1
-        * - rank must satisfy 0 <= rank < world_size
-        * - for world_size > 1, collective callbacks must be injected via
-        *   setAllReduceCpuFn(), setBroadcastFn(), and setBarrierFn().
-        *
-        * @return true if successful
+     * @brief Initialize.
+     * @return True when the operation succeeds.
      */
     bool initialize();
     
     /**
-     * @brief Finalize distributed training
+     * @brief Finalize.
      */
     void finalize();
     
     /**
-     * @brief Check if distributed training is enabled
-     * @return true if world_size > 1
+     * @brief Is distributed.
+     * @return True when the operation succeeds.
      */
     bool is_distributed() const;
     
     /**
-     * @brief Check if this is the master process (rank 0)
-     * @return true if rank == 0
+     * @brief Is master.
+     * @return True when the operation succeeds.
      */
     bool is_master() const;
     
     /**
-     * @brief Synchronize gradients across all processes (AllReduce)
-     * @param gradients Gradients to synchronize
-        * @return true if successful
-        * @return false when multi-rank synchronization is requested without an
-        *         injected AllReduce callback
+     * @brief Synchronize gradients.
+     * @param[in,out] gradients Input/output parameter.
+     * @return True when the operation succeeds.
      */
     bool synchronize_gradients(std::vector<Tensor*>& gradients);
     
     /**
-     * @brief Broadcast model parameters from master to all processes
-     * @param parameters Model parameters to broadcast
-        * @return true if successful
-        * @return false when multi-rank broadcast is requested without an
-        *         injected broadcast callback
+     * @brief Broadcast parameters.
+     * @param[in,out] parameters Input/output parameter.
+     * @return True when the operation succeeds.
      */
     bool broadcast_parameters(std::vector<Tensor*>& parameters);
     
     /**
-     * @brief Barrier synchronization (wait for all processes).
-     * 
-     * @throws std::runtime_error if called in distributed mode (world_size > 1)
-     *         without a barrier function injected via setBarrierFn().
-     *         This enforces fail-closed: no silent synchronization skips.
+     * @brief Barrier.
      */
     void barrier();
 
-    /**
-     * @brief Function type for CPU AllReduce across training ranks.
-     *
-     * The callable receives the gradient vector in-place and must perform the
-     * collective reduction (sum + divide by world_size) across all ranks.
-     * A real implementation uses MPI_Allreduce, Gloo allreduce, or a shared-
-     * memory ring-reduce.
-     */
 
     /**
-     * @brief Inject a real barrier implementation (NCCL/MPI/Gloo).
-     *
-     * When set, barrier() delegates to this function instead of the
-     * no-op fallback.  Call before the first training step.
-     * @param fn Callable that performs the actual collective barrier.
+     * @brief Set Barrier Fn.
+     * @param[in] fn Input parameter.
      */
     void setBarrierFn(BarrierFn fn);
 
     /**
-     * @brief Inject a real broadcast implementation (MPI/Gloo).
-     *
-     * When set, broadcast_cpu() delegates to this function so that
-     * non-master ranks receive the master's parameter values.
-     * @param fn Callable that broadcasts data in-place from rank 0.
+     * @brief Set Broadcast Fn.
+     * @param[in] fn Input parameter.
      */
     void setBroadcastFn(BroadcastFn fn);
 
     /**
-     * @brief Inject a real CPU all-reduce implementation (MPI/Gloo).
-     *
-     * When set, allreduce_cpu() delegates to this function so that gradients
-     * are summed across all ranks and divided by world_size before the
-     * optimizer step.  Must be called before the first training step when
-     * world_size > 1.
-     * @param fn Callable that performs the collective sum-reduce in-place.
+     * @brief Set All Reduce Cpu Fn.
+     * @param[in] fn Input parameter.
      */
     void setAllReduceCpuFn(AllReduceCpuFn fn);
     
-    /**
-     * @brief Get distributed configuration
-     * @return Configuration
-     */
     DistributedConfig config() const { return config_; }
     
     /**
-     * @brief Get distributed statistics
-     * @return Statistics
+     * @brief Stats.
+     * @return Return value.
      */
     DistributedStats stats() const;
     
     /**
-     * @brief Reset statistics
+     * @brief Reset stats.
      */
     void reset_stats();
     
-    /**
-     * @brief Get world size (number of processes)
-     * @return World size
-     */
     int world_size() const { return config_.world_size; }
     
-    /**
-     * @brief Get current process rank
-     * @return Rank
-     */
     int rank() const { return config_.rank; }
     
-    /**
-     * @brief Scale learning rate for distributed training
-     * 
-     * When using data parallelism, the effective batch size increases
-     * by world_size, so learning rate should be scaled accordingly.
-     * 
-     * Common scaling strategies:
-     * - Linear: lr_new = lr_base * world_size
-     * - Square root: lr_new = lr_base * sqrt(world_size)
-     * 
-     * @param base_lr Base learning rate
-     * @param strategy "linear" or "sqrt"
-     * @return Scaled learning rate
-     */
     static float scale_learning_rate(float base_lr, int world_size, 
                                      const std::string& strategy = "sqrt");
 
@@ -318,7 +220,15 @@ private:
     DistributedStats stats_;
     
     // Helper methods
+    /**
+     * @brief Allreduce cpu.
+     * @param[in,out] data Input/output parameter.
+     */
     void allreduce_cpu(std::vector<float>& data);
+    /**
+     * @brief Broadcast cpu.
+     * @param[in,out] data Input/output parameter.
+     */
     void broadcast_cpu(std::vector<float>& data);
 
     std::optional<BarrierFn>        barrier_fn_;
@@ -326,11 +236,13 @@ private:
     std::optional<AllReduceCpuFn>   allreduce_cpu_fn_;
 };
 
-/**
- * @brief RAII wrapper for distributed training scope
- */
 class DistributedScope {
 public:
+    /**
+     * @brief Distributed Scope.
+     * @param[in,out] trainer Input/output parameter.
+     * @return Return value.
+     */
     explicit DistributedScope(DistributedTrainer* trainer)
         : trainer_(trainer) {
         if (trainer_) {
@@ -351,27 +263,26 @@ private:
 };
 
 /**
- * @brief Detect available distributed backends
- * 
- * @return Vector of available backends
+ * @brief Detect available backends.
+ * @return Return value.
  */
 std::vector<DistributedBackend> detect_available_backends();
 
 /**
- * @brief Check if NCCL is available
- * @return true if NCCL library is found
+ * @brief Is nccl available.
+ * @return True when the operation succeeds.
  */
 bool is_nccl_available();
 
 /**
- * @brief Check if Gloo is available
- * @return true if Gloo library is found
+ * @brief Is gloo available.
+ * @return True when the operation succeeds.
  */
 bool is_gloo_available();
 
 /**
- * @brief Check if MPI is available
- * @return true if MPI library is found
+ * @brief Is mpi available.
+ * @return True when the operation succeeds.
  */
 bool is_mpi_available();
 

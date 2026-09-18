@@ -93,6 +93,12 @@ nlohmann::json PolicyRule::toJson() const {
     return j;
 }
 
+/**
+ * @brief From Json.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: contains().
+ */
 PolicyRule PolicyRule::fromJson(const nlohmann::json &j) {
     PolicyRule rule = {};
     if (j.contains("id")) {
@@ -209,6 +215,12 @@ bool PolicyRule::appliesTo(const std::string &resource, const std::string &actio
 
 PolicyManager::PolicyManager() = default;
 
+/**
+ * @brief Load Rules.
+ * @param[in] path Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: substr(), find_last_of(), YAML::LoadFile(), THEMIS_ERROR(), lock(), clear(), THEMIS_INFO(), size().
+ */
 bool PolicyManager::loadRules(const std::string &path) {
     try {
         // Detect file type by extension
@@ -323,6 +335,12 @@ bool PolicyManager::loadRules(const std::string &path) {
     }
 }
 
+/**
+ * @brief Save Rules.
+ * @param[in] path Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: file(), is_open(), THEMIS_ERROR(), exportRules(), dump(), THEMIS_INFO(), size(), what().
+ */
 bool PolicyManager::saveRules(const std::string &path) {
     try {
         std::ofstream file(path);
@@ -343,12 +361,22 @@ bool PolicyManager::saveRules(const std::string &path) {
     }
 }
 
+/**
+ * @brief Add Rule.
+ * @param[in] rule Input parameter.
+ * @details Calls: lock(), THEMIS_DEBUG().
+ */
 void PolicyManager::addRule(const PolicyRule &rule) {
     std::lock_guard<std::mutex> lock(mutex_);
     rules_[rule.id] = rule;
     THEMIS_DEBUG("Added policy rule: {} ({})", rule.id, rule.name);
 }
 
+/**
+ * @brief Remove Rule.
+ * @param[in] rule_id Identifier of the rule.
+ * @details Calls: lock(), erase(), THEMIS_DEBUG().
+ */
 void PolicyManager::removeRule(const std::string &rule_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     rules_.erase(rule_id);
@@ -356,6 +384,11 @@ void PolicyManager::removeRule(const std::string &rule_id) {
 }
 
 std::optional<PolicyRule> PolicyManager::getRule(const std::string &rule_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = rules_.find(rule_id);
     if (it != rules_.end()) {
@@ -365,6 +398,11 @@ std::optional<PolicyRule> PolicyManager::getRule(const std::string &rule_id) con
 }
 
 std::vector<PolicyRule> PolicyManager::listRules() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     std::vector<PolicyRule> result = {};
 
@@ -381,6 +419,11 @@ std::vector<PolicyRule> PolicyManager::findApplicableRules(const std::string &re
     // so that a concurrent reloadPolicies() swap does not block this read.
     std::shared_ptr<const PolicySet> snap;
     {
+        /**
+         * @brief Rlock.
+         * @param[in] policy_set_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::shared_lock<std::shared_mutex> rlock(policy_set_mutex_);
         snap = active_policy_set_;
     }
@@ -421,6 +464,11 @@ std::vector<PolicyRule> PolicyManager::findApplicableRules(const std::string &re
     if (snap) {
         search(snap->rules);
     } else {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         search(rules_);
     }
@@ -481,6 +529,11 @@ PolicyManager::PolicyDecision PolicyManager::aggregateRules(const std::vector<Po
 }
 
 PolicyManager::ValidationResult PolicyManager::validateRules() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     ValidationResult result;
     result.valid = true;
@@ -518,6 +571,11 @@ PolicyManager::ValidationResult PolicyManager::validateRules() const {
 }
 
 PolicyManager::PolicyStats PolicyManager::getStats() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     PolicyStats stats;
     stats.total_rules = rules_.size();
@@ -536,6 +594,11 @@ PolicyManager::PolicyStats PolicyManager::getStats() const {
 }
 
 nlohmann::json PolicyManager::exportRules() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     nlohmann::json j;
     j["version"] = "1.0";
@@ -548,6 +611,12 @@ nlohmann::json PolicyManager::exportRules() const {
     return j;
 }
 
+/**
+ * @brief Import Rules.
+ * @param[in] j Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), contains(), THEMIS_ERROR(), clear(), PolicyRule::fromJson(), THEMIS_INFO(), size(), what().
+ */
 bool PolicyManager::importRules(const nlohmann::json &j) {
     std::lock_guard<std::mutex> lock(mutex_);
 
@@ -619,6 +688,15 @@ std::string PolicyManager::incrementVersion(const std::string &current_version, 
     return std::to_string(major) + "." + std::to_string(minor) + "." + std::to_string(patch);
 }
 
+/**
+ * @brief Update Rule.
+ * @param[in] rule_id Identifier of the rule.
+ * @param[in] updated_rule Input parameter.
+ * @param[in] modified_by Input parameter.
+ * @param[in] change_description Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), find(), end(), THEMIS_WARN(), std::to_string(), std::chrono::system_clock::now(), time_since_epoch(), count().
+ */
 bool PolicyManager::updateRule(const std::string &rule_id, const PolicyRule &updated_rule,
                                const std::string &modified_by, const std::string &change_description) {
     std::lock_guard<std::mutex> lock(mutex_);
@@ -662,6 +740,14 @@ std::optional<PolicyRuleVersion> PolicyManager::getRuleVersion(const std::string
     return version_history_.getVersion(rule_id, version);
 }
 
+/**
+ * @brief Rollback To Version.
+ * @param[in] rule_id Identifier of the rule.
+ * @param[in] version Input parameter.
+ * @param[in] modified_by Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), getVersion(), empty(), THEMIS_WARN(), find(), end(), recordVersion(), PolicyRule::fromJson().
+ */
 bool PolicyManager::rollbackToVersion(const std::string &rule_id, const std::string &version,
                                       const std::string &modified_by) {
     std::lock_guard<std::mutex> lock(mutex_);
@@ -696,6 +782,13 @@ bool PolicyManager::rollbackToVersion(const std::string &rule_id, const std::str
     return true;
 }
 
+/**
+ * @brief Rollback To Previous Version.
+ * @param[in] rule_id Identifier of the rule.
+ * @param[in] modified_by Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: getLastRecordedVersion(), empty(), THEMIS_WARN(), rollbackToVersion().
+ */
 bool PolicyManager::rollbackToPreviousVersion(const std::string &rule_id, const std::string &modified_by) {
     std::string latest = version_history_.getLastRecordedVersion(rule_id);
     if (latest.empty()) {
@@ -713,6 +806,11 @@ std::vector<VersionDiff> PolicyManager::previewRollback(const std::string &rule_
         return {};
     }
 
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = rules_.find(rule_id);
     if (it == rules_.end()) {
@@ -745,6 +843,11 @@ std::vector<PolicyRuleVersion> PolicyManager::getAuditTrailByUser(const std::str
     // Collect all rule IDs under the rules mutex, then query version history
     std::vector<std::string> rule_ids;
     {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         for (const auto &[id, rule_value] : rules_) {
             rule_ids.push_back(id);
@@ -764,7 +867,13 @@ std::vector<PolicyRuleVersion> PolicyManager::getAuditTrailByUser(const std::str
     return result;
 }
 
-// ========== Hot-Reload: double-buffer implementation ==========
+/**
+ * @brief ========== Hot-Reload: double-buffer implementation ==========
+ * @param[in] path Input parameter.
+ * @param[in,out] err Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: loadRules(), THEMIS_ERROR(), observability::MetricsCollector::getInstance(), addCounter(), validator(), validateRuleset(), std::to_string(), rlock().
+ */
 
 bool PolicyManager::reloadPolicies(const std::string &path, std::string *err) {
     // 1. Load the new rule set into a staging PolicyManager.
@@ -856,6 +965,11 @@ bool PolicyManager::reloadPolicies(const std::string &path, std::string *err) {
 }
 
 std::string PolicyManager::activePolicyVersion() const {
+    /**
+     * @brief Rlock.
+     * @param[in] policy_set_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> rlock(policy_set_mutex_);
     if (!active_policy_set_) {
         return {};
@@ -863,7 +977,13 @@ std::string PolicyManager::activePolicyVersion() const {
     return active_policy_set_->version_hash;
 }
 
-// ========== Phase 2-3: Lifecycle State Management ==========
+/**
+ * @brief ========== Phase 2-3: Lifecycle State Management ==========
+ * @param[in] rule_id Identifier of the rule.
+ * @param[in] target_state Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), find(), end(), canTransitionTo().
+ */
 
 bool PolicyManager::canTransitionRule(const std::string& rule_id, PolicyState target_state) {
     std::lock_guard<std::mutex> lock(mutex_);
@@ -876,6 +996,13 @@ bool PolicyManager::canTransitionRule(const std::string& rule_id, PolicyState ta
     return rule_it->second.lifecycle.canTransitionTo(target_state);
 }
 
+/**
+ * @brief Activate Rule With Validation.
+ * @param[in] rule_id Identifier of the rule.
+ * @param[in] user_id Identifier of the user.
+ * @return Return value.
+ * @details Calls: lock(), find(), end(), canTransitionTo(), getStateDescription(), recordDiagnostic(), checkConflictsForRule(), empty().
+ */
 PolicyManager::PolicyResult PolicyManager::activateRuleWithValidation(
     const std::string& rule_id,
     const std::string& user_id) {
@@ -949,6 +1076,13 @@ PolicyManager::PolicyResult PolicyManager::activateRuleWithValidation(
     return result;
 }
 
+/**
+ * @brief Deprecate Rule.
+ * @param[in] rule_id Identifier of the rule.
+ * @param[in] user_id Identifier of the user.
+ * @return Return value.
+ * @details Calls: lock(), find(), end(), canTransitionTo(), std::chrono::system_clock::now(), time_since_epoch(), count(), recordVersion().
+ */
 std::string PolicyManager::deprecateRule(
     const std::string& rule_id,
     const std::string& user_id) {
@@ -976,6 +1110,13 @@ std::string PolicyManager::deprecateRule(
     return rule_it->second.version;
 }
 
+/**
+ * @brief Retire Rule.
+ * @param[in] rule_id Identifier of the rule.
+ * @param[in] user_id Identifier of the user.
+ * @return Return value.
+ * @details Calls: lock(), find(), end(), canTransitionTo(), std::chrono::system_clock::now(), time_since_epoch(), count(), recordVersion().
+ */
 std::string PolicyManager::retireRule(
     const std::string& rule_id,
     const std::string& user_id) {

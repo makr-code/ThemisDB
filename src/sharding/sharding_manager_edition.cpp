@@ -24,6 +24,12 @@
 namespace themis {
 namespace sharding {
 
+/**
+ * @brief Add Shard Node.
+ * @param[in] node Input parameter.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: lock(), size(), GetMaxShardNodes(), fmt::format(), push_back(), addShard().
+ */
 void ShardingManager::AddShardNode(const ShardNodeInfo& node) {
     std::lock_guard<std::mutex> lock(mutex_);
 
@@ -39,17 +45,33 @@ void ShardingManager::AddShardNode(const ShardNodeInfo& node) {
 }
 
 size_t ShardingManager::GetNodeCount() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return shard_nodes_.size();
 }
 
 int ShardingManager::GetRemainingNodeCapacity() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     int max_nodes = GetMaxShardNodes();
     int current_nodes = shard_nodes_.size();
     return std::max(0, max_nodes - current_nodes);
 }
 
+/**
+ * @brief Validate Node Count.
+ * @param[in] requested_nodes Input parameter.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: GetMaxShardNodes(), fmt::format().
+ */
 void ShardingManager::ValidateNodeCount(size_t requested_nodes) {
     int max_nodes = GetMaxShardNodes();
     if (static_cast<int>(requested_nodes) > max_nodes) {
@@ -60,11 +82,21 @@ void ShardingManager::ValidateNodeCount(size_t requested_nodes) {
 }
 
 std::vector<ShardNodeInfo> ShardingManager::GetAllNodes() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return shard_nodes_;
 }
 
 int ShardingManager::GetHealthyNodeCount() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     int count = 0;
     for (const auto& node : shard_nodes_) {
@@ -75,6 +107,12 @@ int ShardingManager::GetHealthyNodeCount() const {
     return count;
 }
 
+/**
+ * @brief Remove Shard Node.
+ * @param[in] node_id Identifier of the node.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), begin(), end(), removeShard(), erase().
+ */
 bool ShardingManager::RemoveShardNode(uint32_t node_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     for (auto it = shard_nodes_.begin(); it != shard_nodes_.end(); ++it) {
@@ -97,6 +135,11 @@ std::string ShardingManager::GetShardForKey(
     const std::string& collection,
     const std::string& key) const
 {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     auto result = ring_.getNode(collection + "/" + key);
     return result.value_or(std::string{});
@@ -107,6 +150,11 @@ std::vector<std::string> ShardingManager::GetShardsForKeyRange(
     const std::string& min_key,
     const std::string& max_key) const
 {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     if (shard_nodes_.empty()) {
@@ -185,12 +233,20 @@ std::vector<std::string> ShardingManager::GetShardsForKeyRange(
 // SHARDING UTILITY FUNCTIONS - EDITION-AWARE
 // ============================================================================
 
-// Check if multi-node replication is available (compile-time + runtime license gate)
+/**
+ * @brief Check if multi-node replication is available (compile-time + runtime license gate)
+ * @return True when the operation succeeds.
+ * @details Calls: license::RuntimeLicenseGate::instance(), isFeatureAllowed().
+ */
 inline bool CanUseMultiNodeReplication() {
     return license::RuntimeLicenseGate::instance().isFeatureAllowed("multi_master");
 }
 
-// Get node replication strategy based on edition
+/**
+ * @brief Get node replication strategy based on edition
+ * @return Return value.
+ * @details Calls: edition::EditionInfo::Get().
+ */
 inline std::string GetReplicationStrategy() {
     const auto info = edition::EditionInfo::Get();
     
@@ -211,7 +267,12 @@ inline std::string GetReplicationStrategy() {
     return "UNKNOWN_EDITION";
 }
 
-// Suggest upgrade path if node limit is exceeded
+/**
+ * @brief Suggest upgrade path if node limit is exceeded
+ * @param[in] requested_nodes Input parameter.
+ * @return Return value.
+ * @details Calls: edition::EditionInfo::Get(), std::to_string(), std::string().
+ */
 inline std::string SuggestUpgrade(size_t requested_nodes) {
     const auto info = edition::EditionInfo::Get();
     std::string suggestion = "Your deployment requires ";

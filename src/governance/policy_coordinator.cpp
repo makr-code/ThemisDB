@@ -181,6 +181,12 @@ UnifiedPolicyDecision PolicyCoordinator::combineDecisions(
     return unified;
 }
 
+/**
+ * @brief Start Hot Reload.
+ * @param[in] config Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: THEMIS_WARN(), isRunning(), std::move(), start().
+ */
 bool PolicyCoordinator::startHotReload(PolicyFileWatcher::Config config) {
     if (!policy_engine_) {
         THEMIS_WARN("PolicyCoordinator::startHotReload: no policy engine attached");
@@ -193,6 +199,10 @@ bool PolicyCoordinator::startHotReload(PolicyFileWatcher::Config config) {
     return file_watcher_->start();
 }
 
+/**
+ * @brief Stop Hot Reload.
+ * @details Calls: stop().
+ */
 void PolicyCoordinator::stopHotReload() {
     if (file_watcher_) {
         file_watcher_->stop();

@@ -15,20 +15,11 @@
 namespace themis {
 namespace server {
 
-/**
- * @brief Initialize load shedder with configured thresholds.
- * @param config Static runtime policy configuration.
- */
 LoadShedder::LoadShedder(const Config& config)
     : config_(config)
 {
 }
 
-/**
- * @brief Evaluate whether a request should be rejected under current load.
- * @param prio Request priority class.
- * @return true when policy decides to shed the request.
- */
 bool LoadShedder::shouldReject(Priority prio) const {
     if (!config_.enable_shedding) {
         return false;
@@ -55,10 +46,11 @@ bool LoadShedder::shouldReject(Priority prio) const {
 }
 
 /**
- * @brief Update internal load metrics snapshot.
- * @param cpu_usage CPU utilization in [0,1].
- * @param memory_usage Memory utilization in [0,1].
- * @param queue_depth Current request queue depth.
+ * @brief Update Load.
+ * @param[in] cpu_usage Input parameter.
+ * @param[in] memory_usage Input parameter.
+ * @param[in] queue_depth Input parameter.
+ * @details Calls: store(), std::clamp().
  */
 void LoadShedder::updateLoad(double cpu_usage, double memory_usage, size_t queue_depth) {
     cpu_usage_.store(std::clamp(cpu_usage, 0.0, 1.0));
@@ -66,10 +58,6 @@ void LoadShedder::updateLoad(double cpu_usage, double memory_usage, size_t queue
     queue_depth_.store(queue_depth);
 }
 
-/**
- * @brief Compute weighted system load score.
- * @return Load score in [0,1] where higher values indicate higher pressure.
- */
 double LoadShedder::getCurrentLoad() const {
     double cpu = cpu_usage_.load();
     double mem = memory_usage_.load();

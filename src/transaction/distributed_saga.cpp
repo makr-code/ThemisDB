@@ -118,6 +118,13 @@ DistributedSagaStatus DistributedSagaCoordinator::validate(
 // execute()
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Execute.
+ * @param[in] saga Input parameter.
+ * @return Return value.
+ * @throws std::logic_error if an error occurs.
+ * @details Calls: lk(), find(), end(), THEMIS_ERROR(), journalWrite(), mk(), std::chrono::system_clock::now(), count().
+ */
 DistributedSagaReport DistributedSagaCoordinator::execute(
     const DistributedSagaDefinition& saga
 ) {
@@ -476,6 +483,14 @@ DistributedSagaStatus DistributedSagaCoordinator::executeWave(
 // executeStep()
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Execute Step.
+ * @param[in] step Input parameter.
+ * @param[in,out] record Input/output parameter.
+ * @param[in] deadline Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::now(), count(), std::min(), std::this_thread::sleep_for(), THEMIS_DEBUG(), has_value(), std::chrono::steady_clock::now(), DistributedSagaStatus::Error().
+ */
 DistributedSagaStatus DistributedSagaCoordinator::executeStep(
     const DistributedSagaStep& step,
     StepRecord&                record,
@@ -649,6 +664,11 @@ void DistributedSagaCoordinator::compensate(
         }
 
         {
+            /**
+             * @brief Lk.
+             * @param[in] metrics_mutex_ Input parameter.
+             * @return Return value.
+             */
             std::lock_guard<std::mutex> lk(metrics_mutex_);
             ++metrics_.total_compensations;
         }
@@ -659,6 +679,13 @@ void DistributedSagaCoordinator::compensate(
 // compensateStep()
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Compensate Step.
+ * @param[in] step Input parameter.
+ * @param[in,out] record Input/output parameter.
+ * @return Return value.
+ * @details Calls: count(), std::min(), std::this_thread::sleep_for(), std::async(), wait_for(), DistributedSagaStatus::Error(), lk(), get().
+ */
 DistributedSagaStatus DistributedSagaCoordinator::compensateStep(
     const DistributedSagaStep& step,
     StepRecord&                record
@@ -719,9 +746,14 @@ DistributedSagaStatus DistributedSagaCoordinator::compensateStep(
     return last_status;
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// verifyStepConsensus() — QW-39: Distributed consensus verification
-// ─────────────────────────────────────────────────────────────────────────────
+/**
+ * @brief ───────────────────────────────────────────────────────────────────────────── verifyStepConsensus() — QW-39: Distributed consensus verification ─────────────────────────────────────────────────────────────────────────────
+ * @param[in] step_name Name of the step.
+ * @param[in] node_id Identifier of the node.
+ * @param[in,out] record Input/output parameter.
+ * @param[in,out] failure_detail Input/output parameter.
+ * @return True when the operation succeeds.
+ */
 
 bool DistributedSagaCoordinator::verifyStepConsensus(
     const std::string& step_name,
@@ -737,6 +769,11 @@ bool DistributedSagaCoordinator::verifyStepConsensus(
     }
 
     {
+        /**
+         * @brief Lk.
+         * @param[in] metrics_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(metrics_mutex_);
         ++metrics_.consensus_checks_total;
     }
@@ -768,6 +805,11 @@ bool DistributedSagaCoordinator::verifyStepConsensus(
 
         if (!record.consensus_reached) {
             {
+                /**
+                 * @brief Lk.
+                 * @param[in] metrics_mutex_ Input parameter.
+                 * @return Return value.
+                 */
                 std::lock_guard<std::mutex> lk(metrics_mutex_);
                 ++metrics_.consensus_checks_failed;
             }
@@ -803,6 +845,11 @@ bool DistributedSagaCoordinator::verifyStepConsensus(
 std::optional<DistributedSagaReport> DistributedSagaCoordinator::getReport(
     const std::string& saga_id
 ) const {
+    /**
+     * @brief Lk.
+     * @param[in] reports_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(reports_mutex_);
     auto it = reports_.find(saga_id);
     if (it == reports_.end()) {
@@ -816,6 +863,11 @@ std::optional<DistributedSagaReport> DistributedSagaCoordinator::getReport(
 // ─────────────────────────────────────────────────────────────────────────────
 
 DistributedSagaCoordinator::Metrics DistributedSagaCoordinator::getMetrics() const {
+    /**
+     * @brief Lk.
+     * @param[in] metrics_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(metrics_mutex_);
     return metrics_;
 }
@@ -824,6 +876,13 @@ DistributedSagaCoordinator::Metrics DistributedSagaCoordinator::getMetrics() con
 // journalWrite()
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Journal Write.
+ * @param[in] saga_id Identifier of the saga.
+ * @param[in] event Input parameter.
+ * @param[in] detail Input parameter.
+ * @details Calls: empty(), f(), is_open(), std::chrono::system_clock::now(), time_since_epoch(), count(), reserve(), size().
+ */
 void DistributedSagaCoordinator::journalWrite(
     const std::string& saga_id,
     const std::string& event,
@@ -918,6 +977,12 @@ DistributedSagaStep DistributedSagaCoordinator::remoteStepToLocal(
 // executeDistributed()
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Execute Distributed.
+ * @param[in] remote_saga Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), journalWrite(), lk(), THEMIS_ERROR(), rejectDistributed(), size(), std::to_string(), push_back().
+ */
 DistributedSagaReport DistributedSagaCoordinator::executeDistributed(
     const DistributedSAGADefinition& remote_saga
 ) {
@@ -1010,6 +1075,11 @@ std::optional<DistributedSagaReport> DistributedSagaCoordinator::getDistributedS
 // recoverInProgressSAGAs()
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Recover In Progress SAGAs.
+ * @return Return value.
+ * @details Calls: empty(), f(), is_open(), std::getline(), nlohmann::json::parse(), value(), lk(), emplace().
+ */
 std::vector<std::string> DistributedSagaCoordinator::recoverInProgressSAGAs() {
     std::vector<std::string> recovered;
 
@@ -1187,6 +1257,12 @@ SagaVisualization DistributedSagaCoordinator::visualize(
 // forceCompensate() / forceComplete()
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Force Compensate.
+ * @param[in] saga_id Identifier of the saga.
+ * @return True when the operation succeeds.
+ * @details Calls: lk(), find(), end(), journalWrite(), THEMIS_WARN().
+ */
 bool DistributedSagaCoordinator::forceCompensate(const std::string& saga_id) {
     std::lock_guard<std::mutex> lk(reports_mutex_);
     auto it = reports_.find(saga_id);
@@ -1200,6 +1276,12 @@ bool DistributedSagaCoordinator::forceCompensate(const std::string& saga_id) {
     return true;
 }
 
+/**
+ * @brief Force Complete.
+ * @param[in] saga_id Identifier of the saga.
+ * @return True when the operation succeeds.
+ * @details Calls: lk(), find(), end(), clear(), journalWrite(), THEMIS_WARN().
+ */
 bool DistributedSagaCoordinator::forceComplete(const std::string& saga_id) {
     std::lock_guard<std::mutex> lk(reports_mutex_);
     auto it = reports_.find(saga_id);

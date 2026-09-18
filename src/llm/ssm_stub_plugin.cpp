@@ -39,6 +39,11 @@ SyntheticSSMStub::SyntheticSSMStub() : rng_(STUB_SEED) {
     fingerprint_ = oss.str();
 }
 
+/**
+ * @brief Initialize.
+ * @return True when the operation succeeds.
+ * @details Calls: resize().
+ */
 bool SyntheticSSMStub::initialize() {
     if (initialized_) {
         return true;
@@ -52,6 +57,11 @@ bool SyntheticSSMStub::initialize() {
     return true;
 }
 
+/**
+ * @brief Deinitialize.
+ * @return True when the operation succeeds.
+ * @details Calls: clear().
+ */
 bool SyntheticSSMStub::deinitialize() {
     hidden_state_.clear();
     token_count_ = 0;
@@ -59,6 +69,12 @@ bool SyntheticSSMStub::deinitialize() {
     return true;
 }
 
+/**
+ * @brief Update State.
+ * @param[in] tokens Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), std::sin().
+ */
 bool SyntheticSSMStub::updateState(const std::vector<int32_t>& tokens) {
     if (!initialized_) {
         return false;
@@ -89,6 +105,12 @@ bool SyntheticSSMStub::updateState(const std::vector<int32_t>& tokens) {
     return true;
 }
 
+/**
+ * @brief Get State Snapshot.
+ * @param[in] snapshot_ts Input parameter.
+ * @return Return value.
+ * @details Calls: resize(), std::memcpy(), data(), size().
+ */
 SSMStateSnapshot SyntheticSSMStub::getStateSnapshot(
     core::HLCTimestamp snapshot_ts) {
     SSMStateSnapshot snap;
@@ -104,6 +126,12 @@ SSMStateSnapshot SyntheticSSMStub::getStateSnapshot(
     return snap;
 }
 
+/**
+ * @brief Restore State.
+ * @param[in] snapshot Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: size(), std::memcpy(), data().
+ */
 bool SyntheticSSMStub::restoreState(const SSMStateSnapshot& snapshot) {
     if (!initialized_) {
         return false;
@@ -127,6 +155,10 @@ bool SyntheticSSMStub::restoreState(const SSMStateSnapshot& snapshot) {
     return true;
 }
 
+/**
+ * @brief Reset State.
+ * @details Calls: std::fill(), begin(), end().
+ */
 void SyntheticSSMStub::resetState() {
     std::fill(hidden_state_.begin(), hidden_state_.end(), 0.0f);
     token_count_ = 0;

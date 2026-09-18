@@ -130,7 +130,12 @@ InformationSchema::InformationSchema(SchemaManager& schema_mgr)
     : schema_mgr_(schema_mgr)
 {}
 
-// Translate SchemaManager table type to SQL TABLE_TYPE string
+/**
+ * @brief Translate SchemaManager table type to SQL TABLE_TYPE string
+ * @param[in] type Input parameter.
+ * @return Return value.
+ * @details Implements tableTypeSQL without additional internal calls.
+ */
 static std::string tableTypeSQL(const std::string& type) {
     if (type == "graph_node" || type == "graph_edge") {
         return "BASE TABLE";
@@ -138,7 +143,12 @@ static std::string tableTypeSQL(const std::string& type) {
     return "BASE TABLE";
 }
 
-// Map SchemaManager property type to SQL data type string
+/**
+ * @brief Map SchemaManager property type to SQL data type string
+ * @param[in] prop_type Input parameter.
+ * @return Return value.
+ * @details Implements mapDataType without additional internal calls.
+ */
 static std::string mapDataType(const std::string& prop_type) {
     if (prop_type == "integer") {
       return "BIGINT";
@@ -161,7 +171,12 @@ static std::string mapDataType(const std::string& prop_type) {
     return "VARCHAR";  // string and unknown default
 }
 
-// Map index type to SQL INDEX_TYPE string
+/**
+ * @brief Map index type to SQL INDEX_TYPE string
+ * @param[in] idx_type Input parameter.
+ * @return Return value.
+ * @details Implements mapIndexType without additional internal calls.
+ */
 static std::string mapIndexType(const std::string& idx_type) {
     if (idx_type == "range") {
       return "BTREE";

@@ -19,6 +19,16 @@ VoiceAuditLogger::VoiceAuditLogger(const Config& config)
     : config_(config) {
 }
 
+/**
+ * @brief Log Authentication Attempt.
+ * @param[in] user_id Identifier of the user.
+ * @param[in] method Input parameter.
+ * @param[in] success Input parameter.
+ * @param[in] reason Input parameter.
+ * @param[in] duration_ms Input parameter.
+ * @param[in] session_id Identifier of the session.
+ * @details Calls: getTimestamp(), empty(), writeEvent().
+ */
 void VoiceAuditLogger::logAuthenticationAttempt(
     const std::string& user_id,
     const std::string& method,
@@ -46,6 +56,15 @@ void VoiceAuditLogger::logAuthenticationAttempt(
     writeEvent(event);
 }
 
+/**
+ * @brief Log Session Lifecycle.
+ * @param[in] session_id Identifier of the session.
+ * @param[in] user_id Identifier of the user.
+ * @param[in] event_type Input parameter.
+ * @param[in] duration_ms Input parameter.
+ * @param[in] bytes_transferred Input parameter.
+ * @details Calls: getTimestamp(), writeEvent().
+ */
 void VoiceAuditLogger::logSessionLifecycle(
     const std::string& session_id,
     const std::string& user_id,
@@ -69,6 +88,15 @@ void VoiceAuditLogger::logSessionLifecycle(
     writeEvent(event);
 }
 
+/**
+ * @brief Log Liveness Challenge.
+ * @param[in] user_id Identifier of the user.
+ * @param[in] challenge_id Identifier of the challenge.
+ * @param[in] event_type Input parameter.
+ * @param[in] passed Input parameter.
+ * @param[in] reason Input parameter.
+ * @details Calls: getTimestamp(), empty(), writeEvent().
+ */
 void VoiceAuditLogger::logLivenessChallenge(
     const std::string& user_id,
     const std::string& challenge_id,
@@ -94,6 +122,17 @@ void VoiceAuditLogger::logLivenessChallenge(
     writeEvent(event);
 }
 
+/**
+ * @brief Log Spoof Detection.
+ * @param[in] user_id Identifier of the user.
+ * @param[in] spoof_score Input parameter.
+ * @param[in] verdict Input parameter.
+ * @param[in] freshness_score Input parameter.
+ * @param[in] speaker_match_score Input parameter.
+ * @param[in] noise_consistency_score Input parameter.
+ * @param[in] reason Input parameter.
+ * @details Calls: getTimestamp(), empty(), writeEvent().
+ */
 void VoiceAuditLogger::logSpoofDetection(
     const std::string& user_id,
     double spoof_score,
@@ -124,11 +163,21 @@ void VoiceAuditLogger::logSpoofDetection(
 }
 
 std::vector<json> VoiceAuditLogger::getEventLog() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return event_log_;
 }
 
 std::vector<json> VoiceAuditLogger::getEventsForUser(const std::string& user_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     std::vector<json> user_events = {};
@@ -141,17 +190,31 @@ std::vector<json> VoiceAuditLogger::getEventsForUser(const std::string& user_id)
     return user_events;
 }
 
+/**
+ * @brief Clear Event Log.
+ * @details Calls: lock(), clear().
+ */
 void VoiceAuditLogger::clearEventLog() {
     std::lock_guard<std::mutex> lock(mutex_);
     event_log_.clear();
 }
 
 size_t VoiceAuditLogger::getEventCount() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return event_log_.size();
 }
 
 void VoiceAuditLogger::setEventCallback(std::function<void(const json&)> callback) {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     event_callback_ = callback;
 }
@@ -175,6 +238,11 @@ std::string VoiceAuditLogger::getTimestamp() const {
     return ss.str();
 }
 
+/**
+ * @brief Write Event.
+ * @param[in] event Input parameter.
+ * @details Calls: void(), lock(), push_back(), callback(), serializeEvent(), empty(), log_file(), is_open().
+ */
 void VoiceAuditLogger::writeEvent(const json& event) {
     std::function<void(const json&)> callback;
     Config config_snapshot;

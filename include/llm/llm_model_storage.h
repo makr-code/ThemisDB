@@ -28,14 +28,11 @@ namespace llm {
 
 using json = nlohmann::json;
 
-/**
- * @brief LLM Model Metadata (BaseEntity-compliant)
- * 
- * Stores LLM model information as BaseEntity documents in ThemisDB.
- * This ensures that LLM models follow the same pattern as LoRA adapters
- * and all other ThemisDB data: BaseEntity → Document/Graph/Vector.
- */
 struct LLMModelMetadata {
+    /**
+     * @brief LLMModel Metadata.
+     * @return Return value.
+     */
     virtual ~LLMModelMetadata() = default;
     // Identity
     std::string model_id;              // Unique identifier (e.g., "llama-2-7b")
@@ -124,6 +121,12 @@ struct LLMModelMetadata {
         };
     }
     
+    /**
+     * @brief From JSON.
+     * @param[in] j Input parameter.
+     * @return Return value.
+     * @details Calls: contains().
+     */
     static LLMModelMetadata fromJSON(const json& j) {
         LLMModelMetadata metadata = {};
         
@@ -171,9 +174,6 @@ struct LLMModelMetadata {
     }
 };
 
-/**
- * @brief Graph edge types for LLM model relationships
- */
 enum class LLMEdgeType {
     DERIVED_FROM,       // Model derived from another (fine-tuned)
     QUANTIZED_FROM,     // Quantized version of another model
@@ -186,16 +186,6 @@ enum class LLMEdgeType {
     EVALUATED_ON        // Evaluation dataset
 };
 
-/**
- * @brief LLM Model Storage Service (BaseEntity-compliant)
- * 
- * Stores LLM models as BaseEntity documents with:
- * - Document model: Metadata as BaseEntity
- * - Graph model: Relationships between models
- * - Vector model: Embeddings for similarity search
- * - Blob storage: Actual model weights (smart tiering)
- * - Audit logging: Complete traceability
- */
 class LLMModelStorage {
 public:
     struct Config {
@@ -220,6 +210,11 @@ public:
     };
     
     LLMModelStorage();
+    /**
+     * @brief LLMModel Storage.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit LLMModelStorage(const Config& config);
     ~LLMModelStorage();
     
@@ -227,76 +222,53 @@ public:
     // CRUD Operations (BaseEntity-compliant)
     // ═══════════════════════════════════════════════════════════
     
-    /**
-     * @brief Store LLM model as BaseEntity
-     * @param metadata Model metadata
-     * @param model_data Optional model file data (for blob storage)
-     * @return true if stored successfully
-     */
     bool storeModel(
         const LLMModelMetadata& metadata,
         const std::optional<std::vector<uint8_t>>& model_data = std::nullopt
     );
     
     /**
-     * @brief Load LLM model metadata
-     * @param model_id Model identifier
-     * @return Optional model metadata
+     * @brief Load Model.
+     * @param[in] model_id Identifier of the model.
+     * @return Return value.
      */
     std::optional<LLMModelMetadata> loadModel(const std::string& model_id);
     
     /**
-     * @brief Load model blob data from storage
-     * 
-     * Retrieves the actual model file data from blob storage or inline storage.
-     * Handles both inline storage (for small models) and blob storage (for large models).
-     * 
-     * @param model_id Model identifier
-     * @return Optional vector containing model file data, or nullopt if not found/error
+     * @brief Load Model Blob.
+     * @param[in] model_id Identifier of the model.
+     * @return Return value.
      */
     std::optional<std::vector<uint8_t>> loadModelBlob(const std::string& model_id);
     
     /**
-     * @brief Update model metadata
-     * @param model_id Model identifier
-     * @param metadata Updated metadata
-     * @return true if updated successfully
+     * @brief Update Model.
+     * @param[in] model_id Identifier of the model.
+     * @param[in] metadata Input parameter.
+     * @return True when the operation succeeds.
      */
     bool updateModel(const std::string& model_id, const LLMModelMetadata& metadata);
     
     /**
-     * @brief Delete model
-     * @param model_id Model identifier
-     * @return true if deleted successfully
+     * @brief Delete Model.
+     * @param[in] model_id Identifier of the model.
+     * @return True when the operation succeeds.
      */
     bool deleteModel(const std::string& model_id);
     
     /**
-     * @brief Check if model exists
-     * @param model_id Model identifier
-     * @return true if exists
+     * @brief Exists.
+     * @param[in] model_id Identifier of the model.
+     * @return True when the operation succeeds.
      */
     bool exists(const std::string& model_id) const;
     
-    /**
-     * @brief List all models
-     * @param filter Optional filter (e.g., by architecture, quantization)
-     * @return Vector of model IDs
-     */
     std::vector<std::string> listModels(const std::optional<std::string>& filter = std::nullopt) const;
     
     // ═══════════════════════════════════════════════════════════
     // Graph Operations
     // ═══════════════════════════════════════════════════════════
     
-    /**
-     * @brief Add edge between models
-     * @param from_id Source model
-     * @param to_id Target model
-     * @param edge_type Edge type
-     * @param weight Edge weight (optional)
-     * @return true if added successfully
-     */
     bool addEdge(
         const std::string& from_id,
         const std::string& to_id,
@@ -304,66 +276,47 @@ public:
         float weight = 1.0f
     );
     
-    /**
-     * @brief Get edges for model
-     * @param model_id Model identifier
-     * @param direction "incoming", "outgoing", or "both"
-     * @return Vector of edges
-     */
     std::vector<json> getEdges(
         const std::string& model_id,
         const std::string& direction = "both"
     ) const;
     
-    // ═══════════════════════════════════════════════════════════
-    // Vector Operations
-    // ═══════════════════════════════════════════════════════════
-    
     /**
-     * @brief Store vector embedding for model
-     * @param model_id Model identifier
-     * @param embedding Vector embedding
-     * @return true if stored successfully
+     * @brief ═══════════════════════════════════════════════════════════ Vector Operations ═══════════════════════════════════════════════════════════
+     * @param[in] model_id Identifier of the model.
+     * @param[in] embedding Input parameter.
+     * @return True when the operation succeeds.
      */
+    
     bool storeEmbedding(
         const std::string& model_id,
         const std::vector<float>& embedding
     );
     
-    /**
-     * @brief Find similar models using vector similarity
-     * @param model_id Reference model
-     * @param k Number of similar models to find
-     * @param threshold Minimum similarity threshold (0-1)
-     * @return Vector of similar model IDs with similarity scores
-     */
     std::vector<std::pair<std::string, float>> findSimilarModels(
         const std::string& model_id,
         int k = 10,
         float threshold = 0.7f
     ) const;
     
-    // ═══════════════════════════════════════════════════════════
-    // Statistics & Monitoring
-    // ═══════════════════════════════════════════════════════════
-    
     /**
-     * @brief Update usage statistics
-     * @param model_id Model identifier
-     * @param tokens_generated Number of tokens generated
-     * @return true if updated successfully
+     * @brief ═══════════════════════════════════════════════════════════ Statistics & Monitoring ═══════════════════════════════════════════════════════════
+     * @param[in] model_id Identifier of the model.
+     * @param[in] tokens_generated Input parameter.
+     * @return True when the operation succeeds.
      */
+    
     bool updateUsageStats(const std::string& model_id, int64_t tokens_generated);
     
     /**
-     * @brief Get storage statistics
-     * @return Statistics as JSON
+     * @brief Get Stats.
+     * @return Return value.
      */
     json getStats() const;
     
     /**
-     * @brief Get configuration (for accessing blob manager, etc.)
-     * @return Configuration object
+     * @brief Get Config.
+     * @return Return value.
      */
     const Config& getConfig() const;
 

@@ -55,16 +55,31 @@ namespace acceleration {
 
 namespace {
 
+/**
+ * @brief Rccl All Reduce Fn Mutex.
+ * @return Return value.
+ * @details Implements rcclAllReduceFnMutex without additional internal calls.
+ */
 std::mutex& rcclAllReduceFnMutex() {
     static std::mutex mutex;
     return mutex;
 }
 
+/**
+ * @brief Rccl All Reduce Fn Storage.
+ * @return Return value.
+ * @details Implements rcclAllReduceFnStorage without additional internal calls.
+ */
 RCCLVectorBackend::AllReduceFn& rcclAllReduceFnStorage() {
     static RCCLVectorBackend::AllReduceFn callback;
     return callback;
 }
 
+/**
+ * @brief Get Rccl All Reduce Fn.
+ * @return Return value.
+ * @details Calls: lock(), rcclAllReduceFnMutex(), rcclAllReduceFnStorage().
+ */
 RCCLVectorBackend::AllReduceFn getRcclAllReduceFn() {
     std::lock_guard<std::mutex> lock(rcclAllReduceFnMutex());
     return rcclAllReduceFnStorage();
@@ -72,6 +87,11 @@ RCCLVectorBackend::AllReduceFn getRcclAllReduceFn() {
 
 } // namespace
 
+/**
+ * @brief Set All Reduce Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lock(), rcclAllReduceFnMutex(), rcclAllReduceFnStorage(), std::move().
+ */
 void RCCLVectorBackend::setAllReduceFn(AllReduceFn fn) {
     std::lock_guard<std::mutex> lock(rcclAllReduceFnMutex());
     rcclAllReduceFnStorage() = std::move(fn);
@@ -98,6 +118,12 @@ public:
         shutdown();
     }
     
+    /**
+     * @brief Initialize.
+     * @param[in] cfg Input parameter.
+     * @return True when the operation succeeds.
+     * @details Calls: empty(), size(), HIP_CHECK(), hipSetDevice(), resize(), RCCL_CHECK(), rcclCommInitAll(), data().
+     */
     bool initialize(const Config& cfg) {
         config = cfg;
         
@@ -144,6 +170,10 @@ public:
         return true;
     }
     
+    /**
+     * @brief Shutdown.
+     * @details Calls: rcclCommDestroy(), clear().
+     */
     void shutdown() {
         if (initialized) {
             // Destroy all communicators created by rcclCommInitAll
@@ -158,6 +188,11 @@ public:
         }
     }
     
+    /**
+     * @brief Enable All P2 PAccess.
+     * @return True when the operation succeeds.
+     * @details Calls: empty(), size(), hipDeviceCanAccessPeer(), hipSetDevice(), hipDeviceEnablePeerAccess(), hipGetLastError(), hipGetErrorString().
+     */
     bool enableAllP2PAccess() {
         if (config.deviceIds.empty()) {
           return true;
@@ -196,6 +231,11 @@ public:
         return true;
     }
     
+    /**
+     * @brief Check XGMIAvailable.
+     * @return True when the operation succeeds.
+     * @details Calls: size(), hipDeviceCanAccessPeer().
+     */
     bool checkXGMIAvailable() {
         // Simple check: if P2P is available between any two devices, assume XGMI
         if (config.deviceIds.size() < 2) {
@@ -207,6 +247,11 @@ public:
         return canAccess != 0;
     }
     
+    /**
+     * @brief Count XGMILinks.
+     * @return Return value.
+     * @details Calls: size(), hipDeviceCanAccessPeer().
+     */
     int countXGMILinks() {
         // Simplified: count P2P-capable device pairs
         int count = 0;
@@ -222,10 +267,18 @@ public:
         return count;
     }
     
+    /**
+     * @brief Start Timing.
+     * @details Calls: std::chrono::steady_clock::now().
+     */
     void startTiming() {
         lastOpStart = std::chrono::steady_clock::now();
     }
     
+    /**
+     * @brief Record Collective.
+     * @details Calls: std::chrono::steady_clock::now(), count().
+     */
     void recordCollective() {
         auto now = std::chrono::steady_clock::now();
         auto duration = std::chrono::duration_cast<std::chrono::microseconds>(now - lastOpStart);
@@ -236,6 +289,11 @@ public:
             (stats.avgCollectiveTimeMs * (stats.numCollectives - 1) + timeMs) / stats.numCollectives;
     }
     
+    /**
+     * @brief Record P2 P.
+     * @param[in] bytes Input parameter.
+     * @details Calls: std::chrono::steady_clock::now(), count().
+     */
     void recordP2P(size_t bytes) {
         auto now = std::chrono::steady_clock::now();
         auto duration = std::chrono::duration_cast<std::chrono::microseconds>(now - lastOpStart);
@@ -257,10 +315,20 @@ RCCLVectorBackend::RCCLVectorBackend() : pImpl(std::make_unique<Impl>()) {}
 // Explicitly defined to ensure Impl is complete type when destructed
 RCCLVectorBackend::~RCCLVectorBackend() {}
 
+/**
+ * @brief Initialize.
+ * @param[in] config Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements initialize without additional internal calls.
+ */
 bool RCCLVectorBackend::initialize(const Config& config) {
     return pImpl->initialize(config);
 }
 
+/**
+ * @brief Shutdown.
+ * @details Implements shutdown without additional internal calls.
+ */
 void RCCLVectorBackend::shutdown() {
     pImpl->shutdown();
 }
@@ -285,6 +353,16 @@ bool RCCLVectorBackend::isP2PEnabled() const {
     return pImpl->config.enableP2P;
 }
 
+/**
+ * @brief All Reduce.
+ * @param[in] sendBuf Input parameter.
+ * @param[in,out] recvBuf Input/output parameter.
+ * @param[in] count Input parameter.
+ * @param[in] op Input parameter.
+ * @param[in] stream Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: startTiming(), RCCL_CHECK(), rcclAllReduce(), recordCollective().
+ */
 bool RCCLVectorBackend::allReduce(const float* sendBuf, float* recvBuf, size_t count,
                                    ReductionOp op, hipStream_t stream) {
     if (!pImpl->initialized) {
@@ -309,6 +387,15 @@ bool RCCLVectorBackend::allReduce(const float* sendBuf, float* recvBuf, size_t c
     return true;
 }
 
+/**
+ * @brief Broadcast.
+ * @param[in,out] buffer Input/output parameter.
+ * @param[in] count Input parameter.
+ * @param[in] root Input parameter.
+ * @param[in] stream Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: startTiming(), RCCL_CHECK(), rcclBroadcast(), recordCollective().
+ */
 bool RCCLVectorBackend::broadcast(float* buffer, size_t count, int root,
                                    hipStream_t stream) {
     if (!pImpl->initialized) {
@@ -322,6 +409,15 @@ bool RCCLVectorBackend::broadcast(float* buffer, size_t count, int root,
     return true;
 }
 
+/**
+ * @brief All Gather.
+ * @param[in] sendBuf Input parameter.
+ * @param[in,out] recvBuf Input/output parameter.
+ * @param[in] sendCount Input parameter.
+ * @param[in] stream Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: startTiming(), RCCL_CHECK(), rcclAllGather(), recordCollective().
+ */
 bool RCCLVectorBackend::allGather(const float* sendBuf, float* recvBuf, size_t sendCount,
                                    hipStream_t stream) {
     if (!pImpl->initialized) {
@@ -335,6 +431,17 @@ bool RCCLVectorBackend::allGather(const float* sendBuf, float* recvBuf, size_t s
     return true;
 }
 
+/**
+ * @brief Reduce.
+ * @param[in] sendBuf Input parameter.
+ * @param[in,out] recvBuf Input/output parameter.
+ * @param[in] count Input parameter.
+ * @param[in] op Input parameter.
+ * @param[in] root Input parameter.
+ * @param[in] stream Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: startTiming(), RCCL_CHECK(), rcclReduce(), recordCollective().
+ */
 bool RCCLVectorBackend::reduce(const float* sendBuf, float* recvBuf, size_t count,
                                 ReductionOp op, int root, hipStream_t stream) {
     if (!pImpl->initialized) {
@@ -358,6 +465,16 @@ bool RCCLVectorBackend::reduce(const float* sendBuf, float* recvBuf, size_t coun
     return true;
 }
 
+/**
+ * @brief Reduce Scatter.
+ * @param[in] sendBuf Input parameter.
+ * @param[in,out] recvBuf Input/output parameter.
+ * @param[in] recvCount Input parameter.
+ * @param[in] op Input parameter.
+ * @param[in] stream Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: startTiming(), RCCL_CHECK(), rcclReduceScatter(), recordCollective().
+ */
 bool RCCLVectorBackend::reduceScatter(const float* sendBuf, float* recvBuf, size_t recvCount,
                                        ReductionOp op, hipStream_t stream) {
     if (!pImpl->initialized) {
@@ -381,6 +498,15 @@ bool RCCLVectorBackend::reduceScatter(const float* sendBuf, float* recvBuf, size
     return true;
 }
 
+/**
+ * @brief P2p Send.
+ * @param[in] buffer Input parameter.
+ * @param[in] count Input parameter.
+ * @param[in] peerRank Input parameter.
+ * @param[in] stream Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: startTiming(), RCCL_CHECK(), rcclSend(), recordP2P().
+ */
 bool RCCLVectorBackend::p2pSend(const float* buffer, size_t count, int peerRank,
                                  hipStream_t stream) {
     if (!pImpl->initialized) {
@@ -393,6 +519,15 @@ bool RCCLVectorBackend::p2pSend(const float* buffer, size_t count, int peerRank,
     return true;
 }
 
+/**
+ * @brief P2p Recv.
+ * @param[in,out] buffer Input/output parameter.
+ * @param[in] count Input parameter.
+ * @param[in] peerRank Input parameter.
+ * @param[in] stream Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: startTiming(), RCCL_CHECK(), rcclRecv().
+ */
 bool RCCLVectorBackend::p2pRecv(float* buffer, size_t count, int peerRank,
                                  hipStream_t stream) {
     if (!pImpl->initialized) {
@@ -405,6 +540,13 @@ bool RCCLVectorBackend::p2pRecv(float* buffer, size_t count, int peerRank,
     return true;
 }
 
+/**
+ * @brief Enable P2 PAccess.
+ * @param[in] deviceId1 Input parameter.
+ * @param[in] deviceId2 Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: HIP_CHECK(), hipDeviceCanAccessPeer(), hipSetDevice(), hipDeviceEnablePeerAccess().
+ */
 bool RCCLVectorBackend::enableP2PAccess(int deviceId1, int deviceId2) {
     int canAccess = 0;
     HIP_CHECK(hipDeviceCanAccessPeer(&canAccess, deviceId1, deviceId2));
@@ -420,12 +562,25 @@ bool RCCLVectorBackend::enableP2PAccess(int deviceId1, int deviceId2) {
     return canAccess != 0;
 }
 
+/**
+ * @brief Can Access Peer.
+ * @param[in] deviceId1 Input parameter.
+ * @param[in] deviceId2 Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: hipDeviceCanAccessPeer().
+ */
 bool RCCLVectorBackend::canAccessPeer(int deviceId1, int deviceId2) {
     int canAccess = 0;
     hipDeviceCanAccessPeer(&canAccess, deviceId1, deviceId2);
     return canAccess != 0;
 }
 
+/**
+ * @brief Synchronize.
+ * @param[in] stream Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: allReduce().
+ */
 bool RCCLVectorBackend::synchronize(hipStream_t stream) {
     if (!pImpl->initialized) {
       return false;
@@ -436,6 +591,11 @@ bool RCCLVectorBackend::synchronize(hipStream_t stream) {
     return allReduce(&dummy, &dummy, 1, ReductionOp::SUM, stream);
 }
 
+/**
+ * @brief Wait All.
+ * @return True when the operation succeeds.
+ * @details Calls: HIP_CHECK(), hipDeviceSynchronize().
+ */
 bool RCCLVectorBackend::waitAll() {
     if (!pImpl->initialized) {
       return false;
@@ -444,6 +604,19 @@ bool RCCLVectorBackend::waitAll() {
     return true;
 }
 
+/**
+ * @brief Merge Top K.
+ * @param[in] localIndices Input parameter.
+ * @param[in] localDistances Input parameter.
+ * @param[in] localK Input parameter.
+ * @param[in,out] globalIndices Input/output parameter.
+ * @param[in,out] globalDistances Input/output parameter.
+ * @param[in] k Input parameter.
+ * @param[in] root Input parameter.
+ * @param[in] stream Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: startTiming(), HIP_CHECK(), hipMemcpy(), recordCollective(), hipMalloc(), rcclGroupStart(), RCCL_CHECK(), rcclAllGather().
+ */
 bool RCCLVectorBackend::mergeTopK(const uint32_t* localIndices, const float* localDistances,
                                    size_t localK, uint32_t* globalIndices, float* globalDistances,
                                    size_t k, int root, hipStream_t stream) {
@@ -558,10 +731,19 @@ RCCLVectorBackend::Statistics RCCLVectorBackend::getStatistics() const {
     return pImpl->stats;
 }
 
+/**
+ * @brief Reset Statistics.
+ * @details Implements resetStatistics without additional internal calls.
+ */
 void RCCLVectorBackend::resetStatistics() {
     pImpl->stats = Statistics{};
 }
 
+/**
+ * @brief Is RCCLAvailable.
+ * @return True when the operation succeeds.
+ * @details Calls: hipGetDeviceCount().
+ */
 bool RCCLVectorBackend::isRCCLAvailable() {
     // Check if RCCL library is available
     int deviceCount = 0;
@@ -569,12 +751,22 @@ bool RCCLVectorBackend::isRCCLAvailable() {
     return (err == hipSuccess && deviceCount > 0);
 }
 
+/**
+ * @brief Get RCCLVersion.
+ * @return Return value.
+ * @details Calls: rcclGetVersion().
+ */
 int RCCLVectorBackend::getRCCLVersion() {
     int version = 0;
     rcclGetVersion(&version);
     return version;
 }
 
+/**
+ * @brief Get RCCLVersion String.
+ * @return Return value.
+ * @details Calls: getRCCLVersion(), std::to_string().
+ */
 std::string RCCLVectorBackend::getRCCLVersionString() {
     int version = getRCCLVersion();
     int major = version / 10000;
@@ -583,6 +775,12 @@ std::string RCCLVectorBackend::getRCCLVersionString() {
     return std::to_string(major) + "." + std::to_string(minor) + "." + std::to_string(patch);
 }
 
+/**
+ * @brief Check XGMISupport.
+ * @param[in] deviceIds Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: size(), hipDeviceCanAccessPeer().
+ */
 bool RCCLVectorBackend::checkXGMISupport(const std::vector<int>& deviceIds) {
     if (deviceIds.size() < 2) {
       return false;
@@ -618,7 +816,6 @@ bool RCCLVectorBackend::checkXGMISupport(const std::vector<int>& deviceIds) {
 // Roadmap ref: src/acceleration/FUTURE_ENHANCEMENTS.md §"NCCL/RCCL Activation"
 // Stub implementation when RCCL is not available
 // Define empty Impl class to satisfy unique_ptr
-/** @brief Define empty Impl class to satisfy unique_ptr. */
 class RCCLVectorBackend::Impl {
 public:
     Impl() = default;
@@ -629,13 +826,33 @@ RCCLVectorBackend::RCCLVectorBackend() : pImpl(std::make_unique<Impl>()) {}
 
 // Explicitly defined to ensure Impl is complete type when destructed
 RCCLVectorBackend::~RCCLVectorBackend() {}
+/**
+ * @brief Initialize.
+ * @param[in] param Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements initialize without additional internal calls.
+ */
 bool RCCLVectorBackend::initialize(const Config&) { return false; }
+/**
+ * @brief Shutdown.
+ * @details Implements shutdown without additional internal calls.
+ */
 void RCCLVectorBackend::shutdown() {}
 bool RCCLVectorBackend::isInitialized() const { return false; }
 int RCCLVectorBackend::getRank() const { return 0; }
 int RCCLVectorBackend::getWorldSize() const { return 1; }
 std::vector<int> RCCLVectorBackend::getDeviceIds() const { return {}; }
 bool RCCLVectorBackend::isP2PEnabled() const { return false; }
+/**
+ * @brief All Reduce.
+ * @param[in] send Input parameter.
+ * @param[in,out] recv Input/output parameter.
+ * @param[in] count Input parameter.
+ * @param[in] op Input parameter.
+ * @param[in,out] stream Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: getRcclAllReduceFn(), fn().
+ */
 bool RCCLVectorBackend::allReduce(const float* send, float* recv, size_t count,
                                   ReductionOp op, void* stream) {
     if (auto fn = getRcclAllReduceFn(); fn) {
@@ -651,22 +868,142 @@ bool RCCLVectorBackend::allReduce(const float* send, float* recv, size_t count,
     }
     return false;
 }
+/**
+ * @brief Broadcast.
+ * @param[in,out] param Input/output parameter.
+ * @param[in] size_t Input parameter.
+ * @param[in] int Input parameter.
+ * @param[in,out] param Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Implements broadcast without additional internal calls.
+ */
 bool RCCLVectorBackend::broadcast(float*, size_t, int, void*) { return false; }
+/**
+ * @brief All Gather.
+ * @param[in] param Input parameter.
+ * @param[in,out] param Input/output parameter.
+ * @param[in] size_t Input parameter.
+ * @param[in,out] param Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Implements allGather without additional internal calls.
+ */
 bool RCCLVectorBackend::allGather(const float*, float*, size_t, void*) { return false; }
+/**
+ * @brief Reduce.
+ * @param[in] param Input parameter.
+ * @param[in,out] param Input/output parameter.
+ * @param[in] size_t Input parameter.
+ * @param[in] ReductionOp Input parameter.
+ * @param[in] int Input parameter.
+ * @param[in,out] param Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Implements reduce without additional internal calls.
+ */
 bool RCCLVectorBackend::reduce(const float*, float*, size_t, ReductionOp, int, void*) { return false; }
+/**
+ * @brief Reduce Scatter.
+ * @param[in] param Input parameter.
+ * @param[in,out] param Input/output parameter.
+ * @param[in] size_t Input parameter.
+ * @param[in] ReductionOp Input parameter.
+ * @param[in,out] param Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Implements reduceScatter without additional internal calls.
+ */
 bool RCCLVectorBackend::reduceScatter(const float*, float*, size_t, ReductionOp, void*) { return false; }
+/**
+ * @brief P2p Send.
+ * @param[in] param Input parameter.
+ * @param[in] size_t Input parameter.
+ * @param[in] int Input parameter.
+ * @param[in,out] param Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Implements p2pSend without additional internal calls.
+ */
 bool RCCLVectorBackend::p2pSend(const float*, size_t, int, void*) { return false; }
+/**
+ * @brief P2p Recv.
+ * @param[in,out] param Input/output parameter.
+ * @param[in] size_t Input parameter.
+ * @param[in] int Input parameter.
+ * @param[in,out] param Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Implements p2pRecv without additional internal calls.
+ */
 bool RCCLVectorBackend::p2pRecv(float*, size_t, int, void*) { return false; }
+/**
+ * @brief Enable P2 PAccess.
+ * @param[in] int Input parameter.
+ * @param[in] int Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements enableP2PAccess without additional internal calls.
+ */
 bool RCCLVectorBackend::enableP2PAccess(int, int) { return false; }
+/**
+ * @brief Can Access Peer.
+ * @param[in] int Input parameter.
+ * @param[in] int Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements canAccessPeer without additional internal calls.
+ */
 bool RCCLVectorBackend::canAccessPeer(int, int) { return false; }
+/**
+ * @brief Synchronize.
+ * @param[in,out] param Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Implements synchronize without additional internal calls.
+ */
 bool RCCLVectorBackend::synchronize(void*) { return false; }
+/**
+ * @brief Wait All.
+ * @return True when the operation succeeds.
+ * @details Implements waitAll without additional internal calls.
+ */
 bool RCCLVectorBackend::waitAll() { return false; }
+/**
+ * @brief Merge Top K.
+ * @param[in] param Input parameter.
+ * @param[in] param Input parameter.
+ * @param[in] size_t Input parameter.
+ * @param[in,out] param Input/output parameter.
+ * @param[in,out] param Input/output parameter.
+ * @param[in] size_t Input parameter.
+ * @param[in] int Input parameter.
+ * @param[in,out] param Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Implements mergeTopK without additional internal calls.
+ */
 bool RCCLVectorBackend::mergeTopK(const uint32_t*, const float*, size_t, uint32_t*, float*, size_t, int, void*) { return false; }
 RCCLVectorBackend::Statistics RCCLVectorBackend::getStatistics() const { return Statistics{}; }
+/**
+ * @brief Reset Statistics.
+ * @details Implements resetStatistics without additional internal calls.
+ */
 void RCCLVectorBackend::resetStatistics() {}
+/**
+ * @brief Is RCCLAvailable.
+ * @return True when the operation succeeds.
+ * @details Implements isRCCLAvailable without additional internal calls.
+ */
 bool RCCLVectorBackend::isRCCLAvailable() { return false; }
+/**
+ * @brief Get RCCLVersion.
+ * @return Return value.
+ * @details Implements getRCCLVersion without additional internal calls.
+ */
 int RCCLVectorBackend::getRCCLVersion() { return 0; }
+/**
+ * @brief Get RCCLVersion String.
+ * @return Return value.
+ * @details Implements getRCCLVersionString without additional internal calls.
+ */
 std::string RCCLVectorBackend::getRCCLVersionString() { return "Not available"; }
+/**
+ * @brief Check XGMISupport.
+ * @param[in] param Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements checkXGMISupport without additional internal calls.
+ */
 bool RCCLVectorBackend::checkXGMISupport(const std::vector<int>&) { return false; }
 
 #endif // THEMIS_ENABLE_RCCL

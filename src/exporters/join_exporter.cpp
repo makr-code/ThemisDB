@@ -29,7 +29,12 @@ JoinExporter::JoinExporter(const JoinExportConfig& config)
     : config_(config),
       metrics_(std::make_shared<ExporterMetrics>()) {}
 
-// ── setRightCollection ────────────────────────────────────────────────────────
+/**
+ * @brief ── setRightCollection ────────────────────────────────────────────────────────
+ * @param[in] right_entities Input parameter.
+ * @throws ExporterException if an error occurs.
+ * @details Calls: empty(), clear(), getFieldString(), estimateEntityBytes(), std::to_string(), emplace(), THEMIS_INFO(), size().
+ */
 
 void JoinExporter::setRightCollection(const std::vector<BaseEntity>& right_entities) {
     if (config_.right_collection.empty()) {
@@ -71,7 +76,14 @@ void JoinExporter::setRightCollection(const std::vector<BaseEntity>& right_entit
     right_collection_loaded_ = true;
 }
 
-// ── exportEntities ────────────────────────────────────────────────────────────
+/**
+ * @brief ── exportEntities ────────────────────────────────────────────────────────────
+ * @param[in] entities Input parameter.
+ * @param[in] options Input parameter.
+ * @return Return value.
+ * @throws ExporterException if an error occurs.
+ * @details Calls: enforceExportPolicy(), empty(), std::chrono::steady_clock::now(), std::string(), what(), buildPIIDetector(), writer(), size().
+ */
 
 ExportStats JoinExporter::exportEntities(
     const std::vector<BaseEntity>& entities,
@@ -399,7 +411,12 @@ std::unique_ptr<PIIDetector> JoinExporter::buildPIIDetector() const {
     return std::make_unique<PIIDetector>(pc);
 }
 
-// ── estimateEntityBytes ───────────────────────────────────────────────────────
+/**
+ * @brief ── estimateEntityBytes ───────────────────────────────────────────────────────
+ * @param[in] entity Input parameter.
+ * @return Return value.
+ * @details Calls: toJson(), size(), getPrimaryKey().
+ */
 
 size_t JoinExporter::estimateEntityBytes(const BaseEntity& entity) {
     // Use serialised JSON length as a conservative proxy for heap usage.

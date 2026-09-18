@@ -18,6 +18,11 @@ namespace themis {
 namespace performance {
 namespace phase3 {
 
+/**
+ * @brief Load from config.
+ * @param[in] config_path Path to the retention policy configuration file.
+ * @details Calls: file(), is_open(), contains(), set_diskann_enabled(), set_bwtree_enabled(), set_splinterdb_enabled(), set_gunrock_enabled(), set_bao_enabled().
+ */
 void Phase3FeatureFlags::load_from_config(const std::string& config_path) {
     try {
         std::ifstream file(config_path);

@@ -48,6 +48,12 @@ std::vector<uint8_t> QuantizedCore::serialize() const {
     return out;
 }
 
+/**
+ * @brief Deserialize.
+ * @param[in] bytes Input parameter.
+ * @return Return value.
+ * @details Calls: size(), std::memcpy(), readU64(), readF32(), assign(), begin(), THEMIS_WARN().
+ */
 std::optional<QuantizedCore> QuantizedCore::deserialize(const std::vector<uint8_t>& bytes) {
     // model_integrity_gap scanner alert: callers (QuantizedTrain::deserialize)
     // validate the sub-buffer length before calling here; the minimum-size
@@ -147,6 +153,12 @@ std::vector<uint8_t> QuantizedTrain::serialize() const {
     return out;
 }
 
+/**
+ * @brief Deserialize.
+ * @param[in] bytes Input parameter.
+ * @return Return value.
+ * @details Calls: size(), std::memcpy(), readU64(), resize(), readF64(), cb(), begin(), std::move().
+ */
 std::optional<QuantizedTrain> QuantizedTrain::deserialize(const std::vector<uint8_t>& bytes) {
     // model_integrity_gap scanner alert: size guard and bounds-checked sub-buffer
     // slicing (pos + clen > bytes.size()) prevent over-read; blob integrity is

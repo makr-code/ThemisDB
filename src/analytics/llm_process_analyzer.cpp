@@ -30,9 +30,6 @@ namespace themis {
 // Prompt Injection Sanitization
 // ============================================================================
 
-/// @brief Built-in default prompt-injection prefixes (lower-case).
-/// Applied when no operator-supplied config file is configured or when the
-/// file cannot be read.
 static const std::vector<std::string> kBuiltinInjectionPrefixes = {
     "system:",
     "### system",
@@ -50,17 +47,10 @@ static const std::vector<std::string> kBuiltinInjectionPrefixes = {
 };
 
 /**
- * @brief Load the effective injection-prefix list for sanitizeUserContent().
- *
- * When @p config_path is non-empty the file is opened and each non-empty,
- * non-comment line (lines starting with '#' are skipped) is lower-cased and
- * added to the returned list.  If the path is empty, the file cannot be
- * opened, or the file contains no qualifying lines, the built-in 13-pattern
- * list is returned instead.
- *
- * @param config_path  Absolute or relative path to the operator-supplied
- *                     prefix file.  Pass an empty string to use built-in defaults.
- * @return             Effective lower-cased injection prefix list.
+ * @brief Load Injection Prefixes.
+ * @param[in] config_path Path to the retention policy configuration file.
+ * @return Return value.
+ * @details Calls: empty(), file(), is_open(), spdlog::warn(), size(), std::getline(), std::transform(), begin().
  */
 static std::vector<std::string> loadInjectionPrefixes(const std::string &config_path) {
     if (config_path.empty()) {
@@ -100,32 +90,11 @@ static std::vector<std::string> loadInjectionPrefixes(const std::string &config_
 }
 
 /**
- * @brief Sanitize user-supplied content before embedding it in LLM prompts.
- *
- * Removes or neutralizes common prompt-injection sequences in the serialized
- * JSON string that will be embedded verbatim into a prompt.  The goal is to
- * prevent attacker-controlled field values from hijacking the system role or
- * appending additional instructions that alter model behavior.
- *
- * Mitigations applied:
- *  1. Null-byte removal — LLMs may truncate or behave unpredictably on NUL.
- *  2. Non-printable ASCII control characters (0x00–0x1F, except \t/\n/\r) are
- *     replaced with a space to avoid smuggled escape sequences.
- *  3. Known prompt-injection prefixes (e.g. "System:", "###", "Ignore all",
- *     "IGNORE PREVIOUS INSTRUCTIONS") are replaced with a redacted marker.
- *     The check is case-insensitive and covers common jailbreak patterns.
- *  4. Content length is hard-capped to kMaxContentBytes to prevent
- *     prompt flooding / token exhaustion attacks.
- *
- * @note This function operates on the *serialized* JSON representation of
- *       user data, not on the raw request object, so no structural information
- *       is lost.  The JSON syntax itself (quotes, braces) is preserved; only
- *       values that match injection patterns are neutralized.
- *
- * @param content             Serialized JSON string to sanitize.
- * @param injection_prefixes  Lower-case prefix list to redact; loaded via
- *                            loadInjectionPrefixes() at construction time.
- * @return                    Sanitized copy safe for prompt embedding.
+ * @brief Sanitize User Content.
+ * @param[in] content Input parameter.
+ * @param[in] injection_prefixes Input parameter.
+ * @return Return value.
+ * @details Calls: std::min(), size(), reserve(), std::tolower(), spdlog::warn().
  */
 static std::string sanitizeUserContent(const std::string &content,
                                        const std::vector<std::string> &injection_prefixes) {
@@ -192,6 +161,12 @@ static std::string sanitizeUserContent(const std::string &content,
 // API Key Sanitization
 // ============================================================================
 
+/**
+ * @brief Sanitize Api Key.
+ * @param[in] api_key Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), size(), std::string(), substr().
+ */
 std::string sanitizeApiKey(const std::string &api_key) {
     if (api_key.empty()) {
         return "<not set>";
@@ -210,9 +185,6 @@ std::string sanitizeApiKey(const std::string &api_key) {
 struct LLMProcessAnalyzer::Impl {
     LLMConfig config;
 
-    /// Effective injection-prefix list, loaded at construction time.
-    /// Either the operator-supplied file contents (config.injection_prefix_config_path)
-    /// or the built-in kBuiltinInjectionPrefixes fallback.
     std::vector<std::string> injection_prefixes;
 
     // Response cache entry
@@ -242,6 +214,11 @@ struct LLMProcessAnalyzer::Impl {
             return std::nullopt;
         }
 
+        /**
+         * @brief Lock.
+         * @param[in] cache_mutex Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(cache_mutex);
         auto it = lru_map.find(key);
         if (it == lru_map.end()) {
@@ -266,6 +243,12 @@ struct LLMProcessAnalyzer::Impl {
         return it->second.second.response;
     }
 
+    /**
+     * @brief Put In Cache.
+     * @param[in] key Input parameter.
+     * @param[in] response Input parameter.
+     * @details Calls: lock(), std::chrono::steady_clock::now(), std::chrono::seconds(), find(), end(), splice(), begin(), push_front().
+     */
     void putInCache(const std::string &key, const nlohmann::json &response) {
         if (!config.enable_caching) {
             return;
@@ -639,6 +622,14 @@ std::string LLMProcessAnalyzer::callLLM(const std::string &prompt,
 // Response Parsing
 // ============================================================================
 
+/**
+ * @brief Parse Response.
+ * @param[in] raw_response Input parameter.
+ * @param[in] task_type Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: nlohmann::json::parse(), std::string(), what().
+ */
 nlohmann::json LLMProcessAnalyzer::parseResponse(const std::string &raw_response, TaskType task_type) {
     (void)task_type;
 
@@ -789,6 +780,10 @@ LLMProcessAnalyzer::CacheStats LLMProcessAnalyzer::getCacheStats() const {
     return pImpl->stats;
 }
 
+/**
+ * @brief Clear Cache.
+ * @details Calls: lock(), clear().
+ */
 void LLMProcessAnalyzer::clearCache() {
     std::lock_guard<std::mutex> lock(pImpl->cache_mutex);
     pImpl->lru_list.clear();

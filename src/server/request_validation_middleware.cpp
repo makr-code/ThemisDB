@@ -22,7 +22,12 @@ namespace server {
 // helpers
 // ---------------------------------------------------------------------------
 
-/*static*/
+/**
+ * @brief static
+ * @param[in] method Input parameter.
+ * @return Return value.
+ * @details Calls: upper(), std::transform(), begin(), end(), std::toupper().
+ */
 std::string RequestValidationMiddleware::normalizeMethod(const std::string& method) {
     std::string upper(method);
     std::transform(upper.begin(), upper.end(), upper.begin(),
@@ -34,6 +39,13 @@ std::string RequestValidationMiddleware::normalizeMethod(const std::string& meth
 // schema registry
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Register Schema.
+ * @param[in] method Input parameter.
+ * @param[in] path Input parameter.
+ * @param[in] schema Input parameter.
+ * @details Calls: lock(), normalizeMethod(), std::move().
+ */
 void RequestValidationMiddleware::registerSchema(const std::string& method,
                                                   const std::string& path,
                                                   nlohmann::json schema) {
@@ -42,6 +54,13 @@ void RequestValidationMiddleware::registerSchema(const std::string& method,
     schemas_[std::move(key)] = std::move(schema);
 }
 
+/**
+ * @brief Remove Schema.
+ * @param[in] method Input parameter.
+ * @param[in] path Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), normalizeMethod(), erase().
+ */
 bool RequestValidationMiddleware::removeSchema(const std::string& method,
                                                 const std::string& path) {
     std::lock_guard<std::mutex> lock(mutex_);
@@ -49,12 +68,21 @@ bool RequestValidationMiddleware::removeSchema(const std::string& method,
     return schemas_.erase(key) > 0;
 }
 
+/**
+ * @brief Clear Schemas.
+ * @details Calls: lock(), clear().
+ */
 void RequestValidationMiddleware::clearSchemas() {
     std::lock_guard<std::mutex> lock(mutex_);
     schemas_.clear();
 }
 
 size_t RequestValidationMiddleware::schemaCount() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return schemas_.size();
 }
@@ -119,6 +147,11 @@ const nlohmann::json* RequestValidationMiddleware::findSchemaLocked(
 
 bool RequestValidationMiddleware::hasSchema(const std::string& method,
                                              const std::string& path) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return findSchemaLocked(normalizeMethod(method), path) != nullptr;
 }
@@ -142,6 +175,11 @@ RequestValidationMiddleware::ValidationResult
 RequestValidationMiddleware::validate(const std::string& method,
                                        const std::string& path,
                                        const nlohmann::json& body) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::unique_lock<std::mutex> lock(mutex_);
     const nlohmann::json* schema = findSchemaLocked(normalizeMethod(method), path);
     if (!schema) {
@@ -171,6 +209,11 @@ RequestValidationMiddleware::validate(const std::string& method,
     if (body.empty()) {
         // Only proceed if a schema is registered (avoid parse on skip path)
         {
+            /**
+             * @brief Lock.
+             * @param[in] mutex_ Input parameter.
+             * @return Return value.
+             */
             std::lock_guard<std::mutex> lock(mutex_);
             if (!findSchemaLocked(normalizeMethod(method), path)) {
                 metrics_.validation_skip_total.fetch_add(1, std::memory_order_relaxed);
@@ -184,6 +227,11 @@ RequestValidationMiddleware::validate(const std::string& method,
         } catch (const nlohmann::json::exception&) {
             // Check if a schema is registered before counting parse error
             {
+                /**
+                 * @brief Lock.
+                 * @param[in] mutex_ Input parameter.
+                 * @return Return value.
+                 */
                 std::lock_guard<std::mutex> lock(mutex_);
                 if (!findSchemaLocked(normalizeMethod(method), path)) {
                     metrics_.validation_skip_total.fetch_add(1, std::memory_order_relaxed);

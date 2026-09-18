@@ -42,6 +42,10 @@ ONNXModelLoader::ONNXModelLoader(const ONNXModelLoaderConfig& config)
 
 ONNXModelLoader::~ONNXModelLoader() = default;
 
+/**
+ * @brief Initialize Default Models.
+ * @details Calls: registerModel(), NLIModelFactory::getDebertaV3LargeMNLI(), NLIModelFactory::getRobertaLargeMNLI(), NLIModelFactory::getBartLargeMNLI().
+ */
 void ONNXModelLoader::initializeDefaultModels() {
     // Register common NLI models
     registerModel(NLIModelFactory::getDebertaV3LargeMNLI());
@@ -49,6 +53,12 @@ void ONNXModelLoader::initializeDefaultModels() {
     registerModel(NLIModelFactory::getBartLargeMNLI());
 }
 
+/**
+ * @brief Load Model.
+ * @param[in] model_path Path to the model.
+ * @return Return value.
+ * @details Calls: empty(), THEMIS_ERROR(), std::filesystem::exists(), std::filesystem::path(), stem(), string(), std::filesystem::file_size(), computeChecksum().
+ */
 std::optional<ONNXModelInfo> ONNXModelLoader::loadModel(const std::string& model_path) {
     if (model_path.empty()) {
         THEMIS_ERROR("Empty model path provided");
@@ -80,6 +90,14 @@ std::optional<ONNXModelInfo> ONNXModelLoader::loadModel(const std::string& model
     return info;
 }
 
+/**
+ * @brief Load Or Download Model.
+ * @param[in] model_name Name of the model.
+ * @param[in] model_url Input parameter.
+ * @param[in] expected_checksum Input parameter.
+ * @return Return value.
+ * @details Calls: isModelCached(), getCachedModelPath(), empty(), validateModelChecksum(), THEMIS_WARN(), loadModel(), THEMIS_INFO(), downloadFile().
+ */
 std::optional<ONNXModelInfo> ONNXModelLoader::loadOrDownloadModel(
     const std::string& model_name,
     const std::string& model_url,
@@ -150,6 +168,13 @@ std::string ONNXModelLoader::getCachedModelPath(const std::string& model_name) c
     return "";
 }
 
+/**
+ * @brief Validate Model Checksum.
+ * @param[in] model_path Path to the model.
+ * @param[in] expected_checksum Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), computeChecksum().
+ */
 bool ONNXModelLoader::validateModelChecksum(const std::string& model_path, const std::string& expected_checksum) {
     if (expected_checksum.empty()) {
         return true;  // No checksum to validate
@@ -170,6 +195,12 @@ std::vector<std::string> ONNXModelLoader::listCachedModels() const {
     return models;
 }
 
+/**
+ * @brief Clear Cache.
+ * @param[in] model_name Name of the model.
+ * @return Return value.
+ * @details Calls: lock(), empty(), size(), clear(), find(), end(), erase().
+ */
 size_t ONNXModelLoader::clearCache(const std::string& model_name) {
     size_t cleared = 0;
     std::lock_guard<std::mutex> lock(impl_->cache_mutex);
@@ -190,6 +221,11 @@ size_t ONNXModelLoader::clearCache(const std::string& model_name) {
     return cleared;
 }
 
+/**
+ * @brief Register Model.
+ * @param[in] info Input parameter.
+ * @details Implements registerModel without additional internal calls.
+ */
 void ONNXModelLoader::registerModel(const ONNXModelInfo& info) {
     model_registry_[info.model_name] = info;
 }
@@ -202,6 +238,12 @@ std::optional<ONNXModelInfo> ONNXModelLoader::getModelInfo(const std::string& mo
     return std::nullopt;
 }
 
+/**
+ * @brief Compute Checksum.
+ * @param[in] file_path Path to the file.
+ * @return Return value.
+ * @details Calls: file(), is_open(), SHA256_Init(), read(), gcount(), SHA256_Update(), SHA256_Final(), std::setw().
+ */
 std::string ONNXModelLoader::computeChecksum(const std::string& file_path) {
     std::ifstream file(file_path, std::ios::binary);
     if (!file.is_open()) {
@@ -230,10 +272,27 @@ std::string ONNXModelLoader::computeChecksum(const std::string& file_path) {
 }
 
 // CURL write callback
+/**
+ * @brief Write data.
+ * @param[in,out] ptr Input/output parameter.
+ * @param[in] size Input parameter.
+ * @param[in] nmemb Input parameter.
+ * @param[in,out] stream Input/output parameter.
+ * @return Return value.
+ * @details Calls: fwrite().
+ */
 static size_t write_data(void* ptr, size_t size, size_t nmemb, FILE* stream) {
     return fwrite(ptr, size, nmemb, stream);
 }
 
+/**
+ * @brief Download File.
+ * @param[in] url Input parameter.
+ * @param[in] dest_path Path to the dest.
+ * @param[in] timeout_sec Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: curl_easy_init(), fopen(), c_str(), curl_easy_cleanup(), curl_easy_setopt(), curl_easy_perform(), fclose(), std::filesystem::remove().
+ */
 bool ONNXModelLoader::downloadFile(const std::string& url, const std::string& dest_path, int timeout_sec) {
     CURL* curl = curl_easy_init();
     if (!curl) {
@@ -266,9 +325,11 @@ bool ONNXModelLoader::downloadFile(const std::string& url, const std::string& de
     return true;
 }
 
-// ═══════════════════════════════════════════════════════════
-// NLI Model Factory Implementation
-// ═══════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════ NLI Model Factory Implementation ═══════════════════════════════════════════════════════════
+ * @return Return value.
+ * @details Implements getDebertaV3LargeMNLI without additional internal calls.
+ */
 
 ONNXModelInfo NLIModelFactory::getDebertaV3LargeMNLI() {
     ONNXModelInfo info;
@@ -282,6 +343,11 @@ ONNXModelInfo NLIModelFactory::getDebertaV3LargeMNLI() {
     return info;
 }
 
+/**
+ * @brief Get Roberta Large MNLI.
+ * @return Return value.
+ * @details Implements getRobertaLargeMNLI without additional internal calls.
+ */
 ONNXModelInfo NLIModelFactory::getRobertaLargeMNLI() {
     ONNXModelInfo info;
     info.model_name = "roberta-large-mnli";
@@ -293,6 +359,11 @@ ONNXModelInfo NLIModelFactory::getRobertaLargeMNLI() {
     return info;
 }
 
+/**
+ * @brief Get Bart Large MNLI.
+ * @return Return value.
+ * @details Implements getBartLargeMNLI without additional internal calls.
+ */
 ONNXModelInfo NLIModelFactory::getBartLargeMNLI() {
     ONNXModelInfo info;
     info.model_name = "bart-large-mnli";
@@ -304,6 +375,11 @@ ONNXModelInfo NLIModelFactory::getBartLargeMNLI() {
     return info;
 }
 
+/**
+ * @brief Get All Supported Models.
+ * @return Return value.
+ * @details Calls: getDebertaV3LargeMNLI(), getRobertaLargeMNLI(), getBartLargeMNLI().
+ */
 std::vector<ONNXModelInfo> NLIModelFactory::getAllSupportedModels() {
     return {
         getDebertaV3LargeMNLI(),

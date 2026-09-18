@@ -80,7 +80,6 @@ namespace aql_templates {
 // ============================================================================
 // Pimpl implementation (Phase 1 & 2)
 // ============================================================================
-/** @brief Pimpl implementation (Phase 1 & 2). */
 class LegalAutoLabeler::Impl {
 public:
     friend class LegalAutoLabeler;
@@ -109,6 +108,12 @@ public:
 
     ~Impl() = default;
 
+    /**
+     * @brief Label All.
+     * @param[in] callback Input parameter.
+     * @return Return value.
+     * @details Calls: LabelingStats(), std::chrono::steady_clock::now(), buildQuery(), executeAqlQuery(), empty(), fetchAllDocumentIdsDirect(), reserve(), labelDocument().
+     */
     LabelingStats labelAll(LabelingCallback callback) {
         LabelingStats stats = LabelingStats();
         auto start_time = std::chrono::steady_clock::now();
@@ -172,6 +177,12 @@ public:
         return stats;
     }
 
+    /**
+     * @brief Label Document.
+     * @param[in] document_id Identifier of the document.
+     * @return Return value.
+     * @details Calls: empty(), fetchDocumentText(), lock(), parseDocument(), THEMIS_INFO(), mean_conf(), push_back(), std::move().
+     */
     std::vector<TrainingSample> labelDocument(const std::string& document_id) {
         std::vector<TrainingSample> samples;
 
@@ -308,6 +319,13 @@ public:
         return samples;
     }
 
+    /**
+     * @brief Label Query.
+     * @param[in] aql_query Input parameter.
+     * @param[in] callback Input parameter.
+     * @return Return value.
+     * @details Calls: LabelingStats(), std::chrono::steady_clock::now(), empty(), isReadOnlyAqlQuery(), executeAqlQuery(), reserve(), labelDocument(), updateStats().
+     */
     LabelingStats labelQuery(const std::string& aql_query, LabelingCallback callback) {
         LabelingStats stats = LabelingStats();
         auto start_time = std::chrono::steady_clock::now();
@@ -367,6 +385,12 @@ public:
         return stats;
     }
 
+    /**
+     * @brief Get Low Confidence Samples.
+     * @param[in] min_confidence Input parameter.
+     * @return Return value.
+     * @details Implements getLowConfidenceSamples without additional internal calls.
+     */
     std::vector<TrainingSample> getLowConfidenceSamples(float min_confidence) {
         // Phase 1: AQL query to fetch low-confidence samples
         // Production query (aql_templates::FETCH_LOW_CONFIDENCE):
@@ -381,6 +405,13 @@ public:
         return samples;
     }
 
+    /**
+     * @brief Update Sample Confidence.
+     * @param[in] sample_id Identifier of the sample.
+     * @param[in] new_confidence Input parameter.
+     * @param[in] reviewed_by Input parameter.
+     * @details Calls: empty(), std::max(), std::min().
+     */
     void updateSampleConfidence(const std::string& sample_id,
                                 float new_confidence,
                                 const std::string& reviewed_by) {
@@ -418,12 +449,15 @@ private:
     std::atomic<size_t> total_processed_;
     std::atomic<size_t> total_errors_;
     mutable std::mutex pipeline_mutex_;
-    /// In-process document registry for offline/test-mode operation.
-    /// Populated via registerDocument(); consulted by fetchDocumentText() when
-    /// query_engine_ is null.  Stub #66 resolution.
     mutable std::mutex offline_corpus_mutex_;
     std::unordered_map<std::string, std::string> offline_corpus_;
 
+    /**
+     * @brief Register Document.
+     * @param[in] document_id Identifier of the document.
+     * @param[in] text Input parameter.
+     * @details Calls: lock().
+     */
     void registerDocument(const std::string& document_id, const std::string& text) {
         std::lock_guard<std::mutex> lock(offline_corpus_mutex_);
         offline_corpus_[document_id] = text;
@@ -582,6 +616,11 @@ private:
             // the hardcoded fallback text, allowing offline/test mode to exercise
             // the NLP pipeline with per-document controlled content.
             {
+                /**
+                 * @brief Lock.
+                 * @param[in] offline_corpus_mutex_ Input parameter.
+                 * @return Return value.
+                 */
                 std::lock_guard<std::mutex> lock(offline_corpus_mutex_);
                 auto it = offline_corpus_.find(document_id);
                 if (it != offline_corpus_.end()) {
@@ -714,6 +753,12 @@ private:
         return query;
     }
 
+    /**
+     * @brief Is Read Only Aql Query.
+     * @param[in] aql Input parameter.
+     * @return True when the operation succeeds.
+     * @details Calls: empty(), reserve(), size(), push_back(), std::toupper(), find().
+     */
     static bool isReadOnlyAqlQuery(const std::string& aql) {
         if (aql.empty()) {
             return false;
@@ -801,28 +846,66 @@ LegalAutoLabeler::LegalAutoLabeler(const AutoLabelConfig& config,
 
 LegalAutoLabeler::~LegalAutoLabeler() = default;
 
+/**
+ * @brief Register Document.
+ * @param[in] document_id Identifier of the document.
+ * @param[in] text Input parameter.
+ * @details Implements registerDocument without additional internal calls.
+ */
 void LegalAutoLabeler::registerDocument(const std::string& document_id,
                                         const std::string& text) {
     impl_->registerDocument(document_id, text);
 }
 
+/**
+ * @brief Label All.
+ * @param[in] callback Input parameter.
+ * @return Return value.
+ * @details Implements labelAll without additional internal calls.
+ */
 LabelingStats LegalAutoLabeler::labelAll(LabelingCallback callback) {
     return impl_->labelAll(callback);
 }
 
+/**
+ * @brief Label Document.
+ * @param[in] document_id Identifier of the document.
+ * @return Return value.
+ * @details Implements labelDocument without additional internal calls.
+ */
 std::vector<TrainingSample> LegalAutoLabeler::labelDocument(const std::string& document_id) {
     return impl_->labelDocument(document_id);
 }
 
+/**
+ * @brief Label Query.
+ * @param[in] aql_query Input parameter.
+ * @param[in] callback Input parameter.
+ * @return Return value.
+ * @details Implements labelQuery without additional internal calls.
+ */
 LabelingStats LegalAutoLabeler::labelQuery(const std::string& aql_query,
                                           LabelingCallback callback) {
     return impl_->labelQuery(aql_query, callback);
 }
 
+/**
+ * @brief Get Low Confidence Samples.
+ * @param[in] min_confidence Input parameter.
+ * @return Return value.
+ * @details Implements getLowConfidenceSamples without additional internal calls.
+ */
 std::vector<TrainingSample> LegalAutoLabeler::getLowConfidenceSamples(float min_confidence) {
     return impl_->getLowConfidenceSamples(min_confidence);
 }
 
+/**
+ * @brief Update Sample Confidence.
+ * @param[in] sample_id Identifier of the sample.
+ * @param[in] new_confidence Input parameter.
+ * @param[in] reviewed_by Input parameter.
+ * @details Implements updateSampleConfidence without additional internal calls.
+ */
 void LegalAutoLabeler::updateSampleConfidence(const std::string& sample_id,
                                              float new_confidence,
                                              const std::string& reviewed_by) {

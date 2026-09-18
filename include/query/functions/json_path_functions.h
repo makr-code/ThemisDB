@@ -24,15 +24,6 @@ namespace functions {
 // JSONPath Parser
 // ============================================================================
 
-/**
- * @brief Simple JSONPath parser for basic path expressions
- * 
- * Supports:
- * - $.field - root field access
- * - $.field.nested - nested field access
- * - $.array[0] - array index access
- * - $.field[0].nested - mixed access
- */
 class JSONPath {
 public:
     enum class SegmentType {
@@ -50,9 +41,9 @@ public:
     };
     
     /**
-     * @brief Parse a JSONPath expression
-     * @param path JSONPath string (e.g., "$.field.nested[0]")
-     * @return vector of path segments
+     * @brief Parse.
+     * @param[in] path Input parameter.
+     * @return Return value.
      * @throws std::runtime_error if an error occurs.
      * @details Calls: starts_with(), substr(), empty(), length(), push_back(), Segment(), clear(), find().
      */
@@ -125,10 +116,10 @@ public:
     }
     
     /**
-     * @brief Extract value at JSONPath
-     * @param root The root JSON object
-     * @param path The JSONPath string
-     * @return The value at the path, or null if not found
+     * @brief Extract.
+     * @param[in] root Input parameter.
+     * @param[in] path Input parameter.
+     * @return Return value.
      * @details Calls: parse(), is_object(), contains(), is_array(), size().
      */
     static nlohmann::json extract(const nlohmann::json& root, const std::string& path) {
@@ -154,11 +145,11 @@ public:
     }
     
     /**
-     * @brief Set value at JSONPath
-     * @param root The root JSON object (modified in place)
-     * @param path The JSONPath string
-     * @param value The value to set
-     * @return true if successful, false otherwise
+     * @brief Set.
+     * @param[in,out] root Input/output parameter.
+     * @param[in] path Input parameter.
+     * @param[in] value Input parameter.
+     * @return True when the operation succeeds.
      * @details Calls: parse(), empty(), size(), is_object(), nlohmann::json::object(), contains(), nlohmann::json::array(), is_array().
      */
     static bool set(nlohmann::json& root, const std::string& path, const nlohmann::json& value) {
@@ -221,10 +212,10 @@ public:
     }
     
     /**
-     * @brief Remove value at JSONPath
-     * @param root The root JSON object (modified in place)
-     * @param path The JSONPath string
-     * @return true if something was removed, false otherwise
+     * @brief Remove.
+     * @param[in,out] root Input/output parameter.
+     * @param[in] path Input parameter.
+     * @return True when the operation succeeds.
      * @details Calls: parse(), empty(), size(), is_object(), contains(), is_array(), back(), erase().
      */
     static bool remove(nlohmann::json& root, const std::string& path) {
@@ -273,7 +264,7 @@ public:
     }
     
     /**
-     * @brief Get the depth of a JSON structure (iterative with max depth limit)
+     * @brief Depth.
      * @param[in] root Input parameter.
      * @return Return value.
      * @details Calls: is_object(), is_array(), push_back(), empty(), back(), pop_back(), std::max(), begin().
@@ -326,10 +317,10 @@ public:
     }
     
     /**
-     * @brief Check if a value exists in JSON
+     * @brief Contains.
      * @param[in] root Input parameter.
      * @param[in] value Input parameter.
-     * @return True on success.
+     * @return True when the operation succeeds.
      * @details Calls: is_object(), begin(), end(), value(), is_array().
      */
     static bool contains(const nlohmann::json& root, const nlohmann::json& value) {
@@ -359,9 +350,6 @@ public:
 // JSON Path Functions
 // ============================================================================
 
-/**
- * @brief JSON_EXTRACT(doc, path) - Extract value using JSONPath
- */
 class JsonExtractFunction : public IFunction {
 public:
     ~JsonExtractFunction() override = default;
@@ -393,9 +381,6 @@ public:
     }
 };
 
-/**
- * @brief JSON_SET(doc, path, value) - Set value at JSONPath
- */
 class JsonSetFunction : public IFunction {
 public:
     ~JsonSetFunction() override = default;
@@ -431,9 +416,6 @@ public:
     }
 };
 
-/**
- * @brief JSON_REMOVE(doc, path) - Remove value at JSONPath
- */
 class JsonRemoveFunction : public IFunction {
 public:
     ~JsonRemoveFunction() override = default;
@@ -468,9 +450,6 @@ public:
     }
 };
 
-/**
- * @brief JSON_TYPE(doc, path) - Get type at JSONPath
- */
 class JsonTypeFunction : public IFunction {
 public:
     ~JsonTypeFunction() override = default;
@@ -525,9 +504,6 @@ public:
     }
 };
 
-/**
- * @brief JSON_CONTAINS(doc, value) - Check if value exists
- */
 class JsonContainsFunction : public IFunction {
 public:
     ~JsonContainsFunction() override = default;
@@ -555,9 +531,6 @@ public:
     }
 };
 
-/**
- * @brief JSON_DEPTH(doc) - Get maximum depth
- */
 class JsonDepthFunction : public IFunction {
 public:
     ~JsonDepthFunction() override = default;
@@ -584,9 +557,6 @@ public:
     }
 };
 
-/**
- * @brief JSON_PARSE(str) - Parse JSON string
- */
 class JsonParseFunction : public IFunction {
 public:
     ~JsonParseFunction() override = default;
@@ -618,9 +588,6 @@ public:
     }
 };
 
-/**
- * @brief JSON_STRINGIFY(value) - Convert to JSON string
- */
 class JsonStringifyFunction : public IFunction {
 public:
     ~JsonStringifyFunction() override = default;
@@ -648,12 +615,12 @@ public:
     }
 };
 
+
 /**
- * @brief ============================================================================ Register JSON Path Functions ============================================================================
+ * @brief Register Json Path Functions.
  * @param[in,out] reg Input/output parameter.
  * @details Calls: registerFunction().
  */
-
 inline void registerJsonPathFunctions(FunctionRegistry& reg) {
     reg.registerFunction(std::make_unique<JsonExtractFunction>());
     reg.registerFunction(std::make_unique<JsonSetFunction>());

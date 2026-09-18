@@ -39,6 +39,12 @@ GraphApiHandler::GraphApiHandler(
     }
 }
 
+/**
+ * @brief Handle Traverse.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), setAttribute(), json::parse(), body(), contains(), setStatus(), makeErrorResponse(), std::to_string().
+ */
 http::response<http::string_body> GraphApiHandler::handleTraverse(
     const http::request<http::string_body>& req
 ) {
@@ -105,6 +111,12 @@ http::response<http::string_body> GraphApiHandler::handleTraverse(
     }
 }
 
+/**
+ * @brief Handle Edge Create.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), setAttribute(), json::parse(), body(), contains(), setStatus(), makeErrorResponse(), items().
+ */
 http::response<http::string_body> GraphApiHandler::handleEdgeCreate(
     const http::request<http::string_body>& req
 ) {
@@ -195,6 +207,12 @@ http::response<http::string_body> GraphApiHandler::handleEdgeCreate(
     }
 }
 
+/**
+ * @brief Handle Edge Delete.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), setAttribute(), std::string(), target(), extractPathParam(), empty(), setStatus(), makeErrorResponse().
+ */
 http::response<http::string_body> GraphApiHandler::handleEdgeDelete(
     const http::request<http::string_body>& req
 ) {
@@ -273,6 +291,12 @@ http::response<http::string_body> GraphApiHandler::handleEdgeDelete(
     }
 }
 
+/**
+ * @brief Handle Metrics.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), setAttribute(), setStatus(), makeErrorResponse(), getQueryMetrics(), load(), avgExecutionTimeMs(), errorRate().
+ */
 http::response<http::string_body> GraphApiHandler::handleMetrics(
     const http::request<http::string_body>& req
 ) {
@@ -308,6 +332,12 @@ http::response<http::string_body> GraphApiHandler::handleMetrics(
     return makeResponse(http::status::ok, response.dump(), req);
 }
 
+/**
+ * @brief Handle Metrics Prometheus.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), setAttribute(), setStatus(), makeErrorResponse(), getQueryMetrics(), reserve(), std::to_string(), counter().
+ */
 http::response<http::string_body> GraphApiHandler::handleMetricsPrometheus(
     const http::request<http::string_body>& req
 ) {
@@ -424,6 +454,13 @@ http::response<http::string_body> GraphApiHandler::handleMetricsPrometheus(
     return res;
 }
 
+/**
+ * @brief Extract Path Param.
+ * @param[in] target Input parameter.
+ * @param[in] prefix Input parameter.
+ * @return Return value.
+ * @details Calls: size(), substr(), find().
+ */
 std::string GraphApiHandler::extractPathParam(
     const std::string& target,
     const std::string& prefix
@@ -484,6 +521,12 @@ GraphApiHandler::parseChangeSet(const json& changes_array) {
     return cs;
 }
 
+/**
+ * @brief Handle Incremental Query Register.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), setAttribute(), setStatus(), makeErrorResponse(), json::parse(), body(), contains(), registerIncrementalBFS().
+ */
 http::response<http::string_body> GraphApiHandler::handleIncrementalQueryRegister(
     const http::request<http::string_body>& req
 ) {
@@ -570,6 +613,12 @@ http::response<http::string_body> GraphApiHandler::handleIncrementalQueryRegiste
     }
 }
 
+/**
+ * @brief Handle Incremental Query Unregister.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), setAttribute(), setStatus(), makeErrorResponse(), std::string(), target(), extractPathParam(), empty().
+ */
 http::response<http::string_body> GraphApiHandler::handleIncrementalQueryUnregister(
     const http::request<http::string_body>& req
 ) {
@@ -619,6 +668,12 @@ http::response<http::string_body> GraphApiHandler::handleIncrementalQueryUnregis
     return makeResponse(http::status::ok, response.dump(), req);
 }
 
+/**
+ * @brief Handle Graph Changes.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), setAttribute(), setStatus(), makeErrorResponse(), json::parse(), body(), contains(), is_array().
+ */
 http::response<http::string_body> GraphApiHandler::handleGraphChanges(
     const http::request<http::string_body>& req
 ) {
@@ -668,9 +723,12 @@ http::response<http::string_body> GraphApiHandler::handleGraphChanges(
     }
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Cost model calibration HTTP API (v1.8.0)
-// ─────────────────────────────────────────────────────────────────────────────
+/**
+ * @brief ───────────────────────────────────────────────────────────────────────────── Cost model calibration HTTP API (v1.
+ * @param[in] algo Input parameter.
+ * @return Pointer to the result.
+ * @details 8.0) ─────────────────────────────────────────────────────────────────────────────
+ */
 
 static const char* costModelAlgoName(
     themis::graph::GraphQueryOptimizer::TraversalAlgorithm algo)
@@ -686,6 +744,11 @@ static const char* costModelAlgoName(
     }
 }
 
+/**
+ * @brief Handle Cost Model Calibrate.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ */
 http::response<http::string_body> GraphApiHandler::handleCostModelCalibrate(
     const http::request<http::string_body>& req)
 {
@@ -731,6 +794,11 @@ http::response<http::string_body> GraphApiHandler::handleCostModelCalibrate(
     return makeResponse(http::status::ok, response.dump(), req);
 }
 
+/**
+ * @brief Handle Cost Model Export.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ */
 http::response<http::string_body> GraphApiHandler::handleCostModelExport(
     const http::request<http::string_body>& req)
 {
@@ -755,6 +823,11 @@ http::response<http::string_body> GraphApiHandler::handleCostModelExport(
     return makeResponse(http::status::ok, model_json, req);
 }
 
+/**
+ * @brief Handle Cost Model Import.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ */
 http::response<http::string_body> GraphApiHandler::handleCostModelImport(
     const http::request<http::string_body>& req)
 {
@@ -852,7 +925,12 @@ parseQueryConstraints(const json& body, const std::string& key = "constraints") 
     return qc;
 }
 
-// Helper: serialise an OptimizationPlan as a JSON object.
+/**
+ * @brief Helper: serialise an OptimizationPlan as a JSON object.
+ * @param[in] plan Input parameter.
+ * @param[in] explanation Input parameter.
+ * @return Return value.
+ */
 static json planToJson(
     const themis::graph::GraphQueryOptimizer::OptimizationPlan& plan,
     const std::string& explanation)
@@ -911,6 +989,11 @@ static json planToJson(
     };
 }
 
+/**
+ * @brief Handle Query Explain.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ */
 http::response<http::string_body> GraphApiHandler::handleQueryExplain(
     const http::request<http::string_body>& req)
 {
@@ -1113,6 +1196,14 @@ http::response<http::string_body> GraphApiHandler::handleQueryExplain(
     }
 }
 
+/**
+ * @brief Make Error Response.
+ * @param[in] status Input parameter.
+ * @param[in] message Input parameter.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: makeResponse(), dump().
+ */
 http::response<http::string_body> GraphApiHandler::makeErrorResponse(
     http::status status, const std::string& message, const http::request<http::string_body>& req
 ) {
@@ -1125,6 +1216,14 @@ http::response<http::string_body> GraphApiHandler::makeErrorResponse(
     return makeResponse(status, error_body.dump(), req);
 }
 
+/**
+ * @brief Make Response.
+ * @param[in] status Input parameter.
+ * @param[in] body Input parameter.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: version(), set(), keep_alive(), body(), prepare_payload().
+ */
 http::response<http::string_body> GraphApiHandler::makeResponse(
     http::status status, const std::string& body, const http::request<http::string_body>& req
 ) {

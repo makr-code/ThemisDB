@@ -24,6 +24,13 @@ namespace content {
 // TextProcessor Implementation
 // ============================================================================
 
+/**
+ * @brief Extract.
+ * @param[in] blob Input parameter.
+ * @param[in] content_type Input parameter.
+ * @return Return value.
+ * @details Calls: normalizeText(), json::object(), size(), find(), substr(), std::count(), begin(), end().
+ */
 ExtractionResult TextProcessor::extract(const std::string &blob, const ContentType &content_type) {
     ExtractionResult result;
     result.ok = true;
@@ -79,6 +86,14 @@ ExtractionResult TextProcessor::extract(const std::string &blob, const ContentTy
     return result;
 }
 
+/**
+ * @brief Chunk.
+ * @param[in] extraction_result Input parameter.
+ * @param[in] chunk_size Input parameter.
+ * @param[in] overlap Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), splitIntoSentences(), size(), countTokens(), push_back().
+ */
 std::vector<json> TextProcessor::chunk(const ExtractionResult &extraction_result, int chunk_size, int overlap) {
     std::vector<json> chunks;
 
@@ -177,6 +192,12 @@ std::vector<json> TextProcessor::chunk(const ExtractionResult &extraction_result
     return chunks;
 }
 
+/**
+ * @brief Generate Embedding.
+ * @param[in] chunk_data Input parameter.
+ * @return Return value.
+ * @details Calls: embedding_fn_(), embedding(), empty(), iss(), push_back(), size(), hasher(), std::sin().
+ */
 std::vector<float> TextProcessor::generateEmbedding(const std::string &chunk_data) {
     // If a real embedding backend has been injected, delegate to it.
     if (embedding_fn_) {
@@ -258,6 +279,11 @@ std::vector<float> TextProcessor::generateEmbedding(const std::string &chunk_dat
 // TextProcessor::setEmbeddingBackend (stub #6 injection API)
 // ============================================================================
 
+/**
+ * @brief Set Embedding Backend.
+ * @param[in] fn Input parameter.
+ * @details Calls: std::move().
+ */
 void TextProcessor::setEmbeddingBackend(EmbeddingFn fn) {
     embedding_fn_ = std::move(fn);
 }
@@ -266,6 +292,12 @@ void TextProcessor::setEmbeddingBackend(EmbeddingFn fn) {
 // Private Helper Methods
 // ============================================================================
 
+/**
+ * @brief Normalize Text.
+ * @param[in] text Input parameter.
+ * @return Return value.
+ * @details Calls: erase(), std::remove(), begin(), end(), multi_space(), std::regex_replace(), find_first_not_of(), find_last_not_of().
+ */
 std::string TextProcessor::normalizeText(const std::string &text) {
     std::string normalized = text;
 
@@ -287,6 +319,12 @@ std::string TextProcessor::normalizeText(const std::string &text) {
     return normalized.substr(start, end - start + 1);
 }
 
+/**
+ * @brief Count Tokens.
+ * @param[in] text Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), iss().
+ */
 int TextProcessor::countTokens(const std::string &text) {
     // Simple whitespace-based tokenizer
     // In production, use a proper tokenizer (e.g., tiktoken for GPT, WordPiece for BERT)
@@ -306,6 +344,12 @@ int TextProcessor::countTokens(const std::string &text) {
     return count;
 }
 
+/**
+ * @brief Split Into Sentences.
+ * @param[in] text Input parameter.
+ * @return Return value.
+ * @details Calls: sentence_regex(), std::sregex_iterator(), begin(), end(), str(), find_first_not_of(), find_last_not_of(), substr().
+ */
 std::vector<std::string> TextProcessor::splitIntoSentences(const std::string &text) {
     std::vector<std::string> sentences;
 
@@ -344,6 +388,12 @@ std::vector<std::string> TextProcessor::splitIntoSentences(const std::string &te
 // ---------------------------------------------------------------------------
 
 /*static*/ std::vector<uint32_t> TextProcessor::computeMinHash(const std::string &text, size_t num_hashes) {
+    /**
+     * @brief Signature.
+     * @param[in] num_hashes Input parameter.
+     * @param[in] UINT32_MAX Input parameter.
+     * @return Return value.
+     */
     std::vector<uint32_t> signature(num_hashes, UINT32_MAX);
     if (text.empty() || num_hashes == 0) {
         return signature;
@@ -352,6 +402,11 @@ std::vector<std::string> TextProcessor::splitIntoSentences(const std::string &te
     // Tokenise into words (lowercase)
     std::vector<std::string> words;
     {
+        /**
+         * @brief Iss.
+         * @param[in] text Input parameter.
+         * @return Return value.
+         */
         std::istringstream iss(text);
         std::string w = {};
         while (iss >> w) {

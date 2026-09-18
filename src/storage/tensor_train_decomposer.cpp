@@ -67,6 +67,11 @@ std::vector<float> TTTrain::reconstruct() const {
     const auto& c0 = cores.front();
     std::size_t rows = c0.n;
     std::size_t cols = c0.r_right;
+    /**
+     * @brief Mat.
+     * @param[in,out] cols Input/output parameter.
+     * @return Return value.
+     */
     std::vector<float> mat(rows * cols);
     for (std::size_t i = 0; i < rows; ++i) {
         for (std::size_t r = 0; r < cols; ++r) {
@@ -155,6 +160,13 @@ std::vector<uint8_t> TTTrain::serialize() const {
     return out;
 }
 
+/**
+ * @brief Deserialize.
+ * @param[in] bytes Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: size(), std::memcpy(), readU64(), resize(), readF64(), numElements(), readF32(), THEMIS_WARN().
+ */
 std::optional<TTTrain> TTTrain::deserialize(const std::vector<uint8_t>& bytes) {
     // model_integrity_gap scanner alert: this function parses a binary blob whose
     // integrity (HMAC-SHA-256) is verified by the caller (TensorTrainDecomposer::load)
@@ -227,8 +239,12 @@ std::optional<TTTrain> TTTrain::deserialize(const std::vector<uint8_t>& bytes) {
 
 namespace {
 
-// Householder vector for a column segment starting at index 0 of `col`.
-// Returns the vector v such that (I - 2*v*v^T) col = ±‖col‖ * e₁.
+/**
+ * @brief Householder vector for a column segment starting at index 0 of `col`.
+ * @param[in] col Input parameter.
+ * @return Return value.
+ * @details Returns the vector v such that (I - 2*v*v^T) col = ±‖col‖ * e₁. Calls: std::sqrt().
+ */
 static std::vector<double> householder(const std::vector<double>& col) {
     double norm = 0.0;
     for (double x : col) {
@@ -252,8 +268,16 @@ static std::vector<double> householder(const std::vector<double>& col) {
     return v;
 }
 
-// Apply Householder reflector (I - 2*v*v^T) to matrix A from the left
-// on rows [row_start, m), columns [col_start, n).
+/**
+ * @brief Apply Householder reflector (I - 2*v*v^T) to matrix A from the left on rows [row_start, m), columns [col_start, n).
+ * @param[in,out] A Input/output parameter.
+ * @param[in] m Input parameter.
+ * @param[in] n Input parameter.
+ * @param[in] row_start Input parameter.
+ * @param[in] col_start Input parameter.
+ * @param[in] v Input parameter.
+ * @details Calls: size().
+ */
 static void applyHouseholderLeft(std::vector<double>& A, std::size_t m,
                                   std::size_t n, std::size_t row_start,
                                   std::size_t col_start,
@@ -270,6 +294,16 @@ static void applyHouseholderLeft(std::vector<double>& A, std::size_t m,
     }
 }
 
+/**
+ * @brief Apply Householder Right.
+ * @param[in,out] A Input/output parameter.
+ * @param[in] m Input parameter.
+ * @param[in] n Input parameter.
+ * @param[in] col_start Input parameter.
+ * @param[in] row_start Input parameter.
+ * @param[in] v Input parameter.
+ * @details Calls: size().
+ */
 static void applyHouseholderRight(std::vector<double>& A, std::size_t m,
                                    std::size_t n, std::size_t col_start,
                                    std::size_t row_start,
@@ -285,23 +319,14 @@ static void applyHouseholderRight(std::vector<double>& A, std::size_t m,
 }
 
 /**
- * @brief Self-contained Golub-Reinsch SVD for an m×n matrix A (any aspect ratio).
- *
- * Returns:
- *   U  — m×m column-orthogonal matrix (left singular vectors in columns 0..min_mn-1)
- *   S  — min_mn = min(m,n) singular values in descending order
- *   Vt — n×n row-orthogonal matrix (right singular vectors in rows 0..min_mn-1)
- *
- * Algorithm:
- *   1. Householder bidiagonalisation (min_mn steps) with full U and Vt accumulation.
- *   2. Demmel-Kahan implicit QR iteration with deflation, Givens rotations accumulated
- *      into U (columns) and Vt (rows).
- *   3. Sign normalisation so all singular values are non-negative.
- *   4. Descending sort of S with corresponding column/row permutation.
- *
- * This replaces the previous stub that left U and Vt as identity matrices.
- * Reconstruction error is bounded by the QR convergence tolerance (≈ 1e-12)
- * for matrices with the rank sizes encountered in TT-SVD (≤ 512×512).
+ * @brief Simple SVD.
+ * @param[in,out] A Input/output parameter.
+ * @param[in] m Input parameter.
+ * @param[in] n Input parameter.
+ * @param[in,out] U Input/output parameter.
+ * @param[in,out] S Input/output parameter.
+ * @param[in,out] Vt Input/output parameter.
+ * @details Calls: std::min(), assign(), col(), householder(), applyHouseholderLeft(), applyHouseholderRight(), row(), diag().
  */
 static void simpleSVD(std::vector<double>& A, std::size_t m, std::size_t n,
                        std::vector<double>& U, std::vector<double>& S,
@@ -478,15 +503,15 @@ static void simpleSVD(std::vector<double>& A, std::size_t m, std::size_t n,
     Vt = std::move(Vts);
 }
 
-// ---------------------------------------------------------------------------
-// thinLQ — economy LQ decomposition of m×n matrix C (m ≤ n typical).
-//
-// Returns L (m×m lower triangular) and Q (m×n, orthonormal rows) such that
-// C = L * Q, using Modified Gram-Schmidt applied row-wise.
-//
-// Used by TensorTrainDecomposer::recompress() for the right-to-left
-// orthogonalisation sweep (TT-rounding, Oseledets 2011 §2.3).
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- thinLQ — economy LQ decomposition of m×n matrix C (m ≤ n typical).
+ * @param[in] C Input parameter.
+ * @param[in] m Input parameter.
+ * @param[in] n Input parameter.
+ * @param[in,out] L_out Input/output parameter.
+ * @param[in,out] Q_out Input/output parameter.
+ * @details Returns L (m×m lower triangular) and Q (m×n, orthonormal rows) such that C = L * Q, using Modified Gram-Schmidt applied row-wise. Used by TensorTrainDecomposer::recompress() for the right-to-left orthogonalisation sweep (TT-rounding, Oseledets 2011 §2.3). --------------------------------------------------------------------------- Calls: Q(), L(), std::sqrt(), assign().
+ */
 static void thinLQ(const std::vector<float>& C, std::size_t m, std::size_t n,
                    std::vector<float>& L_out, std::vector<float>& Q_out) {
     // Work in double for numerical stability
@@ -542,6 +567,16 @@ double TensorTrainDecomposer::vecNorm(const std::vector<float>& v) noexcept {
     return std::sqrt(s);
 }
 
+/**
+ * @brief Mat Mul.
+ * @param[in] A Input parameter.
+ * @param[in] B Input parameter.
+ * @param[in] m Input parameter.
+ * @param[in] k Input parameter.
+ * @param[in] n Input parameter.
+ * @return Return value.
+ * @details Calls: C().
+ */
 std::vector<float> TensorTrainDecomposer::matMul(
     const std::vector<float>& A, const std::vector<float>& B,
     std::size_t m, std::size_t k, std::size_t n) {
@@ -556,6 +591,18 @@ std::vector<float> TensorTrainDecomposer::matMul(
     return C;
 }
 
+/**
+ * @brief Truncated SVDShared.
+ * @param[in] mat Input parameter.
+ * @param[in] m Input parameter.
+ * @param[in] n Input parameter.
+ * @param[in] delta Input parameter.
+ * @param[in] max_rank_cap Input parameter.
+ * @param[in,out] U Input/output parameter.
+ * @param[in,out] S Input/output parameter.
+ * @param[in,out] Vt Input/output parameter.
+ * @param[in,out] rank_out Input/output parameter.
+ */
 void TensorTrainDecomposer::truncatedSVDShared(
     const std::vector<float>& mat,
     std::size_t               m,
@@ -570,6 +617,18 @@ void TensorTrainDecomposer::truncatedSVDShared(
     truncatedSVD(mat, m, n, delta, max_rank_cap, U, S, Vt, rank_out);
 }
 
+/**
+ * @brief Truncated SVD.
+ * @param[in] mat Input parameter.
+ * @param[in] m Input parameter.
+ * @param[in] n Input parameter.
+ * @param[in] delta Input parameter.
+ * @param[in] max_rank_cap Input parameter.
+ * @param[in,out] U Input/output parameter.
+ * @param[in,out] S Input/output parameter.
+ * @param[in,out] Vt Input/output parameter.
+ * @param[in,out] rank_out Input/output parameter.
+ */
 void TensorTrainDecomposer::truncatedSVD(
     const std::vector<float>& mat, std::size_t m, std::size_t n,
     double delta, std::size_t max_rank_cap,
@@ -819,7 +878,11 @@ TTTrain TensorTrainDecomposer::recompress(const TTTrain& train,
           continue;
         }
 
-        // Unfold G_k as M: r_left x (n_k * r_right)  [right-unfolding]
+        /**
+         * @brief Unfold G_k as M: r_left x (n_k * r_right) [right-unfolding]
+         * @param[in,out] ncols Input/output parameter.
+         * @return Return value.
+         */
         std::vector<float> M(rl * ncols);
         for (std::size_t l = 0; l < rl; ++l)
             for (std::size_t i = 0; i < Gk.n; ++i)
@@ -840,6 +903,11 @@ TTTrain TensorTrainDecomposer::recompress(const TTTrain& train,
         const std::size_t ml = Gkm1.r_left * Gkm1.n;
         const std::size_t rr = Gkm1.r_right;   // equals Gk.r_left = rl
 
+        /**
+         * @brief Fm.
+         * @param[in,out] rr Input/output parameter.
+         * @return Return value.
+         */
         std::vector<float> Fm(ml * rr);
         for (std::size_t li = 0; li < Gkm1.r_left; ++li)
             for (std::size_t ni = 0; ni < Gkm1.n; ++ni)
@@ -882,7 +950,11 @@ TTTrain TensorTrainDecomposer::recompress(const TTTrain& train,
           continue;
         }
 
-        // Unfold G_k as M: (r_left * n_k) x r_right  [left-unfolding]
+        /**
+         * @brief Unfold G_k as M: (r_left * n_k) x r_right [left-unfolding]
+         * @param[in,out] n Input/output parameter.
+         * @return Return value.
+         */
         std::vector<float> M(m * n);
         for (std::size_t l = 0; l < Gk.r_left; ++l)
             for (std::size_t i = 0; i < Gk.n; ++i)
@@ -897,7 +969,12 @@ TTTrain TensorTrainDecomposer::recompress(const TTTrain& train,
         Gk.r_right = new_r;
         Gk.data    = U;   // U is (m x new_r), flat row-major
 
-        // Transfer T = diag(S) . Vt:  new_r x n
+        /**
+         * @brief Transfer T = diag(S) .
+         * @param[in,out] n Input/output parameter.
+         * @return Return value.
+         * @details Vt: new_r x n
+         */
         std::vector<float> T(new_r * n);
         for (std::size_t i = 0; i < new_r; ++i)
             for (std::size_t j = 0; j < n; ++j)
@@ -907,6 +984,11 @@ TTTrain TensorTrainDecomposer::recompress(const TTTrain& train,
         const std::size_t old_rl1 = Gk1.r_left;    // equals n (old G_k.r_right)
         const std::size_t cols1   = Gk1.n * Gk1.r_right;
 
+        /**
+         * @brief G1 mat.
+         * @param[in,out] cols1 Input/output parameter.
+         * @return Return value.
+         */
         std::vector<float> G1_mat(old_rl1 * cols1);
         for (std::size_t l = 0; l < old_rl1; ++l)
             for (std::size_t i = 0; i < Gk1.n; ++i)
@@ -929,9 +1011,14 @@ TTTrain TensorTrainDecomposer::recompress(const TTTrain& train,
     return res;
 }
 
-// ============================================================================
-// Inner product / cosine similarity in compressed domain
-// ============================================================================
+/**
+ * @brief ============================================================================ Inner product / cosine similarity in compressed domain ============================================================================
+ * @param[in] a Input parameter.
+ * @param[in] b Input parameter.
+ * @return Return value.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: size(), Mnew(), std::abs(), at(), std::move().
+ */
 
 double TensorTrainDecomposer::innerProduct(const TTTrain& a, const TTTrain& b) {
     if (a.mode_sizes != b.mode_sizes)
@@ -979,11 +1066,24 @@ double TensorTrainDecomposer::innerProduct(const TTTrain& a, const TTTrain& b) {
     return M[0];
 }
 
+/**
+ * @brief Frobenius Norm.
+ * @param[in] a Input parameter.
+ * @return Return value.
+ * @details Calls: innerProduct(), std::sqrt(), std::max().
+ */
 double TensorTrainDecomposer::frobeniusNorm(const TTTrain& a) {
     double ip = innerProduct(a, a);
     return std::sqrt(std::max(0.0, ip));
 }
 
+/**
+ * @brief Cosine Similarity.
+ * @param[in] a Input parameter.
+ * @param[in] b Input parameter.
+ * @return Return value.
+ * @details Calls: frobeniusNorm(), innerProduct().
+ */
 double TensorTrainDecomposer::cosineSimilarity(const TTTrain& a, const TTTrain& b) {
     double na = frobeniusNorm(a);
     double nb = frobeniusNorm(b);

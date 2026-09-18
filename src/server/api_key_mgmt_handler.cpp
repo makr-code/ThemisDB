@@ -34,6 +34,12 @@ ApiKeyMgmtHandler::ApiKeyMgmtHandler(std::shared_ptr<AuthMiddleware> auth)
 // Static helpers
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Generate Token.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: RAND_bytes(), std::setw(), std::setfill(), str().
+ */
 std::string ApiKeyMgmtHandler::generateToken() {
     // 32 random bytes → 64 hex chars; prefixed with "themis_"
     unsigned char buf[32];
@@ -48,6 +54,12 @@ std::string ApiKeyMgmtHandler::generateToken() {
     return oss.str();
 }
 
+/**
+ * @brief Generate Key Id.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: RAND_bytes(), std::setw(), std::setfill(), str().
+ */
 std::string ApiKeyMgmtHandler::generateKeyId() {
     // 8 random bytes → 16 hex chars; prefixed with "key_"
     unsigned char buf[8];
@@ -62,6 +74,11 @@ std::string ApiKeyMgmtHandler::generateKeyId() {
     return oss.str();
 }
 
+/**
+ * @brief Current Timestamp.
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::now(), std::chrono::system_clock::to_time_t(), gmtime_s(), gmtime_r(), std::put_time(), str().
+ */
 std::string ApiKeyMgmtHandler::currentTimestamp() {
     auto now = std::chrono::system_clock::now();
     auto t = std::chrono::system_clock::to_time_t(now);
@@ -76,6 +93,12 @@ std::string ApiKeyMgmtHandler::currentTimestamp() {
     return oss.str();
 }
 
+/**
+ * @brief Expiry Timestamp.
+ * @param[in] days Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::now(), std::chrono::hours(), std::chrono::system_clock::to_time_t(), gmtime_s(), gmtime_r(), std::put_time(), str().
+ */
 std::string ApiKeyMgmtHandler::expiryTimestamp(int days) {
     if (days <= 0) return {};
     auto now = std::chrono::system_clock::now() + std::chrono::hours(24 * days);
@@ -91,6 +114,12 @@ std::string ApiKeyMgmtHandler::expiryTimestamp(int days) {
     return oss.str();
 }
 
+/**
+ * @brief Record To Json.
+ * @param[in] rec Input parameter.
+ * @return Return value.
+ * @details Calls: empty().
+ */
 nlohmann::json ApiKeyMgmtHandler::recordToJson(const ApiKeyRecord& rec) {
     nlohmann::json obj = {
         {"id",         rec.id},
@@ -108,6 +137,12 @@ nlohmann::json ApiKeyMgmtHandler::recordToJson(const ApiKeyRecord& rec) {
 // CRUD operations
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Create Key.
+ * @param[in] body Input parameter.
+ * @return Return value.
+ * @details Calls: contains(), is_string(), value(), empty(), is_array(), push_back(), generateToken(), generateKeyId().
+ */
 nlohmann::json ApiKeyMgmtHandler::createKey(const nlohmann::json& body) {
     try {
         // Validate required field
@@ -177,6 +212,11 @@ nlohmann::json ApiKeyMgmtHandler::createKey(const nlohmann::json& body) {
     }
 }
 
+/**
+ * @brief List Keys.
+ * @return Return value.
+ * @details Calls: lock(), nlohmann::json::array(), push_back(), recordToJson(), THEMIS_INFO(), size(), THEMIS_ERROR(), what().
+ */
 nlohmann::json ApiKeyMgmtHandler::listKeys() {
     try {
         std::lock_guard<std::mutex> lock(mutex_);
@@ -193,6 +233,12 @@ nlohmann::json ApiKeyMgmtHandler::listKeys() {
     }
 }
 
+/**
+ * @brief Get Key.
+ * @param[in] key_id Identifier of the key.
+ * @return Return value.
+ * @details Calls: lock(), find(), end(), recordToJson(), THEMIS_ERROR(), what().
+ */
 nlohmann::json ApiKeyMgmtHandler::getKey(const std::string& key_id) {
     try {
         std::lock_guard<std::mutex> lock(mutex_);
@@ -207,6 +253,13 @@ nlohmann::json ApiKeyMgmtHandler::getKey(const std::string& key_id) {
     }
 }
 
+/**
+ * @brief Update Key.
+ * @param[in] key_id Identifier of the key.
+ * @param[in] body Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), find(), end(), contains(), is_string(), empty(), is_array(), clear().
+ */
 nlohmann::json ApiKeyMgmtHandler::updateKey(const std::string& key_id, const nlohmann::json& body) {
     try {
         std::lock_guard<std::mutex> lock(mutex_);
@@ -253,6 +306,12 @@ nlohmann::json ApiKeyMgmtHandler::updateKey(const std::string& key_id, const nlo
     }
 }
 
+/**
+ * @brief Delete Key.
+ * @param[in] key_id Identifier of the key.
+ * @return Return value.
+ * @details Calls: lock(), find(), end(), erase(), empty(), removeToken(), THEMIS_INFO(), THEMIS_ERROR().
+ */
 nlohmann::json ApiKeyMgmtHandler::deleteKey(const std::string& key_id) {
     try {
         std::string token_to_remove = {};

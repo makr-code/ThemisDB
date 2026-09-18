@@ -51,8 +51,12 @@ struct JdbcUrl {
     std::string raw; ///< original location string
 };
 
-/// Parse `jdbc:<sub>://<host>:<port>/<db>` or `jdbc:<sub>://<host>/<db>`.
-/// SQLite: `jdbc:sqlite:/path/to/file.db`
+/**
+ * @brief Parse Jdbc Url.
+ * @param[in] url Input parameter.
+ * @return Return value.
+ * @details Calls: size(), substr(), find(), std::transform(), begin(), end(), std::tolower(), rfind().
+ */
 static JdbcUrl parseJdbcUrl(const std::string& url) {
     JdbcUrl result;
     result.raw = url;
@@ -136,7 +140,16 @@ static JdbcUrl parseJdbcUrl(const std::string& url) {
     return result;
 }
 
-/// Build an ODBC connection string from the parsed JDBC URL and options.
+/**
+ * @brief Build Odbc Connection String.
+ * @param[in] jdbc Input parameter.
+ * @param[in] username Input parameter.
+ * @param[in] password Input parameter.
+ * @param[in] driver_override Input parameter.
+ * @param[in] timeout_s Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), str().
+ */
 static std::string buildOdbcConnectionString(
         const JdbcUrl& jdbc,
         const std::string& username,
@@ -190,8 +203,6 @@ static std::string buildOdbcConnectionString(
     return cs.str();
 }
 
-/// Return a copy of an ODBC connection string with the PWD value masked.
-/// This is used in log/error messages to avoid credential leakage.
 [[maybe_unused]] static std::string sanitisedConnectionString(const std::string& cs) {
     // Case-insensitive search for "PWD=" without copying the whole string.  // gitleaks:allow
     static const std::string target = "pwd=";  // gitleaks:allow
@@ -216,7 +227,12 @@ static std::string buildOdbcConnectionString(
     return result;
 }
 
-/// Serialize a DbRow to a minimal JSON object (no external dependencies).
+/**
+ * @brief Row To Json.
+ * @param[in] row Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size().
+ */
 static std::string rowToJson(const DatabaseConnector::DbRow& row) {
     std::ostringstream js = {};
     js << '{';
@@ -246,9 +262,13 @@ static std::string rowToJson(const DatabaseConnector::DbRow& row) {
     return js.str();
 }
 
-/// Extract document text from a row: concatenate the requested columns with a
-/// space separator; fall back to full JSON serialization when no columns are
-/// specified or a requested column is absent.
+/**
+ * @brief Row To Text.
+ * @param[in] row Input parameter.
+ * @param[in] text_columns Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), rowToJson(), find(), end().
+ */
 static std::string rowToText(const DatabaseConnector::DbRow& row,
                               const std::vector<std::string>& text_columns) {
     if (text_columns.empty()) {
@@ -267,7 +287,12 @@ static std::string rowToText(const DatabaseConnector::DbRow& row,
     return text.empty() ? rowToJson(row) : text;
 }
 
-/// Split a comma-separated string into a vector of trimmed tokens.
+/**
+ * @brief Split Comma.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Calls: ss(), std::getline(), find_first_not_of(), find_last_not_of(), push_back(), substr().
+ */
 static std::vector<std::string> splitComma(const std::string& s) {
     std::vector<std::string> result;
     std::istringstream ss(s);
@@ -289,12 +314,17 @@ static std::vector<std::string> splitComma(const std::string& s) {
 // Pimpl
 // ---------------------------------------------------------------------------
 
-/** @brief Pimpl. */
 class DatabaseConnector::Impl {
 public:
     Impl() = default;
     ~Impl() = default;
 
+    /**
+     * @brief Initialize.
+     * @param[in] config Input parameter.
+     * @return True when the operation succeeds.
+     * @details Calls: find(), end(), parseJdbcUrl(), opt(), empty(), splitComma(), std::stoull(), std::stoi().
+     */
     bool initialize(const SourceConfig& config) {
         if (config.type != SourceType::DATABASE) {
           return false;
@@ -428,6 +458,13 @@ public:
 #endif
     }
 
+    /**
+     * @brief Ingest.
+     * @param[in] param Input parameter.
+     * @param[in] progress_callback Input parameter.
+     * @return Return value.
+     * @details Calls: std::chrono::steady_clock::now(), empty(), addError(), finaliseStats(), ingestFromMock(), ingestFromOdbc().
+     */
     IngestionStats ingest(const std::string& /*target_collection*/,
                           ProgressCallback progress_callback) {
         IngestionStats stats;
@@ -466,7 +503,17 @@ public:
         return stats;
     }
 
+    /**
+     * @brief Set Retry Config.
+     * @param[in] c Input parameter.
+     * @details Implements setRetryConfig without additional internal calls.
+     */
     void setRetryConfig(const RetryConfig& c)    { retry_config_ = c; }
+    /**
+     * @brief Set Row Fetch For Testing.
+     * @param[in] fn Input parameter.
+     * @details Calls: std::move().
+     */
     void setRowFetchForTesting(RowFetchFn fn)     { row_fetch_fn_ = std::move(fn); }
 
 private:
@@ -482,6 +529,12 @@ private:
     // Removal Plan: Not removed — remains the test-injection path.
     // Roadmap ref: src/ingestion/FUTURE_ENHANCEMENTS.md § "Stub/Simulation Lifecycle"
     // -----------------------------------------------------------------------
+    /**
+     * @brief Ingest From Mock.
+     * @param[in,out] stats Input/output parameter.
+     * @param[in,out] progress_callback Input/output parameter.
+     * @details Calls: row_fetch_fn_(), empty(), rowToText(), rowToJson(), size(), addError(), progress_callback(), std::to_string().
+     */
     void ingestFromMock(IngestionStats& stats,
                         ProgressCallback& progress_callback) {
         size_t fetched = 0;
@@ -573,6 +626,12 @@ private:
         return true;
     }
 
+    /**
+     * @brief Close Connection.
+     * @param[in] hdbc Input parameter.
+     * @param[in] henv Input parameter.
+     * @details Calls: SQLDisconnect(), SQLFreeHandle().
+     */
     static void closeConnection(SQLHDBC hdbc, SQLHENV henv) {
         if (hdbc != SQL_NULL_HDBC) {
             SQLDisconnect(hdbc);
@@ -583,6 +642,12 @@ private:
         }
     }
 
+    /**
+     * @brief Ingest From Odbc.
+     * @param[in,out] stats Input/output parameter.
+     * @param[in,out] progress_callback Input/output parameter.
+     * @details Calls: openConnection(), addError(), sanitisedConnectionString(), SQLAllocHandle(), closeConnection(), SQLSetStmtAttr(), SQLExecDirect(), c_str().
+     */
     void ingestFromOdbc(IngestionStats& stats,
                         ProgressCallback& progress_callback) {
         SQLHENV henv = SQL_NULL_HENV;
@@ -726,6 +791,12 @@ private:
     // -----------------------------------------------------------------------
     // Helpers
     // -----------------------------------------------------------------------
+    /**
+     * @brief Finalise Stats.
+     * @param[in,out] stats Input/output parameter.
+     * @param[in] start Input parameter.
+     * @details Calls: std::chrono::steady_clock::now(), count().
+     */
     static void finaliseStats(IngestionStats& stats,
                                const std::chrono::steady_clock::time_point& start) {
         auto end = std::chrono::steady_clock::now();
@@ -760,6 +831,12 @@ DatabaseConnector::DatabaseConnector()
 
 DatabaseConnector::~DatabaseConnector() = default;
 
+/**
+ * @brief Initialize.
+ * @param[in] config Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements initialize without additional internal calls.
+ */
 bool DatabaseConnector::initialize(const SourceConfig& config) {
     return impl_->initialize(config);
 }
@@ -772,19 +849,41 @@ size_t DatabaseConnector::getDocumentCount() const {
     return impl_->getDocumentCount();
 }
 
+/**
+ * @brief Ingest.
+ * @param[in] target_collection Input parameter.
+ * @param[in] progress_callback Input parameter.
+ * @return Return value.
+ * @details Calls: std::move().
+ */
 IngestionStats DatabaseConnector::ingest(const std::string& target_collection,
                                           ProgressCallback progress_callback) {
     return impl_->ingest(target_collection, std::move(progress_callback));
 }
 
+/**
+ * @brief Set Retry Config.
+ * @param[in] config Input parameter.
+ * @details Implements setRetryConfig without additional internal calls.
+ */
 void DatabaseConnector::setRetryConfig(const RetryConfig& config) {
     impl_->setRetryConfig(config);
 }
 
+/**
+ * @brief Set Row Fetch For Testing.
+ * @param[in] fn Input parameter.
+ * @details Calls: setRowBatchProvider(), std::move().
+ */
 void DatabaseConnector::setRowFetchForTesting(RowFetchFn fn) {
     setRowBatchProvider(std::move(fn));
 }
 
+/**
+ * @brief Set Row Batch Provider.
+ * @param[in] fn Input parameter.
+ * @details Calls: setRowFetchForTesting(), std::move().
+ */
 void DatabaseConnector::setRowBatchProvider(RowFetchFn fn) {
     impl_->setRowFetchForTesting(std::move(fn));
 }

@@ -37,6 +37,11 @@ PrometheusExporter::PrometheusExporter() {
 
 PrometheusExporter::~PrometheusExporter() = default;
 
+/**
+ * @brief Register Metric.
+ * @param[in] def Input parameter.
+ * @details Calls: lock(), spdlog::debug().
+ */
 void PrometheusExporter::registerMetric(const MetricDefinition& def) {
     std::lock_guard<std::mutex> lock(mutex_);
     registered_metrics_[def.name] = def;
@@ -46,6 +51,11 @@ void PrometheusExporter::registerMetric(const MetricDefinition& def) {
 void PrometheusExporter::incrementCounter(const std::string& name,
                                          const std::unordered_map<std::string, std::string>& labels,
                                          double value) {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     std::string key = makeMetricKey(name, labels);
     
@@ -63,6 +73,11 @@ void PrometheusExporter::incrementCounter(const std::string& name,
 
 void PrometheusExporter::setGauge(const std::string& name, double value,
                                  const std::unordered_map<std::string, std::string>& labels) {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     std::string key = makeMetricKey(name, labels);
     
@@ -80,6 +95,11 @@ void PrometheusExporter::setGauge(const std::string& name, double value,
 
 void PrometheusExporter::incrementGauge(const std::string& name, double delta,
                                        const std::unordered_map<std::string, std::string>& labels) {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     std::string key = makeMetricKey(name, labels);
     
@@ -97,6 +117,11 @@ void PrometheusExporter::incrementGauge(const std::string& name, double delta,
 
 void PrometheusExporter::observeHistogram(const std::string& name, double value,
                                          const std::unordered_map<std::string, std::string>& labels) {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     std::string key = makeMetricKey(name, labels);
     
@@ -118,6 +143,11 @@ void PrometheusExporter::observeHistogram(const std::string& name, double value,
 }
 
 std::string PrometheusExporter::exportMetrics() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     std::ostringstream oss = {};
     
@@ -216,6 +246,10 @@ std::string PrometheusExporter::handleMetricsRequest() const {
     return exportMetrics();
 }
 
+/**
+ * @brief Reset the modification detection flag.
+ * @details Calls: lock(), clear(), spdlog::debug().
+ */
 void PrometheusExporter::reset() {
     std::lock_guard<std::mutex> lock(mutex_);
     metrics_.clear();
@@ -266,6 +300,10 @@ LLMMetricsCollector::LLMMetricsCollector(PrometheusExporter* exporter, const Con
     initializeMetrics();
 }
 
+/**
+ * @brief Initialize Metrics.
+ * @details Calls: registerMetric(), initializeExtendedContextMetrics().
+ */
 void LLMMetricsCollector::initializeMetrics() {
     // Register all metrics with proper definitions
     
@@ -533,137 +571,315 @@ void LLMMetricsCollector::initializeMetrics() {
     initializeExtendedContextMetrics();
 }
 
+/**
+ * @brief Record Inference Request.
+ * @param[in] model_id Identifier of the model.
+ * @details Calls: incrementCounter().
+ */
 void LLMMetricsCollector::recordInferenceRequest(const std::string& model_id) {
     exporter_->incrementCounter("llm_inference_requests_total", {{"model_id", model_id}});
 }
 
+/**
+ * @brief Record Inference Success.
+ * @param[in] model_id Identifier of the model.
+ * @param[in] duration_ms Input parameter.
+ * @details Calls: incrementCounter(), observeHistogram().
+ */
 void LLMMetricsCollector::recordInferenceSuccess(const std::string& model_id, double duration_ms) {
     exporter_->incrementCounter("llm_inference_success_total", {{"model_id", model_id}});
     exporter_->observeHistogram("llm_inference_duration_ms", duration_ms, {{"model_id", model_id}});
 }
 
+/**
+ * @brief Record Inference Failure.
+ * @param[in] model_id Identifier of the model.
+ * @param[in] error Input parameter.
+ * @details Calls: incrementCounter().
+ */
 void LLMMetricsCollector::recordInferenceFailure(const std::string& model_id, const std::string& error) {
     exporter_->incrementCounter("llm_inference_failures_total", {{"model_id", model_id}, {"error", error}});
 }
 
+/**
+ * @brief Record First Token Latency.
+ * @param[in] model_id Identifier of the model.
+ * @param[in] latency_ms Input parameter.
+ * @details Calls: observeHistogram().
+ */
 void LLMMetricsCollector::recordFirstTokenLatency(const std::string& model_id, double latency_ms) {
     exporter_->observeHistogram("llm_first_token_latency_ms", latency_ms, {{"model_id", model_id}});
 }
 
+/**
+ * @brief Record Per Token Latency.
+ * @param[in] model_id Identifier of the model.
+ * @param[in] latency_ms Input parameter.
+ * @details Calls: observeHistogram().
+ */
 void LLMMetricsCollector::recordPerTokenLatency(const std::string& model_id, double latency_ms) {
     exporter_->observeHistogram("llm_per_token_latency_ms", latency_ms, {{"model_id", model_id}});
 }
 
+/**
+ * @brief Record End To End Latency.
+ * @param[in] model_id Identifier of the model.
+ * @param[in] latency_ms Input parameter.
+ * @details Calls: observeHistogram().
+ */
 void LLMMetricsCollector::recordEndToEndLatency(const std::string& model_id, double latency_ms) {
     exporter_->observeHistogram("llm_end_to_end_latency_ms", latency_ms, {{"model_id", model_id}});
 }
 
+/**
+ * @brief Record Tokens Generated.
+ * @param[in] model_id Identifier of the model.
+ * @param[in] count Input parameter.
+ * @details Calls: incrementCounter().
+ */
 void LLMMetricsCollector::recordTokensGenerated(const std::string& model_id, size_t count) {
     exporter_->incrementCounter("llm_tokens_generated_total", {{"model_id", model_id}}, static_cast<double>(count));
 }
 
+/**
+ * @brief Record Batch Size.
+ * @param[in] batch_size Input parameter.
+ * @details Calls: setGauge().
+ */
 void LLMMetricsCollector::recordBatchSize(size_t batch_size) {
     exporter_->setGauge("llm_batch_size", static_cast<double>(batch_size));
 }
 
+/**
+ * @brief Record Concurrent Requests.
+ * @param[in] count Input parameter.
+ * @details Calls: setGauge().
+ */
 void LLMMetricsCollector::recordConcurrentRequests(size_t count) {
     exporter_->setGauge("llm_concurrent_requests", static_cast<double>(count));
 }
 
+/**
+ * @brief Record GPUMemory Usage.
+ * @param[in] vram_mb Input parameter.
+ * @param[in] total_vram_mb Input parameter.
+ * @details Calls: setGauge().
+ */
 void LLMMetricsCollector::recordGPUMemoryUsage(size_t vram_mb, size_t total_vram_mb) {
     exporter_->setGauge("llm_gpu_memory_used_mb", static_cast<double>(vram_mb));
     exporter_->setGauge("llm_gpu_memory_total_mb", static_cast<double>(total_vram_mb));
 }
 
+/**
+ * @brief Record GPUUtilization.
+ * @param[in] utilization_pct Input parameter.
+ * @details Calls: setGauge().
+ */
 void LLMMetricsCollector::recordGPUUtilization(double utilization_pct) {
     exporter_->setGauge("llm_gpu_utilization_percent", utilization_pct);
 }
 
+/**
+ * @brief Record GPUTemperature.
+ * @param[in] temp_celsius Input parameter.
+ * @details Calls: setGauge().
+ */
 void LLMMetricsCollector::recordGPUTemperature(double temp_celsius) {
     exporter_->setGauge("llm_gpu_temperature_celsius", temp_celsius);
 }
 
+/**
+ * @brief Record Model Loaded.
+ * @param[in] model_id Identifier of the model.
+ * @param[in] vram_mb Input parameter.
+ * @details Calls: incrementGauge(), setGauge().
+ */
 void LLMMetricsCollector::recordModelLoaded(const std::string& model_id, size_t vram_mb) {
     exporter_->incrementGauge("llm_models_loaded", 1.0);
     exporter_->setGauge("llm_model_memory_mb", static_cast<double>(vram_mb), {{"model_id", model_id}});
 }
 
+/**
+ * @brief Record Model Unloaded.
+ * @param[in] model_id Identifier of the model.
+ * @details Calls: incrementGauge(), setGauge().
+ */
 void LLMMetricsCollector::recordModelUnloaded(const std::string& model_id) {
     exporter_->incrementGauge("llm_models_loaded", -1.0);
     exporter_->setGauge("llm_model_memory_mb", 0.0, {{"model_id", model_id}});
 }
 
+/**
+ * @brief Record Model Switch Latency.
+ * @param[in] latency_ms Input parameter.
+ * @details Calls: observeHistogram().
+ */
 void LLMMetricsCollector::recordModelSwitchLatency(double latency_ms) {
     exporter_->observeHistogram("llm_model_switch_latency_ms", latency_ms);
 }
 
+/**
+ * @brief Record Cache Hit.
+ * @param[in] cache_type Input parameter.
+ * @details Calls: incrementCounter().
+ */
 void LLMMetricsCollector::recordCacheHit(const std::string& cache_type) {
     exporter_->incrementCounter("llm_cache_hits_total", {{"cache_type", cache_type}});
 }
 
+/**
+ * @brief Record Cache Miss.
+ * @param[in] cache_type Input parameter.
+ * @details Calls: incrementCounter().
+ */
 void LLMMetricsCollector::recordCacheMiss(const std::string& cache_type) {
     exporter_->incrementCounter("llm_cache_misses_total", {{"cache_type", cache_type}});
 }
 
+/**
+ * @brief Record Cache Size.
+ * @param[in] cache_type Input parameter.
+ * @param[in] size_mb Input parameter.
+ * @details Calls: setGauge().
+ */
 void LLMMetricsCollector::recordCacheSize(const std::string& cache_type, size_t size_mb) {
     exporter_->setGauge("llm_cache_size_mb", static_cast<double>(size_mb), {{"cache_type", cache_type}});
 }
 
+/**
+ * @brief Record Queue Length.
+ * @param[in] length Input parameter.
+ * @details Calls: setGauge().
+ */
 void LLMMetricsCollector::recordQueueLength(size_t length) {
     exporter_->setGauge("llm_queue_length", static_cast<double>(length));
 }
 
+/**
+ * @brief Record Preemptions.
+ * @param[in] count Input parameter.
+ * @details Calls: incrementCounter().
+ */
 void LLMMetricsCollector::recordPreemptions(size_t count) {
     exporter_->incrementCounter("llm_preemptions_total", {}, static_cast<double>(count));
 }
 
+/**
+ * @brief Record Scheduling Latency.
+ * @param[in] latency_ms Input parameter.
+ * @details Calls: observeHistogram().
+ */
 void LLMMetricsCollector::recordSchedulingLatency(double latency_ms) {
     exporter_->observeHistogram("llm_scheduling_latency_ms", latency_ms);
 }
 
+/**
+ * @brief Record Backpressure Drop.
+ * @details Calls: incrementCounter().
+ */
 void LLMMetricsCollector::recordBackpressureDrop() {
     exporter_->incrementCounter("llm_backpressure_drops_total");
 }
 
+/**
+ * @brief Record Quantization Format.
+ * @param[in] model_id Identifier of the model.
+ * @param[in] format Input parameter.
+ * @details Calls: setGauge().
+ */
 void LLMMetricsCollector::recordQuantizationFormat(const std::string& model_id, const std::string& format) {
     exporter_->setGauge("llm_quantization_format", 1.0, {{"model_id", model_id}, {"format", format}});
 }
 
+/**
+ * @brief Record Dequantization Latency.
+ * @param[in] latency_ms Input parameter.
+ * @details Calls: observeHistogram().
+ */
 void LLMMetricsCollector::recordDequantizationLatency(double latency_ms) {
     exporter_->observeHistogram("llm_dequantization_latency_ms", latency_ms);
 }
 
+/**
+ * @brief Record Error.
+ * @param[in] error_type Input parameter.
+ * @param[in] component Input parameter.
+ * @details Calls: incrementCounter().
+ */
 void LLMMetricsCollector::recordError(const std::string& error_type, const std::string& component) {
     exporter_->incrementCounter("llm_errors_total", {{"error_type", error_type}, {"component", component}});
 }
 
-// Extended Context Window metrics (v1.4.0+)
+/**
+ * @brief Extended Context Window metrics (v1.
+ * @param[in] model_id Identifier of the model.
+ * @param[in] context_length Input parameter.
+ * @details 4.0+) Calls: setGauge(), observeHistogram().
+ */
 void LLMMetricsCollector::recordContextLength(const std::string& model_id, size_t context_length) {
     exporter_->setGauge("llm_context_length", static_cast<double>(context_length), {{"model_id", model_id}});
     exporter_->observeHistogram("llm_context_length_histogram", static_cast<double>(context_length), {{"model_id", model_id}});
 }
 
+/**
+ * @brief Record Context Cache Size.
+ * @param[in] model_id Identifier of the model.
+ * @param[in] cache_size_mb Input parameter.
+ * @details Calls: setGauge().
+ */
 void LLMMetricsCollector::recordContextCacheSize(const std::string& model_id, size_t cache_size_mb) {
     exporter_->setGauge("llm_context_cache_size_mb", static_cast<double>(cache_size_mb), {{"model_id", model_id}});
 }
 
+/**
+ * @brief Record Extended Context Enabled.
+ * @param[in] model_id Identifier of the model.
+ * @param[in] enabled Input parameter.
+ * @details Calls: setGauge().
+ */
 void LLMMetricsCollector::recordExtendedContextEnabled(const std::string& model_id, bool enabled) {
     exporter_->setGauge("llm_extended_context_enabled", enabled ? 1.0 : 0.0, {{"model_id", model_id}});
 }
 
+/**
+ * @brief Record Context Scaling Factor.
+ * @param[in] model_id Identifier of the model.
+ * @param[in] scaling_factor Input parameter.
+ * @details Calls: setGauge().
+ */
 void LLMMetricsCollector::recordContextScalingFactor(const std::string& model_id, double scaling_factor) {
     exporter_->setGauge("llm_context_scaling_factor", scaling_factor, {{"model_id", model_id}});
 }
 
-// RoPE/YARN Scaling metrics (v1.4.0+)
+/**
+ * @brief RoPE/YARN Scaling metrics (v1.
+ * @param[in] model_id Identifier of the model.
+ * @param[in] method Input parameter.
+ * @details 4.0+) Calls: setGauge().
+ */
 void LLMMetricsCollector::recordRoPEScalingMethod(const std::string& model_id, const std::string& method) {
     exporter_->setGauge("llm_rope_scaling_method", 1.0, {{"model_id", model_id}, {"method", method}});
 }
 
+/**
+ * @brief Record Ro PEScaling Error.
+ * @param[in] model_id Identifier of the model.
+ * @param[in] error Input parameter.
+ * @details Calls: incrementCounter().
+ */
 void LLMMetricsCollector::recordRoPEScalingError(const std::string& model_id, const std::string& error) {
     exporter_->incrementCounter("llm_rope_scaling_errors_total", {{"model_id", model_id}, {"error", error}});
 }
 
+/**
+ * @brief Record YARNParameters.
+ * @param[in] model_id Identifier of the model.
+ * @param[in] ext_factor Input parameter.
+ * @param[in] attn_factor Input parameter.
+ * @param[in] beta_fast Input parameter.
+ * @param[in] beta_slow Input parameter.
+ * @details Calls: setGauge().
+ */
 void LLMMetricsCollector::recordYARNParameters(const std::string& model_id, 
                                                double ext_factor, double attn_factor,
                                                double beta_fast, double beta_slow) {
@@ -673,7 +889,13 @@ void LLMMetricsCollector::recordYARNParameters(const std::string& model_id,
     exporter_->setGauge("llm_yarn_beta_slow", beta_slow, {{"model_id", model_id}});
 }
 
-// Memory Profiling metrics (v1.4.0+)
+/**
+ * @brief Memory Profiling metrics (v1.
+ * @param[in] model_id Identifier of the model.
+ * @param[in] ram_mb Input parameter.
+ * @param[in] total_ram_mb Input parameter.
+ * @details 4.0+) Calls: setGauge().
+ */
 void LLMMetricsCollector::recordRAMUsage(const std::string& model_id, size_t ram_mb, size_t total_ram_mb) {
     exporter_->setGauge("llm_ram_used_mb", static_cast<double>(ram_mb), {{"model_id", model_id}});
     exporter_->setGauge("llm_ram_total_mb", static_cast<double>(total_ram_mb), {{"model_id", model_id}});
@@ -685,6 +907,13 @@ void LLMMetricsCollector::recordRAMUsage(const std::string& model_id, size_t ram
     }
 }
 
+/**
+ * @brief Record VRAMUsage.
+ * @param[in] model_id Identifier of the model.
+ * @param[in] vram_mb Input parameter.
+ * @param[in] total_vram_mb Input parameter.
+ * @details Calls: setGauge().
+ */
 void LLMMetricsCollector::recordVRAMUsage(const std::string& model_id, size_t vram_mb, size_t total_vram_mb) {
     exporter_->setGauge("llm_vram_used_mb", static_cast<double>(vram_mb), {{"model_id", model_id}});
     exporter_->setGauge("llm_vram_total_mb", static_cast<double>(total_vram_mb), {{"model_id", model_id}});
@@ -696,14 +925,33 @@ void LLMMetricsCollector::recordVRAMUsage(const std::string& model_id, size_t vr
     }
 }
 
+/**
+ * @brief Record Memory Pressure.
+ * @param[in] model_id Identifier of the model.
+ * @param[in] pressure_pct Input parameter.
+ * @details Calls: setGauge().
+ */
 void LLMMetricsCollector::recordMemoryPressure(const std::string& model_id, double pressure_pct) {
     exporter_->setGauge("llm_memory_pressure_percent", pressure_pct, {{"model_id", model_id}});
 }
 
+/**
+ * @brief Record OOMEvent.
+ * @param[in] model_id Identifier of the model.
+ * @param[in] reason Input parameter.
+ * @details Calls: incrementCounter().
+ */
 void LLMMetricsCollector::recordOOMEvent(const std::string& model_id, const std::string& reason) {
     exporter_->incrementCounter("llm_oom_events_total", {{"model_id", model_id}, {"reason", reason}});
 }
 
+/**
+ * @brief Record Memory Estimate.
+ * @param[in] model_id Identifier of the model.
+ * @param[in] estimated_mb Input parameter.
+ * @param[in] actual_mb Input parameter.
+ * @details Calls: setGauge(), std::min(), std::max().
+ */
 void LLMMetricsCollector::recordMemoryEstimate(const std::string& model_id, 
                                                size_t estimated_mb, size_t actual_mb) {
     exporter_->setGauge("llm_memory_estimated_mb", static_cast<double>(estimated_mb), {{"model_id", model_id}});
@@ -721,7 +969,14 @@ void LLMMetricsCollector::recordMemoryEstimate(const std::string& model_id,
     }
 }
 
-// Thread Safety metrics (v1.4.0+)
+/**
+ * @brief Thread Safety metrics (v1.
+ * @param[in] model_id Identifier of the model.
+ * @param[in] from_adapter Input parameter.
+ * @param[in] to_adapter Input parameter.
+ * @param[in] duration_ms Input parameter.
+ * @details 4.0+) Calls: incrementCounter(), observeHistogram().
+ */
 void LLMMetricsCollector::recordLoRAAdapterSwitch(const std::string& model_id, 
                                                   const std::string& from_adapter,
                                                   const std::string& to_adapter,
@@ -731,6 +986,12 @@ void LLMMetricsCollector::recordLoRAAdapterSwitch(const std::string& model_id,
     exporter_->observeHistogram("llm_lora_adapter_switch_duration_ms", duration_ms, {{"model_id", model_id}});
 }
 
+/**
+ * @brief Record Context Lock Wait.
+ * @param[in] model_id Identifier of the model.
+ * @param[in] wait_time_ms Input parameter.
+ * @details Calls: observeHistogram(), incrementCounter().
+ */
 void LLMMetricsCollector::recordContextLockWait(const std::string& model_id, double wait_time_ms) {
     exporter_->observeHistogram("llm_context_lock_wait_ms", wait_time_ms, {{"model_id", model_id}});
     
@@ -739,6 +1000,12 @@ void LLMMetricsCollector::recordContextLockWait(const std::string& model_id, dou
     }
 }
 
+/**
+ * @brief Record Concurrent Lo RAOperation.
+ * @param[in] model_id Identifier of the model.
+ * @param[in] sequential_mode Input parameter.
+ * @details Calls: setGauge(), incrementCounter().
+ */
 void LLMMetricsCollector::recordConcurrentLoRAOperation(const std::string& model_id, bool sequential_mode) {
     exporter_->setGauge("llm_lora_sequential_mode", sequential_mode ? 1.0 : 0.0, {{"model_id", model_id}});
     
@@ -748,13 +1015,22 @@ void LLMMetricsCollector::recordConcurrentLoRAOperation(const std::string& model
     }
 }
 
-// ─── Shared Worker Pool metrics (Phase 2) ────────────────────────────────────
+/**
+ * @brief ─── Shared Worker Pool metrics (Phase 2) ────────────────────────────────────
+ * @param[in] depth Input parameter.
+ * @details Calls: setGauge().
+ */
 
 void LLMMetricsCollector::recordWorkerPoolQueueDepth(size_t depth) {
     exporter_->setGauge("llm_worker_pool_queue_depth",
                         static_cast<double>(depth));
 }
 
+/**
+ * @brief Record Worker Pool Tasks Completed.
+ * @param[in] total_completed Input parameter.
+ * @details Calls: load(), spdlog::debug(), compare_exchange_weak(), incrementCounter().
+ */
 void LLMMetricsCollector::recordWorkerPoolTasksCompleted(uint64_t total_completed) {
     // Compute delta against last reported total and increment the counter.
     // Uses compare-exchange to avoid losing increments under concurrent callers.
@@ -792,7 +1068,12 @@ void LLMMetricsCollector::recordWorkerPoolTasksCompleted(uint64_t total_complete
     }
 }
 
-// ─── Unified dashboard / engine-typed metrics (Phase 2 — Q3 2026) ────────────
+/**
+ * @brief ─── Unified dashboard / engine-typed metrics (Phase 2 — Q3 2026) ────────────
+ * @param[in] model_id Identifier of the model.
+ * @param[in] engine_type Input parameter.
+ * @details Calls: incrementCounter().
+ */
 
 void LLMMetricsCollector::recordEngineInferenceRequest(const std::string& model_id,
                                                         const std::string& engine_type) {
@@ -800,6 +1081,13 @@ void LLMMetricsCollector::recordEngineInferenceRequest(const std::string& model_
                                 {{"model_id", model_id}, {"engine_type", engine_type}});
 }
 
+/**
+ * @brief Record Engine Inference Success.
+ * @param[in] model_id Identifier of the model.
+ * @param[in] engine_type Input parameter.
+ * @param[in] duration_ms Input parameter.
+ * @details Calls: incrementCounter(), observeHistogram().
+ */
 void LLMMetricsCollector::recordEngineInferenceSuccess(const std::string& model_id,
                                                         const std::string& engine_type,
                                                         double duration_ms) {
@@ -809,6 +1097,13 @@ void LLMMetricsCollector::recordEngineInferenceSuccess(const std::string& model_
                                 {{"model_id", model_id}, {"engine_type", engine_type}});
 }
 
+/**
+ * @brief Record Engine Inference Failure.
+ * @param[in] model_id Identifier of the model.
+ * @param[in] engine_type Input parameter.
+ * @param[in] error Input parameter.
+ * @details Calls: incrementCounter().
+ */
 void LLMMetricsCollector::recordEngineInferenceFailure(const std::string& model_id,
                                                         const std::string& engine_type,
                                                         const std::string& error) {
@@ -817,6 +1112,13 @@ void LLMMetricsCollector::recordEngineInferenceFailure(const std::string& model_
                                  {"error", error}});
 }
 
+/**
+ * @brief Record Engine Tokens Generated.
+ * @param[in] model_id Identifier of the model.
+ * @param[in] engine_type Input parameter.
+ * @param[in] count Input parameter.
+ * @details Calls: incrementCounter().
+ */
 void LLMMetricsCollector::recordEngineTokensGenerated(const std::string& model_id,
                                                        const std::string& engine_type,
                                                        size_t count) {
@@ -825,13 +1127,22 @@ void LLMMetricsCollector::recordEngineTokensGenerated(const std::string& model_i
                                 static_cast<double>(count));
 }
 
+/**
+ * @brief Record Engine Queue Depth.
+ * @param[in] engine_type Input parameter.
+ * @param[in] depth Input parameter.
+ * @details Calls: setGauge().
+ */
 void LLMMetricsCollector::recordEngineQueueDepth(const std::string& engine_type,
                                                   size_t depth) {
     exporter_->setGauge("llm_engine_queue_depth", static_cast<double>(depth),
                         {{"engine_type", engine_type}});
 }
 
-// Initialize extended context metrics (v1.4.0+)
+/**
+ * @brief Initialize extended context metrics (v1.
+ * @details 4.0+) Calls: registerMetric().
+ */
 void LLMMetricsCollector::initializeExtendedContextMetrics() {
     // Extended Context Window metrics
     exporter_->registerMetric({
@@ -1265,12 +1576,21 @@ std::string GrafanaDashboardGenerator::generateUnifiedDashboard() const {
 
 bool GrafanaDashboardGenerator::saveDashboard(const std::string& filepath) const {
     try {
+        /**
+         * @brief File.
+         * @param[in] filepath Input parameter.
+         * @return Return value.
+         */
         std::ofstream file(filepath);
         if (!file.is_open()) {
             spdlog::error("Failed to open file for writing: {}", filepath);
             return false;
         }
         
+        /**
+         * @brief Generate Dashboard.
+         * @return Return value.
+         */
         file << generateDashboard();
         file.close();
         
@@ -1307,6 +1627,11 @@ MetricsServer::~MetricsServer() {
 }
 
 #ifdef THEMIS_HAS_HTTPLIB
+/**
+ * @brief Start.
+ * @return True when the operation succeeds.
+ * @details Calls: spdlog::warn(), Get(), c_str(), set_content(), handleMetricsRequest(), handleRequest(), find(), Post().
+ */
 bool MetricsServer::start() {
     if (running_) {
         spdlog::warn("MetricsServer already running");
@@ -1428,6 +1753,10 @@ bool MetricsServer::start() {
     return true;
 }
 
+/**
+ * @brief Stop.
+ * @details Calls: joinable(), themis::utils::joinThreadWithin(), spdlog::warn(), spdlog::info().
+ */
 void MetricsServer::stop() {
     if (!running_) {
         return;
@@ -1446,11 +1775,20 @@ void MetricsServer::stop() {
 
 #else  // !THEMIS_HAS_HTTPLIB
 
+/**
+ * @brief Start.
+ * @return True when the operation succeeds.
+ * @details Calls: spdlog::warn().
+ */
 bool MetricsServer::start() {
     spdlog::warn("MetricsServer::start() called but cpp-httplib is not available; HTTP metrics endpoint disabled");
     return false;
 }
 
+/**
+ * @brief Stop.
+ * @details Implements stop without additional internal calls.
+ */
 void MetricsServer::stop() {
     // No-op: server was never started without httplib.
 }
@@ -1493,6 +1831,12 @@ std::string MetricsServer::getAdminSessionsURL() const {
     return "http://" + config_.host + ":" + std::to_string(config_.port) + config_.admin_sessions_path;
 }
 
+/**
+ * @brief Handle Request.
+ * @param[in] path Input parameter.
+ * @param[in,out] response Input/output parameter.
+ * @details Calls: handleMetricsRequest(), dashboard_cb_(), GrafanaDashboardGenerator(), generateUnifiedDashboard(), model_info_cb_(), session_list_cb_().
+ */
 void MetricsServer::handleRequest(const std::string& path, std::string& response) {
     if (path == config_.metrics_path) {
         response = exporter_->handleMetricsRequest();
@@ -1540,6 +1884,13 @@ void MetricsServer::handleRequest(const std::string& path, std::string& response
     }
 }
 
+/**
+ * @brief Handle Post.
+ * @param[in] path Input parameter.
+ * @param[in] body Input parameter.
+ * @param[in,out] response Input/output parameter.
+ * @details Calls: setReloadCallback(), LlamaWrapper::loadModel(), setSimulateCallback(), PromptPolicy::apply(), estimateTokens(), reload_cb_(), simulate_cb_().
+ */
 void MetricsServer::handlePost(const std::string& path,
                                const std::string& body,
                                std::string& response) {
@@ -1571,6 +1922,13 @@ void MetricsServer::handlePost(const std::string& path,
     }
 }
 
+/**
+ * @brief Handle Delete.
+ * @param[in] path Input parameter.
+ * @param[in] resource_id Identifier of the resource.
+ * @param[in,out] response Input/output parameter.
+ * @details Calls: setSessionDeleteCallback(), ContinuousBatchScheduler::cancelRequest(), empty(), session_delete_cb_().
+ */
 void MetricsServer::handleDelete(const std::string& path,
                                  const std::string& resource_id,
                                  std::string& response) {

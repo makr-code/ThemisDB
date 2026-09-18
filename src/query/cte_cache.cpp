@@ -52,7 +52,7 @@ CTECache::~CTECache() {
  * @brief Store.
  * @param[in] name Input parameter.
  * @param[in] results Input parameter.
- * @return True on success.
+ * @return True when the operation succeeds.
  * @details Calls: empty(), THEMIS_WARN(), contains(), remove(), estimateSize(), makeRoom(), THEMIS_DEBUG(), spillToDisk().
  */
 bool CTECache::store(const std::string& name, std::vector<nlohmann::json> results) {
@@ -238,7 +238,7 @@ size_t CTECache::estimateSize(const std::vector<nlohmann::json>& data) const {
  * @brief Spill To Disk.
  * @param[in] name Input parameter.
  * @param[in] data Input parameter.
- * @return True on success.
+ * @return True when the operation succeeds.
  * @details Calls: ensureSpillDirectory(), getSpillFilePath(), file(), is_open(), THEMIS_ERROR(), size(), write(), dump().
  */
 bool CTECache::spillToDisk(const std::string& name, const std::vector<nlohmann::json>& data) {
@@ -247,12 +247,6 @@ bool CTECache::spillToDisk(const std::string& name, const std::vector<nlohmann::
     std::string spill_path = getSpillFilePath(name);
     
     try {
-        /**
-         * @brief File.
-         * @param[in] spill_path Input parameter.
-         * @param[in] binary Input parameter.
-         * @return Return value.
-         */
         std::ofstream file(spill_path, std::ios::binary);
         if (!file.is_open()) {
             THEMIS_ERROR("Failed to open spill file: {}", spill_path);
@@ -302,12 +296,6 @@ std::optional<std::vector<nlohmann::json>> CTECache::loadFromDisk(const std::str
     std::string spill_path = it->second.spill_file_path;
     
     try {
-        /**
-         * @brief File.
-         * @param[in] spill_path Input parameter.
-         * @param[in] binary Input parameter.
-         * @return Return value.
-         */
         std::ifstream file(spill_path, std::ios::binary);
         if (!file.is_open()) {
             THEMIS_ERROR("Failed to open spill file: {}", spill_path);
@@ -348,7 +336,7 @@ std::optional<std::vector<nlohmann::json>> CTECache::loadFromDisk(const std::str
 /**
  * @brief Make Room.
  * @param[in] required_bytes Input parameter.
- * @return True on success.
+ * @return True when the operation succeeds.
  * @details Calls: empty(), find(), end(), THEMIS_DEBUG(), spillToDisk(), getSpillFilePath(), clear(), shrink_to_fit().
  */
 bool CTECache::makeRoom(size_t required_bytes) {

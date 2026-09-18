@@ -46,7 +46,12 @@ BaseEntity::BaseEntity(std::string_view pk, const FieldMap& fields)
 BaseEntity::BaseEntity(std::string_view pk, Blob blob, Format format) 
     : primary_key_(pk), blob_(std::move(blob)), format_(format) {}
 
-// ===== Blob Management =====
+/**
+ * @brief ===== Blob Management =====
+ * @param[in] blob Input parameter.
+ * @param[in] format Input parameter.
+ * @details Calls: std::move(), invalidateCache().
+ */
 
 void BaseEntity::setBlob(Blob blob, Format format) {
     blob_ = std::move(blob);
@@ -54,6 +59,10 @@ void BaseEntity::setBlob(Blob blob, Format format) {
     invalidateCache();
 }
 
+/**
+ * @brief Clear.
+ * @details Calls: invalidateCache().
+ */
 void BaseEntity::clear() {
     primary_key_.clear();
     blob_.clear();
@@ -95,6 +104,10 @@ void BaseEntity::ensureCache() const {
     }
 }
 
+/**
+ * @brief Invalidate Cache.
+ * @details Calls: reset().
+ */
 void BaseEntity::invalidateCache() {
     cache_valid_ = false;
     parse_failed_ = false;  // Reset parse failure flag on explicit invalidation
@@ -266,6 +279,11 @@ std::optional<std::vector<std::string>> BaseEntity::getFieldAsStringArray(std::s
 
     // Legacy comma-separated fallback.
     std::vector<std::string> result;
+    /**
+     * @brief Ss.
+     * @param[in] raw Input parameter.
+     * @return Return value.
+     */
     std::stringstream ss(raw);
     std::string token = {};
     while (std::getline(ss, token, ',')) {
@@ -286,6 +304,12 @@ std::optional<std::vector<std::string>> BaseEntity::getFieldAsStringArray(std::s
     return result;
 }
 
+/**
+ * @brief Set Field.
+ * @param[in] field_name Name of the field.
+ * @param[in] value Input parameter.
+ * @details Calls: empty(), spdlog::error(), ensureCache(), use_count(), std::string(), rebuildBlob().
+ */
 void BaseEntity::setField(std::string_view field_name, const Value& value) {
     if (field_name.empty()) {
         spdlog::error("BaseEntity::setField: field_name is empty");
@@ -463,6 +487,11 @@ BaseEntity::FieldMap BaseEntity::parseBinary() const {
     FieldMap fields;
     
     try {
+        /**
+         * @brief Decoder.
+         * @param[in] blob_ Input parameter.
+         * @return Return value.
+         */
         utils::Serialization::Decoder decoder(blob_);
         
         // Binary format: <num_fields> <field1> <field2> ...
@@ -552,7 +581,10 @@ BaseEntity::FieldMap BaseEntity::parseBinary() const {
     return fields;
 }
 
-// ===== Serialization =====
+/**
+ * @brief ===== Serialization =====
+ * @details Calls: empty(), clear(), beginObject(), size(), encodeString(), std::visit(), constexpr(), encodeNull().
+ */
 
 void BaseEntity::rebuildBlob() {
     if (!field_cache_ || field_cache_->empty()) {
@@ -648,7 +680,13 @@ std::string BaseEntity::toJson() const {
     return oss.str();
 }
 
-// ===== Factory Methods =====
+/**
+ * @brief ===== Factory Methods =====
+ * @param[in] pk Input parameter.
+ * @param[in] json_str Input parameter.
+ * @return Return value.
+ * @details Calls: entity(), Blob(), begin(), end().
+ */
 
 BaseEntity BaseEntity::fromJson(std::string_view pk, std::string_view json_str) {
     BaseEntity entity(pk);
@@ -657,10 +695,24 @@ BaseEntity BaseEntity::fromJson(std::string_view pk, std::string_view json_str) 
     return entity;
 }
 
+/**
+ * @brief From Fields.
+ * @param[in] pk Input parameter.
+ * @param[in] fields Input parameter.
+ * @return Return value.
+ * @details Calls: BaseEntity().
+ */
 BaseEntity BaseEntity::fromFields(std::string_view pk, const FieldMap& fields) {
     return BaseEntity(pk, fields);
 }
 
+/**
+ * @brief Deserialize.
+ * @param[in] pk Input parameter.
+ * @param[in] blob Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), BaseEntity().
+ */
 BaseEntity BaseEntity::deserialize(std::string_view pk, const Blob& blob) {
     // model_integrity_gap scanner alert: BaseEntity stores application-layer
     // document blobs (JSON/binary); integrity verification is the caller's
@@ -735,7 +787,11 @@ BaseEntity::Attributes BaseEntity::extractFieldsWithPrefix(std::string_view pref
     return attrs;
 }
 
-// ===== Geo Support (Cross-Cutting Capability) =====
+/**
+ * @brief ===== Geo Support (Cross-Cutting Capability) =====
+ * @param[in] ewkb Input parameter.
+ * @details Calls: geo::EWKBParser::parse(), geo::EWKBParser::computeSidecar(), reset().
+ */
 
 void BaseEntity::setGeometry(const Blob& ewkb) {
     geometry_ = ewkb;
@@ -750,10 +806,19 @@ void BaseEntity::setGeometry(const Blob& ewkb) {
     }
 }
 
+/**
+ * @brief Set Geo Sidecar.
+ * @param[in] sidecar Input parameter.
+ * @details Implements setGeoSidecar without additional internal calls.
+ */
 void BaseEntity::setGeoSidecar(const geo::GeoSidecar& sidecar) {
     geo_sidecar_ = sidecar;
 }
 
+/**
+ * @brief Clear Geometry.
+ * @details Calls: reset().
+ */
 void BaseEntity::clearGeometry() {
     geometry_.reset();
     geo_sidecar_.reset();

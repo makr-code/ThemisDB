@@ -42,6 +42,11 @@ InMemoryVectorIndex::InMemoryVectorIndex(const VectorIndexConfig& cfg)
 // add()
 // ============================================================================
 
+/**
+ * @brief Add.
+ * @param[in] id Input parameter.
+ * @param[in] embedding Input parameter.
+ */
 void InMemoryVectorIndex::add(const std::string& id,
                               const std::vector<float>& embedding)
 {
@@ -60,6 +65,11 @@ void InMemoryVectorIndex::add(const std::string& id,
         normalise(stored);
     }
 
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     vectors_[id] = std::move(stored);
 }
@@ -92,6 +102,11 @@ InMemoryVectorIndex::search(const std::vector<float>& query,
 
     std::vector<KnnResult> results;
     {
+        /**
+         * @brief Lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(mutex_);
         // missing_vector_reserve/copy_overhead scanner alerts (lines 90-91):
         // results.reserve(vectors_.size()) is called immediately above the loop —
@@ -120,8 +135,17 @@ InMemoryVectorIndex::search(const std::vector<float>& query,
 // remove()
 // ============================================================================
 
+/**
+ * @brief Remove.
+ * @param[in] id Input parameter.
+ */
 void InMemoryVectorIndex::remove(const std::string& id)
 {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     vectors_.erase(id);
 }
@@ -132,6 +156,11 @@ void InMemoryVectorIndex::remove(const std::string& id)
 
 std::size_t InMemoryVectorIndex::size() const noexcept
 {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     return vectors_.size();
 }

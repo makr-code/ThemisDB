@@ -18,77 +18,105 @@
 namespace themis {
 namespace server {
 
-/**
- * @brief Translates HTTP requests into DatabaseMaintenanceOrchestrator calls.
- *
- * All methods return a JSON object.  On success the object contains the
- * requested data.  On error it contains:
- *   { "status": "error", "error": "<message>" }
- */
 class MaintenanceApiHandler {
 public:
+    /**
+     * @brief Maintenance Api Handler.
+     * @param[in,out] orchestrator Input/output parameter.
+     * @return Return value.
+     */
     explicit MaintenanceApiHandler(
         maintenance::DatabaseMaintenanceOrchestrator* orchestrator)
         : orchestrator_(orchestrator) {}
 
-    // ---- Schedule CRUD -------------------------------------------------------
 
-    /** POST /api/v1/maintenance/schedules */
+    /**
+     * @brief Create Schedule.
+     * @param[in] body Input parameter.
+     * @return Return value.
+     */
     nlohmann::json createSchedule(const nlohmann::json& body);
 
-    /** GET /api/v1/maintenance/schedules
-     *
-     *  Optional query parameter: tenant_id
-     *  When provided, only schedules belonging to the specified tenant are returned.
-     */
     nlohmann::json listSchedules(const std::string& tenant_id = "");
 
-    /** GET /api/v1/maintenance/schedules/{id} */
+    /**
+     * @brief Get Schedule.
+     * @param[in] id Input parameter.
+     * @return Return value.
+     */
     nlohmann::json getSchedule(const std::string& id);
 
-    /** PUT /api/v1/maintenance/schedules/{id} */
+    /**
+     * @brief Update Schedule.
+     * @param[in] id Input parameter.
+     * @param[in] body Input parameter.
+     * @return Return value.
+     */
     nlohmann::json updateSchedule(const std::string& id, const nlohmann::json& body);
 
-    /** PATCH /api/v1/maintenance/schedules/{id} */
+    /**
+     * @brief Patch Schedule.
+     * @param[in] id Input parameter.
+     * @param[in] patch Input parameter.
+     * @return Return value.
+     */
     nlohmann::json patchSchedule(const std::string& id, const nlohmann::json& patch);
 
-    /** DELETE /api/v1/maintenance/schedules/{id} */
+    /**
+     * @brief Delete Schedule.
+     * @param[in] id Input parameter.
+     * @return Return value.
+     */
     nlohmann::json deleteSchedule(const std::string& id);
 
     // ---- Jobs & control ------------------------------------------------------
 
-    /** GET /api/v1/maintenance/jobs */
     nlohmann::json listJobs(bool active_only = false);
 
-    /** GET /api/v1/maintenance/jobs/{id} */
+    /**
+     * @brief Get Job.
+     * @param[in] id Input parameter.
+     * @return Return value.
+     */
     nlohmann::json getJob(const std::string& id);
 
-    /** POST /api/v1/maintenance/jobs/{id}/cancel */
+    /**
+     * @brief Cancel Job.
+     * @param[in] id Input parameter.
+     * @return Return value.
+     */
     nlohmann::json cancelJob(const std::string& id);
 
-    /** POST /api/v1/maintenance/schedules/{id}/run
-     *
-     *  Optional body: { "force": true }
-     *  When force=true the maintenance window check is bypassed.
-     *  Requires maintenance:admin scope; regular (non-forced) trigger
-     *  requires only maintenance:write (enforced at the HTTP layer).
-     */
     nlohmann::json triggerNow(const std::string& schedule_id, bool force = false);
 
-    // ---- Observability -------------------------------------------------------
 
-    /** GET /api/v1/maintenance/status */
+    /**
+     * @brief Get Status.
+     * @return Return value.
+     */
     nlohmann::json getStatus();
 
-    /** GET /api/v1/maintenance/health */
+    /**
+     * @brief Get Health.
+     * @return Return value.
+     */
     nlohmann::json getHealth();
 
-    /** GET /api/v1/maintenance/task-handlers */
+    /**
+     * @brief List Task Handlers.
+     * @return Return value.
+     */
     nlohmann::json listTaskHandlers();
 
 private:
     maintenance::DatabaseMaintenanceOrchestrator* orchestrator_;
 
+    /**
+     * @brief Error Response.
+     * @param[in] msg Input parameter.
+     * @return Return value.
+     * @details Implements errorResponse without additional internal calls.
+     */
     static nlohmann::json errorResponse(const std::string& msg) {
         return {{"status", "error"}, {"error", msg}};
     }

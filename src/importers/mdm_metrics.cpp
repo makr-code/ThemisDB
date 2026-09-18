@@ -37,9 +37,13 @@ json MDMMetricSnapshot::toJson() const {
     };
 }
 
-// ---------------------------------------------------------------------------
-// MDMMetrics::emitMetrics
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- MDMMetrics::emitMetrics ---------------------------------------------------------------------------
+ * @param[in] snap Input parameter.
+ * @param[in] collection_name Name of the collection.
+ * @param[in] callback Input parameter.
+ * @details Calls: callback().
+ */
 
 void MDMMetrics::emitMetrics(
     const MDMMetricSnapshot& snap,
@@ -78,9 +82,13 @@ void MDMMetrics::emitMetrics(
              labels, snap.resolution_time_seconds);
 }
 
-// ---------------------------------------------------------------------------
-// MDMMetrics::getDashboardMetrics
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- MDMMetrics::getDashboardMetrics ---------------------------------------------------------------------------
+ * @param[in] snap Input parameter.
+ * @param[in] collection_name Name of the collection.
+ * @return Return value.
+ * @details Calls: toJson().
+ */
 
 json MDMMetrics::getDashboardMetrics(
     const MDMMetricSnapshot& snap,

@@ -96,12 +96,12 @@ public:
      */
     bool deleteVersion(const std::string& content_id, int version_number);
 
+
     /**
-     * @brief --- Static helpers (exposed for testability) ---
+     * @brief Compute Hash.
      * @param[in] data Input parameter.
      * @return Return value.
      */
-
     static std::string computeHash(const std::string& data);
 
     /**

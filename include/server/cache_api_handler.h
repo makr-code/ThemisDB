@@ -27,53 +27,31 @@ class SemanticCache;
 
 namespace server {
 
-/**
- * @brief Handler for Cache Operations
- * 
- * This handler manages all cache-related endpoints:
- * - POST /cache/query - Query semantic cache
- * - POST /cache/put - Store query result in cache
- * - GET /cache/stats - Get cache statistics
- * 
- * Features:
- * - Semantic query caching
- * - Vector similarity-based cache lookup
- * - Cache hit/miss statistics
- * - TTL management
- * 
- * Extracted from http_server.cpp (~200 lines) to improve maintainability.
- */
 class CacheApiHandler {
 public:
-    /**
-     * @brief Construct a new Cache API Handler
-     * 
-     * @param semantic_cache Semantic cache instance
-     * @param auth Authentication/authorization middleware
-     */
     CacheApiHandler(
         std::shared_ptr<SemanticCache> semantic_cache,
         std::shared_ptr<themis::AuthMiddleware> auth
     );
 
     /**
-     * @brief Handle POST /cache/query request
-     * @param req HTTP request with query to lookup in cache
-     * @return HTTP response with cached result or miss indicator
+     * @brief Handle Query.
+     * @param[in] req Input parameter.
+     * @return Return value.
      */
     http::response<http::string_body> handleQuery(const http::request<http::string_body>& req);
 
     /**
-     * @brief Handle POST /cache/put request
-     * @param req HTTP request with query and result to cache
-     * @return HTTP response with cache status
+     * @brief Handle Put.
+     * @param[in] req Input parameter.
+     * @return Return value.
      */
     http::response<http::string_body> handlePut(const http::request<http::string_body>& req);
 
     /**
-     * @brief Handle GET /cache/stats request
-     * @param req HTTP request
-     * @return HTTP response with cache statistics
+     * @brief Handle Stats.
+     * @param[in] req Input parameter.
+     * @return Return value.
      */
     http::response<http::string_body> handleStats(const http::request<http::string_body>& req);
 
@@ -81,9 +59,22 @@ private:
     std::shared_ptr<SemanticCache> semantic_cache_;
     std::shared_ptr<themis::AuthMiddleware> auth_;
 
-    // Helper methods (to be implemented)
+    /**
+     * @brief Make Error Response.
+     * @param[in] status Input parameter.
+     * @param[in] message Input parameter.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> makeErrorResponse(
         http::status status, const std::string& message, const http::request<http::string_body>& req);
+    /**
+     * @brief Make Response.
+     * @param[in] status Input parameter.
+     * @param[in] body Input parameter.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> makeResponse(
         http::status status, const std::string& body, const http::request<http::string_body>& req);
 };

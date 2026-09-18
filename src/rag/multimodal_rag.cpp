@@ -27,19 +27,6 @@ namespace themis::rag::multimodal {
 
 namespace {
 
-/**
- * Apply Reciprocal Rank Fusion (RRF) across multiple ranked lists.
- *
- * Each list entry is (document_id, raw_score).  The RRF score for a
- * document across all lists is:  Σ_i ( weight_i / (k + rank_i) )
- *
- * @param ranked_lists   Per-modality ranked lists (sorted by raw score DESC).
- * @param weights        Per-list weight (must be same size as ranked_lists).
- * @param modality_names Per-list modality label for populating matched_modality.
- * @param rrf_k          RRF smoothing constant.
- * @param max_results    Maximum number of results to return.
- * @return               Pairs of (document_id, rrf_score), sorted DESC.
- */
 std::vector<std::pair<std::string, double>> fuseRRF(
     const std::vector<std::vector<std::pair<std::string, double>>>& ranked_lists,
     const std::vector<double>&                                       weights,
@@ -105,16 +92,30 @@ MultiModalRAG::MultiModalRAG(const MultiModalRAGConfig& config)
 
 MultiModalRAG::~MultiModalRAG() = default;
 
-// ── Retrieval backend configuration ──────────────────────────────────────────
+/**
+ * @brief ── Retrieval backend configuration ──────────────────────────────────────────
+ * @param[in] fn Input parameter.
+ * @details Calls: std::move().
+ */
 
 void MultiModalRAG::setTextRetriever(TextRetrievalFn fn) {
     impl_->text_retriever = std::move(fn);
 }
 
+/**
+ * @brief Set Image Retriever.
+ * @param[in] fn Input parameter.
+ * @details Calls: std::move().
+ */
 void MultiModalRAG::setImageRetriever(ImageRetrievalFn fn) {
     impl_->image_retriever = std::move(fn);
 }
 
+/**
+ * @brief Set Image Captioner.
+ * @param[in] fn Input parameter.
+ * @details Calls: std::move().
+ */
 void MultiModalRAG::setImageCaptioner(ImageCaptionFn fn) {
     impl_->image_captioner = std::move(fn);
 }
@@ -125,6 +126,11 @@ MultiModalRAGConfig MultiModalRAG::getConfig() const {
     return impl_->config;
 }
 
+/**
+ * @brief Set Config.
+ * @param[in] config Input parameter.
+ * @details Implements setConfig without additional internal calls.
+ */
 void MultiModalRAG::setConfig(const MultiModalRAGConfig& config) {
     impl_->config = config;
 }
@@ -366,6 +372,11 @@ std::string MultiModalRAG::buildContext(
 // MultiModalRAGFactory
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Create Text Only.
+ * @return Return value.
+ * @details Implements createTextOnly without additional internal calls.
+ */
 std::unique_ptr<MultiModalRAG> MultiModalRAGFactory::createTextOnly() {
     MultiModalRAGConfig cfg;
     cfg.enable_image_retrieval = false;
@@ -376,6 +387,11 @@ std::unique_ptr<MultiModalRAG> MultiModalRAGFactory::createTextOnly() {
     return std::make_unique<MultiModalRAG>(cfg);
 }
 
+/**
+ * @brief Create Text And Image.
+ * @return Return value.
+ * @details Implements createTextAndImage without additional internal calls.
+ */
 std::unique_ptr<MultiModalRAG> MultiModalRAGFactory::createTextAndImage() {
     MultiModalRAGConfig cfg;
     cfg.enable_image_retrieval = true;
@@ -385,6 +401,11 @@ std::unique_ptr<MultiModalRAG> MultiModalRAGFactory::createTextAndImage() {
     return std::make_unique<MultiModalRAG>(cfg);
 }
 
+/**
+ * @brief Create Full.
+ * @return Return value.
+ * @details Implements createFull without additional internal calls.
+ */
 std::unique_ptr<MultiModalRAG> MultiModalRAGFactory::createFull() {
     MultiModalRAGConfig cfg;
     cfg.enable_image_retrieval = true;

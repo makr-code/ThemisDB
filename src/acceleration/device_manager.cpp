@@ -112,8 +112,11 @@ DeviceCapabilityInfo fromGpuDeviceInfo(const themis::gpu::DeviceInfo &d) noexcep
     return info;
 }
 
-/// Enumerate devices from DeviceDiscovery and translate to DeviceCapabilityInfo.
-/// Returns at least one CPU fallback entry.
+/**
+ * @brief Enumerate Devices.
+ * @return Return value.
+ * @details Calls: lock(), enumerateFnMutex(), enumerateFnStorage(), enumerate_fn(), empty(), push_back(), themis::gpu::DeviceDiscovery::Enumerate(), reserve().
+ */
 std::vector<DeviceCapabilityInfo> enumerateDevices() {
     DeviceManager::EnumerateFn enumerate_fn;
     {
@@ -171,6 +174,11 @@ DeviceManager &DeviceManager::instance() {
 // Public API
 // ============================================================================
 
+/**
+ * @brief Probe Devices.
+ * @return Return value.
+ * @details Calls: lock(), std::chrono::steady_clock::now(), enumerateDevices().
+ */
 std::vector<DeviceCapabilityInfo> DeviceManager::probeDevices() {
     std::lock_guard<std::mutex> lock(mutex_);
 
@@ -187,6 +195,11 @@ std::vector<DeviceCapabilityInfo> DeviceManager::probeDevices() {
     return cached_;
 }
 
+/**
+ * @brief Refresh.
+ * @return Return value.
+ * @details Calls: lock(), enumerateDevices(), std::chrono::steady_clock::now().
+ */
 std::vector<DeviceCapabilityInfo> DeviceManager::refresh() {
     std::lock_guard<std::mutex> lock(mutex_);
     cached_      = enumerateDevices();
@@ -195,6 +208,11 @@ std::vector<DeviceCapabilityInfo> DeviceManager::refresh() {
     return cached_;
 }
 
+/**
+ * @brief Get Best Device.
+ * @return Return value.
+ * @details Calls: probeDevices().
+ */
 DeviceCapabilityInfo DeviceManager::getBestDevice() {
     const auto devices = probeDevices();
 
@@ -231,6 +249,11 @@ DeviceCapabilityInfo DeviceManager::getBestDevice() {
     return cpu;
 }
 
+/**
+ * @brief Has GPU.
+ * @return True when the operation succeeds.
+ * @details Calls: probeDevices().
+ */
 bool DeviceManager::hasGPU() {
     const auto devices = probeDevices();
     for (const auto &d : devices) {
@@ -241,10 +264,19 @@ bool DeviceManager::hasGPU() {
     return false;
 }
 
+/**
+ * @brief Best Backend Type.
+ * @return Return value.
+ * @details Calls: getBestDevice().
+ */
 BackendType DeviceManager::bestBackendType() {
     return getBestDevice().backend_type;
 }
 
+/**
+ * @brief Log Device Info.
+ * @details Calls: probeDevices(), getBestDevice(), size().
+ */
 void DeviceManager::logDeviceInfo() {
     const auto devices = probeDevices();
     const auto best    = getBestDevice();
@@ -264,6 +296,11 @@ void DeviceManager::logDeviceInfo() {
               << ")" << std::endl;
 }
 
+/**
+ * @brief Set Enumerate Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: DeviceManager::instance(), cache_lock(), lock(), themis::acceleration::enumerateFnMutex(), enumerateFnStorage(), std::move(), clear().
+ */
 void DeviceManager::setEnumerateFn(EnumerateFn fn) {
     auto &manager = DeviceManager::instance();
     std::lock_guard<std::mutex> cache_lock(manager.mutex_);

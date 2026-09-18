@@ -23,13 +23,29 @@ struct GuardDecision {
     std::vector<std::string> matched_topics;
 };
 
-/** @brief Prompt guardian. */
 class PromptGuardian {
 public:
+    /**
+     * @brief Evaluate.
+     * @param[in] prompt Input parameter.
+     * @return Return value.
+     */
     GuardDecision evaluate(const std::string& prompt) const;
 
 private:
+    /**
+     * @brief Normalize.
+     * @param[in] text Input parameter.
+     * @return Return value.
+     */
     static std::string normalize(const std::string& text);
+    /**
+     * @brief Contains Contextual Risk.
+     * @param[in] normalized Input parameter.
+     * @param[in,out] matched_topics Input/output parameter.
+     * @param[in,out] reason Input/output parameter.
+     * @return True when the operation succeeds.
+     */
     static bool containsContextualRisk(const std::string& normalized,
                                        std::vector<std::string>& matched_topics,
                                        std::string& reason);

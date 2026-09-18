@@ -297,6 +297,12 @@ float HashingStrategy::estimateRatio(
 // CompressionFactory implementation
 // ============================================================================
 
+/**
+ * @brief Create.
+ * @param[in] strategy_name Name of the strategy.
+ * @return Return value.
+ * @details Calls: find().
+ */
 std::unique_ptr<ICompressionStrategy> CompressionFactory::create(
     const std::string& strategy_name) {
 
@@ -318,6 +324,12 @@ std::unique_ptr<ICompressionStrategy> CompressionFactory::create(
     return nullptr;
 }
 
+/**
+ * @brief Register Strategy.
+ * @param[in] name Input parameter.
+ * @param[in] strategy Input parameter.
+ * @details Implements registerStrategy without additional internal calls.
+ */
 void CompressionFactory::registerStrategy(
     const std::string& name,
     std::unique_ptr<ICompressionStrategy> strategy) {

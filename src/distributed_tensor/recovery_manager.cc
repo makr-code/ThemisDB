@@ -194,6 +194,10 @@ bool DefaultRecoveryManager::cancel_recovery_job(
   return true;
 }
 
+/**
+ * @brief List active recovery jobs.
+ * @return Return value.
+ */
 std::vector<RecoveryJob> DefaultRecoveryManager::list_active_recovery_jobs()
     const noexcept {
   std::vector<RecoveryJob> active_jobs = {};

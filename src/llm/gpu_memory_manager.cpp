@@ -57,16 +57,6 @@ namespace llm {
 // Internal RAII helper for memory management
 namespace detail {
 
-/**
- * @brief RAII holder for GPU/CPU memory allocations
- * 
- * Provides exception-safe memory management by automatically cleaning up
- * memory in the destructor. Uses secure clearing before deallocation.
- * 
- * Note: This class is non-movable and non-copyable to prevent accidental
- * ownership transfer. Memory is always owned by a single holder instance
- * managed via shared_ptr in MemoryAllocation.
- */
 class MemoryHolder {
 public:
     enum class Type {
@@ -75,14 +65,6 @@ public:
         PINNED         // CUDA pinned host memory
     };
     
-    /**
-     * @param ptr Pointer to memory to manage
-     * @param bytes Size in bytes
-     * @param type Type of memory (GPU/CPU/PINNED)
-     * @param gpu_available Whether GPU is available
-     * @param gpu_device_id GPU device ID (default 0). Only used for GPU memory
-     *                      cleanup. CPU and PINNED allocations ignore this parameter.
-     */
     MemoryHolder(void* ptr, size_t bytes, Type type, bool gpu_available, int gpu_device_id = 0)
         : ptr_(ptr), bytes_(bytes), type_(type), gpu_available_(gpu_available), 
           gpu_device_id_(gpu_device_id) {}
@@ -121,6 +103,10 @@ public:
     size_t size() const noexcept { return bytes_; }
 
 private:
+    /**
+     * @brief Free GPUMemory.
+     * @details Calls: cudaSetDevice(), spdlog::warn(), cudaGetErrorString(), security::VRAMSecureClear::secureClearCPU(), security::VRAMSecureClear::secureClearCUDA(), cudaFree(), spdlog::error(), std::free().
+     */
     void freeGPUMemory() {
 #ifdef THEMIS_ENABLE_CUDA
         if (gpu_available_) {
@@ -152,6 +138,10 @@ private:
 #endif
     }
     
+    /**
+     * @brief Free Pinned Memory.
+     * @details Calls: security::VRAMSecureClear::secureClearCPU(), cudaFreeHost(), spdlog::error(), cudaGetErrorString(), std::free().
+     */
     void freePinnedMemory() {
 #ifdef THEMIS_ENABLE_CUDA
         if (gpu_available_) {
@@ -173,6 +163,10 @@ private:
 #endif
     }
     
+    /**
+     * @brief Free CPUMemory.
+     * @details Calls: security::VRAMSecureClear::secureClearCPU(), std::free().
+     */
     void freeCPUMemory() {
         security::VRAMSecureClear::secureClearCPU(ptr_, bytes_);
         std::free(ptr_);
@@ -236,6 +230,16 @@ inline bool isTrackedGpuNoLock(const std::vector<int>& available_gpus, int gpu_d
     return std::find(available_gpus.begin(), available_gpus.end(), gpu_device_id) != available_gpus.end();
 }
 
+/**
+ * @brief Build Unavailable Gpu Health.
+ * @param[in] gpu_device_id Identifier of the gpu device.
+ * @param[in] utilization_percent Input parameter.
+ * @param[in] temperature_celsius Input parameter.
+ * @param[in] error_count Input parameter.
+ * @param[in] reason Input parameter.
+ * @return Return value.
+ * @details Calls: std::move(), std::chrono::system_clock::now(), time_since_epoch(), count().
+ */
 inline GPUMemoryManager::GPUHealth buildUnavailableGpuHealth(int gpu_device_id,
                                                              float utilization_percent,
                                                              float temperature_celsius,
@@ -291,6 +295,15 @@ inline void cleanupRawAllocation(void* ptr,
     }
 
     try {
+        /**
+         * @brief Cleanup holder.
+         * @param[in] ptr Input parameter.
+         * @param[in] bytes Input parameter.
+         * @param[in] type Input parameter.
+         * @param[in] gpu_available Input parameter.
+         * @param[in] gpu_device_id Identifier of the gpu device.
+         * @return Return value.
+         */
         detail::MemoryHolder cleanup_holder(ptr, bytes, type, gpu_available, gpu_device_id);
     } catch (...) {
         THEMIS_WARN("gpu_memory_manager::isTrackedGpuNoLock: unhandled exception caught");
@@ -371,6 +384,11 @@ std::mutex nvml_temp_fn_mutex;
 GPUMemoryManager::NvmlTemperatureFn nvml_temp_fn;
 } // anonymous namespace
 
+/**
+ * @brief Set Nvml Temperature Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void GPUMemoryManager::setNvmlTemperatureFn(NvmlTemperatureFn fn) {
     std::lock_guard<std::mutex> lock(nvml_temp_fn_mutex);
     nvml_temp_fn = std::move(fn);
@@ -387,6 +405,11 @@ GPUMemoryManager::GPUMemoryManager(const Config& config)
 }
 
 GPUMemoryManager::~GPUMemoryManager() {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     // Free all allocations - holders will automatically clean up memory via RAII
@@ -402,6 +425,10 @@ GPUMemoryManager::~GPUMemoryManager() {
     shutdownGPU();
 }
 
+/**
+ * @brief Initialize GPU.
+ * @details Calls: cudaGetDeviceCount(), cudaGetDevice(), CUDA_CHECK(), cudaSetDevice(), cudaGetDeviceProperties(), spdlog::info(), empty(), size().
+ */
 void GPUMemoryManager::initializeGPU() {
 #ifdef THEMIS_ENABLE_CUDA
     // Try to detect and initialize CUDA GPU
@@ -555,6 +582,10 @@ void GPUMemoryManager::initializeGPU() {
     }
 }
 
+/**
+ * @brief Shutdown GPU.
+ * @details Calls: size(), cudaSetDevice(), spdlog::warn(), cudaGetErrorString(), cudaDeviceDisablePeerAccess(), CUDA_CHECK(), cudaDeviceReset().
+ */
 void GPUMemoryManager::shutdownGPU() {
 #ifdef THEMIS_ENABLE_CUDA
     if (gpu_available_) {
@@ -595,6 +626,13 @@ void GPUMemoryManager::shutdownGPU() {
 #endif
 }
 
+/**
+ * @brief Allocate GPU.
+ * @param[in] model_id Identifier of the model.
+ * @param[in] bytes Input parameter.
+ * @return Pointer to the result.
+ * @details Calls: themis::gpu::GPUMemoryManager::GetInstance(), isGPUEnabled(), TryAllocateGPU(), spdlog::error(), lock(), max(), DeallocateGPU(), canAllocate().
+ */
 void* GPUMemoryManager::allocateGPU(const std::string& model_id, size_t bytes) {
     // Validate the request against the canonical device policy before allocation.
     
@@ -796,6 +834,14 @@ void* GPUMemoryManager::allocateGPU(const std::string& model_id, size_t bytes) {
     return ptr;
 }
 
+/**
+ * @brief Allocate CPU.
+ * @param[in] model_id Identifier of the model.
+ * @param[in] bytes Input parameter.
+ * @param[in] pinned Input parameter.
+ * @return Pointer to the result.
+ * @details Calls: lock(), canAllocate(), spdlog::error(), cudaMallocHost(), spdlog::warn(), cudaGetErrorString(), std::malloc(), push_back().
+ */
 void* GPUMemoryManager::allocateCPU(const std::string& model_id, size_t bytes, bool pinned) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -872,6 +918,13 @@ void* GPUMemoryManager::allocateCPU(const std::string& model_id, size_t bytes, b
     return ptr;
 }
 
+/**
+ * @brief Free GPU.
+ * @param[in] model_id Identifier of the model.
+ * @param[in,out] ptr Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), find(), end(), begin(), load(), spdlog::error(), store(), fetch_sub().
+ */
 bool GPUMemoryManager::freeGPU(const std::string& model_id, void* ptr) {
     if (!ptr) {
       return false;
@@ -928,6 +981,13 @@ bool GPUMemoryManager::freeGPU(const std::string& model_id, void* ptr) {
     return false;
 }
 
+/**
+ * @brief Free CPU.
+ * @param[in] model_id Identifier of the model.
+ * @param[in,out] ptr Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), find(), end(), begin(), load(), spdlog::error(), store(), fetch_sub().
+ */
 bool GPUMemoryManager::freeCPU(const std::string& model_id, void* ptr) {
     if (!ptr) {
       return false;
@@ -965,6 +1025,12 @@ bool GPUMemoryManager::freeCPU(const std::string& model_id, void* ptr) {
     return false;
 }
 
+/**
+ * @brief Free Model.
+ * @param[in] model_id Identifier of the model.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), find(), end(), load(), spdlog::error(), store(), fetch_sub(), erase().
+ */
 bool GPUMemoryManager::freeModel(const std::string& model_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -1016,6 +1082,11 @@ bool GPUMemoryManager::freeModel(const std::string& model_id) {
 }
 
 size_t GPUMemoryManager::getModelVRAM(const std::string& model_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     auto it = allocations_.find(model_id);
@@ -1032,6 +1103,11 @@ size_t GPUMemoryManager::getModelVRAM(const std::string& model_id) const {
 }
 
 size_t GPUMemoryManager::getModelRAM(const std::string& model_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     auto it = allocations_.find(model_id);
@@ -1048,16 +1124,31 @@ size_t GPUMemoryManager::getModelRAM(const std::string& model_id) const {
 }
 
 size_t GPUMemoryManager::getTotalVRAM() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return config_.max_vram_bytes;
 }
 
 size_t GPUMemoryManager::getTotalRAM() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return total_ram_used_.load(std::memory_order_relaxed);
 }
 
 size_t GPUMemoryManager::getFreeVRAM() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     if (total_vram_used_.load(std::memory_order_relaxed) >= config_.max_vram_bytes) {
@@ -1068,6 +1159,11 @@ size_t GPUMemoryManager::getFreeVRAM() const {
 }
 
 size_t GPUMemoryManager::getFreeRAM() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     if (total_ram_used_.load(std::memory_order_relaxed) >= config_.max_ram_bytes) {
@@ -1112,6 +1208,11 @@ bool GPUMemoryManager::canAllocate(size_t vram_bytes, size_t ram_bytes) const {
 }
 
 size_t GPUMemoryManager::getMemoryFragmentation() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     // Calculate fragmentation as percentage
@@ -1138,6 +1239,11 @@ size_t GPUMemoryManager::getMemoryFragmentation() const {
     return fragmentation_pct;
 }
 
+/**
+ * @brief Defragment.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), size(), std::min(), compute_fragmentation_unlocked(), spdlog::debug(), spdlog::info(), push_back(), defragmentModelGPU().
+ */
 bool GPUMemoryManager::defragment() {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -1225,6 +1331,13 @@ bool GPUMemoryManager::defragment() {
     }
 }
 
+/**
+ * @brief Defragment Model GPU.
+ * @param[in] model_id Identifier of the model.
+ * @param[in] gpu_allocs Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: push_back(), size(), cudaSetDevice(), spdlog::warn(), cudaGetErrorString(), cudaMalloc(), spdlog::error(), cudaMemcpy().
+ */
 bool GPUMemoryManager::defragmentModelGPU(const std::string& model_id, 
                                           const std::vector<MemoryAllocation>& gpu_allocs) {
     // Group allocations by GPU device
@@ -1377,6 +1490,13 @@ bool GPUMemoryManager::defragmentModelGPU(const std::string& model_id,
     return true;
 }
 
+/**
+ * @brief Defragment Model CPU.
+ * @param[in] model_id Identifier of the model.
+ * @param[in] cpu_allocs Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: size(), push_back(), cudaMallocHost(), spdlog::warn(), cudaGetErrorString(), std::malloc(), spdlog::error(), std::memcpy().
+ */
 bool GPUMemoryManager::defragmentModelCPU(const std::string& model_id, 
                                           const std::vector<MemoryAllocation>& cpu_allocs) {
     if (cpu_allocs.size() <= 1) {
@@ -1550,6 +1670,11 @@ bool GPUMemoryManager::defragmentModelCPU(const std::string& model_id,
 }
 
 GPUMemoryManager::Stats GPUMemoryManager::getStats() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     Stats stats;
@@ -1581,6 +1706,11 @@ GPUMemoryManager::Stats GPUMemoryManager::getStats() const {
 }
 
 std::vector<std::string> GPUMemoryManager::getLoadedModels() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     std::vector<std::string> models = {};
@@ -1594,6 +1724,10 @@ std::vector<std::string> GPUMemoryManager::getLoadedModels() const {
     return models;
 }
 
+/**
+ * @brief Update Memory Stats.
+ * @details Calls: lock(), store(), tryAddSize(), load(), spdlog::error(), max().
+ */
 void GPUMemoryManager::updateMemoryStats() {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -1640,7 +1774,14 @@ void GPUMemoryManager::updateMemoryStats() {
     }
 }
 
-// Multi-GPU methods (v1.4.0)
+/**
+ * @brief Multi-GPU methods (v1.
+ * @param[in] model_id Identifier of the model.
+ * @param[in] bytes Input parameter.
+ * @param[in] gpu_device_id Identifier of the gpu device.
+ * @return Pointer to the result.
+ * @details 4.0) Calls: themis::gpu::GPUMemoryManager::GetInstance(), isGPUEnabled(), TryAllocateGPU(), spdlog::error(), lock(), isGPUAvailableNoLock(), DeallocateGPU(), calculateAvailableBytes().
+ */
 
 void* GPUMemoryManager::allocateGPU(const std::string& model_id, size_t bytes, int gpu_device_id) {
     // Gate through the canonical VRAM policy (edition limit + tenant quotas).
@@ -1780,6 +1921,13 @@ void* GPUMemoryManager::allocateGPU(const std::string& model_id, size_t bytes, i
     return ptr;
 }
 
+/**
+ * @brief Free Model.
+ * @param[in] model_id Identifier of the model.
+ * @param[in] gpu_device_id Identifier of the gpu device.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), find(), end(), begin(), tryAddSize(), spdlog::error(), max(), erase().
+ */
 bool GPUMemoryManager::freeModel(const std::string& model_id, int gpu_device_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -1875,12 +2023,22 @@ bool GPUMemoryManager::freeModel(const std::string& model_id, int gpu_device_id)
 }
 
 size_t GPUMemoryManager::getGPUVRAM([[maybe_unused]] int gpu_device_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = per_gpu_vram_used_.find(gpu_device_id);
     return it != per_gpu_vram_used_.end() ? it->second : 0;
 }
 
 size_t GPUMemoryManager::getFreeGPUVRAM([[maybe_unused]] int gpu_device_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     if (!isTrackedGpuHealthEntryNoLock(gpu_health_status_, gpu_device_id)) {
         return 0;
@@ -1894,6 +2052,11 @@ size_t GPUMemoryManager::getFreeGPUVRAM([[maybe_unused]] int gpu_device_id) cons
 }
 
 std::vector<int> GPUMemoryManager::getAvailableGPUs() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     std::vector<int> runtime_available_gpus = {};
 
@@ -1907,10 +2070,22 @@ std::vector<int> GPUMemoryManager::getAvailableGPUs() const {
 }
 
 bool GPUMemoryManager::isGPUAvailable([[maybe_unused]] int gpu_device_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return gpu_available_ && isGPUAvailableNoLock(gpu_health_status_, gpu_device_id);
 }
 
+/**
+ * @brief Enable Peer Access.
+ * @param[in] src_gpu Input parameter.
+ * @param[in] dst_gpu Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), spdlog::warn(), isGPUAvailableNoLock(), spdlog::error(), CUDA_CHECK_RETURN(), cudaDeviceCanAccessPeer(), cudaSetDevice(), cudaDeviceEnablePeerAccess().
+ */
 bool GPUMemoryManager::enablePeerAccess(int src_gpu, int dst_gpu) {
     std::lock_guard<std::mutex> lock(mutex_);
 
@@ -1959,6 +2134,13 @@ bool GPUMemoryManager::enablePeerAccess(int src_gpu, int dst_gpu) {
     return false;
 }
 
+/**
+ * @brief Disable Peer Access.
+ * @param[in] src_gpu Input parameter.
+ * @param[in] dst_gpu Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), spdlog::warn(), isGPUAvailableNoLock(), CUDA_CHECK_RETURN(), cudaSetDevice(), cudaDeviceDisablePeerAccess(), cudaGetErrorString(), spdlog::info().
+ */
 bool GPUMemoryManager::disablePeerAccess(int src_gpu, int dst_gpu) {
     std::lock_guard<std::mutex> lock(mutex_);
 
@@ -1997,6 +2179,11 @@ bool GPUMemoryManager::disablePeerAccess(int src_gpu, int dst_gpu) {
 }
 
 bool GPUMemoryManager::canAccessPeer(int src_gpu, int dst_gpu) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     if (!config_.enable_peer_access) {
@@ -2030,11 +2217,20 @@ bool GPUMemoryManager::canAccessPeer(int src_gpu, int dst_gpu) const {
     return false;
 }
 
+/**
+ * @brief Set GPUTemperature Provider Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void GPUMemoryManager::setGPUTemperatureProviderFn(GPUTemperatureProviderFn fn) {
     std::lock_guard<std::mutex> lock(mutex_);
     temperature_provider_fn_ = std::move(fn);
 }
 
+/**
+ * @brief Clear GPUTemperature Provider Fn.
+ * @details Calls: lock().
+ */
 void GPUMemoryManager::clearGPUTemperatureProviderFn() {
     std::lock_guard<std::mutex> lock(mutex_);
     temperature_provider_fn_ = nullptr;
@@ -2043,6 +2239,11 @@ void GPUMemoryManager::clearGPUTemperatureProviderFn() {
 // GPU Health Monitoring Implementation
 
 GPUMemoryManager::GPUStats GPUMemoryManager::getGPUStats([[maybe_unused]] int gpu_device_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     GPUStats stats = {};
@@ -2105,6 +2306,11 @@ GPUMemoryManager::GPUStats GPUMemoryManager::getGPUStats([[maybe_unused]] int gp
 }
 
 std::vector<GPUMemoryManager::GPUStats> GPUMemoryManager::getAllGPUStats() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     std::vector<GPUStats> all_stats = {};
@@ -2172,6 +2378,11 @@ std::vector<GPUMemoryManager::GPUStats> GPUMemoryManager::getAllGPUStats() const
 }
 
 GPUMemoryManager::GPUHealth GPUMemoryManager::getGPUHealth([[maybe_unused]] int gpu_device_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     GPUHealth health = {};
@@ -2208,6 +2419,11 @@ GPUMemoryManager::GPUHealth GPUMemoryManager::getGPUHealth([[maybe_unused]] int 
 }
 
 std::vector<GPUMemoryManager::GPUHealth> GPUMemoryManager::getAllGPUHealth() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     std::vector<GPUHealth> all_health = {};
@@ -2245,6 +2461,11 @@ std::vector<GPUMemoryManager::GPUHealth> GPUMemoryManager::getAllGPUHealth() con
 }
 
 bool GPUMemoryManager::isGPUHealthy([[maybe_unused]] int gpu_device_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     if (!isTrackedGpuNoLock(available_gpus_, gpu_device_id)) {
@@ -2255,6 +2476,12 @@ bool GPUMemoryManager::isGPUHealthy([[maybe_unused]] int gpu_device_id) const {
     return (it != gpu_health_status_.end()) ? it->second : false;
 }
 
+/**
+ * @brief Mark GPUUnhealthy.
+ * @param[in] gpu_device_id Identifier of the gpu device.
+ * @param[in] reason Input parameter.
+ * @details Calls: lock(), isTrackedGpuNoLock(), spdlog::warn(), isTrackedGpuHealthEntryNoLock(), find(), end(), std::chrono::system_clock::now(), time_since_epoch().
+ */
 void GPUMemoryManager::markGPUUnhealthy(int gpu_device_id, const std::string& reason) {
     std::lock_guard<std::mutex> lock(mutex_);
 
@@ -2293,6 +2520,11 @@ void GPUMemoryManager::markGPUUnhealthy(int gpu_device_id, const std::string& re
 }
 
 void GPUMemoryManager::markGPUHealthy([[maybe_unused]] int gpu_device_id) {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     if (!isTrackedGpuNoLock(available_gpus_, gpu_device_id)) {
@@ -2322,6 +2554,11 @@ void GPUMemoryManager::markGPUHealthy([[maybe_unused]] int gpu_device_id) {
 // Load Balancing Queries
 
 int GPUMemoryManager::getLeastLoadedGPU() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     int least_loaded_gpu = -1;
@@ -2353,6 +2590,11 @@ int GPUMemoryManager::getLeastLoadedGPU() const {
 }
 
 std::vector<int> GPUMemoryManager::getHealthyGPUs() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     std::vector<int> healthy_gpus = {};
@@ -2368,6 +2610,11 @@ std::vector<int> GPUMemoryManager::getHealthyGPUs() const {
 }
 
 float GPUMemoryManager::getAverageGPULoad() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     if (available_gpus_.empty()) {
@@ -2398,6 +2645,11 @@ float GPUMemoryManager::getAverageGPULoad() const {
 }
 
 bool GPUMemoryManager::needsLoadRebalancing([[maybe_unused]] float threshold) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     if (available_gpus_.size() < 2) {
@@ -2447,6 +2699,11 @@ bool GPUMemoryManager::needsLoadRebalancing([[maybe_unused]] float threshold) co
 }
 
 void GPUMemoryManager::updateGPUHealth([[maybe_unused]] int gpu_device_id) {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::unique_lock<std::mutex> lock(mutex_);
     if (!isTrackedGpuNoLock(available_gpus_, gpu_device_id) ||
         !isTrackedGpuHealthEntryNoLock(gpu_health_status_, gpu_device_id)) {
@@ -2490,6 +2747,11 @@ void GPUMemoryManager::updateGPUHealth([[maybe_unused]] int gpu_device_id) {
 
         GPUMemoryManager::NvmlTemperatureFn injected_temp_provider;
         {
+            /**
+             * @brief Provider lock.
+             * @param[in] nvml_temp_fn_mutex Input parameter.
+             * @return Return value.
+             */
             std::lock_guard<std::mutex> provider_lock(nvml_temp_fn_mutex);
             injected_temp_provider = nvml_temp_fn;
         }
@@ -2629,6 +2891,11 @@ void GPUMemoryManager::checkGPUHealth([[maybe_unused]] int gpu_device_id) {
     std::string reason = {};
 
     {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         if (!isTrackedGpuNoLock(available_gpus_, gpu_device_id) ||
             !isTrackedGpuHealthEntryNoLock(gpu_health_status_, gpu_device_id)) {

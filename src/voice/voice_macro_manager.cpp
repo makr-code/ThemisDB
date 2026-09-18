@@ -28,7 +28,12 @@ namespace voice {
 
 namespace {
 
-/** Normalise text for trigger matching: lower-case, strip leading/trailing whitespace. */
+/**
+ * @brief Normalise.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), push_back(), std::tolower(), find_first_not_of(), find_last_not_of(), substr().
+ */
 std::string normalise(const std::string& s) {
     std::string out = {};
     out.reserve(s.size());
@@ -44,7 +49,11 @@ std::string normalise(const std::string& s) {
     return out.substr(start, end - start + 1);
 }
 
-/** Generate a simple time-based unique ID. */
+/**
+ * @brief Generate ID.
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), str().
+ */
 std::string generateID() {
     auto now = std::chrono::system_clock::now().time_since_epoch().count();
     std::ostringstream ss = {};
@@ -52,6 +61,11 @@ std::string generateID() {
     return ss.str();
 }
 
+/**
+ * @brief Macro Now Ms.
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::now(), time_since_epoch(), count().
+ */
 int64_t macroNowMs() {
     return std::chrono::duration_cast<std::chrono::milliseconds>(
         std::chrono::system_clock::now().time_since_epoch()).count();
@@ -61,6 +75,12 @@ int64_t macroNowMs() {
 // JSON helpers for MacroStep
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Step To Json.
+ * @param[in] step Input parameter.
+ * @return Return value.
+ * @details Calls: json::object(), json::array(), push_back().
+ */
 json stepToJson(const MacroStep& step) {
     json j;
     j["type"] = static_cast<int>(step.type);
@@ -78,6 +98,12 @@ json stepToJson(const MacroStep& step) {
     return j;
 }
 
+/**
+ * @brief Step From Json.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: value(), contains(), is_object(), begin(), end(), key(), is_array(), push_back().
+ */
 MacroStep stepFromJson(const json& j) {
     MacroStep step;
     step.type   = static_cast<StepType>(j.value("type", 0));
@@ -95,6 +121,12 @@ MacroStep stepFromJson(const json& j) {
     return step;
 }
 
+/**
+ * @brief Macro Info To Json.
+ * @param[in] m Input parameter.
+ * @return Return value.
+ * @details Calls: json::array(), push_back(), stepToJson().
+ */
 json macroInfoToJson(const MacroInfo& m) {
     json j;
     j["macro_id"]       = m.macro_id;
@@ -124,6 +156,12 @@ json macroInfoToJson(const MacroInfo& m) {
     return j;
 }
 
+/**
+ * @brief Macro Info From Json.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: value(), contains(), is_array(), push_back(), stepFromJson(), is_object().
+ */
 MacroInfo macroInfoFromJson(const json& j) {
     MacroInfo m;
     m.macro_id       = j.value("macro_id", "");
@@ -161,7 +199,6 @@ MacroInfo macroInfoFromJson(const json& j) {
 // Step execution
 // ---------------------------------------------------------------------------
 
-/** Execute a single step and return a StepResult. */
 StepResult executeStep(int index,
                        const MacroStep& step,
                        const std::map<std::string, std::string>& runtime_params)
@@ -271,6 +308,13 @@ VoiceMacroManager::VoiceMacroManager()
 
 VoiceMacroManager::~VoiceMacroManager() = default;
 
+/**
+ * @brief Create Macro.
+ * @param[in] trigger_phrase Input parameter.
+ * @param[in] steps Input parameter.
+ * @param[in] options Input parameter.
+ * @return Return value.
+ */
 MacroID VoiceMacroManager::createMacro(
     const std::string& trigger_phrase,
     const std::vector<MacroStep>& steps,
@@ -334,6 +378,15 @@ std::vector<MacroInfo> VoiceMacroManager::listMacros(
     return result;
 }
 
+/**
+ * @brief Set Macro Meta.
+ * @param[in] macro_id Identifier of the macro.
+ * @param[in] name Input parameter.
+ * @param[in] description Input parameter.
+ * @param[in] tags Input parameter.
+ * @param[in] enabled Input parameter.
+ * @return True when the operation succeeds.
+ */
 bool VoiceMacroManager::setMacroMeta(
     const MacroID& macro_id,
     const std::string& name,
@@ -353,6 +406,13 @@ bool VoiceMacroManager::setMacroMeta(
     return true;
 }
 
+/**
+ * @brief Update Macro.
+ * @param[in] macro_id Identifier of the macro.
+ * @param[in] steps Input parameter.
+ * @param[in] options Input parameter.
+ * @return True when the operation succeeds.
+ */
 bool VoiceMacroManager::updateMacro(
     const MacroID& macro_id,
     const std::vector<MacroStep>& steps,
@@ -368,6 +428,12 @@ bool VoiceMacroManager::updateMacro(
     return true;
 }
 
+/**
+ * @brief Delete Macro.
+ * @param[in] macro_id Identifier of the macro.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), erase().
+ */
 bool VoiceMacroManager::deleteMacro(const MacroID& macro_id) {
     std::lock_guard<std::mutex> lock(impl_->mutex);
     return impl_->macros.erase(macro_id) > 0;
@@ -471,6 +537,12 @@ std::string VoiceMacroManager::exportMacros(const std::vector<MacroID>& macro_id
     return arr.dump(2);
 }
 
+/**
+ * @brief Import Macros.
+ * @param[in] json_str Input parameter.
+ * @return Return value.
+ * @details Calls: json::parse(), is_array(), lock(), macroInfoFromJson(), empty(), generateID(), normalise(), std::move().
+ */
 std::vector<MacroID> VoiceMacroManager::importMacros(const std::string& json_str) {
     std::vector<MacroID> imported_ids;
 

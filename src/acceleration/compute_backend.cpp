@@ -42,15 +42,18 @@
 namespace themis {
 namespace acceleration {
 
-// Default implementation of batchKnnSearchSafe for IVectorBackend.
-//
-// Each query vector is validated for NaN/Inf values before being dispatched.
-// Queries that contain non-finite values receive AccelerationErrorCode::InputRangeViolation
-// in their KnnQueryResult and an empty neighbors list.  Valid queries are forwarded
-// to batchKnnSearch (which guarantees deterministic tie-breaking by lower index).
-//
-// Backends may override this method to integrate validation more tightly (e.g.
-// to avoid a host-side copy when running on a GPU backend).
+/**
+ * @brief Default implementation of batchKnnSearchSafe for IVectorBackend.
+ * @param[in] queries Input parameter.
+ * @param[in] numQueries Input parameter.
+ * @param[in] dim Input parameter.
+ * @param[in] vectors Input parameter.
+ * @param[in] numVectors Input parameter.
+ * @param[in] k Input parameter.
+ * @param[in] useL2 Input parameter.
+ * @return Return value.
+ * @details Each query vector is validated for NaN/Inf values before being dispatched. Queries that contain non-finite values receive AccelerationErrorCode::InputRangeViolation in their KnnQueryResult and an empty neighbors list. Valid queries are forwarded to batchKnnSearch (which guarantees deterministic tie-breaking by lower index). Backends may override this method to integrate validation more tightly (e.g. to avoid a host-side copy when running on a GPU backend). Calls: resize(), reserve(), std::isnan(), std::isinf(), push_back(), empty(), validQueries(), size().
+ */
 PartialBatchResult IVectorBackend::batchKnnSearchSafe(
     const float* queries,
     size_t numQueries,

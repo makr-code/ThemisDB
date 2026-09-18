@@ -20,7 +20,7 @@ namespace themis {
 namespace observability {
 
 /**
- * @brief Helper functions
+ * @brief To string.
  * @param[in] type Input parameter.
  * @return Pointer to the result.
  * @details Implements to_string without additional internal calls.
@@ -111,7 +111,6 @@ json RocksDBStats::toJSON() const {
 }
 
 // StorageProfiler::Impl
-/** @brief StorageProfiler::Impl. */
 class StorageProfiler::Impl {
 public:
     StorageProfilerConfig config;
@@ -176,7 +175,7 @@ void StorageProfiler::record_operation(const StorageOpStats& stats) {
 
 /**
  * @brief Collect rocksdb stats.
- * @param[in] db_path Input parameter.
+ * @param[in] db_path Path to the db.
  * @return Return value.
  * @details Calls: lock(), std::chrono::system_clock::now(), push_back(), cleanup_old_data().
  */

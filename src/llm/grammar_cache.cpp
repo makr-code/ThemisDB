@@ -31,6 +31,11 @@ std::shared_ptr<Grammar> GrammarCache::get(const std::string& name) const {
         return nullptr;
     }
     
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     auto it = cache_.find(name);
@@ -43,6 +48,13 @@ std::shared_ptr<Grammar> GrammarCache::get(const std::string& name) const {
     return nullptr;
 }
 
+/**
+ * @brief Put.
+ * @param[in] name Input parameter.
+ * @param[in] grammar Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: spdlog::warn(), lock(), size(), find(), end(), spdlog::debug().
+ */
 bool GrammarCache::put(const std::string& name, std::shared_ptr<Grammar> grammar) {
     if (!config_.enabled) {
         return false;
@@ -67,6 +79,10 @@ bool GrammarCache::put(const std::string& name, std::shared_ptr<Grammar> grammar
     return true;
 }
 
+/**
+ * @brief Clear.
+ * @details Calls: lock(), spdlog::debug().
+ */
 void GrammarCache::clear() {
     std::lock_guard<std::mutex> lock(mutex_);
     cache_.clear();
@@ -74,15 +90,31 @@ void GrammarCache::clear() {
 }
 
 size_t GrammarCache::size() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return cache_.size();
 }
 
 bool GrammarCache::contains(const std::string& name) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return cache_.find(name) != cache_.end();
 }
 
+/**
+ * @brief Remove.
+ * @param[in] name Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), find(), end(), erase(), spdlog::debug().
+ */
 bool GrammarCache::remove(const std::string& name) {
     std::lock_guard<std::mutex> lock(mutex_);
     

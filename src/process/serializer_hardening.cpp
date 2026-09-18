@@ -20,6 +20,13 @@ namespace themis::process {
 // SerializerInputValidator implementation
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Validate Input.
+ * @param[in] input Input parameter.
+ * @param[in] format_name Name of the format.
+ * @return Return value.
+ * @details Calls: empty(), SerializerValidationResult::failure(), isInputSizeValid(), size(), str(), isValidUtf8(), find(), isXmlTruncated().
+ */
 SerializerValidationResult SerializerInputValidator::validateInput(
     std::string_view input,
     std::string_view format_name
@@ -66,6 +73,12 @@ SerializerValidationResult SerializerInputValidator::validateInput(
     return SerializerValidationResult::success();
 }
 
+/**
+ * @brief Is Xml Truncated.
+ * @param[in] xml Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: countXmlTags().
+ */
 bool SerializerInputValidator::isXmlTruncated(std::string_view xml) {
     auto [open_count, close_count] = countXmlTags(xml);
     // Account for self-closing tags: each self-closing tag has both an open
@@ -73,6 +86,12 @@ bool SerializerInputValidator::isXmlTruncated(std::string_view xml) {
     return open_count != close_count;
 }
 
+/**
+ * @brief Is Valid Utf8.
+ * @param[in] s Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: data(), size(), isValidUtf8Sequence().
+ */
 bool SerializerInputValidator::isValidUtf8(std::string_view s) {
     const unsigned char* data = reinterpret_cast<const unsigned char*>(s.data());
     size_t pos = 0;
@@ -105,6 +124,14 @@ bool SerializerInputValidator::isValidUtf8(std::string_view s) {
     return true;
 }
 
+/**
+ * @brief Is Valid Utf8 Sequence.
+ * @param[in] data Input parameter.
+ * @param[in] remaining_bytes Input parameter.
+ * @param[in,out] sequence_length Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Implements isValidUtf8Sequence without additional internal calls.
+ */
 bool SerializerInputValidator::isValidUtf8Sequence(
     const unsigned char* data,
     size_t remaining_bytes,
@@ -161,6 +188,12 @@ bool SerializerInputValidator::isValidUtf8Sequence(
     return false;
 }
 
+/**
+ * @brief Extract Xml Version.
+ * @param[in] xml Input parameter.
+ * @return Return value.
+ * @details Calls: find(), substr(), find_first_of(), std::string().
+ */
 std::string SerializerInputValidator::extractXmlVersion(std::string_view xml) {
     // Look for version in XML declaration: <?xml version="X.Y"?>
     size_t decl_start = xml.find("<?xml");
@@ -245,6 +278,12 @@ std::pair<int32_t, int32_t> SerializerInputValidator::countXmlTags(std::string_v
     return {open_count, close_count};
 }
 
+/**
+ * @brief Is Ascii Control Char.
+ * @param[in] c Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements isAsciiControlChar without additional internal calls.
+ */
 bool SerializerInputValidator::isAsciiControlChar(unsigned char c) {
     return c < 0x20 && c != 0x09 && c != 0x0A && c != 0x0D;
 }
@@ -265,6 +304,11 @@ ParserStateTracker::ParserStateTracker(
 {
 }
 
+/**
+ * @brief Enter Scope.
+ * @return True when the operation succeeds.
+ * @details Implements enterScope without additional internal calls.
+ */
 bool ParserStateTracker::enterScope() {
     if (current_depth_ >= max_depth_) {
         return false;
@@ -273,6 +317,11 @@ bool ParserStateTracker::enterScope() {
     return true;
 }
 
+/**
+ * @brief Exit Scope.
+ * @return True when the operation succeeds.
+ * @details Implements exitScope without additional internal calls.
+ */
 bool ParserStateTracker::exitScope() {
     if (current_depth_ == 0) {
         return false;  // Underflow
@@ -281,6 +330,11 @@ bool ParserStateTracker::exitScope() {
     return true;
 }
 
+/**
+ * @brief Record Element.
+ * @return True when the operation succeeds.
+ * @details Implements recordElement without additional internal calls.
+ */
 bool ParserStateTracker::recordElement() {
     if (element_count_ >= max_elements_) {
         return false;
@@ -309,6 +363,12 @@ std::string ParserStateTracker::getDiagnosticMessage() const {
 // Format-specific validators
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Validate Bpmn Constraints.
+ * @param[in] element_ids Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), SerializerValidationResult::failure(), count(), insert(), SerializerValidationResult::success().
+ */
 SerializerValidationResult BpmnValidator::validateBpmnConstraints(
     const std::vector<std::string>& element_ids
 ) {
@@ -375,6 +435,13 @@ SerializerValidationResult EpkValidator::validateEpkConstraints(
     return SerializerValidationResult::success();
 }
 
+/**
+ * @brief Validate Cmmn Constraints.
+ * @param[in] case_id Identifier of the case.
+ * @param[in] item_ids Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), SerializerValidationResult::failure(), count(), insert(), SerializerValidationResult::success().
+ */
 SerializerValidationResult CmmnValidator::validateCmmnConstraints(
     std::string_view case_id,
     const std::vector<std::string>& item_ids
@@ -411,6 +478,13 @@ SerializerValidationResult CmmnValidator::validateCmmnConstraints(
     return SerializerValidationResult::success();
 }
 
+/**
+ * @brief Validate Dmn Constraints.
+ * @param[in] decision_id Identifier of the decision.
+ * @param[in] rule_count Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), SerializerValidationResult::failure(), SerializerValidationResult::success().
+ */
 SerializerValidationResult DmnValidator::validateDmnConstraints(
     std::string_view decision_id,
     int32_t rule_count

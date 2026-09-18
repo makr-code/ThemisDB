@@ -36,14 +36,28 @@ RotaryEmbeddingGPU::~RotaryEmbeddingGPU() {
     // Nothing to clean up in CPU-only build
 }
 
+/**
+ * @brief Initialize GPU.
+ * @return True when the operation succeeds.
+ * @details Implements initializeGPU without additional internal calls.
+ */
 bool RotaryEmbeddingGPU::initializeGPU() {
     return false;
 }
 
+/**
+ * @brief Cleanup GPU.
+ * @details Implements cleanupGPU without additional internal calls.
+ */
 void RotaryEmbeddingGPU::cleanupGPU() {
     // Nothing to clean up
 }
 
+/**
+ * @brief Upload Theta Cache To GPU.
+ * @return True when the operation succeeds.
+ * @details Implements uploadThetaCacheToGPU without additional internal calls.
+ */
 bool RotaryEmbeddingGPU::uploadThetaCacheToGPU() {
     return false;
 }

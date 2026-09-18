@@ -45,11 +45,22 @@ TimeSeriesApiHandler::TimeSeriesApiHandler(
     // See handleAggregatesGet() and AggregatesFn in timeseries_api_handler.h.
 }
 
+/**
+ * @brief Set Retention Policies Provider Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void TimeSeriesApiHandler::setRetentionPoliciesProviderFn(RetentionPoliciesProviderFn fn) {
     std::lock_guard<std::mutex> lock(retentionPoliciesMutex_);
     retentionPoliciesFn_ = std::move(fn);
 }
 
+/**
+ * @brief Handle Put.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), setStatus(), makeErrorResponse(), nlohmann::json::parse(), body(), contains(), value(), std::chrono::system_clock::now().
+ */
 http::response<http::string_body> TimeSeriesApiHandler::handlePut(
     const http::request<http::string_body>& req
 ) {
@@ -112,6 +123,12 @@ http::response<http::string_body> TimeSeriesApiHandler::handlePut(
     }
 }
 
+/**
+ * @brief Handle Query.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), setStatus(), makeErrorResponse(), nlohmann::json::parse(), body(), contains(), is_null(), value().
+ */
 http::response<http::string_body> TimeSeriesApiHandler::handleQuery(
     const http::request<http::string_body>& req
 ) {
@@ -187,6 +204,12 @@ http::response<http::string_body> TimeSeriesApiHandler::handleQuery(
     }
 }
 
+/**
+ * @brief Handle Aggregate.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), setStatus(), makeErrorResponse(), nlohmann::json::parse(), body(), contains(), is_null(), value().
+ */
 http::response<http::string_body> TimeSeriesApiHandler::handleAggregate(
     const http::request<http::string_body>& req
 ) {
@@ -258,6 +281,12 @@ http::response<http::string_body> TimeSeriesApiHandler::handleAggregate(
     }
 }
 
+/**
+ * @brief Handle Config Get.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), setStatus(), makeErrorResponse(), get(), s(), begin(), end(), nlohmann::json::parse().
+ */
 http::response<http::string_body> TimeSeriesApiHandler::handleConfigGet(
     const http::request<http::string_body>& req
 ) {
@@ -294,6 +323,12 @@ http::response<http::string_body> TimeSeriesApiHandler::handleConfigGet(
     }
 }
 
+/**
+ * @brief Handle Config Put.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), setStatus(), makeErrorResponse(), nlohmann::json::parse(), body(), get(), s(), begin().
+ */
 http::response<http::string_body> TimeSeriesApiHandler::handleConfigPut(
     const http::request<http::string_body>& req
 ) {
@@ -404,6 +439,12 @@ http::response<http::string_body> TimeSeriesApiHandler::handleConfigPut(
     }
 }
 
+/**
+ * @brief Handle Aggregates Get.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), aggregates_fn_(), insert(), begin(), end(), setAttribute(), listAggregates(), nlohmann::json::array().
+ */
 http::response<http::string_body> TimeSeriesApiHandler::handleAggregatesGet(
     const http::request<http::string_body>& req
 ) {
@@ -490,6 +531,12 @@ http::response<http::string_body> TimeSeriesApiHandler::handleAggregatesGet(
     }
 }
 
+/**
+ * @brief Handle Retention Get.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), nlohmann::json::array(), retentions_fn_(), push_back(), setAttribute(), retentionPoliciesFn_(), nlohmann::json(), get().
+ */
 http::response<http::string_body> TimeSeriesApiHandler::handleRetentionGet(
     const http::request<http::string_body>& req
 ) {
@@ -568,6 +615,12 @@ http::response<http::string_body> TimeSeriesApiHandler::handleRetentionGet(
     }
 }
 
+/**
+ * @brief Handle Metrics Get.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), setStatus(), makeErrorResponse(), std::string(), target(), find(), substr(), length().
+ */
 http::response<http::string_body> TimeSeriesApiHandler::handleMetricsGet(
     const http::request<http::string_body>& req
 ) {
@@ -633,6 +686,12 @@ http::response<http::string_body> TimeSeriesApiHandler::handleMetricsGet(
     }
 }
 
+/**
+ * @brief Handle Prometheus Remote Write.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), setStatus(), makeErrorResponse(), body(), empty(), count(), std::string(), themis::timeseries::PromWriteRequest::decode().
+ */
 http::response<http::string_body> TimeSeriesApiHandler::handlePrometheusRemoteWrite(
     const http::request<http::string_body>& req
 ) {
@@ -755,6 +814,14 @@ http::response<http::string_body> TimeSeriesApiHandler::handlePrometheusRemoteWr
     }
 }
 
+/**
+ * @brief Make Error Response.
+ * @param[in] status Input parameter.
+ * @param[in] message Input parameter.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: makeResponse(), dump().
+ */
 http::response<http::string_body> TimeSeriesApiHandler::makeErrorResponse(
     http::status status, const std::string& message, const http::request<http::string_body>& req
 ) {
@@ -766,6 +833,14 @@ http::response<http::string_body> TimeSeriesApiHandler::makeErrorResponse(
     return makeResponse(status, error_body.dump(), req);
 }
 
+/**
+ * @brief Make Response.
+ * @param[in] status Input parameter.
+ * @param[in] body Input parameter.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: version(), set(), keep_alive(), body(), prepare_payload().
+ */
 http::response<http::string_body> TimeSeriesApiHandler::makeResponse(
     http::status status, const std::string& body, const http::request<http::string_body>& req
 ) {

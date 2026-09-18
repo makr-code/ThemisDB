@@ -67,6 +67,10 @@ NlpTextAnalyzer::NlpTextAnalyzer(const Config &config) : config_(config) {
     }
 }
 
+/**
+ * @brief Initialize Stop Words.
+ * @details Implements initializeStopWords without additional internal calls.
+ */
 void NlpTextAnalyzer::initializeStopWords() {
     // English stop words
     stopwords_[Language::ENGLISH]
@@ -110,6 +114,10 @@ void NlpTextAnalyzer::initializeStopWords() {
            "niet", "ook", "nog", "al", "wel",  "hier", "daar", "nu",    "zo"};
 }
 
+/**
+ * @brief Initialize Sentiment Lexicon.
+ * @details Implements initializeSentimentLexicon without additional internal calls.
+ */
 void NlpTextAnalyzer::initializeSentimentLexicon() {
     // Basic positive words
     sentiment_lexicon_["good"]      = 0.5;
@@ -138,6 +146,10 @@ void NlpTextAnalyzer::initializeSentimentLexicon() {
     sentiment_lexicon_["error"]    = -0.4;
 }
 
+/**
+ * @brief Initialize Entity Patterns.
+ * @details Calls: push_back(), NlpTextAnalyzer::detectLanguage(), toLowerCase(), find(), count(), empty(), std::max_element(), begin().
+ */
 void NlpTextAnalyzer::initializeEntityPatterns() {
     // Simple patterns for named entity recognition
     // These are basic heuristics, not ML-based NER

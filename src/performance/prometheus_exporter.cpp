@@ -21,15 +21,13 @@
 namespace themis {
 namespace performance {
 
-/**
- * @brief Prometheus text format exporter
- */
 class PrometheusExporter {
 public:
     /**
-     * @brief Export metrics in Prometheus text format
-     * @param metrics_list List of operation metrics
-     * @return Prometheus formatted string
+     * @brief Export Metrics.
+     * @param[in] metrics_list Input parameter.
+     * @return Return value.
+     * @details Calls: good(), push_back(), empty(), size(), std::setprecision(), str().
      */
     static std::string exportMetrics(const std::vector<MetricsEntry>& metrics_list) {
         std::ostringstream oss = {};
@@ -189,6 +187,12 @@ public:
     }
 };
 
+  /**
+   * @brief Export Prometheus Metrics.
+   * @param[in] metrics_list Input parameter.
+   * @return Return value.
+   * @details Calls: PrometheusExporter::exportMetrics().
+   */
   std::string exportPrometheusMetrics(const std::vector<MetricsEntry>& metrics_list) {
     return PrometheusExporter::exportMetrics(metrics_list);
   }

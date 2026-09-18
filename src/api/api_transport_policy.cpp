@@ -42,6 +42,12 @@ TransportPolicyMiddleware::TransportPolicyMiddleware(
 // IHttpHandler interface
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Handle.
+ * @param[in] request Input parameter.
+ * @return Return value.
+ * @details Calls: applyPolicy(), ApiErrorTaxonomy::toErrorCode(), ApiErrorTaxonomy::toMessage(), adapterName(), tl::unexpected(), themis::Error().
+ */
 themis::Result<HttpResponse> TransportPolicyMiddleware::handle(
     const HttpRequest& request) {
 

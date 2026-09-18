@@ -22,10 +22,11 @@
 
 namespace themis::llm {
 
-/**
- * @brief Resource usage statistics
- */
 struct VisionResourceUsage {
+    /**
+     * @brief Vision Resource Usage.
+     * @return Return value.
+     */
     virtual ~VisionResourceUsage() = default;
     size_t current_memory_mb = 0;
     size_t peak_memory_mb = 0;
@@ -48,43 +49,61 @@ struct VisionResourceUsage {
     double min_inference_time_ms = 0.0;
     
     /**
-     * @brief Get current resource utilization as percentage
+     * @brief Get Memory Utilization.
+     * @param[in] limit_mb Input parameter.
+     * @return Return value.
      */
     double getMemoryUtilization(size_t limit_mb) const;
+    /**
+     * @brief Get VRAMUtilization.
+     * @param[in] limit_mb Input parameter.
+     * @return Return value.
+     */
     double getVRAMUtilization(size_t limit_mb) const;
+    /**
+     * @brief Get Request Utilization.
+     * @param[in] limit Input parameter.
+     * @return Return value.
+     */
     double getRequestUtilization(size_t limit) const;
 };
 
-/**
- * @brief Rate limiter token bucket implementation
- */
 class RateLimiter {
 public:
+    /**
+     * @brief Rate Limiter.
+     * @return Return value.
+     */
     virtual ~RateLimiter() = default;
     RateLimiter(size_t rate_per_minute, size_t burst_size);
     
     /**
-     * @brief Try to acquire a token
-     * @return true if token acquired, false if rate limit exceeded
+     * @brief Try Acquire.
+     * @return True when the operation succeeds.
      */
     bool tryAcquire();
     
     /**
-     * @brief Get number of available tokens
+     * @brief Available Tokens.
+     * @return Return value.
      */
     size_t availableTokens() const;
     
     /**
-     * @brief Get time until next token available
+     * @brief Time Until Next Token.
+     * @return Return value.
      */
     std::chrono::milliseconds timeUntilNextToken() const;
     
     /**
-     * @brief Reset the rate limiter
+     * @brief Reset the modification detection flag.
      */
     void reset();
     
 private:
+    /**
+     * @brief Refill Tokens.
+     */
     void refillTokens();
     
     size_t capacity_ = 0;           ///< Bucket capacity (burst size)
@@ -94,40 +113,42 @@ private:
     mutable std::mutex mutex_;
 };
 
-/**
- * @brief Per-user quota tracker
- */
 class QuotaTracker {
 public:
+    /**
+     * @brief Quota Tracker.
+     * @return Return value.
+     */
     virtual ~QuotaTracker() = default;
     QuotaTracker(const VisionResourceQuota& quota);
     
     /**
-     * @brief Check if user has quota available
+     * @brief Has Quota Available.
+     * @param[in] user_id Identifier of the user.
+     * @return True when the operation succeeds.
      */
     bool hasQuotaAvailable(const std::string& user_id) const;
     
-    /**
-     * @brief Consume quota for a request
-     */
     bool consumeQuota(const std::string& user_id, 
                      size_t requests = 1,
                      std::chrono::milliseconds inference_time = std::chrono::milliseconds(0),
                      size_t vram_mb_seconds = 0);
     
-    /**
-     * @brief Get remaining quota for a user
-     */
     struct QuotaRemaining {
         size_t daily_requests_remaining = 0;
         size_t monthly_requests_remaining = 0;
         size_t inference_minutes_remaining = 0;
         size_t vram_hours_remaining = 0;
     };
+    /**
+     * @brief Get Remaining Quota.
+     * @param[in] user_id Identifier of the user.
+     * @return Return value.
+     */
     QuotaRemaining getRemainingQuota(const std::string& user_id) const;
     
     /**
-     * @brief Reset quotas (called on reset period)
+     * @brief Reset Quotas.
      */
     void resetQuotas();
     
@@ -145,24 +166,24 @@ private:
     mutable std::mutex mutex_;
 };
 
-/**
- * @brief Vision resource monitor and manager
- * 
- * Monitors and enforces resource limits, rate limits, and quotas for vision processing.
- * Provides observability through metrics and audit logging.
- */
 class VisionResourceMonitor {
 public:
+    /**
+     * @brief Vision Resource Monitor.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit VisionResourceMonitor(std::shared_ptr<VisionConfig> config);
     ~VisionResourceMonitor();
     
     /**
-     * @brief Initialize the monitor
+     * @brief Initialize.
+     * @return True when the operation succeeds.
      */
     bool initialize();
     
     /**
-     * @brief Shutdown the monitor
+     * @brief Shutdown.
      */
     void shutdown();
     
@@ -170,29 +191,24 @@ public:
     // Request Management
     // =====================================================
     
-    /**
-     * @brief Check if a request can be accepted
-     * @param user_id User identifier for quota tracking
-     * @param estimated_memory_mb Estimated memory requirement
-     * @return true if request can be accepted, false otherwise
-     */
     bool canAcceptRequest(const std::string& user_id, size_t estimated_memory_mb = 0);
     
     /**
-     * @brief Start tracking a request
-     * @return Request tracking ID
+     * @brief Start Request.
+     * @param[in] user_id Identifier of the user.
+     * @param[in] model_id Identifier of the model.
+     * @return Return value.
      */
     uint64_t startRequest(const std::string& user_id, const std::string& model_id);
     
-    /**
-     * @brief Complete a request
-     */
     void completeRequest(uint64_t request_id, bool success, 
                         std::chrono::milliseconds inference_time,
                         size_t memory_used_mb = 0);
     
     /**
-     * @brief Reject a request (rate limit, quota, or resource limit exceeded)
+     * @brief Reject Request.
+     * @param[in] user_id Identifier of the user.
+     * @param[in] reason Input parameter.
      */
     void rejectRequest(const std::string& user_id, const std::string& reason);
     
@@ -201,22 +217,28 @@ public:
     // =====================================================
     
     /**
-     * @brief Update memory usage
+     * @brief Update Memory Usage.
+     * @param[in] memory_mb Input parameter.
      */
     void updateMemoryUsage(size_t memory_mb);
     
     /**
-     * @brief Update VRAM usage
+     * @brief Update VRAMUsage.
+     * @param[in] vram_mb Input parameter.
      */
     void updateVRAMUsage(size_t vram_mb);
     
     /**
-     * @brief Register a model load
+     * @brief Register Model Load.
+     * @param[in] model_id Identifier of the model.
+     * @param[in] memory_mb Input parameter.
+     * @param[in] vram_mb Input parameter.
      */
     void registerModelLoad(const std::string& model_id, size_t memory_mb, size_t vram_mb);
     
     /**
-     * @brief Register a model unload
+     * @brief Register Model Unload.
+     * @param[in] model_id Identifier of the model.
      */
     void registerModelUnload(const std::string& model_id);
     
@@ -225,34 +247,36 @@ public:
     // =====================================================
     
     /**
-     * @brief Get current resource usage
+     * @brief Get Resource Usage.
+     * @return Return value.
      */
     VisionResourceUsage getResourceUsage() const;
     
-    /**
-     * @brief Get rate limiter stats
-     */
     struct RateLimiterStats {
         size_t available_tokens = 0;
         std::chrono::milliseconds time_until_next_token{0};
         uint64_t total_requests = 0;
         uint64_t rejected_requests = 0;
     };
+    /**
+     * @brief Get Rate Limiter Stats.
+     * @return Return value.
+     */
     RateLimiterStats getRateLimiterStats() const;
     
     /**
-     * @brief Get quota stats for a user
+     * @brief Get User Quota.
+     * @param[in] user_id Identifier of the user.
+     * @return Return value.
      */
     QuotaTracker::QuotaRemaining getUserQuota(const std::string& user_id) const;
     
     /**
-     * @brief Export metrics (for Prometheus)
+     * @brief Export Metrics.
+     * @return Return value.
      */
     std::string exportMetrics() const;
     
-    /**
-     * @brief Get audit log entries
-     */
     struct AuditEntry {
         std::chrono::system_clock::time_point timestamp;
         std::string event_type;
@@ -268,13 +292,11 @@ public:
     // =====================================================
     
     /**
-     * @brief Check if system is healthy
+     * @brief Is Healthy.
+     * @return True when the operation succeeds.
      */
     bool isHealthy() const;
     
-    /**
-     * @brief Get health status details
-     */
     struct HealthStatus {
         bool healthy = false;
         std::string status;  // "healthy", "degraded", "unhealthy"
@@ -283,6 +305,10 @@ public:
         double vram_utilization_percent = 0.0;
         double request_utilization_percent = 0.0;
     };
+    /**
+     * @brief Get Health Status.
+     * @return Return value.
+     */
     HealthStatus getHealthStatus() const;
 
 private:
@@ -334,10 +360,29 @@ private:
     std::thread quota_reset_thread_;
     
     // Helper methods
+    /**
+     * @brief Metrics Collection Loop.
+     */
     void metricsCollectionLoop();
+    /**
+     * @brief Quota Reset Loop.
+     */
     void quotaResetLoop();
+    /**
+     * @brief Log Audit Event.
+     * @param[in] event_type Input parameter.
+     * @param[in] user_id Identifier of the user.
+     * @param[in] model_id Identifier of the model.
+     * @param[in] details Input parameter.
+     * @param[in] success Input parameter.
+     */
     void logAuditEvent(const std::string& event_type, const std::string& user_id,
                       const std::string& model_id, const std::string& details, bool success);
+    /**
+     * @brief Get User Rate Limiter.
+     * @param[in] user_id Identifier of the user.
+     * @return Pointer to the result.
+     */
     RateLimiter* getUserRateLimiter(const std::string& user_id);
 };
 

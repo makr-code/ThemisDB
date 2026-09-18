@@ -37,7 +37,6 @@ namespace access_model {
 // § 1  AccessCoordinatorImpl: Central Tier Orchestrator
 // ============================================================================
 
-/** @brief § 1  AccessCoordinatorImpl: Central Tier Orchestrator. */
 class AccessCoordinatorImpl : public AccessCoordinator {
  public:
     struct DemotionEvent {
@@ -63,6 +62,11 @@ class AccessCoordinatorImpl : public AccessCoordinator {
     // Lifecycle management
     bool initialize(const std::map<TierLevel, std::shared_ptr<AccessTier>>& tiers)
         override {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         tiers_ = tiers;
         THEMIS_INFO("AccessCoordinator initialized with {} tiers",tiers_.size());
@@ -70,6 +74,11 @@ class AccessCoordinatorImpl : public AccessCoordinator {
     }
 
     void start() override {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         if (running_) {
           return;
@@ -98,6 +107,11 @@ class AccessCoordinatorImpl : public AccessCoordinator {
 
     void shutdown() override {
         {
+            /**
+             * @brief Lock.
+             * @param[in] mutex_ Input parameter.
+             * @return Return value.
+             */
             std::lock_guard<std::mutex> lock(mutex_);
             if (!running_) {
               return;
@@ -133,6 +147,11 @@ class AccessCoordinatorImpl : public AccessCoordinator {
 
     // Event listening (from cache/storage)
     void onEviction(const EvictionEvent& event) override {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
 
         std::string correlation_id = generateCorrelationId("evict");
@@ -225,6 +244,11 @@ class AccessCoordinatorImpl : public AccessCoordinator {
     }
 
     void onHotAccess(const AccessEvent& event) override {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
 
         std::string correlation_id = generateCorrelationId("hot-access");
@@ -325,6 +349,11 @@ class AccessCoordinatorImpl : public AccessCoordinator {
         auto future = promise->get_future();
 
         {
+            /**
+             * @brief Lock.
+             * @param[in] mutex_ Input parameter.
+             * @return Return value.
+             */
             std::lock_guard<std::mutex> lock(mutex_);
 
             if (!running_) {
@@ -368,6 +397,11 @@ class AccessCoordinatorImpl : public AccessCoordinator {
     std::optional<DemotionPlan> planDemotion(
         const std::string& key, TierLevel from_tier, TierLevel to_tier,
         uint64_t data_size_bytes) override {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
 
         std::string plan_id = generatePlanId();
@@ -390,8 +424,18 @@ class AccessCoordinatorImpl : public AccessCoordinator {
         return plan;
     }
 
+    /**
+     * @brief Execute Demotion.
+     * @param[in] plan_id Identifier of the plan.
+     * @return Return value.
+     */
     std::optional<DemotionResult> executeDemotion(const std::string& plan_id)
         override {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
 
         auto it = pending_plans_.find(plan_id);
@@ -440,6 +484,11 @@ class AccessCoordinatorImpl : public AccessCoordinator {
     }
 
     void setAgePolicy(const AgeBasedPolicy& policy) override {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         policy_ = policy;
         policy_set_ = true;
@@ -449,12 +498,22 @@ class AccessCoordinatorImpl : public AccessCoordinator {
 
     void setPromotionThresholds(uint64_t cache_threshold,
                                 uint64_t storage_threshold) override {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         policy_.l1_promotion_threshold = cache_threshold;
         policy_.storage_promotion_threshold = storage_threshold;
     }
 
     AccessMetrics getKeyMetrics([[maybe_unused]] const std::string& key) override {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
 
         // Return stub for now
@@ -462,6 +521,11 @@ class AccessCoordinatorImpl : public AccessCoordinator {
     }
 
     AccessMetrics getTierMetrics([[maybe_unused]] TierLevel tier) override {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
 
         // Return stub for now
@@ -469,6 +533,11 @@ class AccessCoordinatorImpl : public AccessCoordinator {
     }
 
     AccessModelMetrics getAccessModelMetrics() override {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         return metrics_;
     }
@@ -476,6 +545,11 @@ class AccessCoordinatorImpl : public AccessCoordinator {
     std::vector<AccessTransitionEvent> getRecentTransitions(size_t limit = 100)
         override {
 
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
 
         if (recent_transitions_.size() <= limit) {
@@ -489,6 +563,10 @@ class AccessCoordinatorImpl : public AccessCoordinator {
     }
 
  private:
+    /**
+     * @brief Worker Main.
+     * @details Calls: generateCorrelationId(), trace_guard(), THEMIS_DEBUG(), lock(), wait(), empty(), front(), pop().
+     */
     void workerMain() {
         // Set up trace context for this worker thread
         auto worker_id = generateCorrelationId("worker");
@@ -529,6 +607,11 @@ class AccessCoordinatorImpl : public AccessCoordinator {
         THEMIS_DEBUG("Worker thread exiting: correlation_id={}", worker_id);
     }
 
+    /**
+     * @brief Process Promotion Task.
+     * @param[in] task Input parameter.
+     * @details Calls: std::chrono::system_clock::now(), generateCorrelationId(), lock(), set_value(), emplace_back(), THEMIS_DEBUG(), tierLevelName(), count().
+     */
     void processPromotionTask(const DemotionEvent& task) {
         auto start_time = std::chrono::system_clock::now();
         std::string correlation_id = generateCorrelationId("promo-task");
@@ -586,11 +669,22 @@ class AccessCoordinatorImpl : public AccessCoordinator {
         accessModelLogger().logTierTransition(transition_log);
     }
 
+    /**
+     * @brief Generate Correlation Id.
+     * @param[in] prefix Input parameter.
+     * @return Return value.
+     * @details Calls: std::to_string().
+     */
     std::string generateCorrelationId(const std::string& prefix) {
         static std::atomic<uint64_t> counter{0};
         return prefix + "-" + std::to_string(counter++);
     }
 
+    /**
+     * @brief Generate Plan Id.
+     * @return Return value.
+     * @details Calls: std::to_string().
+     */
     std::string generatePlanId() {
         static std::atomic<uint64_t> counter{0};
         return "plan-" + std::to_string(counter++);
@@ -619,6 +713,12 @@ class AccessCoordinatorImpl : public AccessCoordinator {
 // § 2  Factory Function
 // ============================================================================
 
+/**
+ * @brief Create Access Coordinator.
+ * @param[in] thread_pool_size Input parameter.
+ * @return Return value.
+ * @details Implements createAccessCoordinator without additional internal calls.
+ */
 std::shared_ptr<AccessCoordinator> createAccessCoordinator(
     size_t thread_pool_size) {
     return std::make_shared<AccessCoordinatorImpl>(thread_pool_size);

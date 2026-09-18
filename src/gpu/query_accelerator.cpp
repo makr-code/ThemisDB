@@ -90,7 +90,6 @@ constexpr auto kGpuDispatchTimeout = std::chrono::seconds(5);
 // FP16 / BF16 quantisation helpers (CPU simulation of Tensor Core precision)
 // ---------------------------------------------------------------------------
 
-/// Encode a float32 to IEEE 754 FP16 bits ([[maybe_unused]] uint16_t).
 static uint16_t fp32_to_fp16([[maybe_unused]] float f) noexcept {
     uint32_t bits = 0;
     std::memcpy(&bits, &f, 4);
@@ -132,7 +131,6 @@ static uint16_t fp32_to_fp16([[maybe_unused]] float f) noexcept {
     return static_cast<uint16_t>((sign << 15) | (exp16 << 10) | (mant16 & 0x3FFu));
 }
 
-/// Decode IEEE 754 FP16 bits back to float32.
 static float fp16_to_fp32([[maybe_unused]] uint16_t h) noexcept {
     const uint32_t sign   = static_cast<uint32_t>((h >> 15) & 0x1u);
     const uint32_t exp16  = (h >> 10) & 0x1Fu;
@@ -165,12 +163,10 @@ static float fp16_to_fp32([[maybe_unused]] uint16_t h) noexcept {
     return f;
 }
 
-/// Round-trip a float through FP16 to simulate Tensor Core precision loss.
 static float quantise_fp16([[maybe_unused]] float f) noexcept {
     return fp16_to_fp32(fp32_to_fp16(f));
 }
 
-/// Encode a float32 to BF16 bits ([[maybe_unused]] uint16_t) — top 16 bits of FP32 with RNE.
 static uint16_t fp32_to_bf16([[maybe_unused]] float f) noexcept {
     uint32_t bits = 0;
     std::memcpy(&bits, &f, 4);
@@ -179,7 +175,6 @@ static uint16_t fp32_to_bf16([[maybe_unused]] float f) noexcept {
     return static_cast<uint16_t>(bits >> 16);
 }
 
-/// Decode BF16 bits back to float32 — restore the truncated mantissa bits as 0.
 static float bf16_to_fp32([[maybe_unused]] uint16_t b) noexcept {
     uint32_t bits = static_cast<uint32_t>(b) << 16;
     float f = 0;
@@ -187,7 +182,6 @@ static float bf16_to_fp32([[maybe_unused]] uint16_t b) noexcept {
     return f;
 }
 
-/// Round-trip a float through BF16 to simulate Tensor Core precision loss.
 static float quantise_bf16([[maybe_unused]] float f) noexcept {
     return bf16_to_fp32(fp32_to_bf16(f));
 }
@@ -205,10 +199,18 @@ GPUQueryAccelerator::GPUQueryAccelerator(const Config &config)
 // Graph cache control
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Enable Graph Cache.
+ * @details Calls: store().
+ */
 void GPUQueryAccelerator::enableGraphCache() {
     graph_cache_enabled_.store(true, std::memory_order_relaxed);
 }
 
+/**
+ * @brief Disable Graph Cache.
+ * @details Calls: store().
+ */
 void GPUQueryAccelerator::disableGraphCache() {
     graph_cache_enabled_.store(false, std::memory_order_relaxed);
 }
@@ -228,6 +230,13 @@ bool GPUQueryAccelerator::shouldUseGPU([[maybe_unused]] size_t num_rows) const n
     return num_rows >= config_.gpu_threshold_rows;
 }
 
+/**
+ * @brief Record Op.
+ * @param[in] rows Input parameter.
+ * @param[in] bytes Input parameter.
+ * @param[in] gpu_used Input parameter.
+ * @details Implements recordOp without additional internal calls.
+ */
 void GPUQueryAccelerator::recordOp(size_t rows, uint64_t bytes, bool gpu_used) {
     stats_.rows_processed += rows;
     stats_.bytes_scanned += bytes;
@@ -251,6 +260,13 @@ QueryShape GPUQueryAccelerator::makeShape(QueryShape::OpType op, size_t row_coun
 // scan
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Scan.
+ * @param[in] rows Input parameter.
+ * @param[in] filter Input parameter.
+ * @return Return value.
+ * @details Calls: size(), shouldUseGPU(), makeShape(), lookup(), lk(), capture(), defined(), kernel_guard().
+ */
 GPUQueryAccelerator::ScanResult GPUQueryAccelerator::scan(const std::vector<Row> &rows, FilterFn filter) {
     ScanResult result;
     result.rows_scanned = rows.size();
@@ -379,6 +395,14 @@ GPUQueryAccelerator::ScanResult GPUQueryAccelerator::scan(const std::vector<Row>
 // sort
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Sort.
+ * @param[in] rows Input parameter.
+ * @param[in] key_fn Input parameter.
+ * @param[in] order Input parameter.
+ * @return Return value.
+ * @details Calls: shouldUseGPU(), size(), makeShape(), lookup(), lk(), capture(), defined(), kernel_guard().
+ */
 GPUQueryAccelerator::SortResult GPUQueryAccelerator::sort(std::vector<Row> rows, KeyFn key_fn, SortOrder order) {
     SortResult result;
     bool use_gpu    = shouldUseGPU(rows.size());
@@ -502,6 +526,14 @@ GPUQueryAccelerator::SortResult GPUQueryAccelerator::sort(std::vector<Row> rows,
 // aggregate
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Aggregate.
+ * @param[in] rows Input parameter.
+ * @param[in] func Input parameter.
+ * @param[in] value_fn Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), shouldUseGPU(), size(), makeShape(), lookup(), lk(), capture(), defined().
+ */
 GPUQueryAccelerator::AggResult GPUQueryAccelerator::aggregate(const std::vector<Row> &rows, AggFunc func,
                                                               KeyFn value_fn) {
     AggResult result = {};
@@ -655,6 +687,15 @@ GPUQueryAccelerator::AggResult GPUQueryAccelerator::aggregate(const std::vector<
 // hashJoin
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Hash Join.
+ * @param[in] left Input parameter.
+ * @param[in] right Input parameter.
+ * @param[in] left_key Input parameter.
+ * @param[in] right_key Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), shouldUseGPU(), size(), makeShape(), lookup(), lk(), capture(), std::swap().
+ */
 GPUQueryAccelerator::JoinResult GPUQueryAccelerator::hashJoin(const std::vector<Row> &left,
                                                               const std::vector<Row> &right, JoinKeyFn left_key,
                                                               JoinKeyFn right_key) {
@@ -830,6 +871,13 @@ GPUQueryAccelerator::JoinResult GPUQueryAccelerator::hashJoin(const std::vector<
 // dotProduct
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Compute the dot product of two vectors.
+ * @param[in] a Input parameter.
+ * @param[in] b Input parameter.
+ * @return Dot product of the input vectors.
+ * @details Calls: empty(), size(), lk(), recordOp(), shouldUseGPU(), create(), CHECKED_CUDA(), cudaMemcpy().
+ */
 GPUQueryAccelerator::DotProductResult GPUQueryAccelerator::dotProduct(const std::vector<float> &a,
                                                                       const std::vector<float> &b) {
     DotProductResult result;
@@ -1187,9 +1235,18 @@ GPUQueryAccelerator::DotProductResult GPUQueryAccelerator::dotProduct(const std:
     return result;
 }
 
-// ---------------------------------------------------------------------------
-// annSearch  (GPU-accelerated ANN via cuVS/RAFT; CPU brute-force fallback)
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- annSearch (GPU-accelerated ANN via cuVS/RAFT; CPU brute-force fallback) ---------------------------------------------------------------------------
+ * @param[in] queries Input parameter.
+ * @param[in] numQueries Input parameter.
+ * @param[in] dim Input parameter.
+ * @param[in] database Input parameter.
+ * @param[in] numVectors Input parameter.
+ * @param[in] k Input parameter.
+ * @param[in] useL2 Input parameter.
+ * @return Return value.
+ * @details Calls: size(), lk(), recordOp(), makeShape(), lookup(), capture(), shouldUseGPU(), CHECKED_CUDA().
+ */
 
 GPUQueryAccelerator::AnnResult GPUQueryAccelerator::annSearch(const std::vector<float> &queries, size_t numQueries,
                                                               size_t dim, const std::vector<float> &database,
@@ -1382,6 +1439,15 @@ GPUQueryAccelerator::AnnResult GPUQueryAccelerator::annSearch(const std::vector<
 // topK
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Top K.
+ * @param[in] rows Input parameter.
+ * @param[in] key_fn Input parameter.
+ * @param[in] k Input parameter.
+ * @param[in] order Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), std::min(), size(), shouldUseGPU(), makeShape(), lookup(), lk(), capture().
+ */
 GPUQueryAccelerator::TopKResult GPUQueryAccelerator::topK(std::vector<Row> rows, KeyFn key_fn, size_t k,
                                                           SortOrder order) {
     TopKResult result = {};
@@ -1554,10 +1620,19 @@ GPUQueryAccelerator::TopKResult GPUQueryAccelerator::topK(std::vector<Row> rows,
 }
 
 GPUQueryAccelerator::Stats GPUQueryAccelerator::getStats() const {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     return stats_;
 }
 
+/**
+ * @brief Reset Stats.
+ * @details Calls: lk().
+ */
 void GPUQueryAccelerator::resetStats() {
     std::lock_guard<std::mutex> lk(mutex_);
     stats_ = Stats{};

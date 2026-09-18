@@ -20,18 +20,23 @@
 namespace themis {
 namespace governance {
 
-// ============================================================================
-// Helper – current time in milliseconds
-// ============================================================================
+/**
+ * @brief ============================================================================ Helper – current time in milliseconds ============================================================================
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::now(), time_since_epoch(), count().
+ */
 
 static int64_t iso27001NowMs() {
     return std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch())
         .count();
 }
 
-// ============================================================================
-// Helper – determine if a resource is classified/sensitive
-// ============================================================================
+/**
+ * @brief ============================================================================ Helper – determine if a resource is classified/sensitive ============================================================================
+ * @param[in] rule Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: find().
+ */
 
 static bool iso27001IsSensitiveResource(const PolicyRule &rule) {
     const auto &level = rule.classification_level;
@@ -114,9 +119,16 @@ nlohmann::json Iso27001AuditReport::toJson() const {
     return j;
 }
 
-// ============================================================================
-// Helper – build evidence item for a policy-rule evaluation
-// ============================================================================
+/**
+ * @brief ============================================================================ Helper – build evidence item for a policy-rule evaluation ============================================================================
+ * @param[in] evidence_id Identifier of the evidence.
+ * @param[in] control_id Identifier of the control.
+ * @param[in] rule Input parameter.
+ * @param[in] control_met Input parameter.
+ * @param[in] detail Input parameter.
+ * @return Return value.
+ * @details Calls: iso27001NowMs(), empty(), front().
+ */
 
 static Iso27001EvidenceItem makeIso27001Evidence(const std::string &evidence_id, const std::string &control_id,
                                                  const PolicyRule &rule, bool control_met, const std::string &detail) {
@@ -497,6 +509,15 @@ Iso27001AuditReport Iso27001ControlSet::generateReport(const PolicyManager &poli
     return report;
 }
 
+/**
+ * @brief Collect Evidence.
+ * @param[in] resource Input parameter.
+ * @param[in] action Input parameter.
+ * @param[in] principal Input parameter.
+ * @param[in] access_granted Input parameter.
+ * @param[in] encrypted Input parameter.
+ * @details Calls: lock(), iso27001NowMs(), str(), std::string(), push_back(), std::move().
+ */
 void Iso27001ControlSet::collectEvidence(const std::string &resource, const std::string &action,
                                          const std::string &principal, bool access_granted, bool encrypted) {
     std::lock_guard<std::mutex> lock(evidence_mutex_);
@@ -522,10 +543,19 @@ void Iso27001ControlSet::collectEvidence(const std::string &resource, const std:
 }
 
 std::vector<Iso27001EvidenceItem> Iso27001ControlSet::getEvidence() const {
+    /**
+     * @brief Lock.
+     * @param[in] evidence_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(evidence_mutex_);
     return evidence_items_;
 }
 
+/**
+ * @brief Clear Evidence.
+ * @details Calls: lock(), clear().
+ */
 void Iso27001ControlSet::clearEvidence() {
     std::lock_guard<std::mutex> lock(evidence_mutex_);
     evidence_items_.clear();

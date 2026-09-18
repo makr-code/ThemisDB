@@ -21,6 +21,12 @@ namespace themis {
 // Multi-Shard helpers
 // ============================================================
 
+/**
+ * @brief Merge Shard Results.
+ * @param[in] shards Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), max(), lowest().
+ */
 AggShardResult mergeShardResults(const std::vector<AggShardResult>& shards) {
     AggShardResult merged = {};
     if (shards.empty()) {
@@ -79,6 +85,14 @@ DistributedAggregateCoordinator::DistributedAggregateCoordinator(
     , shard_count_(shard_count > 0 ? shard_count : 1)
     , shard_query_(std::move(shard_query)) {}
 
+/**
+ * @brief Refresh Aggregate.
+ * @param[in] cfg Input parameter.
+ * @param[in] from_ms Input parameter.
+ * @param[in] to_ms Input parameter.
+ * @return Return value.
+ * @details Calls: mgr(), refresh(), ContinuousAggregateManager::derivedMetricName(), value_or(), query(), value(), empty(), max().
+ */
 AggShardResult DistributedAggregateCoordinator::refreshAggregate(
     const AggConfig& cfg,
     int64_t from_ms,
@@ -153,6 +167,12 @@ int64_t ContinuousAggWatermarkStore::getWatermark(const std::string& agg_id) con
     }
 }
 
+/**
+ * @brief Set Watermark.
+ * @param[in] agg_id Identifier of the agg.
+ * @param[in] watermark_ms Input parameter.
+ * @details Calls: std::string(), putSystemMeta(), std::to_string().
+ */
 void ContinuousAggWatermarkStore::setWatermark(const std::string& agg_id, int64_t watermark_ms) {
     if (!store_) {
       return;
@@ -161,6 +181,11 @@ void ContinuousAggWatermarkStore::setWatermark(const std::string& agg_id, int64_
     const auto write_ok = store_->putSystemMeta(key, std::to_string(watermark_ms));
 }
 
+/**
+ * @brief Delete Watermark.
+ * @param[in] agg_id Identifier of the agg.
+ * @details Calls: std::string(), deleteSystemMeta().
+ */
 void ContinuousAggWatermarkStore::deleteWatermark(const std::string& agg_id) {
     if (!store_) {
       return;
@@ -173,12 +198,26 @@ void ContinuousAggWatermarkStore::deleteWatermark(const std::string& agg_id) {
 // ContinuousAggregateManager
 // ============================================================
 
+/**
+ * @brief Derived Metric Name.
+ * @param[in] base Input parameter.
+ * @param[in] win Input parameter.
+ * @return Return value.
+ * @details Calls: count(), str().
+ */
 std::string ContinuousAggregateManager::derivedMetricName(const std::string& base, std::chrono::milliseconds win) {
     std::ostringstream oss = {};
     oss << base << "__agg_" << win.count() << "ms";
     return oss.str();
 }
 
+/**
+ * @brief Refresh.
+ * @param[in] cfg Input parameter.
+ * @param[in] from_ms Input parameter.
+ * @param[in] to_ms Input parameter.
+ * @details Calls: count(), derivedMetricName(), has_value(), std::min(), query(), value(), empty(), size().
+ */
 void ContinuousAggregateManager::refresh(const AggConfig& cfg, int64_t from_ms, int64_t to_ms) {
     if (!store_) {
       return;
@@ -239,6 +278,15 @@ void ContinuousAggregateManager::refresh(const AggConfig& cfg, int64_t from_ms, 
     }
 }
 
+/**
+ * @brief Refresh Incremental.
+ * @param[in] cfg Input parameter.
+ * @param[in] agg_id Identifier of the agg.
+ * @param[in] to_ms Input parameter.
+ * @param[in,out] wm_store Input/output parameter.
+ * @return Return value.
+ * @details Calls: getWatermark(), query(), value(), empty(), setWatermark(), count(), refresh().
+ */
 size_t ContinuousAggregateManager::refreshIncremental(const AggConfig& cfg,
                                                         const std::string& agg_id,
                                                         int64_t to_ms,
@@ -295,6 +343,13 @@ size_t ContinuousAggregateManager::refreshIncremental(const AggConfig& cfg,
     return windows_before;
 }
 
+/**
+ * @brief Default Hierarchy.
+ * @param[in] metric Input parameter.
+ * @param[in] entity Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::minutes(), std::chrono::hours().
+ */
 RollupHierarchy RollupHierarchy::defaultHierarchy(const std::string& metric,
                                                    const std::optional<std::string>& entity) {
     return RollupHierarchy{
@@ -309,6 +364,13 @@ RollupHierarchy RollupHierarchy::defaultHierarchy(const std::string& metric,
     };
 }
 
+/**
+ * @brief Refresh Hierarchy.
+ * @param[in] hierarchy Input parameter.
+ * @param[in] from_ms Input parameter.
+ * @param[in] to_ms Input parameter.
+ * @details Calls: empty(), refresh(), derivedMetricName().
+ */
 void ContinuousAggregateManager::refreshHierarchy(const RollupHierarchy& hierarchy,
                                                     int64_t from_ms, int64_t to_ms) {
     if (!store_ || hierarchy.levels.empty()) {
@@ -338,6 +400,12 @@ ContinuousAggMaterializationEngine::ContinuousAggMaterializationEngine(TSStore* 
     , wm_store_(store)
     , mgr_(store) {}
 
+/**
+ * @brief Create Aggregate.
+ * @param[in] def Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: count(), ContinuousAggregateManager::derivedMetricName(), push_back(), emplace(), std::move().
+ */
 bool ContinuousAggMaterializationEngine::createAggregate(ContinuousAggDefinition def) {
     if (defs_.count(def.name)) {
         return false; // duplicate name
@@ -353,6 +421,12 @@ bool ContinuousAggMaterializationEngine::createAggregate(ContinuousAggDefinition
     return true;
 }
 
+/**
+ * @brief Drop Aggregate.
+ * @param[in] name Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: find(), end(), deleteWatermark(), erase(), std::remove(), begin().
+ */
 bool ContinuousAggMaterializationEngine::dropAggregate(const std::string& name) {
     auto it = defs_.find(name);
     if (it == defs_.end()) {
@@ -381,6 +455,13 @@ std::vector<std::string> ContinuousAggMaterializationEngine::listAggregates() co
     return def_order_; // stable insertion order
 }
 
+/**
+ * @brief Refresh Aggregate.
+ * @param[in] name Input parameter.
+ * @param[in] to_ms Input parameter.
+ * @return Return value.
+ * @details Calls: find(), end(), refreshIncremental().
+ */
 size_t ContinuousAggMaterializationEngine::refreshAggregate(
     const std::string& name, int64_t to_ms) {
 
@@ -397,6 +478,12 @@ size_t ContinuousAggMaterializationEngine::refreshAggregate(
     return mgr_.refreshIncremental(def.config, def.agg_id, to_ms, wm_store_);
 }
 
+/**
+ * @brief Refresh All.
+ * @param[in] to_ms Input parameter.
+ * @return Return value.
+ * @details Calls: find(), end(), refreshIncremental().
+ */
 size_t ContinuousAggMaterializationEngine::refreshAll(int64_t to_ms) {
     size_t total = 0;
     for (const auto& name : def_order_) {

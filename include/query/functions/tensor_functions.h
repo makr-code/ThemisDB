@@ -17,9 +17,8 @@ namespace query {
 namespace functions {
 
 /**
- * @brief Register all TENSOR_* built-in functions with the AQL registry.
- *
- * @param registry  The FunctionRegistry singleton.
+ * @brief Register Tensor Functions.
+ * @param[in,out] registry Input/output parameter.
  */
 void registerTensorFunctions(FunctionRegistry& registry);
 

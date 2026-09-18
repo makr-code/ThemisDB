@@ -17,7 +17,12 @@
 namespace themis {
 namespace imggen {
 
-// ── helpers ───────────────────────────────────────────────────────────────────
+/**
+ * @brief ── helpers ───────────────────────────────────────────────────────────────────
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Calls: std::transform(), begin(), end(), std::tolower().
+ */
 
 std::string SDPromptSanitizer::toLower(const std::string& s) {
     std::string out = s;
@@ -38,6 +43,13 @@ SDPromptSanitizer::SDPromptSanitizer(const std::vector<std::string>& keywords) {
     }
 }
 
+/**
+ * @brief From File.
+ * @param[in] path Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: f(), is_open(), std::getline(), find_first_not_of(), substr(), empty(), push_back(), SDPromptSanitizer().
+ */
 SDPromptSanitizer SDPromptSanitizer::fromFile(const std::string& path) {
     std::ifstream f(path);
     if (!f.is_open()) {

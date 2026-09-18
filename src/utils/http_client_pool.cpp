@@ -20,14 +20,14 @@
 namespace themis {
 namespace utils {
 
+
 /**
- * @brief ============================================================================ URL Parsing ============================================================================
+ * @brief Parse URL.
  * @param[in] url Input parameter.
  * @return Return value.
  * @throws std::invalid_argument if an error occurs.
  * @details Calls: url_regex(), std::regex_match(), str().
  */
-
 URLComponents parseURL(const std::string& url) {
     URLComponents components;
     

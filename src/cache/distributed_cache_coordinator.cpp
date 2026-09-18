@@ -76,6 +76,11 @@ std::mutex s_redis_bridge_fn_mutex;
 RedisCacheCoordinator::RedisPublishBridgeFn s_redis_bridge_fn;
 } // namespace
 
+/**
+ * @brief Set Redis Publish Bridge Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lk(), std::move().
+ */
 void RedisCacheCoordinator::setRedisPublishBridgeFn(RedisPublishBridgeFn fn) {
     std::lock_guard<std::mutex> lk(s_redis_bridge_fn_mutex);
     s_redis_bridge_fn = std::move(fn);
@@ -109,6 +114,14 @@ RedisCacheCoordinator::RedisCacheCoordinator(const RedisCacheCoordinatorConfig &
 
 RedisCacheCoordinator::~RedisCacheCoordinator() = default;
 
+/**
+ * @brief Publish Entry.
+ * @param[in] key Input parameter.
+ * @param[in] result Input parameter.
+ * @param[in] ttl_seconds Input parameter.
+ * @param[in] tenant_id Identifier of the tenant.
+ * @details Calls: lk(), fn(), dump(), THEMIS_WARN().
+ */
 void RedisCacheCoordinator::publishEntry(const std::string &key, const nlohmann::json &result, int ttl_seconds,
                                          const std::string &tenant_id) {
     // LOCK ORDER: s_redis_bridge_fn_mutex is acquired and released in its own
@@ -154,6 +167,12 @@ void RedisCacheCoordinator::publishEntry(const std::string &key, const nlohmann:
     }
 }
 
+/**
+ * @brief Publish Invalidation.
+ * @param[in] pattern Input parameter.
+ * @param[in] tenant_id Identifier of the tenant.
+ * @details Calls: lk(), fn(), dump(), THEMIS_WARN().
+ */
 void RedisCacheCoordinator::publishInvalidation(const std::string &pattern, const std::string &tenant_id) {
     // LOCK ORDER: s_redis_bridge_fn_mutex is acquired and released in its own
     // scope to snapshot the bridge fn. stats_mutex_ is then acquired separately
@@ -196,11 +215,21 @@ void RedisCacheCoordinator::publishInvalidation(const std::string &pattern, cons
 }
 
 void RedisCacheCoordinator::subscribeEntries([[maybe_unused]] EntryCallback callback) {
+    /**
+     * @brief Lk.
+     * @param[in] callbacks_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(callbacks_mutex_);
     entry_cb_ = std::move(callback);
 }
 
 void RedisCacheCoordinator::subscribeInvalidations([[maybe_unused]] InvalidationCallback callback) {
+    /**
+     * @brief Lk.
+     * @param[in] callbacks_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(callbacks_mutex_);
     invalidation_cb_ = std::move(callback);
 }
@@ -210,6 +239,11 @@ bool RedisCacheCoordinator::isConnected() const {
 }
 
 nlohmann::json RedisCacheCoordinator::getStats() const {
+    /**
+     * @brief Lk.
+     * @param[in] stats_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(stats_mutex_);
     return {{"name", "RedisCacheCoordinator"},          {"connected", false},
             {"channel_prefix", config_.channel_prefix}, {"messages_published", messages_published_},
@@ -225,46 +259,117 @@ std::string RedisCacheCoordinator::invalidationChannel() const {
     return config_.channel_prefix + ":invalidations";
 }
 
+/**
+ * @brief Tcp Connect.
+ * @return Return value.
+ * @details Implements tcpConnect without additional internal calls.
+ */
 RedisCacheCoordinator::SocketFd RedisCacheCoordinator::tcpConnect() {
     return kInvalidSocket;
 }
 
+/**
+ * @brief Close Socket.
+ * @param[in,out] fd Input/output parameter.
+ * @details Implements closeSocket without additional internal calls.
+ */
 void RedisCacheCoordinator::closeSocket(SocketFd &fd) {
     fd = kInvalidSocket;
 }
 
+/**
+ * @brief Send All.
+ * @param[in] SocketFd Input parameter.
+ * @param[in] param Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements sendAll without additional internal calls.
+ */
 bool RedisCacheCoordinator::sendAll(SocketFd, const std::string &) {
     return false;
 }
 
+/**
+ * @brief Read Line.
+ * @param[in] SocketFd Input parameter.
+ * @param[in,out] param Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Implements readLine without additional internal calls.
+ */
 bool RedisCacheCoordinator::readLine(SocketFd, std::string &) {
     return false;
 }
 
+/**
+ * @brief Build Resp Command.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Implements buildRespCommand without additional internal calls.
+ */
 std::string RedisCacheCoordinator::buildRespCommand(const std::vector<std::string> &) {
     return {};
 }
 
+/**
+ * @brief Redis Handshake.
+ * @param[in] SocketFd Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements redisHandshake without additional internal calls.
+ */
 bool RedisCacheCoordinator::redisHandshake(SocketFd) {
     return false;
 }
 
+/**
+ * @brief Ensure Publisher Connected.
+ * @return True when the operation succeeds.
+ * @details Implements ensurePublisherConnected without additional internal calls.
+ */
 bool RedisCacheCoordinator::ensurePublisherConnected() {
     return false;
 }
 
+/**
+ * @brief Redis Publish.
+ * @param[in] param Input parameter.
+ * @param[in] param Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements redisPublish without additional internal calls.
+ */
 bool RedisCacheCoordinator::redisPublish(const std::string &, const std::string &) {
     return false;
 }
 
+/**
+ * @brief Subscriber Loop.
+ * @details Implements subscriberLoop without additional internal calls.
+ */
 void RedisCacheCoordinator::subscriberLoop() {}
 
+/**
+ * @brief Subscriber Session.
+ * @param[in] SocketFd Input parameter.
+ * @details Implements subscriberSession without additional internal calls.
+ */
 void RedisCacheCoordinator::subscriberSession(SocketFd) {}
 
+/**
+ * @brief Read Pub Sub Message.
+ * @param[in] SocketFd Input parameter.
+ * @param[in,out] param Input/output parameter.
+ * @param[in,out] param Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Implements readPubSubMessage without additional internal calls.
+ */
 bool RedisCacheCoordinator::readPubSubMessage(SocketFd, std::string &, std::string &) {
     return false;
 }
 
+/**
+ * @brief Dispatch Message.
+ * @param[in] param Input parameter.
+ * @param[in] param Input parameter.
+ * @details Implements dispatchMessage without additional internal calls.
+ */
 void RedisCacheCoordinator::dispatchMessage(const std::string &, const std::string &) {}
 
 std::string RedisCacheCoordinator::computeHmac(const std::string &) const {
@@ -283,13 +388,8 @@ bool RedisCacheCoordinator::verifyHmac(const nlohmann::json &) const {
 #else // THEMIS_POSIX_SOCKETS
 
 namespace {
-/// Maximum back-off cap for the subscriber reconnect loop.
-/// The initial back-off is taken from config_.reconnect_interval_ms.
 constexpr int kReconnectBackoffMaxMs = 30000; ///< Maximum back-off: 30 seconds
 
-/// Bounded retry constants for the publisher PUBLISH path (no_retry_logic fix).
-/// The publish loop retries up to kMaxPublishRetries times with an initial
-/// kPublishRetryDelayMs delay (doubled each attempt) before giving up.
 constexpr int kMaxPublishRetries    = 2;   ///< at most 2 reconnect+retry attempts
 constexpr int kPublishRetryDelayMs  = 50;  ///< initial retry delay: 50 ms
 } // anonymous namespace
@@ -318,6 +418,11 @@ RedisCacheCoordinator::~RedisCacheCoordinator() {
         sub_thread_.join();
     }
 
+    /**
+     * @brief Lk.
+     * @param[in] pub_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(pub_mutex_);
     closeSocket(pub_fd_);
 
@@ -328,6 +433,14 @@ RedisCacheCoordinator::~RedisCacheCoordinator() {
 // ICacheCoordinator – publisher side
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Publish Entry.
+ * @param[in] key Input parameter.
+ * @param[in] result Input parameter.
+ * @param[in] ttl_seconds Input parameter.
+ * @param[in] tenant_id Identifier of the tenant.
+ * @details Calls: dump(), computeHmac(), empty(), size(), THEMIS_WARN(), redisPublish(), entryChannel(), lk().
+ */
 void RedisCacheCoordinator::publishEntry(const std::string &key, const nlohmann::json &result, int ttl_seconds,
                                          const std::string &tenant_id) {
     nlohmann::json msg;
@@ -366,6 +479,12 @@ void RedisCacheCoordinator::publishEntry(const std::string &key, const nlohmann:
     }
 }
 
+/**
+ * @brief Publish Invalidation.
+ * @param[in] pattern Input parameter.
+ * @param[in] tenant_id Identifier of the tenant.
+ * @details Calls: dump(), computeHmac(), empty(), redisPublish(), invalidationChannel(), lk().
+ */
 void RedisCacheCoordinator::publishInvalidation(const std::string &pattern, const std::string &tenant_id) {
     nlohmann::json msg;
     msg["type"]      = "INVALIDATE";
@@ -401,11 +520,21 @@ void RedisCacheCoordinator::publishInvalidation(const std::string &pattern, cons
 // ---------------------------------------------------------------------------
 
 void RedisCacheCoordinator::subscribeEntries([[maybe_unused]] EntryCallback callback) {
+    /**
+     * @brief Lk.
+     * @param[in] callbacks_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(callbacks_mutex_);
     entry_cb_ = std::move(callback);
 }
 
 void RedisCacheCoordinator::subscribeInvalidations([[maybe_unused]] InvalidationCallback callback) {
+    /**
+     * @brief Lk.
+     * @param[in] callbacks_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(callbacks_mutex_);
     invalidation_cb_ = std::move(callback);
 }
@@ -421,6 +550,11 @@ bool RedisCacheCoordinator::isConnected() const {
 nlohmann::json RedisCacheCoordinator::getStats() const {
     uint64_t pub, recv, err, reconn;
     {
+        /**
+         * @brief Lk.
+         * @param[in] stats_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(stats_mutex_);
         pub    = messages_published_;
         recv   = messages_received_;
@@ -450,6 +584,11 @@ std::string RedisCacheCoordinator::invalidationChannel() const {
 // TCP helpers
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Tcp Connect.
+ * @return Return value.
+ * @details Calls: std::to_string(), getaddrinfo(), c_str(), res(), get(), socket(), setsockopt(), connect().
+ */
 RedisCacheCoordinator::SocketFd RedisCacheCoordinator::tcpConnect() {
     struct addrinfo hints{};
     hints.ai_family   = AF_UNSPEC;
@@ -489,7 +628,11 @@ RedisCacheCoordinator::SocketFd RedisCacheCoordinator::tcpConnect() {
     return fd;
 }
 
-/*static*/
+/**
+ * @brief static
+ * @param[in,out] fd Input/output parameter.
+ * @details Calls: close().
+ */
 void RedisCacheCoordinator::closeSocket(SocketFd &fd) {
     if (fd != kInvalidSocket) {
         ::close(fd);
@@ -497,7 +640,13 @@ void RedisCacheCoordinator::closeSocket(SocketFd &fd) {
     }
 }
 
-/*static*/
+/**
+ * @brief static
+ * @param[in] fd Input parameter.
+ * @param[in] buf Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: size(), send(), data().
+ */
 bool RedisCacheCoordinator::sendAll(SocketFd fd, const std::string &buf) {
     size_t sent = 0;
     while (sent < buf.size()) {
@@ -509,7 +658,13 @@ bool RedisCacheCoordinator::sendAll(SocketFd fd, const std::string &buf) {
     return true;
 }
 
-/*static*/
+/**
+ * @brief static
+ * @param[in] fd Input parameter.
+ * @param[in,out] line_out Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: clear(), recv().
+ */
 bool RedisCacheCoordinator::readLine(SocketFd fd, std::string &line_out) {
     line_out.clear();
     char ch = 0;
@@ -525,7 +680,12 @@ bool RedisCacheCoordinator::readLine(SocketFd fd, std::string &line_out) {
     return true;
 }
 
-/*static*/
+/**
+ * @brief static
+ * @param[in] args Input parameter.
+ * @return Return value.
+ * @details Calls: size(), str().
+ */
 std::string RedisCacheCoordinator::buildRespCommand(const std::vector<std::string> &args) {
     std::ostringstream ss = {};
     ss << '*' <<args.size() << "\r\n";
@@ -535,6 +695,12 @@ std::string RedisCacheCoordinator::buildRespCommand(const std::vector<std::strin
     return ss.str();
 }
 
+/**
+ * @brief Redis Handshake.
+ * @param[in] fd Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), buildRespCommand(), sendAll(), readLine(), THEMIS_WARN(), std::to_string().
+ */
 bool RedisCacheCoordinator::redisHandshake(SocketFd fd) {
     // AUTH (optional)
     if (!config_.password.empty()) {
@@ -570,6 +736,11 @@ bool RedisCacheCoordinator::redisHandshake(SocketFd fd) {
 // Publisher connection
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Ensure Publisher Connected.
+ * @return True when the operation succeeds.
+ * @details Calls: closeSocket(), tcpConnect(), THEMIS_WARN(), redisHandshake(), THEMIS_INFO().
+ */
 bool RedisCacheCoordinator::ensurePublisherConnected() {
     // Caller holds pub_mutex_
     if (pub_fd_ != kInvalidSocket && pub_ok_) {
@@ -595,6 +766,13 @@ bool RedisCacheCoordinator::ensurePublisherConnected() {
     return true;
 }
 
+/**
+ * @brief Redis Publish.
+ * @param[in] channel Input parameter.
+ * @param[in] payload Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: buildRespCommand(), THEMIS_WARN(), std::this_thread::sleep_for(), std::chrono::milliseconds(), lk(), load(), ensurePublisherConnected(), store().
+ */
 bool RedisCacheCoordinator::redisPublish(const std::string &channel, const std::string &payload) {
     // no_retry_logic fix: the publish path now retries up to kMaxPublishRetries
     // times on send/recv failure, reconnecting before each retry attempt.
@@ -648,6 +826,10 @@ bool RedisCacheCoordinator::redisPublish(const std::string &channel, const std::
 // Subscriber loop (background thread)
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Subscriber Loop.
+ * @details Calls: std::max(), lk(), observability::MetricsCollector::getInstance(), addCounter(), THEMIS_DEBUG(), what(), THEMIS_WARN(), load().
+ */
 void RedisCacheCoordinator::subscriberLoop() {
     // Exponential back-off: starts at config_.reconnect_interval_ms, doubles
     // each failure, capped at kReconnectBackoffMaxMs.
@@ -744,6 +926,11 @@ void RedisCacheCoordinator::subscriberLoop() {
     }
 }
 
+/**
+ * @brief Subscriber Session.
+ * @param[in] fd Input parameter.
+ * @details Calls: load(), readPubSubMessage(), empty(), dispatchMessage().
+ */
 void RedisCacheCoordinator::subscriberSession(SocketFd fd) {
     while (!stop_.load()) {
         std::string channel, payload;
@@ -756,7 +943,14 @@ void RedisCacheCoordinator::subscriberSession(SocketFd fd) {
     }
 }
 
-/*static*/
+/**
+ * @brief static
+ * @param[in] fd Input parameter.
+ * @param[in,out] channel_out Input/output parameter.
+ * @param[in,out] payload_out Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: clear(), readLine(), empty(), std::stoll(), substr(), THEMIS_WARN(), what(), resize().
+ */
 bool RedisCacheCoordinator::readPubSubMessage(SocketFd fd, std::string &channel_out, std::string &payload_out) {
     channel_out.clear();
     payload_out.clear();
@@ -846,6 +1040,12 @@ bool RedisCacheCoordinator::readPubSubMessage(SocketFd fd, std::string &channel_
     return true;
 }
 
+/**
+ * @brief Dispatch Message.
+ * @param[in] channel Input parameter.
+ * @param[in] payload Input parameter.
+ * @details Calls: lk(), nlohmann::json::parse(), THEMIS_WARN(), what(), verifyHmac(), value(), entryChannel(), contains().
+ */
 void RedisCacheCoordinator::dispatchMessage(const std::string &channel, const std::string &payload) {
     EntryCallback entry_cb;
     InvalidationCallback inv_cb;

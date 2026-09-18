@@ -28,7 +28,12 @@
 // Format: one checkpoint block per entry, separated by "---\n"
 namespace {
 
-// Serialize a single manifest entry to a key=value block
+/**
+ * @brief Serialize a single manifest entry to a key=value block
+ * @param[in] e Input parameter.
+ * @return Return value.
+ * @details Calls: str().
+ */
 std::string serializeEntry(const themis::training::CheckpointManifestEntry& e) {
     std::ostringstream oss = {};
     oss << "checkpoint_path=" << e.checkpoint_path << "\n"
@@ -54,6 +59,11 @@ std::vector<themis::training::CheckpointManifestEntry>
 parseManifest(const std::string& content) {
     std::vector<themis::training::CheckpointManifestEntry> result;
     themis::training::CheckpointManifestEntry entry;
+    /**
+     * @brief Iss.
+     * @param[in] content Input parameter.
+     * @return Return value.
+     */
     std::istringstream iss(content);
     std::string line = {};
     bool in_block = false;
@@ -124,7 +134,13 @@ parseManifest(const std::string& content) {
     return result;
 }
 
-// Copy a file via streams (portable, no POSIX rename across filesystems)
+/**
+ * @brief Copy a file via streams (portable, no POSIX rename across filesystems)
+ * @param[in] src Input parameter.
+ * @param[in] dst Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: in(), is_open(), out(), rdbuf(), good().
+ */
 bool copyFile(const std::string& src, const std::string& dst) {
     std::ifstream in(src, std::ios::binary);
     if (!in.is_open()) {
@@ -146,9 +162,13 @@ namespace training {
 // ============================================================================
 // Impl
 // ============================================================================
-/** @brief Impl. */
 class LoRACheckpointManager::Impl {
 public:
+    /**
+     * @brief Impl.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit Impl(const CheckpointManagerConfig& config)
         : config_(config) {
         if (config_.checkpoint_dir.empty()) {
@@ -161,6 +181,15 @@ public:
     }
 
     // -------------------------------------------------------------------------
+    /**
+     * @brief Save.
+     * @param[in] source_path Path to the source.
+     * @param[in] meta Input parameter.
+     * @return Return value.
+     * @throws std::invalid_argument if an error occurs.
+     * @throws std::runtime_error if an error occurs.
+     * @details Calls: empty(), std::to_string(), copyFile(), utils::calculateSHA256(), std::remove(), c_str(), std::rename(), std::time().
+     */
     CheckpointManifestEntry save(const std::string& source_path,
                                  CheckpointManifestEntry meta) {
         if (source_path.empty()) {
@@ -266,6 +295,10 @@ public:
     }
 
     // -------------------------------------------------------------------------
+    /**
+     * @brief Clear All.
+     * @details Calls: std::remove(), c_str(), clear(), manifestPath(), calibrationManifestPath().
+     */
     void clearAll() {
         for (const auto& e : entries_) {
             std::remove(e.checkpoint_path.c_str());
@@ -286,6 +319,12 @@ public:
     }
 
     // -------------------------------------------------------------------------
+    /**
+     * @brief Save Calibration Json.
+     * @param[in] json_content Input parameter.
+     * @throws std::runtime_error if an error occurs.
+     * @details Calls: f(), calibrationManifestPath(), is_open(), good().
+     */
     void saveCalibrationJson(const std::string& json_content) {
         std::ofstream f(calibrationManifestPath(), std::ios::trunc);
         if (!f.is_open()) {
@@ -311,7 +350,11 @@ public:
         return oss.str();
     }
 
-    // Phase 2: Clean up partial/corrupted checkpoints
+    /**
+     * @brief Phase 2: Clean up partial/corrupted checkpoints
+     * @return Return value.
+     * @details Calls: insert(), validate(), std::remove(), c_str().
+     */
     size_t cleanupPartialCheckpoints() {
         size_t removed = 0;
         
@@ -341,7 +384,12 @@ public:
         return removed;
     }
 
-    // Phase 2: Audit all checkpoints
+    /**
+     * @brief Phase 2: Audit all checkpoints
+     * @param[in,out] diagnostics Input/output parameter.
+     * @return Return value.
+     * @details Calls: size(), validate(), str().
+     */
     size_t auditCheckpoints(std::string* diagnostics) {
         std::ostringstream diag = {};
         size_t valid_count = 0;
@@ -372,6 +420,10 @@ public:
 
 private:
     // -------------------------------------------------------------------------
+    /**
+     * @brief Load Manifest.
+     * @details Calls: f(), manifestPath(), is_open(), rdbuf(), parseManifest(), str().
+     */
     void loadManifest() {
         std::ifstream f(manifestPath());
         if (!f.is_open()) return; // first run — no manifest yet
@@ -383,12 +435,23 @@ private:
     // -------------------------------------------------------------------------
     void persistManifest() const {
         std::string path = manifestPath();
+        /**
+         * @brief F.
+         * @param[in] path Input parameter.
+         * @param[in] trunc Input parameter.
+         * @return Return value.
+         */
         std::ofstream f(path, std::ios::trunc);
         if (!f.is_open()) {
             // Non-fatal: checkpoint was already saved; manifest write failure is logged only
             return;
         }
         for (const auto& e : entries_) {
+            /**
+             * @brief Serialize Entry.
+             * @param[in] e Input parameter.
+             * @return Return value.
+             */
             f << serializeEntry(e);
         }
     }
@@ -406,6 +469,13 @@ LoRACheckpointManager::LoRACheckpointManager(const CheckpointManagerConfig& conf
 
 LoRACheckpointManager::~LoRACheckpointManager() = default;
 
+/**
+ * @brief Save.
+ * @param[in] source_path Path to the source.
+ * @param[in] meta Input parameter.
+ * @return Return value.
+ * @details Calls: std::move().
+ */
 CheckpointManifestEntry LoRACheckpointManager::save(const std::string& source_path,
                                                      CheckpointManifestEntry meta) {
     return impl_->save(source_path, std::move(meta));
@@ -423,6 +493,10 @@ bool LoRACheckpointManager::validate(const CheckpointManifestEntry& entry) const
     return impl_->validate(entry);
 }
 
+/**
+ * @brief Clear All.
+ * @details Implements clearAll without additional internal calls.
+ */
 void LoRACheckpointManager::clearAll() {
     impl_->clearAll();
 }
@@ -431,6 +505,11 @@ std::string LoRACheckpointManager::manifestPath() const {
     return impl_->manifestPath();
 }
 
+/**
+ * @brief Save Calibration Json.
+ * @param[in] json_content Input parameter.
+ * @details Implements saveCalibrationJson without additional internal calls.
+ */
 void LoRACheckpointManager::saveCalibrationJson(const std::string& json_content) {
     impl_->saveCalibrationJson(json_content);
 }
@@ -480,10 +559,21 @@ std::optional<CheckpointManifestEntry> LoRACheckpointManager::resumeWithDiagnost
     return std::nullopt;
 }
 
+/**
+ * @brief Cleanup Partial Checkpoints.
+ * @return Return value.
+ * @details Implements cleanupPartialCheckpoints without additional internal calls.
+ */
 size_t LoRACheckpointManager::cleanupPartialCheckpoints() {
     return impl_->cleanupPartialCheckpoints();
 }
 
+/**
+ * @brief Audit Checkpoints.
+ * @param[in,out] diagnostics Input/output parameter.
+ * @return Return value.
+ * @details Implements auditCheckpoints without additional internal calls.
+ */
 size_t LoRACheckpointManager::auditCheckpoints(std::string* diagnostics) {
     return impl_->auditCheckpoints(diagnostics);
 }

@@ -105,9 +105,14 @@ GPUMemoryPool::GPUMemoryPool(uint64_t total_bytes, uint64_t slab_size, size_t nu
     }
 }
 
-// ============================================================================
-// tryAcquire — Phase 3 Exception-Safe Implementation
-// ============================================================================
+/**
+ * @brief ============================================================================ tryAcquire — Phase 3 Exception-Safe Implementation ============================================================================
+ * @param[in] size_bytes Input parameter.
+ * @param[in] tag Input parameter.
+ * @param[in,out] offset Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), spdlog::get(), warn(), debug(), error(), guard(), what(), commit().
+ */
 
 bool GPUMemoryPool::tryAcquire(uint64_t size_bytes, const std::string &tag, uint64_t &offset) {
     std::lock_guard<std::mutex> lock(mutex_);
@@ -195,9 +200,12 @@ bool GPUMemoryPool::tryAcquire(uint64_t size_bytes, const std::string &tag, uint
     return false;
 }
 
-// ============================================================================
-// release — Phase 3 Exception-Safe Implementation with Better Diagnostics
-// ============================================================================
+/**
+ * @brief ============================================================================ release — Phase 3 Exception-Safe Implementation with Better Diagnostics ============================================================================
+ * @param[in] offset Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), spdlog::get(), error(), warn(), clear(), debug().
+ */
 
 bool GPUMemoryPool::release(uint64_t offset) {
     std::lock_guard<std::mutex> lock(mutex_);
@@ -275,6 +283,11 @@ bool GPUMemoryPool::release(uint64_t offset) {
 // ============================================================================
 
 GPUMemoryPool::Stats GPUMemoryPool::getStats() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     Stats s;
     s.total_bytes     = total_bytes_;
@@ -298,11 +311,21 @@ GPUMemoryPool::Stats GPUMemoryPool::getStats() const {
 }
 
 size_t GPUMemoryPool::numSlabs() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return slabs_.size();
 }
 
 size_t GPUMemoryPool::freeSlabs() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     size_t free = 0;
     for (const auto &s : slabs_) {
@@ -318,6 +341,11 @@ float GPUMemoryPool::fragmentation() const {
 }
 
 std::vector<GPUMemoryPool::Slab> GPUMemoryPool::slabSnapshot() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return slabs_;
 }
@@ -326,6 +354,12 @@ std::vector<GPUMemoryPool::Slab> GPUMemoryPool::slabSnapshot() const {
 // defragment
 // ============================================================================
 
+/**
+ * @brief Defragment.
+ * @param[in] threshold Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), std::stable_partition(), begin(), end(), spdlog::get(), error(), cudaMemcpy(), checkCudaError().
+ */
 GPUMemoryPool::DefragResult GPUMemoryPool::defragment(float threshold) {
     std::lock_guard<std::mutex> lock(mutex_);
 

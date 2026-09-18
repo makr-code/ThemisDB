@@ -75,6 +75,13 @@ GPUEmbeddingLayer& GPUEmbeddingLayer::operator=(GPUEmbeddingLayer&& other) noexc
     return *this;
 }
 
+/**
+ * @brief Forward.
+ * @param[in] token_ids Input parameter.
+ * @return Return value.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: ndim(), forwardCUDA(), forwardHIP(), forwardVulkan(), forwardDirectX(), forwardCPU().
+ */
 GPUTensor GPUEmbeddingLayer::forward(const GPUTensor& token_ids) {
     // Validate input
     if (token_ids.ndim() < 2) {
@@ -100,6 +107,12 @@ GPUTensor GPUEmbeddingLayer::forward(const GPUTensor& token_ids) {
     }
 }
 
+/**
+ * @brief Forward CPU.
+ * @param[in] token_ids Input parameter.
+ * @return Return value.
+ * @details Calls: shape(), spdlog::debug(), cpu_data(), embeddings_data(), std::round(), compare_exchange_strong(), spdlog::warn(), std::fill().
+ */
 GPUTensor GPUEmbeddingLayer::forwardCPU(const GPUTensor& token_ids) {
     // CPU-based embedding lookup with GPU upload
     // This is the fallback implementation that works on all backends
@@ -158,6 +171,13 @@ GPUTensor GPUEmbeddingLayer::forwardCPU(const GPUTensor& token_ids) {
     return embeddings;
 }
 
+/**
+ * @brief Forward CUDA.
+ * @param[in] token_ids Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: shape(), spdlog::debug(), embeddings(), cuda::launch_embedding_lookup_kernel(), gpu_ptr(), spdlog::error(), cudaGetErrorString(), spdlog::warn().
+ */
 GPUTensor GPUEmbeddingLayer::forwardCUDA(const GPUTensor& token_ids) {
 #ifdef THEMIS_ENABLE_CUDA
     auto shape = token_ids.shape();
@@ -195,6 +215,13 @@ GPUTensor GPUEmbeddingLayer::forwardCUDA(const GPUTensor& token_ids) {
 #endif
 }
 
+/**
+ * @brief Forward HIP.
+ * @param[in] token_ids Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: shape(), spdlog::debug(), embeddings(), hip::launch_embedding_lookup_kernel(), gpu_ptr(), spdlog::error(), hipGetErrorString(), spdlog::warn().
+ */
 GPUTensor GPUEmbeddingLayer::forwardHIP(const GPUTensor& token_ids) {
 #ifdef THEMIS_ENABLE_HIP
     auto shape = token_ids.shape();
@@ -233,6 +260,12 @@ GPUTensor GPUEmbeddingLayer::forwardHIP(const GPUTensor& token_ids) {
 }
 
 #ifdef THEMIS_ENABLE_VULKAN
+/**
+ * @brief Forward Vulkan.
+ * @param[in] token_ids Input parameter.
+ * @return Return value.
+ * @details Calls: shape(), spdlog::debug(), cpu_data(), embeddings_data(), themis::lora::vulkan::launch_embedding_lookup_shader(), data(), spdlog::warn(), what().
+ */
 GPUTensor GPUEmbeddingLayer::forwardVulkan(const GPUTensor& token_ids) {
     auto shape = token_ids.shape();
     size_t batch_size = shape[0];
@@ -274,6 +307,12 @@ GPUTensor GPUEmbeddingLayer::forwardVulkan(const GPUTensor& token_ids) {
     return embeddings;
 }
 #else
+/**
+ * @brief Forward Vulkan.
+ * @param[in] token_ids Input parameter.
+ * @return Return value.
+ * @details Calls: spdlog::warn(), forwardCPU().
+ */
 GPUTensor GPUEmbeddingLayer::forwardVulkan(const GPUTensor& token_ids) {
     spdlog::warn("Vulkan not enabled at compile time, using CPU fallback");
     return forwardCPU(token_ids);
@@ -281,6 +320,12 @@ GPUTensor GPUEmbeddingLayer::forwardVulkan(const GPUTensor& token_ids) {
 #endif
 
 #ifdef THEMIS_ENABLE_DIRECTX
+/**
+ * @brief Forward Direct X.
+ * @param[in] token_ids Input parameter.
+ * @return Return value.
+ * @details Calls: shape(), spdlog::debug(), cpu_data(), embeddings_data(), directx::launch_embedding_lookup_shader(), data(), spdlog::warn(), what().
+ */
 GPUTensor GPUEmbeddingLayer::forwardDirectX(const GPUTensor& token_ids) {
     auto shape = token_ids.shape();
     size_t batch_size = shape[0];
@@ -322,6 +367,12 @@ GPUTensor GPUEmbeddingLayer::forwardDirectX(const GPUTensor& token_ids) {
     return embeddings;
 }
 #else
+/**
+ * @brief Forward Direct X.
+ * @param[in] token_ids Input parameter.
+ * @return Return value.
+ * @details Calls: spdlog::warn(), forwardCPU().
+ */
 GPUTensor GPUEmbeddingLayer::forwardDirectX(const GPUTensor& token_ids) {
     spdlog::warn("DirectX not enabled at compile time, using CPU fallback");
     return forwardCPU(token_ids);

@@ -14,11 +14,24 @@
 
 namespace themis::server {
 
+/**
+ * @brief Register Version.
+ * @param[in] version_key Input parameter.
+ * @param[in] fn Input parameter.
+ * @details Calls: std::move(), spdlog::debug().
+ */
 void ResponseTransformer::registerVersion(const std::string& version_key, TransformFn fn) {
     transforms_[version_key] = std::move(fn);
     spdlog::debug("ResponseTransformer: registered transform for version '{}'", version_key);
 }
 
+/**
+ * @brief Add Field Rename.
+ * @param[in] version_key Input parameter.
+ * @param[in] old_name Name of the old.
+ * @param[in] new_name Name of the new.
+ * @details Calls: emplace_back(), spdlog::debug().
+ */
 void ResponseTransformer::addFieldRename(const std::string& version_key,
                                          const std::string& old_name,
                                          const std::string& new_name) {
@@ -27,6 +40,13 @@ void ResponseTransformer::addFieldRename(const std::string& version_key,
                   old_name, new_name, version_key);
 }
 
+/**
+ * @brief Add Default Value.
+ * @param[in] version_key Input parameter.
+ * @param[in] field_name Name of the field.
+ * @param[in] default_value Input parameter.
+ * @details Calls: emplace_back(), spdlog::debug().
+ */
 void ResponseTransformer::addDefaultValue(const std::string& version_key,
                                            const std::string& field_name,
                                            const nlohmann::json& default_value) {

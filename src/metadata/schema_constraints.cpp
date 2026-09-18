@@ -37,6 +37,12 @@ json ConstraintViolation::toJSON() const {
 // ColumnConstraint factories
 // ============================================================================
 
+/**
+ * @brief Make Not Null.
+ * @param[in] constraint_name Name of the constraint.
+ * @return Return value.
+ * @details Calls: std::move().
+ */
 ColumnConstraint ColumnConstraint::makeNotNull(std::string constraint_name) {
     ColumnConstraint c;
     c.kind = Kind::NOT_NULL;
@@ -44,6 +50,12 @@ ColumnConstraint ColumnConstraint::makeNotNull(std::string constraint_name) {
     return c;
 }
 
+/**
+ * @brief Make Unique.
+ * @param[in] constraint_name Name of the constraint.
+ * @return Return value.
+ * @details Calls: std::move().
+ */
 ColumnConstraint ColumnConstraint::makeUnique(std::string constraint_name) {
     ColumnConstraint c;
     c.kind = Kind::UNIQUE;
@@ -51,6 +63,13 @@ ColumnConstraint ColumnConstraint::makeUnique(std::string constraint_name) {
     return c;
 }
 
+/**
+ * @brief Make Check.
+ * @param[in] constraint_name Name of the constraint.
+ * @param[in] expr Input parameter.
+ * @return Return value.
+ * @details Calls: std::move().
+ */
 ColumnConstraint ColumnConstraint::makeCheck(std::string constraint_name, std::string expr) {
     ColumnConstraint c;
     c.kind       = Kind::CHECK;
@@ -59,6 +78,13 @@ ColumnConstraint ColumnConstraint::makeCheck(std::string constraint_name, std::s
     return c;
 }
 
+/**
+ * @brief Make Default.
+ * @param[in] constraint_name Name of the constraint.
+ * @param[in] value Input parameter.
+ * @return Return value.
+ * @details Calls: std::move().
+ */
 ColumnConstraint ColumnConstraint::makeDefault(std::string constraint_name, ColumnValue value) {
     ColumnConstraint c;
     c.kind          = Kind::DEFAULT;
@@ -67,6 +93,13 @@ ColumnConstraint ColumnConstraint::makeDefault(std::string constraint_name, Colu
     return c;
 }
 
+/**
+ * @brief Make Foreign Key.
+ * @param[in] constraint_name Name of the constraint.
+ * @param[in] ref_table Input parameter.
+ * @param[in] ref_column Input parameter.
+ * @return Return value.
+ */
 ColumnConstraint ColumnConstraint::makeForeignKey(
     std::string constraint_name,
     std::string ref_table,
@@ -80,6 +113,12 @@ ColumnConstraint ColumnConstraint::makeForeignKey(
     return c;
 }
 
+/**
+ * @brief Kind To String.
+ * @param[in] kind Input parameter.
+ * @return Return value.
+ * @details Implements kindToString without additional internal calls.
+ */
 static std::string kindToString(ColumnConstraint::Kind kind) {
     switch (kind) {
         case ColumnConstraint::Kind::NOT_NULL:    return "NOT_NULL";
@@ -91,6 +130,13 @@ static std::string kindToString(ColumnConstraint::Kind kind) {
     return "UNKNOWN";
 }
 
+/**
+ * @brief Kind From String.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Implements kindFromString without additional internal calls.
+ */
 static ColumnConstraint::Kind kindFromString(const std::string& s) {
     if (s == "NOT_NULL") {
       return ColumnConstraint::Kind::NOT_NULL;
@@ -145,6 +191,12 @@ json ColumnConstraint::toJSON() const {
 // SchemaConstraints – constraint management
 // ============================================================================
 
+/**
+ * @brief Add Constraint.
+ * @param[in] table_name Name of the table.
+ * @param[in] column_name Name of the column.
+ * @param[in] constraint Input parameter.
+ */
 void SchemaConstraints::addConstraint(
     std::string_view table_name,
     std::string_view column_name,
@@ -159,6 +211,11 @@ void SchemaConstraints::addConstraint(
                   table_name, column_name);
 }
 
+/**
+ * @brief Remove Column Constraints.
+ * @param[in] table_name Name of the table.
+ * @param[in] column_name Name of the column.
+ */
 void SchemaConstraints::removeColumnConstraints(
     std::string_view table_name,
     std::string_view column_name)
@@ -173,6 +230,11 @@ void SchemaConstraints::removeColumnConstraints(
     }
 }
 
+/**
+ * @brief Remove Table Constraints.
+ * @param[in] table_name Name of the table.
+ * @details Calls: erase(), std::string().
+ */
 void SchemaConstraints::removeTableConstraints(std::string_view table_name) {
     constraints_.erase(std::string(table_name));
 }
@@ -208,6 +270,12 @@ std::vector<ColumnConstraint> SchemaConstraints::getTableConstraints(
 // Enforcement
 // ============================================================================
 
+/**
+ * @brief Is Null.
+ * @param[in] v Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements isNull without additional internal calls.
+ */
 static bool isNull(const ColumnValue& v) {
     return std::holds_alternative<std::monostate>(v);
 }
@@ -328,6 +396,12 @@ json SchemaConstraints::toJSON() const {
     return j;
 }
 
+/**
+ * @brief From JSON.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: items(), is_object(), is_array(), kindFromString(), value(), std::string(), contains(), is_string().
+ */
 SchemaConstraints SchemaConstraints::fromJSON(const json& j) {
     SchemaConstraints sc;
 
@@ -550,6 +624,12 @@ bool SchemaConstraints::persistTableTo(RocksDBWrapper& db,
     }
 }
 
+/**
+ * @brief Load From.
+ * @param[in,out] db Input/output parameter.
+ * @return Return value.
+ * @details Calls: clear(), newIterator(), spdlog::warn(), value(), Seek(), Valid(), key(), ToString().
+ */
 size_t SchemaConstraints::loadFrom(RocksDBWrapper& db) {
     constraints_.clear();
 
@@ -589,6 +669,12 @@ size_t SchemaConstraints::loadFrom(RocksDBWrapper& db) {
     return loaded;
 }
 
+/**
+ * @brief Load Table From.
+ * @param[in,out] db Input/output parameter.
+ * @param[in] table_name Name of the table.
+ * @return True when the operation succeeds.
+ */
 bool SchemaConstraints::loadTableFrom(RocksDBWrapper& db,
                                        std::string_view table_name)
 {

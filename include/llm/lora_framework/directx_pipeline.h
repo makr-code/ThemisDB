@@ -25,21 +25,8 @@ namespace themis {
 namespace lora {
 namespace directx {
 
-/**
- * @brief DirectX 12 compute pipeline state object
- * 
- * Manages compute PSO, root signature, and descriptor bindings.
- */
 class DirectXPipeline {
 public:
-    /**
-     * @brief Create compute pipeline
-     * @param context DirectX context
-     * @param shader Compiled compute shader
-     * @param num_root_constants Number of 32-bit root constants
-     * @param num_uavs Number of UAV descriptors
-     * @param num_srvs Number of SRV descriptors
-     */
     DirectXPipeline(DirectXContext* context, 
                     DirectXShader* shader,
                     uint32_t num_root_constants = 4,
@@ -55,56 +42,56 @@ public:
     DirectXPipeline& operator=(DirectXPipeline&&) noexcept;
     
     /**
-     * @brief Create pipeline state object
+     * @brief Create.
+     * @return True when the operation succeeds.
      */
     bool create();
     
     /**
-     * @brief Set root constants (dimensions, parameters)
-     * @param data Pointer to constant data
-     * @param num_values Number of 32-bit values
+     * @brief Set root constants.
+     * @param[in] data Input parameter.
+     * @param[in] num_values Input parameter.
      */
     void set_root_constants(const void* data, uint32_t num_values);
     
     /**
-     * @brief Bind UAV descriptor table
-     * @param table_index Root parameter index for UAV table
-     * @param base_descriptor First descriptor in range
+     * @brief Bind uav table.
+     * @param[in] table_index Input parameter.
+     * @param[in] base_descriptor Input parameter.
      */
     void bind_uav_table(uint32_t table_index, D3D12_GPU_DESCRIPTOR_HANDLE base_descriptor);
     
     /**
-     * @brief Bind SRV descriptor table
-     * @param table_index Root parameter index for SRV table
-     * @param base_descriptor First descriptor in range
+     * @brief Bind srv table.
+     * @param[in] table_index Input parameter.
+     * @param[in] base_descriptor Input parameter.
      */
     void bind_srv_table(uint32_t table_index, D3D12_GPU_DESCRIPTOR_HANDLE base_descriptor);
     
     /**
-     * @brief Dispatch compute shader
-     * @param thread_groups_x Number of thread groups in X dimension
-     * @param thread_groups_y Number of thread groups in Y dimension
-     * @param thread_groups_z Number of thread groups in Z dimension
+     * @brief Dispatch.
+     * @param[in] thread_groups_x Input parameter.
+     * @param[in] thread_groups_y Input parameter.
+     * @param[in] thread_groups_z Input parameter.
      */
     void dispatch(uint32_t thread_groups_x, uint32_t thread_groups_y, uint32_t thread_groups_z);
     
-    /**
-     * @brief Get pipeline state object
-     */
     ID3D12PipelineState* pipeline_state() const { return pipeline_state_.Get(); }
     
-    /**
-     * @brief Get root signature
-     */
     ID3D12RootSignature* root_signature() const { return root_signature_.Get(); }
     
-    /**
-     * @brief Check if pipeline is created
-     */
     bool is_created() const { return pipeline_state_ != nullptr; }
 
 private:
+    /**
+     * @brief Create root signature.
+     * @return True when the operation succeeds.
+     */
     bool create_root_signature();
+    /**
+     * @brief Create pipeline state.
+     * @return True when the operation succeeds.
+     */
     bool create_pipeline_state();
     
     DirectXContext* context_;

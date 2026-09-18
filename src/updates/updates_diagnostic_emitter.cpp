@@ -26,6 +26,11 @@ DiagnosticEmitter::DiagnosticEmitter() {
     // Empty constructor; listeners added via addListener()
 }
 
+/**
+ * @brief Add Listener.
+ * @param[in] listener Input parameter.
+ * @details Calls: lock(), push_back(), std::move().
+ */
 void DiagnosticEmitter::addListener(std::shared_ptr<DiagnosticListener> listener) {
     if (!listener) {
       return;
@@ -35,12 +40,21 @@ void DiagnosticEmitter::addListener(std::shared_ptr<DiagnosticListener> listener
     listeners_.push_back(std::move(listener));
 }
 
+/**
+ * @brief Clear Listeners.
+ * @details Calls: lock(), clear().
+ */
 void DiagnosticEmitter::clearListeners() {
     std::lock_guard<std::mutex> lock(listeners_mutex_);
     listeners_.clear();
 }
 
 size_t DiagnosticEmitter::listenerCount() const {
+    /**
+     * @brief Lock.
+     * @param[in] listeners_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(listeners_mutex_);
     return listeners_.size();
 }
@@ -48,6 +62,11 @@ size_t DiagnosticEmitter::listenerCount() const {
 void DiagnosticEmitter::invokeListeners(const ErrorContext& context, bool is_error) const {
     std::vector<std::shared_ptr<DiagnosticListener>> listeners_copy;
     {
+        /**
+         * @brief Lock.
+         * @param[in] listeners_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(listeners_mutex_);
         listeners_copy = listeners_;
     }
@@ -61,6 +80,11 @@ void DiagnosticEmitter::invokeListeners(const ErrorContext& context, bool is_err
     }
 }
 
+/**
+ * @brief Emit Error.
+ * @param[in] context Input parameter.
+ * @details Calls: invokeListeners(), formatErrorMessage(), LOG_ERROR(), LOG_WARN(), LOG_INFO().
+ */
 void DiagnosticEmitter::emitError(const ErrorContext& context) {
     // Invoke listeners first (they may buffer or forward the event)
     invokeListeners(context, true);
@@ -84,6 +108,15 @@ void DiagnosticEmitter::emitError(const ErrorContext& context) {
     }
 }
 
+/**
+ * @brief Emit Info.
+ * @param[in] operation Input parameter.
+ * @param[in] phase Input parameter.
+ * @param[in] message Input parameter.
+ * @param[in] node_id Identifier of the node.
+ * @param[in] version Input parameter.
+ * @details Calls: std::chrono::system_clock::now(), invokeListeners(), LOG_INFO(), empty().
+ */
 void DiagnosticEmitter::emitInfo(const std::string& operation,
                                   const std::string& phase,
                                   const std::string& message,
@@ -107,6 +140,13 @@ void DiagnosticEmitter::emitInfo(const std::string& operation,
             version.empty() ? "unknown" : version);
 }
 
+/**
+ * @brief Emit State Transition.
+ * @param[in] from_state Input parameter.
+ * @param[in] to_state Input parameter.
+ * @param[in] version Input parameter.
+ * @details Calls: emitInfo().
+ */
 void DiagnosticEmitter::emitStateTransition(const std::string& from_state,
                                             const std::string& to_state,
                                             const std::string& version) {
@@ -114,6 +154,13 @@ void DiagnosticEmitter::emitStateTransition(const std::string& from_state,
     emitInfo("state_transition", to_state, msg, "", version);
 }
 
+/**
+ * @brief Emit Checkpoint Created.
+ * @param[in] checkpoint_id Identifier of the checkpoint.
+ * @param[in] description Input parameter.
+ * @param[in] version Input parameter.
+ * @details Calls: std::to_string(), empty(), std::chrono::system_clock::now(), invokeListeners(), LOG_INFO().
+ */
 void DiagnosticEmitter::emitCheckpointCreated(uint64_t checkpoint_id,
                                               const std::string& description,
                                               const std::string& version) {
@@ -138,6 +185,13 @@ void DiagnosticEmitter::emitCheckpointCreated(uint64_t checkpoint_id,
             checkpoint_id, version.empty() ? "unknown" : version);
 }
 
+/**
+ * @brief Emit Checkpoint Rollback.
+ * @param[in] checkpoint_id Identifier of the checkpoint.
+ * @param[in] success Input parameter.
+ * @param[in] reason Input parameter.
+ * @details Calls: std::to_string(), empty(), std::chrono::system_clock::now(), invokeListeners(), LOG_INFO(), LOG_WARN().
+ */
 void DiagnosticEmitter::emitCheckpointRollback(uint64_t checkpoint_id,
                                                bool success,
                                                const std::string& reason) {
@@ -167,6 +221,13 @@ void DiagnosticEmitter::emitCheckpointRollback(uint64_t checkpoint_id,
     }
 }
 
+/**
+ * @brief Emit Patch Apply.
+ * @param[in] file_path Path to the file.
+ * @param[in] success Input parameter.
+ * @param[in] error_msg Input parameter.
+ * @details Calls: empty(), std::chrono::system_clock::now(), invokeListeners(), LOG_INFO(), LOG_ERROR().
+ */
 void DiagnosticEmitter::emitPatchApply(const std::string& file_path,
                                        bool success,
                                        const std::string& error_msg) {
@@ -196,6 +257,14 @@ void DiagnosticEmitter::emitPatchApply(const std::string& file_path,
     }
 }
 
+/**
+ * @brief Emit Coordinated Event.
+ * @param[in] operation Input parameter.
+ * @param[in] node_id Identifier of the node.
+ * @param[in] success Input parameter.
+ * @param[in] detail Input parameter.
+ * @details Calls: empty(), std::chrono::system_clock::now(), invokeListeners(), LOG_INFO(), LOG_ERROR().
+ */
 void DiagnosticEmitter::emitCoordinatedEvent(const std::string& operation,
                                              const std::string& node_id,
                                              bool success,
@@ -227,6 +296,12 @@ void DiagnosticEmitter::emitCoordinatedEvent(const std::string& operation,
     }
 }
 
+/**
+ * @brief Format Error Message.
+ * @param[in] context Input parameter.
+ * @return Return value.
+ * @details Calls: errorCodeName(), empty(), severityName(), str().
+ */
 std::string DiagnosticEmitter::formatErrorMessage(const ErrorContext& context) {
     std::ostringstream oss = {};
     

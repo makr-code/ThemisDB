@@ -33,6 +33,12 @@ SignedAdapterValidator::SignedAdapterValidator(AdapterSignature expected_sig)
 // validate()
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Validate.
+ * @param[in] m Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: present(), canonicalString(), sha256Hex(), empty(), size(), CRYPTO_memcmp(), data().
+ */
 bool SignedAdapterValidator::validate(const AdapterMetadata& m) {
     // Reject absent or unsupported algorithm
     if (!expected_sig_.present()) {
@@ -65,6 +71,12 @@ bool SignedAdapterValidator::validate(const AdapterMetadata& m) {
 // canonicalString()
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Canonical String.
+ * @param[in] m Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), std::to_string().
+ */
 std::string SignedAdapterValidator::canonicalString(const AdapterMetadata& m) {
     std::string result = {};
     result.reserve(m.id.size() + 12 + m.description.size() );
@@ -80,6 +92,12 @@ std::string SignedAdapterValidator::canonicalString(const AdapterMetadata& m) {
 // sha256Hex()
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Sha256 Hex.
+ * @param[in] data Input parameter.
+ * @return Return value.
+ * @details Calls: EVP_MD_CTX_new(), EVP_DigestInit_ex(), EVP_sha256(), EVP_MD_CTX_free(), EVP_DigestUpdate(), data(), size(), EVP_DigestFinal_ex().
+ */
 std::string SignedAdapterValidator::sha256Hex(std::string_view data) {
     EVP_MD_CTX* ctx = EVP_MD_CTX_new();
     if (!ctx) {

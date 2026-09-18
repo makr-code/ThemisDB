@@ -71,6 +71,11 @@ private:
 
 } // anonymous namespace
 
+/**
+ * @brief Create Pdf Extractor Adapter.
+ * @return Return value.
+ * @details Implements createPdfExtractorAdapter without additional internal calls.
+ */
 std::shared_ptr<ingestion::IFormatExtractor> createPdfExtractorAdapter() {
     return std::make_shared<PdfExtractorAdapter>();
 }

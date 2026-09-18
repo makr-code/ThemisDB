@@ -14,6 +14,12 @@
 namespace themis {
 namespace llm {
 
+/**
+ * @brief Put.
+ * @param[in] lora_id Identifier of the lora.
+ * @param[in] metadata Input parameter.
+ * @details Calls: insert().
+ */
 void LoRAMetadataCache::put(const std::string& lora_id, const LoRAMetadata& metadata) {
     cache_.insert(lora_id, metadata);
 }
@@ -22,6 +28,11 @@ std::optional<LoRAMetadata> LoRAMetadataCache::get(const std::string& lora_id) c
     return cache_.get(lora_id);
 }
 
+/**
+ * @brief Touch.
+ * @param[in] lora_id Identifier of the lora.
+ * @details Calls: get(), std::chrono::system_clock::now(), insert().
+ */
 void LoRAMetadataCache::touch(const std::string& lora_id) {
     auto metadata = cache_.get(lora_id);
     if (metadata) {
@@ -31,6 +42,12 @@ void LoRAMetadataCache::touch(const std::string& lora_id) {
     }
 }
 
+/**
+ * @brief Mark Loaded.
+ * @param[in] lora_id Identifier of the lora.
+ * @param[in] slot_id Identifier of the slot.
+ * @details Calls: get(), std::chrono::system_clock::now(), insert().
+ */
 void LoRAMetadataCache::markLoaded(const std::string& lora_id, int slot_id) {
     auto metadata = cache_.get(lora_id);
     if (metadata) {
@@ -41,6 +58,11 @@ void LoRAMetadataCache::markLoaded(const std::string& lora_id, int slot_id) {
     }
 }
 
+/**
+ * @brief Mark Unloaded.
+ * @param[in] lora_id Identifier of the lora.
+ * @details Calls: get(), insert().
+ */
 void LoRAMetadataCache::markUnloaded(const std::string& lora_id) {
     auto metadata = cache_.get(lora_id);
     if (metadata) {
@@ -54,6 +76,12 @@ bool LoRAMetadataCache::contains(const std::string& lora_id) const {
     return cache_.contains(lora_id);
 }
 
+/**
+ * @brief Remove.
+ * @param[in] lora_id Identifier of the lora.
+ * @return True when the operation succeeds.
+ * @details Calls: erase().
+ */
 bool LoRAMetadataCache::remove(const std::string& lora_id) {
     return cache_.erase(lora_id);
 }
@@ -62,6 +90,10 @@ size_t LoRAMetadataCache::size() const {
     return cache_.size();
 }
 
+/**
+ * @brief Clear.
+ * @details Implements clear without additional internal calls.
+ */
 void LoRAMetadataCache::clear() {
     cache_.clear();
 }

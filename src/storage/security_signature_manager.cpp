@@ -48,6 +48,12 @@ std::pair<std::string, std::string> SecuritySignatureManager::makePrefixRange() 
     return {start, end};
 }
 
+/**
+ * @brief Store Signature.
+ * @param[in] sig Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: makeKey(), serialize(), THEMIS_ERROR(), put(), THEMIS_WARN().
+ */
 bool SecuritySignatureManager::storeSignature(const SecuritySignature& sig) {
     try {
         std::string key = makeKey(sig.resource_id);
@@ -70,6 +76,12 @@ bool SecuritySignatureManager::storeSignature(const SecuritySignature& sig) {
     }
 }
 
+/**
+ * @brief Get Signature.
+ * @param[in] resource_id Identifier of the resource.
+ * @return Return value.
+ * @details Calls: makeKey(), find(), end(), THEMIS_ERROR(), get(), SecuritySignature::deserialize(), THEMIS_DEBUG().
+ */
 std::optional<SecuritySignature> SecuritySignatureManager::getSignature(const std::string& resource_id) {
     try {
         std::string key = makeKey(resource_id);
@@ -98,6 +110,12 @@ std::optional<SecuritySignature> SecuritySignatureManager::getSignature(const st
     }
 }
 
+/**
+ * @brief Delete Signature.
+ * @param[in] resource_id Identifier of the resource.
+ * @return True when the operation succeeds.
+ * @details Calls: makeKey(), erase(), THEMIS_ERROR(), del(), THEMIS_WARN().
+ */
 bool SecuritySignatureManager::deleteSignature(const std::string& resource_id) {
     try {
         std::string key = makeKey(resource_id);
@@ -115,6 +133,11 @@ bool SecuritySignatureManager::deleteSignature(const std::string& resource_id) {
     }
 }
 
+/**
+ * @brief List All Signatures.
+ * @return Return value.
+ * @details Calls: SecuritySignature::deserialize(), has_value(), push_back(), THEMIS_ERROR(), makePrefixRange(), iterateRange(), std::string().
+ */
 std::vector<SecuritySignature> SecuritySignatureManager::listAllSignatures() {
     std::vector<SecuritySignature> signatures;
     
@@ -148,6 +171,12 @@ std::vector<SecuritySignature> SecuritySignatureManager::listAllSignatures() {
     return signatures;
 }
 
+/**
+ * @brief Compute File Hash.
+ * @param[in] file_path Path to the file.
+ * @return Return value.
+ * @details Calls: file(), buffer(), SHA256(), data(), size(), snprintf(), std::string(), THEMIS_WARN().
+ */
 std::string SecuritySignatureManager::computeFileHash(const std::string& file_path) {
     try {
         std::ifstream file(file_path, std::ios::binary);
@@ -181,6 +210,12 @@ std::string SecuritySignatureManager::computeFileHash(const std::string& file_pa
     }
 }
 
+/**
+ * @brief Normalize Resource Id.
+ * @param[in] path Input parameter.
+ * @return Return value.
+ * @details Calls: p(), fs::exists(), fs::weakly_canonical(), generic_string(), substr(), THEMIS_WARN().
+ */
 std::string SecuritySignatureManager::normalizeResourceId(const std::string& path) {
     try {
         fs::path p(path);
@@ -205,6 +240,13 @@ std::string SecuritySignatureManager::normalizeResourceId(const std::string& pat
     }
 }
 
+/**
+ * @brief Verify File.
+ * @param[in] file_path Path to the file.
+ * @param[in] resource_id Identifier of the resource.
+ * @return True when the operation succeeds.
+ * @details Calls: computeFileHash(), empty(), getSignature(), has_value(), THEMIS_WARN().
+ */
 bool SecuritySignatureManager::verifyFile(const std::string& file_path, 
                                           const std::string& resource_id) {
     try {
@@ -233,6 +275,11 @@ bool SecuritySignatureManager::verifyFile(const std::string& file_path,
     }
 }
 
+/**
+ * @brief Verify All.
+ * @return Return value.
+ * @details Calls: SecuritySignature::deserialize(), has_value(), verifyFile(), push_back(), THEMIS_ERROR(), makePrefixRange(), iterateRange(), std::string().
+ */
 SecuritySignatureManager::VerifyAllResult SecuritySignatureManager::verifyAll() {
     VerifyAllResult result = {};
 

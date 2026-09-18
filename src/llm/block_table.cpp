@@ -26,6 +26,12 @@ BlockTable::~BlockTable() {
     releaseBlocks();
 }
 
+/**
+ * @brief Allocate Blocks.
+ * @param[in] num_blocks Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), reserve(), allocate(), deallocate(), push_back().
+ */
 std::vector<int> BlockTable::allocateBlocks(size_t num_blocks) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -52,6 +58,10 @@ std::vector<int> BlockTable::allocateBlocks(size_t num_blocks) {
     return new_blocks;
 }
 
+/**
+ * @brief Release Blocks.
+ * @details Calls: lock(), size(), find(), end(), deallocate(), erase(), clear().
+ */
 void BlockTable::releaseBlocks() {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -75,6 +85,12 @@ void BlockTable::releaseBlocks() {
     is_shared_.clear();
 }
 
+/**
+ * @brief Share Prefix.
+ * @param[in] uint64_t Input parameter.
+ * @param[in] prefix_length Input parameter.
+ * @details Calls: lock(), size().
+ */
 void BlockTable::sharePrefix(uint64_t /*parent_sequence_id*/, size_t prefix_length) {
     if (!config_.enable_cow) {
         return;
@@ -97,16 +113,31 @@ void BlockTable::sharePrefix(uint64_t /*parent_sequence_id*/, size_t prefix_leng
 }
 
 std::vector<int> BlockTable::getBlockMapping() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return block_ids_;
 }
 
 size_t BlockTable::getNumTokens() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return block_ids_.size() * config_.block_size;
 }
 
 BlockTable::Stats BlockTable::getStats() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     Stats stats;

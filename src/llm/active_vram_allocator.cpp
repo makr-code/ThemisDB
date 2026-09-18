@@ -29,7 +29,11 @@ namespace llm {
 
 namespace {
 
-/// Return current time in milliseconds since epoch.
+/**
+ * @brief Now Ms.
+ * @return Return value.
+ * @details Calls: steady_clock::now(), time_since_epoch(), count().
+ */
 int64_t nowMs() {
     using namespace std::chrono;
     return duration_cast<milliseconds>(
@@ -38,24 +42,23 @@ int64_t nowMs() {
 }
 
 /**
- * @brief Round `n` up to the nearest multiple of `alignment` (must be power-of-two).
+ * @brief Align Up.
+ * @param[in] n Input parameter.
+ * @param[in] alignment Input parameter.
+ * @return Return value.
+ * @details Implements alignUp without additional internal calls.
  */
 size_t alignUp(size_t n, size_t alignment) {
     return (n + alignment - 1) & ~(alignment - 1);
 }
 
 /**
- * @brief Copy `bytes` from `src` to `dst`.
- *
- * Uses `cudaMemcpy(DeviceToHost)` / `cudaMemcpy(HostToDevice)` when CUDA is
- * available and the source is a device pointer; falls back to `std::memcpy`
- * in CPU-simulation or non-CUDA builds.
- *
- * @param dst         Destination buffer (CPU or GPU).
- * @param src         Source buffer (GPU or CPU).
- * @param bytes       Number of bytes to copy.
- * @param device_to_host  True for GPU→CPU, false for CPU→GPU.
- * @param gpu_available   True when a real CUDA device is in use.
+ * @brief Copy Memory.
+ * @param[in,out] dst Input/output parameter.
+ * @param[in] src Input parameter.
+ * @param[in] bytes Input parameter.
+ * @param[in] device_to_host Input parameter.
+ * @param[in] gpu_available Input parameter.
  */
 void copyMemory(void* dst, const void* src, size_t bytes,
                 bool device_to_host,
@@ -84,7 +87,13 @@ void copyMemory(void* dst, const void* src, size_t bytes,
     std::memcpy(dst, src, bytes);
 }
 
-/// Generate a unique internal model key for GPUMemoryManager from owner + id.
+/**
+ * @brief Make Model Key.
+ * @param[in] owner_id Identifier of the owner.
+ * @param[in] alloc_id Identifier of the alloc.
+ * @return Return value.
+ * @details Calls: std::to_string().
+ */
 std::string makeModelKey(const std::string& owner_id, uint64_t alloc_id) {
     return owner_id + "__avram_" + std::to_string(alloc_id);
 }
@@ -95,9 +104,13 @@ std::string makeModelKey(const std::string& owner_id, uint64_t alloc_id) {
 // Impl
 // =============================================================================
 
-/** @brief Impl. */
 class ActiveVRAMAllocator::Impl {
 public:
+    /**
+     * @brief Impl.
+     * @param[in] cfg Input parameter.
+     * @return Return value.
+     */
     explicit Impl(const Config& cfg)
         : cfg_(cfg)
         , next_id_(1)
@@ -138,6 +151,13 @@ public:
     // allocate
     // ------------------------------------------------------------------
 
+    /**
+     * @brief Allocate.
+     * @param[in] bytes Input parameter.
+     * @param[in] owner_id Identifier of the owner.
+     * @param[in] gpu_device_id Identifier of the gpu device.
+     * @return Return value.
+     */
     std::optional<AllocationHandle> allocate(
         size_t bytes,
         const std::string& owner_id,
@@ -149,6 +169,11 @@ public:
             return std::nullopt;
         }
 
+        /**
+         * @brief Lock.
+         * @param[in] mu_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mu_);
 
         const size_t aligned = alignUp(bytes, cfg_.block_alignment);
@@ -212,6 +237,13 @@ public:
     // allocateOrRecover
     // ------------------------------------------------------------------
 
+    /**
+     * @brief Allocate Or Recover.
+     * @param[in] bytes Input parameter.
+     * @param[in] owner_id Identifier of the owner.
+     * @param[in] gpu_device_id Identifier of the gpu device.
+     * @return Return value.
+     */
     std::optional<AllocationHandle> allocateOrRecover(
         size_t bytes,
         const std::string& owner_id,
@@ -241,6 +273,12 @@ public:
     // free
     // ------------------------------------------------------------------
 
+    /**
+     * @brief Free.
+     * @param[in,out] handle Input/output parameter.
+     * @return True when the operation succeeds.
+     * @details Calls: spdlog::warn(), lock(), freeHandleLocked().
+     */
     bool free(AllocationHandle& handle) {
         if (!handle.valid) {
             spdlog::warn("[ActiveVRAMAllocator] Attempted to free invalid handle {}",
@@ -256,6 +294,11 @@ public:
     // touch
     // ------------------------------------------------------------------
 
+    /**
+     * @brief Touch.
+     * @param[in,out] handle Input/output parameter.
+     * @details Calls: lock(), nowMs(), find(), end().
+     */
     void touch(AllocationHandle& handle) {
         if (!handle.valid) {
           return;
@@ -268,9 +311,12 @@ public:
         }
     }
 
-    // ------------------------------------------------------------------
-    // handleOOM (public wrapper — takes lock)
-    // ------------------------------------------------------------------
+    /**
+     * @brief ------------------------------------------------------------------ handleOOM (public wrapper — takes lock) ------------------------------------------------------------------
+     * @param[in] need_bytes Input parameter.
+     * @return True when the operation succeeds.
+     * @details Calls: lock(), handleOOMInternal().
+     */
 
     bool handleOOM(size_t need_bytes) {
         std::lock_guard<std::mutex> lock(mu_);
@@ -281,6 +327,11 @@ public:
     // evictLRU
     // ------------------------------------------------------------------
 
+    /**
+     * @brief Evict LRU.
+     * @return Return value.
+     * @details Calls: lock(), evictLRULocked().
+     */
     size_t evictLRU() {
         std::lock_guard<std::mutex> lock(mu_);
         return evictLRULocked();
@@ -290,6 +341,12 @@ public:
     // evictOwner
     // ------------------------------------------------------------------
 
+    /**
+     * @brief Evict Owner.
+     * @param[in] owner_id Identifier of the owner.
+     * @return Return value.
+     * @details Calls: lock(), push_back(), find(), end(), freeHandleLocked(), spdlog::info().
+     */
     size_t evictOwner(const std::string& owner_id) {
         std::lock_guard<std::mutex> lock(mu_);
         size_t freed = 0;
@@ -324,6 +381,11 @@ public:
     // defragment
     // ------------------------------------------------------------------
 
+    /**
+     * @brief Defragment.
+     * @return True when the operation succeeds.
+     * @details Calls: spdlog::debug(), lock(), updateFreeVRAM(), spdlog::info().
+     */
     bool defragment() {
         if (!cfg_.enable_defragmentation) {
             spdlog::debug("[ActiveVRAMAllocator] Defragmentation is disabled");
@@ -345,6 +407,11 @@ public:
     // spillLRUToCPU
     // ------------------------------------------------------------------
 
+    /**
+     * @brief Spill LRUTo CPU.
+     * @return Return value.
+     * @details Calls: spdlog::debug(), lock(), spillLRUToCPULocked().
+     */
     size_t spillLRUToCPU() {
         if (!cfg_.enable_cpu_spilling) {
             spdlog::debug("[ActiveVRAMAllocator] CPU spilling is disabled");
@@ -359,6 +426,12 @@ public:
     // restoreFromCPU
     // ------------------------------------------------------------------
 
+    /**
+     * @brief Restore From CPU.
+     * @param[in,out] handle Input/output parameter.
+     * @return True when the operation succeeds.
+     * @details Calls: lock(), allocateGPU(), makeModelKey(), spdlog::warn(), copyMemory(), freeCPU(), updateFreeVRAM(), find().
+     */
     bool restoreFromCPU(AllocationHandle& handle) {
         if (!handle.valid || !handle.is_spilled || !handle.cpu_ptr) {
             return false;
@@ -411,6 +484,11 @@ public:
     // ------------------------------------------------------------------
 
     Stats getStats() const {
+        /**
+         * @brief Lock.
+         * @param[in] mu_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mu_);
         Stats s = stats_;
         // Refresh fragmentation from underlying manager
@@ -420,16 +498,31 @@ public:
     }
 
     bool isOOMThresholdExceeded() const {
+        /**
+         * @brief Lock.
+         * @param[in] mu_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mu_);
         return stats_.oom_threshold_exceeded;
     }
 
+    /**
+     * @brief Set OOMCallback.
+     * @param[in] cb Input parameter.
+     * @details Calls: lock(), std::move().
+     */
     void setOOMCallback(OOMCallback cb) {
         std::lock_guard<std::mutex> lock(mu_);
         oom_cb_ = std::move(cb);
     }
 
     std::vector<AllocationHandle> listAllocations() const {
+        /**
+         * @brief Lock.
+         * @param[in] mu_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mu_);
         std::vector<AllocationHandle> result = {};
 
@@ -448,7 +541,13 @@ public:
     // External-memory registration
     // ------------------------------------------------------------------
 
-    /// Register externally-managed VRAM without allocating any memory.
+    /**
+     * @brief Register External.
+     * @param[in] bytes Input parameter.
+     * @param[in] owner_id Identifier of the owner.
+     * @return Return value.
+     * @details Calls: lock(), fetch_add(), nowMs(), updateFreeVRAM(), spdlog::info().
+     */
     AllocationHandle registerExternal(size_t bytes, const std::string& owner_id) {
         std::lock_guard<std::mutex> lock(mu_);
 
@@ -484,6 +583,13 @@ public:
     // Bridge API (for AdaptiveVRAMAllocator)
     // ------------------------------------------------------------------
 
+    /**
+     * @brief Allocate With Fragmentation.
+     * @param[in] bytes Input parameter.
+     * @param[in,out] ptr Input/output parameter.
+     * @return True when the operation succeeds.
+     * @details Calls: allocateOrRecover(), lock().
+     */
     bool allocateWithFragmentation(size_t bytes, void** ptr) {
         if (!ptr) {
           return false;
@@ -510,14 +616,22 @@ public:
         return *ptr != nullptr;
     }
 
+    /**
+     * @brief Handle Out Of Memory.
+     * @return True when the operation succeeds.
+     * @details Calls: handleOOM().
+     */
     bool handleOutOfMemory() {
         return handleOOM(0);
     }
 
 private:
-    // ------------------------------------------------------------------
-    // Internal helpers (must be called with mu_ held)
-    // ------------------------------------------------------------------
+    /**
+     * @brief ------------------------------------------------------------------ Internal helpers (must be called with mu_ held) ------------------------------------------------------------------
+     * @param[in] need_bytes Input parameter.
+     * @return True when the operation succeeds.
+     * @details Calls: evictLRULocked(), notifyOOM(), getFreeVRAM(), spdlog::info(), defragment(), updateFreeVRAM(), spillLRUToCPULocked(), spdlog::error().
+     */
 
     bool handleOOMInternal(size_t need_bytes) {
         // Strategy 1: Eviction
@@ -580,6 +694,11 @@ private:
         return false;
     }
 
+    /**
+     * @brief Evict LRULocked.
+     * @return Return value.
+     * @details Calls: empty(), max(), find(), end(), spdlog::info(), nowMs(), freeHandleLocked().
+     */
     size_t evictLRULocked() {
         if (allocations_.empty()) {
           return 0;
@@ -617,6 +736,11 @@ private:
         return freed;
     }
 
+    /**
+     * @brief Spill LRUTo CPULocked.
+     * @return Return value.
+     * @details Calls: empty(), spdlog::warn(), max(), find(), end(), allocateCPU(), makeModelKey(), copyMemory().
+     */
     size_t spillLRUToCPULocked() {
         if (allocations_.empty()) {
           return 0;
@@ -688,6 +812,12 @@ private:
         return bytes;
     }
 
+    /**
+     * @brief Free Handle Locked.
+     * @param[in,out] handle Input/output parameter.
+     * @return True when the operation succeeds.
+     * @details Calls: makeModelKey(), std::min(), freeCPU(), freeGPU(), updateFreeVRAM(), erase().
+     */
     bool freeHandleLocked(AllocationHandle& handle) {
         if (!handle.valid) {
           return false;
@@ -728,6 +858,10 @@ private:
         return true;
     }
 
+    /**
+     * @brief Update Free VRAM.
+     * @details Calls: getFreeVRAM(), std::max().
+     */
     void updateFreeVRAM() {
         size_t free_vram = gpu_mgr_->getFreeVRAM();
         stats_.free_vram_bytes = free_vram;
@@ -746,6 +880,11 @@ private:
         }
     }
 
+    /**
+     * @brief Notify OOM.
+     * @param[in] ev Input parameter.
+     * @details Calls: oom_cb_().
+     */
     void notifyOOM(const OOMEvent& ev) {
         if (oom_cb_) {
             try { oom_cb_(ev); } catch (...) {}
@@ -801,41 +940,77 @@ ActiveVRAMAllocator::allocateOrRecover(size_t bytes, const std::string& owner_id
     return impl_->allocateOrRecover(bytes, owner_id, gpu_device_id);
 }
 
+/**
+ * @brief Free.
+ * @param[in,out] handle Input/output parameter.
+ * @return True when the operation succeeds.
+ */
 bool ActiveVRAMAllocator::free(AllocationHandle& handle)
 {
     return impl_->free(handle);
 }
 
+/**
+ * @brief Touch.
+ * @param[in,out] handle Input/output parameter.
+ */
 void ActiveVRAMAllocator::touch(AllocationHandle& handle)
 {
     impl_->touch(handle);
 }
 
+/**
+ * @brief Handle OOM.
+ * @param[in] need_bytes Input parameter.
+ * @return True when the operation succeeds.
+ */
 bool ActiveVRAMAllocator::handleOOM(size_t need_bytes)
 {
     return impl_->handleOOM(need_bytes);
 }
 
+/**
+ * @brief Evict LRU.
+ * @return Return value.
+ */
 size_t ActiveVRAMAllocator::evictLRU()
 {
     return impl_->evictLRU();
 }
 
+/**
+ * @brief Evict Owner.
+ * @param[in] owner_id Identifier of the owner.
+ * @return Return value.
+ */
 size_t ActiveVRAMAllocator::evictOwner(const std::string& owner_id)
 {
     return impl_->evictOwner(owner_id);
 }
 
+/**
+ * @brief Defragment.
+ * @return True when the operation succeeds.
+ */
 bool ActiveVRAMAllocator::defragment()
 {
     return impl_->defragment();
 }
 
+/**
+ * @brief Spill LRUTo CPU.
+ * @return Return value.
+ */
 size_t ActiveVRAMAllocator::spillLRUToCPU()
 {
     return impl_->spillLRUToCPU();
 }
 
+/**
+ * @brief Restore From CPU.
+ * @param[in,out] handle Input/output parameter.
+ * @return True when the operation succeeds.
+ */
 bool ActiveVRAMAllocator::restoreFromCPU(AllocationHandle& handle)
 {
     return impl_->restoreFromCPU(handle);
@@ -851,6 +1026,10 @@ bool ActiveVRAMAllocator::isOOMThresholdExceeded() const
     return impl_->isOOMThresholdExceeded();
 }
 
+/**
+ * @brief Set OOMCallback.
+ * @param[in] cb Input parameter.
+ */
 void ActiveVRAMAllocator::setOOMCallback(OOMCallback cb)
 {
     impl_->setOOMCallback(std::move(cb));
@@ -878,11 +1057,21 @@ ActiveVRAMAllocator::registerExternal(size_t bytes, const std::string& owner_id)
     return impl_->registerExternal(bytes, owner_id);
 }
 
+/**
+ * @brief Allocate With Fragmentation.
+ * @param[in] bytes Input parameter.
+ * @param[in,out] ptr Input/output parameter.
+ * @return True when the operation succeeds.
+ */
 bool ActiveVRAMAllocator::allocateWithFragmentation(size_t bytes, void** ptr)
 {
     return impl_->allocateWithFragmentation(bytes, ptr);
 }
 
+/**
+ * @brief Handle Out Of Memory.
+ * @return True when the operation succeeds.
+ */
 bool ActiveVRAMAllocator::handleOutOfMemory()
 {
     return impl_->handleOutOfMemory();

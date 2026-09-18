@@ -72,6 +72,10 @@ DiskSpaceMonitor::~DiskSpaceMonitor() {
     stopMonitoring();
 }
 
+/**
+ * @brief Start Monitoring.
+ * @details Calls: load(), std::thread(), spdlog::info(), count().
+ */
 void DiskSpaceMonitor::startMonitoring() {
     if (monitoring_active_.load()) {
         return;
@@ -86,6 +90,10 @@ void DiskSpaceMonitor::startMonitoring() {
                  config_.check_interval.count());
 }
 
+/**
+ * @brief Stop Monitoring.
+ * @details Calls: load(), joinable(), themis::utils::joinThreadWithin(), spdlog::warn(), spdlog::info().
+ */
 void DiskSpaceMonitor::stopMonitoring() {
     if (!monitoring_active_.load()) {
         return;
@@ -103,6 +111,11 @@ void DiskSpaceMonitor::stopMonitoring() {
     spdlog::info("Disk space monitoring stopped");
 }
 
+/**
+ * @brief Check Space.
+ * @return Return value.
+ * @details Calls: queryDiskSpace(), lock(), load(), updateSpaceLevel(), recordUsage(), std::chrono::system_clock::now(), spdlog::warn(), shouldSendAlert().
+ */
 DiskSpaceMonitor::SpaceInfo DiskSpaceMonitor::checkSpace() {
     auto info = queryDiskSpace();
     bool should_send_alert = false;
@@ -168,6 +181,12 @@ DiskSpaceMonitor::SpaceInfo DiskSpaceMonitor::checkSpace() {
     return info;
 }
 
+/**
+ * @brief Can Write.
+ * @param[in] bytes_to_write Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: load(), spdlog::warn(), isReadOnly(), getSpaceInfo(), spdlog::error().
+ */
 bool DiskSpaceMonitor::canWrite(size_t bytes_to_write) {
     // A zero-byte write does not consume disk capacity.
     if (bytes_to_write == 0) {
@@ -227,25 +246,49 @@ DiskSpaceMonitor::SpaceLevel DiskSpaceMonitor::getSpaceLevel() const {
 }
 
 DiskSpaceMonitor::SpaceInfo DiskSpaceMonitor::getSpaceInfo() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return current_info_;
 }
 
 DiskSpaceMonitor::MonitorStats DiskSpaceMonitor::getStats() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return stats_;
 }
 
+/**
+ * @brief Set Alert Callback.
+ * @param[in] callback Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void DiskSpaceMonitor::setAlertCallback(AlertCallback callback) {
     std::lock_guard<std::mutex> lock(mutex_);
     alert_callback_ = std::move(callback);
 }
 
+/**
+ * @brief Set GCCallback.
+ * @param[in] callback Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void DiskSpaceMonitor::setGCCallback(GCCallback callback) {
     std::lock_guard<std::mutex> lock(mutex_);
     gc_callback_ = std::move(callback);
 }
 
+/**
+ * @brief Trigger GC.
+ * @details Calls: lock(), spdlog::info(), gc_cb(), spdlog::error(), what().
+ */
 void DiskSpaceMonitor::triggerGC() {
     // deadlock_risk scanner alerts (lines 228, 233): the GC callback is copied
     // inside a short-lived scoped lock; the callback is then invoked OUTSIDE the
@@ -268,11 +311,21 @@ void DiskSpaceMonitor::triggerGC() {
     }
 }
 
+/**
+ * @brief Set Read Only Override.
+ * @param[in] read_only Input parameter.
+ * @details Calls: spdlog::warn().
+ */
 void DiskSpaceMonitor::setReadOnlyOverride(bool read_only) {
     read_only_override_ = read_only;
     spdlog::warn("Read-only override set to: {}", read_only);
 }
 
+/**
+ * @brief Set Rocks DBSize.
+ * @param[in] size_bytes Input parameter.
+ * @details Calls: lock().
+ */
 void DiskSpaceMonitor::setRocksDBSize(uint64_t size_bytes) {
     std::lock_guard<std::mutex> lock(mutex_);
     current_info_.rocksdb_size_bytes = size_bytes;
@@ -302,6 +355,11 @@ std::string DiskSpaceMonitor::getRecommendedAction() const {
 }
 
 std::chrono::seconds DiskSpaceMonitor::estimateTimeUntilFull() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     if (usage_history_.size() < 2) {
@@ -340,6 +398,10 @@ std::chrono::seconds DiskSpaceMonitor::estimateTimeUntilFull() const {
     return std::chrono::seconds(static_cast<long long>(seconds_until_full));
 }
 
+/**
+ * @brief Monitoring Loop.
+ * @details Calls: load(), checkSpace(), spdlog::error(), what(), std::chrono::seconds(), std::min(), std::this_thread::sleep_for().
+ */
 void DiskSpaceMonitor::monitoringLoop() {
     while (!should_stop_.load()) {
         try {
@@ -358,6 +420,11 @@ void DiskSpaceMonitor::monitoringLoop() {
     }
 }
 
+/**
+ * @brief Query Disk Space.
+ * @return Return value.
+ * @details Calls: disk_utils::getDiskSpace(), spdlog::error().
+ */
 DiskSpaceMonitor::SpaceInfo DiskSpaceMonitor::queryDiskSpace() {
     SpaceInfo info;
     info.path = path_;
@@ -401,11 +468,22 @@ DiskSpaceMonitor::SpaceInfo DiskSpaceMonitor::queryDiskSpace() {
     return info;
 }
 
+/**
+ * @brief Update Space Level.
+ * @param[in] info Input parameter.
+ * @details Implements updateSpaceLevel without additional internal calls.
+ */
 void DiskSpaceMonitor::updateSpaceLevel(const SpaceInfo& info) {
     current_level_ = info.level;
     writes_blocked_ = info.writes_blocked;
 }
 
+/**
+ * @brief Handle Space Level Change.
+ * @param[in] old_level Input parameter.
+ * @param[in] new_level Input parameter.
+ * @details Calls: spdlog::warn(), shouldSendAlert(), disk_utils::formatBytes(), std::setprecision(), sendAlert(), str(), triggerGC().
+ */
 void DiskSpaceMonitor::handleSpaceLevelChange(SpaceLevel old_level, SpaceLevel new_level) {
     spdlog::warn("Disk space level changed from {} to {}", 
                 static_cast<int>(old_level), static_cast<int>(new_level));
@@ -443,6 +521,12 @@ void DiskSpaceMonitor::handleSpaceLevelChange(SpaceLevel old_level, SpaceLevel n
     }
 }
 
+/**
+ * @brief Send Alert.
+ * @param[in] info Input parameter.
+ * @param[in] message Input parameter.
+ * @details Calls: lock(), std::chrono::system_clock::now(), spdlog::warn(), alert_cb(), spdlog::error(), what().
+ */
 void DiskSpaceMonitor::sendAlert(const SpaceInfo& info, const std::string& message) {
     AlertCallback alert_cb;
     {
@@ -471,6 +555,11 @@ bool DiskSpaceMonitor::shouldSendAlert() const {
     return elapsed_minutes.count() >= static_cast<long long>(config_.alert_cooldown_minutes);
 }
 
+/**
+ * @brief Record Usage.
+ * @param[in] info Input parameter.
+ * @details Calls: std::chrono::system_clock::now(), push_back(), size(), erase(), begin().
+ */
 void DiskSpaceMonitor::recordUsage(const SpaceInfo& info) {
     UsageSnapshot snapshot;
     snapshot.timestamp = std::chrono::system_clock::now();
@@ -524,6 +613,15 @@ std::string DiskSpaceGuard::getError() const {
 
 namespace disk_utils {
 
+/**
+ * @brief Get Disk Space.
+ * @param[in] path Input parameter.
+ * @param[in,out] total_bytes Input/output parameter.
+ * @param[in,out] free_bytes Input/output parameter.
+ * @param[in,out] available_bytes Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: fs::absolute(), fs::path(), empty(), fs::current_path(), fs::exists(), parent_path(), wstring(), GetDiskFreeSpaceExW().
+ */
 bool getDiskSpace(
     const std::string& path,
     size_t& total_bytes,
@@ -596,6 +694,12 @@ bool getDiskSpace(
     return true;
 }
 
+/**
+ * @brief Format Bytes.
+ * @param[in] bytes Input parameter.
+ * @return Return value.
+ * @details Calls: std::setprecision(), str().
+ */
 std::string formatBytes(size_t bytes) {
     const char* units[] = {"B", "KB", "MB", "GB", "TB"};
     int unit_index = 0;
@@ -611,6 +715,12 @@ std::string formatBytes(size_t bytes) {
     return oss.str();
 }
 
+/**
+ * @brief Path Exists.
+ * @param[in] path Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: GetFileAttributesA(), c_str(), stat().
+ */
 bool pathExists(const std::string& path) {
 #ifdef _WIN32
     DWORD attrs = GetFileAttributesA(path.c_str());
@@ -621,6 +731,12 @@ bool pathExists(const std::string& path) {
 #endif
 }
 
+/**
+ * @brief Get Directory.
+ * @param[in] path Input parameter.
+ * @return Return value.
+ * @details Calls: find_last_of(), substr().
+ */
 std::string getDirectory(const std::string& path) {
     size_t pos = path.find_last_of("/\\");
     if (pos == std::string::npos) {

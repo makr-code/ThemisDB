@@ -29,25 +29,6 @@
 namespace themis {
 namespace security {
 
-/**
- * @brief Embedded User Registration Plugin
- * 
- * Local user management plugin for embedded deployments where external
- * identity providers are not available. This plugin provides a simple
- * in-memory or file-based user database.
- * 
- * **Use this plugin only when:**
- * - External identity providers (Apache, WebDAV, AD) are not available
- * - Running in embedded/standalone mode
- * - Testing or development environments
- * 
- * **For production, prefer:**
- * - WebDAV plugin with Active Directory
- * - Apache authentication integration
- * - Arrow plugin with enterprise data warehouse
- * 
- * This plugin is NOT recommended for production enterprise deployments.
- */
 class EmbeddedUserRegistrationPlugin : public IUserRegistrationPlugin {
 public:
     struct Config {
@@ -65,6 +46,11 @@ public:
     {
     }
 
+    /**
+     * @brief Embedded User Registration Plugin.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit EmbeddedUserRegistrationPlugin(const Config& config)
         : config_(config)
     {
@@ -88,6 +74,11 @@ public:
         const std::string& password,
         const std::unordered_map<std::string, std::string>& attributes
     ) override {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         
         THEMIS_INFO("Embedded plugin: Registering user '{}' (WARNING: Use external auth for production)", user_id);
@@ -136,6 +127,11 @@ public:
         const std::string& user_id,
         const std::string& password
     ) override {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         
         THEMIS_DEBUG("Embedded plugin: Authenticating user '{}'", user_id);
@@ -163,6 +159,11 @@ public:
     }
     
     Result<std::vector<UserRegistrationData>> syncUsers() override {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         
         std::vector<UserRegistrationData> result = {};
@@ -182,6 +183,11 @@ public:
     }
     
     Result<UserRegistrationData> updateUser(const std::string& user_id) override {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         
         auto it = users_.find(user_id);
@@ -200,11 +206,15 @@ public:
         return themis::Ok(std::move(reg_data));
     }
     
-    // Additional methods for embedded plugin
-    
     /**
-     * @brief Change user password
+     * @brief Additional methods for embedded plugin
+     * @param[in] user_id User identifier.
+     * @param[in] old_password Current password.
+     * @param[in] new_password Replacement password.
+     * @return Result indicating whether the password changed.
+     * @details Calls: lock(), find(), end(), themis::ErrVoid(), verifyPassword(), validatePassword(), has_value(), hashPassword().
      */
+    
     Result<void> changePassword(
         const std::string& user_id,
         const std::string& old_password,
@@ -249,10 +259,12 @@ public:
         return themis::OkVoid();
     }
     
-    /**
-     * @brief Check if user exists
-     */
     bool userExists(const std::string& user_id) const {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         return users_.find(user_id) != users_.end();
     }
@@ -307,9 +319,13 @@ private:
         return themis::OkVoid();
     }
     
-    // -----------------------------------------------------------------------
-    // Base64 helpers (no line wrapping, no padding trimming needed here)
-    // -----------------------------------------------------------------------
+    /**
+     * @brief ----------------------------------------------------------------------- Base64 helpers (no line wrapping, no padding trimming needed here) -----------------------------------------------------------------------
+     * @param[in] data Input parameter.
+     * @param[in] len Input parameter.
+     * @return Return value.
+     * @details Calls: out(), EVP_EncodeBlock(), resize().
+     */
     static std::string base64Encode(const unsigned char* data, int len) {
         // EVP_EncodeBlock writes exactly 4*ceil(len/3) chars plus a null terminator.
         int out_len = 4 * ((len + 2) / 3);
@@ -320,6 +336,12 @@ private:
         return out;
     }
 
+    /**
+     * @brief Base64 Decode.
+     * @param[in] encoded Input parameter.
+     * @return Return value.
+     * @details Calls: size(), out(), EVP_DecodeBlock(), data(), rbegin(), rend(), resize().
+     */
     static std::vector<unsigned char> base64Decode(const std::string& encoded) {
         // EVP_DecodeBlock output is at most 3*len/4 bytes (may include padding bytes)
         int max_out = encoded.size() / 4 * 3 + 4;
@@ -336,7 +358,13 @@ private:
         return out;
     }
 
-    // Split a string by a delimiter character.
+    /**
+     * @brief Split a string by a delimiter character.
+     * @param[in] s Input parameter.
+     * @param[in] delim Input parameter.
+     * @return Return value.
+     * @details Calls: find(), push_back(), substr().
+     */
     static std::vector<std::string> splitBy(const std::string& s, char delim) {
         std::vector<std::string> parts;
         size_t start = 0;
@@ -562,7 +590,11 @@ private:
     }
 };
 
-// Factory function (declared in user_registration_plugin.h)
+/**
+ * @brief Factory function (declared in user_registration_plugin.
+ * @return Return value.
+ * @details h) Implements createEmbeddedUserRegistrationPlugin without additional internal calls.
+ */
 std::shared_ptr<IUserRegistrationPlugin> createEmbeddedUserRegistrationPlugin() {
     return std::make_shared<EmbeddedUserRegistrationPlugin>();
 }

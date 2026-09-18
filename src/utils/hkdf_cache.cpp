@@ -60,7 +60,11 @@ struct Shard {
     std::atomic<uint64_t> misses{0};
     std::atomic<uint64_t> evictions{0};
 
-    /// Remove one entry by iterator; wipes the key buffer via OPENSSL_cleanse.
+    /**
+     * @brief Erase entry.
+     * @param[in] it Input parameter.
+     * @details Calls: OPENSSL_cleanse(), data(), size(), erase().
+     */
     void erase_entry(Map::iterator it) {
         auto& entry = it->second.second;
         OPENSSL_cleanse(entry.value.data(),entry.value.size());
@@ -69,7 +73,11 @@ struct Shard {
         ++evictions;
     }
 
-    /// Evict all entries whose TTL has expired.
+    /**
+     * @brief Evict expired.
+     * @param[in] ttl Input parameter.
+     * @details Calls: count(), std::chrono::steady_clock::now(), begin(), end(), std::next(), erase_entry().
+     */
     void evict_expired(std::chrono::seconds ttl) {
         if (ttl.count() == 0) {
           return;
@@ -88,7 +96,10 @@ struct Shard {
         }
     }
 
-    /// Evict LRU tail until size <= capacity.
+    /**
+     * @brief Evict lru.
+     * @details Calls: size(), empty(), back(), find(), end(), erase_entry(), pop_back().
+     */
     void evict_lru() {
         while (map.size() > capacity && !lru.empty()) {
             auto tail = lru.back();
@@ -116,7 +127,7 @@ struct HKDFCache::Impl {
     }
 
     /**
-     * @brief Build the binary cache key: ikm | 0x00 | salt | 0x00 | info | 0x00 | len
+     * @brief Make key.
      * @param[in] ikm Input parameter.
      * @param[in] salt Input parameter.
      * @param[in] info Input parameter.
@@ -141,7 +152,7 @@ struct HKDFCache::Impl {
     }
 
     /**
-     * @brief Shard index = hash(key) & (kShards-1) — cheap power-of-two modulo
+     * @brief Shard index.
      * @param[in] k Input parameter.
      * @return Return value.
      * @details Implements shard_index without additional internal calls.
@@ -151,7 +162,7 @@ struct HKDFCache::Impl {
     }
 
     /**
-     * @brief SHA-256 of data → hex string
+     * @brief Sha256 hex.
      * @param[in] data Input parameter.
      * @param[in] len Input parameter.
      * @return Return value.

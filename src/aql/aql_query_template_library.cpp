@@ -31,6 +31,12 @@ AQLQueryTemplateLibrary::AQLQueryTemplateLibrary() {
 // Registration
 // ============================================================================
 
+/**
+ * @brief Register Template.
+ * @param[in] tmpl Input parameter.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: empty(), count(), size(), push_back().
+ */
 void AQLQueryTemplateLibrary::registerTemplate(const AQLQueryTemplate& tmpl) {
     if (tmpl.id.empty()) {
         throw std::invalid_argument("AQLQueryTemplateLibrary: template id must not be empty");
@@ -52,6 +58,12 @@ const std::vector<AQLQueryTemplate>& AQLQueryTemplateLibrary::all() const {
     return templates_;
 }
 
+/**
+ * @brief To Lower.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Calls: std::transform(), begin(), end(), std::tolower().
+ */
 static std::string toLower(const std::string& s) {
     std::string out = s;
     std::transform(out.begin(), out.end(), out.begin(), [](unsigned char c) {
@@ -159,6 +171,10 @@ std::string AQLQueryTemplateLibrary::instantiate(
 // Built-in templates
 // ============================================================================
 
+/**
+ * @brief Register Builtins.
+ * @details Calls: registerTemplate().
+ */
 void AQLQueryTemplateLibrary::registerBuiltins_() {
 
     // ------------------------------------------------------------------

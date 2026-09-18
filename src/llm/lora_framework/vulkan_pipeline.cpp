@@ -167,6 +167,12 @@ VulkanComputePipeline& VulkanComputePipeline::operator=(VulkanComputePipeline&& 
     return *this;
 }
 
+/**
+ * @brief Create.
+ * @param[in] push_constant_size Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: resize(), create_shader_module(), create_descriptor_set_layout(), create_pipeline_layout(), create_compute_pipeline(), create_descriptor_pool(), allocate_descriptor_sets(), allocate_command_buffer().
+ */
 bool VulkanComputePipeline::create(size_t push_constant_size) {
     push_constant_size_ = push_constant_size;
     
@@ -213,6 +219,13 @@ bool VulkanComputePipeline::create(size_t push_constant_size) {
     return true;
 }
 
+/**
+ * @brief Load shader file.
+ * @param[in] path Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: file(), is_open(), tellg(), buffer(), seekg(), read(), data(), close().
+ */
 std::vector<uint32_t> VulkanComputePipeline::load_shader_file(const std::string& path) {
     std::ifstream file(path, std::ios::ate | std::ios::binary);
     
@@ -230,6 +243,12 @@ std::vector<uint32_t> VulkanComputePipeline::load_shader_file(const std::string&
     return buffer;
 }
 
+/**
+ * @brief Create shader module.
+ * @param[in] code Input parameter.
+ * @return Return value.
+ * @details Calls: size(), data(), vkCreateShaderModule(), device().
+ */
 VkShaderModule VulkanComputePipeline::create_shader_module(const std::vector<uint32_t>& code) {
     VkShaderModuleCreateInfo create_info = {};
     create_info.sType = VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO;
@@ -248,6 +267,11 @@ VkShaderModule VulkanComputePipeline::create_shader_module(const std::vector<uin
     return shader_module;
 }
 
+/**
+ * @brief Create descriptor set layout.
+ * @return True when the operation succeeds.
+ * @details Calls: bindings(), data(), vkCreateDescriptorSetLayout(), device().
+ */
 bool VulkanComputePipeline::create_descriptor_set_layout() {
     // Create bindings for storage buffers
     // We support up to MAX_BINDINGS storage buffers
@@ -277,6 +301,12 @@ bool VulkanComputePipeline::create_descriptor_set_layout() {
     return true;
 }
 
+/**
+ * @brief Create pipeline layout.
+ * @param[in] push_constant_size Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: vkCreatePipelineLayout(), device().
+ */
 bool VulkanComputePipeline::create_pipeline_layout(size_t push_constant_size) {
     VkPipelineLayoutCreateInfo pipeline_layout_info = {};
     pipeline_layout_info.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
@@ -305,6 +335,11 @@ bool VulkanComputePipeline::create_pipeline_layout(size_t push_constant_size) {
     return true;
 }
 
+/**
+ * @brief Create compute pipeline.
+ * @return True when the operation succeeds.
+ * @details Calls: vkCreateComputePipelines(), device().
+ */
 bool VulkanComputePipeline::create_compute_pipeline() {
     VkPipelineShaderStageCreateInfo shader_stage_info = {};
     shader_stage_info.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
@@ -328,6 +363,11 @@ bool VulkanComputePipeline::create_compute_pipeline() {
     return true;
 }
 
+/**
+ * @brief Create descriptor pool.
+ * @return True when the operation succeeds.
+ * @details Calls: vkCreateDescriptorPool(), device().
+ */
 bool VulkanComputePipeline::create_descriptor_pool() {
     VkDescriptorPoolSize pool_size = {};
     pool_size.type = VK_DESCRIPTOR_TYPE_STORAGE_BUFFER;
@@ -350,6 +390,11 @@ bool VulkanComputePipeline::create_descriptor_pool() {
     return true;
 }
 
+/**
+ * @brief Allocate descriptor sets.
+ * @return True when the operation succeeds.
+ * @details Calls: vkAllocateDescriptorSets(), device().
+ */
 bool VulkanComputePipeline::allocate_descriptor_sets() {
     VkDescriptorSetAllocateInfo alloc_info = {};
     alloc_info.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO;
@@ -368,6 +413,13 @@ bool VulkanComputePipeline::allocate_descriptor_sets() {
     return true;
 }
 
+/**
+ * @brief Bind buffer.
+ * @param[in] binding Input parameter.
+ * @param[in] buffer Input parameter.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: buffer(), size().
+ */
 void VulkanComputePipeline::bind_buffer(uint32_t binding, const VulkanBuffer& buffer) {
     if (binding >= MAX_BINDINGS) {
         throw std::runtime_error("Binding index out of range");
@@ -378,6 +430,14 @@ void VulkanComputePipeline::bind_buffer(uint32_t binding, const VulkanBuffer& bu
     descriptors_dirty_ = true;
 }
 
+/**
+ * @brief Set push constants.
+ * @param[in] data Input parameter.
+ * @param[in] size Input parameter.
+ * @param[in] offset Input parameter.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: std::memcpy(), data().
+ */
 void VulkanComputePipeline::set_push_constants(const void* data, size_t size, size_t offset) {
     if (offset + size > push_constant_size_) {
         throw std::runtime_error("Push constant size exceeds allocated size");
@@ -386,6 +446,10 @@ void VulkanComputePipeline::set_push_constants(const void* data, size_t size, si
     std::memcpy(push_constant_data_.data() + offset, data, size);
 }
 
+/**
+ * @brief Update descriptor sets.
+ * @details Calls: reserve(), size(), push_back(), vkUpdateDescriptorSets(), device(), data().
+ */
 void VulkanComputePipeline::update_descriptor_sets() {
     if (!descriptors_dirty_) {
         return;
@@ -423,6 +487,14 @@ void VulkanComputePipeline::update_descriptor_sets() {
     descriptors_dirty_ = false;
 }
 
+/**
+ * @brief Dispatch.
+ * @param[in] group_x Input parameter.
+ * @param[in] group_y Input parameter.
+ * @param[in] group_z Input parameter.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: wait(), update_descriptor_sets(), reset_fence(), vkBeginCommandBuffer(), std::to_string(), vkCmdBindPipeline(), vkCmdBindDescriptorSets(), vkCmdPushConstants().
+ */
 void VulkanComputePipeline::dispatch(uint32_t group_x, uint32_t group_y, uint32_t group_z) {
     // Wait for previous dispatch to complete
     wait();
@@ -484,6 +556,12 @@ void VulkanComputePipeline::dispatch(uint32_t group_x, uint32_t group_y, uint32_
     }
 }
 
+/**
+ * @brief Wait.
+ * @param[in] timeout_ns Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: wait_for_fence().
+ */
 bool VulkanComputePipeline::wait(uint64_t timeout_ns) {
     if (fence_ == VK_NULL_HANDLE) {
         return false;

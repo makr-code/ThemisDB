@@ -54,10 +54,21 @@ ZeroTrustAuthVerifier::~ZeroTrustAuthVerifier() {
 // Network policy management
 // ============================================================================
 
+/**
+ * @brief Register a network policy.
+ * @param[in] policy Network policy to add.
+ * @details Implements addNetworkPolicy without additional internal calls.
+ */
 void ZeroTrustAuthVerifier::addNetworkPolicy(const security::NetworkPolicy& policy) {
     enforcer_.addNetworkPolicy(policy);
 }
 
+/**
+ * @brief Remove a network policy by id.
+ * @param[in] policy_id Identifier of the policy to remove.
+ * @return True when a policy was removed.
+ * @details Implements removeNetworkPolicy without additional internal calls.
+ */
 bool ZeroTrustAuthVerifier::removeNetworkPolicy(const std::string& policy_id) {
     return enforcer_.removeNetworkPolicy(policy_id);
 }
@@ -66,9 +77,12 @@ std::vector<security::NetworkPolicy> ZeroTrustAuthVerifier::getNetworkPolicies()
     return enforcer_.getNetworkPolicies();
 }
 
-// ============================================================================
-// Core: continuous per-request verification
-// ============================================================================
+/**
+ * @brief ============================================================================ Core: continuous per-request verification ============================================================================
+ * @param[in] req Input parameter.
+ * @return Verification result.
+ * @details Calls: std::chrono::system_clock::now(), THEMIS_WARN(), al(), logZeroTrustDenied(), std::to_string(), THEMIS_DEBUG(), logZeroTrustAllowed().
+ */
 
 ZeroTrustAuthVerifier::Decision ZeroTrustAuthVerifier::verify(const Request& req) {
     // Build the per-request context for the underlying enforcer
@@ -136,9 +150,11 @@ ZeroTrustAuthVerifier::Decision ZeroTrustAuthVerifier::verify(const Request& req
     return decision;
 }
 
-// ============================================================================
-// Background session monitoring (async policy re-evaluation)
-// ============================================================================
+/**
+ * @brief ============================================================================ Background session monitoring (async policy re-evaluation) ============================================================================
+ * @param[in] session Input parameter.
+ * @param[in,out] session_manager Input/output parameter.
+ */
 
 void ZeroTrustAuthVerifier::startSessionMonitoring(
     const MonitoredSession& session,
@@ -147,6 +163,11 @@ void ZeroTrustAuthVerifier::startSessionMonitoring(
     bool needs_spawn = false;
 
     {
+        /**
+         * @brief Lock.
+         * @param[in] monitor_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(monitor_mutex_);
 
         // Lazily create the worker pool on the first registered session.
@@ -195,6 +216,11 @@ void ZeroTrustAuthVerifier::startSessionMonitoring(
                  config_.re_evaluation_interval.count());
 }
 
+/**
+ * @brief Stop Session Monitoring.
+ * @param[in] session_id Identifier of the session.
+ * @details Calls: lock(), erase(), empty(), store(), load(), notify_all().
+ */
 void ZeroTrustAuthVerifier::stopSessionMonitoring(const std::string& session_id) {
     {
         std::lock_guard<std::mutex> lock(monitor_mutex_);
@@ -213,13 +239,19 @@ void ZeroTrustAuthVerifier::stopSessionMonitoring(const std::string& session_id)
 }
 
 size_t ZeroTrustAuthVerifier::monitoredSessionCount() const {
+    /**
+     * @brief Lock.
+     * @param[in] monitor_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(monitor_mutex_);
     return monitored_sessions_.size();
 }
 
-// ---------------------------------------------------------------------------
-// Private: background monitoring loop
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- Private: background monitoring loop ---------------------------------------------------------------------------
+ * @details Calls: lock(), load(), empty(), std::chrono::steady_clock::now(), wait_until(), push_back(), submit(), reEvaluateSession().
+ */
 
 void ZeroTrustAuthVerifier::monitorLoop() {
     for (;;) {
@@ -298,9 +330,11 @@ void ZeroTrustAuthVerifier::monitorLoop() {
     }
 }
 
-// ---------------------------------------------------------------------------
-// Private: single-session re-evaluation (runs on worker thread)
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- Private: single-session re-evaluation (runs on worker thread) ---------------------------------------------------------------------------
+ * @param[in] entry Input parameter.
+ * @details Calls: lock(), find(), end(), verify(), THEMIS_WARN(), al(), logZeroTrustReEvaluationFailed(), terminateSession().
+ */
 
 void ZeroTrustAuthVerifier::reEvaluateSession(const MonitorEntry& entry) {
     // Guard against stale work items: verify the session is still registered

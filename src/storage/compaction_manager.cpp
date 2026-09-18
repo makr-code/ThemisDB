@@ -42,12 +42,6 @@ CompactionManager::CompactionManager(std::shared_ptr<RocksDBWrapper> db,
     }
 }
 
-/// @brief Destructor — noexcept per C++ standard requirements for destructors.
-///
-/// Stops the background GC thread before the object is destroyed.  Any
-/// exception that might propagate out of stopBackgroundGC() is caught and
-/// logged here so it never escapes the destructor (which would call
-/// std::terminate under C++11 and later).
 CompactionManager::~CompactionManager() noexcept {
     try {
         stopBackgroundGC();
@@ -64,6 +58,13 @@ CompactionManager::~CompactionManager() noexcept {
 // Manual compaction
 // ──────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Compact Range.
+ * @param[in] start_key Input parameter.
+ * @param[in] end_key Input parameter.
+ * @return Return value.
+ * @details Calls: isOpen(), ErrVoid(), fetch_add(), OkVoid().
+ */
 Result<void> CompactionManager::compactRange(std::string_view start_key,
                                               std::string_view end_key) {
     if (!db_->isOpen()) {
@@ -75,6 +76,11 @@ Result<void> CompactionManager::compactRange(std::string_view start_key,
     return OkVoid();
 }
 
+/**
+ * @brief Compact All.
+ * @return Return value.
+ * @details Calls: isOpen(), ErrVoid(), compactRange(), fetch_add(), OkVoid().
+ */
 Result<void> CompactionManager::compactAll() {
     if (!db_->isOpen()) {
         return ErrVoid(errors::ErrorCode::ERR_STORAGE_TRANSACTION_FAILED,
@@ -90,10 +96,21 @@ Result<void> CompactionManager::compactAll() {
 // Tombstone tracking
 // ──────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Record Deletions.
+ * @param[in] count Input parameter.
+ * @details Calls: fetch_add().
+ */
 void CompactionManager::recordDeletions(uint64_t count) {
     tombstones_.fetch_add(count, std::memory_order_relaxed);
 }
 
+/**
+ * @brief Run GC.
+ * @param[in] force Input parameter.
+ * @return Return value.
+ * @details Calls: load(), OkVoid(), compactAll(), store(), fetch_add().
+ */
 Result<void> CompactionManager::runGC(bool force) {
     uint64_t t = tombstones_.load(std::memory_order_relaxed);
     if (!force && t < config_.tombstone_gc_threshold) {
@@ -116,6 +133,10 @@ Result<void> CompactionManager::runGC(bool force) {
 // Background GC
 // ──────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Start Background GC.
+ * @details Calls: lock(), joinable(), store(), std::thread(), backgroundLoop().
+ */
 void CompactionManager::startBackgroundGC() {
     std::lock_guard<std::mutex> lock(bg_mutex_);
     if (bg_thread_.joinable()) return; // already running
@@ -123,6 +144,10 @@ void CompactionManager::startBackgroundGC() {
     bg_thread_ = std::thread([this] { backgroundLoop(); });
 }
 
+/**
+ * @brief Stop Background GC.
+ * @details Calls: lock(), store(), notify_all(), joinable(), utils::joinThreadWithin(), THEMIS_WARN().
+ */
 void CompactionManager::stopBackgroundGC() {
     {
         std::lock_guard<std::mutex> lock(bg_mutex_);
@@ -136,10 +161,19 @@ void CompactionManager::stopBackgroundGC() {
 }
 
 bool CompactionManager::isBackgroundGCRunning() const {
+    /**
+     * @brief Lock.
+     * @param[in] bg_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(bg_mutex_);
     return bg_thread_.joinable() && !bg_stop_.load(std::memory_order_relaxed);
 }
 
+/**
+ * @brief Background Loop.
+ * @details Calls: load(), lock(), wait_for(), unlock(), runGC().
+ */
 void CompactionManager::backgroundLoop() {
     while (!bg_stop_.load(std::memory_order_relaxed)) {
         // Wait for the configured interval or until woken by stopBackgroundGC().
@@ -165,6 +199,11 @@ void CompactionManager::backgroundLoop() {
 // Dynamic configuration
 // ──────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Set Config.
+ * @param[in] config Input parameter.
+ * @details Calls: isBackgroundGCRunning(), stopBackgroundGC(), lock(), startBackgroundGC().
+ */
 void CompactionManager::setConfig(const Config& config) {
     bool was_running = isBackgroundGCRunning();
     if (was_running) {
@@ -180,6 +219,11 @@ void CompactionManager::setConfig(const Config& config) {
 }
 
 CompactionManager::Config CompactionManager::getConfig() const {
+    /**
+     * @brief Lock.
+     * @param[in] bg_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(bg_mutex_);
     return config_;
 }

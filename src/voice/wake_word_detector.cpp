@@ -44,6 +44,12 @@ static constexpr float kMaxAudioDurationMs = 30000.0f;    // Maximum single utte
 // Helpers
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Wake To Lower.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), std::tolower().
+ */
 static std::string wakeToLower(const std::string& s) {
     std::string out = {};
     out.reserve(s.size());
@@ -53,6 +59,12 @@ static std::string wakeToLower(const std::string& s) {
     return out;
 }
 
+/**
+ * @brief Tokenize.
+ * @param[in] phrase Input parameter.
+ * @return Return value.
+ * @details Calls: ss(), push_back().
+ */
 static std::vector<std::string> tokenize(const std::string& phrase) {
     std::vector<std::string> tokens;
     std::istringstream ss(phrase);
@@ -78,6 +90,13 @@ WakeWordDetector::WakeWordDetector(const WakeWordConfig& config)
 // Wake-word registration
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Add Wake Word.
+ * @param[in] id Input parameter.
+ * @param[in] phrase Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), lock(), wakeToLower(), tokenize(), push_back(), std::move().
+ */
 bool WakeWordDetector::addWakeWord(const WakeWordID& id, const std::string& phrase) {
     if (id.empty() || phrase.empty()) {
         return false;
@@ -96,6 +115,12 @@ bool WakeWordDetector::addWakeWord(const WakeWordID& id, const std::string& phra
     return true;
 }
 
+/**
+ * @brief Remove Wake Word.
+ * @param[in] id Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), std::find_if(), begin(), end(), erase().
+ */
 bool WakeWordDetector::removeWakeWord(const WakeWordID& id) {
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = std::find_if(wake_words_.begin(), wake_words_.end(),
@@ -108,6 +133,11 @@ bool WakeWordDetector::removeWakeWord(const WakeWordID& id) {
 }
 
 std::vector<WakeWordID> WakeWordDetector::listWakeWords() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     std::vector<WakeWordID> ids = {};
 
@@ -122,6 +152,11 @@ std::vector<WakeWordID> WakeWordDetector::listWakeWords() const {
 // Audio processing
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Process Audio Chunk.
+ * @param[in] audio_chunk Input parameter.
+ * @return Return value.
+ */
 WakeWordDetectionResult WakeWordDetector::processAudioChunk(
     const std::vector<uint8_t>& audio_chunk)
 {
@@ -134,6 +169,11 @@ WakeWordDetectionResult WakeWordDetector::processAudioChunk(
         return result;
     }
 
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     ++total_chunks_processed_;
 
@@ -232,6 +272,11 @@ WakeWordDetectionResult WakeWordDetector::processAudioChunk(
     return result;
 }
 
+/**
+ * @brief Set Detection Callback.
+ * @param[in] callback Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void WakeWordDetector::setDetectionCallback(DetectionCallback callback) {
     std::lock_guard<std::mutex> lock(mutex_);
     detection_callback_ = std::move(callback);
@@ -241,16 +286,30 @@ void WakeWordDetector::setDetectionCallback(DetectionCallback callback) {
 // Configuration & state
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Set Config.
+ * @param[in] config Input parameter.
+ * @details Calls: lock().
+ */
 void WakeWordDetector::setConfig(const WakeWordConfig& config) {
     std::lock_guard<std::mutex> lock(mutex_);
     config_ = config;
 }
 
 WakeWordConfig WakeWordDetector::getConfig() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return config_;
 }
 
+/**
+ * @brief Reset the modification detection flag.
+ * @details Calls: lock(), clear().
+ */
 void WakeWordDetector::reset() {
     std::lock_guard<std::mutex> lock(mutex_);
     sample_buffer_.clear();
@@ -258,6 +317,11 @@ void WakeWordDetector::reset() {
 }
 
 json WakeWordDetector::getStatistics() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     json stats;
     stats["total_chunks_processed"] = total_chunks_processed_;
@@ -287,6 +351,11 @@ std::vector<float> WakeWordDetector::pcmToFloat(
 {
     // Expect 16-bit little-endian signed PCM.
     const size_t n = raw.size() / 2;
+    /**
+     * @brief Out.
+     * @param[in] n Input parameter.
+     * @return Return value.
+     */
     std::vector<float> out(n);
     for (size_t i = 0; i < n; ++i) {
         int16_t s = static_cast<int16_t>(

@@ -19,26 +19,14 @@ namespace themis {
 namespace plugins {
 namespace ethics {
 
-/**
- * @brief AQL Query Templates for Ethics AI Plugin
- * 
- * This class provides AQL query templates that work with ThemisDB's
- * BaseEntity model and QueryEngine. All data is stored as BaseEntity
- * instances and queried using AQL.
- * 
- * Collections:
- * - ethics_arguments: Ethical arguments as BaseEntity
- * - ethics_decisions: Decision records
- * - ethics_debates: Debate sessions
- * - ethics_profiles: Philosophy profiles
- */
 class EthicsAQLQueries {
 public:
-    // ========== Argument Queries ==========
-    
     /**
-     * @brief Get argument by ID
+     * @brief ========== Argument Queries ==========
+     * @return Return value.
+     * @details Implements getArgumentById without additional internal calls.
      */
+    
     static std::string getArgumentById() {
         return R"(
             FOR arg IN ethics_arguments
@@ -48,8 +36,9 @@ public:
     }
     
     /**
-     * @brief Get arguments by philosophy school
-     * Parameters: `school`, `limit`
+     * @brief Get Arguments By Philosophy.
+     * @return Return value.
+     * @details Implements getArgumentsByPhilosophy without additional internal calls.
      */
     static std::string getArgumentsByPhilosophy() {
         return R"(
@@ -61,8 +50,9 @@ public:
     }
     
     /**
-     * @brief Get arguments by philosophy with type filter
-     * Parameters: `school`, `argument_types` (array), `limit`
+     * @brief Get Arguments By Philosophy And Type.
+     * @return Return value.
+     * @details Implements getArgumentsByPhilosophyAndType without additional internal calls.
      */
     static std::string getArgumentsByPhilosophyAndType() {
         return R"(
@@ -75,8 +65,9 @@ public:
     }
     
     /**
-     * @brief Find similar dilemmas using vector similarity
-     * Parameters: `query_vector`, `threshold`, `limit`
+     * @brief Find Similar Dilemmas.
+     * @return Return value.
+     * @details Calls: VECTOR_COSINE_SIMILARITY().
      */
     static std::string findSimilarDilemmas() {
         return R"(
@@ -95,8 +86,9 @@ public:
     }
     
     /**
-     * @brief Search arguments by content (fulltext)
-     * Parameters: `search_text`, `limit`
+     * @brief Search Arguments By Content.
+     * @return Return value.
+     * @details Calls: CONTAINS(), LOWER().
      */
     static std::string searchArgumentsByContent() {
         return R"(
@@ -107,17 +99,12 @@ public:
         )";
     }
     
-    // ========== Graph Traversal Queries ==========
-    
     /**
-     * @brief Traverse argument chains (graph traversal)
-     * Parameters: `start_id`, `max_depth`
-     * 
-     * Note: Requires graph edges stored as:
-     * - FROM: ethics_arguments/arg_001
-     * - TO: ethics_arguments/arg_002
-     * - Edge type: "supports", "counters", "rebuts", "synthesizes"
+     * @brief ========== Graph Traversal Queries ==========
+     * @return Return value.
+     * @details Calls: LENGTH().
      */
+    
     static std::string traverseArgumentChain() {
         return R"(
             FOR v, e, p IN 1..@max_depth OUTBOUND @start_id
@@ -132,8 +119,9 @@ public:
     }
     
     /**
-     * @brief Get supporting arguments (outbound "supports" edges)
-     * Parameters: `argument_id`
+     * @brief Get Supporting Arguments.
+     * @return Return value.
+     * @details Implements getSupportingArguments without additional internal calls.
      */
     static std::string getSupportingArguments() {
         return R"(
@@ -145,8 +133,9 @@ public:
     }
     
     /**
-     * @brief Get countering arguments (outbound "counters" edges)
-     * Parameters: `argument_id`
+     * @brief Get Countering Arguments.
+     * @return Return value.
+     * @details Implements getCounteringArguments without additional internal calls.
      */
     static std::string getCounteringArguments() {
         return R"(
@@ -158,8 +147,9 @@ public:
     }
     
     /**
-     * @brief Find shortest path between two arguments
-     * Parameters: `start_id`, `end_id`, `max_depth`
+     * @brief Find Shortest Path.
+     * @return Return value.
+     * @details Implements findShortestPath without additional internal calls.
      */
     static std::string findShortestPath() {
         return R"(
@@ -171,12 +161,12 @@ public:
         )";
     }
     
-    // ========== Decision Queries ==========
-    
     /**
-     * @brief Get decision by ID
-     * Parameters: `decision_id`
+     * @brief ========== Decision Queries ==========
+     * @return Return value.
+     * @details Implements getDecisionById without additional internal calls.
      */
+    
     static std::string getDecisionById() {
         return R"(
             FOR dec IN ethics_decisions
@@ -186,8 +176,9 @@ public:
     }
     
     /**
-     * @brief Get decisions by category
-     * Parameters: `category`, `min_confidence`, `limit`
+     * @brief Get Decisions By Category.
+     * @return Return value.
+     * @details Implements getDecisionsByCategory without additional internal calls.
      */
     static std::string getDecisionsByCategory() {
         return R"(
@@ -201,8 +192,9 @@ public:
     }
     
     /**
-     * @brief Get recent debates by category
-     * Parameters: `category`, `since_timestamp`, `limit`
+     * @brief Get Recent Debates.
+     * @return Return value.
+     * @details Implements getRecentDebates without additional internal calls.
      */
     static std::string getRecentDebates() {
         return R"(
@@ -216,8 +208,9 @@ public:
     }
     
     /**
-     * @brief Find consensus decisions (high agreement among philosophies)
-     * Parameters: `min_consensus`, `limit`
+     * @brief Find Consensus Decisions.
+     * @return Return value.
+     * @details Implements findConsensusDecisions without additional internal calls.
      */
     static std::string findConsensusDecisions() {
         return R"(
@@ -229,12 +222,12 @@ public:
         )";
     }
     
-    // ========== Best Practice Queries ==========
-    
     /**
-     * @brief Get best practice arguments (high quality + satisfaction)
-     * Parameters: `min_quality`, `min_satisfaction`, `limit`
+     * @brief ========== Best Practice Queries ==========
+     * @return Return value.
+     * @details Implements getBestPractices without additional internal calls.
      */
+    
     static std::string getBestPractices() {
         return R"(
             FOR arg IN ethics_arguments
@@ -247,7 +240,9 @@ public:
     }
     
     /**
-     * @brief Aggregate argument statistics by philosophy
+     * @brief Get Philosophy Statistics.
+     * @return Return value.
+     * @details Implements getPhilosophyStatistics without additional internal calls.
      */
     static std::string getPhilosophyStatistics() {
         return R"(
@@ -260,12 +255,12 @@ public:
         )";
     }
     
-    // ========== Philosophy Profile Queries ==========
-    
     /**
-     * @brief Get philosophy profile by school
-     * Parameters: `school`
+     * @brief ========== Philosophy Profile Queries ==========
+     * @return Return value.
+     * @details Implements getPhilosophyProfile without additional internal calls.
      */
+    
     static std::string getPhilosophyProfile() {
         return R"(
             FOR profile IN ethics_profiles
@@ -275,7 +270,9 @@ public:
     }
     
     /**
-     * @brief List all philosophy schools
+     * @brief List Philosophy Schools.
+     * @return Return value.
+     * @details Implements listPhilosophySchools without additional internal calls.
      */
     static std::string listPhilosophySchools() {
         return R"(
@@ -288,12 +285,12 @@ public:
         )";
     }
     
-    // ========== RAG Context Queries ==========
-    
     /**
-     * @brief Build RAG context: similar dilemmas + philosophy arguments + best practices
-     * Parameters: `query_vector`, `schools` (array), `category`, `limit`
+     * @brief ========== RAG Context Queries ==========
+     * @return Return value.
+     * @details Calls: VECTOR_COSINE_SIMILARITY().
      */
+    
     static std::string buildRAGContext() {
         return R"(
             LET similar_dilemmas = (

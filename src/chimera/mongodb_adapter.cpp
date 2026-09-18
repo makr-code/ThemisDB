@@ -82,6 +82,11 @@ Result<bool> MongoDBAdapter::connect(
 #endif
 }
 
+/**
+ * @brief Disconnect.
+ * @return Return value.
+ * @details Calls: clear(), reset(), ok().
+ */
 Result<bool> MongoDBAdapter::disconnect() {
     connected_ = false;
     connection_string_.clear();
@@ -98,6 +103,13 @@ bool MongoDBAdapter::is_connected() const {
 // Relational Adapter
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Execute query.
+ * @param[in] param Input parameter.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Calls: err(), ok(), std::move().
+ */
 Result<RelationalTable> MongoDBAdapter::execute_query(
     const std::string& /*query*/,
     const std::vector<Scalar>& /*params*/
@@ -123,6 +135,13 @@ Result<RelationalTable> MongoDBAdapter::execute_query(
 #endif
 }
 
+/**
+ * @brief Insert row.
+ * @param[in] param Input parameter.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Calls: err(), ok().
+ */
 Result<size_t> MongoDBAdapter::insert_row(
     const std::string& /*table_name*/,
     const RelationalRow& /*row*/
@@ -147,6 +166,13 @@ Result<size_t> MongoDBAdapter::insert_row(
 #endif
 }
 
+/**
+ * @brief Batch insert.
+ * @param[in] param Input parameter.
+ * @param[in] rows Input parameter.
+ * @return Return value.
+ * @details Calls: err(), ok(), size().
+ */
 Result<size_t> MongoDBAdapter::batch_insert(
     const std::string& /*table_name*/,
     const std::vector<RelationalRow>& rows
@@ -184,6 +210,13 @@ Result<QueryStatistics> MongoDBAdapter::get_query_statistics() const {
 // Vector Adapter (Not Supported)
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Insert vector.
+ * @param[in] param Input parameter.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Calls: err().
+ */
 Result<std::string> MongoDBAdapter::insert_vector(
     const std::string& /*collection*/,
     const Vector& /*vector*/
@@ -194,6 +227,13 @@ Result<std::string> MongoDBAdapter::insert_vector(
     );
 }
 
+/**
+ * @brief Batch insert vectors.
+ * @param[in] param Input parameter.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Calls: err().
+ */
 Result<size_t> MongoDBAdapter::batch_insert_vectors(
     const std::string& /*collection*/,
     const std::vector<Vector>& /*vectors*/
@@ -231,6 +271,12 @@ Result<bool> MongoDBAdapter::create_index(
 // Graph Adapter (Limited Support)
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Insert node.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Calls: ok(), generate_id(), err().
+ */
 Result<std::string> MongoDBAdapter::insert_node(const GraphNode& /*node*/) {
 #ifdef THEMIS_CHIMERA_MONGO
     // NOT IMPLEMENTED: Requires mongocxx. Gate: THEMIS_CHIMERA_MONGO
@@ -245,6 +291,12 @@ Result<std::string> MongoDBAdapter::insert_node(const GraphNode& /*node*/) {
 #endif
 }
 
+/**
+ * @brief Insert edge.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Calls: ok(), generate_id(), err().
+ */
 Result<std::string> MongoDBAdapter::insert_edge(const GraphEdge& /*edge*/) {
 #ifdef THEMIS_CHIMERA_MONGO
     // NOT IMPLEMENTED: Requires mongocxx. Gate: THEMIS_CHIMERA_MONGO
@@ -259,6 +311,14 @@ Result<std::string> MongoDBAdapter::insert_edge(const GraphEdge& /*edge*/) {
 #endif
 }
 
+/**
+ * @brief Shortest path.
+ * @param[in] param Input parameter.
+ * @param[in] param Input parameter.
+ * @param[in] size_t Input parameter.
+ * @return Return value.
+ * @details Calls: err().
+ */
 Result<GraphPath> MongoDBAdapter::shortest_path(
     const std::string& /*source_id*/,
     const std::string& /*target_id*/,
@@ -270,6 +330,14 @@ Result<GraphPath> MongoDBAdapter::shortest_path(
     );
 }
 
+/**
+ * @brief Traverse.
+ * @param[in] param Input parameter.
+ * @param[in] size_t Input parameter.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Calls: err().
+ */
 Result<std::vector<GraphNode>> MongoDBAdapter::traverse(
     const std::string& /*start_id*/,
     size_t /*max_depth*/,
@@ -295,6 +363,13 @@ Result<std::vector<GraphPath>> MongoDBAdapter::execute_graph_query(
 // Document Adapter
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Insert document.
+ * @param[in] param Input parameter.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Calls: err(), generate_id(), ok().
+ */
 Result<std::string> MongoDBAdapter::insert_document(
     const std::string& /*collection*/,
     const Document& /*doc*/
@@ -320,6 +395,13 @@ Result<std::string> MongoDBAdapter::insert_document(
 #endif
 }
 
+/**
+ * @brief Batch insert documents.
+ * @param[in] param Input parameter.
+ * @param[in] docs Input parameter.
+ * @return Return value.
+ * @details Calls: err(), ok(), size().
+ */
 Result<size_t> MongoDBAdapter::batch_insert_documents(
     const std::string& /*collection*/,
     const std::vector<Document>& docs
@@ -399,6 +481,12 @@ Result<size_t> MongoDBAdapter::update_documents(
 // Legacy Transaction Adapter
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Begin transaction.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Calls: err().
+ */
 Result<std::string> MongoDBAdapter::begin_transaction(
     const TransactionOptions& /*options*/
 ) {
@@ -408,6 +496,12 @@ Result<std::string> MongoDBAdapter::begin_transaction(
     );
 }
 
+/**
+ * @brief Commit transaction.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Calls: err().
+ */
 Result<bool> MongoDBAdapter::commit_transaction(const std::string& /*transaction_id*/) {
     return Result<bool>::err(
         ErrorCode::NOT_IMPLEMENTED,
@@ -415,6 +509,12 @@ Result<bool> MongoDBAdapter::commit_transaction(const std::string& /*transaction
     );
 }
 
+/**
+ * @brief Rollback transaction.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Calls: err().
+ */
 Result<bool> MongoDBAdapter::rollback_transaction(const std::string& /*transaction_id*/) {
     return Result<bool>::err(
         ErrorCode::NOT_IMPLEMENTED,
@@ -422,6 +522,13 @@ Result<bool> MongoDBAdapter::rollback_transaction(const std::string& /*transacti
     );
 }
 
+/**
+ * @brief Create savepoint.
+ * @param[in] param Input parameter.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Calls: err().
+ */
 Result<std::string> MongoDBAdapter::create_savepoint(
     const std::string& /*transaction_id*/,
     const std::string& /*savepoint_name*/
@@ -432,6 +539,13 @@ Result<std::string> MongoDBAdapter::create_savepoint(
     );
 }
 
+/**
+ * @brief Rollback to savepoint.
+ * @param[in] param Input parameter.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Calls: err().
+ */
 Result<bool> MongoDBAdapter::rollback_to_savepoint(
     const std::string& /*transaction_id*/,
     const std::string& /*savepoint_name*/
@@ -442,6 +556,13 @@ Result<bool> MongoDBAdapter::rollback_to_savepoint(
     );
 }
 
+/**
+ * @brief Release savepoint.
+ * @param[in] param Input parameter.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Calls: err().
+ */
 Result<bool> MongoDBAdapter::release_savepoint(
     const std::string& /*transaction_id*/,
     const std::string& /*savepoint_name*/
@@ -452,6 +573,12 @@ Result<bool> MongoDBAdapter::release_savepoint(
     );
 }
 
+/**
+ * @brief Get transaction stats.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Calls: err().
+ */
 Result<TransactionStats> MongoDBAdapter::get_transaction_stats(
     const std::string& /*transaction_id*/
 ) {
@@ -461,6 +588,12 @@ Result<TransactionStats> MongoDBAdapter::get_transaction_stats(
     );
 }
 
+/**
+ * @brief Get transaction state.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Calls: err().
+ */
 Result<TransactionState> MongoDBAdapter::get_transaction_state(
     const std::string& /*transaction_id*/
 ) {
@@ -527,6 +660,12 @@ std::vector<Capability> MongoDBAdapter::get_capabilities() const {
 // ITransactionalAdapter Implementation
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Begin transaction.
+ * @param[in] IsolationLevel Input parameter.
+ * @return Return value.
+ * @details Calls: err(), generate_id(), mark_active(), lock(), ok(), TransactionHandle().
+ */
 Result<TransactionHandle> MongoDBAdapter::begin_transaction(
     IsolationLevel /*isolation_level*/
 ) {
@@ -549,6 +688,12 @@ Result<TransactionHandle> MongoDBAdapter::begin_transaction(
     return Result<TransactionHandle>::ok(TransactionHandle(context));
 }
 
+/**
+ * @brief Commit transaction.
+ * @param[in] handle Input parameter.
+ * @return Return value.
+ * @details Calls: err(), mark_committed(), ok().
+ */
 Result<bool> MongoDBAdapter::commit_transaction(
     const TransactionHandle& handle
 ) {
@@ -564,6 +709,12 @@ Result<bool> MongoDBAdapter::commit_transaction(
     return Result<bool>::ok(true);
 }
 
+/**
+ * @brief Rollback transaction.
+ * @param[in] handle Input parameter.
+ * @return Return value.
+ * @details Calls: err(), mark_aborted(), ok().
+ */
 Result<bool> MongoDBAdapter::rollback_transaction(
     const TransactionHandle& handle
 ) {
@@ -579,6 +730,13 @@ Result<bool> MongoDBAdapter::rollback_transaction(
     return Result<bool>::ok(true);
 }
 
+/**
+ * @brief Create savepoint.
+ * @param[in] handle Input parameter.
+ * @param[in] savepoint_name Name of the savepoint.
+ * @return Return value.
+ * @details Calls: err(), ok().
+ */
 Result<std::string> MongoDBAdapter::create_savepoint(
     const TransactionHandle& handle,
     const std::string& savepoint_name
@@ -601,6 +759,13 @@ Result<std::string> MongoDBAdapter::create_savepoint(
     return Result<std::string>::ok(savepoint_name);
 }
 
+/**
+ * @brief Rollback to savepoint.
+ * @param[in] handle Input parameter.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Calls: err(), ok().
+ */
 Result<bool> MongoDBAdapter::rollback_to_savepoint(
     const TransactionHandle& handle,
     const std::string& /*savepoint_name*/
@@ -640,6 +805,13 @@ TransactionState MongoDBAdapter::get_transaction_state(
 // IBatchAdapter Implementation
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Queue insert.
+ * @param[in] table_name Name of the table.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Calls: err(), lock(), push_back(), ok().
+ */
 Result<bool> MongoDBAdapter::queue_insert(
     const std::string& table_name,
     const RelationalRow& /*row*/
@@ -659,6 +831,13 @@ Result<bool> MongoDBAdapter::queue_insert(
     return Result<bool>::ok(true);
 }
 
+/**
+ * @brief Queue insert batch.
+ * @param[in] table_name Name of the table.
+ * @param[in] rows Input parameter.
+ * @return Return value.
+ * @details Calls: err(), lock(), size(), push_back(), ok().
+ */
 Result<bool> MongoDBAdapter::queue_insert_batch(
     const std::string& table_name,
     const std::vector<RelationalRow>& rows
@@ -680,6 +859,14 @@ Result<bool> MongoDBAdapter::queue_insert_batch(
     return Result<bool>::ok(true);
 }
 
+/**
+ * @brief Queue update.
+ * @param[in] table_name Name of the table.
+ * @param[in] param Input parameter.
+ * @param[in] where_clause Input parameter.
+ * @return Return value.
+ * @details Calls: err(), lock(), push_back(), ok().
+ */
 Result<bool> MongoDBAdapter::queue_update(
     const std::string& table_name,
     const RelationalRow& /*row*/,
@@ -700,6 +887,13 @@ Result<bool> MongoDBAdapter::queue_update(
     return Result<bool>::ok(true);
 }
 
+/**
+ * @brief Queue delete.
+ * @param[in] table_name Name of the table.
+ * @param[in] where_clause Input parameter.
+ * @return Return value.
+ * @details Calls: err(), lock(), push_back(), ok().
+ */
 Result<bool> MongoDBAdapter::queue_delete(
     const std::string& table_name,
     const std::string& where_clause
@@ -719,6 +913,11 @@ Result<bool> MongoDBAdapter::queue_delete(
     return Result<bool>::ok(true);
 }
 
+/**
+ * @brief Flush.
+ * @return Return value.
+ * @details Calls: lock(), size(), clear(), ok(), std::move().
+ */
 Result<BatchStatistics> MongoDBAdapter::flush() {
     BatchStatistics stats;
     {
@@ -731,10 +930,21 @@ Result<BatchStatistics> MongoDBAdapter::flush() {
 }
 
 size_t MongoDBAdapter::get_pending_count() const {
+    /**
+     * @brief Lock.
+     * @param[in] batch_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::unique_lock<std::mutex> lock(batch_mutex_);
     return batch_queue_.size();
 }
 
+/**
+ * @brief Set batch config.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), ok().
+ */
 Result<bool> MongoDBAdapter::set_batch_config(const BatchConfig& config) {
     std::unique_lock<std::mutex> lock(batch_mutex_);
     batch_config_ = config;
@@ -749,25 +959,54 @@ const BatchConfig& MongoDBAdapter::get_batch_config() const {
 // Private Helpers
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Generate id.
+ * @return Return value.
+ * @details Calls: utils::generate_uuid_v4().
+ */
 std::string MongoDBAdapter::generate_id() {
     return utils::generate_uuid_v4();
 }
 
+/**
+ * @brief Is valid connection string.
+ * @param[in] cs Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: find().
+ */
 bool MongoDBAdapter::is_valid_connection_string(const std::string& cs) {
     return cs.find("mongodb://") == 0 || cs.find("mongodb+srv://") == 0;
 }
 
+/**
+ * @brief Mask credentials.
+ * @param[in] cs Input parameter.
+ * @return Return value.
+ * @details Implements mask_credentials without additional internal calls.
+ */
 std::string MongoDBAdapter::mask_credentials(const std::string& cs) {
     // NOT IMPLEMENTED: Full credential masking requires mongocxx URI parsing.
     // Gate: THEMIS_CHIMERA_MONGO. For safety, return as-is; do not log raw cs.
     return cs;
 }
 
+/**
+ * @brief Scalar to bson string.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Implements scalar_to_bson_string without additional internal calls.
+ */
 std::string MongoDBAdapter::scalar_to_bson_string(const Scalar& /*scalar*/) {
     // NOT IMPLEMENTED: Requires mongocxx BSON serialization. Gate: THEMIS_CHIMERA_MONGO
     return "";
 }
 
+/**
+ * @brief Row to bson document.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Implements row_to_bson_document without additional internal calls.
+ */
 std::string MongoDBAdapter::row_to_bson_document(const RelationalRow& /*row*/) {
     // NOT IMPLEMENTED: Requires mongocxx BSON document builder. Gate: THEMIS_CHIMERA_MONGO
     return "";

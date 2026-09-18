@@ -33,12 +33,6 @@ std::string DiagnosticEvent::toJsonString() const {
     return j.dump();
 }
 
-/**
- * @brief Global diagnostic event handler (defaults to spdlog)
- * 
- * This can be overridden by test code or custom implementations
- * to direct events to external observability systems.
- */
 namespace {
     DiagnosticEventHandler g_event_handler = [](const DiagnosticEvent& event) {
         auto logger = spdlog::get("user_storage_encrypted");
@@ -85,12 +79,9 @@ namespace {
 }
 
 /**
- * @brief Register a custom diagnostic event handler
- * 
- * The handler will be called for all diagnostic events in the module.
- * Useful for metrics collection, external observability, or testing.
- * 
- * @param handler Function to invoke for each event
+ * @brief Register Diagnostic Event Handler.
+ * @param[in] handler Input parameter.
+ * @details Calls: std::move().
  */
 void registerDiagnosticEventHandler(DiagnosticEventHandler handler) {
     if (handler) {
@@ -99,11 +90,9 @@ void registerDiagnosticEventHandler(DiagnosticEventHandler handler) {
 }
 
 /**
- * @brief Emit a diagnostic event
- * 
- * Creates a timestamped event and passes it to the registered handler.
- * 
- * @param event The diagnostic event to emit
+ * @brief Emit Diagnostic Event.
+ * @param[in] event Input parameter.
+ * @details Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), g_event_handler().
  */
 void emitDiagnosticEvent(DiagnosticEvent event) {
     // Ensure timestamp is set

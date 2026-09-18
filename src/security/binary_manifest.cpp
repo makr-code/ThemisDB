@@ -33,6 +33,12 @@ nlohmann::json BinaryFileEntry::to_json() const {
     return j;
 }
 
+/**
+ * @brief From json.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: at(), contains().
+ */
 BinaryFileEntry BinaryFileEntry::from_json(const nlohmann::json& j) {
     BinaryFileEntry entry;
     entry.path = j.at("path").get<std::string>();
@@ -52,6 +58,11 @@ BinaryManifest::BinaryManifest(const Metadata& metadata)
     : metadata_(metadata) {
 }
 
+/**
+ * @brief Add File.
+ * @param[in] entry Input parameter.
+ * @details Calls: push_back().
+ */
 void BinaryManifest::addFile(const BinaryFileEntry& entry) {
     files_.push_back(entry);
 }
@@ -75,6 +86,12 @@ nlohmann::json BinaryManifest::to_json() const {
     return j;
 }
 
+/**
+ * @brief From json.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: at(), std::chrono::system_clock::from_time_t(), push_back().
+ */
 BinaryManifest BinaryManifest::from_json(const nlohmann::json& j) {
     BinaryManifest manifest;
     
@@ -114,6 +131,12 @@ nlohmann::json SignedManifest::to_json() const {
     return j;
 }
 
+/**
+ * @brief From json.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: at().
+ */
 SignedManifest SignedManifest::from_json(const nlohmann::json& j) {
     SignedManifest sm;
     sm.manifest = BinaryManifest::from_json(j.at("manifest"));
@@ -125,6 +148,11 @@ SignedManifest SignedManifest::from_json(const nlohmann::json& j) {
 
 bool SignedManifest::saveToFile(const std::string& path) const {
     try {
+        /**
+         * @brief File.
+         * @param[in] path Input parameter.
+         * @return Return value.
+         */
         std::ofstream file(path);
         if (!file.is_open()) {
             spdlog::error("Failed to open file for writing: {}", path);
@@ -143,6 +171,13 @@ bool SignedManifest::saveToFile(const std::string& path) const {
     }
 }
 
+/**
+ * @brief Load From File.
+ * @param[in] path Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: file(), is_open(), close(), SignedManifest::from_json().
+ */
 SignedManifest SignedManifest::loadFromFile(const std::string& path) {
     std::ifstream file(path);
     if (!file.is_open()) {

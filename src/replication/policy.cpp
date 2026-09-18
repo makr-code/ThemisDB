@@ -26,7 +26,12 @@ namespace replication {
 
 namespace {
 
-/** Count healthy replicas in a vector (HEALTHY or UNKNOWN). */
+/**
+ * @brief Count Healthy.
+ * @param[in] replicas Input parameter.
+ * @return Return value.
+ * @details Implements countHealthy without additional internal calls.
+ */
 static int countHealthy(const std::vector<ReplicaInfo>& replicas) {
     int cnt = 0;
     for (const auto& r : replicas) {
@@ -37,7 +42,11 @@ static int countHealthy(const std::vector<ReplicaInfo>& replicas) {
     return cnt;
 }
 
-/** Collect the set of distinct datacenter labels present among replicas. */
+/**
+ * @brief Collect Datacenters.
+ * @param[in] replicas Input parameter.
+ * @return Return value.
+ */
 static std::set<std::string> collectDatacenters(
     const std::vector<ReplicaInfo>& replicas)
 {
@@ -77,24 +86,55 @@ ReplicationPolicy::ReplicationPolicy(
 // Policy management
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Define Policy.
+ * @param[in] policy_name Name of the retention policy.
+ * @param[in] policy Input parameter.
+ */
 void ReplicationPolicy::definePolicy(
     const std::string& policy_name,
     const Policy& policy)
 {
+    /**
+     * @brief Lock.
+     * @param[in] policies_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(policies_mutex_);
     policies_[policy_name] = policy;
 }
 
+/**
+ * @brief Remove a retention policy by name.
+ * @param[in] policy_name Name of the retention policy to remove.
+ * @return True when the policy existed and was removed.
+ */
 bool ReplicationPolicy::removePolicy(const std::string& policy_name)
 {
+    /**
+     * @brief Lock.
+     * @param[in] policies_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(policies_mutex_);
     return policies_.erase(policy_name) > 0;
 }
 
+/**
+ * @brief Assign Policy.
+ * @param[in] collection Input parameter.
+ * @param[in] policy_name Name of the retention policy.
+ * @return True when the operation succeeds.
+ */
 bool ReplicationPolicy::assignPolicy(
     const std::string& collection,
     const std::string& policy_name)
 {
+    /**
+     * @brief Lock.
+     * @param[in] policies_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(policies_mutex_);
     if (policies_.find(policy_name) == policies_.end()) {
       return false;
@@ -106,6 +146,11 @@ bool ReplicationPolicy::assignPolicy(
 ReplicationPolicy::Policy
 ReplicationPolicy::getPolicy(const std::string& collection) const
 {
+    /**
+     * @brief Lock.
+     * @param[in] policies_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(policies_mutex_);
     const auto asn_it = assignments_.find(collection);
     if (asn_it == assignments_.end()) {
@@ -120,6 +165,11 @@ ReplicationPolicy::getPolicy(const std::string& collection) const
 
 std::vector<std::string> ReplicationPolicy::listPolicies() const
 {
+    /**
+     * @brief Lock.
+     * @param[in] policies_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(policies_mutex_);
     std::vector<std::string> names = {};
 

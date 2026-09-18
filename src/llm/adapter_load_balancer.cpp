@@ -37,6 +37,14 @@ AdapterLoadBalancer::~AdapterLoadBalancer() {
     spdlog::info("  Total evictions: {}", total_evictions_);
 }
 
+/**
+ * @brief Select GPUFor Adapter.
+ * @param[in] adapter_id Identifier of the adapter.
+ * @param[in] vram_bytes Input parameter.
+ * @param[in] priority Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), getHealthyGPUs(), empty(), spdlog::error(), getFreeGPUVRAM(), size(), spdlog::warn(), evictLRUAdapters().
+ */
 int AdapterLoadBalancer::selectGPUForAdapter(
     const std::string& adapter_id, size_t vram_bytes, int priority) {
     
@@ -93,6 +101,16 @@ int AdapterLoadBalancer::selectGPUForAdapter(
     return best_gpu;
 }
 
+/**
+ * @brief Place Adapter.
+ * @param[in] adapter_id Identifier of the adapter.
+ * @param[in] gpu_device_id Identifier of the gpu device.
+ * @param[in] vram_bytes Input parameter.
+ * @param[in] priority Input parameter.
+ * @param[in] pinned Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), find(), end(), spdlog::warn(), erase(), std::remove(), begin(), canPlaceOnGPU().
+ */
 bool AdapterLoadBalancer::placeAdapter(
     const std::string& adapter_id, int gpu_device_id,
     size_t vram_bytes, int priority, bool pinned) {
@@ -138,6 +156,12 @@ bool AdapterLoadBalancer::placeAdapter(
     return true;
 }
 
+/**
+ * @brief Remove Adapter.
+ * @param[in] adapter_id Identifier of the adapter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), find(), end(), erase(), std::remove(), begin(), spdlog::info().
+ */
 bool AdapterLoadBalancer::removeAdapter(const std::string& adapter_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -159,6 +183,11 @@ bool AdapterLoadBalancer::removeAdapter(const std::string& adapter_id) {
 }
 
 int AdapterLoadBalancer::getAdapterGPU(const std::string& adapter_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     auto it = placements_.find(adapter_id);
@@ -170,6 +199,11 @@ int AdapterLoadBalancer::getAdapterGPU(const std::string& adapter_id) const {
 }
 
 std::vector<std::string> AdapterLoadBalancer::getGPUAdapters(int gpu_device_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     auto it = gpu_to_adapters_.find(gpu_device_id);
@@ -183,6 +217,11 @@ std::vector<std::string> AdapterLoadBalancer::getGPUAdapters(int gpu_device_id) 
 AdapterLoadBalancer::AdapterPlacement AdapterLoadBalancer::getAdapterPlacement(
     const std::string& adapter_id) const {
     
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     auto it = placements_.find(adapter_id);
@@ -194,10 +233,21 @@ AdapterLoadBalancer::AdapterPlacement AdapterLoadBalancer::getAdapterPlacement(
 }
 
 bool AdapterLoadBalancer::isAdapterLoaded(const std::string& adapter_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return placements_.find(adapter_id) != placements_.end();
 }
 
+/**
+ * @brief Pin Adapter.
+ * @param[in] adapter_id Identifier of the adapter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), find(), end(), spdlog::error(), spdlog::info().
+ */
 bool AdapterLoadBalancer::pinAdapter(const std::string& adapter_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -213,6 +263,12 @@ bool AdapterLoadBalancer::pinAdapter(const std::string& adapter_id) {
     return true;
 }
 
+/**
+ * @brief Unpin Adapter.
+ * @param[in] adapter_id Identifier of the adapter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), find(), end(), spdlog::info().
+ */
 bool AdapterLoadBalancer::unpinAdapter(const std::string& adapter_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -228,6 +284,11 @@ bool AdapterLoadBalancer::unpinAdapter(const std::string& adapter_id) {
 }
 
 bool AdapterLoadBalancer::isAdapterPinned(const std::string& adapter_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     auto it = placements_.find(adapter_id);
@@ -238,6 +299,11 @@ bool AdapterLoadBalancer::isAdapterPinned(const std::string& adapter_id) const {
     return false;
 }
 
+/**
+ * @brief Rebalance.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), shouldRebalance(), spdlog::info(), getHealthyGPUs(), size(), calculateGPULoad(), push_back(), empty().
+ */
 bool AdapterLoadBalancer::rebalance() {
     if (!config_.enable_dynamic_balancing) {
         return false;
@@ -339,6 +405,13 @@ bool AdapterLoadBalancer::rebalance() {
     return migrations > 0;
 }
 
+/**
+ * @brief Migrate Adapter.
+ * @param[in] adapter_id Identifier of the adapter.
+ * @param[in] target_gpu_id Identifier of the target gpu.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), find(), end(), spdlog::error(), spdlog::warn(), spdlog::info(), performMigration().
+ */
 bool AdapterLoadBalancer::migrateAdapter(
     const std::string& adapter_id, int target_gpu_id) {
     
@@ -373,6 +446,13 @@ bool AdapterLoadBalancer::migrateAdapter(
     return success;
 }
 
+/**
+ * @brief Evict LRUAdapters.
+ * @param[in] gpu_device_id Identifier of the gpu device.
+ * @param[in] required_bytes Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), selectAdaptersForEviction(), find(), end(), performEviction(), push_back().
+ */
 std::vector<std::string> AdapterLoadBalancer::evictLRUAdapters(
     int gpu_device_id, size_t required_bytes) {
     
@@ -402,6 +482,11 @@ std::vector<std::string> AdapterLoadBalancer::evictLRUAdapters(
     return evicted;
 }
 
+/**
+ * @brief Record Access.
+ * @param[in] adapter_id Identifier of the adapter.
+ * @details Calls: lock(), find(), end(), getCurrentTimeMs().
+ */
 void AdapterLoadBalancer::recordAccess(const std::string& adapter_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -413,6 +498,11 @@ void AdapterLoadBalancer::recordAccess(const std::string& adapter_id) {
 }
 
 AdapterLoadBalancer::LoadBalanceStats AdapterLoadBalancer::getStats() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     LoadBalanceStats stats = {};
@@ -446,10 +536,20 @@ AdapterLoadBalancer::LoadBalanceStats AdapterLoadBalancer::getStats() const {
 }
 
 float AdapterLoadBalancer::getGPULoad(int gpu_device_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return calculateGPULoad(gpu_device_id);
 }
 
+/**
+ * @brief Mark GPUUnhealthy.
+ * @param[in] gpu_device_id Identifier of the gpu device.
+ * @details Calls: lock(), spdlog::warn().
+ */
 void AdapterLoadBalancer::markGPUUnhealthy(int gpu_device_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -458,6 +558,11 @@ void AdapterLoadBalancer::markGPUUnhealthy(int gpu_device_id) {
     spdlog::warn("GPU {} marked unhealthy, considering adapter migration", gpu_device_id);
 }
 
+/**
+ * @brief Mark GPUHealthy.
+ * @param[in] gpu_device_id Identifier of the gpu device.
+ * @details Calls: lock(), spdlog::info().
+ */
 void AdapterLoadBalancer::markGPUHealthy(int gpu_device_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -467,6 +572,11 @@ void AdapterLoadBalancer::markGPUHealthy(int gpu_device_id) {
 }
 
 bool AdapterLoadBalancer::shouldMigrateFromGPU(int gpu_device_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     return !memory_manager_->isGPUHealthy(gpu_device_id);
@@ -558,6 +668,14 @@ int AdapterLoadBalancer::findLeastLoadedHealthyGPU() const {
     return best_gpu;
 }
 
+/**
+ * @brief Perform Migration.
+ * @param[in] adapter_id Identifier of the adapter.
+ * @param[in] source_gpu Input parameter.
+ * @param[in] target_gpu Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: find(), end(), erase(), std::remove(), begin(), push_back(), spdlog::info().
+ */
 bool AdapterLoadBalancer::performMigration(
     const std::string& adapter_id, int source_gpu, int target_gpu) {
     
@@ -585,6 +703,12 @@ bool AdapterLoadBalancer::performMigration(
     return true;
 }
 
+/**
+ * @brief Perform Eviction.
+ * @param[in] adapter_id Identifier of the adapter.
+ * @return True when the operation succeeds.
+ * @details Calls: find(), end(), erase(), std::remove(), begin(), spdlog::info().
+ */
 bool AdapterLoadBalancer::performEviction(const std::string& adapter_id) {
     auto it = placements_.find(adapter_id);
     if (it == placements_.end()) {
@@ -609,9 +733,12 @@ int64_t AdapterLoadBalancer::getCurrentTimeMs() const {
         std::chrono::system_clock::now().time_since_epoch()).count();
 }
 
-// ============================================================================
-// Hot-load in-progress tracking
-// ============================================================================
+/**
+ * @brief ============================================================================ Hot-load in-progress tracking ============================================================================
+ * @param[in] adapter_id Identifier of the adapter.
+ * @param[in] fallback_id Identifier of the fallback.
+ * @details Calls: lock(), spdlog::info(), empty().
+ */
 
 void AdapterLoadBalancer::beginHotLoad(const std::string& adapter_id,
                                         const std::string& fallback_id) {
@@ -621,6 +748,11 @@ void AdapterLoadBalancer::beginHotLoad(const std::string& adapter_id,
                  adapter_id, fallback_id.empty() ? "<none>" : fallback_id);
 }
 
+/**
+ * @brief End Hot Load.
+ * @param[in] adapter_id Identifier of the adapter.
+ * @details Calls: lock(), erase(), spdlog::info().
+ */
 void AdapterLoadBalancer::endHotLoad(const std::string& adapter_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     hot_loading_adapters_.erase(adapter_id);
@@ -628,11 +760,21 @@ void AdapterLoadBalancer::endHotLoad(const std::string& adapter_id) {
 }
 
 bool AdapterLoadBalancer::isHotLoadInProgress(const std::string& adapter_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return hot_loading_adapters_.count(adapter_id) > 0;
 }
 
 std::string AdapterLoadBalancer::resolveAdapter(const std::string& adapter_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = hot_loading_adapters_.find(adapter_id);
     if (it != hot_loading_adapters_.end()) {
@@ -644,9 +786,18 @@ std::string AdapterLoadBalancer::resolveAdapter(const std::string& adapter_id) c
     return adapter_id;
 }
 
+/**
+ * @brief Set Decision Record Processor.
+ * @param[in] processor Input parameter.
+ */
 void AdapterLoadBalancer::setDecisionRecordProcessor(
     std::shared_ptr<DecisionRecordYamlProcessor> processor)
 {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     dr_processor_ = std::move(processor);
 }

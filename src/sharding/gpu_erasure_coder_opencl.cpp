@@ -59,6 +59,10 @@ namespace {
 static uint8_t gf_exp[512];   // exp table (doubled for wrap-around)
 static uint8_t gf_log[256];   // log table
 
+/**
+ * @brief Build gf tables.
+ * @details Implements build_gf_tables without additional internal calls.
+ */
 static void build_gf_tables() {
     // Generator polynomial: primitive element 2
     uint8_t x = 1;
@@ -77,6 +81,13 @@ static void build_gf_tables() {
     gf_log[0] = 0;  // undefined, but set to 0 to avoid UB
 }
 
+/**
+ * @brief Gf mul.
+ * @param[in] a Input parameter.
+ * @param[in] b Input parameter.
+ * @return Return value.
+ * @details Implements gf_mul without additional internal calls.
+ */
 static uint8_t gf_mul(uint8_t a, uint8_t b) {
     if (a == 0 || b == 0) {
       return 0;
@@ -84,6 +95,13 @@ static uint8_t gf_mul(uint8_t a, uint8_t b) {
     return gf_exp[static_cast<int>(gf_log[a]) + static_cast<int>(gf_log[b])];
 }
 
+/**
+ * @brief Gf inv.
+ * @param[in] a Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Implements gf_inv without additional internal calls.
+ */
 static uint8_t gf_inv(uint8_t a) {
     if (a == 0) {
       throw std::runtime_error("GF division by zero");
@@ -91,8 +109,13 @@ static uint8_t gf_inv(uint8_t a) {
     return gf_exp[255 - static_cast<int>(gf_log[a])];
 }
 
-// Build Vandermonde parity matrix: V[p][d] = gf_pow(p+1, d)
-// Returns row-major flat matrix of size parity_shards × data_shards.
+/**
+ * @brief Build Vandermonde parity matrix: V[p][d] = gf_pow(p+1, d) Returns row-major flat matrix of size parity_shards × data_shards.
+ * @param[in] data_shards Input parameter.
+ * @param[in] parity_shards Input parameter.
+ * @return Return value.
+ * @details Calls: mat(), gf_mul().
+ */
 static std::vector<uint8_t> build_vandermonde(uint32_t data_shards,
                                                uint32_t parity_shards) {
     std::vector<uint8_t> mat(parity_shards * data_shards, 0);
@@ -107,8 +130,14 @@ static std::vector<uint8_t> build_vandermonde(uint32_t data_shards,
     return mat;
 }
 
-// Gaussian elimination in GF(2^8) on an augmented matrix.
-// Modifies mat in-place (size rows × cols, row-major).
+/**
+ * @brief Gaussian elimination in GF(2^8) on an augmented matrix.
+ * @param[in,out] mat Input/output parameter.
+ * @param[in] rows Input parameter.
+ * @param[in] cols Input parameter.
+ * @throws std::runtime_error if an error occurs.
+ * @details Modifies mat in-place (size rows × cols, row-major). Calls: std::swap(), gf_inv(), gf_mul().
+ */
 static void gf_gaussian_elimination(std::vector<uint8_t>& mat,
                                      uint32_t rows, uint32_t cols) {
     for (uint32_t pivot_row = 0; pivot_row < rows; ++pivot_row) {
@@ -149,6 +178,15 @@ static void gf_gaussian_elimination(std::vector<uint8_t>& mat,
 // multiplication. The GF exp/log tables are passed as __constant buffers
 // so the host can initialise them from the CPU-generated tables.
 static const char* kParityKernelSrc = R"CL(
+/**
+ * @brief Gf mul cl.
+ * @param[in,out] gf_exp Input/output parameter.
+ * @param[in,out] gf_log Input/output parameter.
+ * @param[in] a Input parameter.
+ * @param[in] b Input parameter.
+ * @return Return value.
+ * @details Implements gf_mul_cl without additional internal calls.
+ */
 uchar gf_mul_cl(__constant uchar* gf_exp,
                 __constant uchar* gf_log,
                 uchar a, uchar b) {
@@ -158,12 +196,19 @@ uchar gf_mul_cl(__constant uchar* gf_exp,
     return gf_exp[(int)gf_log[a] + (int)gf_log[b]];
 }
 
-// Each work-item processes one byte position across all data shards.
-// data_flat:   concatenation of data_shards chunks, each of chunk_size bytes.
-// parity_flat: output, parity_shards chunks of chunk_size bytes.
-// enc_matrix:  Vandermonde matrix, row-major, parity_shards x data_shards.
-// gf_exp_buf:  GF(2^8) exponent table (512 bytes).
-// gf_log_buf:  GF(2^8) logarithm table (256 bytes).
+/**
+ * @brief Each work-item processes one byte position across all data shards.
+ * @param[in] data_flat Input parameter.
+ * @param[in,out] parity_flat Input/output parameter.
+ * @param[in,out] enc_matrix Input/output parameter.
+ * @param[in,out] gf_exp_buf Input/output parameter.
+ * @param[in,out] gf_log_buf Input/output parameter.
+ * @param[in] chunk_size Input parameter.
+ * @param[in] data_shards Input parameter.
+ * @param[in] parity_shards Input parameter.
+ * @return Return value.
+ * @details data_flat: concatenation of data_shards chunks, each of chunk_size bytes. parity_flat: output, parity_shards chunks of chunk_size bytes. enc_matrix: Vandermonde matrix, row-major, parity_shards x data_shards. gf_exp_buf: GF(2^8) exponent table (512 bytes). gf_log_buf: GF(2^8) logarithm table (256 bytes).
+ */
 __kernel void encode_parity(
     __global  const uchar* data_flat,
     __global        uchar* parity_flat,
@@ -199,6 +244,11 @@ __kernel void encode_parity(
 
 class OpenCLErasureCoderImpl : public GPUErasureCoderImpl {
 public:
+    /**
+     * @brief Open CLErasure Coder Impl.
+     * @param[in] algorithm Input parameter.
+     * @return Return value.
+     */
     explicit OpenCLErasureCoderImpl(ErasureCodingAlgorithm algorithm)
         : algorithm_(algorithm) {
         build_gf_tables();
@@ -219,6 +269,11 @@ public:
             return false;
         }
 
+        /**
+         * @brief Platforms.
+         * @param[in] num_platforms Input parameter.
+         * @return Return value.
+         */
         std::vector<cl_platform_id> platforms(num_platforms);
         clGetPlatformIDs(num_platforms, platforms.data(), nullptr);
 
@@ -230,6 +285,11 @@ public:
             for (cl_device_type dtype : dtypes) {
                 if (clGetDeviceIDs(plat, dtype, 0, nullptr, &num_dev)
                         == CL_SUCCESS && num_dev > 0) {
+                    /**
+                     * @brief Devs.
+                     * @param[in] num_dev Input parameter.
+                     * @return Return value.
+                     */
                     std::vector<cl_device_id> devs(num_dev);
                     clGetDeviceIDs(plat, dtype, num_dev, devs.data(), nullptr);
                     // Guard against negative device_id (GPUConfig uses int)
@@ -593,7 +653,11 @@ public:
         if (gpu_ok) {
             clFinish(queue_);
 
-            // Read back parity results
+            /**
+             * @brief Read back parity results
+             * @param[in] total_parity_bytes Input parameter.
+             * @return Return value.
+             */
             std::vector<uint8_t> flat_parity(total_parity_bytes);
             clEnqueueReadBuffer(queue_, buf_parity, CL_TRUE, 0,
                                 total_parity_bytes, flat_parity.data(),
@@ -614,6 +678,11 @@ public:
                     stripe_chunks.push_back(std::move(chunk));
                 }
                 for (uint32_t p = 0; p < parity_shards; ++p) {
+                    /**
+                     * @brief Pchunk.
+                     * @param[in] chunk_size Input parameter.
+                     * @return Return value.
+                     */
                     std::vector<uint8_t> pchunk(chunk_size);
                     const size_t src = s * stripe_parity_bytes
                                        + static_cast<size_t>(p) * chunk_size;
@@ -654,7 +723,15 @@ private:
     cl_mem        buf_gf_exp_ = nullptr;
     cl_mem        buf_gf_log_ = nullptr;
 
-    // ── GPU encode helper ─────────────────────────────────────────────────
+    /**
+     * @brief ── GPU encode helper ─────────────────────────────────────────────────
+     * @param[in] data_chunks Input parameter.
+     * @param[in] chunk_size Input parameter.
+     * @param[in] data_shards Input parameter.
+     * @param[in] parity_shards Input parameter.
+     * @param[in] enc_matrix Input parameter.
+     * @param[in,out] parity_chunks Input/output parameter.
+     */
     void encode_gpu(
         const std::vector<std::vector<uint8_t>>& data_chunks,
         size_t chunk_size,
@@ -666,6 +743,11 @@ private:
         // Build flat data buffer (data_shards contiguous chunks)
         const size_t flat_size =
             static_cast<size_t>(data_shards) * chunk_size;
+        /**
+         * @brief Flat data.
+         * @param[in] flat_size Input parameter.
+         * @return Return value.
+         */
         std::vector<uint8_t> flat_data(flat_size);
         for (uint32_t d = 0; d < data_shards; ++d)
             std::memcpy(flat_data.data() + d * chunk_size,
@@ -736,6 +818,11 @@ private:
 
         clFinish(queue_);
 
+        /**
+         * @brief Flat parity.
+         * @param[in] parity_flat_size Input parameter.
+         * @return Return value.
+         */
         std::vector<uint8_t> flat_parity(parity_flat_size);
         clEnqueueReadBuffer(queue_, buf_parity, CL_TRUE, 0,
                             parity_flat_size, flat_parity.data(),
@@ -751,7 +838,15 @@ private:
         clReleaseMemObject(buf_matrix);
     }
 
-    // ── CPU encode fallback ───────────────────────────────────────────────
+    /**
+     * @brief ── CPU encode fallback ───────────────────────────────────────────────
+     * @param[in] data_chunks Input parameter.
+     * @param[in] chunk_size Input parameter.
+     * @param[in] data_shards Input parameter.
+     * @param[in] parity_shards Input parameter.
+     * @param[in] enc_matrix Input parameter.
+     * @param[in,out] parity_chunks Input/output parameter.
+     */
     static void encode_cpu(
         const std::vector<std::vector<uint8_t>>& data_chunks,
         size_t chunk_size,
@@ -773,9 +868,13 @@ private:
 
 }; // class OpenCLErasureCoderImpl
 
-// ═══════════════════════════════════════════════════════════
-// Factory Function
-// ═══════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════ Factory Function ═══════════════════════════════════════════════════════════
+ * @param[in] config Input parameter.
+ * @param[in] algorithm Input parameter.
+ * @return Return value.
+ * @details Implements createOpenCLErasureCoder without additional internal calls.
+ */
 
 std::unique_ptr<GPUErasureCoderImpl> createOpenCLErasureCoder(
     const GPUConfig& config,

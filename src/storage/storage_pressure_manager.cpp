@@ -29,9 +29,6 @@ namespace storage {
 // § 1  Utility Functions
 // ============================================================================
 
-/**
- * @brief Classify pressure level based on utilization percentage.
- */
 [[nodiscard]] PressureEscalationLevel classifyPressureLevel(double utilization_percent) noexcept {
     if (utilization_percent < 75.0) {
         return PressureEscalationLevel::NORMAL;
@@ -51,6 +48,11 @@ namespace storage {
 // ============================================================================
 
 StorageCapacityMetrics StoragePressureManager::getCapacityMetrics() const noexcept {
+    /**
+     * @brief Lk.
+     * @param[in] mtx_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mtx_);
     StorageCapacityMetrics metrics;
     metrics.total_capacity_bytes = total_capacity_bytes_;
@@ -64,6 +66,11 @@ StorageCapacityMetrics StoragePressureManager::getCapacityMetrics() const noexce
 }
 
 bool StoragePressureManager::canAcceptWrite(std::uint64_t requested_bytes) const noexcept {
+    /**
+     * @brief Lk.
+     * @param[in] mtx_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mtx_);
 
     // Fail-closed: reject writes if already exhausted
@@ -91,6 +98,11 @@ bool StoragePressureManager::canAcceptWrite(std::uint64_t requested_bytes) const
 
 bool StoragePressureManager::canStartBackup(std::uint64_t backup_size_estimate,
                                              int active_backup_count) const noexcept {
+    /**
+     * @brief Lk.
+     * @param[in] mtx_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mtx_);
 
     // Check concurrent backup limit
@@ -123,6 +135,11 @@ bool StoragePressureManager::canStartBackup(std::uint64_t backup_size_estimate,
 
 StorageCapacityMetrics StoragePressureManager::updateCapacity(std::uint64_t total_capacity,
                                                                std::uint64_t used_bytes) noexcept {
+    /**
+     * @brief Lk.
+     * @param[in] mtx_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mtx_);
 
     total_capacity_bytes_ = total_capacity;

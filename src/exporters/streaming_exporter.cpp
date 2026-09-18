@@ -41,6 +41,11 @@ bool VectorExportCursor::hasNext() const {
     return offset_ < entities_.size();
 }
 
+/**
+ * @brief Next Page.
+ * @return Return value.
+ * @details Calls: std::min(), size(), page(), begin().
+ */
 std::vector<BaseEntity> VectorExportCursor::nextPage() {
     size_t end = std::min(offset_ + page_size_, entities_.size());
     std::vector<BaseEntity> page(entities_.begin() + offset_, entities_.begin() + end);
@@ -48,6 +53,12 @@ std::vector<BaseEntity> VectorExportCursor::nextPage() {
     return page;
 }
 
+/**
+ * @brief Seek To.
+ * @param[in] offset Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: size().
+ */
 bool VectorExportCursor::seekTo(size_t offset) {
     if (offset > entities_.size()) {
         return false;
@@ -63,6 +74,13 @@ bool VectorExportCursor::seekTo(size_t offset) {
 StreamingExporter::StreamingExporter(const StreamingExportConfig &config)
     : config_(config), metrics_(std::make_shared<ExporterMetrics>()) {}
 
+/**
+ * @brief Export Entities.
+ * @param[in] entities Input parameter.
+ * @param[in] options Input parameter.
+ * @return Return value.
+ * @details Calls: enforceExportPolicy(), cursor(), exportFromCursor().
+ */
 ExportStats StreamingExporter::exportEntities(const std::vector<BaseEntity> &entities, const ExportOptions &options) {
     // Policy check before any cursor or file is opened (EXP-001).
     enforceExportPolicy(options);
@@ -70,6 +88,14 @@ ExportStats StreamingExporter::exportEntities(const std::vector<BaseEntity> &ent
     return exportFromCursor(cursor, options);
 }
 
+/**
+ * @brief Export From Cursor.
+ * @param[in,out] cursor Input/output parameter.
+ * @param[in] options Input parameter.
+ * @return Return value.
+ * @throws ExportIOException if an error occurs.
+ * @details Calls: std::chrono::steady_clock::now(), empty(), readCheckpoint(), seekTo(), recordCheckpoint(), THEMIS_INFO(), THEMIS_WARN(), totalCount().
+ */
 ExportStats StreamingExporter::exportFromCursor(ExportCursor &cursor, const ExportOptions &options) {
     ExportStats stats;
     stats.metrics   = metrics_;
@@ -281,6 +307,13 @@ ExportStats StreamingExporter::exportFromCursor(ExportCursor &cursor, const Expo
 // Private helpers
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Format Entity.
+ * @param[in] entity Input parameter.
+ * @param[in] options Input parameter.
+ * @return Return value.
+ * @details Calls: getAllFields(), empty(), getPrimaryKey(), std::visit(), constexpr(), std::setfill(), std::setw(), str().
+ */
 std::string StreamingExporter::formatEntity(const BaseEntity &entity, const ExportOptions &options) {
     auto all_fields = entity.getAllFields();
     if (all_fields.empty()) {
@@ -346,6 +379,12 @@ std::string StreamingExporter::formatEntity(const BaseEntity &entity, const Expo
     return j.dump();
 }
 
+/**
+ * @brief Write Checkpoint.
+ * @param[in] path Input parameter.
+ * @param[in] offset Input parameter.
+ * @details Calls: tmp(), is_open(), THEMIS_WARN(), std::filesystem::rename(), message().
+ */
 void StreamingExporter::writeCheckpoint(const std::string &path, size_t offset) {
     // Atomic write: write to a temp file then rename
     const std::string tmp_path = path + ".tmp";
@@ -364,6 +403,12 @@ void StreamingExporter::writeCheckpoint(const std::string &path, size_t offset) 
     }
 }
 
+/**
+ * @brief Read Checkpoint.
+ * @param[in] path Input parameter.
+ * @return Return value.
+ * @details Calls: f(), is_open().
+ */
 size_t StreamingExporter::readCheckpoint(const std::string &path) {
     std::ifstream f(path);
     if (!f.is_open()) {
@@ -374,6 +419,14 @@ size_t StreamingExporter::readCheckpoint(const std::string &path) {
     return f ? offset : 0;
 }
 
+/**
+ * @brief Calculate ETA.
+ * @param[in] processed Input parameter.
+ * @param[in] total Input parameter.
+ * @param[in] start_time Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::steady_clock::now(), count().
+ */
 double StreamingExporter::calculateETA(size_t processed, size_t total,
                                        std::chrono::steady_clock::time_point start_time) {
     if (processed == 0 || total == 0 || processed >= total) {

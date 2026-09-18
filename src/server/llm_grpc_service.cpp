@@ -24,10 +24,21 @@ LLMGrpcService::LLMGrpcService(std::shared_ptr<llm::LLMPluginManager> plugin_man
     : plugin_manager_(std::move(plugin_manager)) {
 }
 
+/**
+ * @brief Set Jwt Validator.
+ * @param[in] validator Input parameter.
+ * @details Calls: std::move().
+ */
 void LLMGrpcService::setJwtValidator(std::shared_ptr<auth::JWTValidator> validator) {
     jwt_validator_ = std::move(validator);
 }
 
+/**
+ * @brief Validate Bearer Token.
+ * @param[in,out] context Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: extractBearerToken(), empty(), parseAndValidate(), spdlog::warn(), what(), size(), buf(), EVP_DecodeBlock().
+ */
 bool LLMGrpcService::validateBearerToken(grpc::ServerContext* context) {
     auto token = extractBearerToken(context);
     if (token.empty()) {
@@ -99,6 +110,12 @@ bool LLMGrpcService::validateBearerToken(grpc::ServerContext* context) {
     return true;
 }
 
+/**
+ * @brief Extract Bearer Token.
+ * @param[in,out] context Input/output parameter.
+ * @return Return value.
+ * @details Calls: client_metadata(), find(), end(), auth_value(), data(), size(), bearer_regex(), std::regex_match().
+ */
 std::string LLMGrpcService::extractBearerToken(grpc::ServerContext* context) {
     const auto& metadata = context->client_metadata();
     auto it = metadata.find("authorization");
@@ -128,6 +145,12 @@ void LLMGrpcService::convertToInternalRequest(
     internal_req.temperature = pb_req.temperature() > 0 ? pb_req.temperature() : 0.7;
 }
 
+/**
+ * @brief Convert To Proto Response.
+ * @param[in] internal_resp Input parameter.
+ * @param[in,out] pb_resp Input/output parameter.
+ * @details Calls: set_text(), set_model_id(), set_tokens_generated(), set_inference_time_ms(), set_cache_hit().
+ */
 void LLMGrpcService::convertToProtoResponse(
     const ::themis::llm::InferenceResponse& internal_resp,
     llm::InferenceResponse& pb_resp) {
@@ -139,6 +162,14 @@ void LLMGrpcService::convertToProtoResponse(
     pb_resp.set_cache_hit(internal_resp.cache_hit);
 }
 
+/**
+ * @brief Inference.
+ * @param[in,out] context Input/output parameter.
+ * @param[in] request Input parameter.
+ * @param[in,out] response Input/output parameter.
+ * @return Return value.
+ * @details Calls: validateBearerToken(), grpc::Status(), convertToInternalRequest(), llm::LLMPluginManager::instance(), generate(), convertToProtoResponse(), std::string(), what().
+ */
 grpc::Status LLMGrpcService::Inference(
     grpc::ServerContext* context,
     const llm::InferenceRequest* request,
@@ -163,6 +194,14 @@ grpc::Status LLMGrpcService::Inference(
     }
 }
 
+/**
+ * @brief RAGInference.
+ * @param[in,out] context Input/output parameter.
+ * @param[in] request Input parameter.
+ * @param[in,out] response Input/output parameter.
+ * @return Return value.
+ * @details Calls: validateBearerToken(), grpc::Status(), documents(), id(), content(), relevance_score(), push_back(), query().
+ */
 grpc::Status LLMGrpcService::RAGInference(
     grpc::ServerContext* context,
     const llm::RAGRequest* request,
@@ -202,6 +241,14 @@ grpc::Status LLMGrpcService::RAGInference(
     }
 }
 
+/**
+ * @brief Generate Embedding.
+ * @param[in,out] context Input/output parameter.
+ * @param[in] request Input parameter.
+ * @param[in,out] response Input/output parameter.
+ * @return Return value.
+ * @details Calls: validateBearerToken(), grpc::Status(), llm::LLMPluginManager::instance(), generateEmbedding(), text(), model_id(), empty(), add_embedding().
+ */
 grpc::Status LLMGrpcService::GenerateEmbedding(
     grpc::ServerContext* context,
     const llm::EmbeddingRequest* request,
@@ -230,6 +277,14 @@ grpc::Status LLMGrpcService::GenerateEmbedding(
     }
 }
 
+/**
+ * @brief Stream Inference.
+ * @param[in,out] context Input/output parameter.
+ * @param[in] request Input parameter.
+ * @param[in,out] writer Input/output parameter.
+ * @return Return value.
+ * @details Calls: validateBearerToken(), grpc::Status(), convertToInternalRequest(), llm::LLMPluginManager::instance(), generateStream(), set_token(), set_index(), set_done().
+ */
 grpc::Status LLMGrpcService::StreamInference(
     grpc::ServerContext* context,
     const llm::InferenceRequest* request,
@@ -268,6 +323,14 @@ grpc::Status LLMGrpcService::StreamInference(
     }
 }
 
+/**
+ * @brief List Models.
+ * @param[in,out] context Input/output parameter.
+ * @param[in] request Input parameter.
+ * @param[in,out] response Input/output parameter.
+ * @return Return value.
+ * @details Calls: validateBearerToken(), grpc::Status(), llm::LLMPluginManager::instance(), listModels(), add_models(), set_model_id(), set_path(), set_loaded().
+ */
 grpc::Status LLMGrpcService::ListModels(
     grpc::ServerContext* context,
     const llm::ListModelsRequest* request,
@@ -294,6 +357,14 @@ grpc::Status LLMGrpcService::ListModels(
     }
 }
 
+/**
+ * @brief Load Model.
+ * @param[in,out] context Input/output parameter.
+ * @param[in] request Input parameter.
+ * @param[in,out] response Input/output parameter.
+ * @return Return value.
+ * @details Calls: validateBearerToken(), grpc::Status(), llm::LLMPluginManager::instance(), loadModel(), model_id(), path(), set_success(), set_message().
+ */
 grpc::Status LLMGrpcService::LoadModel(
     grpc::ServerContext* context,
     const llm::ModelLoadRequest* request,
@@ -319,6 +390,14 @@ grpc::Status LLMGrpcService::LoadModel(
     }
 }
 
+/**
+ * @brief Unload Model.
+ * @param[in,out] context Input/output parameter.
+ * @param[in] request Input parameter.
+ * @param[in,out] response Input/output parameter.
+ * @return Return value.
+ * @details Calls: validateBearerToken(), grpc::Status(), llm::LLMPluginManager::instance(), unloadModel(), model_id(), set_success(), set_message(), set_model_id().
+ */
 grpc::Status LLMGrpcService::UnloadModel(
     grpc::ServerContext* context,
     const llm::ModelUnloadRequest* request,
@@ -344,6 +423,14 @@ grpc::Status LLMGrpcService::UnloadModel(
     }
 }
 
+/**
+ * @brief Get Model Info.
+ * @param[in,out] context Input/output parameter.
+ * @param[in] request Input parameter.
+ * @param[in,out] response Input/output parameter.
+ * @return Return value.
+ * @details Calls: validateBearerToken(), grpc::Status(), llm::LLMPluginManager::instance(), getModelInfo(), model_id(), set_model_id(), set_path(), set_loaded().
+ */
 grpc::Status LLMGrpcService::GetModelInfo(
     grpc::ServerContext* context,
     const llm::ModelInfoRequest* request,
@@ -367,6 +454,14 @@ grpc::Status LLMGrpcService::GetModelInfo(
     }
 }
 
+/**
+ * @brief Ingest Model.
+ * @param[in,out] context Input/output parameter.
+ * @param[in,out] reader Input/output parameter.
+ * @param[in,out] response Input/output parameter.
+ * @return Return value.
+ * @details Calls: validateBearerToken(), grpc::Status(), Read(), model_id(), std::filesystem::temp_directory_path(), gen(), rd(), dis().
+ */
 grpc::Status LLMGrpcService::IngestModel(
     grpc::ServerContext* context,
     grpc::ServerReader<llm::ModelChunk>* reader,
@@ -436,6 +531,14 @@ grpc::Status LLMGrpcService::IngestModel(
     }
 }
 
+/**
+ * @brief List Lo RAs.
+ * @param[in,out] context Input/output parameter.
+ * @param[in] request Input parameter.
+ * @param[in,out] response Input/output parameter.
+ * @return Return value.
+ * @details Calls: validateBearerToken(), grpc::Status(), llm::LLMPluginManager::instance(), listLoRAs(), model_id(), add_loras(), set_lora_id(), set_path().
+ */
 grpc::Status LLMGrpcService::ListLoRAs(
     grpc::ServerContext* context,
     const llm::ListLoRAsRequest* request,
@@ -463,6 +566,14 @@ grpc::Status LLMGrpcService::ListLoRAs(
     }
 }
 
+/**
+ * @brief Load Lo RA.
+ * @param[in,out] context Input/output parameter.
+ * @param[in] request Input parameter.
+ * @param[in,out] response Input/output parameter.
+ * @return Return value.
+ * @details Calls: validateBearerToken(), grpc::Status(), llm::LLMPluginManager::instance(), loadLoRA(), lora_id(), path(), model_id(), set_success().
+ */
 grpc::Status LLMGrpcService::LoadLoRA(
     grpc::ServerContext* context,
     const llm::LoRALoadRequest* request,
@@ -488,6 +599,14 @@ grpc::Status LLMGrpcService::LoadLoRA(
     }
 }
 
+/**
+ * @brief Unload Lo RA.
+ * @param[in,out] context Input/output parameter.
+ * @param[in] request Input parameter.
+ * @param[in,out] response Input/output parameter.
+ * @return Return value.
+ * @details Calls: validateBearerToken(), grpc::Status(), llm::LLMPluginManager::instance(), unloadLoRA(), lora_id(), set_success(), set_message(), set_lora_id().
+ */
 grpc::Status LLMGrpcService::UnloadLoRA(
     grpc::ServerContext* context,
     const llm::LoRAUnloadRequest* request,
@@ -513,6 +632,14 @@ grpc::Status LLMGrpcService::UnloadLoRA(
     }
 }
 
+/**
+ * @brief Get Statistics.
+ * @param[in,out] context Input/output parameter.
+ * @param[in] request Input parameter.
+ * @param[in,out] response Input/output parameter.
+ * @return Return value.
+ * @details Calls: validateBearerToken(), grpc::Status(), llm::LLMPluginManager::instance(), getStatistics(), mutable_inference_stats(), set_total_requests(), set_successful_requests(), set_avg_latency_ms().
+ */
 grpc::Status LLMGrpcService::GetStatistics(
     grpc::ServerContext* context,
     const llm::StatisticsRequest* request,
@@ -538,6 +665,14 @@ grpc::Status LLMGrpcService::GetStatistics(
     }
 }
 
+/**
+ * @brief Get Cache Statistics.
+ * @param[in,out] context Input/output parameter.
+ * @param[in] request Input parameter.
+ * @param[in,out] response Input/output parameter.
+ * @return Return value.
+ * @details Calls: validateBearerToken(), grpc::Status(), llm::LLMPluginManager::instance(), getCacheStatistics(), mutable_cache_stats(), set_response_cache_hits(), set_response_cache_misses(), set_cache_hit_rate().
+ */
 grpc::Status LLMGrpcService::GetCacheStatistics(
     grpc::ServerContext* context,
     const llm::CacheStatisticsRequest* request,
@@ -562,6 +697,14 @@ grpc::Status LLMGrpcService::GetCacheStatistics(
     }
 }
 
+/**
+ * @brief Clear Cache.
+ * @param[in,out] context Input/output parameter.
+ * @param[in] request Input parameter.
+ * @param[in,out] response Input/output parameter.
+ * @return Return value.
+ * @details Calls: validateBearerToken(), grpc::Status(), llm::LLMPluginManager::instance(), clearAllCaches(), set_success(), set_message(), std::string(), what().
+ */
 grpc::Status LLMGrpcService::ClearCache(
     grpc::ServerContext* context,
     const llm::ClearCacheRequest* request,
@@ -586,6 +729,14 @@ grpc::Status LLMGrpcService::ClearCache(
     }
 }
 
+/**
+ * @brief Health Check.
+ * @param[in,out] context Input/output parameter.
+ * @param[in] request Input parameter.
+ * @param[in,out] response Input/output parameter.
+ * @return Return value.
+ * @details Calls: validateBearerToken(), grpc::Status(), llm::LLMPluginManager::instance(), getHealthStatus(), set_status(), set_message(), std::string(), what().
+ */
 grpc::Status LLMGrpcService::HealthCheck(
     grpc::ServerContext* context,
     const llm::HealthCheckRequest* request,
@@ -612,6 +763,14 @@ grpc::Status LLMGrpcService::HealthCheck(
     }
 }
 
+/**
+ * @brief Export Lo RA.
+ * @param[in,out] context Input/output parameter.
+ * @param[in] request Input parameter.
+ * @param[in,out] writer Input/output parameter.
+ * @return Return value.
+ * @details Calls: validateBearerToken(), grpc::Status(), llm::LLMPluginManager::instance(), exportLoRA(), lora_id(), size(), set_lora_id(), std::min().
+ */
 grpc::Status LLMGrpcService::ExportLoRA(
     grpc::ServerContext* context,
     const llm::LoRAExportRequest* request,
@@ -649,6 +808,14 @@ grpc::Status LLMGrpcService::ExportLoRA(
     }
 }
 
+/**
+ * @brief Import Lo RA.
+ * @param[in,out] context Input/output parameter.
+ * @param[in,out] reader Input/output parameter.
+ * @param[in,out] response Input/output parameter.
+ * @return Return value.
+ * @details Calls: validateBearerToken(), grpc::Status(), Read(), empty(), lora_id(), insert(), end(), data().
+ */
 grpc::Status LLMGrpcService::ImportLoRA(
     grpc::ServerContext* context,
     grpc::ServerReader<llm::LoRAChunk>* reader,

@@ -40,54 +40,8 @@ namespace server {
 namespace beast = boost::beast;
 namespace http = beast::http;
 
-/**
- * @brief Schema API Handler for HTTP Server
- *
- * Provides REST endpoints for database schema introspection and management.
- * Enables external tools and LLM agents to understand database structure.
- *
- * Endpoints:
- * - GET /api/v1/schema                       – Complete schema with all tables
- * - GET /api/v1/schema/tables                – List of all table names
- * - GET /api/v1/schema/tables/:name          – Detailed schema for specific table
- * - GET /api/v1/capabilities                 – Database capabilities
- * - PUT /api/v1/schema/:name                 – Create/replace table schema
- * - PATCH /api/v1/schema/:name               – Partial update of table schema
- *
- * Information Schema endpoints (require InformationSchema to be set):
- * - GET /api/v1/information_schema/tables    – INFORMATION_SCHEMA.TABLES view
- * - GET /api/v1/information_schema/columns   – INFORMATION_SCHEMA.COLUMNS view
- * - GET /api/v1/information_schema/columns/:table – Columns for one table
- * - GET /api/v1/information_schema/statistics – INFORMATION_SCHEMA.STATISTICS
- * - GET /api/v1/information_schema           – All views as one JSON object
- *
- * Statistics endpoints (require StatisticsCollector to be set):
- * - GET /api/v1/metadata/stats/:table        – Statistics for a table
- * - POST /api/v1/metadata/stats/:table       – Trigger stats collection for a table
- *
- * Constraints endpoints (require SchemaConstraints to be set):
- * - GET /api/v1/metadata/constraints/:table  – Constraints for a table
- *
- * Schema version endpoints (require SchemaVersionManager to be set):
- * - GET /api/v1/schema/versions/:table       – Version history for a table
- * - POST /api/v1/schema/versions/:table      – Snapshot current schema as new version
- * - GET /api/v1/schema/diff/:table?from=V&to=V – Diff between two versions
- *
- * Column lineage endpoints (require ColumnLineageTracker to be set):
- * - GET  /api/v1/metadata/lineage/:table             – All lineage entries for a table
- * - GET  /api/v1/metadata/lineage/:table/:column     – Provenance for one column
- * - POST /api/v1/metadata/lineage                    – Record a derivation entry
- *
- * @see SchemaManager for core implementation
- */
 class SchemaApiHandler {
 public:
-    /**
-     * @brief Construct handler with database and schema manager
-     * @param storage Database wrapper
-     * @param secondary_index Secondary index manager
-     * @param schema_mgr Schema manager (must outlive this handler)
-     */
     SchemaApiHandler(
         std::shared_ptr<RocksDBWrapper> storage,
         std::shared_ptr<SecondaryIndexManager> secondary_index,
@@ -96,53 +50,92 @@ public:
 
     ~SchemaApiHandler();
 
-    // ========================================================================
-    // Optional component injection (called after construction)
-    // ========================================================================
 
-    /// Attach a StatisticsCollector to enable /api/v1/metadata/stats/* endpoints.
+    /**
+     * @brief Set Statistics Collector.
+     * @param[in,out] stats_collector Input/output parameter.
+     */
     void setStatisticsCollector(StatisticsCollector* stats_collector);
 
-    /// Attach a SchemaConstraints instance to enable /api/v1/metadata/constraints/* endpoints.
+    /**
+     * @brief Set Schema Constraints.
+     * @param[in,out] schema_constraints Input/output parameter.
+     */
     void setSchemaConstraints(SchemaConstraints* schema_constraints);
 
-    /// Attach a SchemaVersionManager to enable /api/v1/schema/versions/* endpoints.
+    /**
+     * @brief Set Schema Version Manager.
+     * @param[in,out] version_mgr Input/output parameter.
+     */
     void setSchemaVersionManager(SchemaVersionManager* version_mgr);
 
-    /// Attach an IndexRecommender to enable /api/v1/metadata/index_recommendations/* endpoints.
+    /**
+     * @brief Set Index Recommender.
+     * @param[in,out] index_recommender Input/output parameter.
+     */
     void setIndexRecommender(metadata::IndexRecommender* index_recommender);
 
-    /// Attach a SchemaAuditLog to enable /api/v1/metadata/audit/* endpoints.
+    /**
+     * @brief Set Audit Log.
+     * @param[in,out] audit_log Input/output parameter.
+     */
     void setAuditLog(SchemaAuditLog* audit_log);
 
-    /// Attach a ColumnLineageTracker to enable /api/v1/metadata/lineage/* endpoints.
+    /**
+     * @brief Set Column Lineage Tracker.
+     * @param[in,out] tracker Input/output parameter.
+     */
     void setColumnLineageTracker(themis::metadata::ColumnLineageTracker* tracker);
 
     // ========================================================================
     // Core schema endpoints
     // ========================================================================
 
-    /// GET /api/v1/schema
+    /**
+     * @brief Handle Get Schema.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleGetSchema(
         const http::request<http::string_body>& req);
 
-    /// GET /api/v1/schema/tables
+    /**
+     * @brief Handle Get Tables.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleGetTables(
         const http::request<http::string_body>& req);
 
-    /// GET /api/v1/schema/tables/:name
+    /**
+     * @brief Handle Get Table.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleGetTable(
         const http::request<http::string_body>& req);
 
-    /// GET /api/v1/capabilities
+    /**
+     * @brief Handle Get Capabilities.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleGetCapabilities(
         const http::request<http::string_body>& req);
 
-    /// PUT /api/v1/schema/:name
+    /**
+     * @brief Handle Put Schema.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handlePutSchema(
         const http::request<http::string_body>& req);
 
-    /// PATCH /api/v1/schema/:name
+    /**
+     * @brief Handle Patch Schema.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handlePatchSchema(
         const http::request<http::string_body>& req);
 
@@ -150,10 +143,11 @@ public:
     // Information Schema endpoints
     // ========================================================================
 
-    /// GET /api/v1/information_schema  (full dump)
-    /// GET /api/v1/information_schema/tables
-    /// GET /api/v1/information_schema/columns[/:table]
-    /// GET /api/v1/information_schema/statistics[/:table]
+    /**
+     * @brief Handle Get Information Schema.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleGetInformationSchema(
         const http::request<http::string_body>& req);
 
@@ -161,11 +155,19 @@ public:
     // Statistics endpoints
     // ========================================================================
 
-    /// GET  /api/v1/metadata/stats/:table  – return cached statistics
-    /// POST /api/v1/metadata/stats/:table  – trigger collection
+    /**
+     * @brief Handle Get Stats.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleGetStats(
         const http::request<http::string_body>& req);
 
+    /**
+     * @brief Handle Collect Stats.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleCollectStats(
         const http::request<http::string_body>& req);
 
@@ -173,7 +175,11 @@ public:
     // Constraints endpoints
     // ========================================================================
 
-    /// GET /api/v1/metadata/constraints/:table
+    /**
+     * @brief Handle Get Constraints.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleGetConstraints(
         const http::request<http::string_body>& req);
 
@@ -181,8 +187,11 @@ public:
     // Index recommendations endpoint
     // ========================================================================
 
-    /// GET /api/v1/metadata/index_recommendations         – all tables
-    /// GET /api/v1/metadata/index_recommendations/:table  – single table
+    /**
+     * @brief Handle Get Index Recommendations.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleGetIndexRecommendations(
         const http::request<http::string_body>& req);
 
@@ -190,8 +199,11 @@ public:
     // Schema audit endpoint
     // ========================================================================
 
-    /// GET /api/v1/metadata/audit              – full audit history
-    /// GET /api/v1/metadata/audit/:table       – per-table audit history
+    /**
+     * @brief Handle Get Audit Log.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleGetAuditLog(
         const http::request<http::string_body>& req);
 
@@ -199,9 +211,11 @@ public:
     // Schema import endpoint
     // ========================================================================
 
-    /// PUT /api/v1/metadata/schema_import
-    /// Bulk-import multiple table schemas from a JSON array.
-    /// Body: { "tables": [ <TableSchema JSON>, … ] }
+    /**
+     * @brief Handle Schema Import.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleSchemaImport(
         const http::request<http::string_body>& req);
 
@@ -209,9 +223,11 @@ public:
     // Batch constraint validation
     // ========================================================================
 
-    /// POST /api/v1/metadata/constraints/validate/:table
-    /// Validate a batch of rows against the table's registered constraints.
-    /// Body: { "rows": [ { <column>: <value>, … }, … ] }
+    /**
+     * @brief Handle Batch Constraint Validation.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleBatchConstraintValidation(
         const http::request<http::string_body>& req);
 
@@ -219,15 +235,27 @@ public:
     // Schema version endpoints
     // ========================================================================
 
-    /// GET  /api/v1/schema/versions/:table
+    /**
+     * @brief Handle Get Version History.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleGetVersionHistory(
         const http::request<http::string_body>& req);
 
-    /// POST /api/v1/schema/versions/:table
+    /**
+     * @brief Handle Create Version.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleCreateVersion(
         const http::request<http::string_body>& req);
 
-    /// GET /api/v1/schema/diff/:table?from=V&to=V
+    /**
+     * @brief Handle Get Diff.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleGetDiff(
         const http::request<http::string_body>& req);
 
@@ -235,30 +263,52 @@ public:
     // Column lineage endpoints
     // ========================================================================
 
-    /// GET  /api/v1/metadata/lineage/:table           – export all lineage for a table
-    /// GET  /api/v1/metadata/lineage/:table/:column   – provenance for one column
+    /**
+     * @brief Handle Get Column Lineage.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleGetColumnLineage(
         const http::request<http::string_body>& req);
 
-    /// POST /api/v1/metadata/lineage – record a derivation entry
-    /// Body: ColumnLineageEntry JSON object
+    /**
+     * @brief Handle Record Lineage Derivation.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleRecordLineageDerivation(
         const http::request<http::string_body>& req);
 
 private:
-    /// Extract and validate table name from schema URL
+    /**
+     * @brief Extract And Validate Schema Table Name.
+     * @param[in] target Input parameter.
+     * @param[in,out] table_name Name of the table.
+     * @return Return value.
+     */
     std::string extractAndValidateSchemaTableName(
         const std::string& target,
         std::string& table_name) const;
 
-    /// Extract table name from a path with given prefix
-    /// e.g. prefix="/api/v1/metadata/stats/", target="/api/v1/metadata/stats/users" → "users"
+    /**
+     * @brief Extract Table Name.
+     * @param[in] target Input parameter.
+     * @param[in] prefix Input parameter.
+     * @param[in,out] table_name Name of the table.
+     * @return Return value.
+     */
     std::string extractTableName(
         const std::string& target,
         const std::string& prefix,
         std::string& table_name) const;
 
-    /// Build a standard error response
+    /**
+     * @brief Make Error.
+     * @param[in] req Input parameter.
+     * @param[in] status Input parameter.
+     * @param[in] message Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> makeError(
         const http::request<http::string_body>& req,
         http::status status,

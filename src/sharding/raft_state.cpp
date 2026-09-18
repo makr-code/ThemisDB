@@ -16,14 +16,17 @@
 namespace themisdb {
 namespace sharding {
 
-/** @brief Initialize Raft state with configuration and fresh timers. */
 RaftState::RaftState(const RaftConfig& config)
     : config_(config) {
     resetElectionTimeout();
     last_heartbeat_time_ = std::chrono::steady_clock::now();
 }
 
-/** @brief Transition node to follower role for provided term. */
+/**
+ * @brief Become Follower.
+ * @param[in] term Input parameter.
+ * @details Calls: lock(), clear(), resetElectionTimeout().
+ */
 void RaftState::becomeFollower(uint64_t term) {
     std::lock_guard<std::mutex> lock(state_mutex_);
     
@@ -37,7 +40,10 @@ void RaftState::becomeFollower(uint64_t term) {
     resetElectionTimeout();
 }
 
-/** @brief Transition node to candidate role and self-vote for election. */
+/**
+ * @brief Become Candidate.
+ * @details Calls: lock(), clear(), resetElectionTimeout().
+ */
 void RaftState::becomeCandidate() {
     std::lock_guard<std::mutex> lock(state_mutex_);
     
@@ -51,7 +57,10 @@ void RaftState::becomeCandidate() {
     resetElectionTimeout();
 }
 
-/** @brief Promote candidate to leader once quorum has been reached. */
+/**
+ * @brief Become Leader.
+ * @details Calls: lock(), hasQuorum(), clear(), std::chrono::steady_clock::now().
+ */
 void RaftState::becomeLeader() {
     std::lock_guard<std::mutex> lock(state_mutex_);
     
@@ -71,7 +80,10 @@ void RaftState::becomeLeader() {
     last_heartbeat_time_ = std::chrono::steady_clock::now();
 }
 
-/** @brief Trigger new election round by entering candidate state. */
+/**
+ * @brief Start Election.
+ * @details Calls: becomeCandidate().
+ */
 void RaftState::startElection() {
     becomeCandidate();
     
@@ -80,9 +92,10 @@ void RaftState::startElection() {
 }
 
 /**
- * @brief Process vote request from remote candidate.
- * @param request Incoming vote request.
- * @return Vote response including decision and local term.
+ * @brief Handle Vote Request.
+ * @param[in] request Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), clear(), empty(), resetElectionTimeout().
  */
 VoteResponse RaftState::handleVoteRequest(const VoteRequest& request) {
     std::lock_guard<std::mutex> lock(state_mutex_);
@@ -120,7 +133,12 @@ VoteResponse RaftState::handleVoteRequest(const VoteRequest& request) {
     return response;
 }
 
-/** @brief Record vote response for active election and promote on quorum. */
+/**
+ * @brief Receive Vote.
+ * @param[in] voter_id Identifier of the voter.
+ * @param[in] granted Input parameter.
+ * @details Calls: lock(), hasQuorum(), unlock(), becomeLeader().
+ */
 void RaftState::receiveVote(const std::string& voter_id, bool granted) {
     std::unique_lock<std::mutex> lock(state_mutex_);
     
@@ -141,14 +159,21 @@ void RaftState::receiveVote(const std::string& voter_id, bool granted) {
     }
 }
 
-/** @brief Reset election timeout deadline using randomized timeout window. */
+/**
+ * @brief Reset Election Timeout.
+ * @details Calls: getRandomElectionTimeout(), std::chrono::steady_clock::now().
+ */
 void RaftState::resetElectionTimeout() {
     auto timeout = getRandomElectionTimeout();
     election_timeout_time_ = std::chrono::steady_clock::now() + timeout;
 }
 
-/** @brief Check whether follower/candidate election timeout has expired. */
 bool RaftState::isElectionTimeout() const {
+    /**
+     * @brief Lock.
+     * @param[in] state_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(state_mutex_);
     
     if (state_ == RaftNodeState::LEADER) {
@@ -158,7 +183,10 @@ bool RaftState::isElectionTimeout() const {
     return std::chrono::steady_clock::now() >= election_timeout_time_;
 }
 
-/** @brief Emit heartbeat timestamp update when node is leader. */
+/**
+ * @brief Send Heartbeat.
+ * @details Calls: lock(), std::chrono::steady_clock::now().
+ */
 void RaftState::sendHeartbeat() {
     std::lock_guard<std::mutex> lock(state_mutex_);
     
@@ -172,8 +200,12 @@ void RaftState::sendHeartbeat() {
     // For now, this is handled by the caller
 }
 
-/** @brief Return whether heartbeat interval elapsed for current leader. */
 bool RaftState::shouldSendHeartbeat() const {
+    /**
+     * @brief Lock.
+     * @param[in] state_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(state_mutex_);
     
     if (state_ != RaftNodeState::LEADER) {
@@ -187,67 +219,80 @@ bool RaftState::shouldSendHeartbeat() const {
     return elapsed.count() >= config_.heartbeat_interval_ms;
 }
 
-/** @brief Return current Raft node role. */
 RaftNodeState RaftState::getState() const {
+    /**
+     * @brief Lock.
+     * @param[in] state_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(state_mutex_);
     return state_;
 }
 
-/** @brief Return current term atomically. */
 uint64_t RaftState::getCurrentTerm() const {
     return current_term_.load();
 }
 
-/** @brief Return currently known leader identifier. */
 std::string RaftState::getLeaderId() const {
+    /**
+     * @brief Lock.
+     * @param[in] state_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(state_mutex_);
     return leader_id_;
 }
 
-/** @brief Return true if current role is leader. */
 bool RaftState::isLeader() const {
     return getState() == RaftNodeState::LEADER;
 }
 
-/** @brief Return true if current role is follower. */
 bool RaftState::isFollower() const {
     return getState() == RaftNodeState::FOLLOWER;
 }
 
-/** @brief Return true if current role is candidate. */
 bool RaftState::isCandidate() const {
     return getState() == RaftNodeState::CANDIDATE;
 }
 
-/** @brief Return configured local node identifier. */
 std::string RaftState::getNodeId() const {
     return config_.node_id;
 }
 
-/** @brief Return configured cluster members snapshot. */
 std::vector<std::string> RaftState::getClusterMembers() const {
     return config_.cluster_members;
 }
 
-/** @brief Replace cluster membership list under state lock. */
+/**
+ * @brief Set Cluster Members.
+ * @param[in] members Input parameter.
+ * @details Calls: lock().
+ */
 void RaftState::setClusterMembers(const std::vector<std::string>& members) {
     std::lock_guard<std::mutex> lock(state_mutex_);
     config_.cluster_members = members;
 }
 
-/** @brief Compute majority quorum size from current member count. */
 size_t RaftState::getQuorumSize() const {
     return (config_.cluster_members.size() / 2) + 1;
 }
 
-/** @brief Return candidate voted for in current term, if any. */
 std::string RaftState::getVotedFor() const {
+    /**
+     * @brief Lock.
+     * @param[in] state_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(state_mutex_);
     return voted_for_;
 }
 
-/** @brief Return count of granted votes in active election map. */
 size_t RaftState::getVotesReceived() const {
+    /**
+     * @brief Lock.
+     * @param[in] state_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(state_mutex_);
     
     size_t count = 0;
@@ -260,9 +305,10 @@ size_t RaftState::getVotesReceived() const {
 }
 
 /**
- * @brief Process AppendEntries RPC and update log/commit state.
- * @param request Incoming append request from leader.
- * @return AppendEntries response with success and match index.
+ * @brief Handle Append Entries.
+ * @param[in] request Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), clear(), resetElectionTimeout(), hasEntry(), getLastLogIndex(), getEntry(), has_value(), truncateFrom().
  */
 AppendEntriesResponse RaftState::handleAppendEntries(const AppendEntriesRequest& request) {
     std::lock_guard<std::mutex> lock(state_mutex_);
@@ -332,17 +378,24 @@ AppendEntriesResponse RaftState::handleAppendEntries(const AppendEntriesRequest&
     return response;
 }
 
-/** @brief Return mutable access to underlying Raft log object. */
+/**
+ * @brief Get Log.
+ * @return Return value.
+ * @details Implements getLog without additional internal calls.
+ */
 RaftLog& RaftState::getLog() {
     return log_;
 }
 
-/** @brief Return const access to underlying Raft log object. */
 const RaftLog& RaftState::getLog() const {
     return log_;
 }
 
-/** @brief Generate randomized election timeout in configured interval. */
+/**
+ * @brief Get Random Election Timeout.
+ * @return Return value.
+ * @details Calls: dist(), std::chrono::milliseconds().
+ */
 std::chrono::milliseconds RaftState::getRandomElectionTimeout() {
     std::uniform_int_distribution<uint32_t> dist(
         config_.election_timeout_min_ms,
@@ -350,7 +403,6 @@ std::chrono::milliseconds RaftState::getRandomElectionTimeout() {
     return std::chrono::milliseconds(dist(rng_));
 }
 
-/** @brief Check whether granted votes satisfy majority quorum. */
 bool RaftState::hasQuorum() const {
     size_t votes = 0;
     for (const auto& vote : votes_received_) {
@@ -361,7 +413,12 @@ bool RaftState::hasQuorum() const {
     return votes >= getQuorumSize();
 }
 
-/** @brief Persist snapshot index/term metadata and sync log snapshot base. */
+/**
+ * @brief Set Snapshot Meta.
+ * @param[in] index Input parameter.
+ * @param[in] term Input parameter.
+ * @details Calls: lock().
+ */
 void RaftState::setSnapshotMeta(uint64_t index, uint64_t term) {
     std::lock_guard<std::mutex> lock(state_mutex_);
     snapshot_index_ = index;
@@ -370,14 +427,22 @@ void RaftState::setSnapshotMeta(uint64_t index, uint64_t term) {
     log_.setSnapshotMeta(index, term);
 }
 
-/** @brief Return index covered by most recently installed snapshot. */
 uint64_t RaftState::getSnapshotIndex() const {
+    /**
+     * @brief Lock.
+     * @param[in] state_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(state_mutex_);
     return snapshot_index_;
 }
 
-/** @brief Return term covered by most recently installed snapshot. */
 uint64_t RaftState::getSnapshotTerm() const {
+    /**
+     * @brief Lock.
+     * @param[in] state_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(state_mutex_);
     return snapshot_term_;
 }

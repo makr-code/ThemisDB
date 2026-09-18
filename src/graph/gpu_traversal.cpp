@@ -59,6 +59,13 @@ bool probeGPUAvailability(int /*device*/) noexcept {
 #endif
 }
 
+/**
+ * @brief Record Traversal Route.
+ * @param[in] operation Input parameter.
+ * @param[in] route Input parameter.
+ * @param[in] reason Input parameter.
+ * @details Calls: observability::MetricsCollector::getInstance(), addCounter(), std::string().
+ */
 void recordTraversalRoute(std::string_view operation, std::string_view route, std::string_view reason) {
     observability::MetricsCollector::getInstance().addCounter(
         "graph_acceleration_routes_total", 1,
@@ -67,6 +74,12 @@ void recordTraversalRoute(std::string_view operation, std::string_view route, st
          {"reason", std::string(reason)}});
 }
 
+/**
+ * @brief Validate Traversal Config.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @details Implements validateTraversalConfig without additional internal calls.
+ */
 std::optional<std::string> validateTraversalConfig(const GPUGraphTraversal::Config &config) {
     if (config.gpu_device < 0) {
         return "GPUGraphTraversal requires a non-negative gpu_device index";
@@ -81,11 +94,33 @@ std::optional<std::string> validateTraversalConfig(const GPUGraphTraversal::Conf
 
 #if defined(THEMIS_ENABLE_CUDA)
 namespace cuda_impl {
+/**
+ * @brief Run BFSCuda.
+ * @param[in] row_offsets Input parameter.
+ * @param[in] column_indices Input parameter.
+ * @param[in] start_id Identifier of the start.
+ * @param[in] forbidden_mask Input parameter.
+ * @param[in] config Input parameter.
+ * @param[in,out] result Input/output parameter.
+ * @param[in,out] out_distances Input/output parameter.
+ * @return True when the operation succeeds.
+ */
 bool runBFSCuda(const std::vector<uint32_t> &row_offsets, const std::vector<uint32_t> &column_indices,
                 uint32_t start_id, const std::vector<uint8_t> &forbidden_mask,
                 const themis::graph::GPUGraphTraversal::Config &config,
                 themis::graph::GPUGraphTraversal::TraversalResult &result, std::vector<int> &out_distances);
 
+/**
+ * @brief Run DFSCuda.
+ * @param[in] row_offsets Input parameter.
+ * @param[in] column_indices Input parameter.
+ * @param[in] start_id Identifier of the start.
+ * @param[in] forbidden_mask Input parameter.
+ * @param[in] config Input parameter.
+ * @param[in,out] result Input/output parameter.
+ * @param[in,out] out_order Input/output parameter.
+ * @return True when the operation succeeds.
+ */
 bool runDFSCuda(const std::vector<uint32_t> &row_offsets, const std::vector<uint32_t> &column_indices,
                 uint32_t start_id, const std::vector<uint8_t> &forbidden_mask,
                 const themis::graph::GPUGraphTraversal::Config &config,
@@ -95,6 +130,18 @@ bool runDFSCuda(const std::vector<uint32_t> &row_offsets, const std::vector<uint
 
 namespace {
 
+/**
+ * @brief Run BFSCuda If Available.
+ * @param[in] row_offsets Input parameter.
+ * @param[in] column_indices Input parameter.
+ * @param[in] start_id Identifier of the start.
+ * @param[in] forbidden_mask Input parameter.
+ * @param[in] config Input parameter.
+ * @param[in,out] result Input/output parameter.
+ * @param[in,out] out_distances Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: defined(), cuda_impl::runBFSCuda().
+ */
 bool runBFSCudaIfAvailable(const std::vector<uint32_t> &row_offsets,
                            const std::vector<uint32_t> &column_indices,
                            uint32_t start_id,
@@ -109,6 +156,18 @@ bool runBFSCudaIfAvailable(const std::vector<uint32_t> &row_offsets,
 #endif
 }
 
+/**
+ * @brief Run DFSCuda If Available.
+ * @param[in] row_offsets Input parameter.
+ * @param[in] column_indices Input parameter.
+ * @param[in] start_id Identifier of the start.
+ * @param[in] forbidden_mask Input parameter.
+ * @param[in] config Input parameter.
+ * @param[in,out] result Input/output parameter.
+ * @param[in,out] out_order Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: defined(), cuda_impl::runDFSCuda().
+ */
 bool runDFSCudaIfAvailable(const std::vector<uint32_t> &row_offsets,
                            const std::vector<uint32_t> &column_indices,
                            uint32_t start_id,
@@ -129,6 +188,12 @@ bool runDFSCudaIfAvailable(const std::vector<uint32_t> &row_offsets,
 // load()
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Load.
+ * @param[in] vertex_ids Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), allVertices(), std::move(), clear(), reserve(), size(), count(), push_back().
+ */
 Result<bool> GPUGraphTraversal::load(const std::vector<std::string> &vertex_ids) {
     // Collect all vertex IDs that appear in the graph.
     std::vector<std::string> all_vertices;
@@ -247,9 +312,13 @@ GPUGraphTraversal::Stats GPUGraphTraversal::getStats() const noexcept {
     return s;
 }
 
-// ---------------------------------------------------------------------------
-// Internal BFS (level-synchronous / GPU-style)
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- Internal BFS (level-synchronous / GPU-style) ---------------------------------------------------------------------------
+ * @param[in] start_id Identifier of the start.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::steady_clock::now(), findVertexId(), insert(), dist(), forbidden_mask(), runBFSCudaIfAvailable(), recordTraversalRoute(), reserve().
+ */
 
 GPUGraphTraversal::TraversalResult GPUGraphTraversal::runBFS(uint32_t start_id, const Config &config) {
     auto wall_start = std::chrono::steady_clock::now();
@@ -378,9 +447,13 @@ GPUGraphTraversal::TraversalResult GPUGraphTraversal::runBFS(uint32_t start_id, 
     return result;
 }
 
-// ---------------------------------------------------------------------------
-// Internal DFS (iterative with depth tracking)
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- Internal DFS (iterative with depth tracking) ---------------------------------------------------------------------------
+ * @param[in] start_id Identifier of the start.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::steady_clock::now(), findVertexId(), insert(), disc_order(), forbidden_mask(), runDFSCudaIfAvailable(), recordTraversalRoute(), reserve().
+ */
 
 GPUGraphTraversal::TraversalResult GPUGraphTraversal::runDFS(uint32_t start_id, const Config &config) {
     auto wall_start = std::chrono::steady_clock::now();
@@ -494,10 +567,23 @@ GPUGraphTraversal::TraversalResult GPUGraphTraversal::runDFS(uint32_t start_id, 
 // Public BFS
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Bfs.
+ * @param[in] start_vertex Input parameter.
+ * @return Return value.
+ * @details Implements bfs without additional internal calls.
+ */
 Result<GPUGraphTraversal::TraversalResult> GPUGraphTraversal::bfs(const std::string &start_vertex) {
     return bfs(start_vertex, Config{});
 }
 
+/**
+ * @brief Bfs.
+ * @param[in] start_vertex Input parameter.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @details Calls: validateTraversalConfig(), has_value(), recordTraversalRoute(), findVertexId(), Ok(), runBFS().
+ */
 Result<GPUGraphTraversal::TraversalResult> GPUGraphTraversal::bfs(const std::string &start_vertex,
                                                                   const Config &config) {
     if (const auto config_error = validateTraversalConfig(config); config_error.has_value()) {
@@ -524,10 +610,23 @@ Result<GPUGraphTraversal::TraversalResult> GPUGraphTraversal::bfs(const std::str
 // Public DFS
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Dfs.
+ * @param[in] start_vertex Input parameter.
+ * @return Return value.
+ * @details Implements dfs without additional internal calls.
+ */
 Result<GPUGraphTraversal::TraversalResult> GPUGraphTraversal::dfs(const std::string &start_vertex) {
     return dfs(start_vertex, Config{});
 }
 
+/**
+ * @brief Dfs.
+ * @param[in] start_vertex Input parameter.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @details Calls: validateTraversalConfig(), has_value(), recordTraversalRoute(), findVertexId(), Ok(), runDFS().
+ */
 Result<GPUGraphTraversal::TraversalResult> GPUGraphTraversal::dfs(const std::string &start_vertex,
                                                                   const Config &config) {
     if (const auto config_error = validateTraversalConfig(config); config_error.has_value()) {

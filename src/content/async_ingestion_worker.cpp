@@ -33,6 +33,11 @@ namespace content {
 
 namespace {
 
+/**
+ * @brief Generate Random Job Id.
+ * @return Return value.
+ * @details Calls: steady_clock::now(), time_since_epoch(), count(), rng(), std::setw(), std::setfill(), str().
+ */
 std::string generateRandomJobId() {
     static thread_local std::mt19937_64 rng{static_cast<uint64_t>(steady_clock::now().time_since_epoch().count())};
 
@@ -42,6 +47,12 @@ std::string generateRandomJobId() {
     return oss.str();
 }
 
+/**
+ * @brief Job Type To String.
+ * @param[in] type Input parameter.
+ * @return Return value.
+ * @details Implements jobTypeToString without additional internal calls.
+ */
 std::string jobTypeToString(IngestionJobType type) {
     switch (type) {
         case IngestionJobType::SINGLE_FILE:
@@ -67,6 +78,12 @@ std::string jobTypeToString(IngestionJobType type) {
     }
 }
 
+/**
+ * @brief Job Status To String.
+ * @param[in] status Input parameter.
+ * @return Return value.
+ * @details Implements jobStatusToString without additional internal calls.
+ */
 std::string jobStatusToString(IngestionJobStatus status) {
     switch (status) {
         case IngestionJobStatus::QUEUED:
@@ -110,6 +127,10 @@ AsyncIngestionWorker::~AsyncIngestionWorker() noexcept {
     }
 }
 
+/**
+ * @brief Start.
+ * @details Calls: load(), THEMIS_WARN(), store(), emplace_back(), std::thread(), THEMIS_INFO().
+ */
 void AsyncIngestionWorker::start() {
     if (running_.load()) {
         THEMIS_WARN("AsyncIngestionWorker already running");
@@ -132,6 +153,11 @@ void AsyncIngestionWorker::start() {
     THEMIS_INFO("AsyncIngestionWorker started with {} worker threads", config_.worker_thread_count);
 }
 
+/**
+ * @brief Stop.
+ * @param[in] wait_for_completion Input parameter.
+ * @details Calls: load(), THEMIS_INFO(), lock(), empty(), front(), pop(), set_exception(), std::make_exception_ptr().
+ */
 void AsyncIngestionWorker::stop(bool wait_for_completion) {
     if (!running_.load()) {
         return;
@@ -181,6 +207,17 @@ void AsyncIngestionWorker::stop(bool wait_for_completion) {
     THEMIS_INFO("AsyncIngestionWorker stopped");
 }
 
+/**
+ * @brief Submit File.
+ * @param[in] blob Input parameter.
+ * @param[in] filename Input parameter.
+ * @param[in] mime_type Input parameter.
+ * @param[in] user_context Input parameter.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: load(), generateJobId(), getCurrentTimeMs(), lock(), size(), push(), hist_lock(), notify_one().
+ */
 std::string AsyncIngestionWorker::submitFile(const std::string &blob, const std::string &filename,
                                              const std::string &mime_type, const std::string &user_context,
                                              const json &config) {
@@ -224,6 +261,17 @@ std::string AsyncIngestionWorker::submitFile(const std::string &blob, const std:
     return job.job_id;
 }
 
+/**
+ * @brief Submit Stream.
+ * @param[in,out] stream Input/output parameter.
+ * @param[in] filename Input parameter.
+ * @param[in] mime_type Input parameter.
+ * @param[in] user_context Input parameter.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: load(), generateJobId(), getCurrentTimeMs(), lock(), size(), fetch_add(), wait(), push().
+ */
 std::string AsyncIngestionWorker::submitStream(std::istream &stream, const std::string &filename,
                                                const std::string &mime_type, const std::string &user_context,
                                                const json &config) {
@@ -278,6 +326,17 @@ std::string AsyncIngestionWorker::submitStream(std::istream &stream, const std::
     return job.job_id;
 }
 
+/**
+ * @brief Ingest Stream.
+ * @param[in,out] stream Input/output parameter.
+ * @param[in] filename Input parameter.
+ * @param[in] mime_type Input parameter.
+ * @param[in] user_context Input parameter.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: load(), get_future(), generateJobId(), getCurrentTimeMs(), lock(), size(), fetch_add(), wait().
+ */
 std::future<std::string> AsyncIngestionWorker::ingestStream(std::istream &stream, const std::string &filename,
                                                             const std::string &mime_type,
                                                             const std::string &user_context, const json &config) {
@@ -340,6 +399,16 @@ std::future<std::string> AsyncIngestionWorker::ingestStream(std::istream &stream
     return future;
 }
 
+/**
+ * @brief Submit Archive.
+ * @param[in] blob Input parameter.
+ * @param[in] filename Input parameter.
+ * @param[in] user_context Input parameter.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: load(), generateJobId(), getCurrentTimeMs(), lock(), size(), push(), hist_lock(), notify_one().
+ */
 std::string AsyncIngestionWorker::submitArchive(const std::string &blob, const std::string &filename,
                                                 const std::string &user_context, const json &config) {
     if (!running_.load()) {
@@ -412,6 +481,11 @@ std::string AsyncIngestionWorker::submitBatch(const std::vector<std::pair<std::s
     }
 
     {
+        /**
+         * @brief Lock.
+         * @param[in] queue_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(queue_mutex_);
 
         if (job_queue_.size() >= config_.max_queue_size) {
@@ -420,7 +494,11 @@ std::string AsyncIngestionWorker::submitBatch(const std::vector<std::pair<std::s
 
         job_queue_.push(job);
 
-        // Add to history (without blobs for efficiency)
+        /**
+         * @brief Add to history (without blobs for efficiency)
+         * @param[in] history_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> hist_lock(history_mutex_);
         auto hist_job = job;
         hist_job.config.erase("_blobs"); // Don't store blobs in history
@@ -436,6 +514,12 @@ std::string AsyncIngestionWorker::submitBatch(const std::vector<std::pair<std::s
     return job.job_id;
 }
 
+/**
+ * @brief Get Job Status.
+ * @param[in] job_id Identifier of the job.
+ * @return Return value.
+ * @details Calls: lock(), find(), end().
+ */
 std::optional<IngestionJob> AsyncIngestionWorker::getJobStatus(const std::string &job_id) {
     std::lock_guard<std::mutex> lock(history_mutex_);
 
@@ -447,6 +531,12 @@ std::optional<IngestionJob> AsyncIngestionWorker::getJobStatus(const std::string
     return std::nullopt;
 }
 
+/**
+ * @brief Cancel Job.
+ * @param[in] job_id Identifier of the job.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), find(), end().
+ */
 bool AsyncIngestionWorker::cancelJob(const std::string &job_id) {
     std::lock_guard<std::mutex> lock(history_mutex_);
 
@@ -465,6 +555,12 @@ bool AsyncIngestionWorker::cancelJob(const std::string &job_id) {
     return false;
 }
 
+/**
+ * @brief Get All Jobs.
+ * @param[in] status Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), has_value(), value(), push_back().
+ */
 std::vector<IngestionJob> AsyncIngestionWorker::getAllJobs(std::optional<IngestionJobStatus> status) {
     std::lock_guard<std::mutex> lock(history_mutex_);
 
@@ -479,6 +575,11 @@ std::vector<IngestionJob> AsyncIngestionWorker::getAllJobs(std::optional<Ingesti
     return result;
 }
 
+/**
+ * @brief Return access control statistics.
+ * @return Access control statistics.
+ * @details Calls: q_lock(), h_lock(), load(), size().
+ */
 json AsyncIngestionWorker::getStatistics() {
     std::lock_guard<std::mutex> q_lock(queue_mutex_);
     std::lock_guard<std::mutex> h_lock(history_mutex_);
@@ -526,6 +627,11 @@ json AsyncIngestionWorker::getStatistics() {
                   {"queue_depth_high_watermark", queue_depth_high_watermark_.load()}}}};
 }
 
+/**
+ * @brief Clear Completed Jobs.
+ * @param[in] older_than_ms Input parameter.
+ * @details Calls: lock(), getCurrentTimeMs(), max(), begin(), end(), erase().
+ */
 void AsyncIngestionWorker::clearCompletedJobs(int64_t older_than_ms) {
     std::lock_guard<std::mutex> lock(history_mutex_);
 
@@ -546,6 +652,11 @@ void AsyncIngestionWorker::clearCompletedJobs(int64_t older_than_ms) {
 
 void AsyncIngestionWorker::setCompletionCallback(const std::string &job_id,
                                                  std::function<void(const IngestionJob &)> callback) {
+    /**
+     * @brief Lock.
+     * @param[in] history_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(history_mutex_);
 
     auto it = job_history_.find(job_id);
@@ -555,6 +666,11 @@ void AsyncIngestionWorker::setCompletionCallback(const std::string &job_id,
 }
 
 void AsyncIngestionWorker::registerJobHandler(IngestionJobType job_type, std::function<void(IngestionJob &)> handler) {
+    /**
+     * @brief Lock.
+     * @param[in] handlers_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(handlers_mutex_);
     job_handlers_[job_type] = handler;
 
@@ -567,6 +683,11 @@ void AsyncIngestionWorker::registerJobHandler(IngestionJobType job_type, std::fu
 // Worker Thread Implementation
 // ============================================================================
 
+/**
+ * @brief Worker Loop.
+ * @param[in] worker_id Identifier of the worker.
+ * @details Calls: THEMIS_INFO(), lock(), wait(), empty(), load(), front(), pop(), fetch_add().
+ */
 void AsyncIngestionWorker::workerLoop(int worker_id) {
     if (config_.verbose_logging) {
         THEMIS_INFO("Worker {} started", worker_id);
@@ -679,6 +800,12 @@ void AsyncIngestionWorker::workerLoop(int worker_id) {
     }
 }
 
+/**
+ * @brief Process Job.
+ * @param[in,out] job Input/output parameter.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: lock(), find(), end(), second(), processSingleFile(), processStreamFile(), processArchive(), processBatchFiles().
+ */
 void AsyncIngestionWorker::processJob(IngestionJob &job) {
     // Check for custom handler first
     {
@@ -719,6 +846,12 @@ void AsyncIngestionWorker::processJob(IngestionJob &job) {
     }
 }
 
+/**
+ * @brief Process Single File.
+ * @param[in,out] job Input/output parameter.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: value(), ingestRawBlob(), push_back(), insert(), end(), begin(), fetch_add().
+ */
 void AsyncIngestionWorker::processSingleFile(IngestionJob &job) {
     std::string mime_type = job.config.value("mime_type", "");
 
@@ -738,6 +871,12 @@ void AsyncIngestionWorker::processSingleFile(IngestionJob &job) {
     total_items_processed_.fetch_add(1);
 }
 
+/**
+ * @brief Process Stream File.
+ * @param[in,out] job Input/output parameter.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: value(), ingestStream(), push_back(), fetch_add().
+ */
 void AsyncIngestionWorker::processStreamFile(IngestionJob &job) {
     if (!job.stream) {
         throw std::runtime_error("Stream job has no stream pointer");
@@ -759,6 +898,12 @@ void AsyncIngestionWorker::processStreamFile(IngestionJob &job) {
     total_items_processed_.fetch_add(1);
 }
 
+/**
+ * @brief Process Archive.
+ * @param[in,out] job Input/output parameter.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: ingestRawBlob(), push_back(), insert(), end(), begin(), size(), fetch_add().
+ */
 void AsyncIngestionWorker::processArchive(IngestionJob &job) {
     auto result = content_manager_->ingestRawBlob(job.blob, job.filename,
                                                   "", // Auto-detect
@@ -779,6 +924,12 @@ void AsyncIngestionWorker::processArchive(IngestionJob &job) {
     total_items_processed_.fetch_add(job.total_items);
 }
 
+/**
+ * @brief Process Batch Files.
+ * @param[in,out] job Input/output parameter.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: contains(), ingestRawBlob(), push_back(), insert(), end(), begin(), THEMIS_WARN(), what().
+ */
 void AsyncIngestionWorker::processBatchFiles(IngestionJob &job) {
     if (!job.config.contains("_blobs")) {
         throw std::runtime_error("Batch job missing file blobs");
@@ -818,6 +969,12 @@ void AsyncIngestionWorker::processBatchFiles(IngestionJob &job) {
 // Plugin Management API (NEW)
 // ============================================================================
 
+/**
+ * @brief Register Plugin.
+ * @param[in] plugin Input parameter.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: lock(), name(), find(), end(), THEMIS_WARN(), THEMIS_INFO(), version().
+ */
 void AsyncIngestionWorker::registerPlugin(std::shared_ptr<IngestionPlugin> plugin) {
     if (!plugin) {
         throw std::invalid_argument("Plugin cannot be null");
@@ -834,6 +991,11 @@ void AsyncIngestionWorker::registerPlugin(std::shared_ptr<IngestionPlugin> plugi
     THEMIS_INFO("Registered plugin: {} (version {})", name, plugin->version());
 }
 
+/**
+ * @brief Unregister Plugin.
+ * @param[in] plugin_name Name of the plugin.
+ * @details Calls: lock(), find(), end(), erase(), THEMIS_INFO(), THEMIS_WARN().
+ */
 void AsyncIngestionWorker::unregisterPlugin(const std::string &plugin_name) {
     std::lock_guard<std::mutex> lock(plugins_mutex_);
 
@@ -847,6 +1009,11 @@ void AsyncIngestionWorker::unregisterPlugin(const std::string &plugin_name) {
 }
 
 std::vector<std::string> AsyncIngestionWorker::listPlugins() const {
+    /**
+     * @brief Lock.
+     * @param[in] plugins_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(plugins_mutex_);
 
     std::vector<std::string> names = {};
@@ -859,6 +1026,11 @@ std::vector<std::string> AsyncIngestionWorker::listPlugins() const {
 }
 
 std::shared_ptr<IngestionPlugin> AsyncIngestionWorker::getPlugin(const std::string &name) const {
+    /**
+     * @brief Lock.
+     * @param[in] plugins_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(plugins_mutex_);
 
     auto it = plugins_.find(name);
@@ -868,6 +1040,15 @@ std::shared_ptr<IngestionPlugin> AsyncIngestionWorker::getPlugin(const std::stri
     return nullptr;
 }
 
+/**
+ * @brief Submit Source Job.
+ * @param[in] source Input parameter.
+ * @param[in] additional_config Input parameter.
+ * @param[in] user_context Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: load(), lock(), find(), end(), generateJobId(), toJson(), merge_patch(), getCurrentTimeMs().
+ */
 std::string AsyncIngestionWorker::submitSourceJob(const IngestionSource &source, const json &additional_config,
                                                   const std::string &user_context) {
     if (!running_.load()) {
@@ -947,6 +1128,11 @@ std::string AsyncIngestionWorker::submitSourceJob(const IngestionSource &source,
     return job.job_id;
 }
 
+/**
+ * @brief Load Sources From Config.
+ * @param[in] config_path Path to the retention policy configuration file.
+ * @details Calls: requested_path(), is_absolute(), std::filesystem::exists(), lexically_normal(), string(), themis::config::ConfigPathResolver::resolve(), themis::config::ConfigSchemaValidator::loadAsJson(), contains().
+ */
 void AsyncIngestionWorker::loadSourcesFromConfig(const std::string &config_path) {
     // Allow explicit absolute file paths (e.g. tests using temp files).
     // Otherwise, resolve via ConfigPathResolver for mapped repository configs.
@@ -998,6 +1184,12 @@ void AsyncIngestionWorker::loadSourcesFromConfig(const std::string &config_path)
     THEMIS_INFO("loadSourcesFromConfig: submitted {} source job(s) from {}", submitted, resolved_path);
 }
 
+/**
+ * @brief Process Plugin Job.
+ * @param[in,out] job Input/output parameter.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: contains(), IngestionSource::fromJson(), lock(), find(), end(), processJob().
+ */
 void AsyncIngestionWorker::processPluginJob(IngestionJob &job) {
     // Extract source config
     if (!job.config.contains("source")) {
@@ -1026,10 +1218,21 @@ void AsyncIngestionWorker::processPluginJob(IngestionJob &job) {
 // Helper Methods
 // ============================================================================
 
+/**
+ * @brief Generate Job Id.
+ * @return Return value.
+ * @details Calls: generateRandomJobId().
+ */
 std::string AsyncIngestionWorker::generateJobId() {
     return generateRandomJobId();
 }
 
+/**
+ * @brief Update Job Status.
+ * @param[in] job_id Identifier of the job.
+ * @param[in] status Input parameter.
+ * @details Calls: lock(), find(), end().
+ */
 void AsyncIngestionWorker::updateJobStatus(const std::string &job_id, IngestionJobStatus status) {
     std::lock_guard<std::mutex> lock(history_mutex_);
 
@@ -1039,6 +1242,13 @@ void AsyncIngestionWorker::updateJobStatus(const std::string &job_id, IngestionJ
     }
 }
 
+/**
+ * @brief Update Job Progress.
+ * @param[in] job_id Identifier of the job.
+ * @param[in] processed Input parameter.
+ * @param[in] total Input parameter.
+ * @details Calls: lock(), find(), end().
+ */
 void AsyncIngestionWorker::updateJobProgress(const std::string &job_id, int processed, int total) {
     std::lock_guard<std::mutex> lock(history_mutex_);
 
@@ -1050,10 +1260,19 @@ void AsyncIngestionWorker::updateJobProgress(const std::string &job_id, int proc
     }
 }
 
+/**
+ * @brief Get Current Time Ms.
+ * @return Return value.
+ * @details Calls: steady_clock::now(), time_since_epoch(), count().
+ */
 int64_t AsyncIngestionWorker::getCurrentTimeMs() {
     return duration_cast<milliseconds>(steady_clock::now().time_since_epoch()).count();
 }
 
+/**
+ * @brief Cleanup Loop.
+ * @details Calls: load(), std::this_thread::sleep_for(), std::chrono::minutes(), clearCompletedJobs().
+ */
 void AsyncIngestionWorker::cleanupLoop() {
     while (!shutdown_requested_.load()) {
         // Sleep for 5 minutes

@@ -28,13 +28,13 @@ using storage::TensorTrainDecomposer;
 using storage::TensorTrainConfig;
 using storage::TTTrain;
 
+
 /**
- * @brief ============================================================================ Helper: build a TTTrain from JSON {data:[.
+ * @brief Json To Floats.
  * @param[in] arr Input parameter.
  * @return Return value.
- * @details ..], shape:[...], eps:float} ============================================================================ Calls: reserve(), size(), push_back().
+ * @details Calls: reserve(), size(), push_back().
  */
-
 static std::vector<float> jsonToFloats(const json& arr) {
     std::vector<float> out = {};
 
@@ -200,7 +200,6 @@ static TTTrain buildTrain(const json& arg, const FunctionContext& ctx) {
 // TENSOR_SIMILARITY
 // ============================================================================
 
-/** @brief TENSOR_SIMILARITY. */
 class TensorSimilarityFunction : public IFunction {
 public:
     FunctionSignature signature() const override {
@@ -237,7 +236,6 @@ public:
 // TENSOR_NORM
 // ============================================================================
 
-/** @brief TENSOR_NORM. */
 class TensorNormFunction : public IFunction {
 public:
     FunctionSignature signature() const override {
@@ -270,7 +268,6 @@ public:
 // TENSOR_SLICE
 // ============================================================================
 
-/** @brief TENSOR_SLICE. */
 class TensorSliceFunction : public IFunction {
 public:
     FunctionSignature signature() const override {
@@ -324,7 +321,6 @@ public:
 // TENSOR_COMPRESS
 // ============================================================================
 
-/** @brief TENSOR_COMPRESS. */
 class TensorCompressFunction : public IFunction {
 public:
     FunctionSignature signature() const override {
@@ -377,7 +373,6 @@ public:
 // TENSOR_INFO
 // ============================================================================
 
-/** @brief TENSOR_INFO. */
 class TensorInfoFunction : public IFunction {
 public:
     FunctionSignature signature() const override {
@@ -419,7 +414,6 @@ public:
 // TENSOR_CONTRACT
 // ============================================================================
 
-/** @brief TENSOR_CONTRACT. */
 class TensorContractFunction : public IFunction {
 public:
     FunctionSignature signature() const override {
@@ -485,7 +479,6 @@ public:
 // TENSOR_PROJECT
 // ============================================================================
 
-/** @brief TENSOR_PROJECT. */
 class TensorProjectFunction : public IFunction {
 public:
     FunctionSignature signature() const override {
@@ -538,7 +531,6 @@ public:
 // TENSOR_DECOMPOSE
 // ============================================================================
 
-/** @brief TENSOR_DECOMPOSE. */
 class TensorDecomposeFunction : public IFunction {
 public:
     FunctionSignature signature() const override {
@@ -614,12 +606,12 @@ public:
     }
 };
 
+
 /**
- * @brief ============================================================================ Registration ============================================================================
+ * @brief Register Tensor Functions.
  * @param[in,out] registry Input/output parameter.
  * @details Calls: registerFunction().
  */
-
 void registerTensorFunctions(FunctionRegistry& registry) {
     registry.registerFunction(std::make_unique<TensorSimilarityFunction>());
     registry.registerFunction(std::make_unique<TensorNormFunction>());

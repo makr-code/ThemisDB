@@ -28,6 +28,16 @@ namespace acceleration {
 
 // OpenCL kernel source — kept in the .cpp to avoid polluting the public header
 static const char* openclKernelSource = R"(
+/**
+ * @brief Compute L2 Distance.
+ * @param[in] queries Input parameter.
+ * @param[in] vectors Input parameter.
+ * @param[in,out] distances Input/output parameter.
+ * @param[in] numQueries Input parameter.
+ * @param[in] numVectors Input parameter.
+ * @param[in] dimension Input parameter.
+ * @return Return value.
+ */
 __kernel void computeL2Distance(
     __global const float* queries,
     __global const float* vectors,
@@ -53,6 +63,16 @@ __kernel void computeL2Distance(
     distances[q * numVectors + v] = sum;
 }
 
+/**
+ * @brief Compute Cosine Distance.
+ * @param[in] queries Input parameter.
+ * @param[in] vectors Input parameter.
+ * @param[in,out] distances Input/output parameter.
+ * @param[in] numQueries Input parameter.
+ * @param[in] numVectors Input parameter.
+ * @param[in] dimension Input parameter.
+ * @return Return value.
+ */
 __kernel void computeCosineDistance(
     __global const float* queries,
     __global const float* vectors,
@@ -108,6 +128,11 @@ BackendCapabilities OpenCLVectorBackend::getCapabilities() const {
     return caps;
 }
 
+/**
+ * @brief Initialize.
+ * @return True when the operation succeeds.
+ * @details Calls: clGetPlatformIDs(), setError(), ErrorContext(), ErrorContextHelpers::createDriverError(), format(), clGetPlatformInfo(), clGetDeviceIDs(), ErrorContextHelpers::createNoDevicesError().
+ */
 bool OpenCLVectorBackend::initialize() {
     cl_int err;
     
@@ -250,11 +275,25 @@ bool OpenCLVectorBackend::initialize() {
     return true;
 }
 
+/**
+ * @brief Shutdown.
+ * @details Implements shutdown without additional internal calls.
+ */
 void OpenCLVectorBackend::shutdown() {
     // All resources automatically cleaned up by RAII
     initialized_ = false;
 }
 
+/**
+ * @brief Compute Distances.
+ * @param[in] queries Input parameter.
+ * @param[in] numQueries Input parameter.
+ * @param[in] dimension Input parameter.
+ * @param[in] vectors Input parameter.
+ * @param[in] numVectors Input parameter.
+ * @param[in] useL2 Input parameter.
+ * @return Return value.
+ */
 std::vector<float> OpenCLVectorBackend::computeDistances(
     const float* queries, size_t numQueries, size_t dimension,
     const float* vectors, size_t numVectors,
@@ -267,6 +306,11 @@ std::vector<float> OpenCLVectorBackend::computeDistances(
     
     cl_int err;
     size_t resultSize = numQueries * numVectors;
+    /**
+     * @brief Distances.
+     * @param[in] resultSize Input parameter.
+     * @return Return value.
+     */
     std::vector<float> distances(resultSize);
     
     // Create buffers
@@ -374,6 +418,11 @@ std::vector<std::vector<std::pair<uint32_t, float>>> OpenCLVectorBackend::batchK
 static std::mutex s_opencl_compute_fn_mutex_;
 static OpenCLVectorBackend::ComputeDistancesFn s_compute_distances_fn_;
 
+/**
+ * @brief Set Compute Distances Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lk(), std::move().
+ */
 void OpenCLVectorBackend::setComputeDistancesFn(
     OpenCLVectorBackend::ComputeDistancesFn fn) {
     std::lock_guard<std::mutex> lk(s_opencl_compute_fn_mutex_);
@@ -385,9 +434,29 @@ BackendType OpenCLVectorBackend::type() const noexcept { return BackendType::OPE
 const char* OpenCLVectorBackend::name() const noexcept { return "OpenCL (Not Available)"; }
 bool OpenCLVectorBackend::isAvailable() const noexcept { return false; }
 BackendCapabilities OpenCLVectorBackend::getCapabilities() const { return {}; }
+/**
+ * @brief Initialize.
+ * @return True when the operation succeeds.
+ * @details Implements initialize without additional internal calls.
+ */
 bool OpenCLVectorBackend::initialize() { return false; }
+/**
+ * @brief Shutdown.
+ * @details Implements shutdown without additional internal calls.
+ */
 void OpenCLVectorBackend::shutdown() {}
 
+/**
+ * @brief Compute Distances.
+ * @param[in] queries Input parameter.
+ * @param[in] numQueries Input parameter.
+ * @param[in] dimension Input parameter.
+ * @param[in] vectors Input parameter.
+ * @param[in] numVectors Input parameter.
+ * @param[in] useL2 Input parameter.
+ * @return Return value.
+ * @details Calls: lk(), fn().
+ */
 std::vector<float> OpenCLVectorBackend::computeDistances(
     const float* queries, size_t numQueries, size_t dimension,
     const float* vectors, size_t numVectors, bool useL2) {
@@ -418,6 +487,11 @@ std::vector<std::vector<std::pair<uint32_t, float>>> OpenCLVectorBackend::batchK
 #endif // THEMIS_ENABLE_OPENCL
 
 // Factory function
+/**
+ * @brief Create Open CLBackend.
+ * @return Return value.
+ * @details Implements createOpenCLBackend without additional internal calls.
+ */
 std::unique_ptr<IVectorBackend> createOpenCLBackend() {
     return std::make_unique<OpenCLVectorBackend>();
 }

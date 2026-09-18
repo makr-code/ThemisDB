@@ -25,13 +25,16 @@ namespace llm {
 
 namespace {
 
-/// Return the current Unix timestamp as int64_t.
+/**
+ * @brief Now Unix.
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::now(), time_since_epoch(), count().
+ */
 int64_t nowUnix() {
     return std::chrono::duration_cast<std::chrono::seconds>(
         std::chrono::system_clock::now().time_since_epoch()).count();
 }
 
-/// Generate a short hex random suffix for completion IDs.
 std::string randomHex(size_t bytes = 12) {
     std::random_device rd = {};
     std::mt19937_64 gen(rd());
@@ -56,6 +59,11 @@ std::string randomHex(size_t bytes = 12) {
 // Public API
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Generate Completion Id.
+ * @return Return value.
+ * @details Calls: randomHex().
+ */
 std::string OpenAICompatAdapter::generateCompletionId() {
     return "chatcmpl-" + randomHex(12);
 }
@@ -173,6 +181,14 @@ OpenAICompatAdapter::parseRequest(const json& body) {
 
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Build Response.
+ * @param[in] response Input parameter.
+ * @param[in] model_id Identifier of the model.
+ * @param[in] completion_id Identifier of the completion.
+ * @return Return value.
+ * @details Calls: empty(), generateCompletionId(), nowUnix(), json::array(), size(), push_back(), randomHex(), dump().
+ */
 json OpenAICompatAdapter::buildResponse(
     const InferenceResponse& response,
     const std::string& model_id,
@@ -238,6 +254,15 @@ json OpenAICompatAdapter::buildResponse(
 
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Build Stream Chunk.
+ * @param[in] token Input parameter.
+ * @param[in] completion_id Identifier of the completion.
+ * @param[in] model_id Identifier of the model.
+ * @param[in] created Input parameter.
+ * @return Return value.
+ * @details Calls: nowUnix(), json::array(), dump().
+ */
 std::string OpenAICompatAdapter::buildStreamChunk(
     const std::string& token,
     const std::string& completion_id,
@@ -267,6 +292,14 @@ std::string OpenAICompatAdapter::buildStreamChunk(
 
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Build Stream Final Chunk.
+ * @param[in] completion_id Identifier of the completion.
+ * @param[in] model_id Identifier of the model.
+ * @param[in] created Input parameter.
+ * @return Return value.
+ * @details Calls: nowUnix(), json::array(), json::object(), dump().
+ */
 std::string OpenAICompatAdapter::buildStreamFinalChunk(
     const std::string& completion_id,
     const std::string& model_id,
@@ -295,12 +328,25 @@ std::string OpenAICompatAdapter::buildStreamFinalChunk(
 
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Build Stream Done.
+ * @return Return value.
+ * @details Implements buildStreamDone without additional internal calls.
+ */
 std::string OpenAICompatAdapter::buildStreamDone() {
     return "data: [DONE]\n\n";
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Build Error.
+ * @param[in] message Input parameter.
+ * @param[in] type Input parameter.
+ * @param[in] code Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), std::move().
+ */
 json OpenAICompatAdapter::buildError(
     const std::string& message,
     const std::string& type,
@@ -322,6 +368,14 @@ json OpenAICompatAdapter::buildError(
 // Private helpers
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Extract Prompts.
+ * @param[in] messages Input parameter.
+ * @param[in,out] system_prompt Input/output parameter.
+ * @param[in,out] prompt Input/output parameter.
+ * @return Return value.
+ * @details Calls: is_object(), contains(), is_string(), is_array(), is_null(), has_value(), str(), empty().
+ */
 std::string OpenAICompatAdapter::extractPrompts(
     const json& messages,
     std::optional<std::string>& system_prompt,

@@ -70,13 +70,10 @@ namespace replication {
 namespace {
 
 /**
- * Return the built-in TierConfig for the given tier.
- *
- * These represent the recommended settings for each tier:
- *
- *   TIER_1_CRITICAL  – 3 replicas, SYNC, 10 ms SLA, 99% availability
- *   TIER_2_STANDARD  – 2 replicas, SEMI_SYNC, 50 ms SLA, 99% availability
- *   TIER_3_ARCHIVAL  – 1 replica,  ASYNC,   no SLA,  90% availability
+ * @brief Builtin Tier Config.
+ * @param[in] tier Input parameter.
+ * @return Return value.
+ * @details Implements builtinTierConfig without additional internal calls.
  */
 TierConfig builtinTierConfig(ReplicationTier tier) {
     switch (tier) {
@@ -128,6 +125,11 @@ MultiTierReplicationManager::MultiTierReplicationManager(
 // Tier assignment
 // ============================================================================
 
+/**
+ * @brief Assign Tier.
+ * @param[in] collection Input parameter.
+ * @param[in] tier Input parameter.
+ */
 void MultiTierReplicationManager::assignTier(const std::string& collection,
                                              ReplicationTier    tier)
 {
@@ -137,6 +139,11 @@ void MultiTierReplicationManager::assignTier(const std::string& collection,
     }
 
     {
+        /**
+         * @brief Lk.
+         * @param[in] assignments_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::shared_mutex> lk(assignments_mutex_);
         tier_assignments_[collection] = tier;
     }
@@ -144,6 +151,11 @@ void MultiTierReplicationManager::assignTier(const std::string& collection,
     // Ensure an access-stats entry exists for this collection so that
     // getCollectionStats() returns it even before any access is recorded.
     {
+        /**
+         * @brief Lk.
+         * @param[in] stats_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::shared_mutex> lk(stats_mutex_);
         auto& stats      = access_stats_[collection];
         stats.collection = collection;
@@ -154,14 +166,28 @@ void MultiTierReplicationManager::assignTier(const std::string& collection,
                 collection, static_cast<int>(tier));
 }
 
+/**
+ * @brief Remove Tier.
+ * @param[in] collection Input parameter.
+ */
 void MultiTierReplicationManager::removeTier(const std::string& collection)
 {
     {
+        /**
+         * @brief Lk.
+         * @param[in] assignments_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::shared_mutex> lk(assignments_mutex_);
         tier_assignments_.erase(collection);
     }
 
     {
+        /**
+         * @brief Lk.
+         * @param[in] stats_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::shared_mutex> lk(stats_mutex_);
         auto it = access_stats_.find(collection);
         if (it != access_stats_.end()) {
@@ -173,6 +199,11 @@ void MultiTierReplicationManager::removeTier(const std::string& collection)
 ReplicationTier MultiTierReplicationManager::getTier(
     const std::string& collection) const
 {
+    /**
+     * @brief Lk.
+     * @param[in] assignments_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lk(assignments_mutex_);
     auto it = tier_assignments_.find(collection);
     if (it != tier_assignments_.end()) {
@@ -207,6 +238,10 @@ TierConfig MultiTierReplicationManager::getDefaultTierConfig(
 // Auto-tiering
 // ============================================================================
 
+/**
+ * @brief Enable Auto Tiering.
+ * @param[in] enabled Input parameter.
+ */
 void MultiTierReplicationManager::enableAutoTiering(bool enabled)
 {
     // Only update the atomic flag; config_ fields are immutable after construction
@@ -221,6 +256,10 @@ bool MultiTierReplicationManager::isAutoTieringEnabled() const
     return auto_tiering_.load();
 }
 
+/**
+ * @brief Record Access.
+ * @param[in] collection Input parameter.
+ */
 void MultiTierReplicationManager::recordAccess(const std::string& collection)
 {
     if (!auto_tiering_.load()) {
@@ -241,6 +280,11 @@ void MultiTierReplicationManager::recordAccess(const std::string& collection)
     // SCOPE FIX: Now acquire stats_mutex_ for the actual update operation.
     // This ensures consistent variable lifetime and prevents deadlock.
     {
+        /**
+         * @brief Lk.
+         * @param[in] stats_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::shared_mutex> lk(stats_mutex_);
         auto& stats = access_stats_[collection];
         if (stats.collection.empty()) {
@@ -254,6 +298,11 @@ void MultiTierReplicationManager::recordAccess(const std::string& collection)
     // stats_mutex_ released here; no dangling references to stats
 }
 
+/**
+ * @brief Evaluate Tier Promotion.
+ * @param[in] collection Input parameter.
+ * @return Return value.
+ */
 ReplicationTier MultiTierReplicationManager::evaluateTierPromotion(
     const std::string& collection)
 {
@@ -272,6 +321,11 @@ ReplicationTier MultiTierReplicationManager::evaluateTierPromotion(
 
     // SCOPE FIX: Single stats_mutex_ scope to compute rate
     {
+        /**
+         * @brief Lk.
+         * @param[in] stats_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::shared_mutex> lk(stats_mutex_);
         auto& stats = access_stats_[collection];
         if (stats.collection.empty()) {
@@ -314,6 +368,11 @@ MultiTierStats MultiTierReplicationManager::getStats() const
     s.total_demotions    = total_demotions_.load();
     s.auto_tiering_active = auto_tiering_.load();
 
+    /**
+     * @brief Lk.
+     * @param[in] assignments_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lk(assignments_mutex_);
     for (const auto& [col, tier] : tier_assignments_) {
         switch (tier) {
@@ -328,6 +387,11 @@ MultiTierStats MultiTierReplicationManager::getStats() const
 std::vector<CollectionAccessStats>
 MultiTierReplicationManager::getCollectionStats() const
 {
+    /**
+     * @brief Lk.
+     * @param[in] stats_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lk(stats_mutex_);
     std::vector<CollectionAccessStats> result = {};
 
@@ -341,6 +405,11 @@ MultiTierReplicationManager::getCollectionStats() const
 std::vector<std::string>
 MultiTierReplicationManager::getCollectionsForTier(ReplicationTier tier) const
 {
+    /**
+     * @brief Lk.
+     * @param[in] assignments_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lk(assignments_mutex_);
     std::vector<std::string> result = {};
 
@@ -385,6 +454,12 @@ void MultiTierReplicationManager::refreshAccessRate(
         window_min > 0.0 ? static_cast<double>(stats.recent_accesses) / window_min : 0.0;
 }
 
+/**
+ * @brief Apply Tier Change.
+ * @param[in] collection Input parameter.
+ * @param[in] old_tier Input parameter.
+ * @param[in] new_tier Input parameter.
+ */
 void MultiTierReplicationManager::applyTierChange(const std::string& collection,
                                                    ReplicationTier    old_tier,
                                                    ReplicationTier    new_tier)
@@ -398,6 +473,11 @@ void MultiTierReplicationManager::applyTierChange(const std::string& collection,
 
     // SCOPE FIX: Minimal scope for assignments_mutex_ lock
     {
+        /**
+         * @brief Lk.
+         * @param[in] assignments_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::shared_mutex> lk(assignments_mutex_);
         tier_assignments_[collection] = new_tier;
     }
@@ -405,6 +485,11 @@ void MultiTierReplicationManager::applyTierChange(const std::string& collection,
 
     // SCOPE FIX: Separate scope for stats_mutex_ lock
     {
+        /**
+         * @brief Lk.
+         * @param[in] stats_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::shared_mutex> lk(stats_mutex_);
         auto& stats      = access_stats_[collection];
         stats.current_tier = new_tier;

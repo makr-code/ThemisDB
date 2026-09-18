@@ -20,9 +20,11 @@
 namespace themis {
 namespace governance {
 
-// ============================================================================
-// Helper – current time in milliseconds
-// ============================================================================
+/**
+ * @brief ============================================================================ Helper – current time in milliseconds ============================================================================
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::now(), time_since_epoch(), count().
+ */
 
 static int64_t nowMs() {
     return std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch())
@@ -93,12 +95,13 @@ nlohmann::json Soc2AuditReport::toJson() const {
     return j;
 }
 
-// ============================================================================
-// Helpers shared by control evaluators
-// ============================================================================
+/**
+ * @brief ============================================================================ Helpers shared by control evaluators ============================================================================
+ * @param[in] rule Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: std::transform(), begin(), end(), find().
+ */
 
-/// Classify a resource/rule as "sensitive" when the classification level or
-/// resource name indicates it holds personal, health, or confidential data.
 static bool isSensitiveResource(const PolicyRule &rule) {
     const std::string &lvl = rule.classification_level;
     if (lvl == "vs-nfd" || lvl == "geheim" || lvl == "streng-geheim") {
@@ -121,7 +124,16 @@ static bool isSensitiveResource(const PolicyRule &rule) {
     return false;
 }
 
-/// Build a minimal evidence item for a rule-based control evaluation.
+/**
+ * @brief Make Rule Evidence.
+ * @param[in] evidence_id Identifier of the evidence.
+ * @param[in] control_id Identifier of the control.
+ * @param[in] rule Input parameter.
+ * @param[in] control_met Input parameter.
+ * @param[in] detail Input parameter.
+ * @return Return value.
+ * @details Calls: nowMs(), empty(), front().
+ */
 static Soc2EvidenceItem makeRuleEvidence(const std::string &evidence_id, const std::string &control_id,
                                          const PolicyRule &rule, bool control_met, const std::string &detail) {
     Soc2EvidenceItem ev;
@@ -535,6 +547,15 @@ Soc2AuditReport Soc2ControlSet::generateReport(const PolicyManager &policy_mgr, 
     return report;
 }
 
+/**
+ * @brief Collect Evidence.
+ * @param[in] resource Input parameter.
+ * @param[in] action Input parameter.
+ * @param[in] principal Input parameter.
+ * @param[in] access_granted Input parameter.
+ * @param[in] encrypted Input parameter.
+ * @details Calls: lock(), nowMs(), str(), std::string(), push_back(), std::move().
+ */
 void Soc2ControlSet::collectEvidence(const std::string &resource, const std::string &action,
                                      const std::string &principal, bool access_granted, bool encrypted) {
     std::lock_guard<std::mutex> lock(evidence_mutex_);
@@ -560,10 +581,19 @@ void Soc2ControlSet::collectEvidence(const std::string &resource, const std::str
 }
 
 std::vector<Soc2EvidenceItem> Soc2ControlSet::getEvidence() const {
+    /**
+     * @brief Lock.
+     * @param[in] evidence_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(evidence_mutex_);
     return evidence_items_;
 }
 
+/**
+ * @brief Clear Evidence.
+ * @details Calls: lock(), clear().
+ */
 void Soc2ControlSet::clearEvidence() {
     std::lock_guard<std::mutex> lock(evidence_mutex_);
     evidence_items_.clear();

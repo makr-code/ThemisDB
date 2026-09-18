@@ -44,6 +44,14 @@ bool KernelTimeoutEnforcer::executeWithFallback(
     }
 }
 
+/**
+ * @brief Wait For Completion.
+ * @param[in] stream Input parameter.
+ * @param[in] timeout_ms Input parameter.
+ * @param[in] start_time Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: cudaStreamQuery(), detail::throwCudaError(), cudaGetErrorString(), std::chrono::steady_clock::now(), count(), CUDA_CHECK(), cudaStreamSynchronize(), std::this_thread::sleep_for().
+ */
 bool KernelTimeoutEnforcer::waitForCompletion(cudaStream_t stream,
                                               uint32_t timeout_ms,
                                               std::chrono::steady_clock::time_point start_time) {

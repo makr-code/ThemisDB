@@ -32,25 +32,10 @@ namespace themis {
 namespace lora {
 namespace vulkan {
 
-/**
- * @brief Vulkan compute pipeline for shader execution
- * 
- * Manages compute shader compilation, descriptor sets, and dispatch operations.
- */
 class VulkanComputePipeline {
 public:
-    /**
-     * @brief Create compute pipeline with shader
-     * @param context Vulkan context
-     * @param shader_path Path to SPIR-V shader file (.spv)
-     */
     VulkanComputePipeline(VulkanContext* context, const std::string& shader_path);
     
-    /**
-     * @brief Create compute pipeline with shader code
-     * @param context Vulkan context
-     * @param shader_code SPIR-V shader bytecode
-     */
     VulkanComputePipeline(VulkanContext* context, const std::vector<uint32_t>& shader_code);
     
     ~VulkanComputePipeline() noexcept;
@@ -61,55 +46,21 @@ public:
     VulkanComputePipeline(VulkanComputePipeline&& other) noexcept;
     VulkanComputePipeline& operator=(VulkanComputePipeline&& other) noexcept;
     
-    /**
-     * @brief Create the compute pipeline
-     * @param push_constant_size Size of push constants in bytes
-     * @return true if successful
-     */
     bool create(size_t push_constant_size = 0);
     
     /**
-     * @brief Bind buffer to descriptor set
-     * @param binding Binding index in shader
-     * @param buffer Buffer to bind
+     * @brief Bind buffer.
+     * @param[in] binding Input parameter.
+     * @param[in] buffer Input parameter.
      */
     void bind_buffer(uint32_t binding, const VulkanBuffer& buffer);
     
-    /**
-     * @brief Set push constants
-     * @param data Push constant data
-     * @param size Data size in bytes
-     * @param offset Offset in push constant range
-     */
     void set_push_constants(const void* data, size_t size, size_t offset = 0);
     
-    /**
-     * @brief Dispatch compute shader.
-     *
-     * Records the compute workload into a one-time-submit command buffer and
-     * submits it to the Vulkan compute queue.
-     *
-     * @param group_x Number of workgroups in X dimension
-     * @param group_y Number of workgroups in Y dimension
-     * @param group_z Number of workgroups in Z dimension
-     *
-     * @throws std::runtime_error if vkBeginCommandBuffer, vkEndCommandBuffer,
-     *         or vkQueueSubmit returns a non-VK_SUCCESS code.
-     */
     void dispatch(uint32_t group_x, uint32_t group_y = 1, uint32_t group_z = 1);
     
-    /**
-     * @brief Wait for pipeline execution to complete.
-     * @param timeout_ns Maximum time to wait in nanoseconds.
-     *   Defaults to 30 s, which is a safe upper bound for a single compute kernel.
-     *   Pass `UINT64_MAX` to wait indefinitely (discouraged — risks deadlock on GPU hang).
-     * @return true if completed within timeout, false on timeout/failure or missing fence.
-     */
     bool wait(uint64_t timeout_ns = 30'000'000'000ULL);
     
-    /**
-     * @brief Check if pipeline is ready
-     */
     bool is_ready() const { return pipeline_ != VK_NULL_HANDLE; }
     
     // Getters
@@ -118,43 +69,52 @@ public:
     
 private:
     /**
-     * @brief Load SPIR-V shader from file
+     * @brief Load shader file.
+     * @param[in] path Input parameter.
+     * @return Return value.
      */
     std::vector<uint32_t> load_shader_file(const std::string& path);
     
     /**
-     * @brief Create shader module
+     * @brief Create shader module.
+     * @param[in] code Input parameter.
+     * @return Return value.
      */
     VkShaderModule create_shader_module(const std::vector<uint32_t>& code);
     
     /**
-     * @brief Create descriptor set layout
-     * Analyzes shader and creates appropriate layout
+     * @brief Create descriptor set layout.
+     * @return True when the operation succeeds.
      */
     bool create_descriptor_set_layout();
     
     /**
-     * @brief Create pipeline layout
+     * @brief Create pipeline layout.
+     * @param[in] push_constant_size Input parameter.
+     * @return True when the operation succeeds.
      */
     bool create_pipeline_layout(size_t push_constant_size);
     
     /**
-     * @brief Create compute pipeline
+     * @brief Create compute pipeline.
+     * @return True when the operation succeeds.
      */
     bool create_compute_pipeline();
     
     /**
-     * @brief Create descriptor pool
+     * @brief Create descriptor pool.
+     * @return True when the operation succeeds.
      */
     bool create_descriptor_pool();
     
     /**
-     * @brief Allocate descriptor sets
+     * @brief Allocate descriptor sets.
+     * @return True when the operation succeeds.
      */
     bool allocate_descriptor_sets();
     
     /**
-     * @brief Update descriptor sets with bound buffers
+     * @brief Update descriptor sets.
      */
     void update_descriptor_sets();
     
@@ -197,7 +157,6 @@ namespace themis {
 namespace lora {
 namespace vulkan {
 
-/** @brief Vulkan compute pipeline component. */
 class VulkanComputePipeline {
 public:
     VulkanComputePipeline(VulkanContext*, const std::string&) {}
@@ -210,10 +169,36 @@ public:
     VulkanComputePipeline& operator=(VulkanComputePipeline&&) noexcept = default;
     
     bool create(size_t = 0) { return false; }
+    /**
+     * @brief Cleanup.
+     * @details Implements cleanup without additional internal calls.
+     */
     void cleanup() {}
     bool is_ready() const { return false; }
+    /**
+     * @brief Bind buffer.
+     * @param[in] uint32_t Input parameter.
+     * @param[in,out] param Input/output parameter.
+     * @return True when the operation succeeds.
+     * @details Implements bind_buffer without additional internal calls.
+     */
     bool bind_buffer(uint32_t, VulkanBuffer*) { return false; }
+    /**
+     * @brief Set push constants.
+     * @param[in] param Input parameter.
+     * @param[in] size_t Input parameter.
+     * @return True when the operation succeeds.
+     * @details Implements set_push_constants without additional internal calls.
+     */
     bool set_push_constants(const void*, size_t) { return false; }
+    /**
+     * @brief Dispatch.
+     * @param[in] uint32_t Input parameter.
+     * @param[in] uint32_t Input parameter.
+     * @param[in] uint32_t Input parameter.
+     * @return True when the operation succeeds.
+     * @details Implements dispatch without additional internal calls.
+     */
     bool dispatch(uint32_t, uint32_t, uint32_t) { return false; }
     bool wait(uint64_t = 0) { return false; }
 };

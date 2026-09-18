@@ -49,7 +49,13 @@ SecretManager::findVersionConst(const SecretEntry& entry,
     return nullptr;
 }
 
-/// Returns true if (now - created_at) >= threshold.
+/**
+ * @brief Is Age Exceeded.
+ * @param[in] created_at Creation timestamp used for the age comparison.
+ * @param[in] threshold Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: std::chrono::system_clock::now().
+ */
 static bool isAgeExceeded(std::chrono::system_clock::time_point created_at,
                            std::chrono::seconds threshold) {
     return (std::chrono::system_clock::now() - created_at) >= threshold;
@@ -59,6 +65,17 @@ static bool isAgeExceeded(std::chrono::system_clock::time_point created_at,
 // storeSecret
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Store Secret.
+ * @param[in] name Input parameter.
+ * @param[in] value Input parameter.
+ * @param[in] created_by Input parameter.
+ * @param[in] description Input parameter.
+ * @return Return value.
+ * @throws std::invalid_argument if an error occurs.
+ * @throws std::length_error if an error occurs.
+ * @details Calls: lock(), count(), size(), std::to_string(), std::chrono::system_clock::now(), push_back(), std::move(), back().
+ */
 uint32_t SecretManager::storeSecret(const std::string& name,
                                     const std::string& value,
                                     const std::string& created_by,
@@ -102,6 +119,11 @@ uint32_t SecretManager::storeSecret(const std::string& name,
 
 std::optional<SecretManager::SecretVersion>
 SecretManager::getSecret(const std::string& name) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     auto it = secrets_.find(name);
@@ -125,6 +147,11 @@ SecretManager::getSecret(const std::string& name) const {
 std::optional<SecretManager::SecretVersion>
 SecretManager::getSecretVersion(const std::string& name,
                                 uint32_t version) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     auto it = secrets_.find(name);
@@ -143,6 +170,16 @@ SecretManager::getSecretVersion(const std::string& name,
 // rotateSecret
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Rotate Secret.
+ * @param[in] name Input parameter.
+ * @param[in] new_value Input parameter.
+ * @param[in] created_by Input parameter.
+ * @return Return value.
+ * @throws std::invalid_argument if an error occurs.
+ * @throws std::length_error if an error occurs.
+ * @details Calls: lock(), find(), end(), size(), std::to_string(), std::chrono::system_clock::now(), push_back(), std::move().
+ */
 uint32_t SecretManager::rotateSecret(const std::string& name,
                                      const std::string& new_value,
                                      const std::string& created_by) {
@@ -192,6 +229,13 @@ uint32_t SecretManager::rotateSecret(const std::string& name,
 // revokeVersion
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Revoke Version.
+ * @param[in] name Input parameter.
+ * @param[in] version Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), find(), end(), findVersion().
+ */
 bool SecretManager::revokeVersion(const std::string& name, uint32_t version) {
     std::lock_guard<std::mutex> lock(mutex_);
 
@@ -216,6 +260,12 @@ bool SecretManager::revokeVersion(const std::string& name, uint32_t version) {
 // deleteSecret
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Delete Secret.
+ * @param[in] name Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), erase().
+ */
 bool SecretManager::deleteSecret(const std::string& name) {
     std::lock_guard<std::mutex> lock(mutex_);
     return secrets_.erase(name) > 0;
@@ -227,6 +277,11 @@ bool SecretManager::deleteSecret(const std::string& name) {
 
 std::vector<SecretManager::VersionInfo>
 SecretManager::listVersions(const std::string& name) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     auto it = secrets_.find(name);
@@ -252,6 +307,11 @@ SecretManager::listVersions(const std::string& name) const {
 // ─────────────────────────────────────────────────────────────────────────────
 
 std::vector<std::string> SecretManager::listSecrets() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     std::vector<std::string> names = {};
@@ -268,6 +328,11 @@ std::vector<std::string> SecretManager::listSecrets() const {
 // ─────────────────────────────────────────────────────────────────────────────
 
 bool SecretManager::isRotationDue(const std::string& name) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     auto it = secrets_.find(name);
@@ -288,6 +353,10 @@ bool SecretManager::isRotationDue(const std::string& name) const {
 // checkAndRevoke
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Check And Revoke.
+ * @details Calls: lock(), isAgeExceeded().
+ */
 void SecretManager::checkAndRevoke() {
     if (!policy_.auto_revoke_expired_retiring) {
       return;
@@ -312,6 +381,11 @@ void SecretManager::checkAndRevoke() {
 // ─────────────────────────────────────────────────────────────────────────────
 
 SecretManager::Statistics SecretManager::getStatistics() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     Statistics s;

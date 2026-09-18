@@ -64,6 +64,11 @@ ComplianceFrameworkLoader::loadFromFile(const std::string& filepath) {
     auto registry = std::make_shared<ComplianceFrameworkRegistry>();
     
     try {
+        /**
+         * @brief File.
+         * @param[in] filepath Input parameter.
+         * @return Return value.
+         */
         std::ifstream file(filepath);
         if (!file.is_open()) {
             themis::utils::Logger::error("Failed to open compliance framework file: {}", filepath);
@@ -83,6 +88,12 @@ ComplianceFrameworkLoader::loadFromFile(const std::string& filepath) {
     return registry;
 }
 
+/**
+ * @brief Validate Framework.
+ * @param[in] registry Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements validateFramework without additional internal calls.
+ */
 bool ComplianceFrameworkLoader::validateFramework(
     const ComplianceFrameworkRegistry& registry) {
     
@@ -91,6 +102,12 @@ bool ComplianceFrameworkLoader::validateFramework(
     return true;
 }
 
+/**
+ * @brief Get Framework Version.
+ * @param[in] fw Input parameter.
+ * @return Return value.
+ * @details Implements getFrameworkVersion without additional internal calls.
+ */
 std::string ComplianceFrameworkLoader::getFrameworkVersion(ComplianceFramework fw) {
     switch (fw) {
         case ComplianceFramework::kIso27001:
@@ -540,48 +557,96 @@ CrossFrameworkMapping::getAllEquivalentRequirements(
 // Builder Pattern Implementations
 // ============================================================================
 
+/**
+ * @brief With Id.
+ * @param[in] id Input parameter.
+ * @return Return value.
+ * @details Implements withId without additional internal calls.
+ */
 ComplianceRequirementBuilder& ComplianceRequirementBuilder::withId(
     const std::string& id) {
     req_.requirement_id = id;
     return *this;
 }
 
+/**
+ * @brief With Framework.
+ * @param[in] fw Input parameter.
+ * @return Return value.
+ * @details Implements withFramework without additional internal calls.
+ */
 ComplianceRequirementBuilder& ComplianceRequirementBuilder::withFramework(
     ComplianceFramework fw) {
     req_.framework = fw;
     return *this;
 }
 
+/**
+ * @brief With Text.
+ * @param[in] text Input parameter.
+ * @return Return value.
+ * @details Implements withText without additional internal calls.
+ */
 ComplianceRequirementBuilder& ComplianceRequirementBuilder::withText(
     const std::string& text) {
     req_.requirement_text = text;
     return *this;
 }
 
+/**
+ * @brief With Section.
+ * @param[in] section Input parameter.
+ * @return Return value.
+ * @details Implements withSection without additional internal calls.
+ */
 ComplianceRequirementBuilder& ComplianceRequirementBuilder::withSection(
     const std::string& section) {
     req_.regulatory_section = section;
     return *this;
 }
 
+/**
+ * @brief With Severity.
+ * @param[in] sev Input parameter.
+ * @return Return value.
+ * @details Implements withSeverity without additional internal calls.
+ */
 ComplianceRequirementBuilder& ComplianceRequirementBuilder::withSeverity(
     ComplianceSeverity sev) {
     req_.severity = sev;
     return *this;
 }
 
+/**
+ * @brief With Control.
+ * @param[in] control_id Identifier of the control.
+ * @return Return value.
+ * @details Calls: push_back().
+ */
 ComplianceRequirementBuilder& ComplianceRequirementBuilder::withControl(
     const std::string& control_id) {
     req_.control_ids.push_back(control_id);
     return *this;
 }
 
+/**
+ * @brief With Category.
+ * @param[in] cat Input parameter.
+ * @return Return value.
+ * @details Implements withCategory without additional internal calls.
+ */
 ComplianceRequirementBuilder& ComplianceRequirementBuilder::withCategory(
     const std::string& cat) {
     req_.category = cat;
     return *this;
 }
 
+/**
+ * @brief With Mandatory.
+ * @param[in] mandatory Input parameter.
+ * @return Return value.
+ * @details Implements withMandatory without additional internal calls.
+ */
 ComplianceRequirementBuilder& ComplianceRequirementBuilder::withMandatory(
     bool mandatory) {
     req_.is_mandatory = mandatory;
@@ -597,48 +662,96 @@ ComplianceRequirement ComplianceRequirementBuilder::build() const {
 }
 
 // Control Builder
+/**
+ * @brief With Id.
+ * @param[in] id Input parameter.
+ * @return Return value.
+ * @details Implements withId without additional internal calls.
+ */
 ComplianceControlBuilder& ComplianceControlBuilder::withId(
     const std::string& id) {
     ctl_.control_id = id;
     return *this;
 }
 
+/**
+ * @brief With Framework.
+ * @param[in] fw Input parameter.
+ * @return Return value.
+ * @details Implements withFramework without additional internal calls.
+ */
 ComplianceControlBuilder& ComplianceControlBuilder::withFramework(
     ComplianceFramework fw) {
     ctl_.framework = fw;
     return *this;
 }
 
+/**
+ * @brief With Name.
+ * @param[in] name Input parameter.
+ * @return Return value.
+ * @details Implements withName without additional internal calls.
+ */
 ComplianceControlBuilder& ComplianceControlBuilder::withName(
     const std::string& name) {
     ctl_.control_name = name;
     return *this;
 }
 
+/**
+ * @brief With Description.
+ * @param[in] desc Input parameter.
+ * @return Return value.
+ * @details Implements withDescription without additional internal calls.
+ */
 ComplianceControlBuilder& ComplianceControlBuilder::withDescription(
     const std::string& desc) {
     ctl_.description = desc;
     return *this;
 }
 
+/**
+ * @brief With Implementation.
+ * @param[in] impl Input parameter.
+ * @return Return value.
+ * @details Implements withImplementation without additional internal calls.
+ */
 ComplianceControlBuilder& ComplianceControlBuilder::withImplementation(
     const std::string& impl) {
     ctl_.implementation_detail = impl;
     return *this;
 }
 
+/**
+ * @brief Automated.
+ * @param[in] is_automated Input parameter.
+ * @return Return value.
+ * @details Implements automated without additional internal calls.
+ */
 ComplianceControlBuilder& ComplianceControlBuilder::automated(
     bool is_automated) {
     ctl_.is_automated = is_automated;
     return *this;
 }
 
+/**
+ * @brief With Policy Rule.
+ * @param[in] rule_id Identifier of the rule.
+ * @return Return value.
+ * @details Calls: push_back().
+ */
 ComplianceControlBuilder& ComplianceControlBuilder::withPolicyRule(
     const std::string& rule_id) {
     ctl_.policy_rules.push_back(rule_id);
     return *this;
 }
 
+/**
+ * @brief With Evidence Type.
+ * @param[in] type Input parameter.
+ * @return Return value.
+ * @details Calls: push_back().
+ */
 ComplianceControlBuilder& ComplianceControlBuilder::withEvidenceType(
     const std::string& type) {
     ctl_.evidence_types.push_back(type);

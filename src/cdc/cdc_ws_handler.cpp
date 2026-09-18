@@ -24,6 +24,12 @@ using json = nlohmann::json;
 // handleFrame
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Handle Frame.
+ * @param[in] frame Input parameter.
+ * @return Return value.
+ * @details Calls: value(), empty(), push_back(), contains(), is_string(), is_array(), insert(), getCommittedOffset().
+ */
 std::vector<json> CdcWebSocketHandler::handleFrame(const json &frame) {
     std::vector<json> responses;
 
@@ -240,6 +246,12 @@ std::vector<json> CdcWebSocketHandler::handleFrame(const json &frame) {
 // pollEvents
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Poll Events.
+ * @param[in,out] feed Input/output parameter.
+ * @return Return value.
+ * @details Calls: lock(), size(), fetch_add(), THEMIS_WARN(), load(), empty(), listEvents(), std::chrono::steady_clock::now().
+ */
 std::vector<json> CdcWebSocketHandler::pollEvents(Changefeed &feed) {
     std::vector<json> frames;
 
@@ -320,6 +332,11 @@ std::vector<json> CdcWebSocketHandler::pollEvents(Changefeed &feed) {
 // checkRedelivery
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Check Redelivery.
+ * @return Return value.
+ * @details Calls: std::chrono::steady_clock::now(), std::chrono::milliseconds(), lock(), empty(), front(), THEMIS_INFO(), size(), count().
+ */
 std::vector<json> CdcWebSocketHandler::checkRedelivery() {
     std::vector<json> frames;
 
@@ -357,6 +374,11 @@ std::vector<json> CdcWebSocketHandler::checkRedelivery() {
 // ---------------------------------------------------------------------------
 
 bool CdcWebSocketHandler::hasSubscriptions() const {
+    /**
+     * @brief Lock.
+     * @param[in] mu_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mu_);
     return !subscriptions_.empty();
 }
@@ -365,6 +387,13 @@ bool CdcWebSocketHandler::hasSubscriptions() const {
 // buildEventFrame (static helper)
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Build Event Frame.
+ * @param[in] ev Input parameter.
+ * @param[in] sub_id Identifier of the sub.
+ * @return Return value.
+ * @details Calls: toJson().
+ */
 json CdcWebSocketHandler::buildEventFrame(const Changefeed::ChangeEvent &ev, const std::string &sub_id) {
     // Start from the canonical ChangeEvent JSON representation so the format
     // is identical to the SSE transport and matches the external contract

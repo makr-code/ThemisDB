@@ -18,9 +18,10 @@
 namespace themis::sharding {
 
 /**
- * @brief Parse and load replica-set definitions from JSON array.
- * @param config JSON array containing shard topology records.
- * @return true when at least one valid shard replica set was loaded.
+ * @brief Load From Json.
+ * @param[in] config Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), is_array(), clear(), contains(), std::transform(), begin(), end(), std::toupper().
  */
 bool ReplicaTopology::loadFromJson(const nlohmann::json& config) {
     std::lock_guard<std::mutex> lock(mutex_);

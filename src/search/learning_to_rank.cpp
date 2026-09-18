@@ -87,6 +87,11 @@ std::vector<RankedResult> LearningToRank::rerankWithVariant(
 // Training
 // ============================================================================
 
+/**
+ * @brief Record Click.
+ * @param[in] event Input parameter.
+ * @details Calls: size(), erase(), begin(), push_back().
+ */
 void LearningToRank::recordClick(const ClickEvent& event) {
     if (clicks_.size() >= config_.max_click_buffer) {
         // Evict oldest event when buffer is full
@@ -95,6 +100,11 @@ void LearningToRank::recordClick(const ClickEvent& event) {
     clicks_.push_back(event);
 }
 
+/**
+ * @brief Train.
+ * @return Return value.
+ * @details Calls: empty(), size(), dot(), gradient(), addScaled(), regularize(), THEMIS_DEBUG(), clear().
+ */
 size_t LearningToRank::train() {
     if (clicks_.empty()) {
       return 0;
@@ -153,6 +163,11 @@ size_t LearningToRank::train() {
 // A/B Testing
 // ============================================================================
 
+/**
+ * @brief Register Variant.
+ * @param[in] variant Input parameter.
+ * @details Calls: THEMIS_DEBUG().
+ */
 void LearningToRank::registerVariant(const Variant& variant) {
     variants_[variant.name] = variant;
     THEMIS_DEBUG("LearningToRank: registered variant '{}'", variant.name);
@@ -179,6 +194,13 @@ std::string LearningToRank::selectVariant(const std::string& request_key) const 
 // Static helpers
 // ============================================================================
 
+/**
+ * @brief Dot.
+ * @param[in] w Input parameter.
+ * @param[in] f Input parameter.
+ * @return Return value.
+ * @details Implements dot without additional internal calls.
+ */
 double LearningToRank::dot(const RankingFeatures& w, const RankingFeatures& f) {
     return w.bm25_score    * f.bm25_score
          + w.vector_score  * f.vector_score
@@ -188,6 +210,13 @@ double LearningToRank::dot(const RankingFeatures& w, const RankingFeatures& f) {
          + w.popularity    * f.popularity;
 }
 
+/**
+ * @brief Gradient.
+ * @param[in] pos Input parameter.
+ * @param[in] neg Input parameter.
+ * @return Return value.
+ * @details Implements gradient without additional internal calls.
+ */
 RankingFeatures LearningToRank::gradient(const RankingFeatures& pos,
                                           const RankingFeatures& neg) {
     RankingFeatures g;
@@ -200,6 +229,14 @@ RankingFeatures LearningToRank::gradient(const RankingFeatures& pos,
     return g;
 }
 
+/**
+ * @brief Add Scaled.
+ * @param[in] w Input parameter.
+ * @param[in] g Input parameter.
+ * @param[in] lr Input parameter.
+ * @return Return value.
+ * @details Implements addScaled without additional internal calls.
+ */
 RankingFeatures LearningToRank::addScaled(const RankingFeatures& w,
                                            const RankingFeatures& g,
                                            double lr) {
@@ -213,6 +250,13 @@ RankingFeatures LearningToRank::addScaled(const RankingFeatures& w,
     return result;
 }
 
+/**
+ * @brief Regularize.
+ * @param[in] w Input parameter.
+ * @param[in] decay Input parameter.
+ * @return Return value.
+ * @details Implements regularize without additional internal calls.
+ */
 RankingFeatures LearningToRank::regularize(const RankingFeatures& w, double decay) {
     RankingFeatures result;
     result.bm25_score   = w.bm25_score   * (1.0 - decay);

@@ -34,6 +34,12 @@ LRUEvictionPolicy& LRUEvictionPolicy::operator=(LRUEvictionPolicy&& other) noexc
     return *this;
 }
 
+/**
+ * @brief Record hit.
+ * @param[in] key Input parameter.
+ * @throws std::logic_error if an error occurs.
+ * @details Implements record_hit without additional internal calls.
+ */
 void LRUEvictionPolicy::record_hit(const std::string& key) {
     (void)key;
     if (is_moved_from_) {
@@ -42,6 +48,12 @@ void LRUEvictionPolicy::record_hit(const std::string& key) {
     // Update access tracking
 }
 
+/**
+ * @brief Record miss.
+ * @param[in] key Input parameter.
+ * @throws std::logic_error if an error occurs.
+ * @details Implements record_miss without additional internal calls.
+ */
 void LRUEvictionPolicy::record_miss(const std::string& key) {
     (void)key;
     if (is_moved_from_) {
@@ -49,6 +61,13 @@ void LRUEvictionPolicy::record_miss(const std::string& key) {
     }
 }
 
+/**
+ * @brief Record insert.
+ * @param[in] key Input parameter.
+ * @param[in] size Input parameter.
+ * @throws std::logic_error if an error occurs.
+ * @details Implements record_insert without additional internal calls.
+ */
 void LRUEvictionPolicy::record_insert(const std::string& key, size_t size) {
     (void)key;
     (void)size;
@@ -57,6 +76,12 @@ void LRUEvictionPolicy::record_insert(const std::string& key, size_t size) {
     }
 }
 
+/**
+ * @brief Record delete.
+ * @param[in] key Input parameter.
+ * @throws std::logic_error if an error occurs.
+ * @details Implements record_delete without additional internal calls.
+ */
 void LRUEvictionPolicy::record_delete(const std::string& key) {
     (void)key;
     if (is_moved_from_) {
@@ -64,6 +89,13 @@ void LRUEvictionPolicy::record_delete(const std::string& key) {
     }
 }
 
+/**
+ * @brief Choose victim.
+ * @param[in] candidates Input parameter.
+ * @return Return value.
+ * @throws std::logic_error if an error occurs.
+ * @details Calls: empty(), std::min_element(), begin(), end().
+ */
 CacheEvictionPolicy::EvictionDecision LRUEvictionPolicy::choose_victim(
     const std::vector<CacheKeyDescriptor>& candidates) {
     
@@ -124,6 +156,12 @@ LFUEvictionPolicy& LFUEvictionPolicy::operator=(LFUEvictionPolicy&& other) noexc
     return *this;
 }
 
+/**
+ * @brief Record hit.
+ * @param[in] key Input parameter.
+ * @throws std::logic_error if an error occurs.
+ * @details Implements record_hit without additional internal calls.
+ */
 void LFUEvictionPolicy::record_hit(const std::string& key) {
     (void)key;
     if (is_moved_from_) {
@@ -131,6 +169,12 @@ void LFUEvictionPolicy::record_hit(const std::string& key) {
     }
 }
 
+/**
+ * @brief Record miss.
+ * @param[in] key Input parameter.
+ * @throws std::logic_error if an error occurs.
+ * @details Implements record_miss without additional internal calls.
+ */
 void LFUEvictionPolicy::record_miss(const std::string& key) {
     (void)key;
     if (is_moved_from_) {
@@ -138,6 +182,13 @@ void LFUEvictionPolicy::record_miss(const std::string& key) {
     }
 }
 
+/**
+ * @brief Record insert.
+ * @param[in] key Input parameter.
+ * @param[in] size Input parameter.
+ * @throws std::logic_error if an error occurs.
+ * @details Implements record_insert without additional internal calls.
+ */
 void LFUEvictionPolicy::record_insert(const std::string& key, size_t size) {
     (void)key;
     (void)size;
@@ -146,6 +197,12 @@ void LFUEvictionPolicy::record_insert(const std::string& key, size_t size) {
     }
 }
 
+/**
+ * @brief Record delete.
+ * @param[in] key Input parameter.
+ * @throws std::logic_error if an error occurs.
+ * @details Implements record_delete without additional internal calls.
+ */
 void LFUEvictionPolicy::record_delete(const std::string& key) {
     (void)key;
     if (is_moved_from_) {
@@ -153,6 +210,13 @@ void LFUEvictionPolicy::record_delete(const std::string& key) {
     }
 }
 
+/**
+ * @brief Choose victim.
+ * @param[in] candidates Input parameter.
+ * @return Return value.
+ * @throws std::logic_error if an error occurs.
+ * @details Calls: empty(), std::min_element(), begin(), end().
+ */
 CacheEvictionPolicy::EvictionDecision LFUEvictionPolicy::choose_victim(
     const std::vector<CacheKeyDescriptor>& candidates) {
     
@@ -199,6 +263,12 @@ FIFOEvictionPolicy& FIFOEvictionPolicy::operator=(FIFOEvictionPolicy&& other) no
     return *this;
 }
 
+/**
+ * @brief Record hit.
+ * @param[in] key Input parameter.
+ * @throws std::logic_error if an error occurs.
+ * @details Implements record_hit without additional internal calls.
+ */
 void FIFOEvictionPolicy::record_hit(const std::string& key) {
     (void)key;
     if (is_moved_from_) {
@@ -206,6 +276,12 @@ void FIFOEvictionPolicy::record_hit(const std::string& key) {
     }
 }
 
+/**
+ * @brief Record miss.
+ * @param[in] key Input parameter.
+ * @throws std::logic_error if an error occurs.
+ * @details Implements record_miss without additional internal calls.
+ */
 void FIFOEvictionPolicy::record_miss(const std::string& key) {
     (void)key;
     if (is_moved_from_) {
@@ -213,6 +289,13 @@ void FIFOEvictionPolicy::record_miss(const std::string& key) {
     }
 }
 
+/**
+ * @brief Record insert.
+ * @param[in] key Input parameter.
+ * @param[in] size Input parameter.
+ * @throws std::logic_error if an error occurs.
+ * @details Implements record_insert without additional internal calls.
+ */
 void FIFOEvictionPolicy::record_insert(const std::string& key, size_t size) {
     (void)key;
     (void)size;
@@ -221,6 +304,12 @@ void FIFOEvictionPolicy::record_insert(const std::string& key, size_t size) {
     }
 }
 
+/**
+ * @brief Record delete.
+ * @param[in] key Input parameter.
+ * @throws std::logic_error if an error occurs.
+ * @details Implements record_delete without additional internal calls.
+ */
 void FIFOEvictionPolicy::record_delete(const std::string& key) {
     (void)key;
     if (is_moved_from_) {
@@ -228,6 +317,13 @@ void FIFOEvictionPolicy::record_delete(const std::string& key) {
     }
 }
 
+/**
+ * @brief Choose victim.
+ * @param[in] candidates Input parameter.
+ * @return Return value.
+ * @throws std::logic_error if an error occurs.
+ * @details Calls: empty(), std::min_element(), begin(), end().
+ */
 CacheEvictionPolicy::EvictionDecision FIFOEvictionPolicy::choose_victim(
     const std::vector<CacheKeyDescriptor>& candidates) {
     
@@ -280,6 +376,12 @@ ARCEvictionPolicy& ARCEvictionPolicy::operator=(ARCEvictionPolicy&& other) noexc
     return *this;
 }
 
+/**
+ * @brief Record hit.
+ * @param[in] key Input parameter.
+ * @throws std::logic_error if an error occurs.
+ * @details Implements record_hit without additional internal calls.
+ */
 void ARCEvictionPolicy::record_hit(const std::string& key) {
     (void)key;
     if (is_moved_from_) {
@@ -287,6 +389,12 @@ void ARCEvictionPolicy::record_hit(const std::string& key) {
     }
 }
 
+/**
+ * @brief Record miss.
+ * @param[in] key Input parameter.
+ * @throws std::logic_error if an error occurs.
+ * @details Implements record_miss without additional internal calls.
+ */
 void ARCEvictionPolicy::record_miss(const std::string& key) {
     (void)key;
     if (is_moved_from_) {
@@ -294,6 +402,13 @@ void ARCEvictionPolicy::record_miss(const std::string& key) {
     }
 }
 
+/**
+ * @brief Record insert.
+ * @param[in] key Input parameter.
+ * @param[in] size Input parameter.
+ * @throws std::logic_error if an error occurs.
+ * @details Implements record_insert without additional internal calls.
+ */
 void ARCEvictionPolicy::record_insert(const std::string& key, size_t size) {
     (void)key;
     (void)size;
@@ -302,6 +417,12 @@ void ARCEvictionPolicy::record_insert(const std::string& key, size_t size) {
     }
 }
 
+/**
+ * @brief Record delete.
+ * @param[in] key Input parameter.
+ * @throws std::logic_error if an error occurs.
+ * @details Implements record_delete without additional internal calls.
+ */
 void ARCEvictionPolicy::record_delete(const std::string& key) {
     (void)key;
     if (is_moved_from_) {
@@ -309,6 +430,13 @@ void ARCEvictionPolicy::record_delete(const std::string& key) {
     }
 }
 
+/**
+ * @brief Choose victim.
+ * @param[in] candidates Input parameter.
+ * @return Return value.
+ * @throws std::logic_error if an error occurs.
+ * @details Calls: empty(), std::min_element(), begin(), end().
+ */
 CacheEvictionPolicy::EvictionDecision ARCEvictionPolicy::choose_victim(
     const std::vector<CacheKeyDescriptor>& candidates) {
     
@@ -414,6 +542,11 @@ WeightedTieredLRUEvictionPolicy& WeightedTieredLRUEvictionPolicy::operator=(
     return *this;
 }
 
+/**
+ * @brief Record hit.
+ * @param[in] key Input parameter.
+ * @details Calls: lock(), ensure_operational(), steady_now_ns().
+ */
 void WeightedTieredLRUEvictionPolicy::record_hit(const std::string& key) {
     std::lock_guard<std::mutex> lock(mutex_);
     ensure_operational();
@@ -428,6 +561,11 @@ void WeightedTieredLRUEvictionPolicy::record_hit(const std::string& key) {
         (state.decayed_frequency * config_.frequency_decay_factor) + 1.0;
 }
 
+/**
+ * @brief Record miss.
+ * @param[in] key Input parameter.
+ * @details Calls: lock(), ensure_operational(), find(), end().
+ */
 void WeightedTieredLRUEvictionPolicy::record_miss(const std::string& key) {
     std::lock_guard<std::mutex> lock(mutex_);
     ensure_operational();
@@ -437,6 +575,12 @@ void WeightedTieredLRUEvictionPolicy::record_miss(const std::string& key) {
     }
 }
 
+/**
+ * @brief Record insert.
+ * @param[in] key Input parameter.
+ * @param[in] size_t Input parameter.
+ * @details Calls: lock(), ensure_operational(), steady_now_ns().
+ */
 void WeightedTieredLRUEvictionPolicy::record_insert(const std::string& key, size_t /*size*/) {
     std::lock_guard<std::mutex> lock(mutex_);
     ensure_operational();
@@ -448,6 +592,11 @@ void WeightedTieredLRUEvictionPolicy::record_insert(const std::string& key, size
     state.decayed_frequency = 0.0;
 }
 
+/**
+ * @brief Record delete.
+ * @param[in] key Input parameter.
+ * @details Calls: lock(), ensure_operational(), erase().
+ */
 void WeightedTieredLRUEvictionPolicy::record_delete(const std::string& key) {
     std::lock_guard<std::mutex> lock(mutex_);
     ensure_operational();
@@ -457,6 +606,11 @@ void WeightedTieredLRUEvictionPolicy::record_delete(const std::string& key) {
 CacheEvictionPolicy::EvictionDecision
 WeightedTieredLRUEvictionPolicy::choose_victim(
     const std::vector<CacheKeyDescriptor>& candidates) {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     ensure_operational();
 
@@ -532,6 +686,11 @@ WeightedTieredLRUEvictionPolicy::choose_victim(
     return {true, victim->key, "Tiered LRU victim (" + tier_name + "): " + victim->key};
 }
 
+/**
+ * @brief Register Eviction Listener.
+ * @param[in] listener Input parameter.
+ * @details Calls: lock(), push_back(), std::move().
+ */
 void WeightedTieredLRUEvictionPolicy::registerEvictionListener(EvictionListener listener) {
     // listener_ storage is guarded by the same mutex_ as choose_victim
     std::lock_guard<std::mutex> lock(mutex_);
@@ -539,6 +698,11 @@ void WeightedTieredLRUEvictionPolicy::registerEvictionListener(EvictionListener 
 }
 
 std::unique_ptr<CacheEvictionPolicy> WeightedTieredLRUEvictionPolicy::clone() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     auto policy = std::make_unique<WeightedTieredLRUEvictionPolicy>(config_);
     policy->states_ = states_;
@@ -550,6 +714,11 @@ std::unique_ptr<CacheEvictionPolicy> WeightedTieredLRUEvictionPolicy::clone() co
 
 WeightedTieredLRUEvictionPolicy::Tier
 WeightedTieredLRUEvictionPolicy::tier_for_key(const std::string& key) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     ensure_operational();
     const auto it = states_.find(key);
@@ -561,6 +730,11 @@ WeightedTieredLRUEvictionPolicy::tier_for_key(const std::string& key) const {
 
 double WeightedTieredLRUEvictionPolicy::score_for_key(const std::string& key,
                                                       int64_t now_ns) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     ensure_operational();
     const auto it = states_.find(key);
@@ -572,6 +746,11 @@ double WeightedTieredLRUEvictionPolicy::score_for_key(const std::string& key,
 
 double WeightedTieredLRUEvictionPolicy::score_for_descriptor(
     const CacheKeyDescriptor& descriptor, int64_t now_ns) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     ensure_operational();
     const auto it = states_.find(descriptor.key);
@@ -584,6 +763,12 @@ double WeightedTieredLRUEvictionPolicy::score_for_descriptor(
     return score_locked(state, now_ns == 0 ? steady_now_ns() : now_ns);
 }
 
+/**
+ * @brief Observe capacity.
+ * @param[in] current_capacity_percent Input parameter.
+ * @param[in] now_ns Input parameter.
+ * @details Calls: lock(), ensure_operational(), steady_now_ns(), clamp_percent(), std::min().
+ */
 void WeightedTieredLRUEvictionPolicy::observe_capacity(size_t current_capacity_percent,
                                                        int64_t now_ns) {
     std::lock_guard<std::mutex> lock(mutex_);
@@ -637,6 +822,11 @@ size_t WeightedTieredLRUEvictionPolicy::recommended_batch_size(
 }
 
 std::array<size_t, 3> WeightedTieredLRUEvictionPolicy::tier_distribution() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     ensure_operational();
     std::array<size_t, 3> distribution{0, 0, 0};
@@ -646,11 +836,24 @@ std::array<size_t, 3> WeightedTieredLRUEvictionPolicy::tier_distribution() const
     return distribution;
 }
 
+/**
+ * @brief Steady now ns.
+ * @return Return value.
+ * @details Calls: std::chrono::steady_clock::now(), time_since_epoch(), count().
+ */
 int64_t WeightedTieredLRUEvictionPolicy::steady_now_ns() {
     const auto now = std::chrono::steady_clock::now().time_since_epoch();
     return std::chrono::duration_cast<std::chrono::nanoseconds>(now).count();
 }
 
+/**
+ * @brief Clamp percent.
+ * @param[in] value Input parameter.
+ * @param[in] min_value Input parameter.
+ * @param[in] max_value Input parameter.
+ * @return Return value.
+ * @details Calls: std::max(), std::min().
+ */
 size_t WeightedTieredLRUEvictionPolicy::clamp_percent(size_t value,
                                                       size_t min_value,
                                                       size_t max_value) {
@@ -695,6 +898,13 @@ double WeightedTieredLRUEvictionPolicy::score_locked(const EntryState& state,
 // EvictionPolicyFactory Implementation
 // =============================================================================
 
+/**
+ * @brief Create.
+ * @param[in] policy_name Name of the policy.
+ * @return Return value.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Implements create without additional internal calls.
+ */
 std::unique_ptr<CacheEvictionPolicy> EvictionPolicyFactory::create(const std::string& policy_name) {
     if (policy_name == "LRU" || policy_name == "lru") {
         return std::make_unique<LRUEvictionPolicy>();

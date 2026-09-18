@@ -29,15 +29,15 @@ namespace themis {
 
 namespace {
 
-/// SHA-256 hex string pattern (64 lowercase hex characters).
 static const std::regex kSha256Pattern("^[0-9a-f]{64}$");
 
-/// Base64 alphabet (RFC 4648 standard, including padding).
 static const std::string kB64Chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 
 /**
- * @brief Decode a base64 string to bytes.
- * @return Decoded bytes, or empty on error.
+ * @brief Base64 Decode.
+ * @param[in] encoded Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), std::fill(), std::begin(), std::end(), size(), reserve(), push_back().
  */
 static std::string base64Decode(const std::string &encoded) {
     if (encoded.empty()) {
@@ -79,7 +79,10 @@ static std::string base64Decode(const std::string &encoded) {
 }
 
 /**
- * @brief Encode bytes to base64.
+ * @brief Base64 Encode.
+ * @param[in] data Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), push_back().
  */
 static std::string base64Encode(const std::string &data) {
     std::string out = {};
@@ -108,20 +111,23 @@ static std::string base64Encode(const std::string &data) {
 }
 
 /**
- * @brief Validate that a key looks like a SHA-256 hex string.
+ * @brief Is Valid Sha256 Key.
+ * @param[in] key Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: std::regex_match().
  */
 static bool isValidSha256Key(const std::string &key) {
     return std::regex_match(key, kSha256Pattern);
 }
 
-/// Prefix used by AdaptiveQueryCache::makeTenantKey().
 static constexpr const char *kTenantKeyPrefix = "tenant:";
 static constexpr size_t kTenantKeyPrefixLen   = 7; // strlen("tenant:")
 
 /**
- * @brief Extract the tenant ID from a tenant-scoped cache key.
- *
- * Returns empty string if the key does not have the tenant prefix.
+ * @brief Extract Tenant From Key.
+ * @param[in] key Input parameter.
+ * @return Return value.
+ * @details Calls: size(), substr(), find().
  */
 static std::string extractTenantFromKey(const std::string &key) {
     if (key.size() <= kTenantKeyPrefixLen || key.substr(0, kTenantKeyPrefixLen) != kTenantKeyPrefix) {
@@ -135,13 +141,10 @@ static std::string extractTenantFromKey(const std::string &key) {
 }
 
 /**
- * @brief Extract the bare SHA-256 fingerprint from a (possibly tenant-scoped) cache key.
- *
- * - For plain fingerprints: returns the key unchanged.
- * - For tenant-scoped keys ("tenant:<id>:<fingerprint>"): returns only the fingerprint part.
- *
- * This is needed by exportSnapshot() so the exported log records always carry
- * a bare 64-char hex key that warmupFromLog() can re-import correctly.
+ * @brief Extract Fingerprint From Key.
+ * @param[in] key Input parameter.
+ * @return Return value.
+ * @details Calls: size(), substr(), find().
  */
 static std::string extractFingerprintFromKey(const std::string &key) {
     if (key.size() <= kTenantKeyPrefixLen || key.substr(0, kTenantKeyPrefixLen) != kTenantKeyPrefix) {
@@ -156,9 +159,13 @@ static std::string extractFingerprintFromKey(const std::string &key) {
 
 } // anonymous namespace
 
-// ---------------------------------------------------------------------------
-// AdaptiveQueryCache::warmupFromLog
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- AdaptiveQueryCache::warmupFromLog ---------------------------------------------------------------------------
+ * @param[in] log_path Path to the log.
+ * @param[in] max_entries Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::steady_clock::now(), file(), is_open(), THEMIS_WARN(), std::getline(), push_back(), std::move(), close().
+ */
 
 AdaptiveQueryCache::WarmupResult AdaptiveQueryCache::warmupFromLog(const std::string &log_path, size_t max_entries) {
     const auto t0 = std::chrono::steady_clock::now();
@@ -474,6 +481,12 @@ AdaptiveQueryCache::WarmupResult AdaptiveQueryCache::warmupFromLog(const std::st
 
 AdaptiveQueryCache::WarmupResult AdaptiveQueryCache::exportSnapshot(const std::string &out_path) const {
     WarmupResult result;
+    /**
+     * @brief File.
+     * @param[in] out_path Path to the out.
+     * @param[in] trunc Input parameter.
+     * @return Return value.
+     */
     std::ofstream file(out_path, std::ios::trunc);
     if (!file.is_open()) {
         THEMIS_WARN("exportSnapshot: cannot open output file '{}'", out_path);
@@ -487,6 +500,11 @@ AdaptiveQueryCache::WarmupResult AdaptiveQueryCache::exportSnapshot(const std::s
 
     // Export L1 entries.
     {
+        /**
+         * @brief Lk.
+         * @param[in] l1_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::shared_lock<std::shared_mutex> lk(l1_mutex_);
         for (const auto &[key, entry] : l1_cache_) {
             if (!entry) {
@@ -529,6 +547,11 @@ AdaptiveQueryCache::WarmupResult AdaptiveQueryCache::exportSnapshot(const std::s
 
     // Export L2 entries.
     {
+        /**
+         * @brief Lk.
+         * @param[in] l2_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(l2_mutex_);
         for (const auto &[key, entry] : l2_cache_) {
             if (isExpired(entry.created_at_ms, entry.ttl_seconds)) {

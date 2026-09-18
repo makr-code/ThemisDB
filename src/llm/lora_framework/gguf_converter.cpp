@@ -54,6 +54,12 @@ float GGUFConverter::fp16_to_fp32([[maybe_unused]] uint16_t h) {
     return f;
 }
 
+/**
+ * @brief Calculate Elements.
+ * @param[in] shape Input parameter.
+ * @return Return value.
+ * @details Implements calculateElements without additional internal calls.
+ */
 size_t GGUFConverter::calculateElements(const std::vector<int64_t>& shape) {
     size_t total = 1;
     for (auto dim : shape) {
@@ -62,6 +68,12 @@ size_t GGUFConverter::calculateElements(const std::vector<int64_t>& shape) {
     return total;
 }
 
+/**
+ * @brief Is Supported.
+ * @param[in] type Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements isSupported without additional internal calls.
+ */
 bool GGUFConverter::isSupported(GGMLType type) {
     switch (type) {
         case GGMLType::F32:
@@ -74,6 +86,12 @@ bool GGUFConverter::isSupported(GGMLType type) {
     }
 }
 
+/**
+ * @brief Get Internal Type.
+ * @param[in] type Input parameter.
+ * @return Return value.
+ * @details Implements getInternalType without additional internal calls.
+ */
 QuantizationType GGUFConverter::getInternalType(GGMLType type) {
     switch (type) {
         case GGMLType::Q4_K: return QuantizationType::NF4;
@@ -85,6 +103,13 @@ QuantizationType GGUFConverter::getInternalType(GGMLType type) {
     }
 }
 
+/**
+ * @brief Dequantize Q4 KM.
+ * @param[in] data Input parameter.
+ * @param[in] num_elements Input parameter.
+ * @return Return value.
+ * @details Calls: output(), fp16_to_fp32(), std::min().
+ */
 std::vector<float> GGUFConverter::dequantizeQ4KM(const void* data, size_t num_elements) {
     std::vector<float> output(num_elements);
     const uint8_t* src = static_cast<const uint8_t*>(data);
@@ -125,6 +150,13 @@ std::vector<float> GGUFConverter::dequantizeQ4KM(const void* data, size_t num_el
     return output;
 }
 
+/**
+ * @brief Dequantize Q8 0.
+ * @param[in] data Input parameter.
+ * @param[in] num_elements Input parameter.
+ * @return Return value.
+ * @details Calls: output(), fp16_to_fp32(), std::min().
+ */
 std::vector<float> GGUFConverter::dequantizeQ8_0(const void* data, size_t num_elements) {
     std::vector<float> output(num_elements);
     const uint8_t* src = static_cast<const uint8_t*>(data);
@@ -153,6 +185,14 @@ std::vector<float> GGUFConverter::dequantizeQ8_0(const void* data, size_t num_el
     return output;
 }
 
+/**
+ * @brief Convert Q4 KM direct.
+ * @param[in] gguf_data Input parameter.
+ * @param[in] tensor_info Input parameter.
+ * @return Return value.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: calculateElements(), push_back(), result(), blocks(), fp16_to_fp32(), std::min(), data(), std::max().
+ */
 QuantizedTensor GGUFConverter::convertQ4KM_direct(
     const void* gguf_data,
     const TensorMetadata& tensor_info
@@ -250,6 +290,13 @@ QuantizedTensor GGUFConverter::convertQ4KM_direct(
     return result;
 }
 
+/**
+ * @brief Convert Q4 KM.
+ * @param[in] gguf_data Input parameter.
+ * @param[in] tensor_info Input parameter.
+ * @return Return value.
+ * @details Calls: convertQ4KM_direct().
+ */
 QuantizedTensor GGUFConverter::convertQ4KM(
     const void* gguf_data,
     const TensorMetadata& tensor_info
@@ -258,6 +305,14 @@ QuantizedTensor GGUFConverter::convertQ4KM(
     return convertQ4KM_direct(gguf_data, tensor_info);
 }
 
+/**
+ * @brief Convert Q8 0 direct.
+ * @param[in] gguf_data Input parameter.
+ * @param[in] tensor_info Input parameter.
+ * @return Return value.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: calculateElements(), push_back(), result(), blocks(), fp16_to_fp32(), std::min(), data(), std::max().
+ */
 QuantizedTensor GGUFConverter::convertQ8_0_direct(
     const void* gguf_data,
     const TensorMetadata& tensor_info
@@ -335,6 +390,13 @@ QuantizedTensor GGUFConverter::convertQ8_0_direct(
     return result;
 }
 
+/**
+ * @brief Convert Q8 0.
+ * @param[in] gguf_data Input parameter.
+ * @param[in] tensor_info Input parameter.
+ * @return Return value.
+ * @details Calls: convertQ8_0_direct().
+ */
 QuantizedTensor GGUFConverter::convertQ8_0(
     const void* gguf_data,
     const TensorMetadata& tensor_info
@@ -343,6 +405,14 @@ QuantizedTensor GGUFConverter::convertQ8_0(
     return convertQ8_0_direct(gguf_data, tensor_info);
 }
 
+/**
+ * @brief Convert F16.
+ * @param[in] gguf_data Input parameter.
+ * @param[in] tensor_info Input parameter.
+ * @return Return value.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: calculateElements(), output(), fp16_to_fp32().
+ */
 std::vector<float> GGUFConverter::convertF16(
     const void* gguf_data,
     const TensorMetadata& tensor_info
@@ -362,6 +432,14 @@ std::vector<float> GGUFConverter::convertF16(
     return output;
 }
 
+/**
+ * @brief Convert F32.
+ * @param[in] gguf_data Input parameter.
+ * @param[in] tensor_info Input parameter.
+ * @return Return value.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: calculateElements(), output(), std::memcpy(), data().
+ */
 std::vector<float> GGUFConverter::convertF32(
     const void* gguf_data,
     const TensorMetadata& tensor_info

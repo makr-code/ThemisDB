@@ -26,9 +26,6 @@
 namespace themis {
 namespace query {
 
-/**
- * @brief Index type enumeration
- */
 enum class SpatialIndexType {
     RTREE,       // R-tree index (balanced, good for range queries)
     GRID,        // Grid-based index (good for uniform distributions)
@@ -36,9 +33,6 @@ enum class SpatialIndexType {
     NONE         // No spatial index (full scan)
 };
 
-/**
- * @brief Data distribution characteristics
- */
 struct DataDistribution {
     enum Type { UNIFORM, CLUSTERED, SKEWED };
     
@@ -48,7 +42,11 @@ struct DataDistribution {
     size_t approximateClusterCount = 0;
     
     /**
-     * @brief Determine distribution type from statistics
+     * @brief Infer.
+     * @param[in] totalPoints Input parameter.
+     * @param[in] distinctLocationCells Input parameter.
+     * @param[in] spatialVariance Input parameter.
+     * @return Return value.
      */
     static DataDistribution infer(
         size_t totalPoints,
@@ -56,9 +54,6 @@ struct DataDistribution {
         double spatialVariance);
 };
 
-/**
- * @brief Index statistics from metadata
- */
 struct IndexStatistics {
     std::string indexName;
     SpatialIndexType type;
@@ -75,14 +70,12 @@ struct IndexStatistics {
     double averageHitRate = 0.0;     // % of queries using this index
     
     /**
-     * @brief Calculate index efficiency score (0-1)
+     * @brief Get Efficiency Score.
+     * @return Return value.
      */
     double getEfficiencyScore() const;
 };
 
-/**
- * @brief Ranking of candidate indexes
- */
 struct IndexCandidate {
     std::string indexName;
     SpatialIndexType type;
@@ -92,29 +85,14 @@ struct IndexCandidate {
     bool isRecommended = false;
     
     /**
-     * @brief String representation for debugging
+     * @brief To String.
+     * @return Return value.
      */
     std::string toString() const;
 };
 
-/**
- * @brief Spatial index selector
- * 
- * Analyzes available indexes and query characteristics to select
- * the best index for a spatial predicate.
- */
 class GeospatialIndexSelector {
 public:
-    /**
-     * @brief Select best index for a spatial predicate
-     * 
-     * @param predicateType "DISTANCE", "CONTAINS", or "INTERSECTS"
-     * @param totalRows Total documents in collection
-     * @param availableIndexes Map of index_name -> IndexStatistics
-     * @param dataDistribution Characteristics of data distribution
-     * @param geometryParam Optional complexity measure (vertices, radius, etc.)
-     * @return Best index candidate with cost estimate
-     */
     static IndexCandidate selectIndex(
         const std::string& predicateType,
         size_t totalRows,
@@ -122,12 +100,6 @@ public:
         const DataDistribution& dataDistribution,
         double geometryParam = 0.0);
     
-    /**
-     * @brief Rank all available indexes for a predicate
-     * 
-     * Returns all candidates sorted by score (best first).
-     * Includes full scan as fallback option.
-     */
     static std::vector<IndexCandidate> rankIndexes(
         const std::string& predicateType,
         size_t totalRows,
@@ -135,42 +107,23 @@ public:
         const DataDistribution& dataDistribution,
         double geometryParam = 0.0);
     
-    /**
-     * @brief Collect available spatial indexes from collection
-     * 
-     * This would typically query the index manager to get all
-     * spatial indexes on the collection.
-     * 
-     * @param collectionName Name of collection
-     * @return Map of index_name -> IndexStatistics
-     * 
-     * NOTE: This is a callback point; actual implementation
-     * depends on index manager API.
-     */
     static std::map<std::string, IndexStatistics> getAvailableIndexes(
         const std::string& collectionName);
     
     /**
-     * @brief Infer data distribution from statistics
-     * 
-     * Analyzes spatial histogram to determine distribution characteristics.
-     * 
-     * @param histogram Spatial histogram from cost model
-     * @return DataDistribution characteristics
+     * @brief Infer Distribution.
+     * @param[in] histogram Input parameter.
+     * @return Return value.
      */
     static DataDistribution inferDistribution(
         const SpatialHistogram& histogram);
     
     /**
-     * @brief Calculate selectivity gain for an index
-     * 
-     * Ratio of full scan cost to indexed scan cost.
-     * Higher gain = more benefit from using this index.
-     * 
-     * @param indexType Type of index
-     * @param totalRows Total documents
-     * @param predicateType Type of spatial predicate
-     * @return Selectivity gain (≥1.0, where 1.0 = no benefit)
+     * @brief Calculate Selectivity Gain.
+     * @param[in] indexType Input parameter.
+     * @param[in] totalRows Input parameter.
+     * @param[in] predicateType Input parameter.
+     * @return Return value.
      */
     static double calculateSelectivityGain(
         SpatialIndexType indexType,
@@ -179,13 +132,12 @@ public:
 
 private:
     /**
-     * @brief Score a single index candidate
-     * 
-     * Considers:
-     * - Index type suitability for predicate
-     * - Data distribution fit
-     * - Index efficiency (maintenance vs. benefit)
-     * - Historical hit rate
+     * @brief Score Index.
+     * @param[in] index Input parameter.
+     * @param[in] predicateType Input parameter.
+     * @param[in] dataDistribution Input parameter.
+     * @param[in] totalRows Input parameter.
+     * @return Return value.
      */
     static double scoreIndex(
         const IndexStatistics& index,
@@ -194,18 +146,20 @@ private:
         size_t totalRows);
     
     /**
-     * @brief Score full scan fallback option
+     * @brief Score Full Scan.
+     * @param[in] totalRows Input parameter.
+     * @param[in] predicateType Input parameter.
+     * @return Return value.
      */
     static double scoreFullScan(
         size_t totalRows,
         const std::string& predicateType);
     
     /**
-     * @brief Get base cost multiplier for index type
-     * 
-     * R-tree: 1.0x (baseline)
-     * Grid: 0.8-1.2x depending on distribution
-     * Quadtree: 0.9-1.1x (adaptive)
+     * @brief Get Index Type Cost Multiplier.
+     * @param[in] type Input parameter.
+     * @param[in] distribution Input parameter.
+     * @return Return value.
      */
     static double getIndexTypeCostMultiplier(
         SpatialIndexType type,

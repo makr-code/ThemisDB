@@ -24,8 +24,9 @@ using storage::TTCore;
 using storage::TensorTrainDecomposer;
 using storage::TensorTrainConfig;
 
+
 /**
- * @brief ============================================================================ Utility — matrix multiply (row-major, m×k × k×n = m×n) ============================================================================
+ * @brief Mat Mul.
  * @param[in] A Input parameter.
  * @param[in] B Input parameter.
  * @param[in] m Input parameter.
@@ -34,7 +35,6 @@ using storage::TensorTrainConfig;
  * @return Return value.
  * @details Calls: C().
  */
-
 std::vector<float> TensorContractionEngine::matMul(
     const std::vector<float>& A, const std::vector<float>& B,
     std::size_t m, std::size_t k, std::size_t n) {
@@ -49,14 +49,14 @@ std::vector<float> TensorContractionEngine::matMul(
     return C;
 }
 
+
 /**
- * @brief ============================================================================ innerProduct — transfer-matrix (zipper) algorithm ============================================================================
+ * @brief Inner Product.
  * @param[in] a Input parameter.
  * @param[in] b Input parameter.
  * @return Return value.
  * @details Implements innerProduct without additional internal calls.
  */
-
 double TensorContractionEngine::innerProduct(const TTTrain& a, const TTTrain& b) {
     return TensorTrainDecomposer::innerProduct(a, b);
 }
@@ -83,8 +83,9 @@ double TensorContractionEngine::cosineSimilarity(const TTTrain& a,
     return TensorTrainDecomposer::cosineSimilarity(a, b);
 }
 
+
 /**
- * @brief ============================================================================ slice — fix mode `dim` to index `idx` ============================================================================
+ * @brief Slice.
  * @param[in] train Input parameter.
  * @param[in] dim Input parameter.
  * @param[in] idx Input parameter.
@@ -93,7 +94,6 @@ double TensorContractionEngine::cosineSimilarity(const TTTrain& a,
  * @throws std::overflow_error if an error occurs.
  * @details Calls: order(), reserve(), push_back(), resize(), at(), std::move(), size(), max().
  */
-
 TTTrain TensorContractionEngine::slice(const TTTrain& train,
                                         std::size_t dim,
                                         std::size_t idx) {
@@ -173,8 +173,9 @@ TTTrain TensorContractionEngine::slice(const TTTrain& train,
     return result;
 }
 
+
 /**
- * @brief ============================================================================ hadamardProduct — Kronecker-product of cores ============================================================================
+ * @brief Hadamard Product.
  * @param[in] a Input parameter.
  * @param[in] b Input parameter.
  * @param[in] max_rank Input parameter.
@@ -184,7 +185,6 @@ TTTrain TensorContractionEngine::slice(const TTTrain& train,
  * @throws std::overflow_error if an error occurs.
  * @details Calls: isCompatible(), std::max(), reserve(), order(), max(), resize(), at(), push_back().
  */
-
 TTTrain TensorContractionEngine::hadamardProduct(
     const TTTrain& a, const TTTrain& b,
     std::size_t max_rank, double round_eps) {
@@ -240,15 +240,15 @@ TTTrain TensorContractionEngine::hadamardProduct(
     return result;
 }
 
+
 /**
- * @brief ============================================================================ recompress ============================================================================
+ * @brief Recompress.
  * @param[in] train Input parameter.
  * @param[in] eps Input parameter.
  * @param[in] max_rank Input parameter.
  * @return Return value.
  * @details Calls: round().
  */
-
 TTTrain TensorContractionEngine::recompress(const TTTrain& train,
                                              double eps,
                                              std::size_t max_rank) {
@@ -259,8 +259,9 @@ TTTrain TensorContractionEngine::recompress(const TTTrain& train,
     return dec.round(train, cfg);
 }
 
+
 /**
- * @brief ============================================================================ project — marginalize over one mode (compressed domain) ============================================================================
+ * @brief Project.
  * @param[in] train Input parameter.
  * @param[in] mode Input parameter.
  * @return Return value.
@@ -268,7 +269,6 @@ TTTrain TensorContractionEngine::recompress(const TTTrain& train,
  * @throws std::invalid_argument if an error occurs.
  * @details Calls: order(), M(), at(), reserve(), resize(), push_back(), std::move().
  */
-
 TTTrain TensorContractionEngine::project(const TTTrain& train,
                                           std::size_t mode) {
     if (mode >= train.order())
@@ -341,8 +341,9 @@ TTTrain TensorContractionEngine::project(const TTTrain& train,
     return result;
 }
 
+
 /**
- * @brief ============================================================================ contractModes — multi-mode tensor contraction Uses dense reconstruction for correctness; efficient enough for AQL queries that embed small tensors in JSON documents.
+ * @brief Contract Modes.
  * @param[in] a Input parameter.
  * @param[in] b Input parameter.
  * @param[in] modes_a Input parameter.
@@ -351,9 +352,8 @@ TTTrain TensorContractionEngine::project(const TTTrain& train,
  * @param[in] round_eps Input parameter.
  * @return Return value.
  * @throws std::invalid_argument if an error occurs.
- * @details ============================================================================ Calls: size(), order(), std::to_string(), reconstruct(), contracted_a(), contracted_b(), reserve(), push_back().
+ * @details Calls: size(), order(), std::to_string(), reconstruct(), contracted_a(), contracted_b(), reserve(), push_back().
  */
-
 TTTrain TensorContractionEngine::contractModes(
     const TTTrain&                 a,
     const TTTrain&                 b,

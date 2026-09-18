@@ -24,7 +24,11 @@ nlohmann::json GovernanceDiagnostic::toJson() const {
     return j;
 }
 
-// ========== DiagnosticAggregator Implementation ==========
+/**
+ * @brief ========== DiagnosticAggregator Implementation ==========
+ * @param[in] diag Input parameter.
+ * @details Calls: lock(), std::chrono::system_clock::now(), time_since_epoch(), count(), push_back().
+ */
 
 void DiagnosticAggregator::recordDiagnostic(const GovernanceDiagnostic& diag) {
     std::lock_guard<std::mutex> lock(mutex_);
@@ -40,6 +44,11 @@ void DiagnosticAggregator::recordDiagnostic(const GovernanceDiagnostic& diag) {
 
 std::vector<GovernanceDiagnostic> DiagnosticAggregator::getDiagnosticsForComponent(
     const std::string& component) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     std::vector<GovernanceDiagnostic> result = {};
@@ -54,6 +63,11 @@ std::vector<GovernanceDiagnostic> DiagnosticAggregator::getDiagnosticsForCompone
 
 std::vector<GovernanceDiagnostic> DiagnosticAggregator::getDiagnosticsForCode(
     GovDiagnosticCode code) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     std::vector<GovernanceDiagnostic> result = {};
@@ -68,6 +82,11 @@ std::vector<GovernanceDiagnostic> DiagnosticAggregator::getDiagnosticsForCode(
 
 std::vector<GovernanceDiagnostic> DiagnosticAggregator::getDiagnosticsInTimeRange(
     int64_t start_ms, int64_t end_ms) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     std::vector<GovernanceDiagnostic> result = {};
@@ -96,6 +115,11 @@ std::vector<GovernanceDiagnostic> DiagnosticAggregator::getDiagnosticsInTimeRang
 
 std::unordered_map<std::string, GovernanceDiagnostic> 
 DiagnosticAggregator::getLatestPerComponent() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     std::unordered_map<std::string, GovernanceDiagnostic> result = {};
@@ -110,6 +134,11 @@ DiagnosticAggregator::getLatestPerComponent() const {
 }
 
 nlohmann::json DiagnosticAggregator::exportAsJson() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     nlohmann::json arr = nlohmann::json::array();
@@ -119,16 +148,30 @@ nlohmann::json DiagnosticAggregator::exportAsJson() const {
     return arr;
 }
 
+/**
+ * @brief Clear.
+ * @details Calls: lock().
+ */
 void DiagnosticAggregator::clear() {
     std::lock_guard<std::mutex> lock(mutex_);
     diagnostics_.clear();
 }
 
 size_t DiagnosticAggregator::getTotalCount() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return diagnostics_.size();
 }
 
+/**
+ * @brief Get Global Diagnostic Aggregator.
+ * @return Return value.
+ * @details Implements getGlobalDiagnosticAggregator without additional internal calls.
+ */
 DiagnosticAggregator& getGlobalDiagnosticAggregator() {
     static DiagnosticAggregator aggregator;
     return aggregator;
@@ -150,6 +193,11 @@ ConflictDiagnosticHelper::ConflictDetectionResult
 ConflictDiagnosticHelper::detectConflict(
     const std::vector<std::string>& policy_ids
 ) {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     ConflictDetectionResult result;
@@ -180,6 +228,11 @@ void ConflictDiagnosticHelper::recordConflict(
     const ConflictDetectionResult& result,
     const std::unordered_map<std::string, std::string>& additional_context
 ) {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     if (!result.has_conflicts || !aggregator_) {
@@ -222,10 +275,19 @@ std::vector<GovernanceDiagnostic> ConflictDiagnosticHelper::getConflictDiagnosti
         return {};
     }
     
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return aggregator_->getDiagnosticsForCode(GovDiagnosticCode::kConflictDetected);
 }
 
+/**
+ * @brief Clear Conflict History.
+ * @details Calls: lock(), clear().
+ */
 void ConflictDiagnosticHelper::clearConflictHistory() {
     std::lock_guard<std::mutex> lock(mutex_);
     conflict_history_.clear();
@@ -236,6 +298,11 @@ ConflictDiagnosticHelper::getCurrentStrategy() const {
     return strategy_;
 }
 
+/**
+ * @brief Set Resolution Strategy.
+ * @param[in] strategy Input parameter.
+ * @details Implements setResolutionStrategy without additional internal calls.
+ */
 void ConflictDiagnosticHelper::setResolutionStrategy(ResolutionStrategy strategy) {
     strategy_ = strategy;
 }
@@ -436,6 +503,12 @@ SafeAccessValidator::SafeAccessValidator(DiagnosticAggregator* aggregator)
 
 SafeAccessValidator::~SafeAccessValidator() = default;
 
+/**
+ * @brief Check Conflicting Classifications.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: hasConflictingClassifications().
+ */
 SafetyViolation SafeAccessValidator::checkConflictingClassifications(
     const AccessRequest& req
 ) {
@@ -452,6 +525,12 @@ SafetyViolation SafeAccessValidator::checkConflictingClassifications(
     return violation;  // No violation (scenario won't be added to result)
 }
 
+/**
+ * @brief Check CCPACompliance.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: validateCCPACompliancePath().
+ */
 SafetyViolation SafeAccessValidator::checkCCPACompliance(
     const AccessRequest& req
 ) {
@@ -468,6 +547,12 @@ SafetyViolation SafeAccessValidator::checkCCPACompliance(
     return violation;  // No violation
 }
 
+/**
+ * @brief Check Privilege Escalation.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: find(), end(), detectPrivilegeEscalation().
+ */
 SafetyViolation SafeAccessValidator::checkPrivilegeEscalation(
     const AccessRequest& req
 ) {
@@ -489,6 +574,12 @@ SafetyViolation SafeAccessValidator::checkPrivilegeEscalation(
     return violation;  // No violation
 }
 
+/**
+ * @brief Check Temporal Violations.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: find(), end(), detectTemporalViolations(), empty().
+ */
 SafetyViolation SafeAccessValidator::checkTemporalViolations(
     const AccessRequest& req
 ) {
@@ -520,6 +611,12 @@ SafetyViolation SafeAccessValidator::checkTemporalViolations(
     return violation;  // No violation
 }
 
+/**
+ * @brief Check Cross Border Conflicts.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: find(), end().
+ */
 SafetyViolation SafeAccessValidator::checkCrossBorderConflicts(
     const AccessRequest& req
 ) {
@@ -542,6 +639,12 @@ SafetyViolation SafeAccessValidator::checkCrossBorderConflicts(
     return violation;  // No violation
 }
 
+/**
+ * @brief Check Masking Rule Consistency.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: find(), end(), validateMaskingRuleConsistency(), empty().
+ */
 SafetyViolation SafeAccessValidator::checkMaskingRuleConsistency(
     const AccessRequest& req
 ) {
@@ -566,6 +669,12 @@ SafetyViolation SafeAccessValidator::checkMaskingRuleConsistency(
     return violation;  // No violation
 }
 
+/**
+ * @brief Check Whitelist Exhaustion.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: find(), end(), validateWhitelistPolicy().
+ */
 SafetyViolation SafeAccessValidator::checkWhitelistExhaustion(
     const AccessRequest& req
 ) {
@@ -589,6 +698,12 @@ SafetyViolation SafeAccessValidator::checkWhitelistExhaustion(
     return violation;  // No violation
 }
 
+/**
+ * @brief Check Cascading Denials.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: find(), end(), std::stoi(), std::to_string().
+ */
 SafetyViolation SafeAccessValidator::checkCascadingDenials(
     const AccessRequest& req
 ) {
@@ -618,6 +733,12 @@ SafetyViolation SafeAccessValidator::checkCascadingDenials(
     return violation;  // No violation
 }
 
+/**
+ * @brief Validate Access Request.
+ * @param[in] request Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), std::chrono::system_clock::now(), time_since_epoch(), count(), checkConflictingClassifications(), empty(), push_back(), checkCCPACompliance().
+ */
 SafeAccessResult SafeAccessValidator::validateAccessRequest(
     const AccessRequest& request
 ) {
@@ -721,16 +842,30 @@ SafeAccessResult SafeAccessValidator::validateAccessRequest(
 }
 
 std::vector<SafetyViolation> SafeAccessValidator::getAllViolations() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return violation_history_;
 }
 
+/**
+ * @brief Clear Violation History.
+ * @details Calls: lock(), clear().
+ */
 void SafeAccessValidator::clearViolationHistory() {
     std::lock_guard<std::mutex> lock(mutex_);
     violation_history_.clear();
 }
 
 size_t SafeAccessValidator::getViolationCount() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return violation_history_.size();
 }

@@ -96,12 +96,22 @@ GPUTrainingLoop& GPUTrainingLoop::operator=(GPUTrainingLoop&& other) noexcept {
     return *this;
 }
 
+/**
+ * @brief Set Data Loader.
+ * @param[in] loader Input parameter.
+ * @details Calls: std::move(), spdlog::info(), size(), num_batches().
+ */
 void GPUTrainingLoop::setDataLoader(std::unique_ptr<GPUDataLoader> loader) {
     data_loader_ = std::move(loader);
     spdlog::info("Data loader set: {} samples, {} batches", 
                  data_loader_->size(), data_loader_->num_batches());
 }
 
+/**
+ * @brief Add Layer.
+ * @param[in,out] layer Input/output parameter.
+ * @details Calls: push_back(), spdlog::debug(), parameter_count().
+ */
 void GPUTrainingLoop::addLayer(GPULoRALayer* layer) {
     if (layer) {
         layers_.push_back(layer);
@@ -109,21 +119,41 @@ void GPUTrainingLoop::addLayer(GPULoRALayer* layer) {
     }
 }
 
+/**
+ * @brief Set Multi GPULayer.
+ * @param[in,out] layer Input/output parameter.
+ * @details Calls: spdlog::info(), num_gpus().
+ */
 void GPUTrainingLoop::setMultiGPULayer(MultiGPULoRALayer* layer) {
     multi_gpu_layer_ = layer;
     spdlog::info("Multi-GPU layer set: {} GPUs", layer ? layer->num_gpus() : 0);
 }
 
+/**
+ * @brief Set Mixed Precision Trainer.
+ * @param[in,out] trainer Input/output parameter.
+ * @details Calls: spdlog::info(), is_enabled().
+ */
 void GPUTrainingLoop::setMixedPrecisionTrainer(MixedPrecisionTrainer* trainer) {
     mixed_precision_trainer_ = trainer;
     spdlog::info("Mixed precision trainer set: enabled={}", 
                  trainer ? trainer->is_enabled() : false);
 }
 
+/**
+ * @brief Register Callback.
+ * @param[in] callback Input parameter.
+ * @details Implements registerCallback without additional internal calls.
+ */
 void GPUTrainingLoop::registerCallback(GPUTrainingCallback callback) {
     callback_ = callback;
 }
 
+/**
+ * @brief Set Base Model.
+ * @param[in] base_model Input parameter.
+ * @details Calls: isLoaded(), getEmbeddingMatrix(), getVocabSize(), getHiddenSize(), spdlog::info(), spdlog::warn().
+ */
 void GPUTrainingLoop::setBaseModel(const BaseModelAdapter* base_model) {
     base_model_ = base_model;
     
@@ -155,6 +185,11 @@ void GPUTrainingLoop::setBaseModel(const BaseModelAdapter* base_model) {
     }
 }
 
+/**
+ * @brief Train.
+ * @return True when the operation succeeds.
+ * @details Calls: load(), spdlog::warn(), spdlog::error(), empty(), store(), std::chrono::steady_clock::now(), initializeOptimizer(), initializeAdaptiveBatching().
+ */
 bool GPUTrainingLoop::train() {
     if (is_training_.load(std::memory_order_acquire)) {
         spdlog::warn("Training already in progress");
@@ -242,6 +277,10 @@ bool GPUTrainingLoop::train() {
     }
 }
 
+/**
+ * @brief Stop.
+ * @details Calls: load(), spdlog::info(), store(), std::this_thread::sleep_for(), std::chrono::milliseconds().
+ */
 void GPUTrainingLoop::stop() {
     if (!is_training_.load(std::memory_order_acquire)) {
         return;
@@ -271,6 +310,10 @@ GPUTrainingMetrics GPUTrainingLoop::getMetrics() const {
     return metrics;
 }
 
+/**
+ * @brief Initialize Optimizer.
+ * @details Calls: get_layer(), parameters(), insert(), end(), begin(), add_parameters(), spdlog::info(), size().
+ */
 void GPUTrainingLoop::initializeOptimizer() {
     // Collect parameters from all layers
     std::vector<GPUTensor*> params;
@@ -299,6 +342,10 @@ void GPUTrainingLoop::initializeOptimizer() {
     spdlog::info("Optimizer initialized with {} parameters",params.size());
 }
 
+/**
+ * @brief Initialize Memory Management.
+ * @details Calls: is_available(), get_stats(), spdlog::info().
+ */
 void GPUTrainingLoop::initializeMemoryManagement() {
     // Create VRAM allocator
     acceleration::BackendType backend = acceleration::BackendType::CUDA;
@@ -321,6 +368,10 @@ void GPUTrainingLoop::initializeMemoryManagement() {
     }
 }
 
+/**
+ * @brief Initialize Adaptive Batching.
+ * @details Calls: spdlog::info().
+ */
 void GPUTrainingLoop::initializeAdaptiveBatching() {
     if (!config_.enable_adaptive_batching) {
         return;
@@ -346,6 +397,10 @@ void GPUTrainingLoop::initializeAdaptiveBatching() {
                  batcher_config.target_vram_utilization_pct);
 }
 
+/**
+ * @brief Initialize Checkpointing.
+ * @details Calls: spdlog::info(), size(), spdlog::warn(), shouldCheckpoint(), set_checkpointing(), set_layer_id(), setLayerType(), spdlog::debug().
+ */
 void GPUTrainingLoop::initializeCheckpointing() {
     if (!config_.enable_gradient_checkpointing) {
         spdlog::info("Gradient checkpointing disabled");
@@ -399,6 +454,12 @@ void GPUTrainingLoop::initializeCheckpointing() {
     spdlog::info("  Estimated compute overhead: {:.1f}%", compute_overhead);
 }
 
+/**
+ * @brief Train Epoch.
+ * @param[in] epoch Input parameter.
+ * @return Return value.
+ * @details Calls: reset(), num_batches(), max(), hasNext(), load(), computeOptimalBatchSize(), config(), updateBatchSize().
+ */
 float GPUTrainingLoop::trainEpoch(int epoch) {
     current_metrics_.current_epoch = epoch + 1;
     
@@ -500,6 +561,12 @@ float GPUTrainingLoop::trainEpoch(int epoch) {
     return epoch_loss / static_cast<float>(std::max<size_t>(1, step));
 }
 
+/**
+ * @brief Train Step.
+ * @param[in] batch Input parameter.
+ * @return Return value.
+ * @details Calls: hidden_dim(), createEmbeddingsOnGPU(), get(), is_enabled(), zero_grad(), num_gpus(), std::move(), forward().
+ */
 float GPUTrainingLoop::trainStep(const GPUBatch& batch) {
     // Create embeddings from token IDs
     // Use embedding layer's dimension if available, otherwise use default
@@ -654,6 +721,13 @@ float GPUTrainingLoop::trainStep(const GPUBatch& batch) {
     return loss;
 }
 
+/**
+ * @brief Update Metrics.
+ * @param[in] epoch Input parameter.
+ * @param[in] step Input parameter.
+ * @param[in] loss Input parameter.
+ * @details Calls: callback_().
+ */
 void GPUTrainingLoop::updateMetrics(int epoch, int step, float loss) {
     current_metrics_.current_epoch = epoch + 1;
     current_metrics_.current_step = step;
@@ -666,6 +740,10 @@ void GPUTrainingLoop::updateMetrics(int epoch, int step, float loss) {
     }
 }
 
+/**
+ * @brief Check Memory Usage.
+ * @details Calls: get_stats(), std::max(), size_t(), spdlog::warn().
+ */
 void GPUTrainingLoop::checkMemoryUsage() {
     if (vram_allocator_) {
         auto stats = vram_allocator_->get_stats();
@@ -682,6 +760,17 @@ void GPUTrainingLoop::checkMemoryUsage() {
 
 // Helper functions
 
+/**
+ * @brief Create Embeddings On GPU.
+ * @param[in] token_ids Input parameter.
+ * @param[in] hidden_dim Input parameter.
+ * @param[in] device Input parameter.
+ * @param[in,out] embedding_layer Input/output parameter.
+ * @return Return value.
+ * @throws std::invalid_argument if an error occurs.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: shape(), size(), spdlog::debug(), forward(), embeddings(), cuda::launch_sequence_mean_kernel(), gpu_ptr(), spdlog::error().
+ */
 GPUTensor createEmbeddingsOnGPU(
     const GPUTensor& token_ids,
     size_t hidden_dim,
@@ -804,6 +893,15 @@ GPUTensor createEmbeddingsOnGPU(
     return embeddings;
 }
 
+/**
+ * @brief Compute MSELoss GPU.
+ * @param[in] predictions Input parameter.
+ * @param[in] targets Input parameter.
+ * @return Return value.
+ * @throws std::invalid_argument if an error occurs.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: shape(), device(), defined(), size(), std::min(), partial_sums(), cuda::launch_mse_loss_reduction_kernel(), gpu_ptr().
+ */
 float computeMSELossGPU(const GPUTensor& predictions, const GPUTensor& targets) {
     if (predictions.shape() != targets.shape()) {
         throw std::invalid_argument("Predictions and targets must have same shape");
@@ -892,6 +990,15 @@ float computeMSELossGPU(const GPUTensor& predictions, const GPUTensor& targets) 
     }
 }
 
+/**
+ * @brief Compute MSEGradient GPU.
+ * @param[in] predictions Input parameter.
+ * @param[in] targets Input parameter.
+ * @return Return value.
+ * @throws std::invalid_argument if an error occurs.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: shape(), grad(), device(), size(), defined(), cuda::launch_mse_gradient_kernel(), gpu_ptr(), std::string().
+ */
 GPUTensor computeMSEGradientGPU(const GPUTensor& predictions, const GPUTensor& targets) {
     if (predictions.shape() != targets.shape()) {
         throw std::invalid_argument("Predictions and targets must have same shape");
@@ -973,19 +1080,13 @@ GPUTensor computeMSEGradientGPU(const GPUTensor& predictions, const GPUTensor& t
 }
 
 /**
- * @brief Fused MSE loss and gradient computation
- * 
- * Computes both loss and gradient in a single GPU kernel pass.
- * This is more efficient than calling computeMSELossGPU and computeMSEGradientGPU separately
- * because it reads predictions/targets only once instead of twice.
- * 
- * Expected performance: 1.3-1.5x faster than separate calls
- * Memory bandwidth reduction: ~50%
- * 
- * @param predictions Prediction tensor
- * @param targets Target tensor
- * @param grad_output Output gradient tensor (will be allocated)
- * @return MSE loss value
+ * @brief Compute Fused MSELoss Gradient GPU.
+ * @param[in] predictions Input parameter.
+ * @param[in] targets Input parameter.
+ * @param[in,out] grad_output Input/output parameter.
+ * @return Return value.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: shape(), GPUTensor(), device(), defined(), size(), std::min(), partial_sums(), cuda::fused::launch_fused_mse_loss_gradient().
  */
 float computeFusedMSELossGradientGPU(
     const GPUTensor& predictions, 

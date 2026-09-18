@@ -42,6 +42,14 @@ using namespace importers;
 
 namespace {
 
+/**
+ * @brief Select Schema Importer.
+ * @param[in] source_path Path to the source.
+ * @param[in] default_importer Input parameter.
+ * @param[in] s3_importer Input parameter.
+ * @return Return value.
+ * @details Calls: rfind().
+ */
 std::shared_ptr<IImporter> selectSchemaImporter(
     const std::string& source_path,
     const std::shared_ptr<IImporter>& default_importer,
@@ -53,6 +61,12 @@ std::shared_ptr<IImporter> selectSchemaImporter(
     return default_importer;
 }
 
+/**
+ * @brief Has Usable Schema Payload.
+ * @param[in] schema Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: is_null(), is_object(), empty(), contains(), is_array().
+ */
 bool hasUsableSchemaPayload(const json& schema) {
     if (schema.is_null()) {
         return false;
@@ -75,18 +89,36 @@ bool hasUsableSchemaPayload(const json& schema) {
 // Schema bridge setters (stub #294)
 // ============================================================================
 
+/**
+ * @brief Set Schema Inspector Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: std::move().
+ */
 void ImportApiHandler::setSchemaInspectorFn(SchemaInspectorFn fn) {
     schemaInspectorFn_ = std::move(fn);
 }
 
+/**
+ * @brief Clear Schema Inspector Fn.
+ * @details Implements clearSchemaInspectorFn without additional internal calls.
+ */
 void ImportApiHandler::clearSchemaInspectorFn() {
     schemaInspectorFn_ = nullptr;
 }
 
+/**
+ * @brief Set Schema Validator Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: std::move().
+ */
 void ImportApiHandler::setSchemaValidatorFn(SchemaValidatorFn fn) {
     schemaValidatorFn_ = std::move(fn);
 }
 
+/**
+ * @brief Clear Schema Validator Fn.
+ * @details Implements clearSchemaValidatorFn without additional internal calls.
+ */
 void ImportApiHandler::clearSchemaValidatorFn() {
     schemaValidatorFn_ = nullptr;
 }
@@ -106,6 +138,11 @@ ImportApiHandler::ImportApiHandler(
 // Route registration
 // ============================================================================
 
+/**
+ * @brief Register Routes.
+ * @param[in,out] server Input/output parameter.
+ * @details Calls: Post(), handleStartImport(), handleStartMySQLImport(), handleStartS3Import(), Get(), handleListJobs(), handleMetrics(), handleJobStatus().
+ */
 void ImportApiHandler::registerRoutes(httplib::Server& server) {
     // POST /api/v1/import/postgresql – start async import
     server.Post("/api/v1/import/postgresql",
@@ -180,6 +217,12 @@ void ImportApiHandler::registerRoutes(httplib::Server& server) {
 // Route handlers
 // ============================================================================
 
+/**
+ * @brief Handle Start Import.
+ * @param[in] req Input parameter.
+ * @param[in,out] res Input/output parameter.
+ * @details Calls: Tracer::startSpan(), parseRequestBody(), jsonError(), std::string(), what(), contains(), is_string(), is_object().
+ */
 void ImportApiHandler::handleStartImport(const httplib::Request& req,
                                           httplib::Response& res) {
     auto span = Tracer::startSpan("handleStartImport");
@@ -212,6 +255,12 @@ void ImportApiHandler::handleStartImport(const httplib::Request& req,
     jsonOk(res, handle->toJson());
 }
 
+/**
+ * @brief Handle Start My SQLImport.
+ * @param[in] req Input parameter.
+ * @param[in,out] res Input/output parameter.
+ * @details Calls: Tracer::startSpan(), IImporterPluginRegistry::instance(), resolve(), jsonError(), parseRequestBody(), std::string(), what(), contains().
+ */
 void ImportApiHandler::handleStartMySQLImport(const httplib::Request& req,
                                                httplib::Response& res) {
     auto span = Tracer::startSpan("handleStartMySQLImport");
@@ -267,6 +316,12 @@ void ImportApiHandler::handleStartMySQLImport(const httplib::Request& req,
     jsonOk(res, handle->toJson());
 }
 
+/**
+ * @brief Handle Start S3 Import.
+ * @param[in] req Input parameter.
+ * @param[in,out] res Input/output parameter.
+ * @details Calls: Tracer::startSpan(), jsonError(), parseRequestBody(), std::string(), what(), contains(), is_string(), importers::S3Importer::parseS3Url().
+ */
 void ImportApiHandler::handleStartS3Import(const httplib::Request& req,
                                             httplib::Response& res) {
     auto span = Tracer::startSpan("handleStartS3Import");
@@ -322,6 +377,12 @@ void ImportApiHandler::handleStartS3Import(const httplib::Request& req,
     jsonOk(res, handle->toJson());
 }
 
+/**
+ * @brief Handle Job Status.
+ * @param[in] req Input parameter.
+ * @param[in,out] res Input/output parameter.
+ * @details Calls: Tracer::startSpan(), getJsonSnapshot(), has_value(), jsonError(), jsonOk().
+ */
 void ImportApiHandler::handleJobStatus(const httplib::Request& req,
                                         httplib::Response& res) {
     auto span = Tracer::startSpan("handleJobStatus");
@@ -334,6 +395,12 @@ void ImportApiHandler::handleJobStatus(const httplib::Request& req,
     jsonOk(res, *job);
 }
 
+/**
+ * @brief Handle Cancel Job.
+ * @param[in] req Input parameter.
+ * @param[in,out] res Input/output parameter.
+ * @details Calls: Tracer::startSpan(), getRunningAndJsonSnapshot(), has_value(), jsonError(), value(), cancel(), THEMIS_INFO(), getJsonSnapshot().
+ */
 void ImportApiHandler::handleCancelJob(const httplib::Request& req,
                                         httplib::Response& res) {
     auto span = Tracer::startSpan("handleCancelJob");
@@ -358,6 +425,12 @@ void ImportApiHandler::handleCancelJob(const httplib::Request& req,
     jsonOk(res, updated.value_or(snapshot->second));
 }
 
+/**
+ * @brief Handle List Jobs.
+ * @param[in] param Input parameter.
+ * @param[in,out] res Input/output parameter.
+ * @details Calls: Tracer::startSpan(), allJsonSnapshots(), jsonOk().
+ */
 void ImportApiHandler::handleListJobs(const httplib::Request& /*req*/,
                                        httplib::Response& res) {
     auto span = Tracer::startSpan("handleListJobs");
@@ -365,6 +438,12 @@ void ImportApiHandler::handleListJobs(const httplib::Request& /*req*/,
     jsonOk(res, jobs);
 }
 
+/**
+ * @brief Handle Metrics.
+ * @param[in] param Input parameter.
+ * @param[in,out] res Input/output parameter.
+ * @details Calls: Tracer::startSpan(), allJsonSnapshots(), value(), find(), end(), is_object(), set_content(), str().
+ */
 void ImportApiHandler::handleMetrics(const httplib::Request& /*req*/,
                                       httplib::Response& res) {
     auto span = Tracer::startSpan("handleMetrics");
@@ -409,9 +488,12 @@ void ImportApiHandler::handleMetrics(const httplib::Request& /*req*/,
     res.set_content(prom.str(), "text/plain; version=0.0.4; charset=utf-8");
 }
 
-// ============================================================================
-// Import wizard UI (web-based single-page application)
-// ============================================================================
+/**
+ * @brief ============================================================================ Import wizard UI (web-based single-page application) ============================================================================
+ * @param[in] param Input parameter.
+ * @param[in,out] res Input/output parameter.
+ * @details Calls: Tracer::startSpan(), set_content(), buildImportWizardHtml().
+ */
 
 void ImportApiHandler::handleImportWizard(const httplib::Request& /*req*/,
                                            httplib::Response& res) {
@@ -423,10 +505,22 @@ void ImportApiHandler::handleImportWizard(const httplib::Request& /*req*/,
 // Helpers
 // ============================================================================
 
+/**
+ * @brief Parse Request Body.
+ * @param[in] body Input parameter.
+ * @return Return value.
+ * @details Calls: json::parse().
+ */
 json ImportApiHandler::parseRequestBody(const std::string& body) {
     return json::parse(body);
 }
 
+/**
+ * @brief Options From Json.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: contains(), is_boolean(), is_number_unsigned(), spdlog::warn(), std::min(), is_string(), is_array(), push_back().
+ */
 ImportOptions ImportApiHandler::optionsFromJson(const json& j) {
     ImportOptions opts = {};
     if (j.contains("dry_run") && j["dry_run"].is_boolean())
@@ -489,12 +583,27 @@ ImportOptions ImportApiHandler::optionsFromJson(const json& j) {
     return opts;
 }
 
+/**
+ * @brief Json Ok.
+ * @param[in,out] res Input/output parameter.
+ * @param[in] body Input parameter.
+ * @return Return value.
+ * @details Calls: set_content(), dump().
+ */
 httplib::Response& ImportApiHandler::jsonOk(httplib::Response& res, const json& body) {
     res.status = 200;
     res.set_content(body.dump(2), "application/json");
     return res;
 }
 
+/**
+ * @brief Json Error.
+ * @param[in,out] res Input/output parameter.
+ * @param[in] status Input parameter.
+ * @param[in] message Input parameter.
+ * @return Return value.
+ * @details Calls: set_content(), dump().
+ */
 httplib::Response& ImportApiHandler::jsonError(httplib::Response& res,
                                                 int status,
                                                 const std::string& message) {
@@ -503,9 +612,12 @@ httplib::Response& ImportApiHandler::jsonError(httplib::Response& res,
     return res;
 }
 
-// ============================================================================
-// v2.0 Handlers
-// ============================================================================
+/**
+ * @brief ============================================================================ v2.
+ * @param[in] req Input parameter.
+ * @param[in,out] res Input/output parameter.
+ * @details 0 Handlers ============================================================================ Calls: Tracer::startSpan(), getSourcePathSnapshot(), has_value(), jsonError(), empty(), rfind().
+ */
 
 void ImportApiHandler::handleGetSchema(const httplib::Request& req,
                                         httplib::Response& res) {
@@ -547,6 +659,11 @@ void ImportApiHandler::handleGetSchema(const httplib::Request& req,
 
     // Merge any custom relationship overrides
     {
+        /**
+         * @brief Lk.
+         * @param[in] rel_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(rel_mutex_);
         auto it = relationship_overrides_.find(job_id);
         if (it != relationship_overrides_.end() && !it->second.empty()) {
@@ -560,6 +677,12 @@ void ImportApiHandler::handleGetSchema(const httplib::Request& req,
     jsonOk(res, json{{"job_id", job_id}, {"schema", schema}});
 }
 
+/**
+ * @brief Handle Validate Schema.
+ * @param[in] req Input parameter.
+ * @param[in,out] res Input/output parameter.
+ * @details Calls: Tracer::startSpan(), parseRequestBody(), jsonError(), std::string(), what(), contains(), is_string(), rfind().
+ */
 void ImportApiHandler::handleValidateSchema(const httplib::Request& req,
                                              httplib::Response& res) {
     auto span = Tracer::startSpan("handleValidateSchema");
@@ -653,6 +776,12 @@ void ImportApiHandler::handleValidateSchema(const httplib::Request& req,
     });
 }
 
+/**
+ * @brief Handle Update Relationships.
+ * @param[in] req Input parameter.
+ * @param[in,out] res Input/output parameter.
+ * @details Calls: Tracer::startSpan(), getSourcePathSnapshot(), has_value(), jsonError(), parseRequestBody(), std::string(), what(), is_array().
+ */
 void ImportApiHandler::handleUpdateRelationships(const httplib::Request& req,
                                                   httplib::Response& res) {
     auto span = Tracer::startSpan("handleUpdateRelationships");

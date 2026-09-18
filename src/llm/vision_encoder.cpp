@@ -36,22 +36,84 @@ extern "C" {
         float* data;
     };
     
-    // CLIP API functions (from llama.cpp examples/llava)
+    /**
+     * @brief CLIP API functions (from llama.
+     * @param[in] fname Input parameter.
+     * @param[in] verbosity Input parameter.
+     * @return Pointer to the result.
+     * @details cpp examples/llava)
+     */
     clip_ctx* clip_model_load(const char* fname, int verbosity);
+    /**
+     * @brief Clip free.
+     * @param[in,out] ctx Input/output parameter.
+     */
     void clip_free(clip_ctx* ctx);
     
+    /**
+     * @brief Clip image u8 init.
+     * @return Pointer to the result.
+     */
     clip_image_u8* clip_image_u8_init();
+    /**
+     * @brief Clip image u8 free.
+     * @param[in,out] img Input/output parameter.
+     */
     void clip_image_u8_free(clip_image_u8* img);
     
+    /**
+     * @brief Clip image f32 init.
+     * @return Pointer to the result.
+     */
     clip_image_f32* clip_image_f32_init();
+    /**
+     * @brief Clip image f32 free.
+     * @param[in,out] img Input/output parameter.
+     */
     void clip_image_f32_free(clip_image_f32* img);
     
+    /**
+     * @brief Clip image load from file.
+     * @param[in] fname Input parameter.
+     * @param[in,out] img Input/output parameter.
+     * @return True when the operation succeeds.
+     */
     bool clip_image_load_from_file(const char* fname, clip_image_u8* img);
+    /**
+     * @brief Clip image preprocess.
+     * @param[in,out] ctx Input/output parameter.
+     * @param[in] img Input parameter.
+     * @param[in,out] res Input/output parameter.
+     * @return True when the operation succeeds.
+     */
     bool clip_image_preprocess(clip_ctx* ctx, const clip_image_u8* img, clip_image_f32* res);
+    /**
+     * @brief Clip image encode.
+     * @param[in,out] ctx Input/output parameter.
+     * @param[in] n_threads Input parameter.
+     * @param[in,out] img Input/output parameter.
+     * @param[in,out] vec Input/output parameter.
+     * @return True when the operation succeeds.
+     */
     bool clip_image_encode(clip_ctx* ctx, int n_threads, clip_image_f32* img, float* vec);
     
+    /**
+     * @brief Clip n mmproj embd.
+     * @param[in,out] ctx Input/output parameter.
+     * @return Return value.
+     */
     int clip_n_mmproj_embd(clip_ctx* ctx);
+    /**
+     * @brief Clip n patches.
+     * @param[in,out] ctx Input/output parameter.
+     * @return Return value.
+     */
     int clip_n_patches(clip_ctx* ctx);
+    /**
+     * @brief Clip is minicpmv.
+     * @param[in,out] ctx Input/output parameter.
+     * @return Return value.
+     */
     int clip_is_minicpmv(clip_ctx* ctx);
 }
 #endif
@@ -113,6 +175,11 @@ VisionEncoder::VisionEncoder(const std::string& clip_model_path,
             // Each sidecar contains exactly one hex-encoded SHA-256 line.
             const std::string sidecar_path = clip_model_path + ".sha256";
             if (std::filesystem::exists(sidecar_path)) {
+                /**
+                 * @brief Sidecar.
+                 * @param[in] sidecar_path Path to the sidecar.
+                 * @return Return value.
+                 */
                 std::ifstream sidecar(sidecar_path);
                 std::string expected_hash = {};
                 if (sidecar >> expected_hash && !expected_hash.empty()) {
@@ -233,6 +300,13 @@ VisionEncoder& VisionEncoder::operator=(VisionEncoder&& other) noexcept {
     return *this;
 }
 
+/**
+ * @brief Encode Image.
+ * @param[in] image_path Path to the image.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: validateImage(), std::chrono::steady_clock::now(), canAcceptRequest(), startRequest(), clip_image_u8_init(), clip_image_load_from_file(), c_str(), clip_image_u8_free().
+ */
 std::vector<float> VisionEncoder::encodeImage(const std::string& image_path) {
 #ifdef THEMIS_ENABLE_LLM
     if (!initialized_ || !clip_ctx_) {
@@ -326,6 +400,13 @@ std::vector<float> VisionEncoder::encodeImage(const std::string& image_path) {
 #endif
 }
 
+/**
+ * @brief Encode Image Data.
+ * @param[in] image_data Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: std::filesystem::temp_directory_path(), std::chrono::system_clock::now(), time_since_epoch(), count(), std::to_string(), string(), ofs(), write().
+ */
 std::vector<float> VisionEncoder::encodeImageData(const std::vector<uint8_t>& image_data) {
 #ifdef THEMIS_ENABLE_LLM
     // For now, we need to write to a temporary file
@@ -464,6 +545,11 @@ bool VisionEncoder::validateImage(const std::string& image_path) const {
     return true;
 }
 
+/**
+ * @brief Set User Context.
+ * @param[in] user_id Identifier of the user.
+ * @details Implements setUserContext without additional internal calls.
+ */
 void VisionEncoder::setUserContext(const std::string& user_id) {
     current_user_id_ = user_id;
 }
@@ -539,6 +625,13 @@ bool VisionEncoder::validateImageResolution(const std::string& image_path) const
     return true;
 }
 
+/**
+ * @brief Load Image.
+ * @param[in] image_path Path to the image.
+ * @return Pointer to the result.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: clip_image_u8_init(), clip_image_load_from_file(), c_str(), clip_image_u8_free().
+ */
 clip_image_u8* VisionEncoder::loadImage(const std::string& image_path) {
 #ifdef THEMIS_ENABLE_LLM
     clip_image_u8* img = clip_image_u8_init();
@@ -557,6 +650,13 @@ clip_image_u8* VisionEncoder::loadImage(const std::string& image_path) {
 #endif
 }
 
+/**
+ * @brief Preprocess Image.
+ * @param[in] img_u8 Input parameter.
+ * @return Pointer to the result.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: clip_image_f32_init(), clip_image_preprocess(), clip_image_f32_free().
+ */
 clip_image_f32* VisionEncoder::preprocessImage(const clip_image_u8* img_u8) {
 #ifdef THEMIS_ENABLE_LLM
     if (!clip_ctx_) {
@@ -579,6 +679,11 @@ clip_image_f32* VisionEncoder::preprocessImage(const clip_image_u8* img_u8) {
 #endif
 }
 
+/**
+ * @brief Free Image.
+ * @param[in,out] img_u8 Input/output parameter.
+ * @details Calls: clip_image_u8_free().
+ */
 void VisionEncoder::freeImage(clip_image_u8* img_u8) {
 #ifdef THEMIS_ENABLE_LLM
     if (img_u8) {
@@ -587,6 +692,11 @@ void VisionEncoder::freeImage(clip_image_u8* img_u8) {
 #endif
 }
 
+/**
+ * @brief Free Image.
+ * @param[in,out] img_f32 Input/output parameter.
+ * @details Calls: clip_image_f32_free().
+ */
 void VisionEncoder::freeImage(clip_image_f32* img_f32) {
 #ifdef THEMIS_ENABLE_LLM
     if (img_f32) {

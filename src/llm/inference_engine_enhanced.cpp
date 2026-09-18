@@ -34,6 +34,13 @@ namespace llm {
 
 namespace {
 
+/**
+ * @brief Apply Self RAGSize T.
+ * @param[in] cfg_json Input parameter.
+ * @param[in] key Input parameter.
+ * @param[in,out] target Input/output parameter.
+ * @details Calls: find(), end(), is_number_unsigned(), is_number_integer().
+ */
 void applySelfRAGSizeT(const json& cfg_json, const char* key, size_t& target) {
     const auto it = cfg_json.find(key);
     if (it != cfg_json.end() && it->is_number_unsigned()) {
@@ -46,6 +53,13 @@ void applySelfRAGSizeT(const json& cfg_json, const char* key, size_t& target) {
     }
 }
 
+/**
+ * @brief Apply Self RAGDouble.
+ * @param[in] cfg_json Input parameter.
+ * @param[in] key Input parameter.
+ * @param[in,out] target Input/output parameter.
+ * @details Calls: find(), end(), is_number().
+ */
 void applySelfRAGDouble(const json& cfg_json, const char* key, double& target) {
     const auto it = cfg_json.find(key);
     if (it != cfg_json.end() && it->is_number()) {
@@ -53,10 +67,21 @@ void applySelfRAGDouble(const json& cfg_json, const char* key, double& target) {
     }
 }
 
+/**
+ * @brief Make Self RAGMetadata Object.
+ * @return Return value.
+ * @details Calls: json::object().
+ */
 json makeSelfRAGMetadataObject() {
     return json::object();
 }
 
+/**
+ * @brief Compute Exact Entropy From Logits.
+ * @param[in] logits Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), std::max_element(), begin(), end(), std::exp(), std::isfinite(), std::log().
+ */
 float computeExactEntropyFromLogits(const std::vector<float>& logits) {
     if (logits.empty()) {
         return 0.0f;
@@ -84,6 +109,12 @@ float computeExactEntropyFromLogits(const std::vector<float>& logits) {
     return static_cast<float>(entropy);
 }
 
+/**
+ * @brief Make Speculative Entropy Bridge Fn.
+ * @param[in] target_logit_matrix Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), reserve(), size(), emplace_back(), computeExactEntropyFromLogits(), std::move(), std::equal(), begin().
+ */
 themis::rag::TARGRetrieval::FullEntropyFn makeSpeculativeEntropyBridgeFn(
     const std::vector<std::vector<float>>& target_logit_matrix
 ) {
@@ -108,6 +139,12 @@ themis::rag::TARGRetrieval::FullEntropyFn makeSpeculativeEntropyBridgeFn(
     };
 }
 
+/**
+ * @brief Make Tokenizer Bridge For Plugin.
+ * @param[in] plugin Input parameter.
+ * @return Return value.
+ * @details Calls: tokenizeForBridge(), empty(), reserve(), size(), std::min(), max(), push_back(), std::max().
+ */
 InferenceEngineEnhanced::TokenizerFn makeTokenizerBridgeForPlugin(
     const std::shared_ptr<ILLMPlugin>& plugin
 ) {
@@ -295,10 +332,20 @@ InferenceEngineEnhanced::~InferenceEngineEnhanced() noexcept {
     }
 }
 
+/**
+ * @brief Set Remote Executor.
+ * @param[in,out] exec Input/output parameter.
+ * @param[in] draft_shard Input parameter.
+ */
 void InferenceEngineEnhanced::setRemoteExecutor(
     sharding::RemoteExecutor* exec,
     const sharding::ShardInfo& draft_shard)
 {
+    /**
+     * @brief Lock.
+     * @param[in] stats_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(stats_mutex_);
     remote_executor_          = exec;
     remote_draft_shard_info_  = draft_shard;
@@ -311,9 +358,18 @@ void InferenceEngineEnhanced::setRemoteExecutor(
     }
 }
 
+/**
+ * @brief Set Federated Backend.
+ * @param[in] backend Input parameter.
+ */
 void InferenceEngineEnhanced::setFederatedBackend(
     std::shared_ptr<IFederatedInferenceBackend> backend)
 {
+    /**
+     * @brief Lock.
+     * @param[in] federated_backend_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(federated_backend_mutex_);
     federated_backend_ = std::move(backend);
     if (federated_backend_) {
@@ -324,36 +380,61 @@ void InferenceEngineEnhanced::setFederatedBackend(
     }
 }
 
+/**
+ * @brief Set Self RAGRetrieval Callback.
+ * @param[in] cb Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void InferenceEngineEnhanced::setSelfRAGRetrievalCallback(SelfRAGRetrievalCallback cb) {
     std::lock_guard<std::mutex> lock(self_rag_mutex_);
     self_rag_retrieval_cb_ = std::move(cb);
 }
 
+/**
+ * @brief Set Self RAGCritic Callback.
+ * @param[in] cb Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void InferenceEngineEnhanced::setSelfRAGCriticCallback(SelfRAGCriticCallback cb) {
     std::lock_guard<std::mutex> lock(self_rag_mutex_);
     self_rag_critic_cb_ = std::move(cb);
 }
 
-// ── setTargetLogitsFn ────────────────────────────────────────────────────────
+/**
+ * @brief ── setTargetLogitsFn ────────────────────────────────────────────────────────
+ * @param[in] fn Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void InferenceEngineEnhanced::setTargetLogitsFn(TargetLogitsFn fn) {
     std::lock_guard<std::mutex> lock(target_logits_fn_mutex_);
     target_logits_fn_ = std::move(fn);
 }
 
-// ── setTokenizerFn / clearTokenizerFn ────────────────────────────────────────
+/**
+ * @brief ── setTokenizerFn / clearTokenizerFn ────────────────────────────────────────
+ * @param[in] fn Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void InferenceEngineEnhanced::setTokenizerFn(TokenizerFn fn) {
     std::lock_guard<std::mutex> lock(tokenizer_fn_mutex_);
     tokenizer_fn_ = std::move(fn);
 }
 
+/**
+ * @brief Clear Tokenizer Fn.
+ * @details Calls: lock().
+ */
 void InferenceEngineEnhanced::clearTokenizerFn() {
     std::lock_guard<std::mutex> lock(tokenizer_fn_mutex_);
     tokenizer_fn_ = nullptr;
 }
 
-// ═══════════════════════════════════════════════════════════
-// Model Management
-// ═══════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════ Model Management ═══════════════════════════════════════════════════════════
+ * @param[in] model_id Identifier of the model.
+ * @param[in] plugin Input parameter.
+ * @details Calls: empty(), spdlog::error(), lock(), spdlog::info(), emplace_back(), loadLoRA().
+ */
 
 void InferenceEngineEnhanced::registerModel(
     const std::string& model_id,
@@ -400,6 +481,11 @@ void InferenceEngineEnhanced::registerModel(
     }
 }
 
+/**
+ * @brief Unregister Model.
+ * @param[in] model_id Identifier of the model.
+ * @details Calls: lock(), erase(), spdlog::info().
+ */
 void InferenceEngineEnhanced::unregisterModel(const std::string& model_id) {
     std::lock_guard<std::mutex> lock(models_mutex_);
     
@@ -409,6 +495,11 @@ void InferenceEngineEnhanced::unregisterModel(const std::string& model_id) {
 }
 
 std::vector<std::string> InferenceEngineEnhanced::getAvailableModels() const {
+    /**
+     * @brief Lock.
+     * @param[in] models_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(models_mutex_);
     
     std::vector<std::string> available = {};
@@ -422,6 +513,13 @@ std::vector<std::string> InferenceEngineEnhanced::getAvailableModels() const {
     return available;
 }
 
+/**
+ * @brief Swap Model.
+ * @param[in] model_id Identifier of the model.
+ * @param[in] new_plugin Input parameter.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: lock(), find(), end(), std::move(), spdlog::info().
+ */
 void InferenceEngineEnhanced::swapModel(
     const std::string& model_id,
     std::shared_ptr<ILLMPlugin> new_plugin
@@ -438,9 +536,11 @@ void InferenceEngineEnhanced::swapModel(
     spdlog::info("Hot-swapped plugin for model: {}", model_id);
 }
 
-// ═══════════════════════════════════════════════════════════
-// LoRA Adapter Hot-Loading
-// ═══════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════ LoRA Adapter Hot-Loading ═══════════════════════════════════════════════════════════
+ * @param[in] registry Input parameter.
+ * @details Calls: lock(), std::move(), spdlog::info().
+ */
 
 void InferenceEngineEnhanced::setAdapterRegistry(
     std::shared_ptr<AdapterRegistry> registry
@@ -450,6 +550,15 @@ void InferenceEngineEnhanced::setAdapterRegistry(
     spdlog::info("InferenceEngineEnhanced: adapter registry attached for DRAFT model discovery");
 }
 
+/**
+ * @brief Load Lo RAAdapter.
+ * @param[in] adapter_id Identifier of the adapter.
+ * @param[in] path Input parameter.
+ * @param[in] scale Input parameter.
+ * @param[in] model_id Identifier of the model.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: empty(), lock(), emplace_back(), loadLoRA(), spdlog::info(), spdlog::warn().
+ */
 void InferenceEngineEnhanced::loadLoRAAdapter(
     const std::string& adapter_id,
     const std::string& path,
@@ -501,6 +610,13 @@ void InferenceEngineEnhanced::loadLoRAAdapter(
     }
 }
 
+/**
+ * @brief Unload Lo RAAdapter.
+ * @param[in] adapter_id Identifier of the adapter.
+ * @param[in] model_id Identifier of the model.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), find(), end(), spdlog::debug(), erase(), empty(), emplace_back(), unloadLoRA().
+ */
 bool InferenceEngineEnhanced::unloadLoRAAdapter(
     const std::string& adapter_id,
     const std::string& model_id
@@ -543,6 +659,11 @@ bool InferenceEngineEnhanced::unloadLoRAAdapter(
 }
 
 std::vector<LoRAInfo> InferenceEngineEnhanced::getLoadedLoRAAdapters() const {
+    /**
+     * @brief Lock.
+     * @param[in] lora_adapters_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(lora_adapters_mutex_);
     std::vector<LoRAInfo> result = {};
 
@@ -564,6 +685,13 @@ std::vector<LoRAInfo> InferenceEngineEnhanced::getLoadedLoRAAdapters() const {
     return result;
 }
 
+/**
+ * @brief Set Model Quota.
+ * @param[in] model_id Identifier of the model.
+ * @param[in] quota Input parameter.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: lock(), find(), end(), spdlog::info().
+ */
 void InferenceEngineEnhanced::setModelQuota(
     const std::string& model_id,
     const ModelResourceQuota& quota
@@ -581,6 +709,11 @@ void InferenceEngineEnhanced::setModelQuota(
 InferenceEngineEnhanced::ModelResourceQuota InferenceEngineEnhanced::getModelQuota(
     const std::string& model_id
 ) const {
+    /**
+     * @brief Lock.
+     * @param[in] models_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(models_mutex_);
     auto it = models_.find(model_id);
     if (it == models_.end()) {
@@ -589,9 +722,13 @@ InferenceEngineEnhanced::ModelResourceQuota InferenceEngineEnhanced::getModelQuo
     return it->second.quota;
 }
 
-// ═══════════════════════════════════════════════════════════
-// Inference Submission
-// ═══════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════ Inference Submission ═══════════════════════════════════════════════════════════
+ * @param[in] request Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: std::chrono::steady_clock::now(), get_future(), share(), lock(), size(), stats_lock(), push(), req_lock().
+ */
 
 InferenceHandle InferenceEngineEnhanced::submit(const EnhancedInferenceRequest& request) {
     auto tracked = std::make_shared<TrackedRequest>();
@@ -645,10 +782,20 @@ std::string InferenceEngineEnhanced::submitAsync(
     tracked->callback = callback;
     
     {
+        /**
+         * @brief Lock.
+         * @param[in] queue_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lock(queue_mutex_);
         
         if (request_queue_.size() >= config_.max_queue_size) {
             {
+                /**
+                 * @brief Stats lock.
+                 * @param[in] stats_mutex_ Input parameter.
+                 * @return Return value.
+                 */
                 std::lock_guard<std::mutex> stats_lock(stats_mutex_);
                 stats_.rejected_requests++;
             }
@@ -658,11 +805,21 @@ std::string InferenceEngineEnhanced::submitAsync(
         request_queue_.push(tracked);
         
         {
+            /**
+             * @brief Req lock.
+             * @param[in] requests_mutex_ Input parameter.
+             * @return Return value.
+             */
             std::lock_guard<std::mutex> req_lock(requests_mutex_);
             tracked_requests_[request.request_id] = tracked;
         }
         
         {
+            /**
+             * @brief Stats lock.
+             * @param[in] stats_mutex_ Input parameter.
+             * @return Return value.
+             */
             std::lock_guard<std::mutex> stats_lock(stats_mutex_);
             stats_.total_requests++;
             stats_.current_queue_size = request_queue_.size();
@@ -674,6 +831,14 @@ std::string InferenceEngineEnhanced::submitAsync(
     return request.request_id;
 }
 
+/**
+ * @brief Submit Streaming.
+ * @param[in] request Input parameter.
+ * @param[in] callback Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: std::chrono::steady_clock::now(), std::move(), load(), compare_exchange_strong(), get_future(), share(), lock(), size().
+ */
 InferenceHandle InferenceEngineEnhanced::submitStreaming(
     const EnhancedInferenceRequest& request,
     TokenCallback                   callback
@@ -748,6 +913,12 @@ InferenceHandle InferenceEngineEnhanced::submitStreaming(
     return InferenceHandle(request.request_id, future, tracked->cancel_token);
 }
 
+/**
+ * @brief Cancel.
+ * @param[in] request_id Identifier of the request.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), find(), end(), store(), set_exception(), std::make_exception_ptr(), std::runtime_error(), THEMIS_WARN().
+ */
 bool InferenceEngineEnhanced::cancel(const std::string& request_id) {
     std::lock_guard<std::mutex> lock(requests_mutex_);
     
@@ -775,6 +946,13 @@ bool InferenceEngineEnhanced::cancel(const std::string& request_id) {
     return true;
 }
 
+/**
+ * @brief Reprioritize.
+ * @param[in] request_id Identifier of the request.
+ * @param[in] new_priority Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), find(), end(), spdlog::debug().
+ */
 bool InferenceEngineEnhanced::reprioritize(const std::string& request_id, int new_priority) {
     std::lock_guard<std::mutex> lock(requests_mutex_);
     
@@ -789,9 +967,10 @@ bool InferenceEngineEnhanced::reprioritize(const std::string& request_id, int ne
     return true;
 }
 
-// ═══════════════════════════════════════════════════════════
-// Cache Management
-// ═══════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════ Cache Management ═══════════════════════════════════════════════════════════
+ * @details Calls: get(), clear(), spdlog::info().
+ */
 
 void InferenceEngineEnhanced::clearCache() {
     auto* cache = prefix_cache_.get();
@@ -802,6 +981,11 @@ void InferenceEngineEnhanced::clearCache() {
     spdlog::info("Cleared inference cache");
 }
 
+/**
+ * @brief Prewarm Cache.
+ * @param[in] common_prompts Input parameter.
+ * @details Calls: get(), spdlog::info(), size(), computeEmbeddingForCache(), estimateTokenSequence(), put(), spdlog::debug(), length().
+ */
 void InferenceEngineEnhanced::prewarmCache(const std::vector<std::string>& common_prompts) {
     auto* cache = prefix_cache_.get();
     if (!cache || !config_.enable_context_caching) {
@@ -835,6 +1019,11 @@ void InferenceEngineEnhanced::prewarmCache(const std::vector<std::string>& commo
 // ═══════════════════════════════════════════════════════════
 
 InferenceEngineEnhanced::Statistics InferenceEngineEnhanced::getStatistics() const {
+    /**
+     * @brief Lock.
+     * @param[in] stats_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(stats_mutex_);
     
     auto stats = stats_;
@@ -956,9 +1145,10 @@ json InferenceEngineEnhanced::getDetailedMetrics() const {
     return metrics;
 }
 
-// ═══════════════════════════════════════════════════════════
-// Lifecycle
-// ═══════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════ Lifecycle ═══════════════════════════════════════════════════════════
+ * @details Calls: load(), store(), emplace_back(), spdlog::info(), numThreads(), std::thread().
+ */
 
 void InferenceEngineEnhanced::start() {
     if (running_.load(std::memory_order_acquire)) {
@@ -993,6 +1183,10 @@ void InferenceEngineEnhanced::start() {
         &InferenceEngineEnhanced::timeoutMonitorLoop, this);
 }
 
+/**
+ * @brief Shutdown.
+ * @details Calls: load(), spdlog::info(), store(), notify_all(), joinable(), themis::utils::joinThreadWithin(), spdlog::warn(), clear().
+ */
 void InferenceEngineEnhanced::shutdown() {
     if (!running_.load(std::memory_order_acquire)) {
         return;
@@ -1027,9 +1221,11 @@ bool InferenceEngineEnhanced::isRunning() const {
     return running_.load(std::memory_order_acquire);
 }
 
-// ═══════════════════════════════════════════════════════════
-// Internal Methods - Worker Loop
-// ═══════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════ Internal Methods - Worker Loop ═══════════════════════════════════════════════════════════
+ * @param[in] worker_id Identifier of the worker.
+ * @details Calls: spdlog::debug(), load(), lock(), std::chrono::steady_clock::now(), std::chrono::milliseconds(), wait_until(), empty(), formBatch().
+ */
 
 void InferenceEngineEnhanced::workerLoop(size_t worker_id) {
     spdlog::debug("Worker {} started", worker_id);
@@ -1074,9 +1270,10 @@ void InferenceEngineEnhanced::workerLoop(size_t worker_id) {
     spdlog::debug("Worker {} stopped", worker_id);
 }
 
-// ═══════════════════════════════════════════════════════════
-// Internal Methods - Batch Coordinator (shared-pool path)
-// ═══════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════ Internal Methods - Batch Coordinator (shared-pool path) ═══════════════════════════════════════════════════════════
+ * @details Calls: spdlog::debug(), load(), lock(), std::chrono::steady_clock::now(), std::chrono::milliseconds(), wait_until(), empty(), formBatch().
+ */
 
 void InferenceEngineEnhanced::batchCoordinatorLoop() {
     spdlog::debug("InferenceEngineEnhanced batch coordinator started");
@@ -1129,9 +1326,10 @@ void InferenceEngineEnhanced::batchCoordinatorLoop() {
     spdlog::debug("InferenceEngineEnhanced batch coordinator stopped");
 }
 
-// ═══════════════════════════════════════════════════════════
-// Internal Methods - Timeout Monitoring
-// ═══════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════ Internal Methods - Timeout Monitoring ═══════════════════════════════════════════════════════════
+ * @details Calls: spdlog::debug(), load(), checkAndHandleTimeouts(), std::this_thread::sleep_for(), std::chrono::milliseconds().
+ */
 
 void InferenceEngineEnhanced::timeoutMonitorLoop() {
     spdlog::debug("Timeout monitor started");
@@ -1148,6 +1346,10 @@ void InferenceEngineEnhanced::timeoutMonitorLoop() {
     spdlog::debug("Timeout monitor stopped");
 }
 
+/**
+ * @brief Check And Handle Timeouts.
+ * @details Calls: std::chrono::steady_clock::now(), lock(), load(), push_back(), spdlog::warn(), find(), end(), store().
+ */
 void InferenceEngineEnhanced::checkAndHandleTimeouts() {
     auto now = std::chrono::steady_clock::now();
     std::vector<std::string> timed_out;
@@ -1197,9 +1399,12 @@ void InferenceEngineEnhanced::checkAndHandleTimeouts() {
     }
 }
 
-// ═══════════════════════════════════════════════════════════
-// Internal Methods - Batch Processing
-// ═══════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════ Internal Methods - Batch Processing ═══════════════════════════════════════════════════════════
+ * @param[in] batch Input parameter.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: spdlog::debug(), size(), std::chrono::steady_clock::now(), load(), callback(), set_exception(), std::make_exception_ptr(), lock().
+ */
 
 void InferenceEngineEnhanced::processBatch(
     const std::vector<std::shared_ptr<TrackedRequest>>& batch
@@ -1734,6 +1939,13 @@ InferenceEngineEnhanced::formBatch() {
     return batch;
 }
 
+/**
+ * @brief Can Add To Batch.
+ * @param[in] req Input parameter.
+ * @param[in] current_batch_tokens Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: length().
+ */
 bool InferenceEngineEnhanced::canAddToBatch(
     const std::shared_ptr<TrackedRequest>& req,
     size_t current_batch_tokens
@@ -1744,9 +1956,12 @@ bool InferenceEngineEnhanced::canAddToBatch(
     return (current_batch_tokens + req_tokens) <= config_.max_tokens_per_batch;
 }
 
-// ═══════════════════════════════════════════════════════════
-// Internal Methods - Cache Operations
-// ═══════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════ Internal Methods - Cache Operations ═══════════════════════════════════════════════════════════
+ * @param[in] request Input parameter.
+ * @return Return value.
+ * @details Calls: get(), computeEmbeddingForCache(), empty(), size(), spdlog::warn(), clear(), recordCacheHit(), recordCacheMiss().
+ */
 
 std::optional<InferenceResponse> InferenceEngineEnhanced::checkCache(
     const InferenceRequest& request
@@ -1798,6 +2013,12 @@ std::optional<InferenceResponse> InferenceEngineEnhanced::checkCache(
     return std::nullopt;
 }
 
+/**
+ * @brief Update Cache.
+ * @param[in] request Input parameter.
+ * @param[in] response Input parameter.
+ * @details Calls: get(), empty(), computeEmbeddingForCache(), size(), spdlog::warn(), clear(), estimateTokenSequence(), put().
+ */
 void InferenceEngineEnhanced::updateCache(
     const InferenceRequest& request,
     const InferenceResponse& response
@@ -1829,6 +2050,12 @@ void InferenceEngineEnhanced::updateCache(
     cache->put(request.prompt, tokens, embedding, kv_cache, response.text);
 }
 
+/**
+ * @brief Compute Embedding For Cache.
+ * @param[in] text Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), embed(), spdlog::warn(), what().
+ */
 std::vector<float> InferenceEngineEnhanced::computeEmbeddingForCache(const std::string& text) {
     // Strategy: use the first available, loaded plugin for embedding.
     // Rationale: all registered models share the same vocabulary space in the
@@ -1860,7 +2087,12 @@ std::vector<float> InferenceEngineEnhanced::computeEmbeddingForCache(const std::
     }
 }
 
-// static
+/**
+ * @brief static
+ * @param[in] text Input parameter.
+ * @return Return value.
+ * @details Calls: size(), tokens(), std::iota(), begin(), end().
+ */
 std::vector<int> InferenceEngineEnhanced::estimateTokenSequence(const std::string& text) {
     // Lightweight approximation: ~4 UTF-8 characters per token (BPE heuristic).
     // The ILLMPlugin interface does not expose a standalone tokenize() method
@@ -1873,9 +2105,13 @@ std::vector<int> InferenceEngineEnhanced::estimateTokenSequence(const std::strin
     return tokens;
 }
 
-// ═══════════════════════════════════════════════════════════
-// Internal Methods - Load Balancing
-// ═══════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════ Internal Methods - Load Balancing ═══════════════════════════════════════════════════════════
+ * @param[in] request Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: lock(), route(), find(), end(), spdlog::debug(), empty(), push_back(), fetch_add().
+ */
 
 std::string InferenceEngineEnhanced::selectModel(const EnhancedInferenceRequest& request) {
     std::lock_guard<std::mutex> lock(models_mutex_);
@@ -1978,6 +2214,13 @@ std::string InferenceEngineEnhanced::selectModel(const EnhancedInferenceRequest&
     return available[0];
 }
 
+/**
+ * @brief Update Model Stats.
+ * @param[in] model_id Identifier of the model.
+ * @param[in] latency_ms Input parameter.
+ * @param[in] success Input parameter.
+ * @details Calls: lock(), find(), end().
+ */
 void InferenceEngineEnhanced::updateModelStats(
     const std::string& model_id,
     double latency_ms,
@@ -2003,9 +2246,11 @@ void InferenceEngineEnhanced::updateModelStats(
     }
 }
 
-// ═══════════════════════════════════════════════════════════
-// Internal Methods - Statistics
-// ═══════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════ Internal Methods - Statistics ═══════════════════════════════════════════════════════════
+ * @param[in] tokens_saved Input parameter.
+ * @details Calls: lock().
+ */
 
 void InferenceEngineEnhanced::recordCacheHit(size_t tokens_saved) {
     std::lock_guard<std::mutex> lock(stats_mutex_);
@@ -2013,11 +2258,20 @@ void InferenceEngineEnhanced::recordCacheHit(size_t tokens_saved) {
     stats_.tokens_saved_by_cache += tokens_saved;
 }
 
+/**
+ * @brief Record Cache Miss.
+ * @details Calls: lock().
+ */
 void InferenceEngineEnhanced::recordCacheMiss() {
     std::lock_guard<std::mutex> lock(stats_mutex_);
     stats_.cache_misses++;
 }
 
+/**
+ * @brief Record Batch Completion.
+ * @param[in] batch_size Input parameter.
+ * @details Calls: lock().
+ */
 void InferenceEngineEnhanced::recordBatchCompletion(size_t batch_size) {
     std::lock_guard<std::mutex> lock(stats_mutex_);
     
@@ -2036,6 +2290,13 @@ void InferenceEngineEnhanced::recordBatchCompletion(size_t batch_size) {
     }
 }
 
+/**
+ * @brief Record Request Completion.
+ * @param[in] latency_ms Input parameter.
+ * @param[in] model_id Identifier of the model.
+ * @param[in] tokens_generated Input parameter.
+ * @details Calls: lock(), push_back(), size(), erase(), begin(), std::accumulate(), end().
+ */
 void InferenceEngineEnhanced::recordRequestCompletion(
     double latency_ms,
     const std::string& model_id,
@@ -2067,11 +2328,20 @@ void InferenceEngineEnhanced::recordRequestCompletion(
     }
 }
 
+/**
+ * @brief Record Request Timeout.
+ * @details Calls: lock().
+ */
 void InferenceEngineEnhanced::recordRequestTimeout() {
     std::lock_guard<std::mutex> lock(stats_mutex_);
     stats_.timed_out_requests++;
 }
 
+/**
+ * @brief Record Speculative Step.
+ * @param[in] result Input parameter.
+ * @details Calls: lock().
+ */
 void InferenceEngineEnhanced::recordSpeculativeStep(
     const SpeculativeDecoder::VerifyResult& result
 ) {
@@ -2091,9 +2361,15 @@ void InferenceEngineEnhanced::recordSpeculativeStep(
     }
 }
 
-// ═══════════════════════════════════════════════════════════
-// Speculative Generation Helper
-// ═══════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════ Speculative Generation Helper ═══════════════════════════════════════════════════════════
+ * @param[in] request Input parameter.
+ * @param[in] target_plugin Input parameter.
+ * @param[in] draft_plugin Input parameter.
+ * @param[in,out] response Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: spdlog::warn(), getModelInfo(), max(), lk(), getConfig(), empty(), post(), contains().
+ */
 
 bool InferenceEngineEnhanced::trySpeculativeGeneration(
     const InferenceRequest&     request,
@@ -2499,9 +2775,11 @@ bool InferenceEngineEnhanced::trySpeculativeGeneration(
     return true;
 }
 
-// ═══════════════════════════════════════════════════════════
-// Helper Methods
-// ═══════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════ Helper Methods ═══════════════════════════════════════════════════════════
+ * @return Return value.
+ * @details Calls: fetch_add(), std::chrono::system_clock::now(), time_since_epoch(), count(), str().
+ */
 
 std::string InferenceEngineEnhanced::generateRequestId() {
     auto count = request_counter_.fetch_add(1);
@@ -2514,14 +2792,22 @@ std::string InferenceEngineEnhanced::generateRequestId() {
     return oss.str();
 }
 
-// ═══════════════════════════════════════════════════════════
-// Content-based / metadata-tag routing
-// ═══════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════ Content-based / metadata-tag routing ═══════════════════════════════════════════════════════════
+ * @param[in] rule Input parameter.
+ * @details Calls: addRule().
+ */
 
 void InferenceEngineEnhanced::addRoutingRule(const RoutingRule& rule) {
     model_router_.addRule(rule);
 }
 
+/**
+ * @brief Remove Routing Rule.
+ * @param[in] rule_id Identifier of the rule.
+ * @return True when the operation succeeds.
+ * @details Calls: removeRule().
+ */
 bool InferenceEngineEnhanced::removeRoutingRule(const std::string& rule_id) {
     return model_router_.removeRule(rule_id);
 }
@@ -2530,6 +2816,10 @@ std::vector<RoutingRule> InferenceEngineEnhanced::getRoutingRules() const {
     return model_router_.getRules();
 }
 
+/**
+ * @brief Clear Routing Rules.
+ * @details Calls: clearRules().
+ */
 void InferenceEngineEnhanced::clearRoutingRules() {
     model_router_.clearRules();
 }
@@ -2557,6 +2847,11 @@ std::string InferenceEngineEnhanced::resolveDraftModelId(
     // using the first token as the family (e.g. "llama-7b" → "llama").
     std::string family = {};
     {
+        /**
+         * @brief Lock.
+         * @param[in] models_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(models_mutex_);
         auto it = models_.find(target_model_id);
         if (it != models_.end() && it->second.plugin) {
@@ -2597,6 +2892,11 @@ std::string InferenceEngineEnhanced::resolveDraftModelId(
     // Only use the draft adapter if its adapter_id is registered as a model
     // in this engine instance (so the engine can call plugin->generate()).
     {
+        /**
+         * @brief Lock.
+         * @param[in] models_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(models_mutex_);
         if (models_.count(draft_id) && models_.at(draft_id).is_available) {
             spdlog::debug(

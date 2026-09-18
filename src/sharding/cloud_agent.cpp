@@ -55,6 +55,10 @@ CloudAgent::~CloudAgent() {
     stop();
 }
 
+/**
+ * @brief Start.
+ * @details Calls: load(), store(), std::thread().
+ */
 void CloudAgent::start() {
     if (running_.load()) {
         return;  // Already running
@@ -71,6 +75,10 @@ void CloudAgent::start() {
     }
 }
 
+/**
+ * @brief Stop.
+ * @details Calls: load(), store(), notify_all(), themis::utils::joinThreadWithin(), THEMIS_WARN().
+ */
 void CloudAgent::stop() {
     if (!running_.load()) {
         return;  // Already stopped
@@ -89,6 +97,12 @@ void CloudAgent::stop() {
     }
 }
 
+/**
+ * @brief Delegate.
+ * @param[in] operation Input parameter.
+ * @return Return value.
+ * @details Calls: load(), empty(), generateOperationId(), std::chrono::steady_clock::now(), executeOperation(), updateStatistics(), recordMetrics(), on_complete().
+ */
 CloudAgentResult CloudAgent::delegate(const CloudAgentOperation& operation) {
     if (!running_.load()) {
         CloudAgentResult result;
@@ -121,6 +135,12 @@ CloudAgentResult CloudAgent::delegate(const CloudAgentOperation& operation) {
     return result;
 }
 
+/**
+ * @brief Delegate Async.
+ * @param[in] operation Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), generateOperationId(), std::chrono::system_clock::now(), lock(), notify_one().
+ */
 std::string CloudAgent::delegateAsync(const CloudAgentOperation& operation) {
     std::string op_id = operation.operation_id.empty() ? 
         generateOperationId() : operation.operation_id;
@@ -140,6 +160,11 @@ std::string CloudAgent::delegateAsync(const CloudAgentOperation& operation) {
 }
 
 CloudAgentResult CloudAgent::getOperationStatus(const std::string& operation_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     // Check completed operations
@@ -167,6 +192,12 @@ CloudAgentResult CloudAgent::getOperationStatus(const std::string& operation_id)
     return result;
 }
 
+/**
+ * @brief Cancel Operation.
+ * @param[in] operation_id Identifier of the operation.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), find(), end(), erase().
+ */
 bool CloudAgent::cancelOperation(const std::string& operation_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -189,6 +220,11 @@ bool CloudAgent::cancelOperation(const std::string& operation_id) {
 }
 
 std::vector<std::string> CloudAgent::getPendingOperations() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     std::vector<std::string> pending = {};
@@ -203,11 +239,21 @@ std::vector<std::string> CloudAgent::getPendingOperations() const {
 }
 
 CloudAgent::Statistics CloudAgent::getStatistics() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return statistics_;
 }
 
 nlohmann::json CloudAgent::getStatisticsJson() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     auto now = std::chrono::system_clock::now();
@@ -252,11 +298,21 @@ nlohmann::json CloudAgent::getHealthStatus() const {
     return health;
 }
 
+/**
+ * @brief Update the access control configuration.
+ * @param[in] config New access control configuration.
+ * @details Calls: lock().
+ */
 void CloudAgent::updateConfig(const Config& config) {
     std::lock_guard<std::mutex> lock(mutex_);
     config_ = config;
 }
 
+/**
+ * @brief Execute Health Check.
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), getAllShards(), size(), nlohmann::json::array(), get(), what().
+ */
 nlohmann::json CloudAgent::executeHealthCheck() {
     nlohmann::json results;
     results["timestamp"] = std::chrono::duration_cast<std::chrono::milliseconds>(
@@ -305,6 +361,10 @@ nlohmann::json CloudAgent::executeHealthCheck() {
 
 // Private methods
 
+/**
+ * @brief Worker Loop.
+ * @details Calls: load(), lock(), wait_for(), std::chrono::seconds(), empty(), begin(), erase(), std::chrono::steady_clock::now().
+ */
 void CloudAgent::workerLoop() {
     while (running_.load()) {
         CloudAgentOperation operation;
@@ -359,6 +419,10 @@ void CloudAgent::workerLoop() {
     }
 }
 
+/**
+ * @brief Health Loop.
+ * @details Calls: load(), lock(), wait_for(), executeHealthCheck().
+ */
 void CloudAgent::healthLoop() {
     while (running_.load()) {
         // Wait for health check interval
@@ -393,6 +457,12 @@ std::string CloudAgent::generateOperationId() const {
     return ss.str();
 }
 
+/**
+ * @brief Execute Operation.
+ * @param[in] operation Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), getHealthyShards(), push_back(), executeHealthCheck(), executeScatterGather(), what().
+ */
 CloudAgentResult CloudAgent::executeOperation(const CloudAgentOperation& operation) {
     CloudAgentResult result;
     result.operation_id = operation.operation_id;
@@ -443,6 +513,13 @@ CloudAgentResult CloudAgent::executeOperation(const CloudAgentOperation& operati
     return result;
 }
 
+/**
+ * @brief Execute Scatter Gather.
+ * @param[in] operation Input parameter.
+ * @param[in] shards Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), nlohmann::json::array(), std::sort(), begin(), end(), getShard(), find(), size().
+ */
 CloudAgentResult CloudAgent::executeScatterGather(
     const CloudAgentOperation& operation,
     const std::vector<std::string>& shards
@@ -641,6 +718,11 @@ CloudAgentResult CloudAgent::executeScatterGather(
     return result;
 }
 
+/**
+ * @brief Update Statistics.
+ * @param[in] result Input parameter.
+ * @details Calls: lock(), std::chrono::system_clock::now(), count().
+ */
 void CloudAgent::updateStatistics(const CloudAgentResult& result) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -662,6 +744,12 @@ void CloudAgent::updateStatistics(const CloudAgentResult& result) {
         (1.0 - alpha) * statistics_.avg_execution_time_ms;
 }
 
+/**
+ * @brief Record Metrics.
+ * @param[in] operation Input parameter.
+ * @param[in] result Input parameter.
+ * @details Implements recordMetrics without additional internal calls.
+ */
 void CloudAgent::recordMetrics(
     const CloudAgentOperation& operation,
     const CloudAgentResult& result
@@ -674,6 +762,10 @@ void CloudAgent::recordMetrics(
     // Using the PrometheusMetrics interface
 }
 
+/**
+ * @brief Cleanup Old Operations.
+ * @details Calls: std::chrono::steady_clock::now(), lock(), size(), erase(), begin().
+ */
 void CloudAgent::cleanupOldOperations() {
     auto now = std::chrono::steady_clock::now();
     

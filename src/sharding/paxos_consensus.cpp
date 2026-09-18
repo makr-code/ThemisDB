@@ -43,6 +43,13 @@ PaxosConsensus::~PaxosConsensus() {
     stop();
 }
 
+/**
+ * @brief Initialize.
+ * @param[in] node_id Identifier of the node.
+ * @param[in] cluster_nodes Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: spdlog::error(), recoverFromWAL(), spdlog::warn(), spdlog::info(), loadPersistentState().
+ */
 bool PaxosConsensus::initialize(
     const std::string& node_id,
     const std::vector<std::string>& cluster_nodes
@@ -87,6 +94,11 @@ bool PaxosConsensus::initialize(
     return true;
 }
 
+/**
+ * @brief Start.
+ * @return True when the operation succeeds.
+ * @details Calls: load(), spdlog::warn(), store(), std::thread(), spdlog::info().
+ */
 bool PaxosConsensus::start() {
     if (running_.load()) {
         spdlog::warn("Paxos consensus already running");
@@ -105,6 +117,10 @@ bool PaxosConsensus::start() {
     return true;
 }
 
+/**
+ * @brief Stop.
+ * @details Calls: load(), store(), notify_all(), themis::utils::joinThreadWithin(), THEMIS_WARN(), savePersistentState(), spdlog::info().
+ */
 void PaxosConsensus::stop() {
     if (!running_.load()) {
         return;
@@ -142,6 +158,11 @@ bool PaxosConsensus::isLeader() const {
 }
 
 std::string PaxosConsensus::getLeaderId() const {
+    /**
+     * @brief Lock.
+     * @param[in] state_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(state_mutex_);
     return current_leader_;
 }
@@ -150,6 +171,13 @@ ConsensusState PaxosConsensus::getState() const {
     return state_.load();
 }
 
+/**
+ * @brief Propose.
+ * @param[in] operation Input parameter.
+ * @param[in] data Input parameter.
+ * @return Return value.
+ * @details Calls: load(), spdlog::error(), fetch_add(), std::chrono::system_clock::now(), lock(), notify_one().
+ */
 std::optional<uint64_t> PaxosConsensus::propose(
     const std::string& operation,
     const nlohmann::json& data
@@ -179,6 +207,13 @@ std::optional<uint64_t> PaxosConsensus::propose(
     return entry.index;
 }
 
+/**
+ * @brief Wait For Commit.
+ * @param[in] log_index Input parameter.
+ * @param[in] timeout Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: std::chrono::steady_clock::now(), load(), lock(), find(), end(), std::this_thread::sleep_for(), std::chrono::milliseconds().
+ */
 bool PaxosConsensus::waitForCommit(
     uint64_t log_index,
     std::chrono::milliseconds timeout
@@ -204,6 +239,13 @@ bool PaxosConsensus::waitForCommit(
     return false;
 }
 
+/**
+ * @brief Read Log.
+ * @param[in] start_index Input parameter.
+ * @param[in] end_index Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), value_or(), load(), find(), end(), push_back().
+ */
 std::vector<ConsensusLogEntry> PaxosConsensus::readLog(
     uint64_t start_index,
     std::optional<uint64_t> end_index
@@ -232,6 +274,13 @@ uint64_t PaxosConsensus::getLastLogIndex() const {
     return next > 0 ? next - 1 : 0;
 }
 
+/**
+ * @brief Add Node.
+ * @param[in] node_id Identifier of the node.
+ * @param[in] param Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), std::find(), begin(), end(), spdlog::warn(), empty(), spdlog::error(), push_back().
+ */
 bool PaxosConsensus::addNode(
     const std::string& node_id,
     const std::string& /*endpoint*/
@@ -255,6 +304,12 @@ bool PaxosConsensus::addNode(
     return true;
 }
 
+/**
+ * @brief Remove Node.
+ * @param[in] node_id Identifier of the node.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), std::find(), begin(), end(), spdlog::warn(), erase(), spdlog::info().
+ */
 bool PaxosConsensus::removeNode(const std::string& node_id) {
     std::lock_guard<std::mutex> lock(state_mutex_);
     
@@ -269,6 +324,12 @@ bool PaxosConsensus::removeNode(const std::string& node_id) {
     return true;
 }
 
+/**
+ * @brief Transfer Leadership.
+ * @param[in] target_node_id Identifier of the target node.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), isLeader(), spdlog::warn(), store(), spdlog::info().
+ */
 bool PaxosConsensus::transferLeadership(const std::string& target_node_id) {
     std::lock_guard<std::mutex> lock(state_mutex_);
     
@@ -286,6 +347,12 @@ bool PaxosConsensus::transferLeadership(const std::string& target_node_id) {
     return true;
 }
 
+/**
+ * @brief Take Snapshot.
+ * @param[in] snapshot_data Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: load(), spdlog::warn(), lock(), spdlog::info().
+ */
 bool PaxosConsensus::takeSnapshot(const nlohmann::json& snapshot_data) {
     if (!running_.load()) {
         spdlog::warn("takeSnapshot: Paxos not running");
@@ -306,6 +373,12 @@ bool PaxosConsensus::takeSnapshot(const nlohmann::json& snapshot_data) {
     return true;
 }
 
+/**
+ * @brief Restore Snapshot.
+ * @param[in] snapshot_data Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: is_null(), empty(), spdlog::error(), contains(), lock(), load(), store(), spdlog::info().
+ */
 bool PaxosConsensus::restoreSnapshot(const nlohmann::json& snapshot_data) {
     if (snapshot_data.is_null() || snapshot_data.empty()) {
         spdlog::error("PaxosConsensus::restoreSnapshot: snapshot_data is null or empty");
@@ -346,6 +419,11 @@ ConsensusStats PaxosConsensus::getStats() const {
     stats.state = state_.load();
     // PAX-6: always hold state_mutex_ when accessing cluster_nodes_.
     {
+        /**
+         * @brief Lock.
+         * @param[in] state_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(state_mutex_);
         stats.current_leader = current_leader_;
         stats.cluster_size = cluster_nodes_.size();
@@ -362,6 +440,11 @@ nlohmann::json PaxosConsensus::getStatus() const {
     uint64_t snap_index = 0;
     uint64_t snap_term  = 0;
     {
+        /**
+         * @brief Lock.
+         * @param[in] state_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(state_mutex_);
         snap_index = snapshot_index_;
         snap_term  = snapshot_term_;
@@ -386,6 +469,11 @@ nlohmann::json PaxosConsensus::getStatus() const {
 void PaxosConsensus::onCommit(
     std::function<void(const ConsensusLogEntry&)> callback
 ) {
+    /**
+     * @brief Lock.
+     * @param[in] callbacks_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(callbacks_mutex_);
     on_commit_callback_ = std::move(callback);
 }
@@ -393,6 +481,11 @@ void PaxosConsensus::onCommit(
 void PaxosConsensus::onStateChange(
     std::function<void(ConsensusState, ConsensusState)> callback
 ) {
+    /**
+     * @brief Lock.
+     * @param[in] callbacks_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(callbacks_mutex_);
     on_state_change_callback_ = std::move(callback);
 }
@@ -400,20 +493,40 @@ void PaxosConsensus::onStateChange(
 void PaxosConsensus::onLeaderChange(
     std::function<void(const std::string&, const std::string&)> callback
 ) {
+    /**
+     * @brief Lock.
+     * @param[in] callbacks_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(callbacks_mutex_);
     on_leader_change_callback_ = std::move(callback);
 }
 
+/**
+ * @brief Set Prepare RPCCallback.
+ * @param[in] cb Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void PaxosConsensus::setPrepareRPCCallback(PaxosPrepareCallback cb) {
     std::lock_guard<std::mutex> lock(callbacks_mutex_);
     rpc_prepare_cb_ = std::move(cb);
 }
 
+/**
+ * @brief Set Prepare Full RPCCallback.
+ * @param[in] cb Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void PaxosConsensus::setPrepareFullRPCCallback(PaxosPrepareFullCallback cb) {
     std::lock_guard<std::mutex> lock(callbacks_mutex_);
     rpc_prepare_full_cb_ = std::move(cb);
 }
 
+/**
+ * @brief Set Accept RPCCallback.
+ * @param[in] cb Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void PaxosConsensus::setAcceptRPCCallback(PaxosAcceptCallback cb) {
     std::lock_guard<std::mutex> lock(callbacks_mutex_);
     rpc_accept_cb_ = std::move(cb);
@@ -421,6 +534,10 @@ void PaxosConsensus::setAcceptRPCCallback(PaxosAcceptCallback cb) {
 
 // Private methods
 
+/**
+ * @brief Run Proposer.
+ * @details Calls: spdlog::debug(), load(), lock(), wait_for(), std::chrono::milliseconds(), empty(), begin(), end().
+ */
 void PaxosConsensus::runProposer() {
     spdlog::debug("Paxos proposer thread started");
     
@@ -493,6 +610,10 @@ void PaxosConsensus::runProposer() {
     spdlog::debug("Paxos proposer thread stopped");
 }
 
+/**
+ * @brief Run Acceptor.
+ * @details Calls: spdlog::debug(), load(), std::this_thread::sleep_for(), std::chrono::milliseconds(), lock(), find(), end().
+ */
 void PaxosConsensus::runAcceptor() {
     spdlog::debug("Paxos acceptor thread started");
 
@@ -534,6 +655,10 @@ void PaxosConsensus::runAcceptor() {
     spdlog::debug("Paxos acceptor thread stopped");
 }
 
+/**
+ * @brief Run Learner.
+ * @details Calls: spdlog::debug(), load(), std::this_thread::sleep_for(), std::chrono::milliseconds(), lock(), find(), end().
+ */
 void PaxosConsensus::runLearner() {
     spdlog::debug("Paxos learner thread started");
     
@@ -558,6 +683,10 @@ void PaxosConsensus::runLearner() {
     spdlog::debug("Paxos learner thread stopped");
 }
 
+/**
+ * @brief Leader Election Thread.
+ * @details Calls: spdlog::debug(), load(), std::this_thread::sleep_for(), std::chrono::milliseconds(), lock(), empty(), size(), cb_lock().
+ */
 void PaxosConsensus::leaderElectionThread() {
     spdlog::debug("Paxos leader election thread started");
 
@@ -634,6 +763,13 @@ void PaxosConsensus::leaderElectionThread() {
     spdlog::debug("Paxos leader election thread stopped");
 }
 
+/**
+ * @brief Execute Prepare Phase.
+ * @param[in] slot Input parameter.
+ * @param[in] value Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: generateProposalNumber(), logPrepare(), spdlog::error(), what(), lock(), clear(), spdlog::debug(), empty().
+ */
 bool PaxosConsensus::executePreparePhase(uint64_t slot, const ConsensusLogEntry& value) {
     // Phase 1a: Generate unique proposal number and send prepare requests
     auto proposal = generateProposalNumber();
@@ -785,6 +921,14 @@ bool PaxosConsensus::executePreparePhase(uint64_t slot, const ConsensusLogEntry&
     return executeAcceptPhase(slot, proposal, proposed_value);
 }
 
+/**
+ * @brief Execute Accept Phase.
+ * @param[in] slot Input parameter.
+ * @param[in] proposal Input parameter.
+ * @param[in] value Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: std::chrono::steady_clock::now(), logAccept(), spdlog::error(), what(), lock(), clear(), spdlog::debug(), handleAccept().
+ */
 bool PaxosConsensus::executeAcceptPhase(
     uint64_t slot,
     const ProposalNumber& proposal,
@@ -899,6 +1043,13 @@ bool PaxosConsensus::executeAcceptPhase(
     return broadcastCommit(slot, value);
 }
 
+/**
+ * @brief Broadcast Commit.
+ * @param[in] slot Input parameter.
+ * @param[in] value Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: logCommit(), shouldCreateSnapshot(), spdlog::info(), createPeriodicSnapshot(), spdlog::error(), what(), lock(), load().
+ */
 bool PaxosConsensus::broadcastCommit(uint64_t slot, const ConsensusLogEntry& value) {
     // Phase 2.1.3: Log COMMIT to WAL for durability before updating in-memory state.
     // WAL failure is a hard error: proceeding without a durable COMMIT record would
@@ -955,12 +1106,22 @@ bool PaxosConsensus::hasQuorum(size_t count) const {
     return count >= getQuorumSize();
 }
 
+/**
+ * @brief Generate Proposal Number.
+ * @return Return value.
+ * @details Implements generateProposalNumber without additional internal calls.
+ */
 ProposalNumber PaxosConsensus::generateProposalNumber() {
     // Increment round and generate unique proposal number
     uint64_t round = ++current_round_;
     return ProposalNumber{round, node_id_};
 }
 
+/**
+ * @brief Load Persistent State.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), spdlog::warn(), file(), is_open(), spdlog::info(), close(), contains(), store().
+ */
 bool PaxosConsensus::loadPersistentState() {
     if (config_.data_dir.empty()) {
         spdlog::warn("No data directory configured for Paxos persistence");
@@ -1060,6 +1221,11 @@ bool PaxosConsensus::loadPersistentState() {
     }
 }
 
+/**
+ * @brief Save Persistent State.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), spdlog::warn(), load(), nlohmann::json::object(), std::to_string(), file(), is_open(), spdlog::error().
+ */
 bool PaxosConsensus::savePersistentState() {
     if (config_.data_dir.empty()) {
         spdlog::warn("No data directory configured for Paxos persistence");
@@ -1153,6 +1319,13 @@ bool PaxosConsensus::savePersistentState() {
     }
 }
 
+/**
+ * @brief Handle Prepare.
+ * @param[in] slot Input parameter.
+ * @param[in] proposal Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), logPromise(), spdlog::debug().
+ */
 bool PaxosConsensus::handlePrepare(uint64_t slot, const ProposalNumber& proposal) {
     std::lock_guard<std::mutex> lock(state_mutex_);
     
@@ -1186,6 +1359,14 @@ bool PaxosConsensus::handlePrepare(uint64_t slot, const ProposalNumber& proposal
     return false;
 }
 
+/**
+ * @brief Handle Accept.
+ * @param[in] slot Input parameter.
+ * @param[in] proposal Input parameter.
+ * @param[in] value Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), logAccept(), spdlog::debug().
+ */
 bool PaxosConsensus::handleAccept(
     uint64_t slot,
     const ProposalNumber& proposal,
@@ -1222,13 +1403,21 @@ bool PaxosConsensus::handleAccept(
     return false;
 }
 
+/**
+ * @brief Handle Commit.
+ * @param[in] slot Input parameter.
+ * @param[in] value Input parameter.
+ * @details Calls: broadcastCommit().
+ */
 void PaxosConsensus::handleCommit(uint64_t slot, const ConsensusLogEntry& value) {
     broadcastCommit(slot, value);
 }
 
-// ============================================================================
-// Phase 2.1: WAL and Snapshot Methods
-// ============================================================================
+/**
+ * @brief ============================================================================ Phase 2.
+ * @return True when the operation succeeds.
+ * @details 1: WAL and Snapshot Methods ============================================================================ Calls: loadLatestSnapshot(), has_value(), value(), store(), clear(), spdlog::debug(), spdlog::info(), size().
+ */
 
 bool PaxosConsensus::recoverFromWAL() {
     if (!snapshot_manager_ || !wal_) {
@@ -1351,6 +1540,10 @@ bool PaxosConsensus::recoverFromWAL() {
     }
 }
 
+/**
+ * @brief Create Periodic Snapshot.
+ * @details Calls: load(), shouldCreateSnapshot(), lock(), createSnapshot(), has_value(), store(), spdlog::info(), value().
+ */
 void PaxosConsensus::createPeriodicSnapshot() {
     if (!snapshot_manager_ || !wal_) {
         return;

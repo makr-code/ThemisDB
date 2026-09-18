@@ -61,6 +61,11 @@ void PerQueryCostModel::pushRecord(QueryCostRecord record) noexcept {
         return;  // Ignore invalid records
     }
     
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     if (records_.size() < MAX_RECORDS) {
@@ -75,6 +80,11 @@ void PerQueryCostModel::pushRecord(QueryCostRecord record) noexcept {
 }
 
 void PerQueryCostModel::reset() noexcept {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     records_.clear();
     total_queries_.store(0, std::memory_order_relaxed);
@@ -87,6 +97,11 @@ void PerQueryCostModel::reset() noexcept {
 
 std::vector<QueryCostRecord>
 PerQueryCostModel::getRecentRecords([[maybe_unused]] size_t limit) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     if (records_.empty()) {
@@ -136,6 +151,11 @@ PerQueryCostModel::getRecentRecords([[maybe_unused]] size_t limit) const {
 std::unordered_map<std::string, double>
 PerQueryCostModel::getCalibrationFactors(
     const OptimizerCostModel::CostConstants* current) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     std::unordered_map<std::string, double> factors;
@@ -275,6 +295,11 @@ void PerQueryCostModel::calibrate(OptimizerCostModel& model) const {
 // -----------------------------------------------------------------
 
 PerQueryCostModel::Stats PerQueryCostModel::getStats() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     Stats s{};

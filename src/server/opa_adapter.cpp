@@ -32,14 +32,25 @@ namespace themis {
 
 namespace {
 
-/// libcurl write callback: appends received data to a std::string.
+/**
+ * @brief Curl write callback.
+ * @param[in,out] ptr Input/output parameter.
+ * @param[in] size Input parameter.
+ * @param[in] nmemb Input parameter.
+ * @param[in,out] userdata Input/output parameter.
+ * @return Return value.
+ * @details Calls: append().
+ */
 size_t curl_write_callback(void* ptr, size_t size, size_t nmemb, void* userdata) {
     auto* buf = static_cast<std::string*>(userdata);
     buf->append(static_cast<char*>(ptr), size * nmemb);
     return size * nmemb;
 }
 
-/// Guard that calls curl_global_init exactly once per process.
+/**
+ * @brief Ensure curl global init.
+ * @details Calls: std::call_once(), curl_global_init().
+ */
 void ensure_curl_global_init() {
     static std::once_flag flag;
     std::call_once(flag, [] { curl_global_init(CURL_GLOBAL_DEFAULT); });
@@ -77,6 +88,15 @@ std::string OpaAdapter::buildUrl() const {
     return url + "/v1/data/" + path;
 }
 
+/**
+ * @brief Build Request Body.
+ * @param[in] user_id Identifier of the user.
+ * @param[in] action Input parameter.
+ * @param[in] resource_path Path to the resource.
+ * @param[in] client_ip Input parameter.
+ * @param[in] user_agent Input parameter.
+ * @return Return value.
+ */
 std::string OpaAdapter::buildRequestBody(
     const std::string& user_id,
     const std::string& action,
@@ -100,6 +120,12 @@ std::string OpaAdapter::buildRequestBody(
     return body.dump();
 }
 
+/**
+ * @brief Parse Opa Response.
+ * @param[in] response_body Input parameter.
+ * @return Return value.
+ * @details Calls: nlohmann::json::parse(), contains(), is_boolean(), is_object(), empty(), THEMIS_WARN().
+ */
 std::optional<bool> OpaAdapter::parseOpaResponse(const std::string& response_body) {
     try {
         auto j = nlohmann::json::parse(response_body);

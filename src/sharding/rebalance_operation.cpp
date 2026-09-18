@@ -16,10 +16,6 @@
 namespace themis {
 namespace sharding {
 
-/**
- * @brief Construct rebalance operation and validate static configuration.
- * @param config Source/target/token-range and execution options.
- */
 RebalanceOperation::RebalanceOperation(const RebalanceOperationConfig& config)
     : config_(config), state_(RebalanceState::PLANNED) {
     
@@ -35,7 +31,12 @@ RebalanceOperation::RebalanceOperation(const RebalanceOperationConfig& config)
     progress_.total_records = 0; // Will be updated during execution
 }
 
-/** @brief Start operation after state and operator validation checks pass. */
+/**
+ * @brief Start.
+ * @param[in] operator_signature Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), validateOperator(), std::chrono::system_clock::now().
+ */
 bool RebalanceOperation::start(const std::string& operator_signature) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -56,12 +57,21 @@ bool RebalanceOperation::start(const std::string& operator_signature) {
     return true;
 }
 
-/** @brief Transition operation from IN_PROGRESS to COMPLETED. */
+/**
+ * @brief Complete.
+ * @return True when the operation succeeds.
+ * @details Calls: transitionState().
+ */
 bool RebalanceOperation::complete() {
     return transitionState(RebalanceState::IN_PROGRESS, RebalanceState::COMPLETED);
 }
 
-/** @brief Mark operation as FAILED and capture error message. */
+/**
+ * @brief Fail.
+ * @param[in] error_message Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock().
+ */
 bool RebalanceOperation::fail(const std::string& error_message) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -80,29 +90,45 @@ bool RebalanceOperation::fail(const std::string& error_message) {
     return true;
 }
 
-/** @brief Transition operation from FAILED to ROLLED_BACK. */
+/**
+ * @brief Rollback.
+ * @return True when the operation succeeds.
+ * @details Calls: transitionState().
+ */
 bool RebalanceOperation::rollback() {
     return transitionState(RebalanceState::FAILED, RebalanceState::ROLLED_BACK);
 }
 
-/** @brief Return current operation state. */
 RebalanceState RebalanceOperation::getState() const {
     return state_.load();
 }
 
-/** @brief Return current operation progress snapshot. */
 RebalanceProgress RebalanceOperation::getProgress() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return progress_;
 }
 
-/** @brief Install callback invoked whenever progress is updated. */
+/**
+ * @brief Set Progress Callback.
+ * @param[in] callback Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void RebalanceOperation::setProgressCallback(ProgressCallback callback) {
     std::lock_guard<std::mutex> lock(mutex_);
     progress_callback_ = std::move(callback);
 }
 
-/** @brief Update migrated-record counters and estimated completion timestamp. */
+/**
+ * @brief Update Progress.
+ * @param[in] records_migrated Input parameter.
+ * @param[in] bytes_transferred Input parameter.
+ * @details Calls: lock(), std::chrono::system_clock::now(), count(), std::chrono::seconds(), progress_callback_().
+ */
 void RebalanceOperation::updateProgress(uint64_t records_migrated, uint64_t bytes_transferred) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -131,7 +157,12 @@ void RebalanceOperation::updateProgress(uint64_t records_migrated, uint64_t byte
     }
 }
 
-/** @brief Validate operator signature/certificate presence for authorization. */
+/**
+ * @brief Validate Operator.
+ * @param[in] operator_signature Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty().
+ */
 bool RebalanceOperation::validateOperator(const std::string& operator_signature) {
     // In a real implementation, this would:
     // 1. Load operator certificate from config_.operator_cert_path
@@ -152,7 +183,13 @@ bool RebalanceOperation::validateOperator(const std::string& operator_signature)
     return true;
 }
 
-/** @brief Perform atomic state transition with expected-from guard. */
+/**
+ * @brief Transition State.
+ * @param[in] from Input parameter.
+ * @param[in] to Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), compare_exchange_strong().
+ */
 bool RebalanceOperation::transitionState(RebalanceState from, RebalanceState to) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -160,25 +197,14 @@ bool RebalanceOperation::transitionState(RebalanceState from, RebalanceState to)
     return state_.compare_exchange_strong(expected, to);
 }
 
-/**
- * @brief Deterministic rebalancing under load with >=80% throughput guarantee.
- *
- * Executes the rebalance operation maintaining minimum throughput threshold.
- * Monitors throughput during migration and reduces batch size if needed to maintain
- * the 80% throughput guarantee.
- *
- * @param throughput_callback Optional callback for throughput monitoring (provides bytes/sec).
- * @return true if rebalance completes successfully without data loss, false on failure.
- *
- * Implementation guarantees:
- * - Atomic token range transfer (no data duplication or loss)
- * - Throughput >= 80% of baseline during migration
- * - Quorum-aware validation at completion
- * - Deterministic retry logic for transient failures
- */
 bool RebalanceOperation::executeWithThroughputGuarantee(
     const std::function<uint64_t()>& throughput_callback) {
     
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     if (state_ != RebalanceState::IN_PROGRESS) {
@@ -214,14 +240,11 @@ bool RebalanceOperation::executeWithThroughputGuarantee(
 }
 
 /**
- * @brief Check if topology change requires rebalancing.
- *
- * Detects when a node joins or leaves the cluster and returns true if
- * automatic rebalancing should be triggered to restore balance.
- *
- * @param old_topology Previous topology state
- * @param new_topology New topology state after join/leave
- * @return true if rebalancing is required, false if topology is already balanced.
+ * @brief Is Topology Change Rebalancing Needed.
+ * @param[in] old_topology Input parameter.
+ * @param[in] new_topology Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: std::sort(), begin(), end().
  */
 bool RebalanceOperation::isTopologyChangeRebalancingNeeded(
     const std::vector<std::string>& old_topology,
@@ -240,14 +263,11 @@ bool RebalanceOperation::isTopologyChangeRebalancingNeeded(
 }
 
 /**
- * @brief Generate deterministic rebalance plan for automatic topology change.
- *
- * Creates a rebalance plan that redistributes shards to maintain target balance
- * when a node joins or leaves. Plan ensures minimal data movement.
- *
- * @param old_topology Previous topology (node IDs)
- * @param new_topology New topology (node IDs)
- * @return Vector of rebalance operation configs to execute sequentially.
+ * @brief Generate Topology Change Rebalance Plan.
+ * @param[in] old_topology Input parameter.
+ * @param[in] new_topology Input parameter.
+ * @return Return value.
+ * @details Calls: isTopologyChangeRebalancingNeeded(), size(), std::find(), begin(), end(), empty(), push_back().
  */
 std::vector<RebalanceOperationConfig> RebalanceOperation::generateTopologyChangeRebalancePlan(
     const std::vector<std::string>& old_topology,

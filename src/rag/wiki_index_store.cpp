@@ -47,10 +47,12 @@ namespace themis::rag {
 
 namespace {
 
-/// Lowercase-tokenise a string on whitespace+punctuation boundaries.
-/// Strips leading/trailing punctuation from each word so that "hello,"
-/// and "hello" index identically, keeping tokenisation consistent between
-/// addDocument and query paths.
+/**
+ * @brief Tokenise.
+ * @param[in] text Input parameter.
+ * @return Return value.
+ * @details Calls: ss(), reserve(), size(), std::isalnum(), std::tolower(), inner(), empty(), push_back().
+ */
 std::vector<std::string> tokenise(const std::string& text) {
     std::vector<std::string> tokens;
     std::istringstream ss(text);
@@ -136,6 +138,12 @@ float bm25PlusScore(
 // RRF fusion — production implementation
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Rrf Fusion.
+ * @param[in] ranked_lists Input parameter.
+ * @param[in] k Input parameter.
+ * @return Return value.
+ */
 std::vector<IndexResult> rrfFusion(
     const std::vector<std::vector<std::string>>& ranked_lists,
     int k)
@@ -196,7 +204,10 @@ struct WikiIndexStore::Impl {
 
     explicit Impl(Config cfg) : config(std::move(cfg)) {}
 
-    /// Rebuild IDF from the current document set (call under idx_mutex held).
+    /**
+     * @brief Rebuild IDF.
+     * @details Calls: tokenise(), size(), clear(), std::log().
+     */
     void rebuildIDF() {
         // df_map: term → number of documents containing the term.
         std::unordered_map<std::string, int> df_map = {};
@@ -224,8 +235,10 @@ struct WikiIndexStore::Impl {
         }
     }
 
-    /// Rebuild the positional index from the current document set
-    /// (call under idx_mutex held).
+    /**
+     * @brief Rebuild Positional Index.
+     * @details Calls: clear(), tokenise(), size(), push_back().
+     */
     void rebuildPositionalIndex() {
         positional_index_.clear();
         for (const auto& [doc_id, text] : docs) {
@@ -236,7 +249,6 @@ struct WikiIndexStore::Impl {
         }
     }
 
-    /// Compute corpus average document length (call under idx_mutex held).
     float computeAvgDocLen() const {
         if (docs.empty()) {
           return config.avg_doc_len;
@@ -261,20 +273,22 @@ struct WikiIndexStore::Impl {
 #ifdef THEMIS_HNSW_ENABLED
     std::unique_ptr<hnswlib::InnerProductSpace>       hnsw_space;
     std::unique_ptr<hnswlib::HierarchicalNSW<float>>  hnsw_index;
-    /// label → internal hnswlib label (== sequential insertion order).
     std::unordered_map<std::string, size_t>           hnsw_label_map;
-    /// reverse map: label → doc_id.
     std::unordered_map<size_t, std::string>           hnsw_id_map;
     size_t                                            hnsw_next_id{0};
 #else
-    /// Fallback: stored embeddings doc_id → unit-norm float vector.
     std::unordered_map<std::string, std::vector<float>> hnsw_vectors_fallback;
 #endif
 
-    /// Dimension of stored vectors; 0 = not yet set.
     size_t hnsw_dim{0};
 
-    /// Cosine similarity: inner product of two unit-norm vectors.
+    /**
+     * @brief Cosine Sim.
+     * @param[in] a Input parameter.
+     * @param[in] b Input parameter.
+     * @return Return value.
+     * @details Calls: size().
+     */
     static float cosineSim(const std::vector<float>& a,
                             const std::vector<float>& b) {
         float dot = 0.0f;
@@ -285,7 +299,12 @@ struct WikiIndexStore::Impl {
         return dot;
     }
 
-    /// Return a unit-norm copy of @p v (safe: returns @p v if near-zero norm).
+    /**
+     * @brief Unit Norm.
+     * @param[in] v Input parameter.
+     * @return Return value.
+     * @details Calls: std::sqrt(), reserve(), size(), push_back().
+     */
     static std::vector<float> unitNorm(const std::vector<float>& v) {
         float norm = 0.0f;
         for (float x : v) {
@@ -313,18 +332,18 @@ struct WikiIndexStore::Impl {
     // The in-memory LRU (cache_lru / embedding_cache) operates in all cases as
     // a write-through / read-through cache layer in front of RocksDB.
 
-    /// LRU-ordered list of cache keys (front = most recent).
     std::list<std::string> cache_lru;
-    /// In-memory embedding cache: sha256key → unit-norm vector.
     std::unordered_map<std::string, std::vector<float>> embedding_cache;
 
 #ifdef THEMIS_ROCKSDB_AVAILABLE
-    /// RocksDB instance for persistent embedding cache (nullptr when disabled).
     rocksdb::DB*                   cache_db{nullptr};
     rocksdb::ColumnFamilyHandle*   cache_cf{nullptr};
 
-    /// Open (or create) the RocksDB embedding cache at config.cache_dir.
-    /// Called lazily on first cacheEmbedding() call with a non-empty cache_dir.
+    /**
+     * @brief Open Cache DB.
+     * @return True when the operation succeeds.
+     * @details Calls: empty(), themis::storage::detail::openDbWithColumnFamiliesCompat(), ok(), THEMIS_WARN(), ToString(), db_handle(), get(), size().
+     */
     bool openCacheDB() {
         if (cache_db != nullptr) {
           return true;
@@ -383,13 +402,22 @@ struct WikiIndexStore::Impl {
         return cache_cf != nullptr;
     }
 
+    /**
+     * @brief Close Cache DB.
+     * @details Implements closeCacheDB without additional internal calls.
+     */
     void closeCacheDB() {
         if (cache_cf) { delete cache_cf; cache_cf = nullptr; }
         if (cache_db) { delete cache_db; cache_db = nullptr; }
     }
 #endif // THEMIS_ROCKSDB_AVAILABLE
 
-    /// Compute SHA-256 hex of @p input using the EVP API (OpenSSL 3.x compatible).
+    /**
+     * @brief Sha256 Hex.
+     * @param[in] input Input parameter.
+     * @return Return value.
+     * @details Calls: EVP_Digest(), data(), size(), EVP_sha256(), std::string(), std::setfill(), std::setw(), str().
+     */
     static std::string sha256Hex(const std::string& input) {
         unsigned char digest[EVP_MAX_MD_SIZE];
         unsigned int  digest_len = 0;
@@ -406,7 +434,12 @@ struct WikiIndexStore::Impl {
         return oss.str();
     }
 
-    /// Insert into in-memory LRU cache with eviction if above max_cache_size.
+    /**
+     * @brief Cache Insert.
+     * @param[in] key Input parameter.
+     * @param[in] emb Input parameter.
+     * @details Calls: find(), end(), remove(), size(), erase(), back(), pop_back(), push_front().
+     */
     void cacheInsert(const std::string& key, std::vector<float> emb) {
         // Remove existing entry from LRU order if present.
         auto it = embedding_cache.find(key);
@@ -444,6 +477,12 @@ WikiIndexStore::WikiIndexStore(WikiIndexStore&&) noexcept = default;
 
 WikiIndexStore& WikiIndexStore::operator=(WikiIndexStore&&) noexcept = default;
 
+/**
+ * @brief Add Document.
+ * @param[in] doc_id Identifier of the doc.
+ * @param[in] text Input parameter.
+ * @details Calls: empty(), THEMIS_WARN(), lk(), rebuildIDF(), rebuildPositionalIndex(), THEMIS_DEBUG(), size().
+ */
 void WikiIndexStore::addDocument(const std::string& doc_id,
                                  const std::string& text) {
     if (doc_id.empty()) {
@@ -489,8 +528,6 @@ std::vector<IndexResult> WikiIndexStore::searchBM25(
 // BM25+ Positional scorer — production implementation (Wave 7)
 // ─────────────────────────────────────────────────────────────────────────────
 
-/// @internal Check whether all query_terms appear within a sliding window of
-/// @p window_size tokens anywhere in the positional index entry for @p doc_id.
 static bool termsWithinWindow(
     const std::vector<std::string>& query_terms,
     const std::string&              doc_id,
@@ -534,10 +571,6 @@ static bool termsWithinWindow(
     return false;
 }
 
-/// @brief BM25+ with positional proximity bonus.
-///
-/// Standard BM25+ score multiplied by 1.5 when all query_terms co-occur
-/// within a window of @p window_size tokens in the document.
 static float computePositionalBM25Score(
     const std::vector<std::string>&               query_terms,
     const std::string&                            doc_id,
@@ -702,6 +735,12 @@ std::vector<IndexResult> WikiIndexStore::searchProximity(
                 size_t p2 = pos_list2[j];
                 size_t d  = (p1 <= p2) ? (p2 - p1) : (p1 - p2);
                 if (d <= distance) { within = true; }
+                /**
+                 * @brief If.
+                 * @param[in] p2 Input parameter.
+                 * @return Return value.
+                 * @details Implements if without additional internal calls.
+                 */
                 else if (p1 < p2) { ++i; } else { ++j; }
             }
         }
@@ -735,9 +774,11 @@ std::vector<IndexResult> WikiIndexStore::fuseRRF(
     return rrfFusion(ranked_lists, impl_->config.rrf_k);
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// WikiIndexStore::addVector — [W8-18] hnswlib wiring + exhaustive fallback
-// ─────────────────────────────────────────────────────────────────────────────
+/**
+ * @brief ───────────────────────────────────────────────────────────────────────────── WikiIndexStore::addVector — [W8-18] hnswlib wiring + exhaustive fallback ─────────────────────────────────────────────────────────────────────────────
+ * @param[in] doc_id Identifier of the doc.
+ * @param[in] embedding Input parameter.
+ */
 
 void WikiIndexStore::addVector(const std::string& doc_id,
                                 const std::vector<float>& embedding)
@@ -878,10 +919,11 @@ std::vector<IndexResult> WikiIndexStore::searchHNSW(
     return results;
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// WikiIndexStore::cacheEmbedding / retrieveEmbedding — [W8-19]
-// RocksDB CF persistence + in-memory LRU
-// ─────────────────────────────────────────────────────────────────────────────
+/**
+ * @brief ───────────────────────────────────────────────────────────────────────────── WikiIndexStore::cacheEmbedding / retrieveEmbedding — [W8-19] RocksDB CF persistence + in-memory LRU ─────────────────────────────────────────────────────────────────────────────
+ * @param[in] key Input parameter.
+ * @param[in] embedding Input parameter.
+ */
 
 void WikiIndexStore::cacheEmbedding(const std::string& key,
                                      const std::vector<float>& embedding)
@@ -948,6 +990,11 @@ std::vector<float> WikiIndexStore::retrieveEmbedding(const std::string& key) con
             rocksdb::Slice(db_key), &raw_val);
         if (s.ok() && (raw_val.size() % sizeof(float)) == 0) {
             const size_t n = raw_val.size() / sizeof(float);
+            /**
+             * @brief Emb.
+             * @param[in] n Input parameter.
+             * @return Return value.
+             */
             std::vector<float> emb(n);
             std::memcpy(emb.data(), raw_val.data(),raw_val.size());
             // Warm the in-memory LRU cache.
@@ -1013,6 +1060,10 @@ std::vector<IndexResult> WikiIndexStore::searchHybrid(
     return fused;
 }
 
+/**
+ * @brief Clear.
+ * @details Calls: lk().
+ */
 void WikiIndexStore::clear() {
     std::lock_guard<std::mutex> lk(impl_->idx_mutex); // Thread-safety: protected by idx_mutex (Wave 5)
     impl_->docs.clear();

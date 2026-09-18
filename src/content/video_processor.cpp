@@ -39,6 +39,13 @@ namespace content {
 
 namespace {
 
+/**
+ * @brief Is Valid Thumbnail Buffer Layout.
+ * @param[in] width Input parameter.
+ * @param[in] height Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: max().
+ */
 bool isValidThumbnailBufferLayout(int width, int height) {
     if (width <= 0 || height <= 0) {
         return false;
@@ -89,6 +96,12 @@ PluginInfo VideoProcessor::getInfo() const {
     return info;
 }
 
+/**
+ * @brief Initialize.
+ * @param[in] config Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: isValidThumbnailBufferLayout(), AV_VERSION_INT(), av_register_all(), avformat_network_init().
+ */
 bool VideoProcessor::initialize(const PluginConfig &config) {
     if (initialized_) {
         return true;
@@ -119,6 +132,10 @@ bool VideoProcessor::initialize(const PluginConfig &config) {
     return true;
 }
 
+/**
+ * @brief Shutdown.
+ * @details Calls: avformat_network_deinit().
+ */
 void VideoProcessor::shutdown() {
     if (!initialized_) {
         return;
@@ -140,6 +157,14 @@ bool VideoProcessor::canProcess(const std::string &mime_type) const {
     return std::find(supported.begin(), supported.end(), mime_type) != supported.end();
 }
 
+/**
+ * @brief Extract.
+ * @param[in] blob Input parameter.
+ * @param[in] mime_type Input parameter.
+ * @param[in] options Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::steady_clock::now(), size(), empty(), canProcess(), extractMetadata(), generateThumbnail(), extractKeyframes(), json::array().
+ */
 ContentExtractionResult VideoProcessor::extract(const std::vector<uint8_t> &blob, const std::string &mime_type,
                                                 const ExtractionOptions &options) {
     auto start = std::chrono::steady_clock::now();
@@ -267,6 +292,14 @@ ContentExtractionResult VideoProcessor::extract(const std::vector<uint8_t> &blob
     return result;
 }
 
+/**
+ * @brief Chunk.
+ * @param[in] result Input parameter.
+ * @param[in] max_tokens Input parameter.
+ * @param[in] int Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), stream(), std::getline(), countTokens(), push_back(), clear().
+ */
 std::vector<ContentChunk> VideoProcessor::chunk(const ContentExtractionResult &result, int max_tokens, int /*overlap*/
 ) {
     std::vector<ContentChunk> chunks;
@@ -345,6 +378,12 @@ json VideoProcessor::getStatistics() const {
 
 // Private implementation methods
 
+/**
+ * @brief Extract Metadata.
+ * @param[in] blob Input parameter.
+ * @return Return value.
+ * @details Calls: extractMetadataFFmpeg(), size().
+ */
 MediaExtractionData VideoProcessor::extractMetadata(const std::vector<uint8_t> &blob) {
 #ifdef THEMIS_HAS_FFMPEG
     return extractMetadataFFmpeg(blob);
@@ -391,6 +430,12 @@ MediaExtractionData VideoProcessor::extractMetadata(const std::vector<uint8_t> &
 #endif
 }
 
+/**
+ * @brief Generate Thumbnail.
+ * @param[in] blob Input parameter.
+ * @return Return value.
+ * @details Calls: generateThumbnailFFmpeg(), else().
+ */
 std::vector<uint8_t> VideoProcessor::generateThumbnail(const std::vector<uint8_t> &blob) {
 #ifdef THEMIS_HAS_FFMPEG
     return generateThumbnailFFmpeg(blob);
@@ -401,6 +446,12 @@ std::vector<uint8_t> VideoProcessor::generateThumbnail(const std::vector<uint8_t
 #endif
 }
 
+/**
+ * @brief Extract Subtitles.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Implements extractSubtitles without additional internal calls.
+ */
 std::string VideoProcessor::extractSubtitles(const std::vector<uint8_t> & /*blob*/) {
     // Real implementation would:
     // 1. Check for subtitle streams in container
@@ -410,6 +461,12 @@ std::string VideoProcessor::extractSubtitles(const std::vector<uint8_t> & /*blob
     return "";
 }
 
+/**
+ * @brief Detect Scenes.
+ * @param[in] blob Input parameter.
+ * @return Return value.
+ * @details Calls: detectScenesFFmpeg(), else().
+ */
 std::vector<int64_t> VideoProcessor::detectScenes(const std::vector<uint8_t> &blob) {
 #ifdef THEMIS_HAS_FFMPEG
     return detectScenesFFmpeg(blob);
@@ -421,6 +478,12 @@ std::vector<int64_t> VideoProcessor::detectScenes(const std::vector<uint8_t> &bl
 #endif
 }
 
+/**
+ * @brief Extract Keyframes.
+ * @param[in] blob Input parameter.
+ * @return Return value.
+ * @details Calls: extractKeyframesFFmpeg(), else(), push_back().
+ */
 std::vector<int64_t> VideoProcessor::extractKeyframes(const std::vector<uint8_t> &blob) {
 #ifdef THEMIS_HAS_FFMPEG
     return extractKeyframesFFmpeg(blob);
@@ -448,20 +511,11 @@ std::vector<int64_t> VideoProcessor::extractKeyframes(const std::vector<uint8_t>
 
 #ifdef THEMIS_HAS_FFMPEG
 /**
- * @brief Extract video metadata using FFmpeg libraries
- *
- * This function uses libavformat and libavcodec to extract real metadata from video files.
- * It opens the video file, retrieves stream information, and extracts:
- * - Container format and duration
- * - Video stream: width, height, codec, framerate
- * - Audio stream: codec, sample rate, channels
- *
- * @param blob Raw video file data
- * @return MediaExtractionData containing all extracted metadata
- * @throws std::runtime_error if video cannot be opened or processed
- *
- * @note This function creates a temporary file for FFmpeg processing.
- *       The temporary file is automatically cleaned up on success or error.
+ * @brief Extract Metadata FFmpeg.
+ * @param[in] blob Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: std::filesystem::temp_directory_path(), std::to_string(), std::chrono::steady_clock::now(), time_since_epoch(), count(), string(), temp_file(), write().
  */
 MediaExtractionData VideoProcessor::extractMetadataFFmpeg(const std::vector<uint8_t> &blob) {
     MediaExtractionData data;
@@ -566,24 +620,11 @@ MediaExtractionData VideoProcessor::extractMetadataFFmpeg(const std::vector<uint
 }
 
 /**
- * @brief Generate video thumbnail using FFmpeg libraries
- *
- * This function uses libavformat, libavcodec, and libswscale to generate a thumbnail:
- * 1. Opens the video file with FFmpeg
- * 2. Seeks to 10% of the video duration (or first keyframe)
- * 3. Decodes a frame using the appropriate video codec
- * 4. Scales the frame to the configured thumbnail size (maintains aspect ratio)
- * 5. Converts color space from YUV to RGB24
- * 6. Returns raw RGB data (can be encoded to JPEG/PNG later)
- *
- * @param blob Raw video file data
- * @return std::vector<uint8_t> containing raw RGB24 thumbnail data (width*height*3 bytes)
- * @throws std::runtime_error if video cannot be opened, decoded, or scaled
- *
- * @note The returned data is in RGB24 format with no padding.
- *       Each pixel is 3 bytes (R, G, B) in row-major order.
- * @note This function creates a temporary file for FFmpeg processing.
- *       The temporary file is automatically cleaned up on success or error.
+ * @brief Generate Thumbnail FFmpeg.
+ * @param[in] blob Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: std::filesystem::temp_directory_path(), std::to_string(), std::chrono::steady_clock::now(), time_since_epoch(), count(), string(), temp_file(), write().
  */
 std::vector<uint8_t> VideoProcessor::generateThumbnailFFmpeg(const std::vector<uint8_t> &blob) {
     std::vector<uint8_t> thumbnail;
@@ -771,14 +812,10 @@ std::vector<uint8_t> VideoProcessor::generateThumbnailFFmpeg(const std::vector<u
 }
 
 /**
- * @brief Extract keyframe timestamps using FFmpeg libraries
- *
- * Scans video packets for I-frames (keyframes) and collects their timestamps.
- * Results are limited to max_keyframes_ entries and returned in ascending
- * millisecond order.
- *
- * @param blob Raw video file data
- * @return Keyframe timestamps in milliseconds, up to max_keyframes_ entries
+ * @brief Extract Keyframes FFmpeg.
+ * @param[in] blob Input parameter.
+ * @return Return value.
+ * @details Calls: std::filesystem::temp_directory_path(), std::to_string(), std::chrono::steady_clock::now(), time_since_epoch(), count(), string(), temp_file(), write().
  */
 std::vector<int64_t> VideoProcessor::extractKeyframesFFmpeg(const std::vector<uint8_t> &blob) {
     std::vector<int64_t> keyframes;
@@ -845,15 +882,10 @@ std::vector<int64_t> VideoProcessor::extractKeyframesFFmpeg(const std::vector<ui
 }
 
 /**
- * @brief Detect scene boundaries using FFmpeg frame histogram comparison
- *
- * Decodes video frames and computes per-frame luma histogram differences.
- * When the L1 distance between consecutive normalised histograms exceeds
- * scene_detection_threshold_, the current frame's timestamp is recorded as
- * a scene boundary.
- *
- * @param blob Raw video file data
- * @return Scene boundary timestamps in milliseconds
+ * @brief Detect Scenes FFmpeg.
+ * @param[in] blob Input parameter.
+ * @return Return value.
+ * @details Calls: std::filesystem::temp_directory_path(), std::to_string(), std::chrono::steady_clock::now(), time_since_epoch(), count(), string(), temp_file(), write().
  */
 std::vector<int64_t> VideoProcessor::detectScenesFFmpeg(const std::vector<uint8_t> &blob) {
     std::vector<int64_t> scenes;

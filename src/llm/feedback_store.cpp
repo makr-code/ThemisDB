@@ -32,7 +32,12 @@ std::mutex g_spam_keywords_provider_mutex;
 FeedbackStore::SpamKeywordsProviderFn g_spam_keywords_provider;
 } // namespace
 
-// ===== Helper function to convert enum to string =====
+/**
+ * @brief ===== Helper function to convert enum to string =====
+ * @param[in] type Input parameter.
+ * @return Return value.
+ * @details Implements feedbackTypeToString without additional internal calls.
+ */
 
 static std::string feedbackTypeToString(FeedbackType type) {
     switch (type) {
@@ -42,6 +47,13 @@ static std::string feedbackTypeToString(FeedbackType type) {
     }
 }
 
+/**
+ * @brief Feedback Type From String.
+ * @param[in] str Input parameter.
+ * @return Return value.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Implements feedbackTypeFromString without additional internal calls.
+ */
 static FeedbackType feedbackTypeFromString(const std::string& str) {
     if (str == "positive") {
       return FeedbackType::POSITIVE;
@@ -52,6 +64,12 @@ static FeedbackType feedbackTypeFromString(const std::string& str) {
     throw std::invalid_argument("Invalid feedback type: " + str + " (must be 'positive' or 'negative')");
 }
 
+/**
+ * @brief Validation Status To String.
+ * @param[in] status Input parameter.
+ * @return Return value.
+ * @details Implements validationStatusToString without additional internal calls.
+ */
 static std::string validationStatusToString(ValidationStatus status) {
     switch (status) {
         case ValidationStatus::PENDING: return "pending";
@@ -62,6 +80,13 @@ static std::string validationStatusToString(ValidationStatus status) {
     }
 }
 
+/**
+ * @brief Validation Status From String.
+ * @param[in] str Input parameter.
+ * @return Return value.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Implements validationStatusFromString without additional internal calls.
+ */
 static ValidationStatus validationStatusFromString(const std::string& str) {
     if (str == "pending") {
       return ValidationStatus::PENDING;
@@ -101,6 +126,12 @@ nlohmann::json FeedbackStore::FeedbackEntry::toJson() const {
     return j;
 }
 
+/**
+ * @brief From Json.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: value(), feedbackTypeFromString(), THEMIS_WARN(), int64_t(), validationStatusFromString(), contains().
+ */
 FeedbackStore::FeedbackEntry FeedbackStore::FeedbackEntry::fromJson(const nlohmann::json& j) {
     FeedbackEntry entry;
     entry.id = j.value("id", "");
@@ -154,6 +185,11 @@ FeedbackStore::FeedbackStore(rocksdb::TransactionDB* db,
     }
 }
 
+/**
+ * @brief Set Validation Plugin.
+ * @param[in] plugin Input parameter.
+ * @details Calls: THEMIS_INFO(), getName().
+ */
 void FeedbackStore::setValidationPlugin(std::shared_ptr<IFeedbackPlugin> plugin) {
     validation_plugin_ = plugin;
     if (plugin) {
@@ -167,11 +203,20 @@ std::shared_ptr<IFeedbackPlugin> FeedbackStore::getValidationPlugin() const {
     return validation_plugin_;
 }
 
+/**
+ * @brief Set Spam Keywords Provider.
+ * @param[in] provider Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void FeedbackStore::setSpamKeywordsProvider(SpamKeywordsProviderFn provider) {
     std::lock_guard<std::mutex> lock(g_spam_keywords_provider_mutex);
     g_spam_keywords_provider = std::move(provider);
 }
 
+/**
+ * @brief Clear Spam Keywords Provider.
+ * @details Calls: lock().
+ */
 void FeedbackStore::clearSpamKeywordsProvider() {
     std::lock_guard<std::mutex> lock(g_spam_keywords_provider_mutex);
     g_spam_keywords_provider = {};
@@ -206,6 +251,13 @@ std::string FeedbackStore::generateId() const {
     return oss.str();
 }
 
+/**
+ * @brief Create Feedback.
+ * @param[in] feedback Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: empty(), generateId(), std::chrono::system_clock::now(), time_since_epoch(), count(), applyPluginValidation(), toJson(), dump().
+ */
 FeedbackStore::FeedbackEntry FeedbackStore::createFeedback(FeedbackEntry feedback) {
     // Generate ID if empty
     if (feedback.id.empty()) {
@@ -447,6 +499,12 @@ FeedbackStore::Stats FeedbackStore::getStats() const {
     return stats;
 }
 
+/**
+ * @brief Delete Feedback.
+ * @param[in] id Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: makeKey(), getFeedback(), Delete(), ok(), THEMIS_ERROR(), ToString(), THEMIS_DEBUG().
+ */
 bool FeedbackStore::deleteFeedback(const std::string& id) {
     std::string key = makeKey(id);
     
@@ -474,6 +532,13 @@ bool FeedbackStore::deleteFeedback(const std::string& id) {
     return true;
 }
 
+/**
+ * @brief Update Validation Status.
+ * @param[in] id Input parameter.
+ * @param[in] status Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: getFeedback(), createFeedback(), THEMIS_ERROR(), what().
+ */
 bool FeedbackStore::updateValidationStatus(const std::string& id, ValidationStatus status) {
     auto feedback = getFeedback(id);
     if (!feedback) {
@@ -491,6 +556,13 @@ bool FeedbackStore::updateValidationStatus(const std::string& id, ValidationStat
     }
 }
 
+/**
+ * @brief Mark Used For Training.
+ * @param[in] id Input parameter.
+ * @param[in] batch_id Identifier of the batch.
+ * @return True when the operation succeeds.
+ * @details Calls: getFeedback(), createFeedback(), THEMIS_DEBUG(), THEMIS_ERROR(), what().
+ */
 bool FeedbackStore::markUsedForTraining(const std::string& id, int batch_id) {
     auto feedback = getFeedback(id);
     if (!feedback) {
@@ -510,6 +582,10 @@ bool FeedbackStore::markUsedForTraining(const std::string& id, int batch_id) {
     }
 }
 
+/**
+ * @brief Clear.
+ * @details Calls: reset(), NewIterator(), THEMIS_ERROR(), Seek(), Valid(), key(), ToString(), substr().
+ */
 void FeedbackStore::clear() {
     rocksdb::ReadOptions read_opts;
     rocksdb::WriteOptions write_opts;
@@ -555,7 +631,11 @@ void FeedbackStore::clear() {
     THEMIS_INFO("Cleared {} feedback entries", deleted);
 }
 
-// ===== Validation Logic =====
+/**
+ * @brief ===== Validation Logic =====
+ * @return Return value.
+ * @details Calls: lock(), provider(), empty(), erase(), std::remove_if(), begin(), end(), THEMIS_WARN().
+ */
 
 std::vector<std::string> FeedbackStore::getSpamKeywords() {
     // Default spam keywords used when no runtime provider is configured.
@@ -595,6 +675,12 @@ std::vector<std::string> FeedbackStore::getSpamKeywords() {
     return default_spam_keywords;
 }
 
+/**
+ * @brief Is Likely Spam.
+ * @param[in] text Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), length(), repeat_pattern(), std::regex_search(), getSpamKeywords(), std::transform(), begin(), end().
+ */
 bool FeedbackStore::isLikelySpam(const std::string& text) {
     if (text.empty()) {
         return false; // Empty is not spam, just low quality
@@ -631,6 +717,12 @@ bool FeedbackStore::isLikelySpam(const std::string& text) {
     return false;
 }
 
+/**
+ * @brief Validate Feedback.
+ * @param[in] feedback Input parameter.
+ * @return Return value.
+ * @details Calls: isLikelySpam(), empty(), length().
+ */
 ValidationStatus FeedbackStore::validateFeedback(const FeedbackEntry& feedback) {
     // Check for spam in question, answer, correction, and comment
     if (isLikelySpam(feedback.question) || 
@@ -661,7 +753,12 @@ ValidationStatus FeedbackStore::validateFeedback(const FeedbackEntry& feedback) 
     return ValidationStatus::APPROVED;
 }
 
-// ===== Plugin Integration =====
+/**
+ * @brief ===== Plugin Integration =====
+ * @param[in,out] feedback Input/output parameter.
+ * @return Return value.
+ * @details Calls: validateFeedback(), validate(), has_value(), THEMIS_ERROR(), what().
+ */
 
 ValidationStatus FeedbackStore::applyPluginValidation(FeedbackEntry& feedback) {
     if (!validation_plugin_) {
@@ -711,7 +808,14 @@ ValidationStatus FeedbackStore::applyPluginValidation(FeedbackEntry& feedback) {
     }
 }
 
-// ===== Graph Link Methods =====
+/**
+ * @brief ===== Graph Link Methods =====
+ * @param[in] feedback_id Identifier of the feedback.
+ * @param[in] adapter_id Identifier of the adapter.
+ * @param[in] metadata Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: getFeedback(), THEMIS_ERROR(), std::chrono::system_clock::now(), makeGraphEdgeKey(), toJSON(), dump(), Put(), ok().
+ */
 
 bool FeedbackStore::createAdapterLink(
     const std::string& feedback_id,

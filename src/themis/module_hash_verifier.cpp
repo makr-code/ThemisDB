@@ -33,6 +33,12 @@ namespace modules {
 // Static helpers
 // ============================================================================
 
+/**
+ * @brief Compute SHA256.
+ * @param[in] filePath Input parameter.
+ * @return Return value.
+ * @details Calls: file(), spdlog::warn(), EVP_MD_CTX_new(), spdlog::error(), EVP_DigestInit_ex(), EVP_sha256(), EVP_MD_CTX_free(), read().
+ */
 std::string ModuleHashVerifier::computeSHA256(const std::string& filePath) {
     std::ifstream file(filePath, std::ios::binary);
     if (!file) {
@@ -79,6 +85,13 @@ std::string ModuleHashVerifier::computeSHA256(const std::string& filePath) {
     return ss.str();
 }
 
+/**
+ * @brief Verify Hash.
+ * @param[in] modulePath Input parameter.
+ * @param[in] expectedHash Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: computeSHA256(), empty(), spdlog::error().
+ */
 bool ModuleHashVerifier::verifyHash(const std::string& modulePath,
                                     const std::string& expectedHash) {
     const std::string computed = computeSHA256(modulePath);
@@ -99,6 +112,12 @@ bool ModuleHashVerifier::verifyHash(const std::string& modulePath,
 // Manifest-driven API
 // ============================================================================
 
+/**
+ * @brief Load Manifest.
+ * @param[in] manifestPath Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: file(), spdlog::error(), is_object(), clear(), items(), is_string(), spdlog::warn(), spdlog::info().
+ */
 bool ModuleHashVerifier::loadManifest(const std::string& manifestPath) {
     std::ifstream file(manifestPath);
     if (!file) {
@@ -149,6 +168,11 @@ bool ModuleHashVerifier::saveManifest(const std::string& outputPath) const {
             j[name] = hash;
         }
 
+        /**
+         * @brief File.
+         * @param[in] outputPath Input parameter.
+         * @return Return value.
+         */
         std::ofstream file(outputPath);
         if (!file) {
             spdlog::error(
@@ -169,6 +193,12 @@ bool ModuleHashVerifier::saveManifest(const std::string& outputPath) const {
     }
 }
 
+/**
+ * @brief Add Expected Hash.
+ * @param[in] moduleName Input parameter.
+ * @param[in] expectedHash Input parameter.
+ * @details Calls: spdlog::debug().
+ */
 void ModuleHashVerifier::addExpectedHash(const std::string& moduleName,
                                          const std::string& expectedHash) {
     manifest_[moduleName] = expectedHash;
@@ -230,6 +260,10 @@ std::optional<std::string> ModuleHashVerifier::getExpectedHash(
     return it->second;
 }
 
+/**
+ * @brief Clear Manifest.
+ * @details Calls: clear().
+ */
 void ModuleHashVerifier::clearManifest() {
     manifest_.clear();
 }

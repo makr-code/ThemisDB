@@ -45,24 +45,8 @@ namespace http  = beast::http;
 
 namespace themis::server {
 
-/**
- * @brief Admin HTTP handler for chaos fault injection.
- *
- * Wraps `themis::chaos::ChaosScheduler` and exposes fault-injection control
- * via an authenticated REST API.  The handler is registered on `HttpServer`
- * only when `THEMIS_CHAOS_ADMIN` is ON.
- *
- * ### Thread safety
- * All public methods are thread-safe.
- */
 class ChaosAdminApiHandler {
 public:
-    /**
-     * @brief Construct the chaos admin handler.
-     *
-     * @param auth   Authentication/authorisation middleware (admin role required).
-     * @param sched  Shared `ChaosScheduler` instance managed by the server.
-     */
     ChaosAdminApiHandler(
         std::shared_ptr<themis::AuthMiddleware>   auth,
         std::shared_ptr<themis::chaos::ChaosScheduler> sched);
@@ -74,28 +58,44 @@ public:
     ChaosAdminApiHandler& operator=(const ChaosAdminApiHandler&) = delete;
 
     /**
-     * @brief Dispatch a chaos admin request.
-     *
-     * @param req    Parsed HTTP request.
-     * @param target URL target path.
-     * @return       HTTP response.
+     * @brief Handle.
+     * @param[in] req Input parameter.
+     * @param[in] target Input parameter.
+     * @return Return value.
      */
     http::response<http::string_body> handle(
         const http::request<http::string_body>& req,
         const std::string&                      target);
 
 private:
-    /// @name Route handlers
-    /// @{
+    /**
+     * @brief Handle Inject.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleInject(
         const http::request<http::string_body>& req);
+    /**
+     * @brief Handle Reset.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleReset(
         const http::request<http::string_body>& req);
+    /**
+     * @brief Handle Status.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleStatus(
         const http::request<http::string_body>& req);
+    /**
+     * @brief Handle History.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleHistory(
         const http::request<http::string_body>& req);
-    /// @}
 
     std::shared_ptr<themis::AuthMiddleware>        auth_;
     std::shared_ptr<themis::chaos::ChaosScheduler> scheduler_;

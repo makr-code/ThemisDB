@@ -31,6 +31,11 @@ ContextWindowBudgetManager::ContextWindowBudgetManager(
 // Configuration
 // -------------------------------------------------------------------------
 
+/**
+ * @brief Set Model.
+ * @param[in] budget Input parameter.
+ * @details Implements setModel without additional internal calls.
+ */
 void ContextWindowBudgetManager::setModel(const ModelTokenBudget& budget) {
     budget_ = budget;
 }
@@ -39,6 +44,11 @@ const ModelTokenBudget& ContextWindowBudgetManager::getModel() const noexcept {
     return budget_;
 }
 
+/**
+ * @brief Set Token Counter.
+ * @param[in] counter Input parameter.
+ * @details Calls: std::move().
+ */
 void ContextWindowBudgetManager::setTokenCounter(
     std::shared_ptr<ITokenCounter> counter) {
     if (counter) {

@@ -22,7 +22,13 @@ namespace toolbox {
 
 namespace {
 
-/// Compute SHA-256 of @p len bytes at @p data and return a 64-char hex string.
+/**
+ * @brief Sha256 Hex.
+ * @param[in] data Input parameter.
+ * @param[in] len Input parameter.
+ * @return Return value.
+ * @details Calls: SHA256(), std::setfill(), std::setw(), str().
+ */
 std::string sha256Hex(const unsigned char* data, std::size_t len) {
     unsigned char digest[SHA256_DIGEST_LENGTH];
     SHA256(data, len, digest);
@@ -91,6 +97,12 @@ ContentFingerprint ContentFingerprinter::compute(
 // Free function
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Fingerprint.
+ * @param[in] text Input parameter.
+ * @return Return value.
+ * @details Calls: compute().
+ */
 ContentFingerprint fingerprint(std::string_view text) {
     return ContentFingerprinter{}.compute(text);
 }

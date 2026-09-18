@@ -23,7 +23,12 @@ namespace ingestion {
 
 namespace {
 
-/// Case-insensitive pattern helper
+/**
+ * @brief Make Re.
+ * @param[in] pattern Input parameter.
+ * @return Return value.
+ * @details Calls: std::regex().
+ */
 static std::regex makeRe(const std::string& pattern) {
     return std::regex(pattern,
         std::regex::ECMAScript | std::regex::icase | std::regex::optimize);
@@ -37,6 +42,11 @@ struct DeonticPattern {
     double           base_confidence;
 };
 
+/**
+ * @brief Get Deontic Patterns.
+ * @return Return value.
+ * @details Calls: makeRe().
+ */
 static const std::vector<DeonticPattern>& getDeonticPatterns() {
     static const std::vector<DeonticPattern> kPatterns = {
         // PROHIBITION (check before PERMISSION)
@@ -106,6 +116,11 @@ struct EntityPattern {
     std::regex   re;
 };
 
+/**
+ * @brief Get Entity Patterns.
+ * @return Return value.
+ * @details Calls: makeRe().
+ */
 static const std::vector<EntityPattern>& getEntityPatterns() {
     static const std::vector<EntityPattern> kPatterns = {
         { "law_reference",
@@ -152,10 +167,20 @@ static const std::vector<EntityPattern>& getEntityPatterns() {
 DeonticExtractor::DeonticExtractor()
     : confidence_threshold_(0.75) {}
 
+/**
+ * @brief Set Confidence Threshold.
+ * @param[in] threshold Input parameter.
+ * @details Implements setConfidenceThreshold without additional internal calls.
+ */
 void DeonticExtractor::setConfidenceThreshold(double threshold) {
     confidence_threshold_ = threshold;
 }
 
+/**
+ * @brief Set Extractor Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: std::move().
+ */
 void DeonticExtractor::setExtractorFn(ExtractorFn fn) {
     extractor_fn_ = std::move(fn);
 }

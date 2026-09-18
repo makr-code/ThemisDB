@@ -53,12 +53,25 @@ LockManager::LockManager() = default;
 // ---------------------------------------------------------------------------
 // acquireLock
 // ---------------------------------------------------------------------------
+/**
+ * @brief Acquire Lock.
+ * @param[in] txn_id Identifier of the txn.
+ * @param[in] key Input parameter.
+ * @param[in] type Input parameter.
+ * @param[in] timeout Input parameter.
+ * @return Return value.
+ */
 LockManager::LockResult LockManager::acquireLock(
     TransactionId txn_id,
     const std::string& key,
     LockType type,
     std::chrono::milliseconds timeout)
 {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::unique_lock<std::mutex> lk(mutex_);
 
     // 2PL enforcement: no new acquisitions in shrinking phase
@@ -142,6 +155,13 @@ LockManager::LockResult LockManager::acquireLock(
 // ---------------------------------------------------------------------------
 // releaseLock
 // ---------------------------------------------------------------------------
+/**
+ * @brief Release Lock.
+ * @param[in] txn_id Identifier of the txn.
+ * @param[in] key Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lk(), find(), end(), erase(), empty(), std::remove_if(), begin(), processWaiters().
+ */
 bool LockManager::releaseLock(TransactionId txn_id, const std::string& key) {
     std::lock_guard<std::mutex> lk(mutex_);
 
@@ -184,6 +204,11 @@ bool LockManager::releaseLock(TransactionId txn_id, const std::string& key) {
 // ---------------------------------------------------------------------------
 // releaseAllLocks
 // ---------------------------------------------------------------------------
+/**
+ * @brief Release All Locks.
+ * @param[in] txn_id Identifier of the txn.
+ * @details Calls: lk(), find(), end(), erase(), reserve(), size(), push_back(), std::remove_if().
+ */
 void LockManager::releaseAllLocks(TransactionId txn_id) {
     std::lock_guard<std::mutex> lk(mutex_);
 
@@ -231,11 +256,23 @@ void LockManager::releaseAllLocks(TransactionId txn_id) {
 // ---------------------------------------------------------------------------
 // upgradeLock  (SHARED → EXCLUSIVE)
 // ---------------------------------------------------------------------------
+/**
+ * @brief Upgrade Lock.
+ * @param[in] txn_id Identifier of the txn.
+ * @param[in] key Input parameter.
+ * @param[in] timeout Input parameter.
+ * @return Return value.
+ */
 LockManager::LockResult LockManager::upgradeLock(
     TransactionId txn_id,
     const std::string& key,
     std::chrono::milliseconds timeout)
 {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::unique_lock<std::mutex> lk(mutex_);
 
     auto txn_it = held_by_txn_.find(txn_id);
@@ -322,6 +359,11 @@ bool LockManager::holdsLock(
     const std::string& key,
     LockType type) const
 {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
 
     auto txn_it = held_by_txn_.find(txn_id);
@@ -347,6 +389,11 @@ bool LockManager::holdsLock(
 // ---------------------------------------------------------------------------
 std::vector<std::pair<std::string, LockType>>
 LockManager::getLocksHeld(TransactionId txn_id) const {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
 
     std::vector<std::pair<std::string, LockType>> result;
@@ -362,9 +409,11 @@ LockManager::getLocksHeld(TransactionId txn_id) const {
     return result;
 }
 
-// ---------------------------------------------------------------------------
-// Two-Phase Locking phase management
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- Two-Phase Locking phase management ---------------------------------------------------------------------------
+ * @param[in] txn_id Identifier of the txn.
+ * @details Calls: lk(), insert(), THEMIS_DEBUG().
+ */
 void LockManager::beginShrinkingPhase(TransactionId txn_id) {
     std::lock_guard<std::mutex> lk(mutex_);
     shrinking_txns_.insert(txn_id);
@@ -372,6 +421,11 @@ void LockManager::beginShrinkingPhase(TransactionId txn_id) {
 }
 
 bool LockManager::isInShrinkingPhase(TransactionId txn_id) const {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     return shrinking_txns_.count(txn_id) > 0;
 }
@@ -383,6 +437,11 @@ void LockManager::setEscalationThreshold([[maybe_unused]] size_t threshold) {
     escalation_threshold_.store(threshold, std::memory_order_relaxed);
 }
 
+/**
+ * @brief Set Default Timeout.
+ * @param[in] timeout Input parameter.
+ * @details Calls: store(), count().
+ */
 void LockManager::setDefaultTimeout(std::chrono::milliseconds timeout) {
     default_timeout_ms_.store(
         static_cast<uint64_t>(timeout.count()),
@@ -400,6 +459,11 @@ LockManager::LockStats LockManager::getStats() const {
     s.total_escalations = stats_escalations_.load(std::memory_order_relaxed);
     s.current_waiting  = stats_waiting_.load(std::memory_order_relaxed);
 
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     uint64_t held = 0;
     for (const auto& [txn, keys] : held_by_txn_) {
@@ -414,6 +478,11 @@ LockManager::LockStats LockManager::getStats() const {
 // ---------------------------------------------------------------------------
 std::vector<LockManager::TransactionId>
 LockManager::getWaiters(const std::string& key) const {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
 
     std::vector<TransactionId> result;
@@ -430,6 +499,11 @@ LockManager::getWaiters(const std::string& key) const {
 
 std::vector<std::string>
 LockManager::getWaitingFor(TransactionId txn_id) const {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
 
     std::vector<std::string> result;
@@ -443,6 +517,13 @@ LockManager::getWaitingFor(TransactionId txn_id) const {
 // ---------------------------------------------------------------------------
 // Private helpers
 // ---------------------------------------------------------------------------
+/**
+ * @brief Try Grant Lock.
+ * @param[in] key Input parameter.
+ * @param[in] txn_id Identifier of the txn.
+ * @param[in] type Input parameter.
+ * @return True when the operation succeeds.
+ */
 bool LockManager::tryGrantLock(
     const std::string& key,
     TransactionId txn_id,
@@ -464,6 +545,11 @@ bool LockManager::tryGrantLock(
     return true;
 }
 
+/**
+ * @brief Process Waiters.
+ * @param[in] key Input parameter.
+ * @details Calls: find(), end(), compatible(), push_back(), std::chrono::system_clock::now(), notify_one().
+ */
 void LockManager::processWaiters(const std::string& key) {
     // mutex_ must be held
     auto lt_it = lock_table_.find(key);
@@ -500,6 +586,12 @@ void LockManager::processWaiters(const std::string& key) {
     }
 }
 
+/**
+ * @brief Check Escalation.
+ * @param[in] txn_id Identifier of the txn.
+ * @param[in] key Input parameter.
+ * @details Calls: find(), end(), load(), size(), substr(), push_back(), tryGrantLock(), erase().
+ */
 void LockManager::checkEscalation(TransactionId txn_id, const std::string& key) {
     // mutex_ must be held.
     // Escalation: when a transaction holds more than `escalation_threshold_` row-level
@@ -576,6 +668,13 @@ void LockManager::checkEscalation(TransactionId txn_id, const std::string& key) 
 // Predicate locking for SSI
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Acquire Predicate Lock.
+ * @param[in] txn_id Identifier of the txn.
+ * @param[in] start_key Input parameter.
+ * @param[in] end_key Input parameter.
+ * @return True when the operation succeeds.
+ */
 bool LockManager::acquirePredicateLock(TransactionId txn_id,
                                         const std::string& start_key,
                                         const std::string& end_key)
@@ -583,6 +682,11 @@ bool LockManager::acquirePredicateLock(TransactionId txn_id,
     if (!predicate_locking_enabled_.load(std::memory_order_relaxed)) {
         return false;
     }
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     size_t max_locks = max_predicate_locks_.load(std::memory_order_relaxed);
     if (max_locks > 0 && predicate_locks_.size() >= max_locks) {
@@ -617,8 +721,17 @@ bool LockManager::isPredicateLockingEnabled() const {
     return predicate_locking_enabled_.load(std::memory_order_relaxed);
 }
 
+/**
+ * @brief Release Predicate Locks.
+ * @param[in] txn_id Identifier of the txn.
+ */
 void LockManager::releasePredicateLocks(TransactionId txn_id)
 {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     predicate_locks_.erase(
         std::remove_if(predicate_locks_.begin(), predicate_locks_.end(),
@@ -634,6 +747,11 @@ LockManager::TransactionId LockManager::checkPredicateConflict(
     if (!predicate_locking_enabled_.load(std::memory_order_relaxed)) {
         return 0;
     }
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     for (const auto& pl : predicate_locks_) {
         if (pl.txn_id == writing_txn_id) {
@@ -648,6 +766,11 @@ LockManager::TransactionId LockManager::checkPredicateConflict(
 
 size_t LockManager::getPredicateLockCount(TransactionId txn_id) const
 {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     return static_cast<size_t>(
         std::count_if(predicate_locks_.begin(), predicate_locks_.end(),
@@ -659,6 +782,11 @@ size_t LockManager::getPredicateLockCount(TransactionId txn_id) const
 std::vector<std::pair<std::string, std::string>>
 LockManager::getPredicateLockRanges(TransactionId txn_id) const
 {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     std::vector<std::pair<std::string, std::string>> result;
     for (const auto& pl : predicate_locks_) {

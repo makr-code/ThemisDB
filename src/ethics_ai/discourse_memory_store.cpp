@@ -45,6 +45,11 @@ DiscourseMemoryStore::DiscourseMemoryStore(DiscourseMemoryConfig config) : confi
 // storeEpisode (from DiscourseRoundOutput)
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Store Episode.
+ * @param[in] output Input parameter.
+ * @details Calls: compressPosition(), lock(), push_back(), std::move(), size(), erase(), begin().
+ */
 void DiscourseMemoryStore::storeEpisode(const DiscourseRoundOutput &output) {
     EpisodicMemoryEntry entry;
     entry.school_id           = output.school_id;
@@ -65,6 +70,11 @@ void DiscourseMemoryStore::storeEpisode(const DiscourseRoundOutput &output) {
 // storeEpisode (from EpisodicMemoryEntry)
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Store Episode.
+ * @param[in] entry Input parameter.
+ * @details Calls: compressPosition(), lock(), push_back(), std::move(), size(), erase(), begin().
+ */
 void DiscourseMemoryStore::storeEpisode(const EpisodicMemoryEntry &entry) {
     EpisodicMemoryEntry compressed = entry;
     compressed.compressed_position = compressPosition(entry.compressed_position, config_.max_tokens_per_episode);
@@ -83,6 +93,11 @@ void DiscourseMemoryStore::storeEpisode(const EpisodicMemoryEntry &entry) {
 
 std::vector<EpisodicMemoryEntry> DiscourseMemoryStore::getEpisodesForSchool(const std::string &school_id,
                                                                             int max_episodes) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = episodes_.find(school_id);
     if (it == episodes_.end()) {
@@ -143,6 +158,10 @@ DiscourseMemoryStore::buildAllEpisodicContexts(const std::vector<std::string> &s
 // clear
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Clear.
+ * @details Calls: lock().
+ */
 void DiscourseMemoryStore::clear() {
     std::lock_guard<std::mutex> lock(mutex_);
     episodes_.clear();
@@ -153,6 +172,11 @@ void DiscourseMemoryStore::clear() {
 // ---------------------------------------------------------------------------
 
 size_t DiscourseMemoryStore::episodeCount(const std::string &school_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = episodes_.find(school_id);
     return it == episodes_.end() ? 0U : it->second.size();

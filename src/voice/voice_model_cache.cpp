@@ -21,22 +21,46 @@ VoiceModelCache::~VoiceModelCache() {
     clear();
 }
 
+/**
+ * @brief Register Loader.
+ * @param[in] model_type Input parameter.
+ * @param[in] loader Input parameter.
+ * @param[in] unloader Input parameter.
+ */
 void VoiceModelCache::registerLoader(
     const std::string& model_type,
     ModelLoader loader,
     ModelUnloader unloader)
 {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     loaders_[model_type] = std::move(loader);
     unloaders_[model_type] = std::move(unloader);
 }
 
+/**
+ * @brief Get.
+ * @param[in] model_id Identifier of the model.
+ * @param[in] model_path Path to the model.
+ * @param[in] model_type Input parameter.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ */
 std::optional<CachedModel> VoiceModelCache::get(
     const std::string& model_id,
     const std::string& model_path,
     const std::string& model_type,
     const json& config)
 {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     // Cache hit
@@ -113,10 +137,21 @@ std::optional<CachedModel> VoiceModelCache::get(
 }
 
 bool VoiceModelCache::isCached(const std::string& model_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return models_.count(model_id) > 0;
 }
 
+/**
+ * @brief Insert.
+ * @param[in] model Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), count(), size(), evictLRUOne(), push_front(), begin().
+ */
 bool VoiceModelCache::insert(const CachedModel& model) {
     std::lock_guard<std::mutex> lock(mutex_);
 
@@ -147,6 +182,12 @@ bool VoiceModelCache::insert(const CachedModel& model) {
     return true;
 }
 
+/**
+ * @brief Evict.
+ * @param[in] model_id Identifier of the model.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), find(), end(), second(), erase().
+ */
 bool VoiceModelCache::evict(const std::string& model_id) {
     std::lock_guard<std::mutex> lock(mutex_);
 
@@ -174,6 +215,12 @@ bool VoiceModelCache::evict(const std::string& model_id) {
     return true;
 }
 
+/**
+ * @brief Pin.
+ * @param[in] model_id Identifier of the model.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), find(), end().
+ */
 bool VoiceModelCache::pin(const std::string& model_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = models_.find(model_id);
@@ -184,6 +231,12 @@ bool VoiceModelCache::pin(const std::string& model_id) {
     return true;
 }
 
+/**
+ * @brief Unpin.
+ * @param[in] model_id Identifier of the model.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), find(), end().
+ */
 bool VoiceModelCache::unpin(const std::string& model_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = models_.find(model_id);
@@ -194,6 +247,12 @@ bool VoiceModelCache::unpin(const std::string& model_id) {
     return true;
 }
 
+/**
+ * @brief Evict To Free.
+ * @param[in] memory_needed Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), evictLRUOne().
+ */
 size_t VoiceModelCache::evictToFree(size_t memory_needed) {
     std::lock_guard<std::mutex> lock(mutex_);
     size_t freed = 0;
@@ -208,6 +267,10 @@ size_t VoiceModelCache::evictToFree(size_t memory_needed) {
     return freed;
 }
 
+/**
+ * @brief Clear.
+ * @details Calls: lock(), find(), end(), second().
+ */
 void VoiceModelCache::clear() {
     std::lock_guard<std::mutex> lock(mutex_);
 
@@ -226,6 +289,11 @@ void VoiceModelCache::clear() {
 }
 
 ModelCacheStats VoiceModelCache::getStats() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     ModelCacheStats stats;
@@ -261,6 +329,11 @@ json VoiceModelCache::getDetailedStats() const {
     j["hit_rate"] = stats.hit_rate;
 
     json models_arr = json::array();
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     for (const auto& [id, model] : models_) {
         json m;
@@ -275,7 +348,11 @@ json VoiceModelCache::getDetailedStats() const {
     return j;
 }
 
-// ---- Private helpers ----
+/**
+ * @brief ---- Private helpers ----
+ * @param[in] model_id Identifier of the model.
+ * @details Calls: find(), end(), erase(), push_front(), begin().
+ */
 
 void VoiceModelCache::touchLRU(const std::string& model_id) {
     auto it = lru_map_.find(model_id);
@@ -286,6 +363,11 @@ void VoiceModelCache::touchLRU(const std::string& model_id) {
     }
 }
 
+/**
+ * @brief Evict LRUOne.
+ * @return True when the operation succeeds.
+ * @details Calls: rbegin(), rend(), find(), end(), second(), erase(), std::next(), base().
+ */
 bool VoiceModelCache::evictLRUOne() {
     // Find the LRU non-pinned model (from back of list)
     for (auto rit = lru_order_.rbegin(); rit != lru_order_.rend(); ++rit) {
@@ -313,6 +395,12 @@ int64_t VoiceModelCache::nowMs() const {
     return duration_cast<milliseconds>(steady_clock::now().time_since_epoch()).count();
 }
 
+/**
+ * @brief Is Safe Model Path.
+ * @param[in] path Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), find().
+ */
 bool VoiceModelCache::isSafeModelPath(const std::string& path) {
     if (path.empty()) {
       return false;

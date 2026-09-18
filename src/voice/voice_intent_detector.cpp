@@ -19,7 +19,12 @@
 
 namespace themis { namespace voice {
 
-// ---- Free functions ----
+/**
+ * @brief ---- Free functions ----
+ * @param[in] cat Input parameter.
+ * @return Return value.
+ * @details Implements intentToString without additional internal calls.
+ */
 
 std::string intentToString(IntentCategory cat) {
     switch (cat) {
@@ -31,6 +36,12 @@ std::string intentToString(IntentCategory cat) {
     }
 }
 
+/**
+ * @brief String To Intent.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Implements stringToIntent without additional internal calls.
+ */
 IntentCategory stringToIntent(const std::string& s) {
     if (s == "QUERY") {
       return IntentCategory::QUERY;
@@ -52,6 +63,12 @@ IntentCategory stringToIntent(const std::string& s) {
 ConversationContext::ConversationContext(size_t max_history)
     : max_history_(max_history) {}
 
+/**
+ * @brief Add Turn.
+ * @param[in] user_input Input parameter.
+ * @param[in] assistant_response Input parameter.
+ * @details Calls: emplace_back(), size(), erase(), begin().
+ */
 void ConversationContext::addTurn(const std::string& user_input, const std::string& assistant_response) {
     history_.emplace_back(user_input, assistant_response);
     if (history_.size() > max_history_) {
@@ -59,6 +76,12 @@ void ConversationContext::addTurn(const std::string& user_input, const std::stri
     }
 }
 
+/**
+ * @brief Set Entity.
+ * @param[in] key Input parameter.
+ * @param[in] value Input parameter.
+ * @details Implements setEntity without additional internal calls.
+ */
 void ConversationContext::setEntity(const std::string& key, const std::string& value) {
     entities_[key] = value;
 }
@@ -71,6 +94,10 @@ std::optional<std::string> ConversationContext::getEntity(const std::string& key
     return std::nullopt;
 }
 
+/**
+ * @brief Clear Entities.
+ * @details Calls: clear().
+ */
 void ConversationContext::clearEntities() {
     entities_.clear();
 }
@@ -89,6 +116,10 @@ std::string ConversationContext::buildContextString(size_t max_turns) const {
     return oss.str();
 }
 
+/**
+ * @brief Clear.
+ * @details Implements clear without additional internal calls.
+ */
 void ConversationContext::clear() {
     history_.clear();
     entities_.clear();
@@ -109,6 +140,12 @@ VoiceIntentDetector::VoiceIntentDetector(const IntentDetectorConfig& config)
 
 namespace {
 
+/**
+ * @brief Intent To Lower.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Calls: std::transform(), begin(), end(), std::tolower().
+ */
 std::string intentToLower(const std::string& s) {
     std::string out = s;
     std::transform(out.begin(), out.end(), out.begin(),
@@ -116,6 +153,13 @@ std::string intentToLower(const std::string& s) {
     return out;
 }
 
+/**
+ * @brief Contains Any.
+ * @param[in] text Input parameter.
+ * @param[in] keywords Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: intentToLower(), find().
+ */
 bool containsAny(const std::string& text, const std::vector<std::string>& keywords) {
     std::string lower = intentToLower(text);
     for (const auto& kw : keywords) {
@@ -128,6 +172,12 @@ bool containsAny(const std::string& text, const std::vector<std::string>& keywor
 
 } // anonymous namespace
 
+/**
+ * @brief Classify Intent.
+ * @param[in] text Input parameter.
+ * @return Return value.
+ * @details Calls: containsAny().
+ */
 IntentCategory VoiceIntentDetector::classifyIntent(const std::string& text) {
     static const std::vector<std::string> query_kw   = {"how many","find","show","list","get","what is","count","search","select","fetch"};
     static const std::vector<std::string> command_kw = {"add","delete","update","create","insert","remove","set","drop","modify","put"};
@@ -252,6 +302,12 @@ std::vector<NamedEntity> VoiceIntentDetector::extractMetricEntities(const std::s
     return entities;
 }
 
+/**
+ * @brief Extract Entities.
+ * @param[in] text Input parameter.
+ * @return Return value.
+ * @details Calls: extractDateEntities(), extractNumberEntities(), extractMetricEntities(), insert(), end(), begin(), erase(), std::remove_if().
+ */
 std::vector<NamedEntity> VoiceIntentDetector::extractEntities(const std::string& text) {
     std::vector<NamedEntity> all;
 
@@ -272,6 +328,12 @@ std::vector<NamedEntity> VoiceIntentDetector::extractEntities(const std::string&
     return all;
 }
 
+/**
+ * @brief Normalize Query.
+ * @param[in] text Input parameter.
+ * @param[in] context Input parameter.
+ * @return Return value.
+ */
 std::string VoiceIntentDetector::normalizeQuery(
     const std::string& text, const ConversationContext* context)
 {
@@ -294,9 +356,13 @@ bool VoiceIntentDetector::meetsThreshold(float confidence) const {
     return confidence >= config_.min_confidence_threshold;
 }
 
-// TASK 2.3: Intent detection fallback chain
-// Primary model → Backup model → Safe default
-// Confidence threshold: kMinIntentConfidence = 0.6 (error code 6801 if below)
+/**
+ * @brief TASK 2.
+ * @param[in] text Input parameter.
+ * @param[in] context Input parameter.
+ * @return Return value.
+ * @details 3: Intent detection fallback chain Primary model → Backup model → Safe default Confidence threshold: kMinIntentConfidence = 0.6 (error code 6801 if below)
+ */
 
 IntentResult VoiceIntentDetector::detect(
     const std::string& text, const ConversationContext* context)

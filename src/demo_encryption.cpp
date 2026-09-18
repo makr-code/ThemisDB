@@ -46,6 +46,10 @@ public:
         std::cout << "\n";
     }
     
+    /**
+     * @brief Run.
+     * @details Calls: setupKeyProvider(), setupEncryption(), setupDatabase(), demoUserCreation(), demoPersistence(), demoRetrieval(), demoKeyRotation(), demoPerformance().
+     */
     void run() {
         setupKeyProvider();
         setupEncryption();
@@ -66,6 +70,10 @@ private:
     std::shared_ptr<FieldEncryption> encryption_;
     std::shared_ptr<RocksDBWrapper> db_;
     
+    /**
+     * @brief Setup Key Provider.
+     * @details Calls: std::getenv(), what(), createKey().
+     */
     void setupKeyProvider() {
         std::cout << "📋 Step 1: Setting up Key Provider (" << mode_ << " mode)\n";
         std::cout << "──────────────────────────────────────────────────────────────\n";
@@ -118,6 +126,10 @@ private:
         }
     }
     
+    /**
+     * @brief Setup Encryption.
+     * @details Calls: setFieldEncryption().
+     */
     void setupEncryption() {
         std::cout << "🔐 Step 2: Initializing Encryption Engine\n";
         std::cout << "──────────────────────────────────────────────────────────────\n";
@@ -137,6 +149,10 @@ private:
         std::cout << "   Hardware: AES-NI auto-detected\n\n";
     }
     
+    /**
+     * @brief Setup Database.
+     * @details Calls: open().
+     */
     void setupDatabase() {
         std::cout << "💾 Step 3: Setting up Database\n";
         std::cout << "──────────────────────────────────────────────────────────────\n";
@@ -155,6 +171,10 @@ private:
         std::cout << "   Encrypted data stored as base64 blobs\n\n";
     }
     
+    /**
+     * @brief Demo User Creation.
+     * @details Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), encrypt(), toBase64(), substr(), toJson(), dump().
+     */
     void demoUserCreation() {
         std::cout << "👤 Step 4: Creating Encrypted User Entities\n";
         std::cout << "══════════════════════════════════════════════════════════════\n\n";
@@ -220,6 +240,10 @@ private:
         customers_.push_back(bob);
     }
     
+    /**
+     * @brief Demo Persistence.
+     * @details Calls: std::chrono::high_resolution_clock::now(), toJson(), dump(), value(), begin(), end(), put(), size().
+     */
     void demoPersistence() {
         std::cout << "💾 Step 5: Persisting to Database\n";
         std::cout << "══════════════════════════════════════════════════════════════\n\n";
@@ -253,6 +277,10 @@ private:
         std::cout << "   Average: " << duration / (users_.size() + customers_.size() ) << "μs per record\n\n";
     }
     
+    /**
+     * @brief Demo Retrieval.
+     * @details Calls: std::chrono::high_resolution_clock::now(), get(), has_value(), alice_json(), begin(), end(), User::fromJson(), json::parse().
+     */
     void demoRetrieval() {
         std::cout << "🔍 Step 6: Retrieving and Decrypting Data\n";
         std::cout << "══════════════════════════════════════════════════════════════\n\n";
@@ -296,6 +324,10 @@ private:
         std::cout << "   Average: " << decrypt_time / 4 << "μs per field\n\n";
     }
     
+    /**
+     * @brief Demo Key Rotation.
+     * @details Calls: listKeys(), rotateKey(), get(), has_value(), alice_json(), begin(), end(), User::fromJson().
+     */
     void demoKeyRotation() {
         std::cout << "🔄 Step 7: Key Rotation Simulation\n";
         std::cout << "══════════════════════════════════════════════════════════════\n\n";
@@ -352,6 +384,10 @@ private:
         std::cout << "   Old data can be safely deleted after grace period\n\n";
     }
     
+    /**
+     * @brief Demo Performance.
+     * @details Calls: std::chrono::high_resolution_clock::now(), std::to_string(), encrypt(), count(), toJson(), dump(), value(), begin().
+     */
     void demoPerformance() {
         std::cout << "⚡ Step 8: Performance Benchmarks\n";
         std::cout << "══════════════════════════════════════════════════════════════\n\n";
@@ -405,6 +441,10 @@ private:
         std::cout << "   Throughput: " << (NUM_DB_WRITES * 1000.0) / duration << " writes/sec\n\n";
     }
     
+    /**
+     * @brief Print Summary.
+     * @details Calls: size().
+     */
     void printSummary() {
         std::cout << "\n";
         std::cout << "╔════════════════════════════════════════════════════════════════╗\n";
@@ -446,6 +486,13 @@ private:
     std::vector<Customer> customers_;
 };
 
+/**
+ * @brief Main.
+ * @param[in] argc Input parameter.
+ * @param[in,out] argv Input/output parameter.
+ * @return Return value.
+ * @details Calls: demo(), run(), what().
+ */
 int main(int argc, char** argv) {
     std::string mode = "mock";
     

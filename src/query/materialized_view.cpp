@@ -67,10 +67,10 @@ namespace query {
 namespace {
 
 /**
- * @brief Return the JSON primary-key string for @p row, or empty string.
+ * @brief Row Key.
  * @param[in] row Input parameter.
  * @return Return value.
- * @details Tries "_key" first, then "_id", then "id". Calls: is_object(), find(), end(), is_string().
+ * @details Calls: is_object(), find(), end(), is_string().
  */
 std::string rowKey(const nlohmann::json& row) {
     if (row.is_object()) {
@@ -84,13 +84,24 @@ std::string rowKey(const nlohmann::json& row) {
     return {};
 }
 
-/// Return true when @p a and @p b share the same non-empty primary key.
+/**
+ * @brief Same Key.
+ * @param[in] a Input parameter.
+ * @param[in] b Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: rowKey(), empty().
+ */
 bool sameKey(const nlohmann::json& a, const nlohmann::json& b) {
     const std::string ka = rowKey(a);
     return !ka.empty() && ka == rowKey(b);
 }
 
-/// Convert AQL source string to upper-case for case-insensitive matching.
+/**
+ * @brief To Upper.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Calls: std::toupper().
+ */
 std::string toUpper(std::string s) {
     for (char& c : s) {
       c = static_cast<char>(std::toupper(static_cast<unsigned char>(c)));
@@ -133,12 +144,12 @@ MaterializedView::~MaterializedView() {
                  stats_.query_hits);
 }
 
+
 /**
- * @brief ============================================================================ Factory ============================================================================
+ * @brief Create.
  * @param[in] def Input parameter.
  * @return Return value.
  */
-
 Result<std::shared_ptr<MaterializedView>> MaterializedView::create(
     const Definition& def)
 {
@@ -170,13 +181,13 @@ Result<std::shared_ptr<MaterializedView>> MaterializedView::create(
         new MaterializedView(def, config));
 }
 
+
 /**
- * @brief ============================================================================ Refresh / staleness ============================================================================
+ * @brief Refresh.
  * @param[in] incremental Input parameter.
  * @param[in] new_rows Input parameter.
  * @return Return value.
  */
-
 Result<void> MaterializedView::refresh(bool incremental,
                                        std::vector<nlohmann::json> new_rows)
 {
@@ -237,11 +248,6 @@ Result<void> MaterializedView::refresh(bool incremental,
  * @details Calls: lock(), THEMIS_DEBUG().
  */
 void MaterializedView::markStale() {
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lock(mutex_);
     stale_          = true;
     stats_.is_stale = true;
@@ -270,13 +276,13 @@ bool MaterializedView::isStaleByAge_locked() const {
     return age >= def_.staleness_tolerance;
 }
 
+
 /**
- * @brief ============================================================================ Delta maintenance ============================================================================
+ * @brief Apply Delta.
  * @param[in] op Input parameter.
  * @param[in] entity Input parameter.
  * @details Calls: nlohmann::json::object(), getAllFields(), std::visit(), constexpr(), getPrimaryKey(), empty(), applyDeltaJson().
  */
-
 void MaterializedView::applyDelta(DeltaOp op, const BaseEntity& entity) {
     // Convert BaseEntity fields to a JSON object then delegate to the JSON path.
     nlohmann::json row = nlohmann::json::object();
@@ -314,11 +320,6 @@ void MaterializedView::applyDelta(DeltaOp op, const BaseEntity& entity) {
  * @details Calls: lock(), applyInsert_locked(), THEMIS_DEBUG(), size(), applyDelete_locked().
  */
 void MaterializedView::applyDeltaJson(DeltaOp op, const nlohmann::json& row) {
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     switch (def_.strategy) {
@@ -368,10 +369,10 @@ void MaterializedView::applyDeltaJson(DeltaOp op, const nlohmann::json& row) {
 }
 
 /**
- * @brief static
+ * @brief Apply Aggregate Delta.
  * @param[in] op Input parameter.
  * @param[in] entity Input parameter.
- * @param[in] field_name Input parameter.
+ * @param[in] field_name Name of the field.
  * @param[in,out] aggregate_ref Input/output parameter.
  */
 void MaterializedView::applyAggregateDelta(DeltaOp           op,
@@ -402,12 +403,12 @@ void MaterializedView::applyAggregateDelta(DeltaOp           op,
     }
 }
 
+
 /**
- * @brief ============================================================================ Internal delta helpers (lock must be held by caller) ============================================================================
+ * @brief Apply Insert locked.
  * @param[in] row Input parameter.
  * @details Calls: size(), THEMIS_WARN(), push_back().
  */
-
 void MaterializedView::applyInsert_locked(const nlohmann::json& row) {
     if (rows_.size() >= config_.max_rows) {
         THEMIS_WARN("MaterializedView '{}': max_rows={} reached, "
@@ -494,10 +495,10 @@ std::vector<nlohmann::json> MaterializedView::queryRows(
 // ============================================================================
 
 /**
- * @brief static
+ * @brief Can Rewrite.
  * @param[in] query_aql Input parameter.
  * @param[in] view Input parameter.
- * @return True on success.
+ * @return True when the operation succeeds.
  */
 bool MaterializedView::canRewrite(const std::string&      query_aql,
                                   const MaterializedView& view)
@@ -552,10 +553,10 @@ bool MaterializedView::canRewrite(const std::string&      query_aql,
 }
 
 /**
- * @brief static
+ * @brief Can Rewrite.
  * @param[in] parsed_query Input parameter.
  * @param[in] view Input parameter.
- * @return True on success.
+ * @return True when the operation succeeds.
  */
 bool MaterializedView::canRewrite(const query::Query&     parsed_query,
                                   const MaterializedView& view)
@@ -607,12 +608,12 @@ std::chrono::system_clock::time_point MaterializedView::getLastRefresh() const {
     return stats_.last_refresh;
 }
 
+
 /**
- * @brief ============================================================================ MaterializedViewRegistry ============================================================================
+ * @brief Register View.
  * @param[in] view Input parameter.
  * @return Return value.
  */
-
 Result<void> MaterializedViewRegistry::registerView(
     std::shared_ptr<MaterializedView> view)
 {
@@ -660,15 +661,10 @@ std::shared_ptr<MaterializedView> MaterializedViewRegistry::getView(
 /**
  * @brief Remove View.
  * @param[in] name Input parameter.
- * @return True on success.
+ * @return True when the operation succeeds.
  * @details Calls: lock(), find(), end(), getDefinition(), erase(), std::remove(), begin(), THEMIS_INFO().
  */
 bool MaterializedViewRegistry::removeView(const std::string& name) {
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = views_.find(name);
     if (it == views_.end()) {
@@ -702,13 +698,13 @@ std::vector<std::string> MaterializedViewRegistry::listViews() const {
     return names;
 }
 
+
 /**
- * @brief ============================================================================ Delta propagation ============================================================================
+ * @brief On Insert.
  * @param[in] table Input parameter.
  * @param[in] entity Input parameter.
  * @details Calls: nlohmann::json::object(), getAllFields(), std::visit(), constexpr(), getPrimaryKey(), empty(), onInsertJson().
  */
-
 void MaterializedViewRegistry::onInsert(const std::string& table,
                                         const BaseEntity&  entity) {
     // Convert to JSON then forward through the JSON path.
@@ -779,11 +775,6 @@ void MaterializedViewRegistry::onUpdate(const std::string& table,
  */
 void MaterializedViewRegistry::onInsertJson(const std::string&   table,
                                             const nlohmann::json& row) {
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lock(mutex_);
     propagateDeltaJson_locked(table, DeltaOp::INSERT, row);
 }
@@ -796,11 +787,6 @@ void MaterializedViewRegistry::onInsertJson(const std::string&   table,
  */
 void MaterializedViewRegistry::onDeleteJson(const std::string&   table,
                                             const nlohmann::json& row) {
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lock(mutex_);
     propagateDeltaJson_locked(table, DeltaOp::DELETE, row);
 }
@@ -813,11 +799,6 @@ void MaterializedViewRegistry::onDeleteJson(const std::string&   table,
  */
 void MaterializedViewRegistry::onUpdateJson(const std::string&   table,
                                             const nlohmann::json& row) {
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lock(mutex_);
     propagateDeltaJson_locked(table, DeltaOp::UPDATE, row);
 }
@@ -867,21 +848,16 @@ std::shared_ptr<MaterializedView> MaterializedViewRegistry::tryRewrite(
     return nullptr;
 }
 
+
 /**
- * @brief ============================================================================ Maintenance helpers ============================================================================
+ * @brief Refresh Stale.
  * @return Return value.
  * @details Calls: lock(), getDefinition(), isStale(), push_back(), refresh(), THEMIS_INFO(), getName(), THEMIS_WARN().
  */
-
 size_t MaterializedViewRegistry::refreshStale() {
     // Collect stale views outside the lock to avoid holding it during refresh.
     std::vector<std::shared_ptr<MaterializedView>> to_refresh;
     {
-        /**
-         * @brief Lock.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(mutex_);
         for (const auto& [name, view] : views_) {
             const auto& strategy = view->getDefinition().strategy;

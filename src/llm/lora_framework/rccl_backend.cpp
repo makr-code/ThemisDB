@@ -78,6 +78,11 @@ RCCLBackend& RCCLBackend::operator=(RCCLBackend&& other) noexcept {
     return *this;
 }
 
+/**
+ * @brief Initialize.
+ * @return True when the operation succeeds.
+ * @details Calls: spdlog::warn(), is_available(), spdlog::error(), gpu_type(), initialize_rccl().
+ */
 bool RCCLBackend::initialize() {
     if (initialized_) {
         spdlog::warn("RCCLBackend already initialized");
@@ -97,6 +102,10 @@ bool RCCLBackend::initialize() {
     return initialize_rccl();
 }
 
+/**
+ * @brief Finalize.
+ * @details Calls: cleanup_rccl(), spdlog::info().
+ */
 void RCCLBackend::finalize() {
     if (!initialized_) {
         return;
@@ -107,6 +116,13 @@ void RCCLBackend::finalize() {
     spdlog::info("RCCLBackend finalized");
 }
 
+/**
+ * @brief Allreduce.
+ * @param[in,out] tensors Input/output parameter.
+ * @param[in] average Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: spdlog::error(), ncclGroupStart(), ncclGetErrorString(), device(), spdlog::warn(), gpu_ptr(), size(), ncclAllReduce().
+ */
 bool RCCLBackend::allreduce(std::vector<GPUTensor*>& tensors, bool average) {
     if (!initialized_) {
         spdlog::error("RCCLBackend not initialized");
@@ -195,11 +211,25 @@ bool RCCLBackend::allreduce(std::vector<GPUTensor*>& tensors, bool average) {
 #endif
 }
 
+/**
+ * @brief Allreduce.
+ * @param[in,out] tensor Input/output parameter.
+ * @param[in] average Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements allreduce without additional internal calls.
+ */
 bool RCCLBackend::allreduce(GPUTensor& tensor, bool average) {
     std::vector<GPUTensor*> tensors = {&tensor};
     return allreduce(tensors, average);
 }
 
+/**
+ * @brief Broadcast.
+ * @param[in,out] tensor Input/output parameter.
+ * @param[in] root Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: spdlog::error(), device(), ncclBcast(), gpu_ptr(), size(), ncclGetErrorString(), hipStreamSynchronize(), hipGetErrorString().
+ */
 bool RCCLBackend::broadcast(GPUTensor& tensor, int root) {
     static_cast<void>(tensor);
     static_cast<void>(root);
@@ -251,6 +281,10 @@ bool RCCLBackend::broadcast(GPUTensor& tensor, int root) {
 #endif
 }
 
+/**
+ * @brief Barrier.
+ * @details Calls: ncclAllReduce(), spdlog::error(), ncclGetErrorString(), hipStreamSynchronize(), hipGetErrorString().
+ */
 void RCCLBackend::barrier() {
     if (!initialized_) {
         return;
@@ -288,6 +322,11 @@ void RCCLBackend::barrier() {
 #endif
 }
 
+/**
+ * @brief Is available.
+ * @return True when the operation succeeds.
+ * @details Implements is_available without additional internal calls.
+ */
 bool RCCLBackend::is_available() {
 #ifdef THEMIS_ENABLE_HIP
 #ifdef THEMIS_ENABLE_RCCL
@@ -300,6 +339,11 @@ bool RCCLBackend::is_available() {
 #endif
 }
 
+/**
+ * @brief Get version.
+ * @return Return value.
+ * @details Calls: ncclGetVersion(), spdlog::warn(), ncclGetErrorString(), std::to_string().
+ */
 std::string RCCLBackend::get_version() {
 #ifdef THEMIS_ENABLE_HIP
 #ifdef THEMIS_ENABLE_RCCL
@@ -321,6 +365,11 @@ std::string RCCLBackend::get_version() {
 #endif
 }
 
+/**
+ * @brief Initialize rccl.
+ * @return True when the operation succeeds.
+ * @details Calls: spdlog::info(), get_device(), hipSetDevice(), spdlog::error(), hipGetErrorString(), hipStreamCreate(), ncclGetUniqueId(), ncclGetErrorString().
+ */
 bool RCCLBackend::initialize_rccl() {
 #ifdef THEMIS_ENABLE_HIP
 #ifdef THEMIS_ENABLE_RCCL
@@ -378,6 +427,10 @@ bool RCCLBackend::initialize_rccl() {
 #endif
 }
 
+/**
+ * @brief Cleanup rccl.
+ * @details Calls: ncclCommDestroy(), spdlog::warn(), ncclGetErrorString(), hipStreamDestroy(), hipGetErrorString().
+ */
 void RCCLBackend::cleanup_rccl() {
 #ifdef THEMIS_ENABLE_HIP
 #ifdef THEMIS_ENABLE_RCCL

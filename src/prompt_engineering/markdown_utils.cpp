@@ -17,6 +17,13 @@
 
 namespace themis::prompt_engineering {
 
+/**
+ * @brief Strip Markdown Fences.
+ * @param[in] text Input parameter.
+ * @param[in,out] language_tag Input/output parameter.
+ * @return Return value.
+ * @details Calls: clear(), size(), open_fence(), close_fence(), std::regex_search(), str(), std::regex_replace(), themis::utils::trim().
+ */
 std::string stripMarkdownFences(const std::string& text, std::string* language_tag) {
     if (language_tag) {
         language_tag->clear();
@@ -53,6 +60,12 @@ std::string stripMarkdownFences(const std::string& text, std::string* language_t
     return themis::utils::trim(result);
 }
 
+/**
+ * @brief Strip Markdown And Comments.
+ * @param[in] text Input parameter.
+ * @return Return value.
+ * @details Calls: stripMarkdownFences(), line_comment(), std::regex_replace(), themis::utils::trim().
+ */
 std::string stripMarkdownAndComments(const std::string& text) {
     // First, strip markdown fences
     std::string result = stripMarkdownFences(text);
@@ -66,6 +79,12 @@ std::string stripMarkdownAndComments(const std::string& text) {
     return themis::utils::trim(result);
 }
 
+/**
+ * @brief Is Wrapped In Markdown Fences.
+ * @param[in] text Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: size(), substr(), find().
+ */
 bool isWrappedInMarkdownFences(std::string_view text) {
     if (text.size() < 6) {  // Minimum: ```\n```
         return false;

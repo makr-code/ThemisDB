@@ -87,11 +87,21 @@ struct VoiceStreamingSession::Impl {
 
 namespace {
 
+/**
+ * @brief Streaming Now Ms.
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::now(), time_since_epoch(), count().
+ */
 int64_t streamingNowMs() {
     return std::chrono::duration_cast<std::chrono::milliseconds>(
         std::chrono::system_clock::now().time_since_epoch()).count();
 }
 
+/**
+ * @brief Generate Stream Id.
+ * @return Return value.
+ * @details Calls: lock(), rng(), str().
+ */
 std::string generateStreamId() {
     static std::mt19937_64 rng{std::random_device{}()};
     static std::mutex mu;
@@ -101,6 +111,13 @@ std::string generateStreamId() {
     return oss.str();
 }
 
+/**
+ * @brief Is Chunk Frame Aligned.
+ * @param[in] config Input parameter.
+ * @param[in] audio_chunk Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), size().
+ */
 bool isChunkFrameAligned(const VoiceStreamingSession::Config& config,
                          const std::vector<uint8_t>& audio_chunk) {
     if (audio_chunk.empty()) {
@@ -116,11 +133,13 @@ bool isChunkFrameAligned(const VoiceStreamingSession::Config& config,
 }
 
 /**
- * @brief Minimal placeholder STT: counts bytes as a proxy for speech.
- *
- * In production this delegates to the voice module's SpeechToText processor.
- * The placeholder returns a synthetic partial transcript to make the
- * pipeline end-to-end testable without a GPU.
+ * @brief Run Partial Stt.
+ * @param[in] session_id Identifier of the session.
+ * @param[in] stream_id Identifier of the stream.
+ * @param[in] audio Input parameter.
+ * @param[in] is_final Input parameter.
+ * @param[in] seq Input parameter.
+ * @return Return value.
  */
 PartialTranscript runPartialStt(const std::string& session_id,
                                  StreamID           stream_id,
@@ -151,6 +170,14 @@ PartialTranscript runPartialStt(const std::string& session_id,
     return pt;
 }
 
+/**
+ * @brief Make Final Transcript.
+ * @param[in] session_id Identifier of the session.
+ * @param[in] stream_id Identifier of the stream.
+ * @param[in] audio Input parameter.
+ * @param[in] started_at_ms Input parameter.
+ * @return Return value.
+ */
 FinalTranscript makeFinalTranscript(const std::string& session_id,
                                      StreamID           stream_id,
                                      const std::vector<uint8_t>& audio,
@@ -206,6 +233,11 @@ VoiceStreamingSession::create(Config config) {
         new VoiceStreamingSession(std::move(config)));
 }
 
+/**
+ * @brief Start.
+ * @return Return value.
+ * @details Calls: generateStreamId(), streamingNowMs(), clear(), THEMIS_INFO().
+ */
 StreamID VoiceStreamingSession::start() {
     // TASK 2.5: Stream state machine enforcement
     if (impl_->active) {
@@ -232,6 +264,10 @@ StreamID VoiceStreamingSession::start() {
     return impl_->stream_id;
 }
 
+/**
+ * @brief End.
+ * @details Calls: empty(), endOfUtterance(), clear(), THEMIS_INFO().
+ */
 void VoiceStreamingSession::end() {
     // TASK 2.5: Stream teardown and cleanup
     if (!impl_->active) {
@@ -397,6 +433,10 @@ VoiceStreamingSession::sendAudioChunk(const std::vector<uint8_t>& audio_chunk) {
     return pt;
 }
 
+/**
+ * @brief End Of Utterance.
+ * @details Calls: empty(), makeFinalTranscript(), clear(), on_final(), tts_audio(), begin(), end(), on_tts().
+ */
 void VoiceStreamingSession::endOfUtterance() {
     if (!impl_ || !impl_->active || impl_->audio_buffer.empty()) {
       return;
@@ -420,20 +460,44 @@ void VoiceStreamingSession::endOfUtterance() {
     }
 }
 
-// ── Callbacks ─────────────────────────────────────────────────────────────────
+/**
+ * @brief ── Callbacks ─────────────────────────────────────────────────────────────────
+ * @param[in] cb Input parameter.
+ * @details Calls: std::move().
+ */
 
 void VoiceStreamingSession::onPartialTranscript(PartialTranscriptCb cb) {
     impl_->on_partial = std::move(cb);
 }
+/**
+ * @brief On Final Transcript.
+ * @param[in] cb Input parameter.
+ * @details Calls: std::move().
+ */
 void VoiceStreamingSession::onFinalTranscript(FinalTranscriptCb cb) {
     impl_->on_final = std::move(cb);
 }
+/**
+ * @brief On Tts Chunk.
+ * @param[in] cb Input parameter.
+ * @details Calls: std::move().
+ */
 void VoiceStreamingSession::onTtsChunk(TtsChunkCb cb) {
     impl_->on_tts = std::move(cb);
 }
+/**
+ * @brief On Error.
+ * @param[in] cb Input parameter.
+ * @details Calls: std::move().
+ */
 void VoiceStreamingSession::onError(ErrorCb cb) {
     impl_->on_error = std::move(cb);
 }
+/**
+ * @brief Set Transcribe Backend.
+ * @param[in] fn Input parameter.
+ * @details Calls: std::move().
+ */
 void VoiceStreamingSession::setTranscribeBackend(TranscribeFn fn) {
     impl_->transcribe_fn = std::move(fn);
 }
@@ -531,6 +595,11 @@ VoiceStreamingManager::VoiceStreamingManager(size_t max_concurrent_sessions)
 
 StreamID
 VoiceStreamingManager::createSession(VoiceStreamingSession::Config config) {
+    /**
+     * @brief Lock.
+     * @param[in] sessions_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(sessions_mutex_);
     if (sessions_.size() >= max_sessions_) {
         THEMIS_WARN("VoiceStreamingManager: max concurrent sessions ({}) reached",
@@ -548,6 +617,11 @@ VoiceStreamingManager::createSession(VoiceStreamingSession::Config config) {
 PartialTranscript
 VoiceStreamingManager::routeAudio(const StreamID&             stream_id,
                                    const std::vector<uint8_t>& audio_chunk) {
+    /**
+     * @brief Lock.
+     * @param[in] sessions_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(sessions_mutex_);
     auto it = sessions_.find(stream_id);
     if (it == sessions_.end()) {
@@ -557,6 +631,11 @@ VoiceStreamingManager::routeAudio(const StreamID&             stream_id,
     return it->second->sendAudioChunk(audio_chunk);
 }
 
+/**
+ * @brief Close Session.
+ * @param[in] stream_id Identifier of the stream.
+ * @details Calls: lock(), find(), end(), erase(), THEMIS_INFO(), size().
+ */
 void VoiceStreamingManager::closeSession(const StreamID& stream_id) {
     std::lock_guard<std::mutex> lock(sessions_mutex_);
     auto it = sessions_.find(stream_id);
@@ -570,6 +649,11 @@ void VoiceStreamingManager::closeSession(const StreamID& stream_id) {
 }
 
 size_t VoiceStreamingManager::activeSessionCount() const noexcept {
+    /**
+     * @brief Lock.
+     * @param[in] sessions_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(sessions_mutex_);
     return sessions_.size();
 }

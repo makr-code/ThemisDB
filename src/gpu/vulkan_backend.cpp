@@ -77,11 +77,21 @@ void VulkanComputeBackend::probeDevices() const {
     int compute_count   = 0;
     cached_vendor_name_ = "Unknown";
     if (count > 0) {
+        /**
+         * @brief Devs.
+         * @param[in] count Input parameter.
+         * @return Return value.
+         */
         std::vector<VkPhysicalDevice> devs(count);
         vkEnumeratePhysicalDevices(inst, &count, devs.data());
         for (const auto &dev : devs) {
             uint32_t qfCount = 0;
             vkGetPhysicalDeviceQueueFamilyProperties(dev, &qfCount, nullptr);
+            /**
+             * @brief Qfs.
+             * @param[in] qfCount Input parameter.
+             * @return Return value.
+             */
             std::vector<VkQueueFamilyProperties> qfs(qfCount);
             vkGetPhysicalDeviceQueueFamilyProperties(dev, &qfCount, qfs.data());
             for (const auto &qf : qfs) {
@@ -136,6 +146,11 @@ void VulkanComputeBackend::probeDevices() const {
 // ============================================================================
 
 int VulkanComputeBackend::deviceCount() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     probeDevices();
     return cached_device_count_;
@@ -146,6 +161,11 @@ bool VulkanComputeBackend::isAvailable() const {
 }
 
 std::string VulkanComputeBackend::vendorName() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     probeDevices();
     return cached_vendor_name_;
@@ -155,6 +175,12 @@ std::string VulkanComputeBackend::vendorName() const {
 // Launcher backend
 // ============================================================================
 
+/**
+ * @brief Create Backend Fn.
+ * @param[in] device_index Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), GPUFeatureFlags::GetInstance(), isEnabled(), GPUBackendDispatchDiagnostics::emitDiagnostic(), probeDevices().
+ */
 GPULauncher::BackendFn VulkanComputeBackend::createBackendFn(int device_index) {
     // Return a BackendFn that dispatches via Vulkan when available, or falls
     // back to CPU execution.  A single lock covers the entire lambda body to
@@ -201,6 +227,13 @@ GPULauncher::BackendFn VulkanComputeBackend::createBackendFn(int device_index) {
 // Stream management
 // ============================================================================
 
+/**
+ * @brief Create Stream.
+ * @param[in] name Input parameter.
+ * @param[in] device_index Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), lock(), count(), probeDevices(), emplace(), std::move().
+ */
 VulkanComputeBackend::Result VulkanComputeBackend::createStream(const std::string &name, int device_index) {
     if (name.empty()) {
         return {false, "stream name must not be empty"};
@@ -230,6 +263,12 @@ VulkanComputeBackend::Result VulkanComputeBackend::createStream(const std::strin
     return {true, ""};
 }
 
+/**
+ * @brief Destroy Stream.
+ * @param[in] name Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), find(), end(), erase().
+ */
 VulkanComputeBackend::Result VulkanComputeBackend::destroyStream(const std::string &name) {
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = streams_.find(name);
@@ -241,6 +280,12 @@ VulkanComputeBackend::Result VulkanComputeBackend::destroyStream(const std::stri
     return {true, ""};
 }
 
+/**
+ * @brief Synchronize Stream.
+ * @param[in] name Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), count().
+ */
 VulkanComputeBackend::Result VulkanComputeBackend::synchronizeStream(const std::string &name) {
     std::lock_guard<std::mutex> lock(mutex_);
     if (!streams_.count(name)) {
@@ -252,6 +297,11 @@ VulkanComputeBackend::Result VulkanComputeBackend::synchronizeStream(const std::
 }
 
 VulkanComputeBackend::StreamHandle VulkanComputeBackend::getStream(const std::string &name) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = streams_.find(name);
     if (it == streams_.end()) {
@@ -261,11 +311,21 @@ VulkanComputeBackend::StreamHandle VulkanComputeBackend::getStream(const std::st
 }
 
 bool VulkanComputeBackend::hasStream(const std::string &name) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return streams_.count(name) > 0;
 }
 
 std::vector<std::string> VulkanComputeBackend::streamNames() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     std::vector<std::string> names = {};
 
@@ -281,10 +341,19 @@ std::vector<std::string> VulkanComputeBackend::streamNames() const {
 // ============================================================================
 
 VulkanComputeBackend::Stats VulkanComputeBackend::getStats() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return stats_;
 }
 
+/**
+ * @brief Reset Stats.
+ * @details Calls: lock().
+ */
 void VulkanComputeBackend::resetStats() {
     std::lock_guard<std::mutex> lock(mutex_);
     stats_ = Stats{};

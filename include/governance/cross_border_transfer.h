@@ -81,12 +81,12 @@ public:
         const std::string& destination_region,
         const std::optional<std::string>& data_classification = std::nullopt) const;
 
+
     /**
-     * @brief ── Helpers ──────────────────────────────────────────────────────────
+     * @brief Mechanism To Header Value.
      * @param[in] m Input parameter.
      * @return Return value.
      */
-
     static std::string mechanismToHeaderValue(TransferMechanism m);
 
     /**

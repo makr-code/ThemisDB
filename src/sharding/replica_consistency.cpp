@@ -22,29 +22,34 @@ namespace sharding {
 
 // VectorClock implementation
 
-/** @brief Construct vector clock from node->counter map. */
 VectorClock::VectorClock(const std::map<std::string, uint64_t>& timestamps)
     : timestamps_(timestamps) {}
 
-/** @brief Increment logical counter for node_id. */
+/**
+ * @brief Increment.
+ * @param[in] node_id Identifier of the node.
+ * @details Implements increment without additional internal calls.
+ */
 void VectorClock::increment(const std::string& node_id) {
     timestamps_[node_id]++;
 }
 
-/** @brief Merge with another clock using element-wise max per node. */
+/**
+ * @brief Update.
+ * @param[in] other Input parameter.
+ * @details Calls: std::max().
+ */
 void VectorClock::update(const VectorClock& other) {
     for (const auto& [node_id, timestamp] : other.timestamps_) {
         timestamps_[node_id] = std::max(timestamps_[node_id], timestamp);
     }
 }
 
-/** @brief Return counter for node_id (0 when absent). */
 uint64_t VectorClock::get(const std::string& node_id) const {
     auto it = timestamps_.find(node_id);
     return (it != timestamps_.end()) ? it->second : 0;
 }
 
-/** @brief Return true when this clock causally precedes other. */
 bool VectorClock::happensBefore(const VectorClock& other) const {
     bool less_or_equal = true;
     bool strictly_less = false;
@@ -73,17 +78,14 @@ bool VectorClock::happensBefore(const VectorClock& other) const {
     return less_or_equal && strictly_less;
 }
 
-/** @brief Return true when this clock causally succeeds other. */
 bool VectorClock::happensAfter(const VectorClock& other) const {
     return other.happensBefore(*this);
 }
 
-/** @brief Return true when no causal ordering exists between clocks. */
 bool VectorClock::isConcurrent(const VectorClock& other) const {
     return !happensBefore(other) && !happensAfter(other);
 }
 
-/** @brief Serialize vector clock into node:counter comma-separated string. */
 std::string VectorClock::serialize() const {
     if (timestamps_.empty()) {
         return "";  // Empty clock
@@ -101,7 +103,12 @@ std::string VectorClock::serialize() const {
     return oss.str();
 }
 
-/** @brief Parse vector clock from node:counter comma-separated string. */
+/**
+ * @brief Deserialize.
+ * @param[in] data Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), VectorClock(), iss(), std::getline(), find(), substr(), std::stoull().
+ */
 std::optional<VectorClock> VectorClock::deserialize(const std::string& data) {
     if (data.empty()) {
         return VectorClock();  // Empty clock
@@ -133,7 +140,6 @@ std::optional<VectorClock> VectorClock::deserialize(const std::string& data) {
 
 // VersionedEntry implementation
 
-/** @brief Serialize versioned entry into delimiter-separated text payload. */
 std::string VersionedEntry::serialize() const {
     std::ostringstream oss = {};
     oss << node_id << "|" << version.serialize() << "|" 
@@ -141,7 +147,12 @@ std::string VersionedEntry::serialize() const {
     return oss.str();
 }
 
-/** @brief Deserialize versioned entry from delimiter-separated payload. */
+/**
+ * @brief Deserialize.
+ * @param[in] data Input parameter.
+ * @return Return value.
+ * @details Calls: find(), substr(), std::stoull(), std::chrono::system_clock::time_point(), std::chrono::system_clock::duration().
+ */
 std::optional<VersionedEntry> VersionedEntry::deserialize(const std::string& data) {
     size_t pos1 = data.find('|');
     if (pos1 == std::string::npos) {
@@ -178,11 +189,17 @@ std::optional<VersionedEntry> VersionedEntry::deserialize(const std::string& dat
 
 // ReplicaConsistencyManager implementation
 
-/** @brief Construct consistency manager with configured conflict policies. */
 ReplicaConsistencyManager::ReplicaConsistencyManager(const Config& config)
     : config_(config) {}
 
-/** @brief Record write and append versioned entry to per-key history. */
+/**
+ * @brief Record Write.
+ * @param[in] key Input parameter.
+ * @param[in] data Input parameter.
+ * @param[in] node_id Identifier of the node.
+ * @return Return value.
+ * @details Calls: lock(), increment(), std::chrono::system_clock::now(), push_back(), size(), erase(), begin().
+ */
 VersionedEntry ReplicaConsistencyManager::recordWrite(
     const std::string& key,
     const std::string& data,
@@ -213,12 +230,16 @@ VersionedEntry ReplicaConsistencyManager::recordWrite(
     return entry;
 }
 
-/** @brief Merge replica versions, detecting and resolving conflicts as configured. */
 std::variant<VersionedEntry, VersionConflict> 
 ReplicaConsistencyManager::mergeReplicas(
     const std::string& key,
     const std::vector<VersionedEntry>& entries) {
     
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     stats_.merges_performed++;
     
@@ -248,7 +269,12 @@ ReplicaConsistencyManager::mergeReplicas(
     return selectWinningVersion(entries, config_.default_strategy);
 }
 
-/** @brief Apply manual conflict resolution result and store resolved version. */
+/**
+ * @brief Resolve Conflict.
+ * @param[in] conflict Input parameter.
+ * @param[in] resolved_entry Input parameter.
+ * @details Calls: lock(), push_back(), size(), erase(), begin().
+ */
 void ReplicaConsistencyManager::resolveConflict(
     const VersionConflict& conflict,
     const VersionedEntry& resolved_entry) {
@@ -265,21 +291,34 @@ void ReplicaConsistencyManager::resolveConflict(
     }
 }
 
-/** @brief Return current vector clock for node_id. */
 VectorClock ReplicaConsistencyManager::getVectorClock(const std::string& node_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = node_clocks_.find(node_id);
     return (it != node_clocks_.end()) ? it->second : VectorClock();
 }
 
-/** @brief Merge node vector clock with remote causality information. */
+/**
+ * @brief Update Vector Clock.
+ * @param[in] node_id Identifier of the node.
+ * @param[in] clock Input parameter.
+ * @details Calls: lock(), update().
+ */
 void ReplicaConsistencyManager::updateVectorClock(const std::string& node_id,
                                                   const VectorClock& clock) {
     std::lock_guard<std::mutex> lock(mutex_);
     node_clocks_[node_id].update(clock);
 }
 
-/** @brief Register callback for custom conflict resolution (thread-safe). */
+/**
+ * @brief Set Conflict Callback.
+ * @param[in] callback Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void ReplicaConsistencyManager::setConflictCallback(ConflictCallback callback) {
     // conflict_callback_ is read under mutex_ by autoResolveConflict; acquire
     // here to prevent a data race when the callback is registered concurrently.
@@ -287,16 +326,26 @@ void ReplicaConsistencyManager::setConflictCallback(ConflictCallback callback) {
     conflict_callback_ = std::move(callback);
 }
 
-/** @brief Return retained version history for key. */
 std::vector<VersionedEntry> ReplicaConsistencyManager::getVersionHistory(
     const std::string& key) const {
     
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = version_history_.find(key);
     return (it != version_history_.end()) ? it->second : std::vector<VersionedEntry>();
 }
 
-/** @brief Merge partitioned Raft log streams by term/index ordering. */
+/**
+ * @brief Merge Partitioned Logs.
+ * @param[in] local_entries Input parameter.
+ * @param[in] remote_entries Input parameter.
+ * @return Return value.
+ * @details Calls: size(), push_back().
+ */
 std::vector<LogEntry> ReplicaConsistencyManager::mergePartitionedLogs(
     const std::vector<LogEntry>& local_entries,
     const std::vector<LogEntry>& remote_entries) {
@@ -338,7 +387,13 @@ std::vector<LogEntry> ReplicaConsistencyManager::mergePartitionedLogs(
     return merged;
 }
 
-/** @brief Detect concurrent versions indicating conflict for key. */
+/**
+ * @brief Detect Conflict.
+ * @param[in] key Input parameter.
+ * @param[in] entries Input parameter.
+ * @return Return value.
+ * @details Calls: size(), isConcurrent().
+ */
 std::optional<VersionConflict> ReplicaConsistencyManager::detectConflict(
     const std::string& key,
     const std::vector<VersionedEntry>& entries) {
@@ -361,7 +416,12 @@ std::optional<VersionConflict> ReplicaConsistencyManager::detectConflict(
     return std::nullopt;
 }
 
-/** @brief Auto-resolve conflict via callback or strategy selection. */
+/**
+ * @brief Auto Resolve Conflict.
+ * @param[in] conflict Input parameter.
+ * @return Return value.
+ * @details Calls: conflict_callback_(), selectWinningVersion().
+ */
 VersionedEntry ReplicaConsistencyManager::autoResolveConflict(
     const VersionConflict& conflict) {
     
@@ -373,7 +433,13 @@ VersionedEntry ReplicaConsistencyManager::autoResolveConflict(
                                conflict.resolution_strategy);
 }
 
-/** @brief Select winning version according to provided resolution strategy. */
+/**
+ * @brief Select Winning Version.
+ * @param[in] entries Input parameter.
+ * @param[in] strategy Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), std::max_element(), begin(), end(), happensAfter().
+ */
 VersionedEntry ReplicaConsistencyManager::selectWinningVersion(
     const std::vector<VersionedEntry>& entries,
     ConflictResolutionStrategy strategy) {

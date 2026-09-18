@@ -31,6 +31,12 @@ plugins::PluginCapabilities WhisperPluginAdapter::getCapabilities() const {
     return caps;
 }
 
+/**
+ * @brief Initialize.
+ * @param[in] config_json Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: nlohmann::json::parse(), contains(), is_string(), empty().
+ */
 bool WhisperPluginAdapter::initialize(const char* config_json) {
     if (!config_json || config_json[0] == '\0') {
         return false;
@@ -55,6 +61,10 @@ bool WhisperPluginAdapter::initialize(const char* config_json) {
     }
 }
 
+/**
+ * @brief Shutdown.
+ * @details Calls: clear().
+ */
 void WhisperPluginAdapter::shutdown() {
     // Reset to a fresh stub state so the adapter can be safely re-used after
     // a hot-plug unload event.
@@ -62,7 +72,12 @@ void WhisperPluginAdapter::shutdown() {
     model_path_.clear();
 }
 
-// ── WhisperPluginRegistrar — factory methods ──────────────────────────────────
+/**
+ * @brief ── WhisperPluginRegistrar — factory methods ──────────────────────────────────
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @details Calls: contains(), is_string(), empty(), initialize().
+ */
 
 std::unique_ptr<WhisperPlugin> WhisperPluginRegistrar::createPlugin(
         const json& config) {
@@ -76,6 +91,12 @@ std::unique_ptr<WhisperPlugin> WhisperPluginRegistrar::createPlugin(
     return plugin;
 }
 
+/**
+ * @brief Create Adapter.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @details Calls: createPlugin(), std::move().
+ */
 std::unique_ptr<WhisperPluginAdapter> WhisperPluginRegistrar::createAdapter(
         const json& config) {
     auto plugin = createPlugin(config);
@@ -97,6 +118,13 @@ WhisperPluginRegistrar::defaultReloadCallback() {
     };
 }
 
+/**
+ * @brief Enable Hot Plug.
+ * @param[in,out] manager Input/output parameter.
+ * @param[in] directory Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements enableHotPlug without additional internal calls.
+ */
 bool WhisperPluginRegistrar::enableHotPlug(
         plugins::PluginManager& manager,
         const std::string& directory) {
@@ -108,6 +136,11 @@ bool WhisperPluginRegistrar::enableHotPlug(
     return manager.enableHotPlug(directory, cfg);
 }
 
+/**
+ * @brief Disable Hot Plug.
+ * @param[in,out] manager Input/output parameter.
+ * @details Implements disableHotPlug without additional internal calls.
+ */
 void WhisperPluginRegistrar::disableHotPlug(plugins::PluginManager& manager) {
     manager.disableHotPlug();
 }

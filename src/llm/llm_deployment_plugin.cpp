@@ -33,7 +33,12 @@ namespace themis {
 namespace llm {
 
 namespace {
-// Convert time_point to ISO 8601 string
+/**
+ * @brief Convert time_point to ISO 8601 string
+ * @param[in] tp Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::to_time_t(), gmtime_s(), gmtime_r(), std::strftime(), std::string().
+ */
 std::string timeToISO8601(const std::chrono::system_clock::time_point& tp) {
     auto time_t_val = std::chrono::system_clock::to_time_t(tp);
     std::tm tm_val = {};
@@ -47,7 +52,12 @@ std::string timeToISO8601(const std::chrono::system_clock::time_point& tp) {
     return std::string(buf);
 }
 
-// Parse ISO 8601 string to time_point (expects UTC timestamps with 'Z' suffix)
+/**
+ * @brief Parse ISO 8601 string to time_point (expects UTC timestamps with 'Z' suffix)
+ * @param[in] iso Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), LOG_WARN(), back(), substr(), size(), ss(), std::get_time(), fail().
+ */
 std::chrono::system_clock::time_point iso8601ToTime(const std::string& iso) {
     // Default to Unix epoch on failure
     std::chrono::system_clock::time_point default_tp{};
@@ -178,6 +188,13 @@ LLMDeploymentPlugin::LLMDeploymentPlugin(const DeploymentConfig& config)
              static_cast<int>(config_.mode), config_.cache_directory);
 }
 
+/**
+ * @brief Deploy Model.
+ * @param[in] model_id Identifier of the model.
+ * @param[in] force_download Input parameter.
+ * @return Return value.
+ * @details Calls: LOG_INFO(), std::chrono::system_clock::now(), currentUserId(), empty(), logAudit(), LOG_ERROR(), getModelPath(), fs::exists().
+ */
 std::optional<ModelStatus> LLMDeploymentPlugin::deployModel(const std::string& model_id,
                                                               bool force_download) {
     LOG_INFO("Deploying model: {} (force_download: {})", model_id, force_download);
@@ -333,6 +350,13 @@ std::optional<ModelStatus> LLMDeploymentPlugin::deployModel(const std::string& m
     }
 }
 
+/**
+ * @brief Download Model.
+ * @param[in] model_id Identifier of the model.
+ * @param[in] progress_callback Input parameter.
+ * @return Return value.
+ * @details Calls: LOG_INFO(), findBestSource(), LOG_ERROR(), downloadFromOllama(), getModelPath(), downloadFromURL(), src_path(), fs::is_directory().
+ */
 ModelDownloadResult LLMDeploymentPlugin::downloadModel(const std::string& model_id,
                                                         DownloadProgressCallback progress_callback) {
     LOG_INFO("Downloading model: {}", model_id);
@@ -415,6 +439,13 @@ ModelDownloadResult LLMDeploymentPlugin::downloadModel(const std::string& model_
     return result;
 }
 
+/**
+ * @brief Load Model.
+ * @param[in] model_id Identifier of the model.
+ * @param[in,out] llm_plugin Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: LOG_ERROR(), getModelStatus(), fs::exists(), LOG_INFO(), std::find_if(), begin(), end(), std::chrono::system_clock::now().
+ */
 bool LLMDeploymentPlugin::loadModel(const std::string& model_id, ILLMPlugin* llm_plugin) {
     if (!llm_plugin) {
         LOG_ERROR("Invalid LLM plugin pointer");
@@ -450,6 +481,11 @@ bool LLMDeploymentPlugin::loadModel(const std::string& model_id, ILLMPlugin* llm
     return false;
 }
 
+/**
+ * @brief List Available Models.
+ * @return Return value.
+ * @details Calls: listOllamaModels(), insert(), end(), begin(), std::sort(), erase(), std::unique().
+ */
 std::vector<std::string> LLMDeploymentPlugin::listAvailableModels() {
     std::vector<std::string> models;
     
@@ -469,10 +505,21 @@ std::vector<std::string> LLMDeploymentPlugin::listAvailableModels() {
     return models;
 }
 
+/**
+ * @brief List Cached Models.
+ * @return Return value.
+ * @details Implements listCachedModels without additional internal calls.
+ */
 std::vector<ModelStatus> LLMDeploymentPlugin::listCachedModels() {
     return model_registry_;
 }
 
+/**
+ * @brief Get Model Status.
+ * @param[in] model_id Identifier of the model.
+ * @return Return value.
+ * @details Calls: std::find_if(), begin(), end().
+ */
 std::optional<ModelStatus> LLMDeploymentPlugin::getModelStatus(const std::string& model_id) {
     auto it = std::find_if(model_registry_.begin(), model_registry_.end(),
                            [&](const ModelStatus& s) { return s.model_id == model_id; });
@@ -484,6 +531,12 @@ std::optional<ModelStatus> LLMDeploymentPlugin::getModelStatus(const std::string
     return std::nullopt;
 }
 
+/**
+ * @brief Verify Model.
+ * @param[in] model_id Identifier of the model.
+ * @return True when the operation succeeds.
+ * @details Calls: getModelStatus(), LOG_ERROR(), fs::exists(), findBestSource(), empty(), LOG_WARN(), verifyChecksum().
+ */
 bool LLMDeploymentPlugin::verifyModel(const std::string& model_id) {
     auto status = getModelStatus(model_id);
     if (!status) {
@@ -506,6 +559,12 @@ bool LLMDeploymentPlugin::verifyModel(const std::string& model_id) {
     return verifyChecksum(status->model_path, source->checksum_value, source->checksum_type);
 }
 
+/**
+ * @brief Update Model.
+ * @param[in] model_id Identifier of the model.
+ * @return Return value.
+ * @details Calls: LOG_INFO(), std::chrono::system_clock::now(), currentUserId(), deployModel(), LOG_ERROR(), logAudit().
+ */
 std::optional<ModelStatus> LLMDeploymentPlugin::updateModel(const std::string& model_id) {
     LOG_INFO("Updating model: {}", model_id);
     
@@ -531,6 +590,13 @@ std::optional<ModelStatus> LLMDeploymentPlugin::updateModel(const std::string& m
     return result;
 }
 
+/**
+ * @brief Remove Model.
+ * @param[in] model_id Identifier of the model.
+ * @param[in] force Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: LOG_INFO(), std::chrono::system_clock::now(), currentUserId(), getModelStatus(), logAudit(), LOG_ERROR(), fs::exists(), fs::remove().
+ */
 bool LLMDeploymentPlugin::removeModel(const std::string& model_id, bool force) {
     LOG_INFO("Removing model: {} (force: {})", model_id, force);
     
@@ -585,6 +651,11 @@ bool LLMDeploymentPlugin::removeModel(const std::string& model_id, bool force) {
     }
 }
 
+/**
+ * @brief Cleanup Old Models.
+ * @return Return value.
+ * @details Calls: LOG_INFO(), std::chrono::system_clock::now(), std::chrono::hours(), push_back(), removeModel(), getCacheSize(), std::sort(), begin().
+ */
 int LLMDeploymentPlugin::cleanupOldModels() {
     LOG_INFO("Running model cleanup...");
     
@@ -684,6 +755,11 @@ json LLMDeploymentPlugin::getCacheStats() const {
     return stats;
 }
 
+/**
+ * @brief Update the access control configuration.
+ * @param[in] config New access control configuration.
+ * @details Calls: LOG_INFO().
+ */
 void LLMDeploymentPlugin::updateConfig(const DeploymentConfig& config) {
     config_ = config;
     LOG_INFO("Deployment configuration updated");
@@ -703,6 +779,12 @@ std::vector<AuditEntry> LLMDeploymentPlugin::getAuditLog(size_t limit) const {
     return result;
 }
 
+/**
+ * @brief Load Config From YAML.
+ * @param[in] config_path Path to the retention policy configuration file.
+ * @return Return value.
+ * @details Calls: YAML::LoadFile(), push_back(), LOG_ERROR(), what().
+ */
 std::optional<DeploymentConfig> LLMDeploymentPlugin::loadConfigFromYAML(const std::string& config_path) {
     try {
         YAML::Node config = YAML::LoadFile(config_path);
@@ -805,6 +887,11 @@ std::optional<DeploymentConfig> LLMDeploymentPlugin::loadConfigFromYAML(const st
 // Private Helper Methods
 // ============================================================================
 
+/**
+ * @brief Log Audit.
+ * @param[in] entry Input parameter.
+ * @details Calls: push_back(), log_file(), is_open(), timeToISO8601(), empty(), dump(), LOG_ERROR(), what().
+ */
 void LLMDeploymentPlugin::logAudit(const AuditEntry& entry) {
     if (!config_.enable_audit_log) {
         return;
@@ -837,6 +924,10 @@ void LLMDeploymentPlugin::logAudit(const AuditEntry& entry) {
     }
 }
 
+/**
+ * @brief Save Model Registry.
+ * @details Calls: fs::path(), json::array(), timeToISO8601(), push_back(), file(), dump(), LOG_ERROR(), what().
+ */
 void LLMDeploymentPlugin::saveModelRegistry() {
     fs::path registry_path = fs::path(config_.cache_directory) / "model_registry.json";
     
@@ -870,6 +961,10 @@ void LLMDeploymentPlugin::saveModelRegistry() {
     }
 }
 
+/**
+ * @brief Load Model Registry.
+ * @details Calls: fs::path(), fs::exists(), LOG_INFO(), file(), clear(), value(), contains(), iso8601ToTime().
+ */
 void LLMDeploymentPlugin::loadModelRegistry() {
     fs::path registry_path = fs::path(config_.cache_directory) / "model_registry.json";
     
@@ -920,6 +1015,12 @@ void LLMDeploymentPlugin::loadModelRegistry() {
     }
 }
 
+/**
+ * @brief Find Best Source.
+ * @param[in] model_id Identifier of the model.
+ * @return Return value.
+ * @details Calls: empty(), LOG_ERROR(), LOG_DEBUG(), std::sort(), begin(), end(), src_path(), fs::is_directory().
+ */
 std::optional<ModelSource> LLMDeploymentPlugin::findBestSource(const std::string& model_id) {
     // Validate model_id before attempting any source lookup
     if (model_id.empty()) {
@@ -977,6 +1078,12 @@ std::optional<ModelSource> LLMDeploymentPlugin::findBestSource(const std::string
     return std::nullopt;
 }
 
+/**
+ * @brief Model Id To Filename.
+ * @param[in] model_id Identifier of the model.
+ * @return Return value.
+ * @details Calls: std::replace(), begin(), end(), extension(), string(), std::transform(), std::tolower().
+ */
 std::string LLMDeploymentPlugin::modelIdToFilename(const std::string& model_id) {
     std::string filename = model_id;
     std::replace(filename.begin(), filename.end(), ':', '_');
@@ -1000,6 +1107,14 @@ std::string LLMDeploymentPlugin::getModelPath(const std::string& model_id) const
     return path.string();
 }
 
+/**
+ * @brief Verify Checksum.
+ * @param[in] file_path Path to the file.
+ * @param[in] expected_checksum Input parameter.
+ * @param[in] checksum_type Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: utils::calculateSHA256(), LOG_WARN(), defined(), utils::calculateMD5(), LOG_ERROR(), empty(), LOG_INFO().
+ */
 bool LLMDeploymentPlugin::verifyChecksum(const std::string& file_path,
                                           const std::string& expected_checksum,
                                           const std::string& checksum_type) {
@@ -1051,6 +1166,13 @@ bool LLMDeploymentPlugin::verifyChecksum(const std::string& file_path,
 // BaseEntity Storage Integration
 // ============================================================================
 
+/**
+ * @brief Save Model To Storage.
+ * @param[in] status Input parameter.
+ * @param[in] file_path Path to the file.
+ * @return True when the operation succeeds.
+ * @details Calls: LOG_WARN(), contains(), fs::exists(), fs::file_size(), file(), data(), read(), std::move().
+ */
 bool LLMDeploymentPlugin::saveModelToStorage(const ModelStatus& status, const std::string& file_path) {
     if (!model_storage_) {
         LOG_WARN("BaseEntity storage not initialized, skipping storage save");
@@ -1141,6 +1263,12 @@ bool LLMDeploymentPlugin::saveModelToStorage(const ModelStatus& status, const st
     }
 }
 
+/**
+ * @brief Load Model From Storage.
+ * @param[in] model_id Identifier of the model.
+ * @return Return value.
+ * @details Calls: loadModel(), LOG_ERROR(), what().
+ */
 std::optional<LLMModelMetadata> LLMDeploymentPlugin::loadModelFromStorage(const std::string& model_id) {
     if (!model_storage_) {
         return std::nullopt;
@@ -1154,6 +1282,13 @@ std::optional<LLMModelMetadata> LLMDeploymentPlugin::loadModelFromStorage(const 
     }
 }
 
+/**
+ * @brief Update Model In Storage.
+ * @param[in] model_id Identifier of the model.
+ * @param[in] status Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: updateModel(), LOG_ERROR(), what().
+ */
 bool LLMDeploymentPlugin::updateModelInStorage(const std::string& model_id, const ModelStatus& status) {
     if (!model_storage_) {
         return false;
@@ -1180,6 +1315,12 @@ bool LLMDeploymentPlugin::updateModelInStorage(const std::string& model_id, cons
     }
 }
 
+/**
+ * @brief Delete Model From Storage.
+ * @param[in] model_id Identifier of the model.
+ * @return True when the operation succeeds.
+ * @details Calls: deleteModel(), LOG_ERROR(), what().
+ */
 bool LLMDeploymentPlugin::deleteModelFromStorage(const std::string& model_id) {
     if (!model_storage_) {
         return false;

@@ -72,6 +72,11 @@ Tensor QuantizedLayerWeights::dequantize() const {
     std::vector<float> data;
     quantization::dequantize(quantized_, data);
     
+    /**
+     * @brief Result.
+     * @param[in] original_shape_ Input parameter.
+     * @return Return value.
+     */
     Tensor result(original_shape_);
     result.data() = std::move(data);
     return result;
@@ -87,11 +92,23 @@ QuantizedModel::QuantizedModel(const QuantizedModelConfig& config)
     : config_(config) {
 }
 
+/**
+ * @brief Add layer.
+ * @param[in] layer_name Name of the layer.
+ * @param[in] weights Input parameter.
+ * @details Calls: spdlog::debug(), emplace(), QuantizedLayerWeights().
+ */
 void QuantizedModel::add_layer(const std::string& layer_name, const Tensor& weights) {
     spdlog::debug("Adding layer '{}' to quantized model", layer_name);
     layers_.emplace(layer_name, QuantizedLayerWeights(weights, config_));
 }
 
+/**
+ * @brief Add quantized layer.
+ * @param[in] layer_name Name of the layer.
+ * @param[in] quantized_weights Input parameter.
+ * @details Calls: spdlog::debug(), emplace(), std::move().
+ */
 void QuantizedModel::add_quantized_layer(const std::string& layer_name, 
                                          QuantizedLayerWeights&& quantized_weights) {
     spdlog::debug("Adding pre-quantized layer '{}' to quantized model", layer_name);
@@ -152,6 +169,12 @@ QLoRALayer::QLoRALayer(size_t in_dim, size_t out_dim, size_t rank,
                   in_dim, out_dim, rank, base_weights ? "yes" : "no");
 }
 
+/**
+ * @brief Forward.
+ * @param[in] input Input parameter.
+ * @return Return value.
+ * @details Calls: clone(), matmul(), dequantize().
+ */
 Tensor QLoRALayer::forward(const Tensor& input) {
     cached_input_ = input.clone();
     
@@ -177,6 +200,12 @@ Tensor QLoRALayer::forward(const Tensor& input) {
     }
 }
 
+/**
+ * @brief Backward.
+ * @param[in] grad_output Input parameter.
+ * @return Return value.
+ * @details Calls: transpose(), matmul(), std::move(), dequantize().
+ */
 Tensor QLoRALayer::backward(const Tensor& grad_output) {
     // Backward pass only for LoRA parameters (base model is frozen)
     
@@ -212,6 +241,11 @@ Tensor QLoRALayer::backward(const Tensor& grad_output) {
     return grad_input;
 }
 
+/**
+ * @brief Parameters.
+ * @return Return value.
+ * @details Calls: get().
+ */
 std::vector<Tensor*> QLoRALayer::parameters() {
     return {B_.get(), A_.get()};
 }
@@ -226,6 +260,11 @@ size_t QLoRALayer::memory_bytes() const {
     return lora_bytes + base_bytes;
 }
 
+/**
+ * @brief Set base weights.
+ * @param[in] base_weights Input parameter.
+ * @details Implements set_base_weights without additional internal calls.
+ */
 void QLoRALayer::set_base_weights(std::shared_ptr<QuantizedLayerWeights> base_weights) {
     base_weights_ = base_weights;
 }
@@ -234,6 +273,12 @@ std::pair<Tensor, Tensor> QLoRALayer::get_lora_weights() const {
     return {B_->clone(), A_->clone()};
 }
 
+/**
+ * @brief Set lora weights.
+ * @param[in] B Input parameter.
+ * @param[in] A Input parameter.
+ * @details Calls: clone().
+ */
 void QLoRALayer::set_lora_weights(const Tensor& B, const Tensor& A) {
     *B_ = B.clone();
     *A_ = A.clone();
@@ -243,6 +288,15 @@ void QLoRALayer::set_lora_weights(const Tensor& B, const Tensor& A) {
 
 namespace quantized_model_utils {
 
+/**
+ * @brief Estimate memory usage.
+ * @param[in] num_parameters Input parameter.
+ * @param[in] quant_type Input parameter.
+ * @param[in] block_size Input parameter.
+ * @param[in] use_double_quant Input parameter.
+ * @return Return value.
+ * @details Implements estimate_memory_usage without additional internal calls.
+ */
 size_t estimate_memory_usage(size_t num_parameters,
                               QuantizationType quant_type,
                               size_t block_size,
@@ -273,6 +327,13 @@ size_t estimate_memory_usage(size_t num_parameters,
     return data_bytes + block_bytes;
 }
 
+/**
+ * @brief Calculate memory reduction.
+ * @param[in] size_t Input parameter.
+ * @param[in] quant_type Input parameter.
+ * @return Return value.
+ * @details Implements calculate_memory_reduction without additional internal calls.
+ */
 float calculate_memory_reduction(size_t /*original_bytes*/, QuantizationType quant_type) {
     // Rough estimates based on typical block sizes
     float reduction = 0.0f;
@@ -302,6 +363,11 @@ QuantizedModel convert_to_quantized(
     const std::unordered_map<std::string, Tensor>& model_weights,
     const QuantizedModelConfig& config) {
     
+    /**
+     * @brief Model.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     QuantizedModel model(config);
     
     spdlog::info("Converting model to quantized format: {} layers",model_weights.size());
@@ -315,6 +381,14 @@ QuantizedModel convert_to_quantized(
     return model;
 }
 
+/**
+ * @brief Load from gguf.
+ * @param[in] gguf_path Path to the gguf.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: spdlog::info(), parseFile(), getMetadata(), size(), empty(), GGUFConverter::getInternalType(), model(), GGUFConverter::isSupported().
+ */
 QuantizedModel load_from_gguf(
     const std::string& gguf_path,
     const QuantizedModelConfig* config) {

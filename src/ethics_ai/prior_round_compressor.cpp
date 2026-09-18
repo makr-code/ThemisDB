@@ -27,6 +27,11 @@ namespace ethics {
 // Injection API
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Set Llm Summary Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void PriorRoundCompressor::setLlmSummaryFn(LlmSummaryFn fn) {
     std::lock_guard<std::mutex> lock(llm_fn_mutex_);
     llm_summary_fn_ = std::move(fn);
@@ -40,6 +45,12 @@ int PriorRoundCompressor::countTokens(const std::string &text) noexcept {
     return static_cast<int>((text.size() + 3U) / 4U);
 }
 
+/**
+ * @brief Extract Principle Citations.
+ * @param[in] content Input parameter.
+ * @return Return value.
+ * @details Calls: re(), std::sregex_iterator(), begin(), end(), str(), insert(), push_back().
+ */
 std::vector<std::string> PriorRoundCompressor::extractPrincipleCitations(const std::string &content) {
     std::vector<std::string> citations;
     std::set<std::string> seen;
@@ -89,6 +100,12 @@ std::vector<std::string> PriorRoundCompressor::extractPrincipleCitations(const s
     return citations;
 }
 
+/**
+ * @brief Extract Verdict.
+ * @param[in] content Input parameter.
+ * @return Return value.
+ * @details Calls: std::transform(), begin(), end(), find().
+ */
 std::string PriorRoundCompressor::extractVerdict(const std::string &content) {
     std::string upper = content;
     std::transform(upper.begin(), upper.end(), upper.begin(), ::toupper);
@@ -193,6 +210,11 @@ CompressionResult PriorRoundCompressor::compressStructuredSummary(const EthicalA
     // CRITICAL FIX: Protect access to llm_summary_fn_ with lock (data_race remediation)
     LlmSummaryFn llm_fn_copy;
     {
+        /**
+         * @brief Lock.
+         * @param[in] llm_fn_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(llm_fn_mutex_);
         llm_fn_copy = llm_summary_fn_;
     }
@@ -296,8 +318,11 @@ CompressionResult PriorRoundCompressor::compressStructuredSummary(const EthicalA
         const std::string &sent = sentences[i];
         float score             = 0.f;
 
-        // TF component: sum of word frequencies
-        // COMPLEXITY FIX: word_freq is unordered_map, so find() is O(1) avg case (HIGH: o_n_squared)
+        /**
+         * @brief TF component: sum of word frequencies COMPLEXITY FIX: word_freq is unordered_map, so find() is O(1) avg case (HIGH: o_n_squared)
+         * @param[in] sent Input parameter.
+         * @return Return value.
+         */
         std::istringstream iss(sent);
         std::string word = {};
         int word_count = 0;
@@ -505,6 +530,11 @@ float PriorRoundCompressor::measureDcLoss(const std::string &original_arg, const
     // Jaccard distance on whitespace-tokenized sets
     auto tokenize = [](const std::string &text) -> std::set<std::string> {
         std::set<std::string> tokens;
+        /**
+         * @brief Iss.
+         * @param[in] text Input parameter.
+         * @return Return value.
+         */
         std::istringstream iss(text);
         std::string tok = {};
         while (iss >> tok) {

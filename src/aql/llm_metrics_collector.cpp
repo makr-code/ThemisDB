@@ -18,6 +18,10 @@ namespace aql {
 
 LLMMetricsCollector::LLMMetricsCollector() : exporter_(std::make_shared<llm::monitoring::PrometheusExporter>()) {}
 
+/**
+ * @brief Initialize.
+ * @details Calls: lock(), registerMetrics(), spdlog::info().
+ */
 void LLMMetricsCollector::initialize() {
     std::lock_guard<std::mutex> lock(mutex_);
     if (initialized_) {
@@ -29,6 +33,10 @@ void LLMMetricsCollector::initialize() {
     spdlog::info("LLM metrics collector initialized");
 }
 
+/**
+ * @brief Register Metrics.
+ * @details Calls: registerMetric().
+ */
 void LLMMetricsCollector::registerMetrics() {
     using namespace llm::monitoring;
 
@@ -87,6 +95,17 @@ void LLMMetricsCollector::registerMetrics() {
                                {"collection", "lora"}});
 }
 
+/**
+ * @brief Record Inference.
+ * @param[in] model_id Identifier of the model.
+ * @param[in] lora_id Identifier of the lora.
+ * @param[in] latency Input parameter.
+ * @param[in] input_tokens Input parameter.
+ * @param[in] output_tokens Input parameter.
+ * @param[in] success Input parameter.
+ * @param[in] error_code Input parameter.
+ * @details Calls: lock(), observeHistogram(), count(), incrementCounter(), empty().
+ */
 void LLMMetricsCollector::recordInference(const std::string &model_id, const std::string &lora_id,
                                           std::chrono::milliseconds latency, size_t input_tokens, size_t output_tokens,
                                           bool success, const std::string &error_code) {
@@ -117,6 +136,18 @@ void LLMMetricsCollector::recordInference(const std::string &model_id, const std
     }
 }
 
+/**
+ * @brief Record RAG.
+ * @param[in] collection Input parameter.
+ * @param[in] lora_id Identifier of the lora.
+ * @param[in] latency Input parameter.
+ * @param[in] retrieved_docs Input parameter.
+ * @param[in] input_tokens Input parameter.
+ * @param[in] output_tokens Input parameter.
+ * @param[in] success Input parameter.
+ * @param[in] error_code Input parameter.
+ * @details Calls: lock(), observeHistogram(), count(), incrementCounter(), empty().
+ */
 void LLMMetricsCollector::recordRAG(const std::string &collection, const std::string &lora_id,
                                     std::chrono::milliseconds latency, size_t retrieved_docs, size_t input_tokens,
                                     size_t output_tokens, bool success, const std::string &error_code) {
@@ -151,6 +182,15 @@ void LLMMetricsCollector::recordRAG(const std::string &collection, const std::st
     }
 }
 
+/**
+ * @brief Record Embedding.
+ * @param[in] model_id Identifier of the model.
+ * @param[in] latency Input parameter.
+ * @param[in] input_tokens Input parameter.
+ * @param[in] success Input parameter.
+ * @param[in] error_code Input parameter.
+ * @details Calls: lock(), observeHistogram(), count(), incrementCounter(), empty().
+ */
 void LLMMetricsCollector::recordEmbedding(const std::string &model_id, std::chrono::milliseconds latency,
                                           size_t input_tokens, bool success, const std::string &error_code) {
     std::lock_guard<std::mutex> lock(mutex_);
@@ -176,6 +216,12 @@ void LLMMetricsCollector::recordEmbedding(const std::string &model_id, std::chro
     }
 }
 
+/**
+ * @brief Record Cache Access.
+ * @param[in] cache_type Input parameter.
+ * @param[in] hit Input parameter.
+ * @details Calls: lock(), incrementCounter().
+ */
 void LLMMetricsCollector::recordCacheAccess(const std::string &cache_type, bool hit) {
     std::lock_guard<std::mutex> lock(mutex_);
 
@@ -183,12 +229,24 @@ void LLMMetricsCollector::recordCacheAccess(const std::string &cache_type, bool 
                                 {{"cache_type", cache_type}, {"result", hit ? "hit" : "miss"}});
 }
 
+/**
+ * @brief Update Model Memory.
+ * @param[in] model_id Identifier of the model.
+ * @param[in] memory_bytes Input parameter.
+ * @details Calls: lock(), setGauge().
+ */
 void LLMMetricsCollector::updateModelMemory(const std::string &model_id, size_t memory_bytes) {
     std::lock_guard<std::mutex> lock(mutex_);
 
     exporter_->setGauge("llm_model_memory_bytes", static_cast<double>(memory_bytes), {{"model", model_id}});
 }
 
+/**
+ * @brief Record Circuit Breaker State.
+ * @param[in] operation Input parameter.
+ * @param[in] state Input parameter.
+ * @details Calls: lock(), setGauge().
+ */
 void LLMMetricsCollector::recordCircuitBreakerState(const std::string &operation, const std::string &state) {
     std::lock_guard<std::mutex> lock(mutex_);
 
@@ -204,6 +262,13 @@ void LLMMetricsCollector::recordCircuitBreakerState(const std::string &operation
     exporter_->setGauge("llm_circuit_breaker_state", state_value, {{"operation", operation}});
 }
 
+/**
+ * @brief Record AQLValidation.
+ * @param[in] success Input parameter.
+ * @param[in] duration Input parameter.
+ * @param[in] error_reason Input parameter.
+ * @details Calls: lock(), observeHistogram(), count(), empty(), incrementCounter().
+ */
 void LLMMetricsCollector::recordAQLValidation(
     bool success,
     std::chrono::milliseconds duration,
@@ -227,6 +292,14 @@ void LLMMetricsCollector::recordAQLValidation(
         {{"status", status}});
 }
 
+/**
+ * @brief Record AQLGeneration Attempt.
+ * @param[in] success Input parameter.
+ * @param[in] attempt_number Input parameter.
+ * @param[in] duration Input parameter.
+ * @param[in] outcome Input parameter.
+ * @details Calls: lock(), observeHistogram(), count(), std::to_string(), empty(), incrementCounter().
+ */
 void LLMMetricsCollector::recordAQLGenerationAttempt(
     bool success,
     int attempt_number,
@@ -261,6 +334,12 @@ void LLMMetricsCollector::recordAQLGenerationAttempt(
     }
 }
 
+/**
+ * @brief Record Validation Retry.
+ * @param[in] retry_succeeded Input parameter.
+ * @param[in] attempt_number Input parameter.
+ * @details Calls: lock(), incrementCounter(), std::to_string().
+ */
 void LLMMetricsCollector::recordValidationRetry(
     bool retry_succeeded,
     int attempt_number) {

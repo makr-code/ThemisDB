@@ -41,6 +41,13 @@ const char *argumentTypeToString(ArgumentType type) {
     }
 }
 
+/**
+ * @brief String To Argument Type.
+ * @param[in] str Input parameter.
+ * @return Return value.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: std::transform(), begin(), end().
+ */
 ArgumentType stringToArgumentType(const std::string &str) {
     std::string lower = str;
     std::transform(lower.begin(), lower.end(), lower.begin(), ::tolower);
@@ -82,6 +89,13 @@ const char *argumentStrengthToString(ArgumentStrength strength) {
     }
 }
 
+/**
+ * @brief String To Argument Strength.
+ * @param[in] str Input parameter.
+ * @return Return value.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: std::transform(), begin(), end().
+ */
 ArgumentStrength stringToArgumentStrength(const std::string &str) {
     std::string lower = str;
     std::transform(lower.begin(), lower.end(), lower.begin(), ::tolower);

@@ -140,12 +140,12 @@ public:
     
     ~NlpTextAnalyzer() = default;
 
+
     /**
-     * @brief ========== Core Analysis Functions ==========
+     * @brief Detect Language.
      * @param[in] text Input parameter.
      * @return Return value.
      */
-
     Language detectLanguage(std::string_view text) const;
 
     /**
@@ -183,12 +183,12 @@ public:
         const std::string& language_code = "de",
         const std::string& config_path = "") const;
 
+
     /**
-     * @brief ========== AQL Query Optimization Support ==========
+     * @brief Estimate Query Complexity.
      * @param[in] query_text Input parameter.
      * @return Return value.
      */
-
     double estimateQueryComplexity(std::string_view query_text) const;
 
     std::map<std::string, std::string> extractQueryHints(std::string_view query_text) const;
@@ -274,10 +274,10 @@ private:
     mutable size_t analysis_count_ = 0;
     mutable size_t token_count_ = 0;
 
-    /**
-     * @brief ========== Private Helper Methods ==========
-     */
     
+    /**
+     * @brief Initialize Stop Words.
+     */
     void initializeStopWords();
     /**
      * @brief Initialize Sentiment Lexicon.

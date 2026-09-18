@@ -27,6 +27,15 @@ namespace {
 constexpr const char* HF_API_BASE = "https://datasets-server.huggingface.co";
 
 // CURL write callback
+/**
+ * @brief Curl Write Callback.
+ * @param[in,out] contents Input/output parameter.
+ * @param[in] size Input parameter.
+ * @param[in] nmemb Input parameter.
+ * @param[in,out] userp Input/output parameter.
+ * @return Return value.
+ * @details Calls: append().
+ */
 size_t curlWriteCallback(void* contents, size_t size, size_t nmemb, void* userp) {
     size_t total_size = size * nmemb;
     auto* str = static_cast<std::string*>(userp);
@@ -58,6 +67,12 @@ json HuggingFaceIngestionPlugin::Config::toJson() const {
     return j;
 }
 
+/**
+ * @brief From Json.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: contains().
+ */
 HuggingFaceIngestionPlugin::Config HuggingFaceIngestionPlugin::Config::fromJson(const json& j) {
     Config config = {};
     if (j.contains("dataset_name")) {
@@ -154,6 +169,11 @@ HuggingFaceIngestionPlugin::~HuggingFaceIngestionPlugin() {
     }
 }
 
+/**
+ * @brief Register With Worker.
+ * @param[in,out] worker Input/output parameter.
+ * @details Calls: registerJobHandler(), processHuggingFaceJob(), THEMIS_INFO().
+ */
 void HuggingFaceIngestionPlugin::registerWithWorker(content::AsyncIngestionWorker& worker) {
     worker_ = &worker;
     
@@ -168,6 +188,15 @@ void HuggingFaceIngestionPlugin::registerWithWorker(content::AsyncIngestionWorke
     THEMIS_INFO("HuggingFaceIngestionPlugin registered with AsyncIngestionWorker");
 }
 
+/**
+ * @brief Submit Dataset Job.
+ * @param[in] dataset_name Name of the dataset.
+ * @param[in] split Input parameter.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: rng(), rd(), std::setw(), std::setfill(), str(), empty(), std::chrono::system_clock::now(), time_since_epoch().
+ */
 std::string HuggingFaceIngestionPlugin::submitDatasetJob(
     const std::string& dataset_name,
     const std::string& split,
@@ -265,6 +294,12 @@ HuggingFaceIngestionPlugin::getDatasetMetadata(const std::string& dataset_name) 
     return metadata;
 }
 
+/**
+ * @brief Estimate Dataset Size.
+ * @param[in] dataset_name Name of the dataset.
+ * @return Return value.
+ * @details Calls: getDatasetMetadata().
+ */
 size_t HuggingFaceIngestionPlugin::estimateDatasetSize(const std::string& dataset_name) {
     try {
         auto metadata = getDatasetMetadata(dataset_name);
@@ -278,6 +313,13 @@ size_t HuggingFaceIngestionPlugin::estimateDatasetSize(const std::string& datase
 // HTTP Helpers
 // ============================================================================
 
+/**
+ * @brief Http Get.
+ * @param[in] url Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: waitForRateLimit(), clear(), curl_easy_setopt(), c_str(), empty(), curl_slist_append(), curl_easy_perform(), curl_slist_free_all().
+ */
 std::string HuggingFaceIngestionPlugin::httpGet(const std::string& url) {
     waitForRateLimit();
     
@@ -341,6 +383,12 @@ std::string HuggingFaceIngestionPlugin::httpGet(const std::string& url) {
         std::to_string(config_.max_retries) + " attempts");
 }
 
+/**
+ * @brief Http Get Json.
+ * @param[in] url Input parameter.
+ * @return Return value.
+ * @details Calls: httpGet(), json::parse().
+ */
 json HuggingFaceIngestionPlugin::httpGetJson(const std::string& url) {
     std::string response = httpGet(url);
     return json::parse(response);
@@ -350,6 +398,15 @@ json HuggingFaceIngestionPlugin::httpGetJson(const std::string& url) {
 // Dataset Fetching
 // ============================================================================
 
+/**
+ * @brief Fetch Batch.
+ * @param[in] dataset_name Name of the dataset.
+ * @param[in] split Input parameter.
+ * @param[in] offset Input parameter.
+ * @param[in] limit Input parameter.
+ * @return Return value.
+ * @details Calls: str(), httpGetJson(), contains(), push_back(), size(), THEMIS_ERROR(), what().
+ */
 HuggingFaceIngestionPlugin::FetchResult HuggingFaceIngestionPlugin::fetchBatch(
     const std::string& dataset_name,
     const std::string& split,
@@ -418,6 +475,14 @@ std::string HuggingFaceIngestionPlugin::getCachePath(
     return cache_path.string();
 }
 
+/**
+ * @brief Load From Cache.
+ * @param[in] dataset_name Name of the dataset.
+ * @param[in] split Input parameter.
+ * @param[in,out] docs Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: getCachePath(), std::filesystem::exists(), file(), is_array(), push_back(), THEMIS_INFO(), size(), THEMIS_WARN().
+ */
 bool HuggingFaceIngestionPlugin::loadFromCache(
     const std::string& dataset_name,
     const std::string& split,
@@ -454,6 +519,13 @@ bool HuggingFaceIngestionPlugin::loadFromCache(
     return false;
 }
 
+/**
+ * @brief Save To Cache.
+ * @param[in] dataset_name Name of the dataset.
+ * @param[in] split Input parameter.
+ * @param[in] docs Input parameter.
+ * @details Calls: getCachePath(), json::array(), push_back(), file(), dump(), THEMIS_INFO(), size(), THEMIS_WARN().
+ */
 void HuggingFaceIngestionPlugin::saveToCache(
     const std::string& dataset_name,
     const std::string& split,
@@ -485,6 +557,10 @@ void HuggingFaceIngestionPlugin::saveToCache(
 // Rate Limiting
 // ============================================================================
 
+/**
+ * @brief Wait For Rate Limit.
+ * @details Calls: std::chrono::steady_clock::now(), count(), std::this_thread::sleep_for(), std::chrono::milliseconds().
+ */
 void HuggingFaceIngestionPlugin::waitForRateLimit() {
     if (config_.max_requests_per_second == 0) {
         return;  // No rate limiting
@@ -510,6 +586,13 @@ void HuggingFaceIngestionPlugin::waitForRateLimit() {
 // Job Processing
 // ============================================================================
 
+/**
+ * @brief Process Hugging Face Job.
+ * @param[in,out] job Input/output parameter.
+ * @param[in,out] plugin Input/output parameter.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: THEMIS_INFO(), value(), empty(), loadFromCache(), fetchBatch(), insert(), end(), begin().
+ */
 void HuggingFaceIngestionPlugin::processHuggingFaceJob(
     content::IngestionJob& job,
     HuggingFaceIngestionPlugin* plugin
@@ -601,6 +684,14 @@ void HuggingFaceIngestionPlugin::processHuggingFaceJob(
         job.job_id,job.content_ids.size());
 }
 
+/**
+ * @brief Document To Content Spec.
+ * @param[in] doc Input parameter.
+ * @param[in] dataset_name Name of the dataset.
+ * @param[in] index Input parameter.
+ * @return Return value.
+ * @details Calls: str(), std::replace(), begin(), end(), std::to_string(), std::chrono::system_clock::now(), time_since_epoch(), count().
+ */
 json HuggingFaceIngestionPlugin::documentToContentSpec(
     const json& doc,
     const std::string& dataset_name,

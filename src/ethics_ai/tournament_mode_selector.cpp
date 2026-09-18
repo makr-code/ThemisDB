@@ -29,6 +29,12 @@ int TournamentModeSelector::countTokens(const std::string &text) noexcept {
     return static_cast<int>((text.size() + 3) / 4);
 }
 
+/**
+ * @brief Build Headline.
+ * @param[in] arg Input parameter.
+ * @return Return value.
+ * @details Calls: size(), substr(), str().
+ */
 std::string TournamentModeSelector::buildHeadline(const EthicalArgument &arg) {
     // Short type label
     std::string type_short = {};

@@ -58,6 +58,12 @@ PluginInfo STTProcessor::getInfo() const {
     return info;
 }
 
+/**
+ * @brief Initialize.
+ * @param[in] config Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: loadWhisperModel().
+ */
 bool STTProcessor::initialize(const PluginConfig &config) {
     if (initialized_) {
         return true;
@@ -82,6 +88,10 @@ bool STTProcessor::initialize(const PluginConfig &config) {
     return true;
 }
 
+/**
+ * @brief Shutdown.
+ * @details Calls: unloadWhisperModel().
+ */
 void STTProcessor::shutdown() {
     if (!initialized_) {
         return;
@@ -91,6 +101,11 @@ void STTProcessor::shutdown() {
     initialized_ = false;
 }
 
+/**
+ * @brief Set Transcribe Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lk(), std::move().
+ */
 void STTProcessor::setTranscribeFn(STTTranscribeFn fn) {
     std::lock_guard<std::mutex> lk(stats_mutex_);
     transcribe_fn_ = std::move(fn);
@@ -104,6 +119,14 @@ bool STTProcessor::canProcess(const std::string &mime_type) const {
     return std::find(supported.begin(), supported.end(), mime_type) != supported.end();
 }
 
+/**
+ * @brief Extract.
+ * @param[in] blob Input parameter.
+ * @param[in] param Input parameter.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::steady_clock::now(), size(), empty(), convertToWav16kHz(), extractPCMData(), transcribeInternal(), json::array(), push_back().
+ */
 ContentExtractionResult STTProcessor::extract(const std::vector<uint8_t> &blob, const std::string & /*mime_type*/,
                                               const ExtractionOptions & /*options*/
 ) {
@@ -192,6 +215,14 @@ ContentExtractionResult STTProcessor::extract(const std::vector<uint8_t> &blob, 
     return result;
 }
 
+/**
+ * @brief Chunk.
+ * @param[in] result Input parameter.
+ * @param[in] max_tokens Input parameter.
+ * @param[in] int Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), contains(), countTokens(), push_back(), splitSentences().
+ */
 std::vector<ContentChunk> STTProcessor::chunk(const ContentExtractionResult &result, int max_tokens, int /*overlap*/
 ) {
     std::vector<ContentChunk> chunks;
@@ -308,6 +339,13 @@ json STTProcessor::getStatistics() const {
     return stats;
 }
 
+/**
+ * @brief Transcribe.
+ * @param[in] audio_blob Input parameter.
+ * @param[in] options Input parameter.
+ * @return Return value.
+ * @details Calls: convertToWav16kHz(), extractPCMData(), transcribeInternal().
+ */
 TranscriptionResult STTProcessor::transcribe(const std::vector<uint8_t> &audio_blob, const json &options) {
     if (!initialized_) {
         TranscriptionResult result;
@@ -391,6 +429,13 @@ bool STTProcessor::streamTranscribe(const std::vector<uint8_t> &audio_stream,
     return any_success;
 }
 
+/**
+ * @brief Generate Meeting Protocol.
+ * @param[in] audio_blob Input parameter.
+ * @param[in] options Input parameter.
+ * @return Return value.
+ * @details Calls: value(), transcribe(), formatAsProtocol().
+ */
 json STTProcessor::generateMeetingProtocol(const std::vector<uint8_t> &audio_blob, const json &options) {
     json protocol_options;
     protocol_options["language"]            = options.value("language", default_language_);
@@ -411,6 +456,11 @@ json STTProcessor::generateMeetingProtocol(const std::vector<uint8_t> &audio_blo
 
 // Private implementation methods
 
+/**
+ * @brief Load Whisper Model.
+ * @return True when the operation succeeds.
+ * @details Calls: whisper_context_default_params(), whisper_init_from_file_with_params(), c_str(), whisper_is_multilingual().
+ */
 bool STTProcessor::loadWhisperModel() {
 // Real implementation loading Whisper.cpp model
 #ifdef THEMIS_ENABLE_WHISPER
@@ -441,6 +491,10 @@ bool STTProcessor::loadWhisperModel() {
 #endif
 }
 
+/**
+ * @brief Unload Whisper Model.
+ * @details Calls: whisper_free().
+ */
 void STTProcessor::unloadWhisperModel() {
 #ifdef THEMIS_ENABLE_WHISPER
     if (whisper_ctx_) {
@@ -452,6 +506,12 @@ void STTProcessor::unloadWhisperModel() {
 #endif
 }
 
+/**
+ * @brief Convert To Wav16k Hz.
+ * @param[in] audio_blob Input parameter.
+ * @return Return value.
+ * @details Implements convertToWav16kHz without additional internal calls.
+ */
 std::vector<uint8_t> STTProcessor::convertToWav16kHz(const std::vector<uint8_t> &audio_blob) {
     // When THEMIS_ENABLE_FFMPEG is defined, use FFmpeg to decode input formats
     // (MP3, AAC, OGG, etc.) and resample to 16 kHz mono before returning.
@@ -459,6 +519,13 @@ std::vector<uint8_t> STTProcessor::convertToWav16kHz(const std::vector<uint8_t> 
     return audio_blob;
 }
 
+/**
+ * @brief Extract PCMData.
+ * @param[in] wav_data Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: size(), std::to_string(), readUInt32LE(), readUInt16LE(), reserve(), std::memcpy(), std::max(), std::min().
+ */
 std::vector<float> STTProcessor::extractPCMData(const std::vector<uint8_t> &wav_data) {
     std::vector<float> pcm_data;
 
@@ -718,6 +785,13 @@ std::vector<float> STTProcessor::extractPCMData(const std::vector<uint8_t> &wav_
     return pcm_data;
 }
 
+/**
+ * @brief Transcribe Internal.
+ * @param[in] pcm_data Input parameter.
+ * @param[in] options Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::steady_clock::now(), whisper_full_default_params(), value(), c_str(), whisper_full(), data(), size(), whisper_full_n_segments().
+ */
 TranscriptionResult STTProcessor::transcribeInternal(const std::vector<float> &pcm_data, const json &options) {
     auto start = std::chrono::steady_clock::now();
 
@@ -879,6 +953,14 @@ STTProcessor::performSpeakerDiarization(const std::vector<TranscriptionSegment> 
     return diarizeSegments(segments, pcm_data, max_speakers_);
 }
 
+/**
+ * @brief Diarize Segments.
+ * @param[in] segments Input parameter.
+ * @param[in] pcm_data Input parameter.
+ * @param[in] max_speakers Input parameter.
+ * @return Return value.
+ * @details Calls: size(), empty(), std::max(), int64_t(), std::min(), fv(), data(), std::sqrt().
+ */
 std::vector<TranscriptionSegment> STTProcessor::diarizeSegments(const std::vector<TranscriptionSegment> &segments,
                                                                 const std::vector<float> &pcm_data, int max_speakers) {
     // Need at least 2 segments and PCM data to perform meaningful diarization.
@@ -1099,6 +1181,13 @@ std::vector<TranscriptionSegment> STTProcessor::diarizeSegments(const std::vecto
     return result;
 }
 
+/**
+ * @brief Format As Protocol.
+ * @param[in] result Input parameter.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), json::array(), formatTimestamp(), std::to_string(), push_back().
+ */
 json STTProcessor::formatAsProtocol(const TranscriptionResult &result, const json & /*options*/
 ) {
     json protocol;
@@ -1136,7 +1225,12 @@ json STTProcessor::formatAsProtocol(const TranscriptionResult &result, const jso
     return protocol;
 }
 
-// Helper function to format timestamp
+/**
+ * @brief Helper function to format timestamp
+ * @param[in] ms Input parameter.
+ * @return Return value.
+ * @details Calls: snprintf(), std::string().
+ */
 std::string STTProcessor::formatTimestamp(int64_t ms) {
     int hours   = static_cast<int>(ms / 3600000);
     int minutes = static_cast<int>((ms % 3600000) / 60000);

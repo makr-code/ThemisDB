@@ -73,34 +73,65 @@ namespace storage {
 // GpuCompressionImpl  — abstract platform-specific backend
 // ============================================================================
 
-/**
- * @brief Abstract interface implemented by each platform-specific backend.
- *
- * The concrete types are defined further below inside anonymous namespaces
- * and instantiated by GpuCompressionManager::init_gpu().
- */
 class GpuCompressionImpl {
 public:
+    /**
+     * @brief Gpu Compression Impl.
+     * @return Return value.
+     */
     virtual ~GpuCompressionImpl() = default;
 
+    /**
+     * @brief Initialize.
+     * @param[in] cfg Input parameter.
+     * @return True when the operation succeeds.
+     */
     virtual bool initialize(const GpuCompressionConfig& cfg) = 0;
+    /**
+     * @brief Shutdown.
+     */
     virtual void shutdown() = 0;
+    /**
+     * @brief Is available.
+     * @return True when the operation succeeds.
+     */
     virtual bool is_available() const = 0;
 
+    /**
+     * @brief Compress.
+     * @param[in] data Input parameter.
+     * @param[in] size Input parameter.
+     * @param[in] algorithm Input parameter.
+     * @param[in] cfg Input parameter.
+     * @return Return value.
+     */
     virtual GpuCompressionResult compress(
         const uint8_t* data, size_t size,
         GpuCompressionAlgorithm algorithm,
         const GpuCompressionConfig& cfg) = 0;
 
+    /**
+     * @brief Decompress.
+     * @param[in] data Input parameter.
+     * @param[in] algorithm Input parameter.
+     * @param[in] original_size Input parameter.
+     * @param[in] cfg Input parameter.
+     * @return Return value.
+     */
     virtual std::vector<uint8_t> decompress(
         const std::vector<uint8_t>& data,
         GpuCompressionAlgorithm algorithm,
         size_t original_size,
         const GpuCompressionConfig& cfg) = 0;
 
-    /// Batch compress: all buffers in a single GPU dispatch.  Default
-    /// implementation falls back to per-buffer compress(); override for true
-    /// single-dispatch GPU batching.
+    /**
+     * @brief Compress batch.
+     * @param[in] ptrs Input parameter.
+     * @param[in] sizes Input parameter.
+     * @param[in] algorithm Input parameter.
+     * @param[in] cfg Input parameter.
+     * @return Return value.
+     */
     virtual std::vector<GpuCompressionResult> compress_batch(
         const std::vector<const uint8_t*>& ptrs,
         const std::vector<size_t>& sizes,
@@ -143,12 +174,10 @@ static constexpr uint8_t kGpuMagic[kGpuMagicSize] = {
     'T', 'G', 'C', 'P', 'R', 'S', 1, 0   // "TGCPRS" + version 1.0
 };
 
-/// Write a little-endian uint64_t to @p dst.
 [[maybe_unused]] static void write_le64(uint8_t* dst, uint64_t val) {
     for (int i = 0; i < 8; ++i) { dst[i] = static_cast<uint8_t>(val & 0xFF); val >>= 8; }
 }
 
-/// Read a little-endian uint64_t from @p src.
 [[maybe_unused]] static uint64_t read_le64(const uint8_t* src) {
     uint64_t val = 0;
     for (int i = 0; i < 8; ++i) {
@@ -157,13 +186,20 @@ static constexpr uint8_t kGpuMagic[kGpuMagicSize] = {
     return val;
 }
 
-/// Returns true if @p data starts with the GPU container magic bytes.
 [[maybe_unused]] static bool has_gpu_magic(const std::vector<uint8_t>& data) {
     return data.size() >= kGpuMagicSize &&
            memcmp(data.data(), kGpuMagic, kGpuMagicSize) == 0;
 }
 
-/// Parse the header of a GPU container.  Returns false on malformed input.
+/**
+ * @brief Parse gpu container.
+ * @param[in] compressed Input parameter.
+ * @param[in,out] out_n_chunks Input/output parameter.
+ * @param[in,out] out_orig_size Input/output parameter.
+ * @param[in,out] out_chunk_sizes Input/output parameter.
+ * @param[in] out_chunk_data_start Input parameter.
+ * @return True when the operation succeeds.
+ */
 static bool parse_gpu_container(
     const std::vector<uint8_t>& compressed,
     uint64_t& out_n_chunks,
@@ -202,9 +238,11 @@ static bool parse_gpu_container(
     return true;
 }
 
-// ---------------------------------------------------------------------------
-// Timing helper (returns elapsed ms since 'start')
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- Timing helper (returns elapsed ms since 'start') ---------------------------------------------------------------------------
+ * @param[in] start Input parameter.
+ * @return Return value.
+ */
 inline double elapsed_ms(
     const std::chrono::high_resolution_clock::time_point& start)
 {
@@ -212,9 +250,12 @@ inline double elapsed_ms(
     return std::chrono::duration<double, std::milli>(now - start).count();
 }
 
-// ---------------------------------------------------------------------------
-// Update a running average in place
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- Update a running average in place ---------------------------------------------------------------------------
+ * @param[in,out] avg Input/output parameter.
+ * @param[in] n Input parameter.
+ * @param[in] sample_ms Input parameter.
+ */
 inline void update_avg(double& avg, uint64_t n, double sample_ms)
 {
     if (n == 0) {
@@ -368,6 +409,11 @@ public:
         const GpuCompressionConfig& cfg) override
     {
         size_t n = h_ptrs.size();
+        /**
+         * @brief Results.
+         * @param[in] n Input parameter.
+         * @return Return value.
+         */
         std::vector<GpuCompressionResult> results(n);
         for (size_t i = 0; i < n; ++i) {
             results[i].algorithm     = algorithm;
@@ -400,7 +446,12 @@ public:
             to_free.clear();
         };
 
-        // --- Step 1: Upload all input buffers ---
+        /**
+         * @brief --- Step 1: Upload all input buffers ---
+         * @param[in] n Input parameter.
+         * @param[in] nullptr Input parameter.
+         * @return Return value.
+         */
         std::vector<void*> d_in_bufs(n, nullptr);
         size_t max_in_size = 0;
         for (size_t i = 0; i < n; ++i) {
@@ -455,6 +506,12 @@ public:
             free_all(); return results;
         }
 
+        /**
+         * @brief D out bufs.
+         * @param[in] n Input parameter.
+         * @param[in] nullptr Input parameter.
+         * @return Return value.
+         */
         std::vector<void*> d_out_bufs(n, nullptr);
         for (size_t i = 0; i < n; ++i) {
             if (!cuda_alloc(&d_out_bufs[i], max_out)) { free_all(); return results; }
@@ -533,7 +590,11 @@ public:
             return results;
         }
 
-        // --- Step 5: Copy results back ---
+        /**
+         * @brief --- Step 5: Copy results back ---
+         * @param[in] n Input parameter.
+         * @return Return value.
+         */
         std::vector<size_t> h_out_sizes(n);
         e = cudaMemcpy(h_out_sizes.data(), d_out_sz_arr,
                        n * sizeof(size_t), cudaMemcpyDeviceToHost);
@@ -578,9 +639,16 @@ private:
 
     enum class NvcompAlgo { ZSTD, SNAPPY, LZ4 };
 
-    // ------------------------------------------------------------------
-    // Generic chunked compress (splits one buffer into cfg.chunk_size pieces)
-    // ------------------------------------------------------------------
+    /**
+     * @brief ------------------------------------------------------------------ Generic chunked compress (splits one buffer into cfg.
+     * @param[in] d_in Input parameter.
+     * @param[in] in_size Input parameter.
+     * @param[in] cfg Input parameter.
+     * @param[in,out] result Input/output parameter.
+     * @param[in] algo Input parameter.
+     * @return True when the operation succeeds.
+     * @details chunk_size pieces) ------------------------------------------------------------------
+     */
     bool nvcomp_compress_chunked(
         const uint8_t* d_in, size_t in_size,
         const GpuCompressionConfig& cfg,
@@ -590,11 +658,17 @@ private:
         const size_t chunk  = cfg.chunk_size;
         size_t n_chunks     = (in_size + chunk - 1) / chunk;
 
-        // pointer_arithmetic scanner alert: d_in is a contiguous device buffer,
-        // i is bounded by n_chunks, and each i * chunk offset stays within the
-        // uploaded input extent (last chunk is clamped with std::min) — false
-        // positive.
+        /**
+         * @brief pointer_arithmetic scanner alert: d_in is a contiguous device buffer, i is bounded by n_chunks, and each i * chunk offset stays within the uploaded input extent (last chunk is clamped with std::min) — false positive.
+         * @param[in] n_chunks Input parameter.
+         * @return Return value.
+         */
         std::vector<void*>  h_in_ptrs(n_chunks);
+        /**
+         * @brief H in sizes.
+         * @param[in] n_chunks Input parameter.
+         * @return Return value.
+         */
         std::vector<size_t> h_in_sizes(n_chunks);
         for (size_t i = 0; i < n_chunks; ++i) {
             h_in_ptrs[i]  = const_cast<uint8_t*>(d_in) + i * chunk;
@@ -671,6 +745,11 @@ private:
             return false;
         }
 
+        /**
+         * @brief H out ptrs.
+         * @param[in] n_chunks Input parameter.
+         * @return Return value.
+         */
         std::vector<void*> h_out_ptrs(n_chunks);
         for (size_t i = 0; i < n_chunks; ++i) {
             if (!cuda_alloc(&h_out_ptrs[i], max_out_per_chunk)) {
@@ -727,6 +806,11 @@ private:
 
         bool ok = (status == nvcompSuccess && e == cudaSuccess);
         if (ok) {
+            /**
+             * @brief H out sizes.
+             * @param[in] n_chunks Input parameter.
+             * @return Return value.
+             */
             std::vector<size_t> h_out_sizes(n_chunks);
             e = cudaMemcpy(h_out_sizes.data(), d_out_sizes,
                            n_chunks * sizeof(size_t), cudaMemcpyDeviceToHost);
@@ -738,7 +822,12 @@ private:
                   total_out += s;
                 }
 
-                // Assemble: [MAGIC][n_chunks:u64][orig_size:u64][chunk_sizes...][data...]
+                /**
+                 * @brief Assemble: [MAGIC][n_chunks:u64][orig_size:u64][chunk_sizes.
+                 * @param[in] n_chunks Input parameter.
+                 * @return Return value.
+                 * @details ..][data...]
+                 */
                 std::vector<uint64_t> chunk_sizes_u64(n_chunks);
                 for (size_t i = 0; i < n_chunks; ++i)
                     chunk_sizes_u64[i] = static_cast<uint64_t>(h_out_sizes[i]);
@@ -775,9 +864,12 @@ private:
         return ok;
     }
 
-    // ------------------------------------------------------------------
-    // Generic chunked decompress (reads GPU container format)
-    // ------------------------------------------------------------------
+    /**
+     * @brief ------------------------------------------------------------------ Generic chunked decompress (reads GPU container format) ------------------------------------------------------------------
+     * @param[in] compressed Input parameter.
+     * @param[in] algo Input parameter.
+     * @return Return value.
+     */
     std::vector<uint8_t> nvcomp_decompress_chunked(
         const std::vector<uint8_t>& compressed,
         NvcompAlgo algo)
@@ -864,9 +956,20 @@ private:
             free_all(); return {};
         }
 
+        /**
+         * @brief H chunk sizes.
+         * @param[in] n_chunks Input parameter.
+         * @return Return value.
+         */
         std::vector<size_t> h_chunk_sizes(n_chunks);
         for (size_t i = 0; i < n_chunks; ++i)
             h_chunk_sizes[i] = static_cast<size_t>(chunk_sizes64[i]);
+        /**
+         * @brief H out sizes.
+         * @param[in] n_chunks Input parameter.
+         * @param[in] per_chunk_out Input parameter.
+         * @return Return value.
+         */
         std::vector<size_t> h_out_sizes(n_chunks, per_chunk_out);
 
         cudaError_t e;
@@ -975,6 +1078,10 @@ GpuCompressionManager::~GpuCompressionManager() = default;
 // GPU initialisation
 // ============================================================================
 
+/**
+ * @brief Init gpu.
+ * @return True when the operation succeeds.
+ */
 bool GpuCompressionManager::init_gpu()
 {
     GpuAccelerationType requested = config_.accel_type;
@@ -1041,6 +1148,11 @@ bool GpuCompressionManager::should_use_gpu(size_t data_size) const
       return false;
     }
     if (data_size == 0) return false;         // empty input always uses CPU
+    /**
+     * @brief Lk.
+     * @param[in] mu_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mu_);
     if (config_.chunk_size == 0) return false; // misconfigured chunk size
     // Use max(1, min_size_for_gpu) to prevent min_size_for_gpu==0 from always
@@ -1053,6 +1165,13 @@ bool GpuCompressionManager::should_use_gpu(size_t data_size) const
 // compress
 // ============================================================================
 
+/**
+ * @brief Compress.
+ * @param[in] data Input parameter.
+ * @param[in] size Input parameter.
+ * @param[in] algorithm Input parameter.
+ * @return Return value.
+ */
 GpuCompressionResult GpuCompressionManager::compress(
     const uint8_t* data, size_t size, GpuCompressionAlgorithm algorithm)
 {
@@ -1061,6 +1180,11 @@ GpuCompressionResult GpuCompressionManager::compress(
     // Snapshot config under lock to avoid data race with concurrent set_config().
     GpuCompressionConfig cfg_snap;
     {
+        /**
+         * @brief Lk.
+         * @param[in] mu_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(mu_);
         cfg_snap = config_;
         ++stats_.total_compress_ops;
@@ -1078,6 +1202,11 @@ GpuCompressionResult GpuCompressionManager::compress(
         try {
             result = impl_->compress(data, size, algorithm, cfg_snap);
             if (result.success) {
+                /**
+                 * @brief Lk.
+                 * @param[in] mu_ Input parameter.
+                 * @return Return value.
+                 */
                 std::lock_guard<std::mutex> lk(mu_);
                 ++stats_.gpu_compress_ops;
                 stats_.bytes_out += result.data.size();
@@ -1127,6 +1256,11 @@ GpuCompressionResult GpuCompressionManager::compress(
     }
 
     {
+        /**
+         * @brief Lk.
+         * @param[in] mu_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(mu_);
         stats_.bytes_out += result.data.size();
         double ms = elapsed_ms(t_start);
@@ -1137,6 +1271,12 @@ GpuCompressionResult GpuCompressionManager::compress(
     return result;
 }
 
+/**
+ * @brief Compress.
+ * @param[in] data Input parameter.
+ * @param[in] algorithm Input parameter.
+ * @return Return value.
+ */
 GpuCompressionResult GpuCompressionManager::compress(
     const std::vector<uint8_t>& data, GpuCompressionAlgorithm algorithm)
 {
@@ -1147,6 +1287,13 @@ GpuCompressionResult GpuCompressionManager::compress(
 // decompress
 // ============================================================================
 
+/**
+ * @brief Decompress.
+ * @param[in] compressed Input parameter.
+ * @param[in] algorithm Input parameter.
+ * @param[in] original_size Input parameter.
+ * @return Return value.
+ */
 std::vector<uint8_t> GpuCompressionManager::decompress(
     const std::vector<uint8_t>& compressed,
     GpuCompressionAlgorithm algorithm,
@@ -1159,6 +1306,11 @@ std::vector<uint8_t> GpuCompressionManager::decompress(
     // Snapshot config under lock to avoid data race with concurrent set_config().
     GpuCompressionConfig cfg_snap;
     {
+        /**
+         * @brief Lk.
+         * @param[in] mu_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(mu_);
         cfg_snap = config_;
         ++stats_.total_decompress_ops;
@@ -1188,6 +1340,11 @@ std::vector<uint8_t> GpuCompressionManager::decompress(
             result = impl_->decompress(compressed, algorithm,
                                        original_size, cfg_snap);
             if (!result.empty()) {
+                /**
+                 * @brief Lk.
+                 * @param[in] mu_ Input parameter.
+                 * @return Return value.
+                 */
                 std::lock_guard<std::mutex> lk(mu_);
                 ++stats_.gpu_decompress_ops;
                 double ms = elapsed_ms(t_start);
@@ -1241,6 +1398,11 @@ std::vector<uint8_t> GpuCompressionManager::decompress(
     }
 
     {
+        /**
+         * @brief Lk.
+         * @param[in] mu_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(mu_);
         double ms = elapsed_ms(t_start);
         uint64_t cpu_ops = stats_.total_decompress_ops - stats_.gpu_decompress_ops;
@@ -1254,6 +1416,12 @@ std::vector<uint8_t> GpuCompressionManager::decompress(
 // Batch compress / decompress
 // ============================================================================
 
+/**
+ * @brief Compress batch.
+ * @param[in] buffers Input parameter.
+ * @param[in] algorithm Input parameter.
+ * @return Return value.
+ */
 std::vector<GpuCompressionResult> GpuCompressionManager::compress_batch(
     const std::vector<std::vector<uint8_t>>& buffers,
     GpuCompressionAlgorithm algorithm)
@@ -1263,6 +1431,11 @@ std::vector<GpuCompressionResult> GpuCompressionManager::compress_batch(
     // Snapshot config under lock.
     GpuCompressionConfig cfg_snap;
     {
+        /**
+         * @brief Lk.
+         * @param[in] mu_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(mu_);
         cfg_snap = config_;
     }
@@ -1302,6 +1475,11 @@ std::vector<GpuCompressionResult> GpuCompressionManager::compress_batch(
                 if (g < gpu_results.size() && gpu_results[g].success) {
                     results[idx] = std::move(gpu_results[g]);
                     filled[idx]  = true;
+                    /**
+                     * @brief Lk.
+                     * @param[in] mu_ Input parameter.
+                     * @return Return value.
+                     */
                     std::lock_guard<std::mutex> lk(mu_);
                     ++stats_.gpu_compress_ops;
                     stats_.bytes_in  += buffers[idx].size();
@@ -1340,6 +1518,13 @@ std::vector<GpuCompressionResult> GpuCompressionManager::compress_batch(
     return results;
 }
 
+/**
+ * @brief Decompress batch.
+ * @param[in] compressed_buffers Input parameter.
+ * @param[in] algorithm Input parameter.
+ * @param[in] original_sizes Input parameter.
+ * @return Return value.
+ */
 std::vector<std::vector<uint8_t>> GpuCompressionManager::decompress_batch(
     const std::vector<std::vector<uint8_t>>& compressed_buffers,
     GpuCompressionAlgorithm algorithm,
@@ -1358,9 +1543,12 @@ std::vector<std::vector<uint8_t>> GpuCompressionManager::decompress_batch(
 // CPU fallback implementations
 // ============================================================================
 
-// ------------------------------------------------------------------
-// Zstd (reuses existing zstd_codec utility)
-// ------------------------------------------------------------------
+/**
+ * @brief ------------------------------------------------------------------ Zstd (reuses existing zstd_codec utility) ------------------------------------------------------------------
+ * @param[in] data Input parameter.
+ * @param[in] size Input parameter.
+ * @return Return value.
+ */
 
 GpuCompressionResult GpuCompressionManager::cpu_compress_zstd(
     const uint8_t* data, size_t size)
@@ -1385,6 +1573,12 @@ GpuCompressionResult GpuCompressionManager::cpu_compress_zstd(
     return res;
 }
 
+/**
+ * @brief Cpu decompress zstd.
+ * @param[in] data Input parameter.
+ * @param[in] size_t Input parameter.
+ * @return Return value.
+ */
 std::vector<uint8_t> GpuCompressionManager::cpu_decompress_zstd(
     const std::vector<uint8_t>& data, size_t /*original_size*/)
 {
@@ -1395,6 +1589,12 @@ std::vector<uint8_t> GpuCompressionManager::cpu_decompress_zstd(
 // Snappy (Google Snappy library)
 // ------------------------------------------------------------------
 
+/**
+ * @brief Cpu compress snappy.
+ * @param[in] data Input parameter.
+ * @param[in] size Input parameter.
+ * @return Return value.
+ */
 GpuCompressionResult GpuCompressionManager::cpu_compress_snappy(
     const uint8_t* data, size_t size)
 {
@@ -1422,6 +1622,12 @@ GpuCompressionResult GpuCompressionManager::cpu_compress_snappy(
     return res;
 }
 
+/**
+ * @brief Cpu decompress snappy.
+ * @param[in] data Input parameter.
+ * @param[in] size_t Input parameter.
+ * @return Return value.
+ */
 std::vector<uint8_t> GpuCompressionManager::cpu_decompress_snappy(
     const std::vector<uint8_t>& data, size_t /*original_size*/)
 {
@@ -1451,6 +1657,12 @@ std::vector<uint8_t> GpuCompressionManager::cpu_decompress_snappy(
 // byte count, not a platform assumption — false positive.
 static constexpr size_t kLz4HeaderSize = sizeof(uint64_t);
 
+/**
+ * @brief Cpu compress lz4.
+ * @param[in] data Input parameter.
+ * @param[in] size Input parameter.
+ * @return Return value.
+ */
 GpuCompressionResult GpuCompressionManager::cpu_compress_lz4(
     const uint8_t* data, size_t size)
 {
@@ -1499,6 +1711,12 @@ GpuCompressionResult GpuCompressionManager::cpu_compress_lz4(
     return res;
 }
 
+/**
+ * @brief Cpu decompress lz4.
+ * @param[in] data Input parameter.
+ * @param[in] original_size Input parameter.
+ * @return Return value.
+ */
 std::vector<uint8_t> GpuCompressionManager::cpu_decompress_lz4(
     const std::vector<uint8_t>& data, size_t original_size)
 {
@@ -1518,6 +1736,11 @@ std::vector<uint8_t> GpuCompressionManager::cpu_decompress_lz4(
         return {};
     }
 
+    /**
+     * @brief Result.
+     * @param[in] expected_size Input parameter.
+     * @return Return value.
+     */
     std::vector<uint8_t> result(expected_size);
     int decompressed = LZ4_decompress_safe(
         reinterpret_cast<const char*>(data.data() + kLz4HeaderSize),
@@ -1534,16 +1757,13 @@ std::vector<uint8_t> GpuCompressionManager::cpu_decompress_lz4(
     return result;
 }
 
-// ============================================================================
-// CPU-side GPU-container decoder
-//
-// When data was compressed via the CUDA/nvCOMP path and needs to be
-// decompressed on a CPU-only node (or after GPU failure), this helper parses
-// the GPU container format and decompresses each chunk using the corresponding
-// native CPU library.  nvCOMP uses standard-compatible output for all three
-// algorithms (LZ4 block, Snappy stream, Zstd frame), so the native CPU
-// libraries can decompress them without modification.
-// ============================================================================
+/**
+ * @brief ============================================================================ CPU-side GPU-container decoder When data was compressed via the CUDA/nvCOMP path and needs to be decompressed on a CPU-only node (or after GPU failure), this helper parses the GPU container format and decompresses each chunk using the corresponding native CPU library.
+ * @param[in] compressed Input parameter.
+ * @param[in] algorithm Input parameter.
+ * @return Return value.
+ * @details nvCOMP uses standard-compatible output for all three algorithms (LZ4 block, Snappy stream, Zstd frame), so the native CPU libraries can decompress them without modification. ============================================================================
+ */
 
 std::vector<uint8_t> GpuCompressionManager::cpu_decompress_gpu_container(
     const std::vector<uint8_t>& compressed,
@@ -1649,6 +1869,10 @@ GpuAccelerationType GpuCompressionManager::active_accel_type() const
     return active_accel_;
 }
 
+/**
+ * @brief Force cpu fallback.
+ * @param[in] enable Input parameter.
+ */
 void GpuCompressionManager::force_cpu_fallback(bool enable)
 {
     force_cpu_ = enable;
@@ -1657,14 +1881,31 @@ void GpuCompressionManager::force_cpu_fallback(bool enable)
     }
 }
 
+/**
+ * @brief Set config.
+ * @param[in] cfg Input parameter.
+ */
 void GpuCompressionManager::set_config(const GpuCompressionConfig& cfg)
 {
+    /**
+     * @brief Lk.
+     * @param[in] mu_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mu_);
     config_ = cfg;
 }
 
+/**
+ * @brief Reset stats.
+ */
 void GpuCompressionManager::reset_stats()
 {
+    /**
+     * @brief Lk.
+     * @param[in] mu_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mu_);
     stats_ = Stats{};
 }
@@ -1673,6 +1914,11 @@ void GpuCompressionManager::reset_stats()
 // String helpers
 // ============================================================================
 
+/**
+ * @brief Algorithm to string.
+ * @param[in] algorithm Input parameter.
+ * @return Return value.
+ */
 std::string GpuCompressionManager::algorithm_to_string(
     GpuCompressionAlgorithm algorithm)
 {
@@ -1685,6 +1931,11 @@ std::string GpuCompressionManager::algorithm_to_string(
     return "unknown";
 }
 
+/**
+ * @brief Accel type to string.
+ * @param[in] type Input parameter.
+ * @return Return value.
+ */
 std::string GpuCompressionManager::accel_type_to_string(
     GpuAccelerationType type)
 {
@@ -1702,6 +1953,11 @@ std::string GpuCompressionManager::accel_type_to_string(
 // Factory
 // ============================================================================
 
+/**
+ * @brief Create gpu compression manager.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ */
 std::unique_ptr<GpuCompressionManager> create_gpu_compression_manager(
     const GpuCompressionConfig& config)
 {

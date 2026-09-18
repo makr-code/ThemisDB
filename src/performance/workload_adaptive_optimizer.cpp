@@ -27,6 +27,15 @@ WorkloadAdaptiveOptimizer::~WorkloadAdaptiveOptimizer() {
     disable_auto_adapt();
 }
 
+/**
+ * @brief Record query.
+ * @param[in] is_write Input parameter.
+ * @param[in] complexity Input parameter.
+ * @param[in] result_rows Input parameter.
+ * @param[in] table_name Name of the table.
+ * @param[in] latency_us Input parameter.
+ * @details Calls: lk(), size(), erase(), begin(), push_back(), unlock(), slk().
+ */
 void WorkloadAdaptiveOptimizer::record_query(bool is_write, double complexity,
                                               size_t result_rows,
                                               const std::string& table_name,
@@ -49,6 +58,11 @@ WorkloadProfile WorkloadAdaptiveOptimizer::classify_workload() const {
     WorkloadProfile profile;
     std::vector<QueryObs> obs_copy;
     {
+        /**
+         * @brief Lk.
+         * @param[in] obs_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::shared_lock<std::shared_mutex> lk(obs_mutex_);
         obs_copy = observations_;
     }
@@ -169,6 +183,11 @@ OptimizationStrategy WorkloadAdaptiveOptimizer::get_strategy(
     return s;
 }
 
+/**
+ * @brief Apply strategy.
+ * @param[in] strategy Input parameter.
+ * @details Calls: lk(), classify_workload(), slk(), callback_().
+ */
 void WorkloadAdaptiveOptimizer::apply_strategy(const OptimizationStrategy& strategy) {
     WorkloadProfile old_profile, new_profile;
     {
@@ -188,10 +207,20 @@ void WorkloadAdaptiveOptimizer::apply_strategy(const OptimizationStrategy& strat
 }
 
 OptimizationStrategy WorkloadAdaptiveOptimizer::current_strategy() const {
+    /**
+     * @brief Lk.
+     * @param[in] strategy_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lk(strategy_mutex_);
     return current_strategy_;
 }
 
+/**
+ * @brief Enable auto adapt.
+ * @param[in] interval Input parameter.
+ * @details Calls: exchange(), std::thread(), load(), count(), std::this_thread::sleep_for(), std::chrono::milliseconds(), adapt_once().
+ */
 void WorkloadAdaptiveOptimizer::enable_auto_adapt(std::chrono::seconds interval) {
     if (adapt_running_.exchange(true)) {
       return;
@@ -208,6 +237,10 @@ void WorkloadAdaptiveOptimizer::enable_auto_adapt(std::chrono::seconds interval)
     });
 }
 
+/**
+ * @brief Disable auto adapt.
+ * @details Calls: exchange(), joinable(), join().
+ */
 void WorkloadAdaptiveOptimizer::disable_auto_adapt() {
     if (!adapt_running_.exchange(false)) {
       return;
@@ -225,6 +258,10 @@ void WorkloadAdaptiveOptimizer::set_callback([[maybe_unused]] AdaptationCallback
     callback_ = std::move(cb);
 }
 
+/**
+ * @brief Adapt once.
+ * @details Calls: classify_workload(), get_strategy(), apply_strategy().
+ */
 void WorkloadAdaptiveOptimizer::adapt_once() {
     auto profile  = classify_workload();
     auto strategy = get_strategy(profile);
@@ -232,16 +269,30 @@ void WorkloadAdaptiveOptimizer::adapt_once() {
 }
 
 WorkloadAdaptiveOptimizer::Stats WorkloadAdaptiveOptimizer::get_stats() const {
+    /**
+     * @brief Lk.
+     * @param[in] stats_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lk(stats_mutex_);
     return stats_;
 }
 
+/**
+ * @brief Reset stats.
+ * @details Calls: lk().
+ */
 void WorkloadAdaptiveOptimizer::reset_stats() {
     std::unique_lock<std::shared_mutex> lk(stats_mutex_);
     stats_ = {};
 }
 
 double WorkloadAdaptiveOptimizer::getProfileDrift() const {
+    /**
+     * @brief Lk.
+     * @param[in] stats_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lk(stats_mutex_);
     // Drift is computed as a normalised distance between successive adaptation
     // snapshots.  With fewer than two adaptations recorded there is no baseline

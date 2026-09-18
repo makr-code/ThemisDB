@@ -29,10 +29,12 @@ namespace auth {
 
 namespace {
 
-/// Returns the hex-encoded SHA-256 digest of @p session_id.
-/// Session tokens are stored under their hash so that an in-memory snapshot
-/// of the sessions_ map does not expose raw bearer tokens, and so that all
-/// map lookups have normalised comparison time regardless of input content.
+/**
+ * @brief Hash Session Id.
+ * @param[in] session_id Identifier of the session.
+ * @return Return value.
+ * @details Calls: SHA256(), data(), size(), std::setfill(), std::setw(), str().
+ */
 std::string hashSessionId(const std::string &session_id) {
     unsigned char digest[SHA256_DIGEST_LENGTH];
     SHA256(reinterpret_cast<const unsigned char *>(session_id.data()),session_id.size(), digest);
@@ -44,17 +46,6 @@ std::string hashSessionId(const std::string &session_id) {
     return oss.str();
 }
 
-/**
- * @brief Compare two session IDs using constant-time comparison.
- *
- * Prevents timing attacks that could infer whether a session ID is "close"
- * to a valid one by measuring comparison time. Uses CRYPTO_memcmp for
- * constant-time byte-by-byte comparison.
- *
- * @param id1 First session ID
- * @param id2 Second session ID
- * @return true if both session IDs are equal, false otherwise
- */
 bool constantTimeSessionIdEquals(const std::string &id1, const std::string &id2) noexcept {
     if (id1.size() != id2.size()) {
         return false;
@@ -79,6 +70,12 @@ SessionManager::SessionManager(const SessionLimits &limits) : limits_(limits) {}
 // Static helpers
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Generate Session Id.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: RAND_bytes(), std::setw(), std::setfill(), str().
+ */
 std::string SessionManager::generateSessionId() {
     unsigned char buf[16];
     if (RAND_bytes(buf, sizeof(buf)) != 1) {
@@ -116,6 +113,11 @@ bool SessionManager::isExpired(const SessionInfo &s) const {
     return false;
 }
 
+/**
+ * @brief Enforce Session Limits.
+ * @param[in] user_id Identifier of the user.
+ * @details Calls: emplace_back(), size(), std::sort(), begin(), end(), THEMIS_INFO(), erase().
+ */
 void SessionManager::enforceSessionLimits(const std::string &user_id) {
     if (limits_.max_sessions_per_user == 0) {
         return;
@@ -148,6 +150,16 @@ void SessionManager::enforceSessionLimits(const std::string &user_id) {
 // createSession
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Create a session for an authenticated user.
+ * @param[in] user_id User identifier.
+ * @param[in] device_fingerprint Input parameter.
+ * @param[in] ip_address Input parameter.
+ * @param[in] user_agent Input parameter.
+ * @return Session token.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: empty(), lock(), pruneExpiredLocked(), enforceSessionLimits(), std::chrono::system_clock::now(), count(), std::chrono::system_clock::time_point::max(), generateSessionId().
+ */
 std::string SessionManager::createSession(const std::string &user_id, const std::string &device_fingerprint,
                                           const std::string &ip_address, const std::string &user_agent) {
     if (user_id.empty()) {
@@ -188,6 +200,13 @@ std::string SessionManager::createSession(const std::string &user_id, const std:
 // validateSession
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Validate a session token.
+ * @param[in] session_id Identifier of the session.
+ * @param[in] param Input parameter.
+ * @return Validated session on success.
+ * @details Calls: empty(), lock(), find(), hashSessionId(), end(), isExpired(), erase(), std::chrono::system_clock::now().
+ */
 SessionManager::ValidationResult SessionManager::validateSession(const std::string &session_id,
                                                                  const std::string & /*current_ip*/
 ) {
@@ -219,6 +238,11 @@ SessionManager::ValidationResult SessionManager::validateSession(const std::stri
 // terminateSession
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Terminate Session.
+ * @param[in] session_id Identifier of the session.
+ * @details Calls: lock(), find(), hashSessionId(), end(), THEMIS_INFO(), erase().
+ */
 void SessionManager::terminateSession(const std::string &session_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = sessions_.find(hashSessionId(session_id));
@@ -240,6 +264,13 @@ void SessionManager::terminateSession(const std::string &session_id) {
 // terminateAllOtherSessions
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Terminate All Other Sessions.
+ * @param[in] user_id Identifier of the user.
+ * @param[in] keep_session_id Identifier of the keep session.
+ * @return Return value.
+ * @details Calls: lock(), constantTimeSessionIdEquals(), push_back(), erase(), THEMIS_INFO(), size().
+ */
 int SessionManager::terminateAllOtherSessions(const std::string &user_id, const std::string &keep_session_id) {
     std::lock_guard<std::mutex> lock(mutex_);
 
@@ -267,6 +298,12 @@ int SessionManager::terminateAllOtherSessions(const std::string &user_id, const 
 // listSessions
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief List Sessions.
+ * @param[in] user_id Identifier of the user.
+ * @return Return value.
+ * @details Calls: lock(), isExpired(), push_back(), erase(), std::sort(), begin(), end().
+ */
 std::vector<SessionManager::SessionInfo> SessionManager::listSessions(const std::string &user_id) {
     std::lock_guard<std::mutex> lock(mutex_);
 
@@ -299,15 +336,30 @@ std::vector<SessionManager::SessionInfo> SessionManager::listSessions(const std:
 // ---------------------------------------------------------------------------
 
 size_t SessionManager::size() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return sessions_.size();
 }
 
+/**
+ * @brief Prune Expired.
+ * @return Return value.
+ * @details Calls: lock(), pruneExpiredLocked().
+ */
 size_t SessionManager::pruneExpired() {
     std::lock_guard<std::mutex> lock(mutex_);
     return pruneExpiredLocked();
 }
 
+/**
+ * @brief Prune Expired Locked.
+ * @return Return value.
+ * @details Calls: isExpired(), push_back(), erase(), size().
+ */
 size_t SessionManager::pruneExpiredLocked() {
     std::vector<std::string> expired = {};
 

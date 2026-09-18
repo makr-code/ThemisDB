@@ -35,16 +35,8 @@
 #endif
 
 namespace {
-/// Well-known path to the gRPC networking configuration file, relative to the
-/// process working directory.  Exposed as a named constant so that
-/// integration tests and deployment tooling can predict the location.
 constexpr const char* kGrpcNetworkingConfigPath = "config/networking/grpc.yaml";
 
-/// Maximum allowed value for grpc.max_message_size_mb in the config file.
-/// Values above this are rejected to prevent integer overflow when multiplying
-/// by 1024 * 1024 on a 32-bit signed int.
-/// 2047 MB * 1024 * 1024 = 2,146,435,072 < INT_MAX (2,147,483,647).
-/// 2048 MB * 1024 * 1024 = 2,147,483,648 > INT_MAX (overflow).
 constexpr int kMaxMessageSizeMbLimit = 2047;
 } // namespace
 
@@ -67,6 +59,12 @@ GrpcApiServer::~GrpcApiServer() {
 // initialize()
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Initialize.
+ * @param[in] config Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), THEMIS_WARN(), THEMIS_ERROR(), empty(), length(), std::to_string(), YAML::LoadFile(), THEMIS_INFO().
+ */
 bool GrpcApiServer::initialize(const GrpcServerConfig& config) {
     std::lock_guard<std::timed_mutex> lock(mutex_);
 
@@ -151,6 +149,11 @@ bool GrpcApiServer::initialize(const GrpcServerConfig& config) {
 // registerService()
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Register Service.
+ * @param[in,out] service Input/output parameter.
+ * @details Calls: THEMIS_WARN(), lock(), push_back(), THEMIS_INFO().
+ */
 void GrpcApiServer::registerService(grpc::Service* service) {
     if (!service) {
         THEMIS_WARN("GrpcApiServer::registerService - null service pointer ignored");
@@ -165,6 +168,11 @@ void GrpcApiServer::registerService(grpc::Service* service) {
 // start()
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Start.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), THEMIS_WARN(), empty(), THEMIS_ERROR(), buildCredentials(), std::string(), what(), unlock().
+ */
 bool GrpcApiServer::start() {
     // Validate state under the lock, then release before the blocking
     // BuildAndStart() call (which binds a network socket).  Holding the mutex
@@ -254,6 +262,10 @@ bool GrpcApiServer::start() {
 // stop()
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Stop.
+ * @details Calls: lock(), THEMIS_INFO(), std::move(), unlock(), std::chrono::system_clock::now(), std::chrono::seconds(), Shutdown().
+ */
 void GrpcApiServer::stop() {
     std::unique_lock<std::timed_mutex> lock(mutex_);
 
@@ -300,6 +312,13 @@ uint16_t GrpcApiServer::getPort() const {
 // Private helpers
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Load File.
+ * @param[in] path Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: file(), rdbuf(), str().
+ */
 std::string GrpcApiServer::loadFile(const std::string& path) {
     std::ifstream file(path);
     if (!file) {

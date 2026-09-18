@@ -94,6 +94,10 @@ HotSpareManager::~HotSpareManager() {
     stop();
 }
 
+/**
+ * @brief Start.
+ * @details Calls: exchange(), spdlog::warn(), std::thread(), healthCheckLoop(), rebuildLoop(), spdlog::info().
+ */
 void HotSpareManager::start() {
     if (running_.exchange(true)) {
         spdlog::warn("HotSpareManager already running");
@@ -115,6 +119,10 @@ void HotSpareManager::start() {
     spdlog::info("HotSpareManager started");
 }
 
+/**
+ * @brief Stop.
+ * @details Calls: exchange(), notify_all(), joinable(), themis::utils::joinThreadWithin(), spdlog::warn(), spdlog::info().
+ */
 void HotSpareManager::stop() {
     if (!running_.exchange(false)) {
         return;
@@ -144,6 +152,11 @@ bool HotSpareManager::isRunning() const {
     return running_.load();
 }
 
+/**
+ * @brief Add Spare.
+ * @param[in] shard_id Identifier of the shard.
+ * @details Calls: lock(), count(), spdlog::warn(), std::chrono::system_clock::now(), spdlog::info().
+ */
 void HotSpareManager::addSpare(const std::string& shard_id) {
     std::unique_lock<std::shared_mutex> lock(spares_mutex_);
     
@@ -163,6 +176,11 @@ void HotSpareManager::addSpare(const std::string& shard_id) {
     spdlog::info("Added spare shard: {}", shard_id);
 }
 
+/**
+ * @brief Remove Spare.
+ * @param[in] shard_id Identifier of the shard.
+ * @details Calls: lock(), find(), end(), spdlog::warn(), spdlog::error(), erase(), spdlog::info().
+ */
 void HotSpareManager::removeSpare(const std::string& shard_id) {
     std::unique_lock<std::shared_mutex> lock(spares_mutex_);
     
@@ -185,6 +203,11 @@ void HotSpareManager::removeSpare(const std::string& shard_id) {
 }
 
 std::vector<std::string> HotSpareManager::getAvailableSpares() const {
+    /**
+     * @brief Lock.
+     * @param[in] spares_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(spares_mutex_);
     
     std::vector<std::string> available = {};
@@ -199,6 +222,11 @@ std::vector<std::string> HotSpareManager::getAvailableSpares() const {
 }
 
 std::vector<SpareShardInfo> HotSpareManager::getAllSpares() const {
+    /**
+     * @brief Lock.
+     * @param[in] spares_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(spares_mutex_);
     
     std::vector<SpareShardInfo> spares = {};
@@ -210,6 +238,16 @@ std::vector<SpareShardInfo> HotSpareManager::getAllSpares() const {
     return spares;
 }
 
+/**
+ * @brief Activate Spare.
+ * @param[in] failed_shard_id Identifier of the failed shard.
+ * @param[in,out] ring Input/output parameter.
+ * @param[in] read_handler Callback that reads the entity.
+ * @param[in] write_handler Callback that writes the entity.
+ * @param[in] doc_iterator Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: std::chrono::steady_clock::now(), spdlog::info(), selectBestSpare(), spdlog::error(), std::chrono::system_clock::now(), lock(), push_back(), size().
+ */
 bool HotSpareManager::activateSpare(
     const std::string& failed_shard_id,
     ConsistentHashRing& ring,
@@ -365,6 +403,11 @@ bool HotSpareManager::activateSpare(
     return true;
 }
 
+/**
+ * @brief Trigger Rebuild.
+ * @param[in] spare_shard_id Identifier of the spare shard.
+ * @details Calls: lock(), find(), end(), spdlog::warn(), spdlog::error(), spdlog::info().
+ */
 void HotSpareManager::triggerRebuild(const std::string& spare_shard_id) {
     std::shared_lock<std::shared_mutex> lock(spares_mutex_);
     
@@ -384,12 +427,22 @@ void HotSpareManager::triggerRebuild(const std::string& spare_shard_id) {
     spdlog::info("Manual rebuild triggered for spare: {}", spare_shard_id);
 }
 
+/**
+ * @brief Pause Rebuild.
+ * @param[in] spare_shard_id Identifier of the spare shard.
+ * @details Calls: lock(), spdlog::info().
+ */
 void HotSpareManager::pauseRebuild(const std::string& spare_shard_id) {
     std::lock_guard<std::mutex> lock(rebuild_mutex_);
     rebuild_paused_[spare_shard_id] = true;
     spdlog::info("Rebuild paused for spare: {}", spare_shard_id);
 }
 
+/**
+ * @brief Resume Rebuild.
+ * @param[in] spare_shard_id Identifier of the spare shard.
+ * @details Calls: lock(), notify_one(), spdlog::info().
+ */
 void HotSpareManager::resumeRebuild(const std::string& spare_shard_id) {
     std::lock_guard<std::mutex> lock(rebuild_mutex_);
     rebuild_paused_[spare_shard_id] = false;
@@ -397,6 +450,11 @@ void HotSpareManager::resumeRebuild(const std::string& spare_shard_id) {
     spdlog::info("Rebuild resumed for spare: {}", spare_shard_id);
 }
 
+/**
+ * @brief Cancel Rebuild.
+ * @param[in] spare_shard_id Identifier of the spare shard.
+ * @details Calls: lock(), erase(), spare_lock(), find(), end(), std::chrono::system_clock::now(), spdlog::info().
+ */
 void HotSpareManager::cancelRebuild(const std::string& spare_shard_id) {
     std::lock_guard<std::mutex> lock(rebuild_mutex_);
     
@@ -417,6 +475,11 @@ void HotSpareManager::cancelRebuild(const std::string& spare_shard_id) {
 }
 
 RebuildStatus HotSpareManager::getRebuildStatus() const {
+    /**
+     * @brief Lock.
+     * @param[in] spares_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(spares_mutex_);
     
     RebuildStatus status;
@@ -449,6 +512,11 @@ RebuildStatus HotSpareManager::getRebuildStatus() const {
     
     // Get statistics
     {
+        /**
+         * @brief Stats lock.
+         * @param[in] stats_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> stats_lock(stats_mutex_);
         status.total_rebuilds_completed = stats_.successful_rebuilds;
         status.total_rebuilds_failed = stats_.failed_rebuilds;
@@ -460,6 +528,11 @@ RebuildStatus HotSpareManager::getRebuildStatus() const {
 
 std::optional<SpareShardInfo> HotSpareManager::getSpareInfo(
     const std::string& shard_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] spares_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(spares_mutex_);
     
     auto it = spares_.find(shard_id);
@@ -472,6 +545,11 @@ std::optional<SpareShardInfo> HotSpareManager::getSpareInfo(
 
 std::vector<HotSpareFailoverEvent> HotSpareManager::getFailoverHistory(
     size_t max_count) const {
+    /**
+     * @brief Lock.
+     * @param[in] history_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(history_mutex_);
 
     size_t count = std::min(max_count, failover_history_.size());
@@ -486,6 +564,12 @@ std::vector<HotSpareFailoverEvent> HotSpareManager::getFailoverHistory(
     return history;
 }
 
+/**
+ * @brief Update the access control configuration.
+ * @param[in] config New access control configuration.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: validate(), spdlog::info().
+ */
 void HotSpareManager::updateConfig(const HotSpareConfig& config) {
     if (!config.validate()) {
         throw std::invalid_argument("Invalid hot spare configuration");
@@ -495,18 +579,33 @@ void HotSpareManager::updateConfig(const HotSpareConfig& config) {
     spdlog::info("HotSpareManager configuration updated");
 }
 
+/**
+ * @brief Set Repair Engine.
+ * @param[in] engine Input parameter.
+ * @details Calls: std::move().
+ */
 void HotSpareManager::setRepairEngine(
     std::shared_ptr<themis::sharding::ShardRepairEngine> engine) {
     repair_engine_ = std::move(engine);
 }
 
 HotSpareManager::Stats HotSpareManager::getStats() const {
+    /**
+     * @brief Lock.
+     * @param[in] stats_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(stats_mutex_);
     
     Stats stats = stats_;
     
     // Update current spare counts
     {
+        /**
+         * @brief Spare lock.
+         * @param[in] spares_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::shared_lock<std::shared_mutex> spare_lock(spares_mutex_);
         for (const auto& [_, spare] : spares_) {
             switch (spare.state) {
@@ -578,6 +677,11 @@ std::string HotSpareManager::exportPrometheusMetrics() const {
     ss << "themis_hot_spare_avg_rebuild_time_ms " << stats.avg_rebuild_time.count() << "\n";
     
     // Per-spare metrics
+    /**
+     * @brief Lock.
+     * @param[in] spares_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(spares_mutex_);
     for (const auto& [shard_id, spare] : spares_) {
         std::string state_str = {};
@@ -617,9 +721,10 @@ std::string HotSpareManager::exportPrometheusMetrics() const {
     return ss.str();
 }
 
-// ═══════════════════════════════════════════════════════════
-// Private Methods
-// ═══════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════ Private Methods ═══════════════════════════════════════════════════════════
+ * @details Calls: load(), lock(), checkSpareHealth(), spdlog::error(), what(), std::this_thread::sleep_for().
+ */
 
 void HotSpareManager::healthCheckLoop() {
     while (running_.load()) {
@@ -638,6 +743,10 @@ void HotSpareManager::healthCheckLoop() {
     }
 }
 
+/**
+ * @brief Rebuild Loop.
+ * @details Calls: load(), lock(), wait_for(), std::chrono::seconds(), empty(), spare_lock(), front(), pop().
+ */
 void HotSpareManager::rebuildLoop() {
     while (running_.load()) {
         std::unique_lock<std::mutex> lock(rebuild_mutex_);
@@ -733,6 +842,11 @@ void HotSpareManager::rebuildLoop() {
     }
 }
 
+/**
+ * @brief Check Spare Health.
+ * @param[in,out] spare Input/output parameter.
+ * @details Calls: std::chrono::system_clock::now().
+ */
 void HotSpareManager::checkSpareHealth(SpareShardInfo& spare) {
     spare.last_health_check = std::chrono::system_clock::now();
     
@@ -742,11 +856,22 @@ void HotSpareManager::checkSpareHealth(SpareShardInfo& spare) {
     // For now, just update last check time
 }
 
+/**
+ * @brief Handle Shard Failure.
+ * @param[in] shard_id Identifier of the shard.
+ * @details Calls: spdlog::warn(), sendAlert().
+ */
 void HotSpareManager::handleShardFailure(const std::string& shard_id) {
     spdlog::warn("Shard failure detected: {}", shard_id);
     sendAlert("Shard failure detected: " + shard_id);
 }
 
+/**
+ * @brief Rebuild Shard.
+ * @param[in,out] task Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: spdlog::info(), size(), spdlog::error(), std::chrono::steady_clock::now(), std::chrono::microseconds(), lock(), getReplicaNodes(), read_handler().
+ */
 bool HotSpareManager::rebuildShard(RebuildTask& task) {
     spdlog::info("Starting rebuild for spare: {}, {} documents to transfer", 
                  task.spare_shard_id,task.documents.size());
@@ -883,6 +1008,11 @@ bool HotSpareManager::rebuildShard(RebuildTask& task) {
 }
 
 std::optional<std::string> HotSpareManager::selectBestSpare() const {
+    /**
+     * @brief Lock.
+     * @param[in] spares_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(spares_mutex_);
     
     for (const auto& [shard_id, spare] : spares_) {
@@ -894,6 +1024,11 @@ std::optional<std::string> HotSpareManager::selectBestSpare() const {
     return std::nullopt;
 }
 
+/**
+ * @brief Send Alert.
+ * @param[in] message Input parameter.
+ * @details Calls: alert_callback(), spdlog::info().
+ */
 void HotSpareManager::sendAlert(const std::string& message) {
     if (config_.enable_alerts && config_.alert_callback) {
         config_.alert_callback(message);

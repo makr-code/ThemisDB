@@ -36,6 +36,12 @@ nlohmann::json TemplateParameter::toJson() const {
     return j;
 }
 
+/**
+ * @brief From Json.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: contains().
+ */
 TemplateParameter TemplateParameter::fromJson(const nlohmann::json &j) {
     TemplateParameter param = {};
     if (j.contains("name")) {
@@ -65,6 +71,11 @@ PolicyTemplate::PolicyTemplate(const std::string &id, const std::string &name, c
                                const std::string &category)
     : id(id), name(name), description(description), category(category) {}
 
+/**
+ * @brief Add Parameter.
+ * @param[in] param Input parameter.
+ * @details Calls: push_back().
+ */
 void PolicyTemplate::addParameter(const TemplateParameter &param) {
     parameters.push_back(param);
 }
@@ -126,6 +137,11 @@ nlohmann::json PolicyTemplate::toJson() const {
     return j;
 }
 
+/**
+ * @brief Now Seconds.
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::now(), time_since_epoch(), count().
+ */
 static long long nowSeconds() {
     return std::chrono::duration_cast<std::chrono::seconds>(std::chrono::system_clock::now().time_since_epoch())
         .count();
@@ -467,6 +483,11 @@ PolicyTemplateManager::PolicyTemplateManager() {
     registerBuiltInTemplates();
 }
 
+/**
+ * @brief Register Template.
+ * @param[in] tmpl Input parameter.
+ * @details Calls: THEMIS_INFO().
+ */
 void PolicyTemplateManager::registerTemplate(std::shared_ptr<PolicyTemplate> tmpl) {
     templates_[tmpl->id] = tmpl;
     THEMIS_INFO("Registered policy template: {}", tmpl->id);
@@ -528,6 +549,10 @@ nlohmann::json PolicyTemplateManager::exportTemplates() const {
     return j;
 }
 
+/**
+ * @brief Register Built In Templates.
+ * @details Calls: registerTemplate(), THEMIS_INFO(), size().
+ */
 void PolicyTemplateManager::registerBuiltInTemplates() {
     registerTemplate(std::make_shared<LeastPrivilegeTemplate>());
     registerTemplate(std::make_shared<DataLifecycleTemplate>());

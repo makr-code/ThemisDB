@@ -50,6 +50,12 @@ json SchemaChange::toJSON() const {
     return j;
 }
 
+/**
+ * @brief From JSON.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: value(), std::chrono::system_clock::now(), contains(), is_object(), SchemaManager::parseTableSchema().
+ */
 SchemaChange SchemaChange::fromJSON(const json& j) {
     SchemaChange sc;
     sc.version     = j.value("version",     uint64_t{0});
@@ -81,6 +87,13 @@ SchemaVersionManager::SchemaVersionManager(
 // Public API
 // ----------------------------------------------------------------------------
 
+/**
+ * @brief Create Schema Version.
+ * @param[in] table_name Name of the table.
+ * @param[in] author Input parameter.
+ * @param[in] description Input parameter.
+ * @return Return value.
+ */
 VersionResult<uint64_t> SchemaVersionManager::createSchemaVersion(
     std::string_view table_name,
     std::string_view author,
@@ -197,6 +210,13 @@ VersionResult<SchemaChange> SchemaVersionManager::getVersion(
     return VersionResult<SchemaChange>::success(std::move(*maybe));
 }
 
+/**
+ * @brief Rollback To Version.
+ * @param[in] table_name Name of the table.
+ * @param[in] version Input parameter.
+ * @param[in] author Input parameter.
+ * @return Return value.
+ */
 VersionResult<bool> SchemaVersionManager::rollbackToVersion(
     std::string_view table_name,
     uint64_t version,
@@ -333,6 +353,12 @@ json SchemaVersionManager::historyToJSON(std::string_view table_name) const {
 // Internal helpers
 // ----------------------------------------------------------------------------
 
+/**
+ * @brief Version Key.
+ * @param[in] table_name Name of the table.
+ * @param[in] version Input parameter.
+ * @return Return value.
+ */
 std::string SchemaVersionManager::versionKey(
     std::string_view table_name, uint64_t version)
 {
@@ -344,6 +370,12 @@ std::string SchemaVersionManager::versionKey(
     return oss.str();
 }
 
+/**
+ * @brief Current Version Key.
+ * @param[in] table_name Name of the table.
+ * @return Return value.
+ * @details Calls: std::string().
+ */
 std::string SchemaVersionManager::currentVersionKey(std::string_view table_name) {
     return "config:schema_version:" + std::string(table_name) + ":current";
 }
@@ -362,6 +394,12 @@ uint64_t SchemaVersionManager::readCurrentVersion(std::string_view table_name) c
     }
 }
 
+/**
+ * @brief Persist Change.
+ * @param[in] change Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: versionKey(), toJSON(), dump(), data(), begin(), end(), put(), spdlog::error().
+ */
 bool SchemaVersionManager::persistChange(const SchemaChange& change) {
     try {
         // Persist the version record
@@ -486,7 +524,12 @@ VersionResult<bool> SchemaVersionManager::validateMigration(
 // Migration script generation
 // ============================================================================
 
-/// Map a ThemisDB property type string to a SQL column type.
+/**
+ * @brief To Sql Type.
+ * @param[in] themis_type Input parameter.
+ * @return Return value.
+ * @details Implements toSqlType without additional internal calls.
+ */
 static std::string toSqlType(const std::string& themis_type) {
     if (themis_type == "string") {
       return "VARCHAR";

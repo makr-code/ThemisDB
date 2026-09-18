@@ -45,14 +45,6 @@ namespace fs = std::filesystem;
 // RAII Wrapper for EVP_MD_CTX (Error Code: 7464-7465)
 // ============================================================================
 
-/**
- * @brief RAII wrapper for EVP_MD_CTX to ensure cleanup in all execution paths.
- * 
- * Guarantees exception-safe resource cleanup of OpenSSL EVP context.
- * Prevents resource leaks even during early returns or exceptions.
- * 
- * @error_code 7464 EVP_MD_CTX resource leak in exception path
- */
 class EvpMdCtxRaii {
 public:
     explicit EvpMdCtxRaii(EVP_MD_CTX* ctx = nullptr) : ctx_(ctx) {}
@@ -90,26 +82,14 @@ private:
     EVP_MD_CTX* ctx_ = nullptr;
 };
 
-// ============================================================================
-// Security helper: path traversal prevention
-// ============================================================================
-
 /**
- * @brief Validate a relative file path from an untrusted manifest.
- *
- * Rejects paths that:
- *  - are empty
- *  - are absolute (start with '/')
- *  - contain ".." components (directory traversal)
- *  - contain null bytes
- *
- * After constructing the full path we additionally verify it is lexically
- * contained within the expected base directory using weakly_canonical.
- *
- * @param rel_path  Relative path from a FileDelta
- * @param base_dir  The directory the file must reside within
- * @return true if safe; false if the path should be rejected
+ * @brief ============================================================================ Security helper: path traversal prevention ============================================================================
+ * @param[in] rel_path Path to the rel.
+ * @param[in] base_dir Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), find(), p(), is_absolute(), has_root_name(), has_root_directory(), fs::weakly_canonical(), fs::path().
  */
+
 static bool isSafePath(const std::string& rel_path, const std::string& base_dir) {
     if (rel_path.empty()) {
       return false;
@@ -182,6 +162,12 @@ static constexpr uint8_t INSTR_COPY = 0x02;
 // Utility functions
 // ============================================================================
 
+/**
+ * @brief Calculate Hash.
+ * @param[in] data Input parameter.
+ * @return Return value.
+ * @details Calls: ctx(), EVP_MD_CTX_new(), get(), EVP_DigestInit_ex(), EVP_sha256(), EVP_DigestUpdate(), data(), size().
+ */
 std::string DeltaUpdateEngine::calculateHash(const std::vector<uint8_t>& data) {
     // Use RAII wrapper for EVP_MD_CTX (Error Code: 7465)
     EvpMdCtxRaii ctx(EVP_MD_CTX_new());
@@ -209,12 +195,25 @@ std::string DeltaUpdateEngine::calculateHash(const std::vector<uint8_t>& data) {
     return ss.str();
 }
 
+/**
+ * @brief Read File.
+ * @param[in] path Input parameter.
+ * @return Return value.
+ * @details Calls: f().
+ */
 std::vector<uint8_t> DeltaUpdateEngine::readFile(const std::string& path) {
     std::ifstream f(path, std::ios::binary);
     if (!f) return {};
     return {std::istreambuf_iterator<char>(f), std::istreambuf_iterator<char>()};
 }
 
+/**
+ * @brief Write File.
+ * @param[in] path Input parameter.
+ * @param[in] data Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: f(), write(), data(), size(), good().
+ */
 bool DeltaUpdateEngine::writeFile(const std::string& path,
                                   const std::vector<uint8_t>& data) {
     std::ofstream f(path, std::ios::binary | std::ios::trunc);
@@ -226,6 +225,13 @@ bool DeltaUpdateEngine::writeFile(const std::string& path,
     return f.good();
 }
 
+/**
+ * @brief Atomic Write File.
+ * @param[in] path Input parameter.
+ * @param[in] data Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: writeFile(), fs::rename(), LOG_ERROR(), what(), fs::remove().
+ */
 bool DeltaUpdateEngine::atomicWriteFile(const std::string& path,
                                         const std::vector<uint8_t>& data) {
     std::string tmp = path + ".tmp";
@@ -246,6 +252,12 @@ bool DeltaUpdateEngine::atomicWriteFile(const std::string& path,
 // PatchAlgorithm string conversion
 // ============================================================================
 
+/**
+ * @brief Patch Algorithm To String.
+ * @param[in] algo Input parameter.
+ * @return Return value.
+ * @details Implements patchAlgorithmToString without additional internal calls.
+ */
 std::string patchAlgorithmToString(PatchAlgorithm algo) {
     switch (algo) {
         case PatchAlgorithm::BSDIFF:    return "bsdiff";
@@ -256,6 +268,12 @@ std::string patchAlgorithmToString(PatchAlgorithm algo) {
     }
 }
 
+/**
+ * @brief Patch Algorithm From String.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Implements patchAlgorithmFromString without additional internal calls.
+ */
 std::optional<PatchAlgorithm> patchAlgorithmFromString(const std::string& s) {
     if (s == "bsdiff") {
       return PatchAlgorithm::BSDIFF;
@@ -297,6 +315,12 @@ json FileDelta::toJson() const {
     return j;
 }
 
+/**
+ * @brief From Json.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: value(), patchAlgorithmFromString(), value_or(), contains(), is_array().
+ */
 std::optional<FileDelta> FileDelta::fromJson(const json& j) {
     try {
         FileDelta fd;
@@ -363,6 +387,12 @@ json DeltaManifest::toJson() const {
     return j;
 }
 
+/**
+ * @brief From Json.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: value(), contains(), is_array(), push_back().
+ */
 std::optional<DeltaManifest> DeltaManifest::fromJson(const json& j) {
     try {
         DeltaManifest dm;
@@ -403,6 +433,12 @@ DeltaUpdateEngine::DeltaUpdateEngine(std::string install_directory,
 
 DeltaUpdateEngine::~DeltaUpdateEngine() = default;
 
+/**
+ * @brief Report Progress.
+ * @param[in] pct Input parameter.
+ * @param[in] msg Input parameter.
+ * @details Calls: LOG_DEBUG(), progress_cb_().
+ */
 void DeltaUpdateEngine::reportProgress(int pct, const std::string& msg) {
     LOG_DEBUG("DeltaUpdateEngine: {}% - {}", pct, msg);
     if (progress_cb_) {
@@ -410,9 +446,12 @@ void DeltaUpdateEngine::reportProgress(int pct, const std::string& msg) {
     }
 }
 
-// ============================================================================
-// Patch Ordering Enforcement (UPD-IMPL-003)
-// ============================================================================
+/**
+ * @brief ============================================================================ Patch Ordering Enforcement (UPD-IMPL-003) ============================================================================
+ * @param[in] manifest Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: insert(), find(), end(), LOG_ERROR().
+ */
 
 bool DeltaUpdateEngine::validateDependencies(const DeltaManifest& manifest) {
     // Build a set of all available patch paths
@@ -447,6 +486,12 @@ bool DeltaUpdateEngine::validateDependencies(const DeltaManifest& manifest) {
     return true;
 }
 
+/**
+ * @brief Has Circular Dependency.
+ * @param[in] deltas Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: size(), push_back(), push(), empty(), front(), pop(), LOG_ERROR().
+ */
 bool DeltaUpdateEngine::hasCircularDependency(const std::vector<FileDelta>& deltas) {
     // Build adjacency list and in-degree count
     std::unordered_map<std::string, std::vector<std::string>> adj_list;
@@ -498,6 +543,12 @@ bool DeltaUpdateEngine::hasCircularDependency(const std::vector<FileDelta>& delt
     return has_cycle;
 }
 
+/**
+ * @brief Compute Apply Order.
+ * @param[in] manifest Input parameter.
+ * @return Return value.
+ * @details Calls: validateDependencies(), hasCircularDependency(), push_back(), std::find(), begin(), end(), push(), empty().
+ */
 std::vector<FileDelta> DeltaUpdateEngine::computeApplyOrder(const DeltaManifest& manifest) {
     std::vector<FileDelta> result;
     
@@ -579,7 +630,11 @@ void DeltaUpdateEngine::setProgressCallback(
     progress_cb_ = std::move(callback);
 }
 
-// ── Delta registry ────────────────────────────────────────────────────────
+/**
+ * @brief ── Delta registry ────────────────────────────────────────────────────────
+ * @param[in] manifest Input parameter.
+ * @details Calls: push_back().
+ */
 
 void DeltaUpdateEngine::registerDelta(const DeltaManifest& manifest) {
     // Replace existing entry for the same version pair if present
@@ -604,7 +659,12 @@ std::optional<DeltaManifest> DeltaUpdateEngine::findDelta(
     return std::nullopt;
 }
 
-// ── Patch application (public) ────────────────────────────────────────────
+/**
+ * @brief ── Patch application (public) ────────────────────────────────────────────
+ * @param[in] manifest Input parameter.
+ * @return Return value.
+ * @details Calls: LOG_INFO(), computeApplyOrder(), empty(), LOG_ERROR(), size(), reportProgress(), isSafePath(), push_back().
+ */
 
 DeltaApplyResult DeltaUpdateEngine::applyDelta(const DeltaManifest& manifest) {
     DeltaApplyResult result;
@@ -726,7 +786,14 @@ DeltaApplyResult DeltaUpdateEngine::applyDelta(const DeltaManifest& manifest) {
     return result;
 }
 
-// ── applyPatch (public) ───────────────────────────────────────────────────
+/**
+ * @brief ── applyPatch (public) ───────────────────────────────────────────────────
+ * @param[in] base_path Path to the base.
+ * @param[in] patch_path Path to the patch.
+ * @param[in] target_path Path to the target.
+ * @return True when the operation succeeds.
+ * @details Calls: pf(), LOG_ERROR(), read(), close(), readFile(), std::memcmp(), applyPatchZstdDict(), applyPatchVcdiff().
+ */
 
 bool DeltaUpdateEngine::applyPatch(const std::string& base_path,
                                    const std::string& patch_path,
@@ -758,7 +825,15 @@ bool DeltaUpdateEngine::applyPatch(const std::string& base_path,
     return false;
 }
 
-// ── generatePatch (public) ────────────────────────────────────────────────
+/**
+ * @brief ── generatePatch (public) ────────────────────────────────────────────────
+ * @param[in] base_path Path to the base.
+ * @param[in] target_path Path to the target.
+ * @param[in] patch_path Path to the patch.
+ * @param[in] algorithm Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: readFile(), empty(), fs::exists(), LOG_ERROR(), fs::create_directories(), fs::path(), parent_path(), generatePatchZstdDict().
+ */
 
 bool DeltaUpdateEngine::generatePatch(const std::string& base_path,
                                       const std::string& target_path,
@@ -798,7 +873,14 @@ bool DeltaUpdateEngine::generatePatch(const std::string& base_path,
     return false;
 }
 
-// ── ZSTD_DICT implementation ──────────────────────────────────────────────
+/**
+ * @brief ── ZSTD_DICT implementation ──────────────────────────────────────────────
+ * @param[in] base Input parameter.
+ * @param[in] target Input parameter.
+ * @param[in] patch_path Path to the patch.
+ * @return True when the operation succeeds.
+ * @details Calls: ZSTD_createCCtx(), LOG_ERROR(), ZSTD_createCDict(), data(), size(), ZSTD_freeCCtx(), ZSTD_compressBound(), compressed().
+ */
 
 bool DeltaUpdateEngine::generatePatchZstdDict(
     const std::vector<uint8_t>& base,
@@ -877,6 +959,14 @@ bool DeltaUpdateEngine::generatePatchZstdDict(
 #endif
 }
 
+/**
+ * @brief Apply Patch Zstd Dict.
+ * @param[in] base Input parameter.
+ * @param[in] patch_path Path to the patch.
+ * @param[in] target_path Path to the target.
+ * @return True when the operation succeeds.
+ * @details Calls: pf(), LOG_ERROR(), seekg(), read(), compressed(), target(), ZSTD_createDCtx(), ZSTD_createDDict().
+ */
 bool DeltaUpdateEngine::applyPatchZstdDict(
     const std::vector<uint8_t>& base,
     const std::string& patch_path,
@@ -955,6 +1045,12 @@ bool DeltaUpdateEngine::applyPatchZstdDict(
 static constexpr size_t WINDOW_SIZE   = 16 * 1024; // 16 KiB search blocks
 static constexpr size_t MIN_COPY_LEN  = 8;          // min bytes to emit COPY
 
+/**
+ * @brief Append U32 LE.
+ * @param[in,out] buf Input/output parameter.
+ * @param[in] val Input parameter.
+ * @details Calls: push_back().
+ */
 static void appendU32LE(std::vector<uint8_t>& buf, uint32_t val) {
     buf.push_back(static_cast<uint8_t>(val        & 0xFF));
     buf.push_back(static_cast<uint8_t>((val >>  8) & 0xFF));
@@ -962,6 +1058,12 @@ static void appendU32LE(std::vector<uint8_t>& buf, uint32_t val) {
     buf.push_back(static_cast<uint8_t>((val >> 24) & 0xFF));
 }
 
+/**
+ * @brief Read U32 LE.
+ * @param[in] p Input parameter.
+ * @return Return value.
+ * @details Implements readU32LE without additional internal calls.
+ */
 static uint32_t readU32LE(const uint8_t* p) {
     return static_cast<uint32_t>(p[0])
          | (static_cast<uint32_t>(p[1]) << 8)
@@ -969,6 +1071,14 @@ static uint32_t readU32LE(const uint8_t* p) {
          | (static_cast<uint32_t>(p[3]) << 24);
 }
 
+/**
+ * @brief Generate Patch Vcdiff.
+ * @param[in] base Input parameter.
+ * @param[in] target Input parameter.
+ * @param[in] patch_path Path to the patch.
+ * @return True when the operation succeeds.
+ * @details Calls: size(), push_back(), find(), end(), std::min(), appendU32LE(), insert(), begin().
+ */
 bool DeltaUpdateEngine::generatePatchVcdiff(
     const std::vector<uint8_t>& base,
     const std::vector<uint8_t>& target,
@@ -1071,6 +1181,14 @@ bool DeltaUpdateEngine::generatePatchVcdiff(
     return pf.good();
 }
 
+/**
+ * @brief Apply Patch Vcdiff.
+ * @param[in] base Input parameter.
+ * @param[in] patch_path Path to the patch.
+ * @param[in] target_path Path to the target.
+ * @return True when the operation succeeds.
+ * @details Calls: pf(), seekg(), read(), compressed(), LOG_ERROR(), ZSTD_getFrameContentSize(), data(), size().
+ */
 bool DeltaUpdateEngine::applyPatchVcdiff(
     const std::vector<uint8_t>& base,
     const std::string& patch_path,

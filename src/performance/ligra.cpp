@@ -18,7 +18,11 @@
 namespace themis {
 namespace performance {
 
-// Hardware validation for Ligra
+/**
+ * @brief Hardware validation for Ligra
+ * @return True when the operation succeeds.
+ * @details Calls: Phase2FeatureFlags::instance(), ligra_hardware_supported().
+ */
 static bool is_ligra_hardware_supported() {
     return Phase2FeatureFlags::instance().ligra_hardware_supported();
 }
@@ -54,6 +58,12 @@ LigraProcessor::LigraProcessor(size_t num_vertices, size_t num_threads)
     }
 }
 
+/**
+ * @brief Process vertices.
+ * @param[in] frontier Input parameter.
+ * @param[in] func Input parameter.
+ * @details Calls: should_use_dense_mode(), process_dense(), process_sparse().
+ */
 void LigraProcessor::process_vertices(const Frontier& frontier, const VertexFunc& func) {
     if (should_use_dense_mode(frontier)) {
         process_dense(frontier, func);
@@ -62,6 +72,12 @@ void LigraProcessor::process_vertices(const Frontier& frontier, const VertexFunc
     }
 }
 
+/**
+ * @brief Process sparse.
+ * @param[in] frontier Input parameter.
+ * @param[in] func Input parameter.
+ * @details Calls: get_sparse(), size(), begin(), end(), emplace_back(), func(), join().
+ */
 void LigraProcessor::process_sparse(const Frontier& frontier, const VertexFunc& func) {
     // Sparse mode: iterate over active vertices only
     const auto& active = frontier.get_sparse();
@@ -94,6 +110,12 @@ void LigraProcessor::process_sparse(const Frontier& frontier, const VertexFunc& 
     }
 }
 
+/**
+ * @brief Process dense.
+ * @param[in] frontier Input parameter.
+ * @param[in] func Input parameter.
+ * @details Calls: std::min(), emplace_back(), contains(), func(), join().
+ */
 void LigraProcessor::process_dense(const Frontier& frontier, const VertexFunc& func) {
     // Dense mode: iterate over all vertices, check if active
     std::vector<std::thread> threads;
@@ -119,6 +141,14 @@ void LigraProcessor::process_dense(const Frontier& frontier, const VertexFunc& f
     }
 }
 
+/**
+ * @brief Process edges.
+ * @param[in] frontier Input parameter.
+ * @param[in] adj_list Input parameter.
+ * @param[in] func Input parameter.
+ * @return Return value.
+ * @details Calls: next_frontier(), is_dense_mode(), size(), switch_to_dense(), atomic_dense(), store(), process_vertices(), func().
+ */
 Frontier LigraProcessor::process_edges(
     const Frontier& frontier,
     const std::vector<std::vector<NodeID>>& adj_list,
@@ -209,6 +239,13 @@ Frontier LigraProcessor::process_edges(
     return next_frontier;
 }
 
+/**
+ * @brief Parallel bfs.
+ * @param[in] start_vertex Input parameter.
+ * @param[in] adj_list Input parameter.
+ * @return Return value.
+ * @details Calls: distances(), current(), add(), size(), process_edges(), std::move().
+ */
 std::vector<int> LigraProcessor::parallel_bfs(
     NodeID start_vertex,
     const std::vector<std::vector<NodeID>>& adj_list
@@ -239,6 +276,14 @@ std::vector<int> LigraProcessor::parallel_bfs(
     return distances;
 }
 
+/**
+ * @brief Parallel pagerank.
+ * @param[in] adj_list Input parameter.
+ * @param[in] num_iterations Input parameter.
+ * @param[in] damping Input parameter.
+ * @return Return value.
+ * @details Calls: ranks(), new_ranks(), std::fill(), begin(), end(), size(), empty(), swap().
+ */
 std::vector<double> LigraProcessor::parallel_pagerank(
     const std::vector<std::vector<NodeID>>& adj_list,
     int num_iterations,
@@ -272,12 +317,22 @@ std::vector<double> LigraProcessor::parallel_pagerank(
 WorkStealingQueue::WorkStealingQueue() {}
 
 void WorkStealingQueue::push(const std::function<void()>& task) {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     tasks_.push_back(task);
     bottom_.fetch_add(1, std::memory_order_relaxed);
 }
 
 bool WorkStealingQueue::try_pop(std::function<void()>& task) {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     size_t b = bottom_.load(std::memory_order_relaxed);
     size_t t = top_.load(std::memory_order_relaxed);
@@ -293,6 +348,11 @@ bool WorkStealingQueue::try_pop(std::function<void()>& task) {
 }
 
 bool WorkStealingQueue::try_steal(std::function<void()>& task) {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     size_t t = top_.load(std::memory_order_relaxed);
     size_t b = bottom_.load(std::memory_order_relaxed);

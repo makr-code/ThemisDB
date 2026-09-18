@@ -29,6 +29,13 @@ RewriteRuleLoader::RewriteRuleLoader() : last_error_("") {
 
 RewriteRuleLoader::~RewriteRuleLoader() = default;
 
+/**
+ * @brief Load rules from yaml.
+ * @param[in] yaml_path Path to the yaml.
+ * @param[in,out] rules Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: spdlog::get(), spdlog::stderr_color_mt(), file(), is_open(), error(), rdbuf(), close(), YAML::Load().
+ */
 bool RewriteRuleLoader::load_rules_from_yaml(
     const std::string& yaml_path,
     std::vector<std::shared_ptr<IRewriteRule>>& rules
@@ -146,6 +153,12 @@ std::string RewriteRuleLoader::last_error() const {
     return last_error_;
 }
 
+/**
+ * @brief Validate yaml rules.
+ * @param[in] yaml_content Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: spdlog::get(), spdlog::stderr_color_mt(), YAML::Load(), IsSequence(), test_pattern(), std::string(), what().
+ */
 bool RewriteRuleLoader::validate_yaml_rules(const std::string& yaml_content) {
     auto logger = spdlog::get("prompt_engineering") ?: spdlog::stderr_color_mt("prompt_engineering");
 
@@ -214,6 +227,17 @@ bool RewriteRuleLoader::validate_yaml_rules(const std::string& yaml_content) {
     return true;
 }
 
+/**
+ * @brief Parse rule definition.
+ * @param[in] rule_id Identifier of the rule.
+ * @param[in] rule_type Input parameter.
+ * @param[in] phase_str Input parameter.
+ * @param[in] priority Input parameter.
+ * @param[in] description Input parameter.
+ * @param[in] rule_config Input parameter.
+ * @return Return value.
+ * @details Calls: spdlog::get(), spdlog::stderr_color_mt(), empty(), contains(), error(), items(), what().
+ */
 std::shared_ptr<IRewriteRule> RewriteRuleLoader::parse_rule_definition(
     const std::string& rule_id,
     const std::string& rule_type,

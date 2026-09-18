@@ -165,6 +165,11 @@ CrashRecoveryManager::~CrashRecoveryManager() = default;
 // WAL write methods
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Append Line.
+ * @param[in] json_line Input parameter.
+ * @details Calls: f(), is_open(), THEMIS_WARN(), flush().
+ */
 void CrashRecoveryManager::appendLine(const std::string& json_line) {
     // mutex_ must be held by caller
     std::ofstream f(wal_path_, std::ios::app | std::ios::binary);
@@ -178,6 +183,12 @@ void CrashRecoveryManager::appendLine(const std::string& json_line) {
     }
 }
 
+/**
+ * @brief Log Begin.
+ * @param[in] txn_id Identifier of the txn.
+ * @param[in] isolation Input parameter.
+ * @details Calls: lk(), emplace(), erase(), nowMs(), appendLine(), serialize(), fetch_add().
+ */
 void CrashRecoveryManager::logBegin(uint64_t txn_id, IsolationLevel isolation) {
     std::lock_guard<std::mutex> lk(mutex_);
     pending_ops_.emplace(txn_id, std::vector<OperationEntry>{});
@@ -194,6 +205,14 @@ void CrashRecoveryManager::logBegin(uint64_t txn_id, IsolationLevel isolation) {
     metric_begins_.fetch_add(1, std::memory_order_relaxed);
 }
 
+/**
+ * @brief Log Operation.
+ * @param[in] txn_id Identifier of the txn.
+ * @param[in] op Input parameter.
+ * @param[in] key Input parameter.
+ * @param[in] old_value Input parameter.
+ * @param[in] new_value Input parameter.
+ */
 void CrashRecoveryManager::logOperation(
     uint64_t txn_id,
     const std::string& op,
@@ -201,6 +220,11 @@ void CrashRecoveryManager::logOperation(
     const std::optional<std::string>& old_value,
     const std::optional<std::string>& new_value)
 {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
 
     OperationEntry oe;
@@ -227,6 +251,11 @@ void CrashRecoveryManager::logOperation(
 }
 
 void CrashRecoveryManager::logCommit([[maybe_unused]] uint64_t txn_id) {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     pending_ops_.erase(txn_id);
     committed_ids_.insert(txn_id);
@@ -241,6 +270,11 @@ void CrashRecoveryManager::logCommit([[maybe_unused]] uint64_t txn_id) {
 }
 
 void CrashRecoveryManager::logAbort([[maybe_unused]] uint64_t txn_id) {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     pending_ops_.erase(txn_id);
     aborted_ids_.insert(txn_id);
@@ -264,6 +298,12 @@ CrashRecoveryManager::scanInFlight() const {
     std::unordered_set<uint64_t> begun;
     std::unordered_set<uint64_t> finished;
 
+    /**
+     * @brief F.
+     * @param[in] wal_path_ Input parameter.
+     * @param[in] binary Input parameter.
+     * @return Return value.
+     */
     std::ifstream f(wal_path_, std::ios::binary);
     if (!f.is_open()) return {};
 
@@ -300,6 +340,11 @@ CrashRecoveryManager::scanInFlight() const {
 }
 
 bool CrashRecoveryManager::needsRecovery() const {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     auto in_flight = scanInFlight();
     last_in_flight_ids_.assign(in_flight.begin(), in_flight.end());
@@ -308,6 +353,11 @@ bool CrashRecoveryManager::needsRecovery() const {
 
 CrashRecoveryManager::RecoveryResult
 CrashRecoveryManager::recover(RocksDBWrapper& db) {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
 
     RecoveryResult result;
@@ -332,6 +382,12 @@ CrashRecoveryManager::recover(RocksDBWrapper& db) {
     for (auto id : in_flight) ops_by_txn[id] = {};
 
     {
+        /**
+         * @brief F.
+         * @param[in] wal_path_ Input parameter.
+         * @param[in] binary Input parameter.
+         * @return Return value.
+         */
         std::ifstream f(wal_path_, std::ios::binary);
         if (!f.is_open()) {
             result.message = "Cannot open WAL file for recovery: " + wal_path_;
@@ -422,6 +478,11 @@ CrashRecoveryManager::recover(RocksDBWrapper& db) {
 
 std::vector<uint64_t>
 CrashRecoveryManager::getInFlightTransactionIds() const {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     return last_in_flight_ids_;
 }
@@ -430,6 +491,11 @@ CrashRecoveryManager::getInFlightTransactionIds() const {
 // Maintenance
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Prune Log.
+ * @return Return value.
+ * @details Calls: lk(), scanInFlight(), f(), is_open(), std::getline(), deserialize(), push_back(), count().
+ */
 size_t CrashRecoveryManager::pruneLog() {
     std::lock_guard<std::mutex> lk(mutex_);
 
@@ -494,9 +560,20 @@ CrashRecoveryManager::getMetrics() const {
 
 std::vector<CrashRecoveryManager::LogEntry>
 CrashRecoveryManager::readAllEntries() const {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     std::vector<LogEntry> result;
 
+    /**
+     * @brief F.
+     * @param[in] wal_path_ Input parameter.
+     * @param[in] binary Input parameter.
+     * @return Return value.
+     */
     std::ifstream f(wal_path_, std::ios::binary);
     if (!f.is_open()) {
       return result;
@@ -513,6 +590,11 @@ CrashRecoveryManager::readAllEntries() const {
 }
 
 size_t CrashRecoveryManager::pendingTransactionCount() const {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     return pending_ops_.size();
 }

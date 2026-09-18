@@ -85,6 +85,12 @@ ZstdDictionaryCompressor& ZstdDictionaryCompressor::operator=(
     return *this;
 }
 
+/**
+ * @brief Train.
+ * @param[in] samples Input parameter.
+ * @param[in] max_dict_size Input parameter.
+ * @return True when the operation succeeds.
+ */
 bool ZstdDictionaryCompressor::train(
     const std::vector<std::vector<uint8_t>>& samples,
     size_t max_dict_size)
@@ -106,6 +112,11 @@ bool ZstdDictionaryCompressor::train(
       return false;
     }
 
+    /**
+     * @brief Concat.
+     * @param[in] total_size Input parameter.
+     * @return Return value.
+     */
     std::vector<uint8_t> concat(total_size);
     std::vector<size_t>  sample_sizes(samples.size());
     size_t offset = 0;
@@ -124,6 +135,11 @@ bool ZstdDictionaryCompressor::train(
         offset += samples[i].size();
     }
 
+    /**
+     * @brief Dict buf.
+     * @param[in] max_dict_size Input parameter.
+     * @return Return value.
+     */
     std::vector<uint8_t> dict_buf(max_dict_size);
     const size_t dict_size = ZDICT_trainFromBuffer(
         dict_buf.data(),dict_buf.size(),
@@ -138,6 +154,11 @@ bool ZstdDictionaryCompressor::train(
     return loadDictionary(dict_buf);
 }
 
+/**
+ * @brief Load Dictionary.
+ * @param[in] dict_bytes Input parameter.
+ * @return True when the operation succeeds.
+ */
 bool ZstdDictionaryCompressor::loadDictionary(
     const std::vector<uint8_t>& dict_bytes)
 {

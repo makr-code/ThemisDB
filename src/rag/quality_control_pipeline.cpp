@@ -83,6 +83,14 @@ QualityControlPipeline::QualityControlPipeline(const Config& config)
 
 QualityControlPipeline::~QualityControlPipeline() = default;
 
+/**
+ * @brief Run Quality Control.
+ * @param[in] query Input parameter.
+ * @param[in] answer Input parameter.
+ * @param[in] documents Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::steady_clock::now(), THEMIS_INFO(), substr(), runFastStage(), emplace_back(), failure_callback(), insert(), end().
+ */
 QualityCheckResult QualityControlPipeline::runQualityControl(
     const std::string& query,
     const std::string& answer,
@@ -206,6 +214,15 @@ QualityCheckResult QualityControlPipeline::runQualityControl(
     return result;
 }
 
+/**
+ * @brief Run Stage.
+ * @param[in] stage Input parameter.
+ * @param[in] query Input parameter.
+ * @param[in] answer Input parameter.
+ * @param[in] documents Input parameter.
+ * @return Return value.
+ * @details Calls: runFastStage(), runBalancedStage(), runThoroughStage().
+ */
 QualityCheckResult QualityControlPipeline::runStage(
     QualityStage stage,
     const std::string& query,
@@ -226,6 +243,14 @@ QualityCheckResult QualityControlPipeline::runStage(
     }
 }
 
+/**
+ * @brief Run Fast Stage.
+ * @param[in] query Input parameter.
+ * @param[in] answer Input parameter.
+ * @param[in] documents Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::steady_clock::now(), THEMIS_DEBUG(), reserve(), size(), emplace_back(), evaluateDimension(), push_back(), std::to_string().
+ */
 QualityCheckResult QualityControlPipeline::runFastStage(
     const std::string& query,
     const std::string& answer,
@@ -282,6 +307,14 @@ QualityCheckResult QualityControlPipeline::runFastStage(
     return result;
 }
 
+/**
+ * @brief Run Balanced Stage.
+ * @param[in] query Input parameter.
+ * @param[in] answer Input parameter.
+ * @param[in] documents Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::steady_clock::now(), THEMIS_DEBUG(), reserve(), size(), emplace_back(), evaluate(), push_back(), THEMIS_WARN().
+ */
 QualityCheckResult QualityControlPipeline::runBalancedStage(
     const std::string& query,
     const std::string& answer,
@@ -338,6 +371,14 @@ QualityCheckResult QualityControlPipeline::runBalancedStage(
     return result;
 }
 
+/**
+ * @brief Run Thorough Stage.
+ * @param[in] query Input parameter.
+ * @param[in] answer Input parameter.
+ * @param[in] documents Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::steady_clock::now(), THEMIS_DEBUG(), reserve(), size(), emplace_back(), verify(), push_back(), std::to_string().
+ */
 QualityCheckResult QualityControlPipeline::runThoroughStage(
     const std::string& query,
     const std::string& answer,
@@ -430,6 +471,12 @@ QualityCheckResult QualityControlPipeline::runThoroughStage(
     return result;
 }
 
+/**
+ * @brief Send Learning Feedback.
+ * @param[in] query Input parameter.
+ * @param[in] result Input parameter.
+ * @details Calls: THEMIS_DEBUG(), learning_callback().
+ */
 void QualityControlPipeline::sendLearningFeedback(
     const std::string& query,
     const QualityCheckResult& result
@@ -448,6 +495,12 @@ void QualityControlPipeline::sendLearningFeedback(
     // via HTTP/gRPC to the learning_orchestrator_url
 }
 
+/**
+ * @brief Compute Overall Score.
+ * @param[in] scores Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), find(), end().
+ */
 double QualityControlPipeline::computeOverallScore(
     const std::vector<DimensionScore>& scores
 ) {
@@ -484,6 +537,13 @@ double QualityControlPipeline::computeOverallScore(
     return total_weight > 0.0 ? weighted_sum / total_weight : 0.0;
 }
 
+/**
+ * @brief Determine Status.
+ * @param[in] score Input parameter.
+ * @param[in] stage Input parameter.
+ * @return Return value.
+ * @details Implements determineStatus without additional internal calls.
+ */
 QualityGateStatus QualityControlPipeline::determineStatus(
     double score,
     QualityStage stage
@@ -525,18 +585,33 @@ void QualityControlPipeline::setLearningCallback(
     impl_->learning_callback = callback;
 }
 
+/**
+ * @brief Set LLMJudge Client.
+ * @param[in] client Input parameter.
+ * @details Implements setLLMJudgeClient without additional internal calls.
+ */
 void QualityControlPipeline::setLLMJudgeClient(
     std::shared_ptr<LLMJudgeClient> client
 ) {
     impl_->llm_judge = client;
 }
 
+/**
+ * @brief Set GEval Evaluator.
+ * @param[in] evaluator Input parameter.
+ * @details Implements setGEvalEvaluator without additional internal calls.
+ */
 void QualityControlPipeline::setGEvalEvaluator(
     std::shared_ptr<GEvalEvaluator> evaluator
 ) {
     impl_->geval = evaluator;
 }
 
+/**
+ * @brief Set NLIVerifier.
+ * @param[in] verifier Input parameter.
+ * @details Implements setNLIVerifier without additional internal calls.
+ */
 void QualityControlPipeline::setNLIVerifier(
     std::shared_ptr<NLIFaithfulnessVerifier> verifier
 ) {
@@ -547,6 +622,11 @@ QualityControlPipeline::Config QualityControlPipeline::getConfig() const {
     return impl_->config;
 }
 
+/**
+ * @brief Set Config.
+ * @param[in] config Input parameter.
+ * @details Implements setConfig without additional internal calls.
+ */
 void QualityControlPipeline::setConfig(const Config& config) {
     impl_->config = config;
 }
@@ -567,13 +647,19 @@ std::string QualityControlPipeline::getStatistics() const {
     return stats.dump(2);
 }
 
+/**
+ * @brief Reset Statistics.
+ * @details Implements resetStatistics without additional internal calls.
+ */
 void QualityControlPipeline::resetStatistics() {
     impl_->stats = Impl::Stats{};
 }
 
-// ═══════════════════════════════════════════════════════════
-// QualityPipelineFactory Implementation
-// ═══════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════ QualityPipelineFactory Implementation ═══════════════════════════════════════════════════════════
+ * @return Return value.
+ * @details Implements createFast without additional internal calls.
+ */
 
 std::unique_ptr<QualityControlPipeline> QualityPipelineFactory::createFast() {
     QualityControlPipeline::Config config;
@@ -585,6 +671,11 @@ std::unique_ptr<QualityControlPipeline> QualityPipelineFactory::createFast() {
     return std::make_unique<QualityControlPipeline>(config);
 }
 
+/**
+ * @brief Create Balanced.
+ * @return Return value.
+ * @details Implements createBalanced without additional internal calls.
+ */
 std::unique_ptr<QualityControlPipeline> QualityPipelineFactory::createBalanced() {
     QualityControlPipeline::Config config;
     config.enable_fast_stage = true;
@@ -595,6 +686,11 @@ std::unique_ptr<QualityControlPipeline> QualityPipelineFactory::createBalanced()
     return std::make_unique<QualityControlPipeline>(config);
 }
 
+/**
+ * @brief Create Thorough.
+ * @return Return value.
+ * @details Implements createThorough without additional internal calls.
+ */
 std::unique_ptr<QualityControlPipeline> QualityPipelineFactory::createThorough() {
     QualityControlPipeline::Config config;
     config.enable_fast_stage = true;
@@ -605,6 +701,11 @@ std::unique_ptr<QualityControlPipeline> QualityPipelineFactory::createThorough()
     return std::make_unique<QualityControlPipeline>(config);
 }
 
+/**
+ * @brief Create Production.
+ * @return Return value.
+ * @details Implements createProduction without additional internal calls.
+ */
 std::unique_ptr<QualityControlPipeline> QualityPipelineFactory::createProduction() {
     QualityControlPipeline::Config config;
     config.enable_fast_stage = true;

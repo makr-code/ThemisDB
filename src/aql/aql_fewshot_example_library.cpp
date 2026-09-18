@@ -26,6 +26,12 @@ AQLFewShotExampleLibrary::AQLFewShotExampleLibrary() {
     THEMIS_DEBUG("AQLFewShotExampleLibrary initialized with {} built-in examples",examples_.size());
 }
 
+/**
+ * @brief Register Example.
+ * @param[in] example Input parameter.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: empty(), count(), size(), push_back().
+ */
 void AQLFewShotExampleLibrary::registerExample(const AQLFewShotExample &example) {
     if (example.id.empty()) {
         throw std::invalid_argument("AQLFewShotExample id must not be empty");
@@ -136,6 +142,12 @@ std::vector<AQLFewShotExample> AQLFewShotExampleLibrary::findRelevant(const std:
     return result;
 }
 
+/**
+ * @brief Format For Prompt.
+ * @param[in] examples Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), str().
+ */
 std::string AQLFewShotExampleLibrary::formatForPrompt(const std::vector<AQLFewShotExample> &examples) {
     if (examples.empty()) {
         return {};
@@ -162,12 +174,21 @@ std::size_t AQLFewShotExampleLibrary::size() const {
 // Semantic ranking methods
 // ============================================================================
 
+/**
+ * @brief Set Embedding Provider.
+ * @param[in,out] provider Input/output parameter.
+ * @details Calls: clear().
+ */
 void AQLFewShotExampleLibrary::setEmbeddingProvider(IEmbeddingProvider *provider) {
     embedding_provider_ = provider;
     // Invalidate the cache so new embeddings are computed with the new provider
     embedding_cache_.clear();
 }
 
+/**
+ * @brief Rebuild Embedding Index.
+ * @details Calls: resize(), size(), embed().
+ */
 void AQLFewShotExampleLibrary::rebuildEmbeddingIndex() {
     if (!embedding_provider_) {
         return;
@@ -198,6 +219,13 @@ bool AQLFewShotExampleLibrary::ensureEmbedding_(std::size_t idx) const {
     return !embedding_cache_[idx].empty();
 }
 
+/**
+ * @brief Cosine Similarity.
+ * @param[in] a Input parameter.
+ * @param[in] b Input parameter.
+ * @return Return value.
+ * @details Calls: size(), empty(), std::sqrt().
+ */
 double AQLFewShotExampleLibrary::cosineSimilarity_(const std::vector<float> &a, const std::vector<float> &b) {
     if (a.size() != b.size() || a.empty()) {
         return 0.0;
@@ -228,6 +256,13 @@ double AQLFewShotExampleLibrary::computeRelevanceSemantic_(const std::vector<flo
 // Private helpers
 // ============================================================================
 
+/**
+ * @brief Compute Relevance.
+ * @param[in] query Input parameter.
+ * @param[in] example Input parameter.
+ * @return Return value.
+ * @details Calls: iss(), std::transform(), begin(), end(), empty(), std::isalnum(), back(), pop_back().
+ */
 double AQLFewShotExampleLibrary::computeRelevance_(const std::string &query, const AQLFewShotExample &example) {
     // Jaccard word-overlap similarity between query and example nl_query
     auto tokenize = [](const std::string &s) {
@@ -265,9 +300,10 @@ double AQLFewShotExampleLibrary::computeRelevance_(const std::string &query, con
     return (union_size > 0) ? static_cast<double>(intersection) / static_cast<double>(union_size) : 0.0;
 }
 
-// ============================================================================
-// Built-in example registry (30+ curated NL-to-AQL pairs)
-// ============================================================================
+/**
+ * @brief ============================================================================ Built-in example registry (30+ curated NL-to-AQL pairs) ============================================================================
+ * @details Calls: push_back(), size().
+ */
 
 void AQLFewShotExampleLibrary::registerBuiltins_() {
     // -----------------------------------------------------------------------

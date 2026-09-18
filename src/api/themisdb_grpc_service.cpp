@@ -74,35 +74,27 @@ using themis::api::isValidAqlIdentifier;
 std::shared_ptr<themis::api::ThemisDBGrpcService::ServiceFn> g_api_grpc_service_fn;
 std::mutex g_api_grpc_service_fn_mutex;
 
-/// Escape a string for safe embedding inside an AQL single-quoted literal.
-/// Replaces backslashes and single-quotes to prevent AQL injection.
-/// Kept as a local alias for backward compatibility with call sites below.
 [[maybe_unused]] inline std::string aqlEscape(const std::string& raw) {
     return aqlEscapeLiteral(raw);
 }
 
-/// Validate a collection name used as an AQL identifier (FOR doc IN <name>).
-/// Delegates to the shared header implementation.
 [[maybe_unused]] inline bool isValidCollectionName(const std::string& name) {
     return isValidAqlIdentifier(name);
 }
 
-/// Version-counter key for a stored document.
-/// Stored as a plain decimal string so that no additional serialisation is
-/// needed and the counter survives a process restart.
 [[maybe_unused]] inline std::string versionKey(const std::string& storage_key) {
     return "__ver/" + storage_key;
 }
 
-/// Hard upper bound on the number of items in a single BatchWrite or BatchRead
-/// request (upserts + deletes for BatchWrite; keys for BatchRead).  Requests
-/// that exceed this limit are rejected with RESOURCE_EXHAUSTED to prevent
-/// unbounded memory allocation on the server.
 [[maybe_unused]] static constexpr int kMaxBatchItems = 10'000;
 
 #if THEMIS_HAS_API_GRPC
-/// Map canonical Themis error codes to transport-level gRPC status codes.
-/// This keeps RPC error semantics stable across API handlers.
+/**
+ * @brief Map Themis Error Code To Grpc Status Code.
+ * @param[in] code Input parameter.
+ * @return Return value.
+ * @details Implements mapThemisErrorCodeToGrpcStatusCode without additional internal calls.
+ */
 grpc::StatusCode mapThemisErrorCodeToGrpcStatusCode(themis::errors::ErrorCode code) {
     using themis::errors::ErrorCode;
     switch (code) {
@@ -195,11 +187,23 @@ grpc::StatusCode mapThemisErrorCodeToGrpcStatusCode(themis::errors::ErrorCode co
     }
 }
 
+/**
+ * @brief Map Themis Error To Grpc Status.
+ * @param[in] error Input parameter.
+ * @return Return value.
+ * @details Calls: grpc::Status(), mapThemisErrorCodeToGrpcStatusCode(), code(), message().
+ */
 grpc::Status mapThemisErrorToGrpcStatus(const themis::Error& error) {
     return grpc::Status(mapThemisErrorCodeToGrpcStatusCode(error.code()),
                         error.message());
 }
 
+/**
+ * @brief Grpc Status Code Label.
+ * @param[in] code Input parameter.
+ * @return Pointer to the result.
+ * @details Implements grpcStatusCodeLabel without additional internal calls.
+ */
 const char* grpcStatusCodeLabel(grpc::StatusCode code) {
     switch (code) {
         case grpc::StatusCode::OK: return "ok";
@@ -233,7 +237,6 @@ namespace api {
 // Impl (only compiled when proto stubs are present)
 // ============================================================================
 
-/** @brief Impl (only compiled when proto stubs are present). */
 class ThemisDBGrpcService::Impl {
 public:
 #if THEMIS_HAS_API_GRPC
@@ -245,9 +248,19 @@ public:
         : service_(std::move(db), std::move(txn_mgr),
                    std::move(aql_engine), std::move(vector_index)) {}
 
+    /**
+     * @brief Get.
+     * @return Pointer to the result.
+     * @details Implements get without additional internal calls.
+     */
     themis::api::ThemisDBService::Service* get() { return &service_; }
 
 #ifdef THEMIS_HAS_PROMETHEUS
+    /**
+     * @brief Set Prometheus Registry.
+     * @param[in] registry Input parameter.
+     * @details Calls: std::move().
+     */
     void setPrometheusRegistry(std::shared_ptr<prometheus::Registry> registry) {
         service_.setPrometheusRegistry(std::move(registry));
     }
@@ -270,6 +283,13 @@ private:
             , vector_index_(std::move(vector_index))
             , start_time_(std::chrono::steady_clock::now()) {}
 
+        /**
+         * @brief Resolve Active Transaction.
+         * @param[in] transaction_id Identifier of the transaction.
+         * @param[in,out] out_txn Input/output parameter.
+         * @return Return value.
+         * @details Calls: empty(), grpc::Status(), std::stoull(), getTransaction(), isFinished(), std::move().
+         */
         grpc::Status resolveActiveTransaction(
             const std::string& transaction_id,
             std::shared_ptr<TransactionManager::Transaction>* out_txn
@@ -306,6 +326,13 @@ private:
         }
 
         template<typename Fn>
+        /**
+         * @brief With Rpc Metrics.
+         * @param[in] method Input parameter.
+         * @param[in] fn Input parameter.
+         * @return Return value.
+         * @details Calls: fn(), recordRpcStatus(), error_code().
+         */
         grpc::Status withRpcMetrics(const char* method, Fn&& fn) {
             const grpc::Status status = fn();
             recordRpcStatus(method, status.error_code());
@@ -313,6 +340,11 @@ private:
         }
 
 #ifdef THEMIS_HAS_PROMETHEUS
+        /**
+         * @brief Set Prometheus Registry.
+         * @param[in] registry Input parameter.
+         * @details Calls: prometheus::BuildCounter(), Name(), Help(), Register(), THEMIS_WARN(), what(), reset(), lock().
+         */
         void setPrometheusRegistry(std::shared_ptr<prometheus::Registry> registry) {
             // Build the Prometheus counter family OUTSIDE the mutex to avoid
             // circular_lock_ordering: prometheus::Register() acquires its own
@@ -348,6 +380,12 @@ private:
         }
 #endif
 
+        /**
+         * @brief Record Rpc Status.
+         * @param[in] method Input parameter.
+         * @param[in] code Input parameter.
+         * @details Calls: grpcStatusCodeLabel(), lock(), find(), end(), Increment(), Add(), emplace(), else().
+         */
         void recordRpcStatus(const std::string& method, grpc::StatusCode code) {
 #ifdef THEMIS_HAS_PROMETHEUS
             // Two-phase approach to avoid holding grpc_metrics_mutex_ while
@@ -1429,6 +1467,13 @@ private:
                 }
 
             private:
+                /**
+                 * @brief Parse Double Strict.
+                 * @param[in] raw Input parameter.
+                 * @param[in,out] out Input/output parameter.
+                 * @return True when the operation succeeds.
+                 * @details Calls: std::stod(), size().
+                 */
                 static bool parseDoubleStrict(const std::string& raw, double* out) {
                     if (!out) {
                         return false;
@@ -1446,6 +1491,13 @@ private:
                     }
                 }
 
+                /**
+                 * @brief Nearly Equal.
+                 * @param[in] lhs Input parameter.
+                 * @param[in] rhs Input parameter.
+                 * @return True when the operation succeeds.
+                 * @details Calls: std::fabs(), std::max().
+                 */
                 static bool nearlyEqual(double lhs, double rhs) {
                     constexpr double kRelEpsilon = 1e-9;
                     const double diff = std::fabs(lhs - rhs);
@@ -1883,6 +1935,10 @@ ThemisDBGrpcService::ThemisDBGrpcService(
     buildImpl();
 }
 
+/**
+ * @brief Build Impl.
+ * @details Calls: THEMIS_WARN(), lock(), fn(), THEMIS_ERROR(), what().
+ */
 void ThemisDBGrpcService::buildImpl() {
 #if THEMIS_HAS_API_GRPC
     impl_ = std::make_unique<Impl>(db_, txn_mgr_, aql_engine_, vector_index_);
@@ -1937,6 +1993,11 @@ void ThemisDBGrpcService::buildImpl() {
 
 ThemisDBGrpcService::~ThemisDBGrpcService() = default;
 
+/**
+ * @brief Set Service Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void ThemisDBGrpcService::setServiceFn(ServiceFn fn) {
     std::lock_guard<std::mutex> lock(g_api_grpc_service_fn_mutex);
     g_api_grpc_service_fn = fn ? std::make_shared<ServiceFn>(std::move(fn))
@@ -1944,6 +2005,11 @@ void ThemisDBGrpcService::setServiceFn(ServiceFn fn) {
 }
 
 #ifdef THEMIS_HAS_PROMETHEUS
+/**
+ * @brief Set Prometheus Registry.
+ * @param[in] registry Input parameter.
+ * @details Calls: std::move(), else().
+ */
 void ThemisDBGrpcService::setPrometheusRegistry(std::shared_ptr<prometheus::Registry> registry) {
 #if THEMIS_HAS_API_GRPC
     if (impl_) {
@@ -1955,6 +2021,11 @@ void ThemisDBGrpcService::setPrometheusRegistry(std::shared_ptr<prometheus::Regi
 }
 #endif
 
+/**
+ * @brief Service.
+ * @return Pointer to the result.
+ * @details Calls: get().
+ */
 void* ThemisDBGrpcService::service() {
 #if THEMIS_HAS_API_GRPC
     return impl_ ? static_cast<void*>(impl_->get()) : nullptr;

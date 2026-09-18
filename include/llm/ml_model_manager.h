@@ -33,9 +33,6 @@ namespace llm {
 
 using json = nlohmann::json;
 
-/**
- * @brief ML Model types supported by ThemisDB
- */
 enum class MLModelType {
     LLM,                    // Large Language Model
     CLASSIFIER,             // Classification model
@@ -47,9 +44,6 @@ enum class MLModelType {
     CUSTOM                  // Custom model type
 };
 
-/**
- * @brief ML Model status in its lifecycle
- */
 enum class MLModelStatus {
     REGISTERED,             // Model registered but not deployed
     DEPLOYING,              // Model being deployed
@@ -60,9 +54,6 @@ enum class MLModelStatus {
     FAILED                  // Model deployment failed
 };
 
-/**
- * @brief ML Model configuration
- */
 struct MLModelConfig {
     std::string model_id;
     std::string model_name;
@@ -117,10 +108,11 @@ struct MLModelConfig {
     }
 };
 
-/**
- * @brief ML Model instance information
- */
 struct MLModelInstance {
+    /**
+     * @brief MLModel Instance.
+     * @return Return value.
+     */
     virtual ~MLModelInstance() = default;
 
     // Wave-B L7: thread-safety audit — explicit copy constructor required because
@@ -204,10 +196,11 @@ struct MLModelInstance {
     }
 };
 
-/**
- * @brief ML Model inference request
- */
 struct MLInferenceRequest {
+    /**
+     * @brief MLInference Request.
+     * @return Return value.
+     */
     virtual ~MLInferenceRequest() = default;
     std::string model_id;
     std::string model_version;          // Optional: specific version, or "latest"
@@ -217,9 +210,6 @@ struct MLInferenceRequest {
     int priority = 0;
 };
 
-/**
- * @brief ML Model inference response
- */
 struct MLInferenceResponse {
     bool success = false;
     json output_data;                   // Model-specific output format
@@ -236,35 +226,6 @@ struct MLInferenceResponse {
     float total_time_ms = 0.0f;
 };
 
-/**
- * @brief Unified ML Model Manager
- * 
- * Manages the lifecycle of different types of ML models:
- * - Registration: Register new models with metadata
- * - Deployment: Deploy models and create instances
- * - Inference: Route inference requests to appropriate instances
- * - Scaling: Auto-scale model instances based on load
- * - Health: Monitor model health and handle failures
- * - Retirement: Gracefully retire old models
- * 
- * LOCK HIERARCHY (always acquire in this order to prevent deadlocks):
- * 1. model_lifecycle_lock_ → Model lifecycle state transitions (exclusive)
- *    └─ model_cache_lock_ → Model cache access (read-write for queries)
- *       └─ metrics_lock_ → Instance metrics updates (exclusive)
- *
- * Additional Locks:
- * - dispatch_fn_mutex_: Protects inference_dispatch_fn_ modifications
- * - cancel_mutex_: Protects cancelled_requests_ set
- * 
- * Memory Ordering:
- * - running_: std::memory_order_acquire/release
- * - total_requests_, successful_requests_, failed_requests_: std::memory_order_relaxed
- * 
- * Thread Safety:
- * - All public methods are thread-safe
- * - Background health monitor and auto-scaler threads use lock hierarchy
- * - No circular lock dependencies enforced by documentation
- */
 class MLModelManager {
 public:
     struct Config {
@@ -287,76 +248,48 @@ public:
         int scaling_check_interval_ms = 60000;
     };
     
+    /**
+     * @brief MLModel Manager.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit MLModelManager(const Config& config);
     // B1-EXCEPTION-SAFETY(2026-08-26): noexcept — shutdown() exceptions swallowed.
     ~MLModelManager() noexcept;
     
-    // ═══════════════════════════════════════════════════════════
-    // Model Lifecycle Management
-    // ═══════════════════════════════════════════════════════════
-    
     /**
-     * @brief Register a new ML model
-     * 
-     * Registers a model with its configuration and metadata.
-     * The model is not deployed until deploy() is called.
-     * 
-     * @param config Model configuration
-     * @return true if registered successfully
+     * @brief ═══════════════════════════════════════════════════════════ Model Lifecycle Management ═══════════════════════════════════════════════════════════
+     * @param[in] config Input parameter.
+     * @return Return value.
      */
+    
     Result<bool> registerModel(const MLModelConfig& config);
     
-    /**
-     * @brief Deploy a registered model
-     * 
-     * Creates one or more instances of the model and makes it available for inference.
-     * 
-     * @param model_id Model identifier
-     * @param num_instances Number of instances to deploy
-     * @return Result with deployed instance IDs
-     */
     Result<std::vector<std::string>> deployModel(
         const std::string& model_id,
         size_t num_instances = 1
     );
     
     /**
-     * @brief Update a deployed model
-     * 
-     * Updates model configuration (rolling update with zero downtime).
-     * 
-     * @param model_id Model identifier
-     * @param new_config Updated configuration
-     * @return true if updated successfully
+     * @brief Update Model.
+     * @param[in] model_id Identifier of the model.
+     * @param[in] new_config Input parameter.
+     * @return Return value.
      */
     Result<bool> updateModel(
         const std::string& model_id,
         const MLModelConfig& new_config
     );
     
-    /**
-     * @brief Retire a model
-     * 
-     * Marks a model as retired and stops accepting new requests.
-     * Existing requests are allowed to complete.
-     * 
-     * @param model_id Model identifier
-     * @param drain_timeout_ms Time to wait for pending requests
-     * @return true if retired successfully
-     */
     Result<bool> retireModel(
         const std::string& model_id,
         int drain_timeout_ms = 30000
     );
     
     /**
-     * @brief Unregister a model
-     * 
-     * Completely removes a model and all its instances.
-     * Model must be retired first.
-     * 
-     * @param model_id Model identifier
-     * @return true if unregistered successfully
+     * @brief Unregister Model.
+     * @param[in] model_id Identifier of the model.
+     * @return Return value.
      */
     Result<bool> unregisterModel(const std::string& model_id);
     
@@ -364,167 +297,103 @@ public:
     // Model Query and Discovery
     // ═══════════════════════════════════════════════════════════
     
-    /**
-     * @brief List all registered models
-     * 
-     * @param filter Optional filter by type or status
-     * @return Vector of model IDs
-     */
     std::vector<std::string> listModels(const json& filter = {}) const;
     
     /**
-     * @brief Get model configuration
-     * 
-     * @param model_id Model identifier
-     * @return Model configuration
+     * @brief Get Model Config.
+     * @param[in] model_id Identifier of the model.
+     * @return Return value.
      */
     Result<MLModelConfig> getModelConfig(const std::string& model_id) const;
     
     /**
-     * @brief Get model status
-     * 
-     * @param model_id Model identifier
-     * @return Model status
+     * @brief Get Model Status.
+     * @param[in] model_id Identifier of the model.
+     * @return Return value.
      */
     Result<MLModelStatus> getModelStatus(const std::string& model_id) const;
     
     /**
-     * @brief List model instances
-     * 
-     * @param model_id Model identifier
-     * @return Vector of model instances
+     * @brief List Model Instances.
+     * @param[in] model_id Identifier of the model.
+     * @return Return value.
      */
     std::vector<MLModelInstance> listModelInstances(const std::string& model_id) const;
     
     /**
-     * @brief Get model metrics
-     * 
-     * @param model_id Model identifier
-     * @return Model metrics as JSON
+     * @brief Get Model Metrics.
+     * @param[in] model_id Identifier of the model.
+     * @return Return value.
      */
     json getModelMetrics(const std::string& model_id) const;
     
-    // ═══════════════════════════════════════════════════════════
-    // Inference Operations
-    // ═══════════════════════════════════════════════════════════
-    
     /**
-     * @brief Run inference on a model (synchronous)
-     * 
-     * Routes the request to an available model instance and waits for the result.
-     * 
-     * @param request Inference request
-     * @return Inference response
+     * @brief ═══════════════════════════════════════════════════════════ Inference Operations ═══════════════════════════════════════════════════════════
+     * @param[in] request Input parameter.
+     * @return Return value.
      */
+    
     Result<MLInferenceResponse> infer(const MLInferenceRequest& request);
 
     // ─── Inference dispatch injection ────────────────────────────────────────
-    /**
-     * @brief Type alias for an injectable inference dispatch function.
-     *
-     * When set via @c setInferenceDispatchFn(), @c infer() calls this function
-     * instead of the built-in simulated path.  The function receives the
-     * original request and a reference to the selected instance and returns
-     * the raw output payload (or an empty json on error).
-     *
-     * Example (test / staging injection):
-     * @code
-     *   manager.setInferenceDispatchFn(
-     *       [](const MLInferenceRequest& req, MLModelInstance&) -> json {
-     *           return json{{"result", "real-output-for-" + req.model_id}};
-     *       });
-     * @endcode
-     */
     using InferenceDispatchFn =
         std::function<json(const MLInferenceRequest&, MLModelInstance&)>;
 
     /**
-     * @brief Inject a real inference dispatch function.
-     *
-     * Replaces the built-in simulated backend with @p fn.  Calling with
-     * @c nullptr resets to the simulated fallback.  Thread-safe: guarded by
-     * the internal dispatch mutex.
-     *
-     * @param fn Callable that performs the actual model inference.
+     * @brief Set Inference Dispatch Fn.
+     * @param[in] fn Input parameter.
      */
     void setInferenceDispatchFn(InferenceDispatchFn fn);
     
-    /**
-     * @brief Run inference on a model (asynchronous)
-     * 
-     * Submits inference request and returns immediately.
-     * Result is delivered via callback.
-     * 
-     * @param request Inference request
-     * @param callback Callback for result
-     * @return Request ID for tracking
-     */
     std::string inferAsync(
         const MLInferenceRequest& request,
         std::function<void(const MLInferenceResponse&)> callback
     );
     
     /**
-     * @brief Cancel an async inference request
-     * 
-     * @param request_id Request identifier
-     * @return true if cancelled successfully
+     * @brief Cancel Inference.
+     * @param[in] request_id Identifier of the request.
+     * @return True when the operation succeeds.
      */
     bool cancelInference(const std::string& request_id);
     
-    // ═══════════════════════════════════════════════════════════
-    // Instance Management
-    // ═══════════════════════════════════════════════════════════
-    
     /**
-     * @brief Scale model instances
-     * 
-     * Manually adjust the number of model instances.
-     * 
-     * @param model_id Model identifier
-     * @param num_instances Desired number of instances
-     * @return true if scaled successfully
+     * @brief ═══════════════════════════════════════════════════════════ Instance Management ═══════════════════════════════════════════════════════════
+     * @param[in] model_id Identifier of the model.
+     * @param[in] num_instances Input parameter.
+     * @return Return value.
      */
+    
     Result<bool> scaleModel(const std::string& model_id, size_t num_instances);
     
     /**
-     * @brief Perform health check on model instance
-     * 
-     * @param instance_id Instance identifier
-     * @return true if healthy
+     * @brief Health Check.
+     * @param[in] instance_id Identifier of the instance.
+     * @return True when the operation succeeds.
      */
     bool healthCheck(const std::string& instance_id);
     
     /**
-     * @brief Restart unhealthy instance
-     * 
-     * @param instance_id Instance identifier
-     * @return true if restarted successfully
+     * @brief Restart Instance.
+     * @param[in] instance_id Identifier of the instance.
+     * @return Return value.
      */
     Result<bool> restartInstance(const std::string& instance_id);
     
-    // ═══════════════════════════════════════════════════════════
-    // System Management
-    // ═══════════════════════════════════════════════════════════
-    
     /**
-     * @brief Start the ML Model Manager
-     * 
-     * Starts background threads for health monitoring and auto-scaling.
+     * @brief ═══════════════════════════════════════════════════════════ System Management ═══════════════════════════════════════════════════════════
      */
+    
     void start();
     
     /**
-     * @brief Shutdown the ML Model Manager
-     * 
-     * Gracefully shuts down all models and background threads.
+     * @brief Shutdown.
      */
     void shutdown();
     
     /**
-     * @brief Get system-wide statistics
-     * 
-     * @return Statistics as JSON
+     * @brief Get System Stats.
+     * @return Return value.
      */
     json getSystemStats() const;
     
@@ -550,13 +419,10 @@ private:
     // └─ dispatch_fn_mutex_ : std::mutex (independent)
     // └─ cancel_mutex_ : std::mutex (independent)
     
-    /// Exclusive lock for model lifecycle state transitions (register, deploy, retire)
     mutable std::mutex model_lifecycle_lock_;
     
-    /// Read-write lock for model cache queries (many readers, few writers)
     mutable std::shared_mutex model_cache_lock_;
     
-    /// Exclusive lock for instance metrics and statistics updates
     mutable std::mutex metrics_lock_;
 
     // Wave-B L7: thread-safety audit — added std::atomic/mutex for concurrent access
@@ -571,7 +437,6 @@ private:
     std::unique_ptr<std::thread> health_monitor_thread_;
     std::unique_ptr<std::thread> auto_scaler_thread_;
     
-    /// Atomic flag: system is running (memory_order_acquire/release)
     std::atomic<bool> running_{false};
     
     // Statistics (protected by metrics_lock_; may use std::memory_order_relaxed for increment-only ops)
@@ -580,21 +445,56 @@ private:
     std::atomic<size_t> failed_requests_{0};
     
     // Internal methods
+    /**
+     * @brief Health Monitor Loop.
+     */
     void healthMonitorLoop();
+    /**
+     * @brief Auto Scaler Loop.
+     */
     void autoScalerLoop();
     
+    /**
+     * @brief Deploy Instance.
+     * @param[in] model_id Identifier of the model.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     Result<std::string> deployInstance(const std::string& model_id, const MLModelConfig& config);
+    /**
+     * @brief Shutdown Instance.
+     * @param[in] instance_id Identifier of the instance.
+     * @return True when the operation succeeds.
+     */
     bool shutdownInstance(const std::string& instance_id);
     
+    /**
+     * @brief Select Instance.
+     * @param[in] model_id Identifier of the model.
+     * @return Pointer to the result.
+     */
     MLModelInstance* selectInstance(const std::string& model_id);
-    /// Selects the least-busy DEPLOYED instance from an already-locked ModelEntry.
-    /// Caller MUST hold model_cache_lock_. Returns nullptr when no DEPLOYED instance exists.
     [[nodiscard]] MLModelInstance* selectLeastBusy_(const ModelEntry& entry) const noexcept;
+    /**
+     * @brief Update Instance Metrics.
+     * @param[in,out] instance Input/output parameter.
+     * @param[in] latency_ms Input parameter.
+     * @param[in] success Input parameter.
+     */
     void updateInstanceMetrics(MLModelInstance* instance, float latency_ms, bool success);
     
+    /**
+     * @brief Generate Instance Id.
+     * @param[in] model_id Identifier of the model.
+     * @return Return value.
+     */
     std::string generateInstanceId(const std::string& model_id);
     std::atomic<uint64_t> instance_counter_{0};
     
+    /**
+     * @brief Generate Request Id.
+     * @return Return value.
+     */
     std::string generateRequestId();
     std::atomic<uint64_t> request_counter_{0};
 

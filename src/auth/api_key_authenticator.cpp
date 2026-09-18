@@ -36,6 +36,12 @@ ApiKeyAuthenticator::ApiKeyAuthenticator(const Config& config)
 // Credential management
 // ============================================================================
 
+/**
+ * @brief Add Credential.
+ * @param[in] credential Input parameter.
+ * @throws AuthException if an error occurs.
+ * @details Calls: empty(), AuthError(), size(), lock(), spdlog::debug().
+ */
 void ApiKeyAuthenticator::addCredential(const ApiKeyCredential& credential) {
     if (credential.key_id.empty()) {
         throw AuthException(AuthError(
@@ -59,6 +65,11 @@ void ApiKeyAuthenticator::addCredential(const ApiKeyCredential& credential) {
                   credential.key_id);
 }
 
+/**
+ * @brief Remove Credential.
+ * @param[in] key_id Identifier of the key.
+ * @details Calls: lock(), erase(), spdlog::debug().
+ */
 void ApiKeyAuthenticator::removeCredential(const std::string& key_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     if (credentials_.erase(key_id) > 0) {
@@ -67,6 +78,11 @@ void ApiKeyAuthenticator::removeCredential(const std::string& key_id) {
 }
 
 size_t ApiKeyAuthenticator::credentialCount() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return credentials_.size();
 }
@@ -75,6 +91,12 @@ size_t ApiKeyAuthenticator::credentialCount() const {
 // Authentication
 // ============================================================================
 
+/**
+ * @brief Authenticate.
+ * @param[in] key_id Identifier of the key.
+ * @param[in] secret Input parameter.
+ * @return Authentication result.
+ */
 ApiKeyClaims ApiKeyAuthenticator::authenticate(const std::string& key_id,
                                                 const std::string& secret)
 {
@@ -113,11 +135,21 @@ ApiKeyClaims ApiKeyAuthenticator::authenticate(const std::string& key_id,
     // --- Look up credential -------------------------------------------------
     ApiKeyCredential cred;
     {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         auto it = credentials_.find(key_id);
         if (it == credentials_.end()) {
             spdlog::warn("ApiKeyAuthenticator: unknown key_id='{}'", key_id);
             if (audit_logger_) {
+                /**
+                 * @brief Al.
+                 * @param[in] audit_logger_ Input parameter.
+                 * @return Return value.
+                 */
                 AuthAuditLogger al(audit_logger_);
                 al.logApiKeyFailure(key_id, "key_id_not_found");
             }
@@ -134,6 +166,11 @@ ApiKeyClaims ApiKeyAuthenticator::authenticate(const std::string& key_id,
     if (!cred.active) {
         spdlog::warn("ApiKeyAuthenticator: inactive key_id='{}'", key_id);
         if (audit_logger_) {
+            /**
+             * @brief Al.
+             * @param[in] audit_logger_ Input parameter.
+             * @return Return value.
+             */
             AuthAuditLogger al(audit_logger_);
             al.logApiKeyFailure(key_id, "key_inactive");
         }
@@ -152,6 +189,11 @@ ApiKeyClaims ApiKeyAuthenticator::authenticate(const std::string& key_id,
         {
             spdlog::warn("ApiKeyAuthenticator: expired key_id='{}'", key_id);
             if (audit_logger_) {
+                /**
+                 * @brief Al.
+                 * @param[in] audit_logger_ Input parameter.
+                 * @return Return value.
+                 */
                 AuthAuditLogger al(audit_logger_);
                 al.logApiKeyFailure(key_id, "key_expired");
             }
@@ -178,6 +220,11 @@ ApiKeyClaims ApiKeyAuthenticator::authenticate(const std::string& key_id,
     if (!constantTimeEqual(presented_hash, cred.secret_hash)) {
         spdlog::warn("ApiKeyAuthenticator: secret mismatch for key_id='{}'", key_id); // NOPII: key_id is the public key identifier; "secret" here names the credential type, not a secret value
         if (audit_logger_) {
+            /**
+             * @brief Al.
+             * @param[in] audit_logger_ Input parameter.
+             * @return Return value.
+             */
             AuthAuditLogger al(audit_logger_);
             al.logApiKeyFailure(key_id, "secret_mismatch");
         }
@@ -191,12 +238,24 @@ ApiKeyClaims ApiKeyAuthenticator::authenticate(const std::string& key_id,
     spdlog::info("ApiKeyAuthenticator: authenticated key_id='{}' principal='{}'",
                  key_id, cred.principal);
     if (audit_logger_) {
+        /**
+         * @brief Al.
+         * @param[in] audit_logger_ Input parameter.
+         * @return Return value.
+         */
         AuthAuditLogger al(audit_logger_);
         al.logApiKeySuccess(key_id, cred.principal);
     }
     return claimsFromCredential(cred);
 }
 
+/**
+ * @brief Authenticate Combined.
+ * @param[in] combined Input parameter.
+ * @return Return value.
+ * @throws AuthException if an error occurs.
+ * @details Calls: find(), size(), AuthError(), authenticate(), substr().
+ */
 ApiKeyClaims ApiKeyAuthenticator::authenticateCombined(const std::string& combined) {
     const auto dot = combined.find('.');
     if (dot == std::string::npos || dot == 0 || dot + 1 >= combined.size()) {
@@ -213,6 +272,13 @@ ApiKeyClaims ApiKeyAuthenticator::authenticateCombined(const std::string& combin
 // Static helpers
 // ============================================================================
 
+/**
+ * @brief Hash Secret.
+ * @param[in] secret Input parameter.
+ * @return Return value.
+ * @throws AuthException if an error occurs.
+ * @details Calls: SHA256(), data(), size(), AuthError(), hexEncode().
+ */
 std::string ApiKeyAuthenticator::hashSecret(const std::string& secret) {
     unsigned char digest[SHA256_DIGEST_LENGTH];
     if (SHA256(reinterpret_cast<const unsigned char*>(secret.data()),
@@ -226,6 +292,17 @@ std::string ApiKeyAuthenticator::hashSecret(const std::string& secret) {
     return hexEncode(digest, SHA256_DIGEST_LENGTH);
 }
 
+/**
+ * @brief Create Credential.
+ * @param[in] key_id Identifier of the key.
+ * @param[in] secret Input parameter.
+ * @param[in] principal Input parameter.
+ * @param[in] scopes Input parameter.
+ * @param[in] roles Input parameter.
+ * @param[in] tenant_id Identifier of the tenant.
+ * @param[in] expires_at Input parameter.
+ * @return Return value.
+ */
 ApiKeyCredential ApiKeyAuthenticator::createCredential(
     const std::string& key_id,
     const std::string& secret,
@@ -251,6 +328,12 @@ ApiKeyCredential ApiKeyAuthenticator::createCredential(
 // Private helpers
 // ============================================================================
 
+/**
+ * @brief Constant Time Equal.
+ * @param[in] a Input parameter.
+ * @param[in] b Input parameter.
+ * @return True when the operation succeeds.
+ */
 bool ApiKeyAuthenticator::constantTimeEqual(const std::string& a,
                                              const std::string& b)
 {
@@ -260,6 +343,13 @@ bool ApiKeyAuthenticator::constantTimeEqual(const std::string& a,
     return CRYPTO_memcmp(a.data(), b.data(),a.size()) == 0;
 }
 
+/**
+ * @brief Hex Encode.
+ * @param[in] data Input parameter.
+ * @param[in] len Input parameter.
+ * @return Return value.
+ * @details Calls: std::setfill(), std::setw(), str().
+ */
 std::string ApiKeyAuthenticator::hexEncode(const unsigned char* data, size_t len) {
     std::ostringstream oss = {};
     oss << std::hex << std::setfill('0');

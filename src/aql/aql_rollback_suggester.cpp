@@ -24,6 +24,12 @@ namespace aql {
 // ============================================================================
 namespace {
 
+/**
+ * @brief To Upper Trim.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), std::isspace(), empty(), back(), std::toupper(), pop_back().
+ */
 std::string toUpperTrim(const std::string &s) {
     std::string out = {};
     out.reserve(s.size());
@@ -47,6 +53,13 @@ std::string toUpperTrim(const std::string &s) {
     return out;
 }
 
+/**
+ * @brief Word Contains.
+ * @param[in] upper Input parameter.
+ * @param[in] kw Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: find(), std::isalnum(), size().
+ */
 bool wordContains(const std::string &upper, const std::string &kw) {
     size_t p = 0;
     while ((p = upper.find(kw, p)) != std::string::npos) {
@@ -63,11 +76,11 @@ bool wordContains(const std::string &upper, const std::string &kw) {
 }
 
 /**
- * @brief Extract the collection name from a FOR/IN/INTO/REMOVE/INSERT token.
- *
- * Very lightweight: looks for "IN <collection>" or "INTO <collection>" patterns
- * in the normalised (upper-case, collapsed-whitespace) query.
- * Returns the first word that follows the `in_keyword` token.
+ * @brief Extract Collection.
+ * @param[in] upper Input parameter.
+ * @param[in] in_keyword Input parameter.
+ * @return Return value.
+ * @details Calls: find(), std::isalnum(), size(), substr().
  */
 std::string extractCollection(const std::string &upper, const std::string &in_keyword) {
     size_t p = upper.find(in_keyword);
@@ -93,7 +106,10 @@ std::string extractCollection(const std::string &upper, const std::string &in_ke
 }
 
 /**
- * @brief Extract the loop variable name: "FOR <var> IN …"
+ * @brief Extract Loop Var.
+ * @param[in] upper Input parameter.
+ * @return Return value.
+ * @details Calls: find(), size(), std::isalnum(), substr().
  */
 std::string extractLoopVar(const std::string &upper) {
     size_t p = upper.find("FOR ");
@@ -112,8 +128,10 @@ std::string extractLoopVar(const std::string &upper) {
 }
 
 /**
- * @brief Extract the first FILTER body (everything after "FILTER" until the
- *        next clause keyword).
+ * @brief Extract Filter.
+ * @param[in] upper Input parameter.
+ * @return Return value.
+ * @details Calls: find(), size(), substr(), empty(), back(), pop_back().
  */
 std::string extractFilter(const std::string &upper) {
     size_t p = upper.find("FILTER ");

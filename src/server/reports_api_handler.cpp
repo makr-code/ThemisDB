@@ -30,6 +30,12 @@
 
 namespace themis { namespace server {
 
+/**
+ * @brief Generate Compliance Report.
+ * @param[in] report_type Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), in(), good(), std::getline(), empty(), nlohmann::json::parse(), contains(), std::transform().
+ */
 nlohmann::json ReportsApiHandler::generateComplianceReport(const std::string& report_type) {
     try {
     auto span = Tracer::startSpan("generateComplianceReport");

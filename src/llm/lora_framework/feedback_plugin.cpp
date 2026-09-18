@@ -18,9 +18,11 @@ namespace themis {
 namespace llm {
 namespace lora {
 
-// ═══════════════════════════════════════════════════════════
-// PrivacyFilterPlugin Implementation
-// ═══════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════ PrivacyFilterPlugin Implementation ═══════════════════════════════════════════════════════════
+ * @param[in,out] feedback Input/output parameter.
+ * @details Calls: email_pattern(), std::regex_replace(), phone_pattern(), cc_pattern(), ssn_pattern().
+ */
 
 void PrivacyFilterPlugin::process(Feedback& feedback) {
     // Remove common PII patterns from feedback text
@@ -238,9 +240,11 @@ float TrainingTriggerPlugin::calculateAverageRating(const std::vector<Feedback>&
     return static_cast<float>(sum) / static_cast<float>(batch.size());
 }
 
-// ═══════════════════════════════════════════════════════════
-// CacheAwareWeightingPlugin Implementation
-// ═══════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════ CacheAwareWeightingPlugin Implementation ═══════════════════════════════════════════════════════════
+ * @param[in,out] feedback Input/output parameter.
+ * @details Calls: calculateCacheWeight().
+ */
 
 void CacheAwareWeightingPlugin::process(Feedback& feedback) {
     // If cache training is disabled and this is cached, set weight to 0

@@ -25,12 +25,10 @@ namespace geo {
 static constexpr double kRasterPi           = 3.14159265358979323846;
 static constexpr double kRasterEarthRadiusM = 6371000.0; // mean Earth radius (m)
 
-/// Convert metres to degrees of latitude (constant everywhere).
 static double metresToDegreesLat(double m) noexcept {
     return m / (kRasterEarthRadiusM * kRasterPi / 180.0);
 }
 
-/// Convert metres to degrees of longitude at a given latitude.
 static double metresToDegreesLon(double m, double lat_deg) noexcept {
     const double cos_lat = std::cos(lat_deg * kRasterPi / 180.0);
     if (cos_lat < 1e-10) {
@@ -168,6 +166,13 @@ RasterSampleResult sampleAt(const RasterGrid &grid, double lon, double lat) noex
 // queryBBox — sub-raster extraction
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Query BBox.
+ * @param[in] grid Input parameter.
+ * @param[in] bbox Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), std::ceil(), to_col(), std::floor(), to_row(), std::max(), std::min(), out().
+ */
 RasterGrid queryBBox(const RasterGrid &grid, const MBR &bbox) {
     if (grid.empty() || grid.cell_size_x <= 0.0 || grid.cell_size_y <= 0.0) {
         return {};
@@ -219,9 +224,14 @@ RasterGrid queryBBox(const RasterGrid &grid, const MBR &bbox) {
     return out;
 }
 
-// ---------------------------------------------------------------------------
-// generateHeatmap — Gaussian kernel density estimation
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- generateHeatmap — Gaussian kernel density estimation ---------------------------------------------------------------------------
+ * @param[in] points Input parameter.
+ * @param[in] bbox Input parameter.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), out(), quiet_NaN(), metresToDegreesLon(), metresToDegreesLat(), std::ceil(), std::round(), std::max().
+ */
 
 RasterGrid generateHeatmap(const std::vector<Coordinate> &points, const MBR &bbox, const HeatmapConfig &config) {
     if (points.empty() || config.width == 0 || config.height == 0) {

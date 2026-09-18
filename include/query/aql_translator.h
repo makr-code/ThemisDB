@@ -57,24 +57,6 @@ using PredicateFuzzy = ::themis::query::PredicateFuzzy;
 using PredicateSpatial = ::themis::query::PredicateSpatial;
 using OrderBy = ::themis::query::OrderBy;
 
-/**
- * Translates AQL AST to QueryEngine ConjunctiveQuery
- * 
- * Example:
- *   FOR user IN users 
- *   FILTER user.age > 18 AND user.city == "Berlin"
- *   SORT user.created_at DESC
- *   LIMIT 10
- *   RETURN user
- * 
- * Translates to:
- *   ConjunctiveQuery {
- *     table: "users",
- *     predicates: [{ column: "city", value: "Berlin" }],
- *     rangePredicates: [{ column: "age", lower: "18", includeLower: false }],
- *     orderBy: { column: "created_at", desc: true, limit: 10 }
- *   }
- */
 class AQLTranslator {
 public:
     struct TranslationResult {
@@ -137,6 +119,12 @@ public:
         };
         std::vector<CTEExecution> ctes;                // CTEs to execute before main query
         
+        /**
+         * @brief Success.
+         * @param[in] q Input parameter.
+         * @return Return value.
+         * @details Calls: std::move().
+         */
         static TranslationResult Success(ConjunctiveQuery q) {
             TranslationResult r;
             r.success = true;
@@ -144,6 +132,12 @@ public:
             return r;
         }
         
+        /**
+         * @brief Success Disjunctive.
+         * @param[in] d Input parameter.
+         * @return Return value.
+         * @details Calls: std::move().
+         */
         static TranslationResult SuccessDisjunctive(DisjunctiveQuery d) {
             TranslationResult r;
             r.success = true;
@@ -151,6 +145,12 @@ public:
             return r;
         }
         
+        /**
+         * @brief Success Join.
+         * @param[in] j Input parameter.
+         * @return Return value.
+         * @details Calls: std::move().
+         */
         static TranslationResult SuccessJoin(JoinQuery j) {
             TranslationResult r;
             r.success = true;
@@ -158,6 +158,12 @@ public:
             return r;
         }
 
+        /**
+         * @brief Success Spatial Join.
+         * @param[in] sj Input parameter.
+         * @return Return value.
+         * @details Calls: std::move().
+         */
         static TranslationResult SuccessSpatialJoin(SpatialJoinQuery sj) {
             TranslationResult r;
             r.success = true;
@@ -165,6 +171,12 @@ public:
             return r;
         }
         
+        /**
+         * @brief Success Traversal.
+         * @param[in] t Input parameter.
+         * @return Return value.
+         * @details Calls: std::move().
+         */
         static TranslationResult SuccessTraversal(TraversalQuery t) {
             TranslationResult r;
             r.success = true;
@@ -172,15 +184,33 @@ public:
             return r;
         }
 
+        /**
+         * @brief Success Vector Geo.
+         * @param[in] v Input parameter.
+         * @return Return value.
+         * @details Calls: std::move().
+         */
         static TranslationResult SuccessVectorGeo(VectorGeoQuery v) {
             TranslationResult r;
             r.success = true;
             r.vector_geo = std::move(v);
             return r;
         }
+        /**
+         * @brief Success Content Geo.
+         * @param[in] c Input parameter.
+         * @return Return value.
+         * @details Calls: std::move().
+         */
         static TranslationResult SuccessContentGeo(ContentGeoQuery c) {
             TranslationResult r; r.success = true; r.content_geo = std::move(c); return r; }
         
+        /**
+         * @brief Error.
+         * @param[in] msg Input parameter.
+         * @return Return value.
+         * @details Calls: std::move().
+         */
         static TranslationResult Error(std::string msg) {
             TranslationResult r;
             r.success = false;
@@ -190,23 +220,20 @@ public:
     };
     
     /**
-     * Translate AQL AST to QueryEngine query
-     * 
-     * Supported:
-     * - Conjunctive queries (AND combinations)
-     * - Disjunctive queries (OR combinations in DNF)
-     * - Mixed AND/OR expressions
-     * 
-     * Limitations:
-     * - Functions in FILTER limited (FULLTEXT supported)
+     * @brief Translate.
+     * @param[in] ast Input parameter.
+     * @return Return value.
      */
     static TranslationResult translate(const std::shared_ptr<Query>& ast);
 
 private:
     /**
-     * Extract predicates from FILTER conditions
-     * Supports AND/OR and converts to Disjunctive Normal Form (DNF)
-     * Returns false if unsupported expression found
+     * @brief Extract Predicates.
+     * @param[in] expr Input parameter.
+     * @param[in,out] eqPredicates Input/output parameter.
+     * @param[in,out] rangePredicates Input/output parameter.
+     * @param[in,out] error Input/output parameter.
+     * @return True when the operation succeeds.
      */
     static bool extractPredicates(
         const std::shared_ptr<Expression>& expr,
@@ -216,14 +243,18 @@ private:
     );
     
     /**
-     * Check if expression contains OR operator (requires DisjunctiveQuery)
+     * @brief Contains Or.
+     * @param[in] expr Input parameter.
+     * @return True when the operation succeeds.
      */
     static bool containsOr(const std::shared_ptr<Expression>& expr);
     
     /**
-     * Convert expression to Disjunctive Normal Form (DNF)
-     * Returns list of conjunctive clauses (disjuncts)
-     * Example: (A AND B) OR (C AND D) -> [[A,B], [C,D]]
+     * @brief Convert To DNF.
+     * @param[in] expr Input parameter.
+     * @param[in] table Input parameter.
+     * @param[in,out] error Input/output parameter.
+     * @return Return value.
      */
     static std::vector<ConjunctiveQuery> convertToDNF(
         const std::shared_ptr<Expression>& expr,
@@ -232,18 +263,24 @@ private:
     );
     
     /**
-     * Extract column name from field access expression
-     * E.g., "user.age" -> "age"
+     * @brief Extract Column Name.
+     * @param[in] expr Input parameter.
+     * @return Return value.
      */
     static std::string extractColumnName(const std::shared_ptr<Expression>& expr);
     
     /**
-     * Convert literal value to string for query engine
+     * @brief Literal To String.
+     * @param[in] value Input parameter.
+     * @return Return value.
      */
     static std::string literalToString(const LiteralValue& value);
     
     /**
-     * Extract ORDER BY from SORT clause
+     * @brief Extract Order By.
+     * @param[in] sort Input parameter.
+     * @param[in] limit Input parameter.
+     * @return Return value.
      */
     static std::optional<OrderBy> extractOrderBy(
         const std::shared_ptr<SortNode>& sort,
@@ -251,8 +288,10 @@ private:
     );
     
     /**
-     * Count CTE references in AST (Phase 4.1)
-     * Scans FOR nodes to see how many times a CTE name appears as collection
+     * @brief Count CTEReferences.
+     * @param[in] ast Input parameter.
+     * @param[in] cte_name Name of the cte.
+     * @return Return value.
      */
     static size_t countCTEReferences(
         const std::shared_ptr<Query>& ast,
@@ -260,8 +299,10 @@ private:
     );
     
     /**
-     * Count CTE references recursively in expressions (Phase 4.1)
-     * Used for subqueries in FILTER, LET, etc.
+     * @brief Count CTEReferences In Expr.
+     * @param[in] expr Input parameter.
+     * @param[in] cte_name Name of the cte.
+     * @return Return value.
      */
     static size_t countCTEReferencesInExpr(
         const std::shared_ptr<Expression>& expr,
@@ -269,8 +310,9 @@ private:
     );
     
     /**
-     * Attach CTE execution metadata to translation result (Phase 4.1)
-     * Helper to avoid duplicating CTE attachment logic across all return paths
+     * @brief Attach CTEs.
+     * @param[in,out] result Input/output parameter.
+     * @param[in] ctes Input parameter.
      */
     static void attachCTEs(
         TranslationResult& result,
@@ -286,57 +328,27 @@ private:
 
 namespace themis {
 
-/**
- * @brief Translates a parsed MutationNode AST into a MutationExecutionPlan.
- *
- * This class is the Phase 3 translation layer.  It accepts a validated
- * @c MutationNode produced by @c AQLParser::parseMutation() and converts it
- * into an ordered sequence of @c MutationStep objects (a
- * @c MutationExecutionPlan) ready for @c MutationExecutor::execute().
- *
- * The translator does **not** execute the plan — that is exclusively the
- * responsibility of @c MutationExecutor.
- *
- * ### Thread safety
- * Stateless — all methods are @c const.  Safe for concurrent use without
- * external synchronisation.
- */
 class AqlMutationTranslator {
 public:
     AqlMutationTranslator()  = default;
     ~AqlMutationTranslator() = default;
 
-    /**
-     * @brief Translate a MutationNode to a MutationExecutionPlan.
-     *
-     * If @p node is @c nullptr an error plan is returned with an empty
-     * collection name and a single @c ValidatePredicate step carrying an
-     * error description.
-     *
-     * @param node  Validated MutationNode shared pointer (may be nullptr).
-     * @return MutationExecutionPlan ready for MutationExecutor.
-     */
     [[nodiscard]] query::MutationExecutionPlan translate(
         const std::shared_ptr<query::MutationNode>& node) const;
 
 private:
-    /// @brief Build execution plan for an INSERT node.
     [[nodiscard]] query::MutationExecutionPlan translateInsert(
         const query::InsertNode& n) const;
 
-    /// @brief Build execution plan for an UPDATE node.
     [[nodiscard]] query::MutationExecutionPlan translateUpdate(
         const query::UpdateNode& n) const;
 
-    /// @brief Build execution plan for a REMOVE node.
     [[nodiscard]] query::MutationExecutionPlan translateRemove(
         const query::RemoveNode& n) const;
 
-    /// @brief Build execution plan for a REPLACE node.
     [[nodiscard]] query::MutationExecutionPlan translateReplace(
         const query::ReplaceNode& n) const;
 
-    /// @brief Build execution plan for an UPSERT node.
     [[nodiscard]] query::MutationExecutionPlan translateUpsert(
         const query::UpsertNode& n) const;
 };

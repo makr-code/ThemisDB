@@ -36,6 +36,12 @@ nlohmann::json ComplianceRequirement::toJson() const {
     };
 }
 
+/**
+ * @brief From Json.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: contains().
+ */
 ComplianceRequirement ComplianceRequirement::fromJson(const nlohmann::json& j) {
     ComplianceRequirement req = {};
     if (j.contains("requirement_id")) {
@@ -96,6 +102,12 @@ nlohmann::json ComplianceControl::toJson() const {
     };
 }
 
+/**
+ * @brief From Json.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: contains().
+ */
 ComplianceControl ComplianceControl::fromJson(const nlohmann::json& j) {
     ComplianceControl ctl = {};
     if (j.contains("control_id")) {
@@ -248,6 +260,12 @@ nlohmann::json ComplianceValidationResult::toJson() const {
 // ComplianceFrameworkRegistry Implementation
 // ============================================================================
 
+/**
+ * @brief Add Requirement.
+ * @param[in] req Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), count(), push_back().
+ */
 bool ComplianceFrameworkRegistry::addRequirement(const ComplianceRequirement& req) {
     std::lock_guard<std::mutex> lock(mu_);
     
@@ -261,6 +279,12 @@ bool ComplianceFrameworkRegistry::addRequirement(const ComplianceRequirement& re
     return true;
 }
 
+/**
+ * @brief Add Control.
+ * @param[in] ctl Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), count(), push_back().
+ */
 bool ComplianceFrameworkRegistry::addControl(const ComplianceControl& ctl) {
     std::lock_guard<std::mutex> lock(mu_);
     
@@ -276,6 +300,11 @@ bool ComplianceFrameworkRegistry::addControl(const ComplianceControl& ctl) {
 
 std::optional<ComplianceRequirement> ComplianceFrameworkRegistry::getRequirement(
     const std::string& req_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mu_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mu_);
     
     auto it = requirements_.find(req_id);
@@ -287,6 +316,11 @@ std::optional<ComplianceRequirement> ComplianceFrameworkRegistry::getRequirement
 
 std::optional<ComplianceControl> ComplianceFrameworkRegistry::getControl(
     const std::string& ctl_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mu_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mu_);
     
     auto it = controls_.find(ctl_id);
@@ -298,6 +332,11 @@ std::optional<ComplianceControl> ComplianceFrameworkRegistry::getControl(
 
 std::vector<ComplianceRequirement> ComplianceFrameworkRegistry::getRequirements(
     ComplianceFramework fw) const {
+    /**
+     * @brief Lock.
+     * @param[in] mu_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mu_);
     
     std::vector<ComplianceRequirement> results;
@@ -317,6 +356,11 @@ std::vector<ComplianceRequirement> ComplianceFrameworkRegistry::getRequirements(
 
 std::vector<ComplianceControl> ComplianceFrameworkRegistry::getControls(
     ComplianceFramework fw) const {
+    /**
+     * @brief Lock.
+     * @param[in] mu_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mu_);
     
     std::vector<ComplianceControl> results;
@@ -337,6 +381,11 @@ std::vector<ComplianceControl> ComplianceFrameworkRegistry::getControls(
 std::vector<ComplianceRequirement> ComplianceFrameworkRegistry::getRequirementsByCategory(
     ComplianceFramework fw,
     const std::string& category) const {
+    /**
+     * @brief Lock.
+     * @param[in] mu_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mu_);
     
     std::vector<ComplianceRequirement> results;
@@ -355,6 +404,11 @@ std::vector<ComplianceRequirement> ComplianceFrameworkRegistry::getRequirementsB
 }
 
 int ComplianceFrameworkRegistry::getRequirementCount(ComplianceFramework fw) const {
+    /**
+     * @brief Lock.
+     * @param[in] mu_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mu_);
     
     auto it = requirements_by_framework_.find(fw);
@@ -365,6 +419,11 @@ int ComplianceFrameworkRegistry::getRequirementCount(ComplianceFramework fw) con
 }
 
 int ComplianceFrameworkRegistry::getControlCount(ComplianceFramework fw) const {
+    /**
+     * @brief Lock.
+     * @param[in] mu_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mu_);
     
     auto it = controls_by_framework_.find(fw);
@@ -375,6 +434,11 @@ int ComplianceFrameworkRegistry::getControlCount(ComplianceFramework fw) const {
 }
 
 nlohmann::json ComplianceFrameworkRegistry::exportToJson(ComplianceFramework fw) const {
+    /**
+     * @brief Lock.
+     * @param[in] mu_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mu_);
     
     nlohmann::json requirements_json = nlohmann::json::array();
@@ -407,6 +471,12 @@ nlohmann::json ComplianceFrameworkRegistry::exportToJson(ComplianceFramework fw)
     };
 }
 
+/**
+ * @brief Import From Json.
+ * @param[in] j Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), contains(), ComplianceRequirement::fromJson(), push_back(), ComplianceControl::fromJson().
+ */
 bool ComplianceFrameworkRegistry::importFromJson(const nlohmann::json& j) {
     std::lock_guard<std::mutex> lock(mu_);
     
@@ -433,6 +503,10 @@ bool ComplianceFrameworkRegistry::importFromJson(const nlohmann::json& j) {
     }
 }
 
+/**
+ * @brief Clear.
+ * @details Calls: lock().
+ */
 void ComplianceFrameworkRegistry::clear() {
     std::lock_guard<std::mutex> lock(mu_);
     requirements_.clear();

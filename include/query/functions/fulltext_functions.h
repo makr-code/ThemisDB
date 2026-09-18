@@ -18,21 +18,8 @@ namespace functions {
 class FunctionRegistry;
 
 /**
- * @brief Register all fulltext search functions with the function registry
- * 
- * Registers the following functions:
- * - FULLTEXT:         BM25-scored full-text search (wired to SecondaryIndexManager::scanFulltextWithScores)
- * - PHRASE:           Exact phrase matching (wired to SecondaryIndexManager::scanFulltextPhrase)
- * - FUZZY:            Fuzzy matching with Levenshtein distance (wired to SecondaryIndexManager::scanFulltextFuzzy)
- * - HIGHLIGHT:        Wrap query terms in source text with configurable HTML/markup tags
- * - FULLTEXT_SNIPPET: Extract and highlight a context window around the best query-term cluster
- * - NGRAM_MATCH:      N-gram similarity calculation (fully implemented)
- * - TOKENS:           Text tokenization (fully implemented)
- * - SOUNDEX:          Soundex phonetic encoding (fully implemented)
- * - METAPHONE:        Metaphone phonetic encoding (fully implemented)
- * - DOUBLE_METAPHONE: Double Metaphone encoding (fully implemented)
- * 
- * @param registry The function registry to register functions with
+ * @brief Register Fulltext Functions.
+ * @param[in,out] registry Input/output parameter.
  */
 void registerFulltextFunctions(FunctionRegistry& registry);
 

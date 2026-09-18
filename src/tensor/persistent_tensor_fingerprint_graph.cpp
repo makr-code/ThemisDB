@@ -24,11 +24,24 @@ namespace {
 constexpr uint32_t kEntryFormatVersion = 1;
 constexpr uint32_t kJournalFormatVersion = 1;
 
+/**
+ * @brief Make Journal Key.
+ * @param[in] prefix Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::steady_clock::now(), time_since_epoch(), count(), std::to_string().
+ */
 std::string makeJournalKey(const std::string& prefix) {
     const auto now = std::chrono::steady_clock::now().time_since_epoch().count();
     return prefix + std::to_string(now);
 }
 
+/**
+ * @brief Delete If Present.
+ * @param[in,out] backend Input/output parameter.
+ * @param[in] key Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: del(), get(), has_value().
+ */
 bool deleteIfPresent(storage::ITensorStorageBackend& backend, const std::string& key) {
     if (backend.del(key)) {
         return true;
@@ -48,6 +61,11 @@ PersistentTensorFingerprintGraph::PersistentTensorFingerprintGraph(
       tenant_id_(std::move(tenant_id)),
       domain_(std::move(domain)) {}
 
+/**
+ * @brief Rehydrate.
+ * @return True when the operation succeeds.
+ * @details Calls: recoverJournal(), adapterKeys(), removeAdapter(), listKeys(), entryPrefix(), readEntry(), storage::TTTrain::deserialize(), addAdapter().
+ */
 bool PersistentTensorFingerprintGraph::rehydrate() {
     if (!graph_ || !backend_) {
         return false;
@@ -85,6 +103,14 @@ bool PersistentTensorFingerprintGraph::rehydrate() {
     return true;
 }
 
+/**
+ * @brief Add Adapter.
+ * @param[in] adapter_key Input parameter.
+ * @param[in] train Input parameter.
+ * @param[in] base_model_id Identifier of the base model.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), serialize(), writeEntry(), removeAdapter().
+ */
 bool PersistentTensorFingerprintGraph::addAdapter(const std::string& adapter_key,
                                                   const storage::TTTrain& train,
                                                   const std::string& base_model_id) {
@@ -111,6 +137,12 @@ bool PersistentTensorFingerprintGraph::addAdapter(const std::string& adapter_key
     return true;
 }
 
+/**
+ * @brief Remove Adapter.
+ * @param[in] adapter_key Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), entry(), deleteEntry(), addAdapter().
+ */
 bool PersistentTensorFingerprintGraph::removeAdapter(const std::string& adapter_key) {
     if (!graph_ || !backend_ || adapter_key.empty()) {
         return false;
@@ -146,11 +178,23 @@ std::string PersistentTensorFingerprintGraph::journalPrefix() const {
     return "__tfgp__:" + tenant_id_ + ":" + domain_ + ":txn:";
 }
 
+/**
+ * @brief Write Entry.
+ * @param[in] entry Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: entryKeyFor(), writeWithJournal(), serializeEntry().
+ */
 bool PersistentTensorFingerprintGraph::writeEntry(const PersistedEntry& entry) {
     const auto key = entryKeyFor(entry.adapter_key);
     return writeWithJournal(JournalOp::Put, key, serializeEntry(entry));
 }
 
+/**
+ * @brief Delete Entry.
+ * @param[in] adapter_key Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: entryKeyFor(), writeWithJournal().
+ */
 bool PersistentTensorFingerprintGraph::deleteEntry(const std::string& adapter_key) {
     const auto key = entryKeyFor(adapter_key);
     return writeWithJournal(JournalOp::Delete, key, {});
@@ -165,6 +209,14 @@ PersistentTensorFingerprintGraph::readEntry(const std::string& key) const {
     return deserializeEntry(*bytes);
 }
 
+/**
+ * @brief Write With Journal.
+ * @param[in] op Input parameter.
+ * @param[in] target_key Input parameter.
+ * @param[in] payload Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: makeJournalKey(), journalPrefix(), serializeJournalRecord(), put(), deleteIfPresent(), del().
+ */
 bool PersistentTensorFingerprintGraph::writeWithJournal(JournalOp op,
                                                         const std::string& target_key,
                                                         const std::vector<uint8_t>& payload) {
@@ -188,6 +240,11 @@ bool PersistentTensorFingerprintGraph::writeWithJournal(JournalOp op,
     return backend_->del(journal_key);
 }
 
+/**
+ * @brief Recover Journal.
+ * @return True when the operation succeeds.
+ * @details Calls: listKeys(), journalPrefix(), get(), deserializeJournalRecord(), put(), deleteIfPresent(), del().
+ */
 bool PersistentTensorFingerprintGraph::recoverJournal() {
     const auto journals = backend_->listKeys(journalPrefix());
     for (const auto& journal_key : journals) {
@@ -269,6 +326,15 @@ PersistentTensorFingerprintGraph::serializeJournalRecord(JournalOp op,
     return out;
 }
 
+/**
+ * @brief Deserialize Journal Record.
+ * @param[in] bytes Input parameter.
+ * @param[in,out] op Input/output parameter.
+ * @param[in,out] target_key Input/output parameter.
+ * @param[in,out] payload Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: readU32(), size(), readString(), readBytes().
+ */
 bool PersistentTensorFingerprintGraph::deserializeJournalRecord(const std::vector<uint8_t>& bytes,
                                                                 JournalOp& op,
                                                                 std::string& target_key,
@@ -295,6 +361,12 @@ bool PersistentTensorFingerprintGraph::deserializeJournalRecord(const std::vecto
     return off == bytes.size();
 }
 
+/**
+ * @brief Append U32.
+ * @param[in,out] out Input/output parameter.
+ * @param[in] v Input parameter.
+ * @details Calls: push_back().
+ */
 void PersistentTensorFingerprintGraph::appendU32(std::vector<uint8_t>& out, uint32_t v) {
     out.push_back(static_cast<uint8_t>(v & 0xffu));
     out.push_back(static_cast<uint8_t>((v >> 8) & 0xffu));
@@ -302,6 +374,14 @@ void PersistentTensorFingerprintGraph::appendU32(std::vector<uint8_t>& out, uint
     out.push_back(static_cast<uint8_t>((v >> 24) & 0xffu));
 }
 
+/**
+ * @brief Read U32.
+ * @param[in] in Input parameter.
+ * @param[in,out] off Input/output parameter.
+ * @param[in,out] v Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: size().
+ */
 bool PersistentTensorFingerprintGraph::readU32(const std::vector<uint8_t>& in, std::size_t& off, uint32_t& v) {
     if (off + 4 > in.size()) {
         return false;
@@ -314,11 +394,25 @@ bool PersistentTensorFingerprintGraph::readU32(const std::vector<uint8_t>& in, s
     return true;
 }
 
+/**
+ * @brief Append String.
+ * @param[in,out] out Input/output parameter.
+ * @param[in] v Input parameter.
+ * @details Calls: appendU32(), size(), insert(), end(), begin().
+ */
 void PersistentTensorFingerprintGraph::appendString(std::vector<uint8_t>& out, const std::string& v) {
     appendU32(out, static_cast<uint32_t>(v.size()));
     out.insert(out.end(), v.begin(), v.end());
 }
 
+/**
+ * @brief Read String.
+ * @param[in] in Input parameter.
+ * @param[in,out] off Input/output parameter.
+ * @param[in,out] v Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: readU32(), size(), assign(), data().
+ */
 bool PersistentTensorFingerprintGraph::readString(const std::vector<uint8_t>& in,
                                                   std::size_t& off,
                                                   std::string& v) {
@@ -334,11 +428,25 @@ bool PersistentTensorFingerprintGraph::readString(const std::vector<uint8_t>& in
     return true;
 }
 
+/**
+ * @brief Append Bytes.
+ * @param[in,out] out Input/output parameter.
+ * @param[in] v Input parameter.
+ * @details Calls: appendU32(), size(), insert(), end(), begin().
+ */
 void PersistentTensorFingerprintGraph::appendBytes(std::vector<uint8_t>& out, const std::vector<uint8_t>& v) {
     appendU32(out, static_cast<uint32_t>(v.size()));
     out.insert(out.end(), v.begin(), v.end());
 }
 
+/**
+ * @brief Read Bytes.
+ * @param[in] in Input parameter.
+ * @param[in,out] off Input/output parameter.
+ * @param[in,out] v Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: readU32(), size(), assign(), begin().
+ */
 bool PersistentTensorFingerprintGraph::readBytes(const std::vector<uint8_t>& in,
                                                  std::size_t& off,
                                                  std::vector<uint8_t>& v) {

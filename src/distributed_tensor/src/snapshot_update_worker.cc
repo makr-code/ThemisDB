@@ -21,18 +21,35 @@ constexpr uint32_t kDeltaLogMaxEntries = 100000;   // Max entries before overflo
 constexpr double kInstabilityThresholdMutationFreq = 0.8;  // 80% mutation density
 constexpr double kInstabilityThresholdResidue = 0.3;  // 30% residual threshold
 
+/**
+ * @brief Get Current Time Ms.
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::now(), time_since_epoch(), count().
+ */
 int64_t getCurrentTimeMs() {
   return std::chrono::duration_cast<std::chrono::milliseconds>(
              std::chrono::system_clock::now().time_since_epoch())
       .count();
 }
 
+/**
+ * @brief Get Current Time Sec.
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::now(), time_since_epoch(), count().
+ */
 int64_t getCurrentTimeSec() {
   return std::chrono::duration_cast<std::chrono::seconds>(
              std::chrono::system_clock::now().time_since_epoch())
       .count();
 }
 
+/**
+ * @brief Update Averages.
+ * @param[in,out] stats Input/output parameter.
+ * @param[in] analysis_ms Input parameter.
+ * @param[in] execution_ms Input parameter.
+ * @details Calls: getCurrentTimeMs().
+ */
 void updateAverages(SnapshotBasedUpdateWorker::Stats& stats,
                     int64_t analysis_ms,
                     int64_t execution_ms) {
@@ -45,12 +62,6 @@ void updateAverages(SnapshotBasedUpdateWorker::Stats& stats,
   stats.last_activity_ms = getCurrentTimeMs();
 }
 
-/// Phase B: Checks if a delta window would be valid for patching.
-/// A window is valid for patching if:
-/// - It's not too old (< 1 hour)
-/// - Entries are in sequence order
-/// - No structural mutations (DELETE, SHARD_CHANGE)
-/// - Total size is bounded
 bool isValidForPatching(const DeltaWindow& window,
                         int64_t max_age_ms = kDeltaWindowMaxAgeMs) {
   if (window.entries.empty()) {
@@ -80,8 +91,13 @@ bool isValidForPatching(const DeltaWindow& window,
   return true;
 }
 
-/// Phase B: Detects instability in delta patterns.
-/// Returns true if the window exhibits signs of instability (e.g., thrashing).
+/**
+ * @brief Detect Instability.
+ * @param[in] window Input parameter.
+ * @param[in] current_residual Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), countInserts(), countUpdates(), size().
+ */
 bool detectInstability(const DeltaWindow& window,
                        double current_residual) {
   if (window.entries.empty()) {
@@ -108,7 +124,6 @@ bool detectInstability(const DeltaWindow& window,
   return false;
 }
 
-/// Phase B: Checks if delta log appears to be overflowing.
 bool isDeltaLogOverflowing(size_t current_entries,
                            uint32_t max_entries = kDeltaLogMaxEntries) {
   return current_entries >= (max_entries * 95) / 100;  // 95% of limit
@@ -128,6 +143,11 @@ SnapshotBasedUpdateWorker::SnapshotBasedUpdateWorker(
       residual_max_increase_allowed_(0.05),
       manifest_store_(manifest_store) {}
 
+/**
+ * @brief Start.
+ * @return True when the operation succeeds.
+ * @details Implements start without additional internal calls.
+ */
 bool SnapshotBasedUpdateWorker::start() {
   if (state_ == UpdateWorkerState::PROCESSING ||
       state_ == UpdateWorkerState::SHUTTING_DOWN) {
@@ -137,6 +157,13 @@ bool SnapshotBasedUpdateWorker::start() {
   return true;
 }
 
+/**
+ * @brief Process Task.
+ * @param[in] task Input parameter.
+ * @param[in,out] metrics Input/output parameter.
+ * @return Return value.
+ * @details Calls: recoverFromCheckpoint(), spdlog::info(), acquireUpdateLock(), saveCheckpoint(), releaseUpdateLock(), std::chrono::high_resolution_clock::now(), decideUpdateStrategy(), count().
+ */
 UpdateDecision SnapshotBasedUpdateWorker::processTask(const UpdateTask& task,
                                                       UpdateMetrics& metrics) {
   if (state_ != UpdateWorkerState::READY) {
@@ -278,6 +305,15 @@ UpdateDecision SnapshotBasedUpdateWorker::processTask(const UpdateTask& task,
   return final_decision;
 }
 
+/**
+ * @brief Process Delta Window.
+ * @param[in] artifact_id Identifier of the artifact.
+ * @param[in] delta_window Input parameter.
+ * @param[in] current_manifest Input parameter.
+ * @param[in] artifact_size_bytes Input parameter.
+ * @return Return value.
+ * @details Calls: processTask().
+ */
 UpdateDecision SnapshotBasedUpdateWorker::processDeltaWindow(const std::string& artifact_id,
                                                              const DeltaWindow& delta_window,
                                                              const ArtifactManifest& current_manifest,
@@ -292,6 +328,14 @@ UpdateDecision SnapshotBasedUpdateWorker::processDeltaWindow(const std::string& 
   return processTask(task, metrics);
 }
 
+/**
+ * @brief Decide Update Strategy.
+ * @param[in] delta_window Input parameter.
+ * @param[in] artifact_size_bytes Input parameter.
+ * @param[in] current_residual Input parameter.
+ * @return Return value.
+ * @details Calls: isValid(), empty(), detectInstability(), countDeletes(), countShardChanges(), estimateChangeFraction(), isValidForPatching(), estimateResultingResidual().
+ */
 UpdateDecision SnapshotBasedUpdateWorker::decideUpdateStrategy(const DeltaWindow& delta_window,
                                                                uint64_t artifact_size_bytes,
                                                                double current_residual) {
@@ -333,6 +377,14 @@ UpdateDecision SnapshotBasedUpdateWorker::decideUpdateStrategy(const DeltaWindow
   }
 }
 
+/**
+ * @brief Execute Patch.
+ * @param[in] artifact_id Identifier of the artifact.
+ * @param[in] delta_window Input parameter.
+ * @param[in,out] current_manifest Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), countDeletes(), countShardChanges(), isValidForPatching(), size(), validate(), markPublished(), std::min().
+ */
 bool SnapshotBasedUpdateWorker::executePatch(const std::string& artifact_id,
                                              const DeltaWindow& delta_window,
                                              ArtifactManifest& current_manifest) {
@@ -380,6 +432,14 @@ bool SnapshotBasedUpdateWorker::executePatch(const std::string& artifact_id,
   return true;
 }
 
+/**
+ * @brief Execute Partial Refit.
+ * @param[in] artifact_id Identifier of the artifact.
+ * @param[in] delta_window Input parameter.
+ * @param[in,out] current_manifest Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: wouldBreachRankCap(), analyzeRankCapBreach(), validate(), analyzePartialRefitFailure(), estimateChangeFraction(), std::min(), countUpdates(), countInserts().
+ */
 bool SnapshotBasedUpdateWorker::executePartialRefit(const std::string& artifact_id,
                                                     const DeltaWindow& delta_window,
                                                     ArtifactManifest& current_manifest) {
@@ -443,6 +503,14 @@ bool SnapshotBasedUpdateWorker::executePartialRefit(const std::string& artifact_
   }
 }
 
+/**
+ * @brief Execute Rebuild.
+ * @param[in] artifact_id Identifier of the artifact.
+ * @param[in] delta_window Input parameter.
+ * @param[in,out] current_manifest Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), validate(), analyzePartialRefitFailure(), markPublished(), getCurrentTimeSec(), std::string(), what().
+ */
 bool SnapshotBasedUpdateWorker::executeRebuild(const std::string& artifact_id,
                                                const DeltaWindow& delta_window,
                                                ArtifactManifest& current_manifest) {
@@ -478,6 +546,15 @@ bool SnapshotBasedUpdateWorker::executeRebuild(const std::string& artifact_id,
   }
 }
 
+/**
+ * @brief Publish Manifest.
+ * @param[in] artifact_id Identifier of the artifact.
+ * @param[in] new_manifest Input parameter.
+ * @param[in] old_version Input parameter.
+ * @param[in] reason Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: validate(), store().
+ */
 bool SnapshotBasedUpdateWorker::publishManifest(const std::string& artifact_id,
                                                 const ArtifactManifest& new_manifest,
                                                 uint64_t old_version,
@@ -493,6 +570,11 @@ bool SnapshotBasedUpdateWorker::publishManifest(const std::string& artifact_id,
   return manifest_store_->store(new_manifest);
 }
 
+/**
+ * @brief Shutdown.
+ * @return True when the operation succeeds.
+ * @details Implements shutdown without additional internal calls.
+ */
 bool SnapshotBasedUpdateWorker::shutdown() {
   state_ = UpdateWorkerState::SHUTTING_DOWN;
   state_ = UpdateWorkerState::IDLE;
@@ -503,6 +585,13 @@ UpdateWorkerState SnapshotBasedUpdateWorker::getState() const { return state_; }
 
 SnapshotBasedUpdateWorker::Stats SnapshotBasedUpdateWorker::getStats() const { return stats_; }
 
+/**
+ * @brief Set Decision Thresholds.
+ * @param[in] patch_threshold_pct Input parameter.
+ * @param[in] refit_threshold_pct Input parameter.
+ * @param[in] residual_max_increase_allowed Input parameter.
+ * @details Implements setDecisionThresholds without additional internal calls.
+ */
 void SnapshotBasedUpdateWorker::setDecisionThresholds(double patch_threshold_pct,
                                                       double refit_threshold_pct,
                                                       double residual_max_increase_allowed) {
@@ -511,19 +600,39 @@ void SnapshotBasedUpdateWorker::setDecisionThresholds(double patch_threshold_pct
   residual_max_increase_allowed_ = residual_max_increase_allowed;
 }
 
+/**
+ * @brief Set Checkpoint Path.
+ * @param[in] checkpoint_path Path to the checkpoint.
+ * @details Implements setCheckpointPath without additional internal calls.
+ */
 void SnapshotBasedUpdateWorker::setCheckpointPath(const std::string& checkpoint_path) {
   checkpoint_path_ = checkpoint_path;
   checkpoint_manager_ = std::make_unique<CrashRecoveryCheckpoint>(checkpoint_path);
 }
 
+/**
+ * @brief Set Lock Manager.
+ * @param[in] lock_manager Input parameter.
+ * @details Implements setLockManager without additional internal calls.
+ */
 void SnapshotBasedUpdateWorker::setLockManager(std::shared_ptr<DistributedLockManager> lock_manager) {
   lock_manager_ = lock_manager;
 }
 
+/**
+ * @brief Set Stale Artifact Detector.
+ * @param[in] detector Input parameter.
+ * @details Implements setStaleArtifactDetector without additional internal calls.
+ */
 void SnapshotBasedUpdateWorker::setStaleArtifactDetector(std::shared_ptr<StaleArtifactDetector> detector) {
   stale_detector_ = detector;
 }
 
+/**
+ * @brief Set Error Recovery Handler.
+ * @param[in] handler Input parameter.
+ * @details Implements setErrorRecoveryHandler without additional internal calls.
+ */
 void SnapshotBasedUpdateWorker::setErrorRecoveryHandler(std::shared_ptr<ErrorRecoveryHandler> handler) {
   error_handler_ = handler;
 }
@@ -532,6 +641,12 @@ void SnapshotBasedUpdateWorker::setManifestStore(ManifestStore* manifest_store) 
   manifest_store_ = manifest_store;
 }
 
+/**
+ * @brief Recover From Checkpoint.
+ * @param[in] artifact_id Identifier of the artifact.
+ * @return Return value.
+ * @details Calls: load(), spdlog::warn(), deleteCheckpoint(), empty(), size(), validate(), isValid(), getCurrentTimeSec().
+ */
 std::optional<ArtifactManifest> SnapshotBasedUpdateWorker::recoverFromCheckpoint(const std::string& artifact_id) {
   if (!checkpoint_manager_) {
     return std::nullopt;  // No checkpoint manager, recovery not applicable
@@ -724,6 +839,13 @@ std::optional<ArtifactManifest> SnapshotBasedUpdateWorker::recoverFromCheckpoint
   return recovered_manifest;
 }
 
+/**
+ * @brief Save Checkpoint.
+ * @param[in] artifact_id Identifier of the artifact.
+ * @param[in] task Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), save().
+ */
 bool SnapshotBasedUpdateWorker::saveCheckpoint(const std::string& artifact_id, const UpdateTask& task) {
   if (!checkpoint_manager_) {
     return true;  // No checkpoint manager, saving not applicable
@@ -749,6 +871,14 @@ bool SnapshotBasedUpdateWorker::saveCheckpoint(const std::string& artifact_id, c
   }
 }
 
+/**
+ * @brief Acquire Update Lock.
+ * @param[in] artifact_id Identifier of the artifact.
+ * @param[in] lock_reason Input parameter.
+ * @param[in] ttl_seconds Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), std::to_string(), acquireLock().
+ */
 bool SnapshotBasedUpdateWorker::acquireUpdateLock(const std::string& artifact_id,
                                                   const std::string& lock_reason,
                                                   int64_t ttl_seconds) {
@@ -765,6 +895,12 @@ bool SnapshotBasedUpdateWorker::acquireUpdateLock(const std::string& artifact_id
   return status == LockStatus::OK;
 }
 
+/**
+ * @brief Release Update Lock.
+ * @param[in] artifact_id Identifier of the artifact.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), releaseLock().
+ */
 bool SnapshotBasedUpdateWorker::releaseUpdateLock(const std::string& artifact_id) {
   if (!lock_manager_ || worker_id_.empty()) {
     return true;  // No lock manager or worker ID
@@ -774,6 +910,13 @@ bool SnapshotBasedUpdateWorker::releaseUpdateLock(const std::string& artifact_id
   return status == LockStatus::OK || status == LockStatus::NOT_HELD;  // Both OK and NOT_HELD are acceptable
 }
 
+/**
+ * @brief Renew Update Lock.
+ * @param[in] artifact_id Identifier of the artifact.
+ * @param[in] ttl_seconds Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), renewLock().
+ */
 bool SnapshotBasedUpdateWorker::renewUpdateLock(const std::string& artifact_id, int64_t ttl_seconds) {
   if (!lock_manager_ || worker_id_.empty()) {
     return true;  // No lock manager or worker ID
@@ -783,6 +926,14 @@ bool SnapshotBasedUpdateWorker::renewUpdateLock(const std::string& artifact_id, 
   return status == LockStatus::OK;
 }
 
+/**
+ * @brief Detect Staleness.
+ * @param[in] artifact_id Identifier of the artifact.
+ * @param[in] current_manifest Input parameter.
+ * @param[in] current_source_seq Input parameter.
+ * @return Return value.
+ * @details Calls: analyzeArtifactStaleness().
+ */
 StaleArtifactMetrics SnapshotBasedUpdateWorker::detectStaleness(const std::string& artifact_id,
                                                                const ArtifactManifest& current_manifest,
                                                                uint64_t current_source_seq) {
@@ -821,6 +972,13 @@ bool SnapshotBasedUpdateWorker::isDeltaLogOverflowingPublic(size_t current_entri
   return isDeltaLogOverflowing(current_entries, max_entries);
 }
 
+/**
+ * @brief Would Breach Rank Cap.
+ * @param[in] manifest Input parameter.
+ * @param[in] delta_window Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: countUpdates(), countInserts().
+ */
 bool SnapshotBasedUpdateWorker::wouldBreachRankCap(const ArtifactManifest& manifest,
                                                    const DeltaWindow& delta_window) {
   if (manifest.rank_cap == 0) {
@@ -833,6 +991,14 @@ bool SnapshotBasedUpdateWorker::wouldBreachRankCap(const ArtifactManifest& manif
   return projected_rank > manifest.rank_cap;
 }
 
+/**
+ * @brief Estimate Resulting Residual.
+ * @param[in] delta_window Input parameter.
+ * @param[in] current_residual Input parameter.
+ * @param[in] decision Input parameter.
+ * @return Return value.
+ * @details Calls: estimateChangeFraction().
+ */
 double SnapshotBasedUpdateWorker::estimateResultingResidual(const DeltaWindow& delta_window,
                                                             double current_residual,
                                                             UpdateDecision decision) {

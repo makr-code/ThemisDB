@@ -18,6 +18,13 @@
 
 namespace themis {
 
+/**
+ * @brief Register Aggregate.
+ * @param[in] config Input parameter.
+ * @param[in] refresh_interval Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), generateAggregateId(), std::move(), THEMIS_INFO(), count().
+ */
 std::string AggregateScheduler::registerAggregate(const AggConfig& config, std::chrono::milliseconds refresh_interval) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -41,6 +48,13 @@ std::string AggregateScheduler::registerAggregate(const AggConfig& config, std::
     return id;
 }
 
+/**
+ * @brief Backfill range.
+ * @param[in] agg_id Identifier of the agg.
+ * @param[in] start_ms Input parameter.
+ * @param[in] end_ms Input parameter.
+ * @details Calls: THEMIS_WARN(), Tracer::startSpan(), setAttribute(), lock(), find(), end(), recordError(), THEMIS_INFO().
+ */
 void AggregateScheduler::backfill_range(const std::string& agg_id, int64_t start_ms, int64_t end_ms) {
     if (start_ms >= end_ms) {
         THEMIS_WARN("backfill_range: invalid range [{}, {}) for aggregate '{}' – start must be < end",

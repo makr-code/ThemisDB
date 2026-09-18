@@ -31,25 +31,10 @@ namespace themis::rag::adversarial {
 // ============================================================================
 
 /**
- * @brief Sanitize an EvaluationInput to prevent prompt injection attacks.
- * 
- * SECURITY BOUNDARY: This function is the primary input sanitization point for the
- * AdversarialTester. All user-supplied input is processed through the shared LLM 
- * safety policy before being used in any adversarial testing logic.
- * 
- * Defense-in-Depth:
- * - Uses shared LLM safety policy for consistency with rag/llm/training modules
- * - Returns blocked prompts if sanitization fails (fail-safe approach)
- * - Applies to both query and generated_answer before test construction
- * 
- * THREAT MODEL:
- * - Attacker-controlled: input.query, input.generated_answer
- * - After sanitization: Safe for use in adversarial test case construction
- * 
- * @param input The input to sanitize
- * @return A new sanitized EvaluationInput
- * 
- * NOLINT: Input is sanitized before any downstream use
+ * @brief Sanitize Evaluation Input.
+ * @param[in] input Input parameter.
+ * @return Return value.
+ * @details Calls: themis::llm::prompt_safety::sanitizePromptWithSharedPolicy(), std::move().
  */
 EvaluationInput sanitizeEvaluationInput(const EvaluationInput& input) {
     EvaluationInput safe_input = input;
@@ -83,7 +68,11 @@ EvaluationInput sanitizeEvaluationInput(const EvaluationInput& input) {
 
 namespace {
 
-/// Tokenise @p text into lower-case words.
+/**
+ * @brief Tokenize.
+ * @param[in] text Input parameter.
+ * @return Return value.
+ */
 std::vector<std::string> tokenize(const std::string& text)
 {
     std::vector<std::string> tokens;
@@ -102,9 +91,12 @@ std::vector<std::string> tokenize(const std::string& text)
     return tokens;
 }
 
-/// Jaccard similarity between two token sequences using set semantics.
-/// Duplicate tokens within each input are deduplicated before comparison,
-/// so only unique tokens per side count toward the set intersection/union.
+/**
+ * @brief Jaccard Similarity.
+ * @param[in] a Input parameter.
+ * @param[in] b Input parameter.
+ * @return Return value.
+ */
 double jaccardSimilarity(const std::vector<std::string>& a,
                          const std::vector<std::string>& b)
 {
@@ -122,10 +114,13 @@ double jaccardSimilarity(const std::vector<std::string>& a,
     return union_size == 0 ? 1.0 : static_cast<double>(intersection) / static_cast<double>(union_size);
 }
 
-// ── Perturbation generators ────────────────────────────────────────────────
+/**
+ * @brief ── Perturbation generators ────────────────────────────────────────────────
+ * @param[in] query Input parameter.
+ * @param[in] variant_index Input parameter.
+ * @return Return value.
+ */
 
-/// Semantic perturbation: add a neutral prefix/suffix so the meaning is
-/// preserved but token distribution changes.
 std::string semanticPerturb(const std::string& query, size_t variant_index)
 {
     static const std::vector<std::string> prefixes = {
@@ -146,7 +141,12 @@ std::string semanticPerturb(const std::string& query, size_t variant_index)
     return query + suffixes[idx];
 }
 
-/// Lexical substitution: replace common question words with synonyms.
+/**
+ * @brief Lexical Substitute.
+ * @param[in] query Input parameter.
+ * @param[in] variant_index Input parameter.
+ * @return Return value.
+ */
 std::string lexicalSubstitute(const std::string& query, size_t variant_index)
 {
     static const std::vector<std::pair<std::string, std::string>> substitutions = {
@@ -181,7 +181,12 @@ std::string lexicalSubstitute(const std::string& query, size_t variant_index)
     return result;
 }
 
-/// Typo injection: randomly swap adjacent characters in a few positions.
+/**
+ * @brief Typo Inject.
+ * @param[in] query Input parameter.
+ * @param[in] variant_index Input parameter.
+ * @return Return value.
+ */
 std::string typoInject(const std::string& query, size_t variant_index)
 {
     if (query.size() < 4) { return query + "?"; }
@@ -201,7 +206,12 @@ std::string typoInject(const std::string& query, size_t variant_index)
     return result;
 }
 
-/// Negation flip: insert "not" or "never" in a plausible position.
+/**
+ * @brief Negation Flip.
+ * @param[in] query Input parameter.
+ * @param[in] variant_index Input parameter.
+ * @return Return value.
+ */
 std::string negationFlip(const std::string& query, size_t variant_index)
 {
     // Find a verb or copula to negate.
@@ -229,7 +239,12 @@ std::string negationFlip(const std::string& query, size_t variant_index)
     return "Is it false that " + query;
 }
 
-/// Sycophancy framing: presuppose an incorrect premise in the question.
+/**
+ * @brief Sycophancy Frame.
+ * @param[in] query Input parameter.
+ * @param[in] variant_index Input parameter.
+ * @return Return value.
+ */
 std::string sycophancyFrame(const std::string& query, size_t variant_index)
 {
     static const std::vector<std::string> frames = {
@@ -241,7 +256,11 @@ std::string sycophancyFrame(const std::string& query, size_t variant_index)
     return frames[idx] + query;
 }
 
-/// Generate poisoning payloads for document content injection.
+/**
+ * @brief Build Poison Payload.
+ * @param[in] index Input parameter.
+ * @return Return value.
+ */
 std::string buildPoisonPayload(size_t index)
 {
     static const std::vector<std::string> payloads = {
@@ -252,7 +271,10 @@ std::string buildPoisonPayload(size_t index)
     return payloads[index % payloads.size()];
 }
 
-/// Known prompt-injection patterns used to test injection robustness.
+/**
+ * @brief Known Injection Payloads.
+ * @return Return value.
+ */
 std::vector<std::string> knownInjectionPayloads()
 {
     return {
@@ -264,7 +286,11 @@ std::vector<std::string> knownInjectionPayloads()
     };
 }
 
-/// Generate filler documents for context-overflow testing.
+/**
+ * @brief Build Filler Documents.
+ * @param[in] count Input parameter.
+ * @return Return value.
+ */
 std::vector<RetrievedDocument> buildFillerDocuments(size_t count)
 {
     std::vector<RetrievedDocument> docs;
@@ -317,6 +343,11 @@ AdversarialTester& AdversarialTester::operator=(AdversarialTester&&) noexcept = 
 // Population
 // ============================================================================
 
+/**
+ * @brief Add Base Query.
+ * @param[in] query Input parameter.
+ * @param[in] expected_answer Input parameter.
+ */
 void AdversarialTester::addBaseQuery(const std::string& query,
                                       const std::string& expected_answer)
 {
@@ -324,18 +355,30 @@ void AdversarialTester::addBaseQuery(const std::string& query,
     impl_->base_queries.push_back({query, expected_answer});
 }
 
+/**
+ * @brief Add Base Document.
+ * @param[in] document Input parameter.
+ */
 void AdversarialTester::addBaseDocument(const RetrievedDocument& document)
 {
     std::lock_guard<std::mutex> lock(impl_->data_mutex);
     impl_->base_documents.push_back(document);
 }
 
+/**
+ * @brief Set Base Queries.
+ * @param[in] queries Input parameter.
+ */
 void AdversarialTester::setBaseQueries(const std::vector<BaseQuery>& queries)
 {
     std::lock_guard<std::mutex> lock(impl_->data_mutex);
     impl_->base_queries = queries;
 }
 
+/**
+ * @brief Set Base Documents.
+ * @param[in] documents Input parameter.
+ */
 void AdversarialTester::setBaseDocuments(const std::vector<RetrievedDocument>& documents)
 {
     std::lock_guard<std::mutex> lock(impl_->data_mutex);
@@ -428,6 +471,11 @@ AdversarialTesterConfig AdversarialTester::getConfig() const
 // Individual test phases
 // ============================================================================
 
+/**
+ * @brief Test Query Perturbations.
+ * @param[in,out] judge Input/output parameter.
+ * @param[in,out] report Input/output parameter.
+ */
 void AdversarialTester::testQueryPerturbations(RAGJudge& judge,
                                                 RobustnessReport& report)
 {
@@ -498,6 +546,11 @@ void AdversarialTester::testQueryPerturbations(RAGJudge& judge,
     }
 }
 
+/**
+ * @brief Test Document Poisoning.
+ * @param[in,out] judge Input/output parameter.
+ * @param[in,out] report Input/output parameter.
+ */
 void AdversarialTester::testDocumentPoisoning(RAGJudge& judge,
                                                RobustnessReport& report)
 {
@@ -570,6 +623,11 @@ void AdversarialTester::testDocumentPoisoning(RAGJudge& judge,
     }
 }
 
+/**
+ * @brief Test Prompt Injection.
+ * @param[in,out] judge Input/output parameter.
+ * @param[in,out] report Input/output parameter.
+ */
 void AdversarialTester::testPromptInjection(RAGJudge& judge,
                                              RobustnessReport& report)
 {
@@ -621,6 +679,11 @@ void AdversarialTester::testPromptInjection(RAGJudge& judge,
     }
 }
 
+/**
+ * @brief Test Context Overflow.
+ * @param[in,out] judge Input/output parameter.
+ * @param[in,out] report Input/output parameter.
+ */
 void AdversarialTester::testContextOverflow(RAGJudge& judge,
                                              RobustnessReport& report)
 {
@@ -679,6 +742,11 @@ void AdversarialTester::testContextOverflow(RAGJudge& judge,
     }
 }
 
+/**
+ * @brief Test Sycophancy.
+ * @param[in,out] judge Input/output parameter.
+ * @param[in,out] report Input/output parameter.
+ */
 void AdversarialTester::testSycophancy(RAGJudge& judge,
                                         RobustnessReport& report)
 {
@@ -745,6 +813,11 @@ void AdversarialTester::testSycophancy(RAGJudge& judge,
 // testRobustness – full suite
 // ============================================================================
 
+/**
+ * @brief Test Robustness.
+ * @param[in,out] judge Input/output parameter.
+ * @return Return value.
+ */
 RobustnessReport AdversarialTester::testRobustness(RAGJudge& judge)
 {
     // Check configuration under lock

@@ -26,6 +26,12 @@ namespace tensor {
 
 namespace {
 
+/**
+ * @brief Infer Flat Mode Shape.
+ * @param[in] dim Input parameter.
+ * @return Return value.
+ * @details Calls: std::sqrt().
+ */
 std::vector<size_t> inferFlatModeShape(size_t dim) {
     if (dim == 0) {
         return {1, 1};
@@ -47,7 +53,6 @@ std::vector<size_t> inferFlatModeShape(size_t dim) {
 // FlatTensorIndex — linear-scan ITensorIndex (Phase 1 reference impl)
 // ============================================================================
 
-/** @brief FlatTensorIndex — linear-scan ITensorIndex (Phase 1 reference impl). */
 class FlatTensorIndex final : public ITensorIndex {
 public:
     FlatTensorIndex() = default;
@@ -59,6 +64,11 @@ public:
 
     [[nodiscard]] bool add(int64_t id,
                            const storage::TTTrain& train) override {
+        /**
+         * @brief Lock.
+         * @param[in] rw_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock lock(rw_mutex_);
         if (store_.count(id)) return false;   // duplicate
         if (train.cores.empty()) {
@@ -98,6 +108,11 @@ public:
     }
 
     bool remove(int64_t id) override {
+        /**
+         * @brief Lock.
+         * @param[in] rw_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock lock(rw_mutex_);
         auto it = store_.find(id);
         if (it == store_.end()) {
@@ -115,6 +130,11 @@ public:
 
     std::vector<TensorSearchResult> search(
             const storage::TTTrain& query, int k) const override {
+        /**
+         * @brief Lock.
+         * @param[in] rw_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::shared_lock lock(rw_mutex_);
 
         std::vector<TensorSearchResult> results = {};
@@ -175,6 +195,11 @@ public:
 
     std::optional<float> innerProduct(int64_t id_a,
                                        int64_t id_b) const override {
+        /**
+         * @brief Lock.
+         * @param[in] rw_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::shared_lock lock(rw_mutex_);
         auto it_a = store_.find(id_a);
         auto it_b = store_.find(id_b);
@@ -185,6 +210,11 @@ public:
     }
 
     std::optional<float> norm(int64_t id) const override {
+        /**
+         * @brief Lock.
+         * @param[in] rw_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::shared_lock lock(rw_mutex_);
         auto it = store_.find(id);
         if (it == store_.end()) {
@@ -194,6 +224,11 @@ public:
     }
 
     const storage::TTTrain* get(int64_t id) const override {
+        /**
+         * @brief Lock.
+         * @param[in] rw_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::shared_lock lock(rw_mutex_);
         auto it = store_.find(id);
         return (it != store_.end()) ? &it->second : nullptr;
@@ -226,6 +261,11 @@ public:
     static constexpr uint8_t kVersion = 1;
 
     bool save(const std::string& path) const override {
+        /**
+         * @brief Lock.
+         * @param[in] rw_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::shared_lock lock(rw_mutex_);
         std::ofstream out(path, std::ios::binary | std::ios::trunc);
         if (!out) {
@@ -271,6 +311,12 @@ public:
     }
 
     bool load(const std::string& path) override {
+        /**
+         * @brief In.
+         * @param[in] path Input parameter.
+         * @param[in] binary Input parameter.
+         * @return Return value.
+         */
         std::ifstream in(path, std::ios::binary);
         if (!in) {
           return false;
@@ -350,7 +396,11 @@ public:
             new_store.emplace(id, std::move(train));
         }
 
-        // Atomically swap in new data
+        /**
+         * @brief Atomically swap in new data
+         * @param[in] rw_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock lock(rw_mutex_);
         store_ = std::move(new_store);
         stats_ = {};
@@ -370,11 +420,21 @@ public:
     // -----------------------------------------------------------------------
 
     [[nodiscard]] size_t size() const override {
+        /**
+         * @brief Lock.
+         * @param[in] rw_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::shared_lock lock(rw_mutex_);
         return store_.size();
     }
 
     [[nodiscard]] TensorIndexStats stats() const override {
+        /**
+         * @brief Lock.
+         * @param[in] rw_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::shared_lock lock(rw_mutex_);
         TensorIndexStats s = stats_;
         s.dim = dim_;
@@ -403,11 +463,11 @@ private:
     // -----------------------------------------------------------------------
 
     /**
-     * @brief TT inner-product <A, B>_TT  — O(d · r³).
-     *
-     * Uses the left-to-right contraction sweep from Holtz et al. 2012.
-     * Transfer matrix M_k = sum_{i_k} G_k^A(:,i_k,:) ⊗ G_k^B(:,i_k,:)
-     * contracted left-to-right.
+     * @brief Tt Inner Product.
+     * @param[in] A Input parameter.
+     * @param[in] B Input parameter.
+     * @return Return value.
+     * @details Calls: size(), T_new(), std::move(), empty().
      */
     static float ttInnerProduct(const storage::TTTrain& A,
                                  const storage::TTTrain& B) {
@@ -462,13 +522,22 @@ private:
     }
 
     /**
-     * @brief Frobenius norm via ‖T‖_F = sqrt(<T,T>_TT).
+     * @brief Tt Norm.
+     * @param[in] T Input parameter.
+     * @return Return value.
+     * @details Calls: ttInnerProduct(), std::sqrt().
      */
     static float ttNorm(const storage::TTTrain& T) {
         float ip = ttInnerProduct(T, T);
         return (ip > 0.0f) ? std::sqrt(ip) : 0.0f;
     }
 
+    /**
+     * @brief Estimate Bytes.
+     * @param[in] t Input parameter.
+     * @return Return value.
+     * @details Calls: size().
+     */
     static size_t estimateBytes(const storage::TTTrain& t) {
         size_t b = 0;
         for (const auto& c : t.cores) {

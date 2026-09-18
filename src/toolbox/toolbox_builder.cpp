@@ -48,6 +48,13 @@ ToolboxBuilder::~ToolboxBuilder() = default;
 ToolboxBuilder::ToolboxBuilder(ToolboxBuilder&&) noexcept = default;
 ToolboxBuilder& ToolboxBuilder::operator=(ToolboxBuilder&&) noexcept = default;
 
+/**
+ * @brief With Workflow Profile.
+ * @param[in] profile_path Path to the profile.
+ * @return Return value.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: empty(), push_back(), std::move().
+ */
 ToolboxBuilder& ToolboxBuilder::withWorkflowProfile(std::string profile_path) {
     if (profile_path.empty()) {
         throw std::invalid_argument("ToolboxBuilder::withWorkflowProfile: path must not be empty");
@@ -56,6 +63,11 @@ ToolboxBuilder& ToolboxBuilder::withWorkflowProfile(std::string profile_path) {
     return *this;
 }
 
+/**
+ * @brief With Graph Writer.
+ * @param[in] writer Input parameter.
+ * @return Return value.
+ */
 ToolboxBuilder& ToolboxBuilder::withGraphWriter(
     std::shared_ptr<ingestion::IGraphWriter> writer)
 {
@@ -63,6 +75,11 @@ ToolboxBuilder& ToolboxBuilder::withGraphWriter(
     return *this;
 }
 
+/**
+ * @brief With Vector Writer.
+ * @param[in] writer Input parameter.
+ * @return Return value.
+ */
 ToolboxBuilder& ToolboxBuilder::withVectorWriter(
     std::shared_ptr<ingestion::IVectorWriter> writer)
 {
@@ -70,6 +87,11 @@ ToolboxBuilder& ToolboxBuilder::withVectorWriter(
     return *this;
 }
 
+/**
+ * @brief With Text Backend.
+ * @param[in] backend Input parameter.
+ * @return Return value.
+ */
 ToolboxBuilder& ToolboxBuilder::withTextBackend(
     std::shared_ptr<ingestion::ITextGenerationBackend> backend)
 {
@@ -77,6 +99,11 @@ ToolboxBuilder& ToolboxBuilder::withTextBackend(
     return *this;
 }
 
+/**
+ * @brief With Tensor Decomposition Backend.
+ * @param[in] backend Input parameter.
+ * @return Return value.
+ */
 ToolboxBuilder& ToolboxBuilder::withTensorDecompositionBackend(
     std::shared_ptr<ingestion::ITensorDecompositionBackend> backend)
 {
@@ -84,6 +111,11 @@ ToolboxBuilder& ToolboxBuilder::withTensorDecompositionBackend(
     return *this;
 }
 
+/**
+ * @brief With Tensor Core Sink.
+ * @param[in] sink Input parameter.
+ * @return Return value.
+ */
 ToolboxBuilder& ToolboxBuilder::withTensorCoreSink(
     std::shared_ptr<ingestion::ITensorCoreBridge> sink)
 {
@@ -91,6 +123,11 @@ ToolboxBuilder& ToolboxBuilder::withTensorCoreSink(
     return *this;
 }
 
+/**
+ * @brief With Workflow Engine.
+ * @param[in] engine Input parameter.
+ * @return Return value.
+ */
 ToolboxBuilder& ToolboxBuilder::withWorkflowEngine(
     std::shared_ptr<ingestion::WorkflowEngine> engine)
 {
@@ -101,6 +138,11 @@ ToolboxBuilder& ToolboxBuilder::withWorkflowEngine(
     return *this;
 }
 
+/**
+ * @brief With Format Extractor.
+ * @param[in] extractor Input parameter.
+ * @return Return value.
+ */
 ToolboxBuilder& ToolboxBuilder::withFormatExtractor(
     std::shared_ptr<ingestion::IFormatExtractor> extractor)
 {
@@ -111,6 +153,11 @@ ToolboxBuilder& ToolboxBuilder::withFormatExtractor(
     return *this;
 }
 
+/**
+ * @brief With Format Extractor Factory.
+ * @param[in] factory Input parameter.
+ * @return Return value.
+ */
 ToolboxBuilder& ToolboxBuilder::withFormatExtractorFactory(
     std::shared_ptr<ingestion::IFormatExtractorFactory> factory)
 {
@@ -135,6 +182,13 @@ ToolboxBuilder& ToolboxBuilder::withFormatExtractorFactory(
 // build()
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Build.
+ * @return Return value.
+ * @throws std::logic_error if an error occurs.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: empty(), IngestionToolbox::createDefault(), setWorkflowEngine(), stepRegistry(), supportedMimeTypes(), front(), ingestion::builtin::createParsePdfStep(), registerStep().
+ */
 std::shared_ptr<IngestionToolbox> ToolboxBuilder::build() {
     if (impl_->built) {
         throw std::logic_error("ToolboxBuilder::build() called more than once");
@@ -260,7 +314,12 @@ ToolboxBuilder::BuiltToolbox::~BuiltToolbox() = default;
 ToolboxBuilder::BuiltToolbox::BuiltToolbox(BuiltToolbox&&) noexcept            = default;
 ToolboxBuilder::BuiltToolbox& ToolboxBuilder::BuiltToolbox::operator=(BuiltToolbox&&) noexcept = default;
 
-// ── buildWithBridges() ────────────────────────────────────────────────────────
+/**
+ * @brief ── buildWithBridges() ────────────────────────────────────────────────────────
+ * @return Return value.
+ * @throws std::logic_error if an error occurs.
+ * @details Calls: build(), THEMIS_WARN(), what().
+ */
 
 ToolboxBuilder::BuiltToolbox ToolboxBuilder::buildWithBridges() {
     // Guard runs before build() — build() will set impl_->built = true, so any

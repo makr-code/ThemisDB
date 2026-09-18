@@ -28,16 +28,6 @@ using json = nlohmann::json;
 // Local Adapter Provenance
 // ============================================================================
 
-/**
- * @brief Full cryptographic provenance record for a locally trained LoRA adapter.
- *
- * Captures every artefact that participated in the training run so that any
- * future audit can reconstruct and verify the exact training environment:
- *   - SHA-256 hashes of the dataset, base model, and hyperparameters
- *   - Trainer identity with CA/eIDAS certificate chain
- *   - RFC 3161 timestamp token for notarial proof-of-existence
- *   - Hardware details for reproducibility
- */
 struct LoRAProvenanceRecord {
     // Cryptographic artefact hashes
     std::string dataset_hash;          ///< SHA-256 of the training dataset content
@@ -59,7 +49,16 @@ struct LoRAProvenanceRecord {
     json   hardware_info;                 ///< GPU model, VRAM, CPU, RAM, etc.
     json   custom_metadata;              ///< Application-specific extensions
 
+    /**
+     * @brief To JSON.
+     * @return Return value.
+     */
     json toJSON() const;
+    /**
+     * @brief From JSON.
+     * @param[in] j Input parameter.
+     * @return Return value.
+     */
     static LoRAProvenanceRecord fromJSON(const json& j);
 };
 
@@ -67,13 +66,6 @@ struct LoRAProvenanceRecord {
 // External Adapter Provenance
 // ============================================================================
 
-/**
- * @brief Provenance record for a LoRA adapter imported from an external source.
- *
- * Captures origin information and allows ThemisDB to verify the supplier's
- * signature and certificate chain before the adapter is trusted for inference.
- * Adapters whose signature or provenance cannot be verified are rejected.
- */
 struct ExternalAdapterProvenance {
     // Origin
     std::string source_url;            ///< URL of the upstream repository / registry
@@ -91,7 +83,16 @@ struct ExternalAdapterProvenance {
     bool        cert_chain_valid = false; ///< True when certificate chain is trusted
     std::vector<std::string> validation_errors; ///< Non-empty when validation failed
 
+    /**
+     * @brief To JSON.
+     * @return Return value.
+     */
     json toJSON() const;
+    /**
+     * @brief From JSON.
+     * @param[in] j Input parameter.
+     * @return Return value.
+     */
     static ExternalAdapterProvenance fromJSON(const json& j);
 };
 
@@ -99,13 +100,6 @@ struct ExternalAdapterProvenance {
 // Adapter Snapshot (MVCC-style time-travel)
 // ============================================================================
 
-/**
- * @brief Point-in-time snapshot of a LoRA adapter with full provenance.
- *
- * Enables MVCC-style time-travel: any prior state of an adapter can be
- * restored from a snapshot together with the provenance that was valid at
- * that point.  Snapshots form a singly-linked chain via parent_snapshot_id.
- */
 struct AdapterSnapshot {
     std::string snapshot_id;          ///< Unique snapshot identifier (UUID or similar)
     std::string adapter_id;           ///< Adapter this snapshot belongs to
@@ -117,7 +111,16 @@ struct AdapterSnapshot {
 
     LoRAProvenanceRecord provenance;  ///< Full provenance at snapshot time
 
+    /**
+     * @brief To JSON.
+     * @return Return value.
+     */
     json toJSON() const;
+    /**
+     * @brief From JSON.
+     * @param[in] j Input parameter.
+     * @return Return value.
+     */
     static AdapterSnapshot fromJSON(const json& j);
 };
 
@@ -125,13 +128,6 @@ struct AdapterSnapshot {
 // Inference Audit Entry (Merkle-chained immutable log)
 // ============================================================================
 
-/**
- * @brief Single entry in the immutable, Merkle-chained inference audit log.
- *
- * Each entry commits to the inputs, outputs, and model/adapter state used
- * during an inference.  Consecutive entries are linked via previous_hash,
- * forming a tamper-evident chain analogous to a blockchain ledger.
- */
 struct InferenceAuditEntry {
     std::string entry_id;             ///< Unique entry identifier
     std::string previous_hash;        ///< SHA-256 of the preceding entry (empty for genesis)
@@ -149,15 +145,21 @@ struct InferenceAuditEntry {
     json commitments;                 ///< Additional cryptographic commitments (e.g. ZK)
     json metadata;                    ///< Request-level metadata (user ID, session, …)
 
+    /**
+     * @brief To JSON.
+     * @return Return value.
+     */
     json toJSON() const;
+    /**
+     * @brief From JSON.
+     * @param[in] j Input parameter.
+     * @return Return value.
+     */
     static InferenceAuditEntry fromJSON(const json& j);
 
     /**
-     * @brief Compute the canonical SHA-256 hash of this entry's content fields.
-     *
-     * The hash covers all content fields (timestamp through metadata) but
-     * deliberately excludes entry_hash itself to avoid circular dependency.
-     * It does include previous_hash so that the chain is verified end-to-end.
+     * @brief Compute Content Hash.
+     * @return Return value.
      */
     std::string computeContentHash() const;
 };
@@ -166,15 +168,6 @@ struct InferenceAuditEntry {
 // LoRA Provenance Manager
 // ============================================================================
 
-/**
- * @brief Manages provenance records, snapshots, and the audit-log Merkle chain.
- *
- * Central entry point for the auditability features described in the issue:
- *   1. Build and persist provenance records for locally trained adapters
- *   2. Validate and store provenance for externally imported adapters
- *   3. Create/restore MVCC snapshots for time-travel
- *   4. Append to and verify the Merkle-chained inference audit log
- */
 class LoRAProvenanceManager {
 public:
     LoRAProvenanceManager();
@@ -189,18 +182,18 @@ public:
     // -----------------------------------------------------------------------
 
     /**
-     * @brief Store a provenance record for a locally trained adapter.
-     * @param adapter_id  Adapter identifier
-     * @param record      Populated provenance record
-     * @return true on success
+     * @brief Store Provenance.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @param[in] record Input parameter.
+     * @return True when the operation succeeds.
      */
     bool storeProvenance(const std::string& adapter_id,
                          const LoRAProvenanceRecord& record);
 
     /**
-     * @brief Retrieve the provenance record for an adapter.
-     * @param adapter_id  Adapter identifier
-     * @return Provenance record if found
+     * @brief Get Provenance.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @return Return value.
      */
     std::optional<LoRAProvenanceRecord> getProvenance(
         const std::string& adapter_id) const;
@@ -209,18 +202,6 @@ public:
     // External adapter import
     // -----------------------------------------------------------------------
 
-    /**
-     * @brief Import an external adapter after validating its provenance.
-     *
-     * Validates the supplier's signature and certificate chain.  The adapter
-     * is stored only if all checks pass (or if @p allow_unsigned is true).
-     *
-     * @param adapter_id      Adapter identifier to register under
-     * @param provenance      External provenance record supplied by the importer
-     * @param trusted_ca_pem  PEM bundle of CA certificates trusted by this node
-     * @param allow_unsigned  If true, skip signature/cert validation (NOT recommended)
-     * @return Validated provenance record (with validation fields populated)
-     */
     ExternalAdapterProvenance importExternalAdapter(
         const std::string& adapter_id,
         ExternalAdapterProvenance provenance,
@@ -228,9 +209,9 @@ public:
         bool allow_unsigned = false);
 
     /**
-     * @brief Retrieve the external provenance record for an imported adapter.
-     * @param adapter_id  Adapter identifier
-     * @return External provenance record if found
+     * @brief Get External Provenance.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @return Return value.
      */
     std::optional<ExternalAdapterProvenance> getExternalProvenance(
         const std::string& adapter_id) const;
@@ -240,12 +221,12 @@ public:
     // -----------------------------------------------------------------------
 
     /**
-     * @brief Create a snapshot of the current adapter state.
-     * @param adapter_id    Adapter identifier
-     * @param version       Current version string
-     * @param weights_hash  SHA-256 of current adapter weights
-     * @param provenance    Current provenance record
-     * @return Created snapshot (with snapshot_id populated)
+     * @brief Create Snapshot.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @param[in] version Input parameter.
+     * @param[in] weights_hash Input parameter.
+     * @param[in] provenance Input parameter.
+     * @return Return value.
      */
     AdapterSnapshot createSnapshot(const std::string& adapter_id,
                                    const std::string& version,
@@ -253,54 +234,43 @@ public:
                                    const LoRAProvenanceRecord& provenance);
 
     /**
-     * @brief List all snapshots for an adapter, ordered oldest-first.
-     * @param adapter_id  Adapter identifier
-     * @return Vector of snapshots
+     * @brief List Snapshots.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @return Return value.
      */
     std::vector<AdapterSnapshot> listSnapshots(
         const std::string& adapter_id) const;
 
     /**
-     * @brief Retrieve a specific snapshot by ID.
-     * @param snapshot_id  Snapshot identifier
-     * @return Snapshot if found
+     * @brief Get Snapshot.
+     * @param[in] snapshot_id Identifier of the snapshot.
+     * @return Return value.
      */
     std::optional<AdapterSnapshot> getSnapshot(
         const std::string& snapshot_id) const;
 
-    // -----------------------------------------------------------------------
-    // Merkle-chained inference audit log
-    // -----------------------------------------------------------------------
-
     /**
-     * @brief Append an inference audit entry to the Merkle chain.
-     *
-     * Automatically links the entry to the previous entry and computes
-     * entry_hash.
-     *
-     * @param adapter_id  Adapter used for inference
-     * @param entry       Audit entry (entry_id, previous_hash, entry_hash
-     *                    may be empty — they will be populated by this method)
-     * @return Populated entry with entry_hash and previous_hash set
+     * @brief ----------------------------------------------------------------------- Merkle-chained inference audit log -----------------------------------------------------------------------
+     * @param[in] adapter_id Identifier of the adapter.
+     * @param[in] entry Input parameter.
+     * @return Return value.
      */
+
     InferenceAuditEntry appendAuditEntry(const std::string& adapter_id,
                                           InferenceAuditEntry entry);
 
     /**
-     * @brief Retrieve audit log entries for an adapter.
-     * @param adapter_id  Adapter identifier
-     * @return Ordered vector of entries (oldest first)
+     * @brief Get Audit Log.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @return Return value.
      */
     std::vector<InferenceAuditEntry> getAuditLog(
         const std::string& adapter_id) const;
 
     /**
-     * @brief Verify the integrity of the Merkle audit chain for an adapter.
-     *
-     * Recomputes each entry_hash and checks the previous_hash linkage.
-     *
-     * @param adapter_id  Adapter identifier
-     * @return true when the entire chain is intact
+     * @brief Verify Audit Chain.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @return True when the operation succeeds.
      */
     bool verifyAuditChain(const std::string& adapter_id) const;
 
@@ -309,16 +279,16 @@ public:
     // -----------------------------------------------------------------------
 
     /**
-     * @brief Compute the SHA-256 hash of arbitrary bytes and return as hex.
-     * @param data  Input data
-     * @return 64-character lowercase hex string
+     * @brief Sha256 Hex.
+     * @param[in] data Input parameter.
+     * @return Return value.
      */
     static std::string sha256Hex(const std::string& data);
 
     /**
-     * @brief Compute the SHA-256 hash of a file's contents.
-     * @param path  File path
-     * @return 64-character lowercase hex string, or empty on error
+     * @brief Sha256 File.
+     * @param[in] path Input parameter.
+     * @return Return value.
      */
     static std::string sha256File(const std::string& path);
 

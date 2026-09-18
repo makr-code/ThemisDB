@@ -42,12 +42,6 @@ IndexMaintenanceManager::IndexMaintenanceManager(
     THEMIS_INFO("IndexMaintenanceManager initialized");
 }
 
-/// @brief Destructor — noexcept per C++ standard requirements for destructors.
-///
-/// Calls stop() to join the maintenance background thread.  The Result<void>
-/// returned by stop() is intentionally discarded here; any exception is caught
-/// and logged rather than being allowed to propagate (which would call
-/// std::terminate under C++11 and later).
 IndexMaintenanceManager::~IndexMaintenanceManager() noexcept {
     if (running_) {
         try {
@@ -62,6 +56,11 @@ IndexMaintenanceManager::~IndexMaintenanceManager() noexcept {
     }
 }
 
+/**
+ * @brief Start.
+ * @return Return value.
+ * @details Calls: lock(), ErrVoid(), std::thread(), THEMIS_INFO(), OkVoid().
+ */
 Result<void> IndexMaintenanceManager::start() {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -77,6 +76,11 @@ Result<void> IndexMaintenanceManager::start() {
     return OkVoid();
 }
 
+/**
+ * @brief Stop.
+ * @return Return value.
+ * @details Calls: lock(), OkVoid(), notify_all(), joinable(), utils::joinThreadWithin(), THEMIS_WARN(), THEMIS_INFO().
+ */
 Result<void> IndexMaintenanceManager::stop() {
     {
         std::lock_guard<std::mutex> lock(mutex_);
@@ -101,6 +105,12 @@ bool IndexMaintenanceManager::isRunning() const {
     return running_;
 }
 
+/**
+ * @brief Set Policy.
+ * @param[in] policy Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), THEMIS_INFO(), OkVoid().
+ */
 Result<void> IndexMaintenanceManager::setPolicy(const MaintenancePolicy& policy) {
     std::lock_guard<std::mutex> lock(mutex_);
     policy_ = policy;
@@ -109,16 +119,34 @@ Result<void> IndexMaintenanceManager::setPolicy(const MaintenancePolicy& policy)
 }
 
 MaintenancePolicy IndexMaintenanceManager::getPolicy() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return policy_;
 }
 
+/**
+ * @brief Monitor Fragmentation.
+ * @param[in] index_name Name of the index.
+ * @return Return value.
+ * @details Calls: calculateFragmentation().
+ */
 Result<FragmentationMetrics> IndexMaintenanceManager::monitorFragmentation(
     const std::string& index_name) {
     
     return calculateFragmentation(index_name);
 }
 
+/**
+ * @brief Rebuild Index.
+ * @param[in] index_name Name of the index.
+ * @param[in] async Input parameter.
+ * @return Return value.
+ * @details Calls: generateJobId(), std::chrono::system_clock::now(), time_since_epoch(), count(), calculateFragmentation(), lock(), std::thread(), performRebuild().
+ */
 Result<MaintenanceJobStatus> IndexMaintenanceManager::rebuildIndex(
     const std::string& index_name, bool async) {
     
@@ -192,6 +220,13 @@ Result<MaintenanceJobStatus> IndexMaintenanceManager::rebuildIndex(
     }
 }
 
+/**
+ * @brief Reorganize Index.
+ * @param[in] index_name Name of the index.
+ * @param[in] async Input parameter.
+ * @return Return value.
+ * @details Calls: generateJobId(), std::chrono::system_clock::now(), time_since_epoch(), count(), calculateFragmentation(), lock(), std::thread(), performReorganize().
+ */
 Result<MaintenanceJobStatus> IndexMaintenanceManager::reorganizeIndex(
     const std::string& index_name, bool async) {
     
@@ -265,6 +300,12 @@ Result<MaintenanceJobStatus> IndexMaintenanceManager::reorganizeIndex(
     }
 }
 
+/**
+ * @brief Update Statistics.
+ * @param[in] index_name Name of the index.
+ * @return Return value.
+ * @details Calls: generateJobId(), std::chrono::system_clock::now(), time_since_epoch(), count(), performStatisticsUpdate(), error(), message(), tl::unexpected().
+ */
 Result<MaintenanceJobStatus> IndexMaintenanceManager::updateStatistics(
     const std::string& index_name) {
     
@@ -292,6 +333,12 @@ Result<MaintenanceJobStatus> IndexMaintenanceManager::updateStatistics(
     return status;
 }
 
+/**
+ * @brief Cleanup Orphan Entries.
+ * @param[in] index_name Name of the index.
+ * @return Return value.
+ * @details Calls: generateJobId(), std::chrono::system_clock::now(), time_since_epoch(), count(), performOrphanCleanup(), error(), message(), tl::unexpected().
+ */
 Result<MaintenanceJobStatus> IndexMaintenanceManager::cleanupOrphanEntries(
     const std::string& index_name) {
     
@@ -319,6 +366,13 @@ Result<MaintenanceJobStatus> IndexMaintenanceManager::cleanupOrphanEntries(
     return status;
 }
 
+/**
+ * @brief Check Consistency.
+ * @param[in] index_name Name of the index.
+ * @param[in] repair Input parameter.
+ * @return Return value.
+ * @details Calls: generateJobId(), std::chrono::system_clock::now(), time_since_epoch(), count(), performConsistencyCheck(), error(), message(), tl::unexpected().
+ */
 Result<MaintenanceJobStatus> IndexMaintenanceManager::checkConsistency(
     const std::string& index_name, bool repair) {
     
@@ -346,6 +400,12 @@ Result<MaintenanceJobStatus> IndexMaintenanceManager::checkConsistency(
     return status;
 }
 
+/**
+ * @brief Get Job Status.
+ * @param[in] job_id Identifier of the job.
+ * @return Return value.
+ * @details Calls: lock(), find(), end().
+ */
 Result<MaintenanceJobStatus> IndexMaintenanceManager::getJobStatus(const std::string& job_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -364,9 +424,11 @@ Result<MaintenanceJobStatus> IndexMaintenanceManager::getJobStatus(const std::st
 }
 
 std::vector<MaintenanceJobStatus> IndexMaintenanceManager::listActiveJobs() const {
-    // lock_in_loop scanner alert: mutex_ is acquired once before iterating over
-    // active_jobs_, so this loop does not lock on each iteration — false
-    // positive.
+    /**
+     * @brief lock_in_loop scanner alert: mutex_ is acquired once before iterating over active_jobs_, so this loop does not lock on each iteration — false positive.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     std::vector<MaintenanceJobStatus> jobs = {};
@@ -380,6 +442,12 @@ std::vector<MaintenanceJobStatus> IndexMaintenanceManager::listActiveJobs() cons
     return jobs;
 }
 
+/**
+ * @brief Cancel Job.
+ * @param[in] job_id Identifier of the job.
+ * @return Return value.
+ * @details Calls: lock(), find(), end(), ErrVoid(), THEMIS_INFO(), OkVoid().
+ */
 Result<void> IndexMaintenanceManager::cancelJob(const std::string& job_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -400,6 +468,11 @@ Result<void> IndexMaintenanceManager::cancelJob(const std::string& job_id) {
 }
 
 std::map<std::string, FragmentationMetrics> IndexMaintenanceManager::getAllFragmentationMetrics() {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     // Return cached metrics if recent
@@ -427,6 +500,11 @@ std::map<std::string, FragmentationMetrics> IndexMaintenanceManager::getAllFragm
     return metrics_cache_;
 }
 
+/**
+ * @brief Trigger Maintenance Check.
+ * @return Return value.
+ * @details Calls: ErrVoid(), notify_one(), OkVoid().
+ */
 Result<void> IndexMaintenanceManager::triggerMaintenanceCheck() {
     if (!running_) {
         return ErrVoid(errors::ErrorCode::ERR_INDEX_MAINTENANCE_DISABLED,
@@ -437,6 +515,10 @@ Result<void> IndexMaintenanceManager::triggerMaintenanceCheck() {
     return OkVoid();
 }
 
+/**
+ * @brief Maintenance Thread Func.
+ * @details Calls: THEMIS_INFO(), lock(), wait_for(), std::chrono::milliseconds(), shouldRunMaintenance(), unlock(), getAllFragmentationMetrics(), rebuildIndex().
+ */
 void IndexMaintenanceManager::maintenanceThreadFunc() {
     THEMIS_INFO("Index maintenance thread started");
     
@@ -498,6 +580,12 @@ void IndexMaintenanceManager::maintenanceThreadFunc() {
     THEMIS_INFO("Index maintenance thread stopped");
 }
 
+/**
+ * @brief Calculate Fragmentation.
+ * @param[in] index_name Name of the index.
+ * @return Return value.
+ * @details Calls: getRawDB(), GetProperty(), std::stoull(), GetIntProperty(), std::min(), classifyFragmentation(), std::chrono::system_clock::now(), time_since_epoch().
+ */
 Result<FragmentationMetrics> IndexMaintenanceManager::calculateFragmentation(
     const std::string& index_name) {
     
@@ -587,6 +675,13 @@ Result<FragmentationMetrics> IndexMaintenanceManager::calculateFragmentation(
     }
 }
 
+/**
+ * @brief Perform Rebuild.
+ * @param[in] index_name Name of the index.
+ * @param[in,out] status Input/output parameter.
+ * @return Return value.
+ * @details Calls: THEMIS_INFO(), getRawDB(), ErrVoid(), CompactRange(), ok(), ToString(), calculateFragmentation(), OkVoid().
+ */
 Result<void> IndexMaintenanceManager::performRebuild(
     const std::string& index_name, MaintenanceJobStatus& status) {
     
@@ -641,6 +736,13 @@ Result<void> IndexMaintenanceManager::performRebuild(
     }
 }
 
+/**
+ * @brief Perform Reorganize.
+ * @param[in] index_name Name of the index.
+ * @param[in,out] status Input/output parameter.
+ * @return Return value.
+ * @details Calls: THEMIS_INFO(), getRawDB(), ErrVoid(), CompactRange(), ok(), ToString(), calculateFragmentation(), OkVoid().
+ */
 Result<void> IndexMaintenanceManager::performReorganize(
     const std::string& index_name, MaintenanceJobStatus& status) {
     
@@ -693,6 +795,13 @@ Result<void> IndexMaintenanceManager::performReorganize(
     }
 }
 
+/**
+ * @brief Perform Statistics Update.
+ * @param[in] index_name Name of the index.
+ * @param[in,out] status Input/output parameter.
+ * @return Return value.
+ * @details Calls: THEMIS_INFO(), std::this_thread::sleep_for(), std::chrono::milliseconds(), OkVoid(), ErrVoid(), std::string(), what().
+ */
 Result<void> IndexMaintenanceManager::performStatisticsUpdate(
     const std::string& index_name, MaintenanceJobStatus& status) {
     
@@ -722,6 +831,13 @@ Result<void> IndexMaintenanceManager::performStatisticsUpdate(
     }
 }
 
+/**
+ * @brief Perform Orphan Cleanup.
+ * @param[in] index_name Name of the index.
+ * @param[in,out] status Input/output parameter.
+ * @return Return value.
+ * @details Calls: THEMIS_INFO(), getRawDB(), ErrVoid(), CompactRange(), ok(), THEMIS_WARN(), ToString(), OkVoid().
+ */
 Result<void> IndexMaintenanceManager::performOrphanCleanup(
     const std::string& index_name, MaintenanceJobStatus& status) {
     
@@ -764,6 +880,14 @@ Result<void> IndexMaintenanceManager::performOrphanCleanup(
     }
 }
 
+/**
+ * @brief Perform Consistency Check.
+ * @param[in] index_name Name of the index.
+ * @param[in] repair Input parameter.
+ * @param[in,out] status Input/output parameter.
+ * @return Return value.
+ * @details Calls: THEMIS_INFO(), getRawDB(), ErrVoid(), VerifyChecksum(), ok(), THEMIS_WARN(), ToString(), OkVoid().
+ */
 Result<void> IndexMaintenanceManager::performConsistencyCheck(
     const std::string& index_name, bool repair, MaintenanceJobStatus& status) {
     
@@ -842,6 +966,11 @@ bool IndexMaintenanceManager::isInMaintenanceWindow() const {
     }
 }
 
+/**
+ * @brief Generate Job Id.
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), str().
+ */
 std::string IndexMaintenanceManager::generateJobId() {
     auto counter = job_counter_++;
     auto now = std::chrono::system_clock::now().time_since_epoch().count();
@@ -861,6 +990,11 @@ FragmentationLevel IndexMaintenanceManager::classifyFragmentation(double percent
     }
 }
 
+/**
+ * @brief Set Vector Index Manager.
+ * @param[in] vector_index Input parameter.
+ * @details Calls: lock(), std::move(), THEMIS_INFO().
+ */
 void IndexMaintenanceManager::setVectorIndexManager(
     std::shared_ptr<VectorIndexManager> vector_index) {
     std::lock_guard<std::mutex> lock(mutex_);
@@ -868,6 +1002,13 @@ void IndexMaintenanceManager::setVectorIndexManager(
     THEMIS_INFO("IndexMaintenanceManager: VectorIndexManager registered for incremental reindex");
 }
 
+/**
+ * @brief Vector Incremental Reindex.
+ * @param[in] rebuild_threshold Input parameter.
+ * @param[in] vector_field Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), generateJobId(), getObjectName(), std::chrono::system_clock::now(), time_since_epoch(), count(), THEMIS_INFO(), incrementalReindex().
+ */
 Result<MaintenanceJobStatus> IndexMaintenanceManager::vectorIncrementalReindex(
     float rebuild_threshold, std::string_view vector_field) {
 

@@ -37,18 +37,6 @@
 
 namespace themis::rag {
 
-/**
- * @brief PIMPL (Pointer to Implementation) for DPRVectorizer.
- *
- * Holds opaque implementation details (model handles, tokenizers, etc.)
- * to avoid exposing external library headers in the public interface.
- * 
- * Phase 2 Implementation:
- *  - Real ONNX model loading for query and passage encoders
- *  - Tokenization pipeline using LlamaTokenizer
- *  - Batch processing with GPU acceleration support
- *  - L2 normalization for cosine similarity
- */
 class DPRVectorizer::Impl {
 public:
     Impl(const DPRVectorizerConfig& config) : config(config) {}
@@ -76,7 +64,9 @@ public:
     // Thread safety for shared state access
     mutable std::mutex state_mutex;
     /**
-     * @brief Normalize embedding vector to unit L2 norm
+     * @brief Normalize L2.
+     * @param[in,out] embedding Input/output parameter.
+     * @details Calls: std::sqrt().
      */
     static void normalizeL2(std::vector<float>& embedding) {
         float norm = 0.0f;
@@ -92,7 +82,11 @@ public:
     }
     
     /**
-     * @brief Tokenize text with truncation/padding
+     * @brief Tokenize Text.
+     * @param[in] text Input parameter.
+     * @param[in,out] tokenizer Input/output parameter.
+     * @return Return value.
+     * @details Calls: THEMIS_WARN(), encode(), size(), resize(), push_back().
      */
     std::vector<int> tokenizeText(const std::string& text, 
                                    themis::llm::lora::LlamaTokenizer* tokenizer) {
@@ -116,11 +110,6 @@ public:
         return tokens;
     }
 
-    /**
-     * @brief Deterministic non-ONNX fallback embedding.
-     *
-     * Used when ONNX runtime integration is unavailable at build/runtime.
-     */
     std::vector<float> deterministicFallbackEmbedding(
         const std::vector<int>& tokens,
         bool use_cosine_phase) const {
@@ -133,6 +122,13 @@ public:
     }
 
 #if THEMIS_DPR_HAS_ONNX_RUNTIME
+    /**
+     * @brief Run ONNXEmbedding.
+     * @param[in] tokens Input parameter.
+     * @param[in] query_encoder Input parameter.
+     * @return Return value.
+     * @details Calls: get(), deterministicFallbackEmbedding(), input_ids(), begin(), end(), attention_mask(), size(), Ort::MemoryInfo::CreateCpu().
+     */
     std::vector<float> runONNXEmbedding(const std::vector<int>& tokens, bool query_encoder) {
         Ort::Session* session = query_encoder ? query_session.get() : passage_session.get();
         if (!session) {
@@ -250,6 +246,12 @@ DPRVectorizer::~DPRVectorizer() = default;
 
 // ─────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Initialize.
+ * @throws std::invalid_argument if an error occurs.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: load(), THEMIS_INFO(), empty(), THEMIS_ERROR(), loadModel(), lock(), SetIntraOpNumThreads(), SetGraphOptimizationLevel().
+ */
 void DPRVectorizer::initialize() {
     // Check without acquiring lock (atomic operation)
     if (initialized_.load()) {
@@ -386,6 +388,14 @@ bool DPRVectorizer::isInitialized() const {
 
 // ─────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Encode Query.
+ * @param[in] query Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: isInitialized(), THEMIS_WARN(), empty(), size(), lock(), tokenizeText(), get(), runONNXEmbedding().
+ */
 std::vector<float> DPRVectorizer::encodeQuery(const std::string& query) {
     if (!isInitialized()) {
         THEMIS_WARN("DPRVectorizer::encodeQuery called before initialize()");
@@ -439,6 +449,14 @@ std::vector<float> DPRVectorizer::encodeQuery(const std::string& query) {
 
 // ─────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Encode Passage.
+ * @param[in] passage Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: isInitialized(), THEMIS_WARN(), empty(), size(), lock(), tokenizeText(), get(), runONNXEmbedding().
+ */
 std::vector<float> DPRVectorizer::encodePassage(const std::string& passage) {
     if (!isInitialized()) {
         THEMIS_WARN("DPRVectorizer::encodePassage called before initialize()");
@@ -492,6 +510,14 @@ std::vector<float> DPRVectorizer::encodePassage(const std::string& passage) {
 
 // ─────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Encode Passage Batch.
+ * @param[in] passages Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: isInitialized(), THEMIS_WARN(), size(), THEMIS_DEBUG(), empty(), reserve(), std::min(), lock().
+ */
 std::vector<std::vector<float>> DPRVectorizer::encodePassageBatch(
     const std::vector<std::string>& passages) {
     if (!isInitialized()) {

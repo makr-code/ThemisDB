@@ -31,6 +31,14 @@ SimpleTokenizer::SimpleTokenizer(int vocab_size)
     : vocab_size_(vocab_size) {
 }
 
+/**
+ * @brief Encode.
+ * @param[in] text Input parameter.
+ * @param[in] add_bos Input parameter.
+ * @param[in] add_eos Input parameter.
+ * @return Return value.
+ * @details Calls: push_back(), bos_token_id(), eos_token_id().
+ */
 std::vector<int> SimpleTokenizer::encode(const std::string& text, 
                                          bool add_bos, 
                                          bool add_eos) {
@@ -56,6 +64,12 @@ std::vector<int> SimpleTokenizer::encode(const std::string& text,
     return tokens;
 }
 
+/**
+ * @brief Decode.
+ * @param[in] tokens Input parameter.
+ * @return Return value.
+ * @details Calls: bos_token_id(), eos_token_id(), pad_token_id().
+ */
 std::string SimpleTokenizer::decode(const std::vector<int>& tokens) {
     std::string text = {};
     
@@ -89,6 +103,12 @@ DataLoader::DataLoader(std::shared_ptr<ITokenizer> tokenizer,
 DataLoader::~DataLoader() {
 }
 
+/**
+ * @brief Load From File.
+ * @param[in] filepath Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: spdlog::info(), parseJSONL(), parseAlpaca(), parseShareGPT(), parsePlainText(), spdlog::error(), tokenizeSample(), resize().
+ */
 bool DataLoader::loadFromFile(const std::string& filepath) {
     spdlog::info("Loading dataset from: {}", filepath);
     
@@ -133,6 +153,12 @@ bool DataLoader::loadFromFile(const std::string& filepath) {
     return true;
 }
 
+/**
+ * @brief Load From JSON.
+ * @param[in] json_data Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: json::parse(), is_array(), value(), push_back(), is_object(), tokenizeSample(), resize(), size().
+ */
 bool DataLoader::loadFromJSON(const std::string& json_data) {
     try {
         json j = json::parse(json_data);
@@ -174,6 +200,12 @@ bool DataLoader::loadFromJSON(const std::string& json_data) {
     }
 }
 
+/**
+ * @brief Load From Samples.
+ * @param[in] samples Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: tokenizeSample(), resize(), size(), std::iota(), begin(), end(), shuffle(), spdlog::info().
+ */
 bool DataLoader::loadFromSamples(const std::vector<InstructionDataSample>& samples) {
     samples_ = samples;
     
@@ -194,6 +226,12 @@ bool DataLoader::loadFromSamples(const std::vector<InstructionDataSample>& sampl
     return true;
 }
 
+/**
+ * @brief Parse JSONL.
+ * @param[in] filepath Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: file(), is_open(), spdlog::error(), std::getline(), empty(), json::parse(), value(), push_back().
+ */
 bool DataLoader::parseJSONL(const std::string& filepath) {
     std::ifstream file(filepath);
     if (!file.is_open()) {
@@ -231,6 +269,12 @@ bool DataLoader::parseJSONL(const std::string& filepath) {
     return !samples_.empty();
 }
 
+/**
+ * @brief Parse Alpaca.
+ * @param[in] filepath Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: file(), is_open(), spdlog::error(), data_utils::loadAlpacaFormat(), dump(), empty(), what().
+ */
 bool DataLoader::parseAlpaca(const std::string& filepath) {
     std::ifstream file(filepath);
     if (!file.is_open()) {
@@ -252,6 +296,12 @@ bool DataLoader::parseAlpaca(const std::string& filepath) {
     }
 }
 
+/**
+ * @brief Parse Share GPT.
+ * @param[in] filepath Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: file(), is_open(), spdlog::error(), data_utils::loadShareGPTFormat(), dump(), empty(), what().
+ */
 bool DataLoader::parseShareGPT(const std::string& filepath) {
     std::ifstream file(filepath);
     if (!file.is_open()) {
@@ -273,6 +323,12 @@ bool DataLoader::parseShareGPT(const std::string& filepath) {
     }
 }
 
+/**
+ * @brief Parse Plain Text.
+ * @param[in] filepath Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: file(), is_open(), spdlog::error(), rdbuf(), str(), size(), std::min(), substr().
+ */
 bool DataLoader::parsePlainText(const std::string& filepath) {
     std::ifstream file(filepath);
     if (!file.is_open()) {
@@ -321,6 +377,11 @@ std::string DataLoader::formatSample(const InstructionDataSample& sample) const 
     return formatted;
 }
 
+/**
+ * @brief Tokenize Sample.
+ * @param[in,out] sample Input/output parameter.
+ * @details Calls: formatSample(), encode(), size(), resize().
+ */
 void DataLoader::tokenizeSample(InstructionDataSample& sample) {
     // Format sample text
     std::string formatted_text = formatSample(sample);
@@ -344,6 +405,11 @@ size_t DataLoader::num_batches() const {
     return (samples_.size() + config_.batch_size - 1) / config_.batch_size;
 }
 
+/**
+ * @brief Get Next Batch.
+ * @return Return value.
+ * @details Calls: hasNext(), std::min(), size(), push_back(), createBatch().
+ */
 TrainingBatch DataLoader::getNextBatch() {
     if (!hasNext()) {
         return TrainingBatch{};  // Empty batch
@@ -363,6 +429,12 @@ TrainingBatch DataLoader::getNextBatch() {
     return createBatch(batch_indices);
 }
 
+/**
+ * @brief Create Batch.
+ * @param[in] batch_indices Input parameter.
+ * @return Return value.
+ * @details Calls: size(), push_back(), std::min(), max(), std::max(), padBatch().
+ */
 TrainingBatch DataLoader::createBatch(const std::vector<size_t>& batch_indices) {
     TrainingBatch batch;
     batch.batch_size = batch_indices.size();
@@ -389,6 +461,11 @@ TrainingBatch DataLoader::createBatch(const std::vector<size_t>& batch_indices) 
     return batch;
 }
 
+/**
+ * @brief Pad Batch.
+ * @param[in,out] batch Input/output parameter.
+ * @details Calls: size(), push_back().
+ */
 void DataLoader::padBatch(TrainingBatch& batch) {
     int target_length = config_.pad_to_max_length ? 
         config_.max_sequence_length : batch.max_sequence_length;
@@ -407,6 +484,10 @@ void DataLoader::padBatch(TrainingBatch& batch) {
     batch.max_sequence_length = target_length;
 }
 
+/**
+ * @brief Reset the modification detection flag.
+ * @details Calls: shuffle().
+ */
 void DataLoader::reset() {
     current_index_ = 0;
     
@@ -419,6 +500,10 @@ bool DataLoader::hasNext() const {
     return static_cast<bool>(current_index_ < indices_.size());
 }
 
+/**
+ * @brief Shuffle.
+ * @details Calls: gen(), rd(), begin(), end(), spdlog::debug().
+ */
 void DataLoader::shuffle() {
     std::random_device rd = {};
     std::mt19937 gen(rd());
@@ -438,6 +523,12 @@ std::optional<InstructionDataSample> DataLoader::getSample(size_t idx) const {
 
 namespace data_utils {
 
+/**
+ * @brief Load Alpaca Format.
+ * @param[in] json_data Input parameter.
+ * @return Return value.
+ * @details Calls: json::parse(), is_array(), spdlog::error(), value(), empty(), push_back(), what().
+ */
 std::vector<InstructionDataSample> loadAlpacaFormat(const std::string& json_data) {
     std::vector<InstructionDataSample> samples;
     
@@ -467,6 +558,12 @@ std::vector<InstructionDataSample> loadAlpacaFormat(const std::string& json_data
     return samples;
 }
 
+/**
+ * @brief Load Share GPTFormat.
+ * @param[in] json_data Input parameter.
+ * @return Return value.
+ * @details Calls: json::parse(), is_array(), spdlog::error(), contains(), value(), empty(), push_back(), clear().
+ */
 std::vector<InstructionDataSample> loadShareGPTFormat(const std::string& json_data) {
     std::vector<InstructionDataSample> samples;
     
@@ -520,6 +617,12 @@ std::vector<InstructionDataSample> loadShareGPTFormat(const std::string& json_da
     return samples;
 }
 
+/**
+ * @brief Create Toy Dataset.
+ * @param[in] num_samples Input parameter.
+ * @return Return value.
+ * @details Calls: gen(), rd(), dis(), std::to_string(), push_back().
+ */
 std::vector<InstructionDataSample> createToyDataset(size_t num_samples) {
     std::vector<InstructionDataSample> samples;
     

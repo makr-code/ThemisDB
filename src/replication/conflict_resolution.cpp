@@ -41,10 +41,9 @@ namespace replication {
 namespace {
 
 /**
- * Select the write with the highest HLC timestamp.
- * Used as the LWW tie-breaker when vector-clock comparison is ambiguous.
- * 
- * @throws std::invalid_argument if writes vector is empty
+ * @brief Pick Latest Hlc.
+ * @param[in] writes Input parameter.
+ * @return Return value.
  */
 const MMWriteEntry& pickLatestHlc(const std::vector<MMWriteEntry>& writes)
 {
@@ -60,21 +59,6 @@ const MMWriteEntry& pickLatestHlc(const std::vector<MMWriteEntry>& writes)
         });
 }
 
-/**
- * Parse top-level fields from a JSON object string into a key→value map.
- * 
- * This parser is intentionally lenient to handle partially-formed JSON and gracefully
- * degrade when encountering malformed input. It extracts key-value pairs at the top level
- * and preserves raw JSON syntax for nested objects/arrays.
- * 
- * BATCH B FIX: Exception safety and defensive parsing
- * - Returns empty map on invalid JSON instead of throwing
- * - Bounds-checks all pointer operations (BATCH D)
- * - Handles escape sequences correctly
- * 
- * @param json JSON object string (must start with '{')
- * @return Map of top-level key-value pairs; empty map if parsing fails
- */
 std::map<std::string, std::string> parseTopLevelFields(const std::string& json)
 {
     std::map<std::string, std::string> fields;
@@ -285,6 +269,11 @@ std::string buildJson(const std::map<std::string, std::string>& fields)
     }
 }
 
+/**
+ * @brief Compute Mm Checksum.
+ * @param[in] entry Input parameter.
+ * @return Return value.
+ */
 std::string computeMmChecksum(const MMWriteEntry& entry)
 {
     std::string content = entry.operation + entry.collection + entry.document_id + entry.data;
@@ -298,16 +287,10 @@ std::string computeMmChecksum(const MMWriteEntry& entry)
 }
 
 /**
- * Enrich a winner write with causality metadata from all conflicting writes.
- * 
- * BATCH B FIX: Exception-safe state management
- * This function implements transaction-like semantics: all metadata enrichment
- * is performed on a local copy before returning. If any operation throws,
- * the original winner is returned unchanged (fail-safe behavior).
- * 
- * @param winner The initially selected write entry
- * @param conflicting_writes All conflicting writes to merge metadata from
- * @return Enriched winner with merged vector clock, dependencies, and HLC
+ * @brief Enrich Winner With Causality.
+ * @param[in] winner Input parameter.
+ * @param[in] conflicting_writes Input parameter.
+ * @return Return value.
  */
 MMWriteEntry enrichWinnerWithCausality(
     const MMWriteEntry& winner,
@@ -474,6 +457,13 @@ std::string ThreeWayMergeResolver::mergeJson(
     }
 }
 
+/**
+ * @brief Resolve.
+ * @param[in] param Input parameter.
+ * @param[in] conflicting_writes Input parameter.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ */
 MMWriteEntry ThreeWayMergeResolver::resolve(
     const std::string&                /*document_id*/,
     const std::vector<MMWriteEntry>&  conflicting_writes,
@@ -675,6 +665,13 @@ std::string FieldLevelMergeResolver::mergeFields(
     }
 }
 
+/**
+ * @brief Resolve.
+ * @param[in] param Input parameter.
+ * @param[in] conflicting_writes Input parameter.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ */
 MMWriteEntry FieldLevelMergeResolver::resolve(
     const std::string&                /*document_id*/,
     const std::vector<MMWriteEntry>&  conflicting_writes,

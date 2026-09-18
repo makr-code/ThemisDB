@@ -22,39 +22,27 @@ class WALApplier;
 namespace server {
 
 // gRPC WAL Apply service wrapper with optional non-proto service injection.
-/** @brief gRPC WAL Apply service wrapper with optional non-proto service injection. */
 class WalGrpcService {
 public:
-    /// Callback type that provides an opaque grpc::Service* to the wrapper
-    /// when the generated proto stubs are absent from the build.
     using ServiceFn = std::function<void*()>;
 
+    /**
+     * @brief Wal Grpc Service.
+     * @param[in] wal_applier Input parameter.
+     * @return Return value.
+     */
     explicit WalGrpcService(std::shared_ptr<sharding::WALApplier> wal_applier);
     ~WalGrpcService();
 
     /**
-     * @brief Return the underlying grpc::Service pointer for registration.
-     *
-     * Returns the concrete service implementation when shard gRPC headers are
-     * available.
-     *
-     * In non-proto builds, this returns nullptr unless a callback is registered
-     * via setServiceFn() and returns a non-null service pointer.
+     * @brief Service.
+     * @return Pointer to the result.
      */
     void* service();
 
     /**
-     * @brief Configure a process-wide callback that provides a grpc::Service*.
-     *
-     * Used in non-proto builds (THEMIS_HAS_SHARD_GRPC == 0) to wire a service
-     * instance obtained from another module (e.g. dynamically loaded generated
-     * stubs). The callback is invoked once during construction.
-     *
-     * A missing callback leaves the endpoint disabled (service() returns nullptr).
-     * A thrown callback exception or nullptr callback result causes constructor
-     * failure via std::runtime_error.
-     *
-     * Pass an empty function to remove a previously registered callback.
+     * @brief Set Service Fn.
+     * @param[in] fn Input parameter.
      */
     static void setServiceFn(ServiceFn fn);
 

@@ -19,6 +19,11 @@ namespace themis {
 namespace scheduler {
 
 // UUID generation
+/**
+ * @brief Generate UUID.
+ * @return Return value.
+ * @details Calls: rd(), std::setfill(), std::setw(), str().
+ */
 std::string generateUUID() {
     // GAP-019: Use std::random_device directly for cryptographic-quality randomness.
     // Audit event UUIDs must be unguessable to prevent enumeration attacks.
@@ -43,7 +48,13 @@ std::string generateUUID() {
     return oss.str();
 }
 
-// Data masking for GDPR compliance
+/**
+ * @brief Data masking for GDPR compliance
+ * @param[in] data Input parameter.
+ * @param[in] mask_type Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), SHA256(), c_str(), length(), std::setw(), std::setfill(), str(), substr().
+ */
 std::string maskSensitiveData(const std::string& data, const std::string& mask_type) {
     if (data.empty()) {
         return data;
@@ -71,6 +82,12 @@ std::string maskSensitiveData(const std::string& data, const std::string& mask_t
 }
 
 // Event type conversions
+/**
+ * @brief Task Event Type To String.
+ * @param[in] type Input parameter.
+ * @return Return value.
+ * @details Implements taskEventTypeToString without additional internal calls.
+ */
 std::string taskEventTypeToString(TaskEventType type) {
     switch (type) {
         case TaskEventType::TASK_REGISTERED: return "TASK_REGISTERED";
@@ -94,6 +111,12 @@ std::string taskEventTypeToString(TaskEventType type) {
     }
 }
 
+/**
+ * @brief Task Security Event Type To String.
+ * @param[in] type Input parameter.
+ * @return Return value.
+ * @details Implements taskSecurityEventTypeToString without additional internal calls.
+ */
 std::string taskSecurityEventTypeToString(TaskSecurityEventType type) {
     switch (type) {
         case TaskSecurityEventType::RATE_LIMIT_EXCEEDED: return "RATE_LIMIT_EXCEEDED";
@@ -110,6 +133,12 @@ std::string taskSecurityEventTypeToString(TaskSecurityEventType type) {
     }
 }
 
+/**
+ * @brief Task Event Type From String.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Implements taskEventTypeFromString without additional internal calls.
+ */
 TaskEventType taskEventTypeFromString(const std::string& s) {
     if (s == "TASK_REGISTERED") {
       return TaskEventType::TASK_REGISTERED;

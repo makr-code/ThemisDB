@@ -34,6 +34,11 @@ FlushController::FlushController(FlushControllerConfig config)
 // reportFlushLatency
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Report Flush Latency.
+ * @param[in] latency_ms Input parameter.
+ * @details Calls: lock(), updateBatchSize(), THEMIS_WARN(), THEMIS_INFO(), notify_all().
+ */
 void FlushController::reportFlushLatency(double latency_ms) {
     std::lock_guard<std::mutex> lock(mutex_);
 
@@ -70,9 +75,10 @@ void FlushController::reportFlushLatency(double latency_ms) {
     }
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// updateBatchSize (mutex_ held by caller)
-// ─────────────────────────────────────────────────────────────────────────────
+/**
+ * @brief ───────────────────────────────────────────────────────────────────────────── updateBatchSize (mutex_ held by caller) ─────────────────────────────────────────────────────────────────────────────
+ * @details Calls: std::floor(), std::max(), std::ceil(), std::min(), THEMIS_INFO().
+ */
 
 void FlushController::updateBatchSize() {
     double threshold   = config_.slo_threshold_ms;
@@ -103,6 +109,13 @@ void FlushController::updateBatchSize() {
 // checkBackpressure
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Check Backpressure.
+ * @param[in] buffered_points Input parameter.
+ * @param[in] timeout Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), wait_for().
+ */
 bool FlushController::checkBackpressure(size_t                    buffered_points,
                                          std::chrono::milliseconds timeout) {
     std::unique_lock<std::mutex> lock(mutex_);
@@ -123,6 +136,11 @@ bool FlushController::checkBackpressure(size_t                    buffered_point
 // notifyDrained
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Notify Drained.
+ * @param[in] remaining_points Input parameter.
+ * @details Calls: lock(), notify_all().
+ */
 void FlushController::notifyDrained(size_t remaining_points) {
     std::lock_guard<std::mutex> lock(mutex_);
     current_buffered_ = remaining_points;
@@ -136,21 +154,41 @@ void FlushController::notifyDrained(size_t remaining_points) {
 // ─────────────────────────────────────────────────────────────────────────────
 
 size_t FlushController::recommendedBatchSize() const noexcept {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return batch_size_;
 }
 
 double FlushController::ewmaLatencyMs() const noexcept {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return ewma_latency_ms_;
 }
 
 bool FlushController::isBackpressureActive() const noexcept {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return backpressure_;
 }
 
 FlushControllerStats FlushController::stats() const noexcept {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     FlushControllerStats s;
     s.ewma_latency_ms    = ewma_latency_ms_;

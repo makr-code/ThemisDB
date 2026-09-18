@@ -21,7 +21,12 @@ namespace toolbox {
 
 namespace {
 
-/// Split @p text on whitespace and return lower-cased tokens.
+/**
+ * @brief Tokenize.
+ * @param[in] text Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), buf(), iss(), push_back(), utils::toLower().
+ */
 std::vector<std::string> tokenize(std::string_view text) {
     std::vector<std::string> tokens;
     // Pre-allocate estimated capacity to reduce push_back overhead
@@ -84,6 +89,12 @@ std::string DefaultLanguageDetector::detect(std::string_view text) const {
 // Free function
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Detect Language.
+ * @param[in] text Input parameter.
+ * @return Return value.
+ * @details Calls: detect().
+ */
 std::string detectLanguage(std::string_view text) {
     return DefaultLanguageDetector{}.detect(text);
 }

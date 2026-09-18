@@ -39,8 +39,6 @@ const char* attackCategoryName(AttackCategory category) noexcept {
 
 namespace {
 
-/// Patterns derived from OWASP LLM Top 10 (2023) and common jailbreak research.
-/// Case-insensitive substring matching is used.
 static const char* kBlocklistPatterns[] = {
     // Jailbreak
     "ignore previous instructions",
@@ -75,6 +73,13 @@ static const char* kBlocklistPatterns[] = {
     nullptr  // sentinel
 };
 
+/**
+ * @brief Contains Ignore Case.
+ * @param[in] haystack Input parameter.
+ * @param[in] needle Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), std::search(), begin(), end(), std::tolower().
+ */
 bool containsIgnoreCase(const std::string& haystack, const std::string& needle) {
     if (needle.empty()) {
       return false;
@@ -94,6 +99,12 @@ bool containsIgnoreCase(const std::string& haystack, const std::string& needle) 
 // Default detector
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Default Detect.
+ * @param[in] payload Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: containsIgnoreCase().
+ */
 bool SimpleAdversarialTester::defaultDetect(const std::string& payload) {
     for (int i = 0; kBlocklistPatterns[i] != nullptr; ++i) {
         if (containsIgnoreCase(payload, kBlocklistPatterns[i])) {
@@ -110,6 +121,11 @@ bool SimpleAdversarialTester::defaultDetect(const std::string& payload) {
 SimpleAdversarialTester::SimpleAdversarialTester()
     : detector_fn_(&SimpleAdversarialTester::defaultDetect) {}
 
+/**
+ * @brief Set Detector Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: std::move().
+ */
 void SimpleAdversarialTester::setDetectorFn(DetectorFn fn) {
     if (fn) {
       detector_fn_ = std::move(fn);
@@ -120,6 +136,12 @@ void SimpleAdversarialTester::setDetectorFn(DetectorFn fn) {
 // addTestCase()
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Add Test Case.
+ * @param[in] test_case Input parameter.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: std::find_if(), begin(), end(), push_back(), std::move().
+ */
 void SimpleAdversarialTester::addTestCase(AdversarialTestCase test_case) {
     const auto it = std::find_if(cases_.begin(), cases_.end(),
                                   [&](const AdversarialTestCase& c) {
@@ -137,6 +159,10 @@ void SimpleAdversarialTester::addTestCase(AdversarialTestCase test_case) {
 // loadDefaultTestSuite()
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Load Default Test Suite.
+ * @details Calls: std::find_if(), begin(), end(), push_back().
+ */
 void SimpleAdversarialTester::loadDefaultTestSuite() {
     // Each entry: {id, category, payload, expected_blocked}
     static const struct {

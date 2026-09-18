@@ -21,6 +21,13 @@ namespace storage {
 // ─────────────────────────────────────────────────────────────────────────────
 namespace {
 
+/**
+ * @brief Cv crc32.
+ * @param[in] data Input parameter.
+ * @param[in] len Input parameter.
+ * @return Return value.
+ * @details Implements cv_crc32 without additional internal calls.
+ */
 static uint32_t cv_crc32(const void* data, size_t len) {
     static const auto table = []() {
         std::array<uint32_t, 256> t{};
@@ -73,6 +80,12 @@ std::vector<uint8_t> CompressedValue::serialize() const {
     return result;
 }
 
+/**
+ * @brief Deserialize.
+ * @param[in] bytes Input parameter.
+ * @return Return value.
+ * @details Calls: size(), cv_crc32(), data(), assign(), begin().
+ */
 std::optional<CompressedValue> CompressedValue::deserialize(const std::vector<uint8_t>& bytes) {
     // Minimum: 1 (method) + 8 (size) + 4 (CRC) = 13
     constexpr size_t kMinWithCrc = 13;
@@ -130,6 +143,14 @@ CompressedStorageWrapper::CompressedStorageWrapper(
     , compressor_(config)
 {}
 
+/**
+ * @brief Put.
+ * @param[in] key Input parameter.
+ * @param[in] value Input parameter.
+ * @param[in] hint Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: compress(), std::move(), serialize().
+ */
 bool CompressedStorageWrapper::put(
     const std::string& key,
     const std::vector<uint8_t>& value,
@@ -153,6 +174,12 @@ bool CompressedStorageWrapper::put(
     return backend_->put(key, serialized);
 }
 
+/**
+ * @brief Get.
+ * @param[in] key Input parameter.
+ * @return Return value.
+ * @details Calls: CompressedValue::deserialize(), decompress(), empty().
+ */
 std::optional<std::vector<uint8_t>> CompressedStorageWrapper::get(const std::string& key) {
     if (!backend_) {
       return std::nullopt;
@@ -193,6 +220,12 @@ ColumnCompressedStorage::ColumnCompressedStorage(
     : backend_(std::move(backend))
 {}
 
+/**
+ * @brief Configure column.
+ * @param[in] column Input parameter.
+ * @param[in] config Input parameter.
+ * @details Calls: lock().
+ */
 void ColumnCompressedStorage::configure_column(
     const std::string& column,
     const compression::CompressionConfig& config
@@ -202,6 +235,15 @@ void ColumnCompressedStorage::configure_column(
     column_compressors_[column] = std::make_unique<compression::CompressionStrategyManager>(config);
 }
 
+/**
+ * @brief Put.
+ * @param[in] column Input parameter.
+ * @param[in] key Input parameter.
+ * @param[in] value Input parameter.
+ * @param[in] hint Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), find(), end(), get(), compress(), std::move(), serialize(), make_full_key().
+ */
 bool ColumnCompressedStorage::put(
     const std::string& column,
     const std::string& key,
@@ -239,6 +281,13 @@ bool ColumnCompressedStorage::put(
     return backend_->put(make_full_key(column, key), serialized);
 }
 
+/**
+ * @brief Get.
+ * @param[in] column Input parameter.
+ * @param[in] key Input parameter.
+ * @return Return value.
+ * @details Calls: make_full_key(), CompressedValue::deserialize(), lock(), find(), end(), decompress(), empty().
+ */
 std::optional<std::vector<uint8_t>> ColumnCompressedStorage::get(
     const std::string& column,
     const std::string& key
@@ -284,6 +333,13 @@ std::optional<std::vector<uint8_t>> ColumnCompressedStorage::get(
     return decompressed;
 }
 
+/**
+ * @brief Del.
+ * @param[in] column Input parameter.
+ * @param[in] key Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: make_full_key().
+ */
 bool ColumnCompressedStorage::del(const std::string& column, const std::string& key) {
     if (!backend_) {
       return false;
@@ -292,6 +348,11 @@ bool ColumnCompressedStorage::del(const std::string& column, const std::string& 
 }
 
 std::string ColumnCompressedStorage::get_all_column_stats() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     std::string result = "=== Column Compression Statistics ===\n\n";
     
@@ -309,6 +370,11 @@ std::string ColumnCompressedStorage::get_all_column_stats() const {
 }
 
 std::string ColumnCompressedStorage::get_column_stats(const std::string& column) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = column_compressors_.find(column);
     if (it == column_compressors_.end()) {

@@ -32,16 +32,24 @@ namespace llm_wiki {
 
 namespace {
 
-/// Convert a `rocksdb::Status` error into a ThemisDB `Status::Error`.
+/**
+ * @brief To Themis Error.
+ * @param[in] rdb_status Input parameter.
+ * @return Return value.
+ * @details Calls: Status::Error(), ToString().
+ */
 Status toThemisError(const rocksdb::Status& rdb_status) {
     return Status::Error("RocksDB error: " + rdb_status.ToString());
 }
 
 }  // namespace
 
-// ─────────────────────────────────────────────────────────────────────────────
-// RocksDbWikiStore::open
-// ─────────────────────────────────────────────────────────────────────────────
+/**
+ * @brief ───────────────────────────────────────────────────────────────────────────── RocksDbWikiStore::open ─────────────────────────────────────────────────────────────────────────────
+ * @param[in] db_path Path to the db.
+ * @return Return value.
+ * @details Calls: empty(), Status::Error(), std::filesystem::create_directories(), message(), themis::storage::detail::openDbCompat(), ok(), toThemisError(), Status::Ok().
+ */
 
 Status RocksDbWikiStore::open(const std::string& db_path) {
     if (db_path.empty()) {
@@ -78,9 +86,10 @@ Status RocksDbWikiStore::open(const std::string& db_path) {
     return Status::Ok();
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// RocksDbWikiStore::close
-// ─────────────────────────────────────────────────────────────────────────────
+/**
+ * @brief ───────────────────────────────────────────────────────────────────────────── RocksDbWikiStore::close ─────────────────────────────────────────────────────────────────────────────
+ * @details Calls: FlushWAL(), clear().
+ */
 
 void RocksDbWikiStore::close() {
     if (!db_) {
@@ -95,9 +104,13 @@ void RocksDbWikiStore::close() {
     db_path_.clear();
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// RocksDbWikiStore::put
-// ─────────────────────────────────────────────────────────────────────────────
+/**
+ * @brief ───────────────────────────────────────────────────────────────────────────── RocksDbWikiStore::put ─────────────────────────────────────────────────────────────────────────────
+ * @param[in] key Input parameter.
+ * @param[in] value_json Input parameter.
+ * @return Return value.
+ * @details Calls: Status::Error(), Put(), rocksdb::Slice(), ok(), toThemisError(), Status::Ok().
+ */
 
 Status RocksDbWikiStore::put(const std::string& key,
                               const std::string& value_json) {
@@ -138,9 +151,12 @@ std::pair<Status, std::string> RocksDbWikiStore::get(
     return {Status::Ok(), std::move(value)};
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// RocksDbWikiStore::remove
-// ─────────────────────────────────────────────────────────────────────────────
+/**
+ * @brief ───────────────────────────────────────────────────────────────────────────── RocksDbWikiStore::remove ─────────────────────────────────────────────────────────────────────────────
+ * @param[in] key Input parameter.
+ * @return Return value.
+ * @details Calls: Status::Error(), Delete(), rocksdb::Slice(), ok(), IsNotFound(), toThemisError(), Status::Ok().
+ */
 
 Status RocksDbWikiStore::remove(const std::string& key) {
     if (!db_) {

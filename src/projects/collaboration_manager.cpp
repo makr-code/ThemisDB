@@ -31,6 +31,12 @@ json Change::toJson() const {
     };
 }
 
+/**
+ * @brief From Json.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: value().
+ */
 Change Change::fromJson(const json& j) {
     Change c;
     c.project_id  = j.value("project_id",  std::string{});
@@ -75,7 +81,13 @@ std::optional<Permission> CollaborationManager::permissionFromString(
     return std::nullopt;
 }
 
-// ── Sharing ───────────────────────────────────────────────────────────────────
+/**
+ * @brief ── Sharing ───────────────────────────────────────────────────────────────────
+ * @param[in] project_id Identifier of the project.
+ * @param[in] users Input parameter.
+ * @param[in] permission Input parameter.
+ * @return Return value.
+ */
 
 Status CollaborationManager::shareProject(
     const std::string&       project_id,
@@ -101,6 +113,12 @@ Status CollaborationManager::shareProject(
     return Status::OK();
 }
 
+/**
+ * @brief Revoke Access.
+ * @param[in] project_id Identifier of the project.
+ * @param[in] user_id Identifier of the user.
+ * @return Return value.
+ */
 Status CollaborationManager::revokeAccess(
     const std::string& project_id,
     const std::string& user_id)
@@ -125,19 +143,33 @@ std::optional<Permission> CollaborationManager::getUserPermission(
     return permissionFromString(val);
 }
 
-// ── Event subscriptions ───────────────────────────────────────────────────────
+/**
+ * @brief ── Event subscriptions ───────────────────────────────────────────────────────
+ * @param[in] callback Input parameter.
+ * @details Calls: lock(), push_back(), std::move().
+ */
 
 void CollaborationManager::subscribe(ProjectEventCallback callback) {
     std::unique_lock lock(subscribers_mutex_);
     subscribers_.push_back(std::move(callback));
 }
 
+/**
+ * @brief Unsubscribe All.
+ * @details Calls: lock(), clear().
+ */
 void CollaborationManager::unsubscribeAll() {
     std::unique_lock lock(subscribers_mutex_);
     subscribers_.clear();
 }
 
-// ── Optimistic locking ────────────────────────────────────────────────────────
+/**
+ * @brief ── Optimistic locking ────────────────────────────────────────────────────────
+ * @param[in] project_id Identifier of the project.
+ * @param[in] object_name Name of the object.
+ * @param[in] locker_id Identifier of the locker.
+ * @return Return value.
+ */
 
 Status CollaborationManager::lockObject(
     const std::string& project_id,
@@ -152,6 +184,11 @@ Status CollaborationManager::lockObject(
     if (locker_id.empty())
         return Status::Error("lockObject: locker_id must not be empty");
 
+    /**
+     * @brief Lock.
+     * @param[in] locks_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::unique_lock lock(locks_mutex_);
     const std::string composite = project_id + ":" + object_name;
     auto it = locks_.find(composite);
@@ -165,6 +202,13 @@ Status CollaborationManager::lockObject(
     return Status::OK();
 }
 
+/**
+ * @brief Unlock Object.
+ * @param[in] project_id Identifier of the project.
+ * @param[in] object_name Name of the object.
+ * @param[in] locker_id Identifier of the locker.
+ * @return Return value.
+ */
 Status CollaborationManager::unlockObject(
     const std::string& project_id,
     const std::string& object_name,
@@ -178,6 +222,11 @@ Status CollaborationManager::unlockObject(
     if (locker_id.empty())
         return Status::Error("unlockObject: locker_id must not be empty");
 
+    /**
+     * @brief Lock.
+     * @param[in] locks_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::unique_lock lock(locks_mutex_);
     const std::string composite = project_id + ":" + object_name;
     auto it = locks_.find(composite);
@@ -196,26 +245,56 @@ bool CollaborationManager::isLocked(
     const std::string& project_id,
     const std::string& object_name) const
 {
+    /**
+     * @brief Lock.
+     * @param[in] locks_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock lock(locks_mutex_);
     return locks_.count(project_id + ":" + object_name) > 0;
 }
 
-// ── Audit log DI ─────────────────────────────────────────────────────────────
+/**
+ * @brief ── Audit log DI ─────────────────────────────────────────────────────────────
+ * @param[in] log Input parameter.
+ */
 
 void CollaborationManager::setAuditLog(std::shared_ptr<IProjectAuditLog> log)
 {
+    /**
+     * @brief Lock.
+     * @param[in] audit_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::unique_lock lock(audit_mutex_);
     audit_log_ = std::move(log);
 }
 
+/**
+ * @brief Clear Audit Log.
+ */
 void CollaborationManager::clearAuditLog()
 {
+    /**
+     * @brief Lock.
+     * @param[in] audit_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::unique_lock lock(audit_mutex_);
     audit_log_.reset();
 }
 
+/**
+ * @brief Set Metrics.
+ * @param[in] metrics Input parameter.
+ */
 void CollaborationManager::setMetrics(std::shared_ptr<ProjectMetrics> metrics)
 {
+    /**
+     * @brief Lock.
+     * @param[in] metrics_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::unique_lock lock(metrics_mutex_);
     metrics_ = std::move(metrics);
 }
@@ -226,6 +305,11 @@ std::vector<Change> CollaborationManager::getChanges(
     const std::string& project_id,
     int64_t            since_timestamp) const
 {
+    /**
+     * @brief Lock.
+     * @param[in] log_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock lock(log_mutex_);
     std::vector<Change> result = {};
 
@@ -239,6 +323,11 @@ std::vector<Change> CollaborationManager::getChanges(
     return result;
 }
 
+/**
+ * @brief Notify Change.
+ * @param[in] change Input parameter.
+ * @details Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), std::to_string(), put(), toJson(), dump(), lock().
+ */
 void CollaborationManager::notifyChange(const Change& change) {
     // Persist to storage
     const auto now_ns = std::chrono::duration_cast<std::chrono::nanoseconds>(

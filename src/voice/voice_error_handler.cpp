@@ -16,7 +16,12 @@
 
 namespace themis { namespace voice {
 
-// ---- Free functions ----
+/**
+ * @brief ---- Free functions ----
+ * @param[in] code Input parameter.
+ * @return Return value.
+ * @details Implements errorCodeToString without additional internal calls.
+ */
 
 std::string errorCodeToString(VoiceErrorCode code) {
     switch (code) {
@@ -39,6 +44,12 @@ std::string errorCodeToString(VoiceErrorCode code) {
     }
 }
 
+/**
+ * @brief Circuit State To String.
+ * @param[in] state Input parameter.
+ * @return Return value.
+ * @details Implements circuitStateToString without additional internal calls.
+ */
 std::string circuitStateToString(CircuitState state) {
     switch (state) {
         case CircuitState::CLOSED:    return "CLOSED";
@@ -63,6 +74,11 @@ int64_t VoiceCircuitBreaker::nowMs() const {
         std::chrono::steady_clock::now().time_since_epoch()).count();
 }
 
+/**
+ * @brief Can Call.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), nowMs().
+ */
 bool VoiceCircuitBreaker::canCall() {
     std::lock_guard<std::mutex> lock(mutex_);
     switch (state_) {
@@ -93,6 +109,10 @@ bool VoiceCircuitBreaker::canCall() {
     }
 }
 
+/**
+ * @brief Record Success.
+ * @details Calls: lock(), nowMs().
+ */
 void VoiceCircuitBreaker::recordSuccess() {
     std::lock_guard<std::mutex> lock(mutex_);
     ++successful_calls_;
@@ -109,6 +129,10 @@ void VoiceCircuitBreaker::recordSuccess() {
     }
 }
 
+/**
+ * @brief Record Failure.
+ * @details Calls: lock(), nowMs().
+ */
 void VoiceCircuitBreaker::recordFailure() {
     std::lock_guard<std::mutex> lock(mutex_);
     ++failure_count_;
@@ -126,6 +150,10 @@ void VoiceCircuitBreaker::recordFailure() {
     }
 }
 
+/**
+ * @brief Reset the modification detection flag.
+ * @details Calls: lock().
+ */
 void VoiceCircuitBreaker::reset() {
     std::lock_guard<std::mutex> lock(mutex_);
     state_ = CircuitState::CLOSED;
@@ -136,11 +164,21 @@ void VoiceCircuitBreaker::reset() {
 }
 
 CircuitState VoiceCircuitBreaker::getState() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return state_;
 }
 
 json VoiceCircuitBreaker::getStats() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     json stats;
     stats["name"]           = name_;
@@ -171,7 +209,11 @@ json VoiceRetryHandler::getStats() const {
     return stats;
 }
 
-// ---- VoiceFallbackStrategy ----
+/**
+ * @brief ---- VoiceFallbackStrategy ----
+ * @param[in] error_context Input parameter.
+ * @return Return value.
+ */
 
 VoiceFallbackStrategy::FallbackResult VoiceFallbackStrategy::sttFallback(
     const std::string& error_context)
@@ -183,6 +225,11 @@ VoiceFallbackStrategy::FallbackResult VoiceFallbackStrategy::sttFallback(
     return res;
 }
 
+/**
+ * @brief Tts Fallback.
+ * @param[in] error_context Input parameter.
+ * @return Return value.
+ */
 VoiceFallbackStrategy::FallbackResult VoiceFallbackStrategy::ttsFallback(
     const std::string& error_context)
 {
@@ -193,6 +240,11 @@ VoiceFallbackStrategy::FallbackResult VoiceFallbackStrategy::ttsFallback(
     return res;
 }
 
+/**
+ * @brief Llm Fallback.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ */
 VoiceFallbackStrategy::FallbackResult VoiceFallbackStrategy::llmFallback(
     const std::string& /*user_input*/)
 {
@@ -203,6 +255,11 @@ VoiceFallbackStrategy::FallbackResult VoiceFallbackStrategy::llmFallback(
     return res;
 }
 
+/**
+ * @brief Session Fallback.
+ * @param[in] session_id Identifier of the session.
+ * @return Return value.
+ */
 VoiceFallbackStrategy::FallbackResult VoiceFallbackStrategy::sessionFallback(
     const std::string& session_id)
 {
@@ -222,15 +279,52 @@ VoiceErrorHandler::VoiceErrorHandler()
     , storage_circuit_("storage")
 {}
 
+/**
+ * @brief Stt Circuit.
+ * @return Return value.
+ * @details Implements sttCircuit without additional internal calls.
+ */
 VoiceCircuitBreaker& VoiceErrorHandler::sttCircuit()     { return stt_circuit_; }
+/**
+ * @brief Tts Circuit.
+ * @return Return value.
+ * @details Implements ttsCircuit without additional internal calls.
+ */
 VoiceCircuitBreaker& VoiceErrorHandler::ttsCircuit()     { return tts_circuit_; }
+/**
+ * @brief Llm Circuit.
+ * @return Return value.
+ * @details Implements llmCircuit without additional internal calls.
+ */
 VoiceCircuitBreaker& VoiceErrorHandler::llmCircuit()     { return llm_circuit_; }
+/**
+ * @brief Storage Circuit.
+ * @return Return value.
+ * @details Implements storageCircuit without additional internal calls.
+ */
 VoiceCircuitBreaker& VoiceErrorHandler::storageCircuit() { return storage_circuit_; }
+/**
+ * @brief Get Retry Handler.
+ * @return Return value.
+ * @details Implements getRetryHandler without additional internal calls.
+ */
 VoiceRetryHandler&   VoiceErrorHandler::getRetryHandler(){ return retry_handler_; }
 
+/**
+ * @brief Handle Error.
+ * @param[in] code Input parameter.
+ * @param[in] context Input parameter.
+ * @param[in] details Input parameter.
+ * @return Return value.
+ */
 json VoiceErrorHandler::handleError(
     VoiceErrorCode code, const std::string& context, const std::string& details)
 {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     ++total_errors_;
 
@@ -285,21 +379,34 @@ json VoiceErrorHandler::getHealthStatus() const {
     status["storage_circuit"]  = storage_circuit_.getStats();
     status["retry_stats"]      = retry_handler_.getStats();
     {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         status["total_errors"] = total_errors_;
     }
     return status;
 }
 
-// ============================================================================
-// Phase 3: Error Context with Diagnostics and Audit Trail
-// ============================================================================
+/**
+ * @brief ============================================================================ Phase 3: Error Context with Diagnostics and Audit Trail ============================================================================
+ * @param[in] ctx Input parameter.
+ * @return Return value.
+ * @details Calls: toJson().
+ */
 
 json VoiceErrorHandler::createErrorContext(const ErrorContext& ctx) {
     // Phase 3.7: Structured error context with no sensitive data
     return ctx.toJson();
 }
 
+/**
+ * @brief Log Error With Context.
+ * @param[in] ctx Input parameter.
+ * @details Calls: toJson(), spdlog::error(), dump(), lock().
+ */
 void VoiceErrorHandler::logErrorWithContext(const ErrorContext& ctx) {
     // Phase 3.7: Log error context without sensitive data (credentials masked)
     json log_entry = ctx.toJson();

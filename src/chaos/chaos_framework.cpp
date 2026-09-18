@@ -49,6 +49,13 @@ std::string FaultInjector::faultTypeName(FaultType type) noexcept {
     return "UNKNOWN";
 }
 
+/**
+ * @brief Make Key.
+ * @param[in] node_id Identifier of the node.
+ * @param[in] type Input parameter.
+ * @return Return value.
+ * @details Calls: faultTypeName().
+ */
 std::string FaultInjector::makeKey(const std::string &node_id, FaultType type) {
     return node_id + "::" + faultTypeName(type);
 }
@@ -61,6 +68,12 @@ FaultInjector::~FaultInjector() {
     clearAllFaults();
 }
 
+/**
+ * @brief Inject Fault.
+ * @param[in] fault Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), makeKey(), std::chrono::steady_clock::now(), count(), std::chrono::steady_clock::time_point::max(), lock(), emplace(), cb().
+ */
 bool FaultInjector::injectFault(const FaultSpec &fault) {
     if (fault.target_node_id.empty()) {
         return false;
@@ -96,6 +109,12 @@ bool FaultInjector::injectFault(const FaultSpec &fault) {
     return true;
 }
 
+/**
+ * @brief Recover Fault.
+ * @param[in] target_node_id Identifier of the target node.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), begin(), end(), cb(), erase().
+ */
 bool FaultInjector::recoverFault(const std::string &target_node_id) {
     std::lock_guard<std::mutex> lock(fault_mutex_);
     bool any = false;
@@ -114,6 +133,13 @@ bool FaultInjector::recoverFault(const std::string &target_node_id) {
     return any;
 }
 
+/**
+ * @brief Recover Fault.
+ * @param[in] target_node_id Identifier of the target node.
+ * @param[in] type Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: makeKey(), lock(), find(), end(), cb(), erase().
+ */
 bool FaultInjector::recoverFault(const std::string &target_node_id, FaultType type) {
     const std::string key = makeKey(target_node_id, type);
     std::lock_guard<std::mutex> lock(fault_mutex_);
@@ -129,6 +155,11 @@ bool FaultInjector::recoverFault(const std::string &target_node_id, FaultType ty
 }
 
 bool FaultInjector::isFaultActive(const std::string &target_node_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] fault_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(fault_mutex_);
     for (const auto &[key, af] : active_faults_) {
         if (af.spec.target_node_id == target_node_id && !af.isExpired()) {
@@ -140,6 +171,11 @@ bool FaultInjector::isFaultActive(const std::string &target_node_id) const {
 
 bool FaultInjector::isFaultActive(const std::string &target_node_id, FaultType type) const {
     const std::string key = makeKey(target_node_id, type);
+    /**
+     * @brief Lock.
+     * @param[in] fault_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(fault_mutex_);
     auto it = active_faults_.find(key);
     if (it == active_faults_.end()) {
@@ -148,6 +184,11 @@ bool FaultInjector::isFaultActive(const std::string &target_node_id, FaultType t
     return !it->second.isExpired();
 }
 
+/**
+ * @brief Get Active Faults.
+ * @return Return value.
+ * @details Calls: pruneExpired(), lock(), reserve(), size(), push_back().
+ */
 std::vector<ActiveFault> FaultInjector::getActiveFaults() {
     pruneExpired();
     std::lock_guard<std::mutex> lock(fault_mutex_);
@@ -160,21 +201,39 @@ std::vector<ActiveFault> FaultInjector::getActiveFaults() {
     return result;
 }
 
+/**
+ * @brief Active Fault Count.
+ * @return Return value.
+ * @details Calls: pruneExpired(), lock(), size().
+ */
 size_t FaultInjector::activeFaultCount() {
     pruneExpired();
     std::lock_guard<std::mutex> lock(fault_mutex_);
     return active_faults_.size();
 }
 
+/**
+ * @brief Clear All Faults.
+ * @details Calls: lock(), clear().
+ */
 void FaultInjector::clearAllFaults() {
     std::lock_guard<std::mutex> lock(fault_mutex_);
     active_faults_.clear();
 }
 
+/**
+ * @brief Register Event Callback.
+ * @param[in] cb Input parameter.
+ * @details Calls: push_back(), std::move().
+ */
 void FaultInjector::registerEventCallback(EventCallback cb) {
     callbacks_.push_back(std::move(cb));
 }
 
+/**
+ * @brief Prune Expired.
+ * @details Calls: lock(), begin(), end(), isExpired(), erase().
+ */
 void FaultInjector::pruneExpired() {
     std::lock_guard<std::mutex> lock(fault_mutex_);
     auto it = active_faults_.begin();
@@ -200,6 +259,11 @@ ChaosScheduler::~ChaosScheduler() {
     stop();
 }
 
+/**
+ * @brief Schedule.
+ * @param[in] entry Input parameter.
+ * @details Calls: lock(), push_back(), std::move(), notify_one().
+ */
 void ChaosScheduler::schedule(ChaosScheduleEntry entry) {
     {
         std::lock_guard<std::mutex> lock(sched_mutex_);
@@ -208,10 +272,20 @@ void ChaosScheduler::schedule(ChaosScheduleEntry entry) {
     sched_cv_.notify_one();
 }
 
+/**
+ * @brief Schedule In.
+ * @param[in] delay Input parameter.
+ * @param[in] fault Input parameter.
+ * @details Calls: schedule(), std::chrono::steady_clock::now().
+ */
 void ChaosScheduler::scheduleIn(std::chrono::milliseconds delay, const FaultSpec &fault) {
     schedule({std::chrono::steady_clock::now() + delay, fault});
 }
 
+/**
+ * @brief Start.
+ * @details Calls: exchange(), std::thread().
+ */
 void ChaosScheduler::start() {
     if (running_.exchange(true)) {
         return; // already running
@@ -219,6 +293,10 @@ void ChaosScheduler::start() {
     worker_ = std::thread(&ChaosScheduler::runLoop, this);
 }
 
+/**
+ * @brief Stop.
+ * @details Calls: store(), notify_all(), joinable(), join().
+ */
 void ChaosScheduler::stop() {
     running_.store(false);
     sched_cv_.notify_all();
@@ -232,15 +310,28 @@ bool ChaosScheduler::isRunning() const noexcept {
 }
 
 size_t ChaosScheduler::pendingCount() const {
+    /**
+     * @brief Lock.
+     * @param[in] sched_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(sched_mutex_);
     return pending_.size();
 }
 
+/**
+ * @brief Clear Pending.
+ * @details Calls: lock(), clear().
+ */
 void ChaosScheduler::clearPending() {
     std::lock_guard<std::mutex> lock(sched_mutex_);
     pending_.clear();
 }
 
+/**
+ * @brief Run Loop.
+ * @details Calls: load(), std::chrono::steady_clock::now(), lock(), std::remove_if(), begin(), end(), push_back(), erase().
+ */
 void ChaosScheduler::runLoop() {
     while (running_.load()) {
         // ── Fire phase: collect and inject all due faults ──────────────────

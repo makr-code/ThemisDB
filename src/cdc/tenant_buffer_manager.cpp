@@ -40,6 +40,10 @@ TenantBufferManager::~TenantBufferManager() noexcept {
     }
 }
 
+/**
+ * @brief Start.
+ * @details Calls: exchange(), THEMIS_WARN(), lock(), THEMIS_INFO(), size().
+ */
 void TenantBufferManager::start() {
     if (running_.exchange(true)) {
         THEMIS_WARN("TenantBufferManager already running");
@@ -56,6 +60,10 @@ void TenantBufferManager::start() {
     THEMIS_INFO("TenantBufferManager started with {} tenants",tenant_buffers_.size());
 }
 
+/**
+ * @brief Stop.
+ * @details Calls: exchange(), lock(), THEMIS_INFO().
+ */
 void TenantBufferManager::stop() {
     if (!running_.exchange(false)) {
         return; // Already stopped
@@ -73,6 +81,15 @@ void TenantBufferManager::stop() {
     THEMIS_INFO("TenantBufferManager stopped");
 }
 
+/**
+ * @brief Record Event.
+ * @param[in] tenant_id Identifier of the tenant.
+ * @param[in] event Input parameter.
+ * @return Return value.
+ * @throws CDCException if an error occurs.
+ * @throws error::invalidArgument if an error occurs.
+ * @details Calls: empty(), lock(), getOrCreateTenantBuffer(), checkTenantQuota(), std::move(), std::chrono::steady_clock::now(), updateTenantStats().
+ */
 Changefeed::ChangeEvent TenantBufferManager::recordEvent(const std::string &tenant_id, Changefeed::ChangeEvent event) {
     if (!running_) {
         throw CDCException(ErrorCode::BUFFER_NOT_RUNNING, ErrorSeverity::ERROR, "TenantBufferManager not running",
@@ -125,6 +142,12 @@ Changefeed::ChangeEvent TenantBufferManager::recordEvent(const std::string &tena
     }
 }
 
+/**
+ * @brief Flush Tenant.
+ * @param[in] tenant_id Identifier of the tenant.
+ * @return Return value.
+ * @details Calls: lock(), find(), end(), flush(), updateTenantStats().
+ */
 size_t TenantBufferManager::flushTenant(const std::string &tenant_id) {
     std::lock_guard<std::mutex> lock(buffers_mutex_);
 
@@ -145,6 +168,11 @@ size_t TenantBufferManager::flushTenant(const std::string &tenant_id) {
     return flushed;
 }
 
+/**
+ * @brief Flush All.
+ * @return Return value.
+ * @details Calls: lock(), flush(), updateTenantStats().
+ */
 size_t TenantBufferManager::flushAll() {
     std::lock_guard<std::mutex> lock(buffers_mutex_);
 
@@ -161,6 +189,12 @@ size_t TenantBufferManager::flushAll() {
     return total_flushed;
 }
 
+/**
+ * @brief Configure Tenant.
+ * @param[in] config Input parameter.
+ * @throws error::invalidArgument if an error occurs.
+ * @details Calls: empty(), lock(), find(), end(), THEMIS_INFO(), start(), try_emplace(), std::move().
+ */
 void TenantBufferManager::configureTenant(const TenantConfig &config) {
     if (config.tenant_id.empty()) {
         throw error::invalidArgument("tenant_id", "Cannot be empty");
@@ -196,6 +230,11 @@ void TenantBufferManager::configureTenant(const TenantConfig &config) {
 }
 
 std::optional<TenantConfig> TenantBufferManager::getTenantConfig(const std::string &tenant_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] buffers_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(buffers_mutex_);
 
     auto it = tenant_buffers_.find(tenant_id);
@@ -206,6 +245,11 @@ std::optional<TenantConfig> TenantBufferManager::getTenantConfig(const std::stri
 }
 
 std::optional<TenantStats> TenantBufferManager::getTenantStats(const std::string &tenant_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] buffers_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(buffers_mutex_);
 
     auto it = tenant_buffers_.find(tenant_id);
@@ -217,6 +261,11 @@ std::optional<TenantStats> TenantBufferManager::getTenantStats(const std::string
 
 std::optional<std::reference_wrapper<const CDCMetrics>>
 TenantBufferManager::getTenantMetrics(const std::string &tenant_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] buffers_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(buffers_mutex_);
 
     auto it = tenant_buffers_.find(tenant_id);
@@ -227,6 +276,11 @@ TenantBufferManager::getTenantMetrics(const std::string &tenant_id) const {
 }
 
 nlohmann::json TenantBufferManager::getGlobalMetrics() const {
+    /**
+     * @brief Lock.
+     * @param[in] buffers_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(buffers_mutex_);
 
     uint64_t events_recorded     = 0;
@@ -267,6 +321,11 @@ nlohmann::json TenantBufferManager::getGlobalMetrics() const {
 }
 
 std::map<std::string, TenantStats> TenantBufferManager::getAllTenantStats() const {
+    /**
+     * @brief Lock.
+     * @param[in] buffers_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(buffers_mutex_);
 
     std::map<std::string, TenantStats> all_stats = {};
@@ -279,6 +338,11 @@ std::map<std::string, TenantStats> TenantBufferManager::getAllTenantStats() cons
 }
 
 std::vector<std::string> TenantBufferManager::getActiveTenants() const {
+    /**
+     * @brief Lock.
+     * @param[in] buffers_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(buffers_mutex_);
 
     std::vector<std::string> tenants = {};
@@ -295,10 +359,20 @@ std::vector<std::string> TenantBufferManager::getActiveTenants() const {
 }
 
 bool TenantBufferManager::hasTenant(const std::string &tenant_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] buffers_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(buffers_mutex_);
     return tenant_buffers_.find(tenant_id) != tenant_buffers_.end();
 }
 
+/**
+ * @brief Disable Tenant.
+ * @param[in] tenant_id Identifier of the tenant.
+ * @details Calls: lock(), find(), end(), stop(), THEMIS_INFO().
+ */
 void TenantBufferManager::disableTenant(const std::string &tenant_id) {
     std::lock_guard<std::mutex> lock(buffers_mutex_);
 
@@ -315,6 +389,11 @@ void TenantBufferManager::disableTenant(const std::string &tenant_id) {
     }
 }
 
+/**
+ * @brief Enable Tenant.
+ * @param[in] tenant_id Identifier of the tenant.
+ * @details Calls: lock(), find(), end(), start(), THEMIS_INFO().
+ */
 void TenantBufferManager::enableTenant(const std::string &tenant_id) {
     std::lock_guard<std::mutex> lock(buffers_mutex_);
 
@@ -331,6 +410,11 @@ void TenantBufferManager::enableTenant(const std::string &tenant_id) {
     }
 }
 
+/**
+ * @brief Remove Tenant.
+ * @param[in] tenant_id Identifier of the tenant.
+ * @details Calls: lock(), find(), end(), flush(), stop(), erase(), THEMIS_INFO().
+ */
 void TenantBufferManager::removeTenant(const std::string &tenant_id) {
     std::lock_guard<std::mutex> lock(buffers_mutex_);
 
@@ -376,6 +460,13 @@ TenantBufferManager::TenantBufferState &TenantBufferManager::getOrCreateTenantBu
     return inserted_it->second;
 }
 
+/**
+ * @brief Check Tenant Quota.
+ * @param[in] tenant_id Identifier of the tenant.
+ * @param[in,out] state Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: getStats(), THEMIS_WARN().
+ */
 bool TenantBufferManager::checkTenantQuota(const std::string &tenant_id, TenantBufferState &state) {
     // Must be called with lock held
 
@@ -409,6 +500,12 @@ bool TenantBufferManager::checkTenantQuota(const std::string &tenant_id, TenantB
     return true;
 }
 
+/**
+ * @brief Update Tenant Stats.
+ * @param[in] param Input parameter.
+ * @param[in,out] state Input/output parameter.
+ * @details Calls: getStats(), getMetrics(), eventsPerSecond().
+ */
 void TenantBufferManager::updateTenantStats(const std::string &/*tenant_id*/, TenantBufferState &state) {
     // Must be called with lock held
 

@@ -21,34 +21,7 @@ namespace themis {
 namespace llm {
 namespace lora {
 
-/**
- * @brief Graph representation of LoRA adapter relationships
- * 
- * ThemisDB's multi-model approach:
- * - LoRA adapters are documents (BaseEntity)
- * - Relationships form a graph
- * - Metadata has vector embeddings
- * 
- * Graph Structure:
- * 
- *   [Base Model] --DERIVED_FROM--> [LoRA Adapter v1]
- *                                        |
- *                               TRAINED_ON |
- *                                        v
- *                                   [Training Dataset]
- *                                        |
- *                               RETRAINED |
- *                                        v
- *                               [LoRA Adapter v2] --SIMILAR_TO--> [Other Adapter]
- *                                        |
- *                               USED_IN  |
- *                                        v
- *                                   [Inference Session]
- */
 
-/**
- * @brief Edge types for LoRA adapter graph
- */
 enum class LoRAEdgeType {
     DERIVED_FROM,       // Adapter derived from base model or parent adapter
     TRAINED_ON,         // Adapter trained on dataset
@@ -64,9 +37,6 @@ enum class LoRAEdgeType {
     FEEDBACK_FOR        // Feedback for specific adapter
 };
 
-/**
- * @brief Edge in LoRA adapter graph
- */
 struct LoRAGraphEdge {
     std::string from_id;        // Source node (adapter, model, dataset, etc.)
     std::string to_id;          // Target node
@@ -91,6 +61,12 @@ struct LoRAGraphEdge {
         };
     }
     
+    /**
+     * @brief Edge Type To String.
+     * @param[in] type Input parameter.
+     * @return Return value.
+     * @details Implements edgeTypeToString without additional internal calls.
+     */
     static std::string edgeTypeToString(LoRAEdgeType type) {
         switch (type) {
             case LoRAEdgeType::DERIVED_FROM: return "DERIVED_FROM";
@@ -110,15 +86,6 @@ struct LoRAGraphEdge {
     }
 };
 
-/**
- * @brief Vector embedding for LoRA adapter metadata
- * 
- * Enables semantic search and similarity queries:
- * - Find similar adapters
- * - Recommend adapters for tasks
- * - Cluster adapters by functionality
- * - Detect duplicate/redundant adapters
- */
 struct LoRAVectorEmbedding {
     std::string adapter_id;
     std::vector<float> embedding;      // Vector representation (e.g., 768-dim)
@@ -147,12 +114,10 @@ struct LoRAVectorEmbedding {
     }
 
     /**
-     * @brief Deserialise a LoRAVectorEmbedding from its JSON representation.
-     *
-     * All fields are optional; missing fields retain their zero-value defaults.
-     *
-     * @param j  JSON object produced by toJSON().
-     * @return   Populated LoRAVectorEmbedding.
+     * @brief From JSON.
+     * @param[in] j Input parameter.
+     * @return Return value.
+     * @details Calls: contains(), is_array(), is_number_integer().
      */
     static LoRAVectorEmbedding fromJSON(const json& j) {
         LoRAVectorEmbedding emb = {};
@@ -178,25 +143,10 @@ struct LoRAVectorEmbedding {
     }
 };
 
-/**
- * @brief Graph path for LoRA adapter
- * 
- * Represents the lineage and relationships of an adapter:
- * 
- * Example path:
- * llama-2-7b → themis_help_lora_v1 → themis_help_lora_v2 → production_deployment
- *                       ↓
- *                  training_dataset_20240101
- *                       ↓
- *                  feedback_collection
- */
 struct LoRAGraphPath {
     std::string adapter_id = {};
     std::vector<LoRAGraphEdge> edges;  // Ordered path of edges
     
-    /**
-     * @brief Get all nodes in path
-     */
     std::vector<std::string> getNodes() const {
         std::vector<std::string> nodes = {};
 
@@ -209,16 +159,10 @@ struct LoRAGraphPath {
         return nodes;
     }
     
-    /**
-     * @brief Get path length (number of hops)
-     */
     size_t length() const {
         return edges.size();
     }
     
-    /**
-     * @brief Get path as string
-     */
     std::string toString() const {
         if (edges.empty()) {
           return adapter_id;
@@ -246,9 +190,6 @@ struct LoRAGraphPath {
     }
 };
 
-/**
- * @brief Enhanced adapter metadata with graph and vector support
- */
 struct AdapterMetadataEnhanced : public AdapterMetadata {
     ~AdapterMetadataEnhanced() override = default;
     // Graph information
@@ -294,6 +235,12 @@ struct AdapterMetadataEnhanced : public AdapterMetadata {
         return j;
     }
     
+    /**
+     * @brief From JSON.
+     * @param[in] j Input parameter.
+     * @return Return value.
+     * @details Calls: contains(), push_back(), is_object().
+     */
     static AdapterMetadataEnhanced fromJSON(const json& j) {
         AdapterMetadataEnhanced metadata;
         
@@ -342,9 +289,6 @@ struct AdapterMetadataEnhanced : public AdapterMetadata {
     }
 };
 
-/**
- * @brief Enhanced adapter info with graph path and vectors
- */
 struct AdapterInfoEnhanced : public AdapterInfo {
     ~AdapterInfoEnhanced() override = default;
     // Graph path

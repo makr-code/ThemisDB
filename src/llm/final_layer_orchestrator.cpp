@@ -70,14 +70,29 @@ namespace {
 
 }
 
+/**
+ * @brief Set Adapter Registry.
+ * @param[in] registry Input parameter.
+ * @details Calls: std::move().
+ */
 void FinalLayerOrchestrator::setAdapterRegistry(std::shared_ptr<AdapterRegistry> registry) {
     adapter_registry_ = std::move(registry);
 }
 
+/**
+ * @brief Set Model Router.
+ * @param[in] router Input parameter.
+ * @details Calls: std::move().
+ */
 void FinalLayerOrchestrator::setModelRouter(std::shared_ptr<ModelRouter> router) {
     model_router_ = std::move(router);
 }
 
+/**
+ * @brief Set Transition Policy.
+ * @param[in] policy Input parameter.
+ * @details Implements setTransitionPolicy without additional internal calls.
+ */
 void FinalLayerOrchestrator::setTransitionPolicy(FinalLayerTransitionPolicy policy) {
     transition_policy_ = policy;
 }
@@ -86,6 +101,12 @@ FinalLayerTransitionPolicy FinalLayerOrchestrator::transitionPolicy() const {
     return transition_policy_;
 }
 
+/**
+ * @brief Register Package.
+ * @param[in] package Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), emplace().
+ */
 bool FinalLayerOrchestrator::registerPackage(const FinalLayerPackage& package) {
     if (package.package_id.empty() || package.target_model_id.empty() || package.primary_adapter_id.empty()) {
         return false;
@@ -93,6 +114,12 @@ bool FinalLayerOrchestrator::registerPackage(const FinalLayerPackage& package) {
     return packages_.emplace(package.package_id, package).second;
 }
 
+/**
+ * @brief Update Package.
+ * @param[in] package Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), contains().
+ */
 bool FinalLayerOrchestrator::updatePackage(const FinalLayerPackage& package) {
     if (package.package_id.empty() || !packages_.contains(package.package_id)) {
         return false;
@@ -101,6 +128,13 @@ bool FinalLayerOrchestrator::updatePackage(const FinalLayerPackage& package) {
     return true;
 }
 
+/**
+ * @brief Set Package Status.
+ * @param[in] package_id Identifier of the package.
+ * @param[in] new_status Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: find(), end().
+ */
 bool FinalLayerOrchestrator::setPackageStatus(const std::string& package_id,
                                               FinalLayerPackageStatus new_status) {
     auto it = packages_.find(package_id);
@@ -121,6 +155,15 @@ std::vector<FinalLayerPackage> FinalLayerOrchestrator::listPackages() const {
     return packages;
 }
 
+/**
+ * @brief Promote Package.
+ * @param[in] package_id Identifier of the package.
+ * @param[in] target_stage Input parameter.
+ * @param[in] base_model_name Name of the base model.
+ * @param[in] base_model_version Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: find(), end(), canPromote(), passesCompatibilityGate(), isServingStage().
+ */
 bool FinalLayerOrchestrator::promotePackage(const std::string& package_id,
                                             FinalLayerDeploymentStage target_stage,
                                             const std::string& base_model_name,
@@ -152,6 +195,15 @@ bool FinalLayerOrchestrator::promotePackage(const std::string& package_id,
     return true;
 }
 
+/**
+ * @brief Rollback To Package.
+ * @param[in] source_package_id Identifier of the source package.
+ * @param[in] rollback_target_id Identifier of the rollback target.
+ * @param[in] base_model_name Name of the base model.
+ * @param[in] base_model_version Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: find(), end(), passesCompatibilityGate().
+ */
 bool FinalLayerOrchestrator::rollbackToPackage(const std::string& source_package_id,
                                                const std::string& rollback_target_id,
                                                const std::string& base_model_name,

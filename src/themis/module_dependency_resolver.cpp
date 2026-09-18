@@ -35,10 +35,6 @@ namespace modules {
 
 namespace {
 
-/// Parse a "major.minor.patch" string into a comparable tuple.
-/// Non-parseable strings and empty strings both yield (0, 0, 0).
-/// Components that cannot be parsed (e.g. "1.2.x" → patch fails) retain
-/// their zero-initialised value, giving a conservative lower bound.
 std::tuple<int, int, int> parseVersion(const std::string& v) {
     int major = 0, minor = 0, patch = 0;
     if (!v.empty()) {
@@ -80,6 +76,12 @@ std::tuple<int, int, int> parseVersion(const std::string& v) {
 // ModuleDependencyResolver public interface
 // ============================================================================
 
+/**
+ * @brief Register Module.
+ * @param[in] name Input parameter.
+ * @param[in] version Input parameter.
+ * @param[in] deps Input parameter.
+ */
 void ModuleDependencyResolver::registerModule(
     const std::string& name,
     const std::string& version,
@@ -88,6 +90,11 @@ void ModuleDependencyResolver::registerModule(
     modules_[name] = {version, deps};
 }
 
+/**
+ * @brief Register Module.
+ * @param[in] name Input parameter.
+ * @param[in] deps Input parameter.
+ */
 void ModuleDependencyResolver::registerModule(
     const std::string& name,
     const std::vector<ModuleDependency>& deps)
@@ -95,6 +102,9 @@ void ModuleDependencyResolver::registerModule(
     modules_[name] = {"", deps};
 }
 
+/**
+ * @brief Clear.
+ */
 void ModuleDependencyResolver::clear()
 {
     modules_.clear();

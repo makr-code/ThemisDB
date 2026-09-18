@@ -37,6 +37,13 @@ PrincipalValidator::PrincipalValidator(const Config &config) : config_(config) {
     utils::Logger::info("  Mapping rules: {}",config_.mapping_rules.size());
 }
 
+/**
+ * @brief Validate.
+ * @param[in] principal Input parameter.
+ * @param[in] ctx Input parameter.
+ * @return Return value.
+ * @details Calls: matchesRule(), empty(), logAudit(), applyMappingRules(), value_or(), authorize().
+ */
 PrincipalValidator::ValidationResult PrincipalValidator::validate(const std::string &principal,
                                                                   const ValidationContext &ctx) {
     stats_.total_validations++;
@@ -123,6 +130,11 @@ PrincipalValidator::ValidationResult PrincipalValidator::validate(const std::str
     return result;
 }
 
+/**
+ * @brief Add Rule.
+ * @param[in] rule Input parameter.
+ * @details Calls: push_back(), std::sort(), begin(), end().
+ */
 void PrincipalValidator::addRule(const Rule &rule) {
     config_.rules.push_back(rule);
 
@@ -131,6 +143,11 @@ void PrincipalValidator::addRule(const Rule &rule) {
               [](const Rule &a, const Rule &b) { return a.priority > b.priority; });
 }
 
+/**
+ * @brief Add Mapping Rule.
+ * @param[in] rule Input parameter.
+ * @details Calls: push_back(), std::sort(), begin(), end().
+ */
 void PrincipalValidator::addMappingRule(const MappingRule &rule) {
     config_.mapping_rules.push_back(rule);
 
@@ -139,6 +156,11 @@ void PrincipalValidator::addMappingRule(const MappingRule &rule) {
               [](const MappingRule &a, const MappingRule &b) { return a.priority > b.priority; });
 }
 
+/**
+ * @brief Clear Rules.
+ * @param[in] type Input parameter.
+ * @details Calls: erase(), std::remove_if(), begin(), end().
+ */
 void PrincipalValidator::clearRules(RuleType type) {
     config_.rules.erase(
         std::remove_if(config_.rules.begin(), config_.rules.end(), [type](const Rule &r) { return r.type == type; }),
@@ -319,6 +341,12 @@ void PrincipalValidator::compileRegex(const MappingRule &rule) const {
 // PrincipalValidatorPresets Implementation
 // ============================================================================
 
+/**
+ * @brief Realm Restricted.
+ * @param[in] realm Input parameter.
+ * @return Return value.
+ * @details Calls: push_back(), PrincipalValidator().
+ */
 PrincipalValidator PrincipalValidatorPresets::realmRestricted(const std::string &realm) {
     PrincipalValidator::Config config;
     config.default_allow = false;
@@ -335,6 +363,12 @@ PrincipalValidator PrincipalValidatorPresets::realmRestricted(const std::string 
     return PrincipalValidator(config);
 }
 
+/**
+ * @brief With Blacklist.
+ * @param[in] blocked_principals Input parameter.
+ * @return Return value.
+ * @details Calls: push_back(), PrincipalValidator().
+ */
 PrincipalValidator PrincipalValidatorPresets::withBlacklist(const std::vector<std::string> &blocked_principals) {
     PrincipalValidator::Config config;
     config.default_allow = true; // Allow by default, but block specific ones
@@ -352,6 +386,12 @@ PrincipalValidator PrincipalValidatorPresets::withBlacklist(const std::vector<st
     return PrincipalValidator(config);
 }
 
+/**
+ * @brief With Whitelist.
+ * @param[in] allowed_principals Input parameter.
+ * @return Return value.
+ * @details Calls: push_back(), PrincipalValidator().
+ */
 PrincipalValidator PrincipalValidatorPresets::withWhitelist(const std::vector<std::string> &allowed_principals) {
     PrincipalValidator::Config config;
     config.default_allow = false; // Deny by default
@@ -369,6 +409,12 @@ PrincipalValidator PrincipalValidatorPresets::withWhitelist(const std::vector<st
     return PrincipalValidator(config);
 }
 
+/**
+ * @brief Enterprise Standard.
+ * @param[in] realm Input parameter.
+ * @return Return value.
+ * @details Calls: push_back(), PrincipalValidator().
+ */
 PrincipalValidator PrincipalValidatorPresets::enterpriseStandard(const std::string &realm) {
     PrincipalValidator::Config config;
     config.default_allow = false;

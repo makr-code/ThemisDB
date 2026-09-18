@@ -25,18 +25,10 @@
 
 namespace themis {
 
-/// Default maximum number of results returned by rangeScan().
 static constexpr size_t kDefaultRangeScanLimit = 1000;
 
 namespace {
 
-/// @brief Adapter bridging SecondaryIndexManager to the ISecondaryIndex interface.
-///
-/// Maps ISecondaryIndex operations to SecondaryIndexManager equivalents:
-///   - insert()    -> put()
-///   - remove()    -> erase()
-///   - lookup()    -> scanKeysEqual()/scanKeysEqualPartial()
-///   - rangeScan() -> scanKeysRange()
 class SecondaryIndexAdapter final : public ISecondaryIndex {
 public:
     SecondaryIndexAdapter(std::shared_ptr<SecondaryIndexManager> manager,
@@ -52,6 +44,11 @@ public:
 
     bool insert(std::string_view indexed_value,
                 std::string_view primary_key) override {
+        /**
+         * @brief E.
+         * @param[in] primary_key Input parameter.
+         * @return Return value.
+         */
         BaseEntity e(primary_key);
         e.setField(field_name_, std::string(indexed_value));
         return manager_->put(table_name_, e).ok;
@@ -118,16 +115,6 @@ private:
     std::string predicate_;
 };
 
-/// @brief Adapter bridging VectorIndexManager to the IVectorIndex interface.
-///
-/// Each adapter owns a dedicated VectorIndexManager instance (per-index isolation).
-/// Lifetime is tied to the owning IndexManager via `owned_vector_adapters_`.
-///
-/// Maps IVectorIndex operations to VectorIndexManager equivalents:
-///   - insert()      -> addEntity()  (wraps the vector in a BaseEntity)
-///   - remove()      -> removeByPk()
-///   - search()      -> searchKnn()
-///   - rangeSearch() -> searchKnnRadius()
 class VectorIndexAdapter final : public IVectorIndex {
 public:
     VectorIndexAdapter(std::shared_ptr<VectorIndexManager> manager, std::string name)
@@ -135,6 +122,11 @@ public:
 
     bool insert(std::string_view primary_key,
                 const std::vector<float>& vector) override {
+        /**
+         * @brief E.
+         * @param[in] primary_key Input parameter.
+         * @return Return value.
+         */
         BaseEntity e(primary_key);
         e.setField("embedding", vector);
         return manager_->addEntity(e, "embedding").ok;
@@ -208,21 +200,6 @@ private:
 
 namespace {
 
-/// Validates a string that will be used as a component in the tenant-scoped
-/// key `"tenant:<tenant_id>:<index_name>"`.
-///
-/// The separator between components is `:`.  Allowing `:` inside either
-/// component would let a caller with tenant id "a:b" construct the same storage
-/// key as a caller with tenant id "a" and index name "b:x", enabling cross-
-/// tenant data access (audit finding #1872).
-///
-/// Rules enforced:
-///   - Must not be empty.
-///   - Must not contain the separator character `:`.
-///   - Must not contain null bytes (early-termination bypass in C-string APIs).
-///   - Must not exceed 512 bytes (prevents key-length amplification attacks).
-///
-/// @return true when the component is safe to embed in a tenant key.
 static bool isValidTenantComponent(std::string_view s) noexcept {
     if (s.empty() || s.size() > 512) {
       return false;
@@ -251,11 +228,20 @@ IndexManager::IndexManager(
 
 IndexManager::~IndexManager() = default;
 
+/**
+ * @brief Create Default.
+ * @return Return value.
+ * @details Implements createDefault without additional internal calls.
+ */
 std::shared_ptr<IndexManager> IndexManager::createDefault() {
     // Create with no dependencies initially
     return std::make_shared<IndexManager>(nullptr, nullptr);
 }
 
+/**
+ * @brief Propagate Evaluator To Managers.
+ * @details Calls: setExpressionEvaluator().
+ */
 void IndexManager::propagateEvaluatorToManagers() {
     if (!evaluator_) {
       return;
@@ -272,15 +258,30 @@ void IndexManager::propagateEvaluatorToManagers() {
     }
 }
 
+/**
+ * @brief Set Expression Evaluator.
+ * @param[in] evaluator Input parameter.
+ * @details Calls: propagateEvaluatorToManagers().
+ */
 void IndexManager::setExpressionEvaluator(IExpressionEvaluatorPtr evaluator) {
     evaluator_ = evaluator;
     propagateEvaluatorToManagers();
 }
 
+/**
+ * @brief Set Storage.
+ * @param[in] storage Input parameter.
+ * @details Implements setStorage without additional internal calls.
+ */
 void IndexManager::setStorage(IStorageEnginePtr storage) {
     storage_ = storage;
 }
 
+/**
+ * @brief Set Rocks DB.
+ * @param[in] db Input parameter.
+ * @details Calls: propagateEvaluatorToManagers(), THEMIS_INFO().
+ */
 void IndexManager::setRocksDB(std::shared_ptr<RocksDBWrapper> db) {
     db_ = db;
     
@@ -315,6 +316,14 @@ std::shared_ptr<GraphIndexManager> IndexManager::getGraphIndexManager() const {
 
 // IIndexManager implementation
 
+/**
+ * @brief Create Secondary Index.
+ * @param[in] name Input parameter.
+ * @param[in] field_name Name of the field.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @details Calls: span(), setAttribute(), std::string(), lock(), THEMIS_ERROR(), setStatus(), fmt::format(), name_str().
+ */
 Result<ISecondaryIndex*> IndexManager::createSecondaryIndex(
     std::string_view name,
     std::string_view field_name,
@@ -431,6 +440,14 @@ Result<ISecondaryIndex*> IndexManager::createSecondaryIndex(
     return Ok<ISecondaryIndex*>(std::move(raw_ptr));
 }
 
+/**
+ * @brief Create Vector Index.
+ * @param[in] name Input parameter.
+ * @param[in] dimension Input parameter.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @details Calls: span(), setAttribute(), std::string(), lock(), THEMIS_ERROR(), setStatus(), fmt::format(), name_str().
+ */
 Result<IVectorIndex*> IndexManager::createVectorIndex(
     std::string_view name,
     uint32_t dimension,
@@ -499,6 +516,13 @@ Result<IVectorIndex*> IndexManager::createVectorIndex(
     return Ok<IVectorIndex*>(std::move(raw_ptr));
 }
 
+/**
+ * @brief Create Graph Index.
+ * @param[in] name Input parameter.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), THEMIS_ERROR(), fmt::format(), name_str(), find(), end(), THEMIS_WARN(), std::move().
+ */
 Result<IGraphIndex*> IndexManager::createGraphIndex(
     std::string_view name,
     const std::string& config) {
@@ -534,8 +558,18 @@ Result<IGraphIndex*> IndexManager::createGraphIndex(
 }
 
 Result<ISecondaryIndex*> IndexManager::getSecondaryIndex(std::string_view name) const {
+    /**
+     * @brief Lock.
+     * @param[in] registry_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(registry_mutex_);
     
+    /**
+     * @brief Name str.
+     * @param[in] name Input parameter.
+     * @return Return value.
+     */
     std::string name_str(name);
     auto it = secondary_indices_.find(name_str);
     if (it != secondary_indices_.end()) {
@@ -552,8 +586,18 @@ Result<ISecondaryIndex*> IndexManager::getSecondaryIndex(std::string_view name) 
 }
 
 Result<IVectorIndex*> IndexManager::getVectorIndex(std::string_view name) const {
+    /**
+     * @brief Lock.
+     * @param[in] registry_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(registry_mutex_);
     
+    /**
+     * @brief Name str.
+     * @param[in] name Input parameter.
+     * @return Return value.
+     */
     std::string name_str(name);
     auto it = vector_indices_.find(name_str);
     if (it != vector_indices_.end()) {
@@ -570,8 +614,18 @@ Result<IVectorIndex*> IndexManager::getVectorIndex(std::string_view name) const 
 }
 
 Result<IGraphIndex*> IndexManager::getGraphIndex(std::string_view name) const {
+    /**
+     * @brief Lock.
+     * @param[in] registry_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(registry_mutex_);
     
+    /**
+     * @brief Name str.
+     * @param[in] name Input parameter.
+     * @return Return value.
+     */
     std::string name_str(name);
     auto it = graph_indices_.find(name_str);
     if (it != graph_indices_.end()) {
@@ -587,6 +641,12 @@ Result<IGraphIndex*> IndexManager::getGraphIndex(std::string_view name) const {
                                fmt::format("Graph index '{}' not found", name_str));
 }
 
+/**
+ * @brief Drop Index.
+ * @param[in] name Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), name_str(), find(), end(), THEMIS_WARN(), ErrVoid(), fmt::format(), get().
+ */
 Result<void> IndexManager::dropIndex(std::string_view name) {
     std::unique_lock<std::shared_mutex> lock(registry_mutex_);
     
@@ -657,6 +717,11 @@ Result<void> IndexManager::dropIndex(std::string_view name) {
 }
 
 std::vector<std::string> IndexManager::listIndexes() const {
+    /**
+     * @brief Lock.
+     * @param[in] registry_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(registry_mutex_);
     
     std::vector<std::string> indices = {};
@@ -673,8 +738,18 @@ std::vector<std::string> IndexManager::listIndexes() const {
 }
 
 Result<IndexType> IndexManager::getIndexType(std::string_view name) const {
+    /**
+     * @brief Lock.
+     * @param[in] registry_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(registry_mutex_);
     
+    /**
+     * @brief Name str.
+     * @param[in] name Input parameter.
+     * @return Return value.
+     */
     std::string name_str(name);
     auto it = index_types_.find(name_str);
     if (it != index_types_.end()) {
@@ -706,12 +781,27 @@ IndexManager::exportIndexStats(std::string_view table_name) const {
 // Multi-tenancy index isolation
 // =============================================================================
 
+/**
+ * @brief Make Tenant Index Name.
+ * @param[in] tenant_id Identifier of the tenant.
+ * @param[in] index_name Name of the index.
+ * @return Return value.
+ * @details Calls: fmt::format().
+ */
 std::string IndexManager::makeTenantIndexName(std::string_view tenant_id,
                                                std::string_view index_name) {
     return fmt::format("tenant:{}:{}", tenant_id, index_name);
 }
 
-// -- tenant-scoped create ----------------------------------------------------
+/**
+ * @brief -- tenant-scoped create ----------------------------------------------------
+ * @param[in] tenant_id Identifier of the tenant.
+ * @param[in] name Input parameter.
+ * @param[in] field_name Name of the field.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @details Calls: isValidTenantComponent(), makeTenantIndexName().
+ */
 
 Result<ISecondaryIndex*> IndexManager::createSecondaryIndex(
     std::string_view tenant_id,
@@ -733,6 +823,15 @@ Result<ISecondaryIndex*> IndexManager::createSecondaryIndex(
                                 field_name, config);
 }
 
+/**
+ * @brief Create Vector Index.
+ * @param[in] tenant_id Identifier of the tenant.
+ * @param[in] name Input parameter.
+ * @param[in] dimension Input parameter.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @details Calls: isValidTenantComponent(), makeTenantIndexName().
+ */
 Result<IVectorIndex*> IndexManager::createVectorIndex(
     std::string_view tenant_id,
     std::string_view name,
@@ -753,6 +852,14 @@ Result<IVectorIndex*> IndexManager::createVectorIndex(
                              dimension, config);
 }
 
+/**
+ * @brief Create Graph Index.
+ * @param[in] tenant_id Identifier of the tenant.
+ * @param[in] name Input parameter.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @details Calls: isValidTenantComponent(), makeTenantIndexName().
+ */
 Result<IGraphIndex*> IndexManager::createGraphIndex(
     std::string_view tenant_id,
     std::string_view name,
@@ -824,7 +931,13 @@ Result<IGraphIndex*> IndexManager::getGraphIndex(
     return getGraphIndex(makeTenantIndexName(tenant_id, name));
 }
 
-// -- tenant-scoped drop ------------------------------------------------------
+/**
+ * @brief -- tenant-scoped drop ------------------------------------------------------
+ * @param[in] tenant_id Identifier of the tenant.
+ * @param[in] name Input parameter.
+ * @return Return value.
+ * @details Calls: isValidTenantComponent(), ErrVoid(), makeTenantIndexName().
+ */
 
 Result<void> IndexManager::dropIndex(std::string_view tenant_id,
                                       std::string_view name) {
@@ -841,6 +954,12 @@ Result<void> IndexManager::dropIndex(std::string_view tenant_id,
     return dropIndex(makeTenantIndexName(tenant_id, name));
 }
 
+/**
+ * @brief Drop Tenant Indexes.
+ * @param[in] tenant_id Identifier of the tenant.
+ * @return Return value.
+ * @details Calls: isValidTenantComponent(), ErrVoid(), fmt::format(), lock(), starts_with(), push_back(), dropIndex(), has_value().
+ */
 Result<void> IndexManager::dropTenantIndexes(std::string_view tenant_id) {
     if (!isValidTenantComponent(tenant_id)) {
         return ErrVoid(errors::ErrorCode::ERR_API_INVALID_REQUEST,
@@ -880,6 +999,11 @@ std::vector<std::string> IndexManager::listIndexes(
     std::string_view tenant_id) const {
 
     const std::string prefix = fmt::format("tenant:{}:", tenant_id);
+    /**
+     * @brief Lock.
+     * @param[in] registry_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(registry_mutex_);
 
     std::vector<std::string> result = {};

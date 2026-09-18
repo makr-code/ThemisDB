@@ -27,6 +27,11 @@ namespace lora {
 // Config Auto-tuning
 // ============================================================================
 
+/**
+ * @brief Auto tune for device.
+ * @param[in] device_name Name of the device.
+ * @details Calls: find(), spdlog::debug().
+ */
 void FlashLoRA::Config::auto_tune_for_device(const std::string& device_name) {
     // Auto-tune tile sizes based on GPU architecture
     
@@ -76,6 +81,15 @@ void FlashLoRA::Config::auto_tune_for_device(const std::string& device_name) {
 // FlashLoRA Forward Pass
 // ============================================================================
 
+/**
+ * @brief Forward.
+ * @param[in] input Input parameter.
+ * @param[in] B Input parameter.
+ * @param[in] A Input parameter.
+ * @param[in] scaling Input parameter.
+ * @return Return value.
+ * @details Implements forward without additional internal calls.
+ */
 GPUTensor FlashLoRA::forward(
     const GPUTensor& input,
     const GPUTensor& B,
@@ -85,15 +99,18 @@ GPUTensor FlashLoRA::forward(
     return forward(input, B, A, scaling, Config{});
 }
 
-// W1-L01: Forward pass implementation with comprehensive false-positive annotation.
-// Scanner flags ~24 "prompt_injection" findings on tensor parameter names.
-// These are reviewed false positives:
-//   - "input", "B", "A" are GPU tensor computations, not LLM prompts
-//   - Parameter names containing "input" do not indicate injection risk
-//   - Tensor shape operations (input_shape[i]) are dimension indexing, not text processing
-//   - GPUTensor constructors and device() calls are tensor operations, not user input handling
-//   - static_cast operations on gpu_ptr() are pointer type coercion, not prompt processing
-// All findings dismissed as scanner misclassification of tensor compute API as text/prompt API.
+/**
+ * @brief W1-L01: Forward pass implementation with comprehensive false-positive annotation.
+ * @param[in] input Input parameter.
+ * @param[in] B Input parameter.
+ * @param[in] A Input parameter.
+ * @param[in] scaling Input parameter.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Scanner flags ~24 "prompt_injection" findings on tensor parameter names. These are reviewed false positives: - "input", "B", "A" are GPU tensor computations, not LLM prompts - Parameter names containing "input" do not indicate injection risk - Tensor shape operations (input_shape[i]) are dimension indexing, not text processing - GPUTensor constructors and device() calls are tensor operations, not user input handling - static_cast operations on gpu_ptr() are pointer type coercion, not prompt processing All findings dismissed as scanner misclassification of tensor compute API as text/prompt API. Calls: validate_shapes(), is_available(), device(), shape(), size(), GPUTensor(), gpu_ptr(), std::to_string().
+ */
 GPUTensor FlashLoRA::forward(
     const GPUTensor& input,
     const GPUTensor& B,
@@ -410,6 +427,12 @@ std::tuple<GPUTensor, GPUTensor, GPUTensor> FlashLoRA::backward(
 // Device Support Checks
 // ============================================================================
 
+/**
+ * @brief Is available.
+ * @param[in] device Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: cudaGetDeviceProperties(), spdlog::warn(), spdlog::info().
+ */
 bool FlashLoRA::is_available(const Device& device) {
     (void)device;
 #ifdef THEMIS_ENABLE_CUDA
@@ -445,6 +468,14 @@ bool FlashLoRA::is_available(const Device& device) {
     return false;
 }
 
+/**
+ * @brief Get recommended config.
+ * @param[in] device Input parameter.
+ * @param[in] rank Input parameter.
+ * @param[in] seq_len Input parameter.
+ * @return Return value.
+ * @details Calls: cudaGetDeviceProperties(), spdlog::warn(), cudaGetErrorString(), auto_tune_for_device(), std::string(), std::min(), size_t(), std::max().
+ */
 FlashLoRA::Config FlashLoRA::get_recommended_config(
     const Device& device,
     size_t rank,
@@ -490,6 +521,14 @@ FlashLoRA::Config FlashLoRA::get_recommended_config(
 // Shape Validation
 // ============================================================================
 
+/**
+ * @brief Validate shapes.
+ * @param[in] input Input parameter.
+ * @param[in] B Input parameter.
+ * @param[in] A Input parameter.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: shape(), size(), back(), std::to_string(), device().
+ */
 void FlashLoRA::validate_shapes(
     const GPUTensor& input,
     const GPUTensor& B,

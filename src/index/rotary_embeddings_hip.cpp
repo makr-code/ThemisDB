@@ -24,6 +24,11 @@ namespace themis {
 namespace {
 
 template <typename T>
+/**
+ * @brief Free Hip Buffer.
+ * @param[in,out] ptr Input/output parameter.
+ * @details Calls: hipFree().
+ */
 void freeHipBuffer(T*& ptr) {
     if (ptr) {
         (void)hipFree(ptr);
@@ -31,6 +36,13 @@ void freeHipBuffer(T*& ptr) {
     }
 }
 
+/**
+ * @brief Make Hip Error.
+ * @param[in] operation Input parameter.
+ * @param[in] err Input parameter.
+ * @return Return value.
+ * @details Calls: std::runtime_error(), std::string(), hipGetErrorString().
+ */
 std::runtime_error makeHipError(const char* operation, hipError_t err) {
     return std::runtime_error(
         std::string(operation) + " failed: " + hipGetErrorString(err));
@@ -43,16 +55,16 @@ std::runtime_error makeHipError(const char* operation, hipError_t err) {
 // ============================================================================
 
 /**
- * HIP kernel for parallel rotation of embeddings
- * Portable implementation compatible with CUDA kernel
- * 
- * @param embeddings    Input embeddings (batch_size * hidden_dim)
- * @param positions     Position indices (batch_size)
- * @param theta_cache   Precomputed theta values (num_rotation_pairs)
- * @param output        Output rotated embeddings (batch_size * hidden_dim)
- * @param batch_size    Number of embeddings
- * @param hidden_dim    Embedding dimension
- * @param num_pairs     Number of rotation pairs
+ * @brief Rotate Kernel HIP.
+ * @param[in] embeddings Input parameter.
+ * @param[in] positions Input parameter.
+ * @param[in] theta_cache Input parameter.
+ * @param[in,out] output Input/output parameter.
+ * @param[in] batch_size Input parameter.
+ * @param[in] hidden_dim Input parameter.
+ * @param[in] num_pairs Input parameter.
+ * @return Return value.
+ * @details Calls: cosf(), sinf().
  */
 __global__ void rotateKernelHIP(
     const float* embeddings,
@@ -155,6 +167,11 @@ RotaryEmbeddingGPU::~RotaryEmbeddingGPU() {
     cleanupGPU();
 }
 
+/**
+ * @brief Initialize GPU.
+ * @return True when the operation succeeds.
+ * @details Calls: hipGetDeviceCount(), hipSetDevice(), uploadThetaCacheToGPU().
+ */
 bool RotaryEmbeddingGPU::initializeGPU() {
     int device_count = 0;
     hipError_t err = hipGetDeviceCount(&device_count);
@@ -171,10 +188,19 @@ bool RotaryEmbeddingGPU::initializeGPU() {
     return uploadThetaCacheToGPU();
 }
 
+/**
+ * @brief Cleanup GPU.
+ * @details Implements cleanupGPU without additional internal calls.
+ */
 void RotaryEmbeddingGPU::cleanupGPU() {
     gpu_available_ = false;
 }
 
+/**
+ * @brief Upload Theta Cache To GPU.
+ * @return True when the operation succeeds.
+ * @details Calls: lk(), getConfig(), empty(), size(), hipMalloc(), hipMemcpy(), data(), hipFree().
+ */
 bool RotaryEmbeddingGPU::uploadThetaCacheToGPU() {
     std::lock_guard<std::mutex> lk(gpu_mutex_);
     const auto& theta_cache = getConfig().theta_cache;
@@ -220,6 +246,11 @@ std::vector<std::vector<float>> RotaryEmbeddingGPU::rotateBatchGPU(
     const std::vector<std::vector<float>>& embeddings,
     const std::vector<size_t>& positions
 ) const {
+    /**
+     * @brief Lk.
+     * @param[in] gpu_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(gpu_mutex_);
     if (!gpu_available_) {
         throw std::runtime_error("GPU not available for batch rotation");
@@ -233,6 +264,11 @@ std::vector<std::vector<float>> RotaryEmbeddingGPU::rotateBatchGPU(
     size_t hidden_dim = getConfig().hidden_dim;
     size_t num_pairs = getConfig().num_rotation_pairs;
     
+    /**
+     * @brief Flat embeddings.
+     * @param[in,out] hidden_dim Input/output parameter.
+     * @return Return value.
+     */
     std::vector<float> flat_embeddings(batch_size * hidden_dim);
     for (size_t i = 0; i < batch_size; ++i) {
         if (embeddings[i].size() != hidden_dim) {
@@ -307,6 +343,11 @@ std::vector<std::vector<float>> RotaryEmbeddingGPU::rotateBatchGPU(
         throw makeHipError("hipDeviceSynchronize", err);
     }
     
+    /**
+     * @brief Flat output.
+     * @param[in,out] hidden_dim Input/output parameter.
+     * @return Return value.
+     */
     std::vector<float> flat_output(batch_size * hidden_dim);
     err = hipMemcpy(flat_output.data(), gpu_resources_->d_output,
                     required_size, hipMemcpyDeviceToHost);
@@ -331,6 +372,11 @@ void RotaryEmbeddingGPU::rotateBatchStreamGPU(
     size_t batch_size,
     void* stream
 ) const {
+    /**
+     * @brief Lk.
+     * @param[in] gpu_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(gpu_mutex_);
     if (!gpu_available_) {
         throw std::runtime_error("GPU not available");

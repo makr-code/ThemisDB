@@ -59,7 +59,6 @@ using EVP_CIPHER_CTX_ptr = std::unique_ptr<EVP_CIPHER_CTX, EVP_CIPHER_CTX_Delete
 
 } // anonymous namespace
 
-/** @brief Implementation detail. */
 class HSMProvider::Impl {
 public:
     std::vector<uint8_t> stub_kek; // 32-byte AES-256 KEK for stub wrap/unwrap
@@ -73,6 +72,12 @@ public:
     std::atomic<uint64_t> total_verify_time_us{0};
 };
 
+/**
+ * @brief To hex.
+ * @param[in] data Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), push_back().
+ */
 static std::string to_hex(const std::vector<uint8_t>& data) {
     static const char* d = "0123456789abcdef";
     std::string out; out.reserve(data.size()*2);
@@ -80,10 +85,23 @@ static std::string to_hex(const std::vector<uint8_t>& data) {
     return out;
 }
 
+/**
+ * @brief Pseudo b64.
+ * @param[in] data Input parameter.
+ * @return Return value.
+ * @details Calls: std::string(), to_hex().
+ */
 static std::string pseudo_b64(const std::vector<uint8_t>& data) {
     return std::string("hex:") + to_hex(data);
 }
 
+/**
+ * @brief Derive fallback cert serial.
+ * @param[in] cert_pem Input parameter.
+ * @param[in] fallback_context Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), SHA256(), data(), size(), prefix(), to_hex().
+ */
 static std::string derive_fallback_cert_serial(const std::string& cert_pem,
                                                const std::string& fallback_context) {
     std::string seed = cert_pem;
@@ -103,7 +121,11 @@ static std::string derive_fallback_cert_serial(const std::string& cert_pem,
     return "stub-" + to_hex(prefix);
 }
 
-// Get OpenSSL error string for diagnostics
+/**
+ * @brief Get OpenSSL error string for diagnostics
+ * @return Return value.
+ * @details Calls: ERR_peek_last_error(), ERR_error_string_n(), ERR_clear_error(), std::string().
+ */
 static std::string ossl_error() {
     unsigned long code = ERR_peek_last_error();
     if (!code) {
@@ -115,7 +137,14 @@ static std::string ossl_error() {
     return std::string(buf);
 }
 
-// AES-256-GCM encrypt: returns iv(12) || ciphertext || tag(16)
+/**
+ * @brief AES-256-GCM encrypt: returns iv(12) || ciphertext || tag(16)
+ * @param[in] key Input parameter.
+ * @param[in] data Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: size(), std::to_string(), iv(), RAND_bytes(), data(), ossl_error(), ctx(), EVP_CIPHER_CTX_new().
+ */
 static std::vector<uint8_t> stub_aes_encrypt(const std::vector<uint8_t>& key, const std::vector<uint8_t>& data) {
     if (key.size() != 32) {
         throw std::runtime_error("AES-256-GCM encryption: invalid key size (expected 32 bytes, got " + 
@@ -156,7 +185,14 @@ static std::vector<uint8_t> stub_aes_encrypt(const std::vector<uint8_t>& key, co
     return result;
 }
 
-// AES-256-GCM decrypt: expects iv(12) || ciphertext || tag(16)
+/**
+ * @brief AES-256-GCM decrypt: expects iv(12) || ciphertext || tag(16)
+ * @param[in] key Input parameter.
+ * @param[in] encrypted Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: size(), std::to_string(), data(), ctx(), EVP_CIPHER_CTX_new(), ossl_error(), plaintext(), EVP_DecryptInit_ex().
+ */
 static std::vector<uint8_t> stub_aes_decrypt(const std::vector<uint8_t>& key, const std::vector<uint8_t>& encrypted) {
     if (key.size() != 32) {
         throw std::runtime_error("AES-256-GCM decryption: invalid key size (expected 32 bytes, got " +
@@ -203,6 +239,11 @@ HSMProvider::~HSMProvider() = default;
 HSMProvider::HSMProvider(HSMProvider&&) noexcept = default;
 HSMProvider& HSMProvider::operator=(HSMProvider&&) noexcept = default;
 
+/**
+ * @brief Initialize.
+ * @return True when the operation succeeds.
+ * @details Calls: license::RuntimeLicenseGate::instance(), isFeatureAllowed(), THEMIS_ERROR(), std::getenv(), core::ProductionMode::isEnabled(), std::string(), resize(), RAND_bytes().
+ */
 bool HSMProvider::initialize() {
     if (initialized_) {
       return true;
@@ -287,16 +328,34 @@ bool HSMProvider::initialize() {
     return true;
 }
 
+/**
+ * @brief Finalize.
+ * @details Calls: reset(), THEMIS_INFO().
+ */
 void HSMProvider::finalize() {
     initialized_ = false;
     impl_.reset();
     THEMIS_INFO("HSMProvider stub finalized");
 }
 
+/**
+ * @brief Sign.
+ * @param[in] data Input parameter.
+ * @param[in] key_label Input parameter.
+ * @return Return value.
+ * @details Calls: signHash().
+ */
 HSMSignatureResult HSMProvider::sign(const std::vector<uint8_t>& data, const std::string& key_label) {
     return signHash(data, key_label); // treat data as pre-hash
 }
 
+/**
+ * @brief Sign Hash.
+ * @param[in] hash Input parameter.
+ * @param[in] key_label Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::high_resolution_clock::now(), fetch_add(), lk(), HSMProvider::signHashFnMutex(), HSMProvider::signHashFnStorage(), fn(), empty(), count().
+ */
 HSMSignatureResult HSMProvider::signHash(const std::vector<uint8_t>& hash, const std::string& key_label) {
     auto startTime = std::chrono::high_resolution_clock::now();
     HSMSignatureResult r = {};
@@ -353,6 +412,14 @@ HSMSignatureResult HSMProvider::signHash(const std::vector<uint8_t>& hash, const
     return r;
 }
 
+/**
+ * @brief Verify identity and enforce network policies for a request.
+ * @param[in] data Input parameter.
+ * @param[in] signature_b64 Input parameter.
+ * @param[in] key_label Input parameter.
+ * @return Verification result.
+ * @details Calls: std::chrono::high_resolution_clock::now(), lk(), HSMProvider::verifyFnMutex(), HSMProvider::verifyFnStorage(), fn(), empty(), pseudo_b64(), THEMIS_DEBUG().
+ */
 bool HSMProvider::verify(const std::vector<uint8_t>& data, const std::string& signature_b64, const std::string& key_label) {
     auto startTime = std::chrono::high_resolution_clock::now();
     VerifyFn fn;
@@ -384,6 +451,11 @@ bool HSMProvider::verify(const std::vector<uint8_t>& data, const std::string& si
     return ok;
 }
 
+/**
+ * @brief List Keys.
+ * @return Return value.
+ * @details Implements listKeys without additional internal calls.
+ */
 std::vector<HSMKeyInfo> HSMProvider::listKeys() {
     HSMKeyInfo info;
     info.label = config_.key_label;
@@ -396,6 +468,13 @@ std::vector<HSMKeyInfo> HSMProvider::listKeys() {
     return {info};
 }
 
+/**
+ * @brief Encrypt Data.
+ * @param[in] data Input parameter.
+ * @param[in] key_label Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), lk(), HSMProvider::encryptDataFnMutex(), HSMProvider::encryptDataFnStorage(), fn(), std::string(), what(), THEMIS_WARN().
+ */
 std::vector<uint8_t> HSMProvider::encryptData(const std::vector<uint8_t>& data, const std::string& key_label) {
     if (!initialized_) { last_error_ = "HSM stub not initialized"; return {}; }
     if (data.empty()) { last_error_ = "Cannot encrypt empty data"; return {}; }
@@ -424,6 +503,13 @@ std::vector<uint8_t> HSMProvider::encryptData(const std::vector<uint8_t>& data, 
     }
 }
 
+/**
+ * @brief Decrypt Data.
+ * @param[in] encrypted Input parameter.
+ * @param[in] key_label Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), lk(), HSMProvider::decryptDataFnMutex(), HSMProvider::decryptDataFnStorage(), fn(), std::string(), what(), THEMIS_WARN().
+ */
 std::vector<uint8_t> HSMProvider::decryptData(const std::vector<uint8_t>& encrypted, const std::string& key_label) {
     if (!initialized_) { last_error_ = "HSM stub not initialized"; return {}; }
     if (encrypted.empty()) { last_error_ = "Cannot decrypt empty data"; return {}; }
@@ -452,19 +538,14 @@ std::vector<uint8_t> HSMProvider::decryptData(const std::vector<uint8_t>& encryp
     }
 }
 
-// PERMANENT FALLBACK NOTE (generateKeyPair / importCertificate / getCertificate):
-// Purpose: Satisfy the HSMProvider public interface in the software-only fallback
-//          build so callers do not need conditional compilation.
-// Activation: Inside `#ifndef THEMIS_ENABLE_HSM_REAL` (same activation as the
-//             overall HSM fallback class documented at the top of this file).
-// Production Delta: generateKeyPair always returns false and does NOT generate
-//             any key material — the real PKCS#11 path creates an asymmetric
-//             key pair on the HSM token.  importCertificate returns false without
-//             storing anything.  getCertificate returns a hardcoded dummy PEM
-//             string instead of a real device certificate.
-// These are PERMANENT FALLBACK implementations; enable -DTHEMIS_ENABLE_HSM_REAL=ON
-//             to replace them with real PKCS#11 operations from hsm_provider_pkcs11.cpp.
-//             See src/security/FUTURE_ENHANCEMENTS.md §"HSM Key Management".
+/**
+ * @brief PERMANENT FALLBACK NOTE (generateKeyPair / importCertificate / getCertificate): Purpose: Satisfy the HSMProvider public interface in the software-only fallback build so callers do not need conditional compilation.
+ * @param[in] label Input parameter.
+ * @param[in] key_size Input parameter.
+ * @param[in] extractable Input parameter.
+ * @return True when the operation succeeds.
+ * @details Activation: Inside `#ifndef THEMIS_ENABLE_HSM_REAL` (same activation as the overall HSM fallback class documented at the top of this file). Production Delta: generateKeyPair always returns false and does NOT generate any key material — the real PKCS#11 path creates an asymmetric key pair on the HSM token. importCertificate returns false without storing anything. getCertificate returns a hardcoded dummy PEM string instead of a real device certificate. These are PERMANENT FALLBACK implementations; enable -DTHEMIS_ENABLE_HSM_REAL=ON to replace them with real PKCS#11 operations from hsm_provider_pkcs11.cpp. See src/security/FUTURE_ENHANCEMENTS.md §"HSM Key Management". Calls: lk(), HSMProvider::generateKeyPairFnMutex(), HSMProvider::generateKeyPairFnStorage(), fn(), std::string(), what(), THEMIS_ERROR(), THEMIS_WARN().
+ */
 bool HSMProvider::generateKeyPair(const std::string& label, uint32_t key_size, bool extractable) {
     GenerateKeyPairFn fn;
     {
@@ -489,6 +570,13 @@ bool HSMProvider::generateKeyPair(const std::string& label, uint32_t key_size, b
     return false;
 }
 
+/**
+ * @brief Import Certificate.
+ * @param[in] key_label Input parameter.
+ * @param[in] cert_pem Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lk(), HSMProvider::importCertificateFnMutex(), HSMProvider::importCertificateFnStorage(), fn(), std::string(), what(), THEMIS_ERROR(), THEMIS_WARN().
+ */
 bool HSMProvider::importCertificate(const std::string& key_label, const std::string& cert_pem) {
     ImportCertificateFn fn;
     {
@@ -513,6 +601,12 @@ bool HSMProvider::importCertificate(const std::string& key_label, const std::str
     return false;
 }
 
+/**
+ * @brief Get Certificate.
+ * @param[in] key_label Input parameter.
+ * @return Return value.
+ * @details Calls: lk(), HSMProvider::getCertificateFnMutex(), HSMProvider::getCertificateFnStorage(), fn(), std::string(), what(), THEMIS_ERROR(), std::getenv().
+ */
 std::optional<std::string> HSMProvider::getCertificate(const std::string& key_label) {
     GetCertificateFn fn;
     {
@@ -574,6 +668,10 @@ HSMPerformanceStats HSMProvider::getStats() const {
     return stats;
 }
 
+/**
+ * @brief Reset Stats.
+ * @details Calls: store().
+ */
 void HSMProvider::resetStats() {
     if (!impl_) {
       return;
@@ -591,6 +689,10 @@ bool HSMProvider::isStubProvider() const {
     return true;
 }
 
+/**
+ * @brief Periodic Security Check.
+ * @details Calls: THEMIS_ERROR().
+ */
 void HSMProvider::periodicSecurityCheck() {
     if (!initialized_) {
       return;
@@ -606,8 +708,26 @@ void HSMProvider::periodicSecurityCheck() {
 // HSMPKIClient
 HSMPKIClient::HSMPKIClient(HSMConfig config) : hsm_(std::make_unique<HSMProvider>(std::move(config))) { hsm_->initialize(); }
 HSMPKIClient::~HSMPKIClient() { if (hsm_) hsm_->finalize(); }
+/**
+ * @brief Sign.
+ * @param[in] data Input parameter.
+ * @return Return value.
+ * @details Implements sign without additional internal calls.
+ */
 HSMSignatureResult HSMPKIClient::sign(const std::vector<uint8_t>& data) { return hsm_->sign(data); }
+/**
+ * @brief Verify identity and enforce network policies for a request.
+ * @param[in] data Input parameter.
+ * @param[in] signature_b64 Input parameter.
+ * @return Verification result.
+ * @details Implements verify without additional internal calls.
+ */
 bool HSMPKIClient::verify(const std::vector<uint8_t>& data, const std::string& signature_b64) { return hsm_->verify(data, signature_b64); }
+/**
+ * @brief Get Cert Serial.
+ * @return Return value.
+ * @details Calls: getCertificate(), getTokenInfo(), derive_fallback_cert_serial(), value_or(), empty(), THEMIS_WARN(), THEMIS_INFO().
+ */
 std::optional<std::string> HSMPKIClient::getCertSerial() {
     auto cert = hsm_ ? hsm_->getCertificate("") : std::optional<std::string>{};
     const std::string fallback_context = hsm_ ? hsm_->getTokenInfo() : std::string{};

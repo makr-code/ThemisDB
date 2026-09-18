@@ -46,10 +46,23 @@ namespace {
     };
     using CURLSList_ptr = std::unique_ptr<curl_slist, CURLSListDeleter>;
 
+    /**
+     * @brief Starts with.
+     * @param[in] value Input parameter.
+     * @param[in] prefix Input parameter.
+     * @return True when the operation succeeds.
+     * @details Calls: rfind().
+     */
     bool starts_with(const std::string& value, const char* prefix) {
         return value.rfind(prefix, 0) == 0;
     }
 
+    /**
+     * @brief Extract url host.
+     * @param[in] url Input parameter.
+     * @return Return value.
+     * @details Calls: find(), size(), substr(), find_first_of().
+     */
     std::string extract_url_host(const std::string& url) {
         const size_t scheme_pos = url.find("://");
         const size_t host_start = (scheme_pos == std::string::npos) ? 0 : scheme_pos + 3;
@@ -70,14 +83,33 @@ namespace {
                                                                     : host_end - host_start);
     }
 
+    /**
+     * @brief Is loopback host.
+     * @param[in] host Input parameter.
+     * @return True when the operation succeeds.
+     * @details Implements is_loopback_host without additional internal calls.
+     */
     bool is_loopback_host(const std::string& host) {
         return host == "localhost" || host == "127.0.0.1" || host == "::1";
     }
 
+    /**
+     * @brief Is loopback url.
+     * @param[in] url Input parameter.
+     * @return True when the operation succeeds.
+     * @details Calls: is_loopback_host(), extract_url_host().
+     */
     bool is_loopback_url(const std::string& url) {
         return is_loopback_host(extract_url_host(url));
     }
 
+    /**
+     * @brief Validate vault config.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     * @throws KeyOperationException if an error occurs.
+     * @details Calls: empty(), starts_with(), is_loopback_url().
+     */
     VaultKeyProvider::Config validate_vault_config(VaultKeyProvider::Config config) {
         if (config.vault_addr.empty()) {
             throw KeyOperationException("Vault address must not be empty");
@@ -114,12 +146,27 @@ namespace {
 }
 
 // CURL write callback
+/**
+ * @brief Write Callback.
+ * @param[in,out] contents Input/output parameter.
+ * @param[in] size Input parameter.
+ * @param[in] nmemb Input parameter.
+ * @param[in,out] userp Input/output parameter.
+ * @return Return value.
+ * @details Calls: append().
+ */
 static size_t WriteCallback(void* contents, size_t size, size_t nmemb, void* userp) {
     ((std::string*)userp)->append((char*)contents, size * nmemb);
     return size * nmemb;
 }
 
 // Base64 decode helper
+/**
+ * @brief Base64 decode.
+ * @param[in] encoded Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), T(), push_back(), char().
+ */
 static std::vector<uint8_t> base64_decode(const std::string& encoded) {
     static const std::string base64_chars =
         "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
@@ -150,6 +197,12 @@ static std::vector<uint8_t> base64_decode(const std::string& encoded) {
 }
 
 // Base64 encode helper
+/**
+ * @brief Base64 encode.
+ * @param[in] data Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), push_back().
+ */
 static std::string base64_encode(const std::vector<uint8_t>& data) {
     static const std::string base64_chars =
         "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
@@ -232,6 +285,11 @@ struct VaultKeyProvider::Impl {
         // concurrently.
         CURL_ptr local_curl_raw = nullptr;
         {
+            /**
+             * @brief Lock.
+             * @param[in] mutex Input parameter.
+             * @return Return value.
+             */
             std::lock_guard<std::timed_mutex> lock(mutex);
             CURL* raw_handle = curl_easy_duphandle(curl);
             if (!raw_handle) {
@@ -267,6 +325,11 @@ struct VaultKeyProvider::Impl {
         if (!raw_headers) {
             throw KeyOperationException("Failed to append Content-Type header", -1, std::string(), false);
         }
+        /**
+         * @brief Headers.
+         * @param[in] raw_headers Input parameter.
+         * @return Return value.
+         */
         CURLSList_ptr headers(raw_headers);
 
         curl_easy_setopt(local_curl, CURLOPT_HTTPHEADER, headers.get());
@@ -312,6 +375,10 @@ struct VaultKeyProvider::Impl {
         return response;
     }
     
+    /**
+     * @brief Evict Expired Cache.
+     * @details Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), begin(), end(), erase().
+     */
     void evictExpiredCache() {
         auto now = std::chrono::duration_cast<std::chrono::milliseconds>(
             std::chrono::system_clock::now().time_since_epoch()
@@ -326,6 +393,10 @@ struct VaultKeyProvider::Impl {
         }
     }
     
+    /**
+     * @brief Evict LRU.
+     * @details Calls: size(), begin(), end(), erase().
+     */
     void evictLRU() {
         if (cache.size() < (size_t)config.cache_capacity) {
             return;
@@ -360,16 +431,35 @@ VaultKeyProvider::VaultKeyProvider(
 
 VaultKeyProvider::~VaultKeyProvider() = default;
 
+/**
+ * @brief Http Get.
+ * @param[in] path Input parameter.
+ * @return Return value.
+ * @details Calls: performRequest().
+ */
 std::string VaultKeyProvider::httpGet(const std::string& path) {
     std::string url = impl_->config.vault_addr + path;
     return impl_->performRequest(url, "GET");
 }
 
+/**
+ * @brief Http Post.
+ * @param[in] path Input parameter.
+ * @param[in] body Input parameter.
+ * @return Return value.
+ * @details Calls: performRequest().
+ */
 std::string VaultKeyProvider::httpPost(const std::string& path, const std::string& body) {
     std::string url = impl_->config.vault_addr + path;
     return impl_->performRequest(url, "POST", body);
 }
 
+/**
+ * @brief Http List.
+ * @param[in] path Input parameter.
+ * @return Return value.
+ * @details Calls: performRequest().
+ */
 std::string VaultKeyProvider::httpList(const std::string& path) {
     std::string url = impl_->config.vault_addr + path;
     return impl_->performRequest(url, "LIST");
@@ -379,6 +469,14 @@ void VaultKeyProvider::setTestRequestOverride(std::function<std::string(const st
     impl_->test_request_override = std::move(fn);
 }
 
+/**
+ * @brief Read Secret.
+ * @param[in] key_id Identifier of the key.
+ * @param[in] version Input parameter.
+ * @return Return value.
+ * @throws KeyNotFoundException if an error occurs.
+ * @details Calls: std::to_string(), httpGet().
+ */
 std::string VaultKeyProvider::readSecret(const std::string& key_id, uint32_t version) {
     std::string path = {};
     if (impl_->config.kv_version == "v2") {
@@ -398,6 +496,14 @@ std::string VaultKeyProvider::readSecret(const std::string& key_id, uint32_t ver
     }
 }
 
+/**
+ * @brief Read Secret Metadata.
+ * @param[in] key_id Identifier of the key.
+ * @return Return value.
+ * @throws KeyOperationException if an error occurs.
+ * @throws KeyNotFoundException if an error occurs.
+ * @details Calls: httpGet().
+ */
 std::string VaultKeyProvider::readSecretMetadata(const std::string& key_id) {
     if (impl_->config.kv_version != "v2") {
         throw KeyOperationException("Metadata only available in KV v2");
@@ -411,6 +517,13 @@ std::string VaultKeyProvider::readSecretMetadata(const std::string& key_id) {
     }
 }
 
+/**
+ * @brief Write Secret.
+ * @param[in] key_id Identifier of the key.
+ * @param[in] key_b64 Input parameter.
+ * @param[in] version Input parameter.
+ * @details Calls: httpPost(), dump().
+ */
 void VaultKeyProvider::writeSecret(const std::string& key_id, const std::string& key_b64, uint32_t version) {
     json payload = {};
     
@@ -434,6 +547,12 @@ void VaultKeyProvider::writeSecret(const std::string& key_id, const std::string&
     httpPost(path, payload.dump());
 }
 
+/**
+ * @brief List Secrets.
+ * @return Return value.
+ * @throws KeyOperationException if an error occurs.
+ * @details Calls: httpGet(), httpList(), json::parse(), contains(), reserve(), size(), push_back(), std::string().
+ */
 std::vector<std::string> VaultKeyProvider::listSecrets() {
     std::string path = "/v1/" + impl_->config.kv_mount_path + 
                        (impl_->config.kv_version == "v2" ? "/metadata/keys" : "/keys");
@@ -464,6 +583,13 @@ std::vector<std::string> VaultKeyProvider::listSecrets() {
     }
 }
 
+/**
+ * @brief Parse Key From Vault Response.
+ * @param[in] json_response Input parameter.
+ * @return Return value.
+ * @throws KeyOperationException if an error occurs.
+ * @details Calls: json::parse(), contains(), base64_decode(), empty(), std::string(), what().
+ */
 std::vector<uint8_t> VaultKeyProvider::parseKeyFromVaultResponse(const std::string& json_response) {
     try {
         json j = json::parse(json_response);
@@ -493,6 +619,13 @@ std::vector<uint8_t> VaultKeyProvider::parseKeyFromVaultResponse(const std::stri
     }
 }
 
+/**
+ * @brief Parse Metadata From Vault Response.
+ * @param[in] json_response Input parameter.
+ * @return Return value.
+ * @throws KeyOperationException if an error occurs.
+ * @details Calls: json::parse(), contains(), empty(), std::to_string(), std::chrono::system_clock::now(), time_since_epoch(), count(), std::string().
+ */
 KeyMetadata VaultKeyProvider::parseMetadataFromVaultResponse(const std::string& json_response) {
     try {
         json j = json::parse(json_response);
@@ -542,10 +675,24 @@ std::string VaultKeyProvider::makeCacheKey(const std::string& key_id, uint32_t v
     return key_id + ":" + std::to_string(version);
 }
 
+/**
+ * @brief Get Key.
+ * @param[in] key_id Identifier of the key.
+ * @return Return value.
+ * @details Implements getKey without additional internal calls.
+ */
 std::vector<uint8_t> VaultKeyProvider::getKey(const std::string& key_id) {
     return getKey(key_id, 0);  // 0 = latest version
 }
 
+/**
+ * @brief Get Key.
+ * @param[in] key_id Identifier of the key.
+ * @param[in] version Input parameter.
+ * @return Return value.
+ * @throws KeyOperationException if an error occurs.
+ * @details Calls: lock(), try_lock_for(), std::chrono::seconds(), std::string(), makeCacheKey(), find(), std::chrono::system_clock::now(), time_since_epoch().
+ */
 std::vector<uint8_t> VaultKeyProvider::getKey(const std::string& key_id, uint32_t version) {
     std::unique_lock<std::timed_mutex> lock(impl_->mutex, std::defer_lock);
     if (!lock.try_lock_for(std::chrono::seconds(5))) {
@@ -591,6 +738,13 @@ std::vector<uint8_t> VaultKeyProvider::getKey(const std::string& key_id, uint32_
     return key_bytes;
 }
 
+/**
+ * @brief Rotate Key.
+ * @param[in] key_id Identifier of the key.
+ * @return Return value.
+ * @throws KeyOperationException if an error occurs.
+ * @details Calls: readSecretMetadata(), parseMetadataFromVaultResponse(), new_key(), RAND_bytes(), data(), std::string(), base64_encode(), writeSecret().
+ */
 uint32_t VaultKeyProvider::rotateKey(const std::string& key_id) {
     // Get current metadata to find latest version
     std::string metadata_response = readSecretMetadata(key_id);
@@ -622,6 +776,11 @@ uint32_t VaultKeyProvider::rotateKey(const std::string& key_id) {
     return new_version;
 }
 
+/**
+ * @brief List Keys.
+ * @return Return value.
+ * @details Calls: listSecrets(), reserve(), size(), getKeyMetadata(), push_back().
+ */
 std::vector<KeyMetadata> VaultKeyProvider::listKeys() {
     std::vector<std::string> key_ids = listSecrets();
     std::vector<KeyMetadata> result = {};
@@ -642,6 +801,14 @@ std::vector<KeyMetadata> VaultKeyProvider::listKeys() {
     return result;
 }
 
+/**
+ * @brief Sign.
+ * @param[in] key_id Identifier of the key.
+ * @param[in] data Input parameter.
+ * @return Return value.
+ * @throws KeyOperationException if an error occurs.
+ * @details Calls: empty(), std::string(), base64_encode(), rng(), rd(), jitter_dist(), httpPost(), dump().
+ */
 SigningResult VaultKeyProvider::sign(const std::string& key_id, const std::vector<uint8_t>& data) {
     // Build path for transit sign: /v1/<transit_mount>/sign/<key_id>
     std::string mount = impl_->config.transit_mount.empty() ? std::string("transit") : impl_->config.transit_mount;
@@ -722,6 +889,13 @@ SigningResult VaultKeyProvider::sign(const std::string& key_id, const std::vecto
     }
 }
 
+/**
+ * @brief Get Key Metadata.
+ * @param[in] key_id Identifier of the key.
+ * @param[in] version Input parameter.
+ * @return Return value.
+ * @details Calls: readSecretMetadata(), parseMetadataFromVaultResponse().
+ */
 KeyMetadata VaultKeyProvider::getKeyMetadata(const std::string& key_id, uint32_t version) {
     std::string response = readSecretMetadata(key_id);
     KeyMetadata meta = parseMetadataFromVaultResponse(response);
@@ -734,6 +908,13 @@ KeyMetadata VaultKeyProvider::getKeyMetadata(const std::string& key_id, uint32_t
     return meta;
 }
 
+/**
+ * @brief Delete Key.
+ * @param[in] key_id Identifier of the key.
+ * @param[in] version Input parameter.
+ * @throws KeyOperationException if an error occurs.
+ * @details Calls: getKeyMetadata(), lock(), curl_easy_duphandle(), CURL_ptr(), get(), curl_easy_setopt(), c_str(), curl_slist_append().
+ */
 void VaultKeyProvider::deleteKey(const std::string& key_id, uint32_t version) {
     // In Vault KV v2, deletion is done via DELETE /metadata/keys/:path
     // This soft-deletes the key (marks as deleted, can be recovered)
@@ -805,6 +986,13 @@ void VaultKeyProvider::deleteKey(const std::string& key_id, uint32_t version) {
     }
 }
 
+/**
+ * @brief Has Key.
+ * @param[in] key_id Identifier of the key.
+ * @param[in] version Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: getKeyMetadata().
+ */
 bool VaultKeyProvider::hasKey(const std::string& key_id, uint32_t version) {
     try {
         getKeyMetadata(key_id, version);
@@ -814,6 +1002,15 @@ bool VaultKeyProvider::hasKey(const std::string& key_id, uint32_t version) {
     }
 }
 
+/**
+ * @brief Create Key From Bytes.
+ * @param[in] key_id Identifier of the key.
+ * @param[in] key_bytes Input parameter.
+ * @param[in] metadata Input parameter.
+ * @return Return value.
+ * @throws KeyOperationException if an error occurs.
+ * @details Calls: size(), base64_encode(), dump(), lock(), curl_easy_duphandle(), CURL_ptr(), get(), curl_easy_setopt().
+ */
 uint32_t VaultKeyProvider::createKeyFromBytes(
     const std::string& key_id,
     const std::vector<uint8_t>& key_bytes,
@@ -909,6 +1106,10 @@ uint32_t VaultKeyProvider::createKeyFromBytes(
     return 1;
 }
 
+/**
+ * @brief Clear Cache.
+ * @details Calls: lock(), clear().
+ */
 void VaultKeyProvider::clearCache() {
     std::lock_guard<std::timed_mutex> lock(impl_->mutex);
     impl_->cache.clear();

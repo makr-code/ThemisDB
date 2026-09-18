@@ -59,41 +59,23 @@ namespace themis::transaction {
 // Region participant interface
 // ─────────────────────────────────────────────────────────────────────────────
 
-/**
- * @brief Interface that every regional transaction coordinator must implement.
- *
- * The GlobalTransactionManager calls these methods in lock-step with
- * the two-phase commit protocol.  Concrete implementations wrap a local
- * DistributedTransactionCoordinator (for in-process tests) or a gRPC
- * stub (for real deployments).
- */
 class IGlobalRegionParticipant {
 public:
+    /**
+     * @brief IGlobal Region Participant.
+     * @return Return value.
+     */
     virtual ~IGlobalRegionParticipant() = default;
 
-    /**
-     * @brief Phase 1: Prepare a transaction.
-     *
-     * The region must validate and durably lock all rows named in @p ops,
-     * write a PREPARE log entry, and return its vote.
-     *
-     * @param txn_id     Globally unique transaction identifier
-     * @param ops        JSON array of operations for this region
-     * @return           true → vote COMMIT; false → vote ABORT
-     */
     [[nodiscard]] virtual bool prepare(
         const std::string&    txn_id,
         const nlohmann::json& ops
     ) = 0;
 
     /**
-     * @brief Phase 2 (commit path): Apply the prepared operations.
-     *
-     * Called only when the coordinator has received COMMIT votes from
-     * every participant.
-     *
-     * @param txn_id           Transaction to commit
-     * @param commit_timestamp TrueTime commit timestamp (nanoseconds since epoch)
+     * @brief Commit.
+     * @param[in] txn_id Identifier of the txn.
+     * @param[in] commit_timestamp Input parameter.
      */
     virtual void commit(
         const std::string& txn_id,
@@ -101,9 +83,8 @@ public:
     ) = 0;
 
     /**
-     * @brief Phase 2 (abort path): Discard the prepared operations.
-     *
-     * @param txn_id  Transaction to abort
+     * @brief Abort.
+     * @param[in] txn_id Identifier of the txn.
      */
     virtual void abort(const std::string& txn_id) = 0;
 };
@@ -112,14 +93,12 @@ public:
 // Result / state types
 // ─────────────────────────────────────────────────────────────────────────────
 
-/** @brief Possible outcomes of a global commit call. */
 enum class GlobalTxnResult {
     COMMITTED,  ///< All regions committed
     ABORTED,    ///< At least one region voted ABORT (or an error occurred)
     ERROR       ///< Internal error; transaction state uncertain
 };
 
-/** @brief Detailed outcome returned by GlobalTransactionManager::commit(). */
 struct GlobalTxnOutcome {
     GlobalTxnResult result        = GlobalTxnResult::ERROR;
     std::string     transaction_id;
@@ -131,7 +110,6 @@ struct GlobalTxnOutcome {
     }
 };
 
-/** @brief Lifecycle state of a global transaction. */
 enum class GlobalTxnState {
     ACTIVE,          ///< Coordinator created; Phase 1 not yet sent
     PREPARING,       ///< Phase 1 in progress
@@ -141,26 +119,21 @@ enum class GlobalTxnState {
     FAILED           ///< Unrecoverable error
 };
 
-/** @brief Per-region tracking kept by the coordinator. */
 struct RegionTxnRecord {
     std::string region_id;
     bool        voted    = false;  ///< true = COMMIT vote
     bool        phase2_acked = false;
 };
 
-/** @brief Internal coordinator record for one global transaction. */
 struct GlobalTxnRecord {
     std::string                  transaction_id;
     GlobalTxnState               state  = GlobalTxnState::ACTIVE;
     std::chrono::steady_clock::time_point started_at;
 
-    /// Per-region pending operations (JSON)
     std::map<std::string, nlohmann::json> region_ops;
 
-    /// Per-region vote tracking
     std::map<std::string, RegionTxnRecord> region_records;
 
-    /// TrueTime commit timestamp (nanoseconds since epoch); 0 until assigned
     int64_t commit_timestamp_ns = 0;
 };
 
@@ -168,38 +141,19 @@ struct GlobalTxnRecord {
 // GlobalTransactionManager
 // ─────────────────────────────────────────────────────────────────────────────
 
-/**
- * @brief Global coordinator for multi-region ACID transactions.
- *
- * Usage:
- * @code
- *   GlobalTransactionManager gtm("coord-global", truetime);
- *   gtm.registerRegion("us-east-1", &usEastParticipant);
- *   gtm.registerRegion("eu-west-1", &euWestParticipant);
- *
- *   auto txn_id = gtm.beginTransaction({"us-east-1", "eu-west-1"});
- *   gtm.addOperation(txn_id, "us-east-1", {{"type","PUT"},{"key","users:1"}});
- *   gtm.addOperation(txn_id, "eu-west-1", {{"type","PUT"},{"key","users:1"}});
- *   auto outcome = gtm.commit(txn_id);
- *   assert(outcome.committed());
- * @endcode
- */
 class GlobalTransactionManager : public IRecoverableTwoPhaseCoordinator {
 public:
-    /** @brief Configuration for the global coordinator. */
     struct Config {
-        /// WAL directory for durable logging; empty = WAL disabled
         std::string wal_directory;
 
-        /// Flush WAL synchronously on every write
         bool sync_wal_writes = true;
     };
 
     /**
-     * @brief Construct a global transaction coordinator.
-     *
-     * @param coordinator_id  Unique name for this coordinator instance
-     * @param truetime        TrueTime clock for commit-timestamp assignment
+     * @brief Global Transaction Manager.
+     * @param[in] coordinator_id Identifier of the coordinator.
+     * @param[in] truetime Input parameter.
+     * @return Return value.
      */
     explicit GlobalTransactionManager(
         const std::string&                          coordinator_id,
@@ -207,11 +161,11 @@ public:
     );
 
     /**
-     * @brief Construct a global transaction coordinator.
-     *
-     * @param coordinator_id  Unique name for this coordinator instance
-     * @param truetime        TrueTime clock for commit-timestamp assignment
-     * @param config          Optional configuration (WAL, timeouts, …)
+     * @brief Global Transaction Manager.
+     * @param[in] coordinator_id Identifier of the coordinator.
+     * @param[in] truetime Input parameter.
+     * @param[in] config Input parameter.
+     * @return Return value.
      */
     explicit GlobalTransactionManager(
         const std::string&                          coordinator_id,
@@ -225,16 +179,11 @@ public:
     GlobalTransactionManager(const GlobalTransactionManager&)            = delete;
     GlobalTransactionManager& operator=(const GlobalTransactionManager&) = delete;
 
-    // ── Region management ─────────────────────────────────────────────────────
 
     /**
-     * @brief Register a region participant.
-     *
-     * The participant must remain valid for the lifetime of the coordinator
-     * (or until explicitly unregistered).
-     *
-     * @param region_id   Geographic region identifier (e.g. "us-east-1")
-     * @param participant Pointer to the region's transaction coordinator proxy
+     * @brief Register Region.
+     * @param[in] region_id Identifier of the region.
+     * @param[in,out] participant Input/output parameter.
      */
     void registerRegion(
         const std::string&        region_id,
@@ -242,35 +191,32 @@ public:
     );
 
     /**
-     * @brief Unregister a previously registered region.
-     * @return true if the region was found and removed
+     * @brief Unregister Region.
+     * @param[in] region_id Identifier of the region.
+     * @return True when the operation succeeds.
      */
     bool unregisterRegion(const std::string& region_id);
 
-    /** @brief Return the number of registered regions. */
+    /**
+     * @brief Region Count.
+     * @return Return value.
+     */
     size_t regionCount() const;
 
-    // ── Transaction lifecycle ─────────────────────────────────────────────────
 
     /**
-     * @brief Begin a new global transaction.
-     *
-     * @param region_ids  Regions that will participate in this transaction.
-     *                    All must have been registered via registerRegion().
-     * @return            Globally unique transaction ID
-     * @throws std::invalid_argument if region_ids is empty or a region is unknown
+     * @brief Begin Transaction.
+     * @param[in] region_ids Input parameter.
+     * @return Return value.
      */
     std::string beginTransaction(const std::vector<std::string>& region_ids);
 
     /**
-     * @brief Append an operation for a specific region.
-     *
-     * Operations are buffered locally until commit() is called.
-     *
-     * @param txn_id    Transaction ID returned by beginTransaction()
-     * @param region_id Target region
-     * @param op        JSON object describing the operation
-     * @return          false if the transaction or region is not found
+     * @brief Add Operation.
+     * @param[in] txn_id Identifier of the txn.
+     * @param[in] region_id Identifier of the region.
+     * @param[in] op Input parameter.
+     * @return True when the operation succeeds.
      */
     bool addOperation(
         const std::string&    txn_id,
@@ -279,72 +225,44 @@ public:
     );
 
     /**
-     * @brief Commit a global transaction via two-phase commit.
-     *
-     * Drives both phases synchronously:
-     * 1. Sends PREPARE to every participating region.
-     * 2. Waits for all votes.
-     * 3. Assigns a TrueTime commit timestamp and waits until it is past.
-     * 4. Sends COMMIT (or ABORT) to every participant.
-     *
-     * @param txn_id  Transaction to commit
-     * @return        Outcome with COMMITTED, ABORTED, or ERROR
+     * @brief Commit.
+     * @param[in] txn_id Identifier of the txn.
+     * @return Return value.
      */
     GlobalTxnOutcome commit(const std::string& txn_id);
 
     /**
-     * @brief Abort a global transaction.
-     *
-     * If Phase 1 has already been sent, ABORT is broadcast to all
-     * participants.  Otherwise the transaction is simply discarded.
-     *
-     * @param txn_id  Transaction to abort
-     * @return        false if the transaction was not found
+     * @brief Abort.
+     * @param[in] txn_id Identifier of the txn.
+     * @return True when the operation succeeds.
      */
     bool abort(const std::string& txn_id);
 
     // ── Recovery ─────────────────────────────────────────────────────────────
 
-    /**
-     * @brief Recover and re-drive in-doubt transactions from the WAL.
-     *
-     * Must be called once after a restart, before accepting new
-     * transactions.  Re-sends the Phase 2 decision to participants
-     * that have not yet acknowledged.
-     *
-     * @return Number of in-doubt transactions resolved
-     */
     size_t recoverInDoubtTransactions() override;
 
-    /**
-     * @brief Return the canonical coordinator name for global recovery reports.
-     * @return "GlobalTransactionManager".
-     */
     [[nodiscard]] std::string recoveryCoordinatorName() const override;
 
-    /**
-     * @brief Return the durable backend used by this coordinator.
-     * @return "WAL" when enabled, otherwise "disabled".
-     */
     [[nodiscard]] std::string recoveryBackendName() const override;
 
-    /**
-     * @brief Snapshot current in-doubt transactions using the shared state model.
-     * @return Normalized non-final transaction list for global recovery orchestration.
-     */
     [[nodiscard]] std::vector<RecoverableTwoPhaseTransaction>
     getRecoverableTransactions() const override;
 
-    // ── Introspection ─────────────────────────────────────────────────────────
 
     /**
-     * @brief Return the current state of a tracked transaction.
+     * @brief Get Transaction State.
+     * @param[in] txn_id Identifier of the txn.
+     * @return Return value.
      */
     std::optional<GlobalTxnState> getTransactionState(
         const std::string& txn_id
     ) const;
 
-    /** @brief Return coordinator statistics as a JSON object. */
+    /**
+     * @brief Return access control statistics.
+     * @return Access control statistics.
+     */
     nlohmann::json getStatistics() const;
 
 private:
@@ -370,22 +288,37 @@ private:
 
     std::atomic<uint64_t> txn_counter_{0};
 
-    // ── Internal helpers ──────────────────────────────────────────────────────
 
-    /// Run Phase 1: send PREPARE to all participating regions
+    /**
+     * @brief Run Phase1.
+     * @param[in,out] rec Input/output parameter.
+     * @return True when the operation succeeds.
+     */
     bool runPhase1(GlobalTxnRecord& rec);
 
-    /// Run Phase 2: send COMMIT or ABORT to all participating regions
+    /**
+     * @brief Run Phase2.
+     * @param[in,out] rec Input/output parameter.
+     * @param[in] do_commit Input parameter.
+     */
     void runPhase2(GlobalTxnRecord& rec, bool do_commit);
 
-    /// Persist a WAL entry
+    /**
+     * @brief Log To WAL.
+     * @param[in] type Input parameter.
+     * @param[in] txn_id Identifier of the txn.
+     * @param[in] data Input parameter.
+     */
     void logToWAL(
         themis::sharding::WALEntryType type,
         const std::string&             txn_id,
         const nlohmann::json&          data
     );
 
-    /// Generate a globally-unique transaction identifier
+    /**
+     * @brief Generate Transaction Id.
+     * @return Return value.
+     */
     std::string generateTransactionId();
 };
 

@@ -21,55 +21,30 @@ namespace themis {
 namespace llm {
 namespace lora {
 
-/**
- * @brief Distributed data loader for multi-GPU training
- * 
- * Automatically shards data across GPUs for data-parallel training.
- * Handles:
- * - Data sharding across GPUs
- * - Distributed sampling
- * - Uneven data distribution
- * - Data prefetching
- * 
- * Example:
- * ```cpp
- * MultiGPUContext ctx(4);
- * DistributedDataLoader loader(dataset, 32, ctx);
- * 
- * for (auto& batch : loader) {
- *     // batch is vector of tensors, one per GPU
- *     auto outputs = model.forward(batch);
- * }
- * ```
- */
 class DistributedDataLoader {
 public:
-    /**
-     * @brief Dataset interface
-     */
     class Dataset {
     public:
+        /**
+         * @brief Dataset.
+         * @return Return value.
+         */
         virtual ~Dataset() = default;
         
         /**
-         * @brief Get sample at index
+         * @brief Get.
+         * @param[in] index Input parameter.
+         * @return Return value.
          */
         virtual GPUTensor get(size_t index) const = 0;
         
         /**
-         * @brief Get dataset size
+         * @brief Size.
+         * @return Return value.
          */
         virtual size_t size() const = 0;
     };
     
-    /**
-     * @brief Construct distributed data loader
-     * @param dataset Dataset to load from
-     * @param batch_size Total batch size (will be divided across GPUs)
-     * @param ctx Multi-GPU context
-     * @param shuffle Shuffle data each epoch
-     * @param drop_last Drop last incomplete batch
-     */
     DistributedDataLoader(
         const Dataset& dataset,
         size_t batch_size,
@@ -79,9 +54,6 @@ public:
     
     ~DistributedDataLoader() = default;
     
-    /**
-     * @brief Batch iterator
-     */
     class Iterator {
     public:
         Iterator(DistributedDataLoader* loader, size_t position);
@@ -95,21 +67,23 @@ public:
         size_t position_ = 0;
     };
     
+    /**
+     * @brief Begin.
+     * @return Return value.
+     */
     Iterator begin();
+    /**
+     * @brief End.
+     * @return Return value.
+     */
     Iterator end();
     
-    /**
-     * @brief Get number of batches per epoch
-     */
     size_t num_batches() const { return num_batches_; }
     
-    /**
-     * @brief Get batch size per GPU
-     */
     size_t batch_size_per_gpu() const { return batch_size_per_gpu_; }
     
     /**
-     * @brief Reset iterator (for new epoch)
+     * @brief Reset the modification detection flag.
      */
     void reset();
     
@@ -124,15 +98,25 @@ private:
     size_t num_batches_ = 0;
     std::vector<size_t> indices_;
     
+    /**
+     * @brief Initialize indices.
+     */
     void initialize_indices();
+    /**
+     * @brief Load batch.
+     * @param[in] batch_idx Input parameter.
+     * @return Return value.
+     */
     std::vector<GPUTensor> load_batch(size_t batch_idx);
 };
 
-/**
- * @brief Simple in-memory dataset
- */
 class InMemoryDataset : public DistributedDataLoader::Dataset {
 public:
+    /**
+     * @brief In Memory Dataset.
+     * @param[in] data Input parameter.
+     * @return Return value.
+     */
     explicit InMemoryDataset(std::vector<GPUTensor> data);
     ~InMemoryDataset() override = default;
     

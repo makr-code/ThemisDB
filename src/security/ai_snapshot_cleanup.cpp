@@ -108,6 +108,11 @@ std::vector<AiSnapshotInfo> AiSnapshotCleanupJob::listSnapshots() const {
 // runCleanup
 // ============================================================================
 
+/**
+ * @brief Run Cleanup.
+ * @return Return value.
+ * @details Calls: listSnapshots(), begin(), end(), isExpired(), spdlog::info(), removeDirectory(), erase(), empty().
+ */
 int AiSnapshotCleanupJob::runCleanup() {
     auto snaps = listSnapshots();
     int deleted = 0;

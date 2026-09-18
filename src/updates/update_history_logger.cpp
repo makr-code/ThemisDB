@@ -45,6 +45,12 @@ json UpdateHistoryEntry::toJson() const {
     };
 }
 
+/**
+ * @brief From Json.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: value().
+ */
 UpdateHistoryEntry UpdateHistoryEntry::fromJson(const json& j) {
     UpdateHistoryEntry e;
     e.who           = j.value("who",           "");
@@ -71,6 +77,11 @@ UpdateHistoryLogger::UpdateHistoryLogger(const std::string& log_file_path)
     LOG_INFO("UpdateHistoryLogger initialised: {}", log_file_path_);
 }
 
+/**
+ * @brief Record.
+ * @param[in] entry Input parameter.
+ * @details Calls: lock(), loadEntries(), push_back(), saveEntries(), LOG_INFO().
+ */
 void UpdateHistoryLogger::record(const UpdateHistoryEntry& entry) {
     std::lock_guard<std::mutex> lock(mutex_);
     auto entries = loadEntries();
@@ -81,6 +92,11 @@ void UpdateHistoryLogger::record(const UpdateHistoryEntry& entry) {
 }
 
 std::vector<UpdateHistoryEntry> UpdateHistoryLogger::getHistory(size_t limit) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     auto entries = loadEntries();
     // Newest first
@@ -91,6 +107,10 @@ std::vector<UpdateHistoryEntry> UpdateHistoryLogger::getHistory(size_t limit) co
     return entries;
 }
 
+/**
+ * @brief Clear.
+ * @details Calls: lock(), saveEntries(), LOG_INFO().
+ */
 void UpdateHistoryLogger::clear() {
     std::lock_guard<std::mutex> lock(mutex_);
     saveEntries({});
@@ -112,6 +132,11 @@ std::vector<UpdateHistoryEntry> UpdateHistoryLogger::loadEntries() const {
         return entries;
     }
     try {
+        /**
+         * @brief File.
+         * @param[in] log_file_path_ Input parameter.
+         * @return Return value.
+         */
         std::ifstream file(log_file_path_);
         if (!file.is_open()) {
             LOG_WARN("Cannot open update history file: {}", log_file_path_);
@@ -138,6 +163,11 @@ void UpdateHistoryLogger::saveEntries(const std::vector<UpdateHistoryEntry>& ent
         for (const auto& e : entries) {
             arr.push_back(e.toJson());
         }
+        /**
+         * @brief File.
+         * @param[in] log_file_path_ Input parameter.
+         * @return Return value.
+         */
         std::ofstream file(log_file_path_);
         if (!file.is_open()) {
             LOG_ERROR("Cannot write update history file: {}", log_file_path_);

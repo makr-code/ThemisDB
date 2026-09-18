@@ -14,6 +14,11 @@
 
 namespace themis::importers {
 
+/**
+ * @brief Project Vector Dirty Pages.
+ * @return Return value.
+ * @details Calls: relationalRowCount(), empty(), size(), erase(), std::remove_if(), begin(), end(), count().
+ */
 WikipediaProjectionSummary WikipediaIngestionPipeline::projectVectorDirtyPages() {
     WikipediaProjectionSummary summary;
     summary.relational_rows = relationalRowCount();

@@ -21,13 +21,10 @@ namespace lora {
 namespace directx {
 
 /**
- * @brief Get the path to compiled shader files
- * 
- * Searches for shader files in:
- * 1. Executable directory/shaders/lora (installed location)
- * 2. ../shaders/lora (relative to executable)
- * 3. ./shaders/lora (current directory)
- * 4. ../../build/shaders/lora (development build directory)
+ * @brief Get shader path.
+ * @param[in] shader_name Name of the shader.
+ * @return Return value.
+ * @details Calls: fs::current_path(), fs::exists(), string().
  */
 inline std::string get_shader_path(const std::string& shader_name) {
     namespace fs = std::filesystem;

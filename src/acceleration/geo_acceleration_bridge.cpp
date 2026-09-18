@@ -74,6 +74,18 @@
 #ifdef THEMIS_ENABLE_CUDA
 #include <cstdint>
 extern "C" {
+/**
+ * @brief Launch Geo Distance Kernel.
+ * @param[in] d_lats1 Input parameter.
+ * @param[in] d_lons1 Input parameter.
+ * @param[in] d_lats2 Input parameter.
+ * @param[in] d_lons2 Input parameter.
+ * @param[in,out] d_distances Input/output parameter.
+ * @param[in] count Input parameter.
+ * @param[in] formula Input parameter.
+ * @param[in,out] opaque_stream Input/output parameter.
+ * @return Return value.
+ */
 int launchGeoDistanceKernel(
     const double* d_lats1,
     const double* d_lons1,
@@ -84,6 +96,17 @@ int launchGeoDistanceKernel(
     themis::acceleration::GeoDistanceFormula formula,
     void* opaque_stream
 );
+/**
+ * @brief Launch Geo Containment Kernel.
+ * @param[in] d_point_lats Input parameter.
+ * @param[in] d_point_lons Input parameter.
+ * @param[in] numPoints Input parameter.
+ * @param[in] d_polygon_coords Input parameter.
+ * @param[in] numPolygonVertices Input parameter.
+ * @param[in,out] d_results Input/output parameter.
+ * @param[in,out] opaque_stream Input/output parameter.
+ * @return Return value.
+ */
 int launchGeoContainmentKernel(
     const double* d_point_lats,
     const double* d_point_lons,
@@ -190,13 +213,19 @@ double vincentyKm(double lat1, double lon1, double lat2, double lon2) noexcept {
     return (kWgsB * kA * (sigma - dSigma)) / 1000.0;
 }
 
-// ---------------------------------------------------------------------------
-// Static kernel dispatch functions
-//
-// These match the GeoDistanceFn / GeoContainmentFn typedefs from
-// kernel_invocation.h and are registered via populateGeoDispatch() so that
-// BackendRegistry can invoke them without knowing the concrete backend type.
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- Static kernel dispatch functions These match the GeoDistanceFn / GeoContainmentFn typedefs from kernel_invocation.
+ * @param[in] lats1 Input parameter.
+ * @param[in] lons1 Input parameter.
+ * @param[in] lats2 Input parameter.
+ * @param[in] lons2 Input parameter.
+ * @param[in,out] out_distances Input/output parameter.
+ * @param[in] count Input parameter.
+ * @param[in] formula Input parameter.
+ * @param[in,out] param Input/output parameter.
+ * @return Return value.
+ * @details h and are registered via populateGeoDispatch() so that BackendRegistry can invoke them without knowing the concrete backend type. ---------------------------------------------------------------------------
+ */
 
 static int bridge_geo_distance(
     const double* lats1, const double* lons1,
@@ -230,6 +259,17 @@ static int bridge_geo_distance(
     return 0;
 }
 
+/**
+ * @brief Bridge geo containment.
+ * @param[in] point_lats Input parameter.
+ * @param[in] point_lons Input parameter.
+ * @param[in] numPoints Input parameter.
+ * @param[in] polygon_coords Input parameter.
+ * @param[in] numVertices Input parameter.
+ * @param[in,out] results Input/output parameter.
+ * @param[in,out] param Input/output parameter.
+ * @return Return value.
+ */
 static int bridge_geo_containment(
     const double* point_lats, const double* point_lons, int numPoints,
     const double* polygon_coords, int numVertices,
@@ -240,7 +280,11 @@ static int bridge_geo_containment(
         return 1;
     }
 
-    // Build the polygon GeometryInfo once.
+    /**
+     * @brief Build the polygon GeometryInfo once.
+     * @param[in] Polygon Input parameter.
+     * @return Return value.
+     */
     themis::geo::GeometryInfo poly(themis::geo::GeometryType::Polygon);
     std::vector<themis::geo::Coordinate> ring;
     ring.reserve(static_cast<size_t>(numVertices));
@@ -256,6 +300,11 @@ static int bridge_geo_containment(
     batch.geoms_a.reserve(batch.count);
     batch.geoms_b.reserve(batch.count);
     for (int i = 0; i < numPoints; ++i) {
+        /**
+         * @brief Pt.
+         * @param[in] Point Input parameter.
+         * @return Return value.
+         */
         themis::geo::GeometryInfo pt(themis::geo::GeometryType::Point);
         pt.coords.push_back({point_lats[i], point_lons[i]});
         batch.geoms_a.push_back(std::move(pt));
@@ -313,6 +362,11 @@ BackendCapabilities GeoAccelerationBridge::getCapabilities() const {
     return caps;
 }
 
+/**
+ * @brief Initialize.
+ * @return True when the operation succeeds.
+ * @details Calls: clearError(), themis::geo::getGpuSpatialBackend().
+ */
 bool GeoAccelerationBridge::initialize() {
     clearError();
     // Eagerly touch the geo GPU backend singleton so that device discovery
@@ -321,6 +375,10 @@ bool GeoAccelerationBridge::initialize() {
     return true;
 }
 
+/**
+ * @brief Shutdown.
+ * @details Implements shutdown without additional internal calls.
+ */
 void GeoAccelerationBridge::shutdown() {}
 
 // ---------------------------------------------------------------------------
@@ -333,6 +391,17 @@ double GeoAccelerationBridge::haversineKm(double lat1, double lon1,
     return themis::geo::haversine_km(lat1, lon1, lat2, lon2);
 }
 
+/**
+ * @brief Batch Distances.
+ * @param[in] latitudes1 Input parameter.
+ * @param[in] longitudes1 Input parameter.
+ * @param[in] latitudes2 Input parameter.
+ * @param[in] longitudes2 Input parameter.
+ * @param[in] count Input parameter.
+ * @param[in] useHaversine Input parameter.
+ * @return Return value.
+ * @details Calls: clearError(), setError(), std::move(), BatchValidator::validateGeoBatch(), name(), THEMIS_WARN(), results(), haversineKm().
+ */
 std::vector<float> GeoAccelerationBridge::batchDistances(
     const double* latitudes1,
     const double* longitudes1,
@@ -373,6 +442,16 @@ std::vector<float> GeoAccelerationBridge::batchDistances(
 // batchPointInPolygon
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Batch Point In Polygon.
+ * @param[in] pointLats Input parameter.
+ * @param[in] pointLons Input parameter.
+ * @param[in] numPoints Input parameter.
+ * @param[in] polygonCoords Input parameter.
+ * @param[in] numPolygonVertices Input parameter.
+ * @return Return value.
+ * @details Calls: clearError(), setError(), std::move(), BatchValidator::validatePointInPolygonBatch(), name(), THEMIS_WARN(), poly(), reserve().
+ */
 std::vector<bool> GeoAccelerationBridge::batchPointInPolygon(
     const double* pointLats,
     const double* pointLons,

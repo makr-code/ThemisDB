@@ -33,6 +33,11 @@ WorkStealingThreadPool::WorkStealingThreadPool(const Config& cfg)
 
     // Pre-create per-thread queues up to max_threads.
     {
+        /**
+         * @brief Lk.
+         * @param[in] queues_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(queues_mutex_);
         queues_.reserve(cfg_.max_threads);
         for (std::size_t i = 0; i < cfg_.max_threads; ++i) {
@@ -42,6 +47,11 @@ WorkStealingThreadPool::WorkStealingThreadPool(const Config& cfg)
 
     // Start min_threads workers.
     {
+        /**
+         * @brief Lk.
+         * @param[in] workers_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(workers_mutex_);
         workers_.reserve(cfg_.min_threads);
         for (std::size_t i = 0; i < cfg_.min_threads; ++i) {
@@ -60,6 +70,13 @@ WorkStealingThreadPool::~WorkStealingThreadPool() {
 // submit
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Submit.
+ * @param[in] item Input parameter.
+ * @param[in] timeout Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: load(), std::chrono::steady_clock::now(), lk(), wait_until(), push_back(), std::move(), fetch_add(), unlock().
+ */
 bool WorkStealingThreadPool::submit(WorkItem item,
                                     std::chrono::milliseconds timeout) {
     if (shutdown_.load(std::memory_order_acquire)) {
@@ -91,9 +108,13 @@ bool WorkStealingThreadPool::submit(std::function<void()> fn, std::string name,
     return submit(WorkItem{std::move(fn), std::move(name)}, timeout);
 }
 
-// ---------------------------------------------------------------------------
-// tryGetWork — try dispatch queue first, then steal from peers
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- tryGetWork — try dispatch queue first, then steal from peers ---------------------------------------------------------------------------
+ * @param[in] size_t Input parameter.
+ * @param[in,out] out Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lk(), empty(), std::move(), front(), pop_front(), fetch_sub(), notify_one().
+ */
 
 bool WorkStealingThreadPool::tryGetWork(std::size_t /*own_idx*/, WorkItem& out) {
     // Pop from the shared dispatch queue.  Per-thread work deques are
@@ -116,6 +137,11 @@ bool WorkStealingThreadPool::tryGetWork(std::size_t /*own_idx*/, WorkItem& out) 
 // workerLoop
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Worker Loop.
+ * @param[in] thread_idx Input parameter.
+ * @details Calls: std::chrono::milliseconds(), load(), tryGetWork(), lk(), wait_for(), empty(), std::chrono::steady_clock::now(), fn().
+ */
 void WorkStealingThreadPool::workerLoop(std::size_t thread_idx) {
     const auto idle_timeout =
         std::chrono::milliseconds(cfg_.idle_timeout_ms);
@@ -180,6 +206,12 @@ void WorkStealingThreadPool::workerLoop(std::size_t thread_idx) {
 // waitAll
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Wait All.
+ * @param[in] timeout Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: std::chrono::steady_clock::now(), lk(), empty(), load(), std::this_thread::sleep_for(), std::chrono::milliseconds().
+ */
 bool WorkStealingThreadPool::waitAll(std::chrono::milliseconds timeout) {
     const auto deadline = std::chrono::steady_clock::now() + timeout;
     while (std::chrono::steady_clock::now() < deadline) {
@@ -207,6 +239,11 @@ WorkStealingThreadPool::statistics() const noexcept {
     st.completed      = completed_.load(std::memory_order_relaxed);
     st.failed         = failed_.load(std::memory_order_relaxed);
 
+    /**
+     * @brief Lk.
+     * @param[in] latency_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(latency_mutex_);
     if (!latency_samples_us_.empty()) {
         auto sorted = latency_samples_us_;
@@ -230,6 +267,11 @@ std::size_t WorkStealingThreadPool::thread_count() const noexcept {
 // shutdown
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Shutdown.
+ * @param[in] drain_timeout Input parameter.
+ * @details Calls: exchange(), waitAll(), notify_all(), lk(), joinable(), join(), clear().
+ */
 void WorkStealingThreadPool::shutdown(std::chrono::milliseconds drain_timeout) {
     if (shutdown_.exchange(true, std::memory_order_acq_rel)) {
         return;

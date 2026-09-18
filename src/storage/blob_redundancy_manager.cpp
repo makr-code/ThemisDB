@@ -113,11 +113,22 @@ int64_t tp_to_epoch(const std::chrono::time_point<Clock, Dur>& tp) {
                tp.time_since_epoch()).count();
 }
 
-// seconds since epoch (int64) → system_clock::time_point
+/**
+ * @brief seconds since epoch (int64) → system_clock::time_point
+ * @param[in] secs Input parameter.
+ * @return Return value.
+ * @details Implements epoch_to_tp without additional internal calls.
+ */
 std::chrono::system_clock::time_point epoch_to_tp(int64_t secs) {
     return std::chrono::system_clock::time_point{std::chrono::seconds{secs}};
 }
 
+/**
+ * @brief Location to json.
+ * @param[in] loc Input parameter.
+ * @return Return value.
+ * @details Calls: tp_to_epoch().
+ */
 nlohmann::json location_to_json(const BlobLocation& loc) {
     return {
         {"shard_id",    loc.shard_id},
@@ -134,6 +145,12 @@ nlohmann::json location_to_json(const BlobLocation& loc) {
     };
 }
 
+/**
+ * @brief Location from json.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: value(), epoch_to_tp().
+ */
 BlobLocation location_from_json(const nlohmann::json& j) {
     BlobLocation loc;
     loc.shard_id    = j.value("shard_id",   std::string{});
@@ -150,6 +167,12 @@ BlobLocation location_from_json(const nlohmann::json& j) {
     return loc;
 }
 
+/**
+ * @brief Erasure config to json.
+ * @param[in] ec Input parameter.
+ * @return Return value.
+ * @details Implements erasure_config_to_json without additional internal calls.
+ */
 nlohmann::json erasure_config_to_json(const ErasureCodingConfig& ec) {
     return {
         {"data_shards",   ec.data_shards},
@@ -158,6 +181,12 @@ nlohmann::json erasure_config_to_json(const ErasureCodingConfig& ec) {
     };
 }
 
+/**
+ * @brief Erasure config from json.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: value().
+ */
 ErasureCodingConfig erasure_config_from_json(const nlohmann::json& j) {
     ErasureCodingConfig ec;
     ec.data_shards   = j.value("data_shards",   uint32_t{4});
@@ -166,6 +195,12 @@ ErasureCodingConfig erasure_config_from_json(const nlohmann::json& j) {
     return ec;
 }
 
+/**
+ * @brief Blob config to json.
+ * @param[in] c Input parameter.
+ * @return Return value.
+ * @details Calls: erasure_config_to_json().
+ */
 nlohmann::json blob_config_to_json(const BlobRedundancyConfig& c) {
     return {
         {"mode",               static_cast<int>(c.mode)},
@@ -193,6 +228,12 @@ nlohmann::json blob_config_to_json(const BlobRedundancyConfig& c) {
     };
 }
 
+/**
+ * @brief Blob config from json.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: value(), contains(), is_object(), erasure_config_from_json().
+ */
 BlobRedundancyConfig blob_config_from_json(const nlohmann::json& j) {
     BlobRedundancyConfig c;
     c.mode               = static_cast<RedundancyMode>(j.value("mode", 0));
@@ -222,6 +263,12 @@ BlobRedundancyConfig blob_config_from_json(const nlohmann::json& j) {
     return c;
 }
 
+/**
+ * @brief Redundancy mode to string.
+ * @param[in] mode Input parameter.
+ * @return Pointer to the result.
+ * @details Implements redundancy_mode_to_string without additional internal calls.
+ */
 const char* redundancy_mode_to_string(const RedundancyMode mode) {
     switch (mode) {
         case RedundancyMode::NONE:          return "NONE";
@@ -234,6 +281,12 @@ const char* redundancy_mode_to_string(const RedundancyMode mode) {
     return "MIRROR";
 }
 
+/**
+ * @brief Storage tier to string.
+ * @param[in] tier Input parameter.
+ * @return Pointer to the result.
+ * @details Implements storage_tier_to_string without additional internal calls.
+ */
 const char* storage_tier_to_string(const StorageTier tier) {
     switch (tier) {
         case StorageTier::HOT:     return "HOT";
@@ -244,6 +297,12 @@ const char* storage_tier_to_string(const StorageTier tier) {
     return "HOT";
 }
 
+/**
+ * @brief Blob type to string.
+ * @param[in] type Input parameter.
+ * @return Pointer to the result.
+ * @details Implements blob_type_to_string without additional internal calls.
+ */
 const char* blob_type_to_string(const BlobType type) {
     switch (type) {
         case BlobType::SST_L0:        return "SST_L0";
@@ -267,6 +326,12 @@ const char* blob_type_to_string(const BlobType type) {
     return "CUSTOM";
 }
 
+/**
+ * @brief Blob config to yaml.
+ * @param[in] cfg Input parameter.
+ * @return Return value.
+ * @details Calls: redundancy_mode_to_string(), storage_tier_to_string().
+ */
 YAML::Node blob_config_to_yaml(const BlobRedundancyConfig& cfg) {
     YAML::Node node;
     node["mode"] = redundancy_mode_to_string(cfg.mode);
@@ -314,6 +379,12 @@ std::string BlobMetadata::toJson() const {
     return j.dump();
 }
 
+/**
+ * @brief From Json.
+ * @param[in] json Input parameter.
+ * @return Return value.
+ * @details Calls: nlohmann::json::parse(), value(), epoch_to_tp(), contains(), is_object(), blob_config_from_json(), is_array(), reserve().
+ */
 std::optional<BlobMetadata> BlobMetadata::fromJson(const std::string& json) {
     try {
         const nlohmann::json j = nlohmann::json::parse(json);
@@ -346,9 +417,12 @@ std::optional<BlobMetadata> BlobMetadata::fromJson(const std::string& json) {
     }
 }
 
-// ═══════════════════════════════════════════════════════════
-// CollectionRedundancyConfig Implementation
-// ═══════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════ CollectionRedundancyConfig Implementation ═══════════════════════════════════════════════════════════
+ * @param[in] path Input parameter.
+ * @return Return value.
+ * @details Calls: IsMap(), YAML::LoadFile(), parse_blob_cfg(), empty(), find(), end(), spdlog::warn(), spdlog::error().
+ */
 
 std::optional<CollectionRedundancyConfig> CollectionRedundancyConfig::loadFromYaml(
     const std::string& path
@@ -610,6 +684,11 @@ BlobRedundancyManager::~BlobRedundancyManager() {
     stop();
 }
 
+/**
+ * @brief Start.
+ * @return True when the operation succeeds.
+ * @details Calls: exchange(), spdlog::warn(), spdlog::info(), std::thread(), maintenanceLoop(), repairLoop(), configReloadLoop().
+ */
 bool BlobRedundancyManager::start() {
     if (running_.exchange(true)) {
         spdlog::warn("BlobRedundancyManager already running");
@@ -639,6 +718,10 @@ bool BlobRedundancyManager::start() {
     return true;
 }
 
+/**
+ * @brief Stop.
+ * @details Calls: exchange(), spdlog::info(), notify_all(), joinable(), themis::utils::joinThreadWithin(), spdlog::warn().
+ */
 void BlobRedundancyManager::stop() {
     if (!running_.exchange(false)) {
         return;
@@ -671,6 +754,12 @@ bool BlobRedundancyManager::isRunning() const {
     return running_.load();
 }
 
+/**
+ * @brief Load Config.
+ * @param[in] path Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: spdlog::info(), IsMap(), YAML::LoadFile(), spdlog::warn(), lock(), parseBlobConfig(), find(), end().
+ */
 bool BlobRedundancyManager::loadConfig(const std::string& path) {
     spdlog::info("Loading blob redundancy configuration from: {}", path);
 
@@ -824,10 +913,22 @@ bool BlobRedundancyManager::loadConfig(const std::string& path) {
     }
 }
 
+/**
+ * @brief Reload Config.
+ * @return True when the operation succeeds.
+ * @details Calls: loadConfig().
+ */
 bool BlobRedundancyManager::reloadConfig() {
     return loadConfig(config_.config_path);
 }
 
+/**
+ * @brief Get Config For Blob.
+ * @param[in] type Input parameter.
+ * @param[in] collection Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), empty(), find(), end().
+ */
 BlobRedundancyConfig BlobRedundancyManager::getConfigForBlob(
     BlobType type,
     const std::string& collection
@@ -861,6 +962,12 @@ BlobRedundancyConfig BlobRedundancyManager::getConfigForBlob(
     return default_config;
 }
 
+/**
+ * @brief Set Collection Override.
+ * @param[in] collection Input parameter.
+ * @param[in] config Input parameter.
+ * @details Calls: lock().
+ */
 void BlobRedundancyManager::setCollectionOverride(
     const std::string& collection,
     const BlobRedundancyConfig& config
@@ -869,6 +976,13 @@ void BlobRedundancyManager::setCollectionOverride(
     collection_overrides_[collection] = config;
 }
 
+/**
+ * @brief Set Document Override.
+ * @param[in] collection Input parameter.
+ * @param[in] doc_id Identifier of the doc.
+ * @param[in] config Input parameter.
+ * @details Calls: lock().
+ */
 void BlobRedundancyManager::setDocumentOverride(
     const std::string& collection,
     const std::string& doc_id,
@@ -879,6 +993,16 @@ void BlobRedundancyManager::setDocumentOverride(
     document_overrides_[key] = config;
 }
 
+/**
+ * @brief Register Blob.
+ * @param[in] type Input parameter.
+ * @param[in] local_path Path to the local.
+ * @param[in] size_bytes Input parameter.
+ * @param[in] collection Input parameter.
+ * @param[in] document_id Identifier of the document.
+ * @return Return value.
+ * @details Calls: generateBlobId(), spdlog::info(), getConfigForBlob(), std::chrono::system_clock::now(), reserve(), totalShards(), push_back(), std::to_string().
+ */
 std::string BlobRedundancyManager::registerBlob(
     BlobType type,
     const std::string& local_path,
@@ -958,6 +1082,11 @@ std::string BlobRedundancyManager::registerBlob(
     return blob_id;
 }
 
+/**
+ * @brief Unregister Blob.
+ * @param[in] blob_id Identifier of the blob.
+ * @details Calls: lock(), erase(), spdlog::debug().
+ */
 void BlobRedundancyManager::unregisterBlob(const std::string& blob_id) {
     std::unique_lock<std::shared_mutex> lock(blobs_mutex_);
 
@@ -967,6 +1096,12 @@ void BlobRedundancyManager::unregisterBlob(const std::string& blob_id) {
     }
 }
 
+/**
+ * @brief Ensure Redundancy.
+ * @param[in] blob_id Identifier of the blob.
+ * @return Return value.
+ * @details Calls: lock(), find(), end(), isHealthy(), themis::OkVoid(), repair_lock(), push(), notify_one().
+ */
 Result<void> BlobRedundancyManager::ensureRedundancy(const std::string& blob_id) {
     std::shared_lock<std::shared_mutex> lock(blobs_mutex_);
     
@@ -995,6 +1130,12 @@ Result<void> BlobRedundancyManager::ensureRedundancy(const std::string& blob_id)
     return themis::OkVoid();
 }
 
+/**
+ * @brief Repair Blob.
+ * @param[in] blob_id Identifier of the blob.
+ * @return Return value.
+ * @details Calls: lock(), find(), end(), themis::OkVoid().
+ */
 Result<void> BlobRedundancyManager::repairBlob(const std::string& blob_id) {
     std::shared_lock<std::shared_mutex> lock(blobs_mutex_);
     
@@ -1010,6 +1151,12 @@ Result<void> BlobRedundancyManager::repairBlob(const std::string& blob_id) {
     return themis::OkVoid();
 }
 
+/**
+ * @brief Verify Blob.
+ * @param[in] blob_id Identifier of the blob.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), find(), end(), empty(), spdlog::warn(), healthyLocationCount(), requiredLocationCount(), getMissingShards().
+ */
 bool BlobRedundancyManager::verifyBlob(const std::string& blob_id) {
     std::shared_lock<std::shared_mutex> lock(blobs_mutex_);
     
@@ -1078,13 +1225,14 @@ bool BlobRedundancyManager::verifyBlob(const std::string& blob_id) {
     return true;
 }
 
-// ---------------------------------------------------------------------------
-// Erasure-coding shard helpers (file-local)
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- Erasure-coding shard helpers (file-local) ---------------------------------------------------------------------------
+ * @param[in] meta Input parameter.
+ * @param[in] chunk_index Input parameter.
+ * @return Return value.
+ * @details Calls: size(), std::to_string().
+ */
 
-/// Returns the shard_id for chunk @p chunk_index.
-/// Uses the pre-assigned location if available, otherwise falls back to a
-/// deterministic "shard-<N>" name so each chunk can live on a distinct node.
 static std::string ecShardId(const BlobMetadata& meta, uint32_t chunk_index) {
     if (meta.locations.size() > static_cast<size_t>(chunk_index)) {
         return meta.locations[chunk_index].shard_id;
@@ -1092,13 +1240,25 @@ static std::string ecShardId(const BlobMetadata& meta, uint32_t chunk_index) {
     return "shard-" + std::to_string(chunk_index);
 }
 
-/// Returns the storage path for chunk @p chunk_index of blob @p blob_id.
-/// The chunk index is embedded in the path so all chunks can coexist under
-/// the same blob_id key space without colliding.
+/**
+ * @brief Ec Chunk Path.
+ * @param[in] blob_id Identifier of the blob.
+ * @param[in] chunk_index Input parameter.
+ * @return Return value.
+ * @details Calls: std::to_string().
+ */
 static std::string ecChunkPath(const std::string& blob_id, uint32_t chunk_index) {
     return blob_id + "/chunk/" + std::to_string(chunk_index);
 }
 
+/**
+ * @brief Write Blob.
+ * @param[in] blob_id Identifier of the blob.
+ * @param[in] data Input parameter.
+ * @param[in] handler Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), find(), end(), unlock(), ec_backend(), encode(), std::string(), what().
+ */
 Result<void> BlobRedundancyManager::writeBlob(
     const std::string& blob_id,
     const std::vector<uint8_t>& data,
@@ -1181,6 +1341,13 @@ Result<void> BlobRedundancyManager::writeBlob(
     return themis::OkVoid();
 }
 
+/**
+ * @brief Read Blob.
+ * @param[in] blob_id Identifier of the blob.
+ * @param[in] handler Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), find(), end(), unlock(), totalShards(), ecShardId(), ecChunkPath(), handler().
+ */
 Result<std::vector<uint8_t>> BlobRedundancyManager::readBlob(
     const std::string& blob_id,
     ReadHandler handler
@@ -1268,6 +1435,13 @@ Result<std::vector<uint8_t>> BlobRedundancyManager::readBlob(
     return themis::Ok(std::move(*result));
 }
 
+/**
+ * @brief Delete Blob.
+ * @param[in] blob_id Identifier of the blob.
+ * @param[in] handler Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), find(), end(), reserve(), size(), handler(), push_back(), erase().
+ */
 Result<void> BlobRedundancyManager::deleteBlob(
     const std::string& blob_id,
     DeleteHandler handler
@@ -1299,6 +1473,13 @@ Result<void> BlobRedundancyManager::deleteBlob(
     return themis::OkVoid();
 }
 
+/**
+ * @brief Tier Down.
+ * @param[in] blob_id Identifier of the blob.
+ * @param[in] target Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), find(), end(), std::chrono::system_clock::now(), updateMetadataStore(), themis::OkVoid().
+ */
 Result<void> BlobRedundancyManager::tierDown(
     const std::string& blob_id,
     StorageTier target
@@ -1323,6 +1504,13 @@ Result<void> BlobRedundancyManager::tierDown(
     return themis::OkVoid();
 }
 
+/**
+ * @brief Tier Up.
+ * @param[in] blob_id Identifier of the blob.
+ * @param[in] target Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), find(), end(), std::chrono::system_clock::now(), updateMetadataStore(), themis::OkVoid().
+ */
 Result<void> BlobRedundancyManager::tierUp(
     const std::string& blob_id,
     StorageTier target
@@ -1350,6 +1538,11 @@ Result<void> BlobRedundancyManager::tierUp(
 std::vector<std::string> BlobRedundancyManager::getBlobsForTierDown() const {
     std::vector<std::string> candidates;
     
+    /**
+     * @brief Lock.
+     * @param[in] blobs_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(blobs_mutex_);
     candidates.reserve(blobs_.size());
     
@@ -1373,6 +1566,11 @@ std::vector<std::string> BlobRedundancyManager::getBlobsForTierDown() const {
 }
 
 BlobMetadata BlobRedundancyManager::getBlobMetadata(const std::string& blob_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] blobs_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(blobs_mutex_);
     
     auto it = blobs_.find(blob_id);
@@ -1386,6 +1584,11 @@ BlobMetadata BlobRedundancyManager::getBlobMetadata(const std::string& blob_id) 
 std::vector<std::string> BlobRedundancyManager::getDegradedBlobs() const {
     std::vector<std::string> degraded;
     
+    /**
+     * @brief Lock.
+     * @param[in] blobs_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(blobs_mutex_);
     degraded.reserve(blobs_.size());
     
@@ -1401,6 +1604,11 @@ std::vector<std::string> BlobRedundancyManager::getDegradedBlobs() const {
 std::vector<std::string> BlobRedundancyManager::getCriticalBlobs() const {
     std::vector<std::string> critical;
     
+    /**
+     * @brief Lock.
+     * @param[in] blobs_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(blobs_mutex_);
     critical.reserve(blobs_.size());
     
@@ -1416,6 +1624,11 @@ std::vector<std::string> BlobRedundancyManager::getCriticalBlobs() const {
 BlobRedundancyStats BlobRedundancyManager::getStats() const {
     BlobRedundancyStats stats;
     
+    /**
+     * @brief Lock.
+     * @param[in] blobs_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(blobs_mutex_);
     
     stats.total_blobs = blobs_.size();
@@ -1453,6 +1666,10 @@ BlobRedundancyStats BlobRedundancyManager::getStats() const {
     return stats;
 }
 
+/**
+ * @brief Run Maintenance Cycle.
+ * @details Calls: spdlog::debug(), getDegradedBlobs(), spdlog::info(), size(), lock(), push(), notify_one(), getBlobsForTierDown().
+ */
 void BlobRedundancyManager::runMaintenanceCycle() {
     spdlog::debug("Running blob redundancy maintenance cycle");
     
@@ -1482,6 +1699,11 @@ void BlobRedundancyManager::runMaintenanceCycle() {
     }
 }
 
+/**
+ * @brief Run Scrub.
+ * @param[in] full Input parameter.
+ * @details Calls: spdlog::info(), lock(), reserve(), size(), isHealthy(), getMissingShards(), spdlog::warn(), healthyLocationCount().
+ */
 void BlobRedundancyManager::runScrub(bool full) {
     spdlog::info("Running blob scrub (full={})", full);
 
@@ -1552,6 +1774,10 @@ void BlobRedundancyManager::runScrub(bool full) {
     }
 }
 
+/**
+ * @brief Run Repair Queue.
+ * @details Calls: spdlog::debug(), lock(), empty(), front(), pop(), repairBlob(), spdlog::warn(), error().
+ */
 void BlobRedundancyManager::runRepairQueue() {
     spdlog::debug("Processing blob repair queue");
 
@@ -1613,11 +1839,21 @@ std::string BlobRedundancyManager::exportPrometheusMetrics() const {
     return ss.str();
 }
 
+/**
+ * @brief Create Rocks DBListener.
+ * @return Return value.
+ * @details Calls: themis::Ok().
+ */
 Result<std::shared_ptr<rocksdb::EventListener>> BlobRedundancyManager::createRocksDBListener() {
     auto listener = std::make_shared<RocksDBBlobListener>(*this);
     return themis::Ok(std::static_pointer_cast<rocksdb::EventListener>(listener));
 }
 
+/**
+ * @brief Notify SSTFile Deleted.
+ * @param[in] file_path Path to the file.
+ * @details Calls: lock(), reserve(), size(), healthyLocationCount(), requiredLocationCount(), canRecover(), push_back(), spdlog::error().
+ */
 void BlobRedundancyManager::notifySSTFileDeleted(const std::string& file_path) {
     std::vector<std::string> affected_blob_ids;
     std::vector<std::string> unrecoverable_blob_ids;
@@ -1676,9 +1912,10 @@ void BlobRedundancyManager::notifySSTFileDeleted(const std::string& file_path) {
     repair_cv_.notify_all();
 }
 
-// ═══════════════════════════════════════════════════════════
-// Private Methods
-// ═══════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════ Private Methods ═══════════════════════════════════════════════════════════
+ * @details Calls: spdlog::info(), load(), runMaintenanceCycle(), spdlog::error(), what(), lock(), wait_for(), std::chrono::seconds().
+ */
 
 void BlobRedundancyManager::maintenanceLoop() {
     spdlog::info("Blob redundancy maintenance loop started");
@@ -1700,6 +1937,10 @@ void BlobRedundancyManager::maintenanceLoop() {
     spdlog::info("Blob redundancy maintenance loop stopped");
 }
 
+/**
+ * @brief Repair Loop.
+ * @details Calls: spdlog::info(), load(), lock(), wait_for(), std::chrono::seconds(), empty(), unlock(), runRepairQueue().
+ */
 void BlobRedundancyManager::repairLoop() {
     spdlog::info("Blob repair loop started");
     
@@ -1727,6 +1968,10 @@ void BlobRedundancyManager::repairLoop() {
     spdlog::info("Blob repair loop stopped");
 }
 
+/**
+ * @brief Config Reload Loop.
+ * @details Calls: spdlog::info(), load(), lock(), wait_for(), std::chrono::seconds(), spdlog::error(), what().
+ */
 void BlobRedundancyManager::configReloadLoop() {
     spdlog::info("Config reload loop started");
     
@@ -1753,6 +1998,11 @@ void BlobRedundancyManager::configReloadLoop() {
     spdlog::info("Config reload loop stopped");
 }
 
+/**
+ * @brief Generate Blob Id.
+ * @return Return value.
+ * @details Calls: gen(), rd(), dis(), std::setfill(), std::setw(), str().
+ */
 std::string BlobRedundancyManager::generateBlobId() {
     static std::random_device rd;
     static std::mt19937_64 gen(rd());
@@ -1766,6 +2016,12 @@ std::string BlobRedundancyManager::generateBlobId() {
     return ss.str();
 }
 
+/**
+ * @brief Calculate Checksum.
+ * @param[in] data Input parameter.
+ * @return Return value.
+ * @details Calls: str().
+ */
 std::string BlobRedundancyManager::calculateChecksum(const std::vector<uint8_t>& data) {
     // Simplified checksum calculation
     // In production, use proper hash function (SHA256, etc.)
@@ -1779,6 +2035,13 @@ std::string BlobRedundancyManager::calculateChecksum(const std::vector<uint8_t>&
     return ss.str();
 }
 
+/**
+ * @brief Classify Blob Type.
+ * @param[in] path Input parameter.
+ * @param[in] size Input parameter.
+ * @return Return value.
+ * @details Calls: find().
+ */
 BlobType BlobRedundancyManager::classifyBlobType(const std::string& path, uint64_t size) {
     // Classify blob based on path and size
     // uncategorized(line 0) scanner alert near this function is a phantom
@@ -1808,6 +2071,15 @@ BlobType BlobRedundancyManager::classifyBlobType(const std::string& path, uint64
     }
 }
 
+/**
+ * @brief Replicate To Shard.
+ * @param[in] shard_id Identifier of the shard.
+ * @param[in] blob Input parameter.
+ * @param[in] data Input parameter.
+ * @param[in] handler Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: handler().
+ */
 bool BlobRedundancyManager::replicateToShard(
     const std::string& shard_id,
     const BlobMetadata& blob,
@@ -1817,6 +2089,14 @@ bool BlobRedundancyManager::replicateToShard(
     return handler(shard_id, blob.blob_id, data);
 }
 
+/**
+ * @brief Delete From Shard.
+ * @param[in] shard_id Identifier of the shard.
+ * @param[in] path Input parameter.
+ * @param[in] handler Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: handler().
+ */
 bool BlobRedundancyManager::deleteFromShard(
     const std::string& shard_id,
     const std::string& path,
@@ -1825,6 +2105,12 @@ bool BlobRedundancyManager::deleteFromShard(
     return handler(shard_id, path);
 }
 
+/**
+ * @brief Select Target Shards.
+ * @param[in] blob Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), push_back().
+ */
 std::vector<std::string> BlobRedundancyManager::selectTargetShards(const BlobMetadata& blob) {
     std::vector<std::string> shards = {};
 
@@ -1838,6 +2124,12 @@ std::vector<std::string> BlobRedundancyManager::selectTargetShards(const BlobMet
     return shards;
 }
 
+/**
+ * @brief Select Read Shard.
+ * @param[in] blob Input parameter.
+ * @return Return value.
+ * @details Calls: empty().
+ */
 std::string BlobRedundancyManager::selectReadShard(const BlobMetadata& blob) {
     // Select based on read preference
     // Simplified: return first healthy location
@@ -1855,6 +2147,11 @@ std::string BlobRedundancyManager::selectReadShard(const BlobMetadata& blob) {
     return "local";
 }
 
+/**
+ * @brief Update Metadata Store.
+ * @param[in] blob Input parameter.
+ * @details Calls: spdlog::debug(), size().
+ */
 void BlobRedundancyManager::updateMetadataStore(const BlobMetadata& blob) {
     // Update distributed metadata store (etcd, etc.)
     // Current implementation is local-only; keep a trace for operational visibility.
@@ -1866,6 +2163,11 @@ void BlobRedundancyManager::updateMetadataStore(const BlobMetadata& blob) {
     );
 }
 
+/**
+ * @brief Remove From Metadata Store.
+ * @param[in] blob_id Identifier of the blob.
+ * @details Calls: spdlog::debug().
+ */
 void BlobRedundancyManager::removeFromMetadataStore(const std::string& blob_id) {
     // Remove from distributed metadata store
     spdlog::debug(
@@ -1875,6 +2177,10 @@ void BlobRedundancyManager::removeFromMetadataStore(const std::string& blob_id) 
     );
 }
 
+/**
+ * @brief Load From Metadata Store.
+ * @details Implements loadFromMetadataStore without additional internal calls.
+ */
 void BlobRedundancyManager::loadFromMetadataStore() {
     // Load blob metadata from distributed store on startup
     // Simplified: no-op for now
@@ -1891,6 +2197,12 @@ RocksDBBlobListener::RocksDBBlobListener(
     spdlog::info("RocksDBBlobListener created for collection: {}", collection);
 }
 
+/**
+ * @brief On Flush Completed.
+ * @param[in,out] db Input/output parameter.
+ * @param[in] info Input parameter.
+ * @details Calls: spdlog::debug(), registerBlob().
+ */
 void RocksDBBlobListener::OnFlushCompleted(
     rocksdb::DB* db,
     const rocksdb::FlushJobInfo& info
@@ -1908,6 +2220,12 @@ void RocksDBBlobListener::OnFlushCompleted(
     );
 }
 
+/**
+ * @brief On Compaction Completed.
+ * @param[in,out] db Input/output parameter.
+ * @param[in] info Input parameter.
+ * @details Calls: spdlog::debug(), size(), levelToBlobType(), registerBlob().
+ */
 void RocksDBBlobListener::OnCompactionCompleted(
     rocksdb::DB* db,
     const rocksdb::CompactionJobInfo& info
@@ -1930,6 +2248,11 @@ void RocksDBBlobListener::OnCompactionCompleted(
     }
 }
 
+/**
+ * @brief On Table File Deleted.
+ * @param[in] info Input parameter.
+ * @details Calls: spdlog::debug(), notifySSTFileDeleted().
+ */
 void RocksDBBlobListener::OnTableFileDeleted(
     const rocksdb::TableFileDeletionInfo& info
 ) {
@@ -1938,6 +2261,12 @@ void RocksDBBlobListener::OnTableFileDeleted(
     manager_.notifySSTFileDeleted(info.file_path);
 }
 
+/**
+ * @brief Level To Blob Type.
+ * @param[in] level Input parameter.
+ * @return Return value.
+ * @details Implements levelToBlobType without additional internal calls.
+ */
 BlobType RocksDBBlobListener::levelToBlobType(int level) {
     if (level == 0) {
         return BlobType::SST_L0;

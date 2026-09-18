@@ -73,6 +73,12 @@ ShaderIntegrityVerifier &ShaderIntegrityVerifier::instance() {
 // Registration
 // ============================================================================
 
+/**
+ * @brief Register Expected Hash.
+ * @param[in] name Input parameter.
+ * @param[in] hexHash Input parameter.
+ * @details Calls: lk(), std::move().
+ */
 void ShaderIntegrityVerifier::registerExpectedHash(const std::string &name, const std::string &hexHash) {
     std::lock_guard<std::mutex> lk(mutex_);
     // Normalise to lower-case
@@ -85,6 +91,12 @@ void ShaderIntegrityVerifier::registerExpectedHash(const std::string &name, cons
     expectedHashes_[name] = std::move(lower);
 }
 
+/**
+ * @brief Load Manifest.
+ * @param[in] manifestPath Input parameter.
+ * @return Return value.
+ * @details Calls: f(), is_open(), std::getline(), find(), substr(), empty(), ss(), size().
+ */
 size_t ShaderIntegrityVerifier::loadManifest(const std::string &manifestPath) {
     std::ifstream f(manifestPath);
     if (!f.is_open()) {
@@ -113,6 +125,10 @@ size_t ShaderIntegrityVerifier::loadManifest(const std::string &manifestPath) {
     return count;
 }
 
+/**
+ * @brief Clear Registry.
+ * @details Calls: lk(), clear().
+ */
 void ShaderIntegrityVerifier::clearRegistry() {
     std::lock_guard<std::mutex> lk(mutex_);
     expectedHashes_.clear();
@@ -135,6 +151,11 @@ ShaderIntegrityVerifier::VerifyResult ShaderIntegrityVerifier::verify(const std:
     result.name       = name;
     result.actualHash = sha256Hex(data, byteLen);
 
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
 
     auto it = expectedHashes_.find(name);
@@ -172,6 +193,13 @@ ShaderIntegrityVerifier::VerifyResult ShaderIntegrityVerifier::verify(const std:
 // SHA-256 utility
 // ============================================================================
 
+/**
+ * @brief Sha256 Hex.
+ * @param[in] data Input parameter.
+ * @param[in] len Input parameter.
+ * @return Return value.
+ * @details Calls: EVP_MD_CTX_new(), EVP_DigestInit_ex(), EVP_sha256(), EVP_MD_CTX_free(), EVP_DigestUpdate(), EVP_DigestFinal_ex(), std::setw(), std::setfill().
+ */
 std::string ShaderIntegrityVerifier::sha256Hex(const uint8_t *data, size_t len) {
     EVP_MD_CTX *ctx = EVP_MD_CTX_new();
     if (!ctx) {
@@ -202,6 +230,12 @@ std::string ShaderIntegrityVerifier::sha256Hex(const uint8_t *data, size_t len) 
     return ss.str();
 }
 
+/**
+ * @brief Sha256 Hex.
+ * @param[in] spvWords Input parameter.
+ * @return Return value.
+ * @details Calls: data(), size().
+ */
 std::string ShaderIntegrityVerifier::sha256Hex(const std::vector<uint32_t> &spvWords) {
     return sha256Hex(reinterpret_cast<const uint8_t*>(spvWords.data()),
                      spvWords.size() * sizeof(uint32_t));
@@ -211,17 +245,32 @@ std::string ShaderIntegrityVerifier::sha256Hex(const std::vector<uint32_t> &spvW
 // Misc
 // ============================================================================
 
+/**
+ * @brief Set Strict Mode.
+ * @param[in] strict Input parameter.
+ * @details Calls: lk().
+ */
 void ShaderIntegrityVerifier::setStrictMode(bool strict) {
     std::lock_guard<std::mutex> lk(mutex_);
     strict_ = strict;
 }
 
 bool ShaderIntegrityVerifier::strictMode() const {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     return strict_;
 }
 
 bool ShaderIntegrityVerifier::isRegistered(const std::string &name) const {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     return expectedHashes_.count(name) > 0;
 }

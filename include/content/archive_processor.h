@@ -123,7 +123,7 @@ public:
     }
     
     /**
-     * @brief Archive-specific interface (used by ContentManager)
+     * @brief Process.
      * @param[in] blob Input parameter.
      * @param[in] mime_type Input parameter.
      * @param[in] filename Input parameter.
@@ -232,7 +232,7 @@ private:
     ContentSecurityManager security_manager_;
     
     /**
-     * @brief Format-specific extraction methods
+     * @brief Extract Zip.
      * @param[in] blob Input parameter.
      * @param[in] password Input parameter.
      * @return Return value.

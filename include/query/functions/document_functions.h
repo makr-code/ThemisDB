@@ -21,9 +21,6 @@ namespace functions {
 // Document/Object Functions
 // ============================================================================
 
-/**
- * @brief DOCUMENT(collection, key) - Load document by key
- */
 class DocumentFunction : public IFunction {
 public:
     ~DocumentFunction() override = default;
@@ -50,9 +47,6 @@ public:
     }
 };
 
-/**
- * @brief MERGE(obj1, obj2, ...) - Merge objects
- */
 class MergeFunction : public IFunction {
 public:
     ~MergeFunction() override = default;
@@ -90,9 +84,6 @@ public:
     }
 };
 
-/**
- * @brief MERGE_RECURSIVE(obj1, obj2, ...) - Deep merge objects
- */
 class MergeRecursiveFunction : public IFunction {
 public:
     ~MergeRecursiveFunction() override = default;
@@ -145,9 +136,6 @@ private:
     }
 };
 
-/**
- * @brief UNSET(obj, keys) - Remove keys from object
- */
 class UnsetFunction : public IFunction {
 public:
     ~UnsetFunction() override = default;
@@ -178,9 +166,6 @@ public:
     }
 };
 
-/**
- * @brief KEEP(obj, keys) - Keep only specified keys
- */
 class KeepFunction : public IFunction {
 public:
     ~KeepFunction() override = default;
@@ -215,9 +200,6 @@ public:
     }
 };
 
-/**
- * @brief HAS(obj, key) - Check if key exists
- */
 class HasFunction : public IFunction {
 public:
     ~HasFunction() override = default;
@@ -242,9 +224,6 @@ public:
     }
 };
 
-/**
- * @brief ATTRIBUTES(obj) - Get all keys
- */
 class AttributesFunction : public IFunction {
 public:
     ~AttributesFunction() override = default;
@@ -270,9 +249,6 @@ public:
     }
 };
 
-/**
- * @brief VALUES(obj) - Get all values
- */
 class ValuesFunction : public IFunction {
 public:
     ~ValuesFunction() override = default;
@@ -298,9 +274,6 @@ public:
     }
 };
 
-/**
- * @brief ZIP(keys, values) - Create object from arrays
- */
 class ZipFunction : public IFunction {
 public:
     ~ZipFunction() override = default;
@@ -335,9 +308,6 @@ public:
     }
 };
 
-/**
- * @brief UNZIP(obj) - Split object into keys and values
- */
 class UnzipFunction : public IFunction {
 public:
     ~UnzipFunction() override = default;
@@ -371,9 +341,6 @@ public:
 // Type Functions
 // ============================================================================
 
-/**
- * @brief TYPENAME(value) - Get type name
- */
 class TypenameFunction : public IFunction {
 public:
     ~TypenameFunction() override = default;
@@ -421,9 +388,6 @@ public:
     }
 };
 
-/**
- * @brief IS_NULL/IS_BOOL/IS_NUMBER/IS_STRING/IS_ARRAY/IS_OBJECT
- */
 class IsNullFunction : public IFunction {
 public:
     ~IsNullFunction() override = default;
@@ -445,7 +409,6 @@ public:
     }
 };
 
-/** @brief Is bool query function. */
 class IsBoolFunction : public IFunction {
 public:
     ~IsBoolFunction() override = default;
@@ -467,7 +430,6 @@ public:
     }
 };
 
-/** @brief Is number query function. */
 class IsNumberFunction : public IFunction {
 public:
     ~IsNumberFunction() override = default;
@@ -489,7 +451,6 @@ public:
     }
 };
 
-/** @brief Is string query function. */
 class IsStringFunction : public IFunction {
 public:
     ~IsStringFunction() override = default;
@@ -511,7 +472,6 @@ public:
     }
 };
 
-/** @brief Is array query function. */
 class IsArrayFunction : public IFunction {
 public:
     ~IsArrayFunction() override = default;
@@ -533,7 +493,6 @@ public:
     }
 };
 
-/** @brief Is object query function. */
 class IsObjectFunction : public IFunction {
 public:
     ~IsObjectFunction() override = default;
@@ -555,9 +514,6 @@ public:
     }
 };
 
-/**
- * @brief TO_NUMBER/TO_STRING/TO_BOOL/TO_ARRAY - Type conversion
- */
 class ToNumberFunction : public IFunction {
 public:
     ~ToNumberFunction() override = default;
@@ -579,7 +535,6 @@ public:
     }
 };
 
-/** @brief To string query function. */
 class ToStringFunction : public IFunction {
 public:
     ~ToStringFunction() override = default;
@@ -601,7 +556,6 @@ public:
     }
 };
 
-/** @brief To bool query function. */
 class ToBoolFunction : public IFunction {
 public:
     ~ToBoolFunction() override = default;
@@ -623,7 +577,6 @@ public:
     }
 };
 
-/** @brief To array query function. */
 class ToArrayFunction : public IFunction {
 public:
     ~ToArrayFunction() override = default;
@@ -655,12 +608,12 @@ public:
     }
 };
 
+
 /**
- * @brief ============================================================================ Register Document Functions ============================================================================
+ * @brief Register Document Functions.
  * @param[in,out] reg Input/output parameter.
  * @details Calls: registerFunction().
  */
-
 inline void registerDocumentFunctions(FunctionRegistry& reg) {
     // Document functions
     reg.registerFunction(std::make_unique<DocumentFunction>());

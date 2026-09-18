@@ -52,7 +52,6 @@ static constexpr uint16_t kDefaultRedisPort    = 6379;
 
 namespace {
 
-/// Split "host:port" into (host, port).  Returns ("", 0) on failure.
 std::pair<std::string, uint16_t> splitHostPort(const std::string &addr) {
     auto colon = addr.rfind(':');
     if (colon == std::string::npos || colon == 0) {
@@ -72,7 +71,12 @@ std::pair<std::string, uint16_t> splitHostPort(const std::string &addr) {
     }
 }
 
-/// Parse redis://[:password@]host:port[,host2:port2,...] into a config.
+/**
+ * @brief Parse Redis Url.
+ * @param[in] url Input parameter.
+ * @return Return value.
+ * @details Calls: clear(), substr().
+ */
 RedisCacheConfig parseRedisUrl(const std::string &url) {
     RedisCacheConfig cfg;
     cfg.nodes.clear();
@@ -96,7 +100,11 @@ RedisCacheConfig parseRedisUrl(const std::string &url) {
     }
     cfg.password = password;
 
-    // Remaining body may be comma-separated host:port pairs.
+    /**
+     * @brief Remaining body may be comma-separated host:port pairs.
+     * @param[in] body Input parameter.
+     * @return Return value.
+     */
     std::istringstream ss(body);
     std::string token = {};
     while (std::getline(ss, token, ',')) {
@@ -132,10 +140,22 @@ inline void closeSocketFd(uintptr_t &fd) noexcept {
 // Factory methods
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Create.
+ * @param[in] url Input parameter.
+ * @return Return value.
+ * @details Calls: parseRedisUrl().
+ */
 std::unique_ptr<RedisCache> RedisCache::create(const std::string &url) {
     return create(parseRedisUrl(url));
 }
 
+/**
+ * @brief Create.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @details Calls: RedisCache().
+ */
 std::unique_ptr<RedisCache> RedisCache::create(const RedisCacheConfig &config) {
     return std::unique_ptr<RedisCache>(new RedisCache(config));
 }
@@ -174,6 +194,10 @@ uint32_t RedisCache::fnv1a32(const char *data, size_t len) noexcept {
     return themis::hash::fnv1a32(data, len);
 }
 
+/**
+ * @brief Build Hash Ring.
+ * @details Calls: clear(), size(), std::to_string(), fnv1a32(), data().
+ */
 void RedisCache::buildHashRing() {
     hash_ring_.clear();
     for (size_t ni = 0; ni  < nodes_.size(); ++ni) {
@@ -418,7 +442,12 @@ bool RedisCache::redisHandshake(SocketFd fd) const noexcept {
     return true;
 }
 
-/*static*/
+/**
+ * @brief static
+ * @param[in] args Input parameter.
+ * @return Return value.
+ * @details Calls: std::to_string(), size().
+ */
 std::string RedisCache::buildRespCommand(const std::vector<std::string> &args) {
     std::string cmd = {};
     cmd += '*';
@@ -586,12 +615,22 @@ std::optional<std::string> RedisCache::sendCommandLocked(NodeConn &nc,
 // Serialisation
 // ---------------------------------------------------------------------------
 
-/*static*/
+/**
+ * @brief static
+ * @param[in] e Input parameter.
+ * @return Return value.
+ * @details Calls: std::to_string().
+ */
 std::string RedisCache::encodeEntry(const CacheEntry &e) {
     return std::to_string(e.version) + "\n" + std::to_string(e.timestamp_ms) + "\n" + e.payload;
 }
 
-/*static*/
+/**
+ * @brief static
+ * @param[in] raw Input parameter.
+ * @return Return value.
+ * @details Calls: find(), std::stoull(), substr().
+ */
 std::optional<CacheEntry> RedisCache::decodeEntry(const std::string &raw) {
     auto nl1 = raw.find('\n');
     if (nl1 == std::string::npos) {
@@ -644,6 +683,14 @@ std::optional<CacheEntry> RedisCache::get(std::string_view key) const {
     return entry;
 }
 
+/**
+ * @brief Put.
+ * @param[in] key Input parameter.
+ * @param[in] entry Input parameter.
+ * @param[in] ttl_ms Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), nodeIndexForKey(), std::string(), encodeEntry(), load(), sendCommand(), std::to_string(), has_value().
+ */
 bool RedisCache::put(std::string_view key, const CacheEntry &entry, uint64_t ttl_ms) {
     if (nodes_.empty()) {
         return false;
@@ -667,6 +714,11 @@ bool RedisCache::put(std::string_view key, const CacheEntry &entry, uint64_t ttl
     return reply.has_value();
 }
 
+/**
+ * @brief Invalidate.
+ * @param[in] key Input parameter.
+ * @details Calls: empty(), nodeIndexForKey(), std::string(), sendCommand(), publishInvalidation().
+ */
 void RedisCache::invalidate(std::string_view key) {
     if (nodes_.empty()) {
         return;
@@ -681,6 +733,10 @@ void RedisCache::invalidate(std::string_view key) {
     publishInvalidation(std::string(key));
 }
 
+/**
+ * @brief Clear.
+ * @details Calls: sendCommand(), publishInvalidation().
+ */
 void RedisCache::clear() {
     // Issue FLUSHDB on every node.
     for (auto &nc : nodes_) {
@@ -689,6 +745,11 @@ void RedisCache::clear() {
     publishInvalidation("*");
 }
 
+/**
+ * @brief Invalidate Pattern.
+ * @param[in] pattern Input parameter.
+ * @details Calls: std::string(), lock(), ensureConnected(), buildRespCommand(), sendAll(), closeSocket(), readLine(), empty().
+ */
 void RedisCache::invalidatePattern(std::string_view pattern) {
     // Use SCAN + DEL to avoid blocking the server.
     const std::string matchPat = config_.key_prefix + std::string(pattern);
@@ -765,6 +826,11 @@ void RedisCache::invalidatePattern(std::string_view pattern) {
 // Pub/sub invalidation
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Publish Invalidation.
+ * @param[in] key_or_pattern Input parameter.
+ * @details Calls: empty(), sendCommand().
+ */
 void RedisCache::publishInvalidation(const std::string &key_or_pattern) {
     if (nodes_.empty() || config_.invalidation_channel.empty()) {
         return;
@@ -778,6 +844,11 @@ void RedisCache::publishInvalidation(const std::string &key_or_pattern) {
     }
 }
 
+/**
+ * @brief Subscribe Invalidations.
+ * @param[in] cb Input parameter.
+ * @details Calls: lock(), std::move(), ensureSubscriberLoopStarted().
+ */
 void RedisCache::subscribeInvalidations(InvalidationCallback cb) {
     {
         std::lock_guard<std::mutex> lock(inv_cb_mutex_);
@@ -789,6 +860,10 @@ void RedisCache::subscribeInvalidations(InvalidationCallback cb) {
     }
 }
 
+/**
+ * @brief Ensure Subscriber Loop Started.
+ * @details Calls: load(), empty(), lock(), joinable(), std::thread().
+ */
 void RedisCache::ensureSubscriberLoopStarted() {
     if (stop_.load(std::memory_order_acquire) || config_.invalidation_channel.empty() || nodes_.empty()) {
         return;
@@ -804,6 +879,10 @@ void RedisCache::ensureSubscriberLoopStarted() {
 // Subscriber loop
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Subscriber Loop.
+ * @details Calls: std::max(), lk(), wait_for(), std::chrono::milliseconds(), load(), empty(), sleepWithStop(), tcpConnect().
+ */
 void RedisCache::subscriberLoop() {
     const int reconnect_sleep_ms = std::max(1, config_.reconnect_interval_ms);
     auto sleepWithStop = [this](int total_ms) {
@@ -849,6 +928,11 @@ void RedisCache::subscriberLoop() {
     }
 }
 
+/**
+ * @brief Subscriber Session.
+ * @param[in] fd Input parameter.
+ * @details Calls: readPubSubMessage(), load(), clear(), empty(), dispatchInvalidation().
+ */
 void RedisCache::subscriberSession(SocketFd fd) {
     // Read and discard the SUBSCRIBE confirmation first.
     std::string channel_out, payload_out;
@@ -903,6 +987,11 @@ bool RedisCache::readPubSubMessage(SocketFd fd, std::string &channel_out, std::s
     return true;
 }
 
+/**
+ * @brief Dispatch Invalidation.
+ * @param[in] payload Input parameter.
+ * @details Calls: lock(), inv_callback_().
+ */
 void RedisCache::dispatchInvalidation(const std::string &payload) {
     std::lock_guard<std::mutex> lock(inv_cb_mutex_);
     if (inv_callback_) {
@@ -950,11 +1039,21 @@ double RedisCache::hitRate() const {
 // ICache – configuration
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Set Max Size.
+ * @param[in] maxSize Input parameter.
+ * @details Calls: store().
+ */
 void RedisCache::setMaxSize(size_t maxSize) {
     max_size_.store(maxSize);
     config_.max_size = maxSize;
 }
 
+/**
+ * @brief Set Default TTL.
+ * @param[in] ttl_ms Input parameter.
+ * @details Calls: store().
+ */
 void RedisCache::setDefaultTTL(uint64_t ttl_ms) {
     default_ttl_ms_.store(ttl_ms);
     config_.default_ttl_ms = ttl_ms;

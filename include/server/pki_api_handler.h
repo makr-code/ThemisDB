@@ -20,28 +20,13 @@
 
 namespace themis { namespace server {
 
-/**
- * PKI API Handler - REST Endpoints for PKI Operations
- * 
- * Provides HTTP API for:
- * - Digital signatures (RSA/ECDSA)
- * - Signature verification
- * - Timestamp tokens (RFC 3161)
- * - Certificate operations
- * - HSM-backed signing
- * - eIDAS qualified signatures
- * 
- * Endpoints:
- * - POST /api/pki/sign - Sign data
- * - POST /api/pki/verify - Verify signature
- * - POST /api/pki/timestamp - Get timestamp token
- * - POST /api/pki/sign-with-timestamp - Sign + timestamp (eIDAS)
- * - GET  /api/pki/certificates - List certificates
- * - GET  /api/pki/certificates/{id} - Get certificate
- * - POST /api/pki/hsm/sign - HSM-backed signing
- */
 class PkiApiHandler {
 public:
+    /**
+     * @brief Pki Api Handler.
+     * @param[in] signing_service Input parameter.
+     * @return Return value.
+     */
     explicit PkiApiHandler(std::shared_ptr<SigningService> signing_service);
     
     // Constructor with HSM and TSA support
@@ -49,109 +34,85 @@ public:
                   std::shared_ptr<security::HSMProvider> hsm_provider,
                   std::shared_ptr<security::TimestampAuthority> tsa);
 
-    // === Digital Signatures ===
     
     /**
-     * Sign data
-     * POST /api/pki/sign
-     * Body: {"data_b64": "base64-data", "algorithm": "RSA-SHA256", "key_id": "optional"}
-     * Response: {"success": true, "signature_b64": "...", "algorithm": "...", "timestamp": 123456}
+     * @brief Sign.
+     * @param[in] key_id Identifier of the key.
+     * @param[in] body Input parameter.
+     * @return Return value.
      */
     nlohmann::json sign(const std::string& key_id, const nlohmann::json& body);
 
     /**
-     * Verify signature
-     * POST /api/pki/verify
-     * Body: {"data_b64": "...", "signature_b64": "...", "key_id": "optional"}
-     * Response: {"success": true, "valid": true}
+     * @brief Verify identity and enforce network policies for a request.
+     * @param[in] key_id Identifier of the key.
+     * @param[in] body Input parameter.
+     * @return Verification result.
      */
     nlohmann::json verify(const std::string& key_id, const nlohmann::json& body);
 
-    // === HSM Operations ===
     
     /**
-     * Sign with HSM
-     * POST /api/pki/hsm/sign
-     * Body: {"data_b64": "...", "key_label": "...", "algorithm": "RSA-SHA256"}
-     * Response: {"success": true, "signature_b64": "...", "key_id": "...", "hsm_serial": "..."}
+     * @brief Hsm Sign.
+     * @param[in] body Input parameter.
+     * @return Return value.
      */
     nlohmann::json hsmSign(const nlohmann::json& body);
     
     /**
-     * List HSM keys
-     * GET /api/pki/hsm/keys
-     * Response: {"success": true, "keys": [{label, id, algorithm, can_sign}, ...]}
+     * @brief Hsm List Keys.
+     * @return Return value.
      */
     nlohmann::json hsmListKeys();
     
-    // === Timestamp Operations ===
     
     /**
-     * Get timestamp for data
-     * POST /api/pki/timestamp
-     * Body: {"data_b64": "...", "hash_algorithm": "SHA256"}
-     * Response: {"success": true, "timestamp_utc": "...", "token_b64": "...", "serial": "..."}
+     * @brief Get Timestamp.
+     * @param[in] body Input parameter.
+     * @return Return value.
      */
     nlohmann::json getTimestamp(const nlohmann::json& body);
     
     /**
-     * Verify timestamp
-     * POST /api/pki/timestamp/verify
-     * Body: {"data_b64": "...", "token_b64": "..."}
-     * Response: {"success": true, "valid": true, "timestamp_utc": "..."}
+     * @brief Verify Timestamp.
+     * @param[in] body Input parameter.
+     * @return Return value.
      */
     nlohmann::json verifyTimestamp(const nlohmann::json& body);
     
-    // === eIDAS Qualified Signatures ===
     
     /**
-     * Create eIDAS qualified signature (sign + timestamp)
-     * POST /api/pki/eidas/sign
-     * Body: {"data_b64": "...", "key_id": "...", "use_hsm": true, "policy_oid": "..."}
-     * Response: {
-     *   "success": true,
-     *   "signature": {"signature_b64": "...", "algorithm": "..."},
-     *   "timestamp": {"timestamp_utc": "...", "token_b64": "..."},
-     *   "eidas_compliant": true
-     * }
+     * @brief Eidas Sign.
+     * @param[in] body Input parameter.
+     * @return Return value.
      */
     nlohmann::json eidasSign(const nlohmann::json& body);
     
     /**
-     * Verify eIDAS signature
-     * POST /api/pki/eidas/verify
-     * Body: {"data_b64": "...", "signature_b64": "...", "timestamp_token_b64": "..."}
-     * Response: {"success": true, "valid": true, "signature_valid": true, "timestamp_valid": true}
+     * @brief Eidas Verify.
+     * @param[in] body Input parameter.
+     * @return Return value.
      */
     nlohmann::json eidasVerify(const nlohmann::json& body);
     
-    // === Certificate Operations ===
     
     /**
-     * List certificates
-     * GET /api/pki/certificates
-     * Response: {"success": true, "certificates": [{serial, subject, issuer, valid_from, valid_to}, ...]}
+     * @brief List Certificates.
+     * @return Return value.
      */
     nlohmann::json listCertificates();
     
     /**
-     * Get certificate by ID
-     * GET /api/pki/certificates/{id}
-     * Response: {"success": true, "certificate_pem": "...", "subject": "...", "issuer": "..."}
+     * @brief Get Certificate.
+     * @param[in] cert_id Identifier of the cert.
+     * @return Return value.
      */
     nlohmann::json getCertificate(const std::string& cert_id);
     
-    // === Health & Status ===
     
     /**
-     * Check PKI system status
-     * GET /api/pki/status
-     * Response: {
-     *   "success": true,
-     *   "hsm_available": true,
-     *   "tsa_available": true,
-     *   "signing_service_ready": true
-     * }
+     * @brief Get Status.
+     * @return Return value.
      */
     nlohmann::json getStatus();
 
@@ -160,10 +121,18 @@ private:
     std::shared_ptr<security::HSMProvider> hsm_provider_;
     std::shared_ptr<security::TimestampAuthority> tsa_;
     
-    // Helper: Decode base64
+    /**
+     * @brief Decode Base64.
+     * @param[in] b64 Input parameter.
+     * @return Return value.
+     */
     std::vector<uint8_t> decodeBase64(const std::string& b64);
     
-    // Helper: Encode base64
+    /**
+     * @brief Encode Base64.
+     * @param[in] data Input parameter.
+     * @return Return value.
+     */
     std::string encodeBase64(const std::vector<uint8_t>& data);
 };
 

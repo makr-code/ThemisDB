@@ -55,6 +55,12 @@ std::string ExportStats::toJson() const {
     return j.dump(2);
 }
 
+/**
+ * @brief Enforce Export Policy.
+ * @param[in] options Input parameter.
+ * @throws ExporterException if an error occurs.
+ * @details Calls: empty(), checkExportPermission(), logSecurityEvent(), THEMIS_WARN().
+ */
 void enforceExportPolicy(const ExportOptions &options) {
     if (!options.policy_engine) {
         return; // No policy engine attached — backward-compatible no-op.
@@ -94,6 +100,15 @@ JSONLLLMExporter::JSONLLLMExporter(const JSONLLLMConfig &config)
     : config_(config), metrics_(std::make_shared<ExporterMetrics>()),
       format_template_(makeFormatTemplate(config.format_template_type)) {}
 
+/**
+ * @brief Export Entities.
+ * @param[in] entities Input parameter.
+ * @param[in] options Input parameter.
+ * @return Return value.
+ * @throws ExporterException if an error occurs.
+ * @throws ExportIOException if an error occurs.
+ * @details Calls: enforceExportPolicy(), std::chrono::steady_clock::now(), hasScope(), THEMIS_INFO(), writer(), empty(), size(), isLimitReached().
+ */
 ExportStats JSONLLLMExporter::exportEntities(const std::vector<BaseEntity> &entities, const ExportOptions &options) {
     // Policy check before any cursor or file is opened (EXP-001).
     enforceExportPolicy(options);
@@ -444,6 +459,14 @@ ExportStats JSONLLLMExporter::exportEntities(const std::vector<BaseEntity> &enti
     }
 }
 
+/**
+ * @brief Format Instruction Tuning.
+ * @param[in] entity Input parameter.
+ * @param[in,out] weight Input/output parameter.
+ * @param[in] options Input parameter.
+ * @return Return value.
+ * @details Calls: isFieldAllowed(), getFieldAsString(), empty(), extractMetadata(), json::parse(), dump().
+ */
 std::string JSONLLLMExporter::formatInstructionTuning(const BaseEntity &entity, double &weight,
                                                       const ExportOptions &options) {
     json j;
@@ -490,6 +513,14 @@ std::string JSONLLLMExporter::formatInstructionTuning(const BaseEntity &entity, 
     return j.dump();
 }
 
+/**
+ * @brief Format Chat Completion.
+ * @param[in] entity Input parameter.
+ * @param[in,out] weight Input/output parameter.
+ * @param[in] options Input parameter.
+ * @return Return value.
+ * @details Calls: json::array(), isFieldAllowed(), getFieldAsString(), empty(), push_back(), extractMetadata(), json::parse(), dump().
+ */
 std::string JSONLLLMExporter::formatChatCompletion(const BaseEntity &entity, double &weight,
                                                    const ExportOptions &options) {
     json j;
@@ -545,6 +576,14 @@ std::string JSONLLLMExporter::formatChatCompletion(const BaseEntity &entity, dou
     return j.dump();
 }
 
+/**
+ * @brief Format Text Completion.
+ * @param[in] entity Input parameter.
+ * @param[in,out] weight Input/output parameter.
+ * @param[in] options Input parameter.
+ * @return Return value.
+ * @details Calls: isFieldAllowed(), getFieldAsString(), extractMetadata(), empty(), json::parse(), dump().
+ */
 std::string JSONLLLMExporter::formatTextCompletion(const BaseEntity &entity, double &weight,
                                                    const ExportOptions &options) {
     json j;
@@ -578,6 +617,14 @@ std::string JSONLLLMExporter::formatTextCompletion(const BaseEntity &entity, dou
     return j.dump();
 }
 
+/**
+ * @brief Format With Template.
+ * @param[in] entity Input parameter.
+ * @param[in,out] weight Input/output parameter.
+ * @param[in] options Input parameter.
+ * @return Return value.
+ * @details Calls: render(), empty(), json::parse(), dump(), THEMIS_WARN(), what(), is_object(), begin().
+ */
 std::string JSONLLLMExporter::formatWithTemplate(const BaseEntity &entity, double &weight,
                                                  const ExportOptions &options) {
     if (!format_template_) {
@@ -624,6 +671,12 @@ std::string JSONLLLMExporter::formatWithTemplate(const BaseEntity &entity, doubl
     return line;
 }
 
+/**
+ * @brief Calculate Weight.
+ * @param[in] entity Input parameter.
+ * @return Return value.
+ * @details Calls: hasField(), getFieldAsDouble(), std::clamp(), getFieldAsString(), size(), std::min(), std::stoll(), std::chrono::system_clock::time_point().
+ */
 double JSONLLLMExporter::calculateWeight(const BaseEntity &entity) {
     auto &weight_cfg = config_.weighting;
 
@@ -696,9 +749,12 @@ double JSONLLLMExporter::calculateWeight(const BaseEntity &entity) {
     return std::clamp(calculated_weight, 0.0, 2.0);
 }
 
-// Heuristic toxicity score: counts hostile/offensive term occurrences and maps
-// to [0.0, 1.0]. Returns 0.0 for benign text. 5+ hits saturates to 1.0.
-// Markers cover both English and German to support multilingual training corpora.
+/**
+ * @brief Heuristic toxicity score: counts hostile/offensive term occurrences and maps to [0.
+ * @param[in] text Input parameter.
+ * @return Return value.
+ * @details 0, 1.0]. Returns 0.0 for benign text. 5+ hits saturates to 1.0. Markers cover both English and German to support multilingual training corpora. Calls: std::transform(), begin(), end(), find(), size(), std::min().
+ */
 static double computeToxicityScore(const std::string &text) {
     static const std::vector<std::string> toxic_markers = {// German markers
                                                            "hass", "beleidigung", "gewalt", "diskriminierung",
@@ -721,6 +777,12 @@ static double computeToxicityScore(const std::string &text) {
     return std::min(1.0, static_cast<double>(hits) / kToxicitySaturationHits);
 }
 
+/**
+ * @brief Passes Quality Filter.
+ * @param[in] entity Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: getFieldAsString(), empty(), size(), computeToxicityScore().
+ */
 bool JSONLLLMExporter::passesQualityFilter(const BaseEntity &entity) {
     auto &quality = config_.quality;
 
@@ -777,6 +839,13 @@ bool JSONLLLMExporter::passesQualityFilter(const BaseEntity &entity) {
     return true;
 }
 
+/**
+ * @brief Extract Metadata.
+ * @param[in] entity Input parameter.
+ * @param[in] options Input parameter.
+ * @return Return value.
+ * @details Calls: isFieldAllowed(), hasField(), getFieldAsString(), empty(), dump().
+ */
 std::string JSONLLLMExporter::extractMetadata(const BaseEntity &entity, const ExportOptions &options) {
     json metadata;
 
@@ -799,6 +868,14 @@ std::string JSONLLLMExporter::extractMetadata(const BaseEntity &entity, const Ex
     return metadata.dump();
 }
 
+/**
+ * @brief Is Field Allowed.
+ * @param[in] field_name Name of the field.
+ * @param[in] include_fields Input parameter.
+ * @param[in] exclude_fields Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty().
+ */
 bool JSONLLLMExporter::isFieldAllowed(const std::string &field_name, const std::vector<std::string> &include_fields,
                                       const std::vector<std::string> &exclude_fields) {
     // Linear search is acceptable: field lists are typically very short (< 100 entries).
@@ -955,6 +1032,13 @@ std::string JSONLLLMExporter::getAdapterMetadataJson() const {
     return j.dump(2);
 }
 
+/**
+ * @brief Set Adapter Metadata From Json.
+ * @param[in] json_str Input parameter.
+ * @param[in,out] error Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: json::parse(), contains(), std::string(), what().
+ */
 bool JSONLLLMExporter::setAdapterMetadataFromJson(const std::string &json_str, std::string *error) {
     try {
         auto j     = json::parse(json_str);

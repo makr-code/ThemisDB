@@ -66,7 +66,12 @@ namespace aql {
 
 namespace {
 
-/// @brief Lower-case a copy of @p s for case-insensitive matching.
+/**
+ * @brief To Lower.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), std::transform(), begin(), end(), std::back_inserter(), std::tolower().
+ */
 std::string toLower(const std::string &s) {
     std::string out = {};
     out.reserve(s.size());
@@ -128,6 +133,12 @@ std::optional<std::string> parseDomainHint(const std::unordered_map<std::string,
     return std::nullopt;
 }
 
+/**
+ * @brief Batch Domain Key.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: find(), end(), empty(), toLower().
+ */
 std::string batchDomainKey(const LLMAQLHandler::BatchInferRequest &req) {
     const auto it = req.options.find("domain_hint");
     if (it == req.options.end() || it->second.empty()) {
@@ -136,6 +147,12 @@ std::string batchDomainKey(const LLMAQLHandler::BatchInferRequest &req) {
     return toLower(it->second);
 }
 
+/**
+ * @brief Build Chat Original Query.
+ * @param[in] messages Input parameter.
+ * @return Return value.
+ * @details Calls: toLower(), empty().
+ */
 std::string buildChatOriginalQuery(const std::vector<llm::ChatMessage>& messages) {
     std::string combined_user_content = {};
     for (const auto& msg : messages) {
@@ -162,22 +179,6 @@ std::string buildChatOriginalQuery(const std::vector<llm::ChatMessage>& messages
     return all_content;
 }
 
-/**
- * @brief Reject input that contains well-known prompt injection patterns.
- *
- * Checks for:
- *  - Instruction-override phrases ("ignore previous instructions", etc.)
- *  - Persona-hijacking phrases ("you are now a", "act as a different")
- *  - Explicit override markers ("[SYSTEM]", "<system>", "###system")
- *  - DAN/jailbreak markers ("do anything now")
- *  - Null bytes or unusual control characters
- *
- * @param input       The raw user-supplied text.
- * @param field_name  Descriptive label used in error messages ("nl_query", etc.)
- * @param max_length  Maximum permitted length; 0 means unlimited.
- * @throws LLMException(PROMPT_INJECTION) when a pattern is matched.
- * @throws LLMException(PROMPT_TOO_LONG)  when the input exceeds @p max_length.
- */
 void sanitizePromptInput(const std::string &input, const std::string &field_name, std::size_t max_length = 0) {
     // --- Length check ---
     if (max_length > 0 && input.size() > max_length) {
@@ -253,7 +254,11 @@ void sanitizePromptInput(const std::string &input, const std::string &field_name
 }
 
 /**
- * @brief Resolve the configured number of generation attempts for a mode.
+ * @brief Get Configured Retry Attempts.
+ * @param[in] mode Input parameter.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @details Calls: max().
  */
 std::size_t getConfiguredRetryAttempts(TranslationValidationMode mode, const LLMValidationPipelineConfig& config) {
     if (mode != TranslationValidationMode::RETRY_ON_ERROR) {
@@ -267,11 +272,11 @@ std::size_t getConfiguredRetryAttempts(TranslationValidationMode mode, const LLM
 }
 
 /**
- * @brief Convert retry validation diagnostics into prompt-safe feedback.
- *
- * Validation feedback can contain model-generated text from prior attempts.
- * If it matches prompt-injection patterns, downgrade to a fixed safe message
- * instead of forwarding attacker-controlled instructions into the next prompt.
+ * @brief Make Safe Validation Feedback.
+ * @param[in] raw_feedback Input parameter.
+ * @param[in] max_length Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), size(), resize(), sanitizePromptInput(), spdlog::warn(), what().
  */
 std::string makeSafeValidationFeedback(const std::string& raw_feedback, std::size_t max_length) {
     static const std::string kFallback =
@@ -296,11 +301,11 @@ std::string makeSafeValidationFeedback(const std::string& raw_feedback, std::siz
 }
 
 /**
- * @brief Build the LLM prompt used to generate a natural language explanation of an AQL query.
- *
- * @param aql_query      The AQL query to explain (must already be sanitized).
- * @param schema_context Optional schema description (must already be sanitized).
- * @return Prompt string ready to send to the LLM.
+ * @brief Build AQLExplanation Prompt.
+ * @param[in] aql_query Input parameter.
+ * @param[in] schema_context Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), str().
  */
 std::string buildAQLExplanationPrompt(const std::string &aql_query, const std::string &schema_context) {
     std::ostringstream prompt = {};
@@ -317,6 +322,16 @@ std::string buildAQLExplanationPrompt(const std::string &aql_query, const std::s
     return prompt.str();
 }
 
+/**
+ * @brief Enforce Wave CC1 C2 Hooks.
+ * @param[in] config Input parameter.
+ * @param[in] generated_response Input parameter.
+ * @param[in] original_query Input parameter.
+ * @param[in] local_metrics Input parameter.
+ * @param[in] failure_code Input parameter.
+ * @throws LLMException if an error occurs.
+ * @details Calls: c1_cai_eval_fn(), error(), message(), std::isfinite(), std::to_string(), c2_federated_telemetry_fn().
+ */
 void enforceWaveCC1C2Hooks(const LLMAQLHandler::Config& config,
                            const std::string& generated_response,
                            const std::string& original_query,
@@ -370,10 +385,13 @@ void enforceWaveCC1C2Hooks(const LLMAQLHandler::Config& config,
 
 } // anonymous namespace
 
-// LLM-2 fix: extract collection names referenced in a generated AQL query via
-// FOR <var> IN <collection> patterns, and verify each against the caller-supplied
-// schema_context.  Returns a non-empty error message when a collection outside the
-// schema scope is found; returns "" when the scope check passes (or is skipped).
+/**
+ * @brief LLM-2 fix: extract collection names referenced in a generated AQL query via FOR <var> IN <collection> patterns, and verify each against the caller-supplied schema_context.
+ * @param[in] aql_query Input parameter.
+ * @param[in] schema_context Input parameter.
+ * @return Return value.
+ * @details Returns a non-empty error message when a collection outside the schema scope is found; returns "" when the scope check passes (or is skipped). Calls: empty(), spdlog::warn(), kForInPattern(), std::sregex_iterator(), begin(), end(), push_back(), str().
+ */
 static std::string checkGeneratedAQLCollectionScope(const std::string &aql_query, const std::string &schema_context) {
     if (schema_context.empty()) {
         // No schema provided by the caller — scope check cannot be performed.
@@ -419,7 +437,11 @@ static std::string checkGeneratedAQLCollectionScope(const std::string &aql_query
     return {}; // All referenced collections are within schema scope.
 }
 
-// Extract collection names from common AQL data-access clauses.
+/**
+ * @brief Extract collection names from common AQL data-access clauses.
+ * @param[in] aql_query Input parameter.
+ * @return Return value.
+ */
 static std::unordered_set<std::string> extractReferencedCollectionsForAccessCheck(
     const std::string& aql_query)
 {
@@ -479,6 +501,12 @@ static std::string checkGeneratedAQLCollectionAccess(
 // AQLConversationSession
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Add Turn.
+ * @param[in] nl_query Input parameter.
+ * @param[in] aql_result Input parameter.
+ * @details Calls: push_back().
+ */
 void AQLConversationSession::addTurn(const std::string &nl_query, const std::string &aql_result) {
     history_.push_back({nl_query, aql_result});
 }
@@ -487,6 +515,10 @@ const std::vector<ConversationTurn> &AQLConversationSession::getHistory() const 
     return history_;
 }
 
+/**
+ * @brief Clear.
+ * @details Implements clear without additional internal calls.
+ */
 void AQLConversationSession::clear() {
     history_.clear();
 }
@@ -501,9 +533,13 @@ std::size_t AQLConversationSession::size() const {
 
 // ─────────────────────────────────────────────────────────────────────────────
 
-/** @brief Implementation detail. */
 class LLMAQLHandler::Impl {
   public:
+    /**
+     * @brief Impl.
+     * @param[in] cfg Input parameter.
+     * @return Return value.
+     */
     explicit Impl(const LLMAQLHandler::Config &cfg)
         : config_(cfg), timeout_manager_(), retry_policy_(), sharding_manager_(&sharding::ShardingManager::GetInstance()) {
         circuit_breakers_.emplace(std::piecewise_construct, std::forward_as_tuple("infer"),
@@ -533,6 +569,10 @@ class LLMAQLHandler::Impl {
             spdlog::info("LLMAQLHandler: Custom LLM client injected");
         } else {
             // Create default mock LLM client for testing/development
+            /**
+             * @brief Create Default LLMClient.
+             * @return Return value.
+             */
             extern std::shared_ptr<llm::LLMClient> createDefaultLLMClient();
             llm_client_ = createDefaultLLMClient();
             spdlog::info("LLMAQLHandler: Default (mock) LLM client initialized");
@@ -606,18 +646,16 @@ class LLMAQLHandler::Impl {
     std::shared_ptr<RocksDBWrapper> storage_;
     
     // Phase 0.3: Parser service + validation pipeline for AQL mutation support
-    /// Parser service for AST validation (injected or created from Config)
     std::shared_ptr<query::AQLParserService> parser_service_;
     
-    /// LLM client for text/AQL generation (Phase 0.4)
     std::shared_ptr<llm::LLMClient> llm_client_;
     
-    /// Validation pipeline that orchestrates LLM → Parser → Retry
     std::shared_ptr<LLMValidationPipeline> validation_pipeline_;
     
-    // Wire the shard-load callback between batch_scheduler_ and
-    // adaptive_shard_router_ whenever either is changed.  Both must be
-    // non-null and local_shard_id_ must be non-empty for wiring to happen.
+    /**
+     * @brief Wire the shard-load callback between batch_scheduler_ and adaptive_shard_router_ whenever either is changed.
+     * @details Both must be non-null and local_shard_id_ must be non-empty for wiring to happen. Calls: empty(), setShardLoadCallback(), updateShardLLMLoad().
+     */
     void wireShardLoadCallback() {
         if (!batch_scheduler_ || !adaptive_shard_router_ || local_shard_id_.empty()) {
             if (batch_scheduler_) {
@@ -640,6 +678,11 @@ LLMAQLHandler::LLMAQLHandler(const Config &config) : impl_(std::make_unique<Impl
 
 LLMAQLHandler::~LLMAQLHandler() = default;
 
+/**
+ * @brief Set Validation Mode.
+ * @param[in] mode Input parameter.
+ * @details Implements setValidationMode without additional internal calls.
+ */
 void LLMAQLHandler::setValidationMode(TranslationValidationMode mode) {
     impl_->validation_mode_ = mode;
 }
@@ -654,6 +697,11 @@ TranslationValidationMode LLMAQLHandler::getValidationMode() const {
     return impl_->validation_mode_;
 }
 
+/**
+ * @brief Set Validation Pipeline Config.
+ * @param[in] config Input parameter.
+ * @details Calls: setConfig(), spdlog::info().
+ */
 void LLMAQLHandler::setValidationPipelineConfig(const LLMValidationPipelineConfig& config) {
     impl_->config_.validation_config = config;
     if (impl_->validation_pipeline_) {
@@ -667,7 +715,11 @@ LLMValidationPipelineConfig LLMAQLHandler::getValidationPipelineConfig() const {
     return impl_->config_.validation_config;
 }
 
-// Phase 0.3 Task 7: Parser service configuration getters/setters
+/**
+ * @brief Phase 0.
+ * @param[in] parser_service Input parameter.
+ * @details 3 Task 7: Parser service configuration getters/setters Calls: std::move(), spdlog::info(), spdlog::warn().
+ */
 void LLMAQLHandler::setParserService(std::shared_ptr<query::AQLParserService> parser_service) {
     impl_->parser_service_ = std::move(parser_service);
     if (impl_->parser_service_) {
@@ -681,7 +733,11 @@ std::shared_ptr<query::AQLParserService> LLMAQLHandler::getParserService() const
     return impl_->parser_service_;
 }
 
-// Phase 0.4: LLM Client configuration getters/setters
+/**
+ * @brief Phase 0.
+ * @param[in] llm_client Input parameter.
+ * @details 4: LLM Client configuration getters/setters Calls: std::move(), spdlog::info(), getProviderName(), LLMValidationPipelineFactory::createWithConfig(), spdlog::error(), what(), spdlog::warn().
+ */
 void LLMAQLHandler::setLLMClient(std::shared_ptr<llm::LLMClient> llm_client) {
     impl_->llm_client_ = std::move(llm_client);
     if (impl_->llm_client_) {
@@ -710,6 +766,11 @@ std::shared_ptr<LLMValidationPipeline> LLMAQLHandler::getValidationPipeline() co
     return impl_->validation_pipeline_;
 }
 
+/**
+ * @brief Set Validation Limits.
+ * @param[in] config Input parameter.
+ * @details Implements setValidationLimits without additional internal calls.
+ */
 void LLMAQLHandler::setValidationLimits(const ValidationLimitsConfig &config) {
     impl_->validation_limits_ = config;
 }
@@ -718,29 +779,60 @@ ValidationLimitsConfig LLMAQLHandler::getValidationLimits() const {
     return impl_->validation_limits_;
 }
 
+/**
+ * @brief Set Timeout Config.
+ * @param[in] config Input parameter.
+ * @details Calls: setConfig().
+ */
 void LLMAQLHandler::setTimeoutConfig(const LLMTimeoutManager::TimeoutConfig &config) {
     impl_->timeout_manager_.setConfig(config);
 }
 
+/**
+ * @brief Set Domain Route Resolver.
+ * @param[in] resolver Input parameter.
+ * @details Calls: std::move().
+ */
 void LLMAQLHandler::setDomainRouteResolver(DomainRouteResolver resolver) {
     impl_->domain_route_resolver_ = std::move(resolver);
 }
 
+/**
+ * @brief Set Adaptive Shard Router.
+ * @param[in] router Input parameter.
+ * @details Calls: std::move(), wireShardLoadCallback().
+ */
 void LLMAQLHandler::setAdaptiveShardRouter(std::shared_ptr<sharding::AdaptiveShardRouter> router) {
     impl_->adaptive_shard_router_ = std::move(router);
     impl_->wireShardLoadCallback();
 }
 
+/**
+ * @brief Set Sharding Manager.
+ * @param[in,out] sharding_manager Input/output parameter.
+ * @details Implements setShardingManager without additional internal calls.
+ */
 void LLMAQLHandler::setShardingManager(sharding::ShardingManager *sharding_manager) {
     impl_->sharding_manager_ = sharding_manager;
 }
 
+/**
+ * @brief Set Batch Scheduler.
+ * @param[in,out] sched Input/output parameter.
+ * @param[in] local_shard_id Identifier of the local shard.
+ * @details Calls: std::move(), wireShardLoadCallback().
+ */
 void LLMAQLHandler::setBatchScheduler(llm::ContinuousBatchScheduler *sched, std::string local_shard_id) {
     impl_->batch_scheduler_ = sched;
     impl_->local_shard_id_  = std::move(local_shard_id);
     impl_->wireShardLoadCallback();
 }
 
+/**
+ * @brief Set KVPrefix Transfer Manager.
+ * @param[in] mgr Input parameter.
+ * @details Calls: std::move().
+ */
 void LLMAQLHandler::setKVPrefixTransferManager(std::unique_ptr<llm::KVPrefixTransferManager> mgr) {
     impl_->kv_prefix_transfer_mgr_ = std::move(mgr);
 }
@@ -749,6 +841,11 @@ void LLMAQLHandler::setChatExecutor(std::function<std::string(const std::vector<
     impl_->chat_executor_ = std::move(executor);
 }
 
+/**
+ * @brief Set Token Estimator.
+ * @param[in] estimator Input parameter.
+ * @details Calls: std::move().
+ */
 void LLMAQLHandler::setTokenEstimator(std::unique_ptr<TokenEstimator> estimator) {
     if (estimator) {
         impl_->token_estimator_ = std::move(estimator);
@@ -757,6 +854,11 @@ void LLMAQLHandler::setTokenEstimator(std::unique_ptr<TokenEstimator> estimator)
     }
 }
 
+/**
+ * @brief Set Ingestion Bridge.
+ * @param[in] bridge Input parameter.
+ * @details Calls: std::move().
+ */
 void LLMAQLHandler::setIngestionBridge(std::shared_ptr<AQLIngestionBridge> bridge) {
     impl_->ingestion_bridge_ = std::move(bridge);
 }
@@ -765,10 +867,20 @@ std::shared_ptr<AQLIngestionBridge> LLMAQLHandler::ingestionBridge() const {
     return impl_->ingestion_bridge_;
 }
 
+/**
+ * @brief Set Storage.
+ * @param[in] storage Input parameter.
+ * @details Calls: std::move().
+ */
 void LLMAQLHandler::setStorage(std::shared_ptr<RocksDBWrapper> storage) {
     impl_->storage_ = std::move(storage);
 }
 
+/**
+ * @brief Make Embedding Bridge.
+ * @return Return value.
+ * @details Implements makeEmbeddingBridge without additional internal calls.
+ */
 std::unique_ptr<IEmbeddingProvider> LLMAQLHandler::makeEmbeddingBridge() {
     return std::make_unique<LLMAQLEmbeddingBridge>(*this);
 }
@@ -1329,6 +1441,15 @@ std::string LLMAQLHandler::executeRAG(const std::string &query, const std::strin
     }
 }
 
+/**
+ * @brief Execute Embed.
+ * @param[in] text Input parameter.
+ * @param[in] model_id Identifier of the model.
+ * @return Return value.
+ * @throws LLMException if an error occurs.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: LLMMetricsCollector::instance(), getBreaker(), allowRequest(), recordCircuitBreakerState(), GetShardForKey(), empty(), spdlog::debug(), THEMIS_LLM_EMBED().
+ */
 std::vector<float> LLMAQLHandler::executeEmbed(const std::string &text, const std::string &model_id) {
     auto &metrics = LLMMetricsCollector::instance();
 
@@ -1373,6 +1494,13 @@ std::vector<float> LLMAQLHandler::executeEmbed(const std::string &text, const st
     }
 }
 
+/**
+ * @brief Execute Model Load.
+ * @param[in] model_id Identifier of the model.
+ * @param[in] path Input parameter.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: getPluginManager(), loadModel(), std::string(), what().
+ */
 void LLMAQLHandler::executeModelLoad(const std::string &model_id, const std::string &path) {
     try {
         auto &plugin_mgr = impl_->getPluginManager();
@@ -1382,6 +1510,12 @@ void LLMAQLHandler::executeModelLoad(const std::string &model_id, const std::str
     }
 }
 
+/**
+ * @brief Execute Model Unload.
+ * @param[in] model_id Identifier of the model.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: getPluginManager(), unloadModel(), std::string(), what().
+ */
 void LLMAQLHandler::executeModelUnload(const std::string &model_id) {
     try {
         auto &plugin_mgr = impl_->getPluginManager();
@@ -1391,6 +1525,12 @@ void LLMAQLHandler::executeModelUnload(const std::string &model_id) {
     }
 }
 
+/**
+ * @brief Execute Model List.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: getPluginManager(), listModels(), std::string(), what().
+ */
 std::vector<std::string> LLMAQLHandler::executeModelList() {
     try {
         auto &plugin_mgr = impl_->getPluginManager();
@@ -1400,6 +1540,13 @@ std::vector<std::string> LLMAQLHandler::executeModelList() {
     }
 }
 
+/**
+ * @brief Execute Model Ingest.
+ * @param[in] model_id Identifier of the model.
+ * @param[in] blob_urn Input parameter.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: getPluginManager(), loadModel(), std::string(), what().
+ */
 void LLMAQLHandler::executeModelIngest(const std::string &model_id, const std::string &blob_urn) {
     try {
         auto &plugin_mgr = impl_->getPluginManager();
@@ -1409,6 +1556,13 @@ void LLMAQLHandler::executeModelIngest(const std::string &model_id, const std::s
     }
 }
 
+/**
+ * @brief Execute Lo RALoad.
+ * @param[in] lora_id Identifier of the lora.
+ * @param[in] path Input parameter.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: getPluginManager(), loadLoRA(), std::string(), what().
+ */
 void LLMAQLHandler::executeLoRALoad(const std::string &lora_id, const std::string &path) {
     try {
         auto &plugin_mgr = impl_->getPluginManager();
@@ -1418,6 +1572,12 @@ void LLMAQLHandler::executeLoRALoad(const std::string &lora_id, const std::strin
     }
 }
 
+/**
+ * @brief Execute Lo RAUnload.
+ * @param[in] lora_id Identifier of the lora.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: getPluginManager(), unloadLoRA(), std::string(), what().
+ */
 void LLMAQLHandler::executeLoRAUnload(const std::string &lora_id) {
     try {
         auto &plugin_mgr = impl_->getPluginManager();
@@ -1427,6 +1587,12 @@ void LLMAQLHandler::executeLoRAUnload(const std::string &lora_id) {
     }
 }
 
+/**
+ * @brief Execute Lo RAList.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: getPluginManager(), listLoRAs(), push_back(), empty(), std::string(), what().
+ */
 std::vector<std::string> LLMAQLHandler::executeLoRAList() {
     try {
         auto &plugin_mgr = impl_->getPluginManager();
@@ -1441,6 +1607,12 @@ std::vector<std::string> LLMAQLHandler::executeLoRAList() {
     }
 }
 
+/**
+ * @brief Execute Stats.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: getPluginManager(), getStatistics(), getCircuitBreakerStates(), str(), std::string(), what().
+ */
 std::string LLMAQLHandler::executeStats() {
     try {
         auto &plugin_mgr = impl_->getPluginManager();
@@ -1476,6 +1648,12 @@ LLMAQLHandler::CircuitBreakerStates LLMAQLHandler::getCircuitBreakerStates() con
     return states;
 }
 
+/**
+ * @brief Execute Cache Stats.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: getPluginManager(), getCacheStatistics(), str(), std::string(), what().
+ */
 std::string LLMAQLHandler::executeCacheStats() {
     try {
         auto &plugin_mgr = impl_->getPluginManager();
@@ -1498,6 +1676,11 @@ std::string LLMAQLHandler::executeCacheStats() {
     }
 }
 
+/**
+ * @brief Execute Cache Clear.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: getPluginManager(), clearAllCaches(), std::string(), what().
+ */
 void LLMAQLHandler::executeCacheClear() {
     try {
         auto &plugin_mgr = impl_->getPluginManager();
@@ -1507,6 +1690,13 @@ void LLMAQLHandler::executeCacheClear() {
     }
 }
 
+/**
+ * @brief Execute Batch Infer.
+ * @param[in] requests Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: results(), size(), empty(), batchDomainKey(), push_back(), reserve(), std::async(), emplace_back().
+ */
 std::vector<std::string> LLMAQLHandler::executeBatchInfer(const std::vector<BatchInferRequest> &requests) {
     try {
         std::vector<std::string> results(requests.size());
@@ -1597,23 +1787,17 @@ std::string LLMAQLHandler::buildNLToAQLSystemPrompt(const std::string &schema_co
     return out;
 }
 
+/**
+ * @brief Strip Markdown Fences.
+ * @param[in] raw Input parameter.
+ * @return Return value.
+ * @details Implements stripMarkdownFences without additional internal calls.
+ */
 std::string LLMAQLHandler::stripMarkdownFences(std::string raw) {
     // Delegate to centralized implementation from markdown_utils.h (Phase 1 consolidation)
     return themis::prompt_engineering::stripMarkdownFences(raw);
 }
 
-/**
- * @brief Phase 0.3 Helper: Validate AQL via AST parser with fallback to string-level validation
- *
- * If parser_service_ is available, uses AST parsing for robust validation with parser diagnostics.
- * Otherwise, falls back to AQLQueryValidator for backward compatibility.
- *
- * @param aql_query The generated AQL query to validate
- * @param parser_service_ptr Shared pointer to AQLParserService (may be nullptr)
- * @return Pair of (success: bool, error_details: string). 
- *         If success, error_details is empty.
- *         If failure, error_details includes line/column, suggestions, and context.
- */
 static std::pair<bool, std::string> validateAQLWithParser(
     const std::string& aql_query,
     const std::shared_ptr<query::AQLParserService>& parser_service_ptr)
@@ -1729,6 +1913,13 @@ static std::pair<bool, std::string> validateAQLWithParser(
     return {true, ""};
 }
 
+/**
+ * @brief Log Annotations.
+ * @param[in] annotations Input parameter.
+ * @param[in] query_preview Input parameter.
+ * @param[in] function_name Name of the function.
+ * @details Calls: empty(), size(), substr(), spdlog::warn(), str().
+ */
 void LLMAQLHandler::logAnnotations(const std::vector<AQLAnnotation> &annotations, const std::string &query_preview,
                                    const std::string &function_name) {
     if (annotations.empty()) {
@@ -1748,6 +1939,15 @@ void LLMAQLHandler::logAnnotations(const std::vector<AQLAnnotation> &annotations
     spdlog::warn("{}", warn_msg.str());
 }
 
+/**
+ * @brief Translate NLTo AQL.
+ * @param[in] nl_query Input parameter.
+ * @param[in] schema_context Input parameter.
+ * @return Return value.
+ * @throws LLMException if an error occurs.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: sanitizePromptInput(), spdlog::debug(), size(), substr(), getConfiguredRetryAttempts(), buildNLToAQLSystemPrompt(), emplace_back(), executeChat().
+ */
 std::string LLMAQLHandler::translateNLToAQL(const std::string &nl_query, const std::string &schema_context) {
     // Sanitize inputs before embedding them in the LLM prompt.
     sanitizePromptInput(nl_query, "nl_query", impl_->validation_limits_.max_nl_query_length);
@@ -1986,7 +2186,11 @@ std::string LLMAQLHandler::translateNLToAQLStreaming(const std::string &nl_query
                 }
             }
 
-            // Log any structural issues from syntax highlighter
+            /**
+             * @brief Log any structural issues from syntax highlighter
+             * @param[in] false Input parameter.
+             * @return Return value.
+             */
             AQLSyntaxHighlighter validator(/*use_ansi=*/false);
             logAnnotations(validator.annotateErrors(aql_query), nl_query, "translateNLToAQLStreaming");
 
@@ -1995,12 +2199,24 @@ std::string LLMAQLHandler::translateNLToAQLStreaming(const std::string &nl_query
                 std::string acl_err =
                     checkGeneratedAQLCollectionAccess(aql_query, impl_->collection_access_checker_);
                 if (!acl_err.empty()) {
+                    /**
+                     * @brief LLMException.
+                     * @param[in] ACCESS_DENIED Input parameter.
+                     * @param[in] acl_err Input parameter.
+                     * @return Return value.
+                     */
                     throw LLMException(LLMErrorCode::ACCESS_DENIED, acl_err);
                 }
             }
             {
                 std::string scope_err = checkGeneratedAQLCollectionScope(aql_query, schema_context);
                 if (!scope_err.empty()) {
+                    /**
+                     * @brief LLMException.
+                     * @param[in] INVALID_RESPONSE Input parameter.
+                     * @param[in] scope_err Input parameter.
+                     * @return Return value.
+                     */
                     throw LLMException(LLMErrorCode::INVALID_RESPONSE, scope_err);
                 }
             }
@@ -2152,10 +2368,22 @@ std::string LLMAQLHandler::streamExplainAQLAsSSE(const std::string &aql_query,
 }
 
 HighlightedResponse LLMAQLHandler::formatLLMResponse(const std::string &llm_response, bool use_ansi) const {
+    /**
+     * @brief Highlighter.
+     * @param[in] use_ansi Input parameter.
+     * @return Return value.
+     */
     AQLSyntaxHighlighter highlighter(use_ansi);
     return highlighter.formatLLMResponse(llm_response);
 }
 
+/**
+ * @brief Translate NLTo AQLWith Confidence.
+ * @param[in] nl_query Input parameter.
+ * @param[in] schema_context Input parameter.
+ * @return Return value.
+ * @details Calls: translateNLToAQL(), score(), spdlog::debug().
+ */
 LLMAQLHandler::AQLTranslationResult LLMAQLHandler::translateNLToAQLWithConfidence(const std::string &nl_query,
                                                                                   const std::string &schema_context) {
     AQLTranslationResult result;
@@ -2171,6 +2399,17 @@ LLMAQLHandler::AQLTranslationResult LLMAQLHandler::translateNLToAQLWithConfidenc
     return result;
 }
 
+/**
+ * @brief Translate NLTo AQLWith Examples.
+ * @param[in] nl_query Input parameter.
+ * @param[in] library Input parameter.
+ * @param[in] schema_context Input parameter.
+ * @param[in] max_examples Input parameter.
+ * @return Return value.
+ * @throws LLMException if an error occurs.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: sanitizePromptInput(), getConfiguredRetryAttempts(), findRelevant(), size(), buildNLToAQLSystemPrompt(), emplace_back(), executeChat(), stripMarkdownFences().
+ */
 std::string LLMAQLHandler::translateNLToAQLWithExamples(const std::string &nl_query,
                                                         const AQLFewShotExampleLibrary &library,
                                                         const std::string &schema_context, std::size_t max_examples) {
@@ -2273,6 +2512,14 @@ std::string LLMAQLHandler::translateNLToAQLWithExamples(const std::string &nl_qu
                        "Generated AQL failed validation after all retries: " + validation_feedback);
 }
 
+/**
+ * @brief Score Query Confidence.
+ * @param[in] aql_query Input parameter.
+ * @param[in] original_intent Input parameter.
+ * @param[in] schema_context Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), push_back(), sanitizePromptInput(), executeInfer(), str(), ss(), std::getline(), erase().
+ */
 LLMAQLHandler::QueryConfidenceScore LLMAQLHandler::scoreQueryConfidence(const std::string &aql_query,
                                                                         const std::string &original_intent,
                                                                         const std::string &schema_context) {

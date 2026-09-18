@@ -137,12 +137,12 @@ class HipaaRuleSet {
 public:
     HipaaRuleSet();
 
+
     /**
-     * @brief ---- Rule evaluation ------------------------------------------------
+     * @brief Evaluate Rule.
      * @param[in] rule Input parameter.
      * @return Return value.
      */
-
     std::vector<HipaaRuleEvalResult> evaluateRule(const PolicyRule& rule) const;
 
     /**

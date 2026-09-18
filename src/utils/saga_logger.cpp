@@ -155,11 +155,6 @@ void SAGALogger::logStep(const SAGAStep& step) {
       return;
     }
     
-    /**
-     * @brief Lk.
-     * @param[in] mu_ Input parameter.
-     * @return Return value.
-     */
     std::scoped_lock lk(mu_);
     
     // Phase 2.7: Validate step size (ERR_AUDIT_BUFFER_OVERFLOW)
@@ -240,11 +235,6 @@ void SAGALogger::logStep(const SAGAStep& step) {
  * @details Calls: lk(), empty(), signAndFlushBatch(), ctx(), fmt::format(), what(), logErrorContext().
  */
 void SAGALogger::flush() {
-    /**
-     * @brief Lk.
-     * @param[in] mu_ Input parameter.
-     * @return Return value.
-     */
     std::scoped_lock lk(mu_);
     if (!buffer_.empty()) {
         try {
@@ -284,11 +274,6 @@ std::string SAGALogger::generateBatchId() const {
  * @details Calls: out(), SHA256(), data(), size().
  */
 std::vector<uint8_t> SAGALogger::sha256(const std::vector<uint8_t>& data) {
-    /**
-     * @brief Out.
-     * @param[in] SHA256_DIGEST_LENGTH Input parameter.
-     * @return Return value.
-     */
     std::vector<uint8_t> out(SHA256_DIGEST_LENGTH);
     ::SHA256(data.data(),data.size(), out.data());
     return out;
@@ -422,8 +407,8 @@ void SAGALogger::signAndFlushBatch() {
 
 /**
  * @brief Verify Batch.
- * @param[in] batch_id Input parameter.
- * @return True on success.
+ * @param[in] batch_id Identifier of the batch.
+ * @return True when the operation succeeds.
  * @details Calls: sig_file(), std::getline(), nlohmann::json::parse(), is_discarded(), is_object(), contains(), is_string(), SignedBatch::fromJson().
  */
 bool SAGALogger::verifyBatch(const std::string& batch_id) {
@@ -516,7 +501,7 @@ bool SAGALogger::verifyBatch(const std::string& batch_id) {
 
 /**
  * @brief Load Batch.
- * @param[in] batch_id Input parameter.
+ * @param[in] batch_id Identifier of the batch.
  * @return Return value.
  * @details Calls: verifyBatch(), log_file(), sig_file(), std::getline(), nlohmann::json::parse(), is_discarded(), is_object(), contains().
  */
@@ -632,7 +617,7 @@ std::string SAGALogCompactor::archivePath() const {
 
 /**
  * @brief Compact.
- * @param[in] before_txn_id Input parameter.
+ * @param[in] before_txn_id Identifier of the before txn.
  * @return Return value.
  * @details Calls: ifs(), std::getline(), empty(), nlohmann::json::parse(), is_discarded(), is_object(), push_back(), contains().
  */

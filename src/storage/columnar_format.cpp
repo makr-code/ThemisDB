@@ -30,6 +30,13 @@ constexpr uint64_t kFNVPrime = 1099511628211ull;
 constexpr uint64_t kMaxDecompressedSizeBytes =
     UINT64_C(4) * 1024ULL * 1024ULL * 1024ULL;
 
+/**
+ * @brief Calculate Segment Checksum.
+ * @param[in] bytes Input parameter.
+ * @param[in] size Input parameter.
+ * @return Return value.
+ * @details Implements calculateSegmentChecksum without additional internal calls.
+ */
 uint64_t calculateSegmentChecksum(const uint8_t* bytes, size_t size) {
     uint64_t hash = kFNVOffsetBasis;
     for (size_t i = 0; i < size; ++i) {
@@ -57,9 +64,12 @@ bool ZoneMap::canSkipForString(const std::string& value) const {
     return value < min_str || value > max_str;
 }
 
-// ============================================================================
-// RLE (Run-Length Encoding) Implementation
-// ============================================================================
+/**
+ * @brief ============================================================================ RLE (Run-Length Encoding) Implementation ============================================================================
+ * @param[in] data Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), reserve(), size(), push_back(), insert(), end().
+ */
 
 Result<std::vector<uint8_t>> RLECodec::encodeInt32(const std::vector<int32_t>& data) {
     if (data.empty()) {
@@ -100,6 +110,12 @@ Result<std::vector<uint8_t>> RLECodec::encodeInt32(const std::vector<int32_t>& d
     return encoded;
 }
 
+/**
+ * @brief Encode Int64.
+ * @param[in] data Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), reserve(), size(), push_back(), insert(), end().
+ */
 Result<std::vector<uint8_t>> RLECodec::encodeInt64(const std::vector<int64_t>& data) {
     if (data.empty()) {
         return std::vector<uint8_t>();
@@ -130,6 +146,12 @@ Result<std::vector<uint8_t>> RLECodec::encodeInt64(const std::vector<int64_t>& d
     return encoded;
 }
 
+/**
+ * @brief Decode Int32.
+ * @param[in] encoded Input parameter.
+ * @return Return value.
+ * @details Calls: size(), tl::unexpected(), Error(), std::memcpy(), push_back().
+ */
 Result<std::vector<int32_t>> RLECodec::decodeInt32(const std::vector<uint8_t>& encoded) {
     std::vector<int32_t> decoded;
 
@@ -156,6 +178,12 @@ Result<std::vector<int32_t>> RLECodec::decodeInt32(const std::vector<uint8_t>& e
     return decoded;
 }
 
+/**
+ * @brief Decode Int64.
+ * @param[in] encoded Input parameter.
+ * @return Return value.
+ * @details Calls: size(), tl::unexpected(), Error(), std::memcpy(), push_back().
+ */
 Result<std::vector<int64_t>> RLECodec::decodeInt64(const std::vector<uint8_t>& encoded) {
     std::vector<int64_t> decoded;
 
@@ -186,6 +214,12 @@ Result<std::vector<int64_t>> RLECodec::decodeInt64(const std::vector<uint8_t>& e
 // Dictionary Encoding Implementation
 // ============================================================================
 
+/**
+ * @brief Encode Strings.
+ * @param[in] data Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), find(), end(), size(), max(), tl::unexpected(), Error(), push_back().
+ */
 Result<std::vector<uint8_t>> DictionaryCodec::encodeStrings(const std::vector<std::string>& data) {
     if (data.empty()) {
         return std::vector<uint8_t>();
@@ -248,6 +282,12 @@ Result<std::vector<uint8_t>> DictionaryCodec::encodeStrings(const std::vector<st
     return encoded;
 }
 
+/**
+ * @brief Decode Strings.
+ * @param[in] encoded Input parameter.
+ * @return Return value.
+ * @details Calls: size(), tl::unexpected(), Error(), std::memcpy(), reserve(), str(), push_back(), std::move().
+ */
 Result<std::vector<std::string>> DictionaryCodec::decodeStrings(const std::vector<uint8_t>& encoded) {
     if (encoded.size() < sizeof(uint32_t)) {
         return tl::unexpected(Error(
@@ -353,6 +393,13 @@ Result<std::vector<std::string>> DictionaryCodec::decodeStrings(const std::vecto
     return decoded;
 }
 
+/**
+ * @brief Should Use Dictionary.
+ * @param[in] data Input parameter.
+ * @param[in] min_compression_ratio Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), unique_strings(), begin(), end(), size().
+ */
 bool DictionaryCodec::shouldUseDictionary(const std::vector<std::string>& data,
                                          double min_compression_ratio) {
     if (data.empty()) {
@@ -375,6 +422,13 @@ bool DictionaryCodec::shouldUseDictionary(const std::vector<std::string>& data,
 // Bit-Packing Implementation
 // ============================================================================
 
+/**
+ * @brief Calculate Bits Required.
+ * @param[in] min_val Input parameter.
+ * @param[in] max_val Input parameter.
+ * @return Return value.
+ * @details Calls: std::swap().
+ */
 uint8_t BitPackingCodec::calculateBitsRequired(int64_t min_val, int64_t max_val) {
     // Handle edge case where min > max (shouldn't happen, but be defensive)
     if (min_val > max_val) {
@@ -411,6 +465,12 @@ uint8_t BitPackingCodec::calculateBitsRequired(int64_t min_val, int64_t max_val)
     return bits;
 }
 
+/**
+ * @brief Encode Int32.
+ * @param[in] data Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), std::min_element(), begin(), end(), std::max_element(), calculateBitsRequired(), insert(), push_back().
+ */
 Result<std::vector<uint8_t>> BitPackingCodec::encodeInt32(const std::vector<int32_t>& data) {
     if (data.empty()) {
         return std::vector<uint8_t>();
@@ -468,6 +528,12 @@ Result<std::vector<uint8_t>> BitPackingCodec::encodeInt32(const std::vector<int3
     return encoded;
 }
 
+/**
+ * @brief Encode Int64.
+ * @param[in] data Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), std::min_element(), begin(), end(), std::max_element(), calculateBitsRequired(), insert(), push_back().
+ */
 Result<std::vector<uint8_t>> BitPackingCodec::encodeInt64(const std::vector<int64_t>& data) {
     if (data.empty()) {
         return std::vector<uint8_t>();
@@ -524,6 +590,12 @@ Result<std::vector<uint8_t>> BitPackingCodec::encodeInt64(const std::vector<int6
     return encoded;
 }
 
+/**
+ * @brief Decode Int32.
+ * @param[in] encoded Input parameter.
+ * @return Return value.
+ * @details Calls: size(), tl::unexpected(), Error(), std::memcpy(), reserve(), push_back().
+ */
 Result<std::vector<int32_t>> BitPackingCodec::decodeInt32(const std::vector<uint8_t>& encoded) {
     if (encoded.size() < sizeof(int32_t) + 1 + sizeof(uint32_t)) {
         return tl::unexpected(Error(
@@ -593,6 +665,12 @@ Result<std::vector<int32_t>> BitPackingCodec::decodeInt32(const std::vector<uint
     return decoded;
 }
 
+/**
+ * @brief Decode Int64.
+ * @param[in] encoded Input parameter.
+ * @return Return value.
+ * @details Calls: size(), tl::unexpected(), Error(), std::memcpy(), reserve(), push_back().
+ */
 Result<std::vector<int64_t>> BitPackingCodec::decodeInt64(const std::vector<uint8_t>& encoded) {
     if (encoded.size() < sizeof(int64_t) + 1 + sizeof(uint32_t)) {
         return tl::unexpected(Error(
@@ -672,6 +750,12 @@ Result<std::vector<int64_t>> BitPackingCodec::decodeInt64(const std::vector<uint
 // Frame-of-Reference Implementation
 // ============================================================================
 
+/**
+ * @brief Encode Int32.
+ * @param[in] data Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), insert(), end(), size().
+ */
 Result<std::vector<uint8_t>> FrameOfReferenceCodec::encodeInt32(const std::vector<int32_t>& data) {
     if (data.empty()) {
         return std::vector<uint8_t>();
@@ -699,6 +783,12 @@ Result<std::vector<uint8_t>> FrameOfReferenceCodec::encodeInt32(const std::vecto
     return encoded;
 }
 
+/**
+ * @brief Encode Int64.
+ * @param[in] data Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), insert(), end(), size().
+ */
 Result<std::vector<uint8_t>> FrameOfReferenceCodec::encodeInt64(const std::vector<int64_t>& data) {
     if (data.empty()) {
         return std::vector<uint8_t>();
@@ -719,6 +809,12 @@ Result<std::vector<uint8_t>> FrameOfReferenceCodec::encodeInt64(const std::vecto
     return encoded;
 }
 
+/**
+ * @brief Decode Int32.
+ * @param[in] encoded Input parameter.
+ * @return Return value.
+ * @details Calls: size(), tl::unexpected(), Error(), std::memcpy(), push_back().
+ */
 Result<std::vector<int32_t>> FrameOfReferenceCodec::decodeInt32(const std::vector<uint8_t>& encoded) {
     if (encoded.size() < sizeof(int32_t)) {
         return tl::unexpected(Error(
@@ -747,6 +843,12 @@ Result<std::vector<int32_t>> FrameOfReferenceCodec::decodeInt32(const std::vecto
     return decoded;
 }
 
+/**
+ * @brief Decode Int64.
+ * @param[in] encoded Input parameter.
+ * @return Return value.
+ * @details Calls: size(), tl::unexpected(), Error(), std::memcpy(), push_back().
+ */
 Result<std::vector<int64_t>> FrameOfReferenceCodec::decodeInt64(const std::vector<uint8_t>& encoded) {
     if (encoded.size() < sizeof(int64_t)) {
         return tl::unexpected(Error(
@@ -775,9 +877,12 @@ Result<std::vector<int64_t>> FrameOfReferenceCodec::decodeInt64(const std::vecto
     return decoded;
 }
 
-// ============================================================================
-// Generic Compression Implementation (LZ4/Snappy)
-// ============================================================================
+/**
+ * @brief ============================================================================ Generic Compression Implementation (LZ4/Snappy) ============================================================================
+ * @param[in] data Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), size(), tl::unexpected(), Error(), LZ4_compressBound(), resize(), std::memcpy(), data().
+ */
 
 Result<std::vector<uint8_t>> GenericCompressionCodec::compressLZ4(const std::vector<uint8_t>& data) {
     if (data.empty()) {
@@ -843,6 +948,12 @@ Result<std::vector<uint8_t>> GenericCompressionCodec::compressLZ4(const std::vec
     return result;
 }
 
+/**
+ * @brief Decompress LZ4.
+ * @param[in] compressed Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), size(), tl::unexpected(), Error(), std::memcpy(), data(), resize(), LZ4_decompress_safe().
+ */
 Result<std::vector<uint8_t>> GenericCompressionCodec::decompressLZ4(const std::vector<uint8_t>& compressed) {
     if (compressed.empty()) {
         return std::vector<uint8_t>();
@@ -921,6 +1032,12 @@ Result<std::vector<uint8_t>> GenericCompressionCodec::decompressLZ4(const std::v
     return decompressed;
 }
 
+/**
+ * @brief Compress Snappy.
+ * @param[in] data Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), size(), tl::unexpected(), Error(), snappy::MaxCompressedLength(), resize(), snappy::RawCompress(), data().
+ */
 Result<std::vector<uint8_t>> GenericCompressionCodec::compressSnappy(const std::vector<uint8_t>& data) {
     if (data.empty()) {
         return std::vector<uint8_t>();
@@ -968,6 +1085,12 @@ Result<std::vector<uint8_t>> GenericCompressionCodec::compressSnappy(const std::
     return compressed;
 }
 
+/**
+ * @brief Decompress Snappy.
+ * @param[in] compressed Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), snappy::GetUncompressedLength(), data(), size(), tl::unexpected(), Error(), resize(), snappy::RawUncompress().
+ */
 Result<std::vector<uint8_t>> GenericCompressionCodec::decompressSnappy(const std::vector<uint8_t>& compressed) {
     if (compressed.empty()) {
         return std::vector<uint8_t>();
@@ -1022,6 +1145,10 @@ Result<std::vector<uint8_t>> GenericCompressionCodec::decompressSnappy(const std
 // ColumnSegment Implementation
 // ============================================================================
 
+/**
+ * @brief Build Zone Map.
+ * @details Calls: empty(), data(), max(), min(), std::min(), std::max(), lowest().
+ */
 void ColumnSegment::buildZoneMap() {
     metadata_.zone_map.row_count = metadata_.row_count;
 
@@ -1098,6 +1225,14 @@ void ColumnSegment::buildZoneMap() {
     }
 }
 
+/**
+ * @brief Select Optimal Codec.
+ * @param[in] type Input parameter.
+ * @param[in] data Input parameter.
+ * @param[in] row_count Input parameter.
+ * @return Return value.
+ * @details Implements selectOptimalCodec without additional internal calls.
+ */
 CompressionCodec ColumnSegment::selectOptimalCodec(
     ColumnType type,
     const void* data,
@@ -1126,6 +1261,15 @@ CompressionCodec ColumnSegment::selectOptimalCodec(
     }
 }
 
+/**
+ * @brief Create.
+ * @param[in] type Input parameter.
+ * @param[in] data Input parameter.
+ * @param[in] row_count Input parameter.
+ * @param[in] codec Input parameter.
+ * @return Return value.
+ * @details Calls: tl::unexpected(), Error(), assign(), buildZoneMap(), selectOptimalCodec().
+ */
 Result<ColumnSegment> ColumnSegment::create(
     ColumnType type,
     const void* data,
@@ -1179,6 +1323,11 @@ Result<ColumnSegment> ColumnSegment::create(
     return segment;
 }
 
+/**
+ * @brief Encode.
+ * @return Return value.
+ * @details Calls: spdlog::debug(), Ok(), data(), RLECodec::encodeInt32(), RLECodec::encodeInt64(), tl::unexpected(), Error(), BitPackingCodec::encodeInt32().
+ */
 Result<void> ColumnSegment::encode() {
     if (is_encoded_) {
         spdlog::debug("ColumnSegment::encode: already encoded (row_count={})", metadata_.row_count);
@@ -1273,6 +1422,11 @@ Result<void> ColumnSegment::encode() {
     return {};
 }
 
+/**
+ * @brief Decode.
+ * @return Return value.
+ * @details Calls: spdlog::debug(), RLECodec::decodeInt32(), tl::unexpected(), error(), resize(), size(), std::memcpy(), data().
+ */
 Result<void> ColumnSegment::decode() {
     if (!is_encoded_) {
         spdlog::debug("ColumnSegment::decode: called on already-decoded segment (row_count={})", metadata_.row_count);
@@ -1431,6 +1585,13 @@ std::vector<uint8_t> ColumnSegment::serialize() const {
     return serialized;
 }
 
+/**
+ * @brief Deserialize.
+ * @param[in] data Input parameter.
+ * @return Return value.
+ * @throws std::out_of_range if an error occurs.
+ * @details Calls: size(), tl::unexpected(), Error(), std::memcpy(), read_uint64(), assign(), begin(), calculateSegmentChecksum().
+ */
 Result<ColumnSegment> ColumnSegment::deserialize(const std::vector<uint8_t>& data) {
     if (data.size() < 2 + 4 * sizeof(uint64_t)) {
         return tl::unexpected(Error(
@@ -1551,6 +1712,15 @@ bool ColumnSegment::canSkipSegment(const void* filter_value) const {
 // ColumnarFormatManager Implementation
 // ============================================================================
 
+/**
+ * @brief Create Segments.
+ * @param[in] column_types Input parameter.
+ * @param[in] column_data Input parameter.
+ * @param[in] row_count Input parameter.
+ * @param[in] auto_select_codec Input parameter.
+ * @return Return value.
+ * @details Calls: size(), tl::unexpected(), Error(), reserve(), ColumnSegment::create(), error(), encode(), push_back().
+ */
 Result<std::vector<ColumnSegment>> ColumnarFormatManager::createSegments(
     const std::vector<ColumnType>& column_types,
     const std::vector<void*>& column_data,
@@ -1598,6 +1768,13 @@ Result<std::vector<ColumnSegment>> ColumnarFormatManager::createSegments(
     return segments;
 }
 
+/**
+ * @brief Project Columns.
+ * @param[in] segments Input parameter.
+ * @param[in] column_indices Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), tl::unexpected(), Error(), push_back().
+ */
 Result<std::vector<ColumnSegment>> ColumnarFormatManager::projectColumns(
     const std::vector<ColumnSegment>& segments,
     const std::vector<size_t>& column_indices
@@ -1619,6 +1796,14 @@ Result<std::vector<ColumnSegment>> ColumnarFormatManager::projectColumns(
     return projected;
 }
 
+/**
+ * @brief Filter Segments.
+ * @param[in] segments Input parameter.
+ * @param[in] column_index Input parameter.
+ * @param[in] filter_value Input parameter.
+ * @return Return value.
+ * @details Calls: size(), tl::unexpected(), Error(), canSkipSegment(), push_back().
+ */
 Result<std::vector<size_t>> ColumnarFormatManager::filterSegments(
     const std::vector<ColumnSegment>& segments,
     size_t column_index,

@@ -688,11 +688,19 @@ json OperatorDiagnostics::exportAlertingRulesAsJson() const {
 // Initialization
 // ============================================================================
 
+/**
+ * @brief Initialize Recovery Procedures.
+ * @details Implements initializeRecoveryProcedures without additional internal calls.
+ */
 void OperatorDiagnostics::initializeRecoveryProcedures() {
     // Procedures are lazily generated on request by getRecoveryProcedure()
     // No persistent state needed for initialization
 }
 
+/**
+ * @brief Initialize Alerting Rules.
+ * @details Implements initializeAlertingRules without additional internal calls.
+ */
 void OperatorDiagnostics::initializeAlertingRules() {
     // Rules are lazily generated on request by getAlertingRule()
     // No persistent state needed for initialization

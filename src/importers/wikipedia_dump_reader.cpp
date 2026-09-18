@@ -12,6 +12,16 @@
 
 namespace themis::importers {
 
+/**
+ * @brief Parse Source Stream.
+ * @param[in,out] stream Input/output parameter.
+ * @param[in] source Input parameter.
+ * @param[in,out] stats Input/output parameter.
+ * @param[in] options Input parameter.
+ * @param[in] incremental Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: std::getline(), load(), emplace_back(), find(), clear(), append(), push_back(), parseXmlPageBlock().
+ */
 bool WikipediaIngestionPipeline::parseSourceStream(
     std::istream& stream,
     const WikipediaDumpSource& source,

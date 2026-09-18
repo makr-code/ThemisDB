@@ -39,8 +39,9 @@ namespace sharding {
 
 namespace {
     /**
-     * @brief Get consensus timeout from environment or use default
-     * @return Timeout duration in milliseconds
+     * @brief Get Consensus Timeout.
+     * @return Return value.
+     * @details Calls: std::getenv(), std::stol(), std::chrono::milliseconds(), spdlog::warn().
      */
     std::chrono::milliseconds getConsensusTimeout() {
         const char* env_timeout = std::getenv("THEMIS_SHARDING_CONSENSUS_TIMEOUT_MS");
@@ -58,10 +59,15 @@ namespace {
     }
 }
 
-/** @brief Construct empty in-memory Raft log state. */
 RaftLog::RaftLog() : commit_index_(0) {}
 
-/** @brief Append entry at its declared index, replacing existing slot if present. */
+/**
+ * @brief Append.
+ * @param[in] entry Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: lock(), getConsensusTimeout(), try_lock_for(), std::to_string(), count(), spdlog::error().
+ */
 uint64_t RaftLog::append(const LogEntry& entry) {
     // TIMEOUT ENFORCEMENT: Use try_lock_for to prevent indefinite blocking
     // during consensus operations. If timeout expires, throw exception to
@@ -80,9 +86,13 @@ uint64_t RaftLog::append(const LogEntry& entry) {
     return entry.index;
 }
 
-/** @brief Return entry at index when present. */
 std::optional<LogEntry> RaftLog::getEntry(uint64_t index) const {
-    // TIMEOUT ENFORCEMENT: Use try_lock_for for consistent timeout behavior
+    /**
+     * @brief TIMEOUT ENFORCEMENT: Use try_lock_for for consistent timeout behavior
+     * @param[in] mutex_ Input parameter.
+     * @param[in] defer_lock Input parameter.
+     * @return Return value.
+     */
     std::unique_lock<std::timed_mutex> lock(mutex_, std::defer_lock);
     auto timeout = getConsensusTimeout();
     
@@ -99,9 +109,13 @@ std::optional<LogEntry> RaftLog::getEntry(uint64_t index) const {
     return std::nullopt;
 }
 
-/** @brief Return contiguous available entry range from start to end index. */
 std::vector<LogEntry> RaftLog::getEntries(uint64_t start_index, uint64_t end_index) const {
-    // TIMEOUT ENFORCEMENT: Batch read operation with timeout
+    /**
+     * @brief TIMEOUT ENFORCEMENT: Batch read operation with timeout
+     * @param[in] mutex_ Input parameter.
+     * @param[in] defer_lock Input parameter.
+     * @return Return value.
+     */
     std::unique_lock<std::timed_mutex> lock(mutex_, std::defer_lock);
     auto timeout = getConsensusTimeout();
     
@@ -137,9 +151,13 @@ std::vector<LogEntry> RaftLog::getEntries(uint64_t start_index, uint64_t end_ind
     return entries;
 }
 
-/** @brief Check whether index/term pair is known, including snapshot anchor. */
 bool RaftLog::hasEntry(uint64_t index, uint64_t term) const {
-    // TIMEOUT ENFORCEMENT: Consensus query with timeout
+    /**
+     * @brief TIMEOUT ENFORCEMENT: Consensus query with timeout
+     * @param[in] mutex_ Input parameter.
+     * @param[in] defer_lock Input parameter.
+     * @return Return value.
+     */
     std::unique_lock<std::timed_mutex> lock(mutex_, std::defer_lock);
     auto timeout = getConsensusTimeout();
     
@@ -167,7 +185,11 @@ bool RaftLog::hasEntry(uint64_t index, uint64_t term) const {
     return it->second.term == term;
 }
 
-/** @brief Delete all log entries from index onward and clamp commit index. */
+/**
+ * @brief Truncate From.
+ * @param[in] index Input parameter.
+ * @details Calls: lock(), getConsensusTimeout(), try_lock_for(), spdlog::error(), count(), lower_bound(), erase(), end().
+ */
 void RaftLog::truncateFrom(uint64_t index) {
     // TIMEOUT ENFORCEMENT: Consensus write with timeout
     std::unique_lock<std::timed_mutex> lock(mutex_, std::defer_lock);
@@ -189,7 +211,11 @@ void RaftLog::truncateFrom(uint64_t index) {
     }
 }
 
-/** @brief Advance commit index if monotonic and bounded by last known index. */
+/**
+ * @brief Set Commit Index.
+ * @param[in] index Input parameter.
+ * @details Calls: lock(), getConsensusTimeout(), try_lock_for(), spdlog::error(), count(), spdlog::warn(), empty(), rbegin().
+ */
 void RaftLog::setCommitIndex(uint64_t index) {
     // TIMEOUT ENFORCEMENT: Consensus commit update with timeout
     std::unique_lock<std::timed_mutex> lock(mutex_, std::defer_lock);
@@ -216,9 +242,13 @@ void RaftLog::setCommitIndex(uint64_t index) {
     commit_index_ = index;
 }
 
-/** @brief Return current committed log index. */
 uint64_t RaftLog::getCommitIndex() const {
-    // TIMEOUT ENFORCEMENT: Fast read with timeout
+    /**
+     * @brief TIMEOUT ENFORCEMENT: Fast read with timeout
+     * @param[in] mutex_ Input parameter.
+     * @param[in] defer_lock Input parameter.
+     * @return Return value.
+     */
     std::unique_lock<std::timed_mutex> lock(mutex_, std::defer_lock);
     auto timeout = getConsensusTimeout();
     
@@ -229,9 +259,13 @@ uint64_t RaftLog::getCommitIndex() const {
     return commit_index_;
 }
 
-/** @brief Return last available log index or snapshot index when compacted. */
 uint64_t RaftLog::getLastLogIndex() const {
-    // TIMEOUT ENFORCEMENT: Fast read with timeout
+    /**
+     * @brief TIMEOUT ENFORCEMENT: Fast read with timeout
+     * @param[in] mutex_ Input parameter.
+     * @param[in] defer_lock Input parameter.
+     * @return Return value.
+     */
     std::unique_lock<std::timed_mutex> lock(mutex_, std::defer_lock);
     auto timeout = getConsensusTimeout();
     
@@ -248,8 +282,12 @@ uint64_t RaftLog::getLastLogIndex() const {
     return log_.rbegin()->first;
 }
 
-/** @brief Return term of last in-memory entry or snapshot anchor term. */
 uint64_t RaftLog::getLastLogTerm() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::timed_mutex> lock(mutex_);
     if (log_.empty()) {
         return snapshot_term_;
@@ -257,14 +295,22 @@ uint64_t RaftLog::getLastLogTerm() const {
     return log_.rbegin()->second.term;
 }
 
-/** @brief Return number of in-memory log entries. */
 size_t RaftLog::size() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::timed_mutex> lock(mutex_);
     return log_.size();
 }
 
-/** @brief Estimate in-memory footprint of current log entries in bytes. */
 size_t RaftLog::estimatedSizeBytes() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::timed_mutex> lock(mutex_);
     // Fixed overhead per entry: two uint64_t (term + index) + one uint64_t (timestamp)
     constexpr size_t kEntryOverhead = sizeof(uint64_t) * 3;
@@ -275,7 +321,12 @@ size_t RaftLog::estimatedSizeBytes() const {
     return total;
 }
 
-/** @brief Compact committed entries up to snapshot boundary and set anchor. */
+/**
+ * @brief Compact Up To.
+ * @param[in] snapshot_index Input parameter.
+ * @param[in] snapshot_term Input parameter.
+ * @details Calls: lock(), spdlog::error(), upper_bound(), erase(), begin().
+ */
 void RaftLog::compactUpTo(uint64_t snapshot_index, uint64_t snapshot_term) {
     std::lock_guard<std::timed_mutex> lock(mutex_);
 
@@ -300,26 +351,42 @@ void RaftLog::compactUpTo(uint64_t snapshot_index, uint64_t snapshot_term) {
     // correct and we must not move it forward.
 }
 
-/** @brief Update snapshot anchor metadata used for post-compaction lookups. */
+/**
+ * @brief Set Snapshot Meta.
+ * @param[in] index Input parameter.
+ * @param[in] term Input parameter.
+ * @details Calls: lock().
+ */
 void RaftLog::setSnapshotMeta(uint64_t index, uint64_t term) {
     std::lock_guard<std::timed_mutex> lock(mutex_);
     snapshot_index_ = index;
     snapshot_term_  = term;
 }
 
-/** @brief Return installed snapshot index anchor. */
 uint64_t RaftLog::getSnapshotIndex() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::timed_mutex> lock(mutex_);
     return snapshot_index_;
 }
 
-/** @brief Return installed snapshot term anchor. */
 uint64_t RaftLog::getSnapshotTerm() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::timed_mutex> lock(mutex_);
     return snapshot_term_;
 }
 
-/** @brief Clear all log entries and reset commit/snapshot state. */
+/**
+ * @brief Clear.
+ * @details Calls: lock().
+ */
 void RaftLog::clear() {
     std::lock_guard<std::timed_mutex> lock(mutex_);
     log_.clear();
@@ -334,9 +401,13 @@ void RaftLog::clear() {
 
 namespace {
 
-/// Compute SHA-256 of the given buffer and return a lowercase hex string.
-/// Handles the empty-buffer case (size == 0) safely without dereferencing
-/// a potentially null pointer returned by std::vector::data().
+/**
+ * @brief Sha256 Hex.
+ * @param[in] data Input parameter.
+ * @param[in] size Input parameter.
+ * @return Return value.
+ * @details Calls: SHA256(), std::setw(), std::setfill(), str().
+ */
 std::string sha256Hex(const uint8_t* data, size_t size) {
     unsigned char hash[SHA256_DIGEST_LENGTH];
     if (size == 0) {
@@ -355,7 +426,6 @@ std::string sha256Hex(const uint8_t* data, size_t size) {
 
 }  // namespace
 
-/** @brief Construct snapshot manager and ensure storage directory exists. */
 RaftSnapshotManager::RaftSnapshotManager(const Config& config)
     : config_(config) {
     if (config_.chunk_size_bytes == 0) {
@@ -366,29 +436,27 @@ RaftSnapshotManager::RaftSnapshotManager(const Config& config)
     std::filesystem::create_directories(config_.snapshot_directory);
 }
 
-/** @brief Compute SHA-256 checksum helper wrapper. */
 /* static */ std::string RaftSnapshotManager::computeChecksum(const uint8_t* data, size_t size) {
     return sha256Hex(data, size);
 }
 
-/** @brief Build on-disk snapshot file path for snapshot index. */
 std::string RaftSnapshotManager::snapshotPath(uint64_t snapshot_index) const {
     return config_.snapshot_directory + "/raft_snapshot_" +
            std::to_string(snapshot_index) + ".bin";
 }
 
-/** @brief Return true when log size reaches configured compaction threshold. */
 bool RaftSnapshotManager::shouldCompact(const RaftLog& log) const {
     return log.estimatedSizeBytes() >= config_.compaction_threshold_bytes;
 }
 
 /**
- * @brief Create, persist, and install snapshot, then compact log.
- * @param log Raft log to compact after successful snapshot write.
- * @param snapshot_index Last included index.
- * @param snapshot_term Last included term.
- * @param state_data Uncompressed state-machine bytes.
- * @return True when snapshot was persisted and compaction completed.
+ * @brief Create And Install.
+ * @param[in,out] log Input/output parameter.
+ * @param[in] snapshot_index Input parameter.
+ * @param[in] snapshot_term Input parameter.
+ * @param[in] state_data Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), spdlog::error(), getCommitIndex(), getEntry(), getSnapshotIndex(), getSnapshotTerm(), empty(), spdlog::warn().
  */
 bool RaftSnapshotManager::createAndInstall(RaftLog& log,
                                             uint64_t snapshot_index,
@@ -554,12 +622,12 @@ bool RaftSnapshotManager::createAndInstall(RaftLog& log,
     }
 }
 
-/**
- * @brief Load and verify snapshot file by index.
- * @param snapshot_index Snapshot identifier.
- * @return Snapshot payload when found and checksum-valid.
- */
 std::optional<RaftSnapshot> RaftSnapshotManager::loadSnapshot(uint64_t snapshot_index) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     std::string path = snapshotPath(snapshot_index);
@@ -580,6 +648,12 @@ std::optional<RaftSnapshot> RaftSnapshotManager::loadSnapshot(uint64_t snapshot_
             return std::nullopt;
         }
 
+        /**
+         * @brief File.
+         * @param[in] path Input parameter.
+         * @param[in] binary Input parameter.
+         * @return Return value.
+         */
         std::ifstream file(path, std::ios::binary);
         if (!file.is_open()) {
             spdlog::error("RaftSnapshotManager: cannot open {} for reading", path);
@@ -696,7 +770,6 @@ std::optional<RaftSnapshot> RaftSnapshotManager::loadSnapshot(uint64_t snapshot_
     }
 }
 
-/** @brief Load newest available snapshot from storage, if any. */
 std::optional<RaftSnapshot> RaftSnapshotManager::loadLatestSnapshot() const {
     auto snapshots = listSnapshots();
     if (snapshots.empty()) {
@@ -705,7 +778,6 @@ std::optional<RaftSnapshot> RaftSnapshotManager::loadLatestSnapshot() const {
     return loadSnapshot(snapshots.front());
 }
 
-/** @brief Enumerate persisted snapshot indices from disk sorted descending. */
 std::vector<uint64_t> RaftSnapshotManager::listSnapshots() const {
     std::vector<uint64_t> ids;
     try {
@@ -737,8 +809,12 @@ std::vector<uint64_t> RaftSnapshotManager::listSnapshots() const {
     return ids;
 }
 
-/** @brief Return number of transfer chunks for stored snapshot file. */
 size_t RaftSnapshotManager::getChunkCount(uint64_t snapshot_index) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     std::string path = snapshotPath(snapshot_index);
@@ -752,14 +828,13 @@ size_t RaftSnapshotManager::getChunkCount(uint64_t snapshot_index) const {
     return (file_size + config_.chunk_size_bytes - 1) / config_.chunk_size_bytes;
 }
 
-/**
- * @brief Read and checksum one snapshot chunk for network transfer.
- * @param snapshot_index Snapshot identifier.
- * @param chunk_index Zero-based chunk offset.
- * @return Snapshot chunk when available.
- */
 std::optional<RaftSnapshotChunk> RaftSnapshotManager::getChunk(uint64_t snapshot_index,
                                                                  uint64_t chunk_index) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     std::string path = snapshotPath(snapshot_index);
@@ -782,6 +857,12 @@ std::optional<RaftSnapshotChunk> RaftSnapshotManager::getChunk(uint64_t snapshot
         const size_t offset = chunk_index * config_.chunk_size_bytes;
         const size_t length = std::min(config_.chunk_size_bytes, file_size - offset);
 
+        /**
+         * @brief File.
+         * @param[in] path Input parameter.
+         * @param[in] binary Input parameter.
+         * @return Return value.
+         */
         std::ifstream file(path, std::ios::binary);
         if (!file.is_open()) {
             return std::nullopt;
@@ -814,7 +895,10 @@ std::optional<RaftSnapshotChunk> RaftSnapshotManager::getChunk(uint64_t snapshot
     }
 }
 
-/** @brief Prune old snapshot files beyond retention limit. */
+/**
+ * @brief Cleanup Old Snapshots.
+ * @details Calls: std::filesystem::exists(), std::filesystem::directory_iterator(), is_regular_file(), path(), filename(), string(), rfind(), ends_with().
+ */
 void RaftSnapshotManager::cleanupOldSnapshots() {
     // NOTE: called with mutex_ held
     try {

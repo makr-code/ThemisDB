@@ -41,6 +41,12 @@ namespace modules {
 // Cross-platform dispatcher
 // ============================================================================
 
+/**
+ * @brief Verify Signature.
+ * @param[in] modulePath Input parameter.
+ * @param[in] signaturePath Input parameter.
+ * @return Return value.
+ */
 ModuleSignatureVerificationResult ModuleSignatureVerifier::verifySignature(
     const std::string& modulePath,
     const std::string& signaturePath)
@@ -79,6 +85,12 @@ ModuleSignatureVerificationResult ModuleSignatureVerifier::verifySignature(
 
 static constexpr DWORD kCertNameBufSize = 256;
 
+/**
+ * @brief Verify Authenticode Signature.
+ * @param[in] modulePath Input parameter.
+ * @param[in,out] signerInfo Input/output parameter.
+ * @return True when the operation succeeds.
+ */
 bool ModuleSignatureVerifier::verifyAuthenticodeSignature(
     const std::string& modulePath,
     std::string& signerInfo)
@@ -182,6 +194,13 @@ bool ModuleSignatureVerifier::verifyAuthenticodeSignature(
 static constexpr std::size_t kGPGReadBufSize = 256;
 static const char* const kGpgBin = "/usr/bin/gpg";
 
+/**
+ * @brief Verify GPGSignature.
+ * @param[in] modulePath Input parameter.
+ * @param[in] signaturePath Input parameter.
+ * @param[in,out] signerInfo Input/output parameter.
+ * @return True when the operation succeeds.
+ */
 bool ModuleSignatureVerifier::verifyGPGSignature(
     const std::string& modulePath,
     const std::string& signaturePath,

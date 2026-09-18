@@ -45,6 +45,11 @@ namespace {
 // Helpers
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Make CPUFallback.
+ * @return Return value.
+ * @details Implements MakeCPUFallback without additional internal calls.
+ */
 DeviceInfo MakeCPUFallback() {
     DeviceInfo d;
     d.index            = -1;
@@ -62,6 +67,11 @@ DeviceInfo MakeCPUFallback() {
 }
 
 #ifdef THEMIS_ENABLE_CUDA
+/**
+ * @brief Enumerate CUDA.
+ * @return Return value.
+ * @details Calls: cudaGetDeviceCount(), cudaGetDeviceProperties(), std::to_string(), push_back(), cudaSetDevice(), cudaMemGetInfo(), nvmlDeviceGetHandleByIndex(), nvmlDeviceGetMIGMode().
+ */
 std::vector<DeviceInfo> EnumerateCUDA() {
     std::vector<DeviceInfo> result;
     int count = 0;
@@ -126,6 +136,11 @@ std::vector<DeviceInfo> EnumerateCUDA() {
 #endif // THEMIS_ENABLE_CUDA
 
 #ifdef THEMIS_ENABLE_HIP
+/**
+ * @brief Enumerate ROCm.
+ * @return Return value.
+ * @details Calls: hipGetDeviceCount(), hipGetDeviceProperties(), std::to_string(), push_back(), hipSetDevice(), hipMemGetInfo().
+ */
 std::vector<DeviceInfo> EnumerateROCm() {
     std::vector<DeviceInfo> result;
     int count = 0;
@@ -168,6 +183,11 @@ std::vector<DeviceInfo> EnumerateROCm() {
 // DeviceDiscovery — static method implementations
 // ============================================================================
 
+/**
+ * @brief Enumerate.
+ * @return Return value.
+ * @details Calls: EnumerateCUDA(), defined(), EnumerateROCm(), empty(), push_back(), MakeCPUFallback().
+ */
 std::vector<DeviceInfo> DeviceDiscovery::Enumerate() {
     std::vector<DeviceInfo> devices;
 
@@ -186,6 +206,12 @@ std::vector<DeviceInfo> DeviceDiscovery::Enumerate() {
     return devices;
 }
 
+/**
+ * @brief Get Best Device.
+ * @param[in] devices Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), MakeCPUFallback().
+ */
 DeviceInfo DeviceDiscovery::GetBestDevice(const std::vector<DeviceInfo> &devices) {
     if (devices.empty()) {
         return MakeCPUFallback();
@@ -219,10 +245,21 @@ DeviceInfo DeviceDiscovery::GetBestDevice(const std::vector<DeviceInfo> &devices
     return MakeCPUFallback();
 }
 
+/**
+ * @brief Get Best Device.
+ * @return Return value.
+ * @details Calls: Enumerate().
+ */
 DeviceInfo DeviceDiscovery::GetBestDevice() {
     return GetBestDevice(Enumerate());
 }
 
+/**
+ * @brief Get Healthy Devices.
+ * @param[in] devices Input parameter.
+ * @return Return value.
+ * @details Calls: push_back().
+ */
 std::vector<DeviceInfo> DeviceDiscovery::GetHealthyDevices(const std::vector<DeviceInfo> &devices) {
     std::vector<DeviceInfo> result = {};
 
@@ -234,6 +271,12 @@ std::vector<DeviceInfo> DeviceDiscovery::GetHealthyDevices(const std::vector<Dev
     return result;
 }
 
+/**
+ * @brief Has GPU.
+ * @param[in] devices Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements HasGPU without additional internal calls.
+ */
 bool DeviceDiscovery::HasGPU(const std::vector<DeviceInfo> &devices) {
     for (const auto &d : devices) {
         if (d.is_healthy && d.backend != "CPU_FALLBACK") {
@@ -243,6 +286,11 @@ bool DeviceDiscovery::HasGPU(const std::vector<DeviceInfo> &devices) {
     return false;
 }
 
+/**
+ * @brief Has GPU.
+ * @return True when the operation succeeds.
+ * @details Calls: Enumerate().
+ */
 bool DeviceDiscovery::HasGPU() {
     return HasGPU(Enumerate());
 }

@@ -17,6 +17,13 @@
 namespace themis {
 namespace content {
 
+/**
+ * @brief Extract.
+ * @param[in] blob Input parameter.
+ * @param[in] content_type Input parameter.
+ * @return Return value.
+ * @details Calls: nlohmann::json::object(), size(), computeMockEmbedding_().
+ */
 ExtractionResult MockClipProcessor::extract(const std::string &blob, const ContentType &content_type) {
     ExtractionResult res;
     res.ok                              = true;
@@ -29,6 +36,14 @@ ExtractionResult MockClipProcessor::extract(const std::string &blob, const Conte
     return res;
 }
 
+/**
+ * @brief Chunk.
+ * @param[in] extraction_result Input parameter.
+ * @param[in] int Input parameter.
+ * @param[in] int Input parameter.
+ * @return Return value.
+ * @details Calls: push_back().
+ */
 std::vector<nlohmann::json> MockClipProcessor::chunk(const ExtractionResult &extraction_result, int /*chunk_size*/,
                                                      int /*overlap*/) {
     std::vector<nlohmann::json> out;
@@ -41,6 +56,12 @@ std::vector<nlohmann::json> MockClipProcessor::chunk(const ExtractionResult &ext
     return out;
 }
 
+/**
+ * @brief Generate Embedding.
+ * @param[in] chunk_data Input parameter.
+ * @return Return value.
+ * @details Calls: computeMockEmbedding_().
+ */
 std::vector<float> MockClipProcessor::generateEmbedding(const std::string &chunk_data) {
     return computeMockEmbedding_(chunk_data);
 }

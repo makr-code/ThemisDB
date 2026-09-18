@@ -128,6 +128,11 @@ AdaptiveImportOptimizer::optimizeImportPlan(const std::vector<InferenceTableSche
 // adaptBatchSize
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Adapt Batch Size.
+ * @param[in] metrics Input parameter.
+ * @details Calls: std::max(), std::min().
+ */
 void AdaptiveImportOptimizer::adaptBatchSize(const RuntimeMetrics &metrics) {
     if (metrics.memory_utilization > 80.0 || metrics.cpu_utilization > 90.0) {
         // Back off

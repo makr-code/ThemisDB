@@ -96,6 +96,12 @@ BatchWriteOptimizer::Stats BatchWriteOptimizer::getStats() const {
     return stats;
 }
 
+/**
+ * @brief Record Batch Write.
+ * @param[in] items Input parameter.
+ * @param[in] latency_ms Input parameter.
+ * @details Calls: fetch_add(), load(), compare_exchange_weak().
+ */
 void BatchWriteOptimizer::recordBatchWrite(size_t items, double latency_ms) {
     total_batches_.fetch_add(1);
     total_items_.fetch_add(items);
@@ -107,6 +113,12 @@ void BatchWriteOptimizer::recordBatchWrite(size_t items, double latency_ms) {
     }
 }
 
+/**
+ * @brief Recommended Config For Use Case.
+ * @param[in] use_case Input parameter.
+ * @return Return value.
+ * @details Implements recommendedConfigForUseCase without additional internal calls.
+ */
 BatchWriteOptimizer::Config BatchWriteOptimizer::recommendedConfigForUseCase(
     const std::string& use_case
 ) {
@@ -136,6 +148,11 @@ BatchWriteOptimizer::Config BatchWriteOptimizer::recommendedConfigForUseCase(
     return config;
 }
 
+/**
+ * @brief Validate Config.
+ * @param[in] config Input parameter.
+ * @details Calls: THEMIS_INFO().
+ */
 void BatchWriteOptimizer::validateConfig(const Config& config) {
     // Validation logic only - warnings logged in constructor
     if (config.durability == DurabilityMode::Sync) {

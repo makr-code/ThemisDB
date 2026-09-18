@@ -891,11 +891,6 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
                         }
                     }
 
-                    /**
-                     * @brief Ss.
-                     * @param[in] numericOnly Input parameter.
-                     * @return Return value.
-                     */
                     std::stringstream ss(numericOnly);
                     double minx, miny, maxx, maxy;
                     if (!(ss >> minx >> miny >> maxx >> maxy)) {
@@ -1174,11 +1169,6 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
                             }
                         }
 
-                        /**
-                         * @brief Ss.
-                         * @param[in] numericOnly Input parameter.
-                         * @return Return value.
-                         */
                         std::stringstream ss(numericOnly);
                         double minx, miny, maxx, maxy;
                         if (!(ss >> minx >> miny >> maxx >> maxy)) {
@@ -1256,7 +1246,7 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
  * @param[in,out] eqPredicates Input/output parameter.
  * @param[in,out] rangePredicates Input/output parameter.
  * @param[in,out] error Input/output parameter.
- * @return True on success.
+ * @return True when the operation succeeds.
  * @details Calls: getType(), std::transform(), begin(), end(), extractColumnName(), literalToString(), push_back().
  */
 bool AQLTranslator::extractPredicates(
@@ -1482,7 +1472,7 @@ std::optional<OrderBy> AQLTranslator::extractOrderBy(
 /**
  * @brief Contains Or.
  * @param[in] expr Input parameter.
- * @return True on success.
+ * @return True when the operation succeeds.
  * @details Calls: getType().
  */
 bool AQLTranslator::containsOr(const std::shared_ptr<Expression>& expr) {
@@ -1768,7 +1758,7 @@ std::vector<ConjunctiveQuery> AQLTranslator::convertToDNF(
 /**
  * @brief Count CTEReferences.
  * @param[in] ast Input parameter.
- * @param[in] cte_name Input parameter.
+ * @param[in] cte_name Name of the cte.
  * @return Return value.
  * @details Calls: getType(), countCTEReferencesInExpr().
  */
@@ -1810,7 +1800,7 @@ size_t AQLTranslator::countCTEReferences(
 /**
  * @brief Count CTEReferences In Expr.
  * @param[in] expr Input parameter.
- * @param[in] cte_name Input parameter.
+ * @param[in] cte_name Name of the cte.
  * @return Return value.
  * @details Calls: getType(), countCTEReferences().
  */

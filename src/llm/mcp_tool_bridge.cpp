@@ -22,7 +22,13 @@ namespace themis::llm {
 
 namespace {
 
-/// Build a JSON-RPC 2.0 "tools/call" request envelope for the MCP server.
+/**
+ * @brief Build Mcp Tool Call Request.
+ * @param[in] tool_name Name of the tool.
+ * @param[in] args Input parameter.
+ * @return Return value.
+ * @details Implements buildMcpToolCallRequest without additional internal calls.
+ */
 json buildMcpToolCallRequest(const std::string& tool_name, const json& args) {
     return {
         {"jsonrpc", "2.0"},
@@ -32,7 +38,12 @@ json buildMcpToolCallRequest(const std::string& tool_name, const json& args) {
     };
 }
 
-/// Extract the result payload from an MCP JSON-RPC response.
+/**
+ * @brief Extract Mcp Result.
+ * @param[in] mcp_response Input parameter.
+ * @return Return value.
+ * @details Calls: contains().
+ */
 json extractMcpResult(const json& mcp_response) {
     if (mcp_response.contains("error")) {
         return {{"error", mcp_response["error"]}};
@@ -45,9 +56,13 @@ json extractMcpResult(const json& mcp_response) {
 
 } // namespace
 
-// ============================================================================
-// McpToolBridge::bridgeTools
-// ============================================================================
+/**
+ * @brief ============================================================================ McpToolBridge::bridgeTools ============================================================================
+ * @param[in,out] mcp Input/output parameter.
+ * @param[in,out] registry Input/output parameter.
+ * @param[in] prefix Input parameter.
+ * @details Calls: json::object(), handleRequest(), contains(), spdlog::warn(), value(), empty(), registerTool(), buildMcpToolCallRequest().
+ */
 
 void McpToolBridge::bridgeTools(themis::server::McpServer& mcp,
                                  ToolRegistry&               registry,
@@ -109,9 +124,14 @@ void McpToolBridge::bridgeTools(themis::server::McpServer& mcp,
                  bridged, prefix);
 }
 
-// ============================================================================
-// McpToolBridge::bridgeTool
-// ============================================================================
+/**
+ * @brief ============================================================================ McpToolBridge::bridgeTool ============================================================================
+ * @param[in,out] mcp Input/output parameter.
+ * @param[in] tool_name Name of the tool.
+ * @param[in,out] registry Input/output parameter.
+ * @param[in] alias Input parameter.
+ * @details Calls: empty(), registerTool(), buildMcpToolCallRequest(), handleRequest(), extractMcpResult(), spdlog::debug().
+ */
 
 void McpToolBridge::bridgeTool(themis::server::McpServer& mcp,
                                 const std::string&         tool_name,

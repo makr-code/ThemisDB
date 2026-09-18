@@ -50,6 +50,12 @@ namespace {
 
 constexpr size_t kMaxEntityBatchKeyPartLength = 256;
 
+/**
+ * @brief Is Valid Entity Batch Key Part.
+ * @param[in] value Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), validateStringLength(), validatePathSegment(), validateHeaderValue().
+ */
 bool isValidEntityBatchKeyPart(const std::string& value) {
     themis::utils::InputValidator validator;
     return !value.empty() &&
@@ -131,6 +137,15 @@ EntityApiHandler::AuthContext EntityApiHandler::extractAuthContext(
     return ctx;
 }
 
+/**
+ * @brief Require Access.
+ * @param[in] req Input parameter.
+ * @param[in] scope Input parameter.
+ * @param[in] param Input parameter.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Calls: isEnabled(), empty(), makeErrorResponse(), themis::AuthMiddleware::extractBearerToken(), std::string_view(), data(), size(), authorize().
+ */
 std::optional<http::response<http::string_body>> EntityApiHandler::requireAccess(
     const http::request<http::string_body>& req,
     const std::string& scope,
@@ -166,6 +181,12 @@ std::optional<http::response<http::string_body>> EntityApiHandler::requireAccess
     return std::nullopt; // Access granted
 }
 
+/**
+ * @brief Handle Get.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: std::string(), empty(), std::chrono::system_clock::now(), time_since_epoch(), count(), std::to_string(), fetch_add(), isEnabled().
+ */
 http::response<http::string_body> EntityApiHandler::handleGet(
     const http::request<http::string_body>& req
 ) {
@@ -384,6 +405,12 @@ http::response<http::string_body> EntityApiHandler::handleGet(
     }
 }
 
+/**
+ * @brief Handle Put.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: isEnabled(), std::string(), target(), find(), substr(), requireAccess(), Tracer::startSpan(), json::parse().
+ */
 http::response<http::string_body> EntityApiHandler::handlePut(
     const http::request<http::string_body>& req
 ) {
@@ -761,6 +788,12 @@ http::response<http::string_body> EntityApiHandler::handlePut(
     }
 }
 
+/**
+ * @brief Handle Delete.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: isEnabled(), std::string(), target(), find(), substr(), requireAccess(), Tracer::startSpan(), extractPathParam().
+ */
 http::response<http::string_body> EntityApiHandler::handleDelete(
     const http::request<http::string_body>& req
 ) {
@@ -863,6 +896,12 @@ http::response<http::string_body> EntityApiHandler::handleDelete(
     }
 }
 
+/**
+ * @brief Handle Batch.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: isEnabled(), requireAccess(), Tracer::startSpan(), json::parse(), body(), contains(), is_array(), setStatus().
+ */
 http::response<http::string_body> EntityApiHandler::handleBatch(
     const http::request<http::string_body>& req
 ) {
@@ -1158,6 +1197,13 @@ http::response<http::string_body> EntityApiHandler::handleBatch(
     }
 }
 
+/**
+ * @brief Extract Path Param.
+ * @param[in] target Input parameter.
+ * @param[in] prefix Input parameter.
+ * @return Return value.
+ * @details Calls: rfind(), substr(), length(), find().
+ */
 std::string EntityApiHandler::extractPathParam(const std::string& target, const std::string& prefix) {
     if (!(target.rfind(prefix, 0) == 0)) {
         return "";
@@ -1171,6 +1217,14 @@ std::string EntityApiHandler::extractPathParam(const std::string& target, const 
     return param;
 }
 
+/**
+ * @brief Make Error Response.
+ * @param[in] status Input parameter.
+ * @param[in] message Input parameter.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: makeResponse(), dump().
+ */
 http::response<http::string_body> EntityApiHandler::makeErrorResponse(
     http::status status, const std::string& message, const http::request<http::string_body>& req
 ) {
@@ -1182,6 +1236,14 @@ http::response<http::string_body> EntityApiHandler::makeErrorResponse(
     return makeResponse(status, error_body.dump(), req);
 }
 
+/**
+ * @brief Make Response.
+ * @param[in] status Input parameter.
+ * @param[in] body Input parameter.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: version(), set(), keep_alive(), body(), prepare_payload().
+ */
 http::response<http::string_body> EntityApiHandler::makeResponse(
     http::status status, const std::string& body, const http::request<http::string_body>& req
 ) {
@@ -1194,9 +1256,11 @@ http::response<http::string_body> EntityApiHandler::makeResponse(
     return res;
 }
 
-// ---------------------------------------------------------------------------
-// POST /v2/documents  – bulk insert from newline-delimited JSON (NDJSON)
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- POST /v2/documents – bulk insert from newline-delimited JSON (NDJSON) ---------------------------------------------------------------------------
+ * @param[in] req Input parameter.
+ * @return Return value.
+ */
 
 http::response<http::string_body> EntityApiHandler::handleBulkNdjson(
     const http::request<http::string_body>& req)
@@ -1231,6 +1295,11 @@ http::response<http::string_body> EntityApiHandler::handleBulkNdjson(
     std::vector<json> errors;
     errors.reserve(256);  // OPTIMIZATION: Pre-allocate to avoid reallocations
 
+    /**
+     * @brief Stream.
+     * @param[in] body Input parameter.
+     * @return Return value.
+     */
     std::istringstream stream(body);
     std::string line = {};
     size_t line_number = 0;

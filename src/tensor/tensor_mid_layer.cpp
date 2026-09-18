@@ -16,14 +16,29 @@
 namespace themis {
 namespace tensor {
 
+/**
+ * @brief Set Adapter Repository.
+ * @param[in] repository Input parameter.
+ * @details Calls: std::move().
+ */
 void TensorMidLayer::setAdapterRepository(std::shared_ptr<AdapterRepository> repository) {
     adapter_repository_ = std::move(repository);
 }
 
+/**
+ * @brief Set Fingerprint Graph.
+ * @param[in] graph Input parameter.
+ * @details Calls: std::move().
+ */
 void TensorMidLayer::setFingerprintGraph(std::shared_ptr<TensorFingerprintGraph> graph) {
     fingerprint_graph_ = std::move(graph);
 }
 
+/**
+ * @brief Set Ann Frontdoor.
+ * @param[in] frontdoor Input parameter.
+ * @details Calls: std::move().
+ */
 void TensorMidLayer::setAnnFrontdoor(std::shared_ptr<index::AnnFrontdoor> frontdoor) {
     ann_frontdoor_ = std::move(frontdoor);
 }
@@ -169,6 +184,12 @@ index::AnnScopeKind TensorMidLayer::annScopeKindForLayer(TensorLayerKind kind) n
     }
 }
 
+/**
+ * @brief Build Scope Key.
+ * @param[in] context Input parameter.
+ * @return Return value.
+ * @details Calls: empty().
+ */
 std::string TensorMidLayer::buildScopeKey(const TensorLayerContext& context) {
     if (!context.scope_id.empty()) {
         return context.scope_id;
@@ -182,6 +203,13 @@ std::string TensorMidLayer::buildScopeKey(const TensorLayerContext& context) {
     return context.domain.empty() ? "__tensor_mid_layer__" : context.domain;
 }
 
+/**
+ * @brief Merge Similarity Results.
+ * @param[in] summaries Input parameter.
+ * @param[in] top_k Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), reserve(), size(), push_back(), std::move(), std::sort(), begin(), end().
+ */
 std::vector<SimilarityResult> TensorMidLayer::mergeSimilarityResults(
     const std::vector<TensorLayerSummary>& summaries,
     std::size_t top_k) {

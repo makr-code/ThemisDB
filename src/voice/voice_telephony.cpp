@@ -41,10 +41,22 @@ namespace voice {
 
 namespace {
 
+/**
+ * @brief Is Rtp Version2.
+ * @param[in] pkt Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty().
+ */
 bool isRtpVersion2(const std::vector<uint8_t>& pkt) {
     return !pkt.empty() && ((pkt[0] >> 6) == 0x02);
 }
 
+/**
+ * @brief Is Valid Dtmf Digit.
+ * @param[in] digit Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements isValidDtmfDigit without additional internal calls.
+ */
 bool isValidDtmfDigit(char digit) {
     return ((digit >= '0' && digit <= '9') ||
             digit == '*' ||
@@ -52,11 +64,21 @@ bool isValidDtmfDigit(char digit) {
             (digit >= 'A' && digit <= 'D'));
 }
 
+/**
+ * @brief Telephony Now Ms.
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::now(), time_since_epoch(), count().
+ */
 int64_t telephonyNowMs() {
     return std::chrono::duration_cast<std::chrono::milliseconds>(
         std::chrono::system_clock::now().time_since_epoch()).count();
 }
 
+/**
+ * @brief Generate Call Id.
+ * @return Return value.
+ * @details Calls: lock(), rng(), str().
+ */
 std::string generateCallId() {
     static std::mt19937_64 rng{std::random_device{}()};
     static std::mutex mu;
@@ -67,9 +89,10 @@ std::string generateCallId() {
 }
 
 /**
- * @brief Minimal G.711 µ-law byte → 16-bit linear PCM conversion.
- *
- * Implements the ITU-T G.711 µ-law expansion table.
+ * @brief Ulaw To Pcm.
+ * @param[in] ulaw_byte Input parameter.
+ * @return Return value.
+ * @details Implements ulawToPcm without additional internal calls.
  */
 int16_t ulawToPcm(uint8_t ulaw_byte) {
     ulaw_byte = static_cast<uint8_t>(~ulaw_byte);
@@ -82,7 +105,10 @@ int16_t ulawToPcm(uint8_t ulaw_byte) {
 }
 
 /**
- * @brief Minimal G.711 A-law byte → 16-bit linear PCM conversion.
+ * @brief Alaw To Pcm.
+ * @param[in] alaw_byte Input parameter.
+ * @return Return value.
+ * @details Implements alawToPcm without additional internal calls.
  */
 int16_t alawToPcm(uint8_t alaw_byte) {
     alaw_byte ^= 0x55;
@@ -99,10 +125,10 @@ int16_t alawToPcm(uint8_t alaw_byte) {
 }
 
 /**
- * @brief Strip 12-byte fixed RTP header and return the payload.
- *
- * Handles the CSRC count extension per RFC 3550 §5.1.
- * Returns empty vector if the packet is too short.
+ * @brief Strip Rtp Header.
+ * @param[in] pkt Input parameter.
+ * @return Return value.
+ * @details Calls: size(), begin(), end().
  */
 std::vector<uint8_t> stripRtpHeader(const std::vector<uint8_t>& pkt) {
     if (pkt.size() < 12) return {};
@@ -120,10 +146,11 @@ std::vector<uint8_t> stripRtpHeader(const std::vector<uint8_t>& pkt) {
 }
 
 /**
- * @brief Lightweight STT placeholder for telephony calls.
- *
- * In production this delegates to the configured STT backend (Whisper).
- * The placeholder emits a synthetic transcript proportional to audio length.
+ * @brief Run Call Stt.
+ * @param[in] call_id Identifier of the call.
+ * @param[in] samples Input parameter.
+ * @param[in] is_final Input parameter.
+ * @return Return value.
  */
 CallTranscript runCallStt(const CallID&                call_id,
                            const std::vector<int16_t>& samples,
@@ -143,9 +170,10 @@ CallTranscript runCallStt(const CallID&                call_id,
 }
 
 /**
- * @brief Minimal SDP parser: extract the first matching audio codec line.
- *
- * Returns the negotiated codec name string (e.g. "OPUS", "PCMU").
+ * @brief Parse Sdp Codec.
+ * @param[in] sdp Input parameter.
+ * @return Return value.
+ * @details Calls: std::transform(), begin(), end(), find().
  */
 std::string parseSdpCodec(const std::string& sdp) {
     static const std::vector<std::string> preferred = {"opus", "pcmu", "pcma", "g722"};
@@ -160,7 +188,10 @@ std::string parseSdpCodec(const std::string& sdp) {
 }
 
 /**
- * @brief Generate a minimal SDP answer given the offered SDP.
+ * @brief Build Sdp Answer.
+ * @param[in] sdp_offer Input parameter.
+ * @param[in] session_id Identifier of the session.
+ * @return Return value.
  */
 std::string buildSdpAnswer(const std::string& sdp_offer,
                             const std::string& session_id)
@@ -216,6 +247,11 @@ struct SipCallSession::Impl {
 
     explicit Impl(Config c) : config(std::move(c)) {}
 
+    /**
+     * @brief Set State.
+     * @param[in] s Input parameter.
+     * @details Calls: on_state().
+     */
     void setState(CallState s) {
         state = s;
         if (on_state) {
@@ -252,10 +288,21 @@ SipCallSession::~SipCallSession() {
     }
 }
 
+/**
+ * @brief Create.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @details Calls: SipCallSession(), std::move().
+ */
 std::unique_ptr<SipCallSession> SipCallSession::create(Config config) {
     return std::unique_ptr<SipCallSession>(new SipCallSession(std::move(config)));
 }
 
+/**
+ * @brief Start.
+ * @return Return value.
+ * @details Calls: empty(), generateCallId(), telephonyNowMs(), setState(), THEMIS_INFO().
+ */
 CallID SipCallSession::start() {
     if (impl_->state == CallState::ACTIVE) {
       return impl_->call_id;
@@ -272,6 +319,10 @@ CallID SipCallSession::start() {
     return impl_->call_id;
 }
 
+/**
+ * @brief End.
+ * @details Calls: empty(), runCallStt(), clear(), on_transcript(), setState(), THEMIS_INFO().
+ */
 void SipCallSession::end() {
     if (impl_->state == CallState::TERMINATED ||
         impl_->state == CallState::IDLE) return;
@@ -291,11 +342,19 @@ void SipCallSession::end() {
                 impl_->call_id, impl_->bytes_received);
 }
 
+/**
+ * @brief Hold.
+ * @details Calls: setState().
+ */
 void SipCallSession::hold() {
     if (impl_->state == CallState::ACTIVE)
         impl_->setState(CallState::ON_HOLD);
 }
 
+/**
+ * @brief Unhold.
+ * @details Calls: setState().
+ */
 void SipCallSession::unhold() {
     if (impl_->state == CallState::ON_HOLD)
         impl_->setState(CallState::ACTIVE);
@@ -310,6 +369,12 @@ CallState SipCallSession::state() const noexcept {
     return impl_ ? impl_->state : CallState::IDLE;
 }
 
+/**
+ * @brief Receive Rtp Packet.
+ * @param[in] rtp_packet Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), THEMIS_WARN(), on_error(), telephonyNowMs(), end(), size(), isRtpVersion2(), stripRtpHeader().
+ */
 CallTranscript SipCallSession::receiveRtpPacket(const std::vector<uint8_t>& rtp_packet) {
     // TASK 2.6: Telephony input validation and injection detection
     CallTranscript empty = {};
@@ -413,6 +478,12 @@ CallTranscript SipCallSession::receiveRtpPacket(const std::vector<uint8_t>& rtp_
     return receiveAudioFrame(pcm);
 }
 
+/**
+ * @brief Receive Audio Frame.
+ * @param[in] pcm_samples Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), THEMIS_WARN(), size(), insert(), end(), begin(), runCallStt(), on_transcript().
+ */
 CallTranscript SipCallSession::receiveAudioFrame(const std::vector<int16_t>& pcm_samples) {
     CallTranscript empty = {};
     if (!impl_ || impl_->state != CallState::ACTIVE) {
@@ -438,6 +509,11 @@ CallTranscript SipCallSession::receiveAudioFrame(const std::vector<int16_t>& pcm
     return ct;
 }
 
+/**
+ * @brief Inject Dtmf.
+ * @param[in] event Input parameter.
+ * @details Calls: isValidDtmfDigit(), THEMIS_WARN(), THEMIS_INFO(), on_dtmf().
+ */
 void SipCallSession::injectDtmf(const DtmfEvent& event) {
     if (!impl_) {
       return;
@@ -507,13 +583,38 @@ SipCallSession::synthesizeTts(const std::string& text) {
     return packets;
 }
 
+/**
+ * @brief Set Tts Backend.
+ * @param[in] backend Input parameter.
+ * @details Calls: std::move().
+ */
 void SipCallSession::setTtsBackend(std::shared_ptr<ITtsBackend> backend) {
     impl_->tts_backend = std::move(backend);
 }
 
+/**
+ * @brief On Transcript.
+ * @param[in] cb Input parameter.
+ * @details Calls: std::move().
+ */
 void SipCallSession::onTranscript(TranscriptCb cb) { impl_->on_transcript = std::move(cb); }
+/**
+ * @brief On Dtmf.
+ * @param[in] cb Input parameter.
+ * @details Calls: std::move().
+ */
 void SipCallSession::onDtmf(DtmfCb cb)             { impl_->on_dtmf       = std::move(cb); }
+/**
+ * @brief On State Change.
+ * @param[in] cb Input parameter.
+ * @details Calls: std::move().
+ */
 void SipCallSession::onStateChange(StateCb cb)      { impl_->on_state      = std::move(cb); }
+/**
+ * @brief On Error.
+ * @param[in] cb Input parameter.
+ * @details Calls: std::move().
+ */
 void SipCallSession::onError(ErrorCb cb)            { impl_->on_error      = std::move(cb); }
 
 CallID        SipCallSession::callId()             const noexcept { return impl_ ? impl_->call_id : CallID{}; }
@@ -551,6 +652,11 @@ struct WebRtcCallSession::Impl {
 
     explicit Impl(Config c) : config(std::move(c)) {}
 
+    /**
+     * @brief Set State.
+     * @param[in] s Input parameter.
+     * @details Calls: on_state().
+     */
     void setState(CallState s) {
         state = s;
         if (on_state) {
@@ -585,10 +691,23 @@ WebRtcCallSession::~WebRtcCallSession() {
     }
 }
 
+/**
+ * @brief Create.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @details Calls: WebRtcCallSession(), std::move().
+ */
 std::unique_ptr<WebRtcCallSession> WebRtcCallSession::create(Config config) {
     return std::unique_ptr<WebRtcCallSession>(new WebRtcCallSession(std::move(config)));
 }
 
+/**
+ * @brief Process Offer.
+ * @param[in] sdp_offer Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: empty(), parseSdpCodec(), generateCallId(), buildSdpAnswer(), setState(), on_local_ice(), str(), THEMIS_INFO().
+ */
 std::string WebRtcCallSession::processOffer(const std::string& sdp_offer) {
     if (sdp_offer.empty())
         throw std::runtime_error("WebRtcCallSession::processOffer: empty SDP offer");
@@ -610,11 +729,21 @@ std::string WebRtcCallSession::processOffer(const std::string& sdp_offer) {
     return impl_->negotiated_sdp;
 }
 
+/**
+ * @brief Add Ice Candidate.
+ * @param[in] candidate_json Input parameter.
+ * @details Calls: THEMIS_INFO().
+ */
 void WebRtcCallSession::addIceCandidate(const std::string& candidate_json) {
     // In production: forward to the WebRTC ICE stack
     THEMIS_INFO("WebRtcCallSession: addIceCandidate call_id={}", impl_->call_id);
 }
 
+/**
+ * @brief Start.
+ * @return Return value.
+ * @details Calls: empty(), generateCallId(), telephonyNowMs(), setState(), THEMIS_INFO().
+ */
 CallID WebRtcCallSession::start() {
     if (impl_->state == CallState::ACTIVE) {
       return impl_->call_id;
@@ -629,6 +758,10 @@ CallID WebRtcCallSession::start() {
     return impl_->call_id;
 }
 
+/**
+ * @brief End.
+ * @details Calls: empty(), runCallStt(), clear(), on_transcript(), setState(), THEMIS_INFO().
+ */
 void WebRtcCallSession::end() {
     if (impl_->state == CallState::TERMINATED ||
         impl_->state == CallState::IDLE) return;
@@ -656,6 +789,12 @@ CallState WebRtcCallSession::state() const noexcept {
     return impl_ ? impl_->state : CallState::IDLE;
 }
 
+/**
+ * @brief Receive Audio Frame.
+ * @param[in] pcm_samples Input parameter.
+ * @return Return value.
+ * @details Calls: telephonyNowMs(), THEMIS_WARN(), end(), insert(), begin(), size(), runCallStt(), on_transcript().
+ */
 CallTranscript WebRtcCallSession::receiveAudioFrame(const std::vector<int16_t>& pcm_samples) {
     CallTranscript empty = {};
     if (!impl_ || impl_->state != CallState::ACTIVE) {
@@ -683,6 +822,11 @@ CallTranscript WebRtcCallSession::receiveAudioFrame(const std::vector<int16_t>& 
     return ct;
 }
 
+/**
+ * @brief Inject Dtmf.
+ * @param[in] event Input parameter.
+ * @details Calls: THEMIS_INFO(), on_dtmf().
+ */
 void WebRtcCallSession::injectDtmf(const DtmfEvent& event) {
     if (!impl_) {
       return;
@@ -743,14 +887,44 @@ WebRtcCallSession::synthesizeTts(const std::string& text) {
     return packets;
 }
 
+/**
+ * @brief Set Tts Backend.
+ * @param[in] backend Input parameter.
+ * @details Calls: std::move().
+ */
 void WebRtcCallSession::setTtsBackend(std::shared_ptr<ITtsBackend> backend) {
     impl_->tts_backend = std::move(backend);
 }
 
+/**
+ * @brief On Transcript.
+ * @param[in] cb Input parameter.
+ * @details Calls: std::move().
+ */
 void WebRtcCallSession::onTranscript(TranscriptCb cb)        { impl_->on_transcript = std::move(cb); }
+/**
+ * @brief On Dtmf.
+ * @param[in] cb Input parameter.
+ * @details Calls: std::move().
+ */
 void WebRtcCallSession::onDtmf(DtmfCb cb)                    { impl_->on_dtmf       = std::move(cb); }
+/**
+ * @brief On State Change.
+ * @param[in] cb Input parameter.
+ * @details Calls: std::move().
+ */
 void WebRtcCallSession::onStateChange(StateCb cb)             { impl_->on_state      = std::move(cb); }
+/**
+ * @brief On Error.
+ * @param[in] cb Input parameter.
+ * @details Calls: std::move().
+ */
 void WebRtcCallSession::onError(ErrorCb cb)                   { impl_->on_error      = std::move(cb); }
+/**
+ * @brief On Local Ice Candidate.
+ * @param[in] cb Input parameter.
+ * @details Calls: std::move().
+ */
 void WebRtcCallSession::onLocalIceCandidate(IceCandidateCb cb){ impl_->on_local_ice  = std::move(cb); }
 
 CallID        WebRtcCallSession::callId()        const noexcept { return impl_ ? impl_->call_id : CallID{}; }
@@ -768,11 +942,22 @@ IvrEngine::IvrEngine(std::string root_node_id)
     , current_node_id_(root_node_id_)
 {}
 
+/**
+ * @brief Add Node.
+ * @param[in] node Input parameter.
+ * @details Calls: std::move().
+ */
 void IvrEngine::addNode(IvrNode node) {
     std::string id = node.id;
     nodes_[std::move(id)] = std::move(node);
 }
 
+/**
+ * @brief Handle Dtmf.
+ * @param[in] event Input parameter.
+ * @return Return value.
+ * @details Calls: push_back(), find(), end().
+ */
 std::string IvrEngine::handleDtmf(const DtmfEvent& event) {
     collected_dtmf_.push_back(event);
 
@@ -789,6 +974,12 @@ std::string IvrEngine::handleDtmf(const DtmfEvent& event) {
     return next_it->second.prompt_text;
 }
 
+/**
+ * @brief Handle Speech.
+ * @param[in] text Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), find(), end().
+ */
 std::string IvrEngine::handleSpeech(const std::string& text) {
     collected_speech_ += (collected_speech_.empty() ? "" : " ") + text;
 
@@ -832,6 +1023,10 @@ IvrResult IvrEngine::collectResult(const CallID& call_id) const {
     return r;
 }
 
+/**
+ * @brief Reset the modification detection flag.
+ * @details Calls: clear().
+ */
 void IvrEngine::reset() {
     current_node_id_ = root_node_id_;
     collected_dtmf_.clear();
@@ -846,6 +1041,12 @@ TelephonyBridge::TelephonyBridge(Config config)
     : config_(std::move(config))
 {}
 
+/**
+ * @brief Accept Sip Call.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), size(), THEMIS_WARN(), SipCallSession::create(), std::move(), start(), emplace(), THEMIS_INFO().
+ */
 CallID TelephonyBridge::acceptSipCall(SipCallSession::Config config) {
     std::lock_guard<std::mutex> lock(sip_mutex_);
     size_t total = sip_calls_.size() + webrtc_calls_.size() ;
@@ -869,11 +1070,24 @@ CallID TelephonyBridge::acceptSipCall(SipCallSession::Config config) {
     return id;
 }
 
+/**
+ * @brief Dial Sip.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @details Calls: acceptSipCall(), std::move().
+ */
 CallID TelephonyBridge::dialSip(SipCallSession::Config config) {
     config.direction = CallDirection::OUTBOUND;
     return acceptSipCall(std::move(config));
 }
 
+/**
+ * @brief Route Sip Rtp.
+ * @param[in] call_id Identifier of the call.
+ * @param[in] rtp_packet Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), find(), end(), THEMIS_WARN(), receiveRtpPacket().
+ */
 CallTranscript TelephonyBridge::routeSipRtp(const CallID&                call_id,
                                               const std::vector<uint8_t>& rtp_packet) {
     std::lock_guard<std::mutex> lock(sip_mutex_);
@@ -885,6 +1099,11 @@ CallTranscript TelephonyBridge::routeSipRtp(const CallID&                call_id
     return it->second->receiveRtpPacket(rtp_packet);
 }
 
+/**
+ * @brief Terminate Sip Call.
+ * @param[in] call_id Identifier of the call.
+ * @details Calls: lock(), find(), end(), erase(), THEMIS_INFO(), size().
+ */
 void TelephonyBridge::terminateSipCall(const CallID& call_id) {
     std::lock_guard<std::mutex> lock(sip_mutex_);
     auto it = sip_calls_.find(call_id);
@@ -897,6 +1116,14 @@ void TelephonyBridge::terminateSipCall(const CallID& call_id) {
                 call_id,sip_calls_.size());
 }
 
+/**
+ * @brief Accept Web Rtc Offer.
+ * @param[in] config Input parameter.
+ * @param[in] sdp_offer Input parameter.
+ * @param[in,out] out_call_id Identifier of the out call.
+ * @return Return value.
+ * @details Calls: THEMIS_WARN(), lock_sip(), lock_rtc(), size(), WebRtcCallSession::create(), std::move(), processOffer(), start().
+ */
 std::string TelephonyBridge::acceptWebRtcOffer(WebRtcCallSession::Config config,
                                                  const std::string&        sdp_offer,
                                                  CallID&                   out_call_id) {
@@ -929,6 +1156,12 @@ std::string TelephonyBridge::acceptWebRtcOffer(WebRtcCallSession::Config config,
     return answer;
 }
 
+/**
+ * @brief Route Ice Candidate.
+ * @param[in] call_id Identifier of the call.
+ * @param[in] candidate_json Input parameter.
+ * @details Calls: lock(), find(), end(), THEMIS_WARN(), addIceCandidate().
+ */
 void TelephonyBridge::routeIceCandidate(const CallID&      call_id,
                                           const std::string& candidate_json) {
     std::lock_guard<std::mutex> lock(webrtc_mutex_);
@@ -940,6 +1173,13 @@ void TelephonyBridge::routeIceCandidate(const CallID&      call_id,
     it->second->addIceCandidate(candidate_json);
 }
 
+/**
+ * @brief Route Web Rtc Audio.
+ * @param[in] call_id Identifier of the call.
+ * @param[in] pcm_samples Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), find(), end(), THEMIS_WARN(), receiveAudioFrame().
+ */
 CallTranscript TelephonyBridge::routeWebRtcAudio(const CallID&               call_id,
                                                     const std::vector<int16_t>& pcm_samples) {
     std::lock_guard<std::mutex> lock(webrtc_mutex_);
@@ -951,6 +1191,11 @@ CallTranscript TelephonyBridge::routeWebRtcAudio(const CallID&               cal
     return it->second->receiveAudioFrame(pcm_samples);
 }
 
+/**
+ * @brief Terminate Web Rtc Call.
+ * @param[in] call_id Identifier of the call.
+ * @details Calls: lock(), find(), end(), erase(), THEMIS_INFO(), size().
+ */
 void TelephonyBridge::terminateWebRtcCall(const CallID& call_id) {
     std::lock_guard<std::mutex> lock(webrtc_mutex_);
     auto it = webrtc_calls_.find(call_id);
@@ -963,29 +1208,59 @@ void TelephonyBridge::terminateWebRtcCall(const CallID& call_id) {
                 call_id,webrtc_calls_.size());
 }
 
+/**
+ * @brief Terminate Call.
+ * @param[in] call_id Identifier of the call.
+ * @details Calls: terminateSipCall(), terminateWebRtcCall().
+ */
 void TelephonyBridge::terminateCall(const CallID& call_id) {
     terminateSipCall(call_id);
     terminateWebRtcCall(call_id);
 }
 
 size_t TelephonyBridge::activeCallCount() const noexcept {
+    /**
+     * @brief Lock sip.
+     * @param[in] sip_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock_sip(sip_mutex_);
+    /**
+     * @brief Lock rtc.
+     * @param[in] webrtc_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock_rtc(webrtc_mutex_);
     return sip_calls_.size() + webrtc_calls_.size() ;
 }
 
 size_t TelephonyBridge::activeSipCallCount() const noexcept {
+    /**
+     * @brief Lock.
+     * @param[in] sip_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(sip_mutex_);
     return sip_calls_.size();
 }
 
 size_t TelephonyBridge::activeWebRtcCallCount() const noexcept {
+    /**
+     * @brief Lock.
+     * @param[in] webrtc_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(webrtc_mutex_);
     return webrtc_calls_.size();
 }
 
 CallState TelephonyBridge::callState(const CallID& call_id) const {
     {
+        /**
+         * @brief Lock.
+         * @param[in] sip_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(sip_mutex_);
         auto it = sip_calls_.find(call_id);
         if (it != sip_calls_.end()) {
@@ -993,6 +1268,11 @@ CallState TelephonyBridge::callState(const CallID& call_id) const {
         }
     }
     {
+        /**
+         * @brief Lock.
+         * @param[in] webrtc_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(webrtc_mutex_);
         auto it = webrtc_calls_.find(call_id);
         if (it != webrtc_calls_.end()) {

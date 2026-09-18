@@ -73,6 +73,11 @@ std::string ILLMProviderReflectionAdapter::name() const {
     return "llm-reflection-adapter(null)";
 }
 
+/**
+ * @brief Set Strategy.
+ * @param[in] strategy Input parameter.
+ * @details Implements setStrategy without additional internal calls.
+ */
 void ILLMProviderReflectionAdapter::setStrategy(ReflectionStrategy strategy) {
     builder_.setStrategy(strategy);
 }
@@ -81,11 +86,20 @@ ReflectionStrategy ILLMProviderReflectionAdapter::getStrategy() const noexcept {
     return builder_.getStrategy();
 }
 
+/**
+ * @brief Set Scorer.
+ * @param[in] scorer Input parameter.
+ * @details Calls: std::move().
+ */
 void ILLMProviderReflectionAdapter::setScorer(
     std::shared_ptr<IReflectionScorer> scorer) {
     scorer_ = std::move(scorer);
 }
 
+/**
+ * @brief Clear Scorer.
+ * @details Calls: reset().
+ */
 void ILLMProviderReflectionAdapter::clearScorer() {
     scorer_.reset();
 }

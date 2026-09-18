@@ -33,15 +33,8 @@ namespace index {
 // MultiGPUVectorIndex::Impl
 // =============================================================================
 
-/** @brief MultiGPUVectorIndex::Impl. */
 class MultiGPUVectorIndex::Impl {
 public:
-    /**
-     * @brief Convert a modulo candidate to a GPU index with sentinel fallback.
-     * @param value Source value to map into the active GPU index range.
-     * @param gpuCount Number of active GPUs available for selection.
-     * @return Index in [0, gpuCount) on success, or -1 when no valid mapping exists.
-     */
     [[nodiscard]] static int toGpuIndex(size_t value, size_t gpuCount) {
         if (gpuCount == 0) {
             return -1;
@@ -93,6 +86,11 @@ public:
     }
     
     bool initialize([[maybe_unused]] int dim) {
+        /**
+         * @brief Topology Lock.
+         * @param[in] topologyMutex Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> topologyLock(topologyMutex);
         dimension = dim;
         
@@ -138,6 +136,11 @@ public:
         return true;
     }
     
+    /**
+     * @brief Initialize Comm Backend.
+     * @return True when the operation succeeds.
+     * @details Calls: acceleration::NCCLVectorBackend::isNCCLAvailable(), acceleration::RCCLVectorBackend::isRCCLAvailable(), size(), initialize(), THEMIS_INFO(), acceleration::NCCLVectorBackend::getNCCLVersionString(), acceleration::RCCLVectorBackend::getRCCLVersionString().
+     */
     bool initializeCommBackend() {
         // Determine which communication backend to use
         CommBackend targetBackend = config.commBackend;
@@ -249,6 +252,10 @@ public:
         return true;
     }
     
+    /**
+     * @brief Shutdown.
+     * @details Calls: topologyLock(), clear().
+     */
     void shutdown() {
         std::lock_guard<std::mutex> topologyLock(topologyMutex);
         gpuIndices.clear();
@@ -258,6 +265,12 @@ public:
         initialized = false;
     }
     
+    /**
+     * @brief Select GPUFor Vector.
+     * @param[in] id Input parameter.
+     * @return Return value.
+     * @details Calls: empty(), size(), toGpuIndex(), hasher(), max(), getStatistics().
+     */
     int selectGPUForVector(const std::string& id) {
         if (activeDeviceIds.empty()) {
             return -1;
@@ -307,6 +320,13 @@ public:
         }
     }
     
+    /**
+     * @brief Add Vector.
+     * @param[in] id Input parameter.
+     * @param[in] vector Input parameter.
+     * @return True when the operation succeeds.
+     * @details Calls: topologyLock(), THEMIS_WARN(), find(), end(), size(), updateVector(), selectGPUForVector().
+     */
     bool addVector(const std::string& id, const std::vector<float>& vector) {
         std::lock_guard<std::mutex> topologyLock(topologyMutex);
         if (!initialized) {
@@ -357,6 +377,12 @@ public:
         return false;
     }
     
+    /**
+     * @brief Remove Vector.
+     * @param[in] id Input parameter.
+     * @return True when the operation succeeds.
+     * @details Calls: topologyLock(), find(), end(), size(), erase(), THEMIS_WARN().
+     */
     bool removeVector(const std::string& id) {
         std::lock_guard<std::mutex> topologyLock(topologyMutex);
         auto it = vectorToGPU.find(id);
@@ -376,6 +402,13 @@ public:
         return false;
     }
     
+    /**
+     * @brief Search.
+     * @param[in] query Input parameter.
+     * @param[in] k Input parameter.
+     * @return Return value.
+     * @details Calls: topologyLock(), empty(), THEMIS_WARN(), size(), std::chrono::steady_clock::now(), count(), lock(), push_back().
+     */
     std::vector<MultiGPUVectorIndex::SearchResult> search(
         const std::vector<float>& query, size_t k) {
         std::lock_guard<std::mutex> topologyLock(topologyMutex);
@@ -430,6 +463,13 @@ public:
         return allResults;
     }
     
+    /**
+     * @brief Search Batch.
+     * @param[in] queries Input parameter.
+     * @param[in] k Input parameter.
+     * @return Return value.
+     * @details Calls: topologyLock(), empty(), THEMIS_WARN(), size(), reserve(), std::chrono::steady_clock::now(), push_back(), std::async().
+     */
     std::vector<std::vector<MultiGPUVectorIndex::SearchResult>> searchBatch(
         const std::vector<std::vector<float>>& queries, size_t k) {
         std::lock_guard<std::mutex> topologyLock(topologyMutex);
@@ -518,6 +558,12 @@ public:
         return results;
     }
     
+    /**
+     * @brief Update Query Stats.
+     * @param[in] start Input parameter.
+     * @param[in] end Input parameter.
+     * @details Calls: count(), lock().
+     */
     void updateQueryStats(const std::chrono::steady_clock::time_point& start,
                          const std::chrono::steady_clock::time_point& end) {
         auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
@@ -529,8 +575,17 @@ public:
     }
     
     Statistics getStatistics() const {
-        // Snapshot mutable topology and stats under lock
+        /**
+         * @brief Snapshot mutable topology and stats under lock
+         * @param[in] topologyMutex Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> topologyLock(topologyMutex);
+        /**
+         * @brief Stats Lock.
+         * @param[in] statsMutex Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> statsLock(statsMutex);
 
         Statistics stats;
@@ -614,22 +669,9 @@ public:
     }
     
     /**
-     * Rebalance vectors across GPUs
-     * 
-     * NOTE: Current implementation is a placeholder for v2.4.
-     * Full rebalancing with data migration will be implemented in v2.5+
-     * with NCCL/RCCL support for efficient GPU-to-GPU transfers.
-     * 
-     * For now, this method:
-     * 1. Validates that rebalancing is possible
-     * 2. Logs current load distribution
-     * 3. Returns success if system is operational
-     * 
-     * Future implementation will:
-     * - Collect all vectors from all GPUs
-     * - Redistribute according to partition strategy
-     * - Transfer vectors using P2P or NCCL/RCCL
-     * - Update routing tables
+     * @brief Rebalance.
+     * @return True when the operation succeeds.
+     * @details Calls: topologyLock(), size(), THEMIS_INFO(), getStatistics(), push_back(), std::max_element(), begin(), end().
      */
     bool rebalance() {
         std::lock_guard<std::mutex> topologyLock(topologyMutex);
@@ -692,14 +734,32 @@ bool MultiGPUVectorIndex::initialize([[maybe_unused]] int dimension) {
     return pImpl->initialize(dimension);
 }
 
+/**
+ * @brief Shutdown.
+ * @details Implements shutdown without additional internal calls.
+ */
 void MultiGPUVectorIndex::shutdown() {
     pImpl->shutdown();
 }
 
+/**
+ * @brief Add Vector.
+ * @param[in] id Input parameter.
+ * @param[in] vector Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements addVector without additional internal calls.
+ */
 bool MultiGPUVectorIndex::addVector(const std::string& id, const std::vector<float>& vector) {
     return pImpl->addVector(id, vector);
 }
 
+/**
+ * @brief Add Vector Batch.
+ * @param[in] ids Input parameter.
+ * @param[in] vectors Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: size(), addVector().
+ */
 bool MultiGPUVectorIndex::addVectorBatch(const std::vector<std::string>& ids,
                                         const std::vector<std::vector<float>>& vectors) {
     if (ids.size() != vectors.size()) {
@@ -715,19 +775,46 @@ bool MultiGPUVectorIndex::addVectorBatch(const std::vector<std::string>& ids,
     return allSuccess;
 }
 
+/**
+ * @brief Remove Vector.
+ * @param[in] id Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements removeVector without additional internal calls.
+ */
 bool MultiGPUVectorIndex::removeVector(const std::string& id) {
     return pImpl->removeVector(id);
 }
 
+/**
+ * @brief Update Vector.
+ * @param[in] id Input parameter.
+ * @param[in] vector Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: addVector().
+ */
 bool MultiGPUVectorIndex::updateVector(const std::string& id, const std::vector<float>& vector) {
     return pImpl->addVector(id, vector);  // Upsert semantics
 }
 
+/**
+ * @brief Search.
+ * @param[in] query Input parameter.
+ * @param[in] k Input parameter.
+ * @return Return value.
+ * @details Implements search without additional internal calls.
+ */
 std::vector<MultiGPUVectorIndex::SearchResult> MultiGPUVectorIndex::search(
     const std::vector<float>& query, size_t k) {
     return pImpl->search(query, k);
 }
 
+/**
+ * @brief Search Batch.
+ * @param[in] queries Input parameter.
+ * @param[in] k Input parameter.
+ * @return Return value.
+ * @details Implements searchBatch without additional internal calls.
+ */
 std::vector<std::vector<MultiGPUVectorIndex::SearchResult>> MultiGPUVectorIndex::searchBatch(
     const std::vector<std::vector<float>>& queries, size_t k) {
     return pImpl->searchBatch(queries, k);
@@ -786,6 +873,11 @@ bool MultiGPUVectorIndex::removeGPU([[maybe_unused]] int deviceId) {
     return true;
 }
 
+/**
+ * @brief Rebalance.
+ * @return True when the operation succeeds.
+ * @details Implements rebalance without additional internal calls.
+ */
 bool MultiGPUVectorIndex::rebalance() {
     return pImpl->rebalance();
 }
@@ -804,11 +896,21 @@ std::vector<int> MultiGPUVectorIndex::getFailedGPUs() const {
     return pImpl->failedDeviceIds;
 }
 
+/**
+ * @brief Set Partition Strategy.
+ * @param[in] strategy Input parameter.
+ * @details Calls: topologyLock().
+ */
 void MultiGPUVectorIndex::setPartitionStrategy(PartitionStrategy strategy) {
     std::lock_guard<std::mutex> topologyLock(pImpl->topologyMutex);
     pImpl->config.partitionStrategy = strategy;
 }
 
+/**
+ * @brief Set Load Balancing Mode.
+ * @param[in] mode Input parameter.
+ * @details Calls: topologyLock().
+ */
 void MultiGPUVectorIndex::setLoadBalancingMode(LoadBalancingMode mode) {
     std::lock_guard<std::mutex> topologyLock(pImpl->topologyMutex);
     pImpl->config.loadBalancing = mode;

@@ -44,6 +44,12 @@ namespace {
     constexpr double EARTH_RADIUS_METERS = 6371000.0;
     constexpr size_t kDeadlineCheckInterval = 256;
 
+    /**
+     * @brief Parse Strict Positive Integer.
+     * @param[in] raw Input parameter.
+     * @return Return value.
+     * @details Calls: empty(), data(), size(), std::from_chars().
+     */
     std::optional<long long> parseStrictPositiveInteger(const std::string& raw) {
         if (raw.empty()) {
             return std::nullopt;
@@ -58,6 +64,13 @@ namespace {
         return parsed;
     }
 
+    /**
+     * @brief Safe Ceil Div.
+     * @param[in] value Input parameter.
+     * @param[in] divisor Input parameter.
+     * @return Return value.
+     * @details Implements safeCeilDiv without additional internal calls.
+     */
     long long safeCeilDiv(long long value, long long divisor) {
         if (value <= 0) {
             return 0;
@@ -65,6 +78,13 @@ namespace {
         return 1 + ((value - 1) / divisor);
     }
 
+    /**
+     * @brief Clamp Millis From Unit.
+     * @param[in] value Input parameter.
+     * @param[in] unit Input parameter.
+     * @return Return value.
+     * @details Calls: std::chrono::milliseconds(), max(), saturatingMul(), std::min(), std::max(), safeCeilDiv().
+     */
     std::chrono::milliseconds clampMillisFromUnit(long long value, char unit) {
         if (value <= 0) {
             return std::chrono::milliseconds(0);
@@ -97,6 +117,12 @@ namespace {
         }
     }
 
+    /**
+     * @brief Is Retryable Method.
+     * @param[in] method Input parameter.
+     * @return True when the operation succeeds.
+     * @details Calls: count().
+     */
     bool isRetryableMethod(const std::string& method) {
         static const std::unordered_set<std::string> retryable_methods = {
             "get", "batch_get", "search", "query", "paginated_query",
@@ -107,6 +133,12 @@ namespace {
         return retryable_methods.count(method) > 0;
     }
 
+    /**
+     * @brief Is Retryable Error Response.
+     * @param[in] response Input parameter.
+     * @return True when the operation succeeds.
+     * @details Calls: contains(), is_object(), value().
+     */
     bool isRetryableErrorResponse(const json& response) {
         if (!response.contains("error") || !response["error"].is_object()) {
             return false;
@@ -117,6 +149,12 @@ namespace {
                code == static_cast<int>(themis::plugins::rpc::RPCErrorCode::RESOURCE_EXHAUSTED);
     }
 
+    /**
+     * @brief Current Exception Message.
+     * @param[in] fallback Input parameter.
+     * @return Return value.
+     * @details Calls: what().
+     */
     std::string currentExceptionMessage(const std::string& fallback) {
         try {
             throw;
@@ -127,6 +165,12 @@ namespace {
         }
     }
 
+    /**
+     * @brief Parse Grpc Timeout.
+     * @param[in] timeout Input parameter.
+     * @return Return value.
+     * @details Calls: size(), back(), parseStrictPositiveInteger(), substr(), has_value(), clampMillisFromUnit().
+     */
     std::optional<std::chrono::milliseconds> parseGrpcTimeout(const std::string& timeout) {
         if (timeout.size() < 2) {
             return std::nullopt;
@@ -155,6 +199,12 @@ namespace {
         }
     }
 
+    /**
+     * @brief Parse Millis Header Value.
+     * @param[in] value Input parameter.
+     * @return Return value.
+     * @details Calls: parseStrictPositiveInteger(), has_value(), std::chrono::milliseconds().
+     */
     std::optional<std::chrono::milliseconds> parseMillisHeaderValue(const std::string& value) {
         const auto parsed = parseStrictPositiveInteger(value);
         if (!parsed.has_value()) {
@@ -166,6 +216,12 @@ namespace {
         return std::chrono::milliseconds(*parsed);
     }
 
+    /**
+     * @brief Parse Request Timeout.
+     * @param[in] context Input parameter.
+     * @return Return value.
+     * @details Calls: find(), end(), parseGrpcTimeout(), has_value(), parseMillisHeaderValue().
+     */
     std::optional<std::chrono::milliseconds> parseRequestTimeout(const themis::plugins::rpc::RPCRequestContext& context) {
         auto grpc_timeout_it = context.metadata.find("grpc-timeout");
         if (grpc_timeout_it != context.metadata.end()) {
@@ -196,6 +252,13 @@ namespace {
 
     using RequestDeadline = std::optional<std::chrono::steady_clock::time_point>;
 
+    /**
+     * @brief Derive Request Deadline.
+     * @param[in] context Input parameter.
+     * @param[in] request_timeout Input parameter.
+     * @return Return value.
+     * @details Calls: has_value(), count(), std::chrono::steady_clock::now(), std::chrono::system_clock::now(), time_since_epoch(), std::chrono::milliseconds().
+     */
     RequestDeadline deriveRequestDeadline(
         const themis::plugins::rpc::RPCRequestContext& context,
         const std::optional<std::chrono::milliseconds>& request_timeout
@@ -220,14 +283,32 @@ namespace {
         return std::chrono::steady_clock::now() + std::chrono::milliseconds(remaining_ms);
     }
 
+    /**
+     * @brief Is Deadline Exceeded.
+     * @param[in] deadline Input parameter.
+     * @return True when the operation succeeds.
+     * @details Calls: has_value(), std::chrono::steady_clock::now().
+     */
     bool isDeadlineExceeded(const RequestDeadline& deadline) {
         return deadline.has_value() && std::chrono::steady_clock::now() >= *deadline;
     }
 
+    /**
+     * @brief Should Check Deadline.
+     * @param[in] iterations Input parameter.
+     * @return True when the operation succeeds.
+     * @details Implements shouldCheckDeadline without additional internal calls.
+     */
     bool shouldCheckDeadline(size_t iterations) {
         return iterations > 0 && (iterations % kDeadlineCheckInterval) == 0;
     }
 
+    /**
+     * @brief Remaining Deadline Budget.
+     * @param[in] deadline Input parameter.
+     * @return Return value.
+     * @details Calls: has_value(), std::chrono::milliseconds::max(), std::chrono::steady_clock::now(), std::chrono::milliseconds().
+     */
     std::chrono::milliseconds remainingDeadlineBudget(const RequestDeadline& deadline) {
         if (!deadline.has_value()) {
             return std::chrono::milliseconds::max();
@@ -242,7 +323,11 @@ namespace {
     }
 }
 
-// Helper function to get timestamp in nanoseconds
+/**
+ * @brief Helper function to get timestamp in nanoseconds
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::now(), time_since_epoch(), count().
+ */
 static uint64_t getCurrentTimestampNs() {
     auto now = std::chrono::system_clock::now();
     auto duration = now.time_since_epoch();
@@ -253,10 +338,23 @@ static uint64_t getCurrentTimestampNs() {
 static std::mutex transaction_mutex;
 static std::unordered_map<std::string, std::unique_ptr<RocksDBWrapper::TransactionWrapper>> active_transactions;
 
+/**
+ * @brief Handle Get.
+ * @param[in] params Input parameter.
+ * @return Return value.
+ * @details Calls: handleGetInternal().
+ */
 json ThemisRPCService::handleGet(const json& params) {
     return handleGetInternal(params, std::nullopt);
 }
 
+/**
+ * @brief Handle Get Internal.
+ * @param[in] params Input parameter.
+ * @param[in] deadline Input parameter.
+ * @return Return value.
+ * @details Calls: isDeadlineExceeded(), createError(), model(), value(), collection(), uuid(), empty(), get().
+ */
 json ThemisRPCService::handleGetInternal(
     const json& params,
     const std::optional<std::chrono::steady_clock::time_point>& deadline
@@ -330,10 +428,23 @@ json ThemisRPCService::handleGetInternal(
     }
 }
 
+/**
+ * @brief Handle Put.
+ * @param[in] params Input parameter.
+ * @return Return value.
+ * @details Calls: handlePutInternal().
+ */
 json ThemisRPCService::handlePut(const json& params) {
     return handlePutInternal(params, std::nullopt);
 }
 
+/**
+ * @brief Handle Put Internal.
+ * @param[in] params Input parameter.
+ * @param[in] deadline Input parameter.
+ * @return Return value.
+ * @details Calls: isDeadlineExceeded(), createError(), model(), value(), collection(), uuid(), empty(), contains().
+ */
 json ThemisRPCService::handlePutInternal(
     const json& params,
     const std::optional<std::chrono::steady_clock::time_point>& deadline
@@ -430,10 +541,23 @@ json ThemisRPCService::handlePutInternal(
     }
 }
 
+/**
+ * @brief Handle Insert.
+ * @param[in] params Input parameter.
+ * @return Return value.
+ * @details Calls: handleInsertInternal().
+ */
 json ThemisRPCService::handleInsert(const json& params) {
     return handleInsertInternal(params, std::nullopt);
 }
 
+/**
+ * @brief Handle Insert Internal.
+ * @param[in] params Input parameter.
+ * @param[in] deadline Input parameter.
+ * @return Return value.
+ * @details Calls: isDeadlineExceeded(), createError(), model(), value(), collection(), uuid(), empty(), contains().
+ */
 json ThemisRPCService::handleInsertInternal(
     const json& params,
     const std::optional<std::chrono::steady_clock::time_point>& deadline
@@ -555,10 +679,23 @@ json ThemisRPCService::handleInsertInternal(
     }
 }
 
+/**
+ * @brief Handle Delete.
+ * @param[in] params Input parameter.
+ * @return Return value.
+ * @details Calls: handleDeleteInternal().
+ */
 json ThemisRPCService::handleDelete(const json& params) {
     return handleDeleteInternal(params, std::nullopt);
 }
 
+/**
+ * @brief Handle Delete Internal.
+ * @param[in] params Input parameter.
+ * @param[in] deadline Input parameter.
+ * @return Return value.
+ * @details Calls: model(), value(), collection(), uuid(), empty(), createError(), get(), createSuccess().
+ */
 json ThemisRPCService::handleDeleteInternal(
     const json& params,
     const std::optional<std::chrono::steady_clock::time_point>& deadline
@@ -766,10 +903,23 @@ json ThemisRPCService::handleDeleteInternal(
     }
 }
 
+/**
+ * @brief Handle Batch Get.
+ * @param[in] params Input parameter.
+ * @return Return value.
+ * @details Calls: handleBatchGetInternal().
+ */
 json ThemisRPCService::handleBatchGet(const json& params) {
     return handleBatchGetInternal(params, std::nullopt);
 }
 
+/**
+ * @brief Handle Batch Get Internal.
+ * @param[in] params Input parameter.
+ * @param[in] deadline Input parameter.
+ * @return Return value.
+ * @details Calls: contains(), is_array(), createError(), shouldCheckDeadline(), isDeadlineExceeded(), push_back(), multiGet(), size().
+ */
 json ThemisRPCService::handleBatchGetInternal(
     const json& params,
     const std::optional<std::chrono::steady_clock::time_point>& deadline
@@ -866,10 +1016,23 @@ json ThemisRPCService::handleBatchGetInternal(
     }
 }
 
+/**
+ * @brief Handle Batch Put.
+ * @param[in] params Input parameter.
+ * @return Return value.
+ * @details Calls: handleBatchPutInternal().
+ */
 json ThemisRPCService::handleBatchPut(const json& params) {
     return handleBatchPutInternal(params, std::nullopt);
 }
 
+/**
+ * @brief Handle Batch Put Internal.
+ * @param[in] params Input parameter.
+ * @param[in] deadline Input parameter.
+ * @return Return value.
+ * @details Calls: contains(), is_array(), createError(), createWriteBatch(), getCurrentTimestampNs(), shouldCheckDeadline(), isDeadlineExceeded(), value().
+ */
 json ThemisRPCService::handleBatchPutInternal(
     const json& params,
     const std::optional<std::chrono::steady_clock::time_point>& deadline
@@ -964,10 +1127,23 @@ json ThemisRPCService::handleBatchPutInternal(
     }
 }
 
+/**
+ * @brief Handle Batch Delete.
+ * @param[in] params Input parameter.
+ * @return Return value.
+ * @details Calls: handleBatchDeleteInternal().
+ */
 json ThemisRPCService::handleBatchDelete(const json& params) {
     return handleBatchDeleteInternal(params, std::nullopt);
 }
 
+/**
+ * @brief Handle Batch Delete Internal.
+ * @param[in] params Input parameter.
+ * @param[in] deadline Input parameter.
+ * @return Return value.
+ * @details Calls: contains(), is_array(), createError(), createWriteBatch(), shouldCheckDeadline(), isDeadlineExceeded(), del(), commit().
+ */
 json ThemisRPCService::handleBatchDeleteInternal(
     const json& params,
     const std::optional<std::chrono::steady_clock::time_point>& deadline
@@ -1039,10 +1215,23 @@ json ThemisRPCService::handleBatchDeleteInternal(
     }
 }
 
+/**
+ * @brief Handle Query.
+ * @param[in] params Input parameter.
+ * @return Return value.
+ * @details Calls: handleQueryInternal().
+ */
 json ThemisRPCService::handleQuery(const json& params) {
     return handleQueryInternal(params, std::nullopt);
 }
 
+/**
+ * @brief Handle Query Internal.
+ * @param[in] params Input parameter.
+ * @param[in] deadline Input parameter.
+ * @return Return value.
+ * @details Calls: is_object(), value(), empty(), createError(), json::object(), contains(), is_array(), is_string().
+ */
 json ThemisRPCService::handleQueryInternal(
     const json& params,
     const std::optional<std::chrono::steady_clock::time_point>& deadline
@@ -1203,10 +1392,23 @@ json ThemisRPCService::handleQueryInternal(
     }
 }
 
+/**
+ * @brief Handle Vector Search.
+ * @param[in] params Input parameter.
+ * @return Return value.
+ * @details Calls: handleVectorSearchInternal().
+ */
 json ThemisRPCService::handleVectorSearch(const json& params) {
     return handleVectorSearchInternal(params, std::nullopt);
 }
 
+/**
+ * @brief Handle Vector Search Internal.
+ * @param[in] params Input parameter.
+ * @param[in] deadline Input parameter.
+ * @return Return value.
+ * @details Calls: isDeadlineExceeded(), createError(), collection(), value(), empty(), contains(), is_array(), metric().
+ */
 json ThemisRPCService::handleVectorSearchInternal(
     const json& params,
     const std::optional<std::chrono::steady_clock::time_point>& deadline
@@ -1268,10 +1470,23 @@ json ThemisRPCService::handleVectorSearchInternal(
     }
 }
 
+/**
+ * @brief Handle Graph Traverse.
+ * @param[in] params Input parameter.
+ * @return Return value.
+ * @details Calls: handleGraphTraverseInternal().
+ */
 json ThemisRPCService::handleGraphTraverse(const json& params) {
     return handleGraphTraverseInternal(params, std::nullopt);
 }
 
+/**
+ * @brief Handle Graph Traverse Internal.
+ * @param[in] params Input parameter.
+ * @param[in] deadline Input parameter.
+ * @return Return value.
+ * @details Calls: isDeadlineExceeded(), createError(), start_vertex(), value(), direction(), empty(), json::array(), createSuccess().
+ */
 json ThemisRPCService::handleGraphTraverseInternal(
     const json& params,
     const std::optional<std::chrono::steady_clock::time_point>& deadline
@@ -1324,10 +1539,23 @@ json ThemisRPCService::handleGraphTraverseInternal(
     }
 }
 
+/**
+ * @brief Handle Geo Query.
+ * @param[in] params Input parameter.
+ * @return Return value.
+ * @details Calls: handleGeoQueryInternal().
+ */
 json ThemisRPCService::handleGeoQuery(const json& params) {
     return handleGeoQueryInternal(params, std::nullopt);
 }
 
+/**
+ * @brief Handle Geo Query Internal.
+ * @param[in] params Input parameter.
+ * @param[in] deadline Input parameter.
+ * @return Return value.
+ * @details Calls: collection(), value(), empty(), createError(), hasSpatialIndex(), query_type(), json::array(), contains().
+ */
 json ThemisRPCService::handleGeoQueryInternal(
     const json& params,
     const std::optional<std::chrono::steady_clock::time_point>& deadline
@@ -1553,10 +1781,23 @@ json ThemisRPCService::handleGeoQueryInternal(
     }
 }
 
+/**
+ * @brief Handle Time Series Query.
+ * @param[in] params Input parameter.
+ * @return Return value.
+ * @details Calls: handleTimeSeriesQueryInternal().
+ */
 json ThemisRPCService::handleTimeSeriesQuery(const json& params) {
     return handleTimeSeriesQueryInternal(params, std::nullopt);
 }
 
+/**
+ * @brief Handle Time Series Query Internal.
+ * @param[in] params Input parameter.
+ * @param[in] deadline Input parameter.
+ * @return Return value.
+ * @details Calls: collection(), value(), empty(), createError(), aggregation(), agg_field(), newSafeIterator(), error().
+ */
 json ThemisRPCService::handleTimeSeriesQueryInternal(
     const json& params,
     const std::optional<std::chrono::steady_clock::time_point>& deadline
@@ -1706,10 +1947,23 @@ json ThemisRPCService::handleTimeSeriesQueryInternal(
 // This allows proper cleanup, testing, and multi-instance support.
 static uint64_t transaction_counter = 0;
 
+/**
+ * @brief Handle Transaction Begin.
+ * @param[in] params Input parameter.
+ * @return Return value.
+ * @details Calls: handleTransactionBeginInternal().
+ */
 json ThemisRPCService::handleTransactionBegin(const json& params) {
     return handleTransactionBeginInternal(params, std::nullopt);
 }
 
+/**
+ * @brief Handle Transaction Begin Internal.
+ * @param[in] params Input parameter.
+ * @param[in] deadline Input parameter.
+ * @return Return value.
+ * @details Calls: isDeadlineExceeded(), createError(), is_object(), value(), lock(), std::to_string(), beginTransaction(), std::move().
+ */
 json ThemisRPCService::handleTransactionBeginInternal(
     const json& params,
     const std::optional<std::chrono::steady_clock::time_point>& deadline
@@ -1767,10 +2021,23 @@ json ThemisRPCService::handleTransactionBeginInternal(
     }
 }
 
+/**
+ * @brief Handle Transaction Commit.
+ * @param[in] params Input parameter.
+ * @return Return value.
+ * @details Calls: handleTransactionCommitInternal().
+ */
 json ThemisRPCService::handleTransactionCommit(const json& params) {
     return handleTransactionCommitInternal(params, std::nullopt);
 }
 
+/**
+ * @brief Handle Transaction Commit Internal.
+ * @param[in] params Input parameter.
+ * @param[in] deadline Input parameter.
+ * @return Return value.
+ * @details Calls: isDeadlineExceeded(), createError(), is_object(), value(), empty(), lock(), extract(), mapped().
+ */
 json ThemisRPCService::handleTransactionCommitInternal(
     const json& params,
     const std::optional<std::chrono::steady_clock::time_point>& deadline
@@ -1838,10 +2105,23 @@ json ThemisRPCService::handleTransactionCommitInternal(
     }
 }
 
+/**
+ * @brief Handle Transaction Abort.
+ * @param[in] params Input parameter.
+ * @return Return value.
+ * @details Calls: handleTransactionAbortInternal().
+ */
 json ThemisRPCService::handleTransactionAbort(const json& params) {
     return handleTransactionAbortInternal(params, std::nullopt);
 }
 
+/**
+ * @brief Handle Transaction Abort Internal.
+ * @param[in] params Input parameter.
+ * @param[in] deadline Input parameter.
+ * @return Return value.
+ * @details Calls: isDeadlineExceeded(), createError(), is_object(), value(), empty(), lock(), extract(), mapped().
+ */
 json ThemisRPCService::handleTransactionAbortInternal(
     const json& params,
     const std::optional<std::chrono::steady_clock::time_point>& deadline
@@ -1902,6 +2182,12 @@ json ThemisRPCService::handleTransactionAbortInternal(
     }
 }
 
+/**
+ * @brief Handle Health Check.
+ * @param[in] params Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::steady_clock::now(), count(), createSuccess(), createError(), what().
+ */
 json ThemisRPCService::handleHealthCheck(const json& params) {
     try {
         int64_t uptime_seconds = 0;
@@ -1928,6 +2214,12 @@ json ThemisRPCService::handleHealthCheck(const json& params) {
     }
 }
 
+/**
+ * @brief Handle Authenticate.
+ * @param[in] params Input parameter.
+ * @return Return value.
+ * @details Calls: is_object(), value(), empty(), createError(), isEnabled(), what().
+ */
 json ThemisRPCService::handleAuthenticate(const json& params) {
     try {
         std::string username = {};
@@ -1970,10 +2262,23 @@ json ThemisRPCService::handleAuthenticate(const json& params) {
     }
 }
 
+/**
+ * @brief Handle Search.
+ * @param[in] params Input parameter.
+ * @return Return value.
+ * @details Calls: handleSearchInternal().
+ */
 json ThemisRPCService::handleSearch(const json& params) {
     return handleSearchInternal(params, std::nullopt);
 }
 
+/**
+ * @brief Handle Search Internal.
+ * @param[in] params Input parameter.
+ * @param[in] deadline Input parameter.
+ * @return Return value.
+ * @details Calls: collection(), value(), empty(), createError(), isDeadlineExceeded(), model(), json::object(), newSafeIterator().
+ */
 json ThemisRPCService::handleSearchInternal(
     const json& params,
     const std::optional<std::chrono::steady_clock::time_point>& deadline
@@ -2096,10 +2401,23 @@ json ThemisRPCService::handleSearchInternal(
     }
 }
 
+/**
+ * @brief Handle Stats.
+ * @param[in] params Input parameter.
+ * @return Return value.
+ * @details Calls: handleStatsInternal().
+ */
 json ThemisRPCService::handleStats(const json& params) {
     return handleStatsInternal(params, std::nullopt);
 }
 
+/**
+ * @brief Handle Stats Internal.
+ * @param[in] params Input parameter.
+ * @param[in] deadline Input parameter.
+ * @return Return value.
+ * @details Calls: isDeadlineExceeded(), createError(), getConfig(), isOpen(), getStats(), empty(), what(), getCurrentTimestampNs().
+ */
 json ThemisRPCService::handleStatsInternal(
     const json& params,
     const std::optional<std::chrono::steady_clock::time_point>& deadline
@@ -2151,10 +2469,23 @@ json ThemisRPCService::handleStatsInternal(
     }
 }
 
+/**
+ * @brief Handle Update Entity.
+ * @param[in] params Input parameter.
+ * @return Return value.
+ * @details Calls: handleUpdateEntityInternal().
+ */
 json ThemisRPCService::handleUpdateEntity(const json& params) {
     return handleUpdateEntityInternal(params, std::nullopt);
 }
 
+/**
+ * @brief Handle Update Entity Internal.
+ * @param[in] params Input parameter.
+ * @param[in] deadline Input parameter.
+ * @return Return value.
+ * @details Calls: model(), value(), collection(), uuid(), empty(), createError(), contains(), isDeadlineExceeded().
+ */
 json ThemisRPCService::handleUpdateEntityInternal(
     const json& params,
     const std::optional<std::chrono::steady_clock::time_point>& deadline
@@ -2271,10 +2602,23 @@ json ThemisRPCService::handleUpdateEntityInternal(
     }
 }
 
+/**
+ * @brief Handle Batch Update.
+ * @param[in] params Input parameter.
+ * @return Return value.
+ * @details Calls: handleBatchUpdateInternal().
+ */
 json ThemisRPCService::handleBatchUpdate(const json& params) {
     return handleBatchUpdateInternal(params, std::nullopt);
 }
 
+/**
+ * @brief Handle Batch Update Internal.
+ * @param[in] params Input parameter.
+ * @param[in] deadline Input parameter.
+ * @return Return value.
+ * @details Calls: contains(), is_array(), createError(), createWriteBatch(), getCurrentTimestampNs(), shouldCheckDeadline(), isDeadlineExceeded(), get().
+ */
 json ThemisRPCService::handleBatchUpdateInternal(
     const json& params,
     const std::optional<std::chrono::steady_clock::time_point>& deadline
@@ -2381,10 +2725,23 @@ json ThemisRPCService::handleBatchUpdateInternal(
     }
 }
 
+/**
+ * @brief Handle Paginated Query.
+ * @param[in] params Input parameter.
+ * @return Return value.
+ * @details Calls: handlePaginatedQueryInternal().
+ */
 json ThemisRPCService::handlePaginatedQuery(const json& params) {
     return handlePaginatedQueryInternal(params, std::nullopt);
 }
 
+/**
+ * @brief Handle Paginated Query Internal.
+ * @param[in] params Input parameter.
+ * @param[in] deadline Input parameter.
+ * @return Return value.
+ * @details Calls: collection(), value(), empty(), createError(), isDeadlineExceeded(), cursor(), model(), newSafeIterator().
+ */
 json ThemisRPCService::handlePaginatedQueryInternal(
     const json& params,
     const std::optional<std::chrono::steady_clock::time_point>& deadline
@@ -2505,10 +2862,23 @@ json ThemisRPCService::handlePaginatedQueryInternal(
     }
 }
 
+/**
+ * @brief Handle Get Index Operations.
+ * @param[in] params Input parameter.
+ * @return Return value.
+ * @details Calls: handleGetIndexOperationsInternal().
+ */
 json ThemisRPCService::handleGetIndexOperations(const json& params) {
     return handleGetIndexOperationsInternal(params, std::nullopt);
 }
 
+/**
+ * @brief Handle Get Index Operations Internal.
+ * @param[in] params Input parameter.
+ * @param[in] deadline Input parameter.
+ * @return Return value.
+ * @details Calls: createError(), collection(), value(), empty(), json::array(), scanPrefix(), shouldCheckDeadline(), isDeadlineExceeded().
+ */
 json ThemisRPCService::handleGetIndexOperationsInternal(
     const json& params,
     const std::optional<std::chrono::steady_clock::time_point>& deadline
@@ -2578,10 +2948,23 @@ json ThemisRPCService::handleGetIndexOperationsInternal(
     }
 }
 
+/**
+ * @brief Handle Aggregation Pipeline.
+ * @param[in] params Input parameter.
+ * @return Return value.
+ * @details Calls: handleAggregationPipelineInternal().
+ */
 json ThemisRPCService::handleAggregationPipeline(const json& params) {
     return handleAggregationPipelineInternal(params, std::nullopt);
 }
 
+/**
+ * @brief Handle Aggregation Pipeline Internal.
+ * @param[in] params Input parameter.
+ * @param[in] deadline Input parameter.
+ * @return Return value.
+ * @details Calls: collection(), value(), empty(), createError(), contains(), is_array(), newSafeIterator(), error().
+ */
 json ThemisRPCService::handleAggregationPipelineInternal(
     const json& params,
     const std::optional<std::chrono::steady_clock::time_point>& deadline
@@ -2760,10 +3143,23 @@ json ThemisRPCService::handleAggregationPipelineInternal(
     }
 }
 
+/**
+ * @brief Handle List Collections.
+ * @param[in] params Input parameter.
+ * @return Return value.
+ * @details Calls: handleListCollectionsInternal().
+ */
 json ThemisRPCService::handleListCollections(const json& params) {
     return handleListCollectionsInternal(params, std::nullopt);
 }
 
+/**
+ * @brief Handle List Collections Internal.
+ * @param[in] params Input parameter.
+ * @param[in] deadline Input parameter.
+ * @return Return value.
+ * @details Calls: createError(), newSafeIterator(), error(), message(), value(), SeekToFirst(), Valid(), shouldCheckDeadline().
+ */
 json ThemisRPCService::handleListCollectionsInternal(
     const json& params,
     const std::optional<std::chrono::steady_clock::time_point>& deadline
@@ -2840,10 +3236,23 @@ json ThemisRPCService::handleListCollectionsInternal(
     }
 }
 
+/**
+ * @brief Handle Create Index.
+ * @param[in] params Input parameter.
+ * @return Return value.
+ * @details Calls: handleCreateIndexInternal().
+ */
 json ThemisRPCService::handleCreateIndex(const json& params) {
     return handleCreateIndexInternal(params, std::nullopt);
 }
 
+/**
+ * @brief Handle Create Index Internal.
+ * @param[in] params Input parameter.
+ * @param[in] deadline Input parameter.
+ * @return Return value.
+ * @details Calls: isDeadlineExceeded(), createError(), collection(), value(), field(), empty(), index_type(), getCurrentTimestampNs().
+ */
 json ThemisRPCService::handleCreateIndexInternal(
     const json& params,
     const std::optional<std::chrono::steady_clock::time_point>& deadline
@@ -2913,10 +3322,23 @@ json ThemisRPCService::handleCreateIndexInternal(
     }
 }
 
+/**
+ * @brief Handle Drop Index.
+ * @param[in] params Input parameter.
+ * @return Return value.
+ * @details Calls: handleDropIndexInternal().
+ */
 json ThemisRPCService::handleDropIndex(const json& params) {
     return handleDropIndexInternal(params, std::nullopt);
 }
 
+/**
+ * @brief Handle Drop Index Internal.
+ * @param[in] params Input parameter.
+ * @param[in] deadline Input parameter.
+ * @return Return value.
+ * @details Calls: isDeadlineExceeded(), createError(), collection(), value(), index_name(), empty(), get(), del().
+ */
 json ThemisRPCService::handleDropIndexInternal(
     const json& params,
     const std::optional<std::chrono::steady_clock::time_point>& deadline
@@ -2982,10 +3404,23 @@ json ThemisRPCService::handleDropIndexInternal(
     }
 }
 
+/**
+ * @brief Handle Get Collection Metadata.
+ * @param[in] params Input parameter.
+ * @return Return value.
+ * @details Calls: handleGetCollectionMetadataInternal().
+ */
 json ThemisRPCService::handleGetCollectionMetadata(const json& params) {
     return handleGetCollectionMetadataInternal(params, std::nullopt);
 }
 
+/**
+ * @brief Handle Get Collection Metadata Internal.
+ * @param[in] params Input parameter.
+ * @param[in] deadline Input parameter.
+ * @return Return value.
+ * @details Calls: collection(), value(), empty(), createError(), newSafeIterator(), error(), message(), Seek().
+ */
 json ThemisRPCService::handleGetCollectionMetadataInternal(
     const json& params,
     const std::optional<std::chrono::steady_clock::time_point>& deadline
@@ -3109,6 +3544,14 @@ json ThemisRPCService::handleGetCollectionMetadataInternal(
     }
 }
 
+/**
+ * @brief Dispatch.
+ * @param[in] method Input parameter.
+ * @param[in] params Input parameter.
+ * @param[in] context Input parameter.
+ * @return Return value.
+ * @details Calls: parseRequestTimeout(), has_value(), count(), createError(), std::chrono::system_clock::now(), time_since_epoch(), deriveRequestDeadline(), verifyAuth().
+ */
 json ThemisRPCService::dispatch(
     const std::string& method,
     const json& params,
@@ -3309,6 +3752,14 @@ json ThemisRPCService::dispatch(
     );
 }
 
+/**
+ * @brief Verify Auth.
+ * @param[in] context Input parameter.
+ * @param[in,out] username Input/output parameter.
+ * @param[in] required_scope Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), isEnabled(), find(), end(), AuthMiddleware::extractBearerToken(), authorize().
+ */
 bool ThemisRPCService::verifyAuth(
     const themis::plugins::rpc::RPCRequestContext& context,
     std::string& username,
@@ -3361,6 +3812,13 @@ bool ThemisRPCService::verifyAuth(
     return true;
 }
 
+/**
+ * @brief Create Error.
+ * @param[in] code Input parameter.
+ * @param[in] message Input parameter.
+ * @return Return value.
+ * @details Calls: themis::plugins::rpc::rpcErrorCodeToString().
+ */
 json ThemisRPCService::createError(themis::plugins::rpc::RPCErrorCode code, const std::string& message) {
     return {
         {"error", {
@@ -3371,6 +3829,12 @@ json ThemisRPCService::createError(themis::plugins::rpc::RPCErrorCode code, cons
     };
 }
 
+/**
+ * @brief Create Success.
+ * @param[in] result Input parameter.
+ * @return Return value.
+ * @details Implements createSuccess without additional internal calls.
+ */
 json ThemisRPCService::createSuccess(const json& result) {
     return {
         {"result", result}

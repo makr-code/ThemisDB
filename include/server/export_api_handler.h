@@ -37,23 +37,8 @@ namespace server {
 namespace beast = boost::beast;
 namespace http = beast::http;
 
-/**
- * @brief Export API Handler for HTTP Server
- * 
- * Provides REST endpoints for data export, specifically designed for
- * VCC-Clara integration with thematic and temporal filtering.
- * 
- * Supports:
- * - JSONL LLM export for AI training (LoRA/QLoRA)
- * - Thematic filtering (e.g., "Rechtssprechung", "Immissionsschutz")
- * - Temporal boundaries (date ranges)
- * - Quality filtering and weighted sampling
- */
 class ExportApiHandler {
 public:
-    /**
-     * @brief Construct handler with database access
-     */
     ExportApiHandler(
         std::shared_ptr<RocksDBWrapper> storage,
         std::shared_ptr<SecondaryIndexManager> secondary_index
@@ -61,41 +46,26 @@ public:
 
     ~ExportApiHandler();
 
-    /// Attach a PolicyEngine so that handleExportJsonlLlm() enforces
-    /// per-collection authorization before starting any export.
-    /// Non-owning raw pointer — caller must ensure it outlives this handler.
-    /// Null (default) disables the authorization check (backward compatible).
     void setPolicyEngine(themis::governance::PolicyEngine* engine) noexcept {
         policy_engine_ = engine;
     }
 
-    /// Attach an AuditLogger for recording export authorization decisions.
-    /// Non-owning raw pointer — caller must ensure it outlives this handler.
-    /// Null (default) disables audit logging (backward compatible).
     void setAuditLogger(themis::utils::AuditLogger* logger) noexcept {
         audit_logger_ = logger;
     }
 
     /**
-     * @brief Handle JSONL LLM export request
-     * POST /api/export/jsonl_llm
-     * 
-     * Designed for VCC-Clara integration:
-     * - Thematic filtering: category, domain, subject
-     * - Temporal boundaries: from_date, to_date
-     * - Weighted sampling for training data quality
-     * 
-     * Request: JSON with query and export config
-     * Response: Streaming JSONL (application/x-ndjson)
+     * @brief Handle Export Jsonl Llm.
+     * @param[in] req Input parameter.
+     * @return Return value.
      */
     http::response<http::string_body> handleExportJsonlLlm(
         const http::request<http::string_body>& req);
 
     /**
-     * @brief Get export status
-     * GET /api/export/status/{export_id}
-     * 
-     * Response: JSON with export progress
+     * @brief Handle Export Status.
+     * @param[in] req Input parameter.
+     * @return Return value.
      */
     http::response<http::string_body> handleExportStatus(
         const http::request<http::string_body>& req);
@@ -114,21 +84,42 @@ private:
         std::string error_message;
     };
 
-    // Helper: Generate export ID
+    /**
+     * @brief Generate Export Id.
+     * @return Return value.
+     */
     std::string generateExportId();
 
-    // Helper: Validate authentication
+    /**
+     * @brief Validate Admin Token.
+     * @param[in] req Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool validateAdminToken(const http::request<http::string_body>& req);
 
-    // Helper: Build AQL query from request parameters
+    /**
+     * @brief Build Aql Query.
+     * @param[in] request_json Input parameter.
+     * @return Return value.
+     */
     std::string buildAqlQuery(const nlohmann::json& request_json);
 
-    // Helper: Create JSON response
+    /**
+     * @brief Json Response.
+     * @param[in] status Input parameter.
+     * @param[in] json_body Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> jsonResponse(
         http::status status,
         const std::string& json_body);
 
-    // Helper: Create error response
+    /**
+     * @brief Error Response.
+     * @param[in] status Input parameter.
+     * @param[in] error_message Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> errorResponse(
         http::status status,
         const std::string& error_message);

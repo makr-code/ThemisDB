@@ -26,32 +26,8 @@
 
 namespace themis::query {
 
-/**
- * @brief Timeout and retry policy for federated query execution
- *
- * Provides:
- * - Per-shard timeout envelopes (5s default, configurable)
- * - Overall query timeout (30s default, configurable)
- * - Exponential backoff retry logic
- * - Timeout statistics and observability
- *
- * Example:
- * ```cpp
- * auto policy = TimeoutPolicy::Builder{}
- *     .withPerShardTimeout(std::chrono::seconds(5))
- *     .withOverallTimeout(std::chrono::seconds(30))
- *     .withMaxRetries(3)
- *     .build();
- *
- * auto executor = FederatedQueryExecutor(router, policy);
- * auto result = executor.execute("SELECT * FROM table");
- * ```
- */
 class TimeoutPolicy {
 public:
-    /**
-     * @brief Timeout event for observability
-     */
     struct TimeoutEvent {
         enum class Type {
             SHARD_TIMEOUT,      // Individual shard exceeded timeout
@@ -72,9 +48,6 @@ public:
         std::string correlation_id;
     };
 
-    /**
-     * @brief Retry statistics for a shard
-     */
     struct RetryStats {
         int successful_attempt = -1;  // 0-indexed, -1 if not yet successful
         int total_attempts = 0;
@@ -83,46 +56,89 @@ public:
         std::vector<std::string> failure_reasons;
     };
 
-    /**
-     * @brief Builder for TimeoutPolicy
-     */
     class Builder {
     public:
+        /**
+         * @brief With Per Shard Timeout.
+         * @param[in] timeout Input parameter.
+         * @return Return value.
+         * @details Implements withPerShardTimeout without additional internal calls.
+         */
         Builder& withPerShardTimeout(std::chrono::milliseconds timeout) {
             per_shard_timeout_ = timeout;
             return *this;
         }
 
+        /**
+         * @brief With Overall Timeout.
+         * @param[in] timeout Input parameter.
+         * @return Return value.
+         * @details Implements withOverallTimeout without additional internal calls.
+         */
         Builder& withOverallTimeout(std::chrono::milliseconds timeout) {
             overall_timeout_ = timeout;
             return *this;
         }
 
+        /**
+         * @brief With Max Retries.
+         * @param[in] max_retries Input parameter.
+         * @return Return value.
+         * @details Implements withMaxRetries without additional internal calls.
+         */
         Builder& withMaxRetries(int max_retries) {
             max_retries_ = max_retries;
             return *this;
         }
 
+        /**
+         * @brief With Initial Backoff Ms.
+         * @param[in] backoff_ms Input parameter.
+         * @return Return value.
+         * @details Implements withInitialBackoffMs without additional internal calls.
+         */
         Builder& withInitialBackoffMs(int backoff_ms) {
             initial_backoff_ms_ = backoff_ms;
             return *this;
         }
 
+        /**
+         * @brief With Max Backoff Ms.
+         * @param[in] max_backoff_ms Input parameter.
+         * @return Return value.
+         * @details Implements withMaxBackoffMs without additional internal calls.
+         */
         Builder& withMaxBackoffMs(int max_backoff_ms) {
             max_backoff_ms_ = max_backoff_ms;
             return *this;
         }
 
+        /**
+         * @brief With Backoff Multiplier.
+         * @param[in] multiplier Input parameter.
+         * @return Return value.
+         * @details Implements withBackoffMultiplier without additional internal calls.
+         */
         Builder& withBackoffMultiplier(double multiplier) {
             backoff_multiplier_ = multiplier;
             return *this;
         }
 
+        /**
+         * @brief With Jitter Fraction.
+         * @param[in] jitter Input parameter.
+         * @return Return value.
+         * @details Implements withJitterFraction without additional internal calls.
+         */
         Builder& withJitterFraction(double jitter) {
             jitter_fraction_ = jitter;
             return *this;
         }
 
+        /**
+         * @brief Build.
+         * @return Return value.
+         */
         TimeoutPolicy build() const;
 
     private:
@@ -143,88 +159,50 @@ public:
     TimeoutPolicy(TimeoutPolicy&&) noexcept = default;
     TimeoutPolicy& operator=(TimeoutPolicy&&) noexcept = default;
 
-    /**
-     * @brief Get per-shard timeout
-     */
     [[nodiscard]] std::chrono::milliseconds getPerShardTimeout() const {
         return per_shard_timeout_;
     }
 
-    /**
-     * @brief Get overall query timeout
-     */
     [[nodiscard]] std::chrono::milliseconds getOverallTimeout() const {
         return overall_timeout_;
     }
 
-    /**
-     * @brief Get maximum retry count
-     */
     [[nodiscard]] int getMaxRetries() const {
         return max_retries_;
     }
 
-    /**
-     * @brief Calculate backoff delay for given attempt number
-     * @param attempt Attempt number (0-indexed)
-     * @return Backoff delay in milliseconds
-     */
     [[nodiscard]] std::chrono::milliseconds calculateBackoff(int attempt) const;
 
-    /**
-     * @brief Check if a shard should be retried based on timeout policy
-     * @param elapsed Time elapsed since attempt start
-     * @param attempt Current attempt number (0-indexed)
-     * @return true if retry is permitted, false if should timeout
-     */
     [[nodiscard]] bool shouldRetry(
         std::chrono::milliseconds elapsed,
         int attempt) const;
 
-    /**
-     * @brief Check if overall query has exceeded timeout
-     * @param total_elapsed Total time since query start
-     * @return true if query should timeout
-     */
     [[nodiscard]] bool isOverallTimeoutExceeded(
         std::chrono::milliseconds total_elapsed) const;
 
     /**
-     * @brief Register a timeout event for observability
-     * @param event The timeout event to record
+     * @brief Record Timeout Event.
+     * @param[in] event Input parameter.
      */
     void recordTimeoutEvent(const TimeoutEvent& event);
 
     /**
-     * @brief Record retry statistics for a shard
-     * @param shard_id Shard identifier
-     * @param stats Retry statistics
+     * @brief Record Retry Stats.
+     * @param[in] shard_id Identifier of the shard.
+     * @param[in] stats Input parameter.
      */
     void recordRetryStats(const std::string& shard_id, const RetryStats& stats);
 
-    /**
-     * @brief Get retry statistics for a shard
-     * @param shard_id Shard identifier
-     * @return RetryStats if available, nullopt otherwise
-     */
     [[nodiscard]] std::optional<RetryStats> getRetryStats(
         const std::string& shard_id) const;
 
-    /**
-     * @brief Get all timeout events recorded
-     * @return Vector of timeout events
-     */
     [[nodiscard]] std::vector<TimeoutEvent> getTimeoutEvents() const;
 
     /**
-     * @brief Clear all recorded statistics
+     * @brief Clear Statistics.
      */
     void clearStatistics();
 
-    /**
-     * @brief Get summary statistics
-     * @return JSON with timeout/retry metrics
-     */
     [[nodiscard]] std::string getStatisticsSummary() const;
 
     // Destructor
@@ -255,83 +233,41 @@ private:
     mutable std::vector<TimeoutEvent> timeout_events_;
 };
 
-/**
- * @brief Context for a single federated query execution
- *
- * Tracks timing and timeout behavior for the entire query lifecycle.
- */
 class QueryTimeoutContext {
 public:
     /**
-     * @brief Constructor
-     * @param policy Timeout policy to use
+     * @brief Query Timeout Context.
+     * @param[in] policy Input parameter.
+     * @return Return value.
      */
     explicit QueryTimeoutContext(const TimeoutPolicy& policy);
 
     /**
-     * @brief Start timing for a shard query attempt
-     * @param shard_id Shard identifier
-     * @param attempt Attempt number (0-indexed)
+     * @brief Start Shard Attempt.
+     * @param[in] shard_id Identifier of the shard.
+     * @param[in] attempt Input parameter.
      */
     void startShardAttempt(const std::string& shard_id, int attempt);
 
-    /**
-     * @brief End timing for a shard query attempt
-     * @param shard_id Shard identifier
-     * @param success Whether the attempt succeeded
-     * @param failure_reason Optional failure reason if !success
-     */
     void endShardAttempt(
         const std::string& shard_id,
         bool success,
         const std::string& failure_reason = "");
 
-    /**
-     * @brief Check if a shard query should be retried
-     * @param shard_id Shard identifier
-     * @return true if retry is permitted, false otherwise
-     */
     [[nodiscard]] bool shouldRetry(const std::string& shard_id) const;
 
-    /**
-     * @brief Check if overall query has exceeded timeout
-     * @return true if query should timeout
-     */
     [[nodiscard]] bool isOverallTimeoutExceeded() const;
 
-    /**
-     * @brief Get remaining time for this query
-     * @return Remaining milliseconds, 0 if already expired
-     */
     [[nodiscard]] std::chrono::milliseconds getRemainingTime() const;
 
-    /**
-     * @brief Get remaining time for a shard
-     * @param shard_id Shard identifier
-     * @return Remaining milliseconds, 0 if already expired
-     */
     [[nodiscard]] std::chrono::milliseconds getRemainingShardTime(
         const std::string& shard_id) const;
 
-    /**
-     * @brief Get total elapsed time since query start
-     * @return Elapsed time in milliseconds
-     */
     [[nodiscard]] std::chrono::milliseconds getTotalElapsed() const;
 
-    /**
-     * @brief Get statistics for a shard
-     * @param shard_id Shard identifier
-     * @return RetryStats if available
-     */
     [[nodiscard]] std::optional<TimeoutPolicy::RetryStats> getShardStats(
         const std::string& shard_id) const;
 
-    /**
-     * @brief Build canonical retry metadata for a shard attempt stream.
-     * @param shard_id Shard identifier
-     * @return Canonical retry metadata envelope for diagnostics/automation
-     */
     [[nodiscard]] themis::utils::RetryMetadata getRetryMetadata(
         const std::string& shard_id) const;
 

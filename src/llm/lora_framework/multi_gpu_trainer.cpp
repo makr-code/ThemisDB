@@ -39,6 +39,16 @@ MultiGPULoRATrainer::MultiGPULoRATrainer(const MultiGPUContext& ctx)
     spdlog::info("  Gradient accumulation: {} steps", config_.gradient_accumulation_steps);
 }
 
+/**
+ * @brief Create layer.
+ * @param[in] in_dim Input parameter.
+ * @param[in] out_dim Input parameter.
+ * @param[in] rank Input parameter.
+ * @param[in] scaling Input parameter.
+ * @param[in] backend Input parameter.
+ * @return Return value.
+ * @details Implements create_layer without additional internal calls.
+ */
 std::shared_ptr<MultiGPULoRALayer> MultiGPULoRATrainer::create_layer(
     size_t in_dim, size_t out_dim, size_t rank, float scaling,
     CommBackend backend) {
@@ -47,6 +57,14 @@ std::shared_ptr<MultiGPULoRALayer> MultiGPULoRATrainer::create_layer(
         in_dim, out_dim, rank, scaling, ctx_, backend);
 }
 
+/**
+ * @brief Train step.
+ * @param[in,out] layer Input/output parameter.
+ * @param[in] inputs Input parameter.
+ * @param[in] targets Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::high_resolution_clock::now(), forward(), reserve(), size(), compute_loss(), cpu_data(), grad_data(), grad().
+ */
 float MultiGPULoRATrainer::train_step(
     MultiGPULoRALayer& layer,
     const std::vector<GPUTensor>& inputs,
@@ -141,6 +159,14 @@ float MultiGPULoRATrainer::train_step(
     return avg_loss;
 }
 
+/**
+ * @brief Eval step.
+ * @param[in,out] layer Input/output parameter.
+ * @param[in] inputs Input parameter.
+ * @param[in] targets Input parameter.
+ * @return Return value.
+ * @details Calls: forward(), size(), compute_loss().
+ */
 float MultiGPULoRATrainer::eval_step(
     MultiGPULoRALayer& layer,
     const std::vector<GPUTensor>& inputs,
@@ -158,6 +184,14 @@ float MultiGPULoRATrainer::eval_step(
     return total_loss / static_cast<float>(outputs.size());
 }
 
+/**
+ * @brief Shard batch.
+ * @param[in] batch Input parameter.
+ * @param[in] ctx Input parameter.
+ * @return Return value.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: num_gpus(), shape(), empty(), cpu_data(), size(), reserve(), std::min(), emplace_back().
+ */
 std::vector<GPUTensor> MultiGPULoRATrainer::shard_batch(
     const GPUTensor& batch,
     const MultiGPUContext& ctx) {
@@ -217,6 +251,12 @@ std::vector<GPUTensor> MultiGPULoRATrainer::shard_batch(
     return shards;
 }
 
+/**
+ * @brief Gather to cpu.
+ * @param[in] tensors Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), GPUTensor(), Device::cpu(), cpu_data(), size(), push_back(), std::move(), reserve().
+ */
 GPUTensor MultiGPULoRATrainer::gather_to_cpu(const std::vector<GPUTensor>& tensors) {
     if (tensors.empty()) {
         return GPUTensor({0}, Device::cpu());
@@ -252,6 +292,14 @@ GPUTensor MultiGPULoRATrainer::gather_to_cpu(const std::vector<GPUTensor>& tenso
     return result;
 }
 
+/**
+ * @brief Save checkpoint.
+ * @param[in,out] layer Input/output parameter.
+ * @param[in] path Input parameter.
+ * @param[in] step Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: spdlog::info(), get_layer(), get_weights().
+ */
 bool MultiGPULoRATrainer::save_checkpoint(
     MultiGPULoRALayer& layer,
     const std::string& path,
@@ -270,6 +318,13 @@ bool MultiGPULoRATrainer::save_checkpoint(
     return true;
 }
 
+/**
+ * @brief Load checkpoint.
+ * @param[in,out] layer Input/output parameter.
+ * @param[in] path Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: spdlog::info(), broadcast_parameters().
+ */
 bool MultiGPULoRATrainer::load_checkpoint(
     MultiGPULoRALayer& layer,
     const std::string& path) {
@@ -286,10 +341,22 @@ bool MultiGPULoRATrainer::load_checkpoint(
     return true;
 }
 
+/**
+ * @brief Reset stats.
+ * @details Implements reset_stats without additional internal calls.
+ */
 void MultiGPULoRATrainer::reset_stats() {
     stats_ = Stats{};
 }
 
+/**
+ * @brief Compute loss.
+ * @param[in] output Input parameter.
+ * @param[in] target Input parameter.
+ * @return Return value.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: cpu_data(), size().
+ */
 float MultiGPULoRATrainer::compute_loss(
     const GPUTensor& output,
     const GPUTensor& target) {
@@ -315,6 +382,11 @@ float MultiGPULoRATrainer::compute_loss(
     return mse / static_cast<float>(output_data.size());
 }
 
+/**
+ * @brief Update parameters.
+ * @param[in,out] layer Input/output parameter.
+ * @details Calls: num_gpus(), get_layer(), parameters(), gradients(), get_device(), size(), cudaSetDevice(), spdlog::warn().
+ */
 void MultiGPULoRATrainer::update_parameters(MultiGPULoRALayer& layer) {
     // Simple SGD update: param = param - lr * grad
     // Note: In production, gradients are already synchronized across GPUs,

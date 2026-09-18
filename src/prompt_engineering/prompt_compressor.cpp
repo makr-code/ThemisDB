@@ -22,6 +22,12 @@ namespace prompt_engineering {
 // Helper functions
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Split Paragraphs.
+ * @param[in] text Input parameter.
+ * @return Return value.
+ * @details Calls: ss(), std::getline(), empty(), find_first_not_of(), push_back(), clear().
+ */
 std::vector<std::string> SimplePromptCompressor::splitParagraphs(
     const std::string& text) {
 
@@ -49,6 +55,12 @@ std::vector<std::string> SimplePromptCompressor::splitParagraphs(
     return paragraphs;
 }
 
+/**
+ * @brief Split Words.
+ * @param[in] text Input parameter.
+ * @return Return value.
+ * @details Calls: ss(), push_back().
+ */
 std::vector<std::string> SimplePromptCompressor::splitWords(
     const std::string& text) {
 
@@ -61,6 +73,12 @@ std::vector<std::string> SimplePromptCompressor::splitWords(
     return words;
 }
 
+/**
+ * @brief Join Words.
+ * @param[in] words Input parameter.
+ * @return Return value.
+ * @details Calls: size().
+ */
 std::string SimplePromptCompressor::joinWords(
     const std::vector<std::string>& words) {
 
@@ -153,12 +171,22 @@ SimplePromptCompressor::SimplePromptCompressor() {
     };
 }
 
+/**
+ * @brief Set Token Estimator.
+ * @param[in] fn Input parameter.
+ * @details Calls: std::move().
+ */
 void SimplePromptCompressor::setTokenEstimator(TokenEstimatorFn fn) {
     if (fn) {
       token_estimator_ = std::move(fn);
     }
 }
 
+/**
+ * @brief Set Summary Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: std::move().
+ */
 void SimplePromptCompressor::setSummaryFn(SummaryFn fn) {
     if (fn) {
       summary_fn_ = std::move(fn);
@@ -169,6 +197,12 @@ void SimplePromptCompressor::setSummaryFn(SummaryFn fn) {
 // Token estimation
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Estimate Token Count.
+ * @param[in] text Input parameter.
+ * @return Return value.
+ * @details Calls: token_estimator_().
+ */
 int SimplePromptCompressor::estimateTokenCount(const std::string& text) {
     return token_estimator_(text);
 }
@@ -330,6 +364,13 @@ std::string SimplePromptCompressor::summarize(const std::string& prompt,
 // compress()
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Compress.
+ * @param[in] prompt Input parameter.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::steady_clock::now(), token_estimator_(), count(), std::max(), truncateHead(), truncateTail(), selectiveTrim(), summarize().
+ */
 CompressionResult SimplePromptCompressor::compress(
     const std::string&             prompt,
     const PromptCompressionConfig& config) {

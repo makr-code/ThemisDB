@@ -40,6 +40,12 @@ nlohmann::json IntegrationConfig::toJson() const {
     };
 }
 
+/**
+ * @brief From Json.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: value(), std::chrono::seconds().
+ */
 IntegrationConfig IntegrationConfig::fromJson(const nlohmann::json& j) {
     IntegrationConfig config;
     config.enable_auto_versioning = j.value("enable_auto_versioning", true);
@@ -79,6 +85,12 @@ nlohmann::json ExecutionContext::toJson() const {
     };
 }
 
+/**
+ * @brief From Json.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: value(), nlohmann::json::object(), contains(), std::chrono::system_clock::from_time_t().
+ */
 ExecutionContext ExecutionContext::fromJson(const nlohmann::json& j) {
     ExecutionContext ctx;
     ctx.execution_id = j.value("execution_id", "");
@@ -150,6 +162,10 @@ BackgroundOptimizationWorker::~BackgroundOptimizationWorker() {
     stop();
 }
 
+/**
+ * @brief Start.
+ * @details Calls: load(), store().
+ */
 void BackgroundOptimizationWorker::start() {
     if (running_.load()) {
         return;  // Already running
@@ -161,6 +177,10 @@ void BackgroundOptimizationWorker::start() {
     worker_thread_ = std::make_unique<std::thread>(&BackgroundOptimizationWorker::workerLoop, this);
 }
 
+/**
+ * @brief Stop.
+ * @details Calls: load(), store(), joinable(), join().
+ */
 void BackgroundOptimizationWorker::stop() {
     if (!running_.load()) {
         return;  // Not running
@@ -180,6 +200,11 @@ bool BackgroundOptimizationWorker::isRunning() const {
 }
 
 WorkerStatus BackgroundOptimizationWorker::getStatus() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     WorkerStatus status;
@@ -192,6 +217,10 @@ WorkerStatus BackgroundOptimizationWorker::getStatus() const {
     return status;
 }
 
+/**
+ * @brief Run Optimization Cycle.
+ * @details Calls: lock(), std::chrono::system_clock::now(), runAutoOptimization(), size().
+ */
 void BackgroundOptimizationWorker::runOptimizationCycle() {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -211,6 +240,10 @@ void BackgroundOptimizationWorker::runOptimizationCycle() {
     }
 }
 
+/**
+ * @brief Worker Loop.
+ * @details Calls: load(), runOptimizationCycle(), std::chrono::steady_clock::now(), std::this_thread::sleep_for(), std::chrono::seconds().
+ */
 void BackgroundOptimizationWorker::workerLoop() {
     while (!stop_requested_.load()) {
         // Run optimization cycle
@@ -251,6 +284,10 @@ PromptEngineeringIntegration::~PromptEngineeringIntegration() {
     stop();
 }
 
+/**
+ * @brief Start.
+ * @details Calls: lock(), startBackgroundOptimization().
+ */
 void PromptEngineeringIntegration::start() {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -266,6 +303,10 @@ void PromptEngineeringIntegration::start() {
     }
 }
 
+/**
+ * @brief Stop.
+ * @details Calls: lock(), stopBackgroundOptimization().
+ */
 void PromptEngineeringIntegration::stop() {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -280,6 +321,11 @@ void PromptEngineeringIntegration::stop() {
 }
 
 IntegrationStatus PromptEngineeringIntegration::getStatus() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     IntegrationStatus status;
@@ -294,6 +340,13 @@ IntegrationStatus PromptEngineeringIntegration::getStatus() const {
     return status;
 }
 
+/**
+ * @brief Before Execution.
+ * @param[in] prompt_id Identifier of the prompt.
+ * @param[in] context Input parameter.
+ * @return Return value.
+ * @details Calls: generateExecutionId(), std::chrono::system_clock::now(), getTemplate(), has_value(), value(), enhancePrompt(), detect(), recordFeedback().
+ */
 ExecutionContext PromptEngineeringIntegration::beforeExecution(
     const std::string& prompt_id,
     const nlohmann::json& context
@@ -365,6 +418,15 @@ ExecutionContext PromptEngineeringIntegration::beforeExecution(
     return ctx;
 }
 
+/**
+ * @brief After Execution.
+ * @param[in] ctx Input parameter.
+ * @param[in] response Input parameter.
+ * @param[in] success Input parameter.
+ * @param[in] latency_ms Input parameter.
+ * @param[in] user_feedback Input parameter.
+ * @details Calls: lock(), erase(), recordExecution(), empty(), recordFeedback(), checkAndTriggerOptimization(), detectInResponse(), std::to_string().
+ */
 void PromptEngineeringIntegration::afterExecution(
     const ExecutionContext& ctx,
     const std::string& response,
@@ -489,6 +551,10 @@ void PromptEngineeringIntegration::afterExecution(
     }
 }
 
+/**
+ * @brief Start Background Optimization.
+ * @details Calls: start().
+ */
 void PromptEngineeringIntegration::startBackgroundOptimization() {
     if (!background_worker_) {
         background_worker_ = std::make_unique<BackgroundOptimizationWorker>(
@@ -502,6 +568,10 @@ void PromptEngineeringIntegration::startBackgroundOptimization() {
     background_worker_->start();
 }
 
+/**
+ * @brief Stop Background Optimization.
+ * @details Calls: stop().
+ */
 void PromptEngineeringIntegration::stopBackgroundOptimization() {
     if (background_worker_) {
         background_worker_->stop();
@@ -516,6 +586,11 @@ WorkerStatus PromptEngineeringIntegration::getBackgroundWorkerStatus() const {
 }
 
 nlohmann::json PromptEngineeringIntegration::getStats() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     nlohmann::json stats;
@@ -533,10 +608,20 @@ nlohmann::json PromptEngineeringIntegration::getStats() const {
 }
 
 IntegrationConfig PromptEngineeringIntegration::getConfig() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return config_;
 }
 
+/**
+ * @brief Update the access control configuration.
+ * @param[in] config New access control configuration.
+ * @details Calls: lock(), isRunning(), stop(), start().
+ */
 void PromptEngineeringIntegration::updateConfig(const IntegrationConfig& config) {
     std::lock_guard<std::mutex> lock(mutex_);
     config_ = config;
@@ -554,18 +639,33 @@ void PromptEngineeringIntegration::updateConfig(const IntegrationConfig& config)
     }
 }
 
+/**
+ * @brief Set Reflection Tuner.
+ * @param[in] tuner Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void PromptEngineeringIntegration::setReflectionTuner(
     std::shared_ptr<ReflectionTuner> tuner) {
     std::lock_guard<std::mutex> lock(mutex_);
     reflection_tuner_ = std::move(tuner);
 }
 
+/**
+ * @brief Set Metrics.
+ * @param[in] metrics Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void PromptEngineeringIntegration::setMetrics(
     std::shared_ptr<PromptEngineeringMetrics> metrics) {
     std::lock_guard<std::mutex> lock(mutex_);
     metrics_ = std::move(metrics);
 }
 
+/**
+ * @brief Check And Trigger Optimization.
+ * @param[in] prompt_id Identifier of the prompt.
+ * @details Calls: getMetrics(), has_value(), shouldOptimize(), optimizePrompt(), lock(), std::chrono::system_clock::now(), commit(), std::to_string().
+ */
 void PromptEngineeringIntegration::checkAndTriggerOptimization(const std::string& prompt_id) {
     // Check if optimization is needed
     auto metrics = tracker_->getMetrics(prompt_id);
@@ -600,6 +700,13 @@ void PromptEngineeringIntegration::checkAndTriggerOptimization(const std::string
     }
 }
 
+/**
+ * @brief Enhance Prompt.
+ * @param[in] prompt_id Identifier of the prompt.
+ * @param[in] context Input parameter.
+ * @return Return value.
+ * @details Calls: begin(), end(), value(), is_string(), key(), is_null(), dump(), getLatest().
+ */
 std::string PromptEngineeringIntegration::enhancePrompt(
     const std::string& prompt_id,
     const nlohmann::json& context
@@ -634,6 +741,11 @@ std::string PromptEngineeringIntegration::enhancePrompt(
     return "";
 }
 
+/**
+ * @brief Generate Execution Id.
+ * @return Return value.
+ * @details Calls: gen(), rd(), dis(), str().
+ */
 std::string PromptEngineeringIntegration::generateExecutionId() {
     // Generate UUID-like execution ID
     std::random_device rd = {};

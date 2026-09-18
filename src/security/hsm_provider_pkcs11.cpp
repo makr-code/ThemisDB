@@ -89,6 +89,12 @@ using HSM_P11_BIGNUM_ptr = std::unique_ptr<BIGNUM, HSM_PKCS11_BIGNUM_Deleter>;
 
 class PKCS11Loader {
 public:
+    /**
+     * @brief Load.
+     * @param[in] path Input parameter.
+     * @return True when the operation succeeds.
+     * @details Calls: defined(), LoadLibraryA(), c_str(), GetProcAddress(), getFn(), C_Initialize(), dlopen(), dlsym().
+     */
     bool load(const std::string& path) {
 #if defined(_WIN32)
         lib_ = LoadLibraryA(path.c_str());
@@ -114,6 +120,10 @@ public:
         return rv == CKR_OK && funcs_ && funcs_->C_Initialize(nullptr) == CKR_OK;
 #endif
     }
+    /**
+     * @brief Unload.
+     * @details Calls: C_Finalize(), defined(), FreeLibrary(), dlclose().
+     */
     void unload() {
         if(funcs_) {
           funcs_->C_Finalize(nullptr);
@@ -135,7 +145,12 @@ private:
     CK_FUNCTION_LIST_PTR funcs_ = nullptr;
 };
 
-// Base64 encoding using OpenSSL
+/**
+ * @brief Base64 encoding using OpenSSL
+ * @param[in] data Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), size(), encoded(), EVP_EncodeBlock(), data(), std::string().
+ */
 static std::string toBase64(const std::vector<uint8_t>& data) {
     if(data.empty()) {
       return "";
@@ -147,7 +162,12 @@ static std::string toBase64(const std::vector<uint8_t>& data) {
     return std::string((char*)encoded.data(), len);
 }
 
-// Base64 decoding using OpenSSL
+/**
+ * @brief Base64 decoding using OpenSSL
+ * @param[in] b64 Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), size(), decoded(), EVP_DecodeBlock(), data(), resize().
+ */
 static std::vector<uint8_t> fromBase64(const std::string& b64) {
     if(b64.empty()) return {};
     size_t outLen = (b64.size() / 4) * 3;
@@ -162,7 +182,13 @@ static std::vector<uint8_t> fromBase64(const std::string& b64) {
     return decoded;
 }
 
-// AES-256-GCM encrypt (fallback): returns iv(12) || ciphertext || tag(16)
+/**
+ * @brief AES-256-GCM encrypt (fallback): returns iv(12) || ciphertext || tag(16)
+ * @param[in] key Input parameter.
+ * @param[in] data Input parameter.
+ * @return Return value.
+ * @details Calls: size(), iv(), RAND_bytes(), data(), ctx(), EVP_CIPHER_CTX_new(), ciphertext(), tag().
+ */
 static std::vector<uint8_t> pkcs11_stub_aes_encrypt(const std::vector<uint8_t>& key, const std::vector<uint8_t>& data) {
     if (key.size() != 32) return {};
     std::vector<uint8_t> iv(12);
@@ -194,7 +220,13 @@ static std::vector<uint8_t> pkcs11_stub_aes_encrypt(const std::vector<uint8_t>& 
     return result;
 }
 
-// AES-256-GCM decrypt (fallback): expects iv(12) || ciphertext || tag(16)
+/**
+ * @brief AES-256-GCM decrypt (fallback): expects iv(12) || ciphertext || tag(16)
+ * @param[in] key Input parameter.
+ * @param[in] encrypted Input parameter.
+ * @return Return value.
+ * @details Calls: size(), data(), ctx(), EVP_CIPHER_CTX_new(), plaintext(), EVP_DecryptInit_ex(), get(), EVP_aes_256_gcm().
+ */
 static std::vector<uint8_t> pkcs11_stub_aes_decrypt(const std::vector<uint8_t>& key, const std::vector<uint8_t>& encrypted) {
     if (key.size() != 32 || encrypted.size() < 12 + 16) return {};
     const uint8_t* iv  = encrypted.data();
@@ -257,6 +289,11 @@ public:
     std::atomic<uint64_t> total_verify_time_us{0};
     std::atomic<uint64_t> pool_round_robin_hits{0};
 
+    /**
+     * @brief Fallback Log Once.
+     * @param[in] reason Input parameter.
+     * @details Calls: THEMIS_WARN().
+     */
     void fallbackLogOnce(const std::string& reason){
         if(!real_ready){
             THEMIS_WARN("HSMProvider PKCS#11 fallback aktiv – {}", reason);
@@ -264,6 +301,12 @@ public:
     }
 };
 
+/**
+ * @brief Map Error.
+ * @param[in] rv Input parameter.
+ * @return Return value.
+ * @details Calls: str().
+ */
 static std::string mapError(CK_RV rv){
     switch(rv){
         case CKR_OK: return "OK";
@@ -286,16 +329,16 @@ HSMProvider::~HSMProvider(){ finalize(); }
 HSMProvider::HSMProvider(HSMProvider&&) noexcept = default;
 HSMProvider& HSMProvider::operator=(HSMProvider&&) noexcept = default;
 
-// ---------------------------------------------------------------------------
-// selectSlot – choose the PKCS#11 slot to use during initialization.
-//
-// Priority:
-//   1. token_label set → scan all slots via C_GetTokenInfo, return first match.
-//   2. slot_id != 0    → find the slot ID in the enumerated list.
-//   3. fallback        → use the first slot (slots[0]).
-//
-// When only a fallback is used, a diagnostic message is written to error_out.
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- selectSlot – choose the PKCS#11 slot to use during initialization.
+ * @param[in] api Input parameter.
+ * @param[in] slots Input parameter.
+ * @param[in] config_slot_id Identifier of the config slot.
+ * @param[in] token_label Input parameter.
+ * @param[in,out] error_out Input/output parameter.
+ * @return Return value.
+ * @details Priority: 1. token_label set → scan all slots via C_GetTokenInfo, return first match. 2. slot_id != 0 → find the slot ID in the enumerated list. 3. fallback → use the first slot (slots[0]). When only a fallback is used, a diagnostic message is written to error_out. ---------------------------------------------------------------------------
+ */
 static CK_SLOT_ID selectSlot(
         CK_FUNCTION_LIST_PTR api,
         const std::vector<CK_SLOT_ID>& slots,
@@ -343,6 +386,11 @@ static CK_SLOT_ID selectSlot(
     return slots[0];
 }
 
+/**
+ * @brief Initialize.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), empty(), load(), api(), fallbackLogOnce(), C_GetSlotList(), slots(), data().
+ */
 bool HSMProvider::initialize(){
     std::lock_guard<std::mutex> lock(impl_->mtx);
     if(initialized_) {
@@ -496,6 +544,10 @@ bool HSMProvider::initialize(){
     return true;
 }
 
+/**
+ * @brief Finalize.
+ * @details Calls: lock(), api(), C_Logout(), THEMIS_WARN(), mapError(), C_CloseSession(), clear(), unload().
+ */
 void HSMProvider::finalize(){
     std::lock_guard<std::mutex> lock(impl_->mtx);
     if(!initialized_) {
@@ -525,9 +577,19 @@ void HSMProvider::finalize(){
     initialized_ = false;
 }
 
+/**
+ * @brief Now Ms.
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::now(), time_since_epoch(), count().
+ */
 static uint64_t nowMs(){ return std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count(); }
 
-// Compute SHA-256 digest using OpenSSL EVP
+/**
+ * @brief Compute SHA-256 digest using OpenSSL EVP
+ * @param[in] data Input parameter.
+ * @return Return value.
+ * @details Calls: out(), ctx(), EVP_MD_CTX_new(), get(), THEMIS_ERROR(), EVP_DigestInit_ex(), EVP_sha256(), EVP_DigestUpdate().
+ */
 static std::vector<uint8_t> sha256(const std::vector<uint8_t>& data){
     std::vector<uint8_t> out(EVP_MAX_MD_SIZE);
     unsigned int len = 0;
@@ -556,7 +618,12 @@ static const uint8_t SHA256_DER_PREFIX[] = {
     0x30,0x31,0x30,0x0d,0x06,0x09,0x60,0x86,0x48,0x01,0x65,0x03,0x04,0x02,0x01,0x05,0x00,0x04,0x20
 };
 
-// Append DER prefix + digest for raw RSA PKCS#1v1.5 signing
+/**
+ * @brief Append DER prefix + digest for raw RSA PKCS#1v1.
+ * @param[in] digest Input parameter.
+ * @return Return value.
+ * @details 5 signing Calls: di(), size(), std::memcpy(), data().
+ */
 static std::vector<uint8_t> makeDigestInfo(const std::vector<uint8_t>& digest){
     std::vector<uint8_t> di(sizeof(SHA256_DER_PREFIX) + digest.size() );
     std::memcpy(di.data(), SHA256_DER_PREFIX, sizeof(SHA256_DER_PREFIX));
@@ -564,7 +631,11 @@ static std::vector<uint8_t> makeDigestInfo(const std::vector<uint8_t>& digest){
     return di;
 }
 
-// Build RSA-OAEP mechanism parameters (SHA-256 hash + MGF1-SHA-256, no label)
+/**
+ * @brief Build RSA-OAEP mechanism parameters (SHA-256 hash + MGF1-SHA-256, no label)
+ * @return Return value.
+ * @details Implements makeOaepParams without additional internal calls.
+ */
 static CK_RSA_PKCS_OAEP_PARAMS makeOaepParams() {
     CK_RSA_PKCS_OAEP_PARAMS p{};
     p.hashAlg = CKM_SHA256;
@@ -576,6 +647,11 @@ static CK_RSA_PKCS_OAEP_PARAMS makeOaepParams() {
 }
 
 // Key discovery helper
+/**
+ * @brief Discover Keys Session.
+ * @param[in,out] s Input/output parameter.
+ * @details Calls: api(), c_str(), size(), C_FindObjectsInit(), C_FindObjects(), C_FindObjectsFinal().
+ */
 void HSMProvider::discoverKeysSession(SessionEntry& s){
     auto api = impl_->loader.api(); if(!api || !s.handle) return;
     std::string label = config_.key_label;
@@ -593,6 +669,11 @@ void HSMProvider::discoverKeysSession(SessionEntry& s){
     }
 }
 
+/**
+ * @brief Discover Certificate Session.
+ * @param[in,out] s Input/output parameter.
+ * @details Calls: api(), c_str(), size(), C_FindObjectsInit(), C_FindObjects(), C_FindObjectsFinal(), lk(), empty().
+ */
 void HSMProvider::discoverCertificateSession(SessionEntry& s){
     auto api = impl_->loader.api(); if(!api || !s.handle) return;
     std::string label = config_.key_label;
@@ -642,6 +723,11 @@ void HSMProvider::discoverCertificateSession(SessionEntry& s){
     }
 }
 
+/**
+ * @brief Acquire Session.
+ * @return Pointer to the result.
+ * @details Calls: size(), fetch_add().
+ */
 HSMProvider::SessionEntry* HSMProvider::acquireSession(){
     // Lock-free round-robin selection: find next ready session
     uint32_t poolSize = static_cast<uint32_t>(impl_->pool.size());
@@ -662,16 +748,35 @@ HSMProvider::SessionEntry* HSMProvider::acquireSession(){
     return nullptr;
 }
 
+/**
+ * @brief Release Session.
+ * @param[in,out] s Input/output parameter.
+ * @details Implements releaseSession without additional internal calls.
+ */
 void HSMProvider::releaseSession(SessionEntry* s){ 
     // No-op for lock-free implementation (no busy flag to clear)
 }
 
+/**
+ * @brief Sign.
+ * @param[in] data Input parameter.
+ * @param[in] key_label Input parameter.
+ * @return Return value.
+ * @details Calls: sha256(), signHash().
+ */
 HSMSignatureResult HSMProvider::sign(const std::vector<uint8_t>& data, const std::string& key_label){
     // Hash first (SHA-256) then sign
     auto digest = sha256(data);
     return signHash(digest, key_label);
 }
 
+/**
+ * @brief Sign Hash.
+ * @param[in] hash Input parameter.
+ * @param[in] key_label Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::high_resolution_clock::now(), lock(), fetch_add(), bridge_lock(), signHashFnMutex(), signHashFnStorage(), bridge(), empty().
+ */
 HSMSignatureResult HSMProvider::signHash(const std::vector<uint8_t>& hash, const std::string& key_label){
     auto startTime = std::chrono::high_resolution_clock::now();
     std::lock_guard<std::mutex> lock(impl_->mtx);
@@ -786,6 +891,14 @@ HSMSignatureResult HSMProvider::signHash(const std::vector<uint8_t>& hash, const
     return r;
 }
 
+/**
+ * @brief Verify identity and enforce network policies for a request.
+ * @param[in] data Input parameter.
+ * @param[in] signature_b64 Input parameter.
+ * @param[in] key_label Input parameter.
+ * @return Verification result.
+ * @details Calls: std::chrono::high_resolution_clock::now(), lock(), fetch_add(), bridge_lock(), verifyFnMutex(), verifyFnStorage(), bridge(), empty().
+ */
 bool HSMProvider::verify(const std::vector<uint8_t>& data, const std::string& signature_b64, const std::string& key_label){
     auto startTime = std::chrono::high_resolution_clock::now();
     std::lock_guard<std::mutex> lock(impl_->mtx);
@@ -859,11 +972,23 @@ bool HSMProvider::verify(const std::vector<uint8_t>& data, const std::string& si
     return result;
 }
 
+/**
+ * @brief List Keys.
+ * @return Return value.
+ * @details Calls: lock().
+ */
 std::vector<HSMKeyInfo> HSMProvider::listKeys(){
     std::lock_guard<std::mutex> lock(impl_->mtx);
     HSMKeyInfo info; info.label = config_.key_label; info.id = impl_->real_ready?"real-id":"stub-id"; info.algorithm = config_.signature_algorithm; info.can_sign = true; info.can_verify = true; info.extractable = false; info.key_size = impl_->real_ready?2048:0; return {info};
 }
 
+/**
+ * @brief Encrypt Data.
+ * @param[in] data Input parameter.
+ * @param[in] key_label Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), api(), bridge_lock(), encryptDataFnMutex(), encryptDataFnStorage(), bridge(), empty(), pkcs11_stub_aes_encrypt().
+ */
 std::vector<uint8_t> HSMProvider::encryptData(const std::vector<uint8_t>& data, const std::string& key_label){
     std::lock_guard<std::mutex> lock(impl_->mtx);
     if (!initialized_) { last_error_ = "Not initialized"; return {}; }
@@ -916,6 +1041,13 @@ std::vector<uint8_t> HSMProvider::encryptData(const std::vector<uint8_t>& data, 
     return ciphertext;
 }
 
+/**
+ * @brief Decrypt Data.
+ * @param[in] encrypted Input parameter.
+ * @param[in] key_label Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), api(), bridge_lock(), decryptDataFnMutex(), decryptDataFnStorage(), bridge(), empty(), pkcs11_stub_aes_decrypt().
+ */
 std::vector<uint8_t> HSMProvider::decryptData(const std::vector<uint8_t>& encrypted, const std::string& key_label){
     std::lock_guard<std::mutex> lock(impl_->mtx);
     if (!initialized_) { last_error_ = "Not initialized"; return {}; }
@@ -967,6 +1099,14 @@ std::vector<uint8_t> HSMProvider::decryptData(const std::vector<uint8_t>& encryp
     return plaintext;
 }
 
+/**
+ * @brief Generate Key Pair.
+ * @param[in] label Input parameter.
+ * @param[in] key_size Input parameter.
+ * @param[in] extractable Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), bridge_lock(), generateKeyPairFnMutex(), generateKeyPairFnStorage(), bridge(), THEMIS_WARN(), api(), acquireSession().
+ */
 bool HSMProvider::generateKeyPair(const std::string& label, uint32_t key_size, bool extractable){
     std::lock_guard<std::mutex> lock(impl_->mtx);
     if(!impl_->real_ready){ 
@@ -1053,6 +1193,13 @@ bool HSMProvider::generateKeyPair(const std::string& label, uint32_t key_size, b
     return true;
 }
 
+/**
+ * @brief Import Certificate.
+ * @param[in] key_label Input parameter.
+ * @param[in] cert_pem Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), bridge_lock(), importCertificateFnMutex(), importCertificateFnStorage(), bridge(), THEMIS_WARN(), api(), acquireSession().
+ */
 bool HSMProvider::importCertificate(const std::string& key_label, const std::string& cert_pem){
     std::lock_guard<std::mutex> lock(impl_->mtx);
     if(!impl_->real_ready){ 
@@ -1170,6 +1317,12 @@ bool HSMProvider::importCertificate(const std::string& key_label, const std::str
     return true;
 }
 
+/**
+ * @brief Get Certificate.
+ * @param[in] key_label Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), bridge_lock(), getCertificateFnMutex(), getCertificateFnStorage(), bridge(), std::getenv(), std::string(), THEMIS_ERROR().
+ */
 std::optional<std::string> HSMProvider::getCertificate(const std::string& key_label){
     std::lock_guard<std::mutex> lock(impl_->mtx);
     if(!impl_->real_ready) {
@@ -1255,6 +1408,10 @@ HSMPerformanceStats HSMProvider::getStats() const {
     return stats;
 }
 
+/**
+ * @brief Reset Stats.
+ * @details Calls: store().
+ */
 void HSMProvider::resetStats() {
     impl_->sign_count.store(0, std::memory_order_relaxed);
     impl_->verify_count.store(0, std::memory_order_relaxed);
@@ -1270,6 +1427,10 @@ bool HSMProvider::isStubProvider() const {
     return !impl_->real_ready;
 }
 
+/**
+ * @brief Periodic Security Check.
+ * @details Calls: lock(), THEMIS_ERROR(), empty().
+ */
 void HSMProvider::periodicSecurityCheck() {
     std::lock_guard<std::mutex> lock(impl_->mtx);
     

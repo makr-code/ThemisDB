@@ -113,29 +113,6 @@ public:
 // Task Timeout Helper (Batch 1D null-safety gate)
 // ============================================================================
 
-/**
- * @brief Helper to wait for a task_group with a real bounded timeout.
- *
- * Launches a detached watchdog thread that calls
- * tbb::task_group::cancel_group_execution() once the deadline elapses.
- * The main thread then blocks on tg.wait(), which returns quickly after
- * cancellation because no new tasks can be enqueued and TBB drains the
- * already-running morsels.
- *
- * Contract:
- *   - Returns true  if tg.wait() returned before the watchdog fired.
- *   - Returns false if the watchdog cancelled the group; callers should
- *     treat the results as partial and log/propagate appropriately.
- *
- * Thread-safety: the shared `done` flag is accessed via std::atomic<bool>
- * to avoid data races between the watchdog and the main thread.
- *
- * @param tg              The task_group to wait for.
- * @param timeout_seconds Maximum time to wait (default: 5 seconds).
- * @return true if wait completed within timeout; false if timeout exceeded.
- *
- * [WAVE3B-FIX: blocking_no_timeout — parallel_executor.cpp]
- */
 inline bool waitWithTimeout(tbb::task_group& tg, double timeout_seconds = 5.0) noexcept {
     // Shared flag: main thread sets it when tg.wait() returns, watchdog sets it
     // when the deadline fires.  Using atomic avoids an extra mutex.
@@ -203,7 +180,7 @@ size_t ParallelExecutor::resolveThreads(size_t requested) const noexcept {
 }
 
 /**
- * @brief static
+ * @brief Group Key.
  * @param[in] e Input parameter.
  * @param[in] group_by Input parameter.
  * @return Return value.
@@ -231,7 +208,7 @@ std::string ParallelExecutor::groupKey(
 }
 
 /**
- * @brief static
+ * @brief Merge Partial.
  * @param[in,out] dst Input/output parameter.
  * @param[in] src Input parameter.
  * @details Calls: std::min(), std::max().
@@ -247,7 +224,7 @@ void ParallelExecutor::mergePartial(PartialMap& dst, const PartialMap& src) {
 }
 
 /**
- * @brief static
+ * @brief Finalise.
  * @param[in] p Input parameter.
  * @param[in] fn Input parameter.
  * @return Return value.
@@ -272,7 +249,7 @@ double ParallelExecutor::finalise(const PartialAgg& p, AggregateFunction fn) {
 // ============================================================================
 
 /**
- * @brief static
+ * @brief Sequential Scan.
  * @param[in] input Input parameter.
  * @param[in] filter Input parameter.
  * @return Return value.
@@ -291,7 +268,7 @@ ParallelExecutor::Table ParallelExecutor::sequentialScan(
 }
 
 /**
- * @brief static
+ * @brief Sequential Hash Join.
  * @param[in] left Input parameter.
  * @param[in] right Input parameter.
  * @param[in] spec Input parameter.
@@ -335,7 +312,7 @@ std::vector<ParallelExecutor::JoinTuple> ParallelExecutor::sequentialHashJoin(
 }
 
 /**
- * @brief static
+ * @brief Sequential Aggregate.
  * @param[in] input Input parameter.
  * @param[in] spec Input parameter.
  * @return Return value.
@@ -536,7 +513,7 @@ Result<std::vector<ParallelExecutor::JoinTuple>> ParallelExecutor::parallelHashJ
     });
 
     /**
-     * @brief ── Parallel join ─────────────────────────────────────────────────────
+     * @brief Part results.
      * @param[in] P Input parameter.
      * @return Return value.
      */

@@ -35,6 +35,12 @@ namespace llm {
 namespace attention {
 
 // Backend name strings
+/**
+ * @brief Get Backend Name.
+ * @param[in] backend Input parameter.
+ * @return Pointer to the result.
+ * @details Implements getBackendName without additional internal calls.
+ */
 const char* getBackendName(Backend backend) {
     switch (backend) {
         case Backend::AUTO: return "Auto";
@@ -50,6 +56,12 @@ const char* getBackendName(Backend backend) {
 }
 
 // Status message strings
+/**
+ * @brief Get Status Message.
+ * @param[in] status Input parameter.
+ * @return Pointer to the result.
+ * @details Implements getStatusMessage without additional internal calls.
+ */
 const char* getStatusMessage(Status status) {
     switch (status) {
         case Status::SUCCESS: return "Success";
@@ -65,9 +77,6 @@ const char* getStatusMessage(Status status) {
     }
 }
 
-/**
- * @brief CPU fallback implementation
- */
 class FlashAttentionCPU : public IFlashAttention {
 public:
     explicit FlashAttentionCPU(const FlashAttentionConfig& config) : config_(config) {}
@@ -287,6 +296,16 @@ FlashAttention::~FlashAttention() noexcept {
     }
 }
 
+/**
+ * @brief Forward.
+ * @param[in] Q Input parameter.
+ * @param[in] K Input parameter.
+ * @param[in] V Input parameter.
+ * @param[in,out] O Input/output parameter.
+ * @param[in] kv_cache Input parameter.
+ * @return Return value.
+ * @details Implements forward without additional internal calls.
+ */
 Status FlashAttention::forward(
     const Tensor& Q,
     const Tensor& K,
@@ -300,6 +319,15 @@ Status FlashAttention::forward(
     return impl_->forward(Q, K, V, O, kv_cache);
 }
 
+/**
+ * @brief Backward.
+ * @param[in] dO Input parameter.
+ * @param[in,out] dQ Input/output parameter.
+ * @param[in,out] dK Input/output parameter.
+ * @param[in,out] dV Input/output parameter.
+ * @return Return value.
+ * @details Implements backward without additional internal calls.
+ */
 Status FlashAttention::backward(
     const Tensor& dO,
     Tensor& dQ,
@@ -312,6 +340,11 @@ Status FlashAttention::backward(
     return impl_->backward(dO, dQ, dK, dV);
 }
 
+/**
+ * @brief Select Best Backend.
+ * @return Return value.
+ * @details Calls: isBackendAvailable().
+ */
 Backend FlashAttention::selectBestBackend() {
     // Try CUDA first
     if (isBackendAvailable(Backend::CUDA_SM90)) {
@@ -341,6 +374,12 @@ Backend FlashAttention::selectBestBackend() {
     return Backend::CPU;
 }
 
+/**
+ * @brief Is Backend Available.
+ * @param[in] backend Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: cuda::FlashAttentionCUDA::isAvailable(), vulkan::FlashAttentionVulkan::isAvailable(), hip::FlashAttentionHIP::isAvailable().
+ */
 bool FlashAttention::isBackendAvailable(Backend backend) {
     switch (backend) {
         case Backend::CUDA_SM90:
@@ -425,6 +464,13 @@ double FlashAttention::getExpectedSpeedup() const {
     }
 }
 
+/**
+ * @brief Create Backend.
+ * @param[in] backend Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Implements createBackend without additional internal calls.
+ */
 std::unique_ptr<IFlashAttention> FlashAttention::createBackend(Backend backend) {
     switch (backend) {
         case Backend::CUDA_SM90:
@@ -462,6 +508,11 @@ std::unique_ptr<IFlashAttention> FlashAttention::createBackend(Backend backend) 
     }
 }
 
+/**
+ * @brief Detect CUDABackend.
+ * @return Return value.
+ * @details Calls: cuda::FlashAttentionCUDA::getComputeCapability().
+ */
 Backend FlashAttention::detectCUDABackend() {
 #ifdef THEMIS_ENABLE_CUDA
     int cc = cuda::FlashAttentionCUDA::getComputeCapability();
@@ -478,6 +529,11 @@ Backend FlashAttention::detectCUDABackend() {
     return Backend::CPU;
 }
 
+/**
+ * @brief Detect Vulkan Backend.
+ * @return Return value.
+ * @details Calls: vulkan::FlashAttentionVulkan::isAvailable().
+ */
 Backend FlashAttention::detectVulkanBackend() {
 #ifdef THEMIS_ENABLE_VULKAN
     return vulkan::FlashAttentionVulkan::isAvailable() ? Backend::VULKAN : Backend::CPU;
@@ -486,6 +542,11 @@ Backend FlashAttention::detectVulkanBackend() {
 #endif
 }
 
+/**
+ * @brief Detect HIPBackend.
+ * @return Return value.
+ * @details Calls: hip::FlashAttentionHIP::isAvailable(), hipGetDeviceProperties(), find().
+ */
 Backend FlashAttention::detectHIPBackend() {
 #ifdef THEMIS_ENABLE_HIP
     if (!hip::FlashAttentionHIP::isAvailable()) {

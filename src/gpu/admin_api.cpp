@@ -28,6 +28,12 @@ GPUAdminAPI::GPUAdminAPI(const GPUConfig &config, GPULoadBalancer *balancer) : c
 // JSON escaping helper
 // ============================================================================
 
+/**
+ * @brief Json Escape.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size().
+ */
 std::string GPUAdminAPI::jsonEscape(const std::string &s) {
     std::string out = {};
     out.reserve(s.size());

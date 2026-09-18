@@ -38,11 +38,6 @@ namespace {
  * @details Calls: lock(), std::move().
  */
 void TensorAwareQueryOptimizer::setAstVisitorFn(AstVisitorFn fn) {
-    /**
-     * @brief Lock.
-     * @param[in] s_ast_visitor_fn_mutex Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lock(s_ast_visitor_fn_mutex);
     s_ast_visitor_fn = std::move(fn);
 }
@@ -52,11 +47,6 @@ void TensorAwareQueryOptimizer::setAstVisitorFn(AstVisitorFn fn) {
  * @details Calls: lock().
  */
 void TensorAwareQueryOptimizer::clearAstVisitorFn() {
-    /**
-     * @brief Lock.
-     * @param[in] s_ast_visitor_fn_mutex Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lock(s_ast_visitor_fn_mutex);
     s_ast_visitor_fn = nullptr;
 }
@@ -67,11 +57,6 @@ void TensorAwareQueryOptimizer::clearAstVisitorFn() {
  * @details Calls: lock().
  */
 static TensorAwareQueryOptimizer::AstVisitorFn getAstVisitorFn() {
-    /**
-     * @brief Lock.
-     * @param[in] s_ast_visitor_fn_mutex Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lock(s_ast_visitor_fn_mutex);
     return s_ast_visitor_fn;
 }
@@ -95,18 +80,13 @@ const std::unordered_set<std::string> TensorAwareQueryOptimizer::kTensorFunction
 TensorAwareQueryOptimizer::IRVisitorFn TensorAwareQueryOptimizer::ir_visitor_fn_;
 std::mutex TensorAwareQueryOptimizer::ir_visitor_mutex_;
 
+
 /**
- * @brief ============================================================================ setIRVisitorFn / clearIRVisitorFn ============================================================================
+ * @brief Set IRVisitor Fn.
  * @param[in] fn Input parameter.
  * @details Calls: lock(), std::move().
  */
-
 void TensorAwareQueryOptimizer::setIRVisitorFn(IRVisitorFn fn) {
-    /**
-     * @brief Lock.
-     * @param[in] ir_visitor_mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lock(ir_visitor_mutex_);
     ir_visitor_fn_ = std::move(fn);
 }
@@ -116,11 +96,6 @@ void TensorAwareQueryOptimizer::setIRVisitorFn(IRVisitorFn fn) {
  * @details Calls: lock().
  */
 void TensorAwareQueryOptimizer::clearIRVisitorFn() {
-    /**
-     * @brief Lock.
-     * @param[in] ir_visitor_mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lock(ir_visitor_mutex_);
     ir_visitor_fn_ = nullptr;
 }
@@ -153,8 +128,6 @@ namespace {
     // The integer multiplication overflow gap is fully resolved by this design:
     // no integer arithmetic overflow path exists in these three functions.
     //
-    /// Safe multiplication with overflow detection for doubles.
-    /// Returns the product, clamped to DBL_MAX if overflow would occur.
     inline double safeMul(double a, double b) noexcept {
         constexpr double kMaxDouble = std::numeric_limits<double>::max();
         if (a == 0.0 || b == 0.0) {
@@ -231,11 +204,6 @@ double TensorAwareQueryOptimizer::estimateTTCost(
  * @details Calls: lock(), std::move().
  */
 void TensorAwareQueryOptimizer::setTensorNodeDetectorFn(TensorNodeDetectorFn fn) {
-    /**
-     * @brief Lock.
-     * @param[in] detector_mutex_ Input parameter.
-     * @return Return value.
-     */
     std::unique_lock lock(detector_mutex_);
     tensor_node_detector_fn_ = std::move(fn);
 }
@@ -245,21 +213,16 @@ void TensorAwareQueryOptimizer::setTensorNodeDetectorFn(TensorNodeDetectorFn fn)
  * @details Calls: lock().
  */
 void TensorAwareQueryOptimizer::clearTensorNodeDetectorFn() {
-    /**
-     * @brief Lock.
-     * @param[in] detector_mutex_ Input parameter.
-     * @return Return value.
-     */
     std::unique_lock lock(detector_mutex_);
     tensor_node_detector_fn_ = nullptr;
 }
 
+
 /**
- * @brief ============================================================================ rewriteNode — depth-first DFS ============================================================================
+ * @brief Rewrite Node.
  * @param[in,out] node Input/output parameter.
  * @details Calls: lock(), visitor_snap(), THEMIS_WARN(), detector(), reset(), has_value(), isTensorFunction(), reserve().
  */
-
 void TensorAwareQueryOptimizer::rewriteNode(QueryPlanNode& node) {
     ++last_stats_.nodes_visited;
 
@@ -269,11 +232,6 @@ void TensorAwareQueryOptimizer::rewriteNode(QueryPlanNode& node) {
     {
         IRVisitorFn visitor_snap;
         {
-            /**
-             * @brief Lock.
-             * @param[in] ir_visitor_mutex_ Input parameter.
-             * @return Return value.
-             */
             std::lock_guard<std::mutex> lock(ir_visitor_mutex_);
             visitor_snap = ir_visitor_fn_;
         }
@@ -303,11 +261,6 @@ void TensorAwareQueryOptimizer::rewriteNode(QueryPlanNode& node) {
 
     TensorNodeDetectorFn detector;
     {
-        /**
-         * @brief Lock.
-         * @param[in] detector_mutex_ Input parameter.
-         * @return Return value.
-         */
         std::shared_lock lock(detector_mutex_);
         detector = tensor_node_detector_fn_;
     }

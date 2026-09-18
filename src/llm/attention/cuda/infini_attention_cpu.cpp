@@ -21,20 +21,26 @@ namespace themis {
 namespace llm {
 namespace attention {
 
-/**
- * @brief CPU implementation of Infini-attention (reference for validation)
- *
- * Used for P2-GATE-02: numeric consistency testing CPU ↔ CUDA kernels.
- */
 class InfiniAttentionCPU {
 public:
+    /**
+     * @brief Infini Attention CPU.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit InfiniAttentionCPU(const InfiniAttentionConfig& config)
         : config_(config),
           memory_(config.memory_dim * config.memory_dim, 0.0f) {
     }
     
     /**
-     * @brief CPU forward pass for testing
+     * @brief Forward.
+     * @param[in] Q Input parameter.
+     * @param[in] K Input parameter.
+     * @param[in] V Input parameter.
+     * @param[in,out] O Input/output parameter.
+     * @return Return value.
+     * @details Calls: isValid(), O_local(), computeLocalAttentionCPU(), updateMemoryCPU(), std::copy(), begin(), end().
      */
     Status forward(
         const Tensor& Q,
@@ -65,15 +71,13 @@ public:
         return Status::SUCCESS;
     }
     
-    /**
-     * @brief Get compressive memory (for comparison with CUDA)
-     */
     std::vector<float> getMemory() const {
         return memory_;
     }
     
     /**
-     * @brief Reset memory
+     * @brief Reset Memory.
+     * @details Calls: std::fill(), begin(), end().
      */
     void resetMemory() {
         std::fill(memory_.begin(), memory_.end(), 0.0f);
@@ -84,16 +88,26 @@ private:
     std::vector<float> memory_;  // [memory_dim x memory_dim]
     
     /**
-     * @brief Sigmoid activation function
+     * @brief Sigmoid.
+     * @param[in] x Input parameter.
+     * @return Return value.
+     * @details Calls: std::exp().
      */
     static float sigmoid(float x) {
         return 1.0f / (1.0f + std::exp(-x));
     }
     
     /**
-     * @brief Compute local attention with simple softmax
-     *
-     * O[i,j,h,d] = sum_k( softmax(Q[i,j,h,:] @ K[i,k,h,:]^T) * V[i,k,h,:] )
+     * @brief Compute Local Attention CPU.
+     * @param[in] Q Input parameter.
+     * @param[in] K Input parameter.
+     * @param[in] V Input parameter.
+     * @param[in,out] O Input/output parameter.
+     * @param[in] batch_size Input parameter.
+     * @param[in] seq_len Input parameter.
+     * @param[in] num_heads Input parameter.
+     * @param[in] head_dim Input parameter.
+     * @details Calls: scores(), infinity(), std::max(), attn_weights(), std::isinf(), std::exp().
      */
     void computeLocalAttentionCPU(
         const Tensor& Q,
@@ -177,7 +191,13 @@ private:
     }
     
     /**
-     * @brief Update compressive memory M' = M + α * σ(K * V^T)
+     * @brief Update Memory CPU.
+     * @param[in] K Input parameter.
+     * @param[in] V Input parameter.
+     * @param[in] batch_size Input parameter.
+     * @param[in] seq_len Input parameter.
+     * @param[in] head_dim Input parameter.
+     * @details Calls: agg_k(), agg_v(), sigmoid().
      */
     void updateMemoryCPU(
         const Tensor& K,
@@ -226,10 +246,14 @@ private:
 };
 
 /**
- * @brief Validation helper: compare CPU and CUDA outputs numerically
- *
- * Used by tests to verify P2-GATE-02 compliance.
- * Returns MAPE (Mean Absolute Percentage Error) between outputs.
+ * @brief Validate Numeric Consistency.
+ * @param[in] Q Input parameter.
+ * @param[in] K Input parameter.
+ * @param[in] V Input parameter.
+ * @param[in] cpu_output Input parameter.
+ * @param[in] cuda_output Input parameter.
+ * @return Return value.
+ * @details Calls: size(), max(), std::abs().
  */
 float validateNumericConsistency(
     const Tensor& Q,

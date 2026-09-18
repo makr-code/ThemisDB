@@ -41,16 +41,54 @@ struct ViewRefreshStats {
     bool is_stale = false;
 };
 
-/** @brief I incremental view maintainer. */
 class IIncrementalViewMaintainer {
 public:
+    /**
+     * @brief IIncremental View Maintainer.
+     * @return Return value.
+     */
     virtual ~IIncrementalViewMaintainer() = default;
+    /**
+     * @brief Create View.
+     * @param[in] def Input parameter.
+     * @return True when the operation succeeds.
+     */
     virtual bool createView(const ViewDefinition& def) = 0;
+    /**
+     * @brief Drop View.
+     * @param[in] view_id Identifier of the view.
+     * @return True when the operation succeeds.
+     */
     virtual bool dropView(const std::string& view_id) = 0;
+    /**
+     * @brief Refresh View.
+     * @param[in] view_id Identifier of the view.
+     * @return Return value.
+     */
     virtual ViewRefreshStats refreshView(const std::string& view_id) = 0;
+    /**
+     * @brief Get Stats.
+     * @param[in] view_id Identifier of the view.
+     * @return Return value.
+     */
     virtual ViewRefreshStats getStats(const std::string& view_id) const = 0;
+    /**
+     * @brief Set Refresh Mode.
+     * @param[in] view_id Identifier of the view.
+     * @param[in] mode Input parameter.
+     * @return True when the operation succeeds.
+     */
     virtual bool setRefreshMode(const std::string& view_id, ViewRefreshMode mode) = 0;
+    /**
+     * @brief List Views.
+     * @return Return value.
+     */
     virtual std::vector<ViewDefinition> listViews() const = 0;
+    /**
+     * @brief Is Stale.
+     * @param[in] view_id Identifier of the view.
+     * @return True when the operation succeeds.
+     */
     virtual bool isStale(const std::string& view_id) const = 0;
 };
 

@@ -26,7 +26,14 @@ namespace themis {
 namespace llm {
 namespace security {
 
-// ===== ISignatureVerifier Base =====
+/**
+ * @brief ===== ISignatureVerifier Base =====
+ * @param[in] data Input parameter.
+ * @param[in] signature Input parameter.
+ * @param[in] cert_pem Input parameter.
+ * @return Return value.
+ * @details Calls: verify().
+ */
 
 SignatureVerificationResult ISignatureVerifier::passToNext(
     const std::vector<uint8_t>& data,
@@ -42,7 +49,14 @@ SignatureVerificationResult ISignatureVerifier::passToNext(
     return result;
 }
 
-// ===== RSA_SHA256_Verifier =====
+/**
+ * @brief ===== RSA_SHA256_Verifier =====
+ * @param[in] data Input parameter.
+ * @param[in] signature Input parameter.
+ * @param[in] cert_pem Input parameter.
+ * @return Verification result.
+ * @details Calls: empty(), spdlog::error(), loadCertificate(), extractPublicKey(), get(), EVP_PKEY_bits(), EVP_PKEY_id(), std::to_string().
+ */
 
 SignatureVerificationResult RSA_SHA256_Verifier::verify(
     const std::vector<uint8_t>& data,
@@ -272,6 +286,14 @@ CertificateChainVerifier::CertificateChainVerifier(
     spdlog::info("CertificateChainVerifier created with CA bundle: {}", ca_bundle_path);
 }
 
+/**
+ * @brief Verify identity and enforce network policies for a request.
+ * @param[in] data Input parameter.
+ * @param[in] signature Input parameter.
+ * @param[in] cert_pem Input parameter.
+ * @return Verification result.
+ * @details Calls: bio(), BIO_new_mem_buf(), data(), size(), spdlog::error(), cert(), PEM_read_bio_X509(), get().
+ */
 SignatureVerificationResult CertificateChainVerifier::verify(
     const std::vector<uint8_t>& data,
     const std::vector<uint8_t>& signature,
@@ -388,6 +410,13 @@ SignatureVerificationResult CertificateChainVerifier::verify(
     return result;
 }
 
+/**
+ * @brief Verify Certificate Chain.
+ * @param[in,out] cert Input/output parameter.
+ * @param[in,out] store Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: spdlog::error(), spdlog::debug(), ctx(), X509_STORE_CTX_new(), X509_STORE_CTX_init(), get(), ERR_error_string_n(), ERR_get_error().
+ */
 bool CertificateChainVerifier::verifyCertificateChain(
     X509* cert,
     X509_STORE* store) {
@@ -466,6 +495,14 @@ CRLChecker::CRLChecker(const std::string& crl_url)
     spdlog::info("CRLChecker created with CRL URL: {}", crl_url);
 }
 
+/**
+ * @brief Verify identity and enforce network policies for a request.
+ * @param[in] data Input parameter.
+ * @param[in] signature Input parameter.
+ * @param[in] cert_pem Input parameter.
+ * @return Verification result.
+ * @details Calls: bio(), BIO_new_mem_buf(), data(), size(), spdlog::error(), cert(), PEM_read_bio_X509(), get().
+ */
 SignatureVerificationResult CRLChecker::verify(
     const std::vector<uint8_t>& data,
     const std::vector<uint8_t>& signature,
@@ -533,7 +570,15 @@ SignatureVerificationResult CRLChecker::verify(
     return result;
 }
 
-// libcurl write callback – appends received bytes to a std::string.
+/**
+ * @brief libcurl write callback – appends received bytes to a std::string.
+ * @param[in,out] ptr Input/output parameter.
+ * @param[in] size Input parameter.
+ * @param[in] nmemb Input parameter.
+ * @param[in,out] userdata Input/output parameter.
+ * @return Return value.
+ * @details Calls: append().
+ */
 static size_t curlWriteCallback(char* ptr, size_t size, size_t nmemb, void* userdata) {
     auto* buf = static_cast<std::string*>(userdata);
     buf->append(ptr, size * nmemb);
@@ -598,6 +643,11 @@ X509_CRL* CRLChecker::downloadAndParseCRL() const {
 }
 
 X509_CRL* CRLChecker::getOrRefreshCRL() const {
+    /**
+     * @brief Lk.
+     * @param[in] cache_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(cache_mutex_);
 
     auto now = std::chrono::steady_clock::now();
@@ -642,6 +692,12 @@ X509_CRL* CRLChecker::getOrRefreshCRL() const {
     return fresh;
 }
 
+/**
+ * @brief Is Certificate Revoked.
+ * @param[in,out] cert Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: spdlog::error(), empty(), spdlog::debug(), X509_get_serialNumber(), ASN1_INTEGER_to_BN(), BN_bn2hex(), OPENSSL_free(), BN_free().
+ */
 bool CRLChecker::isCertificateRevoked(X509* cert) {
 
     if (!cert) {
@@ -690,7 +746,14 @@ bool CRLChecker::isCertificateRevoked(X509* cert) {
 
 // ===== Builder =====
 
-// ===== ECDSA_SHA256_Verifier =====
+/**
+ * @brief ===== ECDSA_SHA256_Verifier =====
+ * @param[in] data Input parameter.
+ * @param[in] signature Input parameter.
+ * @param[in] cert_pem Input parameter.
+ * @return Verification result.
+ * @details Calls: empty(), spdlog::error(), loadCertificate(), validateECCurve(), get(), extractPublicKey(), EVP_PKEY_id(), hash().
+ */
 
 SignatureVerificationResult ECDSA_SHA256_Verifier::verify(
     const std::vector<uint8_t>& data,
@@ -900,6 +963,12 @@ ECDSA_SHA256_Verifier::extractPublicKey(X509* cert) {
     return {key, EVP_PKEY_free};
 }
 
+/**
+ * @brief Validate ECCurve.
+ * @param[in,out] cert Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: X509_get_pubkey(), EVP_PKEY_get0_EC_KEY(), EVP_PKEY_free(), EC_KEY_get0_group(), EC_GROUP_get_curve_name(), spdlog::debug().
+ */
 bool ECDSA_SHA256_Verifier::validateECCurve(X509* cert) {
     if (!cert) {
       return false;
@@ -934,6 +1003,12 @@ bool ECDSA_SHA256_Verifier::validateECCurve(X509* cert) {
     return valid;
 }
 
+/**
+ * @brief Convert Signature To DER.
+ * @param[in] signature_input Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), spdlog::debug(), size(), data(), bytes(), insert(), begin(), push_back().
+ */
 std::vector<uint8_t> ECDSA_SHA256_Verifier::convertSignatureToDER(
     const std::vector<uint8_t>& signature_input) {
     
@@ -995,7 +1070,14 @@ std::vector<uint8_t> ECDSA_SHA256_Verifier::convertSignatureToDER(
     return result;
 }
 
-// ===== ECDSA_SHA384_Verifier =====
+/**
+ * @brief ===== ECDSA_SHA384_Verifier =====
+ * @param[in] data Input parameter.
+ * @param[in] signature Input parameter.
+ * @param[in] cert_pem Input parameter.
+ * @return Verification result.
+ * @details Calls: empty(), spdlog::error(), loadCertificate(), validateECCurve(), get(), extractPublicKey(), EVP_PKEY_id(), hash().
+ */
 
 SignatureVerificationResult ECDSA_SHA384_Verifier::verify(
     const std::vector<uint8_t>& data,
@@ -1205,6 +1287,12 @@ ECDSA_SHA384_Verifier::extractPublicKey(X509* cert) {
     return {key, EVP_PKEY_free};
 }
 
+/**
+ * @brief Validate ECCurve.
+ * @param[in,out] cert Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: X509_get_pubkey(), EVP_PKEY_get0_EC_KEY(), EVP_PKEY_free(), EC_KEY_get0_group(), EC_GROUP_get_curve_name(), spdlog::debug().
+ */
 bool ECDSA_SHA384_Verifier::validateECCurve(X509* cert) {
     if (!cert) {
       return false;
@@ -1237,6 +1325,12 @@ bool ECDSA_SHA384_Verifier::validateECCurve(X509* cert) {
     return valid;
 }
 
+/**
+ * @brief Convert Signature To DER.
+ * @param[in] signature_input Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), spdlog::debug(), size(), data(), bytes(), insert(), begin(), push_back().
+ */
 std::vector<uint8_t> ECDSA_SHA384_Verifier::convertSignatureToDER(
     const std::vector<uint8_t>& signature_input) {
 
@@ -1290,7 +1384,11 @@ std::vector<uint8_t> ECDSA_SHA384_Verifier::convertSignatureToDER(
     return result;
 }
 
-// ===== Builder =====
+/**
+ * @brief ===== Builder =====
+ * @return Return value.
+ * @details Calls: setNext(), spdlog::debug().
+ */
 
 SignatureVerifierBuilder& SignatureVerifierBuilder::withRSA_SHA256() {
    auto verifier = std::make_shared<RSA_SHA256_Verifier>();
@@ -1307,6 +1405,11 @@ SignatureVerifierBuilder& SignatureVerifierBuilder::withRSA_SHA256() {
    return *this;
 }
 
+/**
+ * @brief With ECDSA SHA256.
+ * @return Return value.
+ * @details Calls: setNext(), spdlog::debug().
+ */
 SignatureVerifierBuilder& SignatureVerifierBuilder::withECDSA_SHA256() {
    auto verifier = std::make_shared<ECDSA_SHA256_Verifier>();
     
@@ -1322,6 +1425,11 @@ SignatureVerifierBuilder& SignatureVerifierBuilder::withECDSA_SHA256() {
    return *this;
 }
 
+/**
+ * @brief With ECDSA SHA384.
+ * @return Return value.
+ * @details Calls: setNext(), spdlog::debug().
+ */
 SignatureVerifierBuilder& SignatureVerifierBuilder::withECDSA_SHA384() {
    auto verifier = std::make_shared<ECDSA_SHA384_Verifier>();
     
@@ -1337,6 +1445,12 @@ SignatureVerifierBuilder& SignatureVerifierBuilder::withECDSA_SHA384() {
    return *this;
 }
 
+/**
+ * @brief With Certificate Chain Validation.
+ * @param[in] ca_bundle_path Path to the ca bundle.
+ * @return Return value.
+ * @details Calls: setNext(), spdlog::debug().
+ */
 SignatureVerifierBuilder& SignatureVerifierBuilder::withCertificateChainValidation(
    const std::string& ca_bundle_path) {
     
@@ -1354,6 +1468,12 @@ SignatureVerifierBuilder& SignatureVerifierBuilder::withCertificateChainValidati
    return *this;
 }
 
+/**
+ * @brief With CRLCheck.
+ * @param[in] crl_url Input parameter.
+ * @return Return value.
+ * @details Calls: setNext(), spdlog::debug().
+ */
 SignatureVerifierBuilder& SignatureVerifierBuilder::withCRLCheck(
     const std::string& crl_url) {
     
@@ -1371,6 +1491,11 @@ SignatureVerifierBuilder& SignatureVerifierBuilder::withCRLCheck(
     return *this;
 }
 
+/**
+ * @brief Build.
+ * @return Return value.
+ * @details Calls: spdlog::warn().
+ */
 std::shared_ptr<ISignatureVerifier> SignatureVerifierBuilder::build() {
     if (!head_) {
         spdlog::warn("SignatureVerifierBuilder: No verifiers added to chain");

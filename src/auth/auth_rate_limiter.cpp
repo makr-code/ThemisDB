@@ -33,6 +33,14 @@ namespace auth {
 AccountLockoutManager::AccountLockoutManager(const AuthRateLimitConfig &config)
     : config_(config), last_cleanup_(std::chrono::steady_clock::now()) {}
 
+/**
+ * @brief Record Failed Attempt.
+ * @param[in] user_id Identifier of the user.
+ * @param[in] ip_address Input parameter.
+ * @param[in] reason Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), std::chrono::system_clock::now(), utils::Logger::warn(), clear(), push_back(), erase(), std::remove_if(), begin().
+ */
 bool AccountLockoutManager::recordFailedAttempt(const std::string &user_id, const std::string &ip_address,
                                                 const std::string &reason) {
     if (!config_.enable_account_lockout) {
@@ -85,6 +93,11 @@ bool AccountLockoutManager::recordFailedAttempt(const std::string &user_id, cons
     return false;
 }
 
+/**
+ * @brief Record Successful Auth.
+ * @param[in] user_id Identifier of the user.
+ * @details Calls: lock(), find(), end(), clear(), erase().
+ */
 void AccountLockoutManager::recordSuccessfulAuth(const std::string &user_id) {
     std::unique_lock<std::shared_mutex> lock(mutex_);
 
@@ -102,6 +115,11 @@ void AccountLockoutManager::recordSuccessfulAuth(const std::string &user_id) {
 }
 
 bool AccountLockoutManager::isAccountLocked(const std::string &user_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(mutex_);
 
     auto it = lockout_state_.find(user_id);
@@ -118,6 +136,11 @@ bool AccountLockoutManager::isAccountLocked(const std::string &user_id) const {
 }
 
 std::optional<LockoutInfo> AccountLockoutManager::getLockoutInfo(const std::string &user_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(mutex_);
 
     auto it = lockout_state_.find(user_id);
@@ -128,6 +151,12 @@ std::optional<LockoutInfo> AccountLockoutManager::getLockoutInfo(const std::stri
     return it->second;
 }
 
+/**
+ * @brief Unlock Account.
+ * @param[in] user_id Identifier of the user.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), find(), end(), utils::Logger::info(), clear(), erase().
+ */
 bool AccountLockoutManager::unlockAccount(const std::string &user_id) {
     std::unique_lock<std::shared_mutex> lock(mutex_);
 
@@ -146,6 +175,11 @@ bool AccountLockoutManager::unlockAccount(const std::string &user_id) {
 }
 
 size_t AccountLockoutManager::getLockedAccountCount() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(mutex_);
 
     auto now     = std::chrono::system_clock::now();
@@ -160,6 +194,12 @@ size_t AccountLockoutManager::getLockedAccountCount() const {
     return count;
 }
 
+/**
+ * @brief Force Lock Account.
+ * @param[in] user_id Identifier of the user.
+ * @param[in] duration Input parameter.
+ * @details Calls: lock(), std::chrono::system_clock::now(), utils::Logger::warn(), std::to_string(), count().
+ */
 void AccountLockoutManager::forceLockAccount(const std::string &user_id, std::chrono::seconds duration) {
     std::unique_lock<std::shared_mutex> lock(mutex_);
     auto now          = std::chrono::system_clock::now();
@@ -170,6 +210,10 @@ void AccountLockoutManager::forceLockAccount(const std::string &user_id, std::ch
                         + "s (credential stuffing): " + user_id);
 }
 
+/**
+ * @brief Cleanup.
+ * @details Calls: lock(), std::chrono::system_clock::now(), begin(), end(), erase(), std::chrono::system_clock::from_time_t(), std::chrono::system_clock::to_time_t(), std::chrono::steady_clock::now().
+ */
 void AccountLockoutManager::cleanup() {
     std::unique_lock<std::shared_mutex> lock(mutex_);
 
@@ -200,11 +244,21 @@ void AccountLockoutManager::cleanup() {
     last_cleanup_ = std::chrono::steady_clock::now();
 }
 
+/**
+ * @brief Reset the modification detection flag.
+ * @details Calls: lock(), clear().
+ */
 void AccountLockoutManager::reset() {
     std::unique_lock<std::shared_mutex> lock(mutex_);
     lockout_state_.clear();
 }
 
+/**
+ * @brief Lock Account.
+ * @param[in] user_id Identifier of the user.
+ * @param[in] info Input parameter.
+ * @details Calls: std::chrono::system_clock::now(), utils::Logger::warn(), std::to_string().
+ */
 void AccountLockoutManager::lockAccount(const std::string &user_id, const LockoutInfo &info) {
     auto now = std::chrono::system_clock::now();
 
@@ -228,6 +282,12 @@ bool AccountLockoutManager::shouldLockAccount(const LockoutInfo &info) const {
 
 namespace {
 
+/**
+ * @brief Resolve Effective Lockout Threshold.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @details Implements resolveEffectiveLockoutThreshold without additional internal calls.
+ */
 size_t resolveEffectiveLockoutThreshold(const AuthRateLimitConfig &config) {
     const size_t canonical = config.lockout_failed_attempts;
     const size_t legacy = config.max_failures_before_lockout;
@@ -272,6 +332,11 @@ AuthRateLimiter::AuthRateLimiter(const AuthRateLimitConfig &config) : config_(co
 #ifdef THEMIS_ENABLE_REDIS
     if (config_.enable_cs_persistent_backend) {
         try {
+            /**
+             * @brief Rlock.
+             * @param[in] cs_redis_mutex_ Input parameter.
+             * @return Return value.
+             */
             std::lock_guard<std::mutex> rlock(cs_redis_mutex_);
             connectCsRedis();
         } catch (const std::exception &ex) {
@@ -290,6 +355,13 @@ AuthRateLimiter::AuthRateLimiter(const AuthRateLimitConfig &config) : config_(co
 #endif
 }
 
+/**
+ * @brief Allow Auth Attempt.
+ * @param[in] ip_address Input parameter.
+ * @param[in] user_id Identifier of the user.
+ * @return True when the operation succeeds.
+ * @details Calls: fetch_add(), lock(), isWhitelisted(), empty(), isAccountLocked(), utils::Logger::warn(), increment(), allowRequest().
+ */
 bool AuthRateLimiter::allowAuthAttempt(const std::string &ip_address, const std::string &user_id) {
     stat_total_auth_attempts_.fetch_add(1, std::memory_order_relaxed);
 
@@ -376,6 +448,13 @@ bool AuthRateLimiter::allowAuthAttempt(const std::string &ip_address, const std:
     return true;
 }
 
+/**
+ * @brief Record Failed Auth.
+ * @param[in] user_id Identifier of the user.
+ * @param[in] ip_address Input parameter.
+ * @param[in] reason Input parameter.
+ * @details Calls: fetch_add(), lock(), empty(), slock(), trackCredentialStuffing(), recordFailedAttempt(), store(), getLockedAccountCount().
+ */
 void AuthRateLimiter::recordFailedAuth(const std::string &user_id, const std::string &ip_address,
                                        const std::string &reason) {
     bool lockout_triggered = false;
@@ -430,6 +509,12 @@ void AuthRateLimiter::recordFailedAuth(const std::string &user_id, const std::st
     }
 }
 
+/**
+ * @brief Record Successful Auth.
+ * @param[in] user_id Identifier of the user.
+ * @param[in] ip_address Input parameter.
+ * @details Calls: fetch_add(), empty().
+ */
 void AuthRateLimiter::recordSuccessfulAuth(const std::string &user_id, const std::string &ip_address) {
     (void)ip_address;
     stat_successful_auths_.fetch_add(1, std::memory_order_relaxed);
@@ -447,6 +532,12 @@ std::optional<LockoutInfo> AuthRateLimiter::getLockoutInfo(const std::string &us
     return lockout_manager_->getLockoutInfo(user_id);
 }
 
+/**
+ * @brief Unlock Account.
+ * @param[in] user_id Identifier of the user.
+ * @return True when the operation succeeds.
+ * @details Calls: store(), getLockedAccountCount().
+ */
 bool AuthRateLimiter::unlockAccount(const std::string &user_id) {
     bool unlocked = lockout_manager_->unlockAccount(user_id);
     if (unlocked) {
@@ -459,6 +550,11 @@ uint32_t AuthRateLimiter::getRetryAfter(const std::string &ip_address) const {
     std::shared_ptr<IRateLimiterBackend> backend;
     size_t max_per_min = {};
     {
+        /**
+         * @brief Lock.
+         * @param[in] stats_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::shared_lock<std::shared_mutex> lock(stats_mutex_);
         backend     = backend_;
         max_per_min = config_.max_attempts_per_ip_per_minute;
@@ -477,21 +573,41 @@ bool AuthRateLimiter::isWhitelisted(const std::string &ip_address) const {
     return ip_rate_limiter_->isWhitelisted(ip_address);
 }
 
+/**
+ * @brief Set Anomaly Callback.
+ * @param[in] callback Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void AuthRateLimiter::setAnomalyCallback(AuthAnomalyCallback callback) {
     std::unique_lock<std::shared_mutex> lock(callback_mutex_);
     anomaly_callback_ = std::move(callback);
 }
 
+/**
+ * @brief Set Audit Logger.
+ * @param[in,out] logger Input/output parameter.
+ * @details Calls: lock().
+ */
 void AuthRateLimiter::setAuditLogger(utils::AuditLogger *logger) {
     std::unique_lock<std::shared_mutex> lock(callback_mutex_);
     audit_logger_ = logger;
 }
 
+/**
+ * @brief Set Backend.
+ * @param[in] backend Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void AuthRateLimiter::setBackend(std::shared_ptr<IRateLimiterBackend> backend) {
     std::unique_lock<std::shared_mutex> lock(stats_mutex_);
     backend_ = std::move(backend);
 }
 
+/**
+ * @brief Set Metrics.
+ * @param[in,out] metrics Input/output parameter.
+ * @details Calls: lock().
+ */
 void AuthRateLimiter::setMetrics(AuthMetrics *metrics) {
     std::unique_lock<std::shared_mutex> lock(callback_mutex_);
     metrics_ = metrics;
@@ -520,8 +636,12 @@ void AuthRateLimiter::setMetrics(AuthMetrics *metrics) {
 // Duration of the exponential back-off hard lock applied on the third breach.
 static constexpr auto kCsLockDuration = std::chrono::hours(24);
 
-// Convert a CredentialStuffingOutcome to the canonical string used as a
-// Prometheus label value and in log messages.
+/**
+ * @brief Convert a CredentialStuffingOutcome to the canonical string used as a Prometheus label value and in log messages.
+ * @param[in] outcome Input parameter.
+ * @return Return value.
+ * @details Implements outcomeToString without additional internal calls.
+ */
 static std::string outcomeToString(CredentialStuffingOutcome outcome) {
     switch (outcome) {
         case CredentialStuffingOutcome::CAPTCHA_REQUIRED:
@@ -548,6 +668,12 @@ static std::string outcomeToString(CredentialStuffingOutcome outcome) {
     return CredentialStuffingOutcome::ALLOWED;
 }
 
+/**
+ * @brief Increment And Get Breach Count.
+ * @param[in] user_id Identifier of the user.
+ * @return Return value.
+ * @details Calls: csBreachKey(), rlock(), connectCsRedis(), redisCommand(), c_str(), freeReplyObject(), redisFree(), utils::Logger::error().
+ */
 uint32_t AuthRateLimiter::incrementAndGetBreachCount(const std::string &user_id) {
     const std::string key = csBreachKey(user_id);
 
@@ -605,6 +731,13 @@ uint32_t AuthRateLimiter::incrementAndGetBreachCount(const std::string &user_id)
     return ++cs_breach_count_[key];
 }
 
+/**
+ * @brief Escalate Credential Stuffing.
+ * @param[in] user_id Identifier of the user.
+ * @param[in] ip Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), incrementAndGetBreachCount(), outcomeFromBreachCount(), forceLockAccount(), utils::Logger::warn(), std::to_string(), store(), getLockedAccountCount().
+ */
 CredentialStuffingOutcome AuthRateLimiter::escalateCredentialStuffing(const std::string &user_id,
                                                                       const std::string &ip) {
     if (user_id.empty()) {
@@ -631,6 +764,11 @@ CredentialStuffingOutcome AuthRateLimiter::escalateCredentialStuffing(const std:
 }
 
 #ifdef THEMIS_ENABLE_REDIS
+/**
+ * @brief Connect Cs Redis.
+ * @return True when the operation succeeds.
+ * @details Calls: redisConnectWithTimeout(), c_str(), utils::Logger::warn(), std::to_string(), redisFree(), empty(), redisCommand(), freeReplyObject().
+ */
 bool AuthRateLimiter::connectCsRedis() {
     // Caller must hold cs_redis_mutex_.
     struct timeval tv;
@@ -674,6 +812,11 @@ void AuthRateLimiter::fireAuthAnomaly(AuthAnomalyEvent::Type type, const std::st
     utils::AuditLogger *al = nullptr;
     AuthMetrics *met       = nullptr;
     {
+        /**
+         * @brief Lock.
+         * @param[in] callback_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::shared_lock<std::shared_mutex> lock(callback_mutex_);
         cb  = anomaly_callback_;
         al  = audit_logger_;
@@ -687,6 +830,11 @@ void AuthRateLimiter::fireAuthAnomaly(AuthAnomalyEvent::Type type, const std::st
         met->recordCredentialStuffingAttempt(user_id, ip, outcomeToString(cs_outcome));
     }
     if (al) {
+        /**
+         * @brief Audit.
+         * @param[in] al Input parameter.
+         * @return Return value.
+         */
         AuthAuditLogger audit(al);
         switch (type) {
             case AuthAnomalyEvent::Type::BRUTE_FORCE_DETECTED:
@@ -702,6 +850,14 @@ void AuthRateLimiter::fireAuthAnomaly(AuthAnomalyEvent::Type type, const std::st
     }
 }
 
+/**
+ * @brief Track Credential Stuffing.
+ * @param[in] ip Input parameter.
+ * @param[in] user_id Identifier of the user.
+ * @param[in] cfg Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), std::chrono::steady_clock::now(), std::chrono::seconds(), std::lower_bound(), begin(), end(), erase(), clear().
+ */
 bool AuthRateLimiter::trackCredentialStuffing(const std::string &ip, const std::string &user_id,
                                               const AuthRateLimitConfig &cfg) {
     // Called with stuffing_mutex_ held.
@@ -742,6 +898,11 @@ bool AuthRateLimiter::trackCredentialStuffing(const std::string &ip, const std::
     return false;
 }
 
+/**
+ * @brief Update the access control configuration.
+ * @param[in] config New access control configuration.
+ * @details Calls: lock(), slock(), clear().
+ */
 void AuthRateLimiter::updateConfig(const AuthRateLimitConfig &config) {
     // Update rate limiters
     server::RateLimitConfig ip_config;
@@ -782,6 +943,10 @@ AuthRateLimiter::Statistics AuthRateLimiter::getStatistics() const {
     return s;
 }
 
+/**
+ * @brief Reset the modification detection flag.
+ * @details Calls: slock(), clear(), store(), mlock().
+ */
 void AuthRateLimiter::reset() {
     // Reset sub-objects WITHOUT holding stats_mutex_ to avoid a lock-ordering
     // violation: AccountLockoutManager::reset() acquires lockout_manager_->mutex_
@@ -810,6 +975,10 @@ void AuthRateLimiter::reset() {
     }
 }
 
+/**
+ * @brief Cleanup.
+ * @details Calls: lock(), std::chrono::steady_clock::now(), std::chrono::seconds(), slock(), begin(), end(), std::lower_bound(), erase().
+ */
 void AuthRateLimiter::cleanup() {
     ip_rate_limiter_->cleanup();
     user_rate_limiter_->cleanup();

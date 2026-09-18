@@ -87,7 +87,6 @@ struct RAGJudge::Impl {
         return query + "|" + answer;
     }
     
-    /// Compute cache key for injection detection results based on document content
     std::string computeInjectionCacheKey(const std::vector<RetrievedDocument>& documents) const {
         if (documents.empty()) {
             return "";
@@ -215,6 +214,14 @@ RAGJudge::RAGJudge(const RAGJudgeConfig& config)
 
 RAGJudge::~RAGJudge() = default;
 
+/**
+ * @brief Evaluate.
+ * @param[in] query Input parameter.
+ * @param[in] documents Input parameter.
+ * @param[in] generated_answer Input parameter.
+ * @return Return value.
+ * @details Implements evaluate without additional internal calls.
+ */
 EvaluationResult RAGJudge::evaluate(
     const std::string& query,
     const std::vector<RetrievedDocument>& documents,
@@ -227,6 +234,15 @@ EvaluationResult RAGJudge::evaluate(
     return evaluate(input);
 }
 
+/**
+ * @brief Evaluate.
+ * @param[in] query Input parameter.
+ * @param[in] documents Input parameter.
+ * @param[in] generated_answer Input parameter.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @details Calls: evaluateWithConfig().
+ */
 EvaluationResult RAGJudge::evaluate(
     const std::string& query,
     const std::vector<RetrievedDocument>& documents,
@@ -240,6 +256,12 @@ EvaluationResult RAGJudge::evaluate(
     return evaluateWithConfig(input, config);
 }
 
+/**
+ * @brief Evaluate.
+ * @param[in] input Input parameter.
+ * @return Return value.
+ * @details Calls: evaluateWithConfig(), getConfigSnapshot().
+ */
 EvaluationResult RAGJudge::evaluate(const EvaluationInput& input) {
     return evaluateWithConfig(input, getConfigSnapshot());
 }
@@ -249,6 +271,13 @@ RAGJudgeConfig RAGJudge::getConfigSnapshot() const {
     return impl_->config;
 }
 
+/**
+ * @brief Evaluate With Config.
+ * @param[in] input Input parameter.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::steady_clock::now(), size(), push_back(), THEMIS_WARN(), THEMIS_DEBUG(), computeCacheKey(), cache_lock(), find().
+ */
 EvaluationResult RAGJudge::evaluateWithConfig(const EvaluationInput& input, const RAGJudgeConfig& config) {
     auto start_time = std::chrono::steady_clock::now();
     
@@ -756,6 +785,15 @@ EvaluationResult RAGJudge::evaluateWithConfig(const EvaluationInput& input, cons
     return result;
 }
 
+/**
+ * @brief Compare.
+ * @param[in] query Input parameter.
+ * @param[in] documents Input parameter.
+ * @param[in] answer_a Input parameter.
+ * @param[in] answer_b Input parameter.
+ * @return Return value.
+ * @details Calls: THEMIS_DEBUG(), evaluate(), std::abs(), str().
+ */
 ComparisonResult RAGJudge::compare(
     const std::string& query,
     const std::vector<RetrievedDocument>& documents,
@@ -802,6 +840,12 @@ ComparisonResult RAGJudge::compare(
     return comparison;
 }
 
+/**
+ * @brief Batch Evaluate.
+ * @param[in] test_cases Input parameter.
+ * @return Return value.
+ * @details Calls: THEMIS_INFO(), size(), reserve(), evaluate(), push_back().
+ */
 std::vector<EvaluationResult> RAGJudge::batchEvaluate(
     const std::vector<RAGTestCase>& test_cases
 ) {
@@ -824,6 +868,13 @@ std::vector<EvaluationResult> RAGJudge::batchEvaluate(
     return results;
 }
 
+/**
+ * @brief Evaluate Dimension.
+ * @param[in] dimension Input parameter.
+ * @param[in] input Input parameter.
+ * @return Return value.
+ * @details Calls: evaluateFaithfulness(), evaluateRelevance(), evaluateCompleteness(), evaluateCoherence(), evaluateEthicalCompliance(), evaluate().
+ */
 double RAGJudge::evaluateDimension(
     EvaluationDimension dimension,
     const EvaluationInput& input
@@ -845,6 +896,11 @@ double RAGJudge::evaluateDimension(
     return 0.0;
 }
 
+/**
+ * @brief Set Config.
+ * @param[in] config Input parameter.
+ * @details Calls: config_lock().
+ */
 void RAGJudge::setConfig(const RAGJudgeConfig& config) {
     std::lock_guard<std::mutex> config_lock(impl_->config_mutex);
     impl_->config = config;
@@ -861,6 +917,10 @@ void RAGJudge::setEvaluationCallback(
     impl_->eval_callback = std::move(callback);
 }
 
+/**
+ * @brief Clear Cache.
+ * @details Calls: cache_lock(), clear(), THEMIS_DEBUG().
+ */
 void RAGJudge::clearCache() {
     std::lock_guard<std::mutex> cache_lock(impl_->cache_mutex);
     impl_->cache.clear();
@@ -896,7 +956,12 @@ RAGJudge::BiasAnalysisSummary RAGJudge::getBiasAnalysis() const {
     return summary;
 }
 
-// Private evaluation methods (Phase 2: Using specialized evaluators)
+/**
+ * @brief Private evaluation methods (Phase 2: Using specialized evaluators)
+ * @param[in] input Input parameter.
+ * @return Return value.
+ * @details Calls: THEMIS_DEBUG(), empty(), THEMIS_WARN(), emplace_back(), evaluate().
+ */
 
 double RAGJudge::evaluateFaithfulness(const EvaluationInput& input) {
     THEMIS_DEBUG("Evaluating faithfulness with specialized evaluator");
@@ -932,6 +997,12 @@ double RAGJudge::evaluateFaithfulness(const EvaluationInput& input) {
     return result.faithfulness_score;
 }
 
+/**
+ * @brief Evaluate Relevance.
+ * @param[in] input Input parameter.
+ * @return Return value.
+ * @details Calls: THEMIS_DEBUG(), empty(), THEMIS_WARN(), evaluate(), has_value(), std::clamp(), std::min(), std::max().
+ */
 double RAGJudge::evaluateRelevance(const EvaluationInput& input) {
     THEMIS_DEBUG("Evaluating relevance with specialized evaluator");
     
@@ -978,6 +1049,12 @@ double RAGJudge::evaluateRelevance(const EvaluationInput& input) {
     return adjusted_relevance;
 }
 
+/**
+ * @brief Evaluate Completeness.
+ * @param[in] input Input parameter.
+ * @return Return value.
+ * @details Calls: THEMIS_DEBUG(), THEMIS_WARN(), evaluate().
+ */
 double RAGJudge::evaluateCompleteness(const EvaluationInput& input) {
     THEMIS_DEBUG("Evaluating completeness with specialized evaluator");
     
@@ -998,6 +1075,12 @@ double RAGJudge::evaluateCompleteness(const EvaluationInput& input) {
     return result.completeness_score;
 }
 
+/**
+ * @brief Evaluate Coherence.
+ * @param[in] input Input parameter.
+ * @return Return value.
+ * @details Calls: THEMIS_DEBUG(), THEMIS_WARN(), evaluate().
+ */
 double RAGJudge::evaluateCoherence(const EvaluationInput& input) {
     THEMIS_DEBUG("Evaluating coherence with specialized evaluator");
     
@@ -1015,6 +1098,12 @@ double RAGJudge::evaluateCoherence(const EvaluationInput& input) {
     return result.coherence_score;
 }
 
+/**
+ * @brief Evaluate Ethical Compliance.
+ * @param[in] input Input parameter.
+ * @return Return value.
+ * @details Calls: THEMIS_DEBUG(), getConfigSnapshot(), evaluateAutonomyRespect(), evaluateMoralDiversity(), evaluateCitationQuality(), THEMIS_INFO().
+ */
 double RAGJudge::evaluateEthicalCompliance(const EvaluationInput& input) {
     THEMIS_DEBUG("Evaluating ethical compliance");
     const auto config = getConfigSnapshot();
@@ -1036,6 +1125,12 @@ double RAGJudge::evaluateEthicalCompliance(const EvaluationInput& input) {
     return compliance_score;
 }
 
+/**
+ * @brief Evaluate Autonomy Respect.
+ * @param[in] input Input parameter.
+ * @return Return value.
+ * @details Calls: detectPatronizingLanguage(), THEMIS_DEBUG(), checkChoicePreservation(), countMoralPerspectives(), std::max().
+ */
 double RAGJudge::evaluateAutonomyRespect(const EvaluationInput& input) {
     double score = 1.0;
     
@@ -1061,6 +1156,12 @@ double RAGJudge::evaluateAutonomyRespect(const EvaluationInput& input) {
     return std::max(0.0, score);
 }
 
+/**
+ * @brief Evaluate Moral Diversity.
+ * @param[in] input Input parameter.
+ * @return Return value.
+ * @details Calls: countMoralPerspectives(), THEMIS_DEBUG(), std::min(), detectBias().
+ */
 double RAGJudge::evaluateMoralDiversity(const EvaluationInput& input) {
     double score = 1.0;
     
@@ -1082,6 +1183,12 @@ double RAGJudge::evaluateMoralDiversity(const EvaluationInput& input) {
     return score;
 }
 
+/**
+ * @brief Evaluate Citation Quality.
+ * @param[in] input Input parameter.
+ * @return Return value.
+ * @details Calls: hasEthicalCitations(), extractClaims(), find(), THEMIS_DEBUG().
+ */
 double RAGJudge::evaluateCitationQuality(const EvaluationInput& input) {
     // Check if ethical citations are present when needed
     bool has_citations = hasEthicalCitations(input.generated_answer);
@@ -1116,6 +1223,12 @@ double RAGJudge::evaluateCitationQuality(const EvaluationInput& input) {
     }
 }
 
+/**
+ * @brief Detect Patronizing Language.
+ * @param[in] text Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: std::transform(), begin(), end(), find().
+ */
 bool RAGJudge::detectPatronizingLanguage(const std::string& text) {
     // Pattern-based detection for patronizing language
     std::vector<std::string> patronizing_patterns = {
@@ -1141,6 +1254,12 @@ bool RAGJudge::detectPatronizingLanguage(const std::string& text) {
     return false;
 }
 
+/**
+ * @brief Check Choice Preservation.
+ * @param[in] text Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: std::transform(), begin(), end(), find().
+ */
 bool RAGJudge::checkChoicePreservation(const std::string& text) {
     // Check for forced opinions using "must", "should", "only" in prescriptive context
     std::vector<std::string> forcing_patterns = {
@@ -1166,6 +1285,12 @@ bool RAGJudge::checkChoicePreservation(const std::string& text) {
     return violations <= 2;
 }
 
+/**
+ * @brief Count Moral Perspectives.
+ * @param[in] text Input parameter.
+ * @return Return value.
+ * @details Calls: std::transform(), begin(), end(), find().
+ */
 int RAGJudge::countMoralPerspectives(const std::string& text) {
     // Count references to different moral frameworks
     std::vector<std::string> perspective_indicators = {
@@ -1197,6 +1322,12 @@ int RAGJudge::countMoralPerspectives(const std::string& text) {
     return count;
 }
 
+/**
+ * @brief Detect Bias.
+ * @param[in] text Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: getConfigSnapshot(), std::transform(), begin(), end(), find(), length().
+ */
 bool RAGJudge::detectBias(const std::string& text) {
     const auto config = getConfigSnapshot();
     // Simple heuristic for bias detection
@@ -1230,6 +1361,12 @@ bool RAGJudge::detectBias(const std::string& text) {
     return absolute_count > config.bias_detection_threshold;
 }
 
+/**
+ * @brief Has Ethical Citations.
+ * @param[in] text Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: std::transform(), begin(), end(), find().
+ */
 bool RAGJudge::hasEthicalCitations(const std::string& text) {
     // Check for citation patterns
     std::vector<std::string> citation_indicators = {
@@ -1266,6 +1403,12 @@ static constexpr double kNLIEntailmentThreshold = 0.7;
 // Minimum term overlap ratio to consider a claim semantically verified
 static constexpr double kSemanticOverlapThreshold = 0.6;
 
+/**
+ * @brief Extract Claims.
+ * @param[in] answer Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), extractClaimsViaLLM(), THEMIS_WARN(), what(), extractClaimsViaHeuristic().
+ */
 std::vector<std::string> RAGJudge::extractClaims(const std::string& answer) {
     if (answer.empty()) {
         return {};
@@ -1280,6 +1423,12 @@ std::vector<std::string> RAGJudge::extractClaims(const std::string& answer) {
     return extractClaimsViaHeuristic(answer);
 }
 
+/**
+ * @brief Extract Claims Via LLM.
+ * @param[in] answer Input parameter.
+ * @return Return value.
+ * @details Calls: THEMIS_DEBUG(), sanitize(), evaluate(), nlohmann::json::parse(), contains(), is_array(), is_string(), length().
+ */
 std::vector<std::string> RAGJudge::extractClaimsViaLLM(const std::string& answer) {
     THEMIS_DEBUG("Extracting claims via LLM");
 
@@ -1324,6 +1473,12 @@ std::vector<std::string> RAGJudge::extractClaimsViaLLM(const std::string& answer
     return extractClaimsViaHeuristic(answer);
 }
 
+/**
+ * @brief Extract Claims Via Heuristic.
+ * @param[in] answer Input parameter.
+ * @return Return value.
+ * @details Calls: THEMIS_DEBUG(), find_first_not_of(), find_last_not_of(), substr(), find(), length(), back(), push_back().
+ */
 std::vector<std::string> RAGJudge::extractClaimsViaHeuristic(const std::string& answer) {
     THEMIS_DEBUG("Extracting claims via heuristic");
 
@@ -1368,6 +1523,12 @@ std::vector<std::string> RAGJudge::extractClaimsViaHeuristic(const std::string& 
     return claims;
 }
 
+/**
+ * @brief Tokenize For Matching.
+ * @param[in] text Input parameter.
+ * @return Return value.
+ * @details Calls: stream(), std::transform(), begin(), end(), erase(), std::remove_if(), length(), push_back().
+ */
 std::vector<std::string> RAGJudge::tokenizeForMatching(const std::string& text) {
     std::vector<std::string> tokens;
     std::istringstream stream(text);
@@ -1382,6 +1543,13 @@ std::vector<std::string> RAGJudge::tokenizeForMatching(const std::string& text) 
     return tokens;
 }
 
+/**
+ * @brief Calculate Term Overlap.
+ * @param[in] terms1 Input parameter.
+ * @param[in] terms2 Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), set2(), begin(), end(), count(), std::max(), size().
+ */
 double RAGJudge::calculateTermOverlap(
     const std::vector<std::string>& terms1,
     const std::vector<std::string>& terms2
@@ -1400,6 +1568,13 @@ double RAGJudge::calculateTermOverlap(
     return static_cast<double>(overlap) / total;
 }
 
+/**
+ * @brief Verify Claim Against Documents.
+ * @param[in] claim Input parameter.
+ * @param[in] documents Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), isModelLoaded(), verifyClaimViaNLI(), THEMIS_WARN(), what(), verifyClaimViaLLM(), verifyClaimViaSemantic().
+ */
 bool RAGJudge::verifyClaimAgainstDocuments(
     const std::string& claim,
     const std::vector<RetrievedDocument>& documents
@@ -1424,6 +1599,13 @@ bool RAGJudge::verifyClaimAgainstDocuments(
     return verifyClaimViaSemantic(claim, documents);
 }
 
+/**
+ * @brief Verify Claim Via NLI.
+ * @param[in] claim Input parameter.
+ * @param[in] documents Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: THEMIS_DEBUG(), checkEntailment().
+ */
 bool RAGJudge::verifyClaimViaNLI(
     const std::string& claim,
     const std::vector<RetrievedDocument>& documents
@@ -1439,6 +1621,13 @@ bool RAGJudge::verifyClaimViaNLI(
     return false;
 }
 
+/**
+ * @brief Verify Claim Via LLM.
+ * @param[in] claim Input parameter.
+ * @param[in] documents Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: THEMIS_DEBUG(), size(), sanitize(), str(), evaluate(), nlohmann::json::parse(), value(), THEMIS_WARN().
+ */
 bool RAGJudge::verifyClaimViaLLM(
     const std::string& claim,
     const std::vector<RetrievedDocument>& documents
@@ -1487,6 +1676,13 @@ bool RAGJudge::verifyClaimViaLLM(
     return false;
 }
 
+/**
+ * @brief Verify Claim Via Semantic.
+ * @param[in] claim Input parameter.
+ * @param[in] documents Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: THEMIS_DEBUG(), tokenizeForMatching(), find(), calculateTermOverlap().
+ */
 bool RAGJudge::verifyClaimViaSemantic(
     const std::string& claim,
     const std::vector<RetrievedDocument>& documents
@@ -1505,6 +1701,13 @@ bool RAGJudge::verifyClaimViaSemantic(
     return false;
 }
 
+/**
+ * @brief Generate Evaluation Prompt.
+ * @param[in] input Input parameter.
+ * @param[in] dimension Input parameter.
+ * @return Return value.
+ * @details Calls: generatePrompt().
+ */
 std::string RAGJudge::generateEvaluationPrompt(
     const EvaluationInput& input,
     EvaluationDimension dimension
@@ -1512,6 +1715,12 @@ std::string RAGJudge::generateEvaluationPrompt(
     return impl_->template_manager.generatePrompt(dimension, input);
 }
 
+/**
+ * @brief Parse Score From Response.
+ * @param[in] response Input parameter.
+ * @return Return value.
+ * @details Calls: ResponseParser::parse(), ResponseParser::normalizeScore().
+ */
 double RAGJudge::parseScoreFromResponse(const std::string& response) {
     auto parsed = ResponseParser::parse(response);
     if (parsed.success && parsed.score) {
@@ -1520,6 +1729,12 @@ double RAGJudge::parseScoreFromResponse(const std::string& response) {
     return 0.75; // Default fallback
 }
 
+/**
+ * @brief Extract Explanation.
+ * @param[in] response Input parameter.
+ * @return Return value.
+ * @details Implements extractExplanation without additional internal calls.
+ */
 std::string RAGJudge::extractExplanation(const std::string& response) {
     return ResponseParser::extractExplanation(response);
 }
@@ -1541,6 +1756,12 @@ JudgeEnsemble::JudgeEnsemble(
 
 JudgeEnsemble::~JudgeEnsemble() = default;
 
+/**
+ * @brief Evaluate With Ensemble.
+ * @param[in] input Input parameter.
+ * @return Return value.
+ * @details Calls: THEMIS_INFO(), size(), push_back(), evaluate(), combineResults().
+ */
 EvaluationResult JudgeEnsemble::evaluateWithEnsemble(const EvaluationInput& input) {
     THEMIS_INFO("Evaluating with ensemble of {} judges", impl_->judges.size());
     
@@ -1553,6 +1774,15 @@ EvaluationResult JudgeEnsemble::evaluateWithEnsemble(const EvaluationInput& inpu
     return combineResults(results, impl_->strategy);
 }
 
+/**
+ * @brief Compare With Ensemble.
+ * @param[in] query Input parameter.
+ * @param[in] documents Input parameter.
+ * @param[in] answer_a Input parameter.
+ * @param[in] answer_b Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), compare(), str().
+ */
 ComparisonResult JudgeEnsemble::compareWithEnsemble(
     const std::string& query,
     const std::vector<RetrievedDocument>& documents,
@@ -1602,10 +1832,22 @@ ComparisonResult JudgeEnsemble::compareWithEnsemble(
     return combined;
 }
 
+/**
+ * @brief Set Voting Strategy.
+ * @param[in] strategy Input parameter.
+ * @details Implements setVotingStrategy without additional internal calls.
+ */
 void JudgeEnsemble::setVotingStrategy(VotingStrategy strategy) {
     impl_->strategy = strategy;
 }
 
+/**
+ * @brief Combine Results.
+ * @param[in] results Input parameter.
+ * @param[in] strategy Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), size().
+ */
 EvaluationResult JudgeEnsemble::combineResults(
     const std::vector<EvaluationResult>& results,
     VotingStrategy strategy
@@ -1657,6 +1899,11 @@ EvaluationResult JudgeEnsemble::combineResults(
 
 // Factory implementations
 
+/**
+ * @brief Create Fast.
+ * @return Return value.
+ * @details Implements createFast without additional internal calls.
+ */
 std::unique_ptr<RAGJudge> RAGJudgeFactory::createFast() {
     RAGJudgeConfig config;
     config.mode = EvaluationMode::FAST;
@@ -1665,12 +1912,22 @@ std::unique_ptr<RAGJudge> RAGJudgeFactory::createFast() {
     return std::make_unique<RAGJudge>(config);
 }
 
+/**
+ * @brief Create Balanced.
+ * @return Return value.
+ * @details Implements createBalanced without additional internal calls.
+ */
 std::unique_ptr<RAGJudge> RAGJudgeFactory::createBalanced() {
     RAGJudgeConfig config;
     config.mode = EvaluationMode::BALANCED;
     return std::make_unique<RAGJudge>(config);
 }
 
+/**
+ * @brief Create Thorough.
+ * @return Return value.
+ * @details Implements createThorough without additional internal calls.
+ */
 std::unique_ptr<RAGJudge> RAGJudgeFactory::createThorough() {
     RAGJudgeConfig config;
     config.mode = EvaluationMode::THOROUGH;
@@ -1680,10 +1937,23 @@ std::unique_ptr<RAGJudge> RAGJudgeFactory::createThorough() {
     return std::make_unique<RAGJudge>(config);
 }
 
+/**
+ * @brief Create.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @details Implements create without additional internal calls.
+ */
 std::unique_ptr<RAGJudge> RAGJudgeFactory::create(const RAGJudgeConfig& config) {
     return std::make_unique<RAGJudge>(config);
 }
 
+/**
+ * @brief Create Ensemble.
+ * @param[in] count Input parameter.
+ * @param[in] strategy Input parameter.
+ * @return Return value.
+ * @details Calls: push_back().
+ */
 std::unique_ptr<JudgeEnsemble> RAGJudgeFactory::createEnsemble(
     size_t count,
     VotingStrategy strategy
@@ -1699,6 +1969,12 @@ std::unique_ptr<JudgeEnsemble> RAGJudgeFactory::createEnsemble(
 
 namespace metrics {
 
+/**
+ * @brief Calculate Inter Judge Agreement.
+ * @param[in] results Input parameter.
+ * @return Return value.
+ * @details Calls: size(), std::min(), std::max().
+ */
 double calculateInterJudgeAgreement(const std::vector<EvaluationResult>& results) {
     if (results.size() < 2) {
         return 1.0;
@@ -1725,6 +2001,13 @@ double calculateInterJudgeAgreement(const std::vector<EvaluationResult>& results
     return std::max(0.0, agreement);
 }
 
+/**
+ * @brief Calculate Cohens Kappa.
+ * @param[in] judge1_results Input parameter.
+ * @param[in] judge2_results Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), size(), std::min(), toBin(), std::max().
+ */
 double calculateCohensKappa(
     const std::vector<EvaluationResult>& judge1_results,
     const std::vector<EvaluationResult>& judge2_results
@@ -1774,6 +2057,13 @@ double calculateCohensKappa(
     return std::max(-1.0, std::min(1.0, kappa));
 }
 
+/**
+ * @brief Calculate Calibration Error.
+ * @param[in] predictions Input parameter.
+ * @param[in] ground_truth Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), size(), std::max(), std::min(), std::abs().
+ */
 double calculateCalibrationError(
     const std::vector<double>& predictions,
     const std::vector<double>& ground_truth

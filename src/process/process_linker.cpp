@@ -40,6 +40,12 @@ using json = nlohmann::json;
 // toString / fromString helpers
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief To String.
+ * @param[in] t Input parameter.
+ * @return Return value.
+ * @details Implements toString without additional internal calls.
+ */
 std::string_view toString(ProcessLinkType t) {
     switch (t) {
         case ProcessLinkType::HAS_DOCUMENT:      return "HAS_DOCUMENT";
@@ -54,6 +60,12 @@ std::string_view toString(ProcessLinkType t) {
     return "UNKNOWN";
 }
 
+/**
+ * @brief Process Link Type From String.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Implements processLinkTypeFromString without additional internal calls.
+ */
 ProcessLinkType processLinkTypeFromString(std::string_view s) {
     if (s == "HAS_DOCUMENT") {
       return ProcessLinkType::HAS_DOCUMENT;
@@ -102,6 +114,12 @@ json ProcessAttachment::toDocument() const {
     return doc;
 }
 
+/**
+ * @brief From Document.
+ * @param[in] doc Input parameter.
+ * @return Return value.
+ * @details Calls: value(), processLinkTypeFromString(), json::object(), contains(), is_null().
+ */
 ProcessAttachment ProcessAttachment::fromDocument(const json& doc) {
     ProcessAttachment a;
     a.id                = doc.value("id", "");
@@ -133,6 +151,12 @@ json ProcessLink::toDocument() const {
     return doc;
 }
 
+/**
+ * @brief From Document.
+ * @param[in] doc Input parameter.
+ * @return Return value.
+ * @details Calls: value(), processLinkTypeFromString(), json::object().
+ */
 ProcessLink ProcessLink::fromDocument(const json& doc) {
     ProcessLink l;
     l.link_id       = doc.value("link_id", "");
@@ -235,6 +259,12 @@ std::pair<bool, std::string> ProcessLinker::attachObject(
 // detachObject
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Detach Object.
+ * @param[in] attachment_id Identifier of the attachment.
+ * @return True when the operation succeeds.
+ * @details Calls: sid(), size(), substr(), get(), SPDLOG_WARN(), json::parse(), value(), empty().
+ */
 bool ProcessLinker::detachObject(std::string_view attachment_id) {
     // attachment_id format: "attach:<instance_id>:<object_id>"
     // Reconstruct the RocksDB primary key: "proc:attach:<instance_id>:<object_id>"
@@ -450,6 +480,15 @@ std::vector<ProcessLink> ProcessLinker::getLinks(
 // registerRequiredDocument
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Register Required Document.
+ * @param[in] model_id Identifier of the model.
+ * @param[in] node_id Identifier of the node.
+ * @param[in] doc_type Input parameter.
+ * @param[in] mandatory Input parameter.
+ * @param[in] schema Input parameter.
+ * @return True when the operation succeeds.
+ */
 bool ProcessLinker::registerRequiredDocument(
     std::string_view model_id,
     std::string_view node_id,
@@ -646,6 +685,11 @@ ProcessLinker::LinkOperationGuard::~LinkOperationGuard() {
     linker_.rollback_records_.erase(operation_id_);
 }
 
+/**
+ * @brief Record Modification.
+ * @param[in] key Input parameter.
+ * @details Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), get(), std::string(), std::move(), push_back(), lock().
+ */
 void ProcessLinker::LinkOperationGuard::recordModification(std::string_view key) {
     auto now_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
         std::chrono::system_clock::now().time_since_epoch()
@@ -673,6 +717,11 @@ bool ProcessLinker::detectLinkingConflict_(
     std::string_view key,
     std::optional<uint64_t> expected_version) const
 {
+    /**
+     * @brief Lock.
+     * @param[in] link_state_lock_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(link_state_lock_);
     
     // Try to read the current value to detect if it's been modified
@@ -698,6 +747,11 @@ bool ProcessLinker::detectLinkingConflict_(
     return false;
 }
 
+/**
+ * @brief Rollback Link Operation.
+ * @param[in] operation_id Identifier of the operation.
+ * @details Calls: lock(), find(), end(), SPDLOG_WARN(), rbegin(), rend(), put(), del().
+ */
 void ProcessLinker::rollbackLinkOperation_(uint64_t operation_id) {
     std::unique_lock<std::shared_mutex> lock(link_state_lock_);
 
@@ -733,7 +787,11 @@ void ProcessLinker::rollbackLinkOperation_(uint64_t operation_id) {
 DiagnosticRecord ProcessLinker::detectStaleLinkAtReadTime(
     std::string_view link_id
 ) const {
-    // Parse link_id format: "link:<source>:<target>:<type>"
+    /**
+     * @brief Parse link_id format: "link:<source>:<target>:<type>"
+     * @param[in] link_id Identifier of the link.
+     * @return Return value.
+     */
     std::string link_str(link_id);
     
     // Retrieve the link document from database

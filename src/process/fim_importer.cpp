@@ -54,13 +54,23 @@ using json = nlohmann::json;
 
 namespace {
 
-/// Strip XML namespace prefix ("fim:prozess" → "prozess").
+/**
+ * @brief Strip Ns.
+ * @param[in] name Input parameter.
+ * @return Return value.
+ * @details Calls: rfind(), substr().
+ */
 static std::string_view stripNs(std::string_view name) {
     auto colon = name.rfind(':');
     return (colon != std::string_view::npos) ? name.substr(colon + 1) : name;
 }
 
-/// Unescape basic XML character entities.
+/**
+ * @brief Unescape Xml.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), find(), substr(), std::string(), find_first_not_of(), find_last_not_of().
+ */
 static std::string unescapeXml(std::string_view s) {
     std::string out = {};
     out.reserve(s.size());
@@ -85,7 +95,6 @@ static std::string unescapeXml(std::string_view s) {
     return out.substr(a, b - a + 1);
 }
 
-/// Parsed representation of a single XML element tag.
 struct XmlTag {
     std::string name;
     std::map<std::string, std::string> attrs;
@@ -151,9 +160,15 @@ static void parseAttrs(std::string_view src,
     }
 }
 
-/// Lightweight tokenizer used only to extract <prozess> blocks from a FIM
-/// catalogue XML.  Returns false if doc exceeds 50 MiB.
 template<typename TagCb, typename TextCb>
+/**
+ * @brief Tokenize Fim Xml.
+ * @param[in] xml Input parameter.
+ * @param[in] tag_cb Input parameter.
+ * @param[in] text_cb Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: size(), text_cb(), substr(), std::isspace(), std::string(), stripNs(), std::move(), tag_cb().
+ */
 bool tokenizeFimXml(std::string_view xml, TagCb tag_cb, TextCb text_cb) {
     constexpr size_t kMaxSize = 50 * 1024 * 1024;
     if (xml.size() > kMaxSize) {
@@ -283,8 +298,13 @@ bool tokenizeFimXml(std::string_view xml, TagCb tag_cb, TextCb text_cb) {
     return true;
 }
 
-/// Extract the raw BPMN XML payload from inside a <prozess> element.
-/// The FIM catalogue embeds a <definitions> block as child text / CDATA.
+/**
+ * @brief Extract Bpmn Payload.
+ * @param[in] catalogue_xml Input parameter.
+ * @param[in] start_pos Input parameter.
+ * @return Return value.
+ * @details Calls: find(), std::min(), size(), std::string(), substr().
+ */
 std::string extractBpmnPayload(std::string_view catalogue_xml, size_t start_pos) {
     // Find the opening <definitions or <bpmn:definitions after start_pos
     const std::string_view kDef1 = "<definitions";
@@ -315,9 +335,12 @@ std::string extractBpmnPayload(std::string_view catalogue_xml, size_t start_pos)
 
 } // anonymous namespace
 
-// ─────────────────────────────────────────────────────────────────────────────
-// FimImporter::importFimCatalogue
-// ─────────────────────────────────────────────────────────────────────────────
+/**
+ * @brief ───────────────────────────────────────────────────────────────────────────── FimImporter::importFimCatalogue ─────────────────────────────────────────────────────────────────────────────
+ * @param[in] catalogue_xml Input parameter.
+ * @param[in] domain Input parameter.
+ * @return Return value.
+ */
 
 std::vector<FimModelResult> FimImporter::importFimCatalogue(
     std::string_view catalogue_xml,
@@ -462,9 +485,12 @@ std::vector<FimModelResult> FimImporter::importFimCatalogue(
     return results;
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// FimImporter::importSingleModel
-// ─────────────────────────────────────────────────────────────────────────────
+/**
+ * @brief ───────────────────────────────────────────────────────────────────────────── FimImporter::importSingleModel ─────────────────────────────────────────────────────────────────────────────
+ * @param[in] bpmn_xml Input parameter.
+ * @param[in] domain Input parameter.
+ * @return Return value.
+ */
 
 FimModelResult FimImporter::importSingleModel(
     std::string_view bpmn_xml,
@@ -511,9 +537,12 @@ FimModelResult FimImporter::importSingleModel(
     return result;
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// FimImporter::importFromFitkoApi
-// ─────────────────────────────────────────────────────────────────────────────
+/**
+ * @brief ───────────────────────────────────────────────────────────────────────────── FimImporter::importFromFitkoApi ─────────────────────────────────────────────────────────────────────────────
+ * @param[in] api_base_url Input parameter.
+ * @param[in] domain Input parameter.
+ * @return Return value.
+ */
 
 std::vector<FimModelResult> FimImporter::importFromFitkoApi(
     std::string_view api_base_url,
@@ -608,30 +637,12 @@ std::vector<FimModelResult> FimImporter::importFromFitkoApi(
     return {std::move(r)};
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Factory: real libcurl-backed HttpFetchFn
-// Guarded by THEMIS_FIM_HAS_CURL (set when THEMIS_HAS_CURL or THEMIS_ENABLE_CURL
-// is defined and libcurl is linked).  Returns an empty function otherwise.
-// ─────────────────────────────────────────────────────────────────────────────
-
 /**
- * @brief Returns a libcurl-backed HttpFetchFn suitable for setHttpFetchFn().
- *
- * Each invocation of the returned function creates its own CURL easy handle
- * (curl_easy_init / curl_easy_cleanup), so the fn is safe to share across
- * threads.  TLS peer and host verification are enabled; a 10-second timeout
- * is applied to each request.
- *
- * When compiled without libcurl (THEMIS_HAS_CURL / THEMIS_ENABLE_CURL not
- * defined), returns an empty std::function so that importFromFitkoApi() falls
- * back to the "not implemented" error path.
- *
- * **Startup wiring example:**
- * @code
- *   FimImporter importer;
- *   importer.setHttpFetchFn(FimImporter::makeCurlHttpFetchFn());
- * @endcode
+ * @brief ───────────────────────────────────────────────────────────────────────────── Factory: real libcurl-backed HttpFetchFn Guarded by THEMIS_FIM_HAS_CURL (set when THEMIS_HAS_CURL or THEMIS_ENABLE_CURL is defined and libcurl is linked).
+ * @return Return value.
+ * @details Returns an empty function otherwise. ─────────────────────────────────────────────────────────────────────────────
  */
+
 FimImporter::HttpFetchFn FimImporter::makeCurlHttpFetchFn()
 {
 #if THEMIS_FIM_HAS_CURL
@@ -651,6 +662,11 @@ FimImporter::HttpFetchFn FimImporter::makeCurlHttpFetchFn()
             return size * nmemb;
         };
 
+        /**
+         * @brief Url str.
+         * @param[in] url Input parameter.
+         * @return Return value.
+         */
         const std::string url_str(url);
         curl_easy_setopt(curl, CURLOPT_URL,           url_str.c_str());
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, static_cast<curl_write_callback>(write_cb));

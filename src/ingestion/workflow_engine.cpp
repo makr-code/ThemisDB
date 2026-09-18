@@ -46,10 +46,23 @@ namespace {
 #if defined(_WIN32)
 using DynamicLibHandle = HMODULE;
 
+/**
+ * @brief Open Dynamic Library.
+ * @param[in] path Input parameter.
+ * @return Return value.
+ * @details Calls: LoadLibraryA(), c_str().
+ */
 DynamicLibHandle openDynamicLibrary(const std::string& path) {
     return ::LoadLibraryA(path.c_str());
 }
 
+/**
+ * @brief Resolve Dynamic Symbol.
+ * @param[in] handle Input parameter.
+ * @param[in] symbol Input parameter.
+ * @return Pointer to the result.
+ * @details Calls: GetProcAddress().
+ */
 void* resolveDynamicSymbol(DynamicLibHandle handle, const char* symbol) {
     if (!handle) {
         return nullptr;
@@ -57,12 +70,22 @@ void* resolveDynamicSymbol(DynamicLibHandle handle, const char* symbol) {
     return reinterpret_cast<void*>(::GetProcAddress(handle, symbol));
 }
 
+/**
+ * @brief Close Dynamic Library.
+ * @param[in] handle Input parameter.
+ * @details Calls: FreeLibrary().
+ */
 void closeDynamicLibrary(DynamicLibHandle handle) {
     if (handle) {
         ::FreeLibrary(handle);
     }
 }
 
+/**
+ * @brief Get Dynamic Library Error.
+ * @return Return value.
+ * @details Calls: GetLastError(), std::to_string().
+ */
 std::string getDynamicLibraryError() {
     const DWORD code = ::GetLastError();
     return "LoadLibrary/GetProcAddress failed with Win32 error " + std::to_string(code);
@@ -70,26 +93,56 @@ std::string getDynamicLibraryError() {
 #else
 using DynamicLibHandle = void*;
 
+/**
+ * @brief Open Dynamic Library.
+ * @param[in] path Input parameter.
+ * @return Return value.
+ * @details Calls: dlopen(), c_str().
+ */
 DynamicLibHandle openDynamicLibrary(const std::string& path) {
     return ::dlopen(path.c_str(), RTLD_LAZY | RTLD_LOCAL);
 }
 
+/**
+ * @brief Resolve Dynamic Symbol.
+ * @param[in] handle Input parameter.
+ * @param[in] symbol Input parameter.
+ * @return Pointer to the result.
+ * @details Calls: dlsym().
+ */
 void* resolveDynamicSymbol(DynamicLibHandle handle, const char* symbol) {
     return ::dlsym(handle, symbol);
 }
 
+/**
+ * @brief Close Dynamic Library.
+ * @param[in] handle Input parameter.
+ * @details Calls: dlclose().
+ */
 void closeDynamicLibrary(DynamicLibHandle handle) {
     if (handle) {
         ::dlclose(handle);
     }
 }
 
+/**
+ * @brief Get Dynamic Library Error.
+ * @return Return value.
+ * @details Calls: dlerror(), std::string().
+ */
 std::string getDynamicLibraryError() {
     const char* err = ::dlerror();
     return err ? std::string(err) : std::string("unknown dlerror");
 }
 #endif
 
+/**
+ * @brief Mime Matches.
+ * @param[in] pattern Input parameter.
+ * @param[in] mime Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), back(), substr(), size(), rfind().
+ */
 bool mimeMatches(const std::string& pattern, const std::string& mime) {
     if (pattern.empty()) {
       return true;
@@ -105,6 +158,13 @@ bool mimeMatches(const std::string& pattern, const std::string& mime) {
     return false;
 }
 
+/**
+ * @brief Filename Matches Glob.
+ * @param[in] pattern Input parameter.
+ * @param[in] name Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: defined(), std::transform(), begin(), end(), empty(), front(), substr(), back().
+ */
 bool filenameMatchesGlob(const std::string& pattern, const std::string& name) {
 #if defined(_WIN32)
     // Windows: simple case-insensitive contains check as fallback
@@ -151,7 +211,6 @@ bool FilePattern::matches(const std::string& mime,
 // StepRegistry::Impl
 // ─────────────────────────────────────────────────────────────────────────────
 
-/** @brief StepRegistry::Impl. */
 class StepRegistry::Impl {
 public:
     struct Entry {
@@ -181,6 +240,13 @@ StepRegistry::~StepRegistry() {
     }
 }
 
+/**
+ * @brief Register Step.
+ * @param[in] plugin_name Name of the plugin.
+ * @param[in] step Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), tl::make_unexpected(), lock(), count(), std::move().
+ */
 Result<void> StepRegistry::registerStep(
         const std::string& plugin_name,
         std::shared_ptr<IIngestionStep> step) {
@@ -198,6 +264,14 @@ Result<void> StepRegistry::registerStep(
     return {};
 }
 
+/**
+ * @brief Load Step Plugin.
+ * @param[in] plugin_name Name of the plugin.
+ * @param[in] library_path Path to the library.
+ * @param[in] manifest Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), fs::weakly_canonical(), string(), rfind(), tl::make_unexpected(), sf(), is_open(), json::parse().
+ */
 Result<void> StepRegistry::loadStepPlugin(
         const std::string& plugin_name,
         const std::string& library_path,
@@ -323,6 +397,12 @@ std::vector<std::string> StepRegistry::listSteps() const {
     return names;
 }
 
+/**
+ * @brief Unload Step.
+ * @param[in] plugin_name Name of the plugin.
+ * @return Return value.
+ * @details Calls: lock(), find(), end(), tl::make_unexpected(), closeDynamicLibrary(), erase().
+ */
 Result<void> StepRegistry::unloadStep(const std::string& plugin_name) {
     std::unique_lock<std::shared_mutex> lock(impl_->mutex_);
     auto it = impl_->steps_.find(plugin_name);
@@ -359,6 +439,13 @@ bool safeBool(const json& obj, const std::string& key, bool def = false) {
     return def;
 }
 
+/**
+ * @brief Parse Profile.
+ * @param[in] doc Input parameter.
+ * @param[in] source_path Path to the source.
+ * @return Return value.
+ * @details Calls: safeString(), contains(), is_object(), is_array(), is_string(), push_back(), safeBool(), json::object().
+ */
 WorkflowProfile parseProfile(const json& doc, const std::string& source_path) {
     WorkflowProfile p;
     p.source_path  = source_path;
@@ -422,11 +509,10 @@ WorkflowProfile parseProfile(const json& doc, const std::string& source_path) {
 
 #ifdef HAVE_YAML_CPP
 /**
- * @brief Convert a YAML node to a flat nlohmann::json object (one level deep).
- *
- * Scalar values are converted to their native JSON types (bool, int64, double,
- * or string).  Sequences become JSON arrays of strings.  Nested maps and other
- * complex nodes are serialized as their YAML string representation.
+ * @brief Yaml Node To Json.
+ * @param[in] node Input parameter.
+ * @return Return value.
+ * @details Calls: nlohmann::json::object(), IsMap(), empty(), IsScalar(), IsSequence(), nlohmann::json::array(), push_back().
  */
 static nlohmann::json yamlNodeToJson(const YAML::Node& node) {
     nlohmann::json obj = nlohmann::json::object();
@@ -459,6 +545,13 @@ static nlohmann::json yamlNodeToJson(const YAML::Node& node) {
     return obj;
 }
 
+/**
+ * @brief Parse Profile From Yaml.
+ * @param[in] root Input parameter.
+ * @param[in] source_path Path to the source.
+ * @return Return value.
+ * @details Calls: IsScalar(), asStr(), IsMap(), IsSequence(), push_back(), asBool(), yamlNodeToJson(), std::move().
+ */
 WorkflowProfile parseProfileFromYaml(const YAML::Node& root,
                                       const std::string& source_path) {
     WorkflowProfile p;
@@ -536,7 +629,6 @@ WorkflowProfile parseProfileFromYaml(const YAML::Node& root,
 // WorkflowEngine::Impl
 // ─────────────────────────────────────────────────────────────────────────────
 
-/** @brief WorkflowEngine::Impl. */
 class WorkflowEngine::Impl {
 public:
     mutable std::shared_mutex profiles_mutex_;
@@ -551,6 +643,13 @@ public:
         return nullptr;
     }
 
+    /**
+     * @brief Run Profile.
+     * @param[in] profile Input parameter.
+     * @param[in,out] ctx Input/output parameter.
+     * @return Return value.
+     * @details Calls: getStep(), skipOnFailure(), push_back(), tl::make_unexpected(), canHandle(), execute(), error(), message().
+     */
     Result<BaseEntitySet> runProfile(const WorkflowProfile& profile,
                                       ExtractionContext& ctx) {
         for (const auto& step_cfg : profile.steps) {
@@ -636,6 +735,12 @@ public:
 WorkflowEngine::WorkflowEngine() : impl_(std::make_unique<Impl>()) {}
 WorkflowEngine::~WorkflowEngine() = default;
 
+/**
+ * @brief Load Profile.
+ * @param[in] yaml_path Path to the yaml.
+ * @return Return value.
+ * @details Calls: file(), is_open(), tl::make_unexpected(), rdbuf(), str(), YAML::Load(), IsScalar(), empty().
+ */
 Result<void> WorkflowEngine::loadProfile(const std::string& yaml_path) {
     // Read file
     std::ifstream file(yaml_path);
@@ -708,6 +813,12 @@ Result<void> WorkflowEngine::loadProfile(const std::string& yaml_path) {
     return {};
 }
 
+/**
+ * @brief Load Profiles From Directory.
+ * @param[in] directory_path Path to the directory.
+ * @return Return value.
+ * @details Calls: fs::directory_iterator(), is_regular_file(), path(), extension(), string(), loadProfile().
+ */
 std::size_t WorkflowEngine::loadProfilesFromDirectory(
         const std::string& directory_path) {
     std::size_t count = 0;
@@ -757,6 +868,11 @@ std::vector<std::string> WorkflowEngine::listProfiles() const {
     return names;
 }
 
+/**
+ * @brief Step Registry.
+ * @return Return value.
+ * @details Implements stepRegistry without additional internal calls.
+ */
 StepRegistry& WorkflowEngine::stepRegistry() {
     return impl_->step_registry_;
 }
@@ -765,6 +881,12 @@ const StepRegistry& WorkflowEngine::stepRegistry() const {
     return impl_->step_registry_;
 }
 
+/**
+ * @brief Execute.
+ * @param[in,out] ctx Input/output parameter.
+ * @return Return value.
+ * @details Calls: selectProfile(), tl::make_unexpected(), runProfile().
+ */
 Result<BaseEntitySet> WorkflowEngine::execute(ExtractionContext& ctx) {
     const std::string filename = ctx.manifest.filename_stem + ctx.manifest.extension;
     const WorkflowProfile* profile = selectProfile(
@@ -778,6 +900,13 @@ Result<BaseEntitySet> WorkflowEngine::execute(ExtractionContext& ctx) {
     return impl_->runProfile(*profile, ctx);
 }
 
+/**
+ * @brief Execute With Profile.
+ * @param[in] profile_name Name of the profile.
+ * @param[in,out] ctx Input/output parameter.
+ * @return Return value.
+ * @details Calls: lock(), findProfileByName(), tl::make_unexpected(), unlock(), runProfile().
+ */
 Result<BaseEntitySet> WorkflowEngine::executeWithProfile(
         const std::string& profile_name,
         ExtractionContext& ctx) {

@@ -120,6 +120,12 @@ namespace {
     }
     
     // Base64 decode helper
+    /**
+     * @brief Base64 Decode Bytes.
+     * @param[in] encoded Input parameter.
+     * @return Return value.
+     * @details Calls: BIO_new_mem_buf(), c_str(), size(), BIO_new(), BIO_f_base64(), BIO_free(), BIO_set_flags(), utils::BIOPtr().
+     */
     std::optional<std::vector<unsigned char>> base64DecodeBytes(const std::string& encoded) {
         BIO* bmem = BIO_new_mem_buf(encoded.c_str(), static_cast<int>(encoded.size()));
         if (!bmem) {
@@ -141,16 +147,21 @@ namespace {
         return decoded;
     }
 
-    // Certificate serial number pattern: up to 80 hex chars (RFC 5280 §4.1.2.2 caps
-    // at 20 octets = 40 chars; 80 accommodates non-conformant enterprise CAs).
-    // Static local — initialised exactly once (C++11 guarantee).
+    /**
+     * @brief Certificate serial number pattern: up to 80 hex chars (RFC 5280 §4.
+     * @return Return value.
+     * @details 1.2.2 caps at 20 octets = 40 chars; 80 accommodates non-conformant enterprise CAs). Static local — initialised exactly once (C++11 guarantee). Calls: kPattern().
+     */
     const std::regex& certSerialPattern() {
         static const std::regex kPattern("^[0-9A-Fa-f]{1,80}$");
         return kPattern;
     }
 
-    // Key IDs are used as trust-store file names (<key_id>.pem).
-    // Restrict to a safe subset to prevent path traversal.
+    /**
+     * @brief Key IDs are used as trust-store file names (<key_id>.
+     * @return Return value.
+     * @details pem). Restrict to a safe subset to prevent path traversal. Calls: kPattern().
+     */
     const std::regex& keyIdPattern() {
         static const std::regex kPattern("^[A-Za-z0-9._-]{1,128}$");
         return kPattern;
@@ -161,7 +172,6 @@ namespace {
 // SignedRequest
 // ============================================================================
 
-/** @brief Serialize signed request into JSON payload. */
 nlohmann::json SignedRequest::toJSON() const {
     return nlohmann::json{
         {"shard_id", shard_id},
@@ -178,9 +188,10 @@ nlohmann::json SignedRequest::toJSON() const {
 }
 
 /**
- * @brief Parse signed request from JSON.
- * @param j Input JSON value.
- * @return Parsed request object or std::nullopt when mandatory fields are missing/invalid.
+ * @brief From JSON.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: at(), value(), std::string(), empty().
  */
 std::optional<SignedRequest> SignedRequest::fromJSON(const nlohmann::json& j) {
     try {
@@ -205,10 +216,6 @@ std::optional<SignedRequest> SignedRequest::fromJSON(const nlohmann::json& j) {
     }
 }
 
-/**
- * @brief Build canonical v1 signing string.
- * @return Deterministic line-based representation used for signing and verification.
- */
 std::string SignedRequest::getCanonicalString() const {
     std::ostringstream oss = {};
     oss << "signature_format=" << signature_format << '\n'
@@ -227,10 +234,6 @@ std::string SignedRequest::getCanonicalString() const {
 // SignedRequestSigner
 // ============================================================================
 
-/**
- * @brief Construct signer and preload certificate serial when available.
- * @param config Signer configuration.
- */
 SignedRequestSigner::SignedRequestSigner(const Config& config)
     : config_(config) {
     // Extract certificate serial
@@ -241,9 +244,10 @@ SignedRequestSigner::SignedRequestSigner(const Config& config)
 }
 
 /**
- * @brief Populate metadata and signature fields.
- * @param request Request mutated in place.
- * @return true on successful signing.
+ * @brief Sign.
+ * @param[in,out] request Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: getCurrentTimestampMs(), generateNonce(), getCanonicalString(), signData().
  */
 bool SignedRequestSigner::sign(SignedRequest& request) {
     // Set shard ID
@@ -274,7 +278,12 @@ bool SignedRequestSigner::sign(SignedRequest& request) {
 }
 
 /**
- * @brief Create and sign a request from primitive inputs.
+ * @brief Create Signed Request.
+ * @param[in] operation Input parameter.
+ * @param[in] path Input parameter.
+ * @param[in] body Input parameter.
+ * @return Return value.
+ * @details Calls: sign().
  */
 SignedRequest SignedRequestSigner::createSignedRequest(const std::string& operation,
                                                        const std::string& path,
@@ -288,7 +297,6 @@ SignedRequest SignedRequestSigner::createSignedRequest(const std::string& operat
     return request;
 }
 
-/** @brief Generate pseudo-random 64-bit nonce for replay protection. */
 uint64_t SignedRequestSigner::generateNonce() const {
     std::random_device rd = {};
     std::mt19937_64 gen(rd());
@@ -296,7 +304,6 @@ uint64_t SignedRequestSigner::generateNonce() const {
     return dis(gen);
 }
 
-/** @brief Return current UNIX timestamp in milliseconds. */
 uint64_t SignedRequestSigner::getCurrentTimestampMs() const {
     auto now = std::chrono::system_clock::now();
     auto ms = std::chrono::duration_cast<std::chrono::milliseconds>(now.time_since_epoch());
@@ -304,9 +311,10 @@ uint64_t SignedRequestSigner::getCurrentTimestampMs() const {
 }
 
 /**
- * @brief Sign canonical data with configured private key.
- * @param data Canonical request text.
- * @return Base64 signature, or std::nullopt when cryptographic setup/signing fails.
+ * @brief Sign Data.
+ * @param[in] data Input parameter.
+ * @return Return value.
+ * @details Calls: fopen(), c_str(), empty(), PEM_read_PrivateKey(), fclose(), utils::EVPKeyPtr(), utils::make_evp_md_ctx(), EVP_DigestSignInit().
  */
 std::optional<std::string> SignedRequestSigner::signData(const std::string& data) {
     // Read private key
@@ -365,19 +373,16 @@ std::optional<std::string> SignedRequestSigner::signData(const std::string& data
 // SignedRequestVerifier
 // ============================================================================
 
-/**
- * @brief Construct verifier with replay/certificate policy.
- * @param config Verification policy.
- */
 SignedRequestVerifier::SignedRequestVerifier(const Config& config)
     : config_(config) {
 }
 
 /**
- * @brief Verify signed request metadata, freshness, replay and signature.
- * @param request Request to verify.
- * @param expected_shard_id Optional sender constraint.
- * @return true when all checks pass.
+ * @brief Verify identity and enforce network policies for a request.
+ * @param[in] request Input parameter.
+ * @param[in] expected_shard_id Identifier of the expected shard.
+ * @return Verification result.
+ * @details Calls: rejectWithAuditCode(), empty(), std::regex_match(), keyIdPattern(), verifyTimestamp(), std::to_string(), verifyNonce(), verifySignature().
  */
 bool SignedRequestVerifier::verify(const SignedRequest& request,
                                    const std::string& expected_shard_id) {
@@ -418,13 +423,15 @@ bool SignedRequestVerifier::verify(const SignedRequest& request,
     return true;
 }
 
-/** @brief Remove expired replay-cache nonce entries. */
+/**
+ * @brief Cleanup Expired Nonces.
+ * @details Calls: lock(), purgeExpiredNoncesLocked(), getCurrentTimestampMs().
+ */
 void SignedRequestVerifier::cleanupExpiredNonces() {
     std::lock_guard<std::mutex> lock(nonce_mutex_);
     purgeExpiredNoncesLocked(getCurrentTimestampMs());
 }
 
-/** @brief Verify timestamp skew is within configured bounds. */
 bool SignedRequestVerifier::verifyTimestamp(uint64_t timestamp_ms) const {
     uint64_t current_time = getCurrentTimestampMs();
     uint64_t time_diff = (current_time > timestamp_ms) ?
@@ -434,10 +441,11 @@ bool SignedRequestVerifier::verifyTimestamp(uint64_t timestamp_ms) const {
 }
 
 /**
- * @brief Verify nonce uniqueness and maintain replay cache.
- * @param nonce Nonce value to verify.
- * @param timestamp_ms Request timestamp used for expiry checks.
- * @return true when nonce is accepted.
+ * @brief Verify Nonce.
+ * @param[in] nonce Input parameter.
+ * @param[in] timestamp_ms Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), getCurrentTimestampMs(), purgeExpiredNoncesLocked(), find(), end(), rejectWithAuditCode(), std::to_string(), size().
  */
 bool SignedRequestVerifier::verifyNonce(uint64_t nonce, uint64_t timestamp_ms) {
     std::lock_guard<std::mutex> lock(nonce_mutex_);
@@ -481,9 +489,10 @@ bool SignedRequestVerifier::verifyNonce(uint64_t nonce, uint64_t timestamp_ms) {
 }
 
 /**
- * @brief Verify signature using trust-store certificate selected by key_id.
- * @param request Signed request.
- * @return true when cryptographic verification succeeds.
+ * @brief Verify Signature.
+ * @param[in] request Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: isStrictBase64(), rejectWithAuditCode(), base64DecodeBytes(), empty(), std::call_once(), spdlog::warn(), std::regex_match(), keyIdPattern().
  */
 bool SignedRequestVerifier::verifySignature(const SignedRequest& request) {
     if (!isStrictBase64(request.signature_b64)) {
@@ -650,8 +659,9 @@ bool SignedRequestVerifier::verifySignature(const SignedRequest& request) {
 }
 
 /**
- * @brief Purge expired nonce entries from replay cache.
- * @param now_ms Current timestamp in milliseconds.
+ * @brief Purge Expired Nonces Locked.
+ * @param[in] now_ms Input parameter.
+ * @details Calls: empty(), front(), pop_front(), find(), end(), erase().
  */
 void SignedRequestVerifier::purgeExpiredNoncesLocked(uint64_t now_ms) {
     while (!nonce_fifo_.empty()) {
@@ -671,7 +681,6 @@ void SignedRequestVerifier::purgeExpiredNoncesLocked(uint64_t now_ms) {
     }
 }
 
-/** @brief Return current UNIX timestamp in milliseconds. */
 uint64_t SignedRequestVerifier::getCurrentTimestampMs() const {
     auto now = std::chrono::system_clock::now();
     auto ms = std::chrono::duration_cast<std::chrono::milliseconds>(now.time_since_epoch());

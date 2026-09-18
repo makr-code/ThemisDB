@@ -23,23 +23,13 @@ namespace themis {
 namespace llm {
 namespace lora {
 
-/**
- * @brief LoRA training configuration loaded from YAML
- * 
- * Loads complete training configuration including:
- * - Hyperparameters
- * - Training data sources
- * - Feedback weighting
- * - Training triggers
- * - Quality thresholds
- * - Monitoring settings
- */
 class LoRATrainingConfig {
 public:
-    virtual ~LoRATrainingConfig() = default;
     /**
-     * @brief Training data source configuration
+     * @brief Lo RATraining Config.
+     * @return Return value.
      */
+    virtual ~LoRATrainingConfig() = default;
     struct TrainingDataSource {
         bool enabled = true;
         std::string path;
@@ -47,9 +37,6 @@ public:
         std::map<std::string, std::string> preprocessing;
     };
     
-    /**
-     * @brief Feedback weighting configuration
-     */
     struct FeedbackWeighting {
         float direct_response_weight = 1.0f;
         float exact_cache_weight = 0.4f;
@@ -61,9 +48,6 @@ public:
         std::map<int, float> rating_weights;           // 1-5
     };
     
-    /**
-     * @brief Training trigger configuration
-     */
     struct TrainingTrigger {
         bool automatic_enabled = true;
         size_t min_batch_size = 50;
@@ -75,9 +59,6 @@ public:
         float min_positive_ratio = 0.6f;
     };
     
-    /**
-     * @brief Quality assurance configuration
-     */
     struct QualityConfig {
         // A/B testing
         bool ab_testing_enabled = true;
@@ -95,9 +76,6 @@ public:
         float max_perplexity = 50.0f;
     };
     
-    /**
-     * @brief Adapter-specific configuration
-     */
     struct AdapterConfig {
         std::string adapter_id;
         bool enabled = true;
@@ -130,59 +108,59 @@ public:
     };
     
     /**
-     * @brief Load configuration from YAML file
-     * @param config_path Path to YAML configuration file
-     * @return Configuration object
+     * @brief Load From File.
+     * @param[in] config_path Path to the retention policy configuration file.
+     * @return Return value.
      */
     static LoRATrainingConfig loadFromFile(const std::string& config_path);
     
     /**
-     * @brief Load configuration from YAML string
-     * @param yaml_content YAML content as string
-     * @return Configuration object
+     * @brief Load From String.
+     * @param[in] yaml_content Input parameter.
+     * @return Return value.
      */
     static LoRATrainingConfig loadFromString(const std::string& yaml_content);
     
     /**
-     * @brief Get adapter configuration by ID
-     * @param adapter_id Adapter identifier
-     * @return Adapter configuration if found
+     * @brief Get Adapter Config.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @return Return value.
      */
     std::optional<AdapterConfig> getAdapterConfig(const std::string& adapter_id) const;
     
     /**
-     * @brief Get all adapter configurations
-     * @return Vector of all adapter configs
+     * @brief Get All Adapter Configs.
+     * @return Return value.
      */
     std::vector<AdapterConfig> getAllAdapterConfigs() const;
     
     /**
-     * @brief Create cache weighting plugin from config
-     * @param adapter_id Adapter identifier
-     * @return Configured plugin
+     * @brief Create Cache Weighting Plugin.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @return Return value.
      */
     std::shared_ptr<CacheAwareWeightingPlugin> createCacheWeightingPlugin(
         const std::string& adapter_id
     ) const;
     
     /**
-     * @brief Create training trigger plugin from config
-     * @param adapter_id Adapter identifier
-     * @return Configured plugin
+     * @brief Create Training Trigger Plugin.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @return Return value.
      */
     std::shared_ptr<TrainingTriggerPlugin> createTrainingTriggerPlugin(
         const std::string& adapter_id
     ) const;
     
     /**
-     * @brief Validate configuration
-     * @return true if valid, false otherwise
+     * @brief Validate.
+     * @return True when the operation succeeds.
      */
     bool validate() const;
     
     /**
-     * @brief Get validation errors
-     * @return Vector of error messages
+     * @brief Get Validation Errors.
+     * @return Return value.
      */
     std::vector<std::string> getValidationErrors() const;
 
@@ -194,15 +172,46 @@ private:
     int max_retry_attempts_ = 3;
     
     // Helper methods
+    /**
+     * @brief Parse Adapter Config.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @param[in] node Input parameter.
+     * @return Return value.
+     */
     static AdapterConfig parseAdapterConfig(
         const std::string& adapter_id,
         const YAML::Node& node
     );
     
+    /**
+     * @brief Parse Hyperparameters.
+     * @param[in] node Input parameter.
+     * @return Return value.
+     */
     static LoRAHyperparameters parseHyperparameters(const YAML::Node& node);
+    /**
+     * @brief Parse Feedback Weighting.
+     * @param[in] node Input parameter.
+     * @return Return value.
+     */
     static FeedbackWeighting parseFeedbackWeighting(const YAML::Node& node);
+    /**
+     * @brief Parse Training Trigger.
+     * @param[in] node Input parameter.
+     * @return Return value.
+     */
     static TrainingTrigger parseTrainingTrigger(const YAML::Node& node);
+    /**
+     * @brief Parse Quality Config.
+     * @param[in] node Input parameter.
+     * @return Return value.
+     */
     static QualityConfig parseQualityConfig(const YAML::Node& node);
+    /**
+     * @brief Parse Training Data Source.
+     * @param[in] node Input parameter.
+     * @return Return value.
+     */
     static TrainingDataSource parseTrainingDataSource(const YAML::Node& node);
 };
 

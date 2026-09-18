@@ -114,13 +114,18 @@ namespace {
 // Feature matrix helpers
 // --------------------------------------------------------------------------
 
-/** Raw feature matrix extracted from DataPoints (excluding the target). */
 struct FeatMatrix {
     std::vector<std::vector<double>> X; // [sample][feature]
     std::vector<std::string> names;
 };
 
-/** Extract numeric features from DataPoints, excluding the target field. */
+/**
+ * @brief Extract Features.
+ * @param[in] data Input parameter.
+ * @param[in] target Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), insert(), assign(), begin(), end(), reserve(), size(), row().
+ */
 FeatMatrix extractFeatures(const std::vector<DataPoint> &data, const std::string &target) {
     FeatMatrix fm = {};
     if (data.empty()) {
@@ -163,7 +168,13 @@ FeatMatrix extractFeatures(const std::vector<DataPoint> &data, const std::string
     return fm;
 }
 
-/** Extract target values as strings (for classification label encoding). */
+/**
+ * @brief Extract Target Str.
+ * @param[in] data Input parameter.
+ * @param[in] target Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), find(), end(), push_back(), std::visit(), constexpr(), std::to_string().
+ */
 std::vector<std::string> extractTargetStr(const std::vector<DataPoint> &data, const std::string &target) {
     std::vector<std::string> out = {};
 
@@ -194,7 +205,13 @@ std::vector<std::string> extractTargetStr(const std::vector<DataPoint> &data, co
     return out;
 }
 
-/** Extract target values as doubles (for regression). */
+/**
+ * @brief Extract Target Num.
+ * @param[in] data Input parameter.
+ * @param[in] target Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), find(), end(), push_back(), std::visit(), constexpr().
+ */
 std::vector<double> extractTargetNum(const std::vector<DataPoint> &data, const std::string &target) {
     std::vector<double> out = {};
 
@@ -230,6 +247,11 @@ std::vector<double> extractTargetNum(const std::vector<DataPoint> &data, const s
 struct Scaler {
     std::vector<double> mean, std_dev;
 
+    /**
+     * @brief Fit.
+     * @param[in] X Input parameter.
+     * @details Calls: empty(), size(), assign(), std::sqrt().
+     */
     void fit(const std::vector<std::vector<double>> &X) {
         if (X.empty()) {
             return;
@@ -271,9 +293,12 @@ struct Scaler {
     }
 };
 
-// --------------------------------------------------------------------------
-// Polynomial feature expansion (degree 2, no cross-terms for speed)
-// --------------------------------------------------------------------------
+/**
+ * @brief -------------------------------------------------------------------------- Polynomial feature expansion (degree 2, no cross-terms for speed) --------------------------------------------------------------------------
+ * @param[in] X Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), push_back(), std::move().
+ */
 
 std::vector<std::vector<double>> polyFeatures(const std::vector<std::vector<double>> &X) {
     std::vector<std::vector<double>> out;
@@ -288,6 +313,12 @@ std::vector<std::vector<double>> polyFeatures(const std::vector<std::vector<doub
     return out;
 }
 
+/**
+ * @brief Poly Feature Names.
+ * @param[in] names Input parameter.
+ * @return Return value.
+ * @details Calls: push_back().
+ */
 std::vector<std::string> polyFeatureNames(const std::vector<std::string> &names) {
     std::vector<std::string> out = names;
     for (const auto &n : names) {
@@ -304,6 +335,11 @@ struct LabelEncoder {
     std::vector<std::string> classes; // sorted unique class labels
     std::map<std::string, int> index;
 
+    /**
+     * @brief Fit.
+     * @param[in] labels Input parameter.
+     * @details Calls: s(), begin(), end(), assign(), size().
+     */
     void fit(const std::vector<std::string> &labels) {
         std::set<std::string> s(labels.begin(), labels.end());
         classes.assign(s.begin(), s.end());
@@ -335,9 +371,13 @@ struct LabelEncoder {
     }
 };
 
-// --------------------------------------------------------------------------
-// Dot product and L2 norm helpers
-// --------------------------------------------------------------------------
+/**
+ * @brief -------------------------------------------------------------------------- Dot product and L2 norm helpers --------------------------------------------------------------------------
+ * @param[in] a Input parameter.
+ * @param[in] b Input parameter.
+ * @return Return value.
+ * @details Calls: std::min(), size().
+ */
 
 inline double dot(const std::vector<double> &a, const std::vector<double> &b) {
     double s = 0.0;
@@ -348,6 +388,13 @@ inline double dot(const std::vector<double> &a, const std::vector<double> &b) {
     return s;
 }
 
+/**
+ * @brief L2sq.
+ * @param[in] a Input parameter.
+ * @param[in] b Input parameter.
+ * @return Return value.
+ * @details Calls: std::min(), size().
+ */
 inline double l2sq(const std::vector<double> &a, const std::vector<double> &b) {
     double s = 0.0;
     size_t n = std::min(a.size(), b.size());
@@ -358,6 +405,12 @@ inline double l2sq(const std::vector<double> &a, const std::vector<double> &b) {
     return s;
 }
 
+/**
+ * @brief Sigmoid.
+ * @param[in] z Input parameter.
+ * @return Return value.
+ * @details Calls: std::exp().
+ */
 inline double sigmoid(double z) {
     return 1.0 / (1.0 + std::exp(-z));
 }
@@ -366,6 +419,11 @@ inline double sigmoid(double z) {
 // Softmax (in-place)
 // --------------------------------------------------------------------------
 
+/**
+ * @brief Softmax.
+ * @param[in,out] v Input/output parameter.
+ * @details Calls: std::max_element(), begin(), end(), std::exp().
+ */
 void softmax(std::vector<double> &v) {
     double maxv = *std::max_element(v.begin(), v.end());
     double sum  = 0.0;
@@ -395,7 +453,6 @@ struct TreeNode {
     int right = -1;
 };
 
-/** Compact binary decision tree represented as a node array. */
 struct DecisionTree {
     std::vector<TreeNode> nodes;
     int max_depth        = 5;
@@ -416,7 +473,11 @@ struct DecisionTree {
             n_features_try = n_feat;
         }
 
-        // Indices of samples at each node
+        /**
+         * @brief Indices of samples at each node
+         * @param[in] n Input parameter.
+         * @return Return value.
+         */
         std::vector<size_t> idx(n);
         std::iota(idx.begin(), idx.end(), 0);
         buildNode(X, y_cls, y_reg, idx, 0, rng, n_features_try);
@@ -460,7 +521,18 @@ struct DecisionTree {
     }
 
   private:
-    // Returns index into nodes
+    /**
+     * @brief Returns index into nodes
+     * @param[in] X Input parameter.
+     * @param[in] y_cls Input parameter.
+     * @param[in] y_reg Input parameter.
+     * @param[in] idx Input parameter.
+     * @param[in] depth Input parameter.
+     * @param[in,out] rng Input/output parameter.
+     * @param[in] n_features_try Input parameter.
+     * @return Return value.
+     * @details Calls: size(), emplace_back(), back(), computeLeafValue(), computeClassProbs(), infinity(), feats(), std::iota().
+     */
     int buildNode(const std::vector<std::vector<double>> &X, const std::vector<int> &y_cls,
                   const std::vector<double> &y_reg, const std::vector<size_t> &idx, int depth, std::mt19937 &rng,
                   int n_features_try) {
@@ -684,6 +756,13 @@ struct LogisticRegression {
     int max_epochs = 200;
     int batch_size = 32;
 
+    /**
+     * @brief Fit.
+     * @param[in] X Input parameter.
+     * @param[in] y Input parameter.
+     * @param[in,out] rng Input/output parameter.
+     * @details Calls: empty(), size(), assign(), idx(), std::iota(), begin(), end(), std::shuffle().
+     */
     void fit(const std::vector<std::vector<double>> &X, const std::vector<int> &y, std::mt19937 &rng) {
         if (X.empty()) {
             return;
@@ -752,6 +831,12 @@ struct LinearReg {
     std::vector<double> w; // weights (including bias at index d)
     double l2 = 1e-4;
 
+    /**
+     * @brief Fit.
+     * @param[in] X Input parameter.
+     * @param[in] y Input parameter.
+     * @details Calls: empty(), size(), Xb(), XtX(), Xty(), solveLinear().
+     */
     void fit(const std::vector<std::vector<double>> &X, const std::vector<double> &y) {
         if (X.empty()) {
             return;
@@ -800,6 +885,13 @@ struct LinearReg {
     }
 
   private:
+    /**
+     * @brief Solve Linear.
+     * @param[in] A Input parameter.
+     * @param[in] b Input parameter.
+     * @return Return value.
+     * @details Calls: size(), std::abs(), std::swap(), x().
+     */
     static std::vector<double> solveLinear(std::vector<std::vector<double>> A, std::vector<double> b) {
         size_t n = b.size();
         // Forward elimination with partial pivoting
@@ -844,7 +936,13 @@ struct LinearReg {
 // Evaluation metrics helpers
 // --------------------------------------------------------------------------
 
-/** Accuracy (classification). */
+/**
+ * @brief Compute Accuracy.
+ * @param[in] y_true Input parameter.
+ * @param[in] y_pred Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), size().
+ */
 double computeAccuracy(const std::vector<int> &y_true, const std::vector<int> &y_pred) {
     if (y_true.empty()) {
         return 0.0;
@@ -858,10 +956,17 @@ double computeAccuracy(const std::vector<int> &y_true, const std::vector<int> &y
     return static_cast<double>(correct) / static_cast<double>(y_true.size());
 }
 
-/** Macro-averaged F1 / Precision / Recall. */
 struct ClassMetrics {
     double f1, precision, recall;
 };
+/**
+ * @brief Compute Class Metrics.
+ * @param[in] y_true Input parameter.
+ * @param[in] y_pred Input parameter.
+ * @param[in] n_classes Input parameter.
+ * @return Return value.
+ * @details Calls: tp(), fp(), fn(), size().
+ */
 ClassMetrics computeClassMetrics(const std::vector<int> &y_true, const std::vector<int> &y_pred, int n_classes) {
     std::vector<int> tp(static_cast<size_t>(n_classes), 0), fp(static_cast<size_t>(n_classes), 0),
         fn(static_cast<size_t>(n_classes), 0);
@@ -894,10 +999,16 @@ ClassMetrics computeClassMetrics(const std::vector<int> &y_true, const std::vect
     return {f1_sum / d, prec_sum / d, rec_sum / d};
 }
 
-/** Regression metrics: R², RMSE, MAE. */
 struct RegMetrics {
     double r2, rmse, mae;
 };
+/**
+ * @brief Compute Reg Metrics.
+ * @param[in] y_true Input parameter.
+ * @param[in] y_pred Input parameter.
+ * @return Return value.
+ * @details Calls: size(), std::abs(), std::sqrt().
+ */
 RegMetrics computeRegMetrics(const std::vector<double> &y_true, const std::vector<double> &y_pred) {
     size_t n = y_true.size();
     if (n == 0) {
@@ -927,6 +1038,11 @@ RegMetrics computeRegMetrics(const std::vector<double> &y_true, const std::vecto
 // --------------------------------------------------------------------------
 
 std::vector<std::pair<std::vector<size_t>, std::vector<size_t>>> makeFolds(size_t n, int k, std::mt19937 &rng) {
+    /**
+     * @brief Idx.
+     * @param[in] n Input parameter.
+     * @return Return value.
+     */
     std::vector<size_t> idx(n);
     std::iota(idx.begin(), idx.end(), 0);
     std::shuffle(idx.begin(), idx.end(), rng);
@@ -953,13 +1069,40 @@ std::vector<std::pair<std::vector<size_t>, std::vector<size_t>>> makeFolds(size_
 // Generic model interface (type-erased)
 // --------------------------------------------------------------------------
 
-/** Abstract base for type-erased trained models. */
 struct ModelBase {
+    /**
+     * @brief Model Base.
+     * @return Return value.
+     */
     virtual ~ModelBase()                                                            = default;
+    /**
+     * @brief Predict One Reg.
+     * @param[in] x Input parameter.
+     * @return Return value.
+     */
     virtual double predictOneReg(const std::vector<double> &x) const                = 0;
+    /**
+     * @brief Predict One Cls.
+     * @param[in] x Input parameter.
+     * @return Return value.
+     */
     virtual int predictOneCls(const std::vector<double> &x) const                   = 0;
+    /**
+     * @brief Predict Proba One.
+     * @param[in] x Input parameter.
+     * @return Return value.
+     */
     virtual std::vector<double> predictProbaOne(const std::vector<double> &x) const = 0;
+    /**
+     * @brief Algorithm.
+     * @return Return value.
+     * @note Exception safety: noexcept.
+     */
     virtual ModelAlgorithm algorithm() const noexcept                               = 0;
+    /**
+     * @brief Clone.
+     * @return Return value.
+     */
     virtual std::unique_ptr<ModelBase> clone() const                                = 0;
 };
 
@@ -1035,7 +1178,6 @@ struct LinRegModel : ModelBase {
     }
 };
 
-/** Random Forest: ensemble of decision trees. */
 struct RFModel : ModelBase {
     std::vector<DecisionTree> trees;
     bool is_classifier = true;
@@ -1080,7 +1222,6 @@ struct RFModel : ModelBase {
     }
 };
 
-/** Gradient Boosting: stagewise additive model. */
 struct GBModel : ModelBase {
     struct Stage {
         DecisionTree tree;
@@ -1115,7 +1256,6 @@ struct GBModel : ModelBase {
     }
 };
 
-/** k-NN model. */
 struct KNNModel : ModelBase {
     std::vector<std::vector<double>> X_train;
     std::vector<int> y_cls;
@@ -1178,7 +1318,6 @@ struct KNNModel : ModelBase {
     }
 };
 
-/** Ensemble: weighted mean/vote over a collection of models. */
 struct EnsembleModel : ModelBase {
     std::vector<std::unique_ptr<ModelBase>> members;
     bool is_classifier = true;
@@ -1233,6 +1372,19 @@ struct EnsembleModel : ModelBase {
 // Training helpers
 // --------------------------------------------------------------------------
 
+/**
+ * @brief Train Decision Tree.
+ * @param[in] X Input parameter.
+ * @param[in] y_cls Input parameter.
+ * @param[in] y_reg Input parameter.
+ * @param[in] is_classifier Input parameter.
+ * @param[in] n_classes Input parameter.
+ * @param[in] max_depth Input parameter.
+ * @param[in] min_leaf Input parameter.
+ * @param[in,out] rng Input/output parameter.
+ * @return Return value.
+ * @details Calls: fit(), std::move().
+ */
 std::unique_ptr<ModelBase> trainDecisionTree(const std::vector<std::vector<double>> &X, const std::vector<int> &y_cls,
                                              const std::vector<double> &y_reg, bool is_classifier, int n_classes,
                                              int max_depth, int min_leaf, std::mt19937 &rng) {
@@ -1245,6 +1397,20 @@ std::unique_ptr<ModelBase> trainDecisionTree(const std::vector<std::vector<doubl
     return std::make_unique<DTModel>(std::move(t));
 }
 
+/**
+ * @brief Train Random Forest.
+ * @param[in] X Input parameter.
+ * @param[in] y_cls Input parameter.
+ * @param[in] y_reg Input parameter.
+ * @param[in] is_classifier Input parameter.
+ * @param[in] n_classes Input parameter.
+ * @param[in] n_trees Input parameter.
+ * @param[in] max_depth Input parameter.
+ * @param[in] min_leaf Input parameter.
+ * @param[in,out] rng Input/output parameter.
+ * @return Return value.
+ * @details Calls: empty(), size(), std::max(), std::round(), std::sqrt(), bag(), rng(), reserve().
+ */
 std::unique_ptr<ModelBase> trainRandomForest(const std::vector<std::vector<double>> &X, const std::vector<int> &y_cls,
                                              const std::vector<double> &y_reg, bool is_classifier, int n_classes,
                                              int n_trees, int max_depth, int min_leaf, std::mt19937 &rng) {
@@ -1286,6 +1452,20 @@ std::unique_ptr<ModelBase> trainRandomForest(const std::vector<std::vector<doubl
     return rf;
 }
 
+/**
+ * @brief Train Gradient Boosting.
+ * @param[in] X Input parameter.
+ * @param[in] y_cls Input parameter.
+ * @param[in] y_reg Input parameter.
+ * @param[in] is_classifier Input parameter.
+ * @param[in] n_classes Input parameter.
+ * @param[in] n_stages Input parameter.
+ * @param[in] max_depth Input parameter.
+ * @param[in] learning_rate Input parameter.
+ * @param[in,out] rng Input/output parameter.
+ * @return Return value.
+ * @details Calls: size(), empty(), dummy_cls(), fit(), predictOne(), push_back(), std::move(), std::max().
+ */
 std::unique_ptr<ModelBase> trainGradientBoosting(const std::vector<std::vector<double>> &X,
                                                  const std::vector<int> &y_cls, const std::vector<double> &y_reg,
                                                  bool is_classifier, int n_classes, int n_stages, int max_depth,
@@ -1361,6 +1541,18 @@ std::unique_ptr<ModelBase> trainGradientBoosting(const std::vector<std::vector<d
     return gb;
 }
 
+/**
+ * @brief Train Log Reg.
+ * @param[in] X Input parameter.
+ * @param[in] y_cls Input parameter.
+ * @param[in] n_classes Input parameter.
+ * @param[in] lr_rate Input parameter.
+ * @param[in] l2 Input parameter.
+ * @param[in] epochs Input parameter.
+ * @param[in,out] rng Input/output parameter.
+ * @return Return value.
+ * @details Calls: fit(), std::move().
+ */
 std::unique_ptr<ModelBase> trainLogReg(const std::vector<std::vector<double>> &X, const std::vector<int> &y_cls,
                                        int n_classes, double lr_rate, double l2, int epochs, std::mt19937 &rng) {
     LogisticRegression lr;
@@ -1372,6 +1564,14 @@ std::unique_ptr<ModelBase> trainLogReg(const std::vector<std::vector<double>> &X
     return std::make_unique<LRModel>(std::move(lr));
 }
 
+/**
+ * @brief Train Lin Reg.
+ * @param[in] X Input parameter.
+ * @param[in] y_reg Input parameter.
+ * @param[in] l2 Input parameter.
+ * @return Return value.
+ * @details Calls: fit(), std::move().
+ */
 std::unique_ptr<ModelBase> trainLinReg(const std::vector<std::vector<double>> &X, const std::vector<double> &y_reg,
                                        double l2) {
     LinearReg lr;
@@ -1380,6 +1580,17 @@ std::unique_ptr<ModelBase> trainLinReg(const std::vector<std::vector<double>> &X
     return std::make_unique<LinRegModel>(std::move(lr));
 }
 
+/**
+ * @brief Train KNN.
+ * @param[in] X Input parameter.
+ * @param[in] y_cls Input parameter.
+ * @param[in] y_reg Input parameter.
+ * @param[in] is_classifier Input parameter.
+ * @param[in] n_classes Input parameter.
+ * @param[in] k Input parameter.
+ * @return Return value.
+ * @details Implements trainKNN without additional internal calls.
+ */
 std::unique_ptr<ModelBase> trainKNN(const std::vector<std::vector<double>> &X, const std::vector<int> &y_cls,
                                     const std::vector<double> &y_reg, bool is_classifier, int n_classes, int k) {
     auto knn           = std::make_unique<KNNModel>();
@@ -1392,9 +1603,18 @@ std::unique_ptr<ModelBase> trainKNN(const std::vector<std::vector<double>> &X, c
     return knn;
 }
 
-// --------------------------------------------------------------------------
-// Evaluate a trained model on a subset of data
-// --------------------------------------------------------------------------
+/**
+ * @brief -------------------------------------------------------------------------- Evaluate a trained model on a subset of data --------------------------------------------------------------------------
+ * @param[in] model Input parameter.
+ * @param[in] X Input parameter.
+ * @param[in] y_cls Input parameter.
+ * @param[in] y_reg Input parameter.
+ * @param[in] is_classifier Input parameter.
+ * @param[in] n_classes Input parameter.
+ * @param[in] metric Input parameter.
+ * @return Return value.
+ * @details Calls: size(), preds(), predictOneCls(), computeAccuracy(), computeClassMetrics(), scores(), predictProbaOne(), std::sort().
+ */
 
 EvalMetrics evaluateModel(const ModelBase &model, const std::vector<std::vector<double>> &X,
                           const std::vector<int> &y_cls, const std::vector<double> &y_reg, bool is_classifier,
@@ -1465,6 +1685,12 @@ EvalMetrics evaluateModel(const ModelBase &model, const std::vector<std::vector<
 
 using HPGrid = std::map<std::string, std::vector<double>>;
 
+/**
+ * @brief Default HPGrid.
+ * @param[in] algo Input parameter.
+ * @return Return value.
+ * @details Implements defaultHPGrid without additional internal calls.
+ */
 HPGrid defaultHPGrid(ModelAlgorithm algo) {
     switch (algo) {
         case ModelAlgorithm::LOGISTIC_REGRESSION:
@@ -1493,9 +1719,12 @@ std::map<std::string, double> sampleHP(const HPGrid &grid, std::mt19937 &rng) {
     return hp;
 }
 
-// --------------------------------------------------------------------------
-// Default algorithms for each task
-// --------------------------------------------------------------------------
+/**
+ * @brief -------------------------------------------------------------------------- Default algorithms for each task --------------------------------------------------------------------------
+ * @param[in] task Input parameter.
+ * @return Return value.
+ * @details Implements defaultAlgorithms without additional internal calls.
+ */
 
 std::vector<ModelAlgorithm> defaultAlgorithms(AutoMLTask task) {
     if (task == AutoMLTask::CLASSIFICATION) {
@@ -1731,6 +1960,11 @@ std::string AutoMLModel::exportONNX(const std::string &path) const {
     }
 
     std::ostringstream js = {};
+    /**
+     * @brief Setprecision.
+     * @param[in] max_digits10 Input parameter.
+     * @return Return value.
+     */
     js << std::setprecision(std::numeric_limits<double>::max_digits10);
 
     // ---- helper lambdas ---------------------------------------------------
@@ -1792,6 +2026,11 @@ std::string AutoMLModel::exportONNX(const std::string &path) const {
     // ---- feature schema ---------------------------------------------------
     js << "  \"feature_names\": [";
     for (size_t i = 0; i < feat.size(); ++i) {
+        /**
+         * @brief J Str.
+         * @param[in] feat Input parameter.
+         * @return Return value.
+         */
         js << jStr(feat[i]);
         if (i + 1 < feat.size()) {
             js << ", ";
@@ -1803,6 +2042,11 @@ std::string AutoMLModel::exportONNX(const std::string &path) const {
     js << "  \"class_labels\": [";
     const auto &classes = impl_->label_enc.classes;
     for (size_t i = 0; i < classes.size(); ++i) {
+        /**
+         * @brief J Str.
+         * @param[in] classes Input parameter.
+         * @return Return value.
+         */
         js << jStr(classes[i]);
         if (i + 1 < classes.size()) {
             js << ", ";
@@ -1886,6 +2130,12 @@ std::string AutoMLModel::exportONNX(const std::string &path) const {
 
     // ---- Write to file ----------------------------------------------------
     if (!path.empty()) {
+        /**
+         * @brief Ofs.
+         * @param[in] path Input parameter.
+         * @param[in] trunc Input parameter.
+         * @return Return value.
+         */
         std::ofstream ofs(path, std::ios::trunc);
         if (!ofs.is_open()) {
             return "IO_ERROR: could not open file for writing: " + path;
@@ -1917,6 +2167,12 @@ std::string AutoMLModel::serialize() const {
     return ss.str();
 }
 
+/**
+ * @brief Deserialize.
+ * @param[in] data Input parameter.
+ * @return Return value.
+ * @details Calls: ss(), std::getline(), find(), substr(), std::stoi(), std::stod(), push_back(), size().
+ */
 AutoMLModel AutoMLModel::deserialize(const std::string &data) {
     AutoMLModel m;
     std::istringstream ss(data);

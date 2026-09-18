@@ -21,7 +21,9 @@ namespace distributed_tensor {
 // ============================================================================
 
 /**
- * @brief Get current ISO-8601 timestamp.
+ * @brief Get Current Timestamp.
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::now(), std::chrono::system_clock::to_time_t(), time_since_epoch(), std::put_time(), std::localtime(), std::setfill(), std::setw(), count().
  */
 static std::string getCurrentTimestamp() {
     auto now = std::chrono::system_clock::now();
@@ -35,11 +37,6 @@ static std::string getCurrentTimestamp() {
     return oss.str();
 }
 
-/**
- * @brief Parse ISO-8601 timestamp and compute age in seconds.
- * 
- * Returns -1 if parsing fails.
- */
 static long parseTimestampAgeSec(const std::string& iso_timestamp) noexcept {
     try {
         // Simple parsing: expect format YYYY-MM-DDTHH:MM:SS.sssZ
@@ -49,6 +46,11 @@ static long parseTimestampAgeSec(const std::string& iso_timestamp) noexcept {
         }
 
         std::tm tm = {};
+        /**
+         * @brief Iss.
+         * @param[in] iso_timestamp Input parameter.
+         * @return Return value.
+         */
         std::istringstream iss(iso_timestamp);
         iss >> std::get_time(&tm, "%Y-%m-%dT%H:%M:%S");
         

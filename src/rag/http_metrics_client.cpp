@@ -43,6 +43,13 @@ struct HTTPMetricsClient::Impl {
         }
     }
 #else
+    /**
+     * @brief Impl.
+     * @param[in] param Input parameter.
+     * @param[in] param Input parameter.
+     * @return Return value.
+     * @details Implements Impl without additional internal calls.
+     */
     explicit Impl(const std::string&, const HTTPMetricsClientConfig&) {}
 #endif
 };
@@ -61,11 +68,23 @@ HTTPMetricsClient::HTTPMetricsClient(const HTTPMetricsClientConfig& config)
 
 HTTPMetricsClient::~HTTPMetricsClient() = default;
 
+/**
+ * @brief Send Metric.
+ * @param[in] metric Input parameter.
+ * @return Return value.
+ * @details Calls: serializeMetric(), sendRawPayload().
+ */
 HTTPResponse HTTPMetricsClient::sendMetric(const QualityMetricPayload& metric) {
     std::string json_payload = serializeMetric(metric);
     return sendRawPayload(json_payload);
 }
 
+/**
+ * @brief Send Metrics Batch.
+ * @param[in] metrics Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), size(), THEMIS_WARN(), std::min(), batch(), begin(), serializeMetricsBatch(), sendRawPayload().
+ */
 HTTPResponse HTTPMetricsClient::sendMetricsBatch(const std::vector<QualityMetricPayload>& metrics) {
     if (metrics.empty()) {
         HTTPResponse response;
@@ -98,6 +117,12 @@ HTTPResponse HTTPMetricsClient::sendMetricsBatch(const std::vector<QualityMetric
     return response;
 }
 
+/**
+ * @brief Send Raw Payload.
+ * @param[in] json_payload Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), requestWithRetry().
+ */
 HTTPResponse HTTPMetricsClient::sendRawPayload(const std::string& json_payload) {
     std::unordered_map<std::string, std::string> headers;
     headers["Content-Type"] = "application/json";
@@ -132,6 +157,11 @@ HTTPResponse HTTPMetricsClient::requestWithRetry(
         /* multiplier         */ 2.0,
         /* jitter_fraction    */ 0.0,
     };
+    /**
+     * @brief Backoff.
+     * @param[in] retry_cfg Input parameter.
+     * @return Return value.
+     */
     themis::utils::ExponentialBackoff backoff(retry_cfg);
 
     HTTPResponse response;
@@ -190,6 +220,11 @@ HTTPResponse HTTPMetricsClient::requestWithRetry(
                               result->status, backoff.current_delay_ms(),
                               attempt + 1, config_.max_retries);
                 {
+                    /**
+                     * @brief Lock.
+                     * @param[in] stats_mutex_ Input parameter.
+                     * @return Return value.
+                     */
                     std::unique_lock<std::shared_mutex> lock(stats_mutex_);
                     stats_.retries_attempted++;
                 }
@@ -209,6 +244,11 @@ HTTPResponse HTTPMetricsClient::requestWithRetry(
                               response.error_message, backoff.current_delay_ms(),
                               attempt + 1, config_.max_retries);
                 {
+                    /**
+                     * @brief Lock.
+                     * @param[in] stats_mutex_ Input parameter.
+                     * @return Return value.
+                     */
                     std::unique_lock<std::shared_mutex> lock(stats_mutex_);
                     stats_.retries_attempted++;
                 }
@@ -232,6 +272,11 @@ HTTPResponse HTTPMetricsClient::requestWithRetry(
 
         // Safely access callback with mutex protection
         {
+            /**
+             * @brief Lock.
+             * @param[in] callback_mutex_ Input parameter.
+             * @return Return value.
+             */
             std::lock_guard<std::mutex> lock(callback_mutex_);
             if (request_callback_) {  // Double-check pattern
                 request_callback_(method_str, path, response.status_code, response.latency.count());
@@ -252,26 +297,51 @@ HTTPResponse HTTPMetricsClient::requestWithRetry(
 #endif
 }
 
+/**
+ * @brief Is Endpoint Healthy.
+ * @return True when the operation succeeds.
+ * @details Calls: request().
+ */
 bool HTTPMetricsClient::isEndpointHealthy() {
     auto response = request(HTTPMethod::GET, "/health");
     return response.success;
 }
 
 HTTPMetricsClient::Statistics HTTPMetricsClient::getStatistics() const {
+    /**
+     * @brief Lock.
+     * @param[in] stats_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(stats_mutex_);
     return stats_;
 }
 
+/**
+ * @brief Reset Statistics.
+ * @details Calls: lock(), Statistics().
+ */
 void HTTPMetricsClient::resetStatistics() {
     std::unique_lock<std::shared_mutex> lock(stats_mutex_);
     stats_ = Statistics();
 }
 
+/**
+ * @brief Set Request Callback.
+ * @param[in] callback Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void HTTPMetricsClient::setRequestCallback(RequestCallback callback) {
     std::lock_guard<std::mutex> lock(callback_mutex_);
     request_callback_ = std::move(callback);
 }
 
+/**
+ * @brief Update Statistics.
+ * @param[in] response Input parameter.
+ * @param[in] metrics_count Input parameter.
+ * @details Calls: lock().
+ */
 void HTTPMetricsClient::updateStatistics(const HTTPResponse& response, size_t metrics_count) {
     std::unique_lock<std::shared_mutex> lock(stats_mutex_);
     
@@ -291,6 +361,12 @@ void HTTPMetricsClient::updateStatistics(const HTTPResponse& response, size_t me
     }
 }
 
+/**
+ * @brief Serialize Metric.
+ * @param[in] metric Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), dump().
+ */
 std::string HTTPMetricsClient::serializeMetric(const QualityMetricPayload& metric) {
     json j;
     j["query"] = metric.query;
@@ -311,6 +387,12 @@ std::string HTTPMetricsClient::serializeMetric(const QualityMetricPayload& metri
     return j.dump();
 }
 
+/**
+ * @brief Serialize Metrics Batch.
+ * @param[in] metrics Input parameter.
+ * @return Return value.
+ * @details Calls: json::array(), empty(), push_back(), size(), std::chrono::system_clock::now(), time_since_epoch(), count(), dump().
+ */
 std::string HTTPMetricsClient::serializeMetricsBatch(const std::vector<QualityMetricPayload>& metrics) {
     json j;
     j["metrics"] = json::array();
@@ -341,9 +423,12 @@ std::string HTTPMetricsClient::serializeMetricsBatch(const std::vector<QualityMe
     return j.dump();
 }
 
-// ═══════════════════════════════════════════════════════════
-// HTTP Metrics Client Factory Implementation
-// ═══════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════ HTTP Metrics Client Factory Implementation ═══════════════════════════════════════════════════════════
+ * @param[in] endpoint Input parameter.
+ * @return Return value.
+ * @details Implements createLocalClient without additional internal calls.
+ */
 
 std::shared_ptr<HTTPMetricsClient> HTTPMetricsClientFactory::createLocalClient(const std::string& endpoint) {
     HTTPMetricsClientConfig config;
@@ -355,6 +440,13 @@ std::shared_ptr<HTTPMetricsClient> HTTPMetricsClientFactory::createLocalClient(c
     return std::make_shared<HTTPMetricsClient>(config);
 }
 
+/**
+ * @brief Create Production Client.
+ * @param[in] endpoint Input parameter.
+ * @param[in] auth_token Input parameter.
+ * @return Return value.
+ * @details Implements createProductionClient without additional internal calls.
+ */
 std::shared_ptr<HTTPMetricsClient> HTTPMetricsClientFactory::createProductionClient(
     const std::string& endpoint,
     const std::string& auth_token) {
@@ -370,6 +462,12 @@ std::shared_ptr<HTTPMetricsClient> HTTPMetricsClientFactory::createProductionCli
     return std::make_shared<HTTPMetricsClient>(config);
 }
 
+/**
+ * @brief Create Custom Client.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @details Implements createCustomClient without additional internal calls.
+ */
 std::shared_ptr<HTTPMetricsClient> HTTPMetricsClientFactory::createCustomClient(const HTTPMetricsClientConfig& config) {
     return std::make_shared<HTTPMetricsClient>(config);
 }

@@ -164,8 +164,9 @@ int launchINT8MatmulKernel(
 
 #endif // THEMIS_ENABLE_CUDA
 
+
 /**
- * @brief ============================================================================= CPU fallback launcher (always available, no GPU required) =============================================================================
+ * @brief Launch CPUMatmul Kernel.
  * @param[in] A Input parameter.
  * @param[in] B Input parameter.
  * @param[in,out] C Input/output parameter.
@@ -176,7 +177,6 @@ int launchINT8MatmulKernel(
  * @param[in] beta Input parameter.
  * @return Return value.
  */
-
 int launchCPUMatmulKernel(
     const float* A,
     const float* B,
@@ -188,23 +188,23 @@ int launchCPUMatmulKernel(
     float        beta
 );
 
+
 /**
- * @brief ============================================================================= Unified dispatch adapter (backend-agnostic entry point) =============================================================================
+ * @brief Dispatch Matmul.
  * @param[in] params Input parameter.
  * @param[in,out] opaque_stream Input/output parameter.
  * @return Return value.
  */
-
 int dispatchMatmul(const MatrixKernelParams& params, void* opaque_stream);
 
+
 /**
- * @brief ============================================================================= FP32 ↔ INT8 quantisation helpers (CPU, always available) =============================================================================
+ * @brief Quantize.
  * @param[in] src Input parameter.
  * @param[in,out] dst Input/output parameter.
  * @param[in] n Input parameter.
  * @param[in] scale Input parameter.
  */
-
 void quantize(const float* src, int8_t* dst, size_t n, float scale);
 
 /**

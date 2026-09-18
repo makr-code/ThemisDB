@@ -94,7 +94,10 @@ DistributedTaskCoordinator::~DistributedTaskCoordinator() noexcept {
     }
 }
 
-// ── Lifecycle ────────────────────────────────────────────────────────────────
+/**
+ * @brief ── Lifecycle ────────────────────────────────────────────────────────────────
+ * @details Calls: exchange(), THEMIS_WARN(), setLeaderElectedCallback(), onLeaderElected(), isLeader(), THEMIS_INFO(), activateScheduler().
+ */
 
 void DistributedTaskCoordinator::start() {
     if (running_.exchange(true)) {
@@ -118,6 +121,10 @@ void DistributedTaskCoordinator::start() {
     THEMIS_INFO("DistributedTaskCoordinator started");
 }
 
+/**
+ * @brief Stop.
+ * @details Calls: exchange(), lock(), notify_all(), joinable(), join(), deactivateScheduler(), setLeaderElectedCallback(), THEMIS_INFO().
+ */
 void DistributedTaskCoordinator::stop() {
     if (!running_.exchange(false)) {
         return;  // Already stopped.
@@ -159,7 +166,10 @@ std::string DistributedTaskCoordinator::getLocalNodeId() const {
     return coordinator_->getLocalShardId();
 }
 
-// ── Manual scheduler control ──────────────────────────────────────────────────
+/**
+ * @brief ── Manual scheduler control ──────────────────────────────────────────────────
+ * @details Calls: exchange(), THEMIS_INFO(), lock(), size(), registerTask(), THEMIS_WARN(), what(), start().
+ */
 
 void DistributedTaskCoordinator::activateScheduler() {
     if (scheduler_active_.exchange(true)) {
@@ -189,6 +199,10 @@ void DistributedTaskCoordinator::activateScheduler() {
                 task_count);
 }
 
+/**
+ * @brief Deactivate Scheduler.
+ * @details Calls: exchange(), THEMIS_INFO(), stop(), lock(), unregisterTask().
+ */
 void DistributedTaskCoordinator::deactivateScheduler() {
     if (!scheduler_active_.exchange(false)) {
         return;  // Already inactive.
@@ -218,7 +232,12 @@ bool DistributedTaskCoordinator::isSchedulerActive() const {
     return scheduler_active_.load();
 }
 
-// ── Task management ───────────────────────────────────────────────────────────
+/**
+ * @brief ── Task management ───────────────────────────────────────────────────────────
+ * @param[in] task Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), generateId(), lock(), load(), THEMIS_WARN(), what(), THEMIS_DEBUG().
+ */
 
 std::string DistributedTaskCoordinator::registerTask(const ScheduledTask& task) {
     // Assign an ID if one was not provided (mirrors TaskScheduler behaviour).
@@ -250,6 +269,11 @@ std::string DistributedTaskCoordinator::registerTask(const ScheduledTask& task) 
     return task_id;
 }
 
+/**
+ * @brief Unregister Task.
+ * @param[in] task_id Identifier of the task.
+ * @details Calls: lock(), erase(), load(), THEMIS_WARN(), what().
+ */
 void DistributedTaskCoordinator::unregisterTask(const std::string& task_id) {
     {
         std::lock_guard<std::mutex> lock(registry_mutex_);
@@ -266,6 +290,11 @@ void DistributedTaskCoordinator::unregisterTask(const std::string& task_id) {
     }
 }
 
+/**
+ * @brief Enable Task.
+ * @param[in] task_id Identifier of the task.
+ * @details Calls: lock(), find(), end(), load(), THEMIS_WARN(), what().
+ */
 void DistributedTaskCoordinator::enableTask(const std::string& task_id) {
     {
         std::lock_guard<std::mutex> lock(registry_mutex_);
@@ -285,6 +314,11 @@ void DistributedTaskCoordinator::enableTask(const std::string& task_id) {
     }
 }
 
+/**
+ * @brief Disable Task.
+ * @param[in] task_id Identifier of the task.
+ * @details Calls: lock(), find(), end(), load(), THEMIS_WARN(), what().
+ */
 void DistributedTaskCoordinator::disableTask(const std::string& task_id) {
     {
         std::lock_guard<std::mutex> lock(registry_mutex_);
@@ -305,6 +339,11 @@ void DistributedTaskCoordinator::disableTask(const std::string& task_id) {
 }
 
 std::vector<ScheduledTask> DistributedTaskCoordinator::listTasks() const {
+    /**
+     * @brief Lock.
+     * @param[in] registry_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(registry_mutex_);
     std::vector<ScheduledTask> result = {};
 
@@ -318,6 +357,11 @@ std::vector<ScheduledTask> DistributedTaskCoordinator::listTasks() const {
 std::shared_ptr<ScheduledTask> DistributedTaskCoordinator::getTask(
     const std::string& task_id) const
 {
+    /**
+     * @brief Lock.
+     * @param[in] registry_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(registry_mutex_);
     auto it = task_registry_.find(task_id);
     if (it == task_registry_.end()) {
@@ -329,7 +373,11 @@ std::shared_ptr<ScheduledTask> DistributedTaskCoordinator::getTask(
 // ── Statistics ────────────────────────────────────────────────────────────────
 
 DistributedTaskCoordinator::Stats DistributedTaskCoordinator::getStats() const {
-    // Level 1: Acquire registry lock for task count
+    /**
+     * @brief Level 1: Acquire registry lock for task count
+     * @param[in] registry_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(registry_mutex_);
     Stats s;
     s.registered_tasks    = task_registry_.size();
@@ -340,7 +388,11 @@ DistributedTaskCoordinator::Stats DistributedTaskCoordinator::getStats() const {
     return s;
 }
 
-// ── Private helpers ───────────────────────────────────────────────────────────
+/**
+ * @brief ── Private helpers ───────────────────────────────────────────────────────────
+ * @param[in] leader_id Identifier of the leader.
+ * @details Calls: load(), getLocalShardId(), lock(), THEMIS_INFO(), fetch_add(), activateScheduler(), deactivateScheduler().
+ */
 
 void DistributedTaskCoordinator::onLeaderElected(const std::string& leader_id) {
     // If the coordinator has been stopped, ignore late callbacks that may
@@ -380,6 +432,12 @@ void DistributedTaskCoordinator::onLeaderElected(const std::string& leader_id) {
     }
 }
 
+/**
+ * @brief Generate Id.
+ * @param[in] task Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), empty(), std::isalnum(), str().
+ */
 std::string DistributedTaskCoordinator::generateId(const ScheduledTask& task) {
     // Mirror the simple ID generation from TaskScheduler::generateTaskId.
     auto now = std::chrono::system_clock::now();
@@ -396,7 +454,11 @@ std::string DistributedTaskCoordinator::generateId(const ScheduledTask& task) {
     return oss.str();
 }
 
-// ── Coordination Health and Resilience ──────────────────────────────────────
+/**
+ * @brief ── Coordination Health and Resilience ──────────────────────────────────────
+ * @param[in] timeout_ms Input parameter.
+ * @return True when the operation succeeds.
+ */
 
 bool DistributedTaskCoordinator::acquireLeadershipWithTimeout(
     std::chrono::milliseconds timeout_ms)
@@ -443,6 +505,11 @@ bool DistributedTaskCoordinator::acquireLeadershipWithTimeout(
     }
 }
 
+/**
+ * @brief Maintain Heartbeat.
+ * @param[in] heartbeat_interval_ms Input parameter.
+ * @return True when the operation succeeds.
+ */
 bool DistributedTaskCoordinator::maintainHeartbeat(
     std::chrono::milliseconds heartbeat_interval_ms)
 {
@@ -468,6 +535,10 @@ bool DistributedTaskCoordinator::maintainHeartbeat(
     }
 }
 
+/**
+ * @brief Heartbeat Monitor Thread.
+ * @param[in] interval_ms Input parameter.
+ */
 void DistributedTaskCoordinator::heartbeatMonitorThread(
     std::chrono::milliseconds interval_ms)
 {
@@ -494,6 +565,11 @@ void DistributedTaskCoordinator::heartbeatMonitorThread(
 
             // Sleep until the next heartbeat interval or until shutdown
             {
+                /**
+                 * @brief Lock.
+                 * @param[in] heartbeat_mutex_ Input parameter.
+                 * @return Return value.
+                 */
                 std::unique_lock<std::mutex> lock(heartbeat_mutex_);
                 heartbeat_cv_.wait_for(lock, interval_ms,
                     [this]() { return !running_.load() || !heartbeat_active_.load(); });
@@ -507,6 +583,10 @@ void DistributedTaskCoordinator::heartbeatMonitorThread(
     THEMIS_DEBUG("DistributedTaskCoordinator: heartbeat monitor thread exiting");
 }
 
+/**
+ * @brief Handle Split Brain Detection.
+ * @return Return value.
+ */
 SchedulerError DistributedTaskCoordinator::handleSplitBrainDetection()
 {
     if (!running_.load()) {
@@ -525,6 +605,11 @@ SchedulerError DistributedTaskCoordinator::handleSplitBrainDetection()
         const std::optional<std::string> current_leader = coordinator_->getCurrentLeader();
 
         {
+            /**
+             * @brief Lock.
+             * @param[in] leadership_mutex_ Input parameter.
+             * @return Return value.
+             */
             std::lock_guard<std::mutex> lock(leadership_mutex_);
 
             // If we have a stored leader ID and it differs from the current leader,

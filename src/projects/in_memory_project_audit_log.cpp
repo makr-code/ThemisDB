@@ -25,10 +25,18 @@ InMemoryProjectAuditLog::InMemoryProjectAuditLog(size_t max_entries)
     entries_.reserve(std::min(max_entries, size_t{4096}));
 }
 
-// ── record ────────────────────────────────────────────────────────────────────
+/**
+ * @brief ── record ────────────────────────────────────────────────────────────────────
+ * @param[in] entry Input parameter.
+ */
 
 void InMemoryProjectAuditLog::record(const ProjectAuditEntry& entry)
 {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     entries_.push_back(entry);
 
@@ -73,6 +81,11 @@ std::vector<ProjectAuditEntry> InMemoryProjectAuditLog::applyFilters(
 std::vector<ProjectAuditEntry> InMemoryProjectAuditLog::query(
     const AuditQueryOptions& opts) const
 {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     auto result = applyFilters(opts);
 
@@ -99,16 +112,31 @@ std::vector<ProjectAuditEntry> InMemoryProjectAuditLog::query(
 
 size_t InMemoryProjectAuditLog::count(const AuditQueryOptions& opts) const
 {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return applyFilters(opts).size();
 }
 
-// ── purge ─────────────────────────────────────────────────────────────────────
+/**
+ * @brief ── purge ─────────────────────────────────────────────────────────────────────
+ * @param[in] project_id Identifier of the project.
+ * @param[in] before Input parameter.
+ * @return True when the operation succeeds.
+ */
 
 bool InMemoryProjectAuditLog::purge(
     const std::string& project_id,
     std::chrono::system_clock::time_point before)
 {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     const size_t before_size = entries_.size();
     entries_.erase(
@@ -124,12 +152,25 @@ bool InMemoryProjectAuditLog::purge(
 
 size_t InMemoryProjectAuditLog::size() const
 {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return entries_.size();
 }
 
+/**
+ * @brief Clear.
+ */
 void InMemoryProjectAuditLog::clear()
 {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     entries_.clear();
 }

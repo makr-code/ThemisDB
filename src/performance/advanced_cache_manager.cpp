@@ -126,16 +126,33 @@ using themis::compression::kTagZstd;
 
 } // anonymous namespace
 
+/**
+ * @brief Set Compress Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lk(), std::move().
+ */
 void AdvancedCacheManager::setCompressFn(CompressFn fn) {
     std::lock_guard<std::mutex> lk(s_codec_bridge_mutex);
     s_compress_fn = std::move(fn);
 }
 
+/**
+ * @brief Set Decompress Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lk(), std::move().
+ */
 void AdvancedCacheManager::setDecompressFn(DecompressFn fn) {
     std::lock_guard<std::mutex> lk(s_codec_bridge_mutex);
     s_decompress_fn = std::move(fn);
 }
 
+/**
+ * @brief Compress.
+ * @param[in] val Input parameter.
+ * @param[in] algo Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), std::string(), data(), size(), LZ4_compressBound(), out(), write_le32(), LZ4_compress_HC().
+ */
 std::string AdvancedCacheManager::compress(const std::string& val,
                                              CompressionAlgorithm algo) {
     if (val.empty()) {
@@ -227,6 +244,13 @@ std::string AdvancedCacheManager::compress(const std::string& val,
     return out;
 }
 
+/**
+ * @brief Decompress.
+ * @param[in] val Input parameter.
+ * @param[in] algo Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), size(), substr(), read_le32(), out(), LZ4_decompress_safe(), snappy::Uncompress(), ZSTD_decompress().
+ */
 std::string AdvancedCacheManager::decompress(const std::string& val,
                                               CompressionAlgorithm algo) {
     if (val.empty()) return {};
@@ -331,6 +355,11 @@ AdvancedCacheManager::AdvancedCacheManager(const CacheConfig& config) {
 
 AdvancedCacheManager::~AdvancedCacheManager() = default;
 
+/**
+ * @brief Create partitions.
+ * @param[in] config Input parameter.
+ * @details Calls: clear(), entries_for_mb(), push_back(), std::move().
+ */
 void AdvancedCacheManager::create_partitions(const CacheConfig& config) {
     config_ = config;
     partitions_.clear();
@@ -364,6 +393,13 @@ AdvancedCacheManager::find_partition(const std::string& name) const noexcept {
     return nullptr;
 }
 
+/**
+ * @brief Get.
+ * @param[in] key Input parameter.
+ * @param[in] partition Input parameter.
+ * @return Return value.
+ * @details Calls: find_partition(), lk(), maybe_contains(), find(), end(), splice(), begin(), decompress().
+ */
 std::optional<std::string> AdvancedCacheManager::get(const std::string& key,
                                                        const std::string& partition) {
     PartitionState* ps = find_partition(partition);
@@ -403,6 +439,13 @@ std::optional<std::string> AdvancedCacheManager::get(const std::string& key,
     return stored;
 }
 
+/**
+ * @brief Put.
+ * @param[in] key Input parameter.
+ * @param[in] value Input parameter.
+ * @param[in] partition Input parameter.
+ * @details Calls: find_partition(), lk(), compress(), find(), end(), std::move(), splice(), begin().
+ */
 void AdvancedCacheManager::put(const std::string& key,
                                 const std::string& value,
                                 const std::string& partition) {
@@ -444,6 +487,13 @@ void AdvancedCacheManager::put(const std::string& key,
     ps->stats.bytes_used += ps->lru_list.front().value.size();
 }
 
+/**
+ * @brief Evict.
+ * @param[in] key Input parameter.
+ * @param[in] partition Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: find_partition(), lk(), find(), end(), size(), erase().
+ */
 bool AdvancedCacheManager::evict(const std::string& key,
                                   const std::string& partition) {
     PartitionState* ps = find_partition(partition);
@@ -485,6 +535,10 @@ PartitionStats AdvancedCacheManager::get_partition_stats(
     return ps->stats;
 }
 
+/**
+ * @brief Reset stats.
+ * @details Calls: lk(), size().
+ */
 void AdvancedCacheManager::reset_stats() {
     for (auto& p : partitions_) {
         std::lock_guard<std::mutex> lk(p->mtx);
@@ -497,6 +551,11 @@ void AdvancedCacheManager::reset_stats() {
     }
 }
 
+/**
+ * @brief Flush partition.
+ * @param[in] partition Input parameter.
+ * @details Calls: find_partition(), lk(), clear().
+ */
 void AdvancedCacheManager::flush_partition(const std::string& partition) {
     PartitionState* ps = find_partition(partition);
     if (!ps) {
@@ -509,6 +568,10 @@ void AdvancedCacheManager::flush_partition(const std::string& partition) {
     ps->stats = PartitionStats{};
 }
 
+/**
+ * @brief Flush all.
+ * @details Calls: flush_partition().
+ */
 void AdvancedCacheManager::flush_all() {
     for (auto& p : partitions_) {
       flush_partition(p->cfg.name);

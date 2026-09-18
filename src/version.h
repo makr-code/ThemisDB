@@ -56,48 +56,54 @@ namespace themis {
 namespace version {
 
 /**
- * Get the full version string (e.g., "1.4.0-alpha")
- * @return Version string from VERSION file
+ * @brief Get Version String.
+ * @return Pointer to the result.
+ * @details Implements getVersionString without additional internal calls.
  */
 inline const char* getVersionString() {
     return THEMIS_VERSION_STRING;
 }
 
 /**
- * Get major version number
- * @return Major version (e.g., 1 for version 1.4.0)
+ * @brief Get Major Version.
+ * @return Return value.
+ * @details Implements getMajorVersion without additional internal calls.
  */
 inline int getMajorVersion() {
     return THEMIS_VERSION_MAJOR;
 }
 
 /**
- * Get minor version number
- * @return Minor version (e.g., 4 for version 1.4.0)
+ * @brief Get Minor Version.
+ * @return Return value.
+ * @details Implements getMinorVersion without additional internal calls.
  */
 inline int getMinorVersion() {
     return THEMIS_VERSION_MINOR;
 }
 
 /**
- * Get patch version number
- * @return Patch version (e.g., 0 for version 1.4.0)
+ * @brief Get Patch Version.
+ * @return Return value.
+ * @details Implements getPatchVersion without additional internal calls.
  */
 inline int getPatchVersion() {
     return THEMIS_VERSION_PATCH;
 }
 
 /**
- * Get numeric version number
- * @return Combined version (e.g., 10400 for version 1.4.0)
+ * @brief Get Version Number.
+ * @return Return value.
+ * @details Implements getVersionNumber without additional internal calls.
  */
 inline int getVersionNumber() {
     return THEMIS_VERSION_NUMBER;
 }
 
 /**
- * Get edition string
- * @return Edition name (e.g., "COMMUNITY", "ENTERPRISE", "HYPERSCALER")
+ * @brief Get Edition String.
+ * @return Pointer to the result.
+ * @details Implements getEditionString without additional internal calls.
  */
 inline const char* getEditionString() {
     return THEMIS_EDITION_STRING;

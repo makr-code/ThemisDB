@@ -120,9 +120,13 @@ EthicsAwareConfidenceDetector::EthicsAwareConfidenceDetector(
 
 EthicsAwareConfidenceDetector::~EthicsAwareConfidenceDetector() = default;
 
-// ═══════════════════════════════════════════════════════════
-// Core functionality
-// ═══════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════ Core functionality ═══════════════════════════════════════════════════════════
+ * @param[in] text Input parameter.
+ * @param[in] token_confidences Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), generateCacheKey(), getCachedResult(), empty(), evaluateTechnicalConfidence(), calculateTokenEntropy(), calculatePerplexity(), evaluateAutonomyRespect().
+ */
 
 ConfidenceResult EthicsAwareConfidenceDetector::detectConfidence(
     const std::string& text,
@@ -219,6 +223,15 @@ ConfidenceResult EthicsAwareConfidenceDetector::detectConfidence(
     return result;
 }
 
+/**
+ * @brief Detect Confidence With Context.
+ * @param[in] text Input parameter.
+ * @param[in] query Input parameter.
+ * @param[in] param Input parameter.
+ * @param[in] token_confidences Input parameter.
+ * @return Return value.
+ * @details Calls: detectConfidence(), empty(), evaluateAutonomyRespect(), combineScores(), generateReasoning().
+ */
 ConfidenceResult EthicsAwareConfidenceDetector::detectConfidenceWithContext(
     const std::string& text,
     const std::string& query,
@@ -249,9 +262,13 @@ ConfidenceResult EthicsAwareConfidenceDetector::detectConfidenceWithContext(
     return result;
 }
 
-// ═══════════════════════════════════════════════════════════
-// Individual dimension evaluation
-// ═══════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════ Individual dimension evaluation ═══════════════════════════════════════════════════════════
+ * @param[in] param Input parameter.
+ * @param[in] token_confidences Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), size(), calculateTokenEntropy(), std::log2().
+ */
 
 float EthicsAwareConfidenceDetector::evaluateTechnicalConfidence(
     const std::string& /*text*/,
@@ -277,6 +294,13 @@ float EthicsAwareConfidenceDetector::evaluateTechnicalConfidence(
     return 0.5f * avg_prob + 0.5f * normalized_entropy;
 }
 
+/**
+ * @brief Evaluate Autonomy Respect.
+ * @param[in] text Input parameter.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), detectPatronizingLanguage(), detectImperatives(), size(), checkChoicePreservation(), std::max(), std::min().
+ */
 float EthicsAwareConfidenceDetector::evaluateAutonomyRespect(
     const std::string& text,
     const std::string& /*query*/
@@ -309,6 +333,12 @@ float EthicsAwareConfidenceDetector::evaluateAutonomyRespect(
     return std::max(0.0f, std::min(1.0f, score));
 }
 
+/**
+ * @brief Evaluate Transparency.
+ * @param[in] text Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), detectUncertaintyAcknowledgment(), toLowerCase(), countPatternMatches(), std::min(), size().
+ */
 float EthicsAwareConfidenceDetector::evaluateTransparency(const std::string& text) {
     std::lock_guard<std::mutex> lock(impl_->mutex);
     
@@ -340,9 +370,12 @@ float EthicsAwareConfidenceDetector::evaluateTransparency(const std::string& tex
     return std::min(1.0f, score);
 }
 
-// ═══════════════════════════════════════════════════════════
-// Pattern detection
-// ═══════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════ Pattern detection ═══════════════════════════════════════════════════════════
+ * @param[in] text Input parameter.
+ * @return Return value.
+ * @details Calls: toLowerCase(), find(), push_back().
+ */
 
 std::vector<std::string> EthicsAwareConfidenceDetector::detectPatronizingLanguage(
     const std::string& text
@@ -367,6 +400,12 @@ std::vector<std::string> EthicsAwareConfidenceDetector::detectPatronizingLanguag
     return detected;
 }
 
+/**
+ * @brief Detect Imperatives.
+ * @param[in] text Input parameter.
+ * @return Return value.
+ * @details Calls: toLowerCase(), find(), push_back().
+ */
 std::vector<std::string> EthicsAwareConfidenceDetector::detectImperatives(
     const std::string& text
 ) {
@@ -390,6 +429,12 @@ std::vector<std::string> EthicsAwareConfidenceDetector::detectImperatives(
     return detected;
 }
 
+/**
+ * @brief Detect Uncertainty Acknowledgment.
+ * @param[in] text Input parameter.
+ * @return Return value.
+ * @details Calls: toLowerCase(), find(), push_back(), unique(), begin(), end(), assign().
+ */
 std::vector<std::string> EthicsAwareConfidenceDetector::detectUncertaintyAcknowledgment(
     const std::string& text
 ) {
@@ -417,6 +462,12 @@ std::vector<std::string> EthicsAwareConfidenceDetector::detectUncertaintyAcknowl
     return detected;
 }
 
+/**
+ * @brief Check Choice Preservation.
+ * @param[in] text Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: toLowerCase(), find().
+ */
 bool EthicsAwareConfidenceDetector::checkChoicePreservation(const std::string& text) {
     std::string text_lower = toLowerCase(text);
     
@@ -436,9 +487,11 @@ bool EthicsAwareConfidenceDetector::checkChoicePreservation(const std::string& t
     return false;
 }
 
-// ═══════════════════════════════════════════════════════════
-// Configuration
-// ═══════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════ Configuration ═══════════════════════════════════════════════════════════
+ * @param[in] config Input parameter.
+ * @details Calls: lock(), validateWeights().
+ */
 
 void EthicsAwareConfidenceDetector::setConfig(const EthicsAwareConfidenceConfig& config) {
     std::lock_guard<std::mutex> lock(impl_->mutex);
@@ -457,6 +510,10 @@ EthicsAwareConfidenceConfig EthicsAwareConfidenceDetector::getConfig() const {
     return impl_->config;
 }
 
+/**
+ * @brief Clear Cache.
+ * @details Calls: lock(), clear().
+ */
 void EthicsAwareConfidenceDetector::clearCache() {
     std::lock_guard<std::mutex> lock(impl_->mutex);
     impl_->cache.clear();
@@ -471,14 +528,22 @@ EthicsAwareConfidenceDetector::Statistics EthicsAwareConfidenceDetector::getStat
     return impl_->stats;
 }
 
+/**
+ * @brief Reset Statistics.
+ * @details Calls: lock(), Statistics().
+ */
 void EthicsAwareConfidenceDetector::resetStatistics() {
     std::lock_guard<std::mutex> lock(impl_->mutex);
     impl_->stats = Statistics();
 }
 
-// ═══════════════════════════════════════════════════════════
-// Helper methods
-// ═══════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════ Helper methods ═══════════════════════════════════════════════════════════
+ * @param[in] text Input parameter.
+ * @param[in] patterns Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: toLowerCase(), find().
+ */
 
 bool EthicsAwareConfidenceDetector::containsPattern(
     const std::string& text,
@@ -493,6 +558,13 @@ bool EthicsAwareConfidenceDetector::containsPattern(
     return false;
 }
 
+/**
+ * @brief Count Pattern Matches.
+ * @param[in] text Input parameter.
+ * @param[in] patterns Input parameter.
+ * @return Return value.
+ * @details Calls: toLowerCase(), find().
+ */
 int EthicsAwareConfidenceDetector::countPatternMatches(
     const std::string& text,
     const std::vector<std::string>& patterns
@@ -507,12 +579,24 @@ int EthicsAwareConfidenceDetector::countPatternMatches(
     return count;
 }
 
+/**
+ * @brief To Lower Case.
+ * @param[in] text Input parameter.
+ * @return Return value.
+ * @details Calls: std::transform(), begin(), end().
+ */
 std::string EthicsAwareConfidenceDetector::toLowerCase(const std::string& text) {
     std::string result = text;
     std::transform(result.begin(), result.end(), result.begin(), ::tolower);
     return result;
 }
 
+/**
+ * @brief Calculate Token Entropy.
+ * @param[in] tokens Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), std::log2(), size().
+ */
 float EthicsAwareConfidenceDetector::calculateTokenEntropy(
     const std::vector<TokenConfidence>& tokens
 ) {
@@ -529,6 +613,12 @@ float EthicsAwareConfidenceDetector::calculateTokenEntropy(
     return -entropy / tokens.size();
 }
 
+/**
+ * @brief Calculate Perplexity.
+ * @param[in] tokens Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), std::log2(), std::pow(), size().
+ */
 float EthicsAwareConfidenceDetector::calculatePerplexity(
     const std::vector<TokenConfidence>& tokens
 ) {
@@ -546,6 +636,14 @@ float EthicsAwareConfidenceDetector::calculatePerplexity(
     return std::pow(2.0f, -log_prob_sum / tokens.size());
 }
 
+/**
+ * @brief Combine Scores.
+ * @param[in] technical Input parameter.
+ * @param[in] autonomy Input parameter.
+ * @param[in] transparency Input parameter.
+ * @return Return value.
+ * @details Implements combineScores without additional internal calls.
+ */
 float EthicsAwareConfidenceDetector::combineScores(
     float technical,
     float autonomy,
@@ -556,6 +654,12 @@ float EthicsAwareConfidenceDetector::combineScores(
            impl_->config.transparency_weight * transparency;
 }
 
+/**
+ * @brief Generate Reasoning.
+ * @param[in] result Input parameter.
+ * @return Return value.
+ * @details Calls: size(), str().
+ */
 std::string EthicsAwareConfidenceDetector::generateReasoning(const ConfidenceResult& result) {
     std::ostringstream oss = {};
     
@@ -589,12 +693,25 @@ std::string EthicsAwareConfidenceDetector::generateReasoning(const ConfidenceRes
     return oss.str();
 }
 
+/**
+ * @brief Generate Cache Key.
+ * @param[in] text Input parameter.
+ * @return Return value.
+ * @details Calls: std::to_string(), hasher().
+ */
 std::string EthicsAwareConfidenceDetector::generateCacheKey(const std::string& text) {
     // Simple hash-based cache key
     std::hash<std::string> hasher;
     return std::to_string(hasher(text));
 }
 
+/**
+ * @brief Get Cached Result.
+ * @param[in] key Input parameter.
+ * @param[in,out] result Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: find(), end().
+ */
 bool EthicsAwareConfidenceDetector::getCachedResult(
     const std::string& key,
     ConfidenceResult& result
@@ -607,6 +724,12 @@ bool EthicsAwareConfidenceDetector::getCachedResult(
     return false;
 }
 
+/**
+ * @brief Cache Result.
+ * @param[in] key Input parameter.
+ * @param[in] result Input parameter.
+ * @details Calls: size(), erase(), begin().
+ */
 void EthicsAwareConfidenceDetector::cacheResult(
     const std::string& key,
     const ConfidenceResult& result
@@ -619,14 +742,21 @@ void EthicsAwareConfidenceDetector::cacheResult(
     impl_->cache[key] = result;
 }
 
-// ═══════════════════════════════════════════════════════════
-// Factory methods
-// ═══════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════ Factory methods ═══════════════════════════════════════════════════════════
+ * @return Return value.
+ * @details Implements createDefault without additional internal calls.
+ */
 
 std::unique_ptr<EthicsAwareConfidenceDetector> ConfidenceDetectorFactory::createDefault() {
     return std::make_unique<EthicsAwareConfidenceDetector>();
 }
 
+/**
+ * @brief Create Strict.
+ * @return Return value.
+ * @details Implements createStrict without additional internal calls.
+ */
 std::unique_ptr<EthicsAwareConfidenceDetector> ConfidenceDetectorFactory::createStrict() {
     EthicsAwareConfidenceConfig config;
     config.min_autonomy_respect = 0.85f;
@@ -635,6 +765,11 @@ std::unique_ptr<EthicsAwareConfidenceDetector> ConfidenceDetectorFactory::create
     return std::make_unique<EthicsAwareConfidenceDetector>(config);
 }
 
+/**
+ * @brief Create Lenient.
+ * @return Return value.
+ * @details Implements createLenient without additional internal calls.
+ */
 std::unique_ptr<EthicsAwareConfidenceDetector> ConfidenceDetectorFactory::createLenient() {
     EthicsAwareConfidenceConfig config;
     config.min_autonomy_respect = 0.60f;
@@ -643,6 +778,12 @@ std::unique_ptr<EthicsAwareConfidenceDetector> ConfidenceDetectorFactory::create
     return std::make_unique<EthicsAwareConfidenceDetector>(config);
 }
 
+/**
+ * @brief Create.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @details Implements create without additional internal calls.
+ */
 std::unique_ptr<EthicsAwareConfidenceDetector> ConfidenceDetectorFactory::create(
     const EthicsAwareConfidenceConfig& config
 ) {

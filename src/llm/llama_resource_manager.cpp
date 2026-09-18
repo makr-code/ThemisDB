@@ -140,6 +140,10 @@ void LlamaContextHandle::ContextDeleter::operator()(llama_context* ctx) const {
     }
 }
 
+/**
+ * @brief Clear kv cache.
+ * @details Calls: spdlog::debug().
+ */
 void LlamaContextHandle::clear_kv_cache() {
     if (context_) {
         // llama_kv_cache_clear not available in this version
@@ -184,6 +188,11 @@ BackendAwareLlamaModelHandle::BackendAwareLlamaModelHandle(
     llama_model_params adjusted_params = params;
     
     if (gpu_config.auto_detect_optimal_layers) {
+        /**
+         * @brief Model file.
+         * @param[in] model_path Path to the model.
+         * @return Return value.
+         */
         std::filesystem::path model_file(model_path);
         if (std::filesystem::exists(model_file)) {
             size_t model_size = std::filesystem::file_size(model_file);
@@ -285,6 +294,12 @@ void BackendAwareLlamaModelHandle::ModelDeleter::operator()(llama_model* model) 
     }
 }
 
+/**
+ * @brief Select Best Backend.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @details Calls: acceleration::BackendRegistry::instance(), getBackend(), isAvailable(), spdlog::info(), name(), spdlog::warn(), spdlog::error().
+ */
 acceleration::BackendType BackendAwareLlamaModelHandle::selectBestBackend(
     const GPUBackendConfig& config) {
     
@@ -337,6 +352,13 @@ acceleration::BackendType BackendAwareLlamaModelHandle::selectBestBackend(
     return acceleration::BackendType::CPU;
 }
 
+/**
+ * @brief Determine Optimal GPULayers.
+ * @param[in] config Input parameter.
+ * @param[in] model_size Input parameter.
+ * @return Return value.
+ * @details Calls: spdlog::warn(), getFreeVRAM(), spdlog::info().
+ */
 int BackendAwareLlamaModelHandle::determineOptimalGPULayers(
     const GPUBackendConfig& config,
     size_t model_size) {
@@ -405,6 +427,11 @@ int BackendAwareLlamaModelHandle::determineOptimalGPULayers(
     return optimal_layers;
 }
 
+/**
+ * @brief Allocate GPUMemory.
+ * @param[in] config Input parameter.
+ * @details Calls: size(), spdlog::info(), enablePeerAccess().
+ */
 void BackendAwareLlamaModelHandle::allocateGPUMemory(
     const GPUBackendConfig& config) {
     
@@ -432,6 +459,10 @@ void BackendAwareLlamaModelHandle::allocateGPUMemory(
     }
 }
 
+/**
+ * @brief Configure Backend Specific Features.
+ * @details Calls: spdlog::debug().
+ */
 void BackendAwareLlamaModelHandle::configureBackendSpecificFeatures() {
     // Backend-specific optimizations
     if (active_backend_ == acceleration::BackendType::VULKAN) {
@@ -449,6 +480,12 @@ std::string BackendAwareLlamaModelHandle::backend_name() const {
     return backend ? backend->name() : "Unknown";
 }
 
+/**
+ * @brief Transfer To GPU.
+ * @param[in] target_gpu_id Identifier of the target gpu.
+ * @return True when the operation succeeds.
+ * @details Calls: spdlog::error(), isGPUAvailable(), spdlog::warn().
+ */
 bool BackendAwareLlamaModelHandle::transferToGPU(int target_gpu_id) {
     if (!model_) {
         spdlog::error("Cannot transfer: model not loaded");
@@ -474,6 +511,11 @@ bool BackendAwareLlamaModelHandle::transferToGPU(int target_gpu_id) {
     return false;  // Return false to indicate operation not performed
 }
 
+/**
+ * @brief Prefetch To GPU.
+ * @return True when the operation succeeds.
+ * @details Calls: spdlog::error(), spdlog::debug().
+ */
 bool BackendAwareLlamaModelHandle::prefetchToGPU() {
     if (!model_) {
         spdlog::error("Cannot prefetch: model not loaded");

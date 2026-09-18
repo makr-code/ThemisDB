@@ -33,6 +33,12 @@ enum class DeadlineState : std::uint8_t {
     Failed,
 };
 
+/**
+ * @brief Decision To String.
+ * @param[in] decision Input parameter.
+ * @return Return value.
+ * @details Implements decisionToString without additional internal calls.
+ */
 std::string decisionToString(const LayerRoutingDecision decision) {
     switch (decision) {
         case LayerRoutingDecision::EXECUTED:
@@ -50,6 +56,14 @@ std::string decisionToString(const LayerRoutingDecision decision) {
 }
 
 template <typename Fn>
+/**
+ * @brief Run With Deadline.
+ * @param[in] fn Input parameter.
+ * @param[in] timeout Input parameter.
+ * @param[in,out] error Input/output parameter.
+ * @return Return value.
+ * @details Calls: get_future(), std::thread(), task(), std::current_exception(), set_value(), detach(), wait_for(), std::rethrow_exception().
+ */
 DeadlineState runWithDeadline(Fn&& fn, const Milliseconds timeout, std::string& error) {
     auto completion = std::make_shared<std::promise<void>>();
     auto future = completion->get_future();
@@ -87,6 +101,12 @@ DeadlineState runWithDeadline(Fn&& fn, const Milliseconds timeout, std::string& 
     return DeadlineState::Completed;
 }
 
+/**
+ * @brief Build Fallback Answer.
+ * @param[in] result Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), front(), str(), std::to_string().
+ */
 std::string buildFallbackAnswer(const LayeredRetrievalResult& result) {
     if (!result.provenance.empty()) {
         const auto& edge = result.provenance.front();
@@ -106,6 +126,15 @@ std::string buildFallbackAnswer(const LayeredRetrievalResult& result) {
     return "no layered retrieval answer available";
 }
 
+/**
+ * @brief Clamp Candidate Limit.
+ * @param[in] config Input parameter.
+ * @param[in] requested Input parameter.
+ * @param[in] guardrail_limit Input parameter.
+ * @param[in,out] pruned Input/output parameter.
+ * @return Return value.
+ * @details Calls: std::min().
+ */
 std::size_t clampCandidateLimit(const LayeredRetrievalConfig& config,
                                 const std::size_t requested,
                                 const std::size_t guardrail_limit,
@@ -123,6 +152,14 @@ std::size_t clampCandidateLimit(const LayeredRetrievalConfig& config,
 
 using SpanPtr = std::unique_ptr<core::concerns::ITracer::ISpan>;
 
+/**
+ * @brief Start Layer Span.
+ * @param[in] tracer Input parameter.
+ * @param[in,out] parent Input/output parameter.
+ * @param[in] name Input parameter.
+ * @return Return value.
+ * @details Calls: isValid(), startChildSpan(), startSpan().
+ */
 SpanPtr startLayerSpan(const std::shared_ptr<core::concerns::ITracer>& tracer,
                        core::concerns::ITracer::ISpan* parent,
                        const std::string& name) {
@@ -136,6 +173,15 @@ SpanPtr startLayerSpan(const std::shared_ptr<core::concerns::ITracer>& tracer,
     return tracer->startSpan(name);
 }
 
+/**
+ * @brief Finalize Span.
+ * @param[in,out] span Input/output parameter.
+ * @param[in] decision Input parameter.
+ * @param[in] latency_ms Input parameter.
+ * @param[in] detail Input parameter.
+ * @param[in] output_count Input parameter.
+ * @details Calls: setAttribute(), decisionToString(), empty(), setStatus(), recordError(), end(), reset().
+ */
 void finalizeSpan(SpanPtr& span,
                   const LayerRoutingDecision decision,
                   const std::uint64_t latency_ms,
@@ -166,28 +212,58 @@ void finalizeSpan(SpanPtr& span,
 LayeredRetrievalOrchestrator::LayeredRetrievalOrchestrator(LayeredRetrievalConfig config)
     : config_(std::move(config)) {}
 
+/**
+ * @brief Set Ann Index.
+ * @param[in] index Input parameter.
+ * @details Calls: std::move().
+ */
 void LayeredRetrievalOrchestrator::setAnnIndex(std::shared_ptr<AdvancedVectorIndex> index) {
     ann_index_ = std::move(index);
 }
 
+/**
+ * @brief Set Tensor Graph.
+ * @param[in] graph Input parameter.
+ * @details Calls: std::move().
+ */
 void LayeredRetrievalOrchestrator::setTensorGraph(
     std::shared_ptr<tensor::TensorFingerprintGraph> graph) {
     tensor_graph_ = std::move(graph);
 }
 
+/**
+ * @brief Set Graph Reasoner.
+ * @param[in] reasoner Input parameter.
+ * @details Calls: std::move().
+ */
 void LayeredRetrievalOrchestrator::setGraphReasoner(
     std::shared_ptr<graph::KnowledgeGraphReasoner> reasoner) {
     graph_reasoner_ = std::move(reasoner);
 }
 
+/**
+ * @brief Set Llm Client.
+ * @param[in] client Input parameter.
+ * @details Calls: std::move().
+ */
 void LayeredRetrievalOrchestrator::setLlmClient(std::shared_ptr<llm::LLMClient> client) {
     llm_client_ = std::move(client);
 }
 
+/**
+ * @brief Set Tracer.
+ * @param[in] tracer Input parameter.
+ * @details Calls: std::move().
+ */
 void LayeredRetrievalOrchestrator::setTracer(std::shared_ptr<core::concerns::ITracer> tracer) {
     tracer_ = std::move(tracer);
 }
 
+/**
+ * @brief Set Config.
+ * @param[in] config Input parameter.
+ * @details Implements setConfig without additional internal calls.
+ */
 void LayeredRetrievalOrchestrator::setConfig(const LayeredRetrievalConfig& config) {
     config_ = config;
 }

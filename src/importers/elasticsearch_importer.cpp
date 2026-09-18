@@ -32,7 +32,6 @@ namespace importers {
 // ============================================================================
 namespace {
 
-/// Maps Elasticsearch-specific error patterns to ImporterErrorCode.
 [[maybe_unused]] static ImportErrorCode mapEsErrorToCode(const std::string& error_msg) {
     const auto lower = [](std::string s) {
         for (auto& c : s) {
@@ -72,7 +71,15 @@ namespace {
 
 namespace {
 
-/// libcurl write-callback: appends received bytes to a std::string.
+/**
+ * @brief Curl Write Callback.
+ * @param[in,out] ptr Input/output parameter.
+ * @param[in] size Input parameter.
+ * @param[in] nmemb Input parameter.
+ * @param[in,out] out Input/output parameter.
+ * @return Return value.
+ * @details Calls: append().
+ */
 static size_t curlWriteCallback(void* ptr, size_t size, size_t nmemb,
                                  std::string* out) {
     out->append(static_cast<const char*>(ptr), size * nmemb);
@@ -179,6 +186,12 @@ std::vector<std::string> ElasticsearchImporter::getSupportedTypes() const {
 // IImporter – initialize
 // ============================================================================
 
+/**
+ * @brief Initialize.
+ * @param[in] config_json Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: json::parse(), contains(), empty(), THEMIS_WARN(), value(), std::string(), what().
+ */
 bool ElasticsearchImporter::initialize(const std::string& config_json) {
     try {
         const json cfg = json::parse(config_json);
@@ -218,6 +231,13 @@ bool ElasticsearchImporter::initialize(const std::string& config_json) {
 // IImporter – validateSource
 // ============================================================================
 
+/**
+ * @brief Validate Source.
+ * @param[in] source_path Path to the source.
+ * @param[in,out] errors Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: push_back(), empty(), performHttp(), sanitiseUrl(), std::to_string(), mock_http_fn_().
+ */
 bool ElasticsearchImporter::validateSource(const std::string& source_path,
                                             std::vector<std::string>& errors) {
 #ifndef THEMIS_ENABLE_ELASTICSEARCH
@@ -279,7 +299,12 @@ bool ElasticsearchImporter::validateSource(const std::string& source_path,
 // URL sanitisation (password-free)
 // ============================================================================
 
-/*static*/
+/**
+ * @brief static
+ * @param[in] url Input parameter.
+ * @return Return value.
+ * @details Calls: kCredRegex(), std::regex_replace().
+ */
 std::string ElasticsearchImporter::sanitiseUrl(const std::string& url) {
     // Replace password in "******host" with "***".
     static const std::regex kCredRegex(R"((https?://)([^:@/]+):([^@/]+)@)");
@@ -290,7 +315,12 @@ std::string ElasticsearchImporter::sanitiseUrl(const std::string& url) {
 // ES type → ThemisDB type mapping
 // ============================================================================
 
-/*static*/
+/**
+ * @brief static
+ * @param[in] es_type Input parameter.
+ * @return Return value.
+ * @details Calls: find(), end().
+ */
 std::string ElasticsearchImporter::mapEsTypeToThemisType(const std::string& es_type) {
     // Elasticsearch field type → ThemisDB schema type
     static const std::map<std::string, std::string> kTypeMap{
@@ -370,6 +400,13 @@ ElasticsearchImporter::initScroll(const std::string& index,
     }
 }
 
+/**
+ * @brief Fetch Scroll Page.
+ * @param[in] scroll_id Identifier of the scroll.
+ * @param[in,out] error_out Input/output parameter.
+ * @return Return value.
+ * @details Calls: dump(), mock_http_fn_(), json::parse(), contains(), value(), json::object(), push_back(), std::move().
+ */
 std::vector<json> ElasticsearchImporter::fetchScrollPage(
     const std::string& scroll_id, std::string& error_out) {
     const std::string url = config_.host + "/_search/scroll";
@@ -435,6 +472,14 @@ void ElasticsearchImporter::clearScroll(const std::string& scroll_id) noexcept {
 // IImporter – importData
 // ============================================================================
 
+/**
+ * @brief Import Data.
+ * @param[in] source_path Path to the source.
+ * @param[in] options Input parameter.
+ * @param[in] progress_callback Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::steady_clock::now(), empty(), push_back(), std::chrono::milliseconds(), initScroll(), find(), mapEsErrorToCode(), load().
+ */
 ImportStats ElasticsearchImporter::importData(
     const std::string& source_path,
     const ImportOptions& options,
@@ -558,6 +603,13 @@ ImportStats ElasticsearchImporter::importData(
 // IImporter – importDataAsync
 // ============================================================================
 
+/**
+ * @brief Import Data Async.
+ * @param[in] source_path Path to the source.
+ * @param[in] options Input parameter.
+ * @return Return value.
+ * @details Calls: std::to_string(), std::chrono::steady_clock::now(), time_since_epoch(), count(), std::async(), importData().
+ */
 std::shared_ptr<ImportHandle> ElasticsearchImporter::importDataAsync(
     const std::string& source_path,
     const ImportOptions& options) {
@@ -578,6 +630,10 @@ std::shared_ptr<ImportHandle> ElasticsearchImporter::importDataAsync(
 // IImporter – cancel
 // ============================================================================
 
+/**
+ * @brief Cancel.
+ * @details Calls: store().
+ */
 void ElasticsearchImporter::cancel() {
     cancelled_.store(true, std::memory_order_release);
 }
@@ -586,6 +642,12 @@ void ElasticsearchImporter::cancel() {
 // IImporter – getSourceSchema
 // ============================================================================
 
+/**
+ * @brief Get Source Schema.
+ * @param[in] source_path Path to the source.
+ * @return Return value.
+ * @details Calls: empty(), json::object(), mock_http_fn_(), json::parse(), items(), contains(), value(), json::array().
+ */
 json ElasticsearchImporter::getSourceSchema(const std::string& source_path) {
     const std::string index = source_path.empty() ? config_.index : source_path;
     if (index.empty()) {
@@ -640,6 +702,11 @@ json ElasticsearchImporter::getSourceSchema(const std::string& source_path) {
 // Testing support
 // ============================================================================
 
+/**
+ * @brief Set Mock Http For Testing.
+ * @param[in] fn Input parameter.
+ * @details Calls: std::move().
+ */
 void ElasticsearchImporter::setMockHttpForTesting(MockHttpFn fn) {
     mock_http_fn_ = std::move(fn);
 }

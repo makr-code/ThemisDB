@@ -24,6 +24,11 @@ namespace sharding {
 OperationalMetrics::OperationalMetrics() {
 }
 
+/**
+ * @brief Register Shard.
+ * @param[in] shard_id Identifier of the shard.
+ * @details Calls: lock(), find(), end(), std::chrono::system_clock::now(), std::move().
+ */
 void OperationalMetrics::registerShard(const std::string& shard_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -35,11 +40,22 @@ void OperationalMetrics::registerShard(const std::string& shard_id) {
     }
 }
 
+/**
+ * @brief Unregister Shard.
+ * @param[in] shard_id Identifier of the shard.
+ * @details Calls: lock(), erase().
+ */
 void OperationalMetrics::unregisterShard(const std::string& shard_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     shard_metrics_.erase(shard_id);
 }
 
+/**
+ * @brief Get Shard Metrics.
+ * @param[in] shard_id Identifier of the shard.
+ * @return Pointer to the result.
+ * @details Calls: lock(), find(), end(), get().
+ */
 ShardMetrics* OperationalMetrics::getShardMetrics(const std::string& shard_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -52,6 +68,11 @@ ShardMetrics* OperationalMetrics::getShardMetrics(const std::string& shard_id) {
 }
 
 std::vector<std::string> OperationalMetrics::getShardIds() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     std::vector<std::string> ids = {};
@@ -66,6 +87,11 @@ std::vector<std::string> OperationalMetrics::getShardIds() const {
 }
 
 std::string OperationalMetrics::exportPrometheusMetrics() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     std::stringstream ss = {};
@@ -253,6 +279,11 @@ std::string OperationalMetrics::exportPrometheusMetrics() const {
 }
 
 std::string OperationalMetrics::exportJSONMetrics() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     nlohmann::json result = nlohmann::json::object();
@@ -315,6 +346,11 @@ std::string OperationalMetrics::exportJSONMetrics() const {
 }
 
 void OperationalMetrics::getAggregatedMetrics(ShardMetrics& aggregated) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     aggregated.reset();
@@ -355,6 +391,11 @@ void OperationalMetrics::getAggregatedMetrics(ShardMetrics& aggregated) const {
 }
 
 HealthStatus OperationalMetrics::getClusterHealth() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     if (shard_metrics_.empty()) {
@@ -395,6 +436,14 @@ HealthStatus OperationalMetrics::getClusterHealth() const {
     return HealthStatus::HEALTHY;
 }
 
+/**
+ * @brief Record Rpc Call.
+ * @param[in] shard_id Identifier of the shard.
+ * @param[in] method Input parameter.
+ * @param[in] outcome Input parameter.
+ * @param[in] latency_us Input parameter.
+ * @details Calls: recordRequest().
+ */
 void OperationalMetrics::recordRpcCall(
     const std::string& shard_id,
     const std::string& method,
@@ -409,6 +458,14 @@ void OperationalMetrics::recordRpcCall(
     // label carried by PrometheusMetrics; suppresses unused-var warning
 }
 
+/**
+ * @brief Record Request.
+ * @param[in] shard_id Identifier of the shard.
+ * @param[in] latency_us Input parameter.
+ * @param[in] success Input parameter.
+ * @param[in] is_write Input parameter.
+ * @details Calls: getShardMetrics(), fetch_add(), load(), compare_exchange_weak(), std::chrono::system_clock::now().
+ */
 void OperationalMetrics::recordRequest(
     const std::string& shard_id,
     uint64_t latency_us,
@@ -454,6 +511,13 @@ void OperationalMetrics::recordRequest(
     metrics->last_update_time = std::chrono::system_clock::now();
 }
 
+/**
+ * @brief Update Resource Usage.
+ * @param[in] shard_id Identifier of the shard.
+ * @param[in] memory_bytes Input parameter.
+ * @param[in] disk_bytes Input parameter.
+ * @details Calls: getShardMetrics(), store(), std::chrono::system_clock::now().
+ */
 void OperationalMetrics::updateResourceUsage(
     const std::string& shard_id,
     uint64_t memory_bytes,
@@ -469,6 +533,13 @@ void OperationalMetrics::updateResourceUsage(
     metrics->last_update_time = std::chrono::system_clock::now();
 }
 
+/**
+ * @brief Record Network Traffic.
+ * @param[in] shard_id Identifier of the shard.
+ * @param[in] bytes_sent Input parameter.
+ * @param[in] bytes_received Input parameter.
+ * @details Calls: getShardMetrics(), fetch_add(), std::chrono::system_clock::now().
+ */
 void OperationalMetrics::recordNetworkTraffic(
     const std::string& shard_id,
     uint64_t bytes_sent,
@@ -484,6 +555,14 @@ void OperationalMetrics::recordNetworkTraffic(
     metrics->last_update_time = std::chrono::system_clock::now();
 }
 
+/**
+ * @brief Update Replication Metrics.
+ * @param[in] shard_id Identifier of the shard.
+ * @param[in] lag_ms Input parameter.
+ * @param[in] replica_count Input parameter.
+ * @param[in] sync_replica_count Input parameter.
+ * @details Calls: getShardMetrics(), store(), std::chrono::system_clock::now().
+ */
 void OperationalMetrics::updateReplicationMetrics(
     const std::string& shard_id,
     uint64_t lag_ms,
@@ -501,6 +580,13 @@ void OperationalMetrics::updateReplicationMetrics(
     metrics->last_update_time = std::chrono::system_clock::now();
 }
 
+/**
+ * @brief Record Quorum Operation.
+ * @param[in] shard_id Identifier of the shard.
+ * @param[in] is_write Input parameter.
+ * @param[in] success Input parameter.
+ * @details Calls: getShardMetrics(), fetch_add(), std::chrono::system_clock::now().
+ */
 void OperationalMetrics::recordQuorumOperation(
     const std::string& shard_id,
     bool is_write,
@@ -524,6 +610,13 @@ void OperationalMetrics::recordQuorumOperation(
     metrics->last_update_time = std::chrono::system_clock::now();
 }
 
+/**
+ * @brief Record Durability Operation.
+ * @param[in] shard_id Identifier of the shard.
+ * @param[in] wal_sync Input parameter.
+ * @param[in] checkpoint_created Input parameter.
+ * @details Calls: getShardMetrics(), fetch_add(), std::chrono::system_clock::now().
+ */
 void OperationalMetrics::recordDurabilityOperation(
     const std::string& shard_id,
     bool wal_sync,
@@ -545,6 +638,13 @@ void OperationalMetrics::recordDurabilityOperation(
     metrics->last_update_time = std::chrono::system_clock::now();
 }
 
+/**
+ * @brief Record Transaction.
+ * @param[in] shard_id Identifier of the shard.
+ * @param[in] committed Input parameter.
+ * @param[in] had_conflict Input parameter.
+ * @details Calls: getShardMetrics(), fetch_add(), std::chrono::system_clock::now().
+ */
 void OperationalMetrics::recordTransaction(
     const std::string& shard_id,
     bool committed,
@@ -570,6 +670,11 @@ void OperationalMetrics::recordTransaction(
     metrics->last_update_time = std::chrono::system_clock::now();
 }
 
+/**
+ * @brief Record Partition Event.
+ * @param[in] shard_id Identifier of the shard.
+ * @details Calls: getShardMetrics(), fetch_add(), std::chrono::system_clock::now().
+ */
 void OperationalMetrics::recordPartitionEvent(const std::string& shard_id) {
     auto* metrics = getShardMetrics(shard_id);
     if (!metrics) {
@@ -580,6 +685,12 @@ void OperationalMetrics::recordPartitionEvent(const std::string& shard_id) {
     metrics->last_update_time = std::chrono::system_clock::now();
 }
 
+/**
+ * @brief Update Shard Health.
+ * @param[in] shard_id Identifier of the shard.
+ * @param[in] status Input parameter.
+ * @details Calls: getShardMetrics(), setHealthStatus(), std::chrono::system_clock::now().
+ */
 void OperationalMetrics::updateShardHealth(
     const std::string& shard_id,
     HealthStatus status
@@ -593,6 +704,12 @@ void OperationalMetrics::updateShardHealth(
     metrics->last_update_time = std::chrono::system_clock::now();
 }
 
+/**
+ * @brief Health Status To String.
+ * @param[in] status Input parameter.
+ * @return Return value.
+ * @details Implements healthStatusToString without additional internal calls.
+ */
 std::string OperationalMetrics::healthStatusToString(HealthStatus status) {
     switch (status) {
         case HealthStatus::HEALTHY: return "healthy";

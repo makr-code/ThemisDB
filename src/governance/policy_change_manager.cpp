@@ -30,6 +30,12 @@ nlohmann::json PolicyDependency::toJson() const {
     return j;
 }
 
+/**
+ * @brief From Json.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: contains().
+ */
 PolicyDependency PolicyDependency::fromJson(const nlohmann::json& j) {
     PolicyDependency d = {};
     if (j.contains("dependent_rule_id")) {
@@ -67,6 +73,12 @@ nlohmann::json RollbackSafetyReport::toJson() const {
     return j;
 }
 
+/**
+ * @brief From Json.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: contains(), push_back().
+ */
 RollbackSafetyReport RollbackSafetyReport::fromJson(const nlohmann::json& j) {
     RollbackSafetyReport r = {};
     if (j.contains("rule_id")) {
@@ -116,6 +128,12 @@ nlohmann::json RollbackOperation::toJson() const {
     return j;
 }
 
+/**
+ * @brief From Json.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: contains().
+ */
 RollbackOperation RollbackOperation::fromJson(const nlohmann::json& j) {
     RollbackOperation o = {};
     if (j.contains("operation_id")) {
@@ -165,6 +183,14 @@ PolicyChangeManager::PolicyChangeManager(
     : policy_manager_(policy_manager),
       version_history_(version_history) {}
 
+/**
+ * @brief Register Dependency.
+ * @param[in] dependent_rule_id Identifier of the dependent rule.
+ * @param[in] dependency_rule_id Identifier of the dependency rule.
+ * @param[in] dependency_type Input parameter.
+ * @param[in] reason Input parameter.
+ * @details Calls: lock(), push_back().
+ */
 void PolicyChangeManager::registerDependency(
     const std::string& dependent_rule_id,
     const std::string& dependency_rule_id,
@@ -186,6 +212,11 @@ void PolicyChangeManager::registerDependency(
 std::vector<PolicyDependency> PolicyChangeManager::getDependencies(
     const std::string& rule_id
 ) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     auto it = dependencies_.find(rule_id);
@@ -199,6 +230,11 @@ std::vector<PolicyDependency> PolicyChangeManager::getDependencies(
 std::vector<PolicyDependency> PolicyChangeManager::getReverseDependencies(
     const std::string& rule_id
 ) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     auto it = reverse_dependencies_.find(rule_id);
@@ -209,6 +245,13 @@ std::vector<PolicyDependency> PolicyChangeManager::getReverseDependencies(
     return it->second;
 }
 
+/**
+ * @brief Check Rollback Safety.
+ * @param[in] rule_id Identifier of the rule.
+ * @param[in] target_version Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), push_back(), getVersion(), fmt::format(), hasCircularDependency(), findAffectedRules(), getReverseDependencies(), empty().
+ */
 RollbackSafetyReport PolicyChangeManager::checkRollbackSafety(
     const std::string& rule_id,
     const std::string& target_version
@@ -258,6 +301,13 @@ RollbackSafetyReport PolicyChangeManager::checkRollbackSafety(
     return report;
 }
 
+/**
+ * @brief Preview Rollback.
+ * @param[in] rule_id Identifier of the rule.
+ * @param[in] target_version Input parameter.
+ * @return Return value.
+ * @details Calls: checkRollbackSafety().
+ */
 RollbackSafetyReport PolicyChangeManager::previewRollback(
     const std::string& rule_id,
     const std::string& target_version
@@ -265,6 +315,15 @@ RollbackSafetyReport PolicyChangeManager::previewRollback(
     return checkRollbackSafety(rule_id, target_version);
 }
 
+/**
+ * @brief Perform Rollback.
+ * @param[in] rule_id Identifier of the rule.
+ * @param[in] target_version Input parameter.
+ * @param[in] operator_user Input parameter.
+ * @param[in] reason Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), generateOperationId(), std::chrono::system_clock::now(), time_since_epoch(), count(), executeRollback(), erase(), push_back().
+ */
 RollbackOperation PolicyChangeManager::performRollback(
     const std::string& rule_id,
     const std::string& target_version,
@@ -307,6 +366,15 @@ RollbackOperation PolicyChangeManager::performRollback(
     return operation;
 }
 
+/**
+ * @brief Perform Coordinated Rollback.
+ * @param[in] rule_ids Input parameter.
+ * @param[in] target_version Input parameter.
+ * @param[in] operator_user Input parameter.
+ * @param[in] reason Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), empty(), generateOperationId(), std::chrono::system_clock::now(), time_since_epoch(), count(), executeRollback(), fmt::format().
+ */
 RollbackOperation PolicyChangeManager::performCoordinatedRollback(
     const std::vector<std::string>& rule_ids,
     const std::string& target_version,
@@ -364,6 +432,14 @@ RollbackOperation PolicyChangeManager::performCoordinatedRollback(
     return operation;
 }
 
+/**
+ * @brief Rollback To Previous.
+ * @param[in] rule_id Identifier of the rule.
+ * @param[in] operator_user Input parameter.
+ * @param[in] reason Input parameter.
+ * @return Return value.
+ * @details Calls: getPreviousVersion(), performRollback(), value().
+ */
 RollbackOperation PolicyChangeManager::rollbackToPrevious(
     const std::string& rule_id,
     const std::string& operator_user,
@@ -387,6 +463,13 @@ RollbackOperation PolicyChangeManager::rollbackToPrevious(
     return performRollback(rule_id, prev_version.value(), operator_user, reason);
 }
 
+/**
+ * @brief Reverse Rollback.
+ * @param[in] operation_id Identifier of the operation.
+ * @param[in] operator_user Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), std::find_if(), begin(), end(), generateOperationId(), fmt::format(), std::chrono::system_clock::now(), time_since_epoch().
+ */
 std::optional<RollbackOperation> PolicyChangeManager::reverseRollback(
     const std::string& operation_id,
     const std::string& operator_user
@@ -441,6 +524,11 @@ std::vector<RollbackOperation> PolicyChangeManager::getRollbackHistory(
     const std::optional<int64_t>& start_time,
     const std::optional<int64_t>& end_time
 ) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     std::vector<RollbackOperation> result;
@@ -465,6 +553,11 @@ std::vector<RollbackOperation> PolicyChangeManager::getRollbackHistory(
 std::optional<RollbackOperation> PolicyChangeManager::getRollbackOperation(
     const std::string& operation_id
 ) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     auto it = std::find_if(
@@ -483,12 +576,22 @@ std::optional<RollbackOperation> PolicyChangeManager::getRollbackOperation(
 }
 
 bool PolicyChangeManager::isRollbackInProgress(const std::string& rule_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     return in_progress_rollbacks_.find(rule_id) != in_progress_rollbacks_.end();
 }
 
 nlohmann::json PolicyChangeManager::exportChangeData() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     nlohmann::json j;
@@ -509,6 +612,12 @@ nlohmann::json PolicyChangeManager::exportChangeData() const {
     return j;
 }
 
+/**
+ * @brief Import Change Data.
+ * @param[in] j Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), contains(), clear(), items(), PolicyDependency::fromJson(), push_back(), RollbackOperation::fromJson().
+ */
 bool PolicyChangeManager::importChangeData(const nlohmann::json& j) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -538,6 +647,11 @@ bool PolicyChangeManager::importChangeData(const nlohmann::json& j) {
 bool PolicyChangeManager::saveToFile(const std::string& path) const {
     try {
         auto json = exportChangeData();
+        /**
+         * @brief File.
+         * @param[in] path Input parameter.
+         * @return Return value.
+         */
         std::ofstream file(path);
         file << json.dump(2);
         file.close();
@@ -547,6 +661,12 @@ bool PolicyChangeManager::saveToFile(const std::string& path) const {
     }
 }
 
+/**
+ * @brief Load From File.
+ * @param[in] path Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: file(), close(), importChangeData().
+ */
 bool PolicyChangeManager::loadFromFile(const std::string& path) {
     try {
         std::ifstream file(path);
@@ -559,6 +679,10 @@ bool PolicyChangeManager::loadFromFile(const std::string& path) {
     }
 }
 
+/**
+ * @brief Clear.
+ * @details Calls: lock().
+ */
 void PolicyChangeManager::clear() {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -568,6 +692,11 @@ void PolicyChangeManager::clear() {
     in_progress_rollbacks_.clear();
 }
 
+/**
+ * @brief Generate Operation Id.
+ * @return Return value.
+ * @details Calls: fmt::format(), std::chrono::system_clock::now(), time_since_epoch(), count().
+ */
 std::string PolicyChangeManager::generateOperationId() {
     static uint64_t counter = 0;
     return fmt::format("rollback-{}-{}", 
@@ -619,6 +748,13 @@ std::vector<std::string> PolicyChangeManager::findAffectedRules(
     return affected;
 }
 
+/**
+ * @brief Can Apply Atomically.
+ * @param[in] rule_id Identifier of the rule.
+ * @param[in] target_version Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: getVersion(), has_value().
+ */
 bool PolicyChangeManager::canApplyAtomically(
     const std::string& rule_id,
     const std::string& target_version
@@ -632,6 +768,14 @@ bool PolicyChangeManager::canApplyAtomically(
     return version.has_value();
 }
 
+/**
+ * @brief Execute Rollback.
+ * @param[in] rule_id Identifier of the rule.
+ * @param[in] target_version Input parameter.
+ * @param[in,out] operation Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: canApplyAtomically(), getLatestVersion(), empty(), rollbackToVersion().
+ */
 bool PolicyChangeManager::executeRollback(
     const std::string& rule_id,
     const std::string& target_version,

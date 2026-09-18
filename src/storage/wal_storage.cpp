@@ -49,14 +49,48 @@ namespace fs = std::filesystem;
 
 #if defined(_WIN32)
 using themis_ssize_t = std::ptrdiff_t;
+/**
+ * @brief Themis open fd.
+ * @param[in] path Input parameter.
+ * @param[in] flags Input parameter.
+ * @param[in] mode Input parameter.
+ * @return Return value.
+ * @details Calls: _open().
+ */
 static int themis_open_fd(const char* path, int flags, int mode) { return _open(path, flags, mode); }
+/**
+ * @brief Themis close fd.
+ * @param[in] fd Input parameter.
+ * @return Return value.
+ * @details Calls: _close().
+ */
 static int themis_close_fd(int fd) { return _close(fd); }
+/**
+ * @brief Themis fsync fd.
+ * @param[in] fd Input parameter.
+ * @return Return value.
+ * @details Calls: _commit().
+ */
 static int themis_fsync_fd(int fd) { return _commit(fd); }
+/**
+ * @brief Themis write fd.
+ * @param[in] fd Input parameter.
+ * @param[in] data Input parameter.
+ * @param[in] len Input parameter.
+ * @return Return value.
+ * @details Calls: _write().
+ */
 static themis_ssize_t themis_write_fd(int fd, const void* data, size_t len) {
     return static_cast<themis_ssize_t>(_write(fd, data, static_cast<unsigned int>(len)));
 }
 #else
 using themis_ssize_t = ssize_t;
+/**
+ * @brief Themis test flag once.
+ * @param[in] name Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: std::getenv(), unsetenv().
+ */
 static bool themis_test_flag_once(const char* name) {
     const char* value = std::getenv(name);
     if (value == nullptr || value[0] == '\0' ||
@@ -66,10 +100,14 @@ static bool themis_test_flag_once(const char* name) {
     ::unsetenv(name);
     return true;
 }
-// O_CLOEXEC ensures the WAL FD is not inherited by child processes and is
-// automatically closed on exec — prevents FD leaks without explicit action.
-// no_timeout scanner alert: these are thin POSIX syscall shims used for local
-// WAL files; network-style timeouts do not apply to local block-device I/O.
+/**
+ * @brief O_CLOEXEC ensures the WAL FD is not inherited by child processes and is automatically closed on exec — prevents FD leaks without explicit action.
+ * @param[in] path Input parameter.
+ * @param[in] flags Input parameter.
+ * @param[in] mode Input parameter.
+ * @return Return value.
+ * @details no_timeout scanner alert: these are thin POSIX syscall shims used for local WAL files; network-style timeouts do not apply to local block-device I/O. Calls: themis_test_flag_once(), open().
+ */
 static int themis_open_fd(const char* path, int flags, int mode) {
     for (;;) {
         if (themis_test_flag_once("THEMIS_TEST_WAL_OPEN_EINTR_ONCE")) {
@@ -82,7 +120,19 @@ static int themis_open_fd(const char* path, int flags, int mode) {
         }
     }
 }
+/**
+ * @brief Themis close fd.
+ * @param[in] fd Input parameter.
+ * @return Return value.
+ * @details Calls: close().
+ */
 static int themis_close_fd(int fd) { return ::close(fd); }
+/**
+ * @brief Themis fsync fd.
+ * @param[in] fd Input parameter.
+ * @return Return value.
+ * @details Calls: themis_test_flag_once(), fsync().
+ */
 static int themis_fsync_fd(int fd) {
     for (;;) {
         if (themis_test_flag_once("THEMIS_TEST_WAL_FSYNC_EINTR_ONCE")) {
@@ -98,6 +148,14 @@ static int themis_fsync_fd(int fd) {
         }
     }
 }
+/**
+ * @brief Themis write fd.
+ * @param[in] fd Input parameter.
+ * @param[in] data Input parameter.
+ * @param[in] len Input parameter.
+ * @return Return value.
+ * @details Calls: themis_test_flag_once(), write().
+ */
 static themis_ssize_t themis_write_fd(int fd, const void* data, size_t len) {
     // no_timeout scanner alert: local WAL write — blocking POSIX write on local
     // storage; no network timeout applicable here.
@@ -114,7 +172,6 @@ static themis_ssize_t themis_write_fd(int fd, const void* data, size_t len) {
 }
 #endif
 
-/** @brief Scoped file descriptor. */
 class ScopedFileDescriptor {
 public:
     explicit ScopedFileDescriptor(int fd = -1) noexcept : fd_(fd) {}
@@ -156,6 +213,14 @@ private:
     int fd_ = {};
 };
 
+/**
+ * @brief Write all fd.
+ * @param[in] fd Input parameter.
+ * @param[in] data Input parameter.
+ * @param[in] len Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: themis_write_fd().
+ */
 static bool write_all_fd(int fd, const void* data, size_t len) {
     const uint8_t* ptr = static_cast<const uint8_t*>(data);
     size_t remaining = len;
@@ -181,9 +246,14 @@ static bool write_all_fd(int fd, const void* data, size_t len) {
 static constexpr uint32_t WAL_MAGIC    = 0xDBAB1234u;
 static constexpr size_t   HEADER_SIZE  = 4 + 8 + 1 + 4 + 4; // magic+seq+type+klen+vlen
 
-// ──────────────────────────────────────────────────────────────────────────────
-// CRC32 (simple table-based implementation; no external dependency)
-// ──────────────────────────────────────────────────────────────────────────────
+/**
+ * @brief ────────────────────────────────────────────────────────────────────────────── CRC32 (simple table-based implementation; no external dependency) ──────────────────────────────────────────────────────────────────────────────
+ * @param[in] crc Input parameter.
+ * @param[in] data Input parameter.
+ * @param[in] len Input parameter.
+ * @return Return value.
+ * @details Calls: std::call_once().
+ */
 
 static uint32_t crc32_update(uint32_t crc, const void* data, size_t len) {
     // Build the CRC32 table exactly once, thread-safely, via std::call_once.
@@ -258,12 +328,24 @@ static uint32_t crc32_update(uint32_t crc, const void* data, size_t len) {
 // Segment naming
 // ──────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Segment Name.
+ * @param[in] segment_id Identifier of the segment.
+ * @return Return value.
+ * @details Calls: std::setw(), std::setfill(), str().
+ */
 std::string WALStorage::segmentName(uint64_t segment_id) {
     std::ostringstream ss = {};
     ss << "wal_" << std::setw(6) << std::setfill('0') << segment_id << ".log";
     return ss.str();
 }
 
+/**
+ * @brief Parse Segment Id.
+ * @param[in] filename Input parameter.
+ * @return Return value.
+ * @details Calls: re(), std::regex_match(), std::stoull().
+ */
 uint64_t WALStorage::parseSegmentId(const std::string& filename) {
     static const std::regex re(R"(wal_(\d+)\.log)");
     std::smatch m = {};
@@ -294,6 +376,11 @@ WALStorage::WALStorage(const Config& cfg) : config_(cfg) {}
 //   - themis_close_fd(fd_) always succeeds (returns int, never throws).
 //   - fd_ = -1 sentinel ensures no double-close in future operations.
 WALStorage::~WALStorage() {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     if (fd_ >= 0) {
         (void)themis_fsync_fd(fd_);
@@ -302,18 +389,13 @@ WALStorage::~WALStorage() {
     }
 }
 
-// Factory method: Strong Exception Guarantee (W5-Storage Hardening)
-//
-// Exception Safety:
-//   - If openOrCreate() throws or returns an error, the partial WALStorage object
-//     is destroyed (unique_ptr cleanup) before returning Err<>.
-//   - Caller receives a Result<> that indicates success/failure.
-//   - No exception escapes open(); all errors are captured in Result.
-//
-// Thread Safety:
-//   - Factory method (static); no concurrent access during construction.
-// no_timeout scanner alert: WALStorage::open is a local-file factory method;
-// it opens a WAL directory on block storage — no network I/O, no timeout needed.
+/**
+ * @brief Factory method: Strong Exception Guarantee (W5-Storage Hardening) Exception Safety: - If openOrCreate() throws or returns an error, the partial WALStorage object is destroyed (unique_ptr cleanup) before returning Err<>.
+ * @param[in] config Input parameter.
+ * @param[in] on_recover Input parameter.
+ * @return Return value.
+ * @details - Caller receives a Result<> that indicates success/failure. - No exception escapes open(); all errors are captured in Result. Thread Safety: - Factory method (static); no concurrent access during construction. no_timeout scanner alert: WALStorage::open is a local-file factory method; it opens a WAL directory on block storage — no network I/O, no timeout needed. Calls: WALStorage(), openOrCreate(), error(), code(), context(), Ok(), std::move().
+ */
 Result<std::unique_ptr<WALStorage>> WALStorage::open(
     const Config& config,
     RecoveryCallback on_recover
@@ -330,6 +412,12 @@ Result<std::unique_ptr<WALStorage>> WALStorage::open(
 // Open / create / replay
 // ──────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Open Or Create.
+ * @param[in,out] on_recover Input/output parameter.
+ * @return Return value.
+ * @details Calls: fs::create_directories(), ErrVoid(), message(), clear(), fs::directory_iterator(), is_regular_file(), parseSegmentId(), path().
+ */
 Result<void> WALStorage::openOrCreate(RecoveryCallback& on_recover) {
     // Create directory if it doesn't exist.
     std::error_code ec = {};
@@ -384,6 +472,13 @@ Result<void> WALStorage::openOrCreate(RecoveryCallback& on_recover) {
     }
 }
 
+/**
+ * @brief Replay Segment.
+ * @param[in] path Input parameter.
+ * @param[in,out] cb Input/output parameter.
+ * @return Return value.
+ * @details Calls: f(), is_open(), ErrVoid(), std::chrono::steady_clock::now(), std::chrono::minutes(), good(), THEMIS_WARN(), count().
+ */
 Result<void> WALStorage::replaySegment(const std::string& path,
                                         RecoveryCallback& cb) {
     std::ifstream f(path, std::ios::binary);
@@ -470,27 +565,12 @@ Result<void> WALStorage::replaySegment(const std::string& path,
 // Segment management
 // ──────────────────────────────────────────────────────────────────────────────
 
-// Close-Path Locking and Exception Safety (W5-Storage Hardening)
-//
-// openNewSegment() transitions file descriptor and segment state atomically under mutex_:
-//   1. Acquire mutex_ (all caller paths hold mutex_ via appendEntry/appendEntryLocked).
-//   2. If fd_ >= 0, fsync old segment (may timeout, but continue anyway).
-//   3. Close old fd_; set fd_ = -1.
-//   4. Open new segment file with O_CLOEXEC (prevents FD leak in fork).
-//   5. On error, return Err<>; caller must retry or abort.
-//   6. On success, update current_segment_, segment_bytes_, fd_.
-//
-// Exception Safety: Strong Guarantee
-//   - ScopedFileDescriptor (next_fd) ensures new fd is closed if exception occurs
-//     before fd_ = next_fd.release().
-//   - Old segment is closed before opening new one (no orphaned fds).
-//   - State transition is atomic under mutex_; no partial updates visible to readers.
-//   - If any step fails, fd_ remains valid (either old or -1), ready for retry.
-//
-// Thread Safety: Race Prevention
-//   - Caller must hold mutex_ (enforced by callers appendEntry, rotateIfNeeded).
-//   - Concurrent writers cannot access fd_/segment state during transition.
-//   - fd_ ≥ 0 check is stable under mutex_ (no concurrent close).
+/**
+ * @brief Close-Path Locking and Exception Safety (W5-Storage Hardening) openNewSegment() transitions file descriptor and segment state atomically under mutex_: 1.
+ * @param[in] segment_id Identifier of the segment.
+ * @return Return value.
+ * @details Acquire mutex_ (all caller paths hold mutex_ via appendEntry/appendEntryLocked). 2. If fd_ >= 0, fsync old segment (may timeout, but continue anyway). 3. Close old fd_; set fd_ = -1. 4. Open new segment file with O_CLOEXEC (prevents FD leak in fork). 5. On error, return Err<>; caller must retry or abort. 6. On success, update current_segment_, segment_bytes_, fd_. Exception Safety: Strong Guarantee - ScopedFileDescriptor (next_fd) ensures new fd is closed if exception occurs before fd_ = next_fd.release(). - Old segment is closed before opening new one (no orphaned fds). - State transition is atomic under mutex_; no partial updates visible to readers. - If any step fails, fd_ remains valid (either old or -1), ready for retry. Thread Safety: Race Prevention - Caller must hold mutex_ (enforced by callers appendEntry, rotateIfNeeded). - Concurrent writers cannot access fd_/segment state during transition. - fd_ ≥ 0 check is stable under mutex_ (no concurrent close). Calls: std::chrono::steady_clock::now(), std::chrono::seconds(), themis_fsync_fd(), THEMIS_WARN(), count(), ErrVoid(), std::string(), std::strerror().
+ */
 Result<void> WALStorage::openNewSegment(uint64_t segment_id) {
     if (fd_ >= 0) {
         // W1-S02: fsync timeout protection for segment rotation.
@@ -544,6 +624,11 @@ Result<void> WALStorage::openNewSegment(uint64_t segment_id) {
     return OkVoid();
 }
 
+/**
+ * @brief Rotate If Needed.
+ * @return Return value.
+ * @details Calls: OkVoid(), openNewSegment().
+ */
 Result<void> WALStorage::rotateIfNeeded() {
     if (segment_bytes_ < config_.rotation_threshold_bytes) {
         return OkVoid();
@@ -556,6 +641,14 @@ Result<void> WALStorage::rotateIfNeeded() {
 // Append helpers
 // ──────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Append Entry.
+ * @param[in] type Input parameter.
+ * @param[in] key Input parameter.
+ * @param[in] value Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), rotateIfNeeded(), error(), code(), context(), appendEntryLocked(), syncIfRequired().
+ */
 Result<uint64_t> WALStorage::appendEntry(EntryType type,
                                           std::string_view key,
                                           std::string_view value) {
@@ -577,7 +670,14 @@ Result<uint64_t> WALStorage::appendEntry(EntryType type,
     return res;
 }
 
-// Write one entry to fd_ WITHOUT locking or syncing.  Caller holds mutex_.
+/**
+ * @brief Write one entry to fd_ WITHOUT locking or syncing.
+ * @param[in] type Input parameter.
+ * @param[in] key Input parameter.
+ * @param[in] value Input parameter.
+ * @return Return value.
+ * @details Caller holds mutex_. Calls: size(), encode_u32(), encode_u64(), crc32_update(), data(), write_all_fd(), std::to_string(), Ok().
+ */
 Result<uint64_t> WALStorage::appendEntryLocked(EntryType type,
                                                  std::string_view key,
                                                  std::string_view value) {
@@ -615,6 +715,11 @@ Result<uint64_t> WALStorage::appendEntryLocked(EntryType type,
     return Ok(seq);
 }
 
+/**
+ * @brief Sync If Required.
+ * @return Return value.
+ * @details Calls: OkVoid(), std::chrono::steady_clock::now(), std::chrono::seconds(), themis_fsync_fd(), THEMIS_WARN(), count(), ErrVoid(), std::string().
+ */
 Result<void> WALStorage::syncIfRequired() {
     if (!config_.fsync_on_write || fd_ < 0) {
         return OkVoid();
@@ -648,15 +753,34 @@ Result<void> WALStorage::syncIfRequired() {
 // Public write API
 // ──────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Append Put.
+ * @param[in] key Input parameter.
+ * @param[in] value Input parameter.
+ * @return Return value.
+ * @details Calls: appendEntry().
+ */
 Result<uint64_t> WALStorage::appendPut(std::string_view key,
                                         std::string_view value) {
     return appendEntry(EntryType::PUT, key, value);
 }
 
+/**
+ * @brief Append Delete.
+ * @param[in] key Input parameter.
+ * @return Return value.
+ * @details Calls: appendEntry().
+ */
 Result<uint64_t> WALStorage::appendDelete(std::string_view key) {
     return appendEntry(EntryType::DEL, key, {});
 }
 
+/**
+ * @brief Append Batch.
+ * @param[in] entries Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), lock(), rotateIfNeeded(), THEMIS_WARN(), error(), context(), code(), appendEntryLocked().
+ */
 Result<uint64_t> WALStorage::appendBatch(std::vector<BatchEntry> entries) {
     if (entries.empty()) {
         return Err<uint64_t>(errors::ErrorCode::ERR_STORAGE_TRANSACTION_FAILED,
@@ -696,6 +820,12 @@ Result<uint64_t> WALStorage::appendBatch(std::vector<BatchEntry> entries) {
     return Ok(last_seq);
 }
 
+/**
+ * @brief Checkpoint.
+ * @param[in] delete_old_segments Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), rotateIfNeeded(), error(), code(), context(), appendEntryLocked(), syncIfRequired(), push_back().
+ */
 Result<uint64_t> WALStorage::checkpoint(bool delete_old_segments) {
     // W-3: Acquire the mutex once for the full checkpoint operation.
     // Previously checkpoint() called appendEntry() (which locks/unlocks) and
@@ -740,15 +870,30 @@ Result<uint64_t> WALStorage::checkpoint(bool delete_old_segments) {
 // ──────────────────────────────────────────────────────────────────────────────
 
 uint64_t WALStorage::lastSequence() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return next_seq_ > 1 ? next_seq_ - 1 : 0;
 }
 
 size_t WALStorage::segmentCount() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return segments_.size();
 }
 
+/**
+ * @brief Flush.
+ * @return Return value.
+ * @details Calls: lock(), OkVoid(), std::chrono::steady_clock::now(), std::chrono::seconds(), themis_fsync_fd(), THEMIS_WARN(), count(), ErrVoid().
+ */
 Result<void> WALStorage::flush() {
     std::lock_guard<std::mutex> lock(mutex_);
     if (fd_ < 0) {

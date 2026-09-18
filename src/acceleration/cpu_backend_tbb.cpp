@@ -52,7 +52,6 @@ namespace acceleration {
 // TBB-Based CPUVectorBackend Implementation
 // ============================================================================
 
-/** @brief TBB-Based CPUVectorBackend Implementation. */
 class CPUVectorBackendTBB : public CPUVectorBackend {
 private:
     std::unique_ptr<tbb::task_arena> arena_;
@@ -251,6 +250,11 @@ public:
             return {};
         }
 
+        /**
+         * @brief Distances.
+         * @param[in,out] numVectors Input/output parameter.
+         * @return Return value.
+         */
         std::vector<float> distances(numQueries * numVectors);
         
         // Use TBB parallel_for with work-stealing
@@ -339,7 +343,6 @@ public:
 // TBB-Based CPUGeoBackend Implementation
 // ============================================================================
 
-/** @brief TBB-Based CPUGeoBackend Implementation. */
 class CPUGeoBackendTBB : public CPUGeoBackend {
 private:
     std::unique_ptr<tbb::task_arena> arena_;
@@ -362,6 +365,11 @@ public:
         size_t count,
         bool useHaversine
     ) override {
+        /**
+         * @brief Distances.
+         * @param[in] count Input parameter.
+         * @return Return value.
+         */
         std::vector<float> distances(count);
         
         arena_->execute([&] {
@@ -390,6 +398,11 @@ public:
         const double* polygonCoords,
         size_t numPolygonVertices
     ) override {
+        /**
+         * @brief Results.
+         * @param[in] numPoints Input parameter.
+         * @return Return value.
+         */
         std::vector<bool> results(numPoints);
         
         arena_->execute([&] {
@@ -433,7 +446,6 @@ public:
 // TBB fallback: use the CPU base implementation when Intel TBB is unavailable
 // ============================================================================
 
-/** @brief TBB fallback implementation that preserves the backend API without TBB headers. */
 class CPUVectorBackendTBB : public CPUVectorBackend {
 private:
     bool enableSIMD_ = {};
@@ -487,7 +499,6 @@ public:
     }
 };
 
-/** @brief TBB fallback geo backend using the CPU fallback implementation. */
 class CPUGeoBackendTBB : public CPUGeoBackend {
 public:
     const char* name() const noexcept override {
@@ -522,11 +533,21 @@ public:
 #endif
 
 // Factory functions
+/**
+ * @brief Create TBBCPUVector Backend.
+ * @return Return value.
+ * @details Implements createTBBCPUVectorBackend without additional internal calls.
+ */
 std::unique_ptr<CPUVectorBackend> createTBBCPUVectorBackend() {
     auto backend = std::make_unique<CPUVectorBackendTBB>();
     return backend;
 }
 
+/**
+ * @brief Create TBBCPUGeo Backend.
+ * @return Return value.
+ * @details Implements createTBBCPUGeoBackend without additional internal calls.
+ */
 std::unique_ptr<CPUGeoBackend> createTBBCPUGeoBackend() {
     auto backend = std::make_unique<CPUGeoBackendTBB>();
     return backend;

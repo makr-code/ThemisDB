@@ -50,7 +50,13 @@ ContentApiHandler::ContentApiHandler(
 {
 }
 
-// Helper method to extract path parameter from URL
+/**
+ * @brief Helper method to extract path parameter from URL
+ * @param[in] path Input parameter.
+ * @param[in] prefix Input parameter.
+ * @return Return value.
+ * @details Calls: rfind(), substr(), length(), find().
+ */
 static std::string extractPathParam(const std::string& path, const std::string& prefix) {
     if (!(path.rfind(prefix, 0) == 0)) {
         return "";
@@ -64,7 +70,13 @@ static std::string extractPathParam(const std::string& path, const std::string& 
     return param;
 }
 
-// Helper method to extract auth context from request
+/**
+ * @brief Helper method to extract auth context from request
+ * @param[in] req Input parameter.
+ * @param[in] auth Input parameter.
+ * @return Return value.
+ * @details Calls: isEnabled(), empty(), AuthMiddleware::extractBearerToken(), std::string_view(), data(), size(), validateToken().
+ */
 static std::string extractUserId(const http::request<http::string_body>& req, std::shared_ptr<AuthMiddleware> auth) {
     if (!auth || !auth->isEnabled()) {
         return "";
@@ -90,6 +102,12 @@ static std::string extractUserId(const http::request<http::string_body>& req, st
     return result.user_id;
 }
 
+/**
+ * @brief Handle Import.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: makeErrorResponse(), nlohmann::json::parse(), body(), contains(), reserve(), size(), push_back(), std::move().
+ */
 http::response<http::string_body> ContentApiHandler::handleImport(
     const http::request<http::string_body>& req
 ) {
@@ -170,6 +188,12 @@ http::response<http::string_body> ContentApiHandler::handleImport(
     }
 }
 
+/**
+ * @brief Handle Get.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: makeErrorResponse(), extractPathParam(), std::string(), target(), empty(), getContentMeta(), makeResponse(), toJson().
+ */
 http::response<http::string_body> ContentApiHandler::handleGet(
     const http::request<http::string_body>& req
 ) {
@@ -192,6 +216,12 @@ http::response<http::string_body> ContentApiHandler::handleGet(
     }
 }
 
+/**
+ * @brief Handle Get Blob.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: makeErrorResponse(), std::string(), target(), find(), substr(), size(), extractUserId(), getContentBlob().
+ */
 http::response<http::string_body> ContentApiHandler::handleGetBlob(
     const http::request<http::string_body>& req
 ) {
@@ -228,6 +258,12 @@ http::response<http::string_body> ContentApiHandler::handleGetBlob(
     }
 }
 
+/**
+ * @brief Handle Get Chunks.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: makeErrorResponse(), std::string(), target(), find(), substr(), size(), getContentChunks(), nlohmann::json::array().
+ */
 http::response<http::string_body> ContentApiHandler::handleGetChunks(
     const http::request<http::string_body>& req
 ) {
@@ -261,6 +297,12 @@ http::response<http::string_body> ContentApiHandler::handleGetChunks(
     }
 }
 
+/**
+ * @brief Handle Hybrid Search.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: makeErrorResponse(), nlohmann::json::parse(), body(), value(), contains(), is_object(), nlohmann::json::object(), searchWithExpansion().
+ */
 http::response<http::string_body> ContentApiHandler::handleHybridSearch(
     const http::request<http::string_body>& req
 ) {
@@ -302,6 +344,12 @@ http::response<http::string_body> ContentApiHandler::handleHybridSearch(
     }
 }
 
+/**
+ * @brief Handle Fusion Search.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: makeErrorResponse(), nlohmann::json::parse(), body(), contains(), is_string(), validateStringLength(), validatePathSegment(), THEMIS_ERROR().
+ */
 http::response<http::string_body> ContentApiHandler::handleFusionSearch(
     const http::request<http::string_body>& req
 ) {
@@ -502,6 +550,12 @@ http::response<http::string_body> ContentApiHandler::handleFusionSearch(
     }
 }
 
+/**
+ * @brief Handle Fulltext Search.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: makeErrorResponse(), nlohmann::json::parse(), body(), contains(), is_string(), validateStringLength(), validatePathSegment(), THEMIS_ERROR().
+ */
 http::response<http::string_body> ContentApiHandler::handleFulltextSearch(
     const http::request<http::string_body>& req
 ) {
@@ -582,6 +636,12 @@ http::response<http::string_body> ContentApiHandler::handleFulltextSearch(
     }
 }
 
+/**
+ * @brief Handle Config Get.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), get(), s(), begin(), end(), nlohmann::json::parse(), nlohmann::json::array(), setStatus().
+ */
 http::response<http::string_body> ContentApiHandler::handleConfigGet(
     const http::request<http::string_body>& req
 ) {
@@ -612,6 +672,12 @@ http::response<http::string_body> ContentApiHandler::handleConfigGet(
     }
 }
 
+/**
+ * @brief Handle Config Put.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), nlohmann::json::parse(), body(), get(), s(), begin(), end(), nlohmann::json::array().
+ */
 http::response<http::string_body> ContentApiHandler::handleConfigPut(
     const http::request<http::string_body>& req
 ) {
@@ -705,6 +771,12 @@ http::response<http::string_body> ContentApiHandler::handleConfigPut(
     }
 }
 
+/**
+ * @brief Handle Content Filter Schema Get.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: get(), s(), begin(), end(), nlohmann::json::parse(), nlohmann::json::object(), makeResponse(), dump().
+ */
 http::response<http::string_body> ContentApiHandler::handleContentFilterSchemaGet(
     const http::request<http::string_body>& req
 ) {
@@ -726,6 +798,12 @@ http::response<http::string_body> ContentApiHandler::handleContentFilterSchemaGe
     }
 }
 
+/**
+ * @brief Handle Content Filter Schema Put.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: nlohmann::json::parse(), body(), is_object(), contains(), makeErrorResponse(), dump(), bytes(), begin().
+ */
 http::response<http::string_body> ContentApiHandler::handleContentFilterSchemaPut(
     const http::request<http::string_body>& req
 ) {
@@ -749,6 +827,12 @@ http::response<http::string_body> ContentApiHandler::handleContentFilterSchemaPu
     }
 }
 
+/**
+ * @brief Handle Edge Weight Config Get.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: get(), s(), begin(), end(), nlohmann::json::parse(), makeResponse(), dump(), makeErrorResponse().
+ */
 http::response<http::string_body> ContentApiHandler::handleEdgeWeightConfigGet(
     const http::request<http::string_body>& req
 ) {
@@ -770,6 +854,12 @@ http::response<http::string_body> ContentApiHandler::handleEdgeWeightConfigGet(
     }
 }
 
+/**
+ * @brief Handle Edge Weight Config Put.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: nlohmann::json::parse(), body(), is_object(), contains(), makeErrorResponse(), begin(), end(), value().
+ */
 http::response<http::string_body> ContentApiHandler::handleEdgeWeightConfigPut(
     const http::request<http::string_body>& req
 ) {
@@ -799,6 +889,12 @@ http::response<http::string_body> ContentApiHandler::handleEdgeWeightConfigPut(
     }
 }
 
+/**
+ * @brief Handle Encryption Schema Get.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: get(), nlohmann::json::object(), makeResponse(), dump(), schema_json(), begin(), end(), nlohmann::json::parse().
+ */
 http::response<http::string_body> ContentApiHandler::handleEncryptionSchemaGet(
     const http::request<http::string_body>& req
 ) {
@@ -827,6 +923,12 @@ http::response<http::string_body> ContentApiHandler::handleEncryptionSchemaGet(
     }
 }
 
+/**
+ * @brief Handle Encryption Schema Put.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: nlohmann::json::parse(), body(), contains(), is_object(), makeErrorResponse(), items(), validateStringLength(), validatePathSegment().
+ */
 http::response<http::string_body> ContentApiHandler::handleEncryptionSchemaPut(
     const http::request<http::string_body>& req
 ) {
@@ -934,6 +1036,14 @@ http::response<http::string_body> ContentApiHandler::handleEncryptionSchemaPut(
     }
 }
 
+/**
+ * @brief Make Error Response.
+ * @param[in] status Input parameter.
+ * @param[in] message Input parameter.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: makeResponse(), dump().
+ */
 http::response<http::string_body> ContentApiHandler::makeErrorResponse(
     http::status status, const std::string& message, const http::request<http::string_body>& req
 ) {
@@ -945,6 +1055,14 @@ http::response<http::string_body> ContentApiHandler::makeErrorResponse(
     return makeResponse(status, error_body.dump(), req);
 }
 
+/**
+ * @brief Make Response.
+ * @param[in] status Input parameter.
+ * @param[in] body Input parameter.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: version(), set(), keep_alive(), body(), prepare_payload().
+ */
 http::response<http::string_body> ContentApiHandler::makeResponse(
     http::status status, const std::string& body, const http::request<http::string_body>& req
 ) {

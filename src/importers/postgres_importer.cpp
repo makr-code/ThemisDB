@@ -37,26 +37,24 @@ namespace importers {
 // ============================================================================
 namespace {
 
-/// Connection pool state tracker for Phase 2 hardening
 struct ConnectionPoolState {
-    /// Current number of active connections (bounded by max_active_connections)
     std::atomic<size_t> active_connections{0};
     
-    /// Maximum concurrent connections allowed (default: 32)
     static constexpr size_t max_active_connections = 32;
     
-    /// Connection timeout in milliseconds (0 = no timeout)
     uint32_t connection_timeout_ms = 0;
     
-    /// Last connection error code for diagnostics
     std::atomic<ImportErrorCode> last_error{ImportErrorCode::SUCCESS};
 };
 
-/// Global connection pool state (one per process; safe due to atomic operations)
 static thread_local ConnectionPoolState g_connection_pool;
 
-/// CDC (Change Data Capture) capability detection
-/// Returns true if the dump appears to contain CDC/replication-specific DDL
+/**
+ * @brief Detect CDCCapability.
+ * @param[in] dump_header_lines Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: find().
+ */
 static bool detectCDCCapability(const std::string& dump_header_lines) {
     // PHASE-2-HARDENING: CDC fallback detection
     // Check for replication slot references, logical decoding, publication, subscription
@@ -66,7 +64,6 @@ static bool detectCDCCapability(const std::string& dump_header_lines) {
            dump_header_lines.find("replication slot") != std::string::npos;
 }
 
-/// Maps PostgreSQL-specific error patterns to ImporterErrorCode
 [[maybe_unused]] static ImportErrorCode mapPostgreSQLErrorToCode(const std::string& error_msg) {
     // PHASE-2-HARDENING: Standardized error reporting
     const auto msg_lower = [](std::string s) {
@@ -179,19 +176,6 @@ static const std::regex kInlineRefRe(
 // ============================================================================
 namespace {
 
-/**
- * @brief Emit a structured JSON audit event via the THEMIS logger at WARN
- *        level so it is always visible in production log streams.
- *
- * Output format (single-line JSON):
- * @code
- *   [AUDIT] {"event":"import_start","source":"/data/dump.sql","ts_ms":1700000000000,...}
- * @endcode
- *
- * @param event_type  Short identifier, e.g. "import_start", "import_failure",
- *                    "auth_failure", "schema_change_detection", "importer_timeout"
- * @param fields      Arbitrary key→value string pairs appended to the payload.
- */
 static void pgAuditLogEvent(
     const std::string& event_type,
     std::initializer_list<std::pair<const char*, std::string>> fields)
@@ -211,14 +195,10 @@ static void pgAuditLogEvent(
 // ============================================================================
 
 /**
- * Split a comma-separated list at top-level commas only, respecting nested
- * parentheses and single-quoted string literals.
- *
- * Examples:
- *   "a, b, c"                       → {"a", " b", " c"}
- *   "a, f(x,y), c"                  → {"a", " f(x,y)", " c"}
- *   "a, DEFAULT 'x,y', c"           → {"a", " DEFAULT 'x,y'", " c"}
- *   "a, CHECK (x > 0 AND y > 1), c" → {"a", " CHECK (x > 0 AND y > 1)", " c"}
+ * @brief Split Top Level Commas.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Calls: size(), push_back(), clear(), empty().
  */
 static std::vector<std::string> splitTopLevelCommas(const std::string& s) {
     std::vector<std::string> result;
@@ -260,10 +240,11 @@ static std::vector<std::string> splitTopLevelCommas(const std::string& s) {
 }
 
 /**
- * Find the matching closing parenthesis for the first '(' in @p sql,
- * respecting nested parentheses and single-quoted strings.
- *
- * Returns std::string::npos if no matching ')' is found.
+ * @brief Find Matching Paren.
+ * @param[in] sql Input parameter.
+ * @param[in] open_pos Input parameter.
+ * @return Return value.
+ * @details Calls: size().
  */
 static size_t findMatchingParen(const std::string& sql, size_t open_pos) {
     // Precondition: sql[open_pos] == '('
@@ -293,22 +274,13 @@ static size_t findMatchingParen(const std::string& sql, size_t open_pos) {
 }
 
 /**
- * @brief Memory-bounded line reader for streaming import safety.
- *
- * Reads the next newline-terminated line from @p file into @p line with a hard
- * per-line byte cap of @p max_bytes (0 = unlimited, behaves like std::getline).
- * When the cap is exceeded the function:
- *   1. Discards the remaining bytes of the current line (reads to the next '\n')
- *      so the stream cursor is left at the start of the *next* line.
- *   2. Sets @p truncated to `true`.
- *   3. Returns `true` (there was data to read) so the caller can emit an error
- *      and decide whether to continue or abort.
- *
- * When EOF is reached before any bytes are read the function returns `false`.
- *
- * Using this in the inner loops of parseDumpFile() and parseCopy() ensures that
- * an adversarial or accidentally huge pg_dump line (e.g. a COPY row with no
- * newline in 10 GB of data) cannot exhaust process memory.
+ * @brief Stream Read Line Pg.
+ * @param[in,out] file Input/output parameter.
+ * @param[in,out] line Input/output parameter.
+ * @param[in] max_bytes Input parameter.
+ * @param[in,out] truncated Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: clear(), std::getline(), size(), assign(), std::move().
  */
 static bool streamReadLinePg(std::istream& file,
                            std::string& line,
@@ -355,6 +327,12 @@ std::vector<std::string> PostgreSQLImporter::getSupportedTypes() const {
     return {"postgresql", "postgres", "pg_dump"};
 }
 
+/**
+ * @brief Initialize.
+ * @param[in] config Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: clear(), THEMIS_INFO().
+ */
 bool PostgreSQLImporter::initialize(const std::string& config) {
     cancelled_ = false;
     schemas_.clear();
@@ -363,6 +341,13 @@ bool PostgreSQLImporter::initialize(const std::string& config) {
     return true;
 }
 
+/**
+ * @brief Validate Source.
+ * @param[in] source_path Path to the source.
+ * @param[in,out] errors Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: file(), push_back(), std::getline(), find(), THEMIS_INFO().
+ */
 bool PostgreSQLImporter::validateSource(const std::string& source_path, std::vector<std::string>& errors) {
     std::ifstream file(source_path);
     if (!file) {
@@ -394,6 +379,14 @@ bool PostgreSQLImporter::validateSource(const std::string& source_path, std::vec
     return true;
 }
 
+/**
+ * @brief Import Data.
+ * @param[in] source_path Path to the source.
+ * @param[in] options Input parameter.
+ * @param[in] progress_callback Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::steady_clock::now(), THEMIS_INFO(), toJson(), dump(), pgAuditLogEvent(), std::to_string(), permission_check(), addError().
+ */
 ImportStats PostgreSQLImporter::importData(
     const std::string& source_path,
     const ImportOptions& options,
@@ -496,6 +489,13 @@ ImportStats PostgreSQLImporter::importData(
     return stats;
 }
 
+/**
+ * @brief Import Data Async.
+ * @param[in] source_path Path to the source.
+ * @param[in] options Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), std::to_string(), get(), store(), setStage(), get_future().
+ */
 std::shared_ptr<ImportHandle> PostgreSQLImporter::importDataAsync(
     const std::string& source_path,
     const ImportOptions& options
@@ -560,11 +560,23 @@ std::shared_ptr<ImportHandle> PostgreSQLImporter::importDataAsync(
     return handle;
 }
 
+/**
+ * @brief Cancel.
+ * @details Calls: THEMIS_INFO().
+ */
 void PostgreSQLImporter::cancel() {
     cancelled_ = true;
     THEMIS_INFO("Import cancelled");
 }
 
+/**
+ * @brief Import Data Streaming.
+ * @param[in] source_path Path to the source.
+ * @param[in] options Input parameter.
+ * @param[in] row_callback Input parameter.
+ * @return Return value.
+ * @details Calls: std::move(), importData(), erase(), std::remove_if(), begin(), end(), std::remove(), std::string().
+ */
 ImportStats PostgreSQLImporter::importDataStreaming(
     const std::string& source_path,
     const ImportOptions& options,
@@ -608,6 +620,12 @@ ImportStats PostgreSQLImporter::importDataStreaming(
     return stats;
 }
 
+/**
+ * @brief Get Source Schema.
+ * @param[in] source_path Path to the source.
+ * @return Return value.
+ * @details Calls: clear(), file(), json::array(), reserve(), std::getline(), empty(), find_first_not_of(), size().
+ */
 json PostgreSQLImporter::getSourceSchema(const std::string& source_path) {
     schemas_.clear();
     
@@ -770,6 +788,15 @@ json PostgreSQLImporter::getSourceSchema(const std::string& source_path) {
 // Private Methods
 // ============================================================================
 
+/**
+ * @brief Parse Dump File.
+ * @param[in] file_path Path to the file.
+ * @param[in] options Input parameter.
+ * @param[in,out] stats Input/output parameter.
+ * @param[in,out] callback Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: file(), addError(), streamReadLinePg(), tellg(), find(), empty(), size(), clear().
+ */
 bool PostgreSQLImporter::parseDumpFile(const std::string& file_path, const ImportOptions& options,
                                         ImportStats& stats, ProgressCallback& callback) {
     std::ifstream file(file_path);
@@ -1196,6 +1223,13 @@ bool PostgreSQLImporter::parseDumpFile(const std::string& file_path, const Impor
     return !cancelled_;
 }
 
+/**
+ * @brief Parse Create Table.
+ * @param[in] sql Input parameter.
+ * @param[in,out] schema Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: std::regex_search(), size(), str(), find(), position(), empty(), findMatchingParen(), substr().
+ */
 bool PostgreSQLImporter::parseCreateTable(const std::string& sql, TableSchema& schema) {
     std::smatch match = {};
     if (!std::regex_search(sql, match, kCreateTableRe)) {
@@ -1400,14 +1434,13 @@ bool PostgreSQLImporter::parseCreateTable(const std::string& sql, TableSchema& s
     return !schema.name.empty();
 }
 
-// ============================================================================
-// v2.0: Foreign Key Preservation helpers
-// ============================================================================
-
 /**
- * Split a comma-separated column list (no nested parens expected here).
- * Returns trimmed column names stripped of surrounding quotes.
+ * @brief ============================================================================ v2.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details 0: Foreign Key Preservation helpers ============================================================================ Calls: ss(), std::getline(), erase(), find_first_not_of(), find_last_not_of(), empty(), push_back().
  */
+
 static std::vector<std::string> splitColumnList(const std::string& s) {
     std::vector<std::string> cols;
     std::istringstream ss(s);
@@ -1560,6 +1593,13 @@ bool PostgreSQLImporter::parseInlineReference(const std::string& col_name,
     return false;
 }
 
+/**
+ * @brief Parse Alter Table Add Fk.
+ * @param[in] sql Input parameter.
+ * @param[in] options Input parameter.
+ * @param[in,out] stats Input/output parameter.
+ * @details Calls: tbl_regex(), std::regex_search(), str(), count(), THEMIS_DEBUG(), size(), parseForeignKeyConstraint().
+ */
 void PostgreSQLImporter::parseAlterTableAddFk(const std::string& sql,
                                                const ImportOptions& options,
                                                ImportStats& stats) {
@@ -1592,18 +1632,14 @@ void PostgreSQLImporter::parseAlterTableAddFk(const std::string& sql,
     }
 }
 
-// v2.0 Parser Methods
-// ============================================================================
-
 /**
- * @brief Parse a CONSTRAINT ... FOREIGN KEY definition (table-level or from ALTER TABLE).
- *
- * Handles:
- *   [CONSTRAINT name] FOREIGN KEY (src_col[, ...]) REFERENCES tgt_tbl (tgt_col[, ...])
- *     [ON DELETE action] [ON UPDATE action]
- *     [DEFERRABLE [INITIALLY DEFERRED|INITIALLY IMMEDIATE]]
- *     [NOT DEFERRABLE]
+ * @brief v2.
+ * @param[in] constraint_def Input parameter.
+ * @param[in,out] fk Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details 0 Parser Methods ============================================================================ Calls: std::regex_search(), str(), find_first_not_of(), find_last_not_of(), substr(), ss(), std::getline(), trimStr().
  */
+
 bool PostgreSQLImporter::parseForeignKeyConstraint(const std::string& constraint_def,
                                                     ForeignKeyConstraint& fk) {
     std::smatch m = {};
@@ -1688,11 +1724,12 @@ bool PostgreSQLImporter::parseForeignKeyConstraint(const std::string& constraint
 }
 
 /**
- * @brief Parse a CREATE [UNIQUE] INDEX statement.
- *
- * Handles:
- *   CREATE [UNIQUE] INDEX [CONCURRENTLY] [name] ON [schema.]table
- *     [USING method] (cols) [WHERE predicate]
+ * @brief Parse Create Index.
+ * @param[in] sql Input parameter.
+ * @param[in] param Input parameter.
+ * @param[in,out] index Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: std::regex_search(), str(), empty(), std::tolower(), css(), std::getline(), find_first_of(), substr().
  */
 bool PostgreSQLImporter::parseCreateIndex(const std::string& sql,
                                           const std::string& /*hint_table*/,
@@ -1753,11 +1790,12 @@ bool PostgreSQLImporter::parseCreateIndex(const std::string& sql,
 }
 
 /**
- * @brief Parse an ALTER TABLE ... ADD CONSTRAINT ... FOREIGN KEY statement.
- *
- * Handles pg_dump style:
- *   ALTER TABLE [ONLY] [schema.]table
- *     ADD CONSTRAINT name FOREIGN KEY (cols) REFERENCES tbl (cols) ...;
+ * @brief Parse Alter Table Foreign Key.
+ * @param[in] sql Input parameter.
+ * @param[in,out] out_table Input/output parameter.
+ * @param[in,out] fk Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: std::regex_search(), str(), parseForeignKeyConstraint().
  */
 bool PostgreSQLImporter::parseAlterTableForeignKey(const std::string& sql,
                                                     std::string& out_table,
@@ -1772,10 +1810,11 @@ bool PostgreSQLImporter::parseAlterTableForeignKey(const std::string& sql,
 }
 
 /**
- * @brief Validate that all FK references point to known tables and columns.
- *
- * Populates structured errors for every dangling reference.
- * @return true if all references are valid.
+ * @brief Validate Foreign Key References.
+ * @param[in] param Input parameter.
+ * @param[in,out] stats Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), count(), push_back(), find(), end(), at(), emplace(), begin().
  */
 bool PostgreSQLImporter::validateForeignKeyReferences(const ImportOptions& /*options*/,
                                                        ImportStats& stats) {
@@ -1831,16 +1870,14 @@ bool PostgreSQLImporter::validateForeignKeyReferences(const ImportOptions& /*opt
     return all_valid;
 }
 
-// ============================================================================
-// v2.1 Parser Methods
-// ============================================================================
-
 /**
- * @brief Parse a CHECK constraint definition.
- *
- * Handles:
- *   [CONSTRAINT name] CHECK (expression)
+ * @brief ============================================================================ v2.
+ * @param[in] constraint_def Input parameter.
+ * @param[in,out] ck Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details 1 Parser Methods ============================================================================ Calls: std::regex_search(), str(), std::toupper(), find(), findMatchingParen(), substr(), find_first_not_of(), find_last_not_of().
  */
+
 bool PostgreSQLImporter::parseCheckConstraint(const std::string& constraint_def,
                                                CheckConstraint& ck) {
     // Extract optional constraint name
@@ -1879,17 +1916,11 @@ bool PostgreSQLImporter::parseCheckConstraint(const std::string& constraint_def,
 }
 
 /**
- * @brief Parse an EXCLUDE constraint definition.
- *
- * Extracts the optional constraint name, the index access method from the
- * `USING <method>` clause, the per-column `WITH <operator>` pairs from the
- * parenthesised element list, and stores the raw definition text for
- * round-trip fidelity.
- *
- * Example input:
- *   CONSTRAINT no_overlapping_rooms EXCLUDE USING gist (room WITH =, period WITH &&)
- *
- * Roadmap ref: src/importers/FUTURE_ENHANCEMENTS.md §"Postgres EXCLUDE Constraint Parsing"
+ * @brief Parse Exclude Constraint.
+ * @param[in] constraint_def Input parameter.
+ * @param[in,out] excl Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: std::regex_search(), str(), std::toupper(), find(), substr(), find_last_not_of(), size(), std::isspace().
  */
 bool PostgreSQLImporter::parseExcludeConstraint(const std::string& constraint_def,
                                                  ExcludeConstraint& excl) {
@@ -1975,12 +2006,12 @@ bool PostgreSQLImporter::parseExcludeConstraint(const std::string& constraint_de
 }
 
 /**
- * @brief Detect GENERATED columns on a column definition (v2.1).
- *
- * Handles:
- *   col type GENERATED ALWAYS AS (expr) STORED
- *   col type GENERATED ALWAYS AS IDENTITY
- *   col type GENERATED BY DEFAULT AS IDENTITY
+ * @brief Parse Generated Column.
+ * @param[in] col_def Input parameter.
+ * @param[in] col_name Name of the col.
+ * @param[in,out] gen Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: std::toupper(), find(), substr(), find_first_not_of(), empty(), findMatchingParen(), find_last_not_of().
  */
 bool PostgreSQLImporter::parseGeneratedColumn(const std::string& col_def,
                                                const std::string& col_name,
@@ -2055,6 +2086,15 @@ bool PostgreSQLImporter::parseGeneratedColumn(const std::string& col_def,
     return false;
 }
 
+/**
+ * @brief Parse Insert.
+ * @param[in] sql Input parameter.
+ * @param[in] options Input parameter.
+ * @param[in,out] stats Input/output parameter.
+ * @param[in] line_number Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: insert_regex(), std::regex_search(), addError(), std::to_string(), str(), shouldImportTable(), empty(), css().
+ */
 bool PostgreSQLImporter::parseInsert(const std::string& sql, const ImportOptions& options,
                                       ImportStats& stats, size_t line_number) {
     // Extract table name: INSERT INTO [schema.]table [(col1,...)] VALUES (...)
@@ -2172,6 +2212,17 @@ bool PostgreSQLImporter::parseInsert(const std::string& sql, const ImportOptions
     return true;
 }
 
+/**
+ * @brief Parse Copy.
+ * @param[in,out] file Input/output parameter.
+ * @param[in] table_name Name of the table.
+ * @param[in] columns Input parameter.
+ * @param[in] options Input parameter.
+ * @param[in,out] stats Input/output parameter.
+ * @param[in,out] delta_hashes Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: shouldImportTable(), streamReadLinePg(), rfind(), count(), empty(), std::to_string(), push_back(), writeQuarantineRow().
+ */
 bool PostgreSQLImporter::parseCopy(std::ifstream& file, const std::string& table_name,
                                     const std::vector<std::string>& columns,
                                     const ImportOptions& options, ImportStats& stats,
@@ -2546,6 +2597,11 @@ std::string PostgreSQLImporter::mapPostgreSQLTypeToThemis(const std::string& pg_
     // Check both the original and lowercased form of the type name.
     // PHASE-3A-FIX: Add null/empty checks for custom type values
     {
+        /**
+         * @brief Lock.
+         * @param[in] custom_type_map_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(custom_type_map_mutex_);
         auto ct = custom_type_map_.find(pg_type);
         if (ct != custom_type_map_.end() && !ct->second.empty()) {
@@ -2651,6 +2707,13 @@ std::string PostgreSQLImporter::mapPostgreSQLTypeToThemis(const std::string& pg_
     return "string";  // Default: treat unknown types as strings
 }
 
+/**
+ * @brief Should Import Table.
+ * @param[in] table_name Name of the table.
+ * @param[in] options Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: std::find(), begin(), end(), empty().
+ */
 bool PostgreSQLImporter::shouldImportTable(const std::string& table_name, const ImportOptions& options) {
     // Check exclude list
     if (std::find(options.exclude_tables.begin(), options.exclude_tables.end(), table_name) != options.exclude_tables.end()) {
@@ -2665,6 +2728,13 @@ bool PostgreSQLImporter::shouldImportTable(const std::string& table_name, const 
     return true;
 }
 
+/**
+ * @brief Convert Row To Entity.
+ * @param[in] schema Input parameter.
+ * @param[in] values Input parameter.
+ * @return Return value.
+ * @details Calls: size(), empty(), json::array(), push_back(), toJson(), std::move().
+ */
 json PostgreSQLImporter::convertRowToEntity(const TableSchema& schema, const std::vector<std::string>& values) {
     json entity;
     entity["_type"] = schema.name;
@@ -2700,17 +2770,6 @@ void PostgreSQLImporter::addError(ImportStats& stats, ImportErrorCode code,
 }
 
 // PHASE-2-HARDENING: Standardized PostgreSQL error reporting
-/**
- * @brief Add a PostgreSQL-specific error with automatic error code mapping.
- *
- * Maps PostgreSQL error patterns to standard ImporterErrorCode values,
- * ensuring consistent error reporting across all importers.
- *
- * @param stats     ImportStats to accumulate the error
- * @param severity  Error severity level
- * @param pg_error_msg  PostgreSQL error message to analyze
- * @param location  Optional location information (e.g., "line 42", "table users")
- */
 void PostgreSQLImporter::addPostgreSQLError(ImportStats& stats,
                                            ImportErrorSeverity severity,
                                            const std::string& pg_error_msg,
@@ -2738,6 +2797,12 @@ void PostgreSQLImporter::emitSpan(const ImportOptions& options,
     }
 }
 
+/**
+ * @brief Is Valid Utf8.
+ * @param[in] s Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: data(), size().
+ */
 bool PostgreSQLImporter::isValidUtf8(const std::string& s) {
     // Validate that every byte sequence in s is valid UTF-8.
     // Uses the standard multi-byte decoding rules:
@@ -2801,6 +2866,11 @@ bool PostgreSQLImporter::isValidUtf8(const std::string& s) {
 bool PostgreSQLImporter::loadCheckpoint(const std::string& checkpoint_file,
                                          std::streampos& offset,
                                          ImportStats& accumulated_stats) const {
+    /**
+     * @brief F.
+     * @param[in] checkpoint_file Input parameter.
+     * @return Return value.
+     */
     std::ifstream f(checkpoint_file);
     if (!f) {
       return false;
@@ -2833,6 +2903,12 @@ bool PostgreSQLImporter::loadCheckpoint(const std::string& checkpoint_file,
 void PostgreSQLImporter::saveCheckpoint(const std::string& checkpoint_file,
                                          std::streampos offset,
                                          const ImportStats& stats) const {
+    /**
+     * @brief F.
+     * @param[in] checkpoint_file Input parameter.
+     * @param[in] trunc Input parameter.
+     * @return Return value.
+     */
     std::ofstream f(checkpoint_file, std::ios::trunc);
     if (!f) {
         THEMIS_INFO("Could not write checkpoint file {}", checkpoint_file);
@@ -2851,6 +2927,14 @@ void PostgreSQLImporter::saveCheckpoint(const std::string& checkpoint_file,
                  static_cast<long>(offset));
 }
 
+/**
+ * @brief Report Progress.
+ * @param[in,out] callback Input/output parameter.
+ * @param[in] stage Input parameter.
+ * @param[in] current Input parameter.
+ * @param[in] total Input parameter.
+ * @details Calls: callback().
+ */
 void PostgreSQLImporter::reportProgress(ProgressCallback& callback, const std::string& stage, size_t current, size_t total) {
     if (callback) {
         callback(stage, current, total);
@@ -2868,6 +2952,12 @@ void PostgreSQLImporter::writeQuarantineRow(const std::string& quarantine_file,
     if (quarantine_file.empty()) {
       return;
     }
+    /**
+     * @brief F.
+     * @param[in] quarantine_file Input parameter.
+     * @param[in] app Input parameter.
+     * @return Return value.
+     */
     std::ofstream f(quarantine_file, std::ios::app);
     if (!f) {
         THEMIS_INFO("Could not write to quarantine file {}", quarantine_file);
@@ -2890,7 +2980,13 @@ void PostgreSQLImporter::writeQuarantineRow(const std::string& quarantine_file,
 // Delta / incremental import helpers
 // ============================================================================
 
-// FNV-1a 64-bit hash  (no external dependency)
+/**
+ * @brief FNV-1a 64-bit hash (no external dependency)
+ * @param[in] data Input parameter.
+ * @param[in] len Input parameter.
+ * @return Return value.
+ * @details Calls: UINT64_C().
+ */
 static uint64_t fnv1a64(const char* data, size_t len) {
     uint64_t hash = UINT64_C(14695981039346656037);
     for (size_t i = 0; i < len; ++i) {
@@ -2900,6 +2996,15 @@ static uint64_t fnv1a64(const char* data, size_t len) {
     return hash;
 }
 
+/**
+ * @brief Compute Row Hash.
+ * @param[in] raw_row Input parameter.
+ * @param[in] values Input parameter.
+ * @param[in] key_columns Input parameter.
+ * @param[in] schema_columns Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), fnv1a64(), data(), size(), reserve(), emplace(), find(), end().
+ */
 uint64_t PostgreSQLImporter::computeRowHash(const std::string& raw_row,
                                              const std::vector<std::string>& values,
                                              const std::vector<std::string>& key_columns,
@@ -2932,6 +3037,12 @@ uint64_t PostgreSQLImporter::computeRowHash(const std::string& raw_row,
     return fnv1a64(key_data.data(),key_data.size());
 }
 
+/**
+ * @brief Load Delta Hashes.
+ * @param[in] delta_hash_file Input parameter.
+ * @return Return value.
+ * @details Calls: f(), std::getline(), empty(), insert(), std::stoull().
+ */
 std::unordered_set<uint64_t> PostgreSQLImporter::loadDeltaHashes(const std::string& delta_hash_file) {
     std::unordered_set<uint64_t> hashes;
     std::ifstream f(delta_hash_file);
@@ -2950,6 +3061,12 @@ std::unordered_set<uint64_t> PostgreSQLImporter::loadDeltaHashes(const std::stri
     return hashes;
 }
 
+/**
+ * @brief Save Delta Hashes.
+ * @param[in] delta_hash_file Input parameter.
+ * @param[in] hashes Input parameter.
+ * @details Calls: f(), std::setfill(), std::setw().
+ */
 void PostgreSQLImporter::saveDeltaHashes(const std::string& delta_hash_file,
                                           const std::unordered_set<uint64_t>& hashes) {
     std::ofstream f(delta_hash_file, std::ios::trunc);
@@ -2977,6 +3094,12 @@ plugins::PluginCapabilities PostgreSQLImporterPlugin::getCapabilities() const {
     return caps;
 }
 
+/**
+ * @brief Initialize.
+ * @param[in] config_json Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements initialize without additional internal calls.
+ */
 bool PostgreSQLImporterPlugin::initialize(const char* config_json) {
     if (!importer_) {
         return false;
@@ -2984,6 +3107,10 @@ bool PostgreSQLImporterPlugin::initialize(const char* config_json) {
     return importer_->initialize(config_json ? config_json : "{}");
 }
 
+/**
+ * @brief Shutdown.
+ * @details Calls: cancel().
+ */
 void PostgreSQLImporterPlugin::shutdown() {
     if (importer_) {
         importer_->cancel();
@@ -2998,10 +3125,20 @@ void PostgreSQLImporterPlugin::shutdown() {
 // ============================================================================
 
 extern "C" {
+    /**
+     * @brief Create Plugin.
+     * @return Pointer to the result.
+     * @details Calls: themis::importers::PostgreSQLImporterPlugin().
+     */
     themis::plugins::IThemisPlugin* createPlugin() {
         return new themis::importers::PostgreSQLImporterPlugin();
     }
     
+    /**
+     * @brief Destroy Plugin.
+     * @param[in,out] plugin Input/output parameter.
+     * @details Implements destroyPlugin without additional internal calls.
+     */
     void destroyPlugin(themis::plugins::IThemisPlugin* plugin) {
         delete plugin;
     }

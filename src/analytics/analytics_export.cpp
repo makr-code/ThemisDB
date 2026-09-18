@@ -33,11 +33,22 @@ namespace {
 
 std::atomic<uint64_t> g_export_operation_counter{0};
 
+/**
+ * @brief Next Export Operation Id.
+ * @return Return value.
+ * @details Calls: std::to_string(), fetch_add().
+ */
 std::string nextExportOperationId() {
     return "analytics-export-" +
            std::to_string(g_export_operation_counter.fetch_add(1, std::memory_order_relaxed) + 1);
 }
 
+/**
+ * @brief Classify Export Failure.
+ * @param[in] result Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), find().
+ */
 std::string classifyExportFailure(const ExportResult& result) {
     if (!result.failure_class.empty()) {
         return result.failure_class;
@@ -64,6 +75,14 @@ std::string classifyExportFailure(const ExportResult& result) {
     return "backend_error";
 }
 
+/**
+ * @brief Finalize Export Result.
+ * @param[in] result Input parameter.
+ * @param[in] output_path Path to the output.
+ * @param[in] options Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), nextExportOperationId(), classifyExportFailure(), clear(), push_back().
+ */
 ExportResult finalizeExportResult(ExportResult result,
                                   const std::string& output_path,
                                   const ExportOptions& options) {
@@ -119,13 +138,11 @@ ExportResult finalizeExportResult(ExportResult result,
 
 #ifdef THEMIS_HAS_ARROW
 /**
- * @brief Build an Arrow validity bitmap from the column's null_bitmap.
- *
- * Arrow convention: bit i = 1 means valid (non-null), bit i = 0 means null.
- * Our null_bitmap stores the opposite (true = null).
- *
- * Returns nullptr when there are no nulls, which is the common case and
- * allows Arrow to skip allocating a validity buffer entirely.
+ * @brief Build Validity Bitmap.
+ * @param[in] col Input parameter.
+ * @param[in] length Input parameter.
+ * @return Return value.
+ * @details Calls: ARROW_ASSIGN_OR_RAISE(), arrow::AllocateBitmap(), mutable_data(), std::memset(), size(), uint8_t().
  */
 static arrow::Result<std::shared_ptr<arrow::Buffer>> buildValidityBitmap(const ArrowRecordBatch::Column &col,
                                                                          int64_t length) {
@@ -154,13 +171,10 @@ static arrow::Result<std::shared_ptr<arrow::Buffer>> buildValidityBitmap(const A
 }
 
 /**
- * @brief Convert ArrowRecordBatch to Apache Arrow RecordBatch using
- *        zero-copy optimizations for numeric column types.
- *
- * INT64, DOUBLE, and TIMESTAMP columns are transferred without copying the
- * underlying data by wrapping the contiguous typed buffers maintained by
- * ArrowRecordBatch with arrow::Buffer::Wrap().  STRING and BOOLEAN columns
- * still use Arrow builders because their data is not stored contiguously.
+ * @brief Convert To Arrow Record Batch.
+ * @param[in] batch Input parameter.
+ * @return Return value.
+ * @details Calls: getColumns(), rowCount(), arrow::int64(), arrow::float64(), arrow::utf8(), arrow::boolean(), arrow::timestamp(), arrow::Status::TypeError().
  */
 static arrow::Result<std::shared_ptr<arrow::RecordBatch>> convertToArrowRecordBatch(const ArrowRecordBatch &batch) {
     // Build schema
@@ -262,15 +276,6 @@ static arrow::Result<std::shared_ptr<arrow::RecordBatch>> convertToArrowRecordBa
 }
 #endif // THEMIS_HAS_ARROW
 
-/**
- * @brief JSON and CSV exporter.
- *
- * Handles ExportFormat::JSON and ExportFormat::CSV.  Arrow-based formats
- * (IPC, Parquet, Feather) are handled by dedicated exporter classes that are
- * only compiled when THEMIS_HAS_ARROW is defined.  Use
- * ExporterFactory::createExporter(format) to obtain the correct exporter for
- * a given format.
- */
 class JSONCSVExporter : public IAnalyticsExporter {
   public:
     JSONCSVExporter() {
@@ -313,6 +318,11 @@ class JSONCSVExporter : public IAnalyticsExporter {
             }
 
             // Write to file
+            /**
+             * @brief Outfile.
+             * @param[in] output_path Path to the output.
+             * @return Return value.
+             */
             std::ofstream outfile(output_path);
             if (!outfile) {
                 spdlog::error("Failed to open output file: {}", output_path);
@@ -495,12 +505,6 @@ class JSONCSVExporter : public IAnalyticsExporter {
 
 #ifdef THEMIS_HAS_ARROW
 
-/**
- * @brief Arrow IPC (stream) exporter.
- *
- * Writes data in the Apache Arrow IPC stream format.  Requires
- * THEMIS_HAS_ARROW to be defined at compile time.
- */
 class ArrowIPCExporter : public IAnalyticsExporter {
   public:
     ArrowIPCExporter() {
@@ -711,12 +715,6 @@ class ArrowIPCExporter : public IAnalyticsExporter {
     }
 };
 
-/**
- * @brief Apache Parquet exporter.
- *
- * Writes data in the Apache Parquet columnar format with optional compression
- * (snappy, gzip, zstd, lz4).  Requires THEMIS_HAS_ARROW to be defined.
- */
 class ParquetExporter : public IAnalyticsExporter {
   public:
     ParquetExporter() {
@@ -821,12 +819,6 @@ class ParquetExporter : public IAnalyticsExporter {
     }
 };
 
-/**
- * @brief Apache Feather (Arrow IPC file) exporter.
- *
- * Writes data in the Apache Feather v2 format (Arrow IPC file format).
- * Requires THEMIS_HAS_ARROW to be defined.
- */
 class FeatherExporter : public IAnalyticsExporter {
   public:
     FeatherExporter() {
@@ -995,6 +987,13 @@ class FeatherExporter : public IAnalyticsExporter {
 #endif
 
 // Factory implementations
+/**
+ * @brief Create Exporter.
+ * @param[in] format Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: throwArrowUnavailable().
+ */
 std::unique_ptr<IAnalyticsExporter> ExporterFactory::createExporter(ExportFormat format) {
     switch (format) {
         case ExportFormat::JSON:
@@ -1027,6 +1026,11 @@ std::unique_ptr<IAnalyticsExporter> ExporterFactory::createExporter(ExportFormat
     throw std::runtime_error("Unknown export format");
 }
 
+/**
+ * @brief Create Default Exporter.
+ * @return Return value.
+ * @details Implements createDefaultExporter without additional internal calls.
+ */
 std::unique_ptr<IAnalyticsExporter> ExporterFactory::createDefaultExporter() {
     return std::make_unique<JSONCSVExporter>();
 }
@@ -1035,6 +1039,15 @@ std::unique_ptr<IAnalyticsExporter> ExporterFactory::createDefaultExporter() {
 // IAnalyticsExporter — BoundedExecutionPolicy wrapper
 // ============================================================================
 
+/**
+ * @brief Export To File.
+ * @param[in] batch Input parameter.
+ * @param[in] output_path Path to the output.
+ * @param[in] options Input parameter.
+ * @param[in] policy Input parameter.
+ * @return Return value.
+ * @details Calls: isConstrained(), load(), std::to_string(), spdlog::warn(), finalizeExportResult(), std::move(), compare_exchange_weak(), fetch_add().
+ */
 ExportResult IAnalyticsExporter::exportToFile(
         const ArrowRecordBatch &batch,
         const std::string      &output_path,

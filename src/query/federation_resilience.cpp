@@ -146,7 +146,7 @@ std::string CircuitBreaker::getStatistics() const {
 }
 
 /**
- * @brief Reset.
+ * @brief Reset the modification detection flag.
  * @details Calls: spdlog::info().
  */
 void CircuitBreaker::reset() {
@@ -364,7 +364,7 @@ FederationResilienceCoordinator::FederationResilienceCoordinator(
 
 /**
  * @brief Get Or Create Circuit Breaker.
- * @param[in] shard_id Input parameter.
+ * @param[in] shard_id Identifier of the shard.
  * @param[in] config Input parameter.
  * @return Return value.
  * @details Calls: find(), end(), emplace(), CircuitBreaker(), at().
@@ -419,7 +419,7 @@ DegradedModeExecutor& FederationResilienceCoordinator::getDegradedModeExecutor()
 
 /**
  * @brief Register Shard For Recovery Tracking.
- * @param[in] shard_id Input parameter.
+ * @param[in] shard_id Identifier of the shard.
  * @param[in] recovery_sla_ms Input parameter.
  * @details Calls: find(), end(), emplace(), RecoveryTimeTracker().
  */

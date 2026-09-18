@@ -19,9 +19,13 @@ namespace themis {
 namespace llm {
 namespace lora {
 
-// ═══════════════════════════════════════════════════════════
-// Public API Implementation
-// ═══════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════ Public API Implementation ═══════════════════════════════════════════════════════════
+ * @param[in] config_path Path to the retention policy configuration file.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: YAML::LoadFile(), loadFromString(), YAML::Dump(), what().
+ */
 
 LoRATrainingConfig LoRATrainingConfig::loadFromFile(const std::string& config_path) {
     try {
@@ -33,6 +37,13 @@ LoRATrainingConfig LoRATrainingConfig::loadFromFile(const std::string& config_pa
     }
 }
 
+/**
+ * @brief Load From String.
+ * @param[in] yaml_content Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: YAML::Load(), parseAdapterConfig(), spdlog::info(), size(), std::string(), what().
+ */
 LoRATrainingConfig LoRATrainingConfig::loadFromString(const std::string& yaml_content) {
     LoRATrainingConfig config;
     
@@ -253,6 +264,12 @@ LoRATrainingConfig::parseAdapterConfig(
     return config;
 }
 
+/**
+ * @brief Parse Hyperparameters.
+ * @param[in] node Input parameter.
+ * @return Return value.
+ * @details Calls: clear(), push_back().
+ */
 LoRAHyperparameters LoRATrainingConfig::parseHyperparameters(const YAML::Node& node) {
     LoRAHyperparameters params = {};
     

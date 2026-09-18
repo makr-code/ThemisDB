@@ -124,6 +124,12 @@ GPUMemoryManager& GPUMemoryManager::operator=(GPUMemoryManager&& other) noexcept
     return *this;
 }
 
+/**
+ * @brief Get allocator.
+ * @param[in] device Input parameter.
+ * @return Pointer to the result.
+ * @details Calls: get().
+ */
 VRAMAllocator* GPUMemoryManager::get_allocator(const Device& device) {
     switch (device.type) {
         case DeviceType::CPU:
@@ -210,6 +216,11 @@ std::vector<Device> GPUMemoryManager::available_devices() const {
     return devices;
 }
 
+/**
+ * @brief Auto select device.
+ * @return Return value.
+ * @details Calls: detect_backends(), Device::vulkan(), Device::cuda(), Device::hip(), Device::directx(), Device::cpu().
+ */
 Device GPUMemoryManager::auto_select_device() {
     // Priority: Vulkan → CUDA → HIP → DirectX → CPU
     auto backends = detect_backends();
@@ -246,6 +257,11 @@ Device GPUMemoryManager::auto_select_device() {
     return Device::cpu();
 }
 
+/**
+ * @brief Detect backends.
+ * @return Return value.
+ * @details Calls: cudaGetDeviceCount(), cudaGetDeviceProperties(), spdlog::warn(), cudaGetErrorString(), cudaRuntimeGetVersion(), std::to_string(), push_back(), hipGetDeviceCount().
+ */
 std::vector<GPUMemoryManager::BackendInfo> GPUMemoryManager::detect_backends() {
     std::vector<BackendInfo> backends;
     
@@ -489,6 +505,11 @@ VRAMAllocator::Stats GPUMemoryManager::get_stats(const Device& device) const {
     }
 }
 
+/**
+ * @brief Initialize allocators.
+ * @param[in] preferred_backend Input parameter.
+ * @details Calls: is_available(), reset().
+ */
 void GPUMemoryManager::initialize_allocators(acceleration::BackendType preferred_backend) {
     // Always create CPU allocator as fallback
     cpu_allocator_ = std::make_unique<VRAMAllocator>(acceleration::BackendType::CPU);
@@ -528,6 +549,12 @@ void GPUMemoryManager::initialize_allocators(acceleration::BackendType preferred
     }
 }
 
+/**
+ * @brief Device to backend.
+ * @param[in] type Input parameter.
+ * @return Return value.
+ * @details Implements device_to_backend without additional internal calls.
+ */
 acceleration::BackendType GPUMemoryManager::device_to_backend(DeviceType type) {
     switch (type) {
         case DeviceType::CPU: return acceleration::BackendType::CPU;

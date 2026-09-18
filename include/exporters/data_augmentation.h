@@ -92,13 +92,13 @@ public:
 private:
     AugmentationConfig config_;
 
+
     /**
-     * @brief ── Strategy implementations ──────────────────────────────────────────
+     * @brief Apply Synonym Replacement.
      * @param[in] entity Input parameter.
      * @param[in] variant Input parameter.
      * @return Return value.
      */
-
     BaseEntity applySynonymReplacement(const BaseEntity& entity, uint32_t variant) const;
     /**
      * @brief Apply Question Reformulation.
@@ -126,12 +126,12 @@ private:
      */
     BaseEntity applySentenceCasing(const BaseEntity& entity) const;
 
+
     /**
-     * @brief ── Text helpers ──────────────────────────────────────────────────────
+     * @brief Select Fields.
      * @param[in] entity Input parameter.
      * @return Return value.
      */
-
     std::vector<std::string> selectFields(const BaseEntity& entity) const;
 
     /**

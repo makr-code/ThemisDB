@@ -31,9 +31,9 @@ constexpr int PEAK_UPDATE_MAX_RETRIES = 10;  // Max retries for atomic peak memo
 constexpr size_t STACK_ALLOC_RESERVE_RATIO = 256;  // Reserve 1/256th of capacity for tracking
 
 /**
- * @brief Helper function to check if a number is a power of 2
+ * @brief Is Power Of Two.
  * @param[in] n Input parameter.
- * @return True on success.
+ * @return True when the operation succeeds.
  * @details Implements isPowerOfTwo without additional internal calls.
  */
 static inline bool isPowerOfTwo(size_t n) {
@@ -41,7 +41,7 @@ static inline bool isPowerOfTwo(size_t n) {
 }
 
 /**
- * @brief Helper function to get next power of 2
+ * @brief Next Power Of Two.
  * @param[in] n Input parameter.
  * @return Return value.
  * @details Implements nextPowerOfTwo without additional internal calls.
@@ -61,7 +61,7 @@ static inline size_t nextPowerOfTwo(size_t n) {
 }
 
 /**
- * @brief Helper function to align size to alignment boundary
+ * @brief Align Size.
  * @param[in] size Input parameter.
  * @param[in] alignment Input parameter.
  * @return Return value.
@@ -343,8 +343,8 @@ Result<void> BuddyAllocator::deallocate(void* ptr) {
 }
 
 /**
- * @brief Reset.
- * @return Return value.
+ * @brief Reset the modification detection flag.
+ * @return None.
  * @details Calls: lock(), clear(), std::fill(), begin(), end(), get(), OkVoid().
  */
 Result<void> BuddyAllocator::reset() {
@@ -452,7 +452,7 @@ struct SlabAllocator::Slab {
     /**
      * @brief Deallocate.
      * @param[in,out] ptr Input/output parameter.
-     * @return True on success.
+     * @return True when the operation succeeds.
      * @details Calls: get().
      */
     bool deallocate(void* ptr) {
@@ -536,7 +536,7 @@ struct SlabAllocator::Impl {
     /**
      * @brief Deallocate.
      * @param[in,out] ptr Input/output parameter.
-     * @return True on success.
+     * @return True when the operation succeeds.
      * @details Calls: get(), contains().
      */
     bool deallocate(void* ptr) {
@@ -625,8 +625,8 @@ Result<void> SlabAllocator::deallocate(void* ptr) {
 }
 
 /**
- * @brief Reset.
- * @return Return value.
+ * @brief Reset the modification detection flag.
+ * @return None.
  * @details Calls: lock(), OkVoid().
  */
 Result<void> SlabAllocator::reset() {
@@ -784,8 +784,8 @@ Result<void> StackAllocator::deallocate(void* ptr) {
 }
 
 /**
- * @brief Reset.
- * @return Return value.
+ * @brief Reset the modification detection flag.
+ * @return None.
  * @details Calls: lock(), clear(), OkVoid().
  */
 Result<void> StackAllocator::reset() {
@@ -1011,8 +1011,8 @@ const AllocationStats& PoolAllocator::getStackStats() const {
 }
 
 /**
- * @brief Reset.
- * @return Return value.
+ * @brief Reset the modification detection flag.
+ * @return None.
  * @details Calls: lock(), clear(), OkVoid().
  */
 Result<void> PoolAllocator::reset() {

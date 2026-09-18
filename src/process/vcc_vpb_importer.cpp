@@ -46,6 +46,12 @@ using json = nlohmann::json;
 // Domain mapping
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Domain String To Enum.
+ * @param[in] domain Input parameter.
+ * @return Return value.
+ * @details Calls: d(), std::transform(), begin(), end().
+ */
 ProcessDomain VccVpbImporter::domainStringToEnum_(std::string_view domain) {
     std::string d(domain);
     std::transform(d.begin(), d.end(), d.begin(), ::tolower);
@@ -70,6 +76,12 @@ ProcessDomain VccVpbImporter::domainStringToEnum_(std::string_view domain) {
 // Activity type mapping
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Activity Type To Node Type.
+ * @param[in] type_str Input parameter.
+ * @return Return value.
+ * @details Calls: t(), std::transform(), begin(), end().
+ */
 BPMNNodeType VccVpbImporter::activityTypeToNodeType_(std::string_view type_str) {
     std::string t(type_str);
     std::transform(t.begin(), t.end(), t.begin(), ::tolower);
@@ -100,6 +112,12 @@ BPMNNodeType VccVpbImporter::activityTypeToNodeType_(std::string_view type_str) 
 // Edge type mapping
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Edge Type To Process Edge Type.
+ * @param[in] type_str Input parameter.
+ * @return Return value.
+ * @details Calls: t(), std::transform(), begin(), end().
+ */
 ProcessEdgeType VccVpbImporter::edgeTypeToProcessEdgeType_(std::string_view type_str) {
     std::string t(type_str);
     std::transform(t.begin(), t.end(), t.begin(), ::tolower);
@@ -135,6 +153,12 @@ ProcessEdgeType VccVpbImporter::edgeTypeToProcessEdgeType_(std::string_view type
 
 namespace {
 
+/**
+ * @brief Trim Str.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Calls: erase(), find_first_not_of(), find_last_not_of().
+ */
 std::string trimStr(const std::string& s) {
     std::string out = s;
     out.erase(0, out.find_first_not_of(" \t\r\n"));
@@ -142,6 +166,12 @@ std::string trimStr(const std::string& s) {
     return out;
 }
 
+/**
+ * @brief Unquote.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Calls: size(), front(), back(), substr().
+ */
 std::string unquote(const std::string& s) {
     if (s.size() >= 2) {
         if (((s.front() == '"' && s.back() == '"') ||
@@ -152,8 +182,12 @@ std::string unquote(const std::string& s) {
     return s;
 }
 
-// Very simple YAML → JSON conversion for VCC-VPB format
-// This is NOT a full YAML parser; it handles the specific schema used.
+/**
+ * @brief Very simple YAML → JSON conversion for VCC-VPB format This is NOT a full YAML parser; it handles the specific schema used.
+ * @param[in] yaml_text Input parameter.
+ * @return Return value.
+ * @details Calls: ss(), std::getline(), push_back(), json::object(), size(), re(), std::regex_match(), unquote().
+ */
 json parseVccVpbYaml(const std::string& yaml_text) {
     // We handle three cases:
     // 1. The document starts with a top-level mapping (process definition)
@@ -431,6 +465,12 @@ json parseVccVpbYaml(const std::string& yaml_text) {
 // parseModelNode_  (internal)
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Parse Model Node.
+ * @param[in] doc Input parameter.
+ * @param[in] meta_defaults Input parameter.
+ * @return Return value.
+ */
 VccVpbImporter::ImportResult VccVpbImporter::parseModelNode_(
     const json& doc,
     const ProcessModelRecord& meta_defaults)
@@ -623,6 +663,12 @@ VccVpbImporter::ImportResult VccVpbImporter::parseModelNode_(
 // importYaml
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Import Yaml.
+ * @param[in] yaml_text Input parameter.
+ * @param[in] meta_defaults Input parameter.
+ * @return Return value.
+ */
 VccVpbImporter::ImportResult VccVpbImporter::importYaml(
     std::string_view      yaml_text,
     const ProcessModelRecord& meta_defaults)
@@ -645,6 +691,13 @@ VccVpbImporter::ImportResult VccVpbImporter::importYaml(
 // importYamlList
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Import Yaml List.
+ * @param[in] yaml_text Input parameter.
+ * @param[in] list_key Input parameter.
+ * @param[in] meta_defaults Input parameter.
+ * @return Return value.
+ */
 std::vector<VccVpbImporter::ImportResult> VccVpbImporter::importYamlList(
     std::string_view          yaml_text,
     std::string_view          list_key,
@@ -652,8 +705,11 @@ std::vector<VccVpbImporter::ImportResult> VccVpbImporter::importYamlList(
 {
     std::vector<ImportResult> results;
 
-    // Locate list_key block and extract individual model definitions
-    // Exception-safe: all allocations are RAII-managed (std::string, std::vector)
+    /**
+     * @brief Locate list_key block and extract individual model definitions Exception-safe: all allocations are RAII-managed (std::string, std::vector)
+     * @param[in] yaml_text Input parameter.
+     * @return Return value.
+     */
     std::string text(yaml_text);  // RAII-managed string copy
     std::string key_pattern = std::string(list_key) + ":";  // RAII-managed string
 
@@ -666,6 +722,11 @@ std::vector<VccVpbImporter::ImportResult> VccVpbImporter::importYamlList(
     // Each model is introduced by "  - id:" or "  -\n    id:"
     // Split the block into individual model YAML chunks.
     std::string block = text.substr(list_start + key_pattern.size() );  // RAII-managed substring
+    /**
+     * @brief Ss.
+     * @param[in] block Input parameter.
+     * @return Return value.
+     */
     std::istringstream ss(block);
     std::string line;  // RAII-managed line buffer
     std::vector<std::string> model_chunks;  // RAII-managed vector
@@ -752,6 +813,12 @@ std::vector<VccVpbImporter::ImportResult> VccVpbImporter::importYamlList(
 // importDirectory
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Import Directory.
+ * @param[in] directory_path Path to the directory.
+ * @param[in] meta_defaults Input parameter.
+ * @return Return value.
+ */
 std::vector<VccVpbImporter::ImportResult> VccVpbImporter::importDirectory(
     std::string_view          directory_path,
     const ProcessModelRecord& meta_defaults)

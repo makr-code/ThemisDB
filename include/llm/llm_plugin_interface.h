@@ -32,9 +32,6 @@ namespace llm {
 
 using json = nlohmann::json;
 
-/**
- * @brief LLM-specific capabilities
- */
 struct LLMCapabilities {
     // Model capabilities
     bool supports_instruct = false;      // Instruction-tuned models
@@ -75,18 +72,15 @@ struct LLMCapabilities {
     std::string plugin_version;            // Semantic version of this plugin
 };
 
-/**
- * @brief Model information
- */
 struct ModelInfo {
+    /**
+     * @brief Model Info.
+     * @return Return value.
+     */
     virtual ~ModelInfo() = default;
 
-    /// @brief Move constructor — transfers all fields; source is left in a valid empty state.
-    /// @note Move semantics: all string/primitive members transferred; source cleared by std::string move.
     ModelInfo(ModelInfo&&) noexcept = default;
 
-    /// @brief Move assignment operator.
-    /// @note Move semantics: all string/primitive members transferred.
     ModelInfo& operator=(ModelInfo&&) noexcept = default;
 
     ModelInfo(const ModelInfo&) = default;
@@ -113,18 +107,15 @@ struct ModelInfo {
     json metadata;                 // Additional model metadata
 };
 
-/**
- * @brief LoRA adapter information
- */
 struct LoRAInfo {
+    /**
+     * @brief Lo RAInfo.
+     * @return Return value.
+     */
     virtual ~LoRAInfo() = default;
 
-    /// @brief Move constructor — transfers all fields; source left valid-empty.
-    /// @note Move semantics: std::string move clears source strings; primitives copied.
     LoRAInfo(LoRAInfo&&) noexcept = default;
 
-    /// @brief Move assignment operator.
-    /// @note Move semantics: all members transferred, source left valid-empty.
     LoRAInfo& operator=(LoRAInfo&&) noexcept = default;
 
     LoRAInfo(const LoRAInfo&) = default;
@@ -146,13 +137,6 @@ struct LoRAInfo {
     json metadata;                 // Domain, version, etc.
 };
 
-/**
- * @brief Inference request parameters.
- *
- * Bundles prompt text, model selection, generation controls, tracing
- * metadata, and optional tool-calling or multimodal inputs for a single
- * inference request.
- */
 struct InferenceRequest {
     std::string prompt;
     std::string model_id = "default";
@@ -225,18 +209,15 @@ struct InferenceRequest {
     std::shared_ptr<std::atomic<bool>> cancellation_token;
 };
 
-/**
- * @brief Inference response
- */
 struct InferenceResponse {
+    /**
+     * @brief Inference Response.
+     * @return Return value.
+     */
     virtual ~InferenceResponse() = default;
 
-    /// @brief Move constructor — transfers all members including containers and optional fields.
-    /// @note Move semantics: @c std::vector and @c std::string members are moved; source remains valid-empty.
     InferenceResponse(InferenceResponse&&) noexcept = default;
 
-    /// @brief Move assignment operator.
-    /// @note Move semantics: all members transferred; source left in a valid empty state.
     InferenceResponse& operator=(InferenceResponse&&) noexcept = default;
 
     InferenceResponse(const InferenceResponse&) = default;
@@ -282,23 +263,15 @@ struct InferenceResponse {
     std::string error_message;     // Non-empty on failure
 };
 
-/**
- * @brief RAG (Retrieval-Augmented Generation) context
- *
- * max_context_tokens should be set to ModelInfo::context_length of the loaded
- * model.  The RAGContextAssembler uses this value together with
- * response_budget_tokens to compute the exact token budget available for the
- * retrieved chunks.  Setting it to 0 triggers the 4 096-token fallback.
- */
 struct RAGContext {
+    /**
+     * @brief RAGContext.
+     * @return Return value.
+     */
     virtual ~RAGContext() = default;
 
-    /// @brief Move constructor — transfers query, collection, documents, and all parameters.
-    /// @note Move semantics: @c std::string and @c std::vector members are moved; source remains valid-empty.
     RAGContext(RAGContext&&) noexcept = default;
 
-    /// @brief Move assignment operator.
-    /// @note Move semantics: all members transferred; source left in a valid empty state.
     RAGContext& operator=(RAGContext&&) noexcept = default;
 
     RAGContext(const RAGContext&) = default;
@@ -328,22 +301,16 @@ struct RAGContext {
     int response_budget_tokens = 512;
 };
 
-/**
- * @brief Base interface for LLM plugins
- * 
- * All LLM backend plugins must implement this interface.
- * Examples: LlamaWrapper, VLLMPlugin, OpenAIPlugin, etc.
- */
 class ILLMPlugin {
 public:
+    /**
+     * @brief ILLMPlugin.
+     * @return Return value.
+     */
     virtual ~ILLMPlugin() = default;
 
-    /// @brief Move constructor for polymorphic LLM plugin base.
-    /// @note Move semantics: abstract base carries no data; subclasses must call this.
     ILLMPlugin(ILLMPlugin&&) noexcept = default;
 
-    /// @brief Move assignment operator for polymorphic LLM plugin base.
-    /// @note Move semantics: abstract base carries no data; subclasses must call this.
     ILLMPlugin& operator=(ILLMPlugin&&) noexcept = default;
 
     ILLMPlugin(const ILLMPlugin&) = delete;
@@ -358,76 +325,41 @@ public:
     // Model Management
     // ═══════════════════════════════════════════════════════════
 
-    /**
-     * @brief Load a model
-     * @param model_path Path to model file
-     * @param config Model configuration (JSON)
-     * @return true if loaded successfully
-     */
     [[nodiscard]] virtual bool loadModel(
         const std::string& model_path,
         const json& config = {}
     ) = 0;
     
     /**
-     * @brief Unload current model
+     * @brief Unload Model.
      */
     virtual void unloadModel() = 0;
     
-    /**
-     * @brief Get current model information
-     */
     [[nodiscard]] virtual std::optional<ModelInfo> getModelInfo() const = 0;
     
-    /**
-     * @brief Check if model is loaded
-     */
     [[nodiscard]] virtual bool isModelLoaded() const = 0;
     
     // ═══════════════════════════════════════════════════════════
     // LoRA Management
     // ═══════════════════════════════════════════════════════════
     
-    /**
-     * @brief Load a LoRA adapter
-     * @param lora_id Unique identifier
-     * @param lora_path Path to LoRA weights
-     * @param scale LoRA scaling factor
-     * @return true if loaded successfully
-     */
     [[nodiscard]] virtual bool loadLoRA(
         const std::string& lora_id,
         const std::string& lora_path,
         float scale = 1.0f
     ) = 0;
     
-    /**
-     * @brief Unload a LoRA adapter
-     */
     [[nodiscard]] virtual bool unloadLoRA(const std::string& lora_id) = 0;
     
-    /**
-     * @brief List loaded LoRA adapters
-     */
     [[nodiscard]] virtual std::vector<LoRAInfo> listLoRAs() const = 0;
     
     // ═══════════════════════════════════════════════════════════
     // Inference
     // ═══════════════════════════════════════════════════════════
 
-    /**
-     * @brief Result of a draft-token generation pass for speculative decoding.
-     *
-     * Returned by generateDraftTokens().  Each element of `logits[i]` is a
-     * vocab_size-dimensional raw logit vector for draft position i, suitable
-     * for passing directly to SpeculativeDecoder::verify().
-     */
     struct DraftTokensResult {
-        /// K draft token IDs (one per speculative step).
         std::vector<int> tokens;
-        /// K × vocab_size raw logit rows (row i corresponds to tokens[i]).
         std::vector<std::vector<float>> logits;
-        /// Vocabulary size used for the logit rows.
         size_t vocab_size = 0;
     };
 
@@ -436,40 +368,21 @@ public:
     //   InferenceEngineEnhanced::trySpeculativeGeneration, 2026-08-27)
     // ─────────────────────────────────────────────────────────────────────
 
-    /// Callback type that replaces the default heuristic implementation of
-    /// generateDraftTokens() without requiring a full plugin subclass.
     using GenerateDraftTokensFn = std::function<
         DraftTokensResult(const InferenceRequest& /*request*/,
                           size_t                  /*k*/,
                           size_t                  /*vocab_size_hint*/)>;
 
-    /// Inject (or remove) a real generateDraftTokens() implementation into
-    /// the default virtual method body.  Pass nullptr / empty fn to restore
-    /// the built-in text-heuristic path.  Thread-safe with concurrent calls
-    /// to generateDraftTokens().
+    /**
+     * @brief Set Default Generate Draft Tokens Fn.
+     * @param[in] fn Input parameter.
+     * @details Calls: lk(), std::move().
+     */
     static void setDefaultGenerateDraftTokensFn(GenerateDraftTokensFn fn) {
         std::lock_guard<std::mutex> lk(s_draft_fn_mutex_);
         s_default_draft_fn_ = std::move(fn);
     }
 
-    /**
-     * @brief Generate K draft tokens with per-token logit distributions.
-     *
-     * Used by InferenceEngineEnhanced::trySpeculativeGeneration() to feed
-     * real token IDs and logit distributions into SpeculativeDecoder::verify().
-     *
-     * When a fn has been injected via setDefaultGenerateDraftTokensFn() the
-     * call is forwarded to that fn.  Otherwise the built-in heuristic applies:
-     * generate() is called internally and the returned text is mapped to token
-     * IDs via UTF-8 byte values modulo vocab_size; logit distributions are
-     * peaked (+5 / −5) at the mapped IDs (STUB #261 — Q1 2027).
-     *
-     * @param request        Inference request (prompt + generation parameters).
-     *                       max_tokens is overridden to k internally.
-     * @param k              Number of draft tokens to produce.
-     * @param vocab_size_hint Expected vocabulary size; 32 000 used as fallback.
-     * @return DraftTokensResult with k tokens and k logit rows.
-     */
     [[nodiscard]] virtual DraftTokensResult generateDraftTokens(
         const InferenceRequest& request,
         size_t                  k,
@@ -478,6 +391,11 @@ public:
         // Check injected fn first (STUB #261 bridge).
         GenerateDraftTokensFn fn_copy;
         {
+            /**
+             * @brief Lk.
+             * @param[in] s_draft_fn_mutex_ Input parameter.
+             * @return Return value.
+             */
             std::lock_guard<std::mutex> lk(s_draft_fn_mutex_);
             fn_copy = s_default_draft_fn_;
         }
@@ -509,6 +427,12 @@ public:
                 : 0;
             result.tokens.push_back(token_id);
 
+            /**
+             * @brief Row.
+             * @param[in] vocab Input parameter.
+             * @param[in] kBaseline Input parameter.
+             * @return Return value.
+             */
             std::vector<float> row(vocab, kBaseline);
             row[static_cast<size_t>(token_id)] = kPeak;
             result.logits.push_back(std::move(row));
@@ -528,92 +452,51 @@ private:
 
 public:
 
-    /**
-     * @brief Generate text from prompt
-     * @param request Inference parameters
-     * @return Generated response
-     */
     [[nodiscard]] virtual InferenceResponse generate(const InferenceRequest& request) = 0;
     
-    /**
-     * @brief RAG-enhanced generation
-     * @param rag_context Retrieved documents and query
-     * @param request Generation parameters
-     * @return Generated response
-     */
     [[nodiscard]] virtual InferenceResponse generateRAG(
         const RAGContext& rag_context,
         const InferenceRequest& request
     ) = 0;
     
-    /**
-     * @brief Embed text to vector
-     * @param text Text to embed
-     * @return Embedding vector (typically 768 or 1024 dimensions)
-     */
     [[nodiscard]] virtual std::vector<float> embed(const std::string& text) = 0;
     
     // ═══════════════════════════════════════════════════════════
     // Capabilities
     // ═══════════════════════════════════════════════════════════
     
-    /**
-     * @brief Get plugin capabilities
-     */
     [[nodiscard]] virtual LLMCapabilities getCapabilities() const = 0;
     
-    /**
-     * @brief Get memory usage statistics
-     */
     [[nodiscard]] virtual json getMemoryStats() const = 0;
     
-    /**
-     * @brief Get performance statistics
-     */
     [[nodiscard]] virtual json getPerformanceStats() const = 0;
     
     // ═══════════════════════════════════════════════════════════
     // Distributed Features (for sharding architecture)
     // ═══════════════════════════════════════════════════════════
     
-    /**
-     * @brief Export LoRA for transfer to another shard
-     * @param lora_id LoRA identifier
-     * @return Serialized LoRA weights
-     */
     [[nodiscard]] virtual std::vector<uint8_t> exportLoRA(const std::string& lora_id) = 0;
     
-    /**
-     * @brief Import LoRA from another shard
-     * @param lora_id LoRA identifier
-     * @param data Serialized LoRA weights
-     * @return true if imported successfully
-     */
     [[nodiscard]] virtual bool importLoRA(
         const std::string& lora_id,
         const std::vector<uint8_t>& data
     ) = 0;
 };
 
-/**
- * @brief Wrapper to integrate ILLMPlugin with ThemisDB plugin system
- * 
- * This adapter class bridges ILLMPlugin to IThemisPlugin, allowing
- * LLM plugins to be managed by the unified PluginManager.
- */
 class LLMPluginAdapter : public plugins::IThemisPlugin {
 public:
+    /**
+     * @brief LLMPlugin Adapter.
+     * @param[in] llm_plugin Input parameter.
+     * @return Return value.
+     */
     explicit LLMPluginAdapter(std::unique_ptr<ILLMPlugin> llm_plugin)
         : llm_plugin_(std::move(llm_plugin)) {}
 
     ~LLMPluginAdapter() override = default;
 
-    /// @brief Move constructor — transfers unique_ptr ownership; source becomes a null-plugin adapter.
-    /// @note Move semantics: std::unique_ptr move transfers sole ownership; source llm_plugin_ becomes nullptr.
     LLMPluginAdapter(LLMPluginAdapter&&) noexcept = default;
 
-    /// @brief Move assignment operator — transfers unique_ptr ownership.
-    /// @note Move semantics: replaces current plugin with source; source becomes nullptr.
     LLMPluginAdapter& operator=(LLMPluginAdapter&&) noexcept = default;
 
     LLMPluginAdapter(const LLMPluginAdapter&) = delete;
@@ -659,7 +542,11 @@ public:
         return llm_plugin_.get();
     }
     
-    // Direct access to LLM plugin
+    /**
+     * @brief Direct access to LLM plugin
+     * @return Pointer to the result.
+     * @details Calls: get().
+     */
     ILLMPlugin* getLLMPlugin() { return llm_plugin_.get(); }
     const ILLMPlugin* getLLMPlugin() const { return llm_plugin_.get(); }
     
@@ -676,7 +563,5 @@ private:
  * Add this macro once in the .cpp file of your LLM plugin implementation.
  */
 #define THEMIS_LLM_PLUGIN()                                                        \
-    extern "C" THEMIS_PLUGIN_EXPORT                                                \
-        themis::llm::ILLMPlugin* themis_llm_create();                             \
-    extern "C" THEMIS_PLUGIN_EXPORT                                                \
-        void themis_llm_destroy(themis::llm::ILLMPlugin* p)
+    extern "C" THEMIS_PLUGIN_EXPORT themis::llm::ILLMPlugin* themis_llm_create(); \
+    extern "C" THEMIS_PLUGIN_EXPORT void themis_llm_destroy(themis::llm::ILLMPlugin* p);

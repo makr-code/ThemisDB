@@ -50,28 +50,65 @@ RemoteExecutor::RemoteExecutor(const Config& config)
     }
 }
 
+/**
+ * @brief Get.
+ * @param[in] shard_info Input parameter.
+ * @param[in] path Input parameter.
+ * @return Return value.
+ * @details Calls: executeRequest().
+ */
 RemoteExecutor::Result RemoteExecutor::get(const ShardInfo& shard_info,
                                           const std::string& path) {
     return executeRequest("GET", shard_info, path);
 }
 
+/**
+ * @brief Post.
+ * @param[in] shard_info Input parameter.
+ * @param[in] path Input parameter.
+ * @param[in] body Input parameter.
+ * @return Return value.
+ * @details Calls: executeRequest().
+ */
 RemoteExecutor::Result RemoteExecutor::post(const ShardInfo& shard_info,
                                            const std::string& path,
                                            const nlohmann::json& body) {
     return executeRequest("POST", shard_info, path, std::optional<nlohmann::json>(body));
 }
 
+/**
+ * @brief Put.
+ * @param[in] shard_info Input parameter.
+ * @param[in] path Input parameter.
+ * @param[in] body Input parameter.
+ * @return Return value.
+ * @details Calls: executeRequest().
+ */
 RemoteExecutor::Result RemoteExecutor::put(const ShardInfo& shard_info,
                                           const std::string& path,
                                           const nlohmann::json& body) {
     return executeRequest("PUT", shard_info, path, std::optional<nlohmann::json>(body));
 }
 
+/**
+ * @brief Del.
+ * @param[in] shard_info Input parameter.
+ * @param[in] path Input parameter.
+ * @return Return value.
+ * @details Calls: executeRequest().
+ */
 RemoteExecutor::Result RemoteExecutor::del(const ShardInfo& shard_info,
                                           const std::string& path) {
     return executeRequest("DELETE", shard_info, path);
 }
 
+/**
+ * @brief Execute Query.
+ * @param[in] shard_info Input parameter.
+ * @param[in] query Input parameter.
+ * @return Return value.
+ * @details Calls: post().
+ */
 RemoteExecutor::Result RemoteExecutor::executeQuery(const ShardInfo& shard_info,
                                                     const std::string& query) {
     // Execute query via POST to /api/v1/query endpoint
@@ -82,6 +119,15 @@ RemoteExecutor::Result RemoteExecutor::executeQuery(const ShardInfo& shard_info,
     return post(shard_info, "/api/v1/query", body);
 }
 
+/**
+ * @brief Post Binary.
+ * @param[in] shard_info Input parameter.
+ * @param[in] path Input parameter.
+ * @param[in] data Input parameter.
+ * @param[in] size Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), std::move(), post().
+ */
 RemoteExecutor::Result RemoteExecutor::postBinary(const ShardInfo& shard_info,
                                                    const std::string& path,
                                                    const uint8_t* data,
@@ -132,6 +178,15 @@ std::string RemoteExecutor::getEndpointURL(const ShardInfo& shard_info) const {
     return "https://" + shard_info.primary_endpoint;
 }
 
+/**
+ * @brief Execute Request.
+ * @param[in] method Input parameter.
+ * @param[in] shard_info Input parameter.
+ * @param[in] path Input parameter.
+ * @param[in] body Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), setAttribute(), std::chrono::steady_clock::now(), getCircuitBreaker(), allowRequest(), count(), getEndpointURL(), createSignedRequest().
+ */
 RemoteExecutor::Result RemoteExecutor::executeRequest(
     const std::string& method,
     const ShardInfo& shard_info,
@@ -224,6 +279,14 @@ RemoteExecutor::Result RemoteExecutor::executeRequest(
     return convertResponse(response, shard_info.shard_id, elapsed_ms);
 }
 
+/**
+ * @brief Convert Response.
+ * @param[in] response Input parameter.
+ * @param[in] shard_id Identifier of the shard.
+ * @param[in] elapsed_ms Input parameter.
+ * @return Return value.
+ * @details Implements convertResponse without additional internal calls.
+ */
 RemoteExecutor::Result RemoteExecutor::convertResponse(
     const MTLSClient::Response& response,
     const std::string& shard_id,

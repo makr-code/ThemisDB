@@ -30,45 +30,6 @@ namespace themis {
 namespace query {
 namespace functions {
 
-/**
- * @brief Geo/Spatial Functions for AQL
- * 
- * Provides OGC-compatible spatial functions using GeoJSON format.
- * 
- * Sources:
- * - Standards: OGC Simple Features Specification
- *   URL: https://www.ogc.org/standards/sfa
- * - GeoJSON: RFC 7946
- *   URL: https://tools.ietf.org/html/rfc7946
- * - Inspiration: ArangoDB Geo Functions
- *   Repository: https://github.com/arangodb/arangodb
- *   License: Apache 2.0
- *   Documentation: https://www.arangodb.com/docs/stable/aql/functions-geo.html
- * - Inspiration: PostGIS
- *   Repository: https://github.com/postgis/postgis
- *   License: GPL 2.0
- * - ThemisDB Implementation: Custom spatial functions with AQL-compatible syntax
- *   - OGC Simple Features compliance
- *   - GeoJSON format support
- *   - Great-circle distance calculations (Haversine formula)
- *   - Integration with ThemisDB spatial indexes
- * 
- * ## Supported Geometry Types
- * - Point, LineString, Polygon
- * - MultiPoint, MultiLineString, MultiPolygon
- * - GeometryCollection
- * 
- * ## Coordinate Systems
- * - Default: WGS84 (EPSG:4326) for geographic data
- * - Supports 2D (x,y) and 3D (x,y,z) coordinates
- * 
- * ## Functions
- * - Construction: ST_POINT, ST_LINESTRING, ST_POLYGON, ST_GEOMFROMTEXT, ST_GEOMFROMGEOJSON
- * - Measurement: ST_DISTANCE, ST_LENGTH, ST_AREA, ST_PERIMETER
- * - Predicates: ST_INTERSECTS, ST_CONTAINS, ST_WITHIN, ST_TOUCHES, ST_OVERLAPS, ST_DWITHIN
- * - Accessors: ST_X, ST_Y, ST_Z, ST_SRID, ST_ASGEOJSON, ST_ASTEXT, ST_HASZ
- * - Processing: ST_BUFFER, ST_CENTROID, ST_ENVELOPE, ST_SIMPLIFY, ST_UNION, ST_INTERSECTION
- */
 
 // ============================================================================
 // Helper Functions
@@ -120,7 +81,7 @@ inline double rad2deg(double rad) {
 }
 
 /**
- * @brief Haversine distance in meters
+ * @brief Haversine Distance.
  * @param[in] lon1 Input parameter.
  * @param[in] lat1 Input parameter.
  * @param[in] lon2 Input parameter.
@@ -139,7 +100,7 @@ inline double haversineDistance(double lon1, double lat1, double lon2, double la
 }
 
 /**
- * @brief Euclidean distance (2D)
+ * @brief Euclidean Distance.
  * @param[in] x1 Input parameter.
  * @param[in] y1 Input parameter.
  * @param[in] x2 Input parameter.
@@ -154,7 +115,7 @@ inline double euclideanDistance(double x1, double y1, double x2, double y2) {
 }
 
 /**
- * @brief Euclidean distance (3D)
+ * @brief Euclidean Distance3 D.
  * @param[in] x1 Input parameter.
  * @param[in] y1 Input parameter.
  * @param[in] z1 Input parameter.
@@ -187,7 +148,7 @@ inline std::tuple<double, double, double> extractPoint(const nlohmann::json& geo
 }
 
 /**
- * @brief Extract MBR from any geometry
+ * @brief Extract MBR.
  * @param[in] geojson Input parameter.
  * @return Return value.
  * @throws std::runtime_error if an error occurs.
@@ -238,10 +199,10 @@ inline MBR extractMBR(const nlohmann::json& geojson) {
 }
 
 /**
- * @brief Check if coordinates look like WGS84 degrees
+ * @brief Looks Like Degrees.
  * @param[in] lon Input parameter.
  * @param[in] lat Input parameter.
- * @return True on success.
+ * @return True when the operation succeeds.
  * @details Implements looksLikeDegrees without additional internal calls.
  */
 inline bool looksLikeDegrees(double lon, double lat) {
@@ -254,9 +215,6 @@ inline bool looksLikeDegrees(double lon, double lat) {
 // Construction Functions
 // ============================================================================
 
-/**
- * @brief ST_POINT(x, y) or ST_POINT(x, y, z) - Create a Point geometry
- */
 class StPointFunction : public IFunction {
 public:
     ~StPointFunction() override = default;
@@ -296,9 +254,6 @@ public:
     }
 };
 
-/**
- * @brief ST_LINESTRING([[x1,y1], [x2,y2], ...]) - Create a LineString geometry
- */
 class StLinestringFunction : public IFunction {
 public:
     ~StLinestringFunction() override = default;
@@ -326,9 +281,6 @@ public:
     }
 };
 
-/**
- * @brief ST_POLYGON([[[x1,y1], [x2,y2], ...]]) - Create a Polygon geometry
- */
 class StPolygonFunction : public IFunction {
 public:
     ~StPolygonFunction() override = default;
@@ -356,9 +308,6 @@ public:
     }
 };
 
-/**
- * @brief ST_GEOMFROMTEXT(wkt) - Parse WKT to geometry
- */
 class StGeomFromTextFunction : public IFunction {
 public:
     ~StGeomFromTextFunction() override = default;
@@ -503,9 +452,6 @@ public:
     }
 };
 
-/**
- * @brief ST_GEOMFROMGEOJSON(json) - Parse GeoJSON string or object
- */
 class StGeomFromGeoJSONFunction : public IFunction {
 public:
     ~StGeomFromGeoJSONFunction() override = default;
@@ -550,9 +496,6 @@ public:
 // Measurement Functions
 // ============================================================================
 
-/**
- * @brief ST_DISTANCE(geom1, geom2) - Distance between two geometries
- */
 class StDistanceFunction : public IFunction {
 public:
     ~StDistanceFunction() override = default;
@@ -595,9 +538,6 @@ public:
     }
 };
 
-/**
- * @brief GEO_DISTANCE(geom1, geom2) - ArangoDB-style distance function
- */
 class GeoDistanceFunction : public IFunction {
 public:
     ~GeoDistanceFunction() override = default;
@@ -625,9 +565,6 @@ public:
     }
 };
 
-/**
- * @brief ST_LENGTH(linestring) - Length of a LineString
- */
 class StLengthFunction : public IFunction {
 public:
     ~StLengthFunction() override = default;
@@ -673,9 +610,6 @@ public:
     }
 };
 
-/**
- * @brief ST_AREA(polygon) - Area of a Polygon (simplified Shoelace formula)
- */
 class StAreaFunction : public IFunction {
 public:
     ~StAreaFunction() override = default;
@@ -723,9 +657,6 @@ public:
 // Predicate Functions
 // ============================================================================
 
-/**
- * @brief ST_INTERSECTS(geom1, geom2) - Test if geometries intersect
- */
 class StIntersectsFunction : public IFunction {
 public:
     ~StIntersectsFunction() override = default;
@@ -753,9 +684,6 @@ public:
     }
 };
 
-/**
- * @brief ST_CONTAINS(geom1, geom2) - Test if geom1 contains geom2
- */
 class StContainsFunction : public IFunction {
 public:
     ~StContainsFunction() override = default;
@@ -783,9 +711,6 @@ public:
     }
 };
 
-/**
- * @brief ST_WITHIN(geom1, geom2) - Test if geom1 is within geom2
- */
 class StWithinFunction : public IFunction {
 public:
     ~StWithinFunction() override = default;
@@ -813,9 +738,6 @@ public:
     }
 };
 
-/**
- * @brief ST_DWITHIN(geom1, geom2, distance) - Test if within distance
- */
 class StDWithinFunction : public IFunction {
 public:
     ~StDWithinFunction() override = default;
@@ -860,9 +782,6 @@ public:
     }
 };
 
-/**
- * @brief GEO_CONTAINS(polygon, point) - ArangoDB-style contains check
- */
 class GeoContainsFunction : public IFunction {
 public:
     ~GeoContainsFunction() override = default;
@@ -894,9 +813,6 @@ public:
 // Accessor Functions
 // ============================================================================
 
-/**
- * @brief ST_X(point) - Get X coordinate
- */
 class StXFunction : public IFunction {
 public:
     ~StXFunction() override = default;
@@ -922,9 +838,6 @@ public:
     }
 };
 
-/**
- * @brief ST_Y(point) - Get Y coordinate
- */
 class StYFunction : public IFunction {
 public:
     ~StYFunction() override = default;
@@ -950,9 +863,6 @@ public:
     }
 };
 
-/**
- * @brief ST_Z(point) - Get Z coordinate
- */
 class StZFunction : public IFunction {
 public:
     ~StZFunction() override = default;
@@ -982,9 +892,6 @@ public:
     }
 };
 
-/**
- * @brief ST_HASZ(geom) - Check if geometry has Z coordinate
- */
 class StHasZFunction : public IFunction {
 public:
     ~StHasZFunction() override = default;
@@ -1027,9 +934,6 @@ public:
     }
 };
 
-/**
- * @brief ST_ASGEOJSON(geom) - Convert geometry to GeoJSON string
- */
 class StAsGeoJSONFunction : public IFunction {
 public:
     ~StAsGeoJSONFunction() override = default;
@@ -1054,9 +958,6 @@ public:
     }
 };
 
-/**
- * @brief ST_ASTEXT(geom) - Convert geometry to WKT string
- */
 class StAsTextFunction : public IFunction {
 public:
     ~StAsTextFunction() override = default;
@@ -1126,9 +1027,6 @@ public:
 // Processing Functions
 // ============================================================================
 
-/**
- * @brief ST_CENTROID(geom) - Calculate centroid of geometry
- */
 class StCentroidFunction : public IFunction {
 public:
     ~StCentroidFunction() override = default;
@@ -1194,9 +1092,6 @@ public:
     }
 };
 
-/**
- * @brief ST_ENVELOPE(geom) - Calculate bounding box as Polygon
- */
 class StEnvelopeFunction : public IFunction {
 public:
     ~StEnvelopeFunction() override = default;
@@ -1235,24 +1130,6 @@ public:
     }
 };
 
-/**
- * @brief ST_BUFFER(geom, distance_m [, arc_points]) - Expand a geometry by a
- * fixed geodesic distance.
- *
- * Returns a GeoJSON Polygon that approximates the input geometry expanded
- * outward by `distance_m` metres.  Converts metres to degrees using the
- * latitude of the geometry's centroid for geodesic accuracy at scales up to
- * ~100 km.
- *
- * Supported input types:
- *   - Point   → circular polygon with `arc_points` vertices (default 36).
- *   - Polygon → outward ring expansion via edge-shift method.
- *
- * Returns an empty GeometryCollection for unsupported geometry types or when
- * `distance_m` ≤ 0.
- *
- * Uses the CPU-exact spatial backend.
- */
 class StBufferFunction : public IFunction {
 public:
     ~StBufferFunction() override = default;
@@ -1298,13 +1175,6 @@ public:
 // Registration Function
 // ============================================================================
 
-/**
- * @brief ST_UNION(geom1, geom2) - Compute the geometric union of two geometries.
- *
- * Returns a GeoJSON geometry that contains all points from either input.
- * Non-overlapping polygons produce a GeometryCollection; overlapping polygons
- * are merged into a single Polygon.  Uses the CPU-exact spatial backend.
- */
 class StUnionFunction : public IFunction {
 public:
     ~StUnionFunction() override = default;
@@ -1341,13 +1211,6 @@ public:
     }
 };
 
-/**
- * @brief ST_DIFFERENCE(geom1, geom2) - Compute the set-difference geom1 \ geom2.
- *
- * Returns the part of geom1 that is not in geom2.  Returns an empty
- * GeometryCollection when geom1 is fully contained in geom2.  Uses the
- * CPU-exact spatial backend.
- */
 class StDifferenceFunction : public IFunction {
 public:
     ~StDifferenceFunction() override = default;
@@ -1386,7 +1249,7 @@ public:
 };
 
 /**
- * @brief Register all Geo functions with the registry
+ * @brief Register Geo Functions.
  * @param[in,out] registry Input/output parameter.
  * @details Calls: registerFunction(), registerAlias().
  */

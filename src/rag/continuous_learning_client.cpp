@@ -53,6 +53,10 @@ struct ContinuousLearningClient::Impl {
         }
     }
     
+    /**
+     * @brief Start Batch Thread.
+     * @details Calls: std::thread(), std::this_thread::sleep_for(), std::chrono::milliseconds(), flushBatch().
+     */
     void startBatchThread() {
         running = true;
         batch_thread = std::thread([this]() {
@@ -65,6 +69,10 @@ struct ContinuousLearningClient::Impl {
         });
     }
     
+    /**
+     * @brief Flush Batch.
+     * @details Calls: lock(), empty(), assign(), begin(), end(), clear(), sendMetricsInternal().
+     */
     void flushBatch() {
         std::vector<QualityMetric> to_send;
         
@@ -83,6 +91,11 @@ struct ContinuousLearningClient::Impl {
         }
     }
     
+    /**
+     * @brief Send Metrics Internal.
+     * @param[in] metrics Input parameter.
+     * @details Calls: json::array(), cl_utils::metricTypeToString(), std::chrono::system_clock::to_time_t(), empty(), push_back(), THEMIS_DEBUG(), size(), dump().
+     */
     void sendMetricsInternal(const std::vector<QualityMetric>& metrics) {
         if (!config.enable_logging) {
             return;
@@ -119,6 +132,11 @@ struct ContinuousLearningClient::Impl {
         }
     }
     
+    /**
+     * @brief Add To History.
+     * @param[in] metric Input parameter.
+     * @details Calls: lock(), push_back(), size(), pop_front().
+     */
     void addToHistory(const QualityMetric& metric) {
         std::lock_guard<std::mutex> lock(history_mutex);
         
@@ -130,6 +148,12 @@ struct ContinuousLearningClient::Impl {
         }
     }
     
+    /**
+     * @brief Get Recent Metrics.
+     * @param[in] type Input parameter.
+     * @return Return value.
+     * @details Calls: lock(), push_back().
+     */
     std::vector<double> getRecentMetrics(MetricType type) {
         std::lock_guard<std::mutex> lock(history_mutex);
         
@@ -168,9 +192,11 @@ ContinuousLearningClient::~ContinuousLearningClient() {
     flush();
 }
 
-// ═══════════════════════════════════════════════════════════
-// Public Methods
-// ═══════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════ Public Methods ═══════════════════════════════════════════════════════════
+ * @param[in] result Input parameter.
+ * @details Calls: cl_utils::qcResultToMetrics(), logMetric().
+ */
 
 void ContinuousLearningClient::logQCResult(const QCResult& result) {
     if (!impl_->config.enable_logging) {
@@ -186,6 +212,11 @@ void ContinuousLearningClient::logQCResult(const QCResult& result) {
     }
 }
 
+/**
+ * @brief Log Metric.
+ * @param[in] metric Input parameter.
+ * @details Calls: lock(), addToHistory(), push_back(), size(), to_send(), begin(), end(), clear().
+ */
 void ContinuousLearningClient::logMetric(const QualityMetric& metric) {
     if (!impl_->config.enable_logging) {
         return;
@@ -227,6 +258,11 @@ void ContinuousLearningClient::logMetric(const QualityMetric& metric) {
     }
 }
 
+/**
+ * @brief Log Metrics Batch.
+ * @param[in] metrics Input parameter.
+ * @details Calls: lock(), size(), addToHistory(), sendMetrics(), evaluateTriggers().
+ */
 void ContinuousLearningClient::logMetricsBatch(const std::vector<QualityMetric>& metrics) {
     if (!impl_->config.enable_logging) {
         return;
@@ -248,6 +284,11 @@ void ContinuousLearningClient::logMetricsBatch(const std::vector<QualityMetric>&
     }
 }
 
+/**
+ * @brief Check Triggers.
+ * @return Return value.
+ * @details Calls: getRecentMetrics(), empty(), std::accumulate(), begin(), end(), size(), lock(), createTrigger().
+ */
 std::unique_ptr<OptimizationTrigger> ContinuousLearningClient::checkTriggers() {
     if (!impl_->config.enable_triggers) {
         return nullptr;
@@ -324,6 +365,10 @@ std::unique_ptr<OptimizationTrigger> ContinuousLearningClient::checkTriggers() {
     return nullptr;
 }
 
+/**
+ * @brief Flush.
+ * @details Calls: flushBatch().
+ */
 void ContinuousLearningClient::flush() {
     if (impl_->config.enable_batching) {
         impl_->flushBatch();
@@ -342,14 +387,20 @@ void ContinuousLearningClient::setTriggerCallback(
     impl_->trigger_callback = callback;
 }
 
-// ═══════════════════════════════════════════════════════════
-// Private Methods
-// ═══════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════ Private Methods ═══════════════════════════════════════════════════════════
+ * @param[in] metrics Input parameter.
+ * @details Calls: sendMetricsInternal().
+ */
 
 void ContinuousLearningClient::sendMetrics(const std::vector<QualityMetric>& metrics) {
     impl_->sendMetricsInternal(metrics);
 }
 
+/**
+ * @brief Evaluate Triggers.
+ * @details Calls: checkTriggers(), THEMIS_INFO(), lock(), trigger_callback().
+ */
 void ContinuousLearningClient::evaluateTriggers() {
     auto trigger = checkTriggers();
     
@@ -366,6 +417,15 @@ void ContinuousLearningClient::evaluateTriggers() {
     }
 }
 
+/**
+ * @brief Create Trigger.
+ * @param[in] type Input parameter.
+ * @param[in] threshold Input parameter.
+ * @param[in] current_value Input parameter.
+ * @param[in] recommendation Input parameter.
+ * @return Return value.
+ * @details Calls: size().
+ */
 OptimizationTrigger ContinuousLearningClient::createTrigger(
     const std::string& type,
     double threshold,
@@ -388,6 +448,12 @@ OptimizationTrigger ContinuousLearningClient::createTrigger(
 
 namespace cl_utils {
 
+/**
+ * @brief Qc Result To Metrics.
+ * @param[in] result Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::now(), push_back(), count().
+ */
 std::vector<QualityMetric> qcResultToMetrics(const QCResult& result) {
     std::vector<QualityMetric> metrics;
     auto now = std::chrono::system_clock::now();
@@ -441,6 +507,12 @@ std::vector<QualityMetric> qcResultToMetrics(const QCResult& result) {
     return metrics;
 }
 
+/**
+ * @brief Generate Recommendation.
+ * @param[in] result Input parameter.
+ * @return Return value.
+ * @details Calls: push_back(), empty(), size().
+ */
 std::string generateRecommendation(const QCResult& result) {
     std::vector<std::string> recommendations;
     
@@ -475,6 +547,12 @@ std::string generateRecommendation(const QCResult& result) {
     return combined;
 }
 
+/**
+ * @brief Metric Type To String.
+ * @param[in] type Input parameter.
+ * @return Return value.
+ * @details Implements metricTypeToString without additional internal calls.
+ */
 std::string metricTypeToString(MetricType type) {
     switch (type) {
         case MetricType::FAITHFULNESS:

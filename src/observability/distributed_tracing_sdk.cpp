@@ -46,7 +46,7 @@ private:
 };
 
 /**
- * @brief String utilities
+ * @brief To Lower.
  * @param[in] str Input parameter.
  * @return Return value.
  * @details Calls: std::transform(), begin(), end(), std::tolower().
@@ -61,7 +61,7 @@ std::string toLower(const std::string& str) {
 /**
  * @brief Is Valid Hex String.
  * @param[in] str Input parameter.
- * @return True on success.
+ * @return True when the operation succeeds.
  * @details Calls: empty(), std::isxdigit().
  */
 bool isValidHexString(const std::string& str) {
@@ -79,7 +79,7 @@ bool isValidHexString(const std::string& str) {
 // W3C Trace Context parsing
 std::pair<std::string, std::string> parseW3CTraceparent(const std::string& traceparent) {
     /**
-     * @brief Format: version-trace_id-parent_id-trace_flags Example: 00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01
+     * @brief Iss.
      * @param[in] traceparent Input parameter.
      * @return Return value.
      */
@@ -107,8 +107,8 @@ std::pair<std::string, std::string> parseW3CTraceparent(const std::string& trace
 // Jaeger trace ID parsing
 std::pair<std::string, std::string> parseJaegerTraceId(const std::string& uber_trace_id) {
     /**
-     * @brief Format: trace_id:span_id:parent_span_id:sampled Example: 4bf92f3577b34da6a3ce929d0e0e4736:00f067aa0ba902b7:0:1
-     * @param[in] uber_trace_id Input parameter.
+     * @brief Iss.
+     * @param[in] uber_trace_id Identifier of the uber trace.
      * @return Return value.
      */
     std::istringstream iss(uber_trace_id);
@@ -128,12 +128,12 @@ std::pair<std::string, std::string> parseJaegerTraceId(const std::string& uber_t
 
 } // namespace
 
+
 /**
- * @brief ============================================================================ DistributedTraceContext Implementation ============================================================================
+ * @brief Create Root.
  * @return Return value.
  * @details Calls: gen(), generateHex(), std::chrono::system_clock::now().
  */
-
 std::shared_ptr<DistributedTraceContext> DistributedTraceContext::createRoot() {
     auto ctx = std::make_shared<DistributedTraceContext>();
     RandomIdGenerator gen(std::random_device{}());
@@ -464,7 +464,7 @@ DistributedTraceResult DistributedTracingSDK::validateTraceContext(
 /**
  * @brief Create Child Context.
  * @param[in] parent_context Input parameter.
- * @param[in] new_span_id Input parameter.
+ * @param[in] new_span_id Identifier of the new span.
  * @return Return value.
  * @throws std::invalid_argument if an error occurs.
  * @details Calls: validateTraceContext(), traceId(), traceState(), isTraceSampled(), empty(), generateSpanId(), lock(), baggage().
@@ -493,11 +493,6 @@ std::shared_ptr<DistributedTraceContext> DistributedTracingSDK::createChildConte
 
     // Inherit baggage if configured
     {
-        /**
-         * @brief Lock.
-         * @param[in] config_mutex_ Input parameter.
-         * @return Return value.
-         */
         std::shared_lock<std::shared_mutex> lock(config_mutex_);
         if (config_.inherit_baggage) {
             child_ctx->baggage_ = parent_context->baggage();

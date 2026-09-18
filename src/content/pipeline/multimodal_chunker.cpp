@@ -36,6 +36,12 @@ MultiModalChunker::MultiModalChunker(const MultiModalConfig& config)
     generic_chunker_ = ContentChunker(generic_config);
 }
 
+/**
+ * @brief Chunk.
+ * @param[in] data Input parameter.
+ * @return Return value.
+ * @details Calls: chunk_text(), std::string(), begin(), end().
+ */
 std::vector<ContentChunker::Chunk> MultiModalChunker::chunk(const std::vector<uint8_t>& data) {
     // Dispatch to appropriate chunking strategy based on content type
     switch (config_.content_type) {
@@ -60,6 +66,12 @@ std::vector<ContentChunker::Chunk> MultiModalChunker::chunk(const std::vector<ui
     }
 }
 
+/**
+ * @brief Chunk text.
+ * @param[in] text Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), find_paragraph_boundaries(), find_sentence_boundaries(), data(), begin(), end(), chunk(), substr().
+ */
 std::vector<ContentChunker::Chunk> MultiModalChunker::chunk_text(const std::string& text) {
     // Text-aware chunking with sentence/paragraph boundaries
     // 
@@ -133,6 +145,15 @@ std::vector<ContentChunker::Chunk> MultiModalChunker::chunk_text(const std::stri
     return chunks;
 }
 
+/**
+ * @brief Chunk image.
+ * @param[in] data Input parameter.
+ * @param[in] width Input parameter.
+ * @param[in] height Input parameter.
+ * @param[in] bytes_per_pixel Input parameter.
+ * @return Return value.
+ * @details Calls: chunk(), size(), std::min(), insert(), end(), begin(), push_back(), std::move().
+ */
 std::vector<ContentChunker::Chunk> MultiModalChunker::chunk_image(
     const std::vector<uint8_t>& data,
     size_t width,
@@ -198,6 +219,11 @@ const MultiModalChunker::MultiModalConfig& MultiModalChunker::get_config() const
     return config_;
 }
 
+/**
+ * @brief Set config.
+ * @param[in] config Input parameter.
+ * @details Implements set_config without additional internal calls.
+ */
 void MultiModalChunker::set_config(const MultiModalConfig& config) {
     config_ = config;
     
@@ -208,6 +234,12 @@ void MultiModalChunker::set_config(const MultiModalConfig& config) {
     generic_chunker_.set_config(generic_config);
 }
 
+/**
+ * @brief Find sentence boundaries.
+ * @param[in] text Input parameter.
+ * @return Return value.
+ * @details Calls: push_back(), size(), std::isspace().
+ */
 std::vector<size_t> MultiModalChunker::find_sentence_boundaries(const std::string& text) {
     // Simple sentence boundary detection
     // Looks for '.', '!', '?' followed by space or end
@@ -236,6 +268,12 @@ std::vector<size_t> MultiModalChunker::find_sentence_boundaries(const std::strin
     return boundaries;
 }
 
+/**
+ * @brief Find paragraph boundaries.
+ * @param[in] text Input parameter.
+ * @return Return value.
+ * @details Calls: push_back(), size(), std::isspace().
+ */
 std::vector<size_t> MultiModalChunker::find_paragraph_boundaries(const std::string& text) {
     // Simple paragraph boundary detection
     // Looks for double newline (\n\n) or \r\n\r\n

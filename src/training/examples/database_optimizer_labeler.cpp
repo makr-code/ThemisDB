@@ -58,6 +58,11 @@ struct OptimizerLogEntry {
     double      delta_latency_ms;  // positive = regression, negative = improvement
 };
 
+/**
+ * @brief Simulate Optimizer Log.
+ * @return Return value.
+ * @details Implements simulateOptimizerLog without additional internal calls.
+ */
 std::vector<OptimizerLogEntry> simulateOptimizerLog() {
     return {
         { "SELECT * FROM orders WHERE status = 'open'",
@@ -75,17 +80,23 @@ std::vector<OptimizerLogEntry> simulateOptimizerLog() {
     };
 }
 
-// ---------------------------------------------------------------------------
-// Step 2: DATABASE_OPTIMIZER confidence function (IMPL-A1 spec)
-//   confidence = tanh(|Δlatency_ms| / 50.0)
-//   Threshold: 0.85 (≈ |Δlatency| ≥ 50 ms)
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- Step 2: DATABASE_OPTIMIZER confidence function (IMPL-A1 spec) confidence = tanh(|Δlatency_ms| / 50.
+ * @param[in] delta_latency_ms Input parameter.
+ * @return Return value.
+ * @details 0) Threshold: 0.85 (≈ |Δlatency| ≥ 50 ms) --------------------------------------------------------------------------- Calls: std::tanh(), std::abs().
+ */
 double computeOptimizerConfidence(double delta_latency_ms) {
     return std::tanh(std::abs(delta_latency_ms) / 50.0);
 }
 
 } // namespace
 
+/**
+ * @brief Main.
+ * @return Return value.
+ * @details Calls: simulateOptimizerLog(), computeOptimizerConfidence(), substr(), push_back(), std::move(), size(), assert(), PLANNED().
+ */
 int main() {
     std::cout << "=== DATABASE_OPTIMIZER Labeler Example (IMPL-A1 + IMPL-A3) ===\n\n";
 

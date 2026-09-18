@@ -43,7 +43,12 @@ static const int B64_DECODE_TABLE[256] = {
     -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1
 };
 
-// Helper function: Base64 encode
+/**
+ * @brief Helper function: Base64 encode
+ * @param[in] input Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), push_back().
+ */
 static std::string base64Encode(const std::string& input) {
     std::string output = {};
     output.reserve(((input.size() + 2) / 3) * 4);
@@ -75,7 +80,12 @@ static std::string base64Encode(const std::string& input) {
     return output;
 }
 
-// Helper function: Base64 decode
+/**
+ * @brief Helper function: Base64 decode
+ * @param[in] input Input parameter.
+ * @return Return value.
+ * @details Calls: push_back().
+ */
 static std::string base64Decode(const std::string& input) {
     std::string output = {};
     int val = 0, valb = -8;
@@ -100,10 +110,6 @@ static std::string base64Decode(const std::string& input) {
 ShardTopology::ShardTopology()
     : ShardTopology(Config{"", "", 0, false}) {}
 
-/**
- * @brief Construct shard topology manager with optional metadata bootstrap.
- * @param config Topology configuration.
- */
 ShardTopology::ShardTopology(const Config& config) 
     : config_(config) {
     // If metadata endpoint is configured, load initial topology
@@ -118,20 +124,32 @@ ShardTopology::ShardTopology(const Config& config)
     }
 }
 
-/** @brief Add or replace shard metadata entry by shard_id. */
+/**
+ * @brief Add Shard.
+ * @param[in] shard Input parameter.
+ * @details Calls: lock().
+ */
 void ShardTopology::addShard(const ShardInfo& shard) {
     std::lock_guard<std::mutex> lock(mutex_);
     shards_[shard.shard_id] = shard;
 }
 
-/** @brief Remove shard metadata entry by shard_id. */
+/**
+ * @brief Remove Shard.
+ * @param[in] shard_id Identifier of the shard.
+ * @details Calls: lock(), erase().
+ */
 void ShardTopology::removeShard(const std::string& shard_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     shards_.erase(shard_id);
 }
 
-/** @brief Fetch shard metadata entry by id. */
 std::optional<ShardInfo> ShardTopology::getShard(const std::string& shard_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     auto it = shards_.find(shard_id);
@@ -142,8 +160,12 @@ std::optional<ShardInfo> ShardTopology::getShard(const std::string& shard_id) co
     return it->second;
 }
 
-/** @brief Return snapshot of all shard metadata entries. */
 std::vector<ShardInfo> ShardTopology::getAllShards() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     std::vector<ShardInfo> result = {};
@@ -157,8 +179,12 @@ std::vector<ShardInfo> ShardTopology::getAllShards() const {
     return result;
 }
 
-/** @brief Return snapshot of healthy shard metadata entries. */
 std::vector<ShardInfo> ShardTopology::getHealthyShards() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     std::vector<ShardInfo> result;
@@ -172,7 +198,12 @@ std::vector<ShardInfo> ShardTopology::getHealthyShards() const {
     return result;
 }
 
-/** @brief Update health bit for one shard if it exists. */
+/**
+ * @brief Update Health.
+ * @param[in] shard_id Identifier of the shard.
+ * @param[in] is_healthy Input parameter.
+ * @details Calls: lock(), find(), end().
+ */
 void ShardTopology::updateHealth(const std::string& shard_id, bool is_healthy) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -182,23 +213,27 @@ void ShardTopology::updateHealth(const std::string& shard_id, bool is_healthy) {
     }
 }
 
-/** @brief Refresh topology from configured metadata store backend. */
+/**
+ * @brief Refresh.
+ * @details Calls: loadFromMetadataStore().
+ */
 void ShardTopology::refresh() {
     // Load latest topology from metadata store
     loadFromMetadataStore();
 }
 
-/** @brief Persist current topology state to metadata store backend. */
+/**
+ * @brief Save.
+ * @details Calls: saveToMetadataStore().
+ */
 void ShardTopology::save() {
     // Save current topology to metadata store
     saveToMetadataStore();
 }
 
 /**
- * @brief Load topology entries from metadata store.
- *
- * Uses configured HTTP-compatible etcd/Consul API endpoints and rebuilds
- * in-memory shard map from remote key/value state.
+ * @brief Load From Metadata Store.
+ * @details Calls: empty(), client(), back(), push_back(), base64Encode(), post(), contains(), is_array().
  */
 void ShardTopology::loadFromMetadataStore() {
     // Load topology from etcd/Consul metadata store
@@ -320,7 +355,10 @@ void ShardTopology::loadFromMetadataStore() {
     }
 }
 
-/** @brief Save current in-memory shard map to metadata store. */
+/**
+ * @brief Save To Metadata Store.
+ * @details Calls: empty(), client(), lock(), dump(), base64Encode(), post(), what().
+ */
 void ShardTopology::saveToMetadataStore() {
     // Save topology to etcd/Consul metadata store
     
@@ -382,7 +420,16 @@ void ShardTopology::saveToMetadataStore() {
     }
 }
 
-/** @brief Update Raft role/term/leader fields for one shard entry. */
+/**
+ * @brief Update Raft Status.
+ * @param[in] shard_id Identifier of the shard.
+ * @param[in] role Input parameter.
+ * @param[in] term Input parameter.
+ * @param[in] commit_index Input parameter.
+ * @param[in] leader_id Identifier of the leader.
+ * @param[in] has_quorum Input parameter.
+ * @details Calls: lock(), find(), end().
+ */
 void ShardTopology::updateRaftStatus(const std::string& shard_id,
                                     const std::string& role,
                                     uint64_t term,
@@ -401,8 +448,12 @@ void ShardTopology::updateRaftStatus(const std::string& shard_id,
     }
 }
 
-/** @brief Return ids of all shards currently marked as Raft leaders. */
 std::vector<std::string> ShardTopology::getRaftLeaders() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     std::vector<std::string> leaders = {};
@@ -416,8 +467,12 @@ std::vector<std::string> ShardTopology::getRaftLeaders() const {
     return leaders;
 }
 
-/** @brief Return all shards assigned to given region string. */
 std::vector<ShardInfo> ShardTopology::getShardsInRegion(const std::string& region) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     std::vector<ShardInfo> result = {};
 
@@ -429,8 +484,12 @@ std::vector<ShardInfo> ShardTopology::getShardsInRegion(const std::string& regio
     return result;
 }
 
-/** @brief Return healthy shards assigned to given region string. */
 std::vector<ShardInfo> ShardTopology::getHealthyShardsInRegion(const std::string& region) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     std::vector<ShardInfo> result = {};
 
@@ -442,8 +501,12 @@ std::vector<ShardInfo> ShardTopology::getHealthyShardsInRegion(const std::string
     return result;
 }
 
-/** @brief Return sorted list of distinct non-empty region names. */
 std::vector<std::string> ShardTopology::getRegions() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     std::unordered_set<std::string> seen = {};
 
@@ -457,8 +520,12 @@ std::vector<std::string> ShardTopology::getRegions() const {
     return regions;
 }
 
-/** @brief Return whether region has at least required healthy shard count. */
 bool ShardTopology::regionHasQuorum(const std::string& region, uint32_t required) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     uint32_t healthy = 0;
     for (const auto& [id, info] : shards_) {

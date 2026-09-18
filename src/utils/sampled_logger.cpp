@@ -27,7 +27,13 @@ struct SampledLogger::Bucket {
 
     explicit Bucket(double initial) : tokens(initial), last_refill(std::chrono::steady_clock::now()) {}
 
-    /// Refill and try to consume one token. Returns true if allowed.
+    /**
+     * @brief Try consume.
+     * @param[in] rate Input parameter.
+     * @param[in] burst Input parameter.
+     * @return True when the operation succeeds.
+     * @details Calls: std::chrono::steady_clock::now(), count(), std::min().
+     */
     bool try_consume(double rate, double burst) {
         auto now = std::chrono::steady_clock::now();
         double elapsed = std::chrono::duration<double>(now - last_refill).count();
@@ -62,7 +68,7 @@ SampledLogger::~SampledLogger() = default;
  * @param[in] level Input parameter.
  * @param[in] file Input parameter.
  * @param[in] line Input parameter.
- * @return True on success.
+ * @return True when the operation succeeds.
  * @details Calls: dist(), reserve(), std::to_string(), lk(), find(), end(), emplace(), try_consume().
  */
 bool SampledLogger::should_log(Logger::Level level, const char* file, int line) {
@@ -96,11 +102,6 @@ bool SampledLogger::should_log(Logger::Level level, const char* file, int line) 
     key += ':';
     key += std::to_string(static_cast<int>(level));
 
-    /**
-     * @brief Lk.
-     * @param[in] buckets_mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lk(buckets_mutex_);
     auto it = buckets_.find(key);
     if (it == buckets_.end()) {
@@ -147,11 +148,6 @@ uint64_t SampledLogger::suppressed_total() const {
  */
 void SampledLogger::reset_stats() {
     suppressed_.store(0, std::memory_order_relaxed);
-    /**
-     * @brief Lk.
-     * @param[in] buckets_mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lk(buckets_mutex_);
     buckets_.clear();
 }
@@ -162,11 +158,6 @@ void SampledLogger::reset_stats() {
  * @details Calls: lk(), std::move(), clear().
  */
 void SampledLogger::set_config(SampledLoggerConfig cfg) {
-    /**
-     * @brief Lk.
-     * @param[in] buckets_mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lk(buckets_mutex_);
     cfg_ = std::move(cfg);
     // Clear existing buckets so new rate takes effect immediately.

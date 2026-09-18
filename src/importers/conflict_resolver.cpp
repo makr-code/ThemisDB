@@ -22,10 +22,21 @@ namespace importers {
 // ImportConflictResolver
 // ============================================================================
 
+/**
+ * @brief Reset the modification detection flag.
+ * @details Calls: clear().
+ */
 void ImportConflictResolver::reset() {
     registry_.clear();
 }
 
+/**
+ * @brief Compute Key.
+ * @param[in] entity Input parameter.
+ * @param[in] key_columns Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), contains(), is_string(), dump().
+ */
 std::string ImportConflictResolver::computeKey(const json &entity, const std::vector<std::string> &key_columns) {
     if (key_columns.empty()) {
         return {};
@@ -52,6 +63,18 @@ std::string ImportConflictResolver::computeKey(const json &entity, const std::ve
     return key;
 }
 
+/**
+ * @brief Resolve.
+ * @param[in] entity Input parameter.
+ * @param[in] table_name Name of the table.
+ * @param[in] conflict_key Input parameter.
+ * @param[in] strategy Input parameter.
+ * @param[in] merge_depth Input parameter.
+ * @param[in] protected_fields Input parameter.
+ * @param[in,out] conflict_detected Input/output parameter.
+ * @return Return value.
+ * @details Calls: find(), end(), emplace(), mergeEntities().
+ */
 json ImportConflictResolver::resolve(const json &entity, const std::string &table_name, const std::string &conflict_key,
                                      ConflictStrategy strategy, int merge_depth,
                                      const std::vector<std::string> &protected_fields, bool &conflict_detected) {
@@ -96,7 +119,15 @@ json ImportConflictResolver::resolve(const json &entity, const std::string &tabl
     return entity;
 }
 
-// static
+/**
+ * @brief static
+ * @param[in] existing Input parameter.
+ * @param[in] incoming Input parameter.
+ * @param[in] depth Input parameter.
+ * @param[in] protected_fields Input parameter.
+ * @return Return value.
+ * @details Calls: is_object(), begin(), end(), key(), value(), std::find(), contains().
+ */
 json ImportConflictResolver::mergeEntities(const json &existing, const json &incoming, int depth,
                                            const std::vector<std::string> &protected_fields) {
     // If either value is not an object, incoming wins (unless protected)
@@ -130,9 +161,14 @@ json ImportConflictResolver::mergeEntities(const json &existing, const json &inc
     return result;
 }
 
-// ============================================================================
-// Phase 2 T2.3.1 – Conflict Determinism & Reason Tracking
-// ============================================================================
+/**
+ * @brief ============================================================================ Phase 2 T2.
+ * @param[in] existing Input parameter.
+ * @param[in] incoming Input parameter.
+ * @param[in,out] affected_fields Input/output parameter.
+ * @return Return value.
+ * @details 3.1 – Conflict Determinism & Reason Tracking ============================================================================ Calls: clear(), is_object(), items(), insert(), key(), contains(), push_back(), empty().
+ */
 
 ConflictReasonType ImportConflictResolver::determineConflictReason(
     const json& existing,
@@ -202,6 +238,19 @@ ConflictReasonType ImportConflictResolver::determineConflictReason(
     return ConflictReasonType::UNKNOWN;
 }
 
+/**
+ * @brief Resolve With Metadata.
+ * @param[in] entity Input parameter.
+ * @param[in] table_name Name of the table.
+ * @param[in] conflict_key Input parameter.
+ * @param[in] strategy Input parameter.
+ * @param[in] merge_depth Input parameter.
+ * @param[in] protected_fields Input parameter.
+ * @param[in,out] conflict_detected Input/output parameter.
+ * @param[in,out] metadata Input/output parameter.
+ * @return Return value.
+ * @details Calls: find(), end(), emplace(), clear(), determineConflictReason(), mergeEntities(), contains(), is_number().
+ */
 json ImportConflictResolver::resolveWithMetadata(
     const json& entity,
     const std::string& table_name,

@@ -109,11 +109,11 @@ public:
      */
     void clearFacts();
 
+
     /**
-     * @brief ── Rule Store ────────────────────────────────────────────────────────────
+     * @brief Add Rule.
      * @param[in] rule Input parameter.
      */
-
     void addRule(HornClause rule);
 
     /**

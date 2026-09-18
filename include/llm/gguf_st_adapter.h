@@ -22,31 +22,8 @@
 namespace themis {
 namespace llm {
 
-/// GGUF-ST Hybrid Format: GGUF + Embedded SafeTensors + ThemisDB Extensions
-/// 
-/// File Structure:
-/// ┌─────────────────────────────────────┐
-/// │ GGUF Header (Magic: "GGUF")         │
-/// │ GGUF Metadata (standard)            │
-/// ├─────────────────────────────────────┤
-/// │ GGUF Tensor Data (quantized)        │
-/// ├─────────────────────────────────────┤
-/// │ [OPTIONAL] SafeTensors Section      │
-/// │   - Header: "STNS" (SafeTeNSors)    │
-/// │   - SafeTensors data (FP16/FP32)    │
-/// ├─────────────────────────────────────┤
-/// │ ThemisDB Signature Section          │
-/// │   - Header: "TSGN" (ThemisSignature)│
-/// │   - AdapterSignature JSON           │
-/// ├─────────────────────────────────────┤
-/// │ ThemisDB Manifest Section           │
-/// │   - Header: "TMFT" (ThemisManifest) │
-/// │   - AdapterMetadata JSON            │
-/// └─────────────────────────────────────┘
 
-/// GGUF-ST Format Configuration
 struct GGUFSTConfig {
-    /// Size optimization mode
     enum class SizeMode {
         FULL,              // GGUF + SafeTensors + Signature + Manifest (~12-20MB)
         COMPACT,           // GGUF + Signature + Manifest (~8-16MB)
@@ -56,7 +33,6 @@ struct GGUFSTConfig {
     
     SizeMode size_mode = SizeMode::COMPACT;
     
-    /// Quantization type for GGUF portion
     enum class QuantizationType {
         F32,      // Full precision (baseline, 64MB)
         F16,      // Half precision (32MB)
@@ -67,33 +43,27 @@ struct GGUFSTConfig {
     
     QuantizationType quantization = QuantizationType::Q4_K_M;
     
-    /// Lossless compression for metadata/manifest
     bool compress_manifest = true;
     bool compress_safetensors = false;  // SafeTensors already efficient
     
-    /// ZSTD compression level (1-22, higher = better compression, slower)
     int zstd_level = 3;  // Fast compression with good ratio
     
-    /// Whether to embed SafeTensors (for verification/HuggingFace compatibility)
     bool embed_safetensors = false;  // Default: COMPACT mode
     
-    /// Whether to include signature section
     bool include_signature = true;
     
-    /// Whether to include manifest section
     bool include_manifest = true;
 };
 
-/// GGUF-ST Section Header
 struct SectionHeader {
+    /**
+     * @brief Section Header.
+     * @return Return value.
+     */
     virtual ~SectionHeader() = default;
 
-    /// @brief Move constructor — transfers magic, version, data_size, flags, and reserved fields.
-    /// @note Move semantics: POD fields copied from source; source left in zero-initialised state.
     SectionHeader(SectionHeader&&) noexcept = default;
 
-    /// @brief Move assignment operator.
-    /// @note Move semantics: all POD fields transferred; source left in zero-initialised state.
     SectionHeader& operator=(SectionHeader&&) noexcept = default;
 
     SectionHeader(const SectionHeader&) = default;
@@ -107,18 +77,16 @@ struct SectionHeader {
     uint32_t reserved = 0;      // Reserved for future use
 };
 
-/// GGUF-ST Adapter - Read/Write hybrid format adapters
-/// Extends BlobStorageManager for storage operations
 class GGUFSTAdapter {
 public:
+    /**
+     * @brief GGUFSTAdapter.
+     * @return Return value.
+     */
     virtual ~GGUFSTAdapter() = default;
 
-    /// @brief Move constructor — transfers storage shared_ptr and config; source config reset to defaults.
-    /// @note Move semantics: std::shared_ptr move transfers co-ownership; GGUFSTConfig is trivially copyable.
     GGUFSTAdapter(GGUFSTAdapter&&) noexcept = default;
 
-    /// @brief Move assignment operator.
-    /// @note Move semantics: storage_ and config_ replaced; old storage_ ref-count decremented.
     GGUFSTAdapter& operator=(GGUFSTAdapter&&) noexcept = default;
 
     GGUFSTAdapter(const GGUFSTAdapter&) = delete;
@@ -131,7 +99,6 @@ public:
     
     // Write Operations
     
-    /// Create GGUF-ST adapter file from components
     struct AdapterComponents {
         std::vector<uint8_t> gguf_data;              // GGUF tensor data
         std::optional<std::vector<uint8_t>> safetensors_data;  // Optional SafeTensors
@@ -139,10 +106,12 @@ public:
         AdapterMetadata metadata;                     // Complete metadata
     };
     
-    /// Write adapter to storage
-    /// @param adapter_id Unique adapter identifier
-    /// @param components Adapter components to write
-    /// @return Storage reference or nullopt on failure
+    /**
+     * @brief Write Adapter.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @param[in] components Input parameter.
+     * @return Return value.
+     */
     std::optional<storage::BlobRef> writeAdapter(
         const std::string& adapter_id,
         const AdapterComponents& components
@@ -150,24 +119,29 @@ public:
     
     // Read Operations
     
-    /// Read adapter from storage
-    /// @param ref Blob storage reference
-    /// @return Adapter components or nullopt if not found/invalid
+    /**
+     * @brief Read Adapter.
+     * @param[in] ref Input parameter.
+     * @return Return value.
+     */
     std::optional<AdapterComponents> readAdapter(const storage::BlobRef& ref);
     
-    /// Read only metadata (fast, for registry queries)
-    /// @param ref Blob storage reference
-    /// @return Adapter metadata or nullopt
+    /**
+     * @brief Read Metadata.
+     * @param[in] ref Input parameter.
+     * @return Return value.
+     */
     std::optional<AdapterMetadata> readMetadata(const storage::BlobRef& ref);
     
-    /// Read only signature (for verification without loading full adapter)
-    /// @param ref Blob storage reference
-    /// @return Adapter signature or nullopt
+    /**
+     * @brief Read Signature.
+     * @param[in] ref Input parameter.
+     * @return Return value.
+     */
     std::optional<AdapterSignature> readSignature(const storage::BlobRef& ref);
     
     // Verification Operations
     
-    /// Verify adapter integrity
     struct VerificationResult {
         bool valid = false;
         bool signature_valid = false;
@@ -175,14 +149,22 @@ public:
         bool manifest_valid = false;
         std::vector<std::string> errors;
         
+        /**
+         * @brief To String.
+         * @return Return value.
+         */
         std::string toString() const;
     };
     
+    /**
+     * @brief Verify Adapter.
+     * @param[in] ref Input parameter.
+     * @return Return value.
+     */
     VerificationResult verifyAdapter(const storage::BlobRef& ref);
     
     // Utility Operations
     
-    /// Get format information
     struct FormatInfo {
         GGUFSTConfig::SizeMode size_mode;
         GGUFSTConfig::QuantizationType quantization;
@@ -195,15 +177,33 @@ public:
         size_t manifest_size_bytes = 0;
         size_t total_size_bytes = 0;
         
+        /**
+         * @brief To Json.
+         * @return Return value.
+         */
         nlohmann::json toJson() const;
     };
     
+    /**
+     * @brief Get Format Info.
+     * @param[in] ref Input parameter.
+     * @return Return value.
+     */
     FormatInfo getFormatInfo(const storage::BlobRef& ref);
     
-    /// Extract SafeTensors from GGUF-ST file (for HuggingFace compatibility)
+    /**
+     * @brief Extract Safe Tensors.
+     * @param[in] ref Input parameter.
+     * @return Return value.
+     */
     std::optional<std::vector<uint8_t>> extractSafeTensors(const storage::BlobRef& ref);
     
-    /// Convert between quantization levels
+    /**
+     * @brief Requantize.
+     * @param[in] ref Input parameter.
+     * @param[in] target_quantization Input parameter.
+     * @return Return value.
+     */
     std::optional<storage::BlobRef> requantize(
         const storage::BlobRef& ref,
         GGUFSTConfig::QuantizationType target_quantization
@@ -217,15 +217,27 @@ public:
         double compression_ratio = 0.0;  // compressed / uncompressed
         double space_saved_percent = 0.0;
         
+        /**
+         * @brief To Json.
+         * @return Return value.
+         */
         nlohmann::json toJson() const;
     };
     
+    /**
+     * @brief Get Compression Stats.
+     * @param[in] ref Input parameter.
+     * @return Return value.
+     */
     CompressionStats getCompressionStats(const storage::BlobRef& ref);
     
-    /// Get current configuration
     const GGUFSTConfig& getConfig() const { return config_; }
     
-    /// Set configuration
+    /**
+     * @brief Set Config.
+     * @param[in] config Input parameter.
+     * @details Implements setConfig without additional internal calls.
+     */
     void setConfig(const GGUFSTConfig& config) { config_ = config; }
     
 private:
@@ -233,16 +245,59 @@ private:
     GGUFSTConfig config_;
     
     // Internal helpers
+    /**
+     * @brief Compress Data.
+     * @param[in] data Input parameter.
+     * @param[in] level Input parameter.
+     * @return Return value.
+     */
     std::vector<uint8_t> compressData(const std::vector<uint8_t>& data, int level);
+    /**
+     * @brief Decompress Data.
+     * @param[in] compressed_data Input parameter.
+     * @return Return value.
+     */
     std::vector<uint8_t> decompressData(const std::vector<uint8_t>& compressed_data);
     
+    /**
+     * @brief Write Section Header.
+     * @param[in,out] buffer Input/output parameter.
+     * @param[in] header Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool writeSectionHeader(std::vector<uint8_t>& buffer, const SectionHeader& header);
+    /**
+     * @brief Read Section Header.
+     * @param[in] data Input parameter.
+     * @param[in] offset Input parameter.
+     * @return Return value.
+     */
     std::optional<SectionHeader> readSectionHeader(const std::vector<uint8_t>& data, size_t offset);
     
+    /**
+     * @brief Serialize Metadata.
+     * @param[in] metadata Input parameter.
+     * @return Return value.
+     */
     std::vector<uint8_t> serializeMetadata(const AdapterMetadata& metadata);
+    /**
+     * @brief Deserialize Metadata.
+     * @param[in] data Input parameter.
+     * @return Return value.
+     */
     std::optional<AdapterMetadata> deserializeMetadata(const std::vector<uint8_t>& data);
     
+    /**
+     * @brief Serialize Signature.
+     * @param[in] signature Input parameter.
+     * @return Return value.
+     */
     std::vector<uint8_t> serializeSignature(const AdapterSignature& signature);
+    /**
+     * @brief Deserialize Signature.
+     * @param[in] data Input parameter.
+     * @return Return value.
+     */
     std::optional<AdapterSignature> deserializeSignature(const std::vector<uint8_t>& data);
     
     // Section magic constants (4 bytes, not null-terminated)

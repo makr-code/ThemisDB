@@ -26,10 +26,22 @@ namespace prompt_engineering {
 // variantToString / stringToVariant
 // ============================================================================
 
+/**
+ * @brief Variant To String.
+ * @param[in] v Input parameter.
+ * @return Return value.
+ * @details Implements variantToString without additional internal calls.
+ */
 std::string variantToString(ExperimentVariant v) {
     return (v == ExperimentVariant::TREATMENT) ? "treatment" : "control";
 }
 
+/**
+ * @brief String To Variant.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Implements stringToVariant without additional internal calls.
+ */
 std::optional<ExperimentVariant> stringToVariant(const std::string& s) {
     if (s == "treatment") { return ExperimentVariant::TREATMENT; }
     if (s == "control")   { return ExperimentVariant::CONTROL;   }
@@ -40,6 +52,12 @@ std::optional<ExperimentVariant> stringToVariant(const std::string& s) {
 // statusToString
 // ============================================================================
 
+/**
+ * @brief Status To String.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Implements statusToString without additional internal calls.
+ */
 std::string statusToString(ExperimentStatus s) {
     switch (s) {
         case ExperimentStatus::RUNNING:           return "running";
@@ -72,6 +90,12 @@ nlohmann::json PromptExperiment::toJson() const {
     };
 }
 
+/**
+ * @brief From Json.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: value().
+ */
 PromptExperiment PromptExperiment::fromJson(const nlohmann::json& j) {
     PromptExperiment e;
     e.experiment_id        = j.value("experiment_id",        std::string{});
@@ -274,7 +298,11 @@ double PromptABExperimentFramework::welchPValue(
     return 2.0 * (1.0 - cdf_val);
 }
 
-// Unique ID generator (sequential suffix for determinism in tests).
+/**
+ * @brief Unique ID generator (sequential suffix for determinism in tests).
+ * @return Return value.
+ * @details Calls: fetch_add(), str().
+ */
 std::string PromptABExperimentFramework::generateId() {
     static std::atomic<std::uint64_t> counter{1};
     std::ostringstream ss = {};
@@ -286,6 +314,12 @@ std::string PromptABExperimentFramework::generateId() {
 // Lifecycle
 // ============================================================================
 
+/**
+ * @brief Create.
+ * @param[in] exp Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), generateId(), std::chrono::system_clock::now(), lock(), std::move().
+ */
 std::string PromptABExperimentFramework::create(PromptExperiment exp) {
     if (exp.experiment_id.empty()) {
         exp.experiment_id = generateId();
@@ -302,6 +336,12 @@ std::string PromptABExperimentFramework::create(PromptExperiment exp) {
     return id;
 }
 
+/**
+ * @brief Stop.
+ * @param[in] experiment_id Identifier of the experiment.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), find(), end(), std::chrono::system_clock::now().
+ */
 bool PromptABExperimentFramework::stop(const std::string& experiment_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = experiments_.find(experiment_id);
@@ -315,6 +355,11 @@ bool PromptABExperimentFramework::stop(const std::string& experiment_id) {
 
 std::optional<PromptExperiment> PromptABExperimentFramework::getExperiment(
         const std::string& experiment_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = experiments_.find(experiment_id);
     if (it == experiments_.end()) { return std::nullopt; }
@@ -322,6 +367,11 @@ std::optional<PromptExperiment> PromptABExperimentFramework::getExperiment(
 }
 
 std::vector<PromptExperiment> PromptABExperimentFramework::listExperiments() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     std::vector<PromptExperiment> out = {};
 
@@ -338,6 +388,11 @@ std::vector<PromptExperiment> PromptABExperimentFramework::listExperiments() con
 
 ExperimentVariant PromptABExperimentFramework::assignVariant(
         const ExperimentContext& context) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = experiments_.find(context.experiment_id);
     if (it == experiments_.end() ||
@@ -355,6 +410,15 @@ ExperimentVariant PromptABExperimentFramework::assignVariant(
 // Outcome recording
 // ============================================================================
 
+/**
+ * @brief Record Outcome.
+ * @param[in] experiment_id Identifier of the experiment.
+ * @param[in] variant Input parameter.
+ * @param[in] score Input parameter.
+ * @param[in] request_id Identifier of the request.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), find(), end(), std::chrono::system_clock::now(), push_back(), size(), checkSignificanceLocked().
+ */
 bool PromptABExperimentFramework::recordOutcome(
         const std::string& experiment_id,
         ExperimentVariant  variant,
@@ -405,6 +469,12 @@ bool PromptABExperimentFramework::recordOutcome(
 // Significance testing
 // ============================================================================
 
+/**
+ * @brief Check Significance Locked.
+ * @param[in] experiment_id Identifier of the experiment.
+ * @return True when the operation succeeds.
+ * @details Calls: find(), end(), at(), size(), welchPValue(), std::accumulate(), begin(), std::chrono::system_clock::now().
+ */
 bool PromptABExperimentFramework::checkSignificanceLocked(
         const std::string& experiment_id) {
     // Caller must hold mutex_.
@@ -459,6 +529,12 @@ bool PromptABExperimentFramework::checkSignificanceLocked(
     return true;
 }
 
+/**
+ * @brief Check Significance.
+ * @param[in] experiment_id Identifier of the experiment.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), checkSignificanceLocked().
+ */
 bool PromptABExperimentFramework::checkSignificance(
         const std::string& experiment_id) {
     std::lock_guard<std::mutex> lock(mutex_);
@@ -469,6 +545,12 @@ bool PromptABExperimentFramework::checkSignificance(
 // Results
 // ============================================================================
 
+/**
+ * @brief Promote Winner.
+ * @param[in] experiment_id Identifier of the experiment.
+ * @return Return value.
+ * @details Calls: lock(), find(), end().
+ */
 std::string PromptABExperimentFramework::promoteWinner(
         const std::string& experiment_id) {
     std::lock_guard<std::mutex> lock(mutex_);
@@ -488,6 +570,11 @@ std::string PromptABExperimentFramework::promoteWinner(
 
 ExperimentStatus PromptABExperimentFramework::getStatus(
         const std::string& experiment_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = experiments_.find(experiment_id);
     if (it == experiments_.end()) { return ExperimentStatus::INCONCLUSIVE; }
@@ -496,6 +583,11 @@ ExperimentStatus PromptABExperimentFramework::getStatus(
 
 std::optional<ExperimentSummary> PromptABExperimentFramework::getSummary(
         const std::string& experiment_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     auto eit = experiments_.find(experiment_id);
     if (eit == experiments_.end()) { return std::nullopt; }
@@ -552,6 +644,11 @@ std::optional<ExperimentSummary> PromptABExperimentFramework::getSummary(
 
 std::vector<ExperimentOutcome> PromptABExperimentFramework::getOutcomes(
         const std::string& experiment_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = scores_.find(experiment_id);
     if (it == scores_.end()) { return {}; }
@@ -562,6 +659,11 @@ std::vector<ExperimentOutcome> PromptABExperimentFramework::getOutcomes(
 // Callbacks
 // ============================================================================
 
+/**
+ * @brief Set Winner Callback.
+ * @param[in] cb Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void PromptABExperimentFramework::setWinnerCallback(WinnerCallback cb) {
     std::lock_guard<std::mutex> lock(mutex_);
     winner_callback_ = std::move(cb);
@@ -590,6 +692,12 @@ uint32_t SimplePromptABFramework::fnv1a32(const std::string& user_id,
     return hash;
 }
 
+/**
+ * @brief Register Experiment.
+ * @param[in] descriptor Input parameter.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: lock(), push_back(), std::move().
+ */
 void SimplePromptABFramework::registerExperiment(ExperimentDescriptor descriptor) {
     std::lock_guard<std::mutex> lock(mutex_);
     for (const auto& e : experiments_) {
@@ -602,6 +710,12 @@ void SimplePromptABFramework::registerExperiment(ExperimentDescriptor descriptor
     experiments_.push_back(std::move(descriptor));
 }
 
+/**
+ * @brief Deactivate.
+ * @param[in] key Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock().
+ */
 bool SimplePromptABFramework::deactivate(const ExperimentKey& key) {
     std::lock_guard<std::mutex> lock(mutex_);
     for (auto& e : experiments_) {
@@ -615,6 +729,11 @@ bool SimplePromptABFramework::deactivate(const ExperimentKey& key) {
 
 ABVariant SimplePromptABFramework::assignVariant(const UserId&        user_id,
                                                   const ExperimentKey& key) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     for (const auto& exp : experiments_) {
         if (exp.key != key || !exp.active || exp.variants.empty()) {
@@ -640,6 +759,11 @@ ABVariant SimplePromptABFramework::assignVariant(const UserId&        user_id,
 }
 
 std::vector<ExperimentDescriptor> SimplePromptABFramework::listExperiments() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return experiments_;
 }

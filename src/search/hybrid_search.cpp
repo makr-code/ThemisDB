@@ -20,7 +20,13 @@
 #include <stdexcept>
 
 namespace {
-    // Helper: Convert vector distance to similarity score based on metric
+    /**
+     * @brief Helper: Convert vector distance to similarity score based on metric
+     * @param[in] distance Input parameter.
+     * @param[in] metric Input parameter.
+     * @return Return value.
+     * @details Implements distanceToSimilarity without additional internal calls.
+     */
     double distanceToSimilarity(float distance, themis::VectorIndexManager::Metric metric) {
         using Metric = themis::VectorIndexManager::Metric;
         switch (metric) {
@@ -91,6 +97,12 @@ HybridSearch::~HybridSearch() noexcept = default;
 // Reranker attachment
 // ============================================================================
 
+/**
+ * @brief Set Reranker.
+ * @param[in] backend Input parameter.
+ * @param[in] config Input parameter.
+ * @details Calls: reset(), THEMIS_DEBUG(), search::createLlmReranker(), setBackend(), std::move(), release(), THEMIS_WARN().
+ */
 void HybridSearch::setReranker(ILlmReranker::LlmBackend backend,
                                 const ILlmReranker::Config& config) {
     if (!backend) {
@@ -112,10 +124,24 @@ void HybridSearch::setReranker(ILlmReranker::LlmBackend backend,
     }
 }
 
+/**
+ * @brief Set Ann Frontdoor.
+ * @param[in] frontdoor Input parameter.
+ * @details Calls: std::move().
+ */
 void HybridSearch::setAnnFrontdoor(std::shared_ptr<index::AnnFrontdoor> frontdoor) {
     ann_frontdoor_ = std::move(frontdoor);
 }
 
+/**
+ * @brief Search.
+ * @param[in] text_query Input parameter.
+ * @param[in] vector_query Input parameter.
+ * @param[in] vector_dim Input parameter.
+ * @param[in,out] stats Input/output parameter.
+ * @return Return value.
+ * @details Calls: empty(), scanFulltextWithScores(), reserve(), size(), Result(), push_back(), THEMIS_DEBUG(), THEMIS_WARN().
+ */
 std::vector<HybridSearch::Result> HybridSearch::search(
     const std::string& text_query,
     const float* vector_query,
@@ -359,6 +385,13 @@ std::vector<HybridSearch::Result> HybridSearch::search(
     }
 }
 
+/**
+ * @brief Reciprocal Rank Fusion.
+ * @param[in] bm25_results Input parameter.
+ * @param[in] vector_results Input parameter.
+ * @return Return value.
+ * @details Calls: size(), empty(), push_back(), std::sort(), begin(), end(), resize(), THEMIS_INFO().
+ */
 std::vector<HybridSearch::Result> HybridSearch::reciprocalRankFusion(
     const std::vector<Result>& bm25_results,
     const std::vector<Result>& vector_results
@@ -419,6 +452,12 @@ std::vector<HybridSearch::Result> HybridSearch::reciprocalRankFusion(
     return fused_results;
 }
 
+/**
+ * @brief Normalize Scores.
+ * @param[in,out] results Input/output parameter.
+ * @param[in] is_bm25 Input parameter.
+ * @details Calls: empty(), max(), lowest(), std::min(), std::max().
+ */
 void HybridSearch::normalizeScores(std::vector<Result>& results, bool is_bm25) {
     if (results.empty()) {
       return;

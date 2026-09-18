@@ -22,6 +22,12 @@ namespace aql {
 
 namespace {
 
+/**
+ * @brief Build Recency Ranking.
+ * @param[in] history_size Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), push_back().
+ */
 std::vector<int32_t> buildRecencyRanking(std::size_t history_size) {
     std::vector<int32_t> indices;
     indices.reserve(history_size);
@@ -31,6 +37,13 @@ std::vector<int32_t> buildRecencyRanking(std::size_t history_size) {
     return indices;
 }
 
+/**
+ * @brief Parse Ranked Indices.
+ * @param[in] response Input parameter.
+ * @param[in] history_size Input parameter.
+ * @return Return value.
+ * @details Calls: seen(), empty(), std::stoi(), push_back(), clear(), std::isdigit(), flush_number(), size().
+ */
 std::vector<int32_t> parseRankedIndices(const std::string& response, std::size_t history_size) {
     std::vector<int32_t> indices;
     std::string current_number = {};
@@ -280,11 +293,6 @@ std::vector<int32_t> LLMExtractiveCompressor::selectTopTurns(
     return selected;
 }
 
-/// @brief Build a term-frequency bag-of-words from a flat message collection.
-/// @details Tokenises each message body into lowercase words and accumulates
-///          counts.  Punctuation is stripped and empty tokens are discarded.
-/// @param msgs Collection of (role, content) pairs to aggregate.
-/// @return Mapping from word to occurrence count.
 static std::unordered_map<std::string, float> buildTermFrequency(
     const std::vector<std::pair<std::string, std::string>>& msgs) {
     std::unordered_map<std::string, float> tf = {};
@@ -309,7 +317,6 @@ static std::unordered_map<std::string, float> buildTermFrequency(
     return tf;
 }
 
-/// @brief Compute the L2 norm of a term-frequency vector.
 static float l2Norm(const std::unordered_map<std::string, float>& tf) {
     float sum = 0.0f;
     for (const auto& [_, v] : tf) {
@@ -365,6 +372,11 @@ float LLMExtractiveCompressor::computeSimilarity(
     return std::min(std::max(cosine, 0.0f), 1.0f);
 }
 
+/**
+ * @brief Store Episode.
+ * @param[in] result Input parameter.
+ * @details Calls: createInteraction(), spdlog::warn(), what().
+ */
 void LLMExtractiveCompressor::storeEpisode(const CompressionResult& result) {
     if (!store_) {
         return;
@@ -409,6 +421,11 @@ std::string LLMExtractiveCompressor::formatTurnsForPrompt(
     return result.str();
 }
 
+/**
+ * @brief Generate UUID.
+ * @return Return value.
+ * @details Calls: utils::generate_uuid_v4().
+ */
 std::string LLMExtractiveCompressor::generateUUID() {
     return utils::generate_uuid_v4();
 }

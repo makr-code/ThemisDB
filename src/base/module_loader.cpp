@@ -71,7 +71,6 @@ using namespace themis::acceleration;
 // ModuleSecurityVerifier::Impl - Bridge to existing plugin security
 // ============================================================================
 
-/** @brief ModuleSecurityVerifier::Impl - Bridge to existing plugin security. */
 class ModuleSecurityVerifier::Impl {
 public:
     Impl() : policy_(), verifier_(policy_) {
@@ -95,6 +94,13 @@ public:
                      policy_.requireSignature);
     }
     
+    /**
+     * @brief Verify Module.
+     * @param[in] modulePath Input parameter.
+     * @param[in,out] errorMessage Input/output parameter.
+     * @return True when the operation succeeds.
+     * @details Calls: spdlog::debug(), verifyPlugin(), spdlog::info(), spdlog::error().
+     */
     bool verifyModule(const std::string& modulePath, std::string& errorMessage) {
         spdlog::debug("Verifying module: {}", modulePath);
         
@@ -110,25 +116,51 @@ public:
         return result;
     }
     
+    /**
+     * @brief Calculate File Hash.
+     * @param[in] modulePath Input parameter.
+     * @return Return value.
+     * @details Implements calculateFileHash without additional internal calls.
+     */
     std::string calculateFileHash(const std::string& modulePath) {
         return verifier_.calculateFileHash(modulePath);
     }
     
+    /**
+     * @brief Set Require Signature.
+     * @param[in] require Input parameter.
+     * @details Calls: updatePolicy().
+     */
     void setRequireSignature(bool require) {
         policy_.requireSignature = require;
         verifier_.updatePolicy(policy_);
     }
     
+    /**
+     * @brief Set Allow Unsigned.
+     * @param[in] allow Input parameter.
+     * @details Calls: updatePolicy().
+     */
     void setAllowUnsigned(bool allow) {
         policy_.allowUnsigned = allow;
         verifier_.updatePolicy(policy_);
     }
     
+    /**
+     * @brief Add Whitelisted Hash.
+     * @param[in] hash Input parameter.
+     * @details Calls: push_back(), updatePolicy().
+     */
     void addWhitelistedHash(const std::string& hash) {
         policy_.whitelistedHashes.push_back(hash);
         verifier_.updatePolicy(policy_);
     }
     
+    /**
+     * @brief Add Blacklisted Hash.
+     * @param[in] hash Input parameter.
+     * @details Calls: push_back(), updatePolicy().
+     */
     void addBlacklistedHash(const std::string& hash) {
         policy_.blacklistedHashes.push_back(hash);
         verifier_.updatePolicy(policy_);
@@ -149,26 +181,59 @@ ModuleSecurityVerifier::ModuleSecurityVerifier()
 
 ModuleSecurityVerifier::~ModuleSecurityVerifier() = default;
 
+/**
+ * @brief Verify Module.
+ * @param[in] modulePath Input parameter.
+ * @param[in,out] errorMessage Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Implements verifyModule without additional internal calls.
+ */
 bool ModuleSecurityVerifier::verifyModule(const std::string& modulePath, std::string& errorMessage) {
     return impl_->verifyModule(modulePath, errorMessage);
 }
 
+/**
+ * @brief Calculate File Hash.
+ * @param[in] modulePath Input parameter.
+ * @return Return value.
+ * @details Implements calculateFileHash without additional internal calls.
+ */
 std::string ModuleSecurityVerifier::calculateFileHash(const std::string& modulePath) {
     return impl_->calculateFileHash(modulePath);
 }
 
+/**
+ * @brief Set Require Signature.
+ * @param[in] require Input parameter.
+ * @details Implements setRequireSignature without additional internal calls.
+ */
 void ModuleSecurityVerifier::setRequireSignature(bool require) {
     impl_->setRequireSignature(require);
 }
 
+/**
+ * @brief Set Allow Unsigned.
+ * @param[in] allow Input parameter.
+ * @details Implements setAllowUnsigned without additional internal calls.
+ */
 void ModuleSecurityVerifier::setAllowUnsigned(bool allow) {
     impl_->setAllowUnsigned(allow);
 }
 
+/**
+ * @brief Add Whitelisted Hash.
+ * @param[in] hash Input parameter.
+ * @details Implements addWhitelistedHash without additional internal calls.
+ */
 void ModuleSecurityVerifier::addWhitelistedHash(const std::string& hash) {
     impl_->addWhitelistedHash(hash);
 }
 
+/**
+ * @brief Add Blacklisted Hash.
+ * @param[in] hash Input parameter.
+ * @details Implements addBlacklistedHash without additional internal calls.
+ */
 void ModuleSecurityVerifier::addBlacklistedHash(const std::string& hash) {
     impl_->addBlacklistedHash(hash);
 }
@@ -187,6 +252,12 @@ ModuleLoader::~ModuleLoader() {
     unloadAllModules();
 }
 
+/**
+ * @brief Load Library.
+ * @param[in] path Input parameter.
+ * @return Pointer to the result.
+ * @details Calls: LoadLibraryA(), c_str(), dlopen().
+ */
 void* ModuleLoader::loadLibrary(const std::string& path) {
 #ifdef _WIN32
     return LoadLibraryA(path.c_str());
@@ -195,6 +266,11 @@ void* ModuleLoader::loadLibrary(const std::string& path) {
 #endif
 }
 
+/**
+ * @brief Unload Library.
+ * @param[in,out] handle Input/output parameter.
+ * @details Calls: FreeLibrary(), dlclose().
+ */
 void ModuleLoader::unloadLibrary(void* handle) {
     if (!handle) {
       return;
@@ -207,6 +283,13 @@ void ModuleLoader::unloadLibrary(void* handle) {
 #endif
 }
 
+/**
+ * @brief Get Symbol.
+ * @param[in,out] handle Input/output parameter.
+ * @param[in] symbolName Input parameter.
+ * @return Pointer to the result.
+ * @details Calls: GetProcAddress(), c_str(), dlsym().
+ */
 void* ModuleLoader::getSymbol(void* handle, const std::string& symbolName) {
 #ifdef _WIN32
     return reinterpret_cast<void*>(GetProcAddress(static_cast<HMODULE>(handle), symbolName.c_str()));
@@ -215,6 +298,12 @@ void* ModuleLoader::getSymbol(void* handle, const std::string& symbolName) {
 #endif
 }
 
+/**
+ * @brief Get Module Name From Path.
+ * @param[in] path Input parameter.
+ * @return Return value.
+ * @details Calls: p(), stem(), string(), rfind(), substr().
+ */
 std::string ModuleLoader::getModuleNameFromPath(const std::string& path) {
     std::filesystem::path p(path);
     std::string filename = p.stem().string();
@@ -229,12 +318,25 @@ std::string ModuleLoader::getModuleNameFromPath(const std::string& path) {
     return filename;
 }
 
+/**
+ * @brief Is Themis Module.
+ * @param[in] filename Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: rfind().
+ */
 bool ModuleLoader::isThemisModule(const std::string& filename) {
     // Check if filename starts with "themis_" or "libthemis_"
     return (filename.rfind("themis_", 0) == 0 || 
             filename.rfind("libthemis_", 0) == 0);
 }
 
+/**
+ * @brief Load Module.
+ * @param[in] modulePath Input parameter.
+ * @param[in] moduleName Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::steady_clock::now(), std::time(), spdlog::info(), checkQuarantine(), updateMetrics(), isModuleLoaded(), categorizeError(), getErrorMessage().
+ */
 ModuleVerificationResult ModuleLoader::loadModule(const std::string& modulePath, 
                                                  const std::string& moduleName) {
     auto startTime = std::chrono::steady_clock::now();
@@ -539,6 +641,12 @@ ModuleVerificationResult ModuleLoader::loadModule(const std::string& modulePath,
     return result;
 }
 
+/**
+ * @brief Load All Modules.
+ * @param[in] moduleDirectory Input parameter.
+ * @return Return value.
+ * @details Calls: spdlog::info(), std::filesystem::exists(), spdlog::error(), std::filesystem::directory_iterator(), is_regular_file(), path(), filename(), string().
+ */
 size_t ModuleLoader::loadAllModules(const std::string& moduleDirectory) {
     spdlog::info("Loading all modules from: {}", moduleDirectory);
     
@@ -587,6 +695,11 @@ size_t ModuleLoader::loadAllModules(const std::string& moduleDirectory) {
     return loadedCount;
 }
 
+/**
+ * @brief Unload Module.
+ * @param[in] moduleName Input parameter.
+ * @details Calls: lk(), find(), end(), spdlog::info(), std::time(), PluginSecurityAuditor::instance(), logEvent(), unloadLibrary().
+ */
 void ModuleLoader::unloadModule(const std::string& moduleName) {
     std::unique_lock<std::shared_mutex> lk(modulesMutex_);
     auto it = loadedModules_.find(moduleName);
@@ -611,6 +724,10 @@ void ModuleLoader::unloadModule(const std::string& moduleName) {
     }
 }
 
+/**
+ * @brief Unload All Modules.
+ * @details Calls: lk(), spdlog::info(), size(), PluginSecurityAuditor::instance(), std::time(), logEvent(), unloadLibrary(), ModuleRegistry::instance().
+ */
 void ModuleLoader::unloadAllModules() {
     std::unique_lock<std::shared_mutex> lk(modulesMutex_);
     spdlog::info("Unloading all modules ({} loaded)",loadedModules_.size());
@@ -635,11 +752,21 @@ void ModuleLoader::unloadAllModules() {
 }
 
 bool ModuleLoader::isModuleLoaded(const std::string& moduleName) const {
+    /**
+     * @brief Lk.
+     * @param[in] modulesMutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lk(modulesMutex_);
     return loadedModules_.count(moduleName) > 0;
 }
 
 std::optional<LoadedModule> ModuleLoader::getModuleInfo(const std::string& moduleName) const {
+    /**
+     * @brief Lk.
+     * @param[in] modulesMutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lk(modulesMutex_);
     auto it = loadedModules_.find(moduleName);
     
@@ -651,6 +778,11 @@ std::optional<LoadedModule> ModuleLoader::getModuleInfo(const std::string& modul
 }
 
 std::vector<LoadedModule> ModuleLoader::getAllLoadedModules() const {
+    /**
+     * @brief Lk.
+     * @param[in] modulesMutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lk(modulesMutex_);
     std::vector<LoadedModule> result = {};
 
@@ -665,22 +797,48 @@ std::vector<LoadedModule> ModuleLoader::getAllLoadedModules() const {
     return result;
 }
 
+/**
+ * @brief Set Require Signature.
+ * @param[in] require Input parameter.
+ * @details Implements setRequireSignature without additional internal calls.
+ */
 void ModuleLoader::setRequireSignature(bool require) {
     verifier_->setRequireSignature(require);
 }
 
+/**
+ * @brief Set Allow Unsigned.
+ * @param[in] allow Input parameter.
+ * @details Implements setAllowUnsigned without additional internal calls.
+ */
 void ModuleLoader::setAllowUnsigned(bool allow) {
     verifier_->setAllowUnsigned(allow);
 }
 
+/**
+ * @brief Add Whitelisted Hash.
+ * @param[in] hash Input parameter.
+ * @details Implements addWhitelistedHash without additional internal calls.
+ */
 void ModuleLoader::addWhitelistedHash(const std::string& hash) {
     verifier_->addWhitelistedHash(hash);
 }
 
+/**
+ * @brief Add Blacklisted Hash.
+ * @param[in] hash Input parameter.
+ * @details Implements addBlacklistedHash without additional internal calls.
+ */
 void ModuleLoader::addBlacklistedHash(const std::string& hash) {
     verifier_->addBlacklistedHash(hash);
 }
 
+/**
+ * @brief Set Hash Manifest.
+ * @param[in] manifestPath Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: loadManifest(), spdlog::info(), manifestSize(), spdlog::error().
+ */
 bool ModuleLoader::setHashManifest(const std::string& manifestPath) {
     const bool ok = hashVerifier_.loadManifest(manifestPath);
     if (ok) {
@@ -707,16 +865,31 @@ std::vector<PluginSecurityEvent> ModuleLoader::getPluginAuditTrail(const std::st
 // ModuleRegistry Implementation
 // ============================================================================
 
+/**
+ * @brief Instance.
+ * @return Return value.
+ * @details Implements instance without additional internal calls.
+ */
 ModuleRegistry& ModuleRegistry::instance() {
     static ModuleRegistry registry;
     return registry;
 }
 
+/**
+ * @brief Register Module.
+ * @param[in] module Input parameter.
+ * @details Calls: push_back(), spdlog::debug().
+ */
 void ModuleRegistry::registerModule(const LoadedModule& module) {
     modules_.push_back(module);
     spdlog::debug("Module registered: {}", module.name);
 }
 
+/**
+ * @brief Unregister Module.
+ * @param[in] moduleName Input parameter.
+ * @details Calls: std::find_if(), begin(), end(), erase(), spdlog::debug().
+ */
 void ModuleRegistry::unregisterModule(const std::string& moduleName) {
     auto it = std::find_if(modules_.begin(), modules_.end(),
                           [&moduleName](const LoadedModule& m) { return m.name == moduleName; });
@@ -858,6 +1031,12 @@ ErrorCategory ModuleLoader::categorizeError(ModuleErrorCode code) const {
     }
 }
 
+/**
+ * @brief Extract Module Metadata.
+ * @param[in] modulePath Input parameter.
+ * @return Return value.
+ * @details Calls: loadLibrary(), spdlog::warn(), uint32_t(), getSymbol(), getVersionStr(), getAbiVersion(), getBuildId(), getMajor().
+ */
 ModuleMetadata ModuleLoader::extractModuleMetadata(const std::string& modulePath) {
     ModuleMetadata metadata;
     
@@ -919,6 +1098,13 @@ ModuleMetadata ModuleLoader::extractModuleMetadata(const std::string& modulePath
 // Quarantine and Backoff Implementation
 // ============================================================================
 
+/**
+ * @brief Record Failure.
+ * @param[in] modulePath Input parameter.
+ * @param[in] errorCode Input parameter.
+ * @param[in] errorMessage Input parameter.
+ * @details Calls: std::time(), push_back(), calculateBackoffTime(), spdlog::warn(), shouldQuarantine(), quarantineModule().
+ */
 void ModuleLoader::recordFailure(const std::string& modulePath, ModuleErrorCode errorCode, const std::string& errorMessage) {
     uint64_t currentTime = static_cast<uint64_t>(std::time(nullptr));
     
@@ -952,6 +1138,11 @@ bool ModuleLoader::shouldQuarantine(const std::string& modulePath) const {
     return it->second.consecutiveFailures >= quarantineThreshold_;
 }
 
+/**
+ * @brief Quarantine Module.
+ * @param[in] modulePath Input parameter.
+ * @details Calls: find(), end(), std::time(), spdlog::critical().
+ */
 void ModuleLoader::quarantineModule(const std::string& modulePath) {
     auto it = failureHistory_.find(modulePath);
     if (it == failureHistory_.end()) {
@@ -988,6 +1179,13 @@ uint64_t ModuleLoader::calculateBackoffTime(uint32_t consecutiveFailures) const 
     return std::min(backoff, static_cast<uint64_t>(maxBackoffSeconds_));
 }
 
+/**
+ * @brief Check Quarantine.
+ * @param[in] modulePath Input parameter.
+ * @param[in,out] result Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: find(), end(), isQuarantined(), getErrorMessage(), std::to_string(), spdlog::error(), std::time(), canRetry().
+ */
 bool ModuleLoader::checkQuarantine(const std::string& modulePath, ModuleVerificationResult& result) {
     auto it = failureHistory_.find(modulePath);
     if (it == failureHistory_.end()) {
@@ -1043,6 +1241,12 @@ std::vector<std::string> ModuleLoader::getQuarantinedModules() const {
     return quarantined;
 }
 
+/**
+ * @brief Release From Quarantine.
+ * @param[in] modulePath Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: find(), end(), isQuarantined(), spdlog::info().
+ */
 bool ModuleLoader::releaseFromQuarantine(const std::string& modulePath) {
     auto it = failureHistory_.find(modulePath);
     if (it == failureHistory_.end() || !it->second.isQuarantined()) {
@@ -1060,6 +1264,11 @@ bool ModuleLoader::releaseFromQuarantine(const std::string& modulePath) {
     return true;
 }
 
+/**
+ * @brief Clear Failure History.
+ * @param[in] modulePath Input parameter.
+ * @details Calls: find(), end(), isQuarantined(), erase(), spdlog::info().
+ */
 void ModuleLoader::clearFailureHistory(const std::string& modulePath) {
     auto it = failureHistory_.find(modulePath);
     if (it != failureHistory_.end()) {
@@ -1071,11 +1280,21 @@ void ModuleLoader::clearFailureHistory(const std::string& modulePath) {
     }
 }
 
+/**
+ * @brief Set Quarantine Threshold.
+ * @param[in] threshold Input parameter.
+ * @details Calls: spdlog::info().
+ */
 void ModuleLoader::setQuarantineThreshold(uint32_t threshold) {
     quarantineThreshold_ = threshold;
     spdlog::info("Quarantine threshold set to: {}", threshold);
 }
 
+/**
+ * @brief Set Max Backoff Seconds.
+ * @param[in] maxSeconds Input parameter.
+ * @details Calls: spdlog::info().
+ */
 void ModuleLoader::setMaxBackoffSeconds(uint32_t maxSeconds) {
     maxBackoffSeconds_ = maxSeconds;
     spdlog::info("Max backoff time set to: {} seconds", maxSeconds);
@@ -1119,6 +1338,13 @@ bool ModuleLoader::isABICompatible(const ModuleMetadata& metadata) const {
 // Metrics Implementation
 // ============================================================================
 
+/**
+ * @brief Update Metrics.
+ * @param[in] success Input parameter.
+ * @param[in] durationMs Input parameter.
+ * @param[in] errorCode Input parameter.
+ * @details Calls: std::min(), std::max().
+ */
 void ModuleLoader::updateMetrics(bool success, uint64_t durationMs, ModuleErrorCode errorCode) {
     metrics_.totalLoadAttempts++;
     
@@ -1148,31 +1374,52 @@ ModuleMetrics ModuleLoader::getMetrics() const {
     return metrics_;
 }
 
+/**
+ * @brief Reset Metrics.
+ * @details Calls: ModuleMetrics(), spdlog::info().
+ */
 void ModuleLoader::resetMetrics() {
     metrics_ = ModuleMetrics();
     spdlog::info("Module loader metrics reset");
 }
 
-// ============================================================================
-// Staged Loading Implementation (Phase 3)
-// ============================================================================
+/**
+ * @brief ============================================================================ Staged Loading Implementation (Phase 3) ============================================================================
+ * @param[in] checkName Input parameter.
+ * @param[in] checkFunc Input parameter.
+ * @details Calls: spdlog::info().
+ */
 
 void ModuleLoader::registerHealthCheck(const std::string& checkName, HealthCheckFunction checkFunc) {
     healthChecks_[checkName] = checkFunc;
     spdlog::info("Health check registered: {}", checkName);
 }
 
+/**
+ * @brief Clear Health Checks.
+ * @details Calls: clear(), spdlog::info().
+ */
 void ModuleLoader::clearHealthChecks() {
     healthChecks_.clear();
     spdlog::info("All health checks cleared");
 }
 
+/**
+ * @brief Set Staged Loading Enabled.
+ * @param[in] enable Input parameter.
+ * @details Calls: spdlog::info().
+ */
 void ModuleLoader::setStagedLoadingEnabled(bool enable) {
     stagedLoadingEnabled_ = enable;
     spdlog::info("Staged loading {}", enable ? "enabled" : "disabled");
 }
 
 std::optional<LoadStage> ModuleLoader::queryModuleStage(const std::string& moduleName) const {
+    /**
+     * @brief Lk.
+     * @param[in] modulesMutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lk(modulesMutex_);
     auto it = loadedModules_.find(moduleName);
     
@@ -1184,6 +1431,11 @@ std::optional<LoadStage> ModuleLoader::queryModuleStage(const std::string& modul
 }
 
 std::vector<HealthCheckResult> ModuleLoader::getHealthCheckResults(const std::string& moduleName) const {
+    /**
+     * @brief Lk.
+     * @param[in] modulesMutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lk(modulesMutex_);
     auto it = loadedModules_.find(moduleName);
     
@@ -1194,6 +1446,13 @@ std::vector<HealthCheckResult> ModuleLoader::getHealthCheckResults(const std::st
     return it->second.healthChecks;
 }
 
+/**
+ * @brief Update Module Stage.
+ * @param[in] moduleName Input parameter.
+ * @param[in] newStage Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lk(), find(), end(), spdlog::debug().
+ */
 bool ModuleLoader::updateModuleStage(const std::string& moduleName, LoadStage newStage) {
     std::unique_lock<std::shared_mutex> lk(modulesMutex_);
     auto it = loadedModules_.find(moduleName);
@@ -1207,6 +1466,13 @@ bool ModuleLoader::updateModuleStage(const std::string& moduleName, LoadStage ne
     return true;
 }
 
+/**
+ * @brief Run Health Checks.
+ * @param[in,out] module Input/output parameter.
+ * @param[in,out] result Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), spdlog::debug(), spdlog::info(), size(), std::chrono::steady_clock::now(), checkFunc(), count(), push_back().
+ */
 bool ModuleLoader::runHealthChecks(LoadedModule& module, ModuleVerificationResult& result) {
     if (healthChecks_.empty()) {
         spdlog::debug("No health checks registered for module: {}", module.name);
@@ -1253,6 +1519,12 @@ bool ModuleLoader::runHealthChecks(LoadedModule& module, ModuleVerificationResul
     return true;
 }
 
+/**
+ * @brief Extract Metadata From Handle.
+ * @param[in,out] handle Input/output parameter.
+ * @return Return value.
+ * @details Calls: uint32_t(), getSymbol(), getVersionStr(), getAbiVersion(), getBuildId(), getMajor(), getMinor(), getPatch().
+ */
 ModuleMetadata ModuleLoader::extractMetadataFromHandle(void* handle) {
     ModuleMetadata metadata = {};
     
@@ -1293,6 +1565,12 @@ ModuleMetadata ModuleLoader::extractMetadataFromHandle(void* handle) {
     return metadata;
 }
 
+/**
+ * @brief Get Cached Metadata.
+ * @param[in] modulePath Input parameter.
+ * @return Return value.
+ * @details Calls: find(), end(), spdlog::debug(), extractModuleMetadata(), isValid().
+ */
 ModuleMetadata ModuleLoader::getCachedMetadata(const std::string& modulePath) {
     // Check cache first
     auto it = metadataCache_.find(modulePath);
@@ -1311,6 +1589,10 @@ ModuleMetadata ModuleLoader::getCachedMetadata(const std::string& modulePath) {
     return metadata;
 }
 
+/**
+ * @brief Clear.
+ * @details Implements clear without additional internal calls.
+ */
 void ModuleRegistry::clear() {
     modules_.clear();
 }
@@ -1339,6 +1621,12 @@ int ModuleLoader::getZoneIdentifier(const std::string& modulePath) const {
     ReadFile(hFile, buffer, kZoneIdBufferSize - 1, &bytesRead, nullptr);
     CloseHandle(hFile);
 
+    /**
+     * @brief Content.
+     * @param[in] buffer Input parameter.
+     * @param[in] bytesRead Input parameter.
+     * @return Return value.
+     */
     std::string content(buffer, bytesRead);
     // Zone.Identifier format: "[ZoneTransfer]\r\nZoneId=<N>"
     const std::string zoneIdKey = "ZoneId=";
@@ -1355,6 +1643,12 @@ int ModuleLoader::getZoneIdentifier(const std::string& modulePath) const {
     }
 }
 
+/**
+ * @brief Remove Zone Identifier.
+ * @param[in] modulePath Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: DeleteFileA(), c_str(), spdlog::info(), GetLastError(), spdlog::warn().
+ */
 bool ModuleLoader::removeZoneIdentifier(const std::string& modulePath) {
     std::string adsPath = modulePath + ":Zone.Identifier";
     if (DeleteFileA(adsPath.c_str())) {
@@ -1579,6 +1873,12 @@ ModuleLoader::getExtendedAttributes(const std::string& modulePath) const {
 }
 
 std::string ModuleLoader::readELFMetadata(const std::string& modulePath) const {
+    /**
+     * @brief File.
+     * @param[in] modulePath Input parameter.
+     * @param[in] binary Input parameter.
+     * @return Return value.
+     */
     std::ifstream file(modulePath, std::ios::binary);
     if (!file) {
         spdlog::warn("readELFMetadata: cannot open: {}", modulePath);
@@ -1779,9 +2079,11 @@ std::string ModuleLoader::readELFMetadata(const std::string& modulePath) const {
 }
 #endif // __linux__
 
-// ============================================================================
-// Plugin Watchdog Implementation (Issue #2373)
-// ============================================================================
+/**
+ * @brief ============================================================================ Plugin Watchdog Implementation (Issue #2373) ============================================================================
+ * @return Return value.
+ * @details Calls: std::chrono::steady_clock::now(), time_since_epoch(), count().
+ */
 
 uint64_t ModuleLoader::nowMs() {
     return static_cast<uint64_t>(
@@ -1789,6 +2091,11 @@ uint64_t ModuleLoader::nowMs() {
             std::chrono::steady_clock::now().time_since_epoch()).count());
 }
 
+/**
+ * @brief Configure Watchdog.
+ * @param[in] config Input parameter.
+ * @details Calls: lk(), spdlog::info().
+ */
 void ModuleLoader::configureWatchdog(const WatchdogConfig& config) {
     std::lock_guard<std::mutex> lk(watchdogMutex_);
     watchdogConfig_ = config;
@@ -1796,6 +2103,10 @@ void ModuleLoader::configureWatchdog(const WatchdogConfig& config) {
                  config.check_interval_ms, config.max_restart_attempts, config.initial_backoff_ms);
 }
 
+/**
+ * @brief Start Watchdog.
+ * @details Calls: exchange(), std::thread(), watchdogLoop(), spdlog::info().
+ */
 void ModuleLoader::startWatchdog() {
     if (watchdogRunning_.exchange(true)) {
         return;  // Already running
@@ -1804,6 +2115,10 @@ void ModuleLoader::startWatchdog() {
     spdlog::info("Plugin watchdog started");
 }
 
+/**
+ * @brief Stop Watchdog.
+ * @details Calls: exchange(), notify_all(), joinable(), join(), spdlog::info().
+ */
 void ModuleLoader::stopWatchdog() {
     if (!watchdogRunning_.exchange(false)) {
         return;  // Not running
@@ -1820,6 +2135,11 @@ bool ModuleLoader::isWatchdogRunning() const {
 }
 
 std::optional<WatchdogModuleStats> ModuleLoader::getWatchdogStats(const std::string& moduleName) const {
+    /**
+     * @brief Lk.
+     * @param[in] watchdogMutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(watchdogMutex_);
     auto it = watchdogStats_.find(moduleName);
     if (it == watchdogStats_.end()) {
@@ -1829,17 +2149,29 @@ std::optional<WatchdogModuleStats> ModuleLoader::getWatchdogStats(const std::str
 }
 
 std::map<std::string, WatchdogModuleStats> ModuleLoader::getAllWatchdogStats() const {
+    /**
+     * @brief Lk.
+     * @param[in] watchdogMutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(watchdogMutex_);
     return watchdogStats_;
 }
 
+/**
+ * @brief Reset Watchdog Stats.
+ * @details Calls: lk(), clear(), spdlog::info().
+ */
 void ModuleLoader::resetWatchdogStats() {
     std::lock_guard<std::mutex> lk(watchdogMutex_);
     watchdogStats_.clear();
     spdlog::info("Watchdog stats reset");
 }
 
-// ---- private helpers -------------------------------------------------------
+/**
+ * @brief ---- private helpers -------------------------------------------------------
+ * @details Calls: spdlog::debug(), load(), lk(), wait_for(), std::chrono::milliseconds(), watchdogCheckAllModules().
+ */
 
 void ModuleLoader::watchdogLoop() {
     spdlog::debug("Watchdog loop started");
@@ -1870,6 +2202,10 @@ void ModuleLoader::watchdogLoop() {
     spdlog::debug("Watchdog loop exited");
 }
 
+/**
+ * @brief Watchdog Check All Modules.
+ * @details Calls: lk(), emplace_back(), load(), find(), end(), empty(), watchdogRunHealthChecks(), nowMs().
+ */
 void ModuleLoader::watchdogCheckAllModules() {
     // Take a snapshot of currently loaded, fully-activated modules under a
     // shared_lock so that concurrent load/unload operations do not race with
@@ -1979,6 +2315,13 @@ void ModuleLoader::watchdogCheckAllModules() {
     }
 }
 
+/**
+ * @brief Watchdog Run Health Checks.
+ * @param[in,out] module Input/output parameter.
+ * @param[in,out] errorMessage Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), checkFunc(), what().
+ */
 bool ModuleLoader::watchdogRunHealthChecks(LoadedModule& module, std::string& errorMessage) {
     if (healthChecks_.empty()) {
         return true;
@@ -1999,6 +2342,13 @@ bool ModuleLoader::watchdogRunHealthChecks(LoadedModule& module, std::string& er
     return true;
 }
 
+/**
+ * @brief Watchdog Restart Module.
+ * @param[in,out] stats Input/output parameter.
+ * @param[in] modulePath Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: spdlog::info(), unloadModule(), loadModule(), nowMs(), watchdogCalculateBackoff(), spdlog::error().
+ */
 bool ModuleLoader::watchdogRestartModule(WatchdogModuleStats& stats,
                                          const std::string& modulePath) {
     // Called without watchdogMutex_ held so that unloadModule()/loadModule()

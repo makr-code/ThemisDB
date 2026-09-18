@@ -123,7 +123,11 @@ float AQLConfidenceScorer::scoreSchemaMatch(const std::string &aql_lower, const 
 std::vector<std::string> AQLConfidenceScorer::extractCollections(const std::string &schema_context) const {
     std::vector<std::string> collections;
 
-    // Heuristic: lines of the form "  - <identifier>:" (common schema notation)
+    /**
+     * @brief Heuristic: lines of the form " - <identifier>:" (common schema notation)
+     * @param[in] schema_context Input parameter.
+     * @return Return value.
+     */
     std::istringstream stream(schema_context);
     std::string line = {};
     while (std::getline(stream, line)) {
@@ -157,6 +161,12 @@ std::vector<std::string> AQLConfidenceScorer::extractCollections(const std::stri
     return collections;
 }
 
+/**
+ * @brief To Lower.
+ * @param[in] text Input parameter.
+ * @return Return value.
+ * @details Calls: std::transform(), begin(), end(), std::tolower().
+ */
 std::string AQLConfidenceScorer::toLower(const std::string &text) {
     // Intentional copy: callers retain ownership of the original string
     std::string result = text;
@@ -165,6 +175,12 @@ std::string AQLConfidenceScorer::toLower(const std::string &text) {
     return result;
 }
 
+/**
+ * @brief Contains FOR.
+ * @param[in] aql_lower Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: find(), std::string().
+ */
 bool AQLConfidenceScorer::containsFOR(const std::string &aql_lower) {
     for (char sep : {' ', '\n', '\t', '('}) {
         if (aql_lower.find(std::string("for") + sep) != std::string::npos) {
@@ -174,6 +190,13 @@ bool AQLConfidenceScorer::containsFOR(const std::string &aql_lower) {
     return false;
 }
 
+/**
+ * @brief Contains Keyword.
+ * @param[in] aql_lower Input parameter.
+ * @param[in] keyword Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: std::isalnum(), find(), isWordChar(), size().
+ */
 bool AQLConfidenceScorer::containsKeyword(const std::string &aql_lower, const std::string &keyword) {
     // Search for all occurrences and verify word boundaries on each side.
     // A word boundary is a position where one side is an alphanumeric/underscore

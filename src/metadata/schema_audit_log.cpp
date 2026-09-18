@@ -55,6 +55,12 @@ json SchemaAuditEntry::toJSON() const {
     return j;
 }
 
+/**
+ * @brief From JSON.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: value(), std::chrono::system_clock::now(), contains(), is_object(), json::object().
+ */
 SchemaAuditEntry SchemaAuditEntry::fromJSON(const json& j) {
     SchemaAuditEntry e;
     e.id          = j.value("id",          std::string{});
@@ -85,12 +91,25 @@ SchemaAuditLog::SchemaAuditLog(RocksDBWrapper& db)
 // Static helpers
 // ============================================================================
 
+/**
+ * @brief Build Key.
+ * @param[in] table_name Name of the table.
+ * @param[in] timestamp_ns Input parameter.
+ * @return Return value.
+ * @details Calls: std::setw(), std::setfill(), str().
+ */
 std::string SchemaAuditLog::buildKey(std::string_view table_name, uint64_t timestamp_ns) {
     std::ostringstream oss = {};
     oss << kKeyPrefix << table_name << ":" << std::setw(20) << std::setfill('0') << timestamp_ns;
     return oss.str();
 }
 
+/**
+ * @brief Table Prefix.
+ * @param[in] table_name Name of the table.
+ * @return Return value.
+ * @details Calls: std::string().
+ */
 std::string SchemaAuditLog::tablePrefix(std::string_view table_name) {
     return std::string(kKeyPrefix) + std::string(table_name) + ":";
 }
@@ -99,6 +118,16 @@ std::string SchemaAuditLog::tablePrefix(std::string_view table_name) {
 // Write
 // ============================================================================
 
+/**
+ * @brief Record.
+ * @param[in] table_name Name of the table.
+ * @param[in] operation Input parameter.
+ * @param[in] author Input parameter.
+ * @param[in] description Input parameter.
+ * @param[in] version Input parameter.
+ * @param[in] extra_meta Input parameter.
+ * @return True when the operation succeeds.
+ */
 bool SchemaAuditLog::record(
     std::string_view table_name,
     std::string_view operation,

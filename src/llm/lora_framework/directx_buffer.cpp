@@ -74,6 +74,11 @@ DirectXBuffer& DirectXBuffer::operator=(DirectXBuffer&& other) noexcept {
     return *this;
 }
 
+/**
+ * @brief Create default buffer.
+ * @return True when the operation succeeds.
+ * @details Calls: device(), CreateCommittedResource(), IID_PPV_ARGS(), FAILED().
+ */
 bool DirectXBuffer::create_default_buffer() {
     // Create default heap buffer (GPU-only, fastest)
     D3D12_HEAP_PROPERTIES heap_props = {};
@@ -114,6 +119,11 @@ bool DirectXBuffer::create_default_buffer() {
     return true;
 }
 
+/**
+ * @brief Create upload buffer.
+ * @return True when the operation succeeds.
+ * @details Calls: device(), CreateCommittedResource(), IID_PPV_ARGS(), FAILED().
+ */
 bool DirectXBuffer::create_upload_buffer() {
     if (upload_buffer_) {
         return true;  // Already created
@@ -157,6 +167,11 @@ bool DirectXBuffer::create_upload_buffer() {
     return true;
 }
 
+/**
+ * @brief Create readback buffer.
+ * @return True when the operation succeeds.
+ * @details Calls: device(), CreateCommittedResource(), IID_PPV_ARGS(), FAILED().
+ */
 bool DirectXBuffer::create_readback_buffer() {
     if (readback_buffer_) {
         return true;  // Already created
@@ -200,6 +215,13 @@ bool DirectXBuffer::create_readback_buffer() {
     return true;
 }
 
+/**
+ * @brief Upload.
+ * @param[in] data Input parameter.
+ * @param[in] upload_size Input parameter.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: create_upload_buffer(), Map(), FAILED(), std::memcpy(), Unmap(), reset_command_list(), Get(), command_list().
+ */
 void DirectXBuffer::upload(const void* data, size_t upload_size) {
     if (upload_size > size_) {
         throw std::runtime_error("DirectXBuffer::upload: Size exceeds buffer capacity");
@@ -262,6 +284,13 @@ void DirectXBuffer::upload(const void* data, size_t upload_size) {
     context_->execute_command_list();
 }
 
+/**
+ * @brief Download.
+ * @param[in,out] data Input/output parameter.
+ * @param[in] download_size Input parameter.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: create_readback_buffer(), reset_command_list(), Get(), command_list(), ResourceBarrier(), CopyBufferRegion(), execute_command_list(), Map().
+ */
 void DirectXBuffer::download(void* data, size_t download_size) {
     if (download_size > size_) {
         throw std::runtime_error("DirectXBuffer::download: Size exceeds buffer capacity");
@@ -326,6 +355,11 @@ void DirectXBuffer::download(void* data, size_t download_size) {
     readback_buffer_->Unmap(0, &write_range);
 }
 
+/**
+ * @brief Transition state.
+ * @param[in] new_state Input parameter.
+ * @details Calls: Get(), reset_command_list(), command_list(), ResourceBarrier().
+ */
 void DirectXBuffer::transition_state(D3D12_RESOURCE_STATES new_state) {
     if (current_state_ == new_state) {
         return;

@@ -30,6 +30,12 @@ json IngestionSource::toJson() const {
     };
 }
 
+/**
+ * @brief From Json.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: at(), value(), json::object().
+ */
 IngestionSource IngestionSource::fromJson(const json& j) {
     IngestionSource source;
     source.source_id = j.at("source_id").get<std::string>();

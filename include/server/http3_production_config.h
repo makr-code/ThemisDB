@@ -26,13 +26,6 @@ namespace server {
 // Congestion Control Configuration
 // ============================================================================
 
-/**
- * @brief QUIC congestion control algorithm selection.
- *
- * Maps to ngtcp2 CC algorithm values.  BBR is recommended for production
- * because it achieves higher throughput on lossy/high-BDP paths and avoids
- * the buffer-bloat that CUBIC can cause on LTE/mobile networks.
- */
 enum class Http3CongestionAlgorithm : int {
     Cubic = 0, ///< CUBIC (RFC 8312) – ngtcp2 default
     Reno  = 1, ///< New Reno – conservative, good for very stable networks
@@ -43,12 +36,6 @@ enum class Http3CongestionAlgorithm : int {
 // Production Configuration
 // ============================================================================
 
-/**
- * @brief Consolidated production-readiness settings for HTTP/3.
- *
- * Passed to Http3Handler at construction time.  The defaults are tuned for
- * server workloads; adjust for your deployment.
- */
 struct Http3ProductionConfig {
     // ---- Congestion control ------------------------------------------------
     Http3CongestionAlgorithm cc_algorithm = Http3CongestionAlgorithm::Bbr;
@@ -83,12 +70,6 @@ struct Http3ProductionConfig {
 // Per-Connection Performance Metrics
 // ============================================================================
 
-/**
- * @brief Lightweight metrics recorded per HTTP/3 connection.
- *
- * Useful for comparing latency / throughput against HTTP/2 baselines.
- * All durations are in microseconds for sub-millisecond resolution.
- */
 struct Http3ConnectionMetrics {
     // Handshake timing
     int64_t  handshake_start_us   = 0; ///< Absolute µs since epoch at connect
@@ -142,53 +123,51 @@ struct Http3ConnectionMetrics {
 // HTTP/2 Fallback Manager
 // ============================================================================
 
-/**
- * @brief Tracks per-client QUIC failure counts and manages HTTP/2 fallback.
- *
- * When a client's QUIC failure count exceeds the configured threshold the
- * manager marks that client as "use HTTP/2" for a configurable recovery window.
- * After the window expires the client is re-allowed to attempt QUIC.
- *
- * Thread-safe.  Designed for use in Http3Handler and HttpServer.
- */
 class Http3FallbackManager {
 public:
+    /**
+     * @brief Http3 Fallback Manager.
+     * @param[in] cfg Input parameter.
+     * @return Return value.
+     */
     explicit Http3FallbackManager(const Http3ProductionConfig& cfg);
 
     /**
-     * @brief Record a QUIC connection/handshake failure for the given client IP.
+     * @brief Record Quic Failure.
+     * @param[in] client_ip Input parameter.
      */
     void recordQuicFailure(const std::string& client_ip);
 
     /**
-     * @brief Record a successful QUIC connection, resetting the failure counter.
+     * @brief Record Quic Success.
+     * @param[in] client_ip Input parameter.
      */
     void recordQuicSuccess(const std::string& client_ip);
 
     /**
-     * @brief Return true if this client should use HTTP/2 instead of QUIC.
+     * @brief Should Fallback To Http2.
+     * @param[in] client_ip Input parameter.
+     * @return True when the operation succeeds.
      */
     bool shouldFallbackToHttp2(const std::string& client_ip) const;
 
     /**
-     * @brief Generate the Alt-Svc header value announcing HTTP/3 support.
-     *
-     * Returns an empty string when @p client_ip is in fallback mode so the
-     * server can suppress the header and the client stops attempting QUIC.
-     *
-     * @param h3_port   UDP port on which HTTP/3 listens.
-     * @param client_ip Source IP of the requesting client.
+     * @brief Alt Svc Value.
+     * @param[in] h3_port Input parameter.
+     * @param[in] client_ip Input parameter.
+     * @return Return value.
      */
     std::string altSvcValue(uint16_t h3_port,
                             const std::string& client_ip) const;
 
     /**
-     * @brief Sweep expired fallback entries (call periodically).
+     * @brief Purge Expired.
      */
     void purgeExpired();
 
     /**
-     * @brief Total number of clients currently in fallback mode.
+     * @brief Fallback Client Count.
+     * @return Return value.
      */
     size_t fallbackClientCount() const;
 

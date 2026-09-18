@@ -24,6 +24,14 @@ FewShotOptimizer::FewShotOptimizer(const FewShotConfig& config)
                  config_.max_examples, config_.diversity_weight);
 }
 
+/**
+ * @brief Select Examples.
+ * @param[in] query Input parameter.
+ * @param[in] candidate_examples Input parameter.
+ * @param[in] num_examples Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), THEMIS_WARN(), value_or(), std::max(), std::min(), size(), THEMIS_DEBUG(), greedyDiversitySelection().
+ */
 SelectionResult FewShotOptimizer::selectExamples(
     const std::string& query,
     const std::vector<FewShotExample>& candidate_examples,
@@ -76,6 +84,11 @@ SelectionResult FewShotOptimizer::selectExamples(
     return result;
 }
 
+/**
+ * @brief Cache Examples.
+ * @param[in] examples Input parameter.
+ * @details Calls: push_back(), size(), erase(), begin(), updateQueryIndex(), THEMIS_DEBUG().
+ */
 void FewShotOptimizer::cacheExamples(const std::vector<FewShotExample>& examples) {
     if (!config_.enable_caching) {
         return;
@@ -128,12 +141,23 @@ std::vector<FewShotExample> FewShotOptimizer::getCachedExamples(
     return results;
 }
 
+/**
+ * @brief Clear Cache.
+ * @details Calls: clear(), THEMIS_DEBUG().
+ */
 void FewShotOptimizer::clearCache() {
     cache_.clear();
     query_index_.clear();
     THEMIS_DEBUG("Cleared example cache");
 }
 
+/**
+ * @brief Compute Relevance.
+ * @param[in] query Input parameter.
+ * @param[in] example Input parameter.
+ * @return Return value.
+ * @details Calls: iss(), std::transform(), begin(), end(), push_back(), tokenize(), empty(), query_set().
+ */
 double FewShotOptimizer::computeRelevance(
     const std::string& query,
     const FewShotExample& example
@@ -172,6 +196,12 @@ double FewShotOptimizer::computeRelevance(
     return (union_size > 0) ? static_cast<double>(intersection) / union_size : 0.0;
 }
 
+/**
+ * @brief Compute Diversity.
+ * @param[in] examples Input parameter.
+ * @return Return value.
+ * @details Calls: size(), computeSimilarity().
+ */
 double FewShotOptimizer::computeDiversity(
     const std::vector<FewShotExample>& examples
 ) {
@@ -194,6 +224,13 @@ double FewShotOptimizer::computeDiversity(
     return (pair_count > 0) ? total_dissimilarity / pair_count : 1.0;
 }
 
+/**
+ * @brief Format Examples.
+ * @param[in] examples Input parameter.
+ * @param[in] format Input parameter.
+ * @return Return value.
+ * @details Calls: size(), find(), replace(), length(), str().
+ */
 std::string FewShotOptimizer::formatExamples(
     const std::vector<FewShotExample>& examples,
     const std::string& format
@@ -231,6 +268,14 @@ nlohmann::json FewShotOptimizer::getCacheStats() const {
     return stats;
 }
 
+/**
+ * @brief Greedy Diversity Selection.
+ * @param[in] query Input parameter.
+ * @param[in] candidates Input parameter.
+ * @param[in] num_examples Input parameter.
+ * @return Return value.
+ * @details Calls: computeRelevance(), std::sort(), begin(), end(), empty(), push_back(), erase(), size().
+ */
 std::vector<FewShotExample> FewShotOptimizer::greedyDiversitySelection(
     const std::string& query,
     const std::vector<FewShotExample>& candidates,
@@ -291,6 +336,13 @@ std::vector<FewShotExample> FewShotOptimizer::greedyDiversitySelection(
     return selected;
 }
 
+/**
+ * @brief Compute Similarity.
+ * @param[in] ex1 Input parameter.
+ * @param[in] ex2 Input parameter.
+ * @return Return value.
+ * @details Calls: iss(), std::transform(), begin(), end(), insert(), tokenize(), count(), size().
+ */
 double FewShotOptimizer::computeSimilarity(
     const FewShotExample& ex1,
     const FewShotExample& ex2
@@ -336,6 +388,10 @@ double FewShotOptimizer::computeSimilarity(
     return (sim_in + sim_out) / 2.0;
 }
 
+/**
+ * @brief Update Query Index.
+ * @details Calls: clear(), size(), iss(), std::transform(), begin(), end(), push_back().
+ */
 void FewShotOptimizer::updateQueryIndex() {
     // Simple indexing: map first words to example indices
     query_index_.clear();

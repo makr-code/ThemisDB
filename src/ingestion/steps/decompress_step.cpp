@@ -31,9 +31,12 @@ namespace themis {
 namespace ingestion {
 namespace builtin {
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Internal helper: fork/execvp without shell
-// ─────────────────────────────────────────────────────────────────────────────
+/**
+ * @brief ───────────────────────────────────────────────────────────────────────────── Internal helper: fork/execvp without shell ─────────────────────────────────────────────────────────────────────────────
+ * @param[in] argv_vec Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: defined(), push_back(), fork(), execvp(), data(), _exit(), waitpid(), WIFEXITED().
+ */
 
 static bool runProcess(const std::vector<const char*>& argv_vec) {
 #if defined(_WIN32)
@@ -63,9 +66,12 @@ static bool runProcess(const std::vector<const char*>& argv_vec) {
 #endif
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Walk a directory tree and collect all regular file paths
-// ─────────────────────────────────────────────────────────────────────────────
+/**
+ * @brief ───────────────────────────────────────────────────────────────────────────── Walk a directory tree and collect all regular file paths ─────────────────────────────────────────────────────────────────────────────
+ * @param[in] dir Input parameter.
+ * @param[in,out] out Input/output parameter.
+ * @details Calls: fs::recursive_directory_iterator(), is_regular_file(), push_back(), path(), string().
+ */
 
 static void collectPaths(const std::string& dir,
                           std::vector<std::string>& out) {
@@ -82,7 +88,6 @@ static void collectPaths(const std::string& dir,
 // DecompressStep
 // ─────────────────────────────────────────────────────────────────────────────
 
-/** @brief DecompressStep. */
 class DecompressStep final : public IIngestionStep {
 public:
     // IThemisPlugin boilerplate
@@ -205,6 +210,11 @@ public:
     }
 };
 
+/**
+ * @brief Create Decompress Step.
+ * @return Return value.
+ * @details Implements createDecompressStep without additional internal calls.
+ */
 std::shared_ptr<IIngestionStep> createDecompressStep() {
     return std::make_shared<DecompressStep>();
 }

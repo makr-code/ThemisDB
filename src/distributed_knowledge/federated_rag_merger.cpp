@@ -401,9 +401,13 @@ std::vector<RetrievedDocument> FederatedRAGMerger::deduplicate(std::vector<Retri
     return result;
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// DK-OR: GDPR erase (clears cached merge context)
-// ─────────────────────────────────────────────────────────────────────────────
+/**
+ * @brief ───────────────────────────────────────────────────────────────────────────── DK-OR: GDPR erase (clears cached merge context) ─────────────────────────────────────────────────────────────────────────────
+ * @param[in] param Input parameter.
+ * @param[in] Regulation Input parameter.
+ * @return Return value.
+ * @details Implements erase without additional internal calls.
+ */
 
 themis::governance::StoreErasureResult FederatedRAGMerger::erase(const std::string & /*subject_id*/,
                                                                  themis::governance::Regulation /*regulation*/) {

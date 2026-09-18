@@ -35,9 +35,10 @@ EvictionScheduler::EvictionScheduler(EvictionScoringFn scoring_fn)
     }
 }
 
-// ---------------------------------------------------------------------------
-// EvictionScheduler::set_scoring_fn
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- EvictionScheduler::set_scoring_fn ---------------------------------------------------------------------------
+ * @param[in] scoring_fn Input parameter.
+ */
 
 void EvictionScheduler::set_scoring_fn(EvictionScoringFn scoring_fn)
 {

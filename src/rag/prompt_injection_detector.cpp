@@ -50,7 +50,6 @@ size_t InjectionScanResult::countAtOrAbove(InjectionSeverity threshold) const
 
 namespace {
 
-/// A single detection rule.
 struct DetectionRule {
     std::string       category;
     InjectionSeverity severity;
@@ -58,12 +57,10 @@ struct DetectionRule {
     std::regex        pattern = {};
 };
 
-/// Build the static rule list (shared registry base + RAG-specific rules).
-/// Gap 5 (AI_ML_IMPACT_ASSESSMENT.md §7): patterns 1-11 come from
-/// PromptInjectionPatternRegistry::defaultRegistry() so that any pattern
-/// added there automatically appears here too.  RAG-specific patterns
-/// (score_manipulation, role_headers, separator, markup, exfiltration)
-/// are appended after the shared base.
+/**
+ * @brief Get Rules.
+ * @return Return value.
+ */
 const std::vector<DetectionRule>& getRules()
 {
     // Startup assertion: registry size must match the compile-time constant.
@@ -168,7 +165,11 @@ const std::vector<DetectionRule>& getRules()
     return rules;
 }
 
-/// Check for Unicode direction-override and homoglyph characters.
+/**
+ * @brief Check Unicode Attacks.
+ * @param[in] text Input parameter.
+ * @return Return value.
+ */
 std::vector<InjectionFinding> checkUnicodeAttacks(const std::string& text)
 {
     std::vector<InjectionFinding> findings;
@@ -205,7 +206,12 @@ std::vector<InjectionFinding> checkUnicodeAttacks(const std::string& text)
     return findings;
 }
 
-/// Compute injection density: fraction of lines containing a finding.
+/**
+ * @brief Compute Injection Density.
+ * @param[in] text Input parameter.
+ * @param[in] findings Input parameter.
+ * @return Return value.
+ */
 double computeInjectionDensity(
     const std::string&                      text,
     const std::vector<InjectionFinding>&    findings)

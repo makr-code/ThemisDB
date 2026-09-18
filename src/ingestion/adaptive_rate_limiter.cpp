@@ -96,6 +96,12 @@ RateLimitInfo parseRateLimitHeaders(
 // AdaptiveRateLimiter implementation
 // ============================================================================
 
+/**
+ * @brief Try Acquire Token.
+ * @param[in] allow_wait Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), refillTokens(), wait_duration(), std::chrono::steady_clock::now(), unlock(), std::this_thread::sleep_until().
+ */
 bool AdaptiveRateLimiter::tryAcquireToken(bool allow_wait) {
     std::unique_lock<std::mutex> lock(mutex_);
 
@@ -135,6 +141,11 @@ bool AdaptiveRateLimiter::tryAcquireToken(bool allow_wait) {
 void AdaptiveRateLimiter::recordResponse(
     int http_status_code,
     const std::map<std::string, std::string>& response_headers) {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     if (http_status_code == 429) {  // Too Many Requests
@@ -189,12 +200,22 @@ void AdaptiveRateLimiter::recordResponse(
 }
 
 AdaptiveRateLimiter::Stats AdaptiveRateLimiter::getStats() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     Stats s = stats_;
     s.current_rate_limit = current_rate_limit_;
     return s;
 }
 
+/**
+ * @brief Set Rate Limit.
+ * @param[in] requests_per_sec Input parameter.
+ * @details Calls: lock(), std::clamp().
+ */
 void AdaptiveRateLimiter::setRateLimit(double requests_per_sec) {
     std::lock_guard<std::mutex> lock(mutex_);
     current_rate_limit_ = std::clamp(
@@ -204,10 +225,19 @@ void AdaptiveRateLimiter::setRateLimit(double requests_per_sec) {
 }
 
 double AdaptiveRateLimiter::getRateLimit() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return current_rate_limit_;
 }
 
+/**
+ * @brief Reset To Initial.
+ * @details Calls: lock(), Stats(), std::chrono::steady_clock::now().
+ */
 void AdaptiveRateLimiter::resetToInitial() {
     std::lock_guard<std::mutex> lock(mutex_);
     current_rate_limit_ = config_.initial_requests_per_sec;
@@ -217,6 +247,10 @@ void AdaptiveRateLimiter::resetToInitial() {
     measurement_window_start_ = last_token_time_;
 }
 
+/**
+ * @brief Refill Tokens.
+ * @details Calls: std::chrono::steady_clock::now(), count(), std::min().
+ */
 void AdaptiveRateLimiter::refillTokens() {
     const auto now = std::chrono::steady_clock::now();
     if (last_token_time_ == std::chrono::steady_clock::time_point{}) {
@@ -233,17 +267,30 @@ void AdaptiveRateLimiter::refillTokens() {
     last_token_time_ = now;
 }
 
+/**
+ * @brief Update Stats Success.
+ * @details Implements updateStatsSuccess without additional internal calls.
+ */
 void AdaptiveRateLimiter::updateStatsSuccess() {
     stats_.successful_requests++;
     stats_.total_requests++;
 }
 
+/**
+ * @brief Update Stats Throttle.
+ * @details Implements updateStatsThrottle without additional internal calls.
+ */
 void AdaptiveRateLimiter::updateStatsThrottle() {
     stats_.throttled_requests++;
     stats_.total_requests++;
     stats_.consecutive_throttles++;
 }
 
+/**
+ * @brief Adjust Rate Limit.
+ * @param[in] info Input parameter.
+ * @details Calls: std::max().
+ */
 void AdaptiveRateLimiter::adjustRateLimit(const RateLimitInfo& info) {
     if (!info.is_rate_limited || info.limit_per_window == 0) {
         return;
@@ -263,6 +310,13 @@ void AdaptiveRateLimiter::adjustRateLimit(const RateLimitInfo& info) {
 // RateLimiterPool implementation
 // ============================================================================
 
+/**
+ * @brief Register Limiter.
+ * @param[in] connector_name Name of the connector.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @details Calls: lock().
+ */
 AdaptiveRateLimiter& RateLimiterPool::registerLimiter(
     const std::string& connector_name,
     const AdaptiveRateLimiterConfig& config) {
@@ -274,6 +328,12 @@ AdaptiveRateLimiter& RateLimiterPool::registerLimiter(
     return *limiter;
 }
 
+/**
+ * @brief Get Limiter.
+ * @param[in] connector_name Name of the connector.
+ * @return Pointer to the result.
+ * @details Calls: lock(), find(), end(), get().
+ */
 AdaptiveRateLimiter* RateLimiterPool::getLimiter(
     const std::string& connector_name) {
     std::lock_guard<std::mutex> lock(mutex_);
@@ -286,6 +346,11 @@ AdaptiveRateLimiter* RateLimiterPool::getLimiter(
 
 const AdaptiveRateLimiter* RateLimiterPool::getLimiter(
     const std::string& connector_name) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = limiters_.find(connector_name);
     if (it != limiters_.end()) {
@@ -294,12 +359,23 @@ const AdaptiveRateLimiter* RateLimiterPool::getLimiter(
     return nullptr;
 }
 
+/**
+ * @brief Unregister Limiter.
+ * @param[in] connector_name Name of the connector.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), erase().
+ */
 bool RateLimiterPool::unregisterLimiter(const std::string& connector_name) {
     std::lock_guard<std::mutex> lock(mutex_);
     return limiters_.erase(connector_name) > 0;
 }
 
 std::vector<std::string> RateLimiterPool::listLimiters() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     std::vector<std::string> names = {};
 
@@ -309,6 +385,10 @@ std::vector<std::string> RateLimiterPool::listLimiters() const {
     return names;
 }
 
+/**
+ * @brief Clear.
+ * @details Calls: lock().
+ */
 void RateLimiterPool::clear() {
     std::lock_guard<std::mutex> lock(mutex_);
     limiters_.clear();

@@ -32,16 +32,30 @@ namespace {
     static TensorFingerprintGraph::ExactSimilarityFn s_exact_sim_fn;
 } // namespace
 
+/**
+ * @brief Set Exact Similarity Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void TensorFingerprintGraph::setExactSimilarityFn(ExactSimilarityFn fn) {
     std::lock_guard<std::mutex> lock(s_exact_sim_fn_mutex);
     s_exact_sim_fn = std::move(fn);
 }
 
+/**
+ * @brief Clear Exact Similarity Fn.
+ * @details Calls: lock().
+ */
 void TensorFingerprintGraph::clearExactSimilarityFn() {
     std::lock_guard<std::mutex> lock(s_exact_sim_fn_mutex);
     s_exact_sim_fn = nullptr;
 }
 
+/**
+ * @brief Get Exact Similarity Fn.
+ * @return Return value.
+ * @details Calls: lock().
+ */
 static TensorFingerprintGraph::ExactSimilarityFn getExactSimilarityFn() {
     std::lock_guard<std::mutex> lock(s_exact_sim_fn_mutex);
     return s_exact_sim_fn;
@@ -115,6 +129,16 @@ float TensorFingerprintGraph::cosineSimilarityZeroPadded(
 // addAdapter()
 // ============================================================================
 
+/**
+ * @brief Add Adapter.
+ * @param[in] adapter_key Input parameter.
+ * @param[in] train Input parameter.
+ * @param[in] domain Input parameter.
+ * @param[in] base_model_id Identifier of the base model.
+ * @param[in] tenant_id Identifier of the tenant.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), columnMeans(), std::sqrt(), std::move(), storage::TensorTrainDecomposer::innerProduct(), lock(), slock(), size().
+ */
 bool TensorFingerprintGraph::addAdapter(const std::string&        adapter_key,
                                          const storage::TTTrain&   train,
                                          const std::string&        domain,
@@ -179,6 +203,12 @@ bool TensorFingerprintGraph::addAdapter(const std::string&        adapter_key,
 // removeAdapter()
 // ============================================================================
 
+/**
+ * @brief Remove Adapter.
+ * @param[in] adapter_key Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), erase(), slock(), size().
+ */
 bool TensorFingerprintGraph::removeAdapter(const std::string& adapter_key) {
     std::unique_lock lock(mutex_);
     const bool removed = entries_.erase(adapter_key) > 0;
@@ -211,6 +241,11 @@ TensorFingerprintGraph::findSimilarByFingerprint(
     std::size_t comparisons = 0;
 
     {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::shared_lock lock(mutex_);
         results.reserve(entries_.size());
 
@@ -248,6 +283,11 @@ TensorFingerprintGraph::findSimilarByFingerprint(
     }
 
     {
+        /**
+         * @brief Slock.
+         * @param[in] stats_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock slock(stats_mutex_);
         ++stats_.total_query_calls;
         stats_.total_comparisons += comparisons;
@@ -269,6 +309,11 @@ TensorFingerprintGraph::findSimilar(const std::string& query_key,
     std::vector<std::pair<std::string, FingerprintEntry>> candidates;
     double query_self_ip = 0.0;
     {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::shared_lock lock(mutex_);
         const auto it_train = trains_.find(query_key);
         if (it_train == trains_.end()) return {};
@@ -337,6 +382,11 @@ TensorFingerprintGraph::findSimilar(const std::string& query_key,
             ++comparisons;
         }
     } else {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::shared_lock lock(mutex_);
         for (const auto& [key, entry] : candidates) {
             const auto it_train = trains_.find(key);
@@ -402,6 +452,11 @@ TensorFingerprintGraph::findSimilar(const std::string& query_key,
     }
 
     {
+        /**
+         * @brief Slock.
+         * @param[in] stats_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock slock(stats_mutex_);
         ++stats_.total_query_calls;
         stats_.total_comparisons += comparisons;
@@ -416,6 +471,11 @@ TensorFingerprintGraph::findSimilar(const std::string& query_key,
 
 std::optional<FingerprintEntry>
 TensorFingerprintGraph::entry(const std::string& adapter_key) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock lock(mutex_);
     auto it = entries_.find(adapter_key);
     if (it == entries_.end()) {
@@ -425,11 +485,21 @@ TensorFingerprintGraph::entry(const std::string& adapter_key) const {
 }
 
 std::size_t TensorFingerprintGraph::size() const noexcept {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock lock(mutex_);
     return entries_.size();
 }
 
 std::vector<std::string> TensorFingerprintGraph::adapterKeys() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock lock(mutex_);
     std::vector<std::string> keys = {};
 
@@ -443,6 +513,11 @@ std::vector<std::string> TensorFingerprintGraph::adapterKeys() const {
 
 TensorFingerprintGraph::GraphStats
 TensorFingerprintGraph::stats() const noexcept {
+    /**
+     * @brief Lock.
+     * @param[in] stats_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock lock(stats_mutex_);
     return stats_;
 }

@@ -43,6 +43,14 @@ VoiceBiometricAuthenticator::VoiceBiometricAuthenticator(
 // Enrollment
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Enroll voice.
+ * @param[in] user_id Identifier of the user.
+ * @param[in] audio_samples Input parameter.
+ * @param[in,out] out_profile_id Identifier of the out profile.
+ * @param[in] config Input parameter.
+ * @return True when the operation succeeds.
+ */
 bool VoiceBiometricAuthenticator::enroll_voice(
     const std::string&                        user_id,
     const std::vector<std::vector<uint8_t>>& audio_samples,
@@ -115,6 +123,11 @@ bool VoiceBiometricAuthenticator::enroll_voice(
     }
     l2Normalize(mean_fv);
 
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     // Only one profile per user_id is supported.
@@ -138,9 +151,12 @@ bool VoiceBiometricAuthenticator::enroll_voice(
     return true;
 }
 
-// ---------------------------------------------------------------------------
-// Verification (1:1)
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- Verification (1:1) ---------------------------------------------------------------------------
+ * @param[in] profile_id Identifier of the profile.
+ * @param[in] audio_sample Input parameter.
+ * @return Return value.
+ */
 
 VerificationResult VoiceBiometricAuthenticator::verify_speaker(
     const VoiceProfileID&        profile_id,
@@ -154,6 +170,11 @@ VerificationResult VoiceBiometricAuthenticator::verify_speaker(
         return result;
     }
 
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     auto it = profiles_.find(profile_id);
@@ -174,9 +195,12 @@ VerificationResult VoiceBiometricAuthenticator::verify_speaker(
     return result;
 }
 
-// ---------------------------------------------------------------------------
-// Identification (1:N)
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- Identification (1:N) ---------------------------------------------------------------------------
+ * @param[in] candidate_profiles Input parameter.
+ * @param[in] audio_sample Input parameter.
+ * @return Return value.
+ */
 
 IdentificationResult VoiceBiometricAuthenticator::identify_speaker(
     const std::vector<VoiceProfileID>& candidate_profiles,
@@ -191,6 +215,11 @@ IdentificationResult VoiceBiometricAuthenticator::identify_speaker(
     auto probe_fv = extractFeatures(audio_sample);
     l2Normalize(probe_fv);
 
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     for (const auto& pid : candidate_profiles) {
@@ -232,6 +261,11 @@ IdentificationResult VoiceBiometricAuthenticator::identify_speaker(
 // Liveness detection
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Detect liveness.
+ * @param[in] audio_sample Input parameter.
+ * @return Return value.
+ */
 LivenessScore VoiceBiometricAuthenticator::detect_liveness(
     const std::vector<uint8_t>& audio_sample)
 {
@@ -415,6 +449,12 @@ LivenessScore VoiceBiometricAuthenticator::detect_liveness(
 // Full authentication
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Authenticate.
+ * @param[in] user_id Identifier of the user.
+ * @param[in] audio_sample Input parameter.
+ * @return Authentication result.
+ */
 VoiceAuthResult VoiceBiometricAuthenticator::authenticate(
     const std::string&          user_id,
     const std::vector<uint8_t>& audio_sample)
@@ -458,6 +498,11 @@ VoiceAuthResult VoiceBiometricAuthenticator::authenticate(
     // 2. Look up profile
     VoiceProfileID pid;
     {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         auto it = user_to_profile_.find(user_id);
         if (it != user_to_profile_.end()) {
@@ -486,6 +531,11 @@ VoiceAuthResult VoiceBiometricAuthenticator::authenticate(
     result.decision_reason = "authenticated";
 
     {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         ++successful_authentications_;
     }
@@ -499,9 +549,19 @@ VoiceAuthResult VoiceBiometricAuthenticator::authenticate(
 // Profile management
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Delete profile.
+ * @param[in] profile_id Identifier of the profile.
+ * @return True when the operation succeeds.
+ */
 bool VoiceBiometricAuthenticator::delete_profile(
     const VoiceProfileID& profile_id)
 {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = profiles_.find(profile_id);
     if (it == profiles_.end()) {
@@ -515,11 +575,21 @@ bool VoiceBiometricAuthenticator::delete_profile(
 bool VoiceBiometricAuthenticator::has_profile(
     const VoiceProfileID& profile_id) const
 {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return profiles_.count(profile_id) > 0;
 }
 
 std::vector<VoiceProfileID> VoiceBiometricAuthenticator::list_profiles() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     std::vector<VoiceProfileID> ids = {};
 
@@ -533,6 +603,11 @@ std::vector<VoiceProfileID> VoiceBiometricAuthenticator::list_profiles() const {
 std::optional<std::string> VoiceBiometricAuthenticator::get_user_id(
     const VoiceProfileID& profile_id) const
 {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = profiles_.find(profile_id);
     if (it == profiles_.end()) {
@@ -545,6 +620,11 @@ std::optional<std::string> VoiceBiometricAuthenticator::get_user_id(
 // Configuration & statistics
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Set config.
+ * @param[in] config Input parameter.
+ * @details Calls: lock().
+ */
 void VoiceBiometricAuthenticator::set_config(const VoiceAuthConfig& config) {
     std::lock_guard<std::mutex> lock(mutex_);
     config_ = config;
@@ -553,16 +633,31 @@ void VoiceBiometricAuthenticator::set_config(const VoiceAuthConfig& config) {
 void VoiceBiometricAuthenticator::setAuthAuditCallback(
     std::function<void(const std::string&, const VoiceAuthResult&)> callback)
 {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     auth_audit_callback_ = std::move(callback);
 }
 
 VoiceAuthConfig VoiceBiometricAuthenticator::get_config() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return config_;
 }
 
 json VoiceBiometricAuthenticator::get_statistics() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     json stats;
     stats["enrolled_profiles"]        = profiles_.size();
@@ -574,12 +669,22 @@ json VoiceBiometricAuthenticator::get_statistics() const {
     return stats;
 }
 
+/**
+ * @brief Emit Auth Audit Event.
+ * @param[in] claimed_user_id Identifier of the claimed user.
+ * @param[in] result Input parameter.
+ */
 void VoiceBiometricAuthenticator::emitAuthAuditEvent(
     const std::string& claimed_user_id,
     const VoiceAuthResult& result)
 {
     std::function<void(const std::string&, const VoiceAuthResult&)> callback;
     {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         ++total_auth_audit_events_;
         callback = auth_audit_callback_;
@@ -598,22 +703,6 @@ void VoiceBiometricAuthenticator::emitAuthAuditEvent(
 // Private: feature extraction
 // ---------------------------------------------------------------------------
 
-/**
- * Compute a 32-dimensional acoustic feature vector from raw PCM audio.
- *
- * Sub-band layout (8 equal-width bands):
- *   Indices 0–7:   Sub-band RMS energy (normalised by overall RMS)
- *   Indices 8–15:  Sub-band zero-crossing rate (normalised)
- *   Index  16:     Spectral centroid (normalised to [0,1])
- *   Index  17:     Spectral spread (normalised)
- *   Index  18:     Spectral skewness
- *   Index  19:     Spectral kurtosis
- *   Index  20:     Global RMS energy
- *   Index  21:     Crest factor (normalised to [0,1])
- *   Index  22:     Peak amplitude
- *   Index  23:     Spectral flatness
- *   Indices 24–31: Delta sub-band RMS (band[i+1] – band[i], padded)
- */
 std::vector<float> VoiceBiometricAuthenticator::extractFeatures(
     const std::vector<uint8_t>& audio) const
 {
@@ -756,6 +845,11 @@ std::vector<float> VoiceBiometricAuthenticator::pcmToFloat(
 {
     // Interpret as 16-bit little-endian signed PCM.
     const size_t n = raw.size() / 2;
+    /**
+     * @brief Out.
+     * @param[in] n Input parameter.
+     * @return Return value.
+     */
     std::vector<float> out(n);
     for (size_t i = 0; i < n; ++i) {
         int16_t s = static_cast<int16_t>(

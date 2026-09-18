@@ -67,6 +67,14 @@ uint32_t QuorumLog::computeCrc32(uint64_t epoch, const std::string& node_id,
     return crc;
 }
 
+/**
+ * @brief Append.
+ * @param[in] epoch Input parameter.
+ * @param[in] node_id Identifier of the node.
+ * @param[in] decision Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), computeCrc32(), find(), spdlog::error(), ofs(), string().
+ */
 bool QuorumLog::append(uint64_t epoch, const std::string& node_id,
                         const std::string& decision) {
     const int64_t ts_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
@@ -102,6 +110,11 @@ bool QuorumLog::append(uint64_t epoch, const std::string& node_id,
 QuorumState QuorumLog::recover() const {
     QuorumState state;
 
+    /**
+     * @brief Ifs.
+     * @param[in] log_path_ Input parameter.
+     * @return Return value.
+     */
     std::ifstream ifs(log_path_);
     if (!ifs) {
         // File absent or unreadable — return empty state
@@ -118,6 +131,11 @@ QuorumState QuorumLog::recover() const {
 
         // Parse: epoch|node_id|decision|timestamp_ms|crc32
         std::array<std::string, 5> fields;
+        /**
+         * @brief Ss.
+         * @param[in] line Input parameter.
+         * @return Return value.
+         */
         std::istringstream ss(line);
         bool ok = true;
         for (int i = 0; i < 5; ++i) {

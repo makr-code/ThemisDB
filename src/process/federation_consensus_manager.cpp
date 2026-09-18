@@ -57,27 +57,17 @@ namespace process {
 // CONSENSUS LOG ENTRY
 // ============================================================================
 
-/**
- * @brief Single entry in the replicated consensus log.
- * @internal
- */
 struct ConsensusLogEntry {
-  /// Term in which entry was received by leader
   uint64_t term = 0;
 
-  /// Index in log (1-based)
   uint64_t index = 0;
 
-  /// Operation data (serialized model mutation, as bytes)
   std::string data;
 
-  /// CRC32 checksum for integrity verification
   uint32_t checksum = 0;
 
-  /// Timestamp when entry was appended (UTC epoch ms)
   uint64_t timestamp_ms = 0;
 
-  /// Whether this entry has been committed (applied to state machine)
   bool is_committed = false;
 };
 
@@ -85,31 +75,8 @@ struct ConsensusLogEntry {
 // FEDERATION CONSENSUS MANAGER
 // ============================================================================
 
-/**
- * @class FederationConsensusManager
- * @brief Raft-inspired consensus manager for federated deployments.
- *
- * Coordinates quorum-based voting, leader election, log replication,
- * and Byzantine fault tolerance across multiple Process Module replicas.
- *
- * ### Thread Safety
- * All public methods are thread-safe via fine-grained locking.
- * Lock ordering must be respected to prevent deadlocks.
- *
- * ### Performance
- * - Leader election: < 5s under normal network conditions
- * - Log replication: < 50ms P95 for quorum commit
- * - Consensus round-trip: < 100ms P95 (GATE-CONS-01)
- */
-/** @brief Federation consensus manager implementation detail. */
 class FederationConsensusManagerImpl {
  public:
-  /**
-   * @brief Constructor.
-   * @param config Consensus configuration (node ID, quorum size, network latency)
-   * @param node_id Unique identifier for this node (e.g., "node-1")
-   * @param quorum_size Number of nodes in quorum (typically 3, 5, 7)
-   */
   FederationConsensusManagerImpl(
       const FederationConsensusConfig& config,
       const std::string& node_id,
@@ -132,9 +99,6 @@ class FederationConsensusManagerImpl {
                         node_id_.c_str(), quorum_size_);
   }
 
-  /**
-   * @brief Destructor.
-   */
   ~FederationConsensusManagerImpl() = default;
 
   // ========================================================================
@@ -142,43 +106,31 @@ class FederationConsensusManagerImpl {
   // ========================================================================
 
   /**
-   * @brief Append a new entry to the consensus log.
-   *
-   * If this node is the leader, entry is replicated to followers via RPC.
-   * If this node is a follower, entry is rejected (must contact leader).
-   *
-   * @param data Entry data (serialized model mutation)
-   * @return Index of entry in log (if leader), 0 if not leader
-   * @throws std::logic_error if quorum unavailable (no majority)
-   * @thread_safe Acquires consensus_mutex_, replica_mutex_, log_mutex_
+   * @brief Append Entry.
+   * @param[in] data Input parameter.
+   * @return Return value.
    */
   uint64_t AppendEntry(const std::string& data);
 
   /**
-   * @brief Check if this node is currently the leader.
-   *
-   * @return true if node is leader and quorum available, false otherwise
-   * @thread_safe Acquires consensus_mutex_
+   * @brief Is Leader.
+   * @return True when the operation succeeds.
    */
   bool IsLeader() const;
 
   /**
-   * @brief Get the current leader node ID.
-   *
-   * @return Leader ID (may be empty string if no leader elected)
-   * @thread_safe Acquires consensus_mutex_
+   * @brief Get Leader.
+   * @return Return value.
    */
   std::string GetLeader() const;
 
   /**
-   * @brief Request a vote from this node (called by remote candidate).
-   *
-   * @param candidate_id ID of candidate requesting vote
-   * @param candidate_term Term of candidate
-   * @param candidate_last_log_index Last log index on candidate
-   * @param candidate_last_log_term Last log term on candidate
-   * @return true if vote granted, false otherwise
-   * @thread_safe Acquires consensus_mutex_
+   * @brief Request Vote.
+   * @param[in] candidate_id Identifier of the candidate.
+   * @param[in] candidate_term Input parameter.
+   * @param[in] candidate_last_log_index Input parameter.
+   * @param[in] candidate_last_log_term Input parameter.
+   * @return True when the operation succeeds.
    */
   bool RequestVote(const std::string& candidate_id,
                    uint64_t candidate_term,
@@ -186,16 +138,14 @@ class FederationConsensusManagerImpl {
                    uint64_t candidate_last_log_term);
 
   /**
-   * @brief Receive append-entries RPC from leader (heartbeat or log replication).
-   *
-   * @param leader_id ID of leader
-   * @param leader_term Current term of leader
-   * @param prev_log_index Index of log entry before new ones
-   * @param prev_log_term Term of log entry at prev_log_index
-   * @param entries Log entries to append (empty for heartbeat)
-   * @param leader_commit Commit index on leader
-   * @return true if successfully appended, false if log mismatch
-   * @thread_safe Acquires consensus_mutex_, replica_mutex_, log_mutex_
+   * @brief Append Entries.
+   * @param[in] leader_id Identifier of the leader.
+   * @param[in] leader_term Input parameter.
+   * @param[in] prev_log_index Input parameter.
+   * @param[in] prev_log_term Input parameter.
+   * @param[in] entries Input parameter.
+   * @param[in] leader_commit Input parameter.
+   * @return True when the operation succeeds.
    */
   bool AppendEntries(const std::string& leader_id,
                      uint64_t leader_term,
@@ -205,14 +155,7 @@ class FederationConsensusManagerImpl {
                      uint64_t leader_commit);
 
   /**
-   * @brief Tick the consensus state machine (called periodically by reactor).
-   *
-   * Performs:
-   * - Election timeout check (if follower, convert to candidate)
-   * - Heartbeat broadcasting (if leader)
-   * - Failure detection and re-election
-   *
-   * @thread_safe Acquires consensus_mutex_, replica_mutex_
+   * @brief Tick.
    */
   void Tick();
 
@@ -227,59 +170,64 @@ class FederationConsensusManagerImpl {
   static constexpr uint64_t kAppendEntriesTimeoutMs = 5000;
 
   /**
-   * @brief Become candidate and initiate leader election.
-   * @pre consensus_mutex_ must be held
+   * @brief Become Candidate.
    */
   void BecomeCandidate();
 
   /**
-   * @brief Become leader.
-   * @pre consensus_mutex_ must be held
+   * @brief Become Leader.
    */
   void BecomeLeader();
 
   /**
-   * @brief Become follower and update term.
-   * @pre consensus_mutex_ must be held
+   * @brief Become Follower.
+   * @param[in] new_term Input parameter.
    */
   void BecomeFollower(uint64_t new_term);
 
   /**
-   * @brief Broadcast heartbeat (append-entries RPC with no data).
-   * @pre consensus_mutex_ must be held
+   * @brief Broadcast Heartbeat.
    */
   void BroadcastHeartbeat();
 
   /**
-   * @brief Replicate log entries to all followers.
-   * @pre consensus_mutex_ must be held, replica_mutex_ held, log_mutex_ held
+   * @brief Replicate Log Entries.
    */
   void ReplicateLogEntries();
 
   /**
-   * @brief Check if log entry is more up-to-date than candidate's log.
-   * @pre Caller must ensure terms/indices are valid
+   * @brief Is Log Up To Date.
+   * @param[in] candidate_last_index Input parameter.
+   * @param[in] candidate_last_term Input parameter.
+   * @return True when the operation succeeds.
    */
   bool IsLogUpToDate(uint64_t candidate_last_index, uint64_t candidate_last_term) const;
 
   /**
-   * @brief Get entry at given index (0 if not found).
-   * @pre log_mutex_ must be held
+   * @brief Get Log Entry.
+   * @param[in] index Input parameter.
+   * @return Pointer to the result.
    */
   const ConsensusLogEntry* GetLogEntry(uint64_t index) const;
 
   /**
-   * @brief Get current time in milliseconds.
+   * @brief Get Current Time Ms.
+   * @return Return value.
    */
   static uint64_t GetCurrentTimeMs();
 
   /**
-   * @brief Get random value in [min, max] milliseconds.
+   * @brief Get Random Ms.
+   * @param[in] min_ms Input parameter.
+   * @param[in] max_ms Input parameter.
+   * @return Return value.
    */
   static uint64_t GetRandomMs(uint64_t min_ms, uint64_t max_ms);
 
   /**
-   * @brief Compute CRC32 checksum of data.
+   * @brief Compute Crc32.
+   * @param[in] data Input parameter.
+   * @return Return value.
    */
   static uint32_t ComputeCrc32(const std::string& data);
 
@@ -322,6 +270,11 @@ class FederationConsensusManagerImpl {
 // IMPLEMENTATION
 // ============================================================================
 
+/**
+ * @brief Get Current Time Ms.
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::now(), time_since_epoch(), count().
+ */
 uint64_t FederationConsensusManagerImpl::GetCurrentTimeMs() {
   auto now = std::chrono::system_clock::now();
   return std::chrono::duration_cast<std::chrono::milliseconds>(
@@ -329,6 +282,13 @@ uint64_t FederationConsensusManagerImpl::GetCurrentTimeMs() {
       .count();
 }
 
+/**
+ * @brief Get Random Ms.
+ * @param[in] min_ms Input parameter.
+ * @param[in] max_ms Input parameter.
+ * @return Return value.
+ * @details Calls: rng(), std::this_thread::get_id(), dist().
+ */
 uint64_t FederationConsensusManagerImpl::GetRandomMs(uint64_t min_ms,
                                                      uint64_t max_ms) {
   static thread_local std::mt19937 rng(
@@ -337,6 +297,12 @@ uint64_t FederationConsensusManagerImpl::GetRandomMs(uint64_t min_ms,
   return dist(rng);
 }
 
+/**
+ * @brief Compute Crc32.
+ * @param[in] data Input parameter.
+ * @return Return value.
+ * @details Implements ComputeCrc32 without additional internal calls.
+ */
 uint32_t FederationConsensusManagerImpl::ComputeCrc32(const std::string& data) {
   // Simplified CRC32 (production version uses hardware-accelerated CRC)
   uint32_t crc = 0xFFFFFFFF;
@@ -350,16 +316,32 @@ uint32_t FederationConsensusManagerImpl::ComputeCrc32(const std::string& data) {
 }
 
 bool FederationConsensusManagerImpl::IsLeader() const {
+  /**
+   * @brief Lock.
+   * @param[in] consensus_mutex_ Input parameter.
+   * @return Return value.
+   */
   std::lock_guard<std::mutex> lock(consensus_mutex_);
   return state_ == ServerState::LEADER && !leader_id_.empty() &&
          leader_id_ == node_id_;
 }
 
 std::string FederationConsensusManagerImpl::GetLeader() const {
+  /**
+   * @brief Lock.
+   * @param[in] consensus_mutex_ Input parameter.
+   * @return Return value.
+   */
   std::lock_guard<std::mutex> lock(consensus_mutex_);
   return leader_id_;
 }
 
+/**
+ * @brief Append Entry.
+ * @param[in] data Input parameter.
+ * @return Return value.
+ * @details Calls: consensus_lock(), log_lock(), utils::Logger::Warn(), c_str(), empty(), back(), GetCurrentTimeMs(), ComputeCrc32().
+ */
 uint64_t FederationConsensusManagerImpl::AppendEntry(const std::string& data) {
   std::lock_guard<std::mutex> consensus_lock(consensus_mutex_);
   std::lock_guard<std::mutex> log_lock(log_mutex_);
@@ -399,6 +381,15 @@ bool FederationConsensusManagerImpl::IsLogUpToDate(
   return candidate_last_index >= last_log_index;
 }
 
+/**
+ * @brief Request Vote.
+ * @param[in] candidate_id Identifier of the candidate.
+ * @param[in] candidate_term Input parameter.
+ * @param[in] candidate_last_log_index Input parameter.
+ * @param[in] candidate_last_log_term Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), empty(), IsLogUpToDate(), utils::Logger::Debug(), c_str().
+ */
 bool FederationConsensusManagerImpl::RequestVote(const std::string& candidate_id,
                                                  uint64_t candidate_term,
                                                  uint64_t candidate_last_log_index,
@@ -429,6 +420,17 @@ bool FederationConsensusManagerImpl::RequestVote(const std::string& candidate_id
   return true;
 }
 
+/**
+ * @brief Append Entries.
+ * @param[in] leader_id Identifier of the leader.
+ * @param[in] leader_term Input parameter.
+ * @param[in] prev_log_index Input parameter.
+ * @param[in] prev_log_term Input parameter.
+ * @param[in] entries Input parameter.
+ * @param[in] leader_commit Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), GetCurrentTimeMs(), GetLogEntry(), utils::Logger::Warn(), c_str(), push_back(), replica_lock(), std::max().
+ */
 bool FederationConsensusManagerImpl::AppendEntries(
     const std::string& leader_id, uint64_t leader_term,
     uint64_t prev_log_index, uint64_t prev_log_term,
@@ -478,6 +480,10 @@ bool FederationConsensusManagerImpl::AppendEntries(
   return true;
 }
 
+/**
+ * @brief Tick.
+ * @details Calls: lock(), GetCurrentTimeMs(), utils::Logger::Info(), c_str(), BecomeCandidate(), BroadcastHeartbeat().
+ */
 void FederationConsensusManagerImpl::Tick() {
   std::lock_guard<std::mutex> lock(consensus_mutex_);
 
@@ -496,6 +502,10 @@ void FederationConsensusManagerImpl::Tick() {
   }
 }
 
+/**
+ * @brief Become Candidate.
+ * @details Calls: GetRandomMs(), utils::Logger::Info(), c_str().
+ */
 void FederationConsensusManagerImpl::BecomeCandidate() {
   current_term_++;
   state_ = ServerState::CANDIDATE;
@@ -507,6 +517,10 @@ void FederationConsensusManagerImpl::BecomeCandidate() {
                       current_term_);
 }
 
+/**
+ * @brief Become Leader.
+ * @details Calls: clear(), utils::Logger::Info(), c_str().
+ */
 void FederationConsensusManagerImpl::BecomeLeader() {
   state_ = ServerState::LEADER;
   leader_id_ = node_id_;
@@ -517,6 +531,11 @@ void FederationConsensusManagerImpl::BecomeLeader() {
                       current_term_);
 }
 
+/**
+ * @brief Become Follower.
+ * @param[in] new_term Input parameter.
+ * @details Implements BecomeFollower without additional internal calls.
+ */
 void FederationConsensusManagerImpl::BecomeFollower(uint64_t new_term) {
   if (new_term > current_term_) {
     current_term_ = new_term;
@@ -526,12 +545,20 @@ void FederationConsensusManagerImpl::BecomeFollower(uint64_t new_term) {
   leader_id_ = "";
 }
 
+/**
+ * @brief Broadcast Heartbeat.
+ * @details Calls: GetCurrentTimeMs().
+ */
 void FederationConsensusManagerImpl::BroadcastHeartbeat() {
   // In production, this sends RPC to all followers
   // For now, just update timeout
   last_heartbeat_ms_ = GetCurrentTimeMs();
 }
 
+/**
+ * @brief Replicate Log Entries.
+ * @details Implements ReplicateLogEntries without additional internal calls.
+ */
 void FederationConsensusManagerImpl::ReplicateLogEntries() {
   // In production, this sends log entries to followers
   // Implementation depends on RPC transport layer
@@ -564,6 +591,12 @@ FederationConsensusManager::FederationConsensusManager(
 
 FederationConsensusManager::~FederationConsensusManager() = default;
 
+/**
+ * @brief Append Entry.
+ * @param[in] data Input parameter.
+ * @return Return value.
+ * @details Implements AppendEntry without additional internal calls.
+ */
 uint64_t FederationConsensusManager::AppendEntry(const std::string& data) {
   return impl_->AppendEntry(data);
 }
@@ -576,6 +609,15 @@ std::string FederationConsensusManager::GetLeader() const {
   return impl_->GetLeader();
 }
 
+/**
+ * @brief Request Vote.
+ * @param[in] candidate_id Identifier of the candidate.
+ * @param[in] candidate_term Input parameter.
+ * @param[in] candidate_last_log_index Input parameter.
+ * @param[in] candidate_last_log_term Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements RequestVote without additional internal calls.
+ */
 bool FederationConsensusManager::RequestVote(
     const std::string& candidate_id, uint64_t candidate_term,
     uint64_t candidate_last_log_index, uint64_t candidate_last_log_term) {
@@ -583,6 +625,17 @@ bool FederationConsensusManager::RequestVote(
                             candidate_last_log_index, candidate_last_log_term);
 }
 
+/**
+ * @brief Append Entries.
+ * @param[in] leader_id Identifier of the leader.
+ * @param[in] leader_term Input parameter.
+ * @param[in] prev_log_index Input parameter.
+ * @param[in] prev_log_term Input parameter.
+ * @param[in] entries Input parameter.
+ * @param[in] leader_commit Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: FederationConsensusManagerImpl::ComputeCrc32(), push_back().
+ */
 bool FederationConsensusManager::AppendEntries(
     const std::string& leader_id, uint64_t leader_term,
     uint64_t prev_log_index, uint64_t prev_log_term,
@@ -599,6 +652,10 @@ bool FederationConsensusManager::AppendEntries(
                               prev_log_term, log_entries, leader_commit);
 }
 
+/**
+ * @brief Tick.
+ * @details Implements Tick without additional internal calls.
+ */
 void FederationConsensusManager::Tick() {
   impl_->Tick();
 }

@@ -102,6 +102,12 @@ RubricEvaluator::RubricEvaluator(const Config& config)
 
 RubricEvaluator::~RubricEvaluator() = default;
 
+/**
+ * @brief Load Rubric From YAML.
+ * @param[in] yaml_content Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: json::parse(), value(), contains(), push_back(), validateRubric(), THEMIS_INFO(), THEMIS_ERROR(), what().
+ */
 bool RubricEvaluator::loadRubricFromYAML(const std::string& yaml_content) {
     // Note: In production, this would use a YAML parser like yaml-cpp
     // For now, we'll use a simplified JSON-based approach
@@ -154,6 +160,12 @@ bool RubricEvaluator::loadRubricFromYAML(const std::string& yaml_content) {
     return false;
 }
 
+/**
+ * @brief Load Rubric From File.
+ * @param[in] filepath Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: file(), is_open(), THEMIS_ERROR(), rdbuf(), loadRubricFromYAML(), str().
+ */
 bool RubricEvaluator::loadRubricFromFile(const std::string& filepath) {
     std::ifstream file(filepath);
     if (!file.is_open()) {
@@ -167,6 +179,11 @@ bool RubricEvaluator::loadRubricFromFile(const std::string& filepath) {
     return loadRubricFromYAML(buffer.str());
 }
 
+/**
+ * @brief Set Rubric.
+ * @param[in] rubric Input parameter.
+ * @details Calls: validateRubric(), THEMIS_INFO(), THEMIS_ERROR().
+ */
 void RubricEvaluator::setRubric(const EvaluationRubric& rubric) {
     if (validateRubric(rubric)) {
         impl_->active_rubric = rubric;
@@ -252,6 +269,11 @@ RubricEvaluationResult RubricEvaluator::evaluate(
     return result;
 }
 
+/**
+ * @brief Create Default Rubric.
+ * @return Return value.
+ * @details Calls: push_back().
+ */
 EvaluationRubric RubricEvaluator::createDefaultRubric() {
     EvaluationRubric rubric;
     rubric.name = "default_rag_rubric";
@@ -340,6 +362,12 @@ EvaluationRubric RubricEvaluator::createDefaultRubric() {
     return rubric;
 }
 
+/**
+ * @brief Validate Rubric.
+ * @param[in] rubric Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), THEMIS_ERROR(), std::abs(), THEMIS_WARN().
+ */
 bool RubricEvaluator::validateRubric(const EvaluationRubric& rubric) {
     if (rubric.name.empty()) {
         THEMIS_ERROR("Rubric name is empty");
@@ -374,6 +402,12 @@ bool RubricEvaluator::validateRubric(const EvaluationRubric& rubric) {
     return true;
 }
 
+/**
+ * @brief Normalize Score.
+ * @param[in] level_score Input parameter.
+ * @return Return value.
+ * @details Implements normalizeScore without additional internal calls.
+ */
 double RubricEvaluator::normalizeScore(int level_score) {
     // Convert 1-5 to 0-1 scale
     return (level_score - 1.0) / 4.0;

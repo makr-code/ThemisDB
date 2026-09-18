@@ -356,14 +356,14 @@ void GeospatialCostEstimator::clearMetrics() {
     g_geospatial_estimates.samples.clear();
 }
 
+
 /**
- * @brief ============================================================================= Private Helper Methods =============================================================================
+ * @brief Estimate Distance Selectivity.
  * @param[in] distanceMeters Input parameter.
  * @param[in] histogram Input parameter.
  * @return Return value.
  * @details Calls: std::clamp().
  */
-
 double GeospatialCostEstimator::estimateDistanceSelectivity(
     double distanceMeters,
     const SpatialHistogram* histogram) {

@@ -25,6 +25,12 @@ namespace aql {
 
 namespace {
 
+/**
+ * @brief To Lower Aql Syntax.
+ * @param[in] value Input parameter.
+ * @return Return value.
+ * @details Calls: std::transform(), begin(), end(), std::tolower().
+ */
 std::string toLowerAqlSyntax(std::string value) {
     std::transform(value.begin(), value.end(), value.begin(),
                    [](unsigned char c) { return static_cast<char>(std::tolower(c)); });

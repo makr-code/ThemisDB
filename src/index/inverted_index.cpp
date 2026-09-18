@@ -42,11 +42,27 @@ InvertedIndex::InvertedIndex(RocksDBWrapper& db) : db_(db) {}
 // Key-schema helpers
 // ============================================================================
 
+/**
+ * @brief Make Meta Key.
+ * @param[in] table Input parameter.
+ * @param[in] column Input parameter.
+ * @return Return value.
+ * @details Calls: std::string().
+ */
 std::string InvertedIndex::makeMetaKey(std::string_view table,
                                        std::string_view column) {
     return "ftidxmeta:" + std::string(table) + ":" + std::string(column);
 }
 
+/**
+ * @brief Make Index Key.
+ * @param[in] table Input parameter.
+ * @param[in] column Input parameter.
+ * @param[in] token Input parameter.
+ * @param[in] pk Input parameter.
+ * @return Return value.
+ * @details Calls: std::string().
+ */
 std::string InvertedIndex::makeIndexKey(std::string_view table,
                                         std::string_view column,
                                         std::string_view token,
@@ -55,6 +71,14 @@ std::string InvertedIndex::makeIndexKey(std::string_view table,
            std::string(token) + ":" + std::string(pk);
 }
 
+/**
+ * @brief Make Index Prefix.
+ * @param[in] table Input parameter.
+ * @param[in] column Input parameter.
+ * @param[in] token Input parameter.
+ * @return Return value.
+ * @details Calls: std::string().
+ */
 std::string InvertedIndex::makeIndexPrefix(std::string_view table,
                                            std::string_view column,
                                            std::string_view token) {
@@ -62,6 +86,15 @@ std::string InvertedIndex::makeIndexPrefix(std::string_view table,
            std::string(token) + ":";
 }
 
+/**
+ * @brief Make TFKey.
+ * @param[in] table Input parameter.
+ * @param[in] column Input parameter.
+ * @param[in] token Input parameter.
+ * @param[in] pk Input parameter.
+ * @return Return value.
+ * @details Calls: std::string().
+ */
 std::string InvertedIndex::makeTFKey(std::string_view table,
                                      std::string_view column,
                                      std::string_view token,
@@ -70,6 +103,14 @@ std::string InvertedIndex::makeTFKey(std::string_view table,
            std::string(token) + ":" + std::string(pk);
 }
 
+/**
+ * @brief Make Doc Len Key.
+ * @param[in] table Input parameter.
+ * @param[in] column Input parameter.
+ * @param[in] pk Input parameter.
+ * @return Return value.
+ * @details Calls: std::string().
+ */
 std::string InvertedIndex::makeDocLenKey(std::string_view table,
                                          std::string_view column,
                                          std::string_view pk) {
@@ -77,6 +118,14 @@ std::string InvertedIndex::makeDocLenKey(std::string_view table,
            std::string(pk);
 }
 
+/**
+ * @brief Make Rev Key.
+ * @param[in] table Input parameter.
+ * @param[in] column Input parameter.
+ * @param[in] pk Input parameter.
+ * @return Return value.
+ * @details Calls: std::string().
+ */
 std::string InvertedIndex::makeRevKey(std::string_view table,
                                       std::string_view column,
                                       std::string_view pk) {
@@ -88,11 +137,26 @@ std::string InvertedIndex::makeRevKey(std::string_view table,
 // Index lifecycle
 // ============================================================================
 
+/**
+ * @brief Create.
+ * @param[in] table Input parameter.
+ * @param[in] column Input parameter.
+ * @return Return value.
+ * @details Implements create without additional internal calls.
+ */
 InvertedIndex::Status InvertedIndex::create(std::string_view table,
                                             std::string_view column) {
     return create(table, column, Config{});
 }
 
+/**
+ * @brief Create.
+ * @param[in] table Input parameter.
+ * @param[in] column Input parameter.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), Status::Error(), find(), dump(), bytes(), begin(), end(), put().
+ */
 InvertedIndex::Status InvertedIndex::create(std::string_view table,
                                             std::string_view column,
                                             Config config) {
@@ -123,6 +187,13 @@ InvertedIndex::Status InvertedIndex::create(std::string_view table,
     return Status::OK();
 }
 
+/**
+ * @brief Drop.
+ * @param[in] table Input parameter.
+ * @param[in] column Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), Status::Error(), del(), makeMetaKey(), THEMIS_INFO(), Status::OK().
+ */
 InvertedIndex::Status InvertedIndex::drop(std::string_view table,
                                           std::string_view column) {
     if (table.empty() || column.empty())
@@ -169,6 +240,12 @@ InvertedIndex::getConfig(std::string_view table,
 // Tokenisation
 // ============================================================================
 
+/**
+ * @brief Tokenize.
+ * @param[in] text Input parameter.
+ * @return Return value.
+ * @details Calls: std::isspace(), std::ispunct(), empty(), std::transform(), begin(), end(), std::tolower(), push_back().
+ */
 std::vector<std::string> InvertedIndex::tokenize(std::string_view text) {
     std::vector<std::string> tokens;
     std::string cur = {};
@@ -191,6 +268,13 @@ std::vector<std::string> InvertedIndex::tokenize(std::string_view text) {
     return tokens;
 }
 
+/**
+ * @brief Tokenize.
+ * @param[in] text Input parameter.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @details Calls: utils::Normalizer::normalizeUmlauts(), empty(), std::string_view(), utils::Stopwords::defaults(), utils::Stopwords::merge(), erase(), std::remove_if(), begin().
+ */
 std::vector<std::string> InvertedIndex::tokenize(std::string_view text,
                                                   const Config& config) {
     std::string normalized = {};
@@ -222,6 +306,13 @@ std::vector<std::string> InvertedIndex::tokenize(std::string_view text,
 // Document indexing (internal helper)
 // ============================================================================
 
+/**
+ * @brief Remove Postings.
+ * @param[in] table Input parameter.
+ * @param[in] column Input parameter.
+ * @param[in] pk Input parameter.
+ * @details Calls: makeRevKey(), get(), empty(), s(), begin(), end(), nlohmann::json::parse(), is_array().
+ */
 void InvertedIndex::removePostings_(std::string_view table,
                                     std::string_view column,
                                     std::string_view pk) {
@@ -259,6 +350,15 @@ void InvertedIndex::removePostings_(std::string_view table,
     db_.del(revKey);
 }
 
+/**
+ * @brief Index.
+ * @param[in] table Input parameter.
+ * @param[in] column Input parameter.
+ * @param[in] pk Input parameter.
+ * @param[in] text Input parameter.
+ * @return Return value.
+ * @details Calls: exists(), Status::Error(), std::string(), empty(), getConfig(), value_or(), removePostings_(), Status::OK().
+ */
 InvertedIndex::Status InvertedIndex::index(std::string_view table,
                                            std::string_view column,
                                            std::string_view pk,
@@ -315,6 +415,15 @@ InvertedIndex::Status InvertedIndex::index(std::string_view table,
     return Status::OK();
 }
 
+/**
+ * @brief Deindex.
+ * @param[in] table Input parameter.
+ * @param[in] column Input parameter.
+ * @param[in] pk Input parameter.
+ * @param[in] string_view Input parameter.
+ * @return Return value.
+ * @details Calls: exists(), Status::Error(), std::string(), empty(), removePostings_(), Status::OK().
+ */
 InvertedIndex::Status InvertedIndex::deindex(std::string_view table,
                                              std::string_view column,
                                              std::string_view pk,
@@ -542,6 +651,13 @@ InvertedIndex::searchPhrase(std::string_view table, std::string_view column,
 // ============================================================================
 
 namespace {
+/**
+ * @brief Levenshtein.
+ * @param[in] s1 Input parameter.
+ * @param[in] s2 Input parameter.
+ * @return Return value.
+ * @details Calls: size(), dp(), std::min().
+ */
 int levenshtein(const std::string& s1, const std::string& s2) {
     const size_t m = s1.size(), n = s2.size();
     if (m == 0) {

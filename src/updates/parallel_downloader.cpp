@@ -47,9 +47,6 @@ namespace fs = std::filesystem;
 // RAII Wrappers for Resource Management (CRITICAL: resource_leaked_in_exception fix)
 // ============================================================================
 
-/**
- * @brief RAII wrapper for FILE* to ensure cleanup in all paths
- */
 class FileRaii {
 public:
     explicit FileRaii(FILE* fp = nullptr) : fp_(fp) {}
@@ -88,9 +85,6 @@ private:
 };
 
 #ifdef THEMIS_ENABLE_CURL
-/**
- * @brief RAII wrapper for CURL* to ensure cleanup in all paths
- */
 class CurlRaii {
 public:
     explicit CurlRaii(CURL* curl = nullptr) : curl_(curl) {}
@@ -177,10 +171,20 @@ uint64_t ParallelDownloader::getBandwidthLimit() const noexcept {
     return bandwidth_limit_bps_;
 }
 
+/**
+ * @brief Set Connect Timeout Seconds.
+ * @param[in] seconds Input parameter.
+ * @details Implements setConnectTimeoutSeconds without additional internal calls.
+ */
 void ParallelDownloader::setConnectTimeoutSeconds(long seconds) {
     connect_timeout_s_ = seconds;
 }
 
+/**
+ * @brief Set Transfer Timeout Seconds.
+ * @param[in] seconds Input parameter.
+ * @details Implements setTransferTimeoutSeconds without additional internal calls.
+ */
 void ParallelDownloader::setTransferTimeoutSeconds(long seconds) {
     transfer_timeout_s_ = seconds;
 }
@@ -191,6 +195,11 @@ void ParallelDownloader::setProgressCallback(
     progress_cb_ = std::move(callback);
 }
 
+/**
+ * @brief Set Fetch Function.
+ * @param[in] fn Input parameter.
+ * @details Calls: std::move().
+ */
 void ParallelDownloader::setFetchFunction(FetchFn fn) {
     fetch_fn_ = std::move(fn);
 }
@@ -285,10 +294,6 @@ uint64_t ParallelDownloader::resumeOffset(const std::string& dest) const {
 // RAII wrapper for EVP_MD_CTX
 // ============================================================================
 
-/**
- * @brief RAII wrapper for EVP_MD_CTX to ensure cleanup in all paths
- * @see Error Code: 7401 (EVP context leak prevention)
- */
 class EvpMdCtxRaii {
 public:
     explicit EvpMdCtxRaii(EVP_MD_CTX* ctx = nullptr) : ctx_(ctx) {}
@@ -331,10 +336,10 @@ private:
 // ============================================================================
 
 /**
- * @brief Compute SHA-256 hash of file with exception-safe resource management
- * @param path File path to hash
- * @return Hex-encoded SHA-256 hash, or empty string on error
- * @note Uses RAII for EVP_MD_CTX to prevent resource leaks (Error 7401)
+ * @brief Compute Sha256.
+ * @param[in] path Input parameter.
+ * @return Return value.
+ * @details Calls: f(), is_open(), ctx_guard(), EVP_MD_CTX_new(), get(), EVP_DigestInit_ex(), EVP_sha256(), read().
  */
 std::string ParallelDownloader::computeSha256(const std::string& path) {
     std::ifstream f(path, std::ios::binary);
@@ -485,6 +490,12 @@ bool ParallelDownloader::defaultFetch(
 // Per-task executor
 // ============================================================================
 
+/**
+ * @brief Execute Task.
+ * @param[in] task_index Input parameter.
+ * @param[in] task Input parameter.
+ * @return Return value.
+ */
 DownloadResult ParallelDownloader::executeTask(
     size_t task_index, const DownloadTask& task)
 {
@@ -531,6 +542,11 @@ DownloadResult ParallelDownloader::executeTask(
         .multiplier         = 2.0,
         .jitter_fraction    = 0.0,
     };
+    /**
+     * @brief Backoff.
+     * @param[in] retry_cfg Input parameter.
+     * @return Return value.
+     */
     themis::utils::ExponentialBackoff backoff(retry_cfg);
 
     bool fetch_ok = false;
@@ -625,14 +641,21 @@ DownloadResult ParallelDownloader::executeTask(
     return result;
 }
 
-// ============================================================================
-// downloadAll – priority-queue scheduler + thread pool
-// ============================================================================
+/**
+ * @brief ============================================================================ downloadAll – priority-queue scheduler + thread pool ============================================================================
+ * @param[in] tasks Input parameter.
+ * @return Return value.
+ */
 
 std::vector<DownloadResult> ParallelDownloader::downloadAll(
     std::vector<DownloadTask> tasks)
 {
     const size_t n = tasks.size();
+    /**
+     * @brief Results.
+     * @param[in] n Input parameter.
+     * @return Return value.
+     */
     std::vector<DownloadResult> results(n);
 
     if (n == 0) {
@@ -663,6 +686,11 @@ std::vector<DownloadResult> ParallelDownloader::downloadAll(
         while (true) {
             size_t idx = SIZE_MAX;
             {
+                /**
+                 * @brief Lock.
+                 * @param[in] queue_mutex Input parameter.
+                 * @return Return value.
+                 */
                 std::unique_lock<std::mutex> lock(queue_mutex);
                 // CRITICAL: Add timeout to condition variable wait (no_timeout fix)
                 const auto cv_timeout = std::chrono::seconds(5);  // 5-second timeout per wait
@@ -690,6 +718,11 @@ std::vector<DownloadResult> ParallelDownloader::downloadAll(
 
     // Mark all tasks as queued (the queue was pre-loaded)
     {
+        /**
+         * @brief Lock.
+         * @param[in] queue_mutex Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lock(queue_mutex);
         all_queued = true;
     }

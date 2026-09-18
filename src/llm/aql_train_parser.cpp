@@ -28,7 +28,12 @@ namespace llm {
 
 namespace {
 
-/// Lower-case a copy of @p s.
+/**
+ * @brief To Lower.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), std::transform(), begin(), end(), std::back_inserter(), std::tolower().
+ */
 std::string toLower(const std::string& s) {
     std::string out = {};
     out.reserve(s.size());
@@ -37,10 +42,13 @@ std::string toLower(const std::string& s) {
     return out;
 }
 
-/// Trim leading and trailing whitespace.
-// Using themis::utils::trim() from string_utils.h (Phase 1 consolidation)
+/**
+ * @brief Using themis::utils::trim() from string_utils.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details h (Phase 1 consolidation) Calls: size(), front(), back(), substr().
+ */
 
-/// Strip surrounding single or double quotes from a token.
 std::string stripQuotes(const std::string& s) {
     if ((s.size() >= 2 &&
         ((s.front() == '\'' && s.back() == '\'') ||
@@ -51,7 +59,11 @@ std::string stripQuotes(const std::string& s) {
 }
 
 /**
- * @brief Case-insensitive string comparison.
+ * @brief Iequal.
+ * @param[in] a Input parameter.
+ * @param[in] b Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: size(), std::equal(), begin(), end(), std::tolower().
  */
 bool iequal(const std::string& a, const std::string& b) {
     if (a.size() != b.size()) {
@@ -63,6 +75,15 @@ bool iequal(const std::string& a, const std::string& b) {
                       });
 }
 
+/**
+ * @brief Parse Integer Value.
+ * @param[in] value Input parameter.
+ * @param[in] field_name Name of the field.
+ * @return Return value.
+ * @throws std::invalid_argument if an error occurs.
+ * @throws std::out_of_range if an error occurs.
+ * @details Calls: std::stoll(), size(), min(), max(), std::string().
+ */
 int parseIntegerValue(const std::string& value, const char* field_name) {
     try {
         std::size_t parsed_chars = 0;
@@ -86,6 +107,14 @@ int parseIntegerValue(const std::string& value, const char* field_name) {
     }
 }
 
+/**
+ * @brief Parse Double Value.
+ * @param[in] value Input parameter.
+ * @param[in] field_name Name of the field.
+ * @return Return value.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: std::stod(), size(), std::isfinite(), std::string().
+ */
 double parseDoubleValue(const std::string& value, const char* field_name) {
     try {
         std::size_t parsed_chars = 0;
@@ -106,8 +135,11 @@ double parseDoubleValue(const std::string& value, const char* field_name) {
 }
 
 /**
- * @brief Find the position of a keyword (case-insensitive) in @p s, or npos.
- * Searches for whole-word occurrences only (bounded by non-alpha boundaries).
+ * @brief Find Keyword.
+ * @param[in] s Input parameter.
+ * @param[in] keyword Input parameter.
+ * @return Return value.
+ * @details Calls: toLower(), find(), std::isalnum(), size().
  */
 std::string::size_type findKeyword(const std::string& s, const std::string& keyword) {
     const std::string lower_s  = toLower(s);
@@ -160,6 +192,13 @@ nlohmann::json TrainStatementConfig::toJSON() const {
     return j;
 }
 
+/**
+ * @brief From JSON.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: contains(), std::string(), what().
+ */
 TrainStatementConfig TrainStatementConfig::fromJSON(const nlohmann::json& j) {
     try {
         TrainStatementConfig cfg = {};
@@ -244,6 +283,13 @@ nlohmann::json GraphContextConfig::toJSON() const {
     };
 }
 
+/**
+ * @brief From JSON.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: contains(), std::string(), what().
+ */
 GraphContextConfig GraphContextConfig::fromJSON(const nlohmann::json& j) {
     try {
         GraphContextConfig cfg = {};
@@ -279,6 +325,13 @@ nlohmann::json VectorSimilarityConfig::toJSON() const {
     };
 }
 
+/**
+ * @brief From JSON.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: contains(), std::string(), what().
+ */
 VectorSimilarityConfig VectorSimilarityConfig::fromJSON(const nlohmann::json& j) {
     try {
         VectorSimilarityConfig cfg = {};
@@ -314,6 +367,13 @@ nlohmann::json RelationalJoinConfig::toJSON() const {
     };
 }
 
+/**
+ * @brief From JSON.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: contains(), std::string(), what().
+ */
 RelationalJoinConfig RelationalJoinConfig::fromJSON(const nlohmann::json& j) {
     try {
         RelationalJoinConfig cfg = {};
@@ -356,6 +416,12 @@ nlohmann::json MultiModelEnrichment::toJSON() const {
     return j;
 }
 
+/**
+ * @brief From JSON.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: contains(), is_array(), push_back().
+ */
 MultiModelEnrichment MultiModelEnrichment::fromJSON(const nlohmann::json& j) {
     MultiModelEnrichment e = {};
     if (j.contains("graph_context")) {
@@ -386,6 +452,13 @@ nlohmann::json AQLDistributedTrainingConfig::toJSON() const {
     };
 }
 
+/**
+ * @brief From JSON.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: contains(), std::string(), what().
+ */
 AQLDistributedTrainingConfig AQLDistributedTrainingConfig::fromJSON(const nlohmann::json& j) {
     try {
         AQLDistributedTrainingConfig cfg = {};
@@ -426,6 +499,13 @@ nlohmann::json TrainAdapterStmt::toJSON() const {
     };
 }
 
+/**
+ * @brief From JSON.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: contains(), std::string(), what().
+ */
 TrainAdapterStmt TrainAdapterStmt::fromJSON(const nlohmann::json& j) {
     try {
         TrainAdapterStmt s = {};
@@ -464,6 +544,13 @@ nlohmann::json DeployAdapterStmt::toJSON() const {
     };
 }
 
+/**
+ * @brief From JSON.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: contains(), std::string(), what().
+ */
 DeployAdapterStmt DeployAdapterStmt::fromJSON(const nlohmann::json& j) {
     try {
         DeployAdapterStmt s = {};
@@ -498,6 +585,13 @@ nlohmann::json VerifyAdapterStmt::toJSON() const {
     };
 }
 
+/**
+ * @brief From JSON.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: contains(), std::string(), what().
+ */
 VerifyAdapterStmt VerifyAdapterStmt::fromJSON(const nlohmann::json& j) {
     try {
         VerifyAdapterStmt s = {};
@@ -534,6 +628,13 @@ nlohmann::json ListAdaptersStmt::toJSON() const {
     return j;
 }
 
+/**
+ * @brief From JSON.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: contains(), std::string(), what().
+ */
 ListAdaptersStmt ListAdaptersStmt::fromJSON(const nlohmann::json& j) {
     try {
         ListAdaptersStmt s = {};
@@ -563,6 +664,12 @@ ListAdaptersStmt ListAdaptersStmt::fromJSON(const nlohmann::json& j) {
 // AQLTrainParser – private helpers
 // ============================================================================
 
+/**
+ * @brief Tokenize.
+ * @param[in] input Input parameter.
+ * @return Return value.
+ * @details Calls: iss(), push_back().
+ */
 std::vector<std::string> AQLTrainParser::tokenize(const std::string& input) {
     std::vector<std::string> tokens;
     std::istringstream iss(input);
@@ -573,6 +680,13 @@ std::vector<std::string> AQLTrainParser::tokenize(const std::string& input) {
     return tokens;
 }
 
+/**
+ * @brief Extract Clause.
+ * @param[in] input Input parameter.
+ * @param[in] keyword Input parameter.
+ * @return Return value.
+ * @details Calls: findKeyword(), substr(), size(), themis::utils::trim().
+ */
 std::string AQLTrainParser::extractClause(
     const std::string& input,
     const std::string& keyword
@@ -668,6 +782,12 @@ std::map<std::string, std::string> AQLTrainParser::parseKeyValuePairs(
     return result;
 }
 
+/**
+ * @brief Validate Adapter Name.
+ * @param[in] name Input parameter.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: empty(), std::isalnum(), std::string(), size().
+ */
 void AQLTrainParser::validateAdapterName(const std::string& name) {
     if (name.empty()) {
         throw std::invalid_argument("AQLTrainParser: adapter name must not be empty");
@@ -684,12 +804,24 @@ void AQLTrainParser::validateAdapterName(const std::string& name) {
     }
 }
 
+/**
+ * @brief Validate Base Model.
+ * @param[in] model Input parameter.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: empty().
+ */
 void AQLTrainParser::validateBaseModel(const std::string& model) {
     if (model.empty()) {
         throw std::invalid_argument("AQLTrainParser: base_model must not be empty");
     }
 }
 
+/**
+ * @brief Validate Config.
+ * @param[in] config Input parameter.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Implements validateConfig without additional internal calls.
+ */
 void AQLTrainParser::validateConfig(const TrainStatementConfig& config) {
     if (config.epochs < 1 || config.epochs > 100) {
         throw std::invalid_argument("AQLTrainParser: epochs must be in [1, 100]");
@@ -717,6 +849,12 @@ void AQLTrainParser::validateConfig(const TrainStatementConfig& config) {
     }
 }
 
+/**
+ * @brief Parse Training Config.
+ * @param[in] with_clause Input parameter.
+ * @return Return value.
+ * @details Calls: themis::utils::trim(), empty(), front(), nlohmann::json::parse(), TrainStatementConfig::fromJSON(), back(), substr(), size().
+ */
 TrainStatementConfig AQLTrainParser::parseTrainingConfig(const std::string& with_clause) {
     TrainStatementConfig cfg;
 
@@ -790,6 +928,13 @@ TrainStatementConfig AQLTrainParser::parseTrainingConfig(const std::string& with
     return cfg;
 }
 
+/**
+ * @brief Parse Graph Context.
+ * @param[in] args Input parameter.
+ * @return Return value.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: parseKeyValuePairs(), count(), parseIntegerValue(), rel_re(), std::regex_search(), iss(), str(), std::getline().
+ */
 GraphContextConfig AQLTrainParser::parseGraphContext(const std::string& args) {
     GraphContextConfig cfg;
     auto kv = parseKeyValuePairs(args);
@@ -821,6 +966,13 @@ GraphContextConfig AQLTrainParser::parseGraphContext(const std::string& args) {
     return cfg;
 }
 
+/**
+ * @brief Parse Vector Similarity.
+ * @param[in] args Input parameter.
+ * @return Return value.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: parseKeyValuePairs(), count(), parseDoubleValue(), parseIntegerValue().
+ */
 VectorSimilarityConfig AQLTrainParser::parseVectorSimilarity(const std::string& args) {
     VectorSimilarityConfig cfg;
     auto kv = parseKeyValuePairs(args);
@@ -845,6 +997,12 @@ VectorSimilarityConfig AQLTrainParser::parseVectorSimilarity(const std::string& 
     return cfg;
 }
 
+/**
+ * @brief Parse Relational Join.
+ * @param[in] args Input parameter.
+ * @return Return value.
+ * @details Calls: parseKeyValuePairs(), count().
+ */
 RelationalJoinConfig AQLTrainParser::parseRelationalJoin(const std::string& args) {
     RelationalJoinConfig cfg;
     auto kv = parseKeyValuePairs(args);
@@ -863,6 +1021,12 @@ RelationalJoinConfig AQLTrainParser::parseRelationalJoin(const std::string& args
     return cfg;
 }
 
+/**
+ * @brief Parse Enrichment.
+ * @param[in] using_clauses Input parameter.
+ * @return Return value.
+ * @details Calls: toLower(), gc_re(), std::regex_search(), parseGraphContext(), str(), vs_re(), parseVectorSimilarity(), rj_re().
+ */
 MultiModelEnrichment AQLTrainParser::parseEnrichment(const std::string& using_clauses) {
     MultiModelEnrichment e;
     const std::string lower = toLower(using_clauses);
@@ -900,6 +1064,12 @@ MultiModelEnrichment AQLTrainParser::parseEnrichment(const std::string& using_cl
     return e;
 }
 
+/**
+ * @brief Parse Distributed.
+ * @param[in] aql Input parameter.
+ * @return Return value.
+ * @details Calls: findKeyword(), coord_re(), std::regex_search(), str(), shards_re(), shard_re(), std::sregex_iterator(), begin().
+ */
 AQLDistributedTrainingConfig AQLTrainParser::parseDistributed(const std::string& aql) {
     AQLDistributedTrainingConfig cfg = {};
     if (findKeyword(aql, "DISTRIBUTED") == std::string::npos) {
@@ -959,6 +1129,13 @@ AQLTrainParser::StatementType AQLTrainParser::detectStatementType(
     return StatementType::UNKNOWN;
 }
 
+/**
+ * @brief Parse Train Adapter.
+ * @param[in] aql Input parameter.
+ * @return Return value.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: id_re(), std::regex_search(), stripQuotes(), str(), validateAdapterName(), extractClause(), empty(), tokenize().
+ */
 std::shared_ptr<TrainAdapterStmt> AQLTrainParser::parseTrainAdapter(
     const std::string& aql
 ) {
@@ -1033,6 +1210,13 @@ std::shared_ptr<TrainAdapterStmt> AQLTrainParser::parseTrainAdapter(
     return stmt;
 }
 
+/**
+ * @brief Parse Deploy Adapter.
+ * @param[in] aql Input parameter.
+ * @return Return value.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: id_re(), std::regex_search(), stripQuotes(), str(), validateAdapterName(), shard_re(), findKeyword(), substr().
+ */
 std::shared_ptr<DeployAdapterStmt> AQLTrainParser::parseDeployAdapter(
     const std::string& aql
 ) {
@@ -1093,6 +1277,13 @@ std::shared_ptr<DeployAdapterStmt> AQLTrainParser::parseDeployAdapter(
     return stmt;
 }
 
+/**
+ * @brief Parse Verify Adapter.
+ * @param[in] aql Input parameter.
+ * @return Return value.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: id_re(), std::regex_search(), stripQuotes(), str(), validateAdapterName(), toLower(), find().
+ */
 std::shared_ptr<VerifyAdapterStmt> AQLTrainParser::parseVerifyAdapter(
     const std::string& aql
 ) {
@@ -1126,6 +1317,13 @@ std::shared_ptr<VerifyAdapterStmt> AQLTrainParser::parseVerifyAdapter(
     return stmt;
 }
 
+/**
+ * @brief Parse List Adapters.
+ * @param[in] aql Input parameter.
+ * @return Return value.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: extractClause(), parseKeyValuePairs(), count(), findKeyword(), size(), themis::utils::trim(), substr(), tokenize().
+ */
 std::shared_ptr<ListAdaptersStmt> AQLTrainParser::parseListAdapters(
     const std::string& aql
 ) {
@@ -1181,70 +1379,171 @@ std::shared_ptr<ListAdaptersStmt> AQLTrainParser::parseListAdapters(
 // TrainingQueryBuilder
 // ============================================================================
 
+/**
+ * @brief Adapter.
+ * @param[in] id Input parameter.
+ * @return Return value.
+ * @details Implements adapter without additional internal calls.
+ */
 TrainingQueryBuilder& TrainingQueryBuilder::adapter(const std::string& id) {
     stmt_.adapter_id = id; return *this;
 }
 
+/**
+ * @brief From.
+ * @param[in] collection Input parameter.
+ * @return Return value.
+ * @details Implements from without additional internal calls.
+ */
 TrainingQueryBuilder& TrainingQueryBuilder::from(const std::string& collection) {
     stmt_.source_collection = collection; return *this;
 }
 
+/**
+ * @brief Where.
+ * @param[in] condition Input parameter.
+ * @return Return value.
+ * @details Implements where without additional internal calls.
+ */
 TrainingQueryBuilder& TrainingQueryBuilder::where(const std::string& condition) {
     where_clause_ = condition; return *this;
 }
 
+/**
+ * @brief With Graph Context.
+ * @param[in] cfg Input parameter.
+ * @return Return value.
+ * @details Implements withGraphContext without additional internal calls.
+ */
 TrainingQueryBuilder& TrainingQueryBuilder::withGraphContext(const GraphContextConfig& cfg) {
     stmt_.enrichment.graph_context = cfg; return *this;
 }
 
+/**
+ * @brief With Vector Similarity.
+ * @param[in] cfg Input parameter.
+ * @return Return value.
+ * @details Implements withVectorSimilarity without additional internal calls.
+ */
 TrainingQueryBuilder& TrainingQueryBuilder::withVectorSimilarity(const VectorSimilarityConfig& cfg) {
     stmt_.enrichment.vector_similarity = cfg; return *this;
 }
 
+/**
+ * @brief With Relational Join.
+ * @param[in] cfg Input parameter.
+ * @return Return value.
+ * @details Calls: push_back().
+ */
 TrainingQueryBuilder& TrainingQueryBuilder::withRelationalJoin(const RelationalJoinConfig& cfg) {
     stmt_.enrichment.relational_joins.push_back(cfg); return *this;
 }
 
+/**
+ * @brief Base Model.
+ * @param[in] model Input parameter.
+ * @return Return value.
+ * @details Implements baseModel without additional internal calls.
+ */
 TrainingQueryBuilder& TrainingQueryBuilder::baseModel(const std::string& model) {
     stmt_.config.base_model_name = model; return *this;
 }
 
+/**
+ * @brief Lora Rank.
+ * @param[in] rank Input parameter.
+ * @return Return value.
+ * @details Implements loraRank without additional internal calls.
+ */
 TrainingQueryBuilder& TrainingQueryBuilder::loraRank(int rank) {
     stmt_.config.lora_rank = rank; return *this;
 }
 
+/**
+ * @brief Epochs.
+ * @param[in] n Input parameter.
+ * @return Return value.
+ * @details Implements epochs without additional internal calls.
+ */
 TrainingQueryBuilder& TrainingQueryBuilder::epochs(int n) {
     stmt_.config.epochs = n; return *this;
 }
 
+/**
+ * @brief Batch Size.
+ * @param[in] size Input parameter.
+ * @return Return value.
+ * @details Implements batchSize without additional internal calls.
+ */
 TrainingQueryBuilder& TrainingQueryBuilder::batchSize(int size) {
     stmt_.config.batch_size = size; return *this;
 }
 
+/**
+ * @brief Learning Rate.
+ * @param[in] lr Input parameter.
+ * @return Return value.
+ * @details Implements learningRate without additional internal calls.
+ */
 TrainingQueryBuilder& TrainingQueryBuilder::learningRate(double lr) {
     stmt_.config.learning_rate = lr; return *this;
 }
 
+/**
+ * @brief Quantization.
+ * @param[in] q Input parameter.
+ * @return Return value.
+ * @details Implements quantization without additional internal calls.
+ */
 TrainingQueryBuilder& TrainingQueryBuilder::quantization(GGUFSTConfig::QuantizationType q) {
     stmt_.config.quantization_type = q; return *this;
 }
 
+/**
+ * @brief Size Mode.
+ * @param[in] m Input parameter.
+ * @return Return value.
+ * @details Implements sizeMode without additional internal calls.
+ */
 TrainingQueryBuilder& TrainingQueryBuilder::sizeMode(GGUFSTConfig::SizeMode m) {
     stmt_.config.size_mode = m; return *this;
 }
 
+/**
+ * @brief Sign Adapter.
+ * @param[in] sign Input parameter.
+ * @return Return value.
+ * @details Implements signAdapter without additional internal calls.
+ */
 TrainingQueryBuilder& TrainingQueryBuilder::signAdapter(bool sign) {
     stmt_.config.sign_adapter = sign; return *this;
 }
 
+/**
+ * @brief Distributed.
+ * @param[in] cfg Input parameter.
+ * @return Return value.
+ * @details Implements distributed without additional internal calls.
+ */
 TrainingQueryBuilder& TrainingQueryBuilder::distributed(const AQLDistributedTrainingConfig& cfg) {
     stmt_.distributed = cfg; return *this;
 }
 
+/**
+ * @brief Output Path.
+ * @param[in] path Input parameter.
+ * @return Return value.
+ * @details Implements outputPath without additional internal calls.
+ */
 TrainingQueryBuilder& TrainingQueryBuilder::outputPath(const std::string& path) {
     stmt_.output_path = path; return *this;
 }
 
+/**
+ * @brief Build.
+ * @return Return value.
+ * @details Implements build without additional internal calls.
+ */
 std::shared_ptr<TrainAdapterStmt> TrainingQueryBuilder::build() {
     return std::make_shared<TrainAdapterStmt>(stmt_);
 }

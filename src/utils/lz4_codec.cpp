@@ -21,15 +21,15 @@
 namespace themis {
 namespace utils {
 
+
 /**
- * @brief --------------------------------------------------------------------------- Result<T>-based safe API ---------------------------------------------------------------------------
+ * @brief Lz4 compress safe.
  * @param[in] data Input parameter.
  * @param[in] size Input parameter.
  * @param[in] acceleration Input parameter.
  * @return Return value.
  * @details Calls: Ok(), THEMIS_WARN(), fmt::format(), LZ4_compressBound(), resize(), LZ4_compress_fast(), data(), std::string().
  */
-
 Result<std::vector<uint8_t>> lz4_compress_safe(const uint8_t* data, size_t size, int acceleration) {
 #ifdef THEMIS_HAS_LZ4
     if (!data || size == 0) {
@@ -179,15 +179,15 @@ Result<std::vector<uint8_t>> lz4_decompress_safe(const std::vector<uint8_t>& com
 #endif
 }
 
+
 /**
- * @brief --------------------------------------------------------------------------- Legacy API ---------------------------------------------------------------------------
+ * @brief Lz4 compress.
  * @param[in] data Input parameter.
  * @param[in] size Input parameter.
  * @param[in] acceleration Input parameter.
  * @return Return value.
  * @details Calls: lz4_compress_safe(), std::move().
  */
-
 std::vector<uint8_t> lz4_compress(const uint8_t* data, size_t size, int acceleration) {
     auto result = lz4_compress_safe(data, size, acceleration);
     return result ? std::move(*result) : std::vector<uint8_t>{};
@@ -205,13 +205,13 @@ std::vector<uint8_t> lz4_decompress(const std::vector<uint8_t>& compressed, size
     return result ? std::move(*result) : std::vector<uint8_t>{};
 }
 
+
 /**
- * @brief --------------------------------------------------------------------------- Utility ---------------------------------------------------------------------------
+ * @brief Lz4 compress bound.
  * @param[in] input_size Input parameter.
  * @return Return value.
  * @details Calls: LZ4_compressBound(), else().
  */
-
 size_t lz4_compress_bound(size_t input_size) {
 #ifdef THEMIS_HAS_LZ4
     if (input_size == 0 || input_size > lz4_compression::MAX_INPUT_SIZE) {

@@ -37,7 +37,6 @@ namespace geo {
 static constexpr double kPi       = 3.14159265358979323846;
 static constexpr double kEarthR_m = 6371000.0; // mean spherical radius
 
-/// Project WGS-84 (lon_deg, lat_deg) to unit-sphere ECEF float32.
 static void wgs84ToEcef(double lon_deg, double lat_deg,
                         float& x, float& y, float& z) noexcept {
     const double lon = lon_deg * kPi / 180.0;
@@ -48,15 +47,12 @@ static void wgs84ToEcef(double lon_deg, double lat_deg,
     z = static_cast<float>(std::sin(lat));
 }
 
-/// Convert ECEF chord distance (unit sphere) to approximate geodesic metres.
-/// chord = 2 × sin(angle/2), so angle = 2 × arcsin(chord/2).
 static double chordToDistanceM(float chord) noexcept {
     const double half_chord = static_cast<double>(chord) * 0.5;
     const double clamped    = std::min(1.0, std::max(0.0, half_chord));
     return kEarthR_m * 2.0 * std::asin(clamped);
 }
 
-/// Convert a radius in metres to an ECEF unit-sphere chord distance squared.
 static float radiusToChordSq(double radius_m) noexcept {
     const double angle    = radius_m / kEarthR_m;
     const double chord    = 2.0 * std::sin(angle * 0.5);
@@ -91,6 +87,12 @@ struct GeoFaissKnn::Impl {
 
     explicit Impl(const GeoFaissKnn::Config& c) : cfg(c) {}
 
+    /**
+     * @brief Build.
+     * @param[in] dataset Input parameter.
+     * @return True when the operation succeeds.
+     * @details Calls: clear(), reserve(), size(), isPoint(), empty(), wgs84ToEcef(), push_back(), THEMIS_WARN().
+     */
     bool build(const std::vector<GeometryInfo>& dataset) {
         built         = false;
         indexed_count = 0;
@@ -273,6 +275,12 @@ GeoFaissKnn::~GeoFaissKnn() = default;
 GeoFaissKnn::GeoFaissKnn(GeoFaissKnn&&) noexcept = default;
 GeoFaissKnn& GeoFaissKnn::operator=(GeoFaissKnn&&) noexcept = default;
 
+/**
+ * @brief Build.
+ * @param[in] dataset Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements build without additional internal calls.
+ */
 bool GeoFaissKnn::build(const std::vector<GeometryInfo>& dataset) {
     return impl_->build(dataset);
 }

@@ -78,6 +78,11 @@ NCCLBackend& NCCLBackend::operator=(NCCLBackend&& other) noexcept {
     return *this;
 }
 
+/**
+ * @brief Initialize.
+ * @return True when the operation succeeds.
+ * @details Calls: spdlog::warn(), is_available(), spdlog::error(), gpu_type(), initialize_nccl().
+ */
 bool NCCLBackend::initialize() {
     if (initialized_) {
         spdlog::warn("NCCLBackend already initialized");
@@ -97,6 +102,10 @@ bool NCCLBackend::initialize() {
     return initialize_nccl();
 }
 
+/**
+ * @brief Finalize.
+ * @details Calls: cleanup_nccl(), spdlog::info().
+ */
 void NCCLBackend::finalize() {
     if (!initialized_) {
         return;
@@ -107,6 +116,13 @@ void NCCLBackend::finalize() {
     spdlog::info("NCCLBackend finalized");
 }
 
+/**
+ * @brief Allreduce.
+ * @param[in,out] tensors Input/output parameter.
+ * @param[in] average Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: spdlog::error(), ncclGroupStart(), ncclGetErrorString(), device(), spdlog::warn(), gpu_ptr(), size(), ncclAllReduce().
+ */
 bool NCCLBackend::allreduce(std::vector<GPUTensor*>& tensors, bool average) {
     if (!initialized_) {
         spdlog::error("NCCLBackend not initialized");
@@ -196,11 +212,25 @@ bool NCCLBackend::allreduce(std::vector<GPUTensor*>& tensors, bool average) {
 #endif
 }
 
+/**
+ * @brief Allreduce.
+ * @param[in,out] tensor Input/output parameter.
+ * @param[in] average Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements allreduce without additional internal calls.
+ */
 bool NCCLBackend::allreduce(GPUTensor& tensor, bool average) {
     std::vector<GPUTensor*> tensors = {&tensor};
     return allreduce(tensors, average);
 }
 
+/**
+ * @brief Broadcast.
+ * @param[in,out] tensor Input/output parameter.
+ * @param[in] root Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: spdlog::error(), device(), ncclBcast(), gpu_ptr(), size(), ncclGetErrorString(), cudaStreamSynchronize(), cudaGetErrorString().
+ */
 bool NCCLBackend::broadcast(GPUTensor& tensor, int root) {
     static_cast<void>(tensor);
     static_cast<void>(root);
@@ -252,6 +282,10 @@ bool NCCLBackend::broadcast(GPUTensor& tensor, int root) {
 #endif
 }
 
+/**
+ * @brief Barrier.
+ * @details Calls: ncclAllReduce(), spdlog::error(), ncclGetErrorString(), cudaStreamSynchronize(), cudaGetErrorString().
+ */
 void NCCLBackend::barrier() {
     if (!initialized_) {
         return;
@@ -289,6 +323,11 @@ void NCCLBackend::barrier() {
 #endif
 }
 
+/**
+ * @brief Is available.
+ * @return True when the operation succeeds.
+ * @details Implements is_available without additional internal calls.
+ */
 bool NCCLBackend::is_available() {
 #ifdef THEMIS_ENABLE_CUDA
 #ifdef THEMIS_ENABLE_NCCL
@@ -301,6 +340,11 @@ bool NCCLBackend::is_available() {
 #endif
 }
 
+/**
+ * @brief Get version.
+ * @return Return value.
+ * @details Calls: ncclGetVersion(), spdlog::warn(), ncclGetErrorString(), std::to_string().
+ */
 std::string NCCLBackend::get_version() {
 #ifdef THEMIS_ENABLE_CUDA
 #ifdef THEMIS_ENABLE_NCCL
@@ -322,6 +366,11 @@ std::string NCCLBackend::get_version() {
 #endif
 }
 
+/**
+ * @brief Initialize nccl.
+ * @return True when the operation succeeds.
+ * @details Calls: spdlog::info(), get_device(), cudaSetDevice(), spdlog::error(), cudaGetErrorString(), cudaStreamCreate(), ncclGetUniqueId(), ncclGetErrorString().
+ */
 bool NCCLBackend::initialize_nccl() {
 #ifdef THEMIS_ENABLE_CUDA
 #ifdef THEMIS_ENABLE_NCCL
@@ -379,6 +428,10 @@ bool NCCLBackend::initialize_nccl() {
 #endif
 }
 
+/**
+ * @brief Cleanup nccl.
+ * @details Calls: ncclCommDestroy(), spdlog::warn(), ncclGetErrorString(), cudaStreamDestroy(), cudaGetErrorString().
+ */
 void NCCLBackend::cleanup_nccl() {
 #ifdef THEMIS_ENABLE_CUDA
 #ifdef THEMIS_ENABLE_NCCL

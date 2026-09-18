@@ -30,6 +30,12 @@ BaseModelAdapter::~BaseModelAdapter() {
     unload();
 }
 
+/**
+ * @brief Load Model.
+ * @param[in] model_path Path to the model.
+ * @return True when the operation succeeds.
+ * @details Calls: spdlog::info(), parseFile(), spdlog::error(), find_last_of(), substr(), parseArchitecture(), identifyAdaptableLayers(), size().
+ */
 bool BaseModelAdapter::loadModel(const std::string& model_path) {
     spdlog::info("Loading base model from: {}", model_path);
     
@@ -73,6 +79,11 @@ bool BaseModelAdapter::loadModel(const std::string& model_path) {
     return true;
 }
 
+/**
+ * @brief Parse Architecture.
+ * @return True when the operation succeeds.
+ * @details Calls: getMetadata(), find(), end(), std::stoi(), at(), layer_pattern(), std::regex_search(), str().
+ */
 bool BaseModelAdapter::parseArchitecture() {
     const auto& metadata = gguf_loader_->getMetadata();
     
@@ -156,6 +167,11 @@ bool BaseModelAdapter::parseArchitecture() {
     return true;
 }
 
+/**
+ * @brief Identify Adaptable Layers.
+ * @return True when the operation succeeds.
+ * @details Calls: getMetadata(), clear(), std::regex(), std::regex_search(), parseLayerInfo(), std::stoi(), str(), push_back().
+ */
 bool BaseModelAdapter::identifyAdaptableLayers() {
     const auto& metadata = gguf_loader_->getMetadata();
     
@@ -230,6 +246,13 @@ bool BaseModelAdapter::identifyAdaptableLayers() {
     return !adaptable_layers_.empty();
 }
 
+/**
+ * @brief Parse Layer Info.
+ * @param[in] tensor Input parameter.
+ * @param[in,out] layer_info Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: clear(), push_back(), size().
+ */
 bool BaseModelAdapter::parseLayerInfo(const TensorMetadata& tensor, BaseLayerInfo& layer_info) {
     layer_info.name = tensor.name;
     layer_info.shape.clear();
@@ -347,6 +370,10 @@ size_t BaseModelAdapter::getTotalParameters() const {
     return total;
 }
 
+/**
+ * @brief Unload.
+ * @details Calls: reset(), clear(), spdlog::info().
+ */
 void BaseModelAdapter::unload() {
     if (gguf_loader_) {
         gguf_loader_.reset();
@@ -446,6 +473,11 @@ std::vector<float> BaseModelAdapter::extractEmbeddingFromGGUF(int token_id) cons
     
     // Extract single token embedding
     size_t hidden_dim = architecture_.hidden_size;
+    /**
+     * @brief Embedding.
+     * @param[in] hidden_dim Input parameter.
+     * @return Return value.
+     */
     std::vector<float> embedding(hidden_dim);
     
     const float* token_embed = embedding_matrix_ + (token_id * hidden_dim);
@@ -567,6 +599,11 @@ LoRAEnhancedModel::LoRAEnhancedModel(const Config& config)
 LoRAEnhancedModel::~LoRAEnhancedModel() {
 }
 
+/**
+ * @brief Initialize.
+ * @return True when the operation succeeds.
+ * @details Calls: spdlog::info(), loadModel(), spdlog::error(), getLayersByTargetModules(), empty(), size(), createLoRAAdapters(), getLoRAParameterCount().
+ */
 bool LoRAEnhancedModel::initialize() {
     spdlog::info("Initializing LoRA-enhanced model");
     
@@ -614,6 +651,11 @@ bool LoRAEnhancedModel::initialize() {
     return true;
 }
 
+/**
+ * @brief Create Lo RAAdapters.
+ * @return True when the operation succeeds.
+ * @details Calls: clear(), std::move(), spdlog::debug().
+ */
 bool LoRAEnhancedModel::createLoRAAdapters() {
     lora_layers_.clear();
     
@@ -639,6 +681,14 @@ bool LoRAEnhancedModel::createLoRAAdapters() {
     return true;
 }
 
+/**
+ * @brief Forward.
+ * @param[in] input Input parameter.
+ * @param[in] int Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: clone().
+ */
 Tensor LoRAEnhancedModel::forward(const Tensor& input, int /*layer_idx*/) {
     if (!initialized_) {
         throw std::runtime_error("Model not initialized");
@@ -661,6 +711,14 @@ Tensor LoRAEnhancedModel::forward(const Tensor& input, int /*layer_idx*/) {
     return input.clone();
 }
 
+/**
+ * @brief Backward.
+ * @param[in] grad_output Input parameter.
+ * @param[in] int Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: clone().
+ */
 Tensor LoRAEnhancedModel::backward(const Tensor& grad_output, int /*layer_idx*/) {
     if (!initialized_) {
         throw std::runtime_error("Model not initialized");
@@ -674,6 +732,11 @@ Tensor LoRAEnhancedModel::backward(const Tensor& grad_output, int /*layer_idx*/)
     return grad_output.clone();
 }
 
+/**
+ * @brief Get Trainable Parameters.
+ * @return Return value.
+ * @details Calls: parameters(), insert(), end(), begin().
+ */
 std::vector<Tensor*> LoRAEnhancedModel::getTrainableParameters() {
     std::vector<Tensor*> params;
     

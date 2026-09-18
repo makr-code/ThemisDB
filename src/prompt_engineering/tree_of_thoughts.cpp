@@ -23,6 +23,13 @@ namespace prompt_engineering {
 // HeuristicThoughtGenerator
 // ============================================================================
 
+/**
+ * @brief Generate.
+ * @param[in] problem Input parameter.
+ * @param[in] path Input parameter.
+ * @param[in] k Input parameter.
+ * @return Return value.
+ */
 std::vector<std::string> HeuristicThoughtGenerator::generate(
     const std::string& problem,
     const std::vector<std::string>& path,
@@ -85,24 +92,54 @@ TreeOfThoughtsBuilder::TreeOfThoughtsBuilder(const ToTConfig& config)
     : config_(config)
 {}
 
+/**
+ * @brief Set Thought Generator.
+ * @param[in] generator Input parameter.
+ * @return Return value.
+ */
 TreeOfThoughtsBuilder& TreeOfThoughtsBuilder::setThoughtGenerator(
     std::shared_ptr<IToTThoughtGenerator> generator)
 {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     generator_ = std::move(generator);
     return *this;
 }
 
+/**
+ * @brief Set Evaluator.
+ * @param[in] evaluator Input parameter.
+ * @return Return value.
+ */
 TreeOfThoughtsBuilder& TreeOfThoughtsBuilder::setEvaluator(
     std::shared_ptr<IToTEvaluator> evaluator)
 {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     evaluator_ = std::move(evaluator);
     return *this;
 }
 
+/**
+ * @brief Set Config.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ */
 TreeOfThoughtsBuilder& TreeOfThoughtsBuilder::setConfig(const ToTConfig& config)
 {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     config_ = config;
     return *this;
@@ -117,6 +154,11 @@ const ToTConfig& TreeOfThoughtsBuilder::getConfig() const
 // TreeOfThoughtsBuilder – solve()
 // ============================================================================
 
+/**
+ * @brief Solve.
+ * @param[in] problem Input parameter.
+ * @return Return value.
+ */
 ToTResult TreeOfThoughtsBuilder::solve(const std::string& problem)
 {
     if (problem.empty()) {
@@ -128,6 +170,11 @@ ToTResult TreeOfThoughtsBuilder::solve(const std::string& problem)
     std::shared_ptr<IToTEvaluator> evaluator;
     ToTConfig config;
     {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
 
         // Snapshot injected collaborators once so concurrent reconfiguration
@@ -150,7 +197,23 @@ ToTResult TreeOfThoughtsBuilder::solve(const std::string& problem)
                 config.branching_factor);
 
     switch (config.strategy) {
+        /**
+         * @brief Solve DFS.
+         * @param[in] problem Input parameter.
+         * @param[in] config Input parameter.
+         * @param[in] generator Input parameter.
+         * @param[in] evaluator Input parameter.
+         * @return Return value.
+         */
         case ToTSearchStrategy::DFS:  return solveDFS(problem, config, generator, evaluator);
+        /**
+         * @brief Solve Beam.
+         * @param[in] problem Input parameter.
+         * @param[in] config Input parameter.
+         * @param[in] generator Input parameter.
+         * @param[in] evaluator Input parameter.
+         * @return Return value.
+         */
         case ToTSearchStrategy::BEAM: return solveBeam(problem, config, generator, evaluator);
         case ToTSearchStrategy::BFS:  // fallthrough
             [[fallthrough]];
@@ -163,6 +226,14 @@ ToTResult TreeOfThoughtsBuilder::solve(const std::string& problem)
 // Internal search – BFS
 // ============================================================================
 
+/**
+ * @brief Solve BFS.
+ * @param[in] problem Input parameter.
+ * @param[in] config Input parameter.
+ * @param[in] generator Input parameter.
+ * @param[in] evaluator Input parameter.
+ * @return Return value.
+ */
 ToTResult TreeOfThoughtsBuilder::solveBFS(
     const std::string& problem,
     const ToTConfig& config,
@@ -242,6 +313,14 @@ ToTResult TreeOfThoughtsBuilder::solveBFS(
 // Internal search – DFS
 // ============================================================================
 
+/**
+ * @brief Solve DFS.
+ * @param[in] problem Input parameter.
+ * @param[in] config Input parameter.
+ * @param[in] generator Input parameter.
+ * @param[in] evaluator Input parameter.
+ * @return Return value.
+ */
 ToTResult TreeOfThoughtsBuilder::solveDFS(
     const std::string& problem,
     const ToTConfig& config,
@@ -317,6 +396,14 @@ ToTResult TreeOfThoughtsBuilder::solveDFS(
 // Internal search – Beam
 // ============================================================================
 
+/**
+ * @brief Solve Beam.
+ * @param[in] problem Input parameter.
+ * @param[in] config Input parameter.
+ * @param[in] generator Input parameter.
+ * @param[in] evaluator Input parameter.
+ * @return Return value.
+ */
 ToTResult TreeOfThoughtsBuilder::solveBeam(
     const std::string& problem,
     const ToTConfig& config,
@@ -441,6 +528,13 @@ std::string TreeOfThoughtsBuilder::synthesiseAnswer(
 // Static prompt builders
 // ============================================================================
 
+/**
+ * @brief Build Generation Prompt.
+ * @param[in] problem Input parameter.
+ * @param[in] path Input parameter.
+ * @param[in] k Input parameter.
+ * @return Return value.
+ */
 std::string TreeOfThoughtsBuilder::buildGenerationPrompt(
     const std::string& problem,
     const std::vector<std::string>& path,
@@ -464,6 +558,12 @@ std::string TreeOfThoughtsBuilder::buildGenerationPrompt(
     return out.str();
 }
 
+/**
+ * @brief Build Evaluation Prompt.
+ * @param[in] problem Input parameter.
+ * @param[in] node Input parameter.
+ * @return Return value.
+ */
 std::string TreeOfThoughtsBuilder::buildEvaluationPrompt(
     const std::string& problem,
     const ToTNode& node)
@@ -486,6 +586,12 @@ std::string TreeOfThoughtsBuilder::buildEvaluationPrompt(
     return out.str();
 }
 
+/**
+ * @brief Build Synthesis Prompt.
+ * @param[in] problem Input parameter.
+ * @param[in] best_path Path to the best.
+ * @return Return value.
+ */
 std::string TreeOfThoughtsBuilder::buildSynthesisPrompt(
     const std::string& problem,
     const std::vector<std::string>& best_path)

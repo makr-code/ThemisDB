@@ -173,7 +173,10 @@ static const std::map<std::string, TE>& templateTable()
     return kTable;
 }
 
-// Fallback template for unknown decision types
+/**
+ * @brief Fallback template for unknown decision types
+ * @return Return value.
+ */
 static const TE& fallbackTemplate()
 {
     static const TE kFallback = {
@@ -191,6 +194,10 @@ static const TE& fallbackTemplate()
 // ExplainabilityReasonBuilder — implementation
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Set Nl Generator Fn.
+ * @param[in] fn Input parameter.
+ */
 void ExplainabilityReasonBuilder::setNlGeneratorFn(NlGeneratorFn fn)
 {
     nl_generator_fn_ = std::move(fn);
@@ -207,6 +214,11 @@ ExplainabilityReasonBuilder::getTemplate(const std::string& decision_type)
     return fallbackTemplate();
 }
 
+/**
+ * @brief Requires Dba Action.
+ * @param[in] rec Input parameter.
+ * @return True when the operation succeeds.
+ */
 bool ExplainabilityReasonBuilder::requiresDbaAction(const AIDecisionRecord& rec)
 {
     // INTENT_ALERT with high confidence always requires DBA review
@@ -333,11 +345,20 @@ ExplainabilityReasonBuilder::enrichAuditor(
 // FederatedAIDecisionAuditor — implementation
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Set Shard Record Fetcher.
+ * @param[in] fn Input parameter.
+ */
 void FederatedAIDecisionAuditor::setShardRecordFetcher(ShardRecordFetcher fn)
 {
     shard_fetcher_ = std::move(fn);
 }
 
+/**
+ * @brief Add Shard.
+ * @param[in] shard_id Identifier of the shard.
+ * @param[in] records Input parameter.
+ */
 void FederatedAIDecisionAuditor::addShard(
     const std::string& shard_id,
     std::vector<AIDecisionRecord> records)

@@ -24,18 +24,8 @@ namespace themis {
 namespace lora {
 namespace directx {
 
-/**
- * @brief DirectX 12 descriptor heap manager
- * 
- * Manages descriptor heaps (CBV/SRV/UAV) for compute shaders.
- */
 class DirectXDescriptors {
 public:
-    /**
-     * @brief Create descriptor heap manager
-     * @param context DirectX context
-     * @param max_descriptors Maximum number of descriptors
-     */
     DirectXDescriptors(DirectXContext* context, uint32_t max_descriptors = 256);
     
     ~DirectXDescriptors() noexcept;
@@ -47,47 +37,47 @@ public:
     DirectXDescriptors& operator=(DirectXDescriptors&&) noexcept;
     
     /**
-     * @brief Initialize descriptor heap
+     * @brief Initialize.
+     * @return True when the operation succeeds.
      */
     bool initialize();
     
     /**
-     * @brief Create UAV (Unordered Access View) descriptor
-     * @param resource Resource to create view for
-     * @param num_elements Number of elements in buffer
-     * @param element_size Size of each element in bytes
-     * @return Descriptor index
+     * @brief Create uav.
+     * @param[in,out] resource Input/output parameter.
+     * @param[in] num_elements Input parameter.
+     * @param[in] element_size Input parameter.
+     * @return Return value.
      */
     uint32_t create_uav(ID3D12Resource* resource, uint32_t num_elements, uint32_t element_size);
     
     /**
-     * @brief Create SRV (Shader Resource View) descriptor
-     * @param resource Resource to create view for
-     * @param num_elements Number of elements in buffer
-     * @param element_size Size of each element in bytes
-     * @return Descriptor index
+     * @brief Create srv.
+     * @param[in,out] resource Input/output parameter.
+     * @param[in] num_elements Input parameter.
+     * @param[in] element_size Input parameter.
+     * @return Return value.
      */
     uint32_t create_srv(ID3D12Resource* resource, uint32_t num_elements, uint32_t element_size);
     
     /**
-     * @brief Get CPU descriptor handle
-     * @param index Descriptor index
+     * @brief Get cpu handle.
+     * @param[in] index Input parameter.
+     * @return Return value.
      */
     D3D12_CPU_DESCRIPTOR_HANDLE get_cpu_handle(uint32_t index) const;
     
     /**
-     * @brief Get GPU descriptor handle
-     * @param index Descriptor index
+     * @brief Get gpu handle.
+     * @param[in] index Input parameter.
+     * @return Return value.
      */
     D3D12_GPU_DESCRIPTOR_HANDLE get_gpu_handle(uint32_t index) const;
     
-    /**
-     * @brief Get descriptor heap
-     */
     ID3D12DescriptorHeap* heap() const { return descriptor_heap_.Get(); }
     
     /**
-     * @brief Reset all descriptors (for reuse)
+     * @brief Reset the modification detection flag.
      */
     void reset();
 

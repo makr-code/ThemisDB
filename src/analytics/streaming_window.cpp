@@ -108,6 +108,11 @@ namespace analytics {
 
 namespace {
 
+/**
+ * @brief Gen Id.
+ * @return Return value.
+ * @details Calls: fetch_add(), std::chrono::steady_clock::now(), time_since_epoch(), count(), std::snprintf(), std::string().
+ */
 std::string genId() {
     static std::atomic<uint64_t> counter{1};
     uint64_t c = counter.fetch_add(1, std::memory_order_relaxed);
@@ -126,14 +131,32 @@ std::string genId() {
     return std::string(buf);
 }
 
+/**
+ * @brief To Micros.
+ * @param[in] tp Input parameter.
+ * @return Return value.
+ * @details Calls: time_since_epoch(), count().
+ */
 int64_t toMicros(const std::chrono::system_clock::time_point &tp) {
     return std::chrono::duration_cast<std::chrono::microseconds>(tp.time_since_epoch()).count();
 }
 
+/**
+ * @brief From Micros.
+ * @param[in] us Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::time_point(), std::chrono::microseconds().
+ */
 std::chrono::system_clock::time_point fromMicros(int64_t us) {
     return std::chrono::system_clock::time_point(std::chrono::microseconds(us));
 }
 
+/**
+ * @brief To Double.
+ * @param[in] v Input parameter.
+ * @return Return value.
+ * @details Implements toDouble without additional internal calls.
+ */
 double toDouble(const RecordValue &v) {
     if (auto *d = std::get_if<double>(&v)) {
         return *d;
@@ -147,6 +170,12 @@ double toDouble(const RecordValue &v) {
     return 0.0;
 }
 
+/**
+ * @brief Rv To String.
+ * @param[in] v Input parameter.
+ * @return Return value.
+ * @details Calls: std::to_string().
+ */
 std::string rvToString(const RecordValue &v) {
     if (std::holds_alternative<std::monostate>(v)) {
         return "";
@@ -166,16 +195,23 @@ std::string rvToString(const RecordValue &v) {
     return "";
 }
 
-/** Compute percentile (p in [0,100]) from an unsorted values vector.
- *  Delegates to themis::analytics::detail::computePercentile (stats.h) —
- *  fixes TODO(v1.8.0) #6: was taking by value (O(N) copy per call-site).
+/**
+ * @brief Calc Percentile.
+ * @param[in] vals Input parameter.
+ * @param[in] p Input parameter.
+ * @return Return value.
+ * @details Calls: themis::analytics::detail::computePercentile().
  */
 double calcPercentile(const std::vector<double> &vals, double p) {
     return themis::analytics::detail::computePercentile(vals, p);
 }
 
 /**
- * Compute all aggregations from a flat list of records.
+ * @brief Compute Aggregations.
+ * @param[in] records Input parameter.
+ * @param[in] specs Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), max(), lowest(), empty(), find(), end(), toDouble().
  */
 std::vector<AggregatedValue> computeAggregations(const std::vector<StreamRecord> &records,
                                                  const std::vector<WindowAggregateSpec> &specs) {
@@ -366,15 +402,31 @@ TumblingWindow::~TumblingWindow() {
     callback_ = {};
 }
 
+/**
+ * @brief Create Tumbling Window.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @details Implements createTumblingWindow without additional internal calls.
+ */
 std::unique_ptr<TumblingWindow> createTumblingWindow(const TumblingWindowConfig &config) {
     return std::make_unique<TumblingWindow>(config);
 }
 
+/**
+ * @brief Add Aggregation.
+ * @param[in] spec Input parameter.
+ * @details Calls: lk(), push_back().
+ */
 void TumblingWindow::addAggregation(const WindowAggregateSpec &spec) {
     std::lock_guard lk(mutex_);
     agg_specs_.push_back(spec);
 }
 
+/**
+ * @brief Set Result Callback.
+ * @param[in] cb Input parameter.
+ * @details Calls: lk(), std::move().
+ */
 void TumblingWindow::setResultCallback(ResultCallback cb) {
     std::lock_guard lk(mutex_);
     callback_ = std::move(cb);
@@ -391,6 +443,11 @@ std::chrono::system_clock::time_point TumblingWindow::slotStart(int64_t idx) con
     return fromMicros(idx * sz_us);
 }
 
+/**
+ * @brief Update Watermark.
+ * @param[in] event_time Input parameter.
+ * @details Calls: toMicros(), count(), load(), compare_exchange_weak().
+ */
 void TumblingWindow::updateWatermark(const std::chrono::system_clock::time_point &event_time) {
     int64_t ev_us  = toMicros(event_time);
     int64_t tol    = config_.watermark.max_out_of_orderness.count() * 1000LL;
@@ -403,6 +460,12 @@ void TumblingWindow::updateWatermark(const std::chrono::system_clock::time_point
     }
 }
 
+/**
+ * @brief Close Expired Windows.
+ * @param[in] watermark_us Input parameter.
+ * @return Return value.
+ * @details Calls: begin(), end(), toMicros(), std::move(), erase(), empty(), push_back(), computeResult().
+ */
 std::vector<WindowResult> TumblingWindow::closeExpiredWindows(int64_t watermark_us) {
     // Called with mutex_ held. Returns results to emit; callers fire callbacks
     // outside the lock to prevent re-entrant deadlock.
@@ -437,6 +500,12 @@ WindowResult TumblingWindow::computeResult(const InternalWindow &win, bool late)
     return r;
 }
 
+/**
+ * @brief Ingest.
+ * @param[in] record Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: updateWatermark(), load(), toMicros(), spdlog::debug(), compare_exchange_weak(), lk(), slotIndex(), find().
+ */
 bool TumblingWindow::ingest(const StreamRecord &record) {
     updateWatermark(record.event_time);
     int64_t wm = watermark_us_.load(std::memory_order_acquire);
@@ -543,6 +612,10 @@ bool TumblingWindow::ingest(const StreamRecord &record) {
     return record_added;
 }
 
+/**
+ * @brief Flush.
+ * @details Calls: lk(), closeExpiredWindows(), max(), cb().
+ */
 void TumblingWindow::flush() {
     std::vector<WindowResult> pending;
     ResultCallback cb;
@@ -576,6 +649,10 @@ WindowStats TumblingWindow::getStats() const {
     return s;
 }
 
+/**
+ * @brief Idle Timeout Loop.
+ * @details Calls: lk(), wait_for(), load(), toMicros(), std::chrono::system_clock::now(), count(), compare_exchange_weak(), closeExpiredWindows().
+ */
 void TumblingWindow::idleTimeoutLoop() {
     while (idle_running_) {
         {
@@ -667,24 +744,50 @@ SlidingWindow::~SlidingWindow() {
     callback_ = {};
 }
 
+/**
+ * @brief Create Sliding Window.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @details Implements createSlidingWindow without additional internal calls.
+ */
 std::unique_ptr<SlidingWindow> createSlidingWindow(const SlidingWindowConfig &config) {
     return std::make_unique<SlidingWindow>(config);
 }
 
+/**
+ * @brief Add Aggregation.
+ * @param[in] spec Input parameter.
+ * @details Calls: lk(), push_back().
+ */
 void SlidingWindow::addAggregation(const WindowAggregateSpec &spec) {
     std::lock_guard lk(mutex_);
     agg_specs_.push_back(spec);
 }
 
+/**
+ * @brief Set Result Callback.
+ * @param[in] cb Input parameter.
+ * @details Calls: lk(), std::move().
+ */
 void SlidingWindow::setResultCallback(ResultCallback cb) {
     std::lock_guard lk(mutex_);
     callback_ = std::move(cb);
 }
 
+/**
+ * @brief Generate Id.
+ * @return Return value.
+ * @details Calls: genId().
+ */
 std::string SlidingWindow::generateId() {
     return genId();
 }
 
+/**
+ * @brief Update Watermark.
+ * @param[in] event_time Input parameter.
+ * @details Calls: toMicros(), count(), load(), compare_exchange_weak().
+ */
 void SlidingWindow::updateWatermark(const std::chrono::system_clock::time_point &event_time) {
     int64_t ev_us  = toMicros(event_time);
     int64_t tol_us = config_.watermark.max_out_of_orderness.count() * 1000LL;
@@ -696,6 +799,12 @@ void SlidingWindow::updateWatermark(const std::chrono::system_clock::time_point 
     }
 }
 
+/**
+ * @brief Ensure Windows Exist.
+ * @param[in] event_time Input parameter.
+ * @param[in] partition_key Input parameter.
+ * @details Calls: toMicros(), count(), load(), spdlog::debug(), genId(), fromMicros(), insert(), push_back().
+ */
 void SlidingWindow::ensureWindowsExist(const std::chrono::system_clock::time_point &event_time,
                                        const std::string &partition_key) {
     // Called with mutex_ held
@@ -755,6 +864,12 @@ void SlidingWindow::ensureWindowsExist(const std::chrono::system_clock::time_poi
     }
 }
 
+/**
+ * @brief Close Expired Windows.
+ * @param[in] watermark_us Input parameter.
+ * @return Return value.
+ * @details Calls: toMicros(), push_back(), computeResult(), empty(), front(), erase(), pop_front().
+ */
 std::vector<WindowResult> SlidingWindow::closeExpiredWindows(int64_t watermark_us) {
     // Called with mutex_ held. Returns results to emit; callers fire callbacks
     // outside the lock to prevent re-entrant deadlock.
@@ -788,6 +903,12 @@ WindowResult SlidingWindow::computeResult(const InternalWindow &win, bool late) 
     return r;
 }
 
+/**
+ * @brief Ingest.
+ * @param[in] record Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: updateWatermark(), load(), toMicros(), spdlog::debug(), compare_exchange_weak(), lk(), empty(), count().
+ */
 bool SlidingWindow::ingest(const StreamRecord &record) {
     updateWatermark(record.event_time);
     int64_t wm    = watermark_us_.load(std::memory_order_acquire);
@@ -871,6 +992,10 @@ bool SlidingWindow::ingest(const StreamRecord &record) {
     return record_added;
 }
 
+/**
+ * @brief Flush.
+ * @details Calls: lk(), closeExpiredWindows(), max(), cb().
+ */
 void SlidingWindow::flush() {
     std::vector<WindowResult> pending;
     ResultCallback cb;
@@ -899,6 +1024,10 @@ WindowStats SlidingWindow::getStats() const {
     return s;
 }
 
+/**
+ * @brief Idle Timeout Loop.
+ * @details Calls: lk(), wait_for(), load(), toMicros(), std::chrono::system_clock::now(), count(), compare_exchange_weak(), closeExpiredWindows().
+ */
 void SlidingWindow::idleTimeoutLoop() {
     while (idle_running_) {
         {
@@ -976,20 +1105,41 @@ SessionWindow::~SessionWindow() {
     callback_ = {};
 }
 
+/**
+ * @brief Create Session Window.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @details Implements createSessionWindow without additional internal calls.
+ */
 std::unique_ptr<SessionWindow> createSessionWindow(const SessionWindowConfig &config) {
     return std::make_unique<SessionWindow>(config);
 }
 
+/**
+ * @brief Add Aggregation.
+ * @param[in] spec Input parameter.
+ * @details Calls: lk(), push_back().
+ */
 void SessionWindow::addAggregation(const WindowAggregateSpec &spec) {
     std::lock_guard lk(mutex_);
     agg_specs_.push_back(spec);
 }
 
+/**
+ * @brief Set Result Callback.
+ * @param[in] cb Input parameter.
+ * @details Calls: lk(), std::move().
+ */
 void SessionWindow::setResultCallback(ResultCallback cb) {
     std::lock_guard lk(mutex_);
     callback_ = std::move(cb);
 }
 
+/**
+ * @brief Generate Id.
+ * @return Return value.
+ * @details Calls: genId().
+ */
 std::string SessionWindow::generateId() {
     return genId();
 }
@@ -1006,6 +1156,12 @@ WindowResult SessionWindow::computeResult(const Session &s, bool late) const {
     return r;
 }
 
+/**
+ * @brief Ingest.
+ * @param[in] record Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: toMicros(), count(), load(), compare_exchange_weak(), spdlog::debug(), lk(), find(), end().
+ */
 bool SessionWindow::ingest(const StreamRecord &record) {
     bool record_added = false;
 
@@ -1140,6 +1296,10 @@ bool SessionWindow::ingest(const StreamRecord &record) {
     return record_added;
 }
 
+/**
+ * @brief Flush.
+ * @details Calls: lk(), empty(), push_back(), computeResult(), clear(), cb().
+ */
 void SessionWindow::flush() {
     std::vector<WindowResult> pending;
     ResultCallback cb;
@@ -1175,6 +1335,10 @@ WindowStats SessionWindow::getStats() const {
     return s;
 }
 
+/**
+ * @brief Expiry Loop.
+ * @details Calls: lk(), wait_for(), load(), std::chrono::system_clock::now(), push_back(), empty(), computeResult(), erase().
+ */
 void SessionWindow::expiryLoop() {
     while (running_) {
         {
@@ -1233,24 +1397,50 @@ HoppingWindow::~HoppingWindow() {
     callback_ = {};
 }
 
+/**
+ * @brief Create Hopping Window.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @details Implements createHoppingWindow without additional internal calls.
+ */
 std::unique_ptr<HoppingWindow> createHoppingWindow(const HoppingWindowConfig &config) {
     return std::make_unique<HoppingWindow>(config);
 }
 
+/**
+ * @brief Add Aggregation.
+ * @param[in] spec Input parameter.
+ * @details Calls: lk(), push_back().
+ */
 void HoppingWindow::addAggregation(const WindowAggregateSpec &spec) {
     std::lock_guard lk(mutex_);
     agg_specs_.push_back(spec);
 }
 
+/**
+ * @brief Set Result Callback.
+ * @param[in] cb Input parameter.
+ * @details Calls: lk(), std::move().
+ */
 void HoppingWindow::setResultCallback(ResultCallback cb) {
     std::lock_guard lk(mutex_);
     callback_ = std::move(cb);
 }
 
+/**
+ * @brief Generate Id.
+ * @return Return value.
+ * @details Calls: genId().
+ */
 std::string HoppingWindow::generateId() {
     return genId();
 }
 
+/**
+ * @brief Update Watermark.
+ * @param[in] event_time Input parameter.
+ * @details Calls: toMicros(), count(), load(), compare_exchange_weak().
+ */
 void HoppingWindow::updateWatermark(const std::chrono::system_clock::time_point &event_time) {
     int64_t ev_us  = toMicros(event_time);
     int64_t tol_us = config_.watermark.max_out_of_orderness.count() * 1000LL;
@@ -1262,6 +1452,11 @@ void HoppingWindow::updateWatermark(const std::chrono::system_clock::time_point 
     }
 }
 
+/**
+ * @brief Ensure Windows Exist.
+ * @param[in] event_time Input parameter.
+ * @details Calls: toMicros(), count(), load(), spdlog::debug(), genId(), fromMicros(), insert(), push_back().
+ */
 void HoppingWindow::ensureWindowsExist(const std::chrono::system_clock::time_point &event_time) {
     // Same as SlidingWindow but uses hop instead of slide
     int64_t ev_us   = toMicros(event_time);
@@ -1305,6 +1500,12 @@ void HoppingWindow::ensureWindowsExist(const std::chrono::system_clock::time_poi
     }
 }
 
+/**
+ * @brief Close Expired Windows.
+ * @param[in] watermark_us Input parameter.
+ * @return Return value.
+ * @details Calls: toMicros(), push_back(), computeResult(), empty(), front(), erase(), pop_front().
+ */
 std::vector<WindowResult> HoppingWindow::closeExpiredWindows(int64_t watermark_us) {
     // Called with mutex_ held. Returns results to emit; callers fire callbacks
     // outside the lock to prevent re-entrant deadlock.
@@ -1337,6 +1538,12 @@ WindowResult HoppingWindow::computeResult(const InternalWindow &win, bool late) 
     return r;
 }
 
+/**
+ * @brief Ingest.
+ * @param[in] record Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: updateWatermark(), load(), toMicros(), spdlog::debug(), lk(), empty(), count(), size().
+ */
 bool HoppingWindow::ingest(const StreamRecord &record) {
     updateWatermark(record.event_time);
     int64_t wm    = watermark_us_.load(std::memory_order_acquire);
@@ -1412,6 +1619,10 @@ bool HoppingWindow::ingest(const StreamRecord &record) {
     return record_accepted;
 }
 
+/**
+ * @brief Flush.
+ * @details Calls: lk(), closeExpiredWindows(), max(), cb().
+ */
 void HoppingWindow::flush() {
     std::vector<WindowResult> pending;
     ResultCallback cb;
@@ -1444,6 +1655,13 @@ WindowStats HoppingWindow::getStats() const {
 // StreamingWindowPipeline
 // ============================================================================
 
+/**
+ * @brief Tumbling.
+ * @param[in] size Input parameter.
+ * @param[in] wm Input parameter.
+ * @return Return value.
+ * @details Calls: reserve().
+ */
 StreamingWindowPipeline StreamingWindowPipeline::tumbling(std::chrono::milliseconds size, WatermarkConfig wm) {
     StreamingWindowPipeline p;
     p.agg_specs_.reserve(16);
@@ -1453,6 +1671,14 @@ StreamingWindowPipeline StreamingWindowPipeline::tumbling(std::chrono::milliseco
     return p;
 }
 
+/**
+ * @brief Sliding.
+ * @param[in] size Input parameter.
+ * @param[in] slide Input parameter.
+ * @param[in] wm Input parameter.
+ * @return Return value.
+ * @details Calls: reserve().
+ */
 StreamingWindowPipeline StreamingWindowPipeline::sliding(std::chrono::milliseconds size,
                                                          std::chrono::milliseconds slide, WatermarkConfig wm) {
     StreamingWindowPipeline p;
@@ -1464,6 +1690,14 @@ StreamingWindowPipeline StreamingWindowPipeline::sliding(std::chrono::millisecon
     return p;
 }
 
+/**
+ * @brief Session.
+ * @param[in] gap Input parameter.
+ * @param[in] wm Input parameter.
+ * @param[in] expiry_interval_ms Input parameter.
+ * @return Return value.
+ * @details Calls: reserve().
+ */
 StreamingWindowPipeline StreamingWindowPipeline::session(std::chrono::milliseconds gap, WatermarkConfig wm,
                                                          std::chrono::milliseconds expiry_interval_ms) {
     StreamingWindowPipeline p;
@@ -1475,6 +1709,14 @@ StreamingWindowPipeline StreamingWindowPipeline::session(std::chrono::millisecon
     return p;
 }
 
+/**
+ * @brief Hopping.
+ * @param[in] size Input parameter.
+ * @param[in] hop Input parameter.
+ * @param[in] wm Input parameter.
+ * @return Return value.
+ * @details Calls: reserve().
+ */
 StreamingWindowPipeline StreamingWindowPipeline::hopping(std::chrono::milliseconds size, std::chrono::milliseconds hop,
                                                          WatermarkConfig wm) {
     StreamingWindowPipeline p;
@@ -1496,6 +1738,11 @@ StreamingWindowPipeline &StreamingWindowPipeline::onResult(std::function<void(Wi
     return *this;
 }
 
+/**
+ * @brief Build.
+ * @return Return value.
+ * @details Calls: addAggregation(), setResultCallback().
+ */
 std::shared_ptr<StreamingWindowPipeline> StreamingWindowPipeline::build() {
     // NOTE ON DATA RACE FINDINGS IN BUILD() METHOD:
     // This method constructs a new shared_ptr<StreamingWindowPipeline> in a single-threaded
@@ -1573,6 +1820,12 @@ std::shared_ptr<StreamingWindowPipeline> StreamingWindowPipeline::build() {
     return pipeline;
 }
 
+/**
+ * @brief Ingest.
+ * @param[in] record Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: spdlog::warn().
+ */
 bool StreamingWindowPipeline::ingest(const StreamRecord &record) {
     if (!built_) {
         spdlog::warn("StreamingWindowPipeline::ingest() called before build()");
@@ -1593,6 +1846,10 @@ bool StreamingWindowPipeline::ingest(const StreamRecord &record) {
     return false;
 }
 
+/**
+ * @brief Flush.
+ * @details Calls: spdlog::warn().
+ */
 void StreamingWindowPipeline::flush() {
     if (!built_) {
         spdlog::warn("StreamingWindowPipeline::flush() called before build()");

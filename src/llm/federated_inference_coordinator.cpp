@@ -36,15 +36,25 @@ FederatedInferenceCoordinator::FederatedInferenceCoordinator(
     , config_(config)
 {}
 
+/**
+ * @brief Add Static Shard.
+ * @param[in] instance_id Identifier of the instance.
+ * @param[in] shard Input parameter.
+ * @details Calls: lock().
+ */
 void FederatedInferenceCoordinator::addStaticShard(const std::string&         instance_id,
                                                     const sharding::ShardInfo& shard) {
     std::lock_guard<std::mutex> lock(static_shards_mutex_);
     static_shards_[instance_id] = shard;
 }
 
-// ---------------------------------------------------------------------------
-// IFederatedInferenceBackend::execute()
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- IFederatedInferenceBackend::execute() ---------------------------------------------------------------------------
+ * @param[in] instance_ids Input parameter.
+ * @param[in] request Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), reserve(), size(), push_back(), resolveShard(), has_value(), std::async(), dispatchToInstance().
+ */
 
 std::vector<FanOutInstanceResult> FederatedInferenceCoordinator::execute(
     const std::vector<std::string>& instance_ids,
@@ -160,6 +170,14 @@ std::vector<FanOutInstanceResult> FederatedInferenceCoordinator::execute(
 // Private helpers
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Dispatch To Instance.
+ * @param[in] instance_id Identifier of the instance.
+ * @param[in] shard Input parameter.
+ * @param[in] request Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::steady_clock::now(), buildRequestBody(), count(), post(), parseResponse(), clear(), spdlog::debug(), std::to_string().
+ */
 FanOutInstanceResult FederatedInferenceCoordinator::dispatchToInstance(
     const std::string&         instance_id,
     const sharding::ShardInfo& shard,
@@ -237,6 +255,11 @@ FanOutInstanceResult FederatedInferenceCoordinator::dispatchToInstance(
 std::optional<sharding::ShardInfo>
 FederatedInferenceCoordinator::resolveShard(const std::string& instance_id) const {
     {
+        /**
+         * @brief Lock.
+         * @param[in] static_shards_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(static_shards_mutex_);
         const auto it = static_shards_.find(instance_id);
         if (it != static_shards_.end()) {
@@ -249,6 +272,12 @@ FederatedInferenceCoordinator::resolveShard(const std::string& instance_id) cons
     return std::nullopt;
 }
 
+/**
+ * @brief Build Request Body.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: empty().
+ */
 nlohmann::json FederatedInferenceCoordinator::buildRequestBody(const InferenceRequest& req) {
     nlohmann::json body;
     body["prompt"]      = req.prompt;
@@ -270,6 +299,13 @@ nlohmann::json FederatedInferenceCoordinator::buildRequestBody(const InferenceRe
     return body;
 }
 
+/**
+ * @brief Parse Response.
+ * @param[in] data Input parameter.
+ * @param[in] instance_id Identifier of the instance.
+ * @return Return value.
+ * @details Calls: contains(), is_string(), is_number_integer(), is_number().
+ */
 InferenceResponse FederatedInferenceCoordinator::parseResponse(const nlohmann::json& data,
                                                                const std::string& instance_id) {
     InferenceResponse resp;

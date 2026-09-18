@@ -39,7 +39,12 @@ namespace {
 // Trim leading/trailing whitespace
 // Using themis::utils::trim() from string_utils.h (Phase 1 consolidation)
 
-// Strip surrounding double-quotes if present
+/**
+ * @brief Strip surrounding double-quotes if present
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Calls: size(), front(), substr().
+ */
 static std::string stripQuotes(const std::string& s) {
     if (s.size() >= 2 && s.front() == '"' && s.back() == '"') {
         return s.substr(1, s.size() - 2);
@@ -47,7 +52,14 @@ static std::string stripQuotes(const std::string& s) {
     return s;
 }
 
-// Evaluate a single simple condition against lhs (the resolved field value)
+/**
+ * @brief Evaluate a single simple condition against lhs (the resolved field value)
+ * @param[in] lhs Input parameter.
+ * @param[in] op Input parameter.
+ * @param[in] rhs Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: size(), compare(), find(), THEMIS_WARN().
+ */
 static bool evalOp(const std::string& lhs, const std::string& op, const std::string& rhs) {
     if (op == "==") {
         return lhs == rhs;
@@ -142,6 +154,10 @@ EventTrigger::~EventTrigger() noexcept {
     }
 }
 
+/**
+ * @brief Start.
+ * @details Calls: lock(), load(), THEMIS_WARN(), store(), std::thread(), THEMIS_INFO(), size().
+ */
 void EventTrigger::start() {
     // Level 0: Acquire global state lock (highest priority)
     std::lock_guard<std::mutex> lock(mutex_);
@@ -160,6 +176,10 @@ void EventTrigger::start() {
                 config_.debounce_ms);
 }
 
+/**
+ * @brief Stop.
+ * @details Calls: lock(), load(), store(), notify_all(), joinable(), join(), THEMIS_INFO().
+ */
 void EventTrigger::stop() {
     {
         // Level 0: Acquire global state lock
@@ -179,6 +199,12 @@ void EventTrigger::stop() {
     THEMIS_INFO("EventTrigger stopped (triggers_fired={})", triggers_fired_.load());
 }
 
+/**
+ * @brief Update the access control configuration.
+ * @param[in] config New access control configuration.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: isValid(), getValidationError(), lock(), clock(), clear(), THEMIS_DEBUG(), size().
+ */
 void EventTrigger::updateConfig(const CDCTriggerConfig& config) {
     if (!config.isValid()) {
         throw std::invalid_argument("EventTrigger: invalid config - " +
@@ -214,7 +240,11 @@ EventTrigger::Stats EventTrigger::getStats() const {
     stats.triggers_fired = triggers_fired_.load();
     stats.callback_failures = callback_failures_.load();
     {
-        // Level 3: Acquire circuit breaker lock (safe to acquire last)
+        /**
+         * @brief Level 3: Acquire circuit breaker lock (safe to acquire last)
+         * @param[in] cb_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(cb_mutex_);
         stats.circuit_open = cb_open_;
     }
@@ -222,12 +252,22 @@ EventTrigger::Stats EventTrigger::getStats() const {
     return stats;
 }
 
+/**
+ * @brief Set Circuit Breaker Config.
+ * @param[in] config Input parameter.
+ * @details Calls: lock().
+ */
 void EventTrigger::setCircuitBreakerConfig(const CircuitBreakerConfig& config) {
     // Level 3: Acquire circuit breaker lock (can be acquired standalone)
     std::lock_guard<std::mutex> lock(cb_mutex_);
     cb_config_ = config;
 }
 
+/**
+ * @brief Circuit Allows.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), std::chrono::steady_clock::now(), THEMIS_INFO().
+ */
 bool EventTrigger::circuitAllows() {
     // Level 3: Acquire circuit breaker lock (can be acquired standalone)
     std::lock_guard<std::mutex> lock(cb_mutex_);
@@ -243,6 +283,10 @@ bool EventTrigger::circuitAllows() {
     return false;
 }
 
+/**
+ * @brief Circuit Record Success.
+ * @details Calls: lock(), THEMIS_INFO().
+ */
 void EventTrigger::circuitRecordSuccess() {
     // Level 3: Acquire circuit breaker lock (can be acquired standalone)
     std::lock_guard<std::mutex> lock(cb_mutex_);
@@ -253,6 +297,10 @@ void EventTrigger::circuitRecordSuccess() {
     cb_open_ = false;
 }
 
+/**
+ * @brief Circuit Record Failure.
+ * @details Calls: lock(), std::chrono::steady_clock::now(), THEMIS_WARN(), count().
+ */
 void EventTrigger::circuitRecordFailure() {
     // Level 3: Acquire circuit breaker lock (can be acquired standalone)
     std::lock_guard<std::mutex> lock(cb_mutex_);
@@ -267,6 +315,10 @@ void EventTrigger::circuitRecordFailure() {
     }
 }
 
+/**
+ * @brief Listener Loop.
+ * @details Calls: THEMIS_DEBUG(), load(), getLatestSequence(), listEvents(), size(), matchesFilter(), shouldDebounce(), lock().
+ */
 void EventTrigger::listenerLoop() {
     THEMIS_DEBUG("EventTrigger listener loop started");
     
@@ -415,6 +467,11 @@ bool EventTrigger::matchesCondition(const Changefeed::ChangeEvent& event) const 
 
     // Ensure clauses are parsed (lazy, cached)
     {
+        /**
+         * @brief Clock.
+         * @param[in] condition_cache_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> clock(condition_cache_mutex_);
         if (!condition_parsed_) {
             rebuildConditionCache_();
@@ -555,7 +612,11 @@ bool EventTrigger::shouldDebounce() const {
         return false;
     }
     
-    // Level 1: Acquire debounce timing lock (can be acquired standalone)
+    /**
+     * @brief Level 1: Acquire debounce timing lock (can be acquired standalone)
+     * @param[in] debounce_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(debounce_mutex_);
     auto now = std::chrono::steady_clock::now();
     auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
@@ -586,6 +647,14 @@ EventTriggerManager::~EventTriggerManager() noexcept {
     }
 }
 
+/**
+ * @brief Register Trigger.
+ * @param[in] id Input parameter.
+ * @param[in] config Input parameter.
+ * @param[in] callback Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), find(), end(), THEMIS_WARN(), std::move(), start(), THEMIS_INFO(), THEMIS_ERROR().
+ */
 bool EventTriggerManager::registerTrigger(const std::string& id,
                                           const CDCTriggerConfig& config,
                                           EventTrigger::TriggerCallback callback) {
@@ -609,6 +678,11 @@ bool EventTriggerManager::registerTrigger(const std::string& id,
     }
 }
 
+/**
+ * @brief Unregister Trigger.
+ * @param[in] id Input parameter.
+ * @details Calls: lock(), find(), end(), stop(), erase(), THEMIS_INFO().
+ */
 void EventTriggerManager::unregisterTrigger(const std::string& id) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -620,6 +694,12 @@ void EventTriggerManager::unregisterTrigger(const std::string& id) {
     }
 }
 
+/**
+ * @brief Update Trigger.
+ * @param[in] id Input parameter.
+ * @param[in] config Input parameter.
+ * @details Calls: lock(), find(), end(), updateConfig(), THEMIS_INFO().
+ */
 void EventTriggerManager::updateTrigger(const std::string& id, const CDCTriggerConfig& config) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -631,6 +711,11 @@ void EventTriggerManager::updateTrigger(const std::string& id, const CDCTriggerC
 }
 
 std::optional<EventTrigger::Stats> EventTriggerManager::getTriggerStats(const std::string& id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     auto it = triggers_.find(id);
@@ -641,6 +726,10 @@ std::optional<EventTrigger::Stats> EventTriggerManager::getTriggerStats(const st
     return std::nullopt;
 }
 
+/**
+ * @brief Start All.
+ * @details Calls: lock(), isRunning(), start(), THEMIS_INFO(), size().
+ */
 void EventTriggerManager::startAll() {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -653,6 +742,10 @@ void EventTriggerManager::startAll() {
     THEMIS_INFO("Started all event triggers (count={})",triggers_.size());
 }
 
+/**
+ * @brief Stop All.
+ * @details Calls: lock(), isRunning(), stop(), THEMIS_INFO(), size().
+ */
 void EventTriggerManager::stopAll() {
     std::lock_guard<std::mutex> lock(mutex_);
     

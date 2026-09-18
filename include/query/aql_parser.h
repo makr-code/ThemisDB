@@ -32,74 +32,44 @@ struct Query; // ensure Query is known before usage in SubqueryExpr
 // Scope Validation (Phase 2)
 // ============================================================================
 
-/**
- * @brief Context for tracking collection scope during parsing.
- *
- * Prevents cross-collection access and enforces scope boundaries
- * at the parser stage. Implements the Parser Stage of the three-stage
- * access control flow (see ARCHITECTURE.md § 8.2).
- */
 class ParserScopeContext {
 public:
     ParserScopeContext() = default;
     ~ParserScopeContext() = default;
 
     /**
-     * @brief Register a collection in the current scope.
-     *
-     * @param collection_name The name of the collection to register.
+     * @brief Register Collection.
+     * @param[in] collection_name Name of the collection.
      */
     void registerCollection(const std::string& collection_name);
 
-    /**
-     * @brief Check if a collection is in the current scope.
-     *
-     * @param collection_name The name of the collection to check.
-     * @return true if collection is registered in current scope, false otherwise.
-     */
     [[nodiscard]] bool isCollectionInScope(const std::string& collection_name) const;
 
-    /**
-     * @brief Validate collection access with detailed error reporting.
-     *
-     * @param collection_name The name of the collection to validate.
-     * @param context_description A context description for error messages (e.g., "INSERT", "FOR").
-     * @return Error with ERR_QUERY_ACCESS_DENIED if collection not in scope; Ok(true) if valid.
-     */
     [[nodiscard]] Result<bool> validateCollectionAccess(
         const std::string& collection_name,
         const std::string& context_description) const;
 
     /**
-     * @brief Push a new scope level (for nested queries/scopes).
+     * @brief Push Scope.
      */
     void pushScope();
 
     /**
-     * @brief Pop the current scope level.
+     * @brief Pop Scope.
      */
     void popScope();
 
-    /**
-     * @brief Get all registered collections in the current scope.
-     *
-     * @return A sorted set of collection names (deterministic iteration order).
-     */
     [[nodiscard]] const std::set<std::string>& getRegisteredCollections() const;
 
     /**
-     * @brief Clear all registered collections (typically on new parse).
+     * @brief Clear.
      */
     void clear();
 
 private:
-    /// Ordered set for deterministic iteration (Batch 1C — determinism gate).
     std::set<std::string> registered_collections_;
-    /// Stack of ordered sets for scope nesting (deterministic order).
     std::vector<std::set<std::string>> scope_stack_;
-    /// Scope namespace prefix currently active (empty = unqualified / default scope).
     std::string current_scope_prefix_;
-    /// Stack of scope prefixes aligned with scope_stack_.
     std::vector<std::string> scope_prefix_stack_;
 };
 
@@ -203,8 +173,20 @@ struct Expression {
     struct UnaryOpExpression;
     struct FunctionCallExpression;
 
+    /**
+     * @brief Expression.
+     * @return Return value.
+     */
     virtual ~Expression() = default;
+    /**
+     * @brief Get Type.
+     * @return Return value.
+     */
     virtual ASTNodeType getType() const = 0;
+    /**
+     * @brief To JSON.
+     * @return Return value.
+     */
     virtual nlohmann::json toJSON() const = 0;
 };
 
@@ -302,6 +284,11 @@ struct ProximityCallExpr : Expression {
 struct ArrayLiteralExpr : Expression {
     std::vector<std::shared_ptr<Expression>> elements;
     
+    /**
+     * @brief Array Literal Expr.
+     * @param[in] elems Input parameter.
+     * @return Return value.
+     */
     explicit ArrayLiteralExpr(std::vector<std::shared_ptr<Expression>> elems)
         : elements(std::move(elems)) {}
     
@@ -323,6 +310,11 @@ struct ObjectConstructExpr : Expression {
 struct SubqueryExpr : Expression {
     std::shared_ptr<Query> subquery;
     
+    /**
+     * @brief Subquery Expr.
+     * @param[in] sq Input parameter.
+     * @return Return value.
+     */
     explicit SubqueryExpr(std::shared_ptr<Query> sq)
         : subquery(std::move(sq)) {}
     
@@ -374,26 +366,26 @@ struct AllExpr : Expression {
 // Mutation AST Nodes (EPIC-004 Phase 1)
 // ============================================================================
 
-/**
- * @brief Abstract base for all DML mutation AST nodes.
- *
- * Returned by AQLParser::parseMutation(). Each concrete subtype carries the
- * collection name, parsed operand expressions, and optional RETURN clause
- * flags.  No execution logic lives here — Phase 1 is parser-only.
- */
 struct MutationNode {
+    /**
+     * @brief Mutation Node.
+     * @return Return value.
+     */
     virtual ~MutationNode() = default;
 
-    /// @brief ASTNodeType discriminator for safe downcasting.
+    /**
+     * @brief Get Type.
+     * @return Return value.
+     */
     virtual ASTNodeType getType() const = 0;
 
-    /// @brief Serialise the node to a JSON representation for debugging/testing.
+    /**
+     * @brief To JSON.
+     * @return Return value.
+     */
     virtual nlohmann::json toJSON() const = 0;
 };
 
-/**
- * @brief SET clause for UPDATE statements: `field = expression`.
- */
 struct SetClause {
     std::string field;                         ///< Target field path (may contain dots)
     std::shared_ptr<Expression> value;         ///< Right-hand side expression
@@ -404,12 +396,6 @@ struct SetClause {
     }
 };
 
-/**
- * @brief AST node for INSERT mutations.
- *
- * Covers both AQL-native (`INSERT doc INTO collection`) and SQL-style
- * (`INSERT INTO collection VALUES {doc1}, {doc2}`).
- */
 struct InsertNode : MutationNode {
     std::string collection;                                ///< Target collection
     std::vector<std::shared_ptr<Expression>> documents;   ///< One or more document expressions
@@ -428,12 +414,6 @@ struct InsertNode : MutationNode {
     }
 };
 
-/**
- * @brief AST node for UPDATE mutations.
- *
- * Covers both SQL-style (`UPDATE collection SET k=v WHERE cond`) and
- * AQL-native (`UPDATE {search} WITH {update} IN collection`).
- */
 struct UpdateNode : MutationNode {
     std::string collection;                    ///< Target collection
     std::shared_ptr<Expression> filter;        ///< WHERE / FILTER condition (may be nullptr)
@@ -472,12 +452,6 @@ struct UpdateNode : MutationNode {
     }
 };
 
-/**
- * @brief AST node for REMOVE / DELETE mutations.
- *
- * Covers `REMOVE doc IN collection` (AQL-native) and
- * `DELETE FROM collection WHERE condition` (SQL-style).
- */
 struct RemoveNode : MutationNode {
     std::string collection;                    ///< Target collection
     std::shared_ptr<Expression> filter;        ///< WHERE / FILTER condition (may be nullptr)
@@ -502,11 +476,6 @@ struct RemoveNode : MutationNode {
     }
 };
 
-/**
- * @brief AST node for REPLACE mutations.
- *
- * Syntax: `REPLACE search_doc WITH replacement IN collection [RETURN NEW|OLD]`.
- */
 struct ReplaceNode : MutationNode {
     std::string collection;                    ///< Target collection
     std::shared_ptr<Expression> search_expr;  ///< Search expression
@@ -529,11 +498,6 @@ struct ReplaceNode : MutationNode {
     }
 };
 
-/**
- * @brief AST node for UPSERT mutations.
- *
- * Syntax: `UPSERT search_doc INSERT insert_doc UPDATE update_doc IN collection [RETURN NEW|OLD]`.
- */
 struct UpsertNode : MutationNode {
     std::string collection;                    ///< Target collection
     std::shared_ptr<Expression> search_expr;  ///< Search / match expression
@@ -592,6 +556,11 @@ struct ForNode {
 struct FilterNode {
     std::shared_ptr<Expression> condition;
     
+    /**
+     * @brief Filter Node.
+     * @param[in] cond Input parameter.
+     * @return Return value.
+     */
     explicit FilterNode(std::shared_ptr<Expression> cond)
         : condition(std::move(cond)) {}
     
@@ -606,6 +575,11 @@ struct FilterNode {
 struct SortNode {
     std::vector<SortSpec> specifications;
     
+    /**
+     * @brief Sort Node.
+     * @param[in] specs Input parameter.
+     * @return Return value.
+     */
     explicit SortNode(std::vector<SortSpec> specs)
         : specifications(std::move(specs)) {}
     
@@ -639,6 +613,11 @@ struct LimitNode {
 struct ReturnNode {
     std::shared_ptr<Expression> expression;
     
+    /**
+     * @brief Return Node.
+     * @param[in] expr Input parameter.
+     * @return Return value.
+     */
     explicit ReturnNode(std::shared_ptr<Expression> expr)
         : expression(std::move(expr)) {}
     
@@ -709,6 +688,10 @@ struct CollectNode {
 struct CTEDefinition {
     std::string name;                                  // CTE name (e.g., "expensiveHotels")
     std::shared_ptr<Query> subquery;                   // The subquery AST
+    /**
+     * @brief To JSON.
+     * @return Return value.
+     */
     nlohmann::json toJSON() const; // out-of-line defined in aql_parser.cpp
 };
 
@@ -732,13 +715,6 @@ struct WithNode {
 // FTS (Full-Text Search) types — Phase 6, SEARCH clause (Target: Q3–Q4 2026)
 // ============================================================================
 
-/**
- * @brief FTS predicate type for SEARCH clause predicates.
- *
- * Used in `FtsPredicateNode::pred_type` to distinguish the match semantics.
- *
- * @since Phase 6 FTS (Target: Q3 2026)
- */
 enum class FtsPredType : uint8_t {
     TERM,       ///< Simple term match (default).
     PHRASE,     ///< Exact phrase match ("hello world").
@@ -746,53 +722,19 @@ enum class FtsPredType : uint8_t {
     PREFIX,     ///< Prefix / STARTS_WITH match.
 };
 
-/**
- * @brief A single FTS predicate within a SEARCH clause.
- *
- * Represents one search condition, e.g.
- *   @code
- *   SEARCH PHRASE(doc.body, "hello world", "text_en") BOOST 2.5
- *   @endcode
- *
- * @since Phase 6 FTS (Target: Q3 2026)
- */
 struct FtsPredicateNode {
-    /// Field expression string (e.g. "doc.body", "doc.title").
     std::string field;
-    /// Search term or phrase text.
     std::string term;
-    /// Predicate type: TERM, PHRASE, PROXIMITY, or PREFIX.
     FtsPredType pred_type{FtsPredType::TERM};
-    /// Optional per-predicate relevance boost multiplier (default: 1.0).
     double boost{1.0};
-    /// Analyzer name (e.g. "text_en", "identity"). Empty = default analyzer.
     std::string analyzer;
-    /// For PROXIMITY: maximum token distance (NEAR[n]); 0 = unset.
     uint32_t proximity_distance{0};
 };
 
-/**
- * @brief AST node for a SEARCH … IN <field> clause.
- *
- * A SEARCH clause may contain one or more `FtsPredicateNode` entries
- * combined with AND / OR.  Currently the outer boolean is stored as a flat
- * list; the query executor interprets them as implicit AND.
- *
- * Grammar sketch:
- * @code
- * SEARCH predicates [IN field] [ANALYZER "name"] [BOOST num]
- * @endcode
- *
- * @since Phase 6 FTS (Target: Q3 2026)
- */
 struct SearchClauseNode {
-    /// One or more FTS predicates (implicit AND between elements).
     std::vector<FtsPredicateNode> predicates;
-    /// Optional: collection-level field override.  Empty = use per-predicate field.
     std::string in_field;
-    /// Optional: top-level analyzer override; applied when per-predicate analyzer empty.
     std::string default_analyzer;
-    /// Optional: top-level boost multiplier (multiplied with per-predicate boost).
     double top_boost{1.0};
 
     ASTNodeType getType() const noexcept { return ASTNodeType::SearchClauseNode; }
@@ -935,7 +877,6 @@ struct ParseError {
 // Continuous Query DDL AST (Phase 8.1)
 // ============================================================================
 
-/// DDL command type for continuous queries.
 enum class ContinuousQueryDDLType {
     CREATE,    ///< CREATE CONTINUOUS QUERY …
     DROP,      ///< DROP   CONTINUOUS QUERY NAME
@@ -943,27 +884,11 @@ enum class ContinuousQueryDDLType {
     DESCRIBE   ///< DESCRIBE CONTINUOUS QUERY NAME
 };
 
-/**
- * @brief AST node for continuous-query DDL statements.
- *
- * Produced by AQLParser::parseDDL() for the following surface syntax:
- *
- *   CREATE CONTINUOUS QUERY NAME ON COLLECTION
- *       WINDOW TIME(RANGE_MS, SLIDE_MS) | COUNT(ROWS, SLIDE_ROWS) | TUMBLING(INTERVAL_MS)
- *       RETURN AQL_BODY
- *
- *   DROP      CONTINUOUS QUERY NAME
- *   SHOW      CONTINUOUS QUERIES
- *   DESCRIBE  CONTINUOUS QUERY NAME
- */
 struct ContinuousQueryDDL {
     ContinuousQueryDDLType ddl_type{ContinuousQueryDDLType::SHOW};
 
-    /// Query name — populated for CREATE / DROP / DESCRIBE; empty for SHOW.
     std::string query_name;
 
-    /// Full ContinuousQuerySpec — populated only for CREATE.
-    /// Other DDL types leave this default-constructed.
     struct CreateSpec {
         std::string source_collection;  ///< ON COLLECTION
         std::string window_type;        ///< "TIME" | "COUNT" | "TUMBLING"
@@ -1005,7 +930,6 @@ struct ContinuousQueryDDL {
 // Schema DDL (AQL Phase 2 — CREATE/DROP/ALTER COLLECTION/INDEX/VIEW)
 // ============================================================================
 
-/// @brief Schema DDL command category.
 enum class SchemaDDLType {
     CREATE_COLLECTION, ///< CREATE COLLECTION name [OPTIONS {...}]
     DROP_COLLECTION,   ///< DROP COLLECTION name [IF EXISTS]
@@ -1016,14 +940,12 @@ enum class SchemaDDLType {
     ALTER_COLLECTION   ///< ALTER COLLECTION name SET OPTIONS {...}
 };
 
-/// @brief Column/field descriptor used in CREATE INDEX and CREATE COLLECTION.
 struct FieldDef {
     std::string name;           ///< Field name (e.g. "email").
     std::string type_hint;      ///< Optional type hint (e.g. "string", "number", "geo").
     bool        nullable{true}; ///< Whether the field may be null/absent.
 };
 
-/// @brief Index descriptor for CREATE INDEX.
 struct IndexDef {
     std::string            name;            ///< Index name.
     std::string            collection;      ///< Target collection.
@@ -1033,12 +955,6 @@ struct IndexDef {
     std::string            index_type;      ///< "hash", "skiplist", "geo", "fulltext", "vector".
 };
 
-/**
- * @brief AST node produced by AQLParser::parseSchemaDDL().
- *
- * Covers CREATE/DROP COLLECTION, CREATE/DROP INDEX, CREATE/DROP VIEW,
- * and ALTER COLLECTION as defined in AQL 2.0.0 DDL spec.
- */
 struct SchemaDDL {
     SchemaDDLType          ddl_type{SchemaDDLType::CREATE_COLLECTION};
     std::string            name;            ///< Object name (collection/index/view).
@@ -1067,7 +983,6 @@ struct SchemaDDL {
 // Multi-Statement Transaction AQL
 // ============================================================================
 
-/// Terminal action for a multi-statement transaction block.
 enum class AqlTransactionAction {
     Commit,   ///< COMMIT – execute all statements atomically
     Rollback  ///< ROLLBACK – discard all statements
@@ -1077,15 +992,7 @@ enum class AqlTransactionAction {
 // AqlStatement — Phase 4: mixed query/mutation transaction entry
 // ============================================================================
 
-/**
- * @brief A single statement within a transaction block.
- *
- * Phase 4 extends transaction blocks to accept both read queries (FOR/WITH)
- * and DML mutations (INSERT/UPDATE/DELETE/REMOVE/REPLACE/UPSERT) in any order.
- * AqlStatement carries exactly one of these two variants, identified by @c kind.
- */
 struct AqlStatement {
-    /// @brief The kind of statement held by this entry.
     enum class Kind {
         Query,    ///< A read query (FOR / WITH), held in @c query.
         Mutation, ///< A DML mutation (INSERT / UPDATE / …), held in @c mutation.
@@ -1100,21 +1007,9 @@ struct AqlStatement {
 // AqlTransactionBlock
 // ============================================================================
 
-/// A parsed multi-statement AQL transaction block.
-/// Syntax:
-///   BEGIN
-///     <AQL statement 1>
-///     <AQL statement 2> ...
-///   COMMIT | ROLLBACK
 struct AqlTransactionBlock {
-    /// Legacy: read-only query statements (backward compatible with pre-Phase-4 callers).
     std::vector<std::shared_ptr<Query>> statements;
 
-    /// Phase 4: ordered sequence of read queries and/or DML mutations.
-    ///
-    /// When non-empty this vector is authoritative and @c statements is not
-    /// populated.  Callers that handle only read queries should fall back to
-    /// @c statements when @c ordered_statements is empty.
     std::vector<AqlStatement> ordered_statements;
 
     AqlTransactionAction action = AqlTransactionAction::Commit;
@@ -1151,38 +1046,13 @@ struct AqlTransactionBlock {
 // AQL Parser
 // ============================================================================
 
-/**
- * @brief Stateless AQL query parser.
- *
- * @par Thread Safety
- * `AQLParser` holds **no mutable member state**.  Every public method constructs a
- * local `Tokenizer` and `Parser` object on the stack and returns without modifying
- * any shared data.  Consequently, a single `AQLParser` instance may be called
- * concurrently from multiple threads without additional synchronization (KL-01
- * closed 2026-05-26).
- *
- * @par Recursion Depth
- * Expression recursion is bounded by `kMaxExprDepth = 500`; graph traversal depth
- * by `kMaxTraversalDepth = 100` (PA-1 fixed 2026-05-04).  Crafted inputs that
- * exceed these limits receive a parse error rather than causing a stack overflow.
- */
 class AQLParser {
 public:
     AQLParser() = default;
     ~AQLParser() = default;
     
-    /**
-     * @brief Move constructor
-     * @note AQLParser is stateless, so move operations are trivial
-     * @cwe CWE-457: Stateless design ensures moved-from state is always valid
-     */
     AQLParser(AQLParser&&) noexcept = default;
     
-    /**
-     * @brief Move assignment operator
-     * @note AQLParser is stateless, so move operations are trivial
-     * @cwe CWE-672: Stateless design prevents use-after-move issues
-     */
     AQLParser& operator=(AQLParser&&) noexcept = default;
     
     // Delete copy operations (stateless but still follows best practices)
@@ -1190,132 +1060,51 @@ public:
     AQLParser& operator=(const AQLParser&) = delete;
     
     /**
-     * Parse an AQL query string into an AST.
-     * 
-     * @param query_string The AQL query to parse
-     * @return Result<std::shared_ptr<Query>> containing either the AST or an error
-     * 
-     * Example:
-     *   auto result = parser.parse("FOR doc IN users FILTER doc.age > 18 RETURN doc");
-     *   if (result) {
-     *       // Use *result
-     *   } else {
-     *       // Handle result.error()
-     *   }
+     * @brief Parse.
+     * @param[in] query_string Input parameter.
+     * @return Return value.
      */
     Result<std::shared_ptr<Query>> parse(const std::string& query_string);
 
     /**
-     * Parse a multi-statement transaction block.
-     *
-    * Expects input of the form:
-    *   BEGIN [;]
-    *     <AQL statement 1> [;]
-    *     <AQL statement 2> [;]
-    *     ...
-    *   COMMIT | ROLLBACK [;]
-     *
-    * Each statement must be a valid AQL query (starting with FOR or WITH).
-    * Semicolons are optional statement separators and are interpreted only at
-    * top-level (not inside parenthesized subqueries).
-     *
-     * @param input  The full multi-statement AQL transaction string.
-     * @return       Result<AqlTransactionBlock> or an error.
+     * @brief Parse Transaction Block.
+     * @param[in] input Input parameter.
+     * @return Return value.
      */
     Result<AqlTransactionBlock> parseTransactionBlock(const std::string& input);
 
     /**
-     * @brief Parse a standalone AQL expression string into an Expression tree.
-     *
-     * Used by QueryEngine evaluators to evaluate filter conditions independently
-     * of a full FOR…RETURN query.  Kept public because external callers such as
-     * QueryEngine::evalAqlExpression() and QueryExpressionEvaluator::canEvaluate()
-     * construct a local AQLParser and call this method directly.
+     * @brief Parse Expression.
+     * @param[in] expr_str Input parameter.
+     * @return Return value.
      */
     std::shared_ptr<Expression> parseExpression(const std::string& expr_str);
 
-    /**
-     * @brief Parse a Continuous Query DDL statement.
-     *
-     * Recognises:
-        *   CREATE CONTINUOUS QUERY NAME ON COLLECTION
-        *       WINDOW TIME(RANGE_MS, SLIDE_MS) RETURN AQL_BODY
-        *   CREATE CONTINUOUS QUERY NAME ON COLLECTION
-        *       WINDOW COUNT(ROWS, SLIDE_ROWS) RETURN AQL_BODY
-        *   CREATE CONTINUOUS QUERY NAME ON COLLECTION
-        *       WINDOW TUMBLING(INTERVAL_MS) RETURN AQL_BODY
-        *   DROP      CONTINUOUS QUERY NAME
-     *   SHOW      CONTINUOUS QUERIES
-        *   DESCRIBE  CONTINUOUS QUERY NAME
-     *
-     * @param input  The DDL statement string (case-insensitive keywords).
-     * @return       Parsed ContinuousQueryDDL node, or an Error.
-     */
     [[nodiscard]] Result<ContinuousQueryDDL> parseDDL(const std::string& input);
 
-    /**
-     * @brief Parse a DML mutation statement into a MutationNode AST.
-     *
-     * Recognises the following surface syntax (case-insensitive keywords):
-     *
-     *   AQL-native INSERT:
-     *     INSERT doc_expr INTO collection [RETURN NEW]
-     *
-     *   SQL-style INSERT:
-     *     INSERT INTO collection VALUES {doc1}[, {doc2}...] [RETURN NEW]
-     *
-     *   SQL-style UPDATE:
-     *     UPDATE collection SET field=value [, ...] [WHERE condition]
-     *        [LIMIT n] [RETURN NEW|OLD]
-     *
-     *   AQL-native UPDATE:
-     *     UPDATE search_expr WITH update_expr IN collection [RETURN NEW|OLD]
-     *
-     *   REMOVE (AQL-native):
-     *     REMOVE doc_expr IN collection [RETURN OLD]
-     *
-     *   DELETE (SQL-style alias for REMOVE):
-     *     DELETE FROM collection [WHERE condition] [LIMIT n] [RETURN OLD]
-     *
-     *   REPLACE:
-     *     REPLACE search_expr WITH replacement IN collection [RETURN NEW|OLD]
-     *
-     *   UPSERT:
-     *     UPSERT search_expr INSERT insert_doc UPDATE update_doc IN collection
-     *       [RETURN NEW|OLD]
-     *
-     * @note Phase 1 is parser-only — the returned node carries no execution logic.
-     *       Validation that the collection exists or that fields are type-correct
-     *       belongs to the executor layer (Phase 3+).
-     *
-     * @param input  The DML statement string (case-insensitive keywords).
-     * @return       Parsed MutationNode, or a parse error.
-     */
     [[nodiscard]] Result<std::shared_ptr<MutationNode>> parseMutation(const std::string& input);
 
-    /**
-     * @brief Parse a Schema DDL statement.
-     *
-     * Recognises:
-     *   CREATE COLLECTION name [IF NOT EXISTS] [OPTIONS {...}]
-     *   DROP   COLLECTION name [IF EXISTS]
-     *   CREATE [UNIQUE] INDEX name ON collection (field [, field]…)
-     *          [TYPE hash|skiplist|geo|fulltext|vector] [SPARSE]
-     *   DROP   INDEX name ON collection [IF EXISTS]
-     *   CREATE VIEW name AS FOR … RETURN …
-     *   DROP   VIEW name [IF EXISTS]
-     *   ALTER  COLLECTION name SET OPTIONS {...}
-     *
-     * @param input  DDL statement string (case-insensitive keywords).
-     * @return       Parsed SchemaDDL node or an error.
-     */
     [[nodiscard]] Result<SchemaDDL> parseSchemaDDL(const std::string& input);
 
 private:
-    // Helper methods (implemented in aql_parser.cpp)
+    /**
+     * @brief Helper methods (implemented in aql_parser.
+     * @param[in] expr_str Input parameter.
+     * @return Return value.
+     * @details cpp)
+     */
     std::shared_ptr<Expression> parsePrimaryExpression(const std::string& expr_str);
+    /**
+     * @brief String To Operator.
+     * @param[in] op_str Input parameter.
+     * @return Return value.
+     */
     BinaryOperator stringToOperator(const std::string& op_str);
-    // New: parse membership expression left IN right
+    /**
+     * @brief New: parse membership expression left IN right
+     * @param[in] left Input parameter.
+     * @return Return value.
+     */
     std::shared_ptr<Expression> parseMembership(std::shared_ptr<Expression> left);
 };
 

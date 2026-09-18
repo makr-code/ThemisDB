@@ -22,6 +22,12 @@ namespace themis {
 namespace security {
 
 namespace {
+/**
+ * @brief Is Blank Input.
+ * @param[in] value Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: std::all_of(), begin(), end(), std::isspace().
+ */
 bool isBlankInput(const std::string& value) {
     return std::all_of(value.begin(), value.end(), [](unsigned char ch) {
         return std::isspace(ch) != 0;
@@ -225,6 +231,12 @@ AQLInjectionDetector::validateUnboundedForLoops(const std::string& aql) {
 // Private Helper Methods
 // ============================================================================
 
+/**
+ * @brief Is Valid AQLTemplate.
+ * @param[in] template_str Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: parseAQL(), has_value().
+ */
 bool AQLInjectionDetector::isValidAQLTemplate(const std::string& template_str) {
     try {
         auto result = parseAQL(template_str);
@@ -294,6 +306,12 @@ AQLInjectionDetector::validateParameter(const std::string& param) {
     return result;
 }
 
+/**
+ * @brief Contains Suspicious Patterns.
+ * @param[in] str Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: std::regex(), std::regex_search().
+ */
 bool AQLInjectionDetector::containsSuspiciousPatterns(const std::string& str) {
     // Comprehensive list of suspicious patterns
     // Note: REPLACE, UPSERT, REMOVE are valid in ArangoDB AQL but are blocked here
@@ -339,6 +357,12 @@ bool AQLInjectionDetector::containsSuspiciousPatterns(const std::string& str) {
     return false;
 }
 
+/**
+ * @brief Extract Patterns.
+ * @param[in] str Input parameter.
+ * @return Return value.
+ * @details Calls: std::regex(), std::regex_search(), push_back(), str(), suffix().
+ */
 std::vector<std::string> AQLInjectionDetector::extractPatterns(const std::string& str) {
     std::vector<std::string> patterns;
     
@@ -367,6 +391,12 @@ std::vector<std::string> AQLInjectionDetector::extractPatterns(const std::string
     return patterns;
 }
 
+/**
+ * @brief Contains SQLKeywords.
+ * @param[in] str Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: find(), std::transform(), begin(), end().
+ */
 bool AQLInjectionDetector::containsSQLKeywords(const std::string& str) {
     static const std::vector<std::string> keywords = {
         "DROP", "DELETE", "UPDATE", "INSERT", "REPLACE",
@@ -392,6 +422,12 @@ bool AQLInjectionDetector::containsSQLKeywords(const std::string& str) {
     return false;
 }
 
+/**
+ * @brief Contains Dangerous Operations.
+ * @param[in] ast Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: scanExpressionForDangerousOps().
+ */
 bool AQLInjectionDetector::containsDangerousOperations(const query::Query& ast) {
     // Dangerous AQL/SQL function names that must never appear in a query AST.
     // Checked case-insensitively in scanExpressionForDangerousOps().
@@ -460,6 +496,12 @@ bool AQLInjectionDetector::containsDangerousOperations(const query::Query& ast) 
     return false;
 }
 
+/**
+ * @brief Scan Expression For Dangerous Ops.
+ * @param[in] expr Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: getType(), std::transform(), begin(), end(), std::toupper(), count(), containsDangerousOperations().
+ */
 bool AQLInjectionDetector::scanExpressionForDangerousOps(
     const std::shared_ptr<query::Expression>& expr
 ) {
@@ -550,6 +592,12 @@ bool AQLInjectionDetector::scanExpressionForDangerousOps(
     return false;
 }
 
+/**
+ * @brief Extract String Literals.
+ * @param[in] ast Input parameter.
+ * @return Return value.
+ * @details Calls: extractStringLiteralsFromExpression().
+ */
 std::vector<std::string> AQLInjectionDetector::extractStringLiterals(const query::Query& ast) {
     std::vector<std::string> literals;
     
@@ -582,6 +630,12 @@ std::vector<std::string> AQLInjectionDetector::extractStringLiterals(const query
     return literals;
 }
 
+/**
+ * @brief Extract String Literals From Expression.
+ * @param[in] expr Input parameter.
+ * @param[in,out] literals Input/output parameter.
+ * @details Calls: getType(), push_back().
+ */
 void AQLInjectionDetector::extractStringLiteralsFromExpression(
     const std::shared_ptr<query::Expression>& expr,
     std::vector<std::string>& literals
@@ -643,6 +697,12 @@ void AQLInjectionDetector::extractStringLiteralsFromExpression(
     }
 }
 
+/**
+ * @brief Parse AQL.
+ * @param[in] aql Input parameter.
+ * @return Return value.
+ * @details Calls: parse(), fmt::format(), what().
+ */
 Result<std::shared_ptr<query::Query>> AQLInjectionDetector::parseAQL(const std::string& aql) {
     try {
         query::AQLParser parser;

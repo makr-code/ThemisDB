@@ -55,18 +55,59 @@ ScraperPlugin::ScraperPlugin(
 // Dependency injection
 // ============================================================================
 
+/**
+ * @brief Set Evaluator.
+ * @param[in] e Input parameter.
+ * @details Calls: std::move().
+ */
 void ScraperPlugin::setEvaluator(std::shared_ptr<IScraperLLMEvaluator> e)   { evaluator_     = std::move(e); }
+/**
+ * @brief Set Writer.
+ * @param[in] w Input parameter.
+ * @details Calls: std::move().
+ */
 void ScraperPlugin::setWriter(std::shared_ptr<IScraperMetadataWriter> w)     { writer_        = std::move(w); }
+/**
+ * @brief Set Search Engine.
+ * @param[in] s Input parameter.
+ * @details Calls: std::move().
+ */
 void ScraperPlugin::setSearchEngine(std::shared_ptr<IScraperSearchEngine> s) { search_engine_ = std::move(s); }
+/**
+ * @brief Set Js Renderer.
+ * @param[in] r Input parameter.
+ * @details Calls: std::move().
+ */
 void ScraperPlugin::setJsRenderer(std::shared_ptr<IScraperJSRenderer> r)     { js_renderer_   = std::move(r); }
+/**
+ * @brief Set Api Client.
+ * @param[in] c Input parameter.
+ * @details Calls: std::move().
+ */
 void ScraperPlugin::setApiClient(std::shared_ptr<IScraperApiClient> c)       { api_client_    = std::move(c); }
+/**
+ * @brief Set Http Fetch.
+ * @param[in] fn Input parameter.
+ * @details Calls: std::move().
+ */
 void ScraperPlugin::setHttpFetch(HttpFn fn)                                   { http_fn_       = std::move(fn); }
+/**
+ * @brief Set Burst Controller.
+ * @param[in] bc Input parameter.
+ * @details Calls: std::move().
+ */
 void ScraperPlugin::setBurstController(std::shared_ptr<BurstCrawlController> bc) { burst_controller_ = std::move(bc); }
 
 // ============================================================================
 // initialize()
 // ============================================================================
 
+/**
+ * @brief Initialize.
+ * @param[in] config Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lk(), clear(), empty(), get(), loadFromFile().
+ */
 bool ScraperPlugin::initialize(const ScraperConfig& config) {
     std::lock_guard<std::mutex> lk(mutex_);
     config_ = config;
@@ -105,6 +146,10 @@ bool ScraperPlugin::isInitialized() const {
 // reset()
 // ============================================================================
 
+/**
+ * @brief Reset the modification detection flag.
+ * @details Calls: lk(), clear().
+ */
 void ScraperPlugin::reset() {
     std::lock_guard<std::mutex> lk(mutex_);
     results_.clear();
@@ -121,6 +166,11 @@ const std::vector<ScrapedDocument>& ScraperPlugin::getResults() const {
 
 std::vector<std::pair<std::string, std::string>> ScraperPlugin::collectSeeds() const {
     std::vector<std::pair<std::string, std::string>> seeds;
+    /**
+     * @brief Policy.
+     * @param[in] config_ Input parameter.
+     * @return Return value.
+     */
     UrlPolicy policy(config_);
 
     // Explicit seed_urls from config
@@ -175,6 +225,15 @@ namespace {
 #ifdef THEMIS_ENABLE_CURL
 struct CurlBuf {
     std::string data = {};
+    /**
+     * @brief Write.
+     * @param[in,out] p Input/output parameter.
+     * @param[in] sz Input parameter.
+     * @param[in] nmemb Input parameter.
+     * @param[in,out] ud Input/output parameter.
+     * @return Return value.
+     * @details Calls: append().
+     */
     static std::size_t write(char* p, std::size_t sz, std::size_t nmemb, void* ud) {
         static_cast<CurlBuf*>(ud)->data.append(p, sz * nmemb);
         return sz * nmemb;
@@ -295,6 +354,17 @@ std::string ScraperPlugin::fetchPage(const std::string& url) const {
 // processDocument()
 // ============================================================================
 
+/**
+ * @brief Process Document.
+ * @param[in] url Input parameter.
+ * @param[in] html Input parameter.
+ * @param[in] source_name Name of the source.
+ * @param[in] gov_source_id Identifier of the gov source.
+ * @param[in] document_type Input parameter.
+ * @param[in] date_issued Input parameter.
+ * @param[in] title_hint Input parameter.
+ * @details Calls: extractText(), size(), evaluate(), empty(), ss(), std::getline(), find_first_not_of(), substr().
+ */
 void ScraperPlugin::processDocument(
         const std::string& url,
         const std::string& html,
@@ -365,6 +435,14 @@ void ScraperPlugin::processDocument(
 // runSearchLoop()
 // ============================================================================
 
+/**
+ * @brief Run Search Loop.
+ * @param[in] seed_url Input parameter.
+ * @param[in] page_html Input parameter.
+ * @param[in] source_name Name of the source.
+ * @param[in] gov_source_id Identifier of the gov source.
+ * @details Calls: discoverForms(), empty(), front(), effectiveSearchQueries(), policy(), buildSearchUrl(), isAllowed(), std::this_thread::sleep_for().
+ */
 void ScraperPlugin::runSearchLoop(
         const std::string& seed_url,
         const std::string& page_html,
@@ -468,6 +546,13 @@ void ScraperPlugin::runSearchLoop(
 // runApiLoop()
 // ============================================================================
 
+/**
+ * @brief Run Api Loop.
+ * @param[in] endpoint_url Input parameter.
+ * @param[in] source_name Name of the source.
+ * @param[in] gov_source_id Identifier of the gov source.
+ * @details Calls: findById(), govSourceToApiConfig(), effectiveSearchQueries(), policy(), fetchAll(), size(), isAllowed(), evaluate().
+ */
 void ScraperPlugin::runApiLoop(
         const std::string& endpoint_url,
         const std::string& source_name,
@@ -548,6 +633,12 @@ void ScraperPlugin::runApiLoop(
 // scrape() – main agentic loop
 // ============================================================================
 
+/**
+ * @brief Scrape.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: lk(), std::chrono::steady_clock::now(), collectSeeds(), policy(), tryAcquire(), empty(), findById(), find().
+ */
 ScraperRunStats ScraperPlugin::scrape() {
     if (!initialized_) {
       throw std::runtime_error("ScraperPlugin not initialized");

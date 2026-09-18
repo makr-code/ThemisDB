@@ -25,26 +25,37 @@
 namespace themis {
 namespace performance {
 
-// Exporter entry points implemented in prometheus_exporter.cpp / chimera_exporter.cpp.
+/**
+ * @brief Exporter entry points implemented in prometheus_exporter.
+ * @param[in] metrics_list Input parameter.
+ * @return Return value.
+ * @details cpp / chimera_exporter.cpp.
+ */
 std::string exportPrometheusMetrics(const std::vector<MetricsEntry>& metrics_list);
+/**
+ * @brief Export Chimera Metrics.
+ * @param[in] metrics_list Input parameter.
+ * @return Return value.
+ */
 std::string exportChimeraMetrics(const std::vector<MetricsEntry>& metrics_list);
 
-/**
- * @brief Metrics collector with async export
- * 
- * Singleton that manages thread-local buffers and background export thread.
- */
 class CycleMetricsCollector {
 public:
+    /**
+     * @brief Instance.
+     * @return Return value.
+     * @details Implements instance without additional internal calls.
+     */
     static CycleMetricsCollector& instance() {
         static CycleMetricsCollector instance;
         return instance;
     }
 
     /**
-     * @brief Record operation metrics
-     * @param operation_name Operation name
-     * @param metrics Cycle metrics
+     * @brief Record Operation.
+     * @param[in] operation_name Name of the operation.
+     * @param[in] metrics Input parameter.
+     * @details Calls: RuntimeConfig::instance(), isOperationEnabled(), shouldMeasure(), BufferWrapper(), collector(), invalidate(), deregisterThreadBuffer(), wrapper().
      */
     void recordOperation(const std::string& operation_name, const OperationCycleMetrics& metrics) {
         // Check if this operation is enabled
@@ -90,19 +101,16 @@ public:
     }
 
     /**
-     * @brief Record function-level cycles (detailed metrics)
-     * @param function_name Function name
-     * @param cycles Cycle count
+     * @brief Record Function Cycles.
+     * @param[in] function_name Name of the function.
+     * @param[in] cycles Input parameter.
+     * @details Calls: lock(), push_back().
      */
     void recordFunctionCycles(const std::string& function_name, uint64_t cycles) {
         std::lock_guard<std::mutex> lock(function_metrics_mutex_);
         function_metrics_[function_name].push_back(cycles);
     }
 
-    /**
-     * @brief Start async export thread
-     * @param export_interval_seconds Interval between exports (default: 1s)
-     */
     void start(int export_interval_seconds = 1) {
         if (running_.load(std::memory_order_acquire)) {
             return;
@@ -117,7 +125,8 @@ public:
     }
 
     /**
-     * @brief Stop async export thread
+     * @brief Stop.
+     * @details Calls: load(), store(), notify_all(), joinable(), join().
      */
     void stop() {
         if (!running_.load(std::memory_order_acquire)) {
@@ -133,8 +142,9 @@ public:
     }
 
     /**
-     * @brief Get Prometheus metrics
-     * @return Prometheus formatted string
+     * @brief Get Prometheus Metrics.
+     * @return Return value.
+     * @details Calls: lock(), exportPrometheusMetrics().
      */
     std::string getPrometheusMetrics() {
         std::lock_guard<std::mutex> lock(aggregated_metrics_mutex_);
@@ -142,18 +152,15 @@ public:
     }
 
     /**
-     * @brief Get CHIMERA metrics
-     * @return JSON formatted string
+     * @brief Get CHIMERAMetrics.
+     * @return Return value.
+     * @details Calls: lock(), exportChimeraMetrics().
      */
     std::string getCHIMERAMetrics() {
         std::lock_guard<std::mutex> lock(aggregated_metrics_mutex_);
         return exportChimeraMetrics(aggregated_metrics_);
     }
 
-    /**
-     * @brief Get dropped metrics count
-     * @return Number of dropped metrics
-     */
     uint64_t getDroppedMetrics() const {
         return dropped_metrics_.load(std::memory_order_relaxed);
     }
@@ -166,16 +173,30 @@ private:
     CycleMetricsCollector() 
         : running_(false), export_interval_(1), dropped_metrics_(0) {}
 
+    /**
+     * @brief Register Thread Buffer.
+     * @param[in,out] buffer Input/output parameter.
+     * @details Calls: lock(), insert().
+     */
     void registerThreadBuffer(ThreadLocalMetricsBuffer* buffer) {
         std::lock_guard<std::mutex> lock(buffers_mutex_);
         thread_buffers_.insert(buffer);
     }
     
+    /**
+     * @brief Deregister Thread Buffer.
+     * @param[in,out] buffer Input/output parameter.
+     * @details Calls: lock(), erase().
+     */
     void deregisterThreadBuffer(ThreadLocalMetricsBuffer* buffer) {
         std::lock_guard<std::mutex> lock(buffers_mutex_);
         thread_buffers_.erase(buffer);
     }
 
+    /**
+     * @brief Export Loop.
+     * @details Calls: load(), lock(), wait_for(), std::chrono::seconds(), drainAllBuffers().
+     */
     void exportLoop() {
         while (running_.load(std::memory_order_acquire)) {
             // Wait for interval or stop signal
@@ -193,6 +214,10 @@ private:
         }
     }
 
+    /**
+     * @brief Drain All Buffers.
+     * @details Calls: lock(), reserve(), size(), assign(), begin(), end(), is_valid(), drain().
+     */
     void drainAllBuffers() {
         std::vector<MetricsEntry> new_metrics;
         
@@ -254,13 +279,13 @@ private:
     std::atomic<uint64_t> dropped_metrics_;
 };
 
-/**
- * @brief Async metrics exporter
- * 
- * Public API for starting/stopping metrics export.
- */
 class AsyncMetricsExporter {
 public:
+    /**
+     * @brief Instance.
+     * @return Return value.
+     * @details Implements instance without additional internal calls.
+     */
     static AsyncMetricsExporter& instance() {
         static AsyncMetricsExporter instance;
         return instance;
@@ -270,14 +295,28 @@ public:
         CycleMetricsCollector::instance().start(export_interval_seconds);
     }
 
+    /**
+     * @brief Stop.
+     * @details Calls: CycleMetricsCollector::instance().
+     */
     void stop() {
         CycleMetricsCollector::instance().stop();
     }
 
+    /**
+     * @brief Get Prometheus Metrics.
+     * @return Return value.
+     * @details Calls: CycleMetricsCollector::instance().
+     */
     std::string getPrometheusMetrics() {
         return CycleMetricsCollector::instance().getPrometheusMetrics();
     }
 
+    /**
+     * @brief Get CHIMERAMetrics.
+     * @return Return value.
+     * @details Calls: CycleMetricsCollector::instance().
+     */
     std::string getCHIMERAMetrics() {
         return CycleMetricsCollector::instance().getCHIMERAMetrics();
     }

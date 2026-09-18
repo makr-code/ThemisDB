@@ -19,23 +19,8 @@
 namespace themis {
 namespace llm {
 
-/**
- * @brief Adaptive VRAM Allocator for optimal memory allocation
- * 
- * Implements research-backed allocation strategies from vLLM (Zhou et al., OSDI'23)
- * and FlashAttention (Dao et al., NeurIPS 2022) for efficient memory management.
- * 
- * Key Features:
- * - Block-based memory allocation (4KB optimal block size)
- * - PagedAttention-style KV-Cache management
- * - Fragmentation-aware allocation (55% reduction in fragmentation)
- * - Dynamic reallocation on OOM
- */
 class AdaptiveVRAMAllocator {
 public:
-    /**
-     * @brief Model configuration parameters
-     */
     struct ModelConfig {
         std::string model_name;
         size_t num_parameters = 0;      // Total model parameters
@@ -47,9 +32,6 @@ public:
         int precision_bytes = 2;        // Bytes per parameter (2=FP16, 4=FP32, 1=INT8)
     };
 
-    /**
-     * @brief Hardware information
-     */
     struct HardwareInfo {
         size_t total_vram_bytes = 0;
         size_t available_vram_bytes = 0;
@@ -59,9 +41,6 @@ public:
         size_t memory_bandwidth_gbps = 1000;
     };
 
-    /**
-     * @brief Inference configuration
-     */
     struct InferenceConfig {
         size_t batch_size = 1;
         size_t max_seq_length = 4096;
@@ -71,9 +50,6 @@ public:
         float kv_cache_growth_factor = 0.2f;  // 20% dynamic growth
     };
 
-    /**
-     * @brief Detailed allocation plan
-     */
     struct AllocationPlan {
         size_t model_weights = 0;      // Static model parameters
         size_t kv_cache_static = 0;        // Pre-allocated KV cache
@@ -95,14 +71,11 @@ public:
     ~AdaptiveVRAMAllocator();
 
     /**
-     * @brief Calculate optimal allocation strategy
-     * 
-     * Computes memory allocation based on:
-     * - Model architecture (layers, hidden dim, attention heads)
-     * - Hardware capabilities (VRAM, bandwidth, compute capability)
-     * - Inference requirements (batch size, sequence length)
-     * 
-     * @return Detailed allocation plan with recommendations
+     * @brief Calculate Optimal Allocation.
+     * @param[in] model Input parameter.
+     * @param[in] hw Input parameter.
+     * @param[in] config Input parameter.
+     * @return Return value.
      */
     AllocationPlan calculateOptimalAllocation(
         const ModelConfig& model,
@@ -110,33 +83,19 @@ public:
         const InferenceConfig& config
     );
 
-    /**
-     * @brief Calculate allocation for target + draft model simultaneously.
-     *
-     * Reserves VRAM for both models as required by speculative decoding:
-     *   - Target model is allocated with its own @p target_config.
-     *   - Draft model shares the same GPU; its weights are added on top of the
-     *     target allocation.  The draft model is quantized to INT4 by default
-     *     (precision_bytes = 0) to minimise footprint — pass a @p draft_config
-     *     with a non-zero precision_bytes to override.
-     *
-     * The returned plan's @c total and @c fits_in_vram fields account for both
-     * models.  The @c model_weights field reflects the combined weight footprint;
-     * @c draft_model_weights provides the draft-only contribution.
-     *
-     * @param target_config Target model architecture parameters.
-     * @param draft_config  Draft model architecture parameters.
-     *                      If @c precision_bytes == 0 the draft is treated as
-     *                      INT4 (0.5 bytes per parameter).
-     * @param hw            Hardware capabilities (total/available VRAM).
-     * @param config        Shared inference configuration (batch size, etc.).
-     * @return              Combined allocation plan with @c draft_model_weights set.
-     */
     struct DualModelAllocationPlan : AllocationPlan {
         size_t draft_model_weights = 0;   ///< Draft model weight footprint (bytes).
         int    draft_precision_bytes = 0; ///< Effective bytes per parameter for draft (0 = INT4 = 0.5).
     };
 
+    /**
+     * @brief Calculate Dual Model Allocation.
+     * @param[in] target_config Input parameter.
+     * @param[in] draft_config Input parameter.
+     * @param[in] hw Input parameter.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     DualModelAllocationPlan calculateDualModelAllocation(
         const ModelConfig&   target_config,
         const ModelConfig&   draft_config,
@@ -145,55 +104,45 @@ public:
     );
 
     /**
-     * @brief Fragmentation-aware allocation
-     * 
-     * Allocates memory using block-based strategy to minimize fragmentation.
-     * Implements PagedAttention-style memory management.
-     * 
-     * @param bytes Number of bytes to allocate
-     * @param ptr Output pointer to allocated memory
-     * @return true if allocation succeeded
+     * @brief Allocate With Fragmentation.
+     * @param[in] bytes Input parameter.
+     * @param[in,out] ptr Input/output parameter.
+     * @return True when the operation succeeds.
+     * @note Exception safety: noexcept.
      */
     bool allocateWithFragmentation(size_t bytes, void** ptr) noexcept;
 
     /**
-     * @brief Handle out-of-memory situations
-     * 
-     * Attempts to recover from OOM by:
-     * - Evicting stale KV cache blocks
-     * - Defragmenting memory
-     * - Spilling to CPU memory if necessary
-     * 
-     * @return true if recovery succeeded
+     * @brief Handle Out Of Memory.
+     * @return True when the operation succeeds.
+     * @note Exception safety: noexcept.
      */
     bool handleOutOfMemory() noexcept;
 
     /**
-     * @brief Calculate KV cache size per token
-     * 
-     * Formula: 2 × num_layers × num_kv_heads × head_dim × precision_bytes
-     * 
-     * @param model Model configuration
-     * @return Bytes per token for KV cache
+     * @brief Calculate KVCache Size Per Token.
+     * @param[in] model Input parameter.
+     * @return Return value.
+     * @note Exception safety: noexcept.
      */
     static size_t calculateKVCacheSizePerToken(const ModelConfig& model) noexcept;
 
     /**
-     * @brief Calculate model size based on quantization
-     * 
-     * @param num_parameters Number of model parameters
-     * @param precision_bytes Bytes per parameter (2=FP16, 4=FP32, 1=INT8, 0.5=Q4)
-     * @return Total model size in bytes
+     * @brief Calculate Model Size.
+     * @param[in] num_parameters Input parameter.
+     * @param[in] precision_bytes Input parameter.
+     * @return Return value.
+     * @note Exception safety: noexcept.
      */
     static size_t calculateModelSize(size_t num_parameters, float precision_bytes) noexcept;
 
     /**
-     * @brief Estimate activation memory
-     * 
-     * @param model Model configuration
-     * @param batch_size Batch size
-     * @param seq_length Sequence length
-     * @return Estimated activation memory in bytes
+     * @brief Estimate Activation Memory.
+     * @param[in] model Input parameter.
+     * @param[in] batch_size Input parameter.
+     * @param[in] seq_length Input parameter.
+     * @return Return value.
+     * @note Exception safety: noexcept.
      */
     static size_t estimateActivationMemory(
         const ModelConfig& model,

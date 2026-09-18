@@ -36,24 +36,8 @@ class PromptEngineeringIntegration;
 
 namespace server {
 
-/**
- * @brief Handler for Prompt Engineering Advanced Operations
- * 
- * Endpoints:
- * - POST /api/v1/prompt_engineering/optimize - Trigger manual optimization
- * - GET /api/v1/prompt_engineering/ab_tests - List active A/B tests
- * - GET /api/v1/prompt_engineering/ab_tests/:id - Get A/B test details
- * - POST /api/v1/prompt_engineering/feedback - Submit feedback
- * - GET /api/v1/prompt_engineering/stats - Get system statistics
- * - GET /api/v1/prompt_engineering/history/:id - Get optimization history
- * - GET /api/v1/prompt_engineering/versions/:id - Get version history
- * - POST /api/v1/prompt_engineering/rollback - Rollback to previous version
- */
 class PromptEngineeringApiHandler {
 public:
-    /**
-     * @brief Construct handler with all prompt engineering components
-     */
     PromptEngineeringApiHandler(
         std::shared_ptr<RocksDBWrapper> storage,
         std::shared_ptr<prompt_engineering::PromptManager> manager,
@@ -67,32 +51,71 @@ public:
     );
 
     // Optimization endpoints
+    /**
+     * @brief Handle Optimize.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleOptimize(
         const http::request<http::string_body>& req);
     
-    // A/B testing endpoints
+    /**
+     * @brief Handle List ABTests.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleListABTests(
         const http::request<http::string_body>& req);
     
+    /**
+     * @brief Handle Get ABTest.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleGetABTest(
         const http::request<http::string_body>& req);
     
     // Feedback endpoints
+    /**
+     * @brief Handle Submit Feedback.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleSubmitFeedback(
         const http::request<http::string_body>& req);
     
     // Statistics endpoints
+    /**
+     * @brief Handle Get Stats.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleGetStats(
         const http::request<http::string_body>& req);
     
     // History endpoints
+    /**
+     * @brief Handle Get History.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleGetHistory(
         const http::request<http::string_body>& req);
     
     // Version control endpoints
+    /**
+     * @brief Handle Get Versions.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleGetVersions(
         const http::request<http::string_body>& req);
     
+    /**
+     * @brief Handle Rollback.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleRollback(
         const http::request<http::string_body>& req);
 
@@ -108,13 +131,33 @@ private:
     std::shared_ptr<themis::AuthMiddleware> auth_;
 
     // Helper methods
+    /**
+     * @brief Extract Path Param.
+     * @param[in] target Input parameter.
+     * @param[in] prefix Input parameter.
+     * @return Return value.
+     */
     std::string extractPathParam(const std::string& target, const std::string& prefix);
     
+    /**
+     * @brief Make Error Response.
+     * @param[in] status Input parameter.
+     * @param[in] message Input parameter.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> makeErrorResponse(
         http::status status, 
         const std::string& message, 
         const http::request<http::string_body>& req);
     
+    /**
+     * @brief Make Response.
+     * @param[in] status Input parameter.
+     * @param[in] body Input parameter.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> makeResponse(
         http::status status, 
         const std::string& body, 

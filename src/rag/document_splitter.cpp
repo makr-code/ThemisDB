@@ -23,7 +23,12 @@ namespace themis::rag {
 // ===========================================================================
 namespace {
 
-/// Validate configuration and throw std::invalid_argument on bad values.
+/**
+ * @brief Validate Config.
+ * @param[in] cfg Input parameter.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Implements validateConfig without additional internal calls.
+ */
 void validateConfig(const DocumentSplitterConfig& cfg) {
     if (cfg.chunk_size == 0) {
         throw std::invalid_argument("DocumentSplitterConfig: chunk_size must be > 0");
@@ -38,7 +43,13 @@ void validateConfig(const DocumentSplitterConfig& cfg) {
     }
 }
 
-/// Estimate token count for @p text using @p chars_per_token.
+/**
+ * @brief Estimate Token Count.
+ * @param[in] text Input parameter.
+ * @param[in] chars_per_token Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), std::ceil(), size().
+ */
 inline size_t estimateTokenCount(const std::string& text, double chars_per_token) {
     if (text.empty()) {
       return 0;
@@ -47,16 +58,6 @@ inline size_t estimateTokenCount(const std::string& text, double chars_per_token
         std::ceil(static_cast<double>(text.size()) / chars_per_token));
 }
 
-/**
- * Split @p text into sentences.
- *
- * A sentence boundary is detected after '.', '!', or '?' when the next
- * character is whitespace or end-of-string.  This heuristic avoids splitting
- * common abbreviations (e.g. "Mr.") because those are typically followed by a
- * letter, not a space.
- *
- * @return Vector of (sentence_text, byte_offset) pairs.
- */
 std::vector<std::pair<std::string, size_t>>
 splitSentences(const std::string& text) {
     std::vector<std::pair<std::string, size_t>> sentences;
@@ -109,8 +110,12 @@ splitSentences(const std::string& text) {
 }
 
 /**
- * Extract the last @p overlap_tokens worth of text from @p text using the
- * given chars_per_token factor.
+ * @brief Extract Overlap Tail.
+ * @param[in] text Input parameter.
+ * @param[in] overlap_tokens Input parameter.
+ * @param[in] chars_per_token Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), size(), substr().
  */
 std::string extractOverlapTail(const std::string& text,
                                 size_t             overlap_tokens,
@@ -133,15 +138,30 @@ std::string extractOverlapTail(const std::string& text,
 struct DocumentSplitter::Impl {
     DocumentSplitterConfig config;
 
-    // ----- Fixed strategy -----------------------------------------------
+    /**
+     * @brief ----- Fixed strategy -----------------------------------------------
+     * @param[in] text Input parameter.
+     * @param[in] doc_id Identifier of the doc.
+     * @return Return value.
+     */
     std::vector<DocumentChunk> splitFixed(const std::string& text,
                                           const std::string& doc_id) const;
 
-    // ----- Sliding strategy ---------------------------------------------
+    /**
+     * @brief ----- Sliding strategy ---------------------------------------------
+     * @param[in] text Input parameter.
+     * @param[in] doc_id Identifier of the doc.
+     * @return Return value.
+     */
     std::vector<DocumentChunk> splitSliding(const std::string& text,
                                              const std::string& doc_id) const;
 
-    // ----- Sentence strategy --------------------------------------------
+    /**
+     * @brief ----- Sentence strategy --------------------------------------------
+     * @param[in] text Input parameter.
+     * @param[in] doc_id Identifier of the doc.
+     * @return Return value.
+     */
     std::vector<DocumentChunk> splitSentence(const std::string& text,
                                               const std::string& doc_id) const;
 };
@@ -383,6 +403,11 @@ const DocumentSplitterConfig& DocumentSplitter::getConfig() const {
     return impl_->config;
 }
 
+/**
+ * @brief Set Config.
+ * @param[in] config Input parameter.
+ * @details Calls: validateConfig().
+ */
 void DocumentSplitter::setConfig(const DocumentSplitterConfig& config) {
     validateConfig(config);
     impl_->config = config;
@@ -392,6 +417,11 @@ void DocumentSplitter::setConfig(const DocumentSplitterConfig& config) {
 // DocumentSplitterFactory
 // ===========================================================================
 
+/**
+ * @brief Create Default.
+ * @return Return value.
+ * @details Implements createDefault without additional internal calls.
+ */
 std::unique_ptr<DocumentSplitter> DocumentSplitterFactory::createDefault() {
     DocumentSplitterConfig cfg;
     cfg.chunk_size  = 512;
@@ -400,6 +430,11 @@ std::unique_ptr<DocumentSplitter> DocumentSplitterFactory::createDefault() {
     return std::make_unique<DocumentSplitter>(cfg);
 }
 
+/**
+ * @brief Create Small.
+ * @return Return value.
+ * @details Implements createSmall without additional internal calls.
+ */
 std::unique_ptr<DocumentSplitter> DocumentSplitterFactory::createSmall() {
     DocumentSplitterConfig cfg;
     cfg.chunk_size  = 256;
@@ -408,6 +443,11 @@ std::unique_ptr<DocumentSplitter> DocumentSplitterFactory::createSmall() {
     return std::make_unique<DocumentSplitter>(cfg);
 }
 
+/**
+ * @brief Create Large.
+ * @return Return value.
+ * @details Implements createLarge without additional internal calls.
+ */
 std::unique_ptr<DocumentSplitter> DocumentSplitterFactory::createLarge() {
     DocumentSplitterConfig cfg;
     cfg.chunk_size  = 1024;
@@ -416,6 +456,14 @@ std::unique_ptr<DocumentSplitter> DocumentSplitterFactory::createLarge() {
     return std::make_unique<DocumentSplitter>(cfg);
 }
 
+/**
+ * @brief Create.
+ * @param[in] chunk_size Input parameter.
+ * @param[in] overlap Input parameter.
+ * @param[in] strategy Input parameter.
+ * @param[in] chars_per_token Input parameter.
+ * @return Return value.
+ */
 std::unique_ptr<DocumentSplitter> DocumentSplitterFactory::create(
     size_t        chunk_size,
     size_t        overlap,

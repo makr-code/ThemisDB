@@ -21,7 +21,13 @@ namespace llm {
 // Private helpers
 // ═══════════════════════════════════════════════════════════
 
-/*static*/
+/**
+ * @brief static
+ * @param[in] rule Input parameter.
+ * @return Return value.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: reserve(), size(), emplace_back(), what().
+ */
 std::vector<std::regex> ModelRouter::compilePatterns(const RoutingRule& rule) {
     std::vector<std::regex> compiled = {};
 
@@ -38,7 +44,14 @@ std::vector<std::regex> ModelRouter::compilePatterns(const RoutingRule& rule) {
     return compiled;
 }
 
-/*static*/
+/**
+ * @brief static
+ * @param[in] cr Input parameter.
+ * @param[in] prompt Input parameter.
+ * @param[in] tags Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: std::regex_search(), empty(), matchesAnyPattern(), matchesAnyTag(), matchesAllPatterns(), matchesAllTags().
+ */
 bool ModelRouter::evaluate(const CompiledRule& cr,
                             const std::string& prompt,
                             const std::vector<std::string>& tags) {
@@ -110,9 +123,12 @@ bool ModelRouter::evaluate(const CompiledRule& cr,
     }
 }
 
-// ═══════════════════════════════════════════════════════════
-// Public API
-// ═══════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════ Public API ═══════════════════════════════════════════════════════════
+ * @param[in] rule Input parameter.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: empty(), compilePatterns(), lk(), std::move(), std::stable_sort(), begin(), end(), spdlog::debug().
+ */
 
 void ModelRouter::addRule(const RoutingRule& rule) {
     if (rule.id.empty()) {
@@ -159,6 +175,12 @@ void ModelRouter::addRule(const RoutingRule& rule) {
                   rule.id, rule.priority, rule.target_model_id);
 }
 
+/**
+ * @brief Remove Rule.
+ * @param[in] rule_id Identifier of the rule.
+ * @return True when the operation succeeds.
+ * @details Calls: lk(), std::find_if(), begin(), end(), erase(), spdlog::debug().
+ */
 bool ModelRouter::removeRule(const std::string& rule_id) {
     std::lock_guard<std::mutex> lk(mutex_);
     auto it = std::find_if(rules_.begin(), rules_.end(),
@@ -172,6 +194,11 @@ bool ModelRouter::removeRule(const std::string& rule_id) {
 }
 
 std::vector<RoutingRule> ModelRouter::getRules() const {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     std::vector<RoutingRule> out = {};
 
@@ -182,6 +209,10 @@ std::vector<RoutingRule> ModelRouter::getRules() const {
     return out;
 }
 
+/**
+ * @brief Clear Rules.
+ * @details Calls: lk(), clear(), spdlog::debug().
+ */
 void ModelRouter::clearRules() {
     std::lock_guard<std::mutex> lk(mutex_);
     rules_.clear();
@@ -189,6 +220,11 @@ void ModelRouter::clearRules() {
 }
 
 size_t ModelRouter::ruleCount() const {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     return rules_.size();
 }
@@ -209,6 +245,11 @@ RoutingResult ModelRouter::route(const std::string& prompt,
         }
     }
 
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     for (const auto& cr : rules_) {
         if (evaluate(cr, prompt, tags)) {

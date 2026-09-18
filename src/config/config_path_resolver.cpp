@@ -34,7 +34,6 @@ namespace config {
 // and emits periodic structured log reports.
 // ═══════════════════════════════════════════════════════════
 
-/** @brief and emits periodic structured log reports. */
 class ConfigPathResolver::DeprecationAggregator {
 public:
     static constexpr int DEFAULT_INTERVAL_SECONDS = 300;
@@ -44,19 +43,21 @@ public:
     }
 
     /**
-     * Increment the usage counter for a legacy path.
-     * Thread-safe; called from ConfigPathResolver::tryResolve().
+     * @brief Increment Usage.
+     * @param[in] legacy_path Path to the legacy.
+     * @details Calls: lock().
      */
     void incrementUsage(const std::string& legacy_path) {
         std::lock_guard<std::mutex> lock(mutex_);
         usage_counts_[legacy_path]++;
     }
 
-    /**
-     * Build and return a snapshot of the current deprecation report,
-     * sorted by descending usage count.
-     */
     std::vector<ConfigPathResolver::DeprecationEntry> getReport() const {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         std::vector<ConfigPathResolver::DeprecationEntry> report = {};
 
@@ -88,19 +89,20 @@ public:
     }
 
     /**
-     * Reset all usage counters (called from ConfigPathResolver::resetMetrics()).
+     * @brief Reset the modification detection flag.
+     * @details Calls: lock(), clear().
      */
     void reset() {
         std::lock_guard<std::mutex> lock(mutex_);
         usage_counts_.clear();
     }
 
-    /**
-     * Start the background reporter thread.
-     *
-     * @param interval_seconds How often to emit the aggregated report (default 300 s).
-     */
     void start(int interval_seconds = DEFAULT_INTERVAL_SECONDS) {
+        /**
+         * @brief Tlock.
+         * @param[in] thread_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> tlock(thread_mutex_);
         if (running_.load()) {
             return;  // Already running
@@ -111,7 +113,8 @@ public:
     }
 
     /**
-     * Stop the background reporter thread and join it.
+     * @brief Stop.
+     * @details Calls: lock(), notify_all(), tlock(), joinable(), join().
      */
     void stop() {
         {
@@ -129,6 +132,10 @@ public:
     bool isRunning() const { return running_.load(); }
 
 private:
+    /**
+     * @brief Reporter Loop.
+     * @details Calls: load(), lock(), wait_for(), logReport().
+     */
     void reporterLoop() {
         while (running_.load()) {
             std::unique_lock<std::mutex> lock(cv_mutex_);
@@ -139,6 +146,10 @@ private:
         }
     }
 
+    /**
+     * @brief Log Report.
+     * @details Calls: getReport(), empty(), spdlog::info(), size(), has_value(), year(), month(), day().
+     */
     void logReport() {
         auto report = getReport();
         if (report.empty()) {
@@ -189,11 +200,6 @@ private:
 
 namespace {
 
-/// Read THEMIS_CONFIG_CACHE_SIZE from the environment.
-/// Valid range: [10, 100000]. Falls back to kDefaultCacheSize and prints a
-/// warning to stderr when the variable is absent, unparseable, or out of
-/// range.  Uses fprintf(stderr) rather than spdlog because this function is
-/// called during static initialization before spdlog may be configured.
 size_t readCacheSizeFromEnv() noexcept {
     const char* env = std::getenv("THEMIS_CONFIG_CACHE_SIZE");
     if (env && *env != '\0') {
@@ -218,10 +224,6 @@ size_t readCacheSizeFromEnv() noexcept {
     return ConfigPathResolver::kDefaultCacheSize;
 }
 
-/// Read THEMIS_CONFIG_CACHE_TTL from the environment.
-/// Valid range: [1, 86400] seconds. Falls back to kDefaultCacheTtlSeconds and
-/// prints a warning to stderr when the variable is absent, unparseable, or out
-/// of range.
 int readCacheTtlFromEnv() noexcept {
     const char* env = std::getenv("THEMIS_CONFIG_CACHE_TTL");
     if (env && *env != '\0') {
@@ -404,7 +406,12 @@ const std::map<std::string, std::string> ConfigPathResolver::PATH_MAPPING = {
 // Metadata Table with Deprecation Information
 // ═══════════════════════════════════════════════════════════
 
-// Helper to create a date from ISO string (YYYY-MM-DD)
+/**
+ * @brief Helper to create a date from ISO string (YYYY-MM-DD)
+ * @param[in] iso_date Input parameter.
+ * @return Return value.
+ * @details Calls: ss(), std::get_time(), std::chrono::system_clock::from_time_t(), std::mktime().
+ */
 static std::chrono::system_clock::time_point parseDate(const std::string& iso_date) {
     // Simple parser for YYYY-MM-DD format
     // In production, use a proper date parsing library
@@ -1248,9 +1255,13 @@ static const bool kLegacyCategoryCountersBootstrapped = []() {
     return true;
 }();
 
-// ═══════════════════════════════════════════════════════════
-// Public API Implementation
-// ═══════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════ Public API Implementation ═══════════════════════════════════════════════════════════
+ * @param[in] legacy_path Path to the legacy.
+ * @return Return value.
+ * @throws ConfigNotFoundException if an error occurs.
+ * @details Calls: tryResolve(), normalizePath(), mapLegacyToNew(), load(), empty(), starts_with(), substr(), size().
+ */
 
 std::string ConfigPathResolver::resolve(const std::string& legacy_path) {
     auto result = tryResolve(legacy_path);
@@ -1282,6 +1293,12 @@ std::string ConfigPathResolver::resolve(const std::string& legacy_path) {
     throw ConfigNotFoundException(legacy_path, attempted_paths);
 }
 
+/**
+ * @brief Try Resolve.
+ * @param[in] legacy_path Path to the legacy.
+ * @return Return value.
+ * @details Calls: normalizePath(), validatePath(), load(), envToString(), clear(), spdlog::info(), get(), isLegacyPath().
+ */
 std::optional<std::string> ConfigPathResolver::tryResolve(const std::string& legacy_path) {
     std::string normalized = normalizePath(legacy_path);
     try {
@@ -1398,6 +1415,12 @@ std::optional<std::string> ConfigPathResolver::tryResolve(const std::string& leg
     return resolved_path;
 }
 
+/**
+ * @brief Map Legacy To New.
+ * @param[in] legacy_path Path to the legacy.
+ * @return Return value.
+ * @details Calls: normalizePath(), find(), end().
+ */
 std::string ConfigPathResolver::mapLegacyToNew(const std::string& legacy_path) {
     std::string normalized = normalizePath(legacy_path);
     
@@ -1410,6 +1433,12 @@ std::string ConfigPathResolver::mapLegacyToNew(const std::string& legacy_path) {
     return normalized;
 }
 
+/**
+ * @brief Is Legacy Path.
+ * @param[in] path Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: normalizePath(), find(), end().
+ */
 bool ConfigPathResolver::isLegacyPath(const std::string& path) {
     std::string normalized = normalizePath(path);
     return PATH_MAPPING.find(normalized) != PATH_MAPPING.end();
@@ -1419,6 +1448,12 @@ const std::map<std::string, std::string>& ConfigPathResolver::legacyPathMappings
     return PATH_MAPPING;
 }
 
+/**
+ * @brief Get Metadata.
+ * @param[in] legacy_path Path to the legacy.
+ * @return Return value.
+ * @details Calls: normalizePath(), find(), end(), inferCategory().
+ */
 std::optional<PathMappingMetadata> ConfigPathResolver::getMetadata(const std::string& legacy_path) {
     std::string normalized = normalizePath(legacy_path);
     auto it = METADATA_TABLE.find(normalized);
@@ -1442,10 +1477,21 @@ std::optional<PathMappingMetadata> ConfigPathResolver::getMetadata(const std::st
     return std::nullopt;
 }
 
+/**
+ * @brief Deprecation Report.
+ * @return Return value.
+ * @details Calls: getReport().
+ */
 std::vector<ConfigPathResolver::DeprecationEntry> ConfigPathResolver::deprecationReport() {
     return aggregator_.getReport();
 }
 
+/**
+ * @brief Infer Category.
+ * @param[in] new_path Path to the new.
+ * @return Return value.
+ * @details Calls: normalizePath(), starts_with(), substr(), size(), find(), empty().
+ */
 std::string ConfigPathResolver::inferCategory(const std::string& new_path) {
     std::string normalized = normalizePath(new_path);
 
@@ -1466,9 +1512,12 @@ std::string ConfigPathResolver::inferCategory(const std::string& new_path) {
     return category;
 }
 
-// ═══════════════════════════════════════════════════════════
-// Private Helper Methods
-// ═══════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════ Private Helper Methods ═══════════════════════════════════════════════════════════
+ * @param[in] path Input parameter.
+ * @return Return value.
+ * @details Calls: std::replace(), begin(), end(), starts_with(), substr(), ends_with(), length(), pop_back().
+ */
 
 std::string ConfigPathResolver::normalizePath(const std::string& path) {
     std::string normalized = path;
@@ -1489,6 +1538,12 @@ std::string ConfigPathResolver::normalizePath(const std::string& path) {
     return normalized;
 }
 
+/**
+ * @brief Validate Path.
+ * @param[in] path Input parameter.
+ * @throws InvalidPathException if an error occurs.
+ * @details Calls: find(), fs_path(), is_absolute(), std::replace(), begin(), end(), size(), compare().
+ */
 void ConfigPathResolver::validatePath(const std::string& path) {
     // Check for path traversal attempts
     if (path.find("..") != std::string::npos) {
@@ -1565,6 +1620,10 @@ void ConfigPathResolver::validatePath(const std::string& path) {
     }
 }
 
+/**
+ * @brief Init Legacy Fallback Category Counters.
+ * @details Calls: std::call_once(), clear(), emplace(), inferCategory(), try_emplace().
+ */
 void ConfigPathResolver::initLegacyFallbackCategoryCounters() {
     std::call_once(category_init_flag_, []() {
         legacy_fallbacks_by_category_.clear();
@@ -1580,6 +1639,10 @@ void ConfigPathResolver::initLegacyFallbackCategoryCounters() {
     });
 }
 
+/**
+ * @brief Reset Metrics.
+ * @details Calls: reset(), store().
+ */
 void ConfigPathResolver::resetMetrics() {
     metrics_.resolution_hits = 0;
     metrics_.resolution_misses = 0;
@@ -1605,6 +1668,11 @@ std::vector<std::pair<std::string, uint64_t>> ConfigPathResolver::legacyFallback
     return snapshot;
 }
 
+/**
+ * @brief Legacy Fallback Categories.
+ * @return Return value.
+ * @details Calls: initLegacyFallbackCategoryCounters(), reserve(), size(), push_back().
+ */
 std::vector<std::string> ConfigPathResolver::legacyFallbackCategories() {
     initLegacyFallbackCategoryCounters();
     std::vector<std::string> categories = {};
@@ -1616,6 +1684,11 @@ std::vector<std::string> ConfigPathResolver::legacyFallbackCategories() {
     return categories;
 }
 
+/**
+ * @brief Set Caching Enabled.
+ * @param[in] enabled Input parameter.
+ * @details Calls: store(), clear().
+ */
 void ConfigPathResolver::setCachingEnabled(bool enabled) {
     caching_enabled_.store(enabled);
     if (!enabled) {
@@ -1623,10 +1696,21 @@ void ConfigPathResolver::setCachingEnabled(bool enabled) {
     }
 }
 
+/**
+ * @brief Current Cache Config.
+ * @return Return value.
+ * @details Implements currentCacheConfig without additional internal calls.
+ */
 ConfigPathResolver::CacheConfig ConfigPathResolver::currentCacheConfig() {
     return cache_config_;
 }
 
+/**
+ * @brief Set Aggregation Enabled.
+ * @param[in] enabled Input parameter.
+ * @param[in] interval_seconds Input parameter.
+ * @details Calls: store(), start(), stop().
+ */
 void ConfigPathResolver::setAggregationEnabled(bool enabled, int interval_seconds) {
     aggregation_enabled_.store(enabled);
     if (enabled) {
@@ -1636,6 +1720,11 @@ void ConfigPathResolver::setAggregationEnabled(bool enabled, int interval_second
     }
 }
 
+/**
+ * @brief Set Legacy Fallback Rate Threshold.
+ * @param[in] threshold Input parameter.
+ * @details Calls: store().
+ */
 void ConfigPathResolver::setLegacyFallbackRateThreshold(double threshold) {
     // Clamp to [0.0, 1.0]
     if (threshold < 0.0) {
@@ -1647,10 +1736,19 @@ void ConfigPathResolver::setLegacyFallbackRateThreshold(double threshold) {
     legacy_fallback_threshold_.store(threshold, std::memory_order_relaxed);
 }
 
+/**
+ * @brief Get Legacy Fallback Rate Threshold.
+ * @return Return value.
+ * @details Calls: load().
+ */
 double ConfigPathResolver::getLegacyFallbackRateThreshold() {
     return legacy_fallback_threshold_.load(std::memory_order_relaxed);
 }
 
+/**
+ * @brief Check Fallback Rate Threshold.
+ * @details Calls: load(), compare_exchange_strong(), spdlog::warn().
+ */
 void ConfigPathResolver::checkFallbackRateThreshold() {
     const double threshold = legacy_fallback_threshold_.load(std::memory_order_relaxed);
     if (threshold <= 0.0) {
@@ -1680,6 +1778,12 @@ void ConfigPathResolver::checkFallbackRateThreshold() {
     }
 }
 
+/**
+ * @brief Env To String.
+ * @param[in] env Input parameter.
+ * @return Return value.
+ * @details Implements envToString without additional internal calls.
+ */
 std::string ConfigPathResolver::envToString(ConfigEnvironment env) {
     switch (env) {
         case ConfigEnvironment::DEV:
@@ -1693,6 +1797,11 @@ std::string ConfigPathResolver::envToString(ConfigEnvironment env) {
     }
 }
 
+/**
+ * @brief Env From Environment Variable.
+ * @return Return value.
+ * @details Calls: std::getenv(), val(), spdlog::warn(), std::transform(), begin(), end(), std::tolower().
+ */
 ConfigEnvironment ConfigPathResolver::envFromEnvironmentVariable() {
     const char* raw = std::getenv("THEMIS_CONFIG_ENV");
     if (!raw) {
@@ -1725,16 +1834,31 @@ ConfigEnvironment ConfigPathResolver::envFromEnvironmentVariable() {
     return ConfigEnvironment::PROD;
 }
 
+/**
+ * @brief Set Environment.
+ * @param[in] env Input parameter.
+ * @details Calls: store(), clear(), spdlog::info(), envToString().
+ */
 void ConfigPathResolver::setEnvironment(ConfigEnvironment env) {
     current_env_.store(env);
     cache_.clear();
     spdlog::info("ConfigPathResolver: Active environment set to '{}'", envToString(env));
 }
 
+/**
+ * @brief Get Environment.
+ * @return Return value.
+ * @details Calls: load().
+ */
 ConfigEnvironment ConfigPathResolver::getEnvironment() {
     return current_env_.load();
 }
 
+/**
+ * @brief Set Audit Log Enabled.
+ * @param[in] enabled Input parameter.
+ * @details Calls: enable(), disable().
+ */
 void ConfigPathResolver::setAuditLogEnabled(bool enabled) {
     if (enabled) {
         audit_log_.enable();
@@ -1743,14 +1867,28 @@ void ConfigPathResolver::setAuditLogEnabled(bool enabled) {
     }
 }
 
+/**
+ * @brief Audit Log.
+ * @return Return value.
+ * @details Calls: getEntries().
+ */
 std::vector<AuditEntry> ConfigPathResolver::auditLog() {
     return audit_log_.getEntries();
 }
 
+/**
+ * @brief Clear Audit Log.
+ * @details Calls: clear().
+ */
 void ConfigPathResolver::clearAuditLog() {
     audit_log_.clear();
 }
 
+/**
+ * @brief Set Audit Log Max Entries.
+ * @param[in] max Input parameter.
+ * @details Calls: setMaxEntries().
+ */
 void ConfigPathResolver::setAuditLogMaxEntries(std::size_t max) {
     audit_log_.setMaxEntries(max);
 }
@@ -1758,11 +1896,19 @@ void ConfigPathResolver::setAuditLogMaxEntries(std::size_t max) {
 // SIGHUP Hot-Reload
 // ═══════════════════════════════════════════════════════════
 
-// Static signal handler – must be async-signal-safe; only sets a flag.
+/**
+ * @brief Static signal handler – must be async-signal-safe; only sets a flag.
+ * @param[in] int Input parameter.
+ * @details Implements handleSighup without additional internal calls.
+ */
 void ConfigPathResolver::handleSighup(int /*sig*/) {
     sighup_pending_ = 1;
 }
 
+/**
+ * @brief Register Sighup Handler.
+ * @details Calls: defined(), spdlog::debug(), sigemptyset(), sigaction(), spdlog::warn(), spdlog::info().
+ */
 void ConfigPathResolver::registerSighupHandler() {
 #if defined(_WIN32)
     // SIGHUP is not defined on Windows; no-op.
@@ -1781,7 +1927,13 @@ void ConfigPathResolver::registerSighupHandler() {
 #endif
 }
 
-// ── inotify/kqueue/ReadDirectoryChangesW hot-reload ─────────────────────────
+/**
+ * @brief ── inotify/kqueue/ReadDirectoryChangesW hot-reload ─────────────────────────
+ * @param[in] watch_dir Input parameter.
+ * @param[in] debounce Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: isRunning(), spdlog::debug(), watchPath(), clear(), spdlog::info(), start(), reset(), spdlog::warn().
+ */
 
 bool ConfigPathResolver::startHotReload(const std::string& watch_dir,
                                         std::chrono::milliseconds debounce) {
@@ -1809,6 +1961,10 @@ bool ConfigPathResolver::startHotReload(const std::string& watch_dir,
     return ok;
 }
 
+/**
+ * @brief Stop Hot Reload.
+ * @details Calls: stop(), reset().
+ */
 void ConfigPathResolver::stopHotReload() {
     if (file_watcher_) {
         file_watcher_->stop();

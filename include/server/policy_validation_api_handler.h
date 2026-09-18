@@ -25,15 +25,6 @@ namespace http = beast::http;
 namespace themis {
 namespace server {
 
-/**
- * @brief Handler for Policy Validation API
- * 
- * This handler manages policy validation endpoints:
- * - POST /policies/validate - Validate current ruleset
- * - POST /policies/validate/rule - Validate single rule
- * - GET /policies/validation/report - Get validation report
- * - GET /policies/metrics - Get effectiveness metrics
- */
 class PolicyValidationApiHandler {
 public:
     PolicyValidationApiHandler(
@@ -41,18 +32,38 @@ public:
         std::shared_ptr<themis::AuthMiddleware> auth
     );
     
+    /**
+     * @brief Handle Validate Ruleset.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleValidateRuleset(
         const http::request<http::string_body>& req
     );
     
+    /**
+     * @brief Handle Validate Single Rule.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleValidateSingleRule(
         const http::request<http::string_body>& req
     );
     
+    /**
+     * @brief Handle Get Validation Report.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleGetValidationReport(
         const http::request<http::string_body>& req
     );
     
+    /**
+     * @brief Handle Get Metrics.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleGetMetrics(
         const http::request<http::string_body>& req
     );
@@ -61,14 +72,34 @@ private:
     std::shared_ptr<themis::governance::PolicyValidator> validator_;
     std::shared_ptr<themis::AuthMiddleware> auth_;
     
+    /**
+     * @brief Check Auth.
+     * @param[in] req Input parameter.
+     * @param[in] required_role Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool checkAuth(const http::request<http::string_body>& req, const std::string& required_role) const;
     
+    /**
+     * @brief Make Response.
+     * @param[in] status Input parameter.
+     * @param[in] body Input parameter.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> makeResponse(
         http::status status,
         const std::string& body,
         const http::request<http::string_body>& req
     ) const;
     
+    /**
+     * @brief Make Error Response.
+     * @param[in] status Input parameter.
+     * @param[in] message Input parameter.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> makeErrorResponse(
         http::status status,
         const std::string& message,

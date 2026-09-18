@@ -23,38 +23,16 @@
 namespace themis {
     class RocksDBWrapper;
     class TransactionManager;
-    /// AQLEngine is the canonical alias for the query engine interface used
-    /// throughout the gRPC service layer.  Resolves to IQueryEngine so that
-    /// execute() / validate() can be called without an additional cast.
     using AQLEngine = IQueryEngine;
 }
 
 namespace themis {
 namespace core {
 
-/**
- * @brief ThemisDB Core gRPC Service wrapper (ThemisCoreService, themis_core.proto)
- *
- * Wraps the ThemisCoreService implementation defined in proto/themis_core.proto.
- * Follows the same conditional-compilation pattern as WalGrpcService: the actual
- * grpc::Service-derived implementation is compiled in only when the generated
- * `themis_core.grpc.pb.h` header is on the include path. In non-proto builds,
- * construction requires an injected non-null service instance callback.
- *
- * Part of ThemisDB v1.3.0 – Feature #8: gRPC Protocol
- */
 class ThemisCoreServiceImpl {
 public:
-    /// Callback type that provides an opaque grpc::Service* to the wrapper
-    /// when the generated proto stubs are absent from the build.
     using ServiceInstanceFn = std::function<void*()>;
 
-    /**
-     * @brief Construct service with database components.
-     * @param db         RocksDB wrapper for storage operations.
-     * @param txn_mgr    Transaction manager for ACID operations.
-     * @param aql_engine AQL query engine.
-     */
     ThemisCoreServiceImpl(
         std::shared_ptr<RocksDBWrapper>    db,
         std::shared_ptr<TransactionManager> txn_mgr,
@@ -64,27 +42,14 @@ public:
     ~ThemisCoreServiceImpl();
 
     /**
-     * @brief Return the underlying grpc::Service pointer for registration.
-     *
-     * Returns the concrete service implementation when `themis_core.grpc.pb.h`
-     * is available (i.e. protoc has been run).
-     *
-     * If a service-instance callback was registered via setServiceInstanceFn(),
-     * the result of that callback is returned for non-proto builds.
-     *
-     * A missing callback, thrown callback exception, or nullptr callback result
-     * causes constructor failure via std::runtime_error (fail-closed).
+     * @brief Get Service Instance.
+     * @return Pointer to the result.
      */
     void* getServiceInstance();
 
     /**
-     * @brief Configure a process-wide callback that provides a grpc::Service*.
-     *
-     * Used in non-proto builds to wire a service instance obtained from another
-     * module (e.g. a dynamically loaded plugin or generated stubs). The callback
-     * is invoked once during construction.
-     *
-     * Pass an empty function to remove a previously registered callback.
+     * @brief Set Service Instance Fn.
+     * @param[in] fn Input parameter.
      */
     static void setServiceInstanceFn(ServiceInstanceFn fn);
 

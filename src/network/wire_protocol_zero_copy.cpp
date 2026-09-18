@@ -236,9 +236,12 @@ ssize_t ZeroCopyFrameBuilder::writeToWithSendfile(int    socket_fd,
               continue;
             }
             if (errno == EINVAL || errno == ENOSYS || errno == ENOTSUP) {
-                // sendfile not supported for this fd type (e.g., socket source).
-                // Fall back to copy-based writev for the remaining bytes.
-                // Re-read remaining bytes via pread and write.
+                /**
+                 * @brief sendfile not supported for this fd type (e.
+                 * @param[in] remaining Input parameter.
+                 * @return Return value.
+                 * @details g., socket source). Fall back to copy-based writev for the remaining bytes. Re-read remaining bytes via pread and write.
+                 */
                 std::vector<uint8_t> tmp(remaining);
                 const ssize_t rd = ::pread(payload_fd, tmp.data(), remaining,
                                            payload_offset + static_cast<std::int64_t>(sf_written));

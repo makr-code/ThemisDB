@@ -25,22 +25,37 @@ namespace server {
 
 using json = nlohmann::json;
 
-// ============================================================================
-// AuthorizeFn + StatsQueryFn bridges (stubs #280, #307)
-// ============================================================================
+/**
+ * @brief ============================================================================ AuthorizeFn + StatsQueryFn bridges (stubs #280, #307) ============================================================================
+ * @param[in] fn Input parameter.
+ * @details Calls: std::move().
+ */
 
 void RopeApiHandler::setAuthorizeFn(AuthorizeFn fn) {
     authorizeFn_ = std::move(fn);
 }
 
+/**
+ * @brief Clear Authorize Fn.
+ * @details Implements clearAuthorizeFn without additional internal calls.
+ */
 void RopeApiHandler::clearAuthorizeFn() {
     authorizeFn_ = nullptr;
 }
 
+/**
+ * @brief Set Stats Query Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: std::move().
+ */
 void RopeApiHandler::setStatsQueryFn(StatsQueryFn fn) {
     statsQueryFn_ = std::move(fn);
 }
 
+/**
+ * @brief Clear Stats Query Fn.
+ * @details Implements clearStatsQueryFn without additional internal calls.
+ */
 void RopeApiHandler::clearStatsQueryFn() {
     statsQueryFn_ = nullptr;
 }
@@ -56,6 +71,12 @@ RopeApiHandler::RopeApiHandler(
 {
 }
 
+/**
+ * @brief Handle Config Post.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: std::string(), target(), find(), substr(), requireAccess(), Tracer::startSpan(), setAttribute(), extractIndexName().
+ */
 http::response<http::string_body> RopeApiHandler::handleConfigPost(
     const http::request<http::string_body>& req
 ) {
@@ -163,6 +184,12 @@ http::response<http::string_body> RopeApiHandler::handleConfigPost(
     }
 }
 
+/**
+ * @brief Handle Config Get.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: std::string(), target(), find(), substr(), requireAccess(), Tracer::startSpan(), setAttribute(), extractIndexName().
+ */
 http::response<http::string_body> RopeApiHandler::handleConfigGet(
     const http::request<http::string_body>& req
 ) {
@@ -231,6 +258,12 @@ http::response<http::string_body> RopeApiHandler::handleConfigGet(
     }
 }
 
+/**
+ * @brief Handle Config Delete.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: std::string(), target(), find(), substr(), requireAccess(), Tracer::startSpan(), setAttribute(), extractIndexName().
+ */
 http::response<http::string_body> RopeApiHandler::handleConfigDelete(
     const http::request<http::string_body>& req
 ) {
@@ -290,6 +323,12 @@ http::response<http::string_body> RopeApiHandler::handleConfigDelete(
     }
 }
 
+/**
+ * @brief Handle Add Post.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: std::string(), target(), find(), substr(), requireAccess(), Tracer::startSpan(), setAttribute(), extractIndexName().
+ */
 http::response<http::string_body> RopeApiHandler::handleAddPost(
     const http::request<http::string_body>& req
 ) {
@@ -420,6 +459,12 @@ http::response<http::string_body> RopeApiHandler::handleAddPost(
     }
 }
 
+/**
+ * @brief Handle Add Relational Post.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: std::string(), target(), find(), substr(), requireAccess(), Tracer::startSpan(), setAttribute(), extractIndexName().
+ */
 http::response<http::string_body> RopeApiHandler::handleAddRelationalPost(
     const http::request<http::string_body>& req
 ) {
@@ -549,6 +594,12 @@ http::response<http::string_body> RopeApiHandler::handleAddRelationalPost(
     }
 }
 
+/**
+ * @brief Handle Search Post.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: std::string(), target(), find(), substr(), requireAccess(), Tracer::startSpan(), setAttribute(), extractIndexName().
+ */
 http::response<http::string_body> RopeApiHandler::handleSearchPost(
     const http::request<http::string_body>& req
 ) {
@@ -668,6 +719,12 @@ http::response<http::string_body> RopeApiHandler::handleSearchPost(
     }
 }
 
+/**
+ * @brief Handle Batch Add Post.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: std::string(), target(), find(), substr(), requireAccess(), Tracer::startSpan(), setAttribute(), extractIndexName().
+ */
 http::response<http::string_body> RopeApiHandler::handleBatchAddPost(
     const http::request<http::string_body>& req
 ) {
@@ -814,6 +871,12 @@ http::response<http::string_body> RopeApiHandler::handleBatchAddPost(
     }
 }
 
+/**
+ * @brief Handle Stats Get.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: std::string(), target(), find(), substr(), requireAccess(), Tracer::startSpan(), setAttribute(), extractIndexName().
+ */
 http::response<http::string_body> RopeApiHandler::handleStatsGet(
     const http::request<http::string_body>& req
 ) {
@@ -916,6 +979,14 @@ http::response<http::string_body> RopeApiHandler::handleStatsGet(
 
 // Helper methods
 
+/**
+ * @brief Make Error Response.
+ * @param[in] status Input parameter.
+ * @param[in] message Input parameter.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: makeResponse(), dump().
+ */
 http::response<http::string_body> RopeApiHandler::makeErrorResponse(
     http::status status, const std::string& message, const http::request<http::string_body>& req
 ) {
@@ -927,6 +998,14 @@ http::response<http::string_body> RopeApiHandler::makeErrorResponse(
     return makeResponse(status, error_body.dump(), req);
 }
 
+/**
+ * @brief Make Response.
+ * @param[in] status Input parameter.
+ * @param[in] body Input parameter.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: version(), set(), keep_alive(), body(), prepare_payload().
+ */
 http::response<http::string_body> RopeApiHandler::makeResponse(
     http::status status, const std::string& body, const http::request<http::string_body>& req
 ) {
@@ -939,6 +1018,14 @@ http::response<http::string_body> RopeApiHandler::makeResponse(
     return res;
 }
 
+/**
+ * @brief Require Access.
+ * @param[in] req Input parameter.
+ * @param[in] permission Input parameter.
+ * @param[in] resource Input parameter.
+ * @param[in] path Input parameter.
+ * @return Return value.
+ */
 std::optional<http::response<http::string_body>> RopeApiHandler::requireAccess(
     const http::request<http::string_body>& req,
     const std::string& permission,
@@ -996,6 +1083,12 @@ std::optional<http::response<http::string_body>> RopeApiHandler::requireAccess(
     return std::nullopt;  // null = access allowed
 }
 
+/**
+ * @brief Extract Index Name.
+ * @param[in] path Input parameter.
+ * @return Return value.
+ * @details Calls: find(), length(), substr(), empty().
+ */
 std::optional<std::string> RopeApiHandler::extractIndexName(const std::string& path) {
     // Expected format: /api/v1/vector-index/{index_name}/rope/...
     const std::string prefix = "/api/v1/vector-index/";

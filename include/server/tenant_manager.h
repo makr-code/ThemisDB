@@ -24,11 +24,6 @@
 
 namespace themis {
 
-/**
- * @brief Tenant configuration and resource quotas
- * 
- * Defines limits and settings for a specific tenant in multi-tenant deployments.
- */
 struct TenantConfig {
     std::string tenant_id;                  // Unique tenant identifier
     std::string display_name;               // Human-readable tenant name
@@ -75,11 +70,6 @@ struct TenantConfig {
     std::unordered_map<std::string, std::string> metadata;
 };
 
-/**
- * @brief Current tenant context for request processing
- * 
- * Thread-local context containing tenant information for the current request.
- */
 struct TenantContext {
     std::string tenant_id;
     std::string user_id;                    // User within tenant
@@ -110,9 +100,6 @@ struct TenantContext {
     }
 };
 
-/**
- * @brief Tenant usage statistics and metrics
- */
 struct TenantUsage {
     std::string tenant_id;
     
@@ -134,33 +121,12 @@ struct TenantUsage {
     std::atomic<int64_t> last_activity_epoch{0};  // Unix timestamp
 };
 
-/**
- * @brief Multi-tenant management for ThemisDB
- * 
- * Provides tenant isolation, resource quotas, and tenant-aware request routing.
- * Supports both header-based and path-based tenant identification.
- * 
- * Usage:
- * @code
- *   auto& tm = TenantManager::instance();
- *   
- *   // Create tenant
- *   TenantConfig cfg;
- *   cfg.tenant_id = "acme-corp";
- *   cfg.display_name = "ACME Corporation";
- *   cfg.max_storage_bytes = 10 * 1024 * 1024 * 1024ULL; // 10 GB
- *   tm.createTenant(cfg);
- *   
- *   // Resolve tenant from request
- *   auto ctx = tm.resolveContext(headers, path);
- *   if (ctx) {
- *       // Process request in tenant context
- *   }
- * @endcode
- */
 class TenantManager {
 public:
-    /** @brief Return global singleton instance of TenantManager. */
+    /**
+     * @brief Instance.
+     * @return Return value.
+     */
     static TenantManager& instance();
     
     // Configuration
@@ -185,12 +151,11 @@ public:
     };
     
     /**
-     * @brief Apply manager configuration.
-     * @param config New manager configuration.
+     * @brief Configure.
+     * @param[in] config Input parameter.
      */
     void configure(const Config& config);
 
-    /** @brief Return current manager configuration. */
     const Config& getConfig() const { return config_; }
     
     // Tenant lifecycle
@@ -203,56 +168,62 @@ public:
     };
     
     /**
-     * @brief Create new tenant and initialize usage counters.
-     * @param config Tenant configuration.
-     * @return Detailed create result code.
+     * @brief Create Tenant.
+     * @param[in] config Input parameter.
+     * @return Return value.
      */
     CreateResult createTenant(const TenantConfig& config);
 
     /**
-     * @brief Update existing tenant configuration.
-     * @param config Updated tenant configuration.
-     * @return true on success.
+     * @brief Update Tenant.
+     * @param[in] config Input parameter.
+     * @return True when the operation succeeds.
      */
     bool updateTenant(const TenantConfig& config);
 
     /**
-     * @brief Delete tenant and associated usage/domain mappings.
-     * @param tenant_id Tenant identifier.
-     * @return true on success.
+     * @brief Delete Tenant.
+     * @param[in] tenant_id Identifier of the tenant.
+     * @return True when the operation succeeds.
      */
     bool deleteTenant(std::string_view tenant_id);
 
     /**
-     * @brief Enable or disable tenant.
-     * @param tenant_id Tenant identifier.
-     * @param enabled Desired enabled state.
-     * @return true on success.
+     * @brief Set Tenant Enabled.
+     * @param[in] tenant_id Identifier of the tenant.
+     * @param[in] enabled Input parameter.
+     * @return True when the operation succeeds.
      */
     bool setTenantEnabled(std::string_view tenant_id, bool enabled);
     
     // Tenant lookup
-    /** @brief Return tenant configuration by id. */
+    /**
+     * @brief Get Tenant.
+     * @param[in] tenant_id Identifier of the tenant.
+     * @return Return value.
+     */
     std::optional<TenantConfig> getTenant(std::string_view tenant_id) const;
 
-    /** @brief Return snapshot of all tenant configurations. */
+    /**
+     * @brief List Tenants.
+     * @return Return value.
+     */
     std::vector<TenantConfig> listTenants() const;
 
-    /** @brief Check whether tenant exists. */
+    /**
+     * @brief Tenant Exists.
+     * @param[in] tenant_id Identifier of the tenant.
+     * @return True when the operation succeeds.
+     */
     bool tenantExists(std::string_view tenant_id) const;
 
-    /** @brief Return total number of tenants. */
+    /**
+     * @brief Get Tenant Count.
+     * @return Return value.
+     */
     size_t getTenantCount() const;
     
     // Request context resolution
-    /**
-     * @brief Resolve full tenant context from request metadata.
-     * @param headers Request headers.
-     * @param path Request path.
-     * @param user_id Optional user identifier.
-     * @param roles Optional role list.
-     * @return Tenant context when tenant is resolved and enabled.
-     */
     std::optional<TenantContext> resolveContext(
         const std::unordered_map<std::string, std::string>& headers,
         std::string_view path,
@@ -261,39 +232,38 @@ public:
     ) const;
     
     // Extract tenant ID from request
-    /**
-     * @brief Extract tenant id from headers/path/default-tenant fallback.
-     * @param headers Request headers.
-     * @param path Request path.
-     * @return Tenant id when resolvable, std::nullopt otherwise.
-     */
     std::optional<std::string> extractTenantId(
         const std::unordered_map<std::string, std::string>& headers,
         std::string_view path
     ) const;
 
-    // Custom domain routing management.
-    // Registers a domain -> tenant mapping so that incoming requests whose
-    // Host (or configured custom_domain_host_header) value matches `domain`
-    // are routed to `tenant_id`.  The domain is stored in lower-case.
-    // Returns false when the domain is already registered to a different tenant
-    // or when the tenant does not exist.
+    /**
+     * @brief Register Custom Domain.
+     * @param[in] tenant_id Identifier of the tenant.
+     * @param[in] domain Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool registerCustomDomain(std::string_view tenant_id, std::string_view domain);
 
-    // Removes a previously registered custom domain mapping.
-    // Returns true when the mapping existed and was removed.
+    /**
+     * @brief Unregister Custom Domain.
+     * @param[in] domain Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool unregisterCustomDomain(std::string_view domain);
 
-    // Looks up the tenant ID for a custom domain (case-insensitive).
-    // Strips a trailing port (":NNN") from `host` before matching.
-    // Returns an empty optional when no mapping exists.
+    /**
+     * @brief Lookup Tenant By Domain.
+     * @param[in] host Input parameter.
+     * @return Return value.
+     */
     std::optional<std::string> lookupTenantByDomain(std::string_view host) const;
 
-    // Strip tenant path prefix from a URL path for namespace routing.
-    // For path-based tenant routing, removes the "/tenants/{id}/" prefix so
-    // the remaining path can be matched against normal API routes.
-    // Example: "/tenants/acme-corp/documents/123" -> "/documents/123"
-    // Returns the path unchanged when it does not start with the tenant prefix.
+    /**
+     * @brief Strip Tenant Path.
+     * @param[in] path Input parameter.
+     * @return Return value.
+     */
     std::string stripTenantPath(std::string_view path) const;
 
     // Combined path-rewrite result for namespace routing.
@@ -305,18 +275,18 @@ public:
         bool rewritten = false;     // true when the path contained a tenant prefix
     };
 
-    // Strips the tenant path prefix (if present) and extracts the tenant ID.
-    // Combines extractTenantId-from-path with stripTenantPath in a single pass
-    // to avoid repeated prefix scans in session-layer code.
-    // Example: "/tenants/acme-corp/documents/123"
-    //   -> { effective_path="/documents/123", tenant_id="acme-corp", rewritten=true }
+    /**
+     * @brief Rewrite Tenant Path.
+     * @param[in] path Input parameter.
+     * @return Return value.
+     */
     PathRewriteResult rewriteTenantPath(std::string_view path) const;
 
-    // Resolve tenant ID from an HTTP Host header value.
-    // Returns the tenant ID if a tenant with a matching custom_domain is found,
-    // or std::nullopt when no domain mapping exists for the given host.
-    // The host value may include a port suffix (e.g. "acme.example.com:8443");
-    // the port is stripped before lookup.
+    /**
+     * @brief Resolve Tenant By Domain.
+     * @param[in] host Input parameter.
+     * @return Return value.
+     */
     std::optional<std::string> resolveTenantByDomain(std::string_view host) const;
 
     // Resource quota enforcement
@@ -325,68 +295,118 @@ public:
         std::string reason = {};
     };
     
-    /**
-     * @brief Validate a tenant quota request.
-     * @param tenant_id Tenant identifier.
-     * @param resource_type Resource type name.
-     * @param requested_amount Requested amount.
-     * @return Quota decision and reason.
-     */
     QuotaCheckResult checkQuota(std::string_view tenant_id, 
                                  std::string_view resource_type,
                                  uint64_t requested_amount = 1) const;
     
     // Resource usage tracking
-    /** @brief Return mutable usage counters for tenant, or nullptr when unknown. */
+    /**
+     * @brief Get Usage.
+     * @param[in] tenant_id Identifier of the tenant.
+     * @return Pointer to the result.
+     */
     TenantUsage* getUsage(std::string_view tenant_id);
 
-    /** @brief Return read-only usage counters for tenant, or nullptr when unknown. */
+    /**
+     * @brief Get Usage.
+     * @param[in] tenant_id Identifier of the tenant.
+     * @return Pointer to the result.
+     */
     const TenantUsage* getUsage(std::string_view tenant_id) const;
     
-    /** @brief Adjust storage usage by signed byte delta. */
+    /**
+     * @brief Increment Storage.
+     * @param[in] tenant_id Identifier of the tenant.
+     * @param[in] bytes Input parameter.
+     */
     void incrementStorage(std::string_view tenant_id, int64_t bytes);
 
-    /** @brief Adjust document count by signed delta. */
+    /**
+     * @brief Increment Documents.
+     * @param[in] tenant_id Identifier of the tenant.
+     * @param[in] count Input parameter.
+     */
     void incrementDocuments(std::string_view tenant_id, int64_t count);
 
-    /** @brief Adjust collection count by signed delta. */
+    /**
+     * @brief Increment Collections.
+     * @param[in] tenant_id Identifier of the tenant.
+     * @param[in] count Input parameter.
+     */
     void incrementCollections(std::string_view tenant_id, int64_t count);
 
-    /** @brief Record one request for tenant metrics. */
+    /**
+     * @brief Record Request.
+     * @param[in] tenant_id Identifier of the tenant.
+     */
     void recordRequest(std::string_view tenant_id);
 
-    /** @brief Record one query for tenant metrics. */
+    /**
+     * @brief Record Query.
+     * @param[in] tenant_id Identifier of the tenant.
+     */
     void recordQuery(std::string_view tenant_id);
 
-    /** @brief Add read byte count to tenant metrics. */
+    /**
+     * @brief Record Bytes Read.
+     * @param[in] tenant_id Identifier of the tenant.
+     * @param[in] bytes Input parameter.
+     */
     void recordBytesRead(std::string_view tenant_id, uint64_t bytes);
 
-    /** @brief Add written byte count to tenant metrics. */
+    /**
+     * @brief Record Bytes Written.
+     * @param[in] tenant_id Identifier of the tenant.
+     * @param[in] bytes Input parameter.
+     */
     void recordBytesWritten(std::string_view tenant_id, uint64_t bytes);
 
-    /** @brief Record one rate-limited request event. */
+    /**
+     * @brief Record Rate Limited.
+     * @param[in] tenant_id Identifier of the tenant.
+     */
     void recordRateLimited(std::string_view tenant_id);
     
     // Connection tracking
-    /** @brief Acquire one connection slot subject to tenant quotas. */
+    /**
+     * @brief Acquire Connection.
+     * @param[in] tenant_id Identifier of the tenant.
+     * @return True when the operation succeeds.
+     */
     bool acquireConnection(std::string_view tenant_id);
 
-    /** @brief Release one previously acquired connection slot. */
+    /**
+     * @brief Release Connection.
+     * @param[in] tenant_id Identifier of the tenant.
+     */
     void releaseConnection(std::string_view tenant_id);
     
     // Query tracking
-    /** @brief Acquire one query slot subject to tenant quotas. */
+    /**
+     * @brief Acquire Query Slot.
+     * @param[in] tenant_id Identifier of the tenant.
+     * @return True when the operation succeeds.
+     */
     bool acquireQuerySlot(std::string_view tenant_id);
 
-    /** @brief Release one previously acquired query slot. */
+    /**
+     * @brief Release Query Slot.
+     * @param[in] tenant_id Identifier of the tenant.
+     */
     void releaseQuerySlot(std::string_view tenant_id);
     
     // Metrics (Prometheus format)
-    /** @brief Export tenant metrics in Prometheus text format. */
+    /**
+     * @brief Get Metrics.
+     * @return Return value.
+     */
     std::string getMetrics() const;
     
-    // Key derivation for tenant-specific encryption
-    /** @brief Return tenant encryption key id or derived default key id. */
+    /**
+     * @brief Get Tenant Key Id.
+     * @param[in] tenant_id Identifier of the tenant.
+     * @return Return value.
+     */
     std::string getTenantKeyId(std::string_view tenant_id) const;
     
 private:
@@ -403,24 +423,31 @@ private:
     // Reverse map: custom_domain -> tenant_id for O(1) Host-header lookups
     std::unordered_map<std::string, std::string> domain_to_tenant_;
     
-    // Helper to create default tenant
+    /**
+     * @brief Ensure Default Tenant.
+     */
     void ensureDefaultTenant();
 
-    // Rebuild the domain_to_tenant_ index from current tenants_ map.
-    // Must be called with mutex_ held.
+    /**
+     * @brief Rebuild Domain Index.
+     */
     void rebuildDomainIndex();
 
-    // Returns lower-case copy of `host` with optional ":port" suffix stripped.
+    /**
+     * @brief Normalise Domain.
+     * @param[in] host Input parameter.
+     * @return Return value.
+     */
     static std::string normaliseDomain(std::string_view host);
 };
 
-/**
- * @brief RAII guard for tenant context
- * 
- * Sets up tenant context for the current scope and cleans up on destruction.
- */
 class TenantContextGuard {
 public:
+    /**
+     * @brief Tenant Context Guard.
+     * @param[in] ctx Input parameter.
+     * @return Return value.
+     */
     explicit TenantContextGuard(const TenantContext& ctx) 
         : ctx_(ctx), 
           connection_acquired_(false),
@@ -441,8 +468,9 @@ public:
     }
     
     /**
-     * @brief Acquire query slot once for this guard instance.
-     * @return true when query slot is held by this guard.
+     * @brief Acquire Query Slot.
+     * @return True when the operation succeeds.
+     * @details Calls: TenantManager::instance(), recordQuery().
      */
     bool acquireQuerySlot() {
         if (!query_slot_acquired_) {
@@ -455,13 +483,10 @@ public:
         return query_slot_acquired_;
     }
     
-    /** @brief Access bound tenant context. */
     const TenantContext& context() const { return ctx_; }
 
-    /** @brief Return whether connection slot was acquired. */
     bool hasConnection() const { return connection_acquired_; }
 
-    /** @brief Return whether query slot was acquired. */
     bool hasQuerySlot() const { return query_slot_acquired_; }
     
 private:

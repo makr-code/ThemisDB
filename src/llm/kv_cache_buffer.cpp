@@ -46,6 +46,14 @@ KVCacheBuffer::~KVCacheBuffer() noexcept {
     }
 }
 
+/**
+ * @brief Append Token.
+ * @param[in] sequence_id Identifier of the sequence.
+ * @param[in] key Input parameter.
+ * @param[in] value Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: getCacheForSequence(), insert(), end(), lock(), checkAndFlush().
+ */
 bool KVCacheBuffer::appendToken(int sequence_id, const float* key, const float* value) {
     if (key == nullptr || value == nullptr) {
         return false;
@@ -73,6 +81,17 @@ bool KVCacheBuffer::appendToken(int sequence_id, const float* key, const float* 
     return checkAndFlush();
 }
 
+/**
+ * @brief Append Tokens.
+ * @param[in] sequence_id Identifier of the sequence.
+ * @param[in] keys Input parameter.
+ * @param[in] values Input parameter.
+ * @param[in] n_tokens Input parameter.
+ * @return True when the operation succeeds.
+ * @throws std::invalid_argument if an error occurs.
+ * @throws std::overflow_error if an error occurs.
+ * @details Calls: max(), size(), getCacheForSequence(), insert(), end(), begin(), lock(), checkAndFlush().
+ */
 bool KVCacheBuffer::appendTokens(int sequence_id, const std::vector<float>& keys,
                                  const std::vector<float>& values, size_t n_tokens) {
     if (config_.embedding_dim == 0 && n_tokens > 0) {
@@ -121,6 +140,10 @@ bool KVCacheBuffer::appendTokens(int sequence_id, const std::vector<float>& keys
     return checkAndFlush();
 }
 
+/**
+ * @brief Flush.
+ * @details Calls: empty(), flush_callback_(), lock(), clear(), std::chrono::steady_clock::now().
+ */
 void KVCacheBuffer::flush() {
     if (current_batch_.empty()) {
         return;  // Nothing to flush
@@ -156,6 +179,10 @@ void KVCacheBuffer::flush() {
     last_flush_time_ = std::chrono::steady_clock::now();
 }
 
+/**
+ * @brief Clear.
+ * @details Calls: lock().
+ */
 void KVCacheBuffer::clear() {
     current_batch_.clear();
     sequence_to_index_.clear();
@@ -166,10 +193,20 @@ void KVCacheBuffer::clear() {
 }
 
 KVCacheBuffer::Stats KVCacheBuffer::getStats() const {
+    /**
+     * @brief Lock.
+     * @param[in] stats_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(stats_mutex_);
     return stats_;
 }
 
+/**
+ * @brief Check And Flush.
+ * @return True when the operation succeeds.
+ * @details Calls: flush(), std::chrono::steady_clock::now(), empty().
+ */
 bool KVCacheBuffer::checkAndFlush() {
     bool flushed = false;
     
@@ -194,6 +231,12 @@ bool KVCacheBuffer::checkAndFlush() {
     return flushed;
 }
 
+/**
+ * @brief Get Cache For Sequence.
+ * @param[in] sequence_id Identifier of the sequence.
+ * @return Return value.
+ * @details Calls: find(), end(), size(), emplace_back(), back(), reserve().
+ */
 KVCacheBuffer::KVCache& KVCacheBuffer::getCacheForSequence(int sequence_id) {
     auto it = sequence_to_index_.find(sequence_id);
     
@@ -233,6 +276,11 @@ KVCacheBufferPool::KVCacheBufferPool(const Config& config)
 
 KVCacheBufferPool::~KVCacheBufferPool() = default;
 
+/**
+ * @brief Acquire Buffer.
+ * @return Return value.
+ * @details Calls: lock(), size().
+ */
 std::shared_ptr<KVCacheBuffer> KVCacheBufferPool::acquireBuffer() {
     std::lock_guard<std::mutex> lock(pool_mutex_);
     
@@ -248,6 +296,11 @@ std::shared_ptr<KVCacheBuffer> KVCacheBufferPool::acquireBuffer() {
     return std::make_shared<KVCacheBuffer>(config_.buffer_config);
 }
 
+/**
+ * @brief Release Buffer.
+ * @param[in] buffer Input parameter.
+ * @details Calls: lock(), size(), clear().
+ */
 void KVCacheBufferPool::releaseBuffer(std::shared_ptr<KVCacheBuffer> buffer) {
     std::lock_guard<std::mutex> lock(pool_mutex_);
     
@@ -264,6 +317,11 @@ void KVCacheBufferPool::releaseBuffer(std::shared_ptr<KVCacheBuffer> buffer) {
 }
 
 KVCacheBufferPool::PoolStats KVCacheBufferPool::getPoolStats() const {
+    /**
+     * @brief Lock.
+     * @param[in] pool_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(pool_mutex_);
     
     size_t available = std::count(buffer_available_.begin(), buffer_available_.end(), true);

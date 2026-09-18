@@ -55,7 +55,6 @@ using USBAdmin_EVP_MD_CTX_ptr = std::unique_ptr<EVP_MD_CTX, USBAdmin_EVP_MD_CTX_
 } // anonymous namespace
 
 // Implementation class
-/** @brief Implementation class. */
 class USBAdminAuthenticator::Impl {
 public:
     // PERMANENT FALLBACK NOTE (USBAdminAuthenticator — placeholder RSA key):
@@ -116,6 +115,11 @@ USBAdminAuthenticator::USBAdminAuthenticator(USBAdminAuthenticator&& other) noex
 // Custom move assignment: do not assign std::mutex
 USBAdminAuthenticator& USBAdminAuthenticator::operator=(USBAdminAuthenticator&& other) noexcept {
     if (this != &other) {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         impl_ = std::move(other.impl_);
         config_ = std::move(other.config_);
@@ -129,6 +133,11 @@ USBAdminAuthenticator& USBAdminAuthenticator::operator=(USBAdminAuthenticator&& 
     return *this;
 }
 
+/**
+ * @brief Initialize.
+ * @return True when the operation succeeds.
+ * @details Calls: THEMIS_INFO(), refreshUSBStatus(), THEMIS_WARN().
+ */
 bool USBAdminAuthenticator::initialize() {
     THEMIS_INFO("USBAdminAuthenticator initializing with mount_path='{}'", config_.mount_path);
     
@@ -145,6 +154,11 @@ bool USBAdminAuthenticator::initialize() {
 }
 
 bool USBAdminAuthenticator::isAdminUSBPresent() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     // Check if we need to refresh (cache for 5 seconds to avoid constant filesystem checks)
@@ -161,6 +175,13 @@ bool USBAdminAuthenticator::isAdminUSBPresent() const {
     return current_license_.has_value();
 }
 
+/**
+ * @brief Validate Admin Operation.
+ * @param[in] scope Input parameter.
+ * @param[in] user_id Identifier of the user.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), std::chrono::system_clock::now(), auditLog(), count(), refreshUSBStatus(), has_value(), THEMIS_WARN(), isExpired().
+ */
 bool USBAdminAuthenticator::validateAdminOperation(const std::string& scope, const std::string& user_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -238,10 +259,20 @@ bool USBAdminAuthenticator::validateAdminOperation(const std::string& scope, con
 }
 
 std::optional<USBAdminLicense> USBAdminAuthenticator::getCurrentLicense() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return current_license_;
 }
 
+/**
+ * @brief Refresh USBStatus.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), std::chrono::system_clock::now(), checkUSBMounted(), reset(), loadLicenseFromUSB(), has_value(), isValid(), THEMIS_WARN().
+ */
 bool USBAdminAuthenticator::refreshUSBStatus() {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -352,16 +383,31 @@ bool USBAdminAuthenticator::refreshUSBStatus() {
 }
 
 bool USBAdminAuthenticator::isLockedOut() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     auto now = std::chrono::system_clock::now();
     return now < lockout_until_;
 }
 
 USBAdminAuthenticator::Metrics USBAdminAuthenticator::getMetrics() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return metrics_;
 }
 
+/**
+ * @brief Set License Verifier Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void USBAdminAuthenticator::setLicenseVerifierFn(LicenseVerifierFn fn) {
     std::lock_guard<std::mutex> lock(mutex_);
     impl_->license_verifier_fn = std::move(fn);
@@ -423,6 +469,11 @@ std::optional<USBAdminLicense> USBAdminAuthenticator::loadLicenseFromUSB() const
 #endif
     
     try {
+        /**
+         * @brief File.
+         * @param[in] license_path Path to the license.
+         * @return Return value.
+         */
         std::ifstream file(license_path);
         if (!file.is_open()) {
             THEMIS_WARN("USBAdminAuthenticator: failed to open license file at {}", license_path);
@@ -446,6 +497,11 @@ std::optional<USBAdminLicense> USBAdminAuthenticator::loadLicenseFromUSB() const
         // For production, use proper date parsing library
         if (!issued_str.empty()) {
             std::tm tm = {};
+            /**
+             * @brief Ss.
+             * @param[in] issued_str Input parameter.
+             * @return Return value.
+             */
             std::istringstream ss(issued_str);
             ss >> std::get_time(&tm, "%Y-%m-%d");
             license.issued_date = std::chrono::system_clock::from_time_t(std::mktime(&tm));
@@ -453,6 +509,11 @@ std::optional<USBAdminLicense> USBAdminAuthenticator::loadLicenseFromUSB() const
         
         if (!expiry_str.empty()) {
             std::tm tm = {};
+            /**
+             * @brief Ss.
+             * @param[in] expiry_str Input parameter.
+             * @return Return value.
+             */
             std::istringstream ss(expiry_str);
             ss >> std::get_time(&tm, "%Y-%m-%d");
             license.expiry_date = std::chrono::system_clock::from_time_t(std::mktime(&tm));
@@ -474,7 +535,12 @@ std::optional<USBAdminLicense> USBAdminAuthenticator::loadLicenseFromUSB() const
     }
 }
 
-// Helper: Base64 decode
+/**
+ * @brief Helper: Base64 decode
+ * @param[in] encoded Input parameter.
+ * @return Return value.
+ * @details Calls: b64(), BIO_new(), BIO_f_base64(), bmem(), BIO_new_mem_buf(), data(), size(), BIO_push().
+ */
 static std::vector<uint8_t> base64Decode(const std::string& encoded) {
     USBAdmin_BIO_ptr b64(BIO_new(BIO_f_base64()));
     USBAdmin_BIO_ptr bmem(BIO_new_mem_buf(encoded.data(), static_cast<int>(encoded.size())));
@@ -655,8 +721,12 @@ std::string USBAdminAuthenticator::createChallenge() const {
     }
     std::string challenge = oss.str();
 
-    // Register challenge with issue timestamp for TTL and one-time-use enforcement.
-    // Lazily purge expired entries while holding the mutex.
+    /**
+     * @brief Register challenge with issue timestamp for TTL and one-time-use enforcement.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     * @details Lazily purge expired entries while holding the mutex.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     auto now = std::chrono::system_clock::now();
     // Evict expired challenges to cap memory growth
@@ -673,7 +743,12 @@ std::string USBAdminAuthenticator::createChallenge() const {
 
 bool USBAdminAuthenticator::validateChallengeResponse(const std::string& challenge,
                                                        const std::string& response) const {
-    // ── 1. Verify the challenge was actually issued by this instance ──────────
+    /**
+     * @brief ── 1.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     * @details Verify the challenge was actually issued by this instance ──────────
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     auto it = issued_challenges_.find(challenge);

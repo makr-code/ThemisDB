@@ -15,6 +15,10 @@
 namespace themis {
 namespace llm {
 
+/**
+ * @brief Cancel.
+ * @details Calls: store(), spdlog::info().
+ */
 void InferenceHandle::cancel() {
     // Propagate cancellation via the shared token so the worker thread stops.
     if (cancel_token_) {

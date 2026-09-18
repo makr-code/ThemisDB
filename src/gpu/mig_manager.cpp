@@ -96,7 +96,13 @@ uint64_t MIGManager::profileMemoryBytes(const std::string& profile) noexcept {
     return 0;
 }
 
-// static
+/**
+ * @brief static
+ * @param[in] device_index Input parameter.
+ * @param[in] gi_id Identifier of the gi.
+ * @return Return value.
+ * @details Calls: str().
+ */
 std::string MIGManager::makeInstanceId(int device_index, int gi_id) {
     std::ostringstream oss = {};
     oss << "dev" << device_index << "_gi" << gi_id;
@@ -107,6 +113,13 @@ std::string MIGManager::makeInstanceId(int device_index, int gi_id) {
 // Partition lifecycle
 // ============================================================================
 
+/**
+ * @brief Create Partition.
+ * @param[in] device_index Input parameter.
+ * @param[in] profile Input parameter.
+ * @param[in,out] out_instance_id Identifier of the out instance.
+ * @return Return value.
+ */
 MIGManager::Status MIGManager::createPartition(int                device_index,
                                                 const std::string& profile,
                                                 std::string&       out_instance_id)
@@ -115,6 +128,14 @@ MIGManager::Status MIGManager::createPartition(int                device_index,
                            DeviceDiscovery::Enumerate());
 }
 
+/**
+ * @brief Create Partition.
+ * @param[in] device_index Input parameter.
+ * @param[in] profile Input parameter.
+ * @param[in,out] out_instance_id Identifier of the out instance.
+ * @param[in] devices Input parameter.
+ * @return Return value.
+ */
 MIGManager::Status MIGManager::createPartition(int                          device_index,
                                                 const std::string&           profile,
                                                 std::string&                 out_instance_id,
@@ -131,6 +152,11 @@ MIGManager::Status MIGManager::createPartition(int                          devi
         return Status::INVALID_PROFILE;
     }
 
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     // Step 3: Verify the device exists in the provided list and supports MIG.
@@ -196,6 +222,11 @@ MIGManager::Status MIGManager::createPartition(int                          devi
     return Status::OK;
 }
 
+/**
+ * @brief Destroy Partition.
+ * @param[in] instance_id Identifier of the instance.
+ * @return Return value.
+ */
 MIGManager::Status MIGManager::destroyPartition(const std::string& instance_id)
 {
     // Feature gate.
@@ -204,6 +235,11 @@ MIGManager::Status MIGManager::destroyPartition(const std::string& instance_id)
         return Status::MIG_FEATURE_DISABLED;
     }
 
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     auto it = instances_.find(instance_id);
@@ -234,9 +270,20 @@ MIGManager::Status MIGManager::destroyPartition(const std::string& instance_id)
 // Tenant assignment
 // ============================================================================
 
+/**
+ * @brief Assign To Tenant.
+ * @param[in] instance_id Identifier of the instance.
+ * @param[in] tenant_id Identifier of the tenant.
+ * @return Return value.
+ */
 MIGManager::Status MIGManager::assignToTenant(const std::string& instance_id,
                                                const std::string& tenant_id)
 {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     auto it = instances_.find(instance_id);
@@ -252,8 +299,18 @@ MIGManager::Status MIGManager::assignToTenant(const std::string& instance_id,
     return Status::OK;
 }
 
+/**
+ * @brief Unassign From Tenant.
+ * @param[in] instance_id Identifier of the instance.
+ * @return Return value.
+ */
 MIGManager::Status MIGManager::unassignFromTenant(const std::string& instance_id)
 {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     auto it = instances_.find(instance_id);
@@ -275,6 +332,11 @@ MIGManager::Status MIGManager::unassignFromTenant(const std::string& instance_id
 
 std::vector<MIGManager::MIGInstance> MIGManager::getInstances() const
 {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     std::vector<MIGInstance> result = {};
 
@@ -288,6 +350,11 @@ std::vector<MIGManager::MIGInstance> MIGManager::getInstances() const
 std::vector<MIGManager::MIGInstance>
 MIGManager::getInstancesForDevice(int device_index) const
 {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     std::vector<MIGInstance> result = {};
 
@@ -302,6 +369,11 @@ MIGManager::getInstancesForDevice(int device_index) const
 std::vector<MIGManager::MIGInstance>
 MIGManager::getInstancesForTenant(const std::string& tenant_id) const
 {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     std::vector<MIGInstance> result = {};
 
@@ -316,6 +388,11 @@ MIGManager::getInstancesForTenant(const std::string& tenant_id) const
 bool MIGManager::getInstance(const std::string& instance_id,
                               MIGInstance&       out) const
 {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = instances_.find(instance_id);
     if (it == instances_.end()) {
@@ -331,6 +408,11 @@ bool MIGManager::getInstance(const std::string& instance_id,
 
 MIGManager::Stats MIGManager::getStats() const
 {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     Stats s;
     s.total_created    = stat_created_;
@@ -341,8 +423,16 @@ MIGManager::Stats MIGManager::getStats() const
     return s;
 }
 
+/**
+ * @brief Reset the modification detection flag.
+ */
 void MIGManager::reset()
 {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     instances_.clear();
     device_instance_count_.clear();

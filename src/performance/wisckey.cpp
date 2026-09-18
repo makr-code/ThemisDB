@@ -23,6 +23,11 @@ namespace performance {
 // Hardware Capability Detection & Validation
 // ============================================================================
 
+/**
+ * @brief Is wisckey hardware supported.
+ * @return True when the operation succeeds.
+ * @details Calls: Phase2FeatureFlags::instance(), wisckey_hardware_supported().
+ */
 bool is_wisckey_hardware_supported() {
     return Phase2FeatureFlags::instance().wisckey_hardware_supported();
 }
@@ -42,7 +47,12 @@ ValueLog::ValueLog(const std::string& log_path)
         );
     }
     
-    // Open existing file or create new one
+    /**
+     * @brief Open existing file or create new one
+     * @param[in] log_path_ Input parameter.
+     * @param[in] binary Input parameter.
+     * @return Return value.
+     */
     std::ifstream test(log_path_, std::ios::binary);
     bool file_exists = test.good();
     test.close();
@@ -80,6 +90,13 @@ ValueLog::~ValueLog() {
     }
 }
 
+/**
+ * @brief Append.
+ * @param[in] value Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: empty(), max(), size(), lock(), load(), seekp(), write(), data().
+ */
 ValueAddress ValueLog::append(const std::string& value) {
     // Validate input: non-empty value required
     if (value.empty()) {
@@ -113,6 +130,12 @@ ValueAddress ValueLog::append(const std::string& value) {
     return addr;
 }
 
+/**
+ * @brief Read.
+ * @param[in] addr Input parameter.
+ * @return Return value.
+ * @details Calls: load(), lock(), seekg(), value(), gcount().
+ */
 std::optional<std::string> ValueLog::read(const ValueAddress& addr) {
     // Validate address bounds
     if (addr.size == 0 || addr.size > (1 << 32)) {
@@ -139,11 +162,21 @@ std::optional<std::string> ValueLog::read(const ValueAddress& addr) {
     return value;
 }
 
+/**
+ * @brief Sync.
+ * @details Calls: lock(), flush().
+ */
 void ValueLog::sync() {
     std::unique_lock<std::shared_mutex> lock(rw_mutex_);  // Exclusive lock for sync
     log_file_->flush();
 }
 
+/**
+ * @brief Compact.
+ * @param[in,out] live_addresses Input/output parameter.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: lock(), empty(), load(), temp_log(), is_open(), seekg(), value(), read().
+ */
 void ValueLog::compact(std::vector<ValueAddress>& live_addresses) {
     std::unique_lock<std::shared_mutex> lock(rw_mutex_);  // Exclusive lock for compaction
     
@@ -242,6 +275,14 @@ WiscKeyStorage::WiscKeyStorage(const std::string& value_log_path) {
     value_log_ = std::make_unique<ValueLog>(value_log_path);
 }
 
+/**
+ * @brief Put.
+ * @param[in] key Input parameter.
+ * @param[in] value Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: empty(), size(), append(), fetch_add(), encode().
+ */
 std::string WiscKeyStorage::put(const std::string& key, const std::string& value) {
     // Validate inputs
     if (key.empty()) {
@@ -264,6 +305,13 @@ std::string WiscKeyStorage::put(const std::string& key, const std::string& value
     }
 }
 
+/**
+ * @brief Get.
+ * @param[in] key Input parameter.
+ * @param[in] encoded_value Input parameter.
+ * @return Return value.
+ * @details Calls: is_separated(), size(), ValueAddress::decode(), read().
+ */
 std::optional<std::string> WiscKeyStorage::get(const std::string& key, const std::string& encoded_value) {
     static_cast<void>(key);
     if (is_separated(encoded_value)) {

@@ -59,11 +59,21 @@ namespace build_info {
 
 namespace {
 
+/**
+ * @brief Hsm Status Fn Mutex.
+ * @return Return value.
+ * @details Implements hsmStatusFnMutex without additional internal calls.
+ */
 std::mutex& hsmStatusFnMutex() {
     static std::mutex m;
     return m;
 }
 
+/**
+ * @brief Hsm Status Fn Storage.
+ * @return Return value.
+ * @details Implements hsmStatusFnStorage without additional internal calls.
+ */
 HsmModuleStatusFn& hsmStatusFnStorage() {
     static HsmModuleStatusFn fn;
     return fn;
@@ -71,6 +81,11 @@ HsmModuleStatusFn& hsmStatusFnStorage() {
 
 } // anonymous namespace
 
+/**
+ * @brief Get Build Configuration.
+ * @return Return value.
+ * @details Calls: edition::EditionInfo::Get(), std::string(), defined(), std::to_string(), push_back(), lk(), hsmStatusFnMutex(), hsmStatusFnStorage().
+ */
 BuildConfiguration getBuildConfiguration() {
     BuildConfiguration config;
     
@@ -782,6 +797,12 @@ BuildConfiguration getBuildConfiguration() {
     return config;
 }
 
+/**
+ * @brief Format Build Info.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @details Calls: size(), std::setw(), str().
+ */
 std::string formatBuildInfo(const BuildConfiguration& config) {
     std::ostringstream oss = {};
     
@@ -854,6 +875,11 @@ std::string formatBuildInfo(const BuildConfiguration& config) {
     return oss.str();
 }
 
+/**
+ * @brief Get Version Summary.
+ * @return Return value.
+ * @details Calls: getBuildConfiguration(), str().
+ */
 std::string getVersionSummary() {
     const auto config = getBuildConfiguration();
     std::ostringstream oss = {};
@@ -867,6 +893,12 @@ std::string getVersionSummary() {
     return oss.str();
 }
 
+/**
+ * @brief Is Module Compiled In.
+ * @param[in] module_name Name of the module.
+ * @return True when the operation succeeds.
+ * @details Calls: getBuildConfiguration().
+ */
 bool isModuleCompiledIn(const std::string& module_name) {
     const auto config = getBuildConfiguration();
     for (const auto& mod : config.modules) {
@@ -877,6 +909,11 @@ bool isModuleCompiledIn(const std::string& module_name) {
     return false;
 }
 
+/**
+ * @brief Get Compiled Modules.
+ * @return Return value.
+ * @details Calls: getBuildConfiguration(), push_back().
+ */
 std::vector<std::string> getCompiledModules() {
     const auto config = getBuildConfiguration();
     std::vector<std::string> result = {};
@@ -889,6 +926,11 @@ std::vector<std::string> getCompiledModules() {
     return result;
 }
 
+/**
+ * @brief Get Disabled Modules.
+ * @return Return value.
+ * @details Calls: getBuildConfiguration(), push_back().
+ */
 std::vector<std::string> getDisabledModules() {
     const auto config = getBuildConfiguration();
     std::vector<std::string> result = {};
@@ -930,7 +972,11 @@ std::vector<std::string> getDisabledModules() {
 #define THEMIS_BUILD_USER "unknown"
 #endif
 
-// ── Helper: SHA-256 hash of the running executable ─────────────────────────
+/**
+ * @brief ── Helper: SHA-256 hash of the running executable ─────────────────────────
+ * @return Return value.
+ * @details Calls: defined(), readlink(), assign(), GetModuleFileNameA(), empty(), f(), EVP_MD_CTX_new(), EVP_DigestInit_ex().
+ */
 static std::string computeExecutableHash() {
 #ifdef THEMIS_HAVE_OPENSSL_SHA
     // Determine path to own executable
@@ -974,6 +1020,11 @@ static std::string computeExecutableHash() {
 #endif
 }
 
+/**
+ * @brief Get Reproducibility Info.
+ * @return Return value.
+ * @details Calls: getBuildConfiguration(), computeExecutableHash().
+ */
 ReproducibilityInfo getReproducibilityInfo() {
     ReproducibilityInfo info;
 
@@ -1004,6 +1055,12 @@ ReproducibilityInfo getReproducibilityInfo() {
     return info;
 }
 
+/**
+ * @brief Export Build Manifest.
+ * @param[in] output_path Path to the output.
+ * @return True when the operation succeeds.
+ * @details Calls: getReproducibilityInfo(), getBuildConfiguration(), out(), good().
+ */
 bool exportBuildManifest(const std::string& output_path) {
     const auto repro = getReproducibilityInfo();
     const auto cfg   = getBuildConfiguration();
@@ -1038,6 +1095,12 @@ bool exportBuildManifest(const std::string& output_path) {
     return out.good();
 }
 
+/**
+ * @brief Verify Build Manifest.
+ * @param[in] manifest_path Path to the manifest.
+ * @return True when the operation succeeds.
+ * @details Calls: in(), content(), getReproducibilityInfo(), find(), containsField().
+ */
 bool verifyBuildManifest(const std::string& manifest_path) {
     std::ifstream in(manifest_path);
     if (!in) return false;
@@ -1059,11 +1122,20 @@ bool verifyBuildManifest(const std::string& manifest_path) {
     return commit_ok && toolchain_ok;
 }
 
+/**
+ * @brief Set Hsm Module Status Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lk(), hsmStatusFnMutex(), hsmStatusFnStorage(), std::move().
+ */
 void setHsmModuleStatusFn(HsmModuleStatusFn fn) {
     std::lock_guard<std::mutex> lk(hsmStatusFnMutex());
     hsmStatusFnStorage() = std::move(fn);
 }
 
+/**
+ * @brief Clear Hsm Module Status Fn.
+ * @details Calls: lk(), hsmStatusFnMutex(), hsmStatusFnStorage().
+ */
 void clearHsmModuleStatusFn() {
     std::lock_guard<std::mutex> lk(hsmStatusFnMutex());
     hsmStatusFnStorage() = nullptr;

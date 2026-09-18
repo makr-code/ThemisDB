@@ -257,7 +257,7 @@ public:
     QueryPlan explain(const OLAPQuery& query);
     
     /**
-     * @brief Statistics collection for optimization
+     * @brief Collect Statistics.
      * @param[in] collection Input parameter.
      */
     void collectStatistics(std::string_view collection);

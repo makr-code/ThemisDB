@@ -25,19 +25,6 @@ namespace http = beast::http;
 namespace themis {
 namespace server {
 
-/**
- * @brief Handler for Compliance Reporting API
- * 
- * This handler manages compliance reporting endpoints:
- * - GET /policies/reports/coverage - Coverage analysis
- * - GET /policies/reports/compliance - Compliance status
- * - GET /policies/reports/gaps - Gap analysis
- * - POST /policies/reports/generate - Generate custom report
- *     Supported types: "summary", "compliance", "risk", "time_window"
- *     For "time_window": body fields window_start_ms, window_end_ms (Unix ms),
- *     optional framework string, optional entries array of audit-log JSON objects.
- * - GET /policies/reports/:id/export - Export report
- */
 class ComplianceReportingApiHandler {
 public:
     ComplianceReportingApiHandler(
@@ -45,22 +32,48 @@ public:
         std::shared_ptr<themis::AuthMiddleware> auth
     );
     
+    /**
+     * @brief Handle Coverage Analysis.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleCoverageAnalysis(
         const http::request<http::string_body>& req
     );
     
+    /**
+     * @brief Handle Compliance Report.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleComplianceReport(
         const http::request<http::string_body>& req
     );
     
+    /**
+     * @brief Handle Gap Analysis.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleGapAnalysis(
         const http::request<http::string_body>& req
     );
     
+    /**
+     * @brief Handle Generate Report.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleGenerateReport(
         const http::request<http::string_body>& req
     );
     
+    /**
+     * @brief Handle Export Report.
+     * @param[in] req Input parameter.
+     * @param[in] report_id Identifier of the report.
+     * @return Return value.
+     */
     http::response<http::string_body> handleExportReport(
         const http::request<http::string_body>& req,
         const std::string& report_id
@@ -70,20 +83,46 @@ private:
     std::shared_ptr<themis::governance::ComplianceReporter> reporter_;
     std::shared_ptr<themis::AuthMiddleware> auth_;
     
+    /**
+     * @brief Check Auth.
+     * @param[in] req Input parameter.
+     * @param[in] required_role Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool checkAuth(const http::request<http::string_body>& req, const std::string& required_role) const;
     
+    /**
+     * @brief Make Response.
+     * @param[in] status Input parameter.
+     * @param[in] body Input parameter.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> makeResponse(
         http::status status,
         const std::string& body,
         const http::request<http::string_body>& req
     ) const;
     
+    /**
+     * @brief Make Error Response.
+     * @param[in] status Input parameter.
+     * @param[in] message Input parameter.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> makeErrorResponse(
         http::status status,
         const std::string& message,
         const http::request<http::string_body>& req
     ) const;
     
+    /**
+     * @brief Get Query Param.
+     * @param[in] url Input parameter.
+     * @param[in] param Input parameter.
+     * @return Return value.
+     */
     std::optional<std::string> getQueryParam(const std::string& url, const std::string& param) const;
 };
 

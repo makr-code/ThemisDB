@@ -152,7 +152,7 @@ void TimeoutPolicy::recordTimeoutEvent(const TimeoutEvent& event) {
 
 /**
  * @brief Record Retry Stats.
- * @param[in] shard_id Input parameter.
+ * @param[in] shard_id Identifier of the shard.
  * @param[in] stats Input parameter.
  * @details Calls: spdlog::debug(), count().
  */
@@ -221,7 +221,7 @@ QueryTimeoutContext::QueryTimeoutContext(const TimeoutPolicy& policy)
 
 /**
  * @brief Start Shard Attempt.
- * @param[in] shard_id Input parameter.
+ * @param[in] shard_id Identifier of the shard.
  * @param[in] attempt Input parameter.
  * @details Calls: std::chrono::steady_clock::now(), spdlog::debug().
  */
@@ -238,7 +238,7 @@ void QueryTimeoutContext::startShardAttempt(
 
 /**
  * @brief End Shard Attempt.
- * @param[in] shard_id Input parameter.
+ * @param[in] shard_id Identifier of the shard.
  * @param[in] success Input parameter.
  * @param[in] failure_reason Input parameter.
  * @details Calls: std::chrono::steady_clock::now(), push_back(), size(), spdlog::debug(), count().

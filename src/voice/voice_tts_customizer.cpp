@@ -32,6 +32,10 @@ VoiceTTSCustomizer::VoiceTTSCustomizer(const TTSCustomizerConfig& config)
     }
 }
 
+/**
+ * @brief Load Default Profiles.
+ * @details Calls: emplace(), std::move(), addProfile().
+ */
 void VoiceTTSCustomizer::loadDefaultProfiles() {
     auto addProfile = [&](const std::string& id, const std::string& name,
                           const std::string& lang, const std::string& gender,
@@ -60,6 +64,10 @@ void VoiceTTSCustomizer::loadDefaultProfiles() {
     addProfile("es-female",  "Spanish Female",    "es-ES", "female",  "piper");
 }
 
+/**
+ * @brief Load Default Language Voices.
+ * @details Calls: emplace(), std::move(), addLang().
+ */
 void VoiceTTSCustomizer::loadDefaultLanguageVoices() {
     auto addLang = [&](const std::string& code, const std::string& name,
                        const std::string& default_id,
@@ -84,6 +92,12 @@ void VoiceTTSCustomizer::loadDefaultLanguageVoices() {
     addLang("ja", "Japanese", "",           {});
 }
 
+/**
+ * @brief Register Voice Profile.
+ * @param[in] profile Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: count(), emplace().
+ */
 bool VoiceTTSCustomizer::registerVoiceProfile(const VoiceProfile& profile) {
     if (profiles_.count(profile.id)) {
         return false; // already exists
@@ -267,7 +281,11 @@ SSMLResult VoiceTTSCustomizer::parseSSML(const std::string& ssml_text) const {
 
 namespace {
 
-// Allowlist of permitted SSML 1.1 tags (lowercase)
+/**
+ * @brief Allowlist of permitted SSML 1.
+ * @return Return value.
+ * @details 1 tags (lowercase) Implements ssmlAllowedTags without additional internal calls.
+ */
 const std::set<std::string>& ssmlAllowedTags() {
     static const std::set<std::string> kTags = {
         "speak", "prosody", "break", "emphasis", "say-as",
@@ -294,7 +312,12 @@ const std::map<std::string, std::set<std::string>>& ssmlAllowedAttrs() {
     return kAttrs;
 }
 
-// Return true if the attribute value looks safe (no nested tags, no script keywords)
+/**
+ * @brief Return true if the attribute value looks safe (no nested tags, no script keywords)
+ * @param[in] value Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: find().
+ */
 bool isAttrValueSafe(const std::string& value) {
     if (value.find('<') != std::string::npos) {
       return false;
@@ -318,9 +341,14 @@ bool isAttrValueSafe(const std::string& value) {
     return true;
 }
 
-// Parse attribute key="value" pairs from a tag's attribute string.
-// Strips disallowed attributes; returns sanitized attribute string.
-// Sets injection_found if a disallowed attribute or unsafe value is detected.
+/**
+ * @brief Parse attribute key="value" pairs from a tag's attribute string.
+ * @param[in] tag_name Name of the tag.
+ * @param[in] attrs_str Input parameter.
+ * @param[in,out] injection_found Input/output parameter.
+ * @return Return value.
+ * @details Strips disallowed attributes; returns sanitized attribute string. Sets injection_found if a disallowed attribute or unsafe value is detected.
+ */
 std::string sanitizeTagAttributes(
     const std::string& tag_name,
     const std::string& attrs_str,
@@ -608,6 +636,11 @@ MOSMetrics VoiceTTSCustomizer::estimateMOSFromText(
     return m;
 }
 
+/**
+ * @brief Register Language Voice.
+ * @param[in] lv Input parameter.
+ * @details Implements registerLanguageVoice without additional internal calls.
+ */
 void VoiceTTSCustomizer::registerLanguageVoice(const LanguageVoice& lv) {
     language_voices_[lv.language_code] = lv;
 }

@@ -34,6 +34,13 @@ GossipConsensusAdapter::~GossipConsensusAdapter() {
     stop();
 }
 
+/**
+ * @brief Initialize.
+ * @param[in] node_id Identifier of the node.
+ * @param[in] cluster_nodes Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: spdlog::error(), what().
+ */
 bool GossipConsensusAdapter::initialize(
     const std::string& node_id,
     const std::vector<std::string>& cluster_nodes
@@ -60,6 +67,11 @@ bool GossipConsensusAdapter::initialize(
     }
 }
 
+/**
+ * @brief Start.
+ * @return True when the operation succeeds.
+ * @details Calls: load(), spdlog::warn(), store(), std::thread(), spdlog::info().
+ */
 bool GossipConsensusAdapter::start() {
     if (running_.load()) {
         spdlog::warn("Gossip consensus already running");
@@ -75,6 +87,10 @@ bool GossipConsensusAdapter::start() {
     return true;
 }
 
+/**
+ * @brief Stop.
+ * @details Calls: load(), store(), notify_all(), themis::utils::joinThreadWithin(), THEMIS_WARN(), spdlog::info().
+ */
 void GossipConsensusAdapter::stop() {
     if (!running_.load()) {
         return;
@@ -120,6 +136,13 @@ ConsensusState GossipConsensusAdapter::getState() const {
     return isLeader() ? ConsensusState::LEADER : ConsensusState::FOLLOWER;
 }
 
+/**
+ * @brief Propose.
+ * @param[in] operation Input parameter.
+ * @param[in] data Input parameter.
+ * @return Return value.
+ * @details Calls: load(), spdlog::error(), std::chrono::system_clock::now(), lock(), empty(), insert(), notify_one().
+ */
 std::optional<uint64_t> GossipConsensusAdapter::propose(
     const std::string& operation,
     const nlohmann::json& data
@@ -157,6 +180,13 @@ std::optional<uint64_t> GossipConsensusAdapter::propose(
     return entry.index;
 }
 
+/**
+ * @brief Wait For Commit.
+ * @param[in] log_index Input parameter.
+ * @param[in] timeout Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: std::chrono::steady_clock::now(), load(), hasReachedQuorum(), std::this_thread::sleep_for(), std::chrono::milliseconds().
+ */
 bool GossipConsensusAdapter::waitForCommit(
     uint64_t log_index,
     std::chrono::milliseconds timeout
@@ -179,6 +209,13 @@ bool GossipConsensusAdapter::waitForCommit(
     return false;
 }
 
+/**
+ * @brief Read Log.
+ * @param[in] start_index Input parameter.
+ * @param[in] end_index Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), value_or(), load(), find(), end(), hasReachedQuorumUnlocked(), push_back().
+ */
 std::vector<ConsensusLogEntry> GossipConsensusAdapter::readLog(
     uint64_t start_index,
     std::optional<uint64_t> end_index
@@ -220,6 +257,13 @@ uint64_t GossipConsensusAdapter::getLastLogIndex() const {
     return next > 0 ? next - 1 : 0;
 }
 
+/**
+ * @brief Add Node.
+ * @param[in] node_id Identifier of the node.
+ * @param[in] param Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), empty(), spdlog::error(), std::find(), begin(), end(), spdlog::warn(), push_back().
+ */
 bool GossipConsensusAdapter::addNode(
     const std::string& node_id,
     const std::string& /*endpoint*/
@@ -242,6 +286,12 @@ bool GossipConsensusAdapter::addNode(
     return true;
 }
 
+/**
+ * @brief Remove Node.
+ * @param[in] node_id Identifier of the node.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), std::find(), begin(), end(), spdlog::warn(), erase(), spdlog::info().
+ */
 bool GossipConsensusAdapter::removeNode(const std::string& node_id) {
     std::lock_guard<std::mutex> lock(state_mutex_);
     
@@ -256,12 +306,24 @@ bool GossipConsensusAdapter::removeNode(const std::string& node_id) {
     return true;
 }
 
+/**
+ * @brief Transfer Leadership.
+ * @param[in] param Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: spdlog::info().
+ */
 bool GossipConsensusAdapter::transferLeadership(const std::string& /*target_node_id*/) {
     // Gossip is leaderless, so this is a no-op
     spdlog::info("Gossip is leaderless, leadership transfer not applicable");
     return true;
 }
 
+/**
+ * @brief Take Snapshot.
+ * @param[in] snapshot_data Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: load(), spdlog::warn(), lock(), spdlog::info().
+ */
 bool GossipConsensusAdapter::takeSnapshot(const nlohmann::json& snapshot_data) {
     if (!running_.load()) {
         spdlog::warn("takeSnapshot: Gossip not running");
@@ -282,6 +344,12 @@ bool GossipConsensusAdapter::takeSnapshot(const nlohmann::json& snapshot_data) {
     return true;
 }
 
+/**
+ * @brief Restore Snapshot.
+ * @param[in] snapshot_data Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: is_null(), empty(), spdlog::error(), contains(), lock(), spdlog::info().
+ */
 bool GossipConsensusAdapter::restoreSnapshot(const nlohmann::json& snapshot_data) {
     if (snapshot_data.is_null() || snapshot_data.empty()) {
         spdlog::error("GossipConsensusAdapter::restoreSnapshot: snapshot_data is null or empty");
@@ -322,6 +390,11 @@ nlohmann::json GossipConsensusAdapter::getStatus() const {
 
     uint64_t snap_index = 0;
     {
+        /**
+         * @brief Lock.
+         * @param[in] state_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(state_mutex_);
         snap_index = snapshot_index_;
     }
@@ -343,6 +416,11 @@ nlohmann::json GossipConsensusAdapter::getStatus() const {
 void GossipConsensusAdapter::onCommit(
     std::function<void(const ConsensusLogEntry&)> callback
 ) {
+    /**
+     * @brief Lock.
+     * @param[in] callbacks_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(callbacks_mutex_);
     on_commit_callback_ = std::move(callback);
 }
@@ -350,6 +428,11 @@ void GossipConsensusAdapter::onCommit(
 void GossipConsensusAdapter::onStateChange(
     std::function<void(ConsensusState, ConsensusState)> callback
 ) {
+    /**
+     * @brief Lock.
+     * @param[in] callbacks_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(callbacks_mutex_);
     on_state_change_callback_ = std::move(callback);
 }
@@ -357,12 +440,21 @@ void GossipConsensusAdapter::onStateChange(
 void GossipConsensusAdapter::onLeaderChange(
     std::function<void(const std::string&, const std::string&)> callback
 ) {
+    /**
+     * @brief Lock.
+     * @param[in] callbacks_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(callbacks_mutex_);
     on_leader_change_callback_ = std::move(callback);
 }
 
 // Private methods
 
+/**
+ * @brief Gossip Thread.
+ * @details Calls: spdlog::debug(), load(), lock(), wait_for(), unlock(), log_lock(), hasReachedQuorumUnlocked(), empty().
+ */
 void GossipConsensusAdapter::gossipThread() {
     spdlog::debug("Gossip thread started");
     
@@ -416,6 +508,11 @@ void GossipConsensusAdapter::gossipThread() {
 }
 
 bool GossipConsensusAdapter::hasReachedQuorum(uint64_t log_index) const {
+    /**
+     * @brief Lock.
+     * @param[in] log_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(log_mutex_);
     return hasReachedQuorumUnlocked(log_index);
 }

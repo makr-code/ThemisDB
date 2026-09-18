@@ -24,6 +24,13 @@ namespace themis {
 
 namespace {
 
+/**
+ * @brief Deserialize Entity Safe.
+ * @param[in] entity_id Identifier of the entity.
+ * @param[in] blob Input parameter.
+ * @return Return value.
+ * @details Calls: BaseEntity::deserialize(), std::string().
+ */
 std::optional<BaseEntity> deserializeEntitySafe(
     std::string_view entity_id,
     const std::vector<uint8_t>& blob
@@ -104,10 +111,19 @@ std::string GNNEmbeddingManager::makeEmbeddingKey_(
 
 std::optional<GNNEmbeddingManager::EmbeddingKeyParts> 
 GNNEmbeddingManager::parseEmbeddingKey_(std::string_view key) const {
-    // Parse key: gnn_emb:<entity_type>:<graph_id>:<model_name>:<entity_id>
+    /**
+     * @brief Parse key: gnn_emb:<entity_type>:<graph_id>:<model_name>:<entity_id>
+     * @param[in] key Input parameter.
+     * @return Return value.
+     */
     std::string keyStr(key);
     std::vector<std::string> parts;
     parts.reserve(std::count(keyStr.begin(), keyStr.end(), ':') + 1);
+    /**
+     * @brief Iss.
+     * @param[in] keyStr Input parameter.
+     * @return Return value.
+     */
     std::istringstream iss(keyStr);
     std::string part = {};
     
@@ -164,6 +180,11 @@ std::vector<std::string> GNNEmbeddingManager::getNeighbors_(
             outPrefix << "graph:out:" << graph_id << ":" << node << ":";
             
             db_.scanPrefix(outPrefix.str(), [&](std::string_view /*key*/, std::string_view val) {
+                /**
+                 * @brief Neighbor.
+                 * @param[in] val Input parameter.
+                 * @return Return value.
+                 */
                 std::string neighbor(val);
                 if (visited.find(neighbor) == visited.end()) {
                     visited.insert(neighbor);
@@ -178,6 +199,11 @@ std::vector<std::string> GNNEmbeddingManager::getNeighbors_(
             inPrefix << "graph:in:" << graph_id << ":" << node << ":";
             
             db_.scanPrefix(inPrefix.str(), [&](std::string_view /*key*/, std::string_view val) {
+                /**
+                 * @brief Neighbor.
+                 * @param[in] val Input parameter.
+                 * @return Return value.
+                 */
                 std::string neighbor(val);
                 if (visited.find(neighbor) == visited.end()) {
                     visited.insert(neighbor);
@@ -404,7 +430,15 @@ GNNEmbeddingManager::computeEmbedding_(
     return {Status::OK(), embedding};
 }
 
-// ===== Node Embedding Generation =====
+/**
+ * @brief ===== Node Embedding Generation =====
+ * @param[in] graph_id Identifier of the graph.
+ * @param[in] label Input parameter.
+ * @param[in] model_name Name of the model.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Calls: isOpen(), Status::Error(), getNodesByLabel(), empty(), Status::OK(), generateNodeEmbeddingsBatch().
+ */
 
 GNNEmbeddingManager::Status GNNEmbeddingManager::generateNodeEmbeddings(
     std::string_view graph_id,
@@ -430,6 +464,15 @@ GNNEmbeddingManager::Status GNNEmbeddingManager::generateNodeEmbeddings(
     return generateNodeEmbeddingsBatch(node_pks, graph_id, model_name, 32);
 }
 
+/**
+ * @brief Update Node Embedding.
+ * @param[in] node_pk Input parameter.
+ * @param[in] graph_id Identifier of the graph.
+ * @param[in] model_name Name of the model.
+ * @param[in] feature_fields Input parameter.
+ * @return Return value.
+ * @details Calls: isOpen(), Status::Error(), str(), get(), has_value(), deserializeEntitySafe(), std::move(), extractFeatures_().
+ */
 GNNEmbeddingManager::Status GNNEmbeddingManager::updateNodeEmbedding(
     std::string_view node_pk,
     std::string_view graph_id,
@@ -492,7 +535,15 @@ GNNEmbeddingManager::Status GNNEmbeddingManager::updateNodeEmbedding(
     return Status::OK();
 }
 
-// ===== Edge Embedding Generation =====
+/**
+ * @brief ===== Edge Embedding Generation =====
+ * @param[in] graph_id Identifier of the graph.
+ * @param[in] edge_type Input parameter.
+ * @param[in] model_name Name of the model.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Calls: isOpen(), Status::Error(), getEdgesByType(), empty(), Status::OK(), reserve(), size(), push_back().
+ */
 
 GNNEmbeddingManager::Status GNNEmbeddingManager::generateEdgeEmbeddings(
     std::string_view graph_id,
@@ -526,6 +577,15 @@ GNNEmbeddingManager::Status GNNEmbeddingManager::generateEdgeEmbeddings(
     return generateEdgeEmbeddingsBatch(edge_ids, graph_id, model_name, 32);
 }
 
+/**
+ * @brief Update Edge Embedding.
+ * @param[in] edge_id Identifier of the edge.
+ * @param[in] graph_id Identifier of the graph.
+ * @param[in] model_name Name of the model.
+ * @param[in] feature_fields Input parameter.
+ * @return Return value.
+ * @details Calls: isOpen(), Status::Error(), str(), get(), has_value(), deserializeEntitySafe(), std::move(), extractFeatures_().
+ */
 GNNEmbeddingManager::Status GNNEmbeddingManager::updateEdgeEmbedding(
     std::string_view edge_id,
     std::string_view graph_id,
@@ -618,6 +678,11 @@ GNNEmbeddingManager::generateGraphEmbedding(
     
     db_.scanPrefix(prefix.str(), [this, &node_embeddings, &embedding_dim](std::string_view key, std::string_view val) {
         // Load embedding entity
+        /**
+         * @brief Key Str.
+         * @param[in] key Input parameter.
+         * @return Return value.
+         */
         std::string keyStr(key);
         std::vector<uint8_t> blobBytes(val.begin(), val.end());
         auto embEntity = deserializeEntitySafe(keyStr, blobBytes);
@@ -857,7 +922,15 @@ GNNEmbeddingManager::findSimilarEdges(
     return {Status::OK(), similar};
 }
 
-// ===== Model Management =====
+/**
+ * @brief ===== Model Management =====
+ * @param[in] model_name Name of the model.
+ * @param[in] model_type Input parameter.
+ * @param[in] embedding_dim Input parameter.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @details Calls: std::string(), std::chrono::system_clock::now(), time_since_epoch(), count(), Status::OK().
+ */
 
 GNNEmbeddingManager::Status GNNEmbeddingManager::registerModel(
     std::string_view model_name,
@@ -897,6 +970,13 @@ GNNEmbeddingManager::getModelInfo(std::string_view model_name) const {
     return {Status::OK(), it->second};
 }
 
+/**
+ * @brief Set Aggregation Strategy.
+ * @param[in] model_name Name of the model.
+ * @param[in] strategy Input parameter.
+ * @return Return value.
+ * @details Calls: find(), std::string(), end(), Status::Error(), Status::OK().
+ */
 GNNEmbeddingManager::Status GNNEmbeddingManager::setAggregationStrategy(
     std::string_view model_name,
     AggregationStrategy strategy
@@ -910,7 +990,15 @@ GNNEmbeddingManager::Status GNNEmbeddingManager::setAggregationStrategy(
     return Status::OK();
 }
 
-// ===== Batch Operations =====
+/**
+ * @brief ===== Batch Operations =====
+ * @param[in] node_pks Input parameter.
+ * @param[in] graph_id Identifier of the graph.
+ * @param[in] model_name Name of the model.
+ * @param[in] batch_size Input parameter.
+ * @return Return value.
+ * @details Calls: Status::Error(), size(), std::min(), updateNodeEmbedding(), Status::OK().
+ */
 
 GNNEmbeddingManager::Status GNNEmbeddingManager::generateNodeEmbeddingsBatch(
     const std::vector<std::string>& node_pks,
@@ -933,6 +1021,15 @@ GNNEmbeddingManager::Status GNNEmbeddingManager::generateNodeEmbeddingsBatch(
     return Status::OK();
 }
 
+/**
+ * @brief Generate Edge Embeddings Batch.
+ * @param[in] edge_ids Input parameter.
+ * @param[in] graph_id Identifier of the graph.
+ * @param[in] model_name Name of the model.
+ * @param[in] batch_size Input parameter.
+ * @return Return value.
+ * @details Calls: Status::Error(), size(), std::min(), updateEdgeEmbedding(), Status::OK().
+ */
 GNNEmbeddingManager::Status GNNEmbeddingManager::generateEdgeEmbeddingsBatch(
     const std::vector<std::string>& edge_ids,
     std::string_view graph_id,
@@ -964,11 +1061,21 @@ GNNEmbeddingManager::getStats() const {
     
     // Scan all embeddings
     db_.scanPrefix("gnn_emb:", [&stats](std::string_view key, std::string_view /*val*/) {
+        /**
+         * @brief Key Str.
+         * @param[in] key Input parameter.
+         * @return Return value.
+         */
         std::string keyStr(key);
         
         // Parse key to extract entity_type, model_name, graph_id
         std::vector<std::string> parts;
         parts.reserve(std::count(keyStr.begin(), keyStr.end(), ':') + 1);
+        /**
+         * @brief Iss.
+         * @param[in] keyStr Input parameter.
+         * @return Return value.
+         */
         std::istringstream iss(keyStr);
         std::string part = {};
         while (std::getline(iss, part, ':')) {

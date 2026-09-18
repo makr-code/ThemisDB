@@ -185,12 +185,12 @@ public:
      */
     void setResolutionStrategy(ResolutionStrategy strategy);
 
+    
     /**
-     * @brief Safety check methods (Phase 3B Extended)
+     * @brief Has Conflicting Classifications.
      * @param[in] classifications Input parameter.
      * @return True when the operation succeeds.
      */
-    
     bool hasConflictingClassifications(
         const std::vector<std::string>& classifications
     ) const;
@@ -329,7 +329,7 @@ private:
     std::shared_ptr<ConflictDiagnosticHelper> conflict_helper_;
     
     /**
-     * @brief Helper methods for each scenario check
+     * @brief Check Conflicting Classifications.
      * @param[in] req Input parameter.
      * @return Return value.
      */

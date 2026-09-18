@@ -26,9 +26,6 @@ namespace themis {
 namespace llm {
 namespace security {
 
-/**
- * @brief Result of Signature Verification
- */
 struct SignatureVerificationResult {
     bool is_valid = false;
     std::string algorithm;
@@ -40,22 +37,32 @@ struct SignatureVerificationResult {
     bool chain_valid = false;
 };
 
-/**
- * @brief Abstract Base Class for Signature Verification
- * 
- * Design Pattern: Chain of Responsibility
- * Each verifier checks one aspect and passes to next
- */
 class ISignatureVerifier {
 public:
+    /**
+     * @brief ISignature Verifier.
+     * @return Return value.
+     */
     virtual ~ISignatureVerifier() = default;
     
+    /**
+     * @brief Verify identity and enforce network policies for a request.
+     * @param[in] data Input parameter.
+     * @param[in] signature Input parameter.
+     * @param[in] cert_pem Input parameter.
+     * @return Verification result.
+     */
     virtual SignatureVerificationResult verify(
         const std::vector<uint8_t>& data,
         const std::vector<uint8_t>& signature,
         const std::string& cert_pem
     ) = 0;
     
+    /**
+     * @brief Set Next.
+     * @param[in] next Input parameter.
+     * @details Implements setNext without additional internal calls.
+     */
     void setNext(std::shared_ptr<ISignatureVerifier> next) {
         next_ = next;
     }
@@ -63,6 +70,13 @@ public:
 protected:
     std::shared_ptr<ISignatureVerifier> next_;
     
+    /**
+     * @brief Pass To Next.
+     * @param[in] data Input parameter.
+     * @param[in] signature Input parameter.
+     * @param[in] cert_pem Input parameter.
+     * @return Return value.
+     */
     SignatureVerificationResult passToNext(
         const std::vector<uint8_t>& data,
         const std::vector<uint8_t>& signature,
@@ -70,9 +84,6 @@ protected:
     );
 };
 
-/**
- * @brief RSA-SHA256 Signature Verifier
- */
 class RSA_SHA256_Verifier : public ISignatureVerifier {
 public:
     RSA_SHA256_Verifier() = default;
@@ -92,14 +103,6 @@ private:
         extractPublicKey(X509* cert);
 };
 
-/**
- * @brief ECDSA-SHA256 Signature Verifier
- * 
- * Supports P-256 (prime256v1) and P-384 (secp384r1) curves.
- * Accepts DER-encoded ECDSA signatures (standard OpenSSL output format).
- * Raw concatenated (r||s) input (64 bytes for P-256, 96 bytes for P-384)
- * is automatically converted to DER before verification.
- */
 class ECDSA_SHA256_Verifier : public ISignatureVerifier {
 public:
     ECDSA_SHA256_Verifier() = default;
@@ -119,29 +122,20 @@ private:
         extractPublicKey(X509* cert);
     
     /**
-     * @brief Validate EC curve OID to prevent algorithm downgrade
-     * @param cert X.509 certificate containing the EC key
-     * @return true if curve is P-256 or P-384, false otherwise
+     * @brief Validate ECCurve.
+     * @param[in,out] cert Input/output parameter.
+     * @return True when the operation succeeds.
      */
     bool validateECCurve(X509* cert);
     
     /**
-     * @brief Convert concatenated (r||s) format to DER format if needed
-     * @param signature_input Input signature (may be concatenated or DER)
-     * @return Signature in DER format for OpenSSL verification
+     * @brief Convert Signature To DER.
+     * @param[in] signature_input Input parameter.
+     * @return Return value.
      */
     std::vector<uint8_t> convertSignatureToDER(const std::vector<uint8_t>& signature_input);
 };
 
-/**
- * @brief ECDSA-SHA384 Signature Verifier
- * 
- * Supports P-256 (prime256v1) and P-384 (secp384r1) curves.
- * Provides stronger cryptographic guarantees than SHA256.
- * Accepts DER-encoded ECDSA signatures (standard OpenSSL output format).
- * Raw concatenated (r||s) input (64 bytes for P-256, 96 bytes for P-384)
- * is automatically converted to DER before verification.
- */
 class ECDSA_SHA384_Verifier : public ISignatureVerifier {
 public:
     ECDSA_SHA384_Verifier() = default;
@@ -161,25 +155,27 @@ private:
         extractPublicKey(X509* cert);
     
     /**
-     * @brief Validate EC curve OID to prevent algorithm downgrade
-     * @param cert X.509 certificate containing the EC key
-     * @return true if curve is P-256 or P-384, false otherwise
+     * @brief Validate ECCurve.
+     * @param[in,out] cert Input/output parameter.
+     * @return True when the operation succeeds.
      */
     bool validateECCurve(X509* cert);
     
     /**
-     * @brief Convert concatenated (r||s) format to DER format if needed
-     * @param signature_input Input signature (may be concatenated or DER)
-     * @return Signature in DER format for OpenSSL verification
+     * @brief Convert Signature To DER.
+     * @param[in] signature_input Input parameter.
+     * @return Return value.
      */
     std::vector<uint8_t> convertSignatureToDER(const std::vector<uint8_t>& signature_input);
 };
 
-/**
- * @brief Certificate Chain Verifier
- */
 class CertificateChainVerifier : public ISignatureVerifier {
 public:
+    /**
+     * @brief Certificate Chain Verifier.
+     * @param[in] ca_bundle_path Path to the ca bundle.
+     * @return Return value.
+     */
     explicit CertificateChainVerifier(const std::string& ca_bundle_path);
     ~CertificateChainVerifier() override = default;
     
@@ -192,14 +188,22 @@ public:
 private:
     std::string ca_bundle_path_;
     
+    /**
+     * @brief Verify Certificate Chain.
+     * @param[in,out] cert Input/output parameter.
+     * @param[in,out] store Input/output parameter.
+     * @return True when the operation succeeds.
+     */
     bool verifyCertificateChain(X509* cert, X509_STORE* store);
 };
 
-/**
- * @brief Certificate Revocation List (CRL) Checker
- */
 class CRLChecker : public ISignatureVerifier {
 public:
+    /**
+     * @brief CRLChecker.
+     * @param[in] crl_url Input parameter.
+     * @return Return value.
+     */
     explicit CRLChecker(const std::string& crl_url);
     ~CRLChecker() override = default;
     
@@ -220,50 +224,68 @@ private:
     mutable std::mutex cache_mutex_;
     mutable CRLCache crl_cache_;
 
-    /** Download and parse the CRL from crl_url_; returns nullptr on failure. */
+    /**
+     * @brief Download And Parse CRL.
+     * @return Pointer to the result.
+     */
     X509_CRL* downloadAndParseCRL() const;
 
-    /** Return the cached CRL (re-fetching if expired), or nullptr. */
+    /**
+     * @brief Get Or Refresh CRL.
+     * @return Pointer to the result.
+     */
     X509_CRL* getOrRefreshCRL() const;
 
+    /**
+     * @brief Is Certificate Revoked.
+     * @param[in,out] cert Input/output parameter.
+     * @return True when the operation succeeds.
+     */
     bool isCertificateRevoked(X509* cert);
 };
 
-/**
- * @brief Signature Verifier Builder (Fluent Interface)
- * 
- * Design Pattern: Builder Pattern
- * 
- * Example usage:
- * @code
- * auto verifier = SignatureVerifierBuilder()
- *     .withECDSA_SHA256()
- *     .withCertificateChainValidation("/etc/ssl/certs/ca-certificates.crt")
- *     .build();
- * @endcode
- */
 class SignatureVerifierBuilder {
 public:
     SignatureVerifierBuilder() = default;
     
-    /// Add RSA-SHA256 signature verification to the chain
+    /**
+     * @brief With RSA SHA256.
+     * @return Return value.
+     */
     SignatureVerifierBuilder& withRSA_SHA256();
     
-    /// Add ECDSA-SHA256 signature verification to the chain (supports P-256, P-384)
+    /**
+     * @brief With ECDSA SHA256.
+     * @return Return value.
+     */
     SignatureVerifierBuilder& withECDSA_SHA256();
     
-    /// Add ECDSA-SHA384 signature verification to the chain (supports P-256, P-384)
+    /**
+     * @brief With ECDSA SHA384.
+     * @return Return value.
+     */
     SignatureVerifierBuilder& withECDSA_SHA384();
     
-    /// Add certificate chain validation using the provided CA bundle
+    /**
+     * @brief With Certificate Chain Validation.
+     * @param[in] ca_bundle_path Path to the ca bundle.
+     * @return Return value.
+     */
     SignatureVerifierBuilder& withCertificateChainValidation(
         const std::string& ca_bundle_path
     );
     
-    /// Add CRL (Certificate Revocation List) checking
+    /**
+     * @brief With CRLCheck.
+     * @param[in] crl_url Input parameter.
+     * @return Return value.
+     */
     SignatureVerifierBuilder& withCRLCheck(const std::string& crl_url);
     
-    /// Build and return the verification chain
+    /**
+     * @brief Build.
+     * @return Return value.
+     */
     std::shared_ptr<ISignatureVerifier> build();
 
 private:

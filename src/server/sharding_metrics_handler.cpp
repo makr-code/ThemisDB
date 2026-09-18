@@ -26,6 +26,11 @@ ShardingMetricsHandler::ShardingMetricsHandler(
     , slo_monitor_(slo_monitor) {
 }
 
+/**
+ * @brief Set Repair Engine.
+ * @param[in] repair_engine Input parameter.
+ * @details Calls: std::move().
+ */
 void ShardingMetricsHandler::setRepairEngine(
     std::shared_ptr<sharding::ShardRepairEngine> repair_engine) {
     repair_engine_ = std::move(repair_engine);

@@ -24,7 +24,12 @@ namespace themis::rag {
 
 namespace {
 
-/// Convert kg::RelationType to a string name used by OntologyManager axioms.
+/**
+ * @brief Relation Type Name.
+ * @param[in] rel Input parameter.
+ * @return Return value.
+ * @details Implements relationTypeName without additional internal calls.
+ */
 std::string relationTypeName(kg::RelationType rel) {
     switch (rel) {
         case kg::RelationType::IS_A:       return "IS_A";
@@ -38,7 +43,12 @@ std::string relationTypeName(kg::RelationType rel) {
     return "RELATED_TO";
 }
 
-/// Convert EntityType to an ontology concept name used for axiom lookup.
+/**
+ * @brief Entity Type Name.
+ * @param[in] type Input parameter.
+ * @return Return value.
+ * @details Implements entityTypeName without additional internal calls.
+ */
 std::string entityTypeName(kg::EntityType type) {
     switch (type) {
         case kg::EntityType::PERSON:       return "Person";
@@ -88,6 +98,11 @@ const OntologyRetrieverConfig& OntologyAwareRetriever::config() const noexcept {
     return config_;
 }
 
+/**
+ * @brief Set Config.
+ * @param[in] config Input parameter.
+ * @details Implements setConfig without additional internal calls.
+ */
 void OntologyAwareRetriever::setConfig(const OntologyRetrieverConfig& config) {
     config_ = config;
 }
@@ -168,8 +183,12 @@ OntologyRetrievalResult OntologyAwareRetriever::retrieve(
         kg::KnowledgeGraphRetriever base_retriever(*raw_graph_, kg_cfg);
         base_result = base_retriever.retrieve(query, candidates);
     } else if (graph_iface_) {
-        // When an IKnowledgeGraph is provided, construct a retriever that
-        // operates over the interface implementation.
+        /**
+         * @brief When an IKnowledgeGraph is provided, construct a retriever that operates over the interface implementation.
+         * @param[in] graph_iface_ Input parameter.
+         * @param[in] kg_cfg Input parameter.
+         * @return Return value.
+         */
         kg::KnowledgeGraphRetriever base_retriever(graph_iface_, kg_cfg);
         base_result = base_retriever.retrieve(query, candidates);
     }

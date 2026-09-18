@@ -21,7 +21,12 @@ namespace lora {
 
 namespace fs = std::filesystem;
 
-// ===== ModelMetadata Helper Functions =====
+/**
+ * @brief ===== ModelMetadata Helper Functions =====
+ * @param[in] fmt Input parameter.
+ * @return Return value.
+ * @details Implements format_to_string without additional internal calls.
+ */
 
 std::string ModelMetadata::format_to_string(ModelFormat fmt) {
     switch (fmt) {
@@ -34,6 +39,12 @@ std::string ModelMetadata::format_to_string(ModelFormat fmt) {
     }
 }
 
+/**
+ * @brief Architecture to string.
+ * @param[in] arch Input parameter.
+ * @return Return value.
+ * @details Implements architecture_to_string without additional internal calls.
+ */
 std::string ModelMetadata::architecture_to_string(ModelArchitecture arch) {
     switch (arch) {
         case ModelArchitecture::LLAMA: return "LLaMA";
@@ -51,6 +62,12 @@ std::string ModelMetadata::architecture_to_string(ModelArchitecture arch) {
     }
 }
 
+/**
+ * @brief String to format.
+ * @param[in] str Input parameter.
+ * @return Return value.
+ * @details Calls: std::transform(), begin(), end().
+ */
 ModelFormat ModelMetadata::string_to_format(const std::string& str) {
     std::string lower = str;
     std::transform(lower.begin(), lower.end(), lower.begin(), ::tolower);
@@ -74,6 +91,12 @@ ModelFormat ModelMetadata::string_to_format(const std::string& str) {
     return ModelFormat::UNKNOWN;
 }
 
+/**
+ * @brief String to architecture.
+ * @param[in] str Input parameter.
+ * @return Return value.
+ * @details Calls: std::transform(), begin(), end(), find().
+ */
 ModelArchitecture ModelMetadata::string_to_architecture(const std::string& str) {
     std::string lower = str;
     std::transform(lower.begin(), lower.end(), lower.begin(), ::tolower);
@@ -112,7 +135,12 @@ ModelArchitecture ModelMetadata::string_to_architecture(const std::string& str) 
     return ModelArchitecture::UNKNOWN;
 }
 
-// ===== ModelCompatibilityChecker Implementation =====
+/**
+ * @brief ===== ModelCompatibilityChecker Implementation =====
+ * @param[in] model_path Path to the model.
+ * @return Return value.
+ * @details Calls: fs::exists(), spdlog::warn(), path(), extension(), string(), std::transform(), begin(), end().
+ */
 
 ModelFormat ModelCompatibilityChecker::detect_format(const std::string& model_path) {
     if (!fs::exists(model_path)) {
@@ -157,6 +185,12 @@ ModelFormat ModelCompatibilityChecker::detect_format(const std::string& model_pa
     return ModelFormat::UNKNOWN;
 }
 
+/**
+ * @brief Extract metadata.
+ * @param[in] model_path Path to the model.
+ * @return Return value.
+ * @details Calls: detect_format(), spdlog::info(), ModelMetadata::format_to_string(), read_gguf_metadata(), read_safetensors_metadata(), spdlog::warn().
+ */
 std::optional<ModelMetadata> ModelCompatibilityChecker::extract_metadata(const std::string& model_path) {
     ModelFormat format = detect_format(model_path);
     
@@ -174,6 +208,12 @@ std::optional<ModelMetadata> ModelCompatibilityChecker::extract_metadata(const s
     }
 }
 
+/**
+ * @brief Read gguf metadata.
+ * @param[in] path Input parameter.
+ * @return Return value.
+ * @details Calls: filepath(), stem(), string(), std::transform(), begin(), end(), ModelMetadata::string_to_architecture(), find().
+ */
 std::optional<ModelMetadata> ModelCompatibilityChecker::read_gguf_metadata(const std::string& path) {
     // Reads basic GGUF metadata using filename heuristics (architecture from
     // stem, quantization type from suffix tokens such as "q4_k_m", model size
@@ -229,6 +269,12 @@ std::optional<ModelMetadata> ModelCompatibilityChecker::read_gguf_metadata(const
     return metadata;
 }
 
+/**
+ * @brief Read safetensors metadata.
+ * @param[in] path Input parameter.
+ * @return Return value.
+ * @details Calls: file(), is_open(), spdlog::error(), read(), header_json(), json::parse(), spdlog::debug(), dump().
+ */
 std::optional<ModelMetadata> ModelCompatibilityChecker::read_safetensors_metadata(const std::string& path) {
     // Reads the 8-byte length-prefixed JSON header that every SafeTensors file
     // begins with, then extracts "model_type", "hidden_size", "num_heads", and
@@ -275,6 +321,12 @@ std::optional<ModelMetadata> ModelCompatibilityChecker::read_safetensors_metadat
     return metadata;
 }
 
+/**
+ * @brief Detect architecture.
+ * @param[in] metadata Input parameter.
+ * @return Return value.
+ * @details Calls: contains(), ModelMetadata::string_to_architecture().
+ */
 ModelArchitecture ModelCompatibilityChecker::detect_architecture(const json& metadata) {
     if (metadata.contains("model_type")) {
         return ModelMetadata::string_to_architecture(metadata["model_type"]);
@@ -282,6 +334,13 @@ ModelArchitecture ModelCompatibilityChecker::detect_architecture(const json& met
     return ModelArchitecture::UNKNOWN;
 }
 
+/**
+ * @brief Check compatibility.
+ * @param[in] model_path Path to the model.
+ * @param[in] quantization_type Input parameter.
+ * @return Return value.
+ * @details Calls: fs::exists(), add_error(), extract_metadata(), has_value(), value(), validate_architecture(), insert(), end().
+ */
 CompatibilityResult ModelCompatibilityChecker::check_compatibility(
     const std::string& model_path,
     const std::string& quantization_type
@@ -348,6 +407,12 @@ CompatibilityResult ModelCompatibilityChecker::check_compatibility(
     return result;
 }
 
+/**
+ * @brief Validate architecture.
+ * @param[in] metadata Input parameter.
+ * @return Return value.
+ * @details Calls: add_warning(), ModelMetadata::architecture_to_string().
+ */
 CompatibilityResult ModelCompatibilityChecker::validate_architecture(const ModelMetadata& metadata) {
     CompatibilityResult result;
     result.is_compatible = true;
@@ -389,6 +454,13 @@ CompatibilityResult ModelCompatibilityChecker::validate_architecture(const Model
     return result;
 }
 
+/**
+ * @brief Check quantization compatibility.
+ * @param[in] metadata Input parameter.
+ * @param[in] target_quantization Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), add_warning(), add_error().
+ */
 CompatibilityResult ModelCompatibilityChecker::check_quantization_compatibility(
     const ModelMetadata& metadata,
     const std::string& target_quantization
@@ -424,6 +496,12 @@ CompatibilityResult ModelCompatibilityChecker::check_quantization_compatibility(
     return result;
 }
 
+/**
+ * @brief Get recommended target modules.
+ * @param[in] architecture Input parameter.
+ * @return Return value.
+ * @details Implements get_recommended_target_modules without additional internal calls.
+ */
 std::vector<std::string> ModelCompatibilityChecker::get_recommended_target_modules(
     ModelArchitecture architecture
 ) {
@@ -452,6 +530,15 @@ std::vector<std::string> ModelCompatibilityChecker::get_recommended_target_modul
     }
 }
 
+/**
+ * @brief Estimate memory requirements.
+ * @param[in] metadata Input parameter.
+ * @param[in] quantization_type Input parameter.
+ * @param[in] batch_size Input parameter.
+ * @param[in] rank Input parameter.
+ * @return Return value.
+ * @details Calls: get_quantization_reduction(), spdlog::info().
+ */
 size_t ModelCompatibilityChecker::estimate_memory_requirements(
     const ModelMetadata& metadata,
     const std::string& quantization_type,
@@ -497,6 +584,12 @@ size_t ModelCompatibilityChecker::estimate_memory_requirements(
     return total;
 }
 
+/**
+ * @brief Get quantization reduction.
+ * @param[in] quant_type Input parameter.
+ * @return Return value.
+ * @details Implements get_quantization_reduction without additional internal calls.
+ */
 float ModelCompatibilityChecker::get_quantization_reduction(const std::string& quant_type) {
     if (quant_type == "nf4" || quant_type == "int4") {
         return 0.25f;  // 4-bit = 1/4 of FP32

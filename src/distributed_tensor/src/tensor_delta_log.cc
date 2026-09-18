@@ -15,10 +15,12 @@ namespace distributed_tensor {
 
 namespace {
 
-/// @brief Escapes a string value for safe JSON embedding.
-/// Escapes backslashes, double-quotes, and ASCII control characters.
-/// @param s Raw string value
-/// @return JSON-safe escaped string (without surrounding quotes)
+/**
+ * @brief Json Escape.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), std::snprintf().
+ */
 std::string jsonEscape(const std::string& s) {
   std::string out = {};
   out.reserve(s.size() + 8);
@@ -45,12 +47,14 @@ std::string jsonEscape(const std::string& s) {
   return out;
 }
 
-/// @brief Extracts a JSON string field value (unescapes basic sequences).
-/// Supports the escape sequences emitted by jsonEscape().
-/// @param json   Full JSON string to search
-/// @param key    Field key (without quotes)
-/// @param start  Search start position; updated to position after the closing quote
-/// @return Extracted and unescaped string value, or std::nullopt on parse error
+/**
+ * @brief Extract Json String.
+ * @param[in] json Input parameter.
+ * @param[in] key Input parameter.
+ * @param[in,out] start Input/output parameter.
+ * @return Return value.
+ * @details Calls: find(), size().
+ */
 std::optional<std::string> extractJsonString(const std::string& json,
                                               const std::string& key,
                                               size_t& start) {
@@ -93,12 +97,25 @@ std::optional<std::string> extractJsonString(const std::string& json,
 
 namespace {
 
+/**
+ * @brief Get Current Time Ms.
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::now(), time_since_epoch(), count().
+ */
 int64_t getCurrentTimeMs() {
   return std::chrono::duration_cast<std::chrono::milliseconds>(
              std::chrono::system_clock::now().time_since_epoch())
       .count();
 }
 
+/**
+ * @brief Apply Retention Locked.
+ * @param[in,out] entries Input/output parameter.
+ * @param[in] max_entries_retention Input parameter.
+ * @param[in] max_age_ms_retention Input parameter.
+ * @param[in] now_ms Input parameter.
+ * @details Calls: size(), erase(), begin(), std::remove_if(), end().
+ */
 void applyRetentionLocked(std::vector<DeltaLogEntry>& entries,
                           size_t max_entries_retention,
                           int64_t max_age_ms_retention,
@@ -153,6 +170,12 @@ std::string DeltaLogEntry::serialize() const {
   return oss.str();
 }
 
+/**
+ * @brief Deserialize.
+ * @param[in] serialized Input parameter.
+ * @return Return value.
+ * @details Calls: iss(), std::getline(), std::stoull(), std::stoi(), std::stoll(), std::stoul(), isValid().
+ */
 std::optional<DeltaLogEntry> DeltaLogEntry::deserialize(const std::string& serialized) {
   DeltaLogEntry entry;
   std::istringstream iss(serialized);
@@ -269,6 +292,12 @@ std::string DeltaWindow::serialize() const {
   return oss.str();
 }
 
+/**
+ * @brief Deserialize.
+ * @param[in] data Input parameter.
+ * @return Return value.
+ * @details Calls: iss(), std::getline(), std::stoull(), std::stoll(), push_back(), isValid().
+ */
 std::optional<DeltaWindow> DeltaWindow::deserialize(const std::string& data) {
   try {
     DeltaWindow window;
@@ -330,6 +359,16 @@ TensorDeltaLog::TensorDeltaLog(const std::string& artifact_id)
       max_entries_retention_(100000),
       max_age_ms_retention_(86400000) {}
 
+/**
+ * @brief Append Delta.
+ * @param[in] mutation_type Input parameter.
+ * @param[in] affected_entity_id Identifier of the affected entity.
+ * @param[in] source_transaction_id Identifier of the source transaction.
+ * @param[in] shard_hint Input parameter.
+ * @param[in] payload_size_bytes Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), lock(), getCurrentTimeMs(), isValid(), push_back(), applyRetentionLocked().
+ */
 uint64_t TensorDeltaLog::appendDelta(DeltaMutationType mutation_type,
                                      const std::string& affected_entity_id,
                                      const std::string& source_transaction_id,
@@ -373,6 +412,13 @@ uint64_t TensorDeltaLog::appendDelta(DeltaMutationType mutation_type,
   return current_sequence_;
 }
 
+/**
+ * @brief Extract Window.
+ * @param[in] sequence_start Input parameter.
+ * @param[in] sequence_end Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), empty(), getCurrentTimeMs(), push_back(), isValid(), front(), back().
+ */
 std::optional<DeltaWindow> TensorDeltaLog::extractWindow(uint64_t sequence_start, uint64_t sequence_end) {
   if (sequence_start > sequence_end || sequence_start == 0) {
     return std::nullopt;
@@ -418,20 +464,39 @@ std::optional<DeltaWindow> TensorDeltaLog::extractWindow(uint64_t sequence_start
 }
 
 uint64_t TensorDeltaLog::getCurrentSequence() const {
+  /**
+   * @brief Lock.
+   * @param[in] entries_mutex_ Input parameter.
+   * @return Return value.
+   */
   std::lock_guard<std::mutex> lock(entries_mutex_);
   return current_sequence_;
 }
 
 size_t TensorDeltaLog::size() const {
+  /**
+   * @brief Lock.
+   * @param[in] entries_mutex_ Input parameter.
+   * @return Return value.
+   */
   std::lock_guard<std::mutex> lock(entries_mutex_);
   return entries_.size();
 }
 
 bool TensorDeltaLog::empty() const {
+  /**
+   * @brief Lock.
+   * @param[in] entries_mutex_ Input parameter.
+   * @return Return value.
+   */
   std::lock_guard<std::mutex> lock(entries_mutex_);
   return entries_.empty();
 }
 
+/**
+ * @brief Clear.
+ * @details Calls: lock().
+ */
 void TensorDeltaLog::clear() {
   std::lock_guard<std::mutex> lock(entries_mutex_);
   entries_.clear();
@@ -440,6 +505,11 @@ void TensorDeltaLog::clear() {
 }
 
 size_t TensorDeltaLog::getMemoryUsage() const {
+  /**
+   * @brief Lock.
+   * @param[in] entries_mutex_ Input parameter.
+   * @return Return value.
+   */
   std::lock_guard<std::mutex> lock(entries_mutex_);
   size_t memory = artifact_id_.capacity() + sizeof(TensorDeltaLog);
   for (const auto& entry : entries_) {
@@ -456,11 +526,22 @@ bool TensorDeltaLog::persistToStorage() const {
   return true;
 }
 
+/**
+ * @brief Load From Storage.
+ * @return Return value.
+ * @details Implements loadFromStorage without additional internal calls.
+ */
 int64_t TensorDeltaLog::loadFromStorage() {
   // Placeholder for RocksDB recovery
   return 0;
 }
 
+/**
+ * @brief Garbage collect.
+ * @param[in] cutoff_sequence Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), begin(), end(), erase().
+ */
 size_t TensorDeltaLog::garbage_collect(uint64_t cutoff_sequence) {
   std::lock_guard<std::mutex> lock(entries_mutex_);
   size_t removed = 0;
@@ -476,12 +557,23 @@ size_t TensorDeltaLog::garbage_collect(uint64_t cutoff_sequence) {
   return removed;
 }
 
+/**
+ * @brief Set Retention Policy.
+ * @param[in] max_entries Input parameter.
+ * @param[in] max_age_ms Input parameter.
+ * @details Implements setRetentionPolicy without additional internal calls.
+ */
 void TensorDeltaLog::setRetentionPolicy(size_t max_entries, int64_t max_age_ms) {
   max_entries_retention_ = max_entries;
   max_age_ms_retention_ = max_age_ms;
 }
 
 TensorDeltaLog::Stats TensorDeltaLog::getStats() const {
+  /**
+   * @brief Lock.
+   * @param[in] entries_mutex_ Input parameter.
+   * @return Return value.
+   */
   std::lock_guard<std::mutex> lock(entries_mutex_);
   Stats stats;
   stats.total_deltas = entries_.size();
@@ -548,6 +640,12 @@ std::string DeltaWindow::toJSON() const {
   return oss.str();
 }
 
+/**
+ * @brief From JSON.
+ * @param[in] json_str Input parameter.
+ * @return Return value.
+ * @details Calls: extractJsonString(), find(), std::stoull(), substr(), size(), std::stoll(), findUint64(), findInt64().
+ */
 std::optional<DeltaWindow> DeltaWindow::fromJSON(const std::string& json_str) {
   try {
     DeltaWindow window;

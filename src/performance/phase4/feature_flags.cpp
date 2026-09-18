@@ -18,6 +18,11 @@ namespace themis {
 namespace performance {
 namespace phase4 {
 
+/**
+ * @brief Load from config.
+ * @param[in] config_path Path to the retention policy configuration file.
+ * @details Calls: file(), is_open(), contains(), set_pmem_enabled(), set_pmu_enabled(), set_io_uring_enabled().
+ */
 void Phase4FeatureFlags::load_from_config(const std::string& config_path) {
     try {
         std::ifstream file(config_path);

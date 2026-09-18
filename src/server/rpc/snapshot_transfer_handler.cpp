@@ -37,6 +37,11 @@ namespace fs = std::filesystem;
 
 namespace {
 
+/**
+ * @brief Resolve Snapshot Root Dir.
+ * @return Return value.
+ * @details Calls: fs::temp_directory_path(), empty(), clear(), fs::current_path(), fs::path(), fs::create_directories().
+ */
 fs::path resolveSnapshotRootDir() {
     std::error_code ec = {};
     auto base_dir = fs::temp_directory_path(ec);
@@ -54,6 +59,11 @@ fs::path resolveSnapshotRootDir() {
     return snapshot_root;
 }
 
+/**
+ * @brief Resolve Default Db Data Dir.
+ * @return Return value.
+ * @details Calls: std::getenv(), fs::path(), fs::current_path(), empty().
+ */
 fs::path resolveDefaultDbDataDir() {
     if (const char* env_path = std::getenv("THEMIS_DB_PATH");
         env_path != nullptr && env_path[0] != '\0') {
@@ -71,7 +81,6 @@ fs::path resolveDefaultDbDataDir() {
 } // namespace
 
 // Implementation class (PIMPL pattern)
-/** @brief Implementation class (PIMPL pattern). */
 class SnapshotTransferHandler::Impl {
 public:
     Impl() 
@@ -87,6 +96,12 @@ public:
     // automatically — no manual delete required.
     ~Impl() = default;
     
+    /**
+     * @brief Create Snapshot.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     * @details Calls: empty(), spdlog::error(), resolveSnapshotRootDir(), string(), fs::create_directories(), rocksdb::Checkpoint::Create(), ok(), reset().
+     */
     SnapshotStatus CreateSnapshot(const SnapshotConfig& config) {
         config_ = config;
         
@@ -133,6 +148,12 @@ public:
         return SnapshotStatus::OK;
     }
     
+    /**
+     * @brief Stream Chunks.
+     * @param[in] callback Input parameter.
+     * @return Return value.
+     * @details Calls: empty(), fs::recursive_directory_iterator(), is_regular_file(), push_back(), path(), std::sort(), begin(), end().
+     */
     SnapshotStatus StreamChunks(ChunkCallback callback) {
         if (snapshot_dir_.empty()) {
             return SnapshotStatus::ERROR_SNAPSHOT_NOT_FOUND;
@@ -241,6 +262,12 @@ public:
         return SnapshotStatus::OK;
     }
     
+    /**
+     * @brief Verify Snapshot.
+     * @param[in] expected_hash Input parameter.
+     * @return Return value.
+     * @details Calls: CalculateSnapshotHash().
+     */
     SnapshotStatus VerifySnapshot(const std::string& expected_hash) {
         std::string actual_hash = CalculateSnapshotHash();
         
@@ -251,6 +278,12 @@ public:
         return SnapshotStatus::OK;
     }
     
+    /**
+     * @brief Receive Chunk.
+     * @param[in] chunk Input parameter.
+     * @return Return value.
+     * @details Calls: empty(), snapshot_id(), spdlog::error(), resolveSnapshotRootDir(), string(), fs::create_directories(), what(), CalculateChecksum().
+     */
     SnapshotStatus ReceiveChunk(const themis::sharding::SnapshotChunk& chunk) {
         // Initialize snapshot directory if not set (for receiving mode)
         if (snapshot_dir_.empty()) {
@@ -386,6 +419,11 @@ public:
         return SnapshotStatus::OK;
     }
     
+    /**
+     * @brief Finalize Snapshot.
+     * @return Return value.
+     * @details Calls: empty(), spdlog::error(), GetName(), resolveDefaultDbDataDir(), string(), spdlog::warn(), dest_dir(), fs::exists().
+     */
     SnapshotStatus FinalizeSnapshot() {
         if (snapshot_dir_.empty()) {
             spdlog::error("FinalizeSnapshot: no snapshot directory set");
@@ -491,6 +529,10 @@ public:
         return progress;
     }
     
+    /**
+     * @brief Cancel.
+     * @details Implements Cancel without additional internal calls.
+     */
     void Cancel() {
         cancelled_ = true;
     }
@@ -530,6 +572,13 @@ private:
         return true;
     }
 
+    /**
+     * @brief Compress Data.
+     * @param[in] input Input parameter.
+     * @param[in,out] output Input/output parameter.
+     * @return Return value.
+     * @details Calls: size(), THEMIS_ERROR(), LZ4_compressBound(), resize(), what(), LZ4_compress_default(), data(), themis::utils::zstd_compress_safe().
+     */
     SnapshotStatus CompressData(const std::string& input, std::string* output) {
         switch (config_.compression_type) {
             case themis::sharding::COMPRESSION_NONE:
@@ -623,6 +672,13 @@ private:
         }
     }
     
+    /**
+     * @brief Decompress Data.
+     * @param[in] input Input parameter.
+     * @param[in,out] output Input/output parameter.
+     * @return Return value.
+     * @details Calls: size(), THEMIS_ERROR(), resize(), what(), LZ4_decompress_safe(), data(), compressed_vec(), begin().
+     */
     SnapshotStatus DecompressData(const std::string& input, std::string* output) {
         switch (config_.compression_type) {
             case themis::sharding::COMPRESSION_NONE:
@@ -698,6 +754,12 @@ private:
         }
     }
     
+    /**
+     * @brief Calculate Checksum.
+     * @param[in] data Input parameter.
+     * @return Return value.
+     * @details Calls: crc32c::Crc32c(), data(), size(), std::to_string(), SHA256(), std::setw(), std::setfill(), str().
+     */
     std::string CalculateChecksum(const std::string& data) {
         switch (config_.checksum_type) {
             case themis::sharding::CHECKSUM_CRC32: {
@@ -729,6 +791,11 @@ private:
         }
     }
     
+    /**
+     * @brief Calculate Snapshot Hash.
+     * @return Return value.
+     * @details Calls: SHA256_Init(), fs::recursive_directory_iterator(), is_regular_file(), push_back(), path(), std::sort(), begin(), end().
+     */
     std::string CalculateSnapshotHash() {
         // Calculate SHA256 hash of all files in snapshot directory
         SHA256_CTX sha256;
@@ -763,6 +830,12 @@ private:
         return ss.str();
     }
     
+    /**
+     * @brief Calculate Directory Size.
+     * @param[in] dir Input parameter.
+     * @return Return value.
+     * @details Calls: fs::recursive_directory_iterator(), is_regular_file(), file_size().
+     */
     uint64_t CalculateDirectorySize(const fs::path& dir) {
         uint64_t size = 0;
         for (const auto& entry : fs::recursive_directory_iterator(dir)) {
@@ -775,12 +848,14 @@ private:
     
     SnapshotConfig config_;
     rocksdb::DB* db_;
-    /// @brief RAII ownership of the RocksDB Checkpoint object.
-    /// Replaces the previous raw pointer + manual delete in destructor.
     std::unique_ptr<rocksdb::Checkpoint> checkpoint_;
     std::string snapshot_dir_ = {};
 
-    // Allow external injection of the RocksDB instance (e.g. from the shard server).
+    /**
+     * @brief Allow external injection of the RocksDB instance (e.
+     * @param[in,out] db Input/output parameter.
+     * @details g. from the shard server). Calls: spdlog::error().
+     */
     void SetDB(rocksdb::DB* db) {
         if (!db) {
             spdlog::error("SetDB: null pointer rejected");
@@ -805,23 +880,52 @@ SnapshotTransferHandler::SnapshotTransferHandler()
 
 SnapshotTransferHandler::~SnapshotTransferHandler() = default;
 
+/**
+ * @brief Create Snapshot.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @details Implements CreateSnapshot without additional internal calls.
+ */
 SnapshotStatus SnapshotTransferHandler::CreateSnapshot(const SnapshotConfig& config) {
     return impl_->CreateSnapshot(config);
 }
 
+/**
+ * @brief Stream Chunks.
+ * @param[in] callback Input parameter.
+ * @return Return value.
+ * @details Implements StreamChunks without additional internal calls.
+ */
 SnapshotStatus SnapshotTransferHandler::StreamChunks(ChunkCallback callback) {
     return impl_->StreamChunks(callback);
 }
 
+/**
+ * @brief Verify Snapshot.
+ * @param[in] expected_hash Input parameter.
+ * @return Return value.
+ * @details Implements VerifySnapshot without additional internal calls.
+ */
 SnapshotStatus SnapshotTransferHandler::VerifySnapshot(const std::string& expected_hash) {
     return impl_->VerifySnapshot(expected_hash);
 }
 
+/**
+ * @brief Receive Chunk.
+ * @param[in] chunk Input parameter.
+ * @return Return value.
+ * @details Implements ReceiveChunk without additional internal calls.
+ */
 SnapshotStatus SnapshotTransferHandler::ReceiveChunk(
     const themis::sharding::SnapshotChunk& chunk) {
     return impl_->ReceiveChunk(chunk);
 }
 
+/**
+ * @brief Finalize Snapshot.
+ * @return Return value.
+ * @details Implements FinalizeSnapshot without additional internal calls.
+ */
 SnapshotStatus SnapshotTransferHandler::FinalizeSnapshot() {
     return impl_->FinalizeSnapshot();
 }
@@ -830,10 +934,19 @@ SnapshotProgress SnapshotTransferHandler::GetProgress() const {
     return impl_->GetProgress();
 }
 
+/**
+ * @brief Cancel.
+ * @details Implements Cancel without additional internal calls.
+ */
 void SnapshotTransferHandler::Cancel() {
     impl_->Cancel();
 }
 
+/**
+ * @brief Set DB.
+ * @param[in,out] db Input/output parameter.
+ * @details Implements SetDB without additional internal calls.
+ */
 void SnapshotTransferHandler::SetDB(rocksdb::DB* db) {
     impl_->SetDB(db);
 }

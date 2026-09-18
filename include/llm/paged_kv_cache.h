@@ -23,18 +23,8 @@
 namespace themis {
 namespace llm {
 
-/**
- * PagedKVCache manages Key-Value cache storage using block-based memory allocation.
- * Integrates with llama.cpp KV cache format for efficient memory usage.
- */
 class PagedKVCache {
 public:
-    /**
-     * @brief KV-cache quantization mode metadata for page allocation planning.
-     *
-     * @note This enum declares intended storage mode. The current cache payload
-     *       remains float-based until quantized storage paths are introduced.
-     */
     enum class KVQuantizationType {
         FP16,   ///< Baseline half-precision KV cache mode.
         INT8,   ///< 8-bit KV quantization mode.
@@ -57,20 +47,43 @@ public:
     
     ~PagedKVCache();
 
-    // Store KV cache for a sequence.
-    // Returns true on success, false if blocks could not be allocated even after LRU eviction.
+    /**
+     * @brief Store KV cache for a sequence.
+     * @param[in] sequence_id Identifier of the sequence.
+     * @param[in] layer_id Identifier of the layer.
+     * @param[in] kv_data Input parameter.
+     * @return True when the operation succeeds.
+     * @details Returns true on success, false if blocks could not be allocated even after LRU eviction.
+     */
     bool store(uint64_t sequence_id, size_t layer_id, const std::vector<float>& kv_data);
     
-    // Retrieve KV cache for a sequence
+    /**
+     * @brief Retrieve KV cache for a sequence
+     * @param[in] sequence_id Identifier of the sequence.
+     * @param[in] layer_id Identifier of the layer.
+     * @return Return value.
+     */
     std::vector<float> retrieve(uint64_t sequence_id, size_t layer_id) const;
     
-    // Share prefix between sequences (Copy-on-Write)
+    /**
+     * @brief Share prefix between sequences (Copy-on-Write)
+     * @param[in] new_sequence_id Identifier of the new sequence.
+     * @param[in] parent_sequence_id Identifier of the parent sequence.
+     * @param[in] prefix_length Input parameter.
+     */
     void sharePrefix(uint64_t new_sequence_id, uint64_t parent_sequence_id, size_t prefix_length);
     
-    // Get block table for sequence
+    /**
+     * @brief Get block table for sequence
+     * @param[in] sequence_id Identifier of the sequence.
+     * @return Return value.
+     */
     std::shared_ptr<BlockTable> getBlockTable(uint64_t sequence_id);
     
-    // Remove sequence and free blocks
+    /**
+     * @brief Remove sequence and free blocks
+     * @param[in] sequence_id Identifier of the sequence.
+     */
     void removeSequence(uint64_t sequence_id);
     
     // Get statistics
@@ -81,65 +94,52 @@ public:
         double fragmentation_rate = 0.0;
         double prefix_sharing_ratio = 0.0;
     };
+    /**
+     * @brief Get Stats.
+     * @return Return value.
+     */
     Stats getStats() const;
 
-    /**
-     * @brief Returns total number of sequences evicted by LRU since construction.
-     */
     uint64_t evictionCount() const noexcept { return eviction_count_.load(std::memory_order_relaxed); }
 
     /**
-     * @brief Quantize KV data to target precision format.
-     *
-     * Converts full-precision float KV cache to quantized storage (FP16, INT8, or NVFP4).
-     * Returns quantized bytes; empty vector on error.
-     * 
-     * @param kv_data Input KV cache data (float32)
-     * @param target_type Target quantization type (FP16, INT8, NVFP4)
-     * @return Quantized KV data as vector of bytes
+     * @brief Quantize KVData.
+     * @param[in] kv_data Input parameter.
+     * @param[in] target_type Input parameter.
+     * @return Return value.
      */
     std::vector<uint8_t> quantizeKVData(
         const std::vector<float>& kv_data, 
         KVQuantizationType target_type) const;
 
     /**
-     * @brief Dequantize KV data from quantized format back to float.
-     *
-     * Reconstructs full-precision KV cache from quantized storage.
-     * 
-     * @param quantized_data Quantized KV data
-     * @param source_type Source quantization type
-     * @return Dequantized KV data (float32)
+     * @brief Dequantize KVData.
+     * @param[in] quantized_data Input parameter.
+     * @param[in] source_type Input parameter.
+     * @return Return value.
      */
     std::vector<float> dequantizeKVData(
         const std::vector<uint8_t>& quantized_data,
         KVQuantizationType source_type) const;
 
     /**
-     * @brief Get expected VRAM reduction factor for quantization type.
-     *
-     * @param type Quantization type
-     * @return Reduction factor (0.0 to 1.0, where 0.5 = 50% reduction)
+     * @brief Get Compression Factor.
+     * @param[in] type Input parameter.
+     * @return Return value.
      */
     static float getCompressionFactor(KVQuantizationType type);
 
     /**
-     * @brief Estimate accuracy retention for quantization type vs FP16 baseline.
-     *
-     * Returns expected accuracy as fraction (0.99 = 99% accuracy).
-     *
-     * @param type Quantization type
-     * @return Expected accuracy retention (0.0 to 1.0)
+     * @brief Get Expected Accuracy.
+     * @param[in] type Input parameter.
+     * @return Return value.
      */
     static float getExpectedAccuracy(KVQuantizationType type);
 
     /**
-     * @brief Get bit-width (storage bits per value) for quantization type.
-     *
-     * Used to calculate storage reduction and validate Config consistency.
-     *
-     * @param type Quantization type
-     * @return Bits per value: 16 for FP16, 8 for INT8, 4 for NVFP4
+     * @brief Get Bit Width For Quantization Type.
+     * @param[in] type Input parameter.
+     * @return Return value.
      */
     static int getBitWidthForQuantizationType(KVQuantizationType type);
 
@@ -170,41 +170,38 @@ private:
     // Total eviction counter (atomic for lock-free reads via evictionCount())
     std::atomic<uint64_t> eviction_count_{0};
     
+    /**
+     * @brief Calculate KVSize.
+     * @return Return value.
+     */
     size_t calculateKVSize() const;
 
     /**
-     * @brief Evict the least-recently-used sequence to free blocks.
-     *
-     * Must be called while holding mutex_.  Returns false if there are no
-     * sequences to evict.
+     * @brief Evict LRU.
+     * @return True when the operation succeeds.
      */
     bool evictLRU();
 
     /**
-     * @brief Quantize float32 to NVFP4 (4-bit float: 1 sign, 2 exponent, 1 mantissa).
-     *
-     * NVFP4 format: [s1e2m1] — maximum range [-448, +448] with ~5% precision loss vs FP16.
-     *
-     * @param value Float32 input
-     * @return 4-bit packed value (lower 4 bits used)
+     * @brief Quantize To NVFP4.
+     * @param[in] value Input parameter.
+     * @return Return value.
      */
     static uint8_t quantizeToNVFP4(float value);
 
     /**
-     * @brief Dequantize NVFP4 (4-bit) back to float32.
-     *
-     * @param packed 4-bit packed value
-     * @return Float32 output
+     * @brief Dequantize From NVFP4.
+     * @param[in] packed Input parameter.
+     * @return Return value.
      */
     static float dequantizeFromNVFP4(uint8_t packed);
 
     /**
-     * @brief Quantize float32 to INT8 (per-channel quantization).
-     *
-     * @param values Input float32 values
-     * @param scale Output scale factor
-     * @param zero_point Output zero-point offset
-     * @return INT8 quantized values
+     * @brief Quantize To INT8.
+     * @param[in] values Input parameter.
+     * @param[in,out] scale Input/output parameter.
+     * @param[in,out] zero_point Input/output parameter.
+     * @return Return value.
      */
     static std::vector<int8_t> quantizeToINT8(
         const std::vector<float>& values,
@@ -212,12 +209,11 @@ private:
         int8_t& zero_point);
 
     /**
-     * @brief Dequantize INT8 values back to float32.
-     *
-     * @param quantized INT8 quantized values
-     * @param scale Scale factor from quantization
-     * @param zero_point Zero-point offset from quantization
-     * @return Float32 dequantized values
+     * @brief Dequantize From INT8.
+     * @param[in] quantized Input parameter.
+     * @param[in] scale Input parameter.
+     * @param[in] zero_point Input parameter.
+     * @return Return value.
      */
     static std::vector<float> dequantizeFromINT8(
         const std::vector<int8_t>& quantized,

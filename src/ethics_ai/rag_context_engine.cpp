@@ -256,6 +256,13 @@ RAGContextEngine::traverseArgumentChain(const std::string &start_argument_id, si
     return visited_order;
 }
 
+/**
+ * @brief Calculate Text Similarity.
+ * @param[in] text1 Input parameter.
+ * @param[in] text2 Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), iss(), std::transform(), begin(), end(), std::isalpha(), back(), pop_back().
+ */
 double RAGContextEngine::calculateTextSimilarity(const std::string &text1, const std::string &text2) {
     if (text1 == text2) {
         return 1.0;
@@ -300,6 +307,12 @@ double RAGContextEngine::calculateTextSimilarity(const std::string &text1, const
     return union_count > 0 ? static_cast<double>(intersection_count) / union_count : 0.0;
 }
 
+/**
+ * @brief Generate Embedding.
+ * @param[in] text Input parameter.
+ * @return Return value.
+ * @details Calls: emb(), empty(), std::sqrt().
+ */
 std::vector<float> RAGContextEngine::generateEmbedding(const std::string &text) {
     // Bag-of-characters TF embedding (dimension 768, L2-normalised).
     // Each byte is hashed into one of 768 buckets.  Deterministic and

@@ -29,7 +29,15 @@ namespace auth {
 
 namespace {
 
-// libcurl write callback – appends received data to a std::string.
+/**
+ * @brief libcurl write callback – appends received data to a std::string.
+ * @param[in,out] ptr Input/output parameter.
+ * @param[in] size Input parameter.
+ * @param[in] nmemb Input parameter.
+ * @param[in,out] userdata Input/output parameter.
+ * @return Return value.
+ * @details Calls: append().
+ */
 size_t oauthPkceWriteCallback(char *ptr, size_t size, size_t nmemb, void *userdata) {
     const auto total = size * nmemb;
     static_cast<std::string *>(userdata)->append(ptr, total);
@@ -74,9 +82,11 @@ void OAuthPKCEFlow::setRandBytesForTesting(std::function<void(unsigned char *buf
     rand_bytes_fn_ = std::move(fn);
 }
 
-// ============================================================================
-// RFC 7636 §4.1 – Generate code_verifier and code_challenge
-// ============================================================================
+/**
+ * @brief ============================================================================ RFC 7636 §4.
+ * @return Return value.
+ * @details 1 – Generate code_verifier and code_challenge ============================================================================ Calls: fillRandomBytes(), data(), size(), base64UrlEncode(), sha256(), spdlog::debug().
+ */
 
 OAuthPKCEFlow::PKCEChallenge OAuthPKCEFlow::generateChallenge() {
     // Generate 96 random bytes → 128 Base64URL characters (fits 43–128 limit).
@@ -145,9 +155,14 @@ std::string OAuthPKCEFlow::buildAuthorizationUrl(const PKCEChallenge &challenge,
     return url;
 }
 
-// ============================================================================
-// RFC 7636 §4.5 – Token Exchange
-// ============================================================================
+/**
+ * @brief ============================================================================ RFC 7636 §4.
+ * @param[in] authorization_code Input parameter.
+ * @param[in] code_verifier Input parameter.
+ * @return Return value.
+ * @throws AuthException if an error occurs.
+ * @details 5 – Token Exchange ============================================================================ Calls: empty(), AuthError(), buildFormBody(), spdlog::debug(), httpPost(), std::current_exception(), what(), find().
+ */
 
 OAuthPKCEFlow::TokenResponse OAuthPKCEFlow::exchangeCode(const std::string &authorization_code,
                                                          const std::string &code_verifier) {
@@ -259,6 +274,13 @@ OAuthPKCEFlow::TokenResponse OAuthPKCEFlow::exchangeCode(const std::string &auth
 // id_token validation
 // ============================================================================
 
+/**
+ * @brief Validate Id Token.
+ * @param[in] token_response Input parameter.
+ * @return Return value.
+ * @throws AuthException if an error occurs.
+ * @details Calls: empty(), AuthError(), validator(), parseAndValidate().
+ */
 JWTClaims OAuthPKCEFlow::validateIdToken(const TokenResponse &token_response) {
     if (token_response.id_token.empty()) {
         throw AuthException(AuthError(AuthErrorCode::JWT_MISSING_REQUIRED_CLAIM, "No id_token in token response",
@@ -277,6 +299,14 @@ JWTClaims OAuthPKCEFlow::validateIdToken(const TokenResponse &token_response) {
 // HTTP helper
 // ============================================================================
 
+/**
+ * @brief Http Post.
+ * @param[in] url Input parameter.
+ * @param[in] body Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: http_post_fn_(), curl_easy_init(), curl_easy_setopt(), c_str(), size(), curl_slist_append(), curl_multi_init(), curl_slist_free_all().
+ */
 std::string OAuthPKCEFlow::httpPost(const std::string &url, const std::string &body) {
     if (http_post_fn_) {
         return http_post_fn_(url, body);
@@ -365,6 +395,13 @@ std::string OAuthPKCEFlow::httpPost(const std::string &url, const std::string &b
 // Crypto / encoding helpers
 // ============================================================================
 
+/**
+ * @brief Fill Random Bytes.
+ * @param[in,out] buf Input/output parameter.
+ * @param[in] len Input parameter.
+ * @throws AuthException if an error occurs.
+ * @details Calls: rand_bytes_fn_(), RAND_bytes(), AuthError().
+ */
 void OAuthPKCEFlow::fillRandomBytes(unsigned char *buf, std::size_t len) {
     if (rand_bytes_fn_) {
         rand_bytes_fn_(buf, len);
@@ -376,6 +413,13 @@ void OAuthPKCEFlow::fillRandomBytes(unsigned char *buf, std::size_t len) {
     }
 }
 
+/**
+ * @brief Sha256.
+ * @param[in] input Input parameter.
+ * @return Return value.
+ * @throws AuthException if an error occurs.
+ * @details Calls: EVP_MD_CTX_new(), AuthError(), EVP_DigestInit_ex(), EVP_sha256(), EVP_DigestUpdate(), data(), size(), EVP_DigestFinal_ex().
+ */
 std::string OAuthPKCEFlow::sha256(const std::string &input) {
     std::array<unsigned char, EVP_MAX_MD_SIZE> digest{};
     unsigned int digest_len = 0;
@@ -400,6 +444,13 @@ std::string OAuthPKCEFlow::sha256(const std::string &input) {
     return std::string(reinterpret_cast<const char *>(digest.data()), digest_len);
 }
 
+/**
+ * @brief Base64 Url Encode.
+ * @param[in] data Input parameter.
+ * @param[in] len Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), empty(), back(), pop_back().
+ */
 std::string OAuthPKCEFlow::base64UrlEncode(const unsigned char *data, std::size_t len) {
     // Standard Base64 alphabet
     static const char kTable[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
@@ -435,6 +486,12 @@ std::string OAuthPKCEFlow::base64UrlEncode(const unsigned char *data, std::size_
     return out;
 }
 
+/**
+ * @brief Url Encode.
+ * @param[in] value Input parameter.
+ * @return Return value.
+ * @details Calls: curl_easy_init(), curl_easy_escape(), c_str(), size(), curl_free(), curl_easy_cleanup().
+ */
 std::string OAuthPKCEFlow::urlEncode(const std::string &value) {
     CURL *curl = curl_easy_init();
     if (!curl) {

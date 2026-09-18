@@ -38,14 +38,6 @@ namespace fs = std::filesystem;
 // RAII Wrapper for EVP_MD_CTX (Error Code: 7441-7443)
 // ============================================================================
 
-/**
- * @brief RAII wrapper for EVP_MD_CTX to ensure cleanup in all execution paths.
- * 
- * Guarantees exception-safe resource cleanup of OpenSSL EVP context.
- * Prevents resource leaks even during early returns or exceptions.
- * 
- * @error_code 7441 EVP_MD_CTX resource leak in exception path
- */
 class EvpMdCtxRaii {
 public:
     explicit EvpMdCtxRaii(EVP_MD_CTX* ctx = nullptr) : ctx_(ctx) {}
@@ -106,6 +98,12 @@ HotReloadEngine::HotReloadEngine(
 
 HotReloadEngine::~HotReloadEngine() = default;
 
+/**
+ * @brief Download Release.
+ * @param[in] version Input parameter.
+ * @return Return value.
+ * @details Calls: reportProgress(), lock(), LOG_ERROR(), getManifest(), verifyManifest(), fs::create_directories(), size(), getCachedDownload().
+ */
 HotReloadEngine::DownloadResult HotReloadEngine::downloadRelease(const std::string& version) {
     HotReloadEngine::DownloadResult result;
     result.success = false;
@@ -195,6 +193,13 @@ HotReloadEngine::DownloadResult HotReloadEngine::downloadRelease(const std::stri
     return result;
 }
 
+/**
+ * @brief Apply Hot Reload.
+ * @param[in] version Input parameter.
+ * @param[in] verify_only Input parameter.
+ * @return Return value.
+ * @details Calls: reportProgress(), getConfig(), std::chrono::system_clock::now(), time_since_epoch(), count(), record(), getManifest(), recordHistory().
+ */
 ReloadResult HotReloadEngine::applyHotReload(
     const std::string& version,
     bool verify_only
@@ -336,6 +341,12 @@ ReloadResult HotReloadEngine::applyHotReload(
     return result;
 }
 
+/**
+ * @brief Rollback.
+ * @param[in] rollback_id Identifier of the rollback.
+ * @return True when the operation succeeds.
+ * @details Calls: fs::exists(), LOG_ERROR(), std::chrono::system_clock::now(), time_since_epoch(), count(), record(), metadata_file(), is_open().
+ */
 bool HotReloadEngine::rollback(const std::string& rollback_id) {
     try {
         std::string backup_dir = config_.backup_directory + "/" + rollback_id;
@@ -410,6 +421,12 @@ bool HotReloadEngine::rollback(const std::string& rollback_id) {
     }
 }
 
+/**
+ * @brief Verify Release.
+ * @param[in] manifest Input parameter.
+ * @return Return value.
+ * @details Calls: verifyManifest(), fs::exists(), push_back(), verifyDownloadedFile().
+ */
 VerificationResult HotReloadEngine::verifyRelease(const ReleaseManifest& manifest) {
     VerificationResult result;
     result.verified = false;
@@ -439,6 +456,13 @@ VerificationResult HotReloadEngine::verifyRelease(const ReleaseManifest& manifes
     return result;
 }
 
+/**
+ * @brief Is Compatible Upgrade.
+ * @param[in] current_version Input parameter.
+ * @param[in] target_version Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: utils::Version::parse(), LOG_WARN(), getManifest(), empty().
+ */
 bool HotReloadEngine::isCompatibleUpgrade(
     const std::string& current_version,
     const std::string& target_version
@@ -487,6 +511,11 @@ std::vector<std::pair<std::string, std::string>> HotReloadEngine::listRollbackPo
                     // Note: std::ifstream is synchronous. In production, filesystem operations
                     // should be protected by filesystem-level timeouts or async mechanisms.
                     // For now, we assume the filesystem is responsive (typical for local storage).
+                    /**
+                     * @brief Metadata file.
+                     * @param[in] metadata_path Path to the metadata.
+                     * @return Return value.
+                     */
                     std::ifstream metadata_file(metadata_path);
                     if (!metadata_file.is_open()) {
                         LOG_WARN("HotReloadEngine: failed to open rollback metadata: {}", metadata_path);
@@ -517,6 +546,11 @@ std::vector<std::pair<std::string, std::string>> HotReloadEngine::listRollbackPo
     return rollback_points;
 }
 
+/**
+ * @brief Clean Rollback Points.
+ * @param[in] keep_count Input parameter.
+ * @details Calls: listRollbackPoints(), size(), fs::remove_all(), LOG_INFO(), LOG_ERROR(), what().
+ */
 void HotReloadEngine::cleanRollbackPoints(size_t keep_count) {
     auto rollback_points = listRollbackPoints();
     
@@ -542,16 +576,37 @@ void HotReloadEngine::setProgressCallback(
     progress_callback_ = std::move(callback);
 }
 
+/**
+ * @brief Set Post Update Health Check.
+ * @param[in] check Input parameter.
+ * @details Calls: std::move().
+ */
 void HotReloadEngine::setPostUpdateHealthCheck(PostUpdateHealthCheck check) {
     post_update_health_check_ = std::move(check);
 }
 
 #ifdef THEMIS_ENABLE_CURL
+/**
+ * @brief Write File Callback.
+ * @param[in,out] ptr Input/output parameter.
+ * @param[in] size Input parameter.
+ * @param[in] nmemb Input parameter.
+ * @param[in,out] stream Input/output parameter.
+ * @return Return value.
+ * @details Calls: fwrite().
+ */
 static size_t writeFileCallback(void* ptr, size_t size, size_t nmemb, FILE* stream) {
     return fwrite(ptr, size, nmemb, stream);
 }
 #endif
 
+/**
+ * @brief Download File.
+ * @param[in] file Input parameter.
+ * @param[in] dest Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), LOG_ERROR(), curl_easy_init(), fopen(), c_str(), curl_easy_cleanup(), curl_easy_setopt(), curl_easy_perform().
+ */
 bool HotReloadEngine::downloadFile(const ReleaseFile& file, const std::string& dest) {
 #ifdef THEMIS_ENABLE_CURL
     if (file.download_url.empty()) {
@@ -599,6 +654,13 @@ bool HotReloadEngine::downloadFile(const ReleaseFile& file, const std::string& d
 #endif
 }
 
+/**
+ * @brief Verify Downloaded File.
+ * @param[in] file Input parameter.
+ * @param[in] path Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: calculateFileHash(), LOG_ERROR(), fs::file_size().
+ */
 bool HotReloadEngine::verifyDownloadedFile(const ReleaseFile& file, const std::string& path) {
     std::string actual_hash = calculateFileHash(path);
     
@@ -619,6 +681,12 @@ bool HotReloadEngine::verifyDownloadedFile(const ReleaseFile& file, const std::s
     return true;
 }
 
+/**
+ * @brief Create Backup.
+ * @param[in] files Input parameter.
+ * @return Return value.
+ * @details Calls: generateRollbackId(), fs::create_directories(), fs::exists(), fs::path(), parent_path(), fs::copy_file(), std::chrono::system_clock::now(), time_since_epoch().
+ */
 std::string HotReloadEngine::createBackup(const std::vector<ReleaseFile>& files) {
     std::string rollback_id = generateRollbackId();
     std::string backup_dir = config_.backup_directory + "/" + rollback_id;
@@ -657,6 +725,13 @@ std::string HotReloadEngine::createBackup(const std::vector<ReleaseFile>& files)
     }
 }
 
+/**
+ * @brief Atomic Replace.
+ * @param[in] src Input parameter.
+ * @param[in] dst Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: fs::copy_file(), fs::rename(), LOG_ERROR(), what().
+ */
 bool HotReloadEngine::atomicReplace(const std::string& src, const std::string& dst) {
     try {
         // Create temp file
@@ -675,6 +750,12 @@ bool HotReloadEngine::atomicReplace(const std::string& src, const std::string& d
     }
 }
 
+/**
+ * @brief Calculate File Hash.
+ * @param[in] path Input parameter.
+ * @return Return value.
+ * @details Calls: file(), mdctx(), EVP_MD_CTX_new(), get(), EVP_DigestInit_ex(), EVP_sha256(), buffer(), read().
+ */
 std::string HotReloadEngine::calculateFileHash(const std::string& path) {
     std::ifstream file(path, std::ios::binary);
     if (!file) {
@@ -714,6 +795,11 @@ std::string HotReloadEngine::calculateFileHash(const std::string& path) {
     return ss.str();
 }
 
+/**
+ * @brief Generate Rollback Id.
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), std::to_string().
+ */
 std::string HotReloadEngine::generateRollbackId() {
     // Simple timestamp-based ID
     auto now = std::chrono::system_clock::now();
@@ -724,6 +810,12 @@ std::string HotReloadEngine::generateRollbackId() {
     return "rollback_" + std::to_string(timestamp);
 }
 
+/**
+ * @brief Report Progress.
+ * @param[in] percentage Input parameter.
+ * @param[in] message Input parameter.
+ * @details Calls: LOG_DEBUG(), progress_callback_().
+ */
 void HotReloadEngine::reportProgress(int percentage, const std::string& message) {
     LOG_DEBUG("Progress: {}% - {}", percentage, message);
     
@@ -732,6 +824,11 @@ void HotReloadEngine::reportProgress(int percentage, const std::string& message)
     }
 }
 
+/**
+ * @brief History Logger.
+ * @return Pointer to the result.
+ * @details Calls: get().
+ */
 UpdateHistoryLogger* HotReloadEngine::historyLogger() {
     return history_logger_.get();
 }

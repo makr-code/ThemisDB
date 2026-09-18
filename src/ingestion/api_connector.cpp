@@ -41,7 +41,15 @@ struct ApiHttpResponse {
     std::string error;
 };
 
-// libcurl write callback – appends received data to a std::string.
+/**
+ * @brief libcurl write callback – appends received data to a std::string.
+ * @param[in,out] ptr Input/output parameter.
+ * @param[in] size Input parameter.
+ * @param[in] nmemb Input parameter.
+ * @param[in,out] userdata Input/output parameter.
+ * @return Return value.
+ * @details Calls: append().
+ */
 static size_t apiCurlWriteCallback(char* ptr, size_t size, size_t nmemb,
                                    void* userdata) {
     const auto total = size * nmemb;
@@ -205,7 +213,13 @@ static ApiHttpResponse apiGetWithRetry(const std::string& url,
     return response;
 }
 
-/// Minimal JSON integer extractor: find first occurrence of `"key":N`
+/**
+ * @brief Json Extract Size T.
+ * @param[in] json Input parameter.
+ * @param[in] key Input parameter.
+ * @return Return value.
+ * @details Calls: find(), size(), std::isdigit().
+ */
 static size_t jsonExtractSizeT(const std::string& json,
                                 const std::string& key) {
     std::string needle = "\"" + key + "\":";
@@ -232,7 +246,13 @@ static size_t jsonExtractSizeT(const std::string& json,
     return found ? value : 0;
 }
 
-/// Minimal JSON string-field extractor: collect all values for `"key":"<value>"`
+/**
+ * @brief Json Extract String List.
+ * @param[in] json Input parameter.
+ * @param[in] key Input parameter.
+ * @return Return value.
+ * @details Calls: find(), size(), empty(), push_back(), std::move().
+ */
 static std::vector<std::string> jsonExtractStringList(const std::string& json,
                                                        const std::string& key) {
     std::vector<std::string> results;
@@ -264,7 +284,13 @@ static std::vector<std::string> jsonExtractStringList(const std::string& json,
     return results;
 }
 
-/// Extract the first string value for `"key":"<value>"` from JSON, or "" if absent.
+/**
+ * @brief Json Extract String Value.
+ * @param[in] json Input parameter.
+ * @param[in] key Input parameter.
+ * @return Return value.
+ * @details Calls: jsonExtractStringList(), empty().
+ */
 static std::string jsonExtractStringValue(const std::string& json,
                                           const std::string& key) {
     auto list = jsonExtractStringList(json, key);
@@ -277,13 +303,18 @@ static std::string jsonExtractStringValue(const std::string& json,
 // Pimpl
 // ---------------------------------------------------------------------------
 
-/** @brief Pimpl. */
 class GenericApiConnector::Impl {
 public:
     Impl() : page_size_(100), max_pages_(0),
              pagination_mode_(PaginationMode::OFFSET) {}
     ~Impl() = default;
 
+    /**
+     * @brief Initialize.
+     * @param[in] config Input parameter.
+     * @return True when the operation succeeds.
+     * @details Calls: find(), end(), opt(), std::stoul(), empty().
+     */
     bool initialize(const SourceConfig& config) {
         if (config.type != SourceType::API) {
           return false;
@@ -387,6 +418,13 @@ public:
         return 0;
     }
 
+    /**
+     * @brief Ingest.
+     * @param[in] param Input parameter.
+     * @param[in] progress_callback Input parameter.
+     * @return Return value.
+     * @details Calls: std::chrono::steady_clock::now(), empty(), addError(), httpGet(), find(), std::to_string(), apiGetWithRetry(), buildAuthHeader().
+     */
     IngestionStats ingest(const std::string& /*target_collection*/,
                           ProgressCallback progress_callback) {
         IngestionStats stats;
@@ -553,14 +591,59 @@ public:
         return stats;
     }
 
+    /**
+     * @brief Set Api Key.
+     * @param[in] key Input parameter.
+     * @details Implements setApiKey without additional internal calls.
+     */
     void setApiKey(const std::string& key)    { api_key_   = key; }
+    /**
+     * @brief Set Page Size.
+     * @param[in] ps Input parameter.
+     * @details Implements setPageSize without additional internal calls.
+     */
     void setPageSize(size_t ps)               { page_size_ = ps;  }
+    /**
+     * @brief Set Retry Config.
+     * @param[in] c Input parameter.
+     * @details Implements setRetryConfig without additional internal calls.
+     */
     void setRetryConfig(const RetryConfig& c) { retry_config_ = c; }
+    /**
+     * @brief Set Pagination Mode.
+     * @param[in] m Input parameter.
+     * @details Implements setPaginationMode without additional internal calls.
+     */
     void setPaginationMode(PaginationMode m)  { pagination_mode_ = m; }
+    /**
+     * @brief Set Cursor Response Field.
+     * @param[in] f Input parameter.
+     * @details Implements setCursorResponseField without additional internal calls.
+     */
     void setCursorResponseField(const std::string& f) { cursor_response_field_ = f; }
+    /**
+     * @brief Set Http Get For Testing.
+     * @param[in] fn Input parameter.
+     * @details Calls: std::move().
+     */
     void setHttpGetForTesting(ApiHttpGetFn fn) { http_get_fn_ = std::move(fn); }
+    /**
+     * @brief Set OAuth Config.
+     * @param[in] c Input parameter.
+     * @details Implements setOAuthConfig without additional internal calls.
+     */
     void setOAuthConfig(const OAuthConfig& c) { oauth_config_ = c; }
+    /**
+     * @brief Set Http Post For Testing.
+     * @param[in] fn Input parameter.
+     * @details Calls: std::move().
+     */
     void setHttpPostForTesting(ApiHttpPostFn fn) { http_post_fn_ = std::move(fn); }
+    /**
+     * @brief Set Document Validator.
+     * @param[in] v Input parameter.
+     * @details Calls: std::move().
+     */
     void setDocumentValidator(DocumentValidatorFn v) { document_validator_ = std::move(v); }
 
 private:
@@ -571,7 +654,12 @@ private:
         return api_key_.empty() ? "" : ("Bearer " + api_key_);
     }
 
-    // Percent-encode a string for use in an application/x-www-form-urlencoded body.
+    /**
+     * @brief Percent-encode a string for use in an application/x-www-form-urlencoded body.
+     * @param[in] value Input parameter.
+     * @return Return value.
+     * @details Calls: std::isalnum(), std::snprintf().
+     */
     static std::string urlEncode(const std::string& value) {
         std::string encoded = {};
         for (unsigned char c : value) {
@@ -586,8 +674,12 @@ private:
         return encoded;
     }
 
-    // Attempt an OAuth 2.0 token refresh (RFC 6749 §6).
-    // Returns true and updates oauth_config_.access_token on success.
+    /**
+     * @brief Attempt an OAuth 2.
+     * @param[in] timeout_ms Input parameter.
+     * @return True when the operation succeeds.
+     * @details 0 token refresh (RFC 6749 §6). Returns true and updates oauth_config_.access_token on success. Calls: urlEncode(), empty(), httpPost(), jsonExtractStringValue(), std::move().
+     */
     bool refreshOAuthToken(int timeout_ms) {
         std::string body = "grant_type=refresh_token"
                            "&refresh_token=" + urlEncode(oauth_config_.refresh_token);
@@ -641,6 +733,12 @@ GenericApiConnector::GenericApiConnector()
 
 GenericApiConnector::~GenericApiConnector() = default;
 
+/**
+ * @brief Initialize.
+ * @param[in] config Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements initialize without additional internal calls.
+ */
 bool GenericApiConnector::initialize(const SourceConfig& config) {
     return impl_->initialize(config);
 }
@@ -653,43 +751,95 @@ size_t GenericApiConnector::getDocumentCount() const {
     return impl_->getDocumentCount();
 }
 
+/**
+ * @brief Ingest.
+ * @param[in] target_collection Input parameter.
+ * @param[in] progress_callback Input parameter.
+ * @return Return value.
+ * @details Implements ingest without additional internal calls.
+ */
 IngestionStats GenericApiConnector::ingest(const std::string& target_collection,
                                             ProgressCallback progress_callback) {
     return impl_->ingest(target_collection, progress_callback);
 }
 
+/**
+ * @brief Set Api Key.
+ * @param[in] key Input parameter.
+ * @details Implements setApiKey without additional internal calls.
+ */
 void GenericApiConnector::setApiKey(const std::string& key) {
     impl_->setApiKey(key);
 }
 
+/**
+ * @brief Set Page Size.
+ * @param[in] page_size Input parameter.
+ * @details Implements setPageSize without additional internal calls.
+ */
 void GenericApiConnector::setPageSize(size_t page_size) {
     impl_->setPageSize(page_size);
 }
 
+/**
+ * @brief Set Retry Config.
+ * @param[in] config Input parameter.
+ * @details Implements setRetryConfig without additional internal calls.
+ */
 void GenericApiConnector::setRetryConfig(const RetryConfig& config) {
     impl_->setRetryConfig(config);
 }
 
+/**
+ * @brief Set Pagination Mode.
+ * @param[in] mode Input parameter.
+ * @details Implements setPaginationMode without additional internal calls.
+ */
 void GenericApiConnector::setPaginationMode(PaginationMode mode) {
     impl_->setPaginationMode(mode);
 }
 
+/**
+ * @brief Set Cursor Response Field.
+ * @param[in] field Input parameter.
+ * @details Implements setCursorResponseField without additional internal calls.
+ */
 void GenericApiConnector::setCursorResponseField(const std::string& field) {
     impl_->setCursorResponseField(field);
 }
 
+/**
+ * @brief Set Http Get For Testing.
+ * @param[in] fn Input parameter.
+ * @details Calls: std::move().
+ */
 void GenericApiConnector::setHttpGetForTesting(ApiHttpGetFn fn) {
     impl_->setHttpGetForTesting(std::move(fn));
 }
 
+/**
+ * @brief Set OAuth Config.
+ * @param[in] config Input parameter.
+ * @details Implements setOAuthConfig without additional internal calls.
+ */
 void GenericApiConnector::setOAuthConfig(const OAuthConfig& config) {
     impl_->setOAuthConfig(config);
 }
 
+/**
+ * @brief Set Http Post For Testing.
+ * @param[in] fn Input parameter.
+ * @details Calls: std::move().
+ */
 void GenericApiConnector::setHttpPostForTesting(ApiHttpPostFn fn) {
     impl_->setHttpPostForTesting(std::move(fn));
 }
 
+/**
+ * @brief Set Document Validator.
+ * @param[in] validator Input parameter.
+ * @details Calls: std::move().
+ */
 void GenericApiConnector::setDocumentValidator(DocumentValidatorFn validator) {
     impl_->setDocumentValidator(std::move(validator));
 }

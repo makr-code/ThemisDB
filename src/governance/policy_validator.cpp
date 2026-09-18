@@ -588,6 +588,12 @@ std::vector<std::string> PolicyValidator::validateSingleRule(const PolicyRule &r
     return issues;
 }
 
+/**
+ * @brief Record Rule Hit.
+ * @param[in] rule_id Identifier of the rule.
+ * @param[in] evaluation_time_ms Input parameter.
+ * @details Implements recordRuleHit without additional internal calls.
+ */
 void PolicyValidator::recordRuleHit(const std::string &rule_id, double evaluation_time_ms) {
     rule_hits_[rule_id]++;
     rule_eval_times_[rule_id] += evaluation_time_ms;

@@ -22,21 +22,6 @@ namespace llm {
 namespace lora {
 namespace cuda {
 
-/**
- * @brief CUDA kernel launcher for NF4 quantization
- * 
- * Quantizes float32 values to 4-bit NormalFloat format using block-wise quantization.
- * Each block has its own scale and zero point for better accuracy.
- * 
- * @param input Input float array (device pointer)
- * @param output Output quantized data (device pointer, packed 2 values per byte)
- * @param scales Output scale factors per block (device pointer)
- * @param zeros Output zero points per block (device pointer)
- * @param num_elements Total number of elements to quantize
- * @param block_size Number of elements per quantization block
- * @param stream CUDA stream for async execution
- * @return cudaError_t CUDA error code
- */
 cudaError_t launch_quantize_nf4_kernel(
     const float* input,
     uint8_t* output,
@@ -47,20 +32,6 @@ cudaError_t launch_quantize_nf4_kernel(
     cudaStream_t stream = nullptr
 );
 
-/**
- * @brief CUDA kernel launcher for INT8 quantization
- * 
- * Quantizes float32 values to 8-bit integer format using symmetric quantization.
- * Each block has its own scale factor for better accuracy.
- * 
- * @param input Input float array (device pointer)
- * @param output Output quantized data (device pointer, 1 value per byte)
- * @param scales Output scale factors per block (device pointer)
- * @param num_elements Total number of elements to quantize
- * @param block_size Number of elements per quantization block
- * @param stream CUDA stream for async execution
- * @return cudaError_t CUDA error code
- */
 cudaError_t launch_quantize_int8_kernel(
     const float* input,
     int8_t* output,
@@ -70,20 +41,6 @@ cudaError_t launch_quantize_int8_kernel(
     cudaStream_t stream = nullptr
 );
 
-/**
- * @brief CUDA kernel launcher for NF4 dequantization
- * 
- * Dequantizes 4-bit NormalFloat values back to float32 using block-wise parameters.
- * 
- * @param input Input quantized data (device pointer, packed 2 values per byte)
- * @param scales Scale factors per block (device pointer)
- * @param zeros Zero points per block (device pointer)
- * @param output Output float array (device pointer)
- * @param num_elements Total number of elements to dequantize
- * @param block_size Number of elements per quantization block
- * @param stream CUDA stream for async execution
- * @return cudaError_t CUDA error code
- */
 cudaError_t launch_dequantize_nf4_kernel(
     const uint8_t* input,
     const float* scales,
@@ -94,19 +51,6 @@ cudaError_t launch_dequantize_nf4_kernel(
     cudaStream_t stream = nullptr
 );
 
-/**
- * @brief CUDA kernel launcher for INT8 dequantization
- * 
- * Dequantizes 8-bit integer values back to float32 using block-wise scales.
- * 
- * @param input Input quantized data (device pointer, 1 value per byte)
- * @param scales Scale factors per block (device pointer)
- * @param output Output float array (device pointer)
- * @param num_elements Total number of elements to dequantize
- * @param block_size Number of elements per quantization block
- * @param stream CUDA stream for async execution
- * @return cudaError_t CUDA error code
- */
 cudaError_t launch_dequantize_int8_kernel(
     const int8_t* input,
     const float* scales,
@@ -116,25 +60,6 @@ cudaError_t launch_dequantize_int8_kernel(
     cudaStream_t stream = nullptr
 );
 
-/**
- * @brief Fused CUDA kernel launcher for dequantize + matrix multiply
- * 
- * Performs on-the-fly dequantization during matrix multiplication to save memory bandwidth.
- * Computes: output = input @ dequantize(quantized_weights)
- * 
- * @param quantized_weights Quantized weight matrix (device pointer)
- * @param scales Scale factors per block (device pointer)
- * @param zeros Zero points per block (device pointer, nullable for INT8)
- * @param input Input matrix (device pointer)
- * @param output Output matrix (device pointer)
- * @param M Number of rows in input/output
- * @param K Number of columns in input, rows in weights
- * @param N Number of columns in weights/output
- * @param block_size Quantization block size
- * @param use_nf4 True for NF4, false for INT8
- * @param stream CUDA stream for async execution
- * @return cudaError_t CUDA error code
- */
 cudaError_t launch_fused_dequant_matmul_kernel(
     const uint8_t* quantized_weights,
     const float* scales,
@@ -149,22 +74,6 @@ cudaError_t launch_fused_dequant_matmul_kernel(
     cudaStream_t stream = nullptr
 );
 
-/**
- * @brief Mixed precision matrix multiply with FP16 compute
- * 
- * Performs matrix multiplication using FP16 compute for faster performance on Volta+.
- * Automatically converts FP32 input/output.
- * 
- * @param A Input matrix A (device pointer, FP32)
- * @param B Input matrix B (device pointer, FP32)
- * @param C Output matrix C (device pointer, FP32)
- * @param M Number of rows in A and C
- * @param K Number of columns in A, rows in B
- * @param N Number of columns in B and C
- * @param alpha Scaling factor
- * @param stream CUDA stream for async execution
- * @return cudaError_t CUDA error code
- */
 cudaError_t launch_fp16_matmul_kernel(
     const float* A,
     const float* B,
@@ -176,9 +85,6 @@ cudaError_t launch_fp16_matmul_kernel(
     cudaStream_t stream = nullptr
 );
 
-/**
- * @brief GPU memory manager for efficient allocation
- */
 class GPUMemoryManager {
 public:
     GPUMemoryManager();
@@ -191,38 +97,39 @@ public:
     GPUMemoryManager& operator=(GPUMemoryManager&&) noexcept;
     
     /**
-     * @brief Allocate GPU memory for quantized buffer
-     * @param num_params Number of parameters to store
-     * @param use_nf4 True for NF4 (4-bit), false for INT8 (8-bit)
-     * @return Device pointer to allocated memory, or nullptr on allocation failure
+     * @brief Allocate Quantized Buffer.
+     * @param[in] num_params Input parameter.
+     * @param[in] use_nf4 Input parameter.
+     * @return Pointer to the result.
      */
     void* allocateQuantizedBuffer(size_t num_params, bool use_nf4);
     
     /**
-     * @brief Allocate pinned host memory for fast transfers
-     * @param size Size in bytes
-     * @return Host pointer to pinned memory, or nullptr on allocation failure
+     * @brief Allocate Pinned Host.
+     * @param[in] size Input parameter.
+     * @return Pointer to the result.
      */
     void* allocatePinnedHost(size_t size);
     
     /**
-     * @brief Free GPU memory
-     * @param ptr Device pointer to free
+     * @brief Free Device.
+     * @param[in,out] ptr Input/output parameter.
      */
     void freeDevice(void* ptr);
     
     /**
-     * @brief Free pinned host memory
-     * @param ptr Host pointer to free
+     * @brief Free Pinned.
+     * @param[in,out] ptr Input/output parameter.
      */
     void freePinned(void* ptr);
     
     /**
-     * @brief Asynchronous host-to-device transfer
-     * @param dst Device destination
-     * @param src Host source
-     * @param size Size in bytes
-     * @param stream CUDA stream
+     * @brief Transfer To GPUAsync.
+     * @param[in,out] dst Input/output parameter.
+     * @param[in] src Input parameter.
+     * @param[in] size Input parameter.
+     * @param[in] stream Input parameter.
+     * @return Return value.
      */
     cudaError_t transferToGPUAsync(
         void* dst,
@@ -232,11 +139,12 @@ public:
     );
     
     /**
-     * @brief Asynchronous device-to-host transfer
-     * @param dst Host destination
-     * @param src Device source
-     * @param size Size in bytes
-     * @param stream CUDA stream
+     * @brief Transfer From GPUAsync.
+     * @param[in,out] dst Input/output parameter.
+     * @param[in] src Input parameter.
+     * @param[in] size Input parameter.
+     * @param[in] stream Input parameter.
+     * @return Return value.
      */
     cudaError_t transferFromGPUAsync(
         void* dst,
@@ -245,9 +153,6 @@ public:
         cudaStream_t stream
     );
     
-    /**
-     * @brief Get total allocated GPU memory in bytes
-     */
     size_t getTotalAllocated() const { return total_allocated_; }
     
 private:

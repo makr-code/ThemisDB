@@ -16,10 +16,11 @@
 namespace themis {
 namespace llm {
 
-/**
- * @brief LLM output validation result
- */
 struct ValidationResult {
+    /**
+     * @brief Validation Result.
+     * @return Return value.
+     */
     virtual ~ValidationResult() = default;
     bool is_valid = false;
     std::vector<std::string> warnings;
@@ -40,24 +41,6 @@ struct ValidationResult {
     ValidationResult() : is_valid(true) {}
 };
 
-/**
- * @brief LLM Output Validator for production deployments
- * 
- * Validates LLM-generated text to prevent cascading failures
- * in RAG pipelines and downstream applications.
- * 
- * Usage:
- * ```cpp
- * LLMOutputValidator validator;
- * auto result = validator.validate(llm_response);
- * if (!result.is_valid) {
- *     for (const auto& error : result.errors) {
- *         spdlog::error("LLM validation error: {}", error);
- *     }
- *     return Status::Error("Invalid LLM output");
- * }
- * ```
- */
 class LLMOutputValidator {
 public:
     struct Config {
@@ -70,22 +53,27 @@ public:
         bool allow_empty = false;        // Allow empty responses
     };
     
+    /**
+     * @brief LLMOutput Validator.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit LLMOutputValidator(const Config& config);
     LLMOutputValidator();
     
     /**
-     * @brief Validate LLM output
-     * @param text Generated text to validate
-     * @return Validation result with errors/warnings
+     * @brief Validate.
+     * @param[in] text Input parameter.
+     * @return Return value.
      */
     ValidationResult validate(const std::string& text);
     
     /**
-     * @brief Validate with token count (if available)
-     * @param text Generated text
-     * @param token_count Number of tokens generated
-     * @param max_tokens Maximum tokens allowed
-     * @return Validation result
+     * @brief Validate With Tokens.
+     * @param[in] text Input parameter.
+     * @param[in] token_count Input parameter.
+     * @param[in] max_tokens Input parameter.
+     * @return Return value.
      */
     ValidationResult validateWithTokens(
         const std::string& text,
@@ -97,18 +85,63 @@ private:
     Config config_;
     
     // Validation helpers
+    /**
+     * @brief Is Valid UTF8.
+     * @param[in] text Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool isValidUTF8(const std::string& text);
+    /**
+     * @brief Detect Truncation.
+     * @param[in] text Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool detectTruncation(const std::string& text);
+    /**
+     * @brief Estimate Coherence.
+     * @param[in] text Input parameter.
+     * @return Return value.
+     */
     double estimateCoherence(const std::string& text);
+    /**
+     * @brief Has Common Errors.
+     * @param[in] text Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool hasCommonErrors(const std::string& text);
     
     // Metrics calculation
+    /**
+     * @brief Count Words.
+     * @param[in] text Input parameter.
+     * @return Return value.
+     */
     int countWords(const std::string& text);
+    /**
+     * @brief Count Sentences.
+     * @param[in] text Input parameter.
+     * @return Return value.
+     */
     int countSentences(const std::string& text);
+    /**
+     * @brief Calculate Avg Word Length.
+     * @param[in] text Input parameter.
+     * @return Return value.
+     */
     double calculateAvgWordLength(const std::string& text);
     
     // Error pattern detection
+    /**
+     * @brief Has Repeating Patterns.
+     * @param[in] text Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool hasRepeatingPatterns(const std::string& text);
+    /**
+     * @brief Has Invalid Control Chars.
+     * @param[in] text Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool hasInvalidControlChars(const std::string& text);
 };
 

@@ -16,6 +16,11 @@
 
 namespace themis::llm {
 
+/**
+ * @brief Serializer Factory Mutex.
+ * @return Return value.
+ * @details Implements serializerFactoryMutex without additional internal calls.
+ */
 std::mutex& KVPrefixTransferManager::serializerFactoryMutex() {
     static std::mutex m;
     return m;
@@ -27,6 +32,11 @@ KVPrefixTransferManager::serializerFactoryStorage() {
     return fn;
 }
 
+/**
+ * @brief Set Default Serializer Factory.
+ * @param[in] fn Input parameter.
+ * @details Calls: lk(), serializerFactoryMutex(), serializerFactoryStorage(), std::move().
+ */
 void KVPrefixTransferManager::setDefaultSerializerFactory(SerializerFactoryFn fn) {
     std::lock_guard<std::mutex> lk(serializerFactoryMutex());
     serializerFactoryStorage() = std::move(fn);
@@ -64,6 +74,14 @@ KVPrefixTransferManager::KVPrefixTransferManager(
 
 KVPrefixTransferManager::~KVPrefixTransferManager() = default;
 
+/**
+ * @brief Transfer If Beneficial.
+ * @param[in] target_shard Input parameter.
+ * @param[in] prefix_text Input parameter.
+ * @param[in] model_id Identifier of the model.
+ * @param[in] estimated_tokens Input parameter.
+ * @return True when the operation succeeds.
+ */
 bool KVPrefixTransferManager::transferIfBeneficial(
     const ::themis::sharding::ShardInfo& target_shard,
     const std::string& prefix_text,

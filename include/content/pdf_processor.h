@@ -126,21 +126,21 @@ private:
     std::string extractAllText(const std::vector<PDFPageInfo>& pages);
 
     /**
-     * @brief Token counting (simple whitespace-based)
+     * @brief Count Tokens.
      * @param[in] text Input parameter.
      * @return Return value.
      */
     int countTokens(const std::string& text);
 
     /**
-     * @brief Helper for PDF date format -> ISO 8601
+     * @brief Parse PDFDate.
      * @param[in] pdf_date Input parameter.
      * @return Return value.
      */
     std::string parsePDFDate(const std::string& pdf_date);
 
     /**
-     * @brief Check PDF header/signature
+     * @brief Is PDFValid.
      * @param[in] blob Input parameter.
      * @return True when the operation succeeds.
      */

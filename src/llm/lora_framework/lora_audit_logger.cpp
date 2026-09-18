@@ -22,11 +22,13 @@ namespace themis {
 namespace llm {
 namespace lora {
 
-/**
- * @brief Implementation of LoRA Audit Logger
- */
 class LoRAAuditLogger::Impl {
 public:
+    /**
+     * @brief Impl.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit Impl(const utils::AuditLoggerConfig& config) 
         : config_(config), enabled_(config.enabled) {
         
@@ -43,11 +45,21 @@ public:
         spdlog::info("  Hash chain: {}", config_.enable_hash_chain);
     }
 
+    /**
+     * @brief Set Provenance Mgr.
+     * @param[in] mgr Input parameter.
+     * @details Calls: lock(), std::move().
+     */
     void setProvenanceMgr(std::shared_ptr<LoRAProvenanceManager> mgr) {
         std::lock_guard<std::mutex> lock(mutex_);
         provenance_mgr_ = std::move(mgr);
     }
     
+    /**
+     * @brief Log Inference.
+     * @param[in] audit Input parameter.
+     * @details Calls: lock(), toJSON(), writeToLog(), logEvent(), LoRAProvenanceManager::sha256Hex(), appendAuditEntry(), std::move(), spdlog::debug().
+     */
     void logInference(const LoRAInferenceAudit& audit) {
         if (!enabled_) {
           return;
@@ -103,6 +115,13 @@ public:
         }
     }
     
+    /**
+     * @brief Log Event.
+     * @param[in] event_type Input parameter.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @param[in] details Input parameter.
+     * @details Calls: lock(), std::chrono::system_clock::to_time_t(), std::chrono::system_clock::now(), eventTypeToString(), writeToLog(), spdlog::error(), what().
+     */
     void logEvent(
         LoRAAuditEventType event_type,
         const std::string& adapter_id,
@@ -133,6 +152,14 @@ public:
         }
     }
     
+    /**
+     * @brief Log Adapter Lifecycle.
+     * @param[in] event_type Input parameter.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @param[in] version Input parameter.
+     * @param[in] metadata Input parameter.
+     * @details Calls: logEvent().
+     */
     void logAdapterLifecycle(
         LoRAAuditEventType event_type,
         const std::string& adapter_id,
@@ -145,6 +172,16 @@ public:
         logEvent(event_type, adapter_id, details);
     }
     
+    /**
+     * @brief Log Training.
+     * @param[in] event_type Input parameter.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @param[in] num_samples Input parameter.
+     * @param[in] final_loss Input parameter.
+     * @param[in] validation_accuracy Input parameter.
+     * @param[in] hyperparameters Input parameter.
+     * @details Calls: logEvent().
+     */
     void logTraining(
         LoRAAuditEventType event_type,
         const std::string& adapter_id,
@@ -161,6 +198,16 @@ public:
         logEvent(event_type, adapter_id, details);
     }
     
+    /**
+     * @brief Log Feedback.
+     * @param[in] event_type Input parameter.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @param[in] question Input parameter.
+     * @param[in] answer Input parameter.
+     * @param[in] correction Input parameter.
+     * @param[in] user_id Identifier of the user.
+     * @details Calls: empty(), logEvent().
+     */
     void logFeedback(
         LoRAAuditEventType event_type,
         const std::string& adapter_id,
@@ -181,6 +228,15 @@ public:
         logEvent(event_type, adapter_id, details);
     }
     
+    /**
+     * @brief Log Versioning.
+     * @param[in] event_type Input parameter.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @param[in] from_version Input parameter.
+     * @param[in] to_version Input parameter.
+     * @param[in] reason Input parameter.
+     * @details Calls: empty(), logEvent().
+     */
     void logVersioning(
         LoRAAuditEventType event_type,
         const std::string& adapter_id,
@@ -197,6 +253,14 @@ public:
         logEvent(event_type, adapter_id, details);
     }
     
+    /**
+     * @brief Query Logs.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @param[in] start_time Input parameter.
+     * @param[in] end_time Input parameter.
+     * @return Return value.
+     * @details Calls: lock(), file(), is_open(), std::getline(), empty(), json::parse(), contains(), std::chrono::system_clock::from_time_t().
+     */
     std::vector<json> queryLogs(
         const std::string& adapter_id,
         std::optional<std::chrono::system_clock::time_point> start_time,
@@ -254,6 +318,13 @@ public:
         return results;
     }
     
+    /**
+     * @brief Get Inference History.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @param[in] limit Input parameter.
+     * @return Return value.
+     * @details Calls: queryLogs(), contains(), push_back(), size().
+     */
     std::vector<LoRAInferenceAudit> getInferenceHistory(
         const std::string& adapter_id,
         int limit
@@ -299,6 +370,12 @@ public:
         return results;
     }
     
+    /**
+     * @brief Get Adapter Stats.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @return Return value.
+     * @details Calls: queryLogs(), size(), contains().
+     */
     json getAdapterStats(const std::string& adapter_id) {
         auto logs = queryLogs(adapter_id, std::nullopt, std::nullopt);
         
@@ -348,11 +425,20 @@ public:
         return stats;
     }
     
+    /**
+     * @brief Set Enabled.
+     * @param[in] enabled Input parameter.
+     * @details Calls: spdlog::info().
+     */
     void setEnabled(bool enabled) {
         enabled_ = enabled;
         spdlog::info("LoRAAuditLogger {}", enabled ? "enabled" : "disabled");
     }
     
+    /**
+     * @brief Flush.
+     * @details Calls: lock(), is_open().
+     */
     void flush() {
         std::lock_guard<std::mutex> lock(mutex_);
         if (log_file_.is_open()) {
@@ -378,6 +464,11 @@ private:
     uint64_t inference_count_ = 0;
     uint64_t event_count_ = 0;
     
+    /**
+     * @brief Write To Log.
+     * @param[in] entry Input parameter.
+     * @details Calls: is_open(), open(), spdlog::error(), dump().
+     */
     void writeToLog(const json& entry) {
         // Open log file if not already open
         if (!log_file_.is_open()) {
@@ -392,6 +483,12 @@ private:
         log_file_ << entry.dump() << std::endl;
     }
     
+    /**
+     * @brief Event Type To String.
+     * @param[in] type Input parameter.
+     * @return Return value.
+     * @details Implements eventTypeToString without additional internal calls.
+     */
     static std::string eventTypeToString(LoRAAuditEventType type) {
         switch (type) {
             case LoRAAuditEventType::INFERENCE_STARTED: return "INFERENCE_STARTED";
@@ -443,10 +540,22 @@ LoRAAuditLogger::LoRAAuditLogger(const utils::AuditLoggerConfig& config)
 
 LoRAAuditLogger::~LoRAAuditLogger() = default;
 
+/**
+ * @brief Log Inference.
+ * @param[in] audit Input parameter.
+ * @details Implements logInference without additional internal calls.
+ */
 void LoRAAuditLogger::logInference(const LoRAInferenceAudit& audit) {
     impl_->logInference(audit);
 }
 
+/**
+ * @brief Log Event.
+ * @param[in] event_type Input parameter.
+ * @param[in] adapter_id Identifier of the adapter.
+ * @param[in] details Input parameter.
+ * @details Implements logEvent without additional internal calls.
+ */
 void LoRAAuditLogger::logEvent(
     LoRAAuditEventType event_type,
     const std::string& adapter_id,
@@ -455,6 +564,14 @@ void LoRAAuditLogger::logEvent(
     impl_->logEvent(event_type, adapter_id, details);
 }
 
+/**
+ * @brief Log Adapter Lifecycle.
+ * @param[in] event_type Input parameter.
+ * @param[in] adapter_id Identifier of the adapter.
+ * @param[in] version Input parameter.
+ * @param[in] metadata Input parameter.
+ * @details Implements logAdapterLifecycle without additional internal calls.
+ */
 void LoRAAuditLogger::logAdapterLifecycle(
     LoRAAuditEventType event_type,
     const std::string& adapter_id,
@@ -464,6 +581,16 @@ void LoRAAuditLogger::logAdapterLifecycle(
     impl_->logAdapterLifecycle(event_type, adapter_id, version, metadata);
 }
 
+/**
+ * @brief Log Training.
+ * @param[in] event_type Input parameter.
+ * @param[in] adapter_id Identifier of the adapter.
+ * @param[in] num_samples Input parameter.
+ * @param[in] final_loss Input parameter.
+ * @param[in] validation_accuracy Input parameter.
+ * @param[in] hyperparameters Input parameter.
+ * @details Implements logTraining without additional internal calls.
+ */
 void LoRAAuditLogger::logTraining(
     LoRAAuditEventType event_type,
     const std::string& adapter_id,
@@ -476,6 +603,16 @@ void LoRAAuditLogger::logTraining(
                        validation_accuracy, hyperparameters);
 }
 
+/**
+ * @brief Log Feedback.
+ * @param[in] event_type Input parameter.
+ * @param[in] adapter_id Identifier of the adapter.
+ * @param[in] question Input parameter.
+ * @param[in] answer Input parameter.
+ * @param[in] correction Input parameter.
+ * @param[in] user_id Identifier of the user.
+ * @details Implements logFeedback without additional internal calls.
+ */
 void LoRAAuditLogger::logFeedback(
     LoRAAuditEventType event_type,
     const std::string& adapter_id,
@@ -487,6 +624,15 @@ void LoRAAuditLogger::logFeedback(
     impl_->logFeedback(event_type, adapter_id, question, answer, correction, user_id);
 }
 
+/**
+ * @brief Log Versioning.
+ * @param[in] event_type Input parameter.
+ * @param[in] adapter_id Identifier of the adapter.
+ * @param[in] from_version Input parameter.
+ * @param[in] to_version Input parameter.
+ * @param[in] reason Input parameter.
+ * @details Implements logVersioning without additional internal calls.
+ */
 void LoRAAuditLogger::logVersioning(
     LoRAAuditEventType event_type,
     const std::string& adapter_id,
@@ -497,6 +643,14 @@ void LoRAAuditLogger::logVersioning(
     impl_->logVersioning(event_type, adapter_id, from_version, to_version, reason);
 }
 
+/**
+ * @brief Query Logs.
+ * @param[in] adapter_id Identifier of the adapter.
+ * @param[in] start_time Input parameter.
+ * @param[in] end_time Input parameter.
+ * @return Return value.
+ * @details Implements queryLogs without additional internal calls.
+ */
 std::vector<json> LoRAAuditLogger::queryLogs(
     const std::string& adapter_id,
     std::optional<std::chrono::system_clock::time_point> start_time,
@@ -505,6 +659,13 @@ std::vector<json> LoRAAuditLogger::queryLogs(
     return impl_->queryLogs(adapter_id, start_time, end_time);
 }
 
+/**
+ * @brief Get Inference History.
+ * @param[in] adapter_id Identifier of the adapter.
+ * @param[in] limit Input parameter.
+ * @return Return value.
+ * @details Implements getInferenceHistory without additional internal calls.
+ */
 std::vector<LoRAInferenceAudit> LoRAAuditLogger::getInferenceHistory(
     const std::string& adapter_id,
     int limit
@@ -512,24 +673,49 @@ std::vector<LoRAInferenceAudit> LoRAAuditLogger::getInferenceHistory(
     return impl_->getInferenceHistory(adapter_id, limit);
 }
 
+/**
+ * @brief Get Adapter Stats.
+ * @param[in] adapter_id Identifier of the adapter.
+ * @return Return value.
+ * @details Implements getAdapterStats without additional internal calls.
+ */
 json LoRAAuditLogger::getAdapterStats(const std::string& adapter_id) {
     return impl_->getAdapterStats(adapter_id);
 }
 
+/**
+ * @brief Set Enabled.
+ * @param[in] enabled Input parameter.
+ * @details Implements setEnabled without additional internal calls.
+ */
 void LoRAAuditLogger::setEnabled(bool enabled) {
     impl_->setEnabled(enabled);
 }
 
+/**
+ * @brief Flush.
+ * @details Implements flush without additional internal calls.
+ */
 void LoRAAuditLogger::flush() {
     impl_->flush();
 }
 
-// ── Provenance & Merkle-chain integration ─────────────────────────────────────
+/**
+ * @brief ── Provenance & Merkle-chain integration ─────────────────────────────────────
+ * @param[in] mgr Input parameter.
+ * @details Calls: setProvenanceMgr(), std::move().
+ */
 
 void LoRAAuditLogger::setProvenanceManager(std::shared_ptr<LoRAProvenanceManager> mgr) {
     impl_->setProvenanceMgr(std::move(mgr));
 }
 
+/**
+ * @brief Log Provenance Attached.
+ * @param[in] adapter_id Identifier of the adapter.
+ * @param[in] record Input parameter.
+ * @details Calls: empty(), logEvent().
+ */
 void LoRAAuditLogger::logProvenanceAttached(const std::string& adapter_id,
                                               const LoRAProvenanceRecord& record) {
     json details = {
@@ -543,6 +729,12 @@ void LoRAAuditLogger::logProvenanceAttached(const std::string& adapter_id,
     logEvent(LoRAAuditEventType::PROVENANCE_ATTACHED, adapter_id, details);
 }
 
+/**
+ * @brief Log Snapshot Created.
+ * @param[in] adapter_id Identifier of the adapter.
+ * @param[in] snapshot Input parameter.
+ * @details Calls: logEvent().
+ */
 void LoRAAuditLogger::logSnapshotCreated(const std::string& adapter_id,
                                           const AdapterSnapshot& snapshot) {
     json details = {
@@ -555,6 +747,13 @@ void LoRAAuditLogger::logSnapshotCreated(const std::string& adapter_id,
     logEvent(LoRAAuditEventType::SNAPSHOT_CREATED, adapter_id, details);
 }
 
+/**
+ * @brief Log Audit Chain Verified.
+ * @param[in] adapter_id Identifier of the adapter.
+ * @param[in] valid Input parameter.
+ * @param[in] entry_count Input parameter.
+ * @details Calls: logEvent().
+ */
 void LoRAAuditLogger::logAuditChainVerified(const std::string& adapter_id,
                                               bool valid,
                                               std::size_t entry_count) {
@@ -571,6 +770,11 @@ void LoRAAuditLogger::logAuditChainVerified(const std::string& adapter_id,
 
 // Helper functions
 
+/**
+ * @brief Generate Request Id.
+ * @return Return value.
+ * @details Calls: gen(), rd(), std::setfill(), std::setw(), dis(), str().
+ */
 std::string generateRequestId() {
     static std::random_device rd;
     static std::mt19937_64 gen(rd());
@@ -583,6 +787,12 @@ std::string generateRequestId() {
     return oss.str();
 }
 
+/**
+ * @brief Compute Adapter Hash.
+ * @param[in] weights Input parameter.
+ * @return Return value.
+ * @details Calls: SHA256(), data(), size(), std::setw(), std::setfill(), str().
+ */
 std::string computeAdapterHash(const std::vector<uint8_t>& weights) {
     unsigned char hash[SHA256_DIGEST_LENGTH];
     SHA256(weights.data(),weights.size(), hash);

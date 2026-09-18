@@ -21,23 +21,6 @@
 namespace themis {
 namespace llm {
 
-/**
- * @brief GPU Safe-Fail Manager
- * 
- * Implements database best-practice safe-fail mechanisms for GPU operations:
- * - Automatic degradation to CPU on GPU failures
- * - OOM (Out of Memory) detection and recovery
- * - GPU operation timeout handling
- * - Circuit breaker pattern for repeated failures
- * - Health monitoring and alerting
- * 
- * Best Practices:
- * - Graceful degradation: Automatically fallback to CPU when GPU fails
- * - Fail-fast: Detect failures quickly and prevent cascading issues
- * - Circuit breaker: Temporarily disable failing components to allow recovery
- * - Health monitoring: Track error rates and trigger alerts
- * - Timeout handling: Prevent hung operations from blocking the system
- */
 class GPUSafeFailManager {
 public:
     enum class GPUState {
@@ -93,21 +76,15 @@ public:
     };
     
     GPUSafeFailManager();
+    /**
+     * @brief GPUSafe Fail Manager.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit GPUSafeFailManager(const Config& config);
     ~GPUSafeFailManager() = default;
     
     // Core safe-fail operations
-    /**
-     * @brief Execute a GPU operation with automatic fallback
-     * 
-     * Wraps a GPU operation with timeout, error handling, and automatic
-     * CPU fallback. Implements circuit breaker pattern.
-     * 
-     * @param gpu_operation Function to execute on GPU
-     * @param cpu_fallback Function to execute on CPU if GPU fails
-     * @param operation_name Name for logging
-     * @return true if operation succeeded (on GPU or CPU), false otherwise
-     */
     bool executeWithFallback(
         std::function<bool()> gpu_operation,
         std::function<bool()> cpu_fallback,
@@ -115,67 +92,68 @@ public:
     );
     
     /**
-     * @brief Record a GPU operation failure
-     * 
-     * Updates circuit breaker state and health metrics
+     * @brief Record Failure.
+     * @param[in] type Input parameter.
+     * @param[in] error_message Input parameter.
      */
     void recordFailure(FailureType type, const std::string& error_message);
     
     /**
-     * @brief Record a successful GPU operation
-     * 
-     * Updates circuit breaker state and health metrics
+     * @brief Record Success.
      */
     void recordSuccess();
     
     /**
-     * @brief Check if GPU operations should be attempted
-     * 
-     * Returns false if circuit is open or GPU is in failed state
+     * @brief Should Attempt GPU.
+     * @return True when the operation succeeds.
      */
     bool shouldAttemptGPU() const;
     
     /**
-     * @brief Get current GPU health status
+     * @brief Get Health Status.
+     * @return Return value.
      */
     GPUHealthStatus getHealthStatus() const;
     
     /**
-     * @brief Check if GPU is healthy enough for operations
+     * @brief Is Healthy.
+     * @return True when the operation succeeds.
      */
     bool isHealthy() const;
     
     /**
-     * @brief Force GPU to healthy state (use after manual recovery)
+     * @brief Force Healthy.
      */
     void forceHealthy();
     
     /**
-     * @brief Force GPU to failed state (use for maintenance)
+     * @brief Force Failed.
+     * @param[in] reason Input parameter.
      */
     void forceFailed(const std::string& reason);
     
     /**
-     * @brief Check if circuit breaker should reset
+     * @brief Can Reset Circuit.
+     * @return True when the operation succeeds.
      */
     bool canResetCircuit() const;
     
     /**
-     * @brief Attempt to reset circuit breaker
+     * @brief Try Reset Circuit.
      */
     void tryResetCircuit();
     
     /**
-     * @brief Get error rate (0.0 - 1.0)
+     * @brief Get Error Rate.
+     * @return Return value.
      */
     float getErrorRate() const;
     
     /**
-     * @brief Check if memory is available
-     * 
-     * @param required_bytes Memory required for operation
-     * @param available_bytes Currently available memory
-     * @return true if allocation should proceed
+     * @brief Check Memory Available.
+     * @param[in] required_bytes Input parameter.
+     * @param[in] available_bytes Input parameter.
+     * @return True when the operation succeeds.
      */
     bool checkMemoryAvailable(size_t required_bytes, size_t available_bytes) const;
     
@@ -200,29 +178,49 @@ private:
     bool is_cpu_fallback_active_ = false;
     
     // Helper methods
+    /**
+     * @brief Update State.
+     */
     void updateState();
+    /**
+     * @brief Log Degradation.
+     * @param[in] reason Input parameter.
+     */
     void logDegradation(const std::string& reason);
+    /**
+     * @brief Log Recovery.
+     */
     void logRecovery();
+    /**
+     * @brief Is Circuit Open.
+     * @return True when the operation succeeds.
+     */
     bool isCircuitOpen() const;
+    /**
+     * @brief Open Circuit.
+     * @param[in] reason Input parameter.
+     */
     void openCircuit(const std::string& reason);
+    /**
+     * @brief Close Circuit.
+     */
     void closeCircuit();
 };
 
-/**
- * @brief GPU Operation Timeout Guard
- * 
- * RAII-style timeout handler for GPU operations.
- * Launches a watchdog thread that can detect hung operations.
- */
 class GPUTimeoutGuard {
 public:
     GPUTimeoutGuard(std::chrono::seconds timeout, const std::string& operation_name);
     ~GPUTimeoutGuard();
     
-    // Check if operation has timed out
+    /**
+     * @brief Check if operation has timed out
+     * @return True when the operation succeeds.
+     */
     bool hasTimedOut() const;
     
-    // Cancel the timeout (call when operation completes successfully)
+    /**
+     * @brief Cancel the timeout (call when operation completes successfully)
+     */
     void cancel();
     
 private:
@@ -233,14 +231,12 @@ private:
     mutable std::atomic<bool> timed_out_{false};
 };
 
-/**
- * @brief Memory Pressure Monitor
- * 
- * Monitors GPU memory usage and triggers warnings/actions
- * before running out of memory completely.
- */
 class MemoryPressureMonitor {
 public:
+    /**
+     * @brief Memory Pressure Monitor.
+     * @return Return value.
+     */
     virtual ~MemoryPressureMonitor() = default;
     enum class PressureLevel {
         NORMAL,    // < 70% memory used
@@ -259,18 +255,37 @@ public:
         bool should_block_new = false;     // Should block new allocations
     };
     
+    /**
+     * @brief Memory Pressure Monitor.
+     * @param[in] total_memory_bytes Input parameter.
+     * @return Return value.
+     */
     explicit MemoryPressureMonitor(size_t total_memory_bytes);
     
-    // Update current memory usage
+    /**
+     * @brief Update current memory usage
+     * @param[in] used_bytes Input parameter.
+     */
     void updateUsage(size_t used_bytes);
     
-    // Get current memory status
+    /**
+     * @brief Get current memory status
+     * @return Return value.
+     */
     MemoryStatus getStatus() const;
     
-    // Check if allocation would succeed
+    /**
+     * @brief Check if allocation would succeed
+     * @param[in] bytes Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool canAllocate(size_t bytes) const;
     
     // Get recommended action
+    /**
+     * @brief Get Recommended Action.
+     * @return Return value.
+     */
     std::string getRecommendedAction() const;
     
 private:

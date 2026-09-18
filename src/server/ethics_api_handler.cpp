@@ -36,6 +36,13 @@ EthicsApiHandler::EthicsApiHandler(
 {
 }
 
+/**
+ * @brief Handle.
+ * @param[in] req Input parameter.
+ * @param[in] target Input parameter.
+ * @return Return value.
+ * @details Calls: find(), substr(), rfind(), method(), handleDebateInit(), handleMakeDecision(), handleEvaluation(), handleGetArguments().
+ */
 http::response<http::string_body> EthicsApiHandler::handle(
     const http::request<http::string_body>& req,
     const std::string& target
@@ -83,6 +90,12 @@ http::response<http::string_body> EthicsApiHandler::handle(
     return makeErrorResponse(http::status::not_found, "Ethics endpoint not found", req);
 }
 
+/**
+ * @brief Handle Debate Init.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), nlohmann::json::parse(), body(), contains(), setStatus(), makeErrorResponse(), value(), executeAQL().
+ */
 http::response<http::string_body> EthicsApiHandler::handleDebateInit(
     const http::request<http::string_body>& req
 ) {
@@ -126,6 +139,12 @@ http::response<http::string_body> EthicsApiHandler::handleDebateInit(
     }
 }
 
+/**
+ * @brief Handle Make Decision.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), nlohmann::json::parse(), body(), contains(), setStatus(), makeErrorResponse(), value(), executeAQL().
+ */
 http::response<http::string_body> EthicsApiHandler::handleMakeDecision(
     const http::request<http::string_body>& req
 ) {
@@ -171,6 +190,12 @@ http::response<http::string_body> EthicsApiHandler::handleMakeDecision(
     }
 }
 
+/**
+ * @brief Handle Evaluation.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), nlohmann::json::parse(), body(), contains(), setStatus(), makeErrorResponse(), value(), nlohmann::json::array().
+ */
 http::response<http::string_body> EthicsApiHandler::handleEvaluation(
     const http::request<http::string_body>& req
 ) {
@@ -212,6 +237,12 @@ http::response<http::string_body> EthicsApiHandler::handleEvaluation(
     }
 }
 
+/**
+ * @brief Handle Get Arguments.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), std::string(), target(), extractQueryParam(), empty(), setStatus(), makeErrorResponse(), ss().
+ */
 http::response<http::string_body> EthicsApiHandler::handleGetArguments(
     const http::request<http::string_body>& req
 ) {
@@ -266,6 +297,12 @@ http::response<http::string_body> EthicsApiHandler::handleGetArguments(
     }
 }
 
+/**
+ * @brief Handle Search Arguments.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), nlohmann::json::parse(), body(), contains(), setStatus(), makeErrorResponse(), value(), executeAQL().
+ */
 http::response<http::string_body> EthicsApiHandler::handleSearchArguments(
     const http::request<http::string_body>& req
 ) {
@@ -310,6 +347,12 @@ http::response<http::string_body> EthicsApiHandler::handleSearchArguments(
     }
 }
 
+/**
+ * @brief Handle List Philosophies.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), executeAQL(), setStatus(), makeResponse(), dump(), makeErrorResponse(), what().
+ */
 http::response<http::string_body> EthicsApiHandler::handleListPhilosophies(
     const http::request<http::string_body>& req
 ) {
@@ -330,6 +373,13 @@ http::response<http::string_body> EthicsApiHandler::handleListPhilosophies(
     }
 }
 
+/**
+ * @brief Handle Get Philosophy.
+ * @param[in] req Input parameter.
+ * @param[in] school Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), executeAQL(), setStatus(), makeResponse(), dump(), makeErrorResponse(), what().
+ */
 http::response<http::string_body> EthicsApiHandler::handleGetPhilosophy(
     const http::request<http::string_body>& req,
     const std::string& school
@@ -354,6 +404,12 @@ http::response<http::string_body> EthicsApiHandler::handleGetPhilosophy(
     }
 }
 
+/**
+ * @brief Handle Build Context.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), nlohmann::json::parse(), body(), contains(), setStatus(), makeErrorResponse(), value(), executeAQL().
+ */
 http::response<http::string_body> EthicsApiHandler::handleBuildContext(
     const http::request<http::string_body>& req
 ) {
@@ -397,6 +453,12 @@ http::response<http::string_body> EthicsApiHandler::handleBuildContext(
     }
 }
 
+/**
+ * @brief Handle Get Metrics.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), std::string(), target(), extractQueryParam(), empty(), executeAQL(), void(), is_object().
+ */
 http::response<http::string_body> EthicsApiHandler::handleGetMetrics(
     const http::request<http::string_body>& req
 ) {
@@ -463,6 +525,14 @@ http::response<http::string_body> EthicsApiHandler::handleGetMetrics(
 
 // Helper methods
 
+/**
+ * @brief Make Error Response.
+ * @param[in] status Input parameter.
+ * @param[in] message Input parameter.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: version(), set(), keep_alive(), body(), dump(), prepare_payload().
+ */
 http::response<http::string_body> EthicsApiHandler::makeErrorResponse(
     http::status status, 
     const std::string& message, 
@@ -484,6 +554,14 @@ http::response<http::string_body> EthicsApiHandler::makeErrorResponse(
     return res;
 }
 
+/**
+ * @brief Make Response.
+ * @param[in] status Input parameter.
+ * @param[in] body Input parameter.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: version(), set(), keep_alive(), body(), prepare_payload().
+ */
 http::response<http::string_body> EthicsApiHandler::makeResponse(
     http::status status, 
     const std::string& body, 
@@ -499,6 +577,14 @@ http::response<http::string_body> EthicsApiHandler::makeResponse(
     return res;
 }
 
+/**
+ * @brief Execute AQL.
+ * @param[in] aql_query Input parameter.
+ * @param[in] bind_vars Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: begin(), end(), key(), value(), is_string(), reserve(), size(), dump().
+ */
 nlohmann::json EthicsApiHandler::executeAQL(
     const std::string& aql_query,
     const nlohmann::json& bind_vars

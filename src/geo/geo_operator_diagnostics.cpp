@@ -37,6 +37,11 @@ void GeoOperatorDiagnostics::recordIncident(
             nowNs(),
             error_code
         };
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         if (incidents_.size() >= static_cast<std::size_t>(kMaxIncidents)) {
             incidents_.erase(incidents_.begin());
@@ -62,6 +67,11 @@ void GeoOperatorDiagnostics::recordFromCallback(
 
 std::vector<GeoIncident> GeoOperatorDiagnostics::recentIncidents(
         std::size_t max_count) const noexcept {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     if (incidents_.empty()) return {};
     // Newest at back; return newest first.
@@ -74,6 +84,11 @@ std::vector<GeoIncident> GeoOperatorDiagnostics::recentIncidents(
 
 std::vector<GeoIncident> GeoOperatorDiagnostics::incidentsBySeverity(
         GeoIncidentSeverity min_severity) const noexcept {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     std::vector<GeoIncident> result = {};
 
@@ -87,6 +102,11 @@ std::vector<GeoIncident> GeoOperatorDiagnostics::incidentsBySeverity(
 
 std::size_t GeoOperatorDiagnostics::countBySeverity(
         GeoIncidentSeverity severity) const noexcept {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return static_cast<std::size_t>(
         std::count_if(incidents_.begin(), incidents_.end(),
@@ -100,6 +120,11 @@ bool GeoOperatorDiagnostics::hasCriticalIncidents() const noexcept {
 }
 
 uint64_t GeoOperatorDiagnostics::totalIncidentCount() const noexcept {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return total_count_;
 }
@@ -130,6 +155,11 @@ std::string GeoOperatorDiagnostics::formatSummary(
 }
 
 void GeoOperatorDiagnostics::clearIncidents() noexcept {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     incidents_.clear();
 }

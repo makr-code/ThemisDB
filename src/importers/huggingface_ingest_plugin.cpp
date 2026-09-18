@@ -22,6 +22,12 @@ namespace themis::importers {
 
 namespace {
 
+/**
+ * @brief Trim.
+ * @param[in] value Input parameter.
+ * @return Return value.
+ * @details Calls: std::isspace(), erase(), begin(), std::find_if(), end(), is_space(), rbegin(), rend().
+ */
 std::string trim(std::string value) {
     auto is_space = [](unsigned char c) { return std::isspace(c) != 0; };
     value.erase(value.begin(), std::find_if(value.begin(), value.end(), [&](unsigned char c) { return !is_space(c); }));
@@ -40,6 +46,12 @@ std::string rowString(const json& row, std::string_view key, std::string default
     return v.dump();
 }
 
+/**
+ * @brief Stable Hash Hex.
+ * @param[in] input Input parameter.
+ * @return Return value.
+ * @details Calls: str().
+ */
 std::string stableHashHex(std::string_view input) {
     const auto hash_value = std::hash<std::string_view>{}(input);
     std::ostringstream oss = {};
@@ -52,11 +64,20 @@ std::string stableHashHex(std::string_view input) {
 HuggingFaceIngestPlugin::HuggingFaceIngestPlugin(HuggingFaceIngestConfig config)
     : config_(std::move(config)) {}
 
+/**
+ * @brief Init.
+ * @return True when the operation succeeds.
+ * @details Implements init without additional internal calls.
+ */
 bool HuggingFaceIngestPlugin::init() {
     initialized_ = true;
     return true;
 }
 
+/**
+ * @brief Shutdown.
+ * @details Implements shutdown without additional internal calls.
+ */
 void HuggingFaceIngestPlugin::shutdown() {
     initialized_ = false;
 }
@@ -170,6 +191,12 @@ std::string HuggingFaceIngestPlugin::buildLeakageSensitiveSplit(const LegalDocum
     return "test";
 }
 
+/**
+ * @brief Project Document.
+ * @param[in] document Input parameter.
+ * @param[in] annotations Input parameter.
+ * @details Calls: emplace_back(), std::chrono::system_clock::now(), time_since_epoch(), count(), push_back(), embedding_sink_hook().
+ */
 void HuggingFaceIngestPlugin::projectDocument(
     const LegalDocument& document,
     const std::vector<LegalAnnotation>& annotations) {
@@ -212,6 +239,14 @@ bool HuggingFaceIngestPlugin::isDuplicate(const LegalDocument& document) const {
     return false;
 }
 
+/**
+ * @brief Upsert Canonical.
+ * @param[in] normalized Input parameter.
+ * @param[in] split Input parameter.
+ * @param[in,out] inserted Input/output parameter.
+ * @return Return value.
+ * @details Calls: find(), end(), insert(), stableHashHex(), computeQualityScore(), json::object(), std::move().
+ */
 std::size_t HuggingFaceIngestPlugin::upsertCanonical(
     const NormalizationResult& normalized,
     const std::string& split,
@@ -246,6 +281,11 @@ std::size_t HuggingFaceIngestPlugin::upsertCanonical(
     return 1;
 }
 
+/**
+ * @brief Update Checkpoint.
+ * @param[in] processed_records Input parameter.
+ * @details Calls: std::to_string().
+ */
 void HuggingFaceIngestPlugin::updateCheckpoint(std::size_t processed_records) {
     if (config_.checkpoint_every == 0 || processed_records == 0) {
         return;
@@ -256,6 +296,13 @@ void HuggingFaceIngestPlugin::updateCheckpoint(std::size_t processed_records) {
     }
 }
 
+/**
+ * @brief Run Full Import.
+ * @param[in] request Input parameter.
+ * @return Return value.
+ * @throws std::logic_error if an error occurs.
+ * @details Calls: clear(), empty(), push_back(), fetchRawRows(), insert(), size(), normalizeLegalRecord(), isDuplicate().
+ */
 IngestionReport HuggingFaceIngestPlugin::runFullImport(const HuggingFaceImportRequest& request) {
     if (!initialized_) {
         throw std::logic_error("HuggingFaceIngestPlugin must be initialized before import");
@@ -309,6 +356,13 @@ IngestionReport HuggingFaceIngestPlugin::runFullImport(const HuggingFaceImportRe
     return report;
 }
 
+/**
+ * @brief Run Incremental Update.
+ * @param[in] request Input parameter.
+ * @return Return value.
+ * @throws std::logic_error if an error occurs.
+ * @details Calls: empty(), push_back(), fetchRawRows(), size(), normalizeLegalRecord(), isDuplicate(), back(), upsertCanonical().
+ */
 IngestionReport HuggingFaceIngestPlugin::runIncrementalUpdate(const HuggingFaceUpdateRequest& request) {
     if (!initialized_) {
         throw std::logic_error("HuggingFaceIngestPlugin must be initialized before update");

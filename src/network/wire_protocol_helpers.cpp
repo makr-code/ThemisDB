@@ -20,6 +20,12 @@ namespace themis::network {
 // ProtobufParser Implementation
 // =============================================================================
 
+/**
+ * @brief Read Varint.
+ * @param[in,out] value Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: size().
+ */
 bool ProtobufParser::readVarint(uint64_t& value) {
     value = 0;
     int shift = 0;
@@ -41,6 +47,12 @@ bool ProtobufParser::readVarint(uint64_t& value) {
     return false;  // Unexpected end
 }
 
+/**
+ * @brief Read Fixed64.
+ * @param[in,out] value Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: size().
+ */
 bool ProtobufParser::readFixed64(uint64_t& value) {
     if (pos_ + 8 > data_.size()) {
         return false;
@@ -55,6 +67,12 @@ bool ProtobufParser::readFixed64(uint64_t& value) {
     return true;
 }
 
+/**
+ * @brief Read Fixed32.
+ * @param[in,out] value Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: size().
+ */
 bool ProtobufParser::readFixed32(uint32_t& value) {
     if (pos_ + 4 > data_.size()) {
         return false;
@@ -69,6 +87,12 @@ bool ProtobufParser::readFixed32(uint32_t& value) {
     return true;
 }
 
+/**
+ * @brief Read Length Delimited.
+ * @param[in,out] value Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: readVarint(), size(), assign(), begin().
+ */
 bool ProtobufParser::readLengthDelimited(std::vector<uint8_t>& value) {
     uint64_t length = 0;
     if (!readVarint(length)) {
@@ -84,6 +108,12 @@ bool ProtobufParser::readLengthDelimited(std::vector<uint8_t>& value) {
     return true;
 }
 
+/**
+ * @brief Read String.
+ * @param[in,out] value Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: readLengthDelimited(), assign(), begin(), end().
+ */
 bool ProtobufParser::readString(std::string& value) {
     std::vector<uint8_t> bytes = {};
 
@@ -95,6 +125,13 @@ bool ProtobufParser::readString(std::string& value) {
     return true;
 }
 
+/**
+ * @brief Read Tag.
+ * @param[in,out] field_number Input/output parameter.
+ * @param[in,out] wire_type Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: readVarint().
+ */
 bool ProtobufParser::readTag(uint32_t& field_number, uint32_t& wire_type) {
     uint64_t tag = 0;
     if (!readVarint(tag)) {
@@ -106,6 +143,12 @@ bool ProtobufParser::readTag(uint32_t& field_number, uint32_t& wire_type) {
     return true;
 }
 
+/**
+ * @brief Skip Field.
+ * @param[in] wire_type Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: readVarint(), readFixed64(), readLengthDelimited(), readFixed32().
+ */
 bool ProtobufParser::skipField(uint32_t wire_type) {
     switch (wire_type) {
         case 0: {  // Varint
@@ -133,6 +176,11 @@ bool ProtobufParser::skipField(uint32_t wire_type) {
 // ProtobufSerializer Implementation
 // =============================================================================
 
+/**
+ * @brief Write Varint.
+ * @param[in] value Input parameter.
+ * @details Calls: push_back().
+ */
 void ProtobufSerializer::writeVarint(uint64_t value) {
     while (value >= 0x80) {
         data_.push_back(static_cast<uint8_t>((value & 0x7F) | 0x80));
@@ -141,6 +189,11 @@ void ProtobufSerializer::writeVarint(uint64_t value) {
     data_.push_back(static_cast<uint8_t>(value & 0x7F));
 }
 
+/**
+ * @brief Write Fixed64.
+ * @param[in] value Input parameter.
+ * @details Calls: push_back().
+ */
 void ProtobufSerializer::writeFixed64(uint64_t value) {
     // Protobuf fixed64 is little-endian on wire
     for (int i = 0; i < 8; ++i) {
@@ -149,6 +202,11 @@ void ProtobufSerializer::writeFixed64(uint64_t value) {
     }
 }
 
+/**
+ * @brief Write Fixed32.
+ * @param[in] value Input parameter.
+ * @details Calls: push_back().
+ */
 void ProtobufSerializer::writeFixed32(uint32_t value) {
     // Protobuf fixed32 is little-endian on wire
     for (int i = 0; i < 4; ++i) {
@@ -157,20 +215,41 @@ void ProtobufSerializer::writeFixed32(uint32_t value) {
     }
 }
 
+/**
+ * @brief Write Length Delimited.
+ * @param[in] value Input parameter.
+ * @details Calls: writeVarint(), size(), insert(), end(), begin().
+ */
 void ProtobufSerializer::writeLengthDelimited(const std::vector<uint8_t>& value) {
     writeVarint(value.size());
     data_.insert(data_.end(), value.begin(), value.end());
 }
 
+/**
+ * @brief Write String.
+ * @param[in] value Input parameter.
+ * @details Calls: writeVarint(), size(), insert(), end(), begin().
+ */
 void ProtobufSerializer::writeString(const std::string& value) {
     writeVarint(value.size());
     data_.insert(data_.end(), value.begin(), value.end());
 }
 
+/**
+ * @brief Write Tag.
+ * @param[in] field_number Input parameter.
+ * @param[in] wire_type Input parameter.
+ * @details Calls: writeVarint().
+ */
 void ProtobufSerializer::writeTag(uint32_t field_number, uint32_t wire_type) {
     writeVarint((field_number << 3) | wire_type);
 }
 
+/**
+ * @brief Write Double.
+ * @param[in] value Input parameter.
+ * @details Calls: std::memcpy(), writeFixed64().
+ */
 void ProtobufSerializer::writeDouble(double value) {
     uint64_t bits = 0;
     std::memcpy(&bits, &value, sizeof(double));
@@ -181,6 +260,13 @@ void ProtobufSerializer::writeDouble(double value) {
 // TimeSeriesQueryRequest Implementation
 // =============================================================================
 
+/**
+ * @brief Parse.
+ * @param[in] data Input parameter.
+ * @param[in,out] request Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: parser(), atEnd(), readTag(), readString(), readVarint(), skipField(), empty().
+ */
 bool TimeSeriesQueryRequest::parse(const std::vector<uint8_t>& data, TimeSeriesQueryRequest& request) {
     ProtobufParser parser(data);
     

@@ -32,6 +32,11 @@ namespace http = beast::http;
 // Helper Functions
 // ============================================================================
 
+/**
+ * @brief Generate Connection Id Callback.
+ * @param[in,out] cid Input/output parameter.
+ * @details Calls: rd().
+ */
 static void generateConnectionIdCallback(ngtcp2_cid* cid) {
     // GAP-019 fixed: std::random_device provides OS-level cryptographic entropy.
     // QUIC connection IDs are filled byte-by-byte from rd() so they are
@@ -43,12 +48,22 @@ static void generateConnectionIdCallback(ngtcp2_cid* cid) {
     }
 }
 
+/**
+ * @brief Get Timestamp.
+ * @return Return value.
+ * @details Calls: std::chrono::steady_clock::now(), time_since_epoch(), count().
+ */
 static uint64_t getTimestamp() {
     return std::chrono::duration_cast<std::chrono::nanoseconds>(
         std::chrono::steady_clock::now().time_since_epoch()
     ).count();
 }
 
+/**
+ * @brief Log Current Exception.
+ * @param[in] context Input parameter.
+ * @details Calls: std::current_exception(), std::rethrow_exception(), THEMIS_ERROR(), what().
+ */
 static void logCurrentException(const char* context) {
     try {
         auto ex = std::current_exception();
@@ -92,6 +107,13 @@ Http3Handler::~Http3Handler() {
     stop();
 }
 
+/**
+ * @brief Create Ssl Context.
+ * @param[in] cert_path Path to the cert.
+ * @param[in] key_path Path to the key.
+ * @return Pointer to the result.
+ * @details Calls: SSL_CTX_new(), TLS_server_method(), THEMIS_ERROR(), SSL_CTX_set_min_proto_version(), SSL_CTX_set_max_proto_version(), SSL_CTX_set_default_verify_paths(), SSL_CTX_use_certificate_chain_file(), c_str().
+ */
 SSL_CTX* Http3Handler::createSslContext(const std::string& cert_path,
                                         const std::string& key_path) {
     SSL_CTX* ssl_ctx = SSL_CTX_new(TLS_server_method());
@@ -133,6 +155,10 @@ SSL_CTX* Http3Handler::createSslContext(const std::string& cert_path,
     return ssl_ctx;
 }
 
+/**
+ * @brief Start.
+ * @details Calls: THEMIS_INFO(), store(), doAccept(), armCleanupTimer().
+ */
 void Http3Handler::start() {
     THEMIS_INFO("HTTP/3 handler started, waiting for QUIC connections");
     running_.store(true, std::memory_order_release);
@@ -140,6 +166,10 @@ void Http3Handler::start() {
     armCleanupTimer();
 }
 
+/**
+ * @brief Stop.
+ * @details Calls: exchange(), cancel(), close(), clear(), THEMIS_INFO().
+ */
 void Http3Handler::stop() {
     if (!running_.exchange(false, std::memory_order_acq_rel)) {
         return;
@@ -152,6 +182,10 @@ void Http3Handler::stop() {
     THEMIS_INFO("HTTP/3 handler stopped");
 }
 
+/**
+ * @brief Do Accept.
+ * @details Calls: load(), is_open(), async_receive_from(), boost::asio::buffer(), weak_from_this(), lock(), onReceive(), logCurrentException().
+ */
 void Http3Handler::doAccept() {
     if (!running_.load(std::memory_order_acquire) || !socket_.is_open()) {
         return;
@@ -177,6 +211,12 @@ void Http3Handler::doAccept() {
     );
 }
 
+/**
+ * @brief On Receive.
+ * @param[in] ec Input parameter.
+ * @param[in] bytes_transferred Input parameter.
+ * @details Calls: THEMIS_ERROR(), message(), doAccept(), address(), to_string(), std::to_string(), port(), find().
+ */
 void Http3Handler::onReceive(boost::system::error_code ec, std::size_t bytes_transferred) {
     if (ec) {
         if (ec == boost::asio::error::operation_aborted ||
@@ -260,6 +300,10 @@ void Http3Handler::onReceive(boost::system::error_code ec, std::size_t bytes_tra
     
     doAccept(); // Continue accepting
 }
+/**
+ * @brief Arm Cleanup Timer.
+ * @details Calls: load(), expires_after(), std::chrono::seconds(), async_wait(), weak_from_this(), lock(), cleanupInactiveSessions(), logCurrentException().
+ */
 void Http3Handler::armCleanupTimer() {
     if (!running_.load(std::memory_order_acquire)) {
         return;
@@ -288,6 +332,10 @@ void Http3Handler::armCleanupTimer() {
     });
 }
 
+/**
+ * @brief Cleanup Inactive Sessions.
+ * @details Calls: begin(), end(), isActive(), THEMIS_DEBUG(), erase(), find(), purgeExpired().
+ */
 void Http3Handler::cleanupInactiveSessions() {
     for (auto it = sessions_.begin(); it != sessions_.end(); ) {
         if (!it->second->isActive()) {
@@ -311,7 +359,13 @@ void Http3Handler::cleanupInactiveSessions() {
     fallback_manager_.purgeExpired();
 }
 
-// static
+/**
+ * @brief static
+ * @param[in] data Input parameter.
+ * @param[in] len Input parameter.
+ * @return Return value.
+ * @details Calls: reserve().
+ */
 std::string Http3Handler::extractConnectionId(const uint8_t* data, size_t len) {
     // Minimum QUIC packet is 1 byte (short header).
     // Long header: bit 7 = 1, bits 6-0 contain version info.
@@ -387,6 +441,10 @@ Http3Session::~Http3Session() {
     idle_timer_.cancel(ignored);
 }
 
+/**
+ * @brief Start.
+ * @details Calls: void(), ssl(), SSL_new(), THEMIS_ERROR(), SSL_set_accept_state(), get(), ngtcp2_settings_default(), getTimestamp().
+ */
 void Http3Session::start() {
     // Initialize SSL for QUIC
     std::unique_ptr<SSL, void(*)(SSL*)> ssl(SSL_new(ssl_ctx_), &SSL_free);
@@ -493,6 +551,13 @@ void Http3Session::start() {
     scheduleIdleTimeout();
 }
 
+/**
+ * @brief Handle Packet.
+ * @param[in] data Input parameter.
+ * @param[in] len Input parameter.
+ * @param[in] peer Input parameter.
+ * @details Calls: THEMIS_WARN(), memset(), ngtcp2_conn_read_pkt(), get(), getTimestamp(), ngtcp2_strerror(), doWrite(), scheduleIdleTimeout().
+ */
 void Http3Session::handlePacket(const uint8_t* data, size_t len, const udp::endpoint& peer) {
     if (!quic_conn_) {
         THEMIS_WARN("HTTP/3: handlePacket called but quic_conn_ is null");
@@ -532,6 +597,10 @@ bool Http3Session::isActive() const {
     return true;
 }
 
+/**
+ * @brief Do Write.
+ * @details Calls: resize(), ngtcp2_path_storage_zero(), ngtcp2_conn_write_pkt(), get(), data(), size(), getTimestamp(), THEMIS_WARN().
+ */
 void Http3Session::doWrite() {
     if (!quic_conn_) {
         return;
@@ -571,6 +640,10 @@ void Http3Session::doWrite() {
     }
 }
 
+/**
+ * @brief Do Read.
+ * @details Calls: resize(), ngtcp2_path_storage_zero(), nghttp3_conn_writev_stream(), get(), THEMIS_WARN(), nghttp3_strerror(), ngtcp2_conn_writev_stream(), data().
+ */
 void Http3Session::doRead() {
     // Read pending HTTP/3 stream data from nghttp3 and write it to QUIC via
     // ngtcp2_conn_writev_stream.  This is the HTTP/3 → QUIC stream write path,
@@ -658,6 +731,12 @@ void Http3Session::doRead() {
     }
 }
 
+/**
+ * @brief On Read.
+ * @param[in] ec Input parameter.
+ * @param[in] bytes_transferred Input parameter.
+ * @details Calls: THEMIS_WARN(), message(), handlePacket(), data().
+ */
 void Http3Session::onRead(boost::system::error_code ec,
                           std::size_t bytes_transferred) {
     if (ec) {
@@ -669,6 +748,10 @@ void Http3Session::onRead(boost::system::error_code ec,
     handlePacket(read_buffer_.data(), bytes_transferred, remote_endpoint_);
 }
 
+/**
+ * @brief On Timeout.
+ * @details Calls: THEMIS_INFO(), ngtcp2_conn_handle_expiry(), get(), getTimestamp(), doWrite().
+ */
 void Http3Session::onTimeout() {
     THEMIS_INFO("HTTP/3: Session timeout");
     if (quic_conn_) {
@@ -677,6 +760,10 @@ void Http3Session::onTimeout() {
     }
 }
 
+/**
+ * @brief Schedule Idle Timeout.
+ * @details Calls: cancel(), expires_after(), std::chrono::milliseconds(), weak_from_this(), async_wait(), lock(), onTimeout(), logCurrentException().
+ */
 void Http3Session::scheduleIdleTimeout() {
     boost::system::error_code ignored;
     idle_timer_.cancel(ignored);
@@ -696,6 +783,11 @@ void Http3Session::scheduleIdleTimeout() {
     });
 }
 
+/**
+ * @brief On Path Migration.
+ * @param[in] new_remote Input parameter.
+ * @details Calls: THEMIS_INFO(), address(), to_string(), port(), fetch_add().
+ */
 void Http3Session::onPathMigration(const udp::endpoint& new_remote) {
     THEMIS_INFO("HTTP/3: path migration from {}:{} to {}:{}",
                 remote_endpoint_.address().to_string(), remote_endpoint_.port(),
@@ -704,6 +796,11 @@ void Http3Session::onPathMigration(const udp::endpoint& new_remote) {
     metrics_.migration_count.fetch_add(1, std::memory_order_relaxed);
 }
 
+/**
+ * @brief Process Stream.
+ * @param[in] stream_id Identifier of the stream.
+ * @details Calls: find(), end(), THEMIS_INFO(), std::chrono::steady_clock::now(), method(), THEMIS_WARN(), sendResponse(), target().
+ */
 void Http3Session::processStream(int64_t stream_id) {
     auto it = streams_.find(stream_id);
     if (it == streams_.end() || !it->second.headers_complete) {
@@ -864,10 +961,23 @@ void Http3Session::sendResponse(int64_t stream_id, int status,
     doWrite();
 }
 
+/**
+ * @brief Setup Crypto.
+ * @return Return value.
+ * @details Implements setupCrypto without additional internal calls.
+ */
 int Http3Session::setupCrypto() {
     return 0; // Handled by ngtcp2_crypto_openssl
 }
 
+/**
+ * @brief Feed Crypto Data.
+ * @param[in] level Input parameter.
+ * @param[in] data Input parameter.
+ * @param[in] len Input parameter.
+ * @return Return value.
+ * @details Calls: ngtcp2_crypto_read_write_crypto_data(), get(), THEMIS_ERROR(), ngtcp2_strerror().
+ */
 int Http3Session::feedCryptoData(ngtcp2_encryption_level level, const uint8_t* data, size_t len) {
     int rv = ngtcp2_crypto_read_write_crypto_data(quic_conn_.get(), level, data, len);
     if (rv != 0) {
@@ -877,7 +987,13 @@ int Http3Session::feedCryptoData(ngtcp2_encryption_level level, const uint8_t* d
     return 0;
 }
 
-// ngtcp2 Callbacks
+/**
+ * @brief ngtcp2 Callbacks
+ * @param[in,out] param Input/output parameter.
+ * @param[in,out] user_data Input/output parameter.
+ * @return Return value.
+ * @details Calls: THEMIS_ERROR(), std::chrono::steady_clock::now(), time_since_epoch(), count(), SSL_get_early_data_status(), THEMIS_INFO(), logCurrentException().
+ */
 int Http3Session::handshakeCompletedCallback(ngtcp2_conn* /*conn*/, void* user_data) {
     try {
         auto* self = static_cast<Http3Session*>(user_data);
@@ -908,6 +1024,19 @@ int Http3Session::handshakeCompletedCallback(ngtcp2_conn* /*conn*/, void* user_d
     }
 }
 
+/**
+ * @brief Recv Stream Data Callback.
+ * @param[in,out] param Input/output parameter.
+ * @param[in] uint32_t Input parameter.
+ * @param[in] stream_id Identifier of the stream.
+ * @param[in] uint64_t Input parameter.
+ * @param[in] data Input parameter.
+ * @param[in] datalen Input parameter.
+ * @param[in,out] user_data Input/output parameter.
+ * @param[in,out] param Input/output parameter.
+ * @return Return value.
+ * @details Calls: THEMIS_ERROR(), nghttp3_conn_read_stream(), get(), THEMIS_WARN(), nghttp3_strerror(), logCurrentException().
+ */
 int Http3Session::recvStreamDataCallback(ngtcp2_conn* /*conn*/, uint32_t /*flags*/,
                                          int64_t stream_id, uint64_t /*offset*/,
                                          const uint8_t* data, size_t datalen,
@@ -940,6 +1069,17 @@ int Http3Session::recvStreamDataCallback(ngtcp2_conn* /*conn*/, uint32_t /*flags
     }
 }
 
+/**
+ * @brief Ack Stream Data Callback.
+ * @param[in,out] param Input/output parameter.
+ * @param[in] stream_id Identifier of the stream.
+ * @param[in] uint64_t Input parameter.
+ * @param[in] datalen Input parameter.
+ * @param[in,out] user_data Input/output parameter.
+ * @param[in,out] param Input/output parameter.
+ * @return Return value.
+ * @details Calls: THEMIS_ERROR(), nghttp3_conn_add_ack_offset(), get(), logCurrentException().
+ */
 int Http3Session::ackStreamDataCallback(ngtcp2_conn* /*conn*/, int64_t stream_id,
                                         uint64_t /*offset*/, uint64_t datalen,
                                         void* user_data, void* /*stream_user_data*/) {
@@ -959,6 +1099,17 @@ int Http3Session::ackStreamDataCallback(ngtcp2_conn* /*conn*/, int64_t stream_id
     }
 }
 
+/**
+ * @brief Stream Close Callback.
+ * @param[in,out] param Input/output parameter.
+ * @param[in] uint32_t Input parameter.
+ * @param[in] stream_id Identifier of the stream.
+ * @param[in] uint64_t Input parameter.
+ * @param[in,out] user_data Input/output parameter.
+ * @param[in,out] param Input/output parameter.
+ * @return Return value.
+ * @details Calls: THEMIS_ERROR(), erase(), logCurrentException().
+ */
 int Http3Session::streamCloseCallback(ngtcp2_conn* /*conn*/, uint32_t /*flags*/,
                                       int64_t stream_id, uint64_t /*app_error_code*/,
                                       void* user_data, void* /*stream_user_data*/) {
@@ -976,6 +1127,16 @@ int Http3Session::streamCloseCallback(ngtcp2_conn* /*conn*/, uint32_t /*flags*/,
     }
 }
 
+/**
+ * @brief Get New Connection Id Callback.
+ * @param[in,out] param Input/output parameter.
+ * @param[in,out] cid Input/output parameter.
+ * @param[in,out] param Input/output parameter.
+ * @param[in] size_t Input parameter.
+ * @param[in,out] param Input/output parameter.
+ * @return Return value.
+ * @details Calls: THEMIS_ERROR(), generateConnectionIdCallback(), logCurrentException().
+ */
 int Http3Session::getNewConnectionIdCallback(ngtcp2_conn* /*conn*/, ngtcp2_cid* cid,
                                              uint8_t* /*token*/, size_t /*cidlen*/,
                                              void* /*user_data*/) {
@@ -992,6 +1153,17 @@ int Http3Session::getNewConnectionIdCallback(ngtcp2_conn* /*conn*/, ngtcp2_cid* 
     }
 }
 
+/**
+ * @brief Recv Crypto Data Callback.
+ * @param[in,out] param Input/output parameter.
+ * @param[in] level Input parameter.
+ * @param[in] uint64_t Input parameter.
+ * @param[in] data Input parameter.
+ * @param[in] datalen Input parameter.
+ * @param[in,out] user_data Input/output parameter.
+ * @return Return value.
+ * @details Calls: THEMIS_ERROR(), feedCryptoData(), logCurrentException().
+ */
 int Http3Session::recvCryptoDataCallback(ngtcp2_conn* /*conn*/, ngtcp2_encryption_level level,
                                          uint64_t /*offset*/, const uint8_t* data,
                                          size_t datalen, void* user_data) {
@@ -1012,12 +1184,30 @@ int Http3Session::recvCryptoDataCallback(ngtcp2_conn* /*conn*/, ngtcp2_encryptio
     }
 }
 
+/**
+ * @brief Extend Max Streams Callback.
+ * @param[in,out] param Input/output parameter.
+ * @param[in] uint64_t Input parameter.
+ * @param[in,out] param Input/output parameter.
+ * @return Return value.
+ * @details Implements extendMaxStreamsCallback without additional internal calls.
+ */
 int Http3Session::extendMaxStreamsCallback(ngtcp2_conn* /*conn*/,
                                            uint64_t /*max_streams*/,
                                            void* /*user_data*/) {
     return 0;
 }
 
+/**
+ * @brief Recv Datagram Callback.
+ * @param[in,out] param Input/output parameter.
+ * @param[in] uint32_t Input parameter.
+ * @param[in] data Input parameter.
+ * @param[in] datalen Input parameter.
+ * @param[in,out] user_data Input/output parameter.
+ * @return Return value.
+ * @details Calls: THEMIS_ERROR(), dispatch(), logCurrentException().
+ */
 int Http3Session::recvDatagramCallback(ngtcp2_conn* /*conn*/, uint32_t /*flags*/,
                                        const uint8_t* data, size_t datalen,
                                        void* user_data) {
@@ -1036,6 +1226,14 @@ int Http3Session::recvDatagramCallback(ngtcp2_conn* /*conn*/, uint32_t /*flags*/
     }
 }
 
+/**
+ * @brief Send Datagram.
+ * @param[in] context_id Identifier of the context.
+ * @param[in] payload Input parameter.
+ * @param[in] paylen Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: THEMIS_WARN(), ngtcp2_conn_get_remote_transport_params(), get(), Http3DatagramDispatcher::encode(), empty(), size(), pkt_buf(), ngtcp2_path_storage_zero().
+ */
 bool Http3Session::sendDatagram(uint64_t       context_id,
                                 const uint8_t* payload,
                                 size_t         paylen) {
@@ -1111,7 +1309,17 @@ bool Http3Session::sendDatagram(uint64_t       context_id,
     return true;
 }
 
-// nghttp3 Callbacks
+/**
+ * @brief nghttp3 Callbacks
+ * @param[in,out] param Input/output parameter.
+ * @param[in] stream_id Identifier of the stream.
+ * @param[in] data Input parameter.
+ * @param[in] datalen Input parameter.
+ * @param[in,out] user_data Input/output parameter.
+ * @param[in,out] param Input/output parameter.
+ * @return Return value.
+ * @details Calls: THEMIS_ERROR(), append(), logCurrentException().
+ */
 int Http3Session::http3RecvDataCallback(nghttp3_conn* /*conn*/, int64_t stream_id,
                                         const uint8_t* data, size_t datalen,
                                         void* user_data, void* /*stream_user_data*/) {
@@ -1131,6 +1339,19 @@ int Http3Session::http3RecvDataCallback(nghttp3_conn* /*conn*/, int64_t stream_i
     }
 }
 
+/**
+ * @brief Http3 Decod Header Callback.
+ * @param[in,out] param Input/output parameter.
+ * @param[in] stream_id Identifier of the stream.
+ * @param[in] int32_t Input parameter.
+ * @param[in,out] name Input/output parameter.
+ * @param[in,out] value Input/output parameter.
+ * @param[in] uint8_t Input parameter.
+ * @param[in,out] user_data Input/output parameter.
+ * @param[in,out] param Input/output parameter.
+ * @return Return value.
+ * @details Calls: THEMIS_ERROR(), name_str(), nghttp3_rcbuf_get_buf(), value_str(), logCurrentException().
+ */
 int Http3Session::http3DecodHeaderCallback(nghttp3_conn* /*conn*/, int64_t stream_id,
                                            int32_t /*token*/, nghttp3_rcbuf* name,
                                            nghttp3_rcbuf* value, uint8_t /*flags*/,
@@ -1168,6 +1389,16 @@ int Http3Session::http3DecodHeaderCallback(nghttp3_conn* /*conn*/, int64_t strea
     }
 }
 
+/**
+ * @brief Http3 End Headers Callback.
+ * @param[in,out] param Input/output parameter.
+ * @param[in] stream_id Identifier of the stream.
+ * @param[in] int Input parameter.
+ * @param[in,out] user_data Input/output parameter.
+ * @param[in,out] param Input/output parameter.
+ * @return Return value.
+ * @details Calls: THEMIS_ERROR(), logCurrentException().
+ */
 int Http3Session::http3EndHeadersCallback(nghttp3_conn* /*conn*/, int64_t stream_id,
                                           int /*fin*/, void* user_data,
                                           void* /*stream_user_data*/) {
@@ -1188,6 +1419,15 @@ int Http3Session::http3EndHeadersCallback(nghttp3_conn* /*conn*/, int64_t stream
     }
 }
 
+/**
+ * @brief Http3 End Stream Callback.
+ * @param[in,out] param Input/output parameter.
+ * @param[in] stream_id Identifier of the stream.
+ * @param[in,out] user_data Input/output parameter.
+ * @param[in,out] param Input/output parameter.
+ * @return Return value.
+ * @details Calls: THEMIS_ERROR(), processStream(), logCurrentException().
+ */
 int Http3Session::http3EndStreamCallback(nghttp3_conn* /*conn*/, int64_t stream_id,
                                          void* user_data, void* /*stream_user_data*/) {
     try {

@@ -25,6 +25,12 @@ namespace {
 constexpr size_t kMaxPkiIdentifierLength = 256;
 constexpr size_t kMaxBase64FieldLength = 8 * 1024 * 1024;
 
+/**
+ * @brief Is Valid Identifier.
+ * @param[in] value Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), validateStringLength(), std::string(), validatePathSegment().
+ */
 bool isValidIdentifier(std::string_view value) {
     themis::utils::InputValidator validator;
     return !value.empty() &&
@@ -32,6 +38,12 @@ bool isValidIdentifier(std::string_view value) {
            validator.validatePathSegment(std::string(value));
 }
 
+/**
+ * @brief Is Likely Valid Base64.
+ * @param[in] value Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), validateStringLength(), std::string(), std::all_of(), begin(), end().
+ */
 bool isLikelyValidBase64(std::string_view value) {
     themis::utils::InputValidator validator;
     if (value.empty() || !validator.validateStringLength(std::string(value), kMaxBase64FieldLength)) {
@@ -49,6 +61,12 @@ bool isLikelyValidBase64(std::string_view value) {
 
 } // namespace
 
+/**
+ * @brief Base64 encode.
+ * @param[in] data Input parameter.
+ * @return Return value.
+ * @details Calls: push_back(), size().
+ */
 static std::string base64_encode(const std::vector<uint8_t>& data) {
     static const char* chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
     std::string out = {};
@@ -70,6 +88,12 @@ static std::string base64_encode(const std::vector<uint8_t>& data) {
     return out;
 }
 
+/**
+ * @brief Base64 decode.
+ * @param[in] encoded Input parameter.
+ * @return Return value.
+ * @details Calls: T(), push_back().
+ */
 static std::vector<uint8_t> base64_decode(const std::string& encoded) {
     std::vector<int> T(256, -1);
     const std::string b64_chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
@@ -102,6 +126,13 @@ PkiApiHandler::PkiApiHandler(std::shared_ptr<SigningService> signing_service,
       hsm_provider_(std::move(hsm_provider)),
       tsa_(std::move(tsa)) {}
 
+/**
+ * @brief Sign.
+ * @param[in] key_id Identifier of the key.
+ * @param[in] body Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), THEMIS_ERROR(), isValidIdentifier(), contains(), isLikelyValidBase64(), base64_decode(), base64_encode(), what().
+ */
 nlohmann::json PkiApiHandler::sign(const std::string& key_id, const nlohmann::json& body) {
     try {
     auto span = Tracer::startSpan("sign");
@@ -138,6 +169,13 @@ nlohmann::json PkiApiHandler::sign(const std::string& key_id, const nlohmann::js
     }
 }
 
+/**
+ * @brief Verify identity and enforce network policies for a request.
+ * @param[in] key_id Identifier of the key.
+ * @param[in] body Input parameter.
+ * @return Verification result.
+ * @details Calls: Tracer::startSpan(), THEMIS_ERROR(), isValidIdentifier(), contains(), isLikelyValidBase64(), base64_decode(), what().
+ */
 nlohmann::json PkiApiHandler::verify(const std::string& key_id, const nlohmann::json& body) {
     try {
     auto span = Tracer::startSpan("verify");
@@ -177,6 +215,12 @@ nlohmann::json PkiApiHandler::verify(const std::string& key_id, const nlohmann::
 // HSM Endpoints
 // ============================================================================
 
+/**
+ * @brief Hsm Sign.
+ * @param[in] body Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), THEMIS_ERROR(), contains(), isLikelyValidBase64(), base64_decode(), sign(), what().
+ */
 nlohmann::json PkiApiHandler::hsmSign(const nlohmann::json& body) {
     try {
     auto span = Tracer::startSpan("hsmSign");
@@ -215,6 +259,11 @@ nlohmann::json PkiApiHandler::hsmSign(const nlohmann::json& body) {
     }
 }
 
+/**
+ * @brief Hsm List Keys.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), THEMIS_ERROR(), listKeys(), nlohmann::json::array(), push_back(), std::move(), what().
+ */
 nlohmann::json PkiApiHandler::hsmListKeys() {
     try {
     auto span = Tracer::startSpan("hsmListKeys");
@@ -254,6 +303,12 @@ nlohmann::json PkiApiHandler::hsmListKeys() {
 // Timestamp Authority Endpoints
 // ============================================================================
 
+/**
+ * @brief Get Timestamp.
+ * @param[in] body Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), THEMIS_ERROR(), contains(), isLikelyValidBase64(), base64_decode(), what().
+ */
 nlohmann::json PkiApiHandler::getTimestamp(const nlohmann::json& body) {
     try {
     auto span = Tracer::startSpan("getTimestamp");
@@ -291,6 +346,12 @@ nlohmann::json PkiApiHandler::getTimestamp(const nlohmann::json& body) {
     }
 }
 
+/**
+ * @brief Verify Timestamp.
+ * @param[in] body Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), THEMIS_ERROR(), contains(), isLikelyValidBase64(), base64_decode(), parseToken(), what().
+ */
 nlohmann::json PkiApiHandler::verifyTimestamp(const nlohmann::json& body) {
     try {
     auto span = Tracer::startSpan("verifyTimestamp");
@@ -328,6 +389,12 @@ nlohmann::json PkiApiHandler::verifyTimestamp(const nlohmann::json& body) {
 // eIDAS Qualified Signature Endpoints
 // ============================================================================
 
+/**
+ * @brief Eidas Sign.
+ * @param[in] body Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), THEMIS_ERROR(), contains(), isLikelyValidBase64(), base64_decode(), sign(), getTimestamp(), THEMIS_WARN().
+ */
 nlohmann::json PkiApiHandler::eidasSign(const nlohmann::json& body) {
     try {
     auto span = Tracer::startSpan("eidasSign");
@@ -383,6 +450,12 @@ nlohmann::json PkiApiHandler::eidasSign(const nlohmann::json& body) {
     }
 }
 
+/**
+ * @brief Eidas Verify.
+ * @param[in] body Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), THEMIS_ERROR(), contains(), isLikelyValidBase64(), base64_decode(), verify(), empty(), parseToken().
+ */
 nlohmann::json PkiApiHandler::eidasVerify(const nlohmann::json& body) {
     try {
     auto span = Tracer::startSpan("eidasVerify");
@@ -449,6 +522,11 @@ nlohmann::json PkiApiHandler::eidasVerify(const nlohmann::json& body) {
 // Certificate Management Endpoints
 // ============================================================================
 
+/**
+ * @brief List Certificates.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), nlohmann::json::array(), listKeys(), getCertificate(), has_value(), push_back(), std::move(), THEMIS_INFO().
+ */
 nlohmann::json PkiApiHandler::listCertificates() {
     try {
     auto span = Tracer::startSpan("listCertificates");
@@ -483,6 +561,12 @@ nlohmann::json PkiApiHandler::listCertificates() {
     }
 }
 
+/**
+ * @brief Get Certificate.
+ * @param[in] cert_id Identifier of the cert.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), isValidIdentifier(), has_value(), listKeys(), THEMIS_WARN(), THEMIS_INFO(), THEMIS_ERROR(), what().
+ */
 nlohmann::json PkiApiHandler::getCertificate(const std::string& cert_id) {
     try {
     auto span = Tracer::startSpan("getCertificate");
@@ -527,6 +611,11 @@ nlohmann::json PkiApiHandler::getCertificate(const std::string& cert_id) {
 // Status & Health Check Endpoint
 // ============================================================================
 
+/**
+ * @brief Get Status.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), listKeys(), size(), THEMIS_WARN(), THEMIS_ERROR(), what().
+ */
 nlohmann::json PkiApiHandler::getStatus() {
     try {
     auto span = Tracer::startSpan("getStatus");

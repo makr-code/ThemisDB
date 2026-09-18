@@ -37,6 +37,12 @@ using BIO_ptr = std::unique_ptr<BIO, BIO_Deleter>;
 
 namespace {
     // Base64 encode helper
+    /**
+     * @brief Base64 Encode.
+     * @param[in] data Input parameter.
+     * @return Return value.
+     * @details Calls: b64(), BIO_new(), BIO_f_base64(), bio(), BIO_s_mem(), BIO_push(), get(), release().
+     */
     std::string base64Encode(const std::vector<uint8_t>& data) {
         BIO_ptr b64(BIO_new(BIO_f_base64()));
         BIO_ptr bio(BIO_new(BIO_s_mem()));
@@ -55,6 +61,12 @@ namespace {
     }
     
     // Base64 decode helper
+    /**
+     * @brief Base64 Decode.
+     * @param[in] encoded Input parameter.
+     * @return Return value.
+     * @details Calls: length(), result(), bio(), BIO_new_mem_buf(), data(), b64(), BIO_new(), BIO_f_base64().
+     */
     std::vector<uint8_t> base64Decode(const std::string& encoded) {
         int decode_len = static_cast<int>(encoded.length());
         std::vector<uint8_t> result(decode_len);
@@ -84,6 +96,13 @@ ManifestSigner::ManifestSigner(
     }
 }
 
+/**
+ * @brief Compute File SHA256.
+ * @param[in] file_path Path to the file.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: file(), is_open(), SHA256_Init(), read(), gcount(), SHA256_Update(), SHA256_Final(), std::setw().
+ */
 std::string ManifestSigner::computeFileSHA256(const std::string& file_path) {
     std::ifstream file(file_path, std::ios::binary);
     if (!file.is_open()) {
@@ -111,6 +130,13 @@ std::string ManifestSigner::computeFileSHA256(const std::string& file_path) {
     return oss.str();
 }
 
+/**
+ * @brief Matches Pattern.
+ * @param[in] filename Input parameter.
+ * @param[in] pattern Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: length(), substr().
+ */
 bool ManifestSigner::matchesPattern(const std::string& filename, const std::string& pattern) {
     // Simple wildcard matching (* and ?)
     if (pattern == "*") {
@@ -152,6 +178,15 @@ bool ManifestSigner::matchesPattern(const std::string& filename, const std::stri
     return pattern_idx == pattern.length() && filename_idx == filename.length();
 }
 
+/**
+ * @brief Generate Manifest.
+ * @param[in] root_path Path to the root.
+ * @param[in] version Input parameter.
+ * @param[in] build_id Identifier of the build.
+ * @param[in] include_patterns Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::now(), manifest(), fs::recursive_directory_iterator(), is_regular_file(), path(), filename(), string(), matchesPattern().
+ */
 BinaryManifest ManifestSigner::generateManifest(
     const std::string& root_path,
     const std::string& version,
@@ -218,6 +253,13 @@ BinaryManifest ManifestSigner::generateManifest(
     return manifest;
 }
 
+/**
+ * @brief Sign Manifest.
+ * @param[in] manifest Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: getCanonicalJson(), data(), begin(), end(), lock(), sign(), empty(), base64Encode().
+ */
 SignedManifest ManifestSigner::signManifest(const BinaryManifest& manifest) {
     // Get canonical JSON for signing
     std::string canonical_json = manifest.getCanonicalJson();
@@ -241,6 +283,12 @@ SignedManifest ManifestSigner::signManifest(const BinaryManifest& manifest) {
     return signed_manifest;
 }
 
+/**
+ * @brief Verify Signature.
+ * @param[in] signed_manifest Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: getCanonicalJson(), data(), begin(), end(), base64Decode(), lock(), verify(), spdlog::info().
+ */
 bool ManifestSigner::verifySignature(const SignedManifest& signed_manifest) {
     // Get canonical JSON
     std::string canonical_json = signed_manifest.manifest.getCanonicalJson();
@@ -262,6 +310,13 @@ bool ManifestSigner::verifySignature(const SignedManifest& signed_manifest) {
     return valid;
 }
 
+/**
+ * @brief Verify Binaries.
+ * @param[in] signed_manifest Input parameter.
+ * @param[in] root_path Path to the root.
+ * @return Return value.
+ * @details Calls: verifySignature(), getFiles(), fs::path(), fs::exists(), push_back(), fs::file_size(), computeFileSHA256(), string().
+ */
 ManifestSigner::VerificationResult ManifestSigner::verifyBinaries(
     const SignedManifest& signed_manifest,
     const std::string& root_path
@@ -330,6 +385,11 @@ StartupVerifier::StartupVerifier(
 ) : signing_service_(signing_service), config_(config) {
 }
 
+/**
+ * @brief Verify identity and enforce network policies for a request.
+ * @return Verification result.
+ * @details Calls: spdlog::info(), SignedManifest::loadFromFile(), signer(), verifyBinaries(), spdlog::error(), empty(), size(), spdlog::critical().
+ */
 bool StartupVerifier::verify() {
     spdlog::info("Starting binary integrity verification...");
     

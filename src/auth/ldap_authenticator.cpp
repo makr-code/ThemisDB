@@ -47,14 +47,31 @@ namespace auth {
 
 namespace {
 
+/**
+ * @brief Audit LDAPValidation Failure.
+ * @param[in,out] audit_logger Input/output parameter.
+ * @param[in] username Input parameter.
+ * @param[in] reason Input parameter.
+ */
 void auditLDAPValidationFailure(themis::utils::AuditLogger* audit_logger,
                                 const std::string& username,
                                 const std::string& reason)
 {
+    /**
+     * @brief Audit.
+     * @param[in] audit_logger Input parameter.
+     * @return Return value.
+     */
     AuthAuditLogger audit(audit_logger);
     audit.logLDAPFailure(username, reason);
 }
 
+/**
+ * @brief Validate LDAPCredentials Or Throw.
+ * @param[in,out] audit_logger Input/output parameter.
+ * @param[in] username Input parameter.
+ * @param[in] password Input parameter.
+ */
 void validateLDAPCredentialsOrThrow(themis::utils::AuditLogger* audit_logger,
                                     const std::string& username,
                                     const std::string& password)
@@ -95,18 +112,30 @@ void validateLDAPCredentialsOrThrow(themis::utils::AuditLogger* audit_logger,
     }
 }
 
+/**
+ * @brief Ldap Bind Fn Mutex.
+ * @return Return value.
+ */
 std::mutex& ldapBindFnMutex()
 {
     static std::mutex mutex;
     return mutex;
 }
 
+/**
+ * @brief Ldap Bind Fn Storage.
+ * @return Return value.
+ */
 LDAPAuthenticator::LdapBindFn& ldapBindFnStorage()
 {
     static LDAPAuthenticator::LdapBindFn callback;
     return callback;
 }
 
+/**
+ * @brief Get Ldap Bind Fn.
+ * @return Return value.
+ */
 LDAPAuthenticator::LdapBindFn getLdapBindFn()
 {
     std::lock_guard<std::mutex> lock(ldapBindFnMutex());
@@ -114,14 +143,9 @@ LDAPAuthenticator::LdapBindFn getLdapBindFn()
 }
 
 /**
- * @brief Escape a value for use as a DN attribute value component (RFC 4514 §2.4).
- *
- * The following characters are escaped with a preceding backslash:
- *   , + " \ < > ; = (always)
- *   # (only when leading)
- *   space (only when leading or trailing)
- * NUL bytes are encoded as the two-char hex sequence \00.
- * All other characters are left unmodified.
+ * @brief Escape LDAPDNComponent.
+ * @param[in] value Input parameter.
+ * @return Return value.
  */
 std::string escapeLDAPDNComponent(const std::string& value)
 {
@@ -167,10 +191,9 @@ std::string escapeLDAPDNComponent(const std::string& value)
 }
 
 /**
- * @brief Escape a value for use inside an LDAP search filter (RFC 4515 §3).
- *
- * The following bytes are backslash-hex escaped as \XX for LDAP filters:
- *   * ( ) \ NUL
+ * @brief Escape LDAPFilter Value.
+ * @param[in] value Input parameter.
+ * @return Return value.
  */
 std::string escapeLDAPFilterValue(const std::string& value)
 {
@@ -192,17 +215,10 @@ std::string escapeLDAPFilterValue(const std::string& value)
 }
 
 /**
- * @brief Replace all occurrences of a placeholder token in a template string.
- *
- * @param target       Template string to mutate in-place.
- * @param placeholder  Placeholder token to replace (e.g. "{username}").
- * @param value        Replacement value that is already escaped for LDAP use.
- *
- * @note Security contract: this helper performs substitution only.
- *       It does NOT escape @p value; callers must pre-escape according to the
- *       target context (RFC 4514 for DN values, RFC 4515 for filter values).
- * @warning Passing unescaped user-controlled data to @p value would reintroduce
- *          LDAP injection risk.
+ * @brief Substitute Pre Escaped Placeholder Value.
+ * @param[in,out] target Input/output parameter.
+ * @param[in] placeholder Input parameter.
+ * @param[in] value Input parameter.
  */
 void substitutePreEscapedPlaceholderValue(std::string& target,
                                           const std::string& placeholder,
@@ -220,6 +236,10 @@ void substitutePreEscapedPlaceholderValue(std::string& target,
 
 } // anonymous namespace
 
+/**
+ * @brief Set Ldap Bind Fn.
+ * @param[in] fn Input parameter.
+ */
 void LDAPAuthenticator::setLdapBindFn(LdapBindFn fn)
 {
     std::lock_guard<std::mutex> lock(ldapBindFnMutex());
@@ -242,6 +262,11 @@ LDAPAuthenticator::~LDAPAuthenticator() = default;
 // Initialization
 // ===========================================================================
 
+/**
+ * @brief Initialize.
+ * @param[in] config Input parameter.
+ * @return True when the operation succeeds.
+ */
 bool LDAPAuthenticator::initialize(const LDAPConfig& config)
 {
     LDAPConfig normalized = config;
@@ -338,12 +363,23 @@ std::string LDAPAuthenticator::buildGroupSearchFilter(const std::string& dn,
 // Authentication
 // ===========================================================================
 
+/**
+ * @brief Authenticate.
+ * @param[in] username Input parameter.
+ * @param[in] password Input parameter.
+ * @return Authentication result.
+ */
 LDAPAuthResult LDAPAuthenticator::authenticate(const std::string& username,
                                                const std::string& password)
 {
     validateLDAPCredentialsOrThrow(audit_logger_, username, password);
 
     if (!initialized_) {
+        /**
+         * @brief Audit.
+         * @param[in] audit_logger_ Input parameter.
+         * @return Return value.
+         */
         AuthAuditLogger audit(audit_logger_);
         audit.logLDAPFailure(username, "not_initialized");
         return LDAPAuthResult::Failed("LDAP authenticator not initialized");
@@ -352,6 +388,11 @@ LDAPAuthResult LDAPAuthenticator::authenticate(const std::string& username,
     const std::string dn = buildUserDN(username);
         if (MAX_LDAP_DN_LENGTH > 0
             && dn.size() > static_cast<std::size_t>(MAX_LDAP_DN_LENGTH)) {
+        /**
+         * @brief Audit.
+         * @param[in] audit_logger_ Input parameter.
+         * @return Return value.
+         */
         AuthAuditLogger audit(audit_logger_);
         audit.logLDAPFailure(username, "dn_too_long");
         return LDAPAuthResult::Failed("Constructed DN exceeds maximum length");
@@ -360,6 +401,12 @@ LDAPAuthResult LDAPAuthenticator::authenticate(const std::string& username,
     return performBind(username, dn, password);
 }
 
+/**
+ * @brief Authenticate Async.
+ * @param[in] username Input parameter.
+ * @param[in] password Input parameter.
+ * @return Return value.
+ */
 std::future<LDAPAuthResult> LDAPAuthenticator::authenticateAsync(
     const std::string& username,
     const std::string& password)
@@ -385,6 +432,13 @@ std::future<LDAPAuthResult> LDAPAuthenticator::authenticateAsync(
 // Windows WinLDAP implementation
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Perform Bind.
+ * @param[in] username Input parameter.
+ * @param[in] dn Input parameter.
+ * @param[in] password Input parameter.
+ * @return Return value.
+ */
 LDAPAuthResult LDAPAuthenticator::performBind(const std::string& username,
                                               const std::string& dn,
                                               const std::string& password)
@@ -393,6 +447,11 @@ LDAPAuthResult LDAPAuthenticator::performBind(const std::string& username,
         return bind_fn(username, dn, password);
     }
 
+    /**
+     * @brief Audit.
+     * @param[in] audit_logger_ Input parameter.
+     * @return Return value.
+     */
     AuthAuditLogger audit(audit_logger_);
 
     // -----------------------------------------------------------------------
@@ -557,6 +616,13 @@ LDAPAuthResult LDAPAuthenticator::performBind(const std::string& username,
 // Unix / OpenLDAP implementation
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Perform Bind.
+ * @param[in] username Input parameter.
+ * @param[in] dn Input parameter.
+ * @param[in] password Input parameter.
+ * @return Return value.
+ */
 LDAPAuthResult LDAPAuthenticator::performBind(const std::string& username,
                                               const std::string& dn,
                                               const std::string& password)
@@ -565,6 +631,11 @@ LDAPAuthResult LDAPAuthenticator::performBind(const std::string& username,
         return bind_fn(username, dn, password);
     }
 
+    /**
+     * @brief Audit.
+     * @param[in] audit_logger_ Input parameter.
+     * @return Return value.
+     */
     AuthAuditLogger audit(audit_logger_);
 
     // -----------------------------------------------------------------------
@@ -704,6 +775,11 @@ LDAPAuthResult LDAPAuthenticator::performBind(const std::string& username,
         struct berval* page_cookie = nullptr;
         int total_collected = 0;
         bool pagination_done = false;
+        /**
+         * @brief Audit.
+         * @param[in] audit_logger_ Input parameter.
+         * @return Return value.
+         */
         AuthAuditLogger audit(audit_logger_);
 
         do {
@@ -867,21 +943,14 @@ LDAPAuthResult LDAPAuthenticator::performBind(const std::string& username,
 }
 
 #else
-// ---------------------------------------------------------------------------
-// PERMANENT FALLBACK NOTE:
-// Purpose: Link-compatible LDAP fallback for builds without libldap.  Returns a
-//   hard-failure from performBind() so any LDAP-gated authentication request
-//   is explicitly rejected rather than accidentally allowed.  This fallback is
-//   permanent for builds that intentionally omit libldap.
-// Activation: Compiled when THEMIS_HAS_LDAP is NOT defined.  Set via
-//   -DTHEMIS_ENABLE_LDAP=ON in CMake to enable the real implementation.
-// Production Delta: All LDAP-based logins will fail with an explicit error
-//   message.  No silent pass-through; the rejection is logged and audited.
-// Real implementation: Install libldap and build with -DTHEMIS_ENABLE_LDAP=ON.
-//   The #if THEMIS_HAS_LDAP branch above handles TLS, paging, group membership,
-//   and attribute mapping.
-// Roadmap ref: src/auth/FUTURE_ENHANCEMENTS.md § "LDAP Group Membership (v1.6.0)"
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- PERMANENT FALLBACK NOTE: Purpose: Link-compatible LDAP fallback for builds without libldap.
+ * @param[in] username Input parameter.
+ * @param[in] dn Input parameter.
+ * @param[in] password Input parameter.
+ * @return Return value.
+ * @details Returns a hard-failure from performBind() so any LDAP-gated authentication request is explicitly rejected rather than accidentally allowed. This fallback is permanent for builds that intentionally omit libldap. Activation: Compiled when THEMIS_HAS_LDAP is NOT defined. Set via -DTHEMIS_ENABLE_LDAP=ON in CMake to enable the real implementation. Production Delta: All LDAP-based logins will fail with an explicit error message. No silent pass-through; the rejection is logged and audited. Real implementation: Install libldap and build with -DTHEMIS_ENABLE_LDAP=ON. The #if THEMIS_HAS_LDAP branch above handles TLS, paging, group membership, and attribute mapping. Roadmap ref: src/auth/FUTURE_ENHANCEMENTS.md § "LDAP Group Membership (v1.6.0)" ---------------------------------------------------------------------------
+ */
 
 LDAPAuthResult LDAPAuthenticator::performBind(const std::string& username,
                                               const std::string& dn,
@@ -896,6 +965,11 @@ LDAPAuthResult LDAPAuthenticator::performBind(const std::string& username,
         }
     }
 
+    /**
+     * @brief Audit.
+     * @param[in] audit_logger_ Input parameter.
+     * @return Return value.
+     */
     AuthAuditLogger audit(audit_logger_);
     const std::string msg =
         "LDAP support is not available: rebuild ThemisDB with THEMIS_ENABLE_LDAP=ON";

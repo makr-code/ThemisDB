@@ -39,6 +39,12 @@ void invokeObserverNoexcept(const char* observer_name,
     }
 }
 
+/**
+ * @brief Try Parse Version Suffix.
+ * @param[in] key Input parameter.
+ * @return Return value.
+ * @details Calls: rfind(), std::stoull(), substr(), THEMIS_WARN().
+ */
 std::optional<std::size_t> tryParseVersionSuffix(const std::string& key) {
     const auto colon = key.rfind(':');
     if (colon == std::string::npos) {
@@ -82,6 +88,13 @@ std::size_t TensorFieldKeyHash::operator()(const TensorFieldKey& k) const noexce
 // InMemoryTensorBackend
 // ============================================================================
 
+/**
+ * @brief Put.
+ * @param[in] key Input parameter.
+ * @param[in] value Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lk().
+ */
 bool InMemoryTensorBackend::put(const std::string& key,
                                  const std::vector<uint8_t>& value) {
     std::lock_guard<std::mutex> lk(mutex_);
@@ -91,6 +104,11 @@ bool InMemoryTensorBackend::put(const std::string& key,
 
 std::optional<std::vector<uint8_t>>
 InMemoryTensorBackend::get(const std::string& key) const {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     // iterator_invalidation scanner alert: store_ is locked above; no
     // modification can occur while the lock is held — false positive.
@@ -101,6 +119,12 @@ InMemoryTensorBackend::get(const std::string& key) const {
     return it->second;
 }
 
+/**
+ * @brief Del.
+ * @param[in] key Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lk(), erase().
+ */
 bool InMemoryTensorBackend::del(const std::string& key) {
     std::lock_guard<std::mutex> lk(mutex_);
     return store_.erase(key) > 0;
@@ -108,6 +132,11 @@ bool InMemoryTensorBackend::del(const std::string& key) {
 
 std::vector<std::string>
 InMemoryTensorBackend::listKeys(const std::string& prefix) const {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     std::vector<std::string> result = {};
 
@@ -130,6 +159,12 @@ RocksDBTensorBackend::RocksDBTensorBackend(std::shared_ptr<RocksDBWrapper> db)
         throw std::invalid_argument("RocksDBTensorBackend: db must not be null");
 }
 
+/**
+ * @brief Put.
+ * @param[in] key Input parameter.
+ * @param[in] value Input parameter.
+ * @return True when the operation succeeds.
+ */
 bool RocksDBTensorBackend::put(const std::string& key,
                                 const std::vector<uint8_t>& value)
 {
@@ -142,6 +177,11 @@ RocksDBTensorBackend::get(const std::string& key) const
     return db_->get(key);
 }
 
+/**
+ * @brief Del.
+ * @param[in] key Input parameter.
+ * @return True when the operation succeeds.
+ */
 bool RocksDBTensorBackend::del(const std::string& key)
 {
     return db_->del(key);
@@ -179,15 +219,36 @@ TensorNetworkStorageEngine::TensorNetworkStorageEngine(
 // Key building
 // ============================================================================
 
+/**
+ * @brief Make Prefix.
+ * @param[in] k Input parameter.
+ * @return Return value.
+ * @details Implements makePrefix without additional internal calls.
+ */
 std::string TensorNetworkStorageEngine::makePrefix(const TensorFieldKey& k) {
     return "__ttn__:" + k.tenant + ":" + k.collection + ":" + k.field + ":";
 }
 
+/**
+ * @brief Make Meta Key.
+ * @param[in] k Input parameter.
+ * @param[in] ver Input parameter.
+ * @return Return value.
+ * @details Calls: makePrefix(), std::to_string().
+ */
 std::string TensorNetworkStorageEngine::makeMetaKey(const TensorFieldKey& k,
                                                      std::size_t ver) {
     return makePrefix(k) + "meta:" + std::to_string(ver);
 }
 
+/**
+ * @brief Make Core Key.
+ * @param[in] k Input parameter.
+ * @param[in] core_idx Input parameter.
+ * @param[in] ver Input parameter.
+ * @return Return value.
+ * @details Calls: makePrefix(), std::to_string().
+ */
 std::string TensorNetworkStorageEngine::makeCoreKey(const TensorFieldKey& k,
                                                      std::size_t core_idx,
                                                      std::size_t ver) {
@@ -200,6 +261,11 @@ std::string TensorNetworkStorageEngine::makeCoreKey(const TensorFieldKey& k,
 
 std::size_t TensorNetworkStorageEngine::currentVersion(const TensorFieldKey& k) const {
     {
+        /**
+         * @brief Lk.
+         * @param[in] version_cache_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(version_cache_mutex_);
         auto it = version_cache_.find(k);
         if (it != version_cache_.end()) {
@@ -223,12 +289,23 @@ std::size_t TensorNetworkStorageEngine::currentVersion(const TensorFieldKey& k) 
         return 0;
     }
 
+    /**
+     * @brief Lk.
+     * @param[in] version_cache_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(version_cache_mutex_);
     auto& cached = version_cache_[k];
     cached = std::max(cached, recovered_version);
     return cached;
 }
 
+/**
+ * @brief Set Version.
+ * @param[in] k Input parameter.
+ * @param[in] version Input parameter.
+ * @details Calls: lk(), erase().
+ */
 void TensorNetworkStorageEngine::setVersion(const TensorFieldKey& k,
                                              std::size_t version) {
     std::lock_guard<std::mutex> lk(version_cache_mutex_);
@@ -239,6 +316,11 @@ void TensorNetworkStorageEngine::setVersion(const TensorFieldKey& k,
     version_cache_[k] = version;
 }
 
+/**
+ * @brief Erase Version.
+ * @param[in] k Input parameter.
+ * @details Calls: lk(), erase().
+ */
 void TensorNetworkStorageEngine::eraseVersion(const TensorFieldKey& k) {
     std::lock_guard<std::mutex> lk(version_cache_mutex_);
     version_cache_.erase(k);
@@ -248,6 +330,13 @@ void TensorNetworkStorageEngine::eraseVersion(const TensorFieldKey& k) {
 // Persistence helpers
 // ============================================================================
 
+/**
+ * @brief Persist Quantized Train.
+ * @param[in] key Input parameter.
+ * @param[in] qtrain Input parameter.
+ * @param[in] version Input parameter.
+ * @return True when the operation succeeds.
+ */
 bool TensorNetworkStorageEngine::persistQuantizedTrain(
     const TensorFieldKey& key,
     const QuantizedTrain& qtrain,
@@ -302,6 +391,15 @@ TensorNetworkStorageEngine::loadQuantizedTrain(const TensorFieldKey& key,
 // put
 // ============================================================================
 
+/**
+ * @brief Put.
+ * @param[in] key Input parameter.
+ * @param[in] data Input parameter.
+ * @param[in] mode_sizes Input parameter.
+ * @return True when the operation succeeds.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: size(), decompose(), quantize(), wlk(), currentVersion(), persistQuantizedTrain(), setVersion(), del().
+ */
 bool TensorNetworkStorageEngine::put(const TensorFieldKey&            key,
                                       const std::vector<float>&        data,
                                       const std::vector<std::size_t>&  mode_sizes) {
@@ -364,11 +462,21 @@ bool TensorNetworkStorageEngine::put(const TensorFieldKey&            key,
 // CDC observer setters
 // ============================================================================
 
+/**
+ * @brief Set Write Observer Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lk(), std::move().
+ */
 void TensorNetworkStorageEngine::setWriteObserverFn(TensorWriteObserverFn fn) {
     std::lock_guard<std::mutex> lk(observer_mutex_);
     write_observer_ = std::move(fn);
 }
 
+/**
+ * @brief Set Delete Observer Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lk(), std::move().
+ */
 void TensorNetworkStorageEngine::setDeleteObserverFn(TensorDeleteObserverFn fn) {
     std::lock_guard<std::mutex> lk(observer_mutex_);
     delete_observer_ = std::move(fn);
@@ -380,6 +488,11 @@ void TensorNetworkStorageEngine::setDeleteObserverFn(TensorDeleteObserverFn fn) 
 
 std::optional<std::vector<float>>
 TensorNetworkStorageEngine::get(const TensorFieldKey& key) const {
+    /**
+     * @brief Rlk.
+     * @param[in] rw_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> rlk(rw_mutex_);
     std::size_t ver = currentVersion(key);
     if (ver == 0) {
@@ -398,6 +511,11 @@ TensorNetworkStorageEngine::get(const TensorFieldKey& key) const {
 std::optional<std::vector<float>>
 TensorNetworkStorageEngine::getVersion(const TensorFieldKey& key,
                                         std::size_t version) const {
+    /**
+     * @brief Rlk.
+     * @param[in] rw_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> rlk(rw_mutex_);
     auto oqt = loadQuantizedTrain(key, version);
     if (!oqt) {
@@ -410,6 +528,11 @@ TensorNetworkStorageEngine::getVersion(const TensorFieldKey& key,
 
 std::optional<QuantizedTrain>
 TensorNetworkStorageEngine::getCompressed(const TensorFieldKey& key) const {
+    /**
+     * @brief Rlk.
+     * @param[in] rw_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> rlk(rw_mutex_);
     std::size_t ver = currentVersion(key);
     if (ver == 0) {
@@ -422,6 +545,12 @@ TensorNetworkStorageEngine::getCompressed(const TensorFieldKey& key) const {
 // remove / compact
 // ============================================================================
 
+/**
+ * @brief Remove.
+ * @param[in] key Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: wlk(), currentVersion(), loadQuantizedTrain(), del(), makeMetaKey(), size(), makeCoreKey(), eraseVersion().
+ */
 bool TensorNetworkStorageEngine::remove(const TensorFieldKey& key) {
     std::unique_lock<std::shared_mutex> wlk(rw_mutex_);
     std::size_t ver = currentVersion(key);
@@ -452,6 +581,11 @@ bool TensorNetworkStorageEngine::remove(const TensorFieldKey& key) {
     return true;
 }
 
+/**
+ * @brief Compact.
+ * @param[in] key Input parameter.
+ * @details Calls: wlk(), currentVersion(), listKeys(), makePrefix(), tryParseVersionSuffix(), del().
+ */
 void TensorNetworkStorageEngine::compact(const TensorFieldKey& key) {
     std::unique_lock<std::shared_mutex> wlk(rw_mutex_);
     std::size_t ver = currentVersion(key);
@@ -473,6 +607,11 @@ void TensorNetworkStorageEngine::compact(const TensorFieldKey& key) {
 
 std::optional<TensorStorageStats>
 TensorNetworkStorageEngine::stats(const TensorFieldKey& key) const {
+    /**
+     * @brief Rlk.
+     * @param[in] rw_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> rlk(rw_mutex_);
     std::size_t ver = currentVersion(key);
     if (ver == 0) {
@@ -504,10 +643,23 @@ TensorNetworkStorageEngine::stats(const TensorFieldKey& key) const {
 // Raw metadata
 // ============================================================================
 
+/**
+ * @brief Raw Meta Key.
+ * @param[in] key Input parameter.
+ * @return Return value.
+ * @details Implements rawMetaKey without additional internal calls.
+ */
 static std::string rawMetaKey(const std::string& key) {
     return "__tfgmeta__:" + key;
 }
 
+/**
+ * @brief Put Raw Metadata.
+ * @param[in] key Input parameter.
+ * @param[in] value Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: put(), rawMetaKey().
+ */
 bool TensorNetworkStorageEngine::putRawMetadata(
     const std::string& key, const std::vector<uint8_t>& value) {
     return backend_->put(rawMetaKey(key), value);
@@ -518,6 +670,12 @@ TensorNetworkStorageEngine::getRawMetadata(const std::string& key) const {
     return backend_->get(rawMetaKey(key));
 }
 
+/**
+ * @brief Delete Raw Metadata.
+ * @param[in] key Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: del(), rawMetaKey().
+ */
 bool TensorNetworkStorageEngine::deleteRawMetadata(const std::string& key) {
     return backend_->del(rawMetaKey(key));
 }

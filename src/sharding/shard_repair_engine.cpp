@@ -35,15 +35,6 @@ namespace sharding {
 // Construction / destruction
 // ─────────────────────────────────────────────────────────────────────────────
 
-/**
- * @brief Construct shard repair engine with injected strategy/ring/topology handlers.
- * @param config Repair and scan configuration.
- * @param strategy Redundancy strategy used for health checks and recovery.
- * @param ring Consistent hash ring for placement decisions.
- * @param topology Current shard topology view.
- * @param read_handler Document read callback.
- * @param write_handler Document write callback.
- */
 ShardRepairEngine::ShardRepairEngine(
     const RepairConfig& config,
     RedundancyStrategy& strategy,
@@ -58,7 +49,6 @@ ShardRepairEngine::ShardRepairEngine(
       read_handler_(std::move(read_handler)),
       write_handler_(std::move(write_handler)) {}
 
-/** @brief Stop worker threads on destruction. */
 ShardRepairEngine::~ShardRepairEngine() {
     stop();
 }
@@ -67,7 +57,10 @@ ShardRepairEngine::~ShardRepairEngine() {
 // Lifecycle
 // ─────────────────────────────────────────────────────────────────────────────
 
-/** @brief Start scan and repair worker threads if enabled by config. */
+/**
+ * @brief Start.
+ * @details Calls: exchange(), std::thread(), scanLoop(), repairLoop(), spdlog::info(), count().
+ */
 void ShardRepairEngine::start() {
     if (running_.exchange(true)) {
         return;  // already running
@@ -85,7 +78,10 @@ void ShardRepairEngine::start() {
                  config_.scan_interval.count(), config_.enable_auto_repair);
 }
 
-/** @brief Stop scan/repair workers and wait for graceful thread join. */
+/**
+ * @brief Stop.
+ * @details Calls: exchange(), notify_all(), themis::utils::joinThreadWithin(), THEMIS_WARN(), spdlog::info().
+ */
 void ShardRepairEngine::stop() {
     if (!running_.exchange(false)) {
         return;
@@ -109,22 +105,38 @@ void ShardRepairEngine::stop() {
 // Provider injection
 // ─────────────────────────────────────────────────────────────────────────────
 
-/** @brief Install shard document-list provider callback. */
+/**
+ * @brief Set Document List Provider.
+ * @param[in] provider Input parameter.
+ * @details Calls: std::move().
+ */
 void ShardRepairEngine::setDocumentListProvider(DocumentListProvider provider) {
     doc_list_provider_ = std::move(provider);
 }
 
-/** @brief Attach centralized Prometheus metrics sink. */
+/**
+ * @brief Set Prometheus Metrics.
+ * @param[in] prom_metrics Input parameter.
+ * @details Calls: std::move().
+ */
 void ShardRepairEngine::setPrometheusMetrics(std::shared_ptr<PrometheusMetrics> prom_metrics) {
     prom_metrics_ = std::move(prom_metrics);
 }
 
-/** @brief Attach SLO monitor for repair progress reporting. */
+/**
+ * @brief Set SLOMonitor.
+ * @param[in] slo_monitor Input parameter.
+ * @details Calls: std::move().
+ */
 void ShardRepairEngine::setSLOMonitor(std::shared_ptr<SLOMonitor> slo_monitor) {
     slo_monitor_ = std::move(slo_monitor);
 }
 
-/** @brief Attach resource manager for IOPS throttling and GPU path checks. */
+/**
+ * @brief Set Resource Manager.
+ * @param[in] resource_manager Input parameter.
+ * @details Calls: std::move().
+ */
 void ShardRepairEngine::setResourceManager(std::shared_ptr<ShardResourceManager> resource_manager) {
     resource_manager_ = std::move(resource_manager);
 }
@@ -133,7 +145,6 @@ void ShardRepairEngine::setResourceManager(std::shared_ptr<ShardResourceManager>
 // On-demand triggers
 // ─────────────────────────────────────────────────────────────────────────────
 
-/** @brief Generate unique repair job id from timestamp and monotonic counter. */
 std::string ShardRepairEngine::generateJobId() const {
     uint64_t counter = job_counter_.fetch_add(1);
     auto now = std::chrono::system_clock::now().time_since_epoch().count();
@@ -142,7 +153,12 @@ std::string ShardRepairEngine::generateJobId() const {
     return oss.str();
 }
 
-/** @brief Enqueue repair job for one shard or all shards when shard id is empty. */
+/**
+ * @brief Trigger Repair.
+ * @param[in] shard_id Identifier of the shard.
+ * @return Return value.
+ * @details Calls: generateJobId(), empty(), std::chrono::system_clock::now(), lock(), push(), notify_one(), spdlog::info().
+ */
 std::string ShardRepairEngine::triggerRepair(const std::string& shard_id) {
     RepairJob job;
     job.job_id = generateJobId();
@@ -163,7 +179,11 @@ std::string ShardRepairEngine::triggerRepair(const std::string& shard_id) {
     return job.job_id;
 }
 
-/** @brief Enqueue full-cluster anti-entropy scan job. */
+/**
+ * @brief Trigger Full Scan.
+ * @return Return value.
+ * @details Calls: generateJobId(), std::chrono::system_clock::now(), lock(), push(), notify_one(), spdlog::info().
+ */
 std::string ShardRepairEngine::triggerFullScan() {
     RepairJob job;
     job.job_id = generateJobId();
@@ -182,7 +202,13 @@ std::string ShardRepairEngine::triggerFullScan() {
     return job.job_id;
 }
 
-/** @brief Enqueue repair job for one document id (fail-closed on empty id). */
+/**
+ * @brief Trigger Document Repair.
+ * @param[in] document_id Identifier of the document.
+ * @param[in] collection Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), spdlog::error(), generateJobId(), std::chrono::system_clock::now(), lock(), push(), notify_one(), spdlog::info().
+ */
 std::string ShardRepairEngine::triggerDocumentRepair(const std::string& document_id,
                                                       const std::string& collection) {
     // Fail-closed: reject empty document_id
@@ -213,8 +239,12 @@ std::string ShardRepairEngine::triggerDocumentRepair(const std::string& document
 // Status / reporting
 // ─────────────────────────────────────────────────────────────────────────────
 
-/** @brief Return status snapshot for one repair job id. */
 RepairJob ShardRepairEngine::getJobStatus(const std::string& job_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] jobs_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::timed_mutex> lock(jobs_mutex_);
     auto it = jobs_.find(job_id);
     if (it == jobs_.end()) {
@@ -228,8 +258,12 @@ RepairJob ShardRepairEngine::getJobStatus(const std::string& job_id) const {
     return it->second;
 }
 
-/** @brief Return currently active (not completed) repair jobs. */
 std::vector<RepairJob> ShardRepairEngine::getActiveJobs() const {
+    /**
+     * @brief Lock.
+     * @param[in] jobs_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::timed_mutex> lock(jobs_mutex_);
     std::vector<RepairJob> active = {};
 
@@ -241,8 +275,12 @@ std::vector<RepairJob> ShardRepairEngine::getActiveJobs() const {
     return active;
 }
 
-/** @brief Return latest per-shard health reports cache snapshot. */
 std::vector<ShardHealthReport> ShardRepairEngine::getShardHealthReports() const {
+    /**
+     * @brief Lock.
+     * @param[in] health_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(health_mutex_);
     std::vector<ShardHealthReport> reports = {};
 
@@ -253,13 +291,16 @@ std::vector<ShardHealthReport> ShardRepairEngine::getShardHealthReports() const 
     return reports;
 }
 
-/** @brief Return aggregate repair metrics snapshot. */
 RepairMetrics ShardRepairEngine::getRepairMetrics() const {
+    /**
+     * @brief Lock.
+     * @param[in] metrics_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(metrics_mutex_);
     return metrics_;
 }
 
-/** @brief Export repair and shard-health metrics in Prometheus text format. */
 std::string ShardRepairEngine::exportPrometheusMetrics() const {
     RepairMetrics m = getRepairMetrics();
     auto reports = getShardHealthReports();
@@ -311,7 +352,6 @@ std::string ShardRepairEngine::exportPrometheusMetrics() const {
 }
 
 // RVW-01..04 — runConsistencyCheck
-/** @brief Summarize cached shard consistency/health into operator-facing status result. */
 themis::Result<std::string> ShardRepairEngine::runConsistencyCheck() const {
     auto reports = getShardHealthReports();
 
@@ -346,7 +386,10 @@ themis::Result<std::string> ShardRepairEngine::runConsistencyCheck() const {
 
 
 
-/** @brief Background anti-entropy scan loop executed by scan thread. */
+/**
+ * @brief Scan Loop.
+ * @details Calls: load(), performAntiEntropyScan(), spdlog::error(), what(), std::chrono::seconds(), std::this_thread::sleep_for().
+ */
 void ShardRepairEngine::scanLoop() {
     while (running_.load()) {
         try {
@@ -365,7 +408,10 @@ void ShardRepairEngine::scanLoop() {
     }
 }
 
-/** @brief Background repair queue consumer loop executed by repair thread. */
+/**
+ * @brief Repair Loop.
+ * @details Calls: load(), lock(), wait_for(), empty(), front(), pop(), find(), end().
+ */
 void ShardRepairEngine::repairLoop() {
     while (running_.load()) {
         std::unique_lock<std::timed_mutex> lock(jobs_mutex_);
@@ -415,7 +461,10 @@ void ShardRepairEngine::repairLoop() {
 // Internal operations
 // ─────────────────────────────────────────────────────────────────────────────
 
-/** @brief Run one full anti-entropy scan pass across all shards. */
+/**
+ * @brief Perform Anti Entropy Scan.
+ * @details Calls: spdlog::info(), isGPUErasureCodingEnabled(), getAllShards(), size(), lock(), std::chrono::system_clock::now(), recordRepairScan(), std::thread::hardware_concurrency().
+ */
 void ShardRepairEngine::performAntiEntropyScan() {
     spdlog::info("ShardRepairEngine: starting parallel anti-entropy scan");
 
@@ -550,7 +599,13 @@ void ShardRepairEngine::performAntiEntropyScan() {
                  total_shards, num_workers);
 }
 
-/** @brief Scan one worker partition of shards and update health/progress state. */
+/**
+ * @brief Scan Shard Band.
+ * @param[in] band Input parameter.
+ * @param[in] scan_job_id Identifier of the scan job.
+ * @param[in] total_shards Input parameter.
+ * @details Calls: load(), std::chrono::system_clock::now(), doc_list_provider_(), spdlog::warn(), what(), acquireRepairIOToken(), lock(), checkDocumentHealth().
+ */
 void ShardRepairEngine::scanShardBand(const std::vector<ShardInfo>& band,
                                        const std::string& scan_job_id,
                                        uint64_t total_shards) {
@@ -660,7 +715,11 @@ void ShardRepairEngine::scanShardBand(const std::vector<ShardInfo>& band,
     }
 }
 
-/** @brief Execute one queued repair job and populate completion details. */
+/**
+ * @brief Execute Repair Job.
+ * @param[in,out] job Input/output parameter.
+ * @details Calls: spdlog::info(), empty(), lock(), std::chrono::steady_clock::now(), repairDocument(), updateMetricsAfterRepair(), std::chrono::system_clock::now(), getAllShards().
+ */
 void ShardRepairEngine::executeRepairJob(RepairJob& job) {
     spdlog::info("ShardRepairEngine: executing job {} (shard='{}', doc='{}', full={})",
                  job.job_id,
@@ -759,7 +818,13 @@ void ShardRepairEngine::executeRepairJob(RepairJob& job) {
                  job.job_id, job.documents_scanned, job.documents_repaired, job.documents_failed);
 }
 
-/** @brief Perform one document recovery attempt with optional IOPS throttling. */
+/**
+ * @brief Repair Document.
+ * @param[in] doc_id Identifier of the doc.
+ * @param[in] collection Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: acquireRepairIOToken(), spdlog::warn(), recoverDocument(), what().
+ */
 bool ShardRepairEngine::repairDocument(const std::string& doc_id,
                                         const std::string& collection) {
     // Enforce the IOPS budget before executing the repair write.
@@ -778,7 +843,12 @@ bool ShardRepairEngine::repairDocument(const std::string& doc_id,
     }
 }
 
-/** @brief Update aggregate counters/timings and forward per-operation metrics. */
+/**
+ * @brief Update Metrics After Repair.
+ * @param[in] success Input parameter.
+ * @param[in] duration Input parameter.
+ * @details Calls: lock(), count(), std::chrono::milliseconds(), recordRepairOperation().
+ */
 void ShardRepairEngine::updateMetricsAfterRepair(bool success,
                                                   std::chrono::milliseconds duration) {
     {

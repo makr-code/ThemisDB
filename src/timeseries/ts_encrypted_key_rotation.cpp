@@ -50,6 +50,9 @@ TsEncryptedKeyRotation::~TsEncryptedKeyRotation()
 // start / stop
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Start.
+ */
 void TsEncryptedKeyRotation::start()
 {
     if (running_.exchange(true, std::memory_order_acq_rel)) {
@@ -57,6 +60,11 @@ void TsEncryptedKeyRotation::start()
     }
 
     {
+        /**
+         * @brief Lk.
+         * @param[in] cv_mu_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(cv_mu_);
         stop_flag_ = false;
     }
@@ -64,9 +72,17 @@ void TsEncryptedKeyRotation::start()
     thread_ = std::thread(&TsEncryptedKeyRotation::rotationLoop, this);
 }
 
+/**
+ * @brief Stop.
+ */
 void TsEncryptedKeyRotation::stop()
 {
     {
+        /**
+         * @brief Lk.
+         * @param[in] cv_mu_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(cv_mu_);
         stop_flag_ = true;
     }
@@ -82,10 +98,18 @@ void TsEncryptedKeyRotation::stop()
 // rotationLoop
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Rotation Loop.
+ */
 void TsEncryptedKeyRotation::rotationLoop()
 {
     while (true) {
         {
+            /**
+             * @brief Lk.
+             * @param[in] cv_mu_ Input parameter.
+             * @return Return value.
+             */
             std::unique_lock<std::mutex> lk(cv_mu_);
             bool stopped = cv_.wait_for(lk, config_.check_interval,
                                         [this] { return stop_flag_; });
@@ -113,6 +137,10 @@ void TsEncryptedKeyRotation::rotationLoop()
 // runOnce
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Run Once.
+ * @return Return value.
+ */
 size_t TsEncryptedKeyRotation::runOnce()
 {
     // Determine the current master key_id without performing any encryption.

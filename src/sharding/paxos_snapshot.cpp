@@ -48,6 +48,12 @@ nlohmann::json PaxosSnapshot::toJSON() const {
     return json;
 }
 
+/**
+ * @brief From JSON.
+ * @param[in] json Input parameter.
+ * @return Return value.
+ * @details Calls: LSN::fromString(), contains().
+ */
 PaxosSnapshot PaxosSnapshot::fromJSON(const nlohmann::json& json) {
     PaxosSnapshot snapshot;
     
@@ -164,6 +170,11 @@ std::optional<uint64_t> PaxosSnapshotManager::createSnapshot(
     const std::map<uint64_t, PaxosInstance>& instances,
     const std::map<uint64_t, ConsensusLogEntry>& committed_log
 ) {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     const std::string filepath = getSnapshotPath(generateSnapshotId());
     const std::string temp_filepath = filepath + ".tmp";
@@ -291,6 +302,11 @@ std::optional<uint64_t> PaxosSnapshotManager::createSnapshot(
     }
 }
 
+/**
+ * @brief Load Latest Snapshot.
+ * @return Return value.
+ * @details Calls: lock(), listSnapshots(), empty(), spdlog::info(), loadSnapshot().
+ */
 std::optional<PaxosSnapshot> PaxosSnapshotManager::loadLatestSnapshot() {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -304,6 +320,12 @@ std::optional<PaxosSnapshot> PaxosSnapshotManager::loadLatestSnapshot() {
     return loadSnapshot(snapshots[0]);
 }
 
+/**
+ * @brief Load Snapshot.
+ * @param[in] snapshot_id Identifier of the snapshot.
+ * @return Return value.
+ * @details Calls: getSnapshotPath(), file(), is_open(), spdlog::warn(), read(), gcount(), spdlog::error(), tellg().
+ */
 std::optional<PaxosSnapshot> PaxosSnapshotManager::loadSnapshot(uint64_t snapshot_id) {
     try {
         std::string filepath = getSnapshotPath(snapshot_id);
@@ -420,6 +442,11 @@ std::vector<uint64_t> PaxosSnapshotManager::listSnapshots() const {
     return snapshots;
 }
 
+/**
+ * @brief Cleanup Old Snapshots.
+ * @param[in] keep_count Input parameter.
+ * @details Calls: listSnapshots(), size(), getSnapshotPath(), std::filesystem::remove(), spdlog::info(), spdlog::error(), what().
+ */
 void PaxosSnapshotManager::cleanupOldSnapshots(size_t keep_count) {
     try {
         auto snapshots = listSnapshots();

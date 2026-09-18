@@ -24,6 +24,12 @@ namespace content {
 // Static helpers
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Compute Hash.
+ * @param[in] data Input parameter.
+ * @return Return value.
+ * @details Calls: SHA256(), data(), size(), std::setw(), std::setfill(), str().
+ */
 std::string VersionManager::computeHash(const std::string& data) {
     unsigned char digest[SHA256_DIGEST_LENGTH];
     SHA256(reinterpret_cast<const unsigned char*>(data.data()),data.size(), digest);
@@ -36,6 +42,13 @@ std::string VersionManager::computeHash(const std::string& data) {
     return oss.str();
 }
 
+/**
+ * @brief Compute Delta.
+ * @param[in] old_content Input parameter.
+ * @param[in] new_content Input parameter.
+ * @return Return value.
+ * @details Calls: ss(), std::getline(), push_back(), split_lines(), size(), str().
+ */
 std::string VersionManager::computeDelta(const std::string& old_content,
                                          const std::string& new_content) {
     // Line-level diff: produce a compact unified-diff-like delta.
@@ -99,6 +112,16 @@ std::string VersionManager::computeDelta(const std::string& old_content,
 // Core API
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Create Version.
+ * @param[in] content_id Identifier of the content.
+ * @param[in] content_hash Input parameter.
+ * @param[in] size_bytes Input parameter.
+ * @param[in] author Input parameter.
+ * @param[in] comment Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), getLatestVersion(), push_back().
+ */
 int VersionManager::createVersion(
     const std::string& content_id,
     const std::string& content_hash,
@@ -124,6 +147,15 @@ int VersionManager::createVersion(
     return version.version_number;
 }
 
+/**
+ * @brief Create Version With Content.
+ * @param[in] content_id Identifier of the content.
+ * @param[in] content Input parameter.
+ * @param[in] author Input parameter.
+ * @param[in] comment Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), getLatestVersion(), computeHash(), size(), find(), end().
+ */
 int VersionManager::createVersionWithContent(
     const std::string& content_id,
     const std::string& content,
@@ -215,6 +247,13 @@ bool VersionManager::hasVersions(const std::string& content_id) const {
     return it != versions_.end() && !it->second.empty();
 }
 
+/**
+ * @brief Delete Version.
+ * @param[in] content_id Identifier of the content.
+ * @param[in] version_number Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: find(), end(), std::find_if(), begin(), erase().
+ */
 bool VersionManager::deleteVersion(const std::string& content_id, int version_number) {
     auto it = versions_.find(content_id);
     if (it == versions_.end()) {

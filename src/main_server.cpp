@@ -218,6 +218,12 @@ struct ServerCommandLineOptions {
 using themis::cli::is_help_flag;
 using themis::cli::is_version_flag;
 
+/**
+ * @brief Print usage.
+ * @param[in,out] out Input/output parameter.
+ * @param[in] prog Input parameter.
+ * @details Implements print_usage without additional internal calls.
+ */
 void print_usage(std::ostream& out, const char* prog) {
     out << "Usage: " << prog << " [options]\n"
         << "Options:\n"
@@ -238,6 +244,15 @@ void print_usage(std::ostream& out, const char* prog) {
 
 using themis::cli::consume_next_value;
 
+/**
+ * @brief Parse server command line.
+ * @param[in] argc Input parameter.
+ * @param[in,out] argv Input/output parameter.
+ * @param[in,out] options Input/output parameter.
+ * @param[in,out] error_message Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: is_help_flag(), is_version_flag(), consume_next_value(), rfind(), substr(), size(), std::stoul(), std::move().
+ */
 bool parse_server_command_line(int argc,
                                char* argv[],
                                ServerCommandLineOptions& options,
@@ -414,6 +429,11 @@ bool parse_server_command_line(int argc,
 // Mimalloc can be loaded after the C Runtime has fully initialized
 // This prevents crashes during static object construction
 #ifdef THEMIS_ENABLE_MIMALLOC
+/**
+ * @brief Initialize Mimalloc.
+ * @return True when the operation succeeds.
+ * @details Calls: LoadLibraryA(), THEMIS_INFO(), THEMIS_WARN(), dlopen(), what().
+ */
 static bool initializeMimalloc() {
     try {
         // On Windows, load mimalloc DLL dynamically if available
@@ -448,6 +468,11 @@ static bool initializeMimalloc() {
 }
 #endif
 
+/**
+ * @brief Signal Handler.
+ * @param[in] signal Input parameter.
+ * @details Calls: _WIN32(), write(), strlen(), else(), _write(), store().
+ */
 void signalHandler(int signal) {
     if (signal == SIGINT || signal == SIGTERM) {
         // Only use async-signal-safe operations in signal handler
@@ -475,6 +500,11 @@ void signalHandler(int signal) {
 #ifdef _WIN32
 namespace {
 
+/**
+ * @brief Write windows minidump.
+ * @param[in,out] pExp Input/output parameter.
+ * @details Calls: std::filesystem::create_directories(), GetLocalTime(), GetCurrentProcessId(), GetCurrentThreadId(), snprintf(), LoadLibraryA(), GetProcAddress(), FreeLibrary().
+ */
 void write_windows_minidump(EXCEPTION_POINTERS* pExp) {
     if (!pExp) {
         return;
@@ -568,7 +598,12 @@ void write_windows_minidump(EXCEPTION_POINTERS* pExp) {
 
 } // namespace
 
-// Windows unhandled exception filter for early crash diagnostics
+/**
+ * @brief Windows unhandled exception filter for early crash diagnostics
+ * @param[in,out] pExp Input/output parameter.
+ * @return Return value.
+ * @details Calls: write_windows_minidump(), GetCurrentThreadId(), GetModuleHandleExA(), GetModuleFileNameA(), snprintf(), defined(), _write().
+ */
 LONG WINAPI windows_unhandled_exception_filter(EXCEPTION_POINTERS* pExp) {
     write_windows_minidump(pExp);
 
@@ -667,8 +702,8 @@ LONG WINAPI windows_unhandled_exception_filter(EXCEPTION_POINTERS* pExp) {
 // HSM Security Warning Thread
 // ============================================================================
 /**
- * Periodic HSM security warning thread
- * Logs ERROR-level warnings every 5 minutes when stub HSM is active
+ * @brief Hsm Security Warning Loop.
+ * @details Calls: minutes(), count(), load(), std::this_thread::sleep_for(), seconds(), periodicSecurityCheck(), themis::security::HSMSecurityChecker::getPeriodicWarning(), empty().
  */
 void hsmSecurityWarningLoop() {
     using namespace std::chrono;
@@ -701,6 +736,8 @@ void hsmSecurityWarningLoop() {
 
 /**
  * Start HSM security warning thread
+ * @brief Start HSMWarning Thread.
+ * @details Calls: load(), store(), std::thread(), THEMIS_INFO().
  */
 void startHSMWarningThread() {
     if (g_hsm_provider && !g_hsm_warning_thread_running.load()) {
@@ -712,6 +749,8 @@ void startHSMWarningThread() {
 
 /**
  * Stop HSM security warning thread
+ * @brief Stop HSMWarning Thread.
+ * @details Calls: load(), store(), joinable(), join(), THEMIS_INFO().
  */
 void stopHSMWarningThread() {
     if (g_hsm_warning_thread_running.load()) {
@@ -723,6 +762,13 @@ void stopHSMWarningThread() {
     }
 }
 
+/**
+ * @brief Main.
+ * @param[in] argc Input parameter.
+ * @param[in,out] argv Input/output parameter.
+ * @return Return value.
+ * @details Implements main without additional internal calls.
+ */
 int main(int argc, char* argv[]) {
 #ifdef _WIN32
     // Install a process-wide unhandled exception filter for early diagnostics.

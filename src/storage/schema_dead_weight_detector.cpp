@@ -37,6 +37,10 @@ SchemaDeadWeightDetector::SchemaDeadWeightDetector()
 SchemaDeadWeightDetector::SchemaDeadWeightDetector(Config config)
     : config_(std::move(config)) {}
 
+/**
+ * @brief Set Decision Record Processor.
+ * @param[in] processor Input parameter.
+ */
 void SchemaDeadWeightDetector::setDecisionRecordProcessor(
     std::shared_ptr<themis::llm::DecisionRecordYamlProcessor> processor)
 {
@@ -191,6 +195,12 @@ double SchemaDeadWeightDetector::computeSeasonalityScore(
 // Private helpers
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Determine Recommendation.
+ * @param[in] field_path Path to the field.
+ * @param[in] days_since_access Input parameter.
+ * @return Return value.
+ */
 std::string SchemaDeadWeightDetector::determineRecommendation(
     const std::string& field_path,
     uint32_t days_since_access)

@@ -43,9 +43,6 @@
    static constexpr int kConnInProgress = WSAEWOULDBLOCK;
 
 namespace {
-    /// RAII guard: calls WSAStartup once on construction and WSACleanup on
-    /// destruction so every Winsock API in this translation unit is guaranteed
-    /// to have an active Winsock service provider initialised.
     struct WinsockInit {
         WinsockInit() noexcept {
             WSADATA wd{};
@@ -78,18 +75,14 @@ namespace auth {
 // TBLK/v1 Wire Protocol constants
 // ===========================================================================
 
-/// 4-byte protocol magic: "TBLK"
 static const uint8_t kRpcMagic[4]  = {0x54, 0x42, 0x4C, 0x4B};
 static constexpr uint8_t kRpcVer   = 0x01; ///< Protocol version
 static constexpr uint8_t kMsgPush     = 0x01; ///< Leader pushes entries to follower
 static constexpr uint8_t kMsgPullReq  = 0x02; ///< Follower requests entries from leader
 static constexpr uint8_t kMsgPullResp = 0x03; ///< Leader responds with entries
 static constexpr uint8_t kMsgAck      = 0x04; ///< Acknowledgement
-/// Header layout: magic[4] + version[1] + type[1] + count[4] = 10 bytes
 static constexpr size_t  kHdrSize     = 10;
-/// Maximum sensible JTI length accepted over the wire (safety cap)
 static constexpr uint16_t kMaxJtiLen  = 1024;
-/// Maximum entry count accepted in a single PULL_RESP or PUSH (prevents OOM)
 static constexpr uint32_t kMaxEntries = 1'000'000;
 
 // ===========================================================================
@@ -131,9 +124,6 @@ static int64_t decodeI64(const uint8_t* in) noexcept {
 // Socket helpers
 // ===========================================================================
 
-/// Set SO_RCVTIMEO and SO_SNDTIMEO on a socket.
-/// On Windows, SO_RCVTIMEO/SO_SNDTIMEO expect a DWORD timeout in milliseconds.
-/// On POSIX, they expect a struct timeval.
 static void sockSetTimeout(SockFd fd, int timeout_ms) noexcept {
 #ifdef _WIN32
     DWORD tv = static_cast<DWORD>(timeout_ms);
@@ -152,10 +142,6 @@ static void sockSetTimeout(SockFd fd, int timeout_ms) noexcept {
 #endif
 }
 
-/**
- * @brief Send exactly `len` bytes; retries on partial sends.
- * @return true on success, false if the connection drops or times out.
- */
 static bool sendAll(SockFd fd, const void* buf, size_t len) noexcept {
     const auto* ptr = static_cast<const char*>(buf);
     size_t sent = 0;
@@ -173,10 +159,6 @@ static bool sendAll(SockFd fd, const void* buf, size_t len) noexcept {
     return true;
 }
 
-/**
- * @brief Receive exactly `len` bytes; retries on partial reads.
- * @return true on success, false if the connection drops or times out.
- */
 static bool recvAll(SockFd fd, void* buf, size_t len) noexcept {
     auto* ptr = static_cast<char*>(buf);
     size_t recvd = 0;
@@ -194,10 +176,6 @@ static bool recvAll(SockFd fd, void* buf, size_t len) noexcept {
     return true;
 }
 
-/**
- * @brief Parse "host:port" address string.
- * @return {host, port} or {"", 0} on parse error or invalid port.
- */
 static std::pair<std::string, int> parseAddress(const std::string& addr) {
     auto colon = addr.rfind(':');
     if (colon == std::string::npos || colon == 0) return {"", 0};
@@ -209,16 +187,12 @@ static std::pair<std::string, int> parseAddress(const std::string& addr) {
 }
 
 /**
- * @brief Open a non-blocking TCP connect with explicit timeout.
- *
- * Sets the socket to non-blocking, issues connect(), waits for writability
- * via select(), verifies SO_ERROR, then restores blocking mode and applies
- * SO_RCVTIMEO / SO_SNDTIMEO.
- *
- * @param host       Hostname or dotted-decimal IP address.
- * @param port       TCP port (1..65535).
- * @param timeout_ms Connect deadline in milliseconds.
- * @return Connected socket fd, or kNoSock on failure (connection refused, timeout, DNS error).
+ * @brief Connect With Timeout.
+ * @param[in] host Input parameter.
+ * @param[in] port Input parameter.
+ * @param[in] timeout_ms Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), std::to_string(), getaddrinfo(), c_str(), sockValid(), socket(), ioctlsocket(), fcntl().
  */
 static SockFd connectWithTimeout(const std::string& host, int port, int timeout_ms) {
     if (host.empty() || port <= 0 || port > 65535) {
@@ -293,9 +267,11 @@ static SockFd connectWithTimeout(const std::string& host, int port, int timeout_
     return connected;
 }
 
-// ===========================================================================
-// Helper: Expiry encoding/decoding
-// ===========================================================================
+/**
+ * @brief =========================================================================== Helper: Expiry encoding/decoding ===========================================================================
+ * @param[in] tp Input parameter.
+ * @return Return value.
+ */
 
 std::string DistributedTokenBlacklist::encodeExpiry(
     std::chrono::system_clock::time_point tp)
@@ -311,6 +287,11 @@ std::string DistributedTokenBlacklist::encodeExpiry(
     return result;
 }
 
+/**
+ * @brief Decode Expiry.
+ * @param[in] val Input parameter.
+ * @return Return value.
+ */
 std::chrono::system_clock::time_point DistributedTokenBlacklist::decodeExpiry(
     const std::string& val)
 {
@@ -358,6 +339,11 @@ DistributedTokenBlacklist::DistributedTokenBlacklist(
             std::string("Cannot open RocksDB: ") + status.ToString());
     }
 
+    /**
+     * @brief Db guard.
+     * @param[in] db_instance Input parameter.
+     * @return Return value.
+     */
     std::unique_ptr<rocksdb::DB> db_guard(db_instance);
     try {
         if (cf_handles.size() < 2 || cf_handles[1] == nullptr || cf_handles[0] == nullptr) {
@@ -467,6 +453,11 @@ DistributedTokenBlacklist::~DistributedTokenBlacklist()
 // ITokenBlacklist interface
 // ===========================================================================
 
+/**
+ * @brief Add.
+ * @param[in] jti Input parameter.
+ * @param[in] expiry Input parameter.
+ */
 void DistributedTokenBlacklist::add(
     const std::string& jti,
     std::chrono::system_clock::time_point expiry)
@@ -514,6 +505,9 @@ bool DistributedTokenBlacklist::isRevoked(const std::string& jti) const
     return (std::chrono::system_clock::now() < expiry);
 }
 
+/**
+ * @brief Purge Expired.
+ */
 void DistributedTokenBlacklist::purgeExpired()
 {
     // Wrap iterator in unique_ptr so it is freed on all paths (RAII)
@@ -546,6 +540,10 @@ void DistributedTokenBlacklist::purgeExpired()
 // Distributed-specific public methods
 // ===========================================================================
 
+/**
+ * @brief Sync With Cluster.
+ * @return Return value.
+ */
 std::future<bool> DistributedTokenBlacklist::syncWithCluster()
 {
     return std::async(std::launch::async,
@@ -555,10 +553,20 @@ std::future<bool> DistributedTokenBlacklist::syncWithCluster()
 DistributedTokenBlacklist::ReplicationStats
 DistributedTokenBlacklist::getReplicationStats() const
 {
+    /**
+     * @brief Lock.
+     * @param[in] stats_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(stats_mutex_);
     return stats_;
 }
 
+/**
+ * @brief Wait For Cluster Convergence.
+ * @param[in] timeout Input parameter.
+ * @return True when the operation succeeds.
+ */
 bool DistributedTokenBlacklist::waitForClusterConvergence(
     std::chrono::milliseconds timeout)
 {
@@ -572,6 +580,11 @@ bool DistributedTokenBlacklist::waitForClusterConvergence(
     // Poll until we observe at least one successful background sync, or timeout
     while (running_.load()) {
         {
+            /**
+             * @brief Lock.
+             * @param[in] stats_mutex_ Input parameter.
+             * @return Return value.
+             */
             std::lock_guard<std::mutex> lock(stats_mutex_);
             if (stats_.successful_syncs > 0) {
               return true;
@@ -592,8 +605,16 @@ bool DistributedTokenBlacklist::waitForClusterConvergence(
 // Background threads
 // ===========================================================================
 
+/**
+ * @brief Purge Loop.
+ */
 void DistributedTokenBlacklist::purgeLoop()
 {
+    /**
+     * @brief Lock.
+     * @param[in] cv_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::unique_lock<std::mutex> lock(cv_mutex_);
     while (running_.load()) {
         if (cv_.wait_for(lock, std::chrono::seconds(config_.purge_interval_seconds),
@@ -602,8 +623,16 @@ void DistributedTokenBlacklist::purgeLoop()
     }
 }
 
+/**
+ * @brief Replication Loop.
+ */
 void DistributedTokenBlacklist::replicationLoop()
 {
+    /**
+     * @brief Lock.
+     * @param[in] cv_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::unique_lock<std::mutex> lock(cv_mutex_);
     while (running_.load()) {
         if (cv_.wait_for(lock, std::chrono::seconds(config_.sync_interval_seconds),
@@ -611,6 +640,11 @@ void DistributedTokenBlacklist::replicationLoop()
         bool ok = false;
         try { ok = performClusterSync(); } catch (...) {}
         {
+            /**
+             * @brief Stats lock.
+             * @param[in] stats_mutex_ Input parameter.
+             * @return Return value.
+             */
             std::lock_guard<std::mutex> stats_lock(stats_mutex_);
             stats_.total_syncs++;
             if (ok) {
@@ -628,14 +662,6 @@ void DistributedTokenBlacklist::replicationLoop()
 // RocksDB entry helpers
 // ===========================================================================
 
-/**
- * @brief Read all non-expired entries from the local RocksDB store.
- *
- * Used by the server listener (PULL_REQ response) and the leader push path
- * to collect the current revocation set for transmission to peers.
- *
- * @return Vector of (jti, expiry_time_point) pairs; expired entries are omitted.
- */
 std::vector<std::pair<std::string, std::chrono::system_clock::time_point>>
 DistributedTokenBlacklist::getAllEntries() const
 {
@@ -655,15 +681,6 @@ DistributedTokenBlacklist::getAllEntries() const
     return result;
 }
 
-/**
- * @brief Write a batch of peer-supplied (jti, unix-epoch-seconds) entries to RocksDB.
- *
- * Entries with past expiry are dropped silently. Existing entries are overwritten
- * regardless of their current value (Last-Write-Wins conflict resolution).
- *
- * @param entries Vector of (jti, unix_seconds) pairs from a cluster peer.
- * @throws std::runtime_error on RocksDB batch write failure.
- */
 void DistributedTokenBlacklist::applyEntries(
     const std::vector<std::pair<std::string, int64_t>>& entries)
 {
@@ -688,19 +705,10 @@ void DistributedTokenBlacklist::applyEntries(
     }
 }
 
-// ===========================================================================
-// TCP server listener — accepts inbound connections from cluster peers
-// ===========================================================================
-
 /**
- * @brief Accept loop run by `listener_thread_`.
- *
- * Polls `server_fd_` with a 200 ms select() timeout so that `running_=false`
- * causes the thread to exit within 200 ms without requiring a signal.
- * Accepted connections are handled synchronously; the short hold time (a few
- * round trips bounded by `peer_rpc_timeout_ms`) makes this acceptable for the
- * low-frequency sync traffic in v1.3.0.
+ * @brief =========================================================================== TCP server listener — accepts inbound connections from cluster peers ===========================================================================
  */
+
 void DistributedTokenBlacklist::serveIncomingConnections()
 {
     while (running_.load()) {
@@ -737,20 +745,8 @@ void DistributedTokenBlacklist::serveIncomingConnections()
 }
 
 /**
- * @brief Handle a single inbound peer connection (PUSH or PULL_REQ).
- *
- * Wire format:
- *   Header  (10 B): magic[4] "TBLK" | version[1] 0x01 | type[1] | count[4]
- *   Entries (var) : for each of count entries:
- *                     jti_len[2] | jti[jti_len] | expiry_unix_secs[8]
- *
- * - PUSH (0x01): follower receives revocations pushed by the leader.
- *   Reads `count` entries, applies them via applyEntries(), sends ACK.
- * - PULL_REQ (0x02): leader receives a request from a follower.
- *   Reads all local entries, sends them as PULL_RESP, waits for ACK.
- *
- * @param client_fd Socket descriptor for the accepted connection.
- *                  Caller retains ownership and closes the socket after return.
+ * @brief Handle Peer Connection.
+ * @param[in] client_fd Input parameter.
  */
 void DistributedTokenBlacklist::handlePeerConnection(std::uintptr_t client_fd)
 {
@@ -862,19 +858,8 @@ void DistributedTokenBlacklist::handlePeerConnection(std::uintptr_t client_fd)
 // ===========================================================================
 
 /**
- * @brief Perform one full cluster synchronization cycle.
- *
- * Sequence:
- *  1. Run leader election (local, O(#peers) string comparison).
- *  2. If no peers → trivially succeeded.
- *  3. If leader → push all non-expired local entries to each peer via TCP PUSH.
- *  4. If follower → identify the leader peer (lowest node_id), pull from it
- *     via TCP PULL_REQ / PULL_RESP exchange, then push local revocations back to
- *     the leader via TCP PUSH so that follower-originated revocations are
- *     propagated cluster-wide on the leader's next sync cycle.
- *
- * @return true if at least one peer sync succeeded (or there are no peers to sync).
- *         false if all peer connections failed (peers unreachable / timed out).
+ * @brief Perform Cluster Sync.
+ * @return True when the operation succeeds.
  */
 bool DistributedTokenBlacklist::performClusterSync()
 {
@@ -899,6 +884,11 @@ bool DistributedTokenBlacklist::performClusterSync()
                 peer.rpc_address + ":" + std::to_string(peer.rpc_port);
             if (pushRevisionsToFollower(addr)) {
                 any_success = true;
+                /**
+                 * @brief Lk.
+                 * @param[in] stats_mutex_ Input parameter.
+                 * @return Return value.
+                 */
                 std::lock_guard<std::mutex> lk(stats_mutex_);
                 ++stats_.entries_pushed;
             }
@@ -923,6 +913,11 @@ bool DistributedTokenBlacklist::performClusterSync()
                 leader_peer->rpc_address + ":" + std::to_string(leader_peer->rpc_port);
             if (pullRevisionsFromLeader(addr)) {
                 any_success = true;
+                /**
+                 * @brief Lk.
+                 * @param[in] stats_mutex_ Input parameter.
+                 * @return Return value.
+                 */
                 std::lock_guard<std::mutex> lk(stats_mutex_);
                 ++stats_.entries_pulled;
             }
@@ -930,6 +925,11 @@ bool DistributedTokenBlacklist::performClusterSync()
             // this follower are not silently dropped from the cluster view.
             if (pushRevisionsToFollower(addr)) {
                 any_success = true;
+                /**
+                 * @brief Lk.
+                 * @param[in] stats_mutex_ Input parameter.
+                 * @return Return value.
+                 */
                 std::lock_guard<std::mutex> lk(stats_mutex_);
                 ++stats_.entries_pushed;
             }
@@ -940,13 +940,8 @@ bool DistributedTokenBlacklist::performClusterSync()
 }
 
 /**
- * @brief Elect the replication leader by comparing `node_id` strings.
- *
- * The node with the lexicographically smallest `node_id` among all nodes
- * (local + peers) becomes the leader. This is a purely local computation
- * with no network communication.
- *
- * @return Always true (election itself cannot fail).
+ * @brief Perform Leader Election.
+ * @return True when the operation succeeds.
  */
 bool DistributedTokenBlacklist::performLeaderElection()
 {
@@ -962,15 +957,9 @@ bool DistributedTokenBlacklist::performLeaderElection()
 }
 
 /**
- * @brief Push all non-expired local revocations to a follower peer via TCP.
- *
- * Connects to `peer_address` ("host:port"), sends a TBLK/v1 PUSH message
- * containing every non-expired (jti, expiry) entry from local RocksDB, then
- * reads the ACK. The call blocks for at most `peer_rpc_timeout_ms`.
- *
- * @param peer_address "host:port" of the follower's listener.
- * @return true if the follower acknowledged the push; false on connection or
- *         protocol error (non-fatal; caller continues with next peer).
+ * @brief Push Revisions To Follower.
+ * @param[in] peer_address Input parameter.
+ * @return True when the operation succeeds.
  */
 bool DistributedTokenBlacklist::pushRevisionsToFollower(const std::string& peer_address)
 {
@@ -1034,16 +1023,9 @@ bool DistributedTokenBlacklist::pushRevisionsToFollower(const std::string& peer_
 }
 
 /**
- * @brief Pull revocations from the leader peer via TCP.
- *
- * Connects to `leader_address` ("host:port"), sends a TBLK/v1 PULL_REQ,
- * reads the PULL_RESP entries, applies them to local RocksDB using LWW
- * semantics, then sends an ACK. The call blocks for at most
- * `peer_rpc_timeout_ms`.
- *
- * @param leader_address "host:port" of the leader's listener.
- * @return true if at least one entry was received and applied successfully;
- *         false on connection or protocol error (non-fatal).
+ * @brief Pull Revisions From Leader.
+ * @param[in] leader_address Input parameter.
+ * @return True when the operation succeeds.
  */
 bool DistributedTokenBlacklist::pullRevisionsFromLeader(const std::string& leader_address)
 {

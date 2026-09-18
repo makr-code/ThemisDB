@@ -29,29 +29,14 @@ namespace themis {
 namespace lora {
 namespace vulkan {
 
-/**
- * @brief Vulkan buffer for GPU memory management
- * 
- * Manages device-local buffers for computation and staging buffers
- * for CPU↔GPU data transfers.
- */
 class VulkanBuffer {
 public:
-    /**
-     * @brief Buffer usage types
-     */
     enum class Usage {
         DeviceLocal,  // Device-local buffer for computation (VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT)
         Staging,      // Staging buffer for CPU↔GPU transfers (VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT)
         Uniform       // Uniform buffer for shader parameters
     };
     
-    /**
-     * @brief Create buffer with specified size and usage
-     * @param context Vulkan context
-     * @param size Buffer size in bytes
-     * @param usage Buffer usage type
-     */
     VulkanBuffer(VulkanContext* context, VkDeviceSize size, Usage usage);
     
     ~VulkanBuffer() noexcept;
@@ -62,40 +47,21 @@ public:
     VulkanBuffer(VulkanBuffer&& other) noexcept;
     VulkanBuffer& operator=(VulkanBuffer&& other) noexcept;
     
-    /**
-     * @brief Upload data to buffer
-     * @param data Source data pointer
-     * @param size Data size in bytes
-     * @param offset Offset in buffer (default 0)
-     */
     void upload(const void* data, VkDeviceSize size, VkDeviceSize offset = 0);
     
-    /**
-     * @brief Download data from buffer
-     * @param data Destination data pointer
-     * @param size Data size in bytes
-     * @param offset Offset in buffer (default 0)
-     */
     void download(void* data, VkDeviceSize size, VkDeviceSize offset = 0) const;
     
     /**
-     * @brief Map buffer memory for CPU access
-     * @return Mapped memory pointer
+     * @brief Map.
+     * @return Pointer to the result.
      */
     void* map();
     
     /**
-     * @brief Unmap buffer memory
+     * @brief Unmap.
      */
     void unmap();
     
-    /**
-     * @brief Copy data from another buffer
-     * @param src Source buffer
-     * @param size Size to copy (0 = entire buffer)
-     * @param src_offset Source offset
-     * @param dst_offset Destination offset
-     */
     void copy_from(const VulkanBuffer& src, VkDeviceSize size = 0,
                    VkDeviceSize src_offset = 0, VkDeviceSize dst_offset = 0);
     
@@ -108,17 +74,20 @@ public:
     
 private:
     /**
-     * @brief Create the buffer and allocate memory
+     * @brief Create buffer.
+     * @return True when the operation succeeds.
      */
     bool create_buffer();
     
     /**
-     * @brief Get Vulkan buffer usage flags for our Usage enum
+     * @brief Get usage flags.
+     * @return Return value.
      */
     VkBufferUsageFlags get_usage_flags() const;
     
     /**
-     * @brief Get Vulkan memory property flags for our Usage enum
+     * @brief Get memory properties.
+     * @return Return value.
      */
     VkMemoryPropertyFlags get_memory_properties() const;
     
@@ -141,7 +110,6 @@ namespace themis {
 namespace lora {
 namespace vulkan {
 
-/** @brief Vulkan buffer type. */
 class VulkanBuffer {
 public:
     enum class Usage { DeviceLocal, Staging, Uniform };
@@ -149,11 +117,43 @@ public:
     VulkanBuffer(VulkanContext*, size_t, Usage) {}
     ~VulkanBuffer() = default;
     
+    /**
+     * @brief Initialize.
+     * @return True when the operation succeeds.
+     * @details Implements initialize without additional internal calls.
+     */
     bool initialize() { return false; }
+    /**
+     * @brief Cleanup.
+     * @details Implements cleanup without additional internal calls.
+     */
     void cleanup() {}
+    /**
+     * @brief Upload.
+     * @param[in] param Input parameter.
+     * @param[in] size_t Input parameter.
+     * @return True when the operation succeeds.
+     * @details Implements upload without additional internal calls.
+     */
     bool upload(const void*, size_t) { return false; }
+    /**
+     * @brief Download.
+     * @param[in,out] param Input/output parameter.
+     * @param[in] size_t Input parameter.
+     * @return True when the operation succeeds.
+     * @details Implements download without additional internal calls.
+     */
     bool download(void*, size_t) { return false; }
+    /**
+     * @brief Map.
+     * @return Pointer to the result.
+     * @details Implements map without additional internal calls.
+     */
     void* map() { return nullptr; }
+    /**
+     * @brief Unmap.
+     * @details Implements unmap without additional internal calls.
+     */
     void unmap() {}
     bool is_mapped() const { return false; }
     size_t size() const { return 0; }

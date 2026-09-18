@@ -28,9 +28,6 @@ namespace llm {
 
 using json = nlohmann::json;
 
-/**
- * @brief LoRa signature verification result
- */
 struct LoRASignatureResult {
     bool is_valid = false;
     std::string signer_identity;
@@ -39,9 +36,6 @@ struct LoRASignatureResult {
     std::chrono::system_clock::time_point verified_at;
 };
 
-/**
- * @brief LoRa integrity check result
- */
 struct LoRAIntegrityResult {
     bool is_intact = true;
     std::string checksum_algorithm = "SHA-256";
@@ -50,9 +44,6 @@ struct LoRAIntegrityResult {
     std::vector<std::string> anomalies;  // Detected weight anomalies
 };
 
-/**
- * @brief Security configuration for LoRa validation
- */
 struct LoRASecurityConfig {
     // Signature verification
     bool require_signature = true;
@@ -78,22 +69,25 @@ struct LoRASecurityConfig {
     size_t max_rank = 128;
 };
 
-/**
- * @brief Security validator for LoRa adapters
- */
 class LoRASecurityValidator {
 public:
+    /**
+     * @brief Lo RASecurity Validator.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit LoRASecurityValidator(const LoRASecurityConfig& config);
-    /// @brief Virtual destructor to allow safe polymorphic use in tests and
-    ///        custom validator implementations injected via Config::security_validator.
+    /**
+     * @brief Lo RASecurity Validator.
+     * @return Return value.
+     */
     virtual ~LoRASecurityValidator() = default;
     
     /**
-     * @brief Verify signature of a LoRa adapter file
-     * 
-     * @param lora_path Path to LoRa adapter file
-     * @param signature_path Path to detached signature file (.sig)
-     * @return Signature verification result
+     * @brief Verify Signature.
+     * @param[in] lora_path Path to the lora.
+     * @param[in] signature_path Path to the signature.
+     * @return Return value.
      */
     LoRASignatureResult verifySignature(
         const std::string& lora_path,
@@ -101,135 +95,80 @@ public:
     );
     
     /**
-     * @brief Verify embedded signature in LoRa metadata
-     * 
-     * @param lora_path Path to LoRa adapter file
-     * @return Signature verification result
+     * @brief Verify Embedded Signature.
+     * @param[in] lora_path Path to the lora.
+     * @return Return value.
      */
     LoRASignatureResult verifyEmbeddedSignature(const std::string& lora_path);
     
-    /**
-     * @brief Check integrity of LoRa adapter
-     * 
-     * Performs:
-     * - Checksum verification (if expected checksum provided)
-     * - Weight anomaly detection
-     * - Structural validation
-     * 
-     * @param lora_path Path to LoRa adapter file
-     * @param expected_checksum Optional expected checksum
-     * @return Integrity check result
-     */
     LoRAIntegrityResult checkIntegrity(
         const std::string& lora_path,
         const std::optional<std::string>& expected_checksum = std::nullopt
     );
     
     /**
-     * @brief Validate LoRa metadata
-     * 
-     * Checks:
-     * - Base model compatibility
-     * - Rank plausibility
-     * - Size constraints
-     * - Format version
-     * 
-     * Virtual to allow test doubles and custom validators to be injected via
-     * MultiLoRAManager::Config::security_validator without subclassing the
-     * full implementation.
-     *
-     * @param lora_path Path to LoRa adapter file
-     * @return true if metadata is valid
+     * @brief Validate Metadata.
+     * @param[in] lora_path Path to the lora.
+     * @return True when the operation succeeds.
      */
     virtual bool validateMetadata(const std::string& lora_path);
     
     /**
-     * @brief Detect anomalies in LoRa weights
-     * 
-     * Statistical analysis of weight distributions:
-     * - Outlier detection
-     * - Distribution shifts
-     * - Unusual patterns
-     * 
-     * @param weights Weight tensor data
-     * @return List of detected anomalies
+     * @brief Detect Weight Anomalies.
+     * @param[in] weights Input parameter.
+     * @return Return value.
      */
     std::vector<std::string> detectWeightAnomalies(
         const std::vector<float>& weights
     );
     
-    /**
-     * @brief Calculate checksum of LoRa adapter
-     * 
-     * @param lora_path Path to LoRa adapter file
-     * @param algorithm Checksum algorithm (SHA-256, SHA-512, etc.)
-     * @return Hex-encoded checksum
-     */
     std::string calculateChecksum(
         const std::string& lora_path,
         const std::string& algorithm = "SHA-256"
     );
     
     /**
-     * @brief Add trusted signer certificate
-     * 
-     * @param cert_fingerprint SHA-256 fingerprint of X.509 cert
+     * @brief Add Trusted Signer.
+     * @param[in] cert_fingerprint Input parameter.
      */
     void addTrustedSigner(const std::string& cert_fingerprint);
     
     /**
-     * @brief Remove trusted signer
-     * 
-     * @param cert_fingerprint SHA-256 fingerprint to remove
+     * @brief Remove Trusted Signer.
+     * @param[in] cert_fingerprint Input parameter.
      */
     void removeTrustedSigner(const std::string& cert_fingerprint);
     
     /**
-     * @brief Check if signer is trusted
-     * 
-     * @param cert_fingerprint SHA-256 fingerprint to check
-     * @return true if signer is trusted
+     * @brief Is Trusted Signer.
+     * @param[in] cert_fingerprint Input parameter.
+     * @return True when the operation succeeds.
      */
     bool isTrustedSigner(const std::string& cert_fingerprint) const;
     
-    /**
-     * @brief Get security configuration
-     * 
-     * @return Current security configuration
-     */
     LoRASecurityConfig getConfig() const { return config_; }
     
     /**
-     * @brief Update security configuration
-     * 
-     * @param config New configuration
+     * @brief Set Config.
+     * @param[in] config Input parameter.
      */
     void setConfig(const LoRASecurityConfig& config);
 
     /**
-     * @brief Attach an audit logger so that signature verification
-     *        failures and successes are persisted via LLMModelAuditLogger.
-     *
-     * Optional: when not set, security events are only written to spdlog.
-     * The logger is owned externally; the validator keeps a shared_ptr.
-     *
-     * @param logger Shared audit-logger instance (may be nullptr to detach)
+     * @brief Set Audit Logger.
+     * @param[in] logger Input parameter.
      */
     void setAuditLogger(const std::shared_ptr<LLMModelAuditLogger>& logger);
 
     /**
-     * @brief Replace the certificate store used for fingerprint lookups.
-     *
-     * By default the validator constructs its own LoRACertificateStore from
-     * the paths in LoRASecurityConfig.  Call this to inject a custom or
-     * pre-populated store (e.g., in tests).
-     *
-     * @param store Shared ownership of the certificate store.
+     * @brief Set Certificate Store.
+     * @param[in] store Input parameter.
      */
     void setCertificateStore(std::shared_ptr<LoRACertificateStore> store);
 
     /**
-     * @brief Return the active certificate store.
+     * @brief Get Certificate Store.
+     * @return Return value.
      */
     std::shared_ptr<LoRACertificateStore> getCertificateStore() const;
 
@@ -239,22 +178,55 @@ private:
     std::shared_ptr<LoRACertificateStore> cert_store_;
     
     // Helper methods
+    /**
+     * @brief Load Lo RAFile.
+     * @param[in] path Input parameter.
+     * @param[in,out] data Input/output parameter.
+     * @return True when the operation succeeds.
+     */
     bool loadLoRAFile(const std::string& path, std::vector<uint8_t>& data);
+    /**
+     * @brief Parse Lo RAMetadata.
+     * @param[in] data Input parameter.
+     * @param[in,out] metadata Input/output parameter.
+     * @return True when the operation succeeds.
+     */
     bool parseLoRAMetadata(const std::vector<uint8_t>& data, json& metadata);
+    /**
+     * @brief Load Weights From Lo RAFile.
+     * @param[in] path Input parameter.
+     * @return Return value.
+     */
     std::vector<float> loadWeightsFromLoRAFile(const std::string& path);
     
-    // Statistical helpers for anomaly detection
+    /**
+     * @brief Statistical helpers for anomaly detection
+     * @param[in] values Input parameter.
+     * @return Return value.
+     */
     float calculateMean(const std::vector<float>& values);
+    /**
+     * @brief Calculate Std Dev.
+     * @param[in] values Input parameter.
+     * @param[in] mean Input parameter.
+     * @return Return value.
+     */
     float calculateStdDev(const std::vector<float>& values, float mean);
+    /**
+     * @brief Find Outliers.
+     * @param[in] values Input parameter.
+     * @param[in] threshold Input parameter.
+     * @return Return value.
+     */
     std::vector<size_t> findOutliers(const std::vector<float>& values, float threshold);
+    /**
+     * @brief Detect Distribution Shift.
+     * @param[in] weights Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool detectDistributionShift(const std::vector<float>& weights);
 };
 
-/**
- * @brief Prompt injection detector
- * 
- * Detects suspicious patterns in prompts that may indicate injection attacks.
- */
 class PromptInjectionDetector {
 public:
     struct Config {
@@ -264,38 +236,39 @@ public:
         bool log_detections = true;
     };
     
+    /**
+     * @brief Prompt Injection Detector.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit PromptInjectionDetector(const Config& config);
     ~PromptInjectionDetector() = default;
     
     /**
-     * @brief Check if prompt is suspicious
-     * 
-     * @param prompt User input or system prompt
-     * @return true if prompt appears malicious
+     * @brief Is Suspicious.
+     * @param[in] prompt Input parameter.
+     * @return True when the operation succeeds.
      */
     bool isSuspicious(const std::string& prompt);
     
     /**
-     * @brief Calculate risk score for prompt
-     * 
-     * @param prompt User input or system prompt
-     * @return Risk score between 0.0 (safe) and 1.0 (high risk)
+     * @brief Get Risk Score.
+     * @param[in] prompt Input parameter.
+     * @return Return value.
      */
     float getRiskScore(const std::string& prompt);
     
     /**
-     * @brief Get detailed analysis of prompt
-     * 
-     * @param prompt User input
-     * @return JSON with detected patterns and scores
+     * @brief Analyze Prompt.
+     * @param[in] prompt Input parameter.
+     * @return Return value.
      */
     json analyzePrompt(const std::string& prompt);
     
     /**
-     * @brief Sanitize prompt by removing suspicious patterns
-     * 
-     * @param prompt Original prompt
-     * @return Sanitized prompt
+     * @brief Sanitize Prompt.
+     * @param[in] prompt Input parameter.
+     * @return Return value.
      */
     std::string sanitizePrompt(const std::string& prompt);
     
@@ -307,19 +280,42 @@ private:
     std::vector<std::string> dangerous_keywords_;
     
     // Helper methods
+    /**
+     * @brief Initialize Patterns.
+     */
     void initializePatterns();
+    /**
+     * @brief Calculate Pattern Score.
+     * @param[in] prompt Input parameter.
+     * @return Return value.
+     */
     float calculatePatternScore(const std::string& prompt);
+    /**
+     * @brief Calculate Keyword Score.
+     * @param[in] prompt Input parameter.
+     * @return Return value.
+     */
     float calculateKeywordScore(const std::string& prompt);
+    /**
+     * @brief Calculate Syntax Score.
+     * @param[in] prompt Input parameter.
+     * @return Return value.
+     */
     float calculateSyntaxScore(const std::string& prompt);
+    /**
+     * @brief Contains System Prompt Bypass.
+     * @param[in] prompt Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool containsSystemPromptBypass(const std::string& prompt);
+    /**
+     * @brief Contains Jailbreak Attempt.
+     * @param[in] prompt Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool containsJailbreakAttempt(const std::string& prompt);
 };
 
-/**
- * @brief Embedding anomaly detector
- * 
- * Detects anomalous embeddings in vector database that may indicate poisoning.
- */
 class EmbeddingAnomalyDetector {
 public:
     struct Config {
@@ -329,33 +325,35 @@ public:
         bool use_isolation_forest = false;  // Advanced ML-based detection
     };
     
+    /**
+     * @brief Embedding Anomaly Detector.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit EmbeddingAnomalyDetector(const Config& config);
     ~EmbeddingAnomalyDetector() = default;
     
     /**
-     * @brief Check if embedding is anomalous
-     * 
-     * @param embedding Vector embedding to check
-     * @return Anomaly score (0.0 = normal, 1.0 = highly anomalous)
+     * @brief Get Anomaly Score.
+     * @param[in] embedding Input parameter.
+     * @return Return value.
      */
     float getAnomalyScore(const std::vector<float>& embedding);
     
     /**
-     * @brief Update baseline statistics with new embedding
-     * 
-     * @param embedding Normal embedding to include in baseline
+     * @brief Update Baseline.
+     * @param[in] embedding Input parameter.
      */
     void updateBaseline(const std::vector<float>& embedding);
     
     /**
-     * @brief Reset baseline statistics
+     * @brief Reset Baseline.
      */
     void resetBaseline();
     
     /**
-     * @brief Get baseline statistics
-     * 
-     * @return JSON with mean, stddev, samples count
+     * @brief Get Baseline Stats.
+     * @return Return value.
      */
     json getBaselineStats() const;
     
@@ -368,14 +366,31 @@ private:
     size_t sample_count_ = 0;
     
     // Helper methods
+    /**
+     * @brief Calculate Cosine Similarity.
+     * @param[in] a Input parameter.
+     * @param[in] b Input parameter.
+     * @return Return value.
+     */
     float calculateCosineSimilarity(
         const std::vector<float>& a,
         const std::vector<float>& b
     );
+    /**
+     * @brief Calculate Euclidean Distance.
+     * @param[in] a Input parameter.
+     * @param[in] b Input parameter.
+     * @return Return value.
+     */
     float calculateEuclideanDistance(
         const std::vector<float>& a,
         const std::vector<float>& b
     );
+    /**
+     * @brief Is Outlier.
+     * @param[in] embedding Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool isOutlier(const std::vector<float>& embedding);
 };
 

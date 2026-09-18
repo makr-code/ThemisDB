@@ -124,10 +124,10 @@ private:
     static std::string unquoteIdentifier(const std::string& s);
 
     /**
-     * @brief Strip Oracle hint comments (/*+ .
+     * @brief Strip Oracle hint comments and regular block comments.
      * @param[in] sql Input parameter.
-     * @return Return value.
-     * @details .. */) and regular block comments (/* ... */)
+     * @return SQL text with Oracle hint comments and block comments removed.
+    * @details Handles Oracle hint and block comment forms using slash-star delimiters.
      */
     static std::string stripOracleComments(const std::string& sql);
 

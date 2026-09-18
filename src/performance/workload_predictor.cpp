@@ -33,6 +33,11 @@ WorkloadPredictor::WorkloadPredictor(const Config& config)
 // record
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Record.
+ * @param[in] snapshot Input parameter.
+ * @details Calls: lk(), push_back(), size(), pop_front().
+ */
 void WorkloadPredictor::record(const WorkloadSnapshot& snapshot) {
     std::unique_lock<std::shared_mutex> lk(mutex_);
     history_.push_back(snapshot);
@@ -47,6 +52,11 @@ void WorkloadPredictor::record(const WorkloadSnapshot& snapshot) {
 // ---------------------------------------------------------------------------
 
 WorkloadForecast WorkloadPredictor::predict(uint64_t horizon_us) const {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::unique_lock<std::shared_mutex> lk(mutex_);
 
     WorkloadForecast result{};
@@ -208,11 +218,21 @@ ScaleRecommendation WorkloadPredictor::recommend_scaling(
 // ---------------------------------------------------------------------------
 
 size_t WorkloadPredictor::observation_count() const noexcept {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lk(mutex_);
     return history_.size();
 }
 
 void WorkloadPredictor::reset() noexcept {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::unique_lock<std::shared_mutex> lk(mutex_);
     history_.clear();
 }

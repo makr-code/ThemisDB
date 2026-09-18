@@ -77,7 +77,6 @@ enum class OpType : uint8_t {
     REMOVE = 1,
 };
 
-/** A single pending mutation (put or delete). */
 struct Op {
     OpType      type;
     std::string key = {};
@@ -88,7 +87,6 @@ struct Op {
     }
 };
 
-/** A sorted key-value entry stored in a leaf node. */
 struct KVEntry {
     std::string key;
     std::string value;
@@ -98,7 +96,6 @@ struct KVEntry {
 struct Node;
 using NodePtr = std::unique_ptr<Node>;
 
-/** Tree node (internal or leaf). */
 struct Node {
     bool is_leaf = 0;
 
@@ -123,8 +120,12 @@ struct Node {
         return static_cast<size_t>(it - pivot_keys.begin());
     }
 
-    // Leaf helpers
-    // Returns iterator to matching entry or data.end().
+    /**
+     * @brief Leaf helpers Returns iterator to matching entry or data.
+     * @param[in] key Input parameter.
+     * @return Return value.
+     * @details end(). Calls: std::lower_bound(), begin(), end().
+     */
     std::vector<KVEntry>::iterator leafFind(std::string_view key) {
         auto it = std::lower_bound(data.begin(), data.end(), key,
                                    [](const KVEntry& e, std::string_view k) {
@@ -147,6 +148,11 @@ struct Node {
         return data.end();
     }
 
+    /**
+     * @brief Leaf Apply.
+     * @param[in] op Input parameter.
+     * @details Calls: leafFind(), end(), std::lower_bound(), begin(), insert(), erase().
+     */
     void leafApply(const Op& op) {
         auto it = leafFind(op.key);
         if (op.type == OpType::PUT) {
@@ -172,8 +178,13 @@ struct Node {
 // Leaf-split helper
 // ─────────────────────────────────────────────────────────────────────────────
 
-// Split a full leaf node: returns the new right leaf and sets pivot to the
-// smallest key of the right leaf.
+/**
+ * @brief Split a full leaf node: returns the new right leaf and sets pivot to the smallest key of the right leaf.
+ * @param[in,out] leaf Input/output parameter.
+ * @param[in,out] out_pivot Input/output parameter.
+ * @return Return value.
+ * @details Calls: size(), assign(), begin(), end(), erase(), front().
+ */
 NodePtr splitLeaf(Node& leaf, std::string& out_pivot) {
     size_t mid = leaf.data.size() / 2;
     auto right = std::make_unique<Node>(true);
@@ -188,8 +199,13 @@ NodePtr splitLeaf(Node& leaf, std::string& out_pivot) {
     return right;
 }
 
-// Split a full internal node: returns the new right internal node and sets
-// pivot to the pivot key that moves up.
+/**
+ * @brief Split a full internal node: returns the new right internal node and sets pivot to the pivot key that moves up.
+ * @param[in,out] node Input/output parameter.
+ * @param[in,out] out_pivot Input/output parameter.
+ * @return Return value.
+ * @details Calls: size(), assign(), std::make_move_iterator(), begin(), end(), erase().
+ */
 NodePtr splitInternal(Node& node, std::string& out_pivot) {
     // Number of children: node.children.size()
     // Number of pivots: node.pivot_keys.size() == node.children.size() - 1
@@ -244,7 +260,11 @@ struct WomTree::Impl {
         root = std::make_unique<Node>(true);  // Start as a single leaf.
     }
 
-    // ── Write path ───────────────────────────────────────────────────────
+    /**
+     * @brief ── Write path ───────────────────────────────────────────────────────
+     * @param[in] op Input parameter.
+     * @details Calls: fetch_add(), byteSize(), leafFind(), end(), applyOpToLeaf(), fetch_sub(), maybeSplitRootLeaf(), doGet().
+     */
 
     void doInsertOp(Op op) {
         // audit_logging scanner alerts (lines 235, 243, 259, 308, 326, 332, 347,
@@ -304,8 +324,12 @@ struct WomTree::Impl {
         fixAllInternalOverflows();
     }
 
-    // Recursively flush node's buffer one level downward.
-    // depth == depth of 'node' in the tree (root = 1).
+    /**
+     * @brief Recursively flush node's buffer one level downward.
+     * @param[in,out] node Input/output parameter.
+     * @param[in] depth Input parameter.
+     * @details depth == depth of 'node' in the tree (root = 1). Calls: empty(), size(), child_ops(), childIndex(), push_back(), std::move(), clear(), fetch_add().
+     */
     void flushNode(Node& node, uint32_t depth) {
         if (node.is_leaf || node.buffer.empty()) {
           return;
@@ -381,7 +405,12 @@ struct WomTree::Impl {
         }
     }
 
-    // Flush all buffers in the subtree rooted at 'node' to leaves.
+    /**
+     * @brief Flush all buffers in the subtree rooted at 'node' to leaves.
+     * @param[in,out] node Input/output parameter.
+     * @param[in] depth Input parameter.
+     * @details Calls: flushNode().
+     */
     void flushAll(Node& node, uint32_t depth) {
         if (node.is_leaf) {
           return;
@@ -394,8 +423,10 @@ struct WomTree::Impl {
 
     // ── Root-growth helpers ──────────────────────────────────────────────
 
-    // If the single-leaf root is over capacity, promote it to an internal
-    // node with two leaf children.
+    /**
+     * @brief If the single-leaf root is over capacity, promote it to an internal node with two leaf children.
+     * @details Calls: size(), splitLeaf(), push_back(), std::move().
+     */
     void maybeSplitRootLeaf() {
         if (!root->is_leaf) {
           return;
@@ -416,8 +447,12 @@ struct WomTree::Impl {
         height = 2;
     }
 
-    // If child[ci] is a leaf and has more than leaf_capacity entries, split it
-    // and insert the new pivot into 'parent'.
+    /**
+     * @brief If child[ci] is a leaf and has more than leaf_capacity entries, split it and insert the new pivot into 'parent'.
+     * @param[in,out] parent Input/output parameter.
+     * @param[in] ci Input parameter.
+     * @details Calls: size(), splitLeaf(), insert(), begin(), std::move().
+     */
     void maybeSplitChild(Node& parent, size_t ci) {
         Node& child = *parent.children[ci];
         if (!child.is_leaf) {
@@ -441,8 +476,14 @@ struct WomTree::Impl {
 
     // ── Fanout enforcement ───────────────────────────────────────────────
 
-    // Perform one internal-node split, depth-first.  Returns true if any
-    // split was performed (the caller should then call again until stable).
+    /**
+     * @brief Perform one internal-node split, depth-first.
+     * @param[in,out] node_ref Input/output parameter.
+     * @param[in,out] parent Input/output parameter.
+     * @param[in] idx_in_parent Input parameter.
+     * @return True when the operation succeeds.
+     * @details Returns true if any split was performed (the caller should then call again until stable). Calls: size(), get(), splitInternal(), push_back(), std::move(), insert(), begin().
+     */
     bool doOneInternalSplit(NodePtr& node_ref, Node* parent, size_t idx_in_parent) {
         if (node_ref->is_leaf) {
           return false;
@@ -486,21 +527,22 @@ struct WomTree::Impl {
         return true;
     }
 
-    // Keep splitting overfull internal nodes until the tree satisfies the
-    // fanout constraint at every level.
+    /**
+     * @brief Keep splitting overfull internal nodes until the tree satisfies the fanout constraint at every level.
+     * @details Calls: doOneInternalSplit().
+     */
     void fixAllInternalOverflows() {
         while (doOneInternalSplit(root, nullptr, 0)) {}
     }
 
     // ── Leaf-apply helper ────────────────────────────────────────────────
 
-    // Apply a single Op to a leaf and record the write in stat_internal_bytes.
-    // stat_live_entries is NOT updated here — that responsibility belongs to:
-    //   • doInsertOp (single-leaf fast path: before/after check)
-    //   • doInsertOp (buffered path: doGet-based check before enqueueing)
-    //   • directRemove (unconditional decrement, existence pre-verified)
-    // This separation avoids double-counting when buffered ops are flushed
-    // by flushNode.
+    /**
+     * @brief Apply a single Op to a leaf and record the write in stat_internal_bytes.
+     * @param[in,out] leaf Input/output parameter.
+     * @param[in] op Input parameter.
+     * @details stat_live_entries is NOT updated here — that responsibility belongs to: • doInsertOp (single-leaf fast path: before/after check) • doInsertOp (buffered path: doGet-based check before enqueueing) • directRemove (unconditional decrement, existence pre-verified) This separation avoids double-counting when buffered ops are flushed by flushNode. Calls: fetch_add(), byteSize(), leafApply().
+     */
     void applyOpToLeaf(Node& leaf, const Op& op) {
         stat_internal_bytes.fetch_add(op.byteSize(), std::memory_order_relaxed);
         leaf.leafApply(op);
@@ -508,9 +550,12 @@ struct WomTree::Impl {
 
     // ── lazy_deletes=false helpers ───────────────────────────────────────
 
-    // Remove all buffered ops for 'key' along the path from node down to the
-    // child subtree that contains 'key'.  This prevents a previously-buffered
-    // PUT from reappearing after the next flush when lazy_deletes=false.
+    /**
+     * @brief Remove all buffered ops for 'key' along the path from node down to the child subtree that contains 'key'.
+     * @param[in] key Input parameter.
+     * @param[in,out] node Input/output parameter.
+     * @details This prevents a previously-buffered PUT from reappearing after the next flush when lazy_deletes=false. Calls: erase(), std::remove_if(), begin(), end(), byteSize(), childIndex().
+     */
     void clearBufferedOpsForKey(const std::string& key, Node& node) {
         if (node.is_leaf) {
           return;
@@ -534,10 +579,11 @@ struct WomTree::Impl {
         clearBufferedOpsForKey(key, *node.children[ci]);
     }
 
-    // Immediately remove 'key' from the tree without buffering a tombstone.
-    // All pending buffered ops for 'key' in internal nodes are purged first,
-    // then the entry is physically erased from its leaf.
-    // Precondition: caller has verified the key exists (doGet succeeded).
+    /**
+     * @brief Immediately remove 'key' from the tree without buffering a tombstone.
+     * @param[in] key Input parameter.
+     * @details All pending buffered ops for 'key' in internal nodes are purged first, then the entry is physically erased from its leaf. Precondition: caller has verified the key exists (doGet succeeded). Calls: clearBufferedOpsForKey(), get(), childIndex(), applyOpToLeaf(), fetch_sub().
+     */
     void directRemove(const std::string& key) {
         // Clear any buffered ops for this key so they can't resurrect it
         // after the next flush (relevant when root is already internal).
@@ -695,6 +741,12 @@ struct WomTree::Impl {
 // WomTree public interface
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Validate Config.
+ * @param[in] cfg Input parameter.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Implements validateConfig without additional internal calls.
+ */
 static void validateConfig(const WomTree::Config& cfg) {
     if (cfg.fanout < 2) {
         throw std::invalid_argument("WomTree: fanout must be >= 2");
@@ -730,7 +782,13 @@ WomTree::~WomTree() = default;
 WomTree::WomTree(WomTree&&) noexcept = default;
 WomTree& WomTree::operator=(WomTree&&) noexcept = default;
 
-// ── put ──────────────────────────────────────────────────────────────────────
+/**
+ * @brief ── put ──────────────────────────────────────────────────────────────────────
+ * @param[in] key Input parameter.
+ * @param[in] value Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), ErrVoid(), lk(), std::string(), fetch_add(), doInsertOp(), std::move(), OkVoid().
+ */
 
 Result<void> WomTree::put(std::string_view key, std::string_view value) {
     if (key.empty()) {
@@ -747,7 +805,12 @@ Result<void> WomTree::put(std::string_view key, std::string_view value) {
     return OkVoid();
 }
 
-// ── remove ───────────────────────────────────────────────────────────────────
+/**
+ * @brief ── remove ───────────────────────────────────────────────────────────────────
+ * @param[in] key Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), ErrVoid(), lk(), doGet(), has_value(), std::string(), fetch_add(), directRemove().
+ */
 
 Result<void> WomTree::remove(std::string_view key) {
     if (key.empty()) {
@@ -853,7 +916,11 @@ void WomTree::scanRange(
     }
 }
 
-// ── compact / flushOnce ──────────────────────────────────────────────────────
+/**
+ * @brief ── compact / flushOnce ──────────────────────────────────────────────────────
+ * @return Return value.
+ * @details Calls: lk(), flushAll(), OkVoid().
+ */
 
 Result<void> WomTree::compact() {
     std::lock_guard<std::shared_mutex> lk(impl_->mu);
@@ -861,6 +928,11 @@ Result<void> WomTree::compact() {
     return OkVoid();
 }
 
+/**
+ * @brief Flush Once.
+ * @return Return value.
+ * @details Calls: lk(), empty(), flushNode(), OkVoid().
+ */
 Result<void> WomTree::flushOnce() {
     std::lock_guard<std::shared_mutex> lk(impl_->mu);
     if (!impl_->root->is_leaf && !impl_->root->buffer.empty()) {
@@ -879,6 +951,10 @@ bool WomTree::empty() const noexcept {
     return size() == 0;
 }
 
+/**
+ * @brief Clear.
+ * @details Calls: lk(), store().
+ */
 void WomTree::clear() {
     std::lock_guard<std::shared_mutex> lk(impl_->mu);
     impl_->root = std::make_unique<Node>(true);

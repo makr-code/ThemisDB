@@ -35,12 +35,13 @@ namespace importers {
 // ============================================================================
 
 /**
- * @brief Memory-bounded line reader (mirrors pattern from other importers).
- *
- * Reads the next newline-terminated line from @p file with a hard per-line
- * byte cap of @p max_bytes (0 = unlimited).  When the cap is exceeded the
- * remaining bytes of the current line are discarded and @p truncated is set
- * to true.  Returns false only when EOF is reached before any bytes are read.
+ * @brief Stream Read Line Flat.
+ * @param[in,out] file Input/output parameter.
+ * @param[in,out] line Input/output parameter.
+ * @param[in] max_bytes Input parameter.
+ * @param[in,out] truncated Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: clear(), std::getline(), get().
  */
 static bool streamReadLineFlat(std::istream& file,
                             std::string& line,
@@ -96,6 +97,12 @@ std::vector<std::string> FlatFileImporter::getSupportedTypes() const {
     return {"csv", "tsv", "jsonl", "ndjson", "parquet"};
 }
 
+/**
+ * @brief Initialize.
+ * @param[in] config Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: clear(), empty(), json::parse(), contains(), THEMIS_INFO(), what().
+ */
 bool FlatFileImporter::initialize(const std::string& config) {
     cancelled_ = false;
     format_    = FlatFileFormat::AUTO;
@@ -150,6 +157,13 @@ bool FlatFileImporter::initialize(const std::string& config) {
     return true;
 }
 
+/**
+ * @brief Validate Source.
+ * @param[in] source_path Path to the source.
+ * @param[in,out] errors Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: file(), push_back(), effectiveFormat(), std::getline(), empty(), back(), pop_back(), json::parse().
+ */
 bool FlatFileImporter::validateSource(const std::string& source_path,
                                       std::vector<std::string>& errors) {
     std::ifstream file(source_path);
@@ -239,6 +253,14 @@ bool FlatFileImporter::validateSource(const std::string& source_path,
     return true;
 }
 
+/**
+ * @brief Import Data.
+ * @param[in] source_path Path to the source.
+ * @param[in] options Input parameter.
+ * @param[in] progress_callback Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::steady_clock::now(), THEMIS_INFO(), permission_check(), addError(), effectiveFormat(), empty(), filenameStem(), find().
+ */
 ImportStats FlatFileImporter::importData(
     const std::string& source_path,
     const ImportOptions& options,
@@ -340,6 +362,13 @@ ImportStats FlatFileImporter::importData(
     return stats;
 }
 
+/**
+ * @brief Import Data Async.
+ * @param[in] source_path Path to the source.
+ * @param[in] options Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), std::to_string(), get(), store(), setStage(), get_future().
+ */
 std::shared_ptr<ImportHandle> FlatFileImporter::importDataAsync(
     const std::string& source_path,
     const ImportOptions& options
@@ -404,11 +433,21 @@ std::shared_ptr<ImportHandle> FlatFileImporter::importDataAsync(
     return handle;
 }
 
+/**
+ * @brief Cancel.
+ * @details Calls: THEMIS_INFO().
+ */
 void FlatFileImporter::cancel() {
     cancelled_ = true;
     THEMIS_INFO("FlatFile import cancelled");
 }
 
+/**
+ * @brief Get Source Schema.
+ * @param[in] source_path Path to the source.
+ * @return Return value.
+ * @details Calls: effectiveFormat(), empty(), filenameStem(), json::array(), file(), std::getline(), back(), pop_back().
+ */
 json FlatFileImporter::getSourceSchema(const std::string& source_path) {
     FlatFileFormat fmt = effectiveFormat(source_path);
     std::string table  = table_name_.empty()
@@ -599,6 +638,12 @@ json FlatFileImporter::getSourceSchema(const std::string& source_path) {
 // Static helpers
 // ============================================================================
 
+/**
+ * @brief Detect Format.
+ * @param[in] path Input parameter.
+ * @return Return value.
+ * @details Calls: rfind(), substr(), std::tolower().
+ */
 FlatFileFormat FlatFileImporter::detectFormat(const std::string& path) {
     // Extract extension (last '.' segment, lower-cased)
     auto dot = path.rfind('.');
@@ -632,6 +677,12 @@ FlatFileFormat FlatFileImporter::effectiveFormat(const std::string& path) const 
     return detectFormat(path);
 }
 
+/**
+ * @brief Filename Stem.
+ * @param[in] path Input parameter.
+ * @return Return value.
+ * @details Calls: rfind(), substr(), empty().
+ */
 std::string FlatFileImporter::filenameStem(const std::string& path) {
     // Extract basename
     size_t slash = path.rfind('/');
@@ -655,6 +706,14 @@ std::string FlatFileImporter::filenameStem(const std::string& path) {
 // CSV row parser
 // ============================================================================
 
+/**
+ * @brief Parse Csv Row.
+ * @param[in] line Input parameter.
+ * @param[in] delim Input parameter.
+ * @param[in] quote Input parameter.
+ * @return Return value.
+ * @details Calls: size(), push_back(), clear().
+ */
 std::vector<std::string> FlatFileImporter::parseCsvRow(const std::string& line,
                                                         char delim,
                                                         char quote) {
@@ -697,6 +756,17 @@ std::vector<std::string> FlatFileImporter::parseCsvRow(const std::string& line,
 // CSV / TSV schema detection
 // ============================================================================
 
+/**
+ * @brief Detect Csv Schema.
+ * @param[in,out] file Input/output parameter.
+ * @param[in] data_start_pos Input parameter.
+ * @param[in] columns Input parameter.
+ * @param[in] delim Input parameter.
+ * @param[in] line_limit Input parameter.
+ * @param[in] sample_limit Input parameter.
+ * @param[in] table Input parameter.
+ * @return Return value.
+ */
 DetectedSchema FlatFileImporter::detectCsvSchema(
     std::ifstream& file,
     std::streampos data_start_pos,
@@ -746,6 +816,17 @@ DetectedSchema FlatFileImporter::detectCsvSchema(
 // CSV / TSV import
 // ============================================================================
 
+/**
+ * @brief Import Csv File.
+ * @param[in] path Input parameter.
+ * @param[in] fmt Input parameter.
+ * @param[in] table Input parameter.
+ * @param[in] options Input parameter.
+ * @param[in,out] stats Input/output parameter.
+ * @param[in,out] cb Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: file(), addError(), shouldImportTable(), streamReadLineFlat(), empty(), back(), pop_back(), parseCsvRow().
+ */
 bool FlatFileImporter::importCsvFile(const std::string& path,
                                      FlatFileFormat fmt,
                                      const std::string& table,
@@ -958,6 +1039,16 @@ bool FlatFileImporter::importCsvFile(const std::string& path,
 // JSONL import
 // ============================================================================
 
+/**
+ * @brief Import Jsonl File.
+ * @param[in] path Input parameter.
+ * @param[in] table Input parameter.
+ * @param[in] options Input parameter.
+ * @param[in,out] stats Input/output parameter.
+ * @param[in,out] cb Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: file(), addError(), shouldImportTable(), reportProgress(), emitSpan(), tellg(), streamReadLineFlat(), empty().
+ */
 bool FlatFileImporter::importJsonlFile(const std::string& path,
                                         const std::string& table,
                                         const ImportOptions& options,
@@ -1216,6 +1307,16 @@ bool FlatFileImporter::importJsonlFile(const std::string& path,
 // Parquet import
 // ============================================================================
 
+/**
+ * @brief Import Parquet File.
+ * @param[in] path Input parameter.
+ * @param[in] table Input parameter.
+ * @param[in] options Input parameter.
+ * @param[in,out] stats Input/output parameter.
+ * @param[in,out] cb Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: shouldImportTable(), addError(), arrow::io::ReadableFile::Open(), ok(), status(), ToString(), ValueOrDie(), parquet::arrow::OpenFile().
+ */
 bool FlatFileImporter::importParquetFile(const std::string& path,
                                           const std::string& table,
                                           const ImportOptions& options,
@@ -1537,6 +1638,14 @@ void FlatFileImporter::emitSpan(const ImportOptions& options,
     }
 }
 
+/**
+ * @brief Report Progress.
+ * @param[in,out] callback Input/output parameter.
+ * @param[in] stage Input parameter.
+ * @param[in] current Input parameter.
+ * @param[in] total Input parameter.
+ * @details Calls: callback().
+ */
 void FlatFileImporter::reportProgress(ProgressCallback& callback,
                                        const std::string& stage,
                                        size_t current, size_t total) {
@@ -1545,6 +1654,12 @@ void FlatFileImporter::reportProgress(ProgressCallback& callback,
     }
 }
 
+/**
+ * @brief Is Valid Utf8.
+ * @param[in] s Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: data(), size().
+ */
 bool FlatFileImporter::isValidUtf8(const std::string& s) {
     const unsigned char* bytes =
         reinterpret_cast<const unsigned char*>(s.data());
@@ -1588,6 +1703,12 @@ plugins::PluginCapabilities FlatFileImporterPlugin::getCapabilities() const {
     return caps;
 }
 
+/**
+ * @brief Initialize.
+ * @param[in] config_json Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements initialize without additional internal calls.
+ */
 bool FlatFileImporterPlugin::initialize(const char* config_json) {
     if (!importer_) {
       return false;
@@ -1595,6 +1716,10 @@ bool FlatFileImporterPlugin::initialize(const char* config_json) {
     return importer_->initialize(config_json ? config_json : "{}");
 }
 
+/**
+ * @brief Shutdown.
+ * @details Calls: cancel().
+ */
 void FlatFileImporterPlugin::shutdown() {
     if (importer_) {
       importer_->cancel();

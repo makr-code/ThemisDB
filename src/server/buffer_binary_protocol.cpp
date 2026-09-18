@@ -40,6 +40,10 @@ BufferBinaryProtocolHandler::~BufferBinaryProtocolHandler() {
     }
 }
 
+/**
+ * @brief Start.
+ * @details Calls: THEMIS_WARN(), std::chrono::milliseconds(), get(), THEMIS_INFO().
+ */
 void BufferBinaryProtocolHandler::start() {
     if (running_) {
         THEMIS_WARN("BufferBinaryProtocolHandler already running");
@@ -78,6 +82,10 @@ void BufferBinaryProtocolHandler::start() {
     THEMIS_INFO("BufferBinaryProtocolHandler started");
 }
 
+/**
+ * @brief Stop.
+ * @details Calls: THEMIS_INFO().
+ */
 void BufferBinaryProtocolHandler::stop() {
     if (!running_) {
         return;
@@ -98,6 +106,13 @@ void BufferBinaryProtocolHandler::stop() {
     THEMIS_INFO("BufferBinaryProtocolHandler stopped");
 }
 
+/**
+ * @brief Handle Message.
+ * @param[in] opcode Input parameter.
+ * @param[in] payload Input parameter.
+ * @return Return value.
+ * @details Calls: createErrorResponse(), handleTSPutBuffered(), handleTSPutBufferedBatch(), handleVectorAddBuffered(), handleVectorUpdateBuffered(), handleVectorRemoveBuffered(), handleGraphNodeBuffered(), handleGraphEdgeBuffered().
+ */
 std::vector<uint8_t> BufferBinaryProtocolHandler::handleMessage(
     uint8_t opcode,
     const std::vector<uint8_t>& payload
@@ -135,6 +150,12 @@ std::vector<uint8_t> BufferBinaryProtocolHandler::handleMessage(
     }
 }
 
+/**
+ * @brief Handle TSPut Buffered.
+ * @param[in] payload Input parameter.
+ * @return Return value.
+ * @details Calls: msgpack::unpack(), data(), size(), get(), convert(), add(), has_value(), createResponse().
+ */
 std::vector<uint8_t> BufferBinaryProtocolHandler::handleTSPutBuffered(
     const std::vector<uint8_t>& payload
 ) {
@@ -168,6 +189,12 @@ std::vector<uint8_t> BufferBinaryProtocolHandler::handleTSPutBuffered(
     }
 }
 
+/**
+ * @brief Handle TSPut Buffered Batch.
+ * @param[in] payload Input parameter.
+ * @return Return value.
+ * @details Calls: msgpack::unpack(), data(), size(), get(), convert(), at(), add(), has_value().
+ */
 std::vector<uint8_t> BufferBinaryProtocolHandler::handleTSPutBufferedBatch(
     const std::vector<uint8_t>& payload
 ) {
@@ -211,6 +238,12 @@ std::vector<uint8_t> BufferBinaryProtocolHandler::handleTSPutBufferedBatch(
     }
 }
 
+/**
+ * @brief Handle Vector Add Buffered.
+ * @param[in] payload Input parameter.
+ * @return Return value.
+ * @details Calls: msgpack::unpack(), data(), size(), get(), convert(), setPrimaryKey(), add(), createResponse().
+ */
 std::vector<uint8_t> BufferBinaryProtocolHandler::handleVectorAddBuffered(
     const std::vector<uint8_t>& payload
 ) {
@@ -243,6 +276,12 @@ std::vector<uint8_t> BufferBinaryProtocolHandler::handleVectorAddBuffered(
     }
 }
 
+/**
+ * @brief Handle Vector Update Buffered.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Calls: createResponse().
+ */
 std::vector<uint8_t> BufferBinaryProtocolHandler::handleVectorUpdateBuffered(
     const std::vector<uint8_t>& /*payload*/
 ) {
@@ -250,6 +289,12 @@ std::vector<uint8_t> BufferBinaryProtocolHandler::handleVectorUpdateBuffered(
     return createResponse(STATUS_SUCCESS);
 }
 
+/**
+ * @brief Handle Vector Remove Buffered.
+ * @param[in] payload Input parameter.
+ * @return Return value.
+ * @details Calls: msgpack::unpack(), data(), size(), get(), convert(), remove(), createResponse(), createErrorResponse().
+ */
 std::vector<uint8_t> BufferBinaryProtocolHandler::handleVectorRemoveBuffered(
     const std::vector<uint8_t>& payload
 ) {
@@ -276,6 +321,12 @@ std::vector<uint8_t> BufferBinaryProtocolHandler::handleVectorRemoveBuffered(
     }
 }
 
+/**
+ * @brief Handle Graph Node Buffered.
+ * @param[in] payload Input parameter.
+ * @return Return value.
+ * @details Calls: msgpack::unpack(), data(), size(), get(), convert(), setPrimaryKey(), addNode(), createResponse().
+ */
 std::vector<uint8_t> BufferBinaryProtocolHandler::handleGraphNodeBuffered(
     const std::vector<uint8_t>& payload
 ) {
@@ -304,6 +355,12 @@ std::vector<uint8_t> BufferBinaryProtocolHandler::handleGraphNodeBuffered(
     }
 }
 
+/**
+ * @brief Handle Graph Edge Buffered.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Calls: createResponse().
+ */
 std::vector<uint8_t> BufferBinaryProtocolHandler::handleGraphEdgeBuffered(
     const std::vector<uint8_t>& /*payload*/
 ) {
@@ -311,6 +368,12 @@ std::vector<uint8_t> BufferBinaryProtocolHandler::handleGraphEdgeBuffered(
     return createResponse(STATUS_SUCCESS);
 }
 
+/**
+ * @brief Handle Buffer Stats.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Calls: getStats(), packer(), pack_map(), pack(), load(), response_payload(), data(), size().
+ */
 std::vector<uint8_t> BufferBinaryProtocolHandler::handleBufferStats(
     const std::vector<uint8_t>& /*payload*/
 ) {
@@ -367,6 +430,12 @@ std::vector<uint8_t> BufferBinaryProtocolHandler::handleBufferStats(
     }
 }
 
+/**
+ * @brief Handle Buffer Flush.
+ * @param[in] payload Input parameter.
+ * @return Return value.
+ * @details Calls: msgpack::unpack(), data(), size(), get(), convert(), flush(), packer(), pack_map().
+ */
 std::vector<uint8_t> BufferBinaryProtocolHandler::handleBufferFlush(
     const std::vector<uint8_t>& payload
 ) {
@@ -409,6 +478,13 @@ std::vector<uint8_t> BufferBinaryProtocolHandler::handleBufferFlush(
     }
 }
 
+/**
+ * @brief Create Response.
+ * @param[in] status Input parameter.
+ * @param[in] payload Input parameter.
+ * @return Return value.
+ * @details Calls: push_back(), size(), insert(), end(), begin().
+ */
 std::vector<uint8_t> BufferBinaryProtocolHandler::createResponse(
     uint8_t status,
     const std::vector<uint8_t>& payload
@@ -431,6 +507,13 @@ std::vector<uint8_t> BufferBinaryProtocolHandler::createResponse(
     return response;
 }
 
+/**
+ * @brief Create Error Response.
+ * @param[in] status Input parameter.
+ * @param[in] error_message Input parameter.
+ * @return Return value.
+ * @details Calls: payload(), begin(), end(), createResponse().
+ */
 std::vector<uint8_t> BufferBinaryProtocolHandler::createErrorResponse(
     uint8_t status,
     const std::string& error_message

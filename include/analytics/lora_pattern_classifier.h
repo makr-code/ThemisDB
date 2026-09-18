@@ -85,11 +85,11 @@ public:
     LoRAPatternClassifier(const LoRAPatternClassifier&)            = delete;
     LoRAPatternClassifier& operator=(const LoRAPatternClassifier&) = delete;
 
+
     /**
-     * @brief ── Injection ─────────────────────────────────────────────────────────────
+     * @brief Inject an inference function used by classify().
      * @param[in] fn Inference function to inject.
      */
-
     void setInferenceFn(InferenceFn fn);
 
     /**

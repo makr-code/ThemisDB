@@ -113,6 +113,12 @@ bool GPUSafeFailManager::executeWithFallback(
     }
 }
 
+/**
+ * @brief Record Failure.
+ * @param[in] type Input parameter.
+ * @param[in] error_message Input parameter.
+ * @details Calls: lock(), fetch_add(), store(), std::chrono::system_clock::now(), spdlog::warn(), updateState().
+ */
 void GPUSafeFailManager::recordFailure(FailureType type, const std::string& error_message) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -130,6 +136,10 @@ void GPUSafeFailManager::recordFailure(FailureType type, const std::string& erro
     updateState();
 }
 
+/**
+ * @brief Record Success.
+ * @details Calls: lock(), fetch_add(), store(), std::chrono::system_clock::now(), updateState().
+ */
 void GPUSafeFailManager::recordSuccess() {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -147,6 +157,11 @@ bool GPUSafeFailManager::shouldAttemptGPU() const {
 }
 
 GPUSafeFailManager::GPUHealthStatus GPUSafeFailManager::getHealthStatus() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     GPUHealthStatus status;
@@ -176,6 +191,10 @@ bool GPUSafeFailManager::isHealthy() const {
     return state == GPUState::HEALTHY || state == GPUState::DEGRADED;
 }
 
+/**
+ * @brief Force Healthy.
+ * @details Calls: lock(), store(), spdlog::info(), logRecovery().
+ */
 void GPUSafeFailManager::forceHealthy() {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -188,6 +207,11 @@ void GPUSafeFailManager::forceHealthy() {
     logRecovery();
 }
 
+/**
+ * @brief Force Failed.
+ * @param[in] reason Input parameter.
+ * @details Calls: lock(), store(), spdlog::warn(), logDegradation().
+ */
 void GPUSafeFailManager::forceFailed(const std::string& reason) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -210,6 +234,10 @@ bool GPUSafeFailManager::canResetCircuit() const {
     return elapsed >= config_.circuit_reset_timeout;
 }
 
+/**
+ * @brief Try Reset Circuit.
+ * @details Calls: canResetCircuit(), lock(), load(), store(), spdlog::info().
+ */
 void GPUSafeFailManager::tryResetCircuit() {
     if (!canResetCircuit()) {
         return;
@@ -242,6 +270,10 @@ bool GPUSafeFailManager::checkMemoryAvailable(size_t required_bytes, size_t avai
     return available_bytes >= required_bytes;
 }
 
+/**
+ * @brief Update State.
+ * @details Calls: load(), openCircuit(), store(), spdlog::info(), logRecovery().
+ */
 void GPUSafeFailManager::updateState() {
     // State machine for GPU health
     GPUState current = current_state_.load(std::memory_order_acquire);
@@ -278,6 +310,11 @@ void GPUSafeFailManager::updateState() {
     }
 }
 
+/**
+ * @brief Log Degradation.
+ * @param[in] reason Input parameter.
+ * @details Calls: spdlog::warn(), load(), getErrorRate().
+ */
 void GPUSafeFailManager::logDegradation(const std::string& reason) {
     if (config_.log_degradation) {
         spdlog::warn("=== GPU DEGRADATION DETECTED ===");
@@ -290,6 +327,10 @@ void GPUSafeFailManager::logDegradation(const std::string& reason) {
     }
 }
 
+/**
+ * @brief Log Recovery.
+ * @details Calls: spdlog::info(), getErrorRate(), load().
+ */
 void GPUSafeFailManager::logRecovery() {
     spdlog::info("=== GPU RECOVERED ===");
     spdlog::info("Error rate: {:.1f}%", getErrorRate() * 100);
@@ -301,6 +342,11 @@ bool GPUSafeFailManager::isCircuitOpen() const {
     return current_state_.load(std::memory_order_acquire) == GPUState::CIRCUIT_OPEN;
 }
 
+/**
+ * @brief Open Circuit.
+ * @param[in] reason Input parameter.
+ * @details Calls: store(), std::chrono::system_clock::now(), spdlog::error(), logDegradation().
+ */
 void GPUSafeFailManager::openCircuit(const std::string& reason) {
     current_state_.store(GPUState::CIRCUIT_OPEN, std::memory_order_release);
     circuit_opened_time_ = std::chrono::system_clock::now();
@@ -309,6 +355,10 @@ void GPUSafeFailManager::openCircuit(const std::string& reason) {
     logDegradation(reason);
 }
 
+/**
+ * @brief Close Circuit.
+ * @details Calls: load(), store(), spdlog::info(), logRecovery().
+ */
 void GPUSafeFailManager::closeCircuit() {
     if (current_state_.load(std::memory_order_acquire) == GPUState::CIRCUIT_OPEN) {
         current_state_.store(GPUState::HEALTHY, std::memory_order_release);
@@ -351,6 +401,10 @@ bool GPUTimeoutGuard::hasTimedOut() const {
     return false;
 }
 
+/**
+ * @brief Cancel.
+ * @details Calls: store().
+ */
 void GPUTimeoutGuard::cancel() {
     cancelled_.store(true, std::memory_order_release);
 }
@@ -365,6 +419,11 @@ MemoryPressureMonitor::MemoryPressureMonitor(size_t total_memory_bytes)
                  total_memory_bytes / (1024.0 * 1024 * 1024));
 }
 
+/**
+ * @brief Update Usage.
+ * @param[in] used_bytes Input parameter.
+ * @details Calls: store().
+ */
 void MemoryPressureMonitor::updateUsage(size_t used_bytes) {
     used_memory_bytes_.store(used_bytes, std::memory_order_release);
 }

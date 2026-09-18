@@ -36,9 +36,6 @@ namespace themis::network {
 
 namespace {
 
-/// Mutex protecting OpenSSL RAND_bytes – required for pre-3.x OpenSSL builds
-/// where the DRBG does not hold per-thread state.  Modern OpenSSL (≥3.0) is
-/// thread-safe but the guard is cheap and silences the data_race scanner.
 static std::mutex g_quic_transport_rng_mutex;
 
 struct SslCtxDeleter {
@@ -72,13 +69,17 @@ struct QuicConnWithTlsDeleter {
 using QuicConnOwner = std::unique_ptr<ngtcp2_conn, QuicConnWithTlsDeleter>;
 
 static int safeRandBytes(uint8_t* dest, size_t len) noexcept {
+    /**
+     * @brief Lock.
+     * @param[in] g_quic_transport_rng_mutex Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(g_quic_transport_rng_mutex);
     return RAND_bytes(dest, static_cast<int>(len));
 }
 
 constexpr int kShutdownJoinTimeoutMs = 5000;
 
-/// @brief Join @p t within @p timeout_ms; log and detach on timeout.
 static void timedJoin(std::thread& t,
                       int timeout_ms = kShutdownJoinTimeoutMs) noexcept {
     if (!t.joinable()) {
@@ -101,7 +102,11 @@ static void timedJoin(std::thread& t,
     }
 }
 
-/// Return current time in nanoseconds (ngtcp2 timestamp unit).
+/**
+ * @brief Quic Now.
+ * @return Return value.
+ * @details Calls: std::chrono::steady_clock::now(), time_since_epoch(), count().
+ */
 static uint64_t quicNow() {
     return static_cast<uint64_t>(
         std::chrono::duration_cast<std::chrono::nanoseconds>(
@@ -109,7 +114,11 @@ static uint64_t quicNow() {
         .count());
 }
 
-/// Fill a ngtcp2_cid with cryptographically secure random bytes (OpenSSL).
+/**
+ * @brief Generate Cid.
+ * @param[in,out] cid Input/output parameter.
+ * @details Calls: safeRandBytes(), std::memset().
+ */
 static void generateCid(ngtcp2_cid* cid) {
     cid->datalen = NGTCP2_MIN_CIDLEN;
     // data_race: use safeRandBytes (mutex-guarded) to serialise RAND_bytes
@@ -146,7 +155,13 @@ QuicTransport::~QuicTransport() {
 // TLS context
 // ─────────────────────────────────────────────────────────────────────────────
 
-/* static */
+/**
+ * @brief static
+ * @param[in] cert_path Path to the cert.
+ * @param[in] key_path Path to the key.
+ * @return Pointer to the result.
+ * @details Calls: ctx(), SSL_CTX_new(), TLS_server_method(), SSL_CTX_set_min_proto_version(), get(), SSL_CTX_set_max_proto_version(), empty(), SSL_CTX_use_certificate_chain_file().
+ */
 SSL_CTX* QuicTransport::createSslContext(const std::string& cert_path,
                                          const std::string& key_path) {
     std::unique_ptr<SSL_CTX, SslCtxDeleter> ctx(SSL_CTX_new(TLS_server_method()));
@@ -199,7 +214,12 @@ SSL_CTX* QuicTransport::createSslContext(const std::string& cert_path,
 // Port validation
 // ─────────────────────────────────────────────────────────────────────────────
 
-/* static */
+/**
+ * @brief static
+ * @param[in] port Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements isValidPort without additional internal calls.
+ */
 bool QuicTransport::isValidPort(uint16_t port) {
     // Reserved / conflicting ThemisDB ports:
     //   8766 – TCP binary wire protocol
@@ -221,6 +241,10 @@ bool QuicTransport::isValidPort(uint16_t port) {
 // start / stop
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Start.
+ * @details Calls: load(), createSslContext(), THEMIS_ERROR(), endpoint(), net::ip::make_address(), store(), THEMIS_INFO(), doReceive().
+ */
 void QuicTransport::start() {
     if (running_.load(std::memory_order_acquire)) {
         return;
@@ -249,6 +273,10 @@ void QuicTransport::start() {
     }
 }
 
+/**
+ * @brief Stop.
+ * @details Calls: exchange(), lk(), clear(), close(), timedJoin(), restart(), SSL_CTX_free(), THEMIS_INFO().
+ */
 void QuicTransport::stop() {
     if (!running_.exchange(false, std::memory_order_acq_rel)) {
         return;
@@ -291,6 +319,10 @@ void QuicTransport::stop() {
 // Receive loop
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Do Receive.
+ * @details Calls: async_receive_from(), net::buffer(), THEMIS_ERROR(), message(), data(), lk(), handlePacket(), load().
+ */
 void QuicTransport::doReceive() {
     socket_->async_receive_from(
         net::buffer(recv_buf_),
@@ -325,6 +357,13 @@ void QuicTransport::doReceive() {
 // Packet handler
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Handle Packet.
+ * @param[in] sender Input parameter.
+ * @param[in] data Input parameter.
+ * @param[in] len Input parameter.
+ * @details Calls: address(), to_string(), std::to_string(), port(), lk(), find(), end(), std::memset().
+ */
 void QuicTransport::handlePacket(const udp::endpoint& sender,
                                   const uint8_t*       data,
                                   std::size_t          len) {
@@ -491,6 +530,11 @@ void QuicTransport::handlePacket(const udp::endpoint& sender,
 // Connection limit
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Check Connection Limit.
+ * @return True when the operation succeeds.
+ * @details Calls: slk().
+ */
 bool QuicTransport::checkConnectionLimit() {
     if (config_.max_connections == 0) {
         return true;  // Unlimited
@@ -509,6 +553,11 @@ bool QuicTransport::checkConnectionLimit() {
 // ─────────────────────────────────────────────────────────────────────────────
 
 QuicTransport::Stats QuicTransport::getStats() const {
+    /**
+     * @brief Lk.
+     * @param[in] stats_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(stats_mutex_);
     return stats_;
 }

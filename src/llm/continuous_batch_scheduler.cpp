@@ -24,6 +24,12 @@ namespace llm {
 // SchedulerConfig so operators can tune it per model.
 static constexpr size_t CHARS_PER_TOKEN_ESTIMATE = 4;
 
+/**
+ * @brief Ensure Minimum Prefill Chunk Size.
+ * @param[in] configured_size Input parameter.
+ * @return Return value.
+ * @details Implements ensureMinimumPrefillChunkSize without additional internal calls.
+ */
 static size_t ensureMinimumPrefillChunkSize(size_t configured_size) {
     // Enforce a lower bound of 1 so that chunked prefill never stalls completely.
     return std::max<size_t>(1, configured_size);
@@ -75,6 +81,11 @@ std::string ContinuousBatchScheduler::submitRequest(
     RequestPriority priority,
     std::function<void(const InferenceResponse&)> callback
 ) {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     // Enforce maximum queue depth (backpressure).  Measure combined depth of
@@ -147,6 +158,12 @@ std::string ContinuousBatchScheduler::submitRequest(
     return scheduled->request_id;
 }
 
+/**
+ * @brief Cancel Request.
+ * @param[in] request_id Identifier of the request.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), find(), end(), empty(), freeKVCacheBlocks(), get(), erase(), std::remove_if().
+ */
 bool ContinuousBatchScheduler::cancelRequest(const std::string& request_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -178,6 +195,13 @@ bool ContinuousBatchScheduler::cancelRequest(const std::string& request_id) {
     return true;
 }
 
+/**
+ * @brief Reprioritize Request.
+ * @param[in] request_id Identifier of the request.
+ * @param[in] new_priority Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), find(), end(), spdlog::debug().
+ */
 bool ContinuousBatchScheduler::reprioritizeRequest(
     const std::string& request_id,
     RequestPriority new_priority
@@ -197,6 +221,10 @@ bool ContinuousBatchScheduler::reprioritizeRequest(
     return true;
 }
 
+/**
+ * @brief Start.
+ * @details Calls: lock(), spdlog::info().
+ */
 void ContinuousBatchScheduler::start() {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -208,6 +236,10 @@ void ContinuousBatchScheduler::start() {
     spdlog::info("Continuous Batch Scheduler started");
 }
 
+/**
+ * @brief Stop.
+ * @details Calls: lock(), notify_all(), spdlog::info().
+ */
 void ContinuousBatchScheduler::stop() {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -222,12 +254,22 @@ void ContinuousBatchScheduler::stop() {
 }
 
 bool ContinuousBatchScheduler::isRunning() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return running_;
 }
 
 std::vector<ContinuousBatchScheduler::ScheduledRequest*> 
 ContinuousBatchScheduler::scheduleNextBatch() {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     auto start_time = std::chrono::steady_clock::now();
@@ -318,6 +360,12 @@ ContinuousBatchScheduler::scheduleNextBatch() {
     return batch;
 }
 
+/**
+ * @brief Process Batch Results.
+ * @param[in] batch Input parameter.
+ * @param[in] responses Input parameter.
+ * @details Calls: lock(), size(), spdlog::error(), empty(), freeKVCacheBlocks(), push_back(), erase(), std::remove_if().
+ */
 void ContinuousBatchScheduler::processBatchResults(
     const std::vector<ScheduledRequest*>& batch,
     const std::vector<InferenceResponse>& responses
@@ -449,6 +497,11 @@ void ContinuousBatchScheduler::processBatchResults(
     }
 }
 
+/**
+ * @brief Preempt Requests.
+ * @param[in] request_ids Input parameter.
+ * @details Calls: lock(), find(), end(), erase(), std::remove_if(), begin(), push_back(), spdlog::debug().
+ */
 void ContinuousBatchScheduler::preemptRequests(
     const std::vector<std::string>& request_ids
 ) {
@@ -485,6 +538,11 @@ void ContinuousBatchScheduler::preemptRequests(
     }
 }
 
+/**
+ * @brief Resume Requests.
+ * @param[in] request_ids Input parameter.
+ * @details Calls: lock(), std::find_if(), begin(), end(), erase(), push(), spdlog::debug().
+ */
 void ContinuousBatchScheduler::resumeRequests(
     const std::vector<std::string>& request_ids
 ) {
@@ -513,11 +571,21 @@ void ContinuousBatchScheduler::resumeRequests(
 }
 
 ContinuousBatchScheduler::Stats ContinuousBatchScheduler::getStats() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return stats_;
 }
 
 ContinuousBatchScheduler::LLMStats ContinuousBatchScheduler::getLLMStats() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     LLMStats out;
     out.pending_requests = waiting_queue_.size();
@@ -576,6 +644,11 @@ bool ContinuousBatchScheduler::canAddToBatch(
     return true;
 }
 
+/**
+ * @brief Allocate KVCache Blocks.
+ * @param[in,out] request Input/output parameter.
+ * @details Calls: empty(), getBlockTable(), store(), spdlog::warn(), spdlog::debug(), allocateBlocks(), size().
+ */
 void ContinuousBatchScheduler::allocateKVCacheBlocks(ScheduledRequest* request) {
     if (!kv_cache_) {
         return;
@@ -620,6 +693,11 @@ void ContinuousBatchScheduler::allocateKVCacheBlocks(ScheduledRequest* request) 
                   allocated.size(), request->request_id, request->sequence_id);
 }
 
+/**
+ * @brief Free KVCache Blocks.
+ * @param[in,out] request Input/output parameter.
+ * @details Calls: empty(), removeSequence(), spdlog::debug(), size(), clear().
+ */
 void ContinuousBatchScheduler::freeKVCacheBlocks(ScheduledRequest* request) {
     if (!kv_cache_ || request->allocated_blocks.empty()) {
         return;
@@ -635,6 +713,10 @@ void ContinuousBatchScheduler::freeKVCacheBlocks(ScheduledRequest* request) {
     request->allocated_blocks.clear();
 }
 
+/**
+ * @brief Update Stats.
+ * @details Calls: count(), total_generation_time(), getStats().
+ */
 void ContinuousBatchScheduler::updateStats() {
     // Calculate average time to first token using accurate first_token_at timestamp
     double total_ttft = 0.0;
@@ -688,6 +770,11 @@ void ContinuousBatchScheduler::updateStats() {
     }
 }
 
+/**
+ * @brief Generate Request Id.
+ * @return Return value.
+ * @details Calls: std::to_string(), fetch_add().
+ */
 std::string ContinuousBatchScheduler::generateRequestId() {
     return "req_" + std::to_string(next_request_id_.fetch_add(1, std::memory_order_relaxed));
 }

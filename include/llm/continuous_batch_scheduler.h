@@ -25,38 +25,8 @@
 namespace themis {
 namespace llm {
 
-/**
- * @brief Continuous Batching Scheduler (vLLM-style) with PagedAttention Integration
- * 
- * Implements dynamic batching with efficient memory management through PagedAttention.
- * Supports 100+ concurrent requests with iterative scheduling, preemption, and
- * intelligent block management.
- * 
- * Key Features:
- * - Block-based KV cache allocation via PagedKVCache
- * - Memory-aware scheduling prevents OOM scenarios
- * - Accurate TTFT and TPS metrics with first_token_at tracking
- * - Configurable memory pressure handling
- * 
- * Thread Safety: All public methods are thread-safe via internal mutex.
- * 
- * LOCK HIERARCHY (always acquire in this order to prevent deadlocks):
- * 1. mutex_ → Exclusive lock protecting all internal state
- *    └─ No nested locks with external components (independent callbacks)
- * 
- * Memory Ordering:
- * - next_request_id_, next_sequence_id_: std::memory_order_relaxed
- * 
- * @see docs/llm/PAGED_ATTENTION_INTEGRATION.md for detailed documentation
- */
 class ContinuousBatchScheduler {
 public:
-    /**
-     * @brief Configuration for the scheduler
-     * 
-     * Note: block_size_tokens MUST match PagedKVCache::Config::block_size
-     * for correct availability calculations.
-     */
     struct SchedulerConfig {
         size_t max_batch_size = 256;           // Max sequences in batch
         size_t max_concurrent_requests = 128;   // Max pending requests
@@ -106,12 +76,6 @@ public:
         FAILED         // Error occurred
     };
     
-    /**
-     * @brief Represents a scheduled inference request with PagedAttention tracking
-     * 
-     * Tracks request lifecycle, allocated blocks, and timing metrics for
-     * accurate TTFT and TPS calculation.
-     */
     struct ScheduledRequest {
         std::string request_id;
         InferenceRequest inference_request;
@@ -142,6 +106,12 @@ public:
         size_t preemption_count = 0;
     };
     
+    /**
+     * @brief Continuous Batch Scheduler.
+     * @param[in] config Input parameter.
+     * @param[in,out] kv_cache Input/output parameter.
+     * @return Return value.
+     */
     explicit ContinuousBatchScheduler(
         const SchedulerConfig& config,
         PagedKVCache* kv_cache
@@ -149,42 +119,32 @@ public:
     
     ~ContinuousBatchScheduler();
     
-    // Attach a metrics collector for queue-length and backpressure-drop
-    // instrumentation.  May be called at any time after construction; safe to
-    // call nullptr to detach.  Ownership is NOT transferred.
+    /**
+     * @brief Attach a metrics collector for queue-length and backpressure-drop instrumentation.
+     * @param[in,out] collector Input/output parameter.
+     * @details May be called at any time after construction; safe to call nullptr to detach. Ownership is NOT transferred. Calls: lock().
+     */
     void setMetricsCollector(monitoring::LLMMetricsCollector* collector) {
         std::lock_guard<std::mutex> lock(mutex_);
         metrics_collector_ = collector;
     }
 
-    // Attach a TokenQuotaManager for per-user/per-model token-per-minute
-    // enforcement.  submitRequest() will call check() and, on success,
-    // consume() on the manager.  Pass nullptr to disable quota checks.
-    // Ownership is NOT transferred.
+    /**
+     * @brief Attach a TokenQuotaManager for per-user/per-model token-per-minute enforcement.
+     * @param[in,out] quota Input/output parameter.
+     * @details submitRequest() will call check() and, on success, consume() on the manager. Pass nullptr to disable quota checks. Ownership is NOT transferred. Calls: lock().
+     */
     void setQuotaManager(TokenQuotaManager* quota) {
         std::lock_guard<std::mutex> lock(mutex_);
         quota_manager_ = quota;
     }
 
-    /**
-     * @brief Callback type for shard load telemetry.
-     *
-     * Fired on every queue-depth change (submitRequest and processBatchResults)
-     * so that the AdaptiveShardRouter can keep its LLM-load table up-to-date
-     * for LEAST_LOADED routing decisions.
-     *
-     * @param pending     Current number of requests in the waiting queue.
-     * @param avg_queue_ms  Estimated average queue wait time in milliseconds.
-     */
     using ShardLoadCallback = std::function<void(size_t pending, double avg_queue_ms)>;
 
     /**
-     * @brief Inject a shard-load callback.
-     *
-     * When set, the callback is invoked (while holding the internal mutex) at
-     * the end of submitRequest() and processBatchResults() whenever the queue
-     * depth changes.  Pass an empty std::function to detach.
-     * Ownership of any captured state is the caller's responsibility.
+     * @brief Set Shard Load Callback.
+     * @param[in] cb Input parameter.
+     * @details Calls: lock(), std::move().
      */
     void setShardLoadCallback(ShardLoadCallback cb) {
         std::lock_guard<std::mutex> lock(mutex_);
@@ -199,25 +159,62 @@ public:
     );
     
     // Request management
+    /**
+     * @brief Cancel Request.
+     * @param[in] request_id Identifier of the request.
+     * @return True when the operation succeeds.
+     */
     bool cancelRequest(const std::string& request_id);
+    /**
+     * @brief Reprioritize Request.
+     * @param[in] request_id Identifier of the request.
+     * @param[in] new_priority Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool reprioritizeRequest(const std::string& request_id, RequestPriority new_priority);
     
     // Scheduler lifecycle
+    /**
+     * @brief Start.
+     */
     void start();
+    /**
+     * @brief Stop.
+     */
     void stop();
+    /**
+     * @brief Is Running.
+     * @return True when the operation succeeds.
+     */
     bool isRunning() const;
     
-    // Batch scheduling (main loop)
+    /**
+     * @brief Batch scheduling (main loop)
+     * @return Return value.
+     */
     std::vector<ScheduledRequest*> scheduleNextBatch();
     
     // Process batch results
+    /**
+     * @brief Process Batch Results.
+     * @param[in] batch Input parameter.
+     * @param[in] responses Input parameter.
+     */
     void processBatchResults(
         const std::vector<ScheduledRequest*>& batch,
         const std::vector<InferenceResponse>& responses
     );
     
     // Preemption
+    /**
+     * @brief Preempt Requests.
+     * @param[in] request_ids Input parameter.
+     */
     void preemptRequests(const std::vector<std::string>& request_ids);
+    /**
+     * @brief Resume Requests.
+     * @param[in] request_ids Input parameter.
+     */
     void resumeRequests(const std::vector<std::string>& request_ids);
     
     // Statistics
@@ -240,31 +237,23 @@ public:
         size_t adaptive_prefill_chunk_size_tokens = 0;
         // Current combined depth of waiting + active requests
         size_t current_queue_depth = 0;
-        /// Times a decode step was skipped due to KV cache budget exhaustion
-        /// (n_ctx / blocks_free == 0 guard, Phase 3).
         size_t kv_budget_exhausted_count = 0;
     };
     
+    /**
+     * @brief Get Stats.
+     * @return Return value.
+     */
     Stats getStats() const;
 
-    /**
-     * @brief Snapshot of LLM queue telemetry for ShardStats integration.
-     *
-     * Returned by getLLMStats() and intended to be forwarded into a
-     * sharding::ShardStats struct so that the AdaptiveShardRouter can make
-     * LLM-load-aware routing decisions.
-     */
     struct LLMStats {
-        /// Number of requests currently waiting in the scheduler queue.
         size_t pending_requests = 0;
-        /// Moving average queue wait time in milliseconds, or 0.0 when idle.
         double avg_queue_ms = 0.0;
     };
 
     /**
-     * @brief Return a point-in-time snapshot of LLM queue metrics.
-     *
-     * Thread-safe; acquires the internal scheduler mutex briefly.
+     * @brief Get LLMStats.
+     * @return Return value.
      */
     LLMStats getLLMStats() const;
     
@@ -304,15 +293,10 @@ private:
     // Note: No nested locks - external callbacks (metrics_collector_, shard_load_cb_)
     //       are invoked while holding mutex_ but must not acquire it themselves
     
-    /// Exclusive lock protecting all scheduler state:
-    /// - waiting_queue_, active_requests_, preempted_requests_, all_requests_
-    /// - running_, stats_, effective_prefill_chunk_size_
     mutable std::mutex mutex_;
     
-    /// Condition variable for scheduler thread wake-up (paired with mutex_)
     std::condition_variable cv_;
     
-    /// Scheduler is running (protected by mutex_)
     bool running_ = false;
     
     // Statistics (protected by mutex_)
@@ -323,13 +307,35 @@ private:
     size_t effective_prefill_chunk_size_ = 0;
     
     // Internal helpers
+    /**
+     * @brief Can Add To Batch.
+     * @param[in] request Input parameter.
+     * @param[in] current_batch_tokens Input parameter.
+     * @param[in] reserved_blocks Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool canAddToBatch(const ScheduledRequest* request,
                       size_t current_batch_tokens,
                       size_t reserved_blocks) const;
+    /**
+     * @brief Allocate KVCache Blocks.
+     * @param[in,out] request Input/output parameter.
+     */
     void allocateKVCacheBlocks(ScheduledRequest* request);
+    /**
+     * @brief Free KVCache Blocks.
+     * @param[in,out] request Input/output parameter.
+     */
     void freeKVCacheBlocks(ScheduledRequest* request);
+    /**
+     * @brief Update Stats.
+     */
     void updateStats();
     
+    /**
+     * @brief Generate Request Id.
+     * @return Return value.
+     */
     std::string generateRequestId();
     
     // Thread-safe counters using atomics (std::memory_order_relaxed)

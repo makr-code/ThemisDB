@@ -56,7 +56,7 @@ std::string toISO8601(std::chrono::system_clock::time_point tp) {
 }
 
 /**
- * @brief Zero time used to indicate an on-going (firing) alert to the Alertmanager
+ * @brief Zero ISO8601.
  * @return Return value.
  * @details Implements zeroISO8601 without additional internal calls.
  */
@@ -66,13 +66,13 @@ std::string zeroISO8601() {
 
 } // anonymous namespace
 
+
 /**
- * @brief ============================================================================ Alertmanager Base Class Implementation ============================================================================
+ * @brief Initialize.
  * @param[in] config Input parameter.
  * @return Return value.
  * @details Calls: THEMIS_INFO(), THEMIS_WARN().
  */
-
 Result<void> Alertmanager::initialize(const AlertmanagerConfig& config) {
     config_ = config;
     
@@ -101,7 +101,7 @@ Result<void> Alertmanager::sendAlert(const Alert& alert) {
 
 /**
  * @brief Resolve Alert.
- * @param[in] alert_id Input parameter.
+ * @param[in] alert_id Identifier of the alert.
  * @return Return value.
  * @details Calls: tl::unexpected().
  */
@@ -114,7 +114,7 @@ Result<void> Alertmanager::resolveAlert(const std::string& alert_id) {
 
 /**
  * @brief Silence Alert.
- * @param[in] alert_id Input parameter.
+ * @param[in] alert_id Identifier of the alert.
  * @param[in] duration_minutes Input parameter.
  * @return Return value.
  * @details Calls: tl::unexpected().
@@ -132,11 +132,6 @@ Result<void> Alertmanager::silenceAlert(const std::string& alert_id, int duratio
  * @details Calls: lock().
  */
 std::vector<Alert> Alertmanager::getActiveAlerts() {
-    /**
-     * @brief Lock.
-     * @param[in] active_alerts_mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lock(active_alerts_mutex_);
     return active_alerts_;
 }
@@ -178,11 +173,6 @@ std::optional<Alert> Alertmanager::findActiveAlertById(const std::string& alert_
  * @details Calls: lock(), std::find_if(), begin(), end(), push_back().
  */
 void Alertmanager::upsertActiveAlert(const Alert& alert) {
-    /**
-     * @brief Lock.
-     * @param[in] active_alerts_mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lock(active_alerts_mutex_);
     auto it = std::find_if(active_alerts_.begin(), active_alerts_.end(),
                            [&](const Alert& existing) { return existing.alert_id == alert.alert_id; });
@@ -195,17 +185,12 @@ void Alertmanager::upsertActiveAlert(const Alert& alert) {
 
 /**
  * @brief Remove Active Alert By Id.
- * @param[in] alert_id Input parameter.
+ * @param[in] alert_id Identifier of the alert.
  * @param[in,out] removed Input/output parameter.
- * @return True on success.
+ * @return True when the operation succeeds.
  * @details Calls: lock(), std::find_if(), begin(), end(), erase().
  */
 bool Alertmanager::removeActiveAlertById(const std::string& alert_id, Alert* removed) {
-    /**
-     * @brief Lock.
-     * @param[in] active_alerts_mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lock(active_alerts_mutex_);
     auto it = std::find_if(active_alerts_.begin(), active_alerts_.end(),
                            [&](const Alert& alert) { return alert.alert_id == alert_id; });
@@ -390,11 +375,6 @@ Result<void> DefaultAlertmanager::sendAlert(const Alert& alert) {
     if (alert.status == AlertStatus::FIRING) {
         upsertActiveAlert(alert);
         {
-            /**
-             * @brief Lock.
-             * @param[in] active_alerts_mutex_ Input parameter.
-             * @return Return value.
-             */
             std::lock_guard<std::mutex> lock(active_alerts_mutex_);
             THEMIS_DEBUG("Alert added to active alerts (total: {})",active_alerts_.size());
         }
@@ -441,7 +421,7 @@ Result<void> DefaultAlertmanager::sendAlert(const Alert& alert) {
 
 /**
  * @brief Resolve Alert.
- * @param[in] alert_id Input parameter.
+ * @param[in] alert_id Identifier of the alert.
  * @return Return value.
  * @details Calls: THEMIS_INFO(), removeActiveAlertById(), std::chrono::system_clock::now(), THEMIS_WARN(), json::object(), empty(), json::array(), toISO8601().
  */
@@ -492,7 +472,7 @@ Result<void> DefaultAlertmanager::resolveAlert(const std::string& alert_id) {
 
 /**
  * @brief Silence Alert.
- * @param[in] alert_id Input parameter.
+ * @param[in] alert_id Identifier of the alert.
  * @param[in] duration_minutes Input parameter.
  * @return Return value.
  * @details Calls: THEMIS_INFO(), findActiveAlertById(), has_value(), upsertActiveAlert(), THEMIS_WARN(), std::chrono::system_clock::now(), std::chrono::minutes(), json::array().
@@ -625,7 +605,7 @@ std::string AlertRuleManager::generateRuleId() {
 /**
  * @brief Expand Message.
  * @param[in] tmpl Input parameter.
- * @param[in] metric_name Input parameter.
+ * @param[in] metric_name Name of the metric.
  * @param[in] value Input parameter.
  * @return Return value.
  * @details Calls: find(), size(), replace(), std::to_string(), erase(), find_last_not_of(), back(), pop_back().
@@ -665,7 +645,7 @@ std::string AlertRuleManager::expandMessage(const std::string& tmpl,
  * @param[in] value Input parameter.
  * @param[in] op Input parameter.
  * @param[in] threshold Input parameter.
- * @return True on success.
+ * @return True when the operation succeeds.
  * @details Calls: std::abs().
  */
 bool AlertRuleManager::evaluateCondition(double value,
@@ -690,11 +670,6 @@ bool AlertRuleManager::evaluateCondition(double value,
  * @details Calls: lock(), empty(), generateRuleId(), count(), tl::unexpected(), emplace(), std::move(), THEMIS_INFO().
  */
 Result<std::string> AlertRuleManager::addRule(AlertRule rule) {
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     if (rule.rule_id.empty()) {
@@ -723,16 +698,11 @@ Result<std::string> AlertRuleManager::addRule(AlertRule rule) {
 
 /**
  * @brief Remove Rule.
- * @param[in] rule_id Input parameter.
+ * @param[in] rule_id Identifier of the rule.
  * @return Return value.
  * @details Calls: lock(), find(), end(), tl::unexpected(), erase(), THEMIS_INFO().
  */
 Result<void> AlertRuleManager::removeRule(const std::string& rule_id) {
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     auto it = rules_.find(rule_id);
@@ -773,11 +743,6 @@ Result<AlertRule> AlertRuleManager::getRule(const std::string& rule_id) const {
  * @details Calls: lock(), find(), end(), tl::unexpected(), empty(), THEMIS_INFO().
  */
 Result<void> AlertRuleManager::updateRule(const AlertRule& rule) {
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     auto it = rules_.find(rule.rule_id);
@@ -931,11 +896,6 @@ int AlertRuleManager::evaluateRules(const std::map<std::string, double>& metrics
  * @details Calls: lock(), clear(), THEMIS_INFO().
  */
 void AlertRuleManager::clearRules() {
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lock(mutex_);
     rules_.clear();
     active_rule_alerts_.clear();

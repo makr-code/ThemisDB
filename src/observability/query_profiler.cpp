@@ -20,7 +20,7 @@ namespace themis {
 namespace observability {
 
 /**
- * @brief Helper functions
+ * @brief To string.
  * @param[in] phase Input parameter.
  * @return Pointer to the result.
  * @details Implements to_string without additional internal calls.
@@ -149,7 +149,6 @@ std::string QueryProfile::toSummary() const {
 }
 
 // QueryProfiler::Impl
-/** @brief QueryProfiler::Impl. */
 class QueryProfiler::Impl {
 public:
     QueryProfilerConfig config;
@@ -203,7 +202,7 @@ QueryProfiler::~QueryProfiler() = default;
 
 /**
  * @brief Start query.
- * @param[in] query_id Input parameter.
+ * @param[in] query_id Identifier of the query.
  * @param[in] query_text Input parameter.
  * @return Return value.
  * @details Calls: lock(), std::chrono::system_clock::now(), cleanup_old_profiles().
@@ -230,7 +229,7 @@ std::string QueryProfiler::start_query(const std::string& query_id,
 
 /**
  * @brief End query.
- * @param[in] query_id Input parameter.
+ * @param[in] query_id Identifier of the query.
  * @details Calls: lock(), find(), end(), std::chrono::system_clock::now(), log_slow_query().
  */
 void QueryProfiler::end_query(const std::string& query_id) {
@@ -257,7 +256,7 @@ void QueryProfiler::end_query(const std::string& query_id) {
 
 /**
  * @brief Record phase.
- * @param[in] query_id Input parameter.
+ * @param[in] query_id Identifier of the query.
  * @param[in] phase Input parameter.
  * @param[in] duration Input parameter.
  * @details Calls: lock(), find(), end().
@@ -278,7 +277,7 @@ void QueryProfiler::record_phase(const std::string& query_id, QueryPhase phase,
 
 /**
  * @brief Record operator.
- * @param[in] query_id Input parameter.
+ * @param[in] query_id Identifier of the query.
  * @param[in] stats Input parameter.
  * @details Calls: lock(), find(), end(), push_back().
  */
@@ -298,8 +297,8 @@ void QueryProfiler::record_operator(const std::string& query_id,
 
 /**
  * @brief Record index usage.
- * @param[in] query_id Input parameter.
- * @param[in] index_name Input parameter.
+ * @param[in] query_id Identifier of the query.
+ * @param[in] index_name Name of the index.
  * @details Calls: lock(), find(), end(), push_back().
  */
 void QueryProfiler::record_index_usage(const std::string& query_id, 
@@ -319,7 +318,7 @@ void QueryProfiler::record_index_usage(const std::string& query_id,
 
 /**
  * @brief Record cache usage.
- * @param[in] query_id Input parameter.
+ * @param[in] query_id Identifier of the query.
  * @param[in] cache_hit Input parameter.
  * @details Calls: lock(), find(), end().
  */
@@ -340,7 +339,7 @@ void QueryProfiler::record_cache_usage(const std::string& query_id, bool cache_h
 
 /**
  * @brief Add hint.
- * @param[in] query_id Input parameter.
+ * @param[in] query_id Identifier of the query.
  * @param[in] hint Input parameter.
  * @details Calls: lock(), find(), end(), push_back().
  */
@@ -359,7 +358,7 @@ void QueryProfiler::add_hint(const std::string& query_id, const std::string& hin
 
 /**
  * @brief Add warning.
- * @param[in] query_id Input parameter.
+ * @param[in] query_id Identifier of the query.
  * @param[in] warning Input parameter.
  * @details Calls: lock(), find(), end(), push_back().
  */

@@ -41,6 +41,11 @@ AdminOperations::~AdminOperations() {
     shutdown();
 }
 
+/**
+ * @brief Initialize.
+ * @return True when the operation succeeds.
+ * @details Calls: registerTopologyHandler(), handleTopologyRequest(), registerRebalanceHandler(), handleRebalanceRequest(), registerHealthHandler(), handleHealthRequest(), registerStatsHandler(), handleStatsRequest().
+ */
 bool AdminOperations::initialize() {
     // Register handlers with admin API
     admin_api_.registerTopologyHandler(
@@ -65,6 +70,10 @@ bool AdminOperations::initialize() {
     return true;
 }
 
+/**
+ * @brief Shutdown.
+ * @details Calls: stopPeriodicChecks().
+ */
 void AdminOperations::shutdown() {
     if (health_check_) {
         health_check_->stopPeriodicChecks();
@@ -102,6 +111,13 @@ nlohmann::json AdminOperations::getTopology() const {
     return result;
 }
 
+/**
+ * @brief Add Shard.
+ * @param[in] shard_id Identifier of the shard.
+ * @param[in] endpoint Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: registerShard().
+ */
 bool AdminOperations::addShard(
     const std::string& shard_id,
     const std::string& endpoint
@@ -131,6 +147,12 @@ bool AdminOperations::addShard(
     return true;
 }
 
+/**
+ * @brief Remove Shard.
+ * @param[in] shard_id Identifier of the shard.
+ * @return True when the operation succeeds.
+ * @details Calls: unregisterShard().
+ */
 bool AdminOperations::removeShard(const std::string& shard_id) {
     if (!topology_) {
         return false;
@@ -147,6 +169,11 @@ bool AdminOperations::removeShard(const std::string& shard_id) {
     return true;
 }
 
+/**
+ * @brief Trigger Rebalance.
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), str(), lock().
+ */
 std::string AdminOperations::triggerRebalance() {
     // Generate operation ID using wall-clock timestamp
     auto now = std::chrono::system_clock::now();
@@ -170,6 +197,11 @@ std::string AdminOperations::triggerRebalance() {
 nlohmann::json AdminOperations::getRebalanceStatus(
     const std::string& operation_id
 ) const {
+    /**
+     * @brief Lock.
+     * @param[in] rebalance_ops_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(rebalance_ops_mutex_);
 
     auto it = rebalance_ops_.find(operation_id);
@@ -272,6 +304,12 @@ std::string AdminOperations::exportPrometheusMetrics() const {
     return metrics_->exportPrometheusMetrics();
 }
 
+/**
+ * @brief Handle Topology Request.
+ * @param[in] body Input parameter.
+ * @return Return value.
+ * @details Calls: contains(), getTopology(), value(), addShard(), removeShard().
+ */
 nlohmann::json AdminOperations::handleTopologyRequest(const nlohmann::json& body) {
     if (body.contains("action")) {
         std::string action = body["action"];
@@ -302,6 +340,12 @@ nlohmann::json AdminOperations::handleTopologyRequest(const nlohmann::json& body
     return getTopology();
 }
 
+/**
+ * @brief Handle Rebalance Request.
+ * @param[in] body Input parameter.
+ * @return Return value.
+ * @details Calls: contains(), triggerRebalance(), value(), getRebalanceStatus().
+ */
 nlohmann::json AdminOperations::handleRebalanceRequest(const nlohmann::json& body) {
     if (body.contains("action")) {
         std::string action = body["action"];
@@ -321,11 +365,23 @@ nlohmann::json AdminOperations::handleRebalanceRequest(const nlohmann::json& bod
     return {{"error", "Invalid action"}};
 }
 
+/**
+ * @brief Handle Health Request.
+ * @param[in] body Input parameter.
+ * @return Return value.
+ * @details Calls: getHealthStatus().
+ */
 nlohmann::json AdminOperations::handleHealthRequest(const nlohmann::json& body) {
     (void)body;
     return getHealthStatus();
 }
 
+/**
+ * @brief Handle Stats Request.
+ * @param[in] body Input parameter.
+ * @return Return value.
+ * @details Calls: getStatistics().
+ */
 nlohmann::json AdminOperations::handleStatsRequest(const nlohmann::json& body) {
     (void)body;
     return getStatistics();

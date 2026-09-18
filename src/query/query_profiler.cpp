@@ -33,12 +33,12 @@ const OperatorProfile* QueryProfile::slowestOperator() const {
     return slowest;
 }
 
+
 /**
- * @brief ───────────────────────────────────────────────────────────────────────────── QueryProfiler ─────────────────────────────────────────────────────────────────────────────
+ * @brief Begin Query.
  * @param[in] query_text Input parameter.
  * @details Calls: reset(), std::chrono::steady_clock::now().
  */
-
 void QueryProfiler::beginQuery(const std::string& query_text) {
     reset();
     profile_.query_text = query_text;
@@ -69,7 +69,7 @@ void QueryProfiler::endQuery(size_t result_rows, bool cache_hit) {
 
 /**
  * @brief Begin Operator.
- * @param[in] operator_name Input parameter.
+ * @param[in] operator_name Name of the operator.
  * @details Calls: std::chrono::steady_clock::now().
  */
 void QueryProfiler::beginOperator(const std::string& operator_name) {
@@ -105,7 +105,7 @@ QueryProfile QueryProfiler::getProfile() const {
 }
 
 /**
- * @brief Reset.
+ * @brief Reset the modification detection flag.
  * @details Calls: clear().
  */
 void QueryProfiler::reset() {

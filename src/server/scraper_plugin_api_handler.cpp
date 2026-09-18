@@ -30,6 +30,12 @@ namespace themis::server {
 
 namespace {
 
+/**
+ * @brief Hash Content.
+ * @param[in] content Input parameter.
+ * @return Return value.
+ * @details Calls: std::to_string().
+ */
 std::string hashContent(const std::string& content) {
     return std::to_string(std::hash<std::string>{}(content));
 }
@@ -54,6 +60,11 @@ ScraperPluginApiHandler::ScraperPluginApiHandler(
 
 ScraperPluginApiHandler::~ScraperPluginApiHandler() = default;
 
+/**
+ * @brief To Iso8601 Now.
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::now(), std::chrono::system_clock::to_time_t(), gmtime_s(), gmtime_r(), std::put_time(), str().
+ */
 std::string ScraperPluginApiHandler::toIso8601Now() {
     const auto now = std::chrono::system_clock::now();
     const std::time_t t = std::chrono::system_clock::to_time_t(now);
@@ -72,6 +83,12 @@ std::string ScraperPluginApiHandler::toIso8601Now() {
 // Dispatch
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Handle.
+ * @param[in] req Input parameter.
+ * @param[in] target Input parameter.
+ * @return Return value.
+ */
 http::response<http::string_body> ScraperPluginApiHandler::handle(
     const http::request<http::string_body>& req,
     const std::string& target)
@@ -127,6 +144,11 @@ http::response<http::string_body> ScraperPluginApiHandler::handle(
 // Route handlers
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Handle Crawl.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ */
 http::response<http::string_body> ScraperPluginApiHandler::handleCrawl(
     const http::request<http::string_body>& req)
 {
@@ -206,6 +228,11 @@ http::response<http::string_body> ScraperPluginApiHandler::handleCrawl(
         }
 
         {
+            /**
+             * @brief Lock.
+             * @param[in] jobs_mutex_ Input parameter.
+             * @return Return value.
+             */
             std::lock_guard<std::mutex> lock(jobs_mutex_);
             jobs_[job_id] = job;
         }
@@ -241,11 +268,21 @@ http::response<http::string_body> ScraperPluginApiHandler::handleCrawl(
     }
 }
 
+/**
+ * @brief Handle List Jobs.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ */
 http::response<http::string_body> ScraperPluginApiHandler::handleListJobs(
     const http::request<http::string_body>& req)
 {
     nlohmann::json arr = nlohmann::json::array();
     {
+        /**
+         * @brief Lock.
+         * @param[in] jobs_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(jobs_mutex_);
         for (const auto& [id, job] : jobs_) {
             arr.push_back({
@@ -265,10 +302,21 @@ http::response<http::string_body> ScraperPluginApiHandler::handleListJobs(
     return resp;
 }
 
+/**
+ * @brief Handle Job Status.
+ * @param[in] req Input parameter.
+ * @param[in] job_id Identifier of the job.
+ * @return Return value.
+ */
 http::response<http::string_body> ScraperPluginApiHandler::handleJobStatus(
     const http::request<http::string_body>& req,
     const std::string& job_id)
 {
+    /**
+     * @brief Lock.
+     * @param[in] jobs_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(jobs_mutex_);
     const auto it = jobs_.find(job_id);
     if (it == jobs_.end()) {
@@ -293,10 +341,21 @@ http::response<http::string_body> ScraperPluginApiHandler::handleJobStatus(
     return resp;
 }
 
+/**
+ * @brief Handle Job Result.
+ * @param[in] req Input parameter.
+ * @param[in] job_id Identifier of the job.
+ * @return Return value.
+ */
 http::response<http::string_body> ScraperPluginApiHandler::handleJobResult(
     const http::request<http::string_body>& req,
     const std::string& job_id)
 {
+    /**
+     * @brief Lock.
+     * @param[in] jobs_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(jobs_mutex_);
     const auto it = jobs_.find(job_id);
     if (it == jobs_.end()) {
@@ -323,12 +382,23 @@ http::response<http::string_body> ScraperPluginApiHandler::handleJobResult(
     return resp;
 }
 
+/**
+ * @brief Handle Cancel Job.
+ * @param[in] req Input parameter.
+ * @param[in] job_id Identifier of the job.
+ * @return Return value.
+ */
 http::response<http::string_body> ScraperPluginApiHandler::handleCancelJob(
     const http::request<http::string_body>& req,
     const std::string& job_id)
 {
     bool deleted = false;
     {
+        /**
+         * @brief Lock.
+         * @param[in] jobs_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(jobs_mutex_);
         deleted = jobs_.erase(job_id) > 0;
     }

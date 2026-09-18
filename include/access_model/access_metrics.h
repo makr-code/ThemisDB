@@ -124,11 +124,11 @@ class AccessModelMetrics {
 public:
     AccessModelMetrics();
 
+
     /**
-     * @brief ── Recording ───────────────────────────────────────────────────────────
+     * @brief Record Event Processing Latency.
      * @param[in] latency_us Input parameter.
      */
-
     void recordEventProcessingLatency(uint64_t latency_us);
 
     /**

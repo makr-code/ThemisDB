@@ -27,14 +27,6 @@ namespace llm {
 namespace lora {
 namespace hip {
 
-/**
- * @brief HIP kernel launcher for matrix multiplication
- * 
- * Computes C = alpha * (A @ B) where:
- * - A: (M, K)
- * - B: (K, N)
- * - C: (M, N)
- */
 hipError_t launch_matmul_kernel(
     const float* A,
     const float* B,
@@ -46,9 +38,6 @@ hipError_t launch_matmul_kernel(
     hipStream_t stream = nullptr
 );
 
-/**
- * @brief HIP kernel launcher for element-wise addition
- */
 hipError_t launch_add_kernel(
     const float* A,
     const float* B,
@@ -57,9 +46,6 @@ hipError_t launch_add_kernel(
     hipStream_t stream = nullptr
 );
 
-/**
- * @brief HIP kernel launcher for element-wise multiplication
- */
 hipError_t launch_multiply_kernel(
     const float* A,
     const float* B,
@@ -68,9 +54,6 @@ hipError_t launch_multiply_kernel(
     hipStream_t stream = nullptr
 );
 
-/**
- * @brief HIP kernel launcher for scalar multiplication
- */
 hipError_t launch_scalar_multiply_kernel(
     const float* A,
     float* C,
@@ -79,9 +62,6 @@ hipError_t launch_scalar_multiply_kernel(
     hipStream_t stream = nullptr
 );
 
-/**
- * @brief HIP kernel launcher for in-place scalar multiplication
- */
 hipError_t launch_scalar_multiply_inplace_kernel(
     float* data,
     float scalar,
@@ -90,7 +70,11 @@ hipError_t launch_scalar_multiply_inplace_kernel(
 );
 
 /**
- * @brief HIP kernel launcher for NaN/Inf detection
+ * @brief Launch check inf nan kernel.
+ * @param[in] data Input parameter.
+ * @param[in] size Input parameter.
+ * @param[in,out] has_overflow_host Input/output parameter.
+ * @return Return value.
  */
 hipError_t launch_check_inf_nan_kernel(
     const float* data,
@@ -98,9 +82,6 @@ hipError_t launch_check_inf_nan_kernel(
     bool* has_overflow_host
 );
 
-/**
- * @brief HIP kernel launcher for matrix transpose
- */
 hipError_t launch_transpose_kernel(
     const float* A,
     float* C,
@@ -109,9 +90,6 @@ hipError_t launch_transpose_kernel(
     hipStream_t stream = nullptr
 );
 
-/**
- * @brief HIP kernel launcher for LoRA gradient computation (grad_A)
- */
 hipError_t launch_lora_backward_A_kernel(
     const float* input,
     const float* B,
@@ -125,9 +103,6 @@ hipError_t launch_lora_backward_A_kernel(
     hipStream_t stream = nullptr
 );
 
-/**
- * @brief HIP kernel launcher for LoRA gradient computation (grad_B)
- */
 hipError_t launch_lora_backward_B_kernel(
     const float* input,
     const float* A,
@@ -141,19 +116,6 @@ hipError_t launch_lora_backward_B_kernel(
     hipStream_t stream = nullptr
 );
 
-/**
- * @brief HIP kernel launcher for MSE loss reduction
- * 
- * Computes partial sums of squared differences for MSE loss calculation.
- * Uses parallel reduction with shared memory for efficiency.
- * 
- * @param predictions Predictions tensor (device pointer)
- * @param targets Target tensor (device pointer)
- * @param partial_sums Output partial sums (device pointer, size = num_blocks)
- * @param n Number of elements
- * @param num_blocks Number of blocks to use for reduction
- * @param stream HIP stream for async execution
- */
 hipError_t launch_mse_loss_reduction_kernel(
     const float* predictions,
     const float* targets,
@@ -163,18 +125,6 @@ hipError_t launch_mse_loss_reduction_kernel(
     hipStream_t stream = nullptr
 );
 
-/**
- * @brief HIP kernel launcher for MSE gradient computation
- * 
- * Computes gradient of MSE loss: grad = (2/n) * (predictions - targets)
- * 
- * @param grad_output Output gradient tensor (device pointer)
- * @param predictions Predictions tensor (device pointer)
- * @param targets Target tensor (device pointer)
- * @param scale Scaling factor (2.0 / n)
- * @param n Number of elements
- * @param stream HIP stream for async execution
- */
 hipError_t launch_mse_gradient_kernel(
     float* grad_output,
     const float* predictions,
@@ -184,9 +134,6 @@ hipError_t launch_mse_gradient_kernel(
     hipStream_t stream = nullptr
 );
 
-/**
- * @brief rocBLAS handle manager
- */
 class RocblasHandle {
 public:
     RocblasHandle();
@@ -205,9 +152,6 @@ private:
     rocblas_handle handle_ = nullptr;
 };
 
-/**
- * @brief Matrix multiplication using rocBLAS
- */
 hipError_t rocblas_matmul(
     rocblas_handle handle,
     const float* A,
@@ -220,13 +164,6 @@ hipError_t rocblas_matmul(
     float beta = 0.0f
 );
 
-/**
- * @brief HIP kernel launcher for embedding lookup
- * 
- * Looks up embeddings for given token IDs from embedding matrix.
- * Input: token_ids [batch_size, seq_len] (float tensor, will be cast to int)
- * Output: embeddings [batch_size, seq_len, hidden_dim]
- */
 hipError_t launch_embedding_lookup_kernel(
     float* output,
     const float* token_ids,
@@ -238,13 +175,6 @@ hipError_t launch_embedding_lookup_kernel(
     hipStream_t stream = nullptr
 );
 
-/**
- * @brief HIP kernel launcher for sequence mean reduction
- * 
- * Computes mean over sequence dimension:
- * Input: [batch_size, seq_len, hidden_dim]
- * Output: [batch_size, hidden_dim]
- */
 hipError_t launch_sequence_mean_kernel(
     float* output,
     const float* input,
@@ -254,18 +184,6 @@ hipError_t launch_sequence_mean_kernel(
     hipStream_t stream = nullptr
 );
 
-/**
- * @brief HIP kernel launcher for SGD parameter update
- * 
- * Performs in-place SGD parameter update on GPU:
- * param = param - learning_rate * grad
- * 
- * @param params Parameter tensor (device pointer, in/out)
- * @param grads Gradient tensor (device pointer)
- * @param learning_rate Learning rate
- * @param size Number of elements
- * @param stream HIP stream for async execution
- */
 hipError_t launch_sgd_update_kernel(
     float* params,
     const float* grads,

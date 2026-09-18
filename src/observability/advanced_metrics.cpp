@@ -18,14 +18,14 @@
 namespace themis {
 namespace observability {
 
+
 /**
- * @brief ============================================================================ Internal helpers ============================================================================
+ * @brief Compute Quantile.
  * @param[in] sorted_vals Input parameter.
  * @param[in] q Input parameter.
  * @return Return value.
  * @details Calls: empty(), front(), back(), size().
  */
-
 double AdvancedMetrics::computeQuantile(const std::vector<double>& sorted_vals,
                                         double q) {
     if (sorted_vals.empty()) {
@@ -46,19 +46,14 @@ double AdvancedMetrics::computeQuantile(const std::vector<double>& sorted_vals,
     return sorted_vals[idx];
 }
 
+
 /**
- * @brief ============================================================================ Summary ============================================================================
+ * @brief Record Summary.
  * @param[in] name Input parameter.
  * @param[in] value Input parameter.
  * @details Calls: lock(), push_back(), size(), front(), pop_front().
  */
-
 void AdvancedMetrics::recordSummary(const std::string& name, double value) {
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lock(mutex_);
     auto& data = summary_data_[name];
     data.values.push_back(value);
@@ -107,22 +102,17 @@ SummaryResult AdvancedMetrics::getSummary(
     return result;
 }
 
+
 /**
- * @brief ============================================================================ Exponential histogram ============================================================================
+ * @brief Record Exponential Histogram.
  * @param[in] name Input parameter.
  * @param[in] value Input parameter.
  * @param[in] scale Input parameter.
  * @details Calls: lock(), empty(), push_back(), size(), front(), pop_front().
  */
-
 void AdvancedMetrics::recordExponentialHistogram(const std::string& name,
                                                   double value,
                                                   double scale) {
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lock(mutex_);
     auto& data = exp_hist_data_[name];
 
@@ -195,20 +185,15 @@ ExponentialHistogramResult AdvancedMetrics::getExponentialHistogram(
     return result;
 }
 
+
 /**
- * @brief ============================================================================ Cardinality ============================================================================
+ * @brief Record Cardinality.
  * @param[in] name Input parameter.
  * @param[in] value Input parameter.
  * @details Calls: lock(), insert().
  */
-
 void AdvancedMetrics::recordCardinality(const std::string& name,
                                          const std::string& value) {
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lock(mutex_);
     cardinality_sets_[name].insert(value);
 }
@@ -227,22 +212,17 @@ size_t AdvancedMetrics::getCardinalityEstimate(const std::string& name) const {
     return it->second.size();
 }
 
+
 /**
- * @brief ============================================================================ Time-weighted average ============================================================================
+ * @brief Record Time Weighted Average.
  * @param[in] name Input parameter.
  * @param[in] value Input parameter.
  * @param[in] window Input parameter.
  * @details Calls: lock(), std::chrono::steady_clock::now(), push_back(), count(), size(), front(), pop_front().
  */
-
 void AdvancedMetrics::recordTimeWeightedAverage(const std::string& name,
                                                  double value,
                                                  std::chrono::seconds window) {
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lock(mutex_);
     auto now = std::chrono::steady_clock::now();
     auto& deque = twa_samples_[name];
@@ -299,21 +279,16 @@ double AdvancedMetrics::getTimeWeightedAverage(const std::string& name) const {
     return weighted_sum / total_time;
 }
 
+
 /**
- * @brief ============================================================================ Rate ============================================================================
+ * @brief Record Rate.
  * @param[in] name Input parameter.
  * @param[in] value Input parameter.
  * @param[in] interval Input parameter.
  * @details Calls: lock(), std::chrono::steady_clock::now(), push_back(), count(), size(), front(), pop_front().
  */
-
 void AdvancedMetrics::recordRate(const std::string& name, double value,
                                   std::chrono::seconds interval) {
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lock(mutex_);
     auto now = std::chrono::steady_clock::now();
     auto& deque = rate_samples_[name];
@@ -355,17 +330,12 @@ double AdvancedMetrics::getRate(const std::string& name) const {
     return (newest.value - oldest.value) / elapsed_s;
 }
 
+
 /**
- * @brief ============================================================================ Utilities ============================================================================
+ * @brief Reset the modification detection flag.
  * @details Calls: lock(), clear().
  */
-
 void AdvancedMetrics::reset() {
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lock(mutex_);
     summary_data_.clear();
     exp_hist_data_.clear();

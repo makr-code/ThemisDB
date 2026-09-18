@@ -37,6 +37,12 @@ json ContentType::toJson() const {
     return j;
 }
 
+/**
+ * @brief From Json.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: is_number_integer(), is_string(), std::transform(), begin(), end(), std::toupper(), parseCategory(), contains().
+ */
 ContentType ContentType::fromJson(const json &j) {
     auto parseCategory = [](const json &value) -> ContentCategory {
         if (value.is_number_integer()) {
@@ -114,6 +120,11 @@ ContentTypeRegistry::ContentTypeRegistry() {
     registerDefaultTypes();
 }
 
+/**
+ * @brief Register Type.
+ * @param[in] type Input parameter.
+ * @details Calls: push_back().
+ */
 void ContentTypeRegistry::registerType(const ContentType &type) {
     types_.push_back(type);
 }
@@ -248,6 +259,10 @@ std::vector<const ContentType *> ContentTypeRegistry::getAllTypes() const {
     return result;
 }
 
+/**
+ * @brief Register Default Types.
+ * @details Calls: registerType().
+ */
 void ContentTypeRegistry::registerDefaultTypes() {
     // TEXT Types
     registerType({.mime_type                    = "text/plain",
@@ -600,6 +615,10 @@ void ContentTypeRegistry::registerDefaultTypes() {
                   .binary_storage_required      = true});
 }
 
+/**
+ * @brief Initialize Default Content Types.
+ * @details Calls: ContentTypeRegistry::instance().
+ */
 void initializeDefaultContentTypes() {
     // Singleton instance is created on first access
     ContentTypeRegistry::instance();

@@ -25,31 +25,44 @@ namespace governance {
 
 namespace {
 
-/// Prometheus-style counters for error types (Phase 3)
 std::atomic<uint64_t> governance_opa_error_timeout{0};
 std::atomic<uint64_t> governance_opa_error_malformed{0};
 std::atomic<uint64_t> governance_opa_error_network{0};
 std::atomic<uint64_t> governance_opa_error_invalid_policy{0};
 std::atomic<uint64_t> governance_opa_error_unknown{0};
 
-/// Prometheus-style counters for WASM evaluation paths.
-/// Labels: wasm_success, wasm_fallback
 std::atomic<uint64_t> governance_opa_wasm_eval_wasm_success{0};
 std::atomic<uint64_t> governance_opa_wasm_eval_wasm_fallback{0};
 
-/// libcurl write callback: appends received data to a std::string.
+/**
+ * @brief Curl write callback.
+ * @param[in,out] ptr Input/output parameter.
+ * @param[in] size Input parameter.
+ * @param[in] nmemb Input parameter.
+ * @param[in,out] userdata Input/output parameter.
+ * @return Return value.
+ * @details Calls: append().
+ */
 size_t curl_write_callback(void *ptr, size_t size, size_t nmemb, void *userdata) {
     auto *buf = static_cast<std::string *>(userdata);
     buf->append(static_cast<char *>(ptr), size * nmemb);
     return size * nmemb;
 }
 
-/// Guard that calls curl_global_init exactly once per process.
+/**
+ * @brief Ensure curl global init.
+ * @details Calls: std::call_once(), curl_global_init().
+ */
 void ensure_curl_global_init() {
     static std::once_flag flag;
     std::call_once(flag, [] { curl_global_init(CURL_GLOBAL_DEFAULT); });
 }
 
+/**
+ * @brief Current Timestamp Ms.
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::now(), time_since_epoch(), count().
+ */
 int64_t currentTimestampMs() {
     return std::chrono::duration_cast<std::chrono::milliseconds>(
                std::chrono::system_clock::now().time_since_epoch())
@@ -75,6 +88,11 @@ OpaAdapter::OpaAdapter(const Config &config) : config_(config) {
 
 OpaAdapter::~OpaAdapter() = default;
 
+/**
+ * @brief Set Wasm Eval Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: std::move().
+ */
 void OpaAdapter::setWasmEvalFn(WasmEvalFn fn) {
     wasm_eval_fn_ = std::move(fn);
 }
@@ -108,6 +126,12 @@ std::string OpaAdapter::buildRequestBody(const std::unordered_map<std::string, s
     return body.dump();
 }
 
+/**
+ * @brief Parse Opa Response.
+ * @param[in] response_body Input parameter.
+ * @return Return value.
+ * @details Calls: nlohmann::json::parse(), contains(), is_boolean(), is_object(), value(), std::string().
+ */
 std::optional<PolicyDecision> OpaAdapter::parseOpaResponse(const std::string &response_body) {
     try {
         auto j = nlohmann::json::parse(response_body);

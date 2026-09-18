@@ -30,17 +30,6 @@ namespace lora {
 
 namespace fs = std::filesystem;
 
-/**
- * @brief Enhanced Implementation using ThemisDB Base Infrastructure
- * 
- * Integrates with:
- * - BaseEntity for structured storage
- * - RocksDBWrapper for CRUD operations
- * - BlobStorageManager for large weights (with automatic backend selection)
- * - SecuritySignatureManager for integrity verification
- * - Encryption for data at rest
- * - RAID auto-detection for redundancy
- */
 class LoRAStorageService::Impl {
 public:
     explicit Impl(const Config& config) : config_(config) {
@@ -84,6 +73,14 @@ public:
         }
     }
     
+    /**
+     * @brief Save Adapter.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @param[in] weights Input parameter.
+     * @param[in] metadata Input parameter.
+     * @return True when the operation succeeds.
+     * @details Calls: saveToThemisDB(), saveToFilesystem(), spdlog::error(), what().
+     */
     bool saveAdapter(
         const std::string& adapter_id,
         const AdapterWeights& weights,
@@ -101,6 +98,12 @@ public:
         }
     }
     
+    /**
+     * @brief Load Adapter.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @return Return value.
+     * @details Calls: loadFromThemisDB(), loadFromFilesystem(), spdlog::error(), what().
+     */
     std::optional<AdapterWeights> loadAdapter(const std::string& adapter_id) {
         try {
             if (config_.backend == Backend::ThemisDB && config_.db) {
@@ -114,6 +117,12 @@ public:
         }
     }
     
+    /**
+     * @brief Load Metadata.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @return Return value.
+     * @details Calls: loadMetadataFromThemisDB(), loadMetadataFromFilesystem(), spdlog::error(), what().
+     */
     std::optional<AdapterMetadata> loadMetadata(const std::string& adapter_id) {
         try {
             if (config_.backend == Backend::ThemisDB && config_.db) {
@@ -127,6 +136,12 @@ public:
         }
     }
     
+    /**
+     * @brief Delete Adapter.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @return True when the operation succeeds.
+     * @details Calls: makeCollectionKey(), get(), BaseEntity::deserialize(), hasField(), getFieldAsInt(), value_or(), spdlog::warn(), getFieldAsString().
+     */
     bool deleteAdapter(const std::string& adapter_id) {
         try {
             if (config_.backend == Backend::ThemisDB && config_.db) {
@@ -254,6 +269,12 @@ public:
         return adapters;
     }
     
+    /**
+     * @brief Create Version.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @return Return value.
+     * @details Calls: listVersions(), size(), std::stoi(), substr(), std::max(), std::to_string(), spdlog::info().
+     */
     std::string createVersion(const std::string& adapter_id) {
         if (!config_.enable_versioning) {
             return "v1";
@@ -278,6 +299,13 @@ public:
         return new_version;
     }
     
+    /**
+     * @brief Rollback To Version.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @param[in] version Input parameter.
+     * @return True when the operation succeeds.
+     * @details Calls: spdlog::info(), makeCollectionKey(), get(), spdlog::error(), put(), fs::path(), fs::exists(), string().
+     */
     bool rollbackToVersion(const std::string& adapter_id, const std::string& version) {
         spdlog::info("Rolling back adapter {} to version {}", adapter_id, version);
 
@@ -395,6 +423,13 @@ public:
         return versions;
     }
     
+    /**
+     * @brief Update Metadata.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @param[in] metadata Input parameter.
+     * @return True when the operation succeeds.
+     * @details Calls: makeCollectionKey(), get(), spdlog::error(), BaseEntity::deserialize(), setField(), Value(), serialize(), put().
+     */
     bool updateMetadata(const std::string& adapter_id, const AdapterMetadata& metadata) {
         if (config_.backend == Backend::ThemisDB && config_.db) {
             try {
@@ -464,8 +499,9 @@ private:
     static constexpr size_t DEFAULT_HSM_MAX_CACHE_SIZE = 1000;
     
     /**
-     * @brief Check if running in production environment
-     * @return true if THEMIS_ENVIRONMENT is set to "production" or "prod"
+     * @brief Is Production Environment.
+     * @return True when the operation succeeds.
+     * @details Calls: std::getenv(), std::strcmp().
      */
     static bool isProductionEnvironment() {
         const char* env_mode = std::getenv("THEMIS_ENVIRONMENT");
@@ -475,9 +511,10 @@ private:
     }
     
     /**
-     * @brief Create HSM-backed key provider
-     * @return Shared pointer to HSM key provider adapter
-     * @throws std::runtime_error if HSM initialization fails
+     * @brief Create HSMKey Provider.
+     * @return Return value.
+     * @throws std::runtime_error if an error occurs.
+     * @details Calls: spdlog::info(), initialize(), getLastError().
      */
     std::shared_ptr<KeyProvider> createHSMKeyProvider() {
         spdlog::info("  Initializing HSM-backed encryption:");
@@ -517,9 +554,9 @@ private:
     }
     
     /**
-     * @brief Create Vault-backed key provider
-     * @return Shared pointer to Vault key provider
-     * @throws std::runtime_error if Vault initialization fails
+     * @brief Create Vault Key Provider.
+     * @return Return value.
+     * @details Calls: spdlog::info().
      */
     std::shared_ptr<KeyProvider> createVaultKeyProvider() {
         spdlog::info("  Initializing Vault-backed encryption:");
@@ -539,9 +576,10 @@ private:
     }
     
     /**
-     * @brief Create PKI-based key provider
-     * @return Shared pointer to PKI key provider
-     * @throws std::runtime_error if PKI initialization fails or configuration is invalid
+     * @brief Create PKIKey Provider.
+     * @return Return value.
+     * @throws std::runtime_error if an error occurs.
+     * @details Calls: empty(), spdlog::info().
      */
     std::shared_ptr<KeyProvider> createPKIKeyProvider() {
         if (config_.pki_cert_path.empty()) {
@@ -573,8 +611,9 @@ private:
     }
     
     /**
-     * @brief Create mock key provider (development/testing only)
-     * @return Shared pointer to mock key provider
+     * @brief Create Mock Key Provider.
+     * @return Return value.
+     * @details Calls: spdlog::warn().
      */
     std::shared_ptr<KeyProvider> createMockKeyProvider() {
         auto key_provider = std::make_shared<MockKeyProvider>();
@@ -586,12 +625,10 @@ private:
     }
     
     /**
-     * @brief Create appropriate key provider based on configuration
-     * 
-     * Priority order: HSM > Vault > PKI > Mock
-     * 
-     * @return Shared pointer to key provider
-     * @throws std::runtime_error if production mode without secure provider
+     * @brief Create Key Provider.
+     * @return Return value.
+     * @throws std::runtime_error if an error occurs.
+     * @details Calls: empty(), createHSMKeyProvider(), createVaultKeyProvider(), createPKIKeyProvider(), isProductionEnvironment(), spdlog::error(), Vault(), createMockKeyProvider().
      */
     std::shared_ptr<KeyProvider> createKeyProvider() {
         // 1. Try HSM first (highest priority)
@@ -632,6 +669,12 @@ private:
         return createMockKeyProvider();
     }
     
+    /**
+     * @brief Backend To String.
+     * @param[in] backend Input parameter.
+     * @return Return value.
+     * @details Implements backendToString without additional internal calls.
+     */
     static std::string backendToString(Backend backend) {
         switch (backend) {
             case Backend::ThemisDB: return "ThemisDB";
@@ -645,6 +688,14 @@ private:
         return config_.collection_name + ":" + adapter_id;
     }
     
+    /**
+     * @brief Save To Themis DB.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @param[in] weights Input parameter.
+     * @param[in] metadata Input parameter.
+     * @return True when the operation succeeds.
+     * @details Calls: makeCollectionKey(), Value(), BaseEntity::fromFields(), size(), spdlog::info(), put(), serialize(), encrypt().
+     */
     bool saveToThemisDB(
         const std::string& adapter_id,
         const AdapterWeights& weights,
@@ -719,6 +770,12 @@ private:
         return success;
     }
     
+    /**
+     * @brief Load From Themis DB.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @return Return value.
+     * @details Calls: makeCollectionKey(), get(), spdlog::warn(), encrypted_b64(), begin(), end(), EncryptedBlob::fromBase64(), decryptToBytes().
+     */
     std::optional<AdapterWeights> loadFromThemisDB(const std::string& adapter_id) {
         std::string key = makeCollectionKey(adapter_id);
         auto data = config_.db->get(key);
@@ -790,6 +847,12 @@ private:
         return weights;
     }
     
+    /**
+     * @brief Load Metadata From Themis DB.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @return Return value.
+     * @details Calls: makeCollectionKey(), get(), BaseEntity::deserialize(), getFieldAsString(), value_or(), getFieldAsInt(), getFieldAsDouble().
+     */
     std::optional<AdapterMetadata> loadMetadataFromThemisDB(const std::string& adapter_id) {
         std::string key = makeCollectionKey(adapter_id);
         auto data = config_.db->get(key);
@@ -811,7 +874,14 @@ private:
         return metadata;
     }
     
-    // Filesystem fallback implementations (original code)
+    /**
+     * @brief Filesystem fallback implementations (original code)
+     * @param[in] adapter_id Identifier of the adapter.
+     * @param[in] weights Input parameter.
+     * @param[in] metadata Input parameter.
+     * @return True when the operation succeeds.
+     * @details Calls: fs::path(), fs::create_directories(), weights_file(), spdlog::error(), string(), write(), data(), size().
+     */
     bool saveToFilesystem(
         const std::string& adapter_id,
         const AdapterWeights& weights,
@@ -847,6 +917,12 @@ private:
         return true;
     }
     
+    /**
+     * @brief Load From Filesystem.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @return Return value.
+     * @details Calls: fs::path(), fs::exists(), weights_file(), tellg(), seekg(), resize(), read(), data().
+     */
     std::optional<AdapterWeights> loadFromFilesystem(const std::string& adapter_id) {
         fs::path adapter_dir = fs::path(config_.filesystem_path) / adapter_id;
         fs::path weights_path = adapter_dir / "weights.bin";
@@ -873,6 +949,12 @@ private:
         return weights;
     }
     
+    /**
+     * @brief Load Metadata From Filesystem.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @return Return value.
+     * @details Calls: fs::path(), fs::exists(), metadata_file(), AdapterMetadata::fromJSON().
+     */
     std::optional<AdapterMetadata> loadMetadataFromFilesystem(const std::string& adapter_id) {
         fs::path adapter_dir = fs::path(config_.filesystem_path) / adapter_id;
         fs::path metadata_path = adapter_dir / "metadata.json";
@@ -900,6 +982,14 @@ LoRAStorageService::LoRAStorageService(const Config& config)
 
 LoRAStorageService::~LoRAStorageService() = default;
 
+/**
+ * @brief Save Adapter.
+ * @param[in] adapter_id Identifier of the adapter.
+ * @param[in] weights Input parameter.
+ * @param[in] metadata Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements saveAdapter without additional internal calls.
+ */
 bool LoRAStorageService::saveAdapter(
     const std::string& adapter_id,
     const AdapterWeights& weights,
@@ -908,14 +998,32 @@ bool LoRAStorageService::saveAdapter(
     return impl_->saveAdapter(adapter_id, weights, metadata);
 }
 
+/**
+ * @brief Load Adapter.
+ * @param[in] adapter_id Identifier of the adapter.
+ * @return Return value.
+ * @details Implements loadAdapter without additional internal calls.
+ */
 std::optional<AdapterWeights> LoRAStorageService::loadAdapter(const std::string& adapter_id) {
     return impl_->loadAdapter(adapter_id);
 }
 
+/**
+ * @brief Load Metadata.
+ * @param[in] adapter_id Identifier of the adapter.
+ * @return Return value.
+ * @details Implements loadMetadata without additional internal calls.
+ */
 std::optional<AdapterMetadata> LoRAStorageService::loadMetadata(const std::string& adapter_id) {
     return impl_->loadMetadata(adapter_id);
 }
 
+/**
+ * @brief Delete Adapter.
+ * @param[in] adapter_id Identifier of the adapter.
+ * @return True when the operation succeeds.
+ * @details Implements deleteAdapter without additional internal calls.
+ */
 bool LoRAStorageService::deleteAdapter(const std::string& adapter_id) {
     return impl_->deleteAdapter(adapter_id);
 }
@@ -928,10 +1036,23 @@ std::vector<std::string> LoRAStorageService::listAdapters() const {
     return impl_->listAdapters();
 }
 
+/**
+ * @brief Create Version.
+ * @param[in] adapter_id Identifier of the adapter.
+ * @return Return value.
+ * @details Implements createVersion without additional internal calls.
+ */
 std::string LoRAStorageService::createVersion(const std::string& adapter_id) {
     return impl_->createVersion(adapter_id);
 }
 
+/**
+ * @brief Rollback To Version.
+ * @param[in] adapter_id Identifier of the adapter.
+ * @param[in] version Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements rollbackToVersion without additional internal calls.
+ */
 bool LoRAStorageService::rollbackToVersion(const std::string& adapter_id, const std::string& version) {
     return impl_->rollbackToVersion(adapter_id, version);
 }
@@ -940,6 +1061,13 @@ std::vector<std::string> LoRAStorageService::listVersions(const std::string& ada
     return impl_->listVersions(adapter_id);
 }
 
+/**
+ * @brief Update Metadata.
+ * @param[in] adapter_id Identifier of the adapter.
+ * @param[in] metadata Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements updateMetadata without additional internal calls.
+ */
 bool LoRAStorageService::updateMetadata(const std::string& adapter_id, const AdapterMetadata& metadata) {
     return impl_->updateMetadata(adapter_id, metadata);
 }

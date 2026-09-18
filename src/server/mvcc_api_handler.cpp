@@ -28,6 +28,12 @@ namespace {
 
 constexpr size_t kMaxMvccKeyLength = 256;
 
+/**
+ * @brief Is Valid Mvcc Key.
+ * @param[in] value Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), validateStringLength(), validatePathSegment(), validateHeaderValue().
+ */
 bool isValidMvccKey(const std::string& value) {
     themis::utils::InputValidator validator;
     return !value.empty() &&
@@ -58,6 +64,11 @@ MvccApiHandler::MvccApiHandler(
 // Route registration
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Register Routes.
+ * @param[in,out] server Input/output parameter.
+ * @details Calls: Get(), handleGetClock(), handleGetStats(), handleListVersions(), Delete(), handleGcVersions(), handleGetKey(), Post().
+ */
 void MvccApiHandler::registerRoutes(httplib::Server& server) {
     // GET  /api/v1/mvcc/clock
     server.Get("/api/v1/mvcc/clock",
@@ -98,9 +109,12 @@ void MvccApiHandler::registerRoutes(httplib::Server& server) {
     spdlog::info("MVCC API routes registered");
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// GET /api/v1/mvcc/keys/{key}[?timestamp={ts}]
-// ─────────────────────────────────────────────────────────────────────────────
+/**
+ * @brief ───────────────────────────────────────────────────────────────────────────── GET /api/v1/mvcc/keys/{key}[?
+ * @param[in] req Input parameter.
+ * @param[in,out] res Input/output parameter.
+ * @details timestamp={ts}] ───────────────────────────────────────────────────────────────────────────── Calls: Tracer::startSpan(), extractKey(), empty(), sendError(), std::chrono::steady_clock::now(), has_param(), std::stoull(), get_param_value().
+ */
 
 void MvccApiHandler::handleGetKey(const httplib::Request& req,
                                    httplib::Response& res) {
@@ -171,9 +185,12 @@ void MvccApiHandler::handleGetKey(const httplib::Request& req,
     }
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// POST /api/v1/mvcc/keys/{key}
-// ─────────────────────────────────────────────────────────────────────────────
+/**
+ * @brief ───────────────────────────────────────────────────────────────────────────── POST /api/v1/mvcc/keys/{key} ─────────────────────────────────────────────────────────────────────────────
+ * @param[in] req Input parameter.
+ * @param[in,out] res Input/output parameter.
+ * @details Calls: Tracer::startSpan(), extractKey(), empty(), sendError(), std::chrono::steady_clock::now(), json::parse(), contains(), stringToValue().
+ */
 
 void MvccApiHandler::handlePutKey(const httplib::Request& req,
                                    httplib::Response& res) {
@@ -218,9 +235,12 @@ void MvccApiHandler::handlePutKey(const httplib::Request& req,
     }
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// GET /api/v1/mvcc/keys/{key}/versions
-// ─────────────────────────────────────────────────────────────────────────────
+/**
+ * @brief ───────────────────────────────────────────────────────────────────────────── GET /api/v1/mvcc/keys/{key}/versions ─────────────────────────────────────────────────────────────────────────────
+ * @param[in] req Input parameter.
+ * @param[in,out] res Input/output parameter.
+ * @details Calls: Tracer::startSpan(), extractKey(), empty(), sendError(), json::array(), scanVersions(), valueToString(), push_back().
+ */
 
 void MvccApiHandler::handleListVersions(const httplib::Request& req,
                                          httplib::Response& res) {
@@ -251,9 +271,12 @@ void MvccApiHandler::handleListVersions(const httplib::Request& req,
     }
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// DELETE /api/v1/mvcc/keys/{key}/versions
-// ─────────────────────────────────────────────────────────────────────────────
+/**
+ * @brief ───────────────────────────────────────────────────────────────────────────── DELETE /api/v1/mvcc/keys/{key}/versions ─────────────────────────────────────────────────────────────────────────────
+ * @param[in] req Input parameter.
+ * @param[in,out] res Input/output parameter.
+ * @details Calls: Tracer::startSpan(), extractKey(), empty(), sendError(), json::parse(), contains(), gcVersionsBefore(), recordMvccGc().
+ */
 
 void MvccApiHandler::handleGcVersions(const httplib::Request& req,
                                        httplib::Response& res) {
@@ -308,9 +331,12 @@ void MvccApiHandler::handleGcVersions(const httplib::Request& req,
     }
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// GET /api/v1/mvcc/clock
-// ─────────────────────────────────────────────────────────────────────────────
+/**
+ * @brief ───────────────────────────────────────────────────────────────────────────── GET /api/v1/mvcc/clock ─────────────────────────────────────────────────────────────────────────────
+ * @param[in] param Input parameter.
+ * @param[in,out] res Input/output parameter.
+ * @details Calls: Tracer::startSpan(), currentTimestamp(), physical(), logical(), sendJson(), sendError(), fmt::format(), what().
+ */
 
 void MvccApiHandler::handleGetClock(const httplib::Request& /*req*/,
                                      httplib::Response& res) {
@@ -329,9 +355,12 @@ void MvccApiHandler::handleGetClock(const httplib::Request& /*req*/,
     }
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// GET /api/v1/mvcc/stats
-// ─────────────────────────────────────────────────────────────────────────────
+/**
+ * @brief ───────────────────────────────────────────────────────────────────────────── GET /api/v1/mvcc/stats ─────────────────────────────────────────────────────────────────────────────
+ * @param[in] param Input parameter.
+ * @param[in,out] res Input/output parameter.
+ * @details Calls: Tracer::startSpan(), currentTimestamp(), load(), physical(), logical(), sendJson(), sendError(), fmt::format().
+ */
 
 void MvccApiHandler::handleGetStats(const httplib::Request& /*req*/,
                                      httplib::Response& res) {
@@ -359,6 +388,12 @@ void MvccApiHandler::handleGetStats(const httplib::Request& /*req*/,
 // Helpers
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Extract Key.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: size(), isValidMvccKey().
+ */
 std::string MvccApiHandler::extractKey(const httplib::Request& req) {
     if (req.matches.size() < 2) return {};
     std::string key = req.matches[1];
@@ -368,10 +403,22 @@ std::string MvccApiHandler::extractKey(const httplib::Request& req) {
     return key;
 }
 
+/**
+ * @brief Value To String.
+ * @param[in] v Input parameter.
+ * @return Return value.
+ * @details Calls: std::string(), begin(), end().
+ */
 std::string MvccApiHandler::valueToString(const std::vector<uint8_t>& v) {
     return std::string(v.begin(), v.end());
 }
 
+/**
+ * @brief String To Value.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Calls: begin(), end().
+ */
 std::vector<uint8_t> MvccApiHandler::stringToValue(const std::string& s) {
     return std::vector<uint8_t>(s.begin(), s.end());
 }

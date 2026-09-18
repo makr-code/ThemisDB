@@ -25,17 +25,8 @@ namespace llm {
 // Forward declarations
 class GPUMemoryManager;
 
-/**
- * @brief Adapter Load Balancer for Multi-GPU LoRA Distribution
- * 
- * Manages dynamic placement, migration, and eviction of LoRA adapters
- * across multiple GPUs based on utilization, health, and priorities.
- */
 class AdapterLoadBalancer {
 public:
-    /**
-     * @brief Adapter placement information
-     */
     struct AdapterPlacement {
         std::string adapter_id;
         int gpu_device_id = 0;
@@ -46,9 +37,6 @@ public:
         size_t access_count = 0;
     };
     
-    /**
-     * @brief Load balancing statistics
-     */
     struct LoadBalanceStats {
         int num_adapters = 0;
         int num_gpus = 0;
@@ -60,9 +48,6 @@ public:
         int64_t last_balance_time_ms = 0;
     };
     
-    /**
-     * @brief Configuration for load balancer
-     */
     struct Config {
         bool enable_dynamic_balancing = true;
         float rebalance_threshold = 0.8f;  // Trigger at 80% avg utilization
@@ -78,76 +63,168 @@ public:
         bool respect_pinning = true;
     };
     
+    /**
+     * @brief Adapter Load Balancer.
+     * @param[in] memory_manager Input parameter.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit AdapterLoadBalancer(
         std::shared_ptr<GPUMemoryManager> memory_manager,
         const Config& config);
     ~AdapterLoadBalancer();
     
     // Adapter placement
+    /**
+     * @brief Select GPUFor Adapter.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @param[in] vram_bytes Input parameter.
+     * @param[in] priority Input parameter.
+     * @return Return value.
+     */
     int selectGPUForAdapter(const std::string& adapter_id, size_t vram_bytes, int priority);
     bool placeAdapter(const std::string& adapter_id, int gpu_device_id, 
                       size_t vram_bytes, int priority, bool pinned = false);
+    /**
+     * @brief Remove Adapter.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @return True when the operation succeeds.
+     */
     bool removeAdapter(const std::string& adapter_id);
     
     // Adapter queries
+    /**
+     * @brief Get Adapter GPU.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @return Return value.
+     */
     int getAdapterGPU(const std::string& adapter_id) const;
+    /**
+     * @brief Get GPUAdapters.
+     * @param[in] gpu_device_id Identifier of the gpu device.
+     * @return Return value.
+     */
     std::vector<std::string> getGPUAdapters(int gpu_device_id) const;
+    /**
+     * @brief Get Adapter Placement.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @return Return value.
+     */
     AdapterPlacement getAdapterPlacement(const std::string& adapter_id) const;
+    /**
+     * @brief Is Adapter Loaded.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @return True when the operation succeeds.
+     */
     bool isAdapterLoaded(const std::string& adapter_id) const;
     
     // Pinning management
+    /**
+     * @brief Pin Adapter.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @return True when the operation succeeds.
+     */
     bool pinAdapter(const std::string& adapter_id);
+    /**
+     * @brief Unpin Adapter.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @return True when the operation succeeds.
+     */
     bool unpinAdapter(const std::string& adapter_id);
+    /**
+     * @brief Is Adapter Pinned.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @return True when the operation succeeds.
+     */
     bool isAdapterPinned(const std::string& adapter_id) const;
     
     // Load balancing operations
+    /**
+     * @brief Rebalance.
+     * @return True when the operation succeeds.
+     */
     bool rebalance();  // Perform load balancing across GPUs
+    /**
+     * @brief Migrate Adapter.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @param[in] target_gpu_id Identifier of the target gpu.
+     * @return True when the operation succeeds.
+     */
     bool migrateAdapter(const std::string& adapter_id, int target_gpu_id);
+    /**
+     * @brief Evict LRUAdapters.
+     * @param[in] gpu_device_id Identifier of the gpu device.
+     * @param[in] required_bytes Input parameter.
+     * @return Return value.
+     */
     std::vector<std::string> evictLRUAdapters(int gpu_device_id, size_t required_bytes);
     
-    // Access tracking (for LRU)
+    /**
+     * @brief Access tracking (for LRU)
+     * @param[in] adapter_id Identifier of the adapter.
+     */
     void recordAccess(const std::string& adapter_id);
     
     // Statistics
+    /**
+     * @brief Get Stats.
+     * @return Return value.
+     */
     LoadBalanceStats getStats() const;
+    /**
+     * @brief Get GPULoad.
+     * @param[in] gpu_device_id Identifier of the gpu device.
+     * @return Return value.
+     */
     float getGPULoad(int gpu_device_id) const;
     
     // Health-aware operations
+    /**
+     * @brief Mark GPUUnhealthy.
+     * @param[in] gpu_device_id Identifier of the gpu device.
+     */
     void markGPUUnhealthy(int gpu_device_id);
+    /**
+     * @brief Mark GPUHealthy.
+     * @param[in] gpu_device_id Identifier of the gpu device.
+     */
     void markGPUHealthy(int gpu_device_id);
+    /**
+     * @brief Should Migrate From GPU.
+     * @param[in] gpu_device_id Identifier of the gpu device.
+     * @return True when the operation succeeds.
+     */
     bool shouldMigrateFromGPU(int gpu_device_id) const;
 
     /**
-     * @brief Inject a `DecisionRecordYamlProcessor` for async YAML traceability.
-     *
-     * When set, every successful `rebalance()` call that performs at least one
-     * adapter migration emits a `LORA_RANK_ADJUSTMENT` decision record written
-     * asynchronously to
-     * `logs/decisions/YYYY-MM-DD/<ts>_LORA_RANK_ADJUSTMENT_<id>.yaml`.
-     *
-     * @param processor  Shared processor instance (may be nullptr to disable).
+     * @brief Set Decision Record Processor.
+     * @param[in] processor Input parameter.
      */
     void setDecisionRecordProcessor(
         std::shared_ptr<DecisionRecordYamlProcessor> processor);
 
     // Hot-load in-progress tracking
-    /// Mark @p adapter_id as currently being hot-loaded.
-    /// Requests for this adapter will be routed to @p fallback_id until
-    /// endHotLoad() is called.  If @p fallback_id is empty the caller is
-    /// responsible for routing (e.g. base model).
     void beginHotLoad(const std::string& adapter_id,
                       const std::string& fallback_id = "");
 
-    /// Mark hot-load for @p adapter_id as finished (or failed).
+    /**
+     * @brief End Hot Load.
+     * @param[in] adapter_id Identifier of the adapter.
+     */
     void endHotLoad(const std::string& adapter_id);
 
-    /// Returns true while a hot-load is in progress for @p adapter_id.
+    /**
+     * @brief Is Hot Load In Progress.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @return True when the operation succeeds.
+     */
     bool isHotLoadInProgress(const std::string& adapter_id) const;
 
-    /// Resolve the adapter to serve for @p adapter_id.
-    /// If a hot-load is in progress returns the registered fallback_id
-    /// (or empty string when no fallback was given); otherwise returns
-    /// @p adapter_id unchanged.
+    /**
+     * @brief Resolve Adapter.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @return Return value.
+     */
     std::string resolveAdapter(const std::string& adapter_id) const;
     
 private:
@@ -170,20 +247,66 @@ private:
     std::shared_ptr<DecisionRecordYamlProcessor> dr_processor_;
     
     // Helper methods
+    /**
+     * @brief Can Place On GPU.
+     * @param[in] gpu_device_id Identifier of the gpu device.
+     * @param[in] vram_bytes Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool canPlaceOnGPU(int gpu_device_id, size_t vram_bytes) const;
+    /**
+     * @brief Select Adapters For Eviction.
+     * @param[in] gpu_device_id Identifier of the gpu device.
+     * @param[in] required_bytes Input parameter.
+     * @return Return value.
+     */
     std::vector<std::string> selectAdaptersForEviction(
         int gpu_device_id, size_t required_bytes) const;
+    /**
+     * @brief Should Rebalance.
+     * @return True when the operation succeeds.
+     */
     bool shouldRebalance() const;
+    /**
+     * @brief Calculate GPULoad.
+     * @param[in] gpu_device_id Identifier of the gpu device.
+     * @return Return value.
+     */
     float calculateGPULoad(int gpu_device_id) const;
+    /**
+     * @brief Find Least Loaded Healthy GPU.
+     * @return Return value.
+     */
     int findLeastLoadedHealthyGPU() const;
     
     // Migration helpers
+    /**
+     * @brief Perform Migration.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @param[in] source_gpu Input parameter.
+     * @param[in] target_gpu Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool performMigration(const std::string& adapter_id, int source_gpu, int target_gpu);
+    /**
+     * @brief Perform Eviction.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @return True when the operation succeeds.
+     */
     bool performEviction(const std::string& adapter_id);
     
+    /**
+     * @brief Get Current Time Ms.
+     * @return Return value.
+     */
     int64_t getCurrentTimeMs() const;
 
-    /// Emit a LORA_RANK_ADJUSTMENT DecisionRecord (non-blocking, caller holds mutex_).
+    /**
+     * @brief Emit Rebalance Record.
+     * @param[in] migrations Input parameter.
+     * @param[in] num_gpus Input parameter.
+     * @param[in] avg_load Input parameter.
+     */
     void emitRebalanceRecord(int migrations, int num_gpus, float avg_load) const;
 };
 

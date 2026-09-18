@@ -35,6 +35,14 @@ namespace themis {
 
 namespace {
 
+/**
+ * @brief Checked Multiply.
+ * @param[in] lhs Input parameter.
+ * @param[in] rhs Input parameter.
+ * @param[in,out] out Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: max().
+ */
 bool checkedMultiply(size_t lhs, size_t rhs, size_t& out) {
     if (lhs == 0 || rhs == 0) {
         out = 0;
@@ -49,6 +57,14 @@ bool checkedMultiply(size_t lhs, size_t rhs, size_t& out) {
     return true;
 }
 
+/**
+ * @brief Is Valid Slice.
+ * @param[in] values Input parameter.
+ * @param[in] offset Input parameter.
+ * @param[in] length Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: size().
+ */
 bool isValidSlice(const std::vector<float>& values, size_t offset, size_t length) {
     return offset <= values.size() && length <= (values.size() - offset);
 }
@@ -120,6 +136,12 @@ ProductQuantizer::~ProductQuantizer() = default;
 ProductQuantizer::ProductQuantizer(ProductQuantizer&&) noexcept = default;
 ProductQuantizer& ProductQuantizer::operator=(ProductQuantizer&&) noexcept = default;
 
+/**
+ * @brief Train.
+ * @param[in] training_vectors Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), Status::Error(), size(), THEMIS_INFO(), checkedMultiply(), reserve(), insert(), end().
+ */
 ProductQuantizer::Status ProductQuantizer::train(
     const std::vector<std::vector<float>>& training_vectors) {
 
@@ -291,6 +313,11 @@ std::vector<float> ProductQuantizer::decode(const std::vector<uint8_t>& codes) c
     }
     
 #ifdef THEMIS_HAS_FAISS
+    /**
+     * @brief Decoded.
+     * @param[in] dimension_ Input parameter.
+     * @return Return value.
+     */
     std::vector<float> decoded(dimension_);
     
     try {
@@ -374,6 +401,11 @@ float ProductQuantizer::computeAsymmetricDistance(
             }
         }
 
+        /**
+         * @brief Dis table.
+         * @param[in] distance_table_size Input parameter.
+         * @return Return value.
+         */
         std::vector<float> dis_table(distance_table_size);
         if (!faiss_pq_ || query.empty()) {
             THEMIS_ERROR("ProductQuantizer::computeAsymmetricDistance - Invalid FAISS state");
@@ -489,12 +521,21 @@ std::vector<std::vector<float>> ProductQuantizer::runKMeans(
                 flat_data.insert(flat_data.end(), vec.begin(), vec.end());
             }
             
-            // Create FAISS clustering object
+            /**
+             * @brief Create FAISS clustering object
+             * @param[in] subvector_dim_ Input parameter.
+             * @param[in] k Input parameter.
+             * @return Return value.
+             */
             faiss::Clustering clustering(subvector_dim_, k);
             clustering.niter = config_.max_iterations;
             clustering.verbose = false;
             
-            // Create index for clustering
+            /**
+             * @brief Create index for clustering
+             * @param[in] subvector_dim_ Input parameter.
+             * @return Return value.
+             */
             faiss::IndexFlatL2 index(subvector_dim_);
             
             // Run FAISS K-means
@@ -510,6 +551,11 @@ std::vector<std::vector<float>> ProductQuantizer::runKMeans(
             }
             
             for (int i = 0; i < k; ++i) {
+                /**
+                 * @brief Centroid.
+                 * @param[in] subvector_dim_ Input parameter.
+                 * @return Return value.
+                 */
                 std::vector<float> centroid(subvector_dim_);
                 for (int d = 0; d < subvector_dim_; ++d) {
                     const size_t centroid_index =
@@ -545,6 +591,11 @@ std::vector<std::vector<float>> ProductQuantizer::runKMeans(
     
     // Pick remaining centroids using k-means++ initialization
     for (int i = 1; i < k; ++i) {
+        /**
+         * @brief Distances.
+         * @param[in] num_samples Input parameter.
+         * @return Return value.
+         */
         std::vector<float> distances(num_samples);
         
         // Compute distance to nearest centroid for each sample
@@ -567,7 +618,11 @@ std::vector<std::vector<float>> ProductQuantizer::runKMeans(
         centroids.push_back(subvector_data[selected_index]);
     }
     
-    // Run k-means iterations
+    /**
+     * @brief Run k-means iterations
+     * @param[in] num_samples Input parameter.
+     * @return Return value.
+     */
     std::vector<int> assignments(num_samples);
     
     for (int iter = 0; iter < config_.max_iterations; ++iter) {
@@ -656,6 +711,13 @@ uint8_t ProductQuantizer::findNearestCentroid(
     return best_idx;
 }
 
+/**
+ * @brief L2 Distance.
+ * @param[in] a Input parameter.
+ * @param[in] b Input parameter.
+ * @return Return value.
+ * @details Calls: size(), THEMIS_DEBUG(), max(), std::sqrt().
+ */
 float ProductQuantizer::l2Distance(const std::vector<float>& a, const std::vector<float>& b) {
     if (a.size() != b.size()) {
         THEMIS_DEBUG("ProductQuantizer::l2Distance - vector size mismatch ({} != {})", a.size(), b.size());

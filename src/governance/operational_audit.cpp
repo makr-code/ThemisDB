@@ -26,14 +26,12 @@
 
 namespace themis::governance {
 
-// ============================================================================
-// Helper Functions: UUID Generation & Fingerprinting
-// ============================================================================
-
 /**
- * Generate a RFC4122-compliant UUID v4 (random)
- * @return UUID string in format: xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx
+ * @brief ============================================================================ Helper Functions: UUID Generation & Fingerprinting ============================================================================
+ * @return Return value.
+ * @details Calls: RAND_bytes(), std::chrono::high_resolution_clock::now(), time_since_epoch(), count(), snprintf(), std::string(), std::setw(), std::setfill().
  */
+
 static std::string generateUUID() {
     unsigned char bytes[16];
     if (RAND_bytes(bytes, sizeof(bytes)) != 1) {
@@ -66,9 +64,10 @@ static std::string generateUUID() {
 }
 
 /**
- * Compute SHA-256 fingerprint of a string
- * @param data Input data to fingerprint
- * @return Hex-encoded SHA-256 hash
+ * @brief Compute SHA256.
+ * @param[in] data Input parameter.
+ * @return Return value.
+ * @details Calls: EVP_MD_CTX_new(), EVP_DigestInit_ex(), EVP_sha256(), EVP_MD_CTX_free(), EVP_DigestUpdate(), c_str(), length(), EVP_DigestFinal_ex().
  */
 static std::string computeSHA256(const std::string& data) {
     EVP_MD_CTX* mdctx = EVP_MD_CTX_new();
@@ -146,6 +145,12 @@ nlohmann::json OperationalEvent::toJson() const {
     return j;
 }
 
+/**
+ * @brief From Json.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: contains(), is_array(), push_back().
+ */
 OperationalEvent OperationalEvent::fromJson(const nlohmann::json& j) {
     OperationalEvent event = {};
     
@@ -248,6 +253,12 @@ nlohmann::json ComplianceEvidence::toJson() const {
     return j;
 }
 
+/**
+ * @brief From Json.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: contains().
+ */
 ComplianceEvidence ComplianceEvidence::fromJson(const nlohmann::json& j) {
     ComplianceEvidence evidence = {};
     
@@ -338,6 +349,11 @@ void OperationalAuditLogger::logEvent(
     
     auto log_start = std::chrono::high_resolution_clock::now();
     
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     // Generate event ID and capture timestamp
@@ -455,6 +471,15 @@ void OperationalAuditLogger::logEvent(
 
 // Convenience logging methods
 
+/**
+ * @brief Log Policy Evaluation.
+ * @param[in] policy_id Identifier of the policy.
+ * @param[in] decision Input parameter.
+ * @param[in] evaluation_duration_us Input parameter.
+ * @param[in] actor_id Identifier of the actor.
+ * @param[in] evaluation_context Input parameter.
+ * @details Calls: logEvent(), nlohmann::json::object().
+ */
 void OperationalAuditLogger::logPolicyEvaluation(
     const std::string& policy_id,
     const std::string& decision,
@@ -475,6 +500,15 @@ void OperationalAuditLogger::logPolicyEvaluation(
         context, "", nlohmann::json::object());
 }
 
+/**
+ * @brief Log Compliance Check.
+ * @param[in] check_id Identifier of the check.
+ * @param[in] result Input parameter.
+ * @param[in] check_duration_us Input parameter.
+ * @param[in] actor_id Identifier of the actor.
+ * @param[in] compliance_tags Input parameter.
+ * @details Calls: logEvent(), nlohmann::json::object().
+ */
 void OperationalAuditLogger::logComplianceCheck(
     const std::string& check_id,
     const std::string& result,
@@ -491,6 +525,15 @@ void OperationalAuditLogger::logComplianceCheck(
         compliance_tags, nlohmann::json::object(), "");
 }
 
+/**
+ * @brief Log Data Governance Op.
+ * @param[in] operation Input parameter.
+ * @param[in] resource_id Identifier of the resource.
+ * @param[in] actor_id Identifier of the actor.
+ * @param[in] op_duration_us Input parameter.
+ * @param[in] op_details Input parameter.
+ * @details Calls: logEvent().
+ */
 void OperationalAuditLogger::logDataGovernanceOp(
     const std::string& operation,
     const std::string& resource_id,
@@ -509,6 +552,14 @@ void OperationalAuditLogger::logDataGovernanceOp(
         {"DATA_PROTECTION"}, op_details);
 }
 
+/**
+ * @brief Log Policy Lifecycle.
+ * @param[in] policy_id Identifier of the policy.
+ * @param[in] lifecycle_event Input parameter.
+ * @param[in] actor_id Identifier of the actor.
+ * @param[in] details Input parameter.
+ * @details Calls: logEvent().
+ */
 void OperationalAuditLogger::logPolicyLifecycle(
     const std::string& policy_id,
     const std::string& lifecycle_event,
@@ -531,10 +582,21 @@ void OperationalAuditLogger::logPolicyLifecycle(
 // Query methods
 
 size_t OperationalAuditLogger::getTotalEventCount() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return static_cast<int>(events_.size());
 }
 
+/**
+ * @brief Get Event By Id.
+ * @param[in] event_id Identifier of the event.
+ * @return Pointer to the result.
+ * @details Calls: lock(), find(), end().
+ */
 OperationalEvent* OperationalAuditLogger::getEventById(const std::string& event_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -549,6 +611,11 @@ OperationalEvent* OperationalAuditLogger::getEventById(const std::string& event_
 std::vector<OperationalEvent> OperationalAuditLogger::queryEventsByCorrelationId(
     const std::string& correlation_id) const {
     
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     std::vector<OperationalEvent> result;
     
@@ -564,6 +631,11 @@ std::vector<OperationalEvent> OperationalAuditLogger::queryEventsByCorrelationId
 std::vector<OperationalEvent> OperationalAuditLogger::queryEventsByTimeRange(
     int64_t start_ms, int64_t end_ms) const {
     
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     std::vector<OperationalEvent> result;
     
@@ -591,6 +663,11 @@ std::vector<OperationalEvent> OperationalAuditLogger::queryEventsByTimeRange(
 std::vector<OperationalEvent> OperationalAuditLogger::queryEventsByActor(
     const std::string& actor_id) const {
     
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     std::vector<OperationalEvent> result;
     
@@ -610,6 +687,11 @@ std::vector<OperationalEvent> OperationalAuditLogger::queryEventsByActor(
 std::vector<OperationalEvent> OperationalAuditLogger::queryEventsByModule(
     const std::string& module_name) const {
     
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     std::vector<OperationalEvent> result;
     
@@ -629,6 +711,11 @@ std::vector<OperationalEvent> OperationalAuditLogger::queryEventsByModule(
 std::vector<OperationalEvent> OperationalAuditLogger::queryEventsByResource(
     const std::string& resource_id) const {
     
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     std::vector<OperationalEvent> result;
     
@@ -650,6 +737,11 @@ std::vector<OperationalEvent> OperationalAuditLogger::queryEventsByResource(
 std::vector<std::string> OperationalAuditLogger::getCausalityChain(
     const std::string& event_id) const {
     
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     std::vector<std::string> chain;
     
@@ -679,6 +771,11 @@ std::vector<std::string> OperationalAuditLogger::getCausalityChain(
 std::vector<std::string> OperationalAuditLogger::getTriggeredEvents(
     const std::string& parent_event_id) const {
     
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     auto it = causality_map_.find(parent_event_id);
@@ -689,6 +786,12 @@ std::vector<std::string> OperationalAuditLogger::getTriggeredEvents(
     return {};
 }
 
+/**
+ * @brief Link Causality Relationship.
+ * @param[in] parent_event_id Identifier of the parent event.
+ * @param[in] child_event_id Identifier of the child event.
+ * @details Calls: lock(), find(), end(), push_back().
+ */
 void OperationalAuditLogger::linkCausalityRelationship(
     const std::string& parent_event_id,
     const std::string& child_event_id) {
@@ -710,6 +813,11 @@ void OperationalAuditLogger::linkCausalityRelationship(
 nlohmann::json OperationalAuditLogger::exportEvents(
     int64_t start_ms, int64_t end_ms, size_t limit) const {
     
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     nlohmann::json result = nlohmann::json::object();
     
@@ -736,11 +844,21 @@ nlohmann::json OperationalAuditLogger::exportEvents(
 }
 
 OperationalAuditLogger::PerformanceMetrics OperationalAuditLogger::getPerformanceMetrics() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return performance_metrics_;
 }
 
 nlohmann::json OperationalAuditLogger::getEventStatistics() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     nlohmann::json stats = nlohmann::json::object();
     
@@ -778,6 +896,12 @@ EventCorrelationEngine::EventCorrelationEngine()
 
 EventCorrelationEngine::~EventCorrelationEngine() = default;
 
+/**
+ * @brief Create Correlation.
+ * @param[in] correlation_id Identifier of the correlation.
+ * @param[in] initial_event Input parameter.
+ * @details Calls: lock(), insert(), push_back(), empty().
+ */
 void EventCorrelationEngine::createCorrelation(
     const std::string& correlation_id,
     const OperationalEvent& initial_event) {
@@ -803,6 +927,12 @@ void EventCorrelationEngine::createCorrelation(
     }
 }
 
+/**
+ * @brief Add Event To Correlation.
+ * @param[in] correlation_id Identifier of the correlation.
+ * @param[in] event Input parameter.
+ * @details Calls: lock(), find(), end(), insert(), push_back().
+ */
 void EventCorrelationEngine::addEventToCorrelation(
     const std::string& correlation_id,
     const OperationalEvent& event) {
@@ -822,6 +952,12 @@ void EventCorrelationEngine::addEventToCorrelation(
     group.related_event_ids.push_back(event.event_id);
 }
 
+/**
+ * @brief Get Correlation Group.
+ * @param[in] correlation_id Identifier of the correlation.
+ * @return Pointer to the result.
+ * @details Calls: lock(), find(), end().
+ */
 CorrelationGroup* EventCorrelationEngine::getCorrelationGroup(
     const std::string& correlation_id) {
     
@@ -838,6 +974,11 @@ CorrelationGroup* EventCorrelationEngine::getCorrelationGroup(
 std::vector<CorrelationGroup> EventCorrelationEngine::queryCorrelationsByTimeRange(
     int64_t start_ms, int64_t end_ms) const {
     
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     std::vector<CorrelationGroup> result;
     
@@ -865,6 +1006,11 @@ std::vector<CorrelationGroup> EventCorrelationEngine::queryCorrelationsByTimeRan
 std::vector<CorrelationGroup> EventCorrelationEngine::queryCorrelationsByActor(
     const std::string& actor_id) const {
     
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     std::vector<CorrelationGroup> result;
     
@@ -884,6 +1030,11 @@ std::vector<CorrelationGroup> EventCorrelationEngine::queryCorrelationsByActor(
 int64_t EventCorrelationEngine::getCorrelationLatency(
     const std::string& correlation_id) const {
     
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     auto it = correlations_.find(correlation_id);
@@ -895,6 +1046,11 @@ int64_t EventCorrelationEngine::getCorrelationLatency(
 }
 
 nlohmann::json EventCorrelationEngine::getCorrelationLatencyStats() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     nlohmann::json stats = nlohmann::json::object();
     
@@ -926,6 +1082,11 @@ nlohmann::json EventCorrelationEngine::getCorrelationLatencyStats() const {
 nlohmann::json EventCorrelationEngine::exportCorrelations(
     int64_t start_ms, int64_t end_ms) const {
     
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     nlohmann::json result = nlohmann::json::object();
     
@@ -958,6 +1119,18 @@ ComplianceEvidenceCollector::ComplianceEvidenceCollector(
 
 ComplianceEvidenceCollector::~ComplianceEvidenceCollector() = default;
 
+/**
+ * @brief Record Evidence.
+ * @param[in] requirement_id Identifier of the requirement.
+ * @param[in] requirement_type Input parameter.
+ * @param[in] evidence_type Input parameter.
+ * @param[in] description Input parameter.
+ * @param[in] source_event_id Identifier of the source event.
+ * @param[in] data Input parameter.
+ * @param[in] retention_days Input parameter.
+ * @param[in] audit_classification Input parameter.
+ * @details Calls: lock(), generateUUID(), std::chrono::system_clock::now(), time_since_epoch(), count(), is_null(), dump(), computeSHA256().
+ */
 void ComplianceEvidenceCollector::recordEvidence(
     const std::string& requirement_id,
     const std::string& requirement_type,
@@ -1009,6 +1182,11 @@ void ComplianceEvidenceCollector::recordEvidence(
     }
 }
 
+/**
+ * @brief Collect Evidence.
+ * @param[in] requirement_type Input parameter.
+ * @details Calls: lock(), queryEventsByModule(), find(), end(), recordEvidence().
+ */
 void ComplianceEvidenceCollector::collectEvidence(
     const std::string& requirement_type) {
     
@@ -1061,6 +1239,12 @@ void ComplianceEvidenceCollector::collectEvidence(
     }
 }
 
+/**
+ * @brief Link Evidence To Event.
+ * @param[in] evidence_id Identifier of the evidence.
+ * @param[in] event_id Identifier of the event.
+ * @details Calls: lock(), find(), end(), push_back().
+ */
 void ComplianceEvidenceCollector::linkEvidenceToEvent(
     const std::string& evidence_id,
     const std::string& event_id) {
@@ -1082,6 +1266,11 @@ void ComplianceEvidenceCollector::linkEvidenceToEvent(
 std::vector<ComplianceEvidence> ComplianceEvidenceCollector::getEvidenceByRequirement(
     const std::string& requirement_id) const {
     
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     std::vector<ComplianceEvidence> result;
     
@@ -1101,6 +1290,11 @@ std::vector<ComplianceEvidence> ComplianceEvidenceCollector::getEvidenceByRequir
 std::vector<ComplianceEvidence> ComplianceEvidenceCollector::getEvidenceByEvent(
     const std::string& event_id) const {
     
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     std::vector<ComplianceEvidence> result;
     
@@ -1120,6 +1314,11 @@ std::vector<ComplianceEvidence> ComplianceEvidenceCollector::getEvidenceByEvent(
 std::vector<ComplianceEvidence> ComplianceEvidenceCollector::getEvidenceByTimeRange(
     int64_t start_ms, int64_t end_ms) const {
     
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     std::vector<ComplianceEvidence> result;
     
@@ -1135,6 +1334,11 @@ std::vector<ComplianceEvidence> ComplianceEvidenceCollector::getEvidenceByTimeRa
 nlohmann::json ComplianceEvidenceCollector::exportEvidenceForAudit(
     const std::string& requirement_type) const {
     
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     nlohmann::json result = nlohmann::json::object();
     
@@ -1158,6 +1362,11 @@ nlohmann::json ComplianceEvidenceCollector::exportEvidenceForAudit(
 }
 
 nlohmann::json ComplianceEvidenceCollector::getEvidenceStatistics() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     nlohmann::json stats = nlohmann::json::object();
     
@@ -1179,16 +1388,31 @@ nlohmann::json ComplianceEvidenceCollector::getEvidenceStatistics() const {
 // Global Singleton Instances
 // ============================================================================
 
+/**
+ * @brief Get Global Audit Logger.
+ * @return Return value.
+ * @details Calls: logger().
+ */
 OperationalAuditLogger& getGlobalAuditLogger() {
     static OperationalAuditLogger logger(100000);  // Max 100k events
     return logger;
 }
 
+/**
+ * @brief Get Global Correlation Engine.
+ * @return Return value.
+ * @details Implements getGlobalCorrelationEngine without additional internal calls.
+ */
 EventCorrelationEngine& getGlobalCorrelationEngine() {
     static EventCorrelationEngine engine;
     return engine;
 }
 
+/**
+ * @brief Get Global Evidence Collector.
+ * @return Return value.
+ * @details Calls: collector(), getGlobalAuditLogger().
+ */
 ComplianceEvidenceCollector& getGlobalEvidenceCollector() {
     static ComplianceEvidenceCollector collector(&getGlobalAuditLogger());
     return collector;

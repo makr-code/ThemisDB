@@ -46,13 +46,6 @@ constexpr size_t MAX_STREAM_BUFFER = 2 * 1024 * 1024;     // 2 MB cumulative buf
 constexpr size_t MAX_SESSION_STREAMS = 10;                // Max streams per session (validation rule 8)
 constexpr uint8_t VALID_FRAME_VERSION = 1;                // Frame format version (validation rule 9)
 
-/**
- * @brief Validate audio payload for oversized or empty conditions.
- * Fail-closed: reject any payload exceeding limits or malformed structure.
- * 
- * @param audio_data Input audio buffer
- * @return true if payload should be rejected; false if acceptable
- */
 [[nodiscard]] bool isRejectedVoicePayload(const std::vector<uint8_t>& audio_data) {
     // Validation rule 1: reject empty payloads.
     if (audio_data.empty()) {
@@ -69,22 +62,6 @@ constexpr uint8_t VALID_FRAME_VERSION = 1;                // Frame format versio
     return false;
 }
 
-/**
- * @brief Validate session state transition for fail-closed behavior.
- * 
- * Enforces valid state transitions:
- * - ACTIVE → IDLE, EXPIRED, CLOSING, TERMINATED
- * - IDLE → ACTIVE, EXPIRED, CLOSING, TERMINATED
- * - EXPIRED → CLOSING, TERMINATED
- * - CLOSING → TERMINATED
- * - TERMINATED → (no transitions allowed)
- * 
- * Validation rule 10: prevent invalid state transitions.
- * 
- * @param current_state Current session state
- * @param next_state Proposed next state
- * @return true if transition is valid; false if transition violates state machine
- */
 [[maybe_unused, nodiscard]] bool isValidSessionStateTransition(
     const std::string& current_state,
     const std::string& next_state) {
@@ -130,18 +107,6 @@ constexpr uint8_t VALID_FRAME_VERSION = 1;                // Frame format versio
     return false;
 }
 
-/**
- * @brief Emit diagnostic error message for stream rejection with reason code.
- * 
- * Logs rejection reason with error code for audit and debugging.
- * 
- * Validation rule 11: emit diagnostics on rejection.
- * 
- * @param reason Human-readable rejection reason
- * @param error_code Voice module error code (7xxx range)
- * @param session_id Session identifier (optional)
- * @param additional_context Additional diagnostic info (optional)
- */
 void diagnosticStreamRejection(
     const std::string& reason,
     int error_code,
@@ -177,6 +142,11 @@ VoiceAssistant::~VoiceAssistant() {
     }
 }
 
+/**
+ * @brief Initialize.
+ * @return True when the operation succeeds.
+ * @details Calls: json::object(), content::PluginConfig(), empty(), loadModel().
+ */
 bool VoiceAssistant::initialize() {
     if (initialized_) {
         return true;
@@ -243,6 +213,10 @@ bool VoiceAssistant::initialize() {
     }
 }
 
+/**
+ * @brief Shutdown.
+ * @details Calls: unloadModel(), clear().
+ */
 void VoiceAssistant::shutdown() {
     if (!initialized_) {
         return;
@@ -264,6 +238,13 @@ void VoiceAssistant::shutdown() {
     initialized_ = false;
 }
 
+/**
+ * @brief Process Voice Command.
+ * @param[in] audio_data Input parameter.
+ * @param[in] session_id Identifier of the session.
+ * @return Return value.
+ * @details Calls: isRejectedVoicePayload(), getSession(), empty(), authenticate(), logVoiceAuthenticationAudit(), THEMIS_INFO(), size(), THEMIS_WARN().
+ */
 std::vector<uint8_t> VoiceAssistant::processVoiceCommand(
     const std::vector<uint8_t>& audio_data,
     const std::string& session_id
@@ -375,6 +356,13 @@ std::vector<uint8_t> VoiceAssistant::processVoiceCommand(
     }
 }
 
+/**
+ * @brief Process Text Command.
+ * @param[in] text Input parameter.
+ * @param[in] session_id Identifier of the session.
+ * @return Return value.
+ * @details Calls: empty(), matchTrigger(), executeMacro(), getSession(), push_back(), generateLLMResponse(), THEMIS_WARN(), what().
+ */
 std::string VoiceAssistant::processTextCommand(
     const std::string& text,
     const std::string& session_id
@@ -472,6 +460,11 @@ std::vector<uint8_t> VoiceAssistant::streamProcessVoiceCommand(
 
     auto on_segment = [&](const content::TranscriptionSegment& seg) {
         {
+            /**
+             * @brief Lock.
+             * @param[in] transcript_mutex Input parameter.
+             * @return Return value.
+             */
             std::lock_guard<std::mutex> lock(transcript_mutex);
             if (!full_transcript.empty()) {
                 full_transcript += ' ';
@@ -530,6 +523,11 @@ std::vector<uint8_t> VoiceAssistant::streamProcessVoiceCommand(
     session.history.push_back("Assistant: " + llm_response);
 
     {
+        /**
+         * @brief Lock.
+         * @param[in] sessions_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(sessions_mutex_);
         sessions_[session_id] = session;
     }
@@ -544,6 +542,13 @@ std::vector<uint8_t> VoiceAssistant::streamProcessVoiceCommand(
     return tts_result.audio_data;
 }
 
+/**
+ * @brief Record Phone Call.
+ * @param[in] audio_data Input parameter.
+ * @param[in] metadata Input parameter.
+ * @return Return value.
+ * @details Calls: transcribe(), json::array(), std::to_string(), push_back(), generateSummary(), convertAudioFormat(), storeRecording().
+ */
 json VoiceAssistant::recordPhoneCall(
     const std::vector<uint8_t>& audio_data,
     const PhoneCallMetadata& metadata
@@ -624,6 +629,13 @@ json VoiceAssistant::recordPhoneCall(
     return result;
 }
 
+/**
+ * @brief Generate Meeting Protocol.
+ * @param[in] audio_data Input parameter.
+ * @param[in] metadata Input parameter.
+ * @return Return value.
+ * @details Calls: json::array(), push_back(), contains(), extractKeyPoints(), extractActionItems(), convertAudioFormat(), storeRecording(), value().
+ */
 json VoiceAssistant::generateMeetingProtocol(
     const std::vector<uint8_t>& audio_data,
     const MeetingMetadata& metadata
@@ -685,6 +697,13 @@ json VoiceAssistant::generateMeetingProtocol(
     return protocol;
 }
 
+/**
+ * @brief Convert Audio Format.
+ * @param[in] audio_data Input parameter.
+ * @param[in] target_format Input parameter.
+ * @return Return value.
+ * @details Calls: audio_convert_fn_(), empty(), SPDLOG_WARN().
+ */
 std::vector<uint8_t> VoiceAssistant::convertAudioFormat(
     const std::vector<uint8_t>& audio_data,
     const std::string& target_format
@@ -714,6 +733,14 @@ std::vector<uint8_t> VoiceAssistant::convertAudioFormat(
     return audio_data;
 }
 
+/**
+ * @brief Store Recording.
+ * @param[in] audio_data Input parameter.
+ * @param[in] transcript Input parameter.
+ * @param[in] metadata Input parameter.
+ * @return Return value.
+ * @details Calls: detectFormat(), value(), store().
+ */
 std::string VoiceAssistant::storeRecording(
     const std::vector<uint8_t>& audio_data,
     const std::string& transcript,
@@ -726,6 +753,12 @@ std::string VoiceAssistant::storeRecording(
     return audio_storage_.store(audio_data, fmt, transcript, metadata);
 }
 
+/**
+ * @brief Get Session.
+ * @param[in] session_id Identifier of the session.
+ * @return Return value.
+ * @details Calls: lock(), find(), end(), std::chrono::system_clock::now(), time_since_epoch(), count(), json::object().
+ */
 VoiceSession VoiceAssistant::getSession(const std::string& session_id) {
     std::lock_guard<std::mutex> lock(sessions_mutex_);
     
@@ -747,6 +780,12 @@ VoiceSession VoiceAssistant::getSession(const std::string& session_id) {
     return session;
 }
 
+/**
+ * @brief Update Session.
+ * @param[in] session_id Identifier of the session.
+ * @param[in] context Input parameter.
+ * @details Calls: lock(), find(), end(), std::chrono::system_clock::now(), time_since_epoch(), count().
+ */
 void VoiceAssistant::updateSession(const std::string& session_id, const json& context) {
     std::lock_guard<std::mutex> lock(sessions_mutex_);
 
@@ -757,6 +796,12 @@ void VoiceAssistant::updateSession(const std::string& session_id, const json& co
     }
 }
 
+/**
+ * @brief Delete Session.
+ * @param[in] session_id Identifier of the session.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), erase().
+ */
 bool VoiceAssistant::deleteSession(const std::string& session_id) {
     std::lock_guard<std::mutex> lock(sessions_mutex_);
     return sessions_.erase(session_id) > 0;
@@ -796,6 +841,14 @@ json VoiceAssistant::getStatistics() const {
 
 // Private implementation methods
 
+/**
+ * @brief Create Revision Entry.
+ * @param[in] entity_id Identifier of the entity.
+ * @param[in] data Input parameter.
+ * @param[in] metadata Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), str(), lock(), std::move().
+ */
 std::string VoiceAssistant::createRevisionEntry(
     const std::string& entity_id,
     const std::vector<uint8_t>& data,
@@ -834,6 +887,14 @@ std::string VoiceAssistant::createRevisionEntry(
 // Voice biometric authentication
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Enroll Speaker.
+ * @param[in] user_id Identifier of the user.
+ * @param[in] audio_samples Input parameter.
+ * @param[in,out] out_profile_id Identifier of the out profile.
+ * @param[in] config Input parameter.
+ * @return True when the operation succeeds.
+ */
 bool VoiceAssistant::enrollSpeaker(
     const std::string&                        user_id,
     const std::vector<std::vector<uint8_t>>& audio_samples,
@@ -843,6 +904,12 @@ bool VoiceAssistant::enrollSpeaker(
     return voice_authenticator_.enroll_voice(user_id, audio_samples, out_profile_id, config);
 }
 
+/**
+ * @brief Authenticate Speaker.
+ * @param[in] user_id Identifier of the user.
+ * @param[in] audio_sample Input parameter.
+ * @return Return value.
+ */
 VoiceAuthResult VoiceAssistant::authenticateSpeaker(
     const std::string&          user_id,
     const std::vector<uint8_t>& audio_sample)
@@ -855,6 +922,13 @@ VoiceAuthResult VoiceAssistant::authenticateSpeaker(
     return result;
 }
 
+/**
+ * @brief Log Voice Authentication Audit.
+ * @param[in] user_id Identifier of the user.
+ * @param[in] session_id Identifier of the session.
+ * @param[in] action Input parameter.
+ * @param[in] result Input parameter.
+ */
 void VoiceAssistant::logVoiceAuthenticationAudit(
     const std::string& user_id,
     const std::string& session_id,
@@ -881,6 +955,12 @@ void VoiceAssistant::logVoiceAuthenticationAudit(
     voice_security_manager_.logEvent(entry);
 }
 
+/**
+ * @brief Verify Voice Speaker.
+ * @param[in] profile_id Identifier of the profile.
+ * @param[in] audio_sample Input parameter.
+ * @return Return value.
+ */
 VerificationResult VoiceAssistant::verifyVoiceSpeaker(
     const VoiceProfileID&         profile_id,
     const std::vector<uint8_t>&   audio_sample)
@@ -907,6 +987,12 @@ VerificationResult VoiceAssistant::verifyVoiceSpeaker(
     return result;
 }
 
+/**
+ * @brief Identify Voice Profiles.
+ * @param[in] candidate_profiles Input parameter.
+ * @param[in] audio_sample Input parameter.
+ * @return Return value.
+ */
 IdentificationResult VoiceAssistant::identifyVoiceProfiles(
     const std::vector<VoiceProfileID>& candidate_profiles,
     const std::vector<uint8_t>&        audio_sample)
@@ -934,6 +1020,11 @@ IdentificationResult VoiceAssistant::identifyVoiceProfiles(
     return result;
 }
 
+/**
+ * @brief Delete Voice Profile.
+ * @param[in] profile_id Identifier of the profile.
+ * @return True when the operation succeeds.
+ */
 bool VoiceAssistant::deleteVoiceProfile(const VoiceProfileID& profile_id)
 {
     return voice_authenticator_.delete_profile(profile_id);
@@ -945,6 +1036,12 @@ std::vector<VoiceProfileID> VoiceAssistant::listVoiceProfiles() const
 }
 
 
+/**
+ * @brief Detect Wake Word.
+ * @param[in] audio_chunk Input parameter.
+ * @return Return value.
+ * @details Calls: processAudioChunk(), THEMIS_WARN(), what().
+ */
 WakeWordDetectionResult VoiceAssistant::detectWakeWord(
     const std::vector<uint8_t>& audio_chunk
 ) {
@@ -960,10 +1057,20 @@ WakeWordDetectionResult VoiceAssistant::detectWakeWord(
     }
 }
 
+/**
+ * @brief Set Wake Word Callback.
+ * @param[in] callback Input parameter.
+ * @details Calls: setDetectionCallback(), std::move().
+ */
 void VoiceAssistant::setWakeWordCallback(WakeWordDetector::DetectionCallback callback) {
     wake_word_detector_->setDetectionCallback(std::move(callback));
 }
 
+/**
+ * @brief Macro Manager.
+ * @return Return value.
+ * @details Implements macroManager without additional internal calls.
+ */
 VoiceMacroManager& VoiceAssistant::macroManager() {
     return macro_manager_;
 }
@@ -972,6 +1079,11 @@ const VoiceMacroManager& VoiceAssistant::macroManager() const {
     return macro_manager_;
 }
 
+/**
+ * @brief Audio Storage.
+ * @return Return value.
+ * @details Implements audioStorage without additional internal calls.
+ */
 VoiceAudioStorage& VoiceAssistant::audioStorage() {
     return audio_storage_;
 }
@@ -980,6 +1092,13 @@ const VoiceAudioStorage& VoiceAssistant::audioStorage() const {
     return audio_storage_;
 }
 
+/**
+ * @brief Synthesize.
+ * @param[in] text Input parameter.
+ * @param[in] options Input parameter.
+ * @return Return value.
+ * @details Implements synthesize without additional internal calls.
+ */
 content::TTSResult VoiceAssistant::synthesize(
     const std::string& text,
     const content::TTSOptions& options
@@ -1003,28 +1122,12 @@ std::vector<std::string> VoiceAssistant::getSupportedLanguages() const {
     return tts_processor_->getSupportedLanguages();
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Factory: FFmpeg-backed AudioConvertFn
-// Guarded by THEMIS_VOICE_HAS_FFMPEG (set when THEMIS_HAS_FFMPEG or
-// THEMIS_ENABLE_FFMPEG is defined and libavformat/libavcodec are linked).
-// Returns an empty function when FFmpeg is unavailable.
-// ─────────────────────────────────────────────────────────────────────────────
-
 /**
- * @brief Returns a libavformat/libavcodec-backed AudioConvertFn.
- *
- * When @c THEMIS_HAS_FFMPEG is defined at build time, this factory creates a
- * real audio transcoding backend using FFmpeg's avformat demuxer and avcodec
- * encoder pipeline.  The returned fn writes input bytes to a temporary in-memory
- * AVIOContext, demuxes, decodes, re-encodes in the requested output format
- * (identified by the @p target_format string, e.g. "ogg", "mp3", "mp4"), and
- * returns the encoded bytes.
- *
- * When FFmpeg is not available, returns an empty @c std::function so that
- * @c convertAudioFormat() falls back to the passthrough path.
- *
- * @return AudioConvertFn backed by FFmpeg, or empty fn if unavailable.
+ * @brief ───────────────────────────────────────────────────────────────────────────── Factory: FFmpeg-backed AudioConvertFn Guarded by THEMIS_VOICE_HAS_FFMPEG (set when THEMIS_HAS_FFMPEG or THEMIS_ENABLE_FFMPEG is defined and libavformat/libavcodec are linked).
+ * @return Return value.
+ * @details Returns an empty function when FFmpeg is unavailable. ─────────────────────────────────────────────────────────────────────────────
  */
+
 VoiceAssistant::AudioConvertFn VoiceAssistant::makeFFmpegAudioConvertFn()
 {
 #if THEMIS_VOICE_HAS_FFMPEG

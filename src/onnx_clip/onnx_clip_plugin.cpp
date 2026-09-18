@@ -47,6 +47,11 @@ std::mutex        s_model_hash_fn_mutex;
 ONNXClipPlugin::ModelHashFn s_model_hash_fn;
 } // namespace
 
+/**
+ * @brief Set Model Hash Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lk(), std::move().
+ */
 void ONNXClipPlugin::setModelHashFn(ModelHashFn fn) {
     std::lock_guard<std::mutex> lk(s_model_hash_fn_mutex);
     s_model_hash_fn = std::move(fn);
@@ -54,6 +59,12 @@ void ONNXClipPlugin::setModelHashFn(ModelHashFn fn) {
 
 namespace {
 
+/**
+ * @brief Backend To String.
+ * @param[in] backend Input parameter.
+ * @return Pointer to the result.
+ * @details Implements backendToString without additional internal calls.
+ */
 static const char* backendToString(BackendType backend) {
     switch (backend) {
         case BackendType::CPU: return "cpu";
@@ -71,7 +82,12 @@ static const char* backendToString(BackendType backend) {
 }
 
 #ifdef THEMIS_HAS_OPENSSL
-// Compute SHA-256 hex digest of a file. Returns empty string on I/O error.
+/**
+ * @brief Compute SHA-256 hex digest of a file.
+ * @param[in] path Input parameter.
+ * @return Return value.
+ * @details Returns empty string on I/O error. Calls: file(), is_open(), EVP_MD_CTX_new(), EVP_DigestInit_ex(), EVP_sha256(), EVP_MD_CTX_free(), read(), gcount().
+ */
 static std::string sha256HexOfFile(const std::string& path) {
     std::ifstream file(path, std::ios::binary);
     if (!file.is_open()) {
@@ -116,6 +132,12 @@ static std::string sha256HexOfFile(const std::string& path) {
 }
 #endif // THEMIS_HAS_OPENSSL
 
+/**
+ * @brief Fnv1a64.
+ * @param[in] data Input parameter.
+ * @return Return value.
+ * @details Implements fnv1a64 without additional internal calls.
+ */
 static uint64_t fnv1a64(const std::vector<uint8_t>& data) {
     uint64_t hash = 1469598103934665603ull;
     for (uint8_t b : data) {
@@ -125,6 +147,12 @@ static uint64_t fnv1a64(const std::vector<uint8_t>& data) {
     return hash;
 }
 
+/**
+ * @brief Fnv1a64 str.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Implements fnv1a64_str without additional internal calls.
+ */
 static uint64_t fnv1a64_str(const std::string& s) {
     uint64_t hash = 1469598103934665603ull;
     for (unsigned char c : s) {
@@ -134,6 +162,13 @@ static uint64_t fnv1a64_str(const std::string& s) {
     return hash;
 }
 
+/**
+ * @brief Mix Metadata.
+ * @param[in] seed Input parameter.
+ * @param[in] metadata Input parameter.
+ * @return Return value.
+ * @details Implements mixMetadata without additional internal calls.
+ */
 static uint64_t mixMetadata(uint64_t seed, const ImageMetadata* metadata) {
     if (!metadata) {
         return seed;
@@ -144,6 +179,12 @@ static uint64_t mixMetadata(uint64_t seed, const ImageMetadata* metadata) {
     return seed;
 }
 
+/**
+ * @brief Next Float01.
+ * @param[in,out] state Input/output parameter.
+ * @return Return value.
+ * @details Implements nextFloat01 without additional internal calls.
+ */
 static float nextFloat01(uint64_t& state) {
     // xorshift64*
     state ^= state >> 12;
@@ -154,7 +195,12 @@ static float nextFloat01(uint64_t& state) {
     return static_cast<float>(mantissa) / 16777215.0f;
 }
 
-// Simple BPE-style tokenizer: split on whitespace and punctuation, lowercase.
+/**
+ * @brief Simple BPE-style tokenizer: split on whitespace and punctuation, lowercase.
+ * @param[in] text Input parameter.
+ * @return Return value.
+ * @details Calls: std::isspace(), std::ispunct(), empty(), push_back(), clear(), std::tolower().
+ */
 static std::vector<std::string> tokenize(const std::string& text) {
     std::vector<std::string> tokens;
     std::string token = {};
@@ -215,17 +261,10 @@ struct ONNXClipPlugin::Impl {
 #endif
 
     /**
-     * @brief Load ONNX model via memory mapping (read-only).
-     * 
-     * Attempts to load the model file into memory via OS-specific mechanisms:
-     * - Linux/POSIX: mmap(2) with MAP_SHARED; MAP_NORESERVE added when available
-     * - Windows: CreateFileMapping() + MapViewOfFile()
-     * 
-     * @param model_path Path to ONNX model file
-     * @return true if mmap succeeded; false if mmap failed or is unsupported
-     * 
-     * On failure, caller should fall back to traditional file-based loading.
-     * All errors are logged but do not throw exceptions (graceful degradation).
+     * @brief Load Model Mmap.
+     * @param[in] model_path Path to the model.
+     * @return True when the operation succeeds.
+     * @details Calls: file_check(), is_open(), seekg(), tellg(), close(), open(), c_str(), mmap().
      */
     bool loadModelMmap(const std::string& model_path) {
 #ifndef _WIN32
@@ -361,12 +400,6 @@ struct ONNXClipPlugin::Impl {
 #endif
     }
 
-    /**
-     * @brief Clean up memory-mapped resources (RAII cleanup).
-     * 
-     * Called from destructor and shutdown() to ensure all mmap-related
-     * file descriptors and handles are properly closed. Exception-safe.
-     */
     void cleanupMmap() noexcept {
 #ifndef _WIN32
         // Linux/Unix: cleanup
@@ -483,12 +516,13 @@ struct ONNXClipPlugin::Impl {
 // ---------------------------------------------------------------------------
 // RAII Request Tracking Guard (Phase 3B)
 // ---------------------------------------------------------------------------
-/// Holds a shared_ptr to the Impl whose counter it manages, ensuring the Impl
-/// stays alive for the entire duration of the request even if reloadModel()
-/// swaps impl_ on another thread.
-/// Must be defined after ONNXClipPlugin::Impl is complete (member field access).
 class RequestGuard {
 public:
+    /**
+     * @brief Request Guard.
+     * @param[in] impl Input parameter.
+     * @return Return value.
+     */
     explicit RequestGuard(std::shared_ptr<ONNXClipPlugin::Impl> impl)
         : impl_(std::move(impl)) {
         impl_->in_flight_requests_.fetch_add(1, std::memory_order_acquire);
@@ -544,6 +578,13 @@ PluginInfo ONNXClipPlugin::getInfo() const {
     return info;
 }
 
+/**
+ * @brief Initialize.
+ * @param[in] config Input parameter.
+ * @param[in] backend Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), std::max(), empty(), sha256HexOfFile(), lk(), fn(), loadModelMmap().
+ */
 bool ONNXClipPlugin::initialize(const PluginConfig& config, BackendType backend) {
     std::lock_guard<std::mutex> lock(impl_->mutex);
 
@@ -631,6 +672,10 @@ bool ONNXClipPlugin::initialize(const PluginConfig& config, BackendType backend)
     return true;
 }
 
+/**
+ * @brief Shutdown.
+ * @details Calls: lock(), cleanupMmap().
+ */
 void ONNXClipPlugin::shutdown() {
     std::lock_guard<std::mutex> lock(impl_->mutex);
     
@@ -650,6 +695,13 @@ BackendType ONNXClipPlugin::getBackend() const {
     return impl_->backend;
 }
 
+/**
+ * @brief Generate Embedding.
+ * @param[in] image_data Input parameter.
+ * @param[in] metadata Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::steady_clock::now(), pg(), req_guard(), lock(), computeEmbedding(), count().
+ */
 EmbeddingResult ONNXClipPlugin::generateEmbedding(
     const std::vector<uint8_t>& image_data,
     const ImageMetadata* metadata) {
@@ -692,6 +744,12 @@ EmbeddingResult ONNXClipPlugin::generateEmbedding(
     return result;
 }
 
+/**
+ * @brief Generate Embedding Batch.
+ * @param[in] images Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::steady_clock::now(), pg(), req_guard(), lock(), reserve(), size(), push_back(), std::move().
+ */
 std::vector<EmbeddingResult> ONNXClipPlugin::generateEmbeddingBatch(
     const std::vector<std::vector<uint8_t>>& images) {
     auto t0 = std::chrono::steady_clock::now();
@@ -755,6 +813,12 @@ bool ONNXClipPlugin::healthCheck() const {
     return impl_->ready && impl_->embedding_dim > 0;
 }
 
+/**
+ * @brief Generate Text Embedding.
+ * @param[in] text Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::steady_clock::now(), pg(), req_guard(), lock(), computeTextEmbedding(), count().
+ */
 EmbeddingResult ONNXClipPlugin::generateTextEmbedding(const std::string& text) {
     auto t0 = std::chrono::steady_clock::now();
 
@@ -819,6 +883,10 @@ nlohmann::json ONNXClipPlugin::getStatistics() const {
     };
 }
 
+/**
+ * @brief Warmup.
+ * @details Calls: lock(), computeEmbedding().
+ */
 void ONNXClipPlugin::warmup() {
     std::lock_guard<std::mutex> lock(impl_->mutex);
     if (!impl_->ready) {
@@ -835,6 +903,12 @@ void ONNXClipPlugin::warmup() {
     }
 }
 
+/**
+ * @brief Reload Model.
+ * @param[in] new_config Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: std::max(), empty(), sha256HexOfFile(), lk(), fn(), pg(), ol(), std::chrono::seconds().
+ */
 bool ONNXClipPlugin::reloadModel(const PluginConfig& new_config) {
     // Phase 3B: Hot-Swap Model Reloading
     // ====================================

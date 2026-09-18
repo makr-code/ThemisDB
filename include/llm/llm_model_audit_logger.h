@@ -25,12 +25,6 @@ namespace llm {
 
 using json = nlohmann::json;
 
-/**
- * @brief LLM Model Audit Event Types
- * 
- * Tracks all operations on LLM models for compliance and debugging.
- * Mirrors LoRA adapter audit logging for consistency.
- */
 enum class LLMModelAuditEventType {
     // Inference Events (CRITICAL for traceability)
     INFERENCE_STARTED,      // Model inference started
@@ -81,13 +75,11 @@ enum class LLMModelAuditEventType {
     PROMPT_REDACTED         // Prompt content redacted by PromptPolicy
 };
 
-/**
- * @brief Audit record for LLM model inference
- * 
- * CRITICAL: Tracks which model generated which response.
- * Similar to LoRAInferenceAudit but for base models.
- */
 struct LLMModelInferenceAudit {
+    /**
+     * @brief LLMModel Inference Audit.
+     * @return Return value.
+     */
     virtual ~LLMModelInferenceAudit() = default;
     // Timestamps
     std::chrono::system_clock::time_point timestamp;
@@ -186,17 +178,6 @@ struct LLMModelInferenceAudit {
     }
 };
 
-/**
- * @brief LLM Model Audit Logger
- * 
- * Specialized audit logger for LLM model operations.
- * Complements LoRAAuditLogger for complete traceability.
- * 
- * Key difference:
- * - LoRAAuditLogger: Tracks LoRA adapter operations
- * - LLMModelAuditLogger: Tracks base model operations
- * - Both can be combined: Model + LoRA → Response
- */
 class LLMModelAuditLogger {
 public:
     class Impl;
@@ -205,35 +186,17 @@ public:
     ~LLMModelAuditLogger();
     
     /**
-     * @brief Log model inference event (MOST IMPORTANT)
-     * 
-     * This logs the complete context of an LLM inference including:
-     * - Base model used
-     * - Optional LoRA adapter
-     * - Prompt and response
-     * - Quality metrics
-     * - Resource usage
-     * 
-     * Essential for:
-     * - Debugging quality issues
-     * - Compliance audits
-     * - Performance monitoring
-     * - Cost tracking
+     * @brief Log Inference.
+     * @param[in] audit Input parameter.
      */
     void logInference(const LLMModelInferenceAudit& audit);
     
-    /**
-     * @brief Log generic model event
-     */
     void logEvent(
         LLMModelAuditEventType event_type,
         const std::string& model_id,
         const json& details = json::object()
     );
     
-    /**
-     * @brief Log model lifecycle event
-     */
     void logModelLifecycle(
         LLMModelAuditEventType event_type,
         const std::string& model_id,
@@ -241,9 +204,6 @@ public:
         const json& metadata = json::object()
     );
     
-    /**
-     * @brief Log fine-tuning event
-     */
     void logFineTuning(
         LLMModelAuditEventType event_type,
         const std::string& model_id,
@@ -253,9 +213,6 @@ public:
         const json& hyperparameters = json::object()
     );
     
-    /**
-     * @brief Log deployment event
-     */
     void logDeployment(
         LLMModelAuditEventType event_type,
         const std::string& model_id,
@@ -264,17 +221,12 @@ public:
     );
 
     /**
-     * @brief Log a PromptPolicy violation (PROMPT_BLOCKED or PROMPT_REDACTED).
-     *
-     * Called by the inference path after PromptPolicy::apply() returns a
-     * non-trivial result so that operators can audit safety events alongside
-     * model lifecycle events.
-     *
-     * @param model_id    Model ID that would have processed the prompt.
-     * @param request_id  Request ID for cross-referencing inference logs.
-     * @param rule_name   Policy rule that triggered (PolicyResult::rule_name).
-     * @param reason      Human-readable reason (PolicyResult::reason).
-     * @param was_blocked true → PROMPT_BLOCKED; false → PROMPT_REDACTED.
+     * @brief Log Policy Violation.
+     * @param[in] model_id Identifier of the model.
+     * @param[in] request_id Identifier of the request.
+     * @param[in] rule_name Name of the retention policy.
+     * @param[in] reason Input parameter.
+     * @param[in] was_blocked Input parameter.
      */
     void logPolicyViolation(
         const std::string& model_id,
@@ -284,58 +236,35 @@ public:
         bool was_blocked
     );
     
-    /**
-     * @brief Query audit logs for specific model
-     */
     std::vector<json> queryLogs(
         const std::string& model_id,
         std::optional<std::chrono::system_clock::time_point> start_time = std::nullopt,
         std::optional<std::chrono::system_clock::time_point> end_time = std::nullopt
     );
     
-    /**
-     * @brief Get inference history for model
-     */
     std::vector<LLMModelInferenceAudit> getInferenceHistory(
         const std::string& model_id,
         int limit = 100
     );
     
     /**
-     * @brief Get statistics for model
+     * @brief Get Model Stats.
+     * @param[in] model_id Identifier of the model.
+     * @return Return value.
      */
     json getModelStats(const std::string& model_id);
     
     /**
-     * @brief Enable/disable audit logging
+     * @brief Set Enabled.
+     * @param[in] enabled Input parameter.
      */
     void setEnabled(bool enabled);
     
     /**
-     * @brief Flush logs to disk
+     * @brief Flush.
      */
     void flush();
 
-    /**
-     * @brief Export audit events as a JSON-lines (JSONL) stream.
-     *
-     * Writes one JSON object per line to @p out_stream.  Each line is a
-     * self-contained JSON object with the following top-level fields:
-     *
-     *   - timestamp_iso8601  (string, UTC)
-     *   - event_type         (string, e.g. "INFERENCE_COMPLETED")
-     *   - model_id           (string)
-     *   - details            (object, event-specific payload)
-     *
-     * The format is compatible with standard SIEM ingestors and data
-     * warehouse batch loaders (e.g., BigQuery, Snowflake, Splunk).
-     *
-     * @param out_stream  Output stream to write lines to.
-     * @param model_id    Optional filter; empty string = all models.
-     * @param start_time  Optional inclusive start of the query window.
-     * @param end_time    Optional exclusive end of the query window.
-     * @return Number of lines written.
-     */
     size_t exportAnalytics(
         std::ostream& out_stream,
         const std::string& model_id = "",
@@ -348,12 +277,15 @@ private:
 };
 
 /**
- * @brief Helper to generate unique request ID
+ * @brief Generate Model Request Id.
+ * @return Return value.
  */
 std::string generateModelRequestId();
 
 /**
- * @brief Helper to compute SHA256 hash of model file
+ * @brief Compute Model Checksum.
+ * @param[in] file_path Path to the file.
+ * @return Return value.
  */
 std::string computeModelChecksum(const std::string& file_path);
 

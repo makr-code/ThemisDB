@@ -15,17 +15,32 @@
 namespace themis {
 namespace sharding {
 
+/**
+ * @brief Register Metrics.
+ * @param[in] metrics Input parameter.
+ * @details Calls: lock().
+ */
 void ShardingMetricsRegistry::registerMetrics(std::shared_ptr<PrometheusMetrics> metrics) {
     std::lock_guard<std::mutex> lock(mutex_);
     metrics_ = metrics;
 }
 
 std::shared_ptr<PrometheusMetrics> ShardingMetricsRegistry::getMetrics() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return metrics_;
 }
 
 std::string ShardingMetricsRegistry::getMetricsString() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     if (!metrics_) {
         return "";

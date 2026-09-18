@@ -70,6 +70,11 @@ SAMLAuthenticator::~SAMLAuthenticator() {
     }
 }
 
+/**
+ * @brief Load Id PCertificate.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: BIO_new_mem_buf(), data(), size(), PEM_read_bio_X509(), BIO_free(), X509_get_pubkey(), X509_free().
+ */
 void SAMLAuthenticator::loadIdPCertificate() {
     BIO *bio
         = BIO_new_mem_buf(config_.idp_certificate_pem.data(), static_cast<int>(config_.idp_certificate_pem.size()));
@@ -106,6 +111,11 @@ void SAMLAuthenticator::setClockForTesting(std::function<std::chrono::system_clo
 // AuthnRequest (SP-initiated flow)
 // ============================================================================
 
+/**
+ * @brief Generate Request Id.
+ * @return Return value.
+ * @details Calls: local_gen(), local_rd(), std::setfill(), std::setw(), dist(), str().
+ */
 std::string SAMLAuthenticator::generateRequestId() {
     // SAML IDs must be NCName-safe: start with '_' + 32 hex chars
     static std::random_device local_rd;
@@ -142,7 +152,12 @@ std::string SAMLAuthenticator::buildAuthnRequestXml(const std::string &request_i
     return xml.str();
 }
 
-// Build ISO 8601 UTC timestamp from a time_point
+/**
+ * @brief Build ISO 8601 UTC timestamp from a time_point
+ * @param[in] tp Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::to_time_t(), gmtime_s(), gmtime_r(), std::strftime(), std::string().
+ */
 static std::string formatDateTime(std::chrono::system_clock::time_point tp) {
     std::time_t t = std::chrono::system_clock::to_time_t(tp);
     std::tm tm_val{};
@@ -156,6 +171,13 @@ static std::string formatDateTime(std::chrono::system_clock::time_point tp) {
     return std::string(buf);
 }
 
+/**
+ * @brief Deflate And Base64 Encode.
+ * @param[in] input Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: compressBound(), size(), compressed(), deflateInit2(), data(), deflate(), deflateEnd(), resize().
+ */
 std::string SAMLAuthenticator::deflateAndBase64Encode(const std::string &input) {
     // DEFLATE without zlib wrapper (RFC 1951)
     uLongf bound = compressBound(static_cast<uLong>(input.size()));
@@ -205,6 +227,12 @@ std::string SAMLAuthenticator::deflateAndBase64Encode(const std::string &input) 
     return encoded;
 }
 
+/**
+ * @brief Url Encode.
+ * @param[in] input Input parameter.
+ * @return Return value.
+ * @details Calls: std::isalnum(), std::setw(), std::setfill(), str().
+ */
 std::string SAMLAuthenticator::urlEncode(const std::string &input) {
     std::ostringstream oss = {};
     oss << std::hex << std::uppercase;
@@ -236,9 +264,12 @@ std::string SAMLAuthenticator::buildAuthnRequestUrl(const std::string &relay_sta
     return buildAuthnRequest(relay_state).url;
 }
 
-// ============================================================================
-// Base64 decode (for SAMLResponse POST body)
-// ============================================================================
+/**
+ * @brief ============================================================================ Base64 decode (for SAMLResponse POST body) ============================================================================
+ * @param[in] input Input parameter.
+ * @return Return value.
+ * @details Calls: BIO_new(), BIO_f_base64(), BIO_new_mem_buf(), data(), size(), BIO_free(), BIO_push(), BIO_set_flags().
+ */
 
 std::vector<uint8_t> SAMLAuthenticator::base64Decode(const std::string &input) {
     BIO *b64_bio = BIO_new(BIO_f_base64());
@@ -266,6 +297,13 @@ std::vector<uint8_t> SAMLAuthenticator::base64Decode(const std::string &input) {
 // DateTime parsing
 // ============================================================================
 
+/**
+ * @brief Parse Date Time.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: size(), std::sscanf(), c_str(), _mkgmtime(), timegm(), std::chrono::system_clock::from_time_t().
+ */
 std::chrono::system_clock::time_point SAMLAuthenticator::parseDateTime(const std::string &s) {
     // Accepts: "2026-02-22T06:13:57Z" or "2026-02-22T06:13:57.000Z"
     if (s.size() < 20) {
@@ -377,6 +415,11 @@ bool SAMLAuthenticator::verifyXmlSignature(const std::string &reference_xml, con
     //    production deployments integrating with strict IdPs, integrate an XML C14N
     //    library (e.g. libxml2 with c14n support).
     {
+        /**
+         * @brief Computed digest.
+         * @param[in] EVP_MAX_MD_SIZE Input parameter.
+         * @return Return value.
+         */
         std::vector<uint8_t> computed_digest(EVP_MAX_MD_SIZE);
         unsigned int computed_len = 0;
         EVP_MD_CTX *mctx_ref      = EVP_MD_CTX_new();
@@ -424,7 +467,13 @@ bool SAMLAuthenticator::verifyXmlSignature(const std::string &reference_xml, con
 
 namespace {
 
-/// Find the first child element with the given local name (ignoring namespace prefix)
+/**
+ * @brief Find Child By Local Name.
+ * @param[in] parent Input parameter.
+ * @param[in] local_name Name of the local.
+ * @return Return value.
+ * @details Calls: children(), name(), rfind(), substr().
+ */
 pugi::xml_node findChildByLocalName(const pugi::xml_node &parent, const char *local_name) {
     for (auto child : parent.children()) {
         std::string child_name = child.name();
@@ -437,7 +486,13 @@ pugi::xml_node findChildByLocalName(const pugi::xml_node &parent, const char *lo
     return {};
 }
 
-/// Recursively find first element with given local name in the subtree
+/**
+ * @brief Find Descendant By Local Name.
+ * @param[in] root Input parameter.
+ * @param[in] local_name Name of the local.
+ * @return Return value.
+ * @details Calls: children(), name(), rfind(), substr().
+ */
 pugi::xml_node findDescendantByLocalName(const pugi::xml_node &root, const char *local_name) {
     for (auto child : root.children()) {
         std::string child_name = child.name();
@@ -454,7 +509,12 @@ pugi::xml_node findDescendantByLocalName(const pugi::xml_node &root, const char 
     return {};
 }
 
-/// Extract all text content from a node (including child nodes)
+/**
+ * @brief Node Text.
+ * @param[in] node Input parameter.
+ * @return Return value.
+ * @details Calls: children(), type(), value().
+ */
 std::string nodeText(const pugi::xml_node &node) {
     std::string result = {};
     for (auto child : node.children()) {
@@ -467,14 +527,24 @@ std::string nodeText(const pugi::xml_node &node) {
     return result;
 }
 
-/// Serialize a node back to XML string
+/**
+ * @brief Node To String.
+ * @param[in] node Input parameter.
+ * @return Return value.
+ * @details Calls: print(), str().
+ */
 std::string nodeToString(const pugi::xml_node &node) {
     std::ostringstream oss = {};
     node.print(oss, "", pugi::format_raw);
     return oss.str();
 }
 
-/// Find the Signature element inside a node
+/**
+ * @brief Find Signature.
+ * @param[in] node Input parameter.
+ * @return Return value.
+ * @details Calls: findDescendantByLocalName().
+ */
 pugi::xml_node findSignature(const pugi::xml_node &node) {
     return findDescendantByLocalName(node, "Signature");
 }
@@ -1095,6 +1165,11 @@ SAMLClaims SAMLAuthenticator::processResponseImpl(const std::string &saml_respon
     }
 
     {
+        /**
+         * @brief Lock.
+         * @param[in] replay_cache_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(replay_cache_mutex_);
 
         // Evict expired entries before checking/inserting (lazy TTL eviction).

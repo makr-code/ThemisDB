@@ -148,6 +148,12 @@ TemporalSpatialQueryBuilder &TemporalSpatialQueryBuilder::withGeoField(const std
     return *this;
 }
 
+/**
+ * @brief Build.
+ * @return Return value.
+ * @throws std::logic_error if an error occurs.
+ * @details Calls: BuiltTemporalSpatialQuery().
+ */
 BuiltTemporalSpatialQuery TemporalSpatialQueryBuilder::build() {
     if (!temporal_) {
         throw std::logic_error("TemporalSpatialQueryBuilder::build(): temporal constraint not set; "

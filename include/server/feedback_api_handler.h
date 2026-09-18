@@ -30,23 +30,12 @@ namespace beast = boost::beast;
 namespace http = beast::http;
 using json = nlohmann::json;
 
-/**
- * @brief Feedback API Handler for LoRA Adapter Feedback
- * 
- * Implements RESTful endpoints for feedback operations:
- * - POST   /api/feedback           - Create new feedback
- * - GET    /api/feedback           - List/filter feedback
- * - GET    /api/feedback/{id}      - Get specific feedback
- * - PUT    /api/feedback/{id}      - Update feedback
- * - DELETE /api/feedback/{id}      - Delete feedback
- * - GET    /api/feedback/adapter/{adapter_id} - Get feedback for adapter
- * - GET    /api/feedback/stats     - Get feedback statistics
- */
 class FeedbackAPIHandler {
 public:
     /**
-     * @brief Construct FeedbackAPIHandler
-     * @param storage_service Feedback storage service
+     * @brief Feedback APIHandler.
+     * @param[in] storage_service Input parameter.
+     * @return Return value.
      */
     explicit FeedbackAPIHandler(
         std::shared_ptr<llm::lora::FeedbackStorageService> storage_service
@@ -55,28 +44,28 @@ public:
     ~FeedbackAPIHandler() = default;
     
     /**
-     * @brief Handle POST /api/feedback - Create feedback
-     * @param req HTTP request
-     * @return HTTP response
+     * @brief Handle Create Feedback.
+     * @param[in] req Input parameter.
+     * @return Return value.
      */
     http::response<http::string_body> handleCreateFeedback(
         const http::request<http::string_body>& req
     );
     
     /**
-     * @brief Handle GET /api/feedback - List feedback
-     * @param req HTTP request
-     * @return HTTP response
+     * @brief Handle List Feedback.
+     * @param[in] req Input parameter.
+     * @return Return value.
      */
     http::response<http::string_body> handleListFeedback(
         const http::request<http::string_body>& req
     );
     
     /**
-     * @brief Handle GET /api/feedback/{id} - Get feedback
-     * @param req HTTP request
-     * @param id Feedback ID
-     * @return HTTP response
+     * @brief Handle Get Feedback.
+     * @param[in] req Input parameter.
+     * @param[in] id Input parameter.
+     * @return Return value.
      */
     http::response<http::string_body> handleGetFeedback(
         const http::request<http::string_body>& req,
@@ -84,10 +73,10 @@ public:
     );
     
     /**
-     * @brief Handle PUT /api/feedback/{id} - Update feedback
-     * @param req HTTP request
-     * @param id Feedback ID
-     * @return HTTP response
+     * @brief Handle Update Feedback.
+     * @param[in] req Input parameter.
+     * @param[in] id Input parameter.
+     * @return Return value.
      */
     http::response<http::string_body> handleUpdateFeedback(
         const http::request<http::string_body>& req,
@@ -95,10 +84,10 @@ public:
     );
     
     /**
-     * @brief Handle DELETE /api/feedback/{id} - Delete feedback
-     * @param req HTTP request
-     * @param id Feedback ID
-     * @return HTTP response
+     * @brief Handle Delete Feedback.
+     * @param[in] req Input parameter.
+     * @param[in] id Input parameter.
+     * @return Return value.
      */
     http::response<http::string_body> handleDeleteFeedback(
         const http::request<http::string_body>& req,
@@ -106,10 +95,10 @@ public:
     );
     
     /**
-     * @brief Handle GET /api/feedback/adapter/{adapter_id} - Get adapter feedback
-     * @param req HTTP request
-     * @param adapter_id Adapter ID
-     * @return HTTP response
+     * @brief Handle Get Adapter Feedback.
+     * @param[in] req Input parameter.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @return Return value.
      */
     http::response<http::string_body> handleGetAdapterFeedback(
         const http::request<http::string_body>& req,
@@ -117,19 +106,29 @@ public:
     );
     
     /**
-     * @brief Handle GET /api/feedback/stats - Get feedback statistics
-     * @param req HTTP request
-     * @return HTTP response
+     * @brief Handle Get Statistics.
+     * @param[in] req Input parameter.
+     * @return Return value.
      */
     http::response<http::string_body> handleGetStatistics(
         const http::request<http::string_body>& req
     );
 
+    /**
+     * @brief Set Live Feedback Collector.
+     * @param[in] feedback_collector Input parameter.
+     * @details Calls: std::move().
+     */
     void setLiveFeedbackCollector(
         std::shared_ptr<themis::prompt_engineering::FeedbackCollector> feedback_collector) {
         feedback_collector_ = std::move(feedback_collector);
     }
 
+    /**
+     * @brief Set Learning Orchestrator.
+     * @param[in] orchestrator Input parameter.
+     * @details Calls: std::move().
+     */
     void setLearningOrchestrator(
         std::shared_ptr<themis::rag::learning::ContinuousLearningOrchestrator> orchestrator) {
         learning_orchestrator_ = std::move(orchestrator);
@@ -141,24 +140,50 @@ private:
     std::shared_ptr<themis::rag::learning::ContinuousLearningOrchestrator> learning_orchestrator_;
     
     // Helper methods
+    /**
+     * @brief Make Response.
+     * @param[in] status Input parameter.
+     * @param[in] body Input parameter.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> makeResponse(
         http::status status,
         const std::string& body,
         const http::request<http::string_body>& req
     );
     
+    /**
+     * @brief Make Json Response.
+     * @param[in] status Input parameter.
+     * @param[in] body Input parameter.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> makeJsonResponse(
         http::status status,
         const json& body,
         const http::request<http::string_body>& req
     );
     
+    /**
+     * @brief Make Error Response.
+     * @param[in] status Input parameter.
+     * @param[in] error Input parameter.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> makeErrorResponse(
         http::status status,
         const std::string& error,
         const http::request<http::string_body>& req
     );
     
+    /**
+     * @brief Parse Filter From Query.
+     * @param[in] query Input parameter.
+     * @return Return value.
+     */
     llm::lora::FeedbackFilter parseFilterFromQuery(const std::string& query) const;
 };
 

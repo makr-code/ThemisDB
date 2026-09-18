@@ -64,7 +64,12 @@ ProcessPatternMatcher::ProcessPatternMatcher(RocksDBWrapper &db, VectorIndex *ve
 
 namespace {
 
-/// Extract the activity sequence of a trace.
+/**
+ * @brief Trace Activities.
+ * @param[in] trace Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), push_back().
+ */
 std::vector<std::string> traceActivities(const ProcessTrace &trace) {
     std::vector<std::string> acts = {};
 
@@ -75,7 +80,6 @@ std::vector<std::string> traceActivities(const ProcessTrace &trace) {
     return acts;
 }
 
-/// Extract the edge set (directly-follows pairs) of a trace.
 std::set<std::pair<std::string, std::string>> traceEdges(const ProcessTrace &trace) {
     std::set<std::pair<std::string, std::string>> edges;
     for (size_t i = 1; i <trace.events.size(); ++i) {
@@ -84,7 +88,6 @@ std::set<std::pair<std::string, std::string>> traceEdges(const ProcessTrace &tra
     return edges;
 }
 
-/// Weak-order footprint: set of (a,b) pairs where a appears before b in seq.
 std::set<std::pair<std::string, std::string>> weakOrderPairs(const std::vector<std::string> &seq) {
     std::set<std::pair<std::string, std::string>> pairs;
     for (size_t i = 0; i < seq.size(); ++i) {
@@ -136,6 +139,11 @@ std::vector<float> ProcessPatternMatcher::embedActivities(const std::vector<std:
         }
     }
 
+    /**
+     * @brief Result.
+     * @param[in] DIM Input parameter.
+     * @return Return value.
+     */
     std::vector<float> result(DIM);
     for (int i = 0; i < DIM; ++i) {
         result[i] = static_cast<float>(vec[i]);
@@ -768,6 +776,10 @@ ProcessPatternMatcher::getStatistics() const {
 // clearCache
 // ============================================================================
 
+/**
+ * @brief Clear Cache.
+ * @details Calls: clear(), spdlog::debug().
+ */
 void ProcessPatternMatcher::clearCache() {
     pattern_cache_.clear();
     spdlog::debug("ProcessPatternMatcher: cache cleared");

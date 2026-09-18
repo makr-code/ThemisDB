@@ -135,6 +135,13 @@ std::vector<float> buildG1(const std::vector<float>& A,
     return data;
 }
 
+/**
+ * @brief Cache Key.
+ * @param[in] tenant Input parameter.
+ * @param[in] adapter_name Name of the adapter.
+ * @return Return value.
+ * @details Implements cacheKey without additional internal calls.
+ */
 std::string cacheKey(const std::string& tenant, const std::string& adapter_name) {
     return tenant + "\n" + adapter_name;
 }
@@ -156,22 +163,41 @@ struct AdaLoraTTBridge::Impl {
 };
 
 namespace {
+/**
+ * @brief Training Step Fn Mutex.
+ * @return Return value.
+ * @details Implements trainingStepFnMutex without additional internal calls.
+ */
 std::mutex& trainingStepFnMutex() {
     static std::mutex m;
     return m;
 }
 
+/**
+ * @brief Training Step Fn Storage.
+ * @return Return value.
+ * @details Implements trainingStepFnStorage without additional internal calls.
+ */
 AdaLoraTTBridge::TrainingStepFn& trainingStepFnStorage() {
     static AdaLoraTTBridge::TrainingStepFn fn;
     return fn;
 }
 } // namespace
 
+/**
+ * @brief Set Training Step Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lk(), trainingStepFnMutex(), trainingStepFnStorage(), std::move().
+ */
 void AdaLoraTTBridge::setTrainingStepFn(TrainingStepFn fn) {
     std::lock_guard<std::mutex> lk(trainingStepFnMutex());
     trainingStepFnStorage() = std::move(fn);
 }
 
+/**
+ * @brief Clear Training Step Fn.
+ * @details Calls: lk(), trainingStepFnMutex(), trainingStepFnStorage().
+ */
 void AdaLoraTTBridge::clearTrainingStepFn() {
     std::lock_guard<std::mutex> lk(trainingStepFnMutex());
     trainingStepFnStorage() = {};
@@ -309,6 +335,12 @@ AdaLoRAAdapter AdaLoraTTBridge::importFromTT(const AdaLoraTTExport& exp) const {
     return adapter;
 }
 
+/**
+ * @brief Store.
+ * @param[in] exp Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), lk(), cacheKey(), fg_lk(), insert().
+ */
 bool AdaLoraTTBridge::store(const AdaLoraTTExport& exp) {
     if (exp.adapter_name.empty() || exp.layers.empty()) {
         return false;
@@ -423,11 +455,20 @@ const AdaLoraTTBridgeConfig& AdaLoraTTBridge::config() const noexcept {
     return impl_->cfg;
 }
 
+/**
+ * @brief Set Map Adapter Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lk(), std::move().
+ */
 void AdaLoraTTBridge::setMapAdapterFn(MapAdapterFn fn) {
     std::lock_guard<std::mutex> lk(impl_->map_adapter_mutex);
     impl_->map_adapter_fn = std::move(fn);
 }
 
+/**
+ * @brief Clear Map Adapter Fn.
+ * @details Calls: lk().
+ */
 void AdaLoraTTBridge::clearMapAdapterFn() {
     std::lock_guard<std::mutex> lk(impl_->map_adapter_mutex);
     impl_->map_adapter_fn = {};

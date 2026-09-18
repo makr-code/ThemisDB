@@ -17,21 +17,17 @@
 
 namespace themis::sharding {
 
-/**
- * @brief Construct WAL applier with initial LSN at 0/0.
- * @param config Apply configuration.
- */
 WALApplier::WALApplier(const WALApplierConfig& config)
     : config_(config), current_lsn_(0, 0) {
 }
 
-/** @brief Destructor for WAL applier. */
 WALApplier::~WALApplier() {
 }
 
 /**
- * @brief Install callback used to apply individual WAL entries.
- * @param handler Apply callback.
+ * @brief Set Apply Handler.
+ * @param[in] handler Input parameter.
+ * @details Calls: lock().
  */
 void WALApplier::setApplyHandler(ApplyHandler handler) {
     std::lock_guard<std::mutex> lock(mutex_);
@@ -39,9 +35,10 @@ void WALApplier::setApplyHandler(ApplyHandler handler) {
 }
 
 /**
- * @brief Apply ordered WAL batch with strict LSN validation (when enabled).
- * @param entries WAL entries to apply.
- * @return Apply result with per-batch diagnostics.
+ * @brief Apply Batch.
+ * @param[in] entries Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), empty(), push_back(), max(), std::to_string(), toString(), stats_lock(), validateLSN().
  */
 ApplyResult WALApplier::applyBatch(const std::vector<WALEntry>& entries) {
     std::lock_guard<std::mutex> lock(mutex_);
@@ -135,25 +132,40 @@ ApplyResult WALApplier::applyBatch(const std::vector<WALEntry>& entries) {
     return result;
 }
 
-/** @brief Return current replica LSN cursor. */
 LSN WALApplier::getCurrentLSN() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return current_lsn_;
 }
 
-/** @brief Set replica LSN cursor manually (bootstrap/recovery path). */
+/**
+ * @brief Set Current LSN.
+ * @param[in] lsn Input parameter.
+ * @details Calls: lock().
+ */
 void WALApplier::setCurrentLSN(const LSN& lsn) {
     std::lock_guard<std::mutex> lock(mutex_);
     current_lsn_ = lsn;
 }
 
-/** @brief Return current applier statistics snapshot. */
 WALApplierStats WALApplier::getStatistics() const {
+    /**
+     * @brief Lock.
+     * @param[in] stats_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(stats_mutex_);
     return stats_;
 }
 
-/** @brief Reset statistics counters and sync LSN field to current cursor. */
+/**
+ * @brief Reset Statistics.
+ * @details Calls: lock(), WALApplierStats().
+ */
 void WALApplier::resetStatistics() {
     std::lock_guard<std::mutex> lock(stats_mutex_);
     stats_ = WALApplierStats();
@@ -161,9 +173,10 @@ void WALApplier::resetStatistics() {
 }
 
 /**
- * @brief Apply one entry via callback with bounded exponential retry.
- * @param entry WAL entry to apply.
- * @return true when callback succeeds within retry budget.
+ * @brief Apply Entry.
+ * @param[in] entry Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: apply_handler_(), toString(), what(), std::this_thread::sleep_for(), std::chrono::milliseconds().
  */
 bool WALApplier::applyEntry(const WALEntry& entry) {
     for (size_t attempt = 0; attempt < config_.max_apply_retries; ++attempt) {
@@ -194,10 +207,11 @@ bool WALApplier::applyEntry(const WALEntry& entry) {
 }
 
 /**
- * @brief Validate strict LSN progression between expected and actual values.
- * @param expected Expected next LSN.
- * @param actual Incoming entry LSN.
- * @return true when sequence is valid.
+ * @brief Validate LSN.
+ * @param[in] expected Input parameter.
+ * @param[in] actual Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements validateLSN without additional internal calls.
  */
 bool WALApplier::validateLSN(const LSN& expected, const LSN& actual) {
     // Same segment: must be exact successor offset.
@@ -214,9 +228,10 @@ bool WALApplier::validateLSN(const LSN& expected, const LSN& actual) {
 }
 
 /**
- * @brief Handle conflict accounting and policy decision.
- * @param entry WAL entry under conflict evaluation.
- * @return true when processing may continue.
+ * @brief Handle Conflict.
+ * @param[in] entry Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), toString().
  */
 bool WALApplier::handleConflict(const WALEntry& entry) {
     if (!config_.enable_conflict_detection) {

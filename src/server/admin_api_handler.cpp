@@ -28,6 +28,12 @@ AdminApiHandler::AdminApiHandler(
 {
 }
 
+/**
+ * @brief Handle Backup.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), nlohmann::json::parse(), body(), value(), std::string(), std::to_string(), std::time(), setAttribute().
+ */
 http::response<http::string_body> AdminApiHandler::handleBackup(
     const http::request<http::string_body>& req
 ) {
@@ -56,6 +62,12 @@ http::response<http::string_body> AdminApiHandler::handleBackup(
     }
 }
 
+/**
+ * @brief Handle Restore.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), nlohmann::json::parse(), body(), contains(), is_string(), setStatus(), makeErrorResponse(), setAttribute().
+ */
 http::response<http::string_body> AdminApiHandler::handleRestore(
     const http::request<http::string_body>& req
 ) {
@@ -88,6 +100,14 @@ http::response<http::string_body> AdminApiHandler::handleRestore(
     }
 }
 
+/**
+ * @brief Make Error Response.
+ * @param[in] status Input parameter.
+ * @param[in] message Input parameter.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: makeResponse(), dump().
+ */
 http::response<http::string_body> AdminApiHandler::makeErrorResponse(
     http::status status, const std::string& message, const http::request<http::string_body>& req
 ) {
@@ -100,6 +120,14 @@ http::response<http::string_body> AdminApiHandler::makeErrorResponse(
     return makeResponse(status, error_body.dump(), req);
 }
 
+/**
+ * @brief Make Response.
+ * @param[in] status Input parameter.
+ * @param[in] body Input parameter.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: version(), set(), keep_alive(), body(), prepare_payload().
+ */
 http::response<http::string_body> AdminApiHandler::makeResponse(
     http::status status, const std::string& body, const http::request<http::string_body>& req
 ) {

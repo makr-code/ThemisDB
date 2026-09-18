@@ -33,60 +33,45 @@
 namespace themis {
 namespace server {
 
-/**
- * @brief Verifiziert die kryptografische Integrität von LLM-Modelldateien.
- *
- * Alle öffentlichen Methoden sind thread-safe.
- */
 class ModelIntegrityVerifier {
 public:
     /**
-     * @brief Berechnet den SHA-256-Hash einer Datei und vergleicht ihn mit dem
-     *        erwarteten Hash-Wert.
-     *
-     * @param path           Dateisystempfad zur Modelldatei.
-     * @param expected_sha256 Erwarteter Hex-String des SHA-256-Hashes (Kleinbuchstaben).
-     * @return @c true wenn Hash übereinstimmt, @c false bei Abweichung oder Fehler.
+     * @brief Verify Model.
+     * @param[in] path Input parameter.
+     * @param[in] expected_sha256 Input parameter.
+     * @return True when the operation succeeds.
      */
     static bool verifyModel(const std::string& path, const std::string& expected_sha256);
 
     /**
-     * @brief Berechnet den SHA-256-Hash einer Datei und gibt ihn als Hex-String zurück.
-     *
-     * @param path Dateisystempfad der zu hashenden Datei.
-     * @return SHA-256-Hash als Lowercase-Hex-String, oder leerer String bei Fehler.
+     * @brief Compute Sha256.
+     * @param[in] path Input parameter.
+     * @return Return value.
      */
     static std::string computeSha256(const std::string& path);
 
     /**
-     * @brief Lädt ein JSON-Manifest mit Modell-Hashes in den internen Cache.
-     *
-     * Ersetzt alle zuvor geladenen Manifest-Einträge. Fehlende oder ungültige
-     * Manifeste werden als "kein Manifest vorhanden" behandelt (graceful degradation).
-     *
-     * @param manifest_path Pfad zur JSON-Manifestdatei.
-     * @return @c true wenn das Manifest erfolgreich geladen wurde.
+     * @brief Load Manifest.
+     * @param[in] manifest_path Path to the manifest.
+     * @return True when the operation succeeds.
      */
     static bool loadManifest(const std::string& manifest_path);
 
     /**
-     * @brief Gibt den erwarteten SHA-256-Hash für eine Modell-ID zurück.
-     *
-     * @param model_id Eindeutiger Bezeichner des Modells.
-     * @return SHA-256-Hash als Hex-String, oder @c std::nullopt wenn nicht im Manifest.
+     * @brief Get Expected Hash.
+     * @param[in] model_id Identifier of the model.
+     * @return Return value.
      */
     static std::optional<std::string> getExpectedHash(const std::string& model_id);
 
     /**
-     * @brief Leert den internen Manifest-Cache (nützlich für Tests).
+     * @brief Clear Manifest.
      */
     static void clearManifest();
 
 private:
-    /// Mutex für thread-sicheren Manifest-Zugriff (shared für Lesezugriffe).
     static std::shared_mutex manifest_mutex_;
 
-    /// Interne Abbildung model_id → sha256.
     static std::unordered_map<std::string, std::string> manifest_hashes_;
 };
 

@@ -33,6 +33,12 @@ ComplianceReportingApiHandler::ComplianceReportingApiHandler(
     }
 }
 
+/**
+ * @brief Handle Coverage Analysis.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), checkAuth(), makeErrorResponse(), body(), empty(), nlohmann::json::parse(), contains(), is_array().
+ */
 http::response<http::string_body> ComplianceReportingApiHandler::handleCoverageAnalysis(
     const http::request<http::string_body>& req
 ) {
@@ -72,6 +78,12 @@ http::response<http::string_body> ComplianceReportingApiHandler::handleCoverageA
     }
 }
 
+/**
+ * @brief Handle Compliance Report.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), checkAuth(), makeErrorResponse(), url(), target(), getQueryParam(), generateComplianceReport(), value_or().
+ */
 http::response<http::string_body> ComplianceReportingApiHandler::handleComplianceReport(
     const http::request<http::string_body>& req
 ) {
@@ -102,6 +114,12 @@ http::response<http::string_body> ComplianceReportingApiHandler::handleComplianc
     }
 }
 
+/**
+ * @brief Handle Gap Analysis.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), checkAuth(), makeErrorResponse(), detectGaps(), nlohmann::json::array(), push_back(), toJson(), size().
+ */
 http::response<http::string_body> ComplianceReportingApiHandler::handleGapAnalysis(
     const http::request<http::string_body>& req
 ) {
@@ -136,6 +154,12 @@ http::response<http::string_body> ComplianceReportingApiHandler::handleGapAnalys
     }
 }
 
+/**
+ * @brief Handle Generate Report.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), checkAuth(), makeErrorResponse(), nlohmann::json::parse(), body(), contains(), generateSummaryReport(), makeResponse().
+ */
 http::response<http::string_body> ComplianceReportingApiHandler::handleGenerateReport(
     const http::request<http::string_body>& req
 ) {
@@ -225,6 +249,13 @@ http::response<http::string_body> ComplianceReportingApiHandler::handleGenerateR
     }
 }
 
+/**
+ * @brief Handle Export Report.
+ * @param[in] req Input parameter.
+ * @param[in] report_id Identifier of the report.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), checkAuth(), makeErrorResponse(), url(), target(), getQueryParam(), value_or(), generateSummaryReport().
+ */
 http::response<http::string_body> ComplianceReportingApiHandler::handleExportReport(
     const http::request<http::string_body>& req,
     const std::string& report_id
@@ -365,6 +396,11 @@ std::optional<std::string> ComplianceReportingApiHandler::getQueryParam(
     }
     
     std::string query_string = url.substr(query_pos + 1);
+    /**
+     * @brief Iss.
+     * @param[in] query_string Input parameter.
+     * @return Return value.
+     */
     std::istringstream iss(query_string);
     std::string pair = {};
     

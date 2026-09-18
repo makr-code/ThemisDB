@@ -32,38 +32,40 @@ namespace themis::query::fts {
 
 class IndexCache {
  public:
-  /// Configuration for cache
   struct Config {
     size_t max_size_mb = 100;              ///< Cache budget (default: 100 MB)
     size_t bloom_filter_size_bits = 1<<20; ///< Bloom filter size (default: 1M bits)
     float bloom_fpp = 0.01f;               ///< False-positive probability (default: 1%)
   };
   
-  /// @brief Construct the cache with size and bloom-filter settings.
-  /// @param config: cache configuration (size, bloom filter params)
   IndexCache();
+  /**
+   * @brief Index Cache.
+   * @param[in] config Input parameter.
+   * @return Return value.
+   */
   explicit IndexCache(const Config& config);
   
-  /// @brief Look up a posting list in the in-memory cache.
-  /// @param term: search term
-  /// @return posting list if present in cache, empty optional if not cached
-  /// @note Thread safety: acquires shared_lock (concurrent readers allowed).
-  /// @note: bloom filter consulted first (fast negative lookup)
+  /**
+   * @brief Lookup.
+   * @param[in] term Input parameter.
+   * @return Return value.
+   */
   std::optional<PostingList> lookup(const std::string& term) const;
   
-  /// @brief Insert a posting list into the cache.
-  /// @param term: search term
-  /// @param list: posting list to cache
-  /// @return true if inserted, false if cache full (LRU eviction needed)
-  /// @note Thread safety: acquires unique_lock (exclusive access).
-  /// @note: may evict LRU entries to fit new posting list
+  /**
+   * @brief Insert.
+   * @param[in] term Input parameter.
+   * @param[in] list Input parameter.
+   * @return True when the operation succeeds.
+   */
   bool insert(const std::string& term, PostingList&& list);
   
-  /// @brief Remove all posting lists from the cache.
-  /// @note Thread safety: acquires unique_lock.
+  /**
+   * @brief Clear.
+   */
   void clear();
   
-  /// @brief Cache counters and memory-usage totals.
   struct Stats {
     uint64_t hits = 0;                     ///< Cache hit count
     uint64_t misses = 0;                   ///< Cache miss count
@@ -71,16 +73,16 @@ class IndexCache {
     size_t current_size_bytes = 0;         ///< Current cache size
     size_t max_size_bytes = 0;             ///< Maximum cache size
     
-    /// @brief Compute hit ratio over all cache lookups.
-    /// @return Hit ratio in range [0, 1].
     float hitRate() const {
       uint64_t total = hits + misses;
       return total > 0 ? static_cast<float>(hits) / total : 0.0f;
     }
   };
   
-  /// @brief Return cache statistics snapshot.
-  /// @note Thread safety: acquires shared_lock.
+  /**
+   * @brief Get Stats.
+   * @return Return value.
+   */
   Stats getStats() const;
   
  private:

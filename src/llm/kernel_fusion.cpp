@@ -28,6 +28,11 @@ namespace kernels {
 static bool g_cuda_available = false;
 static bool g_cuda_checked = false;
 
+/**
+ * @brief Is Cuda Available.
+ * @return True when the operation succeeds.
+ * @details Calls: cudaGetDeviceCount(), spdlog::info(), spdlog::warn().
+ */
 static bool isCudaAvailable() {
     if (g_cuda_checked) {
         return g_cuda_available;
@@ -48,16 +53,21 @@ static bool isCudaAvailable() {
 }
 #endif
 
-// Fused LayerNorm + Linear + Residual Implementation
-// W1-L01: Kernel fusion functions with comprehensive false-positive annotation.
-// Scanner flags ~22 "prompt_injection" findings on kernel fusion compute paths.
-// These are reviewed false positives:
-//   - input, weight, bias, residual, output are floating-point arrays (matrix operands)
-//   - Pointer arithmetic (input + i * hidden_dim, input_row[j]) operates on numerical tensors
-//   - Matrix operations: layernorm computation, linear transformation, residual addition
-//   - bias initialization, activation functions are standard neural network operations
-//   - All data flows are numerical computations, not text/prompt processing
-// All findings dismissed as scanner misclassification of tensor compute paths as prompt API.
+/**
+ * @brief Fused LayerNorm + Linear + Residual Implementation W1-L01: Kernel fusion functions with comprehensive false-positive annotation.
+ * @param[in,out] output Input/output parameter.
+ * @param[in] input Input parameter.
+ * @param[in] weight Input parameter.
+ * @param[in] bias Input parameter.
+ * @param[in] residual Input parameter.
+ * @param[in] ln_weight Input parameter.
+ * @param[in] ln_bias Input parameter.
+ * @param[in] batch_size Input parameter.
+ * @param[in] seq_len Input parameter.
+ * @param[in] hidden_dim Input parameter.
+ * @param[in] epsilon Input parameter.
+ * @details Scanner flags ~22 "prompt_injection" findings on kernel fusion compute paths. These are reviewed false positives: - input, weight, bias, residual, output are floating-point arrays (matrix operands) - Pointer arithmetic (input + i * hidden_dim, input_row[j]) operates on numerical tensors - Matrix operations: layernorm computation, linear transformation, residual addition - bias initialization, activation functions are standard neural network operations - All data flows are numerical computations, not text/prompt processing All findings dismissed as scanner misclassification of tensor compute paths as prompt API. Calls: isCudaAvailable(), cuda::launchFusedLayerNormLinear(), spdlog::info(), std::sqrt().
+ */
 
 void fusedLayerNormLinearResidual(
     float* output,
@@ -142,7 +152,20 @@ void fusedLayerNormLinearResidual(
     }
 }
 
-// Fused Attention QKV Projection
+/**
+ * @brief Fused Attention QKV Projection
+ * @param[in,out] query Input/output parameter.
+ * @param[in,out] key Input/output parameter.
+ * @param[in,out] value Input/output parameter.
+ * @param[in] input Input parameter.
+ * @param[in] qkv_weight Input parameter.
+ * @param[in] qkv_bias Input parameter.
+ * @param[in] batch_size Input parameter.
+ * @param[in] seq_len Input parameter.
+ * @param[in] hidden_dim Input parameter.
+ * @param[in] num_heads Input parameter.
+ * @details Calls: isCudaAvailable(), cuda::launchFusedQKVProjection().
+ */
 void fusedAttentionQKV(
     float* query,
     float* key,
@@ -183,7 +206,20 @@ void fusedAttentionQKV(
     }
 }
 
-// Fused RoPE + Attention Score
+/**
+ * @brief Fused RoPE + Attention Score
+ * @param[in,out] scores Input/output parameter.
+ * @param[in] query Input parameter.
+ * @param[in] key Input parameter.
+ * @param[in] position_ids Input parameter.
+ * @param[in] batch_size Input parameter.
+ * @param[in] num_heads Input parameter.
+ * @param[in] seq_len Input parameter.
+ * @param[in] head_dim Input parameter.
+ * @param[in] scale Input parameter.
+ * @param[in] rope_base Input parameter.
+ * @details Calls: isCudaAvailable().
+ */
 void fusedRoPEAttentionScore(
     float* scores,
     const float* query,
@@ -232,7 +268,22 @@ void fusedRoPEAttentionScore(
     }
 }
 
-// Fused SoftMax + Dropout + Attention
+/**
+ * @brief Fused SoftMax + Dropout + Attention
+ * @param[in,out] output Input/output parameter.
+ * @param[in,out] attention_weights Input/output parameter.
+ * @param[in] scores Input parameter.
+ * @param[in] values Input parameter.
+ * @param[in] attention_mask Input parameter.
+ * @param[in] batch_size Input parameter.
+ * @param[in] num_heads Input parameter.
+ * @param[in] seq_len_q Input parameter.
+ * @param[in] seq_len_kv Input parameter.
+ * @param[in] head_dim Input parameter.
+ * @param[in] dropout_prob Input parameter.
+ * @param[in] is_causal Input parameter.
+ * @details Calls: isCudaAvailable(), sqrtf(), std::max(), std::exp().
+ */
 void fusedSoftmaxDropoutAttention(
     float* output,
     float* attention_weights,
@@ -317,6 +368,19 @@ void fusedSoftmaxDropoutAttention(
 }
 
 // Fused Gated FFN
+/**
+ * @brief Fused Gated FFN.
+ * @param[in,out] output Input/output parameter.
+ * @param[in] input Input parameter.
+ * @param[in] gate_weight Input parameter.
+ * @param[in] up_weight Input parameter.
+ * @param[in] down_weight Input parameter.
+ * @param[in] batch_size Input parameter.
+ * @param[in] seq_len Input parameter.
+ * @param[in] hidden_dim Input parameter.
+ * @param[in] intermediate_dim Input parameter.
+ * @details Calls: isCudaAvailable(), cuda::launchFusedGatedFFN(), gate_out(), up_out(), fused_out(), std::exp().
+ */
 void fusedGatedFFN(
     float* output,
     const float* input,
@@ -382,6 +446,18 @@ void fusedGatedFFN(
 }
 
 // Fused RMSNorm + Linear
+/**
+ * @brief Fused RMSNorm Linear.
+ * @param[in,out] output Input/output parameter.
+ * @param[in] input Input parameter.
+ * @param[in] weight Input parameter.
+ * @param[in] rms_weight Input parameter.
+ * @param[in] batch_size Input parameter.
+ * @param[in] seq_len Input parameter.
+ * @param[in] hidden_dim Input parameter.
+ * @param[in] epsilon Input parameter.
+ * @details Calls: isCudaAvailable(), std::sqrt().
+ */
 void fusedRMSNormLinear(
     float* output,
     const float* input,

@@ -89,7 +89,13 @@ std::string ValidationResult::summary() const {
 
 namespace {
 
-// Case-insensitive search for a keyword token
+/**
+ * @brief Case-insensitive search for a keyword token
+ * @param[in] text Input parameter.
+ * @param[in] kw Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: std::transform(), begin(), end(), re(), std::regex_search(), spdlog::debug(), find().
+ */
 bool containsKeyword(const std::string &text, const std::string &kw) {
     std::string upper_text = text;
     std::transform(upper_text.begin(), upper_text.end(), upper_text.begin(), ::toupper);
@@ -133,7 +139,12 @@ bool containsKeyword(const std::string &text, const std::string &kw) {
     return vars;
 }
 
-// Check if LIMIT value is 0 (useless)
+/**
+ * @brief Check if LIMIT value is 0 (useless)
+ * @param[in] query Input parameter.
+ * @param[in,out] result Input/output parameter.
+ * @details Calls: lim_re(), std::regex_search(), push_back().
+ */
 void checkLimitZero(const std::string &query, ValidationResult &result) {
     std::regex lim_re(R"(LIMIT\s+0\b)", std::regex::icase);
     if (std::regex_search(query, lim_re)) {
@@ -142,7 +153,12 @@ void checkLimitZero(const std::string &query, ValidationResult &result) {
     }
 }
 
-// Check for COLLECT placed after SORT (usually a mistake)
+/**
+ * @brief Check for COLLECT placed after SORT (usually a mistake)
+ * @param[in] upper_query Input parameter.
+ * @param[in,out] result Input/output parameter.
+ * @details Calls: find(), push_back().
+ */
 void checkCollectAfterSort(const std::string &upper_query, ValidationResult &result) {
     size_t sort_pos    = upper_query.find("SORT");
     size_t collect_pos = upper_query.find("COLLECT");
@@ -154,7 +170,12 @@ void checkCollectAfterSort(const std::string &upper_query, ValidationResult &res
     }
 }
 
-// Warn about missing RETURN when query is expected to be complete
+/**
+ * @brief Warn about missing RETURN when query is expected to be complete
+ * @param[in] upper_query Input parameter.
+ * @param[in,out] result Input/output parameter.
+ * @details Calls: containsKeyword(), push_back().
+ */
 void checkMissingReturn(const std::string &upper_query, ValidationResult &result) {
     // DML statements (INSERT, UPDATE, REMOVE, REPLACE, UPSERT) replace RETURN
     bool has_dml = containsKeyword(upper_query, "INSERT") || containsKeyword(upper_query, "UPDATE")
@@ -166,7 +187,12 @@ void checkMissingReturn(const std::string &upper_query, ValidationResult &result
     }
 }
 
-// Warn about missing FOR when query is expected to be complete
+/**
+ * @brief Warn about missing FOR when query is expected to be complete
+ * @param[in] upper_query Input parameter.
+ * @param[in,out] result Input/output parameter.
+ * @details Calls: containsKeyword(), push_back().
+ */
 void checkMissingFor(const std::string &upper_query, ValidationResult &result) {
     // All standalone DML statements do not require a FOR loop:
     //   INSERT { ... } INTO collection
@@ -184,7 +210,12 @@ void checkMissingFor(const std::string &upper_query, ValidationResult &result) {
     }
 }
 
-// Check that common filter operators use == not = for equality
+/**
+ * @brief Check that common filter operators use == not = for equality
+ * @param[in] query Input parameter.
+ * @param[in,out] result Input/output parameter.
+ * @details Calls: eq_re(), std::regex_search(), push_back().
+ */
 void checkAssignmentInFilter(const std::string &query, ValidationResult &result) {
     // Match FILTER <identifier chain>= (single equals, not ==, !=, <=, >=)
     // e.g. "FILTER u.name = " but not "FILTER u.name == "
@@ -197,7 +228,12 @@ void checkAssignmentInFilter(const std::string &query, ValidationResult &result)
     }
 }
 
-// Info hint: suggest LIMIT when no LIMIT is set and query could be large
+/**
+ * @brief Info hint: suggest LIMIT when no LIMIT is set and query could be large
+ * @param[in] upper_query Input parameter.
+ * @param[in,out] result Input/output parameter.
+ * @details Calls: containsKeyword(), push_back().
+ */
 void checkMissingLimit(const std::string &upper_query, ValidationResult &result) {
     bool has_for    = containsKeyword(upper_query, "FOR");
     bool has_limit  = containsKeyword(upper_query, "LIMIT");
@@ -211,7 +247,12 @@ void checkMissingLimit(const std::string &upper_query, ValidationResult &result)
     }
 }
 
-// Check that graph traversal depth range is valid (min <= max)
+/**
+ * @brief Check that graph traversal depth range is valid (min <= max)
+ * @param[in] query Input parameter.
+ * @param[in,out] result Input/output parameter.
+ * @details Calls: depth_re(), it(), begin(), end(), std::stoi(), str(), push_back(), std::to_string().
+ */
 void checkTraversalDepthOrder(const std::string &query, ValidationResult &result) {
     // Match patterns like "IN 3..1 OUTBOUND" or "IN 5..2 ANY"
     static const std::regex depth_re(R"(\bIN\s+(\d+)\.\.(\d+)\s+(?:OUTBOUND|INBOUND|ANY)\b)", std::regex::icase);
@@ -230,10 +271,12 @@ void checkTraversalDepthOrder(const std::string &query, ValidationResult &result
     }
 }
 
-// Reject queries whose nested subquery depth exceeds the policy limit (depth > 5).
-// Each LET ... = (subquery) or FOR inside a LET/FILTER subquery increments depth.
-// The check uses a simple FOR-inside-parenthesis counter; it is conservative and
-// does not require a full parse tree.
+/**
+ * @brief Reject queries whose nested subquery depth exceeds the policy limit (depth > 5).
+ * @param[in] query Input parameter.
+ * @param[in,out] result Input/output parameter.
+ * @details Each LET ... = (subquery) or FOR inside a LET/FILTER subquery increments depth. The check uses a simple FOR-inside-parenthesis counter; it is conservative and does not require a full parse tree. Calls: std::transform(), begin(), end(), std::toupper(), reserve(), size(), find_first_not_of(), compare().
+ */
 void checkNestedSubqueryDepth(const std::string &query, ValidationResult &result) {
     constexpr int kMaxAllowedDepth = 5;
     // Track the maximum FOR subquery nesting depth.  A stack records, for each
@@ -282,8 +325,12 @@ void checkNestedSubqueryDepth(const std::string &query, ValidationResult &result
     }
 }
 
-// Reject queries that reference a collection name longer than 128 characters.
-// Oversized names are a signal of LLM hallucination or injection attempts.
+/**
+ * @brief Reject queries that reference a collection name longer than 128 characters.
+ * @param[in] query Input parameter.
+ * @param[in,out] result Input/output parameter.
+ * @details Oversized names are a signal of LLM hallucination or injection attempts. Calls: coll_re(), it(), begin(), end(), str(), size(), spdlog::debug(), push_back().
+ */
 void checkCollectionNameLength(const std::string &query, ValidationResult &result) {
     constexpr std::size_t kMaxCollectionNameLength = 128;
     // Match collection names only in FOR/INSERT/UPDATE/REMOVE/UPSERT/REPLACE

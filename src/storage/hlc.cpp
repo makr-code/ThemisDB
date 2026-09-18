@@ -41,6 +41,11 @@ std::string HLCTimestamp::toString() const {
 HybridLogicalClock::HybridLogicalClock()
     : state_(wallClockMs() << HLCTimestamp::LOGICAL_BITS) {}
 
+/**
+ * @brief Wall Clock Ms.
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::now(), time_since_epoch(), count().
+ */
 uint64_t HybridLogicalClock::wallClockMs() {
     return static_cast<uint64_t>(
         std::chrono::duration_cast<std::chrono::milliseconds>(
@@ -49,8 +54,12 @@ uint64_t HybridLogicalClock::wallClockMs() {
     );
 }
 
-// advanceTo is a helper for the CAS loop in now() – not called externally.
-// Computes the next HLCTimestamp value given current packed state and wall clock.
+/**
+ * @brief advanceTo is a helper for the CAS loop in now() – not called externally.
+ * @param[in] phys_ms Input parameter.
+ * @return Return value.
+ * @details Computes the next HLCTimestamp value given current packed state and wall clock. Calls: load(), compare_exchange_weak(), HLCTimestamp().
+ */
 HLCTimestamp HybridLogicalClock::advanceTo(uint64_t phys_ms) {
     // CAS loop: atomically advance the packed (physical||logical) state.
     // memory_order scanner alert: the initial state_.load() uses relaxed ordering
@@ -89,10 +98,21 @@ HLCTimestamp HybridLogicalClock::advanceTo(uint64_t phys_ms) {
     }
 }
 
+/**
+ * @brief Now.
+ * @return Return value.
+ * @details Calls: advanceTo(), wallClockMs().
+ */
 HLCTimestamp HybridLogicalClock::now() {
     return advanceTo(wallClockMs());
 }
 
+/**
+ * @brief Update.
+ * @param[in] received Input parameter.
+ * @return Return value.
+ * @details Calls: load(), wallClockMs(), std::max(), physical(), logical(), compare_exchange_weak(), HLCTimestamp().
+ */
 HLCTimestamp HybridLogicalClock::update(HLCTimestamp received) {
     uint64_t cur = state_.load(std::memory_order_relaxed);
     for (;;) {

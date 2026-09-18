@@ -30,6 +30,12 @@ namespace {
 using themis::plugins::user_storage::SecurityLevel;
 using themis::plugins::user_storage::User;
 
+/**
+ * @brief Scope To Level.
+ * @param[in] scope Input parameter.
+ * @return Return value.
+ * @details Implements scopeToLevel without additional internal calls.
+ */
 SecurityLevel scopeToLevel(const std::string& scope) {
     if (scope == "offen" || scope == "public") {
         return SecurityLevel::OFFEN;
@@ -68,6 +74,12 @@ EncryptedStorageApiHandler::~EncryptedStorageApiHandler() = default;
 // Dispatch
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Handle.
+ * @param[in] req Input parameter.
+ * @param[in] target Input parameter.
+ * @return Return value.
+ */
 http::response<http::string_body> EncryptedStorageApiHandler::handle(
     const http::request<http::string_body>& req,
     const std::string& target)
@@ -119,6 +131,11 @@ http::response<http::string_body> EncryptedStorageApiHandler::handle(
 // Route handlers
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Handle Store.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ */
 http::response<http::string_body> EncryptedStorageApiHandler::handleStore(
     const http::request<http::string_body>& req)
 {
@@ -182,6 +199,12 @@ http::response<http::string_body> EncryptedStorageApiHandler::handleStore(
     }
 }
 
+/**
+ * @brief Handle Retrieve.
+ * @param[in] req Input parameter.
+ * @param[in] key Input parameter.
+ * @return Return value.
+ */
 http::response<http::string_body> EncryptedStorageApiHandler::handleRetrieve(
     const http::request<http::string_body>& req,
     const std::string& key)
@@ -214,6 +237,12 @@ http::response<http::string_body> EncryptedStorageApiHandler::handleRetrieve(
     }
 }
 
+/**
+ * @brief Handle Delete.
+ * @param[in] req Input parameter.
+ * @param[in] key Input parameter.
+ * @return Return value.
+ */
 http::response<http::string_body> EncryptedStorageApiHandler::handleDelete(
     const http::request<http::string_body>& req,
     const std::string& key)
@@ -238,6 +267,11 @@ http::response<http::string_body> EncryptedStorageApiHandler::handleDelete(
     }
 }
 
+/**
+ * @brief Handle List.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ */
 http::response<http::string_body> EncryptedStorageApiHandler::handleList(
     const http::request<http::string_body>& req)
 {
@@ -269,6 +303,11 @@ http::response<http::string_body> EncryptedStorageApiHandler::handleList(
     }
 }
 
+/**
+ * @brief Handle Rotate.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ */
 http::response<http::string_body> EncryptedStorageApiHandler::handleRotate(
     const http::request<http::string_body>& req)
 {

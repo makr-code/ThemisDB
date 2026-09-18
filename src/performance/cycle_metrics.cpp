@@ -103,29 +103,59 @@ std::string HardwareCycleCounter::cpu_model() noexcept {
 
 #ifdef THEMIS_ENABLE_GPU_CYCLE_METRICS
 namespace {
+/**
+ * @brief Gpu Start Fn Mutex.
+ * @return Return value.
+ * @details Implements gpuStartFnMutex without additional internal calls.
+ */
 std::mutex& gpuStartFnMutex() {
     static std::mutex m;
     return m;
 }
+/**
+ * @brief Gpu Start Fn Storage.
+ * @return Return value.
+ * @details Implements gpuStartFnStorage without additional internal calls.
+ */
 HardwareCycleCounter::GpuCyclesStartFn& gpuStartFnStorage() {
     static HardwareCycleCounter::GpuCyclesStartFn fn;
     return fn;
 }
+/**
+ * @brief Gpu End Fn Mutex.
+ * @return Return value.
+ * @details Implements gpuEndFnMutex without additional internal calls.
+ */
 std::mutex& gpuEndFnMutex() {
     static std::mutex m;
     return m;
 }
+/**
+ * @brief Gpu End Fn Storage.
+ * @return Return value.
+ * @details Implements gpuEndFnStorage without additional internal calls.
+ */
 HardwareCycleCounter::GpuCyclesEndFn& gpuEndFnStorage() {
     static HardwareCycleCounter::GpuCyclesEndFn fn;
     return fn;
 }
 } // namespace
 
+/**
+ * @brief Set Gpu Cycles Start Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lk(), gpuStartFnMutex(), gpuStartFnStorage(), std::move().
+ */
 void HardwareCycleCounter::setGpuCyclesStartFn(GpuCyclesStartFn fn) {
     std::lock_guard<std::mutex> lk(gpuStartFnMutex());
     gpuStartFnStorage() = std::move(fn);
 }
 
+/**
+ * @brief Set Gpu Cycles End Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lk(), gpuEndFnMutex(), gpuEndFnStorage(), std::move().
+ */
 void HardwareCycleCounter::setGpuCyclesEndFn(GpuCyclesEndFn fn) {
     std::lock_guard<std::mutex> lk(gpuEndFnMutex());
     gpuEndFnStorage() = std::move(fn);

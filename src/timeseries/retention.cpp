@@ -17,11 +17,21 @@
 
 namespace themis {
 
+/**
+ * @brief Now Ms.
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::now(), time_since_epoch(), count().
+ */
 static int64_t nowMs() {
     return std::chrono::duration_cast<std::chrono::milliseconds>(
         std::chrono::system_clock::now().time_since_epoch()).count();
 }
 
+/**
+ * @brief Log Audit.
+ * @param[in] entry Input parameter.
+ * @details Calls: lock(), size(), erase(), begin(), push_back(), audit_callback_().
+ */
 void RetentionManager::logAudit(const RetentionAuditEntry& entry) {
     {
         std::lock_guard<std::mutex> lock(audit_mutex_);
@@ -36,6 +46,11 @@ void RetentionManager::logAudit(const RetentionAuditEntry& entry) {
     }
 }
 
+/**
+ * @brief Apply.
+ * @return Return value.
+ * @details Calls: nowMs(), lock(), count(), deleteOldDataForMetric(), fetch_add(), std::to_string(), logAudit().
+ */
 size_t RetentionManager::apply() {
     if (!store_) {
       return 0;
@@ -78,6 +93,11 @@ size_t RetentionManager::apply() {
     return total_deleted;
 }
 
+/**
+ * @brief Start Async.
+ * @param[in] interval Input parameter.
+ * @details Calls: exchange(), std::thread().
+ */
 void RetentionManager::startAsync(std::chrono::seconds interval) {
     if (async_running_.exchange(true)) {
         return;  // already running
@@ -86,6 +106,10 @@ void RetentionManager::startAsync(std::chrono::seconds interval) {
     async_thread_ = std::thread(&RetentionManager::asyncLoop, this);
 }
 
+/**
+ * @brief Stop Async.
+ * @details Calls: exchange(), notify_all(), joinable(), join().
+ */
 void RetentionManager::stopAsync() {
     if (!async_running_.exchange(false)) {
         return;  // not running
@@ -96,6 +120,10 @@ void RetentionManager::stopAsync() {
     }
 }
 
+/**
+ * @brief Async Loop.
+ * @details Calls: load(), lock(), wait_for(), apply(), fetch_add().
+ */
 void RetentionManager::asyncLoop() {
     while (async_running_.load()) {
         std::unique_lock<std::mutex> lock(async_mutex_);

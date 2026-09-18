@@ -26,9 +26,14 @@ namespace aql {
 // Pimpl implementation
 // ============================================================================
 
-/** @brief Pimpl implementation. */
 class ReActAgent::Impl {
   public:
+    /**
+     * @brief Impl.
+     * @param[in] handler Input parameter.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit Impl(std::shared_ptr<LLMAQLHandler> handler, const AgentConfig &config)
         : handler_(std::move(handler)), config_(config) {}
 
@@ -36,6 +41,12 @@ class ReActAgent::Impl {
     // Tool registry
     // -----------------------------------------------------------------------
 
+    /**
+     * @brief Register Tool.
+     * @param[in] tool Input parameter.
+     * @throws std::invalid_argument if an error occurs.
+     * @details Calls: empty(), count().
+     */
     void registerTool(const AgentTool &tool) {
         if (tool.name.empty()) {
             throw std::invalid_argument("AgentTool name must not be empty");
@@ -46,6 +57,12 @@ class ReActAgent::Impl {
         tools_[tool.name] = tool;
     }
 
+    /**
+     * @brief Remove Tool.
+     * @param[in] name Input parameter.
+     * @throws std::invalid_argument if an error occurs.
+     * @details Calls: find(), end(), erase().
+     */
     void removeTool(const std::string &name) {
         auto it = tools_.find(name);
         if (it == tools_.end()) {
@@ -68,6 +85,11 @@ class ReActAgent::Impl {
         return tools_.count(name) > 0;
     }
 
+    /**
+     * @brief Set Config.
+     * @param[in] config Input parameter.
+     * @details Implements setConfig without additional internal calls.
+     */
     void setConfig(const AgentConfig &config) {
         config_ = config;
     }
@@ -79,6 +101,13 @@ class ReActAgent::Impl {
     // Core execution
     // -----------------------------------------------------------------------
 
+    /**
+     * @brief Execute.
+     * @param[in] task Input parameter.
+     * @param[in] context Input parameter.
+     * @return Return value.
+     * @details Calls: buildSystemPrompt(), buildInitialUserMessage(), spdlog::debug(), std::to_string(), executeInfer(), std::string(), what(), push_back().
+     */
     AgentResult execute(const std::string &task, const json &context) {
         AgentResult result;
         result.succeeded = false;
@@ -206,10 +235,22 @@ class ReActAgent::Impl {
     // Response parsing helpers
     // -----------------------------------------------------------------------
 
+    /**
+     * @brief Is Final Answer Step.
+     * @param[in] response Input parameter.
+     * @return True when the operation succeeds.
+     * @details Calls: find().
+     */
     static bool isFinalAnswerStep(const std::string &response) {
         return response.find("Final Answer:") != std::string::npos;
     }
 
+    /**
+     * @brief Extract Final Answer.
+     * @param[in] response Input parameter.
+     * @return Return value.
+     * @details Calls: find(), substr(), size(), find_first_not_of(), find_last_not_of().
+     */
     static std::string extractFinalAnswer(const std::string &response) {
         const std::string marker = "Final Answer:";
         auto pos                 = response.find(marker);
@@ -226,6 +267,12 @@ class ReActAgent::Impl {
         return answer.substr(start, end - start + 1);
     }
 
+    /**
+     * @brief Parse Step.
+     * @param[in] response Input parameter.
+     * @return Return value.
+     * @details Calls: find(), size(), substr(), find_first_not_of(), find_last_not_of(), extract_field(), empty(), json::parse().
+     */
     static ReasoningStep parseStep(const std::string &response) {
         ReasoningStep step;
 
@@ -275,6 +322,13 @@ class ReActAgent::Impl {
     // Tool invocation
     // -----------------------------------------------------------------------
 
+    /**
+     * @brief Invoke Tool.
+     * @param[in] name Input parameter.
+     * @param[in] args Input parameter.
+     * @return Return value.
+     * @details Calls: find(), end(), executor(), std::string(), what().
+     */
     json invokeTool(const std::string &name, const json &args) {
         auto it = tools_.find(name);
         if (it == tools_.end()) {
@@ -308,14 +362,31 @@ ReActAgent::~ReActAgent() = default;
 ReActAgent::ReActAgent(ReActAgent &&) noexcept            = default;
 ReActAgent &ReActAgent::operator=(ReActAgent &&) noexcept = default;
 
+/**
+ * @brief Execute.
+ * @param[in] task Input parameter.
+ * @param[in] context Input parameter.
+ * @return Return value.
+ * @details Implements execute without additional internal calls.
+ */
 AgentResult ReActAgent::execute(const std::string &task, const json &context) {
     return impl_->execute(task, context);
 }
 
+/**
+ * @brief Register Tool.
+ * @param[in] tool Input parameter.
+ * @details Implements registerTool without additional internal calls.
+ */
 void ReActAgent::registerTool(const AgentTool &tool) {
     impl_->registerTool(tool);
 }
 
+/**
+ * @brief Remove Tool.
+ * @param[in] name Input parameter.
+ * @details Implements removeTool without additional internal calls.
+ */
 void ReActAgent::removeTool(const std::string &name) {
     impl_->removeTool(name);
 }
@@ -328,6 +399,11 @@ bool ReActAgent::hasTool(const std::string &name) const {
     return impl_->hasTool(name);
 }
 
+/**
+ * @brief Set Config.
+ * @param[in] config Input parameter.
+ * @details Implements setConfig without additional internal calls.
+ */
 void ReActAgent::setConfig(const AgentConfig &config) {
     impl_->setConfig(config);
 }

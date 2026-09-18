@@ -36,214 +36,280 @@ namespace beast = boost::beast;
 namespace http = beast::http;
 using json = nlohmann::json;
 
-/**
- * @brief Voice API Handler for ThemisDB HTTP Server
- * 
- * Implements RESTful endpoints for voice operations:
- * - POST /api/v1/voice/transcribe - Transcribe audio to text
- * - POST /api/v1/voice/synthesize - Synthesize text to speech
- * - POST /api/v1/voice/command - Process voice command
- * - POST /api/v1/voice/command/stream - Process voice command with streaming STT (segments + TTS)
- * - POST /api/v1/voice/wake-word/detect - Scan audio chunk for registered wake words
- * - POST /api/v1/voice/call/record - Record and transcribe phone call
- * - POST /api/v1/voice/meeting/protocol - Generate meeting protocol
- * - GET  /api/v1/voice/sessions/{id} - Get session information
- * - POST /api/v1/voice/sessions/{id}/context - Update session context
- * - DELETE /api/v1/voice/sessions/{id} - Delete session
- * - GET  /api/v1/voice/stats - Get voice assistant statistics
- * - GET  /api/v1/voice/health - Health check
- * - GET  /api/v1/voice/voices - List available TTS voices
- * - GET  /api/v1/voice/languages - List supported languages
- * - POST /api/v1/voice/macros - Create voice command macro
- * - GET  /api/v1/voice/macros - List voice command macros
- * - GET  /api/v1/voice/macros/{id} - Get a specific macro
- * - PUT  /api/v1/voice/macros/{id} - Update a macro
- * - DELETE /api/v1/voice/macros/{id} - Delete a macro
- * - GET  /api/v1/voice/recordings - List stored recordings (playback index)
- * - GET  /api/v1/voice/recordings/search?q=<query> - Full-text search in stored transcripts
- * - GET  /api/v1/voice/recordings/{id} - Get a specific recording for playback
- * - POST /api/v1/voice/auth/enroll - Enroll a speaker's voice profile
- * - POST /api/v1/voice/auth/verify - 1:1 speaker verification against a profile
- * - POST /api/v1/voice/auth/authenticate - Full biometric authentication (liveness + verification)
- * - POST /api/v1/voice/auth/identify - 1:N speaker identification among candidate profiles
- * - GET  /api/v1/voice/auth/profiles - List enrolled voice profiles
- * - DELETE /api/v1/voice/auth/profiles/{id} - Delete a voice profile
- * - WS  /ws/voice/stream - WebSocket for real-time voice interaction
- * 
- * All endpoints require Bearer Token (JWT) authentication via Authorization header.
- * Audio data should be sent as multipart/form-data or base64-encoded in JSON.
- */
 class VoiceApiHandler {
 public:
-    /**
-     * @brief Construct Voice API handler
-     *
-     * @param voice_assistant Voice assistant instance; **must not be null**.
-     *        Passing nullptr throws `std::invalid_argument`.
-     * @param auth Optional shared authentication middleware used for
-     *             bearer token validation (static tokens and JWT when configured).
-     *
-     * @throws std::invalid_argument if @p voice_assistant is null.
-     */
     explicit VoiceApiHandler(
         std::shared_ptr<voice::VoiceAssistant> voice_assistant,
         std::shared_ptr<themis::AuthMiddleware> auth = nullptr);
     
     /**
-     * @brief Handle Voice API request
-     *
-     * Routes request to appropriate handler based on path and method.
-     * Validates JWT Bearer Token authentication.
-     *
-     * @param req HTTP request
-     * @return HTTP response (JSON or audio data)
+     * @brief Handle Request.
+     * @param[in] req Input parameter.
+     * @return Return value.
      */
     http::response<http::string_body> handleRequest(
         const http::request<http::string_body>& req);
 
-    /**
-     * @brief Function type for bearer-token validation (stub #302).
-     *
-     * When injected via setTokenValidatorFn(), validateBearerToken() delegates
-     * to this function, enabling JWT signature, expiry, audience, and issuer
-     * verification without changing callers.
-     *
-     * @param token The bearer token string (after the "Bearer " prefix).
-     * @return true if the token is valid and the caller is authorized.
-     */
     using TokenValidatorFn = std::function<bool(std::string_view)>;
 
     /**
-     * @brief Inject a real JWT/OIDC token validator.
-     *
-     * Thread-safe.  Passing nullptr reverts to the built-in non-empty-check
-     * fallback (retained for dev/CI builds only).
-     *
-     * @param fn Token validation callback.
+     * @brief Set Token Validator Fn.
+     * @param[in] fn Input parameter.
      */
     static void setTokenValidatorFn(TokenValidatorFn fn);
 
 private:
     // Core endpoints
+    /**
+     * @brief Handle Transcribe.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleTranscribe(
         const http::request<http::string_body>& req);
     
+    /**
+     * @brief Handle Synthesize.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleSynthesize(
         const http::request<http::string_body>& req);
     
+    /**
+     * @brief Handle Voice Command.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleVoiceCommand(
         const http::request<http::string_body>& req);
     
+    /**
+     * @brief Handle Stream Command.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleStreamCommand(
         const http::request<http::string_body>& req);
     
+    /**
+     * @brief Handle Wake Word Detect.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleWakeWordDetect(
         const http::request<http::string_body>& req);
     
     // Phone call endpoints
+    /**
+     * @brief Handle Record Call.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleRecordCall(
         const http::request<http::string_body>& req);
     
     // Meeting endpoints
+    /**
+     * @brief Handle Generate Protocol.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleGenerateProtocol(
         const http::request<http::string_body>& req);
     
     // Session management endpoints
+    /**
+     * @brief Handle Get Session.
+     * @param[in] req Input parameter.
+     * @param[in] session_id Identifier of the session.
+     * @return Return value.
+     */
     http::response<http::string_body> handleGetSession(
         const http::request<http::string_body>& req,
         const std::string& session_id);
     
+    /**
+     * @brief Handle Update Session Context.
+     * @param[in] req Input parameter.
+     * @param[in] session_id Identifier of the session.
+     * @return Return value.
+     */
     http::response<http::string_body> handleUpdateSessionContext(
         const http::request<http::string_body>& req,
         const std::string& session_id);
     
+    /**
+     * @brief Handle Delete Session.
+     * @param[in] req Input parameter.
+     * @param[in] session_id Identifier of the session.
+     * @return Return value.
+     */
     http::response<http::string_body> handleDeleteSession(
         const http::request<http::string_body>& req,
         const std::string& session_id);
     
     // Information endpoints
+    /**
+     * @brief Handle Get Voices.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleGetVoices(
         const http::request<http::string_body>& req);
     
+    /**
+     * @brief Handle Get Languages.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleGetLanguages(
         const http::request<http::string_body>& req);
     
-    // Voice macro CRUD endpoints
+    /**
+     * @brief Handle Create Macro.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleCreateMacro(
         const http::request<http::string_body>& req);
     
+    /**
+     * @brief Handle List Macros.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleListMacros(
         const http::request<http::string_body>& req);
     
+    /**
+     * @brief Handle Get Macro.
+     * @param[in] req Input parameter.
+     * @param[in] macro_id Identifier of the macro.
+     * @return Return value.
+     */
     http::response<http::string_body> handleGetMacro(
         const http::request<http::string_body>& req,
         const std::string& macro_id);
     
+    /**
+     * @brief Handle Update Macro.
+     * @param[in] req Input parameter.
+     * @param[in] macro_id Identifier of the macro.
+     * @return Return value.
+     */
     http::response<http::string_body> handleUpdateMacro(
         const http::request<http::string_body>& req,
         const std::string& macro_id);
     
+    /**
+     * @brief Handle Delete Macro.
+     * @param[in] req Input parameter.
+     * @param[in] macro_id Identifier of the macro.
+     * @return Return value.
+     */
     http::response<http::string_body> handleDeleteMacro(
         const http::request<http::string_body>& req,
         const std::string& macro_id);
 
-    // Recording playback and transcript search endpoints
+    /**
+     * @brief Handle List Recordings.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleListRecordings(
         const http::request<http::string_body>& req);
 
+    /**
+     * @brief Handle Get Recording.
+     * @param[in] req Input parameter.
+     * @param[in] record_id Identifier of the record.
+     * @return Return value.
+     */
     http::response<http::string_body> handleGetRecording(
         const http::request<http::string_body>& req,
         const std::string& record_id);
 
+    /**
+     * @brief Handle Search Transcripts.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleSearchTranscripts(
         const http::request<http::string_body>& req);
 
-    // Voice biometric authentication endpoints
+    /**
+     * @brief Handle Auth Enroll.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleAuthEnroll(
         const http::request<http::string_body>& req);
 
+    /**
+     * @brief Handle Auth Verify.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleAuthVerify(
         const http::request<http::string_body>& req);
 
+    /**
+     * @brief Handle Auth Authenticate.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleAuthAuthenticate(
         const http::request<http::string_body>& req);
 
+    /**
+     * @brief Handle Auth Identify.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleAuthIdentify(
         const http::request<http::string_body>& req);
 
+    /**
+     * @brief Handle Auth List Profiles.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleAuthListProfiles(
         const http::request<http::string_body>& req);
 
+    /**
+     * @brief Handle Auth Delete Profile.
+     * @param[in] req Input parameter.
+     * @param[in] profile_id Identifier of the profile.
+     * @return Return value.
+     */
     http::response<http::string_body> handleAuthDeleteProfile(
         const http::request<http::string_body>& req,
         const std::string& profile_id);
 
     // Statistics and health
+    /**
+     * @brief Handle Stats.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleStats(
         const http::request<http::string_body>& req);
     
+    /**
+     * @brief Handle Health.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleHealth(
         const http::request<http::string_body>& req);
     
     // Helper methods
     /**
-     * @brief Validate bearer token from Authorization header.
-     * 
-     * Implements JWT/OIDC validation (issue #302) with the following sequence:
-     * 1. Extract ****** from Authorization header
-     * 2. Try injected token validator (JWTValidator-based, production use)
-     * 3. Fall back to AuthMiddleware for static tokens and configured JWT
-     * 4. Return false (reject) on any validation failure (fail-closed)
-     *
-     * JWT validation includes:
-     * - Signature verification using JWKS
-     * - Token expiry check (exp claim)
-     * - Issuer validation (iss claim)
-     * - Audience validation (aud claim must include "themis-voice-api")
-     * - Token revocation check (JTI blacklist if configured)
-     *
-     * @param req HTTP request containing Authorization header
-     * @return true if token is valid and authorized, false otherwise
+     * @brief Validate Bearer Token.
+     * @param[in] req Input parameter.
+     * @return True when the operation succeeds.
      */
     bool validateBearerToken(const http::request<http::string_body>& req);
     
@@ -256,31 +322,58 @@ private:
         const json& data,
         http::status status = http::status::ok);
     
+    /**
+     * @brief Create Audio Response.
+     * @param[in] audio_data Input parameter.
+     * @param[in] mime_type Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> createAudioResponse(
         const std::vector<uint8_t>& audio_data,
         const std::string& mime_type);
     
+    /**
+     * @brief Parse Request Body.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     std::optional<json> parseRequestBody(
         const http::request<http::string_body>& req);
     
+    /**
+     * @brief Extract Audio Data.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     std::vector<uint8_t> extractAudioData(
         const http::request<http::string_body>& req);
     
+    /**
+     * @brief Decode Base64.
+     * @param[in] encoded Input parameter.
+     * @return Return value.
+     */
     std::vector<uint8_t> decodeBase64(const std::string& encoded);
     
+    /**
+     * @brief Encode Base64.
+     * @param[in] data Input parameter.
+     * @return Return value.
+     */
     std::string encodeBase64(const std::vector<uint8_t>& data);
     
+    /**
+     * @brief Download Audio From Url.
+     * @param[in] url Input parameter.
+     * @return Return value.
+     */
     std::vector<uint8_t> downloadAudioFromUrl(const std::string& url);
 
     /**
-     * @brief Parse the value of a single query parameter from a request target.
-     *
-     * @param target    Full request target (path + optional "?key=value&...").
-     * @param key       Parameter name to look up.
-     * @return Parameter value, or empty string if not found.
-     *
-     * @note Percent-encoded characters are not decoded; tag values should
-     *       use plain ASCII identifiers to avoid encoding issues.
+     * @brief Parse Query Param.
+     * @param[in] target Input parameter.
+     * @param[in] key Input parameter.
+     * @return Return value.
      */
     static std::string parseQueryParam(const std::string& target, const std::string& key);
 

@@ -25,9 +25,6 @@ namespace themis::server {
 // BackendEndpoint – descriptor for a routable backend
 // ---------------------------------------------------------------------------
 
-/**
- * @brief Identifies a single backend service endpoint.
- */
 struct BackendEndpoint {
     std::string backend_id;   ///< Unique identifier (e.g. "shard-0")
     std::string address;      ///< Host name or IP
@@ -42,45 +39,6 @@ struct BackendEndpoint {
 // SmartRouter
 // ---------------------------------------------------------------------------
 
-/**
- * @brief Intelligent request routing with latency-aware load balancing.
- * 
- * The router maintains a rolling latency window and access-frequency map for
- * every registered backend. These are updated via `record*` calls after each
- * request and used to inform future routing decisions.
- *
- * Analyzes request characteristics and backend latencies to route requests
- * to the best available backend:
- * - Short queries → Fast backends (in-memory, cache-hit optimized)
- * - Long queries → Batch backends (distributed, optimized for throughput)
- * - Streaming → Dedicated streaming backends
- * - Admin → Primary/leadership nodes
- * 
- * ### Latency-Aware Routing
- * 1. Measure P50, P99, P99.9 latencies per backend
- * 2. When choosing destination for incoming request:
- *    - Compare recent latencies
- *    - Route to least-loaded backend
- *    - Avoid backends showing latency spikes
- * 3. Periodically refresh latency estimates
- * 
- * ### Request Classification
- * - Query type (SELECT, INSERT, UPDATE, DELETE)
- * - Query complexity (predicates, joins, aggregations)
- * - Estimated execution time
- * - User priority or tenant class
- * 
- * ### Fallback Behavior
- * If primary backend becomes unavailable:
- * - Route to next-best backend (round-robin or latency-based)
- * - If all backends unhealthy, use local fallback or error response
- * 
- * @note Routing decisions are made in < 1ms
- * @note Compatible with read replicas and multi-datacenter deployments
- * @note Supports request batching for throughput optimization
- * 
- * @see DistributedGateway for cluster-wide routing
- */
 class SmartRouter {
 public:
     // -----------------------------------------------------------------------
@@ -88,19 +46,12 @@ public:
     // -----------------------------------------------------------------------
 
     struct Config {
-        /// Number of recent latency samples to keep per backend.
         uint32_t latency_window_size{100};
 
-        /// p99 latency (ms) above which a backend is considered high-tail and
-        /// is excluded from the primary candidate set unless it is the only
-        /// option.
         double tail_latency_threshold_ms{500.0};
 
-        /// Minimum number of accesses a backend must have seen for a given
-        /// resource key before it is selected via cache-hit prediction.
         uint32_t min_cache_prediction_hits{3};
 
-        /// When true, enable cache-hit prediction (Phase 1 of routing).
         bool enable_cache_prediction{true};
     };
 
@@ -118,10 +69,6 @@ public:
         uint64_t    cache_misses{0};          ///< Recorded cache misses
         uint32_t    latency_samples{0};       ///< Samples in current window
 
-        /**
-         * @brief Serialize backend runtime stats for API/telemetry output.
-         * @return JSON representation of this statistics snapshot.
-         */
         nlohmann::json toJson() const {
             return {
                 {"backend_id",        backend_id},
@@ -140,12 +87,12 @@ public:
     // Construction
     // -----------------------------------------------------------------------
 
-    /** @brief Construct router with default configuration. */
     SmartRouter();
 
     /**
-     * @brief Construct router with caller-provided configuration.
-     * @param config Routing configuration.
+     * @brief Smart Router.
+     * @param[in] config Input parameter.
+     * @return Return value.
      */
     explicit SmartRouter(const Config& config);
 
@@ -161,58 +108,56 @@ public:
     // -----------------------------------------------------------------------
 
     /**
-     * @brief Register a backend endpoint.
-     * @param endpoint Backend to add; no-op if already registered.
+     * @brief Add Backend.
+     * @param[in] endpoint Input parameter.
      */
     void addBackend(const BackendEndpoint& endpoint);
 
     /**
-     * @brief Remove a backend endpoint.
-     * @param backend_id Backend to remove.
+     * @brief Remove Backend.
+     * @param[in] backend_id Identifier of the backend.
      */
     void removeBackend(const std::string& backend_id);
 
     /**
-     * @brief Return all currently registered backends.
+     * @brief List Backends.
+     * @return Return value.
      */
     std::vector<BackendEndpoint> listBackends() const;
 
-    // -----------------------------------------------------------------------
-    // Feedback – called after every request to update runtime state
-    // -----------------------------------------------------------------------
 
     /**
-     * @brief Record an observed request latency for a backend.
-     * @param backend_id  Backend that served the request.
-     * @param latency_ms  Round-trip latency in milliseconds.
+     * @brief Record Latency.
+     * @param[in] backend_id Identifier of the backend.
+     * @param[in] latency_ms Input parameter.
      */
     void recordLatency(const std::string& backend_id, double latency_ms);
 
     /**
-     * @brief Record a cache hit on a backend for a resource key.
-     * @param backend_id  Backend that produced the cache hit.
-     * @param resource_key Resource identifier (e.g. entity URN or path).
+     * @brief Record Cache Hit.
+     * @param[in] backend_id Identifier of the backend.
+     * @param[in] resource_key Input parameter.
      */
     void recordCacheHit(const std::string& backend_id,
                         const std::string& resource_key);
 
     /**
-     * @brief Record a cache miss on a backend for a resource key.
+     * @brief Record Cache Miss.
+     * @param[in] backend_id Identifier of the backend.
+     * @param[in] resource_key Input parameter.
      */
     void recordCacheMiss(const std::string& backend_id,
                          const std::string& resource_key);
 
     /**
-     * @brief Increment the active-connection counter for a backend.
-     *
-     * Call this immediately before dispatching a request.
+     * @brief Increment Active Connections.
+     * @param[in] backend_id Identifier of the backend.
      */
     void incrementActiveConnections(const std::string& backend_id);
 
     /**
-     * @brief Decrement the active-connection counter for a backend.
-     *
-     * Call this after a response is received (including on error).
+     * @brief Decrement Active Connections.
+     * @param[in] backend_id Identifier of the backend.
      */
     void decrementActiveConnections(const std::string& backend_id);
 
@@ -221,33 +166,22 @@ public:
     // -----------------------------------------------------------------------
 
     /**
-     * @brief Select the best backend for a given resource key.
-     *
-     * Applies cache-hit prediction, tail-latency filtering, and
-     * least-loaded selection in that order.
-     *
-     * @param resource_key  Resource identifier (e.g. entity URN or path).
-     * @return Selected backend, or nullopt if no backends are registered.
+     * @brief Route.
+     * @param[in] resource_key Input parameter.
+     * @return Return value.
      */
     std::optional<BackendEndpoint> route(const std::string& resource_key) const;
 
     /**
-     * @brief Return the backend with the fewest active connections.
-     *
-     * Tie-breaks by lowest average latency.  Ignores high-tail-latency
-     * backends when alternatives exist.
-     *
-     * @return Least-loaded backend, or nullopt if no backends are registered.
+     * @brief Route Least Loaded.
+     * @return Return value.
      */
     std::optional<BackendEndpoint> routeLeastLoaded() const;
 
     /**
-     * @brief Return the backend most likely to have `resource_key` in its cache.
-     *
-     * Returns nullopt when there is insufficient history.
-     *
-     * @param resource_key  Resource to look up.
-     * @return Backend with highest cache-hit count for the key, or nullopt.
+     * @brief Predict Cached Backend.
+     * @param[in] resource_key Input parameter.
+     * @return Return value.
      */
     std::optional<BackendEndpoint> predictCachedBackend(
         const std::string& resource_key) const;
@@ -257,13 +191,15 @@ public:
     // -----------------------------------------------------------------------
 
     /**
-     * @brief Return statistics for all registered backends.
+     * @brief Get All Stats.
+     * @return Return value.
      */
     std::vector<BackendStats> getAllStats() const;
 
     /**
-     * @brief Return statistics for a specific backend.
-     * @throws std::out_of_range if backend_id is not registered.
+     * @brief Get Backend Stats.
+     * @param[in] backend_id Identifier of the backend.
+     * @return Return value.
      */
     BackendStats getBackendStats(const std::string& backend_id) const;
 
@@ -298,25 +234,34 @@ private:
     // -----------------------------------------------------------------------
 
     /**
-     * @brief Compute the average of a latency window.
+     * @brief Compute Avg.
+     * @param[in] window Input parameter.
+     * @return Return value.
+     * @note Exception safety: noexcept.
      */
     static double computeAvg(const std::deque<double>& window) noexcept;
 
     /**
-     * @brief Compute the p99 of a latency window (nearest-rank method).
+     * @brief Compute P99.
+     * @param[in] window Input parameter.
+     * @return Return value.
      */
     static double computeP99(const std::deque<double>& window);
 
     /**
-     * @brief Return true when a backend is high-tail (p99 > threshold) AND
-     *        there is at least one other non-high-tail backend available.
+     * @brief Is High Tail.
+     * @param[in] state Input parameter.
+     * @param[in] has_other_candidates Input parameter.
+     * @return True when the operation succeeds.
+     * @note Exception safety: noexcept.
      */
     bool isHighTail(const BackendState& state,
                     bool has_other_candidates) const noexcept;
 
     /**
-     * @brief Recompute cached avg/p99 from the current latency window.
-     *        MUST be called while holding a unique_lock on mutex_.
+     * @brief Refresh Stats.
+     * @param[in,out] state Input/output parameter.
+     * @note Exception safety: noexcept.
      */
     static void refreshStats(BackendState& state) noexcept;
 

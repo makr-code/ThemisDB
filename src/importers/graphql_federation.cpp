@@ -84,6 +84,14 @@ std::string GraphQLFederationSupport::GraphQLSchemaGenerator::columnToField(cons
 // generateFederatedSchema
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Generate Federated Schema.
+ * @param[in] schemas Input parameter.
+ * @param[in] service_name Name of the service.
+ * @param[in] external_entities Input parameter.
+ * @return Return value.
+ * @details Calls: externals(), begin(), end(), link(), tableNameToTypeName(), count(), empty(), insert().
+ */
 std::string GraphQLFederationSupport::GraphQLSchemaGenerator::generateFederatedSchema(
     const std::vector<InferenceTableSchema> &schemas, const std::string &service_name,
     const std::vector<std::string> &external_entities) {
@@ -167,6 +175,12 @@ std::string GraphQLFederationSupport::GraphQLSchemaGenerator::generateFederatedS
 // generatePlainSchema
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Generate Plain Schema.
+ * @param[in] schemas Input parameter.
+ * @return Return value.
+ * @details Calls: tableNameToTypeName(), count(), at(), std::find(), begin(), end(), columnToField(), str().
+ */
 std::string GraphQLFederationSupport::GraphQLSchemaGenerator::generatePlainSchema(
     const std::vector<InferenceTableSchema> &schemas) {
     std::ostringstream out = {};

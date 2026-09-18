@@ -109,7 +109,7 @@ private:
     std::shared_ptr<ExporterMetrics> metrics_;
 
     /**
-     * @brief Decide which include/exclude columns apply for this export
+     * @brief Resolve Columns.
      * @param[in] entities Input parameter.
      * @param[in] options Input parameter.
      * @return Return value.

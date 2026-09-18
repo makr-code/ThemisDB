@@ -19,7 +19,6 @@ namespace themis {
 namespace llm {
 namespace lora {
 
-/** @brief Implementation detail. */
 class ResourceProfiler::Impl {
 public:
     Config config;
@@ -40,14 +39,30 @@ ResourceProfiler::ResourceProfiler()
 
 ResourceProfiler::~ResourceProfiler() = default;
 
+/**
+ * @brief Start.
+ * @details Implements start without additional internal calls.
+ */
 void ResourceProfiler::start() {
     impl_->running = true;
 }
 
+/**
+ * @brief Stop.
+ * @details Implements stop without additional internal calls.
+ */
 void ResourceProfiler::stop() {
     impl_->running = false;
 }
 
+/**
+ * @brief Snapshot.
+ * @param[in] epoch Input parameter.
+ * @param[in] step Input parameter.
+ * @param[in] loss Input parameter.
+ * @param[in] lr Input parameter.
+ * @details Calls: std::chrono::system_clock::now(), query_gpu_memory(), query_cpu_memory(), query_gpu_utilization(), check_alerts(), push_back(), cb().
+ */
 void ResourceProfiler::snapshot(int epoch, int step, float loss, float lr) {
     if (!impl_->running || !impl_->config.enabled) {
         return;
@@ -103,10 +118,19 @@ ResourceStats ResourceProfiler::compute_stats() const {
     return stats;
 }
 
+/**
+ * @brief Register callback.
+ * @param[in] callback Input parameter.
+ * @details Calls: push_back(), std::move().
+ */
 void ResourceProfiler::register_callback(ResourceMonitorCallback callback) {
     impl_->callbacks.push_back(std::move(callback));
 }
 
+/**
+ * @brief Clear.
+ * @details Implements clear without additional internal calls.
+ */
 void ResourceProfiler::clear() {
     impl_->snapshots.clear();
 }
@@ -119,11 +143,21 @@ ResourceProfiler::Config ResourceProfiler::get_config() const {
     return impl_->config;
 }
 
+/**
+ * @brief Set config.
+ * @param[in] config Input parameter.
+ * @details Implements set_config without additional internal calls.
+ */
 void ResourceProfiler::set_config(const Config& config) {
     impl_->config = config;
 }
 
 void ResourceProfiler::export_to_json(const std::string& filename) const {
+    /**
+     * @brief Out.
+     * @param[in] filename Input parameter.
+     * @return Return value.
+     */
     std::ofstream out(filename);
     if (!out.is_open()) {
         spdlog::warn("ResourceProfiler: cannot open '{}' for JSON export", filename);
@@ -157,7 +191,17 @@ size_t ResourceProfiler::get_peak_cpu_memory() const {
 void ResourceProfiler::query_gpu_memory(ResourceSnapshot&) const {}
 void ResourceProfiler::query_cpu_memory(ResourceSnapshot&) const {}
 void ResourceProfiler::query_gpu_utilization(ResourceSnapshot&) const {}
+/**
+ * @brief Check alerts.
+ * @param[in] param Input parameter.
+ * @details Implements check_alerts without additional internal calls.
+ */
 void ResourceProfiler::check_alerts(const ResourceSnapshot&) {}
+/**
+ * @brief Log snapshot.
+ * @param[in] param Input parameter.
+ * @details Implements log_snapshot without additional internal calls.
+ */
 void ResourceProfiler::log_snapshot(const ResourceSnapshot&) {}
 
 } // namespace lora

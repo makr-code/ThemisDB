@@ -43,14 +43,6 @@ using json = nlohmann::json;
 // Checksum computation (SHA-256)
 // ============================================================================
 
-/**
- * @brief Compute SHA-256 hash of a string.
- *
- * Uses OpenSSL/system libcrypto if available; falls back to simple hash.
- *
- * @param data  Data to hash.
- * @return      Hex-encoded SHA-256 checksum as "sha256:abc123...".
- */
 static std::string computeSHA256(const std::string& data) noexcept {
     // For Phase 3, use a simplified hash that's deterministic.
     // In production, replace with actual SHA-256 (OpenSSL).
@@ -75,12 +67,6 @@ static std::string computeSHA256(const std::string& data) noexcept {
 // JSON serialization helpers
 // ============================================================================
 
-/**
- * @brief Serialize WorkspaceState to JSON (without checksum field).
- *
- * The returned JSON does NOT include the checksum field; that is
- * computed and added separately.
- */
 static json serializeStateToJson(const WorkspaceState& state) noexcept {
     json j = json::object();
     
@@ -106,12 +92,6 @@ static json serializeStateToJson(const WorkspaceState& state) noexcept {
     return j;
 }
 
-/**
- * @brief Deserialize JSON to WorkspaceState.
- *
- * Expects JSON with version, created_at, last_updated, workspace_root, links, tasks.
- * Does NOT expect a checksum field (that is validated separately).
- */
 static WorkspaceStatus deserializeJsonToState(
     const json& j, WorkspaceState& out_state) noexcept {
     try {
@@ -179,7 +159,12 @@ WorkspaceStatus WorkspaceStateManager::load(WorkspaceState& out_state) noexcept 
             return WorkspaceStatus::Error("State file not found");
         }
         
-        // Read state.json
+        /**
+         * @brief Read state.
+         * @param[in] state_file_ Input parameter.
+         * @return Return value.
+         * @details json
+         */
         std::ifstream ifs(state_file_);
         if (!ifs.is_open()) {
             return WorkspaceStatus::Error(
@@ -248,6 +233,11 @@ WorkspaceStatus WorkspaceStateManager::save(const WorkspaceState& state) noexcep
         // Write to temporary file first
         auto temp_file = state_file_.string() + ".tmp";
         {
+            /**
+             * @brief Ofs.
+             * @param[in] temp_file Input parameter.
+             * @return Return value.
+             */
             std::ofstream ofs(temp_file);
             if (!ofs.is_open()) {
                 return WorkspaceStatus::Error(
@@ -268,6 +258,12 @@ WorkspaceStatus WorkspaceStateManager::save(const WorkspaceState& state) noexcep
         
         // Append to transaction log
         if (std::filesystem::exists(log_file_.parent_path())) {
+            /**
+             * @brief Log ofs.
+             * @param[in] log_file_ Input parameter.
+             * @param[in] app Input parameter.
+             * @return Return value.
+             */
             std::ofstream log_ofs(log_file_, std::ios::app);
             if (log_ofs.is_open()) {
                 log_ofs << state_j.dump() << "\n";
@@ -287,6 +283,11 @@ WorkspaceStatus WorkspaceStateManager::save(const WorkspaceState& state) noexcep
 WorkspaceStatus WorkspaceStateManager::validateChecksum(
     const std::filesystem::path& file_path) noexcept {
     try {
+        /**
+         * @brief Ifs.
+         * @param[in] file_path Path to the file.
+         * @return Return value.
+         */
         std::ifstream ifs(file_path);
         if (!ifs.is_open()) {
             return WorkspaceStatus::Error("Failed to open file for checksum validation");
@@ -327,6 +328,11 @@ WorkspaceStatus WorkspaceStateManager::recoverFromLog(
             return WorkspaceStatus::Error("No transaction log for recovery");
         }
         
+        /**
+         * @brief Ifs.
+         * @param[in] log_file_ Input parameter.
+         * @return Return value.
+         */
         std::ifstream ifs(log_file_);
         if (!ifs.is_open()) {
             return WorkspaceStatus::Error("Failed to open transaction log");

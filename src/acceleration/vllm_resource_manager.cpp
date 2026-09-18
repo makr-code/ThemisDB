@@ -54,6 +54,20 @@ static constexpr std::chrono::milliseconds kCpuCacheTTL{200};
 
 namespace {
 
+/**
+ * @brief Run Similarity Dispatch.
+ * @param[in] dispatch Input parameter.
+ * @param[in] mark_gpu Input parameter.
+ * @param[in] queries Input parameter.
+ * @param[in] num_queries Input parameter.
+ * @param[in] dim Input parameter.
+ * @param[in] vectors Input parameter.
+ * @param[in] num_vectors Input parameter.
+ * @param[in] top_k Input parameter.
+ * @param[in] metric Input parameter.
+ * @return Return value.
+ * @details Calls: distanceLauncherFor(), std::min(), distance_matrix(), resize(), distance_launcher(), data(), std::to_string(), cudaGetLastError().
+ */
 VLLMResourceManager::SimilarityDispatchResult runSimilarityDispatch(const ANNKernelDispatch &dispatch, bool mark_gpu,
                                                                     const float *queries, size_t num_queries, size_t dim,
                                                                     const float *vectors, size_t num_vectors, size_t top_k,
@@ -128,6 +142,11 @@ VLLMResourceManager::~VLLMResourceManager() {
     shutdown();
 }
 
+/**
+ * @brief Initialize.
+ * @return True when the operation succeeds.
+ * @details Calls: THEMIS_WARN(), std::thread::hardware_concurrency(), THEMIS_INFO(), initializeNVML().
+ */
 bool VLLMResourceManager::initialize() {
     if (initialized_) {
         THEMIS_WARN("VLLMResourceManager already initialized");
@@ -159,6 +178,10 @@ bool VLLMResourceManager::initialize() {
     return true;
 }
 
+/**
+ * @brief Shutdown.
+ * @details Calls: shutdownNVML(), THEMIS_INFO().
+ */
 void VLLMResourceManager::shutdown() {
     if (!initialized_) {
         return;
@@ -172,6 +195,11 @@ void VLLMResourceManager::shutdown() {
     THEMIS_INFO("VLLMResourceManager shutdown");
 }
 
+/**
+ * @brief Can Use GPU.
+ * @return True when the operation succeeds.
+ * @details Calls: gpu_util_provider_for_testing_(), has_value(), value(), empty(), std::async(), defined(), nvmlDeviceGetUtilizationRates(), std::max().
+ */
 bool VLLMResourceManager::canUseGPU() {
 #ifndef THEMIS_ENABLE_CUDA
     // Test override: allows CI tests to verify GPU-busy logic without real CUDA.
@@ -255,6 +283,18 @@ bool VLLMResourceManager::canUseGPU() {
 #endif
 }
 
+/**
+ * @brief Dispatch Vector Similarity.
+ * @param[in] queries Input parameter.
+ * @param[in] num_queries Input parameter.
+ * @param[in] dim Input parameter.
+ * @param[in] vectors Input parameter.
+ * @param[in] num_vectors Input parameter.
+ * @param[in] top_k Input parameter.
+ * @param[in] metric Input parameter.
+ * @return Return value.
+ * @details Calls: canUseGPU(), initialize(), runSimilarityDispatch(), populateANNDispatch(), THEMIS_WARN(), THEMIS_DEBUG().
+ */
 VLLMResourceManager::SimilarityDispatchResult VLLMResourceManager::dispatchVectorSimilarity(
     const float *queries, size_t num_queries, size_t dim, const float *vectors, size_t num_vectors, size_t top_k,
     DistanceMetric metric) {
@@ -341,6 +381,11 @@ VLLMResourceManager::Stats VLLMResourceManager::getStats() const {
     uint64_t t0 = 0, i0 = 0;
     bool have_t0 = false;
     {
+        /**
+         * @brief Lock.
+         * @param[in] cpu_cache_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(cpu_cache_mutex_);
         if (cpu_snapshot_cache_.valid && (now - cpu_snapshot_cache_.ts) < kCpuCacheTTL) {
             t0      = cpu_snapshot_cache_.v0;
@@ -359,10 +404,12 @@ VLLMResourceManager::Stats VLLMResourceManager::getStats() const {
         if (readCpuTimes(t1, i1)) {
             uint64_t dtotal = (t1 > t0) ? (t1 - t0) : 0;
             if (dtotal == 0) {
-                // Same jiffy — counters haven't advanced yet.
-                // Reuse the last computed utilization to avoid returning 0.0.
-                // Still refresh the baseline (v0/v1/ts) so the next call uses
-                // the current read as its starting point and avoids stale deltas.
+                /**
+                 * @brief Same jiffy — counters haven't advanced yet.
+                 * @param[in] cpu_cache_mutex_ Input parameter.
+                 * @return Return value.
+                 * @details Reuse the last computed utilization to avoid returning 0.0. Still refresh the baseline (v0/v1/ts) so the next call uses the current read as its starting point and avoids stale deltas.
+                 */
                 std::lock_guard<std::mutex> lock(cpu_cache_mutex_);
                 if (cpu_snapshot_cache_.valid) {
                     stats.cpu_utilization = cpu_snapshot_cache_.last_cpu_util;
@@ -374,6 +421,11 @@ VLLMResourceManager::Stats VLLMResourceManager::getStats() const {
             } else {
                 uint64_t didle        = (i1 > i0) ? (i1 - i0) : 0;
                 stats.cpu_utilization = 100.0 * (1.0 - static_cast<double>(didle) / static_cast<double>(dtotal));
+                /**
+                 * @brief Lock.
+                 * @param[in] cpu_cache_mutex_ Input parameter.
+                 * @return Return value.
+                 */
                 std::lock_guard<std::mutex> lock(cpu_cache_mutex_);
                 cpu_snapshot_cache_.v0            = t1;
                 cpu_snapshot_cache_.v1            = i1;
@@ -418,6 +470,11 @@ VLLMResourceManager::Stats VLLMResourceManager::getStats() const {
         uint64_t base_idle = 0, base_kernel = 0, base_user = 0;
         bool have_base = false;
         {
+            /**
+             * @brief Lock.
+             * @param[in] cpu_cache_mutex_ Input parameter.
+             * @return Return value.
+             */
             std::lock_guard<std::mutex> lock(cpu_cache_mutex_);
             if (cpu_snapshot_cache_.valid && (now_win - cpu_snapshot_cache_.ts) < kCpuCacheTTL) {
                 base_idle   = cpu_snapshot_cache_.v0;
@@ -447,9 +504,12 @@ VLLMResourceManager::Stats VLLMResourceManager::getStats() const {
                 uint64_t user     = (user1v > base_user) ? (user1v - base_user) : 0;
                 uint64_t total    = kernel + user; // kernel already includes idle
                 if (total == 0) {
-                    // Same resolution tick — reuse last computed utilization.
-                    // Still refresh the baseline (v0/v1/v2/ts) to avoid stale deltas
-                    // on the next call.
+                    /**
+                     * @brief Same resolution tick — reuse last computed utilization.
+                     * @param[in] cpu_cache_mutex_ Input parameter.
+                     * @return Return value.
+                     * @details Still refresh the baseline (v0/v1/v2/ts) to avoid stale deltas on the next call.
+                     */
                     std::lock_guard<std::mutex> lock(cpu_cache_mutex_);
                     if (cpu_snapshot_cache_.valid) {
                         stats.cpu_utilization = cpu_snapshot_cache_.last_cpu_util;
@@ -461,6 +521,11 @@ VLLMResourceManager::Stats VLLMResourceManager::getStats() const {
                     // last_cpu_util and valid are unchanged
                 } else {
                     stats.cpu_utilization = 100.0 * (1.0 - static_cast<double>(idle) / static_cast<double>(total));
+                    /**
+                     * @brief Lock.
+                     * @param[in] cpu_cache_mutex_ Input parameter.
+                     * @return Return value.
+                     */
                     std::lock_guard<std::mutex> lock(cpu_cache_mutex_);
                     cpu_snapshot_cache_.v0            = idle1v;
                     cpu_snapshot_cache_.v1            = kernel1v;
@@ -504,6 +569,11 @@ VLLMResourceManager::Stats VLLMResourceManager::getStats() const {
     return stats;
 }
 
+/**
+ * @brief Set Config.
+ * @param[in] config Input parameter.
+ * @details Calls: THEMIS_WARN().
+ */
 void VLLMResourceManager::setConfig(const Config &config) {
     if (initialized_) {
         THEMIS_WARN("Cannot change config while initialized - call shutdown() first");
@@ -516,6 +586,11 @@ void VLLMResourceManager::setGpuUtilizationProviderForTesting(std::function<std:
     gpu_util_provider_for_testing_ = std::move(provider);
 }
 
+/**
+ * @brief Initialize NVML.
+ * @return True when the operation succeeds.
+ * @details Calls: defined(), nvmlInit(), THEMIS_ERROR(), nvmlErrorString(), empty(), clear(), nvmlDeviceGetHandleByIndex(), nvmlShutdown().
+ */
 bool VLLMResourceManager::initializeNVML() {
 #if defined(THEMIS_ENABLE_CUDA) && defined(__linux__)
     nvmlReturn_t result = nvmlInit();
@@ -557,6 +632,10 @@ bool VLLMResourceManager::initializeNVML() {
 #endif
 }
 
+/**
+ * @brief Shutdown NVML.
+ * @details Calls: defined(), empty(), clear(), nvmlShutdown(), THEMIS_INFO().
+ */
 void VLLMResourceManager::shutdownNVML() {
 #if defined(THEMIS_ENABLE_CUDA) && defined(__linux__)
     if (!nvml_devices_.empty()) {
@@ -569,6 +648,11 @@ void VLLMResourceManager::shutdownNVML() {
 #endif
 }
 
+/**
+ * @brief Query GPUUtilization.
+ * @return Return value.
+ * @details Calls: gpu_util_provider_for_testing_(), defined(), empty(), nvmlDeviceGetUtilizationRates(), THEMIS_WARN(), nvmlErrorString(), std::max().
+ */
 std::optional<double> VLLMResourceManager::queryGPUUtilization() {
     // Test override: allows CI tests to verify utilization logic without real CUDA.
     if (gpu_util_provider_for_testing_) {

@@ -18,6 +18,12 @@
 namespace themis::importers {
 
 namespace {
+/**
+ * @brief Checksum File.
+ * @param[in] path Input parameter.
+ * @return Return value.
+ * @details Calls: input(), is_open(), rdbuf(), WikipediaTransform::checksumHex(), str().
+ */
 std::string checksumFile(const std::string& path) {
     std::ifstream input(path, std::ios::binary);
     if (!input.is_open()) {
@@ -30,6 +36,11 @@ std::string checksumFile(const std::string& path) {
 } // namespace
 
 WikipediaValidationReport WikipediaIngestionPipeline::validate() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return validateUnlocked();
 }
@@ -75,6 +86,13 @@ WikipediaValidationReport WikipediaIngestionPipeline::validateUnlocked() const {
     return report;
 }
 
+/**
+ * @brief Export Portable.
+ * @param[in] database_path Path to the database.
+ * @param[in] manifest_path Path to the manifest.
+ * @return Return value.
+ * @details Calls: lock(), std::filesystem::path(), parent_path(), empty(), std::filesystem::create_directories(), database_file(), toJson(), dump().
+ */
 WikipediaManifest WikipediaIngestionPipeline::exportPortable(
     const std::string& database_path,
     const std::string& manifest_path) {

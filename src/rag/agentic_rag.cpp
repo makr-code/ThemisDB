@@ -26,6 +26,11 @@ namespace themis::rag::agentic {
 // ---------------------------------------------------------------------------
 namespace {
 
+/**
+ * @brief Sanitize Config.
+ * @param[in] cfg Input parameter.
+ * @return Return value.
+ */
 AgenticRAGConfig sanitizeConfig(const AgenticRAGConfig& cfg)
 {
     AgenticRAGConfig out = cfg;
@@ -41,7 +46,9 @@ AgenticRAGConfig sanitizeConfig(const AgenticRAGConfig& cfg)
 }
 
 /**
- * Build a flat vector of IDs for the RetrievalFn signature.
+ * @brief To Id Vector.
+ * @param[in] ids Input parameter.
+ * @return Return value.
  */
 std::vector<std::string> toIdVector(
     const std::unordered_set<std::string>& ids)
@@ -50,8 +57,12 @@ std::vector<std::string> toIdVector(
 }
 
 /**
- * Merge @p new_docs into @p accumulator, skipping already-seen IDs.
- * Returns the number of documents actually added.
+ * @brief Merge Documents.
+ * @param[in,out] accumulator Input/output parameter.
+ * @param[in] new_docs Input parameter.
+ * @param[in,out] seen_ids Input/output parameter.
+ * @param[in] max_total Input parameter.
+ * @return Return value.
  */
 size_t mergeDocuments(
     std::vector<judge::RetrievedDocument>& accumulator,
@@ -74,6 +85,11 @@ size_t mergeDocuments(
     return added;
 }
 
+/**
+ * @brief To Gap Doc.
+ * @param[in] jd Input parameter.
+ * @return Return value.
+ */
 inline knowledge_gap::RetrievedDocument toGapDoc(
     const judge::RetrievedDocument& jd)
 {
@@ -99,6 +115,11 @@ struct AgenticRAG::Impl {
 
     std::atomic<bool> cancel_requested{false};
 
+    /**
+     * @brief Impl.
+     * @param[in] cfg Input parameter.
+     * @return Return value.
+     */
     explicit Impl(const AgenticRAGConfig& cfg)
         : config(cfg)
         , judge(cfg.judge_config)
@@ -124,6 +145,10 @@ AgenticRAG::AgenticRAG(const AgenticRAGConfig& config)
 
 AgenticRAG::~AgenticRAG() = default;
 
+/**
+ * @brief Cancel.
+ * @details Calls: store().
+ */
 void AgenticRAG::cancel() {
     impl_->cancel_requested.store(true, std::memory_order_relaxed);
 }
@@ -132,6 +157,11 @@ AgenticRAGConfig AgenticRAG::getConfig() const {
     return impl_->config;
 }
 
+/**
+ * @brief Set Config.
+ * @param[in] config Input parameter.
+ * @details Calls: sanitizeConfig().
+ */
 void AgenticRAG::setConfig(const AgenticRAGConfig& config) {
     const auto safe_cfg = sanitizeConfig(config);
     impl_->config = safe_cfg;
@@ -182,6 +212,13 @@ std::string AgenticRAG::reformulateQuery(
 // run (with retrieval callback)
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Run.
+ * @param[in] initial_query Input parameter.
+ * @param[in] initial_docs Input parameter.
+ * @param[in] retrieval_fn Input parameter.
+ * @return Return value.
+ */
 AgenticRAGResult AgenticRAG::run(
     const std::string& initial_query,
     std::vector<judge::RetrievedDocument> initial_docs,
@@ -452,6 +489,12 @@ AgenticRAGResult AgenticRAG::run(
 // run (without retrieval callback)
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Run.
+ * @param[in] query Input parameter.
+ * @param[in] docs Input parameter.
+ * @return Return value.
+ */
 AgenticRAGResult AgenticRAG::run(
     const std::string& query,
     std::vector<judge::RetrievedDocument> docs)
@@ -463,6 +506,11 @@ AgenticRAGResult AgenticRAG::run(
 // AgenticRAGFactory
 // ===========================================================================
 
+/**
+ * @brief Create Aggressive.
+ * @return Return value.
+ * @details Implements createAggressive without additional internal calls.
+ */
 std::unique_ptr<AgenticRAG> AgenticRAGFactory::createAggressive() {
     AgenticRAGConfig cfg;
     cfg.max_iterations   = 8;
@@ -472,11 +520,21 @@ std::unique_ptr<AgenticRAG> AgenticRAGFactory::createAggressive() {
     return std::make_unique<AgenticRAG>(cfg);
 }
 
+/**
+ * @brief Create Balanced.
+ * @return Return value.
+ * @details Implements createBalanced without additional internal calls.
+ */
 std::unique_ptr<AgenticRAG> AgenticRAGFactory::createBalanced() {
     // Default configuration
     return std::make_unique<AgenticRAG>();
 }
 
+/**
+ * @brief Create Conservative.
+ * @return Return value.
+ * @details Implements createConservative without additional internal calls.
+ */
 std::unique_ptr<AgenticRAG> AgenticRAGFactory::createConservative() {
     AgenticRAGConfig cfg;
     cfg.max_iterations   = 3;

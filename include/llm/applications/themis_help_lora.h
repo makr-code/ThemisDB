@@ -29,10 +29,11 @@ namespace applications {
 using json = nlohmann::json;
 using llm::FeedbackType;  // Make FeedbackType available in this namespace
 
-/**
- * @brief Performance metrics for ThemisHelpLoRA
- */
 struct PerformanceMetrics {
+    /**
+     * @brief Performance Metrics.
+     * @return Return value.
+     */
     virtual ~PerformanceMetrics() = default;
     int64_t total_queries = 0;
     int64_t successful_queries = 0;
@@ -42,10 +43,11 @@ struct PerformanceMetrics {
     double cache_hit_rate = 0.0;
 };
 
-/**
- * @brief Feedback statistics
- */
 struct FeedbackStats {
+    /**
+     * @brief Feedback Stats.
+     * @return Return value.
+     */
     virtual ~FeedbackStats() = default;
     size_t total_feedback = 0;
     size_t positive_feedback = 0;
@@ -53,34 +55,14 @@ struct FeedbackStats {
     double positive_ratio = 0.0;
 };
 
-/**
- * @brief ThemisDB Documentation Assistant with LoRA fine-tuning
- * 
- * First application of the LoRA framework for domain-specific task:
- * - Improve accuracy for ThemisDB-specific questions
- * - Learn from user corrections and feedback
- * - Adapt to evolving documentation
- * - Reduce hallucinations on ThemisDB features
- */
 class ThemisHelpLoRA {
 public:
-    /**
-     * @brief Configuration for ThemisHelpLoRA
-     */
     struct Config {
         using ModelPathProviderFn = std::function<std::string(const std::string& model_id)>;
 
         std::string adapter_id = "themis_help_lora";
         std::string base_model_id = "llama-2-7b";
         std::string docs_database_path = "data/docs_database.json";
-        /**
-         * @brief Optional GGUF path resolver for @ref base_model_id.
-         *
-         * When set, this callback is queried first for both lazy inference-time
-         * model loading and training-service base-model initialization.
-         * Return an empty string to fall back to the default local path
-         * `models/<base_model_id>.gguf`.
-         */
         ModelPathProviderFn model_path_provider;
         
         // Remote model loading (Ollama support)
@@ -104,23 +86,13 @@ public:
         bool enable_ab_testing = true;
         bool enable_auto_rollback = true;
 
-        /**
-         * @brief Optional model-path resolver injected at startup.
-         *
-         * When set, the resolver is called with @p base_model_id and must
-         * return the absolute filesystem path to the GGUF model file.
-         * Implement via `LLMModelStorage::resolveGGUFPath(model_id)` and wire
-         * at server startup.
-         *
-         * When not set, the component falls back to the relative path
-         * `"models/" + base_model_id + ".gguf"`, which is only correct when
-         * the server working directory contains a `models/` sub-directory.
-         *
-         * @param model_id The base_model_id string from this Config.
-         * @return Absolute path to the GGUF file, or empty on resolution failure.
-         */
     };
 
+    /**
+     * @brief Themis Help Lo RA.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit ThemisHelpLoRA(const Config& config);
     ThemisHelpLoRA();
     ~ThemisHelpLoRA();
@@ -129,33 +101,14 @@ public:
     ThemisHelpLoRA(const ThemisHelpLoRA&) = delete;
     ThemisHelpLoRA& operator=(const ThemisHelpLoRA&) = delete;
     
-    /**
-     * @brief Query with LoRA adapter
-     * @param question User question
-     * @param user_id Optional user ID for logging (default: "anonymous")
-     * @return Generated answer
-     */
     std::string query(const std::string& question, const std::string& user_id = "anonymous");
     
-    /**
-     * @brief Add positive feedback for an answer
-     * @param question User question
-     * @param answer System answer
-     * @param user_id Optional user ID (default: "anonymous")
-     */
     void addPositiveFeedback(
         const std::string& question, 
         const std::string& answer,
         const std::string& user_id = "anonymous"
     );
     
-    /**
-     * @brief Add negative feedback with correction
-     * @param question User question
-     * @param answer System answer (incorrect)
-     * @param correction User's correction
-     * @param user_id Optional user ID (default: "anonymous")
-     */
     void addNegativeFeedback(
         const std::string& question, 
         const std::string& answer,
@@ -164,73 +117,77 @@ public:
     );
     
     /**
-     * @brief Trigger training from accumulated feedback
-     * @return true if training successful
+     * @brief Train From Feedback.
+     * @return True when the operation succeeds.
      */
     bool trainFromFeedback();
     
     /**
-     * @brief Train from documentation corpus
-     * @return true if training successful
+     * @brief Train From Documentation.
+     * @return True when the operation succeeds.
      */
     bool trainFromDocumentation();
     
     /**
-     * @brief Get performance metrics
-     * @return Metrics structure
+     * @brief Get Metrics.
+     * @return Return value.
      */
     PerformanceMetrics getMetrics() const;
     
     /**
-     * @brief Get feedback statistics
-     * @return Statistics structure
+     * @brief Get Feedback Stats.
+     * @return Return value.
      */
     FeedbackStats getFeedbackStats() const;
     
     /**
-     * @brief Get current adapter version
-     * @return Version string
+     * @brief Get Version.
+     * @return Return value.
      */
     std::string getVersion() const;
     
     /**
-     * @brief Check if adapter is trained
-     * @return true if trained
+     * @brief Is Trained.
+     * @return True when the operation succeeds.
      */
     bool isTrained() const;
 
     /**
-     * @brief Check if the adapter is currently loaded
+     * @brief Is Adapter Loaded.
+     * @return True when the operation succeeds.
      */
     bool isAdapterLoaded() const;
 
     /**
-     * @brief Reload the adapter after an update
+     * @brief Reload Adapter.
+     * @return True when the operation succeeds.
      */
     bool reloadAdapter();
 
     /**
-     * @brief Get current adapter version
+     * @brief Get Adapter Version.
+     * @return Return value.
      */
     std::string getAdapterVersion() const;
 
     /**
-     * @brief Roll back to the previous adapter version
+     * @brief Rollback To Previous Version.
+     * @return True when the operation succeeds.
      */
     bool rollbackToPreviousVersion();
     
 private:
     /**
-     * @brief Helper to increment version string
-     * @param version Current version
-     * @return Incremented version
+     * @brief Increment Version.
+     * @param[in] version Input parameter.
+     * @return Return value.
      */
     static std::string incrementVersion(const std::string& version);
     
     /**
-     * @brief Helper to decrement version string
-     * @param version Current version
-     * @return Decremented version
+     * @brief Decrement Version.
+     * @param[in] version Input parameter.
+     * @return Return value.
      */
     static std::string decrementVersion(const std::string& version);
 
@@ -238,9 +195,6 @@ private:
     std::unique_ptr<Impl> impl_;
 };
 
-/**
- * @brief Feedback item for internal buffering
- */
 struct FeedbackItem {
     std::string question;
     std::string answer;
@@ -252,7 +206,9 @@ struct FeedbackItem {
 };
 
 /**
- * @brief Helper function to generate unique request IDs
+ * @brief Generate Model Request Id.
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), std::to_string().
  */
 inline std::string generateModelRequestId() {
     auto now = std::chrono::system_clock::now();

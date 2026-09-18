@@ -30,24 +30,8 @@ namespace http = beast::http;
 namespace net = boost::asio;
 using tcp = net::ip::tcp;
 
-/**
- * @brief Lightweight health and error introspection service on alternate port
- * 
- * This service provides error diagnostics and health checks on a separate port
- * to ensure observability even when the main HTTP server experiences issues.
- * 
- * Features:
- * - Runs on separate port (default: 9090) independent of main server
- * - Exposes error introspection endpoints from ErrorApiHandler
- * - Provides basic health check endpoints
- * - Minimal dependencies (ErrorRegistry only, no RocksDB/LLM)
- * - Non-blocking operation in separate thread
- */
 class HealthErrorService {
 public:
-    /**
-     * @brief Configuration for health/error service
-     */
     struct Config {
         std::string bind_address = "127.0.0.1";  // Localhost only by default for security
         uint16_t port = 9090;
@@ -59,69 +43,61 @@ public:
     };
 
     /**
-     * @brief Construct health/error service with configuration
-     * @param config Service configuration
+     * @brief Health Error Service.
+     * @param[in] config Input parameter.
+     * @return Return value.
      */
     explicit HealthErrorService(const Config& config);
     
-    /**
-     * @brief Destructor - ensures graceful shutdown
-     */
     ~HealthErrorService();
 
     /**
-     * @brief Start the service (non-blocking, runs in separate thread)
+     * @brief Start.
      */
     void start();
 
     /**
-     * @brief Stop the service gracefully
+     * @brief Stop.
      */
     void stop();
 
-    /**
-     * @brief Check if service is running
-     * @return true if service is running, false otherwise
-     */
     bool isRunning() const { return running_.load(); }
 
     /**
-     * @brief Get service uptime in seconds
-     * @return Uptime in seconds
+     * @brief Get Uptime Seconds.
+     * @return Return value.
      */
     int64_t getUptimeSeconds() const;
 
 private:
     /**
-     * @brief Main service loop (runs in separate thread)
+     * @brief Run.
      */
     void run();
 
     /**
-     * @brief Handle incoming HTTP connection with enforced read/write timeouts
-     * @param raw_socket Connected socket; ownership transferred; wrapped in
-     *        beast::tcp_stream with 10-second per-operation timeout to prevent
-     *        slow-client thread starvation (Phase 8.2 remediation).
+     * @brief Handle Connection.
+     * @param[in] raw_socket Input parameter.
      */
     void handleConnection(tcp::socket raw_socket);
 
     /**
-     * @brief Route and handle HTTP request
-     * @param req HTTP request
-     * @return HTTP response
+     * @brief Handle Request.
+     * @param[in] req Input parameter.
+     * @return Return value.
      */
     http::response<http::string_body> handleRequest(
         const http::request<http::string_body>& req);
 
     /**
-     * @brief Handle /health endpoint
-     * @return HTTP response with health status
+     * @brief Handle Health.
+     * @return Return value.
      */
     http::response<http::string_body> handleHealth();
 
     /**
-     * @brief Handle /health/components endpoint
-     * @return HTTP response with component health details
+     * @brief Handle Health Components.
+     * @return Return value.
      */
     http::response<http::string_body> handleHealthComponents();
 

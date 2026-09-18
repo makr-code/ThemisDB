@@ -20,19 +20,13 @@ namespace themis {
 namespace utils {
 
 /**
- * @brief Internal helper: compute a hash using the given EVP message-digest algorithm.
- * @param[in] file_path Input parameter.
+ * @brief Compute File Hash.
+ * @param[in] file_path Path to the file.
  * @param[in] md Input parameter.
  * @return Return value.
- * @details Returns a lowercase hex string, or "" on I/O or OpenSSL error. Calls: file(), is_open(), EVP_MD_CTX_new(), EVP_DigestInit_ex(), EVP_MD_CTX_free(), buffer(), read(), data().
+ * @details Calls: file(), is_open(), EVP_MD_CTX_new(), EVP_DigestInit_ex(), EVP_MD_CTX_free(), buffer(), read(), data().
  */
 static std::string computeFileHash(const std::string& file_path, const EVP_MD* md) {
-    /**
-     * @brief File.
-     * @param[in] file_path Input parameter.
-     * @param[in] binary Input parameter.
-     * @return Return value.
-     */
     std::ifstream file(file_path, std::ios::binary);
     if (!file.is_open()) {
         return "";
@@ -49,11 +43,6 @@ static std::string computeFileHash(const std::string& file_path, const EVP_MD* m
     }
 
     constexpr size_t buffer_size = 32768;
-    /**
-     * @brief Buffer.
-     * @param[in] buffer_size Input parameter.
-     * @return Return value.
-     */
     std::vector<char> buffer(buffer_size);
 
     while (file.read(buffer.data(), buffer_size) || file.gcount() > 0) {
@@ -80,7 +69,7 @@ static std::string computeFileHash(const std::string& file_path, const EVP_MD* m
 
 /**
  * @brief Calculate SHA256.
- * @param[in] file_path Input parameter.
+ * @param[in] file_path Path to the file.
  * @return Return value.
  * @details Calls: computeFileHash(), EVP_sha256().
  */
@@ -89,10 +78,10 @@ std::string calculateSHA256(const std::string& file_path) {
 }
 
 /**
- * @brief calculateMD5 remains available only for legacy compatibility.
- * @param[in] file_path Input parameter.
+ * @brief Calculate MD5.
+ * @param[in] file_path Path to the file.
  * @return Return value.
- * @details New code must use SHA-256 via calculateSHA256(). Calls: computeFileHash(), EVP_md5().
+ * @details Calls: computeFileHash(), EVP_md5().
  */
 std::string calculateMD5(const std::string& file_path) {
     return computeFileHash(file_path, EVP_md5());

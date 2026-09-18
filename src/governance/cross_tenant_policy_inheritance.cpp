@@ -25,6 +25,11 @@ namespace governance {
 // Audit trail
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Set Audit Logger.
+ * @param[in] logger Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void CrossTenantPolicyInheritance::setAuditLogger(std::shared_ptr<themis::utils::AuditLogger> logger) {
     std::lock_guard<std::mutex> lock(mutex_);
     audit_logger_ = std::move(logger);
@@ -34,6 +39,13 @@ void CrossTenantPolicyInheritance::setAuditLogger(std::shared_ptr<themis::utils:
 // Hierarchy registration
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Register Tenant.
+ * @param[in] tenant_id Identifier of the tenant.
+ * @param[in] parent_tenant_id Identifier of the parent tenant.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), THEMIS_ERROR(), lock(), wouldCreateCycle(), THEMIS_INFO().
+ */
 bool CrossTenantPolicyInheritance::registerTenant(const std::string &tenant_id, const std::string &parent_tenant_id) {
     if (tenant_id.empty()) {
         THEMIS_ERROR("CrossTenantPolicyInheritance::registerTenant: tenant_id must not be empty");
@@ -72,6 +84,11 @@ bool CrossTenantPolicyInheritance::registerTenant(const std::string &tenant_id, 
     return true;
 }
 
+/**
+ * @brief Unregister Tenant.
+ * @param[in] tenant_id Identifier of the tenant.
+ * @details Calls: lock(), find(), end(), erase(), clear(), THEMIS_INFO().
+ */
 void CrossTenantPolicyInheritance::unregisterTenant(const std::string &tenant_id) {
     std::lock_guard<std::mutex> lock(mutex_);
 
@@ -92,6 +109,12 @@ void CrossTenantPolicyInheritance::unregisterTenant(const std::string &tenant_id
     }
 }
 
+/**
+ * @brief Set Tenant Policy Manager.
+ * @param[in] tenant_id Identifier of the tenant.
+ * @param[in] policy_manager Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void CrossTenantPolicyInheritance::setTenantPolicyManager(const std::string &tenant_id,
                                                           std::shared_ptr<PolicyManager> policy_manager) {
     std::lock_guard<std::mutex> lock(mutex_);
@@ -101,6 +124,11 @@ void CrossTenantPolicyInheritance::setTenantPolicyManager(const std::string &ten
 
 std::shared_ptr<PolicyManager>
 CrossTenantPolicyInheritance::getTenantPolicyManager(const std::string &tenant_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = tenants_.find(tenant_id);
     if (it == tenants_.end()) {
@@ -114,6 +142,11 @@ CrossTenantPolicyInheritance::getTenantPolicyManager(const std::string &tenant_i
 // ---------------------------------------------------------------------------
 
 std::string CrossTenantPolicyInheritance::getParentTenantId(const std::string &tenant_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = tenants_.find(tenant_id);
     if (it == tenants_.end()) {
@@ -123,11 +156,21 @@ std::string CrossTenantPolicyInheritance::getParentTenantId(const std::string &t
 }
 
 std::vector<std::string> CrossTenantPolicyInheritance::getAncestors(const std::string &tenant_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return getAncestorsLocked(tenant_id);
 }
 
 std::vector<std::string> CrossTenantPolicyInheritance::listTenants() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     std::vector<std::string> result = {};
 
@@ -153,6 +196,11 @@ CrossTenantPolicyInheritance::evaluateEffectivePolicy(const std::string &tenant_
     std::shared_ptr<themis::utils::AuditLogger> audit_logger;
 
     {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         chain = getAncestorsLocked(tenant_id);
         chain.push_back(tenant_id); // include the tenant itself at the end
@@ -216,6 +264,11 @@ std::vector<PolicyRule> CrossTenantPolicyInheritance::resolveEffectiveRules(cons
     std::vector<std::shared_ptr<PolicyManager>> managers;
 
     {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         chain = getAncestorsLocked(tenant_id);
         chain.push_back(tenant_id);

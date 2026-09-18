@@ -49,6 +49,11 @@ LlmReranker::LlmReranker(const Config& config, LlmBackend backend)
 // Backend management
 // ============================================================================
 
+/**
+ * @brief Set Backend.
+ * @param[in] backend Input parameter.
+ * @details Calls: std::move(), THEMIS_DEBUG().
+ */
 void LlmReranker::setBackend(LlmBackend backend) {
     backend_ = std::move(backend);
     THEMIS_DEBUG("LlmReranker: backend updated (has_backend={})", backend_ != nullptr);
@@ -168,6 +173,14 @@ std::vector<LlmRerankResult> LlmReranker::rerank(
 // Feedback bridge
 // ============================================================================
 
+/**
+ * @brief To Click Events.
+ * @param[in] query Input parameter.
+ * @param[in] results Input parameter.
+ * @param[in] relevance_threshold Input parameter.
+ * @return Return value.
+ * @details Calls: size(), push_back().
+ */
 std::vector<ClickEvent> LlmReranker::toClickEvents(
     const std::string& query,
     const std::vector<LlmRerankResult>& results,
@@ -228,6 +241,11 @@ std::vector<double> LlmReranker::parseScores(
     std::vector<double> scores;
     scores.reserve(count);
 
+    /**
+     * @brief Iss.
+     * @param[in] llm_output Input parameter.
+     * @return Return value.
+     */
     std::istringstream iss(llm_output);
     std::string line = {};
 

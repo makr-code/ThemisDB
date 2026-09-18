@@ -36,11 +36,20 @@
 namespace themis {
 namespace content {
 
-// Forward declaration for recursive coordinate parsing
+/**
+ * @brief Forward declaration for recursive coordinate parsing
+ * @param[in] coords Input parameter.
+ * @param[in,out] data Input/output parameter.
+ */
 static void parseCoordinates(const json& coords, GeoExtractionData& data);
 
 #ifdef THEMIS_ENABLE_GDAL
-// Helper function to generate unique VSI memory path
+/**
+ * @brief Helper function to generate unique VSI memory path
+ * @param[in] extension Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), std::to_string().
+ */
 static std::string generateVSIPath(const std::string& extension) {
     auto now = std::chrono::system_clock::now().time_since_epoch().count();
     return "/vsimem/themis_temp_" + std::to_string(now) + extension;
@@ -89,6 +98,12 @@ PluginInfo GeoProcessor::getInfo() const {
     return info;
 }
 
+/**
+ * @brief Initialize.
+ * @param[in] config Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: GDALAllRegister(), OGRRegisterAll().
+ */
 bool GeoProcessor::initialize(const PluginConfig& config) {
     if (initialized_) {
         return true;
@@ -111,6 +126,10 @@ bool GeoProcessor::initialize(const PluginConfig& config) {
     return true;
 }
 
+/**
+ * @brief Shutdown.
+ * @details Calls: GDALDestroyDriverManager().
+ */
 void GeoProcessor::shutdown() {
     if (!initialized_) {
         return;
@@ -140,6 +159,14 @@ bool GeoProcessor::canProcess(const std::string& mime_type) const {
     return std::find(supported.begin(), supported.end(), mime_type) != supported.end();
 }
 
+/**
+ * @brief Extract.
+ * @param[in] blob Input parameter.
+ * @param[in] mime_type Input parameter.
+ * @param[in] options Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::steady_clock::now(), size(), empty(), content(), begin(), end(), find(), parseGeoJSON().
+ */
 ContentExtractionResult GeoProcessor::extract(
     const std::vector<uint8_t>& blob,
     const std::string& mime_type,
@@ -248,6 +275,14 @@ ContentExtractionResult GeoProcessor::extract(
     return result;
 }
 
+/**
+ * @brief Chunk.
+ * @param[in] result Input parameter.
+ * @param[in] int Input parameter.
+ * @param[in] int Input parameter.
+ * @return Return value.
+ * @details Calls: has_value(), value(), size(), std::min(), str(), countTokens(), push_back().
+ */
 std::vector<ContentChunk> GeoProcessor::chunk(
     const ContentExtractionResult& result,
     int /*max_tokens*/,
@@ -302,6 +337,13 @@ json GeoProcessor::getStatistics() const {
 
 // Private implementation methods
 
+/**
+ * @brief Parse Geo JSON.
+ * @param[in] blob Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: content(), begin(), end(), json::parse(), value(), contains(), parseCoordinates(), is_array().
+ */
 GeoExtractionData GeoProcessor::parseGeoJSON(const std::vector<uint8_t>& blob) {
     GeoExtractionData data;
     data.crs = default_crs_;
@@ -373,6 +415,12 @@ GeoExtractionData GeoProcessor::parseGeoJSON(const std::vector<uint8_t>& blob) {
     return data;
 }
 
+/**
+ * @brief Parse Coordinates.
+ * @param[in] coords Input parameter.
+ * @param[in,out] data Input/output parameter.
+ * @details Calls: is_array(), size(), is_number(), emplace_back().
+ */
 static void parseCoordinates(const json& coords, GeoExtractionData& data) {
     if (coords.is_array()) {
         if (coords.size() >= 2 && coords[0].is_number() && coords[1].is_number()) {
@@ -389,6 +437,12 @@ static void parseCoordinates(const json& coords, GeoExtractionData& data) {
     }
 }
 
+/**
+ * @brief Parse KML.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Implements parseKML without additional internal calls.
+ */
 GeoExtractionData GeoProcessor::parseKML(const std::vector<uint8_t>& /*blob*/) {
     GeoExtractionData data;
     data.crs = "EPSG:4326";  // KML is always WGS84
@@ -400,6 +454,12 @@ GeoExtractionData GeoProcessor::parseKML(const std::vector<uint8_t>& /*blob*/) {
     return data;
 }
 
+/**
+ * @brief Parse GPX.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Implements parseGPX without additional internal calls.
+ */
 GeoExtractionData GeoProcessor::parseGPX(const std::vector<uint8_t>& /*blob*/) {
     GeoExtractionData data;
     data.crs = "EPSG:4326";  // GPX is always WGS84
@@ -410,6 +470,14 @@ GeoExtractionData GeoProcessor::parseGPX(const std::vector<uint8_t>& /*blob*/) {
     return data;
 }
 
+/**
+ * @brief Parse Shapefile.
+ * @param[in] blob Input parameter.
+ * @param[in] options Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: generateVSIPath(), VSIFileFromMemBuffer(), c_str(), data(), size(), VSIFCloseL(), GDALOpenEx(), VSIUnlink().
+ */
 GeoExtractionData GeoProcessor::parseShapefile(const std::vector<uint8_t>& blob, const ExtractionOptions& options) {
     GeoExtractionData data;
     data.crs = default_crs_;
@@ -593,6 +661,14 @@ GeoExtractionData GeoProcessor::parseShapefile(const std::vector<uint8_t>& blob,
     return data;
 }
 
+/**
+ * @brief Parse Geo Package.
+ * @param[in] blob Input parameter.
+ * @param[in] options Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: generateVSIPath(), VSIFileFromMemBuffer(), c_str(), data(), size(), VSIFCloseL(), GDALOpenEx(), VSIUnlink().
+ */
 GeoExtractionData GeoProcessor::parseGeoPackage(const std::vector<uint8_t>& blob, const ExtractionOptions& options) {
     GeoExtractionData data;
     data.crs = default_crs_;
@@ -691,7 +767,13 @@ GeoExtractionData GeoProcessor::parseGeoPackage(const std::vector<uint8_t>& blob
     return data;
 }
 
-// Helper function for GeoTIFF processing
+/**
+ * @brief Helper function for GeoTIFF processing
+ * @param[in] blob Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: generateVSIPath(), VSIFileFromMemBuffer(), c_str(), data(), size(), VSIFCloseL(), GDALOpen(), VSIUnlink().
+ */
 GeoExtractionData GeoProcessor::parseGeoTIFF(const std::vector<uint8_t>& blob) {
     GeoExtractionData data;
     data.crs = default_crs_;
@@ -857,6 +939,12 @@ std::pair<double, double> GeoProcessor::calculateCentroid(const GeoExtractionDat
     return {sumLat / geo.coordinates.size(), sumLon / geo.coordinates.size()};
 }
 
+/**
+ * @brief Calculate Area.
+ * @param[in] geo Input parameter.
+ * @return Return value.
+ * @details Calls: size(), std::abs().
+ */
 double GeoProcessor::calculateArea(const GeoExtractionData& geo) {
     // Simplified area calculation using shoelace formula
     // Real implementation would account for spherical geometry
@@ -877,6 +965,12 @@ double GeoProcessor::calculateArea(const GeoExtractionData& geo) {
     return std::abs(area) / 2.0;
 }
 
+/**
+ * @brief Calculate Length.
+ * @param[in] geo Input parameter.
+ * @return Return value.
+ * @details Calls: size(), std::sin(), std::cos(), std::atan2(), std::sqrt().
+ */
 double GeoProcessor::calculateLength(const GeoExtractionData& geo) {
     // Calculate total length using Haversine distance
     

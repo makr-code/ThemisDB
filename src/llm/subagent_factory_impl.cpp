@@ -30,9 +30,6 @@ namespace llm {
 // Â§ 1  Subagent Implementation
 // ============================================================================
 
-/**
- * @brief Internal Subagent implementation.
- */
 class SubagentImpl : public Subagent, public std::enable_shared_from_this<SubagentImpl> {
 public:
     SubagentImpl(
@@ -71,11 +68,21 @@ public:
     // ========================================================================
 
     SubagentState getState() const override {
+        /**
+         * @brief Lock.
+         * @param[in] state_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::shared_lock<std::shared_mutex> lock(state_mutex_);
         return state_;
     }
 
     SubagentResult<void> load([[maybe_unused]] int timeout_ms) override {
+        /**
+         * @brief Lock.
+         * @param[in] state_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::shared_mutex> lock(state_mutex_);
 
         if (state_ != SubagentState::CREATED) {
@@ -102,6 +109,11 @@ public:
     }
 
     SubagentResult<void> warm([[maybe_unused]] int timeout_ms) override {
+        /**
+         * @brief Lock.
+         * @param[in] state_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::shared_lock<std::shared_mutex> lock(state_mutex_);
 
         if (state_ != SubagentState::READY) {
@@ -117,6 +129,11 @@ public:
     }
 
     SubagentResult<void> unload([[maybe_unused]] int timeout_ms) override {
+        /**
+         * @brief Lock.
+         * @param[in] state_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::shared_mutex> lock(state_mutex_);
 
         if (state_ == SubagentState::TERMINATED) {
@@ -126,7 +143,11 @@ public:
         state_ = SubagentState::UNLOADING;
         lock.unlock();
 
-        // Wait for in-flight requests to complete.
+        /**
+         * @brief Wait for in-flight requests to complete.
+         * @param[in] inflight_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> inflight_lock(inflight_mutex_);
         const auto no_inflight_requests = [this]() { return inflight_requests_ == 0; };
 
@@ -181,6 +202,11 @@ public:
             config_.budget.max_tokens_per_request);
 
         if (!quota_check.allowed && config_.policy.block_on_quota_violation) {
+            /**
+             * @brief Lock.
+             * @param[in] state_mutex_ Input parameter.
+             * @return Return value.
+             */
             std::unique_lock<std::shared_mutex> lock(state_mutex_);
             metrics_.quota_blocks++;
             result.success = false;
@@ -192,6 +218,11 @@ public:
         if (prompt_policy_) {
             auto policy_result = prompt_policy_->apply(request.prompt);
             if (!policy_result.allowed && config_.policy.block_on_policy_violation) {
+                /**
+                 * @brief Lock.
+                 * @param[in] state_mutex_ Input parameter.
+                 * @return Return value.
+                 */
                 std::unique_lock<std::shared_mutex> lock(state_mutex_);
                 metrics_.policy_blocks++;
                 result.success = false;
@@ -227,6 +258,11 @@ public:
                                  ? "LLM plugin returned unsuccessful response"
                                  : response.error_message;
                 {
+                    /**
+                     * @brief Lock.
+                     * @param[in] state_mutex_ Input parameter.
+                     * @return Return value.
+                     */
                     std::unique_lock<std::shared_mutex> lock(state_mutex_);
                     metrics_.total_requests++;
                     metrics_.failed_inferences++;
@@ -242,6 +278,11 @@ public:
                                        : static_cast<size_t>(plugin_request.max_tokens);
 
             {
+                /**
+                 * @brief Lock.
+                 * @param[in] state_mutex_ Input parameter.
+                 * @return Return value.
+                 */
                 std::unique_lock<std::shared_mutex> lock(state_mutex_);
                 metrics_.total_requests++;
                 metrics_.successful_inferences++;
@@ -260,6 +301,11 @@ public:
             result.success = false;
             result.error = ex.what();
             {
+                /**
+                 * @brief Lock.
+                 * @param[in] state_mutex_ Input parameter.
+                 * @return Return value.
+                 */
                 std::unique_lock<std::shared_mutex> lock(state_mutex_);
                 metrics_.total_requests++;
                 metrics_.failed_inferences++;
@@ -299,6 +345,12 @@ public:
     }
 
 private:
+    /**
+     * @brief Begin Inference.
+     * @param[in,out] error Input/output parameter.
+     * @return True when the operation succeeds.
+     * @details Calls: lock(), endInference().
+     */
     bool beginInference(std::string* error) {
         {
             std::shared_lock<std::shared_mutex> lock(state_mutex_);
@@ -326,6 +378,10 @@ private:
         return true;
     }
 
+    /**
+     * @brief End Inference.
+     * @details Calls: lock(), notify_all().
+     */
     void endInference() {
         std::lock_guard<std::mutex> lock(inflight_mutex_);
         if (inflight_requests_ > 0) {
@@ -366,11 +422,21 @@ public:
     // ========================================================================
 
     SubagentMetrics getMetrics() const override {
+        /**
+         * @brief Lock.
+         * @param[in] state_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::shared_lock<std::shared_mutex> lock(state_mutex_);
         return metrics_;
     }
 
     void resetMetrics() override {
+        /**
+         * @brief Lock.
+         * @param[in] state_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::shared_mutex> lock(state_mutex_);
         metrics_.tokens_consumed = 0;
         metrics_.policy_blocks = 0;
@@ -378,6 +444,11 @@ public:
     }
 
     std::string getLastError() const override {
+        /**
+         * @brief Lock.
+         * @param[in] state_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::shared_lock<std::shared_mutex> lock(state_mutex_);
         return last_error_;
     }
@@ -387,11 +458,21 @@ public:
     // ========================================================================
 
     bool isReady() const override {
+        /**
+         * @brief Lock.
+         * @param[in] state_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::shared_lock<std::shared_mutex> lock(state_mutex_);
         return state_ == SubagentState::READY;
     }
 
     SubagentResult<void> pause() override {
+        /**
+         * @brief Lock.
+         * @param[in] state_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::shared_mutex> lock(state_mutex_);
         if (state_ != SubagentState::READY) {
             return tl::make_unexpected(std::string("Cannot pause: subagent not in READY state"));
@@ -401,6 +482,11 @@ public:
     }
 
     SubagentResult<void> resume() override {
+        /**
+         * @brief Lock.
+         * @param[in] state_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::shared_mutex> lock(state_mutex_);
         if (state_ != SubagentState::PAUSED) {
             return tl::make_unexpected(std::string("Cannot resume: subagent not in PAUSED state"));
@@ -448,7 +534,6 @@ private:
 // Â§ 2  SubagentFactory Implementation
 // ============================================================================
 
-/** @brief Â§ 2  SubagentFactory Implementation. */
 class SubagentFactoryImpl : public SubagentFactory {
 public:
     SubagentFactoryImpl(
@@ -512,6 +597,11 @@ public:
 
         // Check max subagents limit and duplicate ID
         {
+            /**
+             * @brief Lock.
+             * @param[in] subagents_mutex_ Input parameter.
+             * @return Return value.
+             */
             std::unique_lock<std::mutex> lock(subagents_mutex_);
             if (config_.max_subagents > 0 && 
                 subagents_.size() >= config_.max_subagents) {
@@ -535,6 +625,11 @@ public:
         std::shared_ptr<PromptPolicy> prompt_policy = {};
 
         if (!config.policy.prompt_policy_id.empty()) {
+            /**
+             * @brief Plock.
+             * @param[in] policies_mutex_ Input parameter.
+             * @return Return value.
+             */
             std::unique_lock<std::mutex> plock(policies_mutex_);
             auto it = policies_.find(config.policy.prompt_policy_id);
             if (it != policies_.end()) {
@@ -555,6 +650,11 @@ public:
 
         // Register in subagent registry
         {
+            /**
+             * @brief Lock.
+             * @param[in] subagents_mutex_ Input parameter.
+             * @return Return value.
+             */
             std::unique_lock<std::mutex> lock(subagents_mutex_);
             subagents_[config.id] = subagent;
             stats_.total_created++;
@@ -577,6 +677,11 @@ public:
         std::shared_ptr<Subagent> subagent;
 
         {
+            /**
+             * @brief Lock.
+             * @param[in] subagents_mutex_ Input parameter.
+             * @return Return value.
+             */
             std::unique_lock<std::mutex> lock(subagents_mutex_);
             auto it = subagents_.find(subagent_id);
             if (it == subagents_.end()) {
@@ -600,6 +705,11 @@ public:
     }
 
     std::shared_ptr<Subagent> getSubagent(const std::string& subagent_id) override {
+        /**
+         * @brief Lock.
+         * @param[in] subagents_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lock(subagents_mutex_);
         auto it = subagents_.find(subagent_id);
         return it != subagents_.end() ? it->second : nullptr;
@@ -608,6 +718,11 @@ public:
     std::vector<std::string> listSubagents() override {
         std::vector<std::string> ids;
         {
+            /**
+             * @brief Lock.
+             * @param[in] subagents_mutex_ Input parameter.
+             * @return Return value.
+             */
             std::unique_lock<std::mutex> lock(subagents_mutex_);
             for (const auto& [id, _] : subagents_) {
                 ids.push_back(id);
@@ -638,6 +753,11 @@ public:
         const std::string& policy_id,
         std::shared_ptr<PromptPolicy> policy) override {
         {
+            /**
+             * @brief Lock.
+             * @param[in] policies_mutex_ Input parameter.
+             * @return Return value.
+             */
             std::unique_lock<std::mutex> lock(policies_mutex_);
             policies_[policy_id] = policy;
         }
@@ -646,6 +766,11 @@ public:
 
     SubagentResult<void> unregisterPromptPolicy(const std::string& policy_id) override {
         {
+            /**
+             * @brief Lock.
+             * @param[in] policies_mutex_ Input parameter.
+             * @return Return value.
+             */
             std::unique_lock<std::mutex> lock(policies_mutex_);
             auto it = policies_.find(policy_id);
             if (it == policies_.end()) {
@@ -657,6 +782,11 @@ public:
     }
 
     FactoryStats getFactoryStats() override {
+        /**
+         * @brief Lock.
+         * @param[in] subagents_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lock(subagents_mutex_);
         return stats_;
     }
@@ -683,6 +813,16 @@ private:
 // Â§ 3  Factory Creation
 // ============================================================================
 
+/**
+ * @brief Create.
+ * @param[in,out] plugin Input/output parameter.
+ * @param[in] worker_pool Input parameter.
+ * @param[in] model_loader Input parameter.
+ * @param[in] lora_manager Input parameter.
+ * @param[in] quota_manager Input parameter.
+ * @return Return value.
+ * @details Calls: std::move().
+ */
 SubagentResult<std::unique_ptr<SubagentFactory>> SubagentFactory::create(
     ILLMPlugin* plugin,
     std::shared_ptr<SharedWorkerPool> worker_pool,
@@ -693,6 +833,17 @@ SubagentResult<std::unique_ptr<SubagentFactory>> SubagentFactory::create(
                   std::move(lora_manager), std::move(quota_manager), Config{});
 }
 
+/**
+ * @brief Create.
+ * @param[in,out] plugin Input/output parameter.
+ * @param[in] worker_pool Input parameter.
+ * @param[in] model_loader Input parameter.
+ * @param[in] lora_manager Input parameter.
+ * @param[in] quota_manager Input parameter.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @details Calls: tl::make_unexpected(), std::string().
+ */
 SubagentResult<std::unique_ptr<SubagentFactory>> SubagentFactory::create(
     ILLMPlugin* plugin,
     std::shared_ptr<SharedWorkerPool> worker_pool,

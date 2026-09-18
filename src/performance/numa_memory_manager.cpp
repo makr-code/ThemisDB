@@ -104,6 +104,15 @@ int NUMAMemoryManager::resolve_node(int hint_node) const noexcept {
     return get_current_node();
 }
 
+/**
+ * @brief Do allocate.
+ * @param[in] size Input parameter.
+ * @param[in] node Input parameter.
+ * @param[in] bool Input parameter.
+ * @return Pointer to the result.
+ * @throws std::bad_alloc if an error occurs.
+ * @details Calls: posix_memalign(), std::malloc().
+ */
 void* NUMAMemoryManager::do_allocate(size_t size, int node, bool /*use_huge_pages*/) {
     if (size == 0) {
       return nullptr;
@@ -125,6 +134,12 @@ void* NUMAMemoryManager::do_allocate(size_t size, int node, bool /*use_huge_page
     return ptr;
 }
 
+/**
+ * @brief Update alloc stats.
+ * @param[in] node Input parameter.
+ * @param[in] size Input parameter.
+ * @details Calls: get_current_node(), fetch_add().
+ */
 void NUMAMemoryManager::update_alloc_stats(int node, size_t size) {
     // F-006: lock-free atomic update — no mutex needed.
     int local = get_current_node();
@@ -138,6 +153,13 @@ void NUMAMemoryManager::update_alloc_stats(int node, size_t size) {
             static_cast<int64_t>(size), std::memory_order_relaxed);
 }
 
+/**
+ * @brief Track alloc.
+ * @param[in,out] ptr Input/output parameter.
+ * @param[in] node Input parameter.
+ * @param[in] size Input parameter.
+ * @details Calls: lk().
+ */
 void NUMAMemoryManager::track_alloc(void* ptr, int node, size_t size) {
     size_t idx = (reinterpret_cast<uintptr_t>(ptr) >> 3) % kBuckets;
     std::lock_guard<std::mutex> lk(buckets_[idx].mtx);
@@ -162,6 +184,13 @@ bool NUMAMemoryManager::untrack_alloc(void* ptr, int* out_node, size_t* out_size
     return true;
 }
 
+/**
+ * @brief Allocate on node.
+ * @param[in] size Input parameter.
+ * @param[in] node Input parameter.
+ * @return Pointer to the result.
+ * @details Calls: resolve_node(), do_allocate(), update_alloc_stats(), track_alloc().
+ */
 void* NUMAMemoryManager::allocate_on_node(size_t size, int node) {
     int resolved = resolve_node(node);
     void* ptr = do_allocate(size, resolved, false);
@@ -170,10 +199,23 @@ void* NUMAMemoryManager::allocate_on_node(size_t size, int node) {
     return ptr;
 }
 
+/**
+ * @brief Allocate local.
+ * @param[in] size Input parameter.
+ * @return Pointer to the result.
+ * @details Calls: allocate_on_node(), get_current_node().
+ */
 void* NUMAMemoryManager::allocate_local(size_t size) {
     return allocate_on_node(size, get_current_node());
 }
 
+/**
+ * @brief Allocate.
+ * @param[in] size Input parameter.
+ * @param[in] hint Input parameter.
+ * @return Pointer to the result.
+ * @details Calls: resolve_node(), do_allocate(), update_alloc_stats(), track_alloc().
+ */
 void* NUMAMemoryManager::allocate(size_t size, const AllocationHint& hint) {
     int resolved = resolve_node(hint.preferred_node);
     void* ptr = do_allocate(size, resolved, hint.use_huge_pages);
@@ -210,6 +252,13 @@ void NUMAMemoryManager::deallocate(void* ptr, size_t size) noexcept {
     std::free(ptr);
 }
 
+/**
+ * @brief Migrate to node.
+ * @param[in,out] ptr Input/output parameter.
+ * @param[in] size Input parameter.
+ * @param[in] target_node Input parameter.
+ * @details Calls: untrack_alloc(), load(), compare_exchange_weak(), resolve_node(), track_alloc(), update_alloc_stats().
+ */
 void NUMAMemoryManager::migrate_to_node(void* ptr, size_t size, int target_node) {
     if (!ptr || size == 0) {
       return;
@@ -277,6 +326,10 @@ NUMAStats NUMAMemoryManager::get_stats() const {
     return s;
 }
 
+/**
+ * @brief Reset stats.
+ * @details Calls: store().
+ */
 void NUMAMemoryManager::reset_stats() {
     stat_local_.store(0, std::memory_order_relaxed);
     stat_remote_.store(0, std::memory_order_relaxed);

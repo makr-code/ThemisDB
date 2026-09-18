@@ -28,6 +28,12 @@ namespace temporal {
 // Static helpers
 // ============================================================================
 
+/**
+ * @brief Status Name.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Implements statusName without additional internal calls.
+ */
 std::string TemporalMigrator::statusName(MigrationStatus s) {
     switch (s) {
         case MigrationStatus::PENDING:   return "PENDING";
@@ -40,6 +46,12 @@ std::string TemporalMigrator::statusName(MigrationStatus s) {
     return "UNKNOWN";
 }
 
+/**
+ * @brief Infer Type.
+ * @param[in] value Input parameter.
+ * @return Return value.
+ * @details Calls: is_null(), is_boolean(), is_number(), is_string(), is_array(), is_object().
+ */
 std::string TemporalMigrator::inferType(const nlohmann::json& value) {
     if (value.is_null()) {
       return "null";
@@ -172,6 +184,12 @@ nlohmann::json MigrationReport::toJson() const {
 // TemporalMigrator – internal helpers
 // ============================================================================
 
+/**
+ * @brief Set Status.
+ * @param[in] s Input parameter.
+ * @param[in] msg Input parameter.
+ * @details Calls: progress_cb_(), empty(), statusName().
+ */
 void TemporalMigrator::setStatus(MigrationStatus s, const std::string& msg) {
     status_ = s;
     if (progress_cb_) {
@@ -179,6 +197,11 @@ void TemporalMigrator::setStatus(MigrationStatus s, const std::string& msg) {
     }
 }
 
+/**
+ * @brief Set Progress Callback.
+ * @param[in] cb Input parameter.
+ * @details Calls: std::move().
+ */
 void TemporalMigrator::setProgressCallback(ProgressCallback cb) {
     progress_cb_ = std::move(cb);
 }
@@ -282,9 +305,13 @@ std::pair<SystemVersionedTable, bool> TemporalMigrator::migrateToTemporal(
     return {std::move(table), overall_ok};
 }
 
-// ============================================================================
-// Step 3: backfillHistory
-// ============================================================================
+/**
+ * @brief ============================================================================ Step 3: backfillHistory ============================================================================
+ * @param[in,out] table Input/output parameter.
+ * @param[in] history_entries Input parameter.
+ * @return Return value.
+ * @details Calls: push_back(), getAsOf(), has_value(), insert(), replaceHistoricalPayload(), std::to_string().
+ */
 
 size_t TemporalMigrator::backfillHistory(
     SystemVersionedTable& table,
@@ -338,9 +365,12 @@ size_t TemporalMigrator::backfillHistory(
     return inserted;
 }
 
-// ============================================================================
-// Step 4: verifyMigration
-// ============================================================================
+/**
+ * @brief ============================================================================ Step 4: verifyMigration ============================================================================
+ * @param[in] table Input parameter.
+ * @return Return value.
+ * @details Calls: setStatus(), tableName(), keyCount(), std::to_string(), push_back(), getAllKeys(), getHistory(), size().
+ */
 
 MigrationReport TemporalMigrator::verifyMigration(const SystemVersionedTable& table) {
     setStatus(MigrationStatus::VERIFYING,

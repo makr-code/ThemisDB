@@ -30,6 +30,14 @@ BwTreePage* MappingTable::get(PageID pid) const {
     return table_[index].load(std::memory_order_acquire);
 }
 
+/**
+ * @brief Compare and swap.
+ * @param[in] pid Input parameter.
+ * @param[in,out] expected Input/output parameter.
+ * @param[in,out] desired Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: size(), compare_exchange_strong().
+ */
 bool MappingTable::compare_and_swap(PageID pid, BwTreePage* expected, BwTreePage* desired) {
     size_t index = pid % table_.size();
     return table_[index].compare_exchange_strong(
@@ -58,9 +66,12 @@ BwTree::BwTree() {
 }
 
 BwTree::~BwTree() {
-    // Reclaim all deferred-deletion chains accumulated during operation.
-    // At destruction time there are no concurrent readers, so it is safe
-    // to delete every chain unconditionally.
+    /**
+     * @brief Reclaim all deferred-deletion chains accumulated during operation.
+     * @param[in] retired_mutex_ Input parameter.
+     * @return Return value.
+     * @details At destruction time there are no concurrent readers, so it is safe to delete every chain unconditionally.
+     */
     std::lock_guard<std::mutex> lk(retired_mutex_);
     for (auto& rc : retired_chains_) {
         delete_chain(rc.head);
@@ -68,6 +79,13 @@ BwTree::~BwTree() {
     retired_chains_.clear();
 }
 
+/**
+ * @brief Insert.
+ * @param[in] key Input parameter.
+ * @param[in] value Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: get(), count_delta_chain_length(), consolidate(), store(), compare_and_swap(), release().
+ */
 bool BwTree::insert(int64_t key, const std::string& value) {
     // Simplified insert: always inserts into root for now
     // In full implementation, would traverse tree to find correct leaf
@@ -102,6 +120,12 @@ bool BwTree::insert(int64_t key, const std::string& value) {
     }
 }
 
+/**
+ * @brief Remove.
+ * @param[in] key Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: get(), count_delta_chain_length(), consolidate(), store(), compare_and_swap(), release().
+ */
 bool BwTree::remove(int64_t key) {
     while (true) {
         BwTreePage* page = mapping_table_->get(root_pid_);
@@ -200,6 +224,11 @@ BwTree::Stats BwTree::get_stats() const {
     return stats;
 }
 
+/**
+ * @brief Consolidate.
+ * @param[in] pid Input parameter.
+ * @details Calls: get(), apply_deltas(), compare_and_swap(), release(), retire_chain(), fetch_add(), reclaim_retired_chains().
+ */
 void BwTree::consolidate(PageID pid) {
     while (true) {
         BwTreePage* page = mapping_table_->get(pid);
@@ -343,12 +372,22 @@ void BwTree::retire_chain(BwTreePage* head) noexcept {
     if (!head) {
       return;
     }
+    /**
+     * @brief Lk.
+     * @param[in] retired_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(retired_mutex_);
     retired_chains_.push_back({head,
         consolidation_epoch_.load(std::memory_order_acquire)});
 }
 
 void BwTree::reclaim_retired_chains() noexcept {
+    /**
+     * @brief Lk.
+     * @param[in] retired_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(retired_mutex_);
     // Load epoch under the lock so the comparison is consistent with any
     // concurrent retire_chain() call that also holds the lock.

@@ -33,6 +33,12 @@ namespace llm {
 
 namespace {
 
+/**
+ * @brief Normalize Prompt.
+ * @param[in] text Input parameter.
+ * @return Return value.
+ * @details Calls: std::isalnum(), std::isspace(), std::tolower().
+ */
 std::string normalizePrompt(std::string text) {
     for (char& ch : text) {
         if (std::isalnum(static_cast<unsigned char>(ch)) || std::isspace(static_cast<unsigned char>(ch))) {
@@ -44,6 +50,13 @@ std::string normalizePrompt(std::string text) {
     return text;
 }
 
+/**
+ * @brief Build Fallback Completion.
+ * @param[in] prompt Input parameter.
+ * @param[in] max_tokens Input parameter.
+ * @return Return value.
+ * @details Calls: normalizePrompt(), find(), std::string(), size(), find_first_of(), substr(), empty(), resize().
+ */
 std::string buildFallbackCompletion(const std::string& prompt, int max_tokens) {
     const std::string normalized = normalizePrompt(prompt);
     std::string response = {};
@@ -83,6 +96,12 @@ std::string buildFallbackCompletion(const std::string& prompt, int max_tokens) {
     return response;
 }
 
+/**
+ * @brief Build Fallback Embedding.
+ * @param[in] text Input parameter.
+ * @return Return value.
+ * @details Calls: embedding(), empty(), size(), std::sqrt().
+ */
 std::vector<float> buildFallbackEmbedding(const std::string& text) {
     constexpr std::size_t kEmbeddingDim = 64;
     std::vector<float> embedding(kEmbeddingDim, 0.0f);
@@ -119,21 +138,47 @@ EmbeddedLLM::EmbeddedLLM(const Config& config)
 
 EmbeddedLLM::~EmbeddedLLM() = default;
 
+/**
+ * @brief Set Generate Full Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void EmbeddedLLM::setGenerateFullFn(GenerateFullFn fn) {
     std::lock_guard<std::mutex> lock(callback_mutex_);
     generate_full_fn_ = std::move(fn);
 }
 
+/**
+ * @brief Set Embed Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void EmbeddedLLM::setEmbedFn(EmbedFn fn) {
     std::lock_guard<std::mutex> lock(callback_mutex_);
     embed_fn_ = std::move(fn);
 }
 
+/**
+ * @brief Generate.
+ * @param[in] prompt Input parameter.
+ * @param[in] max_tokens Input parameter.
+ * @return Return value.
+ * @details Calls: createRequest(), generateFull().
+ */
 std::string EmbeddedLLM::generate(const std::string& prompt, int max_tokens) {
     auto req = createRequest(prompt, max_tokens);
     return generateFull(req).text;
 }
 
+/**
+ * @brief Generate With Params.
+ * @param[in] prompt Input parameter.
+ * @param[in] temperature Input parameter.
+ * @param[in] top_p Input parameter.
+ * @param[in] max_tokens Input parameter.
+ * @return Return value.
+ * @details Calls: createRequest(), generateFull().
+ */
 std::string EmbeddedLLM::generateWithParams(
     const std::string& prompt,
     float temperature,
@@ -144,6 +189,13 @@ std::string EmbeddedLLM::generateWithParams(
     return generateFull(req).text;
 }
 
+/**
+ * @brief Chat.
+ * @param[in] messages Input parameter.
+ * @param[in] format Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), push_back(), append(), generate().
+ */
 std::string EmbeddedLLM::chat(
     const std::vector<ChatMessage>& messages,
     ChatFormat format
@@ -160,6 +212,13 @@ std::string EmbeddedLLM::chat(
     return generate(merged);
 }
 
+/**
+ * @brief Chat Simple.
+ * @param[in] system_prompt Input parameter.
+ * @param[in] user_message Input parameter.
+ * @return Return value.
+ * @details Calls: chat().
+ */
 std::string EmbeddedLLM::chatSimple(
     const std::string& system_prompt,
     const std::string& user_message
@@ -167,6 +226,12 @@ std::string EmbeddedLLM::chatSimple(
     return chat({{"system", system_prompt}, {"user", user_message}});
 }
 
+/**
+ * @brief Embed.
+ * @param[in] text Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), embed_fn_(), empty(), spdlog::warn(), what(), cache_lock(), find(), end().
+ */
 std::vector<float> EmbeddedLLM::embed(const std::string& text) {
     {
         std::lock_guard<std::mutex> lock(callback_mutex_);
@@ -208,6 +273,12 @@ std::vector<float> EmbeddedLLM::embed(const std::string& text) {
     return embedding;
 }
 
+/**
+ * @brief Embed Batch.
+ * @param[in] texts Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), push_back(), embed().
+ */
 std::vector<std::vector<float>> EmbeddedLLM::embedBatch(const std::vector<std::string>& texts) {
     std::vector<std::vector<float>> out;
     out.reserve(texts.size());
@@ -242,16 +313,36 @@ std::string EmbeddedLLM::generateStreamingSSE(
     return text;
 }
 
+/**
+ * @brief Generate As MCP.
+ * @param[in] prompt Input parameter.
+ * @param[in] max_tokens Input parameter.
+ * @return Return value.
+ * @details Calls: generate().
+ */
 json EmbeddedLLM::generateAsMCP(const std::string& prompt, int max_tokens) {
     auto text = generate(prompt, max_tokens);
     return json{{"text", text}, {"llm_enabled", false}};
 }
 
+/**
+ * @brief Generate As Json Markdown.
+ * @param[in] prompt Input parameter.
+ * @param[in] max_tokens Input parameter.
+ * @return Return value.
+ * @details Calls: generate().
+ */
 json EmbeddedLLM::generateAsJsonMarkdown(const std::string& prompt, int max_tokens) {
     auto text = generate(prompt, max_tokens);
     return json{{"markdown", text}, {"llm_enabled", false}};
 }
 
+/**
+ * @brief Generate Full.
+ * @param[in] request Input parameter.
+ * @return Return value.
+ * @details Calls: prompt_safety::sanitizePromptWithSharedPolicy(), spdlog::warn(), std::move(), lock(), generate_full_fn_(), empty(), stream_callback(), what().
+ */
 InferenceResponse EmbeddedLLM::generateFull(const InferenceRequest& request) {
     // P0.2: Apply shared prompt safety policy before any dispatch.
     // Blocked prompts fail-closed with success=false; this check runs before
@@ -374,6 +465,11 @@ std::string EmbeddedLLM::getModelInfo() const {
 }
 
 json EmbeddedLLM::getStats() const {
+    /**
+     * @brief Lock.
+     * @param[in] callback_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(callback_mutex_);
     const bool has_backend = static_cast<bool>(generate_full_fn_);
 #ifdef THEMIS_LLM_STUB_MODE
@@ -391,11 +487,20 @@ json EmbeddedLLM::getStats() const {
     };
 }
 
+/**
+ * @brief Clear Cache.
+ * @details Calls: lock(), clear().
+ */
 void EmbeddedLLM::clearCache() {
     std::lock_guard<std::mutex> lock(cache_mutex_);
     embedding_cache_.clear();
 }
 
+/**
+ * @brief Get Ethical Guidelines.
+ * @return Pointer to the result.
+ * @details Implements getEthicalGuidelines without additional internal calls.
+ */
 EthicalGuidelinesManager* EmbeddedLLM::getEthicalGuidelines() {
     return nullptr;
 }
@@ -404,6 +509,15 @@ bool EmbeddedLLM::hasEthicalGuidelines() const {
     return false;
 }
 
+/**
+ * @brief Create Request.
+ * @param[in] prompt Input parameter.
+ * @param[in] max_tokens Input parameter.
+ * @param[in] temperature Input parameter.
+ * @param[in] top_p Input parameter.
+ * @return Return value.
+ * @details Implements createRequest without additional internal calls.
+ */
 InferenceRequest EmbeddedLLM::createRequest(
     const std::string& prompt,
     int max_tokens,
@@ -419,6 +533,13 @@ InferenceRequest EmbeddedLLM::createRequest(
     return req;
 }
 
+/**
+ * @brief Apply Ethical Guidelines.
+ * @param[in] prompt Input parameter.
+ * @param[in] context_text Input parameter.
+ * @return Return value.
+ * @details Implements applyEthicalGuidelines without additional internal calls.
+ */
 std::string EmbeddedLLM::applyEthicalGuidelines(
     const std::string& prompt,
     const std::string& context_text
@@ -426,17 +547,32 @@ std::string EmbeddedLLM::applyEthicalGuidelines(
     return prompt;
 }
 
+/**
+ * @brief Instance.
+ * @return Return value.
+ * @details Implements instance without additional internal calls.
+ */
 EmbeddedLLMManager& EmbeddedLLMManager::instance() {
     static EmbeddedLLMManager mgr;
     return mgr;
 }
 
+/**
+ * @brief Initialize.
+ * @param[in] config Input parameter.
+ * @details Calls: lock().
+ */
 void EmbeddedLLMManager::initialize(const EmbeddedLLM::Config& config) {
     std::lock_guard<std::mutex> lock(mutex_);
     llm_ = std::make_unique<EmbeddedLLM>(config);
     initialized_ = true;
 }
 
+/**
+ * @brief Get.
+ * @return Return value.
+ * @details Calls: lock().
+ */
 EmbeddedLLM& EmbeddedLLMManager::get() {
     std::lock_guard<std::mutex> lock(mutex_);
     if (!llm_) {
@@ -447,6 +583,11 @@ EmbeddedLLM& EmbeddedLLMManager::get() {
 }
 
 bool EmbeddedLLMManager::isInitialized() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return initialized_ && static_cast<bool>(llm_);
 }

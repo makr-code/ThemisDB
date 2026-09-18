@@ -58,6 +58,16 @@ constexpr std::string_view kFulltextChunkTextColumn = "text";
 // attempts_out receives the total number of calls made.
 namespace {
 template <typename Fn>
+/**
+ * @brief Execute With Retry.
+ * @param[in] fn Input parameter.
+ * @param[in] max_retries Input parameter.
+ * @param[in] retry_delay_ms Input parameter.
+ * @param[in,out] error_out Input/output parameter.
+ * @param[in,out] attempts_out Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: std::this_thread::sleep_for(), std::chrono::milliseconds(), clear(), fn().
+ */
 bool executeWithRetry(Fn&& fn, int max_retries, int retry_delay_ms,
                       std::string& error_out, int& attempts_out) {
     attempts_out = 0;
@@ -89,6 +99,12 @@ bool executeWithRetry(Fn&& fn, int max_retries, int retry_delay_ms,
     return out;
 }
 
+/**
+ * @brief Compute Image Dedup Hash.
+ * @param[in] blob Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), std::setfill(), std::setw(), str().
+ */
 static std::string computeImageDedupHash(const std::string& blob) {
     if (blob.empty()) {
         return {};
@@ -105,7 +121,12 @@ static std::string computeImageDedupHash(const std::string& blob) {
     return oss.str();
 }
 
-// Helper: parse category string to enum
+/**
+ * @brief Helper: parse category string to enum
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Calls: std::transform(), begin(), end().
+ */
 static std::optional<ContentCategory> parseCategory(const std::string& s) {
     std::string up = s;
     std::transform(up.begin(), up.end(), up.begin(), ::toupper);
@@ -133,6 +154,12 @@ static std::optional<ContentCategory> parseCategory(const std::string& s) {
     return std::nullopt;
 }
 
+/**
+ * @brief Has Search Filter Constraints.
+ * @param[in] filters Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: is_object(), empty(), begin(), end(), key().
+ */
 static bool hasSearchFilterConstraints(const json& filters) {
     if (!filters.is_object() || filters.empty()) {
         return false;
@@ -145,6 +172,13 @@ static bool hasSearchFilterConstraints(const json& filters) {
     return false;
 }
 
+/**
+ * @brief Whitelist Contains Chunk Pk.
+ * @param[in] whitelist_set Input parameter.
+ * @param[in] chunk_pk Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), count(), std::string().
+ */
 static bool whitelistContainsChunkPk(
     const std::unordered_set<std::string>& whitelist_set,
     const std::string& chunk_pk
@@ -172,7 +206,13 @@ static bool whitelistContainsChunkPk(
     }
 }
 
-// Build whitelist of chunk PKs ("chunks:<id>") based on filters
+/**
+ * @brief Build whitelist of chunk PKs ("chunks:<id>") based on filters
+ * @param[in] j Input parameter.
+ * @param[in] path Input parameter.
+ * @return Pointer to the result.
+ * @details Calls: size(), find(), substr(), is_object(), contains().
+ */
 static const json* jsonPathRef(const json& j, const std::string& path) {
     // dotted path (no arrays)
     const json* cur = &j;
@@ -192,6 +232,13 @@ static const json* jsonPathRef(const json& j, const std::string& path) {
     return cur;
 }
 
+/**
+ * @brief Build Chunk Whitelist.
+ * @param[in,out] storage Input/output parameter.
+ * @param[in] filters Input parameter.
+ * @return Return value.
+ * @details Calls: contains(), is_string(), parseCategory(), insert(), is_number_integer(), is_array(), is_object(), empty().
+ */
 static std::vector<std::string> buildChunkWhitelist(
     RocksDBWrapper& storage,
     const json& filters
@@ -570,6 +617,12 @@ json ContentMeta::toJson() const {
     };
 }
 
+/**
+ * @brief From Json.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: is_number_integer(), is_string(), std::transform(), begin(), end(), std::toupper(), value(), contains().
+ */
 ContentMeta ContentMeta::fromJson(const json& j) {
     auto parseCategory = [](const json& value) -> ContentCategory {
         if (value.is_number_integer()) {
@@ -658,6 +711,12 @@ json ChunkMeta::toJson() const {
     };
 }
 
+/**
+ * @brief From Json.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: value(), json::object().
+ */
 ChunkMeta ChunkMeta::fromJson(const json& j) {
     ChunkMeta c;
     c.id = j.value("id", "");
@@ -692,6 +751,11 @@ const ContentManager::Metrics& ContentManager::getMetrics() const {
     return metrics_;
 }
 
+/**
+ * @brief Set Malware Filter.
+ * @param[in] malware_filter Input parameter.
+ * @details Calls: std::move().
+ */
 void ContentManager::setMalwareFilter(std::shared_ptr<themis::security::MalwareFilterManager> malware_filter) {
     malware_filter_ = std::move(malware_filter);
 }
@@ -700,6 +764,11 @@ std::shared_ptr<themis::security::MalwareFilterManager> ContentManager::getMalwa
     return malware_filter_;
 }
 
+/**
+ * @brief Set Deduplication Checker.
+ * @param[in] checker Input parameter.
+ * @details Calls: std::move().
+ */
 void ContentManager::setDeduplicationChecker(std::shared_ptr<DeduplicationChecker> checker) {
     dedup_checker_ = std::move(checker);
 }
@@ -708,6 +777,11 @@ std::shared_ptr<DeduplicationChecker> ContentManager::getDeduplicationChecker() 
     return dedup_checker_;
 }
 
+/**
+ * @brief Set Processor Chain Config.
+ * @param[in] config Input parameter.
+ * @details Implements setProcessorChainConfig without additional internal calls.
+ */
 void ContentManager::setProcessorChainConfig(const ProcessorChainConfig& config) {
     processor_chain_config_ = config;
 }
@@ -716,6 +790,11 @@ const ProcessorChainConfig& ContentManager::getProcessorChainConfig() const {
     return processor_chain_config_;
 }
 
+/**
+ * @brief Register Processor.
+ * @param[in] processor Input parameter.
+ * @details Calls: getSupportedCategories(), empty(), front(), std::move().
+ */
 void ContentManager::registerProcessor(std::unique_ptr<IContentProcessor> processor) {
     if (!processor) {
       return;
@@ -728,6 +807,11 @@ void ContentManager::registerProcessor(std::unique_ptr<IContentProcessor> proces
     processors_[cats.front()] = std::move(processor);
 }
 
+/**
+ * @brief Generate Uuid.
+ * @return Return value.
+ * @details Calls: steady_clock::now(), time_since_epoch(), count(), rng(), std::setw(), std::setfill(), str().
+ */
 std::string ContentManager::generateUuid() {
     static thread_local std::mt19937_64 rng{static_cast<uint64_t>(steady_clock::now().time_since_epoch().count()) ^ 0x9e3779b97f4a7c15ULL};
     auto u64 = rng();
@@ -737,6 +821,13 @@ std::string ContentManager::generateUuid() {
     return oss.str();
 }
 
+/**
+ * @brief Normalize Id.
+ * @param[in] id Input parameter.
+ * @param[in] prefix Input parameter.
+ * @return Return value.
+ * @details Calls: rfind(), substr(), size().
+ */
 std::string ContentManager::normalizeId(const std::string& id, const std::string& prefix) {
     if (id.rfind(prefix, 0) == 0) {
       return id.substr(prefix.size());
@@ -744,6 +835,12 @@ std::string ContentManager::normalizeId(const std::string& id, const std::string
     return id;
 }
 
+/**
+ * @brief Compute SHA256.
+ * @param[in] blob Input parameter.
+ * @return Return value.
+ * @details Calls: SHA256(), data(), size(), std::setfill(), std::setw(), str().
+ */
 std::string ContentManager::computeSHA256(const std::string& blob) {
     unsigned char digest[SHA256_DIGEST_LENGTH];
     SHA256(reinterpret_cast<const unsigned char*>(blob.data()),blob.size(), digest);
@@ -755,6 +852,12 @@ std::string ContentManager::computeSHA256(const std::string& blob) {
     return oss.str();
 }
 
+/**
+ * @brief Check Duplicate By Hash.
+ * @param[in] hash Input parameter.
+ * @return Return value.
+ * @details Calls: std::string(), get(), s(), begin(), end(), json::parse(), contains(), is_array().
+ */
 std::optional<std::string> ContentManager::checkDuplicateByHash(const std::string& hash) {
     // Simple secondary lookup: store mapping hash -> content_id list (first only)
     std::string key = std::string("content_hash:") + hash;
@@ -792,15 +895,26 @@ std::optional<std::string> ContentManager::checkDuplicateByHash(const std::strin
     return ct.mime_type.empty() ? ContentCategory::UNKNOWN : ct.category;
 }
 
-/// Returns true for MIME types that are text-based and have no binary magic bytes.
-/// Used by ingestStream() to skip the format/magic-bytes check for streaming
-/// text types while still running it for binary formats.
+/**
+ * @brief Is Text Based Mime.
+ * @param[in] mime Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: find().
+ */
 static bool isTextBasedMime(const std::string& mime) {
     return mime.find("text/") == 0 ||
            mime.find("ndjson") != std::string::npos ||
            mime.find("jsonlines") != std::string::npos;
 }
 
+/**
+ * @brief Import Content.
+ * @param[in] spec Input parameter.
+ * @param[in] blob Input parameter.
+ * @param[in] user_context Input parameter.
+ * @return Return value.
+ * @details Calls: is_object(), contains(), Status::Error(), ContentMeta::fromJson(), empty(), generateUuid(), has_value(), scan().
+ */
 Status ContentManager::importContent(const json& spec, const std::optional<std::string>& blob, const std::string& user_context) {
     try {
         if (!spec.is_object() || !spec.contains("content") || !spec["content"].is_object()) {
@@ -1284,6 +1398,13 @@ Status ContentManager::importContent(const json& spec, const std::optional<std::
     }
 }
 
+/**
+ * @brief Get Content Meta.
+ * @param[in] content_id Identifier of the content.
+ * @param[in] user_context Input parameter.
+ * @return Return value.
+ * @details Calls: normalizeId(), std::string(), get(), s(), begin(), end(), json::parse(), contains().
+ */
 std::optional<ContentMeta> ContentManager::getContentMeta(const std::string& content_id, const std::string& user_context) {
     std::string id = normalizeId(content_id, "content:");
     std::string key = std::string("content:") + id;
@@ -1347,6 +1468,13 @@ std::optional<ContentMeta> ContentManager::getContentMeta(const std::string& con
         return std::nullopt;
     }
 }
+/**
+ * @brief Get Content Blob.
+ * @param[in] content_id Identifier of the content.
+ * @param[in] user_context Input parameter.
+ * @return Return value.
+ * @details Calls: normalizeId(), std::string(), get(), getContentMeta(), empty(), raw(), begin(), end().
+ */
 std::optional<std::string> ContentManager::getContentBlob(const std::string& content_id, const std::string& user_context) {
     std::string id = normalizeId(content_id, "content:");
     std::string key = std::string("content_blob:") + id;
@@ -1438,6 +1566,12 @@ std::optional<std::string> ContentManager::getContentBlob(const std::string& con
     return std::string(v->begin(), v->end());
 }
 
+/**
+ * @brief Get Content Chunks.
+ * @param[in] content_id Identifier of the content.
+ * @return Return value.
+ * @details Calls: normalizeId(), std::string(), get(), s(), begin(), end(), json::parse(), contains().
+ */
 std::vector<ChunkMeta> ContentManager::getContentChunks(const std::string& content_id) {
     std::vector<ChunkMeta> out;
     std::string id = normalizeId(content_id, "content:");
@@ -1477,6 +1611,12 @@ std::vector<ChunkMeta> ContentManager::getContentChunks(const std::string& conte
     return out;
 }
 
+/**
+ * @brief Get Chunk.
+ * @param[in] chunk_id Identifier of the chunk.
+ * @return Return value.
+ * @details Calls: normalizeId(), get(), std::string(), s(), begin(), end(), json::parse(), ChunkMeta::fromJson().
+ */
 std::optional<ChunkMeta> ContentManager::getChunk(const std::string& chunk_id) {
     std::string id = normalizeId(chunk_id, "chunk:");
     auto v = storage_->get(std::string("chunk:") + id);
@@ -1505,6 +1645,13 @@ std::optional<ChunkMeta> ContentAssembly::getChunkBySeqNum(int seq_num) const {
     return std::nullopt;
 }
 
+/**
+ * @brief Assemble Content.
+ * @param[in] content_id Identifier of the content.
+ * @param[in] include_text Input parameter.
+ * @return Return value.
+ * @details Calls: getContentMeta(), has_value(), getContentChunks(), size(), empty(), reserve(), std::move().
+ */
 std::optional<ContentAssembly> ContentManager::assembleContent(const std::string& content_id, bool include_text) {
     // Get metadata
     auto meta = getContentMeta(content_id);
@@ -1541,6 +1688,12 @@ std::optional<ContentAssembly> ContentManager::assembleContent(const std::string
     return assembly;
 }
 
+/**
+ * @brief Get Next Chunk.
+ * @param[in] chunk_id Identifier of the chunk.
+ * @return Return value.
+ * @details Calls: getChunk(), has_value(), getContentChunks().
+ */
 std::optional<ChunkMeta> ContentManager::getNextChunk(const std::string& chunk_id) {
     // Get current chunk
     auto current = getChunk(chunk_id);
@@ -1562,6 +1715,12 @@ std::optional<ChunkMeta> ContentManager::getNextChunk(const std::string& chunk_i
     return std::nullopt;
 }
 
+/**
+ * @brief Get Previous Chunk.
+ * @param[in] chunk_id Identifier of the chunk.
+ * @return Return value.
+ * @details Calls: getChunk(), has_value(), getContentChunks().
+ */
 std::optional<ChunkMeta> ContentManager::getPreviousChunk(const std::string& chunk_id) {
     // Get current chunk
     auto current = getChunk(chunk_id);
@@ -1587,6 +1746,14 @@ std::optional<ChunkMeta> ContentManager::getPreviousChunk(const std::string& chu
     return std::nullopt;
 }
 
+/**
+ * @brief Get Chunk Range.
+ * @param[in] content_id Identifier of the content.
+ * @param[in] start_seq Input parameter.
+ * @param[in] count Input parameter.
+ * @return Return value.
+ * @details Calls: getContentChunks(), push_back().
+ */
 std::vector<ChunkMeta> ContentManager::getChunkRange(const std::string& content_id, int start_seq, int count) {
     std::vector<ChunkMeta> result;
     
@@ -1869,6 +2036,12 @@ std::vector<std::pair<std::string, float>> ContentManager::searchWithExpansion(
     return out;
 }
 
+/**
+ * @brief Delete Content.
+ * @param[in] content_id Identifier of the content.
+ * @return Return value.
+ * @details Calls: normalizeId(), getContentChunks(), del(), std::string(), removeByPk(), hasFulltextIndex(), erase(), THEMIS_WARN().
+ */
 Status ContentManager::deleteContent(const std::string& content_id) {
     std::string id = normalizeId(content_id, "content:");
     // Load chunks
@@ -1893,6 +2066,12 @@ Status ContentManager::deleteContent(const std::string& content_id) {
     return Status::OK();
 }
 
+/**
+ * @brief Get Processor.
+ * @param[in] category Input parameter.
+ * @return Pointer to the result.
+ * @details Calls: find(), end(), get().
+ */
 IContentProcessor* ContentManager::getProcessor(ContentCategory category) {
     auto it = processors_.find(category);
     if (it == processors_.end()) {
@@ -1901,7 +2080,12 @@ IContentProcessor* ContentManager::getProcessor(ContentCategory category) {
     return it->second.get();
 }
 
-// ===================== Virtual Filesystem =====================
+/**
+ * @brief ===================== Virtual Filesystem =====================
+ * @param[in] virtual_path Path to the virtual.
+ * @return Return value.
+ * @details Calls: empty(), back(), pop_back(), scanPrefix(), json::parse(), contains(), key_str(), size().
+ */
 
 std::optional<std::string> ContentManager::resolvePath(const std::string& virtual_path) {
     std::optional<std::string> result;
@@ -1936,6 +2120,12 @@ std::optional<std::string> ContentManager::resolvePath(const std::string& virtua
     return result;
 }
 
+/**
+ * @brief List Directory.
+ * @param[in] virtual_path Path to the virtual.
+ * @return Return value.
+ * @details Calls: empty(), back(), pop_back(), resolvePath(), has_value(), scanPrefix(), json::parse(), contains().
+ */
 std::vector<ContentMeta> ContentManager::listDirectory(const std::string& virtual_path) {
     std::vector<ContentMeta> results;
     
@@ -1996,6 +2186,13 @@ std::vector<ContentMeta> ContentManager::listDirectory(const std::string& virtua
     return results;
 }
 
+/**
+ * @brief Create Directory.
+ * @param[in] virtual_path Path to the virtual.
+ * @param[in] recursive Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), back(), pop_back(), resolvePath(), has_value(), Status::Error(), rfind(), substr().
+ */
 Status ContentManager::createDirectory(const std::string& virtual_path, bool recursive) {
     // Normalize path
     std::string normalized = virtual_path;
@@ -2061,6 +2258,13 @@ Status ContentManager::createDirectory(const std::string& virtual_path, bool rec
     return Status::OK();
 }
 
+/**
+ * @brief Register Path.
+ * @param[in] content_id Identifier of the content.
+ * @param[in] virtual_path Path to the virtual.
+ * @return Return value.
+ * @details Calls: empty(), back(), pop_back(), resolvePath(), has_value(), Status::Error(), get(), json::parse().
+ */
 Status ContentManager::registerPath(const std::string& content_id, const std::string& virtual_path) {
     // Normalize path
     std::string normalized = virtual_path;
@@ -2109,6 +2313,16 @@ Status ContentManager::registerPath(const std::string& content_id, const std::st
     }
 }
 
+/**
+ * @brief Ingest Raw Blob.
+ * @param[in] blob Input parameter.
+ * @param[in] filename Input parameter.
+ * @param[in] mime_type Input parameter.
+ * @param[in] user_context Input parameter.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), validateFilename(), failed(), ContentTypeRegistry::instance(), detectFromBlob(), find_last_of(), substr(), getByExtension().
+ */
 ContentManager::IngestResult ContentManager::ingestRawBlob(
     const std::string& blob,
     const std::string& filename,
@@ -2765,6 +2979,16 @@ ContentManager::IngestResult ContentManager::ingestRawBlob(
     return result;
 }
 
+/**
+ * @brief Ingest Stream.
+ * @param[in,out] stream Input/output parameter.
+ * @param[in] filename Input parameter.
+ * @param[in] mime_type Input parameter.
+ * @param[in] user_context Input parameter.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @details Calls: good(), value(), resize(), std::min(), read(), data(), size(), gcount().
+ */
 ContentManager::IngestResult ContentManager::ingestStream(
     std::istream& stream,
     const std::string& filename,
@@ -3141,6 +3365,11 @@ ContentManager::IngestResult ContentManager::ingestStream(
     return result;
 }
 
+/**
+ * @brief Get Stats.
+ * @return Return value.
+ * @details Calls: getApproximateSize(), scanPrefix(), getVectorCount().
+ */
 ContentManager::Stats ContentManager::getStats() {
     Stats s{};
     s.total_content_items = 0;

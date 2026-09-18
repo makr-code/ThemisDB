@@ -20,60 +20,27 @@ namespace themis {
 namespace llm {
 namespace lora {
 
-/**
- * @brief Plugin interface for extensible feedback validation and processing
- * 
- * Allows customization of feedback handling, validation, and training triggers
- * without modifying core feedback system code.
- * 
- * Example use cases:
- * - Privacy filtering (remove PII from feedback)
- * - Content validation (spam detection, profanity filtering)
- * - Custom training triggers (batch size, quality thresholds)
- * - Data enrichment (sentiment analysis, categorization)
- */
 class FeedbackPlugin {
 public:
+    /**
+     * @brief Feedback Plugin.
+     * @return Return value.
+     */
     virtual ~FeedbackPlugin() = default;
     
-    /**
-     * @brief Validate feedback before storage
-     * 
-     * @param feedback The feedback to validate
-     * @return true if feedback is valid, false to reject
-     * 
-     * Example: Check for spam, required fields, valid ratings, etc.
-     */
     [[nodiscard]] virtual bool validate(const Feedback& feedback) const = 0;
     
     /**
-     * @brief Process feedback after validation, before storage
-     * 
-     * @param feedback The feedback to process (can be modified)
-     * 
-     * Example: Remove PII, normalize text, add metadata, etc.
+     * @brief Process.
+     * @param[in,out] feedback Input/output parameter.
      */
     virtual void process(Feedback& feedback) = 0;
     
-    /**
-     * @brief Called when training might be triggered
-     * 
-     * @param batch Accumulated feedback batch
-     * @return true to trigger training, false to wait for more feedback
-     * 
-     * Example: Check batch size, quality score, time since last training, etc.
-     */
     [[nodiscard]] virtual bool onTrainingTrigger(const std::vector<Feedback>& batch) const = 0;
     
-    /**
-     * @brief Get plugin name for logging and debugging
-     */
     [[nodiscard]] virtual std::string getName() const = 0;
 };
 
-/**
- * @brief Base plugin implementation with sensible defaults
- */
 class BaseFeedbackPlugin : public FeedbackPlugin {
 public:
     ~BaseFeedbackPlugin() override = default;
@@ -106,9 +73,6 @@ public:
     }
 };
 
-/**
- * @brief Privacy filter plugin - removes PII from feedback text
- */
 class PrivacyFilterPlugin : public BaseFeedbackPlugin {
 public:
     ~PrivacyFilterPlugin() override = default;
@@ -116,9 +80,6 @@ public:
     std::string getName() const override { return "PrivacyFilterPlugin"; }
 };
 
-/**
- * @brief Content validation plugin - validates feedback content
- */
 class ContentValidationPlugin : public BaseFeedbackPlugin {
 public:
     ~ContentValidationPlugin() override = default;
@@ -126,13 +87,20 @@ public:
     std::string getName() const override { return "ContentValidationPlugin"; }
     
 private:
+    /**
+     * @brief Contains Spam.
+     * @param[in] text Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool containsSpam(const std::string& text) const;
+    /**
+     * @brief Contains Profanity.
+     * @param[in] text Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool containsProfanity(const std::string& text) const;
 };
 
-/**
- * @brief Training trigger plugin - advanced training trigger logic
- */
 class TrainingTriggerPlugin : public BaseFeedbackPlugin {
 public:
     struct Config {
@@ -142,6 +110,11 @@ public:
         std::chrono::hours max_wait_time{24};
     };
     
+    /**
+     * @brief Training Trigger Plugin.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit TrainingTriggerPlugin(const Config& config)
         : config_(config) {}
     
@@ -153,22 +126,14 @@ public:
     
 private:
     Config config_;
+    /**
+     * @brief Calculate Average Rating.
+     * @param[in] batch Input parameter.
+     * @return Return value.
+     */
     float calculateAverageRating(const std::vector<Feedback>& batch) const;
 };
 
-/**
- * @brief Cache-aware weighting plugin
- * 
- * Adjusts training weights based on cache status:
- * - Direct (non-cached) responses: weight = 1.0
- * - Cached responses (exact match): weight = 0.3-0.5 (configurable)
- * - Cached responses (semantic match): weight based on similarity
- * 
- * Rationale:
- * - Cached responses are already validated by previous use
- * - Lower weight prevents overtraining on popular queries
- * - Semantic matches get graduated weight based on similarity
- */
 class CacheAwareWeightingPlugin : public BaseFeedbackPlugin {
 public:
     struct Config {
@@ -179,6 +144,11 @@ public:
         bool disable_cache_training = false;         // If true, don't train on cached at all
     };
     
+    /**
+     * @brief Cache Aware Weighting Plugin.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit CacheAwareWeightingPlugin(const Config& config)
         : config_(config) {}
     
@@ -190,6 +160,11 @@ public:
     
 private:
     Config config_;
+    /**
+     * @brief Calculate Cache Weight.
+     * @param[in] feedback Input parameter.
+     * @return Return value.
+     */
     float calculateCacheWeight(const Feedback& feedback) const;
 };
 

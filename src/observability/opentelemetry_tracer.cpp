@@ -42,10 +42,10 @@ using namespace detail;  // bring generateTraceId, generateSpanId, etc. into sco
 namespace {
 
 /**
- * @brief Map an exporter name string to ExporterType.
+ * @brief Exporter From String.
  * @param[in] name Input parameter.
  * @return Return value.
- * @details Logs an unknown-exporter warning via MetricsCollector counter and falls back to OTLP so the tracer remains functional on misconfiguration. Calls: std::transform(), begin(), end(), std::tolower(), MetricsCollector::getInstance(), addCounter().
+ * @details Calls: std::transform(), begin(), end(), std::tolower(), MetricsCollector::getInstance(), addCounter().
  */
 ExporterType exporterFromString(const std::string& name) {
     std::string lower = name;
@@ -68,7 +68,12 @@ ExporterType exporterFromString(const std::string& name) {
     return ExporterType::OTLP;
 }
 
-/// Return the canonical OTLP traces endpoint URL.
+/**
+ * @brief Resolve Otlp Traces Endpoint.
+ * @param[in] base Input parameter.
+ * @return Return value.
+ * @details Calls: size(), compare(), std::string().
+ */
 std::string resolveOtlpTracesEndpoint(const std::string& base) {
     constexpr std::string_view kSuffix = "/v1/traces";
     if (base.size() >= kSuffix.size() &&
@@ -78,16 +83,8 @@ std::string resolveOtlpTracesEndpoint(const std::string& base) {
     return base + std::string(kSuffix);
 }
 
-/**
- * @brief Production span used by OpenTelemetryTracer.
- *
- * Records attributes and pushes a SpanRecord into the owning tracer's ring
- * buffer on end().  If an export_cb_ is set (non-null), the completed
- * SpanRecord is also forwarded to the exporter pipeline.
- */
 class OtelSpan : public core::concerns::ITracer::ISpan {
 public:
-    /// Callback invoked once on span end with the finished SpanRecord.
     using ExportCallback = std::function<void(const SpanRecord&)>;
 
     OtelSpan(std::string                name,
@@ -181,11 +178,6 @@ private:
 
         SpanRecord rec;
         {
-            /**
-             * @brief Lk.
-             * @param[in] attr_mu_ Input parameter.
-             * @return Return value.
-             */
             std::lock_guard<std::mutex> lk(attr_mu_);
             rec.attributes = attributes_;
         }
@@ -238,9 +230,6 @@ private:
     std::map<std::string, std::string>  attributes_;
 };
 
-/**
- * @brief No-op span returned when a trace is sampled out.
- */
 class DroppedOtelSpan : public core::concerns::ITracer::ISpan {
 public:
     void setAttribute(const std::string&, const std::string&) override {}
@@ -259,7 +248,6 @@ public:
 // OpenTelemetryTracer::Impl
 // ---------------------------------------------------------------------------
 
-/** @brief OpenTelemetryTracer::Impl. */
 class OpenTelemetryTracer::Impl {
 public:
     /**
@@ -334,9 +322,9 @@ public:
     std::string        last_span_id_ = {};
 
     /**
-     * @brief Build the export callback that dispatches a completed SpanRecord to all configured backends.
+     * @brief Make Export Callback.
      * @return Return value.
-     * @details Uses std::weak_ptr so the callback is safe if invoked after the Impl (and OtlpExporter) has been destroyed. Calls: empty(), lock(), time_since_epoch(), count(), enqueue(), std::move().
+     * @details Calls: empty(), lock(), time_since_epoch(), count(), enqueue(), std::move().
      */
     OtelSpan::ExportCallback makeExportCallback() {
         if (!otlp_exporter_ && delegate_tracers_.empty()) {
@@ -382,8 +370,8 @@ public:
     /**
      * @brief Make Span.
      * @param[in] name Input parameter.
-     * @param[in] trace_id Input parameter.
-     * @param[in] parent_span_id Input parameter.
+     * @param[in] trace_id Identifier of the trace.
+     * @param[in] parent_span_id Identifier of the parent span.
      * @return Return value.
      */
     std::unique_ptr<core::concerns::ITracer::ISpan> makeSpan(
@@ -502,13 +490,13 @@ void OpenTelemetryTracer::injectContext(
     themis::Baggage::inject(headers);
 }
 
+
 /**
- * @brief -- ITracer lifecycle -------------------------------------------------------
+ * @brief Initialize.
  * @param[in] serviceName Input parameter.
  * @param[in] endpoint Input parameter.
- * @return True on success.
+ * @return True when the operation succeeds.
  */
-
 bool OpenTelemetryTracer::initialize(const std::string& serviceName,
                                      const std::string& endpoint)
 {
@@ -637,12 +625,12 @@ void OpenTelemetryTracer::recordMetrics(ISpan& span,
     }
 }
 
+
 /**
- * @brief -- Baggage -----------------------------------------------------------------
+ * @brief Set Baggage Item.
  * @param[in] key Input parameter.
  * @param[in] value Input parameter.
  */
-
 void OpenTelemetryTracer::setBaggageItem(const std::string& key,
                                          const std::string& value)
 {

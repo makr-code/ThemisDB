@@ -21,6 +21,14 @@ namespace themis::security::phase4_hardening {
 // HTTP Request Validation Implementation
 // ============================================================================
 
+/**
+ * @brief Validate Http Parameter.
+ * @param[in] param_name Name of the param.
+ * @param[in] param_value Input parameter.
+ * @param[in] max_length Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), length(), std::to_string(), IsAllowedHttpParameterCharacter(), std::string(), ContainsInjectionPatterns().
+ */
 ValidationResult InputValidator::ValidateHttpParameter(
     std::string_view param_name,
     std::string_view param_value,
@@ -56,6 +64,13 @@ ValidationResult InputValidator::ValidateHttpParameter(
   return {true, "", std::string(param_value)};
 }
 
+/**
+ * @brief Validate Request Body Size.
+ * @param[in] body_size Input parameter.
+ * @param[in] max_size Input parameter.
+ * @return Return value.
+ * @details Calls: std::to_string().
+ */
 ValidationResult InputValidator::ValidateRequestBodySize(
     size_t body_size,
     size_t max_size) {
@@ -74,6 +89,13 @@ ValidationResult InputValidator::ValidateRequestBodySize(
   return {true, ""};
 }
 
+/**
+ * @brief Validate Http Header.
+ * @param[in] header_name Name of the header.
+ * @param[in] header_value Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), find(), std::string().
+ */
 ValidationResult InputValidator::ValidateHttpHeader(
     std::string_view header_name,
     std::string_view header_value) {
@@ -116,6 +138,12 @@ ValidationResult InputValidator::ValidateHttpHeader(
   return {true, "", std::string(header_value)};
 }
 
+/**
+ * @brief Validate Http Path.
+ * @param[in] path Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), find(), length(), std::isxdigit(), std::string().
+ */
 ValidationResult InputValidator::ValidateHttpPath(std::string_view path) {
   // Rule 1: Path must start with "/"
   if (path.empty() || path[0] != '/') {
@@ -154,6 +182,13 @@ ValidationResult InputValidator::ValidateHttpPath(std::string_view path) {
 // SQL Query Validation Implementation
 // ============================================================================
 
+/**
+ * @brief Validate SQLParameter.
+ * @param[in] param_value Input parameter.
+ * @param[in] param_type Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), std::stoll(), std::string(), std::stod(), uuid_pattern(), std::regex_match(), email_pattern(), ValidateSQLKeywords().
+ */
 ValidationResult InputValidator::ValidateSQLParameter(
     std::string_view param_value,
     std::string_view param_type) {
@@ -204,6 +239,13 @@ ValidationResult InputValidator::ValidateSQLParameter(
   return {true, "", std::string(param_value)};
 }
 
+/**
+ * @brief Validate SQLLiteral.
+ * @param[in] literal_value Input parameter.
+ * @param[in] expected_type Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), std::stod(), std::string(), front(), back(), length().
+ */
 ValidationResult InputValidator::ValidateSQLLiteral(
     std::string_view literal_value,
     std::string_view expected_type) {
@@ -258,6 +300,13 @@ ValidationResult InputValidator::ValidateSQLLiteral(
 // LLM Prompt Validation Implementation
 // ============================================================================
 
+/**
+ * @brief Validate LLMPrompt.
+ * @param[in] prompt Input parameter.
+ * @param[in] max_length Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), length(), std::to_string(), IsValidUTF8(), CheckPromptForInjection(), std::string().
+ */
 ValidationResult InputValidator::ValidateLLMPrompt(
     std::string_view prompt,
     size_t max_length) {
@@ -292,6 +341,13 @@ ValidationResult InputValidator::ValidateLLMPrompt(
   return {true, "", std::string(prompt)};
 }
 
+/**
+ * @brief Validate LLMParameter.
+ * @param[in] param_name Name of the param.
+ * @param[in] param_value Input parameter.
+ * @return Return value.
+ * @details Calls: find(), end(), std::find(), begin(), std::string(), std::stod(), at(), std::to_string().
+ */
 ValidationResult InputValidator::ValidateLLMParameter(
     std::string_view param_name,
     std::string_view param_value) {
@@ -357,6 +413,13 @@ ValidationResult InputValidator::ValidateLLMParameter(
 // Utility Function Implementation
 // ============================================================================
 
+/**
+ * @brief Is Whitelisted Characters.
+ * @param[in] value Input parameter.
+ * @param[in] allowed_pattern Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: std::string(), std::regex_match().
+ */
 bool InputValidator::IsWhitelistedCharacters(
     std::string_view value,
     std::string_view allowed_pattern) {
@@ -368,6 +431,12 @@ bool InputValidator::IsWhitelistedCharacters(
   }
 }
 
+/**
+ * @brief Is Valid UTF8.
+ * @param[in] value Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: length().
+ */
 bool InputValidator::IsValidUTF8(std::string_view value) {
   for (size_t i = 0; i < value.length(); ++i) {
     unsigned char byte = static_cast<unsigned char>(value[i]);
@@ -416,6 +485,12 @@ bool InputValidator::IsValidUTF8(std::string_view value) {
   return true;
 }
 
+/**
+ * @brief Contains Injection Patterns.
+ * @param[in] value Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: std::regex_search(), begin(), end(), std::regex(), std::string().
+ */
 bool InputValidator::ContainsInjectionPatterns(std::string_view value) {
   try {
     for (const auto& pattern : SQL_INJECTION_PATTERNS) {
@@ -440,6 +515,12 @@ bool InputValidator::ContainsInjectionPatterns(std::string_view value) {
   return false;
 }
 
+/**
+ * @brief Safe Url Decode.
+ * @param[in] encoded Input parameter.
+ * @return Return value.
+ * @details Calls: length(), std::isxdigit(), std::stoi().
+ */
 std::optional<std::string> InputValidator::SafeUrlDecode(
     std::string_view encoded) {
   std::string decoded = {};
@@ -472,6 +553,12 @@ std::optional<std::string> InputValidator::SafeUrlDecode(
   return decoded;
 }
 
+/**
+ * @brief Escape For SQL.
+ * @param[in] value Input parameter.
+ * @return Return value.
+ * @details Implements EscapeForSQL without additional internal calls.
+ */
 std::string InputValidator::EscapeForSQL(std::string_view value) {
   std::string escaped = {};
   
@@ -497,11 +584,23 @@ std::string InputValidator::EscapeForSQL(std::string_view value) {
 // Private Helper Functions
 // ============================================================================
 
+/**
+ * @brief Is Allowed Http Parameter Character.
+ * @param[in] c Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: std::isalnum().
+ */
 bool InputValidator::IsAllowedHttpParameterCharacter(unsigned char c) {
   // Whitelist: alphanumeric, underscore, hyphen, dot, space
   return std::isalnum(c) || c == '_' || c == '-' || c == '.' || c == ' ';
 }
 
+/**
+ * @brief Validate SQLKeywords.
+ * @param[in] value Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lower_value(), std::transform(), begin(), end(), find().
+ */
 bool InputValidator::ValidateSQLKeywords(std::string_view value) {
   std::string lower_value(value);
   std::transform(lower_value.begin(), lower_value.end(),
@@ -523,6 +622,12 @@ bool InputValidator::ValidateSQLKeywords(std::string_view value) {
   return false;
 }
 
+/**
+ * @brief Check Prompt For Injection.
+ * @param[in] prompt Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: std::regex_search(), begin(), end(), std::regex(), std::string().
+ */
 bool InputValidator::CheckPromptForInjection(std::string_view prompt) {
   try {
     for (const auto& pattern : PROMPT_INJECTION_PATTERNS) {

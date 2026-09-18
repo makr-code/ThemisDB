@@ -35,8 +35,15 @@ struct HttpResponse {
 
 namespace {
 
-// libcurl write callback – appends received data to a std::string.
-// Shared by both GET and POST operations.
+/**
+ * @brief libcurl write callback – appends received data to a std::string.
+ * @param[in,out] ptr Input/output parameter.
+ * @param[in] size Input parameter.
+ * @param[in] nmemb Input parameter.
+ * @param[in,out] userdata Input/output parameter.
+ * @return Return value.
+ * @details Shared by both GET and POST operations. Calls: append().
+ */
 static size_t hfCurlWriteCallback(char* ptr, size_t size, size_t nmemb,
                                    void* userdata) {
     const auto total = size * nmemb;
@@ -99,10 +106,13 @@ static HttpResponse hfHttpGet(const std::string& url,
     return r;
 }
 
-/// Extract the first non-negative integer value of `"key":N` from a JSON string.
-/// Returns 0 when the key is absent, the value is missing, or the value starts
-/// with a non-digit character (including '-' for negative numbers, which cannot
-/// be represented as size_t and are treated as 0).
+/**
+ * @brief Hf Json Extract Size T.
+ * @param[in] json Input parameter.
+ * @param[in] key Input parameter.
+ * @return Return value.
+ * @details Calls: find(), size(), std::isdigit().
+ */
 static size_t hfJsonExtractSizeT(const std::string& json,
                                   const std::string& key) {
     std::string needle = "\"" + key + "\":";
@@ -241,7 +251,13 @@ static HttpResponse hfHttpPost(const std::string& url,
     return r;
 }
 
-// Minimal JSON string-field extractor for OAuth token response parsing.
+/**
+ * @brief Minimal JSON string-field extractor for OAuth token response parsing.
+ * @param[in] json Input parameter.
+ * @param[in] key Input parameter.
+ * @return Return value.
+ * @details Calls: find(), size().
+ */
 static std::string hfJsonExtractStringValue(const std::string& json,
                                              const std::string& key) {
     std::string needle = "\"" + key + "\":\"";
@@ -267,7 +283,6 @@ static std::string hfJsonExtractStringValue(const std::string& json,
 } // anonymous namespace
 
 // Pimpl implementation
-/** @brief Pimpl implementation. */
 class HuggingFaceConnector::Impl {
 public:
     Impl() 
@@ -277,6 +292,12 @@ public:
     
     ~Impl() = default;
     
+    /**
+     * @brief Initialize.
+     * @param[in] config Input parameter.
+     * @return True when the operation succeeds.
+     * @details Calls: find(), end(), opt().
+     */
     bool initialize(const SourceConfig& config) {
         if (config.type != SourceType::HUGGINGFACE) {
             return false;
@@ -365,6 +386,13 @@ public:
         return 0;
     }
     
+    /**
+     * @brief Ingest.
+     * @param[in] target_collection Input parameter.
+     * @param[in] progress_callback Input parameter.
+     * @return Return value.
+     * @details Calls: std::chrono::steady_clock::now(), empty(), addError(), ingestStreaming(), ingestBatch(), count(), std::string(), what().
+     */
     IngestionStats ingest(const std::string& target_collection,
                          ProgressCallback progress_callback) {
         IngestionStats stats;
@@ -439,7 +467,12 @@ private:
         return hfHttpPost(url, body, timeout_ms, retry_config_.ca_bundle_path);
     }
 
-    // Percent-encode a string for application/x-www-form-urlencoded.
+    /**
+     * @brief Percent-encode a string for application/x-www-form-urlencoded.
+     * @param[in] value Input parameter.
+     * @return Return value.
+     * @details Calls: std::isalnum(), std::snprintf().
+     */
     static std::string urlEncode(const std::string& value) {
         std::string encoded = {};
         for (unsigned char c : value) {
@@ -454,8 +487,12 @@ private:
         return encoded;
     }
 
-    // Attempt an OAuth 2.0 token refresh (RFC 6749 §6).
-    // Returns true and updates oauth_config_.access_token on success.
+    /**
+     * @brief Attempt an OAuth 2.
+     * @param[in] timeout_ms Input parameter.
+     * @return True when the operation succeeds.
+     * @details 0 token refresh (RFC 6749 §6). Returns true and updates oauth_config_.access_token on success. Calls: urlEncode(), empty(), httpPost(), hfJsonExtractStringValue(), std::move().
+     */
     bool refreshOAuthToken(int timeout_ms) {
         std::string body = "grant_type=refresh_token"
                            "&refresh_token=" + urlEncode(oauth_config_.refresh_token);
@@ -484,7 +521,14 @@ private:
         return true;
     }
 
-    // Helper: Streaming ingestion with retry and OAuth token refresh
+    /**
+     * @brief Helper: Streaming ingestion with retry and OAuth token refresh
+     * @param[in] api_url Input parameter.
+     * @param[in] param Input parameter.
+     * @param[in] callback Input parameter.
+     * @return Return value.
+     * @details Calls: getDocumentCount(), httpGet(), std::min(), std::to_string(), getWithRetry(), buildAuthToken(), isRefreshable(), refreshOAuthToken().
+     */
     IngestionStats ingestStreaming(const std::string& api_url,
                                   const std::string& /*target_collection*/,
                                   ProgressCallback callback) {
@@ -574,7 +618,14 @@ private:
         return stats;
     }
     
-    // Helper: Batch ingestion with retry and OAuth token refresh
+    /**
+     * @brief Helper: Batch ingestion with retry and OAuth token refresh
+     * @param[in] api_url Input parameter.
+     * @param[in] param Input parameter.
+     * @param[in] callback Input parameter.
+     * @return Return value.
+     * @details Calls: httpGet(), getWithRetry(), buildAuthToken(), isRefreshable(), refreshOAuthToken(), empty(), back(), pop_back().
+     */
     IngestionStats ingestBatch(const std::string& api_url,
                                const std::string& /*target_collection*/,
                                ProgressCallback callback) {
@@ -624,38 +675,82 @@ private:
     }
 
 public:
+    /**
+     * @brief Set Api Token.
+     * @param[in] token Input parameter.
+     * @details Implements setApiToken without additional internal calls.
+     */
     void setApiToken(const std::string& token) {
         api_token_ = token;
     }
     
+    /**
+     * @brief Set Batch Size.
+     * @param[in] batch_size Input parameter.
+     * @details Implements setBatchSize without additional internal calls.
+     */
     void setBatchSize(size_t batch_size) {
         batch_size_ = batch_size;
     }
     
+    /**
+     * @brief Set Streaming Mode.
+     * @param[in] enabled Input parameter.
+     * @details Implements setStreamingMode without additional internal calls.
+     */
     void setStreamingMode(bool enabled) {
         streaming_enabled_ = enabled;
     }
 
+    /**
+     * @brief Set Retry Config.
+     * @param[in] config Input parameter.
+     * @details Implements setRetryConfig without additional internal calls.
+     */
     void setRetryConfig(const RetryConfig& config) {
         retry_config_ = config;
     }
 
+    /**
+     * @brief Set OAuth Config.
+     * @param[in] config Input parameter.
+     * @details Implements setOAuthConfig without additional internal calls.
+     */
     void setOAuthConfig(const OAuthConfig& config) {
         oauth_config_ = config;
     }
 
+    /**
+     * @brief Set Http Get For Testing.
+     * @param[in] fn Input parameter.
+     * @details Calls: std::move().
+     */
     void setHttpGetForTesting(ApiHttpGetFn fn) {
         http_get_fn_ = std::move(fn);
     }
 
+    /**
+     * @brief Set Http Post For Testing.
+     * @param[in] fn Input parameter.
+     * @details Calls: std::move().
+     */
     void setHttpPostForTesting(ApiHttpPostFn fn) {
         http_post_fn_ = std::move(fn);
     }
 
+    /**
+     * @brief Set Document Validator.
+     * @param[in] v Input parameter.
+     * @details Calls: std::move().
+     */
     void setDocumentValidator(DocumentValidatorFn v) {
         document_validator_ = std::move(v);
     }
 
+    /**
+     * @brief Set Ingestion Policy.
+     * @param[in] policy Input parameter.
+     */
     void setIngestionPolicy(
         std::shared_ptr<governance::ModelGovernancePolicy> policy)
     {
@@ -682,7 +777,6 @@ private:
     ApiHttpGetFn  http_get_fn_;
     ApiHttpPostFn http_post_fn_;
     DocumentValidatorFn document_validator_;
-    /// Optional governance policy set via setIngestionPolicy() (Gap 8).
     std::shared_ptr<governance::ModelGovernancePolicy> ingestion_policy_;
 
 };
@@ -694,14 +788,12 @@ HuggingFaceConnector::HuggingFaceConnector()
 
 HuggingFaceConnector::~HuggingFaceConnector() = default;
 
-// Gap 8 (AI_ML_IMPACT_ASSESSMENT.md §7 — Severity: Medium/S1) — implemented 2026-04-21.
-// The data classification gate is performed inside initialize() by calling
-// ModelGovernancePolicy::checkExportPermission() with purpose="DATA_INGESTION"
-// when an ingestion policy has been injected via setIngestionPolicy().
-// When no policy is set (nullptr), a WARN is logged and the gate is bypassed
-// (degraded mode) to preserve backward compatibility with existing connectors.
-// Tracked: src/ingestion/FUTURE_ENHANCEMENTS.md §"Data Classification Gate for
-//          External Connectors"
+/**
+ * @brief Gap 8 (AI_ML_IMPACT_ASSESSMENT.
+ * @param[in] config Input parameter.
+ * @return True when the operation succeeds.
+ * @details md §7 — Severity: Medium/S1) — implemented 2026-04-21. The data classification gate is performed inside initialize() by calling ModelGovernancePolicy::checkExportPermission() with purpose="DATA_INGESTION" when an ingestion policy has been injected via setIngestionPolicy(). When no policy is set (nullptr), a WARN is logged and the gate is bypassed (degraded mode) to preserve backward compatibility with existing connectors. Tracked: src/ingestion/FUTURE_ENHANCEMENTS.md §"Data Classification Gate for External Connectors" Calls: hasIngestionPolicy(), find(), end(), checkIngestionPermission(), THEMIS_ERROR(), THEMIS_INFO(), THEMIS_WARN().
+ */
 bool HuggingFaceConnector::initialize(const SourceConfig& config) {
     // ── Governance gate (Gap 8) ───────────────────────────────────────────────
     if (impl_->hasIngestionPolicy()) {
@@ -742,43 +834,94 @@ size_t HuggingFaceConnector::getDocumentCount() const {
     return impl_->getDocumentCount();
 }
 
+/**
+ * @brief Ingest.
+ * @param[in] target_collection Input parameter.
+ * @param[in] progress_callback Input parameter.
+ * @return Return value.
+ * @details Implements ingest without additional internal calls.
+ */
 IngestionStats HuggingFaceConnector::ingest(const std::string& target_collection,
                                            ProgressCallback progress_callback) {
     return impl_->ingest(target_collection, progress_callback);
 }
 
+/**
+ * @brief Set Api Token.
+ * @param[in] token Input parameter.
+ * @details Implements setApiToken without additional internal calls.
+ */
 void HuggingFaceConnector::setApiToken(const std::string& token) {
     impl_->setApiToken(token);
 }
 
+/**
+ * @brief Set Batch Size.
+ * @param[in] batch_size Input parameter.
+ * @details Implements setBatchSize without additional internal calls.
+ */
 void HuggingFaceConnector::setBatchSize(size_t batch_size) {
     impl_->setBatchSize(batch_size);
 }
 
+/**
+ * @brief Set Streaming Mode.
+ * @param[in] enabled Input parameter.
+ * @details Implements setStreamingMode without additional internal calls.
+ */
 void HuggingFaceConnector::setStreamingMode(bool enabled) {
     impl_->setStreamingMode(enabled);
 }
 
+/**
+ * @brief Set Retry Config.
+ * @param[in] config Input parameter.
+ * @details Implements setRetryConfig without additional internal calls.
+ */
 void HuggingFaceConnector::setRetryConfig(const RetryConfig& config) {
     impl_->setRetryConfig(config);
 }
 
+/**
+ * @brief Set OAuth Config.
+ * @param[in] config Input parameter.
+ * @details Implements setOAuthConfig without additional internal calls.
+ */
 void HuggingFaceConnector::setOAuthConfig(const OAuthConfig& config) {
     impl_->setOAuthConfig(config);
 }
 
+/**
+ * @brief Set Http Get For Testing.
+ * @param[in] fn Input parameter.
+ * @details Calls: std::move().
+ */
 void HuggingFaceConnector::setHttpGetForTesting(ApiHttpGetFn fn) {
     impl_->setHttpGetForTesting(std::move(fn));
 }
 
+/**
+ * @brief Set Http Post For Testing.
+ * @param[in] fn Input parameter.
+ * @details Calls: std::move().
+ */
 void HuggingFaceConnector::setHttpPostForTesting(ApiHttpPostFn fn) {
     impl_->setHttpPostForTesting(std::move(fn));
 }
 
+/**
+ * @brief Set Document Validator.
+ * @param[in] validator Input parameter.
+ * @details Calls: std::move().
+ */
 void HuggingFaceConnector::setDocumentValidator(DocumentValidatorFn validator) {
     impl_->setDocumentValidator(std::move(validator));
 }
 
+/**
+ * @brief Set Ingestion Policy.
+ * @param[in] policy Input parameter.
+ */
 void HuggingFaceConnector::setIngestionPolicy(
     std::shared_ptr<governance::ModelGovernancePolicy> policy)
 {

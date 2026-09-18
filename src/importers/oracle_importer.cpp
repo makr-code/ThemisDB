@@ -30,12 +30,13 @@ namespace importers {
 // ============================================================================
 
 /**
- * @brief Memory-bounded line reader (mirrors mysql_importer helper).
- *
- * Reads the next newline-terminated line from @p file with a hard per-line
- * byte cap of @p max_bytes (0 = unlimited). When the cap is exceeded the
- * remaining bytes of the current line are discarded and @p truncated is set
- * to true. Returns false only when EOF is reached before any bytes are read.
+ * @brief Stream Read Line Oracle.
+ * @param[in,out] file Input/output parameter.
+ * @param[in,out] line Input/output parameter.
+ * @param[in] max_bytes Input parameter.
+ * @param[in,out] truncated Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: clear(), std::getline(), get().
  */
 static bool streamReadLineOracle(std::istream& file,
                             std::string& line,
@@ -75,7 +76,10 @@ static bool streamReadLineOracle(std::istream& file,
 }
 
 /**
- * @brief Convert a string to lower-case (ASCII only).
+ * @brief To Lower Oracle.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Calls: std::tolower().
  */
 static std::string toLowerOracle(const std::string& s) {
     std::string result = s;
@@ -90,28 +94,20 @@ static std::string toLowerOracle(const std::string& s) {
 // ============================================================================
 namespace {
 
-/// Connection pool state tracker for Phase 2 hardening
 struct OracleConnectionPoolState {
-    /// Current number of active connections (bounded by max_active_connections)
     std::atomic<size_t> active_connections{0};
     
-    /// Maximum concurrent connections allowed (Oracle default: 16)
     static constexpr size_t max_active_connections = 16;
     
-    /// Connection timeout in milliseconds (0 = no timeout)
     uint32_t connection_timeout_ms = 0;
     
-    /// Last connection error code for diagnostics
     std::atomic<ImportErrorCode> last_error{ImportErrorCode::SUCCESS};
     
-    /// Schema cache validity flag (invalidated on connection loss)
     std::atomic<bool> schema_cache_valid{true};
 };
 
-/// Global connection pool state (one per process; safe due to atomic operations)
 static thread_local OracleConnectionPoolState g_oracle_connection_pool;
 
-/// Maps Oracle-specific error patterns to ImporterErrorCode
 [[maybe_unused]] static ImportErrorCode mapOracleErrorToCode(const std::string& error_msg) {
     // PHASE-2-HARDENING: Standardized error reporting
     const auto msg_lower = [](std::string s) {
@@ -160,10 +156,13 @@ static thread_local OracleConnectionPoolState g_oracle_connection_pool;
     return ImportErrorCode::UNKNOWN;
 }
 
-/// PHASE-2-HARDENING: Simple fallback parser for INSERT statements when regex fails
-/// This implements the prepared statement fallback mechanism for Oracle importer.
-/// When the main regex-based parser fails to parse an INSERT statement,
-/// this simple parser attempts to extract at least the table name for logging.
+/**
+ * @brief Simple Insert Fallback Oracle.
+ * @param[in] sql Input parameter.
+ * @param[in,out] out_table_name Name of the out table.
+ * @return True when the operation succeeds.
+ * @details Calls: std::toupper(), sql_upper(), find(), size(), substr().
+ */
 static bool simpleInsertFallbackOracle(const std::string& sql, std::string& out_table_name) {
     // Very simple fallback: find "INSERT INTO" and extract table name
     const auto sql_upper = [](std::string s) {
@@ -221,6 +220,12 @@ std::vector<std::string> OracleImporter::getSupportedTypes() const {
     return {"oracle", "oracle_expdp", "oracle_exp"};
 }
 
+/**
+ * @brief Initialize.
+ * @param[in] param Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: clear(), THEMIS_INFO().
+ */
 bool OracleImporter::initialize(const std::string& /*config*/) {
     cancelled_ = false;
     schemas_.clear();
@@ -228,6 +233,13 @@ bool OracleImporter::initialize(const std::string& /*config*/) {
     return true;
 }
 
+/**
+ * @brief Validate Source.
+ * @param[in] source_path Path to the source.
+ * @param[in,out] errors Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: file(), push_back(), std::getline(), find(), THEMIS_INFO().
+ */
 bool OracleImporter::validateSource(const std::string& source_path,
                                     std::vector<std::string>& errors) {
     std::ifstream file(source_path);
@@ -261,6 +273,14 @@ bool OracleImporter::validateSource(const std::string& source_path,
     return true;
 }
 
+/**
+ * @brief Import Data.
+ * @param[in] source_path Path to the source.
+ * @param[in] options Input parameter.
+ * @param[in] progress_callback Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::steady_clock::now(), THEMIS_INFO(), toJson(), dump(), permission_check(), addError(), parseDumpFile(), empty().
+ */
 ImportStats OracleImporter::importData(
     const std::string& source_path,
     const ImportOptions& options,
@@ -335,6 +355,13 @@ ImportStats OracleImporter::importData(
     return stats;
 }
 
+/**
+ * @brief Import Data Async.
+ * @param[in] source_path Path to the source.
+ * @param[in] options Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), std::to_string(), get(), store(), setStage(), get_future().
+ */
 std::shared_ptr<ImportHandle> OracleImporter::importDataAsync(
     const std::string& source_path,
     const ImportOptions& options
@@ -394,11 +421,21 @@ std::shared_ptr<ImportHandle> OracleImporter::importDataAsync(
     return handle;
 }
 
+/**
+ * @brief Cancel.
+ * @details Calls: THEMIS_INFO().
+ */
 void OracleImporter::cancel() {
     cancelled_ = true;
     THEMIS_INFO("Oracle import cancelled");
 }
 
+/**
+ * @brief Get Source Schema.
+ * @param[in] source_path Path to the source.
+ * @return Return value.
+ * @details Calls: clear(), file(), json::array(), std::getline(), size(), THEMIS_WARN(), resize(), empty().
+ */
 json OracleImporter::getSourceSchema(const std::string& source_path) {
     schemas_.clear();
 
@@ -478,6 +515,15 @@ json OracleImporter::getSourceSchema(const std::string& source_path) {
 // Private Methods
 // ============================================================================
 
+/**
+ * @brief Parse Dump File.
+ * @param[in] file_path Path to the file.
+ * @param[in] options Input parameter.
+ * @param[in,out] stats Input/output parameter.
+ * @param[in,out] callback Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: file(), addError(), std::to_string(), PoolGuard(), streamReadLineOracle(), find(), empty(), size().
+ */
 bool OracleImporter::parseDumpFile(const std::string& file_path, const ImportOptions& options,
                                     ImportStats& stats, ProgressCallback& callback) {
     std::ifstream file(file_path);
@@ -660,6 +706,13 @@ bool OracleImporter::parseDumpFile(const std::string& file_path, const ImportOpt
     return !cancelled_;
 }
 
+/**
+ * @brief Parse Create Table.
+ * @param[in] sql Input parameter.
+ * @param[in,out] schema Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: table_regex(), std::regex_search(), str(), empty(), find(), position(), size(), substr().
+ */
 bool OracleImporter::parseCreateTable(const std::string& sql, TableSchema& schema) {
     // Match: CREATE TABLE ["owner".]"table" (
     // or:    CREATE TABLE owner.table (   (plain identifiers)
@@ -846,6 +899,15 @@ bool OracleImporter::parseCreateTable(const std::string& sql, TableSchema& schem
     return !schema.name.empty();
 }
 
+/**
+ * @brief Parse Insert.
+ * @param[in] sql Input parameter.
+ * @param[in] options Input parameter.
+ * @param[in,out] stats Input/output parameter.
+ * @param[in] line_number Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: insert_regex(), std::regex_search(), simpleInsertFallbackOracle(), addError(), std::to_string(), str(), shouldImportTable(), empty().
+ */
 bool OracleImporter::parseInsert(const std::string& sql, const ImportOptions& options,
                                   ImportStats& stats, size_t line_number) {
     // Oracle INSERT:
@@ -1165,6 +1227,13 @@ bool OracleImporter::shouldImportTable(const std::string& table_name,
     return true;
 }
 
+/**
+ * @brief Convert Row To Entity.
+ * @param[in] schema Input parameter.
+ * @param[in] values Input parameter.
+ * @return Return value.
+ * @details Calls: size().
+ */
 json OracleImporter::convertRowToEntity(const TableSchema& schema,
                                          const std::vector<std::string>& values) {
     json entity;
@@ -1279,6 +1348,12 @@ std::vector<std::string> OracleImporter::parseInsertValues(
     return result;
 }
 
+/**
+ * @brief Unquote Identifier.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Calls: find_first_not_of(), find_last_not_of(), substr(), size(), front().
+ */
 std::string OracleImporter::unquoteIdentifier(const std::string& s) {
     std::string t = s;
     // Trim surrounding whitespace
@@ -1297,6 +1372,12 @@ std::string OracleImporter::unquoteIdentifier(const std::string& s) {
     return t;
 }
 
+/**
+ * @brief Strip Oracle Comments.
+ * @param[in] sql Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size().
+ */
 std::string OracleImporter::stripOracleComments(const std::string& sql) {
     // Remove Oracle hint comments (/*+ ... */) and regular block comments (/* ... */).
     // Inline comments (-- ...) are filtered at the line level by the caller.
@@ -1359,6 +1440,14 @@ void OracleImporter::emitSpan(const ImportOptions& options,
     }
 }
 
+/**
+ * @brief Report Progress.
+ * @param[in,out] callback Input/output parameter.
+ * @param[in] stage Input parameter.
+ * @param[in] current Input parameter.
+ * @param[in] total Input parameter.
+ * @details Calls: callback().
+ */
 void OracleImporter::reportProgress(ProgressCallback& callback, const std::string& stage,
                                      size_t current, size_t total) {
     if (callback) {
@@ -1382,6 +1471,12 @@ plugins::PluginCapabilities OracleImporterPlugin::getCapabilities() const {
     return caps;
 }
 
+/**
+ * @brief Initialize.
+ * @param[in] config_json Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements initialize without additional internal calls.
+ */
 bool OracleImporterPlugin::initialize(const char* config_json) {
     if (!importer_) {
       return false;
@@ -1389,6 +1484,10 @@ bool OracleImporterPlugin::initialize(const char* config_json) {
     return importer_->initialize(config_json ? config_json : "{}");
 }
 
+/**
+ * @brief Shutdown.
+ * @details Calls: cancel().
+ */
 void OracleImporterPlugin::shutdown() {
     if (importer_) {
       importer_->cancel();

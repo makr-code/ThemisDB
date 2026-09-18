@@ -51,7 +51,14 @@ findFollowingOrEqual(const std::vector<TSStore::DataPoint>& points,
         });
 }
 
-// Build a synthetic point by copying context fields from a donor.
+/**
+ * @brief Build a synthetic point by copying context fields from a donor.
+ * @param[in] donor Input parameter.
+ * @param[in] timestamp_ms Input parameter.
+ * @param[in] value Input parameter.
+ * @return Return value.
+ * @details Implements makeSynthetic without additional internal calls.
+ */
 TSStore::DataPoint makeSynthetic(const TSStore::DataPoint& donor,
                                   int64_t timestamp_ms,
                                   double  value) {
@@ -65,7 +72,13 @@ TSStore::DataPoint makeSynthetic(const TSStore::DataPoint& donor,
     return out;
 }
 
-// Build a placeholder point using a constant value when no donor is available.
+/**
+ * @brief Build a placeholder point using a constant value when no donor is available.
+ * @param[in] timestamp_ms Input parameter.
+ * @param[in] fill_value Input parameter.
+ * @return Return value.
+ * @details Implements makePlaceholder without additional internal calls.
+ */
 TSStore::DataPoint makePlaceholder(int64_t timestamp_ms, double fill_value) {
     TSStore::DataPoint out;
     out.timestamp_ms = timestamp_ms;
@@ -255,6 +268,12 @@ std::vector<TSStore::DataPoint> BackwardFillGapFiller::fill(
 // GapFiller
 // ============================================================================
 
+/**
+ * @brief Make Impl.
+ * @param[in] method Input parameter.
+ * @return Return value.
+ * @details Implements makeImpl without additional internal calls.
+ */
 std::unique_ptr<IGapFiller> GapFiller::makeImpl(GapFillMethod method) {
     switch (method) {
         case GapFillMethod::ForwardFill:
@@ -275,6 +294,11 @@ GapFiller::GapFiller(GapFillConfig cfg)
     : config_(std::move(cfg))
     , impl_(makeImpl(config_.method)) {}
 
+/**
+ * @brief Set Config.
+ * @param[in] cfg Input parameter.
+ * @details Calls: makeImpl().
+ */
 void GapFiller::setConfig(const GapFillConfig& cfg) {
     config_ = cfg;
     impl_   = makeImpl(config_.method);
@@ -294,6 +318,14 @@ std::vector<TSStore::DataPoint> GapFiller::fill(
     return impl_->fill(points, timestamps_to_fill, config_);
 }
 
+/**
+ * @brief Regular Timestamps.
+ * @param[in] from_ms Input parameter.
+ * @param[in] to_ms Input parameter.
+ * @param[in] interval_ms Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), push_back().
+ */
 std::vector<int64_t> GapFiller::regularTimestamps(int64_t from_ms,
                                                     int64_t to_ms,
                                                     int64_t interval_ms) {

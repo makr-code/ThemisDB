@@ -37,7 +37,11 @@ namespace lora {
 
 namespace {
 
-/// ISO 8601 UTC timestamp for the current moment (package-specific helper).
+/**
+ * @brief Now ISO8601 pkg.
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::now(), std::chrono::system_clock::to_time_t(), gmtime_s(), gmtime_r(), std::put_time(), str().
+ */
 static std::string nowISO8601_pkg() {
     auto now = std::chrono::system_clock::now();
     auto t   = std::chrono::system_clock::to_time_t(now);
@@ -52,7 +56,11 @@ static std::string nowISO8601_pkg() {
     return ss.str();
 }
 
-/// Generate a UUID-like identifier from two random 64-bit values (package-specific helper).
+/**
+ * @brief Generate Id pkg.
+ * @return Return value.
+ * @details Calls: gen(), rd(), lock(), std::setfill(), std::setw(), dis(), str().
+ */
 static std::string generateId_pkg() {
     static std::mutex id_mu;
     static std::random_device rd;
@@ -66,7 +74,12 @@ static std::string generateId_pkg() {
     return oss.str();
 }
 
-/// Compute SHA-256 of a string; return lowercase hex.
+/**
+ * @brief Sha256 Hex.
+ * @param[in] data Input parameter.
+ * @return Return value.
+ * @details Calls: SHA256(), data(), size(), std::setfill(), std::setw(), str().
+ */
 static std::string sha256Hex(const std::string& data) {
     unsigned char digest[SHA256_DIGEST_LENGTH];
     SHA256(reinterpret_cast<const unsigned char*>(data.data()),
@@ -79,13 +92,23 @@ static std::string sha256Hex(const std::string& data) {
     return oss.str();
 }
 
-/// Compute SHA-256 of the concatenation of two hex-string hash values.
+/**
+ * @brief Hash Pair.
+ * @param[in] left Input parameter.
+ * @param[in] right Input parameter.
+ * @return Return value.
+ * @details Calls: sha256Hex().
+ */
 static std::string hashPair(const std::string& left, const std::string& right) {
     return sha256Hex(left + right);
 }
 
-/// Compute a binary Merkle root from a list of leaf hashes.
-/// Returns sha256Hex("") when leaves is empty.
+/**
+ * @brief Compute Merkle Root.
+ * @param[in] leaves Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), sha256Hex(), size(), push_back(), back(), reserve(), hashPair(), std::move().
+ */
 static std::string computeMerkleRoot(std::vector<std::string> leaves) {
     if (leaves.empty()) {
         return sha256Hex("");
@@ -110,7 +133,13 @@ static std::string computeMerkleRoot(std::vector<std::string> leaves) {
     return leaves.front();
 }
 
-/// Safe JSON string getter.
+/**
+ * @brief Get Str.
+ * @param[in] j Input parameter.
+ * @param[in] key Input parameter.
+ * @param[in,out] dest Input/output parameter.
+ * @details Calls: contains(), is_string().
+ */
 static void getStr(const json& j, const char* key, std::string& dest) {
     if (j.contains(key) && j[key].is_string()) {
         dest = j[key].get<std::string>();
@@ -475,6 +504,12 @@ ProvenanceHashLedger::~ProvenanceHashLedger() = default;
 // ProvenanceHashLedger — LoRAPackage lifecycle
 // ============================================================================
 
+/**
+ * @brief Append Package.
+ * @param[in] pkg Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), empty(), generateId_pkg(), nowISO8601_pkg(), back(), computeContentHash(), push_back(), spdlog::debug().
+ */
 LoRAPackage ProvenanceHashLedger::appendPackage(LoRAPackage pkg) {
     std::lock_guard<std::mutex> lock(impl_->mu);
 
@@ -530,6 +565,12 @@ std::optional<LoRAPackage> ProvenanceHashLedger::getPackage(
 // ProvenanceHashLedger — AdapterProduct lifecycle
 // ============================================================================
 
+/**
+ * @brief Append Product.
+ * @param[in] product Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), empty(), generateId_pkg(), nowISO8601_pkg(), back(), computeContentHash(), push_back(), spdlog::debug().
+ */
 AdapterProduct ProvenanceHashLedger::appendProduct(AdapterProduct product) {
     std::lock_guard<std::mutex> lock(impl_->mu);
 
@@ -583,6 +624,13 @@ std::optional<AdapterProduct> ProvenanceHashLedger::getProduct(
 // ProvenanceHashLedger — DistributionReceipt and ReceiptChain
 // ============================================================================
 
+/**
+ * @brief Append Receipt.
+ * @param[in] receipt Input parameter.
+ * @return Return value.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: empty(), lock(), generateId_pkg(), nowISO8601_pkg(), sha256Hex(), computeContentHash(), push_back(), spdlog::debug().
+ */
 DistributionReceipt ProvenanceHashLedger::appendReceipt(DistributionReceipt receipt) {
     if (receipt.artifact_id.empty()) {
         throw std::invalid_argument(
@@ -674,6 +722,13 @@ bool ProvenanceHashLedger::verifyReceiptChain(
 // ProvenanceHashLedger — ReceiptManifest
 // ============================================================================
 
+/**
+ * @brief Create Manifest.
+ * @param[in] event_type Input parameter.
+ * @param[in] artifact_id Identifier of the artifact.
+ * @param[in] receipts Input parameter.
+ * @return Return value.
+ */
 ReceiptManifest ProvenanceHashLedger::createManifest(
     const std::string&               event_type,
     const std::string&               artifact_id,
@@ -762,6 +817,13 @@ bool ProvenanceHashLedger::validateManifest(
 // ProvenanceHashLedger — ShardLedger
 // ============================================================================
 
+/**
+ * @brief Append Shard Entry.
+ * @param[in] entry Input parameter.
+ * @return Return value.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: empty(), lock(), generateId_pkg(), nowISO8601_pkg(), back(), sha256Hex(), computeContentHash(), push_back().
+ */
 ShardLedgerEntry ProvenanceHashLedger::appendShardEntry(ShardLedgerEntry entry) {
     if (entry.artifact_id.empty()) {
         throw std::invalid_argument(

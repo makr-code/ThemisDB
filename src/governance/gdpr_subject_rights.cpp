@@ -47,6 +47,12 @@ std::unordered_map<std::string, std::string> ErasureReport::toSummaryMap() const
 
 GdprSubjectRightsManager::GdprSubjectRightsManager(TsaSigner tsa_signer) : tsa_signer_(std::move(tsa_signer)) {}
 
+/**
+ * @brief Register Erase Target.
+ * @param[in] target Input parameter.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: storeId(), empty(), lock(), push_back(), std::move().
+ */
 void GdprSubjectRightsManager::registerEraseTarget(std::shared_ptr<IGdprEraseTarget> target) {
     if (!target) {
         throw std::invalid_argument("GdprSubjectRightsManager: target must not be null");
@@ -59,15 +65,35 @@ void GdprSubjectRightsManager::registerEraseTarget(std::shared_ptr<IGdprEraseTar
 }
 
 size_t GdprSubjectRightsManager::targetCount() const {
+    /**
+     * @brief Lock.
+     * @param[in] targets_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(targets_mutex_);
     return targets_.size();
 }
 
 std::mutex &GdprSubjectRightsManager::getSubjectMutex(const std::string &subject_id) {
+    /**
+     * @brief Lock.
+     * @param[in] subject_map_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(subject_map_mutex_);
     return subject_mutexes_[subject_id];
 }
 
+/**
+ * @brief Request Erasure.
+ * @param[in] subject_id Identifier of the subject.
+ * @param[in] regulation Input parameter.
+ * @param[in] reason Input parameter.
+ * @param[in] operator_id Identifier of the operator.
+ * @return Return value.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: empty(), subject_lock(), getSubjectMutex(), THEMIS_INFO(), lock(), std::chrono::system_clock::now(), eraseSubject(), THEMIS_ERROR().
+ */
 ErasureReport GdprSubjectRightsManager::requestErasure(const std::string &subject_id, Regulation regulation,
                                                        const std::string &reason, const std::string &operator_id) {
     if (subject_id.empty()) {
@@ -124,6 +150,14 @@ ErasureReport GdprSubjectRightsManager::requestErasure(const std::string &subjec
     return report;
 }
 
+/**
+ * @brief Request Portability.
+ * @param[in] subject_id Identifier of the subject.
+ * @param[in] format Input parameter.
+ * @return Return value.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: empty(), lock(), THEMIS_INFO(), exportSubjectData(), std::string(), begin(), end(), THEMIS_WARN().
+ */
 PortabilityPackage GdprSubjectRightsManager::requestPortability(const std::string &subject_id,
                                                                 const std::string &format) {
     if (subject_id.empty()) {

@@ -31,6 +31,12 @@ json WorkloadEvent::toJSON() const {
     };
 }
 
+/**
+ * @brief From JSON.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: at().
+ */
 WorkloadEvent WorkloadEvent::fromJSON(const json& j) {
     WorkloadEvent e;
     e.table_name  = j.at("table_name").get<std::string>();
@@ -65,11 +71,24 @@ WorkloadCapture& WorkloadCapture::operator=(WorkloadCapture&& other) noexcept {
     return *this;
 }
 
+/**
+ * @brief Record Event.
+ * @param[in] event Input parameter.
+ * @details Calls: lock(), push_back().
+ */
 void WorkloadCapture::recordEvent(const WorkloadEvent& event) {
     std::lock_guard<std::mutex> lock(mutex_);
     events_.push_back(event);
 }
 
+/**
+ * @brief Record Event.
+ * @param[in] table_name Name of the table.
+ * @param[in] column_name Name of the column.
+ * @param[in] access_type Input parameter.
+ * @param[in] selectivity Input parameter.
+ * @details Calls: std::string().
+ */
 void WorkloadCapture::recordEvent(std::string_view table_name,
                                   std::string_view column_name,
                                   IndexRecommender::AccessType access_type,
@@ -82,26 +101,49 @@ void WorkloadCapture::recordEvent(std::string_view table_name,
     recordEvent(e);
 }
 
+/**
+ * @brief Record Query.
+ * @details Calls: lock().
+ */
 void WorkloadCapture::recordQuery() {
     std::lock_guard<std::mutex> lock(mutex_);
     ++total_queries_;
 }
 
 size_t WorkloadCapture::eventCount() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return events_.size();
 }
 
 uint64_t WorkloadCapture::totalQueries() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return total_queries_;
 }
 
 std::vector<WorkloadEvent> WorkloadCapture::events() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return events_;
 }
 
+/**
+ * @brief Clear.
+ * @details Calls: lock().
+ */
 void WorkloadCapture::clear() {
     std::lock_guard<std::mutex> lock(mutex_);
     events_.clear();
@@ -109,6 +151,11 @@ void WorkloadCapture::clear() {
 }
 
 json WorkloadCapture::toJSON() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     json arr = json::array();
     for (const auto& e : events_) {
@@ -120,6 +167,12 @@ json WorkloadCapture::toJSON() const {
     };
 }
 
+/**
+ * @brief From JSON.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: at(), reserve(), size(), push_back().
+ */
 WorkloadCapture WorkloadCapture::fromJSON(const json& j) {
     WorkloadCapture capture;
     capture.total_queries_ = j.at("total_queries").get<uint64_t>();
@@ -135,6 +188,12 @@ WorkloadCapture WorkloadCapture::fromJSON(const json& j) {
 // WorkloadReplayer
 // ============================================================================
 
+/**
+ * @brief Feed.
+ * @param[in] capture Input parameter.
+ * @param[in,out] rec Input/output parameter.
+ * @details Calls: totalQueries(), recordQuery(), events(), recordAccess(), THEMIS_DEBUG(), eventCount().
+ */
 void WorkloadReplayer::feed(const WorkloadCapture& capture, IndexRecommender& rec) {
     const uint64_t total_queries = capture.totalQueries();
     for (uint64_t i = 0; i < total_queries; ++i) {

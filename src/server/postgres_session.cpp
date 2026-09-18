@@ -28,8 +28,12 @@
 #include "utils/logger.h"
 
 namespace {
-    // Helper function to escape SQL string literals
-    // HIGH-GAP FIX: string_concat_loop — use push_back/append instead of += to avoid temp copies
+    /**
+     * @brief Helper function to escape SQL string literals HIGH-GAP FIX: string_concat_loop — use push_back/append instead of += to avoid temp copies
+     * @param[in] input Input parameter.
+     * @return Return value.
+     * @details Calls: reserve(), size(), append(), push_back().
+     */
     std::string escapeSQLString(const std::string& input) {
         std::string result = {};
         result.reserve(input.size() + 10);
@@ -52,20 +56,44 @@ namespace {
         return result;
     }
     
+    /**
+     * @brief Contains Control Characters.
+     * @param[in] input Input parameter.
+     * @return True when the operation succeeds.
+     * @details Calls: std::any_of(), begin(), end(), std::iscntrl().
+     */
     bool containsControlCharacters(const std::string& input) {
         return std::any_of(input.begin(), input.end(), [](unsigned char c) {
             return (c == '\0' || (std::iscntrl(c) && c != '\t' && c != '\n' && c != '\r'));
         });
     }
 
+    /**
+     * @brief Is Integer Oid.
+     * @param[in] paramType Input parameter.
+     * @return True when the operation succeeds.
+     * @details Implements isIntegerOid without additional internal calls.
+     */
     bool isIntegerOid(int32_t paramType) {
         return paramType == 20 || paramType == 21 || paramType == 23;
     }
 
+    /**
+     * @brief Is Floating Oid.
+     * @param[in] paramType Input parameter.
+     * @return True when the operation succeeds.
+     * @details Implements isFloatingOid without additional internal calls.
+     */
     bool isFloatingOid(int32_t paramType) {
         return paramType == 700 || paramType == 701 || paramType == 1700;
     }
 
+    /**
+     * @brief Is Boolean Oid.
+     * @param[in] paramType Input parameter.
+     * @return True when the operation succeeds.
+     * @details Implements isBooleanOid without additional internal calls.
+     */
     bool isBooleanOid(int32_t paramType) {
         return paramType == 16;
     }
@@ -90,7 +118,14 @@ namespace {
         return query;
     }
 
-    // Helper function to safely bind parameter value
+    /**
+     * @brief Helper function to safely bind parameter value
+     * @param[in] param Input parameter.
+     * @param[in] paramType Input parameter.
+     * @return Return value.
+     * @throws std::runtime_error if an error occurs.
+     * @details Calls: containsControlCharacters(), isIntegerOid(), data(), size(), std::from_chars(), isFloatingOid(), std::strtod(), c_str().
+     */
     std::string bindParameterValue(const std::string& param, int32_t paramType) {
         // Handle NULL
         if (param == "NULL") {
@@ -135,6 +170,11 @@ namespace {
         return "'" + escapeSQLString(param) + "'";
     }
 
+    /**
+     * @brief Log Current Exception.
+     * @param[in] context Input parameter.
+     * @details Calls: what().
+     */
     void logCurrentException(const char* context) {
         try {
             throw;
@@ -164,11 +204,19 @@ PostgresSession::~PostgresSession() {
     stop();
 }
 
+/**
+ * @brief Start.
+ * @details Calls: store(), doRead().
+ */
 void PostgresSession::start() {
     stopped_.store(false, std::memory_order_release);
     doRead();
 }
 
+/**
+ * @brief Stop.
+ * @details Calls: exchange(), weak_from_this(), closeSocket(), lock(), asio::dispatch(), get_executor(), close_fn().
+ */
 void PostgresSession::stop() {
     if (stopped_.exchange(true, std::memory_order_acq_rel)) {
         return;
@@ -186,6 +234,10 @@ void PostgresSession::stop() {
     close_fn();
 }
 
+/**
+ * @brief Close Socket.
+ * @details Calls: cancel(), lock(), clear(), shutdown(), close().
+ */
 void PostgresSession::closeSocket() {
     boost::beast::error_code ec;
     readTimeoutTimer_.cancel();
@@ -199,6 +251,10 @@ void PostgresSession::closeSocket() {
     socket_.close(ec);
 }
 
+/**
+ * @brief Arm Read Timeout.
+ * @details Calls: shared_from_this(), expires_after(), async_wait(), load(), sendErrorResponse(), stop(), THEMIS_WARN(), logCurrentException().
+ */
 void PostgresSession::armReadTimeout() {
     auto self = shared_from_this();
     readTimeoutTimer_.expires_after(kReadTimeout);
@@ -217,11 +273,19 @@ void PostgresSession::armReadTimeout() {
     });
 }
 
+/**
+ * @brief Cancel Read Timeout.
+ * @details Calls: cancel().
+ */
 void PostgresSession::cancelReadTimeout() {
     boost::beast::error_code ec;
     readTimeoutTimer_.cancel(ec);
 }
 
+/**
+ * @brief Arm Write Timeout.
+ * @details Calls: shared_from_this(), expires_after(), async_wait(), load(), sendErrorResponse(), stop(), THEMIS_WARN(), logCurrentException().
+ */
 void PostgresSession::armWriteTimeout() {
     auto self = shared_from_this();
     writeTimeoutTimer_.expires_after(kWriteTimeout);
@@ -240,6 +304,10 @@ void PostgresSession::armWriteTimeout() {
     });
 }
 
+/**
+ * @brief Cancel Write Timeout.
+ * @details Calls: cancel().
+ */
 void PostgresSession::cancelWriteTimeout() {
     boost::beast::error_code ec;
     writeTimeoutTimer_.cancel(ec);
@@ -319,6 +387,11 @@ void PostgresSession::handleStartupMessage(int32_t protocolVersion,
     isAuthenticated_.store(true, std::memory_order_release);
 }
 
+/**
+ * @brief Handle Query.
+ * @param[in] query Input parameter.
+ * @details Calls: find_first_not_of(), sendErrorResponse(), sendReadyForQuery(), currentTransactionStatus(), substr(), find_last_not_of(), reserve(), size().
+ */
 void PostgresSession::handleQuery(const std::string& query) {
     // Trim query (HIGH-GAP FIX: avoid unnecessary copy of query, use trim-in-place)
     // GAP_CATEGORY: copy_overhead — use string_view to avoid intermediate copies
@@ -474,6 +547,13 @@ void PostgresSession::handleQuery(const std::string& query) {
     sendReadyForQuery(currentTransactionStatus());
 }
 
+/**
+ * @brief Handle Parse.
+ * @param[in] stmt Input parameter.
+ * @param[in] query Input parameter.
+ * @param[in] paramTypes Input parameter.
+ * @details Calls: erase(), find_first_not_of(), find_last_not_of(), empty(), sendErrorResponse(), lock(), sendParseComplete(), std::string().
+ */
 void PostgresSession::handleParse(const std::string& stmt, const std::string& query, 
                                  const std::vector<int32_t>& paramTypes) {
     // PostgreSQL Parse message handler
@@ -502,6 +582,13 @@ void PostgresSession::handleParse(const std::string& stmt, const std::string& qu
     }
 }
 
+/**
+ * @brief Handle Bind.
+ * @param[in] portal Input parameter.
+ * @param[in] stmt Input parameter.
+ * @param[in] params Input parameter.
+ * @details Calls: lock(), find(), end(), sendErrorResponse(), empty(), size(), std::to_string(), sendBindComplete().
+ */
 void PostgresSession::handleBind(const std::string& portal, const std::string& stmt, 
                                 const std::vector<std::string>& params) {
     // PostgreSQL Bind message handler
@@ -533,6 +620,12 @@ void PostgresSession::handleBind(const std::string& portal, const std::string& s
     sendBindComplete();
 }
 
+/**
+ * @brief Handle Execute.
+ * @param[in] portal Input parameter.
+ * @param[in] maxRows Input parameter.
+ * @details Calls: lock(), find(), end(), sendErrorResponse(), reserve(), size(), std::to_string(), emplace_back().
+ */
 void PostgresSession::handleExecute(const std::string& portal, int32_t maxRows) {
     // PostgreSQL Execute message handler with result streaming
     // Executes portal with bound parameters and returns results (up to maxRows)
@@ -767,6 +860,12 @@ void PostgresSession::handleExecute(const std::string& portal, int32_t maxRows) 
     }
 }
 
+/**
+ * @brief Handle Describe.
+ * @param[in] type Input parameter.
+ * @param[in] name Input parameter.
+ * @details Calls: lock(), find(), end(), sendErrorResponse(), sendParameterDescription(), std::transform(), begin(), parseSelectQuery().
+ */
 void PostgresSession::handleDescribe(char type, const std::string& name) {
     // PostgreSQL Describe message handler
     // Returns description of statement or portal
@@ -893,6 +992,12 @@ void PostgresSession::handleDescribe(char type, const std::string& name) {
     }
 }
 
+/**
+ * @brief Handle Close.
+ * @param[in] type Input parameter.
+ * @param[in] name Input parameter.
+ * @details Calls: lock(), find(), end(), erase(), sendCloseComplete().
+ */
 void PostgresSession::handleClose(char type, const std::string& name) {
     // PostgreSQL Close message handler
     // Closes and deallocates a prepared statement or portal
@@ -920,17 +1025,30 @@ void PostgresSession::handleClose(char type, const std::string& name) {
     }
 }
 
+/**
+ * @brief Handle Sync.
+ * @details Calls: sendReadyForQuery(), currentTransactionStatus().
+ */
 void PostgresSession::handleSync() {
     // PostgreSQL Sync message handler
     // Ends extended query protocol flow and reports transaction status
     sendReadyForQuery(currentTransactionStatus());
 }
 
+/**
+ * @brief Handle Terminate.
+ * @details Calls: stop().
+ */
 void PostgresSession::handleTerminate() {
     // PostgreSQL Terminate message handler
     stop();
 }
 
+/**
+ * @brief Handle Copy Data.
+ * @param[in] data Input parameter.
+ * @details Calls: load(), sendErrorResponse(), dataStr(), begin(), end(), stream(), std::getline(), empty().
+ */
 void PostgresSession::handleCopyData(const std::vector<uint8_t>& data) {
     // PostgreSQL CopyData message handler
     // Receives data rows during COPY IN operation
@@ -955,6 +1073,10 @@ void PostgresSession::handleCopyData(const std::vector<uint8_t>& data) {
     }
 }
 
+/**
+ * @brief Handle Copy Done.
+ * @details Calls: load(), sendErrorResponse(), lock(), size(), substr(), find_first_not_of(), find_last_not_of(), clear().
+ */
 void PostgresSession::handleCopyDone() {
     // PostgreSQL CopyDone message handler
     // Signals end of COPY IN operation
@@ -1074,6 +1196,11 @@ void PostgresSession::handleCopyDone() {
     copyTableName_.clear();
 }
 
+/**
+ * @brief Handle Copy Fail.
+ * @param[in] message Input parameter.
+ * @details Calls: store(), lock(), clear(), sendErrorResponse().
+ */
 void PostgresSession::handleCopyFail(const std::string& message) {
     // PostgreSQL CopyFail message handler
     // Signals that client wants to abort COPY operation
@@ -1091,11 +1218,21 @@ void PostgresSession::handleCopyFail(const std::string& message) {
 
 // Send methods
 
+/**
+ * @brief Send Authentication Ok.
+ * @details Calls: writeMessage().
+ */
 void PostgresSession::sendAuthenticationOk() {
     std::vector<uint8_t> payload = {0, 0, 0, 0}; // Authentication OK
     writeMessage('R', payload);
 }
 
+/**
+ * @brief Send Parameter Status.
+ * @param[in] name Input parameter.
+ * @param[in] value Input parameter.
+ * @details Calls: reserve(), size(), insert(), end(), begin(), push_back(), writeMessage().
+ */
 void PostgresSession::sendParameterStatus(const std::string& name, const std::string& value) {
     std::vector<uint8_t> payload = {};
 
@@ -1107,6 +1244,12 @@ void PostgresSession::sendParameterStatus(const std::string& name, const std::st
     writeMessage('S', payload);
 }
 
+/**
+ * @brief Send Backend Key Data.
+ * @param[in] processId Input parameter.
+ * @param[in] secretKey Input parameter.
+ * @details Calls: payload(), writeMessage().
+ */
 void PostgresSession::sendBackendKeyData(int32_t processId, int32_t secretKey) {
     std::vector<uint8_t> payload(8);
     // Big-endian encoding
@@ -1121,11 +1264,21 @@ void PostgresSession::sendBackendKeyData(int32_t processId, int32_t secretKey) {
     writeMessage('K', payload);
 }
 
+/**
+ * @brief Send Ready For Query.
+ * @param[in] transactionStatus Input parameter.
+ * @details Calls: writeMessage().
+ */
 void PostgresSession::sendReadyForQuery(char transactionStatus) {
     std::vector<uint8_t> payload = {static_cast<uint8_t>(transactionStatus)};
     writeMessage('Z', payload);
 }
 
+/**
+ * @brief Send Row Description.
+ * @param[in] fields Input parameter.
+ * @details Calls: reserve(), size(), push_back(), insert(), end(), begin(), writeMessage().
+ */
 void PostgresSession::sendRowDescription(const std::vector<FieldDescription>& fields) {
     std::vector<uint8_t> payload;
     
@@ -1177,6 +1330,11 @@ void PostgresSession::sendRowDescription(const std::vector<FieldDescription>& fi
     writeMessage('T', payload);
 }
 
+/**
+ * @brief Send Data Row.
+ * @param[in] values Input parameter.
+ * @details Calls: size(), push_back(), insert(), end(), begin(), writeMessage().
+ */
 void PostgresSession::sendDataRow(const std::vector<std::string>& values) {
     std::vector<uint8_t> payload;
     
@@ -1225,12 +1383,21 @@ void PostgresSession::sendDataRowBinary(const std::vector<std::pair<std::vector<
     writeMessage('D', payload);
 }
 
+/**
+ * @brief Send Portal Suspended.
+ * @details Calls: writeMessage().
+ */
 void PostgresSession::sendPortalSuspended() {
     // Send PortalSuspended message ('s')
     // Indicates that execution was suspended due to maxRows limit
     writeMessage('s', {});
 }
 
+/**
+ * @brief Send Command Complete.
+ * @param[in] commandTag Input parameter.
+ * @details Calls: insert(), end(), begin(), push_back(), writeMessage().
+ */
 void PostgresSession::sendCommandComplete(const std::string& commandTag) {
     std::vector<uint8_t> payload;
     payload.insert(payload.end(), commandTag.begin(), commandTag.end());
@@ -1238,14 +1405,27 @@ void PostgresSession::sendCommandComplete(const std::string& commandTag) {
     writeMessage('C', payload);
 }
 
+/**
+ * @brief Send Parse Complete.
+ * @details Calls: writeMessage().
+ */
 void PostgresSession::sendParseComplete() {
     writeMessage('1', {});
 }
 
+/**
+ * @brief Send Bind Complete.
+ * @details Calls: writeMessage().
+ */
 void PostgresSession::sendBindComplete() {
     writeMessage('2', {});
 }
 
+/**
+ * @brief Send Parameter Description.
+ * @param[in] paramTypes Input parameter.
+ * @details Calls: size(), push_back(), writeMessage().
+ */
 void PostgresSession::sendParameterDescription(const std::vector<int32_t>& paramTypes) {
     std::vector<uint8_t> payload;
     
@@ -1265,14 +1445,27 @@ void PostgresSession::sendParameterDescription(const std::vector<int32_t>& param
     writeMessage('t', payload);
 }
 
+/**
+ * @brief Send No Data.
+ * @details Calls: writeMessage().
+ */
 void PostgresSession::sendNoData() {
     writeMessage('n', {});
 }
 
+/**
+ * @brief Send Close Complete.
+ * @details Calls: writeMessage().
+ */
 void PostgresSession::sendCloseComplete() {
     writeMessage('3', {});
 }
 
+/**
+ * @brief Send Copy In Response.
+ * @param[in] formatCodes Input parameter.
+ * @details Calls: empty(), push_back(), size(), writeMessage().
+ */
 void PostgresSession::sendCopyInResponse(const std::vector<int16_t>& formatCodes) {
     // Send CopyInResponse message ('G')
     // Format: overall_format(1) + num_columns(2) + format_codes(2 * N)
@@ -1297,6 +1490,11 @@ void PostgresSession::sendCopyInResponse(const std::vector<int16_t>& formatCodes
     writeMessage('G', payload);
 }
 
+/**
+ * @brief Send Copy Out Response.
+ * @param[in] formatCodes Input parameter.
+ * @details Calls: empty(), push_back(), size(), writeMessage().
+ */
 void PostgresSession::sendCopyOutResponse(const std::vector<int16_t>& formatCodes) {
     // Send CopyOutResponse message ('H')
     // Same format as CopyInResponse
@@ -1318,6 +1516,11 @@ void PostgresSession::sendCopyOutResponse(const std::vector<int16_t>& formatCode
     writeMessage('H', payload);
 }
 
+/**
+ * @brief Send Copy Both Response.
+ * @param[in] formatCodes Input parameter.
+ * @details Calls: empty(), push_back(), size(), writeMessage().
+ */
 void PostgresSession::sendCopyBothResponse(const std::vector<int16_t>& formatCodes) {
     // Send CopyBothResponse message ('W')
     // Used for replication
@@ -1339,18 +1542,34 @@ void PostgresSession::sendCopyBothResponse(const std::vector<int16_t>& formatCod
     writeMessage('W', payload);
 }
 
+/**
+ * @brief Send Copy Data.
+ * @param[in] data Input parameter.
+ * @details Calls: writeMessage().
+ */
 void PostgresSession::sendCopyData(const std::vector<uint8_t>& data) {
     // Send CopyData message ('d')
     // Just the raw data bytes
     writeMessage('d', data);
 }
 
+/**
+ * @brief Send Copy Done.
+ * @details Calls: writeMessage().
+ */
 void PostgresSession::sendCopyDone() {
     // Send CopyDone message ('c')
     // No payload
     writeMessage('c', {});
 }
 
+/**
+ * @brief Send Error Response.
+ * @param[in] severity Input parameter.
+ * @param[in] code Input parameter.
+ * @param[in] message Input parameter.
+ * @details Calls: push_back(), insert(), end(), begin(), writeMessage().
+ */
 void PostgresSession::sendErrorResponse(const std::string& severity, const std::string& code, 
                                        const std::string& message) {
     std::vector<uint8_t> payload;
@@ -1376,6 +1595,10 @@ void PostgresSession::sendErrorResponse(const std::string& severity, const std::
     writeMessage('E', payload);
 }
 
+/**
+ * @brief Do Read.
+ * @details Calls: shared_from_this(), armReadTimeout(), async_read_some(), asio::buffer(), cancelReadTimeout(), load(), stop(), key().
+ */
 void PostgresSession::doRead() {
     auto self = shared_from_this();
     armReadTimeout();
@@ -1602,6 +1825,10 @@ void PostgresSession::doRead() {
         });
 }
 
+/**
+ * @brief Do Write.
+ * @details Calls: lock(), empty(), front(), shared_from_this(), armWriteTimeout(), asio::async_write(), asio::buffer(), cancelWriteTimeout().
+ */
 void PostgresSession::doWrite() {
     std::shared_ptr<std::vector<uint8_t>> message;
     {
@@ -1649,6 +1876,12 @@ void PostgresSession::doWrite() {
         });
 }
 
+/**
+ * @brief Write Message.
+ * @param[in] type Input parameter.
+ * @param[in] payload Input parameter.
+ * @details Calls: push_back(), size(), insert(), end(), begin(), weak_from_this(), lock(), asio::dispatch().
+ */
 void PostgresSession::writeMessage(char type, const std::vector<uint8_t>& payload) {
     // Format PostgreSQL wire protocol message
     // Format: [Type(1 byte), Length(4 bytes, big-endian), Payload]
@@ -1676,6 +1909,11 @@ void PostgresSession::writeMessage(char type, const std::vector<uint8_t>& payloa
     enqueueWrite(std::move(message));
 }
 
+/**
+ * @brief Enqueue Write.
+ * @param[in] message Input parameter.
+ * @details Calls: load(), lock(), empty(), push_back(), std::move(), doWrite().
+ */
 void PostgresSession::enqueueWrite(std::vector<uint8_t> message) {
     if (stopped_.load(std::memory_order_acquire)) {
         return;
@@ -1696,6 +1934,12 @@ void PostgresSession::enqueueWrite(std::vector<uint8_t> message) {
     }
 }
 
+/**
+ * @brief Is Schema Query.
+ * @param[in] query Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: std::transform(), begin(), end(), find().
+ */
 bool PostgresSession::isSchemaQuery(const std::string& query) {
     std::string lowerQuery = query;
     std::transform(lowerQuery.begin(), lowerQuery.end(), lowerQuery.begin(), ::tolower);
@@ -1709,6 +1953,11 @@ bool PostgresSession::isSchemaQuery(const std::string& query) {
            lowerQuery.find("pg_database") != std::string::npos;
 }
 
+/**
+ * @brief Handle Schema Query.
+ * @param[in] query Input parameter.
+ * @details Calls: std::transform(), begin(), end(), find(), sendRowDescription(), sendDataRow(), sendCommandComplete(), listCollections().
+ */
 void PostgresSession::handleSchemaQuery(const std::string& query) {
     std::string lowerQuery = query;
     std::transform(lowerQuery.begin(), lowerQuery.end(), lowerQuery.begin(), ::tolower);
@@ -1860,6 +2109,13 @@ void PostgresSession::handleSchemaQuery(const std::string& query) {
     }
 }
 
+/**
+ * @brief Parse Select Query.
+ * @param[in] query Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: std::transform(), begin(), end(), find(), substr(), erase(), find_first_not_of(), find_last_not_of().
+ */
 PostgresSession::QueryInfo PostgresSession::parseSelectQuery(const std::string& query) {
     QueryInfo info;
     info.type = "SELECT";
@@ -2002,6 +2258,12 @@ PostgresSession::QueryInfo PostgresSession::parseSelectQuery(const std::string& 
     return info;
 }
 
+/**
+ * @brief Build Cypher From Select.
+ * @param[in] info Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), find(), replace(), length(), size(), col(), data(), str().
+ */
 std::string PostgresSession::buildCypherFromSelect(const QueryInfo& info) {
     std::string cypher = "MATCH (n:" + info.tableName + ")";
     
@@ -2103,7 +2365,13 @@ std::string PostgresSession::buildCypherFromSelect(const QueryInfo& info) {
     return cypher;
 }
 
-// Parse INSERT INTO statement
+/**
+ * @brief Parse INSERT INTO statement
+ * @param[in] query Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: std::transform(), begin(), end(), find(), size(), std::isspace(), substr(), erase().
+ */
 std::string PostgresSession::parseInsertQuery(const std::string& query) {
     // INSERT INTO table (col1, col2, ...) VALUES (val1, val2, ...)
     std::string upperQuery = query;
@@ -2208,6 +2476,13 @@ std::string PostgresSession::parseInsertQuery(const std::string& query) {
 }
 
 // Parse UPDATE statement
+/**
+ * @brief Parse Update Query.
+ * @param[in] query Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: std::transform(), begin(), end(), find(), substr(), erase(), find_first_not_of(), find_last_not_of().
+ */
 std::string PostgresSession::parseUpdateQuery(const std::string& query) {
     // UPDATE table SET col1=val1, col2=val2 WHERE condition
     std::string upperQuery = query;
@@ -2315,6 +2590,13 @@ std::string PostgresSession::parseUpdateQuery(const std::string& query) {
 }
 
 // Parse DELETE statement
+/**
+ * @brief Parse Delete Query.
+ * @param[in] query Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: std::transform(), begin(), end(), find(), size(), std::isspace(), substr(), erase().
+ */
 std::string PostgresSession::parseDeleteQuery(const std::string& query) {
     // DELETE FROM table WHERE condition
     std::string upperQuery = query;
@@ -2363,6 +2645,13 @@ std::string PostgresSession::parseDeleteQuery(const std::string& query) {
     return cypher;
 }
 
+/**
+ * @brief Translate Query.
+ * @param[in] postgresQuery Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: erase(), find_first_not_of(), find_last_not_of(), std::transform(), begin(), end(), find(), parseSelectQuery().
+ */
 std::string PostgresSession::translateQuery(const std::string& postgresQuery) {
     // Trim and convert to uppercase for parsing
     std::string query = postgresQuery;

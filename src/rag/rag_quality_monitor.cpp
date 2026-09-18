@@ -19,8 +19,17 @@ namespace rag {
 // recordMetrics
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Record Metrics.
+ * @param[in] m Input parameter.
+ */
 void RagQualityMonitor::recordMetrics(const LayerQualityMetrics& m)
 {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     if (buffer_.size() >= kWindowSize) {
         buffer_.pop_front();
@@ -36,6 +45,11 @@ void RagQualityMonitor::emitPrometheusGauges() const
 {
     LayerQualityMetrics latest{};
     {
+        /**
+         * @brief Lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(mutex_);
         if (buffer_.empty()) {
             return;
@@ -108,6 +122,11 @@ std::vector<std::string> RagQualityMonitor::checkAnomalies() const
 {
     std::vector<std::string> hints;
 
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     if (buffer_.size() < 2) {
         return hints;

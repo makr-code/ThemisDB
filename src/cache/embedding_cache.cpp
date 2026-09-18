@@ -225,6 +225,14 @@ std::optional<EmbeddingCache::CacheEntry> EmbeddingCache::query(const std::vecto
     return std::nullopt;
 }
 
+/**
+ * @brief Store.
+ * @param[in] query_text Input parameter.
+ * @param[in] embedding Input parameter.
+ * @param[in] metadata Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: size(), THEMIS_ERROR(), lock(), empty(), end(), max(), begin(), THEMIS_DEBUG().
+ */
 bool EmbeddingCache::store(const std::string &query_text, const std::vector<float> &embedding,
                            const std::string &metadata) {
     if (embedding.size() != config_.embedding_dim) {
@@ -321,6 +329,11 @@ bool EmbeddingCache::store(const std::string &query_text, const std::vector<floa
     return true;
 }
 
+/**
+ * @brief Clear Expired.
+ * @return Return value.
+ * @details Calls: lock(), begin(), end(), isExpired(), removeByPk(), erase(), size(), THEMIS_INFO().
+ */
 uint64_t EmbeddingCache::clearExpired() {
     std::unique_lock<std::shared_mutex> lock(impl_->entry_mutex);
 
@@ -347,6 +360,10 @@ uint64_t EmbeddingCache::clearExpired() {
     return cleared;
 }
 
+/**
+ * @brief Clear.
+ * @details Calls: lock(), shutdown(), init(), THEMIS_WARN(), THEMIS_INFO().
+ */
 void EmbeddingCache::clear() {
     std::unique_lock<std::shared_mutex> lock(impl_->entry_mutex);
 

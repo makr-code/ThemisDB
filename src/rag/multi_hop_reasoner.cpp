@@ -31,6 +31,10 @@ const MultiHopConfig& MultiHopReasoner::getConfig() const
     return config_;
 }
 
+/**
+ * @brief Set Config.
+ * @param[in] config Input parameter.
+ */
 void MultiHopReasoner::setConfig(const MultiHopConfig& config)
 {
     config_ = config;
@@ -42,13 +46,13 @@ void MultiHopReasoner::setConfig(const MultiHopConfig& config)
 
 namespace {
 
-/**
- * Trim leading and trailing whitespace from @p s.
- * Using themis::utils::themis::utils::trim() from string_utils.h (Phase 1 consolidation)
- */
 
 /**
- * Replace all occurrences of @p key with @p value in @p tmpl.
+ * @brief Substitute.
+ * @param[in] tmpl Input parameter.
+ * @param[in] key Input parameter.
+ * @param[in] value Input parameter.
+ * @return Return value.
  */
 std::string substitute(const std::string& tmpl,
                         const std::string& key,
@@ -65,7 +69,9 @@ std::string substitute(const std::string& tmpl,
 }
 
 /**
- * Deduplicate documents by id, preserving first occurrence order.
+ * @brief Deduplicate Docs.
+ * @param[in] docs Input parameter.
+ * @return Return value.
  */
 std::vector<judge::RetrievedDocument> deduplicateDocs(
     const std::vector<judge::RetrievedDocument>& docs)
@@ -92,6 +98,11 @@ std::vector<std::string> MultiHopReasoner::parseDecompositionResponse(
     const std::string& response) const
 {
     std::vector<std::string> sub_queries;
+    /**
+     * @brief Ss.
+     * @param[in] response Input parameter.
+     * @return Return value.
+     */
     std::istringstream ss(response);
     std::string line = {};
     while (std::getline(ss, line)) {
@@ -373,6 +384,10 @@ MultiHopResult MultiHopReasoner::reason(
 // MultiHopReasonerFactory
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Create Single Hop.
+ * @return Return value.
+ */
 std::unique_ptr<MultiHopReasoner> MultiHopReasonerFactory::createSingleHop()
 {
     MultiHopConfig cfg;
@@ -382,6 +397,10 @@ std::unique_ptr<MultiHopReasoner> MultiHopReasonerFactory::createSingleHop()
     return std::make_unique<MultiHopReasoner>(cfg);
 }
 
+/**
+ * @brief Create Balanced.
+ * @return Return value.
+ */
 std::unique_ptr<MultiHopReasoner> MultiHopReasonerFactory::createBalanced()
 {
     MultiHopConfig cfg;
@@ -391,6 +410,10 @@ std::unique_ptr<MultiHopReasoner> MultiHopReasonerFactory::createBalanced()
     return std::make_unique<MultiHopReasoner>(cfg);
 }
 
+/**
+ * @brief Create Deep Reasoning.
+ * @return Return value.
+ */
 std::unique_ptr<MultiHopReasoner> MultiHopReasonerFactory::createDeepReasoning()
 {
     MultiHopConfig cfg;

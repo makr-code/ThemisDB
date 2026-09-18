@@ -33,6 +33,15 @@ inline bool hammingCovers(const uint32_t j, const uint32_t p) noexcept {
 
 } // namespace
 
+/**
+ * @brief Encode.
+ * @param[in] data Input parameter.
+ * @param[in] data_shards Input parameter.
+ * @param[in] parity_shards Input parameter.
+ * @return Return value.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: empty(), size(), shards(), std::min(), std::copy(), begin(), hammingCovers().
+ */
 std::vector<std::vector<uint8_t>> HammingCoder::encode(
     const std::vector<uint8_t>& data,
     const uint32_t data_shards,
@@ -114,11 +123,13 @@ std::vector<uint8_t> HammingCoder::decode(
     }
 
     std::vector<std::vector<uint8_t>> shards(total_shards, std::vector<uint8_t>(shard_size, 0));
-    // uncaught_exception scanner alerts (lines 87, 97/105): throws for missing shard data
-    // and decode precondition failures; callers must handle these — false positives.
-    // uninitialized_access scanner alert (line 177): present[target] = true assigns into
-    // a properly initialized std::vector<bool>(total_shards, false); the scanner cannot
-    // track the prior constructor call — false positive.
+    /**
+     * @brief uncaught_exception scanner alerts (lines 87, 97/105): throws for missing shard data and decode precondition failures; callers must handle these — false positives.
+     * @param[in] total_shards Input parameter.
+     * @param[in] false Input parameter.
+     * @return Return value.
+     * @details uninitialized_access scanner alert (line 177): present[target] = true assigns into a properly initialized std::vector<bool>(total_shards, false); the scanner cannot track the prior constructor call — false positive.
+     */
     std::vector<bool> present(total_shards, false);
     for (const auto& [idx, chunk] : available_chunks) {
         if (idx < total_shards) {

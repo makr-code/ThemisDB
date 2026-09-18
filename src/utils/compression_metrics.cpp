@@ -30,11 +30,6 @@ void CompressionMetrics::record_compression(
     size_t bytes_out,
     std::chrono::microseconds duration
 ) {
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lock(mutex_);
     auto& stats = stats_[method];
     stats.bytes_in += bytes_in;
@@ -57,11 +52,6 @@ void CompressionMetrics::record_decompression(
     size_t bytes_out,
     std::chrono::microseconds duration
 ) {
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lock(mutex_);
     auto& stats = stats_[method];
     stats.bytes_in += bytes_out; // Original size
@@ -98,15 +88,10 @@ std::vector<std::string> CompressionMetrics::get_methods() const {
 }
 
 /**
- * @brief Reset.
+ * @brief Reset the modification detection flag.
  * @details Calls: lock(), clear().
  */
 void CompressionMetrics::reset() {
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lock(mutex_);
     stats_.clear();
 }

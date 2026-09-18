@@ -31,7 +31,12 @@ PhotoDNAAbuseDetector::PhotoDNAAbuseDetector(
     , match_threshold_(match_threshold)
 {}
 
-// static
+/**
+ * @brief static
+ * @param[in] data Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), size(), std::accumulate(), std::begin(), std::end().
+ */
 uint64_t PhotoDNAAbuseDetector::computeHash(const std::string& data) {
     if (data.empty()) {
         return 0;
@@ -63,7 +68,13 @@ uint64_t PhotoDNAAbuseDetector::computeHash(const std::string& data) {
     return hash;
 }
 
-// static
+/**
+ * @brief static
+ * @param[in] a Input parameter.
+ * @param[in] b Input parameter.
+ * @return Return value.
+ * @details Implements hammingDistance without additional internal calls.
+ */
 int PhotoDNAAbuseDetector::hammingDistance(uint64_t a, uint64_t b) {
     uint64_t diff = a ^ b;
     // Brian Kernighan's bit-count
@@ -139,7 +150,13 @@ AbuseDetectionResult TextAbuseDetector::detect(
     return result;
 }
 
-// static
+/**
+ * @brief static
+ * @param[in] yaml_path Path to the yaml.
+ * @param[in,out] error Input/output parameter.
+ * @return Return value.
+ * @details Calls: clear(), YAML::LoadFile(), std::string(), what(), IsSequence(), std::move(), empty(), std::regex().
+ */
 std::unique_ptr<TextAbuseDetector> TextAbuseDetector::loadFromYAML(
     const std::string& yaml_path,
     std::string& error

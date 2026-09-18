@@ -18,37 +18,21 @@
 namespace themis {
 namespace query {
 
-/**
- * @brief Per-query resource limits for row count, memory, and execution time.
- *
- * Zero means "unlimited" for every field.
- */
 struct QueryResourceLimits {
-    /// Maximum number of result rows returned.  0 = unlimited.
     size_t max_rows = 0;
 
-    /// Maximum estimated memory for the result set (bytes).  0 = unlimited.
     size_t max_memory_bytes = 0;
 
-    /// Maximum query wall-clock execution time (milliseconds).  0 = unlimited.
     uint32_t timeout_ms = 0;
 };
 
-/**
- * @brief RAII guard that enforces per-query resource limits during execution.
- *
- * Usage:
- * @code
- *   QueryResourceGuard guard(limits);
- *   // … produce rows one-by-one …
- *   auto err = guard.checkRow(estimated_row_bytes);
- *   if (err) return Err<…>(err->code(), err->message());
- * @endcode
- *
- * The guard is not thread-safe; use one instance per query execution.
- */
 class QueryResourceGuard {
 public:
+    /**
+     * @brief Query Resource Guard.
+     * @param[in] limits Input parameter.
+     * @return Return value.
+     */
     explicit QueryResourceGuard(const QueryResourceLimits& limits)
         : limits_(limits)
         , row_count_(0)
@@ -56,10 +40,6 @@ public:
         , start_(std::chrono::steady_clock::now())
     {}
 
-    /**
-     * @brief Check whether the current query has exceeded its timeout.
-     * @return true if timeout_ms > 0 and the elapsed time exceeds timeout_ms.
-     */
     [[nodiscard]] bool isTimedOut() const noexcept {
         if (limits_.timeout_ms == 0) {
           return false;
@@ -69,13 +49,6 @@ public:
                >= static_cast<long long>(limits_.timeout_ms);
     }
 
-    /**
-     * @brief Record an additional row with an estimated byte size and check limits.
-     *
-     * @param row_bytes  Estimated size of this row in bytes (used for memory check).
-     * @return LimitViolation enum value indicating which limit was breached,
-     *         or None if all limits are satisfied.
-     */
     enum class Violation { None, RowLimit, MemoryLimit, Timeout };
 
     [[nodiscard]] Violation checkRow(size_t row_bytes = 0) noexcept {
@@ -92,11 +65,8 @@ public:
         return Violation::None;
     }
 
-    /// Total rows counted so far.
     size_t rowCount()    const noexcept { return row_count_; }
-    /// Total memory accumulated so far (bytes).
     size_t memoryBytes() const noexcept { return memory_bytes_; }
-    /// Elapsed time since guard creation (milliseconds).
     uint64_t elapsedMs() const noexcept {
         auto elapsed = std::chrono::steady_clock::now() - start_;
         return static_cast<uint64_t>(

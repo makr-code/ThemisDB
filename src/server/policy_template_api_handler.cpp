@@ -36,6 +36,12 @@ PolicyTemplateApiHandler::PolicyTemplateApiHandler(
     }
 }
 
+/**
+ * @brief Handle List Templates.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), checkAuth(), makeErrorResponse(), listTemplates(), nlohmann::json::array(), push_back(), toJson(), size().
+ */
 http::response<http::string_body> PolicyTemplateApiHandler::handleListTemplates(
     const http::request<http::string_body>& req
 ) {
@@ -70,6 +76,13 @@ http::response<http::string_body> PolicyTemplateApiHandler::handleListTemplates(
     }
 }
 
+/**
+ * @brief Handle Get Template.
+ * @param[in] req Input parameter.
+ * @param[in] template_id Identifier of the template.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), checkAuth(), makeErrorResponse(), getTemplate(), has_value(), makeResponse(), toJson(), dump().
+ */
 http::response<http::string_body> PolicyTemplateApiHandler::handleGetTemplate(
     const http::request<http::string_body>& req,
     const std::string& template_id
@@ -99,6 +112,13 @@ http::response<http::string_body> PolicyTemplateApiHandler::handleGetTemplate(
     }
 }
 
+/**
+ * @brief Handle Instantiate Template.
+ * @param[in] req Input parameter.
+ * @param[in] template_id Identifier of the template.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), checkAuth(), makeErrorResponse(), nlohmann::json::parse(), body(), contains(), instantiateTemplate(), addRule().
+ */
 http::response<http::string_body> PolicyTemplateApiHandler::handleInstantiateTemplate(
     const http::request<http::string_body>& req,
     const std::string& template_id
@@ -156,6 +176,13 @@ http::response<http::string_body> PolicyTemplateApiHandler::handleInstantiateTem
     }
 }
 
+/**
+ * @brief Handle Preview Template.
+ * @param[in] req Input parameter.
+ * @param[in] template_id Identifier of the template.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), checkAuth(), makeErrorResponse(), nlohmann::json::parse(), body(), contains(), previewTemplate(), toJson().
+ */
 http::response<http::string_body> PolicyTemplateApiHandler::handlePreviewTemplate(
     const http::request<http::string_body>& req,
     const std::string& template_id

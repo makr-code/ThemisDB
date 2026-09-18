@@ -37,6 +37,12 @@ namespace themis::network {
 
 namespace {
 
+/**
+ * @brief Fnv1a64 Pool.
+ * @param[in] value Input parameter.
+ * @return Return value.
+ * @details Implements fnv1a64Pool without additional internal calls.
+ */
 uint64_t fnv1a64Pool(std::string_view value) {
     uint64_t hash = 1469598103934665603;
     for (unsigned char ch : value) {
@@ -46,6 +52,12 @@ uint64_t fnv1a64Pool(std::string_view value) {
     return hash;
 }
 
+/**
+ * @brief Anonymize Target For Log.
+ * @param[in] target Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), fnv1a64Pool(), str().
+ */
 std::string anonymizeTargetForLog(std::string_view target) {
     if (target.empty()) {
         return "target#unknown";
@@ -63,15 +75,8 @@ std::string anonymizeTargetForLog(std::string_view target) {
 
 namespace {
 
-/// Maximum ms to wait for the maintenance thread to join during destruction.
-/// thread_join_no_timeout (W3): capped to prevent indefinite block.
 constexpr int kPoolJoinTimeoutMs = 5000;
 
-/// @brief Join @p t within @p timeout_ms; log and detach on timeout.
-///
-/// @param t         Thread to join (moved into the watcher).
-/// @param label     Human-readable label for warning messages.
-/// @param timeout_ms  Maximum wait time in milliseconds.
 static void timedJoin(std::thread& t,
                       std::string_view label,
                       int timeout_ms = kPoolJoinTimeoutMs) noexcept {
@@ -108,6 +113,13 @@ AdaptivePoolingStrategy::AdaptivePoolingStrategy()
     : config_(Config{})
 {}
 
+/**
+ * @brief Get Ideal Connection Count.
+ * @param[in] current_count Input parameter.
+ * @param[in] active_count Input parameter.
+ * @param[in] load Input parameter.
+ * @return Return value.
+ */
 size_t AdaptivePoolingStrategy::getIdealConnectionCount(
     size_t current_count,
     size_t active_count,
@@ -129,6 +141,13 @@ size_t AdaptivePoolingStrategy::getIdealConnectionCount(
     return current_count;
 }
 
+/**
+ * @brief Should Create Connection.
+ * @param[in] current_count Input parameter.
+ * @param[in] max_count Input parameter.
+ * @param[in] available_count Input parameter.
+ * @return True when the operation succeeds.
+ */
 bool AdaptivePoolingStrategy::shouldCreateConnection(
     size_t current_count,
     size_t max_count,
@@ -146,6 +165,14 @@ bool AdaptivePoolingStrategy::shouldCreateConnection(
     return available_ratio < (1.0 - config_.scale_up_threshold);
 }
 
+/**
+ * @brief Should Remove Connection.
+ * @param[in] current_count Input parameter.
+ * @param[in] min_count Input parameter.
+ * @param[in] available_count Input parameter.
+ * @param[in] idle_time Input parameter.
+ * @return True when the operation succeeds.
+ */
 bool AdaptivePoolingStrategy::shouldRemoveConnection(
     size_t current_count,
     size_t min_count,
@@ -185,6 +212,11 @@ bool SocketWrapper::is_open() const {
     return false;
 }
 
+/**
+ * @brief Close.
+ * @param[in,out] ec Input/output parameter.
+ * @details Calls: shutdown(), lowest_layer().
+ */
 void SocketWrapper::close(boost::system::error_code& ec) {
     if (plain_socket_) {
         plain_socket_->close(ec);
@@ -219,7 +251,11 @@ WireProtocolConnectionPool::WireProtocolConnectionPool(const Config& config)
     shutdown_.store(false, std::memory_order_release);
     maintenance_thread_ = std::thread([this]() {
         while (!shutdown_.load(std::memory_order_acquire)) {
-            // Use interruptible wait for faster shutdown
+            /**
+             * @brief Use interruptible wait for faster shutdown
+             * @param[in] shutdown_mutex_ Input parameter.
+             * @return Return value.
+             */
             std::unique_lock<std::mutex> lock(shutdown_mutex_);
             if (shutdown_cv_.wait_for(lock, std::chrono::seconds(10), 
                 [this]() { return shutdown_.load(std::memory_order_acquire); })) {
@@ -264,6 +300,11 @@ std::pair<std::string, std::string> WireProtocolConnectionPool::parseTarget(cons
     return {host, port};
 }
 
+/**
+ * @brief Initialize SSLContext.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: set_options(), set_verify_mode(), empty(), load_verify_file(), set_default_verify_paths(), use_certificate_chain_file(), use_private_key_file().
+ */
 void WireProtocolConnectionPool::initializeSSLContext() {
     // Create SSL context with appropriate TLS version
     // Use TLS 1.2 or higher for client connections
@@ -316,6 +357,13 @@ void WireProtocolConnectionPool::initializeSSLContext() {
     }
 }
 
+/**
+ * @brief Create Connection.
+ * @param[in] target Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: parseTarget(), resolver(), resolve(), timer(), expires_after(), async_wait(), cancel(), close().
+ */
 std::shared_ptr<SocketWrapper> WireProtocolConnectionPool::createConnection(const std::string& target) {
     auto [host, port] = parseTarget(target);
     
@@ -445,6 +493,11 @@ std::shared_ptr<SocketWrapper> WireProtocolConnectionPool::createConnection(cons
 
 std::shared_ptr<WireProtocolConnectionPool::TargetPool> 
 WireProtocolConnectionPool::getOrCreateTargetPool(const std::string& target) {
+    /**
+     * @brief Lock.
+     * @param[in] pools_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(pools_mutex_);
     
     auto it = target_pools_.find(target);
@@ -545,6 +598,11 @@ WireProtocolConnectionPool::acquireConnection(const std::string& target) {
     }
 }
 
+/**
+ * @brief Release Connection.
+ * @param[in] target Input parameter.
+ * @param[in] socket Input parameter.
+ */
 void WireProtocolConnectionPool::releaseConnection(
     const std::string& target, 
     std::shared_ptr<SocketWrapper> socket) 
@@ -582,6 +640,11 @@ void WireProtocolConnectionPool::releaseConnection(
     pool->cv.notify_one();
 }
 
+/**
+ * @brief Warmup.
+ * @param[in] target Input parameter.
+ * @details Calls: getOrCreateTargetPool(), createConnection(), std::chrono::steady_clock::now(), lock(), get(), push(), THEMIS_WARN(), anonymizeTargetForLog().
+ */
 void WireProtocolConnectionPool::warmup(const std::string& target) {
     if (!config_.enable_warmup) {
         return;
@@ -616,6 +679,10 @@ void WireProtocolConnectionPool::warmup(const std::string& target) {
     }
 }
 
+/**
+ * @brief Prune Stale Connections.
+ * @details Calls: pools_lock(), lock(), empty(), front(), pop(), isHealthy(), isStale(), push().
+ */
 void WireProtocolConnectionPool::pruneStaleConnections() {
     std::lock_guard<std::mutex> pools_lock(pools_mutex_);
     
@@ -648,6 +715,10 @@ void WireProtocolConnectionPool::pruneStaleConnections() {
     }
 }
 
+/**
+ * @brief Adapt Pool Size.
+ * @details Calls: lock(), reserve(), size(), push_back(), getOrCreateTargetPool(), pool_lock(), empty(), std::chrono::steady_clock::now().
+ */
 void WireProtocolConnectionPool::adaptPoolSize() {
     if (!config_.enable_adaptive_sizing || !config_.adaptive_strategy) {
       return;
@@ -752,6 +823,10 @@ void WireProtocolConnectionPool::adaptPoolSize() {
     }
 }
 
+/**
+ * @brief Clear.
+ * @details Calls: lock(), pool_lock(), is_open(), close(), empty(), pop(), store().
+ */
 void WireProtocolConnectionPool::clear() {
     std::lock_guard<std::mutex> lock(pools_mutex_);
     
@@ -788,6 +863,11 @@ WireProtocolConnectionPool::Stats WireProtocolConnectionPool::getStats() const {
     stats.keepalive_checks_sent = keepalive_checks_.load(std::memory_order_relaxed);
     stats.pool_size_adaptations = pool_size_adaptations_.load(std::memory_order_relaxed);
     
+    /**
+     * @brief Lock.
+     * @param[in] pools_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(pools_mutex_);
     
     size_t available = 0;
@@ -811,6 +891,12 @@ WireProtocolConnectionPool::Stats WireProtocolConnectionPool::getStats() const {
     return stats;
 }
 
+/**
+ * @brief Perform Health Check.
+ * @param[in,out] socket Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: is_open(), is_ssl(), fetch_add(), plain_socket(), receive(), net::buffer().
+ */
 bool WireProtocolConnectionPool::performHealthCheck(SocketWrapper& socket) {
     if (!socket.is_open()) {
         return false;

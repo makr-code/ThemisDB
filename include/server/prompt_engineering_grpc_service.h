@@ -32,18 +32,10 @@ class RocksDBWrapper;
 
 namespace server {
 
-/**
- * @brief gRPC service for prompt engineering operations (STUB - Proto not generated)
- * 
- * Placeholder implementation. Full gRPC service available once proto is generated.
- */
 class PromptEngineeringGrpcService final {
 public:
     using ServiceAccessorFn = std::function<void*()>;
 
-    /**
-     * @brief Construct gRPC service with all prompt engineering components
-     */
     PromptEngineeringGrpcService(
         std::shared_ptr<RocksDBWrapper> storage,
         std::shared_ptr<::themis::prompt_engineering::PromptManager> manager,
@@ -58,16 +50,14 @@ public:
     ~PromptEngineeringGrpcService() = default;
 
     /**
-     * @brief Return opaque pointer to an externally provided grpc::Service instance.
-     *
-     * Returns nullptr when no service accessor callback is configured.
+     * @brief Service.
+     * @return Pointer to the result.
      */
     void* service() const;
 
     /**
-     * @brief Configure process-wide callback that provides grpc::Service pointer.
-     *
-     * Used by non-proto builds to wire a generated service from another module.
+     * @brief Set Service Accessor Fn.
+     * @param[in] fn Input parameter.
      */
     static void setServiceAccessorFn(ServiceAccessorFn fn);
 

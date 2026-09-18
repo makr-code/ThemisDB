@@ -60,6 +60,12 @@ AdaptiveShardRouter::AdaptiveShardRouter(
 {
 }
 
+/**
+ * @brief Update Adapter Capability.
+ * @param[in] shard_id Identifier of the shard.
+ * @param[in] announcement Input parameter.
+ * @details Calls: lock().
+ */
 void AdaptiveShardRouter::updateAdapterCapability(
     const std::string& shard_id,
     const themis::distributed_knowledge::AdapterCapabilityAnnouncement& announcement
@@ -68,6 +74,13 @@ void AdaptiveShardRouter::updateAdapterCapability(
     shard_domain_scores_[shard_id][announcement.domain_type] = announcement.accuracy_delta;
 }
 
+/**
+ * @brief Update Shard LLMLoad.
+ * @param[in] shard_id Identifier of the shard.
+ * @param[in] pending_requests Input parameter.
+ * @param[in] avg_queue_ms Input parameter.
+ * @details Calls: lock(), std::chrono::steady_clock::now().
+ */
 void AdaptiveShardRouter::updateShardLLMLoad(
     const std::string& shard_id,
     uint64_t pending_requests,
@@ -83,6 +96,11 @@ void AdaptiveShardRouter::updateShardLLMLoad(
 std::string AdaptiveShardRouter::routeByDomain(
     themis::distributed_knowledge::AdapterDomainType domain
 ) const {
+    /**
+     * @brief Lock.
+     * @param[in] domain_scores_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(domain_scores_mutex_);
 
     std::string best_shard = {};
@@ -140,6 +158,11 @@ double AdaptiveShardRouter::getAdapterAccuracyDelta(
     const std::string& shard_id,
     themis::distributed_knowledge::AdapterDomainType domain
 ) const {
+    /**
+     * @brief Lock.
+     * @param[in] domain_scores_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(domain_scores_mutex_);
 
     auto shard_it = shard_domain_scores_.find(shard_id);
@@ -153,6 +176,12 @@ double AdaptiveShardRouter::getAdapterAccuracyDelta(
     return domain_it->second;
 }
 
+/**
+ * @brief Execute Query.
+ * @param[in] query Input parameter.
+ * @return Return value.
+ * @details Calls: executeAdaptiveQuery().
+ */
 nlohmann::json AdaptiveShardRouter::executeQuery(const std::string& query) {
     // Check if adaptive routing is enabled
     if (!adaptive_config_.enable_adaptive_routing) {
@@ -164,6 +193,13 @@ nlohmann::json AdaptiveShardRouter::executeQuery(const std::string& query) {
     return executeAdaptiveQuery(query, stats);
 }
 
+/**
+ * @brief Execute Adaptive Query.
+ * @param[in] query Input parameter.
+ * @param[in,out] stats Input/output parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::now(), std::to_string(), load(), prepareQueryContext(), getAllShards(), empty(), nlohmann::json::array(), match().
+ */
 nlohmann::json AdaptiveShardRouter::executeAdaptiveQuery(
     const std::string& query,
     AdaptiveStats& stats
@@ -340,6 +376,12 @@ nlohmann::json AdaptiveShardRouter::getAdaptiveStatistics() const {
     };
 }
 
+/**
+ * @brief Update Adaptive Config.
+ * @param[in] config Input parameter.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: isValid().
+ */
 void AdaptiveShardRouter::updateAdaptiveConfig(const AdaptiveConfig& config) {
     if (!config.isValid()) {
         throw std::invalid_argument("Invalid AdaptiveConfig");
@@ -350,11 +392,21 @@ void AdaptiveShardRouter::updateAdaptiveConfig(const AdaptiveConfig& config) {
     matcher_ = std::make_shared<CapabilityMatcher>(config.matcher_config);
 }
 
+/**
+ * @brief Set Nlp Context Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void AdaptiveShardRouter::setNlpContextFn(NlpContextFn fn) {
     std::lock_guard<std::mutex> lock(nlp_context_fn_mutex_);
     nlp_context_fn_ = std::move(fn);
 }
 
+/**
+ * @brief Set Nlp Context Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: std::move(), fn(), has_value(), empty().
+ */
 void AdaptiveShardRouter::setNlpContextFn(LegacyNlpContextFn fn) {
     setNlpContextFn([fn = std::move(fn)](
         const std::string& query,
@@ -376,6 +428,12 @@ void AdaptiveShardRouter::setNlpContextFn(LegacyNlpContextFn fn) {
     });
 }
 
+/**
+ * @brief Prepare Query Context.
+ * @param[in] query Input parameter.
+ * @return Return value.
+ * @details Calls: extractKeywords(), lock(), has_value(), value(), spdlog::warn(), what(), std::transform(), begin().
+ */
 CapabilityMatcher::QueryContext AdaptiveShardRouter::prepareQueryContext(
     const std::string& query
 ) {
@@ -424,6 +482,15 @@ CapabilityMatcher::QueryContext AdaptiveShardRouter::prepareQueryContext(
     return context;
 }
 
+/**
+ * @brief Select Shards For Iteration.
+ * @param[in] match_results Input parameter.
+ * @param[in] threshold Input parameter.
+ * @param[in] max_shards Input parameter.
+ * @param[in] already_queried Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), find(), end(), std::isfinite(), getShard(), push_back(), std::sort().
+ */
 std::vector<std::string> AdaptiveShardRouter::selectShardsForIteration(
     const std::vector<CapabilityMatchResult>& match_results,
     double threshold,
@@ -484,6 +551,13 @@ std::vector<std::string> AdaptiveShardRouter::selectShardsForIteration(
     return selected;
 }
 
+/**
+ * @brief Execute On Shards.
+ * @param[in] query Input parameter.
+ * @param[in] shard_ids Input parameter.
+ * @return Return value.
+ * @details Implements executeOnShards without additional internal calls.
+ */
 std::vector<ShardResult> AdaptiveShardRouter::executeOnShards(
     const std::string& query,
     const std::vector<std::string>& shard_ids
@@ -491,6 +565,14 @@ std::vector<ShardResult> AdaptiveShardRouter::executeOnShards(
     return ShardRouter::executeOnShards(query, shard_ids);
 }
 
+/**
+ * @brief Execute On Shards.
+ * @param[in] query Input parameter.
+ * @param[in] shard_ids Input parameter.
+ * @param[in] timeout_ms Input parameter.
+ * @return Return value.
+ * @details Implements executeOnShards without additional internal calls.
+ */
 std::vector<ShardResult> AdaptiveShardRouter::executeOnShards(
     const std::string& query,
     const std::vector<std::string>& shard_ids,
@@ -503,6 +585,16 @@ std::vector<ShardResult> AdaptiveShardRouter::executeOnShards(
     return executeOnShards(query, shard_ids);
 }
 
+/**
+ * @brief Should Stop.
+ * @param[in] current_results Input parameter.
+ * @param[in] previous_results Input parameter.
+ * @param[in] elapsed_ms Input parameter.
+ * @param[in] iteration Input parameter.
+ * @param[in,out] reason Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Implements shouldStop without additional internal calls.
+ */
 bool AdaptiveShardRouter::shouldStop(
     uint32_t current_results,
     uint32_t previous_results,
@@ -536,6 +628,12 @@ bool AdaptiveShardRouter::shouldStop(
     return false;
 }
 
+/**
+ * @brief Merge Iteration Results.
+ * @param[in] all_results Input parameter.
+ * @return Return value.
+ * @details Calls: nlohmann::json::array(), is_array(), push_back().
+ */
 nlohmann::json AdaptiveShardRouter::mergeIterationResults(
     const std::vector<std::vector<ShardResult>>& all_results
 ) {
@@ -557,6 +655,16 @@ nlohmann::json AdaptiveShardRouter::mergeIterationResults(
     return merged;
 }
 
+/**
+ * @brief Calculate Iteration Stats.
+ * @param[in] iteration Input parameter.
+ * @param[in] shard_ids Input parameter.
+ * @param[in] results Input parameter.
+ * @param[in] match_results Input parameter.
+ * @param[in] iteration_time_ms Input parameter.
+ * @return Return value.
+ * @details Calls: size(), is_array(), push_back(), empty(), std::min_element(), begin(), end(), std::max_element().
+ */
 AdaptiveShardRouter::IterationStats AdaptiveShardRouter::calculateIterationStats(
     uint32_t iteration,
     const std::vector<std::string>& shard_ids,

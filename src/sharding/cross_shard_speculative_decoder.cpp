@@ -45,6 +45,13 @@ CrossShardSpeculativeDecoder::~CrossShardSpeculativeDecoder() noexcept {
 // Initialization and Configuration
 // ============================================================================
 
+/**
+ * @brief Initialize.
+ * @param[in] local_shard_id Identifier of the local shard.
+ * @param[in,out] local_engine Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), spdlog::error(), isModelLoaded(), getConfig(), registerShard(), spdlog::info().
+ */
 bool CrossShardSpeculativeDecoder::initialize(
     const std::string& local_shard_id,
     InferenceEngineEnhanced* local_engine
@@ -75,6 +82,11 @@ bool CrossShardSpeculativeDecoder::initialize(
 
 void CrossShardSpeculativeDecoder::shutdown() noexcept {
     try {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         
         // Cancel all active speculations
@@ -96,6 +108,11 @@ void CrossShardSpeculativeDecoder::shutdown() noexcept {
     }
 }
 
+/**
+ * @brief Update the access control configuration.
+ * @param[in] config New access control configuration.
+ * @details Calls: lock(), isValid(), spdlog::error(), spdlog::info().
+ */
 void CrossShardSpeculativeDecoder::updateConfig(const SpeculativeDecodingConfig& config) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -116,6 +133,11 @@ const SpeculativeDecodingConfig& CrossShardSpeculativeDecoder::getConfig() const
 // Shard Registration
 // ============================================================================
 
+/**
+ * @brief Register Shard.
+ * @param[in] shard_info Input parameter.
+ * @details Calls: lock(), calculateCapabilityScore(), spdlog::debug(), capability_update_callback_().
+ */
 void CrossShardSpeculativeDecoder::registerShard(const ShardCapabilityInfo& shard_info) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -137,6 +159,11 @@ void CrossShardSpeculativeDecoder::registerShard(const ShardCapabilityInfo& shar
     }
 }
 
+/**
+ * @brief Unregister Shard.
+ * @param[in] shard_id Identifier of the shard.
+ * @details Calls: lock(), erase(), spdlog::info(), spdlog::warn().
+ */
 void CrossShardSpeculativeDecoder::unregisterShard(const std::string& shard_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -147,6 +174,11 @@ void CrossShardSpeculativeDecoder::unregisterShard(const std::string& shard_id) 
     }
 }
 
+/**
+ * @brief Update Shard Capability.
+ * @param[in] shard_info Input parameter.
+ * @details Calls: lock(), find(), end(), calculateCapabilityScore(), spdlog::debug(), capability_update_callback_(), spdlog::warn().
+ */
 void CrossShardSpeculativeDecoder::updateShardCapability(const ShardCapabilityInfo& shard_info) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -170,6 +202,11 @@ void CrossShardSpeculativeDecoder::updateShardCapability(const ShardCapabilityIn
 std::optional<ShardCapabilityInfo> CrossShardSpeculativeDecoder::getShardCapability(
     const std::string& shard_id
 ) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = shards_.find(shard_id);
     if (it != shards_.end()) {
@@ -179,6 +216,11 @@ std::optional<ShardCapabilityInfo> CrossShardSpeculativeDecoder::getShardCapabil
 }
 
 std::vector<ShardCapabilityInfo> CrossShardSpeculativeDecoder::getAllShards() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     std::vector<ShardCapabilityInfo> result = {};
 
@@ -192,6 +234,15 @@ std::vector<ShardCapabilityInfo> CrossShardSpeculativeDecoder::getAllShards() co
 // Speculative Decoding API
 // ============================================================================
 
+/**
+ * @brief Start Speculative Decoding.
+ * @param[in] request_id Identifier of the request.
+ * @param[in] input_token_ids Input parameter.
+ * @param[in] max_draft_tokens Input parameter.
+ * @param[in] callback Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), find(), end(), spdlog::warn(), spdlog::debug(), processLocalSpeculativeDecoding(), selectDraftShard(), selectVerifyShard().
+ */
 bool CrossShardSpeculativeDecoder::startSpeculativeDecoding(
     int64_t request_id,
     const std::vector<int>& input_token_ids,
@@ -292,6 +343,11 @@ bool CrossShardSpeculativeDecoder::startSpeculativeDecoding(
     return true;
 }
 
+/**
+ * @brief Generate Draft.
+ * @param[in] request Input parameter.
+ * @details Calls: lock(), find(), end(), spdlog::warn(), on_failure(), spdlog::error(), isSpeculativeDecodingEnabled(), enableSpeculativeDecoding().
+ */
 void CrossShardSpeculativeDecoder::generateDraft(DraftGenerationRequest request) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -357,6 +413,11 @@ void CrossShardSpeculativeDecoder::generateDraft(DraftGenerationRequest request)
     }
 }
 
+/**
+ * @brief Verify Draft.
+ * @param[in] request Input parameter.
+ * @details Calls: lock(), find(), end(), spdlog::warn(), on_failure(), spdlog::error(), verifyDraftTokens(), size().
+ */
 void CrossShardSpeculativeDecoder::verifyDraft(DraftVerificationRequest request) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -418,6 +479,15 @@ void CrossShardSpeculativeDecoder::verifyDraft(DraftVerificationRequest request)
     cleanupCompletedSpeculations();
 }
 
+/**
+ * @brief Process Local Speculative Decoding.
+ * @param[in] request_id Identifier of the request.
+ * @param[in] input_token_ids Input parameter.
+ * @param[in] max_draft_tokens Input parameter.
+ * @param[in] callback Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), find(), end(), spdlog::warn(), spdlog::error(), isSpeculativeDecodingEnabled(), enableSpeculativeDecoding(), generateDraftTokens().
+ */
 bool CrossShardSpeculativeDecoder::processLocalSpeculativeDecoding(
     int64_t request_id,
     const std::vector<int>& input_token_ids,
@@ -497,6 +567,12 @@ bool CrossShardSpeculativeDecoder::processLocalSpeculativeDecoding(
     return true;
 }
 
+/**
+ * @brief Cancel Speculative Decoding.
+ * @param[in] request_id Identifier of the request.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), find(), end(), spdlog::info(), spdlog::warn().
+ */
 bool CrossShardSpeculativeDecoder::cancelSpeculativeDecoding(int64_t request_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -521,6 +597,11 @@ bool CrossShardSpeculativeDecoder::cancelSpeculativeDecoding(int64_t request_id)
 std::optional<ShardCapabilityInfo> CrossShardSpeculativeDecoder::selectDraftShard(
     const std::string& exclude_shard_id
 ) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     ShardCapabilityInfo best_shard;
@@ -562,6 +643,11 @@ std::optional<ShardCapabilityInfo> CrossShardSpeculativeDecoder::selectDraftShar
 }
 
 std::optional<ShardCapabilityInfo> CrossShardSpeculativeDecoder::selectVerifyShard() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     ShardCapabilityInfo best_shard;
@@ -607,12 +693,20 @@ std::optional<ShardCapabilityInfo> CrossShardSpeculativeDecoder::selectVerifySha
 // Adaptive Speculation
 // ============================================================================
 
+/**
+ * @brief Enable Adaptive Speculation.
+ * @details Calls: lock(), spdlog::info().
+ */
 void CrossShardSpeculativeDecoder::enableAdaptiveSpeculation() {
     std::lock_guard<std::mutex> lock(mutex_);
     config_.enable_adaptive_speculation = true;
     spdlog::info("CrossShardSpeculativeDecoder: Adaptive speculation enabled");
 }
 
+/**
+ * @brief Disable Adaptive Speculation.
+ * @details Calls: lock(), spdlog::info().
+ */
 void CrossShardSpeculativeDecoder::disableAdaptiveSpeculation() {
     std::lock_guard<std::mutex> lock(mutex_);
     config_.enable_adaptive_speculation = false;
@@ -623,6 +717,11 @@ bool CrossShardSpeculativeDecoder::isAdaptiveSpeculationEnabled() const {
     return config_.enable_adaptive_speculation;
 }
 
+/**
+ * @brief Update Acceptance Rate.
+ * @param[in] acceptance_rate Input parameter.
+ * @details Calls: lock(), push_back(), size(), erase(), begin(), empty(), std::accumulate(), end().
+ */
 void CrossShardSpeculativeDecoder::updateAcceptanceRate(double acceptance_rate) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -650,6 +749,10 @@ void CrossShardSpeculativeDecoder::updateAcceptanceRate(double acceptance_rate) 
                  current_adaptive_acceptance_rate_);
 }
 
+/**
+ * @brief Adjust Speculation Parameters.
+ * @details Calls: lock(), spdlog::info().
+ */
 void CrossShardSpeculativeDecoder::adjustSpeculationParameters() {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -678,6 +781,11 @@ void CrossShardSpeculativeDecoder::adjustSpeculationParameters() {
 // Integration with Components
 // ============================================================================
 
+/**
+ * @brief Set Local Engine.
+ * @param[in,out] engine Input/output parameter.
+ * @details Calls: lock(), empty(), find(), end(), isModelLoaded(), getConfig(), spdlog::info().
+ */
 void CrossShardSpeculativeDecoder::setLocalEngine(InferenceEngineEnhanced* engine) {
     std::lock_guard<std::mutex> lock(mutex_);
     local_engine_ = engine;
@@ -696,10 +804,20 @@ void CrossShardSpeculativeDecoder::setLocalEngine(InferenceEngineEnhanced* engin
     spdlog::info("CrossShardSpeculativeDecoder: Local engine set");
 }
 
+/**
+ * @brief Get Local Engine.
+ * @return Pointer to the result.
+ * @details Implements getLocalEngine without additional internal calls.
+ */
 InferenceEngineEnhanced* CrossShardSpeculativeDecoder::getLocalEngine() {
     return local_engine_;
 }
 
+/**
+ * @brief Set Local Shard Id.
+ * @param[in] shard_id Identifier of the shard.
+ * @details Calls: lock(), find(), end(), spdlog::info().
+ */
 void CrossShardSpeculativeDecoder::setLocalShardId(const std::string& shard_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     local_shard_id_ = shard_id;
@@ -722,15 +840,29 @@ const std::string& CrossShardSpeculativeDecoder::getLocalShardId() const {
 // ============================================================================
 
 SpeculativeDecodingStats CrossShardSpeculativeDecoder::getStats() const {
+    /**
+     * @brief Lock.
+     * @param[in] stats_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(stats_mutex_);
     return stats_;
 }
 
 nlohmann::json CrossShardSpeculativeDecoder::getStatsJson() const {
+    /**
+     * @brief Lock.
+     * @param[in] stats_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(stats_mutex_);
     return stats_.toJson();
 }
 
+/**
+ * @brief Reset Stats.
+ * @details Calls: lock(), SpeculativeDecodingStats(), clear().
+ */
 void CrossShardSpeculativeDecoder::resetStats() {
     std::lock_guard<std::mutex> lock(stats_mutex_);
     stats_ = SpeculativeDecodingStats();
@@ -739,6 +871,11 @@ void CrossShardSpeculativeDecoder::resetStats() {
 }
 
 nlohmann::json CrossShardSpeculativeDecoder::getPerformanceReport() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     nlohmann::json report;
@@ -764,6 +901,11 @@ nlohmann::json CrossShardSpeculativeDecoder::getPerformanceReport() const {
 // Callbacks
 // ============================================================================
 
+/**
+ * @brief Set Capability Update Callback.
+ * @param[in] callback Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void CrossShardSpeculativeDecoder::setCapabilityUpdateCallback(
     CapabilityUpdateCallback callback
 ) {
@@ -774,6 +916,11 @@ void CrossShardSpeculativeDecoder::setCapabilityUpdateCallback(
 void CrossShardSpeculativeDecoder::setRemoteDraftCallback(
     std::function<bool(const std::string&, const DraftGenerationRequest&)> callback
 ) {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     remote_draft_callback_ = std::move(callback);
 }
@@ -781,6 +928,11 @@ void CrossShardSpeculativeDecoder::setRemoteDraftCallback(
 void CrossShardSpeculativeDecoder::setRemoteVerifyCallback(
     std::function<bool(const std::string&, const DraftVerificationRequest&)> callback
 ) {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     remote_verify_callback_ = std::move(callback);
 }
@@ -789,6 +941,12 @@ void CrossShardSpeculativeDecoder::setRemoteVerifyCallback(
 // Internal Methods
 // ============================================================================
 
+/**
+ * @brief Handle Draft Generated.
+ * @param[in] request_id Identifier of the request.
+ * @param[in] draft_tokens Input parameter.
+ * @details Calls: lock(), find(), end(), spdlog::warn(), size(), spdlog::debug(), verifyDraftForRequest().
+ */
 void CrossShardSpeculativeDecoder::handleDraftGenerated(
     int64_t request_id,
     const std::vector<int>& draft_tokens
@@ -816,6 +974,12 @@ void CrossShardSpeculativeDecoder::handleDraftGenerated(
     verifyDraftForRequest(request_id);
 }
 
+/**
+ * @brief Handle Draft Failed.
+ * @param[in] request_id Identifier of the request.
+ * @param[in] error Input parameter.
+ * @details Calls: lock(), find(), end(), spdlog::error(), cleanupCompletedSpeculations().
+ */
 void CrossShardSpeculativeDecoder::handleDraftFailed(
     int64_t request_id,
     const std::string& error
@@ -835,6 +999,11 @@ void CrossShardSpeculativeDecoder::handleDraftFailed(
     cleanupCompletedSpeculations();
 }
 
+/**
+ * @brief Verify Draft For Request.
+ * @param[in] request_id Identifier of the request.
+ * @details Calls: lock(), find(), end(), spdlog::warn(), empty(), selectVerifyShard(), spdlog::error(), cleanupCompletedSpeculations().
+ */
 void CrossShardSpeculativeDecoder::verifyDraftForRequest(int64_t request_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -897,6 +1066,13 @@ void CrossShardSpeculativeDecoder::verifyDraftForRequest(int64_t request_id) {
     }
 }
 
+/**
+ * @brief Handle Draft Verified.
+ * @param[in] request_id Identifier of the request.
+ * @param[in] verified_tokens Input parameter.
+ * @param[in] acceptance_rate Input parameter.
+ * @details Calls: lock(), find(), end(), spdlog::warn(), size(), std::chrono::steady_clock::now(), count(), empty().
+ */
 void CrossShardSpeculativeDecoder::handleDraftVerified(
     int64_t request_id,
     const std::vector<int>& verified_tokens,
@@ -944,6 +1120,12 @@ void CrossShardSpeculativeDecoder::handleDraftVerified(
     cleanupCompletedSpeculations();
 }
 
+/**
+ * @brief Handle Draft Verification Failed.
+ * @param[in] request_id Identifier of the request.
+ * @param[in] error Input parameter.
+ * @details Calls: lock(), find(), end(), spdlog::error(), cleanupCompletedSpeculations().
+ */
 void CrossShardSpeculativeDecoder::handleDraftVerificationFailed(
     int64_t request_id,
     const std::string& error
@@ -1004,6 +1186,11 @@ bool CrossShardSpeculativeDecoder::meetsLatencyRequirements(
     return shard.avg_cross_shard_latency_ms <= config_.max_cross_shard_latency_ms;
 }
 
+/**
+ * @brief Update Stats.
+ * @param[in] speculation Input parameter.
+ * @details Calls: lock().
+ */
 void CrossShardSpeculativeDecoder::updateStats(const ActiveSpeculation& speculation) {
     std::lock_guard<std::mutex> lock(stats_mutex_);
     
@@ -1015,6 +1202,10 @@ void CrossShardSpeculativeDecoder::updateStats(const ActiveSpeculation& speculat
     }
 }
 
+/**
+ * @brief Cleanup Completed Speculations.
+ * @details Calls: lock(), begin(), end(), updateStats(), erase().
+ */
 void CrossShardSpeculativeDecoder::cleanupCompletedSpeculations() {
     std::lock_guard<std::mutex> lock(mutex_);
     

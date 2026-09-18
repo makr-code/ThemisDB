@@ -35,6 +35,13 @@ Http3DatagramDispatcher::Http3DatagramDispatcher(const Http3DatagramConfig& conf
 // Context Management
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Register Context.
+ * @param[in] context_id Identifier of the context.
+ * @param[in] handler Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: THEMIS_WARN(), lk(), std::move(), THEMIS_INFO().
+ */
 bool Http3DatagramDispatcher::registerContext(uint64_t       context_id,
                                               DatagramHandler handler) {
     if (!config_.enable) {
@@ -49,6 +56,12 @@ bool Http3DatagramDispatcher::registerContext(uint64_t       context_id,
     return true;
 }
 
+/**
+ * @brief Unregister Context.
+ * @param[in] context_id Identifier of the context.
+ * @return True when the operation succeeds.
+ * @details Calls: lk(), find(), end(), erase(), THEMIS_INFO().
+ */
 bool Http3DatagramDispatcher::unregisterContext(uint64_t context_id) {
     std::lock_guard<std::mutex> lk(contexts_mutex_);
     auto it = contexts_.find(context_id);
@@ -61,6 +74,11 @@ bool Http3DatagramDispatcher::unregisterContext(uint64_t context_id) {
 }
 
 bool Http3DatagramDispatcher::hasContext(uint64_t context_id) const {
+    /**
+     * @brief Lk.
+     * @param[in] contexts_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(contexts_mutex_);
     return contexts_.count(context_id) > 0;
 }
@@ -69,6 +87,12 @@ bool Http3DatagramDispatcher::hasContext(uint64_t context_id) const {
 // Receive Path
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Dispatch.
+ * @param[in] data Input parameter.
+ * @param[in] len Input parameter.
+ * @details Calls: slk(), decodeVarint(), THEMIS_WARN(), lk(), find(), end(), handler().
+ */
 void Http3DatagramDispatcher::dispatch(const uint8_t* data, size_t len) {
     {
         std::lock_guard<std::mutex> slk(stats_mutex_);
@@ -119,7 +143,14 @@ void Http3DatagramDispatcher::dispatch(const uint8_t* data, size_t len) {
 // Send Path
 // ─────────────────────────────────────────────────────────────────────────────
 
-/* static */
+/**
+ * @brief static
+ * @param[in] context_id Identifier of the context.
+ * @param[in] payload Input parameter.
+ * @param[in] paylen Input parameter.
+ * @return Return value.
+ * @details Calls: resize(), encodeVarint(), std::memcpy(), data().
+ */
 std::vector<uint8_t> Http3DatagramDispatcher::encode(uint64_t       context_id,
                                                       const uint8_t* payload,
                                                       size_t         paylen) {
@@ -142,6 +173,10 @@ std::vector<uint8_t> Http3DatagramDispatcher::encode(uint64_t       context_id,
     return frame;
 }
 
+/**
+ * @brief Record Sent.
+ * @details Calls: slk().
+ */
 void Http3DatagramDispatcher::recordSent() {
     std::lock_guard<std::mutex> slk(stats_mutex_);
     ++stats_.datagrams_sent;
@@ -158,7 +193,13 @@ void Http3DatagramDispatcher::recordSent() {
 //   10xxxxxx xxxxxxxx xxxxxxxx xxxxxxxx    4-byte  (16384 – 1073741823)
 //   11xxxxxx … (8 bytes)                   8-byte  (1073741824 – 2^62-1)
 
-/* static */
+/**
+ * @brief static
+ * @param[in] value Input parameter.
+ * @param[in,out] buf Input/output parameter.
+ * @return Return value.
+ * @details Implements encodeVarint without additional internal calls.
+ */
 size_t Http3DatagramDispatcher::encodeVarint(uint64_t value, uint8_t* buf) {
     // RFC 9000 §16: max 2^62 - 1
     if (value <= 63) {                           // 6-bit range
@@ -192,7 +233,14 @@ size_t Http3DatagramDispatcher::encodeVarint(uint64_t value, uint8_t* buf) {
     return 0;
 }
 
-/* static */
+/**
+ * @brief static
+ * @param[in] data Input parameter.
+ * @param[in] len Input parameter.
+ * @param[in,out] value_out Input/output parameter.
+ * @return Return value.
+ * @details Implements decodeVarint without additional internal calls.
+ */
 size_t Http3DatagramDispatcher::decodeVarint(const uint8_t* data, size_t len,
                                               uint64_t& value_out) {
     if (len == 0) {
@@ -242,6 +290,11 @@ size_t Http3DatagramDispatcher::decodeVarint(const uint8_t* data, size_t len,
 // ─────────────────────────────────────────────────────────────────────────────
 
 Http3DatagramDispatcher::Stats Http3DatagramDispatcher::getStats() const {
+    /**
+     * @brief Lk.
+     * @param[in] stats_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(stats_mutex_);
     return stats_;
 }

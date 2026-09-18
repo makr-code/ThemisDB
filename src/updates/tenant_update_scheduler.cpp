@@ -51,16 +51,35 @@ TenantUpdateScheduler::TenantUpdateScheduler(ClockFn clock_fn)
 // Maintenance windows
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Set Maintenance Window.
+ * @param[in] tenant_id Identifier of the tenant.
+ * @param[in] window Input parameter.
+ */
 void TenantUpdateScheduler::setMaintenanceWindow(const std::string& tenant_id,
                                                   const MaintenanceWindow& window)
 {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     tenants_[tenant_id].window = window;
     LOG_DEBUG("TenantUpdateScheduler: set maintenance window for '{}'", tenant_id);
 }
 
+/**
+ * @brief Remove Maintenance Window.
+ * @param[in] tenant_id Identifier of the tenant.
+ */
 void TenantUpdateScheduler::removeMaintenanceWindow(const std::string& tenant_id)
 {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = tenants_.find(tenant_id);
     if (it != tenants_.end()) {
@@ -71,6 +90,11 @@ void TenantUpdateScheduler::removeMaintenanceWindow(const std::string& tenant_id
 std::optional<MaintenanceWindow>
 TenantUpdateScheduler::getMaintenanceWindow(const std::string& tenant_id) const
 {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = tenants_.find(tenant_id);
     if (it == tenants_.end()) {
@@ -83,18 +107,39 @@ TenantUpdateScheduler::getMaintenanceWindow(const std::string& tenant_id) const
 // Blackout periods
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Add Blackout Period.
+ * @param[in] tenant_id Identifier of the tenant.
+ * @param[in] period Input parameter.
+ */
 void TenantUpdateScheduler::addBlackoutPeriod(const std::string& tenant_id,
                                                const BlackoutPeriod& period)
 {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     tenants_[tenant_id].blackouts.push_back(period);
     LOG_DEBUG("TenantUpdateScheduler: added blackout '{}' for '{}'",
               period.id, tenant_id);
 }
 
+/**
+ * @brief Remove Blackout Period.
+ * @param[in] tenant_id Identifier of the tenant.
+ * @param[in] blackout_id Identifier of the blackout.
+ * @return True when the operation succeeds.
+ */
 bool TenantUpdateScheduler::removeBlackoutPeriod(const std::string& tenant_id,
                                                   const std::string& blackout_id)
 {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = tenants_.find(tenant_id);
     if (it == tenants_.end()) {
@@ -113,6 +158,11 @@ bool TenantUpdateScheduler::removeBlackoutPeriod(const std::string& tenant_id,
 std::vector<BlackoutPeriod>
 TenantUpdateScheduler::getBlackoutPeriods(const std::string& tenant_id) const
 {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = tenants_.find(tenant_id);
     if (it == tenants_.end()) {
@@ -125,9 +175,19 @@ TenantUpdateScheduler::getBlackoutPeriods(const std::string& tenant_id) const
 // Update policy
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Set Update Policy.
+ * @param[in] tenant_id Identifier of the tenant.
+ * @param[in] policy Input parameter.
+ */
 void TenantUpdateScheduler::setUpdatePolicy(const std::string& tenant_id,
                                              const UpdatePolicy& policy)
 {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     tenants_[tenant_id].policy = policy;
     LOG_DEBUG("TenantUpdateScheduler: set policy for '{}' (auto_update={}, "
@@ -138,6 +198,11 @@ void TenantUpdateScheduler::setUpdatePolicy(const std::string& tenant_id,
 UpdatePolicy
 TenantUpdateScheduler::getUpdatePolicy(const std::string& tenant_id) const
 {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = tenants_.find(tenant_id);
     if (it == tenants_.end()) {
@@ -150,9 +215,19 @@ TenantUpdateScheduler::getUpdatePolicy(const std::string& tenant_id) const
 // Consent management
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Record Notification.
+ * @param[in] tenant_id Identifier of the tenant.
+ * @param[in] pending_version Input parameter.
+ */
 void TenantUpdateScheduler::recordNotification(const std::string& tenant_id,
                                                 const std::string& pending_version)
 {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     auto& state = tenants_[tenant_id];
     state.pending_version   = pending_version;
@@ -163,9 +238,20 @@ void TenantUpdateScheduler::recordNotification(const std::string& tenant_id,
              tenant_id, pending_version);
 }
 
+/**
+ * @brief Grant Consent.
+ * @param[in] tenant_id Identifier of the tenant.
+ * @param[in] version Input parameter.
+ * @return True when the operation succeeds.
+ */
 bool TenantUpdateScheduler::grantConsent(const std::string& tenant_id,
                                           const std::string& version)
 {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = tenants_.find(tenant_id);
     if (it == tenants_.end()) {
@@ -186,8 +272,17 @@ bool TenantUpdateScheduler::grantConsent(const std::string& tenant_id,
     return true;
 }
 
+/**
+ * @brief Revoke Consent.
+ * @param[in] tenant_id Identifier of the tenant.
+ */
 void TenantUpdateScheduler::revokeConsent(const std::string& tenant_id)
 {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = tenants_.find(tenant_id);
     if (it != tenants_.end()) {
@@ -197,6 +292,11 @@ void TenantUpdateScheduler::revokeConsent(const std::string& tenant_id)
 
 bool TenantUpdateScheduler::hasConsent(const std::string& tenant_id) const
 {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     // 7510 Fix: Explicit null check order for readability
     // Check if key exists BEFORE dereferencing
@@ -215,6 +315,11 @@ bool TenantUpdateScheduler::hasConsent(const std::string& tenant_id) const
 bool TenantUpdateScheduler::canUpdateNow(const std::string& tenant_id,
                                           UpdatePriority priority) const
 {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = tenants_.find(tenant_id);
     if (it == tenants_.end()) {
@@ -282,7 +387,12 @@ bool TenantUpdateScheduler::canUpdateNow(const std::string& tenant_id,
 // ---------------------------------------------------------------------------
 
 namespace {
-// Case-fold a string to ASCII lowercase (safe for non-ASCII characters).
+/**
+ * @brief Case-fold a string to ASCII lowercase (safe for non-ASCII characters).
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Calls: std::tolower().
+ */
 inline std::string toLowerAscii(std::string s) {
     for (auto& c : s)
         c = static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
@@ -293,6 +403,11 @@ inline std::string toLowerAscii(std::string s) {
 std::string
 TenantUpdateScheduler::getNextMaintenanceWindow(const std::string& tenant_id) const
 {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = tenants_.find(tenant_id);
     if (it == tenants_.end() || !it->second.window.has_value()) {
@@ -385,6 +500,14 @@ TenantUpdateScheduler::getNextMaintenanceWindow(const std::string& tenant_id) co
 // Update application & rollback
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Apply Update.
+ * @param[in] tenant_id Identifier of the tenant.
+ * @param[in] version Input parameter.
+ * @param[in,out] engine Input/output parameter.
+ * @param[in] priority Input parameter.
+ * @return Return value.
+ */
 ReloadResult TenantUpdateScheduler::applyUpdate(const std::string& tenant_id,
                                                   const std::string& version,
                                                   HotReloadEngine& engine,
@@ -406,6 +529,11 @@ ReloadResult TenantUpdateScheduler::applyUpdate(const std::string& tenant_id,
     // Version validation: when manual approval is required, confirm that the
     // version being applied matches the version for which consent was granted.
     {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         auto it = tenants_.find(tenant_id);
         if (it != tenants_.end()) {
@@ -434,6 +562,11 @@ ReloadResult TenantUpdateScheduler::applyUpdate(const std::string& tenant_id,
     ReloadResult result = engine.applyHotReload(version);
 
     {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         auto it = tenants_.find(tenant_id);
         if (it == tenants_.end()) {
@@ -461,11 +594,22 @@ ReloadResult TenantUpdateScheduler::applyUpdate(const std::string& tenant_id,
     return result;
 }
 
+/**
+ * @brief Rollback Tenant.
+ * @param[in] tenant_id Identifier of the tenant.
+ * @param[in,out] engine Input/output parameter.
+ * @return True when the operation succeeds.
+ */
 bool TenantUpdateScheduler::rollbackTenant(const std::string& tenant_id,
                                             HotReloadEngine& engine)
 {
     std::string rollback_id = {};
     {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         auto it = tenants_.find(tenant_id);
         if (it == tenants_.end() || it->second.last_rollback_id.empty()) {
@@ -478,6 +622,11 @@ bool TenantUpdateScheduler::rollbackTenant(const std::string& tenant_id,
     const bool ok = engine.rollback(rollback_id);
 
     {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         auto it = tenants_.find(tenant_id);
         if (it != tenants_.end()) {
@@ -501,6 +650,11 @@ bool TenantUpdateScheduler::rollbackTenant(const std::string& tenant_id,
 std::optional<TenantUpdateStatus>
 TenantUpdateScheduler::getTenantStatus(const std::string& tenant_id) const
 {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = tenants_.find(tenant_id);
     if (it == tenants_.end()) {
@@ -524,6 +678,11 @@ TenantUpdateScheduler::getTenantStatus(const std::string& tenant_id) const
 std::vector<TenantUpdateStatus>
 TenantUpdateScheduler::getAllTenantStatuses() const
 {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     const auto now = clock_fn_();
     std::vector<TenantUpdateStatus> result = {};
@@ -544,8 +703,17 @@ TenantUpdateScheduler::getAllTenantStatuses() const
     return result;
 }
 
+/**
+ * @brief Remove Tenant.
+ * @param[in] tenant_id Identifier of the tenant.
+ */
 void TenantUpdateScheduler::removeTenant(const std::string& tenant_id)
 {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     tenants_.erase(tenant_id);
 }
@@ -554,6 +722,11 @@ void TenantUpdateScheduler::removeTenant(const std::string& tenant_id)
 // Private helpers
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Parse Minutes.
+ * @param[in] hhmm Input parameter.
+ * @return Return value.
+ */
 int TenantUpdateScheduler::parseMinutes(const std::string& hhmm)
 {
     if (hhmm.size() != 5 || hhmm[2] != ':') {
@@ -571,6 +744,12 @@ int TenantUpdateScheduler::parseMinutes(const std::string& hhmm)
     }
 }
 
+/**
+ * @brief Is In Window.
+ * @param[in] win Input parameter.
+ * @param[in] tp Input parameter.
+ * @return True when the operation succeeds.
+ */
 bool TenantUpdateScheduler::isInWindow(const MaintenanceWindow& win,
                                         std::chrono::system_clock::time_point tp)
 {
@@ -642,6 +821,12 @@ bool TenantUpdateScheduler::isInWindow(const MaintenanceWindow& win,
     return false;
 }
 
+/**
+ * @brief Is In Blackout.
+ * @param[in] blackouts Input parameter.
+ * @param[in] tp Input parameter.
+ * @return True when the operation succeeds.
+ */
 bool TenantUpdateScheduler::isInBlackout(
     const std::vector<BlackoutPeriod>& blackouts,
     std::chrono::system_clock::time_point tp)

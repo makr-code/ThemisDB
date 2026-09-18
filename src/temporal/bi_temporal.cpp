@@ -64,6 +64,14 @@ bool TemporalForeignKey::validate(const BiTemporalTable& parent_table,
 // DML
 // ============================================================================
 
+/**
+ * @brief Insert With Valid Time.
+ * @param[in] key Input parameter.
+ * @param[in] doc Input parameter.
+ * @param[in] valid_time Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), isCurrent(), overlaps(), now(), push_back(), std::move().
+ */
 bool BiTemporalTable::insertWithValidTime(const std::string& key,
                                           const Document& doc,
                                           const TimeRange& valid_time) {
@@ -89,6 +97,14 @@ bool BiTemporalTable::insertWithValidTime(const std::string& key,
     return true;
 }
 
+/**
+ * @brief Update For Valid Time.
+ * @param[in] key Input parameter.
+ * @param[in] updates Input parameter.
+ * @param[in] valid_at Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), find(), end(), isCurrent(), contains(), now(), items(), std::move().
+ */
 bool BiTemporalTable::updateForValidTime(const std::string& key,
                                           const Document& updates,
                                           Timestamp valid_at) {
@@ -138,6 +154,13 @@ bool BiTemporalTable::updateForValidTime(const std::string& key,
     return true;
 }
 
+/**
+ * @brief Delete For Valid Time.
+ * @param[in] key Input parameter.
+ * @param[in] valid_at Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), find(), end(), now(), closeCurrentRows(), contains().
+ */
 size_t BiTemporalTable::deleteForValidTime(const std::string& key,
                                             Timestamp valid_at) {
     std::lock_guard<std::mutex> lock(mutex_);
@@ -163,6 +186,11 @@ std::vector<VersionedDocument> BiTemporalTable::queryBiTemporal(
     const std::string& key,
     Timestamp sys_as_of,
     Timestamp valid_at) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     auto it = rows_.find(key);
@@ -183,6 +211,11 @@ std::vector<VersionedDocument> BiTemporalTable::queryBiTemporal(
 
 std::vector<VersionedDocument> BiTemporalTable::queryCurrentByValidTime(
     const std::string& key, Timestamp valid_at) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     auto it = rows_.find(key);
@@ -202,6 +235,11 @@ std::vector<VersionedDocument> BiTemporalTable::queryCurrentByValidTime(
 
 std::vector<std::pair<VersionedDocument, VersionedDocument>>
 BiTemporalTable::findOverlaps(const std::string& key) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     auto it = rows_.find(key);
@@ -242,6 +280,11 @@ std::vector<TimeRange> BiTemporalTable::findGaps(const std::string& key,
     // sort and merge are independent of shared state and run unlocked.
     std::vector<TimeRange> covered;
     {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
 
         auto it = rows_.find(key);
@@ -304,6 +347,11 @@ bool BiTemporalTable::hasUniquenessConflict(const std::string& key,
         return false;
     }
 
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     auto it = rows_.find(key);
@@ -321,6 +369,11 @@ bool BiTemporalTable::hasUniquenessConflict(const std::string& key,
 
 std::vector<VersionedDocument> BiTemporalTable::getHistory(
     const std::string& key) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     auto it = rows_.find(key);
@@ -332,6 +385,11 @@ std::vector<VersionedDocument> BiTemporalTable::getHistory(
 
 std::vector<VersionedDocument> BiTemporalTable::scanBiTemporal(
     Timestamp sys_as_of, Timestamp valid_at) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     std::vector<VersionedDocument> result = {};
@@ -348,6 +406,11 @@ std::vector<VersionedDocument> BiTemporalTable::scanBiTemporal(
 }
 
 std::vector<std::string> BiTemporalTable::getAllKeys() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     std::vector<std::string> keys = {};
@@ -368,11 +431,21 @@ std::vector<std::string> BiTemporalTable::getAllKeys() const {
 // ============================================================================
 
 size_t BiTemporalTable::keyCount() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return rows_.size();
 }
 
 size_t BiTemporalTable::versionCount() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     size_t count = 0;
     for (const auto& [k, v] : rows_) {
@@ -382,6 +455,11 @@ size_t BiTemporalTable::versionCount() const {
 }
 
 nlohmann::json BiTemporalTable::getStatistics() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     size_t current_count = 0;
@@ -422,9 +500,12 @@ size_t BiTemporalTable::closeCurrentRows(
     return closed;
 }
 
-// ============================================================================
-// BiTemporalTable::merge — cross-node LWW reconciliation (v1.9.0)
-// ============================================================================
+/**
+ * @brief ============================================================================ BiTemporalTable::merge — cross-node LWW reconciliation (v1.
+ * @param[in] other Input parameter.
+ * @return Return value.
+ * @details 9.0) ============================================================================ Calls: lk_other(), lk_self(), max(), size(), isCurrent(), overlaps(), push_back().
+ */
 
 BiTemporalTable::MergeResult BiTemporalTable::merge(const BiTemporalTable& other) {
     // Reject cross-table merges to avoid mixing unrelated entity histories.

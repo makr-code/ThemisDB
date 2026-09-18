@@ -80,6 +80,12 @@ Winner:)";
     }
     
     // Parse comparison response
+    /**
+     * @brief Parse Comparison Result.
+     * @param[in] response Input parameter.
+     * @return Return value.
+     * @details Calls: parseJSONResponse(), contains(), THEMIS_WARN(), what(), std::transform(), begin(), end(), find().
+     */
     ComparisonWinner parseComparisonResult(const std::string& response) {
         try {
             json j = parser.parseJSONResponse(response);
@@ -179,6 +185,13 @@ ComparisonWinner PairwiseComparator::compareWithLLM(
     }
 }
 
+/**
+ * @brief Detect Position Bias.
+ * @param[in] forward_result Input parameter.
+ * @param[in] reverse_result Input parameter.
+ * @return Return value.
+ * @details Implements detectPositionBias without additional internal calls.
+ */
 double PairwiseComparator::detectPositionBias(
     ComparisonWinner forward_result,
     ComparisonWinner reverse_result

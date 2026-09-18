@@ -15,26 +15,10 @@
 
 namespace themis::llm {
 
-/**
- * @brief Synthetic SSM stub for dataflow validation (P1-D03).
- *
- * **STUB/SIMULATION NOTE:**
- * Purpose: Validate SSM plugin dataflow without a real Mamba model
- * Activation: Only when THEMIS_SSM_STUB_MODE=1 build flag set
- * Production Delta: Uses fixed random state (Seed=42); no real token processing
- * Removal Plan: Replace with real Mamba ISSMPlugin in Phase 2
- *
- * Implements the ISSMPlugin interface with deterministic synthetic state:
- * - updateState(): appends token count to fixed 128-dim hidden state buffer
- * - getStateSnapshot(): serializes current buffer with HLC timestamp
- * - restoreState(): deserializes and validates fingerprint
- * - getStateRetentionScore(): returns synthetic decay metric
- */
 class SyntheticSSMStub : public ISSMPlugin {
 public:
     SyntheticSSMStub();
 
-    /// Plugin metadata
     std::string getName() const { return "synthetic-ssm-stub"; }
 
     std::string getVersion() const { return "0.1.0-alpha"; }
@@ -43,7 +27,15 @@ public:
         return "Synthetic SSM stub for Phase 1 dataflow validation (THEMIS_SSM_STUB_MODE)";
     }
 
+    /**
+     * @brief Initialize.
+     * @return True when the operation succeeds.
+     */
     bool initialize();
+    /**
+     * @brief Deinitialize.
+     * @return True when the operation succeeds.
+     */
     bool deinitialize();
     bool isAvailable() const { return initialized_; }
 
@@ -80,19 +72,14 @@ private:
     static constexpr int HIDDEN_DIM = 128;
     static constexpr uint32_t STUB_SEED = 42;
 
-    /// Hidden state buffer (fixed size for Phase 1)
     std::vector<float> hidden_state_;
 
-    /// Token sequence counter
     uint64_t token_count_ = 0;
 
-    /// Initialization flag
     bool initialized_ = false;
 
-    /// RNG for decay metric
     std::mt19937 rng_;
 
-    /// Model architecture fingerprint
     std::string fingerprint_ = {};
 };
 
@@ -101,9 +88,18 @@ private:
 // Inline implementations to avoid separate TU and satisfy unity builds
 namespace themis::llm {
 
+/**
+ * @brief Synthetic SSMStub.
+ * @return Return value.
+ */
 inline SyntheticSSMStub::SyntheticSSMStub()
     : hidden_state_(HIDDEN_DIM, 0.0f), rng_(STUB_SEED), fingerprint_("synthetic-ssm-v0") {}
 
+/**
+ * @brief Initialize.
+ * @return True when the operation succeeds.
+ * @details Calls: std::fill(), begin(), end().
+ */
 inline bool SyntheticSSMStub::initialize() {
     initialized_ = true;
     token_count_ = 0;
@@ -111,6 +107,12 @@ inline bool SyntheticSSMStub::initialize() {
     return true;
 }
 
+/**
+ * @brief Update State.
+ * @param[in] tokens Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements updateState without additional internal calls.
+ */
 inline bool SyntheticSSMStub::updateState(const std::vector<int32_t>& tokens) {
     if (!initialized_) {
       return false;
@@ -124,6 +126,12 @@ inline bool SyntheticSSMStub::updateState(const std::vector<int32_t>& tokens) {
     return true;
 }
 
+/**
+ * @brief Get State Snapshot.
+ * @param[in] snapshot_ts Input parameter.
+ * @return Return value.
+ * @details Calls: resize().
+ */
 inline SSMStateSnapshot SyntheticSSMStub::getStateSnapshot(core::HLCTimestamp snapshot_ts) {
     SSMStateSnapshot snap;
     snap.snapshot_ts = snapshot_ts;
@@ -136,6 +144,12 @@ inline SSMStateSnapshot SyntheticSSMStub::getStateSnapshot(core::HLCTimestamp sn
     return snap;
 }
 
+/**
+ * @brief Restore State.
+ * @param[in] snapshot Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: size().
+ */
 inline bool SyntheticSSMStub::restoreState(const SSMStateSnapshot& snapshot) {
     if (snapshot.state_fingerprint != fingerprint_) {
       return false;
@@ -150,6 +164,10 @@ inline bool SyntheticSSMStub::restoreState(const SSMStateSnapshot& snapshot) {
     return true;
 }
 
+/**
+ * @brief Reset State.
+ * @details Calls: std::fill(), begin(), end().
+ */
 inline void SyntheticSSMStub::resetState() {
     token_count_ = 0;
     std::fill(hidden_state_.begin(), hidden_state_.end(), 0.0f);

@@ -69,6 +69,12 @@ void AuthError::logError() const {
     );
 }
 
+/**
+ * @brief From Exception.
+ * @param[in] e Input parameter.
+ * @param[in] request_id Identifier of the request.
+ * @return Return value.
+ */
 AuthError AuthError::fromException(
     const std::exception& e,
     const std::string& request_id)
@@ -93,6 +99,12 @@ AuthError AuthError::fromException(
     return AuthError(code, public_msg, msg, request_id);
 }
 
+/**
+ * @brief Mask Sensitive Data.
+ * @param[in] input Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), it(), begin(), end(), append(), position(), masker().
+ */
 std::string AuthError::maskSensitiveData(const std::string& input) {
     std::string result = input;
 
@@ -142,6 +154,12 @@ std::string AuthError::maskSensitiveData(const std::string& input) {
     return result;
 }
 
+/**
+ * @brief Mask Email.
+ * @param[in] email Input parameter.
+ * @return Return value.
+ * @details Calls: find(), substr(), length().
+ */
 std::string AuthError::maskEmail(const std::string& email) {
     size_t at_pos = email.find('@');
     if (at_pos == std::string::npos || at_pos == 0) {
@@ -159,6 +177,12 @@ std::string AuthError::maskEmail(const std::string& email) {
     return local.substr(0, 2) + "***" + domain;
 }
 
+/**
+ * @brief Mask Principal.
+ * @param[in] principal Input parameter.
+ * @return Return value.
+ * @details Calls: find(), substr().
+ */
 std::string AuthError::maskPrincipal(const std::string& principal) {
     size_t at_pos = principal.find('@');
     if (at_pos == std::string::npos) {
@@ -169,6 +193,12 @@ std::string AuthError::maskPrincipal(const std::string& principal) {
     return "***" + principal.substr(at_pos);
 }
 
+/**
+ * @brief Mask File Path.
+ * @param[in] path Input parameter.
+ * @return Return value.
+ * @details Calls: find_last_of(), substr().
+ */
 std::string AuthError::maskFilePath(const std::string& path) {
     size_t last_slash = path.find_last_of('/');
     if (last_slash == std::string::npos) {
@@ -179,6 +209,12 @@ std::string AuthError::maskFilePath(const std::string& path) {
     return "***/" + path.substr(last_slash + 1);
 }
 
+/**
+ * @brief Mask IPAddress.
+ * @param[in] ip Input parameter.
+ * @return Return value.
+ * @details Calls: find(), substr().
+ */
 std::string AuthError::maskIPAddress(const std::string& ip) {
     size_t first_dot = ip.find('.');
     if (first_dot == std::string::npos) {
@@ -189,6 +225,12 @@ std::string AuthError::maskIPAddress(const std::string& ip) {
     return ip.substr(0, first_dot) + ".*.*.*";
 }
 
+/**
+ * @brief Mask Token.
+ * @param[in] token Input parameter.
+ * @return Return value.
+ * @details Calls: length(), substr().
+ */
 std::string AuthError::maskToken(const std::string& token) {
     if (token.length() <= 8) {
         return "***";
@@ -198,6 +240,11 @@ std::string AuthError::maskToken(const std::string& token) {
     return token.substr(0, 4) + "..." + token.substr(token.length() - 4);
 }
 
+/**
+ * @brief Generate Request Id.
+ * @return Return value.
+ * @details Calls: local_gen(), local_rd(), dis(), str().
+ */
 std::string AuthError::generateRequestId() {
     // Generate a random request ID (format: auth-XXXXXXXX)
     static std::random_device local_rd;
@@ -218,6 +265,10 @@ std::string AuthError::generateRequestId() {
 // Error Registration
 // ============================================================================
 
+/**
+ * @brief Register Auth Errors.
+ * @details Calls: errors::ErrorRegistry::getInstance(), registerError(), toErrorCode(), nlohmann::json::array().
+ */
 void registerAuthErrors() {
     auto& registry = errors::ErrorRegistry::getInstance();
     

@@ -18,14 +18,12 @@ namespace ingestion {
 
 namespace {
 
-/// Named-law shortcodes recognized as valid identifiers
 static const std::vector<std::string> kKnownLawIds = {
     "BImSchG", "StGB", "DSGVO", "GG", "BGB", "HGB",
     "VwVfG", "UmwG", "KrWG", "AktG", "GmbHG", "InsO",
     "ZPO", "StPO", "VwGO", "AGG", "BBG", "BDG"
 };
 
-/// Regex patterns for reference extraction
 static const std::regex kSectionRefRe(
     "§\\s*(\\d+[a-z]*)(?:\\s+Abs(?:atz|\\.)?\\s*(\\d+))?"
     "(?:\\s+Satz\\s*(\\d+))?(?:\\s+Nr(?:ummer|\\.)?\\s*(\\d+))?",
@@ -57,20 +55,40 @@ AgenticReferenceValidator::AgenticReferenceValidator() {
     }
 }
 
+/**
+ * @brief Set Extractor Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: std::move().
+ */
 void AgenticReferenceValidator::setExtractorFn(ExtractorFn fn) {
     extractor_fn_ = std::move(fn);
 }
 
+/**
+ * @brief Add Known Law.
+ * @param[in] law_id Identifier of the law.
+ * @details Calls: insert().
+ */
 void AgenticReferenceValidator::addKnownLaw(const std::string& law_id) {
     known_laws_.insert(law_id);
 }
 
+/**
+ * @brief Add Known Section.
+ * @param[in] law_id Identifier of the law.
+ * @param[in] section Input parameter.
+ * @details Calls: insert().
+ */
 void AgenticReferenceValidator::addKnownSection(const std::string& law_id,
                                                   const std::string& section) {
     known_laws_.insert(law_id);
     known_sections_[law_id].insert(section);
 }
 
+/**
+ * @brief Clear Knowledge Base.
+ * @details Calls: clear().
+ */
 void AgenticReferenceValidator::clearKnowledgeBase() {
     known_laws_.clear();
     known_sections_.clear();

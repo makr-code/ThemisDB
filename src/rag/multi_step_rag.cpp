@@ -36,6 +36,12 @@ constexpr std::size_t kMaxGapResponseChars = 16 * 1024;
 constexpr std::size_t kMaxAspectChars = 512;
 constexpr std::size_t kMaxAspectsPerIteration = 8;
 
+/**
+ * @brief Trim Ascii Whitespace.
+ * @param[in] input Input parameter.
+ * @return Return value.
+ * @details Calls: find_first_not_of(), find_last_not_of(), substr().
+ */
 std::string trimAsciiWhitespace(const std::string& input) {
     const auto first = input.find_first_not_of(" \t\r\n");
     if (first == std::string::npos) {
@@ -45,6 +51,11 @@ std::string trimAsciiWhitespace(const std::string& input) {
     return input.substr(first, last - first + 1);
 }
 
+/**
+ * @brief Sanitize Config.
+ * @param[in] cfg Input parameter.
+ * @return Return value.
+ */
 MultiStepRAGConfig sanitizeConfig(const MultiStepRAGConfig& cfg)
 {
     MultiStepRAGConfig out = cfg;
@@ -106,6 +117,10 @@ const MultiStepRAGConfig& MultiStepRAGOrchestrator::getConfig() const
     return config_;
 }
 
+/**
+ * @brief Set Config.
+ * @param[in] cfg Input parameter.
+ */
 void MultiStepRAGOrchestrator::setConfig(const MultiStepRAGConfig& cfg)
 {
     config_ = sanitizeConfig(cfg);
@@ -116,6 +131,13 @@ void MultiStepRAGOrchestrator::setConfig(const MultiStepRAGConfig& cfg)
 // Internal helpers
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Substitute.
+ * @param[in] tmpl Input parameter.
+ * @param[in] key Input parameter.
+ * @param[in] value Input parameter.
+ * @return Return value.
+ */
 std::string MultiStepRAGOrchestrator::substitute(
     const std::string& tmpl,
     const std::string& key,
@@ -131,6 +153,11 @@ std::string MultiStepRAGOrchestrator::substitute(
     return result;
 }
 
+/**
+ * @brief Parse Open Aspects.
+ * @param[in] llm_response Input parameter.
+ * @return Return value.
+ */
 std::vector<std::string> MultiStepRAGOrchestrator::parseOpenAspects(
     const std::string& llm_response)
 {
@@ -149,7 +176,11 @@ std::vector<std::string> MultiStepRAGOrchestrator::parseOpenAspects(
         return aspects;
     }
 
-    // Split on newlines; discard empty lines.
+    /**
+     * @brief Split on newlines; discard empty lines.
+     * @param[in] llm_response Input parameter.
+     * @return Return value.
+     */
     std::istringstream ss(llm_response);
     std::string line = {};
     aspects.reserve(std::min<std::size_t>(

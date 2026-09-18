@@ -49,6 +49,10 @@ SystemMemoryPressureMonitor::~SystemMemoryPressureMonitor() {
 // Lifecycle
 // ============================================================================
 
+/**
+ * @brief Start.
+ * @details Calls: compare_exchange_strong(), std::thread().
+ */
 void SystemMemoryPressureMonitor::start() {
     bool expected = false;
     if (!running_.compare_exchange_strong(expected, true)) {
@@ -57,6 +61,10 @@ void SystemMemoryPressureMonitor::start() {
     poll_thread_ = std::thread(&SystemMemoryPressureMonitor::poll_loop, this);
 }
 
+/**
+ * @brief Stop.
+ * @details Calls: store(), joinable(), join().
+ */
 void SystemMemoryPressureMonitor::stop() {
     running_.store(false, std::memory_order_relaxed);
     if (poll_thread_.joinable()) {
@@ -72,6 +80,13 @@ bool SystemMemoryPressureMonitor::is_running() const noexcept {
 // Callback registration
 // ============================================================================
 
+/**
+ * @brief Register eviction callback.
+ * @param[in] trigger_level Input parameter.
+ * @param[in] callback Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), push_back(), std::move().
+ */
 size_t SystemMemoryPressureMonitor::register_eviction_callback(
     PressureLevel trigger_level, EvictionCallback callback) {
     std::lock_guard<std::mutex> lock(callbacks_mutex_);
@@ -81,6 +96,11 @@ size_t SystemMemoryPressureMonitor::register_eviction_callback(
 }
 
 void SystemMemoryPressureMonitor::unregister_eviction_callback([[maybe_unused]] size_t handle) {
+    /**
+     * @brief Lock.
+     * @param[in] callbacks_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(callbacks_mutex_);
     callbacks_.erase(
         std::remove_if(callbacks_.begin(), callbacks_.end(),
@@ -99,6 +119,11 @@ SystemMemoryPressureMonitor::sample() const {
 
 SystemMemoryPressureMonitor::MemorySnapshot
 SystemMemoryPressureMonitor::last_snapshot() const {
+    /**
+     * @brief Lock.
+     * @param[in] snapshot_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(snapshot_mutex_);
     return last_snapshot_;
 }
@@ -107,6 +132,12 @@ uint64_t SystemMemoryPressureMonitor::eviction_trigger_count() const noexcept {
     return eviction_trigger_count_.load(std::memory_order_relaxed);
 }
 
+/**
+ * @brief Level name.
+ * @param[in] level Input parameter.
+ * @return Return value.
+ * @details Implements level_name without additional internal calls.
+ */
 std::string SystemMemoryPressureMonitor::level_name(PressureLevel level) {
     switch (level) {
         case PressureLevel::NORMAL:   return "NORMAL";
@@ -215,6 +246,10 @@ SystemMemoryPressureMonitor::classify([[maybe_unused]] double usage_percent) con
     return PressureLevel::NORMAL;
 }
 
+/**
+ * @brief Poll loop.
+ * @details Calls: load(), read_os_memory(), lock(), trigger_callbacks(), std::chrono::steady_clock::now(), std::chrono::milliseconds(), std::this_thread::sleep_for().
+ */
 void SystemMemoryPressureMonitor::poll_loop() {
     while (running_.load(std::memory_order_relaxed)) {
         MemorySnapshot snap = read_os_memory();
@@ -242,6 +277,11 @@ void SystemMemoryPressureMonitor::poll_loop() {
 void SystemMemoryPressureMonitor::trigger_callbacks([[maybe_unused]] PressureLevel current_level) {
     std::vector<EvictionCallback> to_call;
     {
+        /**
+         * @brief Lock.
+         * @param[in] callbacks_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(callbacks_mutex_);
         for ([[maybe_unused]] const auto& entry : callbacks_) {
             if (static_cast<int>(current_level) >=

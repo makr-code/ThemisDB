@@ -153,7 +153,11 @@ SecurityEvidenceCollector::SecurityEvidenceCollector(
     }
 }
 
-// ── Helpers ─────────────────────────────────────────────────────────────────
+/**
+ * @brief ── Helpers ─────────────────────────────────────────────────────────────────
+ * @return Return value.
+ * @details Calls: RAND_bytes(), THEMIS_WARN(), ERR_error_string(), ERR_get_error(), std::chrono::system_clock::now(), time_since_epoch(), count(), std::memcpy().
+ */
 
 std::string SecurityEvidenceCollector::generateBundleId() {
     // UUID v4: 16 random bytes with version (4) and variant (10xx) bits set.
@@ -434,6 +438,11 @@ SecurityEvidenceBundle SecurityEvidenceCollector::collect(
     std::chrono::system_clock::time_point from,
     std::chrono::system_clock::time_point to) const
 {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     auto now = std::chrono::system_clock::now();
@@ -475,7 +484,11 @@ bool SecurityEvidenceCollector::exportToFile(const SecurityEvidenceBundle& bundl
     const std::string tmp_path = path + ".tmp";
 
     try {
-        // Ensure parent directory exists
+        /**
+         * @brief Ensure parent directory exists
+         * @param[in] path Input parameter.
+         * @return Return value.
+         */
         std::filesystem::path p(path);
         if (p.has_parent_path()) {
             std::filesystem::create_directories(p.parent_path());
@@ -505,6 +518,11 @@ bool SecurityEvidenceCollector::exportToFile(const SecurityEvidenceBundle& bundl
             const auto export_end_ms =
                 static_cast<int64_t>(std::chrono::duration_cast<std::chrono::milliseconds>(
                     std::chrono::system_clock::now().time_since_epoch()).count());
+            /**
+             * @brief Ml.
+             * @param[in] mutex_ Input parameter.
+             * @return Return value.
+             */
             std::lock_guard<std::mutex> ml(mutex_);
             last_export_metrics_.export_end_ms        = export_end_ms;
             last_export_metrics_.events_sent          = static_cast<uint64_t>(bundle.audit_log.entries.size());
@@ -594,6 +612,11 @@ bool SecurityEvidenceCollector::export_idempotency_check() const noexcept {
 }
 
 ExportMetrics SecurityEvidenceCollector::lastExportMetrics() const noexcept {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return last_export_metrics_;
 }

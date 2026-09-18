@@ -22,7 +22,12 @@ namespace storage {
 using json = nlohmann::json;
 using namespace analytics;
 
-// Map analyzer Language enum to short code
+/**
+ * @brief Map analyzer Language enum to short code
+ * @param[in] lang Input parameter.
+ * @return Return value.
+ * @details Implements languageToCode without additional internal calls.
+ */
 static std::string languageToCode(NlpTextAnalyzer::Language lang) {
     switch (lang) {
     case NlpTextAnalyzer::Language::ENGLISH: return "en";

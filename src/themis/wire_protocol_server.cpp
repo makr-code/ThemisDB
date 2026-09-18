@@ -80,35 +80,78 @@ WireTSQueryFn        g_wire_ts_query_fn;
 WireGraphTraversalFn g_wire_graph_traversal_fn;
 } // namespace
 
+/**
+ * @brief Set Wire Aql Exec Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void setWireAqlExecFn(WireAqlExecFn fn) {
     std::lock_guard<std::mutex> lock(g_wire_bridge_mutex);
     g_wire_aql_exec_fn = std::move(fn);
 }
+/**
+ * @brief Set Wire Cursor Next Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void setWireCursorNextFn(WireCursorNextFn fn) {
     std::lock_guard<std::mutex> lock(g_wire_bridge_mutex);
     g_wire_cursor_next_fn = std::move(fn);
 }
+/**
+ * @brief Set Wire Cursor Close Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void setWireCursorCloseFn(WireCursorCloseFn fn) {
     std::lock_guard<std::mutex> lock(g_wire_bridge_mutex);
     g_wire_cursor_close_fn = std::move(fn);
 }
+/**
+ * @brief Set Wire Geo Query Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void setWireGeoQueryFn(WireGeoQueryFn fn) {
     std::lock_guard<std::mutex> lock(g_wire_bridge_mutex);
     g_wire_geo_query_fn = std::move(fn);
 }
+/**
+ * @brief Set Wire TSQuery Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void setWireTSQueryFn(WireTSQueryFn fn) {
     std::lock_guard<std::mutex> lock(g_wire_bridge_mutex);
     g_wire_ts_query_fn = std::move(fn);
 }
+/**
+ * @brief Set Wire Graph Traversal Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void setWireGraphTraversalFn(WireGraphTraversalFn fn) {
     std::lock_guard<std::mutex> lock(g_wire_bridge_mutex);
     g_wire_graph_traversal_fn = std::move(fn);
 }
 
+/**
+ * @brief Register handler.
+ * @param[in] opcode Input parameter.
+ * @param[in] handler Input parameter.
+ * @details Calls: std::move().
+ */
 void MessageDispatcher::register_handler(OpCode opcode, handler_fn handler) {
     handlers_[opcode] = std::move(handler);
 }
 
+/**
+ * @brief Dispatch.
+ * @param[in,out] session Input/output parameter.
+ * @param[in] opcode Input parameter.
+ * @param[in] payload Input parameter.
+ * @details Calls: find(), end(), second().
+ */
 void MessageDispatcher::dispatch(WireProtocolSession&        session,
                                  OpCode                      opcode,
                                  const std::vector<uint8_t>& payload) {
@@ -196,7 +239,13 @@ static const uint32_t kCrc32Table[256] = {
     0xB40BBE37u, 0xC30C8EA1u, 0x5A05DF1Bu, 0x2D02EF8Du,
 };
 
-/// CRC32 over an arbitrary byte range (initial value 0).
+/**
+ * @brief Crc32 Compute.
+ * @param[in] data Input parameter.
+ * @param[in] len Input parameter.
+ * @return Return value.
+ * @details Implements crc32Compute without additional internal calls.
+ */
 static uint32_t crc32Compute(const uint8_t* data, std::size_t len) {
     uint32_t crc = 0xFFFFFFFFu;
     for (std::size_t i = 0; i < len; ++i)
@@ -204,7 +253,6 @@ static uint32_t crc32Compute(const uint8_t* data, std::size_t len) {
     return ~crc;
 }
 
-/// Serialize WireFrameHeader into a 12-byte big-endian wire buffer.
 static std::array<uint8_t, HEADER_SIZE> serializeHeader(const WireFrameHeader& h) {
     std::array<uint8_t, HEADER_SIZE> buf{};
     const uint32_t magic_be = htonl(h.magic);
@@ -218,7 +266,12 @@ static std::array<uint8_t, HEADER_SIZE> serializeHeader(const WireFrameHeader& h
     return buf;
 }
 
-/// Deserialize WireFrameHeader from a 12-byte big-endian wire buffer.
+/**
+ * @brief Deserialize Header.
+ * @param[in] buf Input parameter.
+ * @return Return value.
+ * @details Calls: std::memcpy(), ntohl(), ntohs().
+ */
 static WireFrameHeader deserializeHeader(const uint8_t* buf) {
     WireFrameHeader h{};
     uint32_t magic_be = {};
@@ -235,7 +288,12 @@ static WireFrameHeader deserializeHeader(const uint8_t* buf) {
     return h;
 }
 
-/// Produce a session-ID string from remote endpoint + monotonic timestamp.
+/**
+ * @brief Make Session Id.
+ * @param[in] socket Input parameter.
+ * @return Return value.
+ * @details Calls: remote_endpoint(), address(), to_string(), port(), std::chrono::steady_clock::now(), time_since_epoch(), count(), str().
+ */
 static std::string makeSessionId(const tcp::socket& socket) {
     std::ostringstream ss = {};
     try {
@@ -250,6 +308,12 @@ static std::string makeSessionId(const tcp::socket& socket) {
 }
 
 #if THEMIS_WIRE_V1_PB_HEADER_FOUND
+/**
+ * @brief Proto Value To Json.
+ * @param[in] value Input parameter.
+ * @return Return value.
+ * @details Calls: kind_case(), string_value(), int_value(), double_value(), bool_value(), bytes_value(), json::array(), list_value().
+ */
 json protoValueToJson(const v1::Value& value) {
     switch (value.kind_case()) {
         case v1::Value::kStringValue:
@@ -284,6 +348,12 @@ json protoValueToJson(const v1::Value& value) {
 }
 
 template <typename MapLike>
+/**
+ * @brief Proto Map To Json.
+ * @param[in] values Input parameter.
+ * @return Return value.
+ * @details Calls: json::object(), protoValueToJson().
+ */
 json protoMapToJson(const MapLike& values) {
     json result = json::object();
     for (const auto& [key, value] : values) {
@@ -293,9 +363,12 @@ json protoMapToJson(const MapLike& values) {
 }
 #endif
 
-/// Sanitize a user-supplied string for safe inclusion in error messages.
-/// Replaces control characters (< 0x20) and DEL (0x7F) with '?' to prevent
-/// log injection and client confusion via embedded newlines or escape sequences.
+/**
+ * @brief Sanitize For Message.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size().
+ */
 static std::string sanitizeForMessage(const std::string& s) {
     std::string out = {};
     out.reserve(s.size());
@@ -324,21 +397,41 @@ WireProtocolSession::TimeseriesQueryFn s_timeseries_query_fn;
 WireProtocolSession::GraphTraverseFn   s_graph_traverse_fn;
 } // anonymous namespace
 
+/**
+ * @brief Set Query Aql Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void WireProtocolSession::setQueryAqlFn(AqlQueryFn fn) {
     std::lock_guard<std::mutex> lock(s_bridge_mutex);
     s_query_aql_fn = std::move(fn);
 }
 
+/**
+ * @brief Set Geo Query Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void WireProtocolSession::setGeoQueryFn(GeoQueryFn fn) {
     std::lock_guard<std::mutex> lock(s_bridge_mutex);
     s_geo_query_fn = std::move(fn);
 }
 
+/**
+ * @brief Set Timeseries Query Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void WireProtocolSession::setTimeseriesQueryFn(TimeseriesQueryFn fn) {
     std::lock_guard<std::mutex> lock(s_bridge_mutex);
     s_timeseries_query_fn = std::move(fn);
 }
 
+/**
+ * @brief Set Graph Traverse Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void WireProtocolSession::setGraphTraverseFn(GraphTraverseFn fn) {
     std::lock_guard<std::mutex> lock(s_bridge_mutex);
     s_graph_traverse_fn = std::move(fn);
@@ -357,6 +450,15 @@ struct ProtobufBootstrapState {
     }
 };
 
+/**
+ * @brief Collect Protobuf Bootstrap State.
+ * @param[in] aql_query_fn Input parameter.
+ * @param[in] geo_query_fn Input parameter.
+ * @param[in] timeseries_query_fn Input parameter.
+ * @param[in] graph_traverse_fn Input parameter.
+ * @return Return value.
+ * @details Calls: lock().
+ */
 ProtobufBootstrapState collectProtobufBootstrapState(
     const WireProtocolSession::AqlQueryFn& aql_query_fn,
     const WireProtocolSession::GeoQueryFn& geo_query_fn,
@@ -398,16 +500,30 @@ WireProtocolSession::~WireProtocolSession() {
     close();
 }
 
+/**
+ * @brief Start.
+ * @details Calls: async_read_header().
+ */
 void WireProtocolSession::start() {
     async_read_header();
 }
 
 void WireProtocolSession::set_disconnect_callback(
     std::function<void(const std::string&)> callback) {
+    /**
+     * @brief Lock.
+     * @param[in] session_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(session_mutex_);
     disconnect_callback_ = std::move(callback);
 }
 
+/**
+ * @brief Close.
+ * @param[in] param Input parameter.
+ * @details Calls: void(), lock(), is_open(), shutdown(), disconnect_callback().
+ */
 void WireProtocolSession::close(const std::string& /*reason*/) {
     std::function<void(const std::string&)> disconnect_callback;
     {
@@ -430,7 +546,10 @@ void WireProtocolSession::close(const std::string& /*reason*/) {
     }
 }
 
-// ---- async read pipeline ----
+/**
+ * @brief ---- async read pipeline ----
+ * @details Calls: shared_from_this(), resize(), net::async_read(), net::buffer(), message(), close(), deserializeHeader(), data().
+ */
 
 void WireProtocolSession::async_read_header() {
     auto self = shared_from_this();
@@ -464,6 +583,11 @@ void WireProtocolSession::async_read_header() {
         });
 }
 
+/**
+ * @brief Async read payload.
+ * @param[in] header Input parameter.
+ * @details Calls: shared_from_this(), has_flag(), get_opcode(), defined(), send_error(), handle_ping(), handle_close(), async_read_header().
+ */
 void WireProtocolSession::async_read_payload(const WireFrameHeader& header) {
     auto self = shared_from_this();
     const bool        with_checksum =
@@ -727,6 +851,12 @@ void WireProtocolSession::async_read_payload(const WireFrameHeader& header) {
         });
 }
 
+/**
+ * @brief Async write response.
+ * @param[in] opcode Input parameter.
+ * @param[in] message Input parameter.
+ * @details Calls: defined(), SerializeToString(), send_error(), size(), serializeHeader(), crc32Compute(), data(), htonl().
+ */
 void WireProtocolSession::async_write_response(
     OpCode opcode, const google::protobuf::Message& message) {
 #if defined(THEMIS_WIRE_V1_PROTO_AVAILABLE) && THEMIS_WIRE_V1_PB_HEADER_FOUND
@@ -781,7 +911,12 @@ void WireProtocolSession::async_write_response(
 #endif
 }
 
-// ---- utility methods ----
+/**
+ * @brief ---- utility methods ----
+ * @param[in] err_code Input parameter.
+ * @param[in] message Input parameter.
+ * @details Calls: payload(), size(), htonl(), std::memcpy(), data(), serializeHeader(), clear(), insert().
+ */
 
 void WireProtocolSession::send_error(uint32_t           err_code,
                                      const std::string& message) {
@@ -816,6 +951,11 @@ void WireProtocolSession::send_error(uint32_t           err_code,
         });
 }
 
+/**
+ * @brief Send ok.
+ * @param[in] message Input parameter.
+ * @details Calls: size(), serializeHeader(), clear(), insert(), end(), begin(), shared_from_this(), net::async_write().
+ */
 void WireProtocolSession::send_ok(const std::string& message) {
     WireFrameHeader hdr{};
     hdr.magic          = WIRE_MAGIC;
@@ -843,6 +983,13 @@ void WireProtocolSession::send_ok(const std::string& message) {
         });
 }
 
+/**
+ * @brief Compute checksum.
+ * @param[in] header Input parameter.
+ * @param[in] payload Input parameter.
+ * @return Return value.
+ * @details Calls: serializeHeader().
+ */
 uint32_t WireProtocolSession::compute_checksum(
     const WireFrameHeader&      header,
     const std::vector<uint8_t>& payload) {
@@ -855,6 +1002,14 @@ uint32_t WireProtocolSession::compute_checksum(
     return ~crc;
 }
 
+/**
+ * @brief Verify checksum.
+ * @param[in] header Input parameter.
+ * @param[in] payload Input parameter.
+ * @param[in] checksum Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: compute_checksum().
+ */
 bool WireProtocolSession::verify_checksum(
     const WireFrameHeader&      header,
     const std::vector<uint8_t>& payload,
@@ -862,12 +1017,24 @@ bool WireProtocolSession::verify_checksum(
     return compute_checksum(header, payload) == checksum;
 }
 
+/**
+ * @brief Decompress lz4.
+ * @param[in] compressed Input parameter.
+ * @return Return value.
+ * @details Implements decompress_lz4 without additional internal calls.
+ */
 std::vector<uint8_t> WireProtocolSession::decompress_lz4(
     const std::vector<uint8_t>& compressed) {
     // LZ4 decompression deferred until dependency is unconditionally available.
     return {};
 }
 
+/**
+ * @brief Compress lz4.
+ * @param[in] data Input parameter.
+ * @return Return value.
+ * @details Implements compress_lz4 without additional internal calls.
+ */
 std::vector<uint8_t> WireProtocolSession::compress_lz4(
     const std::vector<uint8_t>& data) {
     return {};
@@ -877,10 +1044,20 @@ std::vector<uint8_t> WireProtocolSession::compress_lz4(
 
 #if defined(THEMIS_WIRE_V1_PROTO_AVAILABLE) && THEMIS_WIRE_V1_PB_HEADER_FOUND
 
+/**
+ * @brief Handle hello.
+ * @param[in] param Input parameter.
+ * @details Calls: send_ok().
+ */
 void WireProtocolSession::handle_hello(const v1::HelloRequest& /*req*/) {
     send_ok("HELLO_ACK");
 }
 
+/**
+ * @brief Handle auth response.
+ * @param[in] req Input parameter.
+ * @details Calls: username(), empty(), namespace_(), send_ok(), send_error().
+ */
 void WireProtocolSession::handle_auth_response(const v1::AuthResponse& req) {
     if (!req.username().empty()) {
         authenticated_ = true;
@@ -892,6 +1069,11 @@ void WireProtocolSession::handle_auth_response(const v1::AuthResponse& req) {
     }
 }
 
+/**
+ * @brief Handle get.
+ * @param[in] req Input parameter.
+ * @details Calls: send_error(), collection(), empty(), uuid(), sanitizeForMessage().
+ */
 void WireProtocolSession::handle_get(const v1::GetRequest& req) {
     // GET: retrieve a document by collection and UUID.
     // Requires an authenticated session; validates collection and UUID fields.
@@ -917,6 +1099,11 @@ void WireProtocolSession::handle_get(const v1::GetRequest& req) {
         "/" + sanitizeForMessage(req.uuid()));
 }
 
+/**
+ * @brief Handle put.
+ * @param[in] req Input parameter.
+ * @details Calls: send_error(), collection(), empty(), uuid(), entity(), sanitizeForMessage().
+ */
 void WireProtocolSession::handle_put(const v1::PutRequest& req) {
     // PUT: store a document by collection and UUID.
     // Requires an authenticated session; validates collection, UUID, and entity.
@@ -943,6 +1130,11 @@ void WireProtocolSession::handle_put(const v1::PutRequest& req) {
         "/" + sanitizeForMessage(req.uuid()));
 }
 
+/**
+ * @brief Handle delete.
+ * @param[in] req Input parameter.
+ * @details Calls: send_error(), collection(), empty(), uuid(), sanitizeForMessage().
+ */
 void WireProtocolSession::handle_delete(const v1::DeleteRequest& req) {
     // DELETE: remove a document by collection and UUID.
     // Requires an authenticated session; validates collection and UUID fields.
@@ -965,6 +1157,12 @@ void WireProtocolSession::handle_delete(const v1::DeleteRequest& req) {
         "/" + sanitizeForMessage(req.uuid()));
 }
 
+/**
+ * @brief Handle query aql.
+ * @param[in] req Input parameter.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: send_error(), aql(), empty(), lock(), fn(), batch_size(), size(), add_results().
+ */
 void WireProtocolSession::handle_query_aql(const v1::QueryRequest& req) {
     // QUERY_AQL: execute an AQL query string.
     // MANDATORY: AqlQueryFn must be injected via setQueryAqlFn() before calling.
@@ -1038,6 +1236,11 @@ void WireProtocolSession::handle_query_aql(const v1::QueryRequest& req) {
 #endif
 }
 
+/**
+ * @brief Handle cursor next.
+ * @param[in] req Input parameter.
+ * @details Calls: send_error(), cursor_id(), empty(), lk(), find(), end(), sanitizeForMessage(), batch_size().
+ */
 void WireProtocolSession::handle_cursor_next(const v1::CursorNextRequest& req) {
     // CURSOR_NEXT: fetch the next batch of results from an open AQL query cursor.
     if (!authenticated_) {
@@ -1099,6 +1302,11 @@ void WireProtocolSession::handle_cursor_next(const v1::CursorNextRequest& req) {
 #endif
 }
 
+/**
+ * @brief Handle cursor close.
+ * @param[in] req Input parameter.
+ * @details Calls: send_error(), cursor_id(), empty(), lk(), erase(), send_ok(), sanitizeForMessage().
+ */
 void WireProtocolSession::handle_cursor_close(const v1::CursorCloseRequest& req) {
     // CURSOR_CLOSE: close an open AQL query cursor and release server-side resources.
     if (!authenticated_) {
@@ -1125,6 +1333,11 @@ void WireProtocolSession::handle_cursor_close(const v1::CursorCloseRequest& req)
 #endif
 }
 
+/**
+ * @brief Handle vector search.
+ * @param[in] req Input parameter.
+ * @details Calls: send_error(), collection(), empty(), vector_size(), sanitizeForMessage().
+ */
 void WireProtocolSession::handle_vector_search(
     const v1::VectorSearchRequest& req) {
     // VECTOR_SEARCH: k-nearest-neighbour search via VectorIndexManager.
@@ -1147,6 +1360,12 @@ void WireProtocolSession::handle_vector_search(
         "POST /api/v1/vector/" + sanitizeForMessage(req.collection()) + "/search");
 }
 
+/**
+ * @brief Handle geo query.
+ * @param[in] req Input parameter.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: send_error(), collection(), empty(), lock(), fn(), async_write_response(), std::string(), what().
+ */
 void WireProtocolSession::handle_geo_query(
     const v1::GeoQueryRequest& req) {
     // GEO_QUERY: geospatial proximity / containment query.
@@ -1186,6 +1405,12 @@ void WireProtocolSession::handle_geo_query(
 #endif
 }
 
+/**
+ * @brief Handle timeseries query.
+ * @param[in] req Input parameter.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: send_error(), collection(), empty(), start_time_ns(), end_time_ns(), lock(), fn(), async_write_response().
+ */
 void WireProtocolSession::handle_timeseries_query(
     const v1::TimeSeriesQueryRequest& req) {
     // TIMESERIES_QUERY: time-range aggregation query against TSStore.
@@ -1231,6 +1456,11 @@ void WireProtocolSession::handle_timeseries_query(
 #endif
 }
 
+/**
+ * @brief Handle bpmn start.
+ * @param[in] req Input parameter.
+ * @details Calls: send_error(), process_definition_key(), empty(), sanitizeForMessage(), protoMapToJson(), variables(), startProcess(), send_ok().
+ */
 void WireProtocolSession::handle_bpmn_start(
     const v1::BpmnStartProcessRequest& req) {
     // BPMN_START_PROCESS: start a BPMN process instance via injected ProcessGraphManager.
@@ -1261,6 +1491,11 @@ void WireProtocolSession::handle_bpmn_start(
     send_ok("{\"process_instance_id\":\"" + instance_id + "\"}");
 }
 
+/**
+ * @brief Handle batch get.
+ * @param[in] req Input parameter.
+ * @details Calls: send_error(), collection(), empty(), uuids_size(), sanitizeForMessage().
+ */
 void WireProtocolSession::handle_batch_get(const v1::BatchGetRequest& req) {
     // BATCH_GET: retrieve multiple documents by collection and UUID list.
     if (!authenticated_) {
@@ -1281,6 +1516,11 @@ void WireProtocolSession::handle_batch_get(const v1::BatchGetRequest& req) {
         "POST /api/v1/collection/" + sanitizeForMessage(req.collection()) + "/batch-get");
 }
 
+/**
+ * @brief Handle batch put.
+ * @param[in] req Input parameter.
+ * @details Calls: send_error(), collection(), empty(), items_size(), sanitizeForMessage().
+ */
 void WireProtocolSession::handle_batch_put(const v1::BatchPutRequest& req) {
     // BATCH_PUT: store multiple documents by collection.
     if (!authenticated_) {
@@ -1301,6 +1541,11 @@ void WireProtocolSession::handle_batch_put(const v1::BatchPutRequest& req) {
         "POST /api/v1/collection/" + sanitizeForMessage(req.collection()) + "/batch-put");
 }
 
+/**
+ * @brief Handle transaction begin.
+ * @param[in] req Input parameter.
+ * @details Calls: send_error(), sanitizeForMessage(), isolation_level().
+ */
 void WireProtocolSession::handle_transaction_begin(
     const v1::TransactionBeginRequest& req) {
     // TRANSACTION_BEGIN: transaction manager not yet injected into this session.
@@ -1315,6 +1560,11 @@ void WireProtocolSession::handle_transaction_begin(
         sanitizeForMessage(req.isolation_level()) + ")");
 }
 
+/**
+ * @brief Handle transaction commit.
+ * @param[in] req Input parameter.
+ * @details Calls: send_error(), transaction_id(), empty(), sanitizeForMessage().
+ */
 void WireProtocolSession::handle_transaction_commit(
     const v1::TransactionCommitRequest& req) {
     // TRANSACTION_COMMIT: transaction manager not yet injected into this session.
@@ -1333,6 +1583,11 @@ void WireProtocolSession::handle_transaction_commit(
         sanitizeForMessage(req.transaction_id()) + "/commit");
 }
 
+/**
+ * @brief Handle transaction abort.
+ * @param[in] req Input parameter.
+ * @details Calls: send_error(), transaction_id(), empty(), sanitizeForMessage().
+ */
 void WireProtocolSession::handle_transaction_abort(
     const v1::TransactionAbortRequest& req) {
     // TRANSACTION_ABORT: transaction manager not yet injected into this session.
@@ -1355,6 +1610,12 @@ void WireProtocolSession::handle_transaction_abort(
 // the raw payload bytes forwarded from the dispatch switch and delegates to the
 // injected callback.  Falls back to 501 when no callback is installed.
 
+/**
+ * @brief Handle graph traverse.
+ * @param[in] raw_payload Input parameter.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: send_error(), lock(), fn(), size(), serializeHeader(), crc32Compute(), data(), htonl().
+ */
 void WireProtocolSession::handle_graph_traverse(std::string_view raw_payload) {
     // GRAPH_TRAVERSE: traverse graph edges from a start vertex.
     // MANDATORY: GraphTraverseFn must be injected via setGraphTraverseFn() before calling.
@@ -1430,6 +1691,11 @@ void WireProtocolSession::handle_graph_traverse(std::string_view raw_payload) {
 #endif
 }
 
+/**
+ * @brief Handle bpmn task complete.
+ * @param[in] req Input parameter.
+ * @details Calls: send_error(), task_id(), empty(), sanitizeForMessage(), find(), substr(), protoMapToJson(), variables().
+ */
 void WireProtocolSession::handle_bpmn_task_complete(
     const v1::BpmnTaskCompleteRequest& req) {
     // BPMN_TASK_COMPLETE: complete a user task via injected ProcessGraphManager.
@@ -1472,6 +1738,11 @@ void WireProtocolSession::handle_bpmn_task_complete(
     send_ok("{\"completed\":true,\"task_id\":\"" + sanitizeForMessage(req.task_id()) + "\"}");
 }
 
+/**
+ * @brief Handle bpmn query instance.
+ * @param[in] req Input parameter.
+ * @details Calls: send_error(), process_instance_id(), empty(), sanitizeForMessage(), getProcessInstance(), send_ok().
+ */
 void WireProtocolSession::handle_bpmn_query_instance(
     const v1::BpmnQueryInstanceRequest& req) {
     // BPMN_QUERY_INSTANCE: retrieve a process instance via injected ProcessGraphManager.
@@ -1516,10 +1787,20 @@ void WireProtocolSession::handle_bpmn_query_instance(
     send_ok(body);
 }
 
+/**
+ * @brief Handle ping.
+ * @param[in] param Input parameter.
+ * @details Calls: send_ok().
+ */
 void WireProtocolSession::handle_ping(const v1::PingRequest& /*req*/) {
     send_ok("PONG");
 }
 
+/**
+ * @brief Handle close.
+ * @param[in] param Input parameter.
+ * @details Calls: close().
+ */
 void WireProtocolSession::handle_close(const v1::CloseRequest& /*req*/) {
     close("client requested close");
 }
@@ -1556,6 +1837,10 @@ WireProtocolServer::~WireProtocolServer() {
     stop();
 }
 
+/**
+ * @brief Start.
+ * @details Calls: lock(), collectProtobufBootstrapState(), network::wire_bootstrap::validateRequiredBackends(), async_accept().
+ */
 void WireProtocolServer::start() {
 #if THEMIS_WIRE_V1_PB_HEADER_FOUND
     {
@@ -1586,6 +1871,10 @@ void WireProtocolServer::start() {
     async_accept();
 }
 
+/**
+ * @brief Stop.
+ * @details Calls: lock(), push_back(), clear(), close().
+ */
 void WireProtocolServer::stop() {
     std::vector<std::shared_ptr<WireProtocolSession>> sessions_to_close;
     {
@@ -1606,47 +1895,92 @@ void WireProtocolServer::stop() {
 }
 
 size_t WireProtocolServer::active_sessions() const {
+    /**
+     * @brief Lock.
+     * @param[in] state_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(state_mutex_);
     return sessions_.size();
 }
 
 uint64_t WireProtocolServer::total_connections() const {
+    /**
+     * @brief Lock.
+     * @param[in] state_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(state_mutex_);
     return total_connections_;
 }
 
 uint64_t WireProtocolServer::total_messages() const {
+    /**
+     * @brief Lock.
+     * @param[in] state_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(state_mutex_);
     return total_messages_;
 }
 
 // ── Engine injection bridge setters (stub #281) ──────────────────────────────
 
+/**
+ * @brief Set Aql Query Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void WireProtocolServer::setAqlQueryFn(WireProtocolSession::AqlQueryFn fn) {
     std::lock_guard<std::mutex> lock(state_mutex_);
     aql_query_fn_ = std::move(fn);
 }
 
+/**
+ * @brief Set Cursor Next Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void WireProtocolServer::setCursorNextFn(WireProtocolSession::CursorNextFn fn) {
     std::lock_guard<std::mutex> lock(state_mutex_);
     cursor_next_fn_ = std::move(fn);
 }
 
+/**
+ * @brief Set Cursor Close Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void WireProtocolServer::setCursorCloseFn(WireProtocolSession::CursorCloseFn fn) {
     std::lock_guard<std::mutex> lock(state_mutex_);
     cursor_close_fn_ = std::move(fn);
 }
 
+/**
+ * @brief Set Geo Query Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void WireProtocolServer::setGeoQueryFn(WireProtocolSession::GeoQueryFn fn) {
     std::lock_guard<std::mutex> lock(state_mutex_);
     geo_query_fn_ = std::move(fn);
 }
 
+/**
+ * @brief Set Timeseries Query Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void WireProtocolServer::setTimeseriesQueryFn(WireProtocolSession::TimeseriesQueryFn fn) {
     std::lock_guard<std::mutex> lock(state_mutex_);
     timeseries_query_fn_ = std::move(fn);
 }
 
+/**
+ * @brief Set Graph Traverse Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void WireProtocolServer::setGraphTraverseFn(WireProtocolSession::GraphTraverseFn fn) {
     std::lock_guard<std::mutex> lock(state_mutex_);
     graph_traverse_fn_ = std::move(fn);
@@ -1662,6 +1996,10 @@ void WireProtocolServer::bindSessionCallbacksLocked(WireProtocolSession& session
     session.set_engines(&engines_);
 }
 
+/**
+ * @brief Async accept.
+ * @details Calls: std::move(), lock(), bindSessionCallbacksLocked(), handle_accept().
+ */
 void WireProtocolServer::async_accept() {
     acceptor_.async_accept(
         [this](const error_code& ec, tcp::socket socket) {
@@ -1676,6 +2014,12 @@ void WireProtocolServer::async_accept() {
         });
 }
 
+/**
+ * @brief Handle accept.
+ * @param[in] session Input parameter.
+ * @param[in] error Input parameter.
+ * @details Calls: set_disconnect_callback(), lock(), erase(), session_id(), start(), close(), async_accept().
+ */
 void WireProtocolServer::handle_accept(
     std::shared_ptr<WireProtocolSession> session,
     const boost::system::error_code&     error) {

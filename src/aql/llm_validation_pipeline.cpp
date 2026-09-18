@@ -20,7 +20,6 @@
 
 namespace themis::aql {
 
-/** @brief Implementation detail. */
 class LLMValidationPipeline::Impl {
 public:
     std::shared_ptr<query::AQLParserService> parser_service;
@@ -30,6 +29,13 @@ public:
     FeedbackGenerator feedback_generator;
     RetryabilityCheck retryability_check;
     
+    /**
+     * @brief Impl.
+     * @param[in] parser Input parameter.
+     * @param[in] llm Input parameter.
+     * @param[in] cfg Input parameter.
+     * @return Return value.
+     */
     explicit Impl(
         std::shared_ptr<query::AQLParserService> parser,
         std::shared_ptr<llm::LLMClient> llm,
@@ -40,7 +46,11 @@ public:
           feedback_generator(defaultFeedbackGenerator()),
           retryability_check(defaultRetryabilityCheck()) {}
     
-    /// Default feedback generator: convert parser diagnostics to LLM prompt
+    /**
+     * @brief Default Feedback Generator.
+     * @return Return value.
+     * @details Calls: std::to_string(), empty().
+     */
     static FeedbackGenerator defaultFeedbackGenerator() {
         return [](const query::ParserDiagnostics& diag) -> std::string {
             std::string feedback = "Fix the following error in the AQL query:\n";
@@ -58,7 +68,11 @@ public:
         };
     }
     
-    /// Default retryability check: retry on syntax errors, not access violations
+    /**
+     * @brief Default Retryability Check.
+     * @return Return value.
+     * @details Implements defaultRetryabilityCheck without additional internal calls.
+     */
     static RetryabilityCheck defaultRetryabilityCheck() {
         return [](const query::ParserDiagnostics& diag) -> bool {
             // Retryable error categories
@@ -109,6 +123,12 @@ LLMValidationPipeline::LLMValidationPipeline(
 
 LLMValidationPipeline::~LLMValidationPipeline() = default;
 
+/**
+ * @brief Execute.
+ * @param[in] nl_query Input parameter.
+ * @param[in] schema_context Input parameter.
+ * @return Return value.
+ */
 LLMValidationResult LLMValidationPipeline::execute(
     const std::string& nl_query,
     const std::string& schema_context)
@@ -254,6 +274,13 @@ LLMValidationResult LLMValidationPipeline::execute(
     return result;
 }
 
+/**
+ * @brief Generate AQL.
+ * @param[in] nl_query Input parameter.
+ * @param[in] schema_context Input parameter.
+ * @param[in] retry_feedback Input parameter.
+ * @return Return value.
+ */
 std::string LLMValidationPipeline::generateAQL(
     const std::string& nl_query,
     const std::string& schema_context,
@@ -293,6 +320,11 @@ bool LLMValidationPipeline::shouldRetry(
     return impl_->retryability_check(diagnostics);
 }
 
+/**
+ * @brief Set Feedback Generator.
+ * @param[in] gen Input parameter.
+ * @details Calls: spdlog::debug().
+ */
 void LLMValidationPipeline::setFeedbackGenerator(const FeedbackGenerator& gen) {
     if (gen) {
         impl_->feedback_generator = gen;
@@ -300,6 +332,11 @@ void LLMValidationPipeline::setFeedbackGenerator(const FeedbackGenerator& gen) {
     }
 }
 
+/**
+ * @brief Set Retryability Check.
+ * @param[in] check Input parameter.
+ * @details Calls: spdlog::debug().
+ */
 void LLMValidationPipeline::setRetryabilityCheck(const RetryabilityCheck& check) {
     if (check) {
         impl_->retryability_check = check;
@@ -311,6 +348,11 @@ const LLMValidationPipelineConfig& LLMValidationPipeline::config() const {
     return impl_->config;
 }
 
+/**
+ * @brief Set Config.
+ * @param[in] config Input parameter.
+ * @details Calls: spdlog::info().
+ */
 void LLMValidationPipeline::setConfig(const LLMValidationPipelineConfig& config) {
     impl_->config = config;
     spdlog::info("Pipeline config updated: max_retries={}, timeout={}ms",
@@ -321,6 +363,12 @@ void LLMValidationPipeline::setConfig(const LLMValidationPipelineConfig& config)
 // LLMValidationPipelineFactory Implementation
 // ============================================================================
 
+/**
+ * @brief Create.
+ * @param[in] parser_service Input parameter.
+ * @param[in] llm_client Input parameter.
+ * @return Return value.
+ */
 std::shared_ptr<LLMValidationPipeline> LLMValidationPipelineFactory::create(
     std::shared_ptr<query::AQLParserService> parser_service,
     std::shared_ptr<llm::LLMClient> llm_client)
@@ -332,6 +380,13 @@ std::shared_ptr<LLMValidationPipeline> LLMValidationPipelineFactory::create(
     );
 }
 
+/**
+ * @brief Create With Config.
+ * @param[in] parser_service Input parameter.
+ * @param[in] llm_client Input parameter.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ */
 std::shared_ptr<LLMValidationPipeline> LLMValidationPipelineFactory::createWithConfig(
     std::shared_ptr<query::AQLParserService> parser_service,
     std::shared_ptr<llm::LLMClient> llm_client,

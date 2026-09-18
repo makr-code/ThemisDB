@@ -22,6 +22,12 @@ namespace voice {
 // String helpers
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief To string.
+ * @param[in] e Input parameter.
+ * @return Return value.
+ * @details Implements to_string without additional internal calls.
+ */
 std::string to_string(Emotion e) {
     switch (e) {
         case Emotion::NEUTRAL:   return "neutral";
@@ -35,6 +41,12 @@ std::string to_string(Emotion e) {
     return "unknown";
 }
 
+/**
+ * @brief To string.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Implements to_string without additional internal calls.
+ */
 std::string to_string(Sentiment s) {
     switch (s) {
         case Sentiment::POSITIVE: return "positive";
@@ -55,6 +67,11 @@ EmotionAnalyzer::EmotionAnalyzer(const EmotionConfig& config)
 // Configuration
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Set config.
+ * @param[in] config Input parameter.
+ * @details Implements set_config without additional internal calls.
+ */
 void EmotionAnalyzer::set_config(const EmotionConfig& config) {
     config_ = config;
 }
@@ -186,6 +203,11 @@ std::vector<float> EmotionAnalyzer::pcmToFloat(
 {
     // Interpret as 16-bit little-endian signed PCM.
     const size_t n = raw.size() / 2;
+    /**
+     * @brief Out.
+     * @param[in] n Input parameter.
+     * @return Return value.
+     */
     std::vector<float> out(n);
     for (size_t i = 0; i < n; ++i) {
         int16_t s = static_cast<int16_t>(
@@ -328,24 +350,6 @@ EmotionAnalyzer::AcousticFeatures EmotionAnalyzer::extractFeatures(
 // Private: Emotion scoring
 // ---------------------------------------------------------------------------
 
-/**
- * Hand-tuned linear emotion scoring.
- *
- * Feature→emotion weights (unnormalised):
- *
- *             energy  zcr  crest  centroid  flatness  hf_ratio  pitch  pitch_var
- * NEUTRAL      0.3   0.3   0.2     0.3        0.3      0.2      0.3     0.2
- * HAPPY        0.7   0.6   0.4     0.6        0.3      0.6      0.5     0.4
- * SAD         -0.6  -0.5  -0.3    -0.4       -0.2     -0.5     -0.4    -0.3
- * ANGRY        0.8   0.7   0.5     0.5        0.7      0.7      0.3     0.5
- * SURPRISED    0.5   0.5   0.9     0.5        0.4      0.5      0.5     0.7
- * FEARFUL      0.4   0.7   0.6     0.6        0.3      0.4      0.7     0.6
- * DISGUSTED    0.2   0.3   0.2     0.2        0.6      0.3      0.2     0.2
- *
- * The raw score for each emotion is the dot product of the feature vector
- * with the weight row.  A positive bias of 1.0 is added to NEUTRAL to prevent
- * degenerate distributions.  All raw scores are then softmax-normalised.
- */
 std::map<Emotion, float> EmotionAnalyzer::scoreEmotions(
     const AcousticFeatures& f) const
 {

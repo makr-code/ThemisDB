@@ -31,7 +31,7 @@ namespace observability {
 namespace {
 
 /**
- * @brief Generate unique hint IDs using random hex
+ * @brief Generate Hint Id.
  * @return Return value.
  * @details Calls: uuid_generate(), uuid_unparse(), std::string(), gen(), rd(), dis(), str().
  */
@@ -50,48 +50,23 @@ std::string generateHintId() {
     
     std::stringstream ss = {};
     for (int i = 0; i < 8; ++i) {
-        /**
-         * @brief Dis.
-         * @param[in] gen Input parameter.
-         * @return Return value.
-         */
         ss << std::hex << dis(gen);
     }
     ss << "-";
     for (int i = 0; i < 4; ++i) {
-        /**
-         * @brief Dis.
-         * @param[in] gen Input parameter.
-         * @return Return value.
-         */
         ss << std::hex << dis(gen);
     }
     ss << "-4"; // UUID version 4
     for (int i = 0; i < 3; ++i) {
-        /**
-         * @brief Dis.
-         * @param[in] gen Input parameter.
-         * @return Return value.
-         */
         ss << std::hex << dis(gen);
     }
     ss << "-";
     ss << std::hex << (8 + dis(gen) % 4);  // variant
     for (int i = 0; i < 3; ++i) {
-        /**
-         * @brief Dis.
-         * @param[in] gen Input parameter.
-         * @return Return value.
-         */
         ss << std::hex << dis(gen);
     }
     ss << "-";
     for (int i = 0; i < 12; ++i) {
-        /**
-         * @brief Dis.
-         * @param[in] gen Input parameter.
-         * @return Return value.
-         */
         ss << std::hex << dis(gen);
     }
     return ss.str();
@@ -99,9 +74,9 @@ std::string generateHintId() {
 }
 
 /**
- * @brief Check if a metric value is valid (not NaN, not infinite, within reasonable bounds) Returns true if valid, false if malformed
+ * @brief Is Valid Metric Value.
  * @param[in] value Input parameter.
- * @return True on success.
+ * @return True when the operation succeeds.
  * @details Calls: std::isfinite().
  */
 inline bool isValidMetricValue(double value) {
@@ -394,15 +369,10 @@ public:
 
 private:
     /**
-     * @brief Clean up expired weak_ptr references to released listeners.
-     * @details This prevents the listeners_ vector from growing unboundedly. Calls: lock(), erase(), std::remove_if(), begin(), end(), expired().
+     * @brief Cleanup Expired Listeners.
+     * @details Calls: lock(), erase(), std::remove_if(), begin(), end(), expired().
      */
     void cleanupExpiredListeners() {
-        /**
-         * @brief Lock.
-         * @param[in] listeners_mutex_ Input parameter.
-         * @return Return value.
-         */
         std::unique_lock<std::shared_mutex> lock(listeners_mutex_);
         listeners_.erase(
             std::remove_if(listeners_.begin(), listeners_.end(),
@@ -513,7 +483,7 @@ public:
         }
 
         /**
-         * @brief Run all registered patterns
+         * @brief Patterns lock.
          * @param[in] patterns_mutex_ Input parameter.
          * @return Return value.
          */
@@ -568,7 +538,7 @@ public:
                     }
 
                     /**
-                     * @brief Notify listeners
+                     * @brief Listeners lock.
                      * @param[in] listeners_mutex_ Input parameter.
                      * @return Return value.
                      */
@@ -627,7 +597,7 @@ public:
             active_hints_.erase(it);
 
             /**
-             * @brief Notify listeners
+             * @brief Listeners lock.
              * @param[in] listeners_mutex_ Input parameter.
              * @return Return value.
              */
@@ -795,12 +765,12 @@ private:
     std::uint64_t hint_notification_count_;
 };
 
+
 /**
- * @brief ============================================================================ Factory function ============================================================================
+ * @brief Create Operator Remediation Engine.
  * @return Return value.
  * @details Implements createOperatorRemediationEngine without additional internal calls.
  */
-
 std::unique_ptr<OperatorRemediationEngine> createOperatorRemediationEngine() {
     return std::make_unique<OperatorRemediationEngineImpl>();
 }

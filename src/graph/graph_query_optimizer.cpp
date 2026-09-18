@@ -43,6 +43,14 @@ namespace graph {
 
 namespace {
 
+/**
+ * @brief Node Matches Labels.
+ * @param[in,out] mgr Input/output parameter.
+ * @param[in] node_id Identifier of the node.
+ * @param[in] required_labels Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), getNodeField(), has_value(), find(), size().
+ */
 static bool nodeMatchesLabels(GraphIndexManager& mgr,
                                const std::string& node_id,
                                const std::vector<std::string>& required_labels) {
@@ -73,10 +81,12 @@ static bool nodeMatchesLabels(GraphIndexManager& mgr,
     return false;
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Schema-aware helper: populate active_schema_hints in an OptimizationPlan
-// from QueryConstraints.
-// ─────────────────────────────────────────────────────────────────────────────
+/**
+ * @brief ───────────────────────────────────────────────────────────────────────────── Schema-aware helper: populate active_schema_hints in an OptimizationPlan from QueryConstraints.
+ * @param[in,out] plan Input/output parameter.
+ * @param[in] constraints Input parameter.
+ * @details ───────────────────────────────────────────────────────────────────────────── Calls: empty(), size(), push_back(), std::move().
+ */
 static void applySchemaHints(GraphQueryOptimizer::OptimizationPlan& plan,
                               const GraphQueryOptimizer::QueryConstraints& constraints) {
     if (!constraints.node_labels.empty()) {
@@ -112,12 +122,27 @@ GraphQueryOptimizer::GraphQueryOptimizer(GraphIndexManager& graph_manager)
     }
 }
 
+/**
+ * @brief Optimize Shortest Path.
+ * @param[in] start_vertex Input parameter.
+ * @param[in] target_vertex Input parameter.
+ * @return Return value.
+ * @details Calls: QueryConstraints().
+ */
 Result<GraphQueryOptimizer::OptimizationPlan> GraphQueryOptimizer::optimizeShortestPath(
     std::string_view start_vertex,
     std::string_view target_vertex) {
     return optimizeShortestPath(start_vertex, target_vertex, QueryConstraints());
 }
 
+/**
+ * @brief Optimize Shortest Path.
+ * @param[in] start_vertex Input parameter.
+ * @param[in] target_vertex Input parameter.
+ * @param[in] constraints Input parameter.
+ * @return Return value.
+ * @details Calls: generatePlanCacheKey(), planCacheLookup(), fetch_add(), Ok(), generateStructuralCacheKey(), planCacheInsert(), estimateDepth(), estimateCost().
+ */
 Result<GraphQueryOptimizer::OptimizationPlan> GraphQueryOptimizer::optimizeShortestPath(
     std::string_view start_vertex,
     std::string_view target_vertex,
@@ -220,6 +245,13 @@ Result<GraphQueryOptimizer::OptimizationPlan> GraphQueryOptimizer::optimizeShort
     return Ok(plan);
 }
 
+/**
+ * @brief Optimize KHop Neighborhood.
+ * @param[in] start_vertex Input parameter.
+ * @param[in] k Input parameter.
+ * @return Return value.
+ * @details Calls: QueryConstraints().
+ */
 Result<GraphQueryOptimizer::OptimizationPlan> GraphQueryOptimizer::optimizeKHopNeighborhood(
     std::string_view start_vertex,
     int k) {
@@ -354,12 +386,27 @@ Result<GraphQueryOptimizer::OptimizationPlan> GraphQueryOptimizer::optimizePatte
     return Ok(plan);
 }
 
+/**
+ * @brief Optimize Reachability.
+ * @param[in] start_vertex Input parameter.
+ * @param[in] target_vertex Input parameter.
+ * @return Return value.
+ * @details Calls: QueryConstraints().
+ */
 Result<GraphQueryOptimizer::OptimizationPlan> GraphQueryOptimizer::optimizeReachability(
     std::string_view start_vertex,
     std::string_view target_vertex) {
     return optimizeReachability(start_vertex, target_vertex, QueryConstraints());
 }
 
+/**
+ * @brief Optimize Reachability.
+ * @param[in] start_vertex Input parameter.
+ * @param[in] target_vertex Input parameter.
+ * @param[in] constraints Input parameter.
+ * @return Return value.
+ * @details Calls: generatePlanCacheKey(), planCacheLookup(), fetch_add(), Ok(), generateStructuralCacheKey(), planCacheInsert(), estimateDepth(), estimateCost().
+ */
 Result<GraphQueryOptimizer::OptimizationPlan> GraphQueryOptimizer::optimizeReachability(
     std::string_view start_vertex,
     std::string_view target_vertex,
@@ -433,6 +480,14 @@ Result<GraphQueryOptimizer::OptimizationPlan> GraphQueryOptimizer::optimizeReach
     return Ok(plan);
 }
 
+/**
+ * @brief Optimize Constrained Path.
+ * @param[in] start_vertex Input parameter.
+ * @param[in] end_vertex Input parameter.
+ * @param[in] constraints Input parameter.
+ * @return Return value.
+ * @details Calls: getConstraints(), estimateDepth(), QueryConstraints(), size(), estimateCost(), std::pow(), str(), Ok().
+ */
 Result<GraphQueryOptimizer::OptimizationPlan> GraphQueryOptimizer::optimizeConstrainedPath(
     std::string_view start_vertex,
     std::string_view end_vertex,
@@ -532,6 +587,14 @@ Result<GraphQueryOptimizer::OptimizationPlan> GraphQueryOptimizer::optimizeConst
     return Ok(plan);
 }
 
+/**
+ * @brief Explain Constrained Path.
+ * @param[in] start_vertex Input parameter.
+ * @param[in] end_vertex Input parameter.
+ * @param[in] constraints Input parameter.
+ * @return Return value.
+ * @details Calls: optimizeConstrainedPath().
+ */
 Result<GraphQueryOptimizer::OptimizationPlan> GraphQueryOptimizer::explainConstrainedPath(
     std::string_view start_vertex,
     std::string_view end_vertex,
@@ -542,9 +605,14 @@ Result<GraphQueryOptimizer::OptimizationPlan> GraphQueryOptimizer::explainConstr
     return optimizeConstrainedPath(start_vertex, end_vertex, constraints);
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Temporal Graph Query Optimization (Phase 3)
-// ─────────────────────────────────────────────────────────────────────────────
+/**
+ * @brief ───────────────────────────────────────────────────────────────────────────── Temporal Graph Query Optimization (Phase 3) ─────────────────────────────────────────────────────────────────────────────
+ * @param[in] start_vertex Input parameter.
+ * @param[in] max_depth Input parameter.
+ * @param[in] constraints Input parameter.
+ * @return Return value.
+ * @details Calls: generateStructuralCacheKey(), planCacheLookup(), fetch_add(), Ok(), estimateCost(), hasTemporalRange(), has_value(), std::max().
+ */
 
 Result<GraphQueryOptimizer::OptimizationPlan> GraphQueryOptimizer::optimizeTemporalTraversal(
     std::string_view start_vertex,
@@ -640,6 +708,15 @@ Result<GraphQueryOptimizer::OptimizationPlan> GraphQueryOptimizer::optimizeTempo
     return Ok(plan);
 }
 
+/**
+ * @brief Execute Temporal BFS.
+ * @param[in] start_vertex Input parameter.
+ * @param[in] max_depth Input parameter.
+ * @param[in] constraints Input parameter.
+ * @param[in,out] stats Input/output parameter.
+ * @return Return value.
+ * @details Calls: allowQuery(), hasTemporalRange(), executeBFS(), value_or(), min(), max(), std::chrono::steady_clock::now(), estimateCost().
+ */
 Result<std::vector<std::string>> GraphQueryOptimizer::executeTemporalBFS(
     std::string_view start_vertex,
     int max_depth,
@@ -767,6 +844,15 @@ Result<std::vector<std::string>> GraphQueryOptimizer::executeTemporalBFS(
     return Ok(result);
 }
 
+/**
+ * @brief Execute BFS.
+ * @param[in] start_vertex Input parameter.
+ * @param[in] max_depth Input parameter.
+ * @param[in] constraints Input parameter.
+ * @param[in,out] stats Input/output parameter.
+ * @return Return value.
+ * @details Calls: allowQuery(), std::chrono::steady_clock::now(), estimateCost(), gpu_trav(), load(), has_value(), value(), bfs().
+ */
 Result<std::vector<std::string>> GraphQueryOptimizer::executeBFS(
     std::string_view start_vertex,
     int max_depth,
@@ -1011,6 +1097,15 @@ Result<std::vector<std::string>> GraphQueryOptimizer::executeBFS(
     return Ok(result);
 }
 
+/**
+ * @brief Execute DFS.
+ * @param[in] start_vertex Input parameter.
+ * @param[in] max_depth Input parameter.
+ * @param[in] constraints Input parameter.
+ * @param[in,out] stats Input/output parameter.
+ * @return Return value.
+ * @details Calls: allowQuery(), std::chrono::steady_clock::now(), estimateCost(), gpu_trav(), load(), has_value(), value(), dfs().
+ */
 Result<std::vector<std::string>> GraphQueryOptimizer::executeDFS(
     std::string_view start_vertex,
     int max_depth,
@@ -1143,6 +1238,13 @@ Result<std::vector<std::string>> GraphQueryOptimizer::executeDFS(
     return Ok(result);
 }
 
+/**
+ * @brief Stream BFS.
+ * @param[in] start_vertex Input parameter.
+ * @param[in] max_depth Input parameter.
+ * @return Return value.
+ * @details Implements streamBFS without additional internal calls.
+ */
 Result<std::shared_ptr<query::ResultStream<std::string>>> GraphQueryOptimizer::streamBFS(
     std::string_view start_vertex,
     int max_depth) {
@@ -1150,6 +1252,14 @@ Result<std::shared_ptr<query::ResultStream<std::string>>> GraphQueryOptimizer::s
     return streamBFS(start_vertex, max_depth, QueryConstraints{}, query::StreamConfig{});
 }
 
+/**
+ * @brief Stream BFS.
+ * @param[in] start_vertex Input parameter.
+ * @param[in] max_depth Input parameter.
+ * @param[in] stream_config Input parameter.
+ * @return Return value.
+ * @details Implements streamBFS without additional internal calls.
+ */
 Result<std::shared_ptr<query::ResultStream<std::string>>> GraphQueryOptimizer::streamBFS(
     std::string_view start_vertex,
     int max_depth,
@@ -1158,6 +1268,14 @@ Result<std::shared_ptr<query::ResultStream<std::string>>> GraphQueryOptimizer::s
     return streamBFS(start_vertex, max_depth, QueryConstraints{}, stream_config);
 }
 
+/**
+ * @brief Stream BFS.
+ * @param[in] start_vertex Input parameter.
+ * @param[in] max_depth Input parameter.
+ * @param[in] constraints Input parameter.
+ * @return Return value.
+ * @details Implements streamBFS without additional internal calls.
+ */
 Result<std::shared_ptr<query::ResultStream<std::string>>> GraphQueryOptimizer::streamBFS(
     std::string_view start_vertex,
     int max_depth,
@@ -1166,6 +1284,15 @@ Result<std::shared_ptr<query::ResultStream<std::string>>> GraphQueryOptimizer::s
     return streamBFS(start_vertex, max_depth, constraints, query::StreamConfig{});
 }
 
+/**
+ * @brief Stream BFS.
+ * @param[in] start_vertex Input parameter.
+ * @param[in] max_depth Input parameter.
+ * @param[in] constraints Input parameter.
+ * @param[in] stream_config Input parameter.
+ * @return Return value.
+ * @details Calls: executeBFS(), error(), code(), context(), Ok(), std::move().
+ */
 Result<std::shared_ptr<query::ResultStream<std::string>>> GraphQueryOptimizer::streamBFS(
     std::string_view start_vertex,
     int max_depth,
@@ -1182,6 +1309,13 @@ Result<std::shared_ptr<query::ResultStream<std::string>>> GraphQueryOptimizer::s
         std::move(*bfs_result), stream_config));
 }
 
+/**
+ * @brief Stream DFS.
+ * @param[in] start_vertex Input parameter.
+ * @param[in] max_depth Input parameter.
+ * @return Return value.
+ * @details Implements streamDFS without additional internal calls.
+ */
 Result<std::shared_ptr<query::ResultStream<std::string>>> GraphQueryOptimizer::streamDFS(
     std::string_view start_vertex,
     int max_depth) {
@@ -1189,6 +1323,14 @@ Result<std::shared_ptr<query::ResultStream<std::string>>> GraphQueryOptimizer::s
     return streamDFS(start_vertex, max_depth, QueryConstraints{}, query::StreamConfig{});
 }
 
+/**
+ * @brief Stream DFS.
+ * @param[in] start_vertex Input parameter.
+ * @param[in] max_depth Input parameter.
+ * @param[in] stream_config Input parameter.
+ * @return Return value.
+ * @details Implements streamDFS without additional internal calls.
+ */
 Result<std::shared_ptr<query::ResultStream<std::string>>> GraphQueryOptimizer::streamDFS(
     std::string_view start_vertex,
     int max_depth,
@@ -1197,6 +1339,14 @@ Result<std::shared_ptr<query::ResultStream<std::string>>> GraphQueryOptimizer::s
     return streamDFS(start_vertex, max_depth, QueryConstraints{}, stream_config);
 }
 
+/**
+ * @brief Stream DFS.
+ * @param[in] start_vertex Input parameter.
+ * @param[in] max_depth Input parameter.
+ * @param[in] constraints Input parameter.
+ * @return Return value.
+ * @details Implements streamDFS without additional internal calls.
+ */
 Result<std::shared_ptr<query::ResultStream<std::string>>> GraphQueryOptimizer::streamDFS(
     std::string_view start_vertex,
     int max_depth,
@@ -1205,6 +1355,15 @@ Result<std::shared_ptr<query::ResultStream<std::string>>> GraphQueryOptimizer::s
     return streamDFS(start_vertex, max_depth, constraints, query::StreamConfig{});
 }
 
+/**
+ * @brief Stream DFS.
+ * @param[in] start_vertex Input parameter.
+ * @param[in] max_depth Input parameter.
+ * @param[in] constraints Input parameter.
+ * @param[in] stream_config Input parameter.
+ * @return Return value.
+ * @details Calls: executeDFS(), error(), code(), context(), Ok(), std::move().
+ */
 Result<std::shared_ptr<query::ResultStream<std::string>>> GraphQueryOptimizer::streamDFS(
     std::string_view start_vertex,
     int max_depth,
@@ -1221,6 +1380,15 @@ Result<std::shared_ptr<query::ResultStream<std::string>>> GraphQueryOptimizer::s
         std::move(*dfs_result), stream_config));
 }
 
+/**
+ * @brief Execute Dijkstra.
+ * @param[in] start_vertex Input parameter.
+ * @param[in] target_vertex Input parameter.
+ * @param[in] constraints Input parameter.
+ * @param[in,out] stats Input/output parameter.
+ * @return Return value.
+ * @details Calls: allowQuery(), std::chrono::steady_clock::now(), has_value(), value(), estimateCost(), start(), target(), std::thread::hardware_concurrency().
+ */
 Result<GraphIndexManager::PathResult> GraphQueryOptimizer::executeDijkstra(
     std::string_view start_vertex,
     std::string_view target_vertex,
@@ -1579,6 +1747,15 @@ Result<GraphIndexManager::PathResult> GraphQueryOptimizer::executeAStar(
     return Ok(path_result);
 }
 
+/**
+ * @brief Execute Bidirectional.
+ * @param[in] start_vertex Input parameter.
+ * @param[in] target_vertex Input parameter.
+ * @param[in] constraints Input parameter.
+ * @param[in,out] stats Input/output parameter.
+ * @return Return value.
+ * @details Calls: allowQuery(), std::chrono::steady_clock::now(), has_value(), value(), estimateCost(), push(), std::string(), max().
+ */
 Result<GraphIndexManager::PathResult> GraphQueryOptimizer::executeBidirectional(
     std::string_view start_vertex,
     std::string_view target_vertex,
@@ -2170,15 +2347,22 @@ std::string GraphQueryOptimizer::explainPlan(const OptimizationPlan& plan) const
     return explanation;
 }
 
+/**
+ * @brief Clear Plan Cache.
+ * @details Calls: lk(), clear().
+ */
 void GraphQueryOptimizer::clearPlanCache() {
     std::lock_guard<std::mutex> lk(plan_cache_mutex_);
     plan_cache_.clear();
     plan_cache_lru_.clear();
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Plan cache helpers: LRU eviction + TTL expiry
-// ─────────────────────────────────────────────────────────────────────────────
+/**
+ * @brief ───────────────────────────────────────────────────────────────────────────── Plan cache helpers: LRU eviction + TTL expiry ─────────────────────────────────────────────────────────────────────────────
+ * @param[in] key Input parameter.
+ * @param[in] plan Input parameter.
+ * @details Calls: lk(), find(), end(), std::chrono::steady_clock::now(), splice(), begin(), size(), back().
+ */
 
 void GraphQueryOptimizer::planCacheInsert(const std::string& key,
                                           const OptimizationPlan& plan) {
@@ -2209,6 +2393,11 @@ void GraphQueryOptimizer::planCacheInsert(const std::string& key,
 
 std::optional<GraphQueryOptimizer::OptimizationPlan>
 GraphQueryOptimizer::planCacheLookup(const std::string& key) {
+    /**
+     * @brief Lk.
+     * @param[in] plan_cache_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(plan_cache_mutex_);
     auto it = plan_cache_.find(key);
     if (it == plan_cache_.end()) {
@@ -2649,6 +2838,11 @@ bool GraphQueryOptimizer::shouldUseParallel(
     return false;
 }
 
+/**
+ * @brief Record Execution.
+ * @param[in] stats Input parameter.
+ * @details Calls: push_back(), size(), erase(), begin(), fetch_add(), record(), load(), compare_exchange_weak().
+ */
 void GraphQueryOptimizer::recordExecution(const ExecutionStats& stats) {
     execution_history_.push_back(stats);
     
@@ -2701,6 +2895,12 @@ algoNameMap() {
     return m;
 }
 
+/**
+ * @brief Algo To Name.
+ * @param[in] algo Input parameter.
+ * @return Return value.
+ * @details Implements algoToName without additional internal calls.
+ */
 static std::string algoToName(GraphQueryOptimizer::TraversalAlgorithm algo) {
     switch (algo) {
         case GraphQueryOptimizer::TraversalAlgorithm::BFS:           return "BFS";
@@ -2726,6 +2926,12 @@ std::string GraphQueryOptimizer::exportCostModel() const {
     return j.dump();
 }
 
+/**
+ * @brief Import Cost Model.
+ * @param[in] json_model Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: nlohmann::json::parse(), is_object(), algoNameMap(), items(), find(), end(), value(), std::max().
+ */
 bool GraphQueryOptimizer::importCostModel(std::string_view json_model) {
     try {
         auto j = nlohmann::json::parse(json_model);
@@ -2877,10 +3083,21 @@ GraphQueryOptimizer::registerIncrementalBFS(
     return handle;
 }
 
+/**
+ * @brief Unregister Incremental Query.
+ * @param[in] handle Input parameter.
+ * @details Calls: erase().
+ */
 void GraphQueryOptimizer::unregisterIncrementalQuery(IncrementalQueryHandle handle) {
     incremental_queries_.erase(handle);
 }
 
+/**
+ * @brief On Graph Change.
+ * @param[in] changes Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), insert(), count(), executeBFS(), new_result(), value(), begin(), end().
+ */
 size_t GraphQueryOptimizer::onGraphChange(const GraphChangeSet& changes) {
     if (changes.empty() || incremental_queries_.empty()) {
         return 0;
@@ -2981,17 +3198,34 @@ size_t GraphQueryOptimizer::onGraphChange(const GraphChangeSet& changes) {
     return pending.size();
 }
 
-// Analytics Module Integration (Issue #1821)
-// ─────────────────────────────────────────────────────────────────────────────
+/**
+ * @brief Analytics Module Integration (Issue #1821) ─────────────────────────────────────────────────────────────────────────────
+ * @param[in,out] analytics Input/output parameter.
+ * @details Implements attachAnalytics without additional internal calls.
+ */
 
 void GraphQueryOptimizer::attachAnalytics(GraphAnalytics& analytics) {
     analytics_ = &analytics;
 }
 
+/**
+ * @brief Detach Analytics.
+ * @details Implements detachAnalytics without additional internal calls.
+ */
 void GraphQueryOptimizer::detachAnalytics() {
     analytics_ = nullptr;
 }
 
+/**
+ * @brief Execute KShortest Paths.
+ * @param[in] source Input parameter.
+ * @param[in] target Input parameter.
+ * @param[in] k Input parameter.
+ * @param[in] constraints Input parameter.
+ * @param[in] weight_attr Input parameter.
+ * @param[in,out] stats Input/output parameter.
+ * @return Return value.
+ */
 Result<std::vector<GraphAnalytics::PathInfo>> GraphQueryOptimizer::executeKShortestPaths(
     std::string_view source,
     std::string_view target,

@@ -119,9 +119,9 @@ double MetricAggregator::reduce(std::vector<double> vals, AggregationType type) 
 
 /**
  * @brief Check Snapshot Cardinality.
- * @param[in] metric_name Input parameter.
+ * @param[in] metric_name Name of the metric.
  * @param[in] label_fp Input parameter.
- * @return True on success.
+ * @return True when the operation succeeds.
  * @details Calls: std::find(), begin(), end(), find(), size(), push_back().
  */
 bool MetricAggregator::checkSnapshotCardinality(const std::string& metric_name,
@@ -210,18 +210,13 @@ double MetricAggregator::calculateRate(
     return static_cast<double>(delta) / elapsed_s;
 }
 
+
 /**
- * @brief ============================================================================ Histogram aggregation ============================================================================
+ * @brief Add Histogram Snapshot.
  * @param[in] snapshot Input parameter.
  * @details Calls: lock(), makeLabelFingerprint(), checkSnapshotCardinality(), makeSeriesKey(), push_back().
  */
-
 void MetricAggregator::addHistogramSnapshot(const HistogramSnapshot& snapshot) {
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     std::string fp = makeLabelFingerprint(snapshot.labels);
@@ -292,34 +287,24 @@ AggregatedMetric MetricAggregator::aggregateHistograms(
     return result;
 }
 
+
 /**
- * @brief ============================================================================ Rule-based aggregation ============================================================================
+ * @brief Add Aggregation Rule.
  * @param[in] rule Input parameter.
  * @details Calls: lock().
  */
-
 void MetricAggregator::addAggregationRule(const AggregationRule& rule) {
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lock(mutex_);
     rules_[rule.metric_name] = rule;
 }
 
 /**
  * @brief Remove Aggregation Rule.
- * @param[in] metric_name Input parameter.
- * @return True on success.
+ * @param[in] metric_name Name of the metric.
+ * @return True when the operation succeeds.
  * @details Calls: lock(), erase().
  */
 bool MetricAggregator::removeAggregationRule(const std::string& metric_name) {
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lock(mutex_);
     return rules_.erase(metric_name) > 0;
 }
@@ -538,18 +523,13 @@ ShardAggregationSnapshot MetricAggregator::aggregateShardMetrics(
     return snapshot;
 }
 
+
 /**
- * @brief ============================================================================ Rollup / cardinality reduction ============================================================================
+ * @brief Rollup Metrics.
  * @param[in] window Input parameter.
  * @details Calls: lock(), std::chrono::system_clock::now(), erase(), std::remove_if(), begin(), end(), empty(), std::chrono::steady_clock::now().
  */
-
 void MetricAggregator::rollupMetrics(std::chrono::minutes window) {
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     auto now = std::chrono::system_clock::now();
@@ -587,20 +567,15 @@ void MetricAggregator::rollupMetrics(std::chrono::minutes window) {
     }
 }
 
+
 /**
- * @brief ============================================================================ Cardinality management ============================================================================
- * @param[in] metric_name Input parameter.
+ * @brief Set Metric Cardinality Limit.
+ * @param[in] metric_name Name of the metric.
  * @param[in] limit Input parameter.
  * @details Calls: lock().
  */
-
 void MetricAggregator::setMetricCardinalityLimit(const std::string& metric_name,
                                                   size_t limit) {
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lock(mutex_);
     cardinality_limits_[metric_name] = limit;
 }
@@ -629,17 +604,12 @@ int64_t MetricAggregator::getDroppedSnapshotCount() const {
     return dropped_snapshots_;
 }
 
+
 /**
- * @brief ============================================================================ Utilities ============================================================================
+ * @brief Reset the modification detection flag.
  * @details Calls: lock(), clear().
  */
-
 void MetricAggregator::reset() {
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lock(mutex_);
     rate_samples_.clear();
     snapshots_.clear();
@@ -654,11 +624,6 @@ void MetricAggregator::reset() {
  * @details Calls: lock(), std::chrono::steady_clock::now(), size(), front(), pop_front().
  */
 void MetricAggregator::pruneRateSamples(std::chrono::seconds window) {
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lock(mutex_);
     auto now = std::chrono::steady_clock::now();
     auto cutoff = now - window;

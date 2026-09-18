@@ -41,6 +41,13 @@ GraphQueryCache::GraphQueryCache(Config config)
 // Core operations
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Put.
+ * @param[in] key Input parameter.
+ * @param[in] result Input parameter.
+ * @param[in] cost_hint Input parameter.
+ * @details Calls: empty(), lk(), find(), end(), std::move(), std::chrono::steady_clock::now(), splice(), begin().
+ */
 void GraphQueryCache::put(const std::string& key,
                           ResultSet           result,
                           double              cost_hint) {
@@ -87,11 +94,21 @@ void GraphQueryCache::put(const std::string& key,
 std::optional<GraphQueryCache::ResultSet>
 GraphQueryCache::get(const std::string& key) {
     if (key.empty()) {
+        /**
+         * @brief Lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(mutex_);
         ++stats_.misses;
         return std::nullopt;
     }
 
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
 
     // ── L1 lookup ──────────────────────────────────────────────────────────
@@ -146,6 +163,11 @@ GraphQueryCache::get(const std::string& key) {
     return std::nullopt;
 }
 
+/**
+ * @brief Invalidate.
+ * @param[in] key Input parameter.
+ * @details Calls: empty(), lk(), removeFromL1(), removeFromL2().
+ */
 void GraphQueryCache::invalidate(const std::string& key) {
     if (key.empty()) {
       return;
@@ -155,6 +177,10 @@ void GraphQueryCache::invalidate(const std::string& key) {
     removeFromL2(key);
 }
 
+/**
+ * @brief Clear.
+ * @details Calls: lk().
+ */
 void GraphQueryCache::clear() {
     std::lock_guard<std::mutex> lk(mutex_);
     l1_.map.clear();
@@ -168,6 +194,11 @@ void GraphQueryCache::clear() {
 // ---------------------------------------------------------------------------
 
 GraphQueryCache::Stats GraphQueryCache::getStats() const {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     Stats s = stats_;
     s.l1_size = l1_.map.size();
@@ -175,6 +206,10 @@ GraphQueryCache::Stats GraphQueryCache::getStats() const {
     return s;
 }
 
+/**
+ * @brief Reset Stats.
+ * @details Calls: lk().
+ */
 void GraphQueryCache::resetStats() {
     std::lock_guard<std::mutex> lk(mutex_);
     stats_ = Stats{};
@@ -193,6 +228,10 @@ bool GraphQueryCache::isExpired(const Entry& e) const noexcept {
     return age > config_.ttl;
 }
 
+/**
+ * @brief Evict L1 To L2.
+ * @details Calls: empty(), back(), find(), end(), pop_back(), std::move(), erase(), size().
+ */
 void GraphQueryCache::evictL1ToL2() {
     if (l1_.lru.empty()) {
       return;
@@ -219,6 +258,10 @@ void GraphQueryCache::evictL1ToL2() {
     l2_.map.emplace(victim_key, std::move(l2e));
 }
 
+/**
+ * @brief Evict L2.
+ * @details Calls: empty(), selectL2Victim(), removeFromL2().
+ */
 void GraphQueryCache::evictL2() {
     if (l2_.map.empty()) {
       return;
@@ -254,6 +297,11 @@ std::string GraphQueryCache::selectL2Victim() const {
     return best_key;
 }
 
+/**
+ * @brief Remove From L1.
+ * @param[in] key Input parameter.
+ * @details Calls: find(), end(), erase().
+ */
 void GraphQueryCache::removeFromL1(const std::string& key) {
     auto it = l1_.map.find(key);
     if (it == l1_.map.end()) {
@@ -263,6 +311,11 @@ void GraphQueryCache::removeFromL1(const std::string& key) {
     l1_.map.erase(it);
 }
 
+/**
+ * @brief Remove From L2.
+ * @param[in] key Input parameter.
+ * @details Calls: find(), end(), erase().
+ */
 void GraphQueryCache::removeFromL2(const std::string& key) {
     auto it = l2_.map.find(key);
     if (it == l2_.map.end()) {

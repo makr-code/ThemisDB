@@ -21,19 +21,8 @@ namespace llm {
 namespace attention {
 namespace vulkan {
 
-/**
- * @brief Infini-attention implementation via Vulkan compute shaders
- *
- * Supports all Vulkan 1.2+ capable GPUs (NVIDIA, AMD, Intel, Apple Metal via MoltenVK).
- * Uses compute shaders compiled to SPIR-V.
- *
- * Thread-safe forward pass with configurable memory compression.
- */
 class InfiniAttentionVulkan {
 public:
-    /**
-     * @brief Configuration for Vulkan Infini-attention
-     */
     struct Config {
         size_t memory_dim = 128;           ///< Compressive memory dimension
         float update_rate = 0.1f;          ///< Contrastive learning rate α
@@ -44,9 +33,6 @@ public:
         size_t head_dim = 64;              ///< Dimension per head
     };
 
-    /**
-     * @brief Vulkan compute pipeline metadata
-     */
     struct VulkanPipeline {
         VkPipeline pipeline = VK_NULL_HANDLE;
         VkPipelineLayout layout = VK_NULL_HANDLE;
@@ -55,44 +41,27 @@ public:
     };
 
     /**
-     * @brief Initialize Vulkan Infini-attention
-     *
-     * Loads SPIR-V shaders, creates compute pipelines, allocates GPU buffers.
-     * Multi-stage: compressive attention, memory update, row-sum, blend.
-     *
-     * @param config Configuration parameters
-     * @throws std::runtime_error if Vulkan unavailable or shader compilation fails
+     * @brief Infini Attention Vulkan.
+     * @param[in] config Input parameter.
+     * @return Return value.
      */
     explicit InfiniAttentionVulkan(const Config& config);
 
-    /**
-     * @brief Destructor - releases all Vulkan resources
-     */
     ~InfiniAttentionVulkan();
 
     /**
-     * @brief Ensure backend resources are initialized.
-     * @return Status::SUCCESS when resources are ready.
+     * @brief Initialize.
+     * @return Return value.
      */
     Status initialize();
 
     /**
-     * @brief Forward pass: compute attention with compressive memory
-     *
-     * Pipeline:
-     * 1. Local attention: dispatch compute shader for Flash Attention
-     * 2. Compressive attention: sigmoid(Q @ M^T) @ m_v
-     * 3. Memory update: M' = M + α * σ(K) ⊗ σ(V)
-     * 4. Blend: α_blend * local + (1 - α_blend) * compressive
-     *
-     * @param Q Query tensor [batch*seq_len, num_heads, head_dim]
-     * @param K Key tensor [batch*seq_len, num_heads, head_dim]
-     * @param V Value tensor [batch*seq_len, num_heads, head_dim]
-     * @param[out] O Output tensor [batch*seq_len, num_heads, head_dim]
-     * @return Status code (SUCCESS on completion)
-     *
-     * @note Numerically stable: sigmoid clamped ±50, ε=1e-6
-     * @note VRAM: ~256KB for 128×128 memory (0.006% of typical 4GB)
+     * @brief Forward.
+     * @param[in] Q Input parameter.
+     * @param[in] K Input parameter.
+     * @param[in] V Input parameter.
+     * @param[in,out] O Input/output parameter.
+     * @return Return value.
      */
     Status forward(
         const Tensor& Q,
@@ -102,15 +71,12 @@ public:
     );
 
     /**
-     * @brief Backward pass - compute gradients (Phase 2.2)
-     *
-     * @param dO Gradient w.r.t. output
-     * @param[out] dQ Gradient w.r.t. query
-     * @param[out] dK Gradient w.r.t. key
-     * @param[out] dV Gradient w.r.t. value
-     * @return Status code
-     *
-     * @note Currently returns STATUS_NOT_IMPLEMENTED (deferred to Phase 2.2)
+     * @brief Backward.
+     * @param[in] dO Input parameter.
+     * @param[in,out] dQ Input/output parameter.
+     * @param[in,out] dK Input/output parameter.
+     * @param[in,out] dV Input/output parameter.
+     * @return Return value.
      */
     Status backward(
         const Tensor& dO,
@@ -120,63 +86,41 @@ public:
     );
 
     /**
-     * @brief Get memory statistics
-     *
-     * @return AttentionMemoryStats with total VRAM usage breakdown
+     * @brief Get Memory Stats.
+     * @return Return value.
      */
     AttentionMemoryStats getMemoryStats() const;
 
-    /**
-     * @brief Get backend name identifier
-     *
-     * @return "vulkan" identifying this as Vulkan backend
-     */
     std::string getBackendName() const { return "vulkan"; }
 
     /**
-     * @brief Check Vulkan availability on this system
-     *
-     * @return true if Vulkan 1.2+ is available with a capable GPU
+     * @brief Is Available.
+     * @return True when the operation succeeds.
      */
     static bool isAvailable();
 
     /**
-     * @brief Initialize Vulkan runtime (first-time setup)
-     *
-     * Creates Vulkan instance, selects GPU device, initializes command buffers.
-     * Called automatically by constructor if Vulkan not yet initialized.
-     *
-     * @return Status code
+     * @brief Initialize Vulkan Runtime.
+     * @return Return value.
      */
     static Status initializeVulkanRuntime();
 
     /**
-     * @brief Reset compressive memory to zeros
-     *
-     * Issues GPU command to clear M matrix for fresh attention computation.
-     *
-     * @return Status code
+     * @brief Reset Memory.
+     * @return Return value.
      */
     Status resetMemory();
 
     /**
-     * @brief Get checkpoint of compressive memory
-     *
-     * Transfers M from GPU to host memory for serialization/debugging.
-     *
-     * @return Copy of current M matrix
-     * @throws std::runtime_error if GPU memory not allocated
+     * @brief Get Compressive Memory.
+     * @return Return value.
      */
     std::vector<float> getCompressiveMemory() const;
 
     /**
-     * @brief Restore compressive memory from checkpoint
-     *
-     * Transfers checkpoint data from host to GPU memory.
-     *
-     * @param checkpoint Memory matrix to restore
-     * @return Status code
-     * @throws std::invalid_argument if checkpoint size mismatch
+     * @brief Restore Compressive Memory.
+     * @param[in] checkpoint Input parameter.
+     * @return Return value.
      */
     Status restoreCompressiveMemory(const std::vector<float>& checkpoint);
 
@@ -208,36 +152,32 @@ private:
     VkDescriptorSet descriptor_set_ = VK_NULL_HANDLE;
 
     /**
-     * @brief Allocate GPU buffer memory via vkCreateBuffer + vkAllocateMemory
-     *
-     * @param size Buffer size in bytes
-     * @param usage Vulkan buffer usage flags
-     * @return VkBuffer on success, VK_NULL_HANDLE on failure
+     * @brief Allocate GPUBuffer.
+     * @param[in] size Input parameter.
+     * @param[in] usage Input parameter.
+     * @return Return value.
      */
     VkBuffer allocateGPUBuffer(size_t size, VkBufferUsageFlags usage);
 
     /**
-     * @brief Release GPU buffer memory
-     *
-     * @param buffer Vulkan buffer handle
-     * @return Status code
+     * @brief Release GPUBuffer.
+     * @param[in] buffer Input parameter.
+     * @return Return value.
      */
     Status releaseGPUBuffer(VkBuffer buffer);
 
     /**
-     * @brief Load SPIR-V shader module from file
-     *
-     * @param path File path to .spv bytecode
-     * @return VkShaderModule on success, VK_NULL_HANDLE on failure
+     * @brief Load Shader Module.
+     * @param[in] path Input parameter.
+     * @return Return value.
      */
     VkShaderModule loadShaderModule(const char* path) const;
 
     /**
-     * @brief Create compute pipeline from shader module
-     *
-     * @param shader_module Compiled SPIR-V module
-     * @param[out] pipeline Resulting compute pipeline
-     * @return Status code
+     * @brief Create Compute Pipeline.
+     * @param[in] shader_module Input parameter.
+     * @param[in,out] pipeline Input/output parameter.
+     * @return Return value.
      */
     Status createComputePipeline(
         VkShaderModule shader_module,
@@ -245,15 +185,12 @@ private:
     );
 
     /**
-     * @brief Dispatch compute kernel
-     *
-     * Issues vkCmdDispatch to compute queue with proper synchronization.
-     *
-     * @param pipeline Pipeline to dispatch
-     * @param grid_x Groups in X dimension
-     * @param grid_y Groups in Y dimension
-     * @param grid_z Groups in Z dimension
-     * @return Status code
+     * @brief Dispatch Kernel.
+     * @param[in] pipeline Input parameter.
+     * @param[in] grid_x Input parameter.
+     * @param[in] grid_y Input parameter.
+     * @param[in] grid_z Input parameter.
+     * @return Return value.
      */
     Status dispatchKernel(
         const VulkanPipeline& pipeline,
@@ -263,16 +200,12 @@ private:
     );
 
     /**
-     * @brief Compute local attention via Flash Attention
-     *
-     * @param Q Query tensor
-     * @param K Key tensor
-     * @param V Value tensor
-     * @param[out] O Output tensor
-     * @return Status code
-     *
-    * @note Uses the CPU fallback until the Vulkan local-attention kernel is
-    *       available in the build.
+     * @brief Compute Local Attention.
+     * @param[in] Q Input parameter.
+     * @param[in] K Input parameter.
+     * @param[in] V Input parameter.
+     * @param[in,out] O Input/output parameter.
+     * @return Return value.
      */
     Status computeLocalAttention(
         const Tensor& Q,
@@ -282,13 +215,10 @@ private:
     );
 
     /**
-     * @brief Compute compressive attention: sigmoid(Q @ M^T) @ m_v
-     *
-     * @param Q Query tensor
-     * @param[out] O Output tensor [batch*seq_len, num_heads, memory_dim]
-     * @return Status code
-     *
-     * @note Dispatches pipeline_compressive_attention_ compute shader
+     * @brief Compute Compressive Attention.
+     * @param[in] Q Input parameter.
+     * @param[in,out] O Input/output parameter.
+     * @return Return value.
      */
     Status computeCompressiveAttention(
         const Tensor& Q,
@@ -296,15 +226,10 @@ private:
     );
 
     /**
-     * @brief Update compressive memory M via low-rank approximation
-     *
-     * M' = M + α * sigmoid(K_compressed) ⊗ sigmoid(V_compressed)
-     *
-     * @param K Key tensor
-     * @param V Value tensor
-     * @return Status code
-     *
-     * @note Dispatches pipeline_memory_update_ compute shader
+     * @brief Update Compressive Memory.
+     * @param[in] K Input parameter.
+     * @param[in] V Input parameter.
+     * @return Return value.
      */
     Status updateCompressiveMemory(
         const Tensor& K,
@@ -312,16 +237,11 @@ private:
     );
 
     /**
-     * @brief Blend local and compressive outputs
-     *
-     * O_final = α_blend * O_local + (1 - α_blend) * O_comp
-     *
-     * @param O_local Output from Flash Attention
-     * @param O_comp Output from compressive attention
-     * @param[out] O_final Blended output
-     * @return Status code
-     *
-     * @note Dispatches pipeline_blend_ compute shader
+     * @brief Blend Outputs.
+     * @param[in] O_local Input parameter.
+     * @param[in] O_comp Input parameter.
+     * @param[in,out] O_final Input/output parameter.
+     * @return Return value.
      */
     Status blendOutputs(
         const Tensor& O_local,
@@ -330,12 +250,11 @@ private:
     );
 
     /**
-     * @brief Copy buffer from device to host
-     *
-     * @param device_buffer Device-side buffer handle
-     * @param[out] host_data Host memory destination
-     * @param size Number of bytes to copy
-     * @return Status code
+     * @brief Copy Device To Host.
+     * @param[in] device_buffer Input parameter.
+     * @param[in,out] host_data Input/output parameter.
+     * @param[in] size Input parameter.
+     * @return Return value.
      */
     Status copyDeviceToHost(
         VkBuffer device_buffer,
@@ -344,12 +263,11 @@ private:
     ) const;
 
     /**
-     * @brief Copy buffer from host to device
-     *
-     * @param host_data Host memory source
-     * @param[out] device_buffer Device-side buffer handle
-     * @param size Number of bytes to copy
-     * @return Status code
+     * @brief Copy Host To Device.
+     * @param[in] host_data Input parameter.
+     * @param[in] device_buffer Input parameter.
+     * @param[in] size Input parameter.
+     * @return Return value.
      */
     Status copyHostToDevice(
         const void* host_data,

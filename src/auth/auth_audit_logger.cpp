@@ -18,6 +18,14 @@ namespace auth {
 // Private helper
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Emit.
+ * @param[in] type Input parameter.
+ * @param[in] user_id Identifier of the user.
+ * @param[in] resource Input parameter.
+ * @param[in] details Input parameter.
+ * @details Calls: logSecurityEvent().
+ */
 void AuthAuditLogger::emit(utils::SecurityEventType type, const std::string &user_id, const std::string &resource,
                            const nlohmann::json &details) {
     if (logger_) {
@@ -25,6 +33,15 @@ void AuthAuditLogger::emit(utils::SecurityEventType type, const std::string &use
     }
 }
 
+/**
+ * @brief Emit With Decision Class.
+ * @param[in] type Input parameter.
+ * @param[in] user_id Identifier of the user.
+ * @param[in] resource Input parameter.
+ * @param[in] dc Input parameter.
+ * @param[in] details Input parameter.
+ * @details Calls: logSecurityEvent().
+ */
 void AuthAuditLogger::emitWithDecisionClass(utils::SecurityEventType type,
                                              const std::string &user_id,
                                              const std::string &resource,
@@ -53,6 +70,14 @@ void AuthAuditLogger::emitWithDecisionClass(utils::SecurityEventType type,
 // JWT / Token events
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Log JWTSuccess.
+ * @param[in] sub Input parameter.
+ * @param[in] jti Input parameter.
+ * @param[in] issuer Input parameter.
+ * @param[in] kid Input parameter.
+ * @details Calls: emit().
+ */
 void AuthAuditLogger::logJWTSuccess(const std::string &sub, const std::string &jti, const std::string &issuer,
                                     const std::string &kid) {
     nlohmann::json d;
@@ -62,6 +87,12 @@ void AuthAuditLogger::logJWTSuccess(const std::string &sub, const std::string &j
     emit(utils::SecurityEventType::LOGIN_SUCCESS, sub, "jwt/token", d);
 }
 
+/**
+ * @brief Log JWTFailure.
+ * @param[in] reason Input parameter.
+ * @param[in] kid Input parameter.
+ * @details Calls: empty(), emit().
+ */
 void AuthAuditLogger::logJWTFailure(const std::string &reason, const std::string &kid) {
     nlohmann::json d;
     d["reason"] = reason;
@@ -71,6 +102,12 @@ void AuthAuditLogger::logJWTFailure(const std::string &reason, const std::string
     emit(utils::SecurityEventType::LOGIN_FAILED, "", "jwt/token", d);
 }
 
+/**
+ * @brief Log Token Revoked.
+ * @param[in] jti Input parameter.
+ * @param[in] sub Input parameter.
+ * @details Calls: emit().
+ */
 void AuthAuditLogger::logTokenRevoked(const std::string &jti, const std::string &sub) {
     nlohmann::json d;
     d["jti"] = jti;
@@ -81,10 +118,20 @@ void AuthAuditLogger::logTokenRevoked(const std::string &jti, const std::string 
 // GSSAPI / Kerberos events
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Log Kerberos Success.
+ * @param[in] principal Input parameter.
+ * @details Calls: emit().
+ */
 void AuthAuditLogger::logKerberosSuccess(const std::string &principal) {
     emit(utils::SecurityEventType::LOGIN_SUCCESS, principal, "kerberos/principal", {});
 }
 
+/**
+ * @brief Log Kerberos Failure.
+ * @param[in] reason Input parameter.
+ * @details Calls: emit().
+ */
 void AuthAuditLogger::logKerberosFailure(const std::string &reason) {
     nlohmann::json d;
     d["reason"] = reason;
@@ -95,14 +142,31 @@ void AuthAuditLogger::logKerberosFailure(const std::string &reason) {
 // MFA / TOTP events
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Log TOTPSuccess.
+ * @param[in] user_id Identifier of the user.
+ * @details Calls: emit().
+ */
 void AuthAuditLogger::logTOTPSuccess(const std::string &user_id) {
     emit(utils::SecurityEventType::MFA_TOTP_SUCCESS, user_id, "mfa/totp", {});
 }
 
+/**
+ * @brief Log TOTPFailure.
+ * @param[in] user_id Identifier of the user.
+ * @details Calls: emit().
+ */
 void AuthAuditLogger::logTOTPFailure(const std::string &user_id) {
     emit(utils::SecurityEventType::MFA_TOTP_FAILED, user_id, "mfa/totp", {});
 }
 
+/**
+ * @brief Log TOTPDrift.
+ * @param[in] user_id Identifier of the user.
+ * @param[in] step_offset Input parameter.
+ * @param[in] timestamp Input parameter.
+ * @details Calls: time_since_epoch(), count(), emit().
+ */
 void AuthAuditLogger::logTOTPDrift(const std::string &user_id, int step_offset,
                                    std::chrono::system_clock::time_point timestamp) {
     nlohmann::json details;
@@ -111,10 +175,20 @@ void AuthAuditLogger::logTOTPDrift(const std::string &user_id, int step_offset,
     emit(utils::SecurityEventType::MFA_TOTP_SUCCESS, user_id, "mfa/totp/drift", details);
 }
 
+/**
+ * @brief Log Recovery Code Used.
+ * @param[in] user_id Identifier of the user.
+ * @details Calls: emit().
+ */
 void AuthAuditLogger::logRecoveryCodeUsed(const std::string &user_id) {
     emit(utils::SecurityEventType::MFA_RECOVERY_CODE_USED, user_id, "mfa/recovery_code", {});
 }
 
+/**
+ * @brief Log MFAEnrolled.
+ * @param[in] user_id Identifier of the user.
+ * @details Calls: emit().
+ */
 void AuthAuditLogger::logMFAEnrolled(const std::string &user_id) {
     emit(utils::SecurityEventType::MFA_ENROLLED, user_id, "mfa/enrollment", {});
 }
@@ -123,12 +197,24 @@ void AuthAuditLogger::logMFAEnrolled(const std::string &user_id) {
 // API Key events
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Log Api Key Success.
+ * @param[in] key_id Identifier of the key.
+ * @param[in] principal Input parameter.
+ * @details Calls: emit().
+ */
 void AuthAuditLogger::logApiKeySuccess(const std::string &key_id, const std::string &principal) {
     nlohmann::json d;
     d["key_id"] = key_id;
     emit(utils::SecurityEventType::LOGIN_SUCCESS, principal, "api_key/" + key_id, d);
 }
 
+/**
+ * @brief Log Api Key Failure.
+ * @param[in] key_id Identifier of the key.
+ * @param[in] reason Input parameter.
+ * @details Calls: emit().
+ */
 void AuthAuditLogger::logApiKeyFailure(const std::string &key_id, const std::string &reason) {
     nlohmann::json d;
     d["key_id"] = key_id;
@@ -140,12 +226,24 @@ void AuthAuditLogger::logApiKeyFailure(const std::string &key_id, const std::str
 // OAuth / SAML events
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Log OAuth Device Granted.
+ * @param[in] client_id Identifier of the client.
+ * @param[in] sub Input parameter.
+ * @details Calls: emit().
+ */
 void AuthAuditLogger::logOAuthDeviceGranted(const std::string &client_id, const std::string &sub) {
     nlohmann::json d;
     d["client_id"] = client_id;
     emit(utils::SecurityEventType::TOKEN_CREATED, sub, "oauth/device/" + client_id, d);
 }
 
+/**
+ * @brief Log OAuth Device Denied.
+ * @param[in] client_id Identifier of the client.
+ * @param[in] reason Input parameter.
+ * @details Calls: emit().
+ */
 void AuthAuditLogger::logOAuthDeviceDenied(const std::string &client_id, const std::string &reason) {
     nlohmann::json d;
     d["client_id"] = client_id;
@@ -153,12 +251,23 @@ void AuthAuditLogger::logOAuthDeviceDenied(const std::string &client_id, const s
     emit(utils::SecurityEventType::UNAUTHORIZED_ACCESS, "", "oauth/device/" + client_id, d);
 }
 
+/**
+ * @brief Log SAMLSuccess.
+ * @param[in] subject Input parameter.
+ * @param[in] issuer Input parameter.
+ * @details Calls: emit().
+ */
 void AuthAuditLogger::logSAMLSuccess(const std::string &subject, const std::string &issuer) {
     nlohmann::json d;
     d["issuer"] = issuer;
     emit(utils::SecurityEventType::LOGIN_SUCCESS, subject, "saml/assertion", d);
 }
 
+/**
+ * @brief Log SAMLFailure.
+ * @param[in] reason Input parameter.
+ * @details Calls: emit().
+ */
 void AuthAuditLogger::logSAMLFailure(const std::string &reason) {
     nlohmann::json d;
     d["reason"] = reason;
@@ -169,18 +278,37 @@ void AuthAuditLogger::logSAMLFailure(const std::string &reason) {
 // Passkey / FIDO2 events
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Log Passkey Success.
+ * @param[in] user_id Identifier of the user.
+ * @param[in] credential_id Identifier of the credential.
+ * @details Calls: emit().
+ */
 void AuthAuditLogger::logPasskeySuccess(const std::string &user_id, const std::string &credential_id) {
     nlohmann::json d;
     d["credential_id"] = credential_id;
     emit(utils::SecurityEventType::LOGIN_SUCCESS, user_id, "passkey/authenticate", d);
 }
 
+/**
+ * @brief Log Passkey Failure.
+ * @param[in] user_id Identifier of the user.
+ * @param[in] reason Input parameter.
+ * @details Calls: emit().
+ */
 void AuthAuditLogger::logPasskeyFailure(const std::string &user_id, const std::string &reason) {
     nlohmann::json d;
     d["reason"] = reason;
     emit(utils::SecurityEventType::LOGIN_FAILED, user_id, "passkey/authenticate", d);
 }
 
+/**
+ * @brief Log Passkey Registered.
+ * @param[in] user_id Identifier of the user.
+ * @param[in] credential_id Identifier of the credential.
+ * @param[in] rp_id Identifier of the rp.
+ * @details Calls: emit().
+ */
 void AuthAuditLogger::logPasskeyRegistered(const std::string &user_id,
                                            const std::string &credential_id,
                                            const std::string &rp_id) {
@@ -194,12 +322,23 @@ void AuthAuditLogger::logPasskeyRegistered(const std::string &user_id,
 // mTLS events
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Log MTLSSuccess.
+ * @param[in] principal Input parameter.
+ * @param[in] serial Input parameter.
+ * @details Calls: emit().
+ */
 void AuthAuditLogger::logMTLSSuccess(const std::string &principal, const std::string &serial) {
     nlohmann::json d;
     d["serial"] = serial;
     emit(utils::SecurityEventType::LOGIN_SUCCESS, principal, "mtls/authenticate", d);
 }
 
+/**
+ * @brief Log MTLSFailure.
+ * @param[in] reason Input parameter.
+ * @details Calls: emit().
+ */
 void AuthAuditLogger::logMTLSFailure(const std::string &reason) {
     nlohmann::json d;
     d["reason"] = reason;
@@ -210,6 +349,13 @@ void AuthAuditLogger::logMTLSFailure(const std::string &reason) {
 // Role / permission change events
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Log Role Change.
+ * @param[in] user_id Identifier of the user.
+ * @param[in] old_role Input parameter.
+ * @param[in] new_role Input parameter.
+ * @details Calls: emit().
+ */
 void AuthAuditLogger::logRoleChange(const std::string &user_id,
                                     const std::string &old_role,
                                     const std::string &new_role) {
@@ -219,6 +365,13 @@ void AuthAuditLogger::logRoleChange(const std::string &user_id,
     emit(utils::SecurityEventType::ROLE_CHANGED, user_id, "auth/role", d);
 }
 
+/**
+ * @brief Log Permission Change.
+ * @param[in] user_id Identifier of the user.
+ * @param[in] permission Input parameter.
+ * @param[in] granted Input parameter.
+ * @details Calls: emit().
+ */
 void AuthAuditLogger::logPermissionChange(const std::string &user_id,
                                           const std::string &permission,
                                           bool granted) {
@@ -232,21 +385,38 @@ void AuthAuditLogger::logPermissionChange(const std::string &user_id,
 // LDAP / Active Directory events
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Log LDAPSuccess.
+ * @param[in] username Input parameter.
+ * @param[in] dn Input parameter.
+ * @details Calls: emit().
+ */
 void AuthAuditLogger::logLDAPSuccess(const std::string &username, const std::string &dn) {
     nlohmann::json d;
     d["dn"] = dn;
     emit(utils::SecurityEventType::LOGIN_SUCCESS, username, "ldap/bind", d);
 }
 
+/**
+ * @brief Log LDAPFailure.
+ * @param[in] username Input parameter.
+ * @param[in] reason Input parameter.
+ * @details Calls: emit().
+ */
 void AuthAuditLogger::logLDAPFailure(const std::string &username, const std::string &reason) {
     nlohmann::json d;
     d["reason"] = reason;
     emit(utils::SecurityEventType::LOGIN_FAILED, username, "ldap/bind", d);
 }
 
-// ---------------------------------------------------------------------------
-// Zero-trust continuous verification events
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- Zero-trust continuous verification events ---------------------------------------------------------------------------
+ * @param[in] user_id Identifier of the user.
+ * @param[in] resource Input parameter.
+ * @param[in] trust_score Input parameter.
+ * @param[in] request_id Identifier of the request.
+ * @details Calls: empty(), emit().
+ */
 
 void AuthAuditLogger::logZeroTrustAllowed(const std::string &user_id, const std::string &resource, double trust_score,
                                           const std::string &request_id) {
@@ -258,6 +428,14 @@ void AuthAuditLogger::logZeroTrustAllowed(const std::string &user_id, const std:
     emit(utils::SecurityEventType::LOGIN_SUCCESS, user_id, "zero_trust/" + resource, d);
 }
 
+/**
+ * @brief Log Zero Trust Denied.
+ * @param[in] user_id Identifier of the user.
+ * @param[in] resource Input parameter.
+ * @param[in] reason Input parameter.
+ * @param[in] request_id Identifier of the request.
+ * @details Calls: empty(), emit().
+ */
 void AuthAuditLogger::logZeroTrustDenied(const std::string &user_id, const std::string &resource,
                                          const std::string &reason, const std::string &request_id) {
     nlohmann::json d;
@@ -268,6 +446,13 @@ void AuthAuditLogger::logZeroTrustDenied(const std::string &user_id, const std::
     emit(utils::SecurityEventType::UNAUTHORIZED_ACCESS, user_id, "zero_trust/" + resource, d);
 }
 
+/**
+ * @brief Log Zero Trust Re Evaluation Failed.
+ * @param[in] user_id Identifier of the user.
+ * @param[in] session_id Identifier of the session.
+ * @param[in] reason Input parameter.
+ * @details Calls: emit().
+ */
 void AuthAuditLogger::logZeroTrustReEvaluationFailed(const std::string &user_id, const std::string &session_id,
                                                      const std::string &reason) {
     nlohmann::json d;
@@ -276,9 +461,13 @@ void AuthAuditLogger::logZeroTrustReEvaluationFailed(const std::string &user_id,
     emit(utils::SecurityEventType::TOKEN_REVOKED, user_id, "zero_trust/re_evaluation_failed", d);
 }
 
-// ---------------------------------------------------------------------------
-// Anomaly detection events (brute-force, credential stuffing)
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- Anomaly detection events (brute-force, credential stuffing) ---------------------------------------------------------------------------
+ * @param[in] user_id Identifier of the user.
+ * @param[in] ip Input parameter.
+ * @param[in] failed_attempts Input parameter.
+ * @details Calls: emit().
+ */
 
 void AuthAuditLogger::logBruteForceDetected(const std::string &user_id, const std::string &ip, size_t failed_attempts) {
     nlohmann::json d;
@@ -287,6 +476,12 @@ void AuthAuditLogger::logBruteForceDetected(const std::string &user_id, const st
     emit(utils::SecurityEventType::BRUTE_FORCE_DETECTED, user_id, "auth/brute_force", d);
 }
 
+/**
+ * @brief Log Credential Stuffing Suspected.
+ * @param[in] ip Input parameter.
+ * @param[in] distinct_users Input parameter.
+ * @details Calls: emit().
+ */
 void AuthAuditLogger::logCredentialStuffingSuspected(const std::string &ip, size_t distinct_users) {
     nlohmann::json d;
     d["ip"]             = ip;
@@ -294,6 +489,12 @@ void AuthAuditLogger::logCredentialStuffingSuspected(const std::string &ip, size
     emit(utils::SecurityEventType::SUSPICIOUS_ACTIVITY, "", "auth/credential_stuffing", d);
 }
 
+/**
+ * @brief Log Account Lockout Triggered.
+ * @param[in] user_id Identifier of the user.
+ * @param[in] ip Input parameter.
+ * @details Calls: emit().
+ */
 void AuthAuditLogger::logAccountLockoutTriggered(const std::string &user_id, const std::string &ip) {
     nlohmann::json d;
     d["ip"] = ip;

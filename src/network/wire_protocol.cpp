@@ -24,9 +24,11 @@ using themis::security::SafeIterator::AdvanceSafe;
 using themis::security::SafeIterator::BoundsChecker;
 using themis::security::SafeIterator::RangeValidator;
 
-// ---------------------------------------------------------------------------
-// PacketParser::check_magic
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- PacketParser::check_magic ---------------------------------------------------------------------------
+ * @param[in,out] it Input/output parameter.
+ * @param[in] end Input parameter.
+ */
 
 void PacketParser::check_magic(
     std::vector<uint8_t>::const_iterator&       it,
@@ -91,9 +93,13 @@ template uint16_t PacketParser::read_big_endian<uint16_t>(
 template uint32_t PacketParser::read_big_endian<uint32_t>(
     std::vector<uint8_t>::const_iterator&, const std::vector<uint8_t>::const_iterator&);
 
-// ---------------------------------------------------------------------------
-// PacketParser::read_bytes
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- PacketParser::read_bytes ---------------------------------------------------------------------------
+ * @param[in,out] it Input/output parameter.
+ * @param[in] end Input parameter.
+ * @param[in] n Input parameter.
+ * @return Return value.
+ */
 
 std::vector<uint8_t> PacketParser::read_bytes(
     std::vector<uint8_t>::const_iterator&       it,
@@ -109,7 +115,12 @@ std::vector<uint8_t> PacketParser::read_bytes(
     auto range_begin = it;
     AdvanceSafe::advance(it, static_cast<std::ptrdiff_t>(n), range_begin, end);
 
-    // Validate the sub-range before copying.
+    /**
+     * @brief Validate the sub-range before copying.
+     * @param[in] range_begin Input parameter.
+     * @param[in] it Input parameter.
+     * @return Return value.
+     */
     RangeValidator<std::vector<uint8_t>::const_iterator> range(range_begin, it);
     std::vector<uint8_t> result = {};
 
@@ -121,9 +132,11 @@ std::vector<uint8_t> PacketParser::read_bytes(
     return result;
 }
 
-// ---------------------------------------------------------------------------
-// PacketParser::parse
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- PacketParser::parse ---------------------------------------------------------------------------
+ * @param[in] buf Input parameter.
+ * @return Return value.
+ */
 
 WirePacket PacketParser::parse(const std::vector<uint8_t>& buf)
 {
@@ -185,6 +198,11 @@ WirePacket PacketParser::parse(const std::vector<uint8_t>& buf)
 // PacketBuilder helpers
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Append be32.
+ * @param[in,out] buf Input/output parameter.
+ * @param[in] v Input parameter.
+ */
 void PacketBuilder::append_be32(std::vector<uint8_t>& buf, uint32_t v)
 {
     buf.push_back(static_cast<uint8_t>(v >> 24));
@@ -193,6 +211,12 @@ void PacketBuilder::append_be32(std::vector<uint8_t>& buf, uint32_t v)
     buf.push_back(static_cast<uint8_t>(v >>  0));
 }
 
+/**
+ * @brief Append header.
+ * @param[in,out] buf Input/output parameter.
+ * @param[in] type Input parameter.
+ * @param[in] payload_len Input parameter.
+ */
 void PacketBuilder::append_header(std::vector<uint8_t>& buf,
                                    PacketType type, uint32_t payload_len)
 {
@@ -202,9 +226,12 @@ void PacketBuilder::append_header(std::vector<uint8_t>& buf,
     append_be32(buf, payload_len);
 }
 
-// ---------------------------------------------------------------------------
-// PacketBuilder::build_error
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- PacketBuilder::build_error ---------------------------------------------------------------------------
+ * @param[in] code Input parameter.
+ * @param[in] message Input parameter.
+ * @return Return value.
+ */
 
 std::vector<uint8_t> PacketBuilder::build_error(uint32_t code,
                                                   std::string_view message)
@@ -227,9 +254,10 @@ std::vector<uint8_t> PacketBuilder::build_error(uint32_t code,
     return buf;
 }
 
-// ---------------------------------------------------------------------------
-// PacketBuilder::build_pong
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- PacketBuilder::build_pong ---------------------------------------------------------------------------
+ * @return Return value.
+ */
 
 std::vector<uint8_t> PacketBuilder::build_pong()
 {
@@ -239,9 +267,11 @@ std::vector<uint8_t> PacketBuilder::build_pong()
     return buf;
 }
 
-// ---------------------------------------------------------------------------
-// PacketBuilder::build_query_result
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- PacketBuilder::build_query_result ---------------------------------------------------------------------------
+ * @param[in] rows Input parameter.
+ * @return Return value.
+ */
 
 std::vector<uint8_t> PacketBuilder::build_query_result(
     const std::vector<std::vector<uint8_t>>& rows)

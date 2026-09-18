@@ -29,6 +29,13 @@ namespace storage {
 // AccessTracker
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Record Write.
+ * @param[in] key Input parameter.
+ * @param[in] tier Input parameter.
+ * @param[in] value_size Input parameter.
+ * @details Calls: lock(), std::chrono::system_clock::now().
+ */
 void AccessTracker::recordWrite(const std::string& key, StorageTierLevel tier,
                                 uint64_t value_size) {
     std::unique_lock lock(mutex_);
@@ -39,6 +46,11 @@ void AccessTracker::recordWrite(const std::string& key, StorageTierLevel tier,
     e.value_size   = value_size;
 }
 
+/**
+ * @brief Record Read.
+ * @param[in] key Input parameter.
+ * @details Calls: lock(), find(), end(), std::chrono::system_clock::now().
+ */
 void AccessTracker::recordRead(const std::string& key) {
     std::unique_lock lock(mutex_);
     auto it = entries_.find(key);
@@ -48,6 +60,12 @@ void AccessTracker::recordRead(const std::string& key) {
     }
 }
 
+/**
+ * @brief Set Tier.
+ * @param[in] key Input parameter.
+ * @param[in] tier Input parameter.
+ * @details Calls: lock(), find(), end().
+ */
 void AccessTracker::setTier(const std::string& key, StorageTierLevel tier) {
     std::unique_lock lock(mutex_);
     // iterator_invalidation scanner alert: the iterator is used only to update
@@ -59,17 +77,32 @@ void AccessTracker::setTier(const std::string& key, StorageTierLevel tier) {
     }
 }
 
+/**
+ * @brief Remove.
+ * @param[in] key Input parameter.
+ * @details Calls: lock(), erase().
+ */
 void AccessTracker::remove(const std::string& key) {
     std::unique_lock lock(mutex_);
     entries_.erase(key);
 }
 
 std::unordered_map<std::string, AccessTracker::Entry> AccessTracker::snapshot() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock lock(mutex_);
     return entries_;
 }
 
 std::size_t AccessTracker::size() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock lock(mutex_);
     return entries_.size();
 }
@@ -80,7 +113,13 @@ std::size_t AccessTracker::size() const {
 
 namespace {
 
-// Replace characters that are unsafe for filenames and reject path traversal sequences.
+/**
+ * @brief Replace characters that are unsafe for filenames and reject path traversal sequences.
+ * @param[in] key Input parameter.
+ * @return Return value.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: empty(), find(), front(), erase(), begin(), reserve(), size().
+ */
 std::string sanitizeKey(const std::string& key) {
     if (key.empty()) {
       return "_empty_";
@@ -124,6 +163,12 @@ std::string sanitizeKey(const std::string& key) {
 using SClock = std::chrono::system_clock;
 using Days   = std::chrono::duration<int64_t, std::ratio<86400>>;
 
+/**
+ * @brief Days Since.
+ * @param[in] tp Input parameter.
+ * @return Return value.
+ * @details Calls: SClock::now(), count().
+ */
 int64_t daysSince(SClock::time_point tp) {
     return std::chrono::duration_cast<Days>(SClock::now() - tp).count();
 }
@@ -163,6 +208,14 @@ std::string TieredStorageManager::keyFilePath(const std::string& key,
     return (fs::path(tierPath(tier)) / (sanitizeKey(key) + ".dat")).string();
 }
 
+/**
+ * @brief Write To Tier.
+ * @param[in] key Input parameter.
+ * @param[in] value Input parameter.
+ * @param[in] tier Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: keyFilePath(), f(), THEMIS_ERROR(), write(), data(), size(), good(), what().
+ */
 bool TieredStorageManager::writeToTier(const std::string& key,
                                         const std::string& value,
                                         StorageTierLevel tier) {
@@ -189,6 +242,12 @@ std::string TieredStorageManager::readFromTier(const std::string& key,
         return {};
     }
     try {
+        /**
+         * @brief F.
+         * @param[in] path Input parameter.
+         * @param[in] binary Input parameter.
+         * @return Return value.
+         */
         std::ifstream f(path, std::ios::binary);
         return std::string(std::istreambuf_iterator<char>(f),
                            std::istreambuf_iterator<char>());
@@ -198,6 +257,13 @@ std::string TieredStorageManager::readFromTier(const std::string& key,
     }
 }
 
+/**
+ * @brief Delete From Tier.
+ * @param[in] key Input parameter.
+ * @param[in] tier Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: keyFilePath(), fs::exists(), fs::remove(), THEMIS_WARN(), message().
+ */
 bool TieredStorageManager::deleteFromTier(const std::string& key,
                                            StorageTierLevel tier) {
     const std::string path = keyFilePath(key, tier);
@@ -222,6 +288,13 @@ bool TieredStorageManager::existsInTier(const std::string& key,
 // Core CRUD
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Put.
+ * @param[in] key Input parameter.
+ * @param[in] value Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: writeToTier(), deleteFromTier(), recordWrite(), size().
+ */
 bool TieredStorageManager::put(const std::string& key, const std::string& value) {
     if (!writeToTier(key, value, StorageTierLevel::HOT)) {
         return false;
@@ -234,6 +307,12 @@ bool TieredStorageManager::put(const std::string& key, const std::string& value)
     return true;
 }
 
+/**
+ * @brief Get.
+ * @param[in] key Input parameter.
+ * @return Return value.
+ * @details Calls: snapshot(), find(), end(), existsInTier(), recordRead(), std::chrono::system_clock::now(), std::chrono::system_clock::from_time_t(), std::chrono::system_clock::to_time_t().
+ */
 std::string TieredStorageManager::get(const std::string& key) {
     // Fast path: check AccessTracker to determine which tier likely holds the key
     {
@@ -293,6 +372,12 @@ std::string TieredStorageManager::get(const std::string& key) {
     return {};
 }
 
+/**
+ * @brief Del.
+ * @param[in] key Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: deleteFromTier(), remove().
+ */
 bool TieredStorageManager::del(const std::string& key) {
     bool found = false;
     for (auto tier : {StorageTierLevel::HOT, StorageTierLevel::WARM, StorageTierLevel::COLD}) {
@@ -329,6 +414,14 @@ StorageTierLevel TieredStorageManager::tierOf(const std::string& key) const {
 // Migration
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Migrate Key.
+ * @param[in] key Input parameter.
+ * @param[in] from Input parameter.
+ * @param[in] to Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: existsInTier(), THEMIS_WARN(), readFromTier(), empty(), writeToTier(), THEMIS_ERROR(), deleteFromTier(), setTier().
+ */
 bool TieredStorageManager::migrateKey(const std::string& key,
                                        StorageTierLevel from,
                                        StorageTierLevel to) {
@@ -373,6 +466,11 @@ bool TieredStorageManager::migrateKey(const std::string& key,
     return true;
 }
 
+/**
+ * @brief Run Migration Cycle.
+ * @return Return value.
+ * @details Calls: snapshot(), migrateKey(), daysSince(), existsInTier(), std::chrono::system_clock::now(), count(), emitPromotionEvent(), THEMIS_INFO().
+ */
 uint32_t TieredStorageManager::runMigrationCycle() {
     auto entries = tracker_.snapshot();
     uint32_t migrated = 0;
@@ -459,6 +557,10 @@ uint32_t TieredStorageManager::runMigrationCycle() {
 // Background worker
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Worker Loop.
+ * @details Calls: THEMIS_INFO(), load(), lock(), wait_for(), std::chrono::seconds(), unlock(), runMigrationCycle(), THEMIS_ERROR().
+ */
 void TieredStorageManager::workerLoop() {
     THEMIS_INFO("TieredStorage: migration worker started");
     // lock_contention scanner alert: worker_mutex_ is acquired with wait_for so the
@@ -485,11 +587,19 @@ void TieredStorageManager::workerLoop() {
     THEMIS_INFO("TieredStorage: migration worker stopped");
 }
 
+/**
+ * @brief Start Migration Worker.
+ * @details Calls: exchange(), std::thread().
+ */
 void TieredStorageManager::startMigrationWorker() {
     if (worker_running_.exchange(true)) return;  // already running
     worker_thread_ = std::thread(&TieredStorageManager::workerLoop, this);
 }
 
+/**
+ * @brief Stop Migration Worker.
+ * @details Calls: exchange(), lock(), notify_all(), joinable(), utils::joinThreadWithin(), THEMIS_WARN().
+ */
 void TieredStorageManager::stopMigrationWorker() {
     if (!worker_running_.exchange(false)) return;  // already stopped
     {
@@ -528,9 +638,14 @@ TieredStorageManager::Stats TieredStorageManager::stats() const {
 // BLOCK 3: Storage Module Integration — AccessCoordinator Listener
 // ─────────────────────────────────────────────────────────────────────────────
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Phase 5: BLOCK 3 Storage Integration — Promotion Event Emission
-// ─────────────────────────────────────────────────────────────────────────────
+/**
+ * @brief ───────────────────────────────────────────────────────────────────────────── Phase 5: BLOCK 3 Storage Integration — Promotion Event Emission ─────────────────────────────────────────────────────────────────────────────
+ * @param[in] key Input parameter.
+ * @param[in] from_tier Input parameter.
+ * @param[in] access_count Input parameter.
+ * @param[in] access_window_secs Input parameter.
+ * @details Calls: lock(), onStorageAccess(), std::chrono::seconds().
+ */
 
 void TieredStorageManager::emitPromotionEvent(const std::string& key,
                                              access_model::TierLevel from_tier,
@@ -551,6 +666,11 @@ void TieredStorageManager::emitPromotionEvent(const std::string& key,
 // ─────────────────────────────────────────────────────────────────────────────
 
 void TieredStorageManager::setPromotionListener(access_model::PromotionListener* listener) noexcept {
+    /**
+     * @brief Lock.
+     * @param[in] promotion_listener_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(promotion_listener_mutex_);
     promotion_listener_ = listener;
     if (promotion_listener_) {

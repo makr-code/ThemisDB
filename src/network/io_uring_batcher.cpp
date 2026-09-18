@@ -39,10 +39,26 @@
 #    include <signal.h>
 #    include <linux/io_uring.h>
 
-// Thin wrappers around io_uring syscalls (not in glibc < 2.36).
+/**
+ * @brief Thin wrappers around io_uring syscalls (not in glibc < 2.
+ * @param[in] entries Input parameter.
+ * @param[in,out] p Input/output parameter.
+ * @return Return value.
+ * @details 36). Calls: syscall().
+ */
 static int io_uring_setup(unsigned entries, struct io_uring_params* p) {
     return static_cast<int>(::syscall(__NR_io_uring_setup, entries, p));
 }
+/**
+ * @brief Io uring enter.
+ * @param[in] fd Input parameter.
+ * @param[in] to_submit Input parameter.
+ * @param[in] min_complete Input parameter.
+ * @param[in] flags Input parameter.
+ * @param[in,out] sig Input/output parameter.
+ * @return Return value.
+ * @details Calls: syscall().
+ */
 static int io_uring_enter(int fd, unsigned to_submit, unsigned min_complete,
                            unsigned flags, sigset_t* sig) {
     return static_cast<int>(::syscall(__NR_io_uring_enter, fd,
@@ -79,6 +95,12 @@ IoUringBatchedSender::~IoUringBatchedSender() {
 // enqueue
 // ============================================================================
 
+/**
+ * @brief Enqueue.
+ * @param[in,out] batcher Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: pending(), defined(), flush().
+ */
 bool IoUringBatchedSender::enqueue(WireProtocolBatcher& batcher) {
     if (!batcher.pending()) {
       return true;
@@ -124,6 +146,11 @@ bool IoUringBatchedSender::enqueue(WireProtocolBatcher& batcher) {
 // submitAndWait
 // ============================================================================
 
+/**
+ * @brief Submit And Wait.
+ * @return Return value.
+ * @details Calls: defined(), empty(), size(), enqueueSqe(), data(), io_uring_enter(), THEMIS_ERROR(), std::strerror().
+ */
 size_t IoUringBatchedSender::submitAndWait() {
 #if defined(THEMIS_ENABLE_IO_URING) && defined(__linux__)
     if (ring_fd_ >= 0 && !pending_.empty()) {
@@ -207,6 +234,15 @@ size_t IoUringBatchedSender::submitAndWait() {
 // enqueueSqe  (io_uring path only)
 // ============================================================================
 
+/**
+ * @brief Enqueue Sqe.
+ * @param[in] fd Input parameter.
+ * @param[in] iovs Input parameter.
+ * @param[in] iov_cnt Input parameter.
+ * @param[in] user_data Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: defined(), std::memset(), std::memcpy(), THEMIS_TRACE().
+ */
 bool IoUringBatchedSender::enqueueSqe(int fd, const ::iovec* iovs,
                                        size_t iov_cnt, uint64_t user_data) {
 #if defined(THEMIS_ENABLE_IO_URING) && defined(__linux__)
@@ -293,6 +329,12 @@ bool IoUringBatchedSender::enqueueSqe(int fd, const ::iovec* iovs,
 // initRing / teardownRing
 // ============================================================================
 
+/**
+ * @brief Init Ring.
+ * @param[in] queue_depth Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: defined(), std::memset(), io_uring_setup(), THEMIS_WARN(), std::strerror(), mmap(), close(), munmap().
+ */
 bool IoUringBatchedSender::initRing(unsigned queue_depth) {
 #if defined(THEMIS_ENABLE_IO_URING) && defined(__linux__)
     struct io_uring_params params;

@@ -34,6 +34,12 @@ LLMOutputValidator::LLMOutputValidator()
 {
 }
 
+/**
+ * @brief Validate.
+ * @param[in] text Input parameter.
+ * @return Return value.
+ * @details Calls: length(), countWords(), countSentences(), calculateAvgWordLength(), std::count(), begin(), end(), empty().
+ */
 ValidationResult LLMOutputValidator::validate(const std::string& text) {
     ValidationResult result;
     
@@ -112,6 +118,14 @@ ValidationResult LLMOutputValidator::validate(const std::string& text) {
     return result;
 }
 
+/**
+ * @brief Validate With Tokens.
+ * @param[in] text Input parameter.
+ * @param[in] token_count Input parameter.
+ * @param[in] max_tokens Input parameter.
+ * @return Return value.
+ * @details Calls: validate(), push_back(), std::to_string().
+ */
 ValidationResult LLMOutputValidator::validateWithTokens(
     const std::string& text,
     int token_count,
@@ -132,9 +146,12 @@ ValidationResult LLMOutputValidator::validateWithTokens(
     return result;
 }
 
-// ═══════════════════════════════════════════════════════════
-// UTF-8 Validation
-// ═══════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════ UTF-8 Validation ═══════════════════════════════════════════════════════════
+ * @param[in] text Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: c_str(), length().
+ */
 
 bool LLMOutputValidator::isValidUTF8(const std::string& text) {
     const unsigned char* bytes = reinterpret_cast<const unsigned char*>(text.c_str());
@@ -192,9 +209,12 @@ bool LLMOutputValidator::isValidUTF8(const std::string& text) {
     return true;
 }
 
-// ═══════════════════════════════════════════════════════════
-// Truncation Detection
-// ═══════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════ Truncation Detection ═══════════════════════════════════════════════════════════
+ * @param[in] text Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), substr(), std::max(), length(), back(), std::isspace(), std::isalpha(), find().
+ */
 
 bool LLMOutputValidator::detectTruncation(const std::string& text) {
     if (text.empty()) {
@@ -228,9 +248,12 @@ bool LLMOutputValidator::detectTruncation(const std::string& text) {
     return !ends_with_punctuation || ends_mid_word || has_truncation_pattern;
 }
 
-// ═══════════════════════════════════════════════════════════
-// Semantic Coherence Estimation (Simple Heuristics)
-// ═══════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════ Semantic Coherence Estimation (Simple Heuristics) ═══════════════════════════════════════════════════════════
+ * @param[in] text Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), countWords(), calculateAvgWordLength(), countSentences(), unique_chars(), begin(), end(), size().
+ */
 
 double LLMOutputValidator::estimateCoherence(const std::string& text) {
     // Six surface-level heuristics for lightweight coherence estimation.
@@ -378,9 +401,12 @@ double LLMOutputValidator::estimateCoherence(const std::string& text) {
     return std::max(0.0, std::min(1.0, score));
 }
 
-// ═══════════════════════════════════════════════════════════
-// Error Pattern Detection
-// ═══════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════ Error Pattern Detection ═══════════════════════════════════════════════════════════
+ * @param[in] text Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: std::transform(), begin(), end(), find().
+ */
 
 bool LLMOutputValidator::hasCommonErrors(const std::string& text) {
     // Convert to lowercase for case-insensitive matching
@@ -414,9 +440,12 @@ bool LLMOutputValidator::hasCommonErrors(const std::string& text) {
     return false;
 }
 
-// ═══════════════════════════════════════════════════════════
-// Repeating Pattern Detection
-// ═══════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════ Repeating Pattern Detection ═══════════════════════════════════════════════════════════
+ * @param[in] text Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: length(), std::min(), size_t(), substr(), spdlog::debug().
+ */
 
 bool LLMOutputValidator::hasRepeatingPatterns(const std::string& text) {
     if (text.length() < 20) {
@@ -455,9 +484,12 @@ bool LLMOutputValidator::hasRepeatingPatterns(const std::string& text) {
     return false;
 }
 
-// ═══════════════════════════════════════════════════════════
-// Invalid Control Characters
-// ═══════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════ Invalid Control Characters ═══════════════════════════════════════════════════════════
+ * @param[in] text Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements hasInvalidControlChars without additional internal calls.
+ */
 
 bool LLMOutputValidator::hasInvalidControlChars(const std::string& text) {
     for (unsigned char c : text) {
@@ -470,9 +502,12 @@ bool LLMOutputValidator::hasInvalidControlChars(const std::string& text) {
     return false;
 }
 
-// ═══════════════════════════════════════════════════════════
-// Metrics Calculation Helpers
-// ═══════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════ Metrics Calculation Helpers ═══════════════════════════════════════════════════════════
+ * @param[in] text Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), std::isspace().
+ */
 
 int LLMOutputValidator::countWords(const std::string& text) {
     if (text.empty()) {
@@ -501,6 +536,12 @@ int LLMOutputValidator::countWords(const std::string& text) {
     return count;
 }
 
+/**
+ * @brief Count Sentences.
+ * @param[in] text Input parameter.
+ * @return Return value.
+ * @details Calls: countWords().
+ */
 int LLMOutputValidator::countSentences(const std::string& text) {
     int count = 0;
     
@@ -518,6 +559,12 @@ int LLMOutputValidator::countSentences(const std::string& text) {
     return count;
 }
 
+/**
+ * @brief Calculate Avg Word Length.
+ * @param[in] text Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), std::isspace().
+ */
 double LLMOutputValidator::calculateAvgWordLength(const std::string& text) {
     if (text.empty()) {
       return 0.0;

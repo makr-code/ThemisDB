@@ -50,7 +50,6 @@ namespace observability {
 
 namespace {
 
-/** Collect a raw call stack, up to @p max_depth frames. */
 std::vector<std::string> captureStack(int max_depth = 64) {
     std::vector<std::string> frames;
 #if THEMIS_HAS_BACKTRACE
@@ -113,7 +112,7 @@ std::vector<std::string> captureStack(int max_depth = 64) {
 }
 
 /**
- * @brief Base64 encode.
+ * @brief Base64 Encode.
  * @param[in] bytes Input parameter.
  * @return Return value.
  * @details Calls: reserve(), size().
@@ -139,7 +138,6 @@ std::string base64Encode(const std::vector<uint8_t>& bytes) {
     return out;
 }
 
-/** Parse folded-stacks text into a {stack -> count} map. */
 std::map<std::string, uint64_t> parseFolded(const std::string& text) {
     std::map<std::string, uint64_t> result;
     /**
@@ -258,7 +256,6 @@ json ProfileDiff::toJSON() const {
 // ContinuousProfiler::Impl
 // ---------------------------------------------------------------------------
 
-/** @brief ContinuousProfiler::Impl. */
 class ContinuousProfiler::Impl {
 public:
     /**
@@ -278,11 +275,6 @@ public:
      * @details Calls: lock(), std::thread().
      */
     void start() {
-        /**
-         * @brief Lock.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::unique_lock<std::mutex> lock(mutex_);
         if (running_ || !enabled_) {
           return;
@@ -306,11 +298,6 @@ public:
      * @details Calls: lock(), std::chrono::system_clock::now(), empty(), load(), captureStack(), size(), std::to_string(), assign().
      */
     ProfileSnapshot snapshot(ProfileType type) {
-        /**
-         * @brief Lock.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::unique_lock<std::mutex> lock(mutex_);
 
         ProfileSnapshot snap;
@@ -481,11 +468,11 @@ public:
     }
 
 private:
+
     /**
-     * @brief ----------------------------------------------------------------------- Background worker -----------------------------------------------------------------------
+     * @brief Worker Loop.
      * @details Calls: std::chrono::milliseconds(), std::chrono::steady_clock::now(), lk(), wait_for(), load(), captureStack(), size(), void().
      */
-
     void workerLoop() {
         // Determine the sampling interval from cpu_sample_rate.
         // cpu_sample_rate = desired overhead fraction → sample period ≈ 1/rate ms
@@ -513,11 +500,6 @@ private:
         while (true) {
             // Wait for sample_period or until stopped
             {
-                /**
-                 * @brief Lk.
-                 * @param[in] mutex_ Input parameter.
-                 * @return Return value.
-                 */
                 std::unique_lock<std::mutex> lk(mutex_);
                 cv_.wait_for(lk, sample_period, [this] { return !running_; });
                 if (!running_) {
@@ -540,11 +522,6 @@ private:
                     }
                     key += frames[i];
                 }
-                /**
-                 * @brief Lk.
-                 * @param[in] mutex_ Input parameter.
-                 * @return Return value.
-                 */
                 std::unique_lock<std::mutex> lk(mutex_);
                 cpu_stacks_[key]++;
             }
@@ -559,11 +536,6 @@ private:
                 ProfileSnapshot snap;
                 std::function<void(const ProfileSnapshot&, const std::string&)> cb;
                 {
-                    /**
-                     * @brief Lk.
-                     * @param[in] mutex_ Input parameter.
-                     * @return Return value.
-                     */
                     std::unique_lock<std::mutex> lk(mutex_);
                     snap = snapshotNoLock(ProfileType::CPU);
                     cb = anomaly_cb_;
@@ -595,7 +567,7 @@ private:
     }
 
     /**
-     * @brief Snapshot no lock.
+     * @brief Snapshot No Lock.
      * @param[in] type Input parameter.
      * @return Return value.
      * @details Calls: std::chrono::system_clock::now(), std::to_string(), assign(), begin(), end(), addSnapshot().
@@ -659,11 +631,6 @@ private:
      */
     void stopInternal() {
         {
-            /**
-             * @brief Lock.
-             * @param[in] mutex_ Input parameter.
-             * @return Return value.
-             */
             std::unique_lock<std::mutex> lock(mutex_);
             if (!running_) {
               return;

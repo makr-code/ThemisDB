@@ -65,15 +65,10 @@ PluginSignature RegexDetectionEngine::getSignature() const {
 /**
  * @brief Initialize.
  * @param[in] config Input parameter.
- * @return True on success.
+ * @return True when the operation succeeds.
  * @details Calls: lock(), clear(), value(), contains(), loadPatternsFromConfig(), spdlog::warn(), loadEmbeddedDefaults(), rebuildFieldHints().
  */
 bool RegexDetectionEngine::initialize(const nlohmann::json& config) {
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     last_error_.clear();
@@ -127,15 +122,10 @@ bool RegexDetectionEngine::initialize(const nlohmann::json& config) {
 /**
  * @brief Reload.
  * @param[in] config Input parameter.
- * @return True on success.
+ * @return True when the operation succeeds.
  * @details Calls: lock(), clear(), loadPatternsFromConfig(), spdlog::error(), rebuildFieldHints(), spdlog::info(), size().
  */
 bool RegexDetectionEngine::reload(const nlohmann::json& config) {
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     // Save old state
@@ -498,7 +488,7 @@ void RegexDetectionEngine::loadEmbeddedDefaults() {
 /**
  * @brief Load Patterns From Config.
  * @param[in] config Input parameter.
- * @return True on success.
+ * @return True when the operation succeeds.
  * @details Calls: contains(), clear(), value(), is_array(), push_back(), parseRegexFlags(), spdlog::warn(), what().
  */
 bool RegexDetectionEngine::loadPatternsFromConfig(const nlohmann::json& config) {
@@ -576,7 +566,7 @@ bool RegexDetectionEngine::loadPatternsFromConfig(const nlohmann::json& config) 
 /**
  * @brief Validate And Compile Pattern.
  * @param[in,out] pattern Input/output parameter.
- * @return True on success.
+ * @return True when the operation succeeds.
  * @details Calls: std::regex(), spdlog::error(), what().
  */
 bool RegexDetectionEngine::validateAndCompilePattern(RegexPattern& pattern) {
@@ -676,18 +666,6 @@ bool RegexDetectionEngine::luhnCheck(const std::string& number) const {
 // Phase A.1 Hardening: Input validation implementations
 
 bool RegexDetectionEngine::validateUTF8Input(std::string_view text) const {
-    /**
-     * @brief Validate UTF-8 sequence integrity.
-     * 
-     * Checks for:
-     * - Valid UTF-8 byte sequences
-     * - Excludes BOM markers (UTF-8 BOM: EF BB BF)
-     * - Handles combining characters gracefully
-     * - Returns false for invalid sequences; true for valid text
-     * 
-     * This prevents crashes on malformed UTF-8 input and provides
-     * explicit control over Unicode handling.
-     */
     
     // Skip UTF-8 BOM if present
     const unsigned char* data = reinterpret_cast<const unsigned char*>(text.data());
@@ -766,19 +744,6 @@ bool RegexDetectionEngine::validateUTF8Input(std::string_view text) const {
 }
 
 bool RegexDetectionEngine::detectReDoSPattern(const std::string& pattern) const {
-    /**
-     * @brief Detect known ReDoS (Regular Expression Denial of Service) patterns.
-     * 
-     * Identifies dangerous patterns that cause exponential backtracking:
-     * - Nested quantifiers: (a+)+, (a*)*,  (a+)*
-     * - Alternation with overlap: (a|a)*, (x|x|x)*
-     * - Quantified groups with alternation: (a|b)*
-     * 
-     * This is a heuristic check to catch common ReDoS patterns.
-     * For production, consider using a regex analyzer library.
-     * 
-     * @return true if dangerous pattern detected, false if pattern appears safe
-     */
     
     // Check for nested quantifiers: (...)+ or (...)* or (...){n}
     // followed by another quantifier
@@ -832,14 +797,6 @@ bool RegexDetectionEngine::detectReDoSPattern(const std::string& pattern) const 
 }
 
 bool RegexDetectionEngine::checkInputBounds(std::string_view text) const {
-    /**
-     * @brief Enforce maximum input size limit.
-     * 
-     * Prevents excessive memory consumption and scanning time.
-     * Default limit: 10MB
-     * 
-     * @return true if input is within bounds, false if exceeds limit
-     */
     
     if (text.size() > max_input_size_) {
         spdlog::warn("RegexDetectionEngine: Input size ({} bytes) exceeds limit ({} bytes)",
@@ -851,7 +808,7 @@ bool RegexDetectionEngine::checkInputBounds(std::string_view text) const {
 }
 
 /**
- * @brief Factory function for createUnsigned
+ * @brief Create Regex Engine.
  * @return Return value.
  * @details Implements createRegexEngine without additional internal calls.
  */

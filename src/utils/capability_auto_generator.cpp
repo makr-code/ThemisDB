@@ -37,8 +37,8 @@
 namespace themis::util {
 
 /**
- * @brief Load configuration from YAML
- * @param[in] yaml_path Input parameter.
+ * @brief Load From YAML.
+ * @param[in] yaml_path Path to the yaml.
  * @return Return value.
  * @throws std::runtime_error if an error occurs.
  * @details Calls: YAML::LoadFile(), std::chrono::seconds(), std::string(), what().
@@ -129,7 +129,7 @@ CapabilityAutoGenerator::~CapabilityAutoGenerator() {
 }
 
 /**
- * @brief Start background thread
+ * @brief Start.
  * @details Implements start without additional internal calls.
  */
 void CapabilityAutoGenerator::start() {
@@ -148,7 +148,7 @@ void CapabilityAutoGenerator::start() {
 }
 
 /**
- * @brief Stop background thread
+ * @brief Stop.
  * @details Calls: joinable(), join().
  */
 void CapabilityAutoGenerator::stop() {
@@ -166,7 +166,7 @@ void CapabilityAutoGenerator::stop() {
 }
 
 /**
- * @brief Worker thread main loop
+ * @brief Worker Thread.
  * @details Calls: getAllShards(), processShard(), std::this_thread::sleep_for(), std::chrono::milliseconds(), min_interval(), auditLog(), what(), std::chrono::system_clock::now().
  */
 void CapabilityAutoGenerator::workerThread() {
@@ -211,7 +211,7 @@ void CapabilityAutoGenerator::workerThread() {
 }
 
 /**
- * @brief Process single shard
+ * @brief Process Shard.
  * @param[in] shard Input parameter.
  * @details Calls: getScheduleForShard(), lock(), find(), end(), std::chrono::system_clock::now(), time_since_epoch(), count(), analyzeShardData().
  */
@@ -225,11 +225,6 @@ void CapabilityAutoGenerator::processShard(const sharding::ShardInfo& shard) {
     
     // Check last update time and compare with schedule interval
     {
-        /**
-         * @brief Lock.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(mutex_);
         auto it = last_run_timestamps_.find(shard.shard_id);
         if (it != last_run_timestamps_.end()) {
@@ -282,9 +277,9 @@ void CapabilityAutoGenerator::processShard(const sharding::ShardInfo& shard) {
 }
 
 /**
- * @brief Analyze RocksDB data
- * @param[in] shard_id Input parameter.
- * @param[in] data_path Input parameter.
+ * @brief Analyze Shard Data.
+ * @param[in] shard_id Identifier of the shard.
+ * @param[in] data_path Path to the data.
  * @return Return value.
  * @throws std::runtime_error if an error occurs.
  * @details Calls: themis::storage::detail::openDbForReadOnlyCompat(), ok(), ToString(), db_owner(), it(), NewIterator(), rocksdb::ReadOptions(), SeekToFirst().
@@ -306,11 +301,6 @@ CapabilityAutoGenerator::AnalysisResult CapabilityAutoGenerator::analyzeShardDat
     if (!status.ok()) {
         throw std::runtime_error("Failed to open RocksDB: " + status.ToString());
     }
-    /**
-     * @brief Db owner.
-     * @param[in] db_raw Input parameter.
-     * @return Return value.
-     */
     std::unique_ptr<rocksdb::DB> db_owner(db_raw);
     if (db_owner == nullptr) {
         throw std::runtime_error("Failed to open RocksDB: DB::OpenForReadOnly returned success with null handle");
@@ -357,11 +347,6 @@ CapabilityAutoGenerator::AnalysisResult CapabilityAutoGenerator::analyzeShardDat
             for (const auto& field : text_fields) {
                 if (doc.contains(field)) {
                     std::string text = doc[field];
-                    /**
-                     * @brief Simple tokenization
-                     * @param[in] text Input parameter.
-                     * @return Return value.
-                     */
                     std::istringstream iss(text);
                     std::string word = {};
                     while (iss >> word) {
@@ -413,7 +398,7 @@ CapabilityAutoGenerator::AnalysisResult CapabilityAutoGenerator::analyzeShardDat
 }
 
 /**
- * @brief Generate capability from analysis
+ * @brief Generate From Analysis.
  * @param[in] result Input parameter.
  * @param[in] previous_capability Input parameter.
  * @return Return value.
@@ -446,10 +431,10 @@ sharding::DomainCapability CapabilityAutoGenerator::generateFromAnalysis(
 }
 
 /**
- * @brief Check if update is needed
+ * @brief Should Update.
  * @param[in] shard Input parameter.
  * @param[in] current Input parameter.
- * @return True on success.
+ * @return True when the operation succeeds.
  * @details Calls: isEmpty(), lock(), find(), end(), getScheduleForShard(), prev_set(), begin(), curr_set().
  */
 bool CapabilityAutoGenerator::shouldUpdate(const sharding::ShardInfo& shard, const AnalysisResult& current) {
@@ -460,11 +445,6 @@ bool CapabilityAutoGenerator::shouldUpdate(const sharding::ShardInfo& shard, con
     
     // Check document count change against persisted previous count
     {
-        /**
-         * @brief Lock.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(mutex_);
         auto it = last_document_counts_.find(shard.shard_id);
         if (it != last_document_counts_.end()) {
@@ -533,11 +513,11 @@ std::string CapabilityAutoGenerator::determineShardType(const sharding::ShardInf
 }
 
 /**
- * @brief Save capability
- * @param[in] shard_id Input parameter.
+ * @brief Save Capability.
+ * @param[in] shard_id Identifier of the shard.
  * @param[in] capability Input parameter.
  * @param[in] audit_info Input parameter.
- * @return True on success.
+ * @return True when the operation succeeds.
  * @details Calls: auditLog(), out_dir(), fs::create_directories(), empty(), emitSeq(), ofs(), string(), c_str().
  */
 bool CapabilityAutoGenerator::saveCapability(
@@ -599,12 +579,6 @@ bool CapabilityAutoGenerator::saveCapability(
 
         // Atomic write: write to .tmp then rename
         {
-            /**
-             * @brief Ofs.
-             * @param[in] tmp_path Input parameter.
-             * @param[in] trunc Input parameter.
-             * @return Return value.
-             */
             std::ofstream ofs(tmp_path, std::ios::trunc);
             if (!ofs) {
                 auditLog(shard_id, {{"error", "Failed to open tmp file for writing"},
@@ -626,8 +600,8 @@ bool CapabilityAutoGenerator::saveCapability(
 }
 
 /**
- * @brief Audit logging
- * @param[in] shard_id Input parameter.
+ * @brief Audit Log.
+ * @param[in] shard_id Identifier of the shard.
  * @param[in] entry Input parameter.
  * @details Calls: log(), std::chrono::system_clock::now(), time_since_epoch(), count(), dump(), onAuditSigning().
  */
@@ -659,8 +633,8 @@ void CapabilityAutoGenerator::auditLog(const std::string& shard_id, const nlohma
 }
 
 /**
- * @brief Generate audit trail
- * @param[in] shard_id Input parameter.
+ * @brief Generate Audit Trail.
+ * @param[in] shard_id Identifier of the shard.
  * @param[in] previous Input parameter.
  * @param[in] current Input parameter.
  * @return Return value.
@@ -717,7 +691,7 @@ nlohmann::json CapabilityAutoGenerator::getStatistics() const {
 }
 
 /**
- * @brief Load persisted schedule/count state from state_db_ into in-memory maps
+ * @brief Load Persisted State.
  * @details Calls: start_key(), back(), lock(), iterateRange(), size(), shard_id(), substr(), nlohmann::json::parse().
  */
 void CapabilityAutoGenerator::loadPersistedState() {
@@ -728,11 +702,6 @@ void CapabilityAutoGenerator::loadPersistedState() {
     // Iterate all keys with prefix "utils_capgen_state:" to load per-shard state
     static constexpr std::string_view STATE_KEY_PREFIX = "utils_capgen_state:";
 
-    /**
-     * @brief Start key.
-     * @param[in] STATE_KEY_PREFIX Input parameter.
-     * @return Return value.
-     */
     std::string start_key(STATE_KEY_PREFIX);
     std::string end_key = start_key;
     end_key.back()++;  // e.g. "utils_capgen_state:" -> "utils_capgen_state;"
@@ -740,11 +709,6 @@ void CapabilityAutoGenerator::loadPersistedState() {
     std::vector<std::pair<std::string, std::string>> corrupt_entries;
 
     {
-        /**
-         * @brief Lock.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(mutex_);
         state_db_->iterateRange(start_key, end_key,
             [&](std::string_view key, std::string_view value) -> bool {
@@ -777,8 +741,8 @@ void CapabilityAutoGenerator::loadPersistedState() {
 }
 
 /**
- * @brief Persist the last-run timestamp and document count for a shard to state_db_
- * @param[in] shard_id Input parameter.
+ * @brief Persist State.
+ * @param[in] shard_id Identifier of the shard.
  * @param[in] timestamp Input parameter.
  * @param[in] doc_count Input parameter.
  * @details Calls: lock(), put(), dump().
@@ -790,11 +754,6 @@ void CapabilityAutoGenerator::persistState(
 ) {
     // Update in-memory maps
     {
-        /**
-         * @brief Lock.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(mutex_);
         last_run_timestamps_[shard_id]   = timestamp;
         last_document_counts_[shard_id]  = doc_count;

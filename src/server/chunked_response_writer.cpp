@@ -23,6 +23,12 @@ namespace server {
 // Internal helper
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Append Chunk.
+ * @param[in,out] out Input/output parameter.
+ * @param[in] data Input parameter.
+ * @details Calls: size(), str().
+ */
 void ChunkedResponseWriter::appendChunk(std::string& out, const std::string& data) {
     // chunk-size in hex
     std::ostringstream hex = {};
@@ -37,6 +43,11 @@ void ChunkedResponseWriter::appendChunk(std::string& out, const std::string& dat
 // encodeChunkedBody
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Encode Chunked Body.
+ * @param[in] fragments Input parameter.
+ * @return Return value.
+ */
 std::string ChunkedResponseWriter::encodeChunkedBody(
     const std::vector<std::string>& fragments)
 {
@@ -57,6 +68,14 @@ std::string ChunkedResponseWriter::encodeChunkedBody(
 // fromFragments
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief From Fragments.
+ * @param[in] req Input parameter.
+ * @param[in] status Input parameter.
+ * @param[in] fragments Input parameter.
+ * @param[in] content_type Input parameter.
+ * @return Return value.
+ */
 http::response<http::string_body> ChunkedResponseWriter::fromFragments(
     const http::request<http::string_body>& req,
     http::status status,
@@ -79,6 +98,14 @@ http::response<http::string_body> ChunkedResponseWriter::fromFragments(
 // fromJsonVector
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief From Json Vector.
+ * @param[in] req Input parameter.
+ * @param[in] status Input parameter.
+ * @param[in] items Input parameter.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ */
 http::response<http::string_body> ChunkedResponseWriter::fromJsonVector(
     const http::request<http::string_body>& req,
     http::status status,
@@ -119,6 +146,14 @@ http::response<http::string_body> ChunkedResponseWriter::fromJsonVector(
 // fromStream
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief From Stream.
+ * @param[in] req Input parameter.
+ * @param[in] status Input parameter.
+ * @param[in] stream Input parameter.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ */
 http::response<http::string_body> ChunkedResponseWriter::fromStream(
     const http::request<http::string_body>& req,
     http::status status,
@@ -164,6 +199,12 @@ http::response<http::string_body> ChunkedResponseWriter::fromStream(
 // decodeChunkedBody
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Decode Chunked Body.
+ * @param[in] encoded Input parameter.
+ * @return Return value.
+ * @details Calls: size(), find(), substr(), empty(), std::stoul(), THEMIS_WARN(), append().
+ */
 std::string ChunkedResponseWriter::decodeChunkedBody(const std::string& encoded) {
     std::string result = {};
     size_t pos = 0;
@@ -206,6 +247,13 @@ std::string ChunkedResponseWriter::decodeChunkedBody(const std::string& encoded)
 // shouldUseChunkedTransfer
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Should Use Chunked Transfer.
+ * @param[in] req Input parameter.
+ * @param[in] item_count Input parameter.
+ * @param[in] threshold Input parameter.
+ * @return True when the operation succeeds.
+ */
 bool ChunkedResponseWriter::shouldUseChunkedTransfer(
     const http::request<http::string_body>& req,
     size_t item_count,

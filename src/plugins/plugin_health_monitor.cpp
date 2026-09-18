@@ -36,6 +36,11 @@ PluginHealthMonitor::~PluginHealthMonitor() {
 // Monitoring lifecycle
 // ============================================================================
 
+/**
+ * @brief Start Monitoring.
+ * @return True when the operation succeeds.
+ * @details Calls: THEMIS_WARN(), std::thread(), monitoringLoop(), THEMIS_INFO(), count().
+ */
 bool PluginHealthMonitor::startMonitoring() {
     if (running_) {
         THEMIS_WARN("PluginHealthMonitor: already running");
@@ -50,6 +55,10 @@ bool PluginHealthMonitor::startMonitoring() {
     return true;
 }
 
+/**
+ * @brief Stop Monitoring.
+ * @details Calls: joinable(), std::chrono::steady_clock::now(), std::chrono::seconds(), std::this_thread::sleep_for(), std::chrono::milliseconds(), THEMIS_WARN(), detach(), THEMIS_INFO().
+ */
 void PluginHealthMonitor::stopMonitoring() {
     if (!running_) {
         return;
@@ -79,6 +88,13 @@ void PluginHealthMonitor::stopMonitoring() {
 // Plugin registration
 // ============================================================================
 
+/**
+ * @brief Register Plugin.
+ * @param[in] name Input parameter.
+ * @param[in,out] plugin Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: THEMIS_WARN(), lock(), count(), std::chrono::system_clock::now(), std::move(), emitEvent(), THEMIS_INFO().
+ */
 bool PluginHealthMonitor::registerPlugin(const std::string& name, ISelfHealingPlugin* plugin) {
     if (!plugin) {
         THEMIS_WARN("PluginHealthMonitor: attempted to register null plugin '{}'", name);
@@ -110,6 +126,12 @@ bool PluginHealthMonitor::registerPlugin(const std::string& name, ISelfHealingPl
     return true;
 }
 
+/**
+ * @brief Unregister Plugin.
+ * @param[in] name Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), find(), end(), erase(), emitEvent(), std::chrono::system_clock::now(), THEMIS_INFO().
+ */
 bool PluginHealthMonitor::unregisterPlugin(const std::string& name) {
     std::lock_guard<std::mutex> lock(mutex_);
 
@@ -135,6 +157,12 @@ bool PluginHealthMonitor::unregisterPlugin(const std::string& name) {
 // Manual health check & recovery
 // ============================================================================
 
+/**
+ * @brief Check Plugin Health.
+ * @param[in] name Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), find(), end(), performHealthCheck(), std::chrono::system_clock::now(), Ok(), THEMIS_ERROR(), what().
+ */
 Result<PluginDiagnostics> PluginHealthMonitor::checkPluginHealth(const std::string& name) {
     std::lock_guard<std::mutex> lock(mutex_);
 
@@ -165,6 +193,12 @@ Result<PluginDiagnostics> PluginHealthMonitor::checkPluginHealth(const std::stri
     }
 }
 
+/**
+ * @brief Trigger Recovery.
+ * @param[in] name Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), find(), end(), attemptRecoveryWithBackoff(), Ok().
+ */
 Result<RecoveryResult> PluginHealthMonitor::triggerRecovery(const std::string& name) {
     std::lock_guard<std::mutex> lock(mutex_);
 
@@ -184,6 +218,11 @@ Result<RecoveryResult> PluginHealthMonitor::triggerRecovery(const std::string& n
 // ============================================================================
 
 Result<MonitoredPlugin> PluginHealthMonitor::getPluginStats(const std::string& name) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     auto it = monitored_plugins_.find(name);
@@ -196,11 +235,21 @@ Result<MonitoredPlugin> PluginHealthMonitor::getPluginStats(const std::string& n
 }
 
 std::unordered_map<std::string, MonitoredPlugin> PluginHealthMonitor::getAllPluginStats() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return monitored_plugins_;
 }
 
 PluginHealthMonitor::GlobalStats PluginHealthMonitor::getGlobalStats() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     GlobalStats gs;
@@ -232,21 +281,42 @@ PluginHealthMonitor::GlobalStats PluginHealthMonitor::getGlobalStats() const {
 // Configuration & callbacks
 // ============================================================================
 
+/**
+ * @brief Register Event Callback.
+ * @param[in] callback Input parameter.
+ * @details Calls: lock(), push_back(), std::move().
+ */
 void PluginHealthMonitor::registerEventCallback(MonitoringEventCallback callback) {
     std::lock_guard<std::mutex> lock(mutex_);
     event_callbacks_.push_back(std::move(callback));
 }
 
+/**
+ * @brief Clear Event Callbacks.
+ * @details Calls: lock(), clear().
+ */
 void PluginHealthMonitor::clearEventCallbacks() {
     std::lock_guard<std::mutex> lock(mutex_);
     event_callbacks_.clear();
 }
 
+/**
+ * @brief Update the access control configuration.
+ * @param[in] config New access control configuration.
+ * @details Calls: lock().
+ */
 void PluginHealthMonitor::updateConfig(const HealthMonitorConfig& config) {
     std::lock_guard<std::mutex> lock(mutex_);
     config_ = config;
 }
 
+/**
+ * @brief Set Plugin Monitoring Enabled.
+ * @param[in] name Input parameter.
+ * @param[in] enabled Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), find(), end(), THEMIS_INFO().
+ */
 bool PluginHealthMonitor::setPluginMonitoringEnabled(const std::string& name, bool enabled) {
     std::lock_guard<std::mutex> lock(mutex_);
 
@@ -261,6 +331,11 @@ bool PluginHealthMonitor::setPluginMonitoringEnabled(const std::string& name, bo
     return true;
 }
 
+/**
+ * @brief Attach Metrics.
+ * @param[in,out] sink Input/output parameter.
+ * @details Calls: lock(), THEMIS_INFO().
+ */
 void PluginHealthMonitor::attachMetrics(themis::core::concerns::IMetrics* sink) {
     std::lock_guard<std::mutex> lock(mutex_);
     metrics_sink_ = sink;
@@ -272,15 +347,21 @@ void PluginHealthMonitor::attachMetrics(themis::core::concerns::IMetrics* sink) 
 // Singleton
 // ============================================================================
 
+/**
+ * @brief Instance.
+ * @return Return value.
+ * @details Implements instance without additional internal calls.
+ */
 PluginHealthMonitor& PluginHealthMonitor::instance() {
     static PluginHealthMonitor inst;
     // Configuration can be customized after retrieval via updateConfig().
     return inst;
 }
 
-// ============================================================================
-// Private: monitoring loop
-// ============================================================================
+/**
+ * @brief ============================================================================ Private: monitoring loop ============================================================================
+ * @details Calls: std::chrono::steady_clock::now(), std::this_thread::sleep_for(), std::chrono::milliseconds(), lock(), reserve(), size(), push_back(), find().
+ */
 
 void PluginHealthMonitor::monitoringLoop() {
     while (running_) {
@@ -325,9 +406,11 @@ void PluginHealthMonitor::monitoringLoop() {
     }
 }
 
-// ============================================================================
-// Private: check a single plugin
-// ============================================================================
+/**
+ * @brief ============================================================================ Private: check a single plugin ============================================================================
+ * @param[in,out] plugin Input/output parameter.
+ * @details Calls: emitEvent(), std::chrono::system_clock::now(), performHealthCheck(), publishHealthScore(), handleUnhealthyPlugin(), THEMIS_ERROR(), what().
+ */
 
 void PluginHealthMonitor::checkPlugin(MonitoredPlugin& plugin) {
     // mutex_ must be held by caller
@@ -384,9 +467,11 @@ void PluginHealthMonitor::checkPlugin(MonitoredPlugin& plugin) {
     }
 }
 
-// ============================================================================
-// Private: handle unhealthy plugin
-// ============================================================================
+/**
+ * @brief ============================================================================ Private: handle unhealthy plugin ============================================================================
+ * @param[in,out] plugin Input/output parameter.
+ * @details Calls: THEMIS_WARN(), emitEvent(), std::chrono::system_clock::now(), disablePlugin(), THEMIS_ERROR(), notifyAdministrators(), attemptRecoveryWithBackoff(), THEMIS_INFO().
+ */
 
 void PluginHealthMonitor::handleUnhealthyPlugin(MonitoredPlugin& plugin) {
     // mutex_ must be held by caller
@@ -437,9 +522,12 @@ void PluginHealthMonitor::handleUnhealthyPlugin(MonitoredPlugin& plugin) {
     }
 }
 
-// ============================================================================
-// Private: recovery with backoff
-// ============================================================================
+/**
+ * @brief ============================================================================ Private: recovery with backoff ============================================================================
+ * @param[in,out] plugin Input/output parameter.
+ * @return Return value.
+ * @details Calls: calculateBackoff(), std::chrono::system_clock::now(), std::to_string(), count(), emitEvent(), std::chrono::steady_clock::now(), getRecoveryStrategies(), std::find().
+ */
 
 RecoveryResult PluginHealthMonitor::attemptRecoveryWithBackoff(MonitoredPlugin& plugin) {
     // mutex_ must be held by caller
@@ -594,6 +682,13 @@ std::chrono::seconds PluginHealthMonitor::calculateBackoff(uint32_t attempt_coun
     return std::chrono::seconds{seconds};
 }
 
+/**
+ * @brief Notify Administrators.
+ * @param[in] plugin_name Name of the plugin.
+ * @param[in] diagnostics Input parameter.
+ * @param[in] message Input parameter.
+ * @details Calls: THEMIS_ERROR(), emitEvent(), std::chrono::system_clock::now().
+ */
 void PluginHealthMonitor::notifyAdministrators(
     const std::string& plugin_name,
     const PluginDiagnostics& diagnostics,
@@ -612,6 +707,11 @@ void PluginHealthMonitor::notifyAdministrators(
     });
 }
 
+/**
+ * @brief Emit Event.
+ * @param[in] event Input parameter.
+ * @details Calls: cb(), THEMIS_WARN(), what().
+ */
 void PluginHealthMonitor::emitEvent(const MonitoringEventData& event) {
     // mutex_ must be held by caller; copy callbacks to avoid deadlock if a
     // callback calls back into the monitor.
@@ -626,6 +726,12 @@ void PluginHealthMonitor::emitEvent(const MonitoringEventData& event) {
     }
 }
 
+/**
+ * @brief Disable Plugin.
+ * @param[in,out] plugin Input/output parameter.
+ * @param[in] reason Input parameter.
+ * @details Calls: THEMIS_ERROR(), emitEvent(), std::chrono::system_clock::now(), notifyAdministrators().
+ */
 void PluginHealthMonitor::disablePlugin(MonitoredPlugin& plugin, const std::string& reason) {
     // mutex_ must be held by caller
 

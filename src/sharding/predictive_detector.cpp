@@ -52,6 +52,12 @@ struct PredictiveFailureDetector::ModelImpl {
     //               `session.Run()` call.  See
     //               src/sharding/FUTURE_ENHANCEMENTS.md §PredictiveDetector ONNX Model.
 
+    /**
+     * @brief Predict.
+     * @param[in] features Input parameter.
+     * @return Return value.
+     * @details Calls: empty(), std::min(), size(), std::exp(), std::max().
+     */
     std::vector<float> predict(const std::vector<float>& features) {
         if (features.empty()) {
             return {0.0f, 30.0f};  // probability, days
@@ -134,9 +140,10 @@ PredictiveFailureDetector::~PredictiveFailureDetector() {
     stop();
 }
 
-// ═══════════════════════════════════════════════════════════
-// Lifecycle
-// ═══════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════ Lifecycle ═══════════════════════════════════════════════════════════
+ * @details Calls: exchange(), std::thread(), monitoringLoop().
+ */
 
 void PredictiveFailureDetector::start() {
     if (!config_.enabled) {
@@ -152,6 +159,10 @@ void PredictiveFailureDetector::start() {
     });
 }
 
+/**
+ * @brief Stop.
+ * @details Calls: exchange(), themis::utils::joinThreadWithin(), THEMIS_WARN().
+ */
 void PredictiveFailureDetector::stop() {
     if (!running_.exchange(false)) {
         return;  // Already stopped
@@ -167,9 +178,10 @@ bool PredictiveFailureDetector::isRunning() const {
     return running_.load();
 }
 
-// ═══════════════════════════════════════════════════════════
-// Background Monitoring
-// ═══════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════ Background Monitoring ═══════════════════════════════════════════════════════════
+ * @details Calls: load(), checkAllShards(), alert_callback(), std::string(), what(), std::this_thread::sleep_for().
+ */
 
 void PredictiveFailureDetector::monitoringLoop() {
     while (running_.load()) {
@@ -186,6 +198,10 @@ void PredictiveFailureDetector::monitoringLoop() {
     }
 }
 
+/**
+ * @brief Check All Shards.
+ * @details Calls: getAllShards(), predictShard(), lock(), isHighRisk(), sendAlert().
+ */
 void PredictiveFailureDetector::checkAllShards() {
     auto shards = topology_.getAllShards();
     
@@ -221,9 +237,11 @@ void PredictiveFailureDetector::checkAllShards() {
     }
 }
 
-// ═══════════════════════════════════════════════════════════
-// Prediction Interface
-// ═══════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════ Prediction Interface ═══════════════════════════════════════════════════════════
+ * @return Return value.
+ * @details Calls: lock(), reserve(), size(), push_back().
+ */
 
 std::vector<FailurePrediction> PredictiveFailureDetector::getPredictions() {
     std::lock_guard<std::mutex> lock(predictions_mutex_);
@@ -239,6 +257,11 @@ std::vector<FailurePrediction> PredictiveFailureDetector::getPredictions() {
     return predictions;
 }
 
+/**
+ * @brief Get High Risk Shards.
+ * @return Return value.
+ * @details Calls: lock(), isHighRisk(), push_back().
+ */
 std::vector<FailurePrediction> PredictiveFailureDetector::getHighRiskShards() {
     std::lock_guard<std::mutex> lock(predictions_mutex_);
     
@@ -253,6 +276,12 @@ std::vector<FailurePrediction> PredictiveFailureDetector::getHighRiskShards() {
     return high_risk;
 }
 
+/**
+ * @brief Predict Shard.
+ * @param[in] shard_id Identifier of the shard.
+ * @return Return value.
+ * @details Calls: std::chrono::steady_clock::now(), extractFeatures(), runInference(), lock(), count(), std::chrono::milliseconds().
+ */
 FailurePrediction PredictiveFailureDetector::predictShard(const std::string& shard_id) {
     auto start = std::chrono::steady_clock::now();
     
@@ -278,9 +307,11 @@ FailurePrediction PredictiveFailureDetector::predictShard(const std::string& sha
     return prediction;
 }
 
-// ═══════════════════════════════════════════════════════════
-// Metrics Collection
-// ═══════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════ Metrics Collection ═══════════════════════════════════════════════════════════
+ * @param[in] metrics Input parameter.
+ * @details Calls: lock(), push_back(), std::chrono::system_clock::now(), std::chrono::hours(), erase(), std::remove_if(), begin(), end().
+ */
 
 void PredictiveFailureDetector::recordMetrics(const PredictiveShardMetrics& metrics) {
     std::lock_guard<std::mutex> lock(metrics_mutex_);
@@ -305,6 +336,11 @@ std::vector<PredictiveShardMetrics> PredictiveFailureDetector::getMetricsHistory
     const std::string& shard_id, 
     std::chrono::hours lookback) const {
     
+    /**
+     * @brief Lock.
+     * @param[in] metrics_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(metrics_mutex_);
     
     auto it = metrics_history_.find(shard_id);
@@ -325,9 +361,12 @@ std::vector<PredictiveShardMetrics> PredictiveFailureDetector::getMetricsHistory
     return result;
 }
 
-// ═══════════════════════════════════════════════════════════
-// Feature Extraction
-// ═══════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════ Feature Extraction ═══════════════════════════════════════════════════════════
+ * @param[in] shard_id Identifier of the shard.
+ * @return Return value.
+ * @details Calls: std::chrono::hours(), getMetricsHistory(), empty(), computeStatisticalFeatures().
+ */
 
 std::vector<float> PredictiveFailureDetector::extractFeatures(const std::string& shard_id) {
     // Get historical metrics
@@ -343,6 +382,12 @@ std::vector<float> PredictiveFailureDetector::extractFeatures(const std::string&
     return computeStatisticalFeatures(history);
 }
 
+/**
+ * @brief Compute Statistical Features.
+ * @param[in] history Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), empty(), push_back(), std::accumulate(), begin(), end(), size(), compute_mean().
+ */
 std::vector<float> PredictiveFailureDetector::computeStatisticalFeatures(
     const std::vector<PredictiveShardMetrics>& history) {
     
@@ -444,9 +489,13 @@ std::vector<float> PredictiveFailureDetector::computeStatisticalFeatures(
     return features;
 }
 
-// ═══════════════════════════════════════════════════════════
-// ML Inference
-// ═══════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════ ML Inference ═══════════════════════════════════════════════════════════
+ * @param[in] shard_id Identifier of the shard.
+ * @param[in] features Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::now(), fn_lock(), predict_fn_(), size(), std::min(), size_t(), std::to_string(), predict().
+ */
 
 FailurePrediction PredictiveFailureDetector::runInference(
     const std::string& shard_id,
@@ -495,6 +544,12 @@ FailurePrediction PredictiveFailureDetector::runInference(
     return prediction;
 }
 
+/**
+ * @brief Load Model.
+ * @param[in] model_path Path to the model.
+ * @return True when the operation succeeds.
+ * @details Calls: THEMIS_WARN(), THEMIS_INFO().
+ */
 bool PredictiveFailureDetector::loadModel(const std::string& model_path) {
     if (!model_) {
         THEMIS_WARN("PredictiveFailureDetector::loadModel() called with null model impl");
@@ -519,14 +574,21 @@ bool PredictiveFailureDetector::loadModel(const std::string& model_path) {
 }
 
 // ── setPredictFn (stub #251) ──────────────────────────────────────────────────
+/**
+ * @brief Set Predict Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void PredictiveFailureDetector::setPredictFn(PredictFn fn) {
     std::lock_guard<std::mutex> lock(predict_fn_mutex_);
     predict_fn_ = std::move(fn);
 }
 
-// ═══════════════════════════════════════════════════════════
-// Alerting
-// ═══════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════ Alerting ═══════════════════════════════════════════════════════════
+ * @param[in] prediction Input parameter.
+ * @details Calls: std::to_string(), alert_callback(), lock().
+ */
 
 void PredictiveFailureDetector::sendAlert(const FailurePrediction& prediction) {
     if (!config_.alert_callback) {
@@ -549,10 +611,19 @@ void PredictiveFailureDetector::sendAlert(const FailurePrediction& prediction) {
 // ═══════════════════════════════════════════════════════════
 
 PredictiveFailureDetector::Stats PredictiveFailureDetector::getStats() const {
+    /**
+     * @brief Lock.
+     * @param[in] stats_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(stats_mutex_);
     return stats_;
 }
 
+/**
+ * @brief Reset Stats.
+ * @details Calls: lock().
+ */
 void PredictiveFailureDetector::resetStats() {
     std::lock_guard<std::mutex> lock(stats_mutex_);
     stats_ = Stats{};

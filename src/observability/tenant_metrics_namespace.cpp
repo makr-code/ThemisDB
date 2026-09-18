@@ -26,19 +26,14 @@ TenantMetricsNamespace::TenantMetricsNamespace(const TenantMetricsConfig& config
 
 TenantMetricsNamespace::~TenantMetricsNamespace() = default;
 
+
 /**
- * @brief --------------------------------------------------------------------------- Tenant lifecycle ---------------------------------------------------------------------------
- * @param[in] tenant_id Input parameter.
- * @return True on success.
+ * @brief Register Tenant.
+ * @param[in] tenant_id Identifier of the tenant.
+ * @return True when the operation succeeds.
  * @details Calls: lock(), count(), size(), emplace(), std::move().
  */
-
 bool TenantMetricsNamespace::registerTenant(const std::string& tenant_id) {
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::unique_lock lock(mutex_);
     if (stores_.count(tenant_id)) {
         return false; // already exists
@@ -54,16 +49,11 @@ bool TenantMetricsNamespace::registerTenant(const std::string& tenant_id) {
 
 /**
  * @brief Deregister Tenant.
- * @param[in] tenant_id Input parameter.
- * @return True on success.
+ * @param[in] tenant_id Identifier of the tenant.
+ * @return True when the operation succeeds.
  * @details Calls: lock(), erase().
  */
 bool TenantMetricsNamespace::deregisterTenant(const std::string& tenant_id) {
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::unique_lock lock(mutex_);
     return stores_.erase(tenant_id) > 0;
 }
@@ -411,15 +401,10 @@ TenantMetricsConfig TenantMetricsNamespace::config() const {
 }
 
 /**
- * @brief Reset.
+ * @brief Reset the modification detection flag.
  * @details Calls: lock(), clear(), store().
  */
 void TenantMetricsNamespace::reset() {
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::unique_lock lock(mutex_);
     for (auto& kv : stores_) {
         auto& store = *kv.second;

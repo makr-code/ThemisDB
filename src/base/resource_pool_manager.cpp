@@ -23,6 +23,11 @@ AdaptiveConnectionPool::AdaptiveConnectionPool()
 
 AdaptiveConnectionPool::AdaptiveConnectionPool(const Config& cfg)
     : cfg_(cfg) {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     growLocked(cfg_.min_size);
 }
@@ -31,9 +36,11 @@ AdaptiveConnectionPool::~AdaptiveConnectionPool() {
     shutdown();
 }
 
-// ---------------------------------------------------------------------------
-// grow / shrink (caller must hold mutex_)
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- grow / shrink (caller must hold mutex_) ---------------------------------------------------------------------------
+ * @param[in] count Input parameter.
+ * @details Calls: std::min(), push_back().
+ */
 
 void AdaptiveConnectionPool::growLocked(std::size_t count) {
     const std::size_t cap = std::min(pool_size_ + count, cfg_.max_size);
@@ -47,6 +54,11 @@ void AdaptiveConnectionPool::growLocked(std::size_t count) {
     }
 }
 
+/**
+ * @brief Shrink Locked.
+ * @param[in] count Input parameter.
+ * @details Calls: std::max(), std::min(), size(), pop_back().
+ */
 void AdaptiveConnectionPool::shrinkLocked(std::size_t count) {
     const std::size_t floor = std::max(pool_size_, cfg_.min_size) - cfg_.min_size;
     const std::size_t to_remove = std::min(count, std::min(available_slots_.size(), floor));
@@ -63,6 +75,14 @@ void AdaptiveConnectionPool::shrinkLocked(std::size_t count) {
 // acquire
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Acquire.
+ * @param[in] timeout Input parameter.
+ * @param[in,out] slot_id Identifier of the slot.
+ * @return True when the operation succeeds.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: load(), std::chrono::steady_clock::now(), lk(), wait_until(), empty(), count(), back(), pop_back().
+ */
 bool AdaptiveConnectionPool::acquire(std::chrono::milliseconds timeout, int& slot_id) {
     if (shutdown_.load(std::memory_order_acquire)) {
         throw std::runtime_error("AdaptiveConnectionPool: pool is shut down");
@@ -122,6 +142,11 @@ bool AdaptiveConnectionPool::acquire(std::chrono::milliseconds timeout, int& slo
 // release
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Release.
+ * @param[in] slot_id Identifier of the slot.
+ * @details Calls: lk(), push_back(), size(), shrinkLocked(), notify_one().
+ */
 void AdaptiveConnectionPool::release(int slot_id) {
     std::lock_guard<std::mutex> lk(mutex_);
 
@@ -148,16 +173,31 @@ void AdaptiveConnectionPool::release(int slot_id) {
 // ---------------------------------------------------------------------------
 
 std::size_t AdaptiveConnectionPool::size() const noexcept {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     return pool_size_;
 }
 
 std::size_t AdaptiveConnectionPool::available() const noexcept {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     return available_slots_.size();
 }
 
 std::size_t AdaptiveConnectionPool::in_use() const noexcept {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     return pool_size_ - available_slots_.size() ;
 }
@@ -165,6 +205,11 @@ std::size_t AdaptiveConnectionPool::in_use() const noexcept {
 AdaptiveConnectionPool::Statistics
 AdaptiveConnectionPool::statistics() const noexcept {
     Statistics st;
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     st.pool_size          = pool_size_;
     st.available          = available_slots_.size();
@@ -182,11 +227,19 @@ void AdaptiveConnectionPool::shutdown() noexcept {
     cv_.notify_all();
 }
 
+/**
+ * @brief Force Scale Up.
+ * @details Calls: lk(), growLocked().
+ */
 void AdaptiveConnectionPool::forceScaleUp() {
     std::lock_guard<std::mutex> lk(mutex_);
     growLocked(cfg_.scale_step);
 }
 
+/**
+ * @brief Force Scale Down.
+ * @details Calls: lk(), shrinkLocked().
+ */
 void AdaptiveConnectionPool::forceScaleDown() {
     std::lock_guard<std::mutex> lk(mutex_);
     if (pool_size_ > cfg_.min_size) {

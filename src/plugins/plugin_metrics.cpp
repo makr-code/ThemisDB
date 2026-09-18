@@ -20,6 +20,10 @@ namespace plugins {
 // PluginStats
 // ============================================================================
 
+/**
+ * @brief Update Percentiles.
+ * @details Calls: empty(), std::accumulate(), begin(), end(), size(), sorted(), std::sort().
+ */
 void PluginMetrics::PluginStats::updatePercentiles() {
     if (latency_samples.empty()) {
         avg_call_latency_ms = 0.0;
@@ -55,6 +59,12 @@ void PluginMetrics::PluginStats::updatePercentiles() {
 // PluginMetrics
 // ============================================================================
 
+/**
+ * @brief Record Load.
+ * @param[in] plugin Input parameter.
+ * @param[in] duration Input parameter.
+ * @details Calls: lock(), getOrCreateStats(), std::chrono::system_clock::now().
+ */
 void PluginMetrics::recordLoad(const std::string& plugin, std::chrono::milliseconds duration) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -63,6 +73,12 @@ void PluginMetrics::recordLoad(const std::string& plugin, std::chrono::milliseco
     stats.loaded_at = std::chrono::system_clock::now();
 }
 
+/**
+ * @brief Record Reload.
+ * @param[in] plugin Input parameter.
+ * @param[in] duration Input parameter.
+ * @details Calls: lock(), getOrCreateStats(), std::chrono::system_clock::now().
+ */
 void PluginMetrics::recordReload(const std::string& plugin, std::chrono::milliseconds duration) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -72,6 +88,12 @@ void PluginMetrics::recordReload(const std::string& plugin, std::chrono::millise
     stats.loaded_at = std::chrono::system_clock::now(); // Update loaded timestamp
 }
 
+/**
+ * @brief Record Call.
+ * @param[in] plugin Input parameter.
+ * @param[in] latency Input parameter.
+ * @details Calls: lock(), getOrCreateStats(), count(), size(), pop_front(), push_back(), updatePercentiles().
+ */
 void PluginMetrics::recordCall(const std::string& plugin, std::chrono::microseconds latency) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -94,6 +116,11 @@ void PluginMetrics::recordCall(const std::string& plugin, std::chrono::microseco
     stats.updatePercentiles();
 }
 
+/**
+ * @brief Record Error.
+ * @param[in] plugin Input parameter.
+ * @details Calls: lock(), getOrCreateStats().
+ */
 void PluginMetrics::recordError(const std::string& plugin) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -101,6 +128,12 @@ void PluginMetrics::recordError(const std::string& plugin) {
     stats.errors++;
 }
 
+/**
+ * @brief Update Memory Usage.
+ * @param[in] plugin Input parameter.
+ * @param[in] bytes Input parameter.
+ * @details Calls: lock(), getOrCreateStats().
+ */
 void PluginMetrics::updateMemoryUsage(const std::string& plugin, size_t bytes) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -109,6 +142,11 @@ void PluginMetrics::updateMemoryUsage(const std::string& plugin, size_t bytes) {
 }
 
 const PluginMetrics::PluginStats& PluginMetrics::getStats(const std::string& plugin) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     auto it = stats_.find(plugin);
@@ -122,11 +160,21 @@ const PluginMetrics::PluginStats& PluginMetrics::getStats(const std::string& plu
 }
 
 std::unordered_map<std::string, PluginMetrics::PluginStats> PluginMetrics::getAllStats() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     return stats_;
 }
 
+/**
+ * @brief Reset Stats.
+ * @param[in] plugin Input parameter.
+ * @details Calls: lock(), find(), end(), erase().
+ */
 void PluginMetrics::resetStats(const std::string& plugin) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -136,12 +184,22 @@ void PluginMetrics::resetStats(const std::string& plugin) {
     }
 }
 
+/**
+ * @brief Reset All.
+ * @details Calls: lock(), clear().
+ */
 void PluginMetrics::resetAll() {
     std::lock_guard<std::mutex> lock(mutex_);
     
     stats_.clear();
 }
 
+/**
+ * @brief Get Or Create Stats.
+ * @param[in] plugin Input parameter.
+ * @return Return value.
+ * @details Calls: emplace(), PluginStats().
+ */
 PluginMetrics::PluginStats& PluginMetrics::getOrCreateStats(const std::string& plugin) {
     // Note: mutex_ must be held by caller
     auto result = stats_.emplace(plugin, PluginStats());

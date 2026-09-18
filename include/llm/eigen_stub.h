@@ -25,12 +25,21 @@ namespace Eigen {
     class VectorXf; // forward declaration for RowRef::transpose
 
     // Float matrix (minimal subset used in ThemisDB tests)
-    /** @brief Float matrix (minimal subset used in ThemisDB tests). */
     class MatrixXf {
     public:
         MatrixXf() : rows_(0), cols_(0) {}
         MatrixXf(int r, int c) { resize(r, c); }
+        /**
+         * @brief Resize.
+         * @param[in] r Input parameter.
+         * @param[in] c Input parameter.
+         * @details Calls: assign().
+         */
         void resize(int r, int c) { rows_ = r; cols_ = c; data_.assign((size_t)r * c, 0.0f); }
+        /**
+         * @brief Set Zero.
+         * @details Calls: std::fill(), begin(), end().
+         */
         void setZero() { std::fill(data_.begin(), data_.end(), 0.0f); }
         int rows() const { return rows_; }
         int cols() const { return cols_; }
@@ -44,7 +53,21 @@ namespace Eigen {
             return true;
         }
 
+        /**
+         * @brief Zero.
+         * @param[in] r Input parameter.
+         * @param[in] c Input parameter.
+         * @return Return value.
+         * @details Calls: m(), setZero().
+         */
         static MatrixXf Zero(int r, int c) { MatrixXf m(r, c); m.setZero(); return m; }
+        /**
+         * @brief Random.
+         * @param[in] r Input parameter.
+         * @param[in] c Input parameter.
+         * @return Return value.
+         * @details Calls: m(), rng(), dist().
+         */
         static MatrixXf Random(int r, int c) {
             MatrixXf m(r, c);
             std::mt19937 rng(42);
@@ -59,12 +82,28 @@ namespace Eigen {
         struct RowRef {
             MatrixXf& parent;
             int r = {};
+            /**
+             * @brief Transpose.
+             * @return Return value.
+             */
             VectorXf transpose() const;
         };
 
+        /**
+         * @brief Row.
+         * @param[in] r Input parameter.
+         * @return Return value.
+         * @details Implements row without additional internal calls.
+         */
         RowRef row(int r) { return RowRef{*this, r}; }
 
         MatrixXf transpose() const {
+            /**
+             * @brief Out.
+             * @param[in] cols_ Input parameter.
+             * @param[in] rows_ Input parameter.
+             * @return Return value.
+             */
             MatrixXf out(cols_, rows_);
             for (int i = 0; i < rows_; ++i)
                 for (int j = 0; j < cols_; ++j)
@@ -78,17 +117,31 @@ namespace Eigen {
         int cols_ = 0;
     };
 
-    /** @brief Vector xf. */
     class VectorXf {
     public:
         VectorXf() : n_(0) {}
         VectorXf(int n) : n_(n), data_(n, 0.0f) {}
+        /**
+         * @brief Resize.
+         * @param[in] n Input parameter.
+         * @details Calls: assign().
+         */
         void resize(int n) { n_ = n; data_.assign(n, 0.0f); }
         int size() const { return n_; }
         float& operator()(int i) { return data_[(size_t)i]; }
         const float& operator()(int i) const { return data_[(size_t)i]; }
         float sum() const { float s = 0.0f; for (auto v : data_) s += v; return s; }
+        /**
+         * @brief Set Zero.
+         * @details Calls: std::fill(), begin(), end().
+         */
         void setZero() { std::fill(data_.begin(), data_.end(), 0.0f); }
+        /**
+         * @brief Random.
+         * @param[in] n Input parameter.
+         * @return Return value.
+         * @details Calls: v(), rng(), dist().
+         */
         static VectorXf Random(int n) {
             VectorXf v(n);
             std::mt19937 rng(42);
@@ -136,12 +189,21 @@ namespace Eigen {
     }
 
     // Double precision counterparts
-    /** @brief Double precision counterparts. */
     class MatrixXd {
     public:
         MatrixXd() : rows_(0), cols_(0) {}
         MatrixXd(int r, int c) { resize(r, c); }
+        /**
+         * @brief Resize.
+         * @param[in] r Input parameter.
+         * @param[in] c Input parameter.
+         * @details Calls: assign().
+         */
         void resize(int r, int c) { rows_ = r; cols_ = c; data_.assign((size_t)r * c, 0.0); }
+        /**
+         * @brief Set Zero.
+         * @details Calls: std::fill(), begin(), end().
+         */
         void setZero() { std::fill(data_.begin(), data_.end(), 0.0); }
         int rows() const { return rows_; }
         int cols() const { return cols_; }
@@ -154,7 +216,21 @@ namespace Eigen {
             return true;
         }
 
+        /**
+         * @brief Zero.
+         * @param[in] r Input parameter.
+         * @param[in] c Input parameter.
+         * @return Return value.
+         * @details Calls: m(), setZero().
+         */
         static MatrixXd Zero(int r, int c) { MatrixXd m(r, c); m.setZero(); return m; }
+        /**
+         * @brief Random.
+         * @param[in] r Input parameter.
+         * @param[in] c Input parameter.
+         * @return Return value.
+         * @details Calls: m(), rng(), dist().
+         */
         static MatrixXd Random(int r, int c) {
             MatrixXd m(r, c);
             std::mt19937 rng(42);
@@ -177,9 +253,21 @@ namespace Eigen {
             }
         };
 
+        /**
+         * @brief Row.
+         * @param[in] r Input parameter.
+         * @return Return value.
+         * @details Implements row without additional internal calls.
+         */
         RowRef row(int r) { return RowRef{*this, r}; }
 
         MatrixXd transpose() const {
+            /**
+             * @brief Out.
+             * @param[in] cols_ Input parameter.
+             * @param[in] rows_ Input parameter.
+             * @return Return value.
+             */
             MatrixXd out(cols_, rows_);
             for (int i = 0; i < rows_; ++i)
                 for (int j = 0; j < cols_; ++j)
@@ -193,16 +281,24 @@ namespace Eigen {
     };
 
     // simple VectorXd
-    /** @brief simple VectorXd. */
     class VectorXd {
     public:
         VectorXd() : n_(0) {}
         VectorXd(int n) : n_(n), data_(n, 0.0) {}
+        /**
+         * @brief Resize.
+         * @param[in] n Input parameter.
+         * @details Calls: assign().
+         */
         void resize(int n) { n_ = n; data_.assign(n, 0.0); }
         int size() const { return n_; }
         double& operator()(int i) { return data_[(size_t)i]; }
         const double& operator()(int i) const { return data_[(size_t)i]; }
         double sum() const { double s = 0.0; for (auto v : data_) s += v; return s; }
+        /**
+         * @brief Set Zero.
+         * @details Calls: std::fill(), begin(), end().
+         */
         void setZero() { std::fill(data_.begin(), data_.end(), 0.0); }
         std::vector<double> data_;
     private:
@@ -224,7 +320,6 @@ namespace Eigen {
 
     // Map emulation for assignment
     template <typename T>
-    /** @brief Map structure. */
     class Map {
     public:
         Map(T* data, int r, int c) : ptr_(data), r_(r), c_(c) {}

@@ -41,6 +41,10 @@ ChangefeedBuffer::~ChangefeedBuffer() noexcept {
     }
 }
 
+/**
+ * @brief Start.
+ * @details Calls: exchange(), THEMIS_WARN(), THEMIS_INFO(), count(), std::thread().
+ */
 void ChangefeedBuffer::start() {
     if (running_.exchange(true)) {
         THEMIS_WARN("ChangefeedBuffer already running");
@@ -56,6 +60,10 @@ void ChangefeedBuffer::start() {
     }
 }
 
+/**
+ * @brief Stop.
+ * @details Calls: exchange(), THEMIS_INFO(), notify_all(), joinable(), join(), flush().
+ */
 void ChangefeedBuffer::stop() {
     if (!running_.exchange(false)) {
         return;
@@ -88,6 +96,12 @@ std::string ChangefeedBuffer::makeBufferKey(const Changefeed::ChangeEvent& event
     }
 }
 
+/**
+ * @brief Record Event.
+ * @param[in] event Input parameter.
+ * @return Return value.
+ * @details Calls: CDC_MEASURE_LATENCY(), Tracer::startSpan(), setAttribute(), makeBufferKey(), empty(), THEMIS_WARN(), checkRateLimit(), has_value().
+ */
 Changefeed::ChangeEvent ChangefeedBuffer::recordEvent(Changefeed::ChangeEvent event) {
     CDC_MEASURE_LATENCY(metrics_.record_event_latency);
     
@@ -186,10 +200,21 @@ Changefeed::ChangeEvent ChangefeedBuffer::recordEvent(Changefeed::ChangeEvent ev
     return event;
 }
 
+/**
+ * @brief Flush.
+ * @return Return value.
+ * @details Calls: flushInternal().
+ */
 size_t ChangefeedBuffer::flush() {
     return flushInternal(false);
 }
 
+/**
+ * @brief Flush For.
+ * @param[in] event_type Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), find(), end(), empty(), flushBuffer().
+ */
 size_t ChangefeedBuffer::flushFor(Changefeed::ChangeEventType event_type) {
     std::lock_guard<std::mutex> lock(buffers_mutex_);
     
@@ -201,6 +226,12 @@ size_t ChangefeedBuffer::flushFor(Changefeed::ChangeEventType event_type) {
     return flushBuffer(event_type, it->second);
 }
 
+/**
+ * @brief Flush Internal.
+ * @param[in] lock_held Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), lock(), empty(), flushBuffer(), std::chrono::steady_clock::now(), THEMIS_DEBUG(), size().
+ */
 size_t ChangefeedBuffer::flushInternal(bool lock_held) {
     auto span = Tracer::startSpan("ChangefeedBuffer.flush");
     
@@ -234,6 +265,13 @@ size_t ChangefeedBuffer::flushInternal(bool lock_held) {
     return total_flushed;
 }
 
+/**
+ * @brief Flush Buffer.
+ * @param[in] event_type Input parameter.
+ * @param[in,out] buffer Input/output parameter.
+ * @return Return value.
+ * @details Calls: CDC_MEASURE_LATENCY(), empty(), Tracer::startSpan(), setAttribute(), size(), contains(), has_value(), compressed_data().
+ */
 size_t ChangefeedBuffer::flushBuffer(Changefeed::ChangeEventType event_type, EventTypeBuffer& buffer) {
     CDC_MEASURE_LATENCY(metrics_.flush_latency);
     
@@ -394,6 +432,10 @@ bool ChangefeedBuffer::shouldFlushGlobal() const {
     return false;
 }
 
+/**
+ * @brief Flush Thread.
+ * @details Calls: THEMIS_INFO(), load(), lock(), wait_for(), shouldFlushGlobal(), unlock(), flushInternal(), THEMIS_DEBUG().
+ */
 void ChangefeedBuffer::flushThread() {
     THEMIS_INFO("ChangefeedBuffer flush thread started");
     
@@ -426,10 +468,20 @@ void ChangefeedBuffer::flushThread() {
 }
 
 const ChangefeedBufferStats& ChangefeedBuffer::getStats() const {
+    /**
+     * @brief Lock.
+     * @param[in] buffers_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(buffers_mutex_);
     return stats_;
 }
 
+/**
+ * @brief Set Config.
+ * @param[in] config Input parameter.
+ * @details Calls: lock(), THEMIS_INFO(), count().
+ */
 void ChangefeedBuffer::setConfig(const ChangefeedBufferConfig& config) {
     std::lock_guard<std::mutex> lock(buffers_mutex_);
     config_ = config;
@@ -439,6 +491,12 @@ void ChangefeedBuffer::setConfig(const ChangefeedBufferConfig& config) {
                 config_.flush_interval.count());
 }
 
+/**
+ * @brief Compress Payload.
+ * @param[in] payload Input parameter.
+ * @return Return value.
+ * @details Calls: utils::zstd_compress(), empty(), std::string(), begin(), end().
+ */
 std::string ChangefeedBuffer::compressPayload(const std::string& payload) {
     auto compressed = utils::zstd_compress(payload, 3);
     if (compressed.empty()) {
@@ -447,6 +505,12 @@ std::string ChangefeedBuffer::compressPayload(const std::string& payload) {
     return std::string(compressed.begin(), compressed.end());
 }
 
+/**
+ * @brief Decompress Payload.
+ * @param[in] compressed Input parameter.
+ * @return Return value.
+ * @details Calls: compressed_data(), begin(), end(), utils::zstd_decompress(), empty(), std::string().
+ */
 std::string ChangefeedBuffer::decompressPayload(const std::string& compressed) {
     std::vector<uint8_t> compressed_data(compressed.begin(), compressed.end());
     auto decompressed = utils::zstd_decompress(compressed_data);
@@ -456,6 +520,11 @@ std::string ChangefeedBuffer::decompressPayload(const std::string& compressed) {
     return std::string(decompressed.begin(), decompressed.end());
 }
 
+/**
+ * @brief Check whether a user exceeds the current rate limit.
+ * @return True when the user remains within the configured limit.
+ * @details Calls: lock(), std::chrono::steady_clock::now(), store(), load(), count(), THEMIS_DEBUG(), std::this_thread::sleep_for().
+ */
 bool ChangefeedBuffer::checkRateLimit() {
     if (!config_.enable_rate_limiting || config_.max_events_per_second == 0) {
         return true;  // Rate limiting disabled

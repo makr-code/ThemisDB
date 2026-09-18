@@ -16,10 +16,6 @@
 namespace themis {
 namespace sharding {
 
-/**
- * @brief Construct replication coordinator.
- * @param shipper WAL shipper dependency used for replica metadata.
- */
 ReplicationCoordinator::ReplicationCoordinator(std::shared_ptr<WALShipper> shipper)
     : shipper_(std::move(shipper)) {
     if (!shipper_) {
@@ -27,13 +23,17 @@ ReplicationCoordinator::ReplicationCoordinator(std::shared_ptr<WALShipper> shipp
     }
 }
 
-/** @brief Destructor notifies waiters to unblock on shutdown. */
 ReplicationCoordinator::~ReplicationCoordinator() {
     // Notify any waiting threads
     pending_cv_.notify_all();
     
     // Clean up all pending writes and their connections
     try {
+        /**
+         * @brief Lock.
+         * @param[in] pending_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(pending_mutex_);
         for (auto& [lsn_key, pending] : pending_writes_) {
             try {
@@ -51,10 +51,11 @@ ReplicationCoordinator::~ReplicationCoordinator() {
 }
 
 /**
- * @brief Wait until write concern is met or timeout elapses.
- * @param entry_lsn Written entry LSN.
- * @param concern Requested write concern policy.
- * @return Replication result including success state, counts and latency.
+ * @brief Wait For Replication.
+ * @param[in] entry_lsn Input parameter.
+ * @param[in] concern Input parameter.
+ * @return Return value.
+ * @details Calls: getReplicaCount(), calculateRequiredReplicas(), std::chrono::steady_clock::now(), toString(), lock(), try_emplace(), wait_for(), find().
  */
 ReplicationCoordinator::ReplicationResult ReplicationCoordinator::waitForReplication(
     const LSN& entry_lsn,
@@ -154,9 +155,10 @@ ReplicationCoordinator::ReplicationResult ReplicationCoordinator::waitForReplica
 }
 
 /**
- * @brief Record one replica acknowledgment for an LSN.
- * @param replica_id Acknowledging replica identifier (must be non-empty).
- * @param lsn Acknowledged log sequence number.
+ * @brief Record Acknowledgment.
+ * @param[in] replica_id Identifier of the replica.
+ * @param[in] lsn Input parameter.
+ * @details Calls: empty(), spdlog::error(), toString(), lock(), find(), end(), load(), fetch_add().
  */
 void ReplicationCoordinator::recordAcknowledgment(const std::string& replica_id, const LSN& lsn) {
     // Fail-closed: reject empty replica_id immediately
@@ -188,7 +190,6 @@ void ReplicationCoordinator::recordAcknowledgment(const std::string& replica_id,
     }
 }
 
-/** @brief Return current replica count from WAL shipper. */
 size_t ReplicationCoordinator::getReplicaCount() const {
     if (!shipper_) {
       return 0;
@@ -197,8 +198,9 @@ size_t ReplicationCoordinator::getReplicaCount() const {
 }
 
 /**
- * @brief Toggle coordinator active state.
- * @param enabled New state; disabling wakes waiters.
+ * @brief Set Enabled.
+ * @param[in] enabled Input parameter.
+ * @details Calls: store(), notify_all().
  */
 void ReplicationCoordinator::setEnabled(bool enabled) {
     enabled_.store(enabled, std::memory_order_release);
@@ -208,12 +210,10 @@ void ReplicationCoordinator::setEnabled(bool enabled) {
     }
 }
 
-/** @brief Return whether coordinator is active. */
 bool ReplicationCoordinator::isEnabled() const {
     return enabled_.load(std::memory_order_acquire);
 }
 
-/** @brief Return replica topology info from shipper or empty vector if unavailable. */
 std::vector<ReplicaInfo> ReplicationCoordinator::getReplicaInfo() const {
     if (shipper_) {
         return shipper_->getReplicaInfo();
@@ -221,7 +221,6 @@ std::vector<ReplicaInfo> ReplicationCoordinator::getReplicaInfo() const {
     return {};
 }
 
-/** @brief Return WAL shipper stats snapshot or defaults if unavailable. */
 WALShipperStats ReplicationCoordinator::getShipperStats() const {
     if (shipper_) {
         return shipper_->getStatistics();
@@ -229,19 +228,16 @@ WALShipperStats ReplicationCoordinator::getShipperStats() const {
     return {};
 }
 
-/**
- * @brief Check if pending write currently satisfies configured concern.
- * @param write Pending write state.
- * @param total_replicas Total replicas including primary.
- * @return true when ack_count >= required.
- */
 bool ReplicationCoordinator::hasMetConcern(const PendingWrite& write, size_t total_replicas) const {
     size_t required = calculateRequiredReplicas(write.concern.level, total_replicas);
     size_t current_acks = write.ack_count.load(std::memory_order_acquire);
     return current_acks >= required;
 }
 
-/** @brief Remove completed or long-stale pending writes from tracking map. */
+/**
+ * @brief Cleanup Pending Writes.
+ * @details Calls: std::chrono::steady_clock::now(), lock(), count(), load(), push_back(), find(), end(), reset().
+ */
 void ReplicationCoordinator::cleanupPendingWrites() {
     auto now = std::chrono::steady_clock::now();
     std::vector<std::string> to_remove;

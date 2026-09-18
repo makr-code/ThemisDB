@@ -26,6 +26,12 @@ namespace llm {
 
 namespace {
 
+/**
+ * @brief Status To String.
+ * @param[in] status Input parameter.
+ * @return Pointer to the result.
+ * @details Implements statusToString without additional internal calls.
+ */
 const char* statusToString(AdapterMetadata::Status status) {
     switch (status) {
         case AdapterMetadata::Status::TRAINING:
@@ -42,6 +48,12 @@ const char* statusToString(AdapterMetadata::Status status) {
     return "TRAINED";
 }
 
+/**
+ * @brief Status From String.
+ * @param[in] status Input parameter.
+ * @return Return value.
+ * @details Implements statusFromString without additional internal calls.
+ */
 AdapterMetadata::Status statusFromString(const std::string& status) {
     if (status == "TRAINING") {
       return AdapterMetadata::Status::TRAINING;
@@ -77,6 +89,12 @@ nlohmann::json AdapterSignature::toJson() const {
     };
 }
 
+/**
+ * @brief From Json.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: value().
+ */
 AdapterSignature AdapterSignature::fromJson(const nlohmann::json& j) {
     AdapterSignature s;
     s.content_hash = j.value("content_hash", "");
@@ -111,6 +129,12 @@ nlohmann::json AdapterMetadata::toJson() const {
     return j;
 }
 
+/**
+ * @brief From Json.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: value(), statusFromString(), contains(), is_object().
+ */
 AdapterMetadata AdapterMetadata::fromJson(const nlohmann::json& j) {
     AdapterMetadata m;
     m.adapter_id = j.value("adapter_id", "");
@@ -188,12 +212,24 @@ std::string AdapterRegistry::makeDomainIndexKey(const std::string& domain) const
 // updateIndices is a no-op for the in-memory backend (the maps provide
 // full scan capability without secondary indices).
 // Reserved for a future persistent backend that maintains explicit index tables.
+/**
+ * @brief Update Indices.
+ * @param[in] param Input parameter.
+ * @param[in] bool Input parameter.
+ * @details Implements updateIndices without additional internal calls.
+ */
 void AdapterRegistry::updateIndices(const AdapterMetadata& /*metadata*/, bool /*remove*/) {}
 
 // ============================================================================
 // CRUD operations
 // ============================================================================
 
+/**
+ * @brief Register Adapter.
+ * @param[in] metadata Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), spdlog::error(), lock(), count(), spdlog::warn(), spdlog::debug().
+ */
 bool AdapterRegistry::registerAdapter(const AdapterMetadata& metadata) {
     if (metadata.adapter_id.empty()) {
         spdlog::error("AdapterRegistry::registerAdapter: adapter_id must not be empty");
@@ -210,6 +246,12 @@ bool AdapterRegistry::registerAdapter(const AdapterMetadata& metadata) {
     return true;
 }
 
+/**
+ * @brief Get Adapter.
+ * @param[in] adapter_id Identifier of the adapter.
+ * @return Return value.
+ * @details Calls: lock(), find(), end().
+ */
 std::optional<AdapterMetadata> AdapterRegistry::getAdapter(const std::string& adapter_id) {
     std::shared_lock<std::shared_mutex> lock(impl_->rw_mu);
     auto it = impl_->adapters.find(adapter_id);
@@ -219,6 +261,12 @@ std::optional<AdapterMetadata> AdapterRegistry::getAdapter(const std::string& ad
     return it->second;
 }
 
+/**
+ * @brief Update Adapter.
+ * @param[in] metadata Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), spdlog::error(), lock(), find(), end(), spdlog::warn(), spdlog::debug().
+ */
 bool AdapterRegistry::updateAdapter(const AdapterMetadata& metadata) {
     if (metadata.adapter_id.empty()) {
         spdlog::error("AdapterRegistry::updateAdapter: adapter_id must not be empty");
@@ -236,6 +284,12 @@ bool AdapterRegistry::updateAdapter(const AdapterMetadata& metadata) {
     return true;
 }
 
+/**
+ * @brief Delete Adapter.
+ * @param[in] adapter_id Identifier of the adapter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), erase(), spdlog::warn(), spdlog::debug().
+ */
 bool AdapterRegistry::deleteAdapter(const std::string& adapter_id) {
     std::unique_lock<std::shared_mutex> lock(impl_->rw_mu);
     auto erased = impl_->adapters.erase(adapter_id);
@@ -248,6 +302,11 @@ bool AdapterRegistry::deleteAdapter(const std::string& adapter_id) {
     return true;
 }
 
+/**
+ * @brief List Adapters.
+ * @return Return value.
+ * @details Calls: lock(), reserve(), size(), push_back().
+ */
 std::vector<AdapterMetadata> AdapterRegistry::listAdapters() {
     std::shared_lock<std::shared_mutex> lock(impl_->rw_mu);
     std::vector<AdapterMetadata> result = {};
@@ -259,6 +318,12 @@ std::vector<AdapterMetadata> AdapterRegistry::listAdapters() {
     return result;
 }
 
+/**
+ * @brief List Adapters By Base Model.
+ * @param[in] base_model Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), push_back().
+ */
 std::vector<AdapterMetadata> AdapterRegistry::listAdaptersByBaseModel(
     const std::string& base_model
 ) {
@@ -273,6 +338,12 @@ std::vector<AdapterMetadata> AdapterRegistry::listAdaptersByBaseModel(
     return result;
 }
 
+/**
+ * @brief List Adapters By Domain.
+ * @param[in] domain Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), push_back().
+ */
 std::vector<AdapterMetadata> AdapterRegistry::listAdaptersByDomain(
     const std::string& domain
 ) {
@@ -287,6 +358,12 @@ std::vector<AdapterMetadata> AdapterRegistry::listAdaptersByDomain(
     return result;
 }
 
+/**
+ * @brief List Adapters By Role.
+ * @param[in] role Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), push_back().
+ */
 std::vector<AdapterMetadata> AdapterRegistry::listAdaptersByRole(AdapterRole role) {
     std::shared_lock<std::shared_mutex> lock(impl_->rw_mu);
     std::vector<AdapterMetadata> result = {};
@@ -299,6 +376,12 @@ std::vector<AdapterMetadata> AdapterRegistry::listAdaptersByRole(AdapterRole rol
     return result;
 }
 
+/**
+ * @brief Find Draft Adapter For Family.
+ * @param[in] model_family Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), std::transform(), begin(), end(), std::tolower(), lock(), find(), has_value().
+ */
 std::optional<AdapterMetadata> AdapterRegistry::findDraftAdapterForFamily(
     const std::string& model_family
 ) {
@@ -368,6 +451,14 @@ std::optional<AdapterMetadata> AdapterRegistry::findDraftAdapterForFamily(
 // Compatibility validation
 // ============================================================================
 
+/**
+ * @brief Validate Compatibility.
+ * @param[in] adapter_id Identifier of the adapter.
+ * @param[in] base_model Input parameter.
+ * @param[in] model_version Input parameter.
+ * @return Return value.
+ * @details Calls: getAdapter(), push_back(), empty().
+ */
 AdapterRegistry::ValidationResult AdapterRegistry::validateCompatibility(
     const std::string& adapter_id,
     const std::string& base_model,
@@ -405,6 +496,13 @@ AdapterRegistry::ValidationResult AdapterRegistry::validateCompatibility(
 // Signature operations
 // ============================================================================
 
+/**
+ * @brief Sign Adapter.
+ * @param[in] adapter_id Identifier of the adapter.
+ * @param[in] private_key Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), count(), spdlog::warn(), storage::SecuritySignatureManager::computeFileHash(), std::chrono::system_clock::now(), std::chrono::system_clock::to_time_t(), std::strftime(), std::gmtime().
+ */
 bool AdapterRegistry::signAdapter(const std::string& adapter_id,
                                    const std::string& private_key) {
     std::unique_lock<std::shared_mutex> lock(impl_->rw_mu);
@@ -499,6 +597,12 @@ bool AdapterRegistry::signAdapter(const std::string& adapter_id,
     return true;
 }
 
+/**
+ * @brief Verify Signature.
+ * @param[in] adapter_id Identifier of the adapter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), find(), end(), spdlog::debug(), storage::SecuritySignatureManager::computeFileHash().
+ */
 bool AdapterRegistry::verifySignature(const std::string& adapter_id) {
     std::shared_lock<std::shared_mutex> lock(impl_->rw_mu);
     auto it = impl_->signatures.find(adapter_id);
@@ -515,6 +619,12 @@ bool AdapterRegistry::verifySignature(const std::string& adapter_id) {
     return valid;
 }
 
+/**
+ * @brief Get Signature.
+ * @param[in] adapter_id Identifier of the adapter.
+ * @return Return value.
+ * @details Calls: lock(), find(), end().
+ */
 std::optional<AdapterSignature> AdapterRegistry::getSignature(const std::string& adapter_id) {
     std::shared_lock<std::shared_mutex> lock(impl_->rw_mu);
     auto it = impl_->signatures.find(adapter_id);
@@ -528,6 +638,12 @@ std::optional<AdapterSignature> AdapterRegistry::getSignature(const std::string&
 // Version management
 // ============================================================================
 
+/**
+ * @brief Get Latest Version.
+ * @param[in] adapter_base_id Identifier of the adapter base.
+ * @return Return value.
+ * @details Calls: listVersions(), empty(), back().
+ */
 std::optional<AdapterMetadata> AdapterRegistry::getLatestVersion(
     const std::string& adapter_base_id
 ) {
@@ -539,6 +655,13 @@ std::optional<AdapterMetadata> AdapterRegistry::getLatestVersion(
     return versions.back();
 }
 
+/**
+ * @brief Get Version.
+ * @param[in] adapter_base_id Identifier of the adapter base.
+ * @param[in] version Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), rfind().
+ */
 std::optional<AdapterMetadata> AdapterRegistry::getVersion(
     const std::string& adapter_base_id,
     const AdapterVersion& version
@@ -556,6 +679,12 @@ std::optional<AdapterMetadata> AdapterRegistry::getVersion(
     return std::nullopt;
 }
 
+/**
+ * @brief List Versions.
+ * @param[in] adapter_base_id Identifier of the adapter base.
+ * @return Return value.
+ * @details Calls: lock(), rfind(), push_back(), std::sort(), begin(), end().
+ */
 std::vector<AdapterMetadata> AdapterRegistry::listVersions(
     const std::string& adapter_base_id
 ) {
@@ -581,6 +710,12 @@ std::vector<AdapterMetadata> AdapterRegistry::listVersions(
 // Search and discovery
 // ============================================================================
 
+/**
+ * @brief Search Adapters.
+ * @param[in] criteria Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), push_back().
+ */
 std::vector<AdapterMetadata> AdapterRegistry::searchAdapters(
     const SearchCriteria& criteria
 ) {
@@ -638,6 +773,13 @@ AdapterRegistry::RegistryStats AdapterRegistry::getStats() const {
 // Provenance Integration
 // ============================================================================
 
+/**
+ * @brief Attach Provenance.
+ * @param[in] adapter_id Identifier of the adapter.
+ * @param[in] record Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), count(), spdlog::warn(), storeProvenance().
+ */
 bool AdapterRegistry::attachProvenance(const std::string& adapter_id,
                                         const lora::LoRAProvenanceRecord& record) {
     // Verify the adapter exists before accepting provenance
@@ -657,6 +799,13 @@ std::optional<lora::LoRAProvenanceRecord> AdapterRegistry::getProvenanceRecord(
     return provenance_mgr_.getProvenance(adapter_id);
 }
 
+/**
+ * @brief Record Inference Audit.
+ * @param[in] adapter_id Identifier of the adapter.
+ * @param[in] entry Input parameter.
+ * @return Return value.
+ * @details Calls: appendAuditEntry(), std::move().
+ */
 lora::InferenceAuditEntry AdapterRegistry::recordInferenceAudit(
     const std::string& adapter_id,
     lora::InferenceAuditEntry entry) {
@@ -676,6 +825,15 @@ bool AdapterRegistry::verifyAuditChain(const std::string& adapter_id) const {
 // Hot-Loading Interface
 // ============================================================================
 
+/**
+ * @brief Hot Load.
+ * @param[in] adapter_id Identifier of the adapter.
+ * @param[in] weights_path Path to the weights.
+ * @param[in] metadata Input parameter.
+ * @param[in] scale Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), spdlog::error(), lock(), count(), spdlog::debug(), cb(), spdlog::info().
+ */
 bool AdapterRegistry::hotLoad(
     const std::string& adapter_id,
     const std::string& weights_path,
@@ -723,6 +881,11 @@ bool AdapterRegistry::hotLoad(
     return true;
 }
 
+/**
+ * @brief Add Hot Load Observer.
+ * @param[in] callback Input parameter.
+ * @details Calls: spdlog::warn(), lock(), push_back(), std::move(), spdlog::debug(), size().
+ */
 void AdapterRegistry::addHotLoadObserver(HotLoadCallback callback) {
     if (!callback) {
         spdlog::warn("AdapterRegistry::addHotLoadObserver: null callback ignored");

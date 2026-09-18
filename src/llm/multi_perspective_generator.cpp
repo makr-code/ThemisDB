@@ -26,12 +26,23 @@ namespace llm {
 // ═══════════════════════════════════════════════════════════
 
 namespace {
+/**
+ * @brief Clamp Size To Int.
+ * @param[in] value Input parameter.
+ * @return Return value.
+ * @details Calls: max(), std::min().
+ */
 int clampSizeToInt(const size_t value) {
     const size_t int_max = static_cast<size_t>(std::numeric_limits<int>::max());
     return static_cast<int>(std::min(value, int_max));
 }
 
-// Extract unique words from text (words longer than 3 characters)
+/**
+ * @brief Extract unique words from text (words longer than 3 characters)
+ * @param[in] text Input parameter.
+ * @return Return value.
+ * @details Calls: std::isalpha(), push_back(), std::tolower(), empty(), length(), insert(), clear().
+ */
 std::unordered_set<std::string> extractWords(const std::string& text) {
     std::unordered_set<std::string> words;
     std::string current = {};
@@ -110,9 +121,14 @@ MultiPerspectiveGenerator::MultiPerspectiveGenerator(
 
 MultiPerspectiveGenerator::~MultiPerspectiveGenerator() = default;
 
-// ═══════════════════════════════════════════════════════════
-// Core functionality
-// ═══════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════ Core functionality ═══════════════════════════════════════════════════════════
+ * @param[in] query Input parameter.
+ * @param[in,out] llm_wrapper Input/output parameter.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), std::chrono::steady_clock::now(), find(), end(), selectPerspectives(), generateSinglePerspective(), push_back(), clampSizeToInt().
+ */
 
 MultiPerspectiveResult MultiPerspectiveGenerator::generatePerspectives(
     const std::string& query,
@@ -221,6 +237,14 @@ MultiPerspectiveResult MultiPerspectiveGenerator::generatePerspectives(
     return result;
 }
 
+/**
+ * @brief Generate Single Perspective.
+ * @param[in] query Input parameter.
+ * @param[in] perspective Input parameter.
+ * @param[in,out] param Input/output parameter.
+ * @return Return value.
+ * @details Calls: buildPerspectivePrompt(), str(), extractKeyPoints().
+ */
 PerspectiveResponse MultiPerspectiveGenerator::generateSinglePerspective(
     const std::string& query,
     const EthicalPerspective& perspective,
@@ -281,6 +305,13 @@ PerspectiveResponse MultiPerspectiveGenerator::generateSinglePerspective(
     return response;
 }
 
+/**
+ * @brief Synthesize Perspectives.
+ * @param[in] perspectives Input parameter.
+ * @param[in] query Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), size(), buildSynthesisPrompt(), findCommonThemes(), findDisagreements(), str().
+ */
 std::string MultiPerspectiveGenerator::synthesizePerspectives(
     const std::vector<PerspectiveResponse>& perspectives,
     const std::string& query
@@ -348,10 +379,22 @@ std::string MultiPerspectiveGenerator::synthesizePerspectives(
     return oss.str();
 }
 
+/**
+ * @brief Requires Multi Perspective.
+ * @param[in] query Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: detectEthicalQuery().
+ */
 bool MultiPerspectiveGenerator::requiresMultiPerspective(const std::string& query) {
     return detectEthicalQuery(query);
 }
 
+/**
+ * @brief Select Perspectives.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Calls: std::find_if(), begin(), end(), push_back(), size(), resize().
+ */
 std::vector<EthicalPerspective> MultiPerspectiveGenerator::selectPerspectives(
     const std::string& /*query*/
 ) {
@@ -429,15 +472,22 @@ std::vector<EthicalPerspective> MultiPerspectiveGenerator::selectPerspectives(
     return selected;
 }
 
-// ═══════════════════════════════════════════════════════════
-// Perspective management
-// ═══════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════ Perspective management ═══════════════════════════════════════════════════════════
+ * @param[in] perspective Input parameter.
+ * @details Calls: lock(), push_back().
+ */
 
 void MultiPerspectiveGenerator::addPerspective(const EthicalPerspective& perspective) {
     std::lock_guard<std::mutex> lock(impl_->mutex);
     impl_->perspectives.push_back(perspective);
 }
 
+/**
+ * @brief Remove Perspective.
+ * @param[in] perspective_id Identifier of the perspective.
+ * @details Calls: lock(), erase(), std::remove_if(), begin(), end().
+ */
 void MultiPerspectiveGenerator::removePerspective(const std::string& perspective_id) {
     std::lock_guard<std::mutex> lock(impl_->mutex);
     auto& perspectives = impl_->perspectives;
@@ -456,6 +506,10 @@ std::vector<EthicalPerspective> MultiPerspectiveGenerator::getAvailablePerspecti
     return impl_->perspectives;
 }
 
+/**
+ * @brief Load Default Perspectives.
+ * @details Calls: lock(), clear(), push_back().
+ */
 void MultiPerspectiveGenerator::loadDefaultPerspectives() {
     std::lock_guard<std::mutex> lock(impl_->mutex);
     impl_->perspectives.clear();
@@ -568,9 +622,12 @@ void MultiPerspectiveGenerator::loadDefaultPerspectives() {
     impl_->perspectives.push_back(justice);
 }
 
-// ═══════════════════════════════════════════════════════════
-// Diversity analysis
-// ═══════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════ Diversity analysis ═══════════════════════════════════════════════════════════
+ * @param[in] perspectives Input parameter.
+ * @return Return value.
+ * @details Calls: size(), extractWords(), insert(), count(), empty(), std::min(), std::max().
+ */
 
 float MultiPerspectiveGenerator::calculateDiversityScore(
     const std::vector<PerspectiveResponse>& perspectives
@@ -622,6 +679,12 @@ float MultiPerspectiveGenerator::calculateDiversityScore(
     return std::min(1.0f, std::max(0.0f, avg_difference));
 }
 
+/**
+ * @brief Find Common Themes.
+ * @param[in] perspectives Input parameter.
+ * @return Return value.
+ * @details Calls: size(), std::transform(), begin(), end(), push_back().
+ */
 std::vector<std::string> MultiPerspectiveGenerator::findCommonThemes(
     const std::vector<PerspectiveResponse>& perspectives
 ) {
@@ -667,6 +730,12 @@ std::vector<std::string> MultiPerspectiveGenerator::findCommonThemes(
     return common_themes;
 }
 
+/**
+ * @brief Find Disagreements.
+ * @param[in] perspectives Input parameter.
+ * @return Return value.
+ * @details Calls: size(), insert(), count(), push_back(), empty().
+ */
 std::vector<std::string> MultiPerspectiveGenerator::findDisagreements(
     const std::vector<PerspectiveResponse>& perspectives
 ) {
@@ -715,9 +784,11 @@ std::vector<std::string> MultiPerspectiveGenerator::findDisagreements(
     return disagreements;
 }
 
-// ═══════════════════════════════════════════════════════════
-// Configuration
-// ═══════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════ Configuration ═══════════════════════════════════════════════════════════
+ * @param[in] config Input parameter.
+ * @details Calls: lock().
+ */
 
 void MultiPerspectiveGenerator::setConfig(const MultiPerspectiveConfig& config) {
     std::lock_guard<std::mutex> lock(impl_->mutex);
@@ -729,11 +800,20 @@ MultiPerspectiveConfig MultiPerspectiveGenerator::getConfig() const {
     return impl_->config;
 }
 
+/**
+ * @brief Set Ethical Guidelines Manager.
+ * @param[in,out] manager Input/output parameter.
+ * @details Calls: lock().
+ */
 void MultiPerspectiveGenerator::setEthicalGuidelinesManager(EthicalGuidelinesManager* manager) {
     std::lock_guard<std::mutex> lock(impl_->mutex);
     impl_->guidelines_manager = manager;
 }
 
+/**
+ * @brief Clear Cache.
+ * @details Calls: lock(), clear().
+ */
 void MultiPerspectiveGenerator::clearCache() {
     std::lock_guard<std::mutex> lock(impl_->mutex);
     impl_->cache.clear();
@@ -748,6 +828,10 @@ MultiPerspectiveGenerator::Statistics MultiPerspectiveGenerator::getStatistics()
     return impl_->stats;
 }
 
+/**
+ * @brief Reset Statistics.
+ * @details Calls: lock(), Statistics().
+ */
 void MultiPerspectiveGenerator::resetStatistics() {
     std::lock_guard<std::mutex> lock(impl_->mutex);
     impl_->stats = Statistics();
@@ -760,9 +844,13 @@ void MultiPerspectiveGenerator::setGenerationCallback(
     impl_->callback = callback;
 }
 
-// ═══════════════════════════════════════════════════════════
-// Helper methods
-// ═══════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════ Helper methods ═══════════════════════════════════════════════════════════
+ * @param[in] query Input parameter.
+ * @param[in] perspective Input parameter.
+ * @return Return value.
+ * @details Calls: str().
+ */
 
 std::string MultiPerspectiveGenerator::buildPerspectivePrompt(
     const std::string& query,
@@ -782,6 +870,13 @@ std::string MultiPerspectiveGenerator::buildPerspectivePrompt(
     return oss.str();
 }
 
+/**
+ * @brief Build Synthesis Prompt.
+ * @param[in] perspectives Input parameter.
+ * @param[in] query Input parameter.
+ * @return Return value.
+ * @details Calls: size(), str().
+ */
 std::string MultiPerspectiveGenerator::buildSynthesisPrompt(
     const std::vector<PerspectiveResponse>& perspectives,
     const std::string& query
@@ -802,6 +897,12 @@ std::string MultiPerspectiveGenerator::buildSynthesisPrompt(
     return oss.str();
 }
 
+/**
+ * @brief Detect Ethical Query.
+ * @param[in] query Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: std::transform(), begin(), end(), find().
+ */
 bool MultiPerspectiveGenerator::detectEthicalQuery(const std::string& query) {
     std::string query_lower = query;
     std::transform(query_lower.begin(), query_lower.end(), 
@@ -828,6 +929,13 @@ bool MultiPerspectiveGenerator::detectEthicalQuery(const std::string& query) {
     return false;
 }
 
+/**
+ * @brief Extract Key Points.
+ * @param[in] response Input parameter.
+ * @param[in] perspective Input parameter.
+ * @return Return value.
+ * @details Calls: iss(), empty(), find_first_not_of(), find_last_not_of(), substr(), length(), push_back(), clear().
+ */
 std::vector<std::string> MultiPerspectiveGenerator::extractKeyPoints(
     const std::string& response,
     const EthicalPerspective& perspective
@@ -871,6 +979,11 @@ std::vector<std::string> MultiPerspectiveGenerator::extractKeyPoints(
     return key_points;
 }
 
+/**
+ * @brief Update Statistics.
+ * @param[in] result Input parameter.
+ * @details Calls: count(), std::chrono::milliseconds().
+ */
 void MultiPerspectiveGenerator::updateStatistics(const MultiPerspectiveResult& result) {
     // Update average diversity score
     if (impl_->stats.total_generations == 1) {
@@ -895,14 +1008,21 @@ void MultiPerspectiveGenerator::updateStatistics(const MultiPerspectiveResult& r
     }
 }
 
-// ═══════════════════════════════════════════════════════════
-// Factory methods
-// ═══════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════ Factory methods ═══════════════════════════════════════════════════════════
+ * @return Return value.
+ * @details Implements createDefault without additional internal calls.
+ */
 
 std::unique_ptr<MultiPerspectiveGenerator> MultiPerspectiveGeneratorFactory::createDefault() {
     return std::make_unique<MultiPerspectiveGenerator>();
 }
 
+/**
+ * @brief Create High Diversity.
+ * @return Return value.
+ * @details Implements createHighDiversity without additional internal calls.
+ */
 std::unique_ptr<MultiPerspectiveGenerator> MultiPerspectiveGeneratorFactory::createHighDiversity() {
     MultiPerspectiveConfig config;
     config.min_perspectives = 3;
@@ -913,6 +1033,12 @@ std::unique_ptr<MultiPerspectiveGenerator> MultiPerspectiveGeneratorFactory::cre
     return std::make_unique<MultiPerspectiveGenerator>(config);
 }
 
+/**
+ * @brief Create With Perspectives.
+ * @param[in] required_perspectives Input parameter.
+ * @return Return value.
+ * @details Calls: clampSizeToInt(), size().
+ */
 std::unique_ptr<MultiPerspectiveGenerator> MultiPerspectiveGeneratorFactory::createWithPerspectives(
     const std::vector<std::string>& required_perspectives
 ) {
@@ -924,6 +1050,12 @@ std::unique_ptr<MultiPerspectiveGenerator> MultiPerspectiveGeneratorFactory::cre
     return std::make_unique<MultiPerspectiveGenerator>(config);
 }
 
+/**
+ * @brief Create.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @details Implements create without additional internal calls.
+ */
 std::unique_ptr<MultiPerspectiveGenerator> MultiPerspectiveGeneratorFactory::create(
     const MultiPerspectiveConfig& config
 ) {

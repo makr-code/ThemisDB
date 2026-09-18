@@ -89,6 +89,14 @@ bool GradientCheckpointer::shouldCheckpoint(int layer_id, LayerType layer_type) 
     }
 }
 
+/**
+ * @brief Save Checkpoint.
+ * @param[in] layer_id Identifier of the layer.
+ * @param[in] input Input parameter.
+ * @param[in] forward_fn Input parameter.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: clone(), size(), std::move(), spdlog::debug().
+ */
 void GradientCheckpointer::saveCheckpoint(int layer_id, const GPUTensor& input, 
                                           ForwardFunction forward_fn) {
     if (!forward_fn) {
@@ -111,6 +119,13 @@ bool GradientCheckpointer::hasCheckpoint(int layer_id) const {
     return checkpoints_.find(layer_id) != checkpoints_.end();
 }
 
+/**
+ * @brief Recompute Activation.
+ * @param[in] layer_id Identifier of the layer.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: find(), end(), std::to_string(), std::chrono::steady_clock::now(), forward_fn(), updateRecomputeTime(), count(), spdlog::debug().
+ */
 GPUTensor GradientCheckpointer::recomputeActivation(int layer_id) {
     auto it = checkpoints_.find(layer_id);
     if (it == checkpoints_.end()) {
@@ -137,6 +152,11 @@ GPUTensor GradientCheckpointer::recomputeActivation(int layer_id) {
     return recomputed;
 }
 
+/**
+ * @brief Clear Checkpoint.
+ * @param[in] layer_id Identifier of the layer.
+ * @details Calls: find(), end(), erase(), size(), spdlog::debug().
+ */
 void GradientCheckpointer::clearCheckpoint(int layer_id) {
     auto it = checkpoints_.find(layer_id);
     if (it != checkpoints_.end()) {
@@ -146,6 +166,10 @@ void GradientCheckpointer::clearCheckpoint(int layer_id) {
     }
 }
 
+/**
+ * @brief Clear All.
+ * @details Calls: clear(), spdlog::debug().
+ */
 void GradientCheckpointer::clearAll() {
     checkpoints_.clear();
     stats_.num_checkpoints = 0;
@@ -154,11 +178,22 @@ void GradientCheckpointer::clearAll() {
     spdlog::debug("Cleared all checkpoints");
 }
 
+/**
+ * @brief Add Custom Checkpoint.
+ * @param[in] layer_id Identifier of the layer.
+ * @details Calls: insert(), spdlog::debug().
+ */
 void GradientCheckpointer::addCustomCheckpoint(int layer_id) {
     custom_checkpoints_.insert(layer_id);
     spdlog::debug("Added custom checkpoint for layer {}", layer_id);
 }
 
+/**
+ * @brief Set Layer Type.
+ * @param[in] layer_id Identifier of the layer.
+ * @param[in] type Input parameter.
+ * @details Implements setLayerType without additional internal calls.
+ */
 void GradientCheckpointer::setLayerType(int layer_id, LayerType type) {
     layer_types_[layer_id] = type;
 }
@@ -222,6 +257,11 @@ float GradientCheckpointer::estimateComputeOverhead() const {
     return recompute_fraction * overhead_per_recompute * 100.0f;
 }
 
+/**
+ * @brief Update Recompute Time.
+ * @param[in] recompute_time_ms Input parameter.
+ * @details Implements updateRecomputeTime without additional internal calls.
+ */
 void GradientCheckpointer::updateRecomputeTime(size_t recompute_time_ms) {
     stats_.recomputation_time_ms += recompute_time_ms;
 }

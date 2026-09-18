@@ -33,14 +33,6 @@ namespace functions {
 // VALIDATION FUNCTIONS
 // ============================================================================
 
-/**
- * @brief IS_EMAIL(str) - Validate email address format
- * 
- * Uses RFC 5322 simplified regex pattern.
- * 
- * - Example: IS_EMAIL("user@example.com") → true
- * - Example: IS_EMAIL("invalid") → false
- */
 class IsEmailFunction : public IFunction {
 public:
     ~IsEmailFunction() override = default;
@@ -75,14 +67,6 @@ public:
     }
 };
 
-/**
- * @brief IS_URL(str) - Validate URL format
- * 
- * Supports http, https, ftp protocols.
- * 
- * - Example: IS_URL("https://example.com/path") → true
- * - Example: IS_URL("not-a-url") → false
- */
 class IsUrlFunction : public IFunction {
 public:
     ~IsUrlFunction() override = default;
@@ -116,12 +100,6 @@ public:
     }
 };
 
-/**
- * @brief IS_UUID(str) - Validate UUID format (v1-v5)
- * 
- * - Example: IS_UUID("550e8400-e29b-41d4-a716-446655440000") → true
- * - Example: IS_UUID("not-a-uuid") → false
- */
 class IsUuidFunction : public IFunction {
 public:
     ~IsUuidFunction() override = default;
@@ -154,15 +132,6 @@ public:
     }
 };
 
-/**
- * @brief IS_IP(str, version?) - Validate IP address format
- * 
- * @param str IP address to validate
- * @param version Optional: 4 for IPv4, 6 for IPv6, omit for both
- * 
- * - Example: IS_IP("192.168.1.1") → true
- * - Example: IS_IP("::1", 6) → true
- */
 class IsIpFunction : public IFunction {
 public:
     ~IsIpFunction() override = default;
@@ -211,12 +180,6 @@ public:
     }
 };
 
-/**
- * @brief IS_PHONE(str, countryCode?) - Validate phone number format
- * 
- * - Example: IS_PHONE("+49 123 456789") → true
- * - Example: IS_PHONE("0123456789", "DE") → true
- */
 class IsPhoneFunction : public IFunction {
 public:
     ~IsPhoneFunction() override = default;
@@ -263,11 +226,6 @@ public:
     }
 };
 
-/**
- * @brief IS_IBAN(str) - Validate IBAN format with checksum
- * 
- * - Example: IS_IBAN("DE89370400440532013000") → true
- */
 class IsIbanFunction : public IFunction {
 public:
     ~IsIbanFunction() override = default;
@@ -327,11 +285,6 @@ public:
     }
 };
 
-/**
- * @brief IS_CREDIT_CARD(str) - Validate credit card number (Luhn algorithm)
- * 
- * - Example: IS_CREDIT_CARD("4532015112830366") → true
- */
 class IsCreditCardFunction : public IFunction {
 public:
     ~IsCreditCardFunction() override = default;
@@ -392,14 +345,6 @@ public:
 // SANITIZATION FUNCTIONS
 // ============================================================================
 
-/**
- * @brief SANITIZE(str, type?) - Sanitize input string
- * 
- * @param str String to sanitize
- * @param type Type of sanitization: "html", "sql", "json", "filename" (default: "html")
- * 
- * - Example: SANITIZE("<script>alert('xss')</script>", "html") → "<script>..."
- */
 class SanitizeFunction : public IFunction {
 public:
     ~SanitizeFunction() override = default;
@@ -531,14 +476,6 @@ private:
     }
 };
 
-/**
- * @brief HAS_INJECTION(str, type?) - Check for potential injection patterns
- * 
- * @param str String to check
- * @param type Type: "sql", "xss", "path", "cmd" (default: all)
- * 
- * - Example: HAS_INJECTION("1'; DROP TABLE users--", "sql") → true
- */
 class HasInjectionFunction : public IFunction {
 public:
     ~HasInjectionFunction() override = default;
@@ -629,17 +566,6 @@ public:
 // MASKING FUNCTIONS
 // ============================================================================
 
-/**
- * @brief MASK(str, start?, end?, char?) - Mask characters in string
- * 
- * @param str String to mask
- * @param start Characters to show at start (default: 0)
- * @param end Characters to show at end (default: 0)
- * @param char Masking character (default: '*')
- * 
- * - Example: MASK("1234567890", 0, 4) → "******7890"
- * - Example: MASK("secret", 1, 1, '#') → "s####t"
- */
 class MaskFunction : public IFunction {
 public:
     ~MaskFunction() override = default;
@@ -692,11 +618,6 @@ public:
     }
 };
 
-/**
- * @brief MASK_EMAIL(email) - Mask email address
- * 
- * - Example: MASK_EMAIL("john.doe@example.com") → "j******e@e*****e.com"
- */
 class MaskEmailFunction : public IFunction {
 public:
     ~MaskEmailFunction() override = default;
@@ -756,11 +677,6 @@ public:
     }
 };
 
-/**
- * @brief MASK_CREDIT_CARD(card) - Mask credit card number (show last 4 digits)
- * 
- * - Example: MASK_CREDIT_CARD("4532015112830366") → "************0366"
- */
 class MaskCreditCardFunction : public IFunction {
 public:
     ~MaskCreditCardFunction() override = default;
@@ -801,11 +717,6 @@ public:
     }
 };
 
-/**
- * @brief MASK_IBAN(iban) - Mask IBAN (show country code and last 4 chars)
- * 
- * - Example: MASK_IBAN("DE89370400440532013000") → "DE**************3000"
- */
 class MaskIbanFunction : public IFunction {
 public:
     ~MaskIbanFunction() override = default;
@@ -846,17 +757,6 @@ public:
 // HASHING FUNCTIONS
 // ============================================================================
 
-/**
- * @brief HASH(str, algorithm?) - Compute hash of string
- * 
- * Uses FNV-1a for speed. For cryptographic hashing, use SHA256.
- * Note: For production use, integrate with ThemisDB's security module.
- * 
- * @param str String to hash
- * @param algorithm "fnv1a" (default), "djb2"
- * 
- * - Example: HASH("password") → "af63bd4c..."
- */
 class HashFunction : public IFunction {
 public:
     ~HashFunction() override = default;
@@ -928,12 +828,6 @@ private:
     }
 };
 
-/**
- * @brief CHECKSUM(data, algorithm?) - Compute checksum
- * 
- * @param data String or array to compute checksum for
- * @param algorithm "crc32" (default), "adler32", "fletcher16"
- */
 class ChecksumFunction : public IFunction {
 public:
     ~ChecksumFunction() override = default;
@@ -1011,7 +905,7 @@ private:
 // ============================================================================
 
 /**
- * @brief Register all security functions
+ * @brief Register Security Functions.
  * @details Calls: FunctionRegistry::instance(), registerFunction().
  */
 inline void registerSecurityFunctions() {

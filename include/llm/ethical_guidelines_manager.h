@@ -22,27 +22,8 @@
 namespace themis {
 namespace llm {
 
-/**
- * @brief Manages ethical and moral guidelines for LLM responses
- * 
- * This class loads ethical guidelines from YAML configuration and applies
- * them during RAG retrieval and LLM inference to ensure the AI never
- * patronizes humans and respects human autonomy.
- * 
- * Key features:
- * - Detects ethical/moral contexts in queries and retrieved documents
- * - Augments LLM prompts with appropriate ethical guidelines
- * - Supports multiple languages (German and English)
- * - Domain-specific guidelines (medical, legal, administrative, etc.)
- * - Configurable detection thresholds and logging
- * 
- * Thread-safe for concurrent use.
- */
 class EthicalGuidelinesManager {
 public:
-    /**
-     * @brief Core ethical principle
-     */
     struct Principle {
         std::string id;
         std::string name;
@@ -51,17 +32,11 @@ public:
         int priority = 0;
     };
     
-    /**
-     * @brief Augmentation template for prompts
-     */
     struct AugmentationTemplate {
         std::string system_prefix;
         std::string response_suffix;
     };
     
-    /**
-     * @brief Domain-specific guideline configuration
-     */
     struct DomainGuideline {
         std::string name;
         std::vector<std::string> applies_to;
@@ -69,9 +44,6 @@ public:
         std::string additional_notes;
     };
     
-    /**
-     * @brief Context detection result
-     */
     struct DetectionResult {
         bool has_ethical_context = false;
         std::vector<std::string> detected_keywords;
@@ -85,9 +57,6 @@ public:
         float llm_confidence = 0.0f;         // LLM's confidence score
     };
     
-    /**
-     * @brief Configuration
-     */
     struct Config {
         bool enabled = true;
         float detection_threshold = 0.6f;
@@ -102,39 +71,19 @@ public:
         bool combine_with_keywords = true;    // Combine LLM judge with keyword matching
     };
     
-    /**
-     * @brief Constructor
-     * @param config_path Path to ethical_guidelines.yaml file
-     */
     explicit EthicalGuidelinesManager(const std::string& config_path = "config/ethical_guidelines.yaml");
     
-    /**
-     * @brief Destructor
-     */
     ~EthicalGuidelinesManager() = default;
     
     // ═══════════════════════════════════════════════════════════
     // Core functionality
     // ═══════════════════════════════════════════════════════════
     
-    /**
-     * @brief Detect ethical/moral context in text
-     * @param text Input text (query or document)
-     * @param language Language hint ("de", "en", or "" for auto-detect)
-     * @return Detection result with confidence and recommendations
-     */
     DetectionResult detectEthicalContext(
         const std::string& text,
         const std::string& language = ""
     );
     
-    /**
-     * @brief Detect ethical context in multiple documents (RAG retrieval)
-     * @param documents Vector of retrieved document texts
-     * @param query Original user query
-     * @param conversation_history Optional conversation history for context
-     * @return Aggregated detection result
-     */
     DetectionResult detectEthicalContextInRAG(
         const std::vector<std::string>& documents,
         const std::string& query,
@@ -142,15 +91,11 @@ public:
     );
     
     /**
-     * @brief Use LLM as ethical judge to detect context-aware implications
-     * @param text Text to analyze
-     * @param conversation_context Optional conversation history
-     * @param llm_wrapper Pointer to LLM wrapper for inference
-     * @return Detection result with LLM reasoning
-     * 
-     * This implements "LLM-as-ethical-judge" pattern similar to "LLM-as-judge".
-     * The LLM analyzes the text and conversation context to identify
-     * ethical/moral implications that may not be obvious from keywords alone.
+     * @brief Detect With LLMJudge.
+     * @param[in] text Input parameter.
+     * @param[in] conversation_context Input parameter.
+     * @param[in,out] llm_wrapper Input/output parameter.
+     * @return Return value.
      */
     DetectionResult detectWithLLMJudge(
         const std::string& text,
@@ -159,10 +104,10 @@ public:
     );
     
     /**
-     * @brief Augment LLM prompt with ethical guidelines
-     * @param original_prompt Original system prompt
-     * @param detection_result Detection result from detectEthicalContext()
-     * @return Augmented prompt with ethical guidelines prepended
+     * @brief Augment Prompt.
+     * @param[in] original_prompt Input parameter.
+     * @param[in] detection_result Input parameter.
+     * @return Return value.
      */
     std::string augmentPrompt(
         const std::string& original_prompt,
@@ -170,10 +115,10 @@ public:
     );
     
     /**
-     * @brief Augment LLM response with ethical disclaimer
-     * @param response Original LLM response
-     * @param detection_result Detection result
-     * @return Response with disclaimer appended (if applicable)
+     * @brief Augment Response.
+     * @param[in] response Input parameter.
+     * @param[in] detection_result Input parameter.
+     * @return Return value.
      */
     std::string augmentResponse(
         const std::string& response,
@@ -181,46 +126,39 @@ public:
     );
     
     /**
-     * @brief Get augmentation template by name
-     * @param name Template name (default, high_autonomy, administrative, etc.)
-     * @return Template or nullptr if not found
+     * @brief Get Augmentation Template.
+     * @param[in] name Input parameter.
+     * @return Pointer to the result.
      */
     const AugmentationTemplate* getAugmentationTemplate(const std::string& name) const;
     
-    // ═══════════════════════════════════════════════════════════
-    // Configuration management
-    // ═══════════════════════════════════════════════════════════
-    
     /**
-     * @brief Load configuration from file
-     * @param config_path Path to YAML file
-     * @return true if successful, false otherwise
+     * @brief ═══════════════════════════════════════════════════════════ Configuration management ═══════════════════════════════════════════════════════════
+     * @param[in] config_path Path to the retention policy configuration file.
+     * @return True when the operation succeeds.
      */
+    
     bool loadConfig(const std::string& config_path);
     
     /**
-     * @brief Reload configuration (hot reload)
-     * @return true if successful, false otherwise
+     * @brief Reload Config.
+     * @return True when the operation succeeds.
      */
     bool reloadConfig();
     
-    /**
-     * @brief Get current configuration
-     */
     const Config& getConfig() const { return config_; }
     
     /**
-     * @brief Update configuration
+     * @brief Set Config.
+     * @param[in] config Input parameter.
      */
     void setConfig(const Config& config);
     
-    /**
-     * @brief Check if system is enabled
-     */
     bool isEnabled() const { return config_.enabled; }
     
     /**
-     * @brief Enable/disable system
+     * @brief Set Enabled.
+     * @param[in] enabled Input parameter.
      */
     void setEnabled(bool enabled);
     
@@ -228,21 +166,12 @@ public:
     // Introspection
     // ═══════════════════════════════════════════════════════════
     
-    /**
-     * @brief Get all core principles
-     */
     const std::vector<Principle>& getPrinciples() const { return principles_; }
     
-    /**
-     * @brief Get all domain guidelines
-     */
     const std::unordered_map<std::string, DomainGuideline>& getDomainGuidelines() const {
         return domain_guidelines_;
     }
     
-    /**
-     * @brief Get statistics (for monitoring)
-     */
     struct Statistics {
         uint64_t total_detections = 0;
         uint64_t ethical_contexts_found = 0;
@@ -250,54 +179,35 @@ public:
         std::unordered_map<std::string, uint64_t> domain_counts;
     };
     
+    /**
+     * @brief Return access control statistics.
+     * @return Access control statistics.
+     */
     Statistics getStatistics() const;
+    /**
+     * @brief Reset Statistics.
+     */
     void resetStatistics();
     
-    // ═══════════════════════════════════════════════════════════
-    // Plugin Integration API
-    // ═══════════════════════════════════════════════════════════
-    
     /**
-     * @brief Register a philosophy profile from external source (e.g., plugin)
-     * @param school_id Unique identifier for the philosophy
-     * @param profile Philosophy profile structure
-     * @return Status indicating success/failure
-     * 
-     * This method allows plugins to extend the base ethical guidelines system
-     * by registering additional philosophy profiles. The manager will validate
-     * the profile and make it available for ethical context detection.
-     * 
-     * Thread-safe.
+     * @brief ═══════════════════════════════════════════════════════════ Plugin Integration API ═══════════════════════════════════════════════════════════
+     * @param[in] school_id Identifier of the school.
+     * @param[in] profile Input parameter.
+     * @return True when the operation succeeds.
      */
+    
     bool registerPhilosophy(
         const std::string& school_id,
         const themis::plugins::ethics::PhilosophyProfile& profile
     );
     
-    /**
-     * @brief Merge multiple philosophy profiles from plugin
-     * @param profiles Map of school_id -> PhilosophyProfile
-     * @return Number of profiles successfully registered
-     * 
-     * Convenience method for bulk registration of philosophy profiles.
-     * Typically called by plugins during initialization to register all
-     * their philosophy profiles at once.
-     * 
-     * Thread-safe.
-     */
     size_t mergePhilosophies(
         const std::map<std::string, themis::plugins::ethics::PhilosophyProfile>& profiles
     );
     
     /**
-     * @brief Get all registered philosophy schools
-     * @return Vector of school IDs (base + plugin-registered)
-     * 
-     * Returns the complete list of philosophy schools available to the
-     * ethical guidelines system, including both base philosophies loaded
-     * from YAML and those registered by plugins.
-     * 
-     * Thread-safe.
+     * @brief Get Registered Philosophies.
+     * @return Return value.
      */
     std::vector<std::string> getRegisteredPhilosophies() const;
     
@@ -330,11 +240,41 @@ private:
     mutable std::mutex mutex_;
     
     // Helper methods
+    /**
+     * @brief Load From YAML.
+     * @param[in] yaml_content Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool loadFromYAML(const std::string& yaml_content);
+    /**
+     * @brief Calculate Confidence.
+     * @param[in] detected_keywords Input parameter.
+     * @return Return value.
+     */
     float calculateConfidence(const std::vector<std::string>& detected_keywords) const;
+    /**
+     * @brief Detect Language.
+     * @param[in] text Input parameter.
+     * @return Return value.
+     */
     std::string detectLanguage(const std::string& text) const;
+    /**
+     * @brief Detect Domains.
+     * @param[in] text Input parameter.
+     * @return Return value.
+     */
     std::vector<std::string> detectDomains(const std::string& text) const;
+    /**
+     * @brief Select Augmentation.
+     * @param[in] result Input parameter.
+     * @return Return value.
+     */
     std::string selectAugmentation(const DetectionResult& result) const;
+    /**
+     * @brief Log Detection.
+     * @param[in] result Input parameter.
+     * @param[in] context Input parameter.
+     */
     void logDetection(const DetectionResult& result, const std::string& context) const;
 };
 

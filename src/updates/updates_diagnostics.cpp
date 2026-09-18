@@ -43,6 +43,12 @@ json ErrorContext::toJson() const {
     return j;
 }
 
+/**
+ * @brief From Json.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: value(), empty(), ss(), std::get_time(), fail(), _mkgmtime(), timegm(), std::chrono::system_clock::from_time_t().
+ */
 std::optional<ErrorContext> ErrorContext::fromJson(const json& j) {
     try {
         ErrorContext ctx;

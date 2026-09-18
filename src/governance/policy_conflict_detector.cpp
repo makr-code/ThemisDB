@@ -94,6 +94,12 @@ PolicyConflictDetector::PolicyConflictDetector()
     : caching_enabled_(true), total_detections_(0) {
 }
 
+/**
+ * @brief Detect All Conflicts.
+ * @param[in] policy_mgr Input parameter.
+ * @return Return value.
+ * @details Calls: detectPermitDenyConflicts(), insert(), end(), begin(), detectOverlappingConflicts(), detectCircularDependencies(), lock(), std::to_string().
+ */
 std::vector<PolicyConflict> PolicyConflictDetector::detectAllConflicts(
     const PolicyManager& policy_mgr) {
     
@@ -122,6 +128,12 @@ std::vector<PolicyConflict> PolicyConflictDetector::detectAllConflicts(
     return all_conflicts;
 }
 
+/**
+ * @brief Detect Permit Deny Conflicts.
+ * @param[in] policy_mgr Input parameter.
+ * @return Return value.
+ * @details Calls: listRules(), size(), checkRuleConflict(), push_back(), value().
+ */
 std::vector<PolicyConflict> PolicyConflictDetector::detectPermitDenyConflicts(
     const PolicyManager& policy_mgr) {
     
@@ -141,6 +153,12 @@ std::vector<PolicyConflict> PolicyConflictDetector::detectPermitDenyConflicts(
     return conflicts;
 }
 
+/**
+ * @brief Detect Overlapping Conflicts.
+ * @param[in] policy_mgr Input parameter.
+ * @return Return value.
+ * @details Calls: listRules(), size(), empty(), back(), substr(), length(), matches_pattern(), checkRuleConflict().
+ */
 std::vector<PolicyConflict> PolicyConflictDetector::detectOverlappingConflicts(
     const PolicyManager& policy_mgr) {
     
@@ -223,6 +241,12 @@ std::vector<PolicyConflict> PolicyConflictDetector::detectOverlappingConflicts(
     return conflicts;
 }
 
+/**
+ * @brief Detect Circular Dependencies.
+ * @param[in] policy_mgr Input parameter.
+ * @return Return value.
+ * @details Calls: listRules(), hasCircularDependency(), generateConflictId(), fmt::format(), std::chrono::system_clock::now(), time_since_epoch(), count(), push_back().
+ */
 std::vector<PolicyConflict> PolicyConflictDetector::detectCircularDependencies(
     const PolicyManager& policy_mgr) {
     
@@ -255,6 +279,13 @@ std::vector<PolicyConflict> PolicyConflictDetector::detectCircularDependencies(
     return conflicts;
 }
 
+/**
+ * @brief Evaluate Rule Precedence.
+ * @param[in] rule_id Identifier of the rule.
+ * @param[in] policy_mgr Input parameter.
+ * @return Return value.
+ * @details Calls: getRule(), value(), find(), std::chrono::system_clock::now(), time_since_epoch(), count(), std::max(), listRules().
+ */
 PrecedenceEvaluation PolicyConflictDetector::evaluateRulePrecedence(
     const std::string& rule_id,
     const PolicyManager& policy_mgr) {
@@ -360,6 +391,13 @@ PolicyConflictDetector::evaluateAllPrecedence(const PolicyManager& policy_mgr) {
     return result;
 }
 
+/**
+ * @brief Atomic Add Rule.
+ * @param[in] rule Input parameter.
+ * @param[in,out] policy_mgr Input/output parameter.
+ * @return Return value.
+ * @details Calls: generateConflictId(), std::chrono::high_resolution_clock::now(), getRule(), addRule(), detectAllConflicts(), empty(), updateRule(), value().
+ */
 AtomicUpdateResult PolicyConflictDetector::atomicAddRule(
     const PolicyRule& rule,
     PolicyManager& policy_mgr) {
@@ -417,6 +455,13 @@ AtomicUpdateResult PolicyConflictDetector::atomicAddRule(
     return result;
 }
 
+/**
+ * @brief Atomic Update Rule.
+ * @param[in] rule Input parameter.
+ * @param[in,out] policy_mgr Input/output parameter.
+ * @return Return value.
+ * @details Calls: generateConflictId(), std::chrono::high_resolution_clock::now(), getRule(), fmt::format(), updateRule(), detectAllConflicts(), empty(), value().
+ */
 AtomicUpdateResult PolicyConflictDetector::atomicUpdateRule(
     const PolicyRule& rule,
     PolicyManager& policy_mgr) {
@@ -474,6 +519,13 @@ AtomicUpdateResult PolicyConflictDetector::atomicUpdateRule(
     return result;
 }
 
+/**
+ * @brief Atomic Remove Rule.
+ * @param[in] rule_id Identifier of the rule.
+ * @param[in,out] policy_mgr Input/output parameter.
+ * @return Return value.
+ * @details Calls: generateConflictId(), std::chrono::high_resolution_clock::now(), getRule(), fmt::format(), removeRule(), detectAllConflicts(), addRule(), value().
+ */
 AtomicUpdateResult PolicyConflictDetector::atomicRemoveRule(
     const std::string& rule_id,
     PolicyManager& policy_mgr) {
@@ -521,6 +573,13 @@ AtomicUpdateResult PolicyConflictDetector::atomicRemoveRule(
     return result;
 }
 
+/**
+ * @brief Check Rule Conflict.
+ * @param[in] rule1 Input parameter.
+ * @param[in] rule2 Input parameter.
+ * @return Return value.
+ * @details Calls: rulesMatch(), generateConflictId(), fmt::format(), computeSeverity(), std::chrono::system_clock::now(), time_since_epoch(), count().
+ */
 std::optional<PolicyConflict> PolicyConflictDetector::checkRuleConflict(
     const PolicyRule& rule1,
     const PolicyRule& rule2) {
@@ -573,6 +632,11 @@ std::optional<PolicyConflict> PolicyConflictDetector::checkRuleConflict(
 std::vector<PolicyConflict> PolicyConflictDetector::getCachedConflicts(
     const PolicyManager& policy_mgr) const {
     
+    /**
+     * @brief Lock.
+     * @param[in] state_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(state_mutex_);
     
     if (!caching_enabled_) {
@@ -589,6 +653,10 @@ std::vector<PolicyConflict> PolicyConflictDetector::getCachedConflicts(
     return {};
 }
 
+/**
+ * @brief Clear Cache.
+ * @details Calls: lock(), clear().
+ */
 void PolicyConflictDetector::clearCache() {
     std::unique_lock<std::shared_mutex> lock(state_mutex_);
     conflict_cache_.clear();
@@ -596,6 +664,11 @@ void PolicyConflictDetector::clearCache() {
 }
 
 nlohmann::json PolicyConflictDetector::getStatistics() const {
+    /**
+     * @brief Lock.
+     * @param[in] state_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(state_mutex_);
     
     nlohmann::json stats;

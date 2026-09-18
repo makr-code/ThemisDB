@@ -24,6 +24,12 @@ namespace scheduler {
 // Static helpers
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Interval To Cron.
+ * @param[in] interval Input parameter.
+ * @return Return value.
+ * @details Calls: minutes(), count(), std::to_string().
+ */
 std::string ExternalSchedulerAdapter::intervalToCron(std::chrono::milliseconds interval) {
     using namespace std::chrono;
 
@@ -51,6 +57,12 @@ std::string ExternalSchedulerAdapter::intervalToCron(std::chrono::milliseconds i
     return "0 0 */" + std::to_string(total_days) + " * *";
 }
 
+/**
+ * @brief Effective Cron Schedule.
+ * @param[in] task Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), intervalToCron().
+ */
 std::string ExternalSchedulerAdapter::effectiveCronSchedule(const ScheduledTask& task) {
     if (task.trigger_type == ScheduledTask::TriggerType::CRON &&
         !task.cron_expression.empty()) {
@@ -59,6 +71,12 @@ std::string ExternalSchedulerAdapter::effectiveCronSchedule(const ScheduledTask&
     return intervalToCron(task.interval);
 }
 
+/**
+ * @brief To K8s Name.
+ * @param[in] name Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), std::isalnum(), std::tolower(), find_first_not_of(), substr(), find_last_not_of(), empty().
+ */
 std::string ExternalSchedulerAdapter::toK8sName(const std::string& name) {
     std::string result = {};
     result.reserve(name.size());
@@ -104,9 +122,13 @@ std::string ExternalSchedulerAdapter::toK8sName(const std::string& name) {
     return collapsed.empty() ? "task" : collapsed;
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// YAML serialiser (subset sufficient for Kubernetes manifests)
-// ─────────────────────────────────────────────────────────────────────────────
+/**
+ * @brief ───────────────────────────────────────────────────────────────────────────── YAML serialiser (subset sufficient for Kubernetes manifests) ─────────────────────────────────────────────────────────────────────────────
+ * @param[in] j Input parameter.
+ * @param[in] indent Input parameter.
+ * @return Return value.
+ * @details Calls: pad(), child_pad(), is_object(), begin(), end(), key(), value(), is_array().
+ */
 
 std::string ExternalSchedulerAdapter::jsonToYaml(const nlohmann::json& j, int indent) {
     const std::string pad(static_cast<size_t>(indent) * 2, ' ');
@@ -180,6 +202,12 @@ std::string ExternalSchedulerAdapter::jsonToYaml(const nlohmann::json& j, int in
 // Python string escaping
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Py String Escape.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size().
+ */
 std::string ExternalSchedulerAdapter::pyStringEscape(const std::string& s) {
     std::string out = {};
     out.reserve(s.size());
@@ -518,9 +546,13 @@ std::string ExternalSchedulerAdapter::toAirflowDagPython(
     return py.str();
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// External Scheduler Integration and Status Sync
-// ─────────────────────────────────────────────────────────────────────────────
+/**
+ * @brief ───────────────────────────────────────────────────────────────────────────── External Scheduler Integration and Status Sync ─────────────────────────────────────────────────────────────────────────────
+ * @param[in] task Input parameter.
+ * @param[in] scheduler_type Input parameter.
+ * @param[in] external_config Input parameter.
+ * @return Return value.
+ */
 
 SchedulerError ExternalSchedulerAdapter::dispatchTaskToExternal(
     const ScheduledTask& task,
@@ -586,6 +618,17 @@ SchedulerError ExternalSchedulerAdapter::dispatchTaskToExternal(
     }
 }
 
+/**
+ * @brief Poll External Status.
+ * @param[in] task_id Identifier of the task.
+ * @param[in] external_task_id Identifier of the external task.
+ * @param[in] scheduler_type Input parameter.
+ * @param[in] external_config Input parameter.
+ * @param[in,out] result_store Input/output parameter.
+ * @param[in] max_retries Input parameter.
+ * @param[in] initial_backoff_ms Input parameter.
+ * @return Return value.
+ */
 SchedulerError ExternalSchedulerAdapter::pollExternalStatus(
     const std::string& task_id,
     const std::string& external_task_id,
@@ -646,6 +689,14 @@ SchedulerError ExternalSchedulerAdapter::pollExternalStatus(
     return SchedulerError::kCoordinationError;
 }
 
+/**
+ * @brief Classify And Map External Error.
+ * @param[in] error_msg Input parameter.
+ * @param[in] http_status Input parameter.
+ * @param[in] task_id Identifier of the task.
+ * @param[in] scheduler_type Input parameter.
+ * @return Return value.
+ */
 SchedulerError ExternalSchedulerAdapter::classifyAndMapExternalError(
     const std::string& error_msg,
     int http_status,

@@ -94,6 +94,11 @@ private:
 
 } // anonymous namespace
 
+/**
+ * @brief Create Text Extractor Adapter.
+ * @return Return value.
+ * @details Implements createTextExtractorAdapter without additional internal calls.
+ */
 std::shared_ptr<ingestion::IFormatExtractor> createTextExtractorAdapter() {
     return std::make_shared<TextExtractorAdapter>();
 }

@@ -24,10 +24,11 @@ namespace themis::sharding {
 // ============================================================================
 
 /**
- * @brief Parse LSN from "segment/offset" textual form.
- * @param str Input LSN text.
- * @return Parsed LSN.
- * @throws std::invalid_argument on malformed input.
+ * @brief From String.
+ * @param[in] str Input parameter.
+ * @return Return value.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: find(), std::stoull(), substr(), LSN().
  */
 LSN LSN::fromString(const std::string& str) {
     size_t pos = str.find('/');
@@ -45,7 +46,6 @@ LSN LSN::fromString(const std::string& str) {
 // WALEntry Implementation
 // ============================================================================
 
-/** @brief Serialize WAL entry into compact binary format. */
 std::vector<uint8_t> WALEntry::serialize() const {
     std::vector<uint8_t> result;
     
@@ -93,10 +93,11 @@ std::vector<uint8_t> WALEntry::serialize() const {
 }
 
 /**
- * @brief Deserialize WAL entry from binary bytes.
- * @param bytes Serialized entry bytes.
- * @return Parsed WAL entry.
- * @throws std::runtime_error on truncated/corrupt payload.
+ * @brief Deserialize.
+ * @param[in] bytes Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: size(), std::string(), begin(), data_str(), nlohmann::json::parse().
  */
 WALEntry WALEntry::deserialize(const std::vector<uint8_t>& bytes) {
     if (bytes.size() < 29) {  // Minimum size
@@ -159,7 +160,6 @@ WALEntry WALEntry::deserialize(const std::vector<uint8_t>& bytes) {
     return entry;
 }
 
-/** @brief Return serialized byte size of this WAL entry. */
 size_t WALEntry::size() const {
     return 1 + 8 + 8 + 8 + 4 + transaction_id.size() + 4 + data.dump().size();
 }
@@ -168,10 +168,6 @@ size_t WALEntry::size() const {
 // WALManager Implementation
 // ============================================================================
 
-/**
- * @brief Construct WAL manager and recover on-disk segment state.
- * @param config WAL configuration.
- */
 WALManager::WALManager(const WALManagerConfig& config)
     : config_(config), current_lsn_(0, 0), oldest_lsn_(0, 0) {
     
@@ -188,17 +184,22 @@ WALManager::WALManager(const WALManagerConfig& config)
     openSegment(current_lsn_.segment);
 }
 
-/** @brief Flush buffered writes and close active segment. */
 WALManager::~WALManager() {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     flush();
     closeSegment();
 }
 
 /**
- * @brief Append entry to WAL and return assigned LSN.
- * @param entry Entry payload.
- * @return Assigned LSN.
+ * @brief Append.
+ * @param[in] entry Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), std::chrono::system_clock::now(), time_since_epoch(), count(), serialize(), size(), flush(), rotateSegment().
  */
 LSN WALManager::append(const WALEntry& entry) {
     std::lock_guard<std::mutex> lock(mutex_);
@@ -238,7 +239,12 @@ LSN WALManager::append(const WALEntry& entry) {
     return result_lsn;
 }
 
-/** @brief Read single WAL entry by exact LSN. */
+/**
+ * @brief Read.
+ * @param[in] lsn Input parameter.
+ * @return Return value.
+ * @details Calls: readRange(), LSN(), empty().
+ */
 std::optional<WALEntry> WALManager::read(const LSN& lsn) {
     auto entries = readRange(lsn, LSN(lsn.segment, lsn.offset + 1));
     if (entries.empty()) {
@@ -248,10 +254,11 @@ std::optional<WALEntry> WALManager::read(const LSN& lsn) {
 }
 
 /**
- * @brief Read WAL entries in [start_lsn, end_lsn) range.
- * @param start_lsn Inclusive start LSN.
- * @param end_lsn Optional exclusive end LSN.
- * @return Ordered WAL entries in requested range.
+ * @brief Read Range.
+ * @param[in] start_lsn Input parameter.
+ * @param[in] end_lsn Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), flush(), has_value(), getSegmentPath(), file(), is_open(), seekg(), tellg().
  */
 std::vector<WALEntry> WALManager::readRange(const LSN& start_lsn, 
                                             const std::optional<LSN>& end_lsn) {
@@ -317,19 +324,30 @@ std::vector<WALEntry> WALManager::readRange(const LSN& start_lsn,
     return result;
 }
 
-/** @brief Return current append position. */
 LSN WALManager::getCurrentLSN() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return current_lsn_;
 }
 
-/** @brief Return oldest retained LSN. */
 LSN WALManager::getOldestLSN() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return oldest_lsn_;
 }
 
-/** @brief Flush buffered WAL bytes to active segment stream. */
+/**
+ * @brief Flush.
+ * @details Calls: empty(), is_open(), write(), data(), size(), clear().
+ */
 void WALManager::flush() {
     // Must be called with mutex held
     if (write_buffer_.empty()) {
@@ -354,7 +372,11 @@ void WALManager::flush() {
     write_buffer_.clear();
 }
 
-/** @brief Append checkpoint marker and return its LSN. */
+/**
+ * @brief Checkpoint.
+ * @return Return value.
+ * @details Calls: lock(), toString(), append().
+ */
 LSN WALManager::checkpoint() {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -369,8 +391,9 @@ LSN WALManager::checkpoint() {
 }
 
 /**
- * @brief Truncate WAL retention before target LSN (segment-granularity).
- * @param lsn Lower retention bound.
+ * @brief Truncate.
+ * @param[in] lsn Input parameter.
+ * @details Calls: lock(), getSegmentPath(), fs::exists(), fs::remove().
  */
 void WALManager::truncate(const LSN& lsn) {
     std::lock_guard<std::mutex> lock(mutex_);
@@ -388,8 +411,12 @@ void WALManager::truncate(const LSN& lsn) {
     oldest_lsn_ = lsn;
 }
 
-/** @brief Return WAL statistics snapshot. */
 WALManager::Statistics WALManager::getStatistics() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     Statistics stats;
@@ -409,7 +436,12 @@ WALManager::Statistics WALManager::getStatistics() const {
     return stats;
 }
 
-/** @brief Open/create active WAL segment file for given segment number. */
+/**
+ * @brief Open Segment.
+ * @param[in] segment_number Input parameter.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: getSegmentPath(), is_open().
+ */
 void WALManager::openSegment(uint64_t segment_number) {
     std::string seg_path = getSegmentPath(segment_number);
     
@@ -423,14 +455,20 @@ void WALManager::openSegment(uint64_t segment_number) {
     }
 }
 
-/** @brief Close active WAL segment file when open. */
+/**
+ * @brief Close Segment.
+ * @details Calls: is_open(), close().
+ */
 void WALManager::closeSegment() {
     if (current_segment_ && current_segment_->is_open()) {
         current_segment_->close();
     }
 }
 
-/** @brief Rotate to next segment and enforce segment retention policy. */
+/**
+ * @brief Rotate Segment.
+ * @details Calls: closeSegment(), openSegment(), cleanupOldSegments().
+ */
 void WALManager::rotateSegment() {
     // Must be called with mutex held
     closeSegment();
@@ -442,7 +480,6 @@ void WALManager::rotateSegment() {
     cleanupOldSegments();
 }
 
-/** @brief Build filesystem path for WAL segment number. */
 std::string WALManager::getSegmentPath(uint64_t segment_number) const {
     std::ostringstream oss = {};
     oss << config_.wal_directory << "/wal_" 
@@ -451,7 +488,10 @@ std::string WALManager::getSegmentPath(uint64_t segment_number) const {
     return oss.str();
 }
 
-/** @brief Scan WAL directory and recover oldest/current LSN boundaries. */
+/**
+ * @brief Load Existing Segments.
+ * @details Calls: fs::exists(), fs::directory_iterator(), path(), extension(), stem(), string(), substr(), std::stoull().
+ */
 void WALManager::loadExistingSegments() {
     namespace fs = std::filesystem;
     
@@ -495,7 +535,10 @@ void WALManager::loadExistingSegments() {
     }
 }
 
-/** @brief Remove oldest segments exceeding configured max segment count. */
+/**
+ * @brief Cleanup Old Segments.
+ * @details Calls: fs::directory_iterator(), path(), extension(), stem(), string(), substr(), std::stoull(), push_back().
+ */
 void WALManager::cleanupOldSegments() {
     // Keep only max_segments
     namespace fs = std::filesystem;

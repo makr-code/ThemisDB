@@ -17,6 +17,12 @@
 namespace themis {
 namespace aql {
 
+/**
+ * @brief Embed.
+ * @param[in] text Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), executeEmbed(), spdlog::warn(), what().
+ */
 std::vector<float> LLMAQLEmbeddingBridge::embed(const std::string& text) {
     if (text.empty()) {
         return {};

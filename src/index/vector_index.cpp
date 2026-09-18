@@ -99,17 +99,31 @@ VectorIndexManager::~VectorIndexManager() noexcept {
 	}
 }
 
-// Phase 1: Set audit logger for tracking vector operations
+/**
+ * @brief Phase 1: Set audit logger for tracking vector operations
+ * @param[in] logger Input parameter.
+ * @param[in] user_context Input parameter.
+ * @details Calls: std::move().
+ */
 void VectorIndexManager::setAuditLogger(std::shared_ptr<utils::AuditLogger> logger, std::string user_context) {
 	audit_logger_ = std::move(logger);
 	user_context_ = std::move(user_context);
 }
 
+/**
+ * @brief Set User Context.
+ * @param[in] user_id Identifier of the user.
+ * @details Calls: std::move().
+ */
 void VectorIndexManager::setUserContext(std::string user_id) {
 	user_context_ = std::move(user_id);
 }
 
-// Phase 4: Set expression evaluator for advanced filtering
+/**
+ * @brief Phase 4: Set expression evaluator for advanced filtering
+ * @param[in] evaluator Input parameter.
+ * @details Calls: std::move().
+ */
 void VectorIndexManager::setExpressionEvaluator(std::shared_ptr<IExpressionEvaluator> evaluator) {
 	expression_evaluator_ = std::move(evaluator);
 }
@@ -118,7 +132,12 @@ std::shared_ptr<IExpressionEvaluator> VectorIndexManager::getExpressionEvaluator
 	return expression_evaluator_;
 }
 
-// Advanced Vector Index Integration (v1.5.0+)
+/**
+ * @brief Advanced Vector Index Integration (v1.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @details 5.0+) Calls: empty(), Status::Error(), THEMIS_INFO(), THEMIS_WARN(), Status::OK().
+ */
 VectorIndexManager::Status VectorIndexManager::setAdvancedIndexConfig(const AdvancedIndexConfig& config) {
 	if (config.enabled && !objectName_.empty()) {
 		return Status::Error("Cannot enable advanced index after init() has been called. Call setAdvancedIndexConfig() before init()");
@@ -182,7 +201,10 @@ void VectorIndexManager::logAuditEvent_(const std::string& event_type, const std
 	}
 }
 
-// Phase 4: Load HNSW optimization configuration from YAML
+/**
+ * @brief Phase 4: Load HNSW optimization configuration from YAML
+ * @details Calls: themis::config::ConfigPathResolver::mapLegacyToNew(), std::filesystem::exists(), THEMIS_DEBUG(), YAML::LoadFile(), THEMIS_WARN(), reset(), THEMIS_INFO(), what().
+ */
 void VectorIndexManager::loadHnswOptimizationConfig_() {
 	try {
 		// Try to load configuration from scaling_optimizations.yaml (new path first, then legacy)
@@ -249,6 +271,11 @@ void VectorIndexManager::loadHnswOptimizationConfig_() {
 	}
 }
 
+/**
+ * @brief Shutdown.
+ * @return Return value.
+ * @details Calls: stateLock(), flushEncBatch(), empty(), fs::create_directories(), save(), THEMIS_INFO(), THEMIS_WARN(), what().
+ */
 VectorIndexManager::Status VectorIndexManager::shutdown() {
 	std::lock_guard<std::recursive_mutex> stateLock(index_state_mutex_);
 	// Flush pending encrypted batch writes before shutdown
@@ -327,6 +354,12 @@ void VectorIndexManager::releaseHnswResources_() noexcept {
 
 
 
+/**
+ * @brief Set Auto Save Path.
+ * @param[in] savePath Input parameter.
+ * @param[in] autoSave Input parameter.
+ * @details Calls: empty(), fs::exists(), fs::path(), THEMIS_INFO(), loadIndex(), getVectorCount(), THEMIS_WARN().
+ */
 void VectorIndexManager::setAutoSavePath(const std::string& savePath, bool autoSave) {
 	savePath_ = savePath;
 	autoSave_ = autoSave;
@@ -424,6 +457,13 @@ void VectorIndexManager::setHnswEncryptionEnabled([[maybe_unused]] bool enabled)
 	}
 }
 
+/**
+ * @brief L2.
+ * @param[in] a Input parameter.
+ * @param[in] b Input parameter.
+ * @return Return value.
+ * @details Calls: size(), infinity(), simd::l2_distance_sq(), data().
+ */
 float VectorIndexManager::l2(const std::vector<float>& a, const std::vector<float>& b) {
 	if (a.size() != b.size()) {
 	  return std::numeric_limits<float>::infinity();
@@ -432,6 +472,13 @@ float VectorIndexManager::l2(const std::vector<float>& a, const std::vector<floa
 	return simd::l2_distance_sq(a.data(), b.data(),a.size());
 }
 
+/**
+ * @brief Cosine One Minus.
+ * @param[in] a Input parameter.
+ * @param[in] b Input parameter.
+ * @return Return value.
+ * @details Calls: size(), defined(), unroll_count(), std::sqrt(), std::max().
+ */
 float VectorIndexManager::cosineOneMinus(const std::vector<float>& a, const std::vector<float>& b) {
 	float dot = 0.0f, na = 0.0f, nb = 0.0f;
 	size_t n = a.size();
@@ -463,6 +510,13 @@ float VectorIndexManager::cosineOneMinus(const std::vector<float>& a, const std:
 	return 1.0f - cosv;
 }
 
+/**
+ * @brief Compute the dot product of two vectors.
+ * @param[in] a Input parameter.
+ * @param[in] b Input parameter.
+ * @return Dot product of the input vectors.
+ * @details Calls: size().
+ */
 float VectorIndexManager::dotProduct(const std::vector<float>& a, const std::vector<float>& b) {
 	float dot = 0.0f;
 	size_t n = a.size();
@@ -488,6 +542,13 @@ float VectorIndexManager::dotProduct(const std::vector<float>& a, const std::vec
 // Mean-centered cosine distance (1 - cosine) – improves matching for near-constant queries
 // Note: Currently unused, kept for future implementation
 #if 0
+/**
+ * @brief Cosine One Minus Mean Centered.
+ * @param[in] a Input parameter.
+ * @param[in] b Input parameter.
+ * @return Return value.
+ * @details Calls: size(), empty(), ac(), bc(), std::sqrt(), std::max().
+ */
 static float cosineOneMinusMeanCentered(const std::vector<float>& a, const std::vector<float>& b) {
 	if (a.size() != b.size() || a.empty()) {
 	  return 1.0f;
@@ -521,6 +582,11 @@ static float cosineOneMinusMeanCentered(const std::vector<float>& a, const std::
 }
 #endif
 
+/**
+ * @brief Normalize L2.
+ * @param[in,out] v Input/output parameter.
+ * @details Calls: std::sqrt(), std::max().
+ */
 void VectorIndexManager::normalizeL2(std::vector<float>& v) {
 	float n2 = 0.0f;
 	for (float x : v) {
@@ -573,6 +639,18 @@ std::string VectorIndexManager::makeObjectKey(std::string_view pk) const {
 	return KeySchema::makeVectorKey(objectName_, pk);
 }
 
+/**
+ * @brief Init.
+ * @param[in] objectName Input parameter.
+ * @param[in] dim Input parameter.
+ * @param[in] metric Input parameter.
+ * @param[in] M Input parameter.
+ * @param[in] efConstruction Input parameter.
+ * @param[in] efSearch Input parameter.
+ * @param[in] savePath Input parameter.
+ * @return Return value.
+ * @details Calls: stateLock(), empty(), Status::Error(), std::string(), THEMIS_INFO(), std::filesystem::exists(), load(), THEMIS_WARN().
+ */
 VectorIndexManager::Status VectorIndexManager::init(std::string_view objectName, int dim, Metric metric,
 													int M, int efConstruction, int efSearch,
 													const std::string& savePath) {
@@ -783,6 +861,11 @@ VectorIndexManager::Status VectorIndexManager::init(std::string_view objectName,
 		return Status::OK();
 	}
 
+/**
+ * @brief Rebuild From Storage.
+ * @return Return value.
+ * @details Calls: stateLock(), empty(), Status::Error(), clear(), scanPrefix(), KeySchema::extractPrimaryKey(), bytes(), begin().
+ */
 VectorIndexManager::Status VectorIndexManager::rebuildFromStorage() {
 	std::lock_guard<std::recursive_mutex> stateLock(index_state_mutex_);
 	if (objectName_.empty() || dim_ <= 0) {
@@ -886,6 +969,11 @@ VectorIndexManager::Status VectorIndexManager::rebuildFromStorage() {
 
 std::pair<VectorIndexManager::Status, VectorIndexManager::IncrementalReindexStats>
 VectorIndexManager::incrementalReindex(float rebuild_threshold, std::string_view vectorField) {
+	/**
+	 * @brief State Lock.
+	 * @param[in] index_state_mutex_ Input parameter.
+	 * @return Return value.
+	 */
 	std::lock_guard<std::recursive_mutex> stateLock(index_state_mutex_);
 	IncrementalReindexStats stats = {};
 	if (objectName_.empty() || dim_ <= 0)
@@ -1039,6 +1127,13 @@ VectorIndexManager::incrementalReindex(float rebuild_threshold, std::string_view
 	return {Status::OK(), stats};
 }
 
+/**
+ * @brief Add Entity.
+ * @param[in] e Input parameter.
+ * @param[in] vectorField Input parameter.
+ * @return Return value.
+ * @details Calls: stateLock(), empty(), Status::Error(), getPrimaryKey(), extractVector(), isVectorEncryptionEnabled(), experimental::VectorCompressionHelper::tryLosslessCompression(), has_value().
+ */
 VectorIndexManager::Status VectorIndexManager::addEntity(const BaseEntity& e, std::string_view vectorField) {
 	std::lock_guard<std::recursive_mutex> stateLock(index_state_mutex_);
 	if (objectName_.empty()) {
@@ -1191,6 +1286,14 @@ VectorIndexManager::Status VectorIndexManager::addEntity(const BaseEntity& e, st
 	return Status::OK();
 }
 
+/**
+ * @brief Add Entity.
+ * @param[in] e Input parameter.
+ * @param[in,out] batch Input/output parameter.
+ * @param[in] vectorField Input parameter.
+ * @return Return value.
+ * @details Calls: stateLock(), empty(), Status::Error(), getPrimaryKey(), extractVector(), size(), get(), s().
+ */
 VectorIndexManager::Status VectorIndexManager::addEntity(const BaseEntity& e, RocksDBWrapper::WriteBatchWrapper& batch,
                                                           std::string_view vectorField) {
 	std::lock_guard<std::recursive_mutex> stateLock(index_state_mutex_);
@@ -1272,6 +1375,13 @@ VectorIndexManager::Status VectorIndexManager::addEntity(const BaseEntity& e, Ro
 	return Status::OK();
 }
 
+/**
+ * @brief Update Entity.
+ * @param[in] e Input parameter.
+ * @param[in] vectorField Input parameter.
+ * @return Return value.
+ * @details Calls: removeByPk(), getPrimaryKey(), THEMIS_WARN(), addEntity().
+ */
 VectorIndexManager::Status VectorIndexManager::updateEntity(const BaseEntity& e, std::string_view vectorField) {
 	// einfache Strategie: remove + add
 	auto r = removeByPk(e.getPrimaryKey());
@@ -1279,6 +1389,14 @@ VectorIndexManager::Status VectorIndexManager::updateEntity(const BaseEntity& e,
 	return addEntity(e, vectorField);
 }
 
+/**
+ * @brief Update Entity.
+ * @param[in] e Input parameter.
+ * @param[in,out] batch Input/output parameter.
+ * @param[in] vectorField Input parameter.
+ * @return Return value.
+ * @details Calls: removeByPk(), getPrimaryKey(), THEMIS_WARN(), addEntity().
+ */
 VectorIndexManager::Status VectorIndexManager::updateEntity(const BaseEntity& e, RocksDBWrapper::WriteBatchWrapper& batch,
                                                              std::string_view vectorField) {
 	// einfache Strategie: remove + add (beide via Batch)
@@ -1287,6 +1405,12 @@ VectorIndexManager::Status VectorIndexManager::updateEntity(const BaseEntity& e,
 	return addEntity(e, batch, vectorField);
 }
 
+/**
+ * @brief Remove By Pk.
+ * @param[in] pk Input parameter.
+ * @return Return value.
+ * @details Calls: stateLock(), makeObjectKey(), del(), THEMIS_WARN(), erase(), std::string(), find(), end().
+ */
 VectorIndexManager::Status VectorIndexManager::removeByPk(std::string_view pk) {
 	std::lock_guard<std::recursive_mutex> stateLock(index_state_mutex_);
 	// RocksDB löschen
@@ -1309,6 +1433,13 @@ VectorIndexManager::Status VectorIndexManager::removeByPk(std::string_view pk) {
 	return Status::OK();
 }
 
+/**
+ * @brief Remove By Pk.
+ * @param[in] pk Input parameter.
+ * @param[in,out] batch Input/output parameter.
+ * @return Return value.
+ * @details Calls: stateLock(), makeObjectKey(), del(), erase(), std::string(), find(), end(), markDelete().
+ */
 VectorIndexManager::Status VectorIndexManager::removeByPk(std::string_view pk, RocksDBWrapper::WriteBatchWrapper& batch) {
 	std::lock_guard<std::recursive_mutex> stateLock(index_state_mutex_);
 	// RocksDB löschen via WriteBatch
@@ -1332,6 +1463,11 @@ VectorIndexManager::Status VectorIndexManager::removeByPk(std::string_view pk, R
 std::vector<VectorIndexManager::Result>
 VectorIndexManager::bruteForceSearch_(const std::vector<float>& query, size_t k,
 									  const std::vector<std::string>* whitelist) const {
+	/**
+	 * @brief State Lock.
+	 * @param[in] index_state_mutex_ Input parameter.
+	 * @return Return value.
+	 */
 	std::lock_guard<std::recursive_mutex> stateLock(index_state_mutex_);
 	const size_t expected_dim = static_cast<size_t>(dim_);
 	const size_t cache_size = cache_.size();
@@ -1399,6 +1535,11 @@ VectorIndexManager::bruteForceSearch_(const std::vector<float>& query, size_t k,
 						if (qbufOpt && scaleOpt) {
 							const auto* by = std::get_if<std::vector<uint8_t>>(&(*qbufOpt));
 							if (by && by->size() == expected_dim) {
+								/**
+								 * @brief V.
+								 * @param[in] expected_dim Input parameter.
+								 * @return Return value.
+								 */
 								std::vector<float> v(expected_dim);
 								float s = static_cast<float>(*scaleOpt);
 								for (size_t i = 0; i < by->size(); ++i) {
@@ -1532,6 +1673,11 @@ VectorIndexManager::bruteForceSearch_(const std::vector<float>& query, size_t k,
 
 std::pair<VectorIndexManager::Status, std::vector<VectorIndexManager::Result>>
 VectorIndexManager::searchKnn(const std::vector<float>& query, size_t k, const std::vector<std::string>* whitelist) const {
+	/**
+	 * @brief State Lock.
+	 * @param[in] index_state_mutex_ Input parameter.
+	 * @return Return value.
+	 */
 	std::lock_guard<std::recursive_mutex> stateLock(index_state_mutex_);
 	const size_t expected_dim = static_cast<size_t>(dim_);
 	if (query.size() != expected_dim) {
@@ -1862,6 +2008,11 @@ VectorIndexManager::searchKnnFiltered(
 	const std::vector<AttributeFilter>& filters,
 	size_t candidateMultiplier
 ) const {
+	/**
+	 * @brief State Lock.
+	 * @param[in] index_state_mutex_ Input parameter.
+	 * @return Return value.
+	 */
 	std::lock_guard<std::recursive_mutex> stateLock(index_state_mutex_);
 	const size_t expected_dim = static_cast<size_t>(dim_);
 	if (query.size() != expected_dim) {
@@ -2032,6 +2183,11 @@ VectorIndexManager::searchKnnPreFiltered(
 	const std::vector<AttributeFilterV2>& filters,
 	SecondaryIndexManager* secondaryIdx
 ) const {
+	/**
+	 * @brief State Lock.
+	 * @param[in] index_state_mutex_ Input parameter.
+	 * @return Return value.
+	 */
 	std::lock_guard<std::recursive_mutex> stateLock(index_state_mutex_);
 	const size_t expected_dim = static_cast<size_t>(dim_);
 	if (query.size() != expected_dim) {
@@ -2226,6 +2382,11 @@ VectorIndexManager::searchKnnRadius(
 	size_t max_results,
 	const std::vector<std::string>* whitelistPks
 ) const {
+	/**
+	 * @brief State Lock.
+	 * @param[in] index_state_mutex_ Input parameter.
+	 * @return Return value.
+	 */
 	std::lock_guard<std::recursive_mutex> stateLock(index_state_mutex_);
 	if (dim_ <= 0) {
 		return {Status::Error("searchKnnRadius: Invalid index dimension"), std::vector<Result>()};
@@ -2320,6 +2481,11 @@ VectorIndexManager::searchKnnRadiusPreFiltered(
 	const std::vector<AttributeFilterV2>& filters,
 	SecondaryIndexManager* secondaryIdx
 ) const {
+	/**
+	 * @brief State Lock.
+	 * @param[in] index_state_mutex_ Input parameter.
+	 * @return Return value.
+	 */
 	std::lock_guard<std::recursive_mutex> stateLock(index_state_mutex_);
 	if (dim_ <= 0) {
 		return {Status::Error("searchKnnRadiusPreFiltered: Invalid index dimension"), std::vector<Result>()};
@@ -2490,7 +2656,13 @@ VectorIndexManager::searchKnnRadiusPreFiltered(
 					std::string tempPath = (fs::path(directory) / "index.bin.tmp").string();
 					appr->saveIndex(tempPath);
 					
-					// 2. Load temporary file into memory
+					/**
+					 * @brief 2.
+					 * @param[in] tempPath Input parameter.
+					 * @param[in] binary Input parameter.
+					 * @return Return value.
+					 * @details Load temporary file into memory
+					 */
 					std::ifstream tempFile(tempPath, std::ios::binary);
 					if (!tempFile) {
 						fs::remove(tempPath);
@@ -2541,6 +2713,12 @@ VectorIndexManager::searchKnnRadiusPreFiltered(
 		return Status::OK();
 	}
 
+	/**
+	 * @brief Load Index.
+	 * @param[in] directory Input parameter.
+	 * @return Return value.
+	 * @details Calls: metaFile(), fs::path(), Status::Error(), std::getline(), ignore(), max(), releaseHnswResources_(), string().
+	 */
 	VectorIndexManager::Status VectorIndexManager::loadIndex(const std::string& directory) {
 		namespace fs = std::filesystem;
 		try {
@@ -2704,6 +2882,14 @@ VectorIndexManager::searchKnnRadiusPreFiltered(
 // MVCC Transaction Variants
 // ============================================================================
 
+/**
+ * @brief Add Entity.
+ * @param[in] e Input parameter.
+ * @param[in,out] txn Input/output parameter.
+ * @param[in] vectorField Input parameter.
+ * @return Return value.
+ * @details Calls: stateLock(), empty(), Status::Error(), isActive(), getPrimaryKey(), extractVector(), size(), makeObjectKey().
+ */
 VectorIndexManager::Status VectorIndexManager::addEntity(const BaseEntity& e, RocksDBWrapper::TransactionWrapper& txn,
                                                           std::string_view vectorField) {
 	std::lock_guard<std::recursive_mutex> stateLock(index_state_mutex_);
@@ -2783,6 +2969,14 @@ VectorIndexManager::Status VectorIndexManager::addEntity(const BaseEntity& e, Ro
 	return Status::OK();
 }
 
+/**
+ * @brief Update Entity.
+ * @param[in] e Input parameter.
+ * @param[in,out] txn Input/output parameter.
+ * @param[in] vectorField Input parameter.
+ * @return Return value.
+ * @details Calls: removeByPk(), getPrimaryKey(), THEMIS_WARN(), addEntity().
+ */
 VectorIndexManager::Status VectorIndexManager::updateEntity(const BaseEntity& e, RocksDBWrapper::TransactionWrapper& txn,
                                                              std::string_view vectorField) {
 	// einfache Strategie: remove + add (beide via Transaction)
@@ -2791,6 +2985,13 @@ VectorIndexManager::Status VectorIndexManager::updateEntity(const BaseEntity& e,
 	return addEntity(e, txn, vectorField);
 }
 
+/**
+ * @brief Remove By Pk.
+ * @param[in] pk Input parameter.
+ * @param[in,out] txn Input/output parameter.
+ * @return Return value.
+ * @details Calls: stateLock(), isActive(), Status::Error(), makeObjectKey(), del(), erase(), std::string(), find().
+ */
 VectorIndexManager::Status VectorIndexManager::removeByPk(std::string_view pk, RocksDBWrapper::TransactionWrapper& txn) {
 	std::lock_guard<std::recursive_mutex> stateLock(index_state_mutex_);
 	if (!txn.isActive()) {
@@ -2819,6 +3020,13 @@ VectorIndexManager::Status VectorIndexManager::removeByPk(std::string_view pk, R
 // Batch Operations
 // =============================================================================
 
+/**
+ * @brief Add Batch.
+ * @param[in] entities Input parameter.
+ * @param[in] vectorField Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), Status::OK(), reserve(), size(), get(), s(), begin(), end().
+ */
 VectorIndexManager::Status VectorIndexManager::addBatch(
 	const std::vector<BaseEntity>& entities,
 	std::string_view vectorField
@@ -2929,6 +3137,13 @@ VectorIndexManager::Status VectorIndexManager::addBatch(
 	return Status::OK();
 }
 
+/**
+ * @brief Update Batch.
+ * @param[in] entities Input parameter.
+ * @param[in] vectorField Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), Status::OK(), createWriteBatch(), updateEntity(), THEMIS_WARN(), getPrimaryKey(), commit(), Status::Error().
+ */
 VectorIndexManager::Status VectorIndexManager::updateBatch(
 	const std::vector<BaseEntity>& entities,
 	std::string_view vectorField
@@ -2961,6 +3176,12 @@ VectorIndexManager::Status VectorIndexManager::updateBatch(
 	return Status::OK();
 }
 
+/**
+ * @brief Remove Batch.
+ * @param[in] pks Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), Status::OK(), createWriteBatch(), removeByPk(), THEMIS_WARN(), commit(), Status::Error().
+ */
 VectorIndexManager::Status VectorIndexManager::removeBatch(
 	const std::vector<std::string>& pks
 ) {
@@ -2998,6 +3219,11 @@ VectorIndexManager::Status VectorIndexManager::removeBatch(
 
 std::pair<VectorIndexManager::Status, VectorIndexManager::Statistics>
 VectorIndexManager::getStatistics() const {
+	/**
+	 * @brief State Lock.
+	 * @param[in] index_state_mutex_ Input parameter.
+	 * @return Return value.
+	 */
 	std::lock_guard<std::recursive_mutex> stateLock(index_state_mutex_);
 	Statistics stats;
 	stats.vector_count = cache_.size();
@@ -3056,6 +3282,11 @@ VectorIndexManager::getStatistics() const {
 
 std::pair<VectorIndexManager::Status, std::vector<float>>
 VectorIndexManager::computeCentroid() const {
+	/**
+	 * @brief State Lock.
+	 * @param[in] index_state_mutex_ Input parameter.
+	 * @return Return value.
+	 */
 	std::lock_guard<std::recursive_mutex> stateLock(index_state_mutex_);
 	if (cache_.empty()) {
 		return {Status::Error("computeCentroid: No vectors in index"), std::vector<float>()};
@@ -3082,6 +3313,11 @@ VectorIndexManager::computeCentroid() const {
 
 std::pair<VectorIndexManager::Status, std::vector<float>>
 VectorIndexManager::computeVariance() const {
+	/**
+	 * @brief State Lock.
+	 * @param[in] index_state_mutex_ Input parameter.
+	 * @return Return value.
+	 */
 	std::lock_guard<std::recursive_mutex> stateLock(index_state_mutex_);
 	if (cache_.empty()) {
 		return {Status::Error("computeVariance: No vectors in index"), std::vector<float>()};
@@ -3114,6 +3350,11 @@ VectorIndexManager::computeVariance() const {
 
 std::pair<VectorIndexManager::Status, std::vector<std::string>>
 VectorIndexManager::findOutliers([[maybe_unused]] float threshold) const {
+	/**
+	 * @brief State Lock.
+	 * @param[in] index_state_mutex_ Input parameter.
+	 * @return Return value.
+	 */
 	std::lock_guard<std::recursive_mutex> stateLock(index_state_mutex_);
 	if (cache_.empty()) {
 		return {Status::OK(), std::vector<std::string>()};
@@ -3146,7 +3387,13 @@ VectorIndexManager::findOutliers([[maybe_unused]] float threshold) const {
 	return {Status::OK(), outliers};
 }
 
-// ===== Vector Quantization Implementation (Feature #7) =====
+/**
+ * @brief ===== Vector Quantization Implementation (Feature #7) =====
+ * @param[in] enable Input parameter.
+ * @param[in] num_subquantizers Input parameter.
+ * @return Return value.
+ * @details Calls: stateLock(), Status::Error(), THEMIS_INFO(), Status::OK(), std::string(), what(), reset(), clear().
+ */
 
 VectorIndexManager::Status VectorIndexManager::enableQuantization(bool enable, int num_subquantizers) {
 	std::lock_guard<std::recursive_mutex> stateLock(index_state_mutex_);
@@ -3181,6 +3428,12 @@ VectorIndexManager::Status VectorIndexManager::enableQuantization(bool enable, i
 	}
 }
 
+/**
+ * @brief Train Quantizer.
+ * @param[in] training_vectors Input parameter.
+ * @return Return value.
+ * @details Calls: stateLock(), Status::Error(), empty(), reserve(), size(), push_back(), THEMIS_INFO(), train().
+ */
 VectorIndexManager::Status VectorIndexManager::trainQuantizer(
 	const std::vector<std::vector<float>>& training_vectors) {
 	std::lock_guard<std::recursive_mutex> stateLock(index_state_mutex_);
@@ -3248,6 +3501,11 @@ bool VectorIndexManager::isQuantizerTrained() const {
 }
 
 VectorIndexManager::QuantizationStats VectorIndexManager::getQuantizationStats() const {
+	/**
+	 * @brief State Lock.
+	 * @param[in] index_state_mutex_ Input parameter.
+	 * @return Return value.
+	 */
 	std::lock_guard<std::recursive_mutex> stateLock(index_state_mutex_);
 	QuantizationStats stats;
 	stats.enabled = quantization_enabled_;
@@ -3266,6 +3524,12 @@ VectorIndexManager::QuantizationStats VectorIndexManager::getQuantizationStats()
 // Rotary Embeddings Support
 // ============================================================================
 
+/**
+ * @brief Set Rotary Embedding Config.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @details Calls: stateLock(), isValid(), Status::Error(), store(), THEMIS_INFO(), logAuditEvent_(), Status::OK(), reset().
+ */
 VectorIndexManager::Status VectorIndexManager::setRotaryEmbeddingConfig(const RotationConfig& config) {
 	std::lock_guard<std::recursive_mutex> stateLock(index_state_mutex_);
 	if (!config.isValid()) {
@@ -3296,6 +3560,11 @@ VectorIndexManager::Status VectorIndexManager::setRotaryEmbeddingConfig(const Ro
 	}
 }
 
+/**
+ * @brief Disable Rotary Embedding.
+ * @return Return value.
+ * @details Calls: stateLock(), Status::Error(), reset(), store(), THEMIS_INFO(), logAuditEvent_(), Status::OK().
+ */
 VectorIndexManager::Status VectorIndexManager::disableRotaryEmbedding() {
 	std::lock_guard<std::recursive_mutex> stateLock(index_state_mutex_);
 	if (!rotary_enabled_ && !rotary_embedding_) {
@@ -3315,6 +3584,11 @@ VectorIndexManager::Status VectorIndexManager::disableRotaryEmbedding() {
 }
 
 std::optional<RotationConfig> VectorIndexManager::getRotaryEmbeddingConfig() const {
+	/**
+	 * @brief State Lock.
+	 * @param[in] index_state_mutex_ Input parameter.
+	 * @return Return value.
+	 */
 	std::lock_guard<std::recursive_mutex> stateLock(index_state_mutex_);
 	if (!rotary_enabled_ || !rotary_embedding_) {
 		return std::nullopt;
@@ -3323,6 +3597,11 @@ std::optional<RotationConfig> VectorIndexManager::getRotaryEmbeddingConfig() con
 }
 
 std::optional<VectorIndexManager::RotaryEmbeddingStats> VectorIndexManager::getRotaryEmbeddingStats() const {
+	/**
+	 * @brief State Lock.
+	 * @param[in] index_state_mutex_ Input parameter.
+	 * @return Return value.
+	 */
 	std::lock_guard<std::recursive_mutex> stateLock(index_state_mutex_);
 	if (!rotary_enabled_ || !rotary_embedding_) {
 		return std::nullopt;
@@ -3335,6 +3614,14 @@ std::optional<VectorIndexManager::RotaryEmbeddingStats> VectorIndexManager::getR
 	return stats;
 }
 
+/**
+ * @brief Add Entity With Rotation.
+ * @param[in] e Input parameter.
+ * @param[in] vectorField Input parameter.
+ * @param[in] position Input parameter.
+ * @return Return value.
+ * @details Calls: stateLock(), Status::Error(), extractVector(), std::string(), std::chrono::steady_clock::now(), rotate(), count(), setField().
+ */
 VectorIndexManager::Status VectorIndexManager::addEntityWithRotation(
 	const BaseEntity& e,
 	std::string_view vectorField,
@@ -3380,6 +3667,14 @@ VectorIndexManager::Status VectorIndexManager::addEntityWithRotation(
 	}
 }
 
+/**
+ * @brief Add Entity With Relational Rotation.
+ * @param[in] e Input parameter.
+ * @param[in] vectorField Input parameter.
+ * @param[in] relation_type Input parameter.
+ * @return Return value.
+ * @details Calls: stateLock(), Status::Error(), extractVector(), std::string(), std::chrono::steady_clock::now(), rotateRelational(), count(), setField().
+ */
 VectorIndexManager::Status VectorIndexManager::addEntityWithRelationalRotation(
 	const BaseEntity& e,
 	std::string_view vectorField,
@@ -3431,6 +3726,11 @@ VectorIndexManager::searchWithRotation(
 	size_t query_position,
 	const std::vector<std::string>* whitelistPks
 ) const {
+	/**
+	 * @brief State Lock.
+	 * @param[in] index_state_mutex_ Input parameter.
+	 * @return Return value.
+	 */
 	std::lock_guard<std::recursive_mutex> stateLock(index_state_mutex_);
 	if (!rotary_enabled_ || !rotary_embedding_) {
 		return {Status::Error("Rotary embeddings not enabled"), std::vector<Result>()};
@@ -3460,8 +3760,18 @@ VectorIndexManager::searchWithRotation(
 }
 
 std::optional<std::vector<float>> VectorIndexManager::getVectorByPk(std::string_view pk) const {
+	/**
+	 * @brief State Lock.
+	 * @param[in] index_state_mutex_ Input parameter.
+	 * @return Return value.
+	 */
 	std::lock_guard<std::recursive_mutex> stateLock(index_state_mutex_);
 	// Check cache first
+	/**
+	 * @brief Pk Str.
+	 * @param[in] pk Input parameter.
+	 * @return Return value.
+	 */
 	std::string pkStr(pk);
 	auto it = cache_.find(pkStr);
 	if (it != cache_.end()) {

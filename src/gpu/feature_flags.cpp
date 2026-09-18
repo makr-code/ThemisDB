@@ -38,6 +38,11 @@ const char* GPUFeatureFlags::featureName(Feature feature) noexcept {
     return "UNKNOWN";
 }
 
+/**
+ * @brief Edition Name.
+ * @return Return value.
+ * @details Calls: std::string().
+ */
 std::string GPUFeatureFlags::editionName() {
     return std::string(edition::EDITION_STRING);
 }
@@ -46,28 +51,11 @@ std::string GPUFeatureFlags::editionName() {
 // Edition defaults
 // ============================================================================
 
-/*
- * Feature defaults per edition:
- *
- * | Feature          | MINIMAL | COMMUNITY | ENTERPRISE | MILITARY | HYPERSCALER |
- * |------------------|---------|-----------|------------|----------|-------------|
- * | MEMORY_POOL      |   no    |    yes    |    yes     |   yes    |    yes      |
- * | ASYNC_LAUNCHER   |   no    |    yes    |    yes     |   yes    |    yes      |
- * | MULTI_GPU        |   no    |    no     |    yes     |   yes    |    yes      |
- * | TENSOR_OPS       |   no    |    no     |    yes     |   yes    |    yes      |
- * | POLICY_GATE      |   no    |    yes    |    yes     |   yes    |    yes      |
- * | AUDIT_LOG        |   no    |    yes    |    yes     |   yes    |    yes      |
- * | METRICS          |   no    |    yes    |    yes     |   yes    |    yes      |
- * | LOAD_BALANCER    |   no    |    no     |    yes     |   yes    |    yes      |
- * | KERNEL_VALIDATOR |   no    |    yes    |    yes     |   yes    |    yes      |
- * | ALERTS           |   no    |    yes    |    yes     |   yes    |    yes      |
- * | WASM_SANDBOX     |   no    |    no     |    yes     |   no     |    yes      |
- * | MIG_MANAGER      |   no    |    no     |    yes     |   yes    |    yes      |
- * | VULKAN_BACKEND   |   no    |    yes    |    yes     |   yes    |    yes      |
- * | PEER_TO_PEER     |   no    |    no     |    yes     |   yes    |    yes      |
- *
- * MINIMAL: VRAM cap is 0 — GPU execution is disabled; all GPU features are off.
- * MILITARY: full GPU feature set except WASM_SANDBOX (air-gapped/hardened policy).
+/**
+ * @brief Feature defaults per edition: | Feature | MINIMAL | COMMUNITY | ENTERPRISE | MILITARY | HYPERSCALER | |------------------|---------|-----------|------------|----------|-------------| | MEMORY_POOL | no | yes | yes | yes | yes | | ASYNC_LAUNCHER | no | yes | yes | yes | yes | | MULTI_GPU | no | no | yes | yes | yes | | TENSOR_OPS | no | no | yes | yes | yes | | POLICY_GATE | no | yes | yes | yes | yes | | AUDIT_LOG | no | yes | yes | yes | yes | | METRICS | no | yes | yes | yes | yes | | LOAD_BALANCER | no | no | yes | yes | yes | | KERNEL_VALIDATOR | no | yes | yes | yes | yes | | ALERTS | no | yes | yes | yes | yes | | WASM_SANDBOX | no | no | yes | no | yes | | MIG_MANAGER | no | no | yes | yes | yes | | VULKAN_BACKEND | no | yes | yes | yes | yes | | PEER_TO_PEER | no | no | yes | yes | yes | MINIMAL: VRAM cap is 0 — GPU execution is disabled; all GPU features are off.
+ * @param[in] f Input parameter.
+ * @return True when the operation succeeds.
+ * @details MILITARY: full GPU feature set except WASM_SANDBOX (air-gapped/hardened policy). Calls: edition::GetEditionType().
  */
 bool GPUFeatureFlags::editionDefaultFor(Feature f) {
     const auto ed = edition::GetEditionType();
@@ -134,6 +122,10 @@ bool GPUFeatureFlags::editionDefaultFor(Feature f) {
     return true;
 }
 
+/**
+ * @brief Init Defaults.
+ * @details Calls: key(), editionDefaultFor().
+ */
 void GPUFeatureFlags::initDefaults() {
     const Feature all[] = {
         Feature::MEMORY_POOL, Feature::ASYNC_LAUNCHER, Feature::MULTI_GPU,
@@ -160,6 +152,11 @@ GPUFeatureFlags::GPUFeatureFlags() {
 // ============================================================================
 
 bool GPUFeatureFlags::isEnabled(Feature feature) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     const int k = key(feature);
     // Check override first.
@@ -179,16 +176,30 @@ bool GPUFeatureFlags::isEnabled(Feature feature) const {
 // Override
 // ============================================================================
 
+/**
+ * @brief Enable.
+ * @param[in] feature Input parameter.
+ * @details Calls: lock(), key().
+ */
 void GPUFeatureFlags::enable(Feature feature) {
     std::lock_guard<std::mutex> lock(mutex_);
     overrides_[key(feature)] = true;
 }
 
+/**
+ * @brief Disable.
+ * @param[in] feature Input parameter.
+ * @details Calls: lock(), key().
+ */
 void GPUFeatureFlags::disable(Feature feature) {
     std::lock_guard<std::mutex> lock(mutex_);
     overrides_[key(feature)] = false;
 }
 
+/**
+ * @brief Reset To Defaults.
+ * @details Calls: lock(), clear().
+ */
 void GPUFeatureFlags::resetToDefaults() {
     std::lock_guard<std::mutex> lock(mutex_);
     overrides_.clear();
@@ -199,6 +210,11 @@ void GPUFeatureFlags::resetToDefaults() {
 // ============================================================================
 
 std::vector<GPUFeatureFlags::FeatureStatus> GPUFeatureFlags::getAll() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     const Feature all[] = {
         Feature::MEMORY_POOL, Feature::ASYNC_LAUNCHER, Feature::MULTI_GPU,

@@ -41,11 +41,6 @@ namespace query {
 // Value type
 // ---------------------------------------------------------------------------
 
-/**
- * @brief A single column value — one of the scalar types supported by AQL.
- *
- * Ordering follows AQL type precedence for implicit coercion.
- */
 using ColumnValue = std::variant<
     std::monostate,   ///< NULL
     int64_t,          ///< INTEGER
@@ -58,50 +53,16 @@ using ColumnValue = std::variant<
 // Row / ResultSet
 // ---------------------------------------------------------------------------
 
-/**
- * @brief One result row: an ordered sequence of typed column values.
- *
- * Column positions match the projection order in the query plan.
- */
 using Row = std::vector<ColumnValue>;
 
-/**
- * @brief A fully materialised result set (used for small result sets).
- *
- * For large result sets the streaming `RowCallback` API should be used
- * instead to avoid holding all rows in memory simultaneously.
- */
 struct ResultSet {
     std::vector<std::string> column_names; ///< Column names in projection order.
     std::vector<Row>         rows;         ///< Materialised rows.
 
-    /**
-     * @brief Number of result rows.
-     * @return Row count.
-     */
     [[nodiscard]] std::size_t row_count() const noexcept { return rows.size(); }
 
-    /**
-     * @brief Access row at a given index with bounds checking.
-     * @param index Zero-based row index.
-     * @return Const reference to the row.
-     * @throws std::out_of_range if `index >= row_count()`.
-     *
-     * **Iterator safety:** uses `BoundsChecker::check_dereference()` internally.
-     */
     [[nodiscard]] const Row& at(std::size_t index) const;
 
-    /**
-     * @brief Fetch a window of rows [offset, offset+limit).
-     *
-     * Both `offset` and `limit` are user-supplied and validated through
-     * `AdvanceSafe` before any iterator movement.
-     *
-     * @param offset First row to include (0-based).
-     * @param limit  Maximum number of rows to return.
-     * @return Sub-vector of rows; may be shorter than `limit` if near the end.
-     * @throws std::out_of_range if `offset > row_count()`.
-     */
     [[nodiscard]] std::vector<Row> page(std::size_t offset, std::size_t limit) const;
 };
 
@@ -109,36 +70,9 @@ struct ResultSet {
 // Execution context
 // ---------------------------------------------------------------------------
 
-/**
- * @brief Opaque execution context injected by the caller.
- *
- * Holds references to storage, transaction state, and other subsystems
- * needed during plan execution.  `QueryExecutor` treats this as a
- * non-owning view; the lifetime must outlast the executor call.
- *
- * **Wave A Timeout Safety (§13, ROADMAP.md):**
- * The executor respects timeout_ms and checks for deadline expiry at each
- * row iteration checkpoint. If the deadline is exceeded, execute() throws
- * std::runtime_error("Query execution timeout") to fail fast and release
- * resources. Streaming execution (execute_streaming) returns early when
- * the timeout is exceeded, allowing partial results to be delivered.
- */
 struct ExecutionContext {
-    /// Maximum rows to materialise before streaming flush (0 = unbounded).
     std::size_t max_materialise_rows = 1024;
-    /// Hard row-count limit across all result pages.
     std::size_t row_limit = 100'000;
-    /**
-     * @brief Query execution timeout in milliseconds (0 = no limit).
-     *
-     * **SLA Reasoning:**
-     * - Default: 0 (no timeout) — caller must set explicitly if desired
-     * - Rationale: Prevents runaway queries from blocking indefinitely
-     * - Checked at each row iteration, not at sub-millisecond granularity
-     * - Failure mode: Throws std::runtime_error on timeout (materialised execute)
-     *               or returns early (streaming execute) with partial results
-     * - Logging: All timeout events logged with row count and elapsed time
-     */
     uint32_t timeout_ms = 0;
 };
 
@@ -146,12 +80,6 @@ struct ExecutionContext {
 // QueryPlan (forward opaque type)
 // ---------------------------------------------------------------------------
 
-/**
- * @brief Opaque compiled query plan produced by the query planner.
- *
- * The executor treats this as a read-only token; the actual plan tree is
- * accessed through the `QueryPlan::steps()` accessor in the implementation.
- */
 struct QueryPlan {
     std::string                                  fingerprint; ///< SHA-256 digest.
     std::vector<std::string>                     column_names;
@@ -162,49 +90,14 @@ struct QueryPlan {
 // RowCallback
 // ---------------------------------------------------------------------------
 
-/**
- * @brief Streaming row callback used when result sets may be large.
- *
- * Return `true` to continue streaming, `false` to abort early.
- *
- * @param row  The current result row (passed by const ref; do not store pointer).
- * @return `true` to continue, `false` to abort.
- */
 using RowCallback = std::function<bool(const Row& row)>;
 
 // ---------------------------------------------------------------------------
 // QueryExecutor
 // ---------------------------------------------------------------------------
 
-/**
- * @brief Executes compiled query plans with iterator-safe result traversal.
- *
- * `QueryExecutor` is a short-lived, single-use object: construct it with a
- * plan and context, call `execute()` once, then discard.
- *
- * **Thread safety:** not thread-safe; each query must use its own executor.
- *
- * **Iterator safety guarantees:**
- * - Row-vector access: `BoundsChecker::check_dereference()` before every dereference.
- * - Page/offset arithmetic: `AdvanceSafe::advance()` replaces raw `std::advance()`.
- * - Sub-range iteration: `RangeValidator` validates every inner loop range.
- *
- * **Usage:**
- * ```cpp
- * ExecutionContext ctx;
- * ctx.row_limit = 500;
- * QueryExecutor exec(plan, ctx);
- * ResultSet rs = exec.execute();
- * for (const auto& row : rs.rows) { ... }
- * ```
- */
 class QueryExecutor {
 public:
-    /**
-     * @brief Construct the executor.
-     * @param plan    Compiled query plan (must outlive the executor call).
-     * @param context Execution constraints and dependencies.
-     */
     QueryExecutor(const QueryPlan& plan, const ExecutionContext& context);
 
     ~QueryExecutor() = default;
@@ -215,32 +108,18 @@ public:
     QueryExecutor(QueryExecutor&&)                 noexcept = default;
     QueryExecutor& operator=(QueryExecutor&&)      noexcept = default;
 
-    /**
-     * @brief Execute the plan and materialise all results.
-     *
-     * @return Fully populated `ResultSet`.
-     * @throws std::runtime_error if execution fails.
-     * @throws std::length_error  if result exceeds `context.row_limit`.
-     */
     [[nodiscard]] ResultSet execute();
 
     /**
-     * @brief Execute the plan with streaming delivery via callback.
-     *
-     * Rows are emitted to `cb` one at a time in plan order.  Streaming stops
-     * when either the plan is exhausted or `cb` returns `false`.
-     *
-     * @param cb  Row callback; must not throw.
-     * @return Number of rows delivered to `cb`.
-     * @throws std::runtime_error if execution fails.
+     * @brief Execute streaming.
+     * @param[in] cb Input parameter.
+     * @return Return value.
      */
     std::size_t execute_streaming(RowCallback cb);
 
     /**
-     * @brief Abort a running streaming execution at the next row boundary.
-     *
-     * Thread-safe: may be called from a signal handler or watchdog thread.
-     * No-op if execution has already completed.
+     * @brief Abort.
+     * @note Exception safety: noexcept.
      */
     void abort() noexcept;
 
@@ -250,19 +129,8 @@ private:
     std::atomic<bool>    aborted_{false};
     std::chrono::steady_clock::time_point execution_start_;
 
-    /// Build one Row from a source map entry.
     Row build_row(const std::unordered_map<std::string, ColumnValue>& src) const;
 
-    /**
-     * @brief Check if execution timeout has been exceeded.
-     *
-     * **Wave A Timeout Safety (§13, ROADMAP.md):**
-     * Returns true if context_->timeout_ms is set and has been exceeded.
-     * Called at each row iteration to enforce execution deadlines.
-     * Returns false if timeout_ms is 0 (no limit).
-     *
-     * @return true if timeout is configured and deadline exceeded, false otherwise.
-     */
     [[nodiscard]] bool isExecutionTimeoutExceeded() const noexcept;
 };
 

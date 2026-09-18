@@ -12,9 +12,6 @@
 
 namespace themis {
 
-/**
- * @brief Partition data container
- */
 class PartitionData {
 public:
     PartitionData(uint32_t id, const std::string& name)
@@ -48,12 +45,23 @@ PartitionManager::PartitionManager() : next_id_(1) {
 }
 
 PartitionManager::~PartitionManager() noexcept {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     partitions_.clear();
     epoch_counters_.clear();
     THEMIS_INFO("PartitionManager destroyed");
 }
 
+/**
+ * @brief Add Partition.
+ * @param[in] name Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), THEMIS_DEBUG(), PartitionHandle().
+ */
 PartitionHandle PartitionManager::AddPartition(const std::string& name) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -71,6 +79,12 @@ PartitionHandle PartitionManager::AddPartition(const std::string& name) {
     return PartitionHandle(id, epoch, this);
 }
 
+/**
+ * @brief Remove Partition.
+ * @param[in] partition_id Identifier of the partition.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), find(), end(), THEMIS_WARN(), erase(), THEMIS_INFO().
+ */
 bool PartitionManager::RemovePartition(uint32_t partition_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -91,6 +105,10 @@ bool PartitionManager::RemovePartition(uint32_t partition_id) {
     return true;
 }
 
+/**
+ * @brief Rebuild Partitions.
+ * @details Calls: lock(), push_back(), clear(), THEMIS_DEBUG(), THEMIS_INFO(), size().
+ */
 void PartitionManager::RebuildPartitions() {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -122,6 +140,10 @@ void PartitionManager::RebuildPartitions() {
     THEMIS_INFO("Rebuilt {} partitions with epoch invalidation",partition_list.size());
 }
 
+/**
+ * @brief Compact Partitions.
+ * @details Calls: lock(), empty(), THEMIS_DEBUG(), push_back(), find(), end(), std::move(), THEMIS_INFO().
+ */
 void PartitionManager::CompactPartitions() {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -173,6 +195,11 @@ void PartitionManager::CompactPartitions() {
 }
 
 uint64_t PartitionManager::CurrentEpoch(uint32_t partition_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     auto it = epoch_counters_.find(partition_id);
@@ -183,6 +210,12 @@ uint64_t PartitionManager::CurrentEpoch(uint32_t partition_id) const {
     return it->second;
 }
 
+/**
+ * @brief Get Partition By Id.
+ * @param[in] partition_id Identifier of the partition.
+ * @return Return value.
+ * @details Calls: lock(), find(), end().
+ */
 std::shared_ptr<PartitionData> PartitionManager::GetPartitionById(uint32_t partition_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -194,6 +227,12 @@ std::shared_ptr<PartitionData> PartitionManager::GetPartitionById(uint32_t parti
     return it->second.data;
 }
 
+/**
+ * @brief Get Partition By Handle.
+ * @param[in] handle Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), find(), end().
+ */
 std::shared_ptr<PartitionData> PartitionManager::GetPartitionByHandle(const PartitionHandle& handle) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -213,6 +252,11 @@ std::shared_ptr<PartitionData> PartitionManager::GetPartitionByHandle(const Part
 }
 
 std::vector<uint32_t> PartitionManager::GetPartitionIds() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     std::vector<uint32_t> ids = {};
@@ -225,6 +269,11 @@ std::vector<uint32_t> PartitionManager::GetPartitionIds() const {
 }
 
 size_t PartitionManager::GetPartitionCount() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return partitions_.size();
 }

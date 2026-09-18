@@ -128,6 +128,13 @@ void ZeroCopyLogger::logStructuredSV(Level level, std::string_view message,
 // ILogger overrides
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Log Structured.
+ * @param[in] level Input parameter.
+ * @param[in] message Input parameter.
+ * @param[in] fields Input parameter.
+ * @details Calls: should_log(), toSpdlogLevel(), formatBuffer(), clear(), load(), std::chrono::system_clock::now(), time_since_epoch(), count().
+ */
 void ZeroCopyLogger::logStructured(Level level, const std::string &message, const Fields &fields) {
     if (!logger_) {
         return;
@@ -199,6 +206,11 @@ void ZeroCopyLogger::logStructured(Level level, const std::string &message, cons
 // Configuration
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Set Level.
+ * @param[in] level Input parameter.
+ * @details Calls: set_level(), toSpdlogLevel().
+ */
 void ZeroCopyLogger::setLevel(Level level) {
     if (logger_) {
         logger_->set_level(toSpdlogLevel(level));
@@ -227,6 +239,11 @@ ILogger::Level ZeroCopyLogger::getLevel() const {
     }
 }
 
+/**
+ * @brief Set Pattern.
+ * @param[in] pattern Input parameter.
+ * @details Calls: set_pattern().
+ */
 void ZeroCopyLogger::setPattern(const std::string &pattern) {
     if (logger_) {
         logger_->set_pattern(pattern);
@@ -287,6 +304,12 @@ std::string &ZeroCopyLogger::formatBuffer() const noexcept {
     return tl_format_buffer;
 }
 
+/**
+ * @brief Json Escape Into.
+ * @param[in,out] out Input/output parameter.
+ * @param[in] s Input parameter.
+ * @details Calls: reserve(), size(), std::snprintf().
+ */
 void ZeroCopyLogger::jsonEscapeInto(std::string &out, std::string_view s) {
     // Reserve a conservative lower bound to reduce repeated growth in hot paths.
     out.reserve(out.size() + s.size());
@@ -333,6 +356,12 @@ bool ZeroCopyLogger::isPiiKey(std::string_view key) noexcept {
         lower_buf[i] = static_cast<char>((ch >= 'A' && ch <= 'Z') ? (ch | 0x20) : ch);
     }
     lower_buf[n] = '\0';
+    /**
+     * @brief Lower key.
+     * @param[in] lower_buf Input parameter.
+     * @param[in] n Input parameter.
+     * @return Return value.
+     */
     std::string_view lower_key(lower_buf, n);
 
     for (const auto &token : kPiiTokens) {

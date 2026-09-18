@@ -17,6 +17,11 @@ namespace themis {
 namespace performance {
 
 // Hardware validation
+/**
+ * @brief Is dostoevsky hardware supported.
+ * @return True when the operation succeeds.
+ * @details Calls: Phase2FeatureFlags::instance(), dostoevsky_hardware_supported().
+ */
 static bool is_dostoevsky_hardware_supported() {
     return Phase2FeatureFlags::instance().dostoevsky_hardware_supported();
 }
@@ -71,10 +76,22 @@ MergePolicy DostoevskeyLSM::get_policy(int level) const {
         throw std::runtime_error("Dostoevsky: level out of bounds");
     }
     
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return level_policies_[level];
 }
 
+/**
+ * @brief Update policy.
+ * @param[in] level Input parameter.
+ * @param[in] stats Input parameter.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: lock(), compute_optimal_policy().
+ */
 void DostoevskeyLSM::update_policy(int level, const WorkloadStats& stats) {
     if (level < 0 || level >= num_levels_) {
         throw std::runtime_error("Dostoevsky: level out of bounds");
@@ -136,6 +153,10 @@ bool WorkloadMonitor::should_update_policies() const {
     return (now - window_start_) >= window_duration_;
 }
 
+/**
+ * @brief Reset window.
+ * @details Calls: std::chrono::steady_clock::now(), reset().
+ */
 void WorkloadMonitor::reset_window() {
     window_start_ = std::chrono::steady_clock::now();
     // Thread-safe reset of statistics by calling reset() method

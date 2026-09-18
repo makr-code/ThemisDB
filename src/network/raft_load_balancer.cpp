@@ -45,7 +45,6 @@ namespace {
 
 constexpr int kRaftLbShutdownJoinTimeoutMs = 5000;
 
-/// @brief Join @p t within @p timeout_ms; log and detach on timeout.
 static void timedJoinRaftLoadBalancer(std::thread &t, int timeout_ms = kRaftLbShutdownJoinTimeoutMs) noexcept {
     if (!t.joinable())
         return;
@@ -109,6 +108,10 @@ RaftLoadBalancer::~RaftLoadBalancer() {
 // Lifecycle
 // =============================================================================
 
+/**
+ * @brief Start.
+ * @details Calls: exchange(), store(), std::thread(), healthCheckLoop(), raftLoop().
+ */
 void RaftLoadBalancer::start() {
     // Prevent double-start: exchange started_ to true; if it was already true,
     // the threads are running and we return immediately.
@@ -121,6 +124,10 @@ void RaftLoadBalancer::start() {
     raft_thread_         = std::thread([this]() { raftLoop(); });
 }
 
+/**
+ * @brief Stop.
+ * @details Calls: lk(), store(), notify_all(), joinable(), timedJoinRaftLoadBalancer().
+ */
 void RaftLoadBalancer::stop() {
     {
         std::lock_guard<std::mutex> lk(shutdown_mutex_);
@@ -141,6 +148,13 @@ void RaftLoadBalancer::stop() {
 // Backend Management
 // =============================================================================
 
+/**
+ * @brief Add Backend.
+ * @param[in] address Input parameter.
+ * @param[in] weight Input parameter.
+ * @param[in] datacenter Input parameter.
+ * @details Calls: lk(), push_back(), std::move().
+ */
 void RaftLoadBalancer::addBackend(const std::string &address, double weight, const std::string &datacenter) {
     std::lock_guard<std::mutex> lk(backends_mutex_);
     // Avoid duplicates
@@ -156,6 +170,11 @@ void RaftLoadBalancer::addBackend(const std::string &address, double weight, con
     backends_.push_back(std::move(backend));
 }
 
+/**
+ * @brief Remove Backend.
+ * @param[in] address Input parameter.
+ * @details Calls: lk(), erase(), std::remove_if(), begin(), end().
+ */
 void RaftLoadBalancer::removeBackend(const std::string &address) {
     std::lock_guard<std::mutex> lk(backends_mutex_);
     backends_.erase(std::remove_if(backends_.begin(), backends_.end(),
@@ -163,6 +182,12 @@ void RaftLoadBalancer::removeBackend(const std::string &address) {
                     backends_.end());
 }
 
+/**
+ * @brief Update Weight.
+ * @param[in] address Input parameter.
+ * @param[in] weight Input parameter.
+ * @details Calls: lk(), findBackend().
+ */
 void RaftLoadBalancer::updateWeight(const std::string &address, double weight) {
     std::lock_guard<std::mutex> lk(backends_mutex_);
     auto *b = findBackend(address);
@@ -172,6 +197,11 @@ void RaftLoadBalancer::updateWeight(const std::string &address, double weight) {
 }
 
 std::vector<RaftLoadBalancer::Backend *> RaftLoadBalancer::getBackends() const {
+    /**
+     * @brief Lk.
+     * @param[in] backends_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(backends_mutex_);
     std::vector<Backend *> result = {};
 
@@ -186,6 +216,11 @@ std::vector<RaftLoadBalancer::Backend *> RaftLoadBalancer::getBackends() const {
 // Routing
 // =============================================================================
 
+/**
+ * @brief Select Backend.
+ * @return Return value.
+ * @details Calls: lk(), empty(), load(), selectRoundRobin(), selectLeastConnections(), selectWeightedRoundRobin(), selectHealthBased().
+ */
 std::string RaftLoadBalancer::selectBackend() {
     std::lock_guard<std::mutex> lk(backends_mutex_);
     if (backends_.empty())
@@ -222,6 +257,12 @@ std::string RaftLoadBalancer::selectBackend() {
     }
 }
 
+/**
+ * @brief Select Backend.
+ * @param[in] key Input parameter.
+ * @return Return value.
+ * @details Calls: lk(), empty(), selectConsistentHash().
+ */
 std::string RaftLoadBalancer::selectBackend(const std::string &key) {
     std::lock_guard<std::mutex> lk(backends_mutex_);
     if (backends_.empty())
@@ -233,6 +274,12 @@ std::string RaftLoadBalancer::selectBackend(const std::string &key) {
     return selectConsistentHash(key);
 }
 
+/**
+ * @brief On Request Complete.
+ * @param[in] address Input parameter.
+ * @param[in] success Input parameter.
+ * @details Calls: fetch_add(), lk(), findBackend().
+ */
 void RaftLoadBalancer::onRequestComplete(const std::string &address, bool success) {
     total_requests_.fetch_add(1, std::memory_order_relaxed);
     if (!success) {
@@ -250,6 +297,11 @@ void RaftLoadBalancer::onRequestComplete(const std::string &address, bool succes
     }
 }
 
+/**
+ * @brief On Connection Opened.
+ * @param[in] address Input parameter.
+ * @details Calls: lk(), findBackend(), fetch_add().
+ */
 void RaftLoadBalancer::onConnectionOpened(const std::string &address) {
     std::lock_guard<std::mutex> lk(backends_mutex_);
     auto *b = findBackend(address);
@@ -257,6 +309,11 @@ void RaftLoadBalancer::onConnectionOpened(const std::string &address) {
         b->active_connections.fetch_add(1, std::memory_order_relaxed);
 }
 
+/**
+ * @brief On Connection Closed.
+ * @param[in] address Input parameter.
+ * @details Calls: lk(), findBackend(), load(), fetch_sub().
+ */
 void RaftLoadBalancer::onConnectionClosed(const std::string &address) {
     std::lock_guard<std::mutex> lk(backends_mutex_);
     auto *b = findBackend(address);
@@ -293,6 +350,11 @@ RaftLoadBalancer::Stats RaftLoadBalancer::getStats() const {
     s.failover_events  = failover_events_.load(std::memory_order_acquire);
     s.recovery_events  = recovery_events_.load(std::memory_order_acquire);
 
+    /**
+     * @brief Lk.
+     * @param[in] backends_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(backends_mutex_);
     for (const auto &b : backends_) {
         if (!b->healthy)
@@ -302,11 +364,21 @@ RaftLoadBalancer::Stats RaftLoadBalancer::getStats() const {
     return s;
 }
 
+/**
+ * @brief Set Strategy.
+ * @param[in] strategy Input parameter.
+ * @details Calls: store().
+ */
 void RaftLoadBalancer::setStrategy(LoadBalancingStrategy strategy) {
     strategy_.store(strategy, std::memory_order_release);
 }
 
 void RaftLoadBalancer::setHealthCheckFn(std::function<bool(const Backend &)> fn) {
+    /**
+     * @brief Lk.
+     * @param[in] shutdown_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(shutdown_mutex_);
     health_check_fn_ = std::move(fn);
 }
@@ -344,6 +416,11 @@ std::vector<RaftLoadBalancer::Backend *> RaftLoadBalancer::healthyBackends() con
     return result;
 }
 
+/**
+ * @brief Select Round Robin.
+ * @return Return value.
+ * @details Calls: healthyBackends(), empty(), size(), fetch_add().
+ */
 std::string RaftLoadBalancer::selectRoundRobin() {
     auto healthy = healthyBackends();
     if (healthy.empty())
@@ -353,6 +430,11 @@ std::string RaftLoadBalancer::selectRoundRobin() {
     return healthy[idx]->address;
 }
 
+/**
+ * @brief Select Least Connections.
+ * @return Return value.
+ * @details Calls: healthyBackends(), empty(), max(), load().
+ */
 std::string RaftLoadBalancer::selectLeastConnections() {
     auto healthy = healthyBackends();
     if (healthy.empty())
@@ -370,6 +452,11 @@ std::string RaftLoadBalancer::selectLeastConnections() {
     return best ? best->address : std::string{};
 }
 
+/**
+ * @brief Select Weighted Round Robin.
+ * @return Return value.
+ * @details Calls: healthyBackends(), empty(), selectRoundRobin(), size().
+ */
 std::string RaftLoadBalancer::selectWeightedRoundRobin() {
     // Nginx smooth weighted round-robin.
     // Each call: (1) add each backend's configured weight to its effective
@@ -409,11 +496,22 @@ std::string RaftLoadBalancer::selectWeightedRoundRobin() {
     return winner->address;
 }
 
+/**
+ * @brief Select Health Based.
+ * @return Return value.
+ * @details Calls: selectRoundRobin().
+ */
 std::string RaftLoadBalancer::selectHealthBased() {
     // Same as round-robin but healthyBackends() already filters unhealthy ones.
     return selectRoundRobin();
 }
 
+/**
+ * @brief Select Consistent Hash.
+ * @param[in] key Input parameter.
+ * @return Return value.
+ * @details Calls: healthyBackends(), empty(), size().
+ */
 std::string RaftLoadBalancer::selectConsistentHash(const std::string &key) {
     auto healthy = healthyBackends();
     if (healthy.empty())
@@ -435,6 +533,12 @@ std::string RaftLoadBalancer::selectConsistentHash(const std::string &key) {
 // Health Check Loop
 // =============================================================================
 
+/**
+ * @brief Default Health Check.
+ * @param[in] backend Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: rfind(), THEMIS_WARN(), substr(), defined(), closesocket(), close(), SockGuard(), closer().
+ */
 bool RaftLoadBalancer::defaultHealthCheck(const Backend& backend) {
     // Real TCP probe with 500 ms connect timeout.
     // Splits backend.address ("host:port") into host and port components.
@@ -535,6 +639,10 @@ bool RaftLoadBalancer::defaultHealthCheck(const Backend& backend) {
 #endif
 }
 
+/**
+ * @brief Run Health Checks.
+ * @details Calls: bool(), lk(), push_back(), get(), check_fn(), std::chrono::steady_clock::now(), store(), fetch_add().
+ */
 void RaftLoadBalancer::runHealthChecks() {
     std::function<bool(const Backend &)> check_fn;
     {
@@ -584,6 +692,10 @@ void RaftLoadBalancer::runHealthChecks() {
     maybeRebalance();
 }
 
+/**
+ * @brief Health Check Loop.
+ * @details Calls: std::chrono::milliseconds(), load(), lk(), wait_for(), unlock(), runHealthChecks().
+ */
 void RaftLoadBalancer::healthCheckLoop() {
     const auto interval = std::chrono::milliseconds(config_.health_check_interval_ms);
 
@@ -602,6 +714,10 @@ void RaftLoadBalancer::healthCheckLoop() {
 // Rebalancing
 // =============================================================================
 
+/**
+ * @brief Maybe Rebalance.
+ * @details Calls: lk(), healthyBackends(), size(), load(), std::abs(), fetch_add().
+ */
 void RaftLoadBalancer::maybeRebalance() {
     std::lock_guard<std::mutex> lk(backends_mutex_);
     auto healthy = healthyBackends();
@@ -648,9 +764,10 @@ void RaftLoadBalancer::maybeRebalance() {
     }
 }
 
-// =============================================================================
-// Raft Loop  (simplified single-node leader for this release)
-// =============================================================================
+/**
+ * @brief ============================================================================= Raft Loop (simplified single-node leader for this release) =============================================================================
+ * @details Calls: rng(), election_dist(), std::chrono::steady_clock::now(), std::chrono::milliseconds(), load(), lk(), wait_for(), fetch_add().
+ */
 
 void RaftLoadBalancer::raftLoop() {
     // Seed random timeout for leader election

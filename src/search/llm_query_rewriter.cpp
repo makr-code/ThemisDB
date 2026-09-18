@@ -39,6 +39,11 @@ LlmQueryRewriter::LlmQueryRewriter(const Config& config, LlmBackend backend)
 // Backend management
 // ============================================================================
 
+/**
+ * @brief Set Backend.
+ * @param[in] backend Input parameter.
+ * @details Calls: std::move(), THEMIS_DEBUG().
+ */
 void LlmQueryRewriter::setBackend(LlmBackend backend) {
     backend_ = std::move(backend);
     THEMIS_DEBUG("LlmQueryRewriter: backend updated (has_backend={})", backend_ != nullptr);
@@ -159,6 +164,11 @@ std::vector<std::string> LlmQueryRewriter::parseRewrites(
         return rewrites;
     }
 
+    /**
+     * @brief Iss.
+     * @param[in] llm_output Input parameter.
+     * @return Return value.
+     */
     std::istringstream iss(llm_output);
     std::string line = {};
 
@@ -237,9 +247,12 @@ std::vector<std::string> LlmQueryRewriter::parseRewrites(
     return rewrites;
 }
 
-// ============================================================================
-// Semantic output validator helpers (Gap 2)
-// ============================================================================
+/**
+ * @brief ============================================================================ Semantic output validator helpers (Gap 2) ============================================================================
+ * @param[in] a Input parameter.
+ * @param[in] b Input parameter.
+ * @return Return value.
+ */
 
 float LlmQueryRewriter::jaccardTokenOverlap(const std::string& a,
                                              const std::string& b)
@@ -247,6 +260,11 @@ float LlmQueryRewriter::jaccardTokenOverlap(const std::string& a,
     // Tokenise by splitting on whitespace; normalise to lower-case.
     auto tokenise = [](const std::string& s) -> std::unordered_set<std::string> {
         std::unordered_set<std::string> tokens;
+        /**
+         * @brief Iss.
+         * @param[in] s Input parameter.
+         * @return Return value.
+         */
         std::istringstream iss(s);
         std::string tok = {};
         while (iss >> tok) {

@@ -67,6 +67,11 @@ ReplicationEventStream::ReplicationEventStream(const StreamConfig& config)
 ReplicationEventStream::Subscription
 ReplicationEventStream::subscribe(EventType type, EventCallback callback)
 {
+    /**
+     * @brief Lock.
+     * @param[in] subs_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(subs_mutex_);
     const uint64_t id = next_id_++;
     subscriptions_.push_back({id, type, std::move(callback)});
@@ -78,6 +83,11 @@ ReplicationEventStream::subscribe(EventType type, EventCallback callback)
 ReplicationEventStream::Subscription
 ReplicationEventStream::subscribeAll(EventCallback callback)
 {
+    /**
+     * @brief Lock.
+     * @param[in] subs_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(subs_mutex_);
     const uint64_t id = next_id_++;
     subscriptions_.push_back({id, std::nullopt, std::move(callback)});
@@ -86,8 +96,17 @@ ReplicationEventStream::subscribeAll(EventCallback callback)
         id);
 }
 
+/**
+ * @brief Unsubscribe.
+ * @param[in] subscription_id Identifier of the subscription.
+ */
 void ReplicationEventStream::unsubscribe(uint64_t subscription_id)
 {
+    /**
+     * @brief Lock.
+     * @param[in] subs_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(subs_mutex_);
     subscriptions_.erase(
         std::remove_if(subscriptions_.begin(), subscriptions_.end(),
@@ -107,6 +126,11 @@ ReplicationEventStream::getEvents(
     std::chrono::system_clock::time_point end,
     std::optional<EventType> filter) const
 {
+    /**
+     * @brief Lock.
+     * @param[in] buffer_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(buffer_mutex_);
     std::vector<Event> result = {};
 
@@ -127,6 +151,11 @@ ReplicationEventStream::getEvents(
 
 size_t ReplicationEventStream::bufferedEventCount() const
 {
+    /**
+     * @brief Lock.
+     * @param[in] buffer_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(buffer_mutex_);
     return buffer_.size();
 }
@@ -135,10 +164,19 @@ size_t ReplicationEventStream::bufferedEventCount() const
 // Internal emit
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Emit.
+ * @param[in] ev Input parameter.
+ */
 void ReplicationEventStream::emit(Event ev)
 {
     // Append to ring buffer
     {
+        /**
+         * @brief Lock.
+         * @param[in] buffer_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(buffer_mutex_);
         if (buffer_.size() >= config_.max_history_events) {
             if (config_.drop_oldest_on_full) {
@@ -153,6 +191,11 @@ void ReplicationEventStream::emit(Event ev)
     // Invoke matching callbacks (outside buffer lock to avoid deadlock)
     std::vector<SubscriptionRecord> snapshot;
     {
+        /**
+         * @brief Lock.
+         * @param[in] subs_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(subs_mutex_);
         snapshot = subscriptions_;
     }
@@ -167,6 +210,12 @@ void ReplicationEventStream::emit(Event ev)
 // IReplicationListener overrides
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Role To String.
+ * @param[in] role Input parameter.
+ * @return Return value.
+ * @details Implements roleToString without additional internal calls.
+ */
 static std::string roleToString(ReplicationRole role) {
     switch (role) {
         case ReplicationRole::LEADER:    return "LEADER";
@@ -178,6 +227,12 @@ static std::string roleToString(ReplicationRole role) {
     return "UNKNOWN";
 }
 
+/**
+ * @brief Health To String.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Implements healthToString without additional internal calls.
+ */
 static std::string healthToString(HealthStatus s) {
     switch (s) {
         case HealthStatus::HEALTHY:  return "HEALTHY";
@@ -188,6 +243,11 @@ static std::string healthToString(HealthStatus s) {
     return "UNKNOWN";
 }
 
+/**
+ * @brief On Role Change.
+ * @param[in] from Input parameter.
+ * @param[in] to Input parameter.
+ */
 void ReplicationEventStream::onRoleChange(
     ReplicationRole from, ReplicationRole to)
 {
@@ -199,6 +259,10 @@ void ReplicationEventStream::onRoleChange(
     emit(std::move(ev));
 }
 
+/**
+ * @brief On Leader Elected.
+ * @param[in] leader_id Identifier of the leader.
+ */
 void ReplicationEventStream::onLeaderElected(const std::string& leader_id)
 {
     Event ev = Event();
@@ -209,6 +273,10 @@ void ReplicationEventStream::onLeaderElected(const std::string& leader_id)
     emit(std::move(ev));
 }
 
+/**
+ * @brief On Replica Added.
+ * @param[in] replica Input parameter.
+ */
 void ReplicationEventStream::onReplicaAdded(const ReplicaInfo& replica)
 {
     Event ev = Event();
@@ -221,6 +289,10 @@ void ReplicationEventStream::onReplicaAdded(const ReplicaInfo& replica)
     emit(std::move(ev));
 }
 
+/**
+ * @brief On Replica Removed.
+ * @param[in] node_id Identifier of the node.
+ */
 void ReplicationEventStream::onReplicaRemoved(const std::string& node_id)
 {
     Event ev = Event();
@@ -231,6 +303,10 @@ void ReplicationEventStream::onReplicaRemoved(const std::string& node_id)
     emit(std::move(ev));
 }
 
+/**
+ * @brief On Conflict Detected.
+ * @param[in] document_id Identifier of the document.
+ */
 void ReplicationEventStream::onConflictDetected(const std::string& document_id)
 {
     Event ev = Event();
@@ -240,6 +316,10 @@ void ReplicationEventStream::onConflictDetected(const std::string& document_id)
     emit(std::move(ev));
 }
 
+/**
+ * @brief On Replication Lag Warning.
+ * @param[in] lag_ms Input parameter.
+ */
 void ReplicationEventStream::onReplicationLagWarning(int64_t lag_ms)
 {
     Event ev = Event();
@@ -249,6 +329,12 @@ void ReplicationEventStream::onReplicationLagWarning(int64_t lag_ms)
     emit(std::move(ev));
 }
 
+/**
+ * @brief On Replica Health Changed.
+ * @param[in] node_id Identifier of the node.
+ * @param[in] old_status Input parameter.
+ * @param[in] new_status Input parameter.
+ */
 void ReplicationEventStream::onReplicaHealthChanged(
     const std::string& node_id,
     HealthStatus old_status,
@@ -264,6 +350,11 @@ void ReplicationEventStream::onReplicaHealthChanged(
     emit(std::move(ev));
 }
 
+/**
+ * @brief On Failover Started.
+ * @param[in] failed_node Input parameter.
+ * @param[in] new_leader Input parameter.
+ */
 void ReplicationEventStream::onFailoverStarted(
     const std::string& failed_node,
     const std::string& new_leader)
@@ -276,6 +367,11 @@ void ReplicationEventStream::onFailoverStarted(
     emit(std::move(ev));
 }
 
+/**
+ * @brief On Failover Completed.
+ * @param[in] new_leader Input parameter.
+ * @param[in] success Input parameter.
+ */
 void ReplicationEventStream::onFailoverCompleted(
     const std::string& new_leader,
     bool success)
@@ -289,6 +385,10 @@ void ReplicationEventStream::onFailoverCompleted(
     emit(std::move(ev));
 }
 
+/**
+ * @brief On Network Partition Detected.
+ * @param[in] affected Input parameter.
+ */
 void ReplicationEventStream::onNetworkPartitionDetected(
     const std::vector<std::string>& affected)
 {
@@ -306,6 +406,10 @@ void ReplicationEventStream::onNetworkPartitionDetected(
     emit(std::move(ev));
 }
 
+/**
+ * @brief On WALEntry Applied.
+ * @param[in] entry Input parameter.
+ */
 void ReplicationEventStream::onWALEntryApplied(const WALEntry& entry)
 {
     Event ev = Event();

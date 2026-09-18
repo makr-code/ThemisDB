@@ -58,6 +58,13 @@ struct TOTPSecretEncryption::Impl {
 namespace {
 
 // Base64 encode
+/**
+ * @brief Base64 Encode.
+ * @param[in] data Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: empty(), BIO_new(), BIO_f_base64(), BIO_s_mem(), BIO_free(), BIO_push(), BIO_free_all(), BIO_set_flags().
+ */
 std::string base64Encode(const std::vector<uint8_t> &data) {
     if (data.empty()) {
         return "";
@@ -93,6 +100,12 @@ std::string base64Encode(const std::vector<uint8_t> &data) {
 }
 
 // Base64 decode
+/**
+ * @brief Base64 Decode.
+ * @param[in] input Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), BIO_new(), BIO_f_base64(), BIO_new_mem_buf(), data(), length(), BIO_free(), BIO_push().
+ */
 std::vector<uint8_t> base64Decode(const std::string &input) {
     if (input.empty()) {
         return {};
@@ -143,6 +156,13 @@ std::string TOTPSecretEncryption::EncryptedSecret::serialize() const {
     return oss.str();
 }
 
+/**
+ * @brief Deserialize.
+ * @param[in] data Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: iss(), std::getline(), push_back(), size(), std::stoi(), base64Decode().
+ */
 TOTPSecretEncryption::EncryptedSecret TOTPSecretEncryption::EncryptedSecret::deserialize(const std::string &data) {
     EncryptedSecret result;
 
@@ -182,6 +202,13 @@ TOTPSecretEncryption::~TOTPSecretEncryption() = default;
 TOTPSecretEncryption::TOTPSecretEncryption(TOTPSecretEncryption &&) noexcept            = default;
 TOTPSecretEncryption &TOTPSecretEncryption::operator=(TOTPSecretEncryption &&) noexcept = default;
 
+/**
+ * @brief Encrypt.
+ * @param[in] plaintext_secret Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: generateRandomBytes(), deriveKey(), EVP_CIPHER_CTX_new(), EVP_EncryptInit_ex(), EVP_aes_256_gcm(), data(), plaintext(), begin().
+ */
 TOTPSecretEncryption::EncryptedSecret TOTPSecretEncryption::encrypt(const std::string &plaintext_secret) {
     EncryptedSecret result;
     result.version = impl_->config.key_version;
@@ -242,6 +269,13 @@ TOTPSecretEncryption::EncryptedSecret TOTPSecretEncryption::encrypt(const std::s
     return result;
 }
 
+/**
+ * @brief Decrypt.
+ * @param[in] encrypted Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: deriveKey(), EVP_CIPHER_CTX_new(), EVP_DecryptInit_ex(), EVP_aes_256_gcm(), data(), plaintext(), size(), EVP_CIPHER_block_size().
+ */
 std::string TOTPSecretEncryption::decrypt(const EncryptedSecret &encrypted) {
     // Derive decryption key from master key and salt
     auto derived_key = deriveKey(encrypted.salt);
@@ -295,16 +329,35 @@ std::string TOTPSecretEncryption::decrypt(const EncryptedSecret &encrypted) {
     }
 }
 
+/**
+ * @brief Encrypt And Serialize.
+ * @param[in] plaintext_secret Input parameter.
+ * @return Return value.
+ * @details Calls: encrypt(), serialize().
+ */
 std::string TOTPSecretEncryption::encryptAndSerialize(const std::string &plaintext_secret) {
     auto encrypted = encrypt(plaintext_secret);
     return encrypted.serialize();
 }
 
+/**
+ * @brief Deserialize And Decrypt.
+ * @param[in] serialized Input parameter.
+ * @return Return value.
+ * @details Calls: EncryptedSecret::deserialize(), decrypt().
+ */
 std::string TOTPSecretEncryption::deserializeAndDecrypt(const std::string &serialized) {
     auto encrypted = EncryptedSecret::deserialize(serialized);
     return decrypt(encrypted);
 }
 
+/**
+ * @brief Rotate Key.
+ * @param[in] new_master_key Input parameter.
+ * @param[in] new_version Input parameter.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: size(), utils::Logger::info().
+ */
 void TOTPSecretEncryption::rotateKey(const SecureBuffer<uint8_t> &new_master_key, int new_version) {
     if (new_master_key.size() != 32) {
         throw std::invalid_argument("New master key must be 32 bytes for AES-256");
@@ -320,6 +373,12 @@ bool TOTPSecretEncryption::needsReencryption(const EncryptedSecret &encrypted) c
     return encrypted.version < impl_->config.key_version;
 }
 
+/**
+ * @brief Reencrypt.
+ * @param[in] old_encrypted Input parameter.
+ * @return Return value.
+ * @details Calls: decrypt(), encrypt().
+ */
 TOTPSecretEncryption::EncryptedSecret TOTPSecretEncryption::reencrypt(const EncryptedSecret &old_encrypted) {
     // Decrypt with old key (version embedded in encrypted data)
     std::string plaintext = decrypt(old_encrypted);
@@ -328,6 +387,13 @@ TOTPSecretEncryption::EncryptedSecret TOTPSecretEncryption::reencrypt(const Encr
     return encrypt(plaintext);
 }
 
+/**
+ * @brief Derive Key.
+ * @param[in] salt Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: derived_key(), PKCS5_PBKDF2_HMAC(), data(), size(), EVP_sha256().
+ */
 SecureBuffer<uint8_t> TOTPSecretEncryption::deriveKey(const std::vector<uint8_t> &salt) {
     SecureBuffer<uint8_t> derived_key(32); // 256 bits for AES-256, zeroed on scope exit
 
@@ -343,6 +409,13 @@ SecureBuffer<uint8_t> TOTPSecretEncryption::deriveKey(const std::vector<uint8_t>
     return derived_key;
 }
 
+/**
+ * @brief Generate Random Bytes.
+ * @param[in] size Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: bytes(), RAND_bytes(), data().
+ */
 std::vector<uint8_t> TOTPSecretEncryption::generateRandomBytes(size_t size) {
     std::vector<uint8_t> bytes(size);
 
@@ -365,6 +438,14 @@ TOTPSecretRotationManager::TOTPSecretRotationManager(const RotationConfig &confi
     utils::Logger::info("  Auto cleanup: {}", config_.auto_cleanup);
 }
 
+/**
+ * @brief Rotate Secret.
+ * @param[in] user_id Identifier of the user.
+ * @param[in] param Input parameter.
+ * @param[in] new_secret Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::now(), size(), push_back(), utils::Logger::info().
+ */
 TOTPSecretRotationManager::SecretVersion TOTPSecretRotationManager::rotateSecret(const std::string &user_id,
                                                                                  const std::string & /*old_secret*/,
                                                                                  const std::string &new_secret) {
@@ -423,6 +504,11 @@ bool TOTPSecretRotationManager::isSecretValid(const SecretVersion &secret_versio
     return age.count() < config_.grace_period_seconds;
 }
 
+/**
+ * @brief Cleanup Expired Secrets.
+ * @return Return value.
+ * @details Calls: size(), erase(), std::remove_if(), begin(), end(), isSecretValid(), utils::Logger::info().
+ */
 size_t TOTPSecretRotationManager::cleanupExpiredSecrets() {
     size_t cleaned = 0;
 

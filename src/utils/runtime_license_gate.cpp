@@ -23,31 +23,26 @@
 namespace themis {
 namespace license {
 
+
 /**
- * @brief ============================================================================ Singleton ============================================================================
+ * @brief Instance.
  * @return Return value.
  * @details Implements instance without additional internal calls.
  */
-
 RuntimeLicenseGate& RuntimeLicenseGate::instance() {
     static RuntimeLicenseGate gate;
     return gate;
 }
 
+
 /**
- * @brief ============================================================================ Lifecycle ============================================================================
+ * @brief Initialize.
  * @param[in] activation Input parameter.
  * @param[in] license Input parameter.
  * @details Calls: lock(), has_value().
  */
-
 void RuntimeLicenseGate::initialize(const LicenseActivationResult& activation,
                                      const std::optional<LicenseData>& license) {
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lock(mutex_);
     activation_   = activation;
     license_      = license.has_value() ? license
@@ -73,10 +68,10 @@ void RuntimeLicenseGate::update(const LicenseActivationResult& activation,
 namespace {
 
 /**
- * @brief Returns true if `feature_name` is a known Enterprise/Hyperscaler-only gate.
- * @param[in] feature_name Input parameter.
- * @return True on success.
- * @details Community-only or universal features are NOT in this list and are always allowed. Implements isEnterpriseFeature without additional internal calls.
+ * @brief Is Enterprise Feature.
+ * @param[in] feature_name Name of the feature.
+ * @return True when the operation succeeds.
+ * @details Implements isEnterpriseFeature without additional internal calls.
  */
 bool isEnterpriseFeature(std::string_view feature_name) {
     return feature_name == "enterprise_plugins"
@@ -87,9 +82,9 @@ bool isEnterpriseFeature(std::string_view feature_name) {
 }
 
 /**
- * @brief Returns true if the activation status string represents a usable (allowed) state for feature access.
+ * @brief Is Status Allowed.
  * @param[in] status Input parameter.
- * @return True on success.
+ * @return True when the operation succeeds.
  * @details Implements isStatusAllowed without additional internal calls.
  */
 bool isStatusAllowed(std::string_view status) {
@@ -132,7 +127,7 @@ bool RuntimeLicenseGate::isFeatureAllowed(std::string_view feature_name,
     }
 
     /**
-     * @brief Step 3: Runtime license check — acquire the lock once for all member access.
+     * @brief Lock.
      * @param[in] mutex_ Input parameter.
      * @return Return value.
      */
@@ -287,7 +282,7 @@ GateResult RuntimeLicenseGate::checkFeature(std::string_view feature_name) const
     }
 
     /**
-     * @brief Step 3: Runtime license state.
+     * @brief Lock.
      * @param[in] mutex_ Input parameter.
      * @return Return value.
      */

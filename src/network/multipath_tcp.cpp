@@ -225,6 +225,13 @@ MptcpConnectionStats MptcpSubflowManager::getStats() const {
     return stats;
 }
 
+/**
+ * @brief Set Priority.
+ * @param[in] subflow_id Identifier of the subflow.
+ * @param[in] priority Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: defined(), setsockopt(), else().
+ */
 bool MptcpSubflowManager::setPriority(uint32_t subflow_id, uint32_t priority) {
 #if defined(__linux__) && defined(THEMIS_ENABLE_MPTCP)
     if (!mptcp_enabled_) {
@@ -249,6 +256,12 @@ bool MptcpSubflowManager::setPriority(uint32_t subflow_id, uint32_t priority) {
 #endif
 }
 
+/**
+ * @brief Remove Subflow.
+ * @param[in] subflow_id Identifier of the subflow.
+ * @return True when the operation succeeds.
+ * @details Calls: defined(), setPriority(), else().
+ */
 bool MptcpSubflowManager::removeSubflow(uint32_t subflow_id) {
 #if defined(__linux__) && defined(THEMIS_ENABLE_MPTCP)
     if (!mptcp_enabled_) {

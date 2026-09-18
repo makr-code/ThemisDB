@@ -62,12 +62,12 @@ public:
 
     ~ResultAggregator() noexcept;
 
+
     /**
-     * @brief ======================================================================== Result Writing (Gaps A-2-11 to A-2-13) ========================================================================
+     * @brief Write Results.
      * @param[in] batch Input parameter.
      * @return Return value.
      */
-
     WriteResult WriteResults(const ResultBatch& batch);
 
     /**
@@ -82,12 +82,12 @@ public:
      */
     bool CloseConnection();
 
+
     /**
-     * @brief ======================================================================== Health & Diagnostics (Gaps A-2-15 to A-2-16) ========================================================================
+     * @brief Is Connection Healthy.
      * @return True when the operation succeeds.
      * @note Exception safety: noexcept.
      */
-
     bool IsConnectionHealthy() const noexcept;
 
     struct Stats {

@@ -33,6 +33,12 @@ constexpr size_t MAX_SESSION_IDENTIFIER_LEN = 256;
 constexpr size_t MAX_DEVICE_FINGERPRINT_LEN = 512;
 constexpr size_t MAX_USER_AGENT_LEN = 1024;
 
+/**
+ * @brief Is Safe Session Identifier.
+ * @param[in] value Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), validateStringLength(), std::string(), validatePathSegment().
+ */
 bool isSafeSessionIdentifier(std::string_view value) {
     themis::utils::InputValidator validator;
     return !value.empty() &&
@@ -40,6 +46,13 @@ bool isSafeSessionIdentifier(std::string_view value) {
            validator.validatePathSegment(std::string(value));
 }
 
+/**
+ * @brief Is Safe Header Like Value.
+ * @param[in] value Input parameter.
+ * @param[in] max_len Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: validateStringLength(), std::string(), validateHeaderValue().
+ */
 bool isSafeHeaderLikeValue(std::string_view value, size_t max_len) {
     themis::utils::InputValidator validator;
     return validator.validateStringLength(std::string(value), max_len) &&
@@ -48,6 +61,12 @@ bool isSafeHeaderLikeValue(std::string_view value, size_t max_len) {
 
 } // namespace
 
+/**
+ * @brief Time Point To ISO8601.
+ * @param[in] tp Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::time_point::max(), std::chrono::system_clock::to_time_t(), std::put_time(), std::gmtime(), str().
+ */
 static std::string timePointToISO8601(std::chrono::system_clock::time_point tp) {
     // Guard against max() sentinel used for "no absolute timeout"
     static const auto max_tp = std::chrono::system_clock::time_point::max();
@@ -81,6 +100,13 @@ SessionApiHandler::SessionApiHandler(
 // Private helpers
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Make Error.
+ * @param[in] status_code Input parameter.
+ * @param[in] message Input parameter.
+ * @return Return value.
+ * @details Implements makeError without additional internal calls.
+ */
 nlohmann::json SessionApiHandler::makeError(int status_code, const std::string& message) {
     return {
         {"error",       message},
@@ -88,6 +114,12 @@ nlohmann::json SessionApiHandler::makeError(int status_code, const std::string& 
     };
 }
 
+/**
+ * @brief Session To Json.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Calls: timePointToISO8601(), empty().
+ */
 nlohmann::json SessionApiHandler::sessionToJson(const auth::SessionManager::SessionInfo& s) {
     nlohmann::json j;
     j["session_id"]         = s.session_id;
@@ -104,6 +136,13 @@ nlohmann::json SessionApiHandler::sessionToJson(const auth::SessionManager::Sess
     return j;
 }
 
+/**
+ * @brief Audit Authorization Decision.
+ * @param[in] scope Input parameter.
+ * @param[in] endpoint Input parameter.
+ * @param[in] auth_result Input parameter.
+ * @details Calls: empty(), logSecurityEvent(), THEMIS_WARN(), what().
+ */
 void SessionApiHandler::auditAuthorizationDecision(
     const std::string& scope,
     const std::string& endpoint,
@@ -140,6 +179,14 @@ void SessionApiHandler::auditAuthorizationDecision(
 // createSession
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Create a session for an authenticated user.
+ * @param[in] bearer_token Input parameter.
+ * @param[in] body Input parameter.
+ * @param[in] client_ip Input parameter.
+ * @return Session token.
+ * @details Calls: Tracer::startSpan(), isSafeHeaderLikeValue(), makeError(), empty(), authorize(), auditAuthorizationDecision(), THEMIS_WARN(), is_object().
+ */
 nlohmann::json SessionApiHandler::createSession(
     const std::string& bearer_token,
     const nlohmann::json& body,
@@ -204,6 +251,13 @@ nlohmann::json SessionApiHandler::createSession(
 // listSessions
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief List Sessions.
+ * @param[in] bearer_token Input parameter.
+ * @param[in] current_session Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), isSafeHeaderLikeValue(), makeError(), empty(), isSafeSessionIdentifier(), authorize(), auditAuthorizationDecision(), THEMIS_WARN().
+ */
 nlohmann::json SessionApiHandler::listSessions(
     const std::string& bearer_token,
     const std::string& current_session
@@ -243,6 +297,13 @@ nlohmann::json SessionApiHandler::listSessions(
 // revokeSession
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Revoke Session.
+ * @param[in] bearer_token Input parameter.
+ * @param[in] session_id Identifier of the session.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), isSafeHeaderLikeValue(), makeError(), empty(), isSafeSessionIdentifier(), authorize(), auditAuthorizationDecision(), THEMIS_WARN().
+ */
 nlohmann::json SessionApiHandler::revokeSession(
     const std::string& bearer_token,
     const std::string& session_id
@@ -300,6 +361,13 @@ nlohmann::json SessionApiHandler::revokeSession(
 // revokeAllOtherSessions
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Revoke All Other Sessions.
+ * @param[in] bearer_token Input parameter.
+ * @param[in] current_session Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), isSafeHeaderLikeValue(), makeError(), empty(), isSafeSessionIdentifier(), authorize(), auditAuthorizationDecision(), THEMIS_WARN().
+ */
 nlohmann::json SessionApiHandler::revokeAllOtherSessions(
     const std::string& bearer_token,
     const std::string& current_session

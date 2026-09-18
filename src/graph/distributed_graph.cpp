@@ -32,6 +32,12 @@ namespace graph {
 
 namespace {
 
+/**
+ * @brief Record Exact Traversal Error.
+ * @param[in] operation Input parameter.
+ * @param[in] reason Input parameter.
+ * @details Calls: observability::MetricsCollector::getInstance(), addCounter(), std::string().
+ */
 void recordExactTraversalError(std::string_view operation, std::string_view reason) {
     observability::MetricsCollector::getInstance().addCounter(
         "graph_exact_traversal_errors_total", 1,
@@ -40,11 +46,24 @@ void recordExactTraversalError(std::string_view operation, std::string_view reas
 }
 
 template <typename T>
+/**
+ * @brief Make Invalid Traversal Input.
+ * @param[in] operation Input parameter.
+ * @param[in] message Input parameter.
+ * @return Return value.
+ * @details Calls: recordExactTraversalError(), std::move().
+ */
 Result<T> makeInvalidTraversalInput(std::string_view operation, std::string message) {
     recordExactTraversalError(operation, "invalid_input");
     return Err<T>(errors::ErrorCode::ERR_QUERY_INVALID_INPUT, std::move(message));
 }
 
+/**
+ * @brief Validate Constraint Set.
+ * @param[in] constraints Input parameter.
+ * @return Return value.
+ * @details Calls: has_value(), value(), empty(), forbidden(), begin(), end(), count().
+ */
 std::optional<std::string> validateConstraintSet(const GraphQueryOptimizer::QueryConstraints &constraints) {
     if (constraints.max_depth.has_value() && constraints.max_depth.value() < 0) {
         return "Query constraints require non-negative max_depth";
@@ -125,17 +144,33 @@ LocalShardGraphExecutor::executeDijkstra(const std::string &start_vertex, const 
 
 DistributedGraphManager::DistributedGraphManager(const DistributedGraphConfig &config) : config_(config) {}
 
+/**
+ * @brief Add Shard.
+ * @param[in] shard_id Identifier of the shard.
+ * @param[in] executor Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void DistributedGraphManager::addShard(const std::string &shard_id, std::shared_ptr<ShardGraphExecutor> executor) {
     std::unique_lock<std::shared_mutex> lock(shards_mutex_);
     shards_[shard_id] = std::move(executor);
 }
 
+/**
+ * @brief Remove Shard.
+ * @param[in] shard_id Identifier of the shard.
+ * @details Calls: lock(), erase().
+ */
 void DistributedGraphManager::removeShard(const std::string &shard_id) {
     std::unique_lock<std::shared_mutex> lock(shards_mutex_);
     shards_.erase(shard_id);
 }
 
 std::vector<std::string> DistributedGraphManager::shardIds() const {
+    /**
+     * @brief Lock.
+     * @param[in] shards_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(shards_mutex_);
     std::vector<std::string> ids = {};
 
@@ -147,12 +182,22 @@ std::vector<std::string> DistributedGraphManager::shardIds() const {
 }
 
 size_t DistributedGraphManager::shardCount() const {
+    /**
+     * @brief Lock.
+     * @param[in] shards_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(shards_mutex_);
     return shards_.size();
 }
 
 std::vector<std::pair<std::string, std::shared_ptr<ShardGraphExecutor>>>
 DistributedGraphManager::healthyShards() const {
+    /**
+     * @brief Lock.
+     * @param[in] shards_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(shards_mutex_);
     std::vector<std::pair<std::string, std::shared_ptr<ShardGraphExecutor>>> result;
     result.reserve(shards_.size());
@@ -185,6 +230,11 @@ std::pair<std::string, std::string> DistributedGraphManager::parseVertexId(std::
 }
 
 std::string DistributedGraphManager::resolveShardForVertex(const std::string &local_vertex_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] shards_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(shards_mutex_);
     if (shards_.empty()) {
         return "";

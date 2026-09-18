@@ -26,6 +26,12 @@ namespace importers {
 // eventTypeToString
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Event Type To String.
+ * @param[in] t Input parameter.
+ * @return Return value.
+ * @details Implements eventTypeToString without additional internal calls.
+ */
 std::string AuditedImporter::eventTypeToString(EventType t) {
     switch (t) {
         case EventType::IMPORT_STARTED:
@@ -49,9 +55,12 @@ std::string AuditedImporter::eventTypeToString(EventType t) {
     }
 }
 
-// ============================================================================
-// Phase 2 T2.3.3 – Unified Audit Event Schema & Correlation
-// ============================================================================
+/**
+ * @brief ============================================================================ Phase 2 T2.
+ * @param[in] t Input parameter.
+ * @return Return value.
+ * @details 3.3 – Unified Audit Event Schema & Correlation ============================================================================ Implements auditEventTypeToString without additional internal calls.
+ */
 
 std::string auditEventTypeToString(AuditEventType t) {
     // PHASE-2-HARDENING: Audit Event Type Conversion
@@ -124,6 +133,11 @@ std::string AuditedImporter::ImmutableAuditLog::computeEventHash(const AuditEven
 // ImmutableAuditLog – public API
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Record Event.
+ * @param[in] event Input parameter.
+ * @details Calls: empty(), back(), computeEventHash(), push_back().
+ */
 void AuditedImporter::ImmutableAuditLog::recordEvent(const AuditEvent &event) {
     std::string prev = chain_hashes_.empty() ? "0000000000000000" : chain_hashes_.back();
     std::string hash = computeEventHash(event, prev);
@@ -182,9 +196,11 @@ const std::vector<AuditedImporter::AuditEvent> &AuditedImporter::ImmutableAuditL
     return events_;
 }
 
-// ============================================================================
-// Phase 2 T2.3.3 – Unified Audit Event Schema & Correlation
-// ============================================================================
+/**
+ * @brief ============================================================================ Phase 2 T2.
+ * @param[in] event Input parameter.
+ * @details 3.3 – Unified Audit Event Schema & Correlation ============================================================================ Calls: size(), empty(), erase(), begin(), recordEvent().
+ */
 
 void AuditedImporter::ImmutableAuditLog::emitAuditEvent(const AuditEvent& event) {
     // PHASE-2-HARDENING: Centralized Audit Event Emission
@@ -229,9 +245,12 @@ std::vector<AuditedImporter::AuditEvent> AuditedImporter::ImmutableAuditLog::get
     return result;
 }
 
-// ============================================================================
-// PHASE-3-ERROR-HANDLING: Rollback & Recovery Audit Trail
-// ============================================================================
+/**
+ * @brief ============================================================================ PHASE-3-ERROR-HANDLING: Rollback & Recovery Audit Trail ============================================================================
+ * @param[in] reason Input parameter.
+ * @return Return value.
+ * @details Implements rollbackReasonToString without additional internal calls.
+ */
 
 std::string rollbackReasonToString(RollbackReason reason) {
     // PHASE-3-ERROR-HANDLING: Convert rollback reason to string
@@ -257,6 +276,13 @@ std::string rollbackReasonToString(RollbackReason reason) {
     }
 }
 
+/**
+ * @brief Emit Rollback Event.
+ * @param[in] rollback_event Input parameter.
+ * @param[in] import_id Identifier of the import.
+ * @param[in] user_principal Input parameter.
+ * @details Calls: size(), std::chrono::high_resolution_clock::now(), time_since_epoch(), count(), toJson(), recordEvent().
+ */
 void AuditedImporter::ImmutableAuditLog::emitRollbackEvent(
     const RollbackAuditEvent& rollback_event,
     const std::string& import_id,

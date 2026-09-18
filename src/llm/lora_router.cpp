@@ -23,7 +23,12 @@ namespace themis {
 namespace llm {
 
 namespace {
-    // Helper to compute SHA256 hash for caching
+    /**
+     * @brief Helper to compute SHA256 hash for caching
+     * @param[in] input Input parameter.
+     * @return Return value.
+     * @details Calls: hasher(), std::setfill(), std::setw(), str().
+     */
     std::string computeHash(const std::string& input) {
         std::hash<std::string> hasher;
         auto hash = hasher(input);
@@ -32,7 +37,11 @@ namespace {
         return oss.str();
     }
     
-    // Helper to get current time in milliseconds
+    /**
+     * @brief Helper to get current time in milliseconds
+     * @return Return value.
+     * @details Calls: std::chrono::system_clock::now(), time_since_epoch(), count().
+     */
     int64_t getCurrentTimeMs() {
         auto now = std::chrono::system_clock::now();
         auto duration = now.time_since_epoch();
@@ -115,6 +124,14 @@ LoRARouter::~LoRARouter() {
     }
 }
 
+/**
+ * @brief Route Query.
+ * @param[in] query Input parameter.
+ * @param[in] base_model_id Identifier of the base model.
+ * @param[in] policy Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::high_resolution_clock::now(), lock(), getCachedDecision(), spdlog::debug(), length(), updateMetrics(), value_or(), isABTestActive().
+ */
 RoutingDecision LoRARouter::routeQuery(
     const std::string& query,
     const std::string& base_model_id,
@@ -188,6 +205,13 @@ RoutingDecision LoRARouter::routeQuery(
     return decision;
 }
 
+/**
+ * @brief Route Query Batch.
+ * @param[in] queries Input parameter.
+ * @param[in] base_model_id Identifier of the base model.
+ * @return Return value.
+ * @details Calls: reserve(), size(), push_back(), routeQuery().
+ */
 std::vector<RoutingDecision> LoRARouter::routeQueryBatch(
     const std::vector<std::string>& queries,
     const std::string& base_model_id) {
@@ -203,6 +227,12 @@ std::vector<RoutingDecision> LoRARouter::routeQueryBatch(
     return decisions;
 }
 
+/**
+ * @brief Configure ABTest.
+ * @param[in] config Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), size(), spdlog::error(), std::abs(), spdlog::info().
+ */
 bool LoRARouter::configureABTest(const ABTestConfig& config) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -230,10 +260,19 @@ bool LoRARouter::configureABTest(const ABTestConfig& config) {
 }
 
 std::optional<ABTestConfig> LoRARouter::getABTestConfig() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return ab_test_config_;
 }
 
+/**
+ * @brief End ABTest.
+ * @details Calls: lock(), spdlog::info(), reset().
+ */
 void LoRARouter::endABTest() {
     std::lock_guard<std::mutex> lock(mutex_);
     if (ab_test_config_) {
@@ -242,6 +281,12 @@ void LoRARouter::endABTest() {
     }
 }
 
+/**
+ * @brief Configure Rollout.
+ * @param[in] config Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), spdlog::error(), spdlog::info().
+ */
 bool LoRARouter::configureRollout(const RolloutConfig& config) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -259,10 +304,20 @@ bool LoRARouter::configureRollout(const RolloutConfig& config) {
 }
 
 std::optional<RolloutConfig> LoRARouter::getRolloutConfig() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return rollout_config_;
 }
 
+/**
+ * @brief Increment Rollout.
+ * @return Return value.
+ * @details Calls: lock(), spdlog::warn(), std::min(), std::chrono::system_clock::now(), spdlog::info().
+ */
 float LoRARouter::incrementRollout() {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -282,6 +337,11 @@ float LoRARouter::incrementRollout() {
     return new_percentage;
 }
 
+/**
+ * @brief End Rollout.
+ * @param[in] promote Input parameter.
+ * @details Calls: lock(), spdlog::info(), reset().
+ */
 void LoRARouter::endRollout(bool promote) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -296,6 +356,11 @@ void LoRARouter::endRollout(bool promote) {
     }
 }
 
+/**
+ * @brief Configure Fallback.
+ * @param[in] config Input parameter.
+ * @details Calls: lock(), spdlog::info().
+ */
 void LoRARouter::configureFallback(const FallbackConfig& config) {
     std::lock_guard<std::mutex> lock(mutex_);
     fallback_config_ = config;
@@ -304,15 +369,29 @@ void LoRARouter::configureFallback(const FallbackConfig& config) {
 }
 
 FallbackConfig LoRARouter::getFallbackConfig() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return fallback_config_;
 }
 
 RoutingMetrics LoRARouter::getMetrics() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return metrics_;
 }
 
+/**
+ * @brief Reset Metrics.
+ * @details Calls: lock(), clear(), spdlog::info().
+ */
 void LoRARouter::resetMetrics() {
     std::lock_guard<std::mutex> lock(mutex_);
     metrics_ = RoutingMetrics{};
@@ -322,10 +401,19 @@ void LoRARouter::resetMetrics() {
 }
 
 json LoRARouter::exportMetrics() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return metrics_.toJson();
 }
 
+/**
+ * @brief Clear Cache.
+ * @details Calls: lock(), clear(), spdlog::info().
+ */
 void LoRARouter::clearCache() {
     std::lock_guard<std::mutex> lock(mutex_);
     decision_cache_.clear();
@@ -333,6 +421,11 @@ void LoRARouter::clearCache() {
 }
 
 json LoRARouter::getCacheStats() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     json stats;
     stats["cache_size"] = decision_cache_.size();
@@ -617,6 +710,12 @@ RoutingDecision LoRARouter::selectByRollout(
     return decision;
 }
 
+/**
+ * @brief Select Fallback.
+ * @param[in] reason Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), spdlog::error(), getAdapter(), getAdapterGPU(), spdlog::info().
+ */
 RoutingDecision LoRARouter::selectFallback(const std::string& reason) {
     if (!fallback_config_.enable_fallback || fallback_config_.default_adapter_id.empty()) {
         spdlog::error("Fallback not configured: {}", reason);
@@ -677,6 +776,11 @@ float LoRARouter::cosineSimilarity(
     return dot_product / (norm_a * norm_b);
 }
 
+/**
+ * @brief Update Metrics.
+ * @param[in] decision Input parameter.
+ * @details Calls: empty(), push_back(), count(), size(), erase(), begin(), std::accumulate(), end().
+ */
 void LoRARouter::updateMetrics(const RoutingDecision& decision) {
     metrics_.total_requests++;
     
@@ -719,6 +823,12 @@ void LoRARouter::updateMetrics(const RoutingDecision& decision) {
     }
 }
 
+/**
+ * @brief Get Cached Decision.
+ * @param[in] query Input parameter.
+ * @return Return value.
+ * @details Calls: evictExpiredCache(), hashQuery(), find(), end().
+ */
 std::optional<RoutingDecision> LoRARouter::getCachedDecision(const std::string& query) {
     evictExpiredCache();
     
@@ -732,6 +842,12 @@ std::optional<RoutingDecision> LoRARouter::getCachedDecision(const std::string& 
     return std::nullopt;
 }
 
+/**
+ * @brief Cache Decision.
+ * @param[in] query Input parameter.
+ * @param[in] decision Input parameter.
+ * @details Calls: size(), begin(), end(), erase(), hashQuery(), std::chrono::system_clock::now().
+ */
 void LoRARouter::cacheDecision(const std::string& query, const RoutingDecision& decision) {
     if (decision_cache_.size() >= config_.decision_cache_size) {
         // Remove oldest entry
@@ -773,6 +889,10 @@ bool LoRARouter::isRolloutActive() const {
     return rollout_config_->rollout_percentage < 1.0f;
 }
 
+/**
+ * @brief Evict Expired Cache.
+ * @details Calls: std::chrono::system_clock::now(), begin(), end(), erase().
+ */
 void LoRARouter::evictExpiredCache() {
     auto now = std::chrono::system_clock::now();
     
@@ -788,9 +908,18 @@ void LoRARouter::evictExpiredCache() {
     }
 }
 
+/**
+ * @brief Set Decision Record Processor.
+ * @param[in] processor Input parameter.
+ */
 void LoRARouter::setDecisionRecordProcessor(
     std::shared_ptr<DecisionRecordYamlProcessor> processor)
 {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     dr_processor_ = std::move(processor);
 }

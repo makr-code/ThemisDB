@@ -35,7 +35,13 @@ namespace llm {
 
 namespace {
 
-// Convert a raw byte digest to lowercase hex string.
+/**
+ * @brief Convert a raw byte digest to lowercase hex string.
+ * @param[in] bytes Input parameter.
+ * @param[in] len Input parameter.
+ * @return Return value.
+ * @details Calls: std::setfill(), std::setw(), str().
+ */
 std::string bytesToHex(const unsigned char* bytes, size_t len) {
     std::ostringstream oss = {};
     oss << std::hex << std::setfill('0');
@@ -45,9 +51,12 @@ std::string bytesToHex(const unsigned char* bytes, size_t len) {
     return oss.str();
 }
 
-// Compute the SHA-256 fingerprint of the DER-encoded subject public key
-// (SPKI fingerprint) — the same format commonly used to identify certs.
-// Returns empty string on failure.
+/**
+ * @brief Compute the SHA-256 fingerprint of the DER-encoded subject public key (SPKI fingerprint) — the same format commonly used to identify certs.
+ * @param[in,out] cert Input/output parameter.
+ * @return Return value.
+ * @details Returns empty string on failure. Calls: X509_digest(), EVP_sha256(), bytesToHex().
+ */
 std::string computeCertFingerprint(X509* cert) {
     if (!cert) return {};
 
@@ -88,6 +97,11 @@ std::optional<std::string> LoRACertificateStore::lookupByFingerprint(
 
     // 1. In-memory cache
     {
+        /**
+         * @brief Lock.
+         * @param[in] cache_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(cache_mutex_);
         auto it = cert_cache_.find(fingerprint);
         if (it != cert_cache_.end()) {
@@ -109,7 +123,11 @@ std::optional<std::string> LoRACertificateStore::lookupByFingerprint(
         if (pem.has_value()) {
             spdlog::debug("LoRACertificateStore: loaded cert from filesystem: {}",
                           local_path);
-            // Populate cache for future lookups
+            /**
+             * @brief Populate cache for future lookups
+             * @param[in] cache_mutex_ Input parameter.
+             * @return Return value.
+             */
             std::lock_guard<std::mutex> lock(cache_mutex_);
             cert_cache_[fingerprint] = *pem;
             return pem;
@@ -123,6 +141,11 @@ std::optional<std::string> LoRACertificateStore::lookupByFingerprint(
         if (pem.has_value()) {
             spdlog::debug("LoRACertificateStore: found cert in Windows system store for {}",
                           fingerprint);
+            /**
+             * @brief Lock.
+             * @param[in] cache_mutex_ Input parameter.
+             * @return Return value.
+             */
             std::lock_guard<std::mutex> lock(cache_mutex_);
             cert_cache_[fingerprint] = *pem;
             return pem;
@@ -134,6 +157,11 @@ std::optional<std::string> LoRACertificateStore::lookupByFingerprint(
         if (pem.has_value()) {
             spdlog::debug("LoRACertificateStore: found cert in system store for {}",
                           fingerprint);
+            /**
+             * @brief Lock.
+             * @param[in] cache_mutex_ Input parameter.
+             * @return Return value.
+             */
             std::lock_guard<std::mutex> lock(cache_mutex_);
             cert_cache_[fingerprint] = *pem;
             return pem;
@@ -146,6 +174,12 @@ std::optional<std::string> LoRACertificateStore::lookupByFingerprint(
     return std::nullopt;
 }
 
+/**
+ * @brief Register Certificate.
+ * @param[in] fingerprint Input parameter.
+ * @param[in] cert_pem Input parameter.
+ * @details Calls: empty(), spdlog::warn(), lock(), spdlog::debug().
+ */
 void LoRACertificateStore::registerCertificate(const std::string& fingerprint,
                                                const std::string& cert_pem) {
     if (fingerprint.empty() || cert_pem.empty()) {
@@ -158,6 +192,11 @@ void LoRACertificateStore::registerCertificate(const std::string& fingerprint,
                   fingerprint);
 }
 
+/**
+ * @brief Evict Certificate.
+ * @param[in] fingerprint Input parameter.
+ * @details Calls: lock(), erase(), spdlog::debug().
+ */
 void LoRACertificateStore::evictCertificate(const std::string& fingerprint) {
     std::lock_guard<std::mutex> lock(cache_mutex_);
     cert_cache_.erase(fingerprint);
@@ -169,6 +208,12 @@ void LoRACertificateStore::evictCertificate(const std::string& fingerprint) {
 // Private helpers
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Load Pem File.
+ * @param[in] path Input parameter.
+ * @return Return value.
+ * @details Calls: file(), is_open(), rdbuf(), str(), empty().
+ */
 std::optional<std::string> LoRACertificateStore::loadPemFile(
     const std::string& path) {
     std::ifstream file(path);
@@ -184,6 +229,13 @@ std::optional<std::string> LoRACertificateStore::loadPemFile(
     return pem;
 }
 
+/**
+ * @brief Fingerprint Matches.
+ * @param[in] cert_pem Input parameter.
+ * @param[in] fingerprint Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), BIO_new_mem_buf(), data(), size(), PEM_read_bio_X509(), BIO_free(), computeCertFingerprint(), X509_free().
+ */
 bool LoRACertificateStore::fingerprintMatches(const std::string& cert_pem,
                                               const std::string& fingerprint) {
     if (cert_pem.empty() || fingerprint.empty()) {
@@ -278,17 +330,12 @@ std::optional<std::string> LoRACertificateStore::searchSystemStore(
 }
 
 #if defined(_WIN32)
-// ---------------------------------------------------------------------------
-// Windows HCERTSTORE integration
-// ---------------------------------------------------------------------------
-//
-// Opens the "MY" and "ROOT" system certificate stores, iterates every
-// certificate, converts each DER-encoded CERT_CONTEXT to an OpenSSL X509,
-// computes its SHA-256 fingerprint, and returns the PEM string on a match.
-//
-// The caller is responsible for caching; this function has no side effects
-// on the LoRACertificateStore state.
-//
+/**
+ * @brief --------------------------------------------------------------------------- Windows HCERTSTORE integration --------------------------------------------------------------------------- Opens the "MY" and "ROOT" system certificate stores, iterates every certificate, converts each DER-encoded CERT_CONTEXT to an OpenSSL X509, computes its SHA-256 fingerprint, and returns the PEM string on a match.
+ * @param[in] fingerprint Input parameter.
+ * @return Return value.
+ * @details The caller is responsible for caching; this function has no side effects on the LoRACertificateStore state. Calls: CertOpenSystemStoreA(), spdlog::debug(), GetLastError(), CertEnumCertificatesInStore(), d2i_X509(), computeCertFingerprint(), X509_free(), empty().
+ */
 std::optional<std::string> LoRACertificateStore::searchWindowsCertStore(
     const std::string& fingerprint) {
 

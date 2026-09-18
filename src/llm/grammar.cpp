@@ -19,11 +19,26 @@
 // llama.cpp ABI and avoids MSVC C4273 linkage mismatches while still using the
 // adapter's safe runtime detection/fallback path.
 extern "C" {
+    /**
+     * @brief Themis llama grammar available.
+     * @return True when the operation succeeds.
+     */
     bool themis_llama_grammar_available();
+    /**
+     * @brief Llama grammar init.
+     * @param[in] vocab Input parameter.
+     * @param[in] grammar_str Input parameter.
+     * @param[in] start_rule Input parameter.
+     * @return Pointer to the result.
+     */
     struct llama_grammar* llama_grammar_init(
         const struct llama_vocab* vocab,
         const char* grammar_str,
         const char* start_rule);
+    /**
+     * @brief Llama grammar free.
+     * @param[in,out] grammar Input/output parameter.
+     */
     void llama_grammar_free(struct llama_grammar* grammar);
 }
 
@@ -148,6 +163,11 @@ llama_grammar* Grammar::getHandle() const {
     return grammar_;
 }
 
+/**
+ * @brief Compile.
+ * @return True when the operation succeeds.
+ * @details Calls: themis_llama_grammar_available(), spdlog::error(), compileWithVocab().
+ */
 bool Grammar::compile() {
     // Check if Grammar API is available at runtime
     if (!themis_llama_grammar_available()) {
@@ -165,6 +185,12 @@ bool Grammar::compile() {
     return compileWithVocab(nullptr);
 }
 
+/**
+ * @brief Compile With Vocab.
+ * @param[in] vocab Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: llama_grammar_init(), c_str(), spdlog::error(), spdlog::info(), std::string(), what().
+ */
 bool Grammar::compileWithVocab(const ::llama_vocab* vocab) {
     try {
         grammar_ = llama_grammar_init(vocab, ebnf_text_.c_str(), start_symbol_.c_str());

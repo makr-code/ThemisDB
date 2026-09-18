@@ -31,9 +31,12 @@ namespace ingestion {
 
 namespace fs = std::filesystem;
 
-// ---------------------------------------------------------------------------
-// MIME type detection (free function – implementation)
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- MIME type detection (free function – implementation) ---------------------------------------------------------------------------
+ * @param[in] raw Input parameter.
+ * @return Return value.
+ * @details Calls: size(), substr(), std::min(), size_t(), find().
+ */
 
 BinaryMimeType detectBinaryMimeType(const std::string& raw) {
     if (raw.size() < 4) {
@@ -64,9 +67,12 @@ BinaryMimeType detectBinaryMimeType(const std::string& raw) {
     return BinaryMimeType::UNKNOWN;
 }
 
-// ---------------------------------------------------------------------------
-// Converter path safety validation (free function – implementation)
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- Converter path safety validation (free function – implementation) ---------------------------------------------------------------------------
+ * @param[in] converter Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty().
+ */
 
 bool isConverterSafe(const std::string& converter) {
     if (converter.empty()) return true;  // empty = disabled, skip silently
@@ -83,9 +89,12 @@ bool isConverterSafe(const std::string& converter) {
     return true;
 }
 
-// ---------------------------------------------------------------------------
-// Path traversal safety validation (free function – implementation)
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- Path traversal safety validation (free function – implementation) ---------------------------------------------------------------------------
+ * @param[in] path Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), fs::path().
+ */
 
 bool isPathTraversalSafe(const std::string& path) {
     if (path.empty()) {
@@ -106,14 +115,13 @@ bool isPathTraversalSafe(const std::string& path) {
 
 namespace {
 
-/// Check that `file_path` resolves (via symlinks) to a location inside
-/// `base_dir`.  Uses `std::filesystem::canonical()` to resolve all symlinks
-/// before comparison, so a symlink inside `base_dir` that points outside it
-/// will be correctly rejected.
-///
-/// @return true  if `canonical(file_path)` starts with `canonical(base_dir)`;
-///         false if the file escapes the base directory, or if either canonical
-///               resolution fails.
+/**
+ * @brief Is File Within Base.
+ * @param[in] base_dir Input parameter.
+ * @param[in] file_path Path to the file.
+ * @return True when the operation succeeds.
+ * @details Calls: fs::canonical(), std::mismatch(), begin(), end().
+ */
 static bool isFileWithinBase(const fs::path& base_dir, const fs::path& file_path) {
     try {
         auto canonical_base = fs::canonical(base_dir);
@@ -129,8 +137,13 @@ static bool isFileWithinBase(const fs::path& base_dir, const fs::path& file_path
     }
 }
 
-/// Recursively collect all text nodes from a pugixml document tree.
 #ifdef THEMIS_HAS_PUGIXML
+/**
+ * @brief Collect Text Nodes.
+ * @param[in] node Input parameter.
+ * @param[in,out] out Input/output parameter.
+ * @details Calls: children(), type(), value().
+ */
 static void collectTextNodes(const pugi::xml_node& node, std::ostringstream& out) {
     for (auto& child : node.children()) {
         if (child.type() == pugi::node_pcdata ||
@@ -146,8 +159,13 @@ static void collectTextNodes(const pugi::xml_node& node, std::ostringstream& out
 }
 #endif
 
-/// Extract plain text from an XML/HTML buffer using pugixml.
-/// Falls back to returning an empty string when pugixml is not available.
+/**
+ * @brief Extract Xml Text.
+ * @param[in] raw Input parameter.
+ * @param[in] is_html Input parameter.
+ * @return Return value.
+ * @details Calls: load_buffer(), data(), size(), collectTextNodes(), str().
+ */
 static std::string extractXmlText(const std::string& raw,
                                    bool is_html) {
 #ifdef THEMIS_HAS_PUGIXML
@@ -173,9 +191,12 @@ static std::string extractXmlText(const std::string& raw,
 #endif
 }
 
-/// Minimal JSON text extractor: collects all string values from a JSON buffer
-/// without requiring nlohmann/json in this translation unit.
-/// Handles both "key":"value" and bare string values.
+/**
+ * @brief Extract Json Text.
+ * @param[in] raw Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), empty(), clear().
+ */
 static std::string extractJsonText(const std::string& raw) {
     std::string result = {};
     result.reserve(raw.size() / 2);
@@ -220,9 +241,12 @@ static std::string extractJsonText(const std::string& raw) {
     return result;
 }
 
-/// Run an external command and capture its stdout.
-/// @return Captured stdout, or an empty string if the command failed /
-///         was not found.  Never throws.
+/**
+ * @brief Run External Converter.
+ * @param[in] cmd Input parameter.
+ * @return Return value.
+ * @details Calls: defined(), _popen(), c_str(), popen(), std::fgets(), data(), size(), _pclose().
+ */
 static std::string runExternalConverter(const std::string& cmd) {
     // popen is POSIX; on Windows this would need _popen.
 #if defined(_WIN32)
@@ -247,9 +271,12 @@ static std::string runExternalConverter(const std::string& cmd) {
     return (rc == 0) ? result : "";
 }
 
-/// Platform-aware shell escaping of a file path for use in popen() commands.
-/// On POSIX: wraps in single quotes with embedded single-quote escaping.
-/// On Windows: wraps in double quotes with backslash escaping.
+/**
+ * @brief Shell Escape Path.
+ * @param[in] path Input parameter.
+ * @return Return value.
+ * @details Calls: defined(), reserve(), size().
+ */
 static std::string shellEscapePath(const std::string& path) {
 #if defined(_WIN32)
     // Double-quote escaping for cmd.exe / PowerShell
@@ -278,7 +305,11 @@ static std::string shellEscapePath(const std::string& path) {
 #endif
 }
 
-/// Suppress stderr in a platform-appropriate way for popen() commands.
+/**
+ * @brief Stderr Redirect.
+ * @return Pointer to the result.
+ * @details Calls: defined().
+ */
 static const char* stderrRedirect() {
 #if defined(_WIN32)
     return " 2>NUL";
@@ -287,11 +318,13 @@ static const char* stderrRedirect() {
 #endif
 }
 
-/// Extract text from a PDF file using an external converter.
-/// @param file_path   Absolute path to the PDF file.
-/// @param converter   Name or path of the converter binary (e.g. "pdftotext").
-///                    If empty, returns an empty string immediately.
-/// @return Extracted plain text, or empty string on failure/unavailability.
+/**
+ * @brief Extract Pdf With Converter.
+ * @param[in] file_path Path to the file.
+ * @param[in] converter Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), isConverterSafe(), shellEscapePath(), stderrRedirect(), runExternalConverter().
+ */
 static std::string extractPdfWithConverter(const std::string& file_path,
                                            const std::string& converter) {
     if (converter.empty()) {
@@ -305,11 +338,13 @@ static std::string extractPdfWithConverter(const std::string& file_path,
     return runExternalConverter(cmd);
 }
 
-/// Extract text from a DOCX file using an external converter.
-/// @param file_path   Absolute path to the DOCX file.
-/// @param converter   Name or path of the converter binary (e.g. "pandoc").
-///                    If empty, returns an empty string immediately.
-/// @return Extracted plain text, or empty string on failure/unavailability.
+/**
+ * @brief Extract Docx With Converter.
+ * @param[in] file_path Path to the file.
+ * @param[in] converter Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), isConverterSafe(), shellEscapePath(), stderrRedirect(), runExternalConverter().
+ */
 static std::string extractDocxWithConverter(const std::string& file_path,
                                             const std::string& converter) {
     if (converter.empty()) {
@@ -326,7 +361,6 @@ static std::string extractDocxWithConverter(const std::string& file_path,
 } // anonymous namespace
 
 // Pimpl implementation
-/** @brief Pimpl implementation. */
 class FileSystemIngester::Impl {
 public:
     Impl() 
@@ -336,6 +370,12 @@ public:
     
     ~Impl() = default;
     
+    /**
+     * @brief Initialize.
+     * @param[in] config Input parameter.
+     * @return True when the operation succeeds.
+     * @details Calls: isPathTraversalSafe(), find(), end(), fs::exists().
+     */
     bool initialize(const SourceConfig& config) {
         if (config.type != SourceType::FILESYSTEM) {
             return false;
@@ -438,6 +478,13 @@ public:
         return count;
     }
     
+    /**
+     * @brief Ingest.
+     * @param[in] target_collection Input parameter.
+     * @param[in] progress_callback Input parameter.
+     * @return Return value.
+     * @details Calls: std::chrono::steady_clock::now(), fs::exists(), addError(), fs::canonical(), fs::is_regular_file(), parent_path(), fs::absolute(), matchesFilter().
+     */
     IngestionStats ingest(const std::string& target_collection,
                          ProgressCallback progress_callback) {
         (void)target_collection;
@@ -600,7 +647,13 @@ public:
     }
     
 private:
-    // Helper: Extract text from file based on format/extension and MIME detection
+    /**
+     * @brief Helper: Extract text from file based on format/extension and MIME detection
+     * @param[in] file_path Path to the file.
+     * @return Return value.
+     * @throws std::runtime_error if an error occurs.
+     * @details Calls: extension(), string(), std::tolower(), file(), std::strerror(), detectBinaryMimeType(), extractPdfWithConverter(), extractDocxWithConverter().
+     */
     std::string extractTextFromFile(const fs::path& file_path) {
         auto ext = file_path.extension().string();
         // Normalise extension to lower-case for comparisons
@@ -673,26 +726,56 @@ private:
     }
 
 public:
+    /**
+     * @brief Set OCRConfig.
+     * @param[in] config Input parameter.
+     * @details Implements setOCRConfig without additional internal calls.
+     */
     void setOCRConfig(const OCRConfig& config) {
         ocr_config_ = config;
     }
 
+    /**
+     * @brief Set File Filter.
+     * @param[in] filter Input parameter.
+     * @details Implements setFileFilter without additional internal calls.
+     */
     void setFileFilter(const FileFilter& filter) {
         filter_ = filter;
     }
 
+    /**
+     * @brief Set File Format.
+     * @param[in] format Input parameter.
+     * @details Implements setFileFormat without additional internal calls.
+     */
     void setFileFormat(FileFormat format) {
         format_ = format;
     }
 
+    /**
+     * @brief Set Metadata Extraction.
+     * @param[in] enabled Input parameter.
+     * @details Implements setMetadataExtraction without additional internal calls.
+     */
     void setMetadataExtraction(bool enabled) {
         metadata_extraction_ = enabled;
     }
 
+    /**
+     * @brief Set Binary Converter.
+     * @param[in] config Input parameter.
+     * @details Implements setBinaryConverter without additional internal calls.
+     */
     void setBinaryConverter(const BinaryConverter& config) {
         binary_converter_ = config;
     }
 
+    /**
+     * @brief Set Document Validator.
+     * @param[in] validator Input parameter.
+     * @details Calls: std::move().
+     */
     void setDocumentValidator(DocumentValidatorFn validator) {
         document_validator_ = std::move(validator);
     }
@@ -755,6 +838,12 @@ FileSystemIngester::FileSystemIngester()
 
 FileSystemIngester::~FileSystemIngester() = default;
 
+/**
+ * @brief Initialize.
+ * @param[in] config Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements initialize without additional internal calls.
+ */
 bool FileSystemIngester::initialize(const SourceConfig& config) {
     return impl_->initialize(config);
 }
@@ -767,31 +856,68 @@ size_t FileSystemIngester::getDocumentCount() const {
     return impl_->getDocumentCount();
 }
 
+/**
+ * @brief Ingest.
+ * @param[in] target_collection Input parameter.
+ * @param[in] progress_callback Input parameter.
+ * @return Return value.
+ * @details Implements ingest without additional internal calls.
+ */
 IngestionStats FileSystemIngester::ingest(const std::string& target_collection,
                                          ProgressCallback progress_callback) {
     return impl_->ingest(target_collection, progress_callback);
 }
 
+/**
+ * @brief Set OCRConfig.
+ * @param[in] config Input parameter.
+ * @details Implements setOCRConfig without additional internal calls.
+ */
 void FileSystemIngester::setOCRConfig(const OCRConfig& config) {
     impl_->setOCRConfig(config);
 }
 
+/**
+ * @brief Set File Filter.
+ * @param[in] filter Input parameter.
+ * @details Implements setFileFilter without additional internal calls.
+ */
 void FileSystemIngester::setFileFilter(const FileFilter& filter) {
     impl_->setFileFilter(filter);
 }
 
+/**
+ * @brief Set File Format.
+ * @param[in] format Input parameter.
+ * @details Implements setFileFormat without additional internal calls.
+ */
 void FileSystemIngester::setFileFormat(FileFormat format) {
     impl_->setFileFormat(format);
 }
 
+/**
+ * @brief Set Metadata Extraction.
+ * @param[in] enabled Input parameter.
+ * @details Implements setMetadataExtraction without additional internal calls.
+ */
 void FileSystemIngester::setMetadataExtraction(bool enabled) {
     impl_->setMetadataExtraction(enabled);
 }
 
+/**
+ * @brief Set Binary Converter.
+ * @param[in] config Input parameter.
+ * @details Implements setBinaryConverter without additional internal calls.
+ */
 void FileSystemIngester::setBinaryConverter(const BinaryConverter& config) {
     impl_->setBinaryConverter(config);
 }
 
+/**
+ * @brief Set Document Validator.
+ * @param[in] validator Input parameter.
+ * @details Calls: std::move().
+ */
 void FileSystemIngester::setDocumentValidator(DocumentValidatorFn validator) {
     impl_->setDocumentValidator(std::move(validator));
 }

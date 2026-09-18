@@ -25,6 +25,12 @@ namespace {
 constexpr size_t kMaxCacheAdminPathParamLength = 256;
 constexpr size_t kMaxCacheWarmupEntries = 1000000;
 
+/**
+ * @brief Is Valid Path Segment Param.
+ * @param[in] value Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), validateStringLength(), std::string(), validatePathSegment(), validateHeaderValue().
+ */
 bool isValidPathSegmentParam(std::string_view value) {
     themis::utils::InputValidator validator;
     return !value.empty() &&
@@ -33,6 +39,12 @@ bool isValidPathSegmentParam(std::string_view value) {
            validator.validateHeaderValue(std::string(value));
 }
 
+/**
+ * @brief Is Likely Valid Base64 Path Token.
+ * @param[in] value Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), size().
+ */
 bool isLikelyValidBase64PathToken(std::string_view value) {
     if (value.empty() || value.size() > kMaxCacheAdminPathParamLength) {
         return false;
@@ -68,6 +80,12 @@ bool isLikelyValidBase64PathToken(std::string_view value) {
     return true;
 }
 
+/**
+ * @brief Is Valid Cache Admin File Path.
+ * @param[in] value Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: validateStringLength(), validateHeaderValue(), validateFilePath().
+ */
 bool isValidCacheAdminFilePath(const std::string& value) {
     themis::utils::InputValidator validator;
     return validator.validateStringLength(value, 1024) &&
@@ -84,6 +102,12 @@ bool isValidCacheAdminFilePath(const std::string& value) {
 static const char kBase64Chars[] =
     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 
+/**
+ * @brief Base64 Decode.
+ * @param[in] input Input parameter.
+ * @return Return value.
+ * @details Calls: T(), push_back().
+ */
 std::string CacheAdminApiHandler::base64Decode(const std::string& input) {
     std::string output = {};
     std::vector<int> T(256, -1);
@@ -113,6 +137,13 @@ std::string CacheAdminApiHandler::base64Decode(const std::string& input) {
     return output;
 }
 
+/**
+ * @brief Extract Path Param.
+ * @param[in] target Input parameter.
+ * @param[in] prefix Input parameter.
+ * @return Return value.
+ * @details Calls: rfind(), substr(), size(), find(), std::string().
+ */
 std::string CacheAdminApiHandler::extractPathParam(std::string_view target,
                                                     std::string_view prefix) {
     if (target.rfind(prefix, 0) != 0) {
@@ -137,6 +168,11 @@ CacheAdminApiHandler::CacheAdminApiHandler(
     : cache_(std::move(cache))
     , auth_(std::move(auth)) {}
 
+/**
+ * @brief Set Slo Monitor.
+ * @param[in] monitor Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void CacheAdminApiHandler::setSloMonitor(
     std::shared_ptr<themis::cache::CacheHitRateSloMonitor> monitor) {
     std::lock_guard<std::mutex> lock(slo_monitor_mutex_);
@@ -147,6 +183,13 @@ void CacheAdminApiHandler::setSloMonitor(
 // Auth helper
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Check Auth.
+ * @param[in] req Input parameter.
+ * @param[in] required_scope Input parameter.
+ * @param[in,out] out Input/output parameter.
+ * @return True when the operation succeeds.
+ */
 bool CacheAdminApiHandler::checkAuth(
     const http::request<http::string_body>& req,
     const std::string& required_scope,
@@ -197,9 +240,11 @@ bool CacheAdminApiHandler::checkAuth(
 // positives: AdaptiveQueryCache is designed as a thread-safe shared resource.
 // ---------------------------------------------------------------------------
 
-// ---------------------------------------------------------------------------
-// GET /v1/admin/cache/health
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- GET /v1/admin/cache/health ---------------------------------------------------------------------------
+ * @param[in] req Input parameter.
+ * @return Return value.
+ */
 
 http::response<http::string_body> CacheAdminApiHandler::handleHealth(
     const http::request<http::string_body>& req)
@@ -227,6 +272,11 @@ http::response<http::string_body> CacheAdminApiHandler::handleHealth(
     }
 }
 
+/**
+ * @brief Handle Stats.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ */
 http::response<http::string_body> CacheAdminApiHandler::handleStats(
     const http::request<http::string_body>& req)
 {
@@ -257,6 +307,11 @@ http::response<http::string_body> CacheAdminApiHandler::handleStats(
         // Latency percentiles from the SLO monitor (if one is attached)
         std::shared_ptr<themis::cache::CacheHitRateSloMonitor> slo_monitor;
         {
+            /**
+             * @brief Lock.
+             * @param[in] slo_monitor_mutex_ Input parameter.
+             * @return Return value.
+             */
             std::lock_guard<std::mutex> lock(slo_monitor_mutex_);
             slo_monitor = slo_monitor_;
         }
@@ -274,6 +329,11 @@ http::response<http::string_body> CacheAdminApiHandler::handleStats(
     }
 }
 
+/**
+ * @brief Handle Evict Key.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ */
 http::response<http::string_body> CacheAdminApiHandler::handleEvictKey(
     const http::request<http::string_body>& req)
 {
@@ -333,6 +393,11 @@ http::response<http::string_body> CacheAdminApiHandler::handleEvictKey(
     }
 }
 
+/**
+ * @brief Handle Evict Tenant.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ */
 http::response<http::string_body> CacheAdminApiHandler::handleEvictTenant(
     const http::request<http::string_body>& req)
 {
@@ -373,6 +438,11 @@ http::response<http::string_body> CacheAdminApiHandler::handleEvictTenant(
     }
 }
 
+/**
+ * @brief Handle Circuit Breaker Reset.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ */
 http::response<http::string_body> CacheAdminApiHandler::handleCircuitBreakerReset(
     const http::request<http::string_body>& req)
 {
@@ -402,6 +472,11 @@ http::response<http::string_body> CacheAdminApiHandler::handleCircuitBreakerRese
     }
 }
 
+/**
+ * @brief Handle Circuit Breaker Status.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ */
 http::response<http::string_body> CacheAdminApiHandler::handleCircuitBreakerStatus(
     const http::request<http::string_body>& req)
 {
@@ -430,6 +505,13 @@ http::response<http::string_body> CacheAdminApiHandler::handleCircuitBreakerStat
 // Response helpers
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Make Response.
+ * @param[in] status Input parameter.
+ * @param[in] body Input parameter.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ */
 http::response<http::string_body> CacheAdminApiHandler::makeResponse(
     http::status status,
     const std::string& body,
@@ -444,6 +526,13 @@ http::response<http::string_body> CacheAdminApiHandler::makeResponse(
     return res;
 }
 
+/**
+ * @brief Make Error Response.
+ * @param[in] status Input parameter.
+ * @param[in] message Input parameter.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ */
 http::response<http::string_body> CacheAdminApiHandler::makeErrorResponse(
     http::status status,
     const std::string& message,
@@ -457,9 +546,11 @@ http::response<http::string_body> CacheAdminApiHandler::makeErrorResponse(
     return makeResponse(status, err.dump(), req);
 }
 
-// ---------------------------------------------------------------------------
-// POST /v1/admin/cache/warmup
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- POST /v1/admin/cache/warmup ---------------------------------------------------------------------------
+ * @param[in] req Input parameter.
+ * @return Return value.
+ */
 
 http::response<http::string_body> CacheAdminApiHandler::handleWarmup(
     const http::request<http::string_body>& req)
@@ -531,9 +622,11 @@ http::response<http::string_body> CacheAdminApiHandler::handleWarmup(
     }
 }
 
-// ---------------------------------------------------------------------------
-// POST /v1/admin/cache/snapshot
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- POST /v1/admin/cache/snapshot ---------------------------------------------------------------------------
+ * @param[in] req Input parameter.
+ * @return Return value.
+ */
 
 http::response<http::string_body> CacheAdminApiHandler::handleSnapshot(
     const http::request<http::string_body>& req)
@@ -589,9 +682,11 @@ http::response<http::string_body> CacheAdminApiHandler::handleSnapshot(
     }
 }
 
-// ---------------------------------------------------------------------------
-// GET /v1/admin/cache/tenants
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- GET /v1/admin/cache/tenants ---------------------------------------------------------------------------
+ * @param[in] req Input parameter.
+ * @return Return value.
+ */
 
 http::response<http::string_body> CacheAdminApiHandler::handleListTenants(
     const http::request<http::string_body>& req)
@@ -617,9 +712,11 @@ http::response<http::string_body> CacheAdminApiHandler::handleListTenants(
     }
 }
 
-// ---------------------------------------------------------------------------
-// GET /v1/admin/cache/tenant/{tenant_id}/stats
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- GET /v1/admin/cache/tenant/{tenant_id}/stats ---------------------------------------------------------------------------
+ * @param[in] req Input parameter.
+ * @return Return value.
+ */
 
 http::response<http::string_body> CacheAdminApiHandler::handleTenantStats(
     const http::request<http::string_body>& req)
@@ -673,9 +770,11 @@ http::response<http::string_body> CacheAdminApiHandler::handleTenantStats(
     }
 }
 
-// ---------------------------------------------------------------------------
-// PATCH /v1/admin/cache/tenant/{tenant_id}/quota
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- PATCH /v1/admin/cache/tenant/{tenant_id}/quota ---------------------------------------------------------------------------
+ * @param[in] req Input parameter.
+ * @return Return value.
+ */
 
 http::response<http::string_body> CacheAdminApiHandler::handleUpdateTenantQuota(
     const http::request<http::string_body>& req)
@@ -747,9 +846,11 @@ http::response<http::string_body> CacheAdminApiHandler::handleUpdateTenantQuota(
     }
 }
 
-// ---------------------------------------------------------------------------
-// DELETE /v1/admin/cache/pii/{pii_uuid}
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- DELETE /v1/admin/cache/pii/{pii_uuid} ---------------------------------------------------------------------------
+ * @param[in] req Input parameter.
+ * @return Return value.
+ */
 
 http::response<http::string_body> CacheAdminApiHandler::handlePiiEvict(
     const http::request<http::string_body>& req)

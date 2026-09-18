@@ -21,9 +21,6 @@ namespace themis {
 namespace llm {
 namespace attention {
 
-/**
- * @brief Status enum for attention operations
- */
 enum class Status {
     SUCCESS = 0,
     ERROR_INVALID_CONFIG,
@@ -36,10 +33,11 @@ enum class Status {
     ERROR_NOT_IMPLEMENTED
 };
 
-/**
- * @brief Tensor wrapper for attention operations
- */
 struct Tensor {
+    /**
+     * @brief Tensor.
+     * @return Return value.
+     */
     virtual ~Tensor() = default;
     Tensor() = default;
     Tensor(size_t n, float init_value) {
@@ -66,9 +64,6 @@ private:
     std::shared_ptr<std::vector<float>> owned_data;
 };
 
-/**
- * @brief Backend types for Flash Attention
- */
 enum class Backend {
     AUTO,           // Auto-detect best backend
     CUDA_SM90,      // NVIDIA H100, RTX 6000 Ada (Hopper architecture)
@@ -80,16 +75,14 @@ enum class Backend {
     CPU             // CPU fallback (slow)
 };
 
-/**
- * @brief Abstract interface for Flash Attention implementations
- */
 class IFlashAttention {
 public:
+    /**
+     * @brief IFlash Attention.
+     * @return Return value.
+     */
     virtual ~IFlashAttention() = default;
     
-    /**
-     * @brief Forward pass of attention
-     */
     virtual Status forward(
         const Tensor& Q,
         const Tensor& K,
@@ -99,7 +92,12 @@ public:
     ) = 0;
     
     /**
-     * @brief Backward pass (for training)
+     * @brief Backward.
+     * @param[in] dO Input parameter.
+     * @param[in,out] dQ Input/output parameter.
+     * @param[in,out] dK Input/output parameter.
+     * @param[in,out] dV Input/output parameter.
+     * @return Return value.
      */
     virtual Status backward(
         const Tensor& dO,
@@ -109,51 +107,24 @@ public:
     ) = 0;
     
     /**
-     * @brief Get backend name
+     * @brief Get Backend Name.
+     * @return Return value.
      */
     virtual std::string getBackendName() const = 0;
     
     /**
-     * @brief Get memory statistics
+     * @brief Get Memory Stats.
+     * @return Return value.
      */
     virtual AttentionMemoryStats getMemoryStats() const = 0;
 };
 
-/**
- * @brief Main Flash Attention v3 class with multi-backend support
- * 
- * Provides unified interface for Flash Attention across:
- * - NVIDIA GPUs (CUDA SM80/SM86/SM90)
- * - AMD GPUs (HIP MI300, RDNA)
- * - Cross-platform (Vulkan)
- * - CPU fallback
- */
 class FlashAttention {
 public:
-    /**
-     * @brief Construct Flash Attention with specified backend
-     * @param backend Backend type (use AUTO for auto-detection)
-     * @param config Flash Attention configuration
-     */
     FlashAttention(Backend backend, const FlashAttentionConfig& config);
     
-    /**
-     * @brief Destructor
-     */
     ~FlashAttention() noexcept;
     
-    /**
-     * @brief Forward pass of attention
-     * 
-     * Computes: O = softmax(Q * K^T / scale) * V
-     * 
-     * @param Q Query tensor [batch, seq_len, num_heads, head_dim]
-     * @param K Key tensor [batch, seq_len, num_heads, head_dim]
-     * @param V Value tensor [batch, seq_len, num_heads, head_dim]
-     * @param O Output tensor [batch, seq_len, num_heads, head_dim]
-     * @param kv_cache Optional KV cache manager
-     * @return Status code
-     */
     Status forward(
         const Tensor& Q,
         const Tensor& K,
@@ -163,13 +134,12 @@ public:
     );
     
     /**
-     * @brief Backward pass (for training)
-     * 
-     * @param dO Gradient of output
-     * @param dQ Gradient of query (output)
-     * @param dK Gradient of key (output)
-     * @param dV Gradient of value (output)
-     * @return Status code
+     * @brief Backward.
+     * @param[in] dO Input parameter.
+     * @param[in,out] dQ Input/output parameter.
+     * @param[in,out] dK Input/output parameter.
+     * @param[in,out] dV Input/output parameter.
+     * @return Return value.
      */
     Status backward(
         const Tensor& dO,
@@ -179,35 +149,35 @@ public:
     );
     
     /**
-     * @brief Auto-select best backend for current hardware
-     * @return Recommended backend
+     * @brief Select Best Backend.
+     * @return Return value.
      */
     static Backend selectBestBackend();
     
     /**
-     * @brief Check if backend is available
-     * @param backend Backend to check
-     * @return true if backend is available
+     * @brief Is Backend Available.
+     * @param[in] backend Input parameter.
+     * @return True when the operation succeeds.
      */
     static bool isBackendAvailable(Backend backend);
     
     /**
-     * @brief Get backend name
+     * @brief Get Backend Name.
+     * @return Return value.
      */
     std::string getBackendName() const;
     
-    /**
-     * @brief Get configuration
-     */
     const FlashAttentionConfig& getConfig() const { return config_; }
     
     /**
-     * @brief Get memory statistics
+     * @brief Get Memory Stats.
+     * @return Return value.
      */
     AttentionMemoryStats getMemoryStats() const;
     
     /**
-     * @brief Get expected speedup for this backend vs standard attention
+     * @brief Get Expected Speedup.
+     * @return Return value.
      */
     double getExpectedSpeedup() const;
     
@@ -217,21 +187,42 @@ private:
     std::unique_ptr<IFlashAttention> impl_;
     
     // Backend detection helpers
+    /**
+     * @brief Detect CUDABackend.
+     * @return Return value.
+     */
     static Backend detectCUDABackend();
+    /**
+     * @brief Detect Vulkan Backend.
+     * @return Return value.
+     */
     static Backend detectVulkanBackend();
+    /**
+     * @brief Detect HIPBackend.
+     * @return Return value.
+     */
     static Backend detectHIPBackend();
     
     // Backend factory
+    /**
+     * @brief Create Backend.
+     * @param[in] backend Input parameter.
+     * @return Return value.
+     */
     std::unique_ptr<IFlashAttention> createBackend(Backend backend);
 };
 
 /**
- * @brief Get human-readable backend name
+ * @brief Get Backend Name.
+ * @param[in] backend Input parameter.
+ * @return Pointer to the result.
  */
 const char* getBackendName(Backend backend);
 
 /**
- * @brief Get status message
+ * @brief Get Status Message.
+ * @param[in] status Input parameter.
+ * @return Pointer to the result.
  */
 const char* getStatusMessage(Status status);
 

@@ -16,6 +16,12 @@
 
 namespace themis::sharding {
 
+/**
+ * @brief Mix64.
+ * @param[in] x Input parameter.
+ * @return Return value.
+ * @details Implements mix64 without additional internal calls.
+ */
 static uint64_t mix64(uint64_t x) {
         x ^= x >> 33;
         x *= 0xff51afd7ed558ccdULL;
@@ -25,6 +31,12 @@ static uint64_t mix64(uint64_t x) {
         return x;
 }
 
+/**
+ * @brief Add Shard.
+ * @param[in] shard_id Identifier of the shard.
+ * @param[in] virtual_nodes Input parameter.
+ * @details Calls: lock(), find(), end(), erase(), reserve(), size(), std::to_string(), hash().
+ */
 void ConsistentHashRing::addShard(const std::string& shard_id, size_t virtual_nodes) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -67,6 +79,11 @@ void ConsistentHashRing::addShard(const std::string& shard_id, size_t virtual_no
     shard_tokens_[shard_id] = std::move(tokens);
 }
 
+/**
+ * @brief Remove Shard.
+ * @param[in] shard_id Identifier of the shard.
+ * @details Calls: lock(), find(), end(), erase().
+ */
 void ConsistentHashRing::removeShard(const std::string& shard_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -84,6 +101,11 @@ void ConsistentHashRing::removeShard(const std::string& shard_id) {
 }
 
 std::string ConsistentHashRing::getShardForHash(uint64_t hash) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     if (ring_.empty()) {
@@ -125,6 +147,11 @@ std::vector<std::string> ConsistentHashRing::getReplicaNodes(const std::string& 
 }
 
 std::vector<std::string> ConsistentHashRing::getSuccessors(uint64_t hash, size_t count) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     if (ring_.empty() || count == 0) {
@@ -163,6 +190,11 @@ std::vector<std::string> ConsistentHashRing::getSuccessors(uint64_t hash, size_t
 }
 
 std::pair<uint64_t, uint64_t> ConsistentHashRing::getShardRange(const std::string& shard_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     auto it = shard_tokens_.find(shard_id);
@@ -179,6 +211,11 @@ std::pair<uint64_t, uint64_t> ConsistentHashRing::getShardRange(const std::strin
 }
 
 std::vector<std::string> ConsistentHashRing::getAllShards() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     std::vector<std::string> shards = {};
@@ -195,6 +232,11 @@ std::vector<std::string> ConsistentHashRing::getAllShards() const {
 std::vector<std::string> ConsistentHashRing::getShardsInRange(
     uint64_t hash_start, uint64_t hash_end
 ) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     if (ring_.empty()) {
@@ -241,6 +283,11 @@ std::vector<std::string> ConsistentHashRing::getShardsInRange(
 }
 
 double ConsistentHashRing::getBalanceFactor() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     if (shard_tokens_.empty()) {

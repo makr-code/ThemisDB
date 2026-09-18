@@ -34,6 +34,12 @@ json DeltaEntry::toJson() const {
     };
 }
 
+/**
+ * @brief From Json.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: value().
+ */
 DeltaEntry DeltaEntry::fromJson(const json& j) {
     DeltaEntry e;
     e.field_path = j.value("field_path", std::string{});
@@ -55,6 +61,12 @@ json DeltaSet::toJson() const {
     return json{{"entries", arr}};
 }
 
+/**
+ * @brief From Json.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: contains(), is_array(), push_back().
+ */
 DeltaSet DeltaSet::fromJson(const json& j) {
     DeltaSet ds = {};
     if (j.contains("entries") && j["entries"].is_array()) {
@@ -69,6 +81,11 @@ DeltaSet DeltaSet::fromJson(const json& j) {
 ProjectDiff::ProjectDiff(std::shared_ptr<RocksDBWrapper> storage)
     : storage_(std::move(storage)) {}
 
+/**
+ * @brief Set Metrics.
+ * @param[in] metrics Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void ProjectDiff::setMetrics(std::shared_ptr<ProjectMetrics> metrics) {
     std::lock_guard<std::mutex> lock(metrics_mutex_);
     metrics_ = std::move(metrics);
@@ -176,6 +193,11 @@ DeltaSet ProjectDiff::diff(
         const auto t1     = std::chrono::steady_clock::now();
         const auto dur_ms = static_cast<uint64_t>(
             std::chrono::duration_cast<std::chrono::milliseconds>(t1 - t0).count());
+        /**
+         * @brief Lock.
+         * @param[in] metrics_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(metrics_mutex_);
         if (metrics_)
             metrics_->recordDiff(dur_ms);

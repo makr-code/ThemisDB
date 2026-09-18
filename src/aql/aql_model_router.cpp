@@ -24,6 +24,12 @@ namespace aql {
 // ============================================================================
 namespace {
 
+/**
+ * @brief To Upper.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), std::toupper().
+ */
 std::string toUpper(const std::string &s) {
     std::string out = {};
     out.reserve(s.size());
@@ -33,7 +39,13 @@ std::string toUpper(const std::string &s) {
     return out;
 }
 
-/// Return true iff `upper_query` contains `keyword` at a word boundary.
+/**
+ * @brief Contains Keyword.
+ * @param[in] upper_query Input parameter.
+ * @param[in] kw Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: find(), std::isalnum(), size().
+ */
 bool containsKeyword(const std::string &upper_query, const std::string &kw) {
     size_t p = 0;
     while ((p = upper_query.find(kw, p)) != std::string::npos) {
@@ -50,12 +62,6 @@ bool containsKeyword(const std::string &upper_query, const std::string &kw) {
     return false;
 }
 
-/**
- * @brief Keyword sets used to classify a query into model type categories.
- *
- * Each entry maps a QueryModelType to a list of indicator keywords; a match
- * on ANY keyword in the list scores one point for that type.
- */
 struct ClassificationRule {
     QueryModelType type;
     std::vector<std::string> keywords;
@@ -112,6 +118,11 @@ const char *modelTypeName(QueryModelType t) {
 // AQLModelRouter
 // ============================================================================
 
+/**
+ * @brief Register Route.
+ * @param[in] route Input parameter.
+ * @details Calls: std::stable_sort(), begin(), end(), push_back().
+ */
 void AQLModelRouter::registerRoute(const ModelRoute &route) {
     // Replace existing route for the same type.
     for (auto &r : routes_) {
@@ -128,6 +139,11 @@ void AQLModelRouter::registerRoute(const ModelRoute &route) {
                      [](const ModelRoute &a, const ModelRoute &b) { return a.priority > b.priority; });
 }
 
+/**
+ * @brief Remove Route.
+ * @param[in] type Input parameter.
+ * @details Calls: erase(), std::remove_if(), begin(), end().
+ */
 void AQLModelRouter::removeRoute(QueryModelType type) {
     routes_.erase(
         std::remove_if(routes_.begin(), routes_.end(), [type](const ModelRoute &r) { return r.model_type == type; }),

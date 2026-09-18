@@ -26,7 +26,12 @@ namespace themis::rag {
 
 namespace {
 
-/// Tokenise @p text into a set of lowercase alpha-numeric tokens.
+/**
+ * @brief Tokenise Set.
+ * @param[in] text Input parameter.
+ * @return Return value.
+ * @details Calls: std::isalnum(), std::tolower(), empty(), insert(), clear().
+ */
 std::unordered_set<std::string> tokeniseSet(const std::string& text) {
     std::unordered_set<std::string> tokens;
     std::string tok = {};
@@ -46,7 +51,12 @@ std::unordered_set<std::string> tokeniseSet(const std::string& text) {
     return tokens;
 }
 
-/// Jaccard similarity between two token sets.
+/**
+ * @brief Jaccard Token Sets.
+ * @param[in] A Input parameter.
+ * @param[in] B Input parameter.
+ * @return Return value.
+ */
 double jaccardTokenSets(const std::unordered_set<std::string>& A,
                         const std::unordered_set<std::string>& B)
 {
@@ -77,6 +87,13 @@ HeuristicLoRAScorer::HeuristicLoRAScorer(std::string domain_hint)
     : domain_(std::move(domain_hint))
 {}
 
+/**
+ * @brief Score.
+ * @param[in] query Input parameter.
+ * @param[in] content Input parameter.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ */
 double HeuristicLoRAScorer::score(const std::string& query,
                                    const std::string& content,
                                    const std::string& /*domain*/)
@@ -105,11 +122,21 @@ const LoRARetrieverConfig& LoRAEnhancedRetriever::config() const noexcept {
     return config_;
 }
 
+/**
+ * @brief Set Config.
+ * @param[in] config Input parameter.
+ * @details Calls: lock().
+ */
 void LoRAEnhancedRetriever::setConfig(const LoRARetrieverConfig& config) {
     std::lock_guard<std::mutex> lock(state_mutex_);
     config_ = config;
 }
 
+/**
+ * @brief Set Scorer.
+ * @param[in] scorer Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void LoRAEnhancedRetriever::setScorer(std::shared_ptr<ILoRAScorer> scorer) {
     std::lock_guard<std::mutex> lock(state_mutex_);
     scorer_ = std::move(scorer);
@@ -120,6 +147,11 @@ LoRAEnhancedRetriever::rerank(
     const std::string&                           query,
     const std::vector<judge::RetrievedDocument>& candidates) const
 {
+    /**
+     * @brief Lock.
+     * @param[in] state_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(state_mutex_);
     
     if (!scorer_ || candidates.empty()) {

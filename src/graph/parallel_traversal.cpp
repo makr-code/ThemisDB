@@ -35,6 +35,13 @@ ParallelTraversal::ParallelTraversal(GraphIndexManager &graph_manager) : graph_m
 // Helpers
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Effective Thread Count.
+ * @param[in] config Input parameter.
+ * @param[in] num_sources Input parameter.
+ * @return Return value.
+ * @details Calls: std::thread::hardware_concurrency(), std::min().
+ */
 size_t ParallelTraversal::effectiveThreadCount(const Config &config, size_t num_sources) {
     size_t requested = (config.num_threads > 0) ? static_cast<size_t>(config.num_threads) : []() -> size_t {
         const size_t hw   = std::thread::hardware_concurrency();
@@ -46,9 +53,13 @@ size_t ParallelTraversal::effectiveThreadCount(const Config &config, size_t num_
     return std::min(requested, num_sources);
 }
 
-// ---------------------------------------------------------------------------
-// Single-source BFS (runs inside an async task)
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- Single-source BFS (runs inside an async task) ---------------------------------------------------------------------------
+ * @param[in] source Input parameter.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::steady_clock::now(), count(), insert(), push_back(), empty(), timedOut(), size(), effectiveThreadCount().
+ */
 
 ParallelTraversal::SourceTraversalResult ParallelTraversal::runSingleBFS(const std::string &source,
                                                                          const Config &config) {
@@ -182,9 +193,13 @@ ParallelTraversal::SourceTraversalResult ParallelTraversal::runSingleBFS(const s
     return result;
 }
 
-// ---------------------------------------------------------------------------
-// Single-source DFS (runs inside an async task)
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- Single-source DFS (runs inside an async task) ---------------------------------------------------------------------------
+ * @param[in] source Input parameter.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::steady_clock::now(), count(), push_back(), empty(), back(), pop_back(), timedOut(), insert().
+ */
 
 ParallelTraversal::SourceTraversalResult ParallelTraversal::runSingleDFS(const std::string &source,
                                                                          const Config &config) {
@@ -258,6 +273,13 @@ ParallelTraversal::SourceTraversalResult ParallelTraversal::runSingleDFS(const s
 // Merge per-source results
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Merge Results.
+ * @param[in] per_source Input parameter.
+ * @param[in] execution_time_ms Input parameter.
+ * @return Return value.
+ * @details Calls: insert(), push_back(), emplace().
+ */
 ParallelTraversal::MultiSourceResult ParallelTraversal::mergeResults(std::vector<SourceTraversalResult> &&per_source,
                                                                      double execution_time_ms) {
     MultiSourceResult merged;
@@ -292,6 +314,13 @@ ParallelTraversal::multiSourceBFS(const std::vector<std::string> &sources) {
     return multiSourceBFS(sources, Config{});
 }
 
+/**
+ * @brief Multi Source BFS.
+ * @param[in] sources Input parameter.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), std::chrono::steady_clock::now(), effectiveThreadCount(), size(), reserve(), std::min(), push_back(), std::async().
+ */
 Result<ParallelTraversal::MultiSourceResult> ParallelTraversal::multiSourceBFS(const std::vector<std::string> &sources,
                                                                                const Config &config) {
     if (sources.empty()) {
@@ -341,6 +370,13 @@ ParallelTraversal::multiSourceDFS(const std::vector<std::string> &sources) {
     return multiSourceDFS(sources, Config{});
 }
 
+/**
+ * @brief Multi Source DFS.
+ * @param[in] sources Input parameter.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), std::chrono::steady_clock::now(), effectiveThreadCount(), size(), reserve(), std::min(), push_back(), std::async().
+ */
 Result<ParallelTraversal::MultiSourceResult> ParallelTraversal::multiSourceDFS(const std::vector<std::string> &sources,
                                                                                const Config &config) {
     if (sources.empty()) {

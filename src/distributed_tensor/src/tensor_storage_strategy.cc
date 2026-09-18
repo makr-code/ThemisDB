@@ -165,7 +165,11 @@ std::pair<MmapRegion, MmapError> MmapLoader::open(
 
 #elif defined(_WIN32)
 
-    // ── Windows implementation ─────────────────────────────────────────────
+    /**
+     * @brief ── Windows implementation ─────────────────────────────────────────────
+     * @param[in] file_path Path to the file.
+     * @return Return value.
+     */
     const std::string path_str(file_path);
     // Convert to wide string for Windows API
     const int wlen = ::MultiByteToWideChar(
@@ -231,7 +235,11 @@ std::pair<MmapRegion, MmapError> MmapLoader::open(
 
 #else // POSIX
 
-    // ── POSIX implementation ───────────────────────────────────────────────
+    /**
+     * @brief ── POSIX implementation ───────────────────────────────────────────────
+     * @param[in] file_path Path to the file.
+     * @return Return value.
+     */
     const std::string path_str(file_path);
     const int fd = ::open(path_str.c_str(), O_RDONLY | O_CLOEXEC);
     if (fd < 0) {
@@ -380,6 +388,12 @@ bool QuantizationAssessor::isFeasible(
     return true;
 }
 
+/**
+ * @brief Assess.
+ * @param[in] constraints Input parameter.
+ * @return Return value.
+ * @details Calls: isFeasible(), typicalL2Error(), bytesPerParam(), emplace_back(), str().
+ */
 QuantizationAssessment QuantizationAssessor::assess(
     const QuantizationConstraints& constraints) {
 
@@ -467,6 +481,12 @@ QuantizationAssessment QuantizationAssessor::assess(
 // StorageStrategyAssessor
 // ===========================================================================
 
+/**
+ * @brief Assess.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @details Calls: packedBytesForParams(), emplace_back(), push_back(), str().
+ */
 StorageStrategyRecommendation StorageStrategyAssessor::assess(const Config& config) {
     StorageStrategyRecommendation rec;
 

@@ -46,6 +46,12 @@ namespace testing {
 
 namespace {
 
+/**
+ * @brief Normalize Text.
+ * @param[in] text Input parameter.
+ * @return Return value.
+ * @details Calls: std::isalnum(), std::isspace(), std::tolower(), reserve(), size(), push_back(), empty(), back().
+ */
 std::string normalizeText(std::string text) {
     for (char& ch : text) {
         if (std::isalnum(static_cast<unsigned char>(ch)) || std::isspace(static_cast<unsigned char>(ch))) {
@@ -75,10 +81,22 @@ std::string normalizeText(std::string text) {
     return compact;
 }
 
+/**
+ * @brief Estimate Token Count.
+ * @param[in] text Input parameter.
+ * @return Return value.
+ * @details Calls: size().
+ */
 std::size_t estimateTokenCount(const std::string& text) {
     return std::max<std::size_t>(1, (text.size() + 3) / 4);
 }
 
+/**
+ * @brief Build Deterministic Response.
+ * @param[in] prompt Input parameter.
+ * @return Return value.
+ * @details Calls: normalizeText(), empty(), substr(), size().
+ */
 std::string buildDeterministicResponse(const std::string& prompt) {
     const std::string normalized = normalizeText(prompt);
 
@@ -118,6 +136,13 @@ std::string buildDeterministicResponse(const std::string& prompt) {
            prompt.substr(0, std::min<std::size_t>(prompt.size(), 120));
 }
 
+/**
+ * @brief Matches Expected Answer.
+ * @param[in] response Input parameter.
+ * @param[in] expected_answers Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: normalizeText(), find().
+ */
 bool matchesExpectedAnswer(const std::string& response,
                            const std::vector<std::string>& expected_answers) {
     const std::string normalized_response = normalizeText(response);
@@ -140,11 +165,22 @@ ProductionValidator::ProductionValidator(const ValidationConfig& config)
     spdlog::info("  Min throughput: {} tokens/s", config_.min_throughput_tokens_per_sec);
 }
 
+/**
+ * @brief Set Inference Engine.
+ * @param[in] engine Input parameter.
+ * @details Calls: std::move().
+ */
 void ProductionValidator::setInferenceEngine(
         std::shared_ptr<InferenceEngineEnhanced> engine) {
     inference_engine_ = std::move(engine);
 }
 
+/**
+ * @brief Benchmark Inference.
+ * @param[in] model_id Identifier of the model.
+ * @return Return value.
+ * @details Calls: spdlog::info(), measureMemoryUsage(), std::chrono::high_resolution_clock::now(), push_back(), spdlog::warn(), generateBenchmarkPrompt(), empty(), std::chrono::milliseconds().
+ */
 ProductionValidator::ProductionMetrics ProductionValidator::benchmarkInference(
     const std::string& model_id
 ) {
@@ -343,6 +379,12 @@ ProductionValidator::ProductionMetrics ProductionValidator::benchmarkInference(
     return metrics;
 }
 
+/**
+ * @brief Validate Quality.
+ * @param[in] model_id Identifier of the model.
+ * @return True when the operation succeeds.
+ * @details Calls: spdlog::info(), spdlog::warn(), getQualityTests(), spdlog::debug(), evaluateQualityTest(), what(), size().
+ */
 bool ProductionValidator::validateQuality(const std::string& model_id) {
     spdlog::info("Running quality tests for model: {}", model_id);
 
@@ -379,6 +421,11 @@ bool ProductionValidator::validateQuality(const std::string& model_id) {
     return score >= 80.0;  // 80% threshold
 }
 
+/**
+ * @brief Run End To End Tests.
+ * @return Return value.
+ * @details Calls: spdlog::info(), testModelLoading(), testInferencePipeline(), testBatchScheduling(), testMemoryManagement(), testGPUOffload(), testQuantization(), testContinuousBatching().
+ */
 ProductionValidator::ValidationResult ProductionValidator::runEndToEndTests() {
     ValidationResult result;
     
@@ -408,6 +455,11 @@ ProductionValidator::ValidationResult ProductionValidator::runEndToEndTests() {
     return result;
 }
 
+/**
+ * @brief Run Stress Test.
+ * @return Return value.
+ * @details Calls: spdlog::info(), count(), spdlog::warn(), std::chrono::system_clock::now(), std::chrono::steady_clock::now(), std::to_string(), std::chrono::milliseconds(), submit().
+ */
 ProductionValidator::ValidationResult ProductionValidator::runStressTest() {
     ValidationResult result;
     
@@ -535,6 +587,11 @@ ProductionValidator::ValidationResult ProductionValidator::runStressTest() {
     return result;
 }
 
+/**
+ * @brief Run Load Test.
+ * @return Return value.
+ * @details Calls: spdlog::info(), fetch_add(), std::chrono::steady_clock::now(), std::this_thread::sleep_for(), std::chrono::microseconds(), count(), lk(), push_back().
+ */
 ProductionValidator::ValidationResult ProductionValidator::runLoadTest() {
     ValidationResult result;
 
@@ -631,6 +688,12 @@ ProductionValidator::ValidationResult ProductionValidator::runLoadTest() {
     return result;
 }
 
+/**
+ * @brief Check Performance Regression.
+ * @param[in] baseline_file Input parameter.
+ * @return Return value.
+ * @details Calls: spdlog::info(), loadBaseline(), spdlog::warn(), runLoadTest(), detectRegression(), spdlog::error().
+ */
 ProductionValidator::ValidationResult ProductionValidator::checkPerformanceRegression(
     const std::string& baseline_file
 ) {
@@ -678,6 +741,11 @@ ProductionValidator::ValidationResult ProductionValidator::checkPerformanceRegre
     return result;
 }
 
+/**
+ * @brief Test Model Loading.
+ * @return True when the operation succeeds.
+ * @details Calls: spdlog::info(), loader(), listLoadedModels(), empty(), size(), spdlog::error(), what().
+ */
 bool ProductionValidator::testModelLoading() {
     spdlog::info("Testing: Model Loading");
 
@@ -703,6 +771,11 @@ bool ProductionValidator::testModelLoading() {
     return passed;
 }
 
+/**
+ * @brief Test Inference Pipeline.
+ * @return True when the operation succeeds.
+ * @details Calls: spdlog::info(), engine(), getAvailableModels(), size(), spdlog::error(), what().
+ */
 bool ProductionValidator::testInferencePipeline() {
     spdlog::info("Testing: Inference Pipeline");
 
@@ -731,6 +804,11 @@ bool ProductionValidator::testInferencePipeline() {
     return passed;
 }
 
+/**
+ * @brief Test Batch Scheduling.
+ * @return True when the operation succeeds.
+ * @details Calls: spdlog::info(), scheduler(), start(), stop(), spdlog::error(), what().
+ */
 bool ProductionValidator::testBatchScheduling() {
     spdlog::info("Testing: Batch Scheduling");
 
@@ -758,6 +836,11 @@ bool ProductionValidator::testBatchScheduling() {
     return passed;
 }
 
+/**
+ * @brief Test Memory Management.
+ * @return True when the operation succeeds.
+ * @details Calls: spdlog::info(), manager(), getStats(), spdlog::error(), what().
+ */
 bool ProductionValidator::testMemoryManagement() {
     spdlog::info("Testing: Memory Management");
 
@@ -784,6 +867,11 @@ bool ProductionValidator::testMemoryManagement() {
     return passed;
 }
 
+/**
+ * @brief Test GPUOffload.
+ * @return True when the operation succeeds.
+ * @details Calls: spdlog::info(), manager(), isGPUAvailable(), spdlog::error(), what().
+ */
 bool ProductionValidator::testGPUOffload() {
     spdlog::info("Testing: GPU Offload");
 
@@ -809,6 +897,11 @@ bool ProductionValidator::testGPUOffload() {
     return passed;
 }
 
+/**
+ * @brief Test Quantization.
+ * @return True when the operation succeeds.
+ * @details Calls: spdlog::info(), kf_manager(), shouldFuseQKV(), getStats(), spdlog::error(), what().
+ */
 bool ProductionValidator::testQuantization() {
     spdlog::info("Testing: Quantization");
 
@@ -838,6 +931,11 @@ bool ProductionValidator::testQuantization() {
     return passed;
 }
 
+/**
+ * @brief Test Continuous Batching.
+ * @return True when the operation succeeds.
+ * @details Calls: spdlog::info(), scheduler(), start(), std::to_string(), submitRequest(), empty(), std::this_thread::sleep_for(), std::chrono::milliseconds().
+ */
 bool ProductionValidator::testContinuousBatching() {
     spdlog::info("Testing: Continuous Batching");
 
@@ -879,6 +977,11 @@ bool ProductionValidator::testContinuousBatching() {
     return passed;
 }
 
+/**
+ * @brief Test Kernel Fusion.
+ * @return True when the operation succeeds.
+ * @details Calls: spdlog::info(), kf_manager(), estimateSpeedup(), spdlog::error(), what().
+ */
 bool ProductionValidator::testKernelFusion() {
     spdlog::info("Testing: Kernel Fusion");
 
@@ -904,12 +1007,20 @@ bool ProductionValidator::testKernelFusion() {
     return passed;
 }
 
+/**
+ * @brief Start Stress Test.
+ * @details Calls: std::thread(), runStressTest(), detach().
+ */
 void ProductionValidator::startStressTest() {
     std::thread([this]() {
         runStressTest();
     }).detach();
 }
 
+/**
+ * @brief Stop Stress Test.
+ * @details Implements stopStressTest without additional internal calls.
+ */
 void ProductionValidator::stopStressTest() {
     stress_test_running_ = false;
 }
@@ -949,6 +1060,11 @@ ProductionValidator::LiveStats ProductionValidator::getLiveStats() const {
     }
 
     {
+        /**
+         * @brief Lock.
+         * @param[in] latency_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(latency_mutex_);
         if (!latency_samples_.empty()) {
             stats.current_latency_ms = latency_samples_.back();
@@ -965,6 +1081,13 @@ ProductionValidator::LiveStats ProductionValidator::getLiveStats() const {
     return stats;
 }
 
+/**
+ * @brief Calculate Percentile.
+ * @param[in] data Input parameter.
+ * @param[in] percentile Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), size(), std::nth_element(), begin(), end().
+ */
 double ProductionValidator::calculatePercentile(
     const std::vector<double>& data,
     double percentile
@@ -997,6 +1120,11 @@ double ProductionValidator::calculatePercentile(
     return mutable_copy[index];
 }
 
+/**
+ * @brief Record Latency.
+ * @param[in] latency_ms Input parameter.
+ * @details Calls: lock(), push_back(), size(), pop_front().
+ */
 void ProductionValidator::recordLatency(double latency_ms) {
     std::lock_guard<std::mutex> lock(latency_mutex_);
     latency_samples_.push_back(latency_ms);
@@ -1008,6 +1136,10 @@ void ProductionValidator::recordLatency(double latency_ms) {
     }
 }
 
+/**
+ * @brief Check Memory Leaks.
+ * @details Calls: measureMemoryUsage(), spdlog::warn(), spdlog::debug().
+ */
 void ProductionValidator::checkMemoryLeaks() {
     size_t current_memory_mb = measureMemoryUsage();
 
@@ -1030,6 +1162,13 @@ void ProductionValidator::checkMemoryLeaks() {
 }
 
 // PerformanceRegressionDetector Implementation
+/**
+ * @brief Save Baseline.
+ * @param[in] filepath Input parameter.
+ * @param[in] baseline Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: file(), is_open().
+ */
 bool PerformanceRegressionDetector::saveBaseline(
     const std::string& filepath,
     const Baseline& baseline
@@ -1048,6 +1187,13 @@ bool PerformanceRegressionDetector::saveBaseline(
     return true;
 }
 
+/**
+ * @brief Load Baseline.
+ * @param[in] filepath Input parameter.
+ * @param[in,out] baseline Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: file(), is_open(), std::getline(), find(), substr(), std::stod(), std::stoull(), spdlog::warn().
+ */
 bool PerformanceRegressionDetector::loadBaseline(
     const std::string& filepath,
     Baseline& baseline
@@ -1139,6 +1285,11 @@ PerformanceRegressionDetector::detectRegression(
 }
 
 // IntegrationTestSuite Implementation
+/**
+ * @brief Test Lazy Loader With GPUMemory.
+ * @return True when the operation succeeds.
+ * @details Calls: spdlog::info(), mgr(), getStats(), spdlog::error(), allocateCPU(), freeCPU(), loader(), getOrLoadModel().
+ */
 bool IntegrationTestSuite::testLazyLoaderWithGPUMemory() {
     spdlog::info("Integration Test: LazyLoader + GPUMemory");
 
@@ -1184,6 +1335,11 @@ bool IntegrationTestSuite::testLazyLoaderWithGPUMemory() {
     return true;
 }
 
+/**
+ * @brief Test Scheduler With Paged Attention.
+ * @return True when the operation succeeds.
+ * @details Calls: spdlog::info(), scheduler(), start(), isRunning(), spdlog::error(), submitRequest(), empty(), stop().
+ */
 bool IntegrationTestSuite::testSchedulerWithPagedAttention() {
     spdlog::info("Integration Test: Scheduler + PagedAttention");
 
@@ -1238,6 +1394,11 @@ bool IntegrationTestSuite::testSchedulerWithPagedAttention() {
     return true;
 }
 
+/**
+ * @brief Test Kernel Fusion With Inference.
+ * @return True when the operation succeeds.
+ * @details Calls: spdlog::info(), kf_mgr(), shouldFuseLayerNormLinear(), shouldFuseQKV(), shouldFuseFFN(), estimateSpeedup(), spdlog::error().
+ */
 bool IntegrationTestSuite::testKernelFusionWithInference() {
     spdlog::info("Integration Test: KernelFusion + Inference");
 
@@ -1270,6 +1431,11 @@ bool IntegrationTestSuite::testKernelFusionWithInference() {
     return true;
 }
 
+/**
+ * @brief Test Full Pipeline E2 E.
+ * @return True when the operation succeeds.
+ * @details Calls: spdlog::info(), mgr(), loader(), scheduler(), start(), submitRequest(), empty(), spdlog::error().
+ */
 bool IntegrationTestSuite::testFullPipelineE2E() {
     spdlog::info("Integration Test: Full Pipeline E2E");
 
@@ -1316,6 +1482,11 @@ bool IntegrationTestSuite::testFullPipelineE2E() {
     return true;
 }
 
+/**
+ * @brief Test Multi Model Serving.
+ * @return True when the operation succeeds.
+ * @details Calls: spdlog::info(), lora_mgr(), loadLoRA(), spdlog::error(), listLoRAs(), size().
+ */
 bool IntegrationTestSuite::testMultiModelServing() {
     spdlog::info("Integration Test: Multi-Model Serving");
 
@@ -1347,6 +1518,11 @@ bool IntegrationTestSuite::testMultiModelServing() {
     return true;
 }
 
+/**
+ * @brief Test Model Switching.
+ * @return True when the operation succeeds.
+ * @details Calls: spdlog::info(), loader(), getOrLoadModel(), spdlog::error(), listLoadedModels(), empty().
+ */
 bool IntegrationTestSuite::testModelSwitching() {
     spdlog::info("Integration Test: Model Switching");
 
@@ -1374,6 +1550,11 @@ bool IntegrationTestSuite::testModelSwitching() {
     return true;
 }
 
+/**
+ * @brief Test Lo RAAdapter Management.
+ * @return True when the operation succeeds.
+ * @details Calls: spdlog::info(), mgr(), loadLoRA(), spdlog::error(), isLoRALoaded(), listLoRAs(), empty().
+ */
 bool IntegrationTestSuite::testLoRAAdapterManagement() {
     spdlog::info("Integration Test: LoRA Adapter Management");
 
@@ -1405,6 +1586,11 @@ bool IntegrationTestSuite::testLoRAAdapterManagement() {
     return true;
 }
 
+/**
+ * @brief Test GPUOut Of Memory.
+ * @return True when the operation succeeds.
+ * @details Calls: spdlog::info(), mgr(), allocateGPU(), freeGPU(), spdlog::error(), getStats().
+ */
 bool IntegrationTestSuite::testGPUOutOfMemory() {
     spdlog::info("Integration Test: GPU Out of Memory");
 
@@ -1436,6 +1622,11 @@ bool IntegrationTestSuite::testGPUOutOfMemory() {
     return true;
 }
 
+/**
+ * @brief Test Model Load Failure.
+ * @return True when the operation succeeds.
+ * @details Calls: spdlog::info(), loader(), getOrLoadModel(), spdlog::error(), listLoadedModels(), empty().
+ */
 bool IntegrationTestSuite::testModelLoadFailure() {
     spdlog::info("Integration Test: Model Load Failure");
 
@@ -1459,6 +1650,11 @@ bool IntegrationTestSuite::testModelLoadFailure() {
     return true;
 }
 
+/**
+ * @brief Test Request Cancellation.
+ * @return True when the operation succeeds.
+ * @details Calls: spdlog::info(), scheduler(), start(), submitRequest(), empty(), spdlog::error(), stop(), cancelRequest().
+ */
 bool IntegrationTestSuite::testRequestCancellation() {
     spdlog::info("Integration Test: Request Cancellation");
 
@@ -1501,6 +1697,11 @@ bool IntegrationTestSuite::testRequestCancellation() {
     return true;
 }
 
+/**
+ * @brief Test Preemption.
+ * @return True when the operation succeeds.
+ * @details Calls: spdlog::info(), scheduler(), start(), submitRequest(), empty(), push_back(), preemptRequests(), resumeRequests().
+ */
 bool IntegrationTestSuite::testPreemption() {
     spdlog::info("Integration Test: Preemption");
 
@@ -1543,6 +1744,11 @@ bool IntegrationTestSuite::testPreemption() {
     return true;
 }
 
+/**
+ * @brief Test High Concurrency.
+ * @return True when the operation succeeds.
+ * @details Calls: spdlog::info(), scheduler(), start(), emplace_back(), submitRequest(), empty(), lock(), push_back().
+ */
 bool IntegrationTestSuite::testHighConcurrency() {
     spdlog::info("Integration Test: High Concurrency");
 
@@ -1603,6 +1809,11 @@ bool IntegrationTestSuite::testHighConcurrency() {
     return true;
 }
 
+/**
+ * @brief Test Long Running Requests.
+ * @return True when the operation succeeds.
+ * @details Calls: spdlog::info(), scheduler(), start(), submitRequest(), empty(), spdlog::error(), stop(), getStats().
+ */
 bool IntegrationTestSuite::testLongRunningRequests() {
     spdlog::info("Integration Test: Long Running Requests");
 
@@ -1640,6 +1851,11 @@ bool IntegrationTestSuite::testLongRunningRequests() {
     return true;
 }
 
+/**
+ * @brief Test Burst Traffic.
+ * @return True when the operation succeeds.
+ * @details Calls: spdlog::info(), scheduler(), start(), submitRequest(), empty(), push_back(), getStats(), spdlog::error().
+ */
 bool IntegrationTestSuite::testBurstTraffic() {
     spdlog::info("Integration Test: Burst Traffic");
 
@@ -1742,6 +1958,12 @@ IntegrationTestSuite::runAllTests() {
     return results;
 }
 
+/**
+ * @brief Generate Benchmark Prompt.
+ * @param[in] variant Input parameter.
+ * @return Return value.
+ * @details Calls: size().
+ */
 std::string ProductionValidator::generateBenchmarkPrompt(int variant) {
     static const std::vector<std::string> prompts = {
         "Explain quantum computing in simple terms.",
@@ -1763,6 +1985,11 @@ std::string ProductionValidator::generateBenchmarkPrompt(int variant) {
     return prompts[variant];
 }
 
+/**
+ * @brief Measure Memory Usage.
+ * @return Return value.
+ * @details Calls: status(), std::getline(), find(), find_first_of(), length(), std::isdigit(), empty(), std::stoul().
+ */
 size_t ProductionValidator::measureMemoryUsage() {
     // Platform-specific memory measurement
 #ifdef __linux__
@@ -1810,6 +2037,11 @@ size_t ProductionValidator::measureMemoryUsage() {
     return 0;
 }
 
+/**
+ * @brief Get Quality Tests.
+ * @return Return value.
+ * @details Implements getQualityTests without additional internal calls.
+ */
 std::vector<ProductionValidator::QualityTest> ProductionValidator::getQualityTests() {
     return {
         // Math tests
@@ -1829,6 +2061,13 @@ std::vector<ProductionValidator::QualityTest> ProductionValidator::getQualityTes
     };
 }
 
+/**
+ * @brief Evaluate Quality Test.
+ * @param[in] test Input parameter.
+ * @param[in] model_id Identifier of the model.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), std::chrono::milliseconds(), submit(), get(), spdlog::warn(), what(), matchesExpectedAnswer().
+ */
 bool ProductionValidator::evaluateQualityTest(const QualityTest& test, const std::string& model_id) {
     if (!inference_engine_) {
         return false;

@@ -71,6 +71,10 @@ AdaptiveFlushController::~AdaptiveFlushController() {
 // Lifecycle
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Start.
+ * @details Calls: exchange(), THEMIS_WARN(), THEMIS_INFO(), count(), std::thread().
+ */
 void AdaptiveFlushController::start() {
     if (running_.exchange(true, std::memory_order_acq_rel)) {
         THEMIS_WARN("AdaptiveFlushController already running");
@@ -87,6 +91,10 @@ void AdaptiveFlushController::start() {
     }
 }
 
+/**
+ * @brief Stop.
+ * @details Calls: exchange(), THEMIS_INFO(), notify_all(), lock(), joinable(), join(), flushInternal().
+ */
 void AdaptiveFlushController::stop() {
     if (!running_.exchange(false, std::memory_order_acq_rel)) {
         return;
@@ -126,6 +134,12 @@ const char* AdaptiveFlushController::validatePoint(const TSStore::DataPoint& p) 
     return nullptr;
 }
 
+/**
+ * @brief Add.
+ * @param[in] point Input parameter.
+ * @return Return value.
+ * @details Calls: validatePoint(), ErrVoid(), watermarkReached(), THEMIS_WARN(), load(), recordBackpressure(), notify_one(), bp_lock().
+ */
 Result<void> AdaptiveFlushController::add(const TSStore::DataPoint& point) {
     if (const char* err = validatePoint(point)) {
         return ErrVoid(errors::ErrorCode::ERR_API_INVALID_REQUEST, err);
@@ -181,6 +195,11 @@ Result<void> AdaptiveFlushController::add(const TSStore::DataPoint& point) {
     return OkVoid();
 }
 
+/**
+ * @brief Add Batch.
+ * @param[in] points Input parameter.
+ * @return Return value.
+ */
 Result<size_t> AdaptiveFlushController::addBatch(
     const std::vector<TSStore::DataPoint>& points)
 {
@@ -209,6 +228,11 @@ Result<size_t> AdaptiveFlushController::addBatch(
 
         flush_cv_.notify_one();
 
+        /**
+         * @brief Bp lock.
+         * @param[in] bp_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> bp_lock(bp_mutex_);
         bp_cv_.wait(bp_lock, [this]() noexcept {
             return !running_.load(std::memory_order_relaxed) || !watermarkReached();
@@ -222,6 +246,11 @@ Result<size_t> AdaptiveFlushController::addBatch(
 
     size_t accepted = 0;
     {
+        /**
+         * @brief Lock.
+         * @param[in] buffer_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(buffer_mutex_);
         if (!has_oldest_point_) {
             oldest_point_time_ = std::chrono::steady_clock::now();
@@ -249,10 +278,20 @@ Result<size_t> AdaptiveFlushController::addBatch(
 // Flush
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Flush.
+ * @return Return value.
+ * @details Calls: flushInternal().
+ */
 size_t AdaptiveFlushController::flush() {
     return flushInternal();
 }
 
+/**
+ * @brief Flush Internal.
+ * @return Return value.
+ * @details Calls: reserve(), lock(), std::min(), size(), push_back(), std::move(), front(), pop_front().
+ */
 size_t AdaptiveFlushController::flushInternal() {
     // Drain buffer in flush_batch_size chunks
     size_t total_flushed = 0;
@@ -322,6 +361,10 @@ size_t AdaptiveFlushController::flushInternal() {
 // Background flush thread
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Flush Thread.
+ * @details Calls: THEMIS_INFO(), load(), lock(), wait_for(), watermarkReached(), isOverdue(), THEMIS_WARN(), count().
+ */
 void AdaptiveFlushController::flushThread() {
     THEMIS_INFO("AdaptiveFlushController flush thread started");
 
@@ -384,6 +427,11 @@ bool AdaptiveFlushController::watermarkReached() const noexcept {
 }
 
 bool AdaptiveFlushController::isOverdue() const {
+    /**
+     * @brief Lock.
+     * @param[in] buffer_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(buffer_mutex_);
     if (!has_oldest_point_) {
       return false;

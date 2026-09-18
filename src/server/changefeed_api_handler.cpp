@@ -38,6 +38,12 @@ namespace {
 
 constexpr size_t kMaxChangefeedIdentifierLength = 256;
 
+/**
+ * @brief Is Valid Changefeed Identifier.
+ * @param[in] value Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), validateStringLength(), validatePathSegment(), validateHeaderValue().
+ */
 bool isValidChangefeedIdentifier(const std::string& value) {
     themis::utils::InputValidator validator;
     return !value.empty() &&
@@ -55,6 +61,12 @@ static constexpr size_t EVENT_TYPES_MAX_LEN = 256;
 // Length of the "event_types=" query parameter prefix
 static constexpr size_t EVENT_TYPES_PARAM_LEN = sizeof("event_types=") - 1;
 
+/**
+ * @brief Parse Event Types.
+ * @param[in] types_str Input parameter.
+ * @return Return value.
+ * @details Calls: size(), THEMIS_WARN(), ss(), std::getline(), find_first_not_of(), find_last_not_of(), substr(), insert().
+ */
 static std::set<Changefeed::ChangeEventType> parseEventTypes(const std::string& types_str) {
     std::set<Changefeed::ChangeEventType> result = {};
 
@@ -127,6 +139,11 @@ void AsyncSSEStream::onChangeEvent(const Changefeed::ChangeEvent& evt) noexcept 
     }
 
     try {
+        /**
+         * @brief Lock.
+         * @param[in] queue_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(queue_mutex_);
 
         // Check for backpressure
@@ -155,6 +172,11 @@ void AsyncSSEStream::drainEventQueue() noexcept {
     try {
         std::vector<QueuedEvent> to_send;
         {
+            /**
+             * @brief Lock.
+             * @param[in] queue_mutex_ Input parameter.
+             * @return Return value.
+             */
             std::lock_guard<std::mutex> lock(queue_mutex_);
             std::swap(to_send, event_queue_);
         }
@@ -168,6 +190,11 @@ void AsyncSSEStream::drainEventQueue() noexcept {
                 
                 // Track delivered event for at-least-once guarantees
                 {
+                    /**
+                     * @brief Lock.
+                     * @param[in] delivered_mutex_ Input parameter.
+                     * @return Return value.
+                     */
                     std::lock_guard<std::mutex> lock(delivered_mutex_);
                     delivered_events_.push_back(queued.event);
                 }
@@ -193,6 +220,13 @@ void AsyncSSEStream::sendHeartbeat() noexcept {
     }
 }
 
+/**
+ * @brief Run.
+ * @param[in] key_prefix Input parameter.
+ * @param[in] event_types Input parameter.
+ * @return Return value.
+ * @details Calls: THEMIS_WARN(), subscribe(), onChangeEvent(), active(), THEMIS_DEBUG(), id(), std::chrono::seconds(), std::chrono::milliseconds().
+ */
 size_t AsyncSSEStream::run(
     const std::string& key_prefix,
     const std::set<Changefeed::ChangeEventType>& event_types
@@ -261,6 +295,11 @@ void AsyncSSEStream::close() noexcept {
 
 std::vector<Changefeed::ChangeEvent> AsyncSSEStream::getDeliveredEvents() const noexcept {
     try {
+        /**
+         * @brief Lock.
+         * @param[in] delivered_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(delivered_mutex_);
         return delivered_events_;
     } catch (...) {
@@ -272,11 +311,20 @@ std::vector<Changefeed::ChangeEvent> AsyncSSEStream::getDeliveredEvents() const 
 // ============================================================================
 // ChangefeedApiHandler static members
 // ============================================================================
+/**
+ * @brief Set Sse Stream Writer Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void ChangefeedApiHandler::setSseStreamWriterFn(SseStreamWriterFn fn) {
     std::lock_guard<std::mutex> lock(sse_writer_mutex_);
     sse_stream_writer_fn_ = std::move(fn);
 }
 
+/**
+ * @brief Clear Sse Stream Writer Fn.
+ * @details Calls: lock().
+ */
 void ChangefeedApiHandler::clearSseStreamWriterFn() {
     std::lock_guard<std::mutex> lock(sse_writer_mutex_);
     sse_stream_writer_fn_ = nullptr;
@@ -300,6 +348,12 @@ ChangefeedApiHandler::ChangefeedApiHandler(
     delivery_tracker_.start();
 }
 
+/**
+ * @brief Handle Get.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: std::string(), empty(), std::chrono::system_clock::now(), time_since_epoch(), count(), std::to_string(), fetch_add(), std::chrono::steady_clock::now().
+ */
 http::response<http::string_body> ChangefeedApiHandler::handleGet(
     const http::request<http::string_body>& req
 ) {
@@ -432,6 +486,12 @@ http::response<http::string_body> ChangefeedApiHandler::handleGet(
     }
 }
 
+/**
+ * @brief Handle Stream Sse.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: checkAuth(), makeErrorResponse(), Tracer::startSpan(), setAttribute(), std::string(), target(), find(), substr().
+ */
 http::response<http::string_body> ChangefeedApiHandler::handleStreamSse(
     const http::request<http::string_body>& req
 ) {
@@ -829,6 +889,12 @@ http::response<http::string_body> ChangefeedApiHandler::handleStreamSse(
     }
 }
 
+/**
+ * @brief Handle Stream Ack.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: checkAuth(), makeErrorResponse(), Tracer::startSpan(), setAttribute(), nlohmann::json::parse(), body(), contains(), empty().
+ */
 http::response<http::string_body> ChangefeedApiHandler::handleStreamAck(
     const http::request<http::string_body>& req
 ) {
@@ -893,6 +959,12 @@ http::response<http::string_body> ChangefeedApiHandler::handleStreamAck(
     }
 }
 
+/**
+ * @brief Handle Stats.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: checkAuth(), makeErrorResponse(), Tracer::startSpan(), setAttribute(), getStats(), setStatus(), makeResponse(), dump().
+ */
 http::response<http::string_body> ChangefeedApiHandler::handleStats(
     const http::request<http::string_body>& req
 ) {
@@ -927,6 +999,12 @@ http::response<http::string_body> ChangefeedApiHandler::handleStats(
     }
 }
 
+/**
+ * @brief Handle Retention.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: checkAuth(), makeErrorResponse(), Tracer::startSpan(), setAttribute(), nlohmann::json::parse(), body(), contains(), deleteOldEvents().
+ */
 http::response<http::string_body> ChangefeedApiHandler::handleRetention(
     const http::request<http::string_body>& req
 ) {
@@ -978,6 +1056,12 @@ http::response<http::string_body> ChangefeedApiHandler::handleRetention(
     }
 }
 
+/**
+ * @brief Handle Compact.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: checkAuth(), makeErrorResponse(), Tracer::startSpan(), setAttribute(), admin(), get(), compactLog(), setStatus().
+ */
 http::response<http::string_body> ChangefeedApiHandler::handleCompact(
     const http::request<http::string_body>& req
 ) {
@@ -1014,6 +1098,12 @@ http::response<http::string_body> ChangefeedApiHandler::handleCompact(
     }
 }
 
+/**
+ * @brief Handle Retention Get.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: checkAuth(), makeErrorResponse(), Tracer::startSpan(), setAttribute(), admin(), get(), getRetentionStatus(), setStatus().
+ */
 http::response<http::string_body> ChangefeedApiHandler::handleRetentionGet(
     const http::request<http::string_body>& req
 ) {
@@ -1040,6 +1130,12 @@ http::response<http::string_body> ChangefeedApiHandler::handleRetentionGet(
     }
 }
 
+/**
+ * @brief Handle Retention Put.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: checkAuth(), makeErrorResponse(), Tracer::startSpan(), setAttribute(), nlohmann::json::parse(), body(), getRetentionPolicy(), contains().
+ */
 http::response<http::string_body> ChangefeedApiHandler::handleRetentionPut(
     const http::request<http::string_body>& req
 ) {
@@ -1118,6 +1214,12 @@ http::response<http::string_body> ChangefeedApiHandler::handleRetentionPut(
     }
 }
 
+/**
+ * @brief Handle Gdpr Redact.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: checkAuth(), makeErrorResponse(), Tracer::startSpan(), setAttribute(), nlohmann::json::parse(), body(), value(), empty().
+ */
 http::response<http::string_body> ChangefeedApiHandler::handleGdprRedact(
     const http::request<http::string_body>& req
 ) {
@@ -1178,6 +1280,14 @@ http::response<http::string_body> ChangefeedApiHandler::handleGdprRedact(
     }
 }
 
+/**
+ * @brief Make Error Response.
+ * @param[in] status Input parameter.
+ * @param[in] message Input parameter.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: makeResponse(), dump().
+ */
 http::response<http::string_body> ChangefeedApiHandler::makeErrorResponse(
     http::status status, const std::string& message, const http::request<http::string_body>& req
 ) {
@@ -1189,6 +1299,14 @@ http::response<http::string_body> ChangefeedApiHandler::makeErrorResponse(
     return makeResponse(status, error_body.dump(), req);
 }
 
+/**
+ * @brief Make Response.
+ * @param[in] status Input parameter.
+ * @param[in] body Input parameter.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: version(), set(), keep_alive(), body(), applyGovernanceHeaders(), prepare_payload().
+ */
 http::response<http::string_body> ChangefeedApiHandler::makeResponse(
     http::status status, const std::string& body, const http::request<http::string_body>& req
 ) {
@@ -1202,6 +1320,13 @@ http::response<http::string_body> ChangefeedApiHandler::makeResponse(
     return res;
 }
 
+/**
+ * @brief Check Auth.
+ * @param[in] req Input parameter.
+ * @param[in] required_scope Input parameter.
+ * @return Return value.
+ * @details Calls: isEnabled(), empty(), version(), set(), keep_alive(), body(), prepare_payload(), AuthMiddleware::extractBearerToken().
+ */
 std::optional<http::response<http::string_body>> ChangefeedApiHandler::checkAuth(
     const http::request<http::string_body>& req, const std::string& required_scope
 ) {
@@ -1259,6 +1384,14 @@ std::optional<http::response<http::string_body>> ChangefeedApiHandler::checkAuth
     return std::nullopt;
 }
 
+/**
+ * @brief Check Auth And Resolve Tenant.
+ * @param[in] req Input parameter.
+ * @param[in] required_scope Input parameter.
+ * @param[in,out] out_context Input/output parameter.
+ * @return Return value.
+ * @details Calls: isEnabled(), TenantManager::instance(), std::string(), name_string(), value(), path_str(), target(), extractTenantId().
+ */
 std::optional<http::response<http::string_body>> ChangefeedApiHandler::checkAuthAndResolveTenant(
     const http::request<http::string_body>& req,
     const std::string& required_scope,
@@ -1431,6 +1564,12 @@ std::optional<http::response<http::string_body>> ChangefeedApiHandler::checkAuth
     return std::nullopt;
 }
 
+/**
+ * @brief Apply Governance Headers.
+ * @param[in] req Input parameter.
+ * @param[in,out] res Input/output parameter.
+ * @details Calls: tolower(), std::string(), target(), find(), substr(), name_string(), beast::iequals(), to_lower().
+ */
 void ChangefeedApiHandler::applyGovernanceHeaders(
     const http::request<http::string_body>& req,
     http::response<http::string_body>& res

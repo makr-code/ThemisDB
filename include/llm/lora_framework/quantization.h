@@ -22,9 +22,6 @@ namespace themis {
 namespace llm {
 namespace lora {
 
-/**
- * @brief Quantization types supported by QLoRA
- */
 enum class QuantizationType {
     NONE,      // No quantization (full precision)
     NF4,       // 4-bit NormalFloat (QLoRA paper)
@@ -33,14 +30,6 @@ enum class QuantizationType {
     Q8_0       // GGUF 8-bit (future)
 };
 
-/**
- * @brief NF4 (4-bit NormalFloat) quantization constants
- * 
- * Optimized for normally distributed weights in neural networks.
- * 16 bins with non-uniform spacing (denser near 0).
- * 
- * Reference: QLoRA paper (https://arxiv.org/abs/2305.14314)
- */
 namespace nf4_constants {
     // NF4 quantization bins (16 values for 4-bit)
     // Values are optimized for normally distributed weights
@@ -67,13 +56,11 @@ namespace nf4_constants {
     constexpr size_t BITS_PER_VALUE = 4;
 } // namespace nf4_constants
 
-/**
- * @brief Quantization configuration for a block of values
- * 
- * Block-wise quantization uses separate scale and zero-point for each block
- * to improve quantization accuracy. Typical block size: 64-128 elements.
- */
 struct QuantizationBlock {
+    /**
+     * @brief Quantization Block.
+     * @return Return value.
+     */
     virtual ~QuantizationBlock() = default;
     float scale = 0.0f;      // Scaling factor for dequantization
     float zero_point = 0.0f; // Zero point offset
@@ -83,23 +70,15 @@ struct QuantizationBlock {
     QuantizationBlock(float s, float z, size_t sz) : scale(s), zero_point(z), size(sz) {}
 };
 
-/**
- * @brief Quantized tensor storage
- * 
- * Stores quantized weights with block-wise quantization parameters.
- * Supports NF4 (4-bit) and INT8 (8-bit) quantization.
- */
 class QuantizedTensor {
 public:
+    /**
+     * @brief Quantized Tensor.
+     * @return Return value.
+     */
     virtual ~QuantizedTensor() = default;
     QuantizedTensor() = default;
     
-    /**
-     * @brief Construct quantized tensor
-     * @param type Quantization type (NF4 or INT8)
-     * @param shape Original tensor shape
-     * @param block_size Number of elements per quantization block
-     */
     QuantizedTensor(QuantizationType type, 
                     const std::vector<size_t>& shape,
                     size_t block_size = 64);
@@ -109,17 +88,35 @@ public:
     const std::vector<size_t>& shape() const { return shape_; }
     size_t block_size() const { return block_size_; }
     size_t num_blocks() const { return blocks_.size(); }
+    /**
+     * @brief Total elements.
+     * @return Return value.
+     */
     size_t total_elements() const;
     
     // Quantized data access
     const std::vector<uint8_t>& data() const { return quantized_data_; }
+    /**
+     * @brief Data.
+     * @return Return value.
+     * @details Implements data without additional internal calls.
+     */
     std::vector<uint8_t>& data() { return quantized_data_; }
     
     // Block parameters access
     const std::vector<QuantizationBlock>& blocks() const { return blocks_; }
+    /**
+     * @brief Blocks.
+     * @return Return value.
+     * @details Implements blocks without additional internal calls.
+     */
     std::vector<QuantizationBlock>& blocks() { return blocks_; }
     
     // Memory usage
+    /**
+     * @brief Memory bytes.
+     * @return Return value.
+     */
     size_t memory_bytes() const;
     
 private:
@@ -136,95 +133,59 @@ private:
     std::vector<QuantizationBlock> blocks_;
 };
 
-/**
- * @brief Quantization operations
- */
 namespace quantization {
 
     using DebugLogFn = std::function<void(const std::string&)>;
 
     /**
-     * @brief Inject an alternative debug sink for quantization traces.
-     *
-     * This is primarily used by `THEMIS_NO_SPDLOG` builds so debug-level
-     * quantization diagnostics remain observable without linking spdlog.
+     * @brief Set Debug Log Fn.
+     * @param[in] fn Input parameter.
      */
     void setDebugLogFn(DebugLogFn fn);
 
-    /**
-     * @brief Quantize a tensor to NF4 format
-     * 
-     * @param input Input tensor data (full precision)
-     * @param output Output quantized tensor
-     * @param block_size Number of elements per quantization block
-     * 
-     * Uses block-wise quantization with separate scale/zero-point per block.
-     */
     void quantize_nf4(const std::vector<float>& input,
                       QuantizedTensor& output,
                       size_t block_size = 64);
     
-    /**
-     * @brief Quantize a tensor to INT8 format
-     * 
-     * @param input Input tensor data (full precision)
-     * @param output Output quantized tensor
-     * @param block_size Number of elements per quantization block
-     * 
-     * Uses symmetric quantization: q = round(x / scale)
-     * Range: [-127, 127] (symmetric around 0)
-     */
     void quantize_int8(const std::vector<float>& input,
                        QuantizedTensor& output,
                        size_t block_size = 64);
     
     /**
-     * @brief Dequantize a tensor back to full precision
-     * 
-     * @param input Quantized tensor
-     * @param output Output full precision data
-     * 
-     * Reconstructs original values using: x = scale * (q - zero_point)
+     * @brief Dequantize.
+     * @param[in] input Input parameter.
+     * @param[in,out] output Input/output parameter.
      */
     void dequantize(const QuantizedTensor& input,
                     std::vector<float>& output);
     
     /**
-     * @brief Compute quantization error (MSE)
-     * 
-     * @param original Original full precision data
-     * @param quantized Quantized tensor
-     * @return Mean squared error between original and reconstructed
+     * @brief Quantization error.
+     * @param[in] original Input parameter.
+     * @param[in] quantized Input parameter.
+     * @return Return value.
      */
     float quantization_error(const std::vector<float>& original,
                              const QuantizedTensor& quantized);
     
     /**
-     * @brief Find nearest NF4 bin for a value
-     * 
-     * @param value Normalized value (after scaling)
-     * @return Bin index (0-15)
+     * @brief Find nf4 bin.
+     * @param[in] value Input parameter.
+     * @return Return value.
      */
     uint8_t find_nf4_bin(float value);
     
 } // namespace quantization
 
-/**
- * @brief Double quantization support
- * 
- * Quantizes the quantization constants (scale, zero_point) to save additional memory.
- * Typical savings: 0.37 bits per parameter.
- */
 namespace double_quantization {
     
     /**
-     * @brief Quantize block parameters (scales and zero points) to 8-bit
-     * 
-     * @param blocks Input block parameters
-     * @param quantized_scales Output quantized scales
-     * @param quantized_zeros Output quantized zero points
-     * @param global_scale Global scale for dequantization
-     * @param global_zero Global zero point for dequantization
+     * @brief Quantize block params.
+     * @param[in] blocks Input parameter.
+     * @param[in,out] quantized_scales Input/output parameter.
+     * @param[in,out] quantized_zeros Input/output parameter.
+     * @param[in,out] global_scale Input/output parameter.
+     * @param[in,out] global_zero Input/output parameter.
      */
     void quantize_block_params(const std::vector<QuantizationBlock>& blocks,
                                std::vector<uint8_t>& quantized_scales,
@@ -233,13 +194,12 @@ namespace double_quantization {
                                float& global_zero);
     
     /**
-     * @brief Dequantize block parameters back to FP32
-     * 
-     * @param quantized_scales Quantized scales
-     * @param quantized_zeros Quantized zero points
-     * @param global_scale Global scale
-     * @param global_zero Global zero point
-     * @param blocks Output reconstructed blocks
+     * @brief Dequantize block params.
+     * @param[in] quantized_scales Input parameter.
+     * @param[in] quantized_zeros Input parameter.
+     * @param[in] global_scale Input parameter.
+     * @param[in] global_zero Input parameter.
+     * @param[in,out] blocks Input/output parameter.
      */
     void dequantize_block_params(const std::vector<uint8_t>& quantized_scales,
                                  const std::vector<uint8_t>& quantized_zeros,

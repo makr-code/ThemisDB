@@ -40,6 +40,11 @@ nlohmann::json CoTSpanRecord::toJson() const {
 void RecordingCoTTracer::onStepBegin(
     StepId             step_index,
     const std::string& label) noexcept {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     if (pending_.size() <= step_index) {
         pending_.resize(step_index + 1);
@@ -52,6 +57,11 @@ void RecordingCoTTracer::onStepEnd(
     StepId                    step_index,
     const std::string&        content,
     std::chrono::microseconds duration) noexcept {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
 
     CoTSpanRecord rec;
@@ -71,20 +81,39 @@ void RecordingCoTTracer::onStepEnd(
 }
 
 std::vector<CoTSpanRecord> RecordingCoTTracer::spans() const {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     return spans_;
 }
 
 std::size_t RecordingCoTTracer::spanCount() const noexcept {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     return spans_.size();
 }
 
 bool RecordingCoTTracer::hasSpans() const noexcept {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     return !spans_.empty();
 }
 
+/**
+ * @brief Reset the modification detection flag.
+ * @details Calls: lk(), clear().
+ */
 void RecordingCoTTracer::reset() {
     std::lock_guard<std::mutex> lk(mutex_);
     spans_.clear();
@@ -92,6 +121,11 @@ void RecordingCoTTracer::reset() {
 }
 
 nlohmann::json RecordingCoTTracer::toJson() const {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     auto arr = nlohmann::json::array();
     for (const auto& rec : spans_) {
@@ -108,6 +142,11 @@ void CoTTraceCollector::onStepBegin(
     StepId             step_index,
     const std::string& label) noexcept {
     {
+        /**
+         * @brief Lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(mutex_);
         if (pending_.size() <= step_index) {
             pending_.resize(step_index + 1);
@@ -119,6 +158,11 @@ void CoTTraceCollector::onStepBegin(
     // avoid potential deadlock; snapshot the list first.
     std::vector<std::shared_ptr<IChainOfThoughtTracer>> children;
     {
+        /**
+         * @brief Lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(mutex_);
         children = children_;
     }
@@ -132,6 +176,11 @@ void CoTTraceCollector::onStepEnd(
     const std::string&        content,
     std::chrono::microseconds duration) noexcept {
     {
+        /**
+         * @brief Lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(mutex_);
 
         CoTSpanRecord rec;
@@ -153,6 +202,11 @@ void CoTTraceCollector::onStepEnd(
 
     std::vector<std::shared_ptr<IChainOfThoughtTracer>> children;
     {
+        /**
+         * @brief Lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(mutex_);
         children = children_;
     }
@@ -161,6 +215,11 @@ void CoTTraceCollector::onStepEnd(
     }
 }
 
+/**
+ * @brief Add Tracer.
+ * @param[in] tracer Input parameter.
+ * @details Calls: lk(), push_back(), std::move().
+ */
 void CoTTraceCollector::addTracer(
     std::shared_ptr<IChainOfThoughtTracer> tracer) {
     std::lock_guard<std::mutex> lk(mutex_);
@@ -169,6 +228,11 @@ void CoTTraceCollector::addTracer(
     }
 }
 
+/**
+ * @brief Remove Tracer.
+ * @param[in] tracer Input parameter.
+ * @details Calls: lk(), erase(), std::remove_if(), begin(), end(), get().
+ */
 void CoTTraceCollector::removeTracer(const IChainOfThoughtTracer* tracer) {
     std::lock_guard<std::mutex> lk(mutex_);
     children_.erase(
@@ -178,20 +242,39 @@ void CoTTraceCollector::removeTracer(const IChainOfThoughtTracer* tracer) {
 }
 
 std::size_t CoTTraceCollector::tracerCount() const noexcept {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     return children_.size();
 }
 
 std::vector<CoTSpanRecord> CoTTraceCollector::spans() const {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     return spans_;
 }
 
 std::size_t CoTTraceCollector::spanCount() const noexcept {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     return spans_.size();
 }
 
+/**
+ * @brief Reset the modification detection flag.
+ * @details Calls: lk(), clear(), store().
+ */
 void CoTTraceCollector::reset() {
     std::lock_guard<std::mutex> lk(mutex_);
     spans_.clear();
@@ -200,6 +283,11 @@ void CoTTraceCollector::reset() {
 }
 
 nlohmann::json CoTTraceCollector::toJson() const {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     auto arr = nlohmann::json::array();
     for (const auto& rec : spans_) {

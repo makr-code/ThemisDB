@@ -35,6 +35,16 @@ int64_t QueryPatternTracker::getCurrentTimeMs() const {
     return std::chrono::duration_cast<std::chrono::milliseconds>(duration).count();
 }
 
+/**
+ * @brief Record Pattern.
+ * @param[in] collection Input parameter.
+ * @param[in] field Input parameter.
+ * @param[in] operation Input parameter.
+ * @param[in] execution_time_ms Input parameter.
+ * @param[in] cache_miss Input parameter.
+ * @param[in] cache_miss_penalty_ms Input parameter.
+ * @details Calls: lock(), makeKey(), getCurrentTimeMs().
+ */
 void QueryPatternTracker::recordPattern(const std::string& collection,
                                        const std::string& field,
                                        const std::string& operation,
@@ -70,6 +80,11 @@ QueryPatternTracker::getPatterns(const std::string& collection) const {
     std::vector<QueryPattern> result;
     
     {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         result.reserve(patterns_.size());
         for (const auto& [key, pattern] : patterns_) {
@@ -97,12 +112,21 @@ QueryPatternTracker::getTopPatterns(size_t limit) const {
     return patterns;
 }
 
+/**
+ * @brief Clear.
+ * @details Calls: lock().
+ */
 void QueryPatternTracker::clear() {
     std::lock_guard<std::mutex> lock(mutex_);
     patterns_.clear();
 }
 
 size_t QueryPatternTracker::size() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return patterns_.size();
 }
@@ -374,6 +398,11 @@ IndexSuggestionEngine::generateSuggestions(const std::string& collection,
         // Analyze selectivity
         SelectivityAnalyzer::SelectivityStats stats;
         {
+            /**
+             * @brief Analyzer Lock.
+             * @param[in] analyzerMutex_ Input parameter.
+             * @return Return value.
+             */
             std::lock_guard<std::mutex> analyzerLock(analyzerMutex_);
             stats = analyzer_->analyze(pattern.collection, pattern.field, 1000);
         }
@@ -417,16 +446,33 @@ IndexSuggestionEngine::generateSuggestions(const std::string& collection,
 
 bool IndexSuggestionEngine::indexExists(const std::string& collection,
                                        const std::string& field) const {
+    /**
+     * @brief Lock.
+     * @param[in] existingIndexesMutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(existingIndexesMutex_);
     return existingIndexes_.count(collection + ":" + field) > 0;
 }
 
+/**
+ * @brief Register Index.
+ * @param[in] collection Input parameter.
+ * @param[in] field Input parameter.
+ * @details Calls: lock(), insert().
+ */
 void IndexSuggestionEngine::registerIndex(const std::string& collection,
                                           const std::string& field) {
     std::unique_lock<std::shared_mutex> lock(existingIndexesMutex_);
     existingIndexes_.insert(collection + ":" + field);
 }
 
+/**
+ * @brief Unregister Index.
+ * @param[in] collection Input parameter.
+ * @param[in] field Input parameter.
+ * @details Calls: lock(), erase().
+ */
 void IndexSuggestionEngine::unregisterIndex(const std::string& collection,
                                              const std::string& field) {
     std::unique_lock<std::shared_mutex> lock(existingIndexesMutex_);
@@ -454,6 +500,11 @@ double IndexSuggestionEngine::calculateScore(
     // Selectivity benefit
     double selectivity_score = 0.0;
     {
+        /**
+         * @brief Analyzer Lock.
+         * @param[in] analyzerMutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> analyzerLock(analyzerMutex_);
         selectivity_score = analyzer_->calculateIndexBenefit(stats);
     }
@@ -555,6 +606,11 @@ IndexSuggestionEngine::generateCacheAwareIndexes(
         SelectivityAnalyzer::SelectivityStats stats;
         SelectivityAnalyzer::SelectivityStats cache_aware_stats;
         {
+            /**
+             * @brief Analyzer Lock.
+             * @param[in] analyzerMutex_ Input parameter.
+             * @return Return value.
+             */
             std::lock_guard<std::mutex> analyzerLock(analyzerMutex_);
             stats = analyzer_->analyze(pattern.collection, pattern.field, 1000);
             // Phase 2: Apply cache-aware analysis

@@ -78,6 +78,14 @@ GPULoRALayer::GPULoRALayer(size_t in_dim, size_t out_dim, size_t rank,
                   use_fused_kernels_, use_flash_lora_);
 }
 
+/**
+ * @brief Forward.
+ * @param[in] input Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: device(), shape(), size(), clone(), transpose(), matmul(), spdlog::warn(), what().
+ */
 GPUTensor GPULoRALayer::forward(const GPUTensor& input) {
     // Verify input is on the same device
     if (input.device() != device_) {
@@ -271,6 +279,14 @@ GPUTensor GPULoRALayer::forward(const GPUTensor& input) {
     return output;
 }
 
+/**
+ * @brief Backward.
+ * @param[in] grad_output Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: device(), shape(), size(), empty(), ensure_grad(), grad_input(), themis::lora::vulkan::is_vulkan_available(), themis::lora::vulkan::initialize_vulkan_lora().
+ */
 GPUTensor GPULoRALayer::backward(const GPUTensor& grad_output) {
     // Verify grad_output is on the same device
     if (grad_output.device() != device_) {
@@ -497,14 +513,28 @@ GPUTensor GPULoRALayer::backward(const GPUTensor& grad_output) {
     return grad_input;
 }
 
+/**
+ * @brief Parameters.
+ * @return Return value.
+ * @details Calls: get().
+ */
 std::vector<GPUTensor*> GPULoRALayer::parameters() {
     return {B_.get(), A_.get()};
 }
 
+/**
+ * @brief Gradients.
+ * @return Return value.
+ * @details Calls: get().
+ */
 std::vector<GPUTensor*> GPULoRALayer::gradients() {
     return {B_->grad.get(), A_->grad.get()};
 }
 
+/**
+ * @brief Zero grad.
+ * @details Calls: zero().
+ */
 void GPULoRALayer::zero_grad() {
     if (B_->grad) {
         B_->grad->zero();
@@ -518,6 +548,13 @@ std::pair<GPUTensor, GPUTensor> GPULoRALayer::get_weights() const {
     return {B_->clone(), A_->clone()};
 }
 
+/**
+ * @brief Set weights.
+ * @param[in] B Input parameter.
+ * @param[in] A Input parameter.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: shape(), device(), clone(), to().
+ */
 void GPULoRALayer::set_weights(const GPUTensor& B, const GPUTensor& A) {
     // Verify shapes
     if (B.shape() != std::vector<size_t>{in_dim_, rank_}) {
@@ -535,6 +572,11 @@ void GPULoRALayer::set_weights(const GPUTensor& B, const GPUTensor& A) {
     A_->requires_grad = true;
 }
 
+/**
+ * @brief To.
+ * @param[in] target_device Input parameter.
+ * @details Calls: to_inplace(), spdlog::debug().
+ */
 void GPULoRALayer::to(const Device& target_device) {
     if (device_ == target_device) {
         return;
@@ -573,6 +615,11 @@ GPUSGDOptimizer::GPUSGDOptimizer(float learning_rate, float momentum, float weig
                   learning_rate_, momentum_, weight_decay_);
 }
 
+/**
+ * @brief Add parameters.
+ * @param[in] params Input parameter.
+ * @details Calls: insert(), end(), begin(), gpu_tensor_utils::zeros(), shape(), device(), push_back(), std::move().
+ */
 void GPUSGDOptimizer::add_parameters(const std::vector<GPUTensor*>& params) {
     parameters_.insert(parameters_.end(), params.begin(), params.end());
     
@@ -589,6 +636,10 @@ void GPUSGDOptimizer::add_parameters(const std::vector<GPUTensor*>& params) {
     spdlog::debug("GPUSGDOptimizer: {} parameters registered",parameters_.size());
 }
 
+/**
+ * @brief Step.
+ * @details Calls: size(), spdlog::warn(), device(), data(), cuda::fused::launch_fused_sgd_step(), hip::fused::launch_fused_sgd_step(), clone(), get().
+ */
 void GPUSGDOptimizer::step() {
     for (size_t i = 0; i < parameters_.size(); ++i) {
         auto* param = parameters_[i];
@@ -671,6 +722,10 @@ void GPUSGDOptimizer::step() {
     }
 }
 
+/**
+ * @brief Zero grad.
+ * @details Calls: zero().
+ */
 void GPUSGDOptimizer::zero_grad() {
     for (auto* param : parameters_) {
         if (param->grad) {
@@ -692,6 +747,13 @@ GPULoRATrainer::GPULoRATrainer(GPULoRALayer* layer, GPUSGDOptimizer* optimizer)
     }
 }
 
+/**
+ * @brief Train step.
+ * @param[in] input Input parameter.
+ * @param[in] target Input parameter.
+ * @return Return value.
+ * @details Calls: zero_grad(), forward(), compute_mse_loss(), compute_mse_grad(), backward(), step().
+ */
 float GPULoRATrainer::train_step(const GPUTensor& input, const GPUTensor& target) {
     // Zero gradients
     optimizer_->zero_grad();
@@ -714,6 +776,13 @@ float GPULoRATrainer::train_step(const GPUTensor& input, const GPUTensor& target
     return loss;
 }
 
+/**
+ * @brief Eval step.
+ * @param[in] input Input parameter.
+ * @param[in] target Input parameter.
+ * @return Return value.
+ * @details Calls: forward(), compute_mse_loss().
+ */
 float GPULoRATrainer::eval_step(const GPUTensor& input, const GPUTensor& target) {
     // Forward pass only (no gradient computation)
     auto output = layer_->forward(input);
@@ -724,6 +793,13 @@ float GPULoRATrainer::eval_step(const GPUTensor& input, const GPUTensor& target)
     return loss;
 }
 
+/**
+ * @brief Compute mse loss.
+ * @param[in] output Input parameter.
+ * @param[in] target Input parameter.
+ * @return Return value.
+ * @details Calls: mul(), cpu_data(), size().
+ */
 float GPULoRATrainer::compute_mse_loss(const GPUTensor& output, const GPUTensor& target) {
     // MSE = mean((output - target)^2)
     auto diff = output - target;
@@ -739,6 +815,13 @@ float GPULoRATrainer::compute_mse_loss(const GPUTensor& output, const GPUTensor&
     return sum / squared_data.size();
 }
 
+/**
+ * @brief Compute mse grad.
+ * @param[in] output Input parameter.
+ * @param[in] target Input parameter.
+ * @return Return value.
+ * @details Calls: size().
+ */
 GPUTensor GPULoRATrainer::compute_mse_grad(const GPUTensor& output, const GPUTensor& target) {
     // grad_MSE = 2 * (output - target) / n
     auto diff = output - target;

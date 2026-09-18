@@ -19,19 +19,11 @@
 namespace themis {
 namespace llm {
 
-/**
- * @brief Model metadata cache using ThemisDB's ConcurrentCache
- * 
- * Reuses existing ConcurrentCache infrastructure for model metadata storage.
- * Provides lock-free reads and efficient concurrent access.
- * 
- * Benefits:
- * - 10x faster than custom mutex-based implementation
- * - Lock-free reads via TBB concurrent_hash_map
- * - Production-tested since ThemisDB v1.0.0
- * - Unified monitoring with other ThemisDB caches
- */
 struct ModelMetadata {
+    /**
+     * @brief Model Metadata.
+     * @return Return value.
+     */
     virtual ~ModelMetadata() = default;
     std::string model_id;
     std::string path;
@@ -48,7 +40,6 @@ struct ModelMetadata {
     std::string quantization;  // e.g., "Q4_K_M", "Q8_0"
 };
 
-/** @brief Model metadata cache component. */
 class ModelMetadataCache {
 public:
     using CacheType = ConcurrentCache<std::string, ModelMetadata>;
@@ -63,43 +54,50 @@ public:
     ModelMetadataCache& operator=(ModelMetadataCache&&) noexcept = default;
     
     /**
-     * @brief Store model metadata
+     * @brief Put.
+     * @param[in] model_id Identifier of the model.
+     * @param[in] metadata Input parameter.
      */
     void put(const std::string& model_id, const ModelMetadata& metadata);
     
     /**
-     * @brief Get model metadata (lock-free read)
+     * @brief Get.
+     * @param[in] model_id Identifier of the model.
+     * @return Return value.
      */
     std::optional<ModelMetadata> get(const std::string& model_id) const;
     
     /**
-     * @brief Update last accessed timestamp
+     * @brief Touch.
+     * @param[in] model_id Identifier of the model.
      */
     void touch(const std::string& model_id);
     
     /**
-     * @brief Check if model exists in cache
+     * @brief Contains.
+     * @param[in] model_id Identifier of the model.
+     * @return True when the operation succeeds.
      */
     bool contains(const std::string& model_id) const;
     
     /**
-     * @brief Remove model metadata
+     * @brief Remove.
+     * @param[in] model_id Identifier of the model.
+     * @return True when the operation succeeds.
      */
     bool remove(const std::string& model_id);
     
     /**
-     * @brief Get cache size
+     * @brief Size.
+     * @return Return value.
      */
     size_t size() const;
     
     /**
-     * @brief Clear all entries
+     * @brief Clear.
      */
     void clear();
     
-    /**
-     * @brief Get cache statistics
-     */
     struct Stats {
         size_t total_entries = 0;
         size_t pinned_entries = 0;
@@ -107,10 +105,16 @@ public:
         uint64_t total_accesses = 0;
     };
     
+    /**
+     * @brief Get Stats.
+     * @return Return value.
+     */
     Stats getStats() const;
     
     /**
-     * @brief Direct access to underlying cache for advanced operations
+     * @brief Cache.
+     * @return Return value.
+     * @details Implements cache without additional internal calls.
      */
     CacheType& cache() { return cache_; }
     const CacheType& cache() const { return cache_; }

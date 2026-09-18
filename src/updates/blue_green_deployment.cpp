@@ -57,6 +57,12 @@ DeploymentSlot BlueGreenDeployment::standbySlot() const {
 // Deployment lifecycle
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Deploy To Standby.
+ * @param[in] version Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), LOG_WARN(), standbySlot(), LOG_INFO(), applyHotReload(), LOG_ERROR().
+ */
 ReloadResult BlueGreenDeployment::deployToStandby(const std::string& version) {
     ReloadResult error_result;
 
@@ -117,6 +123,11 @@ ReloadResult BlueGreenDeployment::deployToStandby(const std::string& version) {
     return result;
 }
 
+/**
+ * @brief Promote.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), LOG_WARN(), standbySlot(), LOG_INFO(), cb(), what().
+ */
 bool BlueGreenDeployment::promote() {
     PromotionCallback cb;
     std::string promoted_version = {};
@@ -169,6 +180,12 @@ bool BlueGreenDeployment::promote() {
     return true;
 }
 
+/**
+ * @brief Rollback.
+ * @param[in] reason Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), LOG_WARN(), empty(), cb(), what().
+ */
 bool BlueGreenDeployment::rollback(const std::string& reason) {
     std::string rid = {};
     RollbackCallback cb;
@@ -216,11 +233,19 @@ bool BlueGreenDeployment::rollback(const std::string& reason) {
 // Health tracking
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Report Success.
+ * @details Calls: lock().
+ */
 void BlueGreenDeployment::reportSuccess() {
     std::lock_guard<std::mutex> lock(mutex_);
     ++success_count_;
 }
 
+/**
+ * @brief Report Error.
+ * @details Calls: lock(), std::to_string(), LOG_WARN(), rollback().
+ */
 void BlueGreenDeployment::reportError() {
     bool trigger_rollback = false;
     std::string reason = {};
@@ -255,6 +280,11 @@ void BlueGreenDeployment::reportError() {
 }
 
 double BlueGreenDeployment::errorRate() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     const size_t total = success_count_ + error_count_;
     if (total == 0) {
@@ -264,6 +294,11 @@ double BlueGreenDeployment::errorRate() const {
 }
 
 bool BlueGreenDeployment::shouldRollback() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     if (is_rolled_back_ || !is_promoted_) {
         return false;
@@ -282,6 +317,11 @@ bool BlueGreenDeployment::shouldRollback() const {
 // ---------------------------------------------------------------------------
 
 BlueGreenStatus BlueGreenDeployment::status() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     BlueGreenStatus s;
@@ -305,11 +345,21 @@ BlueGreenStatus BlueGreenDeployment::status() const {
 }
 
 DeploymentSlot BlueGreenDeployment::activeSlot() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return active_slot_;
 }
 
 std::string BlueGreenDeployment::slotVersion(DeploymentSlot slot) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return slot == DeploymentSlot::BLUE ? blue_version_ : green_version_;
 }
@@ -318,11 +368,21 @@ std::string BlueGreenDeployment::slotVersion(DeploymentSlot slot) const {
 // Callbacks
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Set Promotion Callback.
+ * @param[in] cb Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void BlueGreenDeployment::setPromotionCallback(PromotionCallback cb) {
     std::lock_guard<std::mutex> lock(mutex_);
     promotion_cb_ = std::move(cb);
 }
 
+/**
+ * @brief Set Rollback Callback.
+ * @param[in] cb Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void BlueGreenDeployment::setRollbackCallback(RollbackCallback cb) {
     std::lock_guard<std::mutex> lock(mutex_);
     rollback_cb_ = std::move(cb);

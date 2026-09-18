@@ -43,6 +43,11 @@ PITRServiceImpl::PITRServiceImpl(
     THEMIS_INFO("PITRServiceImpl - Initialized with gRPC protocol support");
 }
 
+/**
+ * @brief Get Service Instance.
+ * @return Pointer to the result.
+ * @details Calls: THEMIS_INFO().
+ */
 void* PITRServiceImpl::getServiceInstance() {
     // Returns the grpc::Service* once proto is generated.
     // Returns nullptr until THEMIS_ENABLE_GRPC + generated proto is compiled in.
@@ -50,6 +55,12 @@ void* PITRServiceImpl::getServiceInstance() {
     return nullptr;
 }
 
+/**
+ * @brief Validate Tag Name.
+ * @param[in] tag_name Name of the tag.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), length(), pattern(), std::regex_match().
+ */
 bool PITRServiceImpl::validateTagName(const std::string& tag_name) {
     if (tag_name.empty() || tag_name.length() > 100) {
         return false;
@@ -61,6 +72,12 @@ bool PITRServiceImpl::validateTagName(const std::string& tag_name) {
     return std::regex_match(tag_name, pattern);
 }
 
+/**
+ * @brief Validate Description.
+ * @param[in] description Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: length().
+ */
 bool PITRServiceImpl::validateDescription(const std::string& description) {
     // Description can be up to 500 characters
     return description.length() <= 500;

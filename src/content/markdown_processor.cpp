@@ -33,6 +33,12 @@ MarkdownProcessor::MarkdownProcessor(Config config)
 // Internal helpers (file-local)
 // ============================================================================
 
+/**
+ * @brief Trim Copy.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Calls: find_first_not_of(), find_last_not_of(), substr().
+ */
 static std::string trimCopy(const std::string& s) {
     auto start = s.find_first_not_of(" \t\r\n");
     if (start == std::string::npos) return {};
@@ -44,6 +50,13 @@ static std::string trimCopy(const std::string& s) {
 // parseFrontmatter
 // ============================================================================
 
+/**
+ * @brief Parse Frontmatter.
+ * @param[in] markdown Input parameter.
+ * @param[in,out] body_out Input/output parameter.
+ * @return Return value.
+ * @details Calls: json::object(), size(), substr(), find(), trimCopy(), ss(), std::getline(), empty().
+ */
 json MarkdownProcessor::parseFrontmatter(const std::string& markdown,
                                           std::string& body_out) {
     json fm = json::object();
@@ -144,6 +157,14 @@ json MarkdownProcessor::parseFrontmatter(const std::string& markdown,
 // stripMarkdown
 // ============================================================================
 
+/**
+ * @brief Strip Markdown.
+ * @param[in] markdown Input parameter.
+ * @param[in] preserve_headings Input parameter.
+ * @param[in] strip_code Input parameter.
+ * @return Return value.
+ * @details Calls: in(), std::getline(), trimCopy(), size(), substr(), clear(), find_first_not_of(), empty().
+ */
 std::string MarkdownProcessor::stripMarkdown(const std::string& markdown,
                                               bool preserve_headings,
                                               bool strip_code) {
@@ -450,6 +471,12 @@ std::string MarkdownProcessor::stripMarkdown(const std::string& markdown,
 // Private helpers
 // ============================================================================
 
+/**
+ * @brief Normalize Whitespace.
+ * @param[in] text Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), find_first_not_of(), find_last_not_of(), substr().
+ */
 std::string MarkdownProcessor::normalizeWhitespace(const std::string& text) {
     std::string result = {};
     result.reserve(text.size());
@@ -490,6 +517,12 @@ std::string MarkdownProcessor::normalizeWhitespace(const std::string& text) {
     return result.substr(start, end - start + 1);
 }
 
+/**
+ * @brief Count Tokens.
+ * @param[in] text Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), iss().
+ */
 int MarkdownProcessor::countTokens(const std::string& text) {
     if (text.empty()) {
       return 0;
@@ -507,6 +540,13 @@ int MarkdownProcessor::countTokens(const std::string& text) {
 // IContentProcessor interface
 // ============================================================================
 
+/**
+ * @brief Extract.
+ * @param[in] blob Input parameter.
+ * @param[in] content_type Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), json::object(), parseFrontmatter(), stripMarkdown(), normalizeWhitespace(), size(), substr(), std::move().
+ */
 ExtractionResult MarkdownProcessor::extract(
     const std::string& blob,
     const ContentType& content_type
@@ -553,6 +593,14 @@ ExtractionResult MarkdownProcessor::extract(
     return result;
 }
 
+/**
+ * @brief Chunk.
+ * @param[in] extraction_result Input parameter.
+ * @param[in] chunk_size Input parameter.
+ * @param[in] overlap Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), ss(), std::getline(), trimCopy(), push_back(), clear(), json::object(), countTokens().
+ */
 std::vector<json> MarkdownProcessor::chunk(
     const ExtractionResult& extraction_result,
     int chunk_size,
@@ -648,6 +696,12 @@ std::vector<json> MarkdownProcessor::chunk(
     return chunks;
 }
 
+/**
+ * @brief Generate Embedding.
+ * @param[in] chunk_data Input parameter.
+ * @return Return value.
+ * @details Calls: embedding(), empty(), iss(), push_back(), size(), hasher(), std::sin(), std::sqrt().
+ */
 std::vector<float> MarkdownProcessor::generateEmbedding(const std::string& chunk_data) {
     // Deterministic hash-based embedding — compatible with HtmlProcessor / TextProcessor
     const int DIM = 768;
@@ -702,10 +756,21 @@ std::vector<float> MarkdownProcessor::generateEmbedding(const std::string& chunk
 // Factory functions
 // ============================================================================
 
+/**
+ * @brief Create Markdown Processor.
+ * @return Return value.
+ * @details Implements createMarkdownProcessor without additional internal calls.
+ */
 std::unique_ptr<IContentProcessor> createMarkdownProcessor() {
     return std::make_unique<MarkdownProcessor>();
 }
 
+/**
+ * @brief Create Markdown Processor.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @details Calls: std::move().
+ */
 std::unique_ptr<IContentProcessor> createMarkdownProcessor(MarkdownProcessor::Config config) {
     return std::make_unique<MarkdownProcessor>(std::move(config));
 }

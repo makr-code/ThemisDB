@@ -64,10 +64,8 @@ namespace {
 
 // ── Arrow IPC constants ───────────────────────────────────────────────────────
 
-/// IPC magic bytes: "ARROW1" + 2 padding bytes
 static const uint8_t kArrowMagic[8] = {0x41, 0x52, 0x52, 0x4f, 0x57, 0x31, 0x00, 0x00};
 
-/// Continuation marker preceding each IPC message frame
 static constexpr int32_t kContinuationMarker = -1; // 0xFFFFFFFF
 
 // Arrow FlatBuffers enum values
@@ -98,25 +96,33 @@ class FBuf {
         return static_cast<uint32_t>(buf_.size());
     }
 
-    /// Align to n bytes (prepend zero bytes)
     void align([[maybe_unused]] uint32_t n) {
         while (buf_.size() % n != 0) {
             preByte(0);
         }
     }
 
-    /// Prepend a single byte
     void preByte([[maybe_unused]] uint8_t v) {
         buf_.insert(buf_.begin(), v);
     }
 
-    /// Prepend LE int8
+    /**
+     * @brief Pre8.
+     * @param[in] v Input parameter.
+     * @return Return value.
+     * @details Calls: preByte(), cursor().
+     */
     uint32_t pre8(int8_t v) {
         preByte(static_cast<uint8_t>(v));
         return cursor();
     }
 
-    /// Prepend LE int16
+    /**
+     * @brief Pre16.
+     * @param[in] v Input parameter.
+     * @return Return value.
+     * @details Calls: preByte(), cursor().
+     */
     uint32_t pre16(int16_t v) {
         uint16_t u = static_cast<uint16_t>(v);
         preByte(static_cast<uint8_t>(u >> 8));
@@ -124,7 +130,12 @@ class FBuf {
         return cursor();
     }
 
-    /// Prepend LE int32
+    /**
+     * @brief Pre32.
+     * @param[in] v Input parameter.
+     * @return Return value.
+     * @details Calls: preByte(), cursor().
+     */
     uint32_t pre32(int32_t v) {
         uint32_t u = static_cast<uint32_t>(v);
         preByte(static_cast<uint8_t>((u >> 24) & 0xFF));
@@ -134,7 +145,12 @@ class FBuf {
         return cursor();
     }
 
-    /// Prepend LE int64
+    /**
+     * @brief Pre64.
+     * @param[in] v Input parameter.
+     * @return Return value.
+     * @details Calls: preByte(), cursor().
+     */
     uint32_t pre64(int64_t v) {
         uint64_t u = static_cast<uint64_t>(v);
         for (int s = 56; s >= 0; s -= 8) {
@@ -143,14 +159,17 @@ class FBuf {
         return cursor();
     }
 
-    /// Prepend a UOffset field pointing to an object at cursor C_obj.
-    ///   Stored value = cursor_after_this_write – C_obj
     uint32_t preUOffset([[maybe_unused]] uint32_t C_obj) {
         uint32_t val = (cursor() + 4) - C_obj;
         return pre32(static_cast<int32_t>(val));
     }
 
-    /// Patch the int32 at position (cursor() – C_after) with value v.
+    /**
+     * @brief Patch I32 At.
+     * @param[in] C_after Input parameter.
+     * @param[in] v Input parameter.
+     * @details Calls: cursor().
+     */
     void patchI32At(uint32_t C_after, int32_t v) {
         uint32_t idx  = cursor() - C_after;
         uint32_t u    = static_cast<uint32_t>(v);
@@ -160,15 +179,22 @@ class FBuf {
         buf_[idx + 3] = static_cast<uint8_t>((u >> 24) & 0xFF);
     }
 
-    /// Patch the soffset (table → vtable).
-    ///   soffset_value = C_soffset – C_vtable  (negative)
+    /**
+     * @brief Patch SOffset.
+     * @param[in] C_soffset Input parameter.
+     * @param[in] C_vtable Input parameter.
+     * @details Calls: patchI32At().
+     */
     void patchSOffset(uint32_t C_soffset, uint32_t C_vtable) {
         patchI32At(C_soffset, static_cast<int32_t>(C_soffset) - static_cast<int32_t>(C_vtable));
     }
 
-    // ── FlatBuffer string ─────────────────────────────────────────────────────
-    // Format: uint32 length | data bytes | '\0' | padding-to-4
-    // Returns C_obj = cursor AFTER the length field (= object reference).
+    /**
+     * @brief ── FlatBuffer string ───────────────────────────────────────────────────── Format: uint32 length | data bytes | '\0' | padding-to-4 Returns C_obj = cursor AFTER the length field (= object reference).
+     * @param[in] s Input parameter.
+     * @return Return value.
+     * @details Calls: size(), preByte(), pre32(), cursor().
+     */
     uint32_t preString(const std::string &s) {
         size_t data_len  = s.size() + 1; // data + null terminator
         size_t padded    = ((data_len + 3) / 4) * 4;
@@ -189,17 +215,22 @@ class FBuf {
         return cursor(); // = C_obj (cursor after length field, the "start" of string)
     }
 
-    // ── Empty FlatBuffer vector ────────────────────────────────────────────────
-    // Format: uint32 count=0
-    // Returns C_obj = cursor AFTER writing count.
+    /**
+     * @brief ── Empty FlatBuffer vector ──────────────────────────────────────────────── Format: uint32 count=0 Returns C_obj = cursor AFTER writing count.
+     * @return Return value.
+     * @details Calls: pre32(), cursor().
+     */
     uint32_t preEmptyVector() {
         pre32(0);
         return cursor();
     }
 
-    // ── Vector of UOffsets (e.g. list of Field tables) ────────────────────────
-    // Elements are already written; their cursor values are in refs[].
-    // Returns C_obj for the vector (= cursor after the count field).
+    /**
+     * @brief ── Vector of UOffsets (e.
+     * @param[in] refs Input parameter.
+     * @return Return value.
+     * @details g. list of Field tables) ──────────────────────── Elements are already written; their cursor values are in refs[]. Returns C_obj for the vector (= cursor after the count field). Calls: size(), preUOffset(), pre32(), cursor().
+     */
     uint32_t preOffsetVector(const std::vector<uint32_t> &refs) {
         // Prepend elements in REVERSE order (last element first) so they appear
         // in forward order in the final buffer.
@@ -220,6 +251,11 @@ class FBuf {
     const std::vector<uint8_t> &bytes() const {
         return buf_;
     }
+    /**
+     * @brief Take.
+     * @return Return value.
+     * @details Calls: std::move().
+     */
     std::vector<uint8_t> take() {
         return std::move(buf_);
     }
@@ -228,10 +264,12 @@ class FBuf {
     std::vector<uint8_t> buf_;
 };
 
-// ── Empty Utf8 FlatBuffer table ───────────────────────────────────────────────
-// An empty table (no fields beyond soffset_t).
-// vtable: vtable_size=4, data_size=4 (just the soffset_t).
-// Returns C_obj = cursor after writing the soffset_t.
+/**
+ * @brief ── Empty Utf8 FlatBuffer table ─────────────────────────────────────────────── An empty table (no fields beyond soffset_t).
+ * @param[in,out] fb Input/output parameter.
+ * @return Return value.
+ * @details vtable: vtable_size=4, data_size=4 (just the soffset_t). Returns C_obj = cursor after writing the soffset_t. Calls: pre32(), pre16(), cursor(), patchSOffset().
+ */
 static uint32_t buildEmptyTable(FBuf &fb) {
     // Prepend soffset placeholder
     uint32_t C_soffset = fb.pre32(0);
@@ -322,23 +360,13 @@ static uint32_t buildField(FBuf &fb, [[maybe_unused]] const std::string &name, u
     return C_soffset;
 }
 
-// ── Schema FlatBuffer table ───────────────────────────────────────────────────
-//
-// table Schema {
-//   endianness:      int16;    // field[0]  Little=0
-//   fields:          [Field];  // field[1]
-//   custom_metadata: (absent)  // field[2]
-//   features:        (absent)  // field[3]
-// }
-//
-// Table data layout:
-//   +0  soffset_t       (4 B)
-//   +4  fields UOffset  (4 B) → field[1]
-//   +8  endianness      int16 (2 B) → field[0]
-//   +10 padding         (2 B)
-//   data_size = 12
-//
-// Returns C_obj = cursor after soffset_t.
+/**
+ * @brief ── Schema FlatBuffer table ─────────────────────────────────────────────────── table Schema { endianness: int16; // field[0] Little=0 fields: [Field]; // field[1] custom_metadata: (absent) // field[2] features: (absent) // field[3] } Table data layout: +0 soffset_t (4 B) +4 fields UOffset (4 B) → field[1] +8 endianness int16 (2 B) → field[0] +10 padding (2 B) data_size = 12 Returns C_obj = cursor after soffset_t.
+ * @param[in,out] fb Input/output parameter.
+ * @param[in] col_names Input parameter.
+ * @return Return value.
+ * @details Calls: preString(), buildEmptyTable(), preEmptyVector(), buildField(), push_back(), preOffsetVector(), pre16(), preUOffset().
+ */
 static uint32_t buildSchema(FBuf &fb, const std::vector<std::string> &col_names) {
     // 1. Build child objects for each field (in forward order)
     std::vector<uint32_t> field_refs = {};
@@ -382,30 +410,16 @@ static uint32_t buildSchema(FBuf &fb, const std::vector<std::string> &col_names)
     return C_soffset;
 }
 
-// ── RecordBatch FlatBuffer table ─────────────────────────────────────────────
-//
-// table RecordBatch {
-//   length:  int64;          // field[0]  number of rows
-//   nodes:   [FieldNode];    // field[1]  struct: {length int64, null_count int64}
-//   buffers: [Buffer];       // field[2]  struct: {offset int64, length int64}
-//   compression: (absent)    // field[3]
-// }
-//
-// FieldNode and Buffer are FlatBuffer STRUCTS (stored inline in vectors).
-//
-// Table data layout:
-//   +0  soffset_t        (4 B)
-//   +4  padding          (4 B)  [to 8-align length]
-//   +8  length           int64 (8 B) → field[0]
-//   +16 nodes UOffset    (4 B) → field[1]
-//   +20 buffers UOffset  (4 B) → field[2]
-//   data_size = 24
-//
-// Each Utf8 column contributes:
-//   1 FieldNode struct  (2 × int64 = 16 B)
-//   3 Buffer structs    (validity bitmap + offsets buffer + data buffer)
-//     (3 × 2 × int64 = 48 B)
-// Returns C_obj = cursor after soffset_t.
+/**
+ * @brief ── RecordBatch FlatBuffer table ───────────────────────────────────────────── table RecordBatch { length: int64; // field[0] number of rows nodes: [FieldNode]; // field[1] struct: {length int64, null_count int64} buffers: [Buffer]; // field[2] struct: {offset int64, length int64} compression: (absent) // field[3] } FieldNode and Buffer are FlatBuffer STRUCTS (stored inline in vectors).
+ * @param[in,out] fb Input/output parameter.
+ * @param[in] num_rows Input parameter.
+ * @param[in] buf_offsets Input parameter.
+ * @param[in] buf_lengths Input parameter.
+ * @param[in] num_cols Input parameter.
+ * @return Return value.
+ * @details Table data layout: +0 soffset_t (4 B) +4 padding (4 B) [to 8-align length] +8 length int64 (8 B) → field[0] +16 nodes UOffset (4 B) → field[1] +20 buffers UOffset (4 B) → field[2] data_size = 24 Each Utf8 column contributes: 1 FieldNode struct (2 × int64 = 16 B) 3 Buffer structs (validity bitmap + offsets buffer + data buffer) (3 × 2 × int64 = 48 B) Returns C_obj = cursor after soffset_t. Calls: pre64(), pre32(), cursor(), preUOffset(), pre16(), patchSOffset().
+ */
 static uint32_t buildRecordBatch(FBuf &fb, int64_t num_rows,
                                  const std::vector<int64_t> &buf_offsets, // per-column-buffer body offsets
                                  const std::vector<int64_t> &buf_lengths, // per-column-buffer body lengths
@@ -462,25 +476,15 @@ static uint32_t buildRecordBatch(FBuf &fb, int64_t num_rows,
     return C_soffset;
 }
 
-// ── Message FlatBuffer table ──────────────────────────────────────────────────
-//
-// table Message {
-//   version:         int16;  // field[0]  MetadataVersion::V5 = 4
-//   header:          union;  // field[1] type byte, field[2] UOffset to header table
-//   bodyLength:      int64;  // field[3]
-//   custom_metadata: (absent) // field[4]
-// }
-//
-// Table data layout:
-//   +0  soffset_t       (4 B)
-//   +4  header UOffset  (4 B) → field[2]
-//   +8  bodyLength      int64 (8 B) → field[3]
-//   +16 version         int16 (2 B) → field[0]
-//   +18 header_type     int8  (1 B) → field[1]
-//   +19 padding         (1 B)
-//   data_size = 20
-//
-// Returns the raw FlatBuffer bytes as a vector.
+/**
+ * @brief ── Message FlatBuffer table ────────────────────────────────────────────────── table Message { version: int16; // field[0] MetadataVersion::V5 = 4 header: union; // field[1] type byte, field[2] UOffset to header table bodyLength: int64; // field[3] custom_metadata: (absent) // field[4] } Table data layout: +0 soffset_t (4 B) +4 header UOffset (4 B) → field[2] +8 bodyLength int64 (8 B) → field[3] +16 version int16 (2 B) → field[0] +18 header_type int8 (1 B) → field[1] +19 padding (1 B) data_size = 20 Returns the raw FlatBuffer bytes as a vector.
+ * @param[in] C_header_table Input parameter.
+ * @param[in] header_type Input parameter.
+ * @param[in] body_length Input parameter.
+ * @param[in,out] fb Input/output parameter.
+ * @return Return value.
+ * @details Calls: pre8(), pre16(), pre64(), preUOffset(), pre32(), cursor(), patchSOffset(), finishWithRoot().
+ */
 static std::vector<uint8_t> buildMessageFB(uint32_t C_header_table, int8_t header_type, int64_t body_length, FBuf &fb) {
     // Message table fields (reverse layout)
     // padding (offset +19)
@@ -523,8 +527,12 @@ static std::vector<uint8_t> buildMessageFB(uint32_t C_header_table, int8_t heade
     return fb.take();
 }
 
-// ── Helper: write LE int32 to a stream ───────────────────────────────────────
-// Always writes in little-endian byte order regardless of host endianness.
+/**
+ * @brief ── Helper: write LE int32 to a stream ─────────────────────────────────────── Always writes in little-endian byte order regardless of host endianness.
+ * @param[in,out] out Input/output parameter.
+ * @param[in] v Input parameter.
+ * @details Calls: write().
+ */
 static void writeLE32(std::ostream &out, int32_t v) {
     uint32_t u = static_cast<uint32_t>(v);
     char buf[4];
@@ -535,9 +543,13 @@ static void writeLE32(std::ostream &out, int32_t v) {
     out.write(buf, 4);
 }
 
-// ── Write an Arrow IPC message frame ─────────────────────────────────────────
-// Frame: [continuation int32=-1][metadata_size int32][metadata (padded-8)][body]
-// Both integer fields are written as explicit LE per the Arrow IPC spec.
+/**
+ * @brief ── Write an Arrow IPC message frame ───────────────────────────────────────── Frame: [continuation int32=-1][metadata_size int32][metadata (padded-8)][body] Both integer fields are written as explicit LE per the Arrow IPC spec.
+ * @param[in,out] out Input/output parameter.
+ * @param[in] metadata Input parameter.
+ * @param[in] body Input parameter.
+ * @details Calls: writeLE32(), size(), write(), data(), empty().
+ */
 static void writeMessageFrame(std::ostream &out, const std::vector<uint8_t> &metadata,
                               const std::vector<uint8_t> &body) {
     // continuation marker (-1 = 0xFFFFFFFF, endian-neutral but written via
@@ -556,14 +568,25 @@ static void writeMessageFrame(std::ostream &out, const std::vector<uint8_t> &met
     }
 }
 
-// ── Build the Schema IPC message bytes ───────────────────────────────────────
+/**
+ * @brief ── Build the Schema IPC message bytes ───────────────────────────────────────
+ * @param[in] col_names Input parameter.
+ * @return Return value.
+ * @details Calls: buildSchema(), buildMessageFB().
+ */
 static std::vector<uint8_t> buildSchemaMessage(const std::vector<std::string> &col_names) {
     FBuf fb;
     uint32_t C_schema = buildSchema(fb, col_names);
     return buildMessageFB(C_schema, kMessageHeaderSchema, 0, fb);
 }
 
-// ── Serialize entity field as UTF-8 string ───────────────────────────────────
+/**
+ * @brief ── Serialize entity field as UTF-8 string ───────────────────────────────────
+ * @param[in] entity Input parameter.
+ * @param[in] col Input parameter.
+ * @return Return value.
+ * @details Calls: getField(), has_value(), std::visit(), constexpr(), std::to_string(), str(), size().
+ */
 static std::string fieldToString(const BaseEntity &entity, const std::string &col) {
     auto opt = entity.getField(col);
     if (!opt.has_value()) {
@@ -618,6 +641,14 @@ struct BatchBody {
     std::vector<int64_t> buf_lengths; // per-buffer byte length (unpadded)
 };
 
+/**
+ * @brief Build Batch Body.
+ * @param[in] entities Input parameter.
+ * @param[in] columns Input parameter.
+ * @return Return value.
+ * @throws SizeLimitException if an error occurs.
+ * @details Calls: reserve(), size(), push_back(), fieldToString(), max(), append_i32(), insert(), end().
+ */
 static BatchBody buildBatchBody(const std::vector<BaseEntity> &entities, const std::vector<std::string> &columns) {
     BatchBody result;
     int64_t body_pos = 0;
@@ -700,7 +731,14 @@ static BatchBody buildBatchBody(const std::vector<BaseEntity> &entities, const s
     return result;
 }
 
-// ── Build RecordBatch IPC message ─────────────────────────────────────────────
+/**
+ * @brief ── Build RecordBatch IPC message ─────────────────────────────────────────────
+ * @param[in] entities Input parameter.
+ * @param[in] columns Input parameter.
+ * @param[in] body Input parameter.
+ * @return Return value.
+ * @details Calls: size(), buildRecordBatch(), buildMessageFB().
+ */
 static std::vector<uint8_t> buildRecordBatchMessage(const std::vector<BaseEntity> &entities,
                                                     const std::vector<std::string> &columns, const BatchBody &body) {
     int64_t num_rows  = static_cast<int64_t>(entities.size());
@@ -740,6 +778,13 @@ struct BlockInfo {
     int64_t body_length;      // body bytes
 };
 
+/**
+ * @brief Build Footer FB.
+ * @param[in] col_names Input parameter.
+ * @param[in] record_batch_blocks Input parameter.
+ * @return Return value.
+ * @details Calls: buildSchema(), size(), pre64(), pre32(), cursor(), preUOffset(), pre16(), patchSOffset().
+ */
 static std::vector<uint8_t> buildFooterFB(const std::vector<std::string> &col_names,
                                           const std::vector<BlockInfo> &record_batch_blocks) {
     FBuf fb;
@@ -797,6 +842,11 @@ static std::vector<uint8_t> buildFooterFB(const std::vector<std::string> &col_na
 ArrowIPCExporter::ArrowIPCExporter(const ArrowIPCExportConfig &config)
     : config_(config), metrics_(std::make_shared<ExporterMetrics>()) {}
 
+/**
+ * @brief Is Arrow Available.
+ * @return True when the operation succeeds.
+ * @details Implements isArrowAvailable without additional internal calls.
+ */
 bool ArrowIPCExporter::isArrowAvailable() {
 #ifdef ARROW_ENABLED
     return true;
@@ -844,6 +894,16 @@ std::vector<std::string> ArrowIPCExporter::resolveColumns(const std::vector<Base
     return std::vector<std::string>(seen.begin(), seen.end());
 }
 
+/**
+ * @brief Export Entities.
+ * @param[in] entities Input parameter.
+ * @param[in] options Input parameter.
+ * @return Return value.
+ * @throws ExporterException if an error occurs.
+ * @throws ConfigException if an error occurs.
+ * @throws ExportIOException if an error occurs.
+ * @details Calls: enforceExportPolicy(), std::chrono::steady_clock::now(), hasScope(), empty(), size(), resolveColumns(), exportWithArrow(), exportFallback().
+ */
 ExportStats ArrowIPCExporter::exportEntities(const std::vector<BaseEntity> &entities, const ExportOptions &options) {
     // Policy check before any cursor or file is opened (EXP-001).
     enforceExportPolicy(options);
@@ -889,9 +949,15 @@ ExportStats ArrowIPCExporter::exportEntities(const std::vector<BaseEntity> &enti
     return stats;
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Fallback: minimal Arrow IPC File writer (no Arrow library required)
-// ─────────────────────────────────────────────────────────────────────────────
+/**
+ * @brief ───────────────────────────────────────────────────────────────────────────── Fallback: minimal Arrow IPC File writer (no Arrow library required) ─────────────────────────────────────────────────────────────────────────────
+ * @param[in] entities Input parameter.
+ * @param[in] options Input parameter.
+ * @param[in] columns Input parameter.
+ * @return Return value.
+ * @throws ExportIOException if an error occurs.
+ * @details Calls: size(), out(), is_open(), buildSchemaMessage(), empty(), buildBatchBody(), buildRecordBatchMessage(), write().
+ */
 
 ExportStats ArrowIPCExporter::exportFallback(const std::vector<BaseEntity> &entities, const ExportOptions &options,
                                              const std::vector<std::string> &columns) {
@@ -1002,6 +1068,15 @@ ExportStats ArrowIPCExporter::exportFallback(const std::vector<BaseEntity> &enti
 // ─────────────────────────────────────────────────────────────────────────────
 
 #ifdef ARROW_ENABLED
+/**
+ * @brief Export With Arrow.
+ * @param[in] entities Input parameter.
+ * @param[in] options Input parameter.
+ * @param[in] columns Input parameter.
+ * @return Return value.
+ * @throws ExportIOException if an error occurs.
+ * @details Calls: size(), push_back(), arrow::field(), arrow::utf8(), empty(), arrow::KeyValueMetadata::Make(), arrow::schema(), arrow::io::FileOutputStream::Open().
+ */
 ExportStats ArrowIPCExporter::exportWithArrow(const std::vector<BaseEntity> &entities, const ExportOptions &options,
                                               const std::vector<std::string> &columns) {
     ExportStats stats;

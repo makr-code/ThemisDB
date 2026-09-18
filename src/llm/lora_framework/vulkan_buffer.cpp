@@ -97,6 +97,11 @@ VulkanBuffer& VulkanBuffer::operator=(VulkanBuffer&& other) noexcept {
     return *this;
 }
 
+/**
+ * @brief Create buffer.
+ * @return True when the operation succeeds.
+ * @details Calls: get_usage_flags(), vkCreateBuffer(), device(), vkGetBufferMemoryRequirements(), find_memory_type(), get_memory_properties(), vkDestroyBuffer(), vkAllocateMemory().
+ */
 bool VulkanBuffer::create_buffer() {
     // Create buffer
     VkBufferCreateInfo buffer_info = {};
@@ -188,6 +193,14 @@ VkMemoryPropertyFlags VulkanBuffer::get_memory_properties() const {
     }
 }
 
+/**
+ * @brief Upload.
+ * @param[in] data Input parameter.
+ * @param[in] size Input parameter.
+ * @param[in] offset Input parameter.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: staging(), copy_from(), map(), std::memcpy(), unmap().
+ */
 void VulkanBuffer::upload(const void* data, VkDeviceSize size, VkDeviceSize offset) {
     if (offset + size > size_) {
         throw std::runtime_error("Upload size exceeds buffer size");
@@ -212,7 +225,13 @@ void VulkanBuffer::download(void* data, VkDeviceSize size, VkDeviceSize offset) 
     }
     
     if (usage_ == Usage::DeviceLocal) {
-        // For device-local buffers, use staging buffer
+        /**
+         * @brief For device-local buffers, use staging buffer
+         * @param[in] context_ Input parameter.
+         * @param[in] size Input parameter.
+         * @param[in] Staging Input parameter.
+         * @return Return value.
+         */
         VulkanBuffer staging(context_, size, Usage::Staging);
         staging.copy_from(*this, size, offset, 0);
         staging.download(data, size, 0);
@@ -228,6 +247,12 @@ void VulkanBuffer::download(void* data, VkDeviceSize size, VkDeviceSize offset) 
     }
 }
 
+/**
+ * @brief Map.
+ * @return Pointer to the result.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: vkMapMemory(), device().
+ */
 void* VulkanBuffer::map() {
     if (mapped_ptr_) {
         return mapped_ptr_;
@@ -245,6 +270,10 @@ void* VulkanBuffer::map() {
     return mapped_ptr_;
 }
 
+/**
+ * @brief Unmap.
+ * @details Calls: vkUnmapMemory(), device().
+ */
 void VulkanBuffer::unmap() {
     if (!mapped_ptr_) {
         return;
@@ -254,6 +283,15 @@ void VulkanBuffer::unmap() {
     mapped_ptr_ = nullptr;
 }
 
+/**
+ * @brief Copy from.
+ * @param[in] src Input parameter.
+ * @param[in] size Input parameter.
+ * @param[in] src_offset Input parameter.
+ * @param[in] dst_offset Input parameter.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: std::min(), allocate_command_buffer(), vkBeginCommandBuffer(), free_command_buffer(), vkCmdCopyBuffer(), vkEndCommandBuffer(), create_fence(), vkQueueSubmit().
+ */
 void VulkanBuffer::copy_from(const VulkanBuffer& src, VkDeviceSize size,
                               VkDeviceSize src_offset, VkDeviceSize dst_offset) {
     if (size == 0) {

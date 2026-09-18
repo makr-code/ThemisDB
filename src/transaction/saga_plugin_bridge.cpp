@@ -13,6 +13,13 @@
 
 namespace themis::transaction {
 
+/**
+ * @brief Bind Saga Orchestrator From Plugin.
+ * @param[in,out] plugin_manager Input/output parameter.
+ * @param[in] plugin_name Name of the plugin.
+ * @return Return value.
+ * @details Calls: isPluginLoaded(), loadPlugin(), tl::unexpected(), error(), getPlugin(), value(), getInstance().
+ */
 Result<SAGAOrchestrator*> bindSagaOrchestratorFromPlugin(
     plugins::PluginManager& plugin_manager,
     const std::string& plugin_name) {

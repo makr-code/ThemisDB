@@ -25,11 +25,6 @@ namespace batch_a9 {
 // Helper functions for memory validation
 // ============================================================================
 
-/**
- * @brief Validate GPU device availability and properties
- *
- * @return true if at least one GPU device is available; false otherwise
- */
 bool isGPUAvailable() noexcept {
 #if THEMIS_BATCH_A9_HAS_CUDA
     int device_count = 0;
@@ -59,11 +54,6 @@ bool isGPUAvailable() noexcept {
 #endif
 }
 
-/**
- * @brief Get remaining device memory (approximate)
- *
- * @return Available device memory in bytes (0 if unavailable)
- */
 size_t getAvailableDeviceMemory() noexcept {
 #if THEMIS_BATCH_A9_HAS_CUDA
     size_t free_bytes = 0, total_bytes = 0;
@@ -77,12 +67,6 @@ size_t getAvailableDeviceMemory() noexcept {
 #endif
 }
 
-/**
- * @brief Validate memory allocation parameters
- *
- * @param size_bytes Number of bytes to allocate
- * @return true if allocation is feasible; false if too large or invalid
- */
 bool isAllocationValid(size_t size_bytes) noexcept {
     if (size_bytes == 0) {
         auto logger = spdlog::get("gpu");
@@ -121,22 +105,14 @@ bool isAllocationValid(size_t size_bytes) noexcept {
 // ============================================================================
 
 /**
- * @brief Create a GPU stream with validation
- *
- * @return GPU stream handle, or throws on failure
- * @throws std::runtime_error if stream creation fails
+ * @brief Create Stream Safe.
+ * @return Return value.
+ * @details Calls: GPUStreamHandle().
  */
 GPUStreamHandle createStreamSafe() {
     return GPUStreamHandle();
 }
 
-/**
- * @brief Synchronize GPU stream with timeout
- *
- * @param stream Stream to synchronize (can be nullptr for default stream)
- * @param timeout_ms Maximum wait time in milliseconds
- * @return true if stream synchronized; false if timeout exceeded
- */
 bool streamSynchronizeWithTimeout(cudaStream_t stream, uint32_t timeout_ms) noexcept {
 #if THEMIS_BATCH_A9_HAS_CUDA
     auto start = std::chrono::high_resolution_clock::now();
@@ -181,15 +157,14 @@ bool streamSynchronizeWithTimeout(cudaStream_t stream, uint32_t timeout_ms) noex
 // GPU Memory Management with Validation
 // ============================================================================
 
-/**
- * @brief Allocate GPU memory with safety checks
- *
- * @tparam T Element type
- * @param count Number of elements to allocate
- * @return GPU memory handle, or throws on failure
- * @throws std::runtime_error if allocation fails
- */
 template<typename T>
+/**
+ * @brief Allocate GPUMemory Safe.
+ * @param[in] count Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: isAllocationValid(), spdlog::get(), debug().
+ */
 GPUMemoryHandle<T> allocateGPUMemorySafe(size_t count) {
     if (!isAllocationValid(count * sizeof(T))) {
         throw std::runtime_error("Invalid allocation request");
@@ -203,14 +178,6 @@ GPUMemoryHandle<T> allocateGPUMemorySafe(size_t count) {
     return GPUMemoryHandle<T>(count);
 }
 
-/**
- * @brief Copy data to GPU with validation
- *
- * @param device_ptr GPU destination (must be valid)
- * @param host_ptr CPU source (must be valid)
- * @param size Number of bytes to copy
- * @return true if copy succeeded; false otherwise
- */
 bool copyToGPUSafe(void* device_ptr, const void* host_ptr, size_t size) noexcept {
     if (!safeMemcpyHostToDevice(device_ptr, host_ptr, size)) {
         return false;
@@ -224,14 +191,6 @@ bool copyToGPUSafe(void* device_ptr, const void* host_ptr, size_t size) noexcept
     return true;
 }
 
-/**
- * @brief Copy data from GPU with validation
- *
- * @param host_ptr CPU destination (must be valid)
- * @param device_ptr GPU source (must be valid)
- * @param size Number of bytes to copy
- * @return true if copy succeeded; false otherwise
- */
 bool copyFromGPUSafe(void* host_ptr, const void* device_ptr, size_t size) noexcept {
     if (!safeMemcpyDeviceToHost(host_ptr, device_ptr, size)) {
         return false;

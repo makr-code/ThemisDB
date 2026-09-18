@@ -19,12 +19,6 @@
 namespace themis {
 namespace server {
 
-/**
- * @brief Per-endpoint authentication and rate-limiting configuration
- * 
- * This configuration allows fine-grained control over authentication
- * and rate-limiting for individual API endpoints or endpoint groups.
- */
 struct EndpointAuthConfig {
     // Endpoint pattern (e.g., "/entities/*", "/query", "/api/pki/*")
     std::string endpoint_pattern;
@@ -48,12 +42,6 @@ struct EndpointAuthConfig {
     uint32_t rate_limit_burst = 0;
 };
 
-/**
- * @brief Global API authentication and rate-limiting configuration
- * 
- * Provides default settings and endpoint-specific overrides for
- * authentication and rate-limiting across all REST/HTTP endpoints.
- */
 struct ApiAuthConfig {
     // Global settings
     bool auth_enabled = false;                      // Enable authentication globally
@@ -70,27 +58,17 @@ struct ApiAuthConfig {
     // Per-endpoint configurations
     std::vector<EndpointAuthConfig> endpoint_configs;
     
-    /**
-     * @brief Get endpoint configuration for a given path and HTTP method
-     * @param path The request path (e.g., "/entities/123")
-     * @param method The HTTP method (e.g., "GET", "POST", "PUT", "DELETE")
-     * @return Configuration if found, nullopt otherwise
-     */
     std::optional<EndpointAuthConfig> getEndpointConfig(const std::string& path, const std::string& method = "*") const;
     
     /**
-     * @brief Initialize with default secure configuration
-     * 
-     * Sets up recommended authentication and rate-limiting defaults
-     * for all standard ThemisDB endpoints.
+     * @brief Create Secure Defaults.
+     * @return Return value.
      */
     static ApiAuthConfig createSecureDefaults();
     
     /**
-     * @brief Initialize with development-friendly configuration
-     * 
-     * Disables authentication and uses lenient rate limits.
-     * NOT recommended for production use.
+     * @brief Create Dev Defaults.
+     * @return Return value.
      */
     static ApiAuthConfig createDevDefaults();
 };

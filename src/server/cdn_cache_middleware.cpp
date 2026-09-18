@@ -28,6 +28,11 @@ namespace server {
 // Policy management
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Register a retention policy.
+ * @param[in] path_prefix Input parameter.
+ * @param[in] policy Retention policy definition to store.
+ */
 void CdnCacheMiddleware::registerPolicy(
     const std::string& path_prefix,
     const CdnRoutePolicy& policy)
@@ -54,6 +59,11 @@ const CdnRoutePolicy* CdnCacheMiddleware::findPolicy(const std::string& path) co
 // Static utilities
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Extract Path.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ */
 std::string CdnCacheMiddleware::extractPath(
     const http::request<http::string_body>& req)
 {
@@ -65,6 +75,12 @@ std::string CdnCacheMiddleware::extractPath(
     return target;
 }
 
+/**
+ * @brief Is Write Method.
+ * @param[in] method Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements isWriteMethod without additional internal calls.
+ */
 bool CdnCacheMiddleware::isWriteMethod(http::verb method) {
     return method == http::verb::post   ||
            method == http::verb::put    ||
@@ -72,11 +88,23 @@ bool CdnCacheMiddleware::isWriteMethod(http::verb method) {
            method == http::verb::delete_;
 }
 
+/**
+ * @brief Is Server Error.
+ * @param[in] status Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements isServerError without additional internal calls.
+ */
 bool CdnCacheMiddleware::isServerError(http::status status) {
     auto code = static_cast<unsigned>(status);
     return code >= 500 && code < 600;
 }
 
+/**
+ * @brief Generate ETag.
+ * @param[in] body Input parameter.
+ * @return Return value.
+ * @details Calls: themis::hash::fnv1a64(), std::setfill(), std::setw(), str().
+ */
 std::string CdnCacheMiddleware::generateETag(const std::string& body) {
     uint64_t h = themis::hash::fnv1a64(body);
     std::ostringstream oss = {};
@@ -84,6 +112,12 @@ std::string CdnCacheMiddleware::generateETag(const std::string& body) {
     return oss.str();
 }
 
+/**
+ * @brief Build Cache Control Value.
+ * @param[in] policy Input parameter.
+ * @param[in] is_write Input parameter.
+ * @return Return value.
+ */
 std::string CdnCacheMiddleware::buildCacheControlValue(
     const CdnRoutePolicy& policy,
     bool is_write)

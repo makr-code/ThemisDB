@@ -64,47 +64,14 @@ namespace prompt_engineering {
 class PromptManager;
 }
 
-/**
- * @class McpServer
- * @brief MCP (Model Context Protocol) Server Implementation.
- *
- * Provides LLM integration for ThemisDB through the Model Context Protocol.
- * Supports multiple transports: stdio, SSE (Server-Sent Events), and WebSocket.
- *
- * Architecture:
- * - Tools: Database operations exposed as callable LLM tools
- * - Resources: Read-only context (schema, stats, metadata)
- * - Prompts: Query templates for common operations
- *
- * @see MCP_PROTOCOL_SUPPORT.md (path relative to project root: docs/apis/MCP_PROTOCOL_SUPPORT.md)
- */
 class McpServer : public std::enable_shared_from_this<McpServer> {
 public:
-    /**
-     * @brief Tool handler function type
-     * @param args Tool arguments as JSON object
-     * @return Tool result as JSON object
-     */
     using ToolHandler = std::function<json(const json& args)>;
 
-    /**
-     * @brief Resource handler function type
-     * @param uri Resource URI
-     * @return Resource content as JSON object
-     */
     using ResourceHandler = std::function<json(const std::string& uri)>;
 
-    /**
-     * @brief Prompt handler function type
-     * @param name Prompt name
-     * @param args Prompt arguments
-     * @return Prompt messages as JSON array
-     */
     using PromptHandler = std::function<json(const std::string& name, const json& args)>;
 
-    /**
-     * @brief MCP Server configuration
-     */
     struct Config {
         std::string server_name = "ThemisDB";
         std::string server_version = "1.0.0";
@@ -117,196 +84,414 @@ public:
     };
 
     /**
-     * @brief Construct an MCP server with default configuration.
-     * @param io_context Asio I/O context for async operations.
+     * @brief Mcp Server.
+     * @param[in,out] io_context Input/output parameter.
+     * @return Return value.
      */
     explicit McpServer(asio::io_context& io_context);
     /**
-     * @brief Construct an MCP server with explicit configuration.
-     * @param io_context Asio I/O context for async operations.
-     * @param config     Server configuration controlling transports and buffers.
+     * @brief Mcp Server.
+     * @param[in,out] io_context Input/output parameter.
+     * @param[in] config Input parameter.
+     * @return Return value.
      */
     explicit McpServer(asio::io_context& io_context, const Config& config);
-    /** @brief Destroy the server and release all transport resources. */
     ~McpServer();
 
-    /** @brief Start all enabled transports and begin accepting requests. */
+    /**
+     * @brief Start.
+     */
     void start();
-    /** @brief Stop all transports and release associated resources. */
+    /**
+     * @brief Stop.
+     */
     void stop();
-    /** @brief Return true if the server is currently running. */
     bool isRunning() const { return is_running_.load(std::memory_order_acquire); }
 
     /**
-     * @brief Register a tool that can be invoked by an LLM client.
-     * @param name         Unique tool name exposed via MCP tools/list.
-     * @param description  Human-readable description of the tool's purpose.
-     * @param input_schema JSON Schema object describing accepted arguments.
-     * @param handler      Callable invoked when the tool is called.
+     * @brief Register Tool.
+     * @param[in] name Input parameter.
+     * @param[in] description Input parameter.
+     * @param[in] input_schema Input parameter.
+     * @param[in] handler Input parameter.
      */
     void registerTool(const std::string& name, const std::string& description,
                       const json& input_schema, ToolHandler handler);
     /**
-     * @brief Unregister a previously registered tool by name.
-     * @param name Tool name to remove.
+     * @brief Unregister Tool.
+     * @param[in] name Input parameter.
      */
     void unregisterTool(const std::string& name);
 
     /**
-     * @brief Register a read-only resource accessible to LLM clients.
-     * @param uri         Resource URI used to address the resource.
-     * @param description Human-readable description of the resource.
-     * @param mime_type   MIME type of the returned content.
-     * @param handler     Callable that returns the resource content for a given URI.
+     * @brief Register Resource.
+     * @param[in] uri Input parameter.
+     * @param[in] description Input parameter.
+     * @param[in] mime_type Input parameter.
+     * @param[in] handler Input parameter.
      */
     void registerResource(const std::string& uri, const std::string& description,
                           const std::string& mime_type, ResourceHandler handler);
     /**
-     * @brief Unregister a previously registered resource by URI.
-     * @param uri Resource URI to remove.
+     * @brief Unregister Resource.
+     * @param[in] uri Input parameter.
      */
     void unregisterResource(const std::string& uri);
 
     /**
-     * @brief Register a prompt template for LLM clients.
-     * @param name             Unique prompt name exposed via MCP prompts/list.
-     * @param description      Human-readable description of the prompt.
-     * @param arguments_schema JSON Schema describing the prompt's arguments.
-     * @param handler          Callable that produces prompt messages for the given name and args.
+     * @brief Register Prompt.
+     * @param[in] name Input parameter.
+     * @param[in] description Input parameter.
+     * @param[in] arguments_schema Input parameter.
+     * @param[in] handler Input parameter.
      */
     void registerPrompt(const std::string& name, const std::string& description,
                         const json& arguments_schema, PromptHandler handler);
     /**
-     * @brief Unregister a previously registered prompt by name.
-     * @param name Prompt name to remove.
+     * @brief Unregister Prompt.
+     * @param[in] name Input parameter.
      */
     void unregisterPrompt(const std::string& name);
 
     /**
-     * @brief Attach an HTTP server for SSE and WebSocket transports.
-     * @param http_server Shared pointer to the HTTP server instance.
+     * @brief Attach Http Server.
+     * @param[in] http_server Input parameter.
      */
     void attachHttpServer(std::shared_ptr<HttpServer> http_server);
     /**
-     * @brief Attach the primary database backend for default tool handlers.
-     * @param db Shared pointer to the RocksDB wrapper.
+     * @brief Attach Database.
+     * @param[in] db Input parameter.
      */
     void attachDatabase(std::shared_ptr<RocksDBWrapper> db);
 
     /**
-     * @brief Attach an AuditLogger for AI Session Audit Trail (ASL-12).
-     *
-     * When attached, all AI Safety Layer events (tool calls, approvals, denials,
-     * rollbacks, etc.) are recorded via the audit logger.
-     *
-     * Docs: docs/de/security/ai_safety/AI_SAFETY_AUDIT_TRAIL.md
-     *
-     * @param logger Shared pointer to a fully initialised AuditLogger.
+     * @brief Set Audit Logger.
+     * @param[in] logger Input parameter.
      */
     void setAuditLogger(std::shared_ptr<themis::utils::AuditLogger> logger);
 
-    /**
-     * @brief Attach an AIOrchestrator to expose mode-based LLM pipelines as MCP tools.
-     *
-     * When attached, two new MCP tools are registered:
-     *  - **llm_orchestrate**: executes an AIOrchestrator pipeline for a given mode.
-     *  - **llm_list_modes**: returns all available modes from the loaded ModePack.
-     *
-     * This is the primary integration point between the Model Context Protocol
-     * transport layer and the YAML-configurable LLM orchestration layer.
-     *
-     * Only available when both THEMIS_ENABLE_MCP and THEMIS_ENABLE_LLM are set.
-     *
-     * @param orchestrator Shared pointer to a fully initialised AIOrchestrator.
-     */
     #ifdef THEMIS_ENABLE_LLM
+    /**
+     * @brief Attach Orchestrator.
+     * @param[in] orchestrator Input parameter.
+     */
     void attachOrchestrator(std::shared_ptr<themis::llm::AIOrchestrator> orchestrator);
     #endif
-    /** @brief Get the stdio transport instance (may be null if stdio is disabled). */
     std::shared_ptr<McpTransport> getStdioTransport() const { return stdio_transport_; }
-    /** @brief Get the SSE transport instance (may be null if SSE is disabled). */
     std::shared_ptr<McpTransport> getSseTransport() const { return sse_transport_; }
-    /** @brief Get the WebSocket transport instance (may be null if WebSocket is disabled). */
     std::shared_ptr<McpTransport> getWebSocketTransport() const { return ws_transport_; }
 
     /**
-     * @brief Dispatch an incoming MCP JSON-RPC request to the appropriate handler.
-     * @param request JSON-RPC request object.
-     * @return JSON-RPC response object.
+     * @brief Handle Request.
+     * @param[in] request Input parameter.
+     * @return Return value.
      */
     json handleRequest(const json& request);
 
 private:
     // Request handlers
+    /**
+     * @brief Handle Initialize.
+     * @param[in] params Input parameter.
+     * @return Return value.
+     */
     json handleInitialize(const json& params);
+    /**
+     * @brief Handle Tools List.
+     * @param[in] params Input parameter.
+     * @return Return value.
+     */
     json handleToolsList(const json& params);
+    /**
+     * @brief Handle Tools Call.
+     * @param[in] params Input parameter.
+     * @return Return value.
+     */
     json handleToolsCall(const json& params);
+    /**
+     * @brief Handle Resources List.
+     * @param[in] params Input parameter.
+     * @return Return value.
+     */
     json handleResourcesList(const json& params);
+    /**
+     * @brief Handle Resources Read.
+     * @param[in] params Input parameter.
+     * @return Return value.
+     */
     json handleResourcesRead(const json& params);
+    /**
+     * @brief Handle Prompts List.
+     * @param[in] params Input parameter.
+     * @return Return value.
+     */
     json handlePromptsList(const json& params);
+    /**
+     * @brief Handle Prompts Get.
+     * @param[in] params Input parameter.
+     * @return Return value.
+     */
     json handlePromptsGet(const json& params);
 
     // Default tool handlers
+    /**
+     * @brief Register Default Tools.
+     */
     void registerDefaultTools();
+    /**
+     * @brief Tool Query.
+     * @param[in] args Input parameter.
+     * @return Return value.
+     */
     json toolQuery(const json& args);
+    /**
+     * @brief Tool Put Entity.
+     * @param[in] args Input parameter.
+     * @return Return value.
+     */
     json toolPutEntity(const json& args);
+    /**
+     * @brief Tool Get Entity.
+     * @param[in] args Input parameter.
+     * @return Return value.
+     */
     json toolGetEntity(const json& args);
+    /**
+     * @brief Tool Delete Entity.
+     * @param[in] args Input parameter.
+     * @return Return value.
+     */
     json toolDeleteEntity(const json& args);
+    /**
+     * @brief Tool Create Index.
+     * @param[in] args Input parameter.
+     * @return Return value.
+     */
     json toolCreateIndex(const json& args);
+    /**
+     * @brief Tool Drop Index.
+     * @param[in] args Input parameter.
+     * @return Return value.
+     */
     json toolDropIndex(const json& args);
+    /**
+     * @brief Tool List Indexes.
+     * @param[in] args Input parameter.
+     * @return Return value.
+     */
     json toolListIndexes(const json& args);
+    /**
+     * @brief Tool Get Schema.
+     * @param[in] args Input parameter.
+     * @return Return value.
+     */
     json toolGetSchema(const json& args);
+    /**
+     * @brief Tool Get Stats.
+     * @param[in] args Input parameter.
+     * @return Return value.
+     */
     json toolGetStats(const json& args);
 
-    // Error introspection tool handlers (NEW)
+    /**
+     * @brief Tool Get Error Info.
+     * @param[in] args Input parameter.
+     * @return Return value.
+     */
     json toolGetErrorInfo(const json& args);
+    /**
+     * @brief Tool Search Errors.
+     * @param[in] args Input parameter.
+     * @return Return value.
+     */
     json toolSearchErrors(const json& args);
+    /**
+     * @brief Tool Introspect Database.
+     * @param[in] args Input parameter.
+     * @return Return value.
+     */
     json toolIntrospectDatabase(const json& args);
+    /**
+     * @brief Generate Error Answer.
+     * @param[in] question Input parameter.
+     * @return Return value.
+     */
     std::string generateErrorAnswer(const std::string& question);
 
     // LLM Tool handlers (NEW)
     #ifdef THEMIS_ENABLE_LLM
+    /**
+     * @brief Tool LLMComplete.
+     * @param[in] args Input parameter.
+     * @return Return value.
+     */
     json toolLLMComplete(const json& args);
+    /**
+     * @brief Tool LLMEmbed.
+     * @param[in] args Input parameter.
+     * @return Return value.
+     */
     json toolLLMEmbed(const json& args);
+    /**
+     * @brief Tool LLMChat.
+     * @param[in] args Input parameter.
+     * @return Return value.
+     */
     json toolLLMChat(const json& args);
+    /**
+     * @brief Tool Database Query With LLM.
+     * @param[in] args Input parameter.
+     * @return Return value.
+     */
     json toolDatabaseQueryWithLLM(const json& args);
 
-    // AI Orchestrator tools – mode-based LLM pipelines (ask / edit / rag / agentic / ethics …)
+    /**
+     * @brief Tool LLMOrchestrate.
+     * @param[in] args Input parameter.
+     * @return Return value.
+     */
     json toolLLMOrchestrate(const json& args);
+    /**
+     * @brief Tool LLMList Modes.
+     * @param[in] args Input parameter.
+     * @return Return value.
+     */
     json toolLLMListModes(const json& args);
     #endif
 
-    // ── Group 1: Knowledge Graph tools (Q4 2026) ──────────────────────────
+    /**
+     * @brief Tool Kg Neighbours.
+     * @param[in] args Input parameter.
+     * @return Return value.
+     */
     json toolKgNeighbours(const json& args);
+    /**
+     * @brief Tool Kg Shortest Path.
+     * @param[in] args Input parameter.
+     * @return Return value.
+     */
     json toolKgShortestPath(const json& args);
+    /**
+     * @brief Tool Kg Node Properties.
+     * @param[in] args Input parameter.
+     * @return Return value.
+     */
     json toolKgNodeProperties(const json& args);
 
-    // ── Group 2: Vector / Hybrid / RAG tools (Q4 2026) ────────────────────
+    /**
+     * @brief Tool Semantic Search.
+     * @param[in] args Input parameter.
+     * @return Return value.
+     */
     json toolSemanticSearch(const json& args);
+    /**
+     * @brief Tool Hybrid Search.
+     * @param[in] args Input parameter.
+     * @return Return value.
+     */
     json toolHybridSearch(const json& args);
+    /**
+     * @brief Tool Rag Retrieve.
+     * @param[in] args Input parameter.
+     * @return Return value.
+     */
     json toolRagRetrieve(const json& args);
+    /**
+     * @brief Tool Vector Index List.
+     * @param[in] args Input parameter.
+     * @return Return value.
+     */
     json toolVectorIndexList(const json& args);
 
-    // ── Group 7: Schema extensions (Q4 2026) ──────────────────────────────
+    /**
+     * @brief Tool Schema Diff.
+     * @param[in] args Input parameter.
+     * @return Return value.
+     */
     json toolSchemaDiff(const json& args);
+    /**
+     * @brief Tool Schema Validate.
+     * @param[in] args Input parameter.
+     * @return Return value.
+     */
     json toolSchemaValidate(const json& args);
+    /**
+     * @brief Tool Explain Query.
+     * @param[in] args Input parameter.
+     * @return Return value.
+     */
     json toolExplainQuery(const json& args);
 
     // Default resource handlers
+    /**
+     * @brief Register Default Resources.
+     */
     void registerDefaultResources();
+    /**
+     * @brief Resource Schema.
+     * @param[in] uri Input parameter.
+     * @return Return value.
+     */
     json resourceSchema(const std::string& uri);
+    /**
+     * @brief Resource Stats.
+     * @param[in] uri Input parameter.
+     * @return Return value.
+     */
     json resourceStats(const std::string& uri);
+    /**
+     * @brief Resource Metadata.
+     * @param[in] uri Input parameter.
+     * @return Return value.
+     */
     json resourceMetadata(const std::string& uri);
+    /**
+     * @brief Resource Examples.
+     * @param[in] uri Input parameter.
+     * @return Return value.
+     */
     json resourceExamples(const std::string& uri);
 
     // Default prompt handlers
+    /**
+     * @brief Register Default Prompts.
+     */
     void registerDefaultPrompts();
+    /**
+     * @brief Prompt Simple Query.
+     * @param[in] name Input parameter.
+     * @param[in] args Input parameter.
+     * @return Return value.
+     */
     json promptSimpleQuery(const std::string& name, const json& args);
+    /**
+     * @brief Prompt Complex Query.
+     * @param[in] name Input parameter.
+     * @param[in] args Input parameter.
+     * @return Return value.
+     */
     json promptComplexQuery(const std::string& name, const json& args);
+    /**
+     * @brief Prompt Entity Operation.
+     * @param[in] name Input parameter.
+     * @param[in] args Input parameter.
+     * @return Return value.
+     */
     json promptEntityOperation(const std::string& name, const json& args);
 
     // Error handling
+    /**
+     * @brief Create Error.
+     * @param[in] code Input parameter.
+     * @param[in] message Input parameter.
+     * @return Return value.
+     */
     json createError(int code, const std::string& message);
+    /**
+     * @brief Create Success Response.
+     * @param[in] result Input parameter.
+     * @return Return value.
+     */
     json createSuccessResponse(const json& result);
 
 private:
@@ -372,13 +557,6 @@ private:
     // Docs: docs/de/security/ai_safety/AI_SAFETY_OPERATION_GUARD.md
     // Roadmap: src/security/ROADMAP.md § Phase 2
 
-    /**
-     * @brief In-memory record for one pending HILG approval.
-     *
-     * Stored in `pending_approvals_` from the moment an AI-initiated
-     * DESTRUCTIVE/CRITICAL operation is classified until it either expires,
-     * is approved, or is denied.
-     */
     struct PendingApproval {
         std::string operation_id;       ///< UUID (matches GuardDecision::operation_id)
         std::string ai_session_id;      ///< AI session that triggered the operation
@@ -392,21 +570,15 @@ private:
         std::string pre_snapshot_path;  ///< ASL-8: path of pre-op snapshot (empty if not taken)
     };
 
-    /// Map: operation_id → PendingApproval entry.
     std::unordered_map<std::string, PendingApproval> pending_approvals_;
     mutable std::mutex pending_approvals_mutex_;
 
-    /// AI Safety Layer guard (DOG).  Constructed once in the constructor.
     std::unique_ptr<themis::security::AiOperationGuard> operation_guard_;
 
-    /// AI Session Audit Logger (ASL-12).  Optional — null if not attached.
     std::shared_ptr<themis::utils::AuditLogger> audit_logger_;
 
     // ── HILG handler methods ───────────────────────────────────────────────
 
-    /// Dispatch a write tool through the DOG + HILG pipeline.
-    /// Returns a "requires_approval" or "blocked" JSON when the guard fires,
-    /// std::nullopt when the operation may proceed immediately.
     std::optional<json> checkOperationGuard(
         const std::string& tool_name,
         const json&        args,
@@ -414,26 +586,45 @@ private:
         const std::string& caller_role   = ""
     );
 
-    /// Handle POST /v1/ai/approve/{operation_id}
+    /**
+     * @brief Handle Ai Approve.
+     * @param[in] operation_id Identifier of the operation.
+     * @return Return value.
+     */
     json handleAiApprove(const std::string& operation_id);
 
-    /// Handle POST /v1/ai/deny/{operation_id}
+    /**
+     * @brief Handle Ai Deny.
+     * @param[in] operation_id Identifier of the operation.
+     * @return Return value.
+     */
     json handleAiDeny(const std::string& operation_id);
 
-    /// Handle GET /v1/ai/pending-approvals
+    /**
+     * @brief Handle Ai Pending Approvals.
+     * @return Return value.
+     */
     json handleAiPendingApprovals();
 
-    /// Handle POST /v1/ai/rollback/{snapshot_id}  (ASL-10)
+    /**
+     * @brief Handle Ai Rollback.
+     * @param[in] snapshot_id Identifier of the snapshot.
+     * @return Return value.
+     */
     json handleAiRollback(const std::string& snapshot_id);
 
-    /// Cleanup expired AI pre-operation snapshots (ASL-11)
+    /**
+     * @brief Tool Ai Cleanup Snapshots.
+     * @param[in] args Input parameter.
+     * @return Return value.
+     */
     json toolAiCleanupSnapshots(const json& args);
 
-    /// Remove expired entries from pending_approvals_.  Called on demand.
+    /**
+     * @brief Purge Expired Approvals.
+     */
     void purgeExpiredApprovals();
 
-    /// Log an AI Safety Layer audit event (ASL-12).
-    /// No-op when audit_logger_ is null.
     void logAiEvent(
         themis::utils::SecurityEventType type,
         const std::string&               tool_name,
@@ -446,15 +637,26 @@ private:
     int snapshot_max_total_gb_   = 100; ///< ASL-9/11: from security.yaml
 };
 
-/**
- * @brief Abstract base class for MCP transports
- */
 class McpTransport {
 public:
+    /**
+     * @brief Mcp Transport.
+     * @return Return value.
+     */
     virtual ~McpTransport() = default;
 
+    /**
+     * @brief Start.
+     */
     virtual void start() = 0;
+    /**
+     * @brief Stop.
+     */
     virtual void stop() = 0;
+    /**
+     * @brief Send.
+     * @param[in] message Input parameter.
+     */
     virtual void send(const json& message) = 0;
     
     void setMessageHandler(std::function<json(const json&)> handler) {
@@ -465,9 +667,6 @@ protected:
     std::function<json(const json&)> message_handler_;
 };
 
-/**
- * @brief stdio transport for Claude Desktop integration
- */
 class StdioTransport : public McpTransport, public std::enable_shared_from_this<StdioTransport> {
 public:
     explicit StdioTransport(asio::io_context& io_context, int buffer_size = 4096);
@@ -484,10 +683,21 @@ public:
     // async stdin reading to be wired in without changing preprocessor guards.
     // Passing nullptr reverts to the default warn-only behaviour.
     using StdioReadFn = std::function<void()>;
+    /**
+     * @brief Set Stdio Read Fn.
+     * @param[in] fn Input parameter.
+     */
     static void setStdioReadFn(StdioReadFn fn);
 
 private:
+    /**
+     * @brief Read Stdin.
+     */
     void readStdin();
+    /**
+     * @brief Write Stdout.
+     * @param[in] data Input parameter.
+     */
     void writeStdout(const std::string& data);
 
 private:
@@ -498,9 +708,6 @@ private:
     std::atomic<bool> is_running_{false};
 };
 
-/**
- * @brief SSE transport for HTTP-based clients
- */
 class SseTransport : public McpTransport, public std::enable_shared_from_this<SseTransport> {
 public:
     explicit SseTransport(asio::io_context& io_context, int keepalive_ms = 30000);
@@ -510,12 +717,31 @@ public:
     void stop() override;
     void send(const json& message) override;
 
+    /**
+     * @brief Add Client.
+     * @param[in] client_id Identifier of the client.
+     */
     void addClient(const std::string& client_id);
+    /**
+     * @brief Remove Client.
+     * @param[in] client_id Identifier of the client.
+     */
     void removeClient(const std::string& client_id);
+    /**
+     * @brief Get Client Data.
+     * @param[in] client_id Identifier of the client.
+     * @return Return value.
+     */
     std::string getClientData(const std::string& client_id);
 
 private:
+    /**
+     * @brief Send Keepalive.
+     */
     void sendKeepalive();
+    /**
+     * @brief Schedule Keepalive.
+     */
     void scheduleKeepalive();
 
 private:
@@ -527,9 +753,6 @@ private:
     std::atomic<bool> is_running_{false};
 };
 
-/**
- * @brief WebSocket transport for bidirectional communication
- */
 class WebSocketTransport : public McpTransport, public std::enable_shared_from_this<WebSocketTransport> {
 public:
     explicit WebSocketTransport(asio::io_context& io_context, int ping_interval_ms = 30000);
@@ -539,15 +762,44 @@ public:
     void stop() override;
     void send(const json& message) override;
     
+    /**
+     * @brief Send To Session.
+     * @param[in] session_id Identifier of the session.
+     * @param[in] message Input parameter.
+     */
     void sendToSession(const std::string& session_id, const json& message);
 
+    /**
+     * @brief Add Session.
+     * @param[in] session_id Identifier of the session.
+     */
     void addSession(const std::string& session_id);
+    /**
+     * @brief Remove Session.
+     * @param[in] session_id Identifier of the session.
+     */
     void removeSession(const std::string& session_id);
+    /**
+     * @brief Handle Message.
+     * @param[in] session_id Identifier of the session.
+     * @param[in] message Input parameter.
+     */
     void handleMessage(const std::string& session_id, const std::string& message);
+    /**
+     * @brief Get Pending Messages.
+     * @param[in] session_id Identifier of the session.
+     * @return Return value.
+     */
     std::vector<std::string> getPendingMessages(const std::string& session_id);
 
 private:
+    /**
+     * @brief Send Ping.
+     */
     void sendPing();
+    /**
+     * @brief Schedule Ping.
+     */
     void schedulePing();
     
     struct SessionData {

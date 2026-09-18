@@ -53,12 +53,24 @@ bool isValidWGS84Coordinate(const Coordinate &c) noexcept {
 
 namespace {
 
+/**
+ * @brief Coord To Json.
+ * @param[in] c Input parameter.
+ * @return Return value.
+ * @details Calls: str().
+ */
 std::string coordToJson(const Coordinate &c) {
     std::ostringstream os = {};
     os << "[" << c.x << "," << c.y << "]";
     return os.str();
 }
 
+/**
+ * @brief Coords To Json.
+ * @param[in] coords Input parameter.
+ * @return Return value.
+ * @details Calls: size(), str().
+ */
 std::string coordsToJson(const std::vector<Coordinate> &coords) {
     // Use ostringstream to avoid O(n²) string reallocations from repeated
     // concatenation inside the coordinate loop.
@@ -74,6 +86,14 @@ std::string coordsToJson(const std::vector<Coordinate> &coords) {
     return os.str();
 }
 
+/**
+ * @brief Validate Coordinate.
+ * @param[in] c Input parameter.
+ * @param[in] crs Input parameter.
+ * @param[in] ctx Input parameter.
+ * @return Return value.
+ * @details Calls: std::isfinite(), addError(), std::to_string().
+ */
 ValidationResult validateCoordinate(const Coordinate &c, CrsId crs, const std::string &ctx) {
     ValidationResult vr = {};
     if (!std::isfinite(c.x) || !std::isfinite(c.y)) {
@@ -156,6 +176,15 @@ ValidationResult GeoLineString::validate() const {
 
 namespace {
 
+/**
+ * @brief Validate Ring.
+ * @param[in] ring Input parameter.
+ * @param[in] crs Input parameter.
+ * @param[in] name Input parameter.
+ * @param[in] must_be_ccw Input parameter.
+ * @return Return value.
+ * @details Calls: size(), addError(), std::to_string(), front(), back(), merge(), validateCoordinate(), ok().
+ */
 ValidationResult validateRing(const GeoPolygon::Ring &ring, CrsId crs, const std::string &name, bool must_be_ccw) {
     ValidationResult vr = {};
     if (ring.size() < 4) {
@@ -206,6 +235,11 @@ std::string GeoPolygon::toGeoJSON() const {
         if (i > 0) {
             os << ",";
         }
+        /**
+         * @brief Coords To Json.
+         * @param[in] rings_ Input parameter.
+         * @return Return value.
+         */
         os << coordsToJson(rings_[i]);
     }
     os << "]}";

@@ -40,6 +40,14 @@ MVCCChainPruner::MVCCChainPruner(
 // Per-key pruning
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Prune Key.
+ * @param[in] key Input parameter.
+ * @param[in] gc_horizon Input parameter.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @details Calls: scanVersions(), push_back(), size(), std::min(), key_str(), valueToDocument(), toTemporalTs(), insert().
+ */
 MVCCChainPruner::PruneStats MVCCChainPruner::pruneKey(
     std::string_view key,
     HLCTimestamp     gc_horizon,
@@ -136,6 +144,13 @@ MVCCChainPruner::PruneStats MVCCChainPruner::pruneKey(
 // Full-store pruning
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Prune All.
+ * @param[in] gc_horizon Input parameter.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @details Calls: scanBaseKeys(), pruneKey().
+ */
 MVCCChainPruner::PruneStats MVCCChainPruner::pruneAll(
     HLCTimestamp  gc_horizon,
     Config        config
@@ -155,17 +170,33 @@ MVCCChainPruner::PruneStats MVCCChainPruner::pruneAll(
 // ─────────────────────────────────────────────────────────────────────────────
 
 HLCTimestamp MVCCChainPruner::safeHorizon() const noexcept {
+    /**
+     * @brief Lk.
+     * @param[in] horizon_mu_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(horizon_mu_);
     return safe_horizon_;
 }
 
 void MVCCChainPruner::setSafeHorizon(HLCTimestamp horizon) noexcept {
+    /**
+     * @brief Lk.
+     * @param[in] horizon_mu_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(horizon_mu_);
     if (horizon > safe_horizon_) {
         safe_horizon_ = horizon;
     }
 }
 
+/**
+ * @brief Prune All Safe.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @details Calls: safeHorizon(), pruneAll().
+ */
 MVCCChainPruner::PruneStats MVCCChainPruner::pruneAllSafe(Config config) {
     const HLCTimestamp h = safeHorizon();
     if (h.value == 0) {
@@ -178,6 +209,12 @@ MVCCChainPruner::PruneStats MVCCChainPruner::pruneAllSafe(Config config) {
 // Helpers
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Value To Document.
+ * @param[in] raw Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), data(), nlohmann::json::parse(), size(), std::setfill(), std::setw(), str().
+ */
 themisdb::temporal::Document MVCCChainPruner::valueToDocument(
     const std::vector<uint8_t>& raw
 ) {

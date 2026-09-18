@@ -189,7 +189,7 @@ std::optional<std::pair<std::string, std::string>> Cursor::decode(const std::str
  * @brief Is Valid.
  * @param[in] cursor_token Input parameter.
  * @param[in] ttl_seconds Input parameter.
- * @return True on success.
+ * @return True when the operation succeeds.
  * @details Calls: decodeDetailed(), has_value(), getCurrentTimestamp().
  */
 bool Cursor::isValid(const std::string& cursor_token, int64_t ttl_seconds) {

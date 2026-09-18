@@ -32,24 +32,8 @@ namespace beast = boost::beast;
 namespace http = beast::http;
 using json = nlohmann::json;
 
-/**
- * @brief HTTP API Handler for AutoBuffer operations
- * 
- * Provides buffered endpoints for high-throughput ingestion:
- * - POST /ts/put/buffered - Buffered time series data points
- * - POST /vectors/add/buffered - Buffered vector index operations
- * - POST /graph/add/buffered - Buffered graph node/edge operations
- * - GET /buffer/stats - Get buffer statistics
- * - POST /buffer/flush - Manual flush of all buffers
- */
 class BufferAPIHandler {
 public:
-    /**
-     * @brief Constructor
-     * @param tsstore Time series store (optional)
-     * @param vector_index Vector index manager (optional)
-     * @param graph_manager Property graph manager (optional)
-     */
     BufferAPIHandler(
         std::shared_ptr<TSStore> tsstore = nullptr,
         std::shared_ptr<VectorIndexManager> vector_index = nullptr,
@@ -59,71 +43,51 @@ public:
     ~BufferAPIHandler();
     
     /**
-     * @brief Start all auto-buffers
+     * @brief Start.
      */
     void start();
     
     /**
-     * @brief Stop all auto-buffers (flushes remaining data)
+     * @brief Stop.
      */
     void stop();
     
     /**
-     * @brief Handle buffered time series put
-     * POST /ts/put/buffered
-     * Body: {
-     *   "metric": "string",
-     *   "entity": "string",
-     *   "timestamp": number,
-     *   "value": number
-     * }
+     * @brief Handle TSPut Buffered.
+     * @param[in] req Input parameter.
+     * @return Return value.
      */
     http::response<http::string_body> handleTSPutBuffered(
         const http::request<http::string_body>& req);
     
     /**
-     * @brief Handle buffered vector add
-     * POST /vectors/add/buffered
-     * Body: {
-     *   "pk": "string",
-     *   "embedding": [float...],
-     *   "metadata": {...}
-     * }
+     * @brief Handle Vector Add Buffered.
+     * @param[in] req Input parameter.
+     * @return Return value.
      */
     http::response<http::string_body> handleVectorAddBuffered(
         const http::request<http::string_body>& req);
     
     /**
-     * @brief Handle buffered graph node/edge add
-     * POST /graph/add/buffered
-     * Body: {
-     *   "graph_id": "string",
-     *   "type": "node" | "edge",
-     *   "pk": "string",
-     *   "properties": {...}
-     * }
+     * @brief Handle Graph Add Buffered.
+     * @param[in] req Input parameter.
+     * @return Return value.
      */
     http::response<http::string_body> handleGraphAddBuffered(
         const http::request<http::string_body>& req);
     
     /**
-     * @brief Get buffer statistics
-     * GET /buffer/stats
-     * Response: {
-     *   "ts_buffer": {...},
-     *   "vector_buffer": {...},
-     *   "graph_buffer": {...}
-     * }
+     * @brief Handle Buffer Stats.
+     * @param[in] req Input parameter.
+     * @return Return value.
      */
     http::response<http::string_body> handleBufferStats(
         const http::request<http::string_body>& req);
     
     /**
-     * @brief Manually flush all buffers
-     * POST /buffer/flush
-     * Body: {
-     *   "buffer": "all" | "ts" | "vector" | "graph"
-     * }
+     * @brief Handle Buffer Flush.
+     * @param[in] req Input parameter.
+     * @return Return value.
      */
     http::response<http::string_body> handleBufferFlush(
         const http::request<http::string_body>& req);
@@ -140,11 +104,25 @@ private:
     std::unique_ptr<GraphAutoBuffer> graph_buffer_;
     
     // Helper methods
+    /**
+     * @brief Make Response.
+     * @param[in] status Input parameter.
+     * @param[in] body Input parameter.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> makeResponse(
         http::status status,
         const json& body,
         const http::request<http::string_body>& req);
     
+    /**
+     * @brief Make Error Response.
+     * @param[in] status Input parameter.
+     * @param[in] message Input parameter.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> makeErrorResponse(
         http::status status,
         const std::string& message,

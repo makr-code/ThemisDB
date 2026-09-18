@@ -27,6 +27,11 @@ namespace gpu {
 
 GPUSafeFail::GPUSafeFail(const Config &cfg) : cfg_(cfg) {}
 
+/**
+ * @brief Reset the modification detection flag.
+ * @param[in] cfg Input parameter.
+ * @details Calls: lock(), clear().
+ */
 void GPUSafeFail::reset(const Config &cfg) {
     std::lock_guard<std::mutex> lock(mutex_);
     cfg_                   = cfg;
@@ -51,6 +56,11 @@ bool GPUSafeFail::executeWithFallback(std::function<bool()> gpu_op, std::functio
     // Determine whether we should attempt the GPU at all (lock briefly).
     bool attempt_gpu = false;
     {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         ++total_operations_;
         attempt_gpu = (state_ != State::CIRCUIT_OPEN && state_ != State::FAILED);
@@ -66,6 +76,11 @@ bool GPUSafeFail::executeWithFallback(std::function<bool()> gpu_op, std::functio
         }
 
         if (gpu_ok) {
+            /**
+             * @brief Lock.
+             * @param[in] mutex_ Input parameter.
+             * @return Return value.
+             */
             std::lock_guard<std::mutex> lock(mutex_);
             applySuccess();
             cpu_fallback_active_ = false;
@@ -74,6 +89,11 @@ bool GPUSafeFail::executeWithFallback(std::function<bool()> gpu_op, std::functio
 
         // GPU failed.
         {
+            /**
+             * @brief Lock.
+             * @param[in] mutex_ Input parameter.
+             * @return Return value.
+             */
             std::lock_guard<std::mutex> lock(mutex_);
             applyFailure();
         }
@@ -92,6 +112,11 @@ bool GPUSafeFail::executeWithFallback(std::function<bool()> gpu_op, std::functio
     }
 
     {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         cpu_fallback_active_ = cpu_ok;
         if (cpu_ok) {
@@ -105,6 +130,12 @@ bool GPUSafeFail::executeWithFallback(std::function<bool()> gpu_op, std::functio
 // Manual record methods
 // ============================================================================
 
+/**
+ * @brief Record Failure.
+ * @param[in] type Input parameter.
+ * @param[in] msg Input parameter.
+ * @details Calls: lock(), applyFailure().
+ */
 void GPUSafeFail::recordFailure(FailureType type, const std::string &msg) {
     std::lock_guard<std::mutex> lock(mutex_);
     last_failure_type_ = type;
@@ -113,6 +144,10 @@ void GPUSafeFail::recordFailure(FailureType type, const std::string &msg) {
     applyFailure();
 }
 
+/**
+ * @brief Record Success.
+ * @details Calls: lock(), applySuccess().
+ */
 void GPUSafeFail::recordSuccess() {
     std::lock_guard<std::mutex> lock(mutex_);
     ++total_operations_;
@@ -124,11 +159,21 @@ void GPUSafeFail::recordSuccess() {
 // ============================================================================
 
 bool GPUSafeFail::shouldAttemptGPU() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return (state_ != State::CIRCUIT_OPEN && state_ != State::FAILED);
 }
 
 bool GPUSafeFail::canResetCircuit() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     if (state_ != State::CIRCUIT_OPEN) {
         return false;
@@ -137,6 +182,10 @@ bool GPUSafeFail::canResetCircuit() const {
     return elapsed >= cfg_.circuit_reset_timeout;
 }
 
+/**
+ * @brief Try Reset Circuit.
+ * @details Calls: lock(), std::chrono::steady_clock::now().
+ */
 void GPUSafeFail::tryResetCircuit() {
     std::lock_guard<std::mutex> lock(mutex_);
     if (state_ != State::CIRCUIT_OPEN) {
@@ -151,6 +200,10 @@ void GPUSafeFail::tryResetCircuit() {
     }
 }
 
+/**
+ * @brief Force Healthy.
+ * @details Calls: lock(), clear().
+ */
 void GPUSafeFail::forceHealthy() {
     std::lock_guard<std::mutex> lock(mutex_);
     state_                 = State::HEALTHY;
@@ -160,6 +213,11 @@ void GPUSafeFail::forceHealthy() {
     last_error_.clear();
 }
 
+/**
+ * @brief Force Failed.
+ * @param[in] reason Input parameter.
+ * @details Calls: lock().
+ */
 void GPUSafeFail::forceFailed(const std::string &reason) {
     std::lock_guard<std::mutex> lock(mutex_);
     state_               = State::FAILED;
@@ -172,11 +230,21 @@ void GPUSafeFail::forceFailed(const std::string &reason) {
 // ============================================================================
 
 bool GPUSafeFail::isHealthy() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return (state_ == State::HEALTHY || state_ == State::DEGRADED);
 }
 
 GPUSafeFail::HealthStatus GPUSafeFail::getStatus() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     HealthStatus s;
     s.state                 = state_;
@@ -195,6 +263,11 @@ GPUSafeFail::HealthStatus GPUSafeFail::getStatus() const {
 }
 
 float GPUSafeFail::getErrorRate() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     if (total_operations_ == 0) {
         return 0.0f;
@@ -215,9 +288,10 @@ bool GPUSafeFail::checkMemoryAvailable(uint64_t required_bytes, uint64_t availab
     return true;
 }
 
-// ============================================================================
-// Private helpers (called under mutex_)
-// ============================================================================
+/**
+ * @brief ============================================================================ Private helpers (called under mutex_) ============================================================================
+ * @details Calls: std::chrono::steady_clock::now().
+ */
 
 void GPUSafeFail::applyFailure() {
     ++total_failures_;
@@ -233,6 +307,10 @@ void GPUSafeFail::applyFailure() {
     }
 }
 
+/**
+ * @brief Apply Success.
+ * @details Implements applySuccess without additional internal calls.
+ */
 void GPUSafeFail::applySuccess() {
     ++consecutive_successes_;
     consecutive_failures_ = 0;

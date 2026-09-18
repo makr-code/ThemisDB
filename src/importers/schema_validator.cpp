@@ -24,6 +24,12 @@ namespace importers {
 // Internal helpers
 // ============================================================================
 
+/**
+ * @brief To Lower Schema.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), std::tolower().
+ */
 static std::string toLowerSchema(const std::string& s) {
     std::string out = {};
     out.reserve(s.size());
@@ -32,11 +38,23 @@ static std::string toLowerSchema(const std::string& s) {
     return out;
 }
 
+/**
+ * @brief Value Is Boolean.
+ * @param[in] s Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: toLowerSchema().
+ */
 static bool valueIsBoolean(const std::string& s) {
     std::string lower = toLowerSchema(s);
     return lower == "true" || lower == "false";
 }
 
+/**
+ * @brief Value Is Integer.
+ * @param[in] s Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), size(), std::isdigit().
+ */
 static bool valueIsInteger(const std::string& s) {
     if (s.empty()) {
       return false;
@@ -56,6 +74,12 @@ static bool valueIsInteger(const std::string& s) {
     return true;
 }
 
+/**
+ * @brief Value Is Double.
+ * @param[in] s Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), std::stod(), size().
+ */
 static bool valueIsDouble(const std::string& s) {
     if (s.empty()) {
       return false;
@@ -73,6 +97,12 @@ static bool valueIsDouble(const std::string& s) {
 // SchemaAutoDetector – static helpers
 // ============================================================================
 
+/**
+ * @brief Type Rank.
+ * @param[in] t Input parameter.
+ * @return Return value.
+ * @details Implements typeRank without additional internal calls.
+ */
 int SchemaAutoDetector::typeRank(DetectedFieldType t) {
     switch (t) {
         case DetectedFieldType::BOOLEAN: return 0;
@@ -83,6 +113,12 @@ int SchemaAutoDetector::typeRank(DetectedFieldType t) {
     return 3;
 }
 
+/**
+ * @brief Infer Type.
+ * @param[in] value Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), valueIsBoolean(), valueIsInteger(), valueIsDouble().
+ */
 DetectedFieldType SchemaAutoDetector::inferType(const std::string& value) {
     if (value.empty()) {
       return DetectedFieldType::STRING;
@@ -99,11 +135,24 @@ DetectedFieldType SchemaAutoDetector::inferType(const std::string& value) {
     return DetectedFieldType::STRING;
 }
 
+/**
+ * @brief Widen Type.
+ * @param[in] a Input parameter.
+ * @param[in] b Input parameter.
+ * @return Return value.
+ * @details Calls: typeRank().
+ */
 DetectedFieldType SchemaAutoDetector::widenType(DetectedFieldType a,
                                                   DetectedFieldType b) {
     return typeRank(b) > typeRank(a) ? b : a;
 }
 
+/**
+ * @brief Type Name.
+ * @param[in] t Input parameter.
+ * @return Return value.
+ * @details Implements typeName without additional internal calls.
+ */
 std::string SchemaAutoDetector::typeName(DetectedFieldType t) {
     switch (t) {
         case DetectedFieldType::BOOLEAN: return "boolean";
@@ -114,6 +163,12 @@ std::string SchemaAutoDetector::typeName(DetectedFieldType t) {
     return "string";
 }
 
+/**
+ * @brief Parse Type Name.
+ * @param[in] name Input parameter.
+ * @return Return value.
+ * @details Calls: toLowerSchema().
+ */
 DetectedFieldType SchemaAutoDetector::parseTypeName(const std::string& name) {
     std::string lower = toLowerSchema(name);
     if (lower == "boolean" || lower == "bool") {
@@ -127,6 +182,12 @@ DetectedFieldType SchemaAutoDetector::parseTypeName(const std::string& name) {
     return DetectedFieldType::STRING;
 }
 
+/**
+ * @brief Schema To Json.
+ * @param[in] schema Input parameter.
+ * @return Return value.
+ * @details Calls: json::array(), json::object(), push_back(), find(), end(), typeName().
+ */
 json SchemaAutoDetector::schemaToJson(const DetectedSchema& schema) {
     json cols  = json::array();
     json types = json::object();
@@ -145,6 +206,13 @@ json SchemaAutoDetector::schemaToJson(const DetectedSchema& schema) {
     };
 }
 
+/**
+ * @brief Validate Row.
+ * @param[in] columns Input parameter.
+ * @param[in] values Input parameter.
+ * @param[in] schema Input parameter.
+ * @return Return value.
+ */
 std::vector<SchemaValidationError> SchemaAutoDetector::validateRow(
     const std::vector<std::string>& columns,
     const std::vector<std::string>& values,
@@ -226,6 +294,12 @@ std::vector<SchemaValidationError> SchemaAutoDetector::validateRow(
 // SchemaAutoDetector – instance methods
 // ============================================================================
 
+/**
+ * @brief Feed Row.
+ * @param[in] columns Input parameter.
+ * @param[in] values Input parameter.
+ * @details Calls: empty(), std::min(), size(), inferType(), find(), end(), widenType().
+ */
 void SchemaAutoDetector::feedRow(const std::vector<std::string>& columns,
                                   const std::vector<std::string>& values) {
     // Initialise column list on first call
@@ -269,6 +343,10 @@ DetectedSchema SchemaAutoDetector::getSchema(const std::string& table_name) cons
     return schema;
 }
 
+/**
+ * @brief Reset the modification detection flag.
+ * @details Calls: clear().
+ */
 void SchemaAutoDetector::reset() {
     columns_.clear();
     widest_types_.clear();
@@ -361,9 +439,13 @@ SchemaAutoDetector::validateStringCoercion(const std::string& value)
     return "";  // Valid
 }
 
-// ============================================================================
-// PHASE-3-ERROR-HANDLING: Schema Validation with Report
-// ============================================================================
+/**
+ * @brief ============================================================================ PHASE-3-ERROR-HANDLING: Schema Validation with Report ============================================================================
+ * @param[in] schema Input parameter.
+ * @param[in] level Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::high_resolution_clock::now(), empty(), push_back(), std::to_string(), std::time(), length(), substr(), count().
+ */
 
 SchemaValidationReport validateSchemaWithReport(
     const DetectedSchema& schema,

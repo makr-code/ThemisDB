@@ -73,14 +73,16 @@ std::mutex s_redis_pub_fn_mutex;
 std::function<bool(const std::string &, const std::string &)> s_redis_pub_fn;
 
 #ifdef THEMIS_ENABLE_REDIS
-/// Bounded retry constants for the publisher path (no_retry_logic fix).
-/// Mirrors the subscriber backoff style but with a shorter cap to keep
-/// publish calls from blocking callers for too long.
 constexpr int kMaxPublishRetries   = 2;   ///< at most 2 reconnect+retry attempts
 constexpr int kPublishRetryDelayMs = 50;  ///< initial retry delay: 50 ms
 #endif
 } // namespace
 
+/**
+ * @brief Set Redis Publish Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lk(), std::move().
+ */
 void RedisCacheCoordinator::setRedisPublishFn(RedisPublishFn fn) {
     std::lock_guard<std::mutex> lk(s_redis_pub_fn_mutex);
     s_redis_pub_fn = std::move(fn);
@@ -125,6 +127,11 @@ RedisCacheCoordinator::~RedisCacheCoordinator() {
     }
 
     {
+        /**
+         * @brief Lk.
+         * @param[in] pub_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(pub_mutex_);
         if (pub_ctx_) {
             redisFree(pub_ctx_);
@@ -141,6 +148,14 @@ RedisCacheCoordinator::~RedisCacheCoordinator() {
 // ICacheCoordinator – publish side
 // ============================================================================
 
+/**
+ * @brief Publish Entry.
+ * @param[in] key Input parameter.
+ * @param[in] result Input parameter.
+ * @param[in] ttl_seconds Input parameter.
+ * @param[in] tenant_id Identifier of the tenant.
+ * @details Calls: serializeMessage(), THEMIS_WARN(), std::this_thread::sleep_for(), std::chrono::milliseconds(), lk(), connectPublish(), redisCommand(), c_str().
+ */
 void RedisCacheCoordinator::publishEntry(const std::string &key, const nlohmann::json &result, int ttl_seconds,
                                          const std::string &tenant_id) {
 #ifdef THEMIS_ENABLE_REDIS
@@ -235,6 +250,12 @@ void RedisCacheCoordinator::publishEntry(const std::string &key, const nlohmann:
 #endif
 }
 
+/**
+ * @brief Publish Invalidation.
+ * @param[in] pattern Input parameter.
+ * @param[in] tenant_id Identifier of the tenant.
+ * @details Calls: serializeMessage(), THEMIS_WARN(), std::this_thread::sleep_for(), std::chrono::milliseconds(), lk(), connectPublish(), redisCommand(), c_str().
+ */
 void RedisCacheCoordinator::publishInvalidation(const std::string &pattern, const std::string &tenant_id) {
 #ifdef THEMIS_ENABLE_REDIS
     ReplicationMessage msg;
@@ -322,11 +343,21 @@ void RedisCacheCoordinator::publishInvalidation(const std::string &pattern, cons
 #endif
 }
 
+/**
+ * @brief Subscribe Entries.
+ * @param[in] callback Input parameter.
+ * @details Calls: lk(), std::move().
+ */
 void RedisCacheCoordinator::subscribeEntries(EntryCallback callback) {
     std::lock_guard<std::mutex> lk(cb_mutex_);
     entry_cb_ = std::move(callback);
 }
 
+/**
+ * @brief Subscribe Invalidations.
+ * @param[in] callback Input parameter.
+ * @details Calls: lk(), std::move().
+ */
 void RedisCacheCoordinator::subscribeInvalidations(InvalidationCallback callback) {
     std::lock_guard<std::mutex> lk(cb_mutex_);
     invalidation_cb_ = std::move(callback);
@@ -347,6 +378,11 @@ std::string RedisCacheCoordinator::name() const {
 nlohmann::json RedisCacheCoordinator::getStats() const {
     uint64_t pub, recv, err, reconn;
     {
+        /**
+         * @brief Lk.
+         * @param[in] stats_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(stats_mutex_);
         pub    = messages_published_;
         recv   = messages_received_;
@@ -365,10 +401,14 @@ nlohmann::json RedisCacheCoordinator::getStats() const {
 #ifdef THEMIS_ENABLE_REDIS
 
 namespace {
-/// Maximum back-off cap for the subscriber reconnect loop.
 constexpr int kReconnectBackoffMaxMs = 30000; ///< Maximum back-off: 30 seconds
 } // anonymous namespace
 
+/**
+ * @brief Connect Publish.
+ * @return True when the operation succeeds.
+ * @details Calls: redisFree(), redisConnectWithTimeout(), c_str(), THEMIS_WARN(), store(), std::to_string(), empty(), redisCommand().
+ */
 bool RedisCacheCoordinator::connectPublish() {
     // Caller must hold pub_mutex_
     if (pub_ctx_ != nullptr && !pub_ctx_->err) {
@@ -420,6 +460,11 @@ bool RedisCacheCoordinator::connectPublish() {
     return true;
 }
 
+/**
+ * @brief Connect Subscribe.
+ * @return True when the operation succeeds.
+ * @details Calls: redisFree(), redisConnectWithTimeout(), c_str(), THEMIS_WARN(), empty(), redisCommand(), freeReplyObject(), redisSetTimeout().
+ */
 bool RedisCacheCoordinator::connectSubscribe() {
     if (sub_ctx_) {
         redisFree(sub_ctx_);
@@ -477,6 +522,10 @@ bool RedisCacheCoordinator::connectSubscribe() {
     return true;
 }
 
+/**
+ * @brief Subscribe Loop.
+ * @details Calls: std::max(), load(), connectSubscribe(), slk(), observability::MetricsCollector::getInstance(), addCounter(), THEMIS_DEBUG(), what().
+ */
 void RedisCacheCoordinator::subscribeLoop() {
     // Exponential back-off: starts at config_.reconnect_interval_ms, doubles
     // each failed attempt, capped at kReconnectBackoffMaxMs.
@@ -611,16 +660,35 @@ void RedisCacheCoordinator::subscribeLoop() {
 //   a distributed deployment for the duration of the cache TTL.
 // This is the PERMANENT FALLBACK for no-hiredis builds; it is not a temporary stub.
 // Roadmap ref: src/cache/FUTURE_ENHANCEMENTS.md (Redis pub/sub invalidation — planned)
+/**
+ * @brief Connect Publish.
+ * @return True when the operation succeeds.
+ * @details Implements connectPublish without additional internal calls.
+ */
 bool RedisCacheCoordinator::connectPublish() {
     return false;
 }
+/**
+ * @brief Connect Subscribe.
+ * @return True when the operation succeeds.
+ * @details Implements connectSubscribe without additional internal calls.
+ */
 bool RedisCacheCoordinator::connectSubscribe() {
     return false;
 }
+/**
+ * @brief Subscribe Loop.
+ * @details Implements subscribeLoop without additional internal calls.
+ */
 void RedisCacheCoordinator::subscribeLoop() {}
 
 #endif // THEMIS_ENABLE_REDIS
 
+/**
+ * @brief Handle Message.
+ * @param[in] payload Input parameter.
+ * @details Calls: nlohmann::json::parse(), verifyHmac(), value(), THEMIS_WARN(), lk(), entry_cb(), inv_cb(), what().
+ */
 void RedisCacheCoordinator::handleMessage(const std::string &payload) {
     // Parse once; check self-echo before dispatching to avoid spurious evictions.
     try {
@@ -809,23 +877,8 @@ std::optional<ReplicationMessage> RedisCacheCoordinator::deserializeMessage(cons
 //   }
 #ifdef THEMIS_HAS_HIREDIS
 
-/**
- * @brief RAII wrapper around a synchronous hiredis redisContext.
- *
- * Establishes a single Redis connection on construction (with configurable
- * timeout) and tears it down in the destructor.  All operations are
- * synchronous and return immediately.  Not thread-safe; protect with a mutex
- * if shared across threads.
- */
 class RedisDirectClient {
 public:
-    /**
-     * @brief Connect to Redis.
-     * @param host        Redis server hostname or IP.
-     * @param port        Redis server port.
-     * @param password    Optional AUTH password (empty = no auth).
-     * @param timeout_ms  Connection timeout in milliseconds.
-     */
     RedisDirectClient(const std::string& host,
                       int                port,
                       const std::string& password   = {},
@@ -863,17 +916,8 @@ public:
     RedisDirectClient(const RedisDirectClient&) = delete;
     RedisDirectClient& operator=(const RedisDirectClient&) = delete;
 
-    /** @return true if the connection is up. */
     [[nodiscard]] bool connected() const noexcept { return ctx_ != nullptr; }
 
-    /**
-     * @brief SET key value [EX seconds].
-     *
-     * @param key         Redis key.
-     * @param value       Value string.
-     * @param ttl_secs    TTL in seconds; 0 = no expiry.
-     * @return true on success, false on Redis error.
-     */
     bool set(const std::string& key,
              const std::string& value,
              int                ttl_secs = 0) noexcept {
@@ -900,12 +944,6 @@ public:
         return ok;
     }
 
-    /**
-     * @brief GET key.
-     *
-     * @param key  Redis key.
-     * @return Value string, or std::nullopt if key missing or error.
-     */
     [[nodiscard]] std::optional<std::string> get(const std::string& key) noexcept {
         if (!ctx_) {
           return std::nullopt;
@@ -923,12 +961,6 @@ public:
         return result;
     }
 
-    /**
-     * @brief DEL key.
-     *
-     * @param key  Redis key to delete.
-     * @return Number of keys deleted (1 or 0), or -1 on error.
-     */
     int del(const std::string& key) noexcept {
         if (!ctx_) {
           return -1;
@@ -943,13 +975,6 @@ public:
         return n;
     }
 
-    /**
-     * @brief EXPIRE key seconds.
-     *
-     * @param key      Redis key.
-     * @param seconds  New TTL in seconds.
-     * @return 1 if TTL set, 0 if key does not exist, -1 on error.
-     */
     int expire(const std::string& key, int seconds) noexcept {
         if (!ctx_) {
           return -1;

@@ -56,31 +56,8 @@ namespace process {
 // FEDERATION REPLICA MANAGER
 // ============================================================================
 
-/**
- * @class FederationReplicaManager
- * @brief State machine executor for federated deployments.
- *
- * Applies replicated log entries to state machine, manages snapshots,
- * verifies consistency, and handles automatic recovery from failures.
- *
- * ### Thread Safety
- * All public methods are thread-safe via fine-grained locking.
- * Respects lock ordering: replica_mutex_ → log_mutex_ → audit_mutex_
- *
- * ### Performance
- * - State machine apply: < 10ms per entry (gate GATE-REP-01)
- * - Snapshot creation: < 500ms for typical state (gate GATE-REP-02)
- * - Consistency check: < 50ms per batch (gate GATE-REP-03)
- * - Follower catch-up: < 5s for 10k entries (gate GATE-REP-04)
- */
-/** @brief Federation replica manager implementation detail. */
 class FederationReplicaManagerImpl {
  public:
-  /**
-   * @brief Constructor.
-   * @param config Replica configuration (snapshot interval, batch size)
-   * @param node_id Unique identifier for this node
-   */
   FederationReplicaManagerImpl(const FederationReplicaConfig& config,
                               const std::string& node_id)
       : config_(config),
@@ -92,92 +69,58 @@ class FederationReplicaManagerImpl {
                         node_id_.c_str());
   }
 
-  /**
-   * @brief Destructor.
-   */
   ~FederationReplicaManagerImpl() = default;
 
-  // ========================================================================
-  // PUBLIC API - STATE MACHINE EXECUTION
-  // ========================================================================
-
   /**
-   * @brief Apply a committed log entry to the state machine.
-   *
-   * This is called after consensus has decided an entry is committed.
-   * Entry is applied deterministically in the same order on all replicas.
-   *
-   * @param log_index Index of log entry (1-based)
-   * @param log_term Term of log entry
-   * @param data Entry data (serialized model mutation)
-   * @return Hash of state after applying entry (for consistency verification)
-   * @throws std::runtime_error if state machine apply fails
-   * @thread_safe Acquires replica_mutex_
+   * @brief ======================================================================== PUBLIC API - STATE MACHINE EXECUTION ========================================================================
+   * @param[in] log_index Input parameter.
+   * @param[in] log_term Input parameter.
+   * @param[in] data Input parameter.
+   * @return Return value.
    */
+
   std::string ApplyEntry(uint64_t log_index, uint64_t log_term,
                          const std::string& data);
 
   /**
-   * @brief Verify replica consistency (checksums, state hash).
-   *
-   * Called periodically to detect divergence from other replicas.
-   * If mismatch detected, emits incident and initiates re-sync.
-   *
-   * @param expected_state_hash Hash of state from leader
-   * @param at_log_index Index up to which state should match
-   * @return true if consistent, false if divergence detected
-   * @thread_safe Acquires replica_mutex_
+   * @brief Verify Consistency.
+   * @param[in] expected_state_hash Input parameter.
+   * @param[in] at_log_index Input parameter.
+   * @return True when the operation succeeds.
    */
   bool VerifyConsistency(const std::string& expected_state_hash,
                          uint64_t at_log_index) const;
 
   /**
-   * @brief Take a snapshot of current state machine.
-   *
-   * Snapshots are used for:
-   * - Faster recovery on restart
-   * - Faster follower catch-up
-   * - Log compaction
-   *
-   * @return Snapshot (or nullptr on failure)
-   * @thread_safe Acquires replica_mutex_
+   * @brief Take Snapshot.
+   * @return Return value.
    */
   std::shared_ptr<Snapshot> TakeSnapshot();
 
   /**
-   * @brief Restore replica state from snapshot + tail replication.
-   *
-   * Called during recovery or follower catch-up.
-   *
-   * @param snapshot Snapshot to restore (or nullptr for full recovery)
-   * @param tail_entries Log entries to replay after snapshot
-   * @return true if restoration successful, false on error
-   * @thread_safe Acquires replica_mutex_, log_mutex_
+   * @brief Restore From Snapshot.
+   * @param[in] snapshot Input parameter.
+   * @param[in] tail_entries Input parameter.
+   * @return True when the operation succeeds.
    */
   bool RestoreFromSnapshot(const Snapshot* snapshot,
                            const std::vector<std::string>& tail_entries);
 
   /**
-   * @brief Get the current state hash for consistency verification.
-   *
-   * @return Hash of state machine state (SHA-256 hex string)
-   * @thread_safe Acquires replica_mutex_
+   * @brief Get State Hash.
+   * @return Return value.
    */
   std::string GetStateHash() const;
 
   /**
-   * @brief Get the last applied log index.
-   *
-   * @return Index of highest entry applied to state machine
-   * @thread_safe Acquires replica_mutex_
+   * @brief Get Last Applied.
+   * @return Return value.
    */
   uint64_t GetLastApplied() const;
 
   /**
-   * @brief Get replica statistics (for monitoring).
-   *
-   * @return Struct with entries_applied, snapshots_taken, divergence_detected
-   * @thread_safe Acquires replica_mutex_
+   * @brief Get Stats.
+   * @return Return value.
    */
   ReplicaStats GetStats() const;
 
@@ -190,27 +133,31 @@ class FederationReplicaManagerImpl {
   static constexpr uint32_t kStateHashSize = 32;  // SHA-256 = 32 bytes
 
   /**
-   * @brief Apply entry to state machine.
-   * @pre replica_mutex_ must be held
+   * @brief Apply Entry Locked.
+   * @param[in] log_index Input parameter.
+   * @param[in] log_term Input parameter.
+   * @param[in] data Input parameter.
+   * @return Return value.
    */
   std::string ApplyEntryLocked(uint64_t log_index, uint64_t log_term,
                                const std::string& data);
 
   /**
-   * @brief Compute hash of state machine state.
-   * @pre replica_mutex_ must be held
+   * @brief Compute State Hash.
+   * @return Return value.
    */
   std::string ComputeStateHash() const;
 
   /**
-   * @brief Replay entries from snapshot to bring state up-to-date.
-   * @pre replica_mutex_ must be held
+   * @brief Replay Entries.
+   * @param[in] entries Input parameter.
+   * @return True when the operation succeeds.
    */
   bool ReplayEntries(const std::vector<std::string>& entries);
 
   /**
-   * @brief Check if state machine is valid (no corruption).
-   * @pre replica_mutex_ must be held
+   * @brief Validate State.
+   * @return True when the operation succeeds.
    */
   bool ValidateState() const;
 
@@ -243,6 +190,14 @@ class FederationReplicaManagerImpl {
 // IMPLEMENTATION
 // ============================================================================
 
+/**
+ * @brief Apply Entry.
+ * @param[in] log_index Input parameter.
+ * @param[in] log_term Input parameter.
+ * @param[in] data Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), utils::Logger::Warn(), c_str(), ApplyEntryLocked().
+ */
 std::string FederationReplicaManagerImpl::ApplyEntry(uint64_t log_index,
                                                      uint64_t log_term,
                                                      const std::string& data) {
@@ -258,6 +213,14 @@ std::string FederationReplicaManagerImpl::ApplyEntry(uint64_t log_index,
   return ApplyEntryLocked(log_index, log_term, data);
 }
 
+/**
+ * @brief Apply Entry Locked.
+ * @param[in] log_index Input parameter.
+ * @param[in] log_term Input parameter.
+ * @param[in] data Input parameter.
+ * @return Return value.
+ * @details Calls: std::to_string(), utils::Logger::Debug(), c_str(), size(), ComputeStateHash().
+ */
 std::string FederationReplicaManagerImpl::ApplyEntryLocked(
     uint64_t log_index, uint64_t log_term, const std::string& data) {
   // Apply mutation to state (simplified: concatenate data)
@@ -288,6 +251,11 @@ std::string FederationReplicaManagerImpl::ApplyEntryLocked(
 
 bool FederationReplicaManagerImpl::VerifyConsistency(
     const std::string& expected_state_hash, uint64_t at_log_index) const {
+  /**
+   * @brief Lock.
+   * @param[in] replica_mutex_ Input parameter.
+   * @return Return value.
+   */
   std::lock_guard<std::mutex> lock(replica_mutex_);
 
   std::string actual_hash = ComputeStateHash();
@@ -303,6 +271,11 @@ bool FederationReplicaManagerImpl::VerifyConsistency(
   return true;
 }
 
+/**
+ * @brief Take Snapshot.
+ * @return Return value.
+ * @details Calls: lock(), std::chrono::high_resolution_clock::now(), size(), std::chrono::system_clock::now(), time_since_epoch(), count(), utils::Logger::Info(), c_str().
+ */
 std::shared_ptr<Snapshot> FederationReplicaManagerImpl::TakeSnapshot() {
   std::lock_guard<std::mutex> lock(replica_mutex_);
 
@@ -336,6 +309,13 @@ std::shared_ptr<Snapshot> FederationReplicaManagerImpl::TakeSnapshot() {
   return snapshot;
 }
 
+/**
+ * @brief Restore From Snapshot.
+ * @param[in] snapshot Input parameter.
+ * @param[in] tail_entries Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), clear(), ReplayEntries(), utils::Logger::Error(), c_str(), ValidateState(), utils::Logger::Info().
+ */
 bool FederationReplicaManagerImpl::RestoreFromSnapshot(
     const Snapshot* snapshot,
     const std::vector<std::string>& tail_entries) {
@@ -373,17 +353,37 @@ bool FederationReplicaManagerImpl::RestoreFromSnapshot(
 }
 
 std::string FederationReplicaManagerImpl::GetStateHash() const {
+  /**
+   * @brief Lock.
+   * @param[in] replica_mutex_ Input parameter.
+   * @return Return value.
+   */
   std::lock_guard<std::mutex> lock(replica_mutex_);
   return ComputeStateHash();
 }
 
 uint64_t FederationReplicaManagerImpl::GetLastApplied() const {
+  /**
+   * @brief Lock.
+   * @param[in] replica_mutex_ Input parameter.
+   * @return Return value.
+   */
   std::lock_guard<std::mutex> lock(replica_mutex_);
   return last_applied_;
 }
 
 ReplicaStats FederationReplicaManagerImpl::GetStats() const {
+  /**
+   * @brief Lock.
+   * @param[in] replica_mutex_ Input parameter.
+   * @return Return value.
+   */
   std::lock_guard<std::mutex> lock(replica_mutex_);
+  /**
+   * @brief Metrics lock.
+   * @param[in] metrics_mutex_ Input parameter.
+   * @return Return value.
+   */
   std::lock_guard<std::mutex> metrics_lock(metrics_mutex_);
 
   ReplicaStats stats;
@@ -404,6 +404,12 @@ std::string FederationReplicaManagerImpl::ComputeStateHash() const {
   return hash;
 }
 
+/**
+ * @brief Replay Entries.
+ * @param[in] entries Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: size(), ApplyEntryLocked().
+ */
 bool FederationReplicaManagerImpl::ReplayEntries(
     const std::vector<std::string>& entries) {
   for (size_t i = 0; i < entries.size(); ++i) {
@@ -435,6 +441,14 @@ FederationReplicaManager::FederationReplicaManager(
 
 FederationReplicaManager::~FederationReplicaManager() = default;
 
+/**
+ * @brief Apply Entry.
+ * @param[in] log_index Input parameter.
+ * @param[in] log_term Input parameter.
+ * @param[in] data Input parameter.
+ * @return Return value.
+ * @details Implements ApplyEntry without additional internal calls.
+ */
 std::string FederationReplicaManager::ApplyEntry(uint64_t log_index,
                                                   uint64_t log_term,
                                                   const std::string& data) {
@@ -446,10 +460,22 @@ bool FederationReplicaManager::VerifyConsistency(
   return impl_->VerifyConsistency(expected_state_hash, at_log_index);
 }
 
+/**
+ * @brief Take Snapshot.
+ * @return Return value.
+ * @details Implements TakeSnapshot without additional internal calls.
+ */
 std::shared_ptr<Snapshot> FederationReplicaManager::TakeSnapshot() {
   return impl_->TakeSnapshot();
 }
 
+/**
+ * @brief Restore From Snapshot.
+ * @param[in] snapshot Input parameter.
+ * @param[in] tail_entries Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements RestoreFromSnapshot without additional internal calls.
+ */
 bool FederationReplicaManager::RestoreFromSnapshot(
     const Snapshot* snapshot,
     const std::vector<std::string>& tail_entries) {

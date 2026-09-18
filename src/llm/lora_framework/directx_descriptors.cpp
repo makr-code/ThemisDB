@@ -66,6 +66,11 @@ DirectXDescriptors& DirectXDescriptors::operator=(DirectXDescriptors&& other) no
     return *this;
 }
 
+/**
+ * @brief Initialize.
+ * @return True when the operation succeeds.
+ * @details Calls: device(), CreateDescriptorHeap(), IID_PPV_ARGS(), FAILED(), GetDescriptorHandleIncrementSize(), GetCPUDescriptorHandleForHeapStart(), GetGPUDescriptorHandleForHeapStart().
+ */
 bool DirectXDescriptors::initialize() {
     // Create CBV/SRV/UAV descriptor heap
     D3D12_DESCRIPTOR_HEAP_DESC heap_desc = {};
@@ -96,6 +101,15 @@ bool DirectXDescriptors::initialize() {
     return true;
 }
 
+/**
+ * @brief Create uav.
+ * @param[in,out] resource Input/output parameter.
+ * @param[in] num_elements Input parameter.
+ * @param[in] element_size Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: get_cpu_handle(), device(), CreateUnorderedAccessView().
+ */
 uint32_t DirectXDescriptors::create_uav(ID3D12Resource* resource, 
                                         uint32_t num_elements, 
                                         uint32_t element_size) {
@@ -122,6 +136,15 @@ uint32_t DirectXDescriptors::create_uav(ID3D12Resource* resource,
     return descriptor_index;
 }
 
+/**
+ * @brief Create srv.
+ * @param[in,out] resource Input/output parameter.
+ * @param[in] num_elements Input parameter.
+ * @param[in] element_size Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: get_cpu_handle(), device(), CreateShaderResourceView().
+ */
 uint32_t DirectXDescriptors::create_srv(ID3D12Resource* resource, 
                                         uint32_t num_elements, 
                                         uint32_t element_size) {
@@ -160,6 +183,10 @@ D3D12_GPU_DESCRIPTOR_HANDLE DirectXDescriptors::get_gpu_handle(uint32_t index) c
     return handle;
 }
 
+/**
+ * @brief Reset the modification detection flag.
+ * @details Implements reset without additional internal calls.
+ */
 void DirectXDescriptors::reset() {
     current_descriptor_ = 0;
 }

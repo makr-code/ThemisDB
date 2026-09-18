@@ -62,6 +62,15 @@ CacheManager& CacheManager::operator=(CacheManager&& other) noexcept {
     return *this;
 }
 
+/**
+ * @brief Register cache.
+ * @param[in] cache_name Name of the cache.
+ * @param[in] size Input parameter.
+ * @return True when the operation succeeds.
+ * @throws std::logic_error if an error occurs.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: empty(), find(), end(), std::move(), dispatch_event().
+ */
 bool CacheManager::register_cache(const std::string& cache_name, size_t size) {
     if (is_moved_from_) {
         throw std::logic_error("Cannot register cache on moved-from manager");
@@ -90,6 +99,13 @@ bool CacheManager::register_cache(const std::string& cache_name, size_t size) {
     return true;
 }
 
+/**
+ * @brief Unregister cache.
+ * @param[in] cache_name Name of the cache.
+ * @return True when the operation succeeds.
+ * @throws std::logic_error if an error occurs.
+ * @details Calls: find(), end(), erase().
+ */
 bool CacheManager::unregister_cache(const std::string& cache_name) {
     if (is_moved_from_) {
         throw std::logic_error("Cannot unregister cache on moved-from manager");
@@ -143,6 +159,13 @@ const CacheEvictionPolicy* CacheManager::get_eviction_policy(const std::string& 
     return it->second.policy.get();
 }
 
+/**
+ * @brief Register event handler.
+ * @param[in] handler Input parameter.
+ * @return Return value.
+ * @throws std::logic_error if an error occurs.
+ * @details Calls: std::move(), push_back().
+ */
 uint32_t CacheManager::register_event_handler(EventHandler&& handler) {
     if (is_moved_from_) {
         throw std::logic_error("Cannot register handler on moved-from manager");
@@ -156,6 +179,12 @@ uint32_t CacheManager::register_event_handler(EventHandler&& handler) {
     return entry.id;
 }
 
+/**
+ * @brief Unregister event handler.
+ * @param[in] handler_id Identifier of the handler.
+ * @return True when the operation succeeds.
+ * @details Calls: std::find_if(), begin(), end(), erase().
+ */
 bool CacheManager::unregister_event_handler(uint32_t handler_id) {
     auto it = std::find_if(event_handlers_.begin(), event_handlers_.end(),
                           [handler_id](const EventHandlerEntry& e) {
@@ -199,6 +228,11 @@ std::optional<CacheManager::CacheStats> CacheManager::get_cache_stats(const std:
     return stats;
 }
 
+/**
+ * @brief Clear all.
+ * @throws std::logic_error if an error occurs.
+ * @details Calls: dispatch_event().
+ */
 void CacheManager::clear_all() {
     if (is_moved_from_) {
         throw std::logic_error("Cannot clear on moved-from manager");

@@ -35,12 +35,24 @@ namespace graph {
 
 namespace {
 
-/// Clamp a float value to [lo, hi].
+/**
+ * @brief Clampf.
+ * @param[in] v Input parameter.
+ * @param[in] lo Input parameter.
+ * @param[in] hi Input parameter.
+ * @return Return value.
+ * @details Implements clampf without additional internal calls.
+ */
 inline float clampf(float v, float lo, float hi) {
     return v < lo ? lo : (v > hi ? hi : v);
 }
 
-/// L2 norm of a float vector; returns 0 on empty input.
+/**
+ * @brief L2norm.
+ * @param[in] v Input parameter.
+ * @return Return value.
+ * @details Calls: std::sqrt().
+ */
 inline float l2norm(const std::vector<float> &v) {
     float sum = 0.0f;
     for (float x : v) {
@@ -49,7 +61,13 @@ inline float l2norm(const std::vector<float> &v) {
     return std::sqrt(sum);
 }
 
-/// Dot product of two equal-length float vectors.
+/**
+ * @brief Compute the dot product of two vectors.
+ * @param[in] a Input parameter.
+ * @param[in] b Input parameter.
+ * @return Dot product of the input vectors.
+ * @details Calls: size().
+ */
 inline float dotProduct(const std::vector<float> &a, const std::vector<float> &b) {
     float s = 0.0f;
     for (size_t i = 0; i < a.size(); ++i) {
@@ -58,7 +76,13 @@ inline float dotProduct(const std::vector<float> &a, const std::vector<float> &b
     return s;
 }
 
-/// Euclidean distance between two equal-length float vectors.
+/**
+ * @brief Euclidean Dist.
+ * @param[in] a Input parameter.
+ * @param[in] b Input parameter.
+ * @return Return value.
+ * @details Calls: size(), std::sqrt().
+ */
 inline float euclideanDist(const std::vector<float> &a, const std::vector<float> &b) {
     float s = 0.0f;
     for (size_t i = 0; i < a.size(); ++i) {
@@ -68,7 +92,15 @@ inline float euclideanDist(const std::vector<float> &a, const std::vector<float>
     return std::sqrt(s);
 }
 
-/// Generate a simple unique ID for a new edge given its endpoints.
+/**
+ * @brief Make New Edge Id.
+ * @param[in] from Input parameter.
+ * @param[in] to Input parameter.
+ * @param[in] cycle Input parameter.
+ * @param[in] seq Input parameter.
+ * @return Return value.
+ * @details Calls: std::to_string().
+ */
 inline std::string makeNewEdgeId(const std::string &from, const std::string &to, uint64_t cycle, size_t seq) {
     return "ser_edge_" + from + "_" + to + "_c" + std::to_string(cycle) + "_s" + std::to_string(seq);
 }
@@ -94,6 +126,10 @@ ScheduledGraphEdgeRefreshEngine::~ScheduledGraphEdgeRefreshEngine() {
 // Lifecycle
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Start.
+ * @details Calls: load(), lock(), count(), spdlog::info(), store(), std::thread().
+ */
 void ScheduledGraphEdgeRefreshEngine::start() {
     if (running_.load(std::memory_order_acquire)) {
         return; // already running
@@ -115,6 +151,10 @@ void ScheduledGraphEdgeRefreshEngine::start() {
     spdlog::info("[ScheduledEdgeRefresh] scheduler started");
 }
 
+/**
+ * @brief Stop.
+ * @details Calls: load(), joinable(), store(), notify_all(), join(), spdlog::info().
+ */
 void ScheduledGraphEdgeRefreshEngine::stop() {
     if (!running_.load(std::memory_order_acquire) && !scheduler_thread_.joinable()) {
         return;
@@ -135,6 +175,11 @@ void ScheduledGraphEdgeRefreshEngine::stop() {
 // Manual trigger
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Trigger Refresh.
+ * @return Return value.
+ * @details Calls: lock(), runRefreshCycle().
+ */
 RefreshStats ScheduledGraphEdgeRefreshEngine::triggerRefresh() {
     std::lock_guard<std::mutex> lock(cycle_mutex_);
     return runRefreshCycle();
@@ -145,32 +190,62 @@ RefreshStats ScheduledGraphEdgeRefreshEngine::triggerRefresh() {
 // ─────────────────────────────────────────────────────────────────────────────
 
 RefreshStats ScheduledGraphEdgeRefreshEngine::getStats() const {
+    /**
+     * @brief Lock.
+     * @param[in] stats_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(stats_mutex_);
     return last_stats_;
 }
 
 std::vector<RefreshAuditEntry> ScheduledGraphEdgeRefreshEngine::getAuditTrail() const {
+    /**
+     * @brief Lock.
+     * @param[in] stats_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(stats_mutex_);
     return audit_trail_;
 }
 
+/**
+ * @brief Set Policy.
+ * @param[in] policy Input parameter.
+ * @details Calls: validatePolicy(), lock().
+ */
 void ScheduledGraphEdgeRefreshEngine::setPolicy(const RefreshPolicy &policy) {
     validatePolicy(policy);
     std::lock_guard<std::mutex> lock(policy_mutex_);
     policy_ = policy;
 }
 
+/**
+ * @brief Set Changefeed.
+ * @param[in] changefeed Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void ScheduledGraphEdgeRefreshEngine::setChangefeed(std::shared_ptr<Changefeed> changefeed) {
     std::lock_guard<std::mutex> lock(stats_mutex_);
     changefeed_ = std::move(changefeed);
 }
 
+/**
+ * @brief Set ANNIndex.
+ * @param[in] ann_index Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void ScheduledGraphEdgeRefreshEngine::setANNIndex(std::shared_ptr<index::IAnnIndex> ann_index) {
     std::lock_guard<std::mutex> lock(stats_mutex_);
     ann_index_ = std::move(ann_index);
 }
 
 void ScheduledGraphEdgeRefreshEngine::setCEPEventCallback(std::function<void(themisdb::analytics::Event)> callback) {
+    /**
+     * @brief Lock.
+     * @param[in] stats_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(stats_mutex_);
     cep_event_callback_ = std::move(callback);
 }
@@ -187,6 +262,11 @@ float ScheduledGraphEdgeRefreshEngine::computeSimilarity(const std::vector<float
 
     SimilarityMetric metric;
     {
+        /**
+         * @brief Lock.
+         * @param[in] policy_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(policy_mutex_);
         metric = policy_.similarity_metric;
     }
@@ -224,6 +304,11 @@ float ScheduledGraphEdgeRefreshEngine::computeSimilarity(const std::vector<float
 float ScheduledGraphEdgeRefreshEngine::computeTemporalDecay(const BaseEntity &edge_entity) const {
     double half_life = 0;
     {
+        /**
+         * @brief Lock.
+         * @param[in] policy_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(policy_mutex_);
         half_life = policy_.decay_half_life_seconds;
     }
@@ -300,6 +385,11 @@ EdgeScore ScheduledGraphEdgeRefreshEngine::scoreEdge(const BaseEntity &edge_enti
 
     float threshold = {};
     {
+        /**
+         * @brief Lock.
+         * @param[in] policy_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(policy_mutex_);
         threshold = policy_.relevance_threshold;
     }
@@ -388,6 +478,10 @@ void ScheduledGraphEdgeRefreshEngine::rebuildANNIndex(const std::vector<std::str
     }
 }
 
+/**
+ * @brief Scheduler Loop.
+ * @details Calls: spdlog::debug(), load(), lock(), lk(), wait_for(), runRefreshCycle().
+ */
 void ScheduledGraphEdgeRefreshEngine::schedulerLoop() {
     spdlog::debug("[ScheduledEdgeRefresh] schedulerLoop entered");
 
@@ -418,6 +512,11 @@ void ScheduledGraphEdgeRefreshEngine::schedulerLoop() {
     spdlog::debug("[ScheduledEdgeRefresh] schedulerLoop exiting");
 }
 
+/**
+ * @brief Run Refresh Cycle.
+ * @return Return value.
+ * @details Calls: std::chrono::steady_clock::now(), spdlog::info(), collectEdges(), size(), empty(), policy_lock(), stats_lock(), scoreAllEdges().
+ */
 RefreshStats ScheduledGraphEdgeRefreshEngine::runRefreshCycle() {
     const uint64_t cycle = ++cycle_counter_;
     auto t_start         = std::chrono::steady_clock::now();
@@ -659,6 +758,11 @@ ScheduledGraphEdgeRefreshEngine::discoverCandidateEdges(const std::vector<BaseEn
 
     RefreshPolicy policy;
     {
+        /**
+         * @brief Lock.
+         * @param[in] policy_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(policy_mutex_);
         policy = policy_;
     }
@@ -704,6 +808,11 @@ ScheduledGraphEdgeRefreshEngine::discoverCandidateEdges(const std::vector<BaseEn
     // so that newly added vertices are always included.
     std::shared_ptr<index::IAnnIndex> ann_idx;
     {
+        /**
+         * @brief Lock.
+         * @param[in] stats_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(stats_mutex_);
         ann_idx = ann_index_;
     }
@@ -858,6 +967,11 @@ bool ScheduledGraphEdgeRefreshEngine::applyBatch(
         const auto &[from, to, sim] = edges_to_add[i];
         const std::string new_id    = makeNewEdgeId(from, to, cycle_number, i);
 
+        /**
+         * @brief Edge.
+         * @param[in] new_id Identifier of the new.
+         * @return Return value.
+         */
         BaseEntity edge(new_id);
         edge.setField("id", new_id);
         edge.setField("_from", from);
@@ -898,6 +1012,11 @@ bool ScheduledGraphEdgeRefreshEngine::applyBatch(
     // the (potentially slow) invocations.
     std::function<void(themisdb::analytics::Event)> cep_cb;
     {
+        /**
+         * @brief Lock.
+         * @param[in] stats_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(stats_mutex_);
         cep_cb = cep_event_callback_;
     }
@@ -940,6 +1059,11 @@ bool ScheduledGraphEdgeRefreshEngine::applyBatch(
     return true;
 }
 
+/**
+ * @brief Append Audit.
+ * @param[in] entry Input parameter.
+ * @details Calls: lock(), size(), erase(), begin(), time_since_epoch(), count(), recordEvent(), std::move().
+ */
 void ScheduledGraphEdgeRefreshEngine::appendAudit(RefreshAuditEntry entry) {
     std::lock_guard<std::mutex> lock(stats_mutex_);
     if (audit_trail_.size() >= kMaxAuditEntries) {

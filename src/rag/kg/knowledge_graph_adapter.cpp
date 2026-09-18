@@ -42,6 +42,12 @@ private:
     const KnowledgeGraph& kg_;
 };
 
+/**
+ * @brief Make IKnowledge Graph.
+ * @param[in] kg Input parameter.
+ * @return Return value.
+ * @details Implements makeIKnowledgeGraph without additional internal calls.
+ */
 std::shared_ptr<IKnowledgeGraph> makeIKnowledgeGraph(const KnowledgeGraph& kg) {
     return std::make_shared<KnowledgeGraphAdapter>(kg);
 }

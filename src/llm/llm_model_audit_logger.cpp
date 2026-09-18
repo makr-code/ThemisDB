@@ -26,7 +26,12 @@ namespace llm {
 // Internal helpers
 // ---------------------------------------------------------------------------
 
-/// Convert a LLMModelAuditEventType to a compact string label.
+/**
+ * @brief Event Type Name.
+ * @param[in] t Input parameter.
+ * @return Return value.
+ * @details Implements eventTypeName without additional internal calls.
+ */
 static std::string eventTypeName(LLMModelAuditEventType t) {
     switch (t) {
         case LLMModelAuditEventType::INFERENCE_STARTED:    return "INFERENCE_STARTED";
@@ -63,7 +68,11 @@ static std::string eventTypeName(LLMModelAuditEventType t) {
     }
 }
 
-/// ISO-8601 UTC timestamp string for the current moment.
+/**
+ * @brief Now ISO8601.
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::now(), std::chrono::system_clock::to_time_t(), gmtime_s(), gmtime_r(), std::put_time(), str().
+ */
 static std::string nowISO8601() {
     auto now = std::chrono::system_clock::now();
     auto t   = std::chrono::system_clock::to_time_t(now);
@@ -82,7 +91,6 @@ static std::string nowISO8601() {
 // Pimpl — production implementation
 // ---------------------------------------------------------------------------
 
-/** @brief Pimpl — production implementation. */
 class LLMModelAuditLogger::Impl {
 public:
     explicit Impl(utils::AuditLoggerConfig cfg) : config(std::move(cfg)) {
@@ -106,12 +114,13 @@ public:
         }
     }
 
-    /// Append a single JSON-lines record.  Thread-safe.
-    ///
-    /// Performance note: std::ofstream buffers writes internally so each
-    /// call does NOT necessarily cause a syscall.  For very high event rates
-    /// a background flush thread can be added later; the current approach
-    /// keeps the implementation simple while being adequate for audit workloads.
+    /**
+     * @brief Write Line.
+     * @param[in] event_type Input parameter.
+     * @param[in] model_id Identifier of the model.
+     * @param[in] details Input parameter.
+     * @details Calls: nowISO8601(), eventTypeName(), dump(), lk(), is_open().
+     */
     void writeLine(LLMModelAuditEventType event_type,
                    const std::string& model_id,
                    const json& details) {
@@ -135,6 +144,10 @@ public:
         }
     }
 
+    /**
+     * @brief Flush File.
+     * @details Calls: lk(), is_open(), flush().
+     */
     void flushFile() {
         std::lock_guard<std::mutex> lk(mu);
         if (ofs.is_open()) {
@@ -171,9 +184,14 @@ LLMModelAuditLogger::LLMModelAuditLogger(const utils::AuditLoggerConfig& config)
 
 LLMModelAuditLogger::~LLMModelAuditLogger() = default;
 
-// ---------------------------------------------------------------------------
-// Core write helper (shared by logInference / logEvent)
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- Core write helper (shared by logInference / logEvent) ---------------------------------------------------------------------------
+ * @param[in,out] impl Input/output parameter.
+ * @param[in] event_type Input parameter.
+ * @param[in] model_id Identifier of the model.
+ * @param[in] details Input parameter.
+ * @details Calls: writeLine(), lk(), push_back(), std::chrono::system_clock::now().
+ */
 
 static void appendRecord(LLMModelAuditLogger::Impl* impl,
                          LLMModelAuditEventType event_type,
@@ -202,6 +220,11 @@ static void appendRecord(LLMModelAuditLogger::Impl* impl,
 // Public logging methods
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Log Inference.
+ * @param[in] audit Input parameter.
+ * @details Calls: spdlog::debug(), appendRecord(), get(), toJSON().
+ */
 void LLMModelAuditLogger::logInference(const LLMModelInferenceAudit& audit) {
     spdlog::debug("LLM inference audit model={} request={}",
                   audit.model_id, audit.request_id);
@@ -214,6 +237,13 @@ void LLMModelAuditLogger::logInference(const LLMModelInferenceAudit& audit) {
                  audit.toJSON());
 }
 
+/**
+ * @brief Log Event.
+ * @param[in] event_type Input parameter.
+ * @param[in] model_id Identifier of the model.
+ * @param[in] details Input parameter.
+ * @details Calls: spdlog::debug(), eventTypeName(), appendRecord(), get().
+ */
 void LLMModelAuditLogger::logEvent(
     LLMModelAuditEventType event_type,
     const std::string& model_id,
@@ -224,6 +254,14 @@ void LLMModelAuditLogger::logEvent(
     appendRecord(impl_.get(), event_type, model_id, details);
 }
 
+/**
+ * @brief Log Model Lifecycle.
+ * @param[in] event_type Input parameter.
+ * @param[in] model_id Identifier of the model.
+ * @param[in] version Input parameter.
+ * @param[in] metadata Input parameter.
+ * @details Calls: spdlog::debug(), appendRecord(), get().
+ */
 void LLMModelAuditLogger::logModelLifecycle(
     LLMModelAuditEventType event_type,
     const std::string& model_id,
@@ -236,6 +274,16 @@ void LLMModelAuditLogger::logModelLifecycle(
     appendRecord(impl_.get(), event_type, model_id, details);
 }
 
+/**
+ * @brief Log Fine Tuning.
+ * @param[in] event_type Input parameter.
+ * @param[in] model_id Identifier of the model.
+ * @param[in] base_model_id Identifier of the base model.
+ * @param[in] num_samples Input parameter.
+ * @param[in] final_loss Input parameter.
+ * @param[in] hyperparameters Input parameter.
+ * @details Calls: spdlog::debug(), appendRecord(), get().
+ */
 void LLMModelAuditLogger::logFineTuning(
     LLMModelAuditEventType event_type,
     const std::string& model_id,
@@ -253,6 +301,14 @@ void LLMModelAuditLogger::logFineTuning(
     appendRecord(impl_.get(), event_type, model_id, details);
 }
 
+/**
+ * @brief Log Deployment.
+ * @param[in] event_type Input parameter.
+ * @param[in] model_id Identifier of the model.
+ * @param[in] deployment_target Input parameter.
+ * @param[in] config Input parameter.
+ * @details Calls: spdlog::debug(), appendRecord(), get().
+ */
 void LLMModelAuditLogger::logDeployment(
     LLMModelAuditEventType event_type,
     const std::string& model_id,
@@ -265,6 +321,15 @@ void LLMModelAuditLogger::logDeployment(
     appendRecord(impl_.get(), event_type, model_id, details);
 }
 
+/**
+ * @brief Log Policy Violation.
+ * @param[in] model_id Identifier of the model.
+ * @param[in] request_id Identifier of the request.
+ * @param[in] rule_name Name of the retention policy.
+ * @param[in] reason Input parameter.
+ * @param[in] was_blocked Input parameter.
+ * @details Calls: appendRecord(), get(), spdlog::info().
+ */
 void LLMModelAuditLogger::logPolicyViolation(
     const std::string& model_id,
     const std::string& request_id,
@@ -292,6 +357,14 @@ void LLMModelAuditLogger::logPolicyViolation(
 // Query / Export
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Query Logs.
+ * @param[in] model_id Identifier of the model.
+ * @param[in] start_time Input parameter.
+ * @param[in] end_time Input parameter.
+ * @return Return value.
+ * @details Calls: lk(), empty(), eventTypeName(), std::chrono::system_clock::to_time_t(), push_back(), std::move().
+ */
 std::vector<json> LLMModelAuditLogger::queryLogs(
     const std::string& model_id,
     std::optional<std::chrono::system_clock::time_point> start_time,
@@ -320,6 +393,13 @@ std::vector<json> LLMModelAuditLogger::queryLogs(
     return result;
 }
 
+/**
+ * @brief Get Inference History.
+ * @param[in] model_id Identifier of the model.
+ * @param[in] limit Input parameter.
+ * @return Return value.
+ * @details Calls: spdlog::debug().
+ */
 std::vector<LLMModelInferenceAudit> LLMModelAuditLogger::getInferenceHistory(
     const std::string& model_id,
     int limit) {
@@ -333,6 +413,15 @@ std::vector<LLMModelInferenceAudit> LLMModelAuditLogger::getInferenceHistory(
     return {};
 }
 
+/**
+ * @brief Export Analytics.
+ * @param[in,out] out_stream Input/output parameter.
+ * @param[in] model_id Identifier of the model.
+ * @param[in] start_time Input parameter.
+ * @param[in] end_time Input parameter.
+ * @return Return value.
+ * @details Calls: lk(), empty(), std::chrono::system_clock::to_time_t(), gmtime_s(), gmtime_r(), std::put_time(), str(), eventTypeName().
+ */
 size_t LLMModelAuditLogger::exportAnalytics(
     std::ostream& out_stream,
     const std::string& model_id,
@@ -382,15 +471,30 @@ size_t LLMModelAuditLogger::exportAnalytics(
 // Control
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Set Enabled.
+ * @param[in] enabled Input parameter.
+ * @details Calls: lk().
+ */
 void LLMModelAuditLogger::setEnabled(bool enabled) {
     std::lock_guard<std::mutex> lk(impl_->mu);
     impl_->enabled = enabled;
 }
 
+/**
+ * @brief Flush.
+ * @details Calls: flushFile().
+ */
 void LLMModelAuditLogger::flush() {
     impl_->flushFile();
 }
 
+/**
+ * @brief Get Model Stats.
+ * @param[in] model_id Identifier of the model.
+ * @return Return value.
+ * @details Calls: lk(), empty().
+ */
 json LLMModelAuditLogger::getModelStats(const std::string& model_id) {
     std::lock_guard<std::mutex> lk(impl_->mu);
     size_t total = 0, inferences = 0, failures = 0, policy_blocks = 0;

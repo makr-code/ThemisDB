@@ -34,6 +34,10 @@ struct SAGABatchInfo {
     std::string cert_serial;
     std::string algorithm;
     
+    /**
+     * @brief To Json.
+     * @return Return value.
+     */
     nlohmann::json toJson() const;
 };
 
@@ -43,57 +47,52 @@ struct SAGABatchDetail {
     std::string ciphertext_hash_b64;
     std::string signature_b64;
     
+    /**
+     * @brief To Json.
+     * @return Return value.
+     */
     nlohmann::json toJson() const;
 };
 
-/**
- * @brief SAGAApiHandler - SAGA pattern orchestration for distributed transactions.
- * 
- * HTTP API handler for saga pattern orchestration for distributed transactions.
- * Implements endpoint-specific routing, request validation, business logic,
- * and response formatting.
- * 
- * ### HTTP Endpoints
- * Supported operations depend on the specific handler implementation.
- * See handler methods for endpoint mappings and request/response schemas.
- * 
- * ### Thread Safety
- * Handler instance and all methods are thread-safe for concurrent requests.
- * Internal state modifications use appropriate synchronization primitives.
- * 
- * ### Error Handling
- * All endpoints follow consistent error response formatting:
- * - 400: Bad Request (invalid input)
- * - 401: Unauthorized (missing/invalid authentication)
- * - 403: Forbidden (insufficient permissions)
- * - 404: Not Found (resource doesn't exist)
- * - 500: Internal Server Error (unexpected failure)
- * 
- * @note Integrates with rate limiting, auth middleware, and validation pipeline
- * @note Request bodies are validated against JSON schemas before processing
- * @note All operations are auditable and logged
- */
 
 class SAGAApiHandler {
 public:
     SAGAApiHandler(std::shared_ptr<themis::utils::SAGALogger> saga_logger);
 
-    // List all SAGA batches with summary info
+    /**
+     * @brief List Batches.
+     * @return Return value.
+     */
     nlohmann::json listBatches();
     
-    // Get detailed info for a specific batch (including verification)
+    /**
+     * @brief Get Batch Detail.
+     * @param[in] batch_id Identifier of the batch.
+     * @return Return value.
+     */
     nlohmann::json getBatchDetail(const std::string& batch_id);
     
-    // Verify a batch's signature and integrity
+    /**
+     * @brief Verify Batch.
+     * @param[in] batch_id Identifier of the batch.
+     * @return Return value.
+     */
     nlohmann::json verifyBatch(const std::string& batch_id);
     
-    // Force flush current buffer to create new batch (admin operation)
+    /**
+     * @brief Flush Current Batch.
+     * @return Return value.
+     */
     nlohmann::json flushCurrentBatch();
 
 private:
     std::shared_ptr<themis::utils::SAGALogger> saga_logger_;
     
-    // Parse batch metadata from signature file
+    /**
+     * @brief Parse Batch Info.
+     * @param[in] batch_id Identifier of the batch.
+     * @return Return value.
+     */
     SAGABatchInfo parseBatchInfo(const std::string& batch_id);
 };
 

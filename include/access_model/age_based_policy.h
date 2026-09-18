@@ -115,14 +115,13 @@ struct AgeBasedPolicy {
         return access_count >= storage_promotion_threshold;
     }
 
+
     /**
-     * @brief ── Non-inline Methods (implemented in age_based_policy.
+     * @brief Should Promote L1 To L2.
      * @param[in] access_count Input parameter.
      * @param[in] time_since_last_access Input parameter.
      * @return True when the operation succeeds.
-     * @details cpp) ────────────
      */
-
     bool shouldPromoteL1ToL2(uint64_t access_count,
                              const std::chrono::seconds& time_since_last_access) const;
 

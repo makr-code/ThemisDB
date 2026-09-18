@@ -23,24 +23,6 @@
 
 namespace themis::llm {
 
-/**
- * @brief Default LLM client implementation.
- *
- * Routes generation requests through LLMPluginManager::instance() when a
- * plugin is available.  Degrades gracefully to a deterministic keyword-based
- * AQL mock when no plugin is registered, enabling offline unit tests without
- * requiring a live model.
- *
- * ### Thread safety
- * All public methods are thread-safe.  Plugin-path safety is delegated to
- * LLMPluginManager (which guards its plugin map with a mutex).
- *
- * ### Production delta (fallback path)
- * The keyword-based AQL fallback does NOT perform real inference.  It is
- * only active when `LLMPluginManager::instance().getDefaultPlugin() == nullptr`.
- * Any deployment that expects real inference results MUST register a plugin
- * before calling generate().
- */
 class DefaultLLMClient : public LLMClient {
 public:
     DefaultLLMClient() : ready_(true) {
@@ -159,7 +141,11 @@ private:
 
 } // namespace themis::llm
 
-// Factory function for creating default LLM client
+/**
+ * @brief Factory function for creating default LLM client
+ * @return Return value.
+ * @details Implements createDefaultLLMClient without additional internal calls.
+ */
 std::shared_ptr<themis::llm::LLMClient> createDefaultLLMClient() {
     return std::make_shared<themis::llm::DefaultLLMClient>();
 }

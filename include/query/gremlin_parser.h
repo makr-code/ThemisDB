@@ -130,21 +130,14 @@ struct GremlinParseError {
 // with a mutex.
 // ============================================================================
 
-/** @brief with a mutex. */
 class GremlinParser {
 public:
     GremlinParser() = default;
 
     /**
-     * Parse a Gremlin traversal string into an AST.
-     *
-     * @param gremlin  The Gremlin traversal string (must start with "g.V()"
-     *                 or "g.E()").
-     * @return         Result<GremlinASTNode> on success, or a parse error.
-     *
-     * Example:
-     *   GremlinParser p;
-     *   auto ast = p.parse("g.V().hasLabel('User').has('age', P.gt(18))");
+     * @brief Parse.
+     * @param[in] gremlin Input parameter.
+     * @return Return value.
      */
     Result<GremlinASTNode> parse(const std::string& gremlin);
 
@@ -160,30 +153,30 @@ private:
 // through the existing AQL pipeline (executeAql / AQLParser / AQLTranslator).
 // ============================================================================
 
-/** @brief through the existing AQL pipeline (executeAql / AQLParser / AQLTranslator). */
 class GremlinToAQLTranspiler {
 public:
     GremlinToAQLTranspiler() = default;
 
     /**
-     * Translate a Gremlin traversal AST into an AQL query string.
-     *
-     * Translation examples:
-     *   g.V().hasLabel('User').has('name','Alice').out('FRIEND').values('name')
-     *   → FOR _v IN User FILTER _v.name == "Alice"
-     *       FOR _e, _n IN 1..1 OUTBOUND _v GRAPH "FRIEND"
-     *       RETURN _n.name
-     *
-     *   g.V().hasLabel('User').count()
-     *   → RETURN LENGTH(FOR _v IN User RETURN _v)
-     *
-     * @param ast  The parsed Gremlin AST.
-     * @return     Result<std::string> – the AQL string on success.
+     * @brief Transpile.
+     * @param[in] ast Input parameter.
+     * @return Return value.
      */
     Result<std::string> transpile(const GremlinASTNode& ast);
 
 private:
+    /**
+     * @brief Value To AQL.
+     * @param[in] val Input parameter.
+     * @return Return value.
+     */
     static std::string valueToAQL(const GremlinValue& val);
+    /**
+     * @brief Predicate To AQL.
+     * @param[in] pred Input parameter.
+     * @param[in] lhs Input parameter.
+     * @return Return value.
+     */
     static std::string predicateToAQL(const GremlinPredicate& pred,
                                       const std::string& lhs);
 };

@@ -33,6 +33,12 @@ namespace {
 // Internal helpers
 // ============================================================================
 
+/**
+ * @brief To Upper.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Calls: std::transform(), begin(), end(), std::toupper().
+ */
 std::string toUpper(const std::string &s) {
     std::string out = s;
     std::transform(out.begin(), out.end(), out.begin(),
@@ -40,6 +46,13 @@ std::string toUpper(const std::string &s) {
     return out;
 }
 
+/**
+ * @brief Query Contains.
+ * @param[in] upper_query Input parameter.
+ * @param[in] keyword Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: re(), std::regex_search(), spdlog::debug(), find().
+ */
 bool queryContains(const std::string &upper_query, const std::string &keyword) {
     std::string pattern = "(?:^|[^A-Z0-9_])" + keyword + "(?:$|[^A-Z0-9_])";
     try {
@@ -51,7 +64,12 @@ bool queryContains(const std::string &upper_query, const std::string &keyword) {
     }
 }
 
-// Estimate max traversal depth from TRAVERSE … 1..N patterns
+/**
+ * @brief Estimate max traversal depth from TRAVERSE … 1.
+ * @param[in] query Input parameter.
+ * @return Return value.
+ * @details .N patterns Calls: depth_re(), it(), begin(), end(), std::stoul(), str().
+ */
 size_t extractMaxTraversalDepth(const std::string &query) {
     std::regex depth_re(R"(\b(\d+)\.\.(\d+)\b)");
     std::sregex_iterator it(query.begin(), query.end(), depth_re);

@@ -67,6 +67,10 @@ LlamaTokenizer& LlamaTokenizer::operator=(LlamaTokenizer&& other) noexcept {
     return *this;
 }
 
+/**
+ * @brief Cleanup.
+ * @details Calls: llama_free_model().
+ */
 void LlamaTokenizer::cleanup() {
     if (model_) {
         llama_free_model(model_);
@@ -76,6 +80,15 @@ void LlamaTokenizer::cleanup() {
     // We don't call it here to avoid conflicts with multiple instances
 }
 
+/**
+ * @brief Encode.
+ * @param[in] text Input parameter.
+ * @param[in] add_bos Input parameter.
+ * @param[in] add_eos Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: empty(), push_back(), bos_token_id(), eos_token_id(), llama_model_get_vocab(), tokens_buffer(), size(), llama_tokenize().
+ */
 std::vector<int> LlamaTokenizer::encode(const std::string& text, 
                                         bool add_bos, 
                                         bool add_eos) {
@@ -143,6 +156,13 @@ std::vector<int> LlamaTokenizer::encode(const std::string& text,
     return result;
 }
 
+/**
+ * @brief Decode.
+ * @param[in] tokens Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: empty(), llama_model_get_vocab(), reserve(), size(), bos_token_id(), eos_token_id(), pad_token_id(), llama_token_to_piece().
+ */
 std::string LlamaTokenizer::decode(const std::vector<int>& tokens) {
     if (!model_) {
         throw std::runtime_error("Tokenizer not initialized");

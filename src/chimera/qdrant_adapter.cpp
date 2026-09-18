@@ -81,6 +81,11 @@ Result<bool> QdrantAdapter::connect(
 #endif
 }
 
+/**
+ * @brief Disconnect.
+ * @return Return value.
+ * @details Calls: clear(), ok().
+ */
 Result<bool> QdrantAdapter::disconnect() {
     connected_ = false;
     connection_string_.clear();
@@ -95,6 +100,13 @@ bool QdrantAdapter::is_connected() const {
 // Relational Adapter (Not Supported)
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Execute query.
+ * @param[in] param Input parameter.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Calls: err().
+ */
 Result<RelationalTable> QdrantAdapter::execute_query(
     const std::string& /*query*/,
     const std::vector<Scalar>& /*params*/
@@ -105,6 +117,13 @@ Result<RelationalTable> QdrantAdapter::execute_query(
     );
 }
 
+/**
+ * @brief Insert row.
+ * @param[in] param Input parameter.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Calls: err().
+ */
 Result<size_t> QdrantAdapter::insert_row(
     const std::string& /*table_name*/,
     const RelationalRow& /*row*/
@@ -115,6 +134,13 @@ Result<size_t> QdrantAdapter::insert_row(
     );
 }
 
+/**
+ * @brief Batch insert.
+ * @param[in] param Input parameter.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Calls: err().
+ */
 Result<size_t> QdrantAdapter::batch_insert(
     const std::string& /*table_name*/,
     const std::vector<RelationalRow>& /*rows*/
@@ -134,6 +160,13 @@ Result<QueryStatistics> QdrantAdapter::get_query_statistics() const {
 // Vector Adapter (Primary)
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Insert vector.
+ * @param[in] collection Input parameter.
+ * @param[in] vector Input parameter.
+ * @return Return value.
+ * @details Calls: err(), generate_id(), ok().
+ */
 Result<std::string> QdrantAdapter::insert_vector(
     const std::string& collection,
     const Vector& vector
@@ -159,6 +192,13 @@ Result<std::string> QdrantAdapter::insert_vector(
 #endif
 }
 
+/**
+ * @brief Batch insert vectors.
+ * @param[in] collection Input parameter.
+ * @param[in] vectors Input parameter.
+ * @return Return value.
+ * @details Calls: err(), lock(), push_back(), generate_id(), ok(), size().
+ */
 Result<size_t> QdrantAdapter::batch_insert_vectors(
     const std::string& collection,
     const std::vector<Vector>& vectors
@@ -236,6 +276,12 @@ Result<bool> QdrantAdapter::create_index(
 // Graph Adapter (Not Supported)
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Insert node.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Calls: err().
+ */
 Result<std::string> QdrantAdapter::insert_node(const GraphNode& /*node*/) {
     return Result<std::string>::err(
         ErrorCode::NOT_IMPLEMENTED,
@@ -243,6 +289,12 @@ Result<std::string> QdrantAdapter::insert_node(const GraphNode& /*node*/) {
     );
 }
 
+/**
+ * @brief Insert edge.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Calls: err().
+ */
 Result<std::string> QdrantAdapter::insert_edge(const GraphEdge& /*edge*/) {
     return Result<std::string>::err(
         ErrorCode::NOT_IMPLEMENTED,
@@ -250,6 +302,14 @@ Result<std::string> QdrantAdapter::insert_edge(const GraphEdge& /*edge*/) {
     );
 }
 
+/**
+ * @brief Shortest path.
+ * @param[in] param Input parameter.
+ * @param[in] param Input parameter.
+ * @param[in] size_t Input parameter.
+ * @return Return value.
+ * @details Calls: err().
+ */
 Result<GraphPath> QdrantAdapter::shortest_path(
     const std::string& /*source_id*/,
     const std::string& /*target_id*/,
@@ -261,6 +321,14 @@ Result<GraphPath> QdrantAdapter::shortest_path(
     );
 }
 
+/**
+ * @brief Traverse.
+ * @param[in] param Input parameter.
+ * @param[in] size_t Input parameter.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Calls: err().
+ */
 Result<std::vector<GraphNode>> QdrantAdapter::traverse(
     const std::string& /*start_id*/,
     size_t /*max_depth*/,
@@ -286,6 +354,13 @@ Result<std::vector<GraphPath>> QdrantAdapter::execute_graph_query(
 // Document Adapter (Not Supported)
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Insert document.
+ * @param[in] param Input parameter.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Calls: err().
+ */
 Result<std::string> QdrantAdapter::insert_document(
     const std::string& /*collection*/,
     const Document& /*doc*/
@@ -296,6 +371,13 @@ Result<std::string> QdrantAdapter::insert_document(
     );
 }
 
+/**
+ * @brief Batch insert documents.
+ * @param[in] param Input parameter.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Calls: err().
+ */
 Result<size_t> QdrantAdapter::batch_insert_documents(
     const std::string& /*collection*/,
     const std::vector<Document>& /*docs*/
@@ -332,6 +414,12 @@ Result<size_t> QdrantAdapter::update_documents(
 // Transaction Adapter (Not Supported)
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Begin transaction.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Calls: err().
+ */
 Result<std::string> QdrantAdapter::begin_transaction(
     const TransactionOptions& /*options*/
 ) {
@@ -341,6 +429,12 @@ Result<std::string> QdrantAdapter::begin_transaction(
     );
 }
 
+/**
+ * @brief Commit transaction.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Calls: err().
+ */
 Result<bool> QdrantAdapter::commit_transaction(const std::string& /*transaction_id*/) {
     return Result<bool>::err(
         ErrorCode::NOT_IMPLEMENTED,
@@ -348,6 +442,12 @@ Result<bool> QdrantAdapter::commit_transaction(const std::string& /*transaction_
     );
 }
 
+/**
+ * @brief Rollback transaction.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Calls: err().
+ */
 Result<bool> QdrantAdapter::rollback_transaction(const std::string& /*transaction_id*/) {
     return Result<bool>::err(
         ErrorCode::NOT_IMPLEMENTED,
@@ -355,6 +455,13 @@ Result<bool> QdrantAdapter::rollback_transaction(const std::string& /*transactio
     );
 }
 
+/**
+ * @brief Create savepoint.
+ * @param[in] param Input parameter.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Calls: err().
+ */
 Result<std::string> QdrantAdapter::create_savepoint(
     const std::string& /*transaction_id*/,
     const std::string& /*savepoint_name*/
@@ -365,6 +472,13 @@ Result<std::string> QdrantAdapter::create_savepoint(
     );
 }
 
+/**
+ * @brief Rollback to savepoint.
+ * @param[in] param Input parameter.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Calls: err().
+ */
 Result<bool> QdrantAdapter::rollback_to_savepoint(
     const std::string& /*transaction_id*/,
     const std::string& /*savepoint_name*/
@@ -375,6 +489,13 @@ Result<bool> QdrantAdapter::rollback_to_savepoint(
     );
 }
 
+/**
+ * @brief Release savepoint.
+ * @param[in] param Input parameter.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Calls: err().
+ */
 Result<bool> QdrantAdapter::release_savepoint(
     const std::string& /*transaction_id*/,
     const std::string& /*savepoint_name*/
@@ -385,6 +506,12 @@ Result<bool> QdrantAdapter::release_savepoint(
     );
 }
 
+/**
+ * @brief Get transaction stats.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Calls: err().
+ */
 Result<TransactionStats> QdrantAdapter::get_transaction_stats(
     const std::string& /*transaction_id*/
 ) {
@@ -394,6 +521,12 @@ Result<TransactionStats> QdrantAdapter::get_transaction_stats(
     );
 }
 
+/**
+ * @brief Get transaction state.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Calls: err().
+ */
 Result<TransactionState> QdrantAdapter::get_transaction_state(
     const std::string& /*transaction_id*/
 ) {
@@ -456,6 +589,13 @@ std::vector<Capability> QdrantAdapter::get_capabilities() const {
 // IBatchAdapter Implementation
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Queue insert.
+ * @param[in] table_name Name of the table.
+ * @param[in] row Input parameter.
+ * @return Return value.
+ * @details Calls: err().
+ */
 Result<bool> QdrantAdapter::queue_insert(
     const std::string& table_name,
     const RelationalRow& row
@@ -466,6 +606,13 @@ Result<bool> QdrantAdapter::queue_insert(
     );
 }
 
+/**
+ * @brief Queue insert batch.
+ * @param[in] table_name Name of the table.
+ * @param[in] rows Input parameter.
+ * @return Return value.
+ * @details Calls: err().
+ */
 Result<bool> QdrantAdapter::queue_insert_batch(
     const std::string& table_name,
     const std::vector<RelationalRow>& rows
@@ -476,6 +623,14 @@ Result<bool> QdrantAdapter::queue_insert_batch(
     );
 }
 
+/**
+ * @brief Queue update.
+ * @param[in] table_name Name of the table.
+ * @param[in] row Input parameter.
+ * @param[in] where_clause Input parameter.
+ * @return Return value.
+ * @details Calls: err().
+ */
 Result<bool> QdrantAdapter::queue_update(
     const std::string& table_name,
     const RelationalRow& row,
@@ -487,6 +642,13 @@ Result<bool> QdrantAdapter::queue_update(
     );
 }
 
+/**
+ * @brief Queue delete.
+ * @param[in] table_name Name of the table.
+ * @param[in] where_clause Input parameter.
+ * @return Return value.
+ * @details Calls: err().
+ */
 Result<bool> QdrantAdapter::queue_delete(
     const std::string& table_name,
     const std::string& where_clause
@@ -497,6 +659,11 @@ Result<bool> QdrantAdapter::queue_delete(
     );
 }
 
+/**
+ * @brief Flush.
+ * @return Return value.
+ * @details Calls: lock(), size(), clear(), ok(), std::move().
+ */
 Result<BatchStatistics> QdrantAdapter::flush() {
     BatchStatistics stats;
     {
@@ -509,10 +676,21 @@ Result<BatchStatistics> QdrantAdapter::flush() {
 }
 
 size_t QdrantAdapter::get_pending_count() const {
+    /**
+     * @brief Lock.
+     * @param[in] batch_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::unique_lock<std::mutex> lock(batch_mutex_);
     return vector_queue_.size();
 }
 
+/**
+ * @brief Set batch config.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), ok().
+ */
 Result<bool> QdrantAdapter::set_batch_config(const BatchConfig& config) {
     std::unique_lock<std::mutex> lock(batch_mutex_);
     batch_config_ = config;
@@ -527,10 +705,21 @@ const BatchConfig& QdrantAdapter::get_batch_config() const {
 // Private Helpers
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Generate id.
+ * @return Return value.
+ * @details Calls: utils::generate_uuid_v4().
+ */
 std::string QdrantAdapter::generate_id() {
     return utils::generate_uuid_v4();
 }
 
+/**
+ * @brief Is valid connection string.
+ * @param[in] cs Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: find().
+ */
 bool QdrantAdapter::is_valid_connection_string(const std::string& cs) {
     // Accept host:port or http(s)://... format
     return cs.find(':') != std::string::npos ||
@@ -538,6 +727,12 @@ bool QdrantAdapter::is_valid_connection_string(const std::string& cs) {
            cs.find("https://") == 0;
 }
 
+/**
+ * @brief Mask credentials.
+ * @param[in] cs Input parameter.
+ * @return Return value.
+ * @details Implements mask_credentials without additional internal calls.
+ */
 std::string QdrantAdapter::mask_credentials(const std::string& cs) {
     // NOT IMPLEMENTED: Full API key masking requires URL parsing.
     // Gate: THEMIS_CHIMERA_QDRANT. For safety, return as-is; do not log raw cs.

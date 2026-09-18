@@ -57,12 +57,23 @@ RPCProtocol GRPCServer::getProtocol() const {
     return RPCProtocol::GRPC;
 }
 
+/**
+ * @brief Initialize.
+ * @param[in] config Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: std::to_string().
+ */
 bool GRPCServer::initialize(const RPCServerConfig& config) {
     config_ = config;
     server_address_ = config_.host + ":" + std::to_string(config_.port);
     return true;
 }
 
+/**
+ * @brief Start.
+ * @return True when the operation succeeds.
+ * @details Calls: configureCredentials(), what(), clear(), AddListeningPort(), find(), end(), tryParseConfigInt(), AddChannelArgument().
+ */
 bool GRPCServer::start() {
     // Phase 3: Hardened lifecycle and fail-safe semantics
     if (running_) {
@@ -172,6 +183,10 @@ bool GRPCServer::start() {
     }
 }
 
+/**
+ * @brief Stop.
+ * @details Calls: lock(), Shutdown(), Next(), reset(), what().
+ */
 void GRPCServer::stop() {
     // Phase 3: Deterministic shutdown with explicit diagnostics
     if (!server_ || !running_) {
@@ -213,6 +228,11 @@ void GRPCServer::stop() {
     }
 }
 
+/**
+ * @brief Register Service.
+ * @param[in,out] service_impl Input/output parameter.
+ * @details Calls: push_back(), size().
+ */
 void GRPCServer::registerService(void* service_impl) {
     // Phase 3: Bounded registration with explicit error handling
     if (!service_impl) {
@@ -249,18 +269,32 @@ bool GRPCServer::isRunning() const {
 }
 
 RPCServerStats GRPCServer::getStats() const {
+    /**
+     * @brief Lock.
+     * @param[in] stats_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(stats_mutex_);
     return stats_;
 }
 
+/**
+ * @brief Reset Stats.
+ * @details Calls: lock().
+ */
 void GRPCServer::resetStats() {
     std::lock_guard<std::mutex> lock(stats_mutex_);
     stats_ = RPCServerStats{};
 }
 
-// ============================================================================
-// v0.2.0 — TLS Hot-Reload (Phase 3: Fail-Safe, Deterministic Hardening)
-// ============================================================================
+/**
+ * @brief ============================================================================ v0.
+ * @param[in] cert_path Path to the cert.
+ * @param[in] key_path Path to the key.
+ * @param[in] ca_path Path to the ca.
+ * @return True when the operation succeeds.
+ * @details 2.0 — TLS Hot-Reload (Phase 3: Fail-Safe, Deterministic Hardening) ============================================================================
+ */
 
 bool GRPCServer::reloadTls(const std::string& cert_path,
                              const std::string& key_path,
@@ -314,6 +348,11 @@ bool GRPCServer::reloadTls(const std::string& cert_path,
 
         // Step 4: Atomic swap (only on success, old credentials remain if lock fails)
         {
+            /**
+             * @brief Lock.
+             * @param[in] tls_mutex_ Input parameter.
+             * @return Return value.
+             */
             std::lock_guard<std::mutex> lock(tls_mutex_);
             credentials_ = std::move(new_creds);
         }
@@ -338,9 +377,12 @@ std::string GRPCServer::getAdminAddress() const {
     return admin_address_;
 }
 
-// ============================================================================
-// v0.3.0 — Health Service
-// ============================================================================
+/**
+ * @brief ============================================================================ v0.
+ * @param[in] service_name Name of the service.
+ * @param[in] serving Input parameter.
+ * @details 3.0 — Health Service ============================================================================ Calls: lock().
+ */
 
 void GRPCServer::setServiceHealth(const std::string& service_name, bool serving) {
     std::lock_guard<std::mutex> lock(health_mutex_);
@@ -348,15 +390,23 @@ void GRPCServer::setServiceHealth(const std::string& service_name, bool serving)
 }
 
 bool GRPCServer::isServiceHealthy(const std::string& service_name) const {
+    /**
+     * @brief Lock.
+     * @param[in] health_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(health_mutex_);
     auto it = health_states_.find(service_name);
     if (it == health_states_.end()) return true; // not tracked → assume SERVING
     return it->second;
 }
 
-// ============================================================================
-// v0.3.0 — Interceptor Metrics
-// ============================================================================
+/**
+ * @brief ============================================================================ v0.
+ * @param[in] method Input parameter.
+ * @return Return value.
+ * @details 3.0 — Interceptor Metrics ============================================================================ Calls: find(), end(), emplace().
+ */
 
 GRPCServer::MethodMetrics& GRPCServer::methodMetricsLocked(const std::string& method) {
     auto it = method_metrics_.find(method);
@@ -367,10 +417,21 @@ GRPCServer::MethodMetrics& GRPCServer::methodMetricsLocked(const std::string& me
     return *it->second;
 }
 
+/**
+ * @brief Record RPC.
+ * @param[in] method Input parameter.
+ * @param[in] success Input parameter.
+ * @param[in] duration_ms Input parameter.
+ */
 void GRPCServer::recordRPC(const std::string& method, bool success,
                              uint64_t duration_ms)
 {
     {
+        /**
+         * @brief Lock.
+         * @param[in] metrics_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(metrics_mutex_);
         auto& m = methodMetricsLocked(method);
         ++m.requests;
@@ -381,6 +442,11 @@ void GRPCServer::recordRPC(const std::string& method, bool success,
     }
 
     {
+        /**
+         * @brief Lock.
+         * @param[in] stats_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(stats_mutex_);
         ++stats_.total_requests;
         if (success) {
@@ -404,6 +470,11 @@ std::string GRPCServer::getMetricsText() const {
     // Snapshot method-level counters
     std::unordered_map<std::string, uint64_t> reqs, errs, lats;
     {
+        /**
+         * @brief Lock.
+         * @param[in] metrics_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(metrics_mutex_);
         for (const auto& kv : method_metrics_) {
             reqs[kv.first] = kv.second->requests.load();
@@ -440,6 +511,11 @@ std::string GRPCServer::getMetricsText() const {
     // grpc_server_active_connections
     uint64_t active = 0;
     {
+        /**
+         * @brief Lock.
+         * @param[in] stats_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(stats_mutex_);
         active = stats_.active_connections;
     }
@@ -455,16 +531,33 @@ std::string GRPCServer::getMetricsText() const {
 // ============================================================================
 
 void GRPCServer::setAccessLogSink(std::function<void(const std::string&)> sink) {
+    /**
+     * @brief Lock.
+     * @param[in] log_sink_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(log_sink_mutex_);
     access_log_sink_ = std::move(sink);
 }
 
+/**
+ * @brief Log Access.
+ * @param[in] method Input parameter.
+ * @param[in] status_code Input parameter.
+ * @param[in] duration_ms Input parameter.
+ * @param[in] client_cn Input parameter.
+ */
 void GRPCServer::logAccess(const std::string& method, int status_code,
                              uint64_t duration_ms,
                              const std::string& client_cn)
 {
     std::function<void(const std::string&)> sink_copy;
     {
+        /**
+         * @brief Lock.
+         * @param[in] log_sink_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(log_sink_mutex_);
         if (!access_log_sink_) {
           return;
@@ -506,6 +599,13 @@ void GRPCServer::logAccess(const std::string& method, int status_code,
 // Internal helpers
 // ============================================================================
 
+/**
+ * @brief Load File.
+ * @param[in] path Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: file(), rdbuf(), str().
+ */
 std::string GRPCServer::loadFile(const std::string& path) {
     std::ifstream file(path);
     if (!file) {
@@ -548,6 +648,11 @@ GRPCServer::configureCredentials() {
 
         auto creds = buildSslCredentials(cert, key, ca, config_.auth_required);
         {
+            /**
+             * @brief Lock.
+             * @param[in] tls_mutex_ Input parameter.
+             * @return Return value.
+             */
             std::lock_guard<std::mutex> lock(tls_mutex_);
             credentials_ = creds;
         }
@@ -622,20 +727,40 @@ PluginCapabilities GRPCPlugin::getCapabilities() const {
     return caps;
 }
 
+/**
+ * @brief Initialize.
+ * @param[in] config_json Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements initialize without additional internal calls.
+ */
 bool GRPCPlugin::initialize(const char* config_json) {
     (void)config_json;
     initialized_ = true;
     return true;
 }
 
+/**
+ * @brief Shutdown.
+ * @details Implements shutdown without additional internal calls.
+ */
 void GRPCPlugin::shutdown() {
     initialized_ = false;
 }
 
+/**
+ * @brief Get Instance.
+ * @return Pointer to the result.
+ * @details Implements getInstance without additional internal calls.
+ */
 void* GRPCPlugin::getInstance() {
     return this;
 }
 
+/**
+ * @brief Create Server.
+ * @return Return value.
+ * @details Implements createServer without additional internal calls.
+ */
 std::unique_ptr<IRPCServer> GRPCPlugin::createServer() {
     return std::make_unique<GRPCServer>();
 }
@@ -663,11 +788,21 @@ const char* GRPCPlugin::getProtocolDescription() const {
 
 extern "C" {
 
+/**
+ * @brief Create Plugin.
+ * @return Pointer to the result.
+ * @details Calls: release().
+ */
 themis::plugins::IThemisPlugin* createPlugin() {
     auto plugin = std::make_unique<themis::plugins::rpc::grpc_plugin::GRPCPlugin>();
     return plugin.release();
 }
 
+/**
+ * @brief Destroy Plugin.
+ * @param[in,out] plugin Input/output parameter.
+ * @details Implements destroyPlugin without additional internal calls.
+ */
 void destroyPlugin(themis::plugins::IThemisPlugin* plugin) {
     delete plugin;
 }

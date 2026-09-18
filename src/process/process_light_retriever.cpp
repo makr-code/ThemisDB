@@ -35,14 +35,17 @@ namespace process {
 
 namespace {
 
-/// Keywords that trigger GLOBAL (community-based) retrieval.
 constexpr const char* kGlobalKeywords[] = {
     "gesamte", "überblick", "alle", "prozess", "ablauf", "workflow",
     "beschreibe", "erklär", "summary", "overview"
 };
 
-/// Convert a string to lower-case (ASCII + common German umlauts normalised
-/// by simple lower-case mapping – sufficient for keyword matching).
+/**
+ * @brief To Lower.
+ * @param[in] sv Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), push_back(), std::tolower().
+ */
 std::string toLower(std::string_view sv) {
     std::string result = {};
     result.reserve(sv.size());
@@ -163,9 +166,11 @@ LightRetrievalResult ProcessLightRetriever::retrieve(
     };
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Phase 2: Stress Scenario Hardening Implementation
-// ─────────────────────────────────────────────────────────────────────────────
+/**
+ * @brief ───────────────────────────────────────────────────────────────────────────── Phase 2: Stress Scenario Hardening Implementation ─────────────────────────────────────────────────────────────────────────────
+ * @param[in] limits Input parameter.
+ * @details Implements setResourceLimits without additional internal calls.
+ */
 
 void ProcessLightRetriever::setResourceLimits(const ResourceLimits& limits) {
     resource_limits_ = limits;

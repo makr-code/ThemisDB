@@ -40,6 +40,11 @@ PagedAdamWOptimizer::PagedAdamWOptimizer(
     }
 }
 
+/**
+ * @brief Add parameters.
+ * @param[in] params Input parameter.
+ * @details Calls: push_back(), size(), allocate(), Device::cpu().
+ */
 void PagedAdamWOptimizer::add_parameters(const std::vector<Tensor*>& params) {
     for (Tensor* param : params) {
         if (!param) {
@@ -66,6 +71,12 @@ void PagedAdamWOptimizer::add_parameters(const std::vector<Tensor*>& params) {
     }
 }
 
+/**
+ * @brief Ensure State On GPU.
+ * @param[in,out] state Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: pageIn(), isOnGPU().
+ */
 bool PagedAdamWOptimizer::ensureStateOnGPU(PagedOptimizerState& state) {
     if (!config_.enable_paging || !memory_manager_) {
         return false;
@@ -96,6 +107,12 @@ bool PagedAdamWOptimizer::ensureStateOnGPU(PagedOptimizerState& state) {
     return success;
 }
 
+/**
+ * @brief Update Parameter CPU.
+ * @param[in,out] param Input/output parameter.
+ * @param[in,out] state Input/output parameter.
+ * @details Calls: data(), empty(), size(), resize(), std::pow(), std::sqrt().
+ */
 void PagedAdamWOptimizer::updateParameterCPU(Tensor* param, PagedOptimizerState& state) {
     // Get references to data
     std::vector<float>& param_data = param->data();
@@ -154,12 +171,22 @@ void PagedAdamWOptimizer::updateParameterCPU(Tensor* param, PagedOptimizerState&
     }
 }
 
+/**
+ * @brief Update Parameter GPU.
+ * @param[in,out] param Input/output parameter.
+ * @param[in,out] state Input/output parameter.
+ * @details Calls: updateParameterCPU().
+ */
 void PagedAdamWOptimizer::updateParameterGPU(Tensor* param, PagedOptimizerState& state) {
     // GPU update would be implemented here using CUDA kernels
     // For now, fall back to CPU
     updateParameterCPU(param, state);
 }
 
+/**
+ * @brief Step.
+ * @details Calls: std::chrono::high_resolution_clock::now(), find(), end(), is_cuda_available(), ensureStateOnGPU(), updateParameterGPU(), updateParameterCPU(), evictLRU().
+ */
 void PagedAdamWOptimizer::step() {
     step_count_++;
     
@@ -235,6 +262,10 @@ void PagedAdamWOptimizer::step() {
     }
 }
 
+/**
+ * @brief Zero grad.
+ * @details Calls: zero().
+ */
 void PagedAdamWOptimizer::zero_grad() {
     for (Tensor* param : parameters_) {
         if (param && param->requires_grad) {
@@ -243,7 +274,13 @@ void PagedAdamWOptimizer::zero_grad() {
     }
 }
 
-// ===== PagedOptimizerStateManager Implementation =====
+/**
+ * @brief ===== PagedOptimizerStateManager Implementation =====
+ * @param[in,out] state Input/output parameter.
+ * @param[in,out] stream Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: pageIn(), isOnGPU().
+ */
 
 bool PagedOptimizerStateManager::ensureOnGPU(PagedOptimizerState& state, void* stream) {
     if (!memory_manager_) {

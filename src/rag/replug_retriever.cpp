@@ -26,7 +26,12 @@ namespace themis::rag {
 // ============================================================
 namespace {
 
-/// Tokenise a string into a set of lowercase words for Jaccard similarity.
+/**
+ * @brief Tokenise.
+ * @param[in] text Input parameter.
+ * @return Return value.
+ * @details Calls: ss(), reserve(), size(), std::isalnum(), std::tolower(), empty(), insert(), std::move().
+ */
 std::unordered_set<std::string> tokenise(const std::string& text) {
     std::unordered_set<std::string> tokens;
     std::istringstream ss(text);
@@ -48,7 +53,13 @@ std::unordered_set<std::string> tokenise(const std::string& text) {
     return tokens;
 }
 
-/// Compute Jaccard similarity between two token sets.
+/**
+ * @brief Jaccard Similarity.
+ * @param[in] a Input parameter.
+ * @param[in] b Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), count(), size().
+ */
 double jaccardSimilarity(const std::unordered_set<std::string>& a,
                          const std::unordered_set<std::string>& b) {
     if (a.empty() && b.empty()) {
@@ -97,6 +108,12 @@ ReplugRetriever::ReplugRetriever(const ReplugConfig&         config,
     setScorer(std::move(scorer));
 }
 
+/**
+ * @brief Validate Config.
+ * @param[in] config Input parameter.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Implements validateConfig without additional internal calls.
+ */
 void ReplugRetriever::validateConfig(const ReplugConfig& config) {
     if (config.llm_weight < 0.0 || config.llm_weight > 1.0) {
         throw std::invalid_argument(
@@ -120,11 +137,21 @@ const ReplugConfig& ReplugRetriever::getConfig() const {
     return config_;
 }
 
+/**
+ * @brief Set Config.
+ * @param[in] config Input parameter.
+ * @details Calls: validateConfig().
+ */
 void ReplugRetriever::setConfig(const ReplugConfig& config) {
     validateConfig(config);
     config_ = config;
 }
 
+/**
+ * @brief Set Scorer.
+ * @param[in] scorer Input parameter.
+ * @details Calls: std::move().
+ */
 void ReplugRetriever::setScorer(std::shared_ptr<ILLMScorer> scorer) {
     scorer_ = scorer ? std::move(scorer)
                      : std::make_shared<HeuristicLLMScorer>();
@@ -138,6 +165,12 @@ std::string ReplugRetriever::scorerName() const {
 // Static math helpers
 // ============================================================
 
+/**
+ * @brief Apply Softmax.
+ * @param[in,out] scores Input/output parameter.
+ * @param[in] temperature Input parameter.
+ * @details Calls: empty(), std::max_element(), begin(), end(), std::exp().
+ */
 void ReplugRetriever::applySoftmax(std::vector<double>& scores,
                                     double temperature) {
     if (scores.empty()) {
@@ -158,6 +191,11 @@ void ReplugRetriever::applySoftmax(std::vector<double>& scores,
     }
 }
 
+/**
+ * @brief Normalise.
+ * @param[in,out] scores Input/output parameter.
+ * @details Calls: empty(), std::minmax_element(), begin(), end(), std::abs(), epsilon().
+ */
 void ReplugRetriever::normalise(std::vector<double>& scores) {
     if (scores.empty()) {
         return;
@@ -180,6 +218,13 @@ void ReplugRetriever::normalise(std::vector<double>& scores) {
     }
 }
 
+/**
+ * @brief Compute KLGradients.
+ * @param[in] retrieval_probs Input parameter.
+ * @param[in] llm_probs Input parameter.
+ * @return Return value.
+ * @details Calls: size(), grad().
+ */
 std::vector<double> ReplugRetriever::computeKLGradients(
     const std::vector<double>& retrieval_probs,
     const std::vector<double>& llm_probs) {
@@ -328,6 +373,11 @@ ReplugFusionResult ReplugRetriever::fuse(
 // Weight update (REPLUG-LSR)
 // ============================================================
 
+/**
+ * @brief Update Retriever Weights.
+ * @param[in] result Input parameter.
+ * @details Calls: std::abs(), epsilon(), std::clamp().
+ */
 void ReplugRetriever::updateRetrieverWeights(
     const ReplugFusionResult& result) {
     if (!config_.enable_weight_update) {
@@ -344,6 +394,10 @@ void ReplugRetriever::updateRetrieverWeights(
     }
 }
 
+/**
+ * @brief Reset Weights.
+ * @details Calls: clear().
+ */
 void ReplugRetriever::resetWeights() {
     weights_.clear();
 }
@@ -357,6 +411,13 @@ double ReplugRetriever::getWeight(const std::string& document_id) const {
 // Factory
 // ============================================================
 
+/**
+ * @brief Create Balanced.
+ * @param[in] scorer Input parameter.
+ * @param[in] top_k Input parameter.
+ * @return Return value.
+ * @details Calls: ReplugRetriever(), std::move().
+ */
 ReplugRetriever ReplugRetrieverFactory::createBalanced(
     std::shared_ptr<ILLMScorer> scorer,
     size_t top_k) {
@@ -367,6 +428,13 @@ ReplugRetriever ReplugRetrieverFactory::createBalanced(
     return ReplugRetriever(cfg, std::move(scorer));
 }
 
+/**
+ * @brief Create LLMDominant.
+ * @param[in] scorer Input parameter.
+ * @param[in] top_k Input parameter.
+ * @return Return value.
+ * @details Calls: ReplugRetriever(), std::move().
+ */
 ReplugRetriever ReplugRetrieverFactory::createLLMDominant(
     std::shared_ptr<ILLMScorer> scorer,
     size_t top_k) {
@@ -377,6 +445,13 @@ ReplugRetriever ReplugRetrieverFactory::createLLMDominant(
     return ReplugRetriever(cfg, std::move(scorer));
 }
 
+/**
+ * @brief Create Retrieval Dominant.
+ * @param[in] scorer Input parameter.
+ * @param[in] top_k Input parameter.
+ * @return Return value.
+ * @details Calls: ReplugRetriever(), std::move().
+ */
 ReplugRetriever ReplugRetrieverFactory::createRetrievalDominant(
     std::shared_ptr<ILLMScorer> scorer,
     size_t top_k) {
@@ -387,6 +462,13 @@ ReplugRetriever ReplugRetrieverFactory::createRetrievalDominant(
     return ReplugRetriever(cfg, std::move(scorer));
 }
 
+/**
+ * @brief Create LSR.
+ * @param[in] scorer Input parameter.
+ * @param[in] top_k Input parameter.
+ * @return Return value.
+ * @details Calls: ReplugRetriever(), std::move().
+ */
 ReplugRetriever ReplugRetrieverFactory::createLSR(
     std::shared_ptr<ILLMScorer> scorer,
     size_t top_k) {

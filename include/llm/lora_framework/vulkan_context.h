@@ -45,12 +45,6 @@ namespace themis {
 namespace lora {
 namespace vulkan {
 
-/**
- * @brief Vulkan context for compute pipeline operations
- * 
- * Manages Vulkan instance, device, queue, and command pool for LoRA training.
- * Provides resource management and synchronization primitives.
- */
 class VulkanContext {
 public:
     VulkanContext();
@@ -62,26 +56,18 @@ public:
     VulkanContext(VulkanContext&& other) noexcept;
     VulkanContext& operator=(VulkanContext&& other) noexcept;
     
-    /**
-     * @brief Initialize Vulkan context
-     * @param device_id Physical device index (0 for default)
-     * @param enable_validation Enable validation layers for debugging
-     * @return true if initialization successful
-     */
     bool initialize(int device_id = 0, bool enable_validation = false);
     
     /**
-     * @brief Cleanup all Vulkan resources
+     * @brief Cleanup.
      */
     void cleanup();
     
-    /**
-     * @brief Check if context is initialized
-     */
     bool is_initialized() const { return initialized_; }
     
     /**
-     * @brief Check if Vulkan is available on this system
+     * @brief Is available.
+     * @return True when the operation succeeds.
      */
     static bool is_available();
     
@@ -94,106 +80,89 @@ public:
     VkCommandPool command_pool() const { return command_pool_; }
     uint32_t queue_family_index() const { return queue_family_index_; }
     
-    /**
-     * @brief Get device properties
-     */
     const VkPhysicalDeviceProperties& device_properties() const {
         return device_properties_;
     }
     
-    /**
-     * @brief Get device memory properties
-     */
     const VkPhysicalDeviceMemoryProperties& memory_properties() const {
         return memory_properties_;
     }
     
     // ========== Command Buffer Allocation ==========
     
-    /**
-     * @brief Allocate a command buffer
-     * @param level Command buffer level (primary or secondary)
-     * @return Allocated command buffer
-     */
     VkCommandBuffer allocate_command_buffer(
         VkCommandBufferLevel level = VK_COMMAND_BUFFER_LEVEL_PRIMARY);
     
     /**
-     * @brief Free a command buffer
-     *
-     * No-op if the command buffer handle is null.
+     * @brief Free command buffer.
+     * @param[in] command_buffer Input parameter.
      */
     void free_command_buffer(VkCommandBuffer command_buffer);
     
     // ========== Synchronization ==========
     
-    /**
-     * @brief Create a fence
-     * @param signaled Create fence in signaled state
-     */
     VkFence create_fence(bool signaled = false);
     
     /**
-     * @brief Destroy a fence
-     *
-     * No-op if the fence handle is null.
+     * @brief Destroy fence.
+     * @param[in] fence Input parameter.
      */
     void destroy_fence(VkFence fence);
     
-    /**
-     * @brief Wait for fence to be signaled
-     * @param fence Fence to wait on
-     * @param timeout_ns Timeout in nanoseconds (UINT64_MAX for infinite)
-     * @return false if waiting fails or the fence/context handle is invalid
-     */
     bool wait_for_fence(VkFence fence, uint64_t timeout_ns = UINT64_MAX);
     
     /**
-     * @brief Reset a fence
-     * @throws std::runtime_error if fence/context handle is invalid
-     * @throws std::runtime_error if Vulkan fails to reset the fence
+     * @brief Reset fence.
+     * @param[in] fence Input parameter.
      */
     void reset_fence(VkFence fence);
     
-    // ========== Memory Utilities ==========
-    
     /**
-     * @brief Find suitable memory type for allocation
-     * @param type_filter Type filter from buffer/image requirements
-     * @param properties Required memory properties
-     * @return Memory type index, or -1 if not found
+     * @brief ========== Memory Utilities ==========
+     * @param[in] type_filter Input parameter.
+     * @param[in] properties Input parameter.
+     * @return Return value.
      */
+    
     int32_t find_memory_type(uint32_t type_filter,
                               VkMemoryPropertyFlags properties) const;
     
 private:
     /**
-     * @brief Create Vulkan instance
+     * @brief Create instance.
+     * @param[in] enable_validation Input parameter.
+     * @return True when the operation succeeds.
      */
     bool create_instance(bool enable_validation);
     
     /**
-     * @brief Select physical device (GPU)
+     * @brief Select physical device.
+     * @param[in] device_id Identifier of the device.
+     * @return True when the operation succeeds.
      */
     bool select_physical_device(int device_id);
     
     /**
-     * @brief Find compute queue family
+     * @brief Find queue family.
+     * @return True when the operation succeeds.
      */
     bool find_queue_family();
     
     /**
-     * @brief Create logical device
+     * @brief Create device.
+     * @return True when the operation succeeds.
      */
     bool create_device();
     
     /**
-     * @brief Create command pool
+     * @brief Create command pool.
+     * @return True when the operation succeeds.
      */
     bool create_command_pool();
     
     /**
-     * @brief Setup debug messenger (if validation enabled)
+     * @brief Setup debug messenger.
+     * @return True when the operation succeeds.
      */
     bool setup_debug_messenger();
     
@@ -220,7 +189,8 @@ private:
     }
     
     /**
-     * @brief Check if validation layers are available
+     * @brief Check validation layer support.
+     * @return True when the operation succeeds.
      */
     static bool check_validation_layer_support();
 };
@@ -236,7 +206,6 @@ namespace themis {
 namespace lora {
 namespace vulkan {
 
-/** @brief Vulkan context object for. */
 class VulkanContext {
 public:
     VulkanContext() = default;
@@ -248,8 +217,17 @@ public:
     VulkanContext& operator=(VulkanContext&&) noexcept = default;
     
     bool initialize(int = 0, bool = false) { return false; }
+    /**
+     * @brief Cleanup.
+     * @details Implements cleanup without additional internal calls.
+     */
     void cleanup() {}
     bool is_initialized() const { return false; }
+    /**
+     * @brief Is available.
+     * @return True when the operation succeeds.
+     * @details Implements is_available without additional internal calls.
+     */
     static bool is_available() { return false; }
 };
 

@@ -45,6 +45,11 @@ PagedKVCache::~PagedKVCache() {
 // Cache Management API
 // ============================================================================
 
+/**
+ * @brief Initialize.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), std::min(), allocateBlockId(), freeBlockId(), spdlog::info(), size().
+ */
 bool PagedKVCache::initialize() {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -75,6 +80,10 @@ bool PagedKVCache::initialize() {
     return true;
 }
 
+/**
+ * @brief Shutdown.
+ * @details Calls: lock(), reserve(), size(), push_back(), destroyBlockUnlocked(), clear(), spdlog::info().
+ */
 void PagedKVCache::shutdown() {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -104,11 +113,25 @@ void PagedKVCache::shutdown() {
     spdlog::info("PagedKVCache: Shutdown complete");
 }
 
+/**
+ * @brief Reserve Request.
+ * @param[in] request_id Identifier of the request.
+ * @param[in] initial_tokens Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), reserveRequestUnlocked().
+ */
 bool PagedKVCache::reserveRequest(int64_t request_id, uint32_t initial_tokens) {
     std::lock_guard<std::mutex> lock(mutex_);
     return reserveRequestUnlocked(request_id, initial_tokens, nullptr);
 }
 
+/**
+ * @brief Reserve Request.
+ * @param[in] request_id Identifier of the request.
+ * @param[in] initial_token_ids Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), reserveRequestUnlocked(), size().
+ */
 bool PagedKVCache::reserveRequest(int64_t request_id, const std::vector<int>& initial_token_ids) {
     std::lock_guard<std::mutex> lock(mutex_);
     return reserveRequestUnlocked(
@@ -118,6 +141,13 @@ bool PagedKVCache::reserveRequest(int64_t request_id, const std::vector<int>& in
     );
 }
 
+/**
+ * @brief Allocate Block.
+ * @param[in] request_id Identifier of the request.
+ * @param[in] token_count Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), find(), end(), spdlog::warn(), size(), std::min(), std::chrono::steady_clock::now(), block_allocator_().
+ */
 std::optional<uint32_t> PagedKVCache::allocateBlock(int64_t request_id, uint32_t token_count) {
     std::unique_lock<std::mutex> lock(mutex_);
     
@@ -215,11 +245,21 @@ std::optional<uint32_t> PagedKVCache::allocateBlock(int64_t request_id, uint32_t
     return std::nullopt;
 }
 
+/**
+ * @brief Free Block.
+ * @param[in] block_id Identifier of the block.
+ * @details Calls: lock(), destroyBlockUnlocked().
+ */
 void PagedKVCache::freeBlock(uint32_t block_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     destroyBlockUnlocked(block_id);
 }
 
+/**
+ * @brief Free Request.
+ * @param[in] request_id Identifier of the request.
+ * @details Calls: lock(), find(), end(), spdlog::warn(), releaseRequestBlockUnlocked(), empty(), erase(), updateStats().
+ */
 void PagedKVCache::freeRequest(int64_t request_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -246,6 +286,10 @@ void PagedKVCache::freeRequest(int64_t request_id) {
     spdlog::debug("PagedKVCache: Freed all blocks for request {}", request_id);
 }
 
+/**
+ * @brief Clear.
+ * @details Calls: lock(), reserve(), size(), push_back(), destroyBlockUnlocked(), spdlog::info().
+ */
 void PagedKVCache::clear() {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -280,6 +324,16 @@ void PagedKVCache::clear() {
 // Data Access API
 // ============================================================================
 
+/**
+ * @brief Write Block.
+ * @param[in] block_id Identifier of the block.
+ * @param[in] token_offset Input parameter.
+ * @param[in] key_data Input parameter.
+ * @param[in] value_data Input parameter.
+ * @param[in] token_count Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), find(), end(), spdlog::warn(), size(), std::copy_n(), begin(), std::chrono::steady_clock::now().
+ */
 bool PagedKVCache::writeBlock(
     uint32_t block_id,
     uint32_t token_offset,
@@ -345,6 +399,11 @@ bool PagedKVCache::readBlock(
     std::vector<float>& key_data,
     std::vector<float>& value_data
 ) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     auto block_it = blocks_.find(block_id);
@@ -390,6 +449,11 @@ bool PagedKVCache::readBlock(
 }
 
 std::optional<KVCacheBlock> PagedKVCache::getBlock(uint32_t block_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = blocks_.find(block_id);
     if (it != blocks_.end()) {
@@ -399,6 +463,11 @@ std::optional<KVCacheBlock> PagedKVCache::getBlock(uint32_t block_id) const {
 }
 
 std::vector<uint32_t> PagedKVCache::getRequestBlocks(int64_t request_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     auto req_it = requests_.find(request_id);
     if (req_it != requests_.end()) {
@@ -415,6 +484,11 @@ std::optional<uint32_t> PagedKVCache::findSharedPrefix(
     int64_t request_id,
     const std::vector<int>& token_sequence
 ) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     if (token_sequence.empty()) {
@@ -460,6 +534,14 @@ std::optional<uint32_t> PagedKVCache::findSharedPrefix(
     return best_block_id;
 }
 
+/**
+ * @brief Share Prefix Block.
+ * @param[in] source_request_id Identifier of the source request.
+ * @param[in] target_request_id Identifier of the target request.
+ * @param[in] block_id Identifier of the block.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), find(), end(), spdlog::warn(), std::find(), begin(), push_back(), size().
+ */
 bool PagedKVCache::sharePrefixBlock(
     int64_t source_request_id,
     int64_t target_request_id,
@@ -526,15 +608,29 @@ bool PagedKVCache::sharePrefixBlock(
 // ============================================================================
 
 KVCacheStats PagedKVCache::getStats() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return stats_;
 }
 
 nlohmann::json PagedKVCache::getStatsJson() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return stats_.toJson();
 }
 
+/**
+ * @brief Reset Stats.
+ * @details Calls: lock(), KVCacheStats(), size(), std::min().
+ */
 void PagedKVCache::resetStats() {
     std::lock_guard<std::mutex> lock(mutex_);
     stats_ = KVCacheStats();
@@ -551,11 +647,21 @@ void PagedKVCache::resetStats() {
 }
 
 size_t PagedKVCache::getMemoryUsage() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return current_memory_usage_;
 }
 
 double PagedKVCache::getUtilization() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     if (config_.max_cache_memory_bytes > 0) {
         return static_cast<double>(current_memory_usage_) / config_.max_cache_memory_bytes;
@@ -571,6 +677,11 @@ bool PagedKVCache::needsEviction() const {
 // Configuration and Control
 // ============================================================================
 
+/**
+ * @brief Update the access control configuration.
+ * @param[in] config New access control configuration.
+ * @details Calls: lock(), isValid(), spdlog::error(), calculateBlockMemorySize(), spdlog::info().
+ */
 void PagedKVCache::updateConfig(const KVCacheConfig& config) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -589,16 +700,31 @@ const KVCacheConfig& PagedKVCache::getConfig() const {
     return config_;
 }
 
+/**
+ * @brief Set Block Allocator.
+ * @param[in] allocator Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void PagedKVCache::setBlockAllocator(BlockAllocator allocator) {
     std::lock_guard<std::mutex> lock(mutex_);
     block_allocator_ = std::move(allocator);
 }
 
+/**
+ * @brief Set Block Deallocator.
+ * @param[in] deallocator Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void PagedKVCache::setBlockDeallocator(BlockDeallocator deallocator) {
     std::lock_guard<std::mutex> lock(mutex_);
     block_deallocator_ = std::move(deallocator);
 }
 
+/**
+ * @brief Set Eviction Callback.
+ * @param[in] callback Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void PagedKVCache::setEvictionCallback(EvictionCallback callback) {
     std::lock_guard<std::mutex> lock(mutex_);
     eviction_callback_ = std::move(callback);
@@ -608,15 +734,30 @@ void PagedKVCache::setEvictionCallback(EvictionCallback callback) {
 // Integration with Scheduler
 // ============================================================================
 
+/**
+ * @brief Set Scheduler.
+ * @param[in,out] scheduler Input/output parameter.
+ * @details Calls: lock().
+ */
 void PagedKVCache::setScheduler(ContinuousBatchScheduler* scheduler) {
     std::lock_guard<std::mutex> lock(mutex_);
     scheduler_ = scheduler;
 }
 
+/**
+ * @brief Get Scheduler.
+ * @return Pointer to the result.
+ * @details Implements getScheduler without additional internal calls.
+ */
 ContinuousBatchScheduler* PagedKVCache::getScheduler() {
     return scheduler_;
 }
 
+/**
+ * @brief Clear Request Cache.
+ * @param[in] request_id Identifier of the request.
+ * @details Calls: freeRequest().
+ */
 void PagedKVCache::clearRequestCache(int64_t request_id) {
     freeRequest(request_id);
 }
@@ -638,6 +779,14 @@ size_t PagedKVCache::calculateBlockMemorySize() const {
     return config_.block_size * hidden_size * float_size;
 }
 
+/**
+ * @brief Reserve Request Unlocked.
+ * @param[in] request_id Identifier of the request.
+ * @param[in] initial_tokens Input parameter.
+ * @param[in] initial_token_ids Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: find(), end(), spdlog::warn(), spdlog::error(), size(), std::chrono::steady_clock::now(), std::move(), updateStats().
+ */
 bool PagedKVCache::reserveRequestUnlocked(
     int64_t request_id,
     uint32_t initial_tokens,
@@ -683,6 +832,11 @@ bool PagedKVCache::reserveRequestUnlocked(
     return true;
 }
 
+/**
+ * @brief Allocate Block Id.
+ * @return Return value.
+ * @details Implements allocateBlockId without additional internal calls.
+ */
 uint32_t PagedKVCache::allocateBlockId() {
     if (next_block_id_ < config_.max_total_blocks) {
         uint32_t block_id = next_block_id_++;
@@ -691,10 +845,21 @@ uint32_t PagedKVCache::allocateBlockId() {
     return static_cast<uint32_t>(-1);
 }
 
+/**
+ * @brief Free Block Id.
+ * @param[in] block_id Identifier of the block.
+ * @details Calls: push().
+ */
 void PagedKVCache::freeBlockId(uint32_t block_id) {
     free_blocks_.push(block_id);
 }
 
+/**
+ * @brief Evict Blocks.
+ * @param[in] needed_blocks Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), empty(), findLRUBlock(), spdlog::warn(), spdlog::debug(), emplace_back(), destroyBlockUnlocked(), unlock().
+ */
 bool PagedKVCache::evictBlocks(uint32_t needed_blocks) {
     std::unique_lock<std::mutex> lock(mutex_);
     
@@ -757,6 +922,12 @@ std::optional<std::pair<uint32_t, int64_t>> PagedKVCache::findLRUBlock() const {
     return std::nullopt;
 }
 
+/**
+ * @brief Release Request Block Unlocked.
+ * @param[in] request_id Identifier of the request.
+ * @param[in] block_id Identifier of the block.
+ * @details Calls: find(), end(), std::find(), begin(), erase(), destroyBlockUnlocked(), empty().
+ */
 void PagedKVCache::releaseRequestBlockUnlocked(int64_t request_id, uint32_t block_id) {
     auto req_it = requests_.find(request_id);
     if (req_it == requests_.end()) {
@@ -797,6 +968,11 @@ void PagedKVCache::releaseRequestBlockUnlocked(int64_t request_id, uint32_t bloc
     }
 }
 
+/**
+ * @brief Destroy Block Unlocked.
+ * @param[in] block_id Identifier of the block.
+ * @details Calls: find(), end(), spdlog::warn(), block_deallocator_(), begin(), size(), erase(), std::remove().
+ */
 void PagedKVCache::destroyBlockUnlocked(uint32_t block_id) {
     auto block_it = blocks_.find(block_id);
     if (block_it == blocks_.end()) {
@@ -850,6 +1026,10 @@ void PagedKVCache::destroyBlockUnlocked(uint32_t block_id) {
     spdlog::debug("PagedKVCache: Freed block {}", block_id);
 }
 
+/**
+ * @brief Update Stats.
+ * @details Calls: size(), std::min().
+ */
 void PagedKVCache::updateStats() {
     stats_.used_blocks = static_cast<uint32_t>(blocks_.size());
     stats_.free_blocks = static_cast<uint32_t>(free_blocks_.size());

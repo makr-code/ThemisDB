@@ -47,7 +47,11 @@ LookupDecoder::LookupDecoder(const Config& config) : config_(config) {
     }
 }
 
-// ── Index construction ───────────────────────────────────────────────
+/**
+ * @brief ── Index construction ───────────────────────────────────────────────
+ * @param[in] tokens Input parameter.
+ * @details Calls: lock(), clear(), indexTokens().
+ */
 
 void LookupDecoder::buildFromPrompt(const std::vector<int>& tokens) {
     std::lock_guard<std::mutex> lock(mutex_);
@@ -56,6 +60,11 @@ void LookupDecoder::buildFromPrompt(const std::vector<int>& tokens) {
     indexTokens(tokens);
 }
 
+/**
+ * @brief Update From Tokens.
+ * @param[in] new_tokens Input parameter.
+ * @details Calls: empty(), lock(), indexTokens().
+ */
 void LookupDecoder::updateFromTokens(const std::vector<int>& new_tokens) {
     if (new_tokens.empty()) {
       return;
@@ -69,6 +78,11 @@ void LookupDecoder::loadStaticNgrams(
                              std::vector<int>,
                              VectorHash>& ngrams)
 {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     for (const auto& [key, cont] : ngrams) {
         if (key.size() >= config_.ngram_min &&
@@ -83,6 +97,10 @@ void LookupDecoder::loadStaticNgrams(
     }
 }
 
+/**
+ * @brief Clear.
+ * @details Calls: lock().
+ */
 void LookupDecoder::clear() {
     std::lock_guard<std::mutex> lock(mutex_);
     index_.clear();
@@ -101,6 +119,11 @@ std::vector<int> LookupDecoder::proposeDraftTokens(
     }
     max_draft = std::min(max_draft, config_.max_draft_tokens);
 
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     stats_.total_probe_calls++;
 
@@ -137,16 +160,29 @@ std::vector<int> LookupDecoder::proposeDraftTokens(
 // ── Statistics ───────────────────────────────────────────────────────
 
 LookupDecoder::Stats LookupDecoder::getStats() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return stats_;
 }
 
+/**
+ * @brief Reset Stats.
+ * @details Calls: lock().
+ */
 void LookupDecoder::resetStats() {
     std::lock_guard<std::mutex> lock(mutex_);
     stats_ = Stats{};
 }
 
-// ── Internal helpers ─────────────────────────────────────────────────
+/**
+ * @brief ── Internal helpers ─────────────────────────────────────────────────
+ * @param[in] key Input parameter.
+ * @param[in] continuation Input parameter.
+ */
 
 void LookupDecoder::insertEntry(std::vector<int> key,
                                  std::vector<int> continuation)
@@ -165,6 +201,11 @@ void LookupDecoder::insertEntry(std::vector<int> key,
     index_[key] = std::move(continuation);
 }
 
+/**
+ * @brief Index Tokens.
+ * @param[in] tokens Input parameter.
+ * @details Calls: size(), key(), begin(), std::min(), cont(), empty(), insertEntry(), std::move().
+ */
 void LookupDecoder::indexTokens(const std::vector<int>& tokens) {
     // Slide a window of size [ngram_min..ngram_max] across the token sequence.
     // For each window: key = first n tokens, continuation = tokens after the key.

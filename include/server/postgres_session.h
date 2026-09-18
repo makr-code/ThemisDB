@@ -35,50 +35,190 @@ namespace themis {
 
 class PostgresSession : public std::enable_shared_from_this<PostgresSession> {
 public:
+    /**
+     * @brief Postgres Session.
+     * @param[in] socket Input parameter.
+     * @return Return value.
+     */
     explicit PostgresSession(asio::ip::tcp::socket socket);
+    /**
+     * @brief Postgres Session.
+     * @param[in] socket Input parameter.
+     * @param[in,out] queryEngine Input/output parameter.
+     * @return Return value.
+     */
     explicit PostgresSession(asio::ip::tcp::socket socket, 
                            themis::QueryEngine* queryEngine);
     ~PostgresSession();
 
+    /**
+     * @brief Start.
+     */
     void start();
+    /**
+     * @brief Stop.
+     */
     void stop();
 
     // PostgreSQL protocol message handlers
     void handleStartupMessage(int32_t protocolVersion, const std::map<std::string, std::string>& params);
+    /**
+     * @brief Handle Query.
+     * @param[in] query Input parameter.
+     */
     void handleQuery(const std::string& query);
+    /**
+     * @brief Handle Parse.
+     * @param[in] stmt Input parameter.
+     * @param[in] query Input parameter.
+     * @param[in] paramTypes Input parameter.
+     */
     void handleParse(const std::string& stmt, const std::string& query, const std::vector<int32_t>& paramTypes);
+    /**
+     * @brief Handle Bind.
+     * @param[in] portal Input parameter.
+     * @param[in] stmt Input parameter.
+     * @param[in] params Input parameter.
+     */
     void handleBind(const std::string& portal, const std::string& stmt, const std::vector<std::string>& params);
+    /**
+     * @brief Handle Execute.
+     * @param[in] portal Input parameter.
+     * @param[in] maxRows Input parameter.
+     */
     void handleExecute(const std::string& portal, int32_t maxRows);
+    /**
+     * @brief Handle Describe.
+     * @param[in] type Input parameter.
+     * @param[in] name Input parameter.
+     */
     void handleDescribe(char type, const std::string& name); // 'S' for statement, 'P' for portal
+    /**
+     * @brief Handle Close.
+     * @param[in] type Input parameter.
+     * @param[in] name Input parameter.
+     */
     void handleClose(char type, const std::string& name);
+    /**
+     * @brief Handle Sync.
+     */
     void handleSync();
+    /**
+     * @brief Handle Terminate.
+     */
     void handleTerminate();
+    /**
+     * @brief Handle Copy Data.
+     * @param[in] data Input parameter.
+     */
     void handleCopyData(const std::vector<uint8_t>& data);
+    /**
+     * @brief Handle Copy Done.
+     */
     void handleCopyDone();
+    /**
+     * @brief Handle Copy Fail.
+     * @param[in] message Input parameter.
+     */
     void handleCopyFail(const std::string& message);
 
-    // Send PostgreSQL protocol messages
+    /**
+     * @brief Send Authentication Ok.
+     */
     void sendAuthenticationOk();
+    /**
+     * @brief Send Authentication Cleartext Password.
+     */
     void sendAuthenticationCleartextPassword();
     void sendAuthenticationMD5Password(const std::array<uint8_t, 4>& salt);
+    /**
+     * @brief Send Parameter Status.
+     * @param[in] name Input parameter.
+     * @param[in] value Input parameter.
+     */
     void sendParameterStatus(const std::string& name, const std::string& value);
+    /**
+     * @brief Send Backend Key Data.
+     * @param[in] processId Input parameter.
+     * @param[in] secretKey Input parameter.
+     */
     void sendBackendKeyData(int32_t processId, int32_t secretKey);
+    /**
+     * @brief Send Ready For Query.
+     * @param[in] transactionStatus Input parameter.
+     */
     void sendReadyForQuery(char transactionStatus); // 'I' idle, 'T' in transaction, 'E' error
+    /**
+     * @brief Send Row Description.
+     * @param[in] fields Input parameter.
+     */
     void sendRowDescription(const std::vector<FieldDescription>& fields);
+    /**
+     * @brief Send Data Row.
+     * @param[in] values Input parameter.
+     */
     void sendDataRow(const std::vector<std::string>& values);
     void sendDataRowBinary(const std::vector<std::pair<std::vector<uint8_t>, int32_t>>& values);
+    /**
+     * @brief Send Portal Suspended.
+     */
     void sendPortalSuspended();
+    /**
+     * @brief Send Command Complete.
+     * @param[in] commandTag Input parameter.
+     */
     void sendCommandComplete(const std::string& commandTag);
+    /**
+     * @brief Send Parse Complete.
+     */
     void sendParseComplete();
+    /**
+     * @brief Send Bind Complete.
+     */
     void sendBindComplete();
+    /**
+     * @brief Send Parameter Description.
+     * @param[in] paramTypes Input parameter.
+     */
     void sendParameterDescription(const std::vector<int32_t>& paramTypes);
+    /**
+     * @brief Send No Data.
+     */
     void sendNoData();
+    /**
+     * @brief Send Close Complete.
+     */
     void sendCloseComplete();
+    /**
+     * @brief Send Copy In Response.
+     * @param[in] formatCodes Input parameter.
+     */
     void sendCopyInResponse(const std::vector<int16_t>& formatCodes);
+    /**
+     * @brief Send Copy Out Response.
+     * @param[in] formatCodes Input parameter.
+     */
     void sendCopyOutResponse(const std::vector<int16_t>& formatCodes);
+    /**
+     * @brief Send Copy Both Response.
+     * @param[in] formatCodes Input parameter.
+     */
     void sendCopyBothResponse(const std::vector<int16_t>& formatCodes);
+    /**
+     * @brief Send Copy Data.
+     * @param[in] data Input parameter.
+     */
     void sendCopyData(const std::vector<uint8_t>& data);
+    /**
+     * @brief Send Copy Done.
+     */
     void sendCopyDone();
+    /**
+     * @brief Send Error Response.
+     * @param[in] severity Input parameter.
+     * @param[in] code Input parameter.
+     * @param[in] message Input parameter.
+     */
     void sendErrorResponse(const std::string& severity, const std::string& code, const std::string& message);
 
     struct FieldDescription {
@@ -92,20 +232,67 @@ public:
     };
 
 private:
+    /**
+     * @brief Do Read.
+     */
     void doRead();
+    /**
+     * @brief Do Write.
+     */
     void doWrite();
+    /**
+     * @brief Write Message.
+     * @param[in] type Input parameter.
+     * @param[in] payload Input parameter.
+     */
     void writeMessage(char type, const std::vector<uint8_t>& payload);
+    /**
+     * @brief Enqueue Write.
+     * @param[in] message Input parameter.
+     */
     void enqueueWrite(std::vector<uint8_t> message);
+    /**
+     * @brief Close Socket.
+     */
     void closeSocket();
+    /**
+     * @brief Arm Read Timeout.
+     */
     void armReadTimeout();
+    /**
+     * @brief Cancel Read Timeout.
+     */
     void cancelReadTimeout();
+    /**
+     * @brief Arm Write Timeout.
+     */
     void armWriteTimeout();
+    /**
+     * @brief Cancel Write Timeout.
+     */
     void cancelWriteTimeout();
+    /**
+     * @brief Current Transaction Status.
+     * @return Return value.
+     */
     char currentTransactionStatus() const;
     
-    // SQL to Cypher translation for BI tools
+    /**
+     * @brief Translate Query.
+     * @param[in] postgresQuery Input parameter.
+     * @return Return value.
+     */
     std::string translateQuery(const std::string& postgresQuery);
+    /**
+     * @brief Is Schema Query.
+     * @param[in] query Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool isSchemaQuery(const std::string& query);
+    /**
+     * @brief Handle Schema Query.
+     * @param[in] query Input parameter.
+     */
     void handleSchemaQuery(const std::string& query);
     
     struct QueryInfo {
@@ -122,10 +309,35 @@ private:
         std::string joinCondition;
     };
     
+    /**
+     * @brief Parse Select Query.
+     * @param[in] query Input parameter.
+     * @return Return value.
+     */
     QueryInfo parseSelectQuery(const std::string& query);
+    /**
+     * @brief Build Cypher From Select.
+     * @param[in] info Input parameter.
+     * @return Return value.
+     */
     std::string buildCypherFromSelect(const QueryInfo& info);
+    /**
+     * @brief Parse Insert Query.
+     * @param[in] query Input parameter.
+     * @return Return value.
+     */
     std::string parseInsertQuery(const std::string& query);
+    /**
+     * @brief Parse Update Query.
+     * @param[in] query Input parameter.
+     * @return Return value.
+     */
     std::string parseUpdateQuery(const std::string& query);
+    /**
+     * @brief Parse Delete Query.
+     * @param[in] query Input parameter.
+     * @return Return value.
+     */
     std::string parseDeleteQuery(const std::string& query);
     
     asio::ip::tcp::socket socket_;

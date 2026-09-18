@@ -23,9 +23,7 @@ namespace themis {
 namespace api {
 
 namespace {
-/// Per-thread correlation ID context.
 thread_local std::string tl_correlation_id;
-/// Per-thread span start time (nanoseconds since epoch).
 thread_local int64_t tl_span_start_ns = 0;
 } // anonymous namespace
 
@@ -120,7 +118,11 @@ void TracingMiddleware::clearContext() noexcept {
 // UUID v4 generation
 // ---------------------------------------------------------------------------
 
-/*static*/
+/**
+ * @brief static
+ * @return Return value.
+ * @details Calls: boost::uuids::to_string(), gen().
+ */
 std::string TracingMiddleware::generateUuidV4() {
     // thread_local avoids synchronisation overhead; random_generator is not
     // thread-safe when shared, so we keep one generator per thread.

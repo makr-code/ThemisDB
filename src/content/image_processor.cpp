@@ -27,8 +27,21 @@
 namespace themis {
 namespace content {
 
-// Forward declarations for internal helpers
+/**
+ * @brief Forward declarations for internal helpers
+ * @param[in] blob Input parameter.
+ * @param[in] mime_type Input parameter.
+ * @param[in,out] width Input/output parameter.
+ * @param[in,out] height Input/output parameter.
+ */
 static void detectImageDimensions(const std::vector<uint8_t>& blob, const std::string& mime_type, int& width, int& height);
+/**
+ * @brief Rgb To Hex.
+ * @param[in] r Input parameter.
+ * @param[in] g Input parameter.
+ * @param[in] b Input parameter.
+ * @return Return value.
+ */
 static std::string rgbToHex(uint8_t r, uint8_t g, uint8_t b);
 
 ImageProcessor::ImageProcessor() = default;
@@ -74,6 +87,12 @@ PluginInfo ImageProcessor::getInfo() const {
     return info;
 }
 
+/**
+ * @brief Initialize.
+ * @param[in] config Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements initialize without additional internal calls.
+ */
 bool ImageProcessor::initialize(const PluginConfig& config) {
     if (initialized_) {
         return true;
@@ -96,6 +115,10 @@ bool ImageProcessor::initialize(const PluginConfig& config) {
     return true;
 }
 
+/**
+ * @brief Shutdown.
+ * @details Implements shutdown without additional internal calls.
+ */
 void ImageProcessor::shutdown() {
     if (!initialized_) {
         return;
@@ -124,6 +147,14 @@ bool ImageProcessor::canProcess(const std::string& mime_type) const {
     return std::find(supported.begin(), supported.end(), mime_type) != supported.end();
 }
 
+/**
+ * @brief Extract.
+ * @param[in] blob Input parameter.
+ * @param[in] mime_type Input parameter.
+ * @param[in] options Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::steady_clock::now(), size(), empty(), extractExifMetadata(), extractXmpMetadata(), detectImageDimensions(), extractDominantColors(), json::array().
+ */
 ContentExtractionResult ImageProcessor::extract(
     const std::vector<uint8_t>& blob,
     const std::string& mime_type,
@@ -232,6 +263,14 @@ ContentExtractionResult ImageProcessor::extract(
     return result;
 }
 
+/**
+ * @brief Chunk.
+ * @param[in] result Input parameter.
+ * @param[in] max_tokens Input parameter.
+ * @param[in] int Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), splitSentences(), countTokens(), push_back().
+ */
 std::vector<ContentChunk> ImageProcessor::chunk(
     const ContentExtractionResult& result,
     int max_tokens,
@@ -294,6 +333,14 @@ json ImageProcessor::getStatistics() const {
 
 // Private implementation methods
 
+/**
+ * @brief Detect Image Dimensions.
+ * @param[in] blob Input parameter.
+ * @param[in] param Input parameter.
+ * @param[in,out] width Input/output parameter.
+ * @param[in,out] height Input/output parameter.
+ * @details Calls: size().
+ */
 static void detectImageDimensions(const std::vector<uint8_t>& blob, const std::string& /*mime_type*/, int& width, int& height) {
     width = 0;
     height = 0;
@@ -336,12 +383,26 @@ static void detectImageDimensions(const std::vector<uint8_t>& blob, const std::s
     }
 }
 
+/**
+ * @brief Rgb To Hex.
+ * @param[in] r Input parameter.
+ * @param[in] g Input parameter.
+ * @param[in] b Input parameter.
+ * @return Return value.
+ * @details Calls: snprintf(), std::string().
+ */
 static std::string rgbToHex(uint8_t r, uint8_t g, uint8_t b) {
     char hex[8];
     snprintf(hex, sizeof(hex), "#%02X%02X%02X", r, g, b);
     return std::string(hex);
 }
 
+/**
+ * @brief Extract Exif Metadata.
+ * @param[in] blob Input parameter.
+ * @return Return value.
+ * @details Calls: size().
+ */
 json ImageProcessor::extractExifMetadata(const std::vector<uint8_t>& blob) {
     json exif;
     
@@ -356,6 +417,12 @@ json ImageProcessor::extractExifMetadata(const std::vector<uint8_t>& blob) {
     return exif;
 }
 
+/**
+ * @brief Extract Xmp Metadata.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Implements extractXmpMetadata without additional internal calls.
+ */
 json ImageProcessor::extractXmpMetadata(const std::vector<uint8_t>& /*blob*/) {
     json xmp;
     
@@ -365,6 +432,12 @@ json ImageProcessor::extractXmpMetadata(const std::vector<uint8_t>& /*blob*/) {
     return xmp;
 }
 
+/**
+ * @brief Generate Thumbnail.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Implements generateThumbnail without additional internal calls.
+ */
 std::vector<uint8_t> ImageProcessor::generateThumbnail(const std::vector<uint8_t>& /*blob*/) {
     // Real implementation would use libvips:
     // VipsImage* in;
@@ -374,6 +447,12 @@ std::vector<uint8_t> ImageProcessor::generateThumbnail(const std::vector<uint8_t
     return std::vector<uint8_t>();
 }
 
+/**
+ * @brief Perform OCR.
+ * @param[in] blob Input parameter.
+ * @return Return value.
+ * @details Calls: OcrProcessor::performOcr(), else().
+ */
 std::string ImageProcessor::performOCR(const std::vector<uint8_t>& blob) {
 #ifdef THEMIS_ENABLE_OCR
     return OcrProcessor::performOcr(blob, ocr_language_);
@@ -395,6 +474,12 @@ std::vector<std::array<uint8_t, 3>> ImageProcessor::extractDominantColors(const 
     return colors;
 }
 
+/**
+ * @brief Detect Faces.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Calls: json::array().
+ */
 json ImageProcessor::detectFaces(const std::vector<uint8_t>& /*blob*/) {
     json faces = json::array();
     
@@ -404,6 +489,12 @@ json ImageProcessor::detectFaces(const std::vector<uint8_t>& /*blob*/) {
     return faces;
 }
 
+/**
+ * @brief Detect Objects.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Calls: json::array().
+ */
 json ImageProcessor::detectObjects(const std::vector<uint8_t>& /*blob*/) {
     json objects = json::array();
     
@@ -422,9 +513,6 @@ THEMIS_CONTENT_PLUGIN(ImageProcessor)
 
 namespace {
 
-/// Extract a 32×32 grid of grayscale intensity values from an image blob.
-/// BMP (BI_RGB, 24 bpp, uncompressed) is fully decoded; all other formats
-/// fall back to uniform raw-byte sampling.
 std::array<double, 1024> extractGrayscaleSamples(const std::vector<uint8_t>& blob) {
     std::array<double, 1024> samples{};
 
@@ -493,7 +581,6 @@ std::array<double, 1024> extractGrayscaleSamples(const std::vector<uint8_t>& blo
     return samples;
 }
 
-/// Apply a separable 2-D DCT-II to a 32×32 matrix stored in row-major order.
 std::array<double, 1024> apply2DDCT(const std::array<double, 1024>& pixels) {
     static constexpr double kPi = 3.14159265358979323846;
     std::array<double, 1024> dct{};

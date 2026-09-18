@@ -20,14 +20,24 @@
 namespace themis {
 namespace gpu {
 
-// ============================================================================
-// Checksum — FNV-1a 64-bit
-// ============================================================================
+/**
+ * @brief ============================================================================ Checksum — FNV-1a 64-bit ============================================================================
+ * @param[in] data Input parameter.
+ * @return Return value.
+ * @details Calls: data(), size().
+ */
 
 uint64_t GPUKernelValidator::computeChecksum(const std::vector<uint8_t>& data) {
     return computeChecksum(data.data(),data.size());
 }
 
+/**
+ * @brief Compute Checksum.
+ * @param[in] data Input parameter.
+ * @param[in] length Input parameter.
+ * @return Return value.
+ * @details Implements computeChecksum without additional internal calls.
+ */
 uint64_t GPUKernelValidator::computeChecksum(const uint8_t* data,
                                                size_t length) {
     constexpr uint64_t FNV_OFFSET_BASIS = 14695981039346656037;
@@ -44,12 +54,24 @@ uint64_t GPUKernelValidator::computeChecksum(const uint8_t* data,
 // Registry management
 // ============================================================================
 
+/**
+ * @brief Register Kernel.
+ * @param[in] kernel_id Identifier of the kernel.
+ * @param[in] expected_checksum Input parameter.
+ * @details Calls: lock().
+ */
 void GPUKernelValidator::registerKernel(const std::string& kernel_id,
                                           uint64_t expected_checksum) {
     std::lock_guard<std::mutex> lock(mutex_);
     registry_[kernel_id] = expected_checksum;
 }
 
+/**
+ * @brief Register Kernel.
+ * @param[in] kernel_id Identifier of the kernel.
+ * @param[in] blob Input parameter.
+ * @details Calls: computeChecksum(), lock().
+ */
 void GPUKernelValidator::registerKernel(const std::string& kernel_id,
                                           const std::vector<uint8_t>& blob) {
     const uint64_t cs = computeChecksum(blob);
@@ -57,17 +79,32 @@ void GPUKernelValidator::registerKernel(const std::string& kernel_id,
     registry_[kernel_id] = cs;
 }
 
+/**
+ * @brief Unregister Kernel.
+ * @param[in] kernel_id Identifier of the kernel.
+ * @details Calls: lock(), erase().
+ */
 void GPUKernelValidator::unregisterKernel(const std::string& kernel_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     registry_.erase(kernel_id);
 }
 
 bool GPUKernelValidator::isRegistered(const std::string& kernel_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return registry_.count(kernel_id) > 0;
 }
 
 std::vector<std::string> GPUKernelValidator::registeredKernels() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     std::vector<std::string> result = {};
 
@@ -91,6 +128,11 @@ GPUKernelValidator::validate(const std::string& kernel_id,
     if (blob.empty()) {
         r.status  = Status::EMPTY_BLOB;
         r.message = "Kernel blob is empty; rejecting kernel '" + kernel_id + "'";
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         ++total_validations_;
         ++empty_blob_count_;
@@ -99,6 +141,11 @@ GPUKernelValidator::validate(const std::string& kernel_id,
 
     r.computed_checksum = computeChecksum(blob);
 
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     ++total_validations_;
 
@@ -137,6 +184,11 @@ bool GPUKernelValidator::isValid(const std::string& kernel_id,
 // ============================================================================
 
 GPUKernelValidator::Stats GPUKernelValidator::getStats() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     Stats s;
     s.registered_count        = registry_.size();
@@ -148,6 +200,10 @@ GPUKernelValidator::Stats GPUKernelValidator::getStats() const {
     return s;
 }
 
+/**
+ * @brief Reset the modification detection flag.
+ * @details Calls: lock(), clear().
+ */
 void GPUKernelValidator::reset() {
     std::lock_guard<std::mutex> lock(mutex_);
     registry_.clear();

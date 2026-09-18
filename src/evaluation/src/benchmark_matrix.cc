@@ -15,9 +15,14 @@
 namespace themis {
 namespace evaluation {
 
-// ============================================================================
-// BenchmarkMatrix::record
-// ============================================================================
+/**
+ * @brief ============================================================================ BenchmarkMatrix::record ============================================================================
+ * @param[in] scenario Input parameter.
+ * @param[in] dimension Input parameter.
+ * @param[in] result Input parameter.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: std::string(), scenarioName(), dimensionName().
+ */
 
 void BenchmarkMatrix::record(BenchmarkScenario scenario,
                              BenchmarkDimension dimension,
@@ -32,9 +37,11 @@ void BenchmarkMatrix::record(BenchmarkScenario scenario,
     cells_[{scenario, dimension}] = result;
 }
 
-// ============================================================================
-// BenchmarkMatrix::invalidateScenario
-// ============================================================================
+/**
+ * @brief ============================================================================ BenchmarkMatrix::invalidateScenario ============================================================================
+ * @param[in] scenario Input parameter.
+ * @details Calls: begin(), end(), erase().
+ */
 
 void BenchmarkMatrix::invalidateScenario(BenchmarkScenario scenario) {
     for (auto it = cells_.begin(); it != cells_.end(); ) {
@@ -46,9 +53,11 @@ void BenchmarkMatrix::invalidateScenario(BenchmarkScenario scenario) {
     }
 }
 
-// ============================================================================
-// BenchmarkMatrix::invalidateDimension
-// ============================================================================
+/**
+ * @brief ============================================================================ BenchmarkMatrix::invalidateDimension ============================================================================
+ * @param[in] dimension Input parameter.
+ * @details Calls: begin(), end(), erase().
+ */
 
 void BenchmarkMatrix::invalidateDimension(BenchmarkDimension dimension) {
     for (auto it = cells_.begin(); it != cells_.end(); ) {

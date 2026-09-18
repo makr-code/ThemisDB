@@ -79,6 +79,11 @@ Result<bool> Neo4jAdapter::connect(
 #endif
 }
 
+/**
+ * @brief Disconnect.
+ * @return Return value.
+ * @details Calls: clear(), lock(), ok().
+ */
 Result<bool> Neo4jAdapter::disconnect() {
     connected_ = false;
     connection_string_.clear();
@@ -97,6 +102,13 @@ bool Neo4jAdapter::is_connected() const {
 // Relational Adapter (Not Supported)
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Execute query.
+ * @param[in] param Input parameter.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Calls: err().
+ */
 Result<RelationalTable> Neo4jAdapter::execute_query(
     const std::string& /*query*/,
     const std::vector<Scalar>& /*params*/
@@ -107,6 +119,13 @@ Result<RelationalTable> Neo4jAdapter::execute_query(
     );
 }
 
+/**
+ * @brief Insert row.
+ * @param[in] param Input parameter.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Calls: err().
+ */
 Result<size_t> Neo4jAdapter::insert_row(
     const std::string& /*table_name*/,
     const RelationalRow& /*row*/
@@ -117,6 +136,13 @@ Result<size_t> Neo4jAdapter::insert_row(
     );
 }
 
+/**
+ * @brief Batch insert.
+ * @param[in] param Input parameter.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Calls: err().
+ */
 Result<size_t> Neo4jAdapter::batch_insert(
     const std::string& /*table_name*/,
     const std::vector<RelationalRow>& /*rows*/
@@ -136,6 +162,13 @@ Result<QueryStatistics> Neo4jAdapter::get_query_statistics() const {
 // Vector Adapter (Not Supported)
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Insert vector.
+ * @param[in] param Input parameter.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Calls: err().
+ */
 Result<std::string> Neo4jAdapter::insert_vector(
     const std::string& /*collection*/,
     const Vector& /*vector*/
@@ -146,6 +179,13 @@ Result<std::string> Neo4jAdapter::insert_vector(
     );
 }
 
+/**
+ * @brief Batch insert vectors.
+ * @param[in] param Input parameter.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Calls: err().
+ */
 Result<size_t> Neo4jAdapter::batch_insert_vectors(
     const std::string& /*collection*/,
     const std::vector<Vector>& /*vectors*/
@@ -183,6 +223,12 @@ Result<bool> Neo4jAdapter::create_index(
 // Graph Adapter (Primary Support)
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Insert node.
+ * @param[in] node Input parameter.
+ * @return Return value.
+ * @details Calls: err(), generate_id(), ok().
+ */
 Result<std::string> Neo4jAdapter::insert_node(const GraphNode& node) {
     if (!connected_) {
         return Result<std::string>::err(
@@ -205,6 +251,12 @@ Result<std::string> Neo4jAdapter::insert_node(const GraphNode& node) {
 #endif
 }
 
+/**
+ * @brief Insert edge.
+ * @param[in] edge Input parameter.
+ * @return Return value.
+ * @details Calls: err(), generate_id(), ok().
+ */
 Result<std::string> Neo4jAdapter::insert_edge(const GraphEdge& edge) {
     if (!connected_) {
         return Result<std::string>::err(
@@ -227,6 +279,14 @@ Result<std::string> Neo4jAdapter::insert_edge(const GraphEdge& edge) {
 #endif
 }
 
+/**
+ * @brief Shortest path.
+ * @param[in] source_id Identifier of the source.
+ * @param[in] target_id Identifier of the target.
+ * @param[in] max_depth Input parameter.
+ * @return Return value.
+ * @details Calls: err(), ok(), std::move().
+ */
 Result<GraphPath> Neo4jAdapter::shortest_path(
     const std::string& source_id,
     const std::string& target_id,
@@ -253,6 +313,14 @@ Result<GraphPath> Neo4jAdapter::shortest_path(
 #endif
 }
 
+/**
+ * @brief Traverse.
+ * @param[in] start_id Identifier of the start.
+ * @param[in] max_depth Input parameter.
+ * @param[in] edge_labels Input parameter.
+ * @return Return value.
+ * @details Calls: err(), ok(), std::move().
+ */
 Result<std::vector<GraphNode>> Neo4jAdapter::traverse(
     const std::string& start_id,
     size_t max_depth,
@@ -304,9 +372,13 @@ Result<std::vector<GraphPath>> Neo4jAdapter::execute_graph_query(
 #endif
 }
 
-// ---------------------------------------------------------------------------
-// Document Adapter (Via Node Properties)
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- Document Adapter (Via Node Properties) ---------------------------------------------------------------------------
+ * @param[in] collection Input parameter.
+ * @param[in] doc Input parameter.
+ * @return Return value.
+ * @details Calls: err(), generate_id(), ok().
+ */
 
 Result<std::string> Neo4jAdapter::insert_document(
     const std::string& collection,
@@ -333,6 +405,13 @@ Result<std::string> Neo4jAdapter::insert_document(
 #endif
 }
 
+/**
+ * @brief Batch insert documents.
+ * @param[in] collection Input parameter.
+ * @param[in] docs Input parameter.
+ * @return Return value.
+ * @details Calls: err(), ok(), size().
+ */
 Result<size_t> Neo4jAdapter::batch_insert_documents(
     const std::string& collection,
     const std::vector<Document>& docs
@@ -408,9 +487,12 @@ Result<size_t> Neo4jAdapter::update_documents(
 #endif
 }
 
-// ---------------------------------------------------------------------------
-// Transaction Adapter (Supported via Sessions)
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- Transaction Adapter (Supported via Sessions) ---------------------------------------------------------------------------
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Calls: err(), generate_id(), lock(), ok().
+ */
 
 Result<std::string> Neo4jAdapter::begin_transaction(
     const TransactionOptions& /*options*/
@@ -431,6 +513,12 @@ Result<std::string> Neo4jAdapter::begin_transaction(
     return Result<std::string>::ok(session_id);
 }
 
+/**
+ * @brief Commit transaction.
+ * @param[in] transaction_id Identifier of the transaction.
+ * @return Return value.
+ * @details Calls: lock(), find(), end(), err(), ok().
+ */
 Result<bool> Neo4jAdapter::commit_transaction(const std::string& transaction_id) {
     std::unique_lock<std::mutex> lock(session_mutex_);
     const auto it = active_sessions_.find(transaction_id);
@@ -456,6 +544,12 @@ Result<bool> Neo4jAdapter::commit_transaction(const std::string& transaction_id)
 #endif
 }
 
+/**
+ * @brief Rollback transaction.
+ * @param[in] transaction_id Identifier of the transaction.
+ * @return Return value.
+ * @details Calls: lock(), find(), end(), err(), ok().
+ */
 Result<bool> Neo4jAdapter::rollback_transaction(const std::string& transaction_id) {
     std::unique_lock<std::mutex> lock(session_mutex_);
     const auto it = active_sessions_.find(transaction_id);
@@ -481,6 +575,13 @@ Result<bool> Neo4jAdapter::rollback_transaction(const std::string& transaction_i
 #endif
 }
 
+/**
+ * @brief Create savepoint.
+ * @param[in] param Input parameter.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Calls: err().
+ */
 Result<std::string> Neo4jAdapter::create_savepoint(
     const std::string& /*transaction_id*/,
     const std::string& /*savepoint_name*/
@@ -492,6 +593,13 @@ Result<std::string> Neo4jAdapter::create_savepoint(
     );
 }
 
+/**
+ * @brief Rollback to savepoint.
+ * @param[in] param Input parameter.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Calls: err().
+ */
 Result<bool> Neo4jAdapter::rollback_to_savepoint(
     const std::string& /*transaction_id*/,
     const std::string& /*savepoint_name*/
@@ -502,6 +610,13 @@ Result<bool> Neo4jAdapter::rollback_to_savepoint(
     );
 }
 
+/**
+ * @brief Release savepoint.
+ * @param[in] param Input parameter.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Calls: err().
+ */
 Result<bool> Neo4jAdapter::release_savepoint(
     const std::string& /*transaction_id*/,
     const std::string& /*savepoint_name*/
@@ -512,6 +627,12 @@ Result<bool> Neo4jAdapter::release_savepoint(
     );
 }
 
+/**
+ * @brief Get transaction stats.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Calls: ok(), std::move().
+ */
 Result<TransactionStats> Neo4jAdapter::get_transaction_stats(
     const std::string& /*transaction_id*/
 ) {
@@ -519,6 +640,12 @@ Result<TransactionStats> Neo4jAdapter::get_transaction_stats(
     return Result<TransactionStats>::ok(std::move(stats));
 }
 
+/**
+ * @brief Get transaction state.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Calls: ok(), std::move().
+ */
 Result<TransactionState> Neo4jAdapter::get_transaction_state(
     const std::string& /*transaction_id*/
 ) {
@@ -579,10 +706,21 @@ std::vector<Capability> Neo4jAdapter::get_capabilities() const {
 // Private Helpers
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Generate id.
+ * @return Return value.
+ * @details Calls: utils::generate_uuid_v4().
+ */
 std::string Neo4jAdapter::generate_id() {
     return utils::generate_uuid_v4();
 }
 
+/**
+ * @brief Is valid connection string.
+ * @param[in] cs Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: find().
+ */
 bool Neo4jAdapter::is_valid_connection_string(const std::string& cs) {
     return cs.find("bolt://") == 0 ||
            cs.find("neo4j://") == 0 ||
@@ -590,12 +728,24 @@ bool Neo4jAdapter::is_valid_connection_string(const std::string& cs) {
            cs.find("neo4j+s://") == 0;
 }
 
+/**
+ * @brief Mask credentials.
+ * @param[in] cs Input parameter.
+ * @return Return value.
+ * @details Implements mask_credentials without additional internal calls.
+ */
 std::string Neo4jAdapter::mask_credentials(const std::string& cs) {
     // NOT IMPLEMENTED: Full credential masking requires neo4j URI parsing.
     // Gate: THEMIS_CHIMERA_NEO4J. For safety, return as-is; do not log raw cs.
     return cs;
 }
 
+/**
+ * @brief Scalar to cypher literal.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Implements scalar_to_cypher_literal without additional internal calls.
+ */
 std::string Neo4jAdapter::scalar_to_cypher_literal(const Scalar& /*scalar*/) {
     // NOT IMPLEMENTED: Requires Cypher literal serialization. Gate: THEMIS_CHIMERA_NEO4J
     return "null";

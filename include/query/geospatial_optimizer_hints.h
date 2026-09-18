@@ -24,9 +24,6 @@
 namespace themis {
 namespace query {
 
-/**
- * @brief Spatial optimizer hint types
- */
 enum class SpatialHintType {
     USE_INDEX,           // Force use of specific index
     FORCE_SCAN,          // Force full scan (disable index)
@@ -34,9 +31,6 @@ enum class SpatialHintType {
     DISTANCE_ORDER       // Pre-sort by distance
 };
 
-/**
- * @brief Single spatial hint directive
- */
 struct SpatialHint {
     SpatialHintType type;
     std::string fieldName;           // Field this hint applies to
@@ -45,128 +39,103 @@ struct SpatialHint {
     std::string orderDirection;      // For DISTANCE_ORDER: "ascending" or "descending"
     
     /**
-     * @brief Check if hint is valid
+     * @brief Is Valid.
+     * @return True when the operation succeeds.
      */
     bool isValid() const;
     
     /**
-     * @brief String representation for debugging
+     * @brief To String.
+     * @return Return value.
      */
     std::string toString() const;
 };
 
-/**
- * @brief Spatial plan with hint state
- */
 struct SpatialPlan {
     std::string predicateId;         // Unique ID for this spatial predicate
     std::vector<SpatialHint> hints;  // Applied hints for this predicate
     
     /**
-     * @brief Check if a specific hint type is applied
+     * @brief Has Hint.
+     * @param[in] type Input parameter.
+     * @return True when the operation succeeds.
      */
     bool hasHint(SpatialHintType type) const;
     
     /**
-     * @brief Get first hint of given type
+     * @brief Get Hint.
+     * @param[in] type Input parameter.
+     * @return Pointer to the result.
      */
     const SpatialHint* getHint(SpatialHintType type) const;
     
     /**
-     * @brief Add hint to this plan
+     * @brief Add Hint.
+     * @param[in] hint Input parameter.
      */
     void addHint(const SpatialHint& hint);
     
     /**
-     * @brief Get combined cost adjustment from all hints
+     * @brief Get Cost Adjustment Factor.
+     * @return Return value.
      */
     double getCostAdjustmentFactor() const;
 };
 
-/**
- * @brief Parser and validator for spatial optimizer hints
- */
 class SpatialHintParser {
 public:
     /**
-     * @brief Parse spatial hints from AQL syntax
-     * 
-     * Supported syntax:
-     * - USE_INDEX(doc.location, "geo_idx")
-     * - FORCE_SCAN(doc.location)
-     * - INDEX_PRIORITY(doc.location, 10.0)
-     * - DISTANCE_ORDER(doc.location, "ascending")
-     * 
-     * @param hintString Raw hint string from query
-     * @return Parsed hint, or empty if invalid
+     * @brief Parse Hint.
+     * @param[in] hintString Input parameter.
+     * @return Return value.
      */
     static SpatialHint parseHint(const std::string& hintString);
     
-    /**
-     * @brief Validate hint against index metadata
-     * 
-     * Checks:
-     * - Field exists in collection
-     * - For USE_INDEX: index exists and supports spatial predicates
-     * - Priority factor is reasonable (0.1 - 10.0)
-     * 
-     * @param hint Hint to validate
-     * @param availableIndexes Map of index_name -> index_type
-     * @return true if hint is valid
-     */
     static bool validateHint(
         const SpatialHint& hint,
         const std::map<std::string, std::string>& availableIndexes);
     
-    /**
-     * @brief Get warning message for hint
-     * 
-     * May return warning even for valid hints that could be suboptimal.
-     * Examples:
-     * - Using FORCE_SCAN when good index available
-     * - Using USE_INDEX with non-spatial index
-     * 
-     * @return Warning message, or empty if no warnings
-     */
     static std::string getHintWarning(
         const SpatialHint& hint,
         const std::map<std::string, std::string>& availableIndexes);
     
     /**
-     * @brief Parse multiple hints from query context
-     * 
-     * Extracts all hint directives from FILTER/SORT context.
-     * Returns vector of valid hints; invalid hints logged and skipped.
+     * @brief Parse Hints From Query.
+     * @param[in] queryText Input parameter.
+     * @return Return value.
      */
     static std::vector<SpatialHint> parseHintsFromQuery(
         const std::string& queryText);
 };
 
-/**
- * @brief Hint execution context
- * 
- * Communicates hint information to executor.
- */
 struct SpatialHintContext {
     std::vector<SpatialPlan> plans;  // Plan hints for each spatial predicate
     
     /**
-     * @brief Get plan for a specific predicate
+     * @brief Get Plan For Predicate.
+     * @param[in] predicateId Input parameter.
+     * @return Pointer to the result.
      */
     const SpatialPlan* getPlanForPredicate(const std::string& predicateId) const;
     
     /**
-     * @brief Check if executor should use index for predicate
+     * @brief Should Use Index.
+     * @param[in] predicateId Input parameter.
+     * @return True when the operation succeeds.
      */
     bool shouldUseIndex(const std::string& predicateId) const;
     
     /**
-     * @brief Get recommended index name (if any)
+     * @brief Get Recommended Index.
+     * @param[in] predicateId Input parameter.
+     * @return Return value.
      */
     std::string getRecommendedIndex(const std::string& predicateId) const;
     
     /**
-     * @brief Get cost adjustment for predicate
+     * @brief Get Cost Adjustment.
+     * @param[in] predicateId Input parameter.
+     * @return Return value.
      */
     double getCostAdjustment(const std::string& predicateId) const;
 };

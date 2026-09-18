@@ -50,6 +50,12 @@ LoRAFederationCoordinator::LoRAFederationCoordinator(LoRAFederationCoordinator &
 LoRAFederationCoordinator &LoRAFederationCoordinator::operator=(LoRAFederationCoordinator &&other) noexcept {
     if (this != &other) {
         std::lock(mutex_, other.mutex_);
+        /**
+         * @brief Lk1.
+         * @param[in] mutex_ Input parameter.
+         * @param[in] adopt_lock Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk1(mutex_, std::adopt_lock);
         std::lock_guard<std::mutex> lk2(other.mutex_, std::adopt_lock);
         config_                    = std::move(other.config_);
@@ -76,6 +82,11 @@ LoRAFederationCoordinator &LoRAFederationCoordinator::operator=(LoRAFederationCo
 // submitGradient
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Submit Gradient.
+ * @param[in] gradient Input parameter.
+ * @details Calls: lk(), count(), size(), doAggregation(), std::max(), has_value(), std::move().
+ */
 void LoRAFederationCoordinator::submitGradient(const EncryptedGradient &gradient) {
     std::lock_guard<std::mutex> lk(mutex_);
 
@@ -139,6 +150,12 @@ void LoRAFederationCoordinator::submitGradient(const EncryptedGradient &gradient
 // triggerAggregation
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Trigger Aggregation.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: lk(), std::to_string(), empty(), has_value(), find(), end(), checkTransfer(), size().
+ */
 GlobalAdapterDelta LoRAFederationCoordinator::triggerAggregation() {
     std::lock_guard<std::mutex> lk(mutex_);
 
@@ -211,9 +228,12 @@ GlobalAdapterDelta LoRAFederationCoordinator::triggerAggregation() {
     return delta;
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// doAggregation (internal, caller holds mutex_)
-// ─────────────────────────────────────────────────────────────────────────────
+/**
+ * @brief ───────────────────────────────────────────────────────────────────────────── doAggregation (internal, caller holds mutex_) ─────────────────────────────────────────────────────────────────────────────
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: begin(), end(), gradient_outlier_filter_(), erase(), size(), std::to_string(), is_object(), items().
+ */
 
 GlobalAdapterDelta LoRAFederationCoordinator::doAggregation() {
     // ── Step 0: apply poisoning / outlier filter (FPD) ───────────────────────
@@ -360,26 +380,51 @@ std::string LoRAFederationCoordinator::nextDeltaVersion() const {
 // ─────────────────────────────────────────────────────────────────────────────
 
 void LoRAFederationCoordinator::setGlobalDeltaCallback(std::function<void(const GlobalAdapterDelta &)> cb) {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     delta_callback_ = std::move(cb);
 }
 
 uint64_t LoRAFederationCoordinator::currentRound() const {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     return current_round_;
 }
 
 size_t LoRAFederationCoordinator::submittedCount() const {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     return pending_gradients_.size();
 }
 
 std::optional<GlobalAdapterDelta> LoRAFederationCoordinator::lastDelta() const {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     return last_delta_;
 }
 
 nlohmann::json LoRAFederationCoordinator::getStats() const {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     return {{"current_round", current_round_},
             {"pending_gradients",pending_gradients_.size()},
@@ -391,6 +436,10 @@ nlohmann::json LoRAFederationCoordinator::getStats() const {
             {"min_participants", config_.min_participants}};
 }
 
+/**
+ * @brief Advance Round.
+ * @details Calls: lk(), clear().
+ */
 void LoRAFederationCoordinator::advanceRound() {
     std::lock_guard<std::mutex> lk(mutex_);
     ++current_round_;
@@ -401,6 +450,11 @@ void LoRAFederationCoordinator::advanceRound() {
 // Decision Record integration
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Set Decision Record Processor.
+ * @param[in] processor Input parameter.
+ * @details Calls: lk(), std::move().
+ */
 void LoRAFederationCoordinator::setDecisionRecordProcessor(
     std::shared_ptr<themis::llm::DecisionRecordYamlProcessor> processor) {
     std::lock_guard<std::mutex> lk(mutex_);
@@ -435,6 +489,11 @@ void LoRAFederationCoordinator::emitFederationDecisionRecord(const GlobalAdapter
 // ─────────────────────────────────────────────────────────────────────────────
 
 double LoRAFederationCoordinator::privacyBudgetRemaining() const {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     if (config_.max_rounds == 0) {
         return std::numeric_limits<double>::max();
@@ -444,6 +503,11 @@ double LoRAFederationCoordinator::privacyBudgetRemaining() const {
 }
 
 bool LoRAFederationCoordinator::verifyPrivacyBudget() const {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     if (config_.max_rounds == 0) {
         return true;
@@ -451,9 +515,11 @@ bool LoRAFederationCoordinator::verifyPrivacyBudget() const {
     return current_round_ <= config_.max_rounds;
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// DK-7: GDPR + Audit + SphincsPlus DI setters
-// ─────────────────────────────────────────────────────────────────────────────
+/**
+ * @brief ───────────────────────────────────────────────────────────────────────────── DK-7: GDPR + Audit + SphincsPlus DI setters ─────────────────────────────────────────────────────────────────────────────
+ * @param[in] policy Input parameter.
+ * @details Calls: lk(), std::move().
+ */
 
 void LoRAFederationCoordinator::setCrossBorderPolicy(
     std::shared_ptr<themis::governance::CrossBorderTransferPolicy> policy) {
@@ -462,23 +528,42 @@ void LoRAFederationCoordinator::setCrossBorderPolicy(
 }
 
 void LoRAFederationCoordinator::setShardLocations(std::map<std::string, std::string> locations) {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     shard_locations_ = std::move(locations);
 }
 
 void LoRAFederationCoordinator::setAuditRecordCallback(std::function<void(const nlohmann::json &)> callback) {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     audit_record_callback_ = std::move(callback);
 }
 
 void LoRAFederationCoordinator::setSigningCallback(std::function<std::string(const nlohmann::json &)> signing_fn) {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     signing_callback_ = std::move(signing_fn);
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// DK-OR: Operational Resilience — timeout overload, erase
-// ─────────────────────────────────────────────────────────────────────────────
+/**
+ * @brief ───────────────────────────────────────────────────────────────────────────── DK-OR: Operational Resilience — timeout overload, erase ─────────────────────────────────────────────────────────────────────────────
+ * @param[in] timeout_ms Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: std::async(), wait_for(), std::chrono::milliseconds(), std::to_string(), get().
+ */
 
 GlobalAdapterDelta LoRAFederationCoordinator::triggerAggregation(size_t timeout_ms) {
     // Run aggregation on a separate thread to enforce wall-clock timeout
@@ -492,6 +577,13 @@ GlobalAdapterDelta LoRAFederationCoordinator::triggerAggregation(size_t timeout_
     return future.get();
 }
 
+/**
+ * @brief Erase.
+ * @param[in] param Input parameter.
+ * @param[in] Regulation Input parameter.
+ * @return Return value.
+ * @details Calls: lk(), clear().
+ */
 themis::governance::StoreErasureResult LoRAFederationCoordinator::erase(const std::string & /*subject_id*/,
                                                                         themis::governance::Regulation /*regulation*/) {
     std::lock_guard<std::mutex> lk(mutex_);
@@ -507,13 +599,20 @@ themis::governance::StoreErasureResult LoRAFederationCoordinator::erase(const st
 }
 
 size_t LoRAFederationCoordinator::eraseCount() const {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     return erase_count_;
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// FPD: Gradient Outlier / Poisoning Detection
-// ─────────────────────────────────────────────────────────────────────────────
+/**
+ * @brief ───────────────────────────────────────────────────────────────────────────── FPD: Gradient Outlier / Poisoning Detection ─────────────────────────────────────────────────────────────────────────────
+ * @param[in] filter Input parameter.
+ * @details Calls: lk(), std::move().
+ */
 
 void LoRAFederationCoordinator::setGradientOutlierFilter(GradientOutlierFilter filter) {
     std::lock_guard<std::mutex> lk(mutex_);
@@ -521,6 +620,11 @@ void LoRAFederationCoordinator::setGradientOutlierFilter(GradientOutlierFilter f
 }
 
 size_t LoRAFederationCoordinator::filteredGradientsCount() const {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     return static_cast<size_t>(total_gradients_filtered_);
 }

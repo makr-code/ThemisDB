@@ -22,6 +22,11 @@ PagedBlockManager::PagedBlockManager(const Config& config)
     initializeFreeList();
 }
 
+/**
+ * @brief Initialize Free List.
+ * @throws std::overflow_error if an error occurs.
+ * @details Calls: free_lock(), store_lock(), clear(), empty(), pop(), max(), insert(), push().
+ */
 void PagedBlockManager::initializeFreeList() {
     std::lock_guard<std::mutex> free_lock(free_list_mutex_);
     std::lock_guard<std::mutex> store_lock(block_store_mutex_);
@@ -61,6 +66,12 @@ void PagedBlockManager::initializeFreeList() {
     }
 }
 
+/**
+ * @brief Allocate Blocks.
+ * @param[in] num_blocks Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), lock(), size(), front(), pop(), push_back(), store_lock(), find().
+ */
 std::vector<int> PagedBlockManager::allocateBlocks(int num_blocks) {
     std::vector<int> allocated_ids;
     allocated_ids.reserve(num_blocks);
@@ -92,11 +103,21 @@ std::vector<int> PagedBlockManager::allocateBlocks(int num_blocks) {
     return allocated_ids;
 }
 
+/**
+ * @brief Allocate.
+ * @return Return value.
+ * @details Calls: allocateBlocks(), empty(), front().
+ */
 int PagedBlockManager::allocate() {
     auto blocks = allocateBlocks(1);
     return blocks.empty() ? -1 : blocks.front();
 }
 
+/**
+ * @brief Free Blocks.
+ * @param[in] block_ids Input parameter.
+ * @details Calls: lock(), store_lock(), find(), end(), clear(), insert(), push().
+ */
 void PagedBlockManager::freeBlocks(const std::vector<int>& block_ids) {
     std::lock_guard<std::mutex> lock(free_list_mutex_);
     
@@ -116,11 +137,21 @@ void PagedBlockManager::freeBlocks(const std::vector<int>& block_ids) {
     }
 }
 
+/**
+ * @brief Deallocate.
+ * @param[in] block_id Identifier of the block.
+ * @details Calls: freeBlocks().
+ */
 void PagedBlockManager::deallocate(int block_id) {
     freeBlocks({block_id});
 }
 
 void PagedBlockManager::withBlock(int block_id, std::function<void(const Block&)> callback) const {
+    /**
+     * @brief Lock.
+     * @param[in] block_store_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(block_store_mutex_);
     auto it = block_store_.find(block_id);
     if (it != block_store_.end()) {
@@ -130,6 +161,11 @@ void PagedBlockManager::withBlock(int block_id, std::function<void(const Block&)
 
 std::optional<std::reference_wrapper<const PagedBlockManager::Block>> 
 PagedBlockManager::getBlockRef(int block_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] block_store_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(block_store_mutex_);
     auto it = block_store_.find(block_id);
     if (it != block_store_.end()) {
@@ -147,6 +183,11 @@ PagedBlockManager::Stats PagedBlockManager::getStats() const {
     
     // Count free blocks
     {
+        /**
+         * @brief Lock.
+         * @param[in] free_list_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(free_list_mutex_);
         stats.num_free_blocks = free_list_.size();
     }
@@ -168,10 +209,19 @@ PagedBlockManager::Stats PagedBlockManager::getStats() const {
 }
 
 int PagedBlockManager::getNumFreeBlocks() const {
+    /**
+     * @brief Lock.
+     * @param[in] free_list_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(free_list_mutex_);
     return free_list_.size();
 }
 
+/**
+ * @brief Reset the modification detection flag.
+ * @details Calls: store_lock(), clear(), lock(), empty(), pop(), initializeFreeList().
+ */
 void PagedBlockManager::reset() {
     {
         std::lock_guard<std::mutex> store_lock(block_store_mutex_);

@@ -62,6 +62,11 @@ DatabaseConnectionManager::acquireConnection(
             return nullptr;
         }
         
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::mutex> lock(mutex_);
         
         // Try to get idle connection
@@ -147,6 +152,12 @@ DatabaseConnectionManager::acquireConnection(
     }
 }
 
+/**
+ * @brief Release Connection.
+ * @param[in] conn Input parameter.
+ * @param[in] error_occurred Input parameter.
+ * @details Calls: lock(), find(), get(), end(), spdlog::warn(), erase(), getError(), updateCircuitBreaker().
+ */
 void DatabaseConnectionManager::releaseConnection(
     std::shared_ptr<Connection> conn,
     bool error_occurred
@@ -198,6 +209,10 @@ void DatabaseConnectionManager::releaseConnection(
                  idle_connections_.size());
 }
 
+/**
+ * @brief Perform Health Check.
+ * @details Calls: lock(), spdlog::debug(), empty(), front(), pop(), isConnectionStale(), get(), ping().
+ */
 void DatabaseConnectionManager::performHealthCheck() {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -252,6 +267,11 @@ void DatabaseConnectionManager::performHealthCheck() {
 
 DatabaseConnectionManager::ConnectionStats 
 DatabaseConnectionManager::getStats() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     ConnectionStats stats;
@@ -291,13 +311,12 @@ DatabaseConnectionManager::getStats() const {
 
 std::vector<DatabaseConnectionManager::ConnectionHealth> 
 DatabaseConnectionManager::getConnectionHealth() const {
-    // db_connection_leak scanner alert (line 260): the scanner matched
-    // "getConnection" in the function name as a resource-acquisition call.
-    // This function returns a value-copy of health records; no connection
-    // handle is opened or transferred — false positive.
-    // lock_in_loop scanner alert (line 266): mutex_ is acquired once at
-    // function entry and held for the entire structured-binding loop body
-    // — no lock acquired per iteration — false positive.
+    /**
+     * @brief db_connection_leak scanner alert (line 260): the scanner matched "getConnection" in the function name as a resource-acquisition call.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     * @details This function returns a value-copy of health records; no connection handle is opened or transferred — false positive. lock_in_loop scanner alert (line 266): mutex_ is acquired once at function entry and held for the entire structured-binding loop body — no lock acquired per iteration — false positive.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     std::vector<ConnectionHealth> health_list = {};
@@ -316,6 +335,10 @@ bool DatabaseConnectionManager::isHealthy() const {
     return state != ConnectionState::CIRCUIT_OPEN && state != ConnectionState::FAILED;
 }
 
+/**
+ * @brief Reconnect All.
+ * @details Calls: lock(), spdlog::info(), empty(), front(), pop(), erase(), get(), close().
+ */
 void DatabaseConnectionManager::reconnectAll() {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -336,6 +359,10 @@ void DatabaseConnectionManager::reconnectAll() {
     }
 }
 
+/**
+ * @brief Close All.
+ * @details Calls: lock(), spdlog::info(), empty(), front(), pop(), close(), clear().
+ */
 void DatabaseConnectionManager::closeAll() {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -428,6 +455,11 @@ bool DatabaseConnectionManager::shouldRemoveConnection(const Connection* conn) c
     return false;
 }
 
+/**
+ * @brief Update Circuit Breaker.
+ * @param[in] success Input parameter.
+ * @details Calls: load(), spdlog::info(), std::chrono::system_clock::now(), spdlog::error().
+ */
 void DatabaseConnectionManager::updateCircuitBreaker(bool success) {
     if (success) {
         consecutive_successes_++;
@@ -511,6 +543,10 @@ std::chrono::milliseconds ExponentialBackoff::calculateDelay(size_t attempt) con
     return std::chrono::milliseconds(static_cast<long long>(jittered_delay));
 }
 
+/**
+ * @brief Reset the modification detection flag.
+ * @details Implements reset without additional internal calls.
+ */
 void ExponentialBackoff::reset() {
     // Nothing to reset in current implementation
 }
@@ -531,6 +567,10 @@ ConnectionKeepalive::~ConnectionKeepalive() {
     stop();
 }
 
+/**
+ * @brief Start.
+ * @details Calls: load(), keepalive_fn_(), spdlog::warn(), spdlog::error(), what(), std::thread(), spdlog::info(), count().
+ */
 void ConnectionKeepalive::start() {
     if (running_.load()) {
         return;
@@ -558,6 +598,10 @@ void ConnectionKeepalive::start() {
     spdlog::info("Connection keepalive started (interval: {}s)", interval_.count());
 }
 
+/**
+ * @brief Stop.
+ * @details Calls: load(), keepalive_fn_(), spdlog::warn(), spdlog::error(), what(), lock(), notify_all(), joinable().
+ */
 void ConnectionKeepalive::stop() {
     if (!running_.load()) {
         return;
@@ -606,6 +650,10 @@ size_t ConnectionKeepalive::getFailureCount() const {
     return failure_count_.load();
 }
 
+/**
+ * @brief Keepalive Loop.
+ * @details Calls: load(), lock(), wait_for(), unlock(), keepalive_fn_(), spdlog::warn(), spdlog::error(), what().
+ */
 void ConnectionKeepalive::keepaliveLoop() {
     while (!should_stop_.load()) {
         std::unique_lock<std::mutex> lock(stop_mutex_);
@@ -668,6 +716,10 @@ bool ConnectionTimeoutGuard::hasTimedOut() const {
     return false;
 }
 
+/**
+ * @brief Cancel.
+ * @details Implements cancel without additional internal calls.
+ */
 void ConnectionTimeoutGuard::cancel() {
     cancelled_ = true;
 }

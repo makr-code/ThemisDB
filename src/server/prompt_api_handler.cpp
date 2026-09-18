@@ -30,6 +30,12 @@ PromptApiHandler::PromptApiHandler(
 {
 }
 
+/**
+ * @brief Handle Post.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), makeErrorResponse(), body(), empty(), nlohmann::json::parse(), contains(), value(), std::string().
+ */
 http::response<http::string_body> PromptApiHandler::handlePost(
     const http::request<http::string_body>& req
 ) {
@@ -75,6 +81,12 @@ http::response<http::string_body> PromptApiHandler::handlePost(
     }
 }
 
+/**
+ * @brief Handle List.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), makeErrorResponse(), listTemplates(), nlohmann::json::array(), push_back(), toJson(), makeResponse(), dump().
+ */
 http::response<http::string_body> PromptApiHandler::handleList(
     const http::request<http::string_body>& req
 ) {
@@ -96,6 +108,12 @@ http::response<http::string_body> PromptApiHandler::handleList(
     }
 }
 
+/**
+ * @brief Handle Get.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), makeErrorResponse(), std::string(), target(), extractPathParam(), empty(), getTemplate(), has_value().
+ */
 http::response<http::string_body> PromptApiHandler::handleGet(
     const http::request<http::string_body>& req
 ) {
@@ -123,6 +141,12 @@ http::response<http::string_body> PromptApiHandler::handleGet(
     }
 }
 
+/**
+ * @brief Handle Put.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), makeErrorResponse(), std::string(), target(), extractPathParam(), empty(), body(), nlohmann::json::parse().
+ */
 http::response<http::string_body> PromptApiHandler::handlePut(
     const http::request<http::string_body>& req
 ) {
@@ -167,6 +191,13 @@ http::response<http::string_body> PromptApiHandler::handlePut(
     }
 }
 
+/**
+ * @brief Extract Path Param.
+ * @param[in] target Input parameter.
+ * @param[in] prefix Input parameter.
+ * @return Return value.
+ * @details Calls: rfind(), substr(), length(), find().
+ */
 std::string PromptApiHandler::extractPathParam(const std::string& target, const std::string& prefix) {
     // Helper implementation following http_server.cpp pattern
     if (target.rfind(prefix, 0) != 0) {
@@ -181,6 +212,14 @@ std::string PromptApiHandler::extractPathParam(const std::string& target, const 
     return param;
 }
 
+/**
+ * @brief Make Error Response.
+ * @param[in] status Input parameter.
+ * @param[in] message Input parameter.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: makeResponse(), dump().
+ */
 http::response<http::string_body> PromptApiHandler::makeErrorResponse(
     http::status status, const std::string& message, const http::request<http::string_body>& req
 ) {
@@ -193,6 +232,14 @@ http::response<http::string_body> PromptApiHandler::makeErrorResponse(
     return makeResponse(status, error_body.dump(), req);
 }
 
+/**
+ * @brief Make Response.
+ * @param[in] status Input parameter.
+ * @param[in] body Input parameter.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: version(), set(), keep_alive(), body(), prepare_payload().
+ */
 http::response<http::string_body> PromptApiHandler::makeResponse(
     http::status status, const std::string& body, const http::request<http::string_body>& req
 ) {

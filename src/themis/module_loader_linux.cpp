@@ -175,6 +175,12 @@ ModuleLoader::getExtendedAttributes(const std::string& modulePath) const {
 // ============================================================================
 
 std::string ModuleLoader::readELFMetadata(const std::string& modulePath) const {
+    /**
+     * @brief File.
+     * @param[in] modulePath Input parameter.
+     * @param[in] binary Input parameter.
+     * @return Return value.
+     */
     std::ifstream file(modulePath, std::ios::binary);
     if (!file) {
         spdlog::warn("readELFMetadata: cannot open: {}", modulePath);

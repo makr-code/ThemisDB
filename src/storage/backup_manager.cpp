@@ -90,18 +90,34 @@ constexpr bool kRemoteBackupGcsLinked = true;
 constexpr bool kRemoteBackupGcsLinked = false;
 #endif
 
-/// Return whether @p value begins with the provider prefix @p prefix.
+/**
+ * @brief Has Uri Prefix.
+ * @param[in] value Input parameter.
+ * @param[in] prefix Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: size(), compare().
+ */
 bool hasUriPrefix(const std::string& value, std::string_view prefix) {
     return value.size() >= prefix.size() &&
            value.compare(0, prefix.size(), prefix) == 0;
 }
 
-/// Return whether @p value is a local mirror URI handled by the storage module.
+/**
+ * @brief Is Local Backup Uri.
+ * @param[in] value Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: hasUriPrefix().
+ */
 bool isLocalBackupUri(const std::string& value) {
     return hasUriPrefix(value, kLocalBackupUriScheme);
 }
 
-/// Accept either a local `file://` URI or an absolute filesystem path.
+/**
+ * @brief Is Absolute Or Local Backup Uri.
+ * @param[in] value Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), isLocalBackupUri(), fs::path(), substr(), size(), is_absolute().
+ */
 bool isAbsoluteOrLocalBackupUri(const std::string& value) {
     if (value.empty()) {
         return false;
@@ -114,7 +130,12 @@ bool isAbsoluteOrLocalBackupUri(const std::string& value) {
     return fs::path(value).is_absolute();
 }
 
-/// Normalize a local mirror URI or absolute filesystem path into an `fs::path`.
+/**
+ * @brief Resolve Local Backup Path.
+ * @param[in] value Input parameter.
+ * @return Return value.
+ * @details Calls: isLocalBackupUri(), fs::path(), substr(), size().
+ */
 fs::path resolveLocalBackupPath(const std::string& value) {
     if (isLocalBackupUri(value)) {
         return fs::path(value.substr(kLocalBackupUriScheme.size()));
@@ -122,7 +143,13 @@ fs::path resolveLocalBackupPath(const std::string& value) {
     return fs::path(value);
 }
 
-/// Resolve the canonical base directory used by backup path-traversal guards.
+/**
+ * @brief Resolve Backup Guard Base Dir.
+ * @param[in] db_wrapper Input parameter.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), fs::path(), getConfig(), parent_path(), is_absolute(), fs::absolute(), fs::weakly_canonical().
+ */
 fs::path resolveBackupGuardBaseDir(const RocksDBWrapper& db_wrapper,
                                    const BackupManager::Config& config) {
     const fs::path configured_base = config.backup_base_dir.empty()
@@ -134,7 +161,13 @@ fs::path resolveBackupGuardBaseDir(const RocksDBWrapper& db_wrapper,
     return fs::weakly_canonical(absolute_base);
 }
 
-/// Return true when @p candidate is inside @p base (or equals @p base).
+/**
+ * @brief Is Path Within Base Dir.
+ * @param[in] base Input parameter.
+ * @param[in] candidate Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: fs::relative(), empty(), begin(), end().
+ */
 bool isPathWithinBaseDir(const fs::path& base, const fs::path& candidate) {
     std::error_code ec = {};
     const fs::path relative = fs::relative(candidate, base, ec);
@@ -150,7 +183,12 @@ bool isPathWithinBaseDir(const fs::path& base, const fs::path& candidate) {
     return first == relative.end() || *first != "..";
 }
 
-/// Validate that one cron field only uses the supported literal characters.
+/**
+ * @brief Is Valid Cron Field.
+ * @param[in] field Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), std::all_of(), begin(), end(), std::isdigit().
+ */
 bool isValidCronField(const std::string& field) {
     if (field.empty()) {
         return false;
@@ -161,7 +199,12 @@ bool isValidCronField(const std::string& field) {
     });
 }
 
-/// Validate the five-field cron syntax accepted by the in-memory scheduler.
+/**
+ * @brief Is Valid Cron Expression.
+ * @param[in] expression Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: iss(), push_back(), size(), std::all_of(), begin(), end().
+ */
 bool isValidCronExpression(const std::string& expression) {
     std::istringstream iss(expression);
     std::vector<std::string> fields;
@@ -177,7 +220,14 @@ bool isValidCronExpression(const std::string& expression) {
     return std::all_of(fields.begin(), fields.end(), isValidCronField);
 }
 
-/// Copy either a single file or a full directory tree while preserving structure.
+/**
+ * @brief Copy Path Recursively.
+ * @param[in] source Input parameter.
+ * @param[in] destination Input parameter.
+ * @param[in,out] ec Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: clear(), fs::exists(), std::make_error_code(), fs::is_directory(), parent_path(), empty(), fs::create_directories(), fs::copy_file().
+ */
 bool copyPathRecursively(const fs::path& source,
                          const fs::path& destination,
                          std::error_code& ec) {
@@ -252,7 +302,12 @@ bool copyPathRecursively(const fs::path& source,
     return true;
 }
 
-/// Check whether @p uri uses one of the currently recognized remote cloud schemes.
+/**
+ * @brief Is Valid Remote Cloud Uri.
+ * @param[in] uri Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: std::any_of(), begin(), end(), size(), hasUriPrefix().
+ */
 bool isValidRemoteCloudUri(const std::string& uri) {
     static const std::array<std::string_view, 3> kSchemes{
         "s3://", "azure://", "gs://"
@@ -263,6 +318,12 @@ bool isValidRemoteCloudUri(const std::string& uri) {
     });
 }
 
+/**
+ * @brief Trim Slashes.
+ * @param[in] value Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), front(), erase(), begin(), back(), pop_back().
+ */
 std::string trimSlashes(std::string value) {
     while (!value.empty() && value.front() == '/') {
         value.erase(value.begin());
@@ -273,6 +334,12 @@ std::string trimSlashes(std::string value) {
     return value;
 }
 
+/**
+ * @brief Split Path Segments.
+ * @param[in] value Input parameter.
+ * @return Return value.
+ * @details Calls: size(), find(), emplace_back(), substr().
+ */
 std::vector<std::string> splitPathSegments(std::string_view value) {
     std::vector<std::string> segments;
     std::size_t start = 0;
@@ -290,6 +357,13 @@ std::vector<std::string> splitPathSegments(std::string_view value) {
     return segments;
 }
 
+/**
+ * @brief Join Path Segments.
+ * @param[in] segments Input parameter.
+ * @param[in] start_index Input parameter.
+ * @return Return value.
+ * @details Calls: size(), empty(), push_back(), append().
+ */
 std::string joinPathSegments(const std::vector<std::string>& segments, std::size_t start_index) {
     std::string joined = {};
     for (std::size_t i = start_index; i < segments.size(); ++i) {
@@ -300,6 +374,12 @@ std::string joinPathSegments(const std::vector<std::string>& segments, std::size
     }
     return joined;
 }
+/**
+ * @brief Is Remote Backup Provider Linked.
+ * @param[in] backend Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements isRemoteBackupProviderLinked without additional internal calls.
+ */
 bool isRemoteBackupProviderLinked(StorageBackend backend) {
     switch (backend) {
     case StorageBackend::S3:
@@ -315,6 +395,13 @@ bool isRemoteBackupProviderLinked(StorageBackend backend) {
     }
 }
 
+/**
+ * @brief Validate Remote Payload Size.
+ * @param[in] size_bytes Input parameter.
+ * @param[in] label Input parameter.
+ * @return Return value.
+ * @details Calls: OkVoid(), ErrVoid(), std::to_string().
+ */
 Result<void> validateRemotePayloadSize(std::uintmax_t size_bytes, const std::string& label) {
     if (size_bytes <= kMaxRemoteBackupPayloadBytes) {
         return OkVoid();
@@ -325,6 +412,12 @@ Result<void> validateRemotePayloadSize(std::uintmax_t size_bytes, const std::str
                        std::to_string(kMaxRemoteBackupPayloadBytes) + " bytes): " + label);
 }
 
+/**
+ * @brief Validate Remote Upload Source Size.
+ * @param[in] source_path Path to the source.
+ * @return Return value.
+ * @details Calls: fs::exists(), ErrVoid(), string(), message(), fs::is_regular_file(), fs::file_size(), validateRemotePayloadSize(), filename().
+ */
 Result<void> validateRemoteUploadSourceSize(const fs::path& source_path) {
     std::error_code ec = {};
     const bool source_exists = fs::exists(source_path, ec);
@@ -393,6 +486,13 @@ Result<void> validateRemoteUploadSourceSize(const fs::path& source_path) {
     return OkVoid();
 }
 
+/**
+ * @brief Parse Remote Backup Location.
+ * @param[in] backend Input parameter.
+ * @param[in] uri Input parameter.
+ * @return Return value.
+ * @details Calls: find(), substr(), std::string(), trimSlashes(), empty(), splitPathSegments(), size(), joinPathSegments().
+ */
 std::optional<RemoteBackupLocation> parseRemoteBackupLocation(StorageBackend backend,
                                                               const std::string& uri) {
     const auto scheme_end = uri.find("://");
@@ -441,6 +541,12 @@ std::optional<RemoteBackupLocation> parseRemoteBackupLocation(StorageBackend bac
     return std::nullopt;
 }
 
+/**
+ * @brief Is Safe Relative Backup Path.
+ * @param[in] relative_path Path to the relative.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), is_absolute(), has_root_name().
+ */
 bool isSafeRelativeBackupPath(const fs::path& relative_path) {
     if (relative_path.empty() || relative_path.is_absolute() || relative_path.has_root_name()) {
         return false;
@@ -455,6 +561,12 @@ bool isSafeRelativeBackupPath(const fs::path& relative_path) {
     return true;
 }
 
+/**
+ * @brief Read Binary File Bytes.
+ * @param[in] file_path Path to the file.
+ * @return Return value.
+ * @details Calls: input(), string(), data(), Ok(), std::move().
+ */
 Result<std::vector<uint8_t>> readBinaryFileBytes(const fs::path& file_path) {
     std::ifstream input(file_path, std::ios::binary);
     if (!input) {
@@ -468,6 +580,13 @@ Result<std::vector<uint8_t>> readBinaryFileBytes(const fs::path& file_path) {
     return Ok(std::move(data));
 }
 
+/**
+ * @brief Write Binary File Bytes.
+ * @param[in] file_path Path to the file.
+ * @param[in] data Input parameter.
+ * @return Return value.
+ * @details Calls: fs::create_directories(), parent_path(), ErrVoid(), string(), message(), output(), write(), data().
+ */
 Result<void> writeBinaryFileBytes(const fs::path& file_path, const std::vector<uint8_t>& data) {
     std::error_code ec = {};
     fs::create_directories(file_path.parent_path(), ec);
@@ -549,8 +668,12 @@ std::shared_ptr<storage::IBlobStorageBackend> createRemoteBlobBackend(
 }  // namespace
 
 #ifdef _WIN32
-/// Wrap a string in double quotes for use as a CreateProcess command argument.
-/// Backslash-escapes embedded double-quote characters.
+/**
+ * @brief Win Quote For Create Process.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), push_back(), append().
+ */
 static std::string winQuoteForCreateProcess(const std::string& s) {
     std::string out = {};
     out.reserve(s.size() + 2);
@@ -604,6 +727,13 @@ BackupManager::~BackupManager() {
 
 namespace {
 
+/**
+ * @brief Matches Cron Field.
+ * @param[in] field Input parameter.
+ * @param[in] value Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), stream(), std::getline(), find(), std::stoi(), substr().
+ */
 bool matchesCronField(const std::string& field, int value) {
     if (field.empty()) {
         return false;
@@ -648,6 +778,10 @@ bool matchesCronField(const std::string& field, int value) {
 
 } // anonymous namespace
 
+/**
+ * @brief Run Scheduled Backup Loop.
+ * @details Calls: processScheduledBackups(), std::this_thread::sleep_for(), std::chrono::seconds().
+ */
 void BackupManager::runScheduledBackupLoop() {
     while (scheduler_running_) {
         processScheduledBackups();
@@ -655,6 +789,10 @@ void BackupManager::runScheduledBackupLoop() {
     }
 }
 
+/**
+ * @brief Process Scheduled Backups.
+ * @details Calls: std::chrono::system_clock::now(), std::chrono::system_clock::to_time_t(), defined(), localtime_s(), localtime_r(), lock(), shouldRunScheduledBackup(), emplace_back().
+ */
 void BackupManager::processScheduledBackups() {
     std::vector<std::pair<std::string, ScheduledBackupEntry>> due_entries;
     std::time_t now_epoch = 0;
@@ -744,7 +882,12 @@ bool BackupManager::shouldRunScheduledBackup(const ScheduledBackupEntry& entry,
         && matchesCronField(fields[4], day_of_week);
 }
 
-// Static helper to parse RAID mode from string
+/**
+ * @brief Static helper to parse RAID mode from string
+ * @param[in] mode_str Input parameter.
+ * @return Return value.
+ * @details Calls: std::transform(), begin(), end().
+ */
 RAIDMode BackupManager::parseRAIDMode(const std::string& mode_str) {
     std::string mode_lower = mode_str;
     std::transform(mode_lower.begin(), mode_lower.end(), mode_lower.begin(), ::tolower);
@@ -768,7 +911,12 @@ RAIDMode BackupManager::parseRAIDMode(const std::string& mode_str) {
     return RAIDMode::NONE;
 }
 
-// Static helper to convert RAID mode to string
+/**
+ * @brief Static helper to convert RAID mode to string
+ * @param[in] mode Input parameter.
+ * @return Return value.
+ * @details Implements raidModeToString without additional internal calls.
+ */
 std::string BackupManager::raidModeToString(RAIDMode mode) {
     switch (mode) {
         case RAIDMode::RAID0: return "RAID0";
@@ -780,7 +928,11 @@ std::string BackupManager::raidModeToString(RAIDMode mode) {
     }
 }
 
-// Detect RAID configuration from environment
+/**
+ * @brief Detect RAID configuration from environment
+ * @return Return value.
+ * @details Calls: std::getenv(), parseRAIDMode(), ss(), std::getline(), push_back(), size().
+ */
 RAIDConfig BackupManager::detectRAIDConfiguration() {
     RAIDConfig config;
     
@@ -880,6 +1032,14 @@ std::string BackupManager::getTimestamp() const {
     return ss.str();
 }
 
+/**
+ * @brief Create Manifest.
+ * @param[in] backup_dir Input parameter.
+ * @param[in] type Input parameter.
+ * @param[in] sequence_number Input parameter.
+ * @return Return value.
+ * @details Calls: getTimestamp(), getConfig(), raidModeToString(), size(), nlohmann::json::array(), push_back(), fs::path(), out().
+ */
 Result<void> BackupManager::createManifest(const std::string& backup_dir, const std::string& type,
                                            uint64_t sequence_number) {
     namespace fs = std::filesystem;
@@ -938,6 +1098,14 @@ Result<void> BackupManager::createManifest(const std::string& backup_dir, const 
     }
 }
 
+/**
+ * @brief Read Manifest.
+ * @param[in] backup_dir Input parameter.
+ * @param[in,out] type Input/output parameter.
+ * @param[in,out] sequence_number Input/output parameter.
+ * @return Return value.
+ * @details Calls: fs::path(), fs::exists(), THEMIS_ERROR(), string(), ErrVoid(), in(), value(), THEMIS_INFO().
+ */
 Result<void> BackupManager::readManifest(const std::string& backup_dir, std::string& type,
                                          uint64_t& sequence_number) {
     namespace fs = std::filesystem;
@@ -978,6 +1146,14 @@ uint64_t BackupManager::getCurrentSequenceNumber() const {
     return static_cast<uint64_t>(std::chrono::system_clock::now().time_since_epoch().count());
 }
 
+/**
+ * @brief Copy WALFiles.
+ * @param[in] src_dir Input parameter.
+ * @param[in] dest_dir Input parameter.
+ * @param[in] min_sequence Input parameter.
+ * @return Return value.
+ * @details Calls: THEMIS_DEBUG(), fs::create_directories(), THEMIS_ERROR(), message(), ErrVoid(), fs::directory_iterator(), path(), extension().
+ */
 Result<void> BackupManager::copyWALFiles(const std::string& src_dir, const std::string& dest_dir,
                                          uint64_t min_sequence) {
     namespace fs = std::filesystem;
@@ -1024,6 +1200,12 @@ Result<void> BackupManager::copyWALFiles(const std::string& src_dir, const std::
     }
 }
 
+/**
+ * @brief Create Full Backup.
+ * @param[in] dest_dir Input parameter.
+ * @return Return value.
+ * @details Calls: getTimestamp(), fs::path(), THEMIS_INFO(), string(), fs::create_directories(), THEMIS_ERROR(), getConfig(), message().
+ */
 Result<std::string> BackupManager::createFullBackup(const std::string& dest_dir) {
     namespace fs = std::filesystem;
     try {
@@ -1090,6 +1272,14 @@ Result<std::string> BackupManager::createFullBackup(const std::string& dest_dir)
     }
 }
 
+/**
+ * @brief Create Full Backup.
+ * @param[in] dest_dir Input parameter.
+ * @param[in,out] ec Input/output parameter.
+ * @param[in] options Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: std::make_error_code(), value(), verifyBackup(), THEMIS_ERROR(), error(), message(), uploadToCloud(), has_value().
+ */
 bool BackupManager::createFullBackup(const std::string& dest_dir, 
                                      std::error_code& ec,
                                      const BackupOptions& options) {
@@ -1136,6 +1326,12 @@ bool BackupManager::createFullBackup(const std::string& dest_dir,
     return true;
 }
 
+/**
+ * @brief Create Incremental Backup.
+ * @param[in] dest_dir Input parameter.
+ * @return Return value.
+ * @details Calls: listBackups(), empty(), fs::path(), back(), readManifest(), string(), THEMIS_WARN(), createFullBackup().
+ */
 Result<std::string> BackupManager::createIncrementalBackup(const std::string& dest_dir) {
     namespace fs = std::filesystem;
     try {
@@ -1199,6 +1395,14 @@ Result<std::string> BackupManager::createIncrementalBackup(const std::string& de
     }
 }
 
+/**
+ * @brief Create Differential Backup.
+ * @param[in] dest_dir Input parameter.
+ * @param[in,out] ec Input/output parameter.
+ * @param[in] options Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: findLastFullBackup(), empty(), THEMIS_INFO(), createFullBackup(), fs::path(), readManifest(), string(), THEMIS_ERROR().
+ */
 bool BackupManager::createDifferentialBackup(const std::string& dest_dir, std::error_code& ec,
                                              const BackupOptions& options) {
     namespace fs = std::filesystem;
@@ -1291,6 +1495,12 @@ bool BackupManager::createDifferentialBackup(const std::string& dest_dir, std::e
     }
 }
 
+/**
+ * @brief Create Differential Backup.
+ * @param[in] dest_dir Input parameter.
+ * @return Return value.
+ * @details Calls: listBackups(), before_set(), begin(), end(), message(), rbegin(), rend(), starts_with().
+ */
 Result<std::string> BackupManager::createDifferentialBackup(const std::string& dest_dir) {
     try {
         const auto before = listBackups(dest_dir);
@@ -1326,6 +1536,13 @@ Result<std::string> BackupManager::createDifferentialBackup(const std::string& d
     }
 }
 
+/**
+ * @brief Archive WAL.
+ * @param[in] dest_dir Input parameter.
+ * @param[in,out] ec Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: listBackups(), rbegin(), rend(), starts_with(), fs::path(), readManifest(), string(), THEMIS_INFO().
+ */
 bool BackupManager::archiveWAL(const std::string& dest_dir, std::error_code& ec) {
     namespace fs = std::filesystem;
     try {
@@ -1391,6 +1608,12 @@ bool BackupManager::archiveWAL(const std::string& dest_dir, std::error_code& ec)
     }
 }
 
+/**
+ * @brief Archive WAL.
+ * @param[in] dest_dir Input parameter.
+ * @return Return value.
+ * @details Calls: fs::create_directories(), THEMIS_ERROR(), message(), ErrVoid(), getConfig(), copyWALFiles(), what(), std::string().
+ */
 Result<void> BackupManager::archiveWAL(const std::string& dest_dir) {
     namespace fs = std::filesystem;
     try {
@@ -1411,6 +1634,12 @@ Result<void> BackupManager::archiveWAL(const std::string& dest_dir) {
     }
 }
 
+/**
+ * @brief Restore From Backup.
+ * @param[in] src_dir Input parameter.
+ * @return Return value.
+ * @details Calls: THEMIS_INFO(), resolveBackupGuardBaseDir(), fs::weakly_canonical(), fs::path(), isPathWithinBaseDir(), THEMIS_ERROR(), string(), ErrVoid().
+ */
 Result<void> BackupManager::restoreFromBackup(const std::string& src_dir) {
     namespace fs = std::filesystem;
     try {
@@ -1475,6 +1704,12 @@ Result<void> BackupManager::restoreFromBackup(const std::string& src_dir) {
     }
 }
 
+/**
+ * @brief List Backups.
+ * @param[in] backup_dir Input parameter.
+ * @return Return value.
+ * @details Calls: fs::exists(), fs::directory_iterator(), is_directory(), path(), filename(), string(), starts_with(), push_back().
+ */
 std::vector<std::string> BackupManager::listBackups(const std::string& backup_dir) {
     namespace fs = std::filesystem;
     std::vector<std::string> backups;
@@ -1504,6 +1739,12 @@ std::vector<std::string> BackupManager::listBackups(const std::string& backup_di
     return backups;
 }
 
+/**
+ * @brief Verify Backup.
+ * @param[in] backup_dir Input parameter.
+ * @return Return value.
+ * @details Calls: fs::path(), fs::exists(), THEMIS_ERROR(), string(), ErrVoid(), readManifest(), error(), message().
+ */
 Result<void> BackupManager::verifyBackup(const std::string& backup_dir) {
     namespace fs = std::filesystem;
     try {
@@ -1573,6 +1814,13 @@ Result<void> BackupManager::verifyBackup(const std::string& backup_dir) {
     }
 }
 
+/**
+ * @brief Verify RAIDShards In Backup.
+ * @param[in] backup_dir Input parameter.
+ * @param[in] raid_config Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), THEMIS_WARN(), OkVoid(), manifest_file(), fs::path(), THEMIS_ERROR(), ErrVoid(), what().
+ */
 Result<void> BackupManager::verifyRAIDShardsInBackup(const std::string& backup_dir, 
                                                      const RAIDConfig& raid_config) {
     namespace fs = std::filesystem;
@@ -1645,6 +1893,13 @@ Result<void> BackupManager::verifyRAIDShardsInBackup(const std::string& backup_d
     return OkVoid();
 }
 
+/**
+ * @brief Is Backup Complete.
+ * @param[in] backup_dir Input parameter.
+ * @param[in] raid_config Input parameter.
+ * @return Return value.
+ * @details Calls: verifyRAIDShardsInBackup(), verifyBackup().
+ */
 Result<void> BackupManager::isBackupComplete(const std::string& backup_dir, 
                                              const RAIDConfig& raid_config) {
     // For RAID5/6, verify all shards are backed up
@@ -1656,6 +1911,12 @@ Result<void> BackupManager::isBackupComplete(const std::string& backup_dir,
     return verifyBackup(backup_dir);
 }
 
+/**
+ * @brief Calculate Checksum.
+ * @param[in] file_path Path to the file.
+ * @return Return value.
+ * @details Calls: resolveBackupGuardBaseDir(), fs::weakly_canonical(), fs::path(), isPathWithinBaseDir(), THEMIS_ERROR(), string(), file(), SHA256_Init().
+ */
 Result<std::string> BackupManager::calculateChecksum(const std::string& file_path) {
     namespace fs = std::filesystem;
     try {
@@ -1704,6 +1965,13 @@ Result<std::string> BackupManager::calculateChecksum(const std::string& file_pat
     }
 }
 
+/**
+ * @brief Verify Checksum.
+ * @param[in] file_path Path to the file.
+ * @param[in] expected_checksum Input parameter.
+ * @return Return value.
+ * @details Calls: calculateChecksum(), ErrVoid(), error(), message(), OkVoid().
+ */
 Result<void> BackupManager::verifyChecksum(const std::string& file_path, 
                                            const std::string& expected_checksum) {
     auto result = calculateChecksum(file_path);
@@ -1720,6 +1988,12 @@ Result<void> BackupManager::verifyChecksum(const std::string& file_path,
     return OkVoid();
 }
 
+/**
+ * @brief Compress Backup.
+ * @param[in] backup_dir Input parameter.
+ * @return Return value.
+ * @details Calls: fs::exists(), THEMIS_INFO(), buildIntegrityManifest(), writeIntegrityManifest(), THEMIS_WARN(), error(), message(), fs::path().
+ */
 Result<std::string> BackupManager::compressBackup(const std::string& backup_dir) {
     namespace fs = std::filesystem;
     try {
@@ -1817,6 +2091,13 @@ Result<std::string> BackupManager::compressBackup(const std::string& backup_dir)
     }
 }
 
+/**
+ * @brief Decompress Backup.
+ * @param[in] compressed_file Input parameter.
+ * @param[in] dest_dir Input parameter.
+ * @return Return value.
+ * @details Calls: fs::exists(), fs::create_directories(), message(), fork(), c_str(), execvp(), _exit(), waitpid().
+ */
 Result<std::string> BackupManager::decompressBackup(const std::string& compressed_file,
                                                     const std::string& dest_dir) {
     namespace fs = std::filesystem;
@@ -1907,6 +2188,15 @@ Result<std::string> BackupManager::decompressBackup(const std::string& compresse
 // New Helper Methods
 // ============================================================================
 
+/**
+ * @brief Compress Path.
+ * @param[in] src_path Path to the src.
+ * @param[in] dest_path Path to the dest.
+ * @param[in] type Input parameter.
+ * @param[in,out] ec Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: defined(), THEMIS_INFO(), fs::copy(), src_root(), fs::create_directories(), THEMIS_ERROR(), message(), fs::recursive_directory_iterator().
+ */
 bool BackupManager::compressPath(const std::string& src_path,
                                  const std::string& dest_path,
                                  CompressionType type, std::error_code& ec) {
@@ -2025,6 +2315,15 @@ bool BackupManager::compressPath(const std::string& src_path,
 #endif
 }
 
+/**
+ * @brief Decompress Path.
+ * @param[in] src_path Path to the src.
+ * @param[in] dest_path Path to the dest.
+ * @param[in] type Input parameter.
+ * @param[in,out] ec Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: defined(), THEMIS_INFO(), fs::copy(), src_root(), fs::create_directories(), THEMIS_ERROR(), message(), fs::recursive_directory_iterator().
+ */
 bool BackupManager::decompressPath(const std::string& src_path,
                                    const std::string& dest_path,
                                    CompressionType type, std::error_code& ec) {
@@ -2177,6 +2476,15 @@ bool BackupManager::decompressPath(const std::string& src_path,
 #endif
 }
 
+/**
+ * @brief Encrypt File.
+ * @param[in] src_path Path to the src.
+ * @param[in] dest_path Path to the dest.
+ * @param[in] key Input parameter.
+ * @param[in,out] ec Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: SHA256(), data(), size(), RAND_bytes(), std::make_error_code(), THEMIS_ERROR(), in(), out().
+ */
 bool BackupManager::encryptFile(const std::string& src_path,
                                 const std::string& dest_path,
                                 const std::string& key, std::error_code& ec) {
@@ -2268,6 +2576,15 @@ bool BackupManager::encryptFile(const std::string& src_path,
 #endif
 }
 
+/**
+ * @brief Decrypt File.
+ * @param[in] src_path Path to the src.
+ * @param[in] dest_path Path to the dest.
+ * @param[in] key Input parameter.
+ * @param[in,out] ec Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: in(), std::make_error_code(), THEMIS_ERROR(), tellg(), seekg(), read(), std::memcmp(), ciphertext().
+ */
 bool BackupManager::decryptFile(const std::string& src_path,
                                 const std::string& dest_path,
                                 const std::string& key, std::error_code& ec) {
@@ -2410,6 +2727,11 @@ Result<void> BackupManager::uploadToCloud(const std::string& local_path,
                            "Cloud provider backend is unavailable for URI: " + cloud_path);
         }
 
+        /**
+         * @brief Source path.
+         * @param[in] local_path Path to the local.
+         * @return Return value.
+         */
         const fs::path source_path(local_path);
         const bool source_is_directory = fs::is_directory(source_path);
         nlohmann::json manifest;
@@ -2667,6 +2989,12 @@ Result<void> BackupManager::downloadFromCloud(const std::string& cloud_path,
     return OkVoid();
 }
 
+/**
+ * @brief Find Last Full Backup.
+ * @param[in] backup_dir Input parameter.
+ * @return Return value.
+ * @details Calls: fs::exists(), fs::directory_iterator(), is_directory(), path(), filename(), string(), starts_with(), push_back().
+ */
 std::string BackupManager::findLastFullBackup(const std::string& backup_dir) {
     namespace fs = std::filesystem;
     try {
@@ -2698,6 +3026,14 @@ std::string BackupManager::findLastFullBackup(const std::string& backup_dir) {
     }
 }
 
+/**
+ * @brief Restore From Backup.
+ * @param[in] src_dir Input parameter.
+ * @param[in,out] ec Input/output parameter.
+ * @param[in,out] stats Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: std::chrono::system_clock::now(), THEMIS_INFO(), readManifest(), THEMIS_ERROR(), std::make_error_code(), verifyBackup(), fs::path(), fs::exists().
+ */
 bool BackupManager::restoreFromBackup(const std::string& src_dir, std::error_code& ec,
                                       RecoveryStats* stats) {
     namespace fs = std::filesystem;
@@ -2778,6 +3114,15 @@ bool BackupManager::restoreFromBackup(const std::string& src_dir, std::error_cod
     }
 }
 
+/**
+ * @brief Perform PITR.
+ * @param[in] dest_dir Input parameter.
+ * @param[in] pitr_options Input parameter.
+ * @param[in,out] ec Input/output parameter.
+ * @param[in,out] stats Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: THEMIS_INFO(), std::chrono::system_clock::to_time_t(), listBackups(), size(), compare(), substr(), iss(), std::get_time().
+ */
 bool BackupManager::performPITR(const std::string& dest_dir, const PITROptions& pitr_options,
                                 std::error_code& ec, RecoveryStats* stats) {
     namespace fs = std::filesystem;
@@ -2868,15 +3213,31 @@ bool BackupManager::performPITR(const std::string& dest_dir, const PITROptions& 
     }
 }
 
+/**
+ * @brief Set Wal Replay Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: std::move().
+ */
 void BackupManager::setWalReplayFn(WalReplayFn fn) {
     wal_replay_fn_ = std::move(fn);
 }
 
+/**
+ * @brief Set Cf Sst Ingest Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: std::move().
+ */
 void BackupManager::setCfSstIngestFn(CfSstIngestFn fn) {
     cf_sst_ingest_fn_ = std::move(fn);
 }
 
-// Helper: Extract SST files for a specific column family from checkpoint
+/**
+ * @brief Helper: Extract SST files for a specific column family from checkpoint
+ * @param[in] checkpoint_dir Input parameter.
+ * @param[in] cf_name Name of the cf.
+ * @return Return value.
+ * @details Calls: fs::path(), fs::exists(), THEMIS_WARN(), fs::directory_iterator(), is_regular_file(), path(), extension(), push_back().
+ */
 static std::vector<std::string> extractCFSSTFiles(
     const std::string& checkpoint_dir,
     const std::string& cf_name) {
@@ -2912,7 +3273,13 @@ static std::vector<std::string> extractCFSSTFiles(
     return sst_files;
 }
 
-// Helper: Validate SST file integrity before ingest
+/**
+ * @brief Helper: Validate SST file integrity before ingest
+ * @param[in] sst_files Input parameter.
+ * @param[in] cf_name Name of the cf.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), THEMIS_WARN(), fs::exists(), THEMIS_ERROR(), fs::file_size(), THEMIS_INFO().
+ */
 static bool validateCFSSTFiles(
     const std::vector<std::string>& sst_files,
     const std::string& cf_name) {
@@ -2946,6 +3313,14 @@ static bool validateCFSSTFiles(
     return true;
 }
 
+/**
+ * @brief Restore Collections.
+ * @param[in] src_dir Input parameter.
+ * @param[in] collections Input parameter.
+ * @param[in,out] ec Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: THEMIS_INFO(), size(), fs::exists(), THEMIS_ERROR(), std::make_error_code(), readManifest(), fs::path(), string().
+ */
 bool BackupManager::restoreCollections(const std::string& src_dir,
                                        const std::vector<std::string>& collections,
                                        std::error_code& ec) {
@@ -3132,6 +3507,14 @@ bool BackupManager::restoreCollections(const std::string& src_dir,
     }
 }
 
+/**
+ * @brief Apply Retention Policy.
+ * @param[in] backup_dir Input parameter.
+ * @param[in] retention_days Input parameter.
+ * @param[in,out] ec Input/output parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::now(), std::chrono::hours(), listBackups(), fs::path(), fs::last_write_time(), fs::file_time_type::clock::now(), THEMIS_INFO(), fs::remove_all().
+ */
 uint32_t BackupManager::applyRetentionPolicy(const std::string& backup_dir, 
                                              uint32_t retention_days,
                                              std::error_code& ec) {
@@ -3219,6 +3602,12 @@ std::map<std::string, uint64_t> BackupManager::getBackupMetrics(const std::strin
     }
 }
 
+/**
+ * @brief Estimate RTO.
+ * @param[in] backup_dir Input parameter.
+ * @return Return value.
+ * @details Calls: fs::path(), fs::exists(), fs::recursive_directory_iterator(), is_regular_file(), fs::file_size(), THEMIS_INFO(), THEMIS_ERROR(), what().
+ */
 uint32_t BackupManager::estimateRTO(const std::string& backup_dir) {
     namespace fs = std::filesystem;
     try {
@@ -3248,6 +3637,12 @@ uint32_t BackupManager::estimateRTO(const std::string& backup_dir) {
     }
 }
 
+/**
+ * @brief Get RPO.
+ * @param[in] backup_dir Input parameter.
+ * @return Return value.
+ * @details Calls: listBackups(), empty(), back(), fs::path(), readManifest(), string(), fs::last_write_time(), fs::file_time_type::clock::now().
+ */
 std::chrono::system_clock::time_point BackupManager::getRPO(const std::string& backup_dir) {
     namespace fs = std::filesystem;
     try {
@@ -3287,12 +3682,14 @@ std::chrono::system_clock::time_point BackupManager::getRPO(const std::string& b
     }
 }
 
-// ============================================================================
-// GAP-008: Cloud Backup & Snapshot Scheduling
-// In the current module baseline the scheduler uses an in-memory registry and
-// local filesystem transport. Remote provider transport still depends on the
-// corresponding cloud integration being linked into the build.
-// ============================================================================
+/**
+ * @brief ============================================================================ GAP-008: Cloud Backup & Snapshot Scheduling In the current module baseline the scheduler uses an in-memory registry and local filesystem transport.
+ * @param[in] schedule_cron Input parameter.
+ * @param[in] backup_type Input parameter.
+ * @param[in] options Input parameter.
+ * @return Return value.
+ * @details Remote provider transport still depends on the corresponding cloud integration being linked into the build. ============================================================================ Calls: THEMIS_INFO(), empty(), tl::unexpected(), Error(), isValidCronExpression(), lock(), getTimestamp(), std::to_string().
+ */
 
 Result<std::string> BackupManager::scheduleBackup(
     const std::string& schedule_cron,
@@ -3344,6 +3741,12 @@ Result<std::string> BackupManager::scheduleBackup(
     }
 }
 
+/**
+ * @brief Cancel Scheduled Backup.
+ * @param[in] schedule_id Identifier of the schedule.
+ * @return Return value.
+ * @details Calls: THEMIS_INFO(), empty(), tl::unexpected(), Error(), lock(), find(), end(), erase().
+ */
 Result<void> BackupManager::cancelScheduledBackup(const std::string& schedule_id) {
     THEMIS_INFO("cancelScheduledBackup: schedule_id={}", schedule_id);
 
@@ -3372,6 +3775,11 @@ Result<void> BackupManager::cancelScheduledBackup(const std::string& schedule_id
 }
 
 std::vector<std::pair<std::string, std::string>> BackupManager::listScheduledBackups() {
+    /**
+     * @brief Lock.
+     * @param[in] scheduler_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(scheduler_mutex_);
 
     std::vector<std::pair<std::string, std::string>> result;
@@ -3382,6 +3790,14 @@ std::vector<std::pair<std::string, std::string>> BackupManager::listScheduledBac
     return result;
 }
 
+/**
+ * @brief Upload Backup To Cloud.
+ * @param[in] local_backup_path Path to the local backup.
+ * @param[in] cloud_uri Input parameter.
+ * @param[in] options Input parameter.
+ * @return Return value.
+ * @details Calls: THEMIS_INFO(), fs::exists(), tl::unexpected(), Error(), isAbsoluteOrLocalBackupUri(), isValidRemoteCloudUri(), uploadToCloud(), has_value().
+ */
 Result<std::string> BackupManager::uploadBackupToCloud(
     const std::string& local_backup_path,
     const std::string& cloud_uri,
@@ -3456,6 +3872,14 @@ Result<std::string> BackupManager::uploadBackupToCloud(
     return cloud_uri;
 }
 
+/**
+ * @brief Restore From Cloud.
+ * @param[in] cloud_uri Input parameter.
+ * @param[in] local_restore_path Path to the local restore.
+ * @param[in] options Input parameter.
+ * @return Return value.
+ * @details Calls: THEMIS_INFO(), empty(), tl::unexpected(), Error(), isAbsoluteOrLocalBackupUri(), isValidRemoteCloudUri(), fs::create_directories(), message().
+ */
 Result<void> BackupManager::restoreFromCloud(
     const std::string& cloud_uri,
     const std::string& local_restore_path,
@@ -3541,6 +3965,13 @@ Result<void> BackupManager::restoreFromCloud(
     return OkVoid();
 }
 
+/**
+ * @brief Create Snapshot.
+ * @param[in] snapshot_name Name of the snapshot.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Calls: tl::unexpected(), Error(), getConfig(), getTimestamp(), fs::path(), parent_path(), fs::create_directories(), message().
+ */
 Result<std::string> BackupManager::createSnapshot(
     const std::string& snapshot_name,
     const std::string& /*storage_class*/) {
@@ -3600,6 +4031,13 @@ Result<std::string> BackupManager::createSnapshot(
     return snap_dir.string();
 }
 
+/**
+ * @brief Restore From Snapshot.
+ * @param[in] snapshot_id Identifier of the snapshot.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), tl::unexpected(), Error(), verifySnapshot(), restoreFromCheckpoint(), THEMIS_INFO(), OkVoid().
+ */
 Result<void> BackupManager::restoreFromSnapshot(
     const std::string& snapshot_id,
     const std::string& /*restore_pvc*/) {
@@ -3632,6 +4070,12 @@ Result<void> BackupManager::restoreFromSnapshot(
     return OkVoid();
 }
 
+/**
+ * @brief Verify Snapshot.
+ * @param[in] snapshot_dir Input parameter.
+ * @return Return value.
+ * @details Calls: fs::exists(), tl::unexpected(), Error(), fs::path(), mf(), nlohmann::json::parse(), value(), std::string().
+ */
 Result<void> BackupManager::verifySnapshot(const std::string& snapshot_dir) {
     namespace fs = std::filesystem;
 
@@ -3686,6 +4130,11 @@ Result<void> BackupManager::verifySnapshot(const std::string& snapshot_dir) {
     return OkVoid();
 }
 
+/**
+ * @brief List Snapshots.
+ * @return Return value.
+ * @details Calls: tl::unexpected(), Error(), getConfig(), fs::path(), parent_path(), fs::exists(), fs::directory_iterator(), is_directory().
+ */
 Result<std::vector<std::string>> BackupManager::listSnapshots() {
     namespace fs = std::filesystem;
 
@@ -3713,9 +4162,12 @@ Result<std::vector<std::string>> BackupManager::listSnapshots() {
     return result;
 }
 
-// ============================================================================
-// Phase 1: Decompression Integrity Verification Implementation
-// ============================================================================
+/**
+ * @brief ============================================================================ Phase 1: Decompression Integrity Verification Implementation ============================================================================
+ * @param[in] backup_dir Input parameter.
+ * @return Return value.
+ * @details Calls: THEMIS_INFO(), fs::exists(), ErrVoid(), fs::path(), THEMIS_WARN(), OkVoid(), readIntegrityManifest(), THEMIS_ERROR().
+ */
 
 Result<void> BackupManager::verifyDecompressedBackup(const std::string& backup_dir) {
     namespace fs = std::filesystem;
@@ -3790,6 +4242,13 @@ Result<void> BackupManager::verifyDecompressedBackup(const std::string& backup_d
     }
 }
 
+/**
+ * @brief Repair Decompressed Backup.
+ * @param[in] backup_dir Input parameter.
+ * @param[in] compressed_source Input parameter.
+ * @return Return value.
+ * @details Calls: THEMIS_INFO(), verifyDecompressedBackup(), Ok(), empty(), fs::exists(), THEMIS_WARN(), fs::remove_all(), message().
+ */
 Result<uint32_t> BackupManager::repairDecompressedBackup(const std::string& backup_dir,
                                                          const std::string& compressed_source) {
     namespace fs = std::filesystem;
@@ -3860,6 +4319,13 @@ Result<uint32_t> BackupManager::repairDecompressedBackup(const std::string& back
     }
 }
 
+/**
+ * @brief Build Integrity Manifest.
+ * @param[in] backup_dir Input parameter.
+ * @param[in,out] integrity_map Input/output parameter.
+ * @return Return value.
+ * @details Calls: THEMIS_INFO(), fs::exists(), ErrVoid(), clear(), fs::recursive_directory_iterator(), is_regular_file(), path(), filename().
+ */
 Result<void> BackupManager::buildIntegrityManifest(const std::string& backup_dir,
                                                    std::vector<FileIntegrityInfo>& integrity_map) {
     namespace fs = std::filesystem;
@@ -3904,6 +4370,13 @@ Result<void> BackupManager::buildIntegrityManifest(const std::string& backup_dir
     }
 }
 
+/**
+ * @brief Write Integrity Manifest.
+ * @param[in] backup_dir Input parameter.
+ * @param[in] integrity_map Input parameter.
+ * @return Return value.
+ * @details Calls: fs::path(), nlohmann::json::array(), push_back(), fout(), ErrVoid(), string(), dump(), THEMIS_INFO().
+ */
 Result<void> BackupManager::writeIntegrityManifest(const std::string& backup_dir,
                                                    const std::vector<FileIntegrityInfo>& integrity_map) {
     namespace fs = std::filesystem;
@@ -3936,6 +4409,12 @@ Result<void> BackupManager::writeIntegrityManifest(const std::string& backup_dir
     }
 }
 
+/**
+ * @brief Read Integrity Manifest.
+ * @param[in] backup_dir Input parameter.
+ * @return Return value.
+ * @details Calls: fs::path(), fs::exists(), Ok(), fin(), string(), value(), push_back(), THEMIS_INFO().
+ */
 Result<std::vector<FileIntegrityInfo>> BackupManager::readIntegrityManifest(const std::string& backup_dir) {
     namespace fs = std::filesystem;
     std::vector<FileIntegrityInfo> result;
@@ -3976,6 +4455,13 @@ Result<std::vector<FileIntegrityInfo>> BackupManager::readIntegrityManifest(cons
     }
 }
 
+/**
+ * @brief Verify File Checksum.
+ * @param[in] file_path Path to the file.
+ * @param[in] expected_checksum Input parameter.
+ * @return Return value.
+ * @details Calls: calculateChecksum(), error(), message(), value(), THEMIS_WARN(), Ok(), std::string(), what().
+ */
 Result<bool> BackupManager::verifyFileChecksum(const std::string& file_path,
                                               const std::string& expected_checksum) {
     try {
@@ -4000,6 +4486,13 @@ Result<bool> BackupManager::verifyFileChecksum(const std::string& file_path,
     }
 }
 
+/**
+ * @brief Verify All Checksums.
+ * @param[in] backup_dir Input parameter.
+ * @param[in] integrity_map Input parameter.
+ * @return Return value.
+ * @details Calls: fs::path(), fs::exists(), THEMIS_WARN(), push_back(), verifyFileChecksum(), string(), THEMIS_ERROR(), error().
+ */
 Result<std::vector<std::string>> BackupManager::verifyAllChecksums(
     const std::string& backup_dir,
     const std::vector<FileIntegrityInfo>& integrity_map) {
@@ -4038,6 +4531,15 @@ Result<std::vector<std::string>> BackupManager::verifyAllChecksums(
     }
 }
 
+/**
+ * @brief Decompress Path With Integrity.
+ * @param[in] src_path Path to the src.
+ * @param[in] dest_path Path to the dest.
+ * @param[in] type Input parameter.
+ * @param[in,out] ec Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: decompressPath(), buildIntegrityManifest(), THEMIS_WARN(), error(), message(), writeIntegrityManifest().
+ */
 bool BackupManager::decompressPathWithIntegrity(const std::string& src_path,
                                                const std::string& dest_path,
                                                CompressionType type,
@@ -4074,71 +4576,157 @@ BackupManager::BackupManager(std::shared_ptr<RocksDBWrapper> /* db_wrapper */, C
     THEMIS_ERROR("BackupManager requires THEMIS_ROCKSDB_AVAILABLE to be enabled");
 }
 
+/**
+ * @brief Create Full Backup.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Implements createFullBackup without additional internal calls.
+ */
 Result<std::string> BackupManager::createFullBackup(const std::string& /* dest_dir */) {
     return Err<std::string>(
         errors::ErrorCode::ERR_BACKUP_CREATION_FAILED,
         "Backup operations not available: RocksDB not enabled");
 }
 
+/**
+ * @brief Create Full Backup.
+ * @param[in] param Input parameter.
+ * @param[in,out] ec Input/output parameter.
+ * @param[in] param Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: std::make_error_code().
+ */
 bool BackupManager::createFullBackup(const std::string& /* dest_dir */, std::error_code& ec,
                                     const BackupOptions& /* options */) {
     ec = std::make_error_code(std::errc::operation_not_supported);
     return false;
 }
 
+/**
+ * @brief Create Incremental Backup.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Implements createIncrementalBackup without additional internal calls.
+ */
 Result<std::string> BackupManager::createIncrementalBackup(const std::string& /* dest_dir */) {
     return Err<std::string>(
         errors::ErrorCode::ERR_BACKUP_CREATION_FAILED,
         "Backup operations not available: RocksDB not enabled");
 }
 
+/**
+ * @brief Create Incremental Backup.
+ * @param[in] param Input parameter.
+ * @param[in,out] ec Input/output parameter.
+ * @param[in] param Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: std::make_error_code().
+ */
 bool BackupManager::createIncrementalBackup(const std::string& /* dest_dir */, std::error_code& ec,
                                            const BackupOptions& /* options */) {
     ec = std::make_error_code(std::errc::operation_not_supported);
     return false;
 }
 
+/**
+ * @brief Create Differential Backup.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Implements createDifferentialBackup without additional internal calls.
+ */
 Result<std::string> BackupManager::createDifferentialBackup(const std::string& /* dest_dir */) {
     return Err<std::string>(
         errors::ErrorCode::ERR_BACKUP_CREATION_FAILED,
         "Backup operations not available: RocksDB not enabled");
 }
 
+/**
+ * @brief Create Differential Backup.
+ * @param[in] param Input parameter.
+ * @param[in,out] ec Input/output parameter.
+ * @param[in] param Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: std::make_error_code().
+ */
 bool BackupManager::createDifferentialBackup(const std::string& /* dest_dir */, std::error_code& ec,
                                             const BackupOptions& /* options */) {
     ec = std::make_error_code(std::errc::operation_not_supported);
     return false;
 }
 
+/**
+ * @brief Archive WAL.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Implements archiveWAL without additional internal calls.
+ */
 Result<void> BackupManager::archiveWAL(const std::string& /* dest_dir */) {
     return Err<void>(
         errors::ErrorCode::ERR_BACKUP_WAL_ARCHIVE_FAILED,
         "WAL archival not available: RocksDB not enabled");
 }
 
+/**
+ * @brief Archive WAL.
+ * @param[in] param Input parameter.
+ * @param[in,out] ec Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: std::make_error_code().
+ */
 bool BackupManager::archiveWAL(const std::string& /* dest_dir */, std::error_code& ec) {
     ec = std::make_error_code(std::errc::operation_not_supported);
     return false;
 }
 
+/**
+ * @brief Restore From Backup.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Implements restoreFromBackup without additional internal calls.
+ */
 Result<void> BackupManager::restoreFromBackup(const std::string& /* src_dir */) {
     return Err<void>(
         errors::ErrorCode::ERR_BACKUP_RESTORATION_FAILED,
         "Restore operations not available: RocksDB not enabled");
 }
 
+/**
+ * @brief Restore From Backup.
+ * @param[in] param Input parameter.
+ * @param[in,out] ec Input/output parameter.
+ * @param[in,out] param Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: std::make_error_code().
+ */
 bool BackupManager::restoreFromBackup(const std::string& /* src_dir */, std::error_code& ec,
                                      RecoveryStats* /* stats */) {
     ec = std::make_error_code(std::errc::operation_not_supported);
     return false;
 }
 
+/**
+ * @brief Perform PITR.
+ * @param[in] param Input parameter.
+ * @param[in] param Input parameter.
+ * @param[in,out] ec Input/output parameter.
+ * @param[in,out] param Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: std::make_error_code().
+ */
 bool BackupManager::performPITR(const std::string& /* dest_dir */, const PITROptions& /* pitr_options */,
                                std::error_code& ec, RecoveryStats* /* stats */) {
     ec = std::make_error_code(std::errc::operation_not_supported);
     return false;
 }
 
+/**
+ * @brief Restore Collections.
+ * @param[in] param Input parameter.
+ * @param[in] param Input parameter.
+ * @param[in,out] ec Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: std::make_error_code().
+ */
 bool BackupManager::restoreCollections(const std::string& /* src_dir */,
                                       const std::vector<std::string>& /* collections */,
                                       std::error_code& ec) {
@@ -4146,22 +4734,47 @@ bool BackupManager::restoreCollections(const std::string& /* src_dir */,
     return false;
 }
 
+/**
+ * @brief List Backups.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Implements listBackups without additional internal calls.
+ */
 std::vector<std::string> BackupManager::listBackups(const std::string& /* backup_dir */) {
     return {};
 }
 
+/**
+ * @brief Verify Backup.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Implements verifyBackup without additional internal calls.
+ */
 Result<void> BackupManager::verifyBackup(const std::string& /* backup_dir */) {
     return Err<void>(
         errors::ErrorCode::ERR_BACKUP_VERIFICATION_FAILED,
         "Backup verification not available: RocksDB not enabled");
 }
 
+/**
+ * @brief Compress Backup.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Implements compressBackup without additional internal calls.
+ */
 Result<std::string> BackupManager::compressBackup(const std::string& /* backup_dir */) {
     return Err<std::string>(
         errors::ErrorCode::ERR_BACKUP_COMPRESSION_FAILED,
         "Backup compression not available: RocksDB not enabled");
 }
 
+/**
+ * @brief Decompress Backup.
+ * @param[in] param Input parameter.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Implements decompressBackup without additional internal calls.
+ */
 Result<std::string> BackupManager::decompressBackup(const std::string& /* compressed_file */,
                                                    const std::string& /* dest_dir */) {
     return Err<std::string>(

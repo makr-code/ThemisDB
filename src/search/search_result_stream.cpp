@@ -41,6 +41,12 @@ SearchResultStream::SearchResultStream(HybridSearch* hybrid_search,
 // open
 // ============================================================================
 
+/**
+ * @brief Open.
+ * @param[in] query Input parameter.
+ * @param[in] param Input parameter.
+ * @details Calls: close(), empty(), getConfig(), setConfig(), std::chrono::steady_clock::now(), search(), count(), THEMIS_WARN().
+ */
 void SearchResultStream::open(const std::string& query,
                                const std::vector<float>& /*vector_query*/) {
     close();
@@ -89,6 +95,11 @@ void SearchResultStream::open(const std::string& query,
 // nextPage
 // ============================================================================
 
+/**
+ * @brief Next Page.
+ * @return Return value.
+ * @details Calls: hasMore(), std::min(), size(), page(), begin().
+ */
 std::vector<HybridSearch::Result> SearchResultStream::nextPage() {
     if (!hasMore()) {
         return {};
@@ -112,10 +123,18 @@ bool SearchResultStream::hasMore() const {
 // reset / close
 // ============================================================================
 
+/**
+ * @brief Reset the modification detection flag.
+ * @details Implements reset without additional internal calls.
+ */
 void SearchResultStream::reset() {
     cursor_ = 0;
 }
 
+/**
+ * @brief Close.
+ * @details Calls: clear().
+ */
 void SearchResultStream::close() {
     results_.clear();
     cursor_ = 0;
@@ -125,6 +144,11 @@ void SearchResultStream::close() {
 // forEachResult
 // ============================================================================
 
+/**
+ * @brief For Each Result.
+ * @param[in] callback Input parameter.
+ * @details Calls: size(), callback(), THEMIS_ERROR(), what().
+ */
 void SearchResultStream::forEachResult(ResultCallback callback) {
     if (!callback) {
       return;
@@ -149,6 +173,12 @@ void SearchResultStream::forEachResult(ResultCallback callback) {
 // setConfig
 // ============================================================================
 
+/**
+ * @brief Set Config.
+ * @param[in] config Input parameter.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Implements setConfig without additional internal calls.
+ */
 void SearchResultStream::setConfig(const Config& config) {
     if (config.total_k == 0) {
         throw std::invalid_argument(

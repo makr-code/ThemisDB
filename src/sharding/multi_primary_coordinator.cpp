@@ -40,6 +40,12 @@ MultiPrimaryCoordinator::MultiPrimaryCoordinator(const MultiPrimaryConfig& confi
 
 MultiPrimaryCoordinator::~MultiPrimaryCoordinator() = default;
 
+/**
+ * @brief Register Primary.
+ * @param[in] node_id Identifier of the node.
+ * @param[in] endpoint Input parameter.
+ * @details Calls: lock(), std::chrono::steady_clock::now().
+ */
 void MultiPrimaryCoordinator::registerPrimary(const std::string& node_id, const std::string& endpoint) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -53,6 +59,12 @@ void MultiPrimaryCoordinator::registerPrimary(const std::string& node_id, const 
     primaries_[node_id] = info;
 }
 
+/**
+ * @brief Promote To Primary.
+ * @param[in] node_id Identifier of the node.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), find(), end(), std::chrono::steady_clock::now().
+ */
 bool MultiPrimaryCoordinator::promoteToPrimary(const std::string& node_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -73,6 +85,12 @@ bool MultiPrimaryCoordinator::promoteToPrimary(const std::string& node_id) {
     return true;
 }
 
+/**
+ * @brief Demote To Standby.
+ * @param[in] node_id Identifier of the node.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), find(), end().
+ */
 bool MultiPrimaryCoordinator::demoteToStandby(const std::string& node_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -91,6 +109,11 @@ bool MultiPrimaryCoordinator::demoteToStandby(const std::string& node_id) {
     return false;
 }
 
+/**
+ * @brief Mark Primary Offline.
+ * @param[in] node_id Identifier of the node.
+ * @details Calls: lock(), find(), end().
+ */
 void MultiPrimaryCoordinator::markPrimaryOffline(const std::string& node_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -100,6 +123,12 @@ void MultiPrimaryCoordinator::markPrimaryOffline(const std::string& node_id) {
     }
 }
 
+/**
+ * @brief Update Heartbeat.
+ * @param[in] node_id Identifier of the node.
+ * @param[in] current_lsn Input parameter.
+ * @details Calls: lock(), find(), end(), std::chrono::steady_clock::now().
+ */
 void MultiPrimaryCoordinator::updateHeartbeat(const std::string& node_id, const LSN& current_lsn) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -116,6 +145,11 @@ void MultiPrimaryCoordinator::updateHeartbeat(const std::string& node_id, const 
 }
 
 std::vector<PrimaryNodeInfo> MultiPrimaryCoordinator::getActivePrimaries() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     std::vector<PrimaryNodeInfo> result = {};
@@ -130,6 +164,11 @@ std::vector<PrimaryNodeInfo> MultiPrimaryCoordinator::getActivePrimaries() const
 }
 
 std::optional<PrimaryNodeInfo> MultiPrimaryCoordinator::getPrimaryInfo(const std::string& node_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     auto it = primaries_.find(node_id);
@@ -141,6 +180,11 @@ std::optional<PrimaryNodeInfo> MultiPrimaryCoordinator::getPrimaryInfo(const std
 }
 
 bool MultiPrimaryCoordinator::isCurrentNodeActive() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     auto it = primaries_.find(config_.current_node_id);
@@ -162,6 +206,11 @@ LSN MultiPrimaryCoordinator::resolveConflict(const WriteConflict& conflict) cons
     return (conflict.lsn2 > conflict.lsn1) ? conflict.lsn2 : conflict.lsn1;
 }
 
+/**
+ * @brief Record Write.
+ * @param[in] lsn Input parameter.
+ * @details Calls: lock(), find(), end().
+ */
 void MultiPrimaryCoordinator::recordWrite(const LSN& lsn) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -173,6 +222,11 @@ void MultiPrimaryCoordinator::recordWrite(const LSN& lsn) {
 }
 
 std::optional<std::string> MultiPrimaryCoordinator::getMostCurrentPrimary() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     std::string best_primary = {};
@@ -193,6 +247,11 @@ std::optional<std::string> MultiPrimaryCoordinator::getMostCurrentPrimary() cons
 }
 
 MultiPrimaryCoordinator::Statistics MultiPrimaryCoordinator::getStatistics() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     Statistics stats;

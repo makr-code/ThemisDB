@@ -13,6 +13,13 @@
 
 namespace themis {
 
+/**
+ * @brief Make Relational Key.
+ * @param[in] table Input parameter.
+ * @param[in] pk Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size().
+ */
 std::string KeySchema::makeRelationalKey(std::string_view table, std::string_view pk) {
     std::string key = {};
     key.reserve(4 + table.size() + pk.size() );
@@ -24,6 +31,13 @@ std::string KeySchema::makeRelationalKey(std::string_view table, std::string_vie
     return key;
 }
 
+/**
+ * @brief Make Document Key.
+ * @param[in] collection Input parameter.
+ * @param[in] pk Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size().
+ */
 std::string KeySchema::makeDocumentKey(std::string_view collection, std::string_view pk) {
     std::string key = {};
     key.reserve(4 + collection.size() + pk.size() );
@@ -35,6 +49,12 @@ std::string KeySchema::makeDocumentKey(std::string_view collection, std::string_
     return key;
 }
 
+/**
+ * @brief Make Graph Node Key.
+ * @param[in] pk Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size().
+ */
 std::string KeySchema::makeGraphNodeKey(std::string_view pk) {
     std::string key = {};
     key.reserve(5 + pk.size() );
@@ -44,6 +64,12 @@ std::string KeySchema::makeGraphNodeKey(std::string_view pk) {
     return key;
 }
 
+/**
+ * @brief Make Graph Edge Key.
+ * @param[in] pk Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size().
+ */
 std::string KeySchema::makeGraphEdgeKey(std::string_view pk) {
     std::string key = {};
     key.reserve(5 + pk.size() );
@@ -53,6 +79,13 @@ std::string KeySchema::makeGraphEdgeKey(std::string_view pk) {
     return key;
 }
 
+/**
+ * @brief Make Vector Key.
+ * @param[in] object_name Name of the object.
+ * @param[in] pk Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size().
+ */
 std::string KeySchema::makeVectorKey(std::string_view object_name, std::string_view pk) {
     std::string key = {};
     key.reserve(4 + object_name.size() + pk.size() );
@@ -64,6 +97,15 @@ std::string KeySchema::makeVectorKey(std::string_view object_name, std::string_v
     return key;
 }
 
+/**
+ * @brief Make Secondary Index Key.
+ * @param[in] table Input parameter.
+ * @param[in] column Input parameter.
+ * @param[in] value Input parameter.
+ * @param[in] pk Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size().
+ */
 std::string KeySchema::makeSecondaryIndexKey(
     std::string_view table,
     std::string_view column,
@@ -84,6 +126,13 @@ std::string KeySchema::makeSecondaryIndexKey(
     return key;
 }
 
+/**
+ * @brief Make Graph Outdex Key.
+ * @param[in] pk_start Input parameter.
+ * @param[in] pk_edge Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size().
+ */
 std::string KeySchema::makeGraphOutdexKey(std::string_view pk_start, std::string_view pk_edge) {
     std::string key = {};
     key.reserve(10 + pk_start.size() + pk_edge.size() );
@@ -97,6 +146,13 @@ std::string KeySchema::makeGraphOutdexKey(std::string_view pk_start, std::string
     return key;
 }
 
+/**
+ * @brief Make Graph Index Key.
+ * @param[in] pk_target Input parameter.
+ * @param[in] pk_edge Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size().
+ */
 std::string KeySchema::makeGraphIndexKey(std::string_view pk_target, std::string_view pk_edge) {
     std::string key = {};
     key.reserve(9 + pk_target.size() + pk_edge.size() );
@@ -110,6 +166,12 @@ std::string KeySchema::makeGraphIndexKey(std::string_view pk_target, std::string
     return key;
 }
 
+/**
+ * @brief Parse Key Type.
+ * @param[in] key Input parameter.
+ * @return Return value.
+ * @details Calls: starts_with().
+ */
 KeySchema::KeyType KeySchema::parseKeyType(std::string_view key) {
     // Check for specific prefixed key types
     if (key.starts_with("idx:")) {
@@ -145,6 +207,12 @@ KeySchema::KeyType KeySchema::parseKeyType(std::string_view key) {
     return KeyType::DOCUMENT;
 }
 
+/**
+ * @brief Extract Primary Key.
+ * @param[in] key Input parameter.
+ * @return Return value.
+ * @details Calls: rfind(), std::string(), substr().
+ */
 std::string KeySchema::extractPrimaryKey(std::string_view key) {
     // For keys with prefixes (rel:, doc:, vec:, node:, edge:, idx:, graph:),
     // the PK is always the last component after the final separator

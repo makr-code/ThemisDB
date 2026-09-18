@@ -23,9 +23,12 @@ namespace replication {
 
 namespace {
 
-/// Returns the zone annotation for a replica.  The zone is encoded as the
-/// part of the datacenter string after the last '/' character, or the full
-/// datacenter string when no '/' is present.
+/**
+ * @brief Zone Of.
+ * @param[in] r Input parameter.
+ * @return Return value.
+ * @details Calls: rfind(), substr().
+ */
 static std::string zoneOf(const ReplicaInfo& r) {
     const auto pos = r.datacenter.rfind('/');
     return (pos == std::string::npos) ? r.datacenter

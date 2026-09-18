@@ -40,6 +40,13 @@ uint64_t fnv1a64(std::string_view data) noexcept {
     return hash;
 }
 
+/**
+ * @brief Hash Embed.
+ * @param[in] text Input parameter.
+ * @param[in] dim Input parameter.
+ * @return Return value.
+ * @details Calls: vec(), tok_re(), std::sregex_iterator(), begin(), end(), str(), std::transform(), std::tolower().
+ */
 std::vector<float> hashEmbed(const std::string& text, int dim) {
     if (dim <= 0) {
       dim = 128;
@@ -87,6 +94,12 @@ static const std::vector<std::string_view> UNSAFE_PATTERNS = {
     "exec(",
 };
 
+/**
+ * @brief Contains Unsafe Pattern.
+ * @param[in] text Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: reserve(), size(), std::tolower(), find().
+ */
 bool containsUnsafePattern(const std::string& text) {
     std::string lower = {};
     lower.reserve(text.size());
@@ -101,6 +114,13 @@ bool containsUnsafePattern(const std::string& text) {
     return false;
 }
 
+/**
+ * @brief Match Glob.
+ * @param[in] path Input parameter.
+ * @param[in] glob Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), size(), substr(), extension(), string().
+ */
 bool matchGlob(const std::filesystem::path& path, const std::string& glob) {
     if (glob.empty() || glob == "*") {
       return true;
@@ -121,6 +141,12 @@ PluginCapabilities LLMWikiPluginImpl::getCapabilities() const {
     return caps;
 }
 
+/**
+ * @brief Initialize.
+ * @param[in] config_json Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: spdlog::warn(), std::string(), ok().
+ */
 bool LLMWikiPluginImpl::initialize(const char* config_json) {
     if (!config_json) {
         spdlog::warn("[llm_wiki] IThemisPlugin::initialize called with null config");
@@ -131,6 +157,11 @@ bool LLMWikiPluginImpl::initialize(const char* config_json) {
 
 void LLMWikiPluginImpl::shutdown() noexcept {
     try {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::shared_mutex> lock(mutex_);
 
         if (!json_index_path_.empty() && !chunks_.empty()) {
@@ -163,6 +194,12 @@ void LLMWikiPluginImpl::shutdown() noexcept {
     }
 }
 
+/**
+ * @brief Initialize.
+ * @param[in] config_json Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), empty(), Status::Ok(), nlohmann::json::parse(), contains(), loadProcessPolicy_locked(), ok(), Status::Error().
+ */
 Status LLMWikiPluginImpl::initialize(const std::string& config_json) {
     std::unique_lock<std::shared_mutex> lock(mutex_);
 
@@ -217,10 +254,21 @@ Status LLMWikiPluginImpl::initialize(const std::string& config_json) {
     }
 }
 
+/**
+ * @brief Ingest.
+ * @param[in] source_path Path to the source.
+ * @param[in] opts Input parameter.
+ * @return Return value.
+ */
 WikiIngestResult LLMWikiPluginImpl::ingest(
     const std::string& source_path,
     const WikiIngestOptions& opts)
 {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::unique_lock<std::shared_mutex> lock(mutex_);
     WikiIngestResult result = {};
 
@@ -266,6 +314,11 @@ WikiQueryResult LLMWikiPluginImpl::query(
     const std::string& query_text,
     [[maybe_unused]] const WikiQueryOptions& opts)
 {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::unique_lock<std::shared_mutex> lock(mutex_);
     WikiQueryResult result;
 
@@ -301,6 +354,12 @@ WikiQueryResult LLMWikiPluginImpl::query(
     return result;
 }
 
+/**
+ * @brief Load Process Policy locked.
+ * @param[in] context_label Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), reset(), Status::Ok(), themis::llm_wiki::ProcessPolicyManager::loadFromYaml(), ok(), Status::Error(), std::string(), std::filesystem::last_write_time().
+ */
 Status LLMWikiPluginImpl::loadProcessPolicy_locked(const char* context_label) {
     if (process_policy_path_.empty()) {
         process_policy_.reset();
@@ -327,6 +386,11 @@ Status LLMWikiPluginImpl::loadProcessPolicy_locked(const char* context_label) {
     return Status::Ok();
 }
 
+/**
+ * @brief Maybe Reload Process Policy locked.
+ * @return Return value.
+ * @details Calls: empty(), Status::Ok(), std::filesystem::last_write_time(), Status::Error(), has_value(), loadProcessPolicy_locked(), ok().
+ */
 Status LLMWikiPluginImpl::maybeReloadProcessPolicy_locked() {
     if (!process_policy_hot_reload_ || process_policy_path_.empty()) {
         return Status::Ok();
@@ -352,6 +416,12 @@ Status LLMWikiPluginImpl::maybeReloadProcessPolicy_locked() {
     return Status::Ok();
 }
 
+/**
+ * @brief Wiki Init.
+ * @param[in] workspace_root Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), init().
+ */
 Status LLMWikiPluginImpl::wikiInit(const std::string& workspace_root) {
     std::unique_lock<std::shared_mutex> lock(mutex_);
     workspace_root_ = workspace_root;
@@ -361,6 +431,12 @@ Status LLMWikiPluginImpl::wikiInit(const std::string& workspace_root) {
     return workspace_->init(workspace_root_);
 }
 
+/**
+ * @brief Wiki Ingest.
+ * @param[in] source_path Path to the source.
+ * @param[in] opts Input parameter.
+ * @return Return value.
+ */
 WikiIngestResult LLMWikiPluginImpl::wikiIngest(
     const std::string& source_path,
     const WikiIngestOptions& opts)
@@ -368,6 +444,12 @@ WikiIngestResult LLMWikiPluginImpl::wikiIngest(
     return ingest(source_path, opts);
 }
 
+/**
+ * @brief Wiki Query.
+ * @param[in] query_text Input parameter.
+ * @param[in] opts Input parameter.
+ * @return Return value.
+ */
 WikiQueryResult LLMWikiPluginImpl::wikiQuery(
     const std::string& query_text,
     const WikiQueryOptions& opts)
@@ -375,6 +457,12 @@ WikiQueryResult LLMWikiPluginImpl::wikiQuery(
     return query(query_text, opts);
 }
 
+/**
+ * @brief Wiki Lint.
+ * @param[in] workspace_root Input parameter.
+ * @param[in] max_staleness_days Input parameter.
+ * @return Return value.
+ */
 WikiLintResult LLMWikiPluginImpl::wikiLint(
     const std::string& workspace_root,
     int max_staleness_days)
@@ -385,6 +473,12 @@ WikiLintResult LLMWikiPluginImpl::wikiLint(
     return workspace_->lint(workspace_root, max_staleness_days);
 }
 
+/**
+ * @brief Ingest Wikipedia Dump.
+ * @param[in] dump_path Path to the dump.
+ * @param[in] opts Input parameter.
+ * @return Return value.
+ */
 WikiIngestResult LLMWikiPluginImpl::ingestWikipediaDump(
     const std::string& dump_path,
     const WikiDumpIngestOptions& opts)
@@ -397,6 +491,12 @@ WikiIngestResult LLMWikiPluginImpl::ingestWikipediaDump(
     return result;
 }
 
+/**
+ * @brief Stats.
+ * @param[in] workspace_root Input parameter.
+ * @return Return value.
+ * @details Calls: empty().
+ */
 WikiWorkspaceStats LLMWikiPluginImpl::stats(const std::string& workspace_root) {
     if (!workspace_) return {};
     return workspace_->stats(workspace_root.empty() ? workspace_root_ : workspace_root);

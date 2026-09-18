@@ -21,8 +21,11 @@
 #include "observability/distributed_trace_span.h"
 #include "observability/distributed_tracing_sdk.h"
 
+#include <initializer_list>
+#include <map>
 #include <memory>
 #include <string>
+#include <string_view>
 
 namespace themis {
 namespace observability {
@@ -359,3 +362,6 @@ inline void recordTraceEvent(std::string_view,
 #endif
 
 #endif // THEMIS_TRACE_INSTRUMENTATION_MACROS
+
+} // namespace observability
+} // namespace themis

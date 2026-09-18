@@ -21,9 +21,12 @@
 
 namespace themis::transaction {
 
-/** @brief I in doubt recovery coordinator component. */
 class IInDoubtRecoveryCoordinator {
 public:
+    /**
+     * @brief IIn Doubt Recovery Coordinator.
+     * @return Return value.
+     */
     virtual ~IInDoubtRecoveryCoordinator() = default;
 
     [[nodiscard]] virtual size_t recoverInDoubtTransactions() = 0;

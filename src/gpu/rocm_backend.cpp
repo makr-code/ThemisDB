@@ -67,6 +67,12 @@ bool ROCmBackend::isAvailable() const {
 // Launcher backend
 // ============================================================================
 
+/**
+ * @brief Create Backend Fn.
+ * @param[in] device_index Input parameter.
+ * @return Return value.
+ * @details Calls: spdlog::get(), CHECKED_HIP(), hipSetDevice(), error(), what(), empty(), std::async(), hipDeviceSynchronize().
+ */
 GPULauncher::BackendFn ROCmBackend::createBackendFn(int device_index) {
     static_cast<void>(device_index);
 #ifdef THEMIS_ENABLE_HIP
@@ -144,6 +150,13 @@ GPULauncher::BackendFn ROCmBackend::createBackendFn(int device_index) {
 // Stream management
 // ============================================================================
 
+/**
+ * @brief Create Stream.
+ * @param[in] name Input parameter.
+ * @param[in] device_index Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), lock(), count(), spdlog::get(), CHECKED_HIP(), hipSetDevice(), warn(), what().
+ */
 ROCmBackend::Result ROCmBackend::createStream(const std::string& name,
                                                int device_index) {
     if (name.empty()) {
@@ -200,6 +213,12 @@ ROCmBackend::Result ROCmBackend::createStream(const std::string& name,
     return {true, ""};
 }
 
+/**
+ * @brief Destroy Stream.
+ * @param[in] name Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), find(), end(), CHECKED_HIP(), hipStreamDestroy(), spdlog::get(), warn(), what().
+ */
 ROCmBackend::Result ROCmBackend::destroyStream(const std::string& name) {
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = streams_.find(name);
@@ -229,6 +248,12 @@ ROCmBackend::Result ROCmBackend::destroyStream(const std::string& name) {
     return {true, ""};
 }
 
+/**
+ * @brief Synchronize Stream.
+ * @param[in] name Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), find(), end(), timeout_guard(), std::chrono::seconds(), CHECKED_HIP(), hipStreamSynchronize(), checkTimeoutDeadline().
+ */
 ROCmBackend::Result ROCmBackend::synchronizeStream(const std::string& name) {
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = streams_.find(name);
@@ -266,6 +291,11 @@ ROCmBackend::Result ROCmBackend::synchronizeStream(const std::string& name) {
 }
 
 ROCmBackend::StreamHandle ROCmBackend::getStream(const std::string& name) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = streams_.find(name);
     if (it == streams_.end()) {
@@ -275,11 +305,21 @@ ROCmBackend::StreamHandle ROCmBackend::getStream(const std::string& name) const 
 }
 
 bool ROCmBackend::hasStream(const std::string& name) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return streams_.count(name) > 0;
 }
 
 std::vector<std::string> ROCmBackend::streamNames() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     std::vector<std::string> names = {};
 
@@ -294,6 +334,13 @@ std::vector<std::string> ROCmBackend::streamNames() const {
 // Device memory
 // ============================================================================
 
+/**
+ * @brief Allocate.
+ * @param[in] size_bytes Input parameter.
+ * @param[in] tag Input parameter.
+ * @return Return value.
+ * @details Calls: CHECKED_HIP(), hipMalloc(), spdlog::get(), error(), what(), lock(), push_back().
+ */
 ROCmBackend::AllocationRecord ROCmBackend::allocate(size_t size_bytes,
                                                      const std::string& tag) {
     AllocationRecord rec;
@@ -338,6 +385,12 @@ ROCmBackend::AllocationRecord ROCmBackend::allocate(size_t size_bytes,
     return rec;
 }
 
+/**
+ * @brief Deallocate.
+ * @param[in,out] rec Input/output parameter.
+ * @return Return value.
+ * @details Calls: is_valid(), CHECKED_HIP(), hipFree(), spdlog::get(), error(), what(), lock(), begin().
+ */
 ROCmBackend::Result ROCmBackend::deallocate(AllocationRecord& rec) {
     if (!rec.is_valid()) {
         return {true, ""};  // nothing to free
@@ -381,6 +434,13 @@ ROCmBackend::Result ROCmBackend::deallocate(AllocationRecord& rec) {
     return {true, ""};
 }
 
+/**
+ * @brief Zero Memory.
+ * @param[in] device_ptr Input parameter.
+ * @param[in] size_bytes Input parameter.
+ * @return Return value.
+ * @details Calls: CHECKED_HIP(), hipMemset(), spdlog::get(), error(), what(), std::memset().
+ */
 ROCmBackend::Result ROCmBackend::zeroMemory(uintptr_t device_ptr,
                                               size_t size_bytes) {
     if (device_ptr == 0 || size_bytes == 0) {
@@ -416,10 +476,19 @@ ROCmBackend::Result ROCmBackend::zeroMemory(uintptr_t device_ptr,
 // ============================================================================
 
 ROCmBackend::Stats ROCmBackend::getStats() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return stats_;
 }
 
+/**
+ * @brief Reset Stats.
+ * @details Calls: lock().
+ */
 void ROCmBackend::resetStats() {
     std::lock_guard<std::mutex> lock(mutex_);
     stats_ = Stats{};

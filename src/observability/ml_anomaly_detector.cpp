@@ -260,13 +260,13 @@ json AnomalyExplanation::toJson() const {
     };
 }
 
+
 /**
- * @brief --------------------------------------------------------------------------- MLAnomalyDetector: construction ---------------------------------------------------------------------------
+ * @brief Map Backend.
  * @param[in] b Input parameter.
  * @return Return value.
  * @details Implements mapBackend without additional internal calls.
  */
-
 static ForecastMethod mapBackend(ForecastBackend b) {
     return (b == ForecastBackend::ARIMA)
          ? ForecastMethod::ARIMA
@@ -279,13 +279,13 @@ MLAnomalyDetector::MLAnomalyDetector(const MLConfig& config)
     , outlier_detector_(cfg_.outlier_config)
 {}
 
+
 /**
- * @brief --------------------------------------------------------------------------- train ---------------------------------------------------------------------------
+ * @brief Train.
  * @param[in] training_data Input parameter.
  * @throws std::invalid_argument if an error occurs.
  * @details Calls: points(), insert(), end(), begin(), std::sort(), erase(), std::unique(), std::fabs().
  */
-
 void MLAnomalyDetector::train(const std::vector<ForecastSeries>& training_data) {
     std::vector<themisdb::analytics::TimeSeriesPoint> merged = {};
 

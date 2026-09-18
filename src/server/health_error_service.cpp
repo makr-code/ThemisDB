@@ -54,6 +54,10 @@ HealthErrorService::~HealthErrorService() {
     stop();
 }
 
+/**
+ * @brief Start.
+ * @details Calls: load(), THEMIS_WARN(), store(), std::chrono::steady_clock::now(), run(), THEMIS_INFO().
+ */
 void HealthErrorService::start() {
     if (!config_.enabled) {
         return;
@@ -76,6 +80,10 @@ void HealthErrorService::start() {
                config_.bind_address, config_.port);
 }
 
+/**
+ * @brief Stop.
+ * @details Calls: load(), THEMIS_INFO(), store(), close(), THEMIS_DEBUG(), message(), joinable(), join().
+ */
 void HealthErrorService::stop() {
     if (!running_.load()) {
         return;
@@ -107,6 +115,10 @@ void HealthErrorService::stop() {
     THEMIS_INFO("Health/Error service stopped");
 }
 
+/**
+ * @brief Run.
+ * @details Calls: store(), load(), socket(), non_blocking(), THEMIS_ERROR(), message(), accept(), handleConnection().
+ */
 void HealthErrorService::run() {
     try {
         if (!acceptor_) {
@@ -148,6 +160,11 @@ void HealthErrorService::run() {
     }
 }
 
+/**
+ * @brief Handle Connection.
+ * @param[in] raw_socket Input parameter.
+ * @details Calls: stream(), std::move(), expires_after(), std::chrono::seconds(), max_size(), http::read(), THEMIS_DEBUG(), message().
+ */
 void HealthErrorService::handleConnection(tcp::socket raw_socket) {
     try {
         // Wrap socket in tcp_stream so we can enforce per-operation timeouts and
@@ -199,6 +216,11 @@ void HealthErrorService::handleConnection(tcp::socket raw_socket) {
     }
 }
 
+/**
+ * @brief Handle Request.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ */
 http::response<http::string_body> HealthErrorService::handleRequest(
     const http::request<http::string_body>& req) 
 {
@@ -220,6 +242,11 @@ http::response<http::string_body> HealthErrorService::handleRequest(
           return params;
         }
         
+        /**
+         * @brief Ss.
+         * @param[in] query Input parameter.
+         * @return Return value.
+         */
         std::istringstream ss(query);
         std::string param = {};
         while (std::getline(ss, param, '&')) {
@@ -332,6 +359,11 @@ http::response<http::string_body> HealthErrorService::handleRequest(
     }
 }
 
+/**
+ * @brief Handle Health.
+ * @return Return value.
+ * @details Calls: set(), std::chrono::system_clock::now(), std::chrono::system_clock::to_time_t(), gmtime_s(), gmtime_r(), std::put_time(), str(), getUptimeSeconds().
+ */
 http::response<http::string_body> HealthErrorService::handleHealth() {
     http::response<http::string_body> res{http::status::ok, 11};
     res.set(http::field::server, "ThemisDB-Health");
@@ -362,6 +394,11 @@ http::response<http::string_body> HealthErrorService::handleHealth() {
     return res;
 }
 
+/**
+ * @brief Handle Health Components.
+ * @return Return value.
+ * @details Calls: set(), getUptimeSeconds(), body(), dump(), prepare_payload().
+ */
 http::response<http::string_body> HealthErrorService::handleHealthComponents() {
     http::response<http::string_body> res{http::status::ok, 11};
     res.set(http::field::server, "ThemisDB-Health");

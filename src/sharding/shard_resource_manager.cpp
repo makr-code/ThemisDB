@@ -44,7 +44,13 @@ namespace themis::sharding {
 // ============================================================================
 
 namespace {
-    // Calculate memory usage percentage
+    /**
+     * @brief Calculate memory usage percentage
+     * @param[in] used_bytes Input parameter.
+     * @param[in] total_bytes Input parameter.
+     * @return Return value.
+     * @details Implements calculateMemoryUsagePercent without additional internal calls.
+     */
     double calculateMemoryUsagePercent(uint64_t used_bytes, uint64_t total_bytes) {
         return (total_bytes > 0) 
             ? (static_cast<double>(used_bytes) / total_bytes * 100.0)
@@ -56,7 +62,6 @@ namespace {
 // ResourceSnapshot Serialization
 // ============================================================================
 
-/** @brief Serialize resource snapshot into JSON document. */
 nlohmann::json ShardResourceManager::ResourceSnapshot::toJson() const {
     nlohmann::json j;
     j["cpu_usage_percent"] = cpu_usage_percent;
@@ -82,7 +87,12 @@ nlohmann::json ShardResourceManager::ResourceSnapshot::toJson() const {
     return j;
 }
 
-/** @brief Deserialize resource snapshot from JSON document. */
+/**
+ * @brief From Json.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: value(), contains(), std::chrono::system_clock::time_point(), std::chrono::milliseconds(), std::chrono::system_clock::now().
+ */
 ShardResourceManager::ResourceSnapshot ShardResourceManager::ResourceSnapshot::fromJson(const nlohmann::json& j) {
     ResourceSnapshot snapshot;
     
@@ -118,12 +128,6 @@ ShardResourceManager::ResourceSnapshot ShardResourceManager::ResourceSnapshot::f
 // Constructor / Destructor
 // ============================================================================
 
-/**
- * @brief Construct resource manager with explicit runtime configuration.
- * @param local_shard_id Local shard identifier.
- * @param gossip_manager Gossip manager dependency (optional).
- * @param config Sampling/throttling/gossip configuration.
- */
 ShardResourceManager::ShardResourceManager(
     const std::string& local_shard_id,
     std::shared_ptr<GossipConfigManager> gossip_manager,
@@ -151,11 +155,6 @@ ShardResourceManager::ShardResourceManager(
     }
 }
 
-/**
- * @brief Construct resource manager with default configuration.
- * @param local_shard_id Local shard identifier.
- * @param gossip_manager Gossip manager dependency (optional).
- */
 ShardResourceManager::ShardResourceManager(
     const std::string& local_shard_id,
     std::shared_ptr<GossipConfigManager> gossip_manager)
@@ -163,7 +162,6 @@ ShardResourceManager::ShardResourceManager(
 {
 }
 
-/** @brief Stop manager and release platform monitoring resources. */
 ShardResourceManager::~ShardResourceManager() {
     stop();
     
@@ -181,7 +179,10 @@ ShardResourceManager::~ShardResourceManager() {
 // Lifecycle
 // ============================================================================
 
-/** @brief Start background monitoring loop when not already running. */
+/**
+ * @brief Start.
+ * @details Calls: exchange(), std::thread(), monitoringLoop().
+ */
 void ShardResourceManager::start() {
     if (running_.exchange(true)) {
         return; // Already running
@@ -192,7 +193,10 @@ void ShardResourceManager::start() {
     });
 }
 
-/** @brief Stop background monitoring loop and join worker thread. */
+/**
+ * @brief Stop.
+ * @details Calls: exchange(), themis::utils::joinThreadWithin(), THEMIS_WARN().
+ */
 void ShardResourceManager::stop() {
     if (!running_.exchange(false)) {
         return; // Not running
@@ -208,18 +212,26 @@ void ShardResourceManager::stop() {
 // Local Resource Management
 // ============================================================================
 
-/** @brief Return latest locally cached resource snapshot. */
 ShardResourceManager::ResourceSnapshot ShardResourceManager::getCurrentSnapshot() const {
+    /**
+     * @brief Lock.
+     * @param[in] local_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock lock(local_mutex_);
     return local_snapshot_;
 }
 
-/** @brief Evaluate admission for query based on local CPU/RAM headroom and thresholds. */
 bool ShardResourceManager::canAcceptQuery(const QuerySpec& spec) const {
     if (!config_.enable_auto_throttling) {
         return true;
     }
     
+    /**
+     * @brief Lock.
+     * @param[in] local_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock lock(local_mutex_);
     
     // Check CPU capacity
@@ -244,7 +256,13 @@ bool ShardResourceManager::canAcceptQuery(const QuerySpec& spec) const {
     return max_load < config_.throttle_threshold;
 }
 
-/** @brief Update active/pending query counters and average latency metric. */
+/**
+ * @brief Update Query Metrics.
+ * @param[in] active Input parameter.
+ * @param[in] pending Input parameter.
+ * @param[in] avg_latency_ms Input parameter.
+ * @details Calls: lock().
+ */
 void ShardResourceManager::updateQueryMetrics(uint32_t active, uint32_t pending, float avg_latency_ms) {
     std::unique_lock lock(local_mutex_);
     local_snapshot_.active_queries = active;
@@ -252,7 +270,10 @@ void ShardResourceManager::updateQueryMetrics(uint32_t active, uint32_t pending,
     local_snapshot_.avg_query_latency_ms = avg_latency_ms;
 }
 
-/** @brief Apply emergency health downgrade when critical utilization threshold is reached. */
+/**
+ * @brief Throttle If Needed.
+ * @details Calls: lock(), std::max(), std::min().
+ */
 void ShardResourceManager::throttleIfNeeded() {
     float cpu_ratio, ram_ratio, max_load;
     
@@ -272,7 +293,13 @@ void ShardResourceManager::throttleIfNeeded() {
     }
 }
 
-/** @brief Try to consume repair I/O tokens with optional bounded wait. */
+/**
+ * @brief Acquire Repair IOToken.
+ * @param[in] io_ops Input parameter.
+ * @param[in] wait_timeout Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: try_acquire(), std::chrono::milliseconds::zero(), std::chrono::steady_clock::now(), std::this_thread::sleep_for(), std::chrono::milliseconds().
+ */
 bool ShardResourceManager::acquireRepairIOToken(double io_ops,
                                                 std::chrono::milliseconds wait_timeout) {
     if (!config_.enable_repair_iops_throttle || !repair_io_limiter_) {
@@ -297,7 +324,6 @@ bool ShardResourceManager::acquireRepairIOToken(double io_ops,
     return false;
 }
 
-/** @brief Return whether GPU erasure coding can be used under current build/config. */
 bool ShardResourceManager::isGPUErasureCodingEnabled() const {
     if (!config_.enable_gpu_erasure_coding) {
         return false;
@@ -313,7 +339,10 @@ bool ShardResourceManager::isGPUErasureCodingEnabled() const {
 // Gossip Integration
 // ============================================================================
 
-/** @brief Publish local resource snapshot to gossip subsystem. */
+/**
+ * @brief Broadcast Resource Update.
+ * @details Calls: getCurrentSnapshot(), time_since_epoch(), count(), calculateMemoryUsagePercent(), std::thread::hardware_concurrency(), publishResourceSnapshot().
+ */
 void ShardResourceManager::broadcastResourceUpdate() {
     if (!config_.enable_gossip_broadcast || !gossip_manager_) {
         return;
@@ -356,7 +385,12 @@ void ShardResourceManager::broadcastResourceUpdate() {
     gossip_manager_->publishResourceSnapshot(gossip_snapshot);
 }
 
-/** @brief Store received peer resource snapshot into cache. */
+/**
+ * @brief Receive Resource Update.
+ * @param[in] shard_id Identifier of the shard.
+ * @param[in] snapshot Input parameter.
+ * @details Calls: lock().
+ */
 void ShardResourceManager::receiveResourceUpdate(const std::string& shard_id, 
                                                    const ResourceSnapshot& snapshot) {
     std::unique_lock lock(peer_mutex_);
@@ -369,12 +403,22 @@ void ShardResourceManager::receiveResourceUpdate(const std::string& shard_id,
 
 std::map<std::string, ShardResourceManager::ResourceSnapshot> 
 ShardResourceManager::getPeerResources() const {
+    /**
+     * @brief Lock.
+     * @param[in] peer_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock lock(peer_mutex_);
     return peer_resources_;
 }
 
 std::optional<ShardResourceManager::ResourceSnapshot> 
 ShardResourceManager::getPeerResource(const std::string& shard_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] peer_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock lock(peer_mutex_);
     auto it = peer_resources_.find(shard_id);
     if (it != peer_resources_.end()) {
@@ -383,8 +427,12 @@ ShardResourceManager::getPeerResource(const std::string& shard_id) const {
     return std::nullopt;
 }
 
-/** @brief Return peer ids with health score above healthy threshold. */
 std::vector<std::string> ShardResourceManager::getHealthyPeers() const {
+    /**
+     * @brief Lock.
+     * @param[in] peer_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock lock(peer_mutex_);
     std::vector<std::string> healthy_peers;
     
@@ -397,8 +445,12 @@ std::vector<std::string> ShardResourceManager::getHealthyPeers() const {
     return healthy_peers;
 }
 
-/** @brief Return peer ids whose max(cpu,ram) load exceeds threshold. */
 std::vector<std::string> ShardResourceManager::getOverloadedPeers(float threshold) const {
+    /**
+     * @brief Lock.
+     * @param[in] peer_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock lock(peer_mutex_);
     std::vector<std::string> overloaded_peers;
     
@@ -421,13 +473,16 @@ std::vector<std::string> ShardResourceManager::getOverloadedPeers(float threshol
 // Health Scoring
 // ============================================================================
 
-/** @brief Compute current local health score from cached snapshot signals. */
 float ShardResourceManager::calculateHealthScore() const {
+    /**
+     * @brief Lock.
+     * @param[in] local_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock lock(local_mutex_);
     return calculateHealthScoreInternal(local_snapshot_);
 }
 
-/** @brief Compute health score from supplied snapshot without additional locking. */
 float ShardResourceManager::calculateHealthScoreInternal(const ResourceSnapshot& snapshot) const {
     float score = 100.0f;
     
@@ -477,7 +532,10 @@ float ShardResourceManager::calculateHealthScoreInternal(const ResourceSnapshot&
 // Monitoring Loop
 // ============================================================================
 
-/** @brief Periodic monitoring worker loop for sampling and peer upkeep. */
+/**
+ * @brief Monitoring Loop.
+ * @details Calls: load(), collectSystemMetrics(), cleanupStaleSnapshots(), broadcastResourceUpdate(), std::this_thread::sleep_for(), std::chrono::milliseconds().
+ */
 void ShardResourceManager::monitoringLoop() {
     while (running_.load()) {
         collectSystemMetrics();
@@ -493,7 +551,10 @@ void ShardResourceManager::monitoringLoop() {
     }
 }
 
-/** @brief Collect current host metrics and refresh local snapshot fields. */
+/**
+ * @brief Collect System Metrics.
+ * @details Calls: lock(), std::chrono::system_clock::now(), getCpuUsage(), getRamUsage(), getVramUsage(), getDiskUsage(), getNetworkUsage(), calculateHealthScoreInternal().
+ */
 void ShardResourceManager::collectSystemMetrics() {
     std::unique_lock lock(local_mutex_);
     
@@ -523,7 +584,10 @@ void ShardResourceManager::collectSystemMetrics() {
     local_snapshot_.health_score = health_score;
 }
 
-/** @brief Drop peer snapshots older than configured cache TTL. */
+/**
+ * @brief Cleanup Stale Snapshots.
+ * @details Calls: lock(), std::chrono::system_clock::now(), std::chrono::milliseconds(), begin(), end(), erase().
+ */
 void ShardResourceManager::cleanupStaleSnapshots() {
     std::unique_lock lock(peer_mutex_);
     
@@ -548,10 +612,13 @@ void ShardResourceManager::cleanupStaleSnapshots() {
 // Platform-Specific Resource Collection
 // ============================================================================
 
-/** @brief Sample current CPU utilization percentage via platform-specific APIs. */
 float ShardResourceManager::getCpuUsage() const {
 #ifdef _WIN32
-    // Windows: Use PDH (Performance Data Helper)
+    /**
+     * @brief Windows: Use PDH (Performance Data Helper)
+     * @param[in] pdh_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(pdh_mutex_);
     
     if (!pdh_initialized_) {
@@ -571,7 +638,11 @@ float ShardResourceManager::getCpuUsage() const {
     
     return static_cast<float>(value.doubleValue);
 #else
-    // Linux: Read /proc/stat
+    /**
+     * @brief Linux: Read /proc/stat
+     * @param[in] cpu_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(cpu_mutex_);
     
     std::ifstream stat_file("/proc/stat");
@@ -582,6 +653,11 @@ float ShardResourceManager::getCpuUsage() const {
     std::string line = {};
     std::getline(stat_file, line);
     
+    /**
+     * @brief Ss.
+     * @param[in] line Input parameter.
+     * @return Return value.
+     */
     std::istringstream ss(line);
     std::string cpu_label = {};
     uint64_t user, nice, system, idle, iowait, irq, softirq, steal;
@@ -611,7 +687,6 @@ float ShardResourceManager::getCpuUsage() const {
 #endif
 }
 
-/** @brief Sample RAM usage as pair {used,total} bytes. */
 std::pair<uint64_t, uint64_t> ShardResourceManager::getRamUsage() const {
 #ifdef _WIN32
     MEMORYSTATUSEX mem_info;
@@ -636,7 +711,6 @@ std::pair<uint64_t, uint64_t> ShardResourceManager::getRamUsage() const {
 #endif
 }
 
-/** @brief Sample VRAM usage as pair {used,total} bytes, or zeros when unavailable. */
 std::pair<uint64_t, uint64_t> ShardResourceManager::getVramUsage() const {
 #if defined(THEMIS_ENABLE_CUDA)
     size_t free_bytes  = 0;
@@ -670,7 +744,6 @@ std::pair<uint64_t, uint64_t> ShardResourceManager::getVramUsage() const {
 #endif
 }
 
-/** @brief Sample disk usage as pair {used,available} bytes. */
 std::pair<uint64_t, uint64_t> ShardResourceManager::getDiskUsage() const {
 #ifdef _WIN32
     ULARGE_INTEGER free_bytes, total_bytes, total_free_bytes;
@@ -693,7 +766,6 @@ std::pair<uint64_t, uint64_t> ShardResourceManager::getDiskUsage() const {
 #endif
 }
 
-/** @brief Sample network counters/rates as pair {in,out}. */
 std::pair<uint64_t, uint64_t> ShardResourceManager::getNetworkUsage() const {
 #ifdef _WIN32
     // Windows: GetIfTable2 / Performance Counter integration deferred.

@@ -73,7 +73,6 @@ struct WindowClause {
 // Pimpl implementation
 // ============================================================================
 
-/** @brief Pimpl implementation. */
 class AQLQueryBuilder::Impl {
   public:
     std::vector<ForClause> for_clauses;
@@ -94,6 +93,10 @@ class AQLQueryBuilder::Impl {
     // Opt-in ingestion enrichment flag for DML clauses
     bool ingestion_enrichment = false;
 
+    /**
+     * @brief Reset the modification detection flag.
+     * @details Calls: clear().
+     */
     void reset() {
         for_clauses.clear();
         for_traverse_clauses.clear();
@@ -621,7 +624,11 @@ std::vector<std::string> AQLQueryBuilder::getCompletionSuggestions(LLMAQLHandler
 
         auto response = handler.executeInfer(prompt.str());
 
-        // Split response by newlines into individual suggestions
+        /**
+         * @brief Split response by newlines into individual suggestions
+         * @param[in] response Input parameter.
+         * @return Return value.
+         */
         std::istringstream ss(response);
         std::string line = {};
          while (std::getline(ss, line)

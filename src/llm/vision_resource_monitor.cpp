@@ -56,6 +56,11 @@ RateLimiter::RateLimiter(size_t rate_per_minute, size_t burst_size)
 {
 }
 
+/**
+ * @brief Try Acquire.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), refillTokens(), load(), fetch_sub().
+ */
 bool RateLimiter::tryAcquire() {
     std::scoped_lock<std::mutex> lock(mutex_);
     
@@ -70,6 +75,11 @@ bool RateLimiter::tryAcquire() {
 }
 
 size_t RateLimiter::availableTokens() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::scoped_lock<std::mutex> lock(mutex_);
     // mutable last_refill_ und tokens_ erlauben Update in const-Methode
     auto now = std::chrono::steady_clock::now();
@@ -87,6 +97,11 @@ size_t RateLimiter::availableTokens() const {
 }
 
 std::chrono::milliseconds RateLimiter::timeUntilNextToken() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::scoped_lock<std::mutex> lock(mutex_);
     
     if (tokens_.load(std::memory_order_acquire) > 0) {
@@ -103,12 +118,20 @@ std::chrono::milliseconds RateLimiter::timeUntilNextToken() const {
     return std::chrono::milliseconds(static_cast<int64_t>(ms_per_token));
 }
 
+/**
+ * @brief Reset the modification detection flag.
+ * @details Calls: lock(), std::chrono::steady_clock::now().
+ */
 void RateLimiter::reset() {
     std::scoped_lock<std::mutex> lock(mutex_);
     tokens_ = capacity_;
     last_refill_ = std::chrono::steady_clock::now();
 }
 
+/**
+ * @brief Refill Tokens.
+ * @details Calls: std::chrono::steady_clock::now(), count(), load(), std::min(), store().
+ */
 void RateLimiter::refillTokens() {
     auto now = std::chrono::steady_clock::now();
     auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(now - last_refill_);
@@ -140,6 +163,11 @@ bool QuotaTracker::hasQuotaAvailable(const std::string& user_id) const {
         return true;
     }
     
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::scoped_lock<std::mutex> lock(mutex_);
     
     auto it = user_quotas_.find(user_id);
@@ -162,6 +190,15 @@ bool QuotaTracker::hasQuotaAvailable(const std::string& user_id) const {
     return true;
 }
 
+/**
+ * @brief Consume Quota.
+ * @param[in] user_id Identifier of the user.
+ * @param[in] requests Input parameter.
+ * @param[in] inference_time Input parameter.
+ * @param[in] vram_mb_seconds Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), time_since_epoch(), count(), std::chrono::steady_clock::now(), spdlog::warn().
+ */
 bool QuotaTracker::consumeQuota(const std::string& user_id, 
                                 size_t requests,
                                 std::chrono::milliseconds inference_time,
@@ -204,6 +241,11 @@ bool QuotaTracker::consumeQuota(const std::string& user_id,
 }
 
 QuotaTracker::QuotaRemaining QuotaTracker::getRemainingQuota(const std::string& user_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::scoped_lock<std::mutex> lock(mutex_);
     
     auto it = user_quotas_.find(user_id);
@@ -231,6 +273,10 @@ QuotaTracker::QuotaRemaining QuotaTracker::getRemainingQuota(const std::string& 
     };
 }
 
+/**
+ * @brief Reset Quotas.
+ * @details Calls: lock(), std::chrono::steady_clock::now(), spdlog::info().
+ */
 void QuotaTracker::resetQuotas() {
     std::scoped_lock<std::mutex> lock(mutex_);
     
@@ -262,6 +308,11 @@ VisionResourceMonitor::~VisionResourceMonitor() {
     shutdown();
 }
 
+/**
+ * @brief Initialize.
+ * @return True when the operation succeeds.
+ * @details Calls: spdlog::info(), getRateLimits(), getResourceQuota(), getMonitoringConfig(), std::thread().
+ */
 bool VisionResourceMonitor::initialize() {
     spdlog::info("Initializing vision resource monitor");
     
@@ -301,6 +352,10 @@ bool VisionResourceMonitor::initialize() {
     return true;
 }
 
+/**
+ * @brief Shutdown.
+ * @details Calls: spdlog::info(), joinable(), themis::utils::joinThreadWithin(), THEMIS_WARN().
+ */
 void VisionResourceMonitor::shutdown() {
     if (running_) {
         spdlog::info("Shutting down vision resource monitor");
@@ -324,6 +379,13 @@ void VisionResourceMonitor::shutdown() {
     }
 }
 
+/**
+ * @brief Can Accept Request.
+ * @param[in] user_id Identifier of the user.
+ * @param[in] estimated_memory_mb Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: getResourceLimits(), tryAcquire(), logAuditEvent(), getUserRateLimiter(), hasQuotaAvailable(), lock().
+ */
 bool VisionResourceMonitor::canAcceptRequest(const std::string& user_id, size_t estimated_memory_mb) {
     const auto& limits = config_->getResourceLimits();
     
@@ -368,6 +430,13 @@ bool VisionResourceMonitor::canAcceptRequest(const std::string& user_id, size_t 
     return true;
 }
 
+/**
+ * @brief Start Request.
+ * @param[in] user_id Identifier of the user.
+ * @param[in] model_id Identifier of the model.
+ * @return Return value.
+ * @details Calls: lock(), std::chrono::steady_clock::now(), logAuditEvent(), std::to_string().
+ */
 uint64_t VisionResourceMonitor::startRequest(const std::string& user_id, const std::string& model_id) {
     uint64_t request_id = next_request_id_++;
     
@@ -393,6 +462,14 @@ uint64_t VisionResourceMonitor::startRequest(const std::string& user_id, const s
     return request_id;
 }
 
+/**
+ * @brief Complete Request.
+ * @param[in] request_id Identifier of the request.
+ * @param[in] success Input parameter.
+ * @param[in] inference_time Input parameter.
+ * @param[in] memory_used_mb Input parameter.
+ * @details Calls: lock(), find(), end(), erase(), spdlog::warn(), count(), std::min(), std::max().
+ */
 void VisionResourceMonitor::completeRequest(uint64_t request_id, bool success,
                                            std::chrono::milliseconds inference_time,
                                            size_t memory_used_mb) {
@@ -449,6 +526,12 @@ void VisionResourceMonitor::completeRequest(uint64_t request_id, bool success,
                  "Time: " + std::to_string(inference_time.count()) + "ms", success);
 }
 
+/**
+ * @brief Reject Request.
+ * @param[in] user_id Identifier of the user.
+ * @param[in] reason Input parameter.
+ * @details Calls: lock(), logAuditEvent().
+ */
 void VisionResourceMonitor::rejectRequest(const std::string& user_id, const std::string& reason) {
     {
         std::scoped_lock<std::mutex> lock(usage_mutex_);
@@ -458,18 +541,35 @@ void VisionResourceMonitor::rejectRequest(const std::string& user_id, const std:
     logAuditEvent("request_rejected", user_id, "", reason, false);
 }
 
+/**
+ * @brief Update Memory Usage.
+ * @param[in] memory_mb Input parameter.
+ * @details Calls: lock(), std::max().
+ */
 void VisionResourceMonitor::updateMemoryUsage(size_t memory_mb) {
     std::scoped_lock<std::mutex> lock(usage_mutex_);
     usage_.current_memory_mb = memory_mb;
     usage_.peak_memory_mb = std::max(usage_.peak_memory_mb, memory_mb);
 }
 
+/**
+ * @brief Update VRAMUsage.
+ * @param[in] vram_mb Input parameter.
+ * @details Calls: lock(), std::max().
+ */
 void VisionResourceMonitor::updateVRAMUsage(size_t vram_mb) {
     std::scoped_lock<std::mutex> lock(usage_mutex_);
     usage_.current_vram_mb = vram_mb;
     usage_.peak_vram_mb = std::max(usage_.peak_vram_mb, vram_mb);
 }
 
+/**
+ * @brief Register Model Load.
+ * @param[in] model_id Identifier of the model.
+ * @param[in] memory_mb Input parameter.
+ * @param[in] vram_mb Input parameter.
+ * @details Calls: lock(), std::chrono::steady_clock::now(), size(), updateMemoryUsage(), updateVRAMUsage(), logAuditEvent(), std::to_string().
+ */
 void VisionResourceMonitor::registerModelLoad(const std::string& model_id, size_t memory_mb, size_t vram_mb) {
     size_t model_count = 0;
     
@@ -497,6 +597,11 @@ void VisionResourceMonitor::registerModelLoad(const std::string& model_id, size_
                  true);
 }
 
+/**
+ * @brief Register Model Unload.
+ * @param[in] model_id Identifier of the model.
+ * @details Calls: lock(), find(), end(), erase(), size(), updateMemoryUsage(), updateVRAMUsage(), logAuditEvent().
+ */
 void VisionResourceMonitor::registerModelUnload(const std::string& model_id) {
     size_t memory_mb = 0;
     size_t vram_mb = 0;
@@ -530,6 +635,11 @@ void VisionResourceMonitor::registerModelUnload(const std::string& model_id) {
 }
 
 VisionResourceUsage VisionResourceMonitor::getResourceUsage() const {
+    /**
+     * @brief Lock.
+     * @param[in] usage_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::scoped_lock<std::mutex> lock(usage_mutex_);
     return usage_;
 }
@@ -543,6 +653,11 @@ VisionResourceMonitor::RateLimiterStats VisionResourceMonitor::getRateLimiterSta
     }
     
     {
+        /**
+         * @brief Lock.
+         * @param[in] usage_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::scoped_lock<std::mutex> lock(usage_mutex_);
         stats.total_requests = usage_.total_requests;
         stats.rejected_requests = usage_.rejected_requests;
@@ -606,6 +721,11 @@ std::string VisionResourceMonitor::exportMetrics() const {
 }
 
 std::vector<VisionResourceMonitor::AuditEntry> VisionResourceMonitor::getAuditLog(size_t max_entries) const {
+    /**
+     * @brief Lock.
+     * @param[in] audit_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::scoped_lock<std::mutex> lock(audit_mutex_);
     
     std::vector<AuditEntry> entries;
@@ -663,6 +783,10 @@ VisionResourceMonitor::HealthStatus VisionResourceMonitor::getHealthStatus() con
     return status;
 }
 
+/**
+ * @brief Metrics Collection Loop.
+ * @details Calls: getMonitoringConfig(), spdlog::debug(), count(), std::this_thread::sleep_for(), getResourceUsage(), getResourceLimits().
+ */
 void VisionResourceMonitor::metricsCollectionLoop() {
     const auto& config = config_->getMonitoringConfig();
     auto interval = config.collect_interval;
@@ -689,6 +813,10 @@ void VisionResourceMonitor::metricsCollectionLoop() {
     spdlog::debug("Metrics collection loop stopped");
 }
 
+/**
+ * @brief Quota Reset Loop.
+ * @details Calls: spdlog::debug(), std::this_thread::sleep_for(), std::chrono::hours(), std::chrono::system_clock::now(), std::chrono::system_clock::to_time_t(), std::localtime(), getResourceQuota(), resetQuotas().
+ */
 void VisionResourceMonitor::quotaResetLoop() {
     spdlog::debug("Quota reset loop started");
     
@@ -721,6 +849,15 @@ void VisionResourceMonitor::quotaResetLoop() {
     spdlog::debug("Quota reset loop stopped");
 }
 
+/**
+ * @brief Log Audit Event.
+ * @param[in] event_type Input parameter.
+ * @param[in] user_id Identifier of the user.
+ * @param[in] model_id Identifier of the model.
+ * @param[in] details Input parameter.
+ * @param[in] success Input parameter.
+ * @details Calls: isAuditEnabled(), lock(), std::chrono::system_clock::now(), push(), size(), pop(), spdlog::debug(), spdlog::warn().
+ */
 void VisionResourceMonitor::logAuditEvent(const std::string& event_type, const std::string& user_id,
                                          const std::string& model_id, const std::string& details, bool success) {
     if (!config_->isAuditEnabled()) {
@@ -754,6 +891,12 @@ void VisionResourceMonitor::logAuditEvent(const std::string& event_type, const s
     }
 }
 
+/**
+ * @brief Get User Rate Limiter.
+ * @param[in] user_id Identifier of the user.
+ * @return Pointer to the result.
+ * @details Calls: getRateLimits(), lock(), find(), end(), get(), std::move().
+ */
 RateLimiter* VisionResourceMonitor::getUserRateLimiter(const std::string& user_id) {
     const auto& rate_limits = config_->getRateLimits();
     if (!rate_limits.enabled) {

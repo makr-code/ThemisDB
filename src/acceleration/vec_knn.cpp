@@ -79,21 +79,39 @@ VecKnnInsertPipeline::ExtractVectorBridgeFn &extractVectorBridgeStorage() {
 }
 } // namespace
 
+/**
+ * @brief Set Add Batch Bridge Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lk(), addBatchBridgeMutex(), addBatchBridgeStorage(), std::move().
+ */
 void VecKnnInsertPipeline::setAddBatchBridgeFn(AddBatchBridgeFn fn) {
     std::lock_guard<std::mutex> lk(addBatchBridgeMutex());
     addBatchBridgeStorage() = std::move(fn);
 }
 
+/**
+ * @brief Clear Add Batch Bridge Fn.
+ * @details Calls: lk(), addBatchBridgeMutex(), addBatchBridgeStorage().
+ */
 void VecKnnInsertPipeline::clearAddBatchBridgeFn() {
     std::lock_guard<std::mutex> lk(addBatchBridgeMutex());
     addBatchBridgeStorage() = {};
 }
 
+/**
+ * @brief Set Extract Vector Bridge Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lk(), extractVectorBridgeMutex(), extractVectorBridgeStorage(), std::move().
+ */
 void VecKnnInsertPipeline::setExtractVectorBridgeFn(ExtractVectorBridgeFn fn) {
     std::lock_guard<std::mutex> lk(extractVectorBridgeMutex());
     extractVectorBridgeStorage() = std::move(fn);
 }
 
+/**
+ * @brief Clear Extract Vector Bridge Fn.
+ * @details Calls: lk(), extractVectorBridgeMutex(), extractVectorBridgeStorage().
+ */
 void VecKnnInsertPipeline::clearExtractVectorBridgeFn() {
     std::lock_guard<std::mutex> lk(extractVectorBridgeMutex());
     extractVectorBridgeStorage() = {};
@@ -314,6 +332,11 @@ DistanceCache &DistanceCache::operator=(DistanceCache &&other) noexcept {
 
 bool DistanceCache::get(const std::string &pk_a, const std::string &pk_b, float &out) const {
     std::string key = makeKey(pk_a, pk_b);
+    /**
+     * @brief Lk.
+     * @param[in] mtx_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mtx_);
     auto it = map_.find(key);
     if (it == map_.end()) {
@@ -325,6 +348,13 @@ bool DistanceCache::get(const std::string &pk_a, const std::string &pk_b, float 
     return true;
 }
 
+/**
+ * @brief Put.
+ * @param[in] pk_a Input parameter.
+ * @param[in] pk_b Input parameter.
+ * @param[in] value Input parameter.
+ * @details Calls: makeKey(), lk(), count(), size(), empty(), erase(), front(), pop_front().
+ */
 void DistanceCache::put(const std::string &pk_a, const std::string &pk_b, float value) {
     std::string key = makeKey(pk_a, pk_b);
     std::lock_guard<std::mutex> lk(mtx_);
@@ -341,6 +371,11 @@ void DistanceCache::put(const std::string &pk_a, const std::string &pk_b, float 
     order_.push_back(key);
 }
 
+/**
+ * @brief Invalidate.
+ * @param[in] pk Input parameter.
+ * @details Calls: lk(), begin(), end(), find(), substr(), std::find(), erase().
+ */
 void DistanceCache::invalidate(const std::string &pk) {
     std::lock_guard<std::mutex> lk(mtx_);
     // Erase all keys that contain pk (either side of the '\0' separator)
@@ -360,6 +395,10 @@ void DistanceCache::invalidate(const std::string &pk) {
     }
 }
 
+/**
+ * @brief Clear.
+ * @details Calls: lk().
+ */
 void DistanceCache::clear() {
     std::lock_guard<std::mutex> lk(mtx_);
     map_.clear();
@@ -367,6 +406,11 @@ void DistanceCache::clear() {
 }
 
 std::size_t DistanceCache::size() const {
+    /**
+     * @brief Lk.
+     * @param[in] mtx_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mtx_);
     return map_.size();
 }
@@ -388,14 +432,29 @@ VecKnnInsertPipeline::VecKnnInsertPipeline(VecKnnPipelineConfig config)
 
 VecKnnInsertPipeline::~VecKnnInsertPipeline() = default;
 
+/**
+ * @brief Set Batch Size.
+ * @param[in] sz Input parameter.
+ * @details Implements setBatchSize without additional internal calls.
+ */
 void VecKnnInsertPipeline::setBatchSize(std::size_t sz) {
     config_.batch_size = (sz > 0) ? sz : 32;
 }
 
+/**
+ * @brief Set Thread Count.
+ * @param[in] n Input parameter.
+ * @details Calls: std::thread::hardware_concurrency().
+ */
 void VecKnnInsertPipeline::setThreadCount(std::size_t n) {
     config_.num_threads = (n > 0) ? n : std::max<std::size_t>(1, static_cast<std::size_t>(std::thread::hardware_concurrency()));
 }
 
+/**
+ * @brief Enable Distance Cache.
+ * @param[in] enable Input parameter.
+ * @details Calls: clear().
+ */
 void VecKnnInsertPipeline::enableDistanceCache(bool enable) {
     config_.enable_cache = enable;
     if (!enable) {
@@ -413,6 +472,11 @@ std::vector<float> VecKnnInsertPipeline::computeDistances(const float *query_vec
         return {};
     }
 
+    /**
+     * @brief Result.
+     * @param[in,out] numDB Input/output parameter.
+     * @return Return value.
+     */
     std::vector<float> result(numQueries * numDB);
     for (std::size_t q = 0; q < numQueries; ++q) {
         simd_batch_l2_sq(query_vectors + q * dim, db_vectors, numDB, dim, result.data() + q * numDB);
@@ -420,9 +484,14 @@ std::vector<float> VecKnnInsertPipeline::computeDistances(const float *query_vec
     return result;
 }
 
-// ---------------------------------------------------------------------------
-// insertBatch – the main parallel insertion entry point
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- insertBatch – the main parallel insertion entry point ---------------------------------------------------------------------------
+ * @param[in,out] index Input/output parameter.
+ * @param[in] entities Input parameter.
+ * @param[in] vectorField Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), lk(), addBatchBridgeMutex(), addBatchBridgeStorage(), size(), fetch_add(), extractVectorBridgeMutex(), extractVectorBridgeStorage().
+ */
 VecKnnInsertResult VecKnnInsertPipeline::insertBatch(VectorIndexManager &index, const std::vector<BaseEntity> &entities,
                                                      std::string_view vectorField) {
     VecKnnInsertResult result = {};

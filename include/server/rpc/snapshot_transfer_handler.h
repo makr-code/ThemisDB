@@ -87,17 +87,6 @@ enum class SnapshotStatus {
 // Callback for chunk streaming
 using ChunkCallback = std::function<void(const shard_proto::SnapshotChunk&)>;
 
-/**
- * Handler for RocksDB snapshot transfer operations.
- * Provides efficient snapshot-based bulk data migration between shards.
- * 
- * Features:
- * - MVCC-aware snapshot creation for consistency
- * - Chunked transfer with configurable compression
- * - Incremental and full snapshot support
- * - Checksum verification for data integrity
- * - Progress tracking and monitoring
- */
 class SnapshotTransferHandler {
 public:
     SnapshotTransferHandler();
@@ -108,83 +97,53 @@ public:
     SnapshotTransferHandler& operator=(const SnapshotTransferHandler&) = delete;
     
     /**
-     * Create a snapshot with the specified configuration.
-     * 
-     * For full snapshots: Creates a new RocksDB checkpoint
-     * For incremental: Uses RocksDB WAL and SST deltas since base snapshot
-     * 
-     * @param config Snapshot configuration
-     * @return Status code
+     * @brief Create Snapshot.
+     * @param[in] config Input parameter.
+     * @return Return value.
      */
     SnapshotStatus CreateSnapshot(const SnapshotConfig& config);
     
     /**
-     * Stream snapshot chunks to the callback.
-     * 
-     * Each chunk is compressed and checksummed according to config.
-     * Chunks are streamed in order for sequential reconstruction.
-     * 
-     * @param callback Function to receive each chunk
-     * @return Status code
+     * @brief Stream Chunks.
+     * @param[in] callback Input parameter.
+     * @return Return value.
      */
     SnapshotStatus StreamChunks(ChunkCallback callback);
     
     /**
-     * Verify snapshot integrity after transfer.
-     * 
-     * Validates:
-     * - Per-chunk checksums
-     * - Overall snapshot hash
-     * - Chunk sequence completeness
-     * 
-     * @param expected_hash Expected SHA256 hash of complete snapshot
-     * @return Status code
+     * @brief Verify Snapshot.
+     * @param[in] expected_hash Input parameter.
+     * @return Return value.
      */
     SnapshotStatus VerifySnapshot(const std::string& expected_hash);
     
     /**
-     * Receive and apply snapshot chunks.
-     * 
-     * SECURITY: This method validates file paths using canonical path resolution
-     * to prevent path traversal attacks (CWE-22). User-supplied file paths are
-     * verified to be within the snapshot directory before any file operations.
-     * 
-     * Path validation includes:
-     * - Canonical path resolution with fs::canonical()
-     * - Verification that resolved path is within snapshot directory
-     * - Handling of non-existent parent directories
-     * - Rejection of absolute paths and .. traversal attempts
-     * - Logging of security violations
-     * 
-     * @param chunk Received snapshot chunk with file path and data
-     * @return Status code (ERROR_SECURITY_PATH_TRAVERSAL on path traversal attempt)
+     * @brief Receive Chunk.
+     * @param[in] chunk Input parameter.
+     * @return Return value.
      */
     SnapshotStatus ReceiveChunk(const shard_proto::SnapshotChunk& chunk);
     
     /**
-     * Finalize snapshot after all chunks received.
-     * 
-     * @return Status code
+     * @brief Finalize Snapshot.
+     * @return Return value.
      */
     SnapshotStatus FinalizeSnapshot();
     
     /**
-     * Get current transfer progress.
-     * 
-     * @return Progress information
+     * @brief Get Progress.
+     * @return Return value.
      */
     SnapshotProgress GetProgress() const;
     
     /**
-     * Cancel an in-progress snapshot transfer.
+     * @brief Cancel.
      */
     void Cancel();
 
     /**
-     * Inject the RocksDB instance to use for snapshot creation and restore.
-     * Must be called before CreateSnapshot() or FinalizeSnapshot().
-     *
-     * @param db Pointer to the open RocksDB instance (not owned by this handler).
+     * @brief Set DB.
+     * @param[in,out] db Input/output parameter.
      */
     void SetDB(rocksdb::DB* db);
 

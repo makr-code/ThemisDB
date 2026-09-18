@@ -31,6 +31,16 @@ QueryScheduler::~QueryScheduler() {
 // enqueue
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Enqueue.
+ * @param[in] execute Input parameter.
+ * @param[in] priority Input parameter.
+ * @param[in] sla_ms Input parameter.
+ * @param[in] name Input parameter.
+ * @param[in] timeout Input parameter.
+ * @return Return value.
+ * @details Calls: load(), std::chrono::steady_clock::now(), std::chrono::milliseconds(), lk(), wait_until(), size(), fetch_add(), std::move().
+ */
 std::uint64_t QueryScheduler::enqueue(
     QueryEntry::ExecuteFn execute,
     SLAPriority           priority,
@@ -98,6 +108,13 @@ std::uint64_t QueryScheduler::enqueue(
 // dequeue
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Dequeue.
+ * @param[in,out] out Input/output parameter.
+ * @param[in] timeout Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: std::chrono::steady_clock::now(), lk(), wait_until(), empty(), load(), std::move(), top(), pop().
+ */
 bool QueryScheduler::dequeue(QueryEntry& out, std::chrono::milliseconds timeout) {
     const auto t0 = std::chrono::steady_clock::now();
     const auto deadline = t0 + timeout;
@@ -140,6 +157,12 @@ bool QueryScheduler::dequeue(QueryEntry& out, std::chrono::milliseconds timeout)
 // reportCompletion
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Report Completion.
+ * @param[in] query_id Identifier of the query.
+ * @param[in] completion_time Input parameter.
+ * @details Calls: lk(), find(), end(), erase().
+ */
 void QueryScheduler::reportCompletion(
     std::uint64_t query_id,
     std::chrono::steady_clock::time_point completion_time) {
@@ -160,6 +183,11 @@ void QueryScheduler::reportCompletion(
 
 QueryScheduler::Metrics QueryScheduler::metrics() const noexcept {
     Metrics m;
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     m.queue_depth_high   = count_high_;
     m.queue_depth_medium = count_medium_;
@@ -188,6 +216,11 @@ QueryScheduler::Metrics QueryScheduler::metrics() const noexcept {
 // ---------------------------------------------------------------------------
 
 std::size_t QueryScheduler::size() const noexcept {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     return queue_.size();
 }

@@ -30,13 +30,11 @@ namespace llm {
 
 using json = nlohmann::json;
 
-/**
- * @brief AI Decision Audit Entry
- * 
- * Comprehensive audit record for AI-driven decisions with full explainability.
- * Complies with EU AI Act, GDPR Article 22, and eIDAS requirements.
- */
 struct AIDecisionAudit {
+    /**
+     * @brief AIDecision Audit.
+     * @return Return value.
+     */
     virtual ~AIDecisionAudit() = default;
     // Identification
     std::string decision_id;           // Unique decision ID
@@ -87,23 +85,19 @@ struct AIDecisionAudit {
     int token_count = 0;               // Tokens used
     
     // Serialization
+    /**
+     * @brief To Json.
+     * @return Return value.
+     */
     json toJson() const;
+    /**
+     * @brief From Json.
+     * @param[in] j Input parameter.
+     * @return Return value.
+     */
     static AIDecisionAudit fromJson(const json& j);
 };
 
-/**
- * @brief AI Decision Auditor
- * 
- * Provides comprehensive AI decision auditing and explainability features.
- * Extends existing LLMInteractionStore with compliance-focused capabilities.
- * 
- * Features:
- * - Complete logging of AI decisions with context
- * - Explanation generation for transparency
- * - Cryptographic signing for integrity
- * - Human oversight and override mechanisms
- * - Compliance reporting (EU AI Act, GDPR)
- */
 class AIDecisionAuditor {
 public:
     struct QueryFilter {
@@ -116,12 +110,6 @@ public:
         size_t limit = 100;
     };
     
-    /**
-     * @brief Construct AI Decision Auditor
-     * @param db RocksDB TransactionDB instance
-     * @param cf Optional column family handle
-     * @param pki_client PKI client for signing (optional)
-     */
     explicit AIDecisionAuditor(
         rocksdb::TransactionDB* db,
         rocksdb::ColumnFamilyHandle* cf = nullptr,
@@ -131,40 +119,40 @@ public:
     ~AIDecisionAuditor() = default;
     
     /**
-     * @brief Log AI decision with full context
-     * @param audit Complete audit entry
-     * @return Stored audit with generated ID and signature
+     * @brief Log Decision.
+     * @param[in] audit Input parameter.
+     * @return Return value.
      */
     AIDecisionAudit logDecision(AIDecisionAudit audit);
     
     /**
-     * @brief Generate explanation for a decision
-     * @param decision_id Decision ID to explain
-     * @return Human-readable explanation or empty if not found
+     * @brief Generate Explanation.
+     * @param[in] decision_id Identifier of the decision.
+     * @return Return value.
      */
     std::string generateExplanation(const std::string& decision_id);
     
     /**
-     * @brief Query audit log with filters
-     * @param filter Query filters
-     * @return Vector of matching audit entries
+     * @brief Query Audit Log.
+     * @param[in] filter Input parameter.
+     * @return Return value.
      */
     std::vector<AIDecisionAudit> queryAuditLog(const QueryFilter& filter);
     
     /**
-     * @brief Flag decision for human review
-     * @param decision_id Decision to flag
-     * @param reason Reason for review
-     * @return true if successful
+     * @brief Flag For Review.
+     * @param[in] decision_id Identifier of the decision.
+     * @param[in] reason Input parameter.
+     * @return True when the operation succeeds.
      */
     bool flagForReview(const std::string& decision_id, const std::string& reason);
     
     /**
-     * @brief Record human override of AI decision
-     * @param decision_id Decision being overridden
-     * @param override_reason Reason for override
-     * @param reviewer_id ID of human reviewer
-     * @return true if successful
+     * @brief Record Override.
+     * @param[in] decision_id Identifier of the decision.
+     * @param[in] override_reason Input parameter.
+     * @param[in] reviewer_id Identifier of the reviewer.
+     * @return True when the operation succeeds.
      */
     bool recordOverride(
         const std::string& decision_id,
@@ -173,30 +161,27 @@ public:
     );
     
     /**
-     * @brief Get decision by ID
-     * @param decision_id Decision ID
-     * @return Audit entry if found
+     * @brief Get Decision.
+     * @param[in] decision_id Identifier of the decision.
+     * @return Return value.
      */
     std::optional<AIDecisionAudit> getDecision(const std::string& decision_id) const;
     
     /**
-     * @brief Verify integrity of audit entry
-     * @param decision_id Decision ID to verify
-     * @return true if signature is valid
+     * @brief Verify Integrity.
+     * @param[in] decision_id Identifier of the decision.
+     * @return True when the operation succeeds.
      */
     bool verifyIntegrity(const std::string& decision_id) const;
     
     /**
-     * @brief Export audit log for compliance reporting
-     * @param output_path Path to export file
-     * @param filter Export filters
-     * @return true if successful
+     * @brief Export For Compliance.
+     * @param[in] output_path Path to the output.
+     * @param[in] filter Input parameter.
+     * @return True when the operation succeeds.
      */
     bool exportForCompliance(const std::string& output_path, const QueryFilter& filter);
     
-    /**
-     * @brief Get audit statistics
-     */
     struct Stats {
         size_t total_decisions = 0;
         size_t flagged_for_review = 0;
@@ -205,6 +190,10 @@ public:
         int64_t avg_latency_ms = 0;
     };
     
+    /**
+     * @brief Get Stats.
+     * @return Return value.
+     */
     Stats getStats() const;
 
 private:
@@ -214,9 +203,28 @@ private:
     
     static constexpr const char* KEY_PREFIX = "ai_decision:";
     
+    /**
+     * @brief Make Key.
+     * @param[in] id Input parameter.
+     * @return Return value.
+     */
     std::string makeKey(const std::string& id) const;
+    /**
+     * @brief Generate Id.
+     * @return Return value.
+     */
     std::string generateId() const;
+    /**
+     * @brief Sign Decision.
+     * @param[in] audit Input parameter.
+     * @return Return value.
+     */
     std::string signDecision(const AIDecisionAudit& audit);
+    /**
+     * @brief Verify Signature.
+     * @param[in] audit Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool verifySignature(const AIDecisionAudit& audit) const;
 };
 

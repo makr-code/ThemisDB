@@ -47,6 +47,13 @@ WALEntry PaxosWALEntry::toWALEntry() const {
     return entry;
 }
 
+/**
+ * @brief From WALEntry.
+ * @param[in] entry Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: contains().
+ */
 PaxosWALEntry PaxosWALEntry::fromWALEntry(const WALEntry& entry) {
     PaxosWALEntry paxos_entry;
     paxos_entry.lsn = entry.lsn;
@@ -96,6 +103,11 @@ PaxosWAL::~PaxosWAL() {
     }
 }
 
+/**
+ * @brief Initialize.
+ * @return True when the operation succeeds.
+ * @details Calls: std::filesystem::create_directories(), spdlog::info(), spdlog::error(), what().
+ */
 bool PaxosWAL::initialize() {
     try {
         // Create directories if they don't exist
@@ -122,6 +134,13 @@ bool PaxosWAL::initialize() {
     }
 }
 
+/**
+ * @brief Log Entry.
+ * @param[in] entry Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: lock(), toWALEntry(), append(), spdlog::debug(), toString().
+ */
 LSN PaxosWAL::logEntry(const PaxosWALEntry& entry) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -138,12 +157,30 @@ LSN PaxosWAL::logEntry(const PaxosWALEntry& entry) {
     return lsn;
 }
 
+/**
+ * @brief Log Prepare.
+ * @param[in] slot Input parameter.
+ * @param[in] round Input parameter.
+ * @param[in] node_id Identifier of the node.
+ * @return Return value.
+ * @details Calls: nlohmann::json::object(), createEntry(), logEntry().
+ */
 LSN PaxosWAL::logPrepare(uint64_t slot, uint64_t round, const std::string& node_id) {
     nlohmann::json data = nlohmann::json::object();
     PaxosWALEntry entry = createEntry(PaxosWALEntryType::PREPARE, slot, round, node_id, data);
     return logEntry(entry);
 }
 
+/**
+ * @brief Log Promise.
+ * @param[in] slot Input parameter.
+ * @param[in] round Input parameter.
+ * @param[in] node_id Identifier of the node.
+ * @param[in] accepted_round Input parameter.
+ * @param[in] accepted_value Input parameter.
+ * @return Return value.
+ * @details Calls: createEntry(), logEntry().
+ */
 LSN PaxosWAL::logPromise(uint64_t slot, uint64_t round, const std::string& node_id,
                          uint64_t accepted_round, const nlohmann::json& accepted_value) {
     nlohmann::json data = {
@@ -154,6 +191,15 @@ LSN PaxosWAL::logPromise(uint64_t slot, uint64_t round, const std::string& node_
     return logEntry(entry);
 }
 
+/**
+ * @brief Log Accept.
+ * @param[in] slot Input parameter.
+ * @param[in] round Input parameter.
+ * @param[in] node_id Identifier of the node.
+ * @param[in] value Input parameter.
+ * @return Return value.
+ * @details Calls: createEntry(), logEntry().
+ */
 LSN PaxosWAL::logAccept(uint64_t slot, uint64_t round, const std::string& node_id,
                         const ConsensusLogEntry& value) {
     nlohmann::json data = {
@@ -168,12 +214,27 @@ LSN PaxosWAL::logAccept(uint64_t slot, uint64_t round, const std::string& node_i
     return logEntry(entry);
 }
 
+/**
+ * @brief Log Accepted.
+ * @param[in] slot Input parameter.
+ * @param[in] round Input parameter.
+ * @param[in] node_id Identifier of the node.
+ * @return Return value.
+ * @details Calls: nlohmann::json::object(), createEntry(), logEntry().
+ */
 LSN PaxosWAL::logAccepted(uint64_t slot, uint64_t round, const std::string& node_id) {
     nlohmann::json data = nlohmann::json::object();
     PaxosWALEntry entry = createEntry(PaxosWALEntryType::ACCEPTED, slot, round, node_id, data);
     return logEntry(entry);
 }
 
+/**
+ * @brief Log Commit.
+ * @param[in] slot Input parameter.
+ * @param[in] value Input parameter.
+ * @return Return value.
+ * @details Calls: createEntry(), logEntry().
+ */
 LSN PaxosWAL::logCommit(uint64_t slot, const ConsensusLogEntry& value) {
     nlohmann::json data = {
         {"value", {
@@ -187,6 +248,14 @@ LSN PaxosWAL::logCommit(uint64_t slot, const ConsensusLogEntry& value) {
     return logEntry(entry);
 }
 
+/**
+ * @brief Read Entries.
+ * @param[in] start_lsn Input parameter.
+ * @param[in] end_lsn Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: lock(), readRange(), reserve(), size(), PaxosWALEntry::fromWALEntry(), push_back(), std::move(), spdlog::warn().
+ */
 std::vector<PaxosWALEntry> PaxosWAL::readEntries(const LSN& start_lsn,
                                                   const std::optional<LSN>& end_lsn) {
     std::lock_guard<std::mutex> lock(mutex_);
@@ -218,6 +287,11 @@ std::vector<PaxosWALEntry> PaxosWAL::readEntries(const LSN& start_lsn,
 }
 
 LSN PaxosWAL::getCurrentLSN() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     if (!wal_manager_) {
@@ -228,6 +302,11 @@ LSN PaxosWAL::getCurrentLSN() const {
 }
 
 LSN PaxosWAL::getOldestLSN() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     if (!wal_manager_) {
@@ -237,6 +316,10 @@ LSN PaxosWAL::getOldestLSN() const {
     return wal_manager_->getOldestLSN();
 }
 
+/**
+ * @brief Flush.
+ * @details Calls: lock(), spdlog::debug().
+ */
 void PaxosWAL::flush() {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -250,6 +333,13 @@ bool PaxosWAL::shouldCreateSnapshot(size_t operations_since_last) const {
     return operations_since_last >= config_.snapshot_interval;
 }
 
+/**
+ * @brief Compact.
+ * @param[in] up_to_lsn Input parameter.
+ * @param[in] node_id Identifier of the node.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), spdlog::error(), toString(), std::chrono::system_clock::now(), time_since_epoch(), count(), createEntry(), append().
+ */
 bool PaxosWAL::compact(const LSN& up_to_lsn, const std::string& node_id) {
     std::lock_guard<std::mutex> lock(mutex_);
 
@@ -283,6 +373,16 @@ bool PaxosWAL::compact(const LSN& up_to_lsn, const std::string& node_id) {
     }
 }
 
+/**
+ * @brief Create Entry.
+ * @param[in] type Input parameter.
+ * @param[in] slot Input parameter.
+ * @param[in] round Input parameter.
+ * @param[in] node_id Identifier of the node.
+ * @param[in] data Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::now(), time_since_epoch(), count().
+ */
 PaxosWALEntry PaxosWAL::createEntry(PaxosWALEntryType type, uint64_t slot,
                                      uint64_t round, const std::string& node_id,
                                      const nlohmann::json& data) {

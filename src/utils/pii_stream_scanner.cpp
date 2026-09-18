@@ -126,7 +126,7 @@ std::vector<PIIFinding> PIIStreamScanner::scan_chunk(std::string_view chunk, boo
 }
 
 /**
- * @brief Reset.
+ * @brief Reset the modification detection flag.
  * @details Calls: clear().
  */
 void PIIStreamScanner::reset() {
@@ -144,7 +144,13 @@ size_t PIIStreamScanner::bytes_processed() const {
 
 namespace {
 
-/// Compute HMAC-SHA-256 of `value` keyed by `key`, return first 8 hex chars.
+/**
+ * @brief Hmac Pseudonym.
+ * @param[in] key Input parameter.
+ * @param[in] value Input parameter.
+ * @return Return value.
+ * @details Calls: HMAC(), EVP_sha256(), data(), size(), std::setfill(), std::setw(), str().
+ */
 std::string hmacPseudonym(const std::string& key, const std::string& value) {
     unsigned char digest[SHA256_DIGEST_LENGTH];
     unsigned int  digest_len = SHA256_DIGEST_LENGTH;
@@ -243,7 +249,7 @@ std::string PIIStreamPseudonymizer::process_chunk(std::string_view chunk, bool i
 }
 
 /**
- * @brief Reset.
+ * @brief Reset the modification detection flag.
  * @details Implements reset without additional internal calls.
  */
 void PIIStreamPseudonymizer::reset() {

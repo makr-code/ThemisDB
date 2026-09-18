@@ -24,10 +24,22 @@ namespace analytics {
 // helpers
 // ──────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Is Variable.
+ * @param[in] s Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), front().
+ */
 static bool isVariable(const std::string &s) {
     return !s.empty() && s.front() == '?';
 }
 
+/**
+ * @brief Json Escape.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size().
+ */
 static std::string jsonEscape(const std::string &s) {
     std::string out = {};
     out.reserve(s.size() + 4);
@@ -47,6 +59,12 @@ static std::string jsonEscape(const std::string &s) {
     return out;
 }
 
+/**
+ * @brief Fact To Json.
+ * @param[in] f Input parameter.
+ * @return Return value.
+ * @details Calls: jsonEscape(), str().
+ */
 static std::string factToJson(const Fact &f) {
     std::ostringstream oss = {};
     oss << "{"
@@ -58,6 +76,12 @@ static std::string factToJson(const Fact &f) {
     return oss.str();
 }
 
+/**
+ * @brief Proof Step To Json.
+ * @param[in] ps Input parameter.
+ * @return Return value.
+ * @details Calls: jsonEscape(), factToJson(), str().
+ */
 static std::string proofStepToJson(const ProofStep &ps) {
     std::ostringstream oss = {};
     oss << "{\"rule_id\":\"" << jsonEscape(ps.rule_id) << "\","
@@ -84,6 +108,11 @@ ExpertSystemEngine::ExpertSystemEngine(Config cfg) : cfg_(cfg), kb_(std::make_sh
 // KnowledgeBase access
 // ──────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Set Knowledge Base.
+ * @param[in] kb Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void ExpertSystemEngine::setKnowledgeBase(std::shared_ptr<KnowledgeBase> kb) {
     std::unique_lock<std::shared_mutex> lock(mutex_);
     kb_ = std::move(kb);
@@ -97,12 +126,26 @@ KnowledgeBase &ExpertSystemEngine::knowledgeBase() {
 // Working Memory
 // ──────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Assert Fact.
+ * @param[in] subject Input parameter.
+ * @param[in] predicate Input parameter.
+ * @param[in] object Input parameter.
+ * @return Return value.
+ * @details Calls: lock().
+ */
 std::string ExpertSystemEngine::assertFact(const std::string &subject, const std::string &predicate,
                                            const std::string &object) {
     std::unique_lock<std::shared_mutex> lock(mutex_);
     return kb_->assertFact(subject, predicate, object);
 }
 
+/**
+ * @brief Retract Fact.
+ * @param[in] fact_id Identifier of the fact.
+ * @return True when the operation succeeds.
+ * @details Calls: lock().
+ */
 bool ExpertSystemEngine::retractFact(const std::string &fact_id) {
     std::unique_lock<std::shared_mutex> lock(mutex_);
     return kb_->retractFact(fact_id);
@@ -289,6 +332,12 @@ ExpertSystemEngine::matchAllConditions(const HornClause &rule, const std::vector
 // forwardChain
 // ──────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Forward Chain.
+ * @param[in] max_cycles Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), getFacts(), getRules(), matchAllConditions(), applyBinding(), push_back(), unlock(), mlConfidenceNoLock().
+ */
 int ExpertSystemEngine::forwardChain(int max_cycles) {
     std::unique_lock<std::shared_mutex> lock(mutex_);
 
@@ -478,6 +527,12 @@ bool ExpertSystemEngine::backwardChainDLS(const TriplePattern &goal, std::vector
     return false;
 }
 
+/**
+ * @brief Query Goal.
+ * @param[in] goal Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), backwardChainDLS(), size().
+ */
 GoalResult ExpertSystemEngine::queryGoal(const TriplePattern &goal) {
     std::shared_lock<std::shared_mutex> lock(mutex_);
     GoalResult result;
@@ -491,6 +546,11 @@ GoalResult ExpertSystemEngine::queryGoal(const TriplePattern &goal) {
 // ──────────────────────────────────────────────────────────────────────────────
 
 std::string ExpertSystemEngine::explain(const std::string &fact_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(mutex_);
     const auto it = decision_log_.find(fact_id);
     if (it == decision_log_.end()) {
@@ -504,6 +564,11 @@ std::string ExpertSystemEngine::explain(const std::string &fact_id) const {
         if (!first) {
             oss << ",";
         }
+        /**
+         * @brief Proof Step To Json.
+         * @param[in] step Input parameter.
+         * @return Return value.
+         */
         oss << proofStepToJson(step);
         first = false;
     }
@@ -515,6 +580,13 @@ std::string ExpertSystemEngine::explain(const std::string &fact_id) const {
 // ML Scorer injection
 // ──────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Set MLScorer.
+ * @param[in,out] scorer Input/output parameter.
+ * @param[in] model_name Name of the model.
+ * @param[in] model_version Input parameter.
+ * @details Calls: lock().
+ */
 void ExpertSystemEngine::setMLScorer(ModelServingEngine *scorer, const std::string &model_name,
                                      const std::string &model_version) {
     std::unique_lock<std::shared_mutex> lock(mutex_);
@@ -524,6 +596,11 @@ void ExpertSystemEngine::setMLScorer(ModelServingEngine *scorer, const std::stri
     ml_scorer_fn_     = nullptr; // Clear function override.
 }
 
+/**
+ * @brief Set MLScorer Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void ExpertSystemEngine::setMLScorerFn(ScorerFn fn) {
     std::unique_lock<std::shared_mutex> lock(mutex_);
     ml_scorer_fn_ = std::move(fn);
@@ -535,11 +612,21 @@ void ExpertSystemEngine::setMLScorerFn(ScorerFn fn) {
 // ──────────────────────────────────────────────────────────────────────────────
 
 std::size_t ExpertSystemEngine::factCount() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(mutex_);
     return kb_->factCount();
 }
 
 std::size_t ExpertSystemEngine::ruleCount() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(mutex_);
     return kb_->ruleCount();
 }

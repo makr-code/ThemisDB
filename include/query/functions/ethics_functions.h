@@ -18,58 +18,11 @@ namespace themis {
 namespace query {
 namespace functions {
 
-/**
- * @brief Ethics AI Functions for AQL
- * 
- * This module provides AQL functions for ethical decision-making and analysis:
- * 
- * ## Decision Making
- * - ETHICS_MAKE_DECISION(dilemma, philosophies, category, use_rag) -> Make ethical decision
- * - ETHICS_INITIALIZE_DEBATE(dilemma, philosophies, category) -> Start debate session
- * 
- * ## Evaluation
- * - ETHICS_EVALUATE(decision, arguments) -> Evaluate decision across 5 dimensions
- * - ETHICS_EVALUATE_DIMENSION(decision, dimension) -> Evaluate specific dimension
- * 
- * ## Argument Management
- * - ETHICS_GET_ARGUMENTS(philosophy, type, limit) -> Retrieve arguments
- * - ETHICS_FIND_SIMILAR_DILEMMAS(query, threshold, limit) -> Vector similarity search
- * - ETHICS_TRAVERSE_CHAIN(start_id, max_depth) -> Graph traversal of argument chains
- * 
- * ## Philosophy
- * - ETHICS_LOAD_PROFILE(school) -> Load philosophy profile
- * - ETHICS_LIST_SCHOOLS() -> List available schools
- * 
- * ## RAG Context
- * - ETHICS_BUILD_CONTEXT(dilemma, philosophies, category) -> Build RAG context
- * 
- * ## Statistics
- * - ETHICS_STATS(philosophy) -> Get philosophy statistics
- * - ETHICS_METRICS() -> Get system metrics (Prometheus format)
- */
 
 // ============================================================================
 // Decision Making Functions
 // ============================================================================
 
-/**
- * @brief ETHICS_MAKE_DECISION - Make ethical decision using multiple philosophies
- * 
- * @code
- * LET decision = ETHICS_MAKE_DECISION(
- *   "Should autonomous vehicles prioritize passenger safety?",
- *   ["kant", "utilitarianism", "virtue_ethics"],
- *   "autonomous_systems",
- *   true
- * )
- * 
- * RETURN {
- *   decision: decision.decision_text,
- *   confidence: decision.confidence,
- *   primary_philosophy: decision.primary_philosophy
- * }
- * @endcode
- */
 class EthicsMakeDecisionFunction : public IFunction {
 public:
     ~EthicsMakeDecisionFunction() override = default;
@@ -105,19 +58,6 @@ public:
     ) const override;
 };
 
-/**
- * @brief ETHICS_INITIALIZE_DEBATE - Initialize ethical debate session
- * 
- * @code
- * LET debate = ETHICS_INITIALIZE_DEBATE(
- *   "Resource allocation in healthcare crisis",
- *   ["kant", "utilitarianism", "care_ethics"],
- *   "healthcare"
- * )
- * 
- * RETURN debate.debate_id
- * @endcode
- */
 class EthicsInitializeDebateFunction : public IFunction {
 public:
     ~EthicsInitializeDebateFunction() override = default;
@@ -153,23 +93,6 @@ public:
 // Evaluation Functions
 // ============================================================================
 
-/**
- * @brief ETHICS_EVALUATE - Evaluate decision across 5 dimensions
- * 
- * @code
- * LET decision = ETHICS_MAKE_DECISION(...)
- * LET eval = ETHICS_EVALUATE(decision, [])
- * 
- * RETURN {
- *   overall: eval.overall_score,
- *   quality: eval.decision_quality_score,
- *   consistency: eval.consistency_score,
- *   fairness: eval.fairness_score,
- *   alignment: eval.alignment_score,
- *   transparency: eval.transparency_score
- * }
- * @endcode
- */
 class EthicsEvaluateFunction : public IFunction {
 public:
     ~EthicsEvaluateFunction() override = default;
@@ -200,14 +123,6 @@ public:
     ) const override;
 };
 
-/**
- * @brief ETHICS_EVALUATE_DIMENSION - Evaluate specific dimension
- * 
- * @code
- * LET fairness = ETHICS_EVALUATE_DIMENSION(decision, "fairness")
- * RETURN fairness
- * @endcode
- */
 class EthicsEvaluateDimensionFunction : public IFunction {
 public:
     ~EthicsEvaluateDimensionFunction() override = default;
@@ -241,19 +156,6 @@ public:
 // Argument Management Functions
 // ============================================================================
 
-/**
- * @brief ETHICS_GET_ARGUMENTS - Retrieve arguments by philosophy
- * 
- * @code
- * FOR arg IN ETHICS_GET_ARGUMENTS("kant", ["pro", "contra"], 50)
- *   RETURN {
- *     school: arg.philosophy_school,
- *     type: arg.argument_type,
- *     content: arg.content,
- *     strength: arg.strength
- *   }
- * @endcode
- */
 class EthicsGetArgumentsFunction : public IFunction {
 public:
     ~EthicsGetArgumentsFunction() override = default;
@@ -286,20 +188,6 @@ public:
     ) const override;
 };
 
-/**
- * @brief ETHICS_FIND_SIMILAR_DILEMMAS - Vector similarity search
- * 
- * @code
- * LET similar = ETHICS_FIND_SIMILAR_DILEMMAS(
- *   "Should we allow AI in medical diagnosis?",
- *   0.65,
- *   10
- * )
- * 
- * FOR dilemma IN similar
- *   RETURN {id: dilemma.id, similarity: dilemma.similarity}
- * @endcode
- */
 class EthicsFindSimilarDilemmasFunction : public IFunction {
 public:
     ~EthicsFindSimilarDilemmasFunction() override = default;
@@ -331,20 +219,6 @@ public:
     ) const override;
 };
 
-/**
- * @brief ETHICS_TRAVERSE_CHAIN - Traverse argument chains
- * 
- * @code
- * LET chain = ETHICS_TRAVERSE_CHAIN("arg_001", 5)
- * 
- * FOR node IN chain
- *   RETURN {
- *     id: node.id,
- *     type: node.relationship_type,
- *     content: node.content
- *   }
- * @endcode
- */
 class EthicsTraverseChainFunction : public IFunction {
 public:
     ~EthicsTraverseChainFunction() override = default;
@@ -379,18 +253,6 @@ public:
 // Philosophy Functions
 // ============================================================================
 
-/**
- * @brief ETHICS_LOAD_PROFILE - Load philosophy profile
- * 
- * @code
- * LET profile = ETHICS_LOAD_PROFILE("kant")
- * RETURN {
- *   name: profile.name,
- *   founder: profile.founder,
- *   main_thesis: profile.main_thesis
- * }
- * @endcode
- */
 class EthicsLoadProfileFunction : public IFunction {
 public:
     ~EthicsLoadProfileFunction() override = default;
@@ -419,15 +281,6 @@ public:
     ) const override;
 };
 
-/**
- * @brief ETHICS_LIST_SCHOOLS - List available philosophy schools
- * 
- * @code
- * LET schools = ETHICS_LIST_SCHOOLS()
- * FOR school IN schools
- *   RETURN school.name
- * @endcode
- */
 class EthicsListSchoolsFunction : public IFunction {
 public:
     ~EthicsListSchoolsFunction() override = default;
@@ -454,22 +307,6 @@ public:
 // RAG Context Functions
 // ============================================================================
 
-/**
- * @brief ETHICS_BUILD_CONTEXT - Build RAG context for decision
- * 
- * @code
- * LET context = ETHICS_BUILD_CONTEXT(
- *   "Should AI systems be allowed to make hiring decisions?",
- *   ["kant", "utilitarianism"],
- *   "employment"
- * )
- * 
- * RETURN {
- *   similar_dilemmas: context.similar_dilemmas,
- *   best_practices: context.best_practices
- * }
- * @endcode
- */
 class EthicsBuildContextFunction : public IFunction {
 public:
     ~EthicsBuildContextFunction() override = default;
@@ -505,18 +342,6 @@ public:
 // Statistics Functions
 // ============================================================================
 
-/**
- * @brief ETHICS_STATS - Get philosophy statistics
- * 
- * @code
- * LET stats = ETHICS_STATS("kant")
- * RETURN {
- *   total_arguments: stats.total_arguments,
- *   total_decisions: stats.total_decisions,
- *   avg_confidence: stats.avg_confidence
- * }
- * @endcode
- */
 class EthicsStatsFunction : public IFunction {
 public:
     ~EthicsStatsFunction() override = default;
@@ -545,14 +370,6 @@ public:
     ) const override;
 };
 
-/**
- * @brief ETHICS_METRICS - Get system metrics
- * 
- * @code
- * LET metrics = ETHICS_METRICS()
- * RETURN metrics.prometheus_format
- * @endcode
- */
 class EthicsMetricsFunction : public IFunction {
 public:
     ~EthicsMetricsFunction() override = default;
@@ -580,7 +397,7 @@ public:
 // ============================================================================
 
 /**
- * @brief Register all ethics AI functions with the registry
+ * @brief Register Ethics Functions.
  * @param[in,out] registry Input/output parameter.
  * @details Calls: registerFunction().
  */

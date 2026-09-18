@@ -30,33 +30,6 @@ class GraphAutoBuffer;
 namespace themisdb {
 namespace server {
 
-/**
- * Binary Protocol Handler for AutoBuffer Operations
- * 
- * Wire Protocol Message Types:
- * - 0x70: TS_PUT_BUFFERED - Buffered time series data point
- * - 0x71: TS_PUT_BUFFERED_BATCH - Buffered batch of time series points
- * - 0x72: VECTOR_ADD_BUFFERED - Buffered vector add operation
- * - 0x73: VECTOR_UPDATE_BUFFERED - Buffered vector update operation
- * - 0x74: VECTOR_REMOVE_BUFFERED - Buffered vector remove operation
- * - 0x75: GRAPH_NODE_BUFFERED - Buffered graph node add
- * - 0x76: GRAPH_EDGE_BUFFERED - Buffered graph edge add
- * - 0x77: BUFFER_STATS - Get buffer statistics
- * - 0x78: BUFFER_FLUSH - Manual buffer flush
- * 
- * Message Format:
- * [1 byte: opcode] [4 bytes: payload length] [N bytes: payload (MessagePack)]
- * 
- * Response Format:
- * [1 byte: status] [4 bytes: payload length] [N bytes: payload (MessagePack)]
- * 
- * Status Codes:
- * - 0x00: Success
- * - 0x01: Invalid opcode
- * - 0x02: Malformed payload
- * - 0x03: Processing error
- * - 0x04: Buffer overflow
- */
 class BufferBinaryProtocolHandler {
 public:
     // Opcodes
@@ -77,13 +50,6 @@ public:
     static constexpr uint8_t STATUS_PROCESSING_ERROR = 0x03;
     static constexpr uint8_t STATUS_BUFFER_OVERFLOW = 0x04;
     
-    /**
-     * Constructor
-     * 
-     * @param tsstore TSStore instance for time series operations
-     * @param vector_index VectorIndexManager instance for vector operations
-     * @param property_graph PropertyGraph instance for graph operations
-     */
     BufferBinaryProtocolHandler(
         std::shared_ptr<themis::TSStore> tsstore,
         std::shared_ptr<themis::VectorIndexManager> vector_index,
@@ -93,23 +59,20 @@ public:
     ~BufferBinaryProtocolHandler();
     
     /**
-     * Start the buffer binary protocol handler
-     * Initializes AutoBuffer instances and starts background flush threads
+     * @brief Start.
      */
     void start();
     
     /**
-     * Stop the buffer binary protocol handler
-     * Flushes all remaining data and stops background threads
+     * @brief Stop.
      */
     void stop();
     
     /**
-     * Handle a binary protocol message
-     * 
-     * @param opcode Message opcode (0x70-0x78)
-     * @param payload Message payload (MessagePack encoded)
-     * @return Response message (status + optional payload)
+     * @brief Handle Message.
+     * @param[in] opcode Input parameter.
+     * @param[in] payload Input parameter.
+     * @return Return value.
      */
     std::vector<uint8_t> handleMessage(uint8_t opcode, const std::vector<uint8_t>& payload);
     
@@ -128,18 +91,69 @@ private:
     bool running_;
     
     // Opcode handlers
+    /**
+     * @brief Handle TSPut Buffered.
+     * @param[in] payload Input parameter.
+     * @return Return value.
+     */
     std::vector<uint8_t> handleTSPutBuffered(const std::vector<uint8_t>& payload);
+    /**
+     * @brief Handle TSPut Buffered Batch.
+     * @param[in] payload Input parameter.
+     * @return Return value.
+     */
     std::vector<uint8_t> handleTSPutBufferedBatch(const std::vector<uint8_t>& payload);
+    /**
+     * @brief Handle Vector Add Buffered.
+     * @param[in] payload Input parameter.
+     * @return Return value.
+     */
     std::vector<uint8_t> handleVectorAddBuffered(const std::vector<uint8_t>& payload);
+    /**
+     * @brief Handle Vector Update Buffered.
+     * @param[in] payload Input parameter.
+     * @return Return value.
+     */
     std::vector<uint8_t> handleVectorUpdateBuffered(const std::vector<uint8_t>& payload);
+    /**
+     * @brief Handle Vector Remove Buffered.
+     * @param[in] payload Input parameter.
+     * @return Return value.
+     */
     std::vector<uint8_t> handleVectorRemoveBuffered(const std::vector<uint8_t>& payload);
+    /**
+     * @brief Handle Graph Node Buffered.
+     * @param[in] payload Input parameter.
+     * @return Return value.
+     */
     std::vector<uint8_t> handleGraphNodeBuffered(const std::vector<uint8_t>& payload);
+    /**
+     * @brief Handle Graph Edge Buffered.
+     * @param[in] payload Input parameter.
+     * @return Return value.
+     */
     std::vector<uint8_t> handleGraphEdgeBuffered(const std::vector<uint8_t>& payload);
+    /**
+     * @brief Handle Buffer Stats.
+     * @param[in] payload Input parameter.
+     * @return Return value.
+     */
     std::vector<uint8_t> handleBufferStats(const std::vector<uint8_t>& payload);
+    /**
+     * @brief Handle Buffer Flush.
+     * @param[in] payload Input parameter.
+     * @return Return value.
+     */
     std::vector<uint8_t> handleBufferFlush(const std::vector<uint8_t>& payload);
     
     // Helper methods
     std::vector<uint8_t> createResponse(uint8_t status, const std::vector<uint8_t>& payload = {});
+    /**
+     * @brief Create Error Response.
+     * @param[in] status Input parameter.
+     * @param[in] error_message Input parameter.
+     * @return Return value.
+     */
     std::vector<uint8_t> createErrorResponse(uint8_t status, const std::string& error_message);
 };
 

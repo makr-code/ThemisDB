@@ -48,7 +48,12 @@ RaftMvccBridge::RaftMvccBridge(
 // Timestamp conversion
 // ─────────────────────────────────────────────────────────────────────────────
 
-/* static */
+/**
+ * @brief static
+ * @param[in] interval Input parameter.
+ * @return Return value.
+ * @details Calls: HLCTimestamp::from().
+ */
 HLCTimestamp RaftMvccBridge::toHlcTimestamp(const DTC::TimeInterval& interval) {
     // Convert wall-clock nanoseconds → milliseconds for HLC physical component.
     const uint64_t physical_ms =
@@ -66,6 +71,11 @@ HLCTimestamp RaftMvccBridge::toHlcTimestamp(const DTC::TimeInterval& interval) {
     return HLCTimestamp::from(physical_ms, logical);
 }
 
+/**
+ * @brief Snapshot Timestamp.
+ * @return Return value.
+ * @details Calls: now(), toHlcTimestamp(), updateClock(), spdlog::debug().
+ */
 HLCTimestamp RaftMvccBridge::snapshotTimestamp() {
     // Ask the coordinator for the current view of time (Raft log index +
     // wall-clock nanoseconds).
@@ -116,6 +126,14 @@ RaftMvccBridge::snapshotRead(std::string_view key, HLCTimestamp ts) {
 // Writes
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Raft Aware Write.
+ * @param[in] key Input parameter.
+ * @param[in] value Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: isLeader(), snapshotTimestamp(), putWithTimestamp(), spdlog::debug(), std::string().
+ */
 HLCTimestamp RaftMvccBridge::raftAwareWrite(
     std::string_view            key,
     const std::vector<uint8_t>& value

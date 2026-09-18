@@ -30,6 +30,12 @@ const std::vector<Edge> AdjacencyList::kEmptyEdges{};
 // add_vertex
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Add vertex.
+ * @param[in] id Input parameter.
+ * @param[in] label Input parameter.
+ * @return True when the operation succeeds.
+ */
 bool AdjacencyList::add_vertex(VertexId id, std::string label)
 {
     if (graph_.count(id)) {
@@ -45,6 +51,11 @@ bool AdjacencyList::add_vertex(VertexId id, std::string label)
 // remove_vertex
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Remove vertex.
+ * @param[in] id Input parameter.
+ * @return True when the operation succeeds.
+ */
 bool AdjacencyList::remove_vertex(VertexId id)
 {
     if (!graph_.count(id)) {
@@ -100,6 +111,11 @@ std::optional<VertexDescriptor> AdjacencyList::vertex(VertexId id) const
 // add_edge
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Add edge.
+ * @param[in] src Input parameter.
+ * @param[in] edge Input parameter.
+ */
 void AdjacencyList::add_edge(VertexId src, Edge edge)
 {
     auto it = graph_.find(src);
@@ -116,6 +132,12 @@ void AdjacencyList::add_edge(VertexId src, Edge edge)
 // remove_edges_if
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Remove edges if.
+ * @param[in] src Input parameter.
+ * @param[in] pred Input parameter.
+ * @return Return value.
+ */
 std::size_t AdjacencyList::remove_edges_if(VertexId src,
                                              const EdgePredicate& pred)
 {

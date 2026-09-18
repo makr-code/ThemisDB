@@ -23,9 +23,6 @@ namespace lora {
 
 using json = nlohmann::json;
 
-/**
- * @brief Learning rate scheduler type
- */
 enum class SchedulerType {
     CONSTANT,               // Constant learning rate
     LINEAR,                 // Linear decay
@@ -41,10 +38,11 @@ enum class SchedulerType {
     ONE_CYCLE               // OneCycle policy (Smith 2018)
 };
 
-/**
- * @brief Configuration for learning rate scheduler
- */
 struct LRSchedulerConfig {
+    /**
+     * @brief LRScheduler Config.
+     * @return Return value.
+     */
     virtual ~LRSchedulerConfig() = default;
     SchedulerType type = SchedulerType::CONSTANT;
     float base_lr = 1e-4f;              // Base learning rate
@@ -80,6 +78,12 @@ struct LRSchedulerConfig {
         };
     }
     
+    /**
+     * @brief From JSON.
+     * @param[in] j Input parameter.
+     * @return Return value.
+     * @details Calls: contains().
+     */
     static LRSchedulerConfig fromJSON(const json& j) {
         LRSchedulerConfig config = {};
         if (j.contains("type")) {
@@ -128,36 +132,34 @@ struct LRSchedulerConfig {
     }
 };
 
-/**
- * @brief Base class for learning rate schedulers
- */
 class LRScheduler {
 public:
+    /**
+     * @brief LRScheduler.
+     * @return Return value.
+     */
     virtual ~LRScheduler() = default;
     
     /**
-     * @brief Get learning rate for current step
-     * @param step Current training step
-     * @return Learning rate
+     * @brief Get lr.
+     * @param[in] step Input parameter.
+     * @return Return value.
      */
     virtual float get_lr(int step) const = 0;
     
     /**
-     * @brief Get scheduler type
-     * @return Scheduler type
+     * @brief Type.
+     * @return Return value.
      */
     virtual SchedulerType type() const = 0;
     
     /**
-     * @brief Get configuration
-     * @return Scheduler configuration
+     * @brief Config.
+     * @return Return value.
      */
     virtual LRSchedulerConfig config() const = 0;
 };
 
-/**
- * @brief Constant learning rate scheduler
- */
 class ConstantLR : public LRScheduler {
 public:
     explicit ConstantLR(float lr) : lr_(lr) {}
@@ -176,9 +178,6 @@ private:
     float lr_ = 0.0f;
 };
 
-/**
- * @brief Linear decay scheduler
- */
 class LinearLR : public LRScheduler {
 public:
     LinearLR(float start_lr, float end_lr, int total_steps)
@@ -195,9 +194,6 @@ private:
     int total_steps_ = 0;
 };
 
-/**
- * @brief Cosine annealing scheduler
- */
 class CosineAnnealingLR : public LRScheduler {
 public:
     CosineAnnealingLR(float max_lr, float min_lr, int total_steps)
@@ -214,9 +210,6 @@ private:
     int total_steps_ = 0;
 };
 
-/**
- * @brief Cosine annealing with warm restarts
- */
 class CosineAnnealingWarmRestartsLR : public LRScheduler {
 public:
     CosineAnnealingWarmRestartsLR(float max_lr, float min_lr, int period, int num_cycles = 1)
@@ -234,9 +227,6 @@ private:
     int num_cycles_ = 0;
 };
 
-/**
- * @brief Polynomial decay scheduler
- */
 class PolynomialLR : public LRScheduler {
 public:
     PolynomialLR(float start_lr, float end_lr, int total_steps, float power = 1.0f)
@@ -254,9 +244,6 @@ private:
     float power_ = 0.0f;
 };
 
-/**
- * @brief Step decay scheduler
- */
 class StepLR : public LRScheduler {
 public:
     StepLR(float initial_lr, int step_size, float gamma = 0.1f)
@@ -273,9 +260,6 @@ private:
     float gamma_ = 0.0f;
 };
 
-/**
- * @brief Exponential decay scheduler
- */
 class ExponentialLR : public LRScheduler {
 public:
     ExponentialLR(float initial_lr, float gamma = 0.95f)
@@ -291,9 +275,6 @@ private:
     float gamma_ = 0.0f;
 };
 
-/**
- * @brief Warmup with constant learning rate
- */
 class WarmupConstantLR : public LRScheduler {
 public:
     WarmupConstantLR(float target_lr, int warmup_steps)
@@ -309,9 +290,6 @@ private:
     int warmup_steps_ = 0;
 };
 
-/**
- * @brief Warmup with cosine annealing
- */
 class WarmupCosineLR : public LRScheduler {
 public:
     WarmupCosineLR(float max_lr, float min_lr, int warmup_steps, int total_steps)
@@ -331,9 +309,6 @@ private:
 
 };
 
-/**
- * @brief Cyclic learning rate scheduler (triangular)
- */
 class CyclicLR : public LRScheduler {
 public:
     CyclicLR(float base_lr, float max_lr, int step_size_up, int step_size_down)
@@ -351,9 +326,6 @@ private:
     int step_size_down_ = 0;
 };
 
-/**
- * @brief OneCycle learning rate scheduler
- */
 class OneCycleLR : public LRScheduler {
 public:
     OneCycleLR(float max_lr, float base_lr, float final_div_factor,
@@ -374,9 +346,6 @@ private:
     float pct_start_ = 0.0f;
 };
 
-/**
- * @brief Warmup with linear decay
- */
 class WarmupLinearLR : public LRScheduler {
 public:
     WarmupLinearLR(float max_lr, float min_lr, int warmup_steps, int total_steps)
@@ -395,24 +364,45 @@ private:
     int total_steps_ = 0;
 };
 
-/**
- * @brief Factory for creating learning rate schedulers
- */
 class LRSchedulerFactory {
 public:
     /**
-     * @brief Create scheduler from configuration
-     * @param config Scheduler configuration
-     * @return Unique pointer to scheduler
+     * @brief Create.
+     * @param[in] config Input parameter.
+     * @return Return value.
      */
     static std::unique_ptr<LRScheduler> create(const LRSchedulerConfig& config);
     
     /**
-     * @brief Create common scheduler presets
+     * @brief Create Constant.
+     * @param[in] lr Input parameter.
+     * @return Return value.
      */
     static std::unique_ptr<LRScheduler> createConstant(float lr);
+    /**
+     * @brief Create Linear Decay.
+     * @param[in] start_lr Input parameter.
+     * @param[in] end_lr Input parameter.
+     * @param[in] steps Input parameter.
+     * @return Return value.
+     */
     static std::unique_ptr<LRScheduler> createLinearDecay(float start_lr, float end_lr, int steps);
+    /**
+     * @brief Create Cosine Annealing.
+     * @param[in] max_lr Input parameter.
+     * @param[in] min_lr Input parameter.
+     * @param[in] steps Input parameter.
+     * @return Return value.
+     */
     static std::unique_ptr<LRScheduler> createCosineAnnealing(float max_lr, float min_lr, int steps);
+    /**
+     * @brief Create Warmup Cosine.
+     * @param[in] max_lr Input parameter.
+     * @param[in] min_lr Input parameter.
+     * @param[in] warmup_steps Input parameter.
+     * @param[in] total_steps Input parameter.
+     * @return Return value.
+     */
     static std::unique_ptr<LRScheduler> createWarmupCosine(float max_lr, float min_lr, 
                                                             int warmup_steps, int total_steps);
 };

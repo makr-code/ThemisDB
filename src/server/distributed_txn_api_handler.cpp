@@ -32,6 +32,12 @@ constexpr std::string_view kSnapshotIsolationWarning =
     "use 'serializable' for strict invariant safety.";
 constexpr std::string_view kDefaultIsolationEnvVar = "THEMIS_DTXN_DEFAULT_ISOLATION";
 
+/**
+ * @brief Is Valid Distributed Txn Identifier.
+ * @param[in] value Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), validateStringLength(), validatePathSegment(), validateHeaderValue().
+ */
 bool isValidDistributedTxnIdentifier(const std::string& value) {
     themis::utils::InputValidator validator;
     return !value.empty() &&
@@ -40,6 +46,11 @@ bool isValidDistributedTxnIdentifier(const std::string& value) {
            validator.validateHeaderValue(value);
 }
 
+/**
+ * @brief Get Configured Default Isolation Level.
+ * @return Return value.
+ * @details Calls: std::getenv(), data(), configured(), THEMIS_WARN().
+ */
 sharding::DistributedIsolationLevel getConfiguredDefaultIsolationLevel() {
     const char* configured_default = std::getenv(kDefaultIsolationEnvVar.data());
     if (configured_default == nullptr) {

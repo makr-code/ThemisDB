@@ -21,12 +21,6 @@
 namespace themis {
 namespace cache {
 
-/**
- * @brief Default implementation of EvictionListenerManager.
- * 
- * Thread-safe manager for registering and emitting eviction events.
- * Uses mutex to protect listener list and incremental handles.
- */
 class EvictionListenerManagerImpl : public EvictionListenerManager {
 public:
     EvictionListenerManagerImpl() : next_handle_(1) {}
@@ -38,6 +32,11 @@ public:
             return 0;  // Invalid handle
         }
 
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         uint64_t handle = next_handle_++;
         listeners_[handle] = listener;
@@ -45,6 +44,11 @@ public:
     }
 
     void unregisterListener(uint64_t handle) override {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         listeners_.erase(handle);
     }
@@ -52,6 +56,11 @@ public:
     void emitEvictionEvent(const CacheEvictionEvent& event) override {
         std::vector<std::shared_ptr<IEvictionListener>> snapshot;
         {
+            /**
+             * @brief Lock.
+             * @param[in] mutex_ Input parameter.
+             * @return Return value.
+             */
             std::lock_guard<std::mutex> lock(mutex_);
             for (const auto& pair : listeners_) {
                 snapshot.push_back(pair.second);
@@ -77,6 +86,11 @@ public:
                              std::size_t recommended_eviction_count) override {
         std::vector<std::shared_ptr<IEvictionListener>> snapshot;
         {
+            /**
+             * @brief Lock.
+             * @param[in] mutex_ Input parameter.
+             * @return Return value.
+             */
             std::lock_guard<std::mutex> lock(mutex_);
             for (const auto& pair : listeners_) {
                 snapshot.push_back(pair.second);
@@ -98,6 +112,11 @@ public:
     }
 
     std::size_t getListenerCount() const noexcept override {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         return listeners_.size();
     }
@@ -108,6 +127,11 @@ private:
     uint64_t next_handle_;
 };
 
+/**
+ * @brief Create Eviction Listener Manager.
+ * @return Return value.
+ * @details Implements createEvictionListenerManager without additional internal calls.
+ */
 std::unique_ptr<EvictionListenerManager> createEvictionListenerManager() {
     return std::make_unique<EvictionListenerManagerImpl>();
 }

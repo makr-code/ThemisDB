@@ -16,14 +16,14 @@
 namespace themis {
 namespace query {
 
+
 /**
- * @brief ============================================================================= Main optimizer entry point =============================================================================
+ * @brief Optimize Query Plan.
  * @param[in,out] plan Input/output parameter.
  * @param[in] estimatedCostBefore Input parameter.
- * @return True on success.
+ * @return True when the operation succeeds.
  * @details Calls: applyIndexPathReordering(), THEMIS_DEBUG(), applyDistanceOrderingOptimization(), applyIntersectionOptimization(), applyRedundantPredicateElimination(), applyPredicatePushdown().
  */
-
 bool GeospatialQueryRewriter::optimizeQueryPlan(
     ExecutionPlan& plan,
     double estimatedCostBefore) {
@@ -73,13 +73,13 @@ bool GeospatialQueryRewriter::optimizeQueryPlan(
     return modified;
 }
 
+
 /**
- * @brief ============================================================================= Rule 1: Index Path Reordering =============================================================================
+ * @brief Apply Index Path Reordering.
  * @param[in,out] plan Input/output parameter.
  * @return Return value.
  * @details Calls: extractSpatialPredicates(), empty(), canBeIndexed(), push_back(), insert(), end(), begin(), reorderFilterPredicates().
  */
-
 RewriteResult GeospatialQueryRewriter::applyIndexPathReordering(ExecutionPlan& plan) {
     RewriteResult result;
     
@@ -129,13 +129,13 @@ RewriteResult GeospatialQueryRewriter::applyIndexPathReordering(ExecutionPlan& p
     return result;
 }
 
+
 /**
- * @brief ============================================================================= Rule 2: Distance-Based Ordering Optimization =============================================================================
+ * @brief Apply Distance Ordering Optimization.
  * @param[in,out] plan Input/output parameter.
  * @return Return value.
  * @details Calls: extractSpatialPredicates(), find().
  */
-
 RewriteResult GeospatialQueryRewriter::applyDistanceOrderingOptimization(ExecutionPlan& plan) {
     RewriteResult result;
     
@@ -170,13 +170,13 @@ RewriteResult GeospatialQueryRewriter::applyDistanceOrderingOptimization(Executi
     return result;
 }
 
+
 /**
- * @brief ============================================================================= Rule 3: Intersection Optimization =============================================================================
+ * @brief Apply Intersection Optimization.
  * @param[in,out] plan Input/output parameter.
  * @return Return value.
  * @details Calls: extractSpatialPredicates(), find().
  */
-
 RewriteResult GeospatialQueryRewriter::applyIntersectionOptimization(ExecutionPlan& plan) {
     RewriteResult result;
     
@@ -209,13 +209,13 @@ RewriteResult GeospatialQueryRewriter::applyIntersectionOptimization(ExecutionPl
     return result;
 }
 
+
 /**
- * @brief ============================================================================= Rule 4: Redundant Predicate Elimination =============================================================================
+ * @brief Apply Redundant Predicate Elimination.
  * @param[in,out] plan Input/output parameter.
  * @return Return value.
  * @details Calls: extractSpatialPredicates(), size(), find().
  */
-
 RewriteResult GeospatialQueryRewriter::applyRedundantPredicateElimination(ExecutionPlan& plan) {
     RewriteResult result;
     
@@ -254,13 +254,13 @@ RewriteResult GeospatialQueryRewriter::applyRedundantPredicateElimination(Execut
     return result;
 }
 
+
 /**
- * @brief ============================================================================= Rule 5: Predicate Pushdown =============================================================================
+ * @brief Apply Predicate Pushdown.
  * @param[in,out] plan Input/output parameter.
  * @return Return value.
  * @details Calls: extractSpatialPredicates(), empty(), std::to_string(), size().
  */
-
 RewriteResult GeospatialQueryRewriter::applyPredicatePushdown(ExecutionPlan& plan) {
     RewriteResult result;
     
@@ -289,14 +289,14 @@ RewriteResult GeospatialQueryRewriter::applyPredicatePushdown(ExecutionPlan& pla
     return result;
 }
 
+
 /**
- * @brief ============================================================================= Validation =============================================================================
+ * @brief Validate Plan Equivalence.
  * @param[in] originalPlan Input parameter.
  * @param[in] transformedPlan Input parameter.
- * @return True on success.
+ * @return True when the operation succeeds.
  * @details Implements validatePlanEquivalence without additional internal calls.
  */
-
 bool GeospatialQueryRewriter::validatePlanEquivalence(
     const ExecutionPlan& originalPlan,
     const ExecutionPlan& transformedPlan) {
@@ -313,13 +313,13 @@ bool GeospatialQueryRewriter::validatePlanEquivalence(
     return true;
 }
 
+
 /**
- * @brief ============================================================================= Private Helpers =============================================================================
+ * @brief Can Be Indexed.
  * @param[in] predicateType Input parameter.
- * @return True on success.
+ * @return True when the operation succeeds.
  * @details Calls: find().
  */
-
 bool GeospatialQueryRewriter::canBeIndexed(const std::string& predicateType) {
     // Spatial predicates that can typically be indexed
     return predicateType.find("ST_") != std::string::npos;
@@ -384,7 +384,7 @@ std::vector<std::string> GeospatialQueryRewriter::extractSpatialPredicates(
  * @brief Reorder Filter Predicates.
  * @param[in,out] plan Input/output parameter.
  * @param[in] newOrder Input parameter.
- * @return True on success.
+ * @return True when the operation succeeds.
  * @details Calls: empty().
  */
 bool GeospatialQueryRewriter::reorderFilterPredicates(

@@ -35,14 +35,14 @@ using json = nlohmann::json;
 namespace themis {
 namespace llm {
 
-// ===== Helper Functions =====
-
 /**
- * @brief Decode base64 string to binary data
- * @param input Base64 encoded string
- * @param output Decoded binary data
- * @return true on success, false on failure
+ * @brief ===== Helper Functions =====
+ * @param[in] input Input parameter.
+ * @param[in,out] output Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: std::isspace(), BIO_new(), BIO_f_base64(), spdlog::error(), BIO_new_mem_buf(), data(), size(), BIO_free().
  */
+
 static bool base64_decode(const std::string& input, std::vector<uint8_t>& output) {
     BIO* bio = nullptr;
     BIO* b64 = nullptr;
@@ -98,15 +98,12 @@ static bool base64_decode(const std::string& input, std::vector<uint8_t>& output
 }
 
 /**
- * @brief Validate RSA-SHA256 signature format
- * @param data Data that was signed
- * @param signature Signature bytes
- * @param cert_fingerprint SHA-256 fingerprint of signing certificate
- * @return true if signature format is valid, false otherwise
- * 
- * NOTE: This function ONLY validates signature format (size, structure).
- * It does NOT perform cryptographic signature verification.
- * Full verification requires X.509 certificate store integration.
+ * @brief Validate signature format.
+ * @param[in] data Input parameter.
+ * @param[in] signature Input parameter.
+ * @param[in] cert_fingerprint Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), spdlog::error(), size(), std::isxdigit(), spdlog::debug().
  */
 static bool validate_signature_format(
     const std::vector<uint8_t>& data,
@@ -159,6 +156,13 @@ LoRASecurityValidator::LoRASecurityValidator(const LoRASecurityConfig& config)
              config_.trusted_signers.size());
 }
 
+/**
+ * @brief Verify Signature.
+ * @param[in] lora_path Path to the lora.
+ * @param[in] signature_path Path to the signature.
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::now(), loadLoRAFile(), sig_str(), begin(), end(), find(), substr(), isTrustedSigner().
+ */
 LoRASignatureResult LoRASecurityValidator::verifySignature(
     const std::string& lora_path,
     const std::string& signature_path) {
@@ -291,6 +295,12 @@ LoRASignatureResult LoRASecurityValidator::verifySignature(
     return result;
 }
 
+/**
+ * @brief Verify Embedded Signature.
+ * @param[in] lora_path Path to the lora.
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::now(), loadLoRAFile(), parseLoRAMetadata(), contains(), isTrustedSigner(), spdlog::debug(), base64_decode(), spdlog::error().
+ */
 LoRASignatureResult LoRASecurityValidator::verifyEmbeddedSignature(
     const std::string& lora_path) {
     
@@ -448,6 +458,13 @@ LoRASignatureResult LoRASecurityValidator::verifyEmbeddedSignature(
     return result;
 }
 
+/**
+ * @brief Check Integrity.
+ * @param[in] lora_path Path to the lora.
+ * @param[in] expected_checksum Input parameter.
+ * @return Return value.
+ * @details Calls: calculateChecksum(), has_value(), value(), push_back(), spdlog::error(), spdlog::debug(), loadWeightsFromLoRAFile(), empty().
+ */
 LoRAIntegrityResult LoRASecurityValidator::checkIntegrity(
     const std::string& lora_path,
     const std::optional<std::string>& expected_checksum) {
@@ -489,6 +506,12 @@ LoRAIntegrityResult LoRASecurityValidator::checkIntegrity(
     return result;
 }
 
+/**
+ * @brief Validate Metadata.
+ * @param[in] lora_path Path to the lora.
+ * @return True when the operation succeeds.
+ * @details Calls: loadLoRAFile(), parseLoRAMetadata(), contains(), spdlog::error(), empty(), find(), end().
+ */
 bool LoRASecurityValidator::validateMetadata(const std::string& lora_path) {
     std::vector<uint8_t> lora_data = {};
 
@@ -527,6 +550,12 @@ bool LoRASecurityValidator::validateMetadata(const std::string& lora_path) {
     return true;
 }
 
+/**
+ * @brief Detect Weight Anomalies.
+ * @param[in] weights Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), calculateMean(), calculateStdDev(), findOutliers(), push_back(), std::to_string(), size(), detectDistributionShift().
+ */
 std::vector<std::string> LoRASecurityValidator::detectWeightAnomalies(
     const std::vector<float>& weights) {
     
@@ -578,6 +607,13 @@ std::vector<std::string> LoRASecurityValidator::detectWeightAnomalies(
     return anomalies;
 }
 
+/**
+ * @brief Calculate Checksum.
+ * @param[in] lora_path Path to the lora.
+ * @param[in] algorithm Input parameter.
+ * @return Return value.
+ * @details Calls: loadLoRAFile(), SHA256(), data(), size(), std::setw(), std::setfill(), str().
+ */
 std::string LoRASecurityValidator::calculateChecksum(
     const std::string& lora_path,
     const std::string& algorithm) {
@@ -602,11 +638,21 @@ std::string LoRASecurityValidator::calculateChecksum(
     return ss.str();
 }
 
+/**
+ * @brief Add Trusted Signer.
+ * @param[in] cert_fingerprint Input parameter.
+ * @details Calls: push_back(), spdlog::info().
+ */
 void LoRASecurityValidator::addTrustedSigner(const std::string& cert_fingerprint) {
     config_.trusted_signers.push_back(cert_fingerprint);
     spdlog::info("Added trusted signer: {}", cert_fingerprint);
 }
 
+/**
+ * @brief Remove Trusted Signer.
+ * @param[in] cert_fingerprint Input parameter.
+ * @details Calls: std::find(), begin(), end(), erase(), spdlog::info().
+ */
 void LoRASecurityValidator::removeTrustedSigner(const std::string& cert_fingerprint) {
     auto it = std::find(config_.trusted_signers.begin(), 
                        config_.trusted_signers.end(), 
@@ -623,16 +669,31 @@ bool LoRASecurityValidator::isTrustedSigner(const std::string& cert_fingerprint)
                     cert_fingerprint) != config_.trusted_signers.end();
 }
 
+/**
+ * @brief Set Config.
+ * @param[in] config Input parameter.
+ * @details Calls: spdlog::info().
+ */
 void LoRASecurityValidator::setConfig(const LoRASecurityConfig& config) {
     config_ = config;
     spdlog::info("LoRASecurityValidator configuration updated");
 }
 
+/**
+ * @brief Set Audit Logger.
+ * @param[in] logger Input parameter.
+ * @details Calls: spdlog::debug().
+ */
 void LoRASecurityValidator::setAuditLogger(const std::shared_ptr<LLMModelAuditLogger>& logger) {
     audit_logger_ = logger;
     spdlog::debug("LoRASecurityValidator: audit logger {}", audit_logger_ ? "attached" : "detached");
 }
 
+/**
+ * @brief Set Certificate Store.
+ * @param[in] store Input parameter.
+ * @details Calls: std::move(), spdlog::debug().
+ */
 void LoRASecurityValidator::setCertificateStore(
     std::shared_ptr<LoRACertificateStore> store) {
     cert_store_ = std::move(store);
@@ -644,6 +705,13 @@ std::shared_ptr<LoRACertificateStore> LoRASecurityValidator::getCertificateStore
 }
 
 // Helper methods
+/**
+ * @brief Load Lo RAFile.
+ * @param[in] path Input parameter.
+ * @param[in,out] data Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: file(), spdlog::error().
+ */
 bool LoRASecurityValidator::loadLoRAFile(const std::string& path, 
                                         std::vector<uint8_t>& data) {
     std::ifstream file(path, std::ios::binary);
@@ -657,6 +725,13 @@ bool LoRASecurityValidator::loadLoRAFile(const std::string& path,
     return true;
 }
 
+/**
+ * @brief Parse Lo RAMetadata.
+ * @param[in] data Input parameter.
+ * @param[in,out] metadata Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: size(), spdlog::error(), empty(), hdr_str(), begin(), json::parse(), is_object(), spdlog::debug().
+ */
 bool LoRASecurityValidator::parseLoRAMetadata(const std::vector<uint8_t>& data,
                                              json& metadata) {
     // ── Size guard: reject files that exceed max_adapter_size_bytes BEFORE
@@ -727,6 +802,12 @@ bool LoRASecurityValidator::parseLoRAMetadata(const std::vector<uint8_t>& data,
     }
 }
 
+/**
+ * @brief Load Weights From Lo RAFile.
+ * @param[in] path Input parameter.
+ * @return Return value.
+ * @details Calls: loadLoRAFile(), spdlog::error(), json::parse(), begin(), end(), contains(), is_array(), is_number().
+ */
 std::vector<float> LoRASecurityValidator::loadWeightsFromLoRAFile(
     const std::string& path) {
     
@@ -878,6 +959,12 @@ std::vector<float> LoRASecurityValidator::loadWeightsFromLoRAFile(
     return weights;
 }
 
+/**
+ * @brief Calculate Mean.
+ * @param[in] values Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), std::accumulate(), begin(), end(), size().
+ */
 float LoRASecurityValidator::calculateMean(const std::vector<float>& values) {
     if (values.empty()) {
       return 0.0f;
@@ -886,6 +973,13 @@ float LoRASecurityValidator::calculateMean(const std::vector<float>& values) {
     return sum / values.size();
 }
 
+/**
+ * @brief Calculate Std Dev.
+ * @param[in] values Input parameter.
+ * @param[in] mean Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), std::sqrt(), size().
+ */
 float LoRASecurityValidator::calculateStdDev(const std::vector<float>& values, 
                                             float mean) {
     if (values.empty()) {
@@ -899,6 +993,13 @@ float LoRASecurityValidator::calculateStdDev(const std::vector<float>& values,
     return std::sqrt(sum / values.size());
 }
 
+/**
+ * @brief Find Outliers.
+ * @param[in] values Input parameter.
+ * @param[in] threshold Input parameter.
+ * @return Return value.
+ * @details Calls: calculateMean(), calculateStdDev(), size(), std::abs(), push_back().
+ */
 std::vector<size_t> LoRASecurityValidator::findOutliers(
     const std::vector<float>& values, 
     float threshold) {
@@ -917,6 +1018,12 @@ std::vector<size_t> LoRASecurityValidator::findOutliers(
     return outliers;
 }
 
+/**
+ * @brief Detect Distribution Shift.
+ * @param[in] weights Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: calculateMean(), calculateStdDev(), std::pow(), size(), std::abs().
+ */
 bool LoRASecurityValidator::detectDistributionShift(
     const std::vector<float>& weights) {
     // Simple distribution shift detection
@@ -946,6 +1053,10 @@ PromptInjectionDetector::PromptInjectionDetector(const Config& config)
     spdlog::info("PromptInjectionDetector initialized");
 }
 
+/**
+ * @brief Initialize Patterns.
+ * @details Calls: std::regex().
+ */
 void PromptInjectionDetector::initializePatterns() {
     // Common injection patterns
     injection_patterns_ = {
@@ -971,6 +1082,12 @@ void PromptInjectionDetector::initializePatterns() {
     };
 }
 
+/**
+ * @brief Is Suspicious.
+ * @param[in] prompt Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: getRiskScore().
+ */
 bool PromptInjectionDetector::isSuspicious(const std::string& prompt) {
     if (!config_.enabled) {
         return false;
@@ -980,6 +1097,12 @@ bool PromptInjectionDetector::isSuspicious(const std::string& prompt) {
     return risk_score >= config_.risk_threshold;
 }
 
+/**
+ * @brief Get Risk Score.
+ * @param[in] prompt Input parameter.
+ * @return Return value.
+ * @details Calls: calculatePatternScore(), calculateKeywordScore(), calculateSyntaxScore(), spdlog::warn(), spdlog::debug().
+ */
 float PromptInjectionDetector::getRiskScore(const std::string& prompt) {
     if (!config_.enabled) {
         return 0.0f;
@@ -1002,6 +1125,12 @@ float PromptInjectionDetector::getRiskScore(const std::string& prompt) {
     return total_score;
 }
 
+/**
+ * @brief Analyze Prompt.
+ * @param[in] prompt Input parameter.
+ * @return Return value.
+ * @details Calls: getRiskScore(), isSuspicious(), calculatePatternScore(), calculateKeywordScore(), calculateSyntaxScore(), containsSystemPromptBypass(), containsJailbreakAttempt().
+ */
 json PromptInjectionDetector::analyzePrompt(const std::string& prompt) {
     json analysis;
     
@@ -1016,6 +1145,12 @@ json PromptInjectionDetector::analyzePrompt(const std::string& prompt) {
     return analysis;
 }
 
+/**
+ * @brief Sanitize Prompt.
+ * @param[in] prompt Input parameter.
+ * @return Return value.
+ * @details Calls: std::regex_replace(), find(), replace(), length().
+ */
 std::string PromptInjectionDetector::sanitizePrompt(const std::string& prompt) {
     std::string sanitized = prompt;
     
@@ -1037,6 +1172,12 @@ std::string PromptInjectionDetector::sanitizePrompt(const std::string& prompt) {
     return sanitized;
 }
 
+/**
+ * @brief Calculate Pattern Score.
+ * @param[in] prompt Input parameter.
+ * @return Return value.
+ * @details Calls: std::regex_search(), std::min().
+ */
 float PromptInjectionDetector::calculatePatternScore(const std::string& prompt) {
     int matches = 0;
     for (const auto& pattern : injection_patterns_) {
@@ -1047,6 +1188,12 @@ float PromptInjectionDetector::calculatePatternScore(const std::string& prompt) 
     return std::min(1.0f, matches / 3.0f);
 }
 
+/**
+ * @brief Calculate Keyword Score.
+ * @param[in] prompt Input parameter.
+ * @return Return value.
+ * @details Calls: std::transform(), begin(), end(), find(), std::min().
+ */
 float PromptInjectionDetector::calculateKeywordScore(const std::string& prompt) {
     int matches = 0;
     std::string lower_prompt = prompt;
@@ -1060,6 +1207,12 @@ float PromptInjectionDetector::calculateKeywordScore(const std::string& prompt) 
     return std::min(1.0f, matches / 5.0f);
 }
 
+/**
+ * @brief Calculate Syntax Score.
+ * @param[in] prompt Input parameter.
+ * @return Return value.
+ * @details Calls: find(), length(), std::min().
+ */
 float PromptInjectionDetector::calculateSyntaxScore(const std::string& prompt) {
     float score = 0.0f;
     
@@ -1083,12 +1236,24 @@ float PromptInjectionDetector::calculateSyntaxScore(const std::string& prompt) {
     return std::min(1.0f, score);
 }
 
+/**
+ * @brief Contains System Prompt Bypass.
+ * @param[in] prompt Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: std::regex_search(), std::regex().
+ */
 bool PromptInjectionDetector::containsSystemPromptBypass(const std::string& prompt) {
     return std::regex_search(prompt, 
         std::regex(R"(ignore\s+previous|reveal\s+system|system\s+prompt)", 
                    std::regex::icase));
 }
 
+/**
+ * @brief Contains Jailbreak Attempt.
+ * @param[in] prompt Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: std::regex_search(), std::regex().
+ */
 bool PromptInjectionDetector::containsJailbreakAttempt(const std::string& prompt) {
     return std::regex_search(prompt,
         std::regex(R"(jailbreak|DAN\s+mode|developer\s+mode|god\s+mode)",
@@ -1102,6 +1267,12 @@ EmbeddingAnomalyDetector::EmbeddingAnomalyDetector(const Config& config)
     spdlog::info("EmbeddingAnomalyDetector initialized");
 }
 
+/**
+ * @brief Get Anomaly Score.
+ * @param[in] embedding Input parameter.
+ * @return Return value.
+ * @details Calls: size(), spdlog::error(), calculateEuclideanDistance(), calculateCosineSimilarity(), isOutlier(), std::min().
+ */
 float EmbeddingAnomalyDetector::getAnomalyScore(const std::vector<float>& embedding) {
     if (!config_.enabled || sample_count_ < config_.min_samples) {
         return 0.0f;
@@ -1132,6 +1303,11 @@ float EmbeddingAnomalyDetector::getAnomalyScore(const std::vector<float>& embedd
     return std::min(1.0f, anomaly_score);
 }
 
+/**
+ * @brief Update Baseline.
+ * @param[in] embedding Input parameter.
+ * @details Calls: empty(), resize(), size().
+ */
 void EmbeddingAnomalyDetector::updateBaseline(const std::vector<float>& embedding) {
     if (mean_embedding_.empty()) {
         mean_embedding_ = embedding;
@@ -1150,6 +1326,10 @@ void EmbeddingAnomalyDetector::updateBaseline(const std::vector<float>& embeddin
     }
 }
 
+/**
+ * @brief Reset Baseline.
+ * @details Calls: clear(), spdlog::info().
+ */
 void EmbeddingAnomalyDetector::resetBaseline() {
     mean_embedding_.clear();
     stddev_embedding_.clear();
@@ -1174,6 +1354,13 @@ json EmbeddingAnomalyDetector::getBaselineStats() const {
     return stats;
 }
 
+/**
+ * @brief Calculate Cosine Similarity.
+ * @param[in] a Input parameter.
+ * @param[in] b Input parameter.
+ * @return Return value.
+ * @details Calls: size(), std::sqrt().
+ */
 float EmbeddingAnomalyDetector::calculateCosineSimilarity(
     const std::vector<float>& a,
     const std::vector<float>& b) {
@@ -1192,6 +1379,13 @@ float EmbeddingAnomalyDetector::calculateCosineSimilarity(
     return dot / (std::sqrt(norm_a) * std::sqrt(norm_b));
 }
 
+/**
+ * @brief Calculate Euclidean Distance.
+ * @param[in] a Input parameter.
+ * @param[in] b Input parameter.
+ * @return Return value.
+ * @details Calls: size(), max(), std::sqrt().
+ */
 float EmbeddingAnomalyDetector::calculateEuclideanDistance(
     const std::vector<float>& a,
     const std::vector<float>& b) {
@@ -1209,6 +1403,12 @@ float EmbeddingAnomalyDetector::calculateEuclideanDistance(
     return std::sqrt(sum);
 }
 
+/**
+ * @brief Is Outlier.
+ * @param[in] embedding Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: size(), std::sqrt(), std::abs().
+ */
 bool EmbeddingAnomalyDetector::isOutlier(const std::vector<float>& embedding) {
     if (sample_count_ < config_.min_samples) {
       return false;

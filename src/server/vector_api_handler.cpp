@@ -36,17 +36,36 @@ constexpr size_t MAX_VECTOR_FILTER_BODY_SIZE = 4'000'000;
 constexpr size_t MAX_VECTOR_FIELD_NAME_LENGTH = 128;
 constexpr size_t MAX_VECTOR_PK_LENGTH = 1024;
 
+/**
+ * @brief Is Body Within Limit.
+ * @param[in] body Input parameter.
+ * @param[in] max_len Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: validateStringLength(), std::string().
+ */
 bool isBodyWithinLimit(std::string_view body, size_t max_len) {
     themis::utils::InputValidator validator;
     return validator.validateStringLength(std::string(body), max_len);
 }
 
+/**
+ * @brief Is Valid Vector Field Name.
+ * @param[in] field_name Name of the field.
+ * @return True when the operation succeeds.
+ * @details Calls: validateStringLength(), std::string(), validatePathSegment().
+ */
 bool isValidVectorFieldName(std::string_view field_name) {
     themis::utils::InputValidator validator;
     return validator.validateStringLength(std::string(field_name), MAX_VECTOR_FIELD_NAME_LENGTH) &&
            validator.validatePathSegment(std::string(field_name));
 }
 
+/**
+ * @brief Is Valid Vector Pk.
+ * @param[in] pk Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: validateStringLength(), std::string(), validatePathSegment().
+ */
 bool isValidVectorPk(std::string_view pk) {
     themis::utils::InputValidator validator;
     return validator.validateStringLength(std::string(pk), MAX_VECTOR_PK_LENGTH) &&
@@ -70,6 +89,12 @@ VectorApiHandler::VectorApiHandler(
 {
 }
 
+/**
+ * @brief Handle Search.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: std::string(), target(), find(), substr(), requireAccess(), Tracer::startSpan(), setAttribute(), isBodyWithinLimit().
+ */
 http::response<http::string_body> VectorApiHandler::handleSearch(
     const http::request<http::string_body>& req
 ) {
@@ -236,6 +261,12 @@ http::response<http::string_body> VectorApiHandler::handleSearch(
     }
 }
 
+/**
+ * @brief Handle Batch Insert.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: std::string(), target(), find(), substr(), requireAccess(), Tracer::startSpan(), setAttribute(), isBodyWithinLimit().
+ */
 http::response<http::string_body> VectorApiHandler::handleBatchInsert(
     const http::request<http::string_body>& req
 ) {
@@ -464,6 +495,12 @@ http::response<http::string_body> VectorApiHandler::handleBatchInsert(
     }
 }
 
+/**
+ * @brief Handle Delete By Filter.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: std::string(), target(), find(), substr(), requireAccess(), Tracer::startSpan(), setAttribute(), body().
+ */
 http::response<http::string_body> VectorApiHandler::handleDeleteByFilter(
     const http::request<http::string_body>& req
 ) {
@@ -546,6 +583,12 @@ http::response<http::string_body> VectorApiHandler::handleDeleteByFilter(
     }
 }
 
+/**
+ * @brief Handle Index Save.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: json::parse(), body(), value(), saveIndex(), makeErrorResponse(), makeResponse(), dump(), std::string().
+ */
 http::response<http::string_body> VectorApiHandler::handleIndexSave(
     const http::request<http::string_body>& req
 ) {
@@ -577,6 +620,12 @@ http::response<http::string_body> VectorApiHandler::handleIndexSave(
     }
 }
 
+/**
+ * @brief Handle Index Load.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: json::parse(), body(), contains(), makeErrorResponse(), loadIndex(), makeResponse(), dump(), std::string().
+ */
 http::response<http::string_body> VectorApiHandler::handleIndexLoad(
     const http::request<http::string_body>& req
 ) {
@@ -613,6 +662,12 @@ http::response<http::string_body> VectorApiHandler::handleIndexLoad(
     }
 }
 
+/**
+ * @brief Handle Index Config Get.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: getMetric(), getObjectName(), getDimension(), getEfSearch(), getM(), getEfConstruction(), isHnswEnabled(), makeResponse().
+ */
 http::response<http::string_body> VectorApiHandler::handleIndexConfigGet(
     const http::request<http::string_body>& req
 ) {
@@ -643,6 +698,12 @@ http::response<http::string_body> VectorApiHandler::handleIndexConfigGet(
     }
 }
 
+/**
+ * @brief Handle Index Config Put.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: json::parse(), body(), contains(), makeErrorResponse(), setEfSearch(), makeResponse(), dump(), std::string().
+ */
 http::response<http::string_body> VectorApiHandler::handleIndexConfigPut(
     const http::request<http::string_body>& req
 ) {
@@ -679,6 +740,12 @@ http::response<http::string_body> VectorApiHandler::handleIndexConfigPut(
     }
 }
 
+/**
+ * @brief Handle Index Stats.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: getMetric(), getObjectName(), getDimension(), getVectorCount(), getEfSearch(), getM(), getEfConstruction(), isHnswEnabled().
+ */
 http::response<http::string_body> VectorApiHandler::handleIndexStats(
     const http::request<http::string_body>& req
 ) {
@@ -710,6 +777,12 @@ http::response<http::string_body> VectorApiHandler::handleIndexStats(
     }
 }
 
+/**
+ * @brief Handle Incremental Reindex.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: std::string(), target(), find(), substr(), requireAccess(), Tracer::startSpan(), setAttribute(), body().
+ */
 http::response<http::string_body> VectorApiHandler::handleIncrementalReindex(
     const http::request<http::string_body>& req
 ) {
@@ -771,6 +844,14 @@ http::response<http::string_body> VectorApiHandler::handleIncrementalReindex(
     }
 }
 
+/**
+ * @brief Make Error Response.
+ * @param[in] status Input parameter.
+ * @param[in] message Input parameter.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: makeResponse(), dump().
+ */
 http::response<http::string_body> VectorApiHandler::makeErrorResponse(
     http::status status, const std::string& message, const http::request<http::string_body>& req
 ) {
@@ -782,6 +863,14 @@ http::response<http::string_body> VectorApiHandler::makeErrorResponse(
     return makeResponse(status, error_body.dump(), req);
 }
 
+/**
+ * @brief Make Response.
+ * @param[in] status Input parameter.
+ * @param[in] body Input parameter.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: version(), set(), keep_alive(), body(), prepare_payload().
+ */
 http::response<http::string_body> VectorApiHandler::makeResponse(
     http::status status, const std::string& body, const http::request<http::string_body>& req
 ) {
@@ -794,6 +883,14 @@ http::response<http::string_body> VectorApiHandler::makeResponse(
     return res;
 }
 
+/**
+ * @brief Require Access.
+ * @param[in] req Input parameter.
+ * @param[in] permission Input parameter.
+ * @param[in] param Input parameter.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ */
 std::optional<http::response<http::string_body>> VectorApiHandler::requireAccess(
     const http::request<http::string_body>& req,
     const std::string& permission,

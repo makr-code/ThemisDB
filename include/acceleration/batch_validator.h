@@ -34,8 +34,9 @@ struct BatchValidator {
     static constexpr uint32_t kBfsMaxDepth = 3;
     static constexpr size_t kBfsMaxNodesPerHop = 10'000;
 
+
     /**
-     * @brief ----------------------------------------------------------------------- Vector batch: computeDistances / batchKnnSearch -----------------------------------------------------------------------
+     * @brief Validate Vector Batch.
      * @param[in] backendName Input parameter.
      * @param[in] queries Input parameter.
      * @param[in] numQueries Input parameter.
@@ -45,7 +46,6 @@ struct BatchValidator {
      * @param[in] onError Input parameter.
      * @return True when the operation succeeds.
      */
-
     static bool validateVectorBatch(
         const char*   backendName,
         const float*  queries,
@@ -94,8 +94,9 @@ struct BatchValidator {
         return true;
     }
 
+
     /**
-     * @brief ----------------------------------------------------------------------- Geo batch: batchDistances / batchPointInPolygon -----------------------------------------------------------------------
+     * @brief Validate Geo Batch.
      * @param[in] backendName Input parameter.
      * @param[in] lats1 Input parameter.
      * @param[in] lons1 Input parameter.
@@ -105,7 +106,6 @@ struct BatchValidator {
      * @param[in] onError Input parameter.
      * @return True when the operation succeeds.
      */
-
     static bool validateGeoBatch(
         const char*    backendName,
         const double*  lats1,
@@ -259,8 +259,9 @@ struct BatchValidator {
         return true;
     }
 
+
     /**
-     * @brief ----------------------------------------------------------------------- Graph batch: batchBFS / batchShortestPath -----------------------------------------------------------------------
+     * @brief Validate Graph BFSBatch.
      * @param[in] backendName Input parameter.
      * @param[in] adjacency Input parameter.
      * @param[in] numVertices Input parameter.
@@ -269,7 +270,6 @@ struct BatchValidator {
      * @param[in] onError Input parameter.
      * @return True when the operation succeeds.
      */
-
     static bool validateGraphBFSBatch(
         const char*      backendName,
         const uint32_t*  adjacency,

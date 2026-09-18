@@ -196,6 +196,15 @@ public:
     int         stagingRingIdx_ = 0;
     bool        stagingRingInited_ = false;
 
+    /**
+     * @brief Create Buffer.
+     * @param[in] sz Input parameter.
+     * @param[in] usage Input parameter.
+     * @param[in] props Input parameter.
+     * @return Return value.
+     * @throws std::runtime_error if an error occurs.
+     * @details Calls: vkCreateBuffer(), vkGetBufferMemoryRequirements(), findMemoryType(), vkAllocateMemory(), vkDestroyBuffer(), vkBindBufferMemory().
+     */
     BufMem createBuffer(VkDeviceSize sz, VkBufferUsageFlags usage,
                         VkMemoryPropertyFlags props) {
         BufMem bm;
@@ -224,6 +233,11 @@ public:
         return bm;
     }
 
+    /**
+     * @brief Destroy Buffer.
+     * @param[in,out] bm Input/output parameter.
+     * @details Calls: vkDestroyBuffer(), vkFreeMemory().
+     */
     void destroyBuffer(BufMem& bm) {
         if (bm.buffer != VK_NULL_HANDLE) {
             vkDestroyBuffer(device, bm.buffer, nullptr);
@@ -235,6 +249,14 @@ public:
         }
     }
 
+    /**
+     * @brief Find Memory Type.
+     * @param[in] typeFilter Input parameter.
+     * @param[in] flags Input parameter.
+     * @return Return value.
+     * @throws std::runtime_error if an error occurs.
+     * @details Implements findMemoryType without additional internal calls.
+     */
     uint32_t findMemoryType(uint32_t typeFilter, VkMemoryPropertyFlags flags) {
         for (uint32_t i = 0; i < memoryProps.memoryTypeCount; ++i) {
             if ((typeFilter & (1 << i)) &&
@@ -244,7 +266,13 @@ public:
         throw std::runtime_error("findMemoryType: no suitable type");
     }
 
-    // ---- Shader module ------------------------------------------------
+    /**
+     * @brief ---- Shader module ------------------------------------------------
+     * @param[in] spv Input parameter.
+     * @return Return value.
+     * @throws std::runtime_error if an error occurs.
+     * @details Calls: size(), data(), vkCreateShaderModule().
+     */
     VkShaderModule createShaderModule(const std::vector<uint32_t>& spv) {
         VkShaderModuleCreateInfo ci{};
         ci.sType    = VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO;
@@ -256,6 +284,13 @@ public:
         return mod;
     }
 
+    /**
+     * @brief Load SPIRV.
+     * @param[in] path Input parameter.
+     * @return Return value.
+     * @throws std::runtime_error if an error occurs.
+     * @details Calls: empty(), find(), size(), std::strlen(), c_str(), f(), is_open(), tellg().
+     */
     static std::vector<uint32_t> loadSPIRV(const std::string& path) {
         // Authorization check: reject path traversal sequences and null bytes
         // before opening any file (CWE-862 / CWE-22).
@@ -294,7 +329,11 @@ public:
         return buf;
     }
 
-    // ---- Lifecycle ----------------------------------------------------
+    /**
+     * @brief ---- Lifecycle ----------------------------------------------------
+     * @return True when the operation succeeds.
+     * @details Calls: vkCreateInstance().
+     */
     bool createInstance() {
         VkApplicationInfo appInfo{};
         appInfo.sType            = VK_STRUCTURE_TYPE_APPLICATION_INFO;
@@ -307,6 +346,11 @@ public:
         return vkCreateInstance(&ci, nullptr, &instance) == VK_SUCCESS;
     }
 
+    /**
+     * @brief Select Physical Device.
+     * @return True when the operation succeeds.
+     * @details Calls: vkEnumeratePhysicalDevices(), devs(), data(), min(), vkGetPhysicalDeviceProperties(), vkGetPhysicalDeviceMemoryProperties(), vkEnumerateDeviceExtensionProperties(), exts().
+     */
     bool selectPhysicalDevice() {
         uint32_t count = 0;
         vkEnumeratePhysicalDevices(instance, &count, nullptr);
@@ -438,6 +482,11 @@ public:
         return false; // no compute queue found
     }
 
+    /**
+     * @brief Create Logical Device.
+     * @return True when the operation succeeds.
+     * @details Calls: vkCreateDevice(), vkGetDeviceQueue(), vkCreateCommandPool(), vkCreateDescriptorPool().
+     */
     bool createLogicalDevice() {
         float priority = 1.0f;
         VkDeviceQueueCreateInfo qci{};
@@ -477,6 +526,12 @@ public:
         return vkCreateDescriptorPool(device, &dpci, nullptr, &descriptorPool) == VK_SUCCESS;
     }
 
+    /**
+     * @brief Create Compute Pipelines.
+     * @param[in] shaderDir Input parameter.
+     * @return True when the operation succeeds.
+     * @details Calls: vkCreateDescriptorSetLayout(), vkCreatePipelineLayout(), loadSPIRV(), createShaderModule(), what(), offsetof(), vkCreateComputePipelines(), makePipeline().
+     */
     bool createComputePipelines(const std::string& shaderDir) {
         // Descriptor set layout: 3 storage buffers (query, vector, output)
         VkDescriptorSetLayoutBinding bindings[3]{};
@@ -575,9 +630,13 @@ public:
 
     // ---- Double-buffer staging helpers --------------------------------
 
-    // Grow a BufMem to at least `needed` bytes.  Destroys and re-creates the
-    // buffer/memory when the current allocation is too small; keeps it as-is
-    // when it is already large enough to avoid unnecessary re-allocation.
+    /**
+     * @brief Grow a BufMem to at least `needed` bytes.
+     * @param[in,out] bm Input/output parameter.
+     * @param[in] needed Input parameter.
+     * @param[in] usage Input parameter.
+     * @details Destroys and re-creates the buffer/memory when the current allocation is too small; keeps it as-is when it is already large enough to avoid unnecessary re-allocation. Calls: destroyBuffer(), createBuffer().
+     */
     void ensureStagingBuffer(BufMem& bm, VkDeviceSize needed,
                              VkBufferUsageFlags usage) {
         if (bm.buffer != VK_NULL_HANDLE && bm.size >= needed) {
@@ -591,8 +650,10 @@ public:
         bm = createBuffer(needed, usage, hostProps);
     }
 
-    // Initialise fences for all staging slots.  Called lazily on the first
-    // dispatch so we do not create fences until a device exists.
+    /**
+     * @brief Initialise fences for all staging slots.
+     * @details Called lazily on the first dispatch so we do not create fences until a device exists. Calls: vkCreateFence().
+     */
     void initStagingRing() {
         if (stagingRingInited_) {
           return;
@@ -605,27 +666,17 @@ public:
         stagingRingInited_ = true;
     }
 
-    // ---- Compute dispatch (double-buffered staging) --------------------
-    //
-    // This implementation overlaps host→device DMA with shader dispatch by
-    // using a ring of two persistent staging-buffer slots:
-    //
-    //   • Slot A (current):  CPU fills staging buffers while GPU may still be
-    //     reading from slot B (the previous dispatch).  The two-phase command
-    //     submission model further decouples the transfer and compute stages:
-    //
-    //       CB1 (transfer phase): copy stagQ → devQ, copy stagV → devV
-    //                             signal semaphore xferDone
-    //       CB2 (compute phase):  wait semaphore xferDone
-    //                             dispatch kernel, copy devOut → stagOut
-    //                             signal fence (slot.fence)
-    //
-    //   • CB1 is submitted first; while the GPU runs the PCIe DMA, the CPU
-    //     can record CB2 — giving genuine DMA–compute overlap on platforms
-    //     where the driver exposes separate transfer and compute engines.
-    //
-    //   • Staging buffers are reused across calls (grow only when needed),
-    //     eliminating vkAllocateMemory / vkFreeMemory overhead per dispatch.
+    /**
+     * @brief ---- Compute dispatch (double-buffered staging) -------------------- This implementation overlaps host→device DMA with shader dispatch by using a ring of two persistent staging-buffer slots: • Slot A (current): CPU fills staging buffers while GPU may still be reading from slot B (the previous dispatch).
+     * @param[in] queries Input parameter.
+     * @param[in] nq Input parameter.
+     * @param[in] vectors Input parameter.
+     * @param[in] nv Input parameter.
+     * @param[in] dim Input parameter.
+     * @param[in] metric Input parameter.
+     * @return Return value.
+     * @details The two-phase command submission model further decouples the transfer and compute stages: CB1 (transfer phase): copy stagQ → devQ, copy stagV → devV signal semaphore xferDone CB2 (compute phase): wait semaphore xferDone dispatch kernel, copy devOut → stagOut signal fence (slot.fence) • CB1 is submitted first; while the GPU runs the PCIe DMA, the CPU can record CB2 — giving genuine DMA–compute overlap on platforms where the driver exposes separate transfer and compute engines. • Staging buffers are reused across calls (grow only when needed), eliminating vkAllocateMemory / vkFreeMemory overhead per dispatch. Calls: initStagingRing(), vkWaitForFences(), vkResetFences(), ensureStagingBuffer(), vkMapMemory(), std::memcpy(), vkUnmapMemory(), copyToStaging().
+     */
     std::vector<float> dispatch(const float* queries, uint32_t nq,
                                 const float* vectors, uint32_t nv,
                                 uint32_t dim, DistanceMetric metric) {
@@ -864,7 +915,10 @@ public:
         return results;
     }
 
-    // ---- Cleanup ------------------------------------------------------
+    /**
+     * @brief ---- Cleanup ------------------------------------------------------
+     * @details Calls: vkDeviceWaitIdle(), destroyBuffer(), vkDestroyFence(), vkDestroyPipeline(), vkDestroyPipelineLayout(), vkDestroyDescriptorSetLayout(), vkDestroyShaderModule(), vkDestroyDescriptorPool().
+     */
     void cleanup() {
         if (device == VK_NULL_HANDLE) {
           return;
@@ -935,7 +989,6 @@ public:
 //   acceleration dispatcher falls back to the CPU backend.
 // Hardware requirement: Vulkan SDK (vulkan-sdk, MoltenVK on macOS).
 // Roadmap ref: src/acceleration/FUTURE_ENHANCEMENTS.md § "Vulkan Vector Backend"
-/** @brief Roadmap ref: src/acceleration/FUTURE_ENHANCEMENTS.md § "Vulkan Vector Backend". */
 class VulkanVectorBackend::VulkanVectorBackendImpl {
     // Empty placeholder when Vulkan is not compiled in
 };
@@ -958,7 +1011,6 @@ class VulkanVectorBackend::VulkanVectorBackendImpl {
 
 #if !defined(_WIN32) || !defined(THEMIS_ENABLE_DIRECTX)
 
-/** @brief Direct x vector backend implementation detail. */
 class DirectXVectorBackend::DirectXVectorBackendImpl {
     // Empty placeholder when DirectX 12 is not compiled in
 };
@@ -995,6 +1047,11 @@ BackendCapabilities DirectXVectorBackend::getCapabilities() const {
     return {};
 }
 
+/**
+ * @brief Initialize.
+ * @return True when the operation succeeds.
+ * @details Calls: lk(), DirectXVectorBackend::initializeFnMutex(), DirectXVectorBackend::initializeFnStorage(), fn(), what().
+ */
 bool DirectXVectorBackend::initialize() {
     InitializeFn fn;
     {
@@ -1012,8 +1069,23 @@ bool DirectXVectorBackend::initialize() {
     return false;
 }
 
+/**
+ * @brief Shutdown.
+ * @details Implements shutdown without additional internal calls.
+ */
 void DirectXVectorBackend::shutdown() {}
 
+/**
+ * @brief Compute Distances.
+ * @param[in] queries Input parameter.
+ * @param[in] numQueries Input parameter.
+ * @param[in] dim Input parameter.
+ * @param[in] vectors Input parameter.
+ * @param[in] numVectors Input parameter.
+ * @param[in] useL2 Input parameter.
+ * @return Return value.
+ * @details Calls: lk(), DirectXVectorBackend::computeDistancesFnMutex(), DirectXVectorBackend::computeDistancesFnStorage(), fn(), what().
+ */
 std::vector<float> DirectXVectorBackend::computeDistances(
     const float* queries,
     size_t numQueries,
@@ -1081,6 +1153,11 @@ namespace glsl_bridge {
     VulkanVectorBackend::CompileGLSLFn s_vk_compile_glsl_fn;
 }
 
+/**
+ * @brief Set Compile GLSLFn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lk(), std::move().
+ */
 void VulkanVectorBackend::setCompileGLSLFn(CompileGLSLFn fn) {
     std::lock_guard<std::mutex> lk(glsl_bridge::s_vk_compile_glsl_mutex);
     glsl_bridge::s_vk_compile_glsl_fn = std::move(fn);
@@ -1182,6 +1259,11 @@ bool VulkanVectorBackend::isAvailable() const noexcept {
         return false;
     }
 
+    /**
+     * @brief Devices.
+     * @param[in] deviceCount Input parameter.
+     * @return Return value.
+     */
     std::vector<VkPhysicalDevice> devices(deviceCount);
     result = vkEnumeratePhysicalDevices(probe, &deviceCount, devices.data());
     if (result != VK_SUCCESS) {
@@ -1259,6 +1341,11 @@ BackendCapabilities VulkanVectorBackend::getCapabilities() const {
     return caps;
 }
 
+/**
+ * @brief Initialize.
+ * @return True when the operation succeeds.
+ * @details Calls: std::chrono::steady_clock::now(), createInstance(), recordInitFailure(), recordError(), selectPhysicalDevice(), cleanup(), createLogicalDevice(), createComputePipelines().
+ */
 bool VulkanVectorBackend::initialize() {
 #ifdef THEMIS_ENABLE_VULKAN
     if (initialized_) {
@@ -1365,6 +1452,10 @@ bool VulkanVectorBackend::initialize() {
 #endif
 }
 
+/**
+ * @brief Shutdown.
+ * @details Calls: cleanup().
+ */
 void VulkanVectorBackend::shutdown() {
 #ifdef THEMIS_ENABLE_VULKAN
     if (initialized_ && impl_) {
@@ -1438,6 +1529,17 @@ BackendHealthStatus VulkanVectorBackend::getHealthStatus() const {
 #endif
 }
 
+/**
+ * @brief Compute Distances.
+ * @param[in] queries Input parameter.
+ * @param[in] numQueries Input parameter.
+ * @param[in] dim Input parameter.
+ * @param[in] vectors Input parameter.
+ * @param[in] numVectors Input parameter.
+ * @param[in] useL2 Input parameter.
+ * @return Return value.
+ * @details Calls: setError(), ErrorContext(), recordError(), ErrorContextHelpers::createValidationError(), std::chrono::steady_clock::now(), dispatch(), count(), recordL2DistanceOperation().
+ */
 std::vector<float> VulkanVectorBackend::computeDistances(
     const float* queries,
     size_t numQueries,
@@ -1768,6 +1870,10 @@ uniform uint uNQ;
 uniform uint uNV;
 uniform uint uDim;
 
+/**
+ * @brief Main.
+ * @details Implements main without additional internal calls.
+ */
 void main() {
     uint qi = gl_GlobalInvocationID.x;
     uint vi = gl_GlobalInvocationID.y;
@@ -1798,6 +1904,10 @@ uniform uint uNQ;
 uniform uint uNV;
 uniform uint uDim;
 
+/**
+ * @brief Main.
+ * @details Calls: sqrt().
+ */
 void main() {
     uint qi = gl_GlobalInvocationID.x;
     uint vi = gl_GlobalInvocationID.y;
@@ -1838,6 +1948,10 @@ uniform uint uCount;
 const float R  = 6371.0;
 const float PI = 3.14159265358979;
 
+/**
+ * @brief Main.
+ * @details Calls: sin(), cos(), atan(), sqrt(), max().
+ */
 void main() {
     uint i = gl_GlobalInvocationID.x;
     if (i >= uCount) {
@@ -1874,6 +1988,10 @@ layout(std430, binding = 3) writeonly buffer ResBuf    { uint result[]; };
 uniform uint uNumPoints;
 uniform uint uNumVerts;
 
+/**
+ * @brief Main.
+ * @details Calls: int().
+ */
 void main() {
     uint p = gl_GlobalInvocationID.x;
     if (p >= uNumPoints) {
@@ -1916,6 +2034,10 @@ layout(std430, binding = 2) writeonly buffer VisitBuf  { uint visited[]; };
 uniform uint uNumStarts;
 uniform uint uNumVerts;
 
+/**
+ * @brief Main.
+ * @details Implements main without additional internal calls.
+ */
 void main() {
     uint s = gl_GlobalInvocationID.x;
     if (s >= uNumStarts) {
@@ -1953,6 +2075,10 @@ layout(std430, binding = 3) writeonly buffer NextBuf  { uint nextFront[]; };
 uniform uint uNumStarts;
 uniform uint uNumVerts;
 
+/**
+ * @brief Main.
+ * @details Calls: atomicOr().
+ */
 void main() {
     uint s = gl_GlobalInvocationID.x;
     uint v = gl_GlobalInvocationID.y;
@@ -1995,6 +2121,10 @@ layout(std430, binding = 2) writeonly buffer PredBuf   { int pred[]; };
 uniform uint uNumPairs;
 uniform uint uNumVerts;
 
+/**
+ * @brief Main.
+ * @details Implements main without additional internal calls.
+ */
 void main() {
     uint p = gl_GlobalInvocationID.x;
     uint v = gl_GlobalInvocationID.y;
@@ -2026,6 +2156,10 @@ layout(std430, binding = 3)          buffer PredBuf { int pred[]; };
 uniform uint uNumPairs;
 uniform uint uNumVerts;
 
+/**
+ * @brief Main.
+ * @details Calls: int().
+ */
 void main() {
     uint p = gl_GlobalInvocationID.x;
     uint v = gl_GlobalInvocationID.y;
@@ -2059,6 +2193,12 @@ void main() {
 // Platform dynamic-library helpers
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Open Lib.
+ * @param[in] name Input parameter.
+ * @return Pointer to the result.
+ * @details Calls: defined(), dlopen(), LoadLibraryA().
+ */
 static void* openLib(const char* name) {
 #if defined(__linux__) || defined(__unix__)
     return dlopen(name, RTLD_LAZY | RTLD_LOCAL);
@@ -2069,6 +2209,11 @@ static void* openLib(const char* name) {
 #endif
 }
 
+/**
+ * @brief Close Lib.
+ * @param[in,out] lib Input/output parameter.
+ * @details Calls: defined(), dlclose(), FreeLibrary().
+ */
 static void closeLib(void* lib) {
     if (!lib) {
       return;
@@ -2080,6 +2225,13 @@ static void closeLib(void* lib) {
 #endif
 }
 
+/**
+ * @brief Lib Sym.
+ * @param[in,out] lib Input/output parameter.
+ * @param[in] sym Input parameter.
+ * @return Pointer to the result.
+ * @details Calls: defined(), dlsym(), GetProcAddress().
+ */
 static void* libSym(void* lib, const char* sym) {
     if (!lib) {
       return nullptr;
@@ -2111,7 +2263,6 @@ inline double opengl_haversine_km(double lat1, double lon1,
 // after initialize() (mirrors the VulkanGeoBackend CPU-fallback pattern).
 // ---------------------------------------------------------------------------
 
-/** @brief after initialize() (mirrors the VulkanGeoBackend CPU-fallback pattern). */
 class OpenGLVectorBackend::OpenGLVectorBackendImpl {
 public:
 #ifdef THEMIS_ENABLE_OPENGL
@@ -2174,7 +2325,11 @@ public:
     bool gpuAvailable_ = false;  // true → GL context + shaders ready
     bool cpuFallback_  = false;  // true → use CPU kernels
 
-    // ---- Library loading -----------------------------------------------
+    /**
+     * @brief ---- Library loading -----------------------------------------------
+     * @return True when the operation succeeds.
+     * @details Calls: defined(), openLib().
+     */
 
     bool loadEGLLibrary() {
 #if defined(__linux__) || defined(__unix__)
@@ -2197,6 +2352,11 @@ public:
         return libEGL_ != nullptr;
     }
 
+    /**
+     * @brief Load EGLFunctions.
+     * @return True when the operation succeeds.
+     * @details Calls: libSym(), s().
+     */
     bool loadEGLFunctions() {
         auto s = [&](const char* n) { return libSym(libEGL_, n); };
         pfnEglGetProcAddress   = reinterpret_cast<PFN_eglGetProcAddress>  (s("eglGetProcAddress"));
@@ -2213,6 +2373,12 @@ public:
                pfnEglDestroyContext && pfnEglTerminate;
     }
 
+    /**
+     * @brief Gl Proc.
+     * @param[in] name Input parameter.
+     * @return Pointer to the result.
+     * @details Calls: pfnEglGetProcAddress(), libSym().
+     */
     void* glProc(const char* name) {
         void* fn = nullptr;
         if (pfnEglGetProcAddress) {
@@ -2224,6 +2390,11 @@ public:
         return fn;
     }
 
+    /**
+     * @brief Load GLFunctions.
+     * @return True when the operation succeeds.
+     * @details Calls: glProc(), l().
+     */
     bool loadGLFunctions() {
         auto l = [&](const char* n) { return glProc(n); };
         pfnGlCreateShader       = reinterpret_cast<PFN_glCreateShader>     (l("glCreateShader"));
@@ -2261,7 +2432,11 @@ public:
                pfnGlDispatchCompute && pfnGlMemoryBarrier && pfnGlGetBufferSubData;
     }
 
-    // ---- EGL context creation ------------------------------------------
+    /**
+     * @brief ---- EGL context creation ------------------------------------------
+     * @return True when the operation succeeds.
+     * @details Calls: pfnEglGetDisplay(), pfnEglInitialize(), pfnEglBindAPI(), pfnEglTerminate(), pfnEglChooseConfig(), pfnEglCreateContext(), pfnEglMakeCurrent(), pfnEglDestroyContext().
+     */
 
     bool createEGLContext() {
         if (!pfnEglGetDisplay) {
@@ -2324,7 +2499,12 @@ public:
         return true;
     }
 
-    // ---- Shader compilation / linking ----------------------------------
+    /**
+     * @brief ---- Shader compilation / linking ----------------------------------
+     * @param[in] src Input parameter.
+     * @return Return value.
+     * @details Calls: pfnGlCreateShader(), pfnGlShaderSource(), pfnGlCompileShader(), pfnGlGetShaderiv(), log(), pfnGlGetShaderInfoLog(), data(), pfnGlDeleteShader().
+     */
 
     GL_GLuint compileShader(const char* src) {
         GL_GLuint shader = pfnGlCreateShader(k_COMPUTE_SHADER);
@@ -2348,6 +2528,12 @@ public:
         return shader;
     }
 
+    /**
+     * @brief Link Program.
+     * @param[in] shader Input parameter.
+     * @return Return value.
+     * @details Calls: pfnGlCreateProgram(), pfnGlAttachShader(), pfnGlLinkProgram(), pfnGlGetProgramiv(), log(), pfnGlGetProgramInfoLog(), data(), pfnGlDeleteProgram().
+     */
     GL_GLuint linkProgram(GL_GLuint shader) {
         GL_GLuint prog = pfnGlCreateProgram();
         pfnGlAttachShader(prog, shader);
@@ -2369,6 +2555,11 @@ public:
         return prog;
     }
 
+    /**
+     * @brief Create Shader Programs.
+     * @return True when the operation succeeds.
+     * @details Calls: compileShader(), linkProgram(), pfnGlDeleteShader(), pfnGlDeleteProgram().
+     */
     bool createShaderPrograms() {
         GL_GLuint l2Shader = compileShader(s_glsl_l2_src);
         if (!l2Shader) {
@@ -2391,8 +2582,17 @@ public:
 
     // ---- GPU dispatch --------------------------------------------------
 
-    // Dispatch a compute shader; SSBOs are created internally.
-    // The output buffer is read back synchronously after glMemoryBarrier.
+    /**
+     * @brief Dispatch a compute shader; SSBOs are created internally.
+     * @param[in] program Input parameter.
+     * @param[in] queries Input parameter.
+     * @param[in] nq Input parameter.
+     * @param[in] vectors Input parameter.
+     * @param[in] nv Input parameter.
+     * @param[in] dim Input parameter.
+     * @return Return value.
+     * @details The output buffer is read back synchronously after glMemoryBarrier.
+     */
     std::vector<float> gpuDispatch(
         GL_GLuint program,
         const float* queries, uint32_t nq,
@@ -2449,12 +2649,25 @@ public:
         return out;
     }
 
-    // ---- CPU fallback kernels ------------------------------------------
+    /**
+     * @brief ---- CPU fallback kernels ------------------------------------------
+     * @param[in] queries Input parameter.
+     * @param[in] nq Input parameter.
+     * @param[in] dim Input parameter.
+     * @param[in] vectors Input parameter.
+     * @param[in] nv Input parameter.
+     * @return Return value.
+     */
 
     static std::vector<float> cpuL2(
         const float* queries, size_t nq, size_t dim,
         const float* vectors, size_t nv)
     {
+        /**
+         * @brief Out.
+         * @param[in,out] nv Input/output parameter.
+         * @return Return value.
+         */
         std::vector<float> out(nq * nv);
         for (size_t q = 0; q < nq; ++q) {
             for (size_t v = 0; v < nv; ++v) {
@@ -2469,11 +2682,25 @@ public:
         return out;
     }
 
+    /**
+     * @brief Cpu Cosine.
+     * @param[in] queries Input parameter.
+     * @param[in] nq Input parameter.
+     * @param[in] dim Input parameter.
+     * @param[in] vectors Input parameter.
+     * @param[in] nv Input parameter.
+     * @return Return value.
+     */
     static std::vector<float> cpuCosine(
         const float* queries, size_t nq, size_t dim,
         const float* vectors, size_t nv)
     {
         constexpr float kEps = 1e-10f;
+        /**
+         * @brief Out.
+         * @param[in,out] nv Input/output parameter.
+         * @return Return value.
+         */
         std::vector<float> out(nq * nv);
         for (size_t q = 0; q < nq; ++q) {
             for (size_t v = 0; v < nv; ++v) {
@@ -2492,7 +2719,10 @@ public:
         return out;
     }
 
-    // ---- Cleanup -------------------------------------------------------
+    /**
+     * @brief ---- Cleanup -------------------------------------------------------
+     * @details Calls: pfnGlDeleteProgram(), pfnEglMakeCurrent(), pfnEglDestroyContext(), pfnEglTerminate(), closeLib().
+     */
 
     void cleanup() {
         if (gpuAvailable_) {
@@ -2534,10 +2764,34 @@ public:
     std::string vendorName_;
     int glMajor_ = 0;
     int glMinor_ = 0;
+    /**
+     * @brief Cleanup.
+     * @details Implements cleanup without additional internal calls.
+     */
     void cleanup() {}
 
+    /**
+     * @brief Cpu L2.
+     * @param[in] param Input parameter.
+     * @param[in] size_t Input parameter.
+     * @param[in] size_t Input parameter.
+     * @param[in] param Input parameter.
+     * @param[in] size_t Input parameter.
+     * @return Return value.
+     * @details Implements cpuL2 without additional internal calls.
+     */
     static std::vector<float> cpuL2(
         const float*, size_t, size_t, const float*, size_t) { return {}; }
+    /**
+     * @brief Cpu Cosine.
+     * @param[in] param Input parameter.
+     * @param[in] size_t Input parameter.
+     * @param[in] size_t Input parameter.
+     * @param[in] param Input parameter.
+     * @param[in] size_t Input parameter.
+     * @return Return value.
+     * @details Implements cpuCosine without additional internal calls.
+     */
     static std::vector<float> cpuCosine(
         const float*, size_t, size_t, const float*, size_t) { return {}; }
 #endif
@@ -2549,7 +2803,6 @@ public:
 // Falls back to CPU when EGL/OpenGL 4.3 is unavailable.
 // ============================================================================
 
-/** @brief Falls back to CPU when EGL/OpenGL 4.3 is unavailable. */
 class OpenGLGeoBackend::OpenGLGeoBackendImpl {
 public:
 #ifdef THEMIS_ENABLE_OPENGL
@@ -2600,6 +2853,12 @@ public:
 
     bool gpuAvailable_ = false;
 
+    /**
+     * @brief Gl Proc.
+     * @param[in] n Input parameter.
+     * @return Pointer to the result.
+     * @details Calls: pfnEglGetProcAddress(), libSym().
+     */
     void* glProc(const char* n) {
         void* fn = nullptr;
         if (pfnEglGetProcAddress) {
@@ -2611,6 +2870,11 @@ public:
         return fn;
     }
 
+    /**
+     * @brief Load EGLLibrary.
+     * @return True when the operation succeeds.
+     * @details Calls: defined(), openLib().
+     */
     bool loadEGLLibrary() {
 #if defined(__linux__) || defined(__unix__)
         libEGL_ = openLib("libEGL.so.1");
@@ -2631,6 +2895,11 @@ public:
         return libEGL_ != nullptr;
     }
 
+    /**
+     * @brief Load EGLFunctions.
+     * @return True when the operation succeeds.
+     * @details Calls: libSym(), s().
+     */
     bool loadEGLFunctions() {
         auto s = [&](const char* n) { return libSym(libEGL_, n); };
         pfnEglGetProcAddress   = reinterpret_cast<PFN_eglGetProcAddress>  (s("eglGetProcAddress"));
@@ -2647,6 +2916,11 @@ public:
                pfnEglDestroyContext && pfnEglTerminate;
     }
 
+    /**
+     * @brief Load GLFunctions.
+     * @return True when the operation succeeds.
+     * @details Calls: glProc(), l().
+     */
     bool loadGLFunctions() {
         auto l = [&](const char* n) { return glProc(n); };
         pfnGlCreateShader       = reinterpret_cast<PFN_glCreateShader>     (l("glCreateShader"));
@@ -2683,6 +2957,11 @@ public:
                pfnGlDispatchCompute && pfnGlMemoryBarrier && pfnGlGetBufferSubData;
     }
 
+    /**
+     * @brief Create EGLContext.
+     * @return True when the operation succeeds.
+     * @details Calls: pfnEglGetDisplay(), pfnEglInitialize(), pfnEglBindAPI(), pfnEglTerminate(), pfnEglChooseConfig(), pfnEglCreateContext(), pfnEglMakeCurrent(), pfnEglDestroyContext().
+     */
     bool createEGLContext() {
         if (!pfnEglGetDisplay) {
           return false;
@@ -2720,6 +2999,12 @@ public:
         return true;
     }
 
+    /**
+     * @brief Compile And Link.
+     * @param[in] src Input parameter.
+     * @return Return value.
+     * @details Calls: pfnGlCreateShader(), pfnGlShaderSource(), pfnGlCompileShader(), pfnGlGetShaderiv(), log(), pfnGlGetShaderInfoLog(), data(), pfnGlDeleteShader().
+     */
     GL_GLuint compileAndLink(const char* src) {
         GL_GLuint shader = pfnGlCreateShader(k_COMPUTE_SHADER);
         const GL_GLchar* srcs[] = { src };
@@ -2746,6 +3031,11 @@ public:
         return prog;
     }
 
+    /**
+     * @brief Create Shader Programs.
+     * @return True when the operation succeeds.
+     * @details Calls: compileAndLink(), pfnGlDeleteProgram().
+     */
     bool createShaderPrograms() {
         haversineProgram_ = compileAndLink(s_glsl_haversine_src);
         if (!haversineProgram_) {
@@ -2756,7 +3046,15 @@ public:
         return true;
     }
 
-    // Dispatch haversine shader; lat/lon inputs converted from double to float.
+    /**
+     * @brief Dispatch haversine shader; lat/lon inputs converted from double to float.
+     * @param[in] lat1 Input parameter.
+     * @param[in] lon1 Input parameter.
+     * @param[in] lat2 Input parameter.
+     * @param[in] lon2 Input parameter.
+     * @param[in] count Input parameter.
+     * @return Return value.
+     */
     std::vector<float> gpuHaversine(
         const double* lat1, const double* lon1,
         const double* lat2, const double* lon2,
@@ -2793,6 +3091,11 @@ public:
         const GL_GLuint gx = (static_cast<GL_GLuint>(count) + 63) / 64;
         pfnGlDispatchCompute(gx, 1, 1);
         pfnGlMemoryBarrier(k_SHADER_STORAGE_BARRIER_BIT);
+        /**
+         * @brief Out.
+         * @param[in] count Input parameter.
+         * @return Return value.
+         */
         std::vector<float> out(count);
         pfnGlBindBuffer(k_SHADER_STORAGE_BUFFER, bufs[4]);
         pfnGlGetBufferSubData(k_SHADER_STORAGE_BUFFER, 0, cBytes, out.data());
@@ -2801,7 +3104,15 @@ public:
         return out;
     }
 
-    // Dispatch PIP shader; inputs converted from double to float.
+    /**
+     * @brief Dispatch PIP shader; inputs converted from double to float.
+     * @param[in] pLat Input parameter.
+     * @param[in] pLon Input parameter.
+     * @param[in] numPoints Input parameter.
+     * @param[in] poly Input parameter.
+     * @param[in] numVerts Input parameter.
+     * @return Return value.
+     */
     std::vector<bool> gpuPIP(
         const double* pLat, const double* pLon, size_t numPoints,
         const double* poly, size_t numVerts)
@@ -2811,6 +3122,11 @@ public:
             fPLat[i] = static_cast<float>(pLat[i]);
             fPLon[i] = static_cast<float>(pLon[i]);
         }
+        /**
+         * @brief F Poly.
+         * @param[in,out] param Input/output parameter.
+         * @return Return value.
+         */
         std::vector<float> fPoly(numVerts * 2);
         for (size_t i = 0; i < numVerts * 2; ++i)
             fPoly[i] = static_cast<float>(poly[i]);
@@ -2844,11 +3160,21 @@ public:
         const GL_GLuint gx = (static_cast<GL_GLuint>(numPoints) + 63) / 64;
         pfnGlDispatchCompute(gx, 1, 1);
         pfnGlMemoryBarrier(k_SHADER_STORAGE_BARRIER_BIT);
+        /**
+         * @brief Raw.
+         * @param[in] numPoints Input parameter.
+         * @return Return value.
+         */
         std::vector<GL_GLuint> raw(numPoints);
         pfnGlBindBuffer(k_SHADER_STORAGE_BUFFER, bufs[3]);
         pfnGlGetBufferSubData(k_SHADER_STORAGE_BUFFER, 0, resBytes, raw.data());
         pfnGlBindBuffer(k_SHADER_STORAGE_BUFFER, 0);
         pfnGlDeleteBuffers(4, bufs);
+        /**
+         * @brief Out.
+         * @param[in] numPoints Input parameter.
+         * @return Return value.
+         */
         std::vector<bool> out(numPoints);
         for (size_t i = 0; i < numPoints; ++i) {
           out[i] = (raw[i] != 0);
@@ -2856,6 +3182,10 @@ public:
         return out;
     }
 
+    /**
+     * @brief Cleanup.
+     * @details Calls: pfnGlDeleteProgram(), pfnEglMakeCurrent(), pfnEglDestroyContext(), pfnEglTerminate(), closeLib().
+     */
     void cleanup() {
         if (gpuAvailable_) {
             if (haversineProgram_) { pfnGlDeleteProgram(haversineProgram_); haversineProgram_ = 0; }
@@ -2876,6 +3206,10 @@ public:
     }
 #else
     bool gpuAvailable_ = false;
+    /**
+     * @brief Cleanup.
+     * @details Implements cleanup without additional internal calls.
+     */
     void cleanup() {}
 #endif
 };
@@ -2886,7 +3220,6 @@ public:
 // Falls back to CPU when EGL/OpenGL 4.3 is unavailable.
 // ============================================================================
 
-/** @brief Falls back to CPU when EGL/OpenGL 4.3 is unavailable. */
 class OpenGLGraphBackend::OpenGLGraphBackendImpl {
 public:
 #ifdef THEMIS_ENABLE_OPENGL
@@ -2939,6 +3272,12 @@ public:
 
     bool gpuAvailable_ = false;
 
+    /**
+     * @brief Gl Proc.
+     * @param[in] n Input parameter.
+     * @return Pointer to the result.
+     * @details Calls: pfnEglGetProcAddress(), libSym().
+     */
     void* glProc(const char* n) {
         void* fn = nullptr;
         if (pfnEglGetProcAddress) {
@@ -2950,6 +3289,11 @@ public:
         return fn;
     }
 
+    /**
+     * @brief Load EGLLibrary.
+     * @return True when the operation succeeds.
+     * @details Calls: defined(), openLib().
+     */
     bool loadEGLLibrary() {
 #if defined(__linux__) || defined(__unix__)
         libEGL_ = openLib("libEGL.so.1");
@@ -2970,6 +3314,11 @@ public:
         return libEGL_ != nullptr;
     }
 
+    /**
+     * @brief Load EGLFunctions.
+     * @return True when the operation succeeds.
+     * @details Calls: libSym(), s().
+     */
     bool loadEGLFunctions() {
         auto s = [&](const char* n) { return libSym(libEGL_, n); };
         pfnEglGetProcAddress   = reinterpret_cast<PFN_eglGetProcAddress>  (s("eglGetProcAddress"));
@@ -2986,6 +3335,11 @@ public:
                pfnEglDestroyContext && pfnEglTerminate;
     }
 
+    /**
+     * @brief Load GLFunctions.
+     * @return True when the operation succeeds.
+     * @details Calls: glProc(), l().
+     */
     bool loadGLFunctions() {
         auto l = [&](const char* n) { return glProc(n); };
         pfnGlCreateShader       = reinterpret_cast<PFN_glCreateShader>     (l("glCreateShader"));
@@ -3022,6 +3376,11 @@ public:
                pfnGlDispatchCompute && pfnGlMemoryBarrier && pfnGlGetBufferSubData;
     }
 
+    /**
+     * @brief Create EGLContext.
+     * @return True when the operation succeeds.
+     * @details Calls: pfnEglGetDisplay(), pfnEglInitialize(), pfnEglBindAPI(), pfnEglTerminate(), pfnEglChooseConfig(), pfnEglCreateContext(), pfnEglMakeCurrent(), pfnEglDestroyContext().
+     */
     bool createEGLContext() {
         if (!pfnEglGetDisplay) {
           return false;
@@ -3059,6 +3418,13 @@ public:
         return true;
     }
 
+    /**
+     * @brief Compile And Link.
+     * @param[in] src Input parameter.
+     * @param[in] tag Input parameter.
+     * @return Return value.
+     * @details Calls: pfnGlCreateShader(), pfnGlShaderSource(), pfnGlCompileShader(), pfnGlGetShaderiv(), log(), pfnGlGetShaderInfoLog(), data(), pfnGlDeleteShader().
+     */
     GL_GLuint compileAndLink(const char* src, const char* tag) {
         GL_GLuint shader = pfnGlCreateShader(k_COMPUTE_SHADER);
         const GL_GLchar* srcs[] = { src };
@@ -3086,6 +3452,11 @@ public:
         return prog;
     }
 
+    /**
+     * @brief Create Shader Programs.
+     * @return True when the operation succeeds.
+     * @details Calls: compileAndLink().
+     */
     bool createShaderPrograms() {
         bfsInitProgram_   = compileAndLink(s_glsl_bfs_init_src,   "bfs_init");
         bfsExpandProgram_ = compileAndLink(s_glsl_bfs_expand_src, "bfs_expand");
@@ -3094,9 +3465,16 @@ public:
         return bfsInitProgram_ && bfsExpandProgram_ && bfInitProgram_ && bfRelaxProgram_;
     }
 
-    // Dispatch BFS on GPU.
-    // adjacency: N×N dense uint matrix (adj[u*N+v] != 0 means edge u→v)
-    // Returns visited bitmask per start: visited[s*N+v] != 0 means v reachable.
+    /**
+     * @brief Dispatch BFS on GPU.
+     * @param[in] adjacency Input parameter.
+     * @param[in] nv Input parameter.
+     * @param[in] starts Input parameter.
+     * @param[in] ns Input parameter.
+     * @param[in] maxDepth Input parameter.
+     * @return Return value.
+     * @details adjacency: N×N dense uint matrix (adj[u*N+v] != 0 means edge u→v) Returns visited bitmask per start: visited[s*N+v] != 0 means v reachable.
+     */
     std::vector<GL_GLuint> gpuBFS(
         const uint32_t* adjacency, uint32_t nv,
         const uint32_t* starts, uint32_t ns,
@@ -3181,6 +3559,15 @@ public:
     // Returns flat dist[np × nv] and pred[np × nv] after nv-1 relaxations.
     struct BFResult { std::vector<float> dist; std::vector<int> pred; };
 
+    /**
+     * @brief Gpu Bellman Ford.
+     * @param[in] adjacency Input parameter.
+     * @param[in] weights Input parameter.
+     * @param[in] nv Input parameter.
+     * @param[in] starts Input parameter.
+     * @param[in] np Input parameter.
+     * @return Return value.
+     */
     BFResult gpuBellmanFord(
         const uint32_t* adjacency, const float* weights, uint32_t nv,
         const uint32_t* starts, uint32_t np)
@@ -3263,6 +3650,10 @@ public:
         return res;
     }
 
+    /**
+     * @brief Cleanup.
+     * @details Calls: pfnGlDeleteProgram(), pfnEglMakeCurrent(), pfnEglDestroyContext(), pfnEglTerminate(), closeLib().
+     */
     void cleanup() {
         if (gpuAvailable_) {
             if (bfsInitProgram_)   { pfnGlDeleteProgram(bfsInitProgram_);   bfsInitProgram_ = 0; }
@@ -3285,6 +3676,10 @@ public:
     }
 #else
     bool gpuAvailable_ = false;
+    /**
+     * @brief Cleanup.
+     * @details Implements cleanup without additional internal calls.
+     */
     void cleanup() {}
 #endif
 };
@@ -3403,6 +3798,11 @@ BackendCapabilities OpenGLVectorBackend::getCapabilities() const {
     return caps;
 }
 
+/**
+ * @brief Initialize.
+ * @return True when the operation succeeds.
+ * @details Calls: loadEGLLibrary(), loadEGLFunctions(), createEGLContext(), loadGLFunctions(), createShaderPrograms(), pfnGlGetString(), pfnGlGetIntegerv(), clearError().
+ */
 bool OpenGLVectorBackend::initialize() {
 #ifdef THEMIS_ENABLE_OPENGL
     if (initialized_) {
@@ -3470,6 +3870,10 @@ bool OpenGLVectorBackend::initialize() {
 #endif
 }
 
+/**
+ * @brief Shutdown.
+ * @details Calls: cleanup().
+ */
 void OpenGLVectorBackend::shutdown() {
 #ifdef THEMIS_ENABLE_OPENGL
     if (initialized_ && impl_) {
@@ -3479,6 +3883,17 @@ void OpenGLVectorBackend::shutdown() {
 #endif
 }
 
+/**
+ * @brief Compute Distances.
+ * @param[in] queries Input parameter.
+ * @param[in] numQueries Input parameter.
+ * @param[in] dim Input parameter.
+ * @param[in] vectors Input parameter.
+ * @param[in] numVectors Input parameter.
+ * @param[in] useL2 Input parameter.
+ * @return Return value.
+ * @details Calls: setError(), ErrorContext(), ErrorContextHelpers::createValidationError(), gpuDispatch(), clearError(), OpenGLVectorBackendImpl::cpuL2(), OpenGLVectorBackendImpl::cpuCosine(), what().
+ */
 std::vector<float> OpenGLVectorBackend::computeDistances(
     const float* queries,
     size_t numQueries,
@@ -3728,6 +4143,11 @@ BackendCapabilities OpenGLGeoBackend::getCapabilities() const {
     return caps;
 }
 
+/**
+ * @brief Initialize.
+ * @return True when the operation succeeds.
+ * @details Calls: loadEGLLibrary(), clearError(), loadEGLFunctions(), createEGLContext(), cleanup(), loadGLFunctions(), createShaderPrograms().
+ */
 bool OpenGLGeoBackend::initialize() {
 #ifdef THEMIS_ENABLE_OPENGL
     if (initialized_) {
@@ -3765,6 +4185,10 @@ bool OpenGLGeoBackend::initialize() {
 #endif
 }
 
+/**
+ * @brief Shutdown.
+ * @details Calls: cleanup().
+ */
 void OpenGLGeoBackend::shutdown() {
 #ifdef THEMIS_ENABLE_OPENGL
     if (impl_) {
@@ -3774,6 +4198,17 @@ void OpenGLGeoBackend::shutdown() {
 #endif
 }
 
+/**
+ * @brief Batch Distances.
+ * @param[in] latitudes1 Input parameter.
+ * @param[in] longitudes1 Input parameter.
+ * @param[in] latitudes2 Input parameter.
+ * @param[in] longitudes2 Input parameter.
+ * @param[in] count Input parameter.
+ * @param[in] bool Input parameter.
+ * @return Return value.
+ * @details Calls: setError(), ErrorContext(), ErrorContextHelpers::createValidationError(), clearError(), gpuHaversine(), what(), out(), opengl_haversine_km().
+ */
 std::vector<float> OpenGLGeoBackend::batchDistances(
     const double* latitudes1,
     const double* longitudes1,
@@ -3831,6 +4266,16 @@ std::vector<float> OpenGLGeoBackend::batchDistances(
 #endif
 }
 
+/**
+ * @brief Batch Point In Polygon.
+ * @param[in] pointLats Input parameter.
+ * @param[in] pointLons Input parameter.
+ * @param[in] numPoints Input parameter.
+ * @param[in] polygonCoords Input parameter.
+ * @param[in] numPolygonVertices Input parameter.
+ * @return Return value.
+ * @details Calls: setError(), ErrorContext(), ErrorContextHelpers::createValidationError(), clearError(), gpuPIP(), what(), out().
+ */
 std::vector<bool> OpenGLGeoBackend::batchPointInPolygon(
     const double* pointLats,
     const double* pointLons,
@@ -3968,6 +4413,11 @@ BackendCapabilities OpenGLGraphBackend::getCapabilities() const {
     return caps;
 }
 
+/**
+ * @brief Initialize.
+ * @return True when the operation succeeds.
+ * @details Calls: loadEGLLibrary(), clearError(), loadEGLFunctions(), createEGLContext(), cleanup(), loadGLFunctions(), createShaderPrograms().
+ */
 bool OpenGLGraphBackend::initialize() {
 #ifdef THEMIS_ENABLE_OPENGL
     if (initialized_) {
@@ -4005,6 +4455,10 @@ bool OpenGLGraphBackend::initialize() {
 #endif
 }
 
+/**
+ * @brief Shutdown.
+ * @details Calls: cleanup().
+ */
 void OpenGLGraphBackend::shutdown() {
 #ifdef THEMIS_ENABLE_OPENGL
     if (impl_) {
@@ -4014,6 +4468,16 @@ void OpenGLGraphBackend::shutdown() {
 #endif
 }
 
+/**
+ * @brief Batch BFS.
+ * @param[in] adjacency Input parameter.
+ * @param[in] numVertices Input parameter.
+ * @param[in] startVertices Input parameter.
+ * @param[in] numStarts Input parameter.
+ * @param[in] maxDepth Input parameter.
+ * @return Return value.
+ * @details Calls: setError(), ErrorContext(), ErrorContextHelpers::createValidationError(), clearError(), std::to_string(), gpuBFS(), results(), push_back().
+ */
 std::vector<std::vector<uint32_t>> OpenGLGraphBackend::batchBFS(
     const uint32_t* adjacency,
     size_t numVertices,
@@ -4113,6 +4577,17 @@ std::vector<std::vector<uint32_t>> OpenGLGraphBackend::batchBFS(
 #endif
 }
 
+/**
+ * @brief Batch Shortest Path.
+ * @param[in] adjacency Input parameter.
+ * @param[in] weights Input parameter.
+ * @param[in] numVertices Input parameter.
+ * @param[in] startVertices Input parameter.
+ * @param[in] endVertices Input parameter.
+ * @param[in] numPairs Input parameter.
+ * @return Return value.
+ * @details Calls: setError(), ErrorContext(), ErrorContextHelpers::createValidationError(), clearError(), std::to_string(), gpuBellmanFord(), results(), push_back().
+ */
 std::vector<std::vector<uint32_t>> OpenGLGraphBackend::batchShortestPath(
     const uint32_t* adjacency,
     const float* weights,
@@ -4259,6 +4734,17 @@ std::vector<std::vector<uint32_t>> OpenGLGraphBackend::batchShortestPath(
 
 namespace {
 
+/**
+ * @brief Vulkan ann l2 dispatch.
+ * @param[in] queries Input parameter.
+ * @param[in] vectors Input parameter.
+ * @param[in,out] distances Input/output parameter.
+ * @param[in] numQueries Input parameter.
+ * @param[in] numVectors Input parameter.
+ * @param[in] dim Input parameter.
+ * @param[in,out] param Input/output parameter.
+ * @return Return value.
+ */
 static int vulkan_ann_l2_dispatch(
     const float* queries, const float* vectors, float* distances,
     int numQueries, int numVectors, int dim, void* /*stream*/)
@@ -4276,6 +4762,17 @@ static int vulkan_ann_l2_dispatch(
     return 0;
 }
 
+/**
+ * @brief Vulkan ann cosine dispatch.
+ * @param[in] queries Input parameter.
+ * @param[in] vectors Input parameter.
+ * @param[in,out] distances Input/output parameter.
+ * @param[in] numQueries Input parameter.
+ * @param[in] numVectors Input parameter.
+ * @param[in] dim Input parameter.
+ * @param[in,out] param Input/output parameter.
+ * @return Return value.
+ */
 static int vulkan_ann_cosine_dispatch(
     const float* queries, const float* vectors, float* distances,
     int numQueries, int numVectors, int dim, void* /*stream*/)
@@ -4298,6 +4795,17 @@ static int vulkan_ann_cosine_dispatch(
     return 0;
 }
 
+/**
+ * @brief Vulkan ann inner product dispatch.
+ * @param[in] queries Input parameter.
+ * @param[in] vectors Input parameter.
+ * @param[in,out] distances Input/output parameter.
+ * @param[in] numQueries Input parameter.
+ * @param[in] numVectors Input parameter.
+ * @param[in] dim Input parameter.
+ * @param[in,out] param Input/output parameter.
+ * @return Return value.
+ */
 static int vulkan_ann_inner_product_dispatch(
     const float* queries, const float* vectors, float* distances,
     int numQueries, int numVectors, int dim, void* /*stream*/)
@@ -4314,6 +4822,17 @@ static int vulkan_ann_inner_product_dispatch(
     return 0;
 }
 
+/**
+ * @brief Vulkan ann topk dispatch.
+ * @param[in] distances Input parameter.
+ * @param[in,out] topk_indices Input/output parameter.
+ * @param[in,out] topk_dists Input/output parameter.
+ * @param[in] numQueries Input parameter.
+ * @param[in] numVectors Input parameter.
+ * @param[in] topK Input parameter.
+ * @param[in,out] param Input/output parameter.
+ * @return Return value.
+ */
 static int vulkan_ann_topk_dispatch(
     const float* distances, uint32_t* topk_indices, float* topk_dists,
     int numQueries, int numVectors, int topK, void* /*stream*/)
@@ -4352,6 +4871,18 @@ inline double vulkan_haversine_km(double lat1, double lon1,
     return themis::geo::haversine_km(lat1, lon1, lat2, lon2);
 }
 
+/**
+ * @brief Vulkan geo distance.
+ * @param[in] lats1 Input parameter.
+ * @param[in] lons1 Input parameter.
+ * @param[in] lats2 Input parameter.
+ * @param[in] lons2 Input parameter.
+ * @param[in,out] out_distances Input/output parameter.
+ * @param[in] count Input parameter.
+ * @param[in] GeoDistanceFormula Input parameter.
+ * @param[in,out] param Input/output parameter.
+ * @return Return value.
+ */
 static int vulkan_geo_distance(
     const double* lats1, const double* lons1,
     const double* lats2, const double* lons2,
@@ -4366,6 +4897,17 @@ static int vulkan_geo_distance(
     return 0;
 }
 
+/**
+ * @brief Vulkan geo containment.
+ * @param[in] point_lats Input parameter.
+ * @param[in] point_lons Input parameter.
+ * @param[in] numPoints Input parameter.
+ * @param[in] polygon_coords Input parameter.
+ * @param[in] numVertices Input parameter.
+ * @param[in,out] results Input/output parameter.
+ * @param[in,out] param Input/output parameter.
+ * @return Return value.
+ */
 static int vulkan_geo_containment(
     const double* point_lats, const double* point_lons, int numPoints,
     const double* polygon_coords, int numVertices,
@@ -4452,6 +4994,11 @@ BackendCapabilities VulkanGeoBackend::getCapabilities() const {
     return caps;
 }
 
+/**
+ * @brief Initialize.
+ * @return True when the operation succeeds.
+ * @details Calls: isAvailable(), clearError().
+ */
 bool VulkanGeoBackend::initialize() {
 #ifdef THEMIS_ENABLE_VULKAN
     if (!isAvailable()) {
@@ -4469,10 +5016,25 @@ bool VulkanGeoBackend::initialize() {
 #endif
 }
 
+/**
+ * @brief Shutdown.
+ * @details Implements shutdown without additional internal calls.
+ */
 void VulkanGeoBackend::shutdown() {
     initialized_ = false;
 }
 
+/**
+ * @brief Batch Distances.
+ * @param[in] latitudes1 Input parameter.
+ * @param[in] longitudes1 Input parameter.
+ * @param[in] latitudes2 Input parameter.
+ * @param[in] longitudes2 Input parameter.
+ * @param[in] count Input parameter.
+ * @param[in] bool Input parameter.
+ * @return Return value.
+ * @details Calls: setError(), ErrorContext(), ErrorContextHelpers::createValidationError(), clearError(), out(), vulkan_haversine_km().
+ */
 std::vector<float> VulkanGeoBackend::batchDistances(
     const double* latitudes1,
     const double* longitudes1,
@@ -4516,6 +5078,16 @@ std::vector<float> VulkanGeoBackend::batchDistances(
 #endif
 }
 
+/**
+ * @brief Batch Point In Polygon.
+ * @param[in] pointLats Input parameter.
+ * @param[in] pointLons Input parameter.
+ * @param[in] numPoints Input parameter.
+ * @param[in] polygonCoords Input parameter.
+ * @param[in] numPolygonVertices Input parameter.
+ * @return Return value.
+ * @details Calls: setError(), ErrorContext(), ErrorContextHelpers::createValidationError(), clearError(), out().
+ */
 std::vector<bool> VulkanGeoBackend::batchPointInPolygon(
     const double* pointLats,
     const double* pointLons,

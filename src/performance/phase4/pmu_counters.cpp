@@ -265,6 +265,11 @@ struct KpcApi {
     kpc_set_config_fn_t          set_config           = nullptr;
     bool                         loaded               = false;
 
+    /**
+     * @brief Instance.
+     * @return Return value.
+     * @details Implements instance without additional internal calls.
+     */
     static KpcApi& instance() {
         static KpcApi api;
         return api;
@@ -839,21 +844,41 @@ CacheMissAnalyzer::StopFn  s_cache_miss_stop_fn;
 CacheMissAnalyzer::ProbeFn s_cache_miss_probe_fn;
 }
 
+/**
+ * @brief Set Open Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lk(), std::move().
+ */
 void PmuCounter::setOpenFn(OpenFn fn) {
     std::lock_guard<std::mutex> lk(s_pmu_stub_mutex);
     s_pmu_open_fn = std::move(fn);
 }
 
+/**
+ * @brief Set Read Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lk(), std::move().
+ */
 void PmuCounter::setReadFn(ReadFn fn) {
     std::lock_guard<std::mutex> lk(s_pmu_stub_mutex);
     s_pmu_read_fn = std::move(fn);
 }
 
+/**
+ * @brief Set Stop Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lk(), std::move().
+ */
 void CacheMissAnalyzer::setStopFn(StopFn fn) {
     std::lock_guard<std::mutex> lk(s_pmu_stub_mutex);
     s_cache_miss_stop_fn = std::move(fn);
 }
 
+/**
+ * @brief Set Probe Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lk(), std::move().
+ */
 void CacheMissAnalyzer::setProbeFn(ProbeFn fn) {
     std::lock_guard<std::mutex> lk(s_pmu_stub_mutex);
     s_cache_miss_probe_fn = std::move(fn);
@@ -869,6 +894,11 @@ PmuCounter& PmuCounter::operator=(PmuCounter&& o) noexcept {
 bool PmuCounter::open(uint32_t type, uint64_t config) noexcept {
     OpenFn fn;
     {
+        /**
+         * @brief Lk.
+         * @param[in] s_pmu_stub_mutex Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(s_pmu_stub_mutex);
         fn = s_pmu_open_fn;
     }
@@ -890,6 +920,11 @@ void     PmuCounter::disable() noexcept {}
 uint64_t PmuCounter::read()  const noexcept {
     ReadFn fn;
     {
+        /**
+         * @brief Lk.
+         * @param[in] s_pmu_stub_mutex Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(s_pmu_stub_mutex);
         fn = s_pmu_read_fn;
     }
@@ -909,6 +944,11 @@ void             CacheMissAnalyzer::start() noexcept {}
 CacheMissMetrics CacheMissAnalyzer::stop() noexcept {
     StopFn fn;
     {
+        /**
+         * @brief Lk.
+         * @param[in] s_pmu_stub_mutex Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(s_pmu_stub_mutex);
         fn = s_cache_miss_stop_fn;
     }
@@ -926,6 +966,11 @@ CacheMissMetrics CacheMissAnalyzer::stop() noexcept {
 bool CacheMissAnalyzer::pmu_accessible() noexcept {
     ProbeFn fn;
     {
+        /**
+         * @brief Lk.
+         * @param[in] s_pmu_stub_mutex Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(s_pmu_stub_mutex);
         fn = s_cache_miss_probe_fn;
     }

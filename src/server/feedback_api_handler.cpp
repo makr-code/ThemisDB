@@ -38,6 +38,12 @@ bool isValidFeedbackIdentifier(const std::string& value, const bool allow_empty 
            validator.validateHeaderValue(value);
 }
 
+/**
+ * @brief Is Valid Feedback Filter Value.
+ * @param[in] value Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: validateStringLength(), validateHeaderValue(), validatePathSegment().
+ */
 bool isValidFeedbackFilterValue(const std::string& value) {
     themis::utils::InputValidator validator;
     return validator.validateStringLength(value, kMaxFeedbackFilterValueLength) &&
@@ -45,6 +51,12 @@ bool isValidFeedbackFilterValue(const std::string& value) {
            validator.validatePathSegment(value);
 }
 
+/**
+ * @brief To Collector Feedback Type.
+ * @param[in] feedback Input parameter.
+ * @return Return value.
+ * @details Implements toCollectorFeedbackType without additional internal calls.
+ */
 themis::prompt_engineering::FeedbackType toCollectorFeedbackType(
     const llm::lora::Feedback& feedback) {
     if (feedback.training_category == "negative" || feedback.rating <= 2) {
@@ -53,6 +65,12 @@ themis::prompt_engineering::FeedbackType toCollectorFeedbackType(
     return themis::prompt_engineering::FeedbackType::USER_POSITIVE;
 }
 
+/**
+ * @brief To Collector Severity.
+ * @param[in] feedback Input parameter.
+ * @return Return value.
+ * @details Calls: std::clamp().
+ */
 double toCollectorSeverity(const llm::lora::Feedback& feedback) {
     if (feedback.rating <= 0) {
         return 0.5;
@@ -61,6 +79,12 @@ double toCollectorSeverity(const llm::lora::Feedback& feedback) {
     return 1.0 - normalized;
 }
 
+/**
+ * @brief To Collector Prompt Id.
+ * @param[in] feedback Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), has_value().
+ */
 std::string toCollectorPromptId(const llm::lora::Feedback& feedback) {
     if (!feedback.adapter_id.empty()) {
         return feedback.adapter_id;
@@ -88,6 +112,12 @@ FeedbackAPIHandler::FeedbackAPIHandler(
     spdlog::info("FeedbackAPIHandler initialized");
 }
 
+/**
+ * @brief Handle Create Feedback.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), makeErrorResponse(), json::parse(), body(), llm::lora::Feedback::fromJSON(), isValidFeedbackIdentifier(), has_value(), createFeedback().
+ */
 http::response<http::string_body> FeedbackAPIHandler::handleCreateFeedback(
     const http::request<http::string_body>& req
 ) {
@@ -189,6 +219,12 @@ http::response<http::string_body> FeedbackAPIHandler::handleCreateFeedback(
     }
 }
 
+/**
+ * @brief Handle List Feedback.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), makeErrorResponse(), target(), find(), substr(), parseFilterFromQuery(), listFeedback(), size().
+ */
 http::response<http::string_body> FeedbackAPIHandler::handleListFeedback(
     const http::request<http::string_body>& req
 ) {
@@ -249,6 +285,13 @@ http::response<http::string_body> FeedbackAPIHandler::handleListFeedback(
     }
 }
 
+/**
+ * @brief Handle Get Feedback.
+ * @param[in] req Input parameter.
+ * @param[in] id Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), makeErrorResponse(), isValidFeedbackIdentifier(), getFeedback(), makeJsonResponse(), toJSON(), spdlog::error(), what().
+ */
 http::response<http::string_body> FeedbackAPIHandler::handleGetFeedback(
     const http::request<http::string_body>& req,
     const std::string& id
@@ -294,6 +337,13 @@ http::response<http::string_body> FeedbackAPIHandler::handleGetFeedback(
     }
 }
 
+/**
+ * @brief Handle Update Feedback.
+ * @param[in] req Input parameter.
+ * @param[in] id Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), makeErrorResponse(), isValidFeedbackIdentifier(), json::parse(), body(), llm::lora::Feedback::fromJSON(), has_value(), updateFeedback().
+ */
 http::response<http::string_body> FeedbackAPIHandler::handleUpdateFeedback(
     const http::request<http::string_body>& req,
     const std::string& id
@@ -365,6 +415,13 @@ http::response<http::string_body> FeedbackAPIHandler::handleUpdateFeedback(
     }
 }
 
+/**
+ * @brief Handle Delete Feedback.
+ * @param[in] req Input parameter.
+ * @param[in] id Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), makeErrorResponse(), isValidFeedbackIdentifier(), deleteFeedback(), makeJsonResponse(), spdlog::error(), what().
+ */
 http::response<http::string_body> FeedbackAPIHandler::handleDeleteFeedback(
     const http::request<http::string_body>& req,
     const std::string& id
@@ -414,6 +471,13 @@ http::response<http::string_body> FeedbackAPIHandler::handleDeleteFeedback(
     }
 }
 
+/**
+ * @brief Handle Get Adapter Feedback.
+ * @param[in] req Input parameter.
+ * @param[in] adapter_id Identifier of the adapter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), makeErrorResponse(), isValidFeedbackIdentifier(), target(), find(), substr(), std::stoul(), getFeedbackForAdapter().
+ */
 http::response<http::string_body> FeedbackAPIHandler::handleGetAdapterFeedback(
     const http::request<http::string_body>& req,
     const std::string& adapter_id
@@ -481,6 +545,12 @@ http::response<http::string_body> FeedbackAPIHandler::handleGetAdapterFeedback(
     }
 }
 
+/**
+ * @brief Handle Get Statistics.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), makeErrorResponse(), target(), find(), substr(), isValidFeedbackIdentifier(), getStatistics(), makeJsonResponse().
+ */
 http::response<http::string_body> FeedbackAPIHandler::handleGetStatistics(
     const http::request<http::string_body>& req
 ) {
@@ -534,9 +604,14 @@ http::response<http::string_body> FeedbackAPIHandler::handleGetStatistics(
     }
 }
 
-// ═══════════════════════════════════════════════════════════
-// Private Helper Methods
-// ═══════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════ Private Helper Methods ═══════════════════════════════════════════════════════════
+ * @param[in] status Input parameter.
+ * @param[in] body Input parameter.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), version(), set(), keep_alive(), body(), prepare_payload().
+ */
 
 http::response<http::string_body> FeedbackAPIHandler::makeResponse(
     http::status status,
@@ -553,6 +628,14 @@ http::response<http::string_body> FeedbackAPIHandler::makeResponse(
     return res;
 }
 
+/**
+ * @brief Make Json Response.
+ * @param[in] status Input parameter.
+ * @param[in] body Input parameter.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: version(), set(), keep_alive(), body(), dump(), prepare_payload().
+ */
 http::response<http::string_body> FeedbackAPIHandler::makeJsonResponse(
     http::status status,
     const json& body,
@@ -567,6 +650,14 @@ http::response<http::string_body> FeedbackAPIHandler::makeJsonResponse(
     return res;
 }
 
+/**
+ * @brief Make Error Response.
+ * @param[in] status Input parameter.
+ * @param[in] error Input parameter.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: makeJsonResponse().
+ */
 http::response<http::string_body> FeedbackAPIHandler::makeErrorResponse(
     http::status status,
     const std::string& error,

@@ -1,0 +1,9 @@
+--I"C:\Program Files (x86)\Windows Kits\10\Include\10.0.26100.0\um"
+-I"C:\Program Files (x86)\Windows Kits\10\Include\10.0.26100.0\shared"
+-I"C:\Program Files (x86)\Windows Kits\10\Include\10.0.26100.0\ucrt"
+-I"C:\Program Files\Microsoft Visual Studio\2022\Professional\VC\Tools\MSVC\14.44.35207\include"
+-IC:\Projects\ThemisDB\include
+-IC:\Projects\ThemisDB\src
+-IC:\Projects\ThemisDB\build-msvc-windows-debug\include
+-external:IC:\Projects\ThemisDB\vcpkg_installed\x64-windows\include
+-external:W0

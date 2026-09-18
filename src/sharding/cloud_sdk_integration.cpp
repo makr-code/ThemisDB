@@ -29,6 +29,15 @@ namespace themis {
 namespace sharding {
 
 namespace {
+/**
+ * @brief Validate Fixed Provider Argument.
+ * @param[in] provider Input parameter.
+ * @param[in] field_name Name of the field.
+ * @param[in] expected Input parameter.
+ * @param[in] actual Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: THEMIS_ERROR().
+ */
 bool validateFixedProviderArgument(std::string_view provider, std::string_view field_name,
                                    const std::string &expected, const std::string &actual) {
     if (expected != actual) {
@@ -59,6 +68,14 @@ namespace {
 std::shared_ptr<Aws::S3::S3Client> g_s3_client;
 }
 
+/**
+ * @brief Initialize S3 Provider.
+ * @param[in] region Input parameter.
+ * @param[in] bucket Input parameter.
+ * @param[in] endpoint Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), THEMIS_ERROR(), setS3UploadFn(), validateFixedProviderArgument(), fs::exists(), SetBucket(), SetKey(), AddMetadata().
+ */
 bool initializeS3Provider(const std::string &region, const std::string &bucket, const std::string &endpoint) {
     if (region.empty() || bucket.empty()) {
         THEMIS_ERROR("S3 provider initialization requires non-empty region and bucket");
@@ -300,17 +317,35 @@ bool initializeS3Provider(const std::string &region, const std::string &bucket, 
     }
 }
 
+/**
+ * @brief Is S3 Provider Available.
+ * @return True when the operation succeeds.
+ * @details Implements isS3ProviderAvailable without additional internal calls.
+ */
 bool isS3ProviderAvailable() {
     return true; // AWS SDK is available
 }
 
 #else
 
+/**
+ * @brief Initialize S3 Provider.
+ * @param[in] region Input parameter.
+ * @param[in] bucket Input parameter.
+ * @param[in] endpoint Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: THEMIS_WARN().
+ */
 bool initializeS3Provider(const std::string &region, const std::string &bucket, const std::string &endpoint) {
     THEMIS_WARN("S3 provider not available: AWS SDK for C++ not linked (THEMIS_WITH_S3_SDK not set)");
     return false;
 }
 
+/**
+ * @brief Is S3 Provider Available.
+ * @return True when the operation succeeds.
+ * @details Implements isS3ProviderAvailable without additional internal calls.
+ */
 bool isS3ProviderAvailable() {
     return false;
 }
@@ -331,6 +366,14 @@ namespace {
 std::shared_ptr<Azure::Storage::Blobs::BlobContainerClient> g_azure_container_client;
 }
 
+/**
+ * @brief Initialize Azure Provider.
+ * @param[in] account_name Name of the account.
+ * @param[in] container Input parameter.
+ * @param[in] connection_string Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), THEMIS_ERROR(), Azure::Storage::Blobs::BlobContainerClient::CreateFromConnectionString(), setAzureUploadFn(), validateFixedProviderArgument(), fs::exists(), GetBlobClient(), input_file().
+ */
 bool initializeAzureProvider(const std::string &account_name, const std::string &container,
                              const std::string &connection_string) {
     if (account_name.empty() || container.empty()) {
@@ -573,18 +616,36 @@ bool initializeAzureProvider(const std::string &account_name, const std::string 
     }
 }
 
+/**
+ * @brief Is Azure Provider Available.
+ * @return True when the operation succeeds.
+ * @details Implements isAzureProviderAvailable without additional internal calls.
+ */
 bool isAzureProviderAvailable() {
     return true; // Azure SDK is available
 }
 
 #else
 
+/**
+ * @brief Initialize Azure Provider.
+ * @param[in] account_name Name of the account.
+ * @param[in] container Input parameter.
+ * @param[in] connection_string Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: THEMIS_WARN().
+ */
 bool initializeAzureProvider(const std::string &account_name, const std::string &container,
                              const std::string &connection_string) {
     THEMIS_WARN("Azure provider not available: Azure Storage SDK not linked (THEMIS_WITH_AZURE_SDK not set)");
     return false;
 }
 
+/**
+ * @brief Is Azure Provider Available.
+ * @return True when the operation succeeds.
+ * @details Implements isAzureProviderAvailable without additional internal calls.
+ */
 bool isAzureProviderAvailable() {
     return false;
 }
@@ -605,6 +666,14 @@ namespace {
 std::shared_ptr<google::cloud::storage::Client> g_gcs_client;
 }
 
+/**
+ * @brief Initialize GCSProvider.
+ * @param[in] project_id Identifier of the project.
+ * @param[in] bucket Input parameter.
+ * @param[in] credentials_file Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), THEMIS_ERROR(), google::cloud::storage::oauth2::CreateServiceAccountCredentialsFromFile(), google::cloud::storage::CreateDefaultClient(), std::move(), setGCSUploadFn(), validateFixedProviderArgument(), fs::exists().
+ */
 bool initializeGCSProvider(const std::string &project_id, const std::string &bucket,
                            const std::string &credentials_file) {
     if (project_id.empty() || bucket.empty()) {
@@ -833,18 +902,36 @@ bool initializeGCSProvider(const std::string &project_id, const std::string &buc
     }
 }
 
+/**
+ * @brief Is GCSProvider Available.
+ * @return True when the operation succeeds.
+ * @details Implements isGCSProviderAvailable without additional internal calls.
+ */
 bool isGCSProviderAvailable() {
     return true; // GCS SDK is available
 }
 
 #else
 
+/**
+ * @brief Initialize GCSProvider.
+ * @param[in] project_id Identifier of the project.
+ * @param[in] bucket Input parameter.
+ * @param[in] credentials_file Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: THEMIS_WARN().
+ */
 bool initializeGCSProvider(const std::string &project_id, const std::string &bucket,
                            const std::string &credentials_file) {
     THEMIS_WARN("GCS provider not available: Google Cloud C++ SDK not linked (THEMIS_WITH_GCS_SDK not set)");
     return false;
 }
 
+/**
+ * @brief Is GCSProvider Available.
+ * @return True when the operation succeeds.
+ * @details Implements isGCSProviderAvailable without additional internal calls.
+ */
 bool isGCSProviderAvailable() {
     return false;
 }

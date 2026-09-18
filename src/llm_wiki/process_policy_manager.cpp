@@ -17,6 +17,12 @@ namespace {
 constexpr const char* kPolicySchemaRelativePath =
     "src/llm_wiki/schema/llm_wiki_process_policy.schema.json";
 
+/**
+ * @brief Resolve Existing Path.
+ * @param[in] path Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), themis::config::ConfigPathResolver::tryResolve(), std::filesystem::exists().
+ */
 std::optional<std::string> resolveExistingPath(const std::string& path) {
     if (path.empty()) {
         return std::nullopt;
@@ -34,6 +40,12 @@ std::optional<std::string> resolveExistingPath(const std::string& path) {
     return std::nullopt;
 }
 
+/**
+ * @brief Find Policy Schema Path.
+ * @param[in] policy_path Path to the policy.
+ * @return Return value.
+ * @details Calls: std::getenv(), resolveExistingPath(), parent_path(), lexically_normal(), string(), std::filesystem::path().
+ */
 std::optional<std::string> findPolicySchemaPath(
     const std::filesystem::path& policy_path) {
     if (const char* env_schema = std::getenv("THEMIS_LLM_WIKI_PROCESS_POLICY_SCHEMA");
@@ -82,6 +94,13 @@ T safeJsonAs(const nlohmann::json& node, const char* key, const T& fallback) {
     return fallback;
 }
 
+/**
+ * @brief Parse Schedule.
+ * @param[in] node Input parameter.
+ * @param[in] fallback Input parameter.
+ * @return Return value.
+ * @details Calls: is_string().
+ */
 ProcessSchedule parseSchedule(const nlohmann::json& node,
                               ProcessSchedule fallback) {
     std::string value = "near_realtime";
@@ -103,6 +122,13 @@ ProcessSchedule parseSchedule(const nlohmann::json& node,
     return fallback;
 }
 
+/**
+ * @brief Parse Stage.
+ * @param[in] stage_node Input parameter.
+ * @param[in] default_schedule Input parameter.
+ * @return Return value.
+ * @details Calls: is_object(), find(), end(), parseSchedule().
+ */
 StagePolicy parseStage(const nlohmann::json& stage_node,
                        ProcessSchedule default_schedule) {
     StagePolicy policy = {};
@@ -136,6 +162,12 @@ void parseHardBounds(const nlohmann::json& bounds_node,
     }
 }
 
+/**
+ * @brief Parse String List.
+ * @param[in] node Input parameter.
+ * @return Return value.
+ * @details Calls: is_array(), reserve(), size(), is_string(), push_back().
+ */
 std::vector<std::string> parseStringList(const nlohmann::json& node) {
     std::vector<std::string> values = {};
 

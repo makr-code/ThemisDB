@@ -34,6 +34,10 @@ const RAGContextAssemblerConfig& RAGContextAssembler::getConfig() const
     return config_;
 }
 
+/**
+ * @brief Set Config.
+ * @param[in] cfg Input parameter.
+ */
 void RAGContextAssembler::setConfig(const RAGContextAssemblerConfig& cfg)
 {
     config_ = cfg;
@@ -195,6 +199,12 @@ AssembledContext RAGContextAssembler::assemble(
 // computeMaxTokens
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Compute Max Tokens.
+ * @param[in] budget Input parameter.
+ * @param[in] user_max Input parameter.
+ * @return Return value.
+ */
 int RAGContextAssembler::computeMaxTokens(
     const ContextWindowBudget& budget,
     int                        user_max)

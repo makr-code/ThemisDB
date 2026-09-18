@@ -43,7 +43,6 @@ namespace {
 // PHASE-2-HARDENING: S3 Error Mapping and Object Listing
 // ============================================================================
 
-/// Maps S3-specific error patterns to ImporterErrorCode
 [[maybe_unused]] static ImportErrorCode mapS3ErrorToCode(const std::string& error_msg) {
     // PHASE-2-HARDENING: Standardized error mapping for S3
     const auto msg_lower = [](std::string s) {
@@ -73,17 +72,22 @@ namespace {
 
 std::once_flag g_sdk_init_flag;
 
+/**
+ * @brief Init Aws Sdk.
+ * @details Calls: Aws::InitAPI().
+ */
 void initAwsSdk() {
     Aws::SDKOptions options;
     options.loggingOptions.logLevel = Aws::Utils::Logging::LogLevel::Warn;
     Aws::InitAPI(options);
 }
 
-/// Build an S3 client from the given configuration.
-/// Credentials embedded in the config are used only when both
-/// access_key_id and secret_access_key are non-empty; otherwise the
-/// AWS default credential provider chain (env vars, ~/.aws/credentials,
-/// IAM role) is used.
+/**
+ * @brief Build S3 Client.
+ * @param[in] cfg Input parameter.
+ * @return Return value.
+ * @details Calls: std::call_once(), empty(), creds().
+ */
 std::unique_ptr<Aws::S3::S3Client> buildS3Client(const S3SourceConfig& cfg) {
     std::call_once(g_sdk_init_flag, initAwsSdk);
 
@@ -141,6 +145,12 @@ std::vector<std::string> S3Importer::getSupportedTypes() const {
     return {"s3", "s3-csv", "s3-tsv", "s3-jsonl"};
 }
 
+/**
+ * @brief Initialize.
+ * @param[in] config Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), THEMIS_INFO(), json::parse(), contains(), json::object(), dump(), what().
+ */
 bool S3Importer::initialize(const std::string& config) {
     cancelled_ = false;
     s3_config_ = S3SourceConfig{};
@@ -198,6 +208,13 @@ bool S3Importer::initialize(const std::string& config) {
     return true;
 }
 
+/**
+ * @brief Validate Source.
+ * @param[in] source_path Path to the source.
+ * @param[in,out] errors Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: parseS3Url(), push_back(), URL(), empty(), back(), buildS3Client(), SetBucket(), SetKey().
+ */
 bool S3Importer::validateSource(const std::string& source_path,
                                  std::vector<std::string>& errors) {
     std::string bucket, key;
@@ -249,6 +266,14 @@ bool S3Importer::validateSource(const std::string& source_path,
     return true;
 }
 
+/**
+ * @brief Import Data.
+ * @param[in] source_path Path to the source.
+ * @param[in] options Input parameter.
+ * @param[in] progress_callback Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::steady_clock::now(), THEMIS_INFO(), sanitisedConnectionId(), permission_check(), addError(), parseS3Url(), URL(), empty().
+ */
 ImportStats S3Importer::importData(
     const std::string& source_path,
     const ImportOptions& options,
@@ -338,6 +363,13 @@ ImportStats S3Importer::importData(
     return stats;
 }
 
+/**
+ * @brief Import Data Async.
+ * @param[in] source_path Path to the source.
+ * @param[in] options Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), std::to_string(), get(), store(), setStage(), get_future().
+ */
 std::shared_ptr<ImportHandle> S3Importer::importDataAsync(
     const std::string& source_path,
     const ImportOptions& options
@@ -403,11 +435,21 @@ std::shared_ptr<ImportHandle> S3Importer::importDataAsync(
     return handle;
 }
 
+/**
+ * @brief Cancel.
+ * @details Calls: THEMIS_INFO().
+ */
 void S3Importer::cancel() {
     cancelled_ = true;
     THEMIS_INFO("S3 import cancelled");
 }
 
+/**
+ * @brief Get Source Schema.
+ * @param[in] source_path Path to the source.
+ * @return Return value.
+ * @details Calls: parseS3Url(), empty(), back(), json::array(), buildS3Client(), SetBucket(), SetKey(), GetObject().
+ */
 json S3Importer::getSourceSchema(const std::string& source_path) {
     std::string bucket, key;
     if (!parseS3Url(source_path, bucket, key) || key.empty() ||
@@ -489,6 +531,13 @@ json S3Importer::getSourceSchema(const std::string& source_path) {
 // Static URL helpers
 // ============================================================================
 
+/**
+ * @brief Sanitised Connection Id.
+ * @param[in] cfg Input parameter.
+ * @param[in] bucket Input parameter.
+ * @return Return value.
+ * @details Calls: empty().
+ */
 std::string S3Importer::sanitisedConnectionId(const S3SourceConfig& cfg,
                                                const std::string& bucket) {
     std::string endpoint =
@@ -500,6 +549,15 @@ std::string S3Importer::sanitisedConnectionId(const S3SourceConfig& cfg,
 // Private helpers
 // ============================================================================
 
+/**
+ * @brief Import Single Object.
+ * @param[in] bucket Input parameter.
+ * @param[in] key Input parameter.
+ * @param[in] options Input parameter.
+ * @param[in,out] stats Input/output parameter.
+ * @param[in,out] progress_cb Input/output parameter.
+ * @details Calls: load(), THEMIS_INFO(), sanitisedConnectionId(), buildS3Client(), SetBucket(), SetKey(), GetObject(), IsSuccess().
+ */
 void S3Importer::importSingleObject(const std::string& bucket,
                                      const std::string& key,
                                      const ImportOptions& options,
@@ -599,6 +657,15 @@ void S3Importer::importSingleObject(const std::string& bucket,
                 obj_stats.imported_records, obj_stats.failed_records);
 }
 
+/**
+ * @brief Import Objects With Prefix.
+ * @param[in] bucket Input parameter.
+ * @param[in] prefix Input parameter.
+ * @param[in] options Input parameter.
+ * @param[in,out] stats Input/output parameter.
+ * @param[in,out] progress_cb Input/output parameter.
+ * @details Calls: THEMIS_INFO(), sanitisedConnectionId(), empty(), buildS3Client(), load(), size(), SetBucket(), SetPrefix().
+ */
 void S3Importer::importObjectsWithPrefix(const std::string& bucket,
                                           const std::string& prefix,
                                           const ImportOptions& options,
@@ -799,6 +866,12 @@ plugins::PluginCapabilities S3ImporterPlugin::getCapabilities() const {
     return caps;
 }
 
+/**
+ * @brief Initialize.
+ * @param[in] config_json Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements initialize without additional internal calls.
+ */
 bool S3ImporterPlugin::initialize(const char* config_json) {
     if (!importer_) {
       return false;
@@ -806,6 +879,10 @@ bool S3ImporterPlugin::initialize(const char* config_json) {
     return importer_->initialize(config_json ? config_json : "{}");
 }
 
+/**
+ * @brief Shutdown.
+ * @details Calls: cancel().
+ */
 void S3ImporterPlugin::shutdown() {
     if (importer_) {
       importer_->cancel();

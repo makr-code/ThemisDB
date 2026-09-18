@@ -77,10 +77,8 @@ namespace {
     std::unordered_map<struct llama_context*, std::vector<void*>> g_legacy_adapters;
     
     /**
-     * @brief Initialize LoRA API function pointers via dynamic lookup
-     * 
-     * Attempts to load LoRA functions from the llama.cpp library at runtime.
-     * This allows ThemisDB to work with both LoRA-enabled and standard llama.cpp builds.
+     * @brief Initialize Lo RAAPI.
+     * @details Calls: spdlog::info(), GetModuleHandle(), GetProcAddress(), dlsym(), spdlog::warn().
      */
     void initializeLoRAAPI() {
         spdlog::info("Initializing llama.cpp LoRA API detection...");
@@ -155,7 +153,8 @@ namespace {
     }
     
     /**
-     * @brief Ensure API is initialized (thread-safe)
+     * @brief Ensure APIInitialized.
+     * @details Calls: std::call_once().
      */
     inline void ensureAPIInitialized() {
         std::call_once(g_lora_api_init_flag, initializeLoRAAPI);
@@ -168,22 +167,33 @@ namespace {
 
 extern "C" {
 
+/**
+ * @brief Llama lora adapter init.
+ * @param[in,out] model Input/output parameter.
+ * @param[in] path_lora Input parameter.
+ * @return Pointer to the result.
+ */
 void* llama_lora_adapter_init(struct llama_model* model, const char* path_lora);
+/**
+ * @brief Llama lora adapter set with scale.
+ * @param[in,out] ctx Input/output parameter.
+ * @param[in,out] adapter Input/output parameter.
+ * @param[in] scale Input parameter.
+ * @return Return value.
+ */
 int llama_lora_adapter_set_with_scale(struct llama_context* ctx, void* adapter, float scale);
+/**
+ * @brief Llama lora adapter free.
+ * @param[in,out] adapter Input/output parameter.
+ */
 void llama_lora_adapter_free(void* adapter);
 
 /**
- * @brief Set/apply a LoRA adapter to a llama context
- * 
- * This function is called by MultiLoRAManager to apply loaded LoRA adapters
- * to inference contexts. It uses the real llama.cpp API when available.
- * 
- * @param ctx llama context pointer
- * @param adapter_path Path to LoRA adapter file (for compatibility with old signature)
- * @return 0 on success, -1 on error
- * 
- * @note The signature matches the legacy stub for backward compatibility.
- *       Modern code should use the full API with adapter handles.
+ * @brief Llama lora adapter set path.
+ * @param[in,out] ctx Input/output parameter.
+ * @param[in] adapter_path Path to the adapter.
+ * @return Return value.
+ * @details Calls: ensureAPIInitialized(), spdlog::error(), llama_get_model(), llama_lora_adapter_init(), llama_lora_adapter_set_with_scale(), llama_lora_adapter_free(), lock(), push_back().
  */
 int llama_lora_adapter_set_path(struct llama_context* ctx, const char* adapter_path) {
     ensureAPIInitialized();
@@ -232,14 +242,11 @@ int llama_lora_adapter_set_path(struct llama_context* ctx, const char* adapter_p
 }
 
 /**
- * @brief Initialize a LoRA adapter from file (modern API)
- * 
- * This is the proper way to load LoRA adapters in modern llama.cpp.
- * Returns an opaque handle to the loaded adapter.
- * 
- * @param model Base model pointer
- * @param path_lora Path to LoRA adapter file
- * @return Adapter handle on success, nullptr on error
+ * @brief Llama lora adapter init.
+ * @param[in,out] model Input/output parameter.
+ * @param[in] path_lora Input parameter.
+ * @return Pointer to the result.
+ * @details Calls: ensureAPIInitialized(), spdlog::error(), spdlog::info(), fn().
  */
 void* llama_lora_adapter_init(struct llama_model* model, const char* path_lora) {
     if (!g_lora_api_override_active) {
@@ -278,12 +285,12 @@ void* llama_lora_adapter_init(struct llama_model* model, const char* path_lora) 
 }
 
 /**
- * @brief Apply LoRA adapter to context with scaling factor (modern API)
- * 
- * @param ctx Context to apply adapter to
- * @param adapter Adapter handle from llama_lora_adapter_init
- * @param scale Scaling factor (1.0 = full strength, 0.0 = disabled)
- * @return 0 on success, non-zero on error
+ * @brief Llama lora adapter set with scale.
+ * @param[in,out] ctx Input/output parameter.
+ * @param[in,out] adapter Input/output parameter.
+ * @param[in] scale Input parameter.
+ * @return Return value.
+ * @details Calls: ensureAPIInitialized(), spdlog::error(), spdlog::debug(), fn().
  */
 int llama_lora_adapter_set_with_scale(struct llama_context* ctx, void* adapter, float scale) {
     if (!g_lora_api_override_active) {
@@ -317,11 +324,11 @@ int llama_lora_adapter_set_with_scale(struct llama_context* ctx, void* adapter, 
 }
 
 /**
- * @brief Remove LoRA adapter from context (modern API)
- * 
- * @param ctx Context to remove adapter from
- * @param adapter Adapter handle to remove
- * @return 0 on success, non-zero on error
+ * @brief Llama lora adapter remove.
+ * @param[in,out] ctx Input/output parameter.
+ * @param[in,out] adapter Input/output parameter.
+ * @return Return value.
+ * @details Calls: ensureAPIInitialized(), set_fn(), spdlog::error(), spdlog::debug(), fn(), lock(), find(), end().
  */
 int llama_lora_adapter_remove(struct llama_context* ctx, void* adapter) {
     if (!g_lora_api_override_active) {
@@ -375,10 +382,10 @@ int llama_lora_adapter_remove(struct llama_context* ctx, void* adapter) {
 }
 
 /**
- * @brief Clear all LoRA adapters from context (modern API)
- * 
- * @param ctx Context to clear adapters from
- * @return 0 on success, non-zero on error
+ * @brief Llama lora adapter clear.
+ * @param[in,out] ctx Input/output parameter.
+ * @return Return value.
+ * @details Calls: ensureAPIInitialized(), spdlog::error(), lock(), find(), end(), std::move(), erase(), empty().
  */
 int llama_lora_adapter_clear(struct llama_context* ctx) {
     if (!g_lora_api_override_active) {
@@ -439,9 +446,9 @@ int llama_lora_adapter_clear(struct llama_context* ctx) {
 }
 
 /**
- * @brief Free a LoRA adapter handle (modern API)
- * 
- * @param adapter Adapter handle to free
+ * @brief Llama lora adapter free.
+ * @param[in,out] adapter Input/output parameter.
+ * @details Calls: ensureAPIInitialized(), spdlog::warn(), spdlog::debug(), fn().
  */
 void llama_lora_adapter_free(void* adapter) {
     if (!g_lora_api_override_active) {
@@ -469,9 +476,9 @@ void llama_lora_adapter_free(void* adapter) {
 }
 
 /**
- * @brief Check if LoRA API is available at runtime
- * 
- * @return true if LoRA functions are available, false otherwise
+ * @brief Themis llama lora available.
+ * @return True when the operation succeeds.
+ * @details Calls: ensureAPIInitialized().
  */
 bool themis_llama_lora_available() {
     if (!g_lora_api_override_active) {
@@ -482,18 +489,12 @@ bool themis_llama_lora_available() {
 }
 
 /**
- * @brief Apply LoRA adapter with integer handle (compatibility overload)
- * 
- * This overload is used by MultiLoRAManager which stores adapter handles as integers.
- * It casts the integer back to a void* pointer for the actual API call.
- * 
- * @param ctx Context to apply adapter to
- * @param adapter_index Integer representation of adapter handle
- * @param scale Scaling factor
- * @return 0 on success, -1 on error
- * 
- * @note This function assumes adapter_index was obtained from a valid adapter handle.
- *       Invalid adapter indices will be detected by llama.cpp and return an error.
+ * @brief Llama lora adapter set.
+ * @param[in,out] ctx Input/output parameter.
+ * @param[in] adapter_index Input parameter.
+ * @param[in] scale Input parameter.
+ * @return Return value.
+ * @details Calls: ensureAPIInitialized(), spdlog::error(), spdlog::debug(), fn().
  */
 int llama_lora_adapter_set(struct llama_context* ctx, int adapter_index, float scale) {
     if (!g_lora_api_override_active) {
@@ -549,16 +550,12 @@ int llama_lora_adapter_set(struct llama_context* ctx, int adapter_index, float s
 }
 
 /**
- * @brief Inject LoRA API function pointers for testing.
- *
- * Overrides the runtime-detected (dlsym) function pointers so that unit tests
- * can exercise all LoRA code paths without a real llama.cpp build that exports
- * the LoRA API.  Pass nullptr for all parameters to revert to the detected path.
- *
- * @note Call before any other LoRA function.  Not thread-safe — intended for
- *       test set-up only.
- * @note Parameters are passed as void* to avoid a llama.h dependency in callers.
- *       Internally they are reinterpret_cast to the correct function pointer types.
+ * @brief Themis lora inject api functions.
+ * @param[in,out] init_fn Input/output parameter.
+ * @param[in,out] set_fn Input/output parameter.
+ * @param[in,out] remove_fn Input/output parameter.
+ * @param[in,out] clear_fn Input/output parameter.
+ * @param[in,out] free_fn Input/output parameter.
  */
 void themis_lora_inject_api_functions(
     void* init_fn,

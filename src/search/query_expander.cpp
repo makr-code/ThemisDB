@@ -38,6 +38,12 @@ QueryExpander::QueryExpander(const Config& config) : config_(config) {
 // Dictionary management
 // ============================================================================
 
+/**
+ * @brief Add Synonyms.
+ * @param[in] term Input parameter.
+ * @param[in] synonyms Input parameter.
+ * @details Calls: toLower(), std::find(), begin(), end(), push_back().
+ */
 void QueryExpander::addSynonyms(const std::string& term,
                                  const std::vector<std::string>& synonyms) {
     const std::string key = toLower(term);
@@ -51,6 +57,11 @@ void QueryExpander::addSynonyms(const std::string& term,
     }
 }
 
+/**
+ * @brief Add Vocabulary.
+ * @param[in] words Input parameter.
+ * @details Calls: insert(), toLower().
+ */
 void QueryExpander::addVocabulary(const std::vector<std::string>& words) {
     for (const auto& w : words) {
         vocabulary_.insert(toLower(w));
@@ -424,6 +435,12 @@ std::string QueryExpander::relaxQuery(const std::string& query) const {
 // Private helpers
 // ============================================================================
 
+/**
+ * @brief Tokenize.
+ * @param[in] text Input parameter.
+ * @return Return value.
+ * @details Calls: iss(), std::isalnum(), std::tolower(), empty(), push_back().
+ */
 std::vector<std::string> QueryExpander::tokenize(const std::string& text) {
     std::vector<std::string> tokens;
     std::istringstream iss(text);
@@ -443,6 +460,12 @@ std::vector<std::string> QueryExpander::tokenize(const std::string& text) {
     return tokens;
 }
 
+/**
+ * @brief To Lower.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Calls: std::tolower().
+ */
 std::string QueryExpander::toLower(const std::string& s) {
     std::string result = s;
     for (char& c : result) {
@@ -451,6 +474,13 @@ std::string QueryExpander::toLower(const std::string& s) {
     return result;
 }
 
+/**
+ * @brief Edit Distance.
+ * @param[in] a Input parameter.
+ * @param[in] b Input parameter.
+ * @return Return value.
+ * @details Calls: size(), std::abs(), prev(), curr(), std::min(), std::swap().
+ */
 int QueryExpander::editDistance(const std::string& a, const std::string& b) {
     const size_t la = a.size(), lb = b.size();
     // Fast early exits

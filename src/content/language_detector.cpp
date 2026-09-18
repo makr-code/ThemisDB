@@ -81,6 +81,12 @@ struct ScriptCounts {
     size_t cjk      = 0;
 };
 
+/**
+ * @brief Count Script Bytes.
+ * @param[in] text Input parameter.
+ * @return Return value.
+ * @details Calls: size().
+ */
 ScriptCounts countScriptBytes(std::string_view text) {
     ScriptCounts c;
     for (size_t i = 0; i + 1 < text.size(); ++i) {
@@ -106,8 +112,12 @@ ScriptCounts countScriptBytes(std::string_view text) {
     return c;
 }
 
-// Convert to lowercase ASCII in-place (leaves non-ASCII bytes unchanged so
-// that script detection still works on the raw bytes).
+/**
+ * @brief Convert to lowercase ASCII in-place (leaves non-ASCII bytes unchanged so that script detection still works on the raw bytes).
+ * @param[in] text Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), std::tolower().
+ */
 std::string toLower(std::string_view text) {
     std::string lower = {};
     lower.reserve(text.size() + 2);
@@ -129,31 +139,16 @@ std::string toLower(std::string_view text) {
 
 namespace {
 
-/// Minimum fraction of script-specific bytes to trigger a non-Latin
-/// fast-path (e.g. Cyrillic, Arabic, CJK).  A value of 0.10 means at
-/// least 10 % of raw bytes must belong to the target script.
 constexpr float kScriptFractionThreshold = 0.10f;
 
-/// Lower threshold for Japanese Hiragana/Katakana: these blocks are more
-/// densely packed (each character is 3 UTF-8 bytes) so a lower fraction
-/// suffices for reliable detection.
 constexpr float kHiraganaFractionThreshold = 0.05f;
 
-/// Confidence multiplier for non-Latin scripts based on script fraction.
-/// A fraction at threshold (10 %) yields conf = 0.4, rising to 1.0 at 25 %.
 constexpr float kScriptConfidenceMultiplier = 4.0f;
 
-/// Higher multiplier for Hiragana because the block is more compact.
 constexpr float kHiraganaConfidenceMultiplier = 8.0f;
 
-/// Normalisation divisor for the Latin stop-word confidence formula.
-/// A richly single-language Latin text of ~50–100 words typically scores
-/// 8–15 indicator hits, so dividing by 8 maps a "confident" detection to
-/// raw_conf ≥ 1.0 (= saturated confidence ≈ 0.5 after sigmoid).
 constexpr float kHitsNormalisationDivisor = 8.0f;
 
-/// Confidence penalty factor applied when fewer than 2 indicator words were
-/// matched (single-word coincidence; result is unreliable).
 constexpr float kLowHitsPenalty = 0.4f;
 
 } // namespace

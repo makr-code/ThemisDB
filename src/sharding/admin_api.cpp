@@ -30,38 +30,87 @@ AdminAPI::AdminAPI(const Config& config)
     : config_(config) {
 }
 
+/**
+ * @brief Register Topology Handler.
+ * @param[in] handler Input parameter.
+ * @details Implements registerTopologyHandler without additional internal calls.
+ */
 void AdminAPI::registerTopologyHandler(RequestHandler handler) {
     topology_handler_ = handler;
 }
 
+/**
+ * @brief Register Rebalance Handler.
+ * @param[in] handler Input parameter.
+ * @details Implements registerRebalanceHandler without additional internal calls.
+ */
 void AdminAPI::registerRebalanceHandler(RequestHandler handler) {
     rebalance_handler_ = handler;
 }
 
+/**
+ * @brief Register Health Handler.
+ * @param[in] handler Input parameter.
+ * @details Implements registerHealthHandler without additional internal calls.
+ */
 void AdminAPI::registerHealthHandler(RequestHandler handler) {
     health_handler_ = handler;
 }
 
+/**
+ * @brief Register Stats Handler.
+ * @param[in] handler Input parameter.
+ * @details Implements registerStatsHandler without additional internal calls.
+ */
 void AdminAPI::registerStatsHandler(RequestHandler handler) {
     stats_handler_ = handler;
 }
 
+/**
+ * @brief Register Repair Handler.
+ * @param[in] handler Input parameter.
+ * @details Implements registerRepairHandler without additional internal calls.
+ */
 void AdminAPI::registerRepairHandler(RequestHandler handler) {
     repair_handler_ = handler;
 }
 
+/**
+ * @brief Register Migrate Hardware Handler.
+ * @param[in] handler Input parameter.
+ * @details Implements registerMigrateHardwareHandler without additional internal calls.
+ */
 void AdminAPI::registerMigrateHardwareHandler(RequestHandler handler) {
     migrate_hardware_handler_ = handler;
 }
 
+/**
+ * @brief Set Migration Manager.
+ * @param[in] mgr Input parameter.
+ * @details Calls: std::move().
+ */
 void AdminAPI::setMigrationManager(std::shared_ptr<HardwareMigrationManager> mgr) {
     migration_manager_ = std::move(mgr);
 }
 
+/**
+ * @brief Set Repair Engine.
+ * @param[in] engine Input parameter.
+ * @details Calls: std::move().
+ */
 void AdminAPI::setRepairEngine(std::shared_ptr<ShardRepairEngine> engine) {
     repair_engine_ = std::move(engine);
 }
 
+/**
+ * @brief Handle Request.
+ * @param[in] method Input parameter.
+ * @param[in] path Input parameter.
+ * @param[in] body Input parameter.
+ * @param[in] operator_cert Input parameter.
+ * @return Return value.
+ * @details Calls: authorizeRequest(), createErrorResponse(), auditLog(), topology_handler_(), find(), rebalance_handler_(), health_handler_(), buildRepairHealthJson().
+ */
 nlohmann::json AdminAPI::handleRequest(const std::string& method, 
                                          const std::string& path,
                                          const nlohmann::json& body,
@@ -148,6 +197,12 @@ nlohmann::json AdminAPI::handleRequest(const std::string& method,
     return createErrorResponse(404, "Endpoint not found");
 }
 
+/**
+ * @brief Authorize Request.
+ * @param[in] operator_cert Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), BIO_new_mem_buf(), data(), size(), PEM_read_bio_X509(), BIO_free(), X509_cmp_current_time(), X509_get0_notBefore().
+ */
 bool AdminAPI::authorizeRequest(const std::string& operator_cert) {
     // Test/development mode: signature verification is disabled, but an
     // explicit non-empty operator identity is still required.
@@ -245,6 +300,13 @@ bool AdminAPI::authorizeRequest(const std::string& operator_cert) {
     return has_admin_cap;
 }
 
+/**
+ * @brief Audit Log.
+ * @param[in] method Input parameter.
+ * @param[in] path Input parameter.
+ * @param[in] operator_cert Input parameter.
+ * @details Calls: std::chrono::system_clock::now(), std::chrono::system_clock::to_time_t(), log_file(), is_open(), std::put_time(), std::localtime(), substr().
+ */
 void AdminAPI::auditLog(const std::string& method, const std::string& path, const std::string& operator_cert) {
     if (!config_.enable_audit_log) {
       return;
@@ -263,6 +325,13 @@ void AdminAPI::auditLog(const std::string& method, const std::string& path, cons
     }
 }
 
+/**
+ * @brief Create Error Response.
+ * @param[in] code Input parameter.
+ * @param[in] message Input parameter.
+ * @return Return value.
+ * @details Implements createErrorResponse without additional internal calls.
+ */
 nlohmann::json AdminAPI::createErrorResponse(int code, const std::string& message) {
     return {
         {"success", false},
@@ -324,6 +393,13 @@ nlohmann::json AdminAPI::buildRepairHealthJson() const {
     return repair;
 }
 
+/**
+ * @brief Handle Migrate Hardware.
+ * @param[in] shard_id Identifier of the shard.
+ * @param[in] body Input parameter.
+ * @return Return value.
+ * @details Calls: migrate_hardware_handler_(), createErrorResponse(), empty(), contains(), is_string(), replaceEndpoint().
+ */
 nlohmann::json AdminAPI::handleMigrateHardware(const std::string& shard_id,
                                                   const nlohmann::json& body) {
     // Custom handler takes precedence over the built-in path.

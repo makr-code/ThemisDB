@@ -39,10 +39,20 @@ namespace sharding {
 // VectorClock Implementation
 // ==============================================================================
 
+/**
+ * @brief Increment.
+ * @param[in] shard_id Identifier of the shard.
+ * @details Implements increment without additional internal calls.
+ */
 void VectorClock::increment(const std::string& shard_id) {
     clocks_[shard_id]++;
 }
 
+/**
+ * @brief Merge.
+ * @param[in] other Input parameter.
+ * @details Calls: std::max().
+ */
 void VectorClock::merge(const VectorClock& other) {
     for (const auto& [shard_id, clock_value] : other.clocks_) {
         clocks_[shard_id] = std::max(clocks_[shard_id], clock_value);
@@ -91,6 +101,12 @@ uint64_t VectorClock::get(const std::string& shard_id) const {
     return (it != clocks_.end()) ? it->second : 0;
 }
 
+/**
+ * @brief Set.
+ * @param[in] shard_id Identifier of the shard.
+ * @param[in] value Input parameter.
+ * @details Implements set without additional internal calls.
+ */
 void VectorClock::set(const std::string& shard_id, uint64_t value) {
     clocks_[shard_id] = value;
 }
@@ -103,6 +119,12 @@ proto::VectorClock VectorClock::toProto() const {
     return proto_clock;
 }
 
+/**
+ * @brief From Proto.
+ * @param[in] proto Input parameter.
+ * @return Return value.
+ * @details Calls: clocks(), set().
+ */
 VectorClock VectorClock::fromProto(const proto::VectorClock& proto) {
     VectorClock clock;
     for (const auto& [shard_id, value] : proto.clocks()) {
@@ -127,6 +149,12 @@ proto::ConfigUpdate ConfigUpdate::toProto() const {
     return proto_update;
 }
 
+/**
+ * @brief From Proto.
+ * @param[in] proto Input parameter.
+ * @return Return value.
+ * @details Calls: update_id(), config_key(), config_value(), timestamp_ns(), vector_clock(), originator_shard_id(), ttl().
+ */
 ConfigUpdate ConfigUpdate::fromProto(const proto::ConfigUpdate& proto) {
     ConfigUpdate update;
     update.update_id = proto.update_id();
@@ -168,6 +196,12 @@ proto::ResourceSnapshot ResourceSnapshot::toProto() const {
     return proto_snapshot;
 }
 
+/**
+ * @brief From Proto.
+ * @param[in] proto Input parameter.
+ * @return Return value.
+ * @details Calls: shard_id(), timestamp_ns(), available_memory_bytes(), total_memory_bytes(), available_cpu_cores(), total_cpu_cores(), available_disk_bytes(), total_disk_bytes().
+ */
 ResourceSnapshot ResourceSnapshot::fromProto(const proto::ResourceSnapshot& proto) {
     ResourceSnapshot snapshot;
     snapshot.shard_id = proto.shard_id();
@@ -217,6 +251,11 @@ GossipConfigManager::GossipConfigManager(
     
     // Initialize local clock
     {
+        /**
+         * @brief Lock.
+         * @param[in] clock_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(clock_mutex_);
         local_clock_.set(config_.local_shard_id, 0);
     }
@@ -226,6 +265,10 @@ GossipConfigManager::~GossipConfigManager() {
     stop();
 }
 
+/**
+ * @brief Start.
+ * @details Calls: lifecycle_lock(), load(), store(), std::thread(), joinable(), themis::utils::joinThreadWithin(), spdlog::warn().
+ */
 void GossipConfigManager::start() {
     std::lock_guard<std::mutex> lifecycle_lock(lifecycle_mutex_);
 
@@ -263,6 +306,10 @@ void GossipConfigManager::start() {
     }
 }
 
+/**
+ * @brief Stop.
+ * @details Calls: lifecycle_lock(), load(), store(), joinable(), themis::utils::joinThreadWithin(), spdlog::warn().
+ */
 void GossipConfigManager::stop() {
     std::lock_guard<std::mutex> lifecycle_lock(lifecycle_mutex_);
 
@@ -287,6 +334,13 @@ void GossipConfigManager::stop() {
     }
 }
 
+/**
+ * @brief Publish Config Update.
+ * @param[in] config_key Input parameter.
+ * @param[in] config_value Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), spdlog::error(), generateUpdateId(), std::chrono::system_clock::now(), time_since_epoch(), count(), lock(), increment().
+ */
 std::string GossipConfigManager::publishConfigUpdate(
     const std::string& config_key,
     const std::string& config_value
@@ -346,6 +400,11 @@ std::string GossipConfigManager::publishConfigUpdate(
     return update.update_id;
 }
 
+/**
+ * @brief Publish Resource Snapshot.
+ * @param[in] snapshot Input parameter.
+ * @details Calls: empty(), spdlog::error(), handleResourceSnapshot(), selectRandomPeers(), getShard(), sendGossipMessage(), createResourceSnapshotMessage(), recordGossipResourceSnapshot().
+ */
 void GossipConfigManager::publishResourceSnapshot(const ResourceSnapshot& snapshot) {
     // W2-S05: Fail-closed on empty shard_id
     if (snapshot.shard_id.empty()) {
@@ -398,6 +457,12 @@ void GossipConfigManager::publishResourceSnapshot(const ResourceSnapshot& snapsh
     }
 }
 
+/**
+ * @brief Handle Gossip Message.
+ * @param[in] message Input parameter.
+ * @return Return value.
+ * @details Calls: message_type(), empty(), spdlog::error(), set_sender_shard_id(), set_message_type(), sender_shard_id(), spdlog::warn(), recordGossipMessagesReceived().
+ */
 proto::GossipMessage GossipConfigManager::handleGossipMessage(
     const proto::GossipMessage& message
 ) {
@@ -489,39 +554,74 @@ proto::GossipMessage GossipConfigManager::handleGossipMessage(
     return ack;
 }
 
+/**
+ * @brief On Config Update.
+ * @param[in] callback Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void GossipConfigManager::onConfigUpdate(ConfigUpdateCallback callback) {
     std::lock_guard<std::mutex> lock(callback_mutex_);
     config_update_callback_ = std::move(callback);
 }
 
+/**
+ * @brief On Resource Snapshot.
+ * @param[in] callback Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void GossipConfigManager::onResourceSnapshot(ResourceSnapshotCallback callback) {
     std::lock_guard<std::mutex> lock(callback_mutex_);
     resource_snapshot_callback_ = std::move(callback);
 }
 
 std::string GossipConfigManager::getConfig(const std::string& config_key) const {
+    /**
+     * @brief Lock.
+     * @param[in] config_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(config_mutex_);
     auto it = current_config_.find(config_key);
     return (it != current_config_.end()) ? it->second : "";
 }
 
 std::map<std::string, std::string> GossipConfigManager::getAllConfigs() const {
+    /**
+     * @brief Lock.
+     * @param[in] config_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(config_mutex_);
     return current_config_;
 }
 
 ResourceSnapshot GossipConfigManager::getResourceSnapshot(const std::string& shard_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] resource_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(resource_mutex_);
     auto it = resource_snapshots_.find(shard_id);
     return (it != resource_snapshots_.end()) ? it->second : ResourceSnapshot{};
 }
 
 std::map<std::string, ResourceSnapshot> GossipConfigManager::getAllResourceSnapshots() const {
+    /**
+     * @brief Lock.
+     * @param[in] resource_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(resource_mutex_);
     return resource_snapshots_;
 }
 
 VectorClock GossipConfigManager::getVectorClock() const {
+    /**
+     * @brief Lock.
+     * @param[in] clock_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(clock_mutex_);
     return local_clock_;
 }
@@ -540,6 +640,11 @@ GossipConfigManager::Statistics GossipConfigManager::getStatistics() const {
     
     // Calculate average propagation latency
     {
+        /**
+         * @brief Lock.
+         * @param[in] latency_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(latency_mutex_);
         if (!propagation_latencies_ms_.empty()) {
             double sum = 0.0;
@@ -559,6 +664,10 @@ GossipConfigManager::Statistics GossipConfigManager::getStatistics() const {
 // Private Methods
 // ==============================================================================
 
+/**
+ * @brief Gossip Loop.
+ * @details Calls: load(), performGossipRound(), std::chrono::steady_clock::now(), std::chrono::milliseconds(), std::this_thread::sleep_for().
+ */
 void GossipConfigManager::gossipLoop() {
     while (running_.load()) {
         performGossipRound();
@@ -575,6 +684,10 @@ void GossipConfigManager::gossipLoop() {
     }
 }
 
+/**
+ * @brief Anti Entropy Loop.
+ * @details Calls: load(), performAntiEntropyScan(), std::chrono::steady_clock::now(), std::chrono::milliseconds(), std::this_thread::sleep_for().
+ */
 void GossipConfigManager::antiEntropyLoop() {
     while (running_.load()) {
         performAntiEntropyScan();
@@ -591,6 +704,10 @@ void GossipConfigManager::antiEntropyLoop() {
     }
 }
 
+/**
+ * @brief Perform Gossip Round.
+ * @details Calls: recordGossipConfigRound(), selectRandomPeers(), getShard(), sendGossipMessage(), createHeartbeatMessage().
+ */
 void GossipConfigManager::performGossipRound() {
     gossip_rounds_++;
     
@@ -615,6 +732,10 @@ void GossipConfigManager::performGossipRound() {
     }
 }
 
+/**
+ * @brief Perform Anti Entropy Scan.
+ * @details Calls: recordGossipConfigAntiEntropy(), selectRandomPeers(), getShard(), sendGossipMessage(), createAntiEntropyMessage().
+ */
 void GossipConfigManager::performAntiEntropyScan() {
     anti_entropy_syncs_++;
     
@@ -638,6 +759,12 @@ void GossipConfigManager::performAntiEntropyScan() {
     }
 }
 
+/**
+ * @brief Select Random Peers.
+ * @param[in] count Input parameter.
+ * @return Return value.
+ * @details Calls: getAllShards(), push_back(), empty(), gen(), std::shuffle(), begin(), end(), std::min().
+ */
 std::vector<std::string> GossipConfigManager::selectRandomPeers(size_t count) {
     std::vector<std::string> selected;
     
@@ -670,11 +797,22 @@ std::vector<std::string> GossipConfigManager::selectRandomPeers(size_t count) {
     return selected;
 }
 
+/**
+ * @brief Set Gossip Send Function.
+ * @param[in] fn Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void GossipConfigManager::setGossipSendFunction(GossipSendFn fn) {
     std::lock_guard<std::mutex> lock(gossip_send_fn_mutex_);
     gossip_send_fn_ = std::move(fn);
 }
 
+/**
+ * @brief Send Gossip Message.
+ * @param[in] peer_endpoint Input parameter.
+ * @param[in] message Input parameter.
+ * @details Calls: lock(), std::chrono::steady_clock::now(), SerializeToString(), spdlog::warn(), nlohmann::json::binary_t(), begin(), end(), post().
+ */
 void GossipConfigManager::sendGossipMessage(
     const std::string& peer_endpoint,
     const proto::GossipMessage& message
@@ -737,6 +875,11 @@ void GossipConfigManager::sendGossipMessage(
     }
 }
 
+/**
+ * @brief Handle Config Update.
+ * @param[in] update Input parameter.
+ * @details Calls: shouldAcceptUpdate(), lock(), find(), end(), compare(), recordGossipConfigConflict(), size(), empty().
+ */
 void GossipConfigManager::handleConfigUpdate(const ConfigUpdate& update) {
     // Check if we should accept this update
     if (!shouldAcceptUpdate(update)) {
@@ -830,6 +973,11 @@ void GossipConfigManager::handleConfigUpdate(const ConfigUpdate& update) {
     }
 }
 
+/**
+ * @brief Handle Resource Snapshot.
+ * @param[in] snapshot Input parameter.
+ * @details Calls: lock(), find(), end(), recordGossipResourceSnapshot(), resource_snapshot_callback().
+ */
 void GossipConfigManager::handleResourceSnapshot(const ResourceSnapshot& snapshot) {
     {
         std::lock_guard<std::mutex> lock(resource_mutex_);
@@ -862,6 +1010,12 @@ void GossipConfigManager::handleResourceSnapshot(const ResourceSnapshot& snapsho
     }
 }
 
+/**
+ * @brief Should Accept Update.
+ * @param[in] update Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: std::chrono::system_clock::now(), time_since_epoch(), count().
+ */
 bool GossipConfigManager::shouldAcceptUpdate(const ConfigUpdate& update) {
     // Check TTL
     if (update.ttl == 0) {
@@ -893,6 +1047,11 @@ bool GossipConfigManager::shouldAcceptUpdate(const ConfigUpdate& update) {
     return true;
 }
 
+/**
+ * @brief Merge Vector Clock.
+ * @param[in] other Input parameter.
+ * @details Calls: lock(), merge().
+ */
 void GossipConfigManager::mergeVectorClock(const VectorClock& other) {
     std::lock_guard<std::mutex> lock(clock_mutex_);
     local_clock_.merge(other);
@@ -913,6 +1072,11 @@ std::string GossipConfigManager::generateUpdateId() const {
     return ss.str();
 }
 
+/**
+ * @brief Create Heartbeat Message.
+ * @return Return value.
+ * @details Calls: set_sender_shard_id(), set_timestamp_ns(), std::chrono::system_clock::now(), time_since_epoch(), count(), set_message_type(), lock(), mutable_vector_clock().
+ */
 proto::GossipMessage GossipConfigManager::createHeartbeatMessage() {
     proto::GossipMessage message;
     message.set_sender_shard_id(config_.local_shard_id);
@@ -929,6 +1093,12 @@ proto::GossipMessage GossipConfigManager::createHeartbeatMessage() {
     return message;
 }
 
+/**
+ * @brief Create Config Update Message.
+ * @param[in] update Input parameter.
+ * @return Return value.
+ * @details Calls: set_sender_shard_id(), set_timestamp_ns(), std::chrono::system_clock::now(), time_since_epoch(), count(), set_message_type(), lock(), mutable_vector_clock().
+ */
 proto::GossipMessage GossipConfigManager::createConfigUpdateMessage(
     const ConfigUpdate& update
 ) {
@@ -949,6 +1119,12 @@ proto::GossipMessage GossipConfigManager::createConfigUpdateMessage(
     return message;
 }
 
+/**
+ * @brief Create Resource Snapshot Message.
+ * @param[in] snapshot Input parameter.
+ * @return Return value.
+ * @details Calls: set_sender_shard_id(), set_timestamp_ns(), std::chrono::system_clock::now(), time_since_epoch(), count(), set_message_type(), lock(), mutable_vector_clock().
+ */
 proto::GossipMessage GossipConfigManager::createResourceSnapshotMessage(
     const ResourceSnapshot& snapshot
 ) {
@@ -969,6 +1145,11 @@ proto::GossipMessage GossipConfigManager::createResourceSnapshotMessage(
     return message;
 }
 
+/**
+ * @brief Create Anti Entropy Message.
+ * @return Return value.
+ * @details Calls: set_sender_shard_id(), set_timestamp_ns(), std::chrono::system_clock::now(), time_since_epoch(), count(), set_message_type(), lock(), mutable_vector_clock().
+ */
 proto::GossipMessage GossipConfigManager::createAntiEntropyMessage() {
     proto::GossipMessage message;
     message.set_sender_shard_id(config_.local_shard_id);

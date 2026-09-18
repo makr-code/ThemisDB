@@ -61,99 +61,58 @@ namespace llm {
 // § 1  Merge Strategies and Results
 // ============================================================================
 
-/**
- * @brief Merge strategy for aggregating results from multiple subagents.
- */
 enum class SubagentMergeStrategy {
-    /// Return first successful result (lowest latency).
     FIRST_WIN = 0,
 
-    /// Require all subagents to succeed; fail if any fails.
     ALL_SUCCEED = 1,
 
-    /// Aggregate via majority vote (requires structured output).
     MAJORITY_VOTE = 2,
 
-    /// Return result with highest confidence/quality score.
     BEST_SCORE = 3,
 
-    /// Combine results from all subagents (average, concatenate, etc.).
     ENSEMBLE = 4,
 
-    /// Custom merge function (caller-provided).
     CUSTOM = 5,
 };
 
-/**
- * @brief Result from a single subagent in a coordinated inference.
- */
 struct SubagentCoordinatorResult {
-    /// Subagent ID that produced this result.
     std::string subagent_id;
 
-    /// Success flag.
     bool success = false;
 
-    /// Generated output (if successful).
     std::string output;
 
-    /// Error message (if failed).
     std::string error;
 
-    /// Tokens consumed by this subagent.
     size_t tokens_consumed = 0;
 
-    /// Latency for this subagent (ms).
     int latency_ms = 0;
 
-    /// Optional quality score (for BEST_SCORE merge).
-    /// Range [0, 1]; higher = better. May be unset (0.0).
     float quality_score = 0.0f;
 
-    /// Trace ID for observability.
     std::string trace_id;
 };
 
-/**
- * @brief Aggregated result from SubagentCoordinator.
- */
 struct SubagentCoordinatorAggregateResult {
-    /// Overall success: true if merge strategy was satisfied.
     bool success = false;
 
-    /// Merged/final output.
     std::string merged_output;
 
-    /// Human-readable summary of result.
     std::string summary;
 
-    /// Per-subagent results (in same order as request).
     std::vector<SubagentCoordinatorResult> per_subagent_results;
 
-    /// Number of successful subagent inferences.
     size_t num_successful = 0;
 
-    /// Number of failed subagent inferences.
     size_t num_failed = 0;
 
-    /// Total tokens consumed across all subagents.
     size_t total_tokens_consumed = 0;
 
-    /// Wall-clock time for fan-out/fan-in (ms).
     int total_latency_ms = 0;
 
-    /// Merge strategy used.
     SubagentMergeStrategy strategy = SubagentMergeStrategy::FIRST_WIN;
 };
 
-/**
- * @brief Custom merge function signature.
- *
- * Called by the coordinator to merge results when strategy is CUSTOM.
- *
- * @param results Per-subagent results (in request order).
- * @return Merged output string, or empty optional on error.
- */
 using SubagentCustomMergeFn = std::function<std::optional<std::string>(
     const std::vector<SubagentCoordinatorResult>&)>;
 
@@ -161,30 +120,19 @@ using SubagentCustomMergeFn = std::function<std::optional<std::string>(
 // § 2  Coordinator Configuration
 // ============================================================================
 
-/**
- * @brief Coordinator configuration for parallel subagent inference.
- */
 struct SubagentCoordinatorConfig {
-    /// Merge strategy for aggregating results.
     SubagentMergeStrategy strategy = SubagentMergeStrategy::FIRST_WIN;
 
-    /// Custom merge function (used when strategy == CUSTOM).
     SubagentCustomMergeFn custom_merge_fn;
 
-    /// Per-subagent timeout (ms). 0 = use subagent default.
     int timeout_ms = 0;
 
-    /// Correlation context for tracing (optional).
     std::optional<LLMCorrelationContext> correlation_context;
 
-    /// Enable detailed per-subagent logging.
     bool verbose_logging = false;
 
-    /// Fail overall if any subagent fails (vs allowing partial success).
     bool fail_on_any_error = false;
 
-    /// Maximum time to wait for slowest subagent (override per-subagent timeout).
-    /// 0 = no override (use per-subagent timeout).
     int max_total_latency_ms = 0;
 };
 
@@ -192,51 +140,20 @@ struct SubagentCoordinatorConfig {
 // § 3  SubagentCoordinator Interface
 // ============================================================================
 
-/**
- * @brief Coordinator for parallel inference across multiple subagents.
- *
- * Enables distributed inference across independent subagents with merge
- * strategies, partial-failure handling, and result aggregation.
- *
- * ### Usage
- *
- * @code
- *   // Create coordinator
- *   auto coordinator = SubagentCoordinator::create(factory);
- *
- *   // Define config
- *   SubagentCoordinatorConfig config;
- *   config.strategy = SubagentMergeStrategy::FIRST_WIN;
- *   config.timeout_ms = 5000;
- *
- *   // Request to multiple subagents
- *   std::vector<std::string> subagent_ids = {"assistant_1", "analyzer_2", "writer_3"};
- *   InferenceRequest request;
- *   request.prompt = "Summarize the key points";
- *
- *   // Fan-out inference across all subagents
- *   auto result = coordinator->inferMultiple(subagent_ids, request, config);
- *
- *   if (result.success) {
- *       std::cout << "Merged result: " << result.merged_output << std::endl;
- *       std::cout << "Successful: " << result.num_successful
- *                 << " / " << result.per_subagent_results.size() << std::endl;
- *   } else {
- *       std::cout << "Coordination failed: " << result.summary << std::endl;
- *   }
- * @endcode
- */
 class SubagentCoordinator {
 public:
     /**
-     * @brief Create a new subagent coordinator.
-     *
-     * @param factory SubagentFactory for subagent discovery and access.
-     * @return New coordinator instance, or error string.
+     * @brief Create.
+     * @param[in] factory Input parameter.
+     * @return Return value.
      */
     static SubagentResult<std::unique_ptr<SubagentCoordinator>> create(
         std::shared_ptr<SubagentFactory> factory);
 
+    /**
+     * @brief Subagent Coordinator.
+     * @return Return value.
+     */
     virtual ~SubagentCoordinator() = default;
 
     // Non-copyable
@@ -248,22 +165,11 @@ public:
     // ========================================================================
 
     /**
-     * @brief Submit inference request to multiple subagents and collect results.
-     *
-     * Fan-out: submits request to all subagents asynchronously
-     * Fan-in: collects results as they complete
-     * Merge: applies merge strategy to aggregate results
-     *
-     * @param subagent_ids  Vector of subagent IDs to include.
-     * @param request       Inference request.
-     * @param config        Coordinator configuration (merge strategy, timeout, etc.).
-     * @return Aggregated result with per-subagent details.
-     *
-     * Error cases:
-     *   - Subagent not found
-     *   - Subagent not in READY state
-     *   - All subagents fail (when fail_on_any_error is true)
-     *   - Merge strategy fails
+     * @brief Infer Multiple.
+     * @param[in] subagent_ids Input parameter.
+     * @param[in] request Input parameter.
+     * @param[in] config Input parameter.
+     * @return Return value.
      */
     virtual SubagentCoordinatorAggregateResult inferMultiple(
         const std::vector<std::string>& subagent_ids,
@@ -271,14 +177,11 @@ public:
         const SubagentCoordinatorConfig& config) = 0;
 
     /**
-     * @brief Submit batch inference to multiple subagents.
-     *
-     * Each request in the batch is submitted to all subagents and merged.
-     *
-     * @param subagent_ids Vector of subagent IDs.
-     * @param requests     Vector of inference requests.
-     * @param config       Coordinator configuration.
-     * @return Vector of aggregated results (same order as input requests).
+     * @brief Infer Multiple Batch.
+     * @param[in] subagent_ids Input parameter.
+     * @param[in] requests Input parameter.
+     * @param[in] config Input parameter.
+     * @return Return value.
      */
     virtual std::vector<SubagentCoordinatorAggregateResult> inferMultipleBatch(
         const std::vector<std::string>& subagent_ids,
@@ -289,11 +192,6 @@ public:
     // Observability and Diagnostics
     // ========================================================================
 
-    /**
-     * @brief Get detailed diagnostics from last coordination operation.
-     *
-     * Returns logs, timing, and failure details for debugging.
-     */
     struct CoordinationDiagnostics {
         std::string summary;                          ///< Summary of operation
         std::vector<std::string> per_subagent_logs;   ///< Detailed logs per subagent
@@ -305,7 +203,8 @@ public:
     };
 
     /**
-     * @brief Get diagnostics from last coordination operation.
+     * @brief Get Last Diagnostics.
+     * @return Return value.
      */
     virtual CoordinationDiagnostics getLastDiagnostics() = 0;
 
@@ -313,9 +212,6 @@ public:
     // Statistics
     // ========================================================================
 
-    /**
-     * @brief Coordinator-level statistics.
-     */
     struct CoordinatorStats {
         uint64_t total_coordinations = 0;        ///< Total coordination operations
         uint64_t successful_coordinations = 0;  ///< Successful operations
@@ -326,12 +222,13 @@ public:
     };
 
     /**
-     * @brief Get coordinator statistics.
+     * @brief Get Stats.
+     * @return Return value.
      */
     virtual CoordinatorStats getStats() = 0;
 
     /**
-     * @brief Reset statistics counters.
+     * @brief Reset Stats.
      */
     virtual void resetStats() = 0;
 

@@ -65,7 +65,11 @@ namespace security {
 
 namespace {
 
-/// Collect and return the latest OpenSSL error string.
+/**
+ * @brief Ossl error.
+ * @return Return value.
+ * @details Calls: ERR_peek_last_error(), ERR_error_string_n(), ERR_clear_error(), std::string().
+ */
 static std::string ossl_error() {
     unsigned long code = ERR_peek_last_error();
     if (code == 0) {
@@ -86,13 +90,12 @@ using EVP_KDF_CTX_ptr    = std::unique_ptr<EVP_KDF_CTX,    decltype(&EVP_KDF_CTX
 using EVP_KDF_ptr        = std::unique_ptr<EVP_KDF,        decltype(&EVP_KDF_free)>;
 
 /**
- * @brief HKDF-SHA256 extract-and-expand.
- *
- * @param ikm   Input key material
- * @param salt  Optional salt (may be empty → zeroed salt)
- * @param info  Context / label bytes
- * @param out_len Desired output length (bytes)
- * @return Derived key material of length out_len
+ * @brief Hkdf sha256.
+ * @param[in] ikm Input parameter.
+ * @param[in] salt Input parameter.
+ * @param[in] info Input parameter.
+ * @param[in] out_len Input parameter.
+ * @return Return value.
  */
 static std::vector<uint8_t> hkdf_sha256(
     const std::vector<uint8_t>& ikm,
@@ -110,6 +113,11 @@ static std::vector<uint8_t> hkdf_sha256(
       throw std::runtime_error("HKDF: ctx alloc failed: " + ossl_error());
     }
 
+    /**
+     * @brief Out.
+     * @param[in] out_len Input parameter.
+     * @return Return value.
+     */
     std::vector<uint8_t> out(out_len);
 
     // Build params
@@ -142,9 +150,6 @@ static std::vector<uint8_t> hkdf_sha256(
     // RAII wrappers (ctx, kdf) automatically clean up on scope exit
 }
 
-/**
- * @brief Generate 12-byte random IV for AES-256-GCM.
- */
 static std::array<uint8_t, 12> random_iv() {
     std::array<uint8_t, 12> iv{};
     if (RAND_bytes(iv.data(), 12) != 1)
@@ -152,15 +157,6 @@ static std::array<uint8_t, 12> random_iv() {
     return iv;
 }
 
-/**
- * @brief AES-256-GCM authenticated encryption.
- *
- * @param key        32-byte AES key
- * @param iv         12-byte initialization vector
- * @param plaintext  Data to encrypt
- * @param[out] tag   16-byte authentication tag (appended to output)
- * @return Ciphertext bytes
- */
 static std::vector<uint8_t> aes256gcm_encrypt(
     const std::vector<uint8_t>& key,
     const std::array<uint8_t, 12>& iv,
@@ -204,16 +200,6 @@ static std::vector<uint8_t> aes256gcm_encrypt(
     return ct;
 }
 
-/**
- * @brief AES-256-GCM authenticated decryption.
- *
- * @param key        32-byte AES key
- * @param iv         12-byte initialization vector
- * @param ciphertext Ciphertext bytes
- * @param tag        16-byte GCM authentication tag
- * @return Plaintext bytes
- * @throws std::runtime_error if authentication fails
- */
 static std::vector<uint8_t> aes256gcm_decrypt(
     const std::vector<uint8_t>& key,
     const std::array<uint8_t, 12>& iv,
@@ -263,9 +249,6 @@ static std::vector<uint8_t> aes256gcm_decrypt(
 // ── liboqs KyberKEM helpers ────────────────────────────────────────────────
 namespace {
 
-/// @brief Select the liboqs algorithm name for a given Kyber security level.
-/// @param level  SecurityLevel enum value (KYBER_512, KYBER_768, KYBER_1024).
-/// @return Null-terminated algorithm name string for OQS_KEM_new().
 static const char* kyberAlgName(KyberKEM::SecurityLevel level) noexcept {
     switch (level) {
         case KyberKEM::SecurityLevel::KYBER_512:  return OQS_KEM_alg_kyber_512;
@@ -275,7 +258,6 @@ static const char* kyberAlgName(KyberKEM::SecurityLevel level) noexcept {
     }
 }
 
-/// @brief RAII wrapper around OQS_KEM.
 struct OqsKemRAII {
     OQS_KEM* kem;
     explicit OqsKemRAII(const char* alg) : kem(OQS_KEM_new(alg)) {}
@@ -287,11 +269,6 @@ struct OqsKemRAII {
 } // anonymous namespace
 #endif // THEMIS_HAS_OQS
 
-/**
- * @brief Generate a fresh X25519 key pair.
- *
- * @return {public_key_bytes (32), private_key_bytes (32)}
- */
 static std::pair<std::vector<uint8_t>, std::vector<uint8_t>> x25519_keygen() {
     EVP_PKEY_CTX_ptr kctx(EVP_PKEY_CTX_new_id(EVP_PKEY_X25519, nullptr), &EVP_PKEY_CTX_free);
     if (!kctx) {
@@ -313,11 +290,10 @@ static std::pair<std::vector<uint8_t>, std::vector<uint8_t>> x25519_keygen() {
 }
 
 /**
- * @brief Perform X25519 ECDH to derive a shared secret.
- *
- * @param our_private_key_bytes  32-byte private key
- * @param peer_public_key_bytes  32-byte peer public key
- * @return 32-byte raw shared secret (pass through HKDF before use as key)
+ * @brief X25519 ecdh.
+ * @param[in] our_private_key_bytes Input parameter.
+ * @param[in] peer_public_key_bytes Input parameter.
+ * @return Return value.
  */
 static std::vector<uint8_t> x25519_ecdh(
     const std::vector<uint8_t>& our_private_key_bytes,
@@ -349,6 +325,11 @@ static std::vector<uint8_t> x25519_ecdh(
         throw std::runtime_error("x25519_ecdh: set_peer: " + ossl_error());
     size_t secret_len = 0;
     EVP_PKEY_derive(ctx.get(), nullptr, &secret_len);
+    /**
+     * @brief Secret.
+     * @param[in] secret_len Input parameter.
+     * @return Return value.
+     */
     std::vector<uint8_t> secret(secret_len);
     if (EVP_PKEY_derive(ctx.get(), secret.data(), &secret_len) <= 0)
         throw std::runtime_error("x25519_ecdh: derive: " + ossl_error());
@@ -357,9 +338,6 @@ static std::vector<uint8_t> x25519_ecdh(
 
 // ─── Ed25519 helpers (DilithiumSigner simulation) ────────────────────────
 
-/**
- * @brief Generate an Ed25519 key pair.
- */
 static std::pair<std::vector<uint8_t>, std::vector<uint8_t>> ed25519_keygen() {
     EVP_PKEY_CTX_ptr kctx(EVP_PKEY_CTX_new_id(EVP_PKEY_ED25519, nullptr), &EVP_PKEY_CTX_free);
     if (!kctx) {
@@ -381,7 +359,10 @@ static std::pair<std::vector<uint8_t>, std::vector<uint8_t>> ed25519_keygen() {
 }
 
 /**
- * @brief Sign a message with Ed25519.
+ * @brief Ed25519 sign.
+ * @param[in] message Input parameter.
+ * @param[in] secret_key Input parameter.
+ * @return Return value.
  */
 static std::vector<uint8_t> ed25519_sign(
     const std::vector<uint8_t>& message,
@@ -403,6 +384,11 @@ static std::vector<uint8_t> ed25519_sign(
         throw std::runtime_error("ed25519_sign: DigestSignInit: " + ossl_error());
     size_t sig_len = 0;
     EVP_DigestSign(mctx.get(), nullptr, &sig_len, message.data(),message.size());
+    /**
+     * @brief Sig.
+     * @param[in] sig_len Input parameter.
+     * @return Return value.
+     */
     std::vector<uint8_t> sig(sig_len);
     if (EVP_DigestSign(mctx.get(), sig.data(), &sig_len, message.data(),message.size()) <= 0)
         throw std::runtime_error("ed25519_sign: DigestSign: " + ossl_error());
@@ -411,7 +397,11 @@ static std::vector<uint8_t> ed25519_sign(
 }
 
 /**
- * @brief Verify an Ed25519 signature.
+ * @brief Ed25519 verify.
+ * @param[in] message Input parameter.
+ * @param[in] signature Input parameter.
+ * @param[in] public_key Input parameter.
+ * @return True when the operation succeeds.
  */
 static bool ed25519_verify(
     const std::vector<uint8_t>& message,
@@ -436,7 +426,12 @@ static bool ed25519_verify(
     return rc == 1;
 }
 
-// ─── Little-endian integer serialisation ─────────────────────────────────
+/**
+ * @brief ─── Little-endian integer serialisation ─────────────────────────────────
+ * @param[in,out] buf Input/output parameter.
+ * @param[in] v Input parameter.
+ * @details Calls: push_back().
+ */
 
 static void write_u32_le(std::vector<uint8_t>& buf, uint32_t v) {
     buf.push_back(static_cast<uint8_t>(v & 0xff));
@@ -445,6 +440,12 @@ static void write_u32_le(std::vector<uint8_t>& buf, uint32_t v) {
     buf.push_back(static_cast<uint8_t>((v >> 24) & 0xff));
 }
 
+/**
+ * @brief Read u32 le.
+ * @param[in] p Input parameter.
+ * @return Return value.
+ * @details Implements read_u32_le without additional internal calls.
+ */
 static uint32_t read_u32_le(const uint8_t* p) {
     return static_cast<uint32_t>(p[0])
          | (static_cast<uint32_t>(p[1]) << 8)
@@ -503,10 +504,10 @@ size_t KyberKEM::ciphertextSize() const noexcept {
 }
 
 /**
- * @brief Generate a Kyber key pair.
- *
- * @return KeyPair with public_key and secret_key populated.
- * @throws std::runtime_error on OQS/OpenSSL failure.
+ * @brief Generate Key Pair.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: k(), kyberAlgName(), resize(), OQS_KEM_keypair(), data(), THEMIS_DEBUG(), size(), x25519_keygen().
  */
 KyberKEM::KeyPair KyberKEM::generateKeyPair() {
 #ifdef THEMIS_HAS_OQS
@@ -531,14 +532,6 @@ KyberKEM::KeyPair KyberKEM::generateKeyPair() {
 #endif
 }
 
-/**
- * @brief Encapsulate a shared secret for a Kyber public key.
- *
- * @param public_key  Recipient's Kyber public key bytes.
- * @return EncapsulationResult with ciphertext and shared_secret.
- * @throws std::invalid_argument on wrong key size.
- * @throws std::runtime_error on OQS/OpenSSL failure.
- */
 KyberKEM::EncapsulationResult
 KyberKEM::encapsulate(const std::vector<uint8_t>& public_key) {
     if (public_key.size() != publicKeySize()) {
@@ -583,15 +576,6 @@ KyberKEM::encapsulate(const std::vector<uint8_t>& public_key) {
 #endif
 }
 
-/**
- * @brief Decapsulate a Kyber ciphertext to recover the shared secret.
- *
- * @param ciphertext  Ciphertext produced by encapsulate().
- * @param secret_key  Recipient's Kyber secret key.
- * @return Shared secret bytes.
- * @throws std::invalid_argument on wrong input sizes.
- * @throws std::runtime_error on OQS/OpenSSL failure.
- */
 std::vector<uint8_t>
 KyberKEM::decapsulate(const std::vector<uint8_t>& ciphertext,
                        const std::vector<uint8_t>& secret_key) {
@@ -638,9 +622,6 @@ KyberKEM::decapsulate(const std::vector<uint8_t>& ciphertext,
 #ifdef THEMIS_HAS_OQS
 namespace {
 
-/// @brief Select the liboqs algorithm name for a given Dilithium security level.
-/// @param level  SecurityLevel enum value (DILITHIUM_2/3/5).
-/// @return Null-terminated algorithm name string for OQS_SIG_new().
 static const char* dilithiumAlgName(DilithiumSigner::SecurityLevel level) noexcept {
     switch (level) {
         case DilithiumSigner::SecurityLevel::DILITHIUM_2: return OQS_SIG_alg_dilithium_2;
@@ -650,7 +631,6 @@ static const char* dilithiumAlgName(DilithiumSigner::SecurityLevel level) noexce
     }
 }
 
-/// @brief RAII wrapper around OQS_SIG.
 struct OqsSigRAII {
     OQS_SIG* sig;
     explicit OqsSigRAII(const char* alg) : sig(OQS_SIG_new(alg)) {}
@@ -682,10 +662,10 @@ DilithiumSigner::DilithiumSigner(DilithiumSigner&&) noexcept = default;
 DilithiumSigner& DilithiumSigner::operator=(DilithiumSigner&&) noexcept = default;
 
 /**
- * @brief Generate a Dilithium key pair.
- *
- * @return KeyPair with public_key and secret_key populated.
- * @throws std::runtime_error on OQS/OpenSSL failure.
+ * @brief Generate Key Pair.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: s(), dilithiumAlgName(), resize(), OQS_SIG_keypair(), data(), THEMIS_DEBUG(), size(), ed25519_keygen().
  */
 DilithiumSigner::KeyPair DilithiumSigner::generateKeyPair() {
 #ifdef THEMIS_HAS_OQS
@@ -710,15 +690,6 @@ DilithiumSigner::KeyPair DilithiumSigner::generateKeyPair() {
 #endif
 }
 
-/**
- * @brief Sign a message with a Dilithium secret key.
- *
- * @param message     Message bytes to sign.
- * @param secret_key  Dilithium secret key.
- * @return Signature bytes.
- * @throws std::invalid_argument on wrong key size (fallback path).
- * @throws std::runtime_error on OQS/OpenSSL failure.
- */
 std::vector<uint8_t>
 DilithiumSigner::sign(const std::vector<uint8_t>& message,
                        const std::vector<uint8_t>& secret_key) {
@@ -754,12 +725,12 @@ DilithiumSigner::sign(const std::vector<uint8_t>& message,
 }
 
 /**
- * @brief Verify a Dilithium signature.
- *
- * @param message     Original message bytes.
- * @param signature   Signature to verify.
- * @param public_key  Signer's Dilithium public key.
- * @return true if valid, false otherwise.
+ * @brief Verify identity and enforce network policies for a request.
+ * @param[in] message Input parameter.
+ * @param[in] signature Input parameter.
+ * @param[in] public_key Input parameter.
+ * @return Verification result.
+ * @details Calls: s(), dilithiumAlgName(), size(), OQS_SIG_verify(), data(), THEMIS_DEBUG(), ed25519_verify().
  */
 bool DilithiumSigner::verify(const std::vector<uint8_t>& message,
                                const std::vector<uint8_t>& signature,
@@ -805,38 +776,89 @@ PostQuantumKeyProvider::PostQuantumKeyProvider(
 
 PostQuantumKeyProvider::~PostQuantumKeyProvider() = default;
 
-// Delegate all standard KeyProvider operations to the classical provider.
+/**
+ * @brief Delegate all standard KeyProvider operations to the classical provider.
+ * @param[in] key_id Identifier of the key.
+ * @return Return value.
+ * @details Implements getKey without additional internal calls.
+ */
 
 std::vector<uint8_t> PostQuantumKeyProvider::getKey(const std::string& key_id) {
     return classical_provider_->getKey(key_id);
 }
 
+/**
+ * @brief Get Key.
+ * @param[in] key_id Identifier of the key.
+ * @param[in] version Input parameter.
+ * @return Return value.
+ * @details Implements getKey without additional internal calls.
+ */
 std::vector<uint8_t> PostQuantumKeyProvider::getKey(const std::string& key_id,
                                                      uint32_t version) {
     return classical_provider_->getKey(key_id, version);
 }
 
+/**
+ * @brief Rotate Key.
+ * @param[in] key_id Identifier of the key.
+ * @return Return value.
+ * @details Implements rotateKey without additional internal calls.
+ */
 uint32_t PostQuantumKeyProvider::rotateKey(const std::string& key_id) {
     return classical_provider_->rotateKey(key_id);
 }
 
+/**
+ * @brief List Keys.
+ * @return Return value.
+ * @details Implements listKeys without additional internal calls.
+ */
 std::vector<KeyMetadata> PostQuantumKeyProvider::listKeys() {
     return classical_provider_->listKeys();
 }
 
+/**
+ * @brief Get Key Metadata.
+ * @param[in] key_id Identifier of the key.
+ * @param[in] version Input parameter.
+ * @return Return value.
+ * @details Implements getKeyMetadata without additional internal calls.
+ */
 KeyMetadata PostQuantumKeyProvider::getKeyMetadata(const std::string& key_id,
                                                     uint32_t version) {
     return classical_provider_->getKeyMetadata(key_id, version);
 }
 
+/**
+ * @brief Delete Key.
+ * @param[in] key_id Identifier of the key.
+ * @param[in] version Input parameter.
+ * @details Implements deleteKey without additional internal calls.
+ */
 void PostQuantumKeyProvider::deleteKey(const std::string& key_id, uint32_t version) {
     classical_provider_->deleteKey(key_id, version);
 }
 
+/**
+ * @brief Has Key.
+ * @param[in] key_id Identifier of the key.
+ * @param[in] version Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements hasKey without additional internal calls.
+ */
 bool PostQuantumKeyProvider::hasKey(const std::string& key_id, uint32_t version) {
     return classical_provider_->hasKey(key_id, version);
 }
 
+/**
+ * @brief Create Key From Bytes.
+ * @param[in] key_id Identifier of the key.
+ * @param[in] key_bytes Input parameter.
+ * @param[in] metadata Input parameter.
+ * @return Return value.
+ * @details Implements createKeyFromBytes without additional internal calls.
+ */
 uint32_t PostQuantumKeyProvider::createKeyFromBytes(const std::string& key_id,
                                                      const std::vector<uint8_t>& key_bytes,
                                                      const KeyMetadata& metadata) {
@@ -1000,6 +1022,12 @@ static const std::array<uint8_t, 256> B64_DEC_TABLE = []() {
     return t;
 }();
 
+/**
+ * @brief B64 enc.
+ * @param[in] data Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), data().
+ */
 static std::string b64_enc(const std::vector<uint8_t>& data) {
     std::string ret = {};
     ret.reserve((data.size() + 2) / 3 * 4);  // Pre-allocate for base64 output
@@ -1026,10 +1054,22 @@ static std::string b64_enc(const std::vector<uint8_t>& data) {
     return ret;
 }
 
+/**
+ * @brief Is b64.
+ * @param[in] c Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: isalnum().
+ */
 static bool is_b64(uint8_t c) {
     return isalnum(c) || c == '+' || c == '/';
 }
 
+/**
+ * @brief B64 dec.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), is_b64(), push_back().
+ */
 static std::vector<uint8_t> b64_dec(const std::string& s) {
     std::vector<uint8_t> ret = {};
 
@@ -1256,7 +1296,6 @@ themis::security::SphincsPlus& themis::security::SphincsPlus::operator=(SphincsP
 
 #ifdef THEMIS_HAS_OQS
 namespace {
-/// @brief Select liboqs SPHINCS+ algorithm by variant.
 static const char* sphincsAlgName(themis::security::SphincsPlus::Variant v) noexcept {
     // SHA2-256s is the recommended conservative parameter set.
     return (v == themis::security::SphincsPlus::Variant::SHAKE_256f)
@@ -1298,13 +1337,10 @@ size_t SphincsPlus::signatureSize() const noexcept {
 }
 
 /**
- * @brief Generate a SPHINCS+ key pair.
- *
- * When THEMIS_HAS_OQS is defined, uses liboqs OQS_SIG_keypair().
- * Otherwise falls back to Ed25519 simulation (PERMANENT FALLBACK).
- *
- * @return KeyPair with public_key and secret_key.
- * @throws std::runtime_error on OQS/OpenSSL failure.
+ * @brief Generate Key Pair.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: lk(), fn(), s(), sphincsAlgName(), resize(), OQS_SIG_keypair(), data(), THEMIS_DEBUG().
  */
 themis::security::SphincsPlus::KeyPair themis::security::SphincsPlus::generateKeyPair() {
     themis::security::SphincsPlus::GenerateKeyPairFn fn;
@@ -1358,13 +1394,13 @@ themis::security::SphincsPlus::KeyPair themis::security::SphincsPlus::generateKe
 }
 
 /**
- * @brief Sign a message with a SPHINCS+ secret key.
- *
- * @param message     Message bytes.
- * @param secret_key  SPHINCS+ secret key.
- * @return Signature bytes (real SPHINCS+ or Ed25519 simulation).
- * @throws std::invalid_argument on wrong key size.
- * @throws std::runtime_error on OQS/OpenSSL failure.
+ * @brief Sign.
+ * @param[in] message Input parameter.
+ * @param[in] secret_key Input parameter.
+ * @return Return value.
+ * @throws std::invalid_argument if an error occurs.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: lk(), fn(), THEMIS_WARN(), size(), secretKeySize(), s(), sphincsAlgName(), sig_buf().
  */
 std::vector<uint8_t> themis::security::SphincsPlus::sign(const std::vector<uint8_t>& message,
                                                          const std::vector<uint8_t>& secret_key) {
@@ -1432,12 +1468,12 @@ std::vector<uint8_t> themis::security::SphincsPlus::sign(const std::vector<uint8
 }
 
 /**
- * @brief Verify a SPHINCS+ signature.
- *
- * @param message     Original message bytes.
- * @param signature   Signature to verify.
- * @param public_key  Signer's SPHINCS+ public key.
- * @return true if valid, false otherwise.
+ * @brief Verify identity and enforce network policies for a request.
+ * @param[in] message Input parameter.
+ * @param[in] signature Input parameter.
+ * @param[in] public_key Input parameter.
+ * @return Verification result.
+ * @details Calls: lk(), fn(), THEMIS_WARN(), size(), publicKeySize(), s(), sphincsAlgName(), OQS_SIG_verify().
  */
 bool themis::security::SphincsPlus::verify(const std::vector<uint8_t>& message,
                                            const std::vector<uint8_t>& signature,
@@ -1494,18 +1530,32 @@ bool themis::security::SphincsPlus::verify(const std::vector<uint8_t>& message,
 #endif
 }
 
-// ── SphincsPlus bridge setters ────────────────────────────────────────────────
+/**
+ * @brief ── SphincsPlus bridge setters ────────────────────────────────────────────────
+ * @param[in] fn Input parameter.
+ * @details Calls: lk(), std::move().
+ */
 
 void themis::security::SphincsPlus::setGenerateKeyPairFn(themis::security::SphincsPlus::GenerateKeyPairFn fn) {
     std::lock_guard<std::mutex> lk(s_sphincs_fn_mutex_);
     s_generate_key_pair_fn_ = std::move(fn);
 }
 
+/**
+ * @brief Set Sign Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lk(), std::move().
+ */
 void themis::security::SphincsPlus::setSignFn(themis::security::SphincsPlus::SignFn fn) {
     std::lock_guard<std::mutex> lk(s_sphincs_fn_mutex_);
     s_sign_fn_ = std::move(fn);
 }
 
+/**
+ * @brief Set Verify Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lk(), std::move().
+ */
 void themis::security::SphincsPlus::setVerifyFn(themis::security::SphincsPlus::VerifyFn fn) {
     std::lock_guard<std::mutex> lk(s_sphincs_fn_mutex_);
     s_verify_fn_ = std::move(fn);

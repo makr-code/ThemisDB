@@ -26,12 +26,18 @@ static constexpr double kTilePi         = 3.14159265358979323846;
 static constexpr double kMercatorMaxLat = 85.05112877980659; // atan(sinh(π)) in degrees
 static constexpr uint32_t kMaxZoom      = 22;
 
-/// Clamp value to [lo, hi].
 static inline double clamp(double v, double lo, double hi) noexcept {
     return v < lo ? lo : (v > hi ? hi : v);
 }
 
-/// Replace all (non-overlapping) occurrences of `from` with `to` in `s`.
+/**
+ * @brief Replace All.
+ * @param[in] s Input parameter.
+ * @param[in] from Input parameter.
+ * @param[in] to Input parameter.
+ * @return Return value.
+ * @details Calls: find(), replace(), size().
+ */
 static std::string replaceAll(std::string s, const std::string &from, const std::string &to) {
     std::string::size_type pos = 0;
     while ((pos = s.find(from, pos)) != std::string::npos) {
@@ -107,6 +113,13 @@ MBR tileToBBox(const TileCoord &tile) noexcept {
 // formatTileUrl
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Format Tile Url.
+ * @param[in] url_template Input parameter.
+ * @param[in] tile Input parameter.
+ * @return Return value.
+ * @details Calls: replaceAll(), std::to_string().
+ */
 std::string formatTileUrl(const std::string &url_template, const TileCoord &tile) {
     std::string url = url_template;
     url             = replaceAll(url, "{z}", std::to_string(tile.zoom));
@@ -119,6 +132,13 @@ std::string formatTileUrl(const std::string &url_template, const TileCoord &tile
 // tilesForBBox
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Tiles For BBox.
+ * @param[in] bbox Input parameter.
+ * @param[in] zoom Input parameter.
+ * @return Return value.
+ * @details Calls: clamp(), latLonToTile(), reserve(), push_back().
+ */
 std::vector<TileCoord> tilesForBBox(const MBR &bbox, uint32_t zoom) {
     if (zoom > kMaxZoom)
         zoom = kMaxZoom;
@@ -158,13 +178,6 @@ std::vector<TileCoord> tilesForBBox(const MBR &bbox, uint32_t zoom) {
 
 namespace {
 
-/// Project a WGS84 coordinate into tile-local pixel space.
-/// @param lon       Longitude in degrees.
-/// @param lat       Latitude  in degrees.
-/// @param bbox      Tile bounding box.
-/// @param extent    Tile resolution (pixels).
-/// @param px_out    Output pixel x (column, [0, extent]).
-/// @param py_out    Output pixel y (row,    [0, extent]).
 static void projectToTilePixels(double lon, double lat, const MBR &bbox, uint32_t extent, double &px_out,
                                 double &py_out) noexcept {
     const double tile_w = bbox.maxx - bbox.minx;
@@ -178,18 +191,24 @@ static void projectToTilePixels(double lon, double lat, const MBR &bbox, uint32_
     py_out = (tile_h > 0.0) ? ((bbox.maxy - lat) / tile_h * ext) : 0.0;
 }
 
-/// Clip a coordinate to [0, extent].
 static inline double clipExtent(double v, double extent) noexcept {
     return clamp(v, 0.0, extent);
 }
 
-/// Return true when (lon, lat) is inside or on the boundary of `bbox`.
 static inline bool inBBox(double lon, double lat, const MBR &bbox) noexcept {
     return lon >= bbox.minx && lon <= bbox.maxx && lat >= bbox.miny && lat <= bbox.maxy;
 }
 
 } // anonymous namespace
 
+/**
+ * @brief Encode Vector Tile.
+ * @param[in] tile Input parameter.
+ * @param[in] geometries Input parameter.
+ * @param[in] tile_extent Input parameter.
+ * @return Return value.
+ * @details Calls: tileToBBox(), empty(), front(), inBBox(), projectToTilePixels(), projected(), emplace_back(), clipExtent().
+ */
 VectorTileResult encodeVectorTile(const TileCoord &tile, const std::vector<GeometryInfo> &geometries,
                                   uint32_t tile_extent) {
     VectorTileResult result;

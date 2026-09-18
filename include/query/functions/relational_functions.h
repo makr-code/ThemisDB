@@ -23,46 +23,11 @@ namespace themis {
 namespace query {
 namespace functions {
 
-/**
- * @brief Relational/SQL Functions for AQL
- * 
- * Provides SQL-compatible functions for relational operations:
- * 
- * ## Categories
- * 
- * ### Aggregation Functions
- * - COUNT_DISTINCT, GROUP_CONCAT, COLLECT
- * - STDDEV, VARIANCE, MEDIAN, PERCENTILE
- * - FIRST_VALUE, LAST_VALUE, NTH_VALUE
- * 
- * ### Set Operations
- * - DISTINCT, EXCEPT, INTERSECT_ALL, UNION_ALL
- * 
- * ### Conditional
- * - COALESCE, NULLIF, GREATEST, LEAST
- * - CASE_WHEN (as function), IF, IIF
- * 
- * ### Join Helpers
- * - INNER_JOIN, LEFT_JOIN, FULL_JOIN (array-based)
- * - LOOKUP, CROSS_PRODUCT
- * 
- * ### Window Function Helpers
- * - ROW_NUMBER, RANK, DENSE_RANK
- * - LAG, LEAD, NTILE
- * - RUNNING_SUM, RUNNING_AVG
- * 
- * ### Grouping
- * - GROUP_BY, HAVING_FILTER
- * - ROLLUP, CUBE (multi-dimensional aggregation)
- */
 
 // ============================================================================
 // Aggregation Functions
 // ============================================================================
 
-/**
- * @brief COUNT_DISTINCT(array) - Count unique values
- */
 class CountDistinctFunction : public IFunction {
 public:
     ~CountDistinctFunction() override = default;
@@ -92,9 +57,6 @@ public:
     }
 };
 
-/**
- * @brief GROUP_CONCAT(array, separator) - Concatenate values with separator
- */
 class GroupConcatFunction : public IFunction {
 public:
     ~GroupConcatFunction() override = default;
@@ -136,9 +98,6 @@ public:
     }
 };
 
-/**
- * @brief COLLECT(array, key) - Collect values into groups by key
- */
 class CollectFunction : public IFunction {
 public:
     ~CollectFunction() override = default;
@@ -181,9 +140,6 @@ public:
     }
 };
 
-/**
- * @brief STDDEV(array) - Standard deviation
- */
 class StddevFunction : public IFunction {
 public:
     ~StddevFunction() override = default;
@@ -226,9 +182,6 @@ public:
     }
 };
 
-/**
- * @brief STDDEV_SAMPLE(array) - Sample standard deviation
- */
 class StddevSampleFunction : public IFunction {
 public:
     ~StddevSampleFunction() override = default;
@@ -271,9 +224,6 @@ public:
     }
 };
 
-/**
- * @brief VARIANCE(array) - Population variance
- */
 class VarianceFunction : public IFunction {
 public:
     ~VarianceFunction() override = default;
@@ -316,9 +266,6 @@ public:
     }
 };
 
-/**
- * @brief MEDIAN(array) - Median value
- */
 class MedianFunction : public IFunction {
 public:
     ~MedianFunction() override = default;
@@ -362,9 +309,6 @@ public:
     }
 };
 
-/**
- * @brief PERCENTILE(array, p) - Calculate percentile
- */
 class PercentileFunction : public IFunction {
 public:
     ~PercentileFunction() override = default;
@@ -415,9 +359,6 @@ public:
 // Conditional Functions
 // ============================================================================
 
-/**
- * @brief COALESCE(val1, val2, ...) - Return first non-null value
- */
 class CoalesceFunction : public IFunction {
 public:
     ~CoalesceFunction() override = default;
@@ -453,9 +394,6 @@ public:
     }
 };
 
-/**
- * @brief NULLIF(val1, val2) - Return null if values are equal
- */
 class NullIfFunction : public IFunction {
 public:
     ~NullIfFunction() override = default;
@@ -484,9 +422,6 @@ public:
     }
 };
 
-/**
- * @brief GREATEST(val1, val2, ...) - Return maximum value
- */
 class GreatestFunction : public IFunction {
 public:
     ~GreatestFunction() override = default;
@@ -523,9 +458,6 @@ public:
     }
 };
 
-/**
- * @brief LEAST(val1, val2, ...) - Return minimum value
- */
 class LeastFunction : public IFunction {
 public:
     ~LeastFunction() override = default;
@@ -562,9 +494,6 @@ public:
     }
 };
 
-/**
- * @brief IF(condition, then_value, else_value) - Conditional expression
- */
 class IfFunction : public IFunction {
 public:
     ~IfFunction() override = default;
@@ -596,9 +525,6 @@ public:
 // Join Helper Functions
 // ============================================================================
 
-/**
- * @brief INNER_JOIN(left, right, leftKey, rightKey) - Inner join two arrays
- */
 class InnerJoinFunction : public IFunction {
 public:
     ~InnerJoinFunction() override = default;
@@ -660,9 +586,6 @@ public:
     }
 };
 
-/**
- * @brief LEFT_JOIN(left, right, leftKey, rightKey) - Left outer join
- */
 class LeftJoinFunction : public IFunction {
 public:
     ~LeftJoinFunction() override = default;
@@ -729,9 +652,6 @@ public:
     }
 };
 
-/**
- * @brief LOOKUP(array, key, value) - Find object in array by key value
- */
 class LookupFunction : public IFunction {
 public:
     ~LookupFunction() override = default;
@@ -771,9 +691,6 @@ public:
 // Window Function Helpers
 // ============================================================================
 
-/**
- * @brief ROW_NUMBER(array) - Add row numbers to array
- */
 class RowNumberFunction : public IFunction {
 public:
     ~RowNumberFunction() override = default;
@@ -811,9 +728,6 @@ public:
     }
 };
 
-/**
- * @brief LAG(array, offset, default) - Get previous value in array
- */
 class LagFunction : public IFunction {
 public:
     ~LagFunction() override = default;
@@ -868,9 +782,6 @@ public:
     }
 };
 
-/**
- * @brief LEAD(array, offset, default) - Get next value in array
- */
 class LeadFunction : public IFunction {
 public:
     ~LeadFunction() override = default;
@@ -925,9 +836,6 @@ public:
     }
 };
 
-/**
- * @brief RUNNING_SUM(array, field) - Cumulative sum
- */
 class RunningSumFunction : public IFunction {
 public:
     ~RunningSumFunction() override = default;
@@ -978,9 +886,6 @@ public:
     }
 };
 
-/**
- * @brief NTILE(array, n) - Divide array into n buckets
- */
 class NtileFunction : public IFunction {
 public:
     ~NtileFunction() override = default;
@@ -1037,7 +942,7 @@ public:
 // ============================================================================
 
 /**
- * @brief Register all Relational functions with the registry
+ * @brief Register Relational Functions.
  * @param[in,out] registry Input/output parameter.
  * @details Calls: registerFunction().
  */

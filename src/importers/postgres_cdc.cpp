@@ -30,6 +30,12 @@ PostgreSQLCDC::LogicalDecoder::~LogicalDecoder() {
     cancel();
 }
 
+/**
+ * @brief Create Publication.
+ * @param[in] param Input parameter.
+ * @param[in] param Input parameter.
+ * @return True when the operation succeeds.
+ */
 bool PostgreSQLCDC::LogicalDecoder::createPublication(
     const std::string& /*publication_name*/,
     const std::vector<std::string>& /*tables*/)
@@ -43,6 +49,12 @@ bool PostgreSQLCDC::LogicalDecoder::createPublication(
     return true;
 }
 
+/**
+ * @brief Create Replication Slot.
+ * @param[in] param Input parameter.
+ * @param[in] bool Input parameter.
+ * @return True when the operation succeeds.
+ */
 bool PostgreSQLCDC::LogicalDecoder::createReplicationSlot(
     const std::string& /*slot_name*/,
     bool /*temporary*/)
@@ -52,6 +64,11 @@ bool PostgreSQLCDC::LogicalDecoder::createReplicationSlot(
     return true;
 }
 
+/**
+ * @brief Subscribe To Changes.
+ * @param[in] param Input parameter.
+ * @param[in] on_change Input parameter.
+ */
 void PostgreSQLCDC::LogicalDecoder::subscribeToChanges(
     const std::string& /*slot_name*/,
     const ChangeCallback& on_change)
@@ -72,10 +89,19 @@ void PostgreSQLCDC::LogicalDecoder::subscribeToChanges(
     }
 }
 
+/**
+ * @brief Confirm LSN.
+ * @param[in] lsn Input parameter.
+ * @details Implements confirmLSN without additional internal calls.
+ */
 void PostgreSQLCDC::LogicalDecoder::confirmLSN(uint64_t lsn) {
     last_confirmed_lsn_ = lsn;
 }
 
+/**
+ * @brief Cancel.
+ * @details Implements cancel without additional internal calls.
+ */
 void PostgreSQLCDC::LogicalDecoder::cancel() {
     cancelled_ = true;
 }

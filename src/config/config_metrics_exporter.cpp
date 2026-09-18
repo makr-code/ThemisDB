@@ -63,6 +63,13 @@ struct CounterSnapshot {
 
 CounterSnapshot g_prev_snapshot;
 
+/**
+ * @brief Counter Delta.
+ * @param[in] current Input parameter.
+ * @param[in,out] previous Input/output parameter.
+ * @return Return value.
+ * @details Implements counterDelta without additional internal calls.
+ */
 uint64_t counterDelta(uint64_t current, uint64_t& previous) {
     if (current >= previous) {
         const auto delta = current - previous;
@@ -78,6 +85,11 @@ uint64_t counterDelta(uint64_t current, uint64_t& previous) {
 
 } // namespace
 
+/**
+ * @brief Collect.
+ * @return Return value.
+ * @details Calls: ConfigPathResolver::metrics(), load(), ConfigPathResolver::cacheStats(), ConfigPathResolver::legacyFallbacksByCategory(), lock(), counterDelta(), Increment(), Set().
+ */
 std::string ConfigMetricsExporter::collect() {
     const auto& m = ConfigPathResolver::metrics();
 
@@ -246,6 +258,10 @@ std::string ConfigMetricsExporter::collect() {
     return out.str();
 }
 
+/**
+ * @brief Update Metrics Collector.
+ * @details Calls: ConfigPathResolver::metrics(), load(), ConfigPathResolver::cacheStats(), ConfigPathResolver::currentCacheConfig(), lk(), ConfigMetricsExporter::gaugeSinkFnMutex(), ConfigMetricsExporter::gaugeSinkFnStorage(), fn().
+ */
 void ConfigMetricsExporter::updateMetricsCollector() {
     const auto& m = ConfigPathResolver::metrics();
     const uint64_t hits        = m.resolution_hits.load(std::memory_order_relaxed);
@@ -360,6 +376,11 @@ void ConfigMetricsExporter::updateMetricsCollector() {
 #endif
 }
 
+/**
+ * @brief Register With Registry.
+ * @param[in] registry Input parameter.
+ * @details Calls: lock(), prometheus::BuildCounter(), Name(), Help(), Register(), Add(), ConfigPathResolver::legacyFallbackCategories(), prometheus::BuildGauge().
+ */
 void ConfigMetricsExporter::registerWithRegistry(const std::shared_ptr<prometheus::Registry>& registry) {
 #ifdef THEMIS_HAS_PROMETHEUS
     std::lock_guard<std::mutex> lock(g_registry_mutex);

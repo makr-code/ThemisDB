@@ -31,9 +31,11 @@ namespace themis {
 // accidental duplicate production path — false positive.
 namespace {
 
-// Flag to track if production mode is enabled
-// Set via environment variable THEMIS_PRODUCTION_MODE=1 or THEMIS_ENVIRONMENT=production
-// Note: For testing, use the test-only reset function below
+/**
+ * @brief Flag to track if production mode is enabled Set via environment variable THEMIS_PRODUCTION_MODE=1 or THEMIS_ENVIRONMENT=production Note: For testing, use the test-only reset function below
+ * @return True when the operation succeeds.
+ * @details Calls: std::getenv(), mode_str(), std::string().
+ */
 bool is_production_mode() {
     const char* mode_env = std::getenv("THEMIS_PRODUCTION_MODE");
     const char* env_env = std::getenv("THEMIS_ENVIRONMENT");
@@ -231,19 +233,38 @@ public:
 
 } // anonymous namespace
 
-// Factory methods for default implementations
+/**
+ * @brief Factory methods for default implementations
+ * @return Return value.
+ * @details Implements createDefaultEvaluator without additional internal calls.
+ */
 IExpressionEvaluatorPtr StorageEngine::createDefaultEvaluator() {
     return std::make_shared<DefaultExpressionEvaluator>();
 }
 
+/**
+ * @brief Create Default Encryption.
+ * @return Return value.
+ * @details Implements createDefaultEncryption without additional internal calls.
+ */
 IFieldEncryptionPtr StorageEngine::createDefaultEncryption() {
     return std::make_shared<DefaultFieldEncryption>();
 }
 
+/**
+ * @brief Create Default Key Provider.
+ * @return Return value.
+ * @details Implements createDefaultKeyProvider without additional internal calls.
+ */
 IKeyProviderPtr StorageEngine::createDefaultKeyProvider() {
     return std::make_shared<DefaultKeyProvider>();
 }
 
+/**
+ * @brief Create Default Index Manager.
+ * @return Return value.
+ * @details Implements createDefaultIndexManager without additional internal calls.
+ */
 IIndexManagerPtr StorageEngine::createDefaultIndexManager() {
     return std::make_shared<DefaultIndexManager>();
 }
@@ -277,6 +298,11 @@ StorageEngine::StorageEngine(
     }
 }
 
+/**
+ * @brief Create Default.
+ * @return Return value.
+ * @details Calls: createDefaultEvaluator(), createDefaultEncryption(), createDefaultKeyProvider(), createDefaultIndexManager().
+ */
 std::shared_ptr<StorageEngine> StorageEngine::createDefault() {
     // Create default implementations using factory methods
     return std::make_shared<StorageEngine>(
@@ -287,6 +313,12 @@ std::shared_ptr<StorageEngine> StorageEngine::createDefault() {
     );
 }
 
+/**
+ * @brief Open.
+ * @param[in] db_path Path to the db.
+ * @return Return value.
+ * @details Calls: ErrVoid(), reset(), OkVoid().
+ */
 Result<void> StorageEngine::open(const std::string& db_path) {
     if (is_open_) {
         return ErrVoid(errors::ErrorCode::ERR_STORAGE_TRANSACTION_FAILED, 
@@ -313,6 +345,10 @@ Result<void> StorageEngine::open(const std::string& db_path) {
     return OkVoid();
 }
 
+/**
+ * @brief Close.
+ * @details Calls: reset().
+ */
 void StorageEngine::close() {
     if (!is_open_) {
         return; // Already closed
@@ -328,14 +364,23 @@ void StorageEngine::close() {
 
 // ── Helper: update a min/max atomic (relaxed, best-effort) ──────────────────
 namespace {
-// memory_order scanner alerts in atomicUpdateMin/atomicUpdateMax are false
-// positives: these relaxed atomics track advisory latency statistics only and
-// do not participate in correctness-critical synchronization.
+/**
+ * @brief memory_order scanner alerts in atomicUpdateMin/atomicUpdateMax are false positives: these relaxed atomics track advisory latency statistics only and do not participate in correctness-critical synchronization.
+ * @param[in,out] m Input/output parameter.
+ * @param[in] v Input parameter.
+ * @details Calls: load(), compare_exchange_weak().
+ */
 void atomicUpdateMin(std::atomic<uint64_t>& m, uint64_t v) {
     uint64_t cur = m.load(std::memory_order_relaxed);
     while (v < cur && !m.compare_exchange_weak(cur, v, std::memory_order_relaxed))
         ;
 }
+/**
+ * @brief Atomic Update Max.
+ * @param[in,out] m Input/output parameter.
+ * @param[in] v Input parameter.
+ * @details Calls: load(), compare_exchange_weak().
+ */
 void atomicUpdateMax(std::atomic<uint64_t>& m, uint64_t v) {
     uint64_t cur = m.load(std::memory_order_relaxed);
     while (v > cur && !m.compare_exchange_weak(cur, v, std::memory_order_relaxed))
@@ -343,6 +388,13 @@ void atomicUpdateMax(std::atomic<uint64_t>& m, uint64_t v) {
 }
 } // anonymous namespace
 
+/**
+ * @brief Put.
+ * @param[in] key Input parameter.
+ * @param[in] value Input parameter.
+ * @return Return value.
+ * @details Calls: span(), setAttribute(), size(), setStatus(), fetch_add(), ErrVoid(), std::chrono::steady_clock::now(), count().
+ */
 Result<void> StorageEngine::put(const std::string& key, const std::string& value) {
     TracedSpan span("StorageEngine.put");
     span.setAttribute("storage.key_size", static_cast<int64_t>(key.size()));
@@ -376,6 +428,12 @@ Result<void> StorageEngine::put(const std::string& key, const std::string& value
     return OkVoid();
 }
 
+/**
+ * @brief Get.
+ * @param[in] key Input parameter.
+ * @return Return value.
+ * @details Calls: span(), setAttribute(), size(), setStatus(), fetch_add(), std::chrono::steady_clock::now(), count(), atomicUpdateMin().
+ */
 Result<std::string> StorageEngine::get(const std::string& key) {
     TracedSpan span("StorageEngine.get");
     span.setAttribute("storage.key_size", static_cast<int64_t>(key.size()));
@@ -409,6 +467,12 @@ Result<std::string> StorageEngine::get(const std::string& key) {
                             fmt::format("Key '{}' not found", key));
 }
 
+/**
+ * @brief Del.
+ * @param[in] key Input parameter.
+ * @return Return value.
+ * @details Calls: span(), setAttribute(), size(), setStatus(), fetch_add(), ErrVoid(), std::chrono::steady_clock::now(), count().
+ */
 Result<void> StorageEngine::del(const std::string& key) {
     TracedSpan span("StorageEngine.del");
     span.setAttribute("storage.key_size", static_cast<int64_t>(key.size()));
@@ -467,6 +531,10 @@ StorageEngine::IOMetrics StorageEngine::ioMetrics() const {
     return m;
 }
 
+/**
+ * @brief Reset IOMetrics.
+ * @details Calls: store().
+ */
 void StorageEngine::resetIOMetrics() {
     io_put_ops_.store(0, std::memory_order_relaxed);
     io_put_errors_.store(0, std::memory_order_relaxed);
@@ -585,6 +653,10 @@ StorageEngine::ScanCounters StorageEngine::scanCounters() const {
     return c;
 }
 
+/**
+ * @brief Reset Scan Counters.
+ * @details Calls: store().
+ */
 void StorageEngine::resetScanCounters() {
     sc_calls_.store(0, std::memory_order_relaxed);
     sc_examined_.store(0, std::memory_order_relaxed);
@@ -592,11 +664,25 @@ void StorageEngine::resetScanCounters() {
     sc_early_stops_.store(0, std::memory_order_relaxed);
 }
 
+/**
+ * @brief Apply filter.
+ * @param[in] filter_expr Input parameter.
+ * @param[in] context Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: evaluate().
+ */
 bool StorageEngine::apply_filter(const std::string& filter_expr, const void* context) {
     // Use injected evaluator instead of concrete QueryEngine
     return evaluator_->evaluate(filter_expr, context);
 }
 
+/**
+ * @brief Encrypt field.
+ * @param[in] field_name Name of the field.
+ * @param[in] plaintext Input parameter.
+ * @return Return value.
+ * @details Implements encrypt_field without additional internal calls.
+ */
 std::vector<uint8_t> StorageEngine::encrypt_field(
     const std::string& field_name,
     const std::vector<uint8_t>& plaintext) {
@@ -605,6 +691,13 @@ std::vector<uint8_t> StorageEngine::encrypt_field(
     return encryption_->encrypt_field(field_name, plaintext);
 }
 
+/**
+ * @brief Decrypt field.
+ * @param[in] field_name Name of the field.
+ * @param[in] ciphertext Input parameter.
+ * @return Return value.
+ * @details Implements decrypt_field without additional internal calls.
+ */
 std::vector<uint8_t> StorageEngine::decrypt_field(
     const std::string& field_name,
     const std::vector<uint8_t>& ciphertext) {

@@ -39,7 +39,12 @@ namespace process {
 
 namespace {
 
-/// Strip XML character entities and surrounding whitespace.
+/**
+ * @brief Unescape Aml.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), find(), substr(), empty(), std::stoul(), std::string(), find_first_not_of().
+ */
 std::string unescapeAml(std::string_view s) {
     std::string out = {};
     out.reserve(s.size());
@@ -88,7 +93,12 @@ std::string unescapeAml(std::string_view s) {
     return out.substr(a, b - a + 1);
 }
 
-/// Strip namespace prefix: "Group.ID" stays; "ns:Model" → "Model".
+/**
+ * @brief Strip Ns.
+ * @param[in] name Input parameter.
+ * @return Return value.
+ * @details Calls: rfind(), substr().
+ */
 std::string_view stripNs(std::string_view name) {
     auto colon = name.rfind(':');
     return (colon != std::string_view::npos) ? name.substr(colon + 1) : name;
@@ -165,6 +175,14 @@ void parseAttrs(std::string_view src,
 }
 
 template<typename TagCb, typename TextCb>
+/**
+ * @brief Tokenize Xml.
+ * @param[in] xml Input parameter.
+ * @param[in] max_bytes Input parameter.
+ * @param[in] tag_cb Input parameter.
+ * @param[in] text_cb Input parameter.
+ * @return True when the operation succeeds.
+ */
 bool tokenizeXml(std::string_view xml,
                  size_t max_bytes,
                  TagCb tag_cb, TextCb text_cb)
@@ -274,6 +292,12 @@ bool tokenizeXml(std::string_view xml,
         while (i < n) {
             char c = xml[i];
             if (in_dq) { if (c == '"')  in_dq = false; }
+            /**
+             * @brief If.
+             * @param[in] in_sq Input parameter.
+             * @return Return value.
+             * @details Implements if without additional internal calls.
+             */
             else if (in_sq) { if (c == '\'') in_sq = false; }
             else if (c == '"')  { in_dq = true; }
             else if (c == '\'') { in_sq = true; }
@@ -303,7 +327,6 @@ bool tokenizeXml(std::string_view xml,
 // AML model extraction
 // ---------------------------------------------------------------------------
 
-/// ARIS model representation before post-processing.
 struct ArisModel {
     std::string model_id;
     std::string model_type;   // e.g. "EPK"
@@ -324,13 +347,11 @@ struct ArisModel {
     std::vector<CxnOcc> cxn_occs;
 };
 
-/// Per-Group / whole-file ObjDef registry.
 struct ObjDefInfo {
     int type_num{0};
     std::string name;
 };
 
-/// Parse all AML models + ObjDef/CxnDef from an XML string.
 struct AmlParseResult {
     std::vector<ArisModel> models;
     std::map<std::string, ObjDefInfo> obj_defs; // ObjDef.ID → info
@@ -338,6 +359,12 @@ struct AmlParseResult {
     std::string message;
 };
 
+/**
+ * @brief Parse Aml.
+ * @param[in] xml Input parameter.
+ * @param[in] max_bytes Input parameter.
+ * @return Return value.
+ */
 AmlParseResult parseAml(std::string_view xml, size_t max_bytes)
 {
     AmlParseResult result;
@@ -500,7 +527,6 @@ AmlParseResult parseAml(std::string_view xml, size_t max_bytes)
     return result;
 }
 
-/// Convert a parsed ArisModel + ObjDef registry into an ImportResult.
 EpkArisXmlImporter::ImportResult buildImportResult(
     const ArisModel& model,
     const std::map<std::string, ObjDefInfo>& obj_defs)
@@ -564,6 +590,12 @@ EpkArisXmlImporter::ImportResult buildImportResult(
 // EpkArisXmlImporter – public API
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Type Num To Epk Node Type.
+ * @param[in] type_num Input parameter.
+ * @return Return value.
+ * @details Implements typeNumToEpkNodeType without additional internal calls.
+ */
 EPKNodeType EpkArisXmlImporter::typeNumToEpkNodeType(int type_num) {
     switch (type_num) {
         case  1: return EPKNodeType::FUNCTION;
@@ -579,6 +611,12 @@ EPKNodeType EpkArisXmlImporter::typeNumToEpkNodeType(int type_num) {
     }
 }
 
+/**
+ * @brief Type Num To Label.
+ * @param[in] type_num Input parameter.
+ * @return Return value.
+ * @details Implements typeNumToLabel without additional internal calls.
+ */
 std::string_view EpkArisXmlImporter::typeNumToLabel(int type_num) {
     switch (type_num) {
         case  1: return "Funktion";

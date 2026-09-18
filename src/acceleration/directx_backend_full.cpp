@@ -62,6 +62,11 @@ namespace acceleration {
             char _buf[64]; \
             snprintf(_buf, sizeof(_buf), "DirectX error: HRESULT 0x%08X", \
                      static_cast<unsigned int>(_hr)); \
+            /**
+             * @brief Runtime error.
+             * @param[in] _buf Input parameter.
+             * @return Return value.
+             */
             throw std::runtime_error(_buf); \
         } \
     } while(0)
@@ -73,17 +78,9 @@ namespace acceleration {
 namespace {
 
 /**
- * @brief Probe candidate directories for a shader file with the given stem.
- *
- * Search order for each root:
- *   1. <root>/shaders/vector_index/<stem>.cso   (pre-compiled, preferred)
- *   2. <root>/shaders/vector_index/<stem>.hlsl
- *   3. <root>/bin/shaders/vector_index/<stem>.cso
- *   4. <root>/src/acceleration/directx/shaders/<stem>.cso
- *   5. <root>/src/acceleration/directx/shaders/<stem>.hlsl
- *
- * @param stem  Base file name without extension (e.g. "l2_distance").
- * @return Absolute path to the first matching file, or empty string if none found.
+ * @brief Find ann shader path.
+ * @param[in] stem Input parameter.
+ * @return Return value.
  */
 static std::string find_ann_shader_path(const std::string& stem)
 {
@@ -124,10 +121,9 @@ static std::string find_ann_shader_path(const std::string& stem)
 }
 
 /**
- * @brief Read a binary file into a byte vector.
- *
- * @param path  Absolute path to the file.
- * @return File contents, or empty vector on failure.
+ * @brief Read binary file.
+ * @param[in] path Input parameter.
+ * @return Return value.
  */
 static std::vector<uint8_t> read_binary_file(const std::string& path)
 {
@@ -135,19 +131,28 @@ static std::vector<uint8_t> read_binary_file(const std::string& path)
     if (!f) return {};
     auto size = static_cast<std::size_t>(f.tellg());
     f.seekg(0);
+    /**
+     * @brief Buf.
+     * @param[in] size Input parameter.
+     * @return Return value.
+     */
     std::vector<uint8_t> buf(size);
     f.read(reinterpret_cast<char*>(buf.data()), static_cast<std::streamsize>(size));
     return buf;
 }
 
 /**
- * @brief Read a text file into a string.
- *
- * @param path  Absolute path to the file.
- * @return File contents, or empty string on failure.
+ * @brief Read text file.
+ * @param[in] path Input parameter.
+ * @return Return value.
  */
 static std::string read_text_file(const std::string& path)
 {
+    /**
+     * @brief F.
+     * @param[in] path Input parameter.
+     * @return Return value.
+     */
     std::ifstream f(path);
     if (!f) return {};
     return {std::istreambuf_iterator<char>(f), {}};
@@ -191,6 +196,11 @@ public:
 
     std::string deviceName() const { return adapterName_; }
 
+    /**
+     * @brief Initialize.
+     * @return True when the operation succeeds.
+     * @details Calls: SUCCEEDED(), D3D12GetDebugInterface(), IID_PPV_ARGS(), EnableDebugLayer(), DX_CHECK(), CreateDXGIFactory2(), EnumAdapters1(), GetDesc1().
+     */
     bool initialize() {
 #ifdef _DEBUG
         ComPtr<ID3D12Debug> debugCtrl;
@@ -267,6 +277,10 @@ public:
         return true;
     }
 
+    /**
+     * @brief Shutdown.
+     * @details Calls: waitForGPU(), Reset(), CloseHandle().
+     */
     void shutdown() {
         waitForGPU();  // flush any in-flight work before releasing resources
         l2Pipeline_.Reset();
@@ -280,9 +294,16 @@ public:
         device_.Reset();
     }
 
-    // ------------------------------------------------------------------
-    // computeDistances: dispatch the appropriate HLSL kernel and readback
-    // ------------------------------------------------------------------
+    /**
+     * @brief ------------------------------------------------------------------ computeDistances: dispatch the appropriate HLSL kernel and readback ------------------------------------------------------------------
+     * @param[in] queries Input parameter.
+     * @param[in] numQueries Input parameter.
+     * @param[in] dim Input parameter.
+     * @param[in] vectors Input parameter.
+     * @param[in] numVectors Input parameter.
+     * @param[in] useL2 Input parameter.
+     * @return Return value.
+     */
     std::vector<float> computeDistances(
         const float* queries,
         size_t numQueries,
@@ -372,6 +393,11 @@ public:
         waitForGPU();
 
         // Readback results
+        /**
+         * @brief Result.
+         * @param[in,out] numVectors Input/output parameter.
+         * @return Return value.
+         */
         std::vector<float> result(numQueries * numVectors);
         void* mapped = nullptr;
         D3D12_RANGE readRange = { 0, distBytes };
@@ -434,9 +460,11 @@ public:
     }
 
 private:
-    // ------------------------------------------------------------------
-    // Root signature: 3 UAV root descriptors + 4 inline 32-bit constants
-    // ------------------------------------------------------------------
+    /**
+     * @brief ------------------------------------------------------------------ Root signature: 3 UAV root descriptors + 4 inline 32-bit constants ------------------------------------------------------------------
+     * @return True when the operation succeeds.
+     * @details Calls: D3D12SerializeRootSignature(), FAILED(), GetBufferPointer(), DX_CHECK(), CreateRootSignature(), GetBufferSize(), IID_PPV_ARGS().
+     */
     bool createRootSignature() {
         D3D12_ROOT_PARAMETER params[4] = {};
 
@@ -471,9 +499,11 @@ private:
         return true;
     }
 
-    // ------------------------------------------------------------------
-    // Compile HLSL shaders at runtime and create compute pipeline states
-    // ------------------------------------------------------------------
+    /**
+     * @brief ------------------------------------------------------------------ Compile HLSL shaders at runtime and create compute pipeline states ------------------------------------------------------------------
+     * @return True when the operation succeeds.
+     * @details Calls: D3DCompile(), c_str(), size(), FAILED(), GetBufferPointer(), Get(), GetBufferSize(), DX_CHECK().
+     */
     bool createComputePipelines() {
         // Helper: create a pipeline state from an HLSL source string.
         auto compilePipelineFromSource = [&](const std::string& hlsl,
@@ -559,7 +589,12 @@ private:
     // Buffer helpers
     // ------------------------------------------------------------------
 
-    // Default-heap UAV buffer (GPU-side, written/read by compute shaders)
+    /**
+     * @brief Default-heap UAV buffer (GPU-side, written/read by compute shaders)
+     * @param[in] size Input parameter.
+     * @return Return value.
+     * @details Calls: DX_CHECK_THROW(), CreateCommittedResource(), IID_PPV_ARGS().
+     */
     ComPtr<ID3D12Resource> createUAVBuffer(SIZE_T size) {
         D3D12_HEAP_PROPERTIES hp = {};
         hp.Type = D3D12_HEAP_TYPE_DEFAULT;
@@ -582,7 +617,12 @@ private:
         return buf;
     }
 
-    // Upload heap buffer (CPU-writable, GPU-readable) — no UAV flag
+    /**
+     * @brief Upload heap buffer (CPU-writable, GPU-readable) — no UAV flag
+     * @param[in] size Input parameter.
+     * @return Return value.
+     * @details Calls: DX_CHECK_THROW(), CreateCommittedResource(), IID_PPV_ARGS().
+     */
     ComPtr<ID3D12Resource> createUploadBuffer(SIZE_T size) {
         D3D12_HEAP_PROPERTIES hp = {};
         hp.Type = D3D12_HEAP_TYPE_UPLOAD;
@@ -605,7 +645,12 @@ private:
         return buf;
     }
 
-    // Readback heap buffer (GPU-writable, CPU-readable) — no UAV flag
+    /**
+     * @brief Readback heap buffer (GPU-writable, CPU-readable) — no UAV flag
+     * @param[in] size Input parameter.
+     * @return Return value.
+     * @details Calls: DX_CHECK_THROW(), CreateCommittedResource(), IID_PPV_ARGS().
+     */
     ComPtr<ID3D12Resource> createReadbackBuffer(SIZE_T size) {
         D3D12_HEAP_PROPERTIES hp = {};
         hp.Type = D3D12_HEAP_TYPE_READBACK;
@@ -628,7 +673,13 @@ private:
         return buf;
     }
 
-    // Map an upload buffer, write data, and unmap
+    /**
+     * @brief Map an upload buffer, write data, and unmap
+     * @param[in,out] uploadBuf Input/output parameter.
+     * @param[in] src Input parameter.
+     * @param[in] bytes Input parameter.
+     * @details Calls: DX_CHECK_THROW(), Map(), std::memcpy(), Unmap().
+     */
     static void uploadData(ID3D12Resource* uploadBuf, const void* src, SIZE_T bytes) {
         void* mapped = nullptr;
         D3D12_RANGE emptyRange = { 0, 0 };
@@ -638,7 +689,13 @@ private:
         uploadBuf->Unmap(0, &writtenRange);
     }
 
-    // Insert a resource barrier into the open command list
+    /**
+     * @brief Insert a resource barrier into the open command list
+     * @param[in,out] res Input/output parameter.
+     * @param[in] before Input parameter.
+     * @param[in] after Input parameter.
+     * @details Calls: ResourceBarrier().
+     */
     void transitionBarrier(ID3D12Resource* res,
                            D3D12_RESOURCE_STATES before,
                            D3D12_RESOURCE_STATES after) {
@@ -652,7 +709,10 @@ private:
         commandList_->ResourceBarrier(1, &barrier);
     }
 
-    // Signal the fence and wait until the GPU reaches it
+    /**
+     * @brief Signal the fence and wait until the GPU reaches it
+     * @details Calls: Signal(), Get(), GetCompletedValue(), SetEventOnCompletion(), WaitForSingleObject().
+     */
     void waitForGPU() {
         if (!commandQueue_ || !fence_ || !fenceEvent_) {
           return;
@@ -712,6 +772,11 @@ BackendCapabilities DirectXVectorBackend::getCapabilities() const {
     return caps;
 }
 
+/**
+ * @brief Initialize.
+ * @return True when the operation succeeds.
+ * @details Calls: deviceName().
+ */
 bool DirectXVectorBackend::initialize() {
     if (initialized_) {
       return true;
@@ -728,6 +793,10 @@ bool DirectXVectorBackend::initialize() {
     return true;
 }
 
+/**
+ * @brief Shutdown.
+ * @details Implements shutdown without additional internal calls.
+ */
 void DirectXVectorBackend::shutdown() {
     if (initialized_ && impl_) {
         impl_->shutdown();
@@ -735,6 +804,16 @@ void DirectXVectorBackend::shutdown() {
     }
 }
 
+/**
+ * @brief Compute Distances.
+ * @param[in] queries Input parameter.
+ * @param[in] numQueries Input parameter.
+ * @param[in] dim Input parameter.
+ * @param[in] vectors Input parameter.
+ * @param[in] numVectors Input parameter.
+ * @param[in] useL2 Input parameter.
+ * @return Return value.
+ */
 std::vector<float> DirectXVectorBackend::computeDistances(
     const float* queries,
     size_t numQueries,

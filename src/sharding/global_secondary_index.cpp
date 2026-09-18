@@ -5,6 +5,13 @@
 namespace themis::sharding {
 
 namespace {
+/**
+ * @brief Is Fresh Entry.
+ * @param[in] config Input parameter.
+ * @param[in] updated_at Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: std::chrono::system_clock::now().
+ */
 bool isFreshEntry(const GlobalSecondaryIndexManager::Config& config,
                  const std::chrono::system_clock::time_point& updated_at) {
     return (std::chrono::system_clock::now() - updated_at) <= config.staleness_budget;
@@ -15,6 +22,12 @@ GlobalSecondaryIndexManager::GlobalSecondaryIndexManager() : config_({}) {}
 
 GlobalSecondaryIndexManager::GlobalSecondaryIndexManager(const Config& config) : config_(config) {}
 
+/**
+ * @brief Create Index.
+ * @param[in] index_name Name of the index.
+ * @param[in] field_name Name of the field.
+ * @details Calls: empty().
+ */
 void GlobalSecondaryIndexManager::createIndex(const std::string& index_name, const std::string& field_name) {
     if (index_name.empty() || field_name.empty()) {
         return;
@@ -26,6 +39,15 @@ bool GlobalSecondaryIndexManager::hasIndex(const std::string& index_name) const 
     return indexes_.find(index_name) != indexes_.end();
 }
 
+/**
+ * @brief Upsert.
+ * @param[in] index_name Name of the index.
+ * @param[in] field_name Name of the field.
+ * @param[in] shard_id Identifier of the shard.
+ * @param[in] primary_key Input parameter.
+ * @param[in] value Input parameter.
+ * @details Calls: empty(), hasIndex(), createIndex(), std::chrono::system_clock::now(), std::find_if(), begin(), end(), push_back().
+ */
 void GlobalSecondaryIndexManager::upsert(const std::string& index_name, const std::string& field_name,
                                         const std::string& shard_id, const std::string& primary_key,
                                         const std::string& value) {
@@ -53,6 +75,13 @@ void GlobalSecondaryIndexManager::upsert(const std::string& index_name, const st
     }
 }
 
+/**
+ * @brief Erase.
+ * @param[in] index_name Name of the index.
+ * @param[in] shard_id Identifier of the shard.
+ * @param[in] primary_key Input parameter.
+ * @details Calls: find(), end(), begin(), std::remove_if(), empty().
+ */
 void GlobalSecondaryIndexManager::erase(const std::string& index_name, const std::string& shard_id, const std::string& primary_key) {
     auto it = entries_.find(index_name);
     if (it == entries_.end()) {
@@ -72,6 +101,12 @@ void GlobalSecondaryIndexManager::erase(const std::string& index_name, const std
     }
 }
 
+/**
+ * @brief Erase Shard.
+ * @param[in] index_name Name of the index.
+ * @param[in] shard_id Identifier of the shard.
+ * @details Calls: find(), end(), begin(), size(), erase(), std::remove_if(), empty().
+ */
 void GlobalSecondaryIndexManager::eraseShard(const std::string& index_name, const std::string& shard_id) {
     auto it = entries_.find(index_name);
     if (it == entries_.end()) {

@@ -21,21 +21,12 @@ namespace server {
 
 using json = nlohmann::json;
 
-/**
- * @brief REST API handler for Snapshot operations
- * 
- * Provides HTTP endpoints for managing named snapshots/tags:
- * - POST /api/v1/snapshots/tags - Create new tag
- * - GET /api/v1/snapshots/tags - List all tags
- * - GET /api/v1/snapshots/tags/:name - Get specific tag
- * - DELETE /api/v1/snapshots/tags/:name - Delete tag
- * - GET /api/v1/snapshots/stats - Get snapshot statistics
- */
 class SnapshotApiHandler {
 public:
     /**
-     * @brief Construct SnapshotApiHandler
-     * @param snapshot_manager Reference to SnapshotManager instance
+     * @brief Snapshot Api Handler.
+     * @param[in,out] snapshot_manager Input/output parameter.
+     * @return Return value.
      */
     explicit SnapshotApiHandler(transaction::SnapshotManager& snapshot_manager);
     
@@ -48,45 +39,43 @@ public:
     SnapshotApiHandler& operator=(SnapshotApiHandler&&) noexcept = default;
 
     /**
-     * @brief Register routes with HTTP server
-     * @param server HTTP server instance
+     * @brief Register Routes.
+     * @param[in,out] server Input/output parameter.
      */
     void registerRoutes(httplib::Server& server);
     
     /**
-     * @brief Handle POST /api/v1/snapshots/tags
-     * 
-     * Request body:
-     * {
-     *   "tag_name": "v1.0.0",
-     *   "description": "Release 1.0",
-     *   "created_by": "admin"  // optional
-     * }
+     * @brief Handle Create Tag.
+     * @param[in] req Input parameter.
+     * @param[in,out] res Input/output parameter.
      */
     void handleCreateTag(const httplib::Request& req, httplib::Response& res);
 
     /**
-     * @brief Handle GET /api/v1/snapshots/tags
-     * 
-     * Query parameters:
-     * - limit: Maximum number of tags to return (default: 0 = all)
-     * - sort_by: Sort field (timestamp, sequence, name) (default: timestamp)
-     * - ascending: Sort direction (true/false) (default: false)
+     * @brief Handle List Tags.
+     * @param[in] req Input parameter.
+     * @param[in,out] res Input/output parameter.
      */
     void handleListTags(const httplib::Request& req, httplib::Response& res);
 
     /**
-     * @brief Handle GET /api/v1/snapshots/tags/:name
+     * @brief Handle Get Tag.
+     * @param[in] req Input parameter.
+     * @param[in,out] res Input/output parameter.
      */
     void handleGetTag(const httplib::Request& req, httplib::Response& res);
 
     /**
-     * @brief Handle DELETE /api/v1/snapshots/tags/:name
+     * @brief Handle Delete Tag.
+     * @param[in] req Input parameter.
+     * @param[in,out] res Input/output parameter.
      */
     void handleDeleteTag(const httplib::Request& req, httplib::Response& res);
 
     /**
-     * @brief Handle GET /api/v1/snapshots/stats
+     * @brief Handle Get Stats.
+     * @param[in] req Input parameter.
+     * @param[in,out] res Input/output parameter.
      */
     void handleGetStats(const httplib::Request& req, httplib::Response& res);
 
@@ -94,13 +83,13 @@ private:
     transaction::SnapshotManager& snapshot_manager_;
 
     /**
-     * @brief Create error response
+     * @brief Send Error.
+     * @param[in,out] res Input/output parameter.
+     * @param[in] status_code Input parameter.
+     * @param[in] message Input parameter.
      */
     void sendError(httplib::Response& res, int status_code, const std::string& message) const;
 
-    /**
-     * @brief Create success response with JSON body
-     */
     void sendJson(httplib::Response& res, const json& data, int status_code = 200) const;
 };
 

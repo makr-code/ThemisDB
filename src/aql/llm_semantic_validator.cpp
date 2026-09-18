@@ -17,6 +17,12 @@ namespace themis {
 namespace aql {
 namespace {
 
+/**
+ * @brief To Upper Ascii.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Calls: std::transform(), begin(), end(), std::toupper().
+ */
 std::string toUpperAscii(std::string s) {
     std::transform(s.begin(), s.end(), s.begin(), [](unsigned char c) {
         return static_cast<char>(std::toupper(c));
@@ -43,6 +49,12 @@ std::unordered_map<std::string, std::string> extractVariableBindings(const query
     return out;
 }
 
+/**
+ * @brief Infer Expr Type.
+ * @param[in] expr Input parameter.
+ * @return Return value.
+ * @details Calls: getType(), is_array(), is_object(), toUpperAscii().
+ */
 std::string inferExprType(const std::shared_ptr<query::Expression>& expr) {
     if (!expr) {
         return "unknown";
@@ -100,6 +112,12 @@ std::string inferExprType(const std::shared_ptr<query::Expression>& expr) {
     }
 }
 
+/**
+ * @brief Collect Referenced Variables.
+ * @param[in] expr Input parameter.
+ * @param[in,out] vars Input/output parameter.
+ * @details Calls: getType(), empty(), insert().
+ */
 void collectReferencedVariables(const std::shared_ptr<query::Expression>& expr,
                                std::unordered_set<std::string>& vars) {
     if (!expr) {
@@ -168,6 +186,13 @@ void collectReferencedVariables(const std::shared_ptr<query::Expression>& expr,
     }
 }
 
+/**
+ * @brief Mark Hard Failure.
+ * @param[in,out] result Input/output parameter.
+ * @param[in] status Input parameter.
+ * @param[in] message Input parameter.
+ * @details Calls: std::move().
+ */
 void markHardFailure(SemanticValidationResult& result,
                      SemanticValidationResult::Status status,
                      std::string message) {
@@ -189,6 +214,12 @@ LLMSemanticValidator::LLMSemanticValidator(
     }
 }
 
+/**
+ * @brief Validate.
+ * @param[in] ast Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::high_resolution_clock::now(), checkAttributeTypes(), validateJoins(), estimateCardinality(), validateFunctionSignatures(), computeConfidenceScore(), what().
+ */
 SemanticValidationResult LLMSemanticValidator::validate(const query::ASTNode* ast) {
     const auto start = std::chrono::high_resolution_clock::now();
     SemanticValidationResult result;
@@ -225,6 +256,11 @@ SemanticValidationResult LLMSemanticValidator::validate(const query::ASTNode* as
     return result;
 }
 
+/**
+ * @brief Configure.
+ * @param[in] config Input parameter.
+ * @details Implements configure without additional internal calls.
+ */
 void LLMSemanticValidator::configure(const Config& config) {
     config_ = config;
 }
@@ -233,6 +269,12 @@ const LLMSemanticValidator::Config& LLMSemanticValidator::getConfig() const {
     return config_;
 }
 
+/**
+ * @brief Check Attribute Types.
+ * @param[in] ast Input parameter.
+ * @param[in,out] result Input/output parameter.
+ * @details Calls: markHardFailure(), extractVariableBindings(), void(), getType(), count(), at(), getAttributeType(), has_value().
+ */
 void LLMSemanticValidator::checkAttributeTypes(const query::ASTNode* ast,
                                                SemanticValidationResult& result) {
     const auto* q = reinterpret_cast<const query::Query*>(ast);
@@ -348,6 +390,12 @@ void LLMSemanticValidator::checkAttributeTypes(const query::ASTNode* ast,
     }
 }
 
+/**
+ * @brief Estimate Cardinality.
+ * @param[in] ast Input parameter.
+ * @param[in,out] result Input/output parameter.
+ * @details Calls: extractVariableBindings(), empty(), getCollectionCardinality(), has_value(), max(), push_back().
+ */
 void LLMSemanticValidator::estimateCardinality(const query::ASTNode* ast,
                                                SemanticValidationResult& result) {
     const auto* q = reinterpret_cast<const query::Query*>(ast);
@@ -392,6 +440,12 @@ void LLMSemanticValidator::estimateCardinality(const query::ASTNode* ast,
     }
 }
 
+/**
+ * @brief Validate Joins.
+ * @param[in] ast Input parameter.
+ * @param[in,out] result Input/output parameter.
+ * @details Calls: extractVariableBindings(), size(), getCollectionCardinality(), has_value(), push_back(), collectReferencedVariables(), markHardFailure().
+ */
 void LLMSemanticValidator::validateJoins(const query::ASTNode* ast,
                                          SemanticValidationResult& result) {
     const auto* q = reinterpret_cast<const query::Query*>(ast);
@@ -438,6 +492,12 @@ void LLMSemanticValidator::validateJoins(const query::ASTNode* ast,
     }
 }
 
+/**
+ * @brief Validate Function Signatures.
+ * @param[in] ast Input parameter.
+ * @param[in,out] result Input/output parameter.
+ * @details Calls: toUpperAscii(), isFunctionDefined(), markHardFailure(), size(), void(), getType(), validateCall(), walk().
+ */
 void LLMSemanticValidator::validateFunctionSignatures(const query::ASTNode* ast,
                                                       SemanticValidationResult& result) {
     const auto* q = reinterpret_cast<const query::Query*>(ast);
@@ -555,6 +615,11 @@ void LLMSemanticValidator::validateFunctionSignatures(const query::ASTNode* ast,
     }
 }
 
+/**
+ * @brief Compute Confidence Score.
+ * @param[in,out] result Input/output parameter.
+ * @details Calls: size(), has_value(), value(), std::clamp().
+ */
 void LLMSemanticValidator::computeConfidenceScore(SemanticValidationResult& result) {
     double score = 1.0;
     score -= 0.07 * static_cast<double>(result.warnings.size());

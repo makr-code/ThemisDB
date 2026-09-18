@@ -36,7 +36,6 @@ namespace themis {
 namespace geo {
 
 // CPU-parallel backend using threading for batch spatial operations
-/** @brief CPU-parallel backend using threading for batch spatial operations. */
 class CpuParallelBackend final : public ISpatialComputeBackend {
   public:
     CpuParallelBackend() {
@@ -225,7 +224,16 @@ class CpuParallelBackend final : public ISpatialComputeBackend {
 
 #ifdef THEMIS_ENABLE_CUDA
 
-// CUDA kernels for GPU-accelerated spatial operations
+/**
+ * @brief CUDA kernels for GPU-accelerated spatial operations
+ * @param[in] px Input parameter.
+ * @param[in] py Input parameter.
+ * @param[in] ring_x Input parameter.
+ * @param[in] ring_y Input parameter.
+ * @param[in] ring_size Input parameter.
+ * @return Return value.
+ * @details Implements cuda_point_in_polygon without additional internal calls.
+ */
 __device__ bool cuda_point_in_polygon(double px, double py, const double *ring_x, const double *ring_y, int ring_size) {
     bool inside = false;
     int j       = ring_size - 1;
@@ -240,6 +248,15 @@ __device__ bool cuda_point_in_polygon(double px, double py, const double *ring_x
     return inside;
 }
 
+/**
+ * @brief Cuda batch intersects kernel.
+ * @param[in] query_mbr Input parameter.
+ * @param[in] candidate_mbrs Input parameter.
+ * @param[in,out] results Input/output parameter.
+ * @param[in] count Input parameter.
+ * @return Return value.
+ * @details Implements cuda_batch_intersects_kernel without additional internal calls.
+ */
 __global__ void cuda_batch_intersects_kernel(const double *query_mbr, const double *candidate_mbrs, uint8_t *results,
                                              int count) {
     int idx = blockIdx.x * blockDim.x + threadIdx.x;
@@ -265,8 +282,15 @@ __global__ void cuda_batch_intersects_kernel(const double *query_mbr, const doub
     results[idx] = intersects ? 1 : 0;
 }
 
-/// Pairwise MBR intersection: each thread tests one geometry pair (a[idx], b[idx]).
-/// mbrs_a and mbrs_b are flat arrays: [minx, miny, maxx, maxy] per entry.
+/**
+ * @brief Cuda pairwise intersects kernel.
+ * @param[in] mbrs_a Input parameter.
+ * @param[in] mbrs_b Input parameter.
+ * @param[in,out] results Input/output parameter.
+ * @param[in] count Input parameter.
+ * @return Return value.
+ * @details Implements cuda_pairwise_intersects_kernel without additional internal calls.
+ */
 __global__ void cuda_pairwise_intersects_kernel(const double *mbrs_a, const double *mbrs_b, uint8_t *results,
                                                 int count) {
     int idx = blockIdx.x * blockDim.x + threadIdx.x;
@@ -287,10 +311,19 @@ __global__ void cuda_pairwise_intersects_kernel(const double *mbrs_a, const doub
     results[idx] = (a_minx <= b_maxx && a_maxx >= b_minx && a_miny <= b_maxy && a_maxy >= b_miny) ? 1 : 0;
 }
 
-/// Batch ST_BUFFER kernel for Point geometries.
-/// Each thread computes one vertex of one buffer polygon.
-/// Layout: gridDim.x = n, blockDim.x = arc_points+1 (clamped to 1024).
-/// ring_x/ring_y are flat [n * (arc_points+1)] arrays.
+/**
+ * @brief Cuda batch point buffer kernel.
+ * @param[in] lons Input parameter.
+ * @param[in] lats Input parameter.
+ * @param[in,out] ring_x Input/output parameter.
+ * @param[in,out] ring_y Input/output parameter.
+ * @param[in] arc_points Input parameter.
+ * @param[in] d_lat Input parameter.
+ * @param[in] d_lon Input parameter.
+ * @param[in] n Input parameter.
+ * @return Return value.
+ * @details Calls: cos(), sin().
+ */
 __global__ void cuda_batch_point_buffer_kernel(const double *lons, ///< [n] centre longitudes
                                                const double *lats, ///< [n] centre latitudes
                                                double *ring_x,     ///< [n * (arc_points+1)] output longitudes
@@ -448,8 +481,6 @@ class CudaBackend final : public ISpatialComputeBackend {
         return cpu_exact_.exactIntersects(geom1, geom2);
     }
 
-    /// GPU-accelerated ST_BUFFER for Point geometries using the batch kernel.
-    /// Falls back to cpu_exact_ for non-Point types or on any CUDA error.
     GeometryInfo stBuffer(const GeometryInfo & geom, double distance_m, int arc_points = 36) override {
         if (!is_available_ || !geom.isPoint() || geom.coords.empty() || distance_m <= 0.0 || arc_points < 3) {
             return cpu_exact_.stBuffer(geom, distance_m, arc_points);
@@ -506,7 +537,11 @@ class CudaBackend final : public ISpatialComputeBackend {
         if (e != cudaSuccess)
             return cpu_exact_.stBuffer(geom, distance_m, arc_points);
 
-        // RAII destructors free all device buffers on scope exit.
+        /**
+         * @brief RAII destructors free all device buffers on scope exit.
+         * @param[in] Polygon Input parameter.
+         * @return Return value.
+         */
         GeometryInfo result(GeometryType::Polygon);
         std::vector<Coordinate> ring;
         ring.reserve(static_cast<size_t>(n_verts));
@@ -540,8 +575,14 @@ class CudaBackend final : public ISpatialComputeBackend {
     CudaTypedBuffer<double>  d_cached_mbrs_b_;
     CudaTypedBuffer<uint8_t> d_cached_results_;
 
-    /// Ensure the cached device buffers are large enough for `n` pairs.
-    /// Returns false on allocation failure (caller falls back to CPU).
+    /**
+     * @brief Ensure Cached Buffers.
+     * @param[in] n Input parameter.
+     * @param[in] mbr_sz Input parameter.
+     * @param[in] res_sz Input parameter.
+     * @return True when the operation succeeds.
+     * @details Calls: free(), alloc(), THEMIS_WARN().
+     */
     bool ensureCachedBuffers(int n, size_t mbr_sz, size_t res_sz) {
         if (n <= cached_n_)
             return true; // already large enough
@@ -575,11 +616,17 @@ class CudaBackend final : public ISpatialComputeBackend {
 
 #ifdef THEMIS_ENABLE_OPENCL
 
-/// OpenCL kernel source for pairwise MBR intersection.
-/// Requires cl_khr_fp64 for double-precision coordinates.
 static const char *kOpenCLGeoIntersectsKernelSrc = R"(
 #pragma OPENCL EXTENSION cl_khr_fp64 : enable
 
+/**
+ * @brief Pairwise mbr intersects.
+ * @param[in] mbrs_a Input parameter.
+ * @param[in] mbrs_b Input parameter.
+ * @param[in,out] results Input/output parameter.
+ * @param[in] count Input parameter.
+ * @return Return value.
+ */
 __kernel void pairwise_mbr_intersects(
     __global const double* mbrs_a,
     __global const double* mbrs_b,
@@ -863,7 +910,11 @@ class OpenCLBackend final : public ISpatialComputeBackend {
     bool is_available_ = false;
     CpuParallelBackend cpu_exact_; // reused across calls for Phase 2 verification
 
-    /// Compile geo intersection kernels from source; called once in the constructor.
+    /**
+     * @brief Compile Kernels.
+     * @return True when the operation succeeds.
+     * @details Calls: clCreateProgramWithSource(), THEMIS_WARN(), clBuildProgram(), clGetProgramBuildInfo(), assign(), clReleaseProgram().
+     */
     bool compileKernels() {
         cl_int err;
         program_ = clCreateProgramWithSource(context_, 1, &kOpenCLGeoIntersectsKernelSrc, nullptr, &err);
@@ -892,7 +943,6 @@ class OpenCLBackend final : public ISpatialComputeBackend {
 #endif // THEMIS_ENABLE_OPENCL
 
 // Production GPU backend with automatic fallback
-/** @brief Production GPU backend with automatic fallback. */
 class ProductionGpuBackend final : public ISpatialComputeBackend {
   public:
     ProductionGpuBackend() {
@@ -980,8 +1030,6 @@ class ProductionGpuBackend final : public ISpatialComputeBackend {
 // Global production backend instance
 static std::unique_ptr<ProductionGpuBackend> g_production_backend;
 
-/// Lightweight proxy registered in the GeoBackendRegistry so the production
-/// GPU backend is discoverable at runtime without creating a second GPU instance.
 class ProductionGpuRegistryProxy final : public ISpatialComputeBackend {
   public:
     const char *name() const noexcept override {
@@ -1006,6 +1054,10 @@ class ProductionGpuRegistryProxy final : public ISpatialComputeBackend {
     }
 };
 
+/**
+ * @brief Register production backend.
+ * @details Calls: std::call_once(), getGeoBackendRegistry(), registerBackend().
+ */
 static void register_production_backend() {
     static std::once_flag s_once;
     std::call_once(s_once, []() {

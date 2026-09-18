@@ -43,7 +43,13 @@ SDPlugin::SDPlugin(std::unique_ptr<ISDGenerator> generator, SDPromptSanitizer sa
     , base_sanitizer_(std::move(sanitizer))
     , sanitizer_(base_sanitizer_) {}
 
-// ── initialize ────────────────────────────────────────────────────────────────
+/**
+ * @brief ── initialize ────────────────────────────────────────────────────────────────
+ * @param[in] model_path Path to the model.
+ * @param[in] config Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: SDConfig::fromJson(), empty(), SDPromptSanitizer::fromFile(), defined(), normalizeLowerHex(), themis::utils::calculateSHA256(), else().
+ */
 
 bool SDPlugin::initialize(const std::string& model_path, const nlohmann::json& config) {
     model_path_ = model_path;
@@ -89,6 +95,14 @@ bool SDPlugin::isPromptAllowed(const std::string& prompt) const {
     return sanitizer_.isAllowed(prompt);
 }
 
+/**
+ * @brief Validate Generation Dimensions.
+ * @param[in] width Input parameter.
+ * @param[in] height Input parameter.
+ * @param[in,out] error_out Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: max(), clear().
+ */
 bool SDPlugin::validateGenerationDimensions(int width, int height, std::string& error_out) {
     constexpr int kMaxDimension = 8192;
     if (width <= 0 || height <= 0) {
@@ -108,6 +122,15 @@ bool SDPlugin::validateGenerationDimensions(int width, int height, std::string& 
     return true;
 }
 
+/**
+ * @brief Validate Rgb Buffer Shape.
+ * @param[in] rgb Input parameter.
+ * @param[in] width Input parameter.
+ * @param[in] height Input parameter.
+ * @param[in,out] error_out Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: validateGenerationDimensions(), size(), clear().
+ */
 bool SDPlugin::validateRgbBufferShape(const std::vector<uint8_t>& rgb,
                                       int width,
                                       int height,
@@ -124,6 +147,12 @@ bool SDPlugin::validateRgbBufferShape(const std::vector<uint8_t>& rgb,
     return true;
 }
 
+/**
+ * @brief Normalize Lower Hex.
+ * @param[in] hex Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), std::isspace(), push_back(), std::tolower().
+ */
 std::string SDPlugin::normalizeLowerHex(const std::string& hex) {
     std::string out = {};
     out.reserve(hex.size());
@@ -135,7 +164,12 @@ std::string SDPlugin::normalizeLowerHex(const std::string& hex) {
     return out;
 }
 
-// ── sha256Hex (FNV-based hex fingerprint; name kept for API compatibility) ─────
+/**
+ * @brief ── sha256Hex (FNV-based hex fingerprint; name kept for API compatibility) ─────
+ * @param[in] input Input parameter.
+ * @return Return value.
+ * @details Calls: std::setfill(), std::setw(), str().
+ */
 
 std::string SDPlugin::sha256Hex(const std::string& input) {
     // FNV-1a 64-bit – not cryptographic but sufficient as a stable prompt fingerprint
@@ -196,7 +230,15 @@ std::optional<std::string> SDPlugin::computePerceptualHash(const std::vector<uin
     return oss.str();
 }
 
-// ── encodeMinimalPng ──────────────────────────────────────────────────────────
+/**
+ * @brief ── encodeMinimalPng ──────────────────────────────────────────────────────────
+ * @param[in] rgb Input parameter.
+ * @param[in] width Input parameter.
+ * @param[in] height Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: validateGenerationDimensions(), push_back(), put_be32(), size(), insert(), end(), crc32_of(), data().
+ */
 
 std::vector<uint8_t> SDPlugin::encodeMinimalPng(const std::vector<uint8_t>& rgb,
                                                   int width, int height) {
@@ -338,7 +380,13 @@ std::vector<uint8_t> SDPlugin::encodeMinimalPng(const std::vector<uint8_t>& rgb,
     return png;
 }
 
-// ── generateLocked (internal, called with generate_mutex_ held) ───────────────
+/**
+ * @brief ── generateLocked (internal, called with generate_mutex_ held) ───────────────
+ * @param[in] prompt Input parameter.
+ * @param[in] cfg Input parameter.
+ * @return Return value.
+ * @details Calls: getPluginVersion(), isPromptAllowed(), sha256Hex(), empty(), sanitize(), validateGenerationDimensions(), validateRgbBufferShape(), std::isfinite().
+ */
 
 GeneratedImage SDPlugin::generateLocked(const std::string& prompt,
                                          const SDGenerationConfig& cfg) {
@@ -450,7 +498,13 @@ GeneratedImage SDPlugin::generateLocked(const std::string& prompt,
     return img;
 }
 
-// ── generate ──────────────────────────────────────────────────────────────────
+/**
+ * @brief ── generate ──────────────────────────────────────────────────────────────────
+ * @param[in] prompt Input parameter.
+ * @param[in] cfg Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), generateLocked().
+ */
 
 GeneratedImage SDPlugin::generate(const std::string& prompt,
                                    const SDGenerationConfig& cfg) {
@@ -458,7 +512,13 @@ GeneratedImage SDPlugin::generate(const std::string& prompt,
     return generateLocked(prompt, cfg);
 }
 
-// ── generateBatch ─────────────────────────────────────────────────────────────
+/**
+ * @brief ── generateBatch ─────────────────────────────────────────────────────────────
+ * @param[in] prompts Input parameter.
+ * @param[in] cfg Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), reserve(), size(), push_back(), generateLocked().
+ */
 
 std::vector<GeneratedImage> SDPlugin::generateBatch(
         const std::vector<std::string>& prompts,
@@ -473,7 +533,13 @@ std::vector<GeneratedImage> SDPlugin::generateBatch(
     return results;
 }
 
-// ── generateImg2Img ───────────────────────────────────────────────────────────
+/**
+ * @brief ── generateImg2Img ───────────────────────────────────────────────────────────
+ * @param[in] prompt Input parameter.
+ * @param[in] cfg Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), generateImg2ImgLocked().
+ */
 
 GeneratedImage SDPlugin::generateImg2Img(const std::string& prompt,
                                           const Img2ImgConfig& cfg) {
@@ -481,6 +547,13 @@ GeneratedImage SDPlugin::generateImg2Img(const std::string& prompt,
     return generateImg2ImgLocked(prompt, cfg);
 }
 
+/**
+ * @brief Generate Img2 Img Locked.
+ * @param[in] prompt Input parameter.
+ * @param[in] cfg Input parameter.
+ * @return Return value.
+ * @details Calls: getPluginVersion(), isPromptAllowed(), sha256Hex(), empty(), sanitize(), validateRgbBufferShape(), validateGenerationDimensions(), std::isfinite().
+ */
 GeneratedImage SDPlugin::generateImg2ImgLocked(const std::string& prompt,
                                                const Img2ImgConfig& cfg) {
     GeneratedImage img;
@@ -628,11 +701,21 @@ nlohmann::json SDPlugin::getStatistics() const {
 
 #if !defined(THEMIS_TEST_BUILD) && defined(THEMIS_PLUGIN_EXPORTS)
 extern "C" THEMIS_PLUGIN_EXPORT
+/**
+ * @brief Themis imggen create.
+ * @return Pointer to the result.
+ * @details Calls: themis::imggen::SDPlugin().
+ */
 themis::imggen::IImageGenerationBackend* themis_imggen_create() {
     return new themis::imggen::SDPlugin();
 }
 
 extern "C" THEMIS_PLUGIN_EXPORT
+/**
+ * @brief Themis imggen destroy.
+ * @param[in,out] p Input/output parameter.
+ * @details Implements themis_imggen_destroy without additional internal calls.
+ */
 void themis_imggen_destroy(themis::imggen::IImageGenerationBackend* p) {
     delete p;
 }

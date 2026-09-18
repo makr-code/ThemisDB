@@ -32,6 +32,13 @@ SearchAnalytics::SearchAnalytics(const Config& config) : config_(config) {
 // Event recording
 // ============================================================================
 
+/**
+ * @brief Record.
+ * @param[in] query Input parameter.
+ * @param[in] result_count Input parameter.
+ * @param[in] latency_ms Input parameter.
+ * @details Calls: std::chrono::system_clock::now(), lock(), size(), erase(), begin(), push_back(), std::move(), THEMIS_WARN().
+ */
 void SearchAnalytics::record(const std::string& query,
                               size_t result_count,
                               double latency_ms) {
@@ -60,6 +67,11 @@ void SearchAnalytics::record(const std::string& query,
 // ============================================================================
 
 std::vector<SearchEvent> SearchAnalytics::getZeroResultQueries(size_t limit) const {
+    /**
+     * @brief Lock.
+     * @param[in] mu_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mu_);
     std::vector<SearchEvent> result = {};
 
@@ -75,6 +87,11 @@ std::vector<SearchEvent> SearchAnalytics::getZeroResultQueries(size_t limit) con
 }
 
 std::vector<SearchEvent> SearchAnalytics::getRecentEvents(size_t limit) const {
+    /**
+     * @brief Lock.
+     * @param[in] mu_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mu_);
     std::vector<SearchEvent> result = {};
 
@@ -87,6 +104,11 @@ std::vector<SearchEvent> SearchAnalytics::getRecentEvents(size_t limit) const {
 }
 
 SearchMetrics SearchAnalytics::computeMetrics() const {
+    /**
+     * @brief Lock.
+     * @param[in] mu_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mu_);
     SearchMetrics m = {};
     if (events_.empty()) {
@@ -140,6 +162,11 @@ SearchMetrics SearchAnalytics::computeMetrics() const {
 
 std::vector<std::pair<std::string, size_t>>
 SearchAnalytics::getTopQueries(size_t limit) const {
+    /**
+     * @brief Lock.
+     * @param[in] mu_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mu_);
     if (events_.empty() || limit == 0) return {};
 
@@ -166,10 +193,19 @@ SearchAnalytics::getTopQueries(size_t limit) const {
 // ============================================================================
 
 size_t SearchAnalytics::eventCount() const {
+    /**
+     * @brief Lock.
+     * @param[in] mu_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mu_);
     return events_.size();
 }
 
+/**
+ * @brief Clear.
+ * @details Calls: lock().
+ */
 void SearchAnalytics::clear() {
     std::lock_guard<std::mutex> lock(mu_);
     events_.clear();

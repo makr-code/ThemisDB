@@ -242,14 +242,14 @@ JoinResult AdaptiveJoinExecutor::executeJoin(const JoinSpec& spec,
     return result;
 }
 
+
 /**
- * @brief ============================================================================ mergeRows — helper ============================================================================
+ * @brief Merge Rows.
  * @param[in] left_row Input parameter.
  * @param[in] right_row Input parameter.
  * @return Return value.
  * @details Implements mergeRows without additional internal calls.
  */
-
 RowValue AdaptiveJoinExecutor::mergeRows(const RowValue& left_row,
                                           const RowValue& right_row) {
     RowValue merged = left_row;
@@ -528,7 +528,7 @@ JoinResult AdaptiveJoinExecutor::executeGraceHashJoin(const JoinSpec& spec,
     const size_t right_per_partition = (right.rowCount() + NUM_PARTITIONS - 1) / NUM_PARTITIONS;
 
     /**
-     * @brief Partition left side.
+     * @brief Left parts.
      * @param[in] NUM_PARTITIONS Input parameter.
      * @return Return value.
      */
@@ -546,7 +546,7 @@ JoinResult AdaptiveJoinExecutor::executeGraceHashJoin(const JoinSpec& spec,
     }
 
     /**
-     * @brief Partition right side.
+     * @brief Right parts.
      * @param[in] NUM_PARTITIONS Input parameter.
      * @return Return value.
      */

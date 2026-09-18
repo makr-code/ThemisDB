@@ -121,9 +121,12 @@ ProcessAgenticRag::encodeContext(const ProcessRagContext& ctx)
     return docs;
 }
 
-// ---------------------------------------------------------------------------
-// mergeDocuments – incorporate extra docs back into context
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- mergeDocuments – incorporate extra docs back into context ---------------------------------------------------------------------------
+ * @param[in] ctx Input parameter.
+ * @param[in] extra_docs Input parameter.
+ * @return Return value.
+ */
 
 ProcessRagContext ProcessAgenticRag::mergeDocuments(
     ProcessRagContext ctx,
@@ -183,6 +186,13 @@ ProcessRagContext ProcessAgenticRag::mergeDocuments(
 // runLoop – core agentic loop
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Run Loop.
+ * @param[in] instance_id Identifier of the instance.
+ * @param[in] question Input parameter.
+ * @param[in] initial_ctx Input parameter.
+ * @return Return value.
+ */
 ProcessAgenticResult ProcessAgenticRag::runLoop(
     std::string_view  instance_id,
     std::string_view  question,
@@ -198,13 +208,21 @@ ProcessAgenticResult ProcessAgenticRag::runLoop(
     agentic_cfg.max_total_documents   = config_.max_total_documents;
     agentic_cfg.accumulate_documents  = true;
 
+    /**
+     * @brief Agent.
+     * @param[in] agentic_cfg Input parameter.
+     * @return Return value.
+     */
     rag::agentic::AgenticRAG agent(agentic_cfg);
 
     // Encode the initial context.
     auto initial_docs = encodeContext(initial_ctx);
 
-    // Build the retrieval callback: on subsequent iterations, re-retrieve
-    // with the reformulated query and return newly-seen documents.
+    /**
+     * @brief Build the retrieval callback: on subsequent iterations, re-retrieve with the reformulated query and return newly-seen documents.
+     * @param[in] instance_id Identifier of the instance.
+     * @return Return value.
+     */
     const std::string inst_str(instance_id);
     const ProcessRagConfig& rag_cfg = config_.rag_config;
 
@@ -282,6 +300,12 @@ ProcessAgenticResult ProcessAgenticRag::runLoop(
 // Public API
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Iterative Query.
+ * @param[in] instance_id Identifier of the instance.
+ * @param[in] question Input parameter.
+ * @return Return value.
+ */
 ProcessAgenticResult ProcessAgenticRag::iterativeQuery(
     std::string_view instance_id,
     std::string_view question)
@@ -291,6 +315,13 @@ ProcessAgenticResult ProcessAgenticRag::iterativeQuery(
     return runLoop(instance_id, question, std::move(initial_ctx));
 }
 
+/**
+ * @brief Iterative Query For Node.
+ * @param[in] instance_id Identifier of the instance.
+ * @param[in] node_id Identifier of the node.
+ * @param[in] question Input parameter.
+ * @return Return value.
+ */
 ProcessAgenticResult ProcessAgenticRag::iterativeQueryForNode(
     std::string_view instance_id,
     std::string_view node_id,

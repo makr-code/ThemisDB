@@ -23,6 +23,11 @@ SnapshotApiHandler::SnapshotApiHandler(transaction::SnapshotManager& snapshot_ma
     : snapshot_manager_(snapshot_manager) {
 }
 
+/**
+ * @brief Register Routes.
+ * @param[in,out] server Input/output parameter.
+ * @details Calls: Post(), handleCreateTag(), Get(), handleListTags(), handleGetTag(), Delete(), handleDeleteTag(), handleGetStats().
+ */
 void SnapshotApiHandler::registerRoutes(httplib::Server& server) {
     // POST /api/v1/snapshots/tags - Create tag
     server.Post("/api/v1/snapshots/tags", [this](const httplib::Request& req, httplib::Response& res) {
@@ -52,6 +57,12 @@ void SnapshotApiHandler::registerRoutes(httplib::Server& server) {
     spdlog::info("Snapshot API routes registered");
 }
 
+/**
+ * @brief Handle Create Tag.
+ * @param[in] req Input parameter.
+ * @param[in,out] res Input/output parameter.
+ * @details Calls: Tracer::startSpan(), json::parse(), contains(), sendError(), value(), createTag(), has_value(), fmt::format().
+ */
 void SnapshotApiHandler::handleCreateTag(const httplib::Request& req, httplib::Response& res) {
     try {
     auto span = Tracer::startSpan("handleCreateTag");
@@ -85,6 +96,12 @@ void SnapshotApiHandler::handleCreateTag(const httplib::Request& req, httplib::R
     }
 }
 
+/**
+ * @brief Handle List Tags.
+ * @param[in] req Input parameter.
+ * @param[in,out] res Input/output parameter.
+ * @details Calls: Tracer::startSpan(), has_param(), std::stoull(), get_param_value(), THEMIS_WARN(), sendError(), empty(), listTags().
+ */
 void SnapshotApiHandler::handleListTags(const httplib::Request& req, httplib::Response& res) {
     try {
     auto span = Tracer::startSpan("handleListTags");
@@ -127,6 +144,12 @@ void SnapshotApiHandler::handleListTags(const httplib::Request& req, httplib::Re
     }
 }
 
+/**
+ * @brief Handle Get Tag.
+ * @param[in] req Input parameter.
+ * @param[in,out] res Input/output parameter.
+ * @details Calls: Tracer::startSpan(), getTag(), has_value(), sendError(), fmt::format(), sendJson(), toJson(), what().
+ */
 void SnapshotApiHandler::handleGetTag(const httplib::Request& req, httplib::Response& res) {
     try {
     auto span = Tracer::startSpan("handleGetTag");
@@ -148,6 +171,12 @@ void SnapshotApiHandler::handleGetTag(const httplib::Request& req, httplib::Resp
     }
 }
 
+/**
+ * @brief Handle Delete Tag.
+ * @param[in] req Input parameter.
+ * @param[in,out] res Input/output parameter.
+ * @details Calls: Tracer::startSpan(), deleteTag(), sendError(), fmt::format(), sendJson(), what().
+ */
 void SnapshotApiHandler::handleDeleteTag(const httplib::Request& req, httplib::Response& res) {
     try {
     auto span = Tracer::startSpan("handleDeleteTag");
@@ -172,6 +201,12 @@ void SnapshotApiHandler::handleDeleteTag(const httplib::Request& req, httplib::R
     }
 }
 
+/**
+ * @brief Handle Get Stats.
+ * @param[in] param Input parameter.
+ * @param[in,out] res Input/output parameter.
+ * @details Calls: Tracer::startSpan(), getStats(), sendJson(), toJson(), sendError(), fmt::format(), what().
+ */
 void SnapshotApiHandler::handleGetStats(const httplib::Request& /*req*/, httplib::Response& res) {
     try {
     auto span = Tracer::startSpan("handleGetStats");

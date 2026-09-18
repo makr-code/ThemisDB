@@ -39,8 +39,15 @@ namespace server {
 
 namespace {
 
-// libcurl write callback – appends received data to a std::string.
-// size is always 1 per the libcurl contract; nmemb is the byte count.
+/**
+ * @brief libcurl write callback – appends received data to a std::string.
+ * @param[in,out] ptr Input/output parameter.
+ * @param[in] size Input parameter.
+ * @param[in] nmemb Input parameter.
+ * @param[in,out] userdata Input/output parameter.
+ * @return Return value.
+ * @details size is always 1 per the libcurl contract; nmemb is the byte count. Calls: append().
+ */
 size_t curlWriteCallback(char* ptr, size_t size, size_t nmemb, void* userdata) {
     const size_t total = size * nmemb;  // safe: size==1 per libcurl contract
     static_cast<std::string*>(userdata)->append(ptr, total);
@@ -125,11 +132,22 @@ OAuth2Provider::OAuth2Provider(const Config& config)
 // Pending-state helpers
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Store Pending State.
+ * @param[in] code_verifier Input parameter.
+ * @param[in] requested_state Input parameter.
+ * @return Return value.
+ */
 std::string OAuth2Provider::storePendingState(const std::string& code_verifier,
                                                const std::string& requested_state)
 {
     const std::string state = requested_state.empty() ? generateState() : requested_state;
 
+    /**
+     * @brief Lock.
+     * @param[in] pending_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(pending_mutex_);
     evictExpiredStates();
     pending_states_[state] = {
@@ -139,8 +157,18 @@ std::string OAuth2Provider::storePendingState(const std::string& code_verifier,
     return state;
 }
 
+/**
+ * @brief Consume Pending State.
+ * @param[in] state Input parameter.
+ * @return Return value.
+ */
 std::optional<std::string> OAuth2Provider::consumePendingState(const std::string& state)
 {
+    /**
+     * @brief Lock.
+     * @param[in] pending_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(pending_mutex_);
     evictExpiredStates();
     auto it = pending_states_.find(state);
@@ -152,6 +180,9 @@ std::optional<std::string> OAuth2Provider::consumePendingState(const std::string
     return verifier;
 }
 
+/**
+ * @brief Evict Expired States.
+ */
 void OAuth2Provider::evictExpiredStates()
 {
     // Caller must hold pending_mutex_
@@ -189,6 +220,10 @@ auth::OAuthPKCEFlow::Config OAuth2Provider::buildPKCEConfig(
     return cfg;
 }
 
+/**
+ * @brief Ensure PKCEFlow.
+ * @param[in] redirect_uri_override Input parameter.
+ */
 void OAuth2Provider::ensurePKCEFlow(const std::string& redirect_uri_override)
 {
     pkce_flow_ = std::make_unique<auth::OAuthPKCEFlow>(
@@ -250,6 +285,13 @@ std::string OAuth2Provider::httpPost(const std::string& url,
 // Token response helper
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Do Token Exchange.
+ * @param[in] code Input parameter.
+ * @param[in] code_verifier Input parameter.
+ * @param[in] redirect_uri_override Input parameter.
+ * @return Return value.
+ */
 nlohmann::json OAuth2Provider::doTokenExchange(const std::string& code,
                                                 const std::string& code_verifier,
                                                 const std::string& redirect_uri_override)
@@ -275,9 +317,12 @@ nlohmann::json OAuth2Provider::doTokenExchange(const std::string& code,
     return result;
 }
 
-// ---------------------------------------------------------------------------
-// GET /api/v1/auth/oauth2/authorize
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- GET /api/v1/auth/oauth2/authorize ---------------------------------------------------------------------------
+ * @param[in] state Input parameter.
+ * @param[in] redirect_uri Input parameter.
+ * @return Return value.
+ */
 
 nlohmann::json OAuth2Provider::handleAuthorize(const std::string& state,
                                                 const std::string& redirect_uri)
@@ -312,9 +357,12 @@ nlohmann::json OAuth2Provider::handleAuthorize(const std::string& state,
     }
 }
 
-// ---------------------------------------------------------------------------
-// GET /api/v1/auth/oauth2/callback
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- GET /api/v1/auth/oauth2/callback ---------------------------------------------------------------------------
+ * @param[in] code Input parameter.
+ * @param[in] state Input parameter.
+ * @return Return value.
+ */
 
 nlohmann::json OAuth2Provider::handleCallback(const std::string& code,
                                                const std::string& state)
@@ -350,9 +398,13 @@ nlohmann::json OAuth2Provider::handleCallback(const std::string& code,
     }
 }
 
-// ---------------------------------------------------------------------------
-// POST /api/v1/auth/oauth2/token
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- POST /api/v1/auth/oauth2/token ---------------------------------------------------------------------------
+ * @param[in] code Input parameter.
+ * @param[in] code_verifier Input parameter.
+ * @param[in] state Input parameter.
+ * @return Return value.
+ */
 
 nlohmann::json OAuth2Provider::handleTokenExchange(const std::string& code,
                                                     const std::string& code_verifier,
@@ -398,9 +450,11 @@ nlohmann::json OAuth2Provider::handleTokenExchange(const std::string& code,
     }
 }
 
-// ---------------------------------------------------------------------------
-// POST /api/v1/auth/oauth2/refresh
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- POST /api/v1/auth/oauth2/refresh ---------------------------------------------------------------------------
+ * @param[in] refresh_token Input parameter.
+ * @return Return value.
+ */
 
 nlohmann::json OAuth2Provider::handleRefresh(const std::string& refresh_token)
 {
@@ -484,9 +538,11 @@ nlohmann::json OAuth2Provider::handleRefresh(const std::string& refresh_token)
     }
 }
 
-// ---------------------------------------------------------------------------
-// POST /api/v1/auth/token/introspect
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- POST /api/v1/auth/token/introspect ---------------------------------------------------------------------------
+ * @param[in] token Input parameter.
+ * @return Return value.
+ */
 
 nlohmann::json OAuth2Provider::handleIntrospect(const std::string& token)
 {
@@ -544,9 +600,11 @@ nlohmann::json OAuth2Provider::handleIntrospect(const std::string& token)
     }
 }
 
-// ---------------------------------------------------------------------------
-// POST /api/v1/auth/oauth2/logout
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- POST /api/v1/auth/oauth2/logout ---------------------------------------------------------------------------
+ * @param[in] refresh_token Input parameter.
+ * @return Return value.
+ */
 
 nlohmann::json OAuth2Provider::handleLogout(const std::string& refresh_token)
 {
@@ -578,6 +636,10 @@ nlohmann::json OAuth2Provider::handleLogout(const std::string& refresh_token)
 // Testing helpers
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Set Discovery Document For Testing.
+ * @param[in] doc Input parameter.
+ */
 void OAuth2Provider::setDiscoveryDocumentForTesting(
     const auth::OIDCDiscoveryDocument& doc)
 {
@@ -608,6 +670,10 @@ void OAuth2Provider::setRandBytesForTesting(
     }
 }
 
+/**
+ * @brief Set Refresh Token Revocation Fn.
+ * @param[in] fn Input parameter.
+ */
 void OAuth2Provider::setRefreshTokenRevocationFn(RefreshTokenRevocationFn fn)
 {
     refresh_token_revocation_fn_ = std::move(fn);

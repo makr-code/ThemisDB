@@ -26,64 +26,15 @@ struct clip_image_f32;
 namespace themis {
 namespace llm {
 
-/**
- * @brief Vision Encoder using CLIP for multi-modal LLM support
- * 
- * This class provides image encoding capabilities using CLIP (Contrastive Language-Image Pre-training)
- * models for integration with vision-language models like LLaVA.
- * 
- * Features:
- * - Load CLIP vision encoder models (GGUF format)
- * - Encode images to embedding vectors
- * - Image preprocessing (resize, normalize)
- * - Support for multiple image formats (JPEG, PNG, etc.)
- * - GPU acceleration support
- * 
- * Usage:
- * @code
- * auto config = VisionConfig::loadFromFile("config/vision_config.yaml");
- * VisionEncoder encoder("/models/mmproj-model-f16.gguf", config);
- * auto embeddings = encoder.encodeImage("/path/to/image.jpg");
- * @endcode
- * 
- * Based on llama.cpp CLIP integration:
- * https://github.com/ggerganov/llama.cpp/tree/master/examples/llava
- * 
- * Enhanced with:
- * - Configuration-driven validation and limits
- * - Resource monitoring and tracking
- * - License compliance checking
- * - Production-ready error handling
- */
 class VisionEncoder {
 public:
-    /**
-     * @brief Construct a VisionEncoder with configuration
-     * 
-     * @param clip_model_path Path to CLIP model file (GGUF format)
-     * @param config Vision configuration (optional, uses defaults if null)
-     * @param resource_monitor Resource monitor (optional, for tracking)
-     * @param verbosity Logging verbosity (0=silent, 1=normal, 2=verbose)
-     * @throws std::runtime_error if model fails to load or validation fails
-     */
     explicit VisionEncoder(const std::string& clip_model_path, 
                           std::shared_ptr<VisionConfig> config = nullptr,
                           std::shared_ptr<VisionResourceMonitor> resource_monitor = nullptr,
                           int verbosity = 1);
     
-    /**
-     * @brief Construct a VisionEncoder (legacy, for backward compatibility)
-     * 
-     * @param clip_model_path Path to CLIP model file (GGUF format)
-     * @param verbosity Logging verbosity (0=silent, 1=normal, 2=verbose)
-     * @throws std::runtime_error if model fails to load
-     * @deprecated Use constructor with VisionConfig instead
-     */
     explicit VisionEncoder(const std::string& clip_model_path, int verbosity = 1);
     
-    /**
-     * @brief Destructor - releases CLIP model resources
-     */
     ~VisionEncoder();
     
     // Disable copy construction and assignment
@@ -95,107 +46,92 @@ public:
     VisionEncoder& operator=(VisionEncoder&& other) noexcept;
     
     /**
-     * @brief Encode an image file to embedding vector
-     * 
-     * Loads the image, preprocesses it (resize, normalize), and encodes
-     * it using the CLIP vision encoder.
-     * 
-     * @param image_path Path to image file (JPEG, PNG, BMP, etc.)
-     * @return Embedding vector (size depends on model: num_patches × embedding_dim or just embedding_dim)
-     * @throws std::runtime_error if image loading or encoding fails
+     * @brief Encode Image.
+     * @param[in] image_path Path to the image.
+     * @return Return value.
      */
     std::vector<float> encodeImage(const std::string& image_path);
     
     /**
-     * @brief Encode image data from memory
-     * 
-     * @param image_data Raw image bytes (JPEG, PNG, etc.)
-     * @return Embedding vector
-     * @throws std::runtime_error if encoding fails
+     * @brief Encode Image Data.
+     * @param[in] image_data Input parameter.
+     * @return Return value.
      */
     std::vector<float> encodeImageData(const std::vector<uint8_t>& image_data);
     
     /**
-     * @brief Get the embedding dimension
-     * 
-     * @return Dimension of the output embedding vector
+     * @brief Get Embedding Dimension.
+     * @return Return value.
      */
     int getEmbeddingDimension() const;
     
     /**
-     * @brief Get the number of image patches
-     * 
-     * For CLIP ViT models, images are divided into patches.
-     * Common values: 576 (24×24), 256 (16×16), depending on model architecture.
-     * 
-     * @return Number of image patches (model-dependent)
+     * @brief Get Num Patches.
+     * @return Return value.
      */
     int getNumPatches() const;
     
     /**
-     * @brief Get the total embedding size
-     * 
-     * @return Total size = num_patches × embedding_dimension
+     * @brief Get Total Embedding Size.
+     * @return Return value.
      */
     size_t getTotalEmbeddingSize() const;
     
     /**
-     * @brief Check if encoder is ready
-     * 
-     * @return true if model is loaded and ready for inference
+     * @brief Is Ready.
+     * @return True when the operation succeeds.
      */
     bool isReady() const;
     
     /**
-     * @brief Get model information
-     * 
-     * @return Model name/description
+     * @brief Get Model Info.
+     * @return Return value.
      */
     std::string getModelInfo() const;
     
     /**
-     * @brief Get model license information
-     * 
-     * @return Model license (if available)
+     * @brief Get Model License.
+     * @return Return value.
      */
     std::shared_ptr<ModelLicense> getModelLicense() const;
     
     /**
-     * @brief Validate image against security constraints
-     * 
-     * @param image_path Path to image file
-     * @return true if valid, false otherwise
+     * @brief Validate Image.
+     * @param[in] image_path Path to the image.
+     * @return True when the operation succeeds.
      */
     bool validateImage(const std::string& image_path) const;
     
     /**
-     * @brief Set user context for resource tracking
+     * @brief Set User Context.
+     * @param[in] user_id Identifier of the user.
      */
     void setUserContext(const std::string& user_id);
     
 private:
     /**
-     * @brief Load image from file path
-     * 
-     * @param image_path Path to image file
-     * @return Image data structure
-     * @throws std::runtime_error if loading fails
+     * @brief Load Image.
+     * @param[in] image_path Path to the image.
+     * @return Pointer to the result.
      */
     clip_image_u8* loadImage(const std::string& image_path);
     
     /**
-     * @brief Preprocess image (resize, normalize)
-     * 
-     * @param img_u8 Input image (uint8)
-     * @return Preprocessed image (float32)
-     * @throws std::runtime_error if preprocessing fails
+     * @brief Preprocess Image.
+     * @param[in] img_u8 Input parameter.
+     * @return Pointer to the result.
      */
     clip_image_f32* preprocessImage(const clip_image_u8* img_u8);
     
     /**
-     * @brief Free image resources
+     * @brief Free Image.
+     * @param[in,out] img_u8 Input/output parameter.
      */
     void freeImage(clip_image_u8* img_u8);
+    /**
+     * @brief Free Image.
+     * @param[in,out] img_f32 Input/output parameter.
+     */
     void freeImage(clip_image_f32* img_f32);
     
 private:
@@ -212,16 +148,26 @@ private:
     std::string current_user_id_;                             ///< Current user context
     
     // Validation helpers
+    /**
+     * @brief Validate Image Size.
+     * @param[in] image_path Path to the image.
+     * @return True when the operation succeeds.
+     */
     bool validateImageSize(const std::string& image_path) const;
+    /**
+     * @brief Validate Image Format.
+     * @param[in] image_path Path to the image.
+     * @return True when the operation succeeds.
+     */
     bool validateImageFormat(const std::string& image_path) const;
+    /**
+     * @brief Validate Image Resolution.
+     * @param[in] image_path Path to the image.
+     * @return True when the operation succeeds.
+     */
     bool validateImageResolution(const std::string& image_path) const;
 };
 
-/**
- * @brief Vision Request Parameters
- * 
- * Parameters for vision-enabled LLM inference
- */
 struct VisionRequest {
     std::string text_prompt;           ///< Text prompt/question
     std::string image_path;            ///< Path to single image
@@ -238,12 +184,11 @@ struct VisionRequest {
     std::string image_token = "<image>"; ///< Special image token
 };
 
-/**
- * @brief Vision Response
- * 
- * Response from vision-enabled LLM
- */
 struct VisionResponse {
+    /**
+     * @brief Vision Response.
+     * @return Return value.
+     */
     virtual ~VisionResponse() = default;
     bool success = false;              ///< Success flag
     std::string text;                  ///< Generated text

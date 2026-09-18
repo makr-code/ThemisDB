@@ -88,7 +88,13 @@ std::string PropertyGraphManager::makeGraphIndegKey_(std::string_view graph_id, 
     return oss.str();
 }
 
-// ===== Node Label Operations =====
+/**
+ * @brief ===== Node Label Operations =====
+ * @param[in] node Input parameter.
+ * @param[in] graph_id Identifier of the graph.
+ * @return Return value.
+ * @details Calls: isOpen(), Status::Error(), getFieldAsString(), has_value(), extractLabels_(), createWriteBatch(), makeNodeKey_(), put().
+ */
 
 PropertyGraphManager::Status PropertyGraphManager::addNode(const BaseEntity& node, std::string_view graph_id) {
     if (!db_.isOpen()) {
@@ -126,6 +132,13 @@ PropertyGraphManager::Status PropertyGraphManager::addNode(const BaseEntity& nod
     return Status::OK();
 }
 
+/**
+ * @brief Delete Node.
+ * @param[in] pk Input parameter.
+ * @param[in] graph_id Identifier of the graph.
+ * @return Return value.
+ * @details Calls: isOpen(), Status::Error(), makeNodeKey_(), get(), has_value(), Status::OK(), BaseEntity::deserialize(), std::string().
+ */
 PropertyGraphManager::Status PropertyGraphManager::deleteNode(std::string_view pk, std::string_view graph_id) {
     if (!db_.isOpen()) {
         return Status::Error("deleteNode: Database not open");
@@ -238,6 +251,14 @@ PropertyGraphManager::Status PropertyGraphManager::deleteNode(std::string_view p
     return Status::OK();
 }
 
+/**
+ * @brief Add Node Label.
+ * @param[in] pk Input parameter.
+ * @param[in] label Input parameter.
+ * @param[in] graph_id Identifier of the graph.
+ * @return Return value.
+ * @details Calls: isOpen(), Status::Error(), makeNodeKey_(), get(), has_value(), BaseEntity::deserialize(), std::string(), extractLabels_().
+ */
 PropertyGraphManager::Status PropertyGraphManager::addNodeLabel(std::string_view pk, std::string_view label, std::string_view graph_id) {
     if (!db_.isOpen()) {
         return Status::Error("addNodeLabel: Database not open");
@@ -281,6 +302,14 @@ PropertyGraphManager::Status PropertyGraphManager::addNodeLabel(std::string_view
     return Status::OK();
 }
 
+/**
+ * @brief Remove Node Label.
+ * @param[in] pk Input parameter.
+ * @param[in] label Input parameter.
+ * @param[in] graph_id Identifier of the graph.
+ * @return Return value.
+ * @details Calls: isOpen(), Status::Error(), makeNodeKey_(), get(), has_value(), BaseEntity::deserialize(), std::string(), extractLabels_().
+ */
 PropertyGraphManager::Status PropertyGraphManager::removeNodeLabel(std::string_view pk, std::string_view label, std::string_view graph_id) {
     if (!db_.isOpen()) {
         return Status::Error("removeNodeLabel: Database not open");
@@ -349,7 +378,11 @@ std::pair<PropertyGraphManager::Status, std::vector<std::string>> PropertyGraphM
     std::string prefix = oss.str();
 
     db_.scanPrefix(prefix, [&nodes, &prefix](std::string_view key, std::string_view /*val*/) {
-        // Extract PK from key: label:<graph_id>:<label>:<pk>
+        /**
+         * @brief Extract PK from key: label:<graph_id>:<label>:<pk>
+         * @param[in] key Input parameter.
+         * @return Return value.
+         */
         std::string keyStr(key);
         size_t lastColon = keyStr.rfind(':');
         if (lastColon != std::string::npos && lastColon + 1 >= prefix.size()) {
@@ -383,7 +416,13 @@ std::pair<PropertyGraphManager::Status, std::vector<std::string>> PropertyGraphM
     return {Status::OK(), labels};
 }
 
-// ===== Relationship Type Operations =====
+/**
+ * @brief ===== Relationship Type Operations =====
+ * @param[in] edge Input parameter.
+ * @param[in] graph_id Identifier of the graph.
+ * @return Return value.
+ * @details Calls: isOpen(), Status::Error(), getFieldAsString(), extractType_(), createWriteBatch(), makeEdgeKey_(), put(), serialize().
+ */
 
 PropertyGraphManager::Status PropertyGraphManager::addEdge(const BaseEntity& edge, std::string_view graph_id) {
     if (!db_.isOpen()) {
@@ -433,6 +472,13 @@ PropertyGraphManager::Status PropertyGraphManager::addEdge(const BaseEntity& edg
     return Status::OK();
 }
 
+/**
+ * @brief Delete Edge.
+ * @param[in] edgeId Input parameter.
+ * @param[in] graph_id Identifier of the graph.
+ * @return Return value.
+ * @details Calls: isOpen(), Status::Error(), makeEdgeKey_(), get(), has_value(), Status::OK(), BaseEntity::deserialize(), std::string().
+ */
 PropertyGraphManager::Status PropertyGraphManager::deleteEdge(std::string_view edgeId, std::string_view graph_id) {
     if (!db_.isOpen()) {
         return Status::Error("deleteEdge: Database not open");
@@ -493,7 +539,11 @@ PropertyGraphManager::getEdgesByType(std::string_view type, std::string_view gra
     std::string prefix = oss.str();
 
     db_.scanPrefix(prefix, [this, &edges, &prefix, &graph_id](std::string_view key, std::string_view /*val*/) {
-        // Extract edgeId from key: type:<graph_id>:<type>:<edgeId>
+        /**
+         * @brief Extract edgeId from key: type:<graph_id>:<type>:<edgeId>
+         * @param[in] key Input parameter.
+         * @return Return value.
+         */
         std::string keyStr(key);
         size_t lastColon = keyStr.rfind(':');
         if (lastColon != std::string::npos && lastColon + 1 >= prefix.size()) {
@@ -565,7 +615,11 @@ PropertyGraphManager::getTypedOutEdges(
     std::string prefix = oss.str();
 
     db_.scanPrefix(prefix, [this, &edges, &type, &graph_id, &fromPk](std::string_view key, std::string_view val) {
-        // Extract edgeId from key: graph:out:<graph_id>:<from_pk>:<edgeId>
+        /**
+         * @brief Extract edgeId from key: graph:out:<graph_id>:<from_pk>:<edgeId>
+         * @param[in] key Input parameter.
+         * @return Return value.
+         */
         std::string keyStr(key);
         size_t lastColon = keyStr.rfind(':');
         if (lastColon == std::string::npos) {
@@ -573,6 +627,11 @@ PropertyGraphManager::getTypedOutEdges(
         }
         
         std::string edgeId = keyStr.substr(lastColon + 1);
+        /**
+         * @brief To Pk.
+         * @param[in] val Input parameter.
+         * @return Return value.
+         */
         std::string toPk(val);
         
         // Load edge to check type
@@ -613,6 +672,11 @@ std::pair<PropertyGraphManager::Status, std::vector<std::string>> PropertyGraphM
     
     // Scan node keys: node:<graph_id>:*
     db_.scanPrefix("node:", [&graphSet](std::string_view key, std::string_view /*val*/) {
+        /**
+         * @brief Key Str.
+         * @param[in] key Input parameter.
+         * @return Return value.
+         */
         std::string keyStr(key);
         // Extract graph_id from key: node:<graph_id>:<pk>
         size_t firstColon = keyStr.find(':');
@@ -664,6 +728,11 @@ PropertyGraphManager::getGraphStats(std::string_view graph_id) const {
     std::ostringstream labelPrefix = {};
     labelPrefix << "label:" << graph_id << ":";
     db_.scanPrefix(labelPrefix.str(), [&labels, &labelPrefix](std::string_view key, std::string_view /*val*/) {
+        /**
+         * @brief Key Str.
+         * @param[in] key Input parameter.
+         * @return Return value.
+         */
         std::string keyStr(key);
         // Extract label from key: label:<graph_id>:<label>:<pk>
         size_t prefixLen = labelPrefix.str().size();
@@ -680,6 +749,11 @@ PropertyGraphManager::getGraphStats(std::string_view graph_id) const {
     std::ostringstream typePrefix = {};
     typePrefix << "type:" << graph_id << ":";
     db_.scanPrefix(typePrefix.str(), [&types, &typePrefix](std::string_view key, std::string_view /*val*/) {
+        /**
+         * @brief Key Str.
+         * @param[in] key Input parameter.
+         * @return Return value.
+         */
         std::string keyStr(key);
         // Extract type from key: type:<graph_id>:<type>:<edgeId>
         size_t prefixLen = typePrefix.str().size();
@@ -728,7 +802,13 @@ PropertyGraphManager::federatedQuery(const std::vector<FederationPattern>& patte
     return {Status::OK(), result};
 }
 
-// ===== Batch Operations =====
+/**
+ * @brief ===== Batch Operations =====
+ * @param[in] nodes Input parameter.
+ * @param[in] graph_id Identifier of the graph.
+ * @return Return value.
+ * @details Calls: isOpen(), Status::Error(), createWriteBatch(), getFieldAsString(), has_value(), rollback(), makeNodeKey_(), put().
+ */
 
 PropertyGraphManager::Status PropertyGraphManager::addNodesBatch(
     const std::vector<BaseEntity>& nodes, std::string_view graph_id) {
@@ -768,6 +848,13 @@ PropertyGraphManager::Status PropertyGraphManager::addNodesBatch(
     return Status::OK();
 }
 
+/**
+ * @brief Add Edges Batch.
+ * @param[in] edges Input parameter.
+ * @param[in] graph_id Identifier of the graph.
+ * @return Return value.
+ * @details Calls: isOpen(), Status::Error(), createWriteBatch(), getFieldAsString(), rollback(), makeEdgeKey_(), put(), serialize().
+ */
 PropertyGraphManager::Status PropertyGraphManager::addEdgesBatch(
     const std::vector<BaseEntity>& edges, std::string_view graph_id) {
     if (!db_.isOpen()) {
@@ -859,6 +946,11 @@ PropertyGraphManager::traverseBFS(
         outPrefix << "graph:out:" << graph_id << ":" << current_node << ":";
         
         db_.scanPrefix(outPrefix.str(), [&](std::string_view /*key*/, std::string_view val) {
+            /**
+             * @brief Neighbor.
+             * @param[in] val Input parameter.
+             * @return Return value.
+             */
             std::string neighbor(val);
             if (visited.find(neighbor) == visited.end()) {
                 visited.insert(neighbor);
@@ -915,6 +1007,11 @@ PropertyGraphManager::traverseDFS(
         outPrefix << "graph:out:" << graph_id << ":" << current_node << ":";
         
         db_.scanPrefix(outPrefix.str(), [&](std::string_view /*key*/, std::string_view val) {
+            /**
+             * @brief Neighbor.
+             * @param[in] val Input parameter.
+             * @return Return value.
+             */
             std::string neighbor(val);
             if (visited.find(neighbor) == visited.end()) {
                 neighbors.push_back(neighbor);
@@ -957,7 +1054,17 @@ PropertyGraphManager::findShortestPath(
     std::unordered_map<std::string, std::string> parent;
     std::queue<std::string> queue;
     
+    /**
+     * @brief From str.
+     * @param[in] from_pk Input parameter.
+     * @return Return value.
+     */
     std::string from_str(from_pk);
+    /**
+     * @brief To str.
+     * @param[in] to_pk Input parameter.
+     * @return Return value.
+     */
     std::string to_str(to_pk);
     
     queue.push(from_str);
@@ -980,6 +1087,11 @@ PropertyGraphManager::findShortestPath(
         outPrefix << "graph:out:" << graph_id << ":" << current << ":";
         
         db_.scanPrefix(outPrefix.str(), [&](std::string_view /*key*/, std::string_view val) {
+            /**
+             * @brief Neighbor.
+             * @param[in] val Input parameter.
+             * @return Return value.
+             */
             std::string neighbor(val);
             if (visited.find(neighbor) == visited.end()) {
                 visited.insert(neighbor);
@@ -1066,7 +1178,11 @@ PropertyGraphManager::getOutgoingEdges(
     outPrefix << "graph:out:" << graph_id << ":" << fromPk << ":";
     
     db_.scanPrefix(outPrefix.str(), [this, &edges, &fromPk, &graph_id](std::string_view key, std::string_view val) {
-        // Extract edgeId from key: graph:out:<graph_id>:<from_pk>:<edgeId>
+        /**
+         * @brief Extract edgeId from key: graph:out:<graph_id>:<from_pk>:<edgeId>
+         * @param[in] key Input parameter.
+         * @return Return value.
+         */
         std::string keyStr(key);
         size_t lastColon = keyStr.rfind(':');
         if (lastColon == std::string::npos) {
@@ -1074,6 +1190,11 @@ PropertyGraphManager::getOutgoingEdges(
         }
         
         std::string edgeId = keyStr.substr(lastColon + 1);
+        /**
+         * @brief To Pk.
+         * @param[in] val Input parameter.
+         * @return Return value.
+         */
         std::string toPk(val);
         
         // Load edge to get type
@@ -1114,7 +1235,11 @@ PropertyGraphManager::getIncomingEdges(
     inPrefix << "graph:in:" << graph_id << ":" << toPk << ":";
     
     db_.scanPrefix(inPrefix.str(), [this, &edges, &toPk, &graph_id](std::string_view key, std::string_view val) {
-        // Extract edgeId from key: graph:in:<graph_id>:<to_pk>:<edgeId>
+        /**
+         * @brief Extract edgeId from key: graph:in:<graph_id>:<to_pk>:<edgeId>
+         * @param[in] key Input parameter.
+         * @return Return value.
+         */
         std::string keyStr(key);
         size_t lastColon = keyStr.rfind(':');
         if (lastColon == std::string::npos) {
@@ -1122,6 +1247,11 @@ PropertyGraphManager::getIncomingEdges(
         }
         
         std::string edgeId = keyStr.substr(lastColon + 1);
+        /**
+         * @brief From Pk.
+         * @param[in] val Input parameter.
+         * @return Return value.
+         */
         std::string fromPk(val);
         
         // Load edge to get type
@@ -1167,6 +1297,11 @@ PropertyGraphManager::computePageRank(
     nodePrefix << "node:" << graph_id << ":";
     
     db_.scanPrefix(nodePrefix.str(), [&nodes, &nodePrefix](std::string_view key, std::string_view /*val*/) {
+        /**
+         * @brief Key Str.
+         * @param[in] key Input parameter.
+         * @return Return value.
+         */
         std::string keyStr(key);
         // Extract node PK from key: node:<graph_id>:<pk>
         const std::size_t prefixLen = nodePrefix.str().size();
@@ -1201,6 +1336,11 @@ PropertyGraphManager::computePageRank(
         outPrefix << "graph:out:" << graph_id << ":" << node << ":";
         
         db_.scanPrefix(outPrefix.str(), [&](std::string_view /*key*/, std::string_view val) {
+            /**
+             * @brief To node.
+             * @param[in] val Input parameter.
+             * @return Return value.
+             */
             std::string to_node(val);
             outgoing_count[node]++;
             incoming_nodes[to_node].push_back(node);

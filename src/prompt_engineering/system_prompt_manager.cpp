@@ -30,6 +30,12 @@ nlohmann::json SystemPrompt::toJson() const {
     };
 }
 
+/**
+ * @brief From Json.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: value(), SystemPromptManager::stringToRole(), contains(), is_object().
+ */
 SystemPrompt SystemPrompt::fromJson(const nlohmann::json& j) {
     SystemPrompt sp;
     sp.id          = j.value("id", "");
@@ -48,6 +54,12 @@ SystemPrompt SystemPrompt::fromJson(const nlohmann::json& j) {
 // Role ↔ string helpers
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Role To String.
+ * @param[in] role Input parameter.
+ * @return Return value.
+ * @details Implements roleToString without additional internal calls.
+ */
 std::string SystemPromptManager::roleToString(Role role) {
     switch (role) {
         case Role::DEFAULT:   return "DEFAULT";
@@ -60,6 +72,12 @@ std::string SystemPromptManager::roleToString(Role role) {
     return "DEFAULT";
 }
 
+/**
+ * @brief String To Role.
+ * @param[in] role_str Input parameter.
+ * @return Return value.
+ * @details Implements stringToRole without additional internal calls.
+ */
 Role SystemPromptManager::stringToRole(const std::string& role_str) {
     if (role_str == "USER") {
       return Role::USER;
@@ -103,6 +121,13 @@ std::string SystemPromptManager::injectContext(
 // Standard role API
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Set Prompt.
+ * @param[in] role Input parameter.
+ * @param[in] content Input parameter.
+ * @param[in] version Input parameter.
+ * @details Calls: roleToString(), lock(), std::move().
+ */
 void SystemPromptManager::setPrompt(Role role, const std::string& content,
                                     const std::string& version) {
     const std::string key = roleToString(role);
@@ -120,6 +145,11 @@ void SystemPromptManager::setPrompt(Role role, const std::string& content,
 
 std::optional<SystemPrompt> SystemPromptManager::getPrompt(Role role) const {
     const std::string key = roleToString(role);
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     auto it = prompts_.find(key);
@@ -139,6 +169,12 @@ std::string SystemPromptManager::getPromptContent(
     return opt->content;
 }
 
+/**
+ * @brief Remove Prompt.
+ * @param[in] role Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: roleToString(), lock(), erase().
+ */
 bool SystemPromptManager::removePrompt(Role role) {
     const std::string key = roleToString(role);
     std::lock_guard<std::mutex> lock(mutex_);
@@ -149,6 +185,13 @@ bool SystemPromptManager::removePrompt(Role role) {
 // Custom role API
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Set Custom Prompt.
+ * @param[in] role_name Name of the role.
+ * @param[in] content Input parameter.
+ * @param[in] version Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void SystemPromptManager::setCustomPrompt(const std::string& role_name,
                                           const std::string& content,
                                           const std::string& version) {
@@ -168,6 +211,11 @@ void SystemPromptManager::setCustomPrompt(const std::string& role_name,
 std::optional<SystemPrompt> SystemPromptManager::getCustomPrompt(
     const std::string& role_name) const {
 
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = prompts_.find(role_name);
     if (it == prompts_.end()) {
@@ -187,6 +235,12 @@ std::string SystemPromptManager::getCustomPromptContent(
     return opt->content;
 }
 
+/**
+ * @brief Remove Custom Prompt.
+ * @param[in] role_name Name of the role.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), erase().
+ */
 bool SystemPromptManager::removeCustomPrompt(const std::string& role_name) {
     std::lock_guard<std::mutex> lock(mutex_);
     return prompts_.erase(role_name) > 0;
@@ -197,6 +251,11 @@ bool SystemPromptManager::removeCustomPrompt(const std::string& role_name) {
 // ---------------------------------------------------------------------------
 
 std::vector<SystemPrompt> SystemPromptManager::listPrompts() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     std::vector<SystemPrompt> result = {};
 

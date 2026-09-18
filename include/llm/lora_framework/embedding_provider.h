@@ -27,10 +27,11 @@ namespace themis {
 namespace llm {
 namespace lora {
 
-/**
- * @brief Cached embedding entry
- */
 struct EmbeddingCache {
+    /**
+     * @brief Embedding Cache.
+     * @return Return value.
+     */
     virtual ~EmbeddingCache() = default;
     std::string text;
     std::vector<float> embedding;  // Real embedding from model, not hash-based
@@ -45,10 +46,11 @@ struct EmbeddingCache {
     }
 };
 
-/**
- * @brief Statistics for embedding cache
- */
 struct EmbeddingCacheStats {
+    /**
+     * @brief Embedding Cache Stats.
+     * @return Return value.
+     */
     virtual ~EmbeddingCacheStats() = default;
     size_t total_requests = 0;
     size_t cache_hits = 0;
@@ -64,29 +66,8 @@ struct EmbeddingCacheStats {
     }
 };
 
-/**
- * @brief Provides real embeddings from base model (NOT hash-based)
- * 
- * This is a CRITICAL MISSING FEATURE - training currently uses hash-based
- * embeddings which are meaningless for LoRA optimization.
- * 
- * Features:
- * - Extract real embeddings from base model's embedding layer
- * - Cache embeddings for training datasets
- * - Batch embedding generation for efficiency
- * - Dimension matches model (e.g., 4096 for 13B models)
- * - Serialization for cache persistence
- * 
- * Architecture:
- * Training Data → Get Real Embeddings from Base Model →
- *   → LoRa Training ← Optimize Meaningful Low-Rank Matrices →
- *   → Fine-tuned Model (Real quality improvement)
- */
 class EmbeddingProvider {
 public:
-    /**
-     * @brief Configuration for embedding provider
-     */
     struct Config {
         size_t max_cache_entries = 10000;     // Maximum cached embeddings
         std::chrono::seconds cache_ttl{3600}; // Cache time-to-live
@@ -96,10 +77,11 @@ public:
     };
     
     /**
-     * @brief Construct embedding provider
-     * @param model Base model to extract embeddings from
-     * @param context Model context for inference
-     * @param config Configuration
+     * @brief Embedding Provider.
+     * @param[in,out] model Input/output parameter.
+     * @param[in,out] context Input/output parameter.
+     * @param[in] config Input parameter.
+     * @return Return value.
      */
     explicit EmbeddingProvider(
         llama_model* model,
@@ -114,36 +96,24 @@ public:
     EmbeddingProvider& operator=(const EmbeddingProvider&) = delete;
     
     /**
-     * @brief Get real embedding from base model (NOT hash-based)
-     * 
-     * Extracts embedding from model's embedding layer.
-     * Result dimension matches model (e.g., 4096 for 13B models).
-     * 
-     * @param text Input text
-     * @return Embedding vector (real, not hashed)
+     * @brief Get Embedding.
+     * @param[in] text Input parameter.
+     * @return Return value.
      */
     std::vector<float> getEmbedding(const std::string& text);
     
     /**
-     * @brief Get embeddings for batch of texts
-     * 
-     * More efficient than calling getEmbedding() repeatedly.
-     * Target: <100ms per 1000 texts
-     * 
-     * @param texts Vector of input texts
-     * @return Vector of embedding vectors
+     * @brief Get Embeddings.
+     * @param[in] texts Input parameter.
+     * @return Return value.
      */
     std::vector<std::vector<float>> getEmbeddings(const std::vector<std::string>& texts);
     
     /**
-     * @brief Build embedding cache for training dataset
-     * 
-     * Pre-computes embeddings for entire training dataset to avoid
-     * redundant computation during training epochs.
-     * 
-     * @param training_texts Texts from training dataset
-     * @param cache_out Output cache entries
-     * @return true if successful
+     * @brief Build Embedding Cache.
+     * @param[in] training_texts Input parameter.
+     * @param[in,out] cache_out Input/output parameter.
+     * @return True when the operation succeeds.
      */
     bool buildEmbeddingCache(
         const std::vector<std::string>& training_texts,
@@ -151,49 +121,42 @@ public:
     );
     
     /**
-     * @brief Get embedding dimension
-     * 
-     * Returns the embedding dimension of the base model.
-     * Typically 4096 for 13B models, 5120 for 30B models.
-     * 
-     * @return Embedding dimension
+     * @brief Get Embedding Dim.
+     * @return Return value.
      */
     size_t getEmbeddingDim() const;
     
     /**
-     * @brief Get cache statistics
-     * @return Cache statistics
+     * @brief Get Cache Stats.
+     * @return Return value.
      */
     EmbeddingCacheStats getCacheStats() const;
     
     /**
-     * @brief Clear cache
+     * @brief Clear Cache.
      */
     void clearCache();
     
     /**
-     * @brief Save cache to file
-     * @param filepath Path to save cache
-     * @return true if successful
+     * @brief Save Cache.
+     * @param[in] filepath Input parameter.
+     * @return True when the operation succeeds.
      */
     bool saveCache(const std::string& filepath);
     
     /**
-     * @brief Load cache from file
-     * @param filepath Path to load cache from
-     * @return true if successful
+     * @brief Load Cache.
+     * @param[in] filepath Input parameter.
+     * @return True when the operation succeeds.
      */
     bool loadCache(const std::string& filepath);
     
-    /**
-     * @brief Check if cache is enabled
-     * @return true if enabled
-     */
     bool isCacheEnabled() const { return config_.enable_cache; }
     
     /**
-     * @brief Enable or disable cache
-     * @param enable Enable cache
+     * @brief Enable Cache.
+     * @param[in] enable Input parameter.
+     * @details Implements enableCache without additional internal calls.
      */
     void enableCache(bool enable) { config_.enable_cache = enable; }
     
@@ -208,28 +171,28 @@ private:
     mutable EmbeddingCacheStats cache_stats_;
     
     /**
-     * @brief Extract embedding from model for tokenized input
-     * @param tokens Token IDs
-     * @return Embedding vector
+     * @brief Extract Embedding From Tokens.
+     * @param[in] tokens Input parameter.
+     * @return Return value.
      */
     std::vector<float> extractEmbeddingFromTokens(const std::vector<int>& tokens);
     
     /**
-     * @brief Evict old cache entries if needed
+     * @brief Evict Cache If Needed.
      */
     void evictCacheIfNeeded();
     
     /**
-     * @brief Get embedding from cache if available
-     * @param text Input text
-     * @return Optional embedding (nullopt if not cached)
+     * @brief Get Cached Embedding.
+     * @param[in] text Input parameter.
+     * @return Return value.
      */
     std::optional<std::vector<float>> getCachedEmbedding(const std::string& text);
     
     /**
-     * @brief Add embedding to cache
-     * @param text Input text
-     * @param embedding Embedding vector
+     * @brief Add To Cache.
+     * @param[in] text Input parameter.
+     * @param[in] embedding Input parameter.
      */
     void addToCache(const std::string& text, const std::vector<float>& embedding);
 };

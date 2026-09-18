@@ -39,7 +39,7 @@ namespace query {
 namespace {
 
 /**
- * @brief Json to field value.
+ * @brief Json To Field Value.
  * @param[in] v Input parameter.
  * @return Return value.
  * @details Calls: is_null(), is_boolean(), is_number_integer(), is_number_float(), is_string(), dump().
@@ -61,7 +61,7 @@ themisdb::analytics::FieldValue jsonToFieldValue(const nlohmann::json& v) {
 }
 
 /**
- * @brief Field value to json.
+ * @brief Field Value To Json.
  * @param[in] fv Input parameter.
  * @return Return value.
  * @details Implements fieldValueToJson without additional internal calls.
@@ -225,13 +225,13 @@ MaterializedCTEView::MaterializedCTEView(const MaterializedCTEDef& def)
 
 MaterializedCTEView::~MaterializedCTEView() = default;
 
+
 /**
- * @brief ============================================================================ MaterializedCTEView — mutation ============================================================================
+ * @brief Apply Change.
  * @param[in] change Input parameter.
- * @return True on success.
+ * @return True when the operation succeeds.
  * @details Calls: toChangeRecord().
  */
-
 bool MaterializedCTEView::applyChange(const CTEDataChange& change) {
     return view_->applyChange(toChangeRecord(change));
 }
@@ -285,13 +285,13 @@ void MaterializedCTEView::clear() { view_->clear(); }
 MaterializedCTERegistry::MaterializedCTERegistry()  = default;
 MaterializedCTERegistry::~MaterializedCTERegistry() = default;
 
+
 /**
- * @brief ============================================================================ MaterializedCTERegistry — management ============================================================================
+ * @brief Register CTE.
  * @param[in] def Input parameter.
- * @return True on success.
+ * @return True when the operation succeeds.
  * @details Calls: empty(), spdlog::warn(), lk(), count(), spdlog::debug().
  */
-
 bool MaterializedCTERegistry::registerCTE(const MaterializedCTEDef& def) {
     if (def.name.empty()) {
         spdlog::warn("MaterializedCTERegistry: CTE name must not be empty");
@@ -301,11 +301,6 @@ bool MaterializedCTERegistry::registerCTE(const MaterializedCTEDef& def) {
         spdlog::warn("MaterializedCTERegistry: CTE '{}' source_collection must not be empty", def.name);
         return false;
     }
-    /**
-     * @brief Lk.
-     * @param[in] registry_mutex_ Input parameter.
-     * @return Return value.
-     */
     std::unique_lock lk(registry_mutex_);
     if (views_.count(def.name)) {
         spdlog::warn("MaterializedCTERegistry: CTE '{}' already registered", def.name);
@@ -319,15 +314,10 @@ bool MaterializedCTERegistry::registerCTE(const MaterializedCTEDef& def) {
 /**
  * @brief Unregister CTE.
  * @param[in] name Input parameter.
- * @return True on success.
+ * @return True when the operation succeeds.
  * @details Calls: lk(), count(), erase(), spdlog::debug().
  */
 bool MaterializedCTERegistry::unregisterCTE(const std::string& name) {
-    /**
-     * @brief Lk.
-     * @param[in] registry_mutex_ Input parameter.
-     * @return Return value.
-     */
     std::unique_lock lk(registry_mutex_);
     if (!views_.count(name)) {
       return false;
@@ -375,18 +365,13 @@ MaterializedCTERegistry::getView(const std::string& name) const {
     return (it != views_.end()) ? it->second : nullptr;
 }
 
+
 /**
- * @brief ============================================================================ MaterializedCTERegistry — change dispatch ============================================================================
+ * @brief Apply Change.
  * @param[in] change Input parameter.
  * @details Calls: lk().
  */
-
 void MaterializedCTERegistry::applyChange(const CTEDataChange& change) {
-    /**
-     * @brief Lk.
-     * @param[in] registry_mutex_ Input parameter.
-     * @return Return value.
-     */
     std::shared_lock lk(registry_mutex_);
     uint64_t applied = 0;
     for (const auto& [name, view] : views_) {

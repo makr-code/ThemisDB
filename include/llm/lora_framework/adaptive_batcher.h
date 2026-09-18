@@ -20,26 +20,12 @@ namespace themis {
 namespace llm {
 namespace lora {
 
-/**
- * @brief Adaptive batch size manager for optimal GPU utilization
- * 
- * Dynamically adjusts batch size based on:
- * - Available VRAM
- * - Sequence length
- * - GPU utilization
- * - Recent OOM events
- * 
- * Research Background:
- * - Paper: "Orca: A Distributed Serving System" (Yu et al., 2022)
- * - Paper: "vLLM: Efficient Memory Management" (Kwon et al., 2023)
- * 
- * Performance Impact:
- * - Increases GPU utilization from 60-70% to 90-95%
- * - Boosts throughput by 30-50%
- * - Reduces memory waste from suboptimal batch sizes
- */
 class AdaptiveBatcher {
 public:
+    /**
+     * @brief Adaptive Batcher.
+     * @return Return value.
+     */
     virtual ~AdaptiveBatcher() = default;
     struct Config {
         size_t min_batch_size = 1;
@@ -53,41 +39,31 @@ public:
         size_t lora_rank = 8;     // LoRA rank
     };
     
-    /**
-     * @brief Construct adaptive batcher
-     * @param config Configuration parameters
-     * @param mem_manager GPU memory manager for VRAM queries
-     */
     explicit AdaptiveBatcher(const Config& config, ::themis::llm::GPUMemoryManager* mem_manager);
     
     /**
-     * @brief Compute optimal batch size for current VRAM state
-     * @param sequence_length Sequence length for this batch
-     * @return Optimal batch size that fits in VRAM
+     * @brief Compute Optimal Batch Size.
+     * @param[in] sequence_length Input parameter.
+     * @return Return value.
      */
     size_t computeOptimalBatchSize(size_t sequence_length);
     
     /**
-     * @brief Adjust batch size based on recent OOM events
-     * Reduces batch size by 25% to prevent future OOMs
+     * @brief Handle OOMEvent.
      */
     void handleOOMEvent();
     
     /**
-     * @brief Increase batch size if utilization is low
-     * Increases by 10% if GPU utilization < 75%
+     * @brief Increase Batch Size If Possible.
      */
     void increaseBatchSizeIfPossible();
     
     /**
-     * @brief Update GPU utilization for adaptive scaling
-     * @param utilization GPU utilization percentage (0.0-1.0)
+     * @brief Update Utilization.
+     * @param[in] utilization Input parameter.
      */
     void updateUtilization(float utilization);
     
-    /**
-     * @brief Get current statistics
-     */
     struct Stats {
         size_t current_batch_size = 0;
         float vram_utilization_pct = 0.0f;
@@ -95,26 +71,25 @@ public:
         float avg_gpu_utilization = 0.0f;
     };
     
+    /**
+     * @brief Get Stats.
+     * @return Return value.
+     */
     Stats getStats() const;
     
-    /**
-     * @brief Get current batch size
-     */
     size_t getCurrentBatchSize() const { return current_batch_size_; }
     
     /**
-     * @brief Reset OOM counter
+     * @brief Reset OOMCounter.
+     * @details Implements resetOOMCounter without additional internal calls.
      */
     void resetOOMCounter() { oom_count_ = 0; }
     
     /**
-     * @brief Calibrate memory estimation based on actual usage
-     * @param actual_memory_used Actual memory used (bytes)
-     * @param sequence_length Sequence length used
-     * @param batch_size Batch size used
-     * 
-     * Adjusts internal memory estimation parameters to match observed usage.
-     * Call this periodically during training to improve accuracy.
+     * @brief Calibrate Memory Estimation.
+     * @param[in] actual_memory_used Input parameter.
+     * @param[in] sequence_length Input parameter.
+     * @param[in] batch_size Input parameter.
      */
     void calibrateMemoryEstimation(size_t actual_memory_used, 
                                     size_t sequence_length, 
@@ -132,17 +107,21 @@ private:
     float memory_estimation_multiplier_ = 1.0f;  // Adjust estimates based on actual usage
     
     /**
-     * @brief Compute average GPU utilization from recent history
+     * @brief Compute Average Utilization.
+     * @return Return value.
      */
     float computeAverageUtilization() const;
     
     /**
-     * @brief Estimate memory per sample for given sequence length
+     * @brief Estimate Memory Per Sample.
+     * @param[in] sequence_length Input parameter.
+     * @return Return value.
      */
     size_t estimateMemoryPerSample(size_t sequence_length) const;
     
     /**
-     * @brief Estimate shared memory (weights, optimizer state)
+     * @brief Estimate Shared Memory.
+     * @return Return value.
      */
     size_t estimateSharedMemory() const;
 };

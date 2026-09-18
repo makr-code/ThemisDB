@@ -21,6 +21,12 @@ namespace themis::llm::safety {
 
 namespace {
 
+/**
+ * @brief To Lower.
+ * @param[in] in Input parameter.
+ * @return Return value.
+ * @details Calls: out(), begin(), end(), std::transform(), std::tolower().
+ */
 std::string toLower(std::string_view in) {
     std::string out(in.begin(), in.end());
     std::transform(out.begin(), out.end(), out.begin(),
@@ -28,6 +34,13 @@ std::string toLower(std::string_view in) {
     return out;
 }
 
+/**
+ * @brief Contains Any.
+ * @param[in] text Input parameter.
+ * @param[in] needles Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: find().
+ */
 bool containsAny(const std::string& text, const std::vector<std::string>& needles) {
     for (const auto& needle : needles) {
         if (text.find(needle) != std::string::npos) {
@@ -42,6 +55,11 @@ bool containsAny(const std::string& text, const std::vector<std::string>& needle
 SafetyClassifier::SafetyClassifier(InferenceFn inference_fn)
     : inference_fn_(std::move(inference_fn)) {}
 
+/**
+ * @brief Inject an inference function used by classify().
+ * @param[in] inference_fn Input parameter.
+ * @details Calls: std::move().
+ */
 void SafetyClassifier::setInferenceFn(InferenceFn inference_fn) {
     inference_fn_ = std::move(inference_fn);
 }

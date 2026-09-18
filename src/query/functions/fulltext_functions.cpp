@@ -31,7 +31,7 @@ using json = nlohmann::json;
 namespace {
 
 /**
- * @brief Tokenize text into words (simple whitespace/punctuation tokenizer)
+ * @brief Tokenize.
  * @param[in] text Input parameter.
  * @return Return value.
  * @details Calls: std::isalnum(), std::tolower(), empty(), push_back(), clear().
@@ -56,7 +56,7 @@ std::vector<std::string> tokenize(const std::string& text) {
 }
 
 /**
- * @brief Generate n-grams from a string
+ * @brief Generate Ngrams.
  * @param[in] s Input parameter.
  * @param[in] n Input parameter.
  * @return Return value.
@@ -76,7 +76,7 @@ std::vector<std::string> generateNgrams(const std::string& s, int n) {
 }
 
 /**
- * @brief Soundex encoding
+ * @brief Soundex.
  * @param[in] s Input parameter.
  * @return Return value.
  * @details Calls: empty(), std::toupper(), getCode(), length().
@@ -232,7 +232,12 @@ std::string metaphone(const std::string& word, int maxLen = 6) {
 // Snippet / Highlight helpers
 // ============================================================================
 
-/// Collect the unique lower-case tokens from a query string or JSON array.
+/**
+ * @brief Query Term Set.
+ * @param[in] queryArg Input parameter.
+ * @return Return value.
+ * @details Calls: is_array(), is_string(), std::transform(), begin(), end(), std::tolower(), empty(), insert().
+ */
 std::unordered_set<std::string> queryTermSet(const json& queryArg) {
     std::unordered_set<std::string> terms = {};
 
@@ -256,13 +261,13 @@ std::unordered_set<std::string> queryTermSet(const json& queryArg) {
 }
 
 /**
- * @brief Apply open/close tag wrapping around every occurrence of any term in @p text.
+ * @brief Apply Highlight.
  * @param[in] text Input parameter.
  * @param[in] terms Input parameter.
  * @param[in] openTag Input parameter.
  * @param[in] closeTag Input parameter.
  * @return Return value.
- * @details The function walks character by character to preserve original capitalisation and whitespace while performing case-insensitive matching. Calls: empty(), lower(), size(), std::transform(), begin(), end(), std::tolower(), reserve().
+ * @details Calls: empty(), lower(), size(), std::transform(), begin(), end(), std::tolower(), reserve().
  */
 std::string applyHighlight(const std::string& text,
                            const std::unordered_set<std::string>& terms,
@@ -306,12 +311,12 @@ std::string applyHighlight(const std::string& text,
 }
 
 /**
- * @brief Find the byte offset of the window of @p windowSize characters that contains the greatest number of term occurrences.
+ * @brief Best Snippet Offset.
  * @param[in] lower Input parameter.
  * @param[in] terms Input parameter.
  * @param[in] windowSize Input parameter.
  * @return Return value.
- * @details Returns 0 if no term is found or the text fits within the window. Calls: size(), std::isalnum(), count(), substr(), push_back(), empty().
+ * @details Calls: size(), std::isalnum(), count(), substr(), push_back(), empty().
  */
 size_t bestSnippetOffset(const std::string& lower,
                          const std::unordered_set<std::string>& terms,
@@ -374,7 +379,6 @@ size_t bestSnippetOffset(const std::string& lower,
 // ============================================================================
 
 // FULLTEXT - Full-text search with BM25 scoring
-/** @brief FULLTEXT - Full-text search with BM25 scoring. */
 class FulltextFunction : public IFunction {
 public:
     FunctionSignature signature() const override {
@@ -439,7 +443,6 @@ public:
 };
 
 // PHRASE - Exact phrase matching
-/** @brief PHRASE - Exact phrase matching. */
 class PhraseFunction : public IFunction {
 public:
     FunctionSignature signature() const override {
@@ -503,7 +506,6 @@ public:
 };
 
 // FUZZY - Fuzzy matching with Levenshtein distance
-/** @brief FUZZY - Fuzzy matching with Levenshtein distance. */
 class FuzzyFunction : public IFunction {
 public:
     FunctionSignature signature() const override {
@@ -587,7 +589,6 @@ public:
 // Example:
 //   HIGHLIGHT("Machine Learning is great", "machine learning")
 //   → "<em>Machine</em> <em>Learning</em> is great"
-/** @brief → "<em>Machine</em> <em>Learning</em> is great". */
 class HighlightFunction : public IFunction {
 public:
     FunctionSignature signature() const override {
@@ -652,7 +653,6 @@ public:
 // Example:
 //   FULLTEXT_SNIPPET("...long document...", "neural networks", {windowSize:100})
 //   → "...activating <em>neural</em> <em>networks</em> for training..."
-/** @brief → "...activating <em>neural</em> <em>networks</em> for training...". */
 class FulltextSnippetFunction : public IFunction {
 public:
     FunctionSignature signature() const override {
@@ -737,7 +737,6 @@ public:
 };
 
 // NGRAM_MATCH - N-gram based similarity matching
-/** @brief NGRAM_MATCH - N-gram based similarity matching. */
 class NgramMatchFunction : public IFunction {
 public:
     FunctionSignature signature() const override {
@@ -804,7 +803,6 @@ public:
 };
 
 // TOKENS - Tokenize text
-/** @brief TOKENS - Tokenize text. */
 class TokensFunction : public IFunction {
 public:
     FunctionSignature signature() const override {
@@ -840,7 +838,6 @@ public:
 };
 
 // SOUNDEX - Phonetic encoding
-/** @brief SOUNDEX - Phonetic encoding. */
 class SoundexFunction : public IFunction {
 public:
     FunctionSignature signature() const override {
@@ -872,7 +869,6 @@ public:
 };
 
 // METAPHONE - Phonetic encoding
-/** @brief METAPHONE - Phonetic encoding. */
 class MetaphoneFunction : public IFunction {
 public:
     FunctionSignature signature() const override {
@@ -907,7 +903,6 @@ public:
 };
 
 // DOUBLE_METAPHONE - Enhanced phonetic encoding
-/** @brief DOUBLE_METAPHONE - Enhanced phonetic encoding. */
 class DoubleMetaphoneFunction : public IFunction {
 public:
     FunctionSignature signature() const override {
@@ -941,12 +936,12 @@ public:
     }
 };
 
+
 /**
- * @brief ============================================================================ Registration ============================================================================
+ * @brief Register Fulltext Functions.
  * @param[in,out] registry Input/output parameter.
  * @details Calls: registerFunction().
  */
-
 void registerFulltextFunctions(FunctionRegistry& registry) {
     registry.registerFunction(std::make_unique<FulltextFunction>());
     registry.registerFunction(std::make_unique<PhraseFunction>());

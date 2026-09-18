@@ -32,40 +32,6 @@ namespace themis {
 namespace query {
 namespace functions {
 
-/**
- * @brief AQL Function Registry - Modular OOP-based Function System
- * 
- * ## Design Principles
- * 
- * 1. **Single Responsibility**: Jede Funktion ist eine eigene Klasse
- * 2. **Open/Closed**: Neue Funktionen ohne Änderung bestehenden Codes
- * 3. **Dependency Inversion**: Funktionen hängen von Abstraktionen ab
- * 4. **Plugin-fähig**: Externe Funktionen können registriert werden
- * 
- * ## Architektur
- * 
- * ```
- * ┌─────────────────────────────────────────────────────────────┐
- * │                    FunctionRegistry                         │
- * │  ┌─────────────┬─────────────┬─────────────┬─────────────┐ │
- * │  │ StringFuncs │ MathFuncs   │ ArrayFuncs  │ DateFuncs   │ │
- * │  ├─────────────┼─────────────┼─────────────┼─────────────┤ │
- * │  │ GeoFuncs    │ VectorFuncs │ GraphFuncs  │ DocFuncs    │ │
- * │  └─────────────┴─────────────┴─────────────┴─────────────┘ │
- * └─────────────────────────────────────────────────────────────┘
- * ```
- * 
- * ## Verwendung
- * 
- * ```cpp
- * // Funktion aufrufen
- * auto& registry = FunctionRegistry::instance();
- * auto result = registry.call("UPPER", {jsonString}, context);
- * 
- * // Eigene Funktion registrieren
- * registry.registerFunction("MY_FUNC", std::make_unique<MyFunction>());
- * ```
- */
 
 // Forward declarations
 class FunctionContext;
@@ -75,9 +41,6 @@ class IFunction;
 // Function Argument Types
 // ============================================================================
 
-/**
- * @brief Argument type constraints for function validation
- */
 enum class ArgType {
     // Canonical names (UPPERCASE)
     ANY,        ///< Any type accepted
@@ -106,9 +69,6 @@ enum class ArgType {
     Nullable = NULLABLE
 };
 
-/**
- * @brief Function argument specification
- */
 struct ArgSpec {
     std::string name;
     ArgType type = ArgType::ANY;
@@ -117,12 +77,6 @@ struct ArgSpec {
     std::string description;
 };
 
-/**
- * @brief Cost complexity class for query optimizer integration
- * 
- * Used by QueryOptimizer to estimate function execution costs
- * and choose optimal query plans.
- */
 enum class CostComplexity {
     CONSTANT,       ///< O(1) - LENGTH, NOW, simple math
     LINEAR,         ///< O(n) - SUM, FLATTEN, UNIQUE
@@ -132,9 +86,6 @@ enum class CostComplexity {
     EXTERNAL        ///< External I/O - HOLIDAYS (calendar loading)
 };
 
-/**
- * @brief Function cost estimation for query planning
- */
 struct FunctionCost {
     CostComplexity complexity = CostComplexity::CONSTANT;
     double base_cost = 1.0;         ///< Base cost in abstract units
@@ -144,9 +95,6 @@ struct FunctionCost {
     std::string index_type;         ///< Required index type (geo, vector, fulltext)
 };
 
-/**
- * @brief Function signature for validation and documentation
- */
 struct FunctionSignature {
     std::string name;
     std::string category;           ///< String, Math, Array, Date, Geo, Vector, Graph, Document
@@ -165,15 +113,6 @@ struct FunctionSignature {
 // Function Context
 // ============================================================================
 
-/**
- * @brief Execution context passed to functions
- * 
- * Provides access to:
- * - Current document being processed
- * - Variable bindings
- * - Database access for DOCUMENT() etc.
- * - User/session information
- */
 class FunctionContext {
 public:
     FunctionContext() = default;
@@ -228,7 +167,7 @@ public:
     void setUserId(const std::string& id) { user_id_ = id; }
 
     /**
-     * @brief Graph infrastructure access (for graph functions)
+     * @brief Set Graph Index Manager.
      * @param[in,out] mgr Input/output parameter.
      * @details Implements setGraphIndexManager without additional internal calls.
      */
@@ -244,7 +183,7 @@ public:
     themis::GraphAnalytics* getGraphAnalytics() const { return graph_analytics_; }
 
     /**
-     * @brief Full-text / secondary index access (for FULLTEXT, PHRASE, FUZZY functions)
+     * @brief Set Secondary Index Manager.
      * @param[in,out] mgr Input/output parameter.
      * @details Implements setSecondaryIndexManager without additional internal calls.
      */
@@ -252,9 +191,9 @@ public:
     themis::SecondaryIndexManager* getSecondaryIndexManager() const { return secondary_idx_mgr_; }
 
     /**
-     * @brief Process mining engine access (for PM_DISCOVER_PROCESS, PM_VARIANTS, etc.
+     * @brief Set Process Mining.
      * @param[in,out] pm Input/output parameter.
-     * @details ) Implements setProcessMining without additional internal calls.
+     * @details Implements setProcessMining without additional internal calls.
      */
     void setProcessMining(themis::ProcessMining* pm) { process_mining_ = pm; }
     themis::ProcessMining* getProcessMining() const { return process_mining_; }
@@ -282,20 +221,8 @@ public:
 
     // ── Administrative process-model registry (stub #283) ─────────────────────
 
-    /**
-     * @brief Function type for loading a named administrative process model.
-     *
-     * The callable receives a model_id string and returns the model as a JSON
-     * object, or throws on error.  Callers inject a YAML-backed or database-backed
-     * registry at startup.
-     */
     using AdminModelLoadFn = std::function<nlohmann::json(const std::string& model_id)>;
 
-    /**
-     * @brief Function type for listing all registered administrative process models.
-     *
-     * Returns a JSON array of model descriptor objects.  Throws on error.
-     */
     using AdminModelListFn = std::function<nlohmann::json()>;
 
     /**
@@ -312,72 +239,43 @@ public:
      */
     void setAdminModelListFn(AdminModelListFn fn) { admin_model_list_fn_ = std::move(fn); }
 
-    /// @brief Access the injected admin-model load function (may be empty).
     const AdminModelLoadFn& adminModelLoadFn() const { return admin_model_load_fn_; }
 
-    /// @brief Access the injected admin-model list function (may be empty).
     const AdminModelListFn& adminModelListFn() const { return admin_model_list_fn_; }
 
     // ── Task scheduler injection bridge ───────────────────────────────────────
 
-    /**
-     * @brief Function type for registering a scheduled AQL task.
-     *
-     * Receives a JSON task configuration object with fields:
-     *   - "name"  (string)  — human-readable task name
-     *   - "type"  (string)  — "aql" or "function"
-     *   - "query" (string)  — AQL query or function name
-     *   - "interval_ms" (number) — scheduling interval in milliseconds
-     *
-     * Returns the opaque task ID on success, or throws on error.
-     */
     using RegisterTaskFn = std::function<std::string(const nlohmann::json& task_config)>;
 
-    /**
-     * @brief Function type for listing all registered scheduled tasks.
-     *
-     * Returns a JSON array of task descriptor objects, or throws on error.
-     */
     using ListTasksFn = std::function<nlohmann::json()>;
 
-    /**
-     * @brief Function type for cancelling a scheduled task by ID.
-     *
-     * Returns true when the task was found and cancelled, false otherwise.
-     */
     using CancelTaskFn = std::function<bool(const std::string& task_id)>;
 
     /**
-     * @brief Inject a task-registration function for SCHEDULE_TASK.
-     *
-     * @param fn  Callable that registers a task and returns its ID.
+     * @brief Set Register Task Fn.
+     * @param[in] fn Input parameter.
      * @details Calls: std::move().
      */
     void setRegisterTaskFn(RegisterTaskFn fn) { register_task_fn_ = std::move(fn); }
 
     /**
-     * @brief Inject a task-list function for LIST_SCHEDULED_TASKS.
-     *
-     * @param fn  Callable that returns a JSON array of task descriptors.
+     * @brief Set List Tasks Fn.
+     * @param[in] fn Input parameter.
      * @details Calls: std::move().
      */
     void setListTasksFn(ListTasksFn fn) { list_tasks_fn_ = std::move(fn); }
 
     /**
-     * @brief Inject a task-cancellation function for CANCEL_TASK.
-     *
-     * @param fn  Callable that cancels a task by ID.
+     * @brief Set Cancel Task Fn.
+     * @param[in] fn Input parameter.
      * @details Calls: std::move().
      */
     void setCancelTaskFn(CancelTaskFn fn) { cancel_task_fn_ = std::move(fn); }
 
-    /// @brief Access the injected task-registration function (may be empty).
     const RegisterTaskFn& registerTaskFn() const { return register_task_fn_; }
 
-    /// @brief Access the injected task-list function (may be empty).
     const ListTasksFn& listTasksFn() const { return list_tasks_fn_; }
 
-    /// @brief Access the injected task-cancellation function (may be empty).
     const CancelTaskFn& cancelTaskFn() const { return cancel_task_fn_; }
 
 private:
@@ -401,13 +299,6 @@ private:
 // Function Interface
 // ============================================================================
 
-/**
- * @brief Base interface for all AQL functions
- * 
- * Each function must implement:
- * - signature(): Return function metadata
- * - execute(): Perform the actual computation
- */
 class IFunction {
 public:
     /**
@@ -416,16 +307,23 @@ public:
      */
     virtual ~IFunction() = default;
     
-    /// Get function signature for validation and documentation
+    /**
+     * @brief Signature.
+     * @return Return value.
+     */
     virtual FunctionSignature signature() const = 0;
     
-    /// Execute the function with given arguments
+    /**
+     * @brief Execute.
+     * @param[in] args Input parameter.
+     * @param[in] context Input parameter.
+     * @return Return value.
+     */
     virtual nlohmann::json execute(
         const std::vector<nlohmann::json>& args,
         const FunctionContext& context
     ) const = 0;
     
-    /// Validate arguments before execution (optional override)
     virtual void validateArgs(const std::vector<nlohmann::json>& args) const {
         const auto& sig = signature();
         
@@ -454,7 +352,14 @@ public:
     }
 
 protected:
-    /// Helper for type validation
+    /**
+     * @brief Validate Arg Type.
+     * @param[in] arg Input parameter.
+     * @param[in] spec Input parameter.
+     * @param[in] funcName Input parameter.
+     * @throws std::runtime_error if an error occurs.
+     * @details Calls: is_null(), is_string(), is_number(), is_number_integer(), is_boolean(), is_array(), is_object(), isGeometry().
+     */
     static void validateArgType(const nlohmann::json& arg, const ArgSpec& spec, 
                                  const std::string& funcName) {
         if (arg.is_null() && spec.type != ArgType::NULLABLE && spec.type != ArgType::ANY) {
@@ -486,7 +391,12 @@ protected:
         }
     }
     
-    /// Check if value is a GeoJSON geometry
+    /**
+     * @brief Is Geometry.
+     * @param[in] val Input parameter.
+     * @return True when the operation succeeds.
+     * @details Calls: is_object(), contains().
+     */
     static bool isGeometry(const nlohmann::json& val) {
         if (!val.is_object()) {
           return false;
@@ -494,7 +404,12 @@ protected:
         return val.contains("type") && val.contains("coordinates");
     }
     
-    /// Check if value is a numeric vector
+    /**
+     * @brief Is Vector.
+     * @param[in] val Input parameter.
+     * @return True when the operation succeeds.
+     * @details Calls: is_array(), is_number().
+     */
     static bool isVector(const nlohmann::json& val) {
         if (!val.is_array()) {
           return false;
@@ -507,7 +422,13 @@ protected:
         return true;
     }
     
-    /// Convert to number helper
+    /**
+     * @brief To Number.
+     * @param[in] val Input parameter.
+     * @return Return value.
+     * @throws std::runtime_error if an error occurs.
+     * @details Calls: is_number(), is_string(), std::stod(), is_boolean().
+     */
     static double toNumber(const nlohmann::json& val) {
         if (val.is_number()) {
           return val.get<double>();
@@ -521,7 +442,12 @@ protected:
         throw std::runtime_error("Cannot convert value to number");
     }
     
-    /// Convert to string helper
+    /**
+     * @brief To String.
+     * @param[in] val Input parameter.
+     * @return Return value.
+     * @details Calls: is_string(), dump().
+     */
     static std::string toString(const nlohmann::json& val) {
         if (val.is_string()) {
           return val.get<std::string>();
@@ -529,7 +455,12 @@ protected:
         return val.dump();
     }
     
-    /// Convert to bool helper
+    /**
+     * @brief To Bool.
+     * @param[in] val Input parameter.
+     * @return True when the operation succeeds.
+     * @details Calls: is_boolean(), is_null(), is_number(), is_string(), empty(), is_array(), is_object().
+     */
     static bool toBool(const nlohmann::json& val) {
         if (val.is_boolean()) {
           return val.get<bool>();
@@ -554,26 +485,28 @@ protected:
 // Function Registry (Singleton)
 // ============================================================================
 
-/**
- * @brief Central registry for all AQL functions
- * 
- * Thread-safe singleton that manages function registration and lookup.
- */
 class FunctionRegistry {
 public:
-    /// Get singleton instance
+    /**
+     * @brief Instance.
+     * @return Return value.
+     * @details Implements instance without additional internal calls.
+     */
     static FunctionRegistry& instance() {
         static FunctionRegistry registry;
         return registry;
     }
     
-    /// Register a function
+    /**
+     * @brief Register Function.
+     * @param[in] func Input parameter.
+     * @details Calls: signature(), std::move().
+     */
     void registerFunction(std::unique_ptr<IFunction> func) {
         auto sig = func->signature();
         functions_[sig.name] = std::move(func);
     }
     
-    /// Get function (throws if not found)
     const IFunction& getFunction(const std::string& name) const {
         auto it = functions_.find(name);
         if (it == functions_.end()) {
@@ -582,7 +515,6 @@ public:
         return *it->second;
     }
     
-    /// Call a function by name (resolves aliases automatically)
     nlohmann::json call(
         const std::string& name,
         const std::vector<nlohmann::json>& args,
@@ -594,13 +526,11 @@ public:
         return func.execute(args, context);
     }
     
-    /// Check if function exists (including aliases)
     bool hasFunction(const std::string& name) const {
         std::string resolvedName = resolveAlias(name);
         return functions_.find(resolvedName) != functions_.end();
     }
     
-    /// Get all function signatures (for documentation)
     std::vector<FunctionSignature> getAllSignatures() const {
         std::vector<FunctionSignature> sigs = {};
 
@@ -610,7 +540,6 @@ public:
         return sigs;
     }
     
-    /// Get functions by category
     std::vector<FunctionSignature> getByCategory(const std::string& category) const {
         std::vector<FunctionSignature> sigs = {};
 
@@ -623,7 +552,6 @@ public:
         return sigs;
     }
     
-    /// List all categories
     std::vector<std::string> getCategories() const {
         std::unordered_map<std::string, bool> cats = {};
 
@@ -638,45 +566,26 @@ public:
         return result;
     }
     
-    // ========================================================================
-    // Function Aliasing System
-    // ========================================================================
-    //
-    // Aliases allow multiple function names to use the same implementation.
-    // This consolidates Excel-compatible names with native names:
-    //
-    //   CEILING -> CEIL     (Excel compatibility)
-    //   ROUNDUP -> CEIL     (Excel compatibility)
-    //   ROUNDDOWN -> FLOOR  (Excel compatibility)
-    //   CONCATENATE -> CONCAT (Excel compatibility)
-    //   LEN -> LENGTH       (Excel/SQL compatibility)
-    //   MID -> SUBSTRING    (Excel compatibility)
-    //   LOWER -> LOWER      (self, native)
-    //   LCASE -> LOWER      (SQL compatibility)
-    //   UCASE -> UPPER      (SQL compatibility)
-    //   POWER -> POW        (SQL compatibility)
-    //   OBJECT -> DICT      (alternative name)
-    //   MAP -> DICT         (Python-style)
-    //
-    // ========================================================================
+    /**
+     * @brief ======================================================================== Function Aliasing System ======================================================================== Aliases allow multiple function names to use the same implementation.
+     * @param[in] alias Input parameter.
+     * @param[in] target Input parameter.
+     * @details This consolidates Excel-compatible names with native names: CEILING -> CEIL (Excel compatibility) ROUNDUP -> CEIL (Excel compatibility) ROUNDDOWN -> FLOOR (Excel compatibility) CONCATENATE -> CONCAT (Excel compatibility) LEN -> LENGTH (Excel/SQL compatibility) MID -> SUBSTRING (Excel compatibility) LOWER -> LOWER (self, native) LCASE -> LOWER (SQL compatibility) UCASE -> UPPER (SQL compatibility) POWER -> POW (SQL compatibility) OBJECT -> DICT (alternative name) MAP -> DICT (Python-style) ======================================================================== Implements registerAlias without additional internal calls.
+     */
     
-    /// Register an alias for an existing function
     void registerAlias(const std::string& alias, const std::string& target) {
         aliases_[alias] = target;
     }
     
-    /// Resolve alias to actual function name
     std::string resolveAlias(const std::string& name) const {
         auto it = aliases_.find(name);
         return it != aliases_.end() ? it->second : name;
     }
     
-    /// Get all registered aliases
     std::unordered_map<std::string, std::string> getAliases() const {
         return aliases_;
     }
     
-    /// Check if a name is an alias
     bool isAlias(const std::string& name) const {
         return aliases_.find(name) != aliases_.end();
     }
@@ -700,15 +609,11 @@ private:
 // Function Registration Helpers
 // ============================================================================
 
-/**
- * @brief Helper macro for function registration
- */
 #define REGISTER_AQL_FUNCTION(FuncClass) \
     FunctionRegistry::instance().registerFunction(std::make_unique<FuncClass>())
 
 /**
- * @brief Initialize all built-in functions
- * Call this at application startup.
+ * @brief Register Builtin Functions.
  */
 void registerBuiltinFunctions();
 

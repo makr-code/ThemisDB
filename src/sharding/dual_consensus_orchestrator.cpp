@@ -62,6 +62,13 @@ DualConsensusOrchestrator::~DualConsensusOrchestrator() {
     spdlog::info("DualConsensusOrchestrator destroyed");
 }
 
+/**
+ * @brief Initialize.
+ * @param[in] node_id Identifier of the node.
+ * @param[in] cluster_nodes Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: spdlog::error(), spdlog::info(), size().
+ */
 bool DualConsensusOrchestrator::initialize(
     const std::string& node_id,
     const std::vector<std::string>& cluster_nodes
@@ -89,6 +96,10 @@ bool DualConsensusOrchestrator::initialize(
     return true;
 }
 
+/**
+ * @brief Start.
+ * @details Calls: exchange(), spdlog::warn(), std::thread(), spdlog::info().
+ */
 void DualConsensusOrchestrator::start() {
     if (running_.exchange(true)) {
         spdlog::warn("DualConsensusOrchestrator already running");
@@ -117,6 +128,10 @@ void DualConsensusOrchestrator::start() {
     spdlog::info("DualConsensusOrchestrator started");
 }
 
+/**
+ * @brief Stop.
+ * @details Calls: exchange(), joinable(), themis::utils::joinThreadWithin(), spdlog::warn(), spdlog::info().
+ */
 void DualConsensusOrchestrator::stop() {
     if (!running_.exchange(false)) {
         return;
@@ -144,6 +159,13 @@ void DualConsensusOrchestrator::stop() {
 // Storage Layer Operations
 // ============================================================================
 
+/**
+ * @brief Propose To Storage.
+ * @param[in] operation Input parameter.
+ * @param[in] data Input parameter.
+ * @return Return value.
+ * @details Calls: spdlog::error(), propose(), spdlog::warn().
+ */
 std::optional<uint64_t> DualConsensusOrchestrator::proposeToStorage(
     const std::string& operation,
     const nlohmann::json& data
@@ -161,6 +183,13 @@ std::optional<uint64_t> DualConsensusOrchestrator::proposeToStorage(
     return result;
 }
 
+/**
+ * @brief Wait For Storage Commit.
+ * @param[in] log_index Input parameter.
+ * @param[in] timeout Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: waitForCommit().
+ */
 bool DualConsensusOrchestrator::waitForStorageCommit(
     uint64_t log_index,
     std::chrono::milliseconds timeout
@@ -183,6 +212,13 @@ uint64_t DualConsensusOrchestrator::getStorageVersion() const {
 // Cache Layer Operations
 // ============================================================================
 
+/**
+ * @brief Propose To Cache.
+ * @param[in] operation Input parameter.
+ * @param[in] data Input parameter.
+ * @return Return value.
+ * @details Calls: spdlog::error(), propose(), spdlog::warn().
+ */
 std::optional<uint64_t> DualConsensusOrchestrator::proposeToCache(
     const std::string& operation,
     const nlohmann::json& data
@@ -200,6 +236,13 @@ std::optional<uint64_t> DualConsensusOrchestrator::proposeToCache(
     return result;
 }
 
+/**
+ * @brief Wait For Cache Commit.
+ * @param[in] log_index Input parameter.
+ * @param[in] timeout Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: waitForCommit().
+ */
 bool DualConsensusOrchestrator::waitForCacheCommit(
     uint64_t log_index,
     std::chrono::milliseconds timeout
@@ -221,6 +264,14 @@ uint64_t DualConsensusOrchestrator::getCacheVersion() const {
 // Cross-Layer Operations
 // ============================================================================
 
+/**
+ * @brief Sync Update Both Layers.
+ * @param[in] key Input parameter.
+ * @param[in] value Input parameter.
+ * @param[in] operation Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: proposeToStorage(), spdlog::error(), waitForStorageCommit(), proposeToCache(), waitForCacheCommit(), getStorageVersion(), getCacheVersion(), std::to_string().
+ */
 bool DualConsensusOrchestrator::syncUpdateBothLayers(
     const std::string& key,
     const nlohmann::json& value,
@@ -288,6 +339,14 @@ bool DualConsensusOrchestrator::syncUpdateBothLayers(
     return true;
 }
 
+/**
+ * @brief Update Cache First.
+ * @param[in] key Input parameter.
+ * @param[in] value Input parameter.
+ * @param[in] operation Input parameter.
+ * @return Return value.
+ * @details Calls: proposeToCache(), spdlog::error(), getCacheVersion(), std::to_string(), load(), std::chrono::system_clock::now(), lock(), std::thread().
+ */
 std::optional<uint64_t> DualConsensusOrchestrator::updateCacheFirst(
     const std::string& key,
     const nlohmann::json& value,
@@ -371,6 +430,14 @@ std::optional<uint64_t> DualConsensusOrchestrator::updateCacheFirst(
     return cache_result;
 }
 
+/**
+ * @brief Update Storage First.
+ * @param[in] key Input parameter.
+ * @param[in] value Input parameter.
+ * @param[in] operation Input parameter.
+ * @return Return value.
+ * @details Calls: proposeToStorage(), spdlog::error(), waitForStorageCommit(), getStorageVersion(), std::to_string(), load(), std::chrono::system_clock::now(), lock().
+ */
 std::optional<uint64_t> DualConsensusOrchestrator::updateStorageFirst(
     const std::string& key,
     const nlohmann::json& value,
@@ -455,6 +522,14 @@ std::optional<uint64_t> DualConsensusOrchestrator::updateStorageFirst(
     return storage_result;
 }
 
+/**
+ * @brief Update With Version Tracking.
+ * @param[in] key Input parameter.
+ * @param[in] value Input parameter.
+ * @param[in] operation Input parameter.
+ * @return Return value.
+ * @details Calls: std::to_string(), load(), std::chrono::system_clock::now(), std::async(), proposeToStorage(), proposeToCache(), wait_for(), std::chrono::milliseconds().
+ */
 CrossLayerVersionToken DualConsensusOrchestrator::updateWithVersionTracking(
     const std::string& key,
     const nlohmann::json& value,
@@ -552,6 +627,11 @@ CrossLayerVersionToken DualConsensusOrchestrator::updateWithVersionTracking(
 std::optional<CrossLayerVersionToken> DualConsensusOrchestrator::getVersionToken(
     const std::string& key
 ) const {
+    /**
+     * @brief Lock.
+     * @param[in] state_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(state_mutex_);
     auto it = version_tokens_.find(key);
     if (it == version_tokens_.end()) {
@@ -563,6 +643,11 @@ std::optional<CrossLayerVersionToken> DualConsensusOrchestrator::getVersionToken
 CrossLayerConsistencyState DualConsensusOrchestrator::checkConsistency(
     const std::string& key
 ) const {
+    /**
+     * @brief Lock.
+     * @param[in] state_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(state_mutex_);
     auto it = consistency_states_.find(key);
     if (it != consistency_states_.end()) {
@@ -577,6 +662,11 @@ bool DualConsensusOrchestrator::isConsistent(const std::string& key) const {
 
 std::vector<std::string> DualConsensusOrchestrator::getInconsistentKeys() const {
     std::vector<std::string> inconsistent;
+    /**
+     * @brief Lock.
+     * @param[in] state_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(state_mutex_);
     
     for (const auto& [key, state] : consistency_states_) {
@@ -592,6 +682,12 @@ std::vector<std::string> DualConsensusOrchestrator::getInconsistentKeys() const 
 // Recovery and Synchronization
 // ============================================================================
 
+/**
+ * @brief Sync Cache From Storage.
+ * @param[in] key Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: getStorageVersion(), std::chrono::system_clock::now(), time_since_epoch(), count(), proposeToCache(), spdlog::error(), waitForCacheCommit(), getCacheVersion().
+ */
 bool DualConsensusOrchestrator::syncCacheFromStorage(const std::string& key) {
     sync_operations_++;
     
@@ -639,6 +735,12 @@ bool DualConsensusOrchestrator::syncCacheFromStorage(const std::string& key) {
     return true;
 }
 
+/**
+ * @brief Sync Storage From Cache.
+ * @param[in] key Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: getCacheVersion(), std::chrono::system_clock::now(), time_since_epoch(), count(), proposeToStorage(), spdlog::error(), waitForStorageCommit(), getStorageVersion().
+ */
 bool DualConsensusOrchestrator::syncStorageFromCache(const std::string& key) {
     sync_operations_++;
     
@@ -683,6 +785,12 @@ bool DualConsensusOrchestrator::syncStorageFromCache(const std::string& key) {
     return true;
 }
 
+/**
+ * @brief Resolve Conflict.
+ * @param[in] key Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: getVersionToken(), spdlog::warn(), getStorageVersion(), getCacheVersion(), value(), conflict_resolver_(), spdlog::error(), what().
+ */
 bool DualConsensusOrchestrator::resolveConflict(const std::string& key) {
     conflict_resolutions_++;
     
@@ -727,6 +835,11 @@ bool DualConsensusOrchestrator::resolveConflict(const std::string& key) {
     return true;
 }
 
+/**
+ * @brief Trigger Full Sync.
+ * @return Return value.
+ * @details Calls: getInconsistentKeys(), spdlog::info(), size(), checkConsistency(), syncCacheFromStorage(), isDegraded(), syncStorageFromCache(), resolveConflict().
+ */
 size_t DualConsensusOrchestrator::triggerFullSync() {
     size_t synced_count = 0;
     auto inconsistent_keys = getInconsistentKeys();
@@ -784,21 +897,41 @@ size_t DualConsensusOrchestrator::triggerFullSync() {
 // Configuration and Callbacks
 // ============================================================================
 
+/**
+ * @brief Set Sync Callback.
+ * @param[in] callback Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void DualConsensusOrchestrator::setSyncCallback(SyncCallback callback) {
     std::lock_guard<std::mutex> lock(state_mutex_);
     sync_callback_ = std::move(callback);
 }
 
+/**
+ * @brief Set Conflict Resolver.
+ * @param[in] resolver Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void DualConsensusOrchestrator::setConflictResolver(ConflictResolver resolver) {
     std::lock_guard<std::mutex> lock(state_mutex_);
     conflict_resolver_ = std::move(resolver);
 }
 
+/**
+ * @brief Set Consistency Callback.
+ * @param[in] callback Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void DualConsensusOrchestrator::setConsistencyCallback(ConsistencyCallback callback) {
     std::lock_guard<std::mutex> lock(state_mutex_);
     consistency_callback_ = std::move(callback);
 }
 
+/**
+ * @brief Set Background Sync Interval.
+ * @param[in] interval Input parameter.
+ * @details Calls: store(), count().
+ */
 void DualConsensusOrchestrator::setBackgroundSyncInterval(std::chrono::milliseconds interval) {
     // background_sync_interval_ms_ is std::atomic<uint64_t>; write is lock-free.
     background_sync_interval_ms_.store(
@@ -829,8 +962,13 @@ void DualConsensusOrchestrator::logGroundingOperation(
         audit_entry["shard_responses"][shard_id] = response;
     }
     
-    // Acquire both mutexes simultaneously with std::scoped_lock to prevent
-    // ABBA deadlock. Lock hierarchy: state_mutex_ (1) < audit_mutex_ (2).
+    /**
+     * @brief Acquire both mutexes simultaneously with std::scoped_lock to prevent ABBA deadlock.
+     * @param[in] state_mutex_ Input parameter.
+     * @param[in] audit_mutex_ Input parameter.
+     * @return Return value.
+     * @details Lock hierarchy: state_mutex_ (1) < audit_mutex_ (2).
+     */
     std::scoped_lock dual_lock(state_mutex_, audit_mutex_);
     for (const auto& [key, token] : version_tokens_) {
         audit_entry["version_tokens"][key] = token.toJson();
@@ -845,6 +983,11 @@ void DualConsensusOrchestrator::logGroundingOperation(
 std::optional<nlohmann::json> DualConsensusOrchestrator::getGroundingAuditLog(
     const std::string& request_id
 ) const {
+    /**
+     * @brief Lock.
+     * @param[in] audit_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(audit_mutex_);
     auto it = grounding_audit_logs_.find(request_id);
     if (it == grounding_audit_logs_.end()) {
@@ -858,6 +1001,11 @@ std::vector<nlohmann::json> DualConsensusOrchestrator::getGroundingAuditLogs(
     std::chrono::system_clock::time_point end_time
 ) const {
     std::vector<nlohmann::json> logs;
+    /**
+     * @brief Lock.
+     * @param[in] audit_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(audit_mutex_);
     
     for (const auto& [request_id, entry] : grounding_audit_logs_) {
@@ -882,6 +1030,11 @@ nlohmann::json DualConsensusOrchestrator::getMetrics() const {
     // always safe to acquire here since we hold no other mutex at this point.
     size_t inconsistent_count = 0;
     {
+        /**
+         * @brief State lock.
+         * @param[in] state_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> state_lock(state_mutex_);
         for (const auto& [k, s] : consistency_states_) {
             if (s != CrossLayerConsistencyState::CONSISTENT) {
@@ -905,6 +1058,10 @@ nlohmann::json DualConsensusOrchestrator::getMetrics() const {
     };
 }
 
+/**
+ * @brief Reset Metrics.
+ * @details Calls: store().
+ */
 void DualConsensusOrchestrator::resetMetrics() {
     // All fields are std::atomic; no metrics_mutex_ needed.
     total_operations_.store(0, std::memory_order_release);
@@ -938,6 +1095,10 @@ bool DualConsensusOrchestrator::isDegraded() const {
 // Private Helper Methods
 // ============================================================================
 
+/**
+ * @brief Background Sync Thread.
+ * @details Calls: spdlog::info(), spdlog::warn(), std::this_thread::sleep_for(), std::chrono::milliseconds(), load(), getInconsistentKeys(), empty(), spdlog::debug().
+ */
 void DualConsensusOrchestrator::backgroundSyncThread() {
     spdlog::info("DualConsensusOrchestrator: Background sync thread started");
     
@@ -997,12 +1158,22 @@ void DualConsensusOrchestrator::backgroundSyncThread() {
     spdlog::info("DualConsensusOrchestrator: Background sync thread stopped");
 }
 
+/**
+ * @brief Update Consistency State.
+ * @param[in] key Input parameter.
+ * @details Calls: lock(), updateConsistencyStateLocked().
+ */
 void DualConsensusOrchestrator::updateConsistencyState(const std::string& key) {
     // Public-facing wrapper — acquires state_mutex_ then delegates.
     std::lock_guard<std::mutex> lock(state_mutex_);
     updateConsistencyStateLocked(key);
 }
 
+/**
+ * @brief Update Consistency State Locked.
+ * @param[in] key Input parameter.
+ * @details Calls: find(), end(), getStorageVersion(), getCacheVersion(), notifyConsistencyChange().
+ */
 void DualConsensusOrchestrator::updateConsistencyStateLocked(const std::string& key) {
     // PRECONDITION: caller holds state_mutex_.
     // Accesses version_tokens_ and consistency_states_ directly to avoid
@@ -1047,6 +1218,16 @@ void DualConsensusOrchestrator::updateConsistencyStateLocked(const std::string& 
     }
 }
 
+/**
+ * @brief Default Conflict Resolver.
+ * @param[in] key Input parameter.
+ * @param[in] cache_value Input parameter.
+ * @param[in] storage_value Input parameter.
+ * @param[in] cache_token Input parameter.
+ * @param[in] storage_token Input parameter.
+ * @return Return value.
+ * @details Calls: isNewerThan(), spdlog::debug().
+ */
 nlohmann::json DualConsensusOrchestrator::defaultConflictResolver(
     const std::string& key,
     const nlohmann::json& cache_value,
@@ -1070,6 +1251,13 @@ nlohmann::json DualConsensusOrchestrator::defaultConflictResolver(
     }
 }
 
+/**
+ * @brief Notify Consistency Change.
+ * @param[in] key Input parameter.
+ * @param[in] old_state Input parameter.
+ * @param[in] new_state Input parameter.
+ * @details Calls: cb_copy(), spdlog::error(), what(), spdlog::debug().
+ */
 void DualConsensusOrchestrator::notifyConsistencyChange(
     const std::string& key,
     CrossLayerConsistencyState old_state,
@@ -1103,6 +1291,13 @@ void DualConsensusOrchestrator::notifyConsistencyChange(
 // Factory Functions
 // ============================================================================
 
+/**
+ * @brief Create Dual Consensus Orchestrator.
+ * @param[in] raid_mode Input parameter.
+ * @param[in] base_config Input parameter.
+ * @return Return value.
+ * @details Calls: createRAIDPaxosConsensus(), std::chrono::milliseconds(), std::move().
+ */
 std::unique_ptr<DualConsensusOrchestrator> createDualConsensusOrchestrator(
     RAIDMode raid_mode,
     const ConsensusConfig& base_config
@@ -1125,6 +1320,13 @@ std::unique_ptr<DualConsensusOrchestrator> createDualConsensusOrchestrator(
     );
 }
 
+/**
+ * @brief Create Dual Consensus Orchestrator.
+ * @param[in] raid_config Input parameter.
+ * @param[in] raft_config Input parameter.
+ * @return Return value.
+ * @details Calls: createRAIDPaxosConsensus(), std::move().
+ */
 std::unique_ptr<DualConsensusOrchestrator> createDualConsensusOrchestrator(
     const RAIDPaxosConfig& raid_config,
     const ConsensusConfig& raft_config

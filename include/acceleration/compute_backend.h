@@ -642,34 +642,34 @@ public:
     static BackendRegistry& instance();
     
     /**
-     * @brief Register a backend (manual registration)
+     * @brief Register Backend.
      * @param[in] backend Input parameter.
      */
     void registerBackend(std::unique_ptr<IComputeBackend> backend);
     
     /**
-     * @brief Load plugins from directory (DLL/SO files) Returns number of plugins loaded
+     * @brief Load Plugins.
      * @param[in] pluginDirectory Input parameter.
      * @return Return value.
      */
     size_t loadPlugins(const std::string& pluginDirectory);
     
     /**
-     * @brief Load a specific plugin
+     * @brief Load Plugin.
      * @param[in] pluginPath Input parameter.
      * @return True when the operation succeeds.
      */
     bool loadPlugin(const std::string& pluginPath);
     
     /**
-     * @brief Get backend by type
+     * @brief Get Backend.
      * @param[in] type Input parameter.
      * @return Pointer to the result.
      */
     IComputeBackend* getBackend(BackendType type) const;
     
     /**
-     * @brief Get best available backend for a capability
+     * @brief Get Best Vector Backend.
      * @return Pointer to the result.
      */
     IVectorBackend* getBestVectorBackend() const;
@@ -690,21 +690,20 @@ public:
     IMatrixBackend* getBestMatrixBackend() const;
     
     /**
-     * @brief Auto-detect and initialize all available backends
+     * @brief Auto Detect.
      */
     void autoDetect();
     
     /**
-     * @brief List all available backends
+     * @brief Get Available Backends.
      * @return Return value.
      */
     std::vector<BackendType> getAvailableBackends() const;
 
     /**
-     * @brief Returns the ordered fallback chain used when selecting the best backend.
+     * @brief Get Fallback Order.
      * @return Return value.
      * @note Exception safety: noexcept.
-     * @details The first element has the highest priority; BackendType::CPU is always last. All getBestXBackend() methods traverse this chain in order.
      */
     static const std::vector<BackendType>& getFallbackOrder() noexcept;
 
@@ -829,7 +828,7 @@ struct CapabilityRequirements {
     bool isRuntimeInitialized() const noexcept;
 
     /**
-     * @brief Default capability requirements used by initializeRuntime() when the caller does not supply explicit requirements.
+     * @brief Default Vector Requirements.
      * @return Return value.
      * @note Exception safety: noexcept.
      */

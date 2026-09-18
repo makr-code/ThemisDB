@@ -38,10 +38,22 @@ CDCMaterializedViewMaintainer::~CDCMaterializedViewMaintainer() = default;
 // View lifecycle
 // ============================================================================
 
+/**
+ * @brief Create View.
+ * @param[in] def Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements createView without additional internal calls.
+ */
 bool CDCMaterializedViewMaintainer::createView(const themisdb::analytics::ViewDefinition &def) {
     return view_manager_.createView(def);
 }
 
+/**
+ * @brief Drop View.
+ * @param[in] name Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements dropView without additional internal calls.
+ */
 bool CDCMaterializedViewMaintainer::dropView(const std::string &name) {
     return view_manager_.dropView(name);
 }
@@ -63,6 +75,11 @@ CDCMaterializedViewMaintainer::getView(const std::string &name) const {
 // Change ingestion
 // ============================================================================
 
+/**
+ * @brief Apply Event.
+ * @param[in] event Input parameter.
+ * @details Calls: toChangeRecord(), empty(), applyChange().
+ */
 void CDCMaterializedViewMaintainer::applyEvent(const Changefeed::ChangeEvent &event) {
     auto rec = toChangeRecord(event);
     if (rec.collection.empty()) {
@@ -72,6 +89,11 @@ void CDCMaterializedViewMaintainer::applyEvent(const Changefeed::ChangeEvent &ev
     ++total_events_processed_;
 }
 
+/**
+ * @brief Apply Events.
+ * @param[in] events Input parameter.
+ * @details Calls: reserve(), size(), toChangeRecord(), empty(), push_back(), std::move(), applyChanges().
+ */
 void CDCMaterializedViewMaintainer::applyEvents(const std::vector<Changefeed::ChangeEvent> &events) {
     std::vector<themisdb::analytics::ChangeRecord> records = {};
 
@@ -103,6 +125,12 @@ CDCMaterializedViewMaintainer::query(const std::string &view_name,
 // Private helpers
 // ============================================================================
 
+/**
+ * @brief Extract Collection.
+ * @param[in] key Input parameter.
+ * @return Return value.
+ * @details Calls: find(), substr().
+ */
 std::string CDCMaterializedViewMaintainer::extractCollection(const std::string &key) {
     auto pos = key.find(':');
     if (pos == std::string::npos) {
@@ -111,6 +139,12 @@ std::string CDCMaterializedViewMaintainer::extractCollection(const std::string &
     return key.substr(0, pos);
 }
 
+/**
+ * @brief Parse Json Row.
+ * @param[in] json_str Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), nlohmann::json::parse(), is_object(), begin(), end(), value(), is_null(), key().
+ */
 themisdb::analytics::ChangeRecord::Row CDCMaterializedViewMaintainer::parseJsonRow(const std::string &json_str) {
     themisdb::analytics::ChangeRecord::Row row;
     if (json_str.empty()) {
@@ -143,6 +177,12 @@ themisdb::analytics::ChangeRecord::Row CDCMaterializedViewMaintainer::parseJsonR
     return row;
 }
 
+/**
+ * @brief To Change Record.
+ * @param[in] event Input parameter.
+ * @return Return value.
+ * @details Calls: extractCollection(), has_value(), parseJsonRow().
+ */
 themisdb::analytics::ChangeRecord CDCMaterializedViewMaintainer::toChangeRecord(const Changefeed::ChangeEvent &event) {
     themisdb::analytics::ChangeRecord rec;
 

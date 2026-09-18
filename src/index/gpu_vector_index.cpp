@@ -47,7 +47,6 @@ namespace index {
 // GPUVectorIndex::Impl
 // =============================================================================
 
-/** @brief GPUVectorIndex::Impl. */
 class GPUVectorIndex::Impl {
 public:
     Config config;
@@ -97,29 +96,22 @@ public:
     // are loaded, avoiding O(n²) behaviour.
     std::atomic<bool> oversubBulkLoading_{false};
 
-    /// @brief Return whether this index currently has a strictly positive dimension.
-    /// @return True when @c dimension is greater than zero; false for uninitialized
-    ///         or otherwise invalid dimension state.
     [[nodiscard]] bool hasValidDimension() const noexcept {
         return dimension > 0;
     }
 
-    /// @brief Return the currently expected vector dimension for input validation.
-    /// @return The positive configured dimension, or @c 0 as a sentinel when no
-    ///         valid dimension is currently available.
     [[nodiscard]] size_t expectedDimension() const noexcept {
         return hasValidDimension() ? static_cast<size_t>(dimension) : 0U;
     }
 
-    /// @brief Check whether an input vector dimension matches the configured index dimension.
-    /// @param actualDimension Candidate input dimension to validate.
-    /// @return True only when the index dimension is valid and equals @p actualDimension.
     [[nodiscard]] bool matchesDimension(size_t actualDimension) const noexcept {
         return hasValidDimension() && actualDimension == expectedDimension();
     }
 
-    // Rebuild the oversubscription manager partitions from the current vectorData.
-    // Called after every vector mutation when oversubscription is enabled.
+    /**
+     * @brief Rebuild the oversubscription manager partitions from the current vectorData.
+     * @details Called after every vector mutation when oversubscription is enabled. Calls: empty(), hasValidDimension(), getAllPartitionIds(), removePartition(), expectedDimension(), size(), std::min(), reserve().
+     */
     void rebuildOversubPartitions() {
         if (!oversubManager || vectorData.empty() || oversubBulkLoading_ || !hasValidDimension()) {
           return;
@@ -152,7 +144,13 @@ public:
         }
     }
 
-    // Search all oversubscription partitions and return merged top-k results.
+    /**
+     * @brief Search all oversubscription partitions and return merged top-k results.
+     * @param[in] query Input parameter.
+     * @param[in] k Input parameter.
+     * @return Return value.
+     * @details Calls: empty(), matchesDimension(), size(), THEMIS_DEBUG(), expectedDimension(), std::chrono::steady_clock::now(), reserve(), std::min().
+     */
     std::vector<SearchResult> searchOversubscribed(const std::vector<float>& query, size_t k) {
         if (!oversubManager || vectorData.empty() || !matchesDimension(query.size())) {
             THEMIS_DEBUG("GPUVectorIndex::searchOversubscribed - no oversub manager or empty data or dim mismatch (oversubManager={} vector_count={} query_dim={} expected_dim={})",
@@ -226,6 +224,12 @@ public:
 
     Impl(const Config& cfg) : config(cfg) {}
 
+    /**
+     * @brief Prefetch Strategy To String.
+     * @param[in] s Input parameter.
+     * @return Return value.
+     * @details Implements prefetchStrategyToString without additional internal calls.
+     */
     static std::string prefetchStrategyToString(PrefetchStrategy s) {
         switch (s) {
         case PrefetchStrategy::LRU:        return "LRU";
@@ -323,6 +327,10 @@ public:
         return true;
     }
     
+    /**
+     * @brief Shutdown.
+     * @details Calls: reset(), empty(), themis::gpu::GPUMemoryManager::GetInstance(), DeallocateGPU(), RemoveTenantQuota(), clear().
+     */
     void shutdown() {
         #ifdef THEMIS_ENABLE_VULKAN
         if (vulkanBackend) {
@@ -361,6 +369,11 @@ public:
         initialized = false;
     }
     
+    /**
+     * @brief Get Backend Priority Order.
+     * @return Return value.
+     * @details Calls: push_back().
+     */
     std::vector<Backend> getBackendPriorityOrder() {
         std::vector<Backend> order;
 
@@ -380,6 +393,13 @@ public:
         return order;
     }
 
+    /**
+     * @brief Try Initialize Backend.
+     * @param[in] backend Input parameter.
+     * @param[in] dim Input parameter.
+     * @return True when the operation succeeds.
+     * @details Calls: isAvailable(), initialize(), std::move(), THEMIS_INFO(), initializeVulkanBackend().
+     */
     bool tryInitializeBackend(Backend backend, int dim) {
         #ifdef THEMIS_ENABLE_CUDA
         if (backend == Backend::CUDA) {
@@ -426,6 +446,11 @@ public:
         return false;
     }
 
+    /**
+     * @brief Select Best Backend.
+     * @return Return value.
+     * @details Calls: getBackendPriorityOrder(), isAvailable(), themis::acceleration::HIPVectorBackend(), isVulkanAvailable().
+     */
     Backend selectBestBackend() {
         const auto order = getBackendPriorityOrder();
         for (Backend backend : order) {
@@ -464,6 +489,11 @@ public:
     }
     
     #ifdef THEMIS_ENABLE_VULKAN
+    /**
+     * @brief Is Vulkan Available.
+     * @return True when the operation succeeds.
+     * @details Calls: is_available(), THEMIS_DEBUG(), what().
+     */
     bool isVulkanAvailable() {
         // Check if Vulkan is available by trying to create a context
         try {
@@ -497,6 +527,13 @@ public:
     }
     #endif
     
+    /**
+     * @brief Add Vector.
+     * @param[in] id Input parameter.
+     * @param[in] vector Input parameter.
+     * @return True when the operation succeeds.
+     * @details Calls: matchesDimension(), size(), find(), end(), empty(), bytesPerVector(), themis::gpu::GPUMemoryManager::GetInstance(), TryAllocateGPU().
+     */
     bool addVector(const std::string& id, const std::vector<float>& vector) {
         if (!initialized || !matchesDimension(vector.size())) {
             return false;
@@ -555,6 +592,12 @@ public:
         return true;
     }
     
+    /**
+     * @brief Remove Vector.
+     * @param[in] id Input parameter.
+     * @return True when the operation succeeds.
+     * @details Calls: find(), end(), size(), pop_back(), erase(), empty(), bytesPerVector(), themis::gpu::GPUMemoryManager::GetInstance().
+     */
     bool removeVector(const std::string& id) {
         auto it = idToIndex.find(id);
         if (it == idToIndex.end()) {
@@ -615,6 +658,13 @@ public:
         return true;
     }
     
+    /**
+     * @brief Search.
+     * @param[in] query Input parameter.
+     * @param[in] k Input parameter.
+     * @return Return value.
+     * @details Calls: THEMIS_WARN(), empty(), searchOversubscribed(), uploadVectors(), searchIndices(), reserve(), size(), push_back().
+     */
     std::vector<SearchResult> search(const std::vector<float>& query, size_t k) {
         if (!initialized) {
             THEMIS_WARN("GPUVectorIndex::search called on uninitialized index");
@@ -680,6 +730,13 @@ public:
         return searchCPU(query, k);
     }
     
+    /**
+     * @brief Search CPU.
+     * @param[in] query Input parameter.
+     * @param[in] k Input parameter.
+     * @return Return value.
+     * @details Calls: empty(), matchesDimension(), size(), THEMIS_DEBUG(), expectedDimension(), std::chrono::steady_clock::now(), reserve(), computeDistance().
+     */
     std::vector<SearchResult> searchCPU(const std::vector<float>& query, size_t k) {
         if (vectorData.empty() || !matchesDimension(query.size())) {
             THEMIS_DEBUG("GPUVectorIndex::searchCPU - empty data or dimension mismatch (vectors={} query_dim={} expected_dim={})",
@@ -716,7 +773,13 @@ public:
     }
     
 #ifdef THEMIS_ENABLE_CUDA
-    // CUDA backend search functions (currently not used, Vulkan is active)
+    /**
+     * @brief CUDA backend search functions (currently not used, Vulkan is active)
+     * @param[in] query Input parameter.
+     * @param[in] k Input parameter.
+     * @return Return value.
+     * @details Calls: empty(), matchesDimension(), size(), THEMIS_WARN(), expectedDimension(), searchCPU(), std::chrono::steady_clock::now(), clear().
+     */
     std::vector<SearchResult> searchGPU(const std::vector<float>& query, size_t k) {
         if (!cudaBackend || vectorData.empty() || !matchesDimension(query.size())) {
             THEMIS_WARN("GPUVectorIndex::searchGPU - invalid state (cudaBackend={} vectors={} query_dim={} expected_dim={})",
@@ -774,6 +837,13 @@ public:
         return results;
     }
     
+    /**
+     * @brief Search Batch GPU.
+     * @param[in] queries Input parameter.
+     * @param[in] k Input parameter.
+     * @return Return value.
+     * @details Calls: empty(), THEMIS_DEBUG(), size(), reserve(), push_back(), searchCPU(), std::chrono::steady_clock::now(), clear().
+     */
     std::vector<std::vector<SearchResult>> searchBatchGPU(
         const std::vector<std::vector<float>>& queries, size_t k) {
         
@@ -862,7 +932,12 @@ public:
 #endif // THEMIS_ENABLE_CUDA
 
 #ifdef THEMIS_ENABLE_HIP
-    // Helper: map GPUVectorIndex::DistanceMetric to HIPVectorBackend::DistanceMetric
+    /**
+     * @brief Helper: map GPUVectorIndex::DistanceMetric to HIPVectorBackend::DistanceMetric
+     * @param[in] m Input parameter.
+     * @return Return value.
+     * @details Implements toHIPMetric without additional internal calls.
+     */
     static themis::acceleration::HIPVectorBackend::DistanceMetric toHIPMetric(DistanceMetric m) {
         switch (m) {
             case DistanceMetric::COSINE:
@@ -874,6 +949,13 @@ public:
         }
     }
 
+    /**
+     * @brief Search HIP.
+     * @param[in] query Input parameter.
+     * @param[in] k Input parameter.
+     * @return Return value.
+     * @details Calls: empty(), matchesDimension(), size(), THEMIS_DEBUG(), expectedDimension(), std::chrono::steady_clock::now(), clear(), reserve().
+     */
     std::vector<SearchResult> searchHIP(const std::vector<float>& query, size_t k) {
         if (!hipBackend || vectorData.empty() || !matchesDimension(query.size())) {
             THEMIS_DEBUG("GPUVectorIndex::searchHIP - invalid state (hipBackend={} vectors={} query_dim={} expected_dim={})",
@@ -921,6 +1003,13 @@ public:
         return results;
     }
 
+    /**
+     * @brief Search Batch HIP.
+     * @param[in] queries Input parameter.
+     * @param[in] k Input parameter.
+     * @return Return value.
+     * @details Calls: empty(), hasValidDimension(), THEMIS_DEBUG(), size(), expectedDimension(), std::chrono::steady_clock::now(), clear(), reserve().
+     */
     std::vector<std::vector<SearchResult>> searchBatchHIP(
         const std::vector<std::vector<float>>& queries, size_t k) {
 
@@ -991,6 +1080,14 @@ public:
     }
 #endif // THEMIS_ENABLE_HIP
 
+    /**
+     * @brief Compute Distance.
+     * @param[in] a Input parameter.
+     * @param[in] b Input parameter.
+     * @param[in] dim Input parameter.
+     * @return Return value.
+     * @details Calls: std::sqrt(), std::max().
+     */
     float computeDistance(const float* a, const float* b, int dim) {
         switch (config.metric) {
             case DistanceMetric::L2: {
@@ -1026,6 +1123,12 @@ public:
         }
     }
     
+    /**
+     * @brief Update Query Stats.
+     * @param[in] start Input parameter.
+     * @param[in] end Input parameter.
+     * @details Calls: count().
+     */
     void updateQueryStats(const std::chrono::steady_clock::time_point& start,
                          const std::chrono::steady_clock::time_point& end) {
         auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
@@ -1045,6 +1148,11 @@ public:
         lastQueryTime = end;
     }
     
+    /**
+     * @brief Get Available Backends.
+     * @return Return value.
+     * @details Calls: push_back(), isAvailable(), themis::acceleration::HIPVectorBackend(), isVulkanAvailable().
+     */
     std::vector<Backend> getAvailableBackends() {
         std::vector<Backend> backends;
         backends.push_back(Backend::CPU); // Always available
@@ -1099,14 +1207,32 @@ bool GPUVectorIndex::initialize([[maybe_unused]] int dimension) {
     return pImpl->initialize(dimension);
 }
 
+/**
+ * @brief Shutdown.
+ * @details Implements shutdown without additional internal calls.
+ */
 void GPUVectorIndex::shutdown() {
     pImpl->shutdown();
 }
 
+/**
+ * @brief Add Vector.
+ * @param[in] id Input parameter.
+ * @param[in] vector Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements addVector without additional internal calls.
+ */
 bool GPUVectorIndex::addVector(const std::string& id, const std::vector<float>& vector) {
     return pImpl->addVector(id, vector);
 }
 
+/**
+ * @brief Add Vector Batch.
+ * @param[in] ids Input parameter.
+ * @param[in] vectors Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: size(), empty(), find(), end(), themis::gpu::GPUMemoryManager::GetInstance(), TryAllocateGPU(), THEMIS_WARN(), reserve().
+ */
 bool GPUVectorIndex::addVectorBatch(const std::vector<std::string>& ids,
                                    const std::vector<std::vector<float>>& vectors) {
     if (!pImpl->initialized || ids.size() != vectors.size()) {
@@ -1211,14 +1337,34 @@ bool GPUVectorIndex::addVectorBatch(const std::vector<std::string>& ids,
     return true;
 }
 
+/**
+ * @brief Remove Vector.
+ * @param[in] id Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements removeVector without additional internal calls.
+ */
 bool GPUVectorIndex::removeVector(const std::string& id) {
     return pImpl->removeVector(id);
 }
 
+/**
+ * @brief Update Vector.
+ * @param[in] id Input parameter.
+ * @param[in] vector Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: addVector().
+ */
 bool GPUVectorIndex::updateVector(const std::string& id, const std::vector<float>& vector) {
     return pImpl->addVector(id, vector); // Same as add (upsert)
 }
 
+/**
+ * @brief Search.
+ * @param[in] query Input parameter.
+ * @param[in] k Input parameter.
+ * @return Return value.
+ * @details Implements search without additional internal calls.
+ */
 std::vector<GPUVectorIndex::SearchResult> GPUVectorIndex::search(
     const std::vector<float>& query, size_t k) {
     
@@ -1229,6 +1375,13 @@ std::vector<GPUVectorIndex::SearchResult> GPUVectorIndex::search(
     return pImpl->search(query, k);
 }
 
+/**
+ * @brief Search Batch.
+ * @param[in] queries Input parameter.
+ * @param[in] k Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), reserve(), size(), push_back(), searchOversubscribed(), uploadVectors(), searchBatchIndices(), std::move().
+ */
 std::vector<std::vector<GPUVectorIndex::SearchResult>> GPUVectorIndex::searchBatch(
     const std::vector<std::vector<float>>& queries, size_t k) {
     
@@ -1342,6 +1495,11 @@ std::vector<std::vector<GPUVectorIndex::SearchResult>> GPUVectorIndex::searchBat
     }
 }
 
+/**
+ * @brief Build Index.
+ * @return True when the operation succeeds.
+ * @details Calls: THEMIS_WARN(), empty(), uploadVectors().
+ */
 bool GPUVectorIndex::buildIndex() {
     if (!pImpl->initialized) {
         THEMIS_WARN("GPUVectorIndex: buildIndex() called on uninitialized index");
@@ -1369,6 +1527,12 @@ bool GPUVectorIndex::buildIndex() {
     return true;
 }
 
+/**
+ * @brief Save Index.
+ * @param[in] path Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), ofs(), THEMIS_ERROR(), write(), size(), data(), good().
+ */
 bool GPUVectorIndex::saveIndex(const std::string& path) {
     if (!pImpl->initialized || path.empty()) {
         return false;
@@ -1417,6 +1581,12 @@ bool GPUVectorIndex::saveIndex(const std::string& path) {
     return ofs.good();
 }
 
+/**
+ * @brief Load Index.
+ * @param[in] path Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), ifs(), THEMIS_ERROR(), read(), THEMIS_WARN(), initialize(), themis::gpu::GPUMemoryManager::GetInstance(), DeallocateGPU().
+ */
 bool GPUVectorIndex::loadIndex(const std::string& path) {
     if (path.empty()) {
         return false;
@@ -1604,6 +1774,12 @@ GPUVectorIndex::getOversubscriptionStats() const {
     return GPUMemoryOversubscriptionManager::Stats{};
 }
 
+/**
+ * @brief Switch Backend.
+ * @param[in] backend Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: getAvailableBackends(), std::find(), begin(), end(), THEMIS_WARN(), shutdown(), initialize(), THEMIS_ERROR().
+ */
 bool GPUVectorIndex::switchBackend(Backend backend) {
     if (!pImpl->initialized) {
         return false;

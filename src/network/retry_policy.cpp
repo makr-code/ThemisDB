@@ -86,6 +86,11 @@ IdempotencyCache::lookup(const std::string& request_id) const {
 
 std::optional<IdempotencyCache::Entry>
 IdempotencyCache::lookupSnapshot(const std::string& request_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = cache_.find(request_id);
     if (it == cache_.end()) {
@@ -94,6 +99,12 @@ IdempotencyCache::lookupSnapshot(const std::string& request_id) const {
     return it->second;
 }
 
+/**
+ * @brief Store.
+ * @param[in] request_id Identifier of the request.
+ * @param[in] result Input parameter.
+ * @details Calls: lock(), count(), size(), front(), erase(), pop_front(), std::move(), std::chrono::steady_clock::now().
+ */
 void IdempotencyCache::store(const std::string& request_id, std::string result) {
     std::lock_guard<std::mutex> lock(mutex_);
 
@@ -118,6 +129,10 @@ void IdempotencyCache::store(const std::string& request_id, std::string result) 
     insertion_order_.push_back(request_id);
 }
 
+/**
+ * @brief Clear.
+ * @details Calls: lock().
+ */
 void IdempotencyCache::clear() {
     std::lock_guard<std::mutex> lock(mutex_);
     cache_.clear();
@@ -125,6 +140,11 @@ void IdempotencyCache::clear() {
 }
 
 size_t IdempotencyCache::size() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return cache_.size();
 }

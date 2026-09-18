@@ -23,6 +23,13 @@ using json = nlohmann::json;
 // Private helpers
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Make Response.
+ * @param[in] status Input parameter.
+ * @param[in] body Input parameter.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ */
 http::response<http::string_body> GraphQLApiHandler::makeResponse(
     http::status status,
     const std::string& body,
@@ -37,6 +44,13 @@ http::response<http::string_body> GraphQLApiHandler::makeResponse(
     return res;
 }
 
+/**
+ * @brief Make Error Response.
+ * @param[in] status Input parameter.
+ * @param[in] message Input parameter.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ */
 http::response<http::string_body> GraphQLApiHandler::makeErrorResponse(
     http::status status,
     const std::string& message,
@@ -90,13 +104,9 @@ json GraphQLApiHandler::serializeValue(
 // ---------------------------------------------------------------------------
 
 /**
- * POST /graphql (or POST /api/v1/graphql)
- *
- * Request body (JSON):
- *   { "query": "...", "variables": {}, "operationName": "..." }
- *
- * Response body (JSON):
- *   { "data": {...}, "errors": [...] }
+ * @brief Handle Post.
+ * @param[in] req Input parameter.
+ * @return Return value.
  */
 http::response<http::string_body> GraphQLApiHandler::handlePost(
     const http::request<http::string_body>& req)
@@ -235,10 +245,9 @@ http::response<http::string_body> GraphQLApiHandler::handlePost(
 }
 
 /**
- * GET /graphql/schema (or GET /api/v1/graphql/schema)
- *
- * Returns the Schema Definition Language (SDL) document for introspection
- * and client-side tooling.
+ * @brief Handle Schema Get.
+ * @param[in] req Input parameter.
+ * @return Return value.
  */
 http::response<http::string_body> GraphQLApiHandler::handleSchemaGet(
     const http::request<http::string_body>& req)

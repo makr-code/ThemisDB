@@ -193,7 +193,7 @@ struct Status {
 };
 
 /**
- * @brief Helper functions for enum conversions
+ * @brief Argument Type To String.
  * @param[in] type Input parameter.
  * @return Pointer to the result.
  */

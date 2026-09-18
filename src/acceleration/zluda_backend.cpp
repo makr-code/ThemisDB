@@ -125,17 +125,19 @@ public:
         size_t k,
         bool useL2)>;
 
-    /// Inject a computeDistances callback for non-PTX/test/integration paths.
-    /// Thread-safe: callback storage is guarded by a static mutex.
+    /**
+     * @brief Set Compute Distances Fn.
+     * @param[in] fn Input parameter.
+     */
     static void setComputeDistancesFn(ComputeDistancesFn fn);
-    /// Inject a batchKnnSearch callback for non-PTX/test/integration paths.
-    /// Thread-safe: callback storage is guarded by a static mutex.
+    /**
+     * @brief Set Batch Knn Search Fn.
+     * @param[in] fn Input parameter.
+     */
     static void setBatchKnnSearchFn(BatchKnnSearchFn fn);
     /**
-     * @brief Inject the generic ZludaKernelFn bridge.
-     *
-     * @param fn  Callable satisfying ZludaKernelFn; clears when null.
-     * @note Thread-safe -- guarded by s_callback_fn_mutex_.
+     * @brief Set Zluda Kernel Fn Impl.
+     * @param[in] fn Input parameter.
      */
     static void setZludaKernelFnImpl(ZludaKernelFn fn);
 
@@ -272,6 +274,11 @@ public:
     ) override {
         ComputeDistancesFn fn;
         {
+            /**
+             * @brief Lk.
+             * @param[in] s_callback_fn_mutex_ Input parameter.
+             * @return Return value.
+             */
             std::lock_guard<std::mutex> lk(s_callback_fn_mutex_);
             fn = s_compute_distances_fn_;
         }
@@ -298,6 +305,11 @@ public:
         {
             ZludaKernelFn kfn;
             {
+                /**
+                 * @brief Lk.
+                 * @param[in] s_callback_fn_mutex_ Input parameter.
+                 * @return Return value.
+                 */
                 std::lock_guard<std::mutex> lk(s_callback_fn_mutex_);
                 kfn = s_zluda_kernel_fn_;
             }
@@ -378,6 +390,11 @@ public:
                           fnStreamSynchronize_(stream_);
                         }
 
+                        /**
+                         * @brief Output.
+                         * @param[in,out] numVectors Input/output parameter.
+                         * @return Return value.
+                         */
                         std::vector<float> output(numQueries * numVectors);
                         fnMemcpyDtoHV2_(output.data(), d_output, output_bytes);
 
@@ -427,6 +444,11 @@ public:
     ) override {
         BatchKnnSearchFn fn;
         {
+            /**
+             * @brief Lk.
+             * @param[in] s_callback_fn_mutex_ Input parameter.
+             * @return Return value.
+             */
             std::lock_guard<std::mutex> lk(s_callback_fn_mutex_);
             fn = s_batch_knn_fn_;
         }
@@ -453,6 +475,11 @@ public:
         {
             ZludaKernelFn kfn;
             {
+                /**
+                 * @brief Lk.
+                 * @param[in] s_callback_fn_mutex_ Input parameter.
+                 * @return Return value.
+                 */
                 std::lock_guard<std::mutex> lk(s_callback_fn_mutex_);
                 kfn = s_zluda_kernel_fn_;
             }
@@ -541,6 +568,10 @@ private:
     static BatchKnnSearchFn s_batch_knn_fn_;
     static ZludaKernelFn s_zluda_kernel_fn_;
 
+    /**
+     * @brief Load Functions.
+     * @details Calls: dlsym().
+     */
     void loadFunctions() {
         fnGetDeviceCount_ = (PFN_zludaGetDeviceCount)dlsym(zludaLib_, "cuDeviceGetCount");
         fnSetDevice_ = (PFN_zludaSetDevice)dlsym(zludaLib_, "cuDeviceSet");
@@ -568,8 +599,6 @@ private:
     int deviceId_ = 0;
     void* zludaLib_ = nullptr;
     ZludaStream stream_ = nullptr;
-    /// Actual VRAM capacity queried via cuDeviceTotalMem during initialize().
-    /// Sentinel 8 GiB used when the function is unavailable through ZLUDA.
     size_t detected_memory_bytes_ = 8 * 1024 * 1024 * 1024;
     
     // Function pointers
@@ -594,9 +623,6 @@ private:
     PFN_cuMemcpyDtoH_v2     fnMemcpyDtoHV2_      = nullptr;
     PFN_cuModuleUnload      fnModuleUnload_       = nullptr;
 
-    /// Optional pre-loaded PTX image (ASCII null-terminated PTX source or
-    /// cubin binary).  Injected at startup via setPtxImage() when
-    /// THEMIS_HAS_ZLUDA is defined.  nullptr → PTX path is skipped.
     const std::vector<char>* ptxImage_ = nullptr;
 };
 
@@ -605,43 +631,53 @@ ZLUDAVectorBackend::ComputeDistancesFn ZLUDAVectorBackend::s_compute_distances_f
 ZLUDAVectorBackend::BatchKnnSearchFn ZLUDAVectorBackend::s_batch_knn_fn_;
 ZludaKernelFn ZLUDAVectorBackend::s_zluda_kernel_fn_;
 
+/**
+ * @brief Set Compute Distances Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lk(), std::move().
+ */
 void ZLUDAVectorBackend::setComputeDistancesFn(ComputeDistancesFn fn) {
     std::lock_guard<std::mutex> lk(s_callback_fn_mutex_);
     s_compute_distances_fn_ = std::move(fn);
 }
 
+/**
+ * @brief Set Batch Knn Search Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lk(), std::move().
+ */
 void ZLUDAVectorBackend::setBatchKnnSearchFn(BatchKnnSearchFn fn) {
     std::lock_guard<std::mutex> lk(s_callback_fn_mutex_);
     s_batch_knn_fn_ = std::move(fn);
 }
 
+/**
+ * @brief Set Zluda Kernel Fn Impl.
+ * @param[in] fn Input parameter.
+ * @details Calls: lk(), std::move().
+ */
 void ZLUDAVectorBackend::setZludaKernelFnImpl(ZludaKernelFn fn) {
     std::lock_guard<std::mutex> lk(s_callback_fn_mutex_);
     s_zluda_kernel_fn_ = std::move(fn);
 }
 
-/// Free-function wrapper for injecting ZLUDA computeDistances callback bridges.
-/// Thread-safe via backend static mutex; callback exceptions are handled
-/// fail-closed in computeDistances() by returning an empty result.
 void setZLUDAComputeDistancesFn(
     std::function<std::vector<float>(
         const float*, size_t, size_t, const float*, size_t, bool)> fn) {
     ZLUDAVectorBackend::setComputeDistancesFn(std::move(fn));
 }
 
-/// Free-function wrapper for injecting ZLUDA batchKnnSearch callback bridges.
-/// Thread-safe via backend static mutex; callback exceptions are handled
-/// fail-closed in batchKnnSearch() by returning an empty result.
 void setZLUDABatchKnnSearchFn(
     std::function<std::vector<std::vector<std::pair<uint32_t, float>>>(
         const float*, size_t, size_t, const float*, size_t, size_t, bool)> fn) {
     ZLUDAVectorBackend::setBatchKnnSearchFn(std::move(fn));
 }
 
-/// @brief Public free-function bridge entry point for ZludaKernelFn.
-/// Delegates to ZLUDAVectorBackend::setZludaKernelFnImpl().
-/// @param fn Callable satisfying ZludaKernelFn; null clears the bridge.
-/// @note Thread-safe.
+/**
+ * @brief Set Zluda Kernel Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: ZLUDAVectorBackend::setZludaKernelFnImpl(), std::move().
+ */
 void setZludaKernelFn(ZludaKernelFn fn) {
     ZLUDAVectorBackend::setZludaKernelFnImpl(std::move(fn));
 }

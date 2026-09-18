@@ -20,10 +20,11 @@
 namespace themis {
 namespace llm {
 
-/**
- * @brief Constitutional principle for self-critique
- */
 struct ConstitutionalPrinciple {
+    /**
+     * @brief Constitutional Principle.
+     * @return Return value.
+     */
     virtual ~ConstitutionalPrinciple() = default;
     std::string id;
     std::string name;
@@ -37,10 +38,11 @@ struct ConstitutionalPrinciple {
     bool domain_agnostic = false;              ///< true if universal principle
 };
 
-/**
- * @brief Result of constitutional reasoning
- */
 struct ConstitutionalReasoningResult {
+    /**
+     * @brief Constitutional Reasoning Result.
+     * @return Return value.
+     */
     virtual ~ConstitutionalReasoningResult() = default;
     // Original response
     std::string original_response;
@@ -66,9 +68,6 @@ struct ConstitutionalReasoningResult {
     int iterations = 0;                               ///< Number of critique-revision cycles
 };
 
-/**
- * @brief Configuration for constitutional reasoning
- */
 struct ConstitutionalReasoningConfig {
     // Principles to apply
     std::vector<ConstitutionalPrinciple> principles;
@@ -90,44 +89,24 @@ struct ConstitutionalReasoningConfig {
     bool async_processing = false;
 };
 
-/**
- * @brief Constitutional Reasoning Engine
- * 
- * Applies constitutional AI principles to critique and revise LLM outputs.
- * Uses universal ethical principles (UN Human Rights, Asimov's Laws) to
- * ensure outputs respect human autonomy, acknowledge uncertainty, and
- * avoid harmful content.
- */
 class ConstitutionalReasoningEngine {
 public:
     using PromptRunner = std::function<std::string(const std::string&)>;
 
-    /**
-     * @brief Constructor with configuration
-     * @param config Configuration for reasoning
-     */
     explicit ConstitutionalReasoningEngine(
         const ConstitutionalReasoningConfig& config = {}
     );
     
-    /**
-     * @brief Destructor
-     */
     ~ConstitutionalReasoningEngine();
     
-    // ═══════════════════════════════════════════════════════════
-    // Core functionality
-    // ═══════════════════════════════════════════════════════════
-    
     /**
-     * @brief Apply constitutional reasoning to critique and revise response
-     * @param response Original LLM response
-     * @param query Original user query (for context)
-     * @param llm_wrapper Optional pointer to a PromptRunner used for
-     *        critique/revision completions; nullptr falls back to the
-     *        deterministic rule-based path.
-     * @return Reasoning result with critiques and revised response
+     * @brief ═══════════════════════════════════════════════════════════ Core functionality ═══════════════════════════════════════════════════════════
+     * @param[in] response Input parameter.
+     * @param[in] query Input parameter.
+     * @param[in,out] llm_wrapper Input/output parameter.
+     * @return Return value.
      */
+    
     ConstitutionalReasoningResult reason(
         const std::string& response,
         const std::string& query,
@@ -135,12 +114,12 @@ public:
     );
     
     /**
-     * @brief Generate self-critique for response
-     * @param response Response to critique
-     * @param query Original query
-     * @param principle Principle to apply
-     * @param llm_wrapper Optional pointer to a PromptRunner for critique generation
-     * @return Critique text
+     * @brief Generate Critique.
+     * @param[in] response Input parameter.
+     * @param[in] query Input parameter.
+     * @param[in] principle Input parameter.
+     * @param[in,out] llm_wrapper Input/output parameter.
+     * @return Return value.
      */
     std::string generateCritique(
         const std::string& response,
@@ -150,12 +129,12 @@ public:
     );
     
     /**
-     * @brief Generate revised response based on critiques
-     * @param response Original response
-     * @param critiques Generated critiques
-     * @param query Original query
-     * @param llm_wrapper Optional pointer to a PromptRunner for revision generation
-     * @return Revised response
+     * @brief Generate Revision.
+     * @param[in] response Input parameter.
+     * @param[in] critiques Input parameter.
+     * @param[in] query Input parameter.
+     * @param[in,out] llm_wrapper Input/output parameter.
+     * @return Return value.
      */
     std::string generateRevision(
         const std::string& response,
@@ -165,69 +144,58 @@ public:
     );
     
     /**
-     * @brief Check if response violates constitutional principles
-     * @param response Response to check
-     * @return Vector of violated principle IDs
+     * @brief Check Violations.
+     * @param[in] response Input parameter.
+     * @return Return value.
      */
     std::vector<std::string> checkViolations(const std::string& response);
     
     /**
-     * @brief Score response against constitutional principles
-     * @param response Response to score
-     * @return Score (0-1) indicating compliance
+     * @brief Score Response.
+     * @param[in] response Input parameter.
+     * @return Return value.
      */
     float scoreResponse(const std::string& response);
     
-    // ═══════════════════════════════════════════════════════════
-    // Principle management
-    // ═══════════════════════════════════════════════════════════
-    
     /**
-     * @brief Add constitutional principle
-     * @param principle Principle to add
+     * @brief ═══════════════════════════════════════════════════════════ Principle management ═══════════════════════════════════════════════════════════
+     * @param[in] principle Input parameter.
      */
+    
     void addPrinciple(const ConstitutionalPrinciple& principle);
     
     /**
-     * @brief Remove principle by ID
-     * @param principle_id Principle ID to remove
+     * @brief Remove Principle.
+     * @param[in] principle_id Identifier of the principle.
      */
     void removePrinciple(const std::string& principle_id);
     
     /**
-     * @brief Get all principles
-     * @return Vector of all principles
+     * @brief Get Principles.
+     * @return Return value.
      */
     std::vector<ConstitutionalPrinciple> getPrinciples() const;
     
     /**
-     * @brief Load default constitutional principles
-     * 
-     * Loads universal principles based on:
-     * - UN Human Rights (1948)
-     * - Asimov's Laws (adapted for AI)
-     * - Core ethical guidelines
+     * @brief Load Default Principles.
      */
     void loadDefaultPrinciples();
     
-    // ═══════════════════════════════════════════════════════════
-    // Configuration
-    // ═══════════════════════════════════════════════════════════
-    
     /**
-     * @brief Update configuration
-     * @param config New configuration
+     * @brief ═══════════════════════════════════════════════════════════ Configuration ═══════════════════════════════════════════════════════════
+     * @param[in] config Input parameter.
      */
+    
     void setConfig(const ConstitutionalReasoningConfig& config);
     
     /**
-     * @brief Get current configuration
-     * @return Current configuration
+     * @brief Get Config.
+     * @return Return value.
      */
     ConstitutionalReasoningConfig getConfig() const;
     
     /**
-     * @brief Clear critique cache
+     * @brief Clear Cache.
      */
     void clearCache();
     
@@ -235,9 +203,6 @@ public:
     // Statistics and monitoring
     // ═══════════════════════════════════════════════════════════
     
-    /**
-     * @brief Statistics for monitoring
-     */
     struct Statistics {
         uint64_t total_reasonings = 0;
         uint64_t revisions_performed = 0;
@@ -260,20 +225,16 @@ public:
     };
     
     /**
-     * @brief Get statistics
-     * @return Current statistics
+     * @brief Return access control statistics.
+     * @return Access control statistics.
      */
     Statistics getStatistics() const;
     
     /**
-     * @brief Reset statistics
+     * @brief Reset Statistics.
      */
     void resetStatistics();
     
-    /**
-     * @brief Set callback for reasoning completion
-     * @param callback Function to call after each reasoning
-     */
     void setReasoningCallback(
         std::function<void(const ConstitutionalReasoningResult&)> callback
     );
@@ -283,54 +244,100 @@ private:
     std::unique_ptr<Impl> impl_;
     
     // Helper methods
+    /**
+     * @brief Build Critique Prompt.
+     * @param[in] response Input parameter.
+     * @param[in] query Input parameter.
+     * @param[in] principle Input parameter.
+     * @return Return value.
+     */
     std::string buildCritiquePrompt(
         const std::string& response,
         const std::string& query,
         const ConstitutionalPrinciple& principle
     );
     
+    /**
+     * @brief Build Revision Prompt.
+     * @param[in] response Input parameter.
+     * @param[in] critiques Input parameter.
+     * @param[in] query Input parameter.
+     * @return Return value.
+     */
     std::string buildRevisionPrompt(
         const std::string& response,
         const std::vector<std::string>& critiques,
         const std::string& query
     );
     
+    /**
+     * @brief Should Continue Iterating.
+     * @param[in] result Input parameter.
+     * @param[in] iteration Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool shouldContinueIterating(
         const ConstitutionalReasoningResult& result,
         int iteration
     );
     
+    /**
+     * @brief Update Statistics.
+     * @param[in] result Input parameter.
+     */
     void updateStatistics(const ConstitutionalReasoningResult& result);
     
     // Violation detection helpers
+    /**
+     * @brief Check Autonomy Respect.
+     * @param[in] response Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool checkAutonomyRespect(const std::string& response);
+    /**
+     * @brief Check Transparency.
+     * @param[in] response Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool checkTransparency(const std::string& response);
+    /**
+     * @brief Check Non Harmfulness.
+     * @param[in] response Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool checkNonHarmfulness(const std::string& response);
+    /**
+     * @brief Check Fairness.
+     * @param[in] response Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool checkFairness(const std::string& response);
 };
 
-/**
- * @brief Factory for creating constitutional reasoning engines
- */
 class ConstitutionalReasoningFactory {
 public:
     /**
-     * @brief Create engine with default UN/Asimov principles
+     * @brief Create Default.
+     * @return Return value.
      */
     static std::unique_ptr<ConstitutionalReasoningEngine> createDefault();
     
     /**
-     * @brief Create engine with strict principles
+     * @brief Create Strict.
+     * @return Return value.
      */
     static std::unique_ptr<ConstitutionalReasoningEngine> createStrict();
     
     /**
-     * @brief Create engine with lenient principles
+     * @brief Create Lenient.
+     * @return Return value.
      */
     static std::unique_ptr<ConstitutionalReasoningEngine> createLenient();
     
     /**
-     * @brief Create engine with custom configuration
+     * @brief Create.
+     * @param[in] config Input parameter.
+     * @return Return value.
      */
     static std::unique_ptr<ConstitutionalReasoningEngine> create(
         const ConstitutionalReasoningConfig& config

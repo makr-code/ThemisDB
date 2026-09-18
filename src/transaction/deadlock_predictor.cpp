@@ -22,17 +22,32 @@ namespace themis {
 DeadlockPredictor::DeadlockPredictor(Config config)
     : config_(std::move(config)) {}
 
+/**
+ * @brief Set Config.
+ * @param[in] config Input parameter.
+ * @details Calls: lk(), std::move().
+ */
 void DeadlockPredictor::setConfig(Config config) {
     std::lock_guard<std::mutex> lk(mutex_);
     config_ = std::move(config);
 }
 
 DeadlockPredictor::Config DeadlockPredictor::getConfig() const {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     return config_;
 }
 
-// ── Training API ──────────────────────────────────────────────────────────────
+/**
+ * @brief ── Training API ──────────────────────────────────────────────────────────────
+ * @param[in] TransactionId Input parameter.
+ * @param[in] locks_acquired Input parameter.
+ * @param[in] duration Input parameter.
+ */
 
 void DeadlockPredictor::recordTransaction(
         TransactionId /* txn_id */,
@@ -43,6 +58,11 @@ void DeadlockPredictor::recordTransaction(
         return;
     }
 
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
 
     ++transaction_count_;
@@ -111,6 +131,11 @@ void DeadlockPredictor::recordTransaction(
     }
 }
 
+/**
+ * @brief Record Deadlock.
+ * @param[in] keys Input parameter.
+ * @details Calls: empty(), lk(), size(), makePairKey(), std::min_element(), begin(), end(), erase().
+ */
 void DeadlockPredictor::recordDeadlock(const std::vector<std::string>& keys) {
     if (keys.empty()) {
         return;
@@ -177,6 +202,11 @@ double DeadlockPredictor::predictDeadlockProbability(
         const std::vector<std::string>& proposed_locks,
         const std::set<TransactionId>&  active_transactions) const
 {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
 
     if (transaction_count_ < config_.min_samples_for_prediction ||
@@ -207,6 +237,11 @@ double DeadlockPredictor::predictDeadlockProbability(
 std::vector<std::string> DeadlockPredictor::recommendLockOrder(
         const std::vector<std::string>& keys) const
 {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
 
     if (keys.empty()) {
@@ -238,7 +273,11 @@ std::vector<std::string> DeadlockPredictor::recommendLockOrder(
         }
     }
 
-    // Sort: lower danger → acquire earlier; break ties lexicographically.
+    /**
+     * @brief Sort: lower danger → acquire earlier; break ties lexicographically.
+     * @param[in] keys Input parameter.
+     * @return Return value.
+     */
     std::vector<std::string> result(keys);
     std::sort(result.begin(), result.end(),
               [&](const std::string& x, const std::string& y) {
@@ -255,6 +294,11 @@ std::vector<std::string> DeadlockPredictor::recommendLockOrder(
 std::chrono::milliseconds DeadlockPredictor::recommendTimeout(
         const std::vector<std::string>& keys) const
 {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
 
     if (keys.empty()) {
@@ -292,20 +336,39 @@ std::chrono::milliseconds DeadlockPredictor::recommendTimeout(
 // ── Introspection ─────────────────────────────────────────────────────────────
 
 size_t DeadlockPredictor::recordedTransactionCount() const {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     return static_cast<size_t>(transaction_count_);
 }
 
 size_t DeadlockPredictor::recordedDeadlockCount() const {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     return static_cast<size_t>(deadlock_count_);
 }
 
 std::vector<DeadlockPredictor::LockPattern> DeadlockPredictor::getPatterns() const {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     return {patterns_.begin(), patterns_.end()};
 }
 
+/**
+ * @brief Reset the modification detection flag.
+ * @details Calls: lk(), clear().
+ */
 void DeadlockPredictor::reset() {
     std::lock_guard<std::mutex> lk(mutex_);
     patterns_.clear();
@@ -318,7 +381,13 @@ void DeadlockPredictor::reset() {
 
 // ── Internal helpers ──────────────────────────────────────────────────────────
 
-// static
+/**
+ * @brief static
+ * @param[in] a Input parameter.
+ * @param[in] b Input parameter.
+ * @return Return value.
+ * @details Implements makePairKey without additional internal calls.
+ */
 std::string DeadlockPredictor::makePairKey(const std::string& a, const std::string& b) {
     // Use NUL byte (ASCII 0) as separator so keys containing ':' are unambiguous.
     if (a <= b) {
@@ -343,7 +412,12 @@ double DeadlockPredictor::computeConflictScore(
     return score;
 }
 
-// static
+/**
+ * @brief static
+ * @param[in] values Input parameter.
+ * @param[in] p Input parameter.
+ * @return Return value.
+ */
 std::chrono::microseconds DeadlockPredictor::percentile(
         std::vector<std::chrono::microseconds> values, int p)
 {

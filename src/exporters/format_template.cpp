@@ -203,6 +203,12 @@ std::string OpenAIFineTuningTemplate::render(const BaseEntity &entity,
 // Factory
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Make Format Template.
+ * @param[in] type Input parameter.
+ * @return Return value.
+ * @details Implements makeFormatTemplate without additional internal calls.
+ */
 std::unique_ptr<IFormatTemplate> makeFormatTemplate(FormatTemplateType type) {
     switch (type) {
         case FormatTemplateType::ALPACA:
@@ -222,6 +228,14 @@ std::unique_ptr<IFormatTemplate> makeFormatTemplate(FormatTemplateType type) {
 // Dry-run / preflight validation
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Validate Template.
+ * @param[in] type Input parameter.
+ * @param[in] mapping Input parameter.
+ * @param[in] sample Input parameter.
+ * @return Return value.
+ * @details Calls: makeFormatTemplate(), validateFields(), insert(), assign(), begin(), end().
+ */
 TemplateValidationResult validateTemplate(FormatTemplateType type, const FormatTemplateFieldMapping &mapping,
                                           const std::vector<BaseEntity> &sample) {
     TemplateValidationResult result;

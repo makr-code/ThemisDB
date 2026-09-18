@@ -25,31 +25,8 @@ namespace transaction {
 
 using json = nlohmann::json;
 
-/**
- * @brief MergeEngine provides three-way merge functionality for ThemisDB's MVCC system
- * 
- * Enables Git-like merging of branches or snapshots by analyzing changes from a common
- * ancestor (base) and detecting/resolving conflicts between two divergent states.
- * 
- * Features:
- * - Three-way merge algorithm (base -> source, base -> target)
- * - Automatic conflict detection for overlapping changes
- * - Multiple conflict resolution strategies (ours, theirs, manual)
- * - Fast-forward merge support
- * - Dry-run mode for merge preview
- * - Integration with Snapshot and Diff infrastructure
- * 
- * Use Cases:
- * - Multi-user schema migrations
- * - Distributed database reconciliation
- * - Branch merging after parallel development
- * - Conflict resolution for concurrent changes
- */
 class MergeEngine {
 public:
-    /**
-     * @brief Type of merge conflict
-     */
     enum class ConflictType {
         MODIFY_MODIFY,  // Both sides modified the same key
         DELETE_MODIFY,  // One side deleted, other modified
@@ -57,9 +34,6 @@ public:
         DELETE_DELETE   // Both sides deleted (not a real conflict, auto-resolve)
     };
 
-    /**
-     * @brief Strategy for resolving conflicts
-     */
     enum class MergeStrategy {
         OURS,          // Prefer changes from target branch
         THEIRS,        // Prefer changes from source branch
@@ -67,9 +41,6 @@ public:
         FAST_FORWARD   // Only merge if no conflicts (fail on conflict)
     };
 
-    /**
-     * @brief A detected merge conflict
-     */
     struct Conflict {
         ConflictType type;
         std::string key;                         // Conflicting key
@@ -79,37 +50,55 @@ public:
         uint64_t source_sequence;                // Source change sequence
         uint64_t target_sequence;                // Target change sequence
         
+        /**
+         * @brief To Json.
+         * @return Return value.
+         */
         json toJson() const;
+        /**
+         * @brief From Json.
+         * @param[in] j Input parameter.
+         * @return Return value.
+         */
         static Conflict fromJson(const json& j);
     };
 
-    /**
-     * @brief Manual resolution for a conflict
-     */
     struct ConflictResolution {
         std::string key;                         // Key to resolve
         std::optional<std::string> resolved_value; // Chosen value (nullopt = delete)
         
+        /**
+         * @brief To Json.
+         * @return Return value.
+         */
         json toJson() const;
+        /**
+         * @brief From Json.
+         * @param[in] j Input parameter.
+         * @return Return value.
+         */
         static ConflictResolution fromJson(const json& j);
     };
 
-    /**
-     * @brief Options for merge operation
-     */
     struct MergeOptions {
         MergeStrategy strategy = MergeStrategy::MANUAL;
         bool dry_run = false;                    // Preview mode, don't apply changes
         bool fail_on_conflict = false;           // Abort if conflicts detected
         std::vector<ConflictResolution> manual_resolutions; // Provided resolutions
         
+        /**
+         * @brief To Json.
+         * @return Return value.
+         */
         json toJson() const;
+        /**
+         * @brief From Json.
+         * @param[in] j Input parameter.
+         * @return Return value.
+         */
         static MergeOptions fromJson(const json& j);
     };
 
-    /**
-     * @brief Statistics about merge operation
-     */
     struct MergeStats {
         size_t changes_applied = 0;
         size_t conflicts_detected = 0;
@@ -118,13 +107,19 @@ public:
         bool has_conflicts = false;
         bool is_fast_forward = false;
         
+        /**
+         * @brief To Json.
+         * @return Return value.
+         */
         json toJson() const;
+        /**
+         * @brief From Json.
+         * @param[in] j Input parameter.
+         * @return Return value.
+         */
         static MergeStats fromJson(const json& j);
     };
 
-    /**
-     * @brief Result of a merge operation
-     */
     struct MergeResult {
         bool success = 0;
         std::string message;
@@ -137,15 +132,25 @@ public:
         uint64_t target_sequence;
         uint64_t result_sequence;                // Sequence after merge (if applied)
         
+        /**
+         * @brief To Json.
+         * @return Return value.
+         */
         json toJson() const;
+        /**
+         * @brief From Json.
+         * @param[in] j Input parameter.
+         * @return Return value.
+         */
         static MergeResult fromJson(const json& j);
     };
 
     /**
-     * @brief Construct MergeEngine
-     * @param diff_engine Reference to DiffEngine for computing changes
-     * @param snapshot_manager Reference to SnapshotManager for tag resolution
-     * @param changefeed Reference to Changefeed for applying changes
+     * @brief Merge Engine.
+     * @param[in,out] diff_engine Input/output parameter.
+     * @param[in,out] snapshot_manager Input/output parameter.
+     * @param[in,out] changefeed Input/output parameter.
+     * @return Return value.
      */
     explicit MergeEngine(
         analytics::DiffEngine& diff_engine,
@@ -162,11 +167,11 @@ public:
     MergeEngine& operator=(MergeEngine&&) noexcept = default;
 
     /**
-     * @brief Perform three-way merge between two sequences
-     * @param base_sequence Common ancestor sequence
-     * @param source_sequence Source branch sequence (to merge from)
-     * @param target_sequence Target branch sequence (to merge into)
-     * @return MergeResult with success status, conflicts, and applied changes
+     * @brief Merge.
+     * @param[in] base_sequence Input parameter.
+     * @param[in] source_sequence Input parameter.
+     * @param[in] target_sequence Input parameter.
+     * @return Return value.
      */
     MergeResult merge(
         uint64_t base_sequence,
@@ -175,12 +180,12 @@ public:
     );
     
     /**
-     * @brief Perform three-way merge with custom options
-     * @param base_sequence Common ancestor sequence
-     * @param source_sequence Source branch sequence (to merge from)
-     * @param target_sequence Target branch sequence (to merge into)
-     * @param options Merge options including strategy and resolutions
-     * @return MergeResult with success status, conflicts, and applied changes
+     * @brief Merge.
+     * @param[in] base_sequence Input parameter.
+     * @param[in] source_sequence Input parameter.
+     * @param[in] target_sequence Input parameter.
+     * @param[in] options Input parameter.
+     * @return Return value.
      */
     MergeResult merge(
         uint64_t base_sequence,
@@ -190,11 +195,11 @@ public:
     );
 
     /**
-     * @brief Perform three-way merge using snapshot tags
-     * @param base_tag Tag name for common ancestor
-     * @param source_tag Tag name for source branch
-     * @param target_tag Tag name for target branch (or "current" for HEAD)
-     * @return MergeResult with success status, conflicts, and applied changes
+     * @brief Merge By Tag.
+     * @param[in] base_tag Input parameter.
+     * @param[in] source_tag Input parameter.
+     * @param[in] target_tag Input parameter.
+     * @return Return value.
      */
     MergeResult mergeByTag(
         const std::string& base_tag,
@@ -203,12 +208,12 @@ public:
     );
     
     /**
-     * @brief Perform three-way merge using snapshot tags with custom options
-     * @param base_tag Tag name for common ancestor
-     * @param source_tag Tag name for source branch
-     * @param target_tag Tag name for target branch (or "current" for HEAD)
-     * @param options Merge options including strategy and resolutions
-     * @return MergeResult with success status, conflicts, and applied changes
+     * @brief Merge By Tag.
+     * @param[in] base_tag Input parameter.
+     * @param[in] source_tag Input parameter.
+     * @param[in] target_tag Input parameter.
+     * @param[in] options Input parameter.
+     * @return Return value.
      */
     MergeResult mergeByTag(
         const std::string& base_tag,
@@ -218,11 +223,11 @@ public:
     );
 
     /**
-     * @brief Preview merge without applying changes (dry-run)
-     * @param base_sequence Common ancestor sequence
-     * @param source_sequence Source branch sequence
-     * @param target_sequence Target branch sequence
-     * @return MergeResult with conflicts and planned changes
+     * @brief Preview Merge.
+     * @param[in] base_sequence Input parameter.
+     * @param[in] source_sequence Input parameter.
+     * @param[in] target_sequence Input parameter.
+     * @return Return value.
      */
     MergeResult previewMerge(
         uint64_t base_sequence,
@@ -231,11 +236,11 @@ public:
     );
 
     /**
-     * @brief Check if merge can be fast-forwarded (no conflicts)
-     * @param base_sequence Common ancestor sequence
-     * @param source_sequence Source branch sequence
-     * @param target_sequence Target branch sequence
-     * @return true if fast-forward is possible
+     * @brief Can Fast Forward.
+     * @param[in] base_sequence Input parameter.
+     * @param[in] source_sequence Input parameter.
+     * @param[in] target_sequence Input parameter.
+     * @return True when the operation succeeds.
      */
     bool canFastForward(
         uint64_t base_sequence,
@@ -253,7 +258,11 @@ private:
     static constexpr size_t DEFAULT_HISTORY_LIMIT = 10000;
 
     /**
-     * @brief Detect conflicts between source and target changes
+     * @brief Detect Conflicts.
+     * @param[in] source_diff Input parameter.
+     * @param[in] target_diff Input parameter.
+     * @param[in] base_sequence Input parameter.
+     * @return Return value.
      */
     std::vector<Conflict> detectConflicts(
         const analytics::DiffEngine::DiffResult& source_diff,
@@ -262,7 +271,10 @@ private:
     );
 
     /**
-     * @brief Resolve conflicts using specified strategy
+     * @brief Resolve Conflicts.
+     * @param[in] conflicts Input parameter.
+     * @param[in] options Input parameter.
+     * @return Return value.
      */
     std::vector<analytics::DiffEngine::Change> resolveConflicts(
         const std::vector<Conflict>& conflicts,
@@ -270,14 +282,19 @@ private:
     );
 
     /**
-     * @brief Apply changes to database (non-dry-run mode)
+     * @brief Apply Changes.
+     * @param[in] changes Input parameter.
+     * @return Return value.
      */
     uint64_t applyChanges(
         const std::vector<analytics::DiffEngine::Change>& changes
     );
 
     /**
-     * @brief Get value at specific sequence
+     * @brief Get Value At Sequence.
+     * @param[in] key Input parameter.
+     * @param[in] sequence Input parameter.
+     * @return Return value.
      */
     std::optional<std::string> getValueAtSequence(
         const std::string& key,
@@ -285,12 +302,16 @@ private:
     );
 
     /**
-     * @brief Determine if conflict is auto-resolvable
+     * @brief Is Auto Resolvable.
+     * @param[in] conflict Input parameter.
+     * @return True when the operation succeeds.
      */
     bool isAutoResolvable(const Conflict& conflict) const;
 
     /**
-     * @brief Auto-resolve conflict if possible
+     * @brief Auto Resolve.
+     * @param[in] conflict Input parameter.
+     * @return Return value.
      */
     std::optional<analytics::DiffEngine::Change> autoResolve(
         const Conflict& conflict

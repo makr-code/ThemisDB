@@ -27,6 +27,11 @@ ContentLogger::ContentLogger(const std::string& correlation_id)
     : correlation_id_(correlation_id)
 {}
 
+/**
+ * @brief Set Correlation Id.
+ * @param[in] correlation_id Identifier of the correlation.
+ * @details Implements setCorrelationId without additional internal calls.
+ */
 void ContentLogger::setCorrelationId(const std::string& correlation_id) {
     correlation_id_ = correlation_id;
 }
@@ -35,6 +40,14 @@ void ContentLogger::setCorrelationId(const std::string& correlation_id) {
 // Content Operation Logging
 // ============================================================================
 
+/**
+ * @brief Log Ingestion.
+ * @param[in] content_id Identifier of the content.
+ * @param[in] mime_type Input parameter.
+ * @param[in] size_bytes Input parameter.
+ * @param[in] filename Input parameter.
+ * @details Calls: empty(), sanitizeFilename(), info().
+ */
 void ContentLogger::logIngestion(
     const std::string& content_id,
     const std::string& mime_type,
@@ -53,6 +66,16 @@ void ContentLogger::logIngestion(
     info("content.ingestion", "Content ingested", metadata);
 }
 
+/**
+ * @brief Log Validation.
+ * @param[in] content_id Identifier of the content.
+ * @param[in] mime_type Input parameter.
+ * @param[in] size_bytes Input parameter.
+ * @param[in] success Input parameter.
+ * @param[in] error_code Input parameter.
+ * @param[in] duration_ms Input parameter.
+ * @details Calls: info(), warn().
+ */
 void ContentLogger::logValidation(
     const std::string& content_id,
     const std::string& mime_type,
@@ -79,6 +102,15 @@ void ContentLogger::logValidation(
     }
 }
 
+/**
+ * @brief Log Processing.
+ * @param[in] content_id Identifier of the content.
+ * @param[in] operation Input parameter.
+ * @param[in] duration_ms Input parameter.
+ * @param[in] success Input parameter.
+ * @param[in] error_code Input parameter.
+ * @details Calls: info(), warn().
+ */
 void ContentLogger::logProcessing(
     const std::string& content_id,
     const std::string& operation,
@@ -106,6 +138,15 @@ void ContentLogger::logProcessing(
     }
 }
 
+/**
+ * @brief Log Error.
+ * @param[in] content_id Identifier of the content.
+ * @param[in] operation Input parameter.
+ * @param[in] error_code Input parameter.
+ * @param[in] error_message Input parameter.
+ * @param[in] error_category Input parameter.
+ * @details Calls: sanitizeMessage(), empty(), error().
+ */
 void ContentLogger::logError(
     const std::string& content_id,
     const std::string& operation,
@@ -126,6 +167,14 @@ void ContentLogger::logError(
     error("content.error", "Content processing error", metadata);
 }
 
+/**
+ * @brief Log Timeout.
+ * @param[in] content_id Identifier of the content.
+ * @param[in] operation Input parameter.
+ * @param[in] timeout_seconds Input parameter.
+ * @param[in] elapsed_seconds Input parameter.
+ * @details Calls: warn().
+ */
 void ContentLogger::logTimeout(
     const std::string& content_id,
     const std::string& operation,
@@ -141,6 +190,12 @@ void ContentLogger::logTimeout(
     warn("content.timeout", "Content operation timed out", metadata);
 }
 
+/**
+ * @brief Log Cache.
+ * @param[in] content_id Identifier of the content.
+ * @param[in] hit Input parameter.
+ * @details Calls: debug(), std::string().
+ */
 void ContentLogger::logCache(
     const std::string& content_id,
     bool hit
@@ -158,6 +213,14 @@ void ContentLogger::logCache(
 // Structured Logging with Metadata
 // ============================================================================
 
+/**
+ * @brief Log.
+ * @param[in] level Input parameter.
+ * @param[in] event Input parameter.
+ * @param[in] message Input parameter.
+ * @param[in] metadata Input parameter.
+ * @details Calls: formatLogMessage(), utils::Logger::trace(), utils::Logger::debug(), utils::Logger::info(), utils::Logger::warn(), utils::Logger::error(), utils::Logger::critical().
+ */
 void ContentLogger::log(
     utils::Logger::Level level,
     const std::string& event,
@@ -188,18 +251,46 @@ void ContentLogger::log(
     }
 }
 
+/**
+ * @brief Info.
+ * @param[in] event Input parameter.
+ * @param[in] message Input parameter.
+ * @param[in] metadata Input parameter.
+ * @details Calls: log().
+ */
 void ContentLogger::info(const std::string& event, const std::string& message, const json& metadata) {
     log(utils::Logger::Level::INFO, event, message, metadata);
 }
 
+/**
+ * @brief Warn.
+ * @param[in] event Input parameter.
+ * @param[in] message Input parameter.
+ * @param[in] metadata Input parameter.
+ * @details Calls: log().
+ */
 void ContentLogger::warn(const std::string& event, const std::string& message, const json& metadata) {
     log(utils::Logger::Level::WARN, event, message, metadata);
 }
 
+/**
+ * @brief Error.
+ * @param[in] event Input parameter.
+ * @param[in] message Input parameter.
+ * @param[in] metadata Input parameter.
+ * @details Calls: log().
+ */
 void ContentLogger::error(const std::string& event, const std::string& message, const json& metadata) {
     log(utils::Logger::Level::ERROR, event, message, metadata);
 }
 
+/**
+ * @brief Debug.
+ * @param[in] event Input parameter.
+ * @param[in] message Input parameter.
+ * @param[in] metadata Input parameter.
+ * @details Calls: log().
+ */
 void ContentLogger::debug(const std::string& event, const std::string& message, const json& metadata) {
     log(utils::Logger::Level::DEBUG, event, message, metadata);
 }

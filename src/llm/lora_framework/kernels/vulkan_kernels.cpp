@@ -50,6 +50,12 @@ static VulkanState g_vulkan_state;
 constexpr auto kVulkanStateLockTimeout = std::chrono::seconds(30);
 constexpr uint64_t kVulkanKernelWaitTimeoutNs = 30000000000;
 
+/**
+ * @brief Lock vulkan state or throw.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: lock(), try_lock_for().
+ */
 static std::unique_lock<std::recursive_timed_mutex> lock_vulkan_state_or_throw() {
     std::unique_lock<std::recursive_timed_mutex> lock(g_vulkan_state.mutex, std::defer_lock);
     if (!lock.try_lock_for(kVulkanStateLockTimeout)) {
@@ -58,6 +64,12 @@ static std::unique_lock<std::recursive_timed_mutex> lock_vulkan_state_or_throw()
     return lock;
 }
 
+/**
+ * @brief Get context or throw.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Implements get_context_or_throw without additional internal calls.
+ */
 static VulkanContext& get_context_or_throw() {
     if (!g_vulkan_state.initialized || !g_vulkan_state.context) {
         throw std::runtime_error("Vulkan not initialized");
@@ -65,6 +77,15 @@ static VulkanContext& get_context_or_throw() {
     return *g_vulkan_state.context;
 }
 
+/**
+ * @brief Checked mul size.
+ * @param[in] lhs Input parameter.
+ * @param[in] rhs Input parameter.
+ * @param[in] context Input parameter.
+ * @return Return value.
+ * @throws std::overflow_error if an error occurs.
+ * @details Calls: max(), std::string().
+ */
 static size_t checked_mul_size(size_t lhs, size_t rhs, const char* context) {
     if (lhs != 0 && rhs > (std::numeric_limits<size_t>::max() / lhs)) {
         throw std::overflow_error(std::string(context) + ": size overflow");
@@ -72,11 +93,27 @@ static size_t checked_mul_size(size_t lhs, size_t rhs, const char* context) {
     return lhs * rhs;
 }
 
+/**
+ * @brief Checked float bytes 2d.
+ * @param[in] rows Input parameter.
+ * @param[in] cols Input parameter.
+ * @param[in] context Input parameter.
+ * @return Return value.
+ * @details Calls: checked_mul_size().
+ */
 static size_t checked_float_bytes_2d(size_t rows, size_t cols, const char* context) {
     const size_t elems = checked_mul_size(rows, cols, context);
     return checked_mul_size(elems, sizeof(float), context);
 }
 
+/**
+ * @brief Checked u32 size.
+ * @param[in] value Input parameter.
+ * @param[in] context Input parameter.
+ * @return Return value.
+ * @throws std::overflow_error if an error occurs.
+ * @details Calls: max(), std::string().
+ */
 static uint32_t checked_u32_size(size_t value, const char* context) {
     if (value > static_cast<size_t>(std::numeric_limits<uint32_t>::max())) {
         throw std::overflow_error(std::string(context) + ": value exceeds uint32 range");
@@ -84,6 +121,14 @@ static uint32_t checked_u32_size(size_t value, const char* context) {
     return static_cast<uint32_t>(value);
 }
 
+/**
+ * @brief Wait for pipeline or throw.
+ * @param[in,out] pipeline Input/output parameter.
+ * @param[in] context Input parameter.
+ * @throws std::invalid_argument if an error occurs.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: std::string(), wait().
+ */
 static void wait_for_pipeline_or_throw(VulkanComputePipeline* pipeline, const char* context) {
     if (pipeline == nullptr) {
         throw std::invalid_argument(std::string(context) + ": pipeline is null");
@@ -107,6 +152,16 @@ struct FusedForwardBufferCache {
     std::unique_ptr<VulkanBuffer> buf_h;
     std::unique_ptr<VulkanBuffer> buf_output;
 
+    /**
+     * @brief Ensure.
+     * @param[in,out] ctx Input/output parameter.
+     * @param[in] input_size Input parameter.
+     * @param[in] b_size Input parameter.
+     * @param[in] a_size Input parameter.
+     * @param[in] h_size Input parameter.
+     * @param[in] output_size Input parameter.
+     * @details Implements ensure without additional internal calls.
+     */
     void ensure(
         VulkanContext* ctx,
         size_t input_size,
@@ -173,6 +228,24 @@ struct FusedBackwardBufferCache {
     std::unique_ptr<VulkanBuffer> buf_grad_B;
     std::unique_ptr<VulkanBuffer> buf_grad_input;
 
+    /**
+     * @brief Ensure.
+     * @param[in,out] ctx Input/output parameter.
+     * @param[in] input_size Input parameter.
+     * @param[in] b_size Input parameter.
+     * @param[in] a_size Input parameter.
+     * @param[in] grad_output_size Input parameter.
+     * @param[in] h_size Input parameter.
+     * @param[in] grad_h_size Input parameter.
+     * @param[in] a_t_size Input parameter.
+     * @param[in] b_t_size Input parameter.
+     * @param[in] input_t_size Input parameter.
+     * @param[in] h_t_size Input parameter.
+     * @param[in] grad_a_size Input parameter.
+     * @param[in] grad_b_size Input parameter.
+     * @param[in] grad_input_size Input parameter.
+     * @details Implements ensure without additional internal calls.
+     */
     void ensure(
         VulkanContext* ctx,
         size_t input_size,
@@ -258,13 +331,25 @@ struct ElementwisePushConstants {
     uint32_t scalar_bits;
 };
 
+/**
+ * @brief Float to bits.
+ * @param[in] value Input parameter.
+ * @return Return value.
+ * @details Calls: std::memcpy().
+ */
 static uint32_t float_to_bits(float value) {
     uint32_t bits = 0;
     std::memcpy(&bits, &value, sizeof(bits));
     return bits;
 }
 
-// Helper function to get shader path
+/**
+ * @brief Helper function to get shader path
+ * @param[in] shader_name Name of the shader.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: std::getenv(), push_back(), insert(), begin(), std::string(), file(), good().
+ */
 static std::string get_shader_path(const std::string& shader_name) {
     // Look for pre-compiled SPIR-V shaders
     // Priority: 1) CMake binary dir, 2) Install directory, 3) Relative paths, 4) Source directory
@@ -329,6 +414,12 @@ static std::string get_shader_path(const std::string& shader_name) {
                            ". Please compile shaders or provide pre-compiled SPIR-V files.");
 }
 
+/**
+ * @brief Initialize vulkan lora.
+ * @param[in] device_id Identifier of the device.
+ * @return True when the operation succeeds.
+ * @details Calls: lock_vulkan_state_or_throw(), initialize(), reset(), device_properties(), what().
+ */
 bool initialize_vulkan_lora(int device_id) {
     auto lock = lock_vulkan_state_or_throw();
     
@@ -368,6 +459,10 @@ bool initialize_vulkan_lora(int device_id) {
     }
 }
 
+/**
+ * @brief Cleanup vulkan lora.
+ * @details Calls: lock_vulkan_state_or_throw(), clear(), cleanup(), reset().
+ */
 void cleanup_vulkan_lora() {
     auto lock = lock_vulkan_state_or_throw();
     
@@ -388,11 +483,23 @@ void cleanup_vulkan_lora() {
     g_vulkan_state.device_id = -1;
 }
 
+/**
+ * @brief Is vulkan available.
+ * @return True when the operation succeeds.
+ * @details Calls: VulkanContext::is_available().
+ */
 bool is_vulkan_available() {
     return VulkanContext::is_available();
 }
 
-// Helper to get or create pipeline
+/**
+ * @brief Helper to get or create pipeline
+ * @param[in] name Input parameter.
+ * @param[in] push_constant_size Input parameter.
+ * @return Pointer to the result.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: lock_vulkan_state_or_throw(), find(), end(), get(), get_shader_path(), create(), std::move(), what().
+ */
 static VulkanComputePipeline* get_pipeline(const std::string& name, size_t push_constant_size) {
     auto lock = lock_vulkan_state_or_throw();
     
@@ -426,6 +533,18 @@ static VulkanComputePipeline* get_pipeline(const std::string& name, size_t push_
     }
 }
 
+/**
+ * @brief Dispatch matmul device.
+ * @param[in,out] pipeline Input/output parameter.
+ * @param[in] buf_A Input parameter.
+ * @param[in] buf_B Input parameter.
+ * @param[in] buf_C Input parameter.
+ * @param[in] M Input parameter.
+ * @param[in] N Input parameter.
+ * @param[in] K Input parameter.
+ * @param[in] alpha Input parameter.
+ * @details Calls: float_to_bits(), bind_buffer(), set_push_constants(), dispatch().
+ */
 static void dispatch_matmul_device(
     VulkanComputePipeline* pipeline,
     const VulkanBuffer& buf_A,
@@ -452,6 +571,15 @@ static void dispatch_matmul_device(
     pipeline->dispatch(groups_x, groups_y, 1);
 }
 
+/**
+ * @brief Dispatch transpose device.
+ * @param[in,out] pipeline Input/output parameter.
+ * @param[in] buf_input Input parameter.
+ * @param[in] buf_output Input parameter.
+ * @param[in] rows Input parameter.
+ * @param[in] cols Input parameter.
+ * @details Calls: bind_buffer(), set_push_constants(), dispatch().
+ */
 static void dispatch_transpose_device(
     VulkanComputePipeline* pipeline,
     const VulkanBuffer& buf_input,
@@ -476,6 +604,18 @@ static void dispatch_transpose_device(
     pipeline->dispatch(groups, 1, 1);
 }
 
+/**
+ * @brief Launch matmul shader.
+ * @param[in] A Input parameter.
+ * @param[in] B Input parameter.
+ * @param[in,out] C Input/output parameter.
+ * @param[in] M Input parameter.
+ * @param[in] N Input parameter.
+ * @param[in] K Input parameter.
+ * @param[in] alpha Input parameter.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: lock_vulkan_state_or_throw(), get_context_or_throw(), get_pipeline(), checked_float_bytes_2d(), buf_A(), buf_B(), buf_C(), upload().
+ */
 void launch_matmul_shader(
     const float* A, const float* B, float* C,
     int M, int N, int K, float alpha) {
@@ -521,6 +661,15 @@ void launch_matmul_shader(
     buf_C.download(C, size_C);
 }
 
+/**
+ * @brief Launch add shader.
+ * @param[in] A Input parameter.
+ * @param[in] B Input parameter.
+ * @param[in,out] C Input/output parameter.
+ * @param[in] size Input parameter.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: lock_vulkan_state_or_throw(), get_context_or_throw(), checked_u32_size(), get_pipeline(), checked_mul_size(), buf_A(), buf_B(), buf_C().
+ */
 void launch_add_shader(const float* A, const float* B, float* C, size_t size) {
     auto lock = lock_vulkan_state_or_throw();
     VulkanContext& context = get_context_or_throw();
@@ -571,6 +720,15 @@ void launch_add_shader(const float* A, const float* B, float* C, size_t size) {
     buf_C.download(C, byte_size);
 }
 
+/**
+ * @brief Launch multiply shader.
+ * @param[in] A Input parameter.
+ * @param[in] B Input parameter.
+ * @param[in,out] C Input/output parameter.
+ * @param[in] size Input parameter.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: lock_vulkan_state_or_throw(), get_context_or_throw(), checked_u32_size(), get_pipeline(), checked_mul_size(), buf_A(), buf_B(), buf_C().
+ */
 void launch_multiply_shader(const float* A, const float* B, float* C, size_t size) {
     auto lock = lock_vulkan_state_or_throw();
     VulkanContext& context = get_context_or_throw();
@@ -619,6 +777,15 @@ void launch_multiply_shader(const float* A, const float* B, float* C, size_t siz
     buf_C.download(C, byte_size);
 }
 
+/**
+ * @brief Launch scalar multiply shader.
+ * @param[in] A Input parameter.
+ * @param[in,out] B Input/output parameter.
+ * @param[in] scalar Input parameter.
+ * @param[in] size Input parameter.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: lock_vulkan_state_or_throw(), get_context_or_throw(), std::isfinite(), checked_u32_size(), get_pipeline(), checked_mul_size(), buf_A(), buf_B().
+ */
 void launch_scalar_multiply_shader(const float* A, float* B, float scalar, size_t size) {
     auto lock = lock_vulkan_state_or_throw();
     VulkanContext& context = get_context_or_throw();
@@ -669,6 +836,15 @@ void launch_scalar_multiply_shader(const float* A, float* B, float scalar, size_
     buf_B.download(B, byte_size);
 }
 
+/**
+ * @brief Launch transpose shader.
+ * @param[in] input Input parameter.
+ * @param[in,out] output Input/output parameter.
+ * @param[in] rows Input parameter.
+ * @param[in] cols Input parameter.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: lock_vulkan_state_or_throw(), get_context_or_throw(), checked_mul_size(), checked_u32_size(), get_pipeline(), buf_input(), buf_output(), upload().
+ */
 void launch_transpose_shader(const float* input, float* output, int rows, int cols) {
     auto lock = lock_vulkan_state_or_throw();
     VulkanContext& context = get_context_or_throw();
@@ -717,6 +893,18 @@ void launch_transpose_shader(const float* input, float* output, int rows, int co
     buf_output.download(output, byte_size);
 }
 
+/**
+ * @brief Launch lora grad A shader.
+ * @param[in] h Input parameter.
+ * @param[in] grad_output Input parameter.
+ * @param[in,out] grad_A Input/output parameter.
+ * @param[in] M Input parameter.
+ * @param[in] K Input parameter.
+ * @param[in] N Input parameter.
+ * @param[in] scaling Input parameter.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: lock_vulkan_state_or_throw(), get_context_or_throw(), std::isfinite(), get_pipeline(), checked_float_bytes_2d(), buf_h(), buf_grad_output(), buf_grad_A().
+ */
 void launch_lora_grad_A_shader(
     const float* h, const float* grad_output, float* grad_A,
     int M, int K, int N, float scaling) {
@@ -783,6 +971,17 @@ void launch_lora_grad_A_shader(
     buf_grad_A.download(grad_A, size_grad_A);
 }
 
+/**
+ * @brief Launch lora grad B shader.
+ * @param[in] input Input parameter.
+ * @param[in] grad_h Input parameter.
+ * @param[in,out] grad_B Input/output parameter.
+ * @param[in] M Input parameter.
+ * @param[in] D Input parameter.
+ * @param[in] K Input parameter.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: lock_vulkan_state_or_throw(), get_context_or_throw(), get_pipeline(), checked_float_bytes_2d(), buf_input(), buf_grad_h(), buf_grad_B(), upload().
+ */
 void launch_lora_grad_B_shader(
     const float* input, const float* grad_h, float* grad_B,
     int M, int D, int K) {
@@ -845,6 +1044,18 @@ void launch_lora_grad_B_shader(
     buf_grad_B.download(grad_B, size_grad_B);
 }
 
+/**
+ * @brief Launch embedding lookup shader.
+ * @param[in,out] output Input/output parameter.
+ * @param[in] token_ids Input parameter.
+ * @param[in] embedding_weights Input parameter.
+ * @param[in] batch_size Input parameter.
+ * @param[in] seq_len Input parameter.
+ * @param[in] hidden_dim Input parameter.
+ * @param[in] vocab_size Input parameter.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: lock_vulkan_state_or_throw(), get_context_or_throw(), checked_mul_size(), checked_u32_size(), get_pipeline(), buf_token_ids(), buf_embedding_weights(), buf_output().
+ */
 void launch_embedding_lookup_shader(
     float* output,
     const float* token_ids,
@@ -900,6 +1111,16 @@ void launch_embedding_lookup_shader(
     buf_output.download(output, checked_mul_size(output_elems, sizeof(float), "launch_embedding_lookup_shader"));
 }
 
+/**
+ * @brief Launch sequence mean shader.
+ * @param[in,out] output Input/output parameter.
+ * @param[in] input Input parameter.
+ * @param[in] batch_size Input parameter.
+ * @param[in] seq_len Input parameter.
+ * @param[in] hidden_dim Input parameter.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: lock_vulkan_state_or_throw(), get_context_or_throw(), checked_mul_size(), checked_u32_size(), get_pipeline(), buf_input(), buf_output(), upload().
+ */
 void launch_sequence_mean_shader(
     float* output,
     const float* input,
@@ -951,6 +1172,21 @@ void launch_sequence_mean_shader(
     buf_output.download(output, checked_mul_size(output_elems, sizeof(float), "launch_sequence_mean_shader"));
 }
 
+/**
+ * @brief Launch fused lora forward.
+ * @param[in] input Input parameter.
+ * @param[in] B Input parameter.
+ * @param[in] A Input parameter.
+ * @param[in,out] output Input/output parameter.
+ * @param[in] batch_size Input parameter.
+ * @param[in] in_dim Input parameter.
+ * @param[in] rank Input parameter.
+ * @param[in] out_dim Input parameter.
+ * @param[in] scaling Input parameter.
+ * @throws std::invalid_argument if an error occurs.
+ * @throws std::overflow_error if an error occurs.
+ * @details Calls: lock_vulkan_state_or_throw(), get_context_or_throw(), std::isfinite(), max(), checked_float_bytes_2d(), get_pipeline(), ensure(), upload().
+ */
 void launch_fused_lora_forward(
     const float* input,
     const float* B,
@@ -1013,6 +1249,24 @@ void launch_fused_lora_forward(
     cache.buf_output->download(output, size_output);
 }
 
+/**
+ * @brief Launch fused lora backward.
+ * @param[in] input Input parameter.
+ * @param[in] B Input parameter.
+ * @param[in] A Input parameter.
+ * @param[in] grad_output Input parameter.
+ * @param[in,out] grad_A Input/output parameter.
+ * @param[in,out] grad_B Input/output parameter.
+ * @param[in,out] grad_input Input/output parameter.
+ * @param[in] batch_size Input parameter.
+ * @param[in] in_dim Input parameter.
+ * @param[in] rank Input parameter.
+ * @param[in] out_dim Input parameter.
+ * @param[in] scaling Input parameter.
+ * @throws std::invalid_argument if an error occurs.
+ * @throws std::overflow_error if an error occurs.
+ * @details Calls: lock_vulkan_state_or_throw(), get_context_or_throw(), std::isfinite(), max(), checked_float_bytes_2d(), get_pipeline(), ensure(), upload().
+ */
 void launch_fused_lora_backward(
     const float* input,
     const float* B,

@@ -36,6 +36,12 @@ ConversationalSearch::ConversationalSearch(HybridSearch* hybrid_search,
 // search
 // ============================================================================
 
+/**
+ * @brief Search.
+ * @param[in] query Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), reformulate(), THEMIS_ERROR(), what(), size(), pop_front(), push_back(), std::move().
+ */
 std::vector<HybridSearch::Result> ConversationalSearch::search(
     const std::string& query) {
 
@@ -98,6 +104,10 @@ std::string ConversationalSearch::reformulate(const std::string& query) const {
 // clearHistory
 // ============================================================================
 
+/**
+ * @brief Clear History.
+ * @details Calls: clear().
+ */
 void ConversationalSearch::clearHistory() {
     history_.clear();
 }
@@ -106,6 +116,12 @@ void ConversationalSearch::clearHistory() {
 // setConfig
 // ============================================================================
 
+/**
+ * @brief Set Config.
+ * @param[in] config Input parameter.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Implements setConfig without additional internal calls.
+ */
 void ConversationalSearch::setConfig(const Config& config) {
     if (config.max_history == 0) {
         throw std::invalid_argument(

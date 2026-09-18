@@ -22,12 +22,11 @@ namespace themis {
 namespace content {
 namespace adapters {
 
-/**
- * @brief ───────────────────────────────────────────────────────────────────────────── Factory functions — each returns a heap-allocated adapter that wraps the corresponding content/ processor.
- * @return Return value.
- * @details Guards mirror the CMake build options. ─────────────────────────────────────────────────────────────────────────────
- */
 
+/**
+ * @brief Create Pdf Extractor Adapter.
+ * @return Return value.
+ */
 std::shared_ptr<ingestion::IFormatExtractor> createPdfExtractorAdapter();
 
 /**

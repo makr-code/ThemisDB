@@ -21,17 +21,8 @@ namespace llm {
 
 using json = nlohmann::json;
 
-/**
- * @brief Model download progress callback
- * @param bytes_downloaded Bytes downloaded so far
- * @param total_bytes Total bytes to download (0 if unknown)
- * @param status Status message
- */
 using DownloadProgressCallback = std::function<void(size_t bytes_downloaded, size_t total_bytes, const std::string& status)>;
 
-/**
- * @brief Configuration for model downloading
- */
 struct ModelDownloadConfig {
     std::string model_name;           // Model identifier (e.g., "llama-2-7b")
     std::string ollama_url;           // Ollama API endpoint (e.g., "http://localhost:11434")
@@ -39,17 +30,14 @@ struct ModelDownloadConfig {
     bool use_cache = true;            // Use cached model if available
     int timeout_seconds = 300;        // Download timeout
     DownloadProgressCallback progress_callback;  // Optional progress tracking
-    /// [W3-SEC-01] Allow plain-HTTP (non-TLS) for non-localhost Ollama endpoints.
-    /// Default false: non-local HTTP is rejected by the URL validator to prevent
-    /// model-weight MITM interception. Set to true only for controlled private
-    /// networks where TLS is not available.
     bool allow_insecure_http = false;
 };
 
-/**
- * @brief Result of model download operation
- */
 struct ModelDownloadResult {
+    /**
+     * @brief Model Download Result.
+     * @return Return value.
+     */
     virtual ~ModelDownloadResult() = default;
     bool success = false;
     std::string model_path;           // Path to downloaded model
@@ -58,56 +46,18 @@ struct ModelDownloadResult {
     double download_time_seconds = 0.0;
 };
 
-/**
- * @brief Utility class for downloading LLM models from remote sources
- * 
- * Supports:
- * - Ollama API (http://localhost:11434/api/pull)
- * - Direct HTTP/HTTPS downloads
- * - Model caching to avoid re-downloads
- * - Progress tracking
- * 
- * Example:
- * ```cpp
- * ModelDownloadConfig config;
- * config.model_name = "llama2:7b";
- * config.ollama_url = "http://ollama-server:11434";
- * config.download_dir = "/models";
- * 
- * ModelDownloader downloader;
- * auto result = downloader.downloadFromOllama(config);
- * 
- * if (result.success) {
- *     // Load model from result.model_path
- * }
- * ```
- */
 class ModelDownloader {
 public:
     ModelDownloader() = default;
     ~ModelDownloader() = default;
     
     /**
-     * @brief Download model from Ollama API
-     * 
-     * Uses Ollama's /api/pull endpoint to fetch models.
-     * Models are stored in GGUF format compatible with llama.cpp.
-     * 
-     * @param config Download configuration
-     * @return Download result with model path or error
+     * @brief Download From Ollama.
+     * @param[in] config Input parameter.
+     * @return Return value.
      */
     ModelDownloadResult downloadFromOllama(const ModelDownloadConfig& config);
     
-    /**
-     * @brief Download model from direct URL
-     * 
-     * Downloads GGUF model file from HTTP/HTTPS URL.
-     * 
-     * @param url Direct download URL
-     * @param output_path Path to save model
-     * @param progress_callback Optional progress tracking
-     * @return Download result
-     */
     ModelDownloadResult downloadFromURL(
         const std::string& url,
         const std::string& output_path,
@@ -115,21 +65,17 @@ public:
     );
     
     /**
-     * @brief Check if model exists locally
-     * 
-     * @param model_path Path to check
-     * @return true if model file exists and is readable
+     * @brief Is Model Available.
+     * @param[in] model_path Path to the model.
+     * @return True when the operation succeeds.
      */
     static bool isModelAvailable(const std::string& model_path);
     
     /**
-     * @brief Get Ollama model manifest
-     * 
-     * Queries Ollama API for model information without downloading.
-     * 
-     * @param ollama_url Ollama API endpoint
-     * @param model_name Model identifier
-     * @return Model manifest JSON or empty on error
+     * @brief Get Ollama Manifest.
+     * @param[in] ollama_url Input parameter.
+     * @param[in] model_name Name of the model.
+     * @return Return value.
      */
     static std::optional<json> getOllamaManifest(
         const std::string& ollama_url,
@@ -137,23 +83,26 @@ public:
     );
     
     /**
-     * @brief List available models from Ollama
-     * 
-     * @param ollama_url Ollama API endpoint
-     * @return List of available model names
+     * @brief List Ollama Models.
+     * @param[in] ollama_url Input parameter.
+     * @return Return value.
      */
     static std::vector<std::string> listOllamaModels(const std::string& ollama_url);
     
 private:
     /**
-     * @brief Pull model from Ollama API
-     * Internal helper for downloadFromOllama
+     * @brief Pull From Ollama.
+     * @param[in] config Input parameter.
+     * @return Return value.
      */
     ModelDownloadResult pullFromOllama(const ModelDownloadConfig& config);
     
     /**
-     * @brief Export model from Ollama to GGUF
-     * After pulling, export to ThemisDB-compatible GGUF format
+     * @brief Export Ollama Model.
+     * @param[in] ollama_url Input parameter.
+     * @param[in] model_name Name of the model.
+     * @param[in] output_path Path to the output.
+     * @return True when the operation succeeds.
      */
     bool exportOllamaModel(
         const std::string& ollama_url,
@@ -163,14 +112,10 @@ private:
 };
 
 /**
- * @brief Load model configuration from YAML
- * 
- * Reads model configuration from llm-models.yaml and returns
- * download configuration for specified model.
- * 
- * @param config_path Path to YAML config file
- * @param model_name Model name to look up
- * @return Download configuration or nullopt if not found
+ * @brief Load Model Config From YAML.
+ * @param[in] config_path Path to the retention policy configuration file.
+ * @param[in] model_name Name of the model.
+ * @return Return value.
  */
 std::optional<ModelDownloadConfig> loadModelConfigFromYAML(
     const std::string& config_path,

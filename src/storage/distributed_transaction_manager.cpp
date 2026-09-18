@@ -96,7 +96,14 @@ DistributedTransaction::requireParticipant(const std::string& shard_id) const {
     return {it->second, version_it->second};
 }
 
-// ── Write operations ──────────────────────────────────────────────────────────
+/**
+ * @brief ── Write operations ──────────────────────────────────────────────────────────
+ * @param[in] key Input parameter.
+ * @param[in] value Input parameter.
+ * @throws std::invalid_argument if an error occurs.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: parseKey(), requireParticipant(), find(), end(), emplace(), std::string(), push_back(), std::move().
+ */
 
 void DistributedTransaction::put(std::string_view key, std::string_view value) {
     if (state_ != DistributedTxnState::ACTIVE) {
@@ -127,6 +134,13 @@ void DistributedTransaction::put(std::string_view key, std::string_view value) {
     pending_ops_[shard_id].push_back(std::move(op));
 }
 
+/**
+ * @brief Del.
+ * @param[in] key Input parameter.
+ * @throws std::invalid_argument if an error occurs.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: parseKey(), requireParticipant(), find(), end(), emplace(), push_back(), std::move().
+ */
 void DistributedTransaction::del(std::string_view key) {
     if (state_ != DistributedTxnState::ACTIVE) {
         throw std::invalid_argument(
@@ -155,7 +169,13 @@ void DistributedTransaction::del(std::string_view key) {
     pending_ops_[shard_id].push_back(std::move(op));
 }
 
-// ── Read operation ────────────────────────────────────────────────────────────
+/**
+ * @brief ── Read operation ────────────────────────────────────────────────────────────
+ * @param[in] key Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: parseKey(), requireParticipant(), find(), end(), emplace().
+ */
 
 std::optional<std::string> DistributedTransaction::get(std::string_view key) {
     // unspecified_consistency scanner alerts (lines 127, 131): reads are routed to
@@ -176,7 +196,11 @@ std::optional<std::string> DistributedTransaction::get(std::string_view key) {
     return participant->get(logical_key);
 }
 
-// ── Commit (2PC) ──────────────────────────────────────────────────────────────
+/**
+ * @brief ── Commit (2PC) ──────────────────────────────────────────────────────────────
+ * @return True when the operation succeeds.
+ * @details Calls: THEMIS_WARN(), THEMIS_DEBUG(), size(), lk(), find(), end(), THEMIS_ERROR(), prepare().
+ */
 
 bool DistributedTransaction::commit() {
     // observability scanner alert (line 136): commit() contains THEMIS_DEBUG,
@@ -299,7 +323,10 @@ bool DistributedTransaction::commit() {
     }
 }
 
-// ── Rollback ──────────────────────────────────────────────────────────────────
+/**
+ * @brief ── Rollback ──────────────────────────────────────────────────────────────────
+ * @details Calls: abort(), THEMIS_ERROR(), what(), THEMIS_INFO(), fetch_add(), fetch_sub().
+ */
 
 void DistributedTransaction::rollback() {
     if (state_ == DistributedTxnState::COMMITTED || state_ == DistributedTxnState::ABORTED) {
@@ -359,7 +386,13 @@ DistributedTransactionManager::DistributedTransactionManager(
     }
 }
 
-// ── Shard management ──────────────────────────────────────────────────────────
+/**
+ * @brief ── Shard management ──────────────────────────────────────────────────────────
+ * @param[in] shard_id Identifier of the shard.
+ * @param[in,out] participant Input/output parameter.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: empty(), lk(), THEMIS_DEBUG().
+ */
 
 void DistributedTransactionManager::registerShard(
     const std::string&            shard_id,
@@ -388,6 +421,12 @@ void DistributedTransactionManager::registerShard(
     THEMIS_DEBUG("DistributedTransactionManager: registered shard '{}'", shard_id);
 }
 
+/**
+ * @brief Unregister Shard.
+ * @param[in] shard_id Identifier of the shard.
+ * @return True when the operation succeeds.
+ * @details Calls: lk(), erase().
+ */
 bool DistributedTransactionManager::unregisterShard(const std::string& shard_id) {
     std::lock_guard<std::mutex> lk(state_->shards_mutex);
     const bool erased = state_->shards.erase(shard_id) > 0;
@@ -441,7 +480,11 @@ DistributedTransactionManager::statistics() const {
     return s;
 }
 
-// ── ID generation ─────────────────────────────────────────────────────────────
+/**
+ * @brief ── ID generation ─────────────────────────────────────────────────────────────
+ * @return Return value.
+ * @details Calls: fetch_add(), std::chrono::system_clock::now(), time_since_epoch(), count(), std::setw(), std::setfill(), str().
+ */
 
 std::string DistributedTransactionManager::generateTransactionId() {
     const uint64_t counter = state_->txn_counter.fetch_add(1, std::memory_order_relaxed);

@@ -43,11 +43,21 @@ namespace plugins {
 
 namespace {
 
+/**
+ * @brief Wasm Plugin Load Fn Storage.
+ * @return Return value.
+ * @details Implements wasmPluginLoadFnStorage without additional internal calls.
+ */
 WasmPluginLoadFn& wasmPluginLoadFnStorage() {
     static WasmPluginLoadFn fn;
     return fn;
 }
 
+/**
+ * @brief Wasm Plugin Load Fn Mutex.
+ * @return Return value.
+ * @details Implements wasmPluginLoadFnMutex without additional internal calls.
+ */
 std::mutex& wasmPluginLoadFnMutex() {
     static std::mutex m;
     return m;
@@ -84,8 +94,10 @@ using UniqueWasmtimeBundle = std::unique_ptr<void, WasmtimeBundleDeleter>;
 #endif // THEMIS_WASM_WASMTIME
 
 /**
- * @brief Compute the SHA-256 hex digest of a file at @p path.
- * @return Lowercase hex string, or empty string on I/O or crypto error.
+ * @brief Compute File Hash.
+ * @param[in] path Input parameter.
+ * @return Return value.
+ * @details Calls: file(), operator(), EVP_MD_CTX_free(), ctx(), EVP_MD_CTX_new(), EVP_DigestInit_ex(), get(), EVP_sha256().
  */
 static std::string computeFileHash(const std::string& path) {
     std::ifstream file(path, std::ios::binary);
@@ -124,10 +136,10 @@ static std::string computeFileHash(const std::string& path) {
 }
 
 /**
- * @brief Return true if the current edition permits WASM plugin execution.
- *
- * WASM runtime support is gated behind the Enterprise edition flag, consistent
- * with the broader plugin subsystem policy in plugin_system_edition.cpp.
+ * @brief Is Wasm Runtime Allowed.
+ * @param[in,out] error_out Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: license::RuntimeLicenseGate::instance(), isFeatureAllowed().
  */
 static bool isWasmRuntimeAllowed(std::string& error_out) {
     return license::RuntimeLicenseGate::instance()
@@ -136,6 +148,11 @@ static bool isWasmRuntimeAllowed(std::string& error_out) {
 
 } // anonymous namespace
 
+/**
+ * @brief Set Wasm Plugin Load Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lk(), wasmPluginLoadFnMutex(), wasmPluginLoadFnStorage(), std::move().
+ */
 void setWasmPluginLoadFn(WasmPluginLoadFn fn) {
     std::lock_guard<std::mutex> lk(wasmPluginLoadFnMutex());
     wasmPluginLoadFnStorage() = std::move(fn);
@@ -146,19 +163,12 @@ void setWasmPluginLoadFn(WasmPluginLoadFn fn) {
 // ============================================================================
 
 /**
- * @brief Verify a WASM module's SHA-256 hash against the manifest value.
- *
- * This function is called by PluginManager before any WASM instantiation so
- * that a tampered or corrupted .wasm file is rejected before any code runs.
- *
- * @param wasm_path    Filesystem path to the .wasm binary.
- * @param expected_sha256  Expected lowercase hex SHA-256 from the manifest.
- * @param error_out    Receives a human-readable error message on failure.
- * @return true if the hash matches, false otherwise.
- * 
- * @note QW-44 Fail-Closed Guard: Rejects empty hashes (fail-closed).
- * Unsigned or unhashed WASM modules are rejected at load time to prevent
- * loading unsigned code in production. Hash must be non-empty, 64 chars, and match.
+ * @brief Verify Wasm Module Hash.
+ * @param[in] wasm_path Path to the wasm.
+ * @param[in] expected_sha256 Input parameter.
+ * @param[in,out] error_out Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), length(), std::to_string(), computeFileHash().
  */
 bool verifyWasmModuleHash(const std::string& wasm_path,
                           const std::string& expected_sha256,
@@ -200,20 +210,13 @@ bool verifyWasmModuleHash(const std::string& wasm_path,
 #ifdef THEMIS_WASM_SUPPORT
 
 /**
- * @brief Load and instantiate a WASM plugin module.
- *
- * Performs in order:
- *   1. Edition + license gate check.
- *   2. SHA-256 hash verification (fail-closed).
- *   3. WASM runtime instantiation.
- *   4. Returns a WasmHostAPI wrapping the live module instance.
- *
- * @param wasm_path       Filesystem path to the .wasm binary.
- * @param expected_sha256 Expected SHA-256 hex from the plugin manifest.
- * @param runtime         Which WASM backend to use.
- * @param module_name     Human-readable plugin name for diagnostics.
- * @param error_out       Receives a human-readable error on failure.
- * @return Owning pointer to an IThemisPlugin-compatible WASM bridge, or nullptr on failure.
+ * @brief Load Wasm Plugin.
+ * @param[in] wasm_path Path to the wasm.
+ * @param[in] expected_sha256 Input parameter.
+ * @param[in] runtime Input parameter.
+ * @param[in] module_name Name of the module.
+ * @param[in,out] error_out Input/output parameter.
+ * @return Return value.
  */
 std::unique_ptr<IThemisPlugin> loadWasmPlugin(
     const std::string& wasm_path,
@@ -247,7 +250,12 @@ std::unique_ptr<IThemisPlugin> loadWasmPlugin(
 #if defined(THEMIS_WASM_WASMTIME)
     // ---- Wasmtime (Bytecode Alliance) ----------------------------------------
     if (runtime == WasmPluginRuntime::WASMTIME || runtime == WasmPluginRuntime::NONE) {
-        // Read the WASM binary into memory.
+        /**
+         * @brief Read the WASM binary into memory.
+         * @param[in] wasm_path Path to the wasm.
+         * @param[in] binary Input parameter.
+         * @return Return value.
+         */
         std::ifstream wasm_file(wasm_path, std::ios::binary);
         if (!wasm_file) {
             error_out = "Cannot open WASM file: " + wasm_path;
@@ -410,24 +418,50 @@ PluginCapabilities WasmHostAPI::getCapabilities() const {
     return {}; // capabilities are frozen from the manifest at registration
 }
 
+/**
+ * @brief Initialize.
+ * @param[in] config_json Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: themis_plugin_initialize().
+ */
 bool WasmHostAPI::initialize(const char* config_json) {
     return themis_plugin_initialize(config_json) == 1;
 }
 
+/**
+ * @brief Shutdown.
+ * @details Calls: themis_plugin_shutdown().
+ */
 void WasmHostAPI::shutdown() {
     themis_plugin_shutdown();
 }
 
+/**
+ * @brief Get Instance.
+ * @return Pointer to the result.
+ * @details Calls: themis_plugin_get_instance().
+ */
 void* WasmHostAPI::getInstance() {
     return themis_plugin_get_instance(0);
 }
 
+/**
+ * @brief Save State.
+ * @return Return value.
+ * @details Calls: themis_plugin_save_state(), std::string().
+ */
 std::string WasmHostAPI::saveState() {
     char buf[65536];
     int32_t n = themis_plugin_save_state(buf, sizeof(buf));
     return (n > 0) ? std::string(buf, static_cast<size_t>(n)) : "";
 }
 
+/**
+ * @brief Restore State.
+ * @param[in] state Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: themis_plugin_restore_state(), c_str().
+ */
 bool WasmHostAPI::restoreState(const std::string& state) {
     return themis_plugin_restore_state(state.c_str()) == 1;
 }
@@ -438,6 +472,13 @@ bool WasmHostAPI::restoreState(const std::string& state) {
 
 extern "C" {
 
+/**
+ * @brief Themis plugin get name.
+ * @param[in,out] buf Input/output parameter.
+ * @param[in] buf_len Input parameter.
+ * @return Return value.
+ * @details Calls: __builtin_memcpy().
+ */
 uint32_t themis_plugin_get_name(char* buf, uint32_t buf_len) {
     static const char kName[] = "wasm_plugin";
     uint32_t len = static_cast<uint32_t>(sizeof(kName) - 1);
@@ -450,6 +491,13 @@ uint32_t themis_plugin_get_name(char* buf, uint32_t buf_len) {
     return len;
 }
 
+/**
+ * @brief Themis plugin get version.
+ * @param[in,out] buf Input/output parameter.
+ * @param[in] buf_len Input parameter.
+ * @return Return value.
+ * @details Calls: __builtin_memcpy().
+ */
 uint32_t themis_plugin_get_version(char* buf, uint32_t buf_len) {
     static const char kVer[] = "0.0.0-wasm";
     uint32_t len = static_cast<uint32_t>(sizeof(kVer) - 1);
@@ -462,13 +510,42 @@ uint32_t themis_plugin_get_version(char* buf, uint32_t buf_len) {
     return len;
 }
 
+/**
+ * @brief Themis plugin initialize.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Implements themis_plugin_initialize without additional internal calls.
+ */
 int32_t themis_plugin_initialize(const char* /*config_json*/) { return 0; }
+/**
+ * @brief Themis plugin shutdown.
+ * @details Implements themis_plugin_shutdown without additional internal calls.
+ */
 void    themis_plugin_shutdown(void) {}
+/**
+ * @brief Themis plugin get instance.
+ * @param[in] int32_t Input parameter.
+ * @return Pointer to the result.
+ * @details Implements themis_plugin_get_instance without additional internal calls.
+ */
 void*   themis_plugin_get_instance(int32_t /*capability_id*/) { return nullptr; }
+/**
+ * @brief Themis plugin save state.
+ * @param[in,out] buf Input/output parameter.
+ * @param[in] buf_len Input parameter.
+ * @return Return value.
+ * @details Implements themis_plugin_save_state without additional internal calls.
+ */
 int32_t themis_plugin_save_state(char* buf, uint32_t buf_len) {
     if (buf && buf_len > 0) { buf[0] = '\0'; }
     return 0;
 }
+/**
+ * @brief Themis plugin restore state.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Implements themis_plugin_restore_state without additional internal calls.
+ */
 int32_t themis_plugin_restore_state(const char* /*state_json*/) { return 0; }
 
 } // extern "C"
@@ -490,6 +567,15 @@ int32_t themis_plugin_restore_state(const char* /*state_json*/) { return 0; }
 //               replaces these stubs.  See src/plugins/FUTURE_ENHANCEMENTS.md §WASMRuntime.
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Load Wasm Plugin.
+ * @param[in] wasm_path Path to the wasm.
+ * @param[in] expected_sha256 Input parameter.
+ * @param[in] runtime Input parameter.
+ * @param[in] module_name Name of the module.
+ * @param[in,out] error_out Input/output parameter.
+ * @return Return value.
+ */
 std::unique_ptr<IThemisPlugin> loadWasmPlugin(
     const std::string& wasm_path,
     const std::string& expected_sha256,
@@ -512,27 +598,70 @@ std::unique_ptr<IThemisPlugin> loadWasmPlugin(
 }
 
 extern "C" {
+/**
+ * @brief Themis plugin get name.
+ * @param[in,out] buf Input/output parameter.
+ * @param[in] buf_len Input parameter.
+ * @return Return value.
+ * @details Implements themis_plugin_get_name without additional internal calls.
+ */
 uint32_t themis_plugin_get_name(char* buf, uint32_t buf_len) {
     if (buf && buf_len > 0) {
       buf[0] = '\0';
     }
     return 0;
 }
+/**
+ * @brief Themis plugin get version.
+ * @param[in,out] buf Input/output parameter.
+ * @param[in] buf_len Input parameter.
+ * @return Return value.
+ * @details Implements themis_plugin_get_version without additional internal calls.
+ */
 uint32_t themis_plugin_get_version(char* buf, uint32_t buf_len) {
     if (buf && buf_len > 0) {
       buf[0] = '\0';
     }
     return 0;
 }
+/**
+ * @brief Themis plugin initialize.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Implements themis_plugin_initialize without additional internal calls.
+ */
 int32_t themis_plugin_initialize(const char* /*config_json*/) { return 0; }
+/**
+ * @brief Themis plugin shutdown.
+ * @details Implements themis_plugin_shutdown without additional internal calls.
+ */
 void    themis_plugin_shutdown(void) {}
+/**
+ * @brief Themis plugin get instance.
+ * @param[in] int32_t Input parameter.
+ * @return Pointer to the result.
+ * @details Implements themis_plugin_get_instance without additional internal calls.
+ */
 void*   themis_plugin_get_instance(int32_t /*capability_id*/) { return nullptr; }
+/**
+ * @brief Themis plugin save state.
+ * @param[in,out] buf Input/output parameter.
+ * @param[in] buf_len Input parameter.
+ * @return Return value.
+ * @details Implements themis_plugin_save_state without additional internal calls.
+ */
 int32_t themis_plugin_save_state(char* buf, uint32_t buf_len) {
     if (buf && buf_len > 0) {
       buf[0] = '\0';
     }
     return 0;
 }
+/**
+ * @brief Themis plugin restore state.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Implements themis_plugin_restore_state without additional internal calls.
+ */
 int32_t themis_plugin_restore_state(const char* /*state_json*/) { return 0; }
 } // extern "C"
 

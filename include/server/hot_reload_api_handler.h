@@ -23,28 +23,17 @@ namespace server {
 namespace beast = boost::beast;
 namespace http = beast::http;
 
-/**
- * @brief HTTP API Handler for Hot-Reload endpoints
- * 
- * Provides REST endpoints for:
- * - GET  /api/updates/manifests/:version   - Get manifest for version
- * - POST /api/updates/download/:version    - Download release
- * - POST /api/updates/apply/:version       - Apply hot-reload (requires admin)
- * - POST /api/updates/rollback/:id         - Rollback to previous version (requires admin)
- * - GET  /api/updates/rollback             - List rollback points
- */
 class HotReloadApiHandler {
 public:
-    /**
-     * @brief Construct handler
-     */
     HotReloadApiHandler(
         std::shared_ptr<updates::ManifestDatabase> manifest_db,
         std::shared_ptr<updates::HotReloadEngine> reload_engine
     );
     
     /**
-     * @brief Handle hot-reload HTTP requests
+     * @brief Handle Request.
+     * @param[in] req Input parameter.
+     * @return Return value.
      */
     http::response<http::string_body> handleRequest(
         const http::request<http::string_body>& req
@@ -55,7 +44,10 @@ private:
     std::shared_ptr<updates::HotReloadEngine> reload_engine_;
     
     /**
-     * @brief GET /api/updates/manifests/:version
+     * @brief Handle Get Manifest.
+     * @param[in] req Input parameter.
+     * @param[in] version Input parameter.
+     * @return Return value.
      */
     http::response<http::string_body> handleGetManifest(
         const http::request<http::string_body>& req,
@@ -63,7 +55,10 @@ private:
     );
     
     /**
-     * @brief POST /api/updates/download/:version
+     * @brief Handle Download.
+     * @param[in] req Input parameter.
+     * @param[in] version Input parameter.
+     * @return Return value.
      */
     http::response<http::string_body> handleDownload(
         const http::request<http::string_body>& req,
@@ -71,7 +66,10 @@ private:
     );
     
     /**
-     * @brief POST /api/updates/apply/:version
+     * @brief Handle Apply.
+     * @param[in] req Input parameter.
+     * @param[in] version Input parameter.
+     * @return Return value.
      */
     http::response<http::string_body> handleApply(
         const http::request<http::string_body>& req,
@@ -79,7 +77,10 @@ private:
     );
     
     /**
-     * @brief POST /api/updates/rollback/:id
+     * @brief Handle Rollback.
+     * @param[in] req Input parameter.
+     * @param[in] rollback_id Identifier of the rollback.
+     * @return Return value.
      */
     http::response<http::string_body> handleRollback(
         const http::request<http::string_body>& req,
@@ -87,14 +88,20 @@ private:
     );
     
     /**
-     * @brief GET /api/updates/rollback
+     * @brief Handle List Rollbacks.
+     * @param[in] req Input parameter.
+     * @return Return value.
      */
     http::response<http::string_body> handleListRollbacks(
         const http::request<http::string_body>& req
     );
     
     /**
-     * @brief Create JSON response
+     * @brief Create Json Response.
+     * @param[in] status Input parameter.
+     * @param[in] body Input parameter.
+     * @param[in] req Input parameter.
+     * @return Return value.
      */
     http::response<http::string_body> createJsonResponse(
         http::status status,
@@ -103,7 +110,11 @@ private:
     );
     
     /**
-     * @brief Create error response
+     * @brief Create Error Response.
+     * @param[in] status Input parameter.
+     * @param[in] message Input parameter.
+     * @param[in] req Input parameter.
+     * @return Return value.
      */
     http::response<http::string_body> createErrorResponse(
         http::status status,
@@ -112,7 +123,10 @@ private:
     );
     
     /**
-     * @brief Extract path parameter (e.g., version from /api/updates/apply/:version)
+     * @brief Extract Path Param.
+     * @param[in] path Input parameter.
+     * @param[in] prefix Input parameter.
+     * @return Return value.
      */
     std::string extractPathParam(const std::string& path, const std::string& prefix);
 };

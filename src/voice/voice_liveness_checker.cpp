@@ -109,6 +109,15 @@ uint8_t VoiceLivenessChecker::estimate_liveness_confidence(
     return std::min(confidence, uint8_t(100));
 }
 
+/**
+ * @brief Check audio chunk.
+ * @param[in] audio_data Input parameter.
+ * @param[in] audio_size Input parameter.
+ * @param[in] sample_rate Input parameter.
+ * @return Return value.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: is_silence_or_noise_only(), estimate_liveness_confidence(), detect_spoof_indicators(), compute_audio_hash(), is_replay_detected(), std::max(), uint8_t().
+ */
 LivenessCheckResult VoiceLivenessChecker::check_audio_chunk(
     const uint8_t* audio_data,
     size_t audio_size,

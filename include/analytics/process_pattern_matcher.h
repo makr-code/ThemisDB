@@ -217,14 +217,14 @@ private:
     // Statistics
     mutable PatternStatistics statistics_;
     
+    
     /**
-     * @brief ===== Similarity Computation Methods =====
+     * @brief Compute Graph Similarity.
      * @param[in] pattern Input parameter.
      * @param[in] log Input parameter.
      * @param[in] case_id Identifier of the case.
      * @return Return value.
      */
-    
     double computeGraphSimilarity(
         const ProcessPattern& pattern,
         const EventLog& log,

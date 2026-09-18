@@ -74,6 +74,11 @@ bool GPUTensorBuffer::Shape::operator!=(const Shape &other) const noexcept {
 
 GPUTensorBuffer::GPUTensorBuffer(std::string name, const Shape &shape, DType dtype)
     : name_(std::move(name)), shape_(shape), dtype_(dtype), data_(shape.totalBytes(dtype), 0) {
+    /**
+     * @brief Lk.
+     * @param[in] stats_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(stats_mutex_);
     ++global_stats_.total_buffers_created;
     global_stats_.current_bytes += data_.size();
@@ -89,6 +94,11 @@ GPUTensorBuffer &GPUTensorBuffer::operator=(GPUTensorBuffer &&other) noexcept {
     if (this != &other) {
         // Release current bytes from global stats
         {
+            /**
+             * @brief Lk.
+             * @param[in] stats_mutex_ Input parameter.
+             * @return Return value.
+             */
             std::lock_guard<std::mutex> lk(stats_mutex_);
             if (global_stats_.current_bytes >= data_.size()) {
                 global_stats_.current_bytes -= data_.size();
@@ -104,6 +114,11 @@ GPUTensorBuffer &GPUTensorBuffer::operator=(GPUTensorBuffer &&other) noexcept {
 }
 
 GPUTensorBuffer::~GPUTensorBuffer() {
+    /**
+     * @brief Lk.
+     * @param[in] stats_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(stats_mutex_);
     if (global_stats_.current_bytes >= data_.size()) {
         global_stats_.current_bytes -= data_.size();
@@ -124,6 +139,11 @@ size_t GPUTensorBuffer::totalBytes() const noexcept {
 // ---------------------------------------------------------------------------
 
 void GPUTensorBuffer::fill([[maybe_unused]] double value) {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     size_t elem_bytes = Shape::elementBytes(dtype_);
     size_t n          = shape_.numElements();
@@ -205,6 +225,13 @@ void GPUTensorBuffer::fill([[maybe_unused]] double value) {
 // copyFromHost / copyToHost
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Copy From Host.
+ * @param[in] src Input parameter.
+ * @param[in] bytes Input parameter.
+ * @throws std::out_of_range if an error occurs.
+ * @details Calls: lk(), size(), std::memcpy(), data().
+ */
 void GPUTensorBuffer::copyFromHost(const void *src, size_t bytes) {
     std::lock_guard<std::mutex> lk(mutex_);
     if (bytes > data_.size()) {
@@ -214,6 +241,11 @@ void GPUTensorBuffer::copyFromHost(const void *src, size_t bytes) {
 }
 
 void GPUTensorBuffer::copyToHost(void *dst, size_t bytes) const {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     if (bytes > data_.size()) {
         throw std::out_of_range("GPUTensorBuffer::copyToHost: bytes > buffer size");
@@ -233,24 +265,23 @@ GPUTensorBuffer::View GPUTensorBuffer::createView(const std::string &view_name, 
     v.shape        = view_shape;
     v.dtype        = dtype_;
 
+    /**
+     * @brief Lk.
+     * @param[in] stats_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(stats_mutex_);
     ++global_stats_.total_views_created;
 
     return v;
 }
 
-// ---------------------------------------------------------------------------
-// Serialisation
-// ---------------------------------------------------------------------------
-//
-// Format (little-endian):
-//   [4]  magic: 0x54454E53 ("TENS")
-//   [4]  dtype (uint32_t)
-//   [4]  ndim  (uint32_t)
-//   [4*ndim] dims (uint32_t each)
-//   [4]  name length
-//   [name_len] name bytes
-//   [data_size] raw data bytes
+/**
+ * @brief --------------------------------------------------------------------------- Serialisation --------------------------------------------------------------------------- Format (little-endian): [4] magic: 0x54454E53 ("TENS") [4] dtype (uint32_t) [4] ndim (uint32_t) [4*ndim] dims (uint32_t each) [4] name length [name_len] name bytes [data_size] raw data bytes
+ * @param[in,out] buf Input/output parameter.
+ * @param[in] v Input parameter.
+ * @details Calls: push_back().
+ */
 
 static void write32(std::vector<uint8_t> &buf, uint32_t v) {
     buf.push_back(static_cast<uint8_t>(v));
@@ -259,12 +290,23 @@ static void write32(std::vector<uint8_t> &buf, uint32_t v) {
     buf.push_back(static_cast<uint8_t>(v >> 24));
 }
 
+/**
+ * @brief Read32.
+ * @param[in] p Input parameter.
+ * @return Return value.
+ * @details Implements read32 without additional internal calls.
+ */
 static uint32_t read32(const uint8_t *p) {
     return static_cast<uint32_t>(p[0]) | static_cast<uint32_t>(p[1]) << 8 | static_cast<uint32_t>(p[2]) << 16
            | static_cast<uint32_t>(p[3]) << 24;
 }
 
 std::vector<uint8_t> GPUTensorBuffer::serialize() const {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     std::vector<uint8_t> out = {};
 
@@ -282,6 +324,13 @@ std::vector<uint8_t> GPUTensorBuffer::serialize() const {
     return out;
 }
 
+/**
+ * @brief Deserialize.
+ * @param[in] bytes Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: data(), size(), need(), read32(), push_back(), name(), totalBytes(), buf().
+ */
 GPUTensorBuffer GPUTensorBuffer::deserialize(const std::vector<uint8_t> &bytes) {
     try {
         const uint8_t *p   = bytes.data();
@@ -341,11 +390,20 @@ GPUTensorBuffer GPUTensorBuffer::deserialize(const std::vector<uint8_t> &bytes) 
 // Global stats
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Get Global Stats.
+ * @return Return value.
+ * @details Calls: lk().
+ */
 GPUTensorBuffer::Stats GPUTensorBuffer::getGlobalStats() {
     std::lock_guard<std::mutex> lk(stats_mutex_);
     return global_stats_;
 }
 
+/**
+ * @brief Reset Global Stats.
+ * @details Calls: lk().
+ */
 void GPUTensorBuffer::resetGlobalStats() {
     std::lock_guard<std::mutex> lk(stats_mutex_);
     global_stats_ = Stats{};

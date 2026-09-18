@@ -36,6 +36,12 @@ namespace {
 
 constexpr size_t kMaxTaskIdentifierLength = 128;
 
+/**
+ * @brief Validate Task Identifier.
+ * @param[in] value Input parameter.
+ * @param[in] field_name Name of the field.
+ * @return Return value.
+ */
 std::optional<std::string> validateTaskIdentifier(
     const std::string& value,
     const std::string& field_name)
@@ -53,6 +59,14 @@ std::optional<std::string> validateTaskIdentifier(
     return std::nullopt;
 }
 
+/**
+ * @brief Checked Seconds To Milliseconds.
+ * @param[in] seconds Input parameter.
+ * @param[in] field_name Name of the field.
+ * @return Return value.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: std::string(), max().
+ */
 int64_t checkedSecondsToMilliseconds(int64_t seconds, const char* field_name) {
     if (seconds <= 0) {
         throw std::invalid_argument(std::string(field_name) + " must be a positive integer");
@@ -66,7 +80,12 @@ int64_t checkedSecondsToMilliseconds(int64_t seconds, const char* field_name) {
     return seconds * kMillisPerSecond;
 }
 
-/// Convert a system_clock time_point to an ISO-8601 string (UTC).
+/**
+ * @brief Time Point To Iso.
+ * @param[in] tp Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::time_point::max(), std::chrono::system_clock::to_time_t(), gmtime_s(), gmtime_r(), std::strftime().
+ */
 std::string timePointToIso(std::chrono::system_clock::time_point tp) {
     if (tp == std::chrono::system_clock::time_point{} ||
         tp == std::chrono::system_clock::time_point::max()) {
@@ -88,12 +107,22 @@ std::string timePointToIso(std::chrono::system_clock::time_point tp) {
     return buf;
 }
 
-/// Stringify ScheduledTask::TaskType.
+/**
+ * @brief Task Type Str.
+ * @param[in] t Input parameter.
+ * @return Return value.
+ * @details Implements taskTypeStr without additional internal calls.
+ */
 std::string taskTypeStr(ScheduledTask::TaskType t) {
     return t == ScheduledTask::TaskType::AQL_QUERY ? "aql_query" : "function";
 }
 
-/// Stringify ScheduledTask::TriggerType.
+/**
+ * @brief Trigger Type Str.
+ * @param[in] t Input parameter.
+ * @return Return value.
+ * @details Implements triggerTypeStr without additional internal calls.
+ */
 std::string triggerTypeStr(ScheduledTask::TriggerType t) {
     switch (t) {
         case ScheduledTask::TriggerType::CRON:      return "cron";
@@ -105,7 +134,12 @@ std::string triggerTypeStr(ScheduledTask::TriggerType t) {
     }
 }
 
-/// Stringify ScheduledTask::ErrorCategory.
+/**
+ * @brief Error Category Str.
+ * @param[in] c Input parameter.
+ * @return Return value.
+ * @details Implements errorCategoryStr without additional internal calls.
+ */
 std::string errorCategoryStr(ScheduledTask::ErrorCategory c) {
     switch (c) {
         case ScheduledTask::ErrorCategory::NONE:       return "none";
@@ -124,6 +158,12 @@ std::string errorCategoryStr(ScheduledTask::ErrorCategory c) {
 // Public API
 // ============================================================================
 
+/**
+ * @brief Register Task.
+ * @param[in] request Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), parseTaskFromJson(), spdlog::info(), spdlog::warn(), what().
+ */
 json TaskSchedulerApiHandler::registerTask(const json& request) {
     if (!scheduler_) {
     auto span = Tracer::startSpan("registerTask");
@@ -144,6 +184,11 @@ json TaskSchedulerApiHandler::registerTask(const json& request) {
     }
 }
 
+/**
+ * @brief List Tasks.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), json::array(), push_back(), taskToJson(), size().
+ */
 json TaskSchedulerApiHandler::listTasks() {
     if (!scheduler_) {
     auto span = Tracer::startSpan("listTasks");
@@ -158,6 +203,12 @@ json TaskSchedulerApiHandler::listTasks() {
     return json{{"items", items}, {"total", static_cast<int64_t>(items.size())}};
 }
 
+/**
+ * @brief Get Task.
+ * @param[in] task_id Identifier of the task.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), validateTaskIdentifier(), taskToJson().
+ */
 json TaskSchedulerApiHandler::getTask(const std::string& task_id) {
     if (!scheduler_) {
     auto span = Tracer::startSpan("getTask");
@@ -176,6 +227,13 @@ json TaskSchedulerApiHandler::getTask(const std::string& task_id) {
     return taskToJson(*task_ptr);
 }
 
+/**
+ * @brief Update Task.
+ * @param[in] task_id Identifier of the task.
+ * @param[in] request Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), validateTaskIdentifier(), parseTaskFromJson(), spdlog::info(), spdlog::warn(), what().
+ */
 json TaskSchedulerApiHandler::updateTask(const std::string& task_id, const json& request) {
     if (!scheduler_) {
     auto span = Tracer::startSpan("updateTask");
@@ -199,6 +257,12 @@ json TaskSchedulerApiHandler::updateTask(const std::string& task_id, const json&
     }
 }
 
+/**
+ * @brief Unregister Task.
+ * @param[in] task_id Identifier of the task.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), validateTaskIdentifier(), getTask(), spdlog::warn(), spdlog::info(), what().
+ */
 json TaskSchedulerApiHandler::unregisterTask(const std::string& task_id) {
     if (!scheduler_) {
     auto span = Tracer::startSpan("unregisterTask");
@@ -224,6 +288,12 @@ json TaskSchedulerApiHandler::unregisterTask(const std::string& task_id) {
     }
 }
 
+/**
+ * @brief Enable Task.
+ * @param[in] task_id Identifier of the task.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), validateTaskIdentifier(), getTask(), spdlog::warn(), spdlog::info(), what().
+ */
 json TaskSchedulerApiHandler::enableTask(const std::string& task_id) {
     if (!scheduler_) {
     auto span = Tracer::startSpan("enableTask");
@@ -249,6 +319,12 @@ json TaskSchedulerApiHandler::enableTask(const std::string& task_id) {
     }
 }
 
+/**
+ * @brief Disable Task.
+ * @param[in] task_id Identifier of the task.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), validateTaskIdentifier(), getTask(), spdlog::warn(), spdlog::info(), what().
+ */
 json TaskSchedulerApiHandler::disableTask(const std::string& task_id) {
     if (!scheduler_) {
     auto span = Tracer::startSpan("disableTask");
@@ -274,6 +350,12 @@ json TaskSchedulerApiHandler::disableTask(const std::string& task_id) {
     }
 }
 
+/**
+ * @brief Execute Task.
+ * @param[in] task_id Identifier of the task.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), validateTaskIdentifier(), executeTaskNow(), contains(), spdlog::warn(), value(), spdlog::info(), what().
+ */
 json TaskSchedulerApiHandler::executeTask(const std::string& task_id) {
     if (!scheduler_) {
     auto span = Tracer::startSpan("executeTask");
@@ -300,6 +382,11 @@ json TaskSchedulerApiHandler::executeTask(const std::string& task_id) {
     }
 }
 
+/**
+ * @brief Get Stats.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), timePointToIso(), isRunning().
+ */
 json TaskSchedulerApiHandler::getStats() {
     if (!scheduler_) {
     auto span = Tracer::startSpan("getStats");
@@ -319,6 +406,13 @@ json TaskSchedulerApiHandler::getStats() {
     };
 }
 
+/**
+ * @brief Get Task Results.
+ * @param[in] task_id Identifier of the task.
+ * @param[in] limit Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), validateTaskIdentifier(), json::array(), push_back(), toJson(), size().
+ */
 json TaskSchedulerApiHandler::getTaskResults(const std::string& task_id, size_t limit) {
     if (!scheduler_) {
     auto span = Tracer::startSpan("getTaskResults");
@@ -338,6 +432,12 @@ json TaskSchedulerApiHandler::getTaskResults(const std::string& task_id, size_t 
     return json{{"task_id", task_id}, {"items", items}, {"count",items.size()}};
 }
 
+/**
+ * @brief Get Latest Task Result.
+ * @param[in] task_id Identifier of the task.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), validateTaskIdentifier(), has_value(), toJson().
+ */
 json TaskSchedulerApiHandler::getLatestTaskResult(const std::string& task_id) {
     if (!scheduler_) {
     auto span = Tracer::startSpan("getLatestTaskResult");
@@ -356,6 +456,12 @@ json TaskSchedulerApiHandler::getLatestTaskResult(const std::string& task_id) {
     return result->toJson();
 }
 
+/**
+ * @brief Get Execution History.
+ * @param[in] task_id Identifier of the task.
+ * @param[in] query_params Input parameter.
+ * @return Return value.
+ */
 json TaskSchedulerApiHandler::getExecutionHistory(
     const std::string& task_id,
     const json& query_params)
@@ -467,6 +573,11 @@ json TaskSchedulerApiHandler::getExecutionHistory(
     return json{{"items", items}, {"total", total_count}};
 }
 
+/**
+ * @brief Get Web Ui.
+ * @return Return value.
+ * @details Calls: reserve(), Tracer::startSpan().
+ */
 std::string TaskSchedulerApiHandler::getWebUi() {
     std::string html = {};
     html.reserve(65536);
@@ -801,6 +912,12 @@ std::string TaskSchedulerApiHandler::getWebUi() {
 // Private helpers
 // ============================================================================
 
+/**
+ * @brief Task To Json.
+ * @param[in] task Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), taskTypeStr(), triggerTypeStr(), count(), errorCategoryStr(), timePointToIso().
+ */
 json TaskSchedulerApiHandler::taskToJson(const ScheduledTask& task) {
     auto span = Tracer::startSpan("taskToJson");
     json j{
@@ -832,6 +949,13 @@ json TaskSchedulerApiHandler::taskToJson(const ScheduledTask& task) {
     return j;
 }
 
+/**
+ * @brief Parse Task From Json.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: at(), validateTaskIdentifier(), value(), contains(), empty(), validateStringLength(), validateAQLQuery(), std::chrono::milliseconds().
+ */
 ScheduledTask TaskSchedulerApiHandler::parseTaskFromJson(const json& j) {
     ScheduledTask task;
 
@@ -937,6 +1061,12 @@ ScheduledTask TaskSchedulerApiHandler::parseTaskFromJson(const json& j) {
     return task;
 }
 
+/**
+ * @brief Execute DAG.
+ * @param[in] request Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), contains(), is_array(), validateTaskIdentifier(), json::object(), spdlog::info(), size(), spdlog::warn().
+ */
 json TaskSchedulerApiHandler::executeDAG(const json& request) {
     if (!scheduler_) {
     auto span = Tracer::startSpan("executeDAG");
@@ -995,7 +1125,12 @@ json TaskSchedulerApiHandler::executeDAG(const json& request) {
 
 namespace {
 
-/// Build a KubernetesCronJobConfig from the JSON request object.
+/**
+ * @brief K8s Config From Json.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: contains(), is_object(), reserve(), size(), begin(), end(), emplace_back(), key().
+ */
 scheduler::KubernetesCronJobConfig k8sConfigFromJson(const json& req) {
     scheduler::KubernetesCronJobConfig cfg;
     if (req.contains("themisdb_base_url"))
@@ -1021,7 +1156,12 @@ scheduler::KubernetesCronJobConfig k8sConfigFromJson(const json& req) {
     return cfg;
 }
 
-/// Build an AirflowDagConfig from the JSON request object.
+/**
+ * @brief Airflow Config From Json.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: contains(), is_array(), reserve(), size(), push_back().
+ */
 scheduler::AirflowDagConfig airflowConfigFromJson(const json& req) {
     scheduler::AirflowDagConfig cfg;
     if (req.contains("dag_id"))
@@ -1054,6 +1194,13 @@ scheduler::AirflowDagConfig airflowConfigFromJson(const json& req) {
 // A single stateless adapter instance shared across all methods (thread-safe per its contract).
 static const scheduler::ExternalSchedulerAdapter s_adapter;
 
+/**
+ * @brief Export To Kubernetes Cron Job Json.
+ * @param[in] task_id Identifier of the task.
+ * @param[in] request Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), getTask(), k8sConfigFromJson(), toKubernetesCronJobJson(), spdlog::warn(), what().
+ */
 json TaskSchedulerApiHandler::exportToKubernetesCronJobJson(const std::string& task_id,
                                                               const json& request) {
     auto span = Tracer::startSpan("exportToKubernetesCronJobJson");
@@ -1075,6 +1222,13 @@ json TaskSchedulerApiHandler::exportToKubernetesCronJobJson(const std::string& t
     }
 }
 
+/**
+ * @brief Export To Kubernetes Cron Job Yaml.
+ * @param[in] task_id Identifier of the task.
+ * @param[in] request Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), getTask(), k8sConfigFromJson(), toKubernetesCronJobYaml(), spdlog::warn(), what().
+ */
 json TaskSchedulerApiHandler::exportToKubernetesCronJobYaml(const std::string& task_id,
                                                               const json& request) {
     auto span = Tracer::startSpan("exportToKubernetesCronJobYaml");
@@ -1096,6 +1250,12 @@ json TaskSchedulerApiHandler::exportToKubernetesCronJobYaml(const std::string& t
     }
 }
 
+/**
+ * @brief Export To Airflow Dag.
+ * @param[in] request Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), contains(), is_array(), reserve(), size(), getTask(), push_back(), airflowConfigFromJson().
+ */
 json TaskSchedulerApiHandler::exportToAirflowDag(const json& request) {
     if (!scheduler_) {
     auto span = Tracer::startSpan("exportToAirflowDag");
@@ -1127,6 +1287,12 @@ json TaskSchedulerApiHandler::exportToAirflowDag(const json& request) {
     }
 }
 
+/**
+ * @brief Import From Kubernetes Cron Job.
+ * @param[in] request Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), fromKubernetesCronJobJson(), registerTask(), spdlog::info(), spdlog::warn(), what().
+ */
 json TaskSchedulerApiHandler::importFromKubernetesCronJob(const json& request) {
     if (!scheduler_) {
     auto span = Tracer::startSpan("importFromKubernetesCronJob");

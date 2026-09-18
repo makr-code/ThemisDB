@@ -125,11 +125,23 @@ namespace {
 std::mutex s_apple_ane_dispatch_mutex;
 AiHardwareDispatcher::AppleANEDispatchFn s_apple_ane_dispatch_fn;
 
+/**
+ * @brief Is Vector Similarity Task.
+ * @param[in] task_tag Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements isVectorSimilarityTask without additional internal calls.
+ */
 bool isVectorSimilarityTask(const std::string &task_tag) {
     return task_tag == "vector_similarity_l2" || task_tag == "vector_similarity_cosine"
            || task_tag == "vector_similarity_ip";
 }
 
+/**
+ * @brief Metric From Task Tag.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Implements metricFromTaskTag without additional internal calls.
+ */
 DistanceMetric metricFromTaskTag(const AiInferenceRequest &req) {
     if (req.task_tag == "vector_similarity_cosine") {
         return DistanceMetric::COSINE;
@@ -140,6 +152,13 @@ DistanceMetric metricFromTaskTag(const AiInferenceRequest &req) {
     return req.similarity_metric;
 }
 
+/**
+ * @brief Validate Similarity Request.
+ * @param[in] req Input parameter.
+ * @param[in,out] error Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: std::to_string().
+ */
 bool validateSimilarityRequest(const AiInferenceRequest &req, std::string &error) {
     if (req.input_data == nullptr) {
         error = "vector similarity request has null input_data";
@@ -166,6 +185,15 @@ bool validateSimilarityRequest(const AiInferenceRequest &req, std::string &error
     return true;
 }
 
+/**
+ * @brief Run Vector Similarity Dispatch.
+ * @param[in] dispatch Input parameter.
+ * @param[in] backend_type Input parameter.
+ * @param[in] ep_used Input parameter.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: AiInferenceResult(), validateSimilarityRequest(), distanceLauncherFor(), metricFromTaskTag(), std::min(), distance_matrix(), resize(), std::chrono::steady_clock::now().
+ */
 AiInferenceResult runVectorSimilarityDispatch(const ANNKernelDispatch &dispatch, BackendType backend_type,
                                               const std::string &ep_used, const AiInferenceRequest &req) {
     AiInferenceResult result = AiInferenceResult();
@@ -242,6 +270,12 @@ AiInferenceResult runVectorSimilarityDispatch(const ANNKernelDispatch &dispatch,
     return result;
 }
 
+/**
+ * @brief Run Cpu Vector Similarity.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: initialize(), runVectorSimilarityDispatch(), populateANNDispatch().
+ */
 AiInferenceResult runCpuVectorSimilarity(const AiInferenceRequest &req) {
     CPUVectorBackend backend;
     (void)backend.initialize();
@@ -249,6 +283,11 @@ AiInferenceResult runCpuVectorSimilarity(const AiInferenceRequest &req) {
 }
 } // namespace
 
+/**
+ * @brief Set Apple ANEDispatch Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lk(), std::move().
+ */
 void AiHardwareDispatcher::setAppleANEDispatchFn(AppleANEDispatchFn fn) {
     std::lock_guard<std::mutex> lk(s_apple_ane_dispatch_mutex);
     s_apple_ane_dispatch_fn = std::move(fn);
@@ -267,6 +306,11 @@ AiHardwareDispatcher &AiHardwareDispatcher::instance() {
 // Lifecycle
 // =============================================================================
 
+/**
+ * @brief Initialize.
+ * @param[in] force Input parameter.
+ * @details Calls: std::chrono::steady_clock::now(), lock(), load(), reserve(), push_back(), probeAppleANE(), probeIntelNPU(), probeQualcommQNN().
+ */
 void AiHardwareDispatcher::initialize(bool force) {
     auto now = std::chrono::steady_clock::now();
     {
@@ -316,6 +360,11 @@ void AiHardwareDispatcher::initialize(bool force) {
 // Capability query
 // =============================================================================
 
+/**
+ * @brief Probe Capabilities.
+ * @return Return value.
+ * @details Calls: initialize(), lock().
+ */
 std::vector<AiHardwareCapability> AiHardwareDispatcher::probeCapabilities() {
     initialize();
     std::unique_lock<std::shared_mutex> lock(mutex_);
@@ -323,6 +372,11 @@ std::vector<AiHardwareCapability> AiHardwareDispatcher::probeCapabilities() {
 }
 
 BackendType AiHardwareDispatcher::bestBackend() const noexcept {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(mutex_);
     for (const auto &c : capabilities_) {
         if (c.available) {
@@ -333,6 +387,11 @@ BackendType AiHardwareDispatcher::bestBackend() const noexcept {
 }
 
 std::string AiHardwareDispatcher::bestOnnxEP() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(mutex_);
     for (const auto &c : capabilities_) {
         if (c.available && !c.onnx_ep.empty()) {
@@ -343,6 +402,11 @@ std::string AiHardwareDispatcher::bestOnnxEP() const {
 }
 
 bool AiHardwareDispatcher::hasAccelerator() const noexcept {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(mutex_);
     for (const auto &c : capabilities_) {
         if (c.available && c.type != BackendType::CPU) {
@@ -353,6 +417,11 @@ bool AiHardwareDispatcher::hasAccelerator() const noexcept {
 }
 
 bool AiHardwareDispatcher::hasNPU() const noexcept {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(mutex_);
     for (const auto &c : capabilities_) {
         if (!c.available) {
@@ -370,6 +439,12 @@ bool AiHardwareDispatcher::hasNPU() const noexcept {
 // Inference dispatch
 // =============================================================================
 
+/**
+ * @brief Run.
+ * @param[in,out] req Input/output parameter.
+ * @return Return value.
+ * @details Calls: initialize(), lock(), hasPrecision(), THEMIS_DEBUG(), runOn(), THEMIS_WARN(), THEMIS_ERROR().
+ */
 AiInferenceResult AiHardwareDispatcher::run(AiInferenceRequest &req) {
     initialize();
 
@@ -415,6 +490,13 @@ AiInferenceResult AiHardwareDispatcher::run(AiInferenceRequest &req) {
     return err;
 }
 
+/**
+ * @brief Run On.
+ * @param[in] backend Input parameter.
+ * @param[in,out] req Input/output parameter.
+ * @return Return value.
+ * @details Calls: dispatchAppleANE(), dispatchIntelNPU(), dispatchQualcommQNN(), dispatchArmEthos(), dispatchNNAPI(), dispatchOnnxRuntime(), dispatchGpuFallback(), dispatchCpuFallback().
+ */
 AiInferenceResult AiHardwareDispatcher::runOn(BackendType backend, AiInferenceRequest &req) {
     switch (backend) {
         case BackendType::NPU_APPLE:
@@ -453,6 +535,11 @@ AiInferenceResult AiHardwareDispatcher::runOn(BackendType backend, AiInferenceRe
 // =============================================================================
 
 void AiHardwareDispatcher::logCapabilities() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(mutex_);
     THEMIS_INFO("AiHardwareDispatcher — probed backends (priority order):");
     for (const auto &c : capabilities_) {
@@ -694,16 +781,13 @@ AiHardwareCapability AiHardwareDispatcher::probeCpuFallback() const noexcept {
     return cap;
 }
 
-// =============================================================================
-// Dispatch helpers
-// =============================================================================
-// Each dispatch helper:
-//   1. Validates the request (non-null data, valid shape).
-//   2. Executes via the platform-native API.
-//   3. Returns a filled AiInferenceResult (success or error).
-//
-// Platform-conditional sections are gated identically to the probe helpers.
-// =============================================================================
+/**
+ * @brief ============================================================================= Dispatch helpers ============================================================================= Each dispatch helper: 1.
+ * @param[in] bt Input parameter.
+ * @param[in] msg Input parameter.
+ * @return Return value.
+ * @details Validates the request (non-null data, valid shape). 2. Executes via the platform-native API. 3. Returns a filled AiInferenceResult (success or error). Platform-conditional sections are gated identically to the probe helpers. ============================================================================= Implements makeError without additional internal calls.
+ */
 
 static AiInferenceResult makeError(BackendType bt, const std::string &msg) {
     AiInferenceResult r;
@@ -713,6 +797,12 @@ static AiInferenceResult makeError(BackendType bt, const std::string &msg) {
     return r;
 }
 
+/**
+ * @brief Dispatch Apple ANE.
+ * @param[in,out] req Input/output parameter.
+ * @return Return value.
+ * @details Calls: lk(), fn(), makeError(), std::string(), what(), defined(), std::chrono::steady_clock::now(), AiInferenceResult().
+ */
 AiInferenceResult AiHardwareDispatcher::dispatchAppleANE(AiInferenceRequest &req) {
     AppleANEDispatchFn fn;
     {
@@ -896,6 +986,12 @@ AiInferenceResult AiHardwareDispatcher::dispatchNNAPI([[maybe_unused]] AiInferen
 #endif // THEMIS_HAS_NNAPI
 }
 
+/**
+ * @brief Dispatch Onnx Runtime.
+ * @param[in,out] req Input/output parameter.
+ * @return Return value.
+ * @details Calls: defined(), makeError(), empty(), std::chrono::steady_clock::now(), AiInferenceResult(), OrtGetApiBase(), GetApi(), CreateEnv().
+ */
 AiInferenceResult AiHardwareDispatcher::dispatchOnnxRuntime(AiInferenceRequest &req) {
 #if defined(THEMIS_ORT_AVAILABLE)
     if (req.input_data == nullptr || req.input_elements == 0) {
@@ -1047,6 +1143,12 @@ AiInferenceResult AiHardwareDispatcher::dispatchOnnxRuntime(AiInferenceRequest &
 #endif
 }
 
+/**
+ * @brief Dispatch Gpu Fallback.
+ * @param[in,out] req Input/output parameter.
+ * @return Return value.
+ * @details Calls: isVectorSimilarityTask(), initialize(), THEMIS_WARN(), runCpuVectorSimilarity(), runVectorSimilarityDispatch(), populateANNDispatch(), THEMIS_DEBUG(), dispatchCpuFallback().
+ */
 AiInferenceResult AiHardwareDispatcher::dispatchGpuFallback(AiInferenceRequest &req) {
     if (isVectorSimilarityTask(req.task_tag)) {
 #ifdef THEMIS_ENABLE_CUDA
@@ -1073,6 +1175,12 @@ AiInferenceResult AiHardwareDispatcher::dispatchGpuFallback(AiInferenceRequest &
     return dispatchCpuFallback(req);
 }
 
+/**
+ * @brief Dispatch Cpu Fallback.
+ * @param[in,out] req Input/output parameter.
+ * @return Return value.
+ * @details Calls: isVectorSimilarityTask(), runCpuVectorSimilarity(), makeError(), std::chrono::steady_clock::now(), AiInferenceResult(), assign(), count().
+ */
 AiInferenceResult AiHardwareDispatcher::dispatchCpuFallback(AiInferenceRequest &req) {
     if (isVectorSimilarityTask(req.task_tag)) {
         return runCpuVectorSimilarity(req);

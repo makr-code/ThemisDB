@@ -32,6 +32,12 @@ namespace modules {
 
 namespace {
 
+/**
+ * @brief Status To String.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Implements statusToString without additional internal calls.
+ */
 static std::string statusToString(ABTestStatus s) {
     switch (s) {
         case ABTestStatus::ACTIVE:
@@ -46,6 +52,12 @@ static std::string statusToString(ABTestStatus s) {
     return "CANCELLED";
 }
 
+/**
+ * @brief Status From String.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Implements statusFromString without additional internal calls.
+ */
 static ABTestStatus statusFromString(const std::string &s) {
     if (s == "ACTIVE") {
         return ABTestStatus::ACTIVE;
@@ -59,6 +71,12 @@ static ABTestStatus statusFromString(const std::string &s) {
     return ABTestStatus::CANCELLED;
 }
 
+/**
+ * @brief Config To Json.
+ * @param[in] cfg Input parameter.
+ * @return Return value.
+ * @details Calls: count().
+ */
 static nlohmann::json configToJson(const ABModuleTestConfig &cfg) {
     return {{"test_id", cfg.test_id},
             {"module_name", cfg.module_name},
@@ -72,6 +90,12 @@ static nlohmann::json configToJson(const ABModuleTestConfig &cfg) {
             {"thompson_stop_threshold", cfg.thompson_stop_threshold}};
 }
 
+/**
+ * @brief Config From Json.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: value().
+ */
 static ABModuleTestConfig configFromJson(const nlohmann::json &j) {
     ABModuleTestConfig cfg;
     cfg.test_id                 = j.value("test_id", "");
@@ -103,14 +127,28 @@ ABTestManager::~ABTestManager() = default;
 // Observability & persistence wiring
 // =============================================================================
 
+/**
+ * @brief Set Storage Engine.
+ * @param[in,out] engine Input/output parameter.
+ * @details Implements setStorageEngine without additional internal calls.
+ */
 void ABTestManager::setStorageEngine(IStorageEngine *engine) {
     storage_engine_ = engine;
 }
 
+/**
+ * @brief Set Metrics Collector.
+ * @param[in,out] metrics Input/output parameter.
+ * @details Implements setMetricsCollector without additional internal calls.
+ */
 void ABTestManager::setMetricsCollector(observability::MetricsCollector *metrics) {
     metrics_collector_ = metrics;
 }
 
+/**
+ * @brief Start.
+ * @details Calls: scanPrefix(), nlohmann::json::parse(), configFromJson(), at(), statusFromString(), value(), std::chrono::system_clock::now(), empty().
+ */
 void ABTestManager::start() {
     if (!storage_engine_) {
         return;
@@ -176,6 +214,13 @@ void ABTestManager::start() {
 // Test lifecycle
 // =============================================================================
 
+/**
+ * @brief Start Test.
+ * @param[in] config Input parameter.
+ * @param[in,out] loader Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), find(), end(), spdlog::warn(), treatmentKey(), loadModule(), spdlog::info(), unloadModule().
+ */
 bool ABTestManager::startTest(const ABModuleTestConfig &config, ModuleLoader &loader) {
     // First check: reject truly duplicate test IDs (not just persisted-only ones).
     {
@@ -250,6 +295,12 @@ bool ABTestManager::startTest(const ABModuleTestConfig &config, ModuleLoader &lo
     return true;
 }
 
+/**
+ * @brief Promote Test.
+ * @param[in] test_id Identifier of the test.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), find(), end(), spdlog::error(), spdlog::warn(), unloadTreatment(), reloadModule(), persistTestEntry().
+ */
 bool ABTestManager::promoteTest(const std::string &test_id) {
     // Capture the information we need under the lock, then do the I/O outside.
     std::string module_name = {};
@@ -312,6 +363,12 @@ bool ABTestManager::promoteTest(const std::string &test_id) {
     return reload_ok;
 }
 
+/**
+ * @brief Rollback Test.
+ * @param[in] test_id Identifier of the test.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), find(), end(), spdlog::error(), spdlog::warn(), unloadTreatment(), persistTestEntry(), spdlog::info().
+ */
 bool ABTestManager::rollbackTest(const std::string &test_id) {
     TestEntry entry_snap;
     {
@@ -337,6 +394,11 @@ bool ABTestManager::rollbackTest(const std::string &test_id) {
     return true;
 }
 
+/**
+ * @brief Cancel Test.
+ * @param[in] test_id Identifier of the test.
+ * @details Calls: lock(), find(), end(), unloadTreatment(), persistTestEntry(), spdlog::info().
+ */
 void ABTestManager::cancelTest(const std::string &test_id) {
     TestEntry entry_snap;
     bool did_cancel = false;
@@ -365,6 +427,11 @@ void ABTestManager::cancelTest(const std::string &test_id) {
 // =============================================================================
 
 bool ABTestManager::shouldUseTreatment(const std::string &test_id, const std::string &request_key) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     auto it = tests_.find(test_id);
@@ -378,6 +445,11 @@ bool ABTestManager::shouldUseTreatment(const std::string &test_id, const std::st
 }
 
 bool ABTestManager::isTreatmentLoaded(const std::string &test_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     auto it = tests_.find(test_id);
@@ -388,6 +460,14 @@ bool ABTestManager::isTreatmentLoaded(const std::string &test_id) const {
 // Metrics recording
 // =============================================================================
 
+/**
+ * @brief Record Outcome.
+ * @param[in] test_id Identifier of the test.
+ * @param[in] is_treatment Input parameter.
+ * @param[in] success Input parameter.
+ * @param[in] latency_ms Input parameter.
+ * @details Calls: lock(), find(), end(), std::max(), std::sqrt(), addCounter(), setGauge(), persistTestEntry().
+ */
 void ABTestManager::recordOutcome(const std::string &test_id, bool is_treatment, bool success, double latency_ms) {
     // Values captured under the mutex for out-of-lock use.
     bool emit_metrics   = false;
@@ -505,6 +585,11 @@ void ABTestManager::recordOutcome(const std::string &test_id, bool is_treatment,
 // =============================================================================
 
 ABModuleTestResult ABTestManager::evaluateTest(const std::string &test_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     ABModuleTestResult result;
@@ -541,12 +626,22 @@ ABModuleTestResult ABTestManager::evaluateTest(const std::string &test_id) const
 // =============================================================================
 
 ABTestStatus ABTestManager::getTestStatus(const std::string &test_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = tests_.find(test_id);
     return (it != tests_.end()) ? it->second.status : ABTestStatus::CANCELLED;
 }
 
 std::vector<std::string> ABTestManager::getActiveTests() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     std::vector<std::string> active = {};
 
@@ -559,18 +654,33 @@ std::vector<std::string> ABTestManager::getActiveTests() const {
 }
 
 ABVariantMetrics ABTestManager::getControlMetrics(const std::string &test_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = tests_.find(test_id);
     return (it != tests_.end()) ? it->second.control.metrics : ABVariantMetrics{};
 }
 
 ABVariantMetrics ABTestManager::getTreatmentMetrics(const std::string &test_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = tests_.find(test_id);
     return (it != tests_.end()) ? it->second.treatment.metrics : ABVariantMetrics{};
 }
 
 std::vector<ABTestMetricRow> ABTestManager::exportMetricsSnapshot() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     std::vector<ABTestMetricRow> rows = {};
@@ -604,6 +714,11 @@ std::vector<ABTestMetricRow> ABTestManager::exportMetricsSnapshot() const {
     return module_name + "__ab_treatment__";
 }
 
+/**
+ * @brief Unload Treatment.
+ * @param[in,out] entry Input/output parameter.
+ * @details Calls: unloadModule(), treatmentKey().
+ */
 void ABTestManager::unloadTreatment(TestEntry &entry) {
     if (entry.treatment_loaded && entry.loader_ptr) {
         entry.loader_ptr->unloadModule(treatmentKey(entry.config.module_name));

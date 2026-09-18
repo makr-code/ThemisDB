@@ -32,6 +32,14 @@ namespace training {
 // ============================================================================
 namespace detail {
 
+/**
+ * @brief Sanitize Training Prompt Surface.
+ * @param[in] input Input parameter.
+ * @param[in,out] sanitized Input/output parameter.
+ * @param[in,out] blocked_rule Input/output parameter.
+ * @param[in,out] blocked_reason Input/output parameter.
+ * @return True when the operation succeeds.
+ */
 static bool sanitizeTrainingPromptSurface(
     const std::string& input,
     std::string& sanitized,
@@ -56,7 +64,12 @@ static size_t countChar(const std::string& s, char c) noexcept {
     return n;
 }
 
-// Split a string by a delimiter character
+/**
+ * @brief Split a string by a delimiter character
+ * @param[in] text Input parameter.
+ * @return Return value.
+ * @details Calls: stream(), std::getline(), push_back(), std::move().
+ */
 static std::vector<std::string> splitLines(const std::string& text) {
     std::vector<std::string> lines;
     std::istringstream stream(text);
@@ -70,7 +83,12 @@ static std::vector<std::string> splitLines(const std::string& text) {
 // Trim leading/trailing ASCII whitespace
 // Using themis::utils::trim() from string_utils.h (Phase 1 consolidation)
 
-// Return true if the line looks like part of a pipe-delimited table row
+/**
+ * @brief Return true if the line looks like part of a pipe-delimited table row
+ * @param[in] line Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: themis::utils::trim(), empty(), front(), back(), countChar().
+ */
 static bool isPipeTableRow(const std::string& line) {
     std::string t = themis::utils::trim(line);
     if (t.empty()) {
@@ -79,7 +97,12 @@ static bool isPipeTableRow(const std::string& line) {
     return (((t.front() == '|' || t.back() == '|') && countChar(t, '|') >= 2));
 }
 
-// Return true if the line consists primarily of dashes (table separator)
+/**
+ * @brief Return true if the line consists primarily of dashes (table separator)
+ * @param[in] line Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: themis::utils::trim(), empty(), countChar().
+ */
 static bool isTableSeparator(const std::string& line) {
     std::string t = themis::utils::trim(line);
     if (t.empty()) {
@@ -93,8 +116,12 @@ static bool isTableSeparator(const std::string& line) {
     return countChar(t, '-') >= 3;
 }
 
-// Check whether a line looks like a whitespace-aligned table line:
-// multiple consecutive-space runs of ≥3 characters separating words
+/**
+ * @brief Check whether a line looks like a whitespace-aligned table line: multiple consecutive-space runs of ≥3 characters separating words
+ * @param[in] line Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: size().
+ */
 static bool isAlignedTableRow(const std::string& line) {
     const std::string& t = line;
     if (t.size() < 10) {
@@ -149,8 +176,12 @@ static const std::regex RE_EU_CITATION(
 // Sentence splitter for German legal text
 // ============================================================================
 
-// Split text into sentences using common German legal sentence boundaries.
-// Avoids splitting on abbreviations ("Abs.", "Nr.", "Art.", numbers).
+/**
+ * @brief Split text into sentences using common German legal sentence boundaries.
+ * @param[in] text Input parameter.
+ * @return Return value.
+ * @details Avoids splitting on abbreviations ("Abs.", "Nr.", "Art.", numbers). Calls: empty(), RE_ABBREV(), reserve(), size(), std::isupper(), themis::utils::trim(), std::regex_search(), push_back().
+ */
 static std::vector<std::string> splitSentences(const std::string& text) {
     std::vector<std::string> sentences = {};
 
@@ -215,6 +246,11 @@ struct TableBlock {
     std::string content; ///< Raw table text
 };
 
+/**
+ * @brief Detect Table Blocks.
+ * @param[in] lines Input parameter.
+ * @return Return value.
+ */
 static std::vector<TableBlock> detectTableBlocks(
     const std::vector<std::string>& lines)
 {
@@ -527,9 +563,13 @@ OCRExtractor::extract(const std::string& image_path,
 // ModalityDetector::Impl
 // ============================================================================
 
-/** @brief ModalityDetector::Impl. */
 class ModalityDetector::Impl {
 public:
+    /**
+     * @brief Impl.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit Impl(const ModalityParserConfig& config)
         : config_(config)
         , text_extractor_(config)

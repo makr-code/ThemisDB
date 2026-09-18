@@ -18,7 +18,13 @@
 namespace themis {
 namespace graph {
 
-// ─── GraphWatermark ───────────────────────────────────────────────────────
+/**
+ * @brief ─── GraphWatermark ───────────────────────────────────────────────────────
+ * @param[in] tenant_id Identifier of the tenant.
+ * @param[in] seed Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), push_back(), str().
+ */
 
 std::vector<std::string> GraphWatermark::generateWatermarkIds(const std::string &tenant_id, uint64_t seed) {
     const int k = static_cast<int>(seed % 5) + 3; // k ∈ [3, 7]
@@ -32,6 +38,13 @@ std::vector<std::string> GraphWatermark::generateWatermarkIds(const std::string 
     return ids;
 }
 
+/**
+ * @brief Has Collision.
+ * @param[in] snapshot Input parameter.
+ * @param[in] wm_ids Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: existing(), begin(), end(), count().
+ */
 bool GraphWatermark::hasCollision(const GraphSnapshot &snapshot, const std::vector<std::string> &wm_ids) {
     const std::unordered_set<std::string> existing(snapshot.node_ids.begin(), snapshot.node_ids.end());
     for (const auto &id : wm_ids) {
@@ -83,7 +96,13 @@ WatermarkedSnapshot GraphWatermark::embed(const GraphSnapshot &snapshot, const s
     return result;
 }
 
-// ─── GraphFingerprintDetector ─────────────────────────────────────────────
+/**
+ * @brief ─── GraphFingerprintDetector ─────────────────────────────────────────────
+ * @param[in] a Input parameter.
+ * @param[in] b Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), set_a(), begin(), end(), count(), size().
+ */
 
 double GraphFingerprintDetector::jaccard(const std::vector<std::string> &a, const std::vector<std::string> &b) {
     if (a.empty() && b.empty()) {

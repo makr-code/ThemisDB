@@ -30,7 +30,12 @@ struct CoherenceEvaluator::Impl {
     ResponseParser parser;
     mutable std::mutex state_mutex;  // Protect shared state access
     
-    // Calculate readability score (Flesch-like metric)
+    /**
+     * @brief Calculate readability score (Flesch-like metric)
+     * @param[in] text Input parameter.
+     * @return Return value.
+     * @details Calls: empty(), sentence_regex(), std::sregex_iterator(), begin(), end(), std::distance(), stream(), std::max().
+     */
     double calculateReadability(const std::string& text) {
         if (text.empty()) {
           return 0.0;
@@ -77,7 +82,12 @@ struct CoherenceEvaluator::Impl {
         return std::max(0.0, readability);
     }
     
-    // Check for transition words
+    /**
+     * @brief Check for transition words
+     * @param[in] text Input parameter.
+     * @return Return value.
+     * @details Calls: std::transform(), begin(), end(), find(), length().
+     */
     size_t countTransitionWords(const std::string& text) {
         std::vector<std::string> transitions = {
             "however", "moreover", "furthermore", "therefore", "thus",
@@ -122,6 +132,12 @@ CoherenceEvaluator::CoherenceEvaluator(const Config& config)
 
 CoherenceEvaluator::~CoherenceEvaluator() = default;
 
+/**
+ * @brief Analyze Logical Flow.
+ * @param[in] answer Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), sentence_regex(), std::sregex_iterator(), begin(), end(), std::distance(), countTransitionWords(), connector_regex().
+ */
 double CoherenceEvaluator::analyzeLogicalFlow(const std::string& answer) {
     if (answer.empty()) {
         return 0.0;
@@ -169,6 +185,12 @@ double CoherenceEvaluator::analyzeLogicalFlow(const std::string& answer) {
     return flow_score;
 }
 
+/**
+ * @brief Assess Structure.
+ * @param[in] answer Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), std::count(), begin(), end(), sentence_regex(), std::sregex_iterator(), std::distance(), list_regex().
+ */
 double CoherenceEvaluator::assessStructure(const std::string& answer) {
     if (answer.empty()) {
         return 0.0;
@@ -220,6 +242,12 @@ double CoherenceEvaluator::assessStructure(const std::string& answer) {
     return structure_score;
 }
 
+/**
+ * @brief Evaluate Linguistic Quality.
+ * @param[in] answer Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), calculateReadability(), std::transform(), begin(), end(), stream(), length(), sentence_regex().
+ */
 double CoherenceEvaluator::evaluateLinguisticQuality(const std::string& answer) {
     if (answer.empty()) {
         return 0.0;
@@ -281,6 +309,12 @@ double CoherenceEvaluator::evaluateLinguisticQuality(const std::string& answer) 
     return linguistic_score;
 }
 
+/**
+ * @brief Detect Contradictions.
+ * @param[in] answer Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), sentence_regex(), std::sregex_iterator(), begin(), end(), reserve(), std::max(), size_t().
+ */
 std::vector<std::string> CoherenceEvaluator::detectContradictions(const std::string& answer) {
     std::vector<std::string> contradictions;
     
@@ -395,6 +429,12 @@ std::vector<std::string> CoherenceEvaluator::detectContradictions(const std::str
     return contradictions;
 }
 
+/**
+ * @brief Evaluate.
+ * @param[in] answer Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), analyzeLogicalFlow(), assessStructure(), evaluateLinguisticQuality(), detectContradictions(), std::min(), size(), std::max().
+ */
 CoherenceResult CoherenceEvaluator::evaluate(const std::string& answer) {
     CoherenceResult result = {};
     

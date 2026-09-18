@@ -37,19 +37,32 @@ struct RangerClientConfig {
     long retry_backoff_ms = 500;    // initial backoff between retries, exponential
 };
 
-/** @brief Ranger client component. */
 class RangerClient {
 public:
+    /**
+     * @brief Ranger Client.
+     * @param[in] cfg Input parameter.
+     * @return Return value.
+     */
     explicit RangerClient(RangerClientConfig cfg);
 
     // Fetch policies for configured service from Ranger REST API
     // Returns parsed JSON array/object on success.
     std::optional<nlohmann::json> fetchPolicies(std::string* err = nullptr) const;
 
-    // Convert Ranger policies JSON to internal PolicyEngine::Policy vector
+    /**
+     * @brief Convert From Ranger.
+     * @param[in] rangerJson Input parameter.
+     * @return Return value.
+     */
     static std::vector<themis::PolicyEngine::Policy> convertFromRanger(const nlohmann::json& rangerJson);
 
-    // Convert internal policies to a minimal Ranger-like JSON
+    /**
+     * @brief Convert To Ranger.
+     * @param[in] policies Input parameter.
+     * @param[in] service_name Name of the service.
+     * @return Return value.
+     */
     static nlohmann::json convertToRanger(const std::vector<themis::PolicyEngine::Policy>& policies,
                                           const std::string& service_name);
 

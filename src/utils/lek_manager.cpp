@@ -196,11 +196,6 @@ void LEKManager::ensureLEKExists(const std::string& date_str) {
             auto encrypted_lek_json = nlohmann::json::parse(*encrypted_lek_opt);
             auto blob = themis::EncryptedBlob::fromJson(encrypted_lek_json);
             
-            /**
-             * @brief Enc.
-             * @param[in] key_provider_ Input parameter.
-             * @return Return value.
-             */
             FieldEncryption enc(key_provider_);
             auto lek_bytes = enc.decrypt(blob);
             
@@ -222,11 +217,6 @@ void LEKManager::ensureLEKExists(const std::string& date_str) {
             throw std::runtime_error("Failed to generate random LEK");
         }
         
-        /**
-         * @brief Encrypt with KEK
-         * @param[in] key_provider_ Input parameter.
-         * @return Return value.
-         */
         FieldEncryption enc(key_provider_);
         std::string lek_plaintext(lek.begin(), lek.end());
         auto encrypted_lek = enc.encrypt(lek_plaintext, kek_key_id_);
@@ -262,11 +252,6 @@ void LEKManager::ensureLEKExists(const std::string& date_str) {
  * @details Calls: lk(), getCurrentDateString(), find(), end(), ensureLEKExists(), lekKeyId().
  */
 std::string LEKManager::getCurrentLEK() {
-    /**
-     * @brief Lk.
-     * @param[in] mu_ Input parameter.
-     * @return Return value.
-     */
     std::scoped_lock lk(mu_);
     auto date_str = getCurrentDateString();
     
@@ -291,11 +276,6 @@ std::string LEKManager::getCurrentLEK() {
  * @details Calls: lk(), find(), end(), ensureLEKExists(), lekKeyId().
  */
 std::string LEKManager::getLEKForDate(const std::string& date_str) {
-    /**
-     * @brief Lk.
-     * @param[in] mu_ Input parameter.
-     * @return Return value.
-     */
     std::scoped_lock lk(mu_);
     
     // Check cache
@@ -325,11 +305,6 @@ std::string LEKManager::getLEKForDate(const std::string& date_str) {
  * @details Calls: lk(), getCurrentDateString(), erase(), del(), dbKey(), ensureLEKExists(), lekKeyId().
  */
 void LEKManager::rotate() {
-    /**
-     * @brief Lk.
-     * @param[in] mu_ Input parameter.
-     * @return Return value.
-     */
     std::scoped_lock lk(mu_);
     auto date_str = getCurrentDateString();
     
@@ -346,21 +321,16 @@ void LEKManager::rotate() {
     lek_cache_[date_str] = lekKeyId(date_str);
 }
 
+
 /**
- * @brief ───────────────────────────────────────────────────────────────────────────── Phase 5: Key Lifecycle – Revocation & Expiry ─────────────────────────────────────────────────────────────────────────────
+ * @brief Revoke Key.
  * @param[in] date_str Input parameter.
- * @return True on success.
+ * @return True when the operation succeeds.
  * @details Calls: rlk(), insert(), put().
  */
-
 bool LEKManager::revokeKey(const std::string& date_str) {
     // Mark in-memory
     {
-        /**
-         * @brief Rlk.
-         * @param[in] revocation_mu_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> rlk(revocation_mu_);
         revoked_keys_.insert(date_str);
     }
@@ -404,7 +374,7 @@ std::vector<std::string> LEKManager::getRevokedKeys() const {
  * @brief Is Expired.
  * @param[in] date_str Input parameter.
  * @param[in] max_age_days Input parameter.
- * @return True on success.
+ * @return True when the operation succeeds.
  * @details Calls: size(), std::stoi(), substr(), std::chrono::system_clock::from_time_t(), std::mktime(), std::chrono::system_clock::now(), count().
  */
 bool LEKManager::isExpired(const std::string& date_str, int max_age_days) {
@@ -439,7 +409,7 @@ bool LEKManager::isExpired(const std::string& date_str, int max_age_days) {
  * @brief Migrate Key.
  * @param[in] old_date Input parameter.
  * @param[in] new_date Input parameter.
- * @return True on success.
+ * @return True when the operation succeeds.
  * @details Calls: dbKey(), get(), put(), lk(), count(), lekKeyId().
  */
 bool LEKManager::migrateKey(const std::string& old_date, const std::string& new_date) {
@@ -460,11 +430,6 @@ bool LEKManager::migrateKey(const std::string& old_date, const std::string& new_
 
         // Update in-memory cache
         {
-            /**
-             * @brief Lk.
-             * @param[in] mu_ Input parameter.
-             * @return Return value.
-             */
             std::scoped_lock lk(mu_);
             if (lek_cache_.count(old_date)) {
                 lek_cache_[new_date] = lekKeyId(new_date);
@@ -480,18 +445,13 @@ bool LEKManager::migrateKey(const std::string& old_date, const std::string& new_
     }
 }
 
+
 /**
- * @brief ───────────────────────────────────────────────────────────────────────────── Automated Key Rotation ─────────────────────────────────────────────────────────────────────────────
+ * @brief Set Audit Logger.
  * @param[in] logger Input parameter.
  * @details Calls: lk(), std::move().
  */
-
 void LEKManager::setAuditLogger(std::shared_ptr<AuditLogger> logger) {
-    /**
-     * @brief Lk.
-     * @param[in] audit_mu_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lk(audit_mu_);
     audit_logger_ = std::move(logger);
 }
@@ -514,11 +474,6 @@ void LEKManager::startAutoRotation(std::chrono::seconds check_interval,
     }
 
     {
-        /**
-         * @brief Lk.
-         * @param[in] rotation_cv_mu_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lk(rotation_cv_mu_);
         rotation_stop_ = false;
     }
@@ -533,11 +488,6 @@ void LEKManager::startAutoRotation(std::chrono::seconds check_interval,
  */
 void LEKManager::stopAutoRotation() {
     {
-        /**
-         * @brief Lk.
-         * @param[in] rotation_cv_mu_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lk(rotation_cv_mu_);
         rotation_stop_ = true;
     }
@@ -563,11 +513,6 @@ void LEKManager::autoRotationLoop(std::chrono::seconds check_interval,
     while (true) {
         // Sleep for the configured interval or until stopped
         {
-            /**
-             * @brief Lk.
-             * @param[in] rotation_cv_mu_ Input parameter.
-             * @return Return value.
-             */
             std::unique_lock<std::mutex> lk(rotation_cv_mu_);
             bool stopped = rotation_cv_.wait_for(
                 lk, check_interval, [this] { return rotation_stop_; });
@@ -587,11 +532,6 @@ void LEKManager::autoRotationLoop(std::chrono::seconds check_interval,
             // Collect any cached keys that have exceeded max_age_days
             std::vector<std::string> to_revoke;
             {
-                /**
-                 * @brief Lk.
-                 * @param[in] mu_ Input parameter.
-                 * @return Return value.
-                 */
                 std::scoped_lock lk(mu_);
                 for (const auto& [cached_date, key_id] : lek_cache_) {
                     if (cached_date != date_str &&
@@ -608,11 +548,6 @@ void LEKManager::autoRotationLoop(std::chrono::seconds check_interval,
 
                 std::shared_ptr<AuditLogger> logger;
                 {
-                    /**
-                     * @brief Alk.
-                     * @param[in] audit_mu_ Input parameter.
-                     * @return Return value.
-                     */
                     std::lock_guard<std::mutex> alk(audit_mu_);
                     logger = audit_logger_;
                 }

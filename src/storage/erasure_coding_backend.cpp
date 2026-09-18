@@ -201,6 +201,12 @@ std::vector<uint8_t> ErasureCodingBackend::decode(
 // High-level put / get
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Put.
+ * @param[in] blob_id Identifier of the blob.
+ * @param[in] data Input parameter.
+ * @details Calls: encode(), lock(), size(), clear(), std::move().
+ */
 void ErasureCodingBackend::put(
     const std::string&          blob_id,
     const std::vector<uint8_t>& data
@@ -222,9 +228,12 @@ void ErasureCodingBackend::put(
 std::optional<std::vector<uint8_t>> ErasureCodingBackend::get(
     const std::string& blob_id
 ) const {
-    // lock_in_loop scanner alert: this lock is also taken once before the
-    // reconstruction loop over entry.chunks, not inside that loop — false
-    // positive.
+    /**
+     * @brief lock_in_loop scanner alert: this lock is also taken once before the reconstruction loop over entry.
+     * @param[in] store_mutex_ Input parameter.
+     * @return Return value.
+     * @details chunks, not inside that loop — false positive.
+     */
     std::lock_guard<std::mutex> lock(store_mutex_);
 
     auto it = store_.find(blob_id);
@@ -264,11 +273,23 @@ std::optional<std::vector<uint8_t>> ErasureCodingBackend::get(
     }
 }
 
+/**
+ * @brief Remove.
+ * @param[in] blob_id Identifier of the blob.
+ * @details Calls: lock(), erase().
+ */
 void ErasureCodingBackend::remove(const std::string& blob_id) {
     std::lock_guard<std::mutex> lock(store_mutex_);
     store_.erase(blob_id);
 }
 
+/**
+ * @brief Drop Shard.
+ * @param[in] blob_id Identifier of the blob.
+ * @param[in] shard_index Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), find(), end(), erase().
+ */
 bool ErasureCodingBackend::dropShard(
     const std::string& blob_id,
     uint32_t           shard_index
@@ -296,6 +317,11 @@ bool ErasureCodingBackend::dropShard(
 uint32_t ErasureCodingBackend::availableShardCount(
     const std::string& blob_id
 ) const {
+    /**
+     * @brief Lock.
+     * @param[in] store_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(store_mutex_);
 
     auto it = store_.find(blob_id);

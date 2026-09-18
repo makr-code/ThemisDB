@@ -61,7 +61,12 @@ namespace replication {
 // Histogram bucket construction
 // ---------------------------------------------------------------------------
 
-/*static*/
+/**
+ * @brief static
+ * @param[in] max_lag_ms Input parameter.
+ * @param[in] buckets Input parameter.
+ * @return Return value.
+ */
 std::vector<double> AsyncWalShipper::buildHistogramBounds(
     uint32_t max_lag_ms,
     uint32_t buckets)
@@ -98,6 +103,11 @@ AsyncWalShipper::AsyncWalShipper(WalShippingConfig config)
 {
     // Default no-op ship handler: count bytes, always succeed.
     ship_handler_ = [this](const WalSegment& seg) -> bool {
+        /**
+         * @brief Lock.
+         * @param[in] stats_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(stats_mutex_);
         stats_.bytes_shipped += seg.data.size();
         ++stats_.segments_shipped;
@@ -117,14 +127,32 @@ AsyncWalShipper::~AsyncWalShipper()
 // Configuration
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Set Alert Callback.
+ * @param[in] cb Input parameter.
+ */
 void AsyncWalShipper::setAlertCallback(AlertCallback cb)
 {
+    /**
+     * @brief Lock.
+     * @param[in] callback_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(callback_mutex_);
     alert_cb_ = std::move(cb);
 }
 
+/**
+ * @brief Set Ship Handler.
+ * @param[in] handler Input parameter.
+ */
 void AsyncWalShipper::setShipHandler(ShipHandler handler)
 {
+    /**
+     * @brief Lock.
+     * @param[in] callback_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(callback_mutex_);
     ship_handler_ = std::move(handler);
 }
@@ -133,12 +161,26 @@ void AsyncWalShipper::setShipHandler(ShipHandler handler)
 // Segment ingestion
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Enqueue Segment.
+ * @param[in] segment Input parameter.
+ * @return True when the operation succeeds.
+ */
 bool AsyncWalShipper::enqueueSegment(WalSegment segment)
 {
+    /**
+     * @brief Lock.
+     * @param[in] queue_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::unique_lock<std::mutex> lock(queue_mutex_);
 
     if (segment_queue_.size() >= config_.max_queue_depth) {
-        // Queue full: drop and account
+        /**
+         * @brief Queue full: drop and account
+         * @param[in] stats_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> sl(stats_mutex_);
         ++stats_.segments_dropped;
         return false;
@@ -148,6 +190,11 @@ bool AsyncWalShipper::enqueueSegment(WalSegment segment)
     segment_queue_.push(std::move(segment));
 
     {
+        /**
+         * @brief Sl.
+         * @param[in] stats_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> sl(stats_mutex_);
         ++stats_.segments_enqueued;
         stats_.bytes_enqueued += bytes;
@@ -164,12 +211,22 @@ bool AsyncWalShipper::enqueueSegment(WalSegment segment)
 
 WalShippingStats AsyncWalShipper::stats() const
 {
+    /**
+     * @brief Lock.
+     * @param[in] stats_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(stats_mutex_);
     return stats_;
 }
 
 int64_t AsyncWalShipper::currentLagMs() const
 {
+    /**
+     * @brief Lock.
+     * @param[in] queue_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(queue_mutex_);
     if (segment_queue_.empty()) {
       return 0;
@@ -192,6 +249,11 @@ std::string AsyncWalShipper::exportPrometheusMetrics() const
 
     // Histogram: replication_wal_lag_ms
     {
+        /**
+         * @brief Lock.
+         * @param[in] histogram_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(histogram_mutex_);
 
         oss << "# HELP replication_wal_lag_ms "
@@ -252,9 +314,17 @@ std::string AsyncWalShipper::exportPrometheusMetrics() const
 // Lifecycle
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Stop.
+ */
 void AsyncWalShipper::stop()
 {
     {
+        /**
+         * @brief Lock.
+         * @param[in] queue_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(queue_mutex_);
         stop_requested_.store(true, std::memory_order_relaxed);
     }
@@ -269,6 +339,9 @@ void AsyncWalShipper::stop()
 // Background worker
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Worker Loop.
+ */
 void AsyncWalShipper::workerLoop()
 {
     // Default timeout for condition variable: 1 second
@@ -278,6 +351,11 @@ void AsyncWalShipper::workerLoop()
     while (true) {
         WalSegment seg;
         {
+            /**
+             * @brief Lock.
+             * @param[in] queue_mutex_ Input parameter.
+             * @return Return value.
+             */
             std::unique_lock<std::mutex> lock(queue_mutex_);
             // Wait with timeout to ensure periodic wake-up even if not notified
             queue_cv_.wait_for(lock, cv_timeout, [this] {
@@ -301,6 +379,10 @@ void AsyncWalShipper::workerLoop()
     }
 }
 
+/**
+ * @brief Dispatch Segment.
+ * @param[in] seg Input parameter.
+ */
 void AsyncWalShipper::dispatchSegment(const WalSegment& seg)
 {
     const auto now     = std::chrono::steady_clock::now();
@@ -312,6 +394,11 @@ void AsyncWalShipper::dispatchSegment(const WalSegment& seg)
 
     // Update current lag metrics atomically
     {
+        /**
+         * @brief Lock.
+         * @param[in] stats_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(stats_mutex_);
         stats_.current_lag_ms = lag;
         if (lag > stats_.max_observed_lag_ms) {
@@ -324,6 +411,11 @@ void AsyncWalShipper::dispatchSegment(const WalSegment& seg)
     if (lag > static_cast<int64_t>(config_.max_lag_ms)) {
         AlertCallback cb;
         {
+            /**
+             * @brief Lock.
+             * @param[in] callback_mutex_ Input parameter.
+             * @return Return value.
+             */
             std::lock_guard<std::mutex> lock(callback_mutex_);
             cb = alert_cb_;
         }
@@ -335,6 +427,11 @@ void AsyncWalShipper::dispatchSegment(const WalSegment& seg)
             }
         }
 
+        /**
+         * @brief Lock.
+         * @param[in] stats_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(stats_mutex_);
         ++stats_.lag_alerts_fired;
     }
@@ -343,6 +440,11 @@ void AsyncWalShipper::dispatchSegment(const WalSegment& seg)
     // Lag threshold is telemetry/alerting only: shipping must still be attempted.
     ShipHandler handler;
     {
+        /**
+         * @brief Lock.
+         * @param[in] callback_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(callback_mutex_);
         handler = ship_handler_;
     }
@@ -351,14 +453,27 @@ void AsyncWalShipper::dispatchSegment(const WalSegment& seg)
         // bytes_shipped / segments_shipped updated inside default handler;
         // for custom handlers we update bytes here if not already counted.
     } else {
-        // No handler installed: account as dropped segment.
+        /**
+         * @brief No handler installed: account as dropped segment.
+         * @param[in] stats_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(stats_mutex_);
         ++stats_.segments_dropped;
     }
 }
 
+/**
+ * @brief Record Lag Sample.
+ * @param[in] lag_ms Input parameter.
+ */
 void AsyncWalShipper::recordLagSample(int64_t lag_ms)
 {
+    /**
+     * @brief Lock.
+     * @param[in] histogram_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(histogram_mutex_);
     histogram_sum_ms_ += static_cast<uint64_t>(lag_ms < 0 ? 0 : lag_ms);
 

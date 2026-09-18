@@ -84,11 +84,11 @@ public:
     ExpertSystemEngine(const ExpertSystemEngine&)            = delete;
     ExpertSystemEngine& operator=(const ExpertSystemEngine&) = delete;
 
+
     /**
-     * @brief ── KnowledgeBase access ──────────────────────────────────────────────────
+     * @brief Set Knowledge Base.
      * @param[in] kb Input parameter.
      */
-
     void setKnowledgeBase(std::shared_ptr<KnowledgeBase> kb);
 
     [[nodiscard]] KnowledgeBase& knowledgeBase();

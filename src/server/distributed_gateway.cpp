@@ -39,6 +39,12 @@ nlohmann::json GatewayRouteConfig::toJson() const {
     };
 }
 
+/**
+ * @brief From Json.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: value().
+ */
 GatewayRouteConfig GatewayRouteConfig::fromJson(const nlohmann::json& j) {
     GatewayRouteConfig cfg;
     cfg.path_prefix   = j.value("path_prefix",   "");
@@ -78,6 +84,12 @@ nlohmann::json ClusterGatewayConfig::toJson() const {
     };
 }
 
+/**
+ * @brief From Json.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: value(), contains(), std::chrono::system_clock::from_time_t(), is_array(), push_back(), is_object(), begin(), end().
+ */
 ClusterGatewayConfig ClusterGatewayConfig::fromJson(const nlohmann::json& j) {
     ClusterGatewayConfig cfg;
     cfg.version              = j.value("version", static_cast<uint64_t>(0));
@@ -112,7 +124,13 @@ ClusterGatewayConfig ClusterGatewayConfig::fromJson(const nlohmann::json& j) {
 ConsistentHashRing::ConsistentHashRing(uint32_t virtual_nodes)
     : virtual_nodes_(virtual_nodes) {}
 
-// FNV-1a 64-bit hash with a replica seed suffix for virtual nodes.
+/**
+ * @brief FNV-1a 64-bit hash with a replica seed suffix for virtual nodes.
+ * @param[in] key Input parameter.
+ * @param[in] replica Input parameter.
+ * @return Return value.
+ * @details Calls: std::to_string().
+ */
 uint64_t ConsistentHashRing::hash(const std::string& key, uint32_t replica) {
     static constexpr uint64_t kFNVOffset = 14695981039346656037;
     static constexpr uint64_t kFNVPrime  = 1099511628211;
@@ -126,6 +144,11 @@ uint64_t ConsistentHashRing::hash(const std::string& key, uint32_t replica) {
     return h;
 }
 
+/**
+ * @brief Add Node.
+ * @param[in] node Input parameter.
+ * @details Calls: lock(), hash(), spdlog::debug().
+ */
 void ConsistentHashRing::addNode(const GatewayNode& node) {
     std::unique_lock lock(mutex_);
     for (uint32_t i = 0; i < virtual_nodes_; ++i) {
@@ -136,6 +159,11 @@ void ConsistentHashRing::addNode(const GatewayNode& node) {
                   node.node_id, virtual_nodes_);
 }
 
+/**
+ * @brief Remove Node.
+ * @param[in] node_id Identifier of the node.
+ * @details Calls: lock(), hash(), erase(), spdlog::debug().
+ */
 void ConsistentHashRing::removeNode(const std::string& node_id) {
     std::unique_lock lock(mutex_);
     for (uint32_t i = 0; i < virtual_nodes_; ++i) {
@@ -148,6 +176,11 @@ void ConsistentHashRing::removeNode(const std::string& node_id) {
 std::optional<GatewayNode> ConsistentHashRing::getNode(
     const std::string& session_key) const
 {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock lock(mutex_);
     if (ring_.empty()) {
         return std::nullopt;
@@ -161,6 +194,11 @@ std::optional<GatewayNode> ConsistentHashRing::getNode(
 }
 
 std::size_t ConsistentHashRing::nodeCount() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock lock(mutex_);
     std::unordered_set<std::string> seen = {};
 
@@ -215,6 +253,10 @@ DistributedGateway::~DistributedGateway() {
 // Lifecycle
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Start.
+ * @details Calls: exchange(), spdlog::info().
+ */
 void DistributedGateway::start() {
     if (running_.exchange(true)) {
         return; // already running
@@ -223,6 +265,10 @@ void DistributedGateway::start() {
     spdlog::info("DistributedGateway: started (node='{}')", config_.node_id);
 }
 
+/**
+ * @brief Stop.
+ * @details Calls: exchange(), spdlog::info().
+ */
 void DistributedGateway::stop() {
     if (!running_.exchange(false)) {
         return; // already stopped
@@ -250,6 +296,11 @@ http::response<http::string_body> DistributedGateway::handleRequest(
         bool emit_restored = false;
         uint64_t cfg_ver   = 0;
         {
+            /**
+             * @brief Lock.
+             * @param[in] config_mutex_ Input parameter.
+             * @return Return value.
+             */
             std::unique_lock lock(config_mutex_);
             if (!has_q && !quorum_lost_) {
                 quorum_lost_ = true;
@@ -344,6 +395,12 @@ std::optional<GatewayNode> DistributedGateway::resolveAffinityNode(
 // Config management
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Propose Config.
+ * @param[in] new_config Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: isLeader(), spdlog::warn(), hasQuorum(), spdlog::error(), toJson(), dump(), propose(), wait_for().
+ */
 bool DistributedGateway::proposeConfig(const ClusterGatewayConfig& new_config) {
     if (!raft_->isLeader()) {
         spdlog::warn("DistributedGateway::proposeConfig: not the leader – refusing write");
@@ -372,6 +429,11 @@ bool DistributedGateway::proposeConfig(const ClusterGatewayConfig& new_config) {
 }
 
 ClusterGatewayConfig DistributedGateway::getCurrentConfig() const {
+    /**
+     * @brief Lock.
+     * @param[in] config_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock lock(config_mutex_);
     return current_config_;
 }
@@ -389,6 +451,11 @@ void DistributedGateway::registerHandler(
     gateway_->registerHandler(pattern, std::move(handler));
 }
 
+/**
+ * @brief Register Deprecation.
+ * @param[in] endpoint Input parameter.
+ * @param[in] info Input parameter.
+ */
 void DistributedGateway::registerDeprecation(
     const std::string& endpoint,
     const APIDeprecationInfo& info
@@ -397,6 +464,12 @@ void DistributedGateway::registerDeprecation(
     gateway_->registerDeprecation(endpoint, info);
 }
 
+/**
+ * @brief Apply Config Entry.
+ * @param[in] entry_json Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), nlohmann::json::parse(), ClusterGatewayConfig::fromJson(), lock(), std::move(), size(), spdlog::info(), spdlog::error().
+ */
 bool DistributedGateway::applyConfigEntry(const std::string& entry_json) {
     if (entry_json.empty()) {
         return true; // heartbeat / no-op entries
@@ -463,6 +536,11 @@ nlohmann::json DistributedGateway::getClusterStatus() const {
 
     ClusterGatewayConfig cfg;
     {
+        /**
+         * @brief Lock.
+         * @param[in] config_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::shared_lock lock(config_mutex_);
         cfg = current_config_;
     }
@@ -507,6 +585,10 @@ DistributedGateway::buildRaftConfig() const
     return consensus_cfg;
 }
 
+/**
+ * @brief Rebuild Hash Ring.
+ * @details Calls: addNode().
+ */
 void DistributedGateway::rebuildHashRing() {
     for (const auto& n : config_.cluster_nodes) {
         hash_ring_.addNode(n);
@@ -559,19 +641,6 @@ bool DistributedGateway::needsSessionAffinity(
 // Wire-protocol retry helpers (P5-S01)
 // ---------------------------------------------------------------------------
 
-/**
- * @brief Classify an HTTP status code as a transient error.
- *
- * Retryable status codes:
- *   - 429 Too Many Requests (downstream throttle, momentarily retryable)
- *   - 500 Internal Server Error (transient backend fault)
- *   - 502 Bad Gateway          (upstream unreachable / crashed)
- *   - 503 Service Unavailable  (overloaded / maintenance)
- *   - 504 Gateway Timeout      (upstream timed out)
- *
- * All other codes (1xx, 2xx, 3xx, 4xx except 429) are considered final and
- * must **not** be retried to avoid double-posting mutations.
- */
 bool DistributedGateway::isTransientError(unsigned status) noexcept {
     return status == 429
         || status == 500
@@ -580,17 +649,6 @@ bool DistributedGateway::isTransientError(unsigned status) noexcept {
         || status == 504;
 }
 
-/**
- * @brief Exponential-backoff delay: base × 2^attempt, clamped to max.
- *
- * Example with base=50ms, max=2000ms:
- *   attempt 0 → 50ms, attempt 1 → 100ms, attempt 2 → 200ms, … cap at 2000ms.
- *
- * @param attempt   0-based retry index.
- * @param base_ms   Initial delay in milliseconds.
- * @param max_ms    Maximum delay in milliseconds.
- * @return          Delay for this attempt.
- */
 std::chrono::milliseconds DistributedGateway::retryDelay(
     uint32_t attempt,
     uint32_t base_ms,

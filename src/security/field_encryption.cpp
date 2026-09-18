@@ -55,10 +55,13 @@ namespace {
     using EVP_CIPHER_CTX_ptr = std::unique_ptr<EVP_CIPHER_CTX, EVP_CIPHER_CTX_Deleter>;
 }
 
-// [static_cast<int>(E - 1)] key parameter removed: raw key bytes must never be passed into debug utilities.
-// SECURITY: THEMIS_DEBUG_ENC_DIR must NEVER be set in production — it writes ciphertext blobs
-// (IV, tag, ciphertext) to disk in plaintext JSON.  Enforce absence of this variable via
-// your deployment's environment guard or startup validation.
+/**
+ * @brief [static_cast<int>(E - 1)] key parameter removed: raw key bytes must never be passed into debug utilities.
+ * @param[in] prefix Input parameter.
+ * @param[in] blob Input parameter.
+ * @param[in] success Input parameter.
+ * @details SECURITY: THEMIS_DEBUG_ENC_DIR must NEVER be set in production — it writes ciphertext blobs (IV, tag, ciphertext) to disk in plaintext JSON. Enforce absence of this variable via your deployment's environment guard or startup validation. Calls: std::getenv(), fs::path(), fs::create_directories(), THEMIS_WARN(), string(), what(), std::chrono::system_clock::now(), time_since_epoch().
+ */
 static void write_debug_dump(const std::string& prefix, const EncryptedBlob& blob, bool success) {
     try {
         namespace fs = std::filesystem;
@@ -102,7 +105,13 @@ static void write_debug_dump(const std::string& prefix, const EncryptedBlob& blo
     }
 }
 
-// ===== Base64 Encoding/Decoding Helpers =====
+/**
+ * @brief ===== Base64 Encoding/Decoding Helpers =====
+ * @param[in] data Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: empty(), size(), encoded(), EVP_EncodeBlock(), data(), resize().
+ */
 
 static std::string fieldBase64Encode(const std::vector<uint8_t>& data) {
     if (data.empty()) {
@@ -124,6 +133,12 @@ static std::string fieldBase64Encode(const std::vector<uint8_t>& data) {
     return encoded;
 }
 
+/**
+ * @brief Field Base64 Decode.
+ * @param[in] encoded_string Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), size(), decoded(), EVP_DecodeBlock(), data(), back(), resize().
+ */
 static std::vector<uint8_t> fieldBase64Decode(const std::string& encoded_string) {
     if (encoded_string.empty()) {
         return {};
@@ -169,6 +184,13 @@ std::string EncryptedBlob::toBase64() const {
     return oss.str();
 }
 
+/**
+ * @brief From Base64.
+ * @param[in] b64 Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: ss(), std::getline(), push_back(), size(), std::to_string(), std::stoul(), fieldBase64Decode().
+ */
 EncryptedBlob EncryptedBlob::fromBase64(const std::string& b64) {
     EncryptedBlob blob;
     
@@ -203,6 +225,13 @@ nlohmann::json EncryptedBlob::toJson() const {
     };
 }
 
+/**
+ * @brief From Json.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: is_object(), at(), fieldBase64Decode(), std::string(), what().
+ */
 EncryptedBlob EncryptedBlob::fromJson(const nlohmann::json& j) {
     EncryptedBlob blob = {};
 
@@ -310,6 +339,12 @@ FieldEncryption::FieldEncryption(std::shared_ptr<KeyProvider> key_provider)
 
 FieldEncryption::~FieldEncryption() = default;
 
+/**
+ * @brief Create Default.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: std::getenv(), std::string_view(), THEMIS_WARN().
+ */
 std::shared_ptr<FieldEncryption> FieldEncryption::createDefault() {
     // PERMANENT FALLBACK NOTE (FieldEncryption createDefault() — MockKeyProvider):
     // Purpose: Provides a zero-dependency factory for unit tests and demo code
@@ -345,6 +380,11 @@ std::shared_ptr<FieldEncryption> FieldEncryption::createDefault() {
     return std::make_shared<FieldEncryption>(mock_provider);
 }
 
+/**
+ * @brief Set Encryption Config.
+ * @param[in] config Input parameter.
+ * @details Implements setEncryptionConfig without additional internal calls.
+ */
 void FieldEncryption::setEncryptionConfig(const EncryptionConfig& config) {
     config_ = config;
 }
@@ -375,6 +415,12 @@ bool FieldEncryption::should_encrypt(const std::string& field_name) const {
     return true;
 }
 
+/**
+ * @brief Encrypt field.
+ * @param[in] field_name Name of the field.
+ * @param[in] plaintext Input parameter.
+ * @return Return value.
+ */
 std::vector<uint8_t> FieldEncryption::encrypt_field(
     const std::string& field_name,
     const std::vector<uint8_t>& plaintext)
@@ -392,6 +438,12 @@ std::vector<uint8_t> FieldEncryption::encrypt_field(
     return std::vector<uint8_t>(serialized.begin(), serialized.end());
 }
 
+/**
+ * @brief Decrypt field.
+ * @param[in] field_name Name of the field.
+ * @param[in] ciphertext Input parameter.
+ * @return Return value.
+ */
 std::vector<uint8_t> FieldEncryption::decrypt_field(
     const std::string& field_name,
     const std::vector<uint8_t>& ciphertext)
@@ -408,11 +460,26 @@ std::vector<uint8_t> FieldEncryption::decrypt_field(
     return decryptToBytes(blob);
 }
 
+/**
+ * @brief Encrypt.
+ * @param[in] plaintext Input parameter.
+ * @param[in] key_id Identifier of the key.
+ * @return Return value.
+ * @details Calls: plaintext_bytes(), begin(), end().
+ */
 EncryptedBlob FieldEncryption::encrypt(const std::string& plaintext, const std::string& key_id) {
     std::vector<uint8_t> plaintext_bytes(plaintext.begin(), plaintext.end());
     return encrypt(plaintext_bytes, key_id);
 }
 
+/**
+ * @brief Encrypt.
+ * @param[in] plaintext Input parameter.
+ * @param[in] key_id Identifier of the key.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: license::RuntimeLicenseGate::instance(), isFeatureAllowed(), std::chrono::high_resolution_clock::now(), getKey(), getKeyMetadata(), encryptInternal(), fetch_add(), size().
+ */
 EncryptedBlob FieldEncryption::encrypt(const std::vector<uint8_t>& plaintext, const std::string& key_id) {
     // Runtime license gate: field-level encryption is an Enterprise/Hyperscaler feature.
     std::string license_error = {};
@@ -459,11 +526,23 @@ EncryptedBlob FieldEncryption::encrypt(const std::vector<uint8_t>& plaintext, co
     }
 }
 
+/**
+ * @brief Decrypt To String.
+ * @param[in] blob Input parameter.
+ * @return Return value.
+ * @details Calls: decryptToBytes(), std::string(), begin(), end().
+ */
 std::string FieldEncryption::decryptToString(const EncryptedBlob& blob) {
     auto plaintext_bytes = decryptToBytes(blob);
     return std::string(plaintext_bytes.begin(), plaintext_bytes.end());
 }
 
+/**
+ * @brief Decrypt To Bytes.
+ * @param[in] blob Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::high_resolution_clock::now(), getKey(), decryptInternal(), fetch_add(), size(), count().
+ */
 std::vector<uint8_t> FieldEncryption::decryptToBytes(const EncryptedBlob& blob) {
     auto start_time = std::chrono::high_resolution_clock::now();
     
@@ -502,6 +581,15 @@ std::vector<uint8_t> FieldEncryption::decryptToBytes(const EncryptedBlob& blob) 
     }
 }
 
+/**
+ * @brief Encrypt With Key.
+ * @param[in] plaintext Input parameter.
+ * @param[in] key_id Identifier of the key.
+ * @param[in] key_version Input parameter.
+ * @param[in] key Input parameter.
+ * @return Return value.
+ * @details Calls: plaintext_bytes(), begin(), end(), encryptInternal().
+ */
 EncryptedBlob FieldEncryption::encryptWithKey(const std::string& plaintext,
                                                const std::string& key_id,
                                                uint32_t key_version,
@@ -510,6 +598,13 @@ EncryptedBlob FieldEncryption::encryptWithKey(const std::string& plaintext,
     return encryptInternal(plaintext_bytes, key_id, key_version, key);
 }
 
+/**
+ * @brief Decrypt With Key.
+ * @param[in] blob Input parameter.
+ * @param[in] key Input parameter.
+ * @return Return value.
+ * @details Calls: decryptInternal(), std::string(), begin(), end().
+ */
 std::string FieldEncryption::decryptWithKey(const EncryptedBlob& blob,
                                              const std::vector<uint8_t>& key) {
     auto plaintext_bytes = decryptInternal(blob, key);
@@ -526,6 +621,16 @@ std::vector<uint8_t> FieldEncryption::generateIV() const {
     return iv;
 }
 
+/**
+ * @brief Encrypt Internal.
+ * @param[in] plaintext Input parameter.
+ * @param[in] key_id Identifier of the key.
+ * @param[in] key_version Input parameter.
+ * @param[in] key Input parameter.
+ * @return Return value.
+ * @throws EncryptionException if an error occurs.
+ * @details Calls: size(), generateIV(), ctx(), EVP_CIPHER_CTX_new(), get(), EVP_EncryptInit_ex(), EVP_aes_256_gcm(), EVP_CIPHER_CTX_ctrl().
+ */
 EncryptedBlob FieldEncryption::encryptInternal(const std::vector<uint8_t>& plaintext,
                                                 const std::string& key_id,
                                                 uint32_t key_version,
@@ -589,6 +694,14 @@ EncryptedBlob FieldEncryption::encryptInternal(const std::vector<uint8_t>& plain
     return blob;
 }
 
+/**
+ * @brief Decrypt Internal.
+ * @param[in] blob Input parameter.
+ * @param[in] key Input parameter.
+ * @return Return value.
+ * @throws DecryptionException if an error occurs.
+ * @details Calls: size(), ctx(), EVP_CIPHER_CTX_new(), get(), EVP_DecryptInit_ex(), EVP_aes_256_gcm(), EVP_CIPHER_CTX_ctrl(), data().
+ */
 std::vector<uint8_t> FieldEncryption::decryptInternal(const EncryptedBlob& blob,
                                                        const std::vector<uint8_t>& key) {
     if (key.size() != 32) {
@@ -656,7 +769,14 @@ std::vector<uint8_t> FieldEncryption::decryptInternal(const EncryptedBlob& blob,
     // RAII wrapper (ctx) automatically cleans up on scope exit
 }
 
-// ===== Lazy Re-Encryption Implementation =====
+/**
+ * @brief ===== Lazy Re-Encryption Implementation =====
+ * @param[in] blob Input parameter.
+ * @param[in] key_id Identifier of the key.
+ * @param[in,out] updated_blob Input/output parameter.
+ * @return Return value.
+ * @details Calls: getKey(), decryptInternal(), plaintext(), begin(), end(), needsReEncryption(), encrypt(), fetch_add().
+ */
 
 std::string FieldEncryption::decryptAndReEncrypt(const EncryptedBlob& blob,
                                                   const std::string& key_id,
@@ -694,6 +814,13 @@ std::string FieldEncryption::decryptAndReEncrypt(const EncryptedBlob& blob,
     return plaintext;
 }
 
+/**
+ * @brief Needs Re Encryption.
+ * @param[in] blob Input parameter.
+ * @param[in] key_id Identifier of the key.
+ * @return True when the operation succeeds.
+ * @details Calls: getCurrentVersion(), THEMIS_WARN(), what().
+ */
 bool FieldEncryption::needsReEncryption(const EncryptedBlob& blob, const std::string& key_id) {
     try {
         // Use getCurrentVersion() to determine whether the blob's key version is

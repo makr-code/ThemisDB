@@ -35,52 +35,188 @@
 
 // External CUDA kernel declarations
 extern "C" {
+/**
+ * @brief Launch L2 Distance Kernel.
+ * @param[in] d_queries Input parameter.
+ * @param[in] d_vectors Input parameter.
+ * @param[in,out] d_distances Input/output parameter.
+ * @param[in] numQueries Input parameter.
+ * @param[in] numVectors Input parameter.
+ * @param[in] dim Input parameter.
+ * @param[in] stream Input parameter.
+ */
 void launchL2DistanceKernel(const float *d_queries, const float *d_vectors, float *d_distances, int numQueries,
                             int numVectors, int dim, cudaStream_t stream);
 
+/**
+ * @brief Launch Cosine Distance Kernel.
+ * @param[in] d_queries Input parameter.
+ * @param[in] d_vectors Input parameter.
+ * @param[in,out] d_distances Input/output parameter.
+ * @param[in] numQueries Input parameter.
+ * @param[in] numVectors Input parameter.
+ * @param[in] dim Input parameter.
+ * @param[in] stream Input parameter.
+ */
 void launchCosineDistanceKernel(const float *d_queries, const float *d_vectors, float *d_distances, int numQueries,
                                 int numVectors, int dim, cudaStream_t stream);
 
+/**
+ * @brief Launch Inner Product Kernel.
+ * @param[in] d_queries Input parameter.
+ * @param[in] d_vectors Input parameter.
+ * @param[in,out] d_distances Input/output parameter.
+ * @param[in] numQueries Input parameter.
+ * @param[in] numVectors Input parameter.
+ * @param[in] dim Input parameter.
+ * @param[in] stream Input parameter.
+ */
 void launchInnerProductKernel(const float *d_queries, const float *d_vectors, float *d_distances, int numQueries,
                               int numVectors, int dim, cudaStream_t stream);
 
+/**
+ * @brief Launch Top KKernel.
+ * @param[in] d_distances Input parameter.
+ * @param[in,out] d_topkIndices Input/output parameter.
+ * @param[in,out] d_topkDistances Input/output parameter.
+ * @param[in] numQueries Input parameter.
+ * @param[in] numVectors Input parameter.
+ * @param[in] k Input parameter.
+ * @param[in] stream Input parameter.
+ */
 void launchTopKKernel(const float *d_distances, int *d_topkIndices, float *d_topkDistances, int numQueries,
                       int numVectors, int k, cudaStream_t stream);
 
-// Geo kernel launchers from cuda/geo_kernels.cu (conform to frozen interface)
+/**
+ * @brief Geo kernel launchers from cuda/geo_kernels.
+ * @param[in] d_lats1 Input parameter.
+ * @param[in] d_lons1 Input parameter.
+ * @param[in] d_lats2 Input parameter.
+ * @param[in] d_lons2 Input parameter.
+ * @param[in,out] d_distances Input/output parameter.
+ * @param[in] count Input parameter.
+ * @param[in] formula Input parameter.
+ * @param[in,out] opaque_stream Input/output parameter.
+ * @return Return value.
+ * @details cu (conform to frozen interface)
+ */
 int launchGeoDistanceKernel(const double *d_lats1, const double *d_lons1, const double *d_lats2, const double *d_lons2,
                             float *d_distances, int count, themis::acceleration::GeoDistanceFormula formula,
                             void *opaque_stream);
 
+/**
+ * @brief Launch Geo Containment Kernel.
+ * @param[in] d_point_lats Input parameter.
+ * @param[in] d_point_lons Input parameter.
+ * @param[in] numPoints Input parameter.
+ * @param[in] d_polygon_coords Input parameter.
+ * @param[in] numPolygonVertices Input parameter.
+ * @param[in,out] d_results Input/output parameter.
+ * @param[in,out] opaque_stream Input/output parameter.
+ * @return Return value.
+ */
 int launchGeoContainmentKernel(const double *d_point_lats, const double *d_point_lons, int numPoints,
                                const double *d_polygon_coords, int numPolygonVertices, uint8_t *d_results,
                                void *opaque_stream);
 
-// Graph kernel launchers from cuda/graph_kernels.cu
+/**
+ * @brief Graph kernel launchers from cuda/graph_kernels.
+ * @param[in] d_startVertices Input parameter.
+ * @param[in,out] d_frontier_a Input/output parameter.
+ * @param[in,out] d_frontier_b Input/output parameter.
+ * @param[in,out] d_visited Input/output parameter.
+ * @param[in,out] d_depths Input/output parameter.
+ * @param[in] numVertices Input parameter.
+ * @param[in] numStarts Input parameter.
+ * @param[in] stream Input parameter.
+ * @details cu
+ */
 void launchGraphBFSInitKernel(const uint32_t *d_startVertices, uint32_t *d_frontier_a, uint32_t *d_frontier_b,
                               uint32_t *d_visited, uint32_t *d_depths, int numVertices, int numStarts,
                               cudaStream_t stream);
 
+/**
+ * @brief Launch Graph BFSExpand Kernel.
+ * @param[in] d_adjacency Input parameter.
+ * @param[in] d_frontier_in Input parameter.
+ * @param[in,out] d_frontier_out Input/output parameter.
+ * @param[in,out] d_visited Input/output parameter.
+ * @param[in,out] d_depths Input/output parameter.
+ * @param[in] numVertices Input parameter.
+ * @param[in] numStarts Input parameter.
+ * @param[in] currentDepth Input parameter.
+ * @param[in] stream Input parameter.
+ */
 void launchGraphBFSExpandKernel(const uint32_t *d_adjacency, const uint32_t *d_frontier_in, uint32_t *d_frontier_out,
                                 uint32_t *d_visited, uint32_t *d_depths, int numVertices, int numStarts,
                                 uint32_t currentDepth, cudaStream_t stream);
 
+/**
+ * @brief Launch Graph BFSGather Kernel.
+ * @param[in] d_visited Input parameter.
+ * @param[in] numVertices Input parameter.
+ * @param[in] numStarts Input parameter.
+ * @param[in,out] d_result_vertices Input/output parameter.
+ * @param[in,out] d_result_sizes Input/output parameter.
+ * @param[in] stream Input parameter.
+ */
 void launchGraphBFSGatherKernel(const uint32_t *d_visited, int numVertices, int numStarts, uint32_t *d_result_vertices,
                                 int *d_result_sizes, cudaStream_t stream);
 
+/**
+ * @brief Launch Graph BFInit Distances Kernel.
+ * @param[in] d_startVertices Input parameter.
+ * @param[in,out] d_distances Input/output parameter.
+ * @param[in,out] d_predecessors Input/output parameter.
+ * @param[in] numVertices Input parameter.
+ * @param[in] numPairs Input parameter.
+ * @param[in] stream Input parameter.
+ */
 void launchGraphBFInitDistancesKernel(const uint32_t *d_startVertices, float *d_distances, int *d_predecessors,
                                       int numVertices, int numPairs, cudaStream_t stream);
 
+/**
+ * @brief Launch Graph BFRelax Kernel.
+ * @param[in] d_adjacency Input parameter.
+ * @param[in] d_weights Input parameter.
+ * @param[in,out] d_distances Input/output parameter.
+ * @param[in,out] d_predecessors Input/output parameter.
+ * @param[in] numVertices Input parameter.
+ * @param[in] numPairs Input parameter.
+ * @param[in] stream Input parameter.
+ */
 void launchGraphBFRelaxKernel(const uint32_t *d_adjacency, const float *d_weights, float *d_distances,
                               int *d_predecessors, int numVertices, int numPairs, cudaStream_t stream);
 
-// Block-size setters for occupancy tuning — called during initialize() with
-// the value returned by cudaOccupancyMaxPotentialBlockSize().
+/**
+ * @brief Block-size setters for occupancy tuning — called during initialize() with the value returned by cudaOccupancyMaxPotentialBlockSize().
+ * @param[in] blockSize Input parameter.
+ */
 void setGeoKernelBlockSize(int blockSize);
+/**
+ * @brief Tune Geo Kernel Block Size.
+ * @return Return value.
+ */
 int tuneGeoKernelBlockSize();
+/**
+ * @brief Set Graph BFSBlock Dim.
+ * @param[in] blockDim Input parameter.
+ */
 void setGraphBFSBlockDim(int blockDim);
+/**
+ * @brief Tune Graph BFSBlock Dim.
+ * @return Return value.
+ */
 int tuneGraphBFSBlockDim();
+/**
+ * @brief Set Vec Kernel Block Dim.
+ * @param[in] dim Input parameter.
+ */
 void setVecKernelBlockDim(int dim);
+/**
+ * @brief Tune Vec Kernel Block Size.
+ * @return Return value.
+ */
 int tuneVecKernelBlockSize();
 }
 
@@ -108,6 +244,13 @@ struct StreamWaitResult {
     std::string message = {};
 };
 
+/**
+ * @brief Wait For Stream With Timeout.
+ * @param[in] stream Input parameter.
+ * @param[in] timeout Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::steady_clock::now(), cudaStreamQuery(), std::string(), cudaGetErrorString(), std::this_thread::sleep_for(), std::chrono::milliseconds().
+ */
 StreamWaitResult waitForStreamWithTimeout(cudaStream_t stream, std::chrono::milliseconds timeout) {
     const auto deadline = std::chrono::steady_clock::now() + timeout;
 
@@ -128,6 +271,14 @@ StreamWaitResult waitForStreamWithTimeout(cudaStream_t stream, std::chrono::mill
     }
 }
 
+/**
+ * @brief Validate Distance Outputs.
+ * @param[in] distances Input parameter.
+ * @param[in] useL2 Input parameter.
+ * @param[in,out] validationError Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: size(), std::isfinite(), std::to_string().
+ */
 bool validateDistanceOutputs(const std::vector<float>& distances, bool useL2, std::string& validationError) {
     for (size_t i = 0; i < distances.size(); ++i) {
         const float value = distances[i];
@@ -147,6 +298,16 @@ bool validateDistanceOutputs(const std::vector<float>& distances, bool useL2, st
     return true;
 }
 
+/**
+ * @brief Validate Top KOutputs.
+ * @param[in] topkIndices Input parameter.
+ * @param[in] topkDistances Input parameter.
+ * @param[in] numVectors Input parameter.
+ * @param[in] useL2 Input parameter.
+ * @param[in,out] validationError Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: size(), std::to_string(), std::isfinite().
+ */
 bool validateTopKOutputs(const std::vector<int>& topkIndices, const std::vector<float>& topkDistances, size_t numVectors,
                          bool useL2, std::string& validationError) {
     if (topkIndices.size() != topkDistances.size()) {
@@ -223,6 +384,11 @@ BackendCapabilities CUDAVectorBackend::getCapabilities() const {
     return caps;
 }
 
+/**
+ * @brief Initialize.
+ * @return True when the operation succeeds.
+ * @details Calls: isAvailable(), cudaGetDeviceCount(), setError(), ErrorContextHelpers::createNoDevicesError(), ErrorContext(), std::string(), cudaGetErrorString(), getLastError().
+ */
 bool CUDAVectorBackend::initialize() {
 #ifdef THEMIS_ENABLE_CUDA
     if (!isAvailable()) {
@@ -325,6 +491,10 @@ bool CUDAVectorBackend::initialize() {
 #endif
 }
 
+/**
+ * @brief Shutdown.
+ * @details Calls: lock(), clear(), cudaDeviceReset(), reset().
+ */
 void CUDAVectorBackend::shutdown() {
 #ifdef THEMIS_ENABLE_CUDA
     if (initialized_) {
@@ -348,6 +518,15 @@ void CUDAVectorBackend::shutdown() {
 // HNSW ANN index management
 // ============================================================================
 
+/**
+ * @brief Build Hnsw Ann Index.
+ * @param[in] layers Input parameter.
+ * @param[in] vectors Input parameter.
+ * @param[in] numVectors Input parameter.
+ * @param[in] dim Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), getCapabilities(), setMaxBatchSize(), buildIndex(), hasVisitedPool(), setError(), ErrorContext().
+ */
 bool CUDAVectorBackend::buildHnswAnnIndex(const std::vector<HnswLayerGraph> &layers, const float *vectors,
                                           size_t numVectors, uint32_t dim) {
     if (layers.empty() || vectors == nullptr || numVectors == 0 || dim == 0) {
@@ -400,6 +579,11 @@ bool CUDAVectorBackend::isHnswIndexBuilt() const noexcept {
     return hnswEngine_ && hnswEngine_->isBuilt();
 }
 
+/**
+ * @brief Set Max Batch Size.
+ * @param[in] n Input parameter.
+ * @details Implements setMaxBatchSize without additional internal calls.
+ */
 void CUDAVectorBackend::setMaxBatchSize(size_t n) {
     if (n == 0) {
         n = 1;
@@ -454,6 +638,17 @@ CUDAVectorBackend::annBatchSearch(const float *queries, size_t numQueries, size_
     return out;
 }
 
+/**
+ * @brief Compute Distances.
+ * @param[in] queries Input parameter.
+ * @param[in] numQueries Input parameter.
+ * @param[in] dim Input parameter.
+ * @param[in] vectors Input parameter.
+ * @param[in] numVectors Input parameter.
+ * @param[in] useL2 Input parameter.
+ * @return Return value.
+ * @details Calls: setError(), ErrorContext(), format(), ErrorContextHelpers::createValidationError(), get(), d_queries(), d_vectors(), d_distances().
+ */
 std::vector<float> CUDAVectorBackend::computeDistances(const float *queries, size_t numQueries, size_t dim,
                                                        const float *vectors, size_t numVectors, bool useL2) {
 #ifdef THEMIS_ENABLE_CUDA
@@ -611,11 +806,35 @@ CUDAVectorBackend::batchKnnSearch(const float *queries, size_t numQueries, size_
     const size_t topkDistSize = numQueries * effectiveK * sizeof(float);
 
     try {
-        // RAII wrappers ensure no device memory leaks on any error path
+        /**
+         * @brief RAII wrappers ensure no device memory leaks on any error path
+         * @param[in] querySize Input parameter.
+         * @return Return value.
+         */
         raii::CudaDeviceMemory d_queries(querySize);
+        /**
+         * @brief D vectors.
+         * @param[in] vectorSize Input parameter.
+         * @return Return value.
+         */
         raii::CudaDeviceMemory d_vectors(vectorSize);
+        /**
+         * @brief D distances.
+         * @param[in] distanceSize Input parameter.
+         * @return Return value.
+         */
         raii::CudaDeviceMemory d_distances(distanceSize);
+        /**
+         * @brief D topk Indices.
+         * @param[in] topkIdxSize Input parameter.
+         * @return Return value.
+         */
         raii::CudaDeviceMemory d_topkIndices(topkIdxSize);
+        /**
+         * @brief D topk Distances.
+         * @param[in] topkDistSize Input parameter.
+         * @return Return value.
+         */
         raii::CudaDeviceMemory d_topkDistances(topkDistSize);
 
         d_queries.copyFrom(queries, querySize, stream);
@@ -639,7 +858,17 @@ CUDAVectorBackend::batchKnnSearch(const float *queries, size_t numQueries, size_
                          static_cast<float *>(d_topkDistances.get()), static_cast<int>(numQueries),
                          static_cast<int>(numVectors), static_cast<int>(effectiveK), stream);
 
+        /**
+         * @brief Topk Indices.
+         * @param[in,out] effectiveK Input/output parameter.
+         * @return Return value.
+         */
         std::vector<int> topkIndices(numQueries * effectiveK);
+        /**
+         * @brief Topk Distances.
+         * @param[in,out] effectiveK Input/output parameter.
+         * @return Return value.
+         */
         std::vector<float> topkDistances(numQueries * effectiveK);
 
         d_topkIndices.copyTo(topkIndices.data(), topkIdxSize, stream);
@@ -761,6 +990,10 @@ CUDAGraphEntry &CUDAGraphCache::put(const QueryShape &shape, CUDAGraphEntry entr
     return res.first->second;
 }
 
+/**
+ * @brief Evict LRU.
+ * @details Calls: empty(), begin(), end(), erase().
+ */
 void CUDAGraphCache::evictLRU() {
     if (entries_.empty())
         return;
@@ -773,6 +1006,10 @@ void CUDAGraphCache::evictLRU() {
     entries_.erase(lru);
 }
 
+/**
+ * @brief Clear.
+ * @details Implements clear without additional internal calls.
+ */
 void CUDAGraphCache::clear() {
     entries_.clear();
 }
@@ -834,6 +1071,11 @@ CUDAVectorBackend::batchKnnSearchWithGraph(const float *queries, size_t numQueri
         // ------------------------------------------------------------------
         CUDAGraphEntry *entry = nullptr;
         {
+            /**
+             * @brief Lock.
+             * @param[in] graphCacheMutex_ Input parameter.
+             * @return Return value.
+             */
             std::lock_guard<std::mutex> lock(graphCacheMutex_);
             entry = graphCache_.get(shape);
         }
@@ -955,6 +1197,11 @@ CUDAVectorBackend::batchKnnSearchWithGraph(const float *queries, size_t numQueri
 
             // Insert into cache (evicts LRU if needed)
             {
+                /**
+                 * @brief Lock.
+                 * @param[in] graphCacheMutex_ Input parameter.
+                 * @return Return value.
+                 */
                 std::lock_guard<std::mutex> lock(graphCacheMutex_);
                 entry = &graphCache_.put(shape, std::move(newEntry));
             }
@@ -984,8 +1231,17 @@ CUDAVectorBackend::batchKnnSearchWithGraph(const float *queries, size_t numQueri
             return {};
         }
 
-        // D2H: copy results from pre-allocated buffers back to host
+        /**
+         * @brief D2H: copy results from pre-allocated buffers back to host
+         * @param[in,out] effectiveK Input/output parameter.
+         * @return Return value.
+         */
         std::vector<int> topkIndices(numQueries * effectiveK);
+        /**
+         * @brief Topk Distances.
+         * @param[in,out] effectiveK Input/output parameter.
+         * @return Return value.
+         */
         std::vector<float> topkDistances(numQueries * effectiveK);
 
         if (cudaMemcpyAsync(topkIndices.data(), entry->d_topkIndices.get(), topkIdxSize, cudaMemcpyDeviceToHost,
@@ -1132,6 +1388,10 @@ CUDAGraphBFSEntry &CUDAGraphBFSCache::put(const GraphBFSShape &shape, CUDAGraphB
     return res.first->second;
 }
 
+/**
+ * @brief Evict LRU.
+ * @details Calls: empty(), begin(), end(), erase().
+ */
 void CUDAGraphBFSCache::evictLRU() {
     if (entries_.empty())
         return;
@@ -1143,6 +1403,10 @@ void CUDAGraphBFSCache::evictLRU() {
     entries_.erase(lru);
 }
 
+/**
+ * @brief Clear.
+ * @details Implements clear without additional internal calls.
+ */
 void CUDAGraphBFSCache::clear() {
     entries_.clear();
 }
@@ -1217,6 +1481,10 @@ CUDAGraphSPEntry &CUDAGraphSPCache::put(const GraphSPShape &shape, CUDAGraphSPEn
     return res.first->second;
 }
 
+/**
+ * @brief Evict LRU.
+ * @details Calls: empty(), begin(), end(), erase().
+ */
 void CUDAGraphSPCache::evictLRU() {
     if (entries_.empty())
         return;
@@ -1228,6 +1496,10 @@ void CUDAGraphSPCache::evictLRU() {
     entries_.erase(lru);
 }
 
+/**
+ * @brief Clear.
+ * @details Implements clear without additional internal calls.
+ */
 void CUDAGraphSPCache::clear() {
     entries_.clear();
 }
@@ -1273,6 +1545,11 @@ BackendCapabilities CUDAGraphBackend::getCapabilities() const {
     return caps;
 }
 
+/**
+ * @brief Initialize.
+ * @return True when the operation succeeds.
+ * @details Calls: isAvailable(), cudaGetDeviceCount(), setError(), ErrorContextHelpers::createNoDevicesError(), ErrorContext(), std::string(), cudaGetErrorString(), format().
+ */
 bool CUDAGraphBackend::initialize() {
 #ifdef THEMIS_ENABLE_CUDA
     if (!isAvailable()) {
@@ -1322,6 +1599,10 @@ bool CUDAGraphBackend::initialize() {
 #endif
 }
 
+/**
+ * @brief Shutdown.
+ * @details Calls: lock(), clear().
+ */
 void CUDAGraphBackend::shutdown() {
 #ifdef THEMIS_ENABLE_CUDA
     if (initialized_) {
@@ -1336,20 +1617,16 @@ void CUDAGraphBackend::shutdown() {
 #endif
 }
 
-// ---------------------------------------------------------------------------
-// CUDAGraphBackend::batchBFS
-//
-// On the first call for a given (numVertices, numStarts, maxDepth) shape:
-//   1. Pre-allocate dedicated device buffers.
-//   2. Capture: init kernel + maxDepth expand kernels + gather kernel.
-//   3. Insert the captured graph entry into the LRU BFS cache.
-//
-// On subsequent calls with the same shape:
-//   1. Look up the cached CUDAGraphBFSEntry.
-//   2. Copy adjacency + startVertices data to device (H2D on mainStream).
-//   3. Replay the instantiated graph.
-//   4. Copy result_vertices + result_sizes back to host (D2H on mainStream).
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- CUDAGraphBackend::batchBFS On the first call for a given (numVertices, numStarts, maxDepth) shape: 1.
+ * @param[in] adjacency Input parameter.
+ * @param[in] numVertices Input parameter.
+ * @param[in] startVertices Input parameter.
+ * @param[in] numStarts Input parameter.
+ * @param[in] maxDepth Input parameter.
+ * @return Return value.
+ * @details Pre-allocate dedicated device buffers. 2. Capture: init kernel + maxDepth expand kernels + gather kernel. 3. Insert the captured graph entry into the LRU BFS cache. On subsequent calls with the same shape: 1. Look up the cached CUDAGraphBFSEntry. 2. Copy adjacency + startVertices data to device (H2D on mainStream). 3. Replay the instantiated graph. 4. Copy result_vertices + result_sizes back to host (D2H on mainStream). --------------------------------------------------------------------------- Calls: clearError(), setError(), std::move(), BatchValidator::validateGraphBFSBatch(), name(), BatchValidator::shouldUseCpuFallbackForGraphBFS(), THEMIS_WARN(), initialize().
+ */
 
 std::vector<std::vector<uint32_t>> CUDAGraphBackend::batchBFS(const uint32_t *adjacency, size_t numVertices,
                                                               const uint32_t *startVertices, size_t numStarts,
@@ -1576,14 +1853,17 @@ std::vector<std::vector<uint32_t>> CUDAGraphBackend::batchBFS(const uint32_t *ad
 #endif
 }
 
-// ---------------------------------------------------------------------------
-// CUDAGraphBackend::batchShortestPath
-//
-// Uses Bellman-Ford with CUDA Graph Capture, keyed on (numVertices, numPairs).
-// Captured graph: init + (numVertices-1) relax iterations.
-// Path reconstruction (predecessor tracing) is performed on the host after
-// copying distances and predecessors back.
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- CUDAGraphBackend::batchShortestPath Uses Bellman-Ford with CUDA Graph Capture, keyed on (numVertices, numPairs).
+ * @param[in] adjacency Input parameter.
+ * @param[in] weights Input parameter.
+ * @param[in] numVertices Input parameter.
+ * @param[in] startVertices Input parameter.
+ * @param[in] endVertices Input parameter.
+ * @param[in] numPairs Input parameter.
+ * @return Return value.
+ * @details Captured graph: init + (numVertices-1) relax iterations. Path reconstruction (predecessor tracing) is performed on the host after copying distances and predecessors back. --------------------------------------------------------------------------- Calls: clearError(), setError(), std::move(), BatchValidator::validateShortestPathBatch(), name(), BatchValidator::shouldUseCpuFallbackForShortestPath(), THEMIS_WARN(), initialize().
+ */
 
 std::vector<std::vector<uint32_t>> CUDAGraphBackend::batchShortestPath(const uint32_t *adjacency, const float *weights,
                                                                        size_t numVertices,
@@ -1848,6 +2128,11 @@ BackendCapabilities CUDAGeoBackend::getCapabilities() const {
     return caps;
 }
 
+/**
+ * @brief Initialize.
+ * @return True when the operation succeeds.
+ * @details Calls: isAvailable(), cudaGetDeviceCount(), setError(), ErrorContextHelpers::createNoDevicesError(), ErrorContext(), std::string(), cudaGetErrorString(), format().
+ */
 bool CUDAGeoBackend::initialize() {
 #ifdef THEMIS_ENABLE_CUDA
     if (!isAvailable()) {
@@ -1910,6 +2195,10 @@ bool CUDAGeoBackend::initialize() {
 #endif
 }
 
+/**
+ * @brief Shutdown.
+ * @details Implements shutdown without additional internal calls.
+ */
 void CUDAGeoBackend::shutdown() {
 #ifdef THEMIS_ENABLE_CUDA
     if (initialized_) {
@@ -1919,6 +2208,17 @@ void CUDAGeoBackend::shutdown() {
 #endif
 }
 
+/**
+ * @brief Batch Distances.
+ * @param[in] latitudes1 Input parameter.
+ * @param[in] longitudes1 Input parameter.
+ * @param[in] latitudes2 Input parameter.
+ * @param[in] longitudes2 Input parameter.
+ * @param[in] count Input parameter.
+ * @param[in] useHaversine Input parameter.
+ * @return Return value.
+ * @details Calls: clearError(), setError(), std::move(), ErrorContext(), format(), BatchValidator::validateGeoBatch(), name(), get().
+ */
 std::vector<float> CUDAGeoBackend::batchDistances(const double *latitudes1, const double *longitudes1,
                                                   const double *latitudes2, const double *longitudes2, size_t count,
                                                   bool useHaversine) {
@@ -2003,6 +2303,16 @@ std::vector<float> CUDAGeoBackend::batchDistances(const double *latitudes1, cons
 #endif
 }
 
+/**
+ * @brief Batch Point In Polygon.
+ * @param[in] pointLats Input parameter.
+ * @param[in] pointLons Input parameter.
+ * @param[in] numPoints Input parameter.
+ * @param[in] polygonCoords Input parameter.
+ * @param[in] numPolygonVertices Input parameter.
+ * @return Return value.
+ * @details Calls: clearError(), setError(), std::move(), ErrorContext(), format(), BatchValidator::validatePointInPolygonBatch(), name(), get().
+ */
 std::vector<bool> CUDAGeoBackend::batchPointInPolygon(const double *pointLats, const double *pointLons,
                                                       size_t numPoints, const double *polygonCoords,
                                                       size_t numPolygonVertices) {
@@ -2103,9 +2413,53 @@ std::vector<bool> CUDAGeoBackend::batchPointInPolygon(const double *pointLats, c
 // These conform to the ANNDistanceFn / ANNTopKFn typedefs in
 // include/acceleration/kernel_invocation.h (INTERFACE_VERSION 100).
 extern "C" {
+/**
+ * @brief Cuda launch L2 Distance Kernel.
+ * @param[in] param Input parameter.
+ * @param[in] param Input parameter.
+ * @param[in,out] param Input/output parameter.
+ * @param[in] int Input parameter.
+ * @param[in] int Input parameter.
+ * @param[in] int Input parameter.
+ * @param[in,out] param Input/output parameter.
+ * @return Return value.
+ */
 int cuda_launchL2DistanceKernel(const float *, const float *, float *, int, int, int, void *);
+/**
+ * @brief Cuda launch Cosine Distance Kernel.
+ * @param[in] param Input parameter.
+ * @param[in] param Input parameter.
+ * @param[in,out] param Input/output parameter.
+ * @param[in] int Input parameter.
+ * @param[in] int Input parameter.
+ * @param[in] int Input parameter.
+ * @param[in,out] param Input/output parameter.
+ * @return Return value.
+ */
 int cuda_launchCosineDistanceKernel(const float *, const float *, float *, int, int, int, void *);
+/**
+ * @brief Cuda launch Inner Product Kernel.
+ * @param[in] param Input parameter.
+ * @param[in] param Input parameter.
+ * @param[in,out] param Input/output parameter.
+ * @param[in] int Input parameter.
+ * @param[in] int Input parameter.
+ * @param[in] int Input parameter.
+ * @param[in,out] param Input/output parameter.
+ * @return Return value.
+ */
 int cuda_launchInnerProductKernel(const float *, const float *, float *, int, int, int, void *);
+/**
+ * @brief Cuda launch Top KKernel.
+ * @param[in] param Input parameter.
+ * @param[in,out] param Input/output parameter.
+ * @param[in,out] param Input/output parameter.
+ * @param[in] int Input parameter.
+ * @param[in] int Input parameter.
+ * @param[in] int Input parameter.
+ * @param[in,out] param Input/output parameter.
+ * @return Return value.
+ */
 int cuda_launchTopKKernel(const float *, uint32_t *, float *, int, int, int, void *);
 } // extern "C"
 
@@ -2184,6 +2538,11 @@ BackendCapabilities CUDAMatrixBackend::getCapabilities() const {
     return caps;
 }
 
+/**
+ * @brief Initialize.
+ * @return True when the operation succeeds.
+ * @details Calls: isAvailable().
+ */
 bool CUDAMatrixBackend::initialize() {
 #ifdef THEMIS_ENABLE_CUDA
     if (!isAvailable()) {
@@ -2196,12 +2555,23 @@ bool CUDAMatrixBackend::initialize() {
 #endif
 }
 
+/**
+ * @brief Shutdown.
+ * @details Implements shutdown without additional internal calls.
+ */
 void CUDAMatrixBackend::shutdown() {
 #ifdef THEMIS_ENABLE_CUDA
     initialized_ = false;
 #endif
 }
 
+/**
+ * @brief Matmul.
+ * @param[in] params Input parameter.
+ * @param[in,out] opaque_stream Input/output parameter.
+ * @return Return value.
+ * @details Calls: get(), tensor_core::dispatchMatmul(), else().
+ */
 int CUDAMatrixBackend::matmul(const MatrixKernelParams &params, void *opaque_stream) {
 #ifdef THEMIS_ENABLE_CUDA
     if (!initialized_)

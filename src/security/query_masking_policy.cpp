@@ -38,12 +38,23 @@ QueryMaskingPolicy::QueryMaskingPolicy(Config config, const std::string& config_
                  config_.enabled, config_.auto_detect_pii, config_.mask_by_field_name);
 }
 
+/**
+ * @brief Create.
+ * @param[in] config_path Path to the retention policy configuration file.
+ * @return Return value.
+ */
 std::shared_ptr<QueryMaskingPolicy> QueryMaskingPolicy::create(
     const std::string& config_path)
 {
     return std::make_shared<QueryMaskingPolicy>(config_path);
 }
 
+/**
+ * @brief Create.
+ * @param[in] config Input parameter.
+ * @param[in] config_path Path to the retention policy configuration file.
+ * @return Return value.
+ */
 std::shared_ptr<QueryMaskingPolicy> QueryMaskingPolicy::create(
     Config config,
     const std::string& config_path)
@@ -55,18 +66,38 @@ std::shared_ptr<QueryMaskingPolicy> QueryMaskingPolicy::create(
 // Explicit field declarations
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Declare Field.
+ * @param[in] field_name Name of the field.
+ * @param[in] mask_mode Input parameter.
+ * @param[in] pii_type Input parameter.
+ */
 void QueryMaskingPolicy::declareField(
     const std::string& field_name,
     const std::string& mask_mode,
     utils::PIIType pii_type)
 {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     declared_fields_[field_name] = FieldMaskConfig{mask_mode, pii_type};
     spdlog::debug("QueryMaskingPolicy: declared field '{}' mask_mode='{}'", field_name, mask_mode);
 }
 
+/**
+ * @brief Undeclare Field.
+ * @param[in] field_name Name of the field.
+ */
 void QueryMaskingPolicy::undeclareField(const std::string& field_name)
 {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     declared_fields_.erase(field_name);
 }
@@ -77,18 +108,37 @@ void QueryMaskingPolicy::undeclareField(const std::string& field_name)
 
 bool QueryMaskingPolicy::isEnabled() const
 {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return config_.enabled;
 }
 
+/**
+ * @brief Set Enabled.
+ * @param[in] enabled Input parameter.
+ */
 void QueryMaskingPolicy::setEnabled(bool enabled)
 {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     config_.enabled = enabled;
 }
 
 bool QueryMaskingPolicy::isPrivileged(const std::vector<std::string>& user_roles) const
 {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     for (const auto& role : user_roles) {
         if (config_.privileged_roles.count(role) > 0) {
@@ -113,6 +163,11 @@ nlohmann::json QueryMaskingPolicy::maskResult(
 {
     DeclaredFieldsSnapshot snapshot;
     {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         if (!config_.enabled) {
             return result;
@@ -136,6 +191,11 @@ nlohmann::json QueryMaskingPolicy::maskResultSet(
 {
     DeclaredFieldsSnapshot snapshot;
     {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         if (!config_.enabled) {
             return results;

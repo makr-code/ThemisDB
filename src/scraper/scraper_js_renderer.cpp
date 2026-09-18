@@ -100,6 +100,12 @@ std::string SubprocessJSRenderer::buildCommand(const JsRenderRequest& req) const
     return cmd.str();
 }
 
+/**
+ * @brief Render.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: isAvailable(), std::chrono::steady_clock::now(), defined(), ss(), push_back(), std::to_string(), empty(), reserve().
+ */
 JsRenderResult SubprocessJSRenderer::render(const JsRenderRequest& req) {
     JsRenderResult result = {};
 

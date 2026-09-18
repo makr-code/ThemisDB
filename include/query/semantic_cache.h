@@ -40,7 +40,6 @@ namespace themis {
 
 namespace themis {
 
-/** @brief Semantic query cache component. */
 class SemanticQueryCache {
 public:
     // Configuration
@@ -118,7 +117,18 @@ public:
         bool ok = false;
         std::string message;
         
+        /**
+         * @brief OK.
+         * @return Return value.
+         * @details Implements OK without additional internal calls.
+         */
         static Status OK() { return Status{true, ""}; }
+        /**
+         * @brief Error.
+         * @param[in] msg Input parameter.
+         * @return Return value.
+         * @details Calls: std::move().
+         */
         static Status Error(std::string msg) { return Status{false, std::move(msg)}; }
     };
 
@@ -133,38 +143,118 @@ public:
     SemanticQueryCache(SemanticQueryCache&&) = delete;  // Deleted: contains std::mutex and references
     SemanticQueryCache& operator=(SemanticQueryCache&&) = delete;  // Deleted: contains std::mutex and references
     
-    /// @cwe CWE-457: Mutex and member references are non-moveable, so move operations explicitly deleted
     
     // Cache operations
+    /**
+     * @brief Put.
+     * @param[in] query Input parameter.
+     * @param[in] result_json Input parameter.
+     * @return Return value.
+     */
     Status put(std::string_view query, std::string_view result_json);
+    /**
+     * @brief Get.
+     * @param[in] query Input parameter.
+     * @return Return value.
+     */
     LookupResult get(std::string_view query);
+    /**
+     * @brief Remove.
+     * @param[in] query Input parameter.
+     * @return Return value.
+     */
     Status remove(std::string_view query);
+    /**
+     * @brief Clear.
+     * @return Return value.
+     */
     Status clear();
     
     // Statistics
+    /**
+     * @brief Get Stats.
+     * @return Return value.
+     */
     CacheStats getStats() const;
+    /**
+     * @brief Reset Stats.
+     */
     void resetStats();
     
     // Configuration
+    /**
+     * @brief Set Config.
+     * @param[in] config Input parameter.
+     */
     void setConfig(const Config& config);
+    /**
+     * @brief Get Config.
+     * @return Return value.
+     */
     Config getConfig() const;
     
     // Maintenance
+    /**
+     * @brief Evict Expired.
+     * @return Return value.
+     */
     Status evictExpired();                       // Remove expired entries
     Status evictLRU(size_t count = 1);          // Evict least recently used
     
 private:
     // Helper methods
+    /**
+     * @brief Compute Query Embedding.
+     * @param[in] query Input parameter.
+     * @return Return value.
+     */
     std::vector<float> computeQueryEmbedding_(std::string_view query) const;
+    /**
+     * @brief Make Exact Match Key.
+     * @param[in] query Input parameter.
+     * @return Return value.
+     */
     std::string makeExactMatchKey_(std::string_view query) const;
+    /**
+     * @brief Make Cache Entry Key.
+     * @param[in] query Input parameter.
+     * @return Return value.
+     */
     std::string makeCacheEntryKey_(std::string_view query) const;
+    /**
+     * @brief Load Cache Entry.
+     * @param[in] query Input parameter.
+     * @return Return value.
+     */
     std::optional<CacheEntry> loadCacheEntry_(std::string_view query) const;
+    /**
+     * @brief Save Cache Entry.
+     * @param[in] entry Input parameter.
+     * @return Return value.
+     */
     Status saveCacheEntry_(const CacheEntry& entry);
+    /**
+     * @brief Remove Internal.
+     * @param[in] query Input parameter.
+     * @return Return value.
+     */
     Status removeInternal_(std::string_view query);  // Internal remove (assumes lock held)
+    /**
+     * @brief Update LRU.
+     * @param[in] query Input parameter.
+     */
     void updateLRU_(std::string_view query);
+    /**
+     * @brief Evict One.
+     * @return Return value.
+     */
     Status evictOne_();
     
-    // Feature extraction for query embedding
+    /**
+     * @brief Feature extraction for query embedding
+     * @param[in] query Input parameter.
+     * @return Return value.
+     */
     std::vector<std::string> tokenizeQuery_(std::string_view query) const;
     std::map<std::string, float> extractQueryFeatures_(std::string_view query) const;
     

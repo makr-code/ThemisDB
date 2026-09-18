@@ -80,11 +80,22 @@ constexpr int MAX_RETRIES = 3;
 constexpr std::chrono::milliseconds INITIAL_RETRY_DELAY{100};
 std::atomic<uint64_t> g_distributed_operation_counter{0};
 
+/**
+ * @brief Next Distributed Operation Id.
+ * @return Return value.
+ * @details Calls: std::to_string(), fetch_add().
+ */
 std::string nextDistributedOperationId() {
     return "analytics-distributed-" +
            std::to_string(g_distributed_operation_counter.fetch_add(1, std::memory_order_relaxed) + 1);
 }
 
+/**
+ * @brief Classify Distributed Failure.
+ * @param[in] result Input parameter.
+ * @return Return value.
+ * @details Implements classifyDistributedFailure without additional internal calls.
+ */
 std::string classifyDistributedFailure(
         const DistributedAnalyticsSharding::DistributedResult& result) {
     if (result.total_shards == 0) {
@@ -96,6 +107,13 @@ std::string classifyDistributedFailure(
     return "partial_failure";
 }
 
+/**
+ * @brief Finalize Distributed Result.
+ * @param[in] result Input parameter.
+ * @param[in] query Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), nextDistributedOperationId(), classifyDistributedFailure(), push_back().
+ */
 DistributedAnalyticsSharding::DistributedResult finalizeDistributedResult(
         DistributedAnalyticsSharding::DistributedResult result,
         const OLAPQuery& query) {
@@ -123,10 +141,6 @@ DistributedAnalyticsSharding::DistributedResult finalizeDistributedResult(
     return result;
 }
 
-/**
- * Safe float comparison with epsilon tolerance.
- * Handles NaN and Inf values correctly.
- */
 inline bool isClose(double a, double b, double tol = EPSILON) {
     if (std::isnan(a) && std::isnan(b)) {
       return true;
@@ -144,8 +158,10 @@ inline bool isClose(double a, double b, double tol = EPSILON) {
 }
 
 /**
- * Convert a RowValue to double for numeric aggregation.
- * Returns 0.0 for non-numeric or null values.
+ * @brief To Double.
+ * @param[in] v Input parameter.
+ * @return Return value.
+ * @details Implements toDouble without additional internal calls.
  */
 double toDouble(const RowValue &v) {
     if (auto *d = std::get_if<double>(&v)) {
@@ -161,7 +177,10 @@ double toDouble(const RowValue &v) {
 }
 
 /**
- * Convert a RowValue to a string for use in group keys.
+ * @brief Value To String.
+ * @param[in] v Input parameter.
+ * @return Return value.
+ * @details Calls: std::to_string().
  */
 std::string valueToString(const RowValue &v) {
     if (std::holds_alternative<std::nullptr_t>(v)) {
@@ -186,16 +205,6 @@ std::string valueToString(const RowValue &v) {
 // Per-group merge accumulator
 // -----------------------------------------------------------------------
 
-/**
- * Tracks the partial state needed to correctly merge one measure column
- * across shard results.
- *
- * For AVG, we accumulate a weighted sum and total count so the final result
- * is exact (sum/count), not an average of averages.
- *
- * For STDDEV/VARIANCE we use Chan's parallel algorithm which requires the
- * running count, mean, and M2 (sum of squared deviations).
- */
 struct MeasureAccumulator {
     Measure::Function func = Measure::Function::Sum;
 
@@ -216,6 +225,11 @@ struct MeasureAccumulator {
     RowValue last_value;
     bool has_first = false;
 
+    /**
+     * @brief Accumulate.
+     * @param[in] val Input parameter.
+     * @details Calls: toDouble(), std::isfinite().
+     */
     void accumulate(const RowValue &val) {
         double dval = toDouble(val);
 
@@ -295,11 +309,10 @@ struct MeasureAccumulator {
     }
 
     /**
-     * Weighted accumulation for AVG, STDDEV, VARIANCE from a shard that
-     * already computed the aggregate together with its row count.
-     *
-     * @param agg_val    Pre-computed aggregate value from shard.
-     * @param row_count  Number of rows in that shard's group.
+     * @brief Accumulate Weighted Avg.
+     * @param[in] agg_val Input parameter.
+     * @param[in] row_count Input parameter.
+     * @details Implements accumulateWeightedAvg without additional internal calls.
      */
     void accumulateWeightedAvg(double agg_val, double row_count) {
         // Maintain parallel-sum and total-count so we can compute a
@@ -309,7 +322,11 @@ struct MeasureAccumulator {
     }
 
     /**
-     * Merge another Chan state (for STDDEV/VARIANCE parallel combination).
+     * @brief Merge Variance State.
+     * @param[in] other_count Input parameter.
+     * @param[in] other_mean Input parameter.
+     * @param[in] other_m2 Input parameter.
+     * @details Implements mergeVarianceState without additional internal calls.
      */
     void mergeVarianceState(double other_count, double other_mean, double other_m2) {
         // other_count is integer-valued (accumulated via 1.0 increments), so
@@ -324,7 +341,6 @@ struct MeasureAccumulator {
         count = total;
     }
 
-    /** Finalise and return the merged aggregate value. */
     RowValue finalise() const {
         switch (func) {
             case Measure::Function::Count:
@@ -433,12 +449,20 @@ DistributedAnalyticsSharding::~DistributedAnalyticsSharding() {
 // DistributedAnalyticsSharding – background health monitor
 // ============================================================================
 
+/**
+ * @brief Start Health Monitor.
+ * @details Calls: count(), std::thread().
+ */
 void DistributedAnalyticsSharding::startHealthMonitor() {
     if (config_.health_check_interval.count() > 0) {
         health_monitor_thread_ = std::thread(&DistributedAnalyticsSharding::runHealthMonitor, this);
     }
 }
 
+/**
+ * @brief Run Health Monitor.
+ * @details Calls: load(), lock(), wait_for(), main_lock(), reserve(), size(), isHealthy(), spdlog::debug().
+ */
 void DistributedAnalyticsSharding::runHealthMonitor() {
     while (!stopping_.load(std::memory_order_acquire)) {
         // Wait for the configured interval (or until stopped)
@@ -486,6 +510,13 @@ void DistributedAnalyticsSharding::runHealthMonitor() {
 // DistributedAnalyticsSharding – shard management
 // ============================================================================
 
+/**
+ * @brief Add Shard.
+ * @param[in] shard_id Identifier of the shard.
+ * @param[in] executor Input parameter.
+ * @param[in] tenant_id Identifier of the tenant.
+ * @details Calls: isHealthy(), spdlog::debug(), what(), lock(), std::move(), store(), push_back().
+ */
 void DistributedAnalyticsSharding::addShard(const std::string &shard_id, std::shared_ptr<ShardQueryExecutor> executor,
                                             const std::string &tenant_id) {
     bool initial_healthy = true;
@@ -521,6 +552,11 @@ void DistributedAnalyticsSharding::addShard(const std::string &shard_id, std::sh
     shards_.push_back(std::move(entry));
 }
 
+/**
+ * @brief Remove Shard.
+ * @param[in] shard_id Identifier of the shard.
+ * @details Calls: lock(), erase(), std::remove_if(), begin(), end().
+ */
 void DistributedAnalyticsSharding::removeShard(const std::string &shard_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     shards_.erase(
@@ -529,11 +565,21 @@ void DistributedAnalyticsSharding::removeShard(const std::string &shard_id) {
 }
 
 size_t DistributedAnalyticsSharding::getShardCount() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return shards_.size();
 }
 
 size_t DistributedAnalyticsSharding::getHealthyShardCount() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     size_t n = 0;
     for (const auto &e : shards_) {
@@ -548,6 +594,11 @@ std::future<size_t> DistributedAnalyticsSharding::getHealthyShardCountAsync() co
     // Snapshot shard list under a brief lock
     std::vector<ShardEntry> snapshot;
     {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         snapshot.reserve(shards_.size());
         snapshot = shards_;
@@ -571,6 +622,11 @@ std::future<size_t> DistributedAnalyticsSharding::getHealthyShardCountAsync() co
 }
 
 std::vector<std::string> DistributedAnalyticsSharding::getShardIds() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     std::vector<std::string> ids = {};
 
@@ -585,7 +641,14 @@ std::vector<std::string> DistributedAnalyticsSharding::getShardIds() const {
 // Row group key
 // ============================================================================
 
-/*static*/
+/**
+ * @brief static
+ * @param[in] row Input parameter.
+ * @param[in] dims Input parameter.
+ * @param[in] grouping_id Identifier of the grouping.
+ * @return Return value.
+ * @details Calls: reserve(), std::to_string(), find(), end(), valueToString().
+ */
 std::string DistributedAnalyticsSharding::rowGroupKey(const Row &row,
                                                       const std::vector<themis::analytics::Dimension> &dims,
                                                       int64_t grouping_id) {
@@ -610,7 +673,13 @@ std::string DistributedAnalyticsSharding::rowGroupKey(const Row &row,
 // mergeResults
 // ============================================================================
 
-/*static*/
+/**
+ * @brief static
+ * @param[in] partials Input parameter.
+ * @param[in] query Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), reserve(), size(), rowGroupKey(), try_emplace(), clear(), find(), end().
+ */
 OLAPResult DistributedAnalyticsSharding::mergeResults(const std::vector<OLAPResult> &partials, const OLAPQuery &query) {
     // NOTE ON VERSION TRACKING & DATA RACE FINDINGS:
     // This static method executes as a single-threaded sequential merge operation.
@@ -820,6 +889,11 @@ DistributedAnalyticsSharding::executeDistributed(const OLAPQuery &query) {
     // Snapshot the active shard list under the lock (uses cached health — no I/O)
     std::vector<ShardEntry> active;
     {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         for (auto &e : shards_) {
             if (!e.executor || !e.cached_healthy || !e.cached_healthy->load(std::memory_order_relaxed)) {
@@ -1188,6 +1262,12 @@ DistributedAnalyticsSharding::executeDistributed(const OLAPQuery &query) {
 // execute (convenience)
 // ============================================================================
 
+/**
+ * @brief Execute.
+ * @param[in] query Input parameter.
+ * @return Return value.
+ * @details Calls: executeDistributed().
+ */
 OLAPResult DistributedAnalyticsSharding::execute(const OLAPQuery &query) {
     return executeDistributed(query).merged;
 }
@@ -1196,6 +1276,11 @@ OLAPResult DistributedAnalyticsSharding::execute(const OLAPQuery &query) {
 // Circuit Breaker Safety Control Helpers (Phase 2.2)
 // ============================================================================
 
+/**
+ * @brief On Shard Success.
+ * @param[in,out] entry Input/output parameter.
+ * @details Calls: lock(), spdlog::info().
+ */
 void DistributedAnalyticsSharding::onShardSuccess(ShardEntry& entry) {
     if (!config_.enable_circuit_breaker) {
       return;
@@ -1220,6 +1305,13 @@ void DistributedAnalyticsSharding::onShardSuccess(ShardEntry& entry) {
     }
 }
 
+/**
+ * @brief On Shard Failure.
+ * @param[in,out] entry Input/output parameter.
+ * @param[in] error_msg Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), std::chrono::steady_clock::now(), std::chrono::milliseconds(), spdlog::warn(), std::min().
+ */
 bool DistributedAnalyticsSharding::onShardFailure(ShardEntry& entry, const std::string& error_msg) {
     if (!config_.enable_circuit_breaker) {
       return true;
@@ -1275,6 +1367,12 @@ bool DistributedAnalyticsSharding::onShardFailure(ShardEntry& entry, const std::
     return cb_info.state != DistributedAnalyticsSharding::CircuitBreakerState::OPEN;
 }
 
+/**
+ * @brief Update Circuit Breaker State.
+ * @param[in,out] entry Input/output parameter.
+ * @return Return value.
+ * @details Calls: lock(), std::chrono::steady_clock::now(), spdlog::info().
+ */
 DistributedAnalyticsSharding::CircuitBreakerState DistributedAnalyticsSharding::updateCircuitBreakerState(ShardEntry& entry) {
     if (!config_.enable_circuit_breaker) {
       return DistributedAnalyticsSharding::CircuitBreakerState::CLOSED;
@@ -1334,6 +1432,11 @@ bool DistributedAnalyticsSharding::tryEnqueueRequest(
     return true;
 }
 
+/**
+ * @brief Process Queued Requests.
+ * @param[in,out] entry Input/output parameter.
+ * @details Calls: void(), lock(), empty(), std::move(), front(), pop(), notify_one(), next_task().
+ */
 void DistributedAnalyticsSharding::processQueuedRequests(ShardEntry& entry) {
     std::function<void()> next_task;
     {

@@ -31,6 +31,11 @@ namespace gpu {
 // Private helpers
 // ============================================================================
 
+/**
+ * @brief Now Ns.
+ * @return Return value.
+ * @details Calls: steady_clock::now(), time_since_epoch(), count().
+ */
 uint64_t GPUProfiler::nowNs() {
     using namespace std::chrono;
     return static_cast<uint64_t>(duration_cast<nanoseconds>(steady_clock::now().time_since_epoch()).count());
@@ -40,6 +45,12 @@ uint64_t GPUProfiler::nowNs() {
 // Range markers
 // ============================================================================
 
+/**
+ * @brief Begin Range.
+ * @param[in] name Input parameter.
+ * @param[in] argb_color Input parameter.
+ * @details Calls: lock(), c_str(), nvtxRangePushEx(), defined(), roctxRangePushA(), push_back(), nowNs().
+ */
 void GPUProfiler::beginRange(const std::string &name, uint32_t argb_color) {
     std::lock_guard<std::mutex> lock(mutex_);
 
@@ -60,6 +71,10 @@ void GPUProfiler::beginRange(const std::string &name, uint32_t argb_color) {
     range_stack_.push_back({name, nowNs(), argb_color});
 }
 
+/**
+ * @brief End Range.
+ * @details Calls: lock(), empty(), nvtxRangePop(), defined(), roctxRangePop(), nowNs(), back(), push_back().
+ */
 void GPUProfiler::endRange() {
     std::lock_guard<std::mutex> lock(mutex_);
     if (range_stack_.empty()) {
@@ -84,6 +99,11 @@ void GPUProfiler::endRange() {
     range_stack_.pop_back();
 }
 
+/**
+ * @brief Mark Event.
+ * @param[in] name Input parameter.
+ * @details Calls: lock(), nvtxMarkA(), c_str(), defined(), roctxMarkA(), nowNs(), push_back(), std::move().
+ */
 void GPUProfiler::markEvent(const std::string &name) {
     std::lock_guard<std::mutex> lock(mutex_);
 
@@ -106,6 +126,11 @@ void GPUProfiler::markEvent(const std::string &name) {
 // ============================================================================
 
 std::string GPUProfiler::rocm_profiler_export() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     // Chrome trace format is consumed by:
@@ -155,10 +180,19 @@ std::string GPUProfiler::rocm_profiler_export() const {
 // ============================================================================
 
 std::vector<GPUProfiler::Range> GPUProfiler::getRanges() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return completed_ranges_;
 }
 
+/**
+ * @brief Reset the modification detection flag.
+ * @details Calls: lock(), clear().
+ */
 void GPUProfiler::reset() {
     std::lock_guard<std::mutex> lock(mutex_);
     range_stack_.clear();

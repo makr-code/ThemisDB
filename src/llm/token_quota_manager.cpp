@@ -19,7 +19,11 @@ namespace llm {
 // Internal helpers
 // ---------------------------------------------------------------------------
 
-/*static*/
+/**
+ * @brief static
+ * @param[in,out] entry Input/output parameter.
+ * @details Calls: std::chrono::steady_clock::now(), std::remove_if(), begin(), end(), erase().
+ */
 void TokenQuotaManager::prune(QuotaEntry& entry) {
     const auto cutoff = std::chrono::steady_clock::now() - WINDOW;
     auto it = std::remove_if(entry.events.begin(), entry.events.end(),
@@ -31,6 +35,13 @@ void TokenQuotaManager::prune(QuotaEntry& entry) {
 // Public API
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Set Quota.
+ * @param[in] user_id Identifier of the user.
+ * @param[in] model_id Identifier of the model.
+ * @param[in] limit Input parameter.
+ * @details Calls: makeKey(), lock(), spdlog::debug().
+ */
 void TokenQuotaManager::setQuota(const std::string& user_id,
                                   const std::string& model_id,
                                   size_t limit) {
@@ -42,6 +53,13 @@ void TokenQuotaManager::setQuota(const std::string& user_id,
                   user_id, model_id, limit);
 }
 
+/**
+ * @brief Remove Quota.
+ * @param[in] user_id Identifier of the user.
+ * @param[in] model_id Identifier of the model.
+ * @return True when the operation succeeds.
+ * @details Calls: makeKey(), lock(), erase().
+ */
 bool TokenQuotaManager::removeQuota(const std::string& user_id,
                                      const std::string& model_id) {
     const auto key = makeKey(user_id, model_id);
@@ -53,6 +71,11 @@ QuotaCheckResult TokenQuotaManager::check(const std::string& user_id,
                                            const std::string& model_id,
                                            size_t estimated_tokens) const {
     const auto key = makeKey(user_id, model_id);
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     auto it = entries_.find(key);
@@ -86,6 +109,13 @@ QuotaCheckResult TokenQuotaManager::check(const std::string& user_id,
     return QuotaCheckResult{true, "", used, entry.limit};
 }
 
+/**
+ * @brief Consume.
+ * @param[in] user_id Identifier of the user.
+ * @param[in] model_id Identifier of the model.
+ * @param[in] tokens Input parameter.
+ * @details Calls: makeKey(), lock(), find(), end(), push_back(), std::chrono::steady_clock::now(), spdlog::debug().
+ */
 void TokenQuotaManager::consume(const std::string& user_id,
                                  const std::string& model_id,
                                  size_t tokens) {
@@ -108,6 +138,11 @@ void TokenQuotaManager::consume(const std::string& user_id,
 size_t TokenQuotaManager::currentUsage(const std::string& user_id,
                                         const std::string& model_id) const {
     const auto key = makeKey(user_id, model_id);
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     auto it = entries_.find(key);
@@ -128,6 +163,11 @@ size_t TokenQuotaManager::currentUsage(const std::string& user_id,
 std::optional<size_t> TokenQuotaManager::getLimit(const std::string& user_id,
                                                     const std::string& model_id) const {
     const auto key = makeKey(user_id, model_id);
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = entries_.find(key);
     if (it == entries_.end()) {

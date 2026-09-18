@@ -48,8 +48,6 @@ enum class PlanNodeType {
     Unknown
 };
 
-/// A node in the query execution plan tree.
-/// Children represent inputs (sub-operators) consumed by this operator.
 struct QueryPlanNode {
     PlanNodeType type = PlanNodeType::Unknown;
     std::string description;                  ///< Human-readable operator label
@@ -74,21 +72,18 @@ struct QueryPlanNode {
 // QueryPlanVisualizer - Build and render query execution plans
 // ============================================================================
 
-/// Builds a QueryPlanNode tree from an optimized query/plan and renders it in
-/// multiple formats:
-///   * Text  – PostgreSQL-style EXPLAIN / EXPLAIN ANALYZE output
-///   * JSON  – Machine-readable format for programmatic analysis
-///   * DOT   – Graphviz DOT for diagram generation
 class QueryPlanVisualizer {
 public:
     // ------------------------------------------------------------------
     // Plan construction
     // ------------------------------------------------------------------
 
-    /// Build a plan tree from a ConjunctiveQuery and its optimized Plan.
-    /// @param query  The logical query.
-    /// @param plan   The optimizer plan with predicate ordering.
-    /// @returns Root node of the execution plan tree.
+    /**
+     * @brief Build Plan.
+     * @param[in] query Input parameter.
+     * @param[in] plan Input parameter.
+     * @return Return value.
+     */
     static QueryPlanNode buildPlan(const ConjunctiveQuery& query,
                                    const QueryOptimizer::Plan& plan);
 
@@ -96,35 +91,67 @@ public:
     // Rendering
     // ------------------------------------------------------------------
 
-    /// Render the plan as indented text (EXPLAIN format).
-    /// @param root     Root plan node.
-    /// @param analyze  When true, include actual_time_ms / actual_rows columns.
-    /// @returns Multi-line string representation.
     static std::string toText(const QueryPlanNode& root, bool analyze = false);
 
-    /// Render the plan as a JSON object.
-    /// @param root     Root plan node.
-    /// @param analyze  When true, include runtime statistics in the output.
-    /// @returns nlohmann::json object.
     static nlohmann::json toJSON(const QueryPlanNode& root, bool analyze = false);
 
-    /// Render the plan as a Graphviz DOT digraph string.
-    /// Can be piped to `dot -Tpng -o plan.png` for visualisation.
-    /// @param root  Root plan node.
-    /// @returns DOT source string.
+    /**
+     * @brief To DOT.
+     * @param[in] root Input parameter.
+     * @return Return value.
+     */
     static std::string toDOT(const QueryPlanNode& root);
 
-    /// Return a short textual name for a PlanNodeType (public for tests).
+    /**
+     * @brief Plan Node Type Name.
+     * @param[in] type Input parameter.
+     * @return Return value.
+     */
     static std::string planNodeTypeName(PlanNodeType type);
 
 private:
     // Internal helpers
+    /**
+     * @brief To Text Impl.
+     * @param[in] node Input parameter.
+     * @param[in] analyze Input parameter.
+     * @param[in,out] out Input/output parameter.
+     * @param[in] depth Input parameter.
+     */
     static void toTextImpl(const QueryPlanNode& node, bool analyze,
                            std::string& out, int depth);
+    /**
+     * @brief To JSONImpl.
+     * @param[in] node Input parameter.
+     * @param[in] analyze Input parameter.
+     * @return Return value.
+     */
     static nlohmann::json toJSONImpl(const QueryPlanNode& node, bool analyze);
+    /**
+     * @brief To JSONImpl.
+     * @param[in] node Input parameter.
+     * @param[in] analyze Input parameter.
+     * @param[in] depth Input parameter.
+     * @return Return value.
+     */
     static nlohmann::json toJSONImpl(const QueryPlanNode& node, bool analyze, int depth);
+    /**
+     * @brief To DOTImpl.
+     * @param[in] node Input parameter.
+     * @param[in,out] id_counter Input/output parameter.
+     * @param[in,out] nodes_out Input/output parameter.
+     * @param[in,out] edges_out Input/output parameter.
+     */
     static void toDOTImpl(const QueryPlanNode& node, int& id_counter,
                           std::string& nodes_out, std::string& edges_out);
+    /**
+     * @brief To DOTImpl.
+     * @param[in] node Input parameter.
+     * @param[in,out] id_counter Input/output parameter.
+     * @param[in,out] nodes_out Input/output parameter.
+     * @param[in,out] edges_out Input/output parameter.
+     * @param[in] depth Input parameter.
+     */
     static void toDOTImpl(const QueryPlanNode& node, int& id_counter,
                           std::string& nodes_out, std::string& edges_out, int depth);
 

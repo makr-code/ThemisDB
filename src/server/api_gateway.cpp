@@ -20,7 +20,12 @@
 #include <sstream>
 #include <spdlog/spdlog.h>
 
-// Portable wrappers for tm <-> time_t conversions
+/**
+ * @brief Portable wrappers for tm <-> time_t conversions
+ * @param[in] t Input parameter.
+ * @param[in,out] out Input/output parameter.
+ * @details Calls: gmtime_s(), gmtime_r().
+ */
 static inline void portable_gmtime_r_impl(const time_t* t, std::tm* out) {
 #ifdef _WIN32
     gmtime_s(out, t);  // Windows: gmtime_s(tm*, time_t*)
@@ -45,7 +50,11 @@ namespace {
         ConfigurationError = 2
     };
 
-    // Trim leading and trailing ASCII whitespace from a string in-place.
+    /**
+     * @brief Trim leading and trailing ASCII whitespace from a string in-place.
+     * @param[in,out] s Input/output parameter.
+     * @details Calls: find_first_not_of(), clear(), erase(), find_last_not_of().
+     */
     inline void trimInPlace(std::string& s) {
         auto first = s.find_first_not_of(" \t");
         if (first == std::string::npos) { s.clear(); return; }
@@ -247,6 +256,14 @@ http::response<http::string_body> APIGateway::handleRequest(
     }
 }
 
+/**
+ * @brief Execute Federated Query.
+ * @param[in] query Input parameter.
+ * @param[in] auth_context Input parameter.
+ * @return Return value.
+ * @throws Error if an error occurs.
+ * @details Calls: spdlog::info(), executeQuery(), spdlog::error(), what().
+ */
 nlohmann::json APIGateway::executeFederatedQuery(
     const std::string& query,
     const AuthContext& auth_context
@@ -360,6 +377,11 @@ nlohmann::json APIGateway::getHealthStatus() const {
     return health;
 }
 
+/**
+ * @brief Update the access control configuration.
+ * @param[in] config New access control configuration.
+ * @details Calls: spdlog::info().
+ */
 void APIGateway::updateConfig(const Config& config) {
     spdlog::info("Updating APIGateway configuration");
     config_ = config;
@@ -373,6 +395,12 @@ void APIGateway::registerHandler(
     handlers_[pattern] = std::move(handler);
 }
 
+/**
+ * @brief Register Deprecation.
+ * @param[in] endpoint Input parameter.
+ * @param[in] info Input parameter.
+ * @details Implements registerDeprecation without additional internal calls.
+ */
 void APIGateway::registerDeprecation(
     const std::string& endpoint,
     const APIDeprecationInfo& info
@@ -411,6 +439,13 @@ std::optional<sharding::URN> APIGateway::extractUrnFromPath(const std::string& p
     return std::nullopt;
 }
 
+/**
+ * @brief Dispatch Shard Operation.
+ * @param[in] urn Input parameter.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: makeErrorResponse(), method(), get(), body(), empty(), nlohmann::json::parse(), spdlog::warn(), what().
+ */
 http::response<http::string_body> APIGateway::dispatchShardOperation(
     const sharding::URN& urn,
     const http::request<http::string_body>& req
@@ -458,6 +493,12 @@ http::response<http::string_body> APIGateway::dispatchShardOperation(
     return makeErrorResponse(http::status::not_found, "Entity not found or shard error", req);
 }
 
+/**
+ * @brief Determine Route Target.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: std::string(), target(), find(), method().
+ */
 APIGateway::RouteTarget APIGateway::determineRouteTarget(
     const http::request<http::string_body>& req
 ) {
@@ -495,6 +536,12 @@ APIGateway::RouteTarget APIGateway::determineRouteTarget(
     return RouteTarget::LOCAL;
 }
 
+/**
+ * @brief Check whether a user exceeds the current rate limit.
+ * @param[in] req Input parameter.
+ * @return True when the user remains within the configured limit.
+ * @details Calls: extractClientIp(), empty(), std::string(), data(), size(), substr(), extractContext(), str().
+ */
 bool APIGateway::checkRateLimit(const http::request<http::string_body>& req) {
     // Build a client ID derived from the originating IP when no auth token is
     // available. Respects trusted gateway headers (X-Real-IP, X-Forwarded-For)
@@ -569,6 +616,12 @@ bool APIGateway::checkRateLimit(const http::request<http::string_body>& req) {
     return rate_limiter.allowRequest(client_id);
 }
 
+/**
+ * @brief Check Load Shedding.
+ * @param[in] param Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: shouldReject().
+ */
 bool APIGateway::checkLoadShedding(const http::request<http::string_body>& /*req*/) {
     if (!load_shedder_) {
         return true;
@@ -578,6 +631,12 @@ bool APIGateway::checkLoadShedding(const http::request<http::string_body>& /*req
     return !load_shedder.shouldReject(LoadShedder::Priority::NORMAL);
 }
 
+/**
+ * @brief Get Circuit Breaker.
+ * @param[in] backend_id Identifier of the backend.
+ * @return Return value.
+ * @details Calls: lock(), find(), end().
+ */
 std::shared_ptr<sharding::CircuitBreaker> APIGateway::getCircuitBreaker(
     const std::string& backend_id
 ) {
@@ -606,6 +665,13 @@ http::response<http::string_body> APIGateway::executeLocal(
     }
 }
 
+/**
+ * @brief Execute Remote.
+ * @param[in] req Input parameter.
+ * @param[in] shard_id Identifier of the shard.
+ * @return Return value.
+ * @details Calls: makeErrorResponse(), getCircuitBreaker(), allowRequest(), extractUrnFromPath(), std::string(), target(), dispatchShardOperation(), result().
+ */
 http::response<http::string_body> APIGateway::executeRemote(
     const http::request<http::string_body>& req,
     const std::string& shard_id
@@ -666,6 +732,12 @@ http::response<http::string_body> APIGateway::executeRemote(
     }
 }
 
+/**
+ * @brief Execute Scatter Gather.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: makeErrorResponse(), body(), empty(), nlohmann::json::parse(), value(), scatterGather(), nlohmann::json::array(), push_back().
+ */
 http::response<http::string_body> APIGateway::executeScatterGather(
     const http::request<http::string_body>& req
 ) {
@@ -723,6 +795,14 @@ http::response<http::string_body> APIGateway::executeScatterGather(
     }
 }
 
+/**
+ * @brief Make Error Response.
+ * @param[in] status Input parameter.
+ * @param[in] message Input parameter.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: version(), set(), body(), dump(), prepare_payload(), keep_alive().
+ */
 http::response<http::string_body> APIGateway::makeErrorResponse(
     http::status status,
     const std::string& message,
@@ -741,6 +821,14 @@ http::response<http::string_body> APIGateway::makeErrorResponse(
     return response;
 }
 
+/**
+ * @brief Make Response.
+ * @param[in] status Input parameter.
+ * @param[in] body Input parameter.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: version(), set(), body(), prepare_payload(), keep_alive().
+ */
 http::response<http::string_body> APIGateway::makeResponse(
     http::status status,
     const std::string& body,
@@ -754,6 +842,14 @@ http::response<http::string_body> APIGateway::makeResponse(
     return response;
 }
 
+/**
+ * @brief Record Metrics.
+ * @param[in] req Input parameter.
+ * @param[in] response Input parameter.
+ * @param[in] duration_ms Input parameter.
+ * @param[in] target Input parameter.
+ * @details Calls: std::string(), method_string(), std::to_string(), result(), spdlog::debug(), nlohmann::json(), dump().
+ */
 void APIGateway::recordMetrics(
     const http::request<http::string_body>& req,
     const http::response<http::string_body>& response,
@@ -787,6 +883,13 @@ void APIGateway::recordMetrics(
                  nlohmann::json(labels).dump(), duration_ms);
 }
 
+/**
+ * @brief Process Version Headers.
+ * @param[in] req Input parameter.
+ * @param[in,out] response Input/output parameter.
+ * @return Return value.
+ * @details Calls: std::string(), target(), find(), substr(), extractVersionFromPath(), end(), value(), empty().
+ */
 APIVersion APIGateway::processVersionHeaders(
     const http::request<http::string_body>& req,
     http::response<http::string_body>& response
@@ -876,6 +979,13 @@ APIVersion APIGateway::processVersionHeaders(
     return version;
 }
 
+/**
+ * @brief Add Deprecation Headers.
+ * @param[in] req Input parameter.
+ * @param[in,out] response Input/output parameter.
+ * @param[in] version Input parameter.
+ * @details Calls: std::string(), target(), find(), substr(), stripVersionPrefix(), getDeprecationInfo(), set(), toString().
+ */
 void APIGateway::addDeprecationHeaders(
     const http::request<http::string_body>& req,
     http::response<http::string_body>& response,

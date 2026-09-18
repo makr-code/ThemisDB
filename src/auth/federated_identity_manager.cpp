@@ -43,22 +43,13 @@ namespace auth {
 // [W8-16] Token cache size cap + SHA-256 key helpers
 // ---------------------------------------------------------------------------
 
-/// Maximum number of validated tokens held in the in-memory cache.
-/// Entries exceeding this limit are evicted LRU-first.
 static constexpr std::size_t kTokenCacheMaxSize = 4096;
 
 /**
- * @brief Compute SHA-256 of @p input and return a 64-char lowercase hex string.
- *
- * Using SHA-256 as the cache key prevents the unbounded growth caused by
- * large JWT strings acting as map keys (W8-16 DoS hardening).
- *
- * Implemented via the OpenSSL EVP_Digest API (OpenSSL 3.x compatible);
- * the deprecated one-shot @c SHA256() call was removed as a follow-up to
- * the Wave 8 risk "sha256Hex() uses raw OpenSSL/sha.h API".
- *
- * @param input  Raw token string (JWT).
- * @return       64-character lowercase hex digest.
+ * @brief Sha256 Hex.
+ * @param[in] input Input parameter.
+ * @return Return value.
+ * @details Calls: EVP_Digest(), data(), size(), EVP_sha256(), std::string(), std::setfill(), std::setw(), str().
  */
 static std::string sha256Hex(const std::string& input) {
     unsigned char digest[EVP_MAX_MD_SIZE];
@@ -89,6 +80,15 @@ static std::string sha256Hex(const std::string& input) {
 
 namespace {
 
+/**
+ * @brief Federated Curl Write Callback.
+ * @param[in,out] ptr Input/output parameter.
+ * @param[in] size Input parameter.
+ * @param[in] nmemb Input parameter.
+ * @param[in,out] userdata Input/output parameter.
+ * @return Return value.
+ * @details Calls: append().
+ */
 size_t federatedCurlWriteCallback(char *ptr, size_t size, size_t nmemb, void *userdata) {
     const auto total = size * nmemb;
     static_cast<std::string *>(userdata)->append(ptr, total);
@@ -97,7 +97,12 @@ size_t federatedCurlWriteCallback(char *ptr, size_t size, size_t nmemb, void *us
 
 } // anonymous namespace
 
-// static
+/**
+ * @brief static
+ * @param[in] url Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), back(), pop_back().
+ */
 std::string FederatedIdentityManager::normalize(const std::string &url) {
     std::string s = url;
     while (!s.empty() && s.back() == '/') {
@@ -106,7 +111,13 @@ std::string FederatedIdentityManager::normalize(const std::string &url) {
     return s;
 }
 
-// static
+/**
+ * @brief static
+ * @param[in] raw_token Input parameter.
+ * @return Return value.
+ * @throws AuthException if an error occurs.
+ * @details Calls: size(), substr(), AuthError(), std::to_string(), find(), reserve(), push_back(), nlohmann::json::parse().
+ */
 std::string FederatedIdentityManager::extractIssuer(const std::string &raw_token) {
     // Strip optional "Bearer " prefix
     std::string token = raw_token;
@@ -194,6 +205,12 @@ std::string FederatedIdentityManager::extractIssuer(const std::string &raw_token
 // Realm registration
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Add Realm.
+ * @param[in] config Input parameter.
+ * @throws AuthException if an error occurs.
+ * @details Calls: normalize(), empty(), AuthError(), setHttpGetForTesting(), lock(), count(), emplace(), std::move().
+ */
 void FederatedIdentityManager::addRealm(const OIDCProviderConfig &config) {
     const std::string key = normalize(config.issuer_url);
 
@@ -223,6 +240,12 @@ void FederatedIdentityManager::addRealm(const OIDCProviderConfig &config) {
     spdlog::info("FederatedIdentityManager: registered realm '{}'", key);
 }
 
+/**
+ * @brief Remove Realm.
+ * @param[in] issuer_url Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: normalize(), lock(), find(), end(), erase(), spdlog::info().
+ */
 bool FederatedIdentityManager::removeRealm(const std::string &issuer_url) {
     const std::string key = normalize(issuer_url);
     std::lock_guard<std::mutex> lock(mutex_);
@@ -237,11 +260,21 @@ bool FederatedIdentityManager::removeRealm(const std::string &issuer_url) {
 
 bool FederatedIdentityManager::hasRealm(const std::string &issuer_url) const {
     const std::string key = normalize(issuer_url);
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return realms_.count(key) > 0;
 }
 
 std::vector<std::string> FederatedIdentityManager::realmIssuers() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     std::vector<std::string> issuers = {};
 
@@ -253,6 +286,11 @@ std::vector<std::string> FederatedIdentityManager::realmIssuers() const {
 }
 
 size_t FederatedIdentityManager::realmCount() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return realms_.size();
 }
@@ -261,6 +299,13 @@ size_t FederatedIdentityManager::realmCount() const {
 // Token validation
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Validate Token.
+ * @param[in] token Input parameter.
+ * @return Return value.
+ * @throws AuthException if an error occurs.
+ * @details Calls: std::chrono::system_clock::now(), sha256Hex(), c_lock(), find(), end(), remove(), push_front(), spdlog::debug().
+ */
 FederatedValidationResult FederatedIdentityManager::validateToken(const std::string &token) {
     // -----------------------------------------------------------------------
     // Fast path: check the in-memory token cache before doing any network I/O.
@@ -387,6 +432,11 @@ FederatedValidationResult FederatedIdentityManager::validateToken(const std::str
 
 OIDCProvider &FederatedIdentityManager::realmProvider(const std::string &issuer_url) {
     const std::string key = normalize(issuer_url);
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     const auto it = realms_.find(key);
     if (it == realms_.end()) {
@@ -414,6 +464,13 @@ void FederatedIdentityManager::setHttpPostForTesting(
 // Cross-provider trust registry
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Add Cross Provider Trust.
+ * @param[in] subject_issuer Input parameter.
+ * @param[in] trusting_issuer Input parameter.
+ * @throws AuthException if an error occurs.
+ * @details Calls: normalize(), empty(), AuthError(), lock(), insert(), spdlog::info().
+ */
 void FederatedIdentityManager::addCrossProviderTrust(const std::string &subject_issuer,
                                                      const std::string &trusting_issuer) {
     const std::string subj = normalize(subject_issuer);
@@ -428,6 +485,13 @@ void FederatedIdentityManager::addCrossProviderTrust(const std::string &subject_
     spdlog::info("FederatedIdentityManager: trust registered: '{}' trusted by '{}'", subj, trus);
 }
 
+/**
+ * @brief Remove Cross Provider Trust.
+ * @param[in] subject_issuer Input parameter.
+ * @param[in] trusting_issuer Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: normalize(), lock(), find(), end(), erase(), empty().
+ */
 bool FederatedIdentityManager::removeCrossProviderTrust(const std::string &subject_issuer,
                                                         const std::string &trusting_issuer) {
     const std::string subj = normalize(subject_issuer);
@@ -452,6 +516,11 @@ bool FederatedIdentityManager::isTrustedBy(const std::string &subject_issuer,
     if (subj == trus) {
         return true;
     }
+    /**
+     * @brief Lock.
+     * @param[in] trust_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(trust_mutex_);
     const auto it = trust_map_.find(trus);
     if (it == trust_map_.end()) {
@@ -463,6 +532,11 @@ bool FederatedIdentityManager::isTrustedBy(const std::string &subject_issuer,
 std::vector<std::string> FederatedIdentityManager::getCrossProviderTrusts(
     const std::string &trusting_issuer) const {
     const std::string trus = normalize(trusting_issuer);
+    /**
+     * @brief Lock.
+     * @param[in] trust_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(trust_mutex_);
     const auto it = trust_map_.find(trus);
     if (it == trust_map_.end()) {
@@ -471,9 +545,12 @@ std::vector<std::string> FederatedIdentityManager::getCrossProviderTrusts(
     return std::vector<std::string>(it->second.begin(), it->second.end());
 }
 
-// ---------------------------------------------------------------------------
-// In-memory token validation cache
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- In-memory token validation cache ---------------------------------------------------------------------------
+ * @param[in] token Input parameter.
+ * @param[in] result Input parameter.
+ * @details Calls: sha256Hex(), lock(), size(), count(), empty(), erase(), back(), pop_back().
+ */
 
 void FederatedIdentityManager::cacheValidationResult(const std::string &token,
                                                      const FederatedValidationResult &result) {
@@ -499,6 +576,11 @@ std::optional<FederatedValidationResult> FederatedIdentityManager::getCachedResu
     const std::string &token) const {
     const auto now = std::chrono::system_clock::now();
     const std::string cache_key = sha256Hex(token);
+    /**
+     * @brief Lock.
+     * @param[in] cache_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(cache_mutex_);
     const auto it = token_cache_.find(cache_key);
     if (it == token_cache_.end()) {
@@ -510,6 +592,11 @@ std::optional<FederatedValidationResult> FederatedIdentityManager::getCachedResu
     return it->second.result;
 }
 
+/**
+ * @brief Evict Expired Cache Entries.
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::now(), lock(), begin(), end(), remove(), erase(), spdlog::debug().
+ */
 size_t FederatedIdentityManager::evictExpiredCacheEntries() {
     const auto now = std::chrono::system_clock::now();
     std::lock_guard<std::mutex> lock(cache_mutex_);
@@ -531,6 +618,10 @@ size_t FederatedIdentityManager::evictExpiredCacheEntries() {
     return count;
 }
 
+/**
+ * @brief Clear Token Cache.
+ * @details Calls: lock(), clear().
+ */
 void FederatedIdentityManager::clearTokenCache() {
     std::lock_guard<std::mutex> lock(cache_mutex_);
     token_cache_.clear();
@@ -538,6 +629,11 @@ void FederatedIdentityManager::clearTokenCache() {
 }
 
 size_t FederatedIdentityManager::tokenCacheSize() const {
+    /**
+     * @brief Lock.
+     * @param[in] cache_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(cache_mutex_);
     return token_cache_.size();
 }
@@ -675,6 +771,16 @@ std::string FederatedIdentityManager::httpPost(const std::string &url, const std
 // RFC 8693 Token Exchange
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Exchange Token.
+ * @param[in] subject_token Input parameter.
+ * @param[in] subject_token_type Input parameter.
+ * @param[in] requested_token_type Input parameter.
+ * @param[in] target_scopes Input parameter.
+ * @return Return value.
+ * @throws AuthException if an error occurs.
+ * @details Calls: starts_with(), substr(), extractIssuer(), normalize(), lock(), find(), end(), spdlog::warn().
+ */
 TokenExchangeResult FederatedIdentityManager::exchangeToken(const std::string &subject_token,
                                                             const std::string &subject_token_type,
                                                             const std::string &requested_token_type,
@@ -889,9 +995,14 @@ TokenExchangeResult FederatedIdentityManager::exchangeToken(const std::string &s
     return result;
 }
 
-// ---------------------------------------------------------------------------
-// [3c] Multi-realm distributed trust-state synchronization
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- [3c] Multi-realm distributed trust-state synchronization ---------------------------------------------------------------------------
+ * @param[in] peer_node_id Identifier of the peer node.
+ * @param[in] peer_rpc_endpoint Input parameter.
+ * @throws AuthException if an error occurs.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: nlohmann::json::array(), lock(), push_back(), dump(), rfind(), AuthError(), substr(), std::stoi().
+ */
 
 void FederatedIdentityManager::syncTrustState(const std::string &peer_node_id,
                                                const std::string &peer_rpc_endpoint) {

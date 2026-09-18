@@ -18,6 +18,13 @@ namespace security {
 // TSAResponse helpers
 // ============================================================================
 
+/**
+ * @brief From Token.
+ * @param[in] tok Input parameter.
+ * @param[in] latency Input parameter.
+ * @return Return value.
+ * @details Implements fromToken without additional internal calls.
+ */
 TSAResponse TSAResponse::fromToken(const TimestampToken& tok,
                                    std::chrono::milliseconds latency) {
     TSAResponse r;
@@ -55,6 +62,11 @@ TSAClientWrapper::TSAClientWrapper(std::unique_ptr<TimestampAuthority> authority
 TSAClientWrapper::TSAClientWrapper(TSAClientWrapper&&) noexcept = default;
 TSAClientWrapper& TSAClientWrapper::operator=(TSAClientWrapper&&) noexcept = default;
 
+/**
+ * @brief Fire Error.
+ * @param[in] msg Input parameter.
+ * @details Calls: on_error().
+ */
 void TSAClientWrapper::fireError(const std::string& msg) {
     last_error_ = msg;
     if (hooks_.on_error) {
@@ -62,6 +74,12 @@ void TSAClientWrapper::fireError(const std::string& msg) {
     }
 }
 
+/**
+ * @brief Request Timestamp.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::steady_clock::now(), getTimestampForHash(), getTimestamp(), fireError(), empty(), getLastError(), TSAResponse::fromToken(), on_timestamp_issued().
+ */
 TSAResponse TSAClientWrapper::requestTimestamp(const TSARequest& req) {
     auto t0 = std::chrono::steady_clock::now();
 
@@ -89,6 +107,12 @@ TSAResponse TSAClientWrapper::requestTimestamp(const TSARequest& req) {
     return resp;
 }
 
+/**
+ * @brief Verify a bearer token or credential for a user.
+ * @param[in] req Input parameter.
+ * @return True when the token is valid.
+ * @details Calls: empty(), parseToken(), fireError(), on_token_verified(), verifyTimestampForHash(), verifyTimestamp(), getLastError().
+ */
 bool TSAClientWrapper::verifyToken(const TSAVerifyRequest& req) {
     // Resolve the DER token: prefer token_der, fall back to token_b64.
     TimestampToken tok = {};
@@ -122,6 +146,11 @@ bool TSAClientWrapper::verifyToken(const TSAVerifyRequest& req) {
     return valid;
 }
 
+/**
+ * @brief Is Available.
+ * @return True when the operation succeeds.
+ * @details Implements isAvailable without additional internal calls.
+ */
 bool TSAClientWrapper::isAvailable() {
     return authority_->isAvailable();
 }
@@ -134,6 +163,13 @@ std::string TSAClientWrapper::getLastError() const {
 // Factory
 // ============================================================================
 
+/**
+ * @brief Create TSAClient.
+ * @param[in] config Input parameter.
+ * @param[in] hooks Input parameter.
+ * @return Return value.
+ * @details Calls: std::move().
+ */
 std::unique_ptr<ITSAClient> createTSAClient(TSAConfig config,
                                             TSAEventHooks hooks) {
     auto authority = std::make_unique<TimestampAuthority>(std::move(config));

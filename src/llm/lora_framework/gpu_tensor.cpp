@@ -23,7 +23,11 @@ namespace themis {
 namespace llm {
 namespace lora {
 
-// Static memory manager instance
+/**
+ * @brief Static memory manager instance
+ * @return Return value.
+ * @details Implements get_memory_manager without additional internal calls.
+ */
 GPUMemoryManager& GPUTensor::get_memory_manager() {
     static GPUMemoryManager manager;
     return manager;
@@ -33,21 +37,51 @@ GPUMemoryManager& GPUTensor::get_memory_manager() {
 // These allow injection of real CUDA/HIP gpu-side dtype-cast kernels, replacing
 // the default CPU round-trip fallback (download → convert → upload).
 
+/**
+ * @brief Cuda Dtype Cast Mutex.
+ * @return Return value.
+ * @details Implements cudaDtypeCastMutex without additional internal calls.
+ */
 static std::mutex& cudaDtypeCastMutex() { static std::mutex m; return m; }
+/**
+ * @brief Cuda Dtype Cast Fn Storage.
+ * @return Return value.
+ * @details Implements cudaDtypeCastFnStorage without additional internal calls.
+ */
 static GPUTensor::DtypeCastFn& cudaDtypeCastFnStorage() {
     static GPUTensor::DtypeCastFn fn;
     return fn;
 }
+/**
+ * @brief Set Cuda Dtype Cast Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lk(), cudaDtypeCastMutex(), cudaDtypeCastFnStorage(), std::move().
+ */
 void GPUTensor::setCudaDtypeCastFn(DtypeCastFn fn) {
     std::lock_guard<std::mutex> lk(cudaDtypeCastMutex());
     cudaDtypeCastFnStorage() = std::move(fn);
 }
 
+/**
+ * @brief Hip Dtype Cast Mutex.
+ * @return Return value.
+ * @details Implements hipDtypeCastMutex without additional internal calls.
+ */
 static std::mutex& hipDtypeCastMutex() { static std::mutex m; return m; }
+/**
+ * @brief Hip Dtype Cast Fn Storage.
+ * @return Return value.
+ * @details Implements hipDtypeCastFnStorage without additional internal calls.
+ */
 static GPUTensor::DtypeCastFn& hipDtypeCastFnStorage() {
     static GPUTensor::DtypeCastFn fn;
     return fn;
 }
+/**
+ * @brief Set Hip Dtype Cast Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lk(), hipDtypeCastMutex(), hipDtypeCastFnStorage(), std::move().
+ */
 void GPUTensor::setHipDtypeCastFn(DtypeCastFn fn) {
     std::lock_guard<std::mutex> lk(hipDtypeCastMutex());
     hipDtypeCastFnStorage() = std::move(fn);
@@ -126,7 +160,12 @@ GPUTensor GPUTensor::to(const Device& target_device) const {
         return clone();
     }
     
-    // Create new tensor on target device
+    /**
+     * @brief Create new tensor on target device
+     * @param[in] shape_ Input parameter.
+     * @param[in] target_device Input parameter.
+     * @return Return value.
+     */
     GPUTensor result(shape_, target_device);
     
     // Transfer data
@@ -145,6 +184,11 @@ GPUTensor GPUTensor::to(const Device& target_device) const {
     return result;
 }
 
+/**
+ * @brief To inplace.
+ * @param[in] target_device Input parameter.
+ * @details Calls: to(), std::move().
+ */
 void GPUTensor::to_inplace(const Device& target_device) {
     if (device_ == target_device) {
         return;
@@ -172,6 +216,14 @@ std::vector<float> GPUTensor::cpu_data() const {
     }
 }
 
+/**
+ * @brief Upload.
+ * @param[in] data Input parameter.
+ * @param[in] count Input parameter.
+ * @throws std::invalid_argument if an error occurs.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: size(), is_cpu(), std::memcpy(), data().
+ */
 void GPUTensor::upload(const float* data, size_t count) {
     if (count != size()) {
         throw std::invalid_argument("Upload size mismatch");
@@ -186,6 +238,11 @@ void GPUTensor::upload(const float* data, size_t count) {
     }
 }
 
+/**
+ * @brief Upload.
+ * @param[in] data Input parameter.
+ * @details Calls: data(), size().
+ */
 void GPUTensor::upload(const std::vector<float>& data) {
     upload(data.data(),data.size());
 }
@@ -278,6 +335,11 @@ GPUTensor GPUTensor::transpose() const {
     return dispatch_transpose();
 }
 
+/**
+ * @brief Fill.
+ * @param[in] value Input parameter.
+ * @details Calls: is_cpu(), begin(), end(), temp(), size(), upload().
+ */
 void GPUTensor::fill(float value) {
     if (is_cpu()) {
         std::fill(cpu_data_.begin(), cpu_data_.end(), value);
@@ -288,11 +350,22 @@ void GPUTensor::fill(float value) {
     }
 }
 
+/**
+ * @brief Zero.
+ * @details Calls: fill().
+ */
 void GPUTensor::zero() {
     fill(0.0f);
 }
 
 GPUTensor GPUTensor::clone() const {
+    /**
+     * @brief Result.
+     * @param[in] shape_ Input parameter.
+     * @param[in] device_ Input parameter.
+     * @param[in] dtype_ Input parameter.
+     * @return Return value.
+     */
     GPUTensor result(shape_, device_, dtype_);
     
     if (is_cpu()) {
@@ -328,6 +401,13 @@ GPUTensor GPUTensor::to_dtype(DType target_dtype) const {
     
     // For CPU tensors, perform conversion on CPU
     if (is_cpu()) {
+        /**
+         * @brief Result.
+         * @param[in] shape_ Input parameter.
+         * @param[in] device_ Input parameter.
+         * @param[in] target_dtype Input parameter.
+         * @return Return value.
+         */
         GPUTensor result(shape_, device_, target_dtype);
         
         // Convert FP32 data to target dtype
@@ -353,7 +433,13 @@ GPUTensor GPUTensor::to_dtype(DType target_dtype) const {
         return result;
     }
     
-    // For GPU tensors, use GPU conversion kernels
+    /**
+     * @brief For GPU tensors, use GPU conversion kernels
+     * @param[in] shape_ Input parameter.
+     * @param[in] device_ Input parameter.
+     * @param[in] target_dtype Input parameter.
+     * @return Return value.
+     */
     GPUTensor result(shape_, device_, target_dtype);
 
 #ifdef THEMIS_ENABLE_CUDA
@@ -440,12 +526,20 @@ GPUTensor GPUTensor::to_dtype(DType target_dtype) const {
 // Gradient Support
 // ============================================================================
 
+/**
+ * @brief Zero grad.
+ * @details Calls: zero().
+ */
 void GPUTensor::zero_grad() {
     if (grad) {
         grad->zero();
     }
 }
 
+/**
+ * @brief Ensure grad.
+ * @details Calls: zero().
+ */
 void GPUTensor::ensure_grad() {
     if (!grad) {
         // Gradients are always computed in FP32 for numerical stability
@@ -458,6 +552,11 @@ void GPUTensor::ensure_grad() {
 // Memory Management Helpers
 // ============================================================================
 
+/**
+ * @brief Allocate gpu memory.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: get_memory_manager(), get_allocator(), size(), dtype_size(), allocate().
+ */
 void GPUTensor::allocate_gpu_memory() {
     allocator_ = get_memory_manager().get_allocator(device_);
     if (!allocator_) {
@@ -472,6 +571,10 @@ void GPUTensor::allocate_gpu_memory() {
     }
 }
 
+/**
+ * @brief Free gpu memory.
+ * @details Calls: deallocate().
+ */
 void GPUTensor::free_gpu_memory() {
     if (allocator_ && gpu_data_) {
         allocator_->deallocate(gpu_data_);
@@ -484,6 +587,13 @@ void GPUTensor::free_gpu_memory() {
 // ============================================================================
 
 GPUTensor GPUTensor::dispatch_add(const GPUTensor& other) const {
+    /**
+     * @brief Result.
+     * @param[in] shape_ Input parameter.
+     * @param[in] device_ Input parameter.
+     * @param[in] dtype_ Input parameter.
+     * @return Return value.
+     */
     GPUTensor result(shape_, device_, dtype_);
     
     if (is_cpu()) {
@@ -533,6 +643,13 @@ GPUTensor GPUTensor::dispatch_add(const GPUTensor& other) const {
 }
 
 GPUTensor GPUTensor::dispatch_sub(const GPUTensor& other) const {
+    /**
+     * @brief Result.
+     * @param[in] shape_ Input parameter.
+     * @param[in] device_ Input parameter.
+     * @param[in] dtype_ Input parameter.
+     * @return Return value.
+     */
     GPUTensor result(shape_, device_, dtype_);
     
     if (is_cpu()) {
@@ -574,6 +691,13 @@ GPUTensor GPUTensor::dispatch_sub(const GPUTensor& other) const {
 }
 
 GPUTensor GPUTensor::dispatch_mul_scalar(float scalar) const {
+    /**
+     * @brief Result.
+     * @param[in] shape_ Input parameter.
+     * @param[in] device_ Input parameter.
+     * @param[in] dtype_ Input parameter.
+     * @return Return value.
+     */
     GPUTensor result(shape_, device_, dtype_);
     
     if (is_cpu()) {
@@ -622,6 +746,13 @@ GPUTensor GPUTensor::dispatch_mul_scalar(float scalar) const {
 }
 
 GPUTensor GPUTensor::dispatch_mul_elementwise(const GPUTensor& other) const {
+    /**
+     * @brief Result.
+     * @param[in] shape_ Input parameter.
+     * @param[in] device_ Input parameter.
+     * @param[in] dtype_ Input parameter.
+     * @return Return value.
+     */
     GPUTensor result(shape_, device_, dtype_);
     
     if (is_cpu()) {
@@ -815,6 +946,11 @@ GPUTensor GPUTensor::dispatch_transpose() const {
         
         // Fallback for Vulkan/DirectX
         auto a_data = download();
+        /**
+         * @brief C data.
+         * @param[in,out] cols Input/output parameter.
+         * @return Return value.
+         */
         std::vector<float> c_data(rows * cols);
         
         for (size_t i = 0; i < rows; i++) {
@@ -833,6 +969,11 @@ GPUTensor GPUTensor::dispatch_transpose() const {
 // Mixed Precision Support
 // ============================================================================
 
+/**
+ * @brief Multiply inplace.
+ * @param[in] scalar Input parameter.
+ * @details Calls: is_cpu(), size(), cuda::launch_scalar_multiply_inplace_kernel(), hip::launch_scalar_multiply_inplace_kernel(), download(), upload().
+ */
 void GPUTensor::multiply_inplace(float scalar) {
     if (is_cpu()) {
         // CPU implementation
@@ -924,6 +1065,16 @@ bool GPUTensor::has_inf_or_nan() const {
 
 namespace gpu_tensor_utils {
 
+/**
+ * @brief Randn.
+ * @param[in] shape Input parameter.
+ * @param[in] mean Input parameter.
+ * @param[in] std Input parameter.
+ * @param[in] device Input parameter.
+ * @param[in] dtype Input parameter.
+ * @return Return value.
+ * @details Calls: std::accumulate(), begin(), end(), size_t(), gen(), rd(), dist(), data().
+ */
 GPUTensor randn(const std::vector<size_t>& shape, float mean, float std, const Device& device, DType dtype) {
     size_t total_size = std::accumulate(shape.begin(), shape.end(), 
                                        size_t(1), std::multiplies<size_t>());
@@ -942,6 +1093,15 @@ GPUTensor randn(const std::vector<size_t>& shape, float mean, float std, const D
     return result;
 }
 
+/**
+ * @brief Xavier uniform.
+ * @param[in] shape Input parameter.
+ * @param[in] device Input parameter.
+ * @param[in] dtype Input parameter.
+ * @return Return value.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: size(), std::sqrt(), gen(), rd(), dist(), data(), result(), upload().
+ */
 GPUTensor xavier_uniform(const std::vector<size_t>& shape, const Device& device, DType dtype) {
     if (shape.size() != 2) {
         throw std::invalid_argument("Xavier init requires 2D tensor");
@@ -967,6 +1127,16 @@ GPUTensor xavier_uniform(const std::vector<size_t>& shape, const Device& device,
     return result;
 }
 
+/**
+ * @brief Kaiming uniform.
+ * @param[in] shape Input parameter.
+ * @param[in] a Input parameter.
+ * @param[in] device Input parameter.
+ * @param[in] dtype Input parameter.
+ * @return Return value.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: size(), std::sqrt(), gen(), rd(), dist(), data(), result(), upload().
+ */
 GPUTensor kaiming_uniform(const std::vector<size_t>& shape, float a, const Device& device, DType dtype) {
     if (shape.size() != 2) {
         throw std::invalid_argument("Kaiming init requires 2D tensor");
@@ -993,20 +1163,50 @@ GPUTensor kaiming_uniform(const std::vector<size_t>& shape, float a, const Devic
     return result;
 }
 
+/**
+ * @brief Zeros.
+ * @param[in] shape Input parameter.
+ * @param[in] device Input parameter.
+ * @param[in] dtype Input parameter.
+ * @return Return value.
+ * @details Calls: GPUTensor().
+ */
 GPUTensor zeros(const std::vector<size_t>& shape, const Device& device, DType dtype) {
     return GPUTensor(shape, 0.0f, device, dtype);
 }
 
+/**
+ * @brief Ones.
+ * @param[in] shape Input parameter.
+ * @param[in] device Input parameter.
+ * @param[in] dtype Input parameter.
+ * @return Return value.
+ * @details Calls: GPUTensor().
+ */
 GPUTensor ones(const std::vector<size_t>& shape, const Device& device, DType dtype) {
     return GPUTensor(shape, 1.0f, device, dtype);
 }
 
+/**
+ * @brief From legacy tensor.
+ * @param[in] tensor Input parameter.
+ * @param[in] device Input parameter.
+ * @param[in] dtype Input parameter.
+ * @return Return value.
+ * @details Calls: result(), shape(), upload(), data().
+ */
 GPUTensor from_legacy_tensor(const Tensor& tensor, const Device& device, DType dtype) {
     GPUTensor result(tensor.shape(), device, dtype);
     result.upload(tensor.data());
     return result;
 }
 
+/**
+ * @brief To legacy tensor.
+ * @param[in] gpu_tensor Input parameter.
+ * @return Return value.
+ * @details Calls: result(), shape(), cpu_data(), size(), std::copy(), begin(), end(), data().
+ */
 Tensor to_legacy_tensor(const GPUTensor& gpu_tensor) {
     Tensor result(gpu_tensor.shape());
     auto data = gpu_tensor.cpu_data();

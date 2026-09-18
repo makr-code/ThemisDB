@@ -20,7 +20,12 @@
 
 namespace sharding {
 
-/** @brief Convert transaction state enum to persisted string token. */
+/**
+ * @brief Transaction State To String.
+ * @param[in] state Input parameter.
+ * @return Return value.
+ * @details Implements transactionStateToString without additional internal calls.
+ */
 std::string transactionStateToString(TransactionState state) {
     switch (state) {
         case TransactionState::INITIATED: return "INITIATED";
@@ -38,7 +43,12 @@ std::string transactionStateToString(TransactionState state) {
     }
 }
 
-/** @brief Parse transaction state enum from persisted string token. */
+/**
+ * @brief Transaction State From String.
+ * @param[in] str Input parameter.
+ * @return Return value.
+ * @details Implements transactionStateFromString without additional internal calls.
+ */
 TransactionState transactionStateFromString(const std::string& str) {
     if (str == "INITIATED") {
       return TransactionState::INITIATED;
@@ -76,7 +86,12 @@ TransactionState transactionStateFromString(const std::string& str) {
     return TransactionState::INITIATED;
 }
 
-/** @brief Convert transaction protocol enum to persisted string token. */
+/**
+ * @brief Transaction Protocol To String.
+ * @param[in] protocol Input parameter.
+ * @return Return value.
+ * @details Implements transactionProtocolToString without additional internal calls.
+ */
 std::string transactionProtocolToString(TransactionProtocol protocol) {
     switch (protocol) {
         case TransactionProtocol::TWO_PHASE_COMMIT: return "TWO_PHASE_COMMIT";
@@ -88,7 +103,12 @@ std::string transactionProtocolToString(TransactionProtocol protocol) {
     return "TWO_PHASE_COMMIT";
 }
 
-/** @brief Parse transaction protocol enum from persisted string token. */
+/**
+ * @brief Transaction Protocol From String.
+ * @param[in] str Input parameter.
+ * @return Return value.
+ * @details Implements transactionProtocolFromString without additional internal calls.
+ */
 TransactionProtocol transactionProtocolFromString(const std::string& str) {
     if (str == "TWO_PHASE_COMMIT") {
       return TransactionProtocol::TWO_PHASE_COMMIT;
@@ -108,7 +128,12 @@ TransactionProtocol transactionProtocolFromString(const std::string& str) {
     return TransactionProtocol::TWO_PHASE_COMMIT;
 }
 
-/** @brief Serialize ParticipantStatus into JSON object. */
+/**
+ * @brief To json.
+ * @param[in,out] j Input/output parameter.
+ * @param[in] p Input parameter.
+ * @details Implements to_json without additional internal calls.
+ */
 void to_json(nlohmann::json& j, const ParticipantStatus& p) {
     j = nlohmann::json{
         {"participant_id", p.participant_id},
@@ -121,7 +146,12 @@ void to_json(nlohmann::json& j, const ParticipantStatus& p) {
     };
 }
 
-/** @brief Deserialize ParticipantStatus from JSON object. */
+/**
+ * @brief From json.
+ * @param[in] j Input parameter.
+ * @param[in,out] p Input/output parameter.
+ * @details Calls: at(), get_to().
+ */
 void from_json(const nlohmann::json& j, ParticipantStatus& p) {
     j.at("participant_id").get_to(p.participant_id);
     j.at("prepared").get_to(p.prepared);
@@ -132,7 +162,12 @@ void from_json(const nlohmann::json& j, ParticipantStatus& p) {
     j.at("timestamp").get_to(p.timestamp);
 }
 
-/** @brief Serialize SAGAStep into JSON object. */
+/**
+ * @brief To json.
+ * @param[in,out] j Input/output parameter.
+ * @param[in] s Input parameter.
+ * @details Implements to_json without additional internal calls.
+ */
 void to_json(nlohmann::json& j, const SAGAStep& s) {
     j = nlohmann::json{
         {"step_number", s.step_number},
@@ -144,7 +179,12 @@ void to_json(nlohmann::json& j, const SAGAStep& s) {
     };
 }
 
-/** @brief Deserialize SAGAStep from JSON object. */
+/**
+ * @brief From json.
+ * @param[in] j Input parameter.
+ * @param[in,out] s Input/output parameter.
+ * @details Calls: at(), get_to().
+ */
 void from_json(const nlohmann::json& j, SAGAStep& s) {
     j.at("step_number").get_to(s.step_number);
     j.at("operation").get_to(s.operation);
@@ -154,7 +194,12 @@ void from_json(const nlohmann::json& j, SAGAStep& s) {
     j.at("timestamp").get_to(s.timestamp);
 }
 
-/** @brief Serialize PercolatorIntent into JSON object. */
+/**
+ * @brief To json.
+ * @param[in,out] j Input/output parameter.
+ * @param[in] i Input parameter.
+ * @details Implements to_json without additional internal calls.
+ */
 void to_json(nlohmann::json& j, const PercolatorIntent& i) {
     j = nlohmann::json{
         {"key", i.key},
@@ -164,7 +209,12 @@ void to_json(nlohmann::json& j, const PercolatorIntent& i) {
     };
 }
 
-/** @brief Deserialize PercolatorIntent from JSON object. */
+/**
+ * @brief From json.
+ * @param[in] j Input parameter.
+ * @param[in,out] i Input/output parameter.
+ * @details Calls: at(), get_to().
+ */
 void from_json(const nlohmann::json& j, PercolatorIntent& i) {
     j.at("key").get_to(i.key);
     j.at("value").get_to(i.value);
@@ -172,7 +222,12 @@ void from_json(const nlohmann::json& j, PercolatorIntent& i) {
     j.at("locked").get_to(i.locked);
 }
 
-/** @brief Serialize TransactionSnapshotEntry into JSON object. */
+/**
+ * @brief To json.
+ * @param[in,out] j Input/output parameter.
+ * @param[in] e Input parameter.
+ * @details Calls: transactionProtocolToString(), transactionStateToString().
+ */
 void to_json(nlohmann::json& j, const TransactionSnapshotEntry& e) {
     j = nlohmann::json{
         {"transaction_id", e.transaction_id},
@@ -193,7 +248,12 @@ void to_json(nlohmann::json& j, const TransactionSnapshotEntry& e) {
     };
 }
 
-/** @brief Deserialize TransactionSnapshotEntry from JSON object. */
+/**
+ * @brief From json.
+ * @param[in] j Input parameter.
+ * @param[in,out] e Input/output parameter.
+ * @details Calls: at(), get_to(), transactionProtocolFromString(), transactionStateFromString().
+ */
 void from_json(const nlohmann::json& j, TransactionSnapshotEntry& e) {
     j.at("transaction_id").get_to(e.transaction_id);
     e.protocol = transactionProtocolFromString(j.at("protocol").get<std::string>());
@@ -212,7 +272,6 @@ void from_json(const nlohmann::json& j, TransactionSnapshotEntry& e) {
     j.at("metadata").get_to(e.metadata);
 }
 
-/** @brief Serialize TransactionSnapshot to JSON excluding recomputed checksum field. */
 nlohmann::json TransactionSnapshot::toJson() const {
     nlohmann::json j;
     j["snapshot_id"] = snapshot_id;
@@ -225,7 +284,12 @@ nlohmann::json TransactionSnapshot::toJson() const {
     return j;
 }
 
-/** @brief Deserialize TransactionSnapshot from JSON payload with optional checksum field. */
+/**
+ * @brief From Json.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: at(), LSN::fromString(), contains(), spdlog::error(), what().
+ */
 std::optional<TransactionSnapshot> TransactionSnapshot::fromJson(const nlohmann::json& j) {
     try {
         TransactionSnapshot snapshot;
@@ -245,11 +309,6 @@ std::optional<TransactionSnapshot> TransactionSnapshot::fromJson(const nlohmann:
     }
 }
 
-/**
- * @brief Construct snapshot manager and ensure snapshot directory exists.
- * @param snapshot_directory Filesystem directory for snapshot files.
- * @param max_snapshots Maximum number of retained snapshots.
- */
 TransactionSnapshotManager::TransactionSnapshotManager(
     const std::string& snapshot_directory, 
     size_t max_snapshots)
@@ -264,12 +323,10 @@ TransactionSnapshotManager::TransactionSnapshotManager(
     }
 }
 
-/** @brief Compose snapshot filepath from directory and snapshot id. */
 std::string TransactionSnapshotManager::getSnapshotPath(uint64_t snapshot_id) const {
     return snapshot_directory_ + "/transaction_snapshot_" + std::to_string(snapshot_id) + ".json";
 }
 
-/** @brief Compute SHA-256 checksum over canonical JSON string representation. */
 std::string TransactionSnapshotManager::calculateChecksum(const nlohmann::json& data) const {
     std::string json_str = data.dump();
     unsigned char hash[SHA256_DIGEST_LENGTH];
@@ -284,8 +341,12 @@ std::string TransactionSnapshotManager::calculateChecksum(const nlohmann::json& 
 }
 
 /**
- * @brief Create, checksum and persist a snapshot for active transactions.
- * @return Snapshot id on success; nullopt on failure.
+ * @brief Create Snapshot.
+ * @param[in] coordinator_id Identifier of the coordinator.
+ * @param[in] last_applied_lsn Input parameter.
+ * @param[in] active_transactions Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), size(), toJson(), calculateChecksum(), saveSnapshotToFile(), spdlog::info().
  */
 std::optional<uint64_t> TransactionSnapshotManager::createSnapshot(
     const std::string& coordinator_id,
@@ -324,7 +385,12 @@ std::optional<uint64_t> TransactionSnapshotManager::createSnapshot(
     }
 }
 
-/** @brief Persist snapshot JSON (including checksum) into target file. */
+/**
+ * @brief Save Snapshot To File.
+ * @param[in] snapshot Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: getSnapshotPath(), toJson(), file(), is_open(), spdlog::error(), dump(), close(), spdlog::debug().
+ */
 bool TransactionSnapshotManager::saveSnapshotToFile(const TransactionSnapshot& snapshot) {
     try {
         std::string filepath = getSnapshotPath(snapshot.snapshot_id);
@@ -349,7 +415,12 @@ bool TransactionSnapshotManager::saveSnapshotToFile(const TransactionSnapshot& s
     }
 }
 
-/** @brief Load snapshot JSON from file and verify embedded checksum. */
+/**
+ * @brief Load Snapshot From File.
+ * @param[in] filepath Input parameter.
+ * @return Return value.
+ * @details Calls: file(), is_open(), spdlog::error(), close(), TransactionSnapshot::fromJson(), has_value(), verifySnapshot(), value().
+ */
 std::optional<TransactionSnapshot> TransactionSnapshotManager::loadSnapshotFromFile(
     const std::string& filepath) {
     
@@ -383,7 +454,11 @@ std::optional<TransactionSnapshot> TransactionSnapshotManager::loadSnapshotFromF
     }
 }
 
-/** @brief Load newest available snapshot, if any exist. */
+/**
+ * @brief Load Latest Snapshot.
+ * @return Return value.
+ * @details Calls: listSnapshots(), empty(), spdlog::info(), loadSnapshot().
+ */
 std::optional<TransactionSnapshot> TransactionSnapshotManager::loadLatestSnapshot() {
     auto snapshots = listSnapshots();
     if (snapshots.empty()) {
@@ -395,13 +470,22 @@ std::optional<TransactionSnapshot> TransactionSnapshotManager::loadLatestSnapsho
     return loadSnapshot(snapshots[0]);
 }
 
-/** @brief Load snapshot by explicit snapshot id. */
+/**
+ * @brief Load Snapshot.
+ * @param[in] snapshot_id Identifier of the snapshot.
+ * @return Return value.
+ * @details Calls: getSnapshotPath(), loadSnapshotFromFile().
+ */
 std::optional<TransactionSnapshot> TransactionSnapshotManager::loadSnapshot(uint64_t snapshot_id) {
     std::string filepath = getSnapshotPath(snapshot_id);
     return loadSnapshotFromFile(filepath);
 }
 
-/** @brief Discover snapshot files and return ids sorted newest-first. */
+/**
+ * @brief List Snapshots.
+ * @return Return value.
+ * @details Calls: std::filesystem::exists(), std::filesystem::directory_iterator(), is_regular_file(), path(), filename(), string(), find(), ends_with().
+ */
 std::vector<uint64_t> TransactionSnapshotManager::listSnapshots() {
     std::vector<uint64_t> snapshot_ids;
     
@@ -437,7 +521,12 @@ std::vector<uint64_t> TransactionSnapshotManager::listSnapshots() {
     return snapshot_ids;
 }
 
-/** @brief Delete snapshot file by id. */
+/**
+ * @brief Delete Snapshot.
+ * @param[in] snapshot_id Identifier of the snapshot.
+ * @return True when the operation succeeds.
+ * @details Calls: getSnapshotPath(), std::filesystem::exists(), std::filesystem::remove(), spdlog::info(), spdlog::error(), what().
+ */
 bool TransactionSnapshotManager::deleteSnapshot(uint64_t snapshot_id) {
     try {
         std::string filepath = getSnapshotPath(snapshot_id);
@@ -453,7 +542,10 @@ bool TransactionSnapshotManager::deleteSnapshot(uint64_t snapshot_id) {
     }
 }
 
-/** @brief Remove oldest snapshots beyond configured retention count. */
+/**
+ * @brief Cleanup Old Snapshots.
+ * @details Calls: listSnapshots(), size(), deleteSnapshot(), spdlog::info().
+ */
 void TransactionSnapshotManager::cleanupOldSnapshots() {
     auto snapshots = listSnapshots();
     
@@ -470,7 +562,12 @@ void TransactionSnapshotManager::cleanupOldSnapshots() {
     spdlog::info("Cleaned up {} old transaction snapshots", to_delete);
 }
 
-/** @brief Verify snapshot checksum matches current serialized content. */
+/**
+ * @brief Verify Snapshot.
+ * @param[in] snapshot Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: toJson(), calculateChecksum(), spdlog::error(), what().
+ */
 bool TransactionSnapshotManager::verifySnapshot(const TransactionSnapshot& snapshot) {
     try {
         nlohmann::json j = snapshot.toJson();

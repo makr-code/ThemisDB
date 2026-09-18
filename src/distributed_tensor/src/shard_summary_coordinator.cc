@@ -21,7 +21,6 @@ namespace distributed_tensor {
 
 namespace {
 
-/// Return current epoch-milliseconds via steady/system clock.
 [[nodiscard]] int64_t wallClockMs() noexcept {
     using namespace std::chrono;
     return duration_cast<milliseconds>(
@@ -97,6 +96,11 @@ void ShardSummaryCoordinator::registerShard(const std::string& shard_id,
     const uint32_t ttl =
         (ttl_seconds > 0) ? ttl_seconds : config_.default_ttl_seconds;
 
+    /**
+     * @brief Lk.
+     * @param[in] records_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(records_mutex_);
     if (records_.count(shard_id) == 0) {
         ShardFreshnessRecord rec;
@@ -108,6 +112,11 @@ void ShardSummaryCoordinator::registerShard(const std::string& shard_id,
 
 void ShardSummaryCoordinator::unregisterShard(
     const std::string& shard_id) noexcept {
+    /**
+     * @brief Lk.
+     * @param[in] records_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(records_mutex_);
     records_.erase(shard_id);
 }
@@ -126,6 +135,11 @@ ShardSummaryRefreshResult ShardSummaryCoordinator::refreshShard(
     const int64_t ts = resolveNow(now_ms);
 
     {
+        /**
+         * @brief Lk.
+         * @param[in] records_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(records_mutex_);
         auto it = records_.find(shard_id);
         if (it == records_.end()) {
@@ -179,6 +193,11 @@ std::vector<ShardSummaryRefreshResult> ShardSummaryCoordinator::refreshAll(
 
 std::optional<ShardFreshnessRecord> ShardSummaryCoordinator::getFreshnessRecord(
     const std::string& shard_id) const noexcept {
+    /**
+     * @brief Lk.
+     * @param[in] records_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(records_mutex_);
     auto it = records_.find(shard_id);
     if (it == records_.end()) {
@@ -189,6 +208,11 @@ std::optional<ShardFreshnessRecord> ShardSummaryCoordinator::getFreshnessRecord(
 
 bool ShardSummaryCoordinator::isFresh(const std::string& shard_id,
                                        int64_t now_ms) const noexcept {
+    /**
+     * @brief Lk.
+     * @param[in] records_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(records_mutex_);
     auto it = records_.find(shard_id);
     if (it == records_.end()) {
@@ -215,6 +239,11 @@ FreshnessConsensusResult ShardSummaryCoordinator::checkFreshnessConsensus(
 
     const int64_t ts = resolveNow(now_ms);
 
+    /**
+     * @brief Lk.
+     * @param[in] records_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(records_mutex_);
     for (const auto& sid : shard_ids) {
         auto it = records_.find(sid);
@@ -267,6 +296,11 @@ std::vector<RoutingDecision> ShardSummaryCoordinator::routeSummaryFirst(
         // reclassified by an unrefreshed coordinator record.
         tensor::SummaryFreshnessState effective_state = s.freshness_state;
         if (effective_state == tensor::SummaryFreshnessState::FRESH) {
+            /**
+             * @brief Lk.
+             * @param[in] records_mutex_ Input parameter.
+             * @return Return value.
+             */
             std::lock_guard<std::mutex> lk(records_mutex_);
             auto it = records_.find(s.shard_id);
             if (it != records_.end()) {

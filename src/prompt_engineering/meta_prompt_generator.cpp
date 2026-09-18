@@ -52,15 +52,30 @@ MetaPromptResult MetaPromptGenerator::generateImprovementPrompt(
     meta_prompt << feedback << "\n\n";
     
     // Improvement instructions
+    /**
+     * @brief Build Improvement Instructions.
+     * @param[in] feedback Input parameter.
+     * @param[in] score Input parameter.
+     * @return Return value.
+     */
     meta_prompt << buildImprovementInstructions(feedback, score);
     
     // Constraints
     if (config_.include_constraints) {
+        /**
+         * @brief Build Constraints.
+         * @return Return value.
+         */
         meta_prompt << buildConstraints();
     }
     
     // Examples
     if (config_.include_examples) {
+        /**
+         * @brief Build Example Section.
+         * @param[in] original_prompt Input parameter.
+         * @return Return value.
+         */
         meta_prompt << buildExampleSection(original_prompt);
     }
     

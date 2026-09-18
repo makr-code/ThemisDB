@@ -57,7 +57,16 @@ struct GradientStatistics {
     // Shard IDs corresponding to statistics
     std::vector<std::string> shard_ids;
     
+    /**
+     * @brief To JSON.
+     * @return Return value.
+     */
     nlohmann::json toJSON() const;
+    /**
+     * @brief From JSON.
+     * @param[in] j Input parameter.
+     * @return Return value.
+     */
     static GradientStatistics fromJSON(const nlohmann::json& j);
 };
 
@@ -71,7 +80,16 @@ struct DetectionResult {
     std::string detection_method;
     bool requires_action = false;
     
+    /**
+     * @brief To JSON.
+     * @return Return value.
+     */
     nlohmann::json toJSON() const;
+    /**
+     * @brief From JSON.
+     * @param[in] j Input parameter.
+     * @return Return value.
+     */
     static DetectionResult fromJSON(const nlohmann::json& j);
 };
 
@@ -79,9 +97,12 @@ struct DetectionResult {
 // Byzantine Detector Interface
 // ============================================================================
 
-/** @brief Byzantine Detector Interface. */
 class ByzantineDetector {
 public:
+    /**
+     * @brief Byzantine Detector.
+     * @return Return value.
+     */
     virtual ~ByzantineDetector() = default;
     
     // Analyze gradients from all shards
@@ -95,6 +116,10 @@ public:
     ) = 0;
     
     // Get detector name
+    /**
+     * @brief Get Name.
+     * @return Return value.
+     */
     virtual std::string getName() const = 0;
 };
 
@@ -102,7 +127,6 @@ public:
 // Median-based Detector (MAD Threshold)
 // ============================================================================
 
-/** @brief Median-based Detector (MAD Threshold). */
 class MedianDetector : public ByzantineDetector {
 public:
     explicit MedianDetector(float threshold = 3.0f);
@@ -118,6 +142,11 @@ public:
     
     std::string getName() const override { return "MEDIAN"; }
     
+    /**
+     * @brief Set Threshold.
+     * @param[in] threshold Input parameter.
+     * @details Implements setThreshold without additional internal calls.
+     */
     void setThreshold(float threshold) { threshold_ = threshold; }
     float getThreshold() const { return threshold_; }
     
@@ -125,9 +154,30 @@ private:
     float threshold_ = 0.0f;  // Number of MAD for outlier detection (typically 2.5-3.5)
     
     // Helper methods
+    /**
+     * @brief Compute L2 Norm.
+     * @param[in] gradients Input parameter.
+     * @return Return value.
+     */
     float computeL2Norm(const std::vector<GradientTensor>& gradients) const;
+    /**
+     * @brief Compute Mean.
+     * @param[in] values Input parameter.
+     * @return Return value.
+     */
     float computeMean(const std::vector<float>& values) const;
+    /**
+     * @brief Compute Median.
+     * @param[in] values Input parameter.
+     * @return Return value.
+     */
     float computeMedian(std::vector<float> values) const;
+    /**
+     * @brief Compute MAD.
+     * @param[in] values Input parameter.
+     * @param[in] median Input parameter.
+     * @return Return value.
+     */
     float computeMAD(const std::vector<float>& values, float median) const;
 };
 
@@ -135,7 +185,6 @@ private:
 // Krum Algorithm Detector
 // ============================================================================
 
-/** @brief Krum Algorithm Detector. */
 class KrumDetector : public ByzantineDetector {
 public:
     explicit KrumDetector(int max_byzantine_shards = 1);
@@ -151,6 +200,11 @@ public:
     
     std::string getName() const override { return "KRUM"; }
     
+    /**
+     * @brief Set Max Byzantine Shards.
+     * @param[in] f Input parameter.
+     * @details Implements setMaxByzantineShards without additional internal calls.
+     */
     void setMaxByzantineShards(int f) { max_byzantine_shards_ = f; }
     int getMaxByzantineShards() const { return max_byzantine_shards_; }
     
@@ -164,6 +218,12 @@ private:
     int max_byzantine_shards_ = 0;  // f parameter: max number of Byzantine shards
     
     // Helper methods
+    /**
+     * @brief Compute Distance.
+     * @param[in] grad1 Input parameter.
+     * @param[in] grad2 Input parameter.
+     * @return Return value.
+     */
     float computeDistance(
         const std::vector<GradientTensor>& grad1,
         const std::vector<GradientTensor>& grad2
@@ -174,7 +234,6 @@ private:
 // Bulyan Algorithm Detector
 // ============================================================================
 
-/** @brief Bulyan Algorithm Detector. */
 class BulyanDetector : public ByzantineDetector {
 public:
     explicit BulyanDetector(int max_byzantine_shards = 1);
@@ -190,6 +249,11 @@ public:
     
     std::string getName() const override { return "BULYAN"; }
     
+    /**
+     * @brief Set Max Byzantine Shards.
+     * @param[in] f Input parameter.
+     * @details Implements setMaxByzantineShards without additional internal calls.
+     */
     void setMaxByzantineShards(int f) { max_byzantine_shards_ = f; }
     int getMaxByzantineShards() const { return max_byzantine_shards_; }
     
@@ -203,6 +267,12 @@ private:
     KrumDetector krum_detector_;  // Use Krum for selection
     
     // Helper methods
+    /**
+     * @brief Compute Trimmed Mean.
+     * @param[in] selected_gradients Input parameter.
+     * @param[in] trim_count Input parameter.
+     * @return Return value.
+     */
     std::vector<GradientTensor> computeTrimmedMean(
         const std::vector<std::vector<GradientTensor>>& selected_gradients,
         int trim_count
@@ -213,7 +283,6 @@ private:
 // Ensemble Detector (Combine Multiple Methods)
 // ============================================================================
 
-/** @brief Ensemble Detector (Combine Multiple Methods). */
 class EnsembleDetector : public ByzantineDetector {
 public:
     explicit EnsembleDetector(
@@ -236,7 +305,12 @@ private:
     MedianDetector median_detector_;
     KrumDetector krum_detector_;
     
-    // Combine results from multiple detectors
+    /**
+     * @brief Combine results from multiple detectors
+     * @param[in] median_result Input parameter.
+     * @param[in] krum_result Input parameter.
+     * @return Return value.
+     */
     DetectionResult combineResults(
         const DetectionResult& median_result,
         const DetectionResult& krum_result
@@ -247,7 +321,6 @@ private:
 // Byzantine Detector Factory
 // ============================================================================
 
-/** @brief Byzantine Detector Factory. */
 class ByzantineDetectorFactory {
 public:
     static std::unique_ptr<ByzantineDetector> create(

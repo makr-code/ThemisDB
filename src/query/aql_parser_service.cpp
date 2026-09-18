@@ -16,7 +16,6 @@
 
 namespace themis::query {
 
-/** @brief Implementation detail. */
 class AQLParserServiceImpl::Impl {
 public:
     explicit Impl(
@@ -127,12 +126,12 @@ bool AQLParserServiceImpl::supportsFeature(const std::string& feature) const {
     return false;
 }
 
+
 /**
- * @brief ============================================================================ AQLParserServiceFactory Implementation ============================================================================
+ * @brief Create.
  * @return Return value.
  * @details Implements create without additional internal calls.
  */
-
 std::shared_ptr<AQLParserService> AQLParserServiceFactory::create() {
     return std::make_shared<AQLParserServiceImpl>();
 }

@@ -51,7 +51,12 @@ namespace config {
 
 namespace {
 
-/// Returns true if the filename extension is .yaml, .yml, or .json.
+/**
+ * @brief Is Watched Extension.
+ * @param[in] filename Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: rfind(), substr().
+ */
 bool isWatchedExtension(const std::string &filename) {
     auto pos = filename.rfind('.');
     if (pos == std::string::npos) {
@@ -73,6 +78,11 @@ ConfigFileWatcher::~ConfigFileWatcher() {
     stop();
 }
 
+/**
+ * @brief Start.
+ * @return True when the operation succeeds.
+ * @details Calls: load(), std::filesystem::exists(), spdlog::warn(), defined(), pipe2(), strerror(), kqueue(), pipe().
+ */
 bool ConfigFileWatcher::start() {
     if (running_.load(std::memory_order_acquire)) {
         return true; // already running – idempotent
@@ -223,6 +233,10 @@ bool ConfigFileWatcher::start() {
     return true;
 }
 
+/**
+ * @brief Stop.
+ * @details Calls: exchange(), defined(), write(), spdlog::warn(), strerror(), SetEvent(), joinable(), join().
+ */
 void ConfigFileWatcher::stop() {
     if (!running_.exchange(false, std::memory_order_acq_rel)) {
         return; // was not running
@@ -290,6 +304,10 @@ void ConfigFileWatcher::stop() {
     spdlog::info("ConfigFileWatcher: stopped watching '{}'", watch_path_);
 }
 
+/**
+ * @brief Watch Loop.
+ * @details Calls: defined(), watchLoopInotify(), watchLoopKqueue(), watchLoopReadDirChanges(), spdlog::warn(), store().
+ */
 void ConfigFileWatcher::watchLoop() {
 #if defined(__linux__)
     watchLoopInotify();
@@ -304,7 +322,10 @@ void ConfigFileWatcher::watchLoop() {
 #endif
 }
 
-// ── Debounce helper ───────────────────────────────────────────────────────────
+/**
+ * @brief ── Debounce helper ───────────────────────────────────────────────────────────
+ * @details Calls: lk(), std::chrono::steady_clock::now().
+ */
 
 void ConfigFileWatcher::scheduleCallback() {
     {
@@ -319,6 +340,10 @@ void ConfigFileWatcher::scheduleCallback() {
 // ─────────────────────────────────────────────────────────────────────────────
 #if defined(__linux__)
 
+/**
+ * @brief Watch Loop Inotify.
+ * @details Calls: inotify_init1(), spdlog::warn(), strerror(), store(), inotify_add_watch(), c_str(), spdlog::debug(), add_watch().
+ */
 void ConfigFileWatcher::watchLoopInotify() {
     int ifd = inotify_init1(IN_NONBLOCK | IN_CLOEXEC);
     if (ifd == -1) {
@@ -459,6 +484,10 @@ void ConfigFileWatcher::watchLoopInotify() {
 // ─────────────────────────────────────────────────────────────────────────────
 #if defined(__APPLE__)
 
+/**
+ * @brief Watch Loop Kqueue.
+ * @details Calls: count(), open(), c_str(), spdlog::debug(), strerror(), EV_SET(), kevent(), close().
+ */
 void ConfigFileWatcher::watchLoopKqueue() {
     // kqueue watches individual file descriptors. We open each .yaml/.json file
     // and every directory under watch_path_ and register NOTE_WRITE/NOTE_RENAME/
@@ -609,6 +638,10 @@ done:
 // ─────────────────────────────────────────────────────────────────────────────
 #if defined(_WIN32)
 
+/**
+ * @brief Watch Loop Read Dir Changes.
+ * @details Calls: wide_path(), begin(), end(), CreateFileW(), c_str(), spdlog::warn(), GetLastError(), store().
+ */
 void ConfigFileWatcher::watchLoopReadDirChanges() {
     // Convert watch_path_ to wide string
     std::wstring wide_path(watch_path_.begin(), watch_path_.end());

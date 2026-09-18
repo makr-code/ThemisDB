@@ -88,6 +88,11 @@ AccessControl::AccessControl(const Config& config)
     // Format: comma-separated role names, e.g. "admin,operator,superuser".
     if (const char* env_roles = std::getenv("THEMIS_MFA_REQUIRED_ROLES")) {
         std::vector<std::string> roles;
+        /**
+         * @brief Ss.
+         * @param[in] env_roles Input parameter.
+         * @return Return value.
+         */
         std::istringstream ss(env_roles);
         std::string token = {};
         while (std::getline(ss, token, ',')) {
@@ -118,6 +123,12 @@ AccessControl::~AccessControl() {
 // Authentication
 // ============================================================================
 
+/**
+ * @brief Authenticate.
+ * @param[in] credentials User credentials to authenticate.
+ * @return Authentication result.
+ * @details Calls: span(), setAttribute(), has_value(), lock(), isLockedOut(), logSecurityEvent(), setStatus(), AuthenticationResult::Failed().
+ */
 AccessControl::AuthenticationResult AccessControl::authenticate(const Credentials& credentials) {
     TracedSpan span("AccessControl.authenticate");
     span.setAttribute("security.user_id", credentials.user_id);
@@ -263,6 +274,11 @@ Result<void> AccessControl::registerUser(
     const std::string& plugin_name,
     const std::unordered_map<std::string, std::string>& attributes
 ) {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     // Delegate registration to plugin
@@ -304,6 +320,14 @@ Result<void> AccessControl::registerUser(
     return themis::OkVoid();
 }
 
+/**
+ * @brief Change a user's password.
+ * @param[in] user_id User identifier.
+ * @param[in] old_password Current password.
+ * @param[in] param Input parameter.
+ * @return Result indicating whether the password changed.
+ * @details Calls: lock(), getDefaultPlugin(), themis::ErrVoid(), authenticateUser(), has_value(), getName(), THEMIS_WARN(), invalidateUserSessionsLocked().
+ */
 Result<void> AccessControl::changePassword(
     const std::string& user_id,
     const std::string& old_password,
@@ -368,6 +392,12 @@ Result<void> AccessControl::changePassword(
 // Multi-Factor Authentication
 // ============================================================================
 
+/**
+ * @brief Enroll multi-factor authentication for a user.
+ * @param[in] user_id User identifier.
+ * @return Enrollment result as JSON.
+ * @details Calls: lock(), find(), end(), logSecurityEvent(), generateEnrollment(), generateProvisioningURI(), std::move(), THEMIS_INFO().
+ */
 Result<nlohmann::json> AccessControl::enrollMFA(const std::string& user_id) {
     std::lock_guard<std::mutex> lock(mutex_);
 
@@ -415,6 +445,13 @@ Result<nlohmann::json> AccessControl::enrollMFA(const std::string& user_id) {
     return themis::Ok(std::move(result));
 }
 
+/**
+ * @brief Verify a multi-factor authentication token.
+ * @param[in] user_id User identifier.
+ * @param[in] token MFA token to verify.
+ * @return True when the token is valid.
+ * @details Calls: empty(), find(), end(), THEMIS_WARN(), validateTOTP(), validateRecoveryCode(), THEMIS_INFO().
+ */
 bool AccessControl::verifyMFA(const std::string& user_id, const std::string& token) {
     if (token.empty()) {
         return false;
@@ -444,6 +481,12 @@ bool AccessControl::verifyMFA(const std::string& user_id, const std::string& tok
     return false;
 }
 
+/**
+ * @brief Disable multi-factor authentication for a user.
+ * @param[in] user_id User identifier.
+ * @return Result indicating whether MFA was disabled.
+ * @details Calls: lock(), erase(), THEMIS_WARN(), logSecurityEvent(), THEMIS_INFO(), themis::OkVoid().
+ */
 Result<void> AccessControl::disableMFA(const std::string& user_id) {
     std::lock_guard<std::mutex> lock(mutex_);
 
@@ -467,6 +510,12 @@ Result<void> AccessControl::disableMFA(const std::string& user_id) {
 // Authorization
 // ============================================================================
 
+/**
+ * @brief Authorize an access control context.
+ * @param[in] context Authorization context to evaluate.
+ * @return True when the context is authorized.
+ * @details Calls: lock(), isRateLimited(), logSecurityEvent(), checkPermission(), empty(), std::make_optional().
+ */
 bool AccessControl::authorize(const AuthorizationContext& context) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -544,6 +593,14 @@ bool AccessControl::authorize(const AuthorizationContext& context) {
     return authorized;
 }
 
+/**
+ * @brief Check whether a role grants permission for an action.
+ * @param[in] session_token Input parameter.
+ * @param[in] resource Protected resource identifier.
+ * @param[in] action Requested action.
+ * @return True when the permission is granted.
+ * @details Calls: validateSession(), has_value(), value(), std::chrono::system_clock::now(), authorize().
+ */
 bool AccessControl::checkPermission(
     const std::string& session_token,
     const std::string& resource,
@@ -567,6 +624,11 @@ bool AccessControl::checkPermission(
 }
 
 std::vector<Permission> AccessControl::getUserPermissions(const std::string& user_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     auto roles = user_role_store_->getUserRoles(user_id);
@@ -577,6 +639,13 @@ std::vector<Permission> AccessControl::getUserPermissions(const std::string& use
 // Role Management
 // ============================================================================
 
+/**
+ * @brief Assign a role to a user.
+ * @param[in] user_id User identifier.
+ * @param[in] role Role to assign.
+ * @return Result indicating whether the role was assigned.
+ * @details Calls: lock(), getRole(), has_value(), themis::ErrVoid(), logSecurityEvent(), THEMIS_INFO(), themis::OkVoid().
+ */
 Result<void> AccessControl::assignRole(const std::string& user_id, const std::string& role) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -602,6 +671,13 @@ Result<void> AccessControl::assignRole(const std::string& user_id, const std::st
     return themis::OkVoid();
 }
 
+/**
+ * @brief Revoke a role from a user.
+ * @param[in] user_id User identifier.
+ * @param[in] role Role to revoke.
+ * @return Result indicating whether the role was revoked.
+ * @details Calls: lock(), logSecurityEvent(), THEMIS_INFO(), themis::OkVoid().
+ */
 Result<void> AccessControl::revokeRole(const std::string& user_id, const std::string& role) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -623,6 +699,11 @@ std::vector<std::string> AccessControl::getUserRolesLocked(const std::string& us
 }
 
 std::vector<std::string> AccessControl::getUserRoles(const std::string& user_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return getUserRolesLocked(user_id);
 }
@@ -631,11 +712,22 @@ std::vector<std::string> AccessControl::getUserRoles(const std::string& user_id)
 // ABAC Policy Management
 // ============================================================================
 
+/**
+ * @brief Add an ABAC policy.
+ * @param[in] policy ABAC policy to add.
+ * @details Calls: addPolicy(), THEMIS_INFO().
+ */
 void AccessControl::addABACPolicy(const PolicyEngine::Policy& policy) {
     policy_engine_.addPolicy(policy);
     THEMIS_INFO("Added ABAC policy '{}' to AccessControl", policy.id);
 }
 
+/**
+ * @brief Remove an ABAC policy.
+ * @param[in] policy_id Identifier of the ABAC policy to remove.
+ * @return True when the policy was removed.
+ * @details Calls: removePolicy(), THEMIS_INFO().
+ */
 bool AccessControl::removeABACPolicy(const std::string& policy_id) {
     bool removed = policy_engine_.removePolicy(policy_id);
     if (removed) {
@@ -648,6 +740,14 @@ bool AccessControl::removeABACPolicy(const std::string& policy_id) {
 // Session Management
 // ============================================================================
 
+/**
+ * @brief Create a session while holding the lock.
+ * @param[in] user_id User identifier.
+ * @param[in] roles Roles to attach to the session.
+ * @param[in] mfa_verified True if MFA was verified for the session.
+ * @return Session token.
+ * @details Calls: generateSessionToken(), std::chrono::system_clock::now(), push_back(), size(), invalidateSessionLocked(), front(), erase(), begin().
+ */
 std::string AccessControl::createSessionLocked(
     const std::string& user_id,
     const std::vector<std::string>& roles,
@@ -679,6 +779,14 @@ std::string AccessControl::createSessionLocked(
     return session_token;
 }
 
+/**
+ * @brief Create a session for an authenticated user.
+ * @param[in] user_id User identifier.
+ * @param[in] roles Roles to attach to the session.
+ * @param[in] mfa_verified True if MFA was verified for the session.
+ * @return Session token.
+ * @details Calls: lock(), createSessionLocked().
+ */
 std::string AccessControl::createSession(
     const std::string& user_id,
     const std::vector<std::string>& roles,
@@ -688,6 +796,12 @@ std::string AccessControl::createSession(
     return createSessionLocked(user_id, roles, mfa_verified);
 }
 
+/**
+ * @brief Validate a session token.
+ * @param[in] session_token Session token to validate.
+ * @return Validated session on success.
+ * @details Calls: lock(), find(), end(), isSessionExpired(), erase(), std::chrono::system_clock::now().
+ */
 std::optional<AccessControl::Session> AccessControl::validateSession(const std::string& session_token) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -710,6 +824,11 @@ std::optional<AccessControl::Session> AccessControl::validateSession(const std::
     return session;
 }
 
+/**
+ * @brief Invalidate a session while holding the lock.
+ * @param[in] session_token Session token to invalidate.
+ * @details Calls: find(), end(), erase(), std::remove(), begin(), logSecurityEvent(), THEMIS_DEBUG().
+ */
 void AccessControl::invalidateSessionLocked(const std::string& session_token) {
     auto it = sessions_.find(session_token);
     if (it != sessions_.end()) {
@@ -733,11 +852,21 @@ void AccessControl::invalidateSessionLocked(const std::string& session_token) {
     }
 }
 
+/**
+ * @brief Invalidate a session token.
+ * @param[in] session_token Session token to invalidate.
+ * @details Calls: lock(), invalidateSessionLocked().
+ */
 void AccessControl::invalidateSession(const std::string& session_token) {
     std::lock_guard<std::mutex> lock(mutex_);
     invalidateSessionLocked(session_token);
 }
 
+/**
+ * @brief Invalidate all user sessions while holding the lock.
+ * @param[in] user_id User identifier.
+ * @details Calls: find(), end(), erase(), logSecurityEvent(), THEMIS_INFO().
+ */
 void AccessControl::invalidateUserSessionsLocked(const std::string& user_id) {
     auto it = user_sessions_.find(user_id);
     if (it != user_sessions_.end()) {
@@ -757,6 +886,11 @@ void AccessControl::invalidateUserSessionsLocked(const std::string& user_id) {
     }
 }
 
+/**
+ * @brief Invalidate all sessions for a user.
+ * @param[in] user_id User identifier.
+ * @details Calls: lock(), invalidateUserSessionsLocked().
+ */
 void AccessControl::invalidateUserSessions(const std::string& user_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     invalidateUserSessionsLocked(user_id);
@@ -766,6 +900,13 @@ void AccessControl::invalidateUserSessions(const std::string& user_id) {
 // Threat Detection
 // ============================================================================
 
+/**
+ * @brief Check whether a user is rate limited.
+ * @param[in] user_id User identifier.
+ * @param[in] resource Resource being accessed.
+ * @return True when the user is rate limited.
+ * @details Calls: checkRateLimit().
+ */
 bool AccessControl::isRateLimited(const std::string& user_id, const std::string& resource) {
     // unused for now
     return !checkRateLimit(user_id);
@@ -798,6 +939,13 @@ bool AccessControl::detectSQLInjection(const std::string& query) const {
     return false;
 }
 
+/**
+ * @brief Detect suspicious query patterns.
+ * @param[in] query Query string to inspect.
+ * @param[in] user_id User identifier.
+ * @return True when the query is suspicious.
+ * @details Calls: detectSQLInjection(), logSecurityEvent(), length().
+ */
 bool AccessControl::detectSuspiciousQuery(const std::string& query, const std::string& user_id) {
     if (!config_.threat_detection_config.enable_suspicious_query_detection) {
         return false;
@@ -834,6 +982,12 @@ bool AccessControl::detectSuspiciousQuery(const std::string& query, const std::s
     return false;
 }
 
+/**
+ * @brief Record a failed login attempt.
+ * @param[in] user_id User identifier.
+ * @param[in] ip_address Source IP address.
+ * @details Calls: std::chrono::system_clock::now(), logSecurityEvent(), THEMIS_WARN().
+ */
 void AccessControl::recordFailedLogin(const std::string& user_id, const std::string& ip_address) {
     // SECURITY NOTE: Lockout state is in-memory only. On process restart, counters reset.
     // Persistent lockout requires an external store (Redis, DB). Log lockout events for SIEM.
@@ -870,6 +1024,14 @@ bool AccessControl::isLockedOut(const std::string& user_id) const {
 // Audit Logging
 // ============================================================================
 
+/**
+ * @brief Log a security event.
+ * @param[in] event_type Security event type.
+ * @param[in] user_id Identifier of the user.
+ * @param[in] resource Input parameter.
+ * @param[in] details Event payload/details.
+ * @details Implements logSecurityEvent without additional internal calls.
+ */
 void AccessControl::logSecurityEvent(
     utils::SecurityEventType event_type,
     const std::string& user_id,
@@ -924,6 +1086,11 @@ nlohmann::json AccessControl::getAuditLogs(
 // Configuration & Administration
 // ============================================================================
 
+/**
+ * @brief Update the access control configuration.
+ * @param[in] config New access control configuration.
+ * @details Calls: lock(), logSecurityEvent(), THEMIS_INFO().
+ */
 void AccessControl::updateConfig(const Config& config) {
     std::lock_guard<std::mutex> lock(mutex_);
     config_ = config;
@@ -975,6 +1142,10 @@ bool AccessControl::isSessionExpired(const Session& session) const {
     return false;
 }
 
+/**
+ * @brief Remove expired sessions from the cache.
+ * @details Calls: lock(), reserve(), size(), isSessionExpired(), push_back(), invalidateSessionLocked().
+ */
 void AccessControl::cleanupExpiredSessions() {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -1006,6 +1177,11 @@ std::string AccessControl::generateSessionToken() const {
     return ss.str();
 }
 
+/**
+ * @brief Update rate limit state for a user.
+ * @param[in] user_id User identifier.
+ * @details Calls: std::chrono::system_clock::now(), std::chrono::minutes().
+ */
 void AccessControl::updateRateLimit(const std::string& user_id) {
     auto now = std::chrono::system_clock::now();
     auto& entry = rate_limits_[user_id];
@@ -1019,6 +1195,12 @@ void AccessControl::updateRateLimit(const std::string& user_id) {
     entry.request_count++;
 }
 
+/**
+ * @brief Check whether a user exceeds the current rate limit.
+ * @param[in] user_id User identifier.
+ * @return True when the user remains within the configured limit.
+ * @details Calls: std::chrono::system_clock::now(), std::chrono::minutes().
+ */
 bool AccessControl::checkRateLimit(const std::string& user_id) {
     auto now = std::chrono::system_clock::now();
     auto& entry = rate_limits_[user_id];

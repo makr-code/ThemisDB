@@ -22,6 +22,12 @@ namespace themis::process {
 // toString helper
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief To String.
+ * @param[in] t Input parameter.
+ * @return Return value.
+ * @details Implements toString without additional internal calls.
+ */
 std::string_view toString(DiagnosticIncidentType t) {
     switch (t) {
         case DiagnosticIncidentType::IMPORT_INCIDENT:
@@ -104,6 +110,14 @@ std::string DiagnosticRecord::toFormattedMessage() const {
 // ProcessDiagnostics factory methods
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Create Import Incident.
+ * @param[in] error Input parameter.
+ * @param[in] input_id Identifier of the input.
+ * @param[in] message Input parameter.
+ * @return Return value.
+ * @details Calls: DiagnosticRecord().
+ */
 DiagnosticRecord ProcessDiagnostics::createImportIncident(
     ProcError error,
     std::string_view input_id,
@@ -118,6 +132,14 @@ DiagnosticRecord ProcessDiagnostics::createImportIncident(
     );
 }
 
+/**
+ * @brief Create Validation Incident.
+ * @param[in] error Input parameter.
+ * @param[in] input_id Identifier of the input.
+ * @param[in] message Input parameter.
+ * @return Return value.
+ * @details Calls: DiagnosticRecord().
+ */
 DiagnosticRecord ProcessDiagnostics::createValidationIncident(
     ProcError error,
     std::string_view input_id,
@@ -132,6 +154,14 @@ DiagnosticRecord ProcessDiagnostics::createValidationIncident(
     );
 }
 
+/**
+ * @brief Create Retrieval Incident.
+ * @param[in] error Input parameter.
+ * @param[in] input_id Identifier of the input.
+ * @param[in] message Input parameter.
+ * @return Return value.
+ * @details Calls: DiagnosticRecord().
+ */
 DiagnosticRecord ProcessDiagnostics::createRetrievalIncident(
     ProcError error,
     std::string_view input_id,
@@ -146,6 +176,14 @@ DiagnosticRecord ProcessDiagnostics::createRetrievalIncident(
     );
 }
 
+/**
+ * @brief Create Linking Incident.
+ * @param[in] error Input parameter.
+ * @param[in] input_id Identifier of the input.
+ * @param[in] message Input parameter.
+ * @return Return value.
+ * @details Calls: DiagnosticRecord().
+ */
 DiagnosticRecord ProcessDiagnostics::createLinkingIncident(
     ProcError error,
     std::string_view input_id,
@@ -160,6 +198,14 @@ DiagnosticRecord ProcessDiagnostics::createLinkingIncident(
     );
 }
 
+/**
+ * @brief Create Resource Incident.
+ * @param[in] error Input parameter.
+ * @param[in] input_id Identifier of the input.
+ * @param[in] message Input parameter.
+ * @return Return value.
+ * @details Calls: DiagnosticRecord().
+ */
 DiagnosticRecord ProcessDiagnostics::createResourceIncident(
     ProcError error,
     std::string_view input_id,
@@ -174,6 +220,14 @@ DiagnosticRecord ProcessDiagnostics::createResourceIncident(
     );
 }
 
+/**
+ * @brief Create Concurrency Incident.
+ * @param[in] error Input parameter.
+ * @param[in] input_id Identifier of the input.
+ * @param[in] message Input parameter.
+ * @return Return value.
+ * @details Calls: DiagnosticRecord().
+ */
 DiagnosticRecord ProcessDiagnostics::createConcurrencyIncident(
     ProcError error,
     std::string_view input_id,
@@ -188,6 +242,14 @@ DiagnosticRecord ProcessDiagnostics::createConcurrencyIncident(
     );
 }
 
+/**
+ * @brief Create Cycle Incident.
+ * @param[in] error Input parameter.
+ * @param[in] input_id Identifier of the input.
+ * @param[in] message Input parameter.
+ * @return Return value.
+ * @details Calls: DiagnosticRecord().
+ */
 DiagnosticRecord ProcessDiagnostics::createCycleIncident(
     ProcError error,
     std::string_view input_id,
@@ -202,6 +264,14 @@ DiagnosticRecord ProcessDiagnostics::createCycleIncident(
     );
 }
 
+/**
+ * @brief Create Malformed Input Incident.
+ * @param[in] error Input parameter.
+ * @param[in] input_id Identifier of the input.
+ * @param[in] message Input parameter.
+ * @return Return value.
+ * @details Calls: DiagnosticRecord().
+ */
 DiagnosticRecord ProcessDiagnostics::createMalformedInputIncident(
     ProcError error,
     std::string_view input_id,
@@ -216,6 +286,14 @@ DiagnosticRecord ProcessDiagnostics::createMalformedInputIncident(
     );
 }
 
+/**
+ * @brief Create Missing Target Incident.
+ * @param[in] error Input parameter.
+ * @param[in] input_id Identifier of the input.
+ * @param[in] message Input parameter.
+ * @return Return value.
+ * @details Calls: DiagnosticRecord().
+ */
 DiagnosticRecord ProcessDiagnostics::createMissingTargetIncident(
     ProcError error,
     std::string_view input_id,
@@ -234,10 +312,22 @@ DiagnosticRecord ProcessDiagnostics::createMissingTargetIncident(
 // DiagnosticContext Implementation
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Record Resource Metric.
+ * @param[in] metric_name Name of the metric.
+ * @param[in] value Input parameter.
+ * @details Calls: std::string().
+ */
 void DiagnosticContext::recordResourceMetric(std::string_view metric_name, int64_t value) {
     resource_metrics_[std::string(metric_name)] = value;
 }
 
+/**
+ * @brief Record Limit Exceeded.
+ * @param[in] limit_name Name of the limit.
+ * @param[in] limit_value Input parameter.
+ * @param[in] actual_value Input parameter.
+ */
 void DiagnosticContext::recordLimitExceeded(
     std::string_view limit_name,
     int64_t limit_value,
@@ -249,10 +339,20 @@ void DiagnosticContext::recordLimitExceeded(
     });
 }
 
+/**
+ * @brief Set Remediation Suggestion.
+ * @param[in] suggestion Input parameter.
+ * @details Calls: std::string().
+ */
 void DiagnosticContext::setRemediationSuggestion(std::string_view suggestion) {
     remediation_suggestion_ = std::string(suggestion);
 }
 
+/**
+ * @brief Record Conflicting Operation.
+ * @param[in] operation_id Identifier of the operation.
+ * @param[in] conflicting_key Input parameter.
+ */
 void DiagnosticContext::recordConflictingOperation(
     uint64_t operation_id,
     std::string_view conflicting_key)
@@ -334,18 +434,33 @@ std::string DiagnosticContext::getRemediationSummary() const {
 // DiagnosticMetricsCollector Implementation
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Record Incident.
+ * @param[in] incident_type Input parameter.
+ * @details Calls: lock().
+ */
 void DiagnosticMetricsCollector::recordIncident(DiagnosticIncidentType incident_type) {
     std::unique_lock<std::shared_mutex> lock(metrics_lock_);
     incident_counts_[incident_type]++;
 }
 
 uint64_t DiagnosticMetricsCollector::getIncidentCount(DiagnosticIncidentType incident_type) const {
+    /**
+     * @brief Lock.
+     * @param[in] metrics_lock_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(metrics_lock_);
     auto it = incident_counts_.find(incident_type);
     return (it != incident_counts_.end()) ? it->second : 0;
 }
 
 uint64_t DiagnosticMetricsCollector::getTotalIncidentCount() const {
+    /**
+     * @brief Lock.
+     * @param[in] metrics_lock_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(metrics_lock_);
     uint64_t total = 0;
     for (const auto& [type, count] : incident_counts_) {
@@ -354,12 +469,21 @@ uint64_t DiagnosticMetricsCollector::getTotalIncidentCount() const {
     return total;
 }
 
+/**
+ * @brief Reset the modification detection flag.
+ * @details Calls: lock(), clear().
+ */
 void DiagnosticMetricsCollector::reset() {
     std::unique_lock<std::shared_mutex> lock(metrics_lock_);
     incident_counts_.clear();
 }
 
 nlohmann::json DiagnosticMetricsCollector::toJson() const {
+    /**
+     * @brief Lock.
+     * @param[in] metrics_lock_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(metrics_lock_);
     nlohmann::json metrics = nlohmann::json::object();
     

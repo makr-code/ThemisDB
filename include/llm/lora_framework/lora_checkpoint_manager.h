@@ -30,10 +30,11 @@ namespace lora {
 // Data types
 // ─────────────────────────────────────────────────────────────────────────────
 
-/**
- * @brief Snapshot of training state attached to a checkpoint.
- */
 struct CheckpointMeta {
+    /**
+     * @brief Checkpoint Meta.
+     * @return Return value.
+     */
     virtual ~CheckpointMeta() = default;
     std::string adapter_id;          ///< Unique adapter identifier
     uint64_t    step        = 0;     ///< Global training step at checkpoint
@@ -44,13 +45,19 @@ struct CheckpointMeta {
     std::string created_at;          ///< ISO-8601 UTC timestamp
     std::string weights_sha256;      ///< SHA-256 hex digest of the weight blob
 
+    /**
+     * @brief To JSON.
+     * @return Return value.
+     */
     json toJSON() const;
+    /**
+     * @brief From JSON.
+     * @param[in] j Input parameter.
+     * @return Return value.
+     */
     static CheckpointMeta fromJSON(const json& j);
 };
 
-/**
- * @brief Reference to a stored checkpoint.
- */
 struct CheckpointRef {
     std::string path;          ///< Absolute path to weight file
     CheckpointMeta meta;       ///< Associated metadata
@@ -61,21 +68,8 @@ struct CheckpointRef {
 // LoRACheckpointManager
 // ─────────────────────────────────────────────────────────────────────────────
 
-/**
- * @brief Manages LoRA adapter checkpoints throughout the training lifecycle.
- *
- * Usage:
- * ```cpp
- * LoRACheckpointManager mgr(config);
- * mgr.save("my_adapter", weights, meta);          // Save mid-epoch
- * auto ref = mgr.loadBest("my_adapter");          // Resume from best
- * ```
- */
 class LoRACheckpointManager {
 public:
-    /**
-     * @brief Configuration for the checkpoint manager.
-     */
     struct Config {
         std::string root_dir     = "checkpoints";  ///< Base directory for checkpoint storage
         size_t      keep_last    = 5;              ///< How many recent checkpoints to retain (0 = keep all)
@@ -86,6 +80,11 @@ public:
     };
 
     LoRACheckpointManager();
+    /**
+     * @brief Lo RACheckpoint Manager.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit LoRACheckpointManager(Config config);
     ~LoRACheckpointManager();
 
@@ -93,74 +92,73 @@ public:
     LoRACheckpointManager(const LoRACheckpointManager&)            = delete;
     LoRACheckpointManager& operator=(const LoRACheckpointManager&) = delete;
 
-    // ── Save / Load ───────────────────────────────────────────────────────────
-
     /**
-     * @brief Atomically save adapter weights and metadata as a new checkpoint.
-     *
-     * The weight blob is written to a temporary file first, then renamed to
-     * avoid partial writes.  Old checkpoints are pruned after a successful save
-     * according to the @p keep_last policy.
-     *
-     * @param adapter_id Logical adapter name.
-     * @param weights    Weight data (raw safetensors blob).
-     * @param meta       Training metadata snapshot.
-     * @return Path of the saved checkpoint file on success.
+     * @brief ── Save / Load ───────────────────────────────────────────────────────────
+     * @param[in] adapter_id Identifier of the adapter.
+     * @param[in] weights Input parameter.
+     * @param[in] meta Input parameter.
+     * @return Return value.
      */
+
     std::string save(const std::string&         adapter_id,
                      const std::vector<uint8_t>& weights,
                      CheckpointMeta              meta);
 
     /**
-     * @brief Load the latest checkpoint for the given adapter.
-     *
-     * @return Checkpoint reference including weights path and metadata,
-     *         or std::nullopt when no checkpoint exists.
+     * @brief Load Latest.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @return Return value.
      */
     std::optional<CheckpointRef> loadLatest(const std::string& adapter_id) const;
 
     /**
-     * @brief Load the best (lowest val_loss) checkpoint for the given adapter.
-     *
-     * @return Checkpoint reference, or std::nullopt when no checkpoint exists.
+     * @brief Load Best.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @return Return value.
      */
     std::optional<CheckpointRef> loadBest(const std::string& adapter_id) const;
 
     /**
-     * @brief Load a specific checkpoint by training step.
+     * @brief Load By Step.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @param[in] step Input parameter.
+     * @return Return value.
      */
     std::optional<CheckpointRef> loadByStep(const std::string& adapter_id,
                                              uint64_t           step) const;
 
     /**
-     * @brief Read the raw weight bytes from a checkpoint reference.
-     *
-     * Verifies SHA-256 if Config::verify_hash is set.
-     * @return Decompressed weight blob.
-     * @throws std::runtime_error on hash mismatch or I/O error.
+     * @brief Read Weights.
+     * @param[in] ref Input parameter.
+     * @return Return value.
      */
     std::vector<uint8_t> readWeights(const CheckpointRef& ref) const;
 
-    // ── Listing / Management ─────────────────────────────────────────────────
-
     /**
-     * @brief List all stored checkpoints for an adapter, newest first.
+     * @brief ── Listing / Management ─────────────────────────────────────────────────
+     * @param[in] adapter_id Identifier of the adapter.
+     * @return Return value.
      */
+
     std::vector<CheckpointRef> listCheckpoints(const std::string& adapter_id) const;
 
     /**
-     * @brief Delete a specific checkpoint by step.
-     * @return true if the checkpoint was found and deleted.
+     * @brief Delete Checkpoint.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @param[in] step Input parameter.
+     * @return True when the operation succeeds.
      */
     bool deleteCheckpoint(const std::string& adapter_id, uint64_t step);
 
     /**
-     * @brief Delete all checkpoints for an adapter.
+     * @brief Delete All.
+     * @param[in] adapter_id Identifier of the adapter.
      */
     void deleteAll(const std::string& adapter_id);
 
     /**
-     * @brief Prune checkpoints to satisfy Config::keep_last and Config::keep_best.
+     * @brief Prune.
+     * @param[in] adapter_id Identifier of the adapter.
      */
     void prune(const std::string& adapter_id);
 
@@ -170,14 +168,51 @@ private:
     Config      config_;
     mutable std::mutex mutex_;
 
+    /**
+     * @brief Adapter Dir.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @return Return value.
+     */
     std::string adapterDir(const std::string& adapter_id) const;
+    /**
+     * @brief Weight Path.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @param[in] step Input parameter.
+     * @return Return value.
+     */
     std::string weightPath(const std::string& adapter_id, uint64_t step) const;
+    /**
+     * @brief Meta Path.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @param[in] step Input parameter.
+     * @return Return value.
+     */
     std::string metaPath(const std::string& adapter_id, uint64_t step) const;
 
+    /**
+     * @brief Write Meta.
+     * @param[in] path Input parameter.
+     * @param[in] meta Input parameter.
+     */
     void writeMeta(const std::string& path, const CheckpointMeta& meta) const;
+    /**
+     * @brief Read Meta.
+     * @param[in] path Input parameter.
+     * @return Return value.
+     */
     CheckpointMeta readMeta(const std::string& path) const;
+    /**
+     * @brief Update Best Record.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @param[in] meta Input parameter.
+     */
     void updateBestRecord(const std::string& adapter_id,
                           const CheckpointMeta& meta) const;
+    /**
+     * @brief Read Best Meta.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @return Return value.
+     */
     std::optional<CheckpointMeta> readBestMeta(const std::string& adapter_id) const;
 };
 

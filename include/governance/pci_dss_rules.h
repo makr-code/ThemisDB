@@ -119,12 +119,12 @@ class PciDssRuleSet {
 public:
     PciDssRuleSet();
 
+
     /**
-     * @brief ---- Rule evaluation ------------------------------------------------
+     * @brief Evaluate Rule.
      * @param[in] rule Input parameter.
      * @return Return value.
      */
-
     std::vector<PciDssRuleEvalResult> evaluateRule(const PolicyRule& rule) const;
 
     /**

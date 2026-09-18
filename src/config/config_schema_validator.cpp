@@ -29,7 +29,12 @@ namespace config {
 
 namespace {
 
-// Convert a yaml-cpp Node to nlohmann::json (forward declaration).
+/**
+ * @brief Convert a yaml-cpp Node to nlohmann::json (forward declaration).
+ * @param[in] node Input parameter.
+ * @return Return value.
+ * @details Calls: Type(), Scalar(), std::stoll(), size(), std::stod(), nlohmann::json::array(), push_back(), nlohmann::json::object().
+ */
 nlohmann::json yamlNodeToJsonImpl(const YAML::Node &node) {
     switch (node.Type()) {
         case YAML::NodeType::Null:
@@ -97,9 +102,13 @@ nlohmann::json yamlNodeToJsonImpl(const YAML::Node &node) {
 
 } // anonymous namespace
 
-// ═══════════════════════════════════════════════════════════
-// loadAsJson
-// ═══════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════ loadAsJson ═══════════════════════════════════════════════════════════
+ * @param[in] file_path Path to the file.
+ * @return Return value.
+ * @throws SchemaValidationException if an error occurs.
+ * @details Calls: size(), substr(), std::tolower(), YAML::LoadFile(), yamlNodeToJsonImpl(), std::string(), what(), ifs().
+ */
 
 nlohmann::json ConfigSchemaValidator::loadAsJson(const std::string &file_path) {
     // Check extension to choose parser.
@@ -145,6 +154,14 @@ nlohmann::json ConfigSchemaValidator::loadAsJson(const std::string &file_path) {
     }
 }
 
+/**
+ * @brief Load As Json.
+ * @param[in] content Input parameter.
+ * @param[in] is_yaml Input parameter.
+ * @return Return value.
+ * @throws SchemaValidationException if an error occurs.
+ * @details Calls: YAML::Load(), yamlNodeToJsonImpl(), std::string(), what(), nlohmann::json::parse().
+ */
 nlohmann::json ConfigSchemaValidator::loadAsJson(const std::string &content, bool is_yaml) {
     if (is_yaml) {
         try {
@@ -186,9 +203,13 @@ ConfigSchemaValidator::validateFromString(const std::string &content, bool is_ya
     return result;
 }
 
-// ═══════════════════════════════════════════════════════════
-// validate
-// ═══════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════ validate ═══════════════════════════════════════════════════════════
+ * @param[in] config_path Path to the retention policy configuration file.
+ * @param[in] schema Input parameter.
+ * @return Return value.
+ * @details Calls: loadAsJson(), addError(), what(), std::string(), validateValue().
+ */
 
 ConfigSchemaValidator::ValidationResult ConfigSchemaValidator::validate(const std::string &config_path,
                                                                         const nlohmann::json &schema) {
@@ -210,9 +231,13 @@ ConfigSchemaValidator::ValidationResult ConfigSchemaValidator::validate(const st
     return result;
 }
 
-// ═══════════════════════════════════════════════════════════
-// validateWithSchemaFile
-// ═══════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════ validateWithSchemaFile ═══════════════════════════════════════════════════════════
+ * @param[in] config_path Path to the retention policy configuration file.
+ * @param[in] schema_path Path to the schema.
+ * @return Return value.
+ * @details Calls: ConfigPathResolver::tryResolve(), has_value(), loadAsJson(), addError(), std::string(), what(), validateValue().
+ */
 
 ConfigSchemaValidator::ValidationResult ConfigSchemaValidator::validateWithSchemaFile(const std::string &config_path,
                                                                                       const std::string &schema_path) {
@@ -330,9 +355,13 @@ const nlohmann::json *ConfigSchemaValidator::resolveRef(const std::string &ref, 
     return node;
 }
 
-// ═══════════════════════════════════════════════════════════
-// matchesType
-// ═══════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════ matchesType ═══════════════════════════════════════════════════════════
+ * @param[in] value Input parameter.
+ * @param[in] type Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: is_null(), is_boolean(), is_number_integer(), is_number(), is_string(), is_array(), is_object().
+ */
 
 bool ConfigSchemaValidator::matchesType(const nlohmann::json &value, const std::string &type) {
     if (type == "null") {
@@ -359,9 +388,14 @@ bool ConfigSchemaValidator::matchesType(const nlohmann::json &value, const std::
     return false;
 }
 
-// ═══════════════════════════════════════════════════════════
-// validateValue  (entry-point wrapper)
-// ═══════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════ validateValue (entry-point wrapper) ═══════════════════════════════════════════════════════════
+ * @param[in] value Input parameter.
+ * @param[in] schema Input parameter.
+ * @param[in] json_path Path to the json.
+ * @param[in,out] result Input/output parameter.
+ * @details Calls: validateValueImpl().
+ */
 
 void ConfigSchemaValidator::validateValue(const nlohmann::json &value, const nlohmann::json &schema,
                                           const std::string &json_path, ValidationResult &result) {
@@ -369,9 +403,16 @@ void ConfigSchemaValidator::validateValue(const nlohmann::json &value, const nlo
     validateValueImpl(value, schema, json_path, result, schema, visited);
 }
 
-// ═══════════════════════════════════════════════════════════
-// validateValueImpl  (dispatcher, carries root schema and visited-refs)
-// ═══════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════ validateValueImpl (dispatcher, carries root schema and visited-refs) ═══════════════════════════════════════════════════════════
+ * @param[in] value Input parameter.
+ * @param[in] schema Input parameter.
+ * @param[in] json_path Path to the json.
+ * @param[in,out] result Input/output parameter.
+ * @param[in] root_schema Input parameter.
+ * @param[in,out] visited_refs Input/output parameter.
+ * @details Calls: is_object(), contains(), is_string(), addError(), empty(), resolveRef(), push_back(), pop_back().
+ */
 
 void ConfigSchemaValidator::validateValueImpl(const nlohmann::json &value, const nlohmann::json &schema,
                                               const std::string &json_path, ValidationResult &result,
@@ -489,9 +530,14 @@ void ConfigSchemaValidator::validateValueImpl(const nlohmann::json &value, const
     }
 }
 
-// ═══════════════════════════════════════════════════════════
-// validateType
-// ═══════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════ validateType ═══════════════════════════════════════════════════════════
+ * @param[in] value Input parameter.
+ * @param[in] expected_type Input parameter.
+ * @param[in] json_path Path to the json.
+ * @param[in,out] result Input/output parameter.
+ * @details Calls: matchesType(), addError(), std::string(), type_name().
+ */
 
 void ConfigSchemaValidator::validateType(const nlohmann::json &value, const std::string &expected_type,
                                          const std::string &json_path, ValidationResult &result) {
@@ -501,9 +547,16 @@ void ConfigSchemaValidator::validateType(const nlohmann::json &value, const std:
     }
 }
 
-// ═══════════════════════════════════════════════════════════
-// validateObject
-// ═══════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════ validateObject ═══════════════════════════════════════════════════════════
+ * @param[in] value Input parameter.
+ * @param[in] schema Input parameter.
+ * @param[in] json_path Path to the json.
+ * @param[in,out] result Input/output parameter.
+ * @param[in] root_schema Input parameter.
+ * @param[in,out] visited_refs Input/output parameter.
+ * @details Calls: contains(), is_array(), is_string(), addError(), is_object(), items(), validateValueImpl(), push_back().
+ */
 
 void ConfigSchemaValidator::validateObject(const nlohmann::json &value, const nlohmann::json &schema,
                                            const std::string &json_path, ValidationResult &result,
@@ -556,9 +609,16 @@ void ConfigSchemaValidator::validateObject(const nlohmann::json &value, const nl
     }
 }
 
-// ═══════════════════════════════════════════════════════════
-// validateArray
-// ═══════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════ validateArray ═══════════════════════════════════════════════════════════
+ * @param[in] value Input parameter.
+ * @param[in] schema Input parameter.
+ * @param[in] json_path Path to the json.
+ * @param[in,out] result Input/output parameter.
+ * @param[in] root_schema Input parameter.
+ * @param[in,out] visited_refs Input/output parameter.
+ * @details Calls: contains(), is_number_integer(), size(), addError(), std::to_string(), is_object(), validateValueImpl(), is_boolean().
+ */
 
 void ConfigSchemaValidator::validateArray(const nlohmann::json &value, const nlohmann::json &schema,
                                           const std::string &json_path, ValidationResult &result,
@@ -608,9 +668,14 @@ void ConfigSchemaValidator::validateArray(const nlohmann::json &value, const nlo
     }
 }
 
-// ═══════════════════════════════════════════════════════════
-// validateString
-// ═══════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════ validateString ═══════════════════════════════════════════════════════════
+ * @param[in] value Input parameter.
+ * @param[in] schema Input parameter.
+ * @param[in] json_path Path to the json.
+ * @param[in,out] result Input/output parameter.
+ * @details Calls: contains(), is_number_integer(), size(), addError(), std::to_string(), is_string(), re(), std::regex_search().
+ */
 
 void ConfigSchemaValidator::validateString(const nlohmann::json &value, const nlohmann::json &schema,
                                            const std::string &json_path, ValidationResult &result) {
@@ -701,9 +766,14 @@ void ConfigSchemaValidator::validateString(const nlohmann::json &value, const nl
     }
 }
 
-// ═══════════════════════════════════════════════════════════
-// validateNumber
-// ═══════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════ validateNumber ═══════════════════════════════════════════════════════════
+ * @param[in] value Input parameter.
+ * @param[in] schema Input parameter.
+ * @param[in] json_path Path to the json.
+ * @param[in,out] result Input/output parameter.
+ * @details Calls: contains(), is_number(), addError(), std::to_string().
+ */
 
 void ConfigSchemaValidator::validateNumber(const nlohmann::json &value, const nlohmann::json &schema,
                                            const std::string &json_path, ValidationResult &result) {
@@ -746,9 +816,16 @@ void ConfigSchemaValidator::validateNumber(const nlohmann::json &value, const nl
     }
 }
 
-// ═══════════════════════════════════════════════════════════
-// validateAllOf
-// ═══════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════ validateAllOf ═══════════════════════════════════════════════════════════
+ * @param[in] value Input parameter.
+ * @param[in] schemas Input parameter.
+ * @param[in] json_path Path to the json.
+ * @param[in,out] result Input/output parameter.
+ * @param[in] root_schema Input parameter.
+ * @param[in,out] visited_refs Input/output parameter.
+ * @details Calls: is_object(), validateValueImpl().
+ */
 
 void ConfigSchemaValidator::validateAllOf(const nlohmann::json &value, const nlohmann::json &schemas,
                                           const std::string &json_path, ValidationResult &result,
@@ -760,9 +837,16 @@ void ConfigSchemaValidator::validateAllOf(const nlohmann::json &value, const nlo
     }
 }
 
-// ═══════════════════════════════════════════════════════════
-// validateAnyOf
-// ═══════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════ validateAnyOf ═══════════════════════════════════════════════════════════
+ * @param[in] value Input parameter.
+ * @param[in] schemas Input parameter.
+ * @param[in] json_path Path to the json.
+ * @param[in,out] result Input/output parameter.
+ * @param[in] root_schema Input parameter.
+ * @param[in,out] visited_refs Input/output parameter.
+ * @details Calls: is_object(), validateValueImpl(), addError().
+ */
 
 void ConfigSchemaValidator::validateAnyOf(const nlohmann::json &value, const nlohmann::json &schemas,
                                           const std::string &json_path, ValidationResult &result,
@@ -779,9 +863,16 @@ void ConfigSchemaValidator::validateAnyOf(const nlohmann::json &value, const nlo
     result.addError("Value at '" + json_path + "' does not match any of the anyOf schemas");
 }
 
-// ═══════════════════════════════════════════════════════════
-// validateOneOf
-// ═══════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════ validateOneOf ═══════════════════════════════════════════════════════════
+ * @param[in] value Input parameter.
+ * @param[in] schemas Input parameter.
+ * @param[in] json_path Path to the json.
+ * @param[in,out] result Input/output parameter.
+ * @param[in] root_schema Input parameter.
+ * @param[in,out] visited_refs Input/output parameter.
+ * @details Calls: is_object(), validateValueImpl(), addError(), std::to_string().
+ */
 
 void ConfigSchemaValidator::validateOneOf(const nlohmann::json &value, const nlohmann::json &schemas,
                                           const std::string &json_path, ValidationResult &result,
@@ -802,9 +893,16 @@ void ConfigSchemaValidator::validateOneOf(const nlohmann::json &value, const nlo
     }
 }
 
-// ═══════════════════════════════════════════════════════════
-// validateNot
-// ═══════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════ validateNot ═══════════════════════════════════════════════════════════
+ * @param[in] value Input parameter.
+ * @param[in] not_schema Input parameter.
+ * @param[in] json_path Path to the json.
+ * @param[in,out] result Input/output parameter.
+ * @param[in] root_schema Input parameter.
+ * @param[in,out] visited_refs Input/output parameter.
+ * @details Calls: validateValueImpl(), addError().
+ */
 
 void ConfigSchemaValidator::validateNot(const nlohmann::json &value, const nlohmann::json &not_schema,
                                         const std::string &json_path, ValidationResult &result,

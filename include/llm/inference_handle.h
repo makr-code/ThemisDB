@@ -22,20 +22,6 @@
 namespace themis {
 namespace llm {
 
-/**
- * @brief Inference request handle for tracking and cancellation
- * 
- * Provides a lightweight handle to track an inference request submitted
- * to an async inference engine. Supports:
- * - Blocking wait for result (get())
- * - Non-blocking status check (ready())
- * - Best-effort cancellation (cancel())
- *
- * Cancellation is propagated via a shared atomic<bool> cancel token that
- * is also held by the request in the inference engine. Setting the flag
- * causes the worker thread to skip queued requests and abort streaming
- * inference at the next token boundary.
- */
 class InferenceHandle {
 public:
     InferenceHandle(const std::string& request_id,
@@ -44,7 +30,11 @@ public:
         : request_id_(request_id), future_(future),
           cancel_token_(std::move(cancel_token)) {}
     
-    // Wait for result (blocking)
+    /**
+     * @brief Wait for result (blocking)
+     * @return Return value.
+     * @details Implements get without additional internal calls.
+     */
     InferenceResponse get() { return future_.get(); }
     
     // Check if ready (non-blocking)
@@ -53,8 +43,9 @@ public:
                std::future_status::ready;
     }
     
-    // Cancel request (best effort) — sets the shared cancel token so the
-    // worker thread will stop processing at the next check point.
+    /**
+     * @brief Cancel request (best effort) — sets the shared cancel token so the worker thread will stop processing at the next check point.
+     */
     void cancel();
     
     const std::string& requestId() const { return request_id_; }

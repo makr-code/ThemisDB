@@ -28,6 +28,10 @@ class ShardRouter;
 class ShardTopology;
 // Minimal training configuration used for coordinator initialization
 struct TrainingConfig {
+    /**
+     * @brief Training Config.
+     * @return Return value.
+     */
     virtual ~TrainingConfig() = default;
     int epochs = 1;
     int total_steps = 0;
@@ -73,6 +77,10 @@ enum class GradientCompressionType {
 // ============================================================================
 
 struct DistributedTrainingConfig {
+    /**
+     * @brief Distributed Training Config.
+     * @return Return value.
+     */
     virtual ~DistributedTrainingConfig() = default;
     SyncStrategy sync_strategy = SyncStrategy::ALL_REDUCE;
     GradientCompressionType compression = GradientCompressionType::NONE;
@@ -106,7 +114,16 @@ struct DistributedTrainingConfig {
     // Training schedule — used for ETA estimation
     int total_steps = 0;                        // 0 = unknown / open-ended
 
+    /**
+     * @brief To JSON.
+     * @return Return value.
+     */
     json toJSON() const;
+    /**
+     * @brief From JSON.
+     * @param[in] j Input parameter.
+     * @return Return value.
+     */
     static DistributedTrainingConfig fromJSON(const json& j);
 };
 
@@ -115,6 +132,10 @@ struct DistributedTrainingConfig {
 // ============================================================================
 
 struct GradientTensor {
+    /**
+     * @brief Gradient Tensor.
+     * @return Return value.
+     */
     virtual ~GradientTensor() = default;
     std::string layer_name;                     // "lora_layer_q_proj_A"
     std::vector<float> data;                    // Gradient values
@@ -130,12 +151,32 @@ struct GradientTensor {
     std::optional<std::vector<uint8_t>> compressed_data;
     
     size_t uncompressed_size() const { return data.size() * sizeof(float); }
+    /**
+     * @brief Compressed size.
+     * @return Return value.
+     */
     size_t compressed_size() const;
     
+    /**
+     * @brief Compress.
+     * @param[in] type Input parameter.
+     */
     void compress(GradientCompressionType type);
+    /**
+     * @brief Decompress.
+     */
     void decompress();
     
+    /**
+     * @brief To JSON.
+     * @return Return value.
+     */
     json toJSON() const;
+    /**
+     * @brief From JSON.
+     * @param[in] j Input parameter.
+     * @return Return value.
+     */
     static GradientTensor fromJSON(const json& j);
 };
 
@@ -144,6 +185,10 @@ struct GradientTensor {
 // ============================================================================
 
 struct GradientExchangeMessage {
+    /**
+     * @brief Gradient Exchange Message.
+     * @return Return value.
+     */
     virtual ~GradientExchangeMessage() = default;
     std::string message_id;                     // Unique message ID
     std::string source_shard;
@@ -165,7 +210,16 @@ struct GradientExchangeMessage {
     std::optional<float> local_accuracy;
     int samples_in_batch = 0;
     
+    /**
+     * @brief To JSON.
+     * @return Return value.
+     */
     json toJSON() const;
+    /**
+     * @brief From JSON.
+     * @param[in] j Input parameter.
+     * @return Return value.
+     */
     static GradientExchangeMessage fromJSON(const json& j);
 };
 
@@ -174,6 +228,10 @@ struct GradientExchangeMessage {
 // ============================================================================
 
 struct ShardTrainingState {
+    /**
+     * @brief Shard Training State.
+     * @return Return value.
+     */
     virtual ~ShardTrainingState() = default;
     std::string shard_id;
     
@@ -197,7 +255,16 @@ struct ShardTrainingState {
     float gpu_utilization = 0.0f;
     float memory_usage_gb = 0.0f;
     
+    /**
+     * @brief To JSON.
+     * @return Return value.
+     */
     json toJSON() const;
+    /**
+     * @brief From JSON.
+     * @param[in] j Input parameter.
+     * @return Return value.
+     */
     static ShardTrainingState fromJSON(const json& j);
 };
 
@@ -206,6 +273,10 @@ struct ShardTrainingState {
 // ============================================================================
 
 struct DistributedTrainingStats {
+    /**
+     * @brief Distributed Training Stats.
+     * @return Return value.
+     */
     virtual ~DistributedTrainingStats() = default;
     int total_steps_completed = 0;
     int total_gradient_syncs = 0;
@@ -236,6 +307,10 @@ struct DistributedTrainingStats {
     float avg_anomaly_score = 0.0f;
     std::vector<float> gradient_norm_history;
     
+    /**
+     * @brief To JSON.
+     * @return Return value.
+     */
     json toJSON() const;
 };
 
@@ -243,22 +318,31 @@ struct DistributedTrainingStats {
 // Gradient Aggregator (All-Reduce Implementation)
 // ============================================================================
 
-/** @brief Gradient Aggregator (All-Reduce Implementation). */
 class GradientAggregator {
 public:
+    /**
+     * @brief Gradient Aggregator.
+     * @return Return value.
+     */
     virtual ~GradientAggregator() = default;
     
-    // Aggregate gradients from multiple shards
+    /**
+     * @brief Aggregate gradients from multiple shards
+     * @param[in] shard_gradients Input parameter.
+     * @return Return value.
+     */
     virtual std::vector<GradientTensor> aggregate(
         const std::vector<std::vector<GradientTensor>>& shard_gradients
     ) = 0;
     
-    // Get aggregation strategy name
+    /**
+     * @brief Get aggregation strategy name
+     * @return Return value.
+     */
     virtual std::string getStrategy() const = 0;
 };
 
 // All-Reduce: Average gradients from all shards
-/** @brief All-Reduce: Average gradients from all shards. */
 class AllReduceAggregator : public GradientAggregator {
 public:
     ~AllReduceAggregator() override = default;
@@ -271,7 +355,6 @@ public:
 };
 
 // Parameter Server: Weighted average (data-proportional)
-/** @brief Parameter Server: Weighted average (data-proportional). */
 class ParameterServerAggregator : public GradientAggregator {
 public:
     ParameterServerAggregator(const std::map<std::string, float>& shard_weights)
@@ -289,7 +372,6 @@ private:
 };
 
 // Ring All-Reduce: Communication-efficient ring pattern
-/** @brief Ring All-Reduce: Communication-efficient ring pattern. */
 class RingAllReduceAggregator : public GradientAggregator {
 public:
     ~RingAllReduceAggregator() override = default;
@@ -300,6 +382,10 @@ public:
     
     std::string getStrategy() const override { return "RING_ALL_REDUCE"; }
     
+    /**
+     * @brief Set Ring Topology.
+     * @param[in] ring_order Input parameter.
+     */
     void setRingTopology(const std::vector<std::string>& ring_order);
     
 private:
@@ -310,7 +396,6 @@ private:
 // Distributed Training Coordinator (Main Orchestrator)
 // ============================================================================
 
-/** @brief Distributed Training Coordinator (Main Orchestrator). */
 class DistributedTrainingCoordinator {
 public:
     DistributedTrainingCoordinator(
@@ -325,7 +410,12 @@ public:
     // Training Orchestration
     // ========================================================================
     
-    // Initialize distributed training session
+    /**
+     * @brief Initialize distributed training session
+     * @param[in] adapter_id Identifier of the adapter.
+     * @param[in] training_config Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool initialize(const std::string& adapter_id, const TrainingConfig& training_config);
     
     // Execute one distributed training step
@@ -340,12 +430,21 @@ public:
         std::optional<float> aggregated_accuracy;
         std::map<std::string, float> per_shard_loss;  // For monitoring
     };
+    /**
+     * @brief Execute Step.
+     * @return Return value.
+     */
     StepResult executeStep();
     
-    // Finalize training and collect final adapters
+    /**
+     * @brief Finalize training and collect final adapters
+     * @return True when the operation succeeds.
+     */
     bool finalize();
     
-    // Stop training (graceful shutdown)
+    /**
+     * @brief Stop training (graceful shutdown)
+     */
     void stop();
     
     // ========================================================================
@@ -370,7 +469,12 @@ public:
         const std::vector<std::pair<float, int>>& shard_losses_and_counts
     );
     
-    // Broadcast aggregated gradients to all shards
+    /**
+     * @brief Broadcast aggregated gradients to all shards
+     * @param[in] gradients Input parameter.
+     * @param[in] step_number Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool broadcastGradients(const std::vector<GradientTensor>& gradients, int step_number);
     
     // ========================================================================
@@ -380,27 +484,53 @@ public:
     // Check shard health (heartbeat)
     std::map<std::string, ShardTrainingState> checkShardHealth();
     
-    // Handle shard failure (remove from training, redistribute work)
+    /**
+     * @brief Handle shard failure (remove from training, redistribute work)
+     * @param[in] failed_shard Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool handleShardFailure(const std::string& failed_shard);
     
     // Save distributed checkpoint
+    /**
+     * @brief Save Checkpoint.
+     * @param[in] step_number Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool saveCheckpoint(int step_number);
     
     // Resume from checkpoint
+    /**
+     * @brief Resume From Checkpoint.
+     * @param[in] checkpoint_path Path to the checkpoint.
+     * @return True when the operation succeeds.
+     */
     bool resumeFromCheckpoint(const std::string& checkpoint_path);
     
     // ========================================================================
     // Monitoring & Statistics
     // ========================================================================
     
+    /**
+     * @brief Return access control statistics.
+     * @return Access control statistics.
+     */
     DistributedTrainingStats getStatistics() const;
     
     std::map<std::string, ShardTrainingState> getShardStates() const;
     
+    /**
+     * @brief Estimate Remaining Time.
+     * @return Return value.
+     */
     float estimateRemainingTime() const;  // Minutes
     
     // Progress callback
     using ProgressCallback = std::function<void(int step, const StepResult& result)>;
+    /**
+     * @brief Set Progress Callback.
+     * @param[in] callback Input parameter.
+     */
     void setProgressCallback(ProgressCallback callback);
     
     // ========================================================================
@@ -409,6 +539,10 @@ public:
     
     DistributedTrainingConfig getConfig() const { return config_; }
     
+    /**
+     * @brief Update the access control configuration.
+     * @param[in] config New access control configuration.
+     */
     void updateConfig(const DistributedTrainingConfig& config);
     
 private:
@@ -443,11 +577,35 @@ private:
     ProgressCallback progress_callback_;
     
     // Helper methods
+    /**
+     * @brief Initialize Aggregator.
+     */
     void initializeAggregator();
+    /**
+     * @brief Initialize Byzantine Detector.
+     */
     void initializeByzantineDetector();
+    /**
+     * @brief Validate Shard Participation.
+     * @return True when the operation succeeds.
+     */
     bool validateShardParticipation();
+    /**
+     * @brief Update Statistics.
+     * @param[in] result Input parameter.
+     */
     void updateStatistics(const StepResult& result);
+    /**
+     * @brief Compress Gradients.
+     * @param[in] gradients Input parameter.
+     * @return Return value.
+     */
     std::vector<GradientTensor> compressGradients(const std::vector<GradientTensor>& gradients);
+    /**
+     * @brief Decompress Gradients.
+     * @param[in] gradients Input parameter.
+     * @return Return value.
+     */
     std::vector<GradientTensor> decompressGradients(const std::vector<GradientTensor>& gradients);
     void clipAnomalousGradients(
         std::map<std::string, std::vector<GradientTensor>>& shard_gradients,
@@ -459,9 +617,15 @@ private:
 // Factory for Creating Coordinators
 // ============================================================================
 
-/** @brief Factory for Creating Coordinators. */
 class DistributedTrainingCoordinatorFactory {
 public:
+    /**
+     * @brief Create.
+     * @param[in] shard_router Input parameter.
+     * @param[in] shard_topology Input parameter.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     static std::unique_ptr<DistributedTrainingCoordinator> create(
         std::shared_ptr<ShardRouter> shard_router,
         std::shared_ptr<ShardTopology> shard_topology,

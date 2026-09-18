@@ -29,6 +29,12 @@ ReviewSchedulingApiHandler::ReviewSchedulingApiHandler(
     }
 }
 
+/**
+ * @brief Handle List Pending Reviews.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), checkAuth(), makeErrorResponse(), getPendingReviews(), nlohmann::json::array(), push_back(), toJson(), size().
+ */
 http::response<http::string_body> ReviewSchedulingApiHandler::handleListPendingReviews(
     const http::request<http::string_body>& req
 ) {
@@ -63,6 +69,13 @@ http::response<http::string_body> ReviewSchedulingApiHandler::handleListPendingR
     }
 }
 
+/**
+ * @brief Handle Create Review.
+ * @param[in] req Input parameter.
+ * @param[in] rule_id Identifier of the rule.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), checkAuth(), makeErrorResponse(), nlohmann::json::parse(), body(), value(), createReviewRequest(), makeResponse().
+ */
 http::response<http::string_body> ReviewSchedulingApiHandler::handleCreateReview(
     const http::request<http::string_body>& req,
     const std::string& rule_id
@@ -105,6 +118,13 @@ http::response<http::string_body> ReviewSchedulingApiHandler::handleCreateReview
     }
 }
 
+/**
+ * @brief Handle Approve Review.
+ * @param[in] req Input parameter.
+ * @param[in] review_id Identifier of the review.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), checkAuth(), makeErrorResponse(), nlohmann::json::parse(), body(), value(), approveReview(), makeResponse().
+ */
 http::response<http::string_body> ReviewSchedulingApiHandler::handleApproveReview(
     const http::request<http::string_body>& req,
     const std::string& review_id
@@ -143,6 +163,13 @@ http::response<http::string_body> ReviewSchedulingApiHandler::handleApproveRevie
     }
 }
 
+/**
+ * @brief Handle Reject Review.
+ * @param[in] req Input parameter.
+ * @param[in] review_id Identifier of the review.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), checkAuth(), makeErrorResponse(), nlohmann::json::parse(), body(), value(), rejectReview(), makeResponse().
+ */
 http::response<http::string_body> ReviewSchedulingApiHandler::handleRejectReview(
     const http::request<http::string_body>& req,
     const std::string& review_id
@@ -181,6 +208,13 @@ http::response<http::string_body> ReviewSchedulingApiHandler::handleRejectReview
     }
 }
 
+/**
+ * @brief Handle Get Expiration.
+ * @param[in] req Input parameter.
+ * @param[in] rule_id Identifier of the rule.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), checkAuth(), makeErrorResponse(), getExpirationInfo(), makeResponse(), dump(), THEMIS_ERROR(), what().
+ */
 http::response<http::string_body> ReviewSchedulingApiHandler::handleGetExpiration(
     const http::request<http::string_body>& req,
     const std::string& rule_id

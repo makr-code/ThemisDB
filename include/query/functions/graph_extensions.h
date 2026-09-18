@@ -491,16 +491,6 @@ public:
 // BETWEENNESS_CENTRALITY - Brandes' algorithm on edge arrays
 // ============================================================================
 
-/**
- * @brief BETWEENNESS_CENTRALITY(edges, options?) - Betweenness centrality via Brandes algorithm
- *
- * Computes betweenness centrality for all vertices in the graph defined by an
- * array of edge documents. Uses Brandes' O(V*E) algorithm for unweighted graphs.
- *
- * @param edges   Array of edge documents (each with _from and _to fields)
- * @param options Optional object: {normalize: bool} (default false)
- * @return Object mapping each vertex ID to its betweenness score
- */
 class BetweennessCentralityExtFunction : public IFunction {
 public:
     ~BetweennessCentralityExtFunction() override = default;
@@ -638,17 +628,6 @@ public:
 // LOUVAIN_COMMUNITIES (enhanced) - Rich community object format
 // ============================================================================
 
-/**
- * @brief LOUVAIN_COMMUNITIES(edges, options?) - Louvain community detection (rich output)
- *
- * Detects communities using the Louvain greedy modularity algorithm and returns
- * a detailed result object containing per-community metrics.
- *
- * @param edges   Array of edge documents (each with _from and _to fields)
- * @param options Optional object: {min_modularity_gain: number} (default: 0.000001)
- * @return Object: {communities: [{id, members, size, modularity, density}],
- *                  num_communities, overall_modularity}
- */
 class LouvainCommunitiesExtFunction : public IFunction {
 private:
     static constexpr int MAX_LOUVAIN_ITERATIONS = 100;
@@ -879,16 +858,6 @@ public:
 // LABEL_PROPAGATION_COMMUNITIES (enhanced) - Rich community object format
 // ============================================================================
 
-/**
- * @brief LABEL_PROPAGATION_COMMUNITIES(edges, options?) - Label propagation (rich output)
- *
- * Detects communities using iterative label propagation and returns a detailed
- * result object containing per-community membership.
- *
- * @param edges   Array of edge documents (each with _from and _to fields)
- * @param options Optional object: {max_iterations: number} (default: 100)
- * @return Object: {communities: [{id, members, size}], num_communities}
- */
 class LabelPropagationCommunitiesExtFunction : public IFunction {
 private:
     /**
@@ -1026,12 +995,12 @@ public:
     }
 };
 
+
 /**
- * @brief ============================================================================ Registration ============================================================================
+ * @brief Register Graph Extensions.
  * @param[in,out] registry Input/output parameter.
  * @details Calls: registerFunction().
  */
-
 inline void registerGraphExtensions(FunctionRegistry& registry) {
     // Advanced centrality: Betweenness (Brandes algorithm)
     registry.registerFunction(std::make_unique<BetweennessCentralityExtFunction>());

@@ -49,6 +49,11 @@ struct TransactionStateSnapshot {
     std::chrono::system_clock::time_point timeout;
     std::string error_detail = {};
     
+    /**
+     * @brief Transaction State Snapshot.
+     * @param[in] txn Input parameter.
+     * @return Return value.
+     */
     explicit TransactionStateSnapshot(const DistributedTransaction& txn)
         : txn_id(txn.txn_id)
         , state(txn.state)
@@ -79,16 +84,30 @@ static std::mutex s_rpc_phase2_fn_mutex;
 static DistributedTransactionManager::RpcPhase2Fn s_rpc_phase2_fn;
 } // namespace
 
+/**
+ * @brief Set Rpc Phase2 Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void DistributedTransactionManager::setRpcPhase2Fn(RpcPhase2Fn fn) {
     std::lock_guard<std::mutex> lock(s_rpc_phase2_fn_mutex);
     s_rpc_phase2_fn = std::move(fn);
 }
 
+/**
+ * @brief Clear Rpc Phase2 Fn.
+ * @details Calls: lock().
+ */
 void DistributedTransactionManager::clearRpcPhase2Fn() {
     std::lock_guard<std::mutex> lock(s_rpc_phase2_fn_mutex);
     s_rpc_phase2_fn = nullptr;
 }
 
+/**
+ * @brief Get Rpc Phase2 Fn.
+ * @return Return value.
+ * @details Calls: lock().
+ */
 static DistributedTransactionManager::RpcPhase2Fn getRpcPhase2Fn() {
     std::lock_guard<std::mutex> lock(s_rpc_phase2_fn_mutex);
     return s_rpc_phase2_fn;
@@ -109,16 +128,30 @@ static std::mutex s_rpc_phase1_fn_mutex;
 static DistributedTransactionManager::RpcPhase1Fn s_rpc_phase1_fn;
 } // namespace
 
+/**
+ * @brief Set Rpc Phase1 Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void DistributedTransactionManager::setRpcPhase1Fn(RpcPhase1Fn fn) {
     std::lock_guard<std::mutex> lock(s_rpc_phase1_fn_mutex);
     s_rpc_phase1_fn = std::move(fn);
 }
 
+/**
+ * @brief Clear Rpc Phase1 Fn.
+ * @details Calls: lock().
+ */
 void DistributedTransactionManager::clearRpcPhase1Fn() {
     std::lock_guard<std::mutex> lock(s_rpc_phase1_fn_mutex);
     s_rpc_phase1_fn = nullptr;
 }
 
+/**
+ * @brief Get Rpc Phase1 Fn.
+ * @return Return value.
+ * @details Calls: lock().
+ */
 static DistributedTransactionManager::RpcPhase1Fn getRpcPhase1Fn() {
     std::lock_guard<std::mutex> lock(s_rpc_phase1_fn_mutex);
     return s_rpc_phase1_fn;
@@ -133,22 +166,46 @@ static std::mutex s_liveness_check_fn_mutex;
 static DistributedTransactionManager::StaticLivenessCheckFn s_liveness_check_fn;
 } // namespace
 
+/**
+ * @brief Set Liveness Check Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void DistributedTransactionManager::setLivenessCheckFn(StaticLivenessCheckFn fn) {
     std::lock_guard<std::mutex> lock(s_liveness_check_fn_mutex);
     s_liveness_check_fn = std::move(fn);
 }
 
+/**
+ * @brief Clear Liveness Check Fn.
+ * @details Calls: lock().
+ */
 void DistributedTransactionManager::clearLivenessCheckFn() {
     std::lock_guard<std::mutex> lock(s_liveness_check_fn_mutex);
     s_liveness_check_fn = nullptr;
 }
 
+/**
+ * @brief Get Liveness Check Fn.
+ * @return Return value.
+ * @details Calls: lock().
+ */
 static DistributedTransactionManager::StaticLivenessCheckFn getLivenessCheckFn() {
     std::lock_guard<std::mutex> lock(s_liveness_check_fn_mutex);
     return s_liveness_check_fn;
 }
 
 template <typename Fn>
+/**
+ * @brief Deliver Phase2 With Retry.
+ * @param[in] deliver_fn Input parameter.
+ * @param[in] bridge_name Name of the bridge.
+ * @param[in] node_id Identifier of the node.
+ * @param[in] txn_id Identifier of the txn.
+ * @param[in] coordinator_id Identifier of the coordinator.
+ * @param[in] do_commit Input parameter.
+ * @return True when the operation succeeds.
+ */
 bool deliverPhase2WithRetry(
     Fn&&               deliver_fn,
     const char*        bridge_name,
@@ -258,6 +315,11 @@ DistributedTransactionManager::~DistributedTransactionManager() {
     // Stop batch-flush thread first so it no longer queues tasks.
     if (batch_flush_thread_.joinable()) {
         {
+            /**
+             * @brief Lock.
+             * @param[in] batch_mutex_ Input parameter.
+             * @return Return value.
+             */
             std::lock_guard<std::mutex> lock(batch_mutex_);
             batch_stop_.store(true, std::memory_order_relaxed);
         }
@@ -268,6 +330,11 @@ DistributedTransactionManager::~DistributedTransactionManager() {
     // Drain any remaining batch entries with a "false" result so callers
     // waiting on their futures are unblocked.
     {
+        /**
+         * @brief Lock.
+         * @param[in] batch_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(batch_mutex_);
         for (auto& entry : batch_queue_) {
             try {
@@ -309,6 +376,11 @@ DistributedTransactionManager::beginDistributed(
              "participants=" + std::to_string(participants.size()));
 
     {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         const size_t active_transactions = std::count_if(
             transactions_.begin(), transactions_.end(),
@@ -336,6 +408,11 @@ DistributedTransactionManager::beginDistributed(
 
 DistributedTxnStatus
 DistributedTransactionManager::prepareDistributed(const TransactionId& txn_id) {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::unique_lock<std::mutex> lock(mutex_);
 
     auto* txn = findTransaction(txn_id);
@@ -364,6 +441,11 @@ DistributedTransactionManager::prepareDistributed(const TransactionId& txn_id) {
         std::promise<bool> promise;
         std::future<bool>  fut = promise.get_future();
         {
+            /**
+             * @brief Blk.
+             * @param[in] batch_mutex_ Input parameter.
+             * @return Return value.
+             */
             std::lock_guard<std::mutex> blk(batch_mutex_);
             batch_queue_.push_back({txn_id, std::move(promise)});
         }
@@ -429,6 +511,11 @@ DistributedTransactionManager::prepareDistributed(const TransactionId& txn_id) {
 
 DistributedTxnStatus
 DistributedTransactionManager::commitDistributed(const TransactionId& txn_id) {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::unique_lock<std::mutex> lock(mutex_);
 
     auto* txn = findTransaction(txn_id);
@@ -489,6 +576,11 @@ DistributedTransactionManager::commitDistributed(const TransactionId& txn_id) {
     return DistributedTxnStatus::OK();
 }
 
+/**
+ * @brief Abort Distributed.
+ * @param[in] txn_id Identifier of the txn.
+ * @details Calls: lock(), findTransaction(), THEMIS_DEBUG(), logToWAL(), flush(), unlock(), runPhase2Unlocked(), empty().
+ */
 void DistributedTransactionManager::abortDistributed(const TransactionId& txn_id) {
     std::unique_lock<std::mutex> lock(mutex_);
 
@@ -551,6 +643,14 @@ void DistributedTransactionManager::abortDistributed(const TransactionId& txn_id
 // Participant API
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Vote On Prepare.
+ * @param[in] txn_id Identifier of the txn.
+ * @param[in] node_id Identifier of the node.
+ * @param[in] can_commit Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), findTransaction(), DistributedTxnStatus::Error(), notify_all(), DistributedTxnStatus::OK().
+ */
 DistributedTxnStatus DistributedTransactionManager::voteOnPrepare(
     const TransactionId& txn_id,
     const std::string&   node_id,
@@ -577,6 +677,12 @@ DistributedTxnStatus DistributedTransactionManager::voteOnPrepare(
     return DistributedTxnStatus::OK();
 }
 
+/**
+ * @brief Apply Commit.
+ * @param[in] txn_id Identifier of the txn.
+ * @return Return value.
+ * @details Calls: lock(), findTransaction(), DistributedTxnStatus::Error(), THEMIS_DEBUG(), DistributedTxnStatus::OK().
+ */
 DistributedTxnStatus DistributedTransactionManager::applyCommit(const TransactionId& txn_id) {
     std::lock_guard<std::mutex> lock(mutex_);
 
@@ -592,6 +698,12 @@ DistributedTxnStatus DistributedTransactionManager::applyCommit(const Transactio
     return DistributedTxnStatus::OK();
 }
 
+/**
+ * @brief Apply Abort.
+ * @param[in] txn_id Identifier of the txn.
+ * @return Return value.
+ * @details Calls: lock(), findTransaction(), DistributedTxnStatus::Error(), THEMIS_DEBUG(), DistributedTxnStatus::OK().
+ */
 DistributedTxnStatus DistributedTransactionManager::applyAbort(const TransactionId& txn_id) {
     std::lock_guard<std::mutex> lock(mutex_);
 
@@ -608,6 +720,11 @@ DistributedTxnStatus DistributedTransactionManager::applyAbort(const Transaction
 // Recovery
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Recover In Doubt Transactions.
+ * @return Return value.
+ * @details Calls: runPhase2Unlocked(), lock(), findTransaction(), THEMIS_DEBUG(), push_back(), finalizeRecovery(), THEMIS_INFO(), getOldestLSN().
+ */
 size_t DistributedTransactionManager::recoverInDoubtTransactions() {
     struct PendingRecovery {
         TransactionId txn_id;
@@ -802,32 +919,21 @@ size_t DistributedTransactionManager::recoverInDoubtTransactions() {
     return resolved;
 }
 
-/**
- * @brief Return stable coordinator type name for global recovery reports.
- * @return "DistributedTransactionManager".
- */
 std::string DistributedTransactionManager::recoveryCoordinatorName() const {
     return "DistributedTransactionManager";
 }
 
-/**
- * @brief Return name of the durable backend used by this coordinator.
- * @return "WAL" when a WAL directory is configured, "disabled" otherwise.
- */
 std::string DistributedTransactionManager::recoveryBackendName() const {
     return wal_ ? "WAL" : "disabled";
 }
 
-/**
- * @brief Return normalized snapshot of non-final transactions for global recovery.
- *
- * Maps each DistributedTxnState to the canonical RecoverableTwoPhaseState so
- * the GlobalTwoPhaseCommitRecoveryManager can compute aggregated in-doubt counts.
- *
- * @return List of non-final transactions (excludes COMMITTED and ABORTED).
- */
 std::vector<RecoverableTwoPhaseTransaction>
 DistributedTransactionManager::getRecoverableTransactions() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     std::vector<RecoverableTwoPhaseTransaction> result = {};
@@ -876,6 +982,11 @@ DistributedTransactionManager::getRecoverableTransactions() const {
 // Timeout handling
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Check Timeouts.
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::now(), lock(), push_back(), THEMIS_WARN(), findTransaction(), abortDistributed().
+ */
 size_t DistributedTransactionManager::checkTimeouts() {
     const auto now = std::chrono::system_clock::now();
 
@@ -937,6 +1048,11 @@ bool DistributedTransactionManager::isParticipantAlive(const std::string& node_i
     std::string endpoint_found = {};
 
     {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         for (const auto& [tid, txn] : transactions_) {
             if (found_remote) {
@@ -1018,6 +1134,11 @@ bool DistributedTransactionManager::isParticipantAlive(const std::string& node_i
 
 std::optional<DistributedTransaction>
 DistributedTransactionManager::getTransaction(const TransactionId& txn_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     const auto it = transactions_.find(txn_id);
     if (it == transactions_.end()) {
@@ -1035,7 +1156,11 @@ DistributedTransactionManager::getStatistics() const {
     s.timeout_aborts     = stat_timeout_aborts_.load(std::memory_order_relaxed);
     s.recovered          = stat_recovered_.load(std::memory_order_relaxed);
 
-    // Count in-doubt (PREPARING or PREPARED) transactions.
+    /**
+     * @brief Count in-doubt (PREPARING or PREPARED) transactions.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     s.in_doubt = static_cast<uint64_t>(std::count_if(
         transactions_.begin(), transactions_.end(),
@@ -1048,6 +1173,11 @@ DistributedTransactionManager::getStatistics() const {
 }
 
 size_t DistributedTransactionManager::activeTransactionCount() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return std::count_if(
         transactions_.begin(), transactions_.end(),
@@ -1063,6 +1193,11 @@ size_t DistributedTransactionManager::activeTransactionCount() const {
 // Internal helpers
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Generate Transaction Id.
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), str().
+ */
 std::string DistributedTransactionManager::generateTransactionId() {
     const uint64_t counter = ++txn_counter_;
     // Encode coordinator_id + monotonic counter + millisecond timestamp for
@@ -1074,6 +1209,13 @@ std::string DistributedTransactionManager::generateTransactionId() {
     return oss.str();
 }
 
+/**
+ * @brief Log To WAL.
+ * @param[in] type Input parameter.
+ * @param[in] txn_id Identifier of the txn.
+ * @param[in] data Input parameter.
+ * @details Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), empty(), append(), THEMIS_ERROR(), what().
+ */
 void DistributedTransactionManager::logToWAL(
     themis::sharding::WALEntryType type,
     const std::string&             txn_id,
@@ -1120,9 +1262,12 @@ DistributedTransactionManager::findTransaction(const TransactionId& txn_id) cons
     return (it != transactions_.end()) ? &it->second : nullptr;
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Phase 1: send PREPARE to all participants (without holding the mutex)
-// ─────────────────────────────────────────────────────────────────────────────
+/**
+ * @brief ───────────────────────────────────────────────────────────────────────────── Phase 1: send PREPARE to all participants (without holding the mutex) ─────────────────────────────────────────────────────────────────────────────
+ * @param[in] txn_id Identifier of the txn.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), findTransaction(), std::chrono::steady_clock::now(), reserve(), size(), empty(), THEMIS_ERROR(), push_back().
+ */
 
 bool DistributedTransactionManager::runPhase1Unlocked(const TransactionId& txn_id) {
     // Snapshot participants under lock, then release before calling callbacks.
@@ -1316,9 +1461,14 @@ bool DistributedTransactionManager::runPhase1Unlocked(const TransactionId& txn_i
     return all_commit;
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Phase 2: send COMMIT or ABORT to all participants (without holding the mutex)
-// ─────────────────────────────────────────────────────────────────────────────
+/**
+ * @brief ───────────────────────────────────────────────────────────────────────────── Phase 2: send COMMIT or ABORT to all participants (without holding the mutex) ─────────────────────────────────────────────────────────────────────────────
+ * @param[in] txn_id Identifier of the txn.
+ * @param[in] parts Input parameter.
+ * @param[in] do_commit Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: std::chrono::steady_clock::now(), reserve(), size(), empty(), THEMIS_ERROR(), push_back(), submitTask(), deliverPhase2WithRetry().
+ */
 
 bool DistributedTransactionManager::runPhase2Unlocked(
     const TransactionId&         txn_id,
@@ -1469,6 +1619,10 @@ bool DistributedTransactionManager::runPhase2Unlocked(
 // Thread pool (PERF-D4)
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Start Thread Pool.
+ * @details Calls: reserve(), emplace_back(), void(), lock(), wait_for(), std::chrono::seconds(), empty(), THEMIS_WARN().
+ */
 void DistributedTransactionManager::startThreadPool() {
     const size_t n = config_.worker_thread_count;
     if (n == 0) return;  // Legacy mode: std::async per call.
@@ -1517,6 +1671,10 @@ void DistributedTransactionManager::startThreadPool() {
                  coordinator_id_, n);
 }
 
+/**
+ * @brief Stop Thread Pool.
+ * @details Calls: lock(), notify_all(), joinable(), join(), clear().
+ */
 void DistributedTransactionManager::stopThreadPool() {
     {
         std::lock_guard<std::mutex> lock(pool_mutex_);
@@ -1531,9 +1689,10 @@ void DistributedTransactionManager::stopThreadPool() {
     worker_threads_.clear();
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Batch-prepare flush loop (PERF-D4)
-// ─────────────────────────────────────────────────────────────────────────────
+/**
+ * @brief ───────────────────────────────────────────────────────────────────────────── Batch-prepare flush loop (PERF-D4) ─────────────────────────────────────────────────────────────────────────────
+ * @details Calls: load(), lock(), wait_for(), empty(), swap(), THEMIS_DEBUG(), size(), runPhase1Unlocked().
+ */
 
 void DistributedTransactionManager::batchFlushLoop() {
     while (!batch_stop_.load(std::memory_order_relaxed)) {

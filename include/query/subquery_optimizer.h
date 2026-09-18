@@ -20,30 +20,14 @@
 namespace themis {
 namespace query {
 
-/**
- * @brief CTE Optimization Analyzer
- * 
- * Provides heuristics for deciding when to materialize CTEs vs inline them,
- * and when to convert subqueries to JOINs.
- */
 class SubqueryOptimizer {
 public:
     /**
-     * @brief Determines if a CTE should be materialized or inlined
-     * 
-     * Materialization is preferred when:
-     * - CTE is referenced multiple times (> 1)
-     * - CTE contains expensive operations (aggregation, sorting)
-     * - CTE result set is expected to be small
-     * 
-     * Inlining is preferred when:
-     * - CTE is referenced only once
-     * - CTE is simple (no aggregation, no sorting)
-     * - Inlining enables predicate pushdown
-     * 
-     * @param cte The CTE definition to analyze
-     * @param referenceCount Number of times CTE is referenced in main query
-     * @return true if should materialize, false if should inline
+     * @brief Should Materialize CTE.
+     * @param[in] cte Input parameter.
+     * @param[in] referenceCount Input parameter.
+     * @return True when the operation succeeds.
+     * @details Implements shouldMaterializeCTE without additional internal calls.
      */
     static bool shouldMaterializeCTE(
         const CTEDefinition& cte,
@@ -84,16 +68,11 @@ public:
     }
     
     /**
-     * @brief Detects if a subquery can be converted to a JOIN
-     * 
-     * Conditions for JOIN conversion:
-     * - Subquery is correlated (references outer variables)
-     * - Subquery is in WHERE clause (IN/EXISTS pattern)
-     * - No aggregation in subquery
-     * 
-     * @param subquery The subquery to analyze
-     * @param outerVariables Variables from outer query scope
-     * @return true if can convert to JOIN
+     * @brief Can Convert To Join.
+     * @param[in] subquery Input parameter.
+     * @param[in] outerVariables Input parameter.
+     * @return True when the operation succeeds.
+     * @details Calls: hasCorrelation().
      */
     static bool canConvertToJoin(
         const std::shared_ptr<Query>& subquery,
@@ -116,18 +95,10 @@ public:
     }
     
     /**
-     * @brief Estimates the cost of executing a subquery
-     * 
-     * Simple heuristic based on query structure:
-     * - Base cost: 10
-     * - +50 for each JOIN (multi-FOR)
-     * - +30 for aggregation
-     * - +20 for sorting
-     * - +10 for each filter
-     * - -20 if has LIMIT (reduces result set)
-     * 
-     * @param query The query to estimate
-     * @return Estimated cost (arbitrary units)
+     * @brief Estimate Query Cost.
+     * @param[in] query Input parameter.
+     * @return Return value.
+     * @details Calls: size(), std::max().
      */
     static int estimateQueryCost(const std::shared_ptr<Query>& query) {
         if (!query) {
@@ -171,7 +142,11 @@ public:
 
 private:
     /**
-     * @brief Checks if query references any outer variables
+     * @brief Has Correlation.
+     * @param[in] query Input parameter.
+     * @param[in] outerVariables Input parameter.
+     * @return True when the operation succeeds.
+     * @details Calls: empty(), expressionReferencesVariables().
      */
     static bool hasCorrelation(
         const std::shared_ptr<Query>& query,
@@ -201,7 +176,11 @@ private:
     }
     
     /**
-     * @brief Recursively checks if expression references any outer variables
+     * @brief Expression References Variables.
+     * @param[in] expr Input parameter.
+     * @param[in] variables Input parameter.
+     * @return True when the operation succeeds.
+     * @details Calls: getType(), count().
      */
     static bool expressionReferencesVariables(
         const std::shared_ptr<Expression>& expr,

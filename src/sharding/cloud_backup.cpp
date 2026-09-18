@@ -38,42 +38,6 @@ namespace fs = std::filesystem;
 namespace themis {
 namespace sharding {
 
-/**
- * @brief Cloud Backup Provider Injection System
- *
- * This module implements cloud storage operations (S3, Azure, GCS) using a callback-based
- * dependency injection pattern. This design enables:
- *
- * 1. **SDK Flexibility**: Builds without cloud SDKs by default. Cloud SDKs (aws-sdk-cpp,
- *    azure-storage-blobs-cpp, google-cloud-cpp) are optional and integrated via callbacks.
- *
- * 2. **Fail-Closed Security**: Without injected callbacks, all operations fail immediately
- *    with clear THEMIS_ERROR logging. No silent no-op or always-false paths in production.
- *
- * 3. **Test Compatibility**: Tests inject mock callbacks to verify backup/restore logic
- *    without requiring cloud credentials or external dependencies.
- *
- * 4. **Production Integration**: Production deployments set callbacks via setS3UploadFn(),
- *    setAzureDownloadFn(), etc. after initializing cloud SDKs. Coordinator checks
- *    all callbacks are set before creating provider instances.
- *
- * ## Acceptance Criteria (Issue #5366)
- * - [x] Uniform provider behavior for Upload/Download/Delete/List/Exists
- * - [x] Clear capability checks and deterministic error codes (initialization checks)
- * - [x] Fail-closed: No silent no-op/always-false paths (THEMIS_ERROR on missing SDK)
- * - [x] End-to-end tests per provider (tests/test_cloud_backup.cpp)
- * - [x] Reconciliation/Retention uses real list/exists results via callbacks
- * - [x] Documented fallback strategy (this comment + LEGACY PATH markers below)
- *
- * ## Fallback Strategy (Human-Approved)
- * APPROVED BY: @makr-code (Issue #5366)
- * REASON: Callback-based system allows flexible SDK integration without hard build-time
- *         dependencies. Placeholder paths with error logging provide fail-closed behavior
- *         and clear diagnostics when SDKs are not integrated.
- * REMOVAL TARGET: None - callback system is the canonical way to integrate cloud SDKs.
- *
- * @see tests/test_cloud_backup.cpp for usage examples and test coverage
- */
 
 namespace {
 std::mutex g_cloud_backup_fn_mutex;
@@ -95,24 +59,52 @@ GCSExistsFn g_gcs_exists_fn;
 } // namespace
 
 // Cloud storage provider interface
-/** @brief Cloud storage provider interface. */
 class ICloudStorageProvider {
 public:
+    /**
+     * @brief ICloud Storage Provider.
+     * @return Return value.
+     */
     virtual ~ICloudStorageProvider() = default;
     
     virtual bool upload(const std::string& local_path, 
                        const std::string& remote_path,
                        const std::map<std::string, std::string>& metadata) = 0;
     
+    /**
+     * @brief Download.
+     * @param[in] remote_path Path to the remote.
+     * @param[in] local_path Path to the local.
+     * @return True when the operation succeeds.
+     */
     virtual bool download(const std::string& remote_path,
                          const std::string& local_path) = 0;
     
+    /**
+     * @brief Delete Object.
+     * @param[in] remote_path Path to the remote.
+     * @return True when the operation succeeds.
+     */
     virtual bool deleteObject(const std::string& remote_path) = 0;
     
+    /**
+     * @brief List Objects.
+     * @param[in] prefix Input parameter.
+     * @return Return value.
+     */
     virtual std::vector<std::string> listObjects(const std::string& prefix) = 0;
     
+    /**
+     * @brief Exists.
+     * @param[in] remote_path Path to the remote.
+     * @return True when the operation succeeds.
+     */
     virtual bool exists(const std::string& remote_path) = 0;
     
+    /**
+     * @brief Name.
+     * @return Return value.
+     */
     virtual std::string name() const = 0;
 };
 
@@ -127,7 +119,6 @@ public:
 // Approved By: @makr-code (Issue #5366)
 // Removal Target: None - callback injection system is canonical for cloud SDK integration.
 // S3-compatible storage provider (AWS S3, MinIO, etc.)
-/** @brief S3-compatible storage provider (AWS S3, MinIO, etc.). */
 class S3StorageProvider : public ICloudStorageProvider {
 public:
     S3StorageProvider(const std::string& bucket, 
@@ -146,6 +137,11 @@ public:
                const std::map<std::string, std::string>& metadata) override {
         S3UploadFn fn;
         {
+            /**
+             * @brief Lock.
+             * @param[in] g_cloud_backup_fn_mutex Input parameter.
+             * @return Return value.
+             */
             std::lock_guard<std::mutex> lock(g_cloud_backup_fn_mutex);
             fn = g_s3_upload_fn;
         }
@@ -180,6 +176,11 @@ public:
                  const std::string& local_path) override {
         S3DownloadFn fn;
         {
+            /**
+             * @brief Lock.
+             * @param[in] g_cloud_backup_fn_mutex Input parameter.
+             * @return Return value.
+             */
             std::lock_guard<std::mutex> lock(g_cloud_backup_fn_mutex);
             fn = g_s3_download_fn;
         }
@@ -208,6 +209,11 @@ public:
     bool deleteObject(const std::string& remote_path) override {
         S3DeleteFn fn;
         {
+            /**
+             * @brief Lock.
+             * @param[in] g_cloud_backup_fn_mutex Input parameter.
+             * @return Return value.
+             */
             std::lock_guard<std::mutex> lock(g_cloud_backup_fn_mutex);
             fn = g_s3_delete_fn;
         }
@@ -235,6 +241,11 @@ public:
     std::vector<std::string> listObjects(const std::string& prefix) override {
         S3ListFn fn;
         {
+            /**
+             * @brief Lock.
+             * @param[in] g_cloud_backup_fn_mutex Input parameter.
+             * @return Return value.
+             */
             std::lock_guard<std::mutex> lock(g_cloud_backup_fn_mutex);
             fn = g_s3_list_fn;
         }
@@ -259,6 +270,11 @@ public:
     bool exists(const std::string& remote_path) override {
         S3ExistsFn fn;
         {
+            /**
+             * @brief Lock.
+             * @param[in] g_cloud_backup_fn_mutex Input parameter.
+             * @return Return value.
+             */
             std::lock_guard<std::mutex> lock(g_cloud_backup_fn_mutex);
             fn = g_s3_exists_fn;
         }
@@ -302,7 +318,6 @@ private:
 // Approved By: @makr-code (Issue #5366)
 // Removal Target: None - callback injection system is canonical for cloud SDK integration.
 // Azure Blob Storage provider
-/** @brief Azure Blob Storage provider. */
 class AzureStorageProvider : public ICloudStorageProvider {
 public:
     AzureStorageProvider(const std::string& account_name,
@@ -318,6 +333,11 @@ public:
                 const std::map<std::string, std::string>& metadata) override {
         AzureUploadFn fn;
         {
+            /**
+             * @brief Lock.
+             * @param[in] g_cloud_backup_fn_mutex Input parameter.
+             * @return Return value.
+             */
             std::lock_guard<std::mutex> lock(g_cloud_backup_fn_mutex);
             fn = g_azure_upload_fn;
         }
@@ -354,6 +374,11 @@ public:
                  const std::string& local_path) override {
         AzureDownloadFn fn;
         {
+            /**
+             * @brief Lock.
+             * @param[in] g_cloud_backup_fn_mutex Input parameter.
+             * @return Return value.
+             */
             std::lock_guard<std::mutex> lock(g_cloud_backup_fn_mutex);
             fn = g_azure_download_fn;
         }
@@ -384,6 +409,11 @@ public:
     bool deleteObject(const std::string& remote_path) override {
         AzureDeleteFn fn;
         {
+            /**
+             * @brief Lock.
+             * @param[in] g_cloud_backup_fn_mutex Input parameter.
+             * @return Return value.
+             */
             std::lock_guard<std::mutex> lock(g_cloud_backup_fn_mutex);
             fn = g_azure_delete_fn;
         }
@@ -413,6 +443,11 @@ public:
     std::vector<std::string> listObjects(const std::string& prefix) override {
         AzureListFn fn;
         {
+            /**
+             * @brief Lock.
+             * @param[in] g_cloud_backup_fn_mutex Input parameter.
+             * @return Return value.
+             */
             std::lock_guard<std::mutex> lock(g_cloud_backup_fn_mutex);
             fn = g_azure_list_fn;
         }
@@ -438,6 +473,11 @@ public:
     bool exists(const std::string& remote_path) override {
         AzureExistsFn fn;
         {
+            /**
+             * @brief Lock.
+             * @param[in] g_cloud_backup_fn_mutex Input parameter.
+             * @return Return value.
+             */
             std::lock_guard<std::mutex> lock(g_cloud_backup_fn_mutex);
             fn = g_azure_exists_fn;
         }
@@ -480,7 +520,6 @@ private:
 // Approved By: @makr-code (Issue #5366)
 // Removal Target: None - callback injection system is canonical for cloud SDK integration.
 // Google Cloud Storage provider
-/** @brief Google Cloud Storage provider. */
 class GCSStorageProvider : public ICloudStorageProvider {
 public:
     GCSStorageProvider(const std::string& project_id,
@@ -496,6 +535,11 @@ public:
                 const std::map<std::string, std::string>& metadata) override {
         GCSUploadFn fn;
         {
+            /**
+             * @brief Lock.
+             * @param[in] g_cloud_backup_fn_mutex Input parameter.
+             * @return Return value.
+             */
             std::lock_guard<std::mutex> lock(g_cloud_backup_fn_mutex);
             fn = g_gcs_upload_fn;
         }
@@ -531,6 +575,11 @@ public:
                  const std::string& local_path) override {
         GCSDownloadFn fn;
         {
+            /**
+             * @brief Lock.
+             * @param[in] g_cloud_backup_fn_mutex Input parameter.
+             * @return Return value.
+             */
             std::lock_guard<std::mutex> lock(g_cloud_backup_fn_mutex);
             fn = g_gcs_download_fn;
         }
@@ -560,6 +609,11 @@ public:
     bool deleteObject(const std::string& remote_path) override {
         GCSDeleteFn fn;
         {
+            /**
+             * @brief Lock.
+             * @param[in] g_cloud_backup_fn_mutex Input parameter.
+             * @return Return value.
+             */
             std::lock_guard<std::mutex> lock(g_cloud_backup_fn_mutex);
             fn = g_gcs_delete_fn;
         }
@@ -589,6 +643,11 @@ public:
     std::vector<std::string> listObjects(const std::string& prefix) override {
         GCSListFn fn;
         {
+            /**
+             * @brief Lock.
+             * @param[in] g_cloud_backup_fn_mutex Input parameter.
+             * @return Return value.
+             */
             std::lock_guard<std::mutex> lock(g_cloud_backup_fn_mutex);
             fn = g_gcs_list_fn;
         }
@@ -614,6 +673,11 @@ public:
     bool exists(const std::string& remote_path) override {
         GCSExistsFn fn;
         {
+            /**
+             * @brief Lock.
+             * @param[in] g_cloud_backup_fn_mutex Input parameter.
+             * @return Return value.
+             */
             std::lock_guard<std::mutex> lock(g_cloud_backup_fn_mutex);
             fn = g_gcs_exists_fn;
         }
@@ -646,7 +710,6 @@ private:
 };
 
 // Cloud backup coordinator
-/** @brief Cloud backup coordinator. */
 class CloudBackupCoordinator::Impl {
 public:
     Impl(std::shared_ptr<CloudAgent> cloud_agent,
@@ -662,6 +725,13 @@ public:
     
     ~Impl() = default;
     
+    /**
+     * @brief Create Backup.
+     * @param[in] backup_id Identifier of the backup.
+     * @param[in] shard_ids Input parameter.
+     * @return True when the operation succeeds.
+     * @details Calls: THEMIS_INFO(), size(), empty(), THEMIS_ERROR(), std::chrono::system_clock::now(), fs::create_directories(), createFullBackup(), error().
+     */
     bool createBackup(const std::string& backup_id,
                      const std::vector<std::string>& shard_ids) {
         
@@ -763,6 +833,13 @@ public:
         }
     }
     
+    /**
+     * @brief Restore Backup.
+     * @param[in] backup_id Identifier of the backup.
+     * @param[in] shard_ids Input parameter.
+     * @return True when the operation succeeds.
+     * @details Calls: THEMIS_INFO(), size(), empty(), THEMIS_ERROR(), find(), end(), fs::create_directories(), std::find().
+     */
     bool restoreBackup(const std::string& backup_id,
                       const std::vector<std::string>& shard_ids) {
         
@@ -836,6 +913,12 @@ public:
         }
     }
     
+    /**
+     * @brief Delete Backup.
+     * @param[in] backup_id Identifier of the backup.
+     * @return True when the operation succeeds.
+     * @details Calls: THEMIS_INFO(), empty(), THEMIS_ERROR(), find(), end(), THEMIS_WARN(), deleteObject(), erase().
+     */
     bool deleteBackup(const std::string& backup_id) {
         THEMIS_INFO("Deleting cloud backup: {}", backup_id);
 
@@ -897,6 +980,13 @@ public:
         return std::nullopt;
     }
     
+    /**
+     * @brief Set Replication Target.
+     * @param[in] datacenter_id Identifier of the datacenter.
+     * @param[in] shard_endpoints Input parameter.
+     * @return True when the operation succeeds.
+     * @details Calls: THEMIS_INFO(), size(), empty(), THEMIS_ERROR().
+     */
     bool setReplicationTarget(const std::string& datacenter_id,
                              const std::vector<std::string>& shard_endpoints) {
         
@@ -923,6 +1013,12 @@ public:
         return true;
     }
     
+    /**
+     * @brief Enable Continuous Replication.
+     * @param[in] datacenter_id Identifier of the datacenter.
+     * @return True when the operation succeeds.
+     * @details Calls: empty(), THEMIS_ERROR(), find(), end(), THEMIS_INFO().
+     */
     bool enableContinuousReplication(const std::string& datacenter_id) {
         if (datacenter_id.empty()) {
             THEMIS_ERROR("Failed to enable continuous replication: datacenter_id must not be empty");
@@ -941,6 +1037,12 @@ public:
         return true;
     }
     
+    /**
+     * @brief Disable Continuous Replication.
+     * @param[in] datacenter_id Identifier of the datacenter.
+     * @return True when the operation succeeds.
+     * @details Calls: empty(), THEMIS_ERROR(), find(), end(), THEMIS_INFO().
+     */
     bool disableContinuousReplication(const std::string& datacenter_id) {
         if (datacenter_id.empty()) {
             THEMIS_ERROR("Failed to disable continuous replication: datacenter_id must not be empty");
@@ -960,6 +1062,10 @@ public:
     }
     
 private:
+    /**
+     * @brief Initialize Storage Provider.
+     * @details Calls: lock(), empty(), THEMIS_ERROR(), initializeS3Provider(), initializeAzureProvider(), initializeGCSProvider(), has_s3_callbacks(), try_initialize_callbacks_from_sdk().
+     */
     void initializeStorageProvider() {
         auto has_s3_callbacks = []() {
             std::lock_guard<std::mutex> lock(g_cloud_backup_fn_mutex);
@@ -1073,16 +1179,36 @@ CloudBackupCoordinator::CloudBackupCoordinator(
 
 CloudBackupCoordinator::~CloudBackupCoordinator() = default;
 
+/**
+ * @brief Create Backup.
+ * @param[in] backup_id Identifier of the backup.
+ * @param[in] shard_ids Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements createBackup without additional internal calls.
+ */
 bool CloudBackupCoordinator::createBackup(const std::string& backup_id,
                                          const std::vector<std::string>& shard_ids) {
     return impl_->createBackup(backup_id, shard_ids);
 }
 
+/**
+ * @brief Restore Backup.
+ * @param[in] backup_id Identifier of the backup.
+ * @param[in] shard_ids Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements restoreBackup without additional internal calls.
+ */
 bool CloudBackupCoordinator::restoreBackup(const std::string& backup_id,
                                           const std::vector<std::string>& shard_ids) {
     return impl_->restoreBackup(backup_id, shard_ids);
 }
 
+/**
+ * @brief Delete Backup.
+ * @param[in] backup_id Identifier of the backup.
+ * @return True when the operation succeeds.
+ * @details Implements deleteBackup without additional internal calls.
+ */
 bool CloudBackupCoordinator::deleteBackup(const std::string& backup_id) {
     return impl_->deleteBackup(backup_id);
 }
@@ -1095,89 +1221,183 @@ std::optional<BackupInfo> CloudBackupCoordinator::getBackupInfo(const std::strin
     return impl_->getBackupInfo(backup_id);
 }
 
+/**
+ * @brief Set Replication Target.
+ * @param[in] datacenter_id Identifier of the datacenter.
+ * @param[in] shard_endpoints Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements setReplicationTarget without additional internal calls.
+ */
 bool CloudBackupCoordinator::setReplicationTarget(const std::string& datacenter_id,
                                                  const std::vector<std::string>& shard_endpoints) {
     return impl_->setReplicationTarget(datacenter_id, shard_endpoints);
 }
 
+/**
+ * @brief Enable Continuous Replication.
+ * @param[in] datacenter_id Identifier of the datacenter.
+ * @return True when the operation succeeds.
+ * @details Implements enableContinuousReplication without additional internal calls.
+ */
 bool CloudBackupCoordinator::enableContinuousReplication(const std::string& datacenter_id) {
     return impl_->enableContinuousReplication(datacenter_id);
 }
 
+/**
+ * @brief Disable Continuous Replication.
+ * @param[in] datacenter_id Identifier of the datacenter.
+ * @return True when the operation succeeds.
+ * @details Implements disableContinuousReplication without additional internal calls.
+ */
 bool CloudBackupCoordinator::disableContinuousReplication(const std::string& datacenter_id) {
     return impl_->disableContinuousReplication(datacenter_id);
 }
 
+/**
+ * @brief Set S3 Download Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void setS3DownloadFn(S3DownloadFn fn) {
     std::lock_guard<std::mutex> lock(g_cloud_backup_fn_mutex);
     g_s3_download_fn = std::move(fn);
 }
 
+/**
+ * @brief Set S3 Upload Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void setS3UploadFn(S3UploadFn fn) {
     std::lock_guard<std::mutex> lock(g_cloud_backup_fn_mutex);
     g_s3_upload_fn = std::move(fn);
 }
 
+/**
+ * @brief Set S3 Delete Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void setS3DeleteFn(S3DeleteFn fn) {
     std::lock_guard<std::mutex> lock(g_cloud_backup_fn_mutex);
     g_s3_delete_fn = std::move(fn);
 }
 
+/**
+ * @brief Set S3 List Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void setS3ListFn(S3ListFn fn) {
     std::lock_guard<std::mutex> lock(g_cloud_backup_fn_mutex);
     g_s3_list_fn = std::move(fn);
 }
 
+/**
+ * @brief Set S3 Exists Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void setS3ExistsFn(S3ExistsFn fn) {
     std::lock_guard<std::mutex> lock(g_cloud_backup_fn_mutex);
     g_s3_exists_fn = std::move(fn);
 }
 
+/**
+ * @brief Set Azure Upload Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void setAzureUploadFn(AzureUploadFn fn) {
     std::lock_guard<std::mutex> lock(g_cloud_backup_fn_mutex);
     g_azure_upload_fn = std::move(fn);
 }
 
+/**
+ * @brief Set Azure Download Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void setAzureDownloadFn(AzureDownloadFn fn) {
     std::lock_guard<std::mutex> lock(g_cloud_backup_fn_mutex);
     g_azure_download_fn = std::move(fn);
 }
 
+/**
+ * @brief Set Azure Delete Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void setAzureDeleteFn(AzureDeleteFn fn) {
     std::lock_guard<std::mutex> lock(g_cloud_backup_fn_mutex);
     g_azure_delete_fn = std::move(fn);
 }
 
+/**
+ * @brief Set Azure List Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void setAzureListFn(AzureListFn fn) {
     std::lock_guard<std::mutex> lock(g_cloud_backup_fn_mutex);
     g_azure_list_fn = std::move(fn);
 }
 
+/**
+ * @brief Set Azure Exists Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void setAzureExistsFn(AzureExistsFn fn) {
     std::lock_guard<std::mutex> lock(g_cloud_backup_fn_mutex);
     g_azure_exists_fn = std::move(fn);
 }
 
+/**
+ * @brief Set GCSUpload Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void setGCSUploadFn(GCSUploadFn fn) {
     std::lock_guard<std::mutex> lock(g_cloud_backup_fn_mutex);
     g_gcs_upload_fn = std::move(fn);
 }
 
+/**
+ * @brief Set GCSDownload Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void setGCSDownloadFn(GCSDownloadFn fn) {
     std::lock_guard<std::mutex> lock(g_cloud_backup_fn_mutex);
     g_gcs_download_fn = std::move(fn);
 }
 
+/**
+ * @brief Set GCSDelete Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void setGCSDeleteFn(GCSDeleteFn fn) {
     std::lock_guard<std::mutex> lock(g_cloud_backup_fn_mutex);
     g_gcs_delete_fn = std::move(fn);
 }
 
+/**
+ * @brief Set GCSList Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void setGCSListFn(GCSListFn fn) {
     std::lock_guard<std::mutex> lock(g_cloud_backup_fn_mutex);
     g_gcs_list_fn = std::move(fn);
 }
 
+/**
+ * @brief Set GCSExists Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void setGCSExistsFn(GCSExistsFn fn) {
     std::lock_guard<std::mutex> lock(g_cloud_backup_fn_mutex);
     g_gcs_exists_fn = std::move(fn);

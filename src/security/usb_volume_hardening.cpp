@@ -48,7 +48,13 @@ using USBVolume_EVP_MD_CTX_ptr = std::unique_ptr<EVP_MD_CTX, USBVolume_EVP_MD_CT
 
 namespace {
 
-/// Build the platform-correct path separator for a file on the volume.
+/**
+ * @brief Join Path.
+ * @param[in] dir Input parameter.
+ * @param[in] file Input parameter.
+ * @return Return value.
+ * @details Calls: defined().
+ */
 static std::string joinPath(const std::string& dir, const std::string& file) {
 #if defined(_WIN32)
     return dir + "\\" + file;
@@ -57,10 +63,12 @@ static std::string joinPath(const std::string& dir, const std::string& file) {
 #endif
 }
 
-/// @brief Trim leading and trailing ASCII whitespace from a sysfs string value.
-/// @param value Input string view read from sysfs; may be empty or whitespace-only.
-/// @return The trimmed string, or an empty string when @p value contains no
-///         non-whitespace characters.
+/**
+ * @brief Trim Whitespace.
+ * @param[in] value Input parameter.
+ * @return Return value.
+ * @details Calls: std::find_if_not(), begin(), end(), std::isspace(), rbegin(), rend(), base(), std::string().
+ */
 static std::string trimWhitespace(std::string_view value) {
     const auto first = std::find_if_not(value.begin(), value.end(), [](unsigned char ch) {
         return std::isspace(ch) != 0;
@@ -76,7 +84,13 @@ static std::string trimWhitespace(std::string_view value) {
 
 } // anonymous namespace
 
-// ── USBVolumeHardening::computeVolumeHash ─────────────────────────────────────
+/**
+ * @brief ── USBVolumeHardening::computeVolumeHash ─────────────────────────────────────
+ * @param[in] mount_path Path to the mount.
+ * @param[in] license_file Input parameter.
+ * @return Return value.
+ * @details Calls: joinPath(), file(), is_open(), THEMIS_WARN(), ctx(), EVP_MD_CTX_new(), THEMIS_ERROR(), EVP_DigestInit_ex().
+ */
 
 std::string USBVolumeHardening::computeVolumeHash(const std::string& mount_path,
                                                    const std::string& license_file) {
@@ -128,7 +142,14 @@ std::string USBVolumeHardening::computeVolumeHash(const std::string& mount_path,
     return oss.str();
 }
 
-// ── USBVolumeHardening::verifyVolumeHash ──────────────────────────────────────
+/**
+ * @brief ── USBVolumeHardening::verifyVolumeHash ──────────────────────────────────────
+ * @param[in] mount_path Path to the mount.
+ * @param[in] license_file Input parameter.
+ * @param[in] expected_hash Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), THEMIS_WARN(), computeVolumeHash(), size(), CRYPTO_memcmp(), data().
+ */
 
 bool USBVolumeHardening::verifyVolumeHash(const std::string& mount_path,
                                           const std::string& license_file,
@@ -158,7 +179,12 @@ bool USBVolumeHardening::verifyVolumeHash(const std::string& mount_path,
     return match;
 }
 
-// ── USBVolumeHardening::isMountedReadOnly ─────────────────────────────────────
+/**
+ * @brief ── USBVolumeHardening::isMountedReadOnly ─────────────────────────────────────
+ * @param[in] mount_path Path to the mount.
+ * @return True when the operation succeeds.
+ * @details Calls: defined(), mounts(), is_open(), THEMIS_WARN(), std::getline(), iss(), opts(), GetVolumePathNameA().
+ */
 
 bool USBVolumeHardening::isMountedReadOnly(const std::string& mount_path) {
 #if defined(__linux__)
@@ -219,7 +245,12 @@ bool USBVolumeHardening::isMountedReadOnly(const std::string& mount_path) {
 #endif
 }
 
-// ── USBVolumeHardening::getUSBDeviceSerial ───────────────────────────────────
+/**
+ * @brief ── USBVolumeHardening::getUSBDeviceSerial ───────────────────────────────────
+ * @param[in] mount_path Path to the mount.
+ * @return Return value.
+ * @details Calls: defined(), mounts(), is_open(), THEMIS_WARN(), std::getline(), iss(), empty(), size().
+ */
 
 std::string USBVolumeHardening::getUSBDeviceSerial(const std::string& mount_path) {
 #if defined(__linux__)
@@ -336,7 +367,13 @@ std::string USBVolumeHardening::getUSBDeviceSerial(const std::string& mount_path
 #endif
 }
 
-// ── USBVolumeHardening::verifyUSBSerial ───────────────────────────────────────
+/**
+ * @brief ── USBVolumeHardening::verifyUSBSerial ───────────────────────────────────────
+ * @param[in] mount_path Path to the mount.
+ * @param[in] expected_serial Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), THEMIS_WARN(), getUSBDeviceSerial(), size(), CRYPTO_memcmp(), data().
+ */
 
 bool USBVolumeHardening::verifyUSBSerial(const std::string& mount_path,
                                          const std::string& expected_serial) {

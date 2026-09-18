@@ -20,6 +20,12 @@
 
 namespace themis { namespace voice {
 
+/**
+ * @brief Meeting Segment Type To String.
+ * @param[in] t Input parameter.
+ * @return Return value.
+ * @details Implements meetingSegmentTypeToString without additional internal calls.
+ */
 std::string meetingSegmentTypeToString(MeetingSegmentType t) {
     switch (t) {
         case MeetingSegmentType::AGENDA_ITEM:  return "agenda_item";
@@ -173,6 +179,12 @@ std::string VoiceMeetingSupport::extractAssignee(
     return {};
 }
 
+/**
+ * @brief Extract Action Items.
+ * @param[in] transcript Input parameter.
+ * @param[in] known_participants Input parameter.
+ * @return Return value.
+ */
 std::vector<ActionItem> VoiceMeetingSupport::extractActionItems(
     const std::string& transcript,
     const std::vector<std::string>& known_participants)
@@ -254,6 +266,13 @@ std::map<std::string, size_t> VoiceMeetingSupport::computeSpeakerWordCounts(
     return counts;
 }
 
+/**
+ * @brief Analyze Transcript.
+ * @param[in] transcript Input parameter.
+ * @param[in] meeting_id Identifier of the meeting.
+ * @param[in] known_participants Input parameter.
+ * @return Return value.
+ */
 MeetingProtocol VoiceMeetingSupport::analyzeTranscript(
     const std::string& transcript,
     const std::string& meeting_id,
@@ -363,6 +382,13 @@ RealtimeMeetingSession::RealtimeMeetingSession(
     protocol_.participants = participants;
 }
 
+/**
+ * @brief Add Segment.
+ * @param[in] text Input parameter.
+ * @param[in] speaker Input parameter.
+ * @param[in] start_ms Input parameter.
+ * @param[in] end_ms Input parameter.
+ */
 void RealtimeMeetingSession::addSegment(
     const std::string& text,
     const std::string& speaker,
@@ -373,6 +399,11 @@ void RealtimeMeetingSession::addSegment(
       return;
     }
 
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     if (finalized_) {
       return;
@@ -422,6 +453,11 @@ void RealtimeMeetingSession::addSegment(
 
     // Update speaker word counts
     if (!speaker.empty()) {
+        /**
+         * @brief Iss.
+         * @param[in] text Input parameter.
+         * @return Return value.
+         */
         std::istringstream iss(text);
         std::string word = {};
         while (iss >> word) {
@@ -431,10 +467,20 @@ void RealtimeMeetingSession::addSegment(
 }
 
 MeetingProtocol RealtimeMeetingSession::getCurrentProtocol() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return protocol_;
 }
 
+/**
+ * @brief Finalize.
+ * @return Return value.
+ * @details Calls: lock(), extractKeyPoints().
+ */
 MeetingProtocol RealtimeMeetingSession::finalize() {
     std::lock_guard<std::mutex> lock(mutex_);
     if (!finalized_) {
@@ -446,11 +492,21 @@ MeetingProtocol RealtimeMeetingSession::finalize() {
 }
 
 bool RealtimeMeetingSession::isFinalized() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return finalized_;
 }
 
 size_t RealtimeMeetingSession::segmentCount() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return protocol_.segments.size();
 }

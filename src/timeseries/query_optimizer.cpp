@@ -71,6 +71,16 @@ TSQueryOptimizer::TSQueryOptimizer(TSStore* store)
     }
 }
 
+/**
+ * @brief Optimize Aggregate Query.
+ * @param[in] metric Input parameter.
+ * @param[in] entity Input parameter.
+ * @param[in] from_timestamp_ms Input parameter.
+ * @param[in] to_timestamp_ms Input parameter.
+ * @param[in] hint Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), setAttribute(), has_value(), buildCacheKey(), lock(), find(), end(), THEMIS_DEBUG().
+ */
 TSQueryOptimizer::QueryPlan TSQueryOptimizer::optimizeAggregateQuery(
     const std::string& metric,
     const std::optional<std::string>& entity,
@@ -202,6 +212,15 @@ TSQueryOptimizer::QueryPlan TSQueryOptimizer::optimizeAggregateQuery(
     return plan;
 }
 
+/**
+ * @brief Optimize Aggregate Query.
+ * @param[in] metric Input parameter.
+ * @param[in] entity Input parameter.
+ * @param[in] from_timestamp_ms Input parameter.
+ * @param[in] to_timestamp_ms Input parameter.
+ * @return Return value.
+ * @details Implements optimizeAggregateQuery without additional internal calls.
+ */
 TSQueryOptimizer::QueryPlan TSQueryOptimizer::optimizeAggregateQuery(
     const std::string& metric,
     const std::optional<std::string>& entity,
@@ -211,6 +230,13 @@ TSQueryOptimizer::QueryPlan TSQueryOptimizer::optimizeAggregateQuery(
     return optimizeAggregateQuery(metric, entity, from_timestamp_ms, to_timestamp_ms, hint);
 }
 
+/**
+ * @brief Find Best Aggregate.
+ * @param[in] metric Input parameter.
+ * @param[in] time_range_ms Input parameter.
+ * @return Return value.
+ * @details Calls: rbegin(), rend(), count(), ContinuousAggregateManager::derivedMetricName(), aggregateExists(), THEMIS_DEBUG().
+ */
 std::optional<std::string> TSQueryOptimizer::findBestAggregate(
     const std::string& metric,
     int64_t time_range_ms) {
@@ -238,6 +264,13 @@ std::optional<std::string> TSQueryOptimizer::findBestAggregate(
     return std::nullopt;
 }
 
+/**
+ * @brief Aggregate Exists.
+ * @param[in] metric Input parameter.
+ * @param[in] window Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: ContinuousAggregateManager::derivedMetricName(), query(), has_value(), value(), empty().
+ */
 bool TSQueryOptimizer::aggregateExists(
     const std::string& metric,
     std::chrono::milliseconds window) {
@@ -254,6 +287,12 @@ bool TSQueryOptimizer::aggregateExists(
     return result.has_value() && !result.value().empty();
 }
 
+/**
+ * @brief Register Available Aggregate.
+ * @param[in] metric Input parameter.
+ * @param[in] window Input parameter.
+ * @details Calls: THEMIS_DEBUG(), count().
+ */
 void TSQueryOptimizer::registerAvailableAggregate(
     const std::string& metric,
     std::chrono::milliseconds window) {
@@ -263,7 +302,10 @@ void TSQueryOptimizer::registerAvailableAggregate(
     THEMIS_DEBUG("Registered aggregate: {} (window: {}ms)", metric, window.count());
 }
 
-// ========== Query Plan Cache ==========
+/**
+ * @brief ========== Query Plan Cache ==========
+ * @details Calls: lock(), clear().
+ */
 
 void TSQueryOptimizer::clearCache() {
     std::lock_guard<std::mutex> lock(cache_mutex_);
@@ -271,11 +313,20 @@ void TSQueryOptimizer::clearCache() {
 }
 
 size_t TSQueryOptimizer::cacheSize() const {
+    /**
+     * @brief Lock.
+     * @param[in] cache_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(cache_mutex_);
     return plan_cache_.size();
 }
 
-// ========== Index-Aware Query Planning ==========
+/**
+ * @brief ========== Index-Aware Query Planning ==========
+ * @param[in] hint Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 
 void TSQueryOptimizer::registerIndexHint(IndexHint hint) {
     std::lock_guard<std::mutex> lock(index_mutex_);
@@ -284,6 +335,11 @@ void TSQueryOptimizer::registerIndexHint(IndexHint hint) {
 
 std::optional<TSQueryOptimizer::IndexHint> TSQueryOptimizer::getIndexHint(
     const std::string& metric) const {
+    /**
+     * @brief Lock.
+     * @param[in] index_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(index_mutex_);
     auto it = index_hints_.find(metric);
     if (it == index_hints_.end()) {
@@ -366,10 +422,25 @@ std::string TSQueryOptimizer::buildExplanation(
 // Downsampling Tier Integration
 // =========================================================================
 
+/**
+ * @brief Set Tier Selector.
+ * @param[in] selector Input parameter.
+ * @details Implements setTierSelector without additional internal calls.
+ */
 void TSQueryOptimizer::setTierSelector(const TierSelector* selector) {
     tier_selector_ = selector;
 }
 
+/**
+ * @brief Optimize With Tiers.
+ * @param[in] metric Input parameter.
+ * @param[in] entity Input parameter.
+ * @param[in] from_timestamp_ms Input parameter.
+ * @param[in] to_timestamp_ms Input parameter.
+ * @param[in] requested_resolution_ms Input parameter.
+ * @param[in] hint Input parameter.
+ * @return Return value.
+ */
 TSQueryOptimizer::QueryPlan TSQueryOptimizer::optimizeWithTiers(
     const std::string& metric,
     const std::optional<std::string>& entity,

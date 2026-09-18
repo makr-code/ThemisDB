@@ -24,18 +24,13 @@ namespace themis {
 namespace llm {
 namespace lora {
 
-/**
- * @brief Page identifier type
- */
 using PageID = uint64_t;
 
-/**
- * @brief Paged buffer handle
- * 
- * Represents a buffer that can be allocated on CPU or GPU
- * and paged between them.
- */
 struct PagedBuffer {
+    /**
+     * @brief Paged Buffer.
+     * @return Return value.
+     */
     virtual ~PagedBuffer() = default;
     PageID id = 0;
     size_t size_bytes = 0;
@@ -46,10 +41,11 @@ struct PagedBuffer {
     uint64_t last_access_time = 0;  // For LRU eviction
 };
 
-/**
- * @brief Page information for tracking
- */
 struct PageInfo {
+    /**
+     * @brief Page Info.
+     * @return Return value.
+     */
     virtual ~PageInfo() = default;
     PageID id = 0;
     size_t size_bytes = 0;
@@ -58,18 +54,22 @@ struct PageInfo {
     uint64_t access_count = 0;
 };
 
-/**
- * @brief LRU cache for page eviction
- * 
- * Tracks page access patterns and determines which pages
- * should be evicted from GPU to CPU when memory is needed.
- */
 template<typename Key, typename Value>
 class LRUCache {
 public:
+    /**
+     * @brief LRUCache.
+     * @return Return value.
+     */
     virtual ~LRUCache() = default;
     explicit LRUCache(size_t capacity) : capacity_(capacity) {}
     
+    /**
+     * @brief Put.
+     * @param[in] key Input parameter.
+     * @param[in] value Input parameter.
+     * @details Calls: find(), end(), size(), evictLRU().
+     */
     void put(const Key& key, const Value& value) {
         auto it = cache_.find(key);
         if (it != cache_.end()) {
@@ -82,6 +82,13 @@ public:
         }
     }
     
+    /**
+     * @brief Get.
+     * @param[in] key Input parameter.
+     * @param[in,out] value Input/output parameter.
+     * @return True when the operation succeeds.
+     * @details Calls: find(), end().
+     */
     bool get(const Key& key, Value& value) {
         auto it = cache_.find(key);
         if (it != cache_.end()) {
@@ -91,6 +98,11 @@ public:
         return false;
     }
     
+    /**
+     * @brief Remove.
+     * @param[in] key Input parameter.
+     * @details Calls: erase().
+     */
     void remove(const Key& key) {
         cache_.erase(key);
     }
@@ -123,6 +135,10 @@ public:
     size_t size() const { return cache_.size(); }
     
 private:
+    /**
+     * @brief Evict LRU.
+     * @details Calls: empty(), begin(), end(), erase().
+     */
     void evictLRU() {
         if (cache_.empty()) {
           return;
@@ -145,114 +161,39 @@ private:
     std::unordered_map<Key, Value> cache_;
 };
 
-/**
- * @brief Paged memory manager
- * 
- * Manages memory paging between CPU and GPU for optimizer states.
- * Leverages existing VRAMAllocator and GPUMemoryManager infrastructure.
- * 
- * Features:
- * - Page-based allocation using existing memory pools
- * - Asynchronous page transfers (when stream is provided)
- * - LRU eviction policy for GPU memory
- * - Multi-backend support (CUDA/HIP/Vulkan/DirectX) via GPUMemoryManager
- * - Fallback to CPU-only if GPU unavailable
- * 
- * Example usage:
- * @code
- * PagedMemoryManager manager;
- * 
- * // Allocate buffer on CPU
- * PagedBuffer buffer = manager.allocate(1024 * 1024, Device::cpu());
- * 
- * // Page in to GPU when needed
- * manager.pageIn(buffer, nullptr);
- * 
- * // Use on GPU...
- * 
- * // Page out when done
- * manager.pageOut(buffer, nullptr);
- * 
- * // Free buffer
- * manager.deallocate(buffer);
- * @endcode
- */
 class PagedMemoryManager {
 public:
-    /**
-     * @brief Construct paged memory manager
-     * @param active_set_size Maximum number of pages to keep on GPU (LRU cache size)
-     * @param gpu_manager Optional GPU memory manager (creates one if nullptr)
-     */
     explicit PagedMemoryManager(size_t active_set_size = 1024,
                                 GPUMemoryManager* gpu_manager = nullptr);
     
     ~PagedMemoryManager();
     
-    /**
-     * @brief Allocate paged buffer
-     * @param size Size in bytes
-     * @param device Initial device location
-     * @return Allocated buffer handle
-     */
     PagedBuffer allocate(size_t size, const Device& device = Device::cpu());
     
     /**
-     * @brief Deallocate paged buffer
-     * @param buffer Buffer to deallocate
+     * @brief Deallocate.
+     * @param[in,out] buffer Input/output parameter.
      */
     void deallocate(PagedBuffer& buffer);
     
-    /**
-     * @brief Page in buffer from CPU to GPU
-     * @param buffer Buffer to page in
-     * @param stream CUDA stream for async transfer (nullptr for sync)
-     * @return True if successful, false otherwise
-     */
     bool pageIn(PagedBuffer& buffer, void* stream = nullptr);
     
-    /**
-     * @brief Page out buffer from GPU to CPU
-     * @param buffer Buffer to page out
-     * @param stream CUDA stream for async transfer (nullptr for sync)
-     * @return True if successful, false otherwise
-     */
     bool pageOut(PagedBuffer& buffer, void* stream = nullptr);
     
-    /**
-     * @brief Check if buffer is currently on GPU
-     * @param buffer Buffer to check
-     * @return True if on GPU, false otherwise
-     */
     bool isOnGPU(const PagedBuffer& buffer) const {
         return buffer.is_on_gpu;
     }
     
-    /**
-     * @brief Evict least recently used pages from GPU
-     * @param num_pages Number of pages to evict
-     * @param stream CUDA stream for async transfer (nullptr for sync)
-     * @return Number of pages actually evicted
-     */
     size_t evictLRU(size_t num_pages, void* stream = nullptr);
     
-    /**
-     * @brief Get total GPU memory allocated
-     */
     size_t gpu_memory_used() const {
         return gpu_allocator_ ? gpu_allocator_->get_stats().allocated_bytes : 0;
     }
     
-    /**
-     * @brief Get total CPU memory allocated
-     */
     size_t cpu_memory_used() const {
         return cpu_allocator_ ? cpu_allocator_->get_stats().allocated_bytes : 0;
     }
     
-    /**
-     * @brief Check if GPU backend is available
-     */
     bool is_cuda_available() const {
         return gpu_allocator_ && gpu_allocator_->is_available();
     }
@@ -289,7 +230,11 @@ private:
         return access_counter_++;
     }
     
-    // Helper to convert Device to backend type
+    /**
+     * @brief Helper to convert Device to backend type
+     * @param[in] type Input parameter.
+     * @return Return value.
+     */
     static acceleration::BackendType device_to_backend(DeviceType type);
 };
 

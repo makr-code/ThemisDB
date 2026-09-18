@@ -25,30 +25,8 @@ namespace server {
 namespace beast = boost::beast;
 namespace http = beast::http;
 
-/**
- * @brief Handler for Performance Profiling API
- * 
- * This handler manages profiling endpoints:
- * - POST /api/profiling/enable - Enable profiling
- * - POST /api/profiling/disable - Disable profiling
- * - GET /api/profiling/queries - Get query profiles
- * - GET /api/profiling/slow-queries - Get slow queries
- * - GET /api/profiling/storage - Get storage statistics
- * - POST /api/profiling/analyze - Run performance analysis
- * - GET /api/profiling/export - Export all profiles
- * - POST /api/profiling/clear - Clear all profiles
- * - GET /api/profiling/config - Get profiling configuration
- * - POST /api/profiling/config - Update profiling configuration
- */
 class ProfilingApiHandler {
 public:
-    /**
-     * @brief Construct a new Profiling API Handler
-     * 
-     * @param query_profiler Query profiler instance
-     * @param storage_profiler Storage profiler instance
-     * @param analyzer Performance analyzer instance
-     */
     ProfilingApiHandler(
         std::shared_ptr<observability::QueryProfiler> query_profiler,
         std::shared_ptr<observability::StorageProfiler> storage_profiler,
@@ -56,9 +34,9 @@ public:
     );
     
     /**
-     * @brief Handle profiling API request
-     * @param req HTTP request
-     * @return HTTP response
+     * @brief Handle request.
+     * @param[in] req Input parameter.
+     * @return Return value.
      */
     http::response<http::string_body> handle_request(
         const http::request<http::string_body>& req);
@@ -69,45 +47,115 @@ private:
     std::shared_ptr<observability::PerformanceAnalyzer> analyzer_;
     
     // Handler methods
+    /**
+     * @brief Handle enable.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handle_enable(
         const http::request<http::string_body>& req);
     
+    /**
+     * @brief Handle disable.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handle_disable(
         const http::request<http::string_body>& req);
     
+    /**
+     * @brief Handle get queries.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handle_get_queries(
         const http::request<http::string_body>& req);
     
+    /**
+     * @brief Handle get slow queries.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handle_get_slow_queries(
         const http::request<http::string_body>& req);
     
+    /**
+     * @brief Handle get storage.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handle_get_storage(
         const http::request<http::string_body>& req);
     
+    /**
+     * @brief Handle analyze.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handle_analyze(
         const http::request<http::string_body>& req);
     
+    /**
+     * @brief Handle export.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handle_export(
         const http::request<http::string_body>& req);
     
+    /**
+     * @brief Handle clear.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handle_clear(
         const http::request<http::string_body>& req);
     
+    /**
+     * @brief Handle get config.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handle_get_config(
         const http::request<http::string_body>& req);
     
+    /**
+     * @brief Handle set config.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handle_set_config(
         const http::request<http::string_body>& req);
     
     // Utility methods
+    /**
+     * @brief Make response.
+     * @param[in] status Input parameter.
+     * @param[in] body Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> make_response(
         http::status status, 
         const nlohmann::json& body);
     
+    /**
+     * @brief Make error response.
+     * @param[in] status Input parameter.
+     * @param[in] message Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> make_error_response(
         http::status status,
         const std::string& message);
     
+    /**
+     * @brief Get query param int.
+     * @param[in] target Input parameter.
+     * @param[in] param_name Name of the param.
+     * @param[in] default_value Input parameter.
+     * @param[in,out] value Input/output parameter.
+     * @return True when the operation succeeds.
+     */
     bool get_query_param_int(const std::string& target,
                              const std::string& param_name,
                              int default_value,

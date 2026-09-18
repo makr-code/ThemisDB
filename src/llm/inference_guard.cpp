@@ -85,6 +85,12 @@ InferenceGuard& InferenceGuard::operator=(InferenceGuard&& other) noexcept {
     return *this;
 }
 
+/**
+ * @brief Get.
+ * @return Return value.
+ * @throws std::logic_error if an error occurs.
+ * @details Implements Get without additional internal calls.
+ */
 InferenceContext& InferenceGuard::Get() {
     if (!context_) {
         throw std::logic_error("InferenceGuard: context accessed after release or error");
@@ -147,6 +153,13 @@ TokenBufferGuard::TokenBufferGuard(size_t capacity)
     }
 }
 
+/**
+ * @brief Push.
+ * @param[in] token Input parameter.
+ * @throws std::overflow_error if an error occurs.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: size(), spdlog::error(), std::to_string(), push_back(), what().
+ */
 void TokenBufferGuard::Push(int32_t token) {
     if (tokens_.size() >= max_capacity_) {
         spdlog::error("TokenBufferGuard: overflow detected at size {}",tokens_.size());
@@ -176,6 +189,13 @@ int32_t TokenBufferGuard::At(size_t index) const {
     return tokens_[index];
 }
 
+/**
+ * @brief Reserve.
+ * @param[in] size Input parameter.
+ * @throws std::invalid_argument if an error occurs.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: reserve(), spdlog::error(), what().
+ */
 void TokenBufferGuard::Reserve(size_t size) {
     if (size > max_capacity_) {
         throw std::invalid_argument(

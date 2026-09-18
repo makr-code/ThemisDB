@@ -42,6 +42,11 @@ namespace {
 // Format: [48-bit timestamp (microseconds) | 16-bit counter]
 static std::atomic<uint16_t> g_merge_version_counter{0};
 
+/**
+ * @brief Make Merge Version Token.
+ * @return Return value.
+ * @details Calls: std::chrono::steady_clock::now(), time_since_epoch(), count(), fetch_add().
+ */
 uint64_t makeMergeVersionToken() {
     // Get current timestamp in microseconds (48 bits)
     auto now = std::chrono::steady_clock::now();
@@ -56,6 +61,12 @@ uint64_t makeMergeVersionToken() {
     return (static_cast<uint64_t>(micros) << 16) | counter;
 }
 
+/**
+ * @brief Extract Version Token.
+ * @param[in] payload Input parameter.
+ * @return Return value.
+ * @details Calls: is_object(), find(), end(), is_number_unsigned(), is_number_integer(), items(), std::max(), is_array().
+ */
 uint64_t extractVersionToken(const nlohmann::json& payload) {
     if (payload.is_object()) {
         for (const char* key : {"mergeVersion", "version_token", "versionToken", "version"}) {
@@ -89,10 +100,22 @@ uint64_t extractVersionToken(const nlohmann::json& payload) {
     return 0;
 }
 
+/**
+ * @brief Resolve Shard Result Version.
+ * @param[in] result Input parameter.
+ * @return Return value.
+ * @details Calls: std::max(), extractVersionToken().
+ */
 uint64_t resolveShardResultVersion(const ShardResult& result) {
     return std::max(result.version_token, extractVersionToken(result.data));
 }
 
+/**
+ * @brief Make Strict Merge Version Token.
+ * @param[in] observed_max_version Input parameter.
+ * @return Return value.
+ * @details Calls: makeMergeVersionToken(), max(), std::max().
+ */
 uint64_t makeStrictMergeVersionToken(uint64_t observed_max_version) {
     const uint64_t candidate = makeMergeVersionToken();
     if (observed_max_version == std::numeric_limits<uint64_t>::max()) {
@@ -103,7 +126,6 @@ uint64_t makeStrictMergeVersionToken(uint64_t observed_max_version) {
 
 } // namespace
 
-/** @brief Parse URL query string (`?a=b&c=d`) into key/value map. */
 static std::map<std::string, std::string> parseQueryParams(const std::string& path) {
     std::map<std::string, std::string> params;
     
@@ -113,6 +135,11 @@ static std::map<std::string, std::string> parseQueryParams(const std::string& pa
     }
     
     std::string query = path.substr(query_start + 1);
+    /**
+     * @brief Iss.
+     * @param[in] query Input parameter.
+     * @return Return value.
+     */
     std::istringstream iss(query);
     std::string param = {};
     
@@ -128,7 +155,12 @@ static std::map<std::string, std::string> parseQueryParams(const std::string& pa
     return params;
 }
 
-/** @brief Extract URN suffix from `/api/v1/data/<urn>` style path. */
+/**
+ * @brief Extract Urn From Path.
+ * @param[in] path Input parameter.
+ * @return Return value.
+ * @details Calls: find(), substr().
+ */
 static std::string extractUrnFromPath(const std::string& path) {
     size_t data_pos = path.find(API_DATA_PREFIX);
     if (data_pos == std::string::npos) {
@@ -146,14 +178,6 @@ static std::string extractUrnFromPath(const std::string& path) {
     return urn_str;
 }
 
-/**
- * @brief Construct shard router facade and optional transaction coordinator.
- * @param resolver Shard mapping resolver.
- * @param executor Remote execution adapter.
- * @param config Routing configuration.
- * @param metrics Optional metrics collector.
- * @param truetime Optional TrueTime source enabling distributed transactions.
- */
 ShardRouter::ShardRouter(
     std::shared_ptr<URNResolver> resolver,
     std::shared_ptr<RemoteExecutor> executor,
@@ -173,7 +197,11 @@ ShardRouter::ShardRouter(
     }
 }
 
-/** @brief Replace TrueTime source and (re)create distributed txn coordinator if available. */
+/**
+ * @brief Set True Time.
+ * @param[in] truetime Input parameter.
+ * @details Implements setTrueTime without additional internal calls.
+ */
 void ShardRouter::setTrueTime(std::shared_ptr<TrueTime> truetime) {
     truetime_ = truetime;
     if (truetime_) {
@@ -182,27 +210,21 @@ void ShardRouter::setTrueTime(std::shared_ptr<TrueTime> truetime) {
     }
 }
 
-/** @brief Return current distributed transaction coordinator instance. */
+/**
+ * @brief Get Transaction Coordinator.
+ * @return Return value.
+ * @details Implements getTransactionCoordinator without additional internal calls.
+ */
 std::shared_ptr<DistributedTransactionCoordinator> ShardRouter::getTransactionCoordinator() {
     return txn_coordinator_;
 }
 
 /**
- * @brief Route point read request by URN and return document payload on success.
- *
- * This method routes a GET request for a specific entity identified by its URN to the appropriate shard.
- * It supports snapshot reads when a timestamp is provided, enabling MVCC (Multi-Version Concurrency Control).
- *
- * @param urn The unique resource identifier (URN) of the entity to retrieve.
- * @param snapshot_timestamp Optional timestamp for reading from a specific point-in-time snapshot.
- *                           If provided, the read will be consistent with that snapshot.
- * @return std::optional<nlohmann::json> The retrieved document payload if successful, or std::nullopt on failure.
- *
- * @note This method is part of the single-shard routing strategy.
- * @note W2-S07: Read consistency model
- *       - Default: Read from primary shard (eventual consistency)
- *       - With snapshot_timestamp: Read from specified snapshot (MVCC)
- *       - No quorum checking: Primary shard is source of truth for consistency
+ * @brief Get.
+ * @param[in] urn Input parameter.
+ * @param[in] snapshot_timestamp Input parameter.
+ * @return Return value.
+ * @details Calls: recordRoutingRequest(), toString(), has_value(), std::to_string(), count(), routeRequest(), recordRoutingLatency(), recordCrossShardRequest().
  */
 std::optional<nlohmann::json> ShardRouter::get(
     const URN& urn,
@@ -240,21 +262,11 @@ std::optional<nlohmann::json> ShardRouter::get(
 }
 
 /**
- * @brief Route point write request by URN to owning shard.
- *
- * This method routes a PUT request for a specific entity identified by its URN to the appropriate shard.
- * The write is forwarded to the primary shard of the entity's partition.
- *
- * @param urn The unique resource identifier (URN) of the entity to update.
- * @param data The JSON payload containing the new data for the entity.
- * @return bool True if the write was successful, false otherwise.
- *
- * @note This method is part of the single-shard routing strategy.
- * @note W2-S07: Write consistency model
- *       - Primary shard: Write forwarded to primary after hashing
- *       - Replication: Async replication to replicas (not part of this call)
- *       - Durability: Write-through to primary's WAL
- *       - Atomicity: Single shard write is atomic; multi-shard requires 2PC
+ * @brief Put.
+ * @param[in] urn Input parameter.
+ * @param[in] data Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: recordRoutingRequest(), routeRequest(), toString(), recordRoutingError(), recordRoutingLatency().
  */
 bool ShardRouter::put(const URN& urn, const nlohmann::json& data) {
     total_requests_++;
@@ -283,15 +295,10 @@ bool ShardRouter::put(const URN& urn, const nlohmann::json& data) {
 }
 
 /**
- * @brief Route point delete request by URN to owning shard.
- *
- * This method routes a DELETE request for a specific entity identified by its URN to the appropriate shard.
- * The deletion is forwarded to the primary shard of the entity's partition.
- *
- * @param urn The unique resource identifier (URN) of the entity to delete.
- * @return bool True if the deletion was successful, false otherwise.
- *
- * @note This method is part of the single-shard routing strategy.
+ * @brief Del.
+ * @param[in] urn Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: routeRequest(), toString().
  */
 bool ShardRouter::del(const URN& urn) {
     total_requests_++;
@@ -306,20 +313,10 @@ bool ShardRouter::del(const URN& urn) {
 }
 
 /**
- * @brief Execute query using selected routing strategy.
- *
- * This method routes a query to the appropriate shards based on its content.
- * It determines the routing strategy (single-shard, scatter-gather, namespace-local, or cross-shard join)
- * and executes the query accordingly.
- *
- * @param query Query text (e.g., AQL query string).
- * @return nlohmann::json JSON payload merged from one or more shard responses.
- *
- * @note The routing strategy is determined by analyzing the query content:
- *       - SINGLE_SHARD: Queries containing URN identifiers
- *       - SCATTER_GATHER: Full table scans or queries without specific shard hints
- *       - NAMESPACE_LOCAL: Queries scoped to a specific namespace
- *       - CROSS_SHARD_JOIN: Queries with JOIN operations across shards
+ * @brief Execute Query.
+ * @param[in] query Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), setAttribute(), length(), analyzeQuery(), extractURN(), routeRequest(), scatterGather(), mergeResults().
  */
 nlohmann::json ShardRouter::executeQuery(const std::string& query) {
     auto span = Tracer::startSpan("ShardRouter.executeQuery");
@@ -383,7 +380,6 @@ nlohmann::json ShardRouter::executeQuery(const std::string& query) {
     return nlohmann::json{};
 }
 
-/** @brief Classify query into single-shard, scatter, namespace-local, or join strategy. */
 RoutingStrategy ShardRouter::analyzeQuery(const std::string& query) const {
     // Simple query analysis
     // In production, would parse AQL/SQL and analyze
@@ -409,17 +405,10 @@ RoutingStrategy ShardRouter::analyzeQuery(const std::string& query) const {
 }
 
 /**
- * @brief Execute scatter-gather request across current healthy shard set.
- *
- * This method sends a query to all shards in the cluster and merges the results.
- * It is used for queries that span multiple shards, such as full table scans or namespace-local queries.
- *
- * @param query Query text sent to each selected shard.
- * @return std::vector<ShardResult> Per-shard execution records including failures/timeouts.
- *
- * @note This method implements the scatter-gather routing strategy.
- * @note The number of concurrent requests is limited by the configuration parameter `max_concurrent_shards`.
- * @note Results from each shard are merged into a single response using the `mergeResults` method.
+ * @brief Scatter Gather.
+ * @param[in] query Input parameter.
+ * @return Return value.
+ * @details Calls: recordRoutingRequest(), std::chrono::steady_clock::now(), getHealthyShards(), empty(), recordScatterGatherFanout(), size(), std::min(), reserve().
  */
 std::vector<ShardResult> ShardRouter::scatterGather(const std::string& query) {
     std::vector<ShardResult> results;
@@ -564,10 +553,11 @@ std::vector<ShardResult> ShardRouter::scatterGather(const std::string& query) {
 }
 
 /**
- * @brief Execute query on explicit subset of shard ids.
- * @param query Query text.
- * @param shard_ids Target shard identifiers.
- * @return Per-shard execution records for targeted subset.
+ * @brief Execute On Shards.
+ * @param[in] query Input parameter.
+ * @param[in] shard_ids Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), getHealthyShards(), reserve(), size(), push_back(), at(), spdlog::warn(), std::min().
  */
 std::vector<ShardResult> ShardRouter::executeOnShards(
     const std::string& query,
@@ -692,20 +682,11 @@ std::vector<ShardResult> ShardRouter::executeOnShards(
 }
 
 /**
- * @brief Execute cross-shard join operation.
- *
- * This method performs a join operation across multiple shards.
- * It supports two strategies: co-located join (when the join field is the partition key) and broadcast hash join.
- *
- * @param query Query string containing the join operation.
- * @param join_field The field used for joining records across shards.
- * @return nlohmann::json Joined results with monotonic mergeVersion/version_token metadata so
- *         callers can detect stale merged snapshots across shards.
- *
- * @note This method implements the cross-shard join routing strategy.
- * @note The join strategy is determined by analyzing the join_field:
- *       - If the field matches the partition key pattern, a co-located join is performed.
- *       - Otherwise, a broadcast hash join is used.
+ * @brief Execute Cross Shard Join.
+ * @param[in] query Input parameter.
+ * @param[in] join_field Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), setAttribute(), std::chrono::steady_clock::now(), find(), recordCrossShardJoin(), scatterGather(), is_array(), contains().
  */
 nlohmann::json ShardRouter::executeCrossShardJoin(
     const std::string& query,
@@ -911,11 +892,6 @@ nlohmann::json ShardRouter::executeCrossShardJoin(
     }
 }
 
-/**
- * @brief Return aggregate routing counters collected by this router instance.
- * @return JSON object with totals for all requests, local/remote dispatches,
- *         scatter-gather operations, and observed errors.
- */
 nlohmann::json ShardRouter::getStatistics() const {
     return nlohmann::json{
         {"total_requests", total_requests_.load()},
@@ -927,13 +903,13 @@ nlohmann::json ShardRouter::getStatistics() const {
 }
 
 /**
- * @brief Resolve the owning shard for a URN and dispatch the request.
- * @param urn Entity identifier used for primary-shard resolution.
- * @param method HTTP-style operation verb. Empty values are rejected fail-closed.
- * @param path Relative API path to execute on the target shard. Empty values are rejected fail-closed.
- * @param body Optional JSON payload for PUT/POST style requests.
- * @return Result envelope containing the target shard id, payload, and any failure detail.
- * @note Local shards are executed via @ref executeLocal while remote shards require a configured executor.
+ * @brief Route Request.
+ * @param[in] urn Input parameter.
+ * @param[in] method Input parameter.
+ * @param[in] path Input parameter.
+ * @param[in] body Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), spdlog::error(), resolvePrimary(), isLocal(), executeLocal(), THEMIS_ERROR(), get(), put().
  */
 ShardResult ShardRouter::routeRequest(
     const URN& urn,
@@ -1007,12 +983,12 @@ ShardResult ShardRouter::routeRequest(
 }
 
 /**
- * @brief Execute a routed request against the local shard simulation facade.
- * @param method HTTP-style operation verb. Empty values are rejected fail-closed.
- * @param path Relative API path describing the local operation to emulate.
- * @param body Optional JSON payload used for query or write-style requests.
- * @return Result envelope containing locally synthesized payload data or an error description.
- * @note Unknown methods, invalid URNs, and unsupported paths are converted into structured JSON errors.
+ * @brief Execute Local.
+ * @param[in] method Input parameter.
+ * @param[in] path Input parameter.
+ * @param[in] body Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), spdlog::error(), std::chrono::steady_clock::now(), find(), parseQueryParams(), nlohmann::json::array(), extractUrnFromPath(), URN::parse().
  */
 ShardResult ShardRouter::executeLocal(
     const std::string& method,
@@ -1200,11 +1176,10 @@ ShardResult ShardRouter::executeLocal(
 }
 
 /**
- * @brief Merge per-shard responses into one logical query result.
- * @param results Individual shard results produced by scatter-gather or subset execution.
- * @return JSON object containing merged result rows, per-shard errors, counters,
- *         and monotonic merge version metadata.
- * @note Successful array payloads are concatenated; non-array payloads are appended as single records.
+ * @brief Merge Results.
+ * @param[in] results Input parameter.
+ * @return Return value.
+ * @details Calls: nlohmann::json::array(), size(), resolveShardResultVersion(), std::max(), makeStrictMergeVersionToken(), is_array(), push_back(), contains().
  */
 nlohmann::json ShardRouter::mergeResults(const std::vector<ShardResult>& results) {
     // W2-S07: Merge strategy for distributed query results
@@ -1266,16 +1241,12 @@ nlohmann::json ShardRouter::mergeResults(const std::vector<ShardResult>& results
 }
 
 /**
- * @brief Apply offset/limit slicing to an already merged result set.
- * @param merged JSON payload that may contain a `results` array.
- * @param offset Zero-based start index within the merged `results` array.
- * @param limit Maximum number of rows to return.
- * @return Copy of @p merged with paginated `results` and pagination metadata when applicable.
- * 
- * @note BATCH 5: Optimized to reduce copy overhead in pagination path by:
- *       - Avoiding full JSON copy when no pagination needed
- *       - Using move semantics for result array construction
- *       - Only copying selected result items instead of entire payload
+ * @brief Apply Pagination.
+ * @param[in] merged Input parameter.
+ * @param[in] offset Input parameter.
+ * @param[in] limit Input parameter.
+ * @return Return value.
+ * @details Calls: contains(), is_array(), empty(), nlohmann::json::array(), std::min(), size(), reserve(), push_back().
  */
 nlohmann::json ShardRouter::applyPagination(
     const nlohmann::json& merged,
@@ -1320,11 +1291,6 @@ nlohmann::json ShardRouter::applyPagination(
     return paginated;
 }
 
-/**
- * @brief Extract the first URN literal embedded in a query string.
- * @param query Query text to inspect.
- * @return Parsed URN when a matching literal is found and can be parsed; otherwise `std::nullopt`.
- */
 std::optional<URN> ShardRouter::extractURN(const std::string& query) const {
     // Simple regex to find URN in query
     std::regex urn_pattern(R"(urn:themis:[^:]+:[^:]+:[^:]+:[a-f0-9-]+)");
@@ -1337,11 +1303,6 @@ std::optional<URN> ShardRouter::extractURN(const std::string& query) const {
     return std::nullopt;
 }
 
-/**
- * @brief Extract an explicit namespace selector from a query string.
- * @param query Query text to inspect.
- * @return Namespace token following the `NAMESPACE` keyword, or `std::nullopt` when absent.
- */
 std::optional<std::string> ShardRouter::extractNamespace(const std::string& query) const {
     // Simple pattern matching for namespace
     std::regex ns_pattern(R"(NAMESPACE\s+([a-zA-Z0-9_]+))");
@@ -1355,14 +1316,11 @@ std::optional<std::string> ShardRouter::extractNamespace(const std::string& quer
 }
 
 /**
- * @brief Execute multi-shard exact consistency query with deterministic fallback.
- *
- * Executes a query across multiple shards with exact consistency guarantees.
- * If some shards fail, falls back to healthy shards while maintaining consistency.
- *
- * @param query Query text.
- * @param shard_ids Target shard identifiers.
- * @return Merged results with exact consistency guarantee from quorum.
+ * @brief Execute Multi Shard Exact Consistency.
+ * @param[in] query Input parameter.
+ * @param[in] shard_ids Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), size(), std::chrono::steady_clock::now(), push_back(), std::async(), executeLocal(), executeQuery(), std::string().
  */
 std::vector<ShardResult> ShardRouter::executeMultiShardExactConsistency(
     const std::string& query,
@@ -1475,13 +1433,10 @@ std::vector<ShardResult> ShardRouter::executeMultiShardExactConsistency(
 }
 
 /**
- * @brief Validate multi-shard results for exact consistency.
- *
- * Checks that results from multiple shards are consistent and
- * can be safely merged for exact consistency reads.
- *
- * @param results Vector of shard results.
- * @return true if results pass exact consistency validation, false otherwise.
+ * @brief Validate Multi Shard Exact Consistency.
+ * @param[in] results Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), push_back(), std::max(), size().
  */
 bool ShardRouter::validateMultiShardExactConsistency(
     const std::vector<ShardResult>& results) {

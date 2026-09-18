@@ -73,6 +73,11 @@ void GPUStreamHandle::destroy() noexcept {
     stream_ = nullptr;
 }
 
+/**
+ * @brief Synchronize.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: cudaStreamSynchronize(), THEMIS_ERROR(), cudaGetErrorString(), defined(), hipStreamSynchronize(), hipGetErrorString().
+ */
 void GPUStreamHandle::synchronize() {
 #ifdef THEMIS_ENABLE_CUDA
     cudaError_t err = cudaStreamSynchronize(stream_);
@@ -135,6 +140,12 @@ void GPUEventHandle::destroy() noexcept {
     event_ = nullptr;
 }
 
+/**
+ * @brief Record.
+ * @param[in] stream Input parameter.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: cudaEventRecord(), THEMIS_ERROR(), cudaGetErrorString(), defined(), hipEventRecord(), hipGetErrorString().
+ */
 void GPUEventHandle::record(cudaStream_t stream) {
 #ifdef THEMIS_ENABLE_CUDA
     cudaError_t err = cudaEventRecord(event_, stream);
@@ -163,6 +174,11 @@ bool GPUEventHandle::isCompleted() noexcept {
 #endif
 }
 
+/**
+ * @brief Wait.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: cudaEventSynchronize(), THEMIS_ERROR(), cudaGetErrorString(), defined(), hipEventSynchronize(), hipGetErrorString().
+ */
 void GPUEventHandle::wait() {
 #ifdef THEMIS_ENABLE_CUDA
     cudaError_t err = cudaEventSynchronize(event_);

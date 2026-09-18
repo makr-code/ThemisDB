@@ -64,6 +64,11 @@ bool ExactGraphFallbackPolicy::requiresFallbackForFreshness(const ArtifactManife
 
 ExactGraphFallbackPolicy::FallbackMetrics ExactGraphFallbackPolicy::getMetrics() const { return metrics_; }
 
+/**
+ * @brief Record Fallback.
+ * @param[in] reason Input parameter.
+ * @details Implements recordFallback without additional internal calls.
+ */
 void ExactGraphFallbackPolicy::recordFallback(const std::string& reason) { metrics_.total_fallback_decisions++; }
 
 }  // namespace distributed_tensor

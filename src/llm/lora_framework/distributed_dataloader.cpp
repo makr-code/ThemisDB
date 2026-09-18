@@ -47,6 +47,10 @@ DistributedDataLoader::DistributedDataLoader(
     initialize_indices();
 }
 
+/**
+ * @brief Initialize indices.
+ * @details Calls: size(), resize(), gen(), rd(), std::shuffle(), begin(), end().
+ */
 void DistributedDataLoader::initialize_indices() {
     size_t dataset_size = dataset_.size();
     indices_.resize(dataset_size);
@@ -62,6 +66,12 @@ void DistributedDataLoader::initialize_indices() {
     }
 }
 
+/**
+ * @brief Load batch.
+ * @param[in] batch_idx Input parameter.
+ * @return Return value.
+ * @details Calls: std::min(), size(), reserve(), push_back(), get(), num_gpus(), emplace_back(), get_device().
+ */
 std::vector<GPUTensor> DistributedDataLoader::load_batch(size_t batch_idx) {
     size_t start_idx = batch_idx * batch_size_;
     size_t end_idx = std::min(start_idx + batch_size_, dataset_.size());
@@ -143,6 +153,10 @@ std::vector<GPUTensor> DistributedDataLoader::load_batch(size_t batch_idx) {
     return sharded_batch;
 }
 
+/**
+ * @brief Reset the modification detection flag.
+ * @details Calls: gen(), rd(), std::shuffle(), begin(), end().
+ */
 void DistributedDataLoader::reset() {
     if (shuffle_) {
         std::random_device rd = {};
@@ -151,10 +165,20 @@ void DistributedDataLoader::reset() {
     }
 }
 
+/**
+ * @brief Begin.
+ * @return Return value.
+ * @details Calls: Iterator().
+ */
 DistributedDataLoader::Iterator DistributedDataLoader::begin() {
     return Iterator(this, 0);
 }
 
+/**
+ * @brief End.
+ * @return Return value.
+ * @details Calls: Iterator().
+ */
 DistributedDataLoader::Iterator DistributedDataLoader::end() {
     return Iterator(this, num_batches_);
 }

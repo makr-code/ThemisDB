@@ -13,14 +13,14 @@
 namespace themis {
 namespace observability {
 
+
 /**
- * @brief ============================================================================ ShardLatencyHistogram ============================================================================
- * @param[in] shard_id Input parameter.
+ * @brief Record Latency.
+ * @param[in] shard_id Identifier of the shard.
  * @param[in] operation_type Input parameter.
  * @param[in] latency_ms Input parameter.
  * @details Calls: empty(), lock(), size(), find(), end(), push_back().
  */
-
 void ShardLatencyHistogram::recordLatency(
     const std::string& shard_id,
     const std::string& operation_type,
@@ -30,11 +30,6 @@ void ShardLatencyHistogram::recordLatency(
         return;  // Silently ignore invalid inputs
     }
 
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::unique_lock lock(mutex_);
 
     // Enforce max 1024 unique shards
@@ -104,36 +99,26 @@ size_t ShardLatencyHistogram::getCardinality() const {
 }
 
 /**
- * @brief Reset.
+ * @brief Reset the modification detection flag.
  * @details Calls: lock(), clear().
  */
 void ShardLatencyHistogram::reset() {
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::unique_lock lock(mutex_);
     shard_latencies_.clear();
 }
 
+
 /**
- * @brief ============================================================================ ReplicaLagTracker ============================================================================
- * @param[in] replica_id Input parameter.
+ * @brief Record Lag.
+ * @param[in] replica_id Identifier of the replica.
  * @param[in] lag_ms Input parameter.
  * @details Calls: empty(), lock(), size(), find(), end(), push_back().
  */
-
 void ReplicaLagTracker::recordLag(const std::string& replica_id, double lag_ms) {
     if (replica_id.empty() || lag_ms < 0) {
         return;  // Silently ignore invalid inputs
     }
 
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::unique_lock lock(mutex_);
 
     // Enforce max 32 replicas
@@ -203,36 +188,26 @@ size_t ReplicaLagTracker::getCardinality() const {
 }
 
 /**
- * @brief Reset.
+ * @brief Reset the modification detection flag.
  * @details Calls: lock(), clear().
  */
 void ReplicaLagTracker::reset() {
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::unique_lock lock(mutex_);
     replica_lags_.clear();
 }
 
+
 /**
- * @brief ============================================================================ RetryCounter ============================================================================
+ * @brief Record Retry.
  * @param[in] reason Input parameter.
  * @param[in] count Input parameter.
  * @details Calls: empty(), lock(), size(), find(), end().
  */
-
 void RetryCounter::recordRetry(const std::string& reason, int64_t count) {
     if (reason.empty() || count <= 0) {
         return;  // Silently ignore invalid inputs
     }
 
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::unique_lock lock(mutex_);
 
     // Enforce max 10 unique failure reasons
@@ -285,25 +260,20 @@ int64_t RetryCounter::getTotalRetries() const {
 }
 
 /**
- * @brief Reset.
+ * @brief Reset the modification detection flag.
  * @details Calls: lock(), clear().
  */
 void RetryCounter::reset() {
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::unique_lock lock(mutex_);
     retry_counts_.clear();
 }
 
+
 /**
- * @brief ============================================================================ HighCardinalityMetricsManager ============================================================================
+ * @brief Get Instance.
  * @return Return value.
  * @details Implements getInstance without additional internal calls.
  */
-
 HighCardinalityMetricsManager& HighCardinalityMetricsManager::getInstance() {
     static HighCardinalityMetricsManager instance;
     return instance;
@@ -331,7 +301,7 @@ bool HighCardinalityMetricsManager::isCardinalitySafe() const {
 }
 
 /**
- * @brief Reset.
+ * @brief Reset the modification detection flag.
  * @details Implements reset without additional internal calls.
  */
 void HighCardinalityMetricsManager::reset() {

@@ -61,6 +61,12 @@ void WriteGuard::release() noexcept {
 // ─────────────────────────────────────────────────────────────────────────────
 
 namespace {
+/**
+ * @brief Resolve Max Slots.
+ * @param[in] requested Input parameter.
+ * @return Return value.
+ * @details Calls: std::thread::hardware_concurrency().
+ */
 size_t resolveMaxSlots(size_t requested) {
     if (requested > 0) {
       return requested;
@@ -89,6 +95,11 @@ ConcurrentWriteController::~ConcurrentWriteController() {
 void ConcurrentWriteController::shutdown() noexcept {
     std::deque<std::shared_ptr<Waiter>> to_notify;
     {
+        /**
+         * @brief Lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(mutex_);
         if (shutdown_) {
           return;
@@ -115,6 +126,12 @@ void ConcurrentWriteController::shutdown() noexcept {
 // acquire (blocking, FIFO)
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Acquire.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: std::chrono::steady_clock::now(), lk(), fetch_add(), unlock(), recordWait(), WriteGuard(), size(), get_future().
+ */
 WriteGuard ConcurrentWriteController::acquire() {
     const auto start = std::chrono::steady_clock::now();
 
@@ -213,6 +230,11 @@ WriteGuard ConcurrentWriteController::acquire() {
 // tryAcquire (non-blocking)
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Try Acquire.
+ * @return Return value.
+ * @details Calls: lk(), fetch_add(), WriteGuard().
+ */
 std::optional<WriteGuard> ConcurrentWriteController::tryAcquire() {
     std::lock_guard<std::mutex> lk(mutex_);
     if (shutdown_ || active_ >= max_slots_) {
@@ -231,6 +253,11 @@ void ConcurrentWriteController::releaseSlot() noexcept {
     std::shared_ptr<Waiter> next;
 
     {
+        /**
+         * @brief Lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(mutex_);
         if (!waiters_.empty()) {
             next = std::move(waiters_.front());
@@ -248,6 +275,12 @@ void ConcurrentWriteController::releaseSlot() noexcept {
     }
 }
 
+/**
+ * @brief Remove Waiter Locked.
+ * @param[in] waiter Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: std::find(), begin(), end(), erase().
+ */
 bool ConcurrentWriteController::removeWaiterLocked(
     const std::shared_ptr<Waiter>& waiter) {
     const auto it = std::find(waiters_.begin(), waiters_.end(), waiter);
@@ -283,6 +316,11 @@ void ConcurrentWriteController::recordWait(int64_t wait_us) noexcept {
 
     // Sliding window for P99.
     {
+        /**
+         * @brief Lk.
+         * @param[in] window_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(window_mutex_);
         wait_window_[window_pos_ % kWindowSize] = wait_us;
         ++window_pos_;
@@ -300,6 +338,11 @@ ConcurrentWriteStats ConcurrentWriteController::getStats() const noexcept {
     ConcurrentWriteStats s;
 
     {
+        /**
+         * @brief Lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(mutex_);
         s.active_writes = active_;
         s.queue_depth   = waiters_.size();
@@ -312,6 +355,11 @@ ConcurrentWriteStats ConcurrentWriteController::getStats() const noexcept {
 
     // Compute P99 from sliding window.
     {
+        /**
+         * @brief Lk.
+         * @param[in] window_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(window_mutex_);
         if (window_count_ > 0) {
             // Copy the valid portion of the window and sort.

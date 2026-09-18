@@ -55,6 +55,12 @@ std::variant<size_t, Status> PhilosophyLoader::loadFromDirectory(const std::stri
     return count;
 }
 
+/**
+ * @brief Load From File.
+ * @param[in] filepath Input parameter.
+ * @return Return value.
+ * @details Calls: YAML::LoadFile(), empty(), fs::path(), stem(), string(), IsScalar(), IsMap(), str().
+ */
 Status PhilosophyLoader::loadFromFile(const std::string &filepath) {
 #ifdef HAVE_YAML_CPP
     try {
@@ -319,11 +325,21 @@ std::variant<PhilosophyProfile, Status> PhilosophyLoader::getProfile(const std::
 }
 
 bool PhilosophyLoader::hasProfile(const std::string &school_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return profiles_.find(school_id) != profiles_.end();
 }
 
 std::vector<std::string> PhilosophyLoader::getSchoolIds() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     std::vector<std::string> ids = {};
 
@@ -336,17 +352,31 @@ std::vector<std::string> PhilosophyLoader::getSchoolIds() const {
     return ids;
 }
 
+/**
+ * @brief Clear.
+ * @details Calls: lock().
+ */
 void PhilosophyLoader::clear() {
     std::lock_guard<std::mutex> lock(mutex_);
     profiles_.clear();
 }
 
+/**
+ * @brief Add Profile.
+ * @param[in] profile Input parameter.
+ * @details Calls: lock().
+ */
 void PhilosophyLoader::addProfile(const PhilosophyProfile &profile) {
     std::lock_guard<std::mutex> lock(mutex_);
     profiles_[profile.school_id] = profile;
 }
 
 std::map<std::string, PhilosophyProfile> PhilosophyLoader::getAllProfiles() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return profiles_;
 }
@@ -359,7 +389,11 @@ std::variant<size_t, Status> PhilosophyLoader::reloadProfiles(const std::string 
         return result; // propagate error
     }
 
-    // Atomic swap under the lock.
+    /**
+     * @brief Atomic swap under the lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     profiles_ = tmp.profiles_;
     return profiles_.size();

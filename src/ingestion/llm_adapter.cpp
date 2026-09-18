@@ -24,6 +24,12 @@ namespace ingestion {
 
 namespace {
 
+/**
+ * @brief Is Readable Model File.
+ * @param[in] model_path Path to the model.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), std::filesystem::exists(), std::ifstream(), good().
+ */
 bool isReadableModelFile(const std::string& model_path) {
     if (model_path.empty()) {
         return false;
@@ -55,6 +61,11 @@ LegalLlmAdapter::~LegalLlmAdapter() = default;
 LegalLlmAdapter::LegalLlmAdapter(LegalLlmAdapter&&) noexcept = default;
 LegalLlmAdapter& LegalLlmAdapter::operator=(LegalLlmAdapter&&) noexcept = default;
 
+/**
+ * @brief Set Config.
+ * @param[in] config Input parameter.
+ * @details Implements setConfig without additional internal calls.
+ */
 void LegalLlmAdapter::setConfig(const LlmAdapterConfig& config) {
     config_ = config;
 }

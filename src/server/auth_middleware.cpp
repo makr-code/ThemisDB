@@ -28,6 +28,11 @@ namespace themis {
 AuthMiddleware::AuthMiddleware() = default;
 AuthMiddleware::~AuthMiddleware() = default;
 
+/**
+ * @brief Enable JWT.
+ * @param[in] config Input parameter.
+ * @details Calls: lock(), empty(), loadRoleScopeMapping(), THEMIS_INFO().
+ */
 void AuthMiddleware::enableJWT(const JWTConfig& config) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -56,6 +61,11 @@ void AuthMiddleware::enableJWT(const JWTConfig& config) {
                 config.expected_issuer, config.expected_audience, config.scope_claim);
 }
 
+/**
+ * @brief Enable Kerberos.
+ * @param[in] config Input parameter.
+ * @details Calls: lock(), initialize(), THEMIS_ERROR(), reset(), loadRoleScopeMapping(), THEMIS_INFO().
+ */
 void AuthMiddleware::enableKerberos(const auth::KerberosConfig& config) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -77,6 +87,11 @@ void AuthMiddleware::enableKerberos(const auth::KerberosConfig& config) {
                 config.service_principal, config.fallback_to_basic);
 }
 
+/**
+ * @brief Enable MTLS.
+ * @param[in] config Input parameter.
+ * @details Calls: lock(), THEMIS_INFO().
+ */
 void AuthMiddleware::enableMTLS(const auth::MTLSAuthenticator::Config& config) {
     std::lock_guard<std::mutex> lock(mutex_);
 
@@ -87,6 +102,11 @@ void AuthMiddleware::enableMTLS(const auth::MTLSAuthenticator::Config& config) {
     THEMIS_INFO("mTLS certificate authentication enabled");
 }
 
+/**
+ * @brief Enable Api Key Auth.
+ * @param[in] config Input parameter.
+ * @details Calls: lock(), THEMIS_INFO().
+ */
 void AuthMiddleware::enableApiKeyAuth(const ApiKeyConfig& config) {
     std::lock_guard<std::mutex> lock(mutex_);
 
@@ -101,6 +121,11 @@ void AuthMiddleware::enableApiKeyAuth(const ApiKeyConfig& config) {
     THEMIS_INFO("API key authentication enabled (check_expiry={})", config.check_expiry);
 }
 
+/**
+ * @brief Add Api Key Credential.
+ * @param[in] credential Input parameter.
+ * @details Calls: lock(), THEMIS_WARN(), addCredential().
+ */
 void AuthMiddleware::addApiKeyCredential(const auth::ApiKeyCredential& credential) {
     std::lock_guard<std::mutex> lock(mutex_);
     if (!api_key_auth_) {
@@ -111,6 +136,11 @@ void AuthMiddleware::addApiKeyCredential(const auth::ApiKeyCredential& credentia
     api_key_auth.addCredential(credential);
 }
 
+/**
+ * @brief Remove Api Key Credential.
+ * @param[in] key_id Identifier of the key.
+ * @details Calls: lock(), removeCredential().
+ */
 void AuthMiddleware::removeApiKeyCredential(const std::string& key_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     if (api_key_auth_) {
@@ -118,6 +148,12 @@ void AuthMiddleware::removeApiKeyCredential(const std::string& key_id) {
     }
 }
 
+/**
+ * @brief Enable USBAdmin Auth.
+ * @param[in] mount_path Path to the mount.
+ * @param[in] protected_scopes Input parameter.
+ * @details Calls: lock(), empty(), initialize(), THEMIS_INFO(), size().
+ */
 void AuthMiddleware::enableUSBAdminAuth(const std::string& mount_path, const std::vector<std::string>& protected_scopes) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -141,17 +177,31 @@ void AuthMiddleware::enableUSBAdminAuth(const std::string& mount_path, const std
                 mount_path,usb_protected_scopes_.size());
 }
 
+/**
+ * @brief Add Token.
+ * @param[in] config Input parameter.
+ * @details Calls: lock(), THEMIS_INFO(), size().
+ */
 void AuthMiddleware::addToken(const TokenConfig& config) {
     std::lock_guard<std::mutex> lock(mutex_);
     tokens_[config.token] = config;
     THEMIS_INFO("Added API token for user '{}' with {} scopes", config.user_id,config.scopes.size());
 }
 
+/**
+ * @brief Remove Token.
+ * @param[in] token Input parameter.
+ * @details Calls: lock(), erase(), std::string().
+ */
 void AuthMiddleware::removeToken(std::string_view token) {
     std::lock_guard<std::mutex> lock(mutex_);
     tokens_.erase(std::string(token));
 }
 
+/**
+ * @brief Clear Tokens.
+ * @details Calls: lock(), clear().
+ */
 void AuthMiddleware::clearTokens() {
     std::lock_guard<std::mutex> lock(mutex_);
     tokens_.clear();
@@ -160,6 +210,11 @@ void AuthMiddleware::clearTokens() {
 void AuthMiddleware::setRoleScopeMapping(
     std::unordered_map<std::string, std::vector<std::string>> mapping)
 {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     role_scope_map_ = std::move(mapping);
     THEMIS_INFO("Role-to-scope mapping updated: {} role(s) configured",role_scope_map_.size());
@@ -183,16 +238,20 @@ bool AuthMiddleware::roleGrantsScope(const std::vector<std::string>& roles,
 }
 
 AuthMiddleware::AuthResult AuthMiddleware::authorize(std::string_view token, std::string_view required_scope) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     THEMIS_INFO("AuthMiddleware::authorize called (required_scope='{}')", required_scope);
     
-    // First try API token lookup.
-    // GAP-008 fixed: instead of relying on the hash-map comparison for the final
-    // token-equality check (which can leak information via cache/timing differences),
-    // we find candidates by HMAC-SHA256 key digest and confirm with CRYPTO_memcmp
-    // (constant-time comparison over equal-length byte sequences).
-    // The token value stored in tokens_ is compared character-by-character only in
-    // the constant-time branch, so the timing is independent of the token content.
+    /**
+     * @brief First try API token lookup.
+     * @param[in] token Input parameter.
+     * @return Return value.
+     * @details GAP-008 fixed: instead of relying on the hash-map comparison for the final token-equality check (which can leak information via cache/timing differences), we find candidates by HMAC-SHA256 key digest and confirm with CRYPTO_memcmp (constant-time comparison over equal-length byte sequences). The token value stored in tokens_ is compared character-by-character only in the constant-time branch, so the timing is independent of the token content.
+     */
     const std::string token_str(token);
     for (const auto& kv : tokens_) {
         const std::string& stored = kv.first;
@@ -371,6 +430,11 @@ AuthMiddleware::AuthResult AuthMiddleware::authorizeViaJWT(std::string_view toke
 
         // Check required scope (if non-empty)
         if (!required_scope.empty()) {
+            /**
+             * @brief Req.
+             * @param[in] required_scope Input parameter.
+             * @return Return value.
+             */
             const std::string req(required_scope);
             bool scope_ok = granted_scopes.count(req) > 0;
 
@@ -401,6 +465,11 @@ AuthMiddleware::AuthResult AuthMiddleware::authorizeViaJWT(std::string_view toke
 }
 
 AuthMiddleware::AuthResult AuthMiddleware::validateToken(std::string_view token) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     // Try static bearer token first
@@ -453,10 +522,21 @@ AuthMiddleware::AuthResult AuthMiddleware::validateToken(std::string_view token)
 }
 
 bool AuthMiddleware::isEnabled() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return !tokens_.empty() || jwt_enabled_ || kerberos_enabled_ || mtls_enabled_ || api_key_enabled_;
 }
 
+/**
+ * @brief Extract Bearer Token.
+ * @param[in] auth_header Input parameter.
+ * @return Return value.
+ * @details Calls: size(), substr(), token(), find_first_not_of(), find_last_not_of().
+ */
 std::optional<std::string> AuthMiddleware::extractBearerToken(std::string_view auth_header) {
     // Expected format: "Bearer <token>"
     constexpr std::string_view prefix = "Bearer ";
@@ -496,6 +576,11 @@ std::optional<AuthMiddleware::AuthContext> AuthMiddleware::extractContext(std::s
 }
 
 bool AuthMiddleware::isUSBAdminReady() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     if (!usb_admin_enabled_ || !usb_admin_auth_) {
         return false;
@@ -587,6 +672,11 @@ AuthMiddleware::AuthResult AuthMiddleware::authorizeViaKerberos(
         return AuthResult::OK(result.principal_name, "", {});  // Empty tenant_id - must be provided via header
 
         if (!required_scope.empty()) {
+            /**
+             * @brief Req.
+             * @param[in] required_scope Input parameter.
+             * @return Return value.
+             */
             const std::string req(required_scope);
             // Direct role match: role name == required_scope
             bool scope_ok = false;
@@ -685,14 +775,26 @@ AuthMiddleware::AuthResult AuthMiddleware::authorizeViaApiKey(
     }
 }
 
+/**
+ * @brief Set JWKSFor Testing.
+ * @param[in] jwks Input parameter.
+ */
 void AuthMiddleware::setJWKSForTesting(const nlohmann::json& jwks)
 {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     if (jwt_validator_) {
         jwt_validator_->setJWKSForTesting(jwks);
     }
 }
 
+/**
+ * @brief Load Role Scope Mapping.
+ */
 void AuthMiddleware::loadRoleScopeMapping()
 {
     // Called with mutex_ held.  Attempt to load config/security/rbac_roles.yaml.

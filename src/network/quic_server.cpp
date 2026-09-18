@@ -75,28 +75,22 @@ namespace themis::network {
 
 namespace {
 
-/// Mutex protecting OpenSSL RAND_bytes – required for pre-3.x OpenSSL builds
-/// where the DRBG does not hold per-thread state.  Modern OpenSSL (≥3.0) is
-/// thread-safe but the guard is cheap and silences the data_race scanner.
 std::mutex g_quic_rng_mutex;
 
-/// @brief Thread-safe wrapper around RAND_bytes.
-/// @param dest   Output buffer; must be non-null.
-/// @param len    Number of bytes to fill.
-/// @return 1 on success, 0 on error (same as RAND_bytes).
+/**
+ * @brief Safe Rand Bytes.
+ * @param[in,out] dest Input/output parameter.
+ * @param[in] len Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), RAND_bytes().
+ */
 int safeRandBytes(uint8_t *dest, size_t len) {
     std::lock_guard<std::mutex> lock(g_quic_rng_mutex);
     return RAND_bytes(dest, static_cast<int>(len));
 }
 
-/// Maximum ms to wait for a single I/O thread to join during shutdown.
-/// thread_join_no_timeout (W3): capped to prevent indefinite block.
 constexpr int kShutdownJoinTimeoutMs = 5000;
 
-/// @brief Join @p t within @p timeout_ms; log and detach on timeout.
-///
-/// @param t          Thread to join (moved into the internal watcher).
-/// @param timeout_ms Maximum wait time in milliseconds (default 5 s).
 static void timedJoin(std::thread &t, int timeout_ms = kShutdownJoinTimeoutMs) noexcept {
     if (!t.joinable())
         return;
@@ -116,6 +110,12 @@ static void timedJoin(std::thread &t, int timeout_ms = kShutdownJoinTimeoutMs) n
     }
 }
 
+/**
+ * @brief Fnv1a64.
+ * @param[in] value Input parameter.
+ * @return Return value.
+ * @details Implements fnv1a64 without additional internal calls.
+ */
 uint64_t fnv1a64(std::string_view value) {
     uint64_t hash = 1469598103934665603;
     for (unsigned char ch : value) {
@@ -125,6 +125,12 @@ uint64_t fnv1a64(std::string_view value) {
     return hash;
 }
 
+/**
+ * @brief Anonymize Peer For Log.
+ * @param[in] value Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), std::snprintf(), fnv1a64(), std::string().
+ */
 std::string anonymizePeerForLog(std::string_view value) {
     if (value.empty()) {
         return "peer#unknown";
@@ -134,13 +140,24 @@ std::string anonymizePeerForLog(std::string_view value) {
     return std::string(buffer);
 }
 
-/// Current time in nanoseconds (ngtcp2 timestamp unit).
+/**
+ * @brief Quic Server Now.
+ * @return Return value.
+ * @details Calls: std::chrono::steady_clock::now(), time_since_epoch(), count().
+ */
 static uint64_t quicServerNow() {
     return static_cast<uint64_t>(
         std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::steady_clock::now().time_since_epoch())
             .count());
 }
 
+/**
+ * @brief Quic Rand Bytes.
+ * @param[in,out] dest Input/output parameter.
+ * @param[in] destlen Input parameter.
+ * @param[in] param Input parameter.
+ * @details Calls: safeRandBytes(), std::memset().
+ */
 static void quicRandBytes(uint8_t *dest, size_t destlen, const ngtcp2_rand_ctx * /*rand_ctx*/) {
     if (!dest || destlen == 0) {
         return;
@@ -150,6 +167,14 @@ static void quicRandBytes(uint8_t *dest, size_t destlen, const ngtcp2_rand_ctx *
     }
 }
 
+/**
+ * @brief Quic Path Challenge Data.
+ * @param[in,out] param Input/output parameter.
+ * @param[in,out] data Input/output parameter.
+ * @param[in,out] param Input/output parameter.
+ * @return Return value.
+ * @details Calls: safeRandBytes(), std::memset().
+ */
 static int quicPathChallengeData(ngtcp2_conn * /*conn*/, uint8_t *data, void * /*user_data*/) {
     if (!data) {
         return NGTCP2_ERR_CALLBACK_FAILURE;
@@ -160,7 +185,11 @@ static int quicPathChallengeData(ngtcp2_conn * /*conn*/, uint8_t *data, void * /
     return 0;
 }
 
-/// Fill a ngtcp2_cid with cryptographically secure random bytes (OpenSSL).
+/**
+ * @brief Generate Server Cid.
+ * @param[in,out] cid Input/output parameter.
+ * @details Calls: safeRandBytes(), std::memset().
+ */
 static void generateServerCid(ngtcp2_cid *cid) {
     cid->datalen = NGTCP2_MIN_CIDLEN;
     if (safeRandBytes(cid->data, cid->datalen) != 1) {
@@ -169,7 +198,12 @@ static void generateServerCid(ngtcp2_cid *cid) {
     }
 }
 
-/// Map a congestion control name to the ngtcp2 enum value.
+/**
+ * @brief Resolve Cc Algo.
+ * @param[in] algo Input parameter.
+ * @return Return value.
+ * @details Calls: std::transform(), begin(), end(), std::tolower(), defined().
+ */
 static ngtcp2_cc_algo resolveCcAlgo(const std::string &algo) {
     // Normalize to lower-case comparison.
     std::string lower = algo;
@@ -259,7 +293,12 @@ SSL_CTX *QUICServer::createSslContext(const std::string &cert_path, const std::s
 // QUICServer — Validation helpers
 // ─────────────────────────────────────────────────────────────────────────────
 
-/* static */
+/**
+ * @brief static
+ * @param[in] algo Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: std::transform(), begin(), end(), std::tolower().
+ */
 bool QUICServer::isValidCongestionControl(const std::string &algo) {
     std::string lower = algo;
     std::transform(lower.begin(), lower.end(), lower.begin(),
@@ -267,7 +306,12 @@ bool QUICServer::isValidCongestionControl(const std::string &algo) {
     return lower == "bbr" || lower == "cubic";
 }
 
-/* static */
+/**
+ * @brief static
+ * @param[in] port Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements isValidPort without additional internal calls.
+ */
 bool QUICServer::isValidPort(uint16_t port) {
     if (port == 0 || port == 80 || port == 443) {
         return false;
@@ -289,6 +333,10 @@ bool QUICServer::isValidPort(uint16_t port) {
 // QUICServer — start / stop
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Start.
+ * @details Calls: load(), isValidCongestionControl(), THEMIS_ERROR(), reset(), createSslContext(), endpoint(), net::ip::make_address(), what().
+ */
 void QUICServer::start() {
     if (running_.load(std::memory_order_acquire)) {
         return;
@@ -336,6 +384,10 @@ void QUICServer::start() {
     }
 }
 
+/**
+ * @brief Stop.
+ * @details Calls: exchange(), lk(), clear(), close(), timedJoin(), restart(), reset(), THEMIS_INFO().
+ */
 void QUICServer::stop() {
     if (!running_.exchange(false, std::memory_order_acq_rel)) {
         return;
@@ -369,6 +421,10 @@ void QUICServer::stop() {
 // QUICServer — Receive loop
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Do Receive.
+ * @details Calls: async_receive_from(), net::buffer(), THEMIS_ERROR(), message(), data(), lk(), handlePacket(), load().
+ */
 void QUICServer::doReceive() {
     socket_->async_receive_from(net::buffer(recv_buf_), sender_endpoint_,
                                 [this](const boost::system::error_code &ec, std::size_t bytes) {
@@ -400,6 +456,13 @@ void QUICServer::doReceive() {
 // QUICServer — Packet handler
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Handle Packet.
+ * @param[in] sender Input parameter.
+ * @param[in] data Input parameter.
+ * @param[in] len Input parameter.
+ * @details Calls: address(), to_string(), std::to_string(), port(), lk(), find(), end(), std::memset().
+ */
 void QUICServer::handlePacket(const udp::endpoint &sender, const uint8_t *data, std::size_t len) {
     const std::string key = sender.address().to_string() + ":" + std::to_string(sender.port());
 
@@ -570,6 +633,11 @@ void QUICServer::handlePacket(const udp::endpoint &sender, const uint8_t *data, 
 // QUICServer — Connection limit
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Check Connection Limit.
+ * @return True when the operation succeeds.
+ * @details Calls: slk().
+ */
 bool QUICServer::checkConnectionLimit() {
     if (config_.max_connections == 0) {
         return true; // Unlimited
@@ -587,6 +655,11 @@ bool QUICServer::checkConnectionLimit() {
 // ─────────────────────────────────────────────────────────────────────────────
 
 QUICServer::Stats QUICServer::getStats() const {
+    /**
+     * @brief Lk.
+     * @param[in] stats_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(stats_mutex_);
     return stats_;
 }
@@ -603,6 +676,11 @@ QUICClient::Stream::~Stream() {
     }
 }
 
+/**
+ * @brief Send.
+ * @param[in] data Input parameter.
+ * @details Calls: load(), isConnected(), THEMIS_DEBUG(), size().
+ */
 void QUICClient::Stream::send(const std::vector<uint8_t> &data) {
     if (!open_.load(std::memory_order_acquire)) {
         return;
@@ -618,6 +696,11 @@ void QUICClient::Stream::send(const std::vector<uint8_t> &data) {
     THEMIS_DEBUG("[QUICClient::Stream] send {} bytes on stream {}",data.size(), stream_id_);
 }
 
+/**
+ * @brief Receive.
+ * @return Return value.
+ * @details Calls: lk(), swap().
+ */
 std::vector<uint8_t> QUICClient::Stream::receive() {
     std::lock_guard<std::mutex> lk(buf_mutex_);
     std::vector<uint8_t> out;
@@ -625,6 +708,10 @@ std::vector<uint8_t> QUICClient::Stream::receive() {
     return out;
 }
 
+/**
+ * @brief Close.
+ * @details Calls: exchange(), THEMIS_DEBUG().
+ */
 void QUICClient::Stream::close() {
     if (!open_.exchange(false, std::memory_order_acq_rel)) {
         return;
@@ -648,7 +735,14 @@ QUICClient::~QUICClient() {
     }
 }
 
-/* static */
+/**
+ * @brief static
+ * @param[in] url Input parameter.
+ * @param[in,out] host Input/output parameter.
+ * @param[in,out] port Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: size(), sv(), substr(), remove_prefix(), rfind(), std::string(), port_str(), empty().
+ */
 bool QUICClient::parseUrl(const std::string &url, std::string &host, uint16_t &port) {
     constexpr std::string_view kScheme = "quic://";
     if (url.size() <kScheme.size()) {
@@ -685,6 +779,11 @@ bool QUICClient::parseUrl(const std::string &url, std::string &host, uint16_t &p
     return !host.empty();
 }
 
+/**
+ * @brief Connect.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: load(), empty(), QUICServer::isValidCongestionControl(), ssl_ctx_guard(), SSL_CTX_new(), TLS_client_method(), SSL_CTX_set_min_proto_version(), get().
+ */
 void QUICClient::connect() {
     if (connected_.load(std::memory_order_acquire)) {
         return;
@@ -787,6 +886,10 @@ void QUICClient::connect() {
     THEMIS_INFO("[QUICClient] connected to {}:{} (cc={})", host_, port_, config_.congestion_control);
 }
 
+/**
+ * @brief Disconnect.
+ * @details Calls: exchange(), lk(), isOpen(), close(), clear(), reset(), THEMIS_INFO().
+ */
 void QUICClient::disconnect() {
     if (!connected_.exchange(false, std::memory_order_acq_rel)) {
         return;
@@ -809,6 +912,12 @@ void QUICClient::disconnect() {
     THEMIS_INFO("[QUICClient] disconnected from {}:{}", host_, port_);
 }
 
+/**
+ * @brief Open Stream.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: load(), lk(), get(), THEMIS_DEBUG().
+ */
 std::unique_ptr<QUICClient::Stream> QUICClient::openStream() {
     if (!connected_.load(std::memory_order_acquire)) {
         throw std::runtime_error("[QUICClient] openStream called when not connected");

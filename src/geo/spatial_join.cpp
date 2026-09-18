@@ -23,13 +23,13 @@
 namespace themis {
 namespace geo {
 
-// ---------------------------------------------------------------------------
-// Centroid extraction for distance computation
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- Centroid extraction for distance computation ---------------------------------------------------------------------------
+ * @param[in] geom Input parameter.
+ * @return Return value.
+ * @details Calls: isPoint(), empty(), computeCentroid().
+ */
 
-/// Return the representative point (lon, lat) for a geometry.
-/// For a Point the coordinate itself is used; for all other types the centroid
-/// computed by GeometryInfo::computeCentroid() is used.
 static Coordinate geometryCentroid(const GeometryInfo &geom) {
     if (geom.isPoint() && !geom.coords.empty()) {
         return geom.coords[0];
@@ -171,6 +171,11 @@ struct SpatialJoinIterator::Impl {
         loadCandidates();
     }
 
+    /**
+     * @brief Load Candidates.
+     * @throws std::invalid_argument if an error occurs.
+     * @details Calls: clear(), size(), computeMBR(), expand(), intersects().
+     */
     void loadCandidates() {
         candidates.clear();
         cand_idx = 0;
@@ -186,7 +191,12 @@ struct SpatialJoinIterator::Impl {
         candidates                 = index.intersects(search_box);
     }
 
-    /// Advance to the next valid pair.  Returns true on success.
+    /**
+     * @brief Advance an iterator within the validated range.
+     * @return None.
+     * @throws std::invalid_argument if an error occurs.
+     * @details Calls: size(), geometryCentroid(), find(), end(), haversineDistanceM(), THEMIS_WARN(), loadCandidates().
+     */
     bool advance() {
         if (exhausted) {
             return false;
@@ -254,6 +264,11 @@ SpatialJoinIterator::~SpatialJoinIterator()                                     
 SpatialJoinIterator::SpatialJoinIterator(SpatialJoinIterator &&) noexcept            = default;
 SpatialJoinIterator &SpatialJoinIterator::operator=(SpatialJoinIterator &&) noexcept = default;
 
+/**
+ * @brief Advance an iterator within the validated range.
+ * @return None.
+ * @details Implements advance without additional internal calls.
+ */
 bool SpatialJoinIterator::advance() {
     return impl_->advance();
 }

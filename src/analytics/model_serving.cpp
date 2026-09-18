@@ -98,6 +98,13 @@ inline double elapsedMs(std::chrono::steady_clock::time_point start) noexcept {
     return std::chrono::duration<double, std::milli>(end - start).count();
 }
 
+/**
+ * @brief Normalize Sha256 Hex Or Throw.
+ * @param[in] expected_sha256_hex Input parameter.
+ * @return Return value.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: size(), std::isxdigit(), std::tolower().
+ */
 std::string normalizeSha256HexOrThrow(const std::string& expected_sha256_hex) {
     if (expected_sha256_hex.size() != 64) {
         throw std::invalid_argument(
@@ -116,9 +123,13 @@ std::string normalizeSha256HexOrThrow(const std::string& expected_sha256_hex) {
     return normalized;
 }
 
-// ----------------------------------------------------------------------------
-// Latency helpers (caller must hold entry.health_mu)
-// ----------------------------------------------------------------------------
+/**
+ * @brief ---------------------------------------------------------------------------- Latency helpers (caller must hold entry.
+ * @param[in,out] e Input/output parameter.
+ * @param[in] ms Input parameter.
+ * @param[in] window Input parameter.
+ * @details health_mu) ---------------------------------------------------------------------------- Calls: push_back(), size(), pop_front(), sorted(), begin(), end(), std::sort().
+ */
 
 void recordLatency(ModelServingEntry &e, double ms, size_t window) {
     if (window == 0) {
@@ -143,6 +154,12 @@ void recordLatency(ModelServingEntry &e, double ms, size_t window) {
     e.health.p99_latency_ms = sorted[idx];
 }
 
+/**
+ * @brief Sha256 Hex.
+ * @param[in] input Input parameter.
+ * @return Return value.
+ * @details Calls: SHA256(), data(), size(), std::setfill(), std::setw(), str().
+ */
 std::string sha256Hex(std::string_view input) {
     unsigned char hash[SHA256_DIGEST_LENGTH];
     SHA256(reinterpret_cast<const unsigned char *>(input.data()),input.size(), hash);
@@ -211,6 +228,15 @@ std::shared_ptr<ModelServingEntry> ModelServingEngine::lookupEntryOrNull_(const 
 // registerModel
 // ============================================================================
 
+/**
+ * @brief Register Model.
+ * @param[in] name Input parameter.
+ * @param[in] version Input parameter.
+ * @param[in] model Input parameter.
+ * @throws std::invalid_argument if an error occurs.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: empty(), lock(), size(), std::to_string(), makeModelKey(), count(), task(), algorithm().
+ */
 void ModelServingEngine::registerModel(const std::string &name, const std::string &version, AutoMLModel model) {
     if (name.empty()) {
         throw std::invalid_argument("model name must not be empty");
@@ -256,6 +282,13 @@ void ModelServingEngine::registerModel(const std::string &name, const std::strin
 // unregisterModel
 // ============================================================================
 
+/**
+ * @brief Unregister Model.
+ * @param[in] name Input parameter.
+ * @param[in] version Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), erase(), makeModelKey().
+ */
 bool ModelServingEngine::unregisterModel(const std::string &name, const std::string &version) {
     std::unique_lock lock(impl_->mu);
     return impl_->registry.erase(makeModelKey(name, version)) > 0;
@@ -436,6 +469,14 @@ std::string ModelServingEngine::serializeModel(const std::string &name, const st
 // ============================================================================
 // loadModel
 // ============================================================================
+/**
+ * @brief Load Model.
+ * @param[in] name Input parameter.
+ * @param[in] version Input parameter.
+ * @param[in] serialized_data Input parameter.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: AutoMLModel::deserialize(), registerModel(), std::move().
+ */
 void ModelServingEngine::loadModel(const std::string &name, const std::string &version,
                                    const std::string &serialized_data) {
     if (impl_->config.require_model_integrity) {
@@ -446,6 +487,16 @@ void ModelServingEngine::loadModel(const std::string &name, const std::string &v
     registerModel(name, version, std::move(model));
 }
 
+/**
+ * @brief Load Model.
+ * @param[in] name Input parameter.
+ * @param[in] version Input parameter.
+ * @param[in] serialized_data Input parameter.
+ * @param[in] expected_sha256_hex Input parameter.
+ * @throws std::invalid_argument if an error occurs.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: empty(), normalizeSha256HexOrThrow(), sha256Hex(), AutoMLModel::deserialize(), registerModel(), std::move().
+ */
 void ModelServingEngine::loadModel(const std::string &name, const std::string &version,
                                    const std::string &serialized_data, const std::string &expected_sha256_hex) {
     if (expected_sha256_hex.empty()) {

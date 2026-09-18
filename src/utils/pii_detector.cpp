@@ -38,7 +38,7 @@ namespace {
  * @brief Is Boolean Literal.
  * @param[in] value Input parameter.
  * @param[in,out] parsed Input/output parameter.
- * @return True on success.
+ * @return True when the operation succeeds.
  * @details Calls: reserve(), size(), push_back(), std::tolower().
  */
 bool isBooleanLiteral(const std::string& value, bool& parsed) {
@@ -65,7 +65,7 @@ bool isBooleanLiteral(const std::string& value, bool& parsed) {
  * @brief Try Parse Int.
  * @param[in] value Input parameter.
  * @param[in,out] parsed Input/output parameter.
- * @return True on success.
+ * @return True when the operation succeeds.
  * @details Calls: data(), size(), std::from_chars().
  */
 bool tryParseInt(const std::string& value, int& parsed) {
@@ -79,7 +79,7 @@ bool tryParseInt(const std::string& value, int& parsed) {
  * @brief Try Parse Double.
  * @param[in] value Input parameter.
  * @param[in,out] parsed Input/output parameter.
- * @return True on success.
+ * @return True when the operation succeeds.
  * @details Calls: std::strtod(), c_str(), size().
  */
 bool tryParseDouble(const std::string& value, double& parsed) {
@@ -115,16 +115,11 @@ PIIDetector::PIIDetector(std::string config_path,
 
 /**
  * @brief Reload.
- * @param[in] config_path Input parameter.
- * @return True on success.
+ * @param[in] config_path Path to the retention policy configuration file.
+ * @return True when the operation succeeds.
  * @details Calls: lock(), empty(), std::move(), clear(), loadFromYaml(), spdlog::error(), logErrorWithContext(), makeErrorContext().
  */
 bool PIIDetector::reload(const std::string& config_path) {
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::scoped_lock lock(mutex_);
     
     std::string path = config_path.empty() ? config_path_ : config_path;
@@ -160,11 +155,6 @@ bool PIIDetector::reload(const std::string& config_path) {
  * @details Calls: lock().
  */
 void PIIDetector::setPKIClient(std::shared_ptr<VCCPKIClient> pki_client) {
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::scoped_lock lock(mutex_);
     pki_client_ = pki_client;
 }
@@ -335,7 +325,7 @@ nlohmann::json PIIDetector::getEngineMetadata() const {
 /**
  * @brief Load From Yaml.
  * @param[in] path Input parameter.
- * @return True on success.
+ * @return True when the operation succeeds.
  * @details Calls: themis::config::ConfigPathResolver::tryResolve(), std::filesystem::exists(), std::filesystem::path(), is_absolute(), std::filesystem::current_path(), parent_path(), string(), YAML::LoadFile().
  */
 bool PIIDetector::loadFromYaml(const std::string& path) {
@@ -521,7 +511,7 @@ void PIIDetector::initializeDefaultEngine() {
 /**
  * @brief Verify And Load Engine.
  * @param[in] engine_config Input parameter.
- * @return True on success.
+ * @return True when the operation succeeds.
  * @details Calls: value(), empty(), spdlog::warn(), spdlog::info(), themis::utils::PIIDetectionEngineFactory::createSigned(), spdlog::error(), error(), message().
  */
 bool PIIDetector::verifyAndLoadEngine(const nlohmann::json& engine_config) {

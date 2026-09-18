@@ -31,7 +31,17 @@ namespace http = beast::http;
 static const unsigned char alpn_proto_list[] = "\x02h2\x08http/1.1";
 static const size_t alpn_proto_list_len = sizeof(alpn_proto_list) - 1;
 
-// ALPN callback for selecting HTTP/2
+/**
+ * @brief ALPN callback for selecting HTTP/2
+ * @param[in,out] ssl Input/output parameter.
+ * @param[in] out Input parameter.
+ * @param[in,out] outlen Input/output parameter.
+ * @param[in] in Input parameter.
+ * @param[in] inlen Input parameter.
+ * @param[in,out] arg Input/output parameter.
+ * @return Return value.
+ * @details Calls: SSL_select_next_proto().
+ */
 static int alpn_select_callback(SSL* ssl, const unsigned char** out,
                                 unsigned char* outlen, const unsigned char* in,
                                 unsigned int inlen, void* arg) {
@@ -43,12 +53,23 @@ static int alpn_select_callback(SSL* ssl, const unsigned char** out,
     return SSL_TLSEXT_ERR_NOACK;
 }
 
+/**
+ * @brief Configure Alpn.
+ * @param[in,out] ssl_ctx Input/output parameter.
+ * @details Calls: native_handle(), SSL_CTX_set_alpn_select_cb(), THEMIS_INFO().
+ */
 void Http2Handler::configureAlpn(boost::asio::ssl::context& ssl_ctx) {
     SSL_CTX* native_ctx = ssl_ctx.native_handle();
     SSL_CTX_set_alpn_select_cb(native_ctx, alpn_select_callback, nullptr);
     THEMIS_INFO("HTTP/2 ALPN configured (h2, http/1.1)");
 }
 
+/**
+ * @brief Is Http2 Negotiated.
+ * @param[in,out] ssl Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: SSL_get0_alpn_selected(), std::memcmp(), THEMIS_DEBUG().
+ */
 bool Http2Handler::isHttp2Negotiated(SSL* ssl) {
     const unsigned char* alpn = nullptr;
     unsigned int alpn_len = 0;
@@ -62,6 +83,17 @@ bool Http2Handler::isHttp2Negotiated(SSL* ssl) {
     return false;
 }
 
+/**
+ * @brief Create a session for an authenticated user.
+ * @param[in] socket Input parameter.
+ * @param[in,out] ssl_ctx Input/output parameter.
+ * @param[in,out] server Input/output parameter.
+ * @param[in] max_concurrent_streams Input parameter.
+ * @param[in] initial_window_size Input parameter.
+ * @param[in] connection_slot_reserved Input parameter.
+ * @return Session token.
+ * @details Calls: std::move().
+ */
 std::shared_ptr<Http2Session> Http2Handler::createSession(
     tcp::socket socket,
     boost::asio::ssl::context& ssl_ctx,
@@ -112,10 +144,18 @@ Http2Session::~Http2Session() {
     server_->active_connections_.fetch_sub(1, std::memory_order_relaxed);
 }
 
+/**
+ * @brief Start.
+ * @details Calls: doHandshake().
+ */
 void Http2Session::start() {
     doHandshake();
 }
 
+/**
+ * @brief Do Handshake.
+ * @details Calls: shared_from_this(), armReadTimer(), async_handshake(), onHandshake().
+ */
 void Http2Session::doHandshake() {
     auto self = shared_from_this();
     armReadTimer();
@@ -127,6 +167,11 @@ void Http2Session::doHandshake() {
     );
 }
 
+/**
+ * @brief On Handshake.
+ * @param[in] ec Input parameter.
+ * @details Calls: cancelReadTimer(), THEMIS_ERROR(), message(), Http2Handler::isHttp2Negotiated(), native_handle(), THEMIS_WARN(), nghttp2_session_callbacks_new(), nghttp2_session_callbacks_set_send_callback().
+ */
 void Http2Session::onHandshake(boost::system::error_code ec) {
     cancelReadTimer();
     if (ec) {
@@ -181,6 +226,10 @@ void Http2Session::onHandshake(boost::system::error_code ec) {
     doWrite();
 }
 
+/**
+ * @brief Do Read.
+ * @details Calls: shared_from_this(), armReadTimer(), async_read_some(), boost::asio::buffer(), onRead().
+ */
 void Http2Session::doRead() {
     auto self = shared_from_this();
     armReadTimer();
@@ -192,6 +241,12 @@ void Http2Session::doRead() {
     );
 }
 
+/**
+ * @brief On Read.
+ * @param[in] ec Input parameter.
+ * @param[in] bytes_transferred Input parameter.
+ * @details Calls: cancelReadTimer(), THEMIS_ERROR(), message(), nghttp2_session_mem_recv(), data(), nghttp2_strerror(), doWrite(), doRead().
+ */
 void Http2Session::onRead(boost::system::error_code ec, std::size_t bytes_transferred) {
     cancelReadTimer();
     if (ec) {
@@ -211,6 +266,10 @@ void Http2Session::onRead(boost::system::error_code ec, std::size_t bytes_transf
     doRead();
 }
 
+/**
+ * @brief Do Write.
+ * @details Calls: nghttp2_session_mem_send(), THEMIS_ERROR(), nghttp2_strerror(), assign(), shared_from_this(), armWriteTimer(), boost::asio::async_write(), boost::asio::buffer().
+ */
 void Http2Session::doWrite() {
     const uint8_t* data;
     ssize_t datalen = nghttp2_session_mem_send(ng2_session_, &data);
@@ -237,6 +296,12 @@ void Http2Session::doWrite() {
     );
 }
 
+/**
+ * @brief On Write.
+ * @param[in] ec Input parameter.
+ * @param[in] bytes_transferred Input parameter.
+ * @details Calls: cancelWriteTimer(), THEMIS_ERROR(), message(), THEMIS_DEBUG().
+ */
 void Http2Session::onWrite(boost::system::error_code ec, std::size_t bytes_transferred) {
     cancelWriteTimer();
     if (ec) {
@@ -246,6 +311,10 @@ void Http2Session::onWrite(boost::system::error_code ec, std::size_t bytes_trans
     THEMIS_DEBUG("HTTP/2 wrote {} bytes", bytes_transferred);
 }
 
+/**
+ * @brief Arm Read Timer.
+ * @details Calls: load(), expires_after(), std::chrono::milliseconds(), weak_from_this(), async_wait(), lock(), THEMIS_WARN(), lowest_layer().
+ */
 void Http2Session::armReadTimer() {
     const uint32_t timeout_ms = server_->hot_request_timeout_ms_.load(std::memory_order_acquire);
     if (timeout_ms == 0) {
@@ -274,10 +343,18 @@ void Http2Session::armReadTimer() {
     });
 }
 
+/**
+ * @brief Cancel Read Timer.
+ * @details Calls: cancel().
+ */
 void Http2Session::cancelReadTimer() {
     read_timer_.cancel();
 }
 
+/**
+ * @brief Arm Write Timer.
+ * @details Calls: load(), expires_after(), std::chrono::milliseconds(), weak_from_this(), async_wait(), lock(), THEMIS_WARN(), lowest_layer().
+ */
 void Http2Session::armWriteTimer() {
     const uint32_t timeout_ms = server_->hot_request_timeout_ms_.load(std::memory_order_acquire);
     if (timeout_ms == 0) {
@@ -306,6 +383,10 @@ void Http2Session::armWriteTimer() {
     });
 }
 
+/**
+ * @brief Cancel Write Timer.
+ * @details Calls: cancel().
+ */
 void Http2Session::cancelWriteTimer() {
     write_timer_.cancel();
 }
@@ -314,12 +395,30 @@ void Http2Session::cancelWriteTimer() {
 // nghttp2 Callbacks
 // ============================================================================
 
+/**
+ * @brief Send Callback.
+ * @param[in,out] param Input/output parameter.
+ * @param[in] data Input parameter.
+ * @param[in] length Input parameter.
+ * @param[in] int Input parameter.
+ * @param[in,out] param Input/output parameter.
+ * @return Return value.
+ * @details Implements sendCallback without additional internal calls.
+ */
 ssize_t Http2Session::sendCallback(nghttp2_session* /*session*/, const uint8_t* data,
                                    size_t length, int /*flags*/, void* /*user_data*/) {
     // Data will be sent via mem_send, this callback is not used in our implementation
     return (ssize_t)length;
 }
 
+/**
+ * @brief On Frame Recv Callback.
+ * @param[in,out] param Input/output parameter.
+ * @param[in] frame Input parameter.
+ * @param[in,out] user_data Input/output parameter.
+ * @return Return value.
+ * @details Calls: THEMIS_DEBUG().
+ */
 int Http2Session::onFrameRecvCallback(nghttp2_session* /*session*/,
                                       const nghttp2_frame* frame, void* user_data) {
     auto* self = static_cast<Http2Session*>(user_data);
@@ -334,6 +433,17 @@ int Http2Session::onFrameRecvCallback(nghttp2_session* /*session*/,
     return 0;
 }
 
+/**
+ * @brief On Data Chunk Recv Callback.
+ * @param[in,out] param Input/output parameter.
+ * @param[in] uint8_t Input parameter.
+ * @param[in] stream_id Identifier of the stream.
+ * @param[in] data Input parameter.
+ * @param[in] len Input parameter.
+ * @param[in,out] user_data Input/output parameter.
+ * @return Return value.
+ * @details Calls: find(), end(), append().
+ */
 int Http2Session::onDataChunkRecvCallback(nghttp2_session* /*session*/, uint8_t /*flags*/,
                                           int32_t stream_id, const uint8_t* data,
                                           size_t len, void* user_data) {
@@ -347,6 +457,15 @@ int Http2Session::onDataChunkRecvCallback(nghttp2_session* /*session*/, uint8_t 
     return 0;
 }
 
+/**
+ * @brief On Stream Close Callback.
+ * @param[in,out] param Input/output parameter.
+ * @param[in] stream_id Identifier of the stream.
+ * @param[in] uint32_t Input parameter.
+ * @param[in,out] user_data Input/output parameter.
+ * @return Return value.
+ * @details Calls: lock(), erase(), processStream().
+ */
 int Http2Session::onStreamCloseCallback(nghttp2_session* /*session*/, int32_t stream_id,
                                         uint32_t /*error_code*/, void* user_data) {
     auto* self = static_cast<Http2Session*>(user_data);
@@ -368,6 +487,18 @@ int Http2Session::onStreamCloseCallback(nghttp2_session* /*session*/, int32_t st
     return 0;
 }
 
+/**
+ * @brief Response Data Read Callback.
+ * @param[in,out] param Input/output parameter.
+ * @param[in] stream_id Identifier of the stream.
+ * @param[in,out] buf Input/output parameter.
+ * @param[in] length Input parameter.
+ * @param[in,out] data_flags Input/output parameter.
+ * @param[in,out] param Input/output parameter.
+ * @param[in,out] user_data Input/output parameter.
+ * @return Return value.
+ * @details Calls: lock(), find(), end(), size(), std::min(), std::memcpy(), data(), erase().
+ */
 ssize_t Http2Session::responseDataReadCallback(nghttp2_session* /*session*/, int32_t stream_id,
                                                uint8_t* buf, size_t length, uint32_t* data_flags,
                                                nghttp2_data_source* /*source*/, void* user_data) {
@@ -403,6 +534,19 @@ ssize_t Http2Session::responseDataReadCallback(nghttp2_session* /*session*/, int
     return static_cast<ssize_t>(to_copy);
 }
 
+/**
+ * @brief On Header Callback.
+ * @param[in,out] param Input/output parameter.
+ * @param[in] frame Input parameter.
+ * @param[in] name Input parameter.
+ * @param[in] namelen Input parameter.
+ * @param[in] value Input parameter.
+ * @param[in] valuelen Input parameter.
+ * @param[in] uint8_t Input parameter.
+ * @param[in,out] user_data Input/output parameter.
+ * @return Return value.
+ * @details Calls: header_name(), header_value().
+ */
 int Http2Session::onHeaderCallback(nghttp2_session* /*session*/,
                                    const nghttp2_frame* frame,
                                    const uint8_t* name, size_t namelen,
@@ -437,6 +581,11 @@ int Http2Session::onHeaderCallback(nghttp2_session* /*session*/,
 // Request Processing
 // ============================================================================
 
+/**
+ * @brief Process Stream.
+ * @param[in] stream_id Identifier of the stream.
+ * @details Calls: find(), end(), THEMIS_INFO(), method(), THEMIS_WARN(), sendResponse(), target(), version().
+ */
 void Http2Session::processStream(int32_t stream_id) {
     auto it = streams_.find(stream_id);
     if (it == streams_.end()) {
@@ -578,6 +727,11 @@ void Http2Session::sendResponse(int32_t stream_id, int status,
     
     auto resp_buffer = std::make_shared<ResponseBuffer>(ResponseBuffer{body, 0});
     {
+        /**
+         * @brief Lock.
+         * @param[in] response_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(response_mutex_);
         response_buffers_[stream_id] = resp_buffer;
     }
@@ -589,6 +743,11 @@ void Http2Session::sendResponse(int32_t stream_id, int status,
     int rv = nghttp2_submit_response(ng2_session_, stream_id, nva.data(),nva.size(), &data_prd);
     if (rv != 0) {
         THEMIS_ERROR("nghttp2_submit_response failed: {}", nghttp2_strerror(rv));
+        /**
+         * @brief Lock.
+         * @param[in] response_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(response_mutex_);
         response_buffers_.erase(stream_id);
     }
@@ -603,6 +762,11 @@ void Http2Session::sendResponse(int32_t stream_id, int status,
 void Http2Session::sendServerPush(int32_t stream_id, const std::string& push_path,
                                   const std::string& body,
                                   const std::unordered_map<std::string, std::string>& headers) {
+    /**
+     * @brief Lock.
+     * @param[in] push_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(push_mutex_);
     
     // Create push promise headers
@@ -695,6 +859,11 @@ void Http2Session::sendServerPush(int32_t stream_id, const std::string& push_pat
     
     auto resp_buffer = std::make_shared<ResponseBuffer>(ResponseBuffer{body, 0});
     {
+        /**
+         * @brief Lock.
+         * @param[in] response_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(response_mutex_);
         response_buffers_[promised_stream_id] = resp_buffer;
     }
@@ -707,6 +876,11 @@ void Http2Session::sendServerPush(int32_t stream_id, const std::string& push_pat
                                   response_nva.size(), &data_prd);
     if (rv != 0) {
         THEMIS_ERROR("nghttp2_submit_response for push failed: {}", nghttp2_strerror(rv));
+        /**
+         * @brief Lock.
+         * @param[in] response_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(response_mutex_);
         response_buffers_.erase(promised_stream_id);
         return;
@@ -715,6 +889,11 @@ void Http2Session::sendServerPush(int32_t stream_id, const std::string& push_pat
     doWrite();
 }
 
+/**
+ * @brief Subscribe To CDC.
+ * @param[in] stream_id Identifier of the stream.
+ * @details Calls: lock(), insert(), THEMIS_INFO().
+ */
 void Http2Session::subscribeToCDC(int32_t stream_id) {
     std::lock_guard<std::mutex> lock(push_mutex_);
     cdc_subscribed_streams_.insert(stream_id);
@@ -726,6 +905,11 @@ void Http2Session::subscribeToCDC(int32_t stream_id) {
     THEMIS_INFO("HTTP/2 stream {} subscribed to CDC with Server Push", stream_id);
 }
 
+/**
+ * @brief Broadcast CDCEvent.
+ * @param[in] event_data Input parameter.
+ * @details Calls: lock(), find(), end(), std::to_string(), sendServerPush(), THEMIS_DEBUG().
+ */
 void Http2Session::broadcastCDCEvent(const std::string& event_data) {
     std::lock_guard<std::mutex> lock(push_mutex_);
     

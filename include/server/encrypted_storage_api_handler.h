@@ -49,25 +49,8 @@ class RocksDBWrapper;
 
 namespace server {
 
-/**
- * @brief HTTP handler for user encrypted storage endpoints.
- *
- * Wraps `themis::plugins::user_storage::MultiLevelEncryptedStorage` and exposes store/
- * retrieve/delete/list/rotate operations via an authenticated REST API.
- *
- * ### Thread safety
- * All public methods are thread-safe. The underlying storage implementation
- * provides its own internal synchronisation.
- */
 class EncryptedStorageApiHandler {
 public:
-    /**
-     * @brief Construct the encrypted storage handler.
-     *
-     * @param storage        RocksDB storage backend (for non-encrypted metadata).
-     * @param auth           Authentication/authorisation middleware.
-     * @param enc_storage    Shared encrypted storage plugin instance.
-     */
     EncryptedStorageApiHandler(
         std::shared_ptr<RocksDBWrapper>                               storage,
         std::shared_ptr<themis::AuthMiddleware>                       auth,
@@ -80,32 +63,55 @@ public:
     EncryptedStorageApiHandler& operator=(const EncryptedStorageApiHandler&) = delete;
 
     /**
-     * @brief Dispatch a user encrypted storage request.
-     *
-     * @param req    Parsed HTTP request.
-     * @param target URL target path.
-     * @return       HTTP response.
+     * @brief Handle.
+     * @param[in] req Input parameter.
+     * @param[in] target Input parameter.
+     * @return Return value.
      */
     http::response<http::string_body> handle(
         const http::request<http::string_body>& req,
         const std::string&                      target);
 
 private:
-    /// @name Route handlers
-    /// @{
+    /**
+     * @brief Handle Store.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleStore(
         const http::request<http::string_body>& req);
+    /**
+     * @brief Handle Retrieve.
+     * @param[in] req Input parameter.
+     * @param[in] key Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleRetrieve(
         const http::request<http::string_body>& req,
         const std::string&                      key);
+    /**
+     * @brief Handle Delete.
+     * @param[in] req Input parameter.
+     * @param[in] key Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleDelete(
         const http::request<http::string_body>& req,
         const std::string&                      key);
+    /**
+     * @brief Handle List.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleList(
         const http::request<http::string_body>& req);
+    /**
+     * @brief Handle Rotate.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleRotate(
         const http::request<http::string_body>& req);
-    /// @}
 
     std::shared_ptr<RocksDBWrapper>                              storage_;
     std::shared_ptr<themis::AuthMiddleware>                      auth_;

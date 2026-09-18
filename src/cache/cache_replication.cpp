@@ -32,6 +32,11 @@ namespace cache {
 // Helpers
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Now Ms.
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::now(), time_since_epoch(), count().
+ */
 static int64_t nowMs() {
     return std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch())
         .count();
@@ -59,6 +64,12 @@ CacheReplicationManager::CacheReplicationManager(const CacheReplicationConfig &c
 // Replica registration
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Add Replica.
+ * @param[in] listener Input parameter.
+ * @param[in] snapshot_ndjson Input parameter.
+ * @details Calls: THEMIS_WARN(), replicaId(), lock(), erase(), std::remove_if(), begin(), end(), std::move().
+ */
 void CacheReplicationManager::addReplica(std::shared_ptr<ICacheReplicationListener> listener,
                                          const std::string &snapshot_ndjson) {
     if (!listener) {
@@ -97,6 +108,11 @@ void CacheReplicationManager::addReplica(std::shared_ptr<ICacheReplicationListen
     }
 }
 
+/**
+ * @brief Remove Replica.
+ * @param[in] replica_id Identifier of the replica.
+ * @details Calls: lock(), erase(), std::remove_if(), begin(), end(), replicaId(), THEMIS_INFO().
+ */
 void CacheReplicationManager::removeReplica(const std::string &replica_id) {
     std::lock_guard<std::mutex> lock(replicas_mutex_);
     replicas_.erase(std::remove_if(replicas_.begin(), replicas_.end(),
@@ -108,6 +124,11 @@ void CacheReplicationManager::removeReplica(const std::string &replica_id) {
 }
 
 size_t CacheReplicationManager::replicaCount() const {
+    /**
+     * @brief Lock.
+     * @param[in] replicas_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(replicas_mutex_);
     return replicas_.size();
 }
@@ -116,6 +137,10 @@ size_t CacheReplicationManager::replicaCount() const {
 // Health probing
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Probe Unhealthy Replicas.
+ * @details Calls: lock(), ping(), THEMIS_WARN(), replicaId(), what(), std::chrono::steady_clock::now(), THEMIS_INFO(), store().
+ */
 void CacheReplicationManager::probeUnhealthyReplicas() {
     std::lock_guard<std::mutex> lock(replicas_mutex_);
     uint64_t unhealthy_count = 0;
@@ -159,6 +184,12 @@ void CacheReplicationManager::probeUnhealthyReplicas() {
 // ICacheReplicationListener – fan-out implementation
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief On Replication Event.
+ * @param[in] event Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: dispatch().
+ */
 bool CacheReplicationManager::onReplicationEvent(const CacheReplicationEvent &event) {
     if (!config_.enabled) {
         return true;
@@ -167,6 +198,11 @@ bool CacheReplicationManager::onReplicationEvent(const CacheReplicationEvent &ev
     return true;
 }
 
+/**
+ * @brief Ping.
+ * @return True when the operation succeeds.
+ * @details Implements ping without additional internal calls.
+ */
 bool CacheReplicationManager::ping() {
     return true;
 }
@@ -175,6 +211,14 @@ bool CacheReplicationManager::ping() {
 // Convenience helpers
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Notify Write.
+ * @param[in] key Input parameter.
+ * @param[in] payload Input parameter.
+ * @param[in] tenant_id Identifier of the tenant.
+ * @param[in] ttl_seconds Input parameter.
+ * @details Calls: makeEvent(), dispatch().
+ */
 void CacheReplicationManager::notifyWrite(const std::string &key, const std::string &payload,
                                           const std::string &tenant_id, int ttl_seconds) {
     if (!config_.enabled) {
@@ -189,6 +233,11 @@ void CacheReplicationManager::notifyWrite(const std::string &key, const std::str
     dispatch(ev);
 }
 
+/**
+ * @brief Notify Invalidate.
+ * @param[in] pattern Input parameter.
+ * @details Calls: makeEvent(), dispatch().
+ */
 void CacheReplicationManager::notifyInvalidate(const std::string &pattern) {
     if (!config_.enabled) {
         return;
@@ -199,6 +248,11 @@ void CacheReplicationManager::notifyInvalidate(const std::string &pattern) {
     dispatch(ev);
 }
 
+/**
+ * @brief Notify Invalidate Tenant.
+ * @param[in] tenant_id Identifier of the tenant.
+ * @details Calls: makeEvent(), dispatch().
+ */
 void CacheReplicationManager::notifyInvalidateTenant(const std::string &tenant_id) {
     if (!config_.enabled) {
         return;
@@ -222,6 +276,11 @@ nlohmann::json CacheReplicationManager::getStats() const {
 }
 
 nlohmann::json CacheReplicationManager::getReplicaHealth() const {
+    /**
+     * @brief Lock.
+     * @param[in] replicas_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(replicas_mutex_);
     nlohmann::json arr = nlohmann::json::array();
     for (const auto &state : replicas_) {
@@ -240,6 +299,11 @@ nlohmann::json CacheReplicationManager::getReplicaHealth() const {
 // Internal dispatch
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Dispatch.
+ * @param[in] event Input parameter.
+ * @details Calls: lock(), onReplicationEvent(), THEMIS_WARN(), replicaId(), what(), std::chrono::steady_clock::now(), store(), empty().
+ */
 void CacheReplicationManager::dispatch(const CacheReplicationEvent &event) {
     std::lock_guard<std::mutex> lock(replicas_mutex_);
 

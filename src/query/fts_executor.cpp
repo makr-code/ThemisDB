@@ -27,11 +27,6 @@ using Clock = std::chrono::steady_clock;
  */
 std::vector<std::string> split(const std::string& value, char delim) {
   std::vector<std::string> out;
-  /**
-   * @brief Ss.
-   * @param[in] value Input parameter.
-   * @return Return value.
-   */
   std::stringstream ss(value);
   std::string token;
   while (std::getline(ss, token, delim)) {
@@ -111,7 +106,7 @@ class DirectoryFtsIndex final : public FtsIndex {
  public:
   /**
    * @brief Directory Fts Index.
-   * @param[in] index_path Input parameter.
+   * @param[in] index_path Path to the index.
    * @return Return value.
    */
   explicit DirectoryFtsIndex(std::filesystem::path index_path)
@@ -119,7 +114,7 @@ class DirectoryFtsIndex final : public FtsIndex {
 
   /**
    * @brief Initialize.
-   * @return True on success.
+   * @return True when the operation succeeds.
    * @details Calls: std::filesystem::create_directories(), loadFromDisk().
    */
   bool initialize() {
@@ -257,15 +252,10 @@ class DirectoryFtsIndex final : public FtsIndex {
  private:
   /**
    * @brief Load From Disk.
-   * @return True on success.
+   * @return True when the operation succeeds.
    * @details Calls: lock(), clear(), std::filesystem::exists(), in(), good(), std::getline(), split(), size().
    */
   bool loadFromDisk() {
-    /**
-     * @brief Lock.
-     * @param[in] mu_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lock(mu_);
     postings_.clear();
     documents_.clear();
@@ -273,11 +263,6 @@ class DirectoryFtsIndex final : public FtsIndex {
 
     const auto docs_file = index_path_ / "docs.tsv";
     if (std::filesystem::exists(docs_file)) {
-      /**
-       * @brief In.
-       * @param[in] docs_file Input parameter.
-       * @return Return value.
-       */
       std::ifstream in(docs_file);
       if (!in.good()) {
         healthy_ = false;
@@ -301,11 +286,6 @@ class DirectoryFtsIndex final : public FtsIndex {
 
     const auto postings_file = index_path_ / "postings.tsv";
     if (std::filesystem::exists(postings_file)) {
-      /**
-       * @brief In.
-       * @param[in] postings_file Input parameter.
-       * @return Return value.
-       */
       std::ifstream in(postings_file);
       if (!in.good()) {
         healthy_ = false;
@@ -348,12 +328,6 @@ class DirectoryFtsIndex final : public FtsIndex {
    */
   void persistToDiskUnsafe() {
     const auto docs_file = index_path_ / "docs.tsv";
-    /**
-     * @brief Docs out.
-     * @param[in] docs_file Input parameter.
-     * @param[in] trunc Input parameter.
-     * @return Return value.
-     */
     std::ofstream docs_out(docs_file, std::ios::trunc);
     if (!docs_out.good()) {
       healthy_ = false;
@@ -372,12 +346,6 @@ class DirectoryFtsIndex final : public FtsIndex {
     }
 
     const auto postings_file = index_path_ / "postings.tsv";
-    /**
-     * @brief Postings out.
-     * @param[in] postings_file Input parameter.
-     * @param[in] trunc Input parameter.
-     * @return Return value.
-     */
     std::ofstream postings_out(postings_file, std::ios::trunc);
     if (!postings_out.good()) {
       healthy_ = false;
@@ -417,7 +385,7 @@ class DirectoryFtsIndex final : public FtsIndex {
 
   /**
    * @brief Erase Document Unsafe.
-   * @param[in] doc_id Input parameter.
+   * @param[in] doc_id Identifier of the doc.
    * @details Calls: erase(), begin(), end(), std::remove_if(), empty().
    */
   void eraseDocumentUnsafe(uint64_t doc_id) {
@@ -517,7 +485,7 @@ SearchNode annotateNodeForDoc(const SearchNode& node,
  * @param[in] previous_position Input parameter.
  * @param[in] max_gap Input parameter.
  * @param[in] exact_phrase Input parameter.
- * @return True on success.
+ * @return True when the operation succeeds.
  * @details Calls: size(), std::upper_bound(), begin(), end().
  */
 bool matchPhraseTermsRecursive(
@@ -554,7 +522,7 @@ bool matchPhraseTermsRecursive(
  * @brief Doc Matches Query.
  * @param[in] node Input parameter.
  * @param[in] doc Input parameter.
- * @return True on success.
+ * @return True when the operation succeeds.
  * @details Calls: find(), normalizeTerm(), end(), extractNormalizedTerms(), empty(), size(), front(), reserve().
  */
 bool docMatchesQuery(const SearchNode& node, const IntermediateDocResult& doc) {
@@ -609,7 +577,7 @@ bool docMatchesQuery(const SearchNode& node, const IntermediateDocResult& doc) {
 
 /**
  * @brief Open.
- * @param[in] index_path Input parameter.
+ * @param[in] index_path Path to the index.
  * @return Return value.
  * @details Calls: empty(), std::filesystem::path(), initialize().
  */
@@ -644,11 +612,6 @@ FtsExecutor::~FtsExecutor() = default;
  */
 Result<std::vector<SearchResult>> FtsExecutor::execute(const SearchNode& query,
                                                        const ExecutionOptions& options) {
-  /**
-   * @brief Lock.
-   * @param[in] index_lock_ Input parameter.
-   * @return Return value.
-   */
   std::shared_lock<std::shared_mutex> lock(index_lock_);
   return traverseAndScore(query, options);
 }
@@ -662,11 +625,6 @@ Result<std::vector<SearchResult>> FtsExecutor::execute(const SearchNode& query,
  */
 Result<std::vector<std::vector<SearchResult>>> FtsExecutor::executeBatch(
     const std::vector<SearchNode>& queries, const ExecutionOptions& options) {
-  /**
-   * @brief Lock.
-   * @param[in] index_lock_ Input parameter.
-   * @return Return value.
-   */
   std::shared_lock<std::shared_mutex> lock(index_lock_);
   if (!index_) {
     return tl::unexpected(FtsError::INDEX_NOT_FOUND);
@@ -695,12 +653,6 @@ Result<std::vector<std::vector<SearchResult>>> FtsExecutor::executeBatch(
  */
 Result<void> FtsExecutor::updateIndex(const IndexUpdateBatch& updates) {
   auto deadline = Clock::now() + std::chrono::milliseconds(200);
-  /**
-   * @brief Lock.
-   * @param[in] index_lock_ Input parameter.
-   * @param[in] defer_lock Input parameter.
-   * @return Return value.
-   */
   std::unique_lock<std::shared_mutex> lock(index_lock_, std::defer_lock);
   while (!lock.try_lock()) {
     if (Clock::now() >= deadline) {

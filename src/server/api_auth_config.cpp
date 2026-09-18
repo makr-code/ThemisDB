@@ -57,6 +57,11 @@ std::optional<EndpointAuthConfig> ApiAuthConfig::getEndpointConfig(const std::st
     return std::nullopt;
 }
 
+/**
+ * @brief Create Secure Defaults.
+ * @return Return value.
+ * @details Implements createSecureDefaults without additional internal calls.
+ */
 ApiAuthConfig ApiAuthConfig::createSecureDefaults() {
     ApiAuthConfig config;
     config.auth_enabled = true;
@@ -164,6 +169,11 @@ ApiAuthConfig ApiAuthConfig::createSecureDefaults() {
     return config;
 }
 
+/**
+ * @brief Create Dev Defaults.
+ * @return Return value.
+ * @details Implements createDevDefaults without additional internal calls.
+ */
 ApiAuthConfig ApiAuthConfig::createDevDefaults() {
     ApiAuthConfig config;
     config.auth_enabled = false;

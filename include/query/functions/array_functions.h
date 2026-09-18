@@ -24,9 +24,6 @@ namespace functions {
 // Array Functions
 // ============================================================================
 
-/**
- * @brief FIRST(array) - Get first element
- */
 class FirstFunction : public IFunction {
 public:
     ~FirstFunction() override = default;
@@ -52,9 +49,6 @@ public:
     }
 };
 
-/**
- * @brief LAST(array) - Get last element
- */
 class LastFunction : public IFunction {
 public:
     ~LastFunction() override = default;
@@ -80,9 +74,6 @@ public:
     }
 };
 
-/**
- * @brief NTH(array, index) - Get element at index
- */
 class NthFunction : public IFunction {
 public:
     ~NthFunction() override = default;
@@ -117,9 +108,6 @@ public:
     }
 };
 
-/**
- * @brief PUSH(array, value [, unique]) - Append element
- */
 class PushFunction : public IFunction {
 public:
     ~PushFunction() override = default;
@@ -161,9 +149,6 @@ public:
     }
 };
 
-/**
- * @brief POP(array) - Remove last element
- */
 class PopFunction : public IFunction {
 public:
     ~PopFunction() override = default;
@@ -189,9 +174,6 @@ public:
     }
 };
 
-/**
- * @brief SHIFT(array) - Remove first element
- */
 class ShiftFunction : public IFunction {
 public:
     ~ShiftFunction() override = default;
@@ -217,9 +199,6 @@ public:
     }
 };
 
-/**
- * @brief UNSHIFT(array, value) - Prepend element
- */
 class UnshiftFunction : public IFunction {
 public:
     ~UnshiftFunction() override = default;
@@ -249,9 +228,6 @@ public:
     }
 };
 
-/**
- * @brief SLICE(array, start [, end]) - Get subarray
- */
 class SliceFunction : public IFunction {
 public:
     ~SliceFunction() override = default;
@@ -297,9 +273,6 @@ public:
     }
 };
 
-/**
- * @brief FLATTEN(array [, depth]) - Flatten nested arrays
- */
 class FlattenFunction : public IFunction {
 public:
     ~FlattenFunction() override = default;
@@ -351,9 +324,6 @@ private:
     }
 };
 
-/**
- * @brief UNIQUE(array) - Remove duplicates
- */
 class UniqueFunction : public IFunction {
 public:
     ~UniqueFunction() override = default;
@@ -385,9 +355,6 @@ public:
     }
 };
 
-/**
- * @brief SORTED(array [, direction]) - Sort array
- */
 class SortedFunction : public IFunction {
 public:
     ~SortedFunction() override = default;
@@ -436,9 +403,6 @@ public:
     }
 };
 
-/**
- * @brief REVERSE(array) - Reverse array
- */
 class ReverseArrayFunction : public IFunction {
 public:
     ~ReverseArrayFunction() override = default;
@@ -465,9 +429,6 @@ public:
     }
 };
 
-/**
- * @brief UNION(arr1, arr2, ...) - Union of arrays
- */
 class UnionFunction : public IFunction {
 public:
     ~UnionFunction() override = default;
@@ -512,9 +473,6 @@ public:
     }
 };
 
-/**
- * @brief INTERSECTION(arr1, arr2, ...) - Intersection of arrays
- */
 class IntersectionFunction : public IFunction {
 public:
     ~IntersectionFunction() override = default;
@@ -585,9 +543,6 @@ public:
     }
 };
 
-/**
- * @brief MINUS(arr1, arr2) - Difference of arrays
- */
 class MinusFunction : public IFunction {
 public:
     ~MinusFunction() override = default;
@@ -628,9 +583,6 @@ public:
     }
 };
 
-/**
- * @brief POSITION(array, value) - Find index of element
- */
 class PositionFunction : public IFunction {
 public:
     ~PositionFunction() override = default;
@@ -663,9 +615,6 @@ public:
     }
 };
 
-/**
- * @brief COUNT(array) - Count elements
- */
 class CountFunction : public IFunction {
 public:
     ~CountFunction() override = default;
@@ -698,9 +647,6 @@ public:
     }
 };
 
-/**
- * @brief RANGE(start, end [, step]) - Generate number range
- */
 class RangeFunction : public IFunction {
 public:
     ~RangeFunction() override = default;
@@ -749,12 +695,12 @@ public:
     }
 };
 
+
 /**
- * @brief ============================================================================ Register Array Functions ============================================================================
+ * @brief Register Array Functions.
  * @param[in,out] reg Input/output parameter.
  * @details Calls: registerFunction().
  */
-
 inline void registerArrayFunctions(FunctionRegistry& reg) {
     reg.registerFunction(std::make_unique<FirstFunction>());
     reg.registerFunction(std::make_unique<LastFunction>());

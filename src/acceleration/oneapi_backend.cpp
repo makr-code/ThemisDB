@@ -35,9 +35,7 @@ namespace acceleration {
 
 class OneAPIVectorBackend : public IVectorBackend {
 private:
-    /// @brief SYCL execution queue; held in optional to avoid raw pointer.
     std::optional<sycl::queue> queue_{};
-    /// @brief Guards initialize() / shutdown() for thread-safe lifecycle management.
     mutable std::mutex lifecycle_mutex_;
     bool initialized_ = false;
 
@@ -69,6 +67,11 @@ public:
     }
     
     bool initialize() override {
+        /**
+         * @brief Lk.
+         * @param[in] lifecycle_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(lifecycle_mutex_);
         if (initialized_) {
             return true;
@@ -110,6 +113,11 @@ public:
     }
     
     void shutdown() override {
+        /**
+         * @brief Lk.
+         * @param[in] lifecycle_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(lifecycle_mutex_);
         queue_.reset();
         initialized_ = false;
@@ -127,6 +135,11 @@ public:
         
         try {
             const size_t resultSize = numQueries * numVectors;
+            /**
+             * @brief Distances.
+             * @param[in] resultSize Input parameter.
+             * @return Return value.
+             */
             std::vector<float> distances(resultSize);
 
             sycl::queue& q = *queue_;
@@ -213,6 +226,11 @@ public:
     {
         auto distances = computeDistances(queries, numQueries, vectors, numVectors, dimension, useL2);
         
+        /**
+         * @brief Results.
+         * @param[in,out] k Input/output parameter.
+         * @return Return value.
+         */
         std::vector<VectorSearchResult> results(numQueries * k);
         
         for (size_t q = 0; q < numQueries; q++) {
@@ -261,7 +279,6 @@ public:
 // Removal Plan: Remove bridge once THEMIS_ENABLE_ONEAPI is standard in all envs.
 
 // Stub implementation when OneAPI is not available
-/** @brief Stub implementation when OneAPI is not available. */
 class OneAPIVectorBackend : public IVectorBackend {
 public:
     // Injectable bridge type for the non-OneAPI stub path.
@@ -269,8 +286,10 @@ public:
         const float* query, size_t query_count, size_t dim,
         const float* db, size_t db_count, bool use_l2)>;
 
-    /// Inject a computeDistances implementation for the non-OneAPI stub path.
-    /// Pass empty fn to restore fail-closed stub default (returns {}).
+    /**
+     * @brief Set Compute Distances Fn.
+     * @param[in] fn Input parameter.
+     */
     static void setComputeDistancesFn(ComputeDistancesFn fn);
 
     BackendType type() const noexcept override { return BackendType::ONEAPI; }
@@ -293,12 +312,28 @@ public:
 static std::mutex s_oneapi_compute_fn_mutex_;
 static OneAPIVectorBackend::ComputeDistancesFn s_oneapi_compute_fn_;
 
+/**
+ * @brief Set Compute Distances Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lk(), std::move().
+ */
 void OneAPIVectorBackend::setComputeDistancesFn(
     OneAPIVectorBackend::ComputeDistancesFn fn) {
     std::lock_guard<std::mutex> lk(s_oneapi_compute_fn_mutex_);
     s_oneapi_compute_fn_ = std::move(fn);
 }
 
+/**
+ * @brief Compute Distances.
+ * @param[in] queries Input parameter.
+ * @param[in] numQueries Input parameter.
+ * @param[in] dimension Input parameter.
+ * @param[in] vectors Input parameter.
+ * @param[in] numVectors Input parameter.
+ * @param[in] useL2 Input parameter.
+ * @return Return value.
+ * @details Calls: lk(), fn().
+ */
 std::vector<float> OneAPIVectorBackend::computeDistances(
     const float* queries, size_t numQueries, size_t dimension,
     const float* vectors, size_t numVectors, bool useL2) {
@@ -321,9 +356,6 @@ std::vector<float> OneAPIVectorBackend::computeDistances(
     return {};
 }
 
-/// Free-function wrapper — allows test code to inject a computeDistances
-/// implementation for the non-OneAPI stub path without requiring access to
-/// the local `OneAPIVectorBackend` class definition.
 void setOneAPIComputeDistancesFn(
     std::function<std::vector<float>(
         const float*, size_t, size_t, const float*, size_t, bool)> fn) {
@@ -333,6 +365,11 @@ void setOneAPIComputeDistancesFn(
 #endif
 
 // Factory function
+/**
+ * @brief Create One APIBackend.
+ * @return Return value.
+ * @details Implements createOneAPIBackend without additional internal calls.
+ */
 std::unique_ptr<IVectorBackend> createOneAPIBackend() {
     return std::make_unique<OneAPIVectorBackend>();
 }

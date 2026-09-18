@@ -37,16 +37,53 @@
 
 // Forward declarations for llama.cpp LoRA API (from llama_lora_adapter.cpp)
 extern "C" {
+    /**
+     * @brief Llama lora adapter init.
+     * @param[in,out] model Input/output parameter.
+     * @param[in] path_lora Input parameter.
+     * @return Pointer to the result.
+     */
     void* llama_lora_adapter_init(struct llama_model* model, const char* path_lora);
+    /**
+     * @brief Llama lora adapter set with scale.
+     * @param[in,out] ctx Input/output parameter.
+     * @param[in,out] adapter Input/output parameter.
+     * @param[in] scale Input parameter.
+     * @return Return value.
+     */
     int llama_lora_adapter_set_with_scale(struct llama_context* ctx, void* adapter, float scale);
+    /**
+     * @brief Llama lora adapter free.
+     * @param[in,out] adapter Input/output parameter.
+     */
     void llama_lora_adapter_free(void* adapter);
+    /**
+     * @brief Themis llama lora available.
+     * @return True when the operation succeeds.
+     */
     bool themis_llama_lora_available();
 }
 
 // Forward declarations for llama.cpp grammar API (from llama_grammar_adapter.cpp)
 extern "C" {
+    /**
+     * @brief Llama grammar sample.
+     * @param[in] grammar Input parameter.
+     * @param[in] ctx Input parameter.
+     * @param[in,out] candidates Input/output parameter.
+     */
     void llama_grammar_sample(const struct llama_grammar* grammar, const struct llama_context* ctx, struct llama_token_data_array* candidates);
+    /**
+     * @brief Llama grammar accept.
+     * @param[in,out] grammar Input/output parameter.
+     * @param[in] ctx Input parameter.
+     * @param[in] token Input parameter.
+     */
     void llama_grammar_accept(struct llama_grammar* grammar, const struct llama_context* ctx, int token);
+    /**
+     * @brief Themis llama grammar available.
+     * @return True when the operation succeeds.
+     */
     bool themis_llama_grammar_available();
 }
 
@@ -59,8 +96,15 @@ extern "C" {
         int    n_image_pos;  // Number of image "positions" (patches)
     };
 
-    // Evaluate image embeddings into the llama context (advances *n_past).
-    // Returns true on success.
+    /**
+     * @brief Evaluate image embeddings into the llama context (advances *n_past).
+     * @param[in,out] ctx Input/output parameter.
+     * @param[in] image_embed Input parameter.
+     * @param[in] n_batch Input parameter.
+     * @param[in,out] n_past Input/output parameter.
+     * @return True when the operation succeeds.
+     * @details Returns true on success.
+     */
     bool llava_eval_image_embed(
         struct llama_context* ctx,
         const struct llava_image_embed* image_embed,
@@ -68,10 +112,16 @@ extern "C" {
         int* n_past
     );
 
-    // Free an embed returned by llava_image_embed_make_with_filename / data.
+    /**
+     * @brief Free an embed returned by llava_image_embed_make_with_filename / data.
+     * @param[in,out] embed Input/output parameter.
+     */
     void llava_image_embed_free(struct llava_image_embed* embed);
 
-    // Check whether the LLaVA evaluation API is linked at runtime.
+    /**
+     * @brief Check whether the LLaVA evaluation API is linked at runtime.
+     * @return True when the operation succeeds.
+     */
     bool themis_llava_eval_available();
 }
 #endif  // THEMIS_ENABLE_VISION
@@ -82,17 +132,14 @@ namespace llm {
 namespace {
 constexpr int DEFAULT_MAX_GENERATION_TOKENS = 512;
 
-// ═══════════════════════════════════════════════════════════
-// Null-Safety Validation Helpers (Batch 1)
-// ═══════════════════════════════════════════════════════════
-
 /**
- * @brief Validates model loader is initialized
- * @param loader Pointer to model loader instance
- * @param context_name Name for error messaging
- * @throw std::runtime_error if loader is nullptr
- * @pre loader must be non-null
+ * @brief ═══════════════════════════════════════════════════════════ Null-Safety Validation Helpers (Batch 1) ═══════════════════════════════════════════════════════════
+ * @param[in] loader Input parameter.
+ * @param[in] context_name Name of the context.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: spdlog::error().
  */
+
 void validateModelLoaderInitialized(const LazyModelLoader* loader, const std::string& context_name) {
     if (!loader) {
         const std::string error_msg = "LlamaWrapper: Model loader not initialized in " + context_name;
@@ -102,11 +149,11 @@ void validateModelLoaderInitialized(const LazyModelLoader* loader, const std::st
 }
 
 /**
- * @brief Validates cached model and its handles
- * @param cached Pointer to cached model instance
- * @param context_name Name for error messaging
- * @throw std::runtime_error if cached is nullptr or handles are invalid
- * @pre cached must be non-null with valid model and context handles
+ * @brief Validate Cached Model.
+ * @param[in] cached Input parameter.
+ * @param[in] context_name Name of the context.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: spdlog::error().
  */
 void validateCachedModel(const CachedModel* cached, const std::string& context_name) {
     if (!cached) {
@@ -123,12 +170,12 @@ void validateCachedModel(const CachedModel* cached, const std::string& context_n
 }
 
 /**
- * @brief Validates llama_model and llama_context pointers
- * @param model Pointer to llama_model
- * @param context Pointer to llama_context
- * @param context_name Name for error messaging
- * @throw std::runtime_error if either pointer is null
- * @pre Both model and context must be non-null
+ * @brief Validate Llama Handles.
+ * @param[in] model Input parameter.
+ * @param[in] context Input parameter.
+ * @param[in] context_name Name of the context.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: spdlog::error().
  */
 void validateLlamaHandles(const llama_model* model, const llama_context* context, const std::string& context_name) {
     if (!model) {
@@ -145,12 +192,12 @@ void validateLlamaHandles(const llama_model* model, const llama_context* context
 }
 
 /**
- * @brief Validates token array for iteration safety
- * @param tokens Vector of tokens
- * @param min_size Minimum required size
- * @param context_name Name for error messaging
- * @throw std::invalid_argument if array is empty or below minimum size
- * @pre tokens must not be empty
+ * @brief Validate Token Array.
+ * @param[in] tokens Input parameter.
+ * @param[in] min_size Input parameter.
+ * @param[in] context_name Name of the context.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: empty(), spdlog::error(), size(), std::to_string().
  */
 void validateTokenArray(const std::vector<llama_token>& tokens, size_t min_size, const std::string& context_name) {
     if (tokens.empty()) {
@@ -167,6 +214,14 @@ void validateTokenArray(const std::vector<llama_token>& tokens, size_t min_size,
     }
 }
 
+/**
+ * @brief Sanitize Prompt Text.
+ * @param[in] input Input parameter.
+ * @param[in,out] sanitized Input/output parameter.
+ * @param[in,out] blocked_rule Input/output parameter.
+ * @param[in,out] blocked_reason Input/output parameter.
+ * @return True when the operation succeeds.
+ */
 bool sanitizePromptText(
     const std::string& input,
     std::string& sanitized,
@@ -180,6 +235,14 @@ bool sanitizePromptText(
         blocked_reason);
 }
 
+/**
+ * @brief Resolve Max Tokens With Context Cap.
+ * @param[in] requested_max_tokens Input parameter.
+ * @param[in] context_limit Input parameter.
+ * @param[in,out] was_capped Input/output parameter.
+ * @return Return value.
+ * @details Implements resolveMaxTokensWithContextCap without additional internal calls.
+ */
 int resolveMaxTokensWithContextCap(int requested_max_tokens, int context_limit, bool& was_capped) {
     int resolved = requested_max_tokens > 0 ? requested_max_tokens : DEFAULT_MAX_GENERATION_TOKENS;
     was_capped = false;
@@ -191,9 +254,12 @@ int resolveMaxTokensWithContextCap(int requested_max_tokens, int context_limit, 
 }
 }  // namespace
 
-// ═══════════════════════════════════════════════════════════
-// Configuration Validation
-// ═══════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════ Configuration Validation ═══════════════════════════════════════════════════════════
+ * @param[in] config Input parameter.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: spdlog::warn(), spdlog::info().
+ */
 
 void LlamaWrapper::validateConfig(const Config& config) {
     // Validate basic parameters
@@ -432,9 +498,14 @@ LlamaWrapper::~LlamaWrapper() {
     unloadModel();
 }
 
-// ═══════════════════════════════════════════════════════════
-// Model Management
-// ═══════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════ Model Management ═══════════════════════════════════════════════════════════
+ * @param[in] file_path Path to the file.
+ * @param[in] expected_checksum Input parameter.
+ * @param[in] checksum_type Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), spdlog::warn(), themis::utils::calculateSHA256(), spdlog::error(), spdlog::info().
+ */
 
 bool LlamaWrapper::verifyModelIntegrity(
     const std::string& file_path,
@@ -477,10 +548,23 @@ bool LlamaWrapper::verifyModelIntegrity(
     return true;
 }
 
+/**
+ * @brief Calculate Model Checksum.
+ * @param[in] file_path Path to the file.
+ * @return Return value.
+ * @details Calls: themis::utils::calculateSHA256().
+ */
 std::string LlamaWrapper::calculateModelChecksum(const std::string& file_path) {
     return ::themis::utils::calculateSHA256(file_path);
 }
 
+/**
+ * @brief Load Model.
+ * @param[in] model_path Path to the model.
+ * @param[in] config Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), transitionToState(), spdlog::info(), std::chrono::high_resolution_clock::now(), extractModelId(), is_object(), json::object(), value().
+ */
 bool LlamaWrapper::loadModel(
     const std::string& model_path,
     const json& config
@@ -656,6 +740,16 @@ bool LlamaWrapper::loadModel(
     return true;
 }
 
+/**
+ * @brief Load Model From Themis DB.
+ * @param[in] model_id Identifier of the model.
+ * @param[in] storage Input parameter.
+ * @param[in] blob_manager Input parameter.
+ * @param[in] param Input parameter.
+ * @param[in] config Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: is_object(), json::object(), spdlog::info(), spdlog::error(), loadModel(), errors::logError(), loadModelBlob(), size().
+ */
 bool LlamaWrapper::loadModelFromThemisDB(
     const std::string& model_id,
     std::shared_ptr<LLMModelStorage> storage,
@@ -898,6 +992,10 @@ bool LlamaWrapper::loadModelFromThemisDB(
     }
 }
 
+/**
+ * @brief Unload Model.
+ * @details Calls: lock(), empty(), spdlog::info(), transitionToState(), unloadDraftModel(), recordModelUnloaded(), get(), spdlog::warn().
+ */
 void LlamaWrapper::unloadModel() {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -934,6 +1032,12 @@ void LlamaWrapper::unloadModel() {
     spdlog::info("Model unloaded");
 }
 
+/**
+ * @brief Cleanup Temp Models.
+ * @param[in] days_old Input parameter.
+ * @return Return value.
+ * @details Calls: std::filesystem::temp_directory_path(), std::filesystem::exists(), spdlog::debug(), string(), std::filesystem::file_time_type::clock::now(), std::chrono::hours(), std::filesystem::directory_iterator(), is_regular_file().
+ */
 size_t LlamaWrapper::cleanupTempModels(int days_old) {
     std::filesystem::path temp_dir = std::filesystem::temp_directory_path() / "themisdb_models";
     
@@ -976,6 +1080,11 @@ size_t LlamaWrapper::cleanupTempModels(int days_old) {
 }
 
 std::optional<ModelInfo> LlamaWrapper::getModelInfo() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     if (current_model_id_.empty()) {
@@ -990,6 +1099,11 @@ std::optional<ModelInfo> LlamaWrapper::getModelInfo() const {
 }
 
 bool LlamaWrapper::isModelLoaded() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     const auto* const model_loader = model_loader_.get();
     if (!model_loader) {
@@ -999,9 +1113,14 @@ bool LlamaWrapper::isModelLoaded() const {
            model_loader->isModelLoaded(current_model_id_);
 }
 
-// ═══════════════════════════════════════════════════════════
-// LoRA Management
-// ═══════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════ LoRA Management ═══════════════════════════════════════════════════════════
+ * @param[in] lora_id Identifier of the lora.
+ * @param[in] lora_path Path to the lora.
+ * @param[in] scale Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), empty(), errors::logError(), spdlog::info(), get(), spdlog::warn().
+ */
 
 bool LlamaWrapper::loadLoRA(
     const std::string& lora_id,
@@ -1026,6 +1145,12 @@ bool LlamaWrapper::loadLoRA(
     return lora_manager->loadLoRA(lora_id, lora_path, current_model_id_, scale);
 }
 
+/**
+ * @brief Unload Lo RA.
+ * @param[in] lora_id Identifier of the lora.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), get().
+ */
 bool LlamaWrapper::unloadLoRA(const std::string& lora_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     auto* lora_manager = lora_manager_.get();
@@ -1036,6 +1161,11 @@ bool LlamaWrapper::unloadLoRA(const std::string& lora_id) {
 }
 
 std::vector<LoRAInfo> LlamaWrapper::listLoRAs() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     auto* lora_manager = lora_manager_.get();
     if (!lora_manager) {
@@ -1044,9 +1174,14 @@ std::vector<LoRAInfo> LlamaWrapper::listLoRAs() const {
     return lora_manager->listLoRAs();
 }
 
-// ═══════════════════════════════════════════════════════════
-// Inference
-// ═══════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════ Inference ═══════════════════════════════════════════════════════════
+ * @param[in] request Input parameter.
+ * @return Return value.
+ * @throws std::invalid_argument if an error occurs.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: lock(), sanitizePromptText(), recordInferenceFailure(), empty(), std::move(), spdlog::info(), stateToString(), unlock().
+ */
 
 InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
     std::unique_lock<std::mutex> lock(mutex_);
@@ -1576,6 +1711,16 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
     }
 }
 
+/**
+ * @brief Generate Draft Tokens.
+ * @param[in] request Input parameter.
+ * @param[in] k Input parameter.
+ * @param[in] vocab_size_hint Input parameter.
+ * @return Return value.
+ * @throws std::invalid_argument if an error occurs.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: lock(), empty(), get(), getOrLoadModelShared(), tokenizeInternal(), llama_get_memory(), llama_memory_seq_rm(), llama_batch_get_one().
+ */
 ILLMPlugin::DraftTokensResult LlamaWrapper::generateDraftTokens(
     const InferenceRequest& request,
     size_t k,
@@ -1685,6 +1830,15 @@ ILLMPlugin::DraftTokensResult LlamaWrapper::generateDraftTokens(
     return result;
 }
 
+/**
+ * @brief Compute Target Logits For Tokens.
+ * @param[in] request Input parameter.
+ * @param[in] draft_token_ids Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: lock(), empty(), get(), getOrLoadModelShared(), tokenizeInternal(), llama_get_memory(), llama_memory_seq_rm(), llama_batch_get_one().
+ */
 std::vector<std::vector<float>> LlamaWrapper::computeTargetLogitsForTokens(
     const InferenceRequest& request,
     const std::vector<int>& draft_token_ids
@@ -1781,6 +1935,14 @@ std::vector<std::vector<float>> LlamaWrapper::computeTargetLogitsForTokens(
     return target_logits;
 }
 
+/**
+ * @brief Tokenize For Bridge.
+ * @param[in] text Input parameter.
+ * @param[in] add_bos Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: lock(), empty(), get(), getOrLoadModelShared(), tokenizeInternal(), reserve(), size(), push_back().
+ */
 std::vector<int> LlamaWrapper::tokenizeForBridge(
     const std::string& text,
     bool add_bos
@@ -1822,6 +1984,13 @@ std::vector<int> LlamaWrapper::tokenizeForBridge(
     return result;
 }
 
+/**
+ * @brief Generate RAG.
+ * @param[in] rag_context Input parameter.
+ * @param[in] request Input parameter.
+ * @return Return value.
+ * @details Calls: spdlog::debug(), size(), formatPromptForRAG(), generate().
+ */
 InferenceResponse LlamaWrapper::generateRAG(
     const RAGContext& rag_context,
     const InferenceRequest& request
@@ -1846,6 +2015,13 @@ InferenceResponse LlamaWrapper::generateRAG(
     return response;
 }
 
+/**
+ * @brief Embed.
+ * @param[in] text Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: lock(), empty(), spdlog::debug(), length(), get(), getOrLoadModelShared(), tokenizeInternal(), llama_batch_get_one().
+ */
 std::vector<float> LlamaWrapper::embed(const std::string& text) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -1966,6 +2142,11 @@ LLMCapabilities LlamaWrapper::getCapabilities() const {
 }
 
 json LlamaWrapper::getMemoryStats() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     json stats;
@@ -2006,6 +2187,11 @@ json LlamaWrapper::getMemoryStats() const {
 }
 
 json LlamaWrapper::getPerformanceStats() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     json stats;
@@ -2032,9 +2218,12 @@ json LlamaWrapper::getPerformanceStats() const {
     return stats;
 }
 
-// ═══════════════════════════════════════════════════════════
-// Distributed Features
-// ═══════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════ Distributed Features ═══════════════════════════════════════════════════════════
+ * @param[in] lora_id Identifier of the lora.
+ * @return Return value.
+ * @details Calls: lock(), spdlog::info(), get(), spdlog::warn().
+ */
 
 std::vector<uint8_t> LlamaWrapper::exportLoRA(const std::string& lora_id) {
     std::lock_guard<std::mutex> lock(mutex_);
@@ -2050,6 +2239,13 @@ std::vector<uint8_t> LlamaWrapper::exportLoRA(const std::string& lora_id) {
     return lora_manager->exportLoRA(lora_id);
 }
 
+/**
+ * @brief Import Lo RA.
+ * @param[in] lora_id Identifier of the lora.
+ * @param[in] data Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), empty(), errors::logError(), get(), spdlog::warn(), spdlog::info(), size().
+ */
 bool LlamaWrapper::importLoRA(
     const std::string& lora_id,
     const std::vector<uint8_t>& data
@@ -2074,9 +2270,14 @@ bool LlamaWrapper::importLoRA(
     return lora_manager->importLoRA(lora_id, data, current_model_id_);
 }
 
-// ═══════════════════════════════════════════════════════════
-// Helper Methods
-// ═══════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════ Helper Methods ═══════════════════════════════════════════════════════════
+ * @param[in] rag_context Input parameter.
+ * @param[in] request Input parameter.
+ * @return Return value.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: sanitizePromptText(), size(), str().
+ */
 
 std::string LlamaWrapper::formatPromptForRAG(
     const RAGContext& rag_context,
@@ -2117,21 +2318,36 @@ std::string LlamaWrapper::formatPromptForRAG(
     return oss.str();
 }
 
+/**
+ * @brief Update Statistics.
+ * @param[in] response Input parameter.
+ * @details Implements updateStatistics without additional internal calls.
+ */
 void LlamaWrapper::updateStatistics(const InferenceResponse& response) {
     stats_.total_inferences++;
     stats_.total_tokens_generated += response.tokens_generated;
     stats_.total_inference_time_ms += response.inference_time_ms;
 }
 
+/**
+ * @brief Extract Model Id.
+ * @param[in] model_path Path to the model.
+ * @return Return value.
+ * @details Calls: p(), stem(), string().
+ */
 std::string LlamaWrapper::extractModelId(const std::string& model_path) {
     // Extract filename without extension as model ID
     std::filesystem::path p(model_path);
     return p.stem().string();
 }
 
-// ═══════════════════════════════════════════════════════════
-// Chat Formatting Methods
-// ═══════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════ Chat Formatting Methods ═══════════════════════════════════════════════════════════
+ * @param[in] messages Input parameter.
+ * @param[in] format Input parameter.
+ * @return Return value.
+ * @details Calls: formatChatML(), formatLlama2(), formatVicuna(), formatAlpaca().
+ */
 
 std::string LlamaWrapper::formatChatMessages(
     const std::vector<ChatMessage>& messages,
@@ -2151,6 +2367,12 @@ std::string LlamaWrapper::formatChatMessages(
     }
 }
 
+/**
+ * @brief Format Chat ML.
+ * @param[in] messages Input parameter.
+ * @return Return value.
+ * @details Calls: str().
+ */
 std::string LlamaWrapper::formatChatML(const std::vector<ChatMessage>& messages) {
     // ChatML format used by Mistral, Llama-3, etc.
     // <|im_start|>system\ncontent<|im_end|>
@@ -2168,6 +2390,12 @@ std::string LlamaWrapper::formatChatML(const std::vector<ChatMessage>& messages)
     return oss.str();
 }
 
+/**
+ * @brief Format Llama2.
+ * @param[in] messages Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), str().
+ */
 std::string LlamaWrapper::formatLlama2(const std::vector<ChatMessage>& messages) {
     // Llama-2 chat format
     // <s>[INST] <<SYS>>\nsystem_message\n<</SYS>>\n\nuser_message [/INST]
@@ -2198,6 +2426,12 @@ std::string LlamaWrapper::formatLlama2(const std::vector<ChatMessage>& messages)
     return oss.str();
 }
 
+/**
+ * @brief Format Vicuna.
+ * @param[in] messages Input parameter.
+ * @return Return value.
+ * @details Calls: str().
+ */
 std::string LlamaWrapper::formatVicuna(const std::vector<ChatMessage>& messages) {
     // Vicuna format
     // A chat between a curious user and an artificial intelligence assistant...
@@ -2233,6 +2467,12 @@ std::string LlamaWrapper::formatVicuna(const std::vector<ChatMessage>& messages)
     return oss.str();
 }
 
+/**
+ * @brief Format Alpaca.
+ * @param[in] messages Input parameter.
+ * @return Return value.
+ * @details Calls: str().
+ */
 std::string LlamaWrapper::formatAlpaca(const std::vector<ChatMessage>& messages) {
     // Alpaca format
     // Below is an instruction... ### Instruction:\nuser_message\n\n### Response:
@@ -2266,9 +2506,15 @@ std::string LlamaWrapper::formatAlpaca(const std::vector<ChatMessage>& messages)
     return oss.str();
 }
 
-// ═══════════════════════════════════════════════════════════
-// Internal Helper Methods for llama.cpp Integration
-// ═══════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════ Internal Helper Methods for llama.
+ * @param[in,out] model Input/output parameter.
+ * @param[in] text Input parameter.
+ * @param[in] add_bos Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details cpp Integration ═══════════════════════════════════════════════════════════ Calls: llama_model_get_vocab(), size(), max(), tokens(), llama_tokenize(), c_str(), data(), resize().
+ */
 
 std::vector<llama_token> LlamaWrapper::tokenizeInternal(
     llama_model* model, 
@@ -2327,6 +2573,14 @@ std::vector<llama_token> LlamaWrapper::tokenizeInternal(
     return tokens;
 }
 
+/**
+ * @brief Detokenize Internal.
+ * @param[in,out] ctx Input/output parameter.
+ * @param[in] tokens Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: llama_get_model(), llama_model_get_vocab(), reserve(), size(), llama_token_to_piece(), append().
+ */
 std::string LlamaWrapper::detokenizeInternal(
     llama_context* ctx,
     const std::vector<llama_token>& tokens
@@ -2361,6 +2615,19 @@ std::string LlamaWrapper::detokenizeInternal(
     return result;
 }
 
+/**
+ * @brief Sample Token Internal.
+ * @param[in,out] ctx Input/output parameter.
+ * @param[in,out] model Input/output parameter.
+ * @param[in,out] logits Input/output parameter.
+ * @param[in] n_vocab Input parameter.
+ * @param[in] temperature Input parameter.
+ * @param[in] top_p Input parameter.
+ * @param[in,out] grammar Input/output parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: reserve(), push_back(), data(), size(), themis_llama_grammar_available(), llama_grammar_sample(), spdlog::debug(), spdlog::warn().
+ */
 llama_token LlamaWrapper::sampleTokenInternal(
     llama_context* ctx,
     llama_model* model,
@@ -2465,9 +2732,12 @@ llama_token LlamaWrapper::sampleTokenInternal(
     return sampled_token;
 }
 
-// ═══════════════════════════════════════════════════════════
-// Output Formatting Helpers (MCP, SSE, AQL)
-// ═══════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════ Output Formatting Helpers (MCP, SSE, AQL) ═══════════════════════════════════════════════════════════
+ * @param[in] response Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), has_value(), value().
+ */
 
 json LlamaWrapper::formatAsMCPResponse(const InferenceResponse& response) {
     // MCP-compatible response format for Model Context Protocol
@@ -2495,12 +2765,24 @@ json LlamaWrapper::formatAsMCPResponse(const InferenceResponse& response) {
     return mcp_response;
 }
 
+/**
+ * @brief Format As SSE.
+ * @param[in] response Input parameter.
+ * @return Return value.
+ * @details Calls: formatAsMCPResponse(), dump().
+ */
 std::string LlamaWrapper::formatAsSSE(const InferenceResponse& response) {
     // Server-Sent Events format: "data: {json}\n\n"
     json sse_data = formatAsMCPResponse(response);
     return "data: " + sse_data.dump() + "\n\n";
 }
 
+/**
+ * @brief Format As Json Markdown.
+ * @param[in] response Input parameter.
+ * @return Return value.
+ * @details Calls: empty().
+ */
 json LlamaWrapper::formatAsJsonMarkdown(const InferenceResponse& response) {
     // JSON with embedded markdown for rich text display
     json result = {
@@ -2534,6 +2816,13 @@ json LlamaWrapper::formatAsJsonMarkdown(const InferenceResponse& response) {
     return result;
 }
 
+/**
+ * @brief Format Stream Token As SSE.
+ * @param[in] token Input parameter.
+ * @param[in] request_id Identifier of the request.
+ * @return Return value.
+ * @details Calls: empty(), dump().
+ */
 std::string LlamaWrapper::formatStreamTokenAsSSE(const std::string& token, const std::string& request_id) {
     // SSE format for streaming tokens
     json event = {
@@ -2553,6 +2842,11 @@ std::string LlamaWrapper::formatStreamTokenAsSSE(const std::string& token, const
 // ═══════════════════════════════════════════════════════════
 
 std::optional<PrefixCacheStatistics> LlamaWrapper::getPrefixCacheStats() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     auto* const prefix_cache = prefix_cache_.get();
@@ -2563,6 +2857,10 @@ std::optional<PrefixCacheStatistics> LlamaWrapper::getPrefixCacheStats() const {
     return prefix_cache->getStatistics();
 }
 
+/**
+ * @brief Clear Prefix Cache.
+ * @details Calls: lock(), get(), clear(), spdlog::info().
+ */
 void LlamaWrapper::clearPrefixCache() {
     std::lock_guard<std::mutex> lock(mutex_);
 
@@ -2573,9 +2871,12 @@ void LlamaWrapper::clearPrefixCache() {
     }
 }
 
-// ═══════════════════════════════════════════════════════════
-// Speculative Decoding Implementation (Phase 2)
-// ═══════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════ Speculative Decoding Implementation (Phase 2) ═══════════════════════════════════════════════════════════
+ * @param[in] draft_path Path to the draft.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), fs::weakly_canonical(), fs::path(), parent_path(), std::mismatch(), begin(), end(), spdlog::error().
+ */
 
 bool LlamaWrapper::loadDraftModel(const std::string& draft_path) {
     // F2-5 fix: validate draft model path is within the parent directory of the
@@ -2678,6 +2979,10 @@ bool LlamaWrapper::loadDraftModel(const std::string& draft_path) {
     return true;
 }
 
+/**
+ * @brief Unload Draft Model.
+ * @details Calls: llama_free(), llama_free_model(), clear().
+ */
 void LlamaWrapper::unloadDraftModel() {
     if (draft_context_) {
         llama_free(draft_context_);
@@ -2691,6 +2996,11 @@ void LlamaWrapper::unloadDraftModel() {
 }
 
 std::optional<LlamaWrapper::SpeculativeDecodingStats> LlamaWrapper::getSpeculativeStats() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     if (!config_.use_speculative_decoding || !draft_model_) {
@@ -2700,6 +3010,14 @@ std::optional<LlamaWrapper::SpeculativeDecodingStats> LlamaWrapper::getSpeculati
     return speculative_stats_;
 }
 
+/**
+ * @brief Get Probability.
+ * @param[in,out] logits Input/output parameter.
+ * @param[in] token Input parameter.
+ * @param[in] n_vocab Input parameter.
+ * @return Return value.
+ * @details Calls: std::max(), std::exp(), std::isfinite().
+ */
 float LlamaWrapper::getProbability(float* logits, llama_token token, int32_t n_vocab) {
     if (!logits || n_vocab <= 0) {
         return 0.0f;
@@ -2729,6 +3047,11 @@ float LlamaWrapper::getProbability(float* logits, llama_token token, int32_t n_v
     return token_prob;
 }
 
+/**
+ * @brief Synchronize Draft To Target.
+ * @param[in] accepted_tokens Input parameter.
+ * @details Calls: empty(), llama_get_memory(), spdlog::warn(), llama_memory_clear(), llama_batch_get_one(), data(), size(), llama_decode().
+ */
 void LlamaWrapper::synchronizeDraftToTarget(const std::vector<llama_token>& accepted_tokens) {
     // Synchronize draft model's KV cache to match target model
     // This ensures both models are at the same position
@@ -2756,6 +3079,13 @@ void LlamaWrapper::synchronizeDraftToTarget(const std::vector<llama_token>& acce
     }
 }
 
+/**
+ * @brief Generate Speculative.
+ * @param[in] request Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: std::chrono::high_resolution_clock::now(), get(), getOrLoadModelShared(), spdlog::warn(), generateRegular(), empty(), spdlog::info(), isLoRALoaded().
+ */
 InferenceResponse LlamaWrapper::generateSpeculative(const InferenceRequest& request) {
     auto start_time = std::chrono::high_resolution_clock::now();
     
@@ -3027,6 +3357,13 @@ InferenceResponse LlamaWrapper::generateSpeculative(const InferenceRequest& requ
     }
 }
 
+/**
+ * @brief Generate Regular.
+ * @param[in] request Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: std::chrono::high_resolution_clock::now(), get(), getOrLoadModelShared(), empty(), spdlog::info(), spdlog::warn(), isLoRALoaded(), applyLoRA().
+ */
 InferenceResponse LlamaWrapper::generateRegular(const InferenceRequest& request) {
     // This is the existing generate() implementation extracted
     // Fallback for when speculative decoding is not available
@@ -3219,6 +3556,11 @@ InferenceResponse LlamaWrapper::generateRegular(const InferenceRequest& request)
 // Continuous Batching (Phase 2.2)
 // ═══════════════════════════════════════════════════════════
 
+/**
+ * @brief Start Batch Mode.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: lock(), spdlog::warn(), std::min(), max(), spdlog::info(), get(), start().
+ */
 void LlamaWrapper::startBatchMode() {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -3283,6 +3625,10 @@ void LlamaWrapper::startBatchMode() {
     spdlog::info("  Preemption: {}", config_.enable_preemption ? "enabled" : "disabled");
 }
 
+/**
+ * @brief Stop Batch Mode.
+ * @details Calls: lock(), spdlog::warn(), get(), stop(), spdlog::info().
+ */
 void LlamaWrapper::stopBatchMode() {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -3301,6 +3647,11 @@ void LlamaWrapper::stopBatchMode() {
 }
 
 bool LlamaWrapper::isBatchModeActive() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return batch_mode_active_;
 }
@@ -3310,6 +3661,11 @@ std::string LlamaWrapper::submitBatchRequest(
     ContinuousBatchScheduler::RequestPriority priority,
     std::function<void(const InferenceResponse&)> callback
 ) {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     if (!batch_mode_active_) {
@@ -3331,6 +3687,11 @@ std::string LlamaWrapper::submitBatchRequest(
 }
 
 std::optional<ContinuousBatchScheduler::Stats> LlamaWrapper::getBatchSchedulerStats() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     auto* const batch_scheduler = batch_scheduler_.get();
@@ -3341,9 +3702,10 @@ std::optional<ContinuousBatchScheduler::Stats> LlamaWrapper::getBatchSchedulerSt
     return batch_scheduler->getStats();
 }
 
-// ═══════════════════════════════════════════════════════════
-// Grammar-Constrained Generation (Phase 3.2)
-// ═══════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════ Grammar-Constrained Generation (Phase 3.
+ * @details 2) ═══════════════════════════════════════════════════════════ Calls: empty(), loadGrammarFile(), spdlog::debug(), size().
+ */
 
 void LlamaWrapper::initializeBuiltinGrammars() {
     // Load built-in grammar files from src/llm/grammars/
@@ -3367,6 +3729,12 @@ void LlamaWrapper::initializeBuiltinGrammars() {
     spdlog::debug("Loaded {} built-in grammars from {}",builtin_grammars_.size(), grammars_path);
 }
 
+/**
+ * @brief Load Grammar File.
+ * @param[in] grammar_path Path to the grammar.
+ * @return Return value.
+ * @details Calls: file(), is_open(), spdlog::warn(), rdbuf(), str(), spdlog::error(), what().
+ */
 std::string LlamaWrapper::loadGrammarFile(const std::string& grammar_path) {
     try {
         std::ifstream file(grammar_path);
@@ -3385,6 +3753,12 @@ std::string LlamaWrapper::loadGrammarFile(const std::string& grammar_path) {
     }
 }
 
+/**
+ * @brief Get Or Create Grammar.
+ * @param[in] request Input parameter.
+ * @return Return value.
+ * @details Calls: has_value(), empty(), spdlog::warn(), value(), length(), std::to_string(), find(), end().
+ */
 std::shared_ptr<Grammar> LlamaWrapper::getOrCreateGrammar(const InferenceRequest& request) {
     // Check if any grammar source is requested
     const bool has_explicit_grammar =
@@ -3494,6 +3868,12 @@ std::shared_ptr<Grammar> LlamaWrapper::getOrCreateGrammar(const InferenceRequest
 // ═══════════════════════════════════════════════════════════
 
 #ifdef THEMIS_ENABLE_VISION
+/**
+ * @brief Initialize Vision Encoder.
+ * @return True when the operation succeeds.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: empty(), spdlog::warn(), spdlog::info(), get(), isReady(), getEmbeddingDimension(), getNumPatches(), spdlog::error().
+ */
 bool LlamaWrapper::initializeVisionEncoder() {
     if (config_.clip_model_path.empty()) {
         spdlog::warn("Vision encoder: CLIP model path not configured");
@@ -3530,6 +3910,10 @@ bool LlamaWrapper::initializeVisionEncoder() {
     }
 }
 
+/**
+ * @brief Shutdown Vision Encoder.
+ * @details Calls: get(), spdlog::info(), reset().
+ */
 void LlamaWrapper::shutdownVisionEncoder() {
     if (vision_encoder_) {
         auto* const vision_encoder = vision_encoder_.get();
@@ -3543,6 +3927,12 @@ void LlamaWrapper::shutdownVisionEncoder() {
     }
 }
 
+/**
+ * @brief Build Vision Prompt.
+ * @param[in] request Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), size(), sanitizePromptText(), spdlog::warn().
+ */
 std::string LlamaWrapper::buildVisionPrompt(const VisionRequest& request) {
     // Build multi-modal prompt in LLaVA format
     // Format: <image>\nUSER: {question}\nASSISTANT:
@@ -3583,6 +3973,13 @@ std::string LlamaWrapper::buildVisionPrompt(const VisionRequest& request) {
     return prompt;
 }
 
+/**
+ * @brief Generate Vision.
+ * @param[in] vision_request Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: VisionResponse(), isModelLoaded(), std::chrono::high_resolution_clock::now(), empty(), push_back(), reserve(), size(), get().
+ */
 VisionResponse LlamaWrapper::generateVision(const VisionRequest& vision_request) {
     VisionResponse response = VisionResponse();
     
@@ -3768,6 +4165,11 @@ VisionResponse LlamaWrapper::generateVision(const VisionRequest& vision_request)
 // ═══════════════════════════════════════════════════════════
 
 WrapperState LlamaWrapper::state() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return current_state_;
 }
@@ -3777,15 +4179,30 @@ std::string LlamaWrapper::stateString() const {
 }
 
 std::vector<StateTransition> LlamaWrapper::stateHistory() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return state_history_;
 }
 
+/**
+ * @brief Clear State History.
+ * @details Calls: lock(), clear().
+ */
 void LlamaWrapper::clearStateHistory() {
     std::lock_guard<std::mutex> lock(mutex_);
     state_history_.clear();
 }
 
+/**
+ * @brief Transition To State.
+ * @param[in] new_state Input parameter.
+ * @param[in] reason Input parameter.
+ * @details Calls: transition(), push_back(), size(), erase(), begin(), spdlog::info(), stateToString().
+ */
 void LlamaWrapper::transitionToState(WrapperState new_state, const std::string& reason) {
     // Caller must hold mutex_
     
@@ -3810,6 +4227,12 @@ void LlamaWrapper::transitionToState(WrapperState new_state, const std::string& 
     current_state_ = new_state;
 }
 
+/**
+ * @brief State To String.
+ * @param[in] state Input parameter.
+ * @return Return value.
+ * @details Implements stateToString without additional internal calls.
+ */
 std::string LlamaWrapper::stateToString(WrapperState state) {
     switch (state) {
         case WrapperState::UNINITIALIZED: return "UNINITIALIZED";

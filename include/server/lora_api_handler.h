@@ -40,164 +40,220 @@ namespace beast = boost::beast;
 namespace http = beast::http;
 using json = nlohmann::json;
 
-/**
- * @brief LoRA API Handler for ThemisDB HTTP Server
- * 
- * Implements RESTful endpoints for LoRA framework operations:
- * 
- * LLM Model Management:
- * - POST   /api/v1/llm/models - Register a new model
- * - GET    /api/v1/llm/models/{model_id} - Get model details
- * - GET    /api/v1/llm/models - List models with filters
- * - DELETE /api/v1/llm/models/{model_id} - Delete model
- * 
- * LoRA Adapter Management:
- * - POST   /api/v1/llm/lora/adapters - Create new adapter
- * - GET    /api/v1/llm/lora/adapters/{adapter_id} - Get adapter details
- * - PUT    /api/v1/llm/lora/adapters/{adapter_id} - Update adapter
- * - DELETE /api/v1/llm/lora/adapters/{adapter_id} - Delete adapter
- * - GET    /api/v1/llm/lora/adapters - List adapters with filters
- * 
- * Adapter Lifecycle:
- * - POST   /api/v1/llm/lora/adapters/{adapter_id}/load - Hot-load adapter (returns 202 Accepted + job_id)
- * - POST   /api/v1/llm/lora/adapters/{adapter_id}/unload - Unload adapter
- * - GET    /api/v1/llm/lora/adapters/{adapter_id}/status - Get adapter status
- * - GET    /api/v1/llm/lora/adapters/{adapter_id}/load-status - Get hot-load job status
- * 
- * Inference:
- * - POST   /api/v1/llm/lora/query - Query with LoRA adapter
- * 
- * Health & Monitoring:
- * - GET    /api/v1/llm/lora/stats - Get framework statistics
- * - GET    /api/v1/llm/lora/health - Health check
- *
- * Provenance, Snapshots, and Audit Log:
- * - GET    /api/v1/llm/lora/adapters/{adapter_id}/provenance - Get cryptographic provenance record
- * - POST   /api/v1/llm/lora/adapters/{adapter_id}/provenance - Attach provenance record
- * - GET    /api/v1/llm/lora/adapters/{adapter_id}/audit      - Get Merkle-chained audit log
- * - GET    /api/v1/llm/lora/adapters/{adapter_id}/snapshots  - List MVCC snapshots
- * - POST   /api/v1/llm/lora/adapters/{adapter_id}/verify     - Verify Merkle audit chain integrity
- *
- * All endpoints require Bearer Token (JWT) authentication via Authorization header.
- */
 class LoRAApiHandler {
 public:
-    /**
-     * @brief Construct LoRA API handler
-     * 
-     * @param orchestrator LoRA orchestrator instance
-     * @param jwt_config Optional JWT validator configuration
-     */
     explicit LoRAApiHandler(
         std::shared_ptr<llm::lora::LoRAOrchestrator> orchestrator,
         std::optional<auth::JWTValidatorConfig> jwt_config = std::nullopt);
     
     /**
-     * @brief Configure JWT validation after construction
-     * 
-     * @param config JWT validator configuration
+     * @brief Configure JWT.
+     * @param[in] config Input parameter.
      */
     void configureJWT(const auth::JWTValidatorConfig& config);
 
     /**
-     * @brief Attach an inference engine for LoRA query execution.
-     *
-     * When set, POST /api/v1/llm/lora/query routes inference requests
-     * through this engine.  Without an engine the endpoint returns 501.
-     *
-     * @param engine InferenceEngineEnhanced instance (may be null to detach).
+     * @brief Set Inference Engine.
+     * @param[in] engine Input parameter.
      */
     void setInferenceEngine(std::shared_ptr<llm::InferenceEngineEnhanced> engine);
     
     /**
-     * @brief Handle LoRA API request
-     * 
-     * Routes request to appropriate handler based on path and method.
-     * Validates JWT Bearer Token authentication.
-     * 
-     * @param req HTTP request
-     * @return HTTP response (JSON)
+     * @brief Handle Request.
+     * @param[in] req Input parameter.
+     * @return Return value.
      */
     http::response<http::string_body> handleRequest(
         const http::request<http::string_body>& req);
 
 private:
     // Model management endpoints
+    /**
+     * @brief Handle Register Model.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleRegisterModel(
         const http::request<http::string_body>& req);
     
+    /**
+     * @brief Handle Get Model.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleGetModel(
         const http::request<http::string_body>& req);
     
+    /**
+     * @brief Handle List Models.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleListModels(
         const http::request<http::string_body>& req);
     
+    /**
+     * @brief Handle Delete Model.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleDeleteModel(
         const http::request<http::string_body>& req);
     
     // Adapter CRUD endpoints
+    /**
+     * @brief Handle Create Adapter.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleCreateAdapter(
         const http::request<http::string_body>& req);
     
+    /**
+     * @brief Handle Get Adapter.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleGetAdapter(
         const http::request<http::string_body>& req);
     
+    /**
+     * @brief Handle Update Adapter.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleUpdateAdapter(
         const http::request<http::string_body>& req);
     
+    /**
+     * @brief Handle Delete Adapter.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleDeleteAdapter(
         const http::request<http::string_body>& req);
     
+    /**
+     * @brief Handle List Adapters.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleListAdapters(
         const http::request<http::string_body>& req);
     
     // Adapter lifecycle endpoints
+    /**
+     * @brief Handle Load Adapter.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleLoadAdapter(
         const http::request<http::string_body>& req);
     
+    /**
+     * @brief Handle Unload Adapter.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleUnloadAdapter(
         const http::request<http::string_body>& req);
     
+    /**
+     * @brief Handle Adapter Status.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleAdapterStatus(
         const http::request<http::string_body>& req);
 
-    /// GET /api/v1/llm/lora/adapters/{id}/load-status
-    /// Returns the status of the latest hot-load job for the adapter.
+    /**
+     * @brief Handle Hot Load Status.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleHotLoadStatus(
         const http::request<http::string_body>& req);
     
-    // Cross-shard sync endpoint
+    /**
+     * @brief Handle Receive Adapter.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleReceiveAdapter(
         const http::request<http::string_body>& req);
     
     // Inference endpoint
+    /**
+     * @brief Handle Lo RAQuery.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleLoRAQuery(
         const http::request<http::string_body>& req);
     
     // Health & monitoring endpoints
+    /**
+     * @brief Handle Lo RAStats.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleLoRAStats(
         const http::request<http::string_body>& req);
     
+    /**
+     * @brief Handle Lo RAHealth.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleLoRAHealth(
         const http::request<http::string_body>& req);
 
-    // Provenance, Snapshots, and Audit Log endpoints
+    /**
+     * @brief Handle Get Provenance.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleGetProvenance(
         const http::request<http::string_body>& req);
 
+    /**
+     * @brief Handle Attach Provenance.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleAttachProvenance(
         const http::request<http::string_body>& req);
 
+    /**
+     * @brief Handle Get Audit Log.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleGetAuditLog(
         const http::request<http::string_body>& req);
 
+    /**
+     * @brief Handle List Snapshots.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleListSnapshots(
         const http::request<http::string_body>& req);
 
+    /**
+     * @brief Handle Verify Audit Chain.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleVerifyAuditChain(
         const http::request<http::string_body>& req);
     
     // Helper methods
+    /**
+     * @brief Validate Bearer Token.
+     * @param[in] req Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool validateBearerToken(const http::request<http::string_body>& req);
     
     http::response<http::string_body> createErrorResponse(
@@ -209,9 +265,20 @@ private:
         const json& data,
         http::status status = http::status::ok);
     
+    /**
+     * @brief Parse Request Body.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     std::optional<json> parseRequestBody(
         const http::request<http::string_body>& req);
     
+    /**
+     * @brief Extract Path Parameter.
+     * @param[in] target Input parameter.
+     * @param[in] prefix Input parameter.
+     * @return Return value.
+     */
     std::string extractPathParameter(
         std::string_view target,
         std::string_view prefix);

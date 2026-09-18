@@ -19,6 +19,11 @@ CircuitBreaker::CircuitBreaker(const Config& config)
     : config_(config) {
 }
 
+/**
+ * @brief Allow Request.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), load(), isTimeoutElapsed(), transitionTo().
+ */
 bool CircuitBreaker::allowRequest() {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -48,6 +53,10 @@ bool CircuitBreaker::allowRequest() {
     return false;
 }
 
+/**
+ * @brief Record Success.
+ * @details Calls: lock(), load(), transitionTo(), clear().
+ */
 void CircuitBreaker::recordSuccess() {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -69,6 +78,10 @@ void CircuitBreaker::recordSuccess() {
     }
 }
 
+/**
+ * @brief Record Failure.
+ * @details Calls: lock(), load(), std::chrono::steady_clock::now(), push_back(), cleanupOldFailures(), getCurrentFailureCount(), transitionTo().
+ */
 void CircuitBreaker::recordFailure() {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -103,15 +116,29 @@ CircuitBreaker::State CircuitBreaker::getState() const {
 }
 
 size_t CircuitBreaker::getFailureCount() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return getCurrentFailureCount();
 }
 
 size_t CircuitBreaker::getSuccessCount() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return half_open_successes_;
 }
 
+/**
+ * @brief Reset the modification detection flag.
+ * @details Calls: lock(), transitionTo(), clear().
+ */
 void CircuitBreaker::reset() {
     std::lock_guard<std::mutex> lock(mutex_);
     transitionTo(State::CLOSED);
@@ -120,12 +147,22 @@ void CircuitBreaker::reset() {
     half_open_successes_ = 0;
 }
 
+/**
+ * @brief Force Open.
+ * @details Calls: lock(), transitionTo(), std::chrono::steady_clock::now().
+ */
 void CircuitBreaker::forceOpen() {
     std::lock_guard<std::mutex> lock(mutex_);
     transitionTo(State::OPEN);
     open_timestamp_ = std::chrono::steady_clock::now();
 }
 
+/**
+ * @brief State To String.
+ * @param[in] state Input parameter.
+ * @return Return value.
+ * @details Implements stateToString without additional internal calls.
+ */
 std::string CircuitBreaker::stateToString(State state) {
     switch (state) {
         case State::CLOSED: return "CLOSED";
@@ -136,6 +173,11 @@ std::string CircuitBreaker::stateToString(State state) {
     return "UNKNOWN";
 }
 
+/**
+ * @brief Transition To.
+ * @param[in] new_state Input parameter.
+ * @details Calls: load(), store(), spdlog::info(), stateToString().
+ */
 void CircuitBreaker::transitionTo(State new_state) {
     State old_state = state_.load();
     if (old_state != new_state) {
@@ -157,6 +199,10 @@ bool CircuitBreaker::isTimeoutElapsed() const {
     return elapsed >= config_.timeout;
 }
 
+/**
+ * @brief Cleanup Old Failures.
+ * @details Calls: std::chrono::steady_clock::now(), erase(), std::remove_if(), begin(), end().
+ */
 void CircuitBreaker::cleanupOldFailures() {
     auto now = std::chrono::steady_clock::now();
     auto window_start = now - config_.failure_window;
@@ -182,6 +228,13 @@ size_t CircuitBreaker::getCurrentFailureCount() const {
 // CircuitBreakerManager Implementation
 // ============================================================================
 
+/**
+ * @brief Get Circuit Breaker.
+ * @param[in] shard_id Identifier of the shard.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), find(), end(), std::move().
+ */
 CircuitBreaker& CircuitBreakerManager::getCircuitBreaker(
     const std::string& shard_id,
     const CircuitBreaker::Config& config) {
@@ -202,15 +255,29 @@ CircuitBreaker& CircuitBreakerManager::getCircuitBreaker(
 }
 
 bool CircuitBreakerManager::hasCircuitBreaker(const std::string& shard_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return circuit_breakers_.find(shard_id) != circuit_breakers_.end();
 }
 
+/**
+ * @brief Remove Circuit Breaker.
+ * @param[in] shard_id Identifier of the shard.
+ * @details Calls: lock(), erase().
+ */
 void CircuitBreakerManager::removeCircuitBreaker(const std::string& shard_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     circuit_breakers_.erase(shard_id);
 }
 
+/**
+ * @brief Reset All.
+ * @details Calls: lock(), reset().
+ */
 void CircuitBreakerManager::resetAll() {
     std::lock_guard<std::mutex> lock(mutex_);
     for (auto& [shard_id, cb] : circuit_breakers_) {
@@ -219,6 +286,11 @@ void CircuitBreakerManager::resetAll() {
 }
 
 std::vector<std::string> CircuitBreakerManager::getAllShardIds() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     std::vector<std::string> shard_ids = {};
 
@@ -232,6 +304,11 @@ std::vector<std::string> CircuitBreakerManager::getAllShardIds() const {
 }
 
 CircuitBreakerManager::StateCount CircuitBreakerManager::getStateCount() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     StateCount count;
     

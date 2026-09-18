@@ -81,6 +81,11 @@ std::vector<ConsistencyIssue> SchemaConsistencyChecker::runCheck() const {
 
     // Update the cached last results (results_mutex_ is mutable — no cast needed).
     {
+        /**
+         * @brief Lk.
+         * @param[in] results_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(results_mutex_);
         last_results_ = issues;
     }
@@ -133,6 +138,11 @@ std::vector<ConsistencyIssue> SchemaConsistencyChecker::checkOrphanKeys_() const
               return false;
             }
 
+            /**
+             * @brief Key str.
+             * @param[in] key Input parameter.
+             * @return Return value.
+             */
             std::string key_str(key);
             if (is_system_key(key_str)) {
               return true;
@@ -229,6 +239,11 @@ std::vector<ConsistencyIssue> SchemaConsistencyChecker::checkMissingConstraints_
 // Background checking
 // ============================================================================
 
+/**
+ * @brief Start Background Check.
+ * @param[in] interval Input parameter.
+ * @details Calls: stopBackgroundCheck(), count(), spdlog::debug(), store(), std::thread(), bgLoop_(), spdlog::info().
+ */
 void SchemaConsistencyChecker::startBackgroundCheck(std::chrono::seconds interval) {
     stopBackgroundCheck();
 
@@ -252,6 +267,10 @@ void SchemaConsistencyChecker::stopBackgroundCheck() noexcept {
     }
 }
 
+/**
+ * @brief Bg Loop.
+ * @details Calls: load(), lk(), wait_for(), runCheck(), spdlog::error(), what(), spdlog::debug().
+ */
 void SchemaConsistencyChecker::bgLoop_() {
     while (!stop_bg_.load()) {
         std::unique_lock<std::mutex> lk(bg_mutex_);
@@ -275,11 +294,21 @@ void SchemaConsistencyChecker::bgLoop_() {
 // ============================================================================
 
 std::vector<ConsistencyIssue> SchemaConsistencyChecker::getLastCheckResults() const {
+    /**
+     * @brief Lk.
+     * @param[in] results_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(results_mutex_);
     return last_results_;
 }
 
 json SchemaConsistencyChecker::lastResultsToJSON() const {
+    /**
+     * @brief Lk.
+     * @param[in] results_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(results_mutex_);
     json arr = json::array();
     for (const auto& issue : last_results_) {

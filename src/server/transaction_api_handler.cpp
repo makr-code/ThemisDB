@@ -31,24 +31,48 @@ static constexpr const char* INVALID_ISOLATION_MSG =
 
 static constexpr size_t MAX_TRANSACTION_BODY_SIZE = 1'000'000;
 
+/**
+ * @brief Validate Body Size.
+ * @param[in] body Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: validateStringLength(), std::string().
+ */
 static bool validateBodySize(std::string_view body) {
     themis::utils::InputValidator validator;
     return validator.validateStringLength(std::string(body), MAX_TRANSACTION_BODY_SIZE);
 }
 
+/**
+ * @brief Validate Txn Field.
+ * @param[in] value Input parameter.
+ * @param[in] max_len Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: validateStringLength(), std::string().
+ */
 static bool validateTxnField(std::string_view value, size_t max_len) {
     themis::utils::InputValidator validator;
     return validator.validateStringLength(std::string(value), max_len);
 }
 
+/**
+ * @brief Validate Txn Table Name.
+ * @param[in] table Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: validateTxnField(), validatePathSegment(), std::string().
+ */
 static bool validateTxnTableName(std::string_view table) {
     themis::utils::InputValidator validator;
     return validateTxnField(table, 128) && validator.validatePathSegment(std::string(table));
 }
 
-/// Parse the "isolation" field from a JSON body.
-/// Returns ReadCommitted when the field is absent.
-/// Returns Status::Error(...) via the out-param on invalid value.
+/**
+ * @brief Parse Isolation Level.
+ * @param[in] body Input parameter.
+ * @param[in,out] valid Input/output parameter.
+ * @param[in,out] error_msg Input/output parameter.
+ * @return Return value.
+ * @details Calls: contains().
+ */
 static IsolationLevel parseIsolationLevel(const json& body, bool* valid,
                                            std::string* error_msg) {
     *valid = true;
@@ -70,7 +94,6 @@ static IsolationLevel parseIsolationLevel(const json& body, bool* valid,
     return IsolationLevel::ReadCommitted;
 }
 
-/// Convert an IsolationLevel to its JSON string representation.
 static const char* isolationLevelToString(IsolationLevel iso) noexcept {
     switch (iso) {
         case IsolationLevel::SERIALIZABLE: return "serializable";
@@ -90,6 +113,12 @@ TransactionApiHandler::TransactionApiHandler(
 {
 }
 
+/**
+ * @brief Handle Transaction.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), body(), empty(), setStatus(), makeErrorResponse(), validateBodySize(), json::parse(), parseIsolationLevel().
+ */
 http::response<http::string_body> TransactionApiHandler::handleTransaction(
     const http::request<http::string_body>& req
 ) {
@@ -273,6 +302,12 @@ http::response<http::string_body> TransactionApiHandler::handleTransaction(
     }
 }
 
+/**
+ * @brief Handle Begin.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), body(), empty(), validateBodySize(), setStatus(), makeErrorResponse(), json::parse(), parseIsolationLevel().
+ */
 http::response<http::string_body> TransactionApiHandler::handleBegin(
     const http::request<http::string_body>& req
 ) {
@@ -321,6 +356,12 @@ http::response<http::string_body> TransactionApiHandler::handleBegin(
     }
 }
 
+/**
+ * @brief Handle Commit.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), validateBodySize(), body(), setStatus(), makeErrorResponse(), json::parse(), contains(), setAttribute().
+ */
 http::response<http::string_body> TransactionApiHandler::handleCommit(
     const http::request<http::string_body>& req
 ) {
@@ -372,6 +413,12 @@ http::response<http::string_body> TransactionApiHandler::handleCommit(
     }
 }
 
+/**
+ * @brief Handle Rollback.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), validateBodySize(), body(), setStatus(), makeErrorResponse(), json::parse(), contains(), setAttribute().
+ */
 http::response<http::string_body> TransactionApiHandler::handleRollback(
     const http::request<http::string_body>& req
 ) {
@@ -414,6 +461,12 @@ http::response<http::string_body> TransactionApiHandler::handleRollback(
     }
 }
 
+/**
+ * @brief Handle Stats.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), getStats(), makeResponse(), dump(), makeErrorResponse(), std::string(), what().
+ */
 http::response<http::string_body> TransactionApiHandler::handleStats(
     const http::request<http::string_body>& req
 ) {
@@ -440,6 +493,12 @@ http::response<http::string_body> TransactionApiHandler::handleStats(
     }
 }
 
+/**
+ * @brief Handle Get Version.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), body(), empty(), setStatus(), makeErrorResponse(), validateBodySize(), json::parse(), contains().
+ */
 http::response<http::string_body> TransactionApiHandler::handleGetVersion(
     const http::request<http::string_body>& req
 ) {
@@ -530,6 +589,12 @@ http::response<http::string_body> TransactionApiHandler::handleGetVersion(
     }
 }
 
+/**
+ * @brief Handle Explain.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), std::string(), target(), find(), substr(), size(), setStatus(), makeErrorResponse().
+ */
 http::response<http::string_body> TransactionApiHandler::handleExplain(
     const http::request<http::string_body>& req
 ) {
@@ -604,6 +669,14 @@ http::response<http::string_body> TransactionApiHandler::handleExplain(
     }
 }
 
+/**
+ * @brief Make Error Response.
+ * @param[in] status Input parameter.
+ * @param[in] message Input parameter.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: makeResponse(), dump().
+ */
 http::response<http::string_body> TransactionApiHandler::makeErrorResponse(
     http::status status, const std::string& message, const http::request<http::string_body>& req
 ) {
@@ -616,6 +689,14 @@ http::response<http::string_body> TransactionApiHandler::makeErrorResponse(
     return makeResponse(status, error_body.dump(), req);
 }
 
+/**
+ * @brief Make Response.
+ * @param[in] status Input parameter.
+ * @param[in] body Input parameter.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: version(), set(), keep_alive(), body(), prepare_payload().
+ */
 http::response<http::string_body> TransactionApiHandler::makeResponse(
     http::status status, const std::string& body, const http::request<http::string_body>& req
 ) {

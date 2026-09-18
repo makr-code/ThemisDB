@@ -115,12 +115,26 @@ private:
 
 #if defined(_WIN32)
 using themis_zc_ssize_t = std::ptrdiff_t;
+/**
+ * @brief Themis zc write fd.
+ * @param[in] fd Input parameter.
+ * @param[in] data Input parameter.
+ * @param[in] len Input parameter.
+ * @return Return value.
+ * @details Calls: _write().
+ */
 static themis_zc_ssize_t themis_zc_write_fd(int fd, const void* data, size_t len) {
     return static_cast<themis_zc_ssize_t>(
         _write(fd, data, static_cast<unsigned int>(len)));
 }
 #elif defined(_POSIX_VERSION)
 using themis_zc_ssize_t = ssize_t;
+/**
+ * @brief Themis zc test flag once.
+ * @param[in] name Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: std::getenv(), unsetenv().
+ */
 static bool themis_zc_test_flag_once(const char* name) {
     const char* value = std::getenv(name);
     if (value == nullptr || value[0] == '\0' ||
@@ -130,6 +144,12 @@ static bool themis_zc_test_flag_once(const char* name) {
     ::unsetenv(name);
     return true;
 }
+/**
+ * @brief Themis zc open read only.
+ * @param[in] path Input parameter.
+ * @return Return value.
+ * @details Calls: themis_zc_test_flag_once(), open().
+ */
 static int themis_zc_open_read_only(const char* path) {
     for (;;) {
         if (themis_zc_test_flag_once("THEMIS_TEST_ZERO_COPY_OPEN_EINTR_ONCE")) {
@@ -142,6 +162,14 @@ static int themis_zc_open_read_only(const char* path) {
         }
     }
 }
+/**
+ * @brief Themis zc write fd.
+ * @param[in] fd Input parameter.
+ * @param[in] data Input parameter.
+ * @param[in] len Input parameter.
+ * @return Return value.
+ * @details Calls: themis_zc_test_flag_once(), write().
+ */
 static themis_zc_ssize_t themis_zc_write_fd(int fd, const void* data, size_t len) {
     for (;;) {
         if (themis_zc_test_flag_once("THEMIS_TEST_ZERO_COPY_WRITE_EINTR_ONCE")) {
@@ -162,15 +190,36 @@ static themis_zc_ssize_t themis_zc_write_fd(int fd, const void* data, size_t len
 }
 #else
 using themis_zc_ssize_t = std::ptrdiff_t;
+/**
+ * @brief Themis zc open read only.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Implements themis_zc_open_read_only without additional internal calls.
+ */
 static int themis_zc_open_read_only(const char* /*path*/) {
     return -1;  // unsupported platform
 }
+/**
+ * @brief Themis zc write fd.
+ * @param[in] int Input parameter.
+ * @param[in] param Input parameter.
+ * @param[in] size_t Input parameter.
+ * @return Return value.
+ * @details Implements themis_zc_write_fd without additional internal calls.
+ */
 static themis_zc_ssize_t themis_zc_write_fd(int /*fd*/, const void* /*data*/, size_t /*len*/) {
     return -1;  // unsupported platform
 }
 #endif
 
-/// Write exactly @p len bytes, retrying on short writes.  Returns false on error.
+/**
+ * @brief Zc write all.
+ * @param[in] fd Input parameter.
+ * @param[in] data Input parameter.
+ * @param[in] len Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: themis_zc_write_fd().
+ */
 static bool zc_write_all(int fd, const void* data, size_t len) {
     const uint8_t* ptr       = static_cast<const uint8_t*>(data);
     size_t         remaining = len;
@@ -190,6 +239,13 @@ static bool zc_write_all(int fd, const void* data, size_t len) {
     return true;
 }
 
+/**
+ * @brief Zc file size as int64.
+ * @param[in] source_path Path to the source.
+ * @param[in] operation Input parameter.
+ * @return Return value.
+ * @details Calls: fs::file_size(), std::string(), max(), Ok().
+ */
 static Result<int64_t> zc_file_size_as_int64(const std::string& source_path, const char* operation) {
     std::error_code size_ec = {};
     const uintmax_t raw_size = fs::file_size(source_path, size_ec);
@@ -212,6 +268,10 @@ static Result<int64_t> zc_file_size_as_int64(const std::string& source_path, con
 
 #if THEMIS_ZERO_COPY_S3_AVAILABLE
 static std::once_flag g_aws_sdk_init_flag;
+/**
+ * @brief Ensure Aws Sdk Initialized.
+ * @details Calls: std::call_once(), Aws::InitAPI(), THEMIS_INFO().
+ */
 static void ensureAwsSdkInitialized() {
     std::call_once(g_aws_sdk_init_flag, []() {
         Aws::SDKOptions options;
@@ -279,6 +339,11 @@ MmapBlobView::MmapBlobView(const std::string& file_path, bool sequential_hint) {
         }
         size_ = static_cast<size_t>(end_pos);
         ifs.seekg(0);
+        /**
+         * @brief Buf.
+         * @param[in] size_ Input parameter.
+         * @return Return value.
+         */
         std::vector<uint8_t> buf(size_);
         ifs.read(reinterpret_cast<char*>(buf.data()), static_cast<std::streamsize>(size_));
         if (ifs.gcount() != static_cast<std::streamsize>(size_)) {
@@ -394,6 +459,15 @@ ZeroCopyBlobTransfer::ZeroCopyBlobTransfer(const ZeroCopyTransferConfig& config)
 // ─────────────────────────────────────────────────────────────────────────────
 
 #if defined(__linux__)
+/**
+ * @brief Themis zc sendfile.
+ * @param[in] dest_fd Input parameter.
+ * @param[in] src_fd Input parameter.
+ * @param[in,out] offset Input/output parameter.
+ * @param[in] len Input parameter.
+ * @return Return value.
+ * @details Calls: themis_zc_test_flag_once(), sendfile().
+ */
 static ssize_t themis_zc_sendfile(int dest_fd, int src_fd, off_t* offset, size_t len) {
     for (;;) {
         if (themis_zc_test_flag_once("THEMIS_TEST_ZERO_COPY_SENDFILE_EINTR_ONCE")) {
@@ -410,6 +484,14 @@ static ssize_t themis_zc_sendfile(int dest_fd, int src_fd, off_t* offset, size_t
 }
 #endif
 
+/**
+ * @brief Sendfile Transfer.
+ * @param[in] source_path Path to the source.
+ * @param[in] dest_fd Input parameter.
+ * @param[in] offset Input parameter.
+ * @param[in] length Input parameter.
+ * @return Return value.
+ */
 Result<ZeroCopyTransferStats> ZeroCopyBlobTransfer::sendfileTransfer(
     const std::string& source_path,
     int                dest_fd,
@@ -502,6 +584,14 @@ Result<ZeroCopyTransferStats> ZeroCopyBlobTransfer::sendfileTransfer(
 // fallbackTransfer  (portable read+write)
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Fallback Transfer.
+ * @param[in] source_path Path to the source.
+ * @param[in] dest_fd Input parameter.
+ * @param[in] offset Input parameter.
+ * @param[in] length Input parameter.
+ * @return Return value.
+ */
 Result<ZeroCopyTransferStats> ZeroCopyBlobTransfer::fallbackTransfer(
     const std::string& source_path,
     int                dest_fd,
@@ -539,6 +629,12 @@ Result<ZeroCopyTransferStats> ZeroCopyBlobTransfer::fallbackTransfer(
             "fallbackTransfer: invalid offset/length for: " + source_path);
     }
 
+    /**
+     * @brief Ifs.
+     * @param[in] source_path Path to the source.
+     * @param[in] binary Input parameter.
+     * @return Return value.
+     */
     std::ifstream ifs(source_path, std::ios::binary);
     if (!ifs) {
         return Err<ZeroCopyTransferStats>(
@@ -554,6 +650,11 @@ Result<ZeroCopyTransferStats> ZeroCopyBlobTransfer::fallbackTransfer(
     }
 
     constexpr size_t BUF_SIZE = 256 * 1024; // 256 KB
+    /**
+     * @brief Buf.
+     * @param[in] BUF_SIZE Input parameter.
+     * @return Return value.
+     */
     std::vector<char> buf(BUF_SIZE);
 
     ZeroCopyTransferStats stats;
@@ -597,6 +698,14 @@ MmapBlobView ZeroCopyBlobTransfer::openMmap(const std::string& file_path) const 
 // s3MultipartUpload
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief S3 Multipart Upload.
+ * @param[in] bucket Input parameter.
+ * @param[in] s3_key Input parameter.
+ * @param[in] source_path Path to the source.
+ * @param[in] blob_id Identifier of the blob.
+ * @return Return value.
+ */
 Result<ZeroCopyTransferStats> ZeroCopyBlobTransfer::s3MultipartUpload(
     const std::string& bucket,
     const std::string& s3_key,
@@ -646,6 +755,11 @@ Result<ZeroCopyTransferStats> ZeroCopyBlobTransfer::s3MultipartUpload(
 
     // Use the default credential provider chain (env vars / ~/.aws / IAM role)
     Aws::Client::ClientConfiguration aws_config;
+    /**
+     * @brief Client.
+     * @param[in] aws_config Input parameter.
+     * @return Return value.
+     */
     Aws::S3::S3Client client(aws_config);
 
     // Step 1 – CreateMultipartUpload
@@ -680,7 +794,12 @@ Result<ZeroCopyTransferStats> ZeroCopyBlobTransfer::s3MultipartUpload(
         THEMIS_WARN("ZeroCopyBlobTransfer: aborted S3 multipart upload for blob '{}'", blob_id);
     };
 
-    // Open the source file once; read it in streaming part-sized chunks
+    /**
+     * @brief Open the source file once; read it in streaming part-sized chunks
+     * @param[in] source_path Path to the source.
+     * @param[in] binary Input parameter.
+     * @return Return value.
+     */
     std::ifstream ifs(source_path, std::ios::binary);
     if (!ifs) {
         abort_upload();

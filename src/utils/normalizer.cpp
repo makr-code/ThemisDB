@@ -15,12 +15,12 @@ namespace themis {
 namespace utils {
 
 /**
- * @brief Helper: check two-byte sequence equals a given pair
+ * @brief Is2.
  * @param[in] a Input parameter.
  * @param[in] b Input parameter.
  * @param[in] x Input parameter.
  * @param[in] y Input parameter.
- * @return True on success.
+ * @return True when the operation succeeds.
  * @details Implements is2 without additional internal calls.
  */
 static inline bool is2(unsigned char a, unsigned char b, unsigned char x, unsigned char y) {

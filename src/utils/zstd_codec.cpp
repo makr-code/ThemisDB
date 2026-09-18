@@ -25,7 +25,7 @@ namespace themis {
 namespace utils {
 
 /**
- * @brief Internal implementation with full Result<T> error handling
+ * @brief Zstd compress safe.
  * @param[in] data Input parameter.
  * @param[in] size Input parameter.
  * @param[in] level Input parameter.
@@ -358,7 +358,7 @@ Result<std::vector<uint8_t>> zstd_decompress_safe(const std::vector<uint8_t>& co
 }
 
 /**
- * @brief Public API - backward compatible, but now with security validation
+ * @brief Zstd compress.
  * @param[in] data Input parameter.
  * @param[in] size Input parameter.
  * @param[in] level Input parameter.
@@ -456,11 +456,6 @@ Result<std::vector<uint8_t>> ZstdStreamCompressor::compress_chunk(const uint8_t*
 
     ZSTD_inBuffer  in  = { data, size, 0 };
     while (in.pos < in.size) {
-        /**
-         * @brief Chunk.
-         * @param[in] out_buf_size Input parameter.
-         * @return Return value.
-         */
         std::vector<uint8_t> chunk(out_buf_size);
         ZSTD_outBuffer out = { chunk.data(),chunk.size(), 0 };
         const size_t rc = ZSTD_compressStream(impl_->cstream, &out, &in);
@@ -495,11 +490,6 @@ Result<std::vector<uint8_t>> ZstdStreamCompressor::flush() {
 
     // Flush then end-frame loop.
     for (bool done = false; !done; ) {
-        /**
-         * @brief Chunk.
-         * @param[in] out_buf_size Input parameter.
-         * @return Return value.
-         */
         std::vector<uint8_t> chunk(out_buf_size);
         ZSTD_outBuffer out = { chunk.data(),chunk.size(), 0 };
         const size_t remaining = ZSTD_endStream(impl_->cstream, &out);
@@ -520,7 +510,7 @@ Result<std::vector<uint8_t>> ZstdStreamCompressor::flush() {
 }
 
 /**
- * @brief Reset.
+ * @brief Reset the modification detection flag.
  * @param[in] level Input parameter.
  * @details Calls: reinit(), else().
  */
@@ -595,11 +585,6 @@ Result<std::vector<uint8_t>> ZstdStreamDecompressor::decompress_chunk(const uint
 
     ZSTD_inBuffer in = { data, size, 0 };
     while (in.pos < in.size) {
-        /**
-         * @brief Chunk.
-         * @param[in] out_buf_size Input parameter.
-         * @return Return value.
-         */
         std::vector<uint8_t> chunk(out_buf_size);
         ZSTD_outBuffer out = { chunk.data(),chunk.size(), 0 };
         const size_t rc = ZSTD_decompressStream(impl_->dstream, &out, &in);
@@ -627,7 +612,7 @@ bool ZstdStreamDecompressor::is_done() const {
 }
 
 /**
- * @brief Reset.
+ * @brief Reset the modification detection flag.
  * @details Calls: reinit().
  */
 void ZstdStreamDecompressor::reset() {

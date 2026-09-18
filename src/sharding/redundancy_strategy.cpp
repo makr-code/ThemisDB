@@ -35,12 +35,11 @@ namespace sharding {
 
 namespace {
 
-// W2-S04: Version tracking — hybrid timestamp + counter for monotonic version tokens
-// This provides better version tracking than pure timestamps by:
-// 1. Using atomic counter for monotonicity within a process
-// 2. Combining with timestamp for approximate temporal ordering
-// 3. Avoiding clock skew issues between shards
-// Format: [48-bit timestamp (microseconds) | 16-bit counter]
+/**
+ * @brief W2-S04: Version tracking — hybrid timestamp + counter for monotonic version tokens This provides better version tracking than pure timestamps by: 1.
+ * @return Return value.
+ * @details Using atomic counter for monotonicity within a process 2. Combining with timestamp for approximate temporal ordering 3. Avoiding clock skew issues between shards Format: [48-bit timestamp (microseconds) | 16-bit counter] Calls: std::chrono::steady_clock::now(), time_since_epoch(), count(), fetch_add().
+ */
 inline uint64_t makeVersionToken() {
     static std::atomic<uint16_t> version_counter{0};
     
@@ -57,21 +56,6 @@ inline uint64_t makeVersionToken() {
     return (static_cast<uint64_t>(micros) << 16) | counter;
 }
 
-/**
- * @brief BATCH 5: Retry helper for transient replication failures with exponential backoff.
- * 
- * Used for replication operations that may fail transiently due to:
- * - Temporary network issues (STORAGE_AHEAD, CACHE_AHEAD)
- * - Temporary coordinator unavailability
- * - Transient lock contention
- * 
- * @tparam Func Callable that returns bool (true = success, false = transient failure)
- * @param func Operation to retry
- * @param max_retries Maximum retry attempts (default: 3)
- * @param initial_delay_ms Initial backoff delay in milliseconds (default: 50)
- * @param max_delay_ms Maximum backoff delay cap (default: 2000)
- * @return true if operation succeeded, false if all retries exhausted
- */
 template <typename Func>
 inline bool retryReplicationWithBackoff(
     Func&& func,
@@ -111,7 +95,6 @@ inline bool retryReplicationWithBackoff(
 // RedundancyConfig Implementation
 // ═══════════════════════════════════════════════════════════
 
-/** @brief Validate redundancy configuration invariants and mode-specific constraints. */
 bool RedundancyConfig::validate() const {
     if (replication_factor < 1) {
         spdlog::error("Invalid replication_factor: must be >= 1");
@@ -176,7 +159,6 @@ bool RedundancyConfig::validate() const {
     return true;
 }
 
-/** @brief Compute logical-to-physical storage efficiency for configured mode. */
 double RedundancyConfig::getStorageEfficiency() const {
     switch (mode) {
         case RedundancyMode::NONE:
@@ -198,7 +180,6 @@ double RedundancyConfig::getStorageEfficiency() const {
     }
 }
 
-/** @brief Return maximum tolerable shard failures under configured mode. */
 uint32_t RedundancyConfig::getFaultTolerance() const {
     switch (mode) {
         case RedundancyMode::NONE:
@@ -220,7 +201,6 @@ uint32_t RedundancyConfig::getFaultTolerance() const {
     }
 }
 
-/** @brief Return effective shard fanout/replication factor for writes. */
 uint32_t RedundancyConfig::getEffectiveReplicationFactor() const {
     switch (mode) {
         case RedundancyMode::NONE:
@@ -240,7 +220,6 @@ uint32_t RedundancyConfig::getEffectiveReplicationFactor() const {
 // ChunkInfo Implementation
 // ═══════════════════════════════════════════════════════════
 
-/** @brief Serialize chunk metadata into binary payload (placeholder wire format). */
 std::vector<uint8_t> ChunkInfo::serialize() const {
     std::vector<uint8_t> data;
     // Simple binary serialization
@@ -248,7 +227,12 @@ std::vector<uint8_t> ChunkInfo::serialize() const {
     return data;
 }
 
-/** @brief Deserialize chunk metadata from binary payload (placeholder parser). */
+/**
+ * @brief Deserialize.
+ * @param[in] data Input parameter.
+ * @return Return value.
+ * @details Implements deserialize without additional internal calls.
+ */
 std::optional<ChunkInfo> ChunkInfo::deserialize(const std::vector<uint8_t>& data) {
     // Simple binary deserialization
     // In production, use protobuf or similar
@@ -259,7 +243,6 @@ std::optional<ChunkInfo> ChunkInfo::deserialize(const std::vector<uint8_t>& data
 // StripeGroup Implementation
 // ═══════════════════════════════════════════════════════════
 
-/** @brief Return whether all data chunks are assigned to concrete shard ids. */
 bool StripeGroup::isComplete() const {
     for (const auto& chunk : data_chunks) {
         if (chunk.shard_id.empty()) {
@@ -269,7 +252,6 @@ bool StripeGroup::isComplete() const {
     return true;
 }
 
-/** @brief Return indices of data chunks currently missing shard assignment. */
 std::vector<uint32_t> StripeGroup::getMissingChunks() const {
     std::vector<uint32_t> missing = {};
 
@@ -281,7 +263,6 @@ std::vector<uint32_t> StripeGroup::getMissingChunks() const {
     return missing;
 }
 
-/** @brief Return whether available data+parity chunks are sufficient for recovery. */
 bool StripeGroup::canRecover(uint32_t data_shards, uint32_t parity_shards) const {
     uint32_t available = 0;
     for (const auto& chunk : data_chunks) {
@@ -299,11 +280,15 @@ bool StripeGroup::canRecover(uint32_t data_shards, uint32_t parity_shards) const
     return available >= data_shards;
 }
 
-// ═══════════════════════════════════════════════════════════
-// WriteResult Implementation
-// ═══════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════ WriteResult Implementation ═══════════════════════════════════════════════════════════
+ * @param[in] doc_id Identifier of the doc.
+ * @param[in] shards Input parameter.
+ * @param[in] lat Input parameter.
+ * @return Return value.
+ * @details Calls: size().
+ */
 
-/** @brief Build successful write-result payload helper. */
 WriteResult WriteResult::successful(const std::string& doc_id, 
                                    const std::vector<std::string>& shards,
                                    std::chrono::milliseconds lat) {
@@ -316,7 +301,13 @@ WriteResult WriteResult::successful(const std::string& doc_id,
     return result;
 }
 
-/** @brief Build failed write-result payload helper. */
+/**
+ * @brief Failed.
+ * @param[in] doc_id Identifier of the doc.
+ * @param[in] error Input parameter.
+ * @return Return value.
+ * @details Implements failed without additional internal calls.
+ */
 WriteResult WriteResult::failed(const std::string& doc_id, const std::string& error) {
     WriteResult result;
     result.success = false;
@@ -331,8 +322,14 @@ WriteResult WriteResult::failed(const std::string& doc_id, const std::string& er
 // parity_shards simultaneously lost chunks (data or parity).
 // ═══════════════════════════════════════════════════════════
 
-// Build Vandermonde parity matrix (parity_shards x data_shards).
-// V[p][j] = gf_pow(p+1, j) so each row uses a distinct evaluation point {1,2,...,m}.
+/**
+ * @brief Build Vandermonde parity matrix (parity_shards x data_shards).
+ * @param[in] rows Input parameter.
+ * @param[in] cols Input parameter.
+ * @return Return value.
+ * @throws std::invalid_argument if an error occurs.
+ * @details V[p][j] = gf_pow(p+1, j) so each row uses a distinct evaluation point {1,2,...,m}. Calls: matrix(), gf_pow().
+ */
 std::vector<std::vector<uint8_t>> ReedSolomonCoder::buildVandermondeMatrix(
     uint32_t rows, uint32_t cols
 ) {
@@ -349,7 +346,12 @@ std::vector<std::vector<uint8_t>> ReedSolomonCoder::buildVandermondeMatrix(
     return matrix;
 }
 
-// Gaussian elimination in GF(2^8) to invert an n×n matrix in-place.
+/**
+ * @brief Gaussian elimination in GF(2^8) to invert an n×n matrix in-place.
+ * @param[in,out] matrix Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: size(), aug(), std::swap(), gf_inv(), gf_mul().
+ */
 bool ReedSolomonCoder::invertMatrix(std::vector<std::vector<uint8_t>>& matrix) {
     const size_t n = matrix.size();
     // Augment with identity matrix
@@ -392,6 +394,14 @@ bool ReedSolomonCoder::invertMatrix(std::vector<std::vector<uint8_t>>& matrix) {
     return true;
 }
 
+/**
+ * @brief Encode.
+ * @param[in] data Input parameter.
+ * @param[in] data_shards Input parameter.
+ * @param[in] parity_shards Input parameter.
+ * @return Return value.
+ * @details Calls: size(), reserve(), chunk(), std::min(), std::memcpy(), data(), push_back(), std::move().
+ */
 std::vector<std::vector<uint8_t>> ReedSolomonCoder::encode(
     const std::vector<uint8_t>& data,
     uint32_t data_shards,
@@ -507,6 +517,11 @@ std::vector<uint8_t> ReedSolomonCoder::decode(
     std::vector<std::vector<uint8_t>> recovered_data(data_shards,
                                                       std::vector<uint8_t>(chunk_size, 0));
     for (size_t x = 0; x < chunk_size; ++x) {
+        /**
+         * @brief Available bytes.
+         * @param[in] data_shards Input parameter.
+         * @return Return value.
+         */
         std::vector<uint8_t> available_bytes(data_shards);
         for (size_t i = 0; i < data_shards; ++i) {
             available_bytes[i] = available_chunks.at(available_indices[i])[x];
@@ -526,6 +541,13 @@ std::vector<uint8_t> ReedSolomonCoder::decode(
     return result;
 }
 
+/**
+ * @brief Gf mul.
+ * @param[in] a Input parameter.
+ * @param[in] b Input parameter.
+ * @return Return value.
+ * @details Implements gf_mul without additional internal calls.
+ */
 uint8_t ReedSolomonCoder::gf_mul(uint8_t a, uint8_t b) {
     // Galois Field GF(2^8) multiplication using Russian Peasant algorithm
     // Irreducible polynomial: x^8 + x^4 + x^3 + x^2 + 1 (0x1d)
@@ -544,6 +566,12 @@ uint8_t ReedSolomonCoder::gf_mul(uint8_t a, uint8_t b) {
     return p;
 }
 
+/**
+ * @brief Gf inv.
+ * @param[in] a Input parameter.
+ * @return Return value.
+ * @details Calls: gf_mul().
+ */
 uint8_t ReedSolomonCoder::gf_inv(uint8_t a) {
     if (a == 0) {
       return 0;
@@ -560,10 +588,24 @@ uint8_t ReedSolomonCoder::gf_inv(uint8_t a) {
     return result;
 }
 
+/**
+ * @brief Gf div.
+ * @param[in] a Input parameter.
+ * @param[in] b Input parameter.
+ * @return Return value.
+ * @details Calls: gf_mul(), gf_inv().
+ */
 uint8_t ReedSolomonCoder::gf_div(uint8_t a, uint8_t b) {
     return gf_mul(a, gf_inv(b));
 }
 
+/**
+ * @brief Gf pow.
+ * @param[in] a Input parameter.
+ * @param[in] exp Input parameter.
+ * @return Return value.
+ * @details Calls: gf_mul().
+ */
 uint8_t ReedSolomonCoder::gf_pow(uint8_t a, uint8_t exp) {
     uint8_t result = 1;
     for (uint8_t i = 0; i < exp; ++i) {
@@ -572,6 +614,13 @@ uint8_t ReedSolomonCoder::gf_pow(uint8_t a, uint8_t exp) {
     return result;
 }
 
+/**
+ * @brief Gf matrix mul.
+ * @param[in] matrix Input parameter.
+ * @param[in] vec Input parameter.
+ * @param[in,out] result Input/output parameter.
+ * @details Calls: size(), assign(), gf_mul().
+ */
 void ReedSolomonCoder::gf_matrix_mul(
     const std::vector<std::vector<uint8_t>>& matrix,
     const std::vector<uint8_t>& vec,
@@ -592,7 +641,13 @@ void ReedSolomonCoder::gf_matrix_mul(
 // CauchyReedSolomonCoder Implementation
 // ═══════════════════════════════════════════════════════════
 
-// Galois Field (GF(2^8)) multiplication using Russian Peasant algorithm
+/**
+ * @brief Galois Field (GF(2^8)) multiplication using Russian Peasant algorithm
+ * @param[in] a Input parameter.
+ * @param[in] b Input parameter.
+ * @return Return value.
+ * @details Implements gf_mul without additional internal calls.
+ */
 uint8_t CauchyReedSolomonCoder::gf_mul(uint8_t a, uint8_t b) {
     uint8_t p = 0;
     uint8_t hi_bit_set;
@@ -612,7 +667,12 @@ uint8_t CauchyReedSolomonCoder::gf_mul(uint8_t a, uint8_t b) {
     return p;
 }
 
-// Galois Field inverse using Extended Euclidean algorithm
+/**
+ * @brief Galois Field inverse using Extended Euclidean algorithm
+ * @param[in] a Input parameter.
+ * @return Return value.
+ * @details Calls: gf_mul().
+ */
 uint8_t CauchyReedSolomonCoder::gf_inv(uint8_t a) {
     if (a == 0) {
       return 0;
@@ -634,7 +694,15 @@ uint8_t CauchyReedSolomonCoder::gf_inv(uint8_t a) {
     return result;
 }
 
-// Build Cauchy matrix for erasure coding
+/**
+ * @brief Build Cauchy matrix for erasure coding
+ * @param[in] rows Input parameter.
+ * @param[in] cols Input parameter.
+ * @return Return value.
+ * @throws std::invalid_argument if an error occurs.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: matrix(), x(), y(), gf_inv().
+ */
 std::vector<std::vector<uint8_t>> CauchyReedSolomonCoder::buildCauchyMatrix(
     uint32_t rows, uint32_t cols
 ) {
@@ -677,7 +745,13 @@ std::vector<std::vector<uint8_t>> CauchyReedSolomonCoder::buildCauchyMatrix(
     return matrix;
 }
 
-// Matrix-vector multiplication in GF(2^8)
+/**
+ * @brief Matrix-vector multiplication in GF(2^8)
+ * @param[in] matrix Input parameter.
+ * @param[in] vec Input parameter.
+ * @param[in,out] result Input/output parameter.
+ * @details Calls: size(), resize(), gf_mul().
+ */
 void CauchyReedSolomonCoder::gf_matrix_mul(
     const std::vector<std::vector<uint8_t>>& matrix,
     const std::vector<uint8_t>& vec,
@@ -697,7 +771,12 @@ void CauchyReedSolomonCoder::gf_matrix_mul(
     }
 }
 
-// Gauss-Jordan elimination for matrix inversion in GF(2^8)
+/**
+ * @brief Gauss-Jordan elimination for matrix inversion in GF(2^8)
+ * @param[in,out] matrix Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: size(), augmented(), std::swap(), gf_inv(), gf_mul().
+ */
 bool CauchyReedSolomonCoder::invertMatrix(std::vector<std::vector<uint8_t>>& matrix) {
     size_t n = matrix.size();
     if (n == 0 || matrix[0].size() != n) {
@@ -761,6 +840,14 @@ bool CauchyReedSolomonCoder::invertMatrix(std::vector<std::vector<uint8_t>>& mat
     return true;
 }
 
+/**
+ * @brief Encode.
+ * @param[in] data Input parameter.
+ * @param[in] data_shards Input parameter.
+ * @param[in] parity_shards Input parameter.
+ * @return Return value.
+ * @details Calls: size(), std::min(), chunk(), std::memcpy(), data(), push_back(), buildCauchyMatrix(), parity().
+ */
 std::vector<std::vector<uint8_t>> CauchyReedSolomonCoder::encode(
     const std::vector<uint8_t>& data,
     uint32_t data_shards,
@@ -897,6 +984,11 @@ std::vector<uint8_t> CauchyReedSolomonCoder::decode(
     
     for (size_t byte_pos = 0; byte_pos < chunk_size; ++byte_pos) {
         // Collect available bytes
+        /**
+         * @brief Available bytes.
+         * @param[in] data_shards Input parameter.
+         * @return Return value.
+         */
         std::vector<uint8_t> available_bytes(data_shards);
         for (size_t i = 0; i < data_shards; ++i) {
             available_bytes[i] = available_chunks.at(available_indices[i])[byte_pos];
@@ -930,6 +1022,13 @@ namespace {  // anonymous — GF helpers shared with LRC
 
 static constexpr uint8_t LRC_GF_POLY = 0x1d;  // x^8+x^4+x^3+x^2+1
 
+/**
+ * @brief Lrc gf mul.
+ * @param[in] a Input parameter.
+ * @param[in] b Input parameter.
+ * @return Return value.
+ * @details Implements lrc_gf_mul without additional internal calls.
+ */
 static uint8_t lrc_gf_mul(uint8_t a, uint8_t b) {
     uint8_t p = 0;
     for (int i = 0; i < 8; ++i) {
@@ -946,6 +1045,13 @@ static uint8_t lrc_gf_mul(uint8_t a, uint8_t b) {
     return p;
 }
 
+/**
+ * @brief Lrc gf pow.
+ * @param[in] a Input parameter.
+ * @param[in] exp Input parameter.
+ * @return Return value.
+ * @details Calls: lrc_gf_mul().
+ */
 static uint8_t lrc_gf_pow(uint8_t a, uint8_t exp) {
     uint8_t r = 1;
     for (uint8_t i = 0; i < exp; ++i) {
@@ -954,6 +1060,12 @@ static uint8_t lrc_gf_pow(uint8_t a, uint8_t exp) {
     return r;
 }
 
+/**
+ * @brief Lrc gf inv.
+ * @param[in] a Input parameter.
+ * @return Return value.
+ * @details Calls: lrc_gf_mul().
+ */
 static uint8_t lrc_gf_inv(uint8_t a) {
     // Extended Euclidean / brute-force for GF(2^8)
     for (int b = 1; b < 256; ++b)
@@ -972,6 +1084,13 @@ static uint8_t lrc_gf_inv(uint8_t a) {
             result[r] ^= lrc_gf_mul(m[r][c], v[c]);
 }
 
+/**
+ * @brief Lrc build Vandermonde.
+ * @param[in] rows Input parameter.
+ * @param[in] cols Input parameter.
+ * @return Return value.
+ * @details Calls: mat(), lrc_gf_pow().
+ */
 static std::vector<std::vector<uint8_t>> lrc_buildVandermonde(uint32_t rows, uint32_t cols) {
     std::vector<std::vector<uint8_t>> mat(rows, std::vector<uint8_t>(cols));
     for (uint32_t r = 0; r < rows; ++r)
@@ -980,6 +1099,12 @@ static std::vector<std::vector<uint8_t>> lrc_buildVandermonde(uint32_t rows, uin
     return mat;
 }
 
+/**
+ * @brief Lrc invert Matrix.
+ * @param[in,out] mat Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: size(), id(), std::swap(), lrc_gf_inv(), lrc_gf_mul().
+ */
 static bool lrc_invertMatrix(std::vector<std::vector<uint8_t>>& mat) {
     const uint32_t n = static_cast<uint32_t>(mat.size());
     std::vector<std::vector<uint8_t>> id(n, std::vector<uint8_t>(n, 0));
@@ -1020,7 +1145,13 @@ static bool lrc_invertMatrix(std::vector<std::vector<uint8_t>>& mat) {
 
 } // anonymous namespace
 
-// ── LocallyRepairableCoder helpers ──────────────────────────────────────────
+/**
+ * @brief ── LocallyRepairableCoder helpers ──────────────────────────────────────────
+ * @param[in] data_shards Input parameter.
+ * @param[in] parity_shards Input parameter.
+ * @return Return value.
+ * @details Calls: std::min().
+ */
 
 uint32_t LocallyRepairableCoder::localGroupCount(uint32_t data_shards,
                                                   uint32_t parity_shards) {
@@ -1029,7 +1160,13 @@ uint32_t LocallyRepairableCoder::localGroupCount(uint32_t data_shards,
     return std::min(groups, parity_shards > 1 ? parity_shards - 1 : parity_shards);
 }
 
-// ── encode ───────────────────────────────────────────────────────────────────
+/**
+ * @brief ── encode ───────────────────────────────────────────────────────────────────
+ * @param[in] data Input parameter.
+ * @param[in] data_shards Input parameter.
+ * @param[in] parity_shards Input parameter.
+ * @return Return value.
+ */
 
 std::vector<std::vector<uint8_t>> LocallyRepairableCoder::encode(
     const std::vector<uint8_t>& data,
@@ -1122,7 +1259,12 @@ std::vector<uint8_t> LocallyRepairableCoder::decode(
           shards[idx] = data;
         }
 
-    // Attempt local group repair for each missing data shard
+    /**
+     * @brief Attempt local group repair for each missing data shard
+     * @param[in] n_total Input parameter.
+     * @param[in] false Input parameter.
+     * @return Return value.
+     */
     std::vector<bool> recovered(n_total, false);
     for (uint32_t mi : missing_indices)
         recovered[mi] = false;
@@ -1255,6 +1397,13 @@ static inline bool hammingCovers(uint32_t j, uint32_t p) noexcept {
     return (((j + 1) >> p) & 1) != 0;
 }
 
+/**
+ * @brief Encode.
+ * @param[in] data Input parameter.
+ * @param[in] data_shards Input parameter.
+ * @param[in] parity_shards Input parameter.
+ * @return Return value.
+ */
 std::vector<std::vector<uint8_t>> HammingCoder::encode(
     const std::vector<uint8_t>& data,
     uint32_t data_shards,
@@ -1330,6 +1479,12 @@ std::vector<uint8_t> HammingCoder::decode(
     // Build working shard array (zeros for missing shards)
     std::vector<std::vector<uint8_t>> shards(total_shards,
                                               std::vector<uint8_t>(shard_size, 0));
+    /**
+     * @brief Present.
+     * @param[in] total_shards Input parameter.
+     * @param[in] false Input parameter.
+     * @return Return value.
+     */
     std::vector<bool> present(total_shards, false);
     for (const auto& [idx, chunk] : available_chunks) {
         if (idx < total_shards) {
@@ -1431,9 +1586,12 @@ std::vector<uint8_t> HammingCoder::decode(
     return result;
 }
 
-// ═══════════════════════════════════════════════════════════
-// ErasureCoder Factory
-// ═══════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════ ErasureCoder Factory ═══════════════════════════════════════════════════════════
+ * @param[in] algorithm Input parameter.
+ * @return Return value.
+ * @details Implements create without additional internal calls.
+ */
 
 std::unique_ptr<ErasureCoder> ErasureCoder::create(ErasureCodingAlgorithm algorithm) {
     switch (algorithm) {
@@ -1454,12 +1612,6 @@ std::unique_ptr<ErasureCoder> ErasureCoder::create(ErasureCodingAlgorithm algori
 // RedundancyStrategy Implementation
 // ═══════════════════════════════════════════════════════════
 
-/**
- * @brief Construct redundancy strategy and initialize mode-specific coder state.
- * @param config Validated redundancy configuration.
- * @throws std::invalid_argument if configuration invariants are violated.
- * @throws std::runtime_error if erasure-coder creation fails for parity modes.
- */
 RedundancyStrategy::RedundancyStrategy(const RedundancyConfig& config)
     : config_(config) {
     
@@ -1488,21 +1640,29 @@ RedundancyStrategy::RedundancyStrategy(const RedundancyConfig& config)
                  config_.getStorageEfficiency());
 }
 
-/** @brief Destroy strategy and release coder/manager resources. */
 RedundancyStrategy::~RedundancyStrategy() {
     if (truetime_) {
         truetime_->stopSyncThread();
     }
 }
 
-/** @brief Attach optional Raft manager used for leader-enforced writes. */
+/**
+ * @brief Set Raft Shard Manager.
+ * @param[in] raft_manager Input parameter.
+ * @details Calls: lock(), spdlog::info().
+ */
 void RedundancyStrategy::setRaftShardManager(std::shared_ptr<themisdb::sharding::RaftShardManager> raft_manager) {
     std::unique_lock<std::shared_mutex> lock(mutex_);
     raft_manager_ = raft_manager;
     spdlog::info("RaftShardManager set for RedundancyStrategy");
 }
 
-/** @brief Update shard-latency EWMA used by ReadPreference::NEAREST routing. */
+/**
+ * @brief Record Shard Latency.
+ * @param[in] shard_id Identifier of the shard.
+ * @param[in] latency_ms Input parameter.
+ * @details Calls: lock(), find(), end().
+ */
 void RedundancyStrategy::recordShardLatency(const std::string& shard_id, double latency_ms) {
     std::lock_guard<std::mutex> lock(latency_mutex_);
     auto it = shard_latency_ewma_ms_.find(shard_id);
@@ -1515,8 +1675,15 @@ void RedundancyStrategy::recordShardLatency(const std::string& shard_id, double 
 }
 
 /**
- * @brief Execute write path for configured redundancy mode.
- * @return WriteResult with success flag, replica/chunk fanout and measured latency.
+ * @brief Write.
+ * @param[in] document_id Identifier of the document.
+ * @param[in] data Input parameter.
+ * @param[in] collection Input parameter.
+ * @param[in,out] ring Input/output parameter.
+ * @param[in,out] topology Input/output parameter.
+ * @param[in] handler Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::steady_clock::now(), empty(), spdlog::error(), WriteResult::failed(), size(), writeMirror(), writeGeoMirror(), writeStripe().
  */
 WriteResult RedundancyStrategy::write(
     const std::string& document_id,
@@ -1595,8 +1762,14 @@ WriteResult RedundancyStrategy::write(
 }
 
 /**
- * @brief Execute read path for configured redundancy mode and read preference.
- * @return ReadResult including data (if found), source shards, and error context.
+ * @brief Read.
+ * @param[in] document_id Identifier of the document.
+ * @param[in] collection Input parameter.
+ * @param[in,out] ring Input/output parameter.
+ * @param[in,out] topology Input/output parameter.
+ * @param[in] handler Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::steady_clock::now(), now(), midpoint(), count(), makeVersionToken(), empty(), spdlog::error(), lock().
  */
 ReadResult RedundancyStrategy::read(
     const std::string& document_id,
@@ -1673,9 +1846,16 @@ ReadResult RedundancyStrategy::read(
     return result;
 }
 
-// ═══════════════════════════════════════════════════════════
-// Internal Write Methods
-// ═══════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════ Internal Write Methods ═══════════════════════════════════════════════════════════
+ * @param[in] document_id Identifier of the document.
+ * @param[in] data Input parameter.
+ * @param[in,out] ring Input/output parameter.
+ * @param[in,out] topology Input/output parameter.
+ * @param[in] handler Input parameter.
+ * @return Return value.
+ * @details Calls: getNode(), WriteResult::failed(), reserve(), push_back(), getReplicaNodes(), empty(), spdlog::error(), insert().
+ */
 
 WriteResult RedundancyStrategy::writeMirror(
     const std::string& document_id,
@@ -1851,6 +2031,11 @@ WriteResult RedundancyStrategy::writeMirror(
 // ═══════════════════════════════════════════════════════════
 
 bool RedundancyStrategy::shouldUseRaftConsensus(const std::string& shard_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(mutex_);
     
     // Check if Raft is enabled in configuration
@@ -1868,6 +2053,14 @@ bool RedundancyStrategy::shouldUseRaftConsensus(const std::string& shard_id) con
     return raft_info.has_value();
 }
 
+/**
+ * @brief Propose Raft Write.
+ * @param[in] shard_id Identifier of the shard.
+ * @param[in] document_id Identifier of the document.
+ * @param[in] data Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), spdlog::error(), lock(), isShardLeader(), getShardLeader(), spdlog::warn(), find(), reserve().
+ */
 bool RedundancyStrategy::proposeRaftWrite(const std::string& shard_id,
                                          const std::string& document_id,
                                          const std::vector<uint8_t>& data) {
@@ -1961,6 +2154,16 @@ bool RedundancyStrategy::proposeRaftWrite(const std::string& shard_id,
     }
 }
 
+/**
+ * @brief Write Stripe.
+ * @param[in] document_id Identifier of the document.
+ * @param[in] data Input parameter.
+ * @param[in,out] ring Input/output parameter.
+ * @param[in,out] topology Input/output parameter.
+ * @param[in] handler Input parameter.
+ * @return Return value.
+ * @details Calls: splitIntoChunks(), getNode(), WriteResult::failed(), push_back(), getReplicaNodes(), size(), insert(), end().
+ */
 WriteResult RedundancyStrategy::writeStripe(
     const std::string& document_id,
     const std::vector<uint8_t>& data,
@@ -2089,6 +2292,16 @@ WriteResult RedundancyStrategy::writeStripe(
     }
 }
 
+/**
+ * @brief Write Stripe Mirror.
+ * @param[in] document_id Identifier of the document.
+ * @param[in] data Input parameter.
+ * @param[in,out] ring Input/output parameter.
+ * @param[in,out] topology Input/output parameter.
+ * @param[in] handler Input parameter.
+ * @return Return value.
+ * @details Calls: splitIntoChunks(), size(), std::to_string(), writeMirror(), WriteResult::failed(), insert(), end(), begin().
+ */
 WriteResult RedundancyStrategy::writeStripeMirror(
     const std::string& document_id,
     const std::vector<uint8_t>& data,
@@ -2120,6 +2333,16 @@ WriteResult RedundancyStrategy::writeStripeMirror(
     return WriteResult::successful(document_id, all_written_shards, std::chrono::milliseconds(0));
 }
 
+/**
+ * @brief Write Parity.
+ * @param[in] document_id Identifier of the document.
+ * @param[in] data Input parameter.
+ * @param[in,out] ring Input/output parameter.
+ * @param[in,out] topology Input/output parameter.
+ * @param[in] handler Input parameter.
+ * @return Return value.
+ * @details Calls: ec_lock(), WriteResult::failed(), encode(), getNode(), push_back(), getReplicaNodes(), size(), insert().
+ */
 WriteResult RedundancyStrategy::writeParity(
     const std::string& document_id,
     const std::vector<uint8_t>& data,
@@ -2194,6 +2417,16 @@ WriteResult RedundancyStrategy::writeParity(
     }
 }
 
+/**
+ * @brief Write Geo Mirror.
+ * @param[in] document_id Identifier of the document.
+ * @param[in] data Input parameter.
+ * @param[in,out] ring Input/output parameter.
+ * @param[in,out] topology Input/output parameter.
+ * @param[in] handler Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), evaluateGeoFailover(), getNode(), WriteResult::failed(), push_back(), getReplicaNodes(), insert(), end().
+ */
 WriteResult RedundancyStrategy::writeGeoMirror(
     const std::string& document_id,
     const std::vector<uint8_t>& data,
@@ -2418,9 +2651,15 @@ WriteResult RedundancyStrategy::writeGeoMirror(
     return r;
 }
 
-// ═══════════════════════════════════════════════════════════
-// Internal Read Methods
-// ═══════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════ Internal Read Methods ═══════════════════════════════════════════════════════════
+ * @param[in] document_id Identifier of the document.
+ * @param[in,out] ring Input/output parameter.
+ * @param[in,out] topology Input/output parameter.
+ * @param[in] handler Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), evaluateGeoFailover(), getNode(), push_back(), getReplicaNodes(), insert(), end(), begin().
+ */
 
 ReadResult RedundancyStrategy::readGeoMirror(
     const std::string& document_id,
@@ -2641,6 +2880,15 @@ ReadResult RedundancyStrategy::readGeoMirror(
     return result;
 }
 
+/**
+ * @brief Read Mirror.
+ * @param[in] document_id Identifier of the document.
+ * @param[in,out] ring Input/output parameter.
+ * @param[in,out] topology Input/output parameter.
+ * @param[in] handler Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), getNode(), push_back(), getReplicaNodes(), insert(), end(), begin(), selectReadShard().
+ */
 ReadResult RedundancyStrategy::readMirror(
     const std::string& document_id,
     ConsistentHashRing& ring,
@@ -2698,6 +2946,15 @@ ReadResult RedundancyStrategy::readMirror(
     return result;
 }
 
+/**
+ * @brief Read Stripe.
+ * @param[in] document_id Identifier of the document.
+ * @param[in,out] ring Input/output parameter.
+ * @param[in,out] topology Input/output parameter.
+ * @param[in] handler Input parameter.
+ * @return Return value.
+ * @details Calls: now(), midpoint(), count(), makeVersionToken(), std::to_string(), getNode(), handler(), push_back().
+ */
 ReadResult RedundancyStrategy::readStripe(
     const std::string& document_id,
     ConsistentHashRing& ring,
@@ -2751,6 +3008,15 @@ ReadResult RedundancyStrategy::readStripe(
     return result;
 }
 
+/**
+ * @brief Read Parity.
+ * @param[in] document_id Identifier of the document.
+ * @param[in,out] ring Input/output parameter.
+ * @param[in,out] topology Input/output parameter.
+ * @param[in] handler Input parameter.
+ * @return Return value.
+ * @details Calls: ec_lock(), totalShards(), now(), midpoint(), count(), makeVersionToken(), std::to_string(), getNode().
+ */
 ReadResult RedundancyStrategy::readParity(
     const std::string& document_id,
     ConsistentHashRing& ring,
@@ -2844,9 +3110,13 @@ ReadResult RedundancyStrategy::readParity(
     return result;
 }
 
-// ═══════════════════════════════════════════════════════════
-// Utility Methods
-// ═══════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════ Utility Methods ═══════════════════════════════════════════════════════════
+ * @param[in] data Input parameter.
+ * @param[in] chunk_size Input parameter.
+ * @return Return value.
+ * @details Calls: size(), std::min(), chunk(), begin(), push_back().
+ */
 
 std::vector<std::vector<uint8_t>> RedundancyStrategy::splitIntoChunks(
     const std::vector<uint8_t>& data,
@@ -2863,6 +3133,12 @@ std::vector<std::vector<uint8_t>> RedundancyStrategy::splitIntoChunks(
     return chunks;
 }
 
+/**
+ * @brief Merge Chunks.
+ * @param[in] chunks Input parameter.
+ * @return Return value.
+ * @details Calls: insert(), end(), begin().
+ */
 std::vector<uint8_t> RedundancyStrategy::mergeChunks(
     const std::vector<std::vector<uint8_t>>& chunks
 ) {
@@ -2875,24 +3151,15 @@ std::vector<uint8_t> RedundancyStrategy::mergeChunks(
     return merged;
 }
 
-// ============================================================================
-// Version-aware chunk merging with conflict resolution
-// Resolves GAP: undefined_conflict_resolution, unspecified_consistency
-// ============================================================================
-
 /**
- * @brief Merge chunks with version consistency checking and conflict resolution
- * 
- * This function addresses GAP categories:
- * - undefined_conflict_resolution: Provides explicit conflict resolution strategy
- * - unspecified_consistency: Uses version tokens for consistency verification
- * - missing_version_tracking: Tracks and validates version tokens
- * 
- * @param versioned_chunks Chunks with version information
- * @param conflict_resolution How to resolve version conflicts
- * @param result_version Output parameter for merged version token
- * @return Merged data
+ * @brief ============================================================================ Version-aware chunk merging with conflict resolution Resolves GAP: undefined_conflict_resolution, unspecified_consistency ============================================================================
+ * @param[in] versioned_chunks Input parameter.
+ * @param[in] conflict_resolution Input parameter.
+ * @param[in,out] result_version Input/output parameter.
+ * @return Return value.
+ * @details Calls: empty(), insert(), end(), begin(), spdlog::warn(), spdlog::debug().
  */
+
 std::vector<uint8_t> RedundancyStrategy::mergeChunksWithConsistency(
     const std::vector<VersionedChunk>& versioned_chunks,
     ConflictResolution conflict_resolution,
@@ -2997,22 +3264,17 @@ std::vector<uint8_t> RedundancyStrategy::mergeChunksWithConsistency(
     return {};
 }
 
-// ============================================================================
-// Version-aware read with consistency checking
-// ============================================================================
-
 /**
- * @brief Read with version-aware consistency checking
- * 
- * Resolves GAP: unspecified_consistency, missing_version_tracking
- * 
- * @param document_id Document identifier
- * @param collection Collection name
- * @param ring Consistent hash ring
- * @param topology Shard topology
- * @param handler Version-aware read handler
- * @return ReadResult with merged data and consistency metadata
+ * @brief ============================================================================ Version-aware read with consistency checking ============================================================================
+ * @param[in] document_id Identifier of the document.
+ * @param[in] collection Input parameter.
+ * @param[in,out] ring Input/output parameter.
+ * @param[in,out] topology Input/output parameter.
+ * @param[in] handler Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), getNode(), push_back(), getReplicaNodes(), insert(), end(), begin(), handler().
  */
+
 ReadResult RedundancyStrategy::readMirrorWithVersion(
     const std::string& document_id,
     const std::string& collection,
@@ -3085,6 +3347,14 @@ ReadResult RedundancyStrategy::readMirrorWithVersion(
     return result;
 }
 
+/**
+ * @brief Select Read Shard.
+ * @param[in] available_shards Input parameter.
+ * @param[in,out] param Input/output parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: empty(), lat_lock(), max(), find(), end(), fetch_add(), size(), std::rand().
+ */
 std::string RedundancyStrategy::selectReadShard(
     const std::vector<std::string>& available_shards,
     ShardTopology& /*topology*/
@@ -3145,6 +3415,15 @@ std::string RedundancyStrategy::selectReadShard(
     }
 }
 
+/**
+ * @brief Select Geo Read Shard.
+ * @param[in] candidates Input parameter.
+ * @param[in,out] topology Input/output parameter.
+ * @param[in] local_region Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: empty(), getShard().
+ */
 std::string RedundancyStrategy::selectGeoReadShard(
     const std::vector<std::string>& candidates,
     ShardTopology& topology,
@@ -3186,6 +3465,11 @@ void RedundancyStrategy::evaluateGeoFailover(ShardTopology& topology) const {
     double region_failure_threshold = 0.0;
     std::vector<std::string> failed_regions;
     {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::shared_lock<std::shared_mutex> lock(mutex_);
         region_failure_threshold = config_.geo_replication.region_failure_threshold;
         failed_regions = config_.geo_replication.failed_regions;
@@ -3224,14 +3508,25 @@ void RedundancyStrategy::evaluateGeoFailover(ShardTopology& topology) const {
     std::sort(updated_failed_regions.begin(), updated_failed_regions.end());
 
     {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::shared_mutex> lock(mutex_);
         config_.geo_replication.failed_regions = std::move(updated_failed_regions);
     }
 }
 
 /**
- * @brief Remove document keys from all currently targeted replicas/chunks.
- * @return true if at least one target deletion succeeded; false otherwise.
+ * @brief Remove.
+ * @param[in] document_id Identifier of the document.
+ * @param[in] collection Input parameter.
+ * @param[in,out] ring Input/output parameter.
+ * @param[in,out] topology Input/output parameter.
+ * @param[in] handler Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: getNode(), spdlog::warn(), lock(), evaluateGeoFailover(), getReplicaNodes(), insert(), end(), begin().
  */
 bool RedundancyStrategy::remove(
     const std::string& document_id,
@@ -3371,8 +3666,15 @@ bool RedundancyStrategy::remove(
 }
 
 /**
- * @brief Recover missing replicas/chunks from surviving copies or parity.
- * @return true when at least one missing replica/chunk was restored.
+ * @brief Recover Document.
+ * @param[in] document_id Identifier of the document.
+ * @param[in] collection Input parameter.
+ * @param[in,out] ring Input/output parameter.
+ * @param[in,out] topology Input/output parameter.
+ * @param[in] read_handler Callback that reads the entity.
+ * @param[in] write_handler Callback that writes the entity.
+ * @return True when the operation succeeds.
+ * @details Calls: getNode(), getReplicaNodes(), insert(), end(), begin(), getShard(), read_handler(), spdlog::error().
  */
 bool RedundancyStrategy::recoverDocument(
     const std::string& document_id,
@@ -3546,8 +3848,14 @@ bool RedundancyStrategy::recoverDocument(
 }
 
 /**
- * @brief Evaluate document redundancy health and recoverability.
- * @return DocumentHealth snapshot for the current mode/topology state.
+ * @brief Check Document Health.
+ * @param[in] document_id Identifier of the document.
+ * @param[in] collection Input parameter.
+ * @param[in,out] ring Input/output parameter.
+ * @param[in,out] topology Input/output parameter.
+ * @param[in] handler Input parameter.
+ * @return Return value.
+ * @details Calls: getNode(), getReplicaNodes(), insert(), end(), begin(), size(), std::to_string(), getShard().
  */
 RedundancyStrategy::DocumentHealth RedundancyStrategy::checkDocumentHealth(
     const std::string& document_id,
@@ -3646,8 +3954,10 @@ RedundancyStrategy::DocumentHealth RedundancyStrategy::checkDocumentHealth(
 }
 
 /**
- * @brief Replace active configuration after validating invariants.
- * @throws std::invalid_argument if the supplied configuration is invalid.
+ * @brief Update the access control configuration.
+ * @param[in] config New access control configuration.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: lock(), validate(), spdlog::info().
  */
 void RedundancyStrategy::updateConfig(const RedundancyConfig& config) {
     std::unique_lock<std::shared_mutex> lock(mutex_);
@@ -3661,7 +3971,6 @@ void RedundancyStrategy::updateConfig(const RedundancyConfig& config) {
     spdlog::info("RedundancyStrategy configuration updated");
 }
 
-/** @brief Return point-in-time counters for high-level redundancy activity. */
 RedundancyStats RedundancyStrategy::getStats() const {
     RedundancyStats stats;
     stats.total_documents = 0;
@@ -3670,7 +3979,6 @@ RedundancyStats RedundancyStrategy::getStats() const {
     return stats;
 }
 
-/** @brief Export redundancy counters in Prometheus text exposition format. */
 std::string RedundancyStrategy::exportPrometheusMetrics() const {
     std::stringstream ss;
     
@@ -3825,11 +4133,22 @@ CollectionRedundancyManager::CollectionRedundancyManager() {
 
 CollectionRedundancyManager::~CollectionRedundancyManager() = default;
 
+/**
+ * @brief Set Default Config.
+ * @param[in] config Input parameter.
+ * @details Calls: lock().
+ */
 void CollectionRedundancyManager::setDefaultConfig(const RedundancyConfig& config) {
     std::unique_lock<std::shared_mutex> lock(mutex_);
     default_config_ = config;
 }
 
+/**
+ * @brief Set Collection Config.
+ * @param[in] collection Input parameter.
+ * @param[in] config Input parameter.
+ * @details Calls: lock(), erase().
+ */
 void CollectionRedundancyManager::setCollectionConfig(
     const std::string& collection,
     const RedundancyConfig& config
@@ -3842,6 +4161,11 @@ void CollectionRedundancyManager::setCollectionConfig(
 }
 
 RedundancyConfig CollectionRedundancyManager::getConfig(const std::string& collection) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(mutex_);
     
     auto it = collection_configs_.find(collection);
@@ -3852,6 +4176,12 @@ RedundancyConfig CollectionRedundancyManager::getConfig(const std::string& colle
     return default_config_;
 }
 
+/**
+ * @brief Get Strategy.
+ * @param[in] collection Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), find(), end().
+ */
 std::shared_ptr<RedundancyStrategy> CollectionRedundancyManager::getStrategy(
     const std::string& collection
 ) {
@@ -3875,6 +4205,11 @@ std::shared_ptr<RedundancyStrategy> CollectionRedundancyManager::getStrategy(
 }
 
 std::vector<std::string> CollectionRedundancyManager::listCollections() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(mutex_);
     
     std::vector<std::string> collections = {};
@@ -3886,6 +4221,11 @@ std::vector<std::string> CollectionRedundancyManager::listCollections() const {
     return collections;
 }
 
+/**
+ * @brief Remove Collection Config.
+ * @param[in] collection Input parameter.
+ * @details Calls: lock(), erase().
+ */
 void CollectionRedundancyManager::removeCollectionConfig(const std::string& collection) {
     std::unique_lock<std::shared_mutex> lock(mutex_);
     collection_configs_.erase(collection);

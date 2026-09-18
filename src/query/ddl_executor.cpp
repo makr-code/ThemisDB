@@ -111,11 +111,6 @@ std::vector<std::string> SchemaRegistry::views() const {
  * @details Calls: lk(), emplace().
  */
 void SchemaRegistry::addCollection(const std::string& name, const nlohmann::json& options) {
-    /**
-     * @brief Lk.
-     * @param[in] mu_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lk(mu_);
     collections_[name] = options;
     // Ensure the index sub-map exists even if empty
@@ -128,11 +123,6 @@ void SchemaRegistry::addCollection(const std::string& name, const nlohmann::json
  * @details Calls: lk(), erase().
  */
 void SchemaRegistry::dropCollection(const std::string& name) {
-    /**
-     * @brief Lk.
-     * @param[in] mu_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lk(mu_);
     collections_.erase(name);
     indexes_.erase(name);
@@ -145,11 +135,6 @@ void SchemaRegistry::dropCollection(const std::string& name) {
  * @details Calls: lk().
  */
 void SchemaRegistry::addIndex(const std::string& collection, const IndexDef& def) {
-    /**
-     * @brief Lk.
-     * @param[in] mu_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lk(mu_);
     indexes_[collection][def.name] = def;
 }
@@ -157,16 +142,11 @@ void SchemaRegistry::addIndex(const std::string& collection, const IndexDef& def
 /**
  * @brief Drop Index.
  * @param[in] collection Input parameter.
- * @param[in] index_name Input parameter.
+ * @param[in] index_name Name of the index.
  * @details Calls: lk(), find(), end(), erase().
  */
 void SchemaRegistry::dropIndex(const std::string& collection,
                                 const std::string& index_name) {
-    /**
-     * @brief Lk.
-     * @param[in] mu_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lk(mu_);
     auto it = indexes_.find(collection);
     if (it != indexes_.end()) {
@@ -181,11 +161,6 @@ void SchemaRegistry::dropIndex(const std::string& collection,
  * @details Calls: lk().
  */
 void SchemaRegistry::addView(const std::string& name, const std::string& body) {
-    /**
-     * @brief Lk.
-     * @param[in] mu_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lk(mu_);
     views_[name] = body;
 }
@@ -196,11 +171,6 @@ void SchemaRegistry::addView(const std::string& name, const std::string& body) {
  * @details Calls: lk(), erase().
  */
 void SchemaRegistry::dropView(const std::string& name) {
-    /**
-     * @brief Lk.
-     * @param[in] mu_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lk(mu_);
     views_.erase(name);
 }
@@ -213,11 +183,6 @@ void SchemaRegistry::dropView(const std::string& name) {
  */
 void SchemaRegistry::alterCollection(const std::string& name,
                                       const nlohmann::json& options) {
-    /**
-     * @brief Lk.
-     * @param[in] mu_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lk(mu_);
     auto it = collections_.find(name);
     if (it != collections_.end()) {
@@ -239,13 +204,13 @@ void SchemaRegistry::alterCollection(const std::string& name,
 DDLExecutor::DDLExecutor(SchemaRegistry& registry)
     : registry_(registry) {}
 
+
 /**
- * @brief ── per-type helpers ──────────────────────────────────────────────────────────
+ * @brief Exec Create Collection.
  * @param[in] ddl Input parameter.
  * @return Return value.
  * @details Calls: hasCollection(), Ok(), fmt::format(), addCollection().
  */
-
 Result<bool> DDLExecutor::execCreateCollection(const SchemaDDL& ddl) {
     if (registry_.hasCollection(ddl.name)) {
         if (ddl.if_exists) {
@@ -394,56 +359,21 @@ Result<bool> DDLExecutor::execAlterCollection(const SchemaDDL& ddl) {
     return Ok(true);
 }
 
+
 /**
- * @brief ── execute — main dispatch ───────────────────────────────────────────────────
+ * @brief Execute.
  * @param[in] ddl Input parameter.
  * @return Return value.
  * @details Calls: execCreateCollection(), execDropCollection(), execCreateIndex(), execDropIndex(), execCreateView(), execDropView(), execAlterCollection(), fmt::format().
  */
-
 Result<bool> DDLExecutor::execute(const SchemaDDL& ddl) {
     switch (ddl.ddl_type) {
-        /**
-         * @brief Exec Create Collection.
-         * @param[in] ddl Input parameter.
-         * @return Return value.
-         */
         case SchemaDDLType::CREATE_COLLECTION: return execCreateCollection(ddl);
-        /**
-         * @brief Exec Drop Collection.
-         * @param[in] ddl Input parameter.
-         * @return Return value.
-         */
         case SchemaDDLType::DROP_COLLECTION:   return execDropCollection(ddl);
-        /**
-         * @brief Exec Create Index.
-         * @param[in] ddl Input parameter.
-         * @return Return value.
-         */
         case SchemaDDLType::CREATE_INDEX:      return execCreateIndex(ddl);
-        /**
-         * @brief Exec Drop Index.
-         * @param[in] ddl Input parameter.
-         * @return Return value.
-         */
         case SchemaDDLType::DROP_INDEX:        return execDropIndex(ddl);
-        /**
-         * @brief Exec Create View.
-         * @param[in] ddl Input parameter.
-         * @return Return value.
-         */
         case SchemaDDLType::CREATE_VIEW:       return execCreateView(ddl);
-        /**
-         * @brief Exec Drop View.
-         * @param[in] ddl Input parameter.
-         * @return Return value.
-         */
         case SchemaDDLType::DROP_VIEW:         return execDropView(ddl);
-        /**
-         * @brief Exec Alter Collection.
-         * @param[in] ddl Input parameter.
-         * @return Return value.
-         */
         case SchemaDDLType::ALTER_COLLECTION:  return execAlterCollection(ddl);
     }
     // Unreachable — enum is exhaustive, but keeps -Wreturn-type happy.

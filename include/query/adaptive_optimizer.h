@@ -24,12 +24,6 @@
 namespace themis {
 namespace query {
 
-/**
- * @brief Adaptive Query Execution Statistics
- * 
- * Collects runtime statistics for query execution to enable adaptive optimization.
- * Tracks cardinality estimates, actual results, execution times, and resource usage.
- */
 class AdaptiveQueryStats {
 public:
     struct QueryExecution {
@@ -51,45 +45,38 @@ public:
     };
     
     /**
-     * @brief Record a query execution
+     * @brief Record Execution.
+     * @param[in] exec Input parameter.
      */
     void recordExecution(const QueryExecution& exec);
     
-    /**
-     * @brief Get historical executions for a query pattern
-     */
     std::vector<QueryExecution> getHistory(const std::string& query_hash, size_t limit = 10) const;
     
     /**
-     * @brief Get average selectivity for a query pattern
+     * @brief Get Average Selectivity.
+     * @param[in] query_hash Input parameter.
+     * @return Return value.
      */
     double getAverageSelectivity(const std::string& query_hash) const;
     
-    /**
-     * @brief Check if cardinality estimates are consistently off
-     */
     bool hasCardinalityMisestimation(const std::string& query_hash, double threshold = 2.0) const;
     
     /**
-     * @brief Get average actual rows across historical executions
-     * @return Average actual_rows, or 0 if no history exists
+     * @brief Get Average Actual Rows.
+     * @param[in] query_hash Input parameter.
+     * @return Return value.
      */
     size_t getAverageActualRows(const std::string& query_hash) const;
 
     /**
-     * @brief Get adaptive adjustment factor based on history
-     * @return Multiplier for cardinality estimates (e.g., 0.5 if historically overestimated)
+     * @brief Get Adaptive Adjustment Factor.
+     * @param[in] query_hash Input parameter.
+     * @return Return value.
      */
     double getAdaptiveAdjustmentFactor(const std::string& query_hash) const;
     
-    /**
-     * @brief Clear old statistics (retention policy)
-     */
     void pruneOldStats(std::chrono::hours retention = std::chrono::hours(24));
     
-    /**
-     * @brief Get total queries tracked
-     */
     size_t getTotalQueries() const { return total_queries_.load(); }
     
 private:
@@ -99,12 +86,6 @@ private:
     static constexpr size_t MAX_HISTORY_PER_QUERY = 100;
 };
 
-/**
- * @brief Adaptive Plan Selector
- * 
- * Selects and adjusts query execution plans at runtime based on feedback.
- * Supports runtime plan switching when estimates are significantly off.
- */
 class AdaptivePlanSelector {
 public:
     struct PlanChoice {
@@ -127,20 +108,17 @@ public:
     };
     
     /**
-     * @brief Choose plan based on cardinality estimates and historical data
+     * @brief Select Plan.
+     * @param[in] alternatives Input parameter.
+     * @param[in] query_hash Input parameter.
+     * @param[in] stats Input parameter.
+     * @return Return value.
      */
     PlanChoice selectPlan(
         const std::vector<PlanChoice>& alternatives,
         const std::string& query_hash,
         const AdaptiveQueryStats& stats) const;
     
-    /**
-     * @brief Determine if plan should be switched at runtime
-     * @param rows_so_far Actual rows processed so far
-     * @param estimated_total Originally estimated total rows
-     * @param progress Fraction of query completed (0.0-1.0)
-     * @return true if plan should be switched
-     */
     bool shouldSwitchPlan(
         size_t rows_so_far,
         size_t estimated_total,
@@ -148,7 +126,11 @@ public:
         double misestimation_threshold = 5.0) const;
     
     /**
-     * @brief Get alternative plan for runtime switching
+     * @brief Get Alternative Plan.
+     * @param[in] current_plan Input parameter.
+     * @param[in] actual_rows Input parameter.
+     * @param[in] estimated_rows Input parameter.
+     * @return Return value.
      */
     PlanChoice getAlternativePlan(
         const PlanChoice& current_plan,
@@ -156,11 +138,6 @@ public:
         size_t estimated_rows) const;
 };
 
-/**
- * @brief Distributed Query Cost Model
- * 
- * Cost model that accounts for network latency, data locality, and shard distribution.
- */
 class DistributedQueryCostModel {
 public:
     struct ShardInfo {
@@ -178,14 +155,22 @@ public:
     };
     
     /**
-     * @brief Estimate cost for distributed query execution
+     * @brief Estimate Distributed Query Cost.
+     * @param[in] involved_shards Input parameter.
+     * @param[in] estimated_result_rows Input parameter.
+     * @return Return value.
      */
     double estimateDistributedQueryCost(
         const std::vector<ShardInfo>& involved_shards,
         size_t estimated_result_rows) const;
     
     /**
-     * @brief Estimate cost for cross-shard join
+     * @brief Estimate Cross Shard Join Cost.
+     * @param[in] left_shard Input parameter.
+     * @param[in] right_shard Input parameter.
+     * @param[in] left_rows Input parameter.
+     * @param[in] right_rows Input parameter.
+     * @return Return value.
      */
     CrossShardJoinCost estimateCrossShardJoinCost(
         const ShardInfo& left_shard,
@@ -194,7 +179,11 @@ public:
         size_t right_rows) const;
     
     /**
-     * @brief Determine if partition pruning is beneficial
+     * @brief Should Prune Partition.
+     * @param[in] shard Input parameter.
+     * @param[in] total_shards Input parameter.
+     * @param[in] selectivity Input parameter.
+     * @return True when the operation succeeds.
      */
     bool shouldPrunePartition(
         const ShardInfo& shard,
@@ -202,7 +191,10 @@ public:
         double selectivity) const;
     
     /**
-     * @brief Get optimal parallelism degree for distributed query
+     * @brief Get Optimal Parallelism.
+     * @param[in] shards Input parameter.
+     * @param[in] available_threads Input parameter.
+     * @return Return value.
      */
     size_t getOptimalParallelism(
         const std::vector<ShardInfo>& shards,
@@ -215,11 +207,6 @@ private:
     static constexpr double LOCAL_ROW_PROCESSING_COST = 0.001;     // ms per row
 };
 
-/**
- * @brief Multi-Index Intersection Optimizer
- * 
- * Optimizes queries that can benefit from intersecting multiple indexes.
- */
 class MultiIndexOptimizer {
 public:
     struct IndexCandidate {
@@ -238,31 +225,28 @@ public:
     };
     
     /**
-     * @brief Generate optimal multi-index access plan
+     * @brief Optimize Multi Index Access.
+     * @param[in] available_indexes Input parameter.
+     * @param[in] table_size Input parameter.
+     * @return Return value.
      */
     IntersectionPlan optimizeMultiIndexAccess(
         const std::vector<IndexCandidate>& available_indexes,
         size_t table_size) const;
     
     /**
-     * @brief Determine if index intersection is beneficial
+     * @brief Should Use Index Intersection.
+     * @param[in] candidates Input parameter.
+     * @param[in] table_size Input parameter.
+     * @return True when the operation succeeds.
      */
     bool shouldUseIndexIntersection(
         const std::vector<IndexCandidate>& candidates,
         size_t table_size) const;
     
-    /**
-     * @brief Get bitmap intersection threshold
-     * @return Minimum selectivity for bitmap intersection to be worthwhile
-     */
     double getBitmapIntersectionThreshold() const { return 0.1; }
 };
 
-/**
- * @brief NUMA-Aware Query Optimizer
- * 
- * Optimizes query execution for NUMA architectures.
- */
 class NumaAwareOptimizer {
 public:
     struct NumaNode {
@@ -279,34 +263,35 @@ public:
     };
     
     /**
-     * @brief Get optimal NUMA placement for query
+     * @brief Get Optimal Placement.
+     * @param[in] data_size_bytes Input parameter.
+     * @param[in] parallelism Input parameter.
+     * @return Return value.
      */
     NumaPlacement getOptimalPlacement(
         size_t data_size_bytes,
         size_t parallelism) const;
     
     /**
-     * @brief Check if NUMA optimizations are available
+     * @brief Is Numa Available.
+     * @return True when the operation succeeds.
      */
     static bool isNumaAvailable();
     
     /**
-     * @brief Get number of NUMA nodes
+     * @brief Get Numa Node Count.
+     * @return Return value.
      */
     static size_t getNumaNodeCount();
     
     /**
-     * @brief Pin thread to specific CPU cores
+     * @brief Pin Thread To Cpu.
+     * @param[in] cpu_id Identifier of the cpu.
+     * @return True when the operation succeeds.
      */
     static bool pinThreadToCpu(int cpu_id);
 };
 
-/**
- * @brief Detects geospatial predicate patterns from query text and injects optimizer hints.
- *
- * Recognizes FILTER predicates like `ST_Within(field, @poly)` and injects
- * `GEO` index hints into optimizer metadata for downstream plan selection.
- */
 class GeoPredicatePatternDetector {
 public:
     struct DetectedSpatialHint {
@@ -315,18 +300,12 @@ public:
     };
 
     /**
-     * @brief Detect geospatial FILTER patterns in query text.
-     * @param query_text Raw AQL query text.
-     * @return Spatial hint metadata when a supported pattern is found.
+     * @brief Detect.
+     * @param[in] query_text Input parameter.
+     * @return Return value.
      */
     static std::optional<DetectedSpatialHint> detect(const std::string& query_text);
 
-    /**
-     * @brief Inject GEO index hints for supported spatial FILTER patterns.
-     * @param query_text Raw AQL query text.
-     * @param hints Mutable hint map to augment.
-     * @param suggested_indexes Mutable suggested-index list to augment.
-     */
     static void injectSpatialIndexHints(
         const std::string& query_text,
         std::map<std::string, std::string>& hints,

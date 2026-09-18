@@ -43,37 +43,8 @@ namespace distributed_tensor {
 // ManifestStore
 // ---------------------------------------------------------------------------
 
-/**
- * @brief Thread-safe in-memory registry for advisory tensor artifact manifests.
- *
- * Phase A implementation uses a flat in-memory map; the store is intentionally
- * not persistent to underline the advisory-only semantics (freshness decay
- * forces planners to re-derive from the exact graph layer after restart).
- *
- * ### Usage
- * @code
- * auto store = std::make_shared<ManifestStore>(metrics);
- *
- * // Producer: store an advisory summary after ANN candidate generation.
- * ArtifactManifest m = buildSummary(...);
- * store->store(m);
- *
- * // Consumer (query planner): get the freshest advisory entry.
- * auto entry = store->get("users/embedding", 0 // shard_id
- * );
- * if (!entry || !entry->isFresh(max_age_s)) {
- *     // Fall back to exact graph retrieval.
- * }
- * @endcode
- */
 class ManifestStore {
 public:
-    /**
-     * @brief Construct with an optional MetricsCollector for Prometheus export.
-     *
-     * @param metrics  Collector used for `tensor_delta_log_entries_total` and
-     *                 `tensor_freshness_age_seconds`.  May be nullptr (no-op).
-     */
     explicit ManifestStore(
         observability::MetricsCollector* metrics = nullptr) noexcept;
 
@@ -87,77 +58,36 @@ public:
 
     // ── Write operations ────────────────────────────────────────────────────
 
-    /**
-     * @brief Insert or update an artifact manifest entry.
-     *
-     * If an entry with the same (tensor_name, shard_id, artifact_id) already
-     * exists, it is replaced when @p manifest.version is greater; otherwise
-     * the existing entry is kept (monotonic version enforcement).
-     *
-     * Increments `tensor_delta_log_entries_total` counter on each call.
-     *
-     * @param manifest  Entry to store.
-     * @return          true  if the entry was inserted or updated.
-     *                  false if a newer version already exists.
-     */
     [[nodiscard]] bool store(const ArtifactManifest& manifest);
 
     /**
-     * @brief Remove all entries whose artifact_id matches @p artifact_id.
-     *
-     * @param artifact_id  The ID to remove.
-     * @return             Number of entries removed.
+     * @brief Evict.
+     * @param[in] artifact_id Identifier of the artifact.
+     * @return Return value.
      */
     std::size_t evict(const std::string& artifact_id);
 
     /**
-     * @brief Remove all entries older than @p max_age_s seconds.
-     *
-     * Called periodically by the planner to keep the store bounded.
-     *
-     * @param max_age_s  Maximum allowed age in seconds.
-     * @return           Number of entries evicted.
+     * @brief Evict Stale.
+     * @param[in] max_age_s Input parameter.
+     * @return Return value.
      */
     std::size_t evictStale(double max_age_s);
 
     // ── Read operations ─────────────────────────────────────────────────────
 
-    /**
-     * @brief Retrieve the freshest entry for a given tensor and shard.
-     *
-     * Returns the entry with the highest version that matches the
-     * (tensor_name, shard_id) key.
-     *
-     * @param tensor_name  Logical tensor name (e.g. "users/embedding").
-     * @param shard_id     Shard index (0 for single-shard Phase A).
-     * @return             Matching entry, or nullopt if none exists.
-     */
     [[nodiscard]] std::optional<ArtifactManifest>
     get(const std::string& tensor_name, uint32_t shard_id) const;
 
-    /**
-     * @brief List all entries for a given tensor across all shards.
-     *
-     * @param tensor_name  Logical tensor name.
-     * @return             All entries sorted by (shard_id, version desc).
-     */
     [[nodiscard]] std::vector<ArtifactManifest>
     list(const std::string& tensor_name) const;
 
-    /**
-     * @brief Total number of live entries in the store.
-     */
     [[nodiscard]] std::size_t size() const noexcept;
 
-    // ── Observability ───────────────────────────────────────────────────────
-
     /**
-     * @brief Push freshness gauge for all registered tensor names.
-     *
-     * Updates `tensor_freshness_age_seconds{tensor_name=...}` for each
-     * tensor that has at least one live entry.  Should be called periodically
-     * (e.g. from a background tick or before each planner invocation).
+     * @brief ── Observability ───────────────────────────────────────────────────────
      */
+
     void refreshFreshnessMetrics() const;
 
 private:

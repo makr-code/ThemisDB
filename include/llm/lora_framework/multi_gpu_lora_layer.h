@@ -23,9 +23,6 @@ namespace themis {
 namespace llm {
 namespace lora {
 
-/**
- * @brief Communication backend type for multi-GPU
- */
 enum class CommBackend {
     AUTO,        // Automatically select best available backend
     NCCL,        // NVIDIA NCCL (CUDA only)
@@ -33,40 +30,8 @@ enum class CommBackend {
     CUSTOM       // Custom ring all-reduce (fallback)
 };
 
-/**
- * @brief Multi-GPU LoRA Layer for data-parallel training
- * 
- * Wraps multiple GPULoRALayer instances, one per GPU.
- * Implements data parallelism:
- * - Each GPU has full model replica
- * - Data batches are sharded across GPUs
- * - Gradients are synchronized via all-reduce after backward
- * - All GPUs update with averaged gradients
- * 
- * Example:
- * ```cpp
- * MultiGPUContext ctx(4);  // Use 4 GPUs
- * MultiGPULoRALayer layer(768, 768, 8, 1.0f, ctx);
- * 
- * // Each GPU processes its batch shard
- * auto outputs = layer.forward(inputs);  // inputs[i] on GPU i
- * layer.backward(grad_outputs);
- * layer.synchronize_gradients();  // All-reduce gradients
- * optimizer.step();  // Update with averaged gradients
- * ```
- */
 class MultiGPULoRALayer {
 public:
-    /**
-     * @brief Construct multi-GPU LoRA layer
-     * @param in_dim Input dimension
-     * @param out_dim Output dimension
-     * @param rank LoRA rank
-     * @param scaling LoRA scaling factor
-     * @param ctx Multi-GPU context
-     * @param backend Communication backend (AUTO, NCCL, RCCL, CUSTOM)
-     * @param use_fused_kernels Enable kernel fusion
-     */
     MultiGPULoRALayer(size_t in_dim, size_t out_dim, size_t rank,
                       float scaling,
                       const MultiGPUContext& ctx,
@@ -82,74 +47,57 @@ public:
     MultiGPULoRALayer& operator=(MultiGPULoRALayer&&) noexcept = default;
     
     /**
-     * @brief Forward pass on all GPUs
-     * @param inputs Input tensors, one per GPU (must already be on correct device)
-     * @return Output tensors, one per GPU
+     * @brief Forward.
+     * @param[in] inputs Input parameter.
+     * @return Return value.
      */
     std::vector<GPUTensor> forward(const std::vector<GPUTensor>& inputs);
     
     /**
-     * @brief Backward pass on all GPUs
-     * @param grad_outputs Gradient tensors, one per GPU
-     * @return Gradient w.r.t. inputs, one per GPU
+     * @brief Backward.
+     * @param[in] grad_outputs Input parameter.
+     * @return Return value.
      */
     std::vector<GPUTensor> backward(const std::vector<GPUTensor>& grad_outputs);
     
     /**
-     * @brief Synchronize gradients across all GPUs (all-reduce)
-     * 
-     * Must be called after backward() and before optimizer step.
-     * Averages gradients across all GPUs so each GPU has identical gradients.
+     * @brief Synchronize gradients.
+     * @return True when the operation succeeds.
      */
     bool synchronize_gradients();
     
     /**
-     * @brief Zero gradients on all GPUs
+     * @brief Zero grad.
      */
     void zero_grad();
     
     /**
-     * @brief Get layer on specific GPU rank
-     * @param rank GPU rank (0 to num_gpus-1)
+     * @brief Get layer.
+     * @param[in] rank Input parameter.
+     * @return Return value.
      */
     GPULoRALayer& get_layer(int rank);
     
     /**
-     * @brief Get all layers
+     * @brief Get layers.
+     * @return Return value.
      */
     std::vector<GPULoRALayer*> get_layers();
     
-    /**
-     * @brief Get multi-GPU context
-     */
     const MultiGPUContext& context() const { return ctx_; }
     
-    /**
-     * @brief Get number of GPUs
-     */
     int num_gpus() const { return ctx_.num_gpus(); }
     
-    /**
-     * @brief Get communication backend type
-     */
     CommBackend backend_type() const { return backend_type_; }
     
-    /**
-     * @brief Check if gradients are synchronized
-     */
     bool are_gradients_synced() const { return gradients_synced_; }
     
     /**
-     * @brief Broadcast parameters from rank 0 to all other GPUs
-     * 
-     * Ensures all GPUs start with identical parameters.
-     * Call this after initialization or loading checkpoint.
+     * @brief Broadcast parameters.
+     * @return True when the operation succeeds.
      */
     bool broadcast_parameters();
     
-    /**
-     * @brief Get statistics (communication time, etc.)
-     */
     struct Stats {
         float communication_time_ms = 0.0f;
         float computation_time_ms = 0.0f;
@@ -162,6 +110,10 @@ public:
     };
     
     Stats get_stats() const { return stats_; }
+    /**
+     * @brief Reset stats.
+     * @details Implements reset_stats without additional internal calls.
+     */
     void reset_stats() { stats_ = Stats{}; }
     
 private:
@@ -176,7 +128,15 @@ private:
     bool gradients_synced_ = false;
     Stats stats_;
     
+    /**
+     * @brief Initialize backend.
+     * @param[in] backend Input parameter.
+     */
     void initialize_backend(CommBackend backend);
+    /**
+     * @brief Allreduce gradients.
+     * @return True when the operation succeeds.
+     */
     bool allreduce_gradients();
 };
 

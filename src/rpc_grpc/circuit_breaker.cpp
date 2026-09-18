@@ -48,7 +48,11 @@ CircuitBreaker& CircuitBreaker::operator=(CircuitBreaker&& other) noexcept {
     if (this == &other) {
       return *this;
     }
-    // Lock both to avoid TOCTOU during move.
+    /**
+     * @brief Lock both to avoid TOCTOU during move.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk_self(mutex_);
     std::lock_guard<std::mutex> lk_other(other.mutex_);
     config_               = std::move(other.config_);
@@ -70,6 +74,11 @@ CircuitBreaker& CircuitBreaker::operator=(CircuitBreaker&& other) noexcept {
 // Core API
 // ============================================================================
 
+/**
+ * @brief Allow Request.
+ * @return True when the operation succeeds.
+ * @details Calls: lk(), std::chrono::steady_clock::now(), transitionTo().
+ */
 bool CircuitBreaker::allowRequest() {
     std::lock_guard<std::mutex> lk(mutex_);
     ++total_calls_;
@@ -106,6 +115,11 @@ bool CircuitBreaker::allowRequest() {
     return false;
 }
 
+/**
+ * @brief Record Result.
+ * @param[in] success Input parameter.
+ * @details Calls: lk(), transitionTo(), std::chrono::steady_clock::now().
+ */
 void CircuitBreaker::recordResult(bool success) {
     std::lock_guard<std::mutex> lk(mutex_);
 
@@ -152,6 +166,11 @@ void CircuitBreaker::recordResult(bool success) {
     }
 }
 
+/**
+ * @brief Force State.
+ * @param[in] state Input parameter.
+ * @details Calls: lk(), std::chrono::steady_clock::now(), transitionTo().
+ */
 void CircuitBreaker::forceState(CircuitState state) {
     std::lock_guard<std::mutex> lk(mutex_);
     if (state == CircuitState::kOpen) {
@@ -163,6 +182,10 @@ void CircuitBreaker::forceState(CircuitState state) {
     transitionTo(state);
 }
 
+/**
+ * @brief Reset the modification detection flag.
+ * @details Calls: lk(), transitionTo().
+ */
 void CircuitBreaker::reset() {
     std::lock_guard<std::mutex> lk(mutex_);
     consecutive_failures_  = 0;
@@ -176,13 +199,22 @@ void CircuitBreaker::reset() {
 // ============================================================================
 
 CircuitState CircuitBreaker::state() const noexcept {
-    // state_ is an enum, not an atomic.  We acquire the mutex for a consistent
-    // read even though a single-byte read would likely be torn-free in practice.
+    /**
+     * @brief state_ is an enum, not an atomic.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     * @details We acquire the mutex for a consistent read even though a single-byte read would likely be torn-free in practice.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     return state_;
 }
 
 CircuitBreakerStats CircuitBreaker::stats() const {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     CircuitBreakerStats s;
     s.state             = state_;
@@ -197,6 +229,11 @@ CircuitBreakerStats CircuitBreaker::stats() const {
 
 void CircuitBreaker::setTransitionCallback(
     std::function<void(CircuitState, CircuitState, const std::string&)> cb) {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     transition_cb_ = std::move(cb);
 }
@@ -205,6 +242,11 @@ void CircuitBreaker::setTransitionCallback(
 // Private helpers
 // ============================================================================
 
+/**
+ * @brief Transition To.
+ * @param[in] next_state Input parameter.
+ * @details Calls: transition_cb_().
+ */
 void CircuitBreaker::transitionTo(CircuitState next_state) {
     // Caller must hold mutex_.
     if (next_state == state_) {

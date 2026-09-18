@@ -47,15 +47,14 @@ namespace builtin {
 // Internal helper — FormatParseStepBase
 // ─────────────────────────────────────────────────────────────────────────────
 
-/**
- * @brief CRTP-free base for all format-specific parse steps.
- *
- * Subclasses provide `pluginName()` and optionally override
- * `postProcess(ctx, result)` to do type-specific context enrichment
- * (e.g. archive: populate extracted_file_paths).
- */
 class FormatParseStepBase : public IIngestionStep {
 public:
+    /**
+     * @brief Format Parse Step Base.
+     * @param[in] extractor Input parameter.
+     * @param[in] plugin_name Name of the plugin.
+     * @return Return value.
+     */
     explicit FormatParseStepBase(std::shared_ptr<IFormatExtractor> extractor,
                                  const char* plugin_name)
         : extractor_(std::move(extractor))
@@ -114,6 +113,12 @@ public:
                       std::string(plugin_name_) + ": manifest.original_path is empty"});
         }
 
+        /**
+         * @brief File.
+         * @param[in] path Input parameter.
+         * @param[in] binary Input parameter.
+         * @return Return value.
+         */
         std::ifstream file(path, std::ios::binary);
         if (!file.is_open()) {
             return tl::make_unexpected(
@@ -163,10 +168,10 @@ public:
 
 protected:
     /**
-     * @brief Hook for subclass-specific context enrichment after extraction.
-     *
-     * Default: no-op.  ArchiveParseStep overrides this to populate
-     * ctx.extracted_file_paths.
+     * @brief Post Process.
+     * @param[in,out] param Input/output parameter.
+     * @param[in,out] param Input/output parameter.
+     * @details Implements postProcess without additional internal calls.
      */
     virtual void postProcess(ExtractionContext& /*ctx*/,
                              FormatExtractResult& /*result*/) {}
@@ -179,9 +184,13 @@ protected:
 // builtin.parse_pdf
 // ─────────────────────────────────────────────────────────────────────────────
 
-/** @brief builtin.parse_pdf. */
 class ParsePdfStep final : public FormatParseStepBase {
 public:
+    /**
+     * @brief Parse Pdf Step.
+     * @param[in] e Input parameter.
+     * @return Return value.
+     */
     explicit ParsePdfStep(std::shared_ptr<IFormatExtractor> e)
         : FormatParseStepBase(std::move(e), "builtin.parse_pdf") {}
 };
@@ -190,9 +199,13 @@ public:
 // builtin.parse_office
 // ─────────────────────────────────────────────────────────────────────────────
 
-/** @brief builtin.parse_office. */
 class ParseOfficeStep final : public FormatParseStepBase {
 public:
+    /**
+     * @brief Parse Office Step.
+     * @param[in] e Input parameter.
+     * @return Return value.
+     */
     explicit ParseOfficeStep(std::shared_ptr<IFormatExtractor> e)
         : FormatParseStepBase(std::move(e), "builtin.parse_office") {}
 };
@@ -201,9 +214,13 @@ public:
 // builtin.parse_image
 // ─────────────────────────────────────────────────────────────────────────────
 
-/** @brief builtin.parse_image. */
 class ParseImageStep final : public FormatParseStepBase {
 public:
+    /**
+     * @brief Parse Image Step.
+     * @param[in] e Input parameter.
+     * @return Return value.
+     */
     explicit ParseImageStep(std::shared_ptr<IFormatExtractor> e)
         : FormatParseStepBase(std::move(e), "builtin.parse_image") {}
 };
@@ -212,9 +229,13 @@ public:
 // builtin.parse_archive
 // ─────────────────────────────────────────────────────────────────────────────
 
-/** @brief builtin.parse_archive. */
 class ParseArchiveStep final : public FormatParseStepBase {
 public:
+    /**
+     * @brief Parse Archive Step.
+     * @param[in] e Input parameter.
+     * @return Return value.
+     */
     explicit ParseArchiveStep(std::shared_ptr<IFormatExtractor> e)
         : FormatParseStepBase(std::move(e), "builtin.parse_archive") {}
 
@@ -235,16 +256,23 @@ protected:
 // builtin.parse_audio
 // ─────────────────────────────────────────────────────────────────────────────
 
-/** @brief builtin.parse_audio. */
 class ParseAudioStep final : public FormatParseStepBase {
 public:
+    /**
+     * @brief Parse Audio Step.
+     * @param[in] e Input parameter.
+     * @return Return value.
+     */
     explicit ParseAudioStep(std::shared_ptr<IFormatExtractor> e)
         : FormatParseStepBase(std::move(e), "builtin.parse_audio") {}
 };
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Factory functions (declared in builtin_step_factories.h)
-// ─────────────────────────────────────────────────────────────────────────────
+/**
+ * @brief ───────────────────────────────────────────────────────────────────────────── Factory functions (declared in builtin_step_factories.
+ * @param[in] extractor Input parameter.
+ * @return Return value.
+ * @details h) ─────────────────────────────────────────────────────────────────────────────
+ */
 
 std::shared_ptr<IIngestionStep> createParsePdfStep(
     std::shared_ptr<IFormatExtractor> extractor)
@@ -252,24 +280,44 @@ std::shared_ptr<IIngestionStep> createParsePdfStep(
     return std::make_shared<ParsePdfStep>(std::move(extractor));
 }
 
+/**
+ * @brief Create Parse Office Step.
+ * @param[in] extractor Input parameter.
+ * @return Return value.
+ */
 std::shared_ptr<IIngestionStep> createParseOfficeStep(
     std::shared_ptr<IFormatExtractor> extractor)
 {
     return std::make_shared<ParseOfficeStep>(std::move(extractor));
 }
 
+/**
+ * @brief Create Parse Image Step.
+ * @param[in] extractor Input parameter.
+ * @return Return value.
+ */
 std::shared_ptr<IIngestionStep> createParseImageStep(
     std::shared_ptr<IFormatExtractor> extractor)
 {
     return std::make_shared<ParseImageStep>(std::move(extractor));
 }
 
+/**
+ * @brief Create Parse Archive Step.
+ * @param[in] extractor Input parameter.
+ * @return Return value.
+ */
 std::shared_ptr<IIngestionStep> createParseArchiveStep(
     std::shared_ptr<IFormatExtractor> extractor)
 {
     return std::make_shared<ParseArchiveStep>(std::move(extractor));
 }
 
+/**
+ * @brief Create Parse Audio Step.
+ * @param[in] extractor Input parameter.
+ * @return Return value.
+ */
 std::shared_ptr<IIngestionStep> createParseAudioStep(
     std::shared_ptr<IFormatExtractor> extractor)
 {

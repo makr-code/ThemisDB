@@ -35,6 +35,13 @@ using json = nlohmann::json;
 // Internal helpers
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Truncate.
+ * @param[in] s Input parameter.
+ * @param[in] max_chars Input parameter.
+ * @return Return value.
+ * @details Calls: size(), std::string(), substr().
+ */
 std::string LlmProcessDescriptor::truncate_(std::string_view s, size_t max_chars) {
     if (s.size() <= max_chars) {
       return std::string(s);
@@ -42,6 +49,13 @@ std::string LlmProcessDescriptor::truncate_(std::string_view s, size_t max_chars
     return std::string(s.substr(0, max_chars)) + "…";
 }
 
+/**
+ * @brief Node To Json.
+ * @param[in] node_doc Input parameter.
+ * @param[in] cfg Input parameter.
+ * @return Return value.
+ * @details Calls: value(), truncate_(), contains().
+ */
 json LlmProcessDescriptor::nodeToJson_(const json& node_doc, const Config& cfg) {
     json n;
     n["id"]          = node_doc.value("id",   "");
@@ -56,6 +70,12 @@ json LlmProcessDescriptor::nodeToJson_(const json& node_doc, const Config& cfg) 
     return n;
 }
 
+/**
+ * @brief Edge To Json.
+ * @param[in] edge_doc Input parameter.
+ * @return Return value.
+ * @details Calls: value(), empty().
+ */
 json LlmProcessDescriptor::edgeToJson_(const json& edge_doc) {
     json e;
     e["from"]      = edge_doc.value("from", "");
@@ -72,11 +92,22 @@ json LlmProcessDescriptor::edgeToJson_(const json& edge_doc) {
 // generate
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Generate.
+ * @param[in] record Input parameter.
+ * @return Return value.
+ */
 json LlmProcessDescriptor::generate(const ProcessModelRecord& record)
 {
     return generate(record, Config{});
 }
 
+/**
+ * @brief Generate.
+ * @param[in] record Input parameter.
+ * @param[in] cfg Input parameter.
+ * @return Return value.
+ */
 json LlmProcessDescriptor::generate(
     const ProcessModelRecord& record,
     const Config& cfg)
@@ -153,6 +184,12 @@ json LlmProcessDescriptor::generate(
 // buildSystemPrompt
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Build System Prompt.
+ * @param[in] descriptor Input parameter.
+ * @return Return value.
+ * @details Calls: value(), empty(), contains(), str().
+ */
 std::string LlmProcessDescriptor::buildSystemPrompt(const json& descriptor) {
     std::ostringstream prompt = {};
 
@@ -217,6 +254,12 @@ std::string LlmProcessDescriptor::buildSystemPrompt(const json& descriptor) {
 // summarizeList
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Summarize List.
+ * @param[in] records Input parameter.
+ * @param[in] language Input parameter.
+ * @return Return value.
+ */
 json LlmProcessDescriptor::summarizeList(
     const std::vector<ProcessModelRecord>& records,
     std::string_view                       language)
@@ -252,6 +295,12 @@ json LlmProcessDescriptor::summarizeList(
 // buildConformancePrompt
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Build Conformance Prompt.
+ * @param[in] descriptor Input parameter.
+ * @param[in] observed_trace Input parameter.
+ * @return Return value.
+ */
 std::string LlmProcessDescriptor::buildConformancePrompt(
     const json& descriptor,
     const json& observed_trace)
@@ -260,6 +309,11 @@ std::string LlmProcessDescriptor::buildConformancePrompt(
 
     prompt << "Task: Process Conformance Checking\n\n";
     prompt << "== Expected Process Model ==\n";
+    /**
+     * @brief Build System Prompt.
+     * @param[in] descriptor Input parameter.
+     * @return Return value.
+     */
     prompt << buildSystemPrompt(descriptor);
 
     prompt << "\n== Observed Execution Trace ==\n";

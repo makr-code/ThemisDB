@@ -121,6 +121,13 @@ AggregatedMetrics PromptEvaluator::evaluateBatch(
     return agg;
 }
 
+/**
+ * @brief Compute Semantic Similarity.
+ * @param[in] s1 Input parameter.
+ * @param[in] s2 Input parameter.
+ * @return Return value.
+ * @details Calls: normalizeString(), tokenize(), empty(), set1(), begin(), end(), set2(), count().
+ */
 double PromptEvaluator::computeSemanticSimilarity(
     const std::string& s1,
     const std::string& s2
@@ -157,6 +164,13 @@ double PromptEvaluator::computeSemanticSimilarity(
     return static_cast<double>(intersection) / union_size;
 }
 
+/**
+ * @brief Compute Exact Match.
+ * @param[in] output Input parameter.
+ * @param[in] expected Input parameter.
+ * @return Return value.
+ * @details Calls: normalizeString().
+ */
 double PromptEvaluator::computeExactMatch(
     const std::string& output,
     const std::string& expected
@@ -167,6 +181,13 @@ double PromptEvaluator::computeExactMatch(
     return (norm_output == norm_expected) ? 1.0 : 0.0;
 }
 
+/**
+ * @brief Compute Partial Match.
+ * @param[in] output Input parameter.
+ * @param[in] expected Input parameter.
+ * @return Return value.
+ * @details Calls: normalizeString(), empty(), levenshteinDistance(), std::max(), length().
+ */
 double PromptEvaluator::computePartialMatch(
     const std::string& output,
     const std::string& expected
@@ -189,6 +210,13 @@ double PromptEvaluator::computePartialMatch(
     return 1.0 - (static_cast<double>(distance) / max_len);
 }
 
+/**
+ * @brief Compute Relevance.
+ * @param[in] output Input parameter.
+ * @param[in] expected Input parameter.
+ * @return Return value.
+ * @details Calls: tokenize(), normalizeString(), empty(), output_set(), begin(), end(), count(), size().
+ */
 double PromptEvaluator::computeRelevance(
     const std::string& output,
     const std::string& expected
@@ -213,6 +241,14 @@ double PromptEvaluator::computeRelevance(
     return static_cast<double>(found) / static_cast<double>(tokens_expected.size());
 }
 
+/**
+ * @brief Is Statistically Significant.
+ * @param[in] baseline_scores Input parameter.
+ * @param[in] new_scores Input parameter.
+ * @param[in] double Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), size().
+ */
 bool PromptEvaluator::isStatisticallySignificant(
     const std::vector<double>& baseline_scores,
     const std::vector<double>& new_scores,
@@ -250,6 +286,12 @@ double PromptEvaluator::computeWeightedScore(const EvaluationMetrics& metrics) c
            config_.relevance_weight * metrics.relevance;
 }
 
+/**
+ * @brief Normalize String.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), length(), empty(), back(), push_back(), pop_back().
+ */
 std::string PromptEvaluator::normalizeString(const std::string& s) {
     std::string result = {};
     result.reserve(s.length());
@@ -277,6 +319,12 @@ std::string PromptEvaluator::normalizeString(const std::string& s) {
     return result;
 }
 
+/**
+ * @brief Tokenize.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Calls: iss(), empty(), push_back().
+ */
 std::vector<std::string> PromptEvaluator::tokenize(const std::string& s) {
     std::vector<std::string> tokens;
     std::istringstream iss(s);
@@ -291,6 +339,13 @@ std::vector<std::string> PromptEvaluator::tokenize(const std::string& s) {
     return tokens;
 }
 
+/**
+ * @brief Levenshtein Distance.
+ * @param[in] s1 Input parameter.
+ * @param[in] s2 Input parameter.
+ * @return Return value.
+ * @details Calls: length(), dp(), std::min().
+ */
 size_t PromptEvaluator::levenshteinDistance(
     const std::string& s1,
     const std::string& s2

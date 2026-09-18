@@ -23,22 +23,8 @@ namespace themis {
 namespace lora {
 namespace directx {
 
-/**
- * @brief DirectX 12 buffer wrapper for GPU memory management
- * 
- * Manages ID3D12Resource objects with support for:
- * - Upload heaps (CPU→GPU)
- * - Default heaps (GPU-only, fastest)
- * - Readback heaps (GPU→CPU)
- */
 class DirectXBuffer {
 public:
-    /**
-     * @brief Create DirectX buffer
-     * @param context DirectX context
-     * @param size Buffer size in bytes
-     * @param usage Buffer usage flags
-     */
     DirectXBuffer(DirectXContext* context, size_t size, 
                   D3D12_RESOURCE_FLAGS flags = D3D12_RESOURCE_FLAG_ALLOW_UNORDERED_ACCESS);
     
@@ -51,49 +37,50 @@ public:
     DirectXBuffer& operator=(DirectXBuffer&&) noexcept;
     
     /**
-     * @brief Upload data from CPU to GPU
-     * @param data Source CPU data
-     * @param size Size in bytes
+     * @brief Upload.
+     * @param[in] data Input parameter.
+     * @param[in] size Input parameter.
      */
     void upload(const void* data, size_t size);
     
     /**
-     * @brief Download data from GPU to CPU
-     * @param data Destination CPU buffer
-     * @param size Size in bytes
+     * @brief Download.
+     * @param[in,out] data Input/output parameter.
+     * @param[in] size Input parameter.
      */
     void download(void* data, size_t size);
     
-    /**
-     * @brief Get underlying D3D12 resource (default heap)
-     */
     ID3D12Resource* resource() const { return resource_.Get(); }
     
-    /**
-     * @brief Get buffer size in bytes
-     */
     size_t size() const { return size_; }
     
-    /**
-     * @brief Get GPU virtual address
-     */
     D3D12_GPU_VIRTUAL_ADDRESS gpu_address() const { 
         return resource_ ? resource_->GetGPUVirtualAddress() : 0; 
     }
     
     /**
-     * @brief Transition resource state
+     * @brief Transition state.
+     * @param[in] new_state Input parameter.
      */
     void transition_state(D3D12_RESOURCE_STATES new_state);
     
-    /**
-     * @brief Get current resource state
-     */
     D3D12_RESOURCE_STATES current_state() const { return current_state_; }
 
 private:
+    /**
+     * @brief Create default buffer.
+     * @return True when the operation succeeds.
+     */
     bool create_default_buffer();
+    /**
+     * @brief Create upload buffer.
+     * @return True when the operation succeeds.
+     */
     bool create_upload_buffer();
+    /**
+     * @brief Create readback buffer.
+     * @return True when the operation succeeds.
+     */
     bool create_readback_buffer();
     
     DirectXContext* context_;

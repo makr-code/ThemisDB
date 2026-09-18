@@ -24,6 +24,17 @@ namespace training {
 
 namespace {
 
+/**
+ * @brief Compute Delta W.
+ * @param[in] B Input parameter.
+ * @param[in] A Input parameter.
+ * @param[in] in_dim Input parameter.
+ * @param[in] out_dim Input parameter.
+ * @param[in] rank Input parameter.
+ * @param[in] scaling Input parameter.
+ * @return Return value.
+ * @details Calls: dW().
+ */
 std::vector<float> computeDeltaW(const std::vector<float>& B,
                                   const std::vector<float>& A,
                                   size_t in_dim,
@@ -108,9 +119,17 @@ SVD1Result dominantSVD1(const std::vector<float>& M,
     return res;
 }
 
-// Factorise merged ΔW (in_dim × out_dim) into B (in_dim × rank) and
-// A (rank × out_dim) such that (B @ A) ≈ ΔW / scaling.
-// Uses the top-`rank` rank-1 SVD approximation (power iteration).
+/**
+ * @brief Factorise merged ΔW (in_dim × out_dim) into B (in_dim × rank) and A (rank × out_dim) such that (B @ A) ≈ ΔW / scaling.
+ * @param[in] dW Input parameter.
+ * @param[in] in_dim Input parameter.
+ * @param[in] out_dim Input parameter.
+ * @param[in] rank Input parameter.
+ * @param[in] scaling Input parameter.
+ * @param[in,out] B_out Input/output parameter.
+ * @param[in,out] A_out Input/output parameter.
+ * @details Uses the top-`rank` rank-1 SVD approximation (power iteration). Calls: assign(), std::abs(), dominantSVD1(), std::sqrt().
+ */
 void factoriseDeltaW(const std::vector<float>& dW,
                       size_t in_dim, size_t out_dim,
                       size_t rank, float scaling,

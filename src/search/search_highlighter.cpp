@@ -33,6 +33,13 @@ SearchHighlighter::SearchHighlighter(Config config)
 // Static helpers
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Tokenize.
+ * @param[in] text Input parameter.
+ * @param[in] case_insensitive Input parameter.
+ * @return Return value.
+ * @details Calls: std::isspace(), std::ispunct(), empty(), push_back(), std::move(), std::isupper(), std::tolower().
+ */
 std::vector<std::string> SearchHighlighter::tokenize(const std::string& text,
                                                       bool case_insensitive) {
     std::vector<std::string> tokens;
@@ -90,6 +97,14 @@ std::string SearchHighlighter::applyHighlight(
     return result;
 }
 
+/**
+ * @brief Best Window Offset.
+ * @param[in] text Input parameter.
+ * @param[in] terms Input parameter.
+ * @param[in] window_size Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), size(), reserve(), std::tolower(), find(), push_back(), std::sort(), begin().
+ */
 size_t SearchHighlighter::bestWindowOffset(const std::string& text,
                                             const std::vector<std::string>& terms,
                                             size_t window_size) {

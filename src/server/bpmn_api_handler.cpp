@@ -28,6 +28,12 @@ namespace {
 
 constexpr size_t kMaxBpmnIdentifierLength = 256;
 
+/**
+ * @brief Is Valid Bpmn Identifier.
+ * @param[in] value Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), validateStringLength(), validatePathSegment(), validateHeaderValue().
+ */
 bool isValidBpmnIdentifier(const std::string& value) {
     themis::utils::InputValidator validator;
     return !value.empty() &&
@@ -81,6 +87,15 @@ BpmnApiHandler::AuthContext BpmnApiHandler::extractAuthContext(
     return ctx;
 }
 
+/**
+ * @brief Require Access.
+ * @param[in] req Input parameter.
+ * @param[in] scope Input parameter.
+ * @param[in] param Input parameter.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Calls: isEnabled(), empty(), makeErrorResponse(), themis::AuthMiddleware::extractBearerToken(), std::string_view(), data(), size(), authorize().
+ */
 std::optional<http::response<http::string_body>> BpmnApiHandler::requireAccess(
     const http::request<http::string_body>& req,
     const std::string& scope,
@@ -124,6 +139,13 @@ std::optional<http::response<http::string_body>> BpmnApiHandler::requireAccess(
     return std::nullopt; // Access granted
 }
 
+/**
+ * @brief Extract Path Param.
+ * @param[in] target Input parameter.
+ * @param[in] prefix Input parameter.
+ * @return Return value.
+ * @details Calls: size(), find(), substr().
+ */
 std::string BpmnApiHandler::extractPathParam(const std::string& target, const std::string& prefix) {
     if (target.size() <= prefix.size()) {
         return "";
@@ -138,6 +160,14 @@ std::string BpmnApiHandler::extractPathParam(const std::string& target, const st
     return target.substr(start, end - start);
 }
 
+/**
+ * @brief Make Error Response.
+ * @param[in] status Input parameter.
+ * @param[in] message Input parameter.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: version(), set(), keep_alive(), body(), dump(), prepare_payload().
+ */
 http::response<http::string_body> BpmnApiHandler::makeErrorResponse(
     http::status status,
     const std::string& message,
@@ -156,6 +186,14 @@ http::response<http::string_body> BpmnApiHandler::makeErrorResponse(
     return res;
 }
 
+/**
+ * @brief Make Response.
+ * @param[in] status Input parameter.
+ * @param[in] body Input parameter.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: version(), set(), keep_alive(), body(), prepare_payload().
+ */
 http::response<http::string_body> BpmnApiHandler::makeResponse(
     http::status status,
     const std::string& body,
@@ -170,6 +208,12 @@ http::response<http::string_body> BpmnApiHandler::makeResponse(
     return res;
 }
 
+/**
+ * @brief Handle Start Process.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), requireAccess(), makeErrorResponse(), json::parse(), body(), value(), json::object(), empty().
+ */
 http::response<http::string_body> BpmnApiHandler::handleStartProcess(
     const http::request<http::string_body>& req
 ) {
@@ -275,6 +319,12 @@ http::response<http::string_body> BpmnApiHandler::handleStartProcess(
     }
 }
 
+/**
+ * @brief Handle Task Complete.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), requireAccess(), makeErrorResponse(), std::string(), target(), size(), find(), substr().
+ */
 http::response<http::string_body> BpmnApiHandler::handleTaskComplete(
     const http::request<http::string_body>& req
 ) {
@@ -371,6 +421,12 @@ http::response<http::string_body> BpmnApiHandler::handleTaskComplete(
     }
 }
 
+/**
+ * @brief Handle Query Instance.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), requireAccess(), makeErrorResponse(), std::string(), target(), extractPathParam(), empty(), isValidBpmnIdentifier().
+ */
 http::response<http::string_body> BpmnApiHandler::handleQueryInstance(
     const http::request<http::string_body>& req
 ) {

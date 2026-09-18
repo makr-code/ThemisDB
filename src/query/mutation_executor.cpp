@@ -66,13 +66,12 @@ MutationResult MutationExecutor::execute(const MutationExecutionPlan& plan,
 namespace {
 
 /**
- * @brief Process a single step against the storage context.
+ * @brief Process Step.
  * @param[in] step Input parameter.
  * @param[in] collection Input parameter.
  * @param[in,out] ctx Input/output parameter.
  * @param[in,out] inserted_ids Input/output parameter.
  * @return Return value.
- * @details Returns an error MutationResult if the step fails, std::nullopt on success.
  */
 std::optional<MutationResult> processStep(
     const MutationStep&              step,

@@ -45,6 +45,11 @@ PDFProcessor::PDFProcessor() : PDFProcessor(Config{}) {}
 
 PDFProcessor::PDFProcessor(Config config) : config_(std::move(config)) {}
 
+/**
+ * @brief Is Available.
+ * @return True when the operation succeeds.
+ * @details Implements isAvailable without additional internal calls.
+ */
 bool PDFProcessor::isAvailable() {
 #if PDF_LIBRARY_AVAILABLE
     return true;
@@ -53,6 +58,11 @@ bool PDFProcessor::isAvailable() {
 #endif
 }
 
+/**
+ * @brief Get Library Version.
+ * @return Return value.
+ * @details Calls: std::string(), poppler::version_string().
+ */
 std::string PDFProcessor::getLibraryVersion() {
 #if PDF_LIBRARY_AVAILABLE
     return std::string(PDF_LIBRARY_NAME) + " " + poppler::version_string();
@@ -61,6 +71,12 @@ std::string PDFProcessor::getLibraryVersion() {
 #endif
 }
 
+/**
+ * @brief Is PDFValid.
+ * @param[in] blob Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: size(), substr().
+ */
 bool PDFProcessor::isPDFValid(const std::string &blob) {
     // Check PDF header signature
     if (blob.size() < 8) {
@@ -70,6 +86,13 @@ bool PDFProcessor::isPDFValid(const std::string &blob) {
     return blob.substr(0, 4) == "%PDF";
 }
 
+/**
+ * @brief Extract.
+ * @param[in] blob Input parameter.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Calls: json::object(), isPDFValid(), size(), substr(), version_regex(), std::regex_search(), str(), data().
+ */
 ExtractionResult PDFProcessor::extract(const std::string &blob, const ContentType & /*content_type*/
 ) {
     ExtractionResult result;
@@ -239,6 +262,12 @@ ExtractionResult PDFProcessor::extract(const std::string &blob, const ContentTyp
     return result;
 }
 
+/**
+ * @brief Extract Metadata.
+ * @param[in] blob Input parameter.
+ * @return Return value.
+ * @details Calls: data(), begin(), end(), doc(), poppler::document::load_from_raw_data(), size(), to_utf8(), std::string().
+ */
 PDFMetadata PDFProcessor::extractMetadata(const std::string &blob) {
     PDFMetadata metadata;
     metadata.is_encrypted  = false;
@@ -303,6 +332,12 @@ PDFMetadata PDFProcessor::extractMetadata(const std::string &blob) {
     return metadata;
 }
 
+/**
+ * @brief Extract Pages.
+ * @param[in] blob Input parameter.
+ * @return Return value.
+ * @details Calls: PDF_LIBRARY_AVAILABLE(), data(), begin(), end(), doc(), poppler::document::load_from_raw_data(), size(), std::min().
+ */
 std::vector<PDFPageInfo> PDFProcessor::extractPages(const std::string &blob) {
     std::vector<PDFPageInfo> pages;
 
@@ -439,6 +474,12 @@ std::string PDFProcessor::assembleTextWithLayout(const std::vector<poppler::text
 }
 #endif
 
+/**
+ * @brief Extract All Text.
+ * @param[in] pages Input parameter.
+ * @return Return value.
+ * @details Calls: size(), str().
+ */
 std::string PDFProcessor::extractAllText(const std::vector<PDFPageInfo> &pages) {
     std::ostringstream oss = {};
     for (size_t i = 0; i < pages.size(); ++i) {
@@ -450,6 +491,14 @@ std::string PDFProcessor::extractAllText(const std::vector<PDFPageInfo> &pages) 
     return oss.str();
 }
 
+/**
+ * @brief Chunk.
+ * @param[in] extraction_result Input parameter.
+ * @param[in] chunk_size Input parameter.
+ * @param[in] overlap Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), sentence_regex(), iter(), begin(), end(), str(), push_back(), countTokens().
+ */
 std::vector<json> PDFProcessor::chunk(const ExtractionResult &extraction_result, int chunk_size, int overlap) {
     std::vector<json> chunks;
 
@@ -514,6 +563,12 @@ std::vector<json> PDFProcessor::chunk(const ExtractionResult &extraction_result,
     return chunks;
 }
 
+/**
+ * @brief Generate Embedding.
+ * @param[in] chunk_data Input parameter.
+ * @return Return value.
+ * @details Calls: embedding(), empty(), iss(), push_back(), size(), hasher(), std::sin(), std::sqrt().
+ */
 std::vector<float> PDFProcessor::generateEmbedding(const std::string &chunk_data) {
     // Hash-projection embedding (768-dim, L2-normalised) matching the
     // approach used by TextProcessor::generateEmbedding().  Each token
@@ -567,6 +622,12 @@ std::vector<float> PDFProcessor::generateEmbedding(const std::string &chunk_data
     return embedding;
 }
 
+/**
+ * @brief Count Tokens.
+ * @param[in] text Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), std::isspace().
+ */
 int PDFProcessor::countTokens(const std::string &text) {
     if (text.empty()) {
         return 0;
@@ -588,6 +649,12 @@ int PDFProcessor::countTokens(const std::string &text) {
     return count;
 }
 
+/**
+ * @brief Parse PDFDate.
+ * @param[in] pdf_date Input parameter.
+ * @return Return value.
+ * @details Calls: size(), substr(), str().
+ */
 std::string PDFProcessor::parsePDFDate(const std::string &pdf_date) {
     // PDF date format: D:YYYYMMDDHHmmSSOHH'mm'
     // Convert to ISO 8601
@@ -615,10 +682,21 @@ std::string PDFProcessor::parsePDFDate(const std::string &pdf_date) {
     return iso.str();
 }
 
+/**
+ * @brief Create PDFProcessor.
+ * @return Return value.
+ * @details Implements createPDFProcessor without additional internal calls.
+ */
 std::unique_ptr<IContentProcessor> createPDFProcessor() {
     return std::make_unique<PDFProcessor>(PDFProcessor::Config{});
 }
 
+/**
+ * @brief Create PDFProcessor.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @details Calls: std::move().
+ */
 std::unique_ptr<IContentProcessor> createPDFProcessor(PDFProcessor::Config config) {
     return std::make_unique<PDFProcessor>(std::move(config));
 }

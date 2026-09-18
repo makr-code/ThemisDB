@@ -21,11 +21,16 @@ namespace themis {
 namespace rpc {
 
 // Rabin fingerprinting for Content-Defined Chunking
-/** @brief Rabin fingerprinting for Content-Defined Chunking. */
 class RabinFingerprint {
 public:
     RabinFingerprint() : window_size_(48), avg_chunk_size_(64 * 1024) {}
     
+    /**
+     * @brief Find Chunk Boundaries.
+     * @param[in] data Input parameter.
+     * @return Return value.
+     * @details Calls: push_back(), size(), back().
+     */
     std::vector<uint64_t> FindChunkBoundaries(const std::string& data) {
         std::vector<uint64_t> boundaries;
         boundaries.push_back(0);  // Start
@@ -53,11 +58,18 @@ private:
 };
 
 // Implementation class
-/** @brief Implementation class. */
 class DifferentialUpdateEngine::Impl {
 public:
     Impl() : rabin_(std::make_unique<RabinFingerprint>()) {}
     
+    /**
+     * @brief Generate Manifest.
+     * @param[in] blob_path Path to the blob.
+     * @param[in] mode Input parameter.
+     * @param[in] chunk_size_kb Input parameter.
+     * @return Return value.
+     * @details Calls: file(), data(), close(), GenerateManifestCDC(), GenerateManifestFixedBlock(), GenerateManifestWhole().
+     */
     std::vector<ChunkInfo> GenerateManifest(
         const std::string& blob_path,
         themis::sharding::proto::DifferentialMode mode,
@@ -96,6 +108,13 @@ public:
         return manifest;
     }
     
+    /**
+     * @brief Compute Delta.
+     * @param[in] base_manifest Input parameter.
+     * @param[in] target_manifest Input parameter.
+     * @return Return value.
+     * @details Calls: find(), end(), push_back().
+     */
     DeltaResult ComputeDelta(
         const std::vector<ChunkInfo>& base_manifest,
         const std::vector<ChunkInfo>& target_manifest
@@ -134,6 +153,12 @@ public:
         return result;
     }
     
+    /**
+     * @brief Select Strategy.
+     * @param[in] metadata Input parameter.
+     * @return Return value.
+     * @details Implements SelectStrategy without additional internal calls.
+     */
     themis::sharding::proto::DifferentialMode SelectStrategy(
         const BlobMetadata& metadata
     ) {
@@ -162,9 +187,12 @@ public:
 
         if (chunk_indices.empty()) { return chunks; }
 
-        // Read the entire blob (manifest is already held by the caller; we
-        // re-derive boundaries from the default CDC mode so we can seek to the
-        // right offsets without requiring the caller to pass a manifest).
+        /**
+         * @brief Read the entire blob (manifest is already held by the caller; we re-derive boundaries from the default CDC mode so we can seek to the right offsets without requiring the caller to pass a manifest).
+         * @param[in] blob_path Path to the blob.
+         * @param[in] binary Input parameter.
+         * @return Return value.
+         */
         std::ifstream file(blob_path, std::ios::binary);
         if (!file) { return chunks; }
 
@@ -216,6 +244,12 @@ public:
     }
 
 private:
+    /**
+     * @brief Generate Manifest CDC.
+     * @param[in] data Input parameter.
+     * @return Return value.
+     * @details Calls: FindChunkBoundaries(), size(), CalculateHash(), substr(), push_back().
+     */
     std::vector<ChunkInfo> GenerateManifestCDC(const std::string& data) {
         std::vector<ChunkInfo> manifest;
         
@@ -239,6 +273,13 @@ private:
         return manifest;
     }
     
+    /**
+     * @brief Generate Manifest Fixed Block.
+     * @param[in] data Input parameter.
+     * @param[in] chunk_size_kb Input parameter.
+     * @return Return value.
+     * @details Calls: size(), std::min(), CalculateHash(), substr(), push_back().
+     */
     std::vector<ChunkInfo> GenerateManifestFixedBlock(
         const std::string& data,
         uint32_t chunk_size_kb
@@ -262,6 +303,12 @@ private:
         return manifest;
     }
     
+    /**
+     * @brief Generate Manifest Whole.
+     * @param[in] data Input parameter.
+     * @return Return value.
+     * @details Calls: size(), CalculateHash(), push_back().
+     */
     std::vector<ChunkInfo> GenerateManifestWhole(const std::string& data) {
         std::vector<ChunkInfo> manifest;
         
@@ -275,6 +322,12 @@ private:
         return manifest;
     }
     
+    /**
+     * @brief Calculate Hash.
+     * @param[in] data Input parameter.
+     * @return Return value.
+     * @details Calls: SHA256(), data(), size(), std::setw(), std::setfill(), str().
+     */
     std::string CalculateHash(const std::string& data) {
         unsigned char hash[SHA256_DIGEST_LENGTH];
         SHA256(reinterpret_cast<const unsigned char*>(data.data()),
@@ -297,6 +350,14 @@ DifferentialUpdateEngine::DifferentialUpdateEngine()
 
 DifferentialUpdateEngine::~DifferentialUpdateEngine() = default;
 
+/**
+ * @brief Generate Manifest.
+ * @param[in] blob_path Path to the blob.
+ * @param[in] mode Input parameter.
+ * @param[in] chunk_size_kb Input parameter.
+ * @return Return value.
+ * @details Implements GenerateManifest without additional internal calls.
+ */
 std::vector<ChunkInfo> DifferentialUpdateEngine::GenerateManifest(
     const std::string& blob_path,
     themis::sharding::proto::DifferentialMode mode,
@@ -305,6 +366,13 @@ std::vector<ChunkInfo> DifferentialUpdateEngine::GenerateManifest(
     return impl_->GenerateManifest(blob_path, mode, chunk_size_kb);
 }
 
+/**
+ * @brief Compute Delta.
+ * @param[in] base_manifest Input parameter.
+ * @param[in] target_manifest Input parameter.
+ * @return Return value.
+ * @details Implements ComputeDelta without additional internal calls.
+ */
 DeltaResult DifferentialUpdateEngine::ComputeDelta(
     const std::vector<ChunkInfo>& base_manifest,
     const std::vector<ChunkInfo>& target_manifest
@@ -312,6 +380,12 @@ DeltaResult DifferentialUpdateEngine::ComputeDelta(
     return impl_->ComputeDelta(base_manifest, target_manifest);
 }
 
+/**
+ * @brief Select Strategy.
+ * @param[in] metadata Input parameter.
+ * @return Return value.
+ * @details Implements SelectStrategy without additional internal calls.
+ */
 themis::sharding::proto::DifferentialMode DifferentialUpdateEngine::SelectStrategy(
     const BlobMetadata& metadata
 ) {

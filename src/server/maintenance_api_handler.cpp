@@ -38,6 +38,12 @@ namespace {
 constexpr size_t kMaxMaintenanceIdentifierLength = 256;
 constexpr size_t kMaxMaintenanceTenantIdLength = 256;
 
+/**
+ * @brief Is Valid Maintenance Identifier.
+ * @param[in] value Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), validateStringLength(), std::string(), validatePathSegment().
+ */
 bool isValidMaintenanceIdentifier(std::string_view value) {
     themis::utils::InputValidator validator;
     return !value.empty() &&
@@ -45,6 +51,12 @@ bool isValidMaintenanceIdentifier(std::string_view value) {
            validator.validatePathSegment(std::string(value));
 }
 
+/**
+ * @brief Is Valid Tenant Filter.
+ * @param[in] value Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), validateStringLength(), std::string(), validatePathSegment(), validateHeaderValue().
+ */
 bool isValidTenantFilter(std::string_view value) {
     if (value.empty()) {
         return true;
@@ -56,10 +68,22 @@ bool isValidTenantFilter(std::string_view value) {
            validator.validateHeaderValue(std::string(value));
 }
 
+/**
+ * @brief Schedule To Response.
+ * @param[in] e Input parameter.
+ * @return Return value.
+ * @details Calls: toJson().
+ */
 json scheduleToResponse(const maintenance::MaintenanceScheduleEntry& e) {
     return e.toJson();
 }
 
+/**
+ * @brief Job To Response.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: toJson().
+ */
 json jobToResponse(const maintenance::OrchestratorJob& j) {
     return j.toJson();
 }
@@ -70,6 +94,12 @@ json jobToResponse(const maintenance::OrchestratorJob& j) {
 // Schedule CRUD
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Create Schedule.
+ * @param[in] body Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), setStatus(), errorResponse(), maintenance::MaintenanceScheduleEntry::fromJson(), recordError(), what(), std::string(), std::move().
+ */
 json MaintenanceApiHandler::createSchedule(const json& body) {
     auto span = Tracer::startSpan("POST /maintenance/schedules");
     if (!orchestrator_) {
@@ -98,6 +128,12 @@ json MaintenanceApiHandler::createSchedule(const json& body) {
     return resp;
 }
 
+/**
+ * @brief List Schedules.
+ * @param[in] tenant_id Identifier of the tenant.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), setStatus(), errorResponse(), isValidTenantFilter(), setAttribute(), size(), empty(), json::array().
+ */
 json MaintenanceApiHandler::listSchedules(const std::string& tenant_id) {
     auto span = Tracer::startSpan("GET /maintenance/schedules");
     if (!orchestrator_) {
@@ -123,6 +159,12 @@ json MaintenanceApiHandler::listSchedules(const std::string& tenant_id) {
     return {{"schedules", arr}, {"count", schedules.size()}};
 }
 
+/**
+ * @brief Get Schedule.
+ * @param[in] id Input parameter.
+ * @return Return value.
+ * @details Calls: errorResponse(), empty(), isValidMaintenanceIdentifier(), error(), message(), scheduleToResponse().
+ */
 json MaintenanceApiHandler::getSchedule(const std::string& id) {
     if (!orchestrator_) {
       return errorResponse("Orchestrator not initialized");
@@ -142,6 +184,13 @@ json MaintenanceApiHandler::getSchedule(const std::string& id) {
     return scheduleToResponse(*result);
 }
 
+/**
+ * @brief Update Schedule.
+ * @param[in] id Input parameter.
+ * @param[in] body Input parameter.
+ * @return Return value.
+ * @details Calls: errorResponse(), empty(), isValidMaintenanceIdentifier(), maintenance::MaintenanceScheduleEntry::fromJson(), std::string(), what(), std::move(), error().
+ */
 json MaintenanceApiHandler::updateSchedule(const std::string& id, const json& body) {
     if (!orchestrator_) {
       return errorResponse("Orchestrator not initialized");
@@ -168,6 +217,13 @@ json MaintenanceApiHandler::updateSchedule(const std::string& id, const json& bo
     return scheduleToResponse(*result);
 }
 
+/**
+ * @brief Patch Schedule.
+ * @param[in] id Input parameter.
+ * @param[in] patch Input parameter.
+ * @return Return value.
+ * @details Calls: errorResponse(), empty(), isValidMaintenanceIdentifier(), error(), message(), scheduleToResponse().
+ */
 json MaintenanceApiHandler::patchSchedule(const std::string& id, const json& patch) {
     if (!orchestrator_) {
       return errorResponse("Orchestrator not initialized");
@@ -187,6 +243,12 @@ json MaintenanceApiHandler::patchSchedule(const std::string& id, const json& pat
     return scheduleToResponse(*result);
 }
 
+/**
+ * @brief Delete Schedule.
+ * @param[in] id Input parameter.
+ * @return Return value.
+ * @details Calls: errorResponse(), empty(), isValidMaintenanceIdentifier(), error(), message().
+ */
 json MaintenanceApiHandler::deleteSchedule(const std::string& id) {
     if (!orchestrator_) {
       return errorResponse("Orchestrator not initialized");
@@ -210,6 +272,12 @@ json MaintenanceApiHandler::deleteSchedule(const std::string& id) {
 // Jobs & control
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief List Jobs.
+ * @param[in] active_only Input parameter.
+ * @return Return value.
+ * @details Calls: errorResponse(), json::array(), push_back(), jobToResponse(), size().
+ */
 json MaintenanceApiHandler::listJobs(bool active_only) {
     if (!orchestrator_) {
       return errorResponse("Orchestrator not initialized");
@@ -223,6 +291,12 @@ json MaintenanceApiHandler::listJobs(bool active_only) {
     return {{"jobs", arr}, {"count", jobs.size()}};
 }
 
+/**
+ * @brief Get Job.
+ * @param[in] id Input parameter.
+ * @return Return value.
+ * @details Calls: errorResponse(), empty(), isValidMaintenanceIdentifier(), error(), message(), jobToResponse().
+ */
 json MaintenanceApiHandler::getJob(const std::string& id) {
     if (!orchestrator_) {
       return errorResponse("Orchestrator not initialized");
@@ -242,6 +316,12 @@ json MaintenanceApiHandler::getJob(const std::string& id) {
     return jobToResponse(*result);
 }
 
+/**
+ * @brief Cancel Job.
+ * @param[in] id Input parameter.
+ * @return Return value.
+ * @details Calls: errorResponse(), empty(), isValidMaintenanceIdentifier(), error(), message().
+ */
 json MaintenanceApiHandler::cancelJob(const std::string& id) {
     if (!orchestrator_) {
       return errorResponse("Orchestrator not initialized");
@@ -261,6 +341,13 @@ json MaintenanceApiHandler::cancelJob(const std::string& id) {
     return {{"status", "cancelled"}, {"id", id}};
 }
 
+/**
+ * @brief Trigger Now.
+ * @param[in] schedule_id Identifier of the schedule.
+ * @param[in] force Input parameter.
+ * @return Return value.
+ * @details Calls: errorResponse(), empty(), isValidMaintenanceIdentifier(), error(), message(), jobToResponse().
+ */
 json MaintenanceApiHandler::triggerNow(const std::string& schedule_id, bool force) {
     if (!orchestrator_) {
       return errorResponse("Orchestrator not initialized");
@@ -286,6 +373,11 @@ json MaintenanceApiHandler::triggerNow(const std::string& schedule_id, bool forc
 // Observability
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Get Status.
+ * @return Return value.
+ * @details Calls: errorResponse().
+ */
 json MaintenanceApiHandler::getStatus() {
     if (!orchestrator_) {
       return errorResponse("Orchestrator not initialized");
@@ -294,6 +386,11 @@ json MaintenanceApiHandler::getStatus() {
     return orchestrator.getStatus();
 }
 
+/**
+ * @brief Get Health.
+ * @return Return value.
+ * @details Calls: errorResponse(), getHealthReport(), toJson().
+ */
 json MaintenanceApiHandler::getHealth() {
     if (!orchestrator_) {
       return errorResponse("Orchestrator not initialized");
@@ -302,6 +399,11 @@ json MaintenanceApiHandler::getHealth() {
     return orchestrator.getHealthReport().toJson();
 }
 
+/**
+ * @brief List Task Handlers.
+ * @return Return value.
+ * @details Calls: errorResponse(), json::array(), push_back(), size().
+ */
 json MaintenanceApiHandler::listTaskHandlers() {
     if (!orchestrator_) {
       return errorResponse("Orchestrator not initialized");

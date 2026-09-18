@@ -38,50 +38,100 @@ struct KnowledgeGapDetector::Impl {
     mutable std::shared_mutex mu;
 
     KnowledgeGapConfig snapshotConfig() const {
+        /**
+         * @brief Lock.
+         * @param[in] mu Input parameter.
+         * @return Return value.
+         */
         std::shared_lock<std::shared_mutex> lock(mu);
         return config;
     }
 
     std::function<void(const DetectionResult&)> snapshotGapCallback() const {
+        /**
+         * @brief Lock.
+         * @param[in] mu Input parameter.
+         * @return Return value.
+         */
         std::shared_lock<std::shared_mutex> lock(mu);
         return gap_callback;
     }
 
     RetrievalCallback snapshotRetrievalCallback() const {
+        /**
+         * @brief Lock.
+         * @param[in] mu Input parameter.
+         * @return Return value.
+         */
         std::shared_lock<std::shared_mutex> lock(mu);
         return retrieval_fn;
     }
 
     LlmSampleFn snapshotLlmSampleFn() const {
+        /**
+         * @brief Lock.
+         * @param[in] mu Input parameter.
+         * @return Return value.
+         */
         std::shared_lock<std::shared_mutex> lock(mu);
         return llm_sample_fn;
     }
 
     ClaimVerificationFn snapshotClaimVerificationFn() const {
+        /**
+         * @brief Lock.
+         * @param[in] mu Input parameter.
+         * @return Return value.
+         */
         std::shared_lock<std::shared_mutex> lock(mu);
         return claim_verification_fn;
     }
 
+    /**
+     * @brief Set Config.
+     * @param[in] new_config Input parameter.
+     * @details Calls: lock().
+     */
     void setConfig(const KnowledgeGapConfig& new_config) {
         std::unique_lock<std::shared_mutex> lock(mu);
         config = new_config;
     }
 
     void setGapCallback(std::function<void(const DetectionResult&)> cb) {
+        /**
+         * @brief Lock.
+         * @param[in] mu Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::shared_mutex> lock(mu);
         gap_callback = std::move(cb);
     }
 
+    /**
+     * @brief Set Retrieval Callback.
+     * @param[in] fn Input parameter.
+     * @details Calls: lock(), std::move().
+     */
     void setRetrievalCallback(RetrievalCallback fn) {
         std::unique_lock<std::shared_mutex> lock(mu);
         retrieval_fn = std::move(fn);
     }
 
+    /**
+     * @brief Set Llm Sample Fn.
+     * @param[in] fn Input parameter.
+     * @details Calls: lock(), std::move().
+     */
     void setLlmSampleFn(LlmSampleFn fn) {
         std::unique_lock<std::shared_mutex> lock(mu);
         llm_sample_fn = std::move(fn);
     }
 
+    /**
+     * @brief Set Claim Verification Fn.
+     * @param[in] fn Input parameter.
+     * @details Calls: lock(), std::move().
+     */
     void setClaimVerificationFn(ClaimVerificationFn fn) {
         std::unique_lock<std::shared_mutex> lock(mu);
         claim_verification_fn = std::move(fn);
@@ -101,6 +151,13 @@ KnowledgeGapDetector::KnowledgeGapDetector(const KnowledgeGapConfig& config)
 
 KnowledgeGapDetector::~KnowledgeGapDetector() = default;
 
+/**
+ * @brief Detect Pre Generation.
+ * @param[in] query Input parameter.
+ * @param[in] documents Input parameter.
+ * @return Return value.
+ * @details Calls: THEMIS_DEBUG(), snapshotConfig(), size(), std::to_string(), find(), end(), empty(), length().
+ */
 DetectionResult KnowledgeGapDetector::detectPreGeneration(
     const std::string& query,
     const std::vector<RetrievedDocument>& documents
@@ -213,6 +270,14 @@ DetectionResult KnowledgeGapDetector::detectPreGeneration(
     return result;
 }
 
+/**
+ * @brief Detect During Generation.
+ * @param[in] query Input parameter.
+ * @param[in] documents Input parameter.
+ * @param[in] context Input parameter.
+ * @return Return value.
+ * @details Calls: THEMIS_DEBUG(), snapshotConfig(), size(), calculateAverageSimilarity(), empty(), calculateConfidenceScore(), std::to_string(), calculateSlidingWindowPerplexity().
+ */
 DetectionResult KnowledgeGapDetector::detectDuringGeneration(
     const std::string& query,
     const std::vector<RetrievedDocument>& documents,
@@ -286,6 +351,14 @@ DetectionResult KnowledgeGapDetector::detectDuringGeneration(
     return result;
 }
 
+/**
+ * @brief Detect Post Generation.
+ * @param[in] query Input parameter.
+ * @param[in] documents Input parameter.
+ * @param[in] generated_answer Input parameter.
+ * @return Return value.
+ * @details Calls: THEMIS_DEBUG(), snapshotConfig(), size(), calculateAverageSimilarity(), extractClaims(), verifyClaim(), checkSelfConsistency().
+ */
 DetectionResult KnowledgeGapDetector::detectPostGeneration(
     const std::string& query,
     const std::vector<RetrievedDocument>& documents,
@@ -343,6 +416,14 @@ DetectionResult KnowledgeGapDetector::detectPostGeneration(
     return result;
 }
 
+/**
+ * @brief Detect Gap.
+ * @param[in] query Input parameter.
+ * @param[in] documents Input parameter.
+ * @param[in] generated_answer Input parameter.
+ * @return Return value.
+ * @details Implements detectGap without additional internal calls.
+ */
 DetectionResult KnowledgeGapDetector::detectGap(
     const std::string& query,
     const std::vector<RetrievedDocument>& documents,
@@ -351,6 +432,15 @@ DetectionResult KnowledgeGapDetector::detectGap(
     return detectGap(query, documents, generated_answer, GenerationContext{});
 }
 
+/**
+ * @brief Detect Gap.
+ * @param[in] query Input parameter.
+ * @param[in] documents Input parameter.
+ * @param[in] generated_answer Input parameter.
+ * @param[in] context Input parameter.
+ * @return Return value.
+ * @details Calls: snapshotConfig(), snapshotGapCallback(), detectEthicalPerspectiveGap(), gap_callback(), detectPreGeneration(), detectDuringGeneration(), empty(), detectPostGeneration().
+ */
 DetectionResult KnowledgeGapDetector::detectGap(
     const std::string& query,
     const std::vector<RetrievedDocument>& documents,
@@ -454,6 +544,14 @@ DetectionResult KnowledgeGapDetector::detectGap(
     }
 }
 
+/**
+ * @brief Detect With Active Retrieval.
+ * @param[in] query Input parameter.
+ * @param[in,out] initial_documents Input/output parameter.
+ * @param[in] tenant_id Identifier of the tenant.
+ * @return Return value.
+ * @details Calls: snapshotConfig(), detectPreGeneration(), THEMIS_DEBUG(), size(), calculateQueryCoverage(), calculateAverageSimilarity(), std::to_string(), findMissingAspects().
+ */
 DetectionResult KnowledgeGapDetector::detectWithActiveRetrieval(
     const std::string& query,
     std::vector<RetrievedDocument>& initial_documents,
@@ -573,6 +671,11 @@ DetectionResult KnowledgeGapDetector::detectWithActiveRetrieval(
     }
 }
 
+/**
+ * @brief Set Config.
+ * @param[in] config Input parameter.
+ * @details Implements setConfig without additional internal calls.
+ */
 void KnowledgeGapDetector::setConfig(const KnowledgeGapConfig& config) {
     impl_->setConfig(config);
 }
@@ -587,20 +690,41 @@ void KnowledgeGapDetector::setGapDetectionCallback(
     impl_->setGapCallback(std::move(callback));
 }
 
+/**
+ * @brief Set Retrieval Callback.
+ * @param[in] fn Input parameter.
+ * @details Calls: std::move().
+ */
 void KnowledgeGapDetector::setRetrievalCallback(RetrievalCallback fn) {
     impl_->setRetrievalCallback(std::move(fn));
 }
 
+/**
+ * @brief Set Llm Sample Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: std::move().
+ */
 void KnowledgeGapDetector::setLlmSampleFn(LlmSampleFn fn) {
     impl_->setLlmSampleFn(std::move(fn));
 }
 
+/**
+ * @brief Set Claim Verification Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: std::move().
+ */
 void KnowledgeGapDetector::setClaimVerificationFn(ClaimVerificationFn fn) {
     impl_->setClaimVerificationFn(std::move(fn));
 }
 
 // Private helper methods
 
+/**
+ * @brief Calculate Average Similarity.
+ * @param[in] docs Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), std::accumulate(), begin(), end(), size(), std::clamp().
+ */
 double KnowledgeGapDetector::calculateAverageSimilarity(
     const std::vector<RetrievedDocument>& docs
 ) {
@@ -621,6 +745,13 @@ double KnowledgeGapDetector::calculateAverageSimilarity(
     return std::clamp(avg, 0.0, 1.0);
 }
 
+/**
+ * @brief Calculate Query Coverage.
+ * @param[in] query Input parameter.
+ * @param[in] docs Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), calculateAverageSimilarity(), std::exp(), size(), length(), std::min().
+ */
 double KnowledgeGapDetector::calculateQueryCoverage(
     const std::string& query,
     const std::vector<RetrievedDocument>& docs
@@ -666,6 +797,12 @@ double KnowledgeGapDetector::calculateQueryCoverage(
     return avg_similarity * 0.6 + doc_factor * 0.3 + diversity_score * 0.1;
 }
 
+/**
+ * @brief Extract Query Aspects.
+ * @param[in] query Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), std::isalnum(), length(), push_back(), clear(), std::sort(), begin(), end().
+ */
 std::vector<std::string> KnowledgeGapDetector::extractQueryAspects(
     const std::string& query
 ) {
@@ -713,6 +850,13 @@ std::vector<std::string> KnowledgeGapDetector::extractQueryAspects(
     return aspects;
 }
 
+/**
+ * @brief Find Missing Aspects.
+ * @param[in] query Input parameter.
+ * @param[in] docs Input parameter.
+ * @return Return value.
+ * @details Calls: extractQueryAspects(), empty(), std::transform(), begin(), end(), std::tolower(), find(), push_back().
+ */
 std::vector<std::string> KnowledgeGapDetector::findMissingAspects(
     const std::string& query,
     const std::vector<RetrievedDocument>& docs
@@ -754,6 +898,13 @@ std::vector<std::string> KnowledgeGapDetector::findMissingAspects(
     return missing;
 }
 
+/**
+ * @brief Check Self Consistency.
+ * @param[in] query Input parameter.
+ * @param[in] docs Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: snapshotConfig(), generateMultipleSamples(), size(), calculateConsistencyScore(), THEMIS_DEBUG(), detectContradiction().
+ */
 bool KnowledgeGapDetector::checkSelfConsistency(
     const std::string& query,
     const std::vector<RetrievedDocument>& docs
@@ -797,6 +948,12 @@ bool KnowledgeGapDetector::checkSelfConsistency(
     return consistency_score >= config.consistency_threshold;
 }
 
+/**
+ * @brief Extract Claims.
+ * @param[in] answer Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), length(), std::isspace(), find_first_not_of(), find_last_not_of(), substr(), push_back(), clear().
+ */
 std::vector<std::string> KnowledgeGapDetector::extractClaims(
     const std::string& answer
 ) {
@@ -849,6 +1006,13 @@ std::vector<std::string> KnowledgeGapDetector::extractClaims(
     return claims;
 }
 
+/**
+ * @brief Verify Claim.
+ * @param[in] claim Input parameter.
+ * @param[in] docs Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: snapshotClaimVerificationFn(), claim_verification_fn(), THEMIS_WARN(), what(), empty(), std::isalnum(), std::tolower(), length().
+ */
 bool KnowledgeGapDetector::verifyClaim(
     const std::string& claim,
     const std::vector<RetrievedDocument>& docs
@@ -936,9 +1100,12 @@ bool KnowledgeGapDetector::verifyClaim(
     return verification_ratio >= 0.6;
 }
 
-// ============================================================================
-// Phase 2: Token Probability & Perplexity Methods
-// ============================================================================
+/**
+ * @brief ============================================================================ Phase 2: Token Probability & Perplexity Methods ============================================================================
+ * @param[in] token_probs Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), std::log(), std::exp().
+ */
 
 double KnowledgeGapDetector::calculatePerplexity(
     const std::vector<double>& token_probs
@@ -969,6 +1136,13 @@ double KnowledgeGapDetector::calculatePerplexity(
     return perplexity;
 }
 
+/**
+ * @brief Calculate Sliding Window Perplexity.
+ * @param[in] token_probs Input parameter.
+ * @param[in] window_size Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), size(), window(), begin(), calculatePerplexity(), std::max().
+ */
 double KnowledgeGapDetector::calculateSlidingWindowPerplexity(
     const std::vector<double>& token_probs,
     size_t window_size
@@ -998,6 +1172,13 @@ double KnowledgeGapDetector::calculateSlidingWindowPerplexity(
     return max_perplexity;
 }
 
+/**
+ * @brief Detect Perplexity Anomaly.
+ * @param[in] perplexity Input parameter.
+ * @param[in] threshold Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements detectPerplexityAnomaly without additional internal calls.
+ */
 bool KnowledgeGapDetector::detectPerplexityAnomaly(
     double perplexity,
     double threshold
@@ -1005,6 +1186,12 @@ bool KnowledgeGapDetector::detectPerplexityAnomaly(
     return perplexity > threshold;
 }
 
+/**
+ * @brief Calculate Confidence Score.
+ * @param[in] token_probs Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), snapshotConfig(), removeOutlierTokens(), std::log(), std::exp(), size(), std::clamp().
+ */
 double KnowledgeGapDetector::calculateConfidenceScore(
     const std::vector<double>& token_probs
 ) {
@@ -1035,6 +1222,13 @@ double KnowledgeGapDetector::calculateConfidenceScore(
     return std::clamp(confidence, 0.0, 1.0);
 }
 
+/**
+ * @brief Remove Outlier Tokens.
+ * @param[in] token_probs Input parameter.
+ * @param[in] zscore_threshold Input parameter.
+ * @return Return value.
+ * @details Calls: size(), std::accumulate(), begin(), end(), std::sqrt(), std::abs(), push_back().
+ */
 std::vector<double> KnowledgeGapDetector::removeOutlierTokens(
     const std::vector<double>& token_probs,
     double zscore_threshold
@@ -1076,6 +1270,13 @@ std::vector<double> KnowledgeGapDetector::removeOutlierTokens(
     return filtered;
 }
 
+/**
+ * @brief Calculate Moving Average.
+ * @param[in] values Input parameter.
+ * @param[in] window_size Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), size(), push_back(), std::accumulate(), begin(), end().
+ */
 double KnowledgeGapDetector::calculateMovingAverage(
     const std::vector<double>& values,
     size_t window_size
@@ -1104,9 +1305,14 @@ double KnowledgeGapDetector::calculateMovingAverage(
     return std::accumulate(averages.begin(), averages.end(), 0.0) / averages.size();
 }
 
-// ============================================================================
-// Phase 2: Self-Consistency Check Methods
-// ============================================================================
+/**
+ * @brief ============================================================================ Phase 2: Self-Consistency Check Methods ============================================================================
+ * @param[in] query Input parameter.
+ * @param[in] docs Input parameter.
+ * @param[in] num_samples Input parameter.
+ * @return Return value.
+ * @details Calls: snapshotLlmSampleFn(), llm_sample_fn(), empty(), size(), std::isspace(), find_first_not_of(), push_back(), substr().
+ */
 
 std::vector<std::string> KnowledgeGapDetector::generateMultipleSamples(
     const std::string& query,
@@ -1210,6 +1416,13 @@ std::vector<std::string> KnowledgeGapDetector::generateMultipleSamples(
     return samples;
 }
 
+/**
+ * @brief Calculate Semantic Similarity.
+ * @param[in] text1 Input parameter.
+ * @param[in] text2 Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), std::isalnum(), std::tolower(), length(), insert(), clear(), extractWords(), count().
+ */
 double KnowledgeGapDetector::calculateSemanticSimilarity(
     const std::string& text1,
     const std::string& text2
@@ -1260,6 +1473,12 @@ double KnowledgeGapDetector::calculateSemanticSimilarity(
     return static_cast<double>(intersection) / union_size;
 }
 
+/**
+ * @brief Calculate Consistency Score.
+ * @param[in] samples Input parameter.
+ * @return Return value.
+ * @details Calls: size(), calculateSemanticSimilarity().
+ */
 double KnowledgeGapDetector::calculateConsistencyScore(
     const std::vector<std::string>& samples
 ) {
@@ -1281,6 +1500,13 @@ double KnowledgeGapDetector::calculateConsistencyScore(
     return comparisons > 0 ? total_similarity / comparisons : 0.0;
 }
 
+/**
+ * @brief Detect Contradiction.
+ * @param[in] text1 Input parameter.
+ * @param[in] text2 Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: calculateSemanticSimilarity(), std::transform(), begin(), end(), std::tolower(), find(), hasNegation().
+ */
 bool KnowledgeGapDetector::detectContradiction(
     const std::string& text1,
     const std::string& text2
@@ -1323,9 +1549,12 @@ bool KnowledgeGapDetector::detectContradiction(
     return similarity > 0.5 && (text1_has_neg != text2_has_neg);
 }
 
-// ============================================================================
-// Phase 2: FLARE Active Retrieval Methods
-// ============================================================================
+/**
+ * @brief ============================================================================ Phase 2: FLARE Active Retrieval Methods ============================================================================
+ * @param[in] text Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), length(), std::isspace(), find_first_not_of(), substr(), push_back(), clear().
+ */
 
 std::vector<std::string> KnowledgeGapDetector::splitIntoSentences(
     const std::string& text
@@ -1368,6 +1597,13 @@ std::vector<std::string> KnowledgeGapDetector::splitIntoSentences(
     return sentences;
 }
 
+/**
+ * @brief Monitor Sentence Confidence.
+ * @param[in] sentence Input parameter.
+ * @param[in] docs Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), std::isalnum(), std::tolower(), length(), push_back(), clear(), term_set(), begin().
+ */
 double KnowledgeGapDetector::monitorSentenceConfidence(
     const std::string& sentence,
     const std::vector<RetrievedDocument>& docs
@@ -1437,6 +1673,13 @@ double KnowledgeGapDetector::monitorSentenceConfidence(
     return std::clamp(confidence, 0.0, 1.0);
 }
 
+/**
+ * @brief Reformulate Query.
+ * @param[in] original_query Input parameter.
+ * @param[in] missing_info Input parameter.
+ * @return Return value.
+ * @details Calls: empty().
+ */
 std::string KnowledgeGapDetector::reformulateQuery(
     const std::string& original_query,
     const std::string& missing_info
@@ -1451,6 +1694,13 @@ std::string KnowledgeGapDetector::reformulateQuery(
     return original_query + " " + missing_info;
 }
 
+/**
+ * @brief Perform Dynamic Retrieval.
+ * @param[in] query Input parameter.
+ * @param[in] tenant_id Identifier of the tenant.
+ * @return Return value.
+ * @details Calls: THEMIS_DEBUG(), snapshotRetrievalCallback(), snapshotConfig(), std::max(), empty(), THEMIS_WARN(), retrieval_fn(), what().
+ */
 std::vector<RetrievedDocument> KnowledgeGapDetector::performDynamicRetrieval(
     const std::string& query,
     const std::string& tenant_id
@@ -1486,6 +1736,13 @@ std::vector<RetrievedDocument> KnowledgeGapDetector::performDynamicRetrieval(
     }
 }
 
+/**
+ * @brief Detect Ethical Perspective Gap.
+ * @param[in] query Input parameter.
+ * @param[in] documents Input parameter.
+ * @return Return value.
+ * @details Calls: THEMIS_DEBUG(), snapshotConfig(), size(), calculateAverageSimilarity(), isEthicalQuery(), countEthicalPerspectives(), calculatePerspectiveDiversity(), str().
+ */
 DetectionResult KnowledgeGapDetector::detectEthicalPerspectiveGap(
     const std::string& query,
     const std::vector<RetrievedDocument>& documents
@@ -1552,6 +1809,12 @@ DetectionResult KnowledgeGapDetector::detectEthicalPerspectiveGap(
     return result;
 }
 
+/**
+ * @brief Is Ethical Query.
+ * @param[in] query Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: snapshotConfig(), std::transform(), begin(), end(), stream(), empty(), back(), pop_back().
+ */
 bool KnowledgeGapDetector::isEthicalQuery(const std::string& query) {
     const auto config = impl_->snapshotConfig();
 
@@ -1587,6 +1850,12 @@ bool KnowledgeGapDetector::isEthicalQuery(const std::string& query) {
     return keyword_count >= config.ethical_keyword_threshold;
 }
 
+/**
+ * @brief Count Ethical Perspectives.
+ * @param[in] docs Input parameter.
+ * @return Return value.
+ * @details Calls: std::transform(), begin(), end(), find(), std::isalnum(), length(), insert(), size().
+ */
 int KnowledgeGapDetector::countEthicalPerspectives(
     const std::vector<RetrievedDocument>& docs
 ) {
@@ -1649,6 +1918,12 @@ int KnowledgeGapDetector::countEthicalPerspectives(
     return found_frameworks.size();
 }
 
+/**
+ * @brief Calculate Perspective Diversity.
+ * @param[in] docs Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), countEthicalPerspectives(), std::min(), std::transform(), begin(), end(), find(), size().
+ */
 double KnowledgeGapDetector::calculatePerspectiveDiversity(
     const std::vector<RetrievedDocument>& docs
 ) {
@@ -1687,6 +1962,11 @@ double KnowledgeGapDetector::calculatePerspectiveDiversity(
 
 // Factory implementations
 
+/**
+ * @brief Create Fast.
+ * @return Return value.
+ * @details Implements createFast without additional internal calls.
+ */
 std::unique_ptr<KnowledgeGapDetector> KnowledgeGapDetectorFactory::createFast() {
     KnowledgeGapConfig config;
     config.mode = DetectionMode::FAST;
@@ -1698,6 +1978,11 @@ std::unique_ptr<KnowledgeGapDetector> KnowledgeGapDetectorFactory::createFast() 
     return std::make_unique<KnowledgeGapDetector>(config);
 }
 
+/**
+ * @brief Create Balanced.
+ * @return Return value.
+ * @details Implements createBalanced without additional internal calls.
+ */
 std::unique_ptr<KnowledgeGapDetector> KnowledgeGapDetectorFactory::createBalanced() {
     KnowledgeGapConfig config;
     config.mode = DetectionMode::BALANCED;
@@ -1708,6 +1993,11 @@ std::unique_ptr<KnowledgeGapDetector> KnowledgeGapDetectorFactory::createBalance
     return std::make_unique<KnowledgeGapDetector>(config);
 }
 
+/**
+ * @brief Create Thorough.
+ * @return Return value.
+ * @details Implements createThorough without additional internal calls.
+ */
 std::unique_ptr<KnowledgeGapDetector> KnowledgeGapDetectorFactory::createThorough() {
     KnowledgeGapConfig config;
     config.mode = DetectionMode::THOROUGH;
@@ -1720,12 +2010,23 @@ std::unique_ptr<KnowledgeGapDetector> KnowledgeGapDetectorFactory::createThoroug
     return std::make_unique<KnowledgeGapDetector>(config);
 }
 
+/**
+ * @brief Create.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @details Implements create without additional internal calls.
+ */
 std::unique_ptr<KnowledgeGapDetector> KnowledgeGapDetectorFactory::create(
     const KnowledgeGapConfig& config
 ) {
     return std::make_unique<KnowledgeGapDetector>(config);
 }
 
+/**
+ * @brief Create Production Ready.
+ * @return Return value.
+ * @details Calls: THEMIS_DEBUG().
+ */
 std::unique_ptr<KnowledgeGapDetector> KnowledgeGapDetectorFactory::createProductionReady() {
     KnowledgeGapConfig config;
     config.mode = DetectionMode::BALANCED;
@@ -1743,6 +2044,11 @@ std::unique_ptr<KnowledgeGapDetector> KnowledgeGapDetectorFactory::createProduct
     return std::make_unique<KnowledgeGapDetector>(config);
 }
 
+/**
+ * @brief Create Legacy.
+ * @return Return value.
+ * @details Calls: THEMIS_DEBUG().
+ */
 std::unique_ptr<KnowledgeGapDetector> KnowledgeGapDetectorFactory::createLegacy() {
     KnowledgeGapConfig config;
     config.mode = DetectionMode::BALANCED;

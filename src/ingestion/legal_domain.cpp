@@ -31,10 +31,13 @@ namespace ingestion {
 
 namespace {
 
-/// Trim leading/trailing whitespace from a string.
-// Using themis::utils::trim() from string_utils.h (Phase 1 consolidation)
+/**
+ * @brief Using themis::utils::trim() from string_utils.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details h (Phase 1 consolidation) Implements fnv1a32 without additional internal calls.
+ */
 
-/// Simple FNV-1a 32-bit hash for stable ID generation.
 uint32_t fnv1a32(const std::string& s) {
     uint32_t h = 2166136261;
     for (auto c : s) {
@@ -44,13 +47,24 @@ uint32_t fnv1a32(const std::string& s) {
     return h;
 }
 
-/// Convert a string to lowercase.
+/**
+ * @brief To Lower.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Calls: std::transform(), begin(), end(), std::tolower().
+ */
 std::string toLower(std::string s) {
     std::transform(s.begin(), s.end(), s.begin(),
                    [](unsigned char c) { return std::tolower(c); });
     return s;
 }
 
+/**
+ * @brief Entity Type Name.
+ * @param[in] type Input parameter.
+ * @return Return value.
+ * @details Implements entityTypeName without additional internal calls.
+ */
 std::string entityTypeName(const EntityType type) {
     switch (type) {
     case EntityType::LEGAL_PROVISION:      return "LEGAL_PROVISION";
@@ -67,6 +81,12 @@ std::string entityTypeName(const EntityType type) {
     }
 }
 
+/**
+ * @brief Relation Type Name.
+ * @param[in] type Input parameter.
+ * @return Return value.
+ * @details Implements relationTypeName without additional internal calls.
+ */
 std::string relationTypeName(const RelationType type) {
     switch (type) {
     case RelationType::CITES:     return "CITES";
@@ -82,6 +102,12 @@ std::string relationTypeName(const RelationType type) {
     }
 }
 
+/**
+ * @brief Entity Display Label.
+ * @param[in] e Input parameter.
+ * @return Return value.
+ * @details Calls: find(), end(), empty().
+ */
 std::string entityDisplayLabel(const BaseEntity& e) {
     const auto it = e.properties.find("label");
     if (it != e.properties.end() && !it->second.empty()) {
@@ -90,7 +116,12 @@ std::string entityDisplayLabel(const BaseEntity& e) {
     return e.text;
 }
 
-/// German month name → 2-digit month number.
+/**
+ * @brief Parse German Month.
+ * @param[in] month Input parameter.
+ * @return Return value.
+ * @details Calls: toLower(), substr(), strlen().
+ */
 std::string parseGermanMonth(const std::string& month) {
     static const std::array<std::pair<const char*, const char*>, 12> months{{
         {"januar",    "01"}, {"februar",  "02"}, {"märz",     "03"},
@@ -107,7 +138,12 @@ std::string parseGermanMonth(const std::string& month) {
     return "";
 }
 
-/// Zero-pad a 1-2 digit number string to 2 digits.
+/**
+ * @brief Pad2.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Calls: size().
+ */
 std::string pad2(const std::string& s) {
     if (s.size() == 1) {
       return "0" + s;
@@ -286,6 +322,11 @@ std::vector<std::pair<std::size_t, GesetzNode>> GesetzParser::extractParagraphsW
         body.clear();
     };
 
+    /**
+     * @brief Input.
+     * @param[in] text Input parameter.
+     * @return Return value.
+     */
     std::istringstream input(text);
     std::string line = {};
     std::string current_number = {};
@@ -394,6 +435,12 @@ std::vector<BaseEntity> GesetzParser::toEntities(
 // TemporalExtractor
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Normalise Date.
+ * @param[in] raw Input parameter.
+ * @return Return value.
+ * @details Calls: themis::utils::trim(), re_dmy(), std::regex_search(), str(), pad2(), re_gm(), parseGermanMonth(), empty().
+ */
 std::string TemporalExtractor::normaliseDate(const std::string& raw) {
     const std::string s = themis::utils::trim(raw);
 
@@ -546,6 +593,12 @@ std::optional<std::string> BehoerdenMapper::lookupAuthority(
     return std::nullopt;
 }
 
+/**
+ * @brief Add Mapping.
+ * @param[in] norm Input parameter.
+ * @param[in] authority Input parameter.
+ * @details Implements addMapping without additional internal calls.
+ */
 void BehoerdenMapper::addMapping(const std::string& norm,
                                   const std::string& authority) {
     custom_[norm] = authority;
@@ -671,7 +724,12 @@ BaseEntity BescheidExtractor::toEntity(const BescheidEntity& be,
 
 namespace {
 
-/// Normalise a canonical ID for comparison (lowercase, trim).
+/**
+ * @brief Norm Id.
+ * @param[in] id Input parameter.
+ * @return Return value.
+ * @details Calls: toLower(), themis::utils::trim(), empty(), back(), pop_back().
+ */
 std::string normId(const std::string& id) {
     std::string s = toLower(themis::utils::trim(id));
     // Remove trailing colon
@@ -765,6 +823,12 @@ std::vector<EntityRelation> CrossDocumentLinker::linkDocumentBatch(
 // LegalEntityExport
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Escape Iri Component.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), find(), std::snprintf().
+ */
 std::string LegalEntityExport::escapeIriComponent(const std::string& s) {
     // Percent-encode characters that are unsafe in IRI path components
     static const std::string safe =
@@ -783,6 +847,12 @@ std::string LegalEntityExport::escapeIriComponent(const std::string& s) {
     return out;
 }
 
+/**
+ * @brief Escape Turtle Literal.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size().
+ */
 std::string LegalEntityExport::escapeTurtleLiteral(const std::string& s) {
     std::string out = {};
     out.reserve(s.size() + 16);

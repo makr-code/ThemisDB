@@ -31,9 +31,12 @@ GPULauncher::GPULauncher(BackendFn backend)
     }
 }
 
-// ============================================================================
-// executeOne — synchronous helper, called from std::async
-// ============================================================================
+/**
+ * @brief ============================================================================ executeOne — synchronous helper, called from std::async ============================================================================
+ * @param[in] item Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::steady_clock::now(), std::async(), backend_(), wait_for(), std::chrono::milliseconds(), std::to_string(), get(), what().
+ */
 
 GPULauncher::WorkResult GPULauncher::executeOne(WorkItem item) {
     WorkResult result;
@@ -100,6 +103,12 @@ GPULauncher::WorkResult GPULauncher::executeOne(WorkItem item) {
 // submit
 // ============================================================================
 
+/**
+ * @brief Submit.
+ * @param[in] item Input parameter.
+ * @return Return value.
+ * @details Calls: std::async(), std::move(), executeOne().
+ */
 std::future<GPULauncher::WorkResult> GPULauncher::submit(WorkItem item) {
     return std::async(std::launch::async,
                       [this, item = std::move(item)]() mutable {
@@ -114,6 +123,11 @@ std::future<GPULauncher::WorkResult> GPULauncher::submit(WorkItem item) {
 std::future<std::vector<GPULauncher::WorkResult>>
 GPULauncher::submitBatch(std::vector<WorkItem> items) {
     {
+        /**
+         * @brief Lock.
+         * @param[in] stats_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(stats_mutex_);
         ++stats_.batches_submitted;
     }
@@ -135,6 +149,11 @@ GPULauncher::submitBatch(std::vector<WorkItem> items) {
 // ============================================================================
 
 GPULauncher::Stats GPULauncher::getStats() const {
+    /**
+     * @brief Lock.
+     * @param[in] stats_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(stats_mutex_);
     return stats_;
 }

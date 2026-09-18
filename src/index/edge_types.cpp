@@ -21,6 +21,11 @@ namespace {
 
 namespace themis {
 
+/**
+ * @brief Instance.
+ * @return Return value.
+ * @details Calls: std::call_once().
+ */
 EdgeTypeRegistry& EdgeTypeRegistry::instance() {
     static EdgeTypeRegistry registry;
     std::call_once(init_flag, &EdgeTypeRegistry::initializeBuiltinTypes, &registry);
@@ -29,6 +34,10 @@ EdgeTypeRegistry& EdgeTypeRegistry::instance() {
 
 EdgeTypeRegistry::EdgeTypeRegistry() = default;
 
+/**
+ * @brief Initialize Builtin Types.
+ * @details Calls: registerBuiltinType_().
+ */
 void EdgeTypeRegistry::initializeBuiltinTypes() {
     if (initialized_) {
       return;
@@ -298,11 +307,22 @@ void EdgeTypeRegistry::initializeBuiltinTypes() {
     initialized_ = true;
 }
 
+/**
+ * @brief Register Builtin Type.
+ * @param[in] info Input parameter.
+ * @details Calls: insert().
+ */
 void EdgeTypeRegistry::registerBuiltinType_(const EdgeTypeInfo& info) {
     types_[info.type_name] = info;
     category_index_[info.category].insert(info.type_name);
 }
 
+/**
+ * @brief Register Type.
+ * @param[in] info Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), Status::Error(), lock(), count(), insert(), Status::OK().
+ */
 EdgeTypeRegistry::Status EdgeTypeRegistry::registerType(const EdgeTypeInfo& info) {
     if (info.type_name.empty()) {
         return Status::Error("Edge type name cannot be empty");
@@ -320,6 +340,13 @@ EdgeTypeRegistry::Status EdgeTypeRegistry::registerType(const EdgeTypeInfo& info
     return Status::OK();
 }
 
+/**
+ * @brief Register Type.
+ * @param[in] info Input parameter.
+ * @param[in] validator Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), Status::Error(), lock(), count(), insert(), std::move(), Status::OK().
+ */
 EdgeTypeRegistry::Status EdgeTypeRegistry::registerType(const EdgeTypeInfo& info, ValidationFunc validator) {
     if (info.type_name.empty()) {
         return Status::Error("Edge type name cannot be empty");
@@ -338,11 +365,21 @@ EdgeTypeRegistry::Status EdgeTypeRegistry::registerType(const EdgeTypeInfo& info
 }
 
 bool EdgeTypeRegistry::isRegistered(std::string_view type_name) const {
+    /**
+     * @brief Lock.
+     * @param[in] registry_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(registry_mutex_);
     return types_.count(std::string(type_name)) > 0;
 }
 
 std::optional<EdgeTypeInfo> EdgeTypeRegistry::getTypeInfo(std::string_view type_name) const {
+    /**
+     * @brief Lock.
+     * @param[in] registry_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(registry_mutex_);
     auto it = types_.find(std::string(type_name));
     if (it != types_.end()) {
@@ -352,6 +389,11 @@ std::optional<EdgeTypeInfo> EdgeTypeRegistry::getTypeInfo(std::string_view type_
 }
 
 std::vector<std::string> EdgeTypeRegistry::getTypesByCategory(EdgeCategory category) const {
+    /**
+     * @brief Lock.
+     * @param[in] registry_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(registry_mutex_);
     std::vector<std::string> result;
     auto it = category_index_.find(category);
@@ -362,7 +404,12 @@ std::vector<std::string> EdgeTypeRegistry::getTypesByCategory(EdgeCategory categ
 }
 
 std::optional<EdgeCategory> EdgeTypeRegistry::getCategoryForType(std::string_view type_name) const {
-    // A-2.5: Thread-safe read-only iterator access with shared_lock
+    /**
+     * @brief A-2.
+     * @param[in] registry_mutex_ Input parameter.
+     * @return Return value.
+     * @details 5: Thread-safe read-only iterator access with shared_lock
+     */
     std::shared_lock<std::shared_mutex> lock(registry_mutex_);
     auto it = types_.find(std::string(type_name));
     if (it != types_.end()) {
@@ -372,6 +419,11 @@ std::optional<EdgeCategory> EdgeTypeRegistry::getCategoryForType(std::string_vie
 }
 
 EdgeTypeRegistry::Status EdgeTypeRegistry::validateEdge(std::string_view type_name, const BaseEntity& edge) const {
+    /**
+     * @brief Lock.
+     * @param[in] registry_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(registry_mutex_);
     auto it = types_.find(std::string(type_name));
     if (it == types_.end()) {
@@ -407,6 +459,11 @@ EdgeTypeRegistry::Status EdgeTypeRegistry::validateEdge(std::string_view type_na
 }
 
 std::optional<std::string> EdgeTypeRegistry::getInverseType(std::string_view type_name) const {
+    /**
+     * @brief Lock.
+     * @param[in] registry_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(registry_mutex_);
     auto it = types_.find(std::string(type_name));
     if (it != types_.end()) {
@@ -416,6 +473,11 @@ std::optional<std::string> EdgeTypeRegistry::getInverseType(std::string_view typ
 }
 
 std::vector<std::string> EdgeTypeRegistry::listAllTypes() const {
+    /**
+     * @brief Lock.
+     * @param[in] registry_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(registry_mutex_);
     std::vector<std::string> result = {};
 
@@ -426,6 +488,12 @@ std::vector<std::string> EdgeTypeRegistry::listAllTypes() const {
     return result;
 }
 
+/**
+ * @brief Category To String.
+ * @param[in] category Input parameter.
+ * @return Return value.
+ * @details Implements categoryToString without additional internal calls.
+ */
 std::string EdgeTypeRegistry::categoryToString(EdgeCategory category) {
     switch (category) {
         case EdgeCategory::STRUCTURAL: return "STRUCTURAL";
@@ -439,6 +507,12 @@ std::string EdgeTypeRegistry::categoryToString(EdgeCategory category) {
     return "UNKNOWN";
 }
 
+/**
+ * @brief Category From String.
+ * @param[in] str Input parameter.
+ * @return Return value.
+ * @details Implements categoryFromString without additional internal calls.
+ */
 std::optional<EdgeCategory> EdgeTypeRegistry::categoryFromString(std::string_view str) {
     if (str == "STRUCTURAL") {
       return EdgeCategory::STRUCTURAL;

@@ -20,7 +20,6 @@ namespace themis {
 namespace llm {
 
 // Private implementation
-/** @brief Private implementation. */
 class MixedPrecisionInference::Impl {
 public:
     Impl() = default;
@@ -32,6 +31,14 @@ MixedPrecisionInference::MixedPrecisionInference()
 
 MixedPrecisionInference::~MixedPrecisionInference() = default;
 
+/**
+ * @brief Select Optimal Precision.
+ * @param[in] available_vram Input parameter.
+ * @param[in] model_size Input parameter.
+ * @param[in] tolerance Input parameter.
+ * @return Return value.
+ * @details Calls: calculateModelSize(), calculateExpectedAccuracy().
+ */
 PrecisionMode MixedPrecisionInference::selectOptimalPrecision(
     size_t available_vram,
     size_t model_size,
@@ -108,6 +115,13 @@ MixedPrecisionInference::getTuningSchedule(
     return schedule;
 }
 
+/**
+ * @brief Calculate Model Size.
+ * @param[in] num_parameters Input parameter.
+ * @param[in] precision Input parameter.
+ * @return Return value.
+ * @details Calls: getPrecisionInfo().
+ */
 size_t MixedPrecisionInference::calculateModelSize(
     size_t num_parameters,
     PrecisionMode precision
@@ -195,14 +209,33 @@ MixedPrecisionInference::getAllPrecisions() {
     };
 }
 
+/**
+ * @brief Calculate Expected Accuracy.
+ * @param[in] precision Input parameter.
+ * @return Return value.
+ * @details Calls: getPrecisionInfo().
+ */
 float MixedPrecisionInference::calculateExpectedAccuracy(PrecisionMode precision) {
     return getPrecisionInfo(precision).accuracy_retention;
 }
 
+/**
+ * @brief Calculate Memory Reduction.
+ * @param[in] precision Input parameter.
+ * @return Return value.
+ * @details Calls: getPrecisionInfo().
+ */
 float MixedPrecisionInference::calculateMemoryReduction(PrecisionMode precision) {
     return getPrecisionInfo(precision).memory_reduction;
 }
 
+/**
+ * @brief From String.
+ * @param[in] str Input parameter.
+ * @return Return value.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Implements fromString without additional internal calls.
+ */
 PrecisionMode MixedPrecisionInference::fromString(const std::string& str) {
     if (str == "FP32") {
       return PrecisionMode::FP32;
@@ -229,6 +262,12 @@ PrecisionMode MixedPrecisionInference::fromString(const std::string& str) {
     throw std::invalid_argument("Unknown precision mode: " + str);
 }
 
+/**
+ * @brief To String.
+ * @param[in] precision Input parameter.
+ * @return Return value.
+ * @details Implements toString without additional internal calls.
+ */
 std::string MixedPrecisionInference::toString(PrecisionMode precision) {
     switch (precision) {
         case PrecisionMode::FP32: return "FP32";
@@ -242,6 +281,12 @@ std::string MixedPrecisionInference::toString(PrecisionMode precision) {
     }
 }
 
+/**
+ * @brief Is Supported.
+ * @param[in] precision Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: defined(), cudaGetDevice(), cudaDeviceGetAttribute().
+ */
 bool MixedPrecisionInference::isSupported(PrecisionMode precision) {
 #if defined(THEMIS_HAS_CUDA) && THEMIS_HAS_CUDA
     // Query CUDA device compute capability to determine which precision formats

@@ -21,21 +21,15 @@ namespace themis {
 namespace plugins {
 namespace ethics {
 
-/**
- * @brief Adapter between Ethics AI types and ThemisDB BaseEntity
- * 
- * Converts between our domain types (EthicalArgument, EthicalDecision, etc.)
- * and ThemisDB's unified BaseEntity storage format.
- * 
- * No duplicate storage structures - directly uses ThemisDB's BaseEntity.
- */
 class EthicsBaseEntityAdapter {
 public:
-    // ========== Ethical Argument Conversion ==========
-    
     /**
-     * @brief Convert EthicalArgument to BaseEntity
+     * @brief ========== Ethical Argument Conversion ==========
+     * @param[in] argument Input parameter.
+     * @return Return value.
+     * @details Calls: argumentTypeToString(), argumentStrengthToString(), time_since_epoch(), count(), empty(), dump(), BaseEntity::fromFields().
      */
+    
     static BaseEntity toBaseEntity(const EthicalArgument& argument) {
         BaseEntity::FieldMap fields;
         
@@ -69,7 +63,10 @@ public:
     }
     
     /**
-     * @brief Convert BaseEntity to EthicalArgument
+     * @brief From Base Entity.
+     * @param[in] entity Input parameter.
+     * @return Return value.
+     * @details Calls: getPrimaryKey(), getFieldAsString(), value_or(), stringToArgumentType(), stringToArgumentStrength(), getFieldAsInt(), std::chrono::system_clock::from_time_t(), nlohmann::json::parse().
      */
     static EthicalArgument fromBaseEntity(const BaseEntity& entity) {
         EthicalArgument argument;
@@ -123,17 +120,22 @@ public:
     }
     
     /**
-     * @brief Get collection/table key for argument
+     * @brief Make Argument Key.
+     * @param[in] argument_id Identifier of the argument.
+     * @return Return value.
+     * @details Implements makeArgumentKey without additional internal calls.
      */
     static std::string makeArgumentKey(const std::string& argument_id) {
         return "entity:ethics_arguments:" + argument_id;
     }
     
-    // ========== Ethical Decision Conversion ==========
-    
     /**
-     * @brief Convert EthicalDecision to BaseEntity
+     * @brief ========== Ethical Decision Conversion ==========
+     * @param[in] decision Input parameter.
+     * @return Return value.
+     * @details Calls: time_since_epoch(), count(), empty(), dump(), BaseEntity::fromFields().
      */
+    
     static BaseEntity toBaseEntity(const EthicalDecision& decision) {
         BaseEntity::FieldMap fields;
         
@@ -163,7 +165,11 @@ public:
     }
     
     /**
-     * @brief Convert BaseEntity to EthicalDecision
+     * @brief From Base Entity.
+     * @param[in] entity Input parameter.
+     * @param[in] is_decision Input parameter.
+     * @return Return value.
+     * @details Calls: getPrimaryKey(), getFieldAsString(), value_or(), getFieldAsDouble(), getFieldAsInt(), std::chrono::system_clock::from_time_t(), nlohmann::json::parse(), THEMIS_WARN().
      */
     static EthicalDecision fromBaseEntity(const BaseEntity& entity, bool is_decision) {
         EthicalDecision decision;
@@ -203,17 +209,22 @@ public:
     }
     
     /**
-     * @brief Get collection/table key for decision
+     * @brief Make Decision Key.
+     * @param[in] decision_id Identifier of the decision.
+     * @return Return value.
+     * @details Implements makeDecisionKey without additional internal calls.
      */
     static std::string makeDecisionKey(const std::string& decision_id) {
         return "entity:ethics_decisions:" + decision_id;
     }
     
-    // ========== Philosophy Profile Conversion ==========
-    
     /**
-     * @brief Convert PhilosophyProfile to BaseEntity
+     * @brief ========== Philosophy Profile Conversion ==========
+     * @param[in] profile Input parameter.
+     * @return Return value.
+     * @details Calls: dump(), BaseEntity::fromFields().
      */
+    
     static BaseEntity toBaseEntity(const PhilosophyProfile& profile) {
         BaseEntity::FieldMap fields;
         
@@ -256,7 +267,10 @@ public:
     }
     
     /**
-     * @brief Convert BaseEntity to PhilosophyProfile
+     * @brief From Base Entity To Profile.
+     * @param[in] entity Input parameter.
+     * @return Return value.
+     * @details Calls: getPrimaryKey(), getFieldAsString(), value_or(), nlohmann::json::parse(), THEMIS_WARN(), what(), parse_string_vec(), parse_string_map().
      */
     static PhilosophyProfile fromBaseEntityToProfile(const BaseEntity& entity) {
         PhilosophyProfile profile;
@@ -297,17 +311,22 @@ public:
     }
     
     /**
-     * @brief Get collection/table key for philosophy profile
+     * @brief Make Profile Key.
+     * @param[in] school Input parameter.
+     * @return Return value.
+     * @details Implements makeProfileKey without additional internal calls.
      */
     static std::string makeProfileKey(const std::string& school) {
         return "entity:ethics_profiles:" + school;
     }
     
-    // ========== Debate Initialization Conversion ==========
-    
     /**
-     * @brief Convert DebateInitialization to BaseEntity
+     * @brief ========== Debate Initialization Conversion ==========
+     * @param[in] debate Input parameter.
+     * @return Return value.
+     * @details Calls: time_since_epoch(), count(), empty(), dump(), BaseEntity::fromFields().
      */
+    
     static BaseEntity toBaseEntity(const DebateInitialization& debate) {
         BaseEntity::FieldMap fields;
         
@@ -330,7 +349,10 @@ public:
     }
     
     /**
-     * @brief Get collection/table key for debate
+     * @brief Make Debate Key.
+     * @param[in] debate_id Identifier of the debate.
+     * @return Return value.
+     * @details Implements makeDebateKey without additional internal calls.
      */
     static std::string makeDebateKey(const std::string& debate_id) {
         return "entity:ethics_debates:" + debate_id;

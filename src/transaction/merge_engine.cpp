@@ -42,6 +42,12 @@ json MergeEngine::Conflict::toJson() const {
     return j;
 }
 
+/**
+ * @brief From Json.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: contains().
+ */
 MergeEngine::Conflict MergeEngine::Conflict::fromJson(const json& j) {
     Conflict c{};  // Explicit value-initialization: all members default-initialized
     
@@ -81,6 +87,12 @@ json MergeEngine::ConflictResolution::toJson() const {
     return j;
 }
 
+/**
+ * @brief From Json.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: contains().
+ */
 MergeEngine::ConflictResolution MergeEngine::ConflictResolution::fromJson(const json& j) {
     ConflictResolution r{};  // Explicit value-initialization: all members default-initialized
     r.key = j["key"];
@@ -108,6 +120,12 @@ json MergeEngine::MergeOptions::toJson() const {
     return j;
 }
 
+/**
+ * @brief From Json.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: contains(), push_back().
+ */
 MergeEngine::MergeOptions MergeEngine::MergeOptions::fromJson(const json& j) {
     MergeOptions opts{};  // Explicit value-initialization: all members default-initialized
     
@@ -143,6 +161,12 @@ json MergeEngine::MergeStats::toJson() const {
     return j;
 }
 
+/**
+ * @brief From Json.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: value().
+ */
 MergeEngine::MergeStats MergeEngine::MergeStats::fromJson(const json& j) {
     MergeStats stats{};  // Explicit value-initialization: all members default-initialized
     stats.changes_applied         = j.value("changes_applied",         (size_t)0);
@@ -181,6 +205,12 @@ json MergeEngine::MergeResult::toJson() const {
     return j;
 }
 
+/**
+ * @brief From Json.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: contains(), push_back().
+ */
 MergeEngine::MergeResult MergeEngine::MergeResult::fromJson(const json& j) {
     MergeResult result;
     result.success = j["success"];
@@ -220,7 +250,14 @@ MergeEngine::MergeEngine(
     spdlog::info("MergeEngine initialized");
 }
 
-// Main merge function (no-arg overload)
+/**
+ * @brief Main merge function (no-arg overload)
+ * @param[in] base_sequence Input parameter.
+ * @param[in] source_sequence Input parameter.
+ * @param[in] target_sequence Input parameter.
+ * @return Return value.
+ * @details Implements merge without additional internal calls.
+ */
 MergeEngine::MergeResult MergeEngine::merge(
     uint64_t base_sequence,
     uint64_t source_sequence,
@@ -229,6 +266,15 @@ MergeEngine::MergeResult MergeEngine::merge(
 }
 
 // Main merge function
+/**
+ * @brief Merge.
+ * @param[in] base_sequence Input parameter.
+ * @param[in] source_sequence Input parameter.
+ * @param[in] target_sequence Input parameter.
+ * @param[in] options Input parameter.
+ * @return Return value.
+ * @details Calls: spdlog::info(), computeDiff(), spdlog::debug(), push_back(), size(), applyChanges(), detectConflicts(), empty().
+ */
 MergeEngine::MergeResult MergeEngine::merge(
     uint64_t base_sequence,
     uint64_t source_sequence,
@@ -375,7 +421,14 @@ MergeEngine::MergeResult MergeEngine::merge(
     return result;
 }
 
-// Merge by tag (no-arg overload)
+/**
+ * @brief Merge by tag (no-arg overload)
+ * @param[in] base_tag Input parameter.
+ * @param[in] source_tag Input parameter.
+ * @param[in] target_tag Input parameter.
+ * @return Return value.
+ * @details Implements mergeByTag without additional internal calls.
+ */
 MergeEngine::MergeResult MergeEngine::mergeByTag(
     const std::string& base_tag,
     const std::string& source_tag,
@@ -384,6 +437,15 @@ MergeEngine::MergeResult MergeEngine::mergeByTag(
 }
 
 // Merge by tag
+/**
+ * @brief Merge By Tag.
+ * @param[in] base_tag Input parameter.
+ * @param[in] source_tag Input parameter.
+ * @param[in] target_tag Input parameter.
+ * @param[in] options Input parameter.
+ * @return Return value.
+ * @details Calls: spdlog::info(), getTag(), has_value(), fmt::format(), spdlog::error(), getLatestSequence(), merge().
+ */
 MergeEngine::MergeResult MergeEngine::mergeByTag(
     const std::string& base_tag,
     const std::string& source_tag,
@@ -434,6 +496,14 @@ MergeEngine::MergeResult MergeEngine::mergeByTag(
 }
 
 // Preview merge
+/**
+ * @brief Preview Merge.
+ * @param[in] base_sequence Input parameter.
+ * @param[in] source_sequence Input parameter.
+ * @param[in] target_sequence Input parameter.
+ * @return Return value.
+ * @details Calls: merge().
+ */
 MergeEngine::MergeResult MergeEngine::previewMerge(
     uint64_t base_sequence,
     uint64_t source_sequence,
@@ -458,6 +528,14 @@ bool MergeEngine::canFastForward(
 }
 
 // Detect conflicts
+/**
+ * @brief Detect Conflicts.
+ * @param[in] source_diff Input parameter.
+ * @param[in] target_diff Input parameter.
+ * @param[in] base_sequence Input parameter.
+ * @return Return value.
+ * @details Calls: addToMap(), find(), end(), getValueAtSequence(), push_back().
+ */
 std::vector<MergeEngine::Conflict> MergeEngine::detectConflicts(
     const analytics::DiffEngine::DiffResult& source_diff,
     const analytics::DiffEngine::DiffResult& target_diff,
@@ -519,6 +597,13 @@ std::vector<MergeEngine::Conflict> MergeEngine::detectConflicts(
 }
 
 // Resolve conflicts
+/**
+ * @brief Resolve Conflicts.
+ * @param[in] conflicts Input parameter.
+ * @param[in] options Input parameter.
+ * @return Return value.
+ * @details Calls: find(), end(), has_value(), push_back(), isAutoResolvable(), autoResolve().
+ */
 std::vector<analytics::DiffEngine::Change> MergeEngine::resolveConflicts(
     const std::vector<Conflict>& conflicts,
     const MergeOptions& options) {
@@ -587,6 +672,12 @@ std::vector<analytics::DiffEngine::Change> MergeEngine::resolveConflicts(
 }
 
 // Apply changes
+/**
+ * @brief Apply Changes.
+ * @param[in] changes Input parameter.
+ * @return Return value.
+ * @details Calls: getLatestSequence(), std::chrono::system_clock::now(), time_since_epoch(), count(), json::object(), recordEvent().
+ */
 uint64_t MergeEngine::applyChanges(
     const std::vector<analytics::DiffEngine::Change>& changes) {
     
@@ -619,7 +710,13 @@ uint64_t MergeEngine::applyChanges(
     return result_sequence;
 }
 
-// Get value at sequence
+/**
+ * @brief Get value at sequence
+ * @param[in] key Input parameter.
+ * @param[in] sequence Input parameter.
+ * @return Return value.
+ * @details Calls: listEvents().
+ */
 std::optional<std::string> MergeEngine::getValueAtSequence(
     const std::string& key,
     uint64_t sequence) {

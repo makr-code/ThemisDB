@@ -20,12 +20,10 @@ namespace ingestion {
 
 namespace {
 
-/// Regex that matches a German legal section header (§ N Title)
 static const std::regex kSectionRe(
     "^\\s*§\\s*\\d+[a-z]*",
     std::regex::ECMAScript);
 
-/// Regex that detects a date expression in German legal text
 static const std::regex kTemporalRe(
     "\\d{1,2}\\.\\s*(?:Januar|Februar|März|April|Mai|Juni|Juli|August|"
     "September|Oktober|November|Dezember)\\s*\\d{4}"
@@ -33,12 +31,16 @@ static const std::regex kTemporalRe(
     "|in\\s+Kraft\\s+getreten|vom\\s+\\d{1,2}\\.",
     std::regex::ECMAScript | std::regex::icase);
 
-/// Regex used to split a document into per-section fragments
 static const std::regex kSplitRe(
     "(?=^\\s*§\\s*\\d)",
     std::regex::ECMAScript);
 
-/// Extract the section reference (§ N) from the beginning of a fragment.
+/**
+ * @brief Extract Section Ref.
+ * @param[in] fragment Input parameter.
+ * @return Return value.
+ * @details Calls: kRefRe(), std::regex_search(), str().
+ */
 static std::string extractSectionRef(const std::string& fragment) {
     static const std::regex kRefRe(
         "^\\s*(§\\s*\\d+[a-z]*)\\s*(.*?)(?:\\n|$)",
@@ -50,7 +52,13 @@ static std::string extractSectionRef(const std::string& fragment) {
     return "";
 }
 
-/// Build a provision_id from document_id and section_ref.
+/**
+ * @brief Make Provision Id.
+ * @param[in] doc_id Identifier of the doc.
+ * @param[in] section_ref Input parameter.
+ * @return Return value.
+ * @details Implements makeProvisionId without additional internal calls.
+ */
 static std::string makeProvisionId(const std::string& doc_id,
                                     const std::string& section_ref) {
     std::string id = doc_id + "_" + section_ref;
@@ -71,14 +79,29 @@ static std::string makeProvisionId(const std::string& doc_id,
 
 SemanticValidator::SemanticValidator() = default;
 
+/**
+ * @brief Set Quality Gates.
+ * @param[in] gates Input parameter.
+ * @details Implements setQualityGates without additional internal calls.
+ */
 void SemanticValidator::setQualityGates(const LegalQualityGates& gates) {
     gates_ = gates;
 }
 
+/**
+ * @brief Set Validator Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: std::move().
+ */
 void SemanticValidator::setValidatorFn(ValidatorFn fn) {
     validator_fn_ = std::move(fn);
 }
 
+/**
+ * @brief Set Extractor.
+ * @param[in] extractor Input parameter.
+ * @details Calls: std::move().
+ */
 void SemanticValidator::setExtractor(DeonticExtractor extractor) {
     extractor_ = std::move(extractor);
 }
@@ -243,6 +266,11 @@ LegalExtractionResult SemanticValidator::extractDocument(
     // We use a simple line-based split on § markers.
     std::vector<std::string> fragments;
     {
+        /**
+         * @brief Ss.
+         * @param[in] full_text Input parameter.
+         * @return Return value.
+         */
         std::istringstream ss(full_text);
         std::string current_fragment = {};
         std::string line = {};

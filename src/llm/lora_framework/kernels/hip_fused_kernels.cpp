@@ -27,17 +27,18 @@ namespace fused {
 // ============================================================================
 
 /**
- * @brief Fused LoRA forward pass: output = (input @ B) @ A * scaling
- * 
- * This kernel fuses three operations into one:
- * 1. h = input @ B
- * 2. output = h @ A
- * 3. output *= scaling
- * 
- * Key optimization: h is kept in shared memory and never written to global memory
- * This reduces memory bandwidth by ~66%
- * 
- * HIP/AMD optimized version
+ * @brief Fused lora forward kernel.
+ * @param[in] input Input parameter.
+ * @param[in] B Input parameter.
+ * @param[in] A Input parameter.
+ * @param[in,out] output Input/output parameter.
+ * @param[in] batch_size Input parameter.
+ * @param[in] in_dim Input parameter.
+ * @param[in] rank Input parameter.
+ * @param[in] out_dim Input parameter.
+ * @param[in] scaling Input parameter.
+ * @return Return value.
+ * @details Calls: __syncthreads(), min().
  */
 __global__ void fused_lora_forward_kernel(
     const float* input,   // [batch_size, in_dim]
@@ -121,15 +122,21 @@ __global__ void fused_lora_forward_kernel(
 // ============================================================================
 
 /**
- * @brief Fused LoRA backward pass
- * 
- * Computes all gradients in a single kernel:
- * - grad_A = h^T @ grad_output * scaling
- * - grad_B = input^T @ (grad_output @ A^T * scaling)
- * - grad_input = (grad_output @ A^T) @ B^T * scaling
- * 
- * Uses shared memory to minimize global memory traffic
- * HIP/AMD optimized version
+ * @brief Fused lora backward kernel.
+ * @param[in] input Input parameter.
+ * @param[in] B Input parameter.
+ * @param[in] A Input parameter.
+ * @param[in] grad_output Input parameter.
+ * @param[in,out] grad_A Input/output parameter.
+ * @param[in,out] grad_B Input/output parameter.
+ * @param[in,out] grad_input Input/output parameter.
+ * @param[in] batch_size Input parameter.
+ * @param[in] in_dim Input parameter.
+ * @param[in] rank Input parameter.
+ * @param[in] out_dim Input parameter.
+ * @param[in] scaling Input parameter.
+ * @return Return value.
+ * @details Implements fused_lora_backward_kernel without additional internal calls.
  */
 __global__ void fused_lora_backward_kernel(
     const float* input,        // [batch_size, in_dim]
@@ -219,13 +226,16 @@ __global__ void fused_lora_backward_kernel(
 // ============================================================================
 
 /**
- * @brief Fused SGD optimizer step
- * 
- * Fuses: gradient + weight_decay + momentum + update
- * With momentum: p = p - lr * ((1-momentum) * g + weight_decay * p + momentum * v)
- * Without momentum: p = p - lr * (g + weight_decay * p)
- * 
- * HIP/AMD optimized version
+ * @brief Fused sgd step kernel.
+ * @param[in,out] params Input/output parameter.
+ * @param[in] grads Input parameter.
+ * @param[in,out] momentum_buffer Input/output parameter.
+ * @param[in] size Input parameter.
+ * @param[in] learning_rate Input parameter.
+ * @param[in] momentum Input parameter.
+ * @param[in] weight_decay Input parameter.
+ * @return Return value.
+ * @details Implements fused_sgd_step_kernel without additional internal calls.
  */
 __global__ void fused_sgd_step_kernel(
     float* params,
@@ -260,16 +270,14 @@ __global__ void fused_sgd_step_kernel(
 }
 
 /**
- * @brief Fused MSE loss and gradient kernel
- * 
- * Computes both MSE loss and gradient in a single pass:
- * 1. Loss = sum((predictions - targets)^2) / n
- * 2. Gradient = (2/n) * (predictions - targets)
- * 
- * This saves memory bandwidth by reading predictions/targets only once
- * instead of twice (once for loss, once for gradient).
- * 
- * HIP/AMD optimized version with wavefront-level reduction
+ * @brief Fused mse loss gradient kernel.
+ * @param[in,out] grad_output Input/output parameter.
+ * @param[in,out] partial_loss Input/output parameter.
+ * @param[in] predictions Input parameter.
+ * @param[in] targets Input parameter.
+ * @param[in] n Input parameter.
+ * @return Return value.
+ * @details Calls: __syncthreads().
  */
 __global__ void fused_mse_loss_gradient_kernel(
     float* grad_output,
@@ -345,6 +353,21 @@ __global__ void fused_mse_loss_gradient_kernel(
 // Kernel Launchers
 // ============================================================================
 
+/**
+ * @brief Launch fused lora forward.
+ * @param[in] input Input parameter.
+ * @param[in] B Input parameter.
+ * @param[in] A Input parameter.
+ * @param[in,out] output Input/output parameter.
+ * @param[in] batch_size Input parameter.
+ * @param[in] in_dim Input parameter.
+ * @param[in] rank Input parameter.
+ * @param[in] out_dim Input parameter.
+ * @param[in] scaling Input parameter.
+ * @param[in] stream Input parameter.
+ * @return Return value.
+ * @details Calls: max(), blockDim(), gridDim(), hipLaunchKernelGGL(), hipGetLastError().
+ */
 hipError_t launch_fused_lora_forward(
     const float* input,
     const float* B,
@@ -383,6 +406,24 @@ hipError_t launch_fused_lora_forward(
     return hipGetLastError();
 }
 
+/**
+ * @brief Launch fused lora backward.
+ * @param[in] input Input parameter.
+ * @param[in] B Input parameter.
+ * @param[in] A Input parameter.
+ * @param[in] grad_output Input parameter.
+ * @param[in,out] grad_A Input/output parameter.
+ * @param[in,out] grad_B Input/output parameter.
+ * @param[in,out] grad_input Input/output parameter.
+ * @param[in] batch_size Input parameter.
+ * @param[in] in_dim Input parameter.
+ * @param[in] rank Input parameter.
+ * @param[in] out_dim Input parameter.
+ * @param[in] scaling Input parameter.
+ * @param[in] stream Input parameter.
+ * @return Return value.
+ * @details Calls: max(), blockDim(), gridDim(), std::max(), hipLaunchKernelGGL(), hipGetLastError().
+ */
 hipError_t launch_fused_lora_backward(
     const float* input,
     const float* B,
@@ -432,6 +473,19 @@ hipError_t launch_fused_lora_backward(
     return hipGetLastError();
 }
 
+/**
+ * @brief Launch fused sgd step.
+ * @param[in,out] params Input/output parameter.
+ * @param[in] grads Input parameter.
+ * @param[in,out] momentum_buffer Input/output parameter.
+ * @param[in] size Input parameter.
+ * @param[in] learning_rate Input parameter.
+ * @param[in] momentum Input parameter.
+ * @param[in] weight_decay Input parameter.
+ * @param[in] stream Input parameter.
+ * @return Return value.
+ * @details Calls: max(), hipLaunchKernelGGL(), dim3(), hipGetLastError().
+ */
 hipError_t launch_fused_sgd_step(
     float* params,
     const float* grads,
@@ -463,6 +517,18 @@ hipError_t launch_fused_sgd_step(
     return hipGetLastError();
 }
 
+/**
+ * @brief Launch fused mse loss gradient.
+ * @param[in,out] grad_output Input/output parameter.
+ * @param[in,out] partial_loss Input/output parameter.
+ * @param[in] predictions Input parameter.
+ * @param[in] targets Input parameter.
+ * @param[in] n Input parameter.
+ * @param[in] num_blocks Input parameter.
+ * @param[in] stream Input parameter.
+ * @return Return value.
+ * @details Calls: hipLaunchKernelGGL(), dim3(), hipGetLastError().
+ */
 hipError_t launch_fused_mse_loss_gradient(
     float* grad_output,
     float* partial_loss,

@@ -26,6 +26,15 @@ namespace themis {
 
 namespace {
 
+/**
+ * @brief Curl Write Callback.
+ * @param[in,out] ptr Input/output parameter.
+ * @param[in] size Input parameter.
+ * @param[in] nmemb Input parameter.
+ * @param[in,out] userdata Input/output parameter.
+ * @return Return value.
+ * @details Calls: append().
+ */
 static size_t curlWriteCallback(char* ptr, size_t size, size_t nmemb,
                                  void* userdata) {
     const auto total = size * nmemb;
@@ -33,7 +42,16 @@ static size_t curlWriteCallback(char* ptr, size_t size, size_t nmemb,
     return total;
 }
 
-/// Execute a real HTTP POST using libcurl.
+/**
+ * @brief Curl Http Post.
+ * @param[in] url Input parameter.
+ * @param[in] body Input parameter.
+ * @param[in] auth_header Input parameter.
+ * @param[in] timeout_ms Input parameter.
+ * @param[in,out] response_body Input/output parameter.
+ * @return Return value.
+ * @details Calls: clear(), curl_easy_init(), spdlog::error(), curl_slist_append(), empty(), c_str(), curl_easy_setopt(), size().
+ */
 static int curlHttpPost(const std::string& url,
                         const std::string& body,
                         const std::string& auth_header,
@@ -120,6 +138,11 @@ CatalogExporter::publishTable(const SchemaManager::TableSchema& table) {
     return publishSchema({table});
 }
 
+/**
+ * @brief Set Http Post For Testing.
+ * @param[in] fn Input parameter.
+ * @details Calls: std::move().
+ */
 void CatalogExporter::setHttpPostForTesting(HttpPostFn fn) {
     http_post_fn_ = std::move(fn);
 }
@@ -200,6 +223,12 @@ json CatalogExporter::buildAtlasPayload(
     return payload;
 }
 
+/**
+ * @brief Send To Atlas.
+ * @param[in] payload Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), size(), dump(), spdlog::info(), httpPost(), json::parse(), contains(), items().
+ */
 CatalogExporter::PublishResult CatalogExporter::sendToAtlas(const json& payload) {
     const std::string url = config_.endpoint + "/api/atlas/v2/entity/bulk";
 
@@ -403,6 +432,15 @@ CatalogExporter::sendToDataHub(const json& proposals) {
 // HTTP helper
 // ============================================================================
 
+/**
+ * @brief Http Post.
+ * @param[in] url Input parameter.
+ * @param[in] body Input parameter.
+ * @param[in] auth_header Input parameter.
+ * @param[in,out] response_body Input/output parameter.
+ * @return Return value.
+ * @details Calls: http_post_fn_(), curlHttpPost().
+ */
 int CatalogExporter::httpPost(const std::string& url,
                                const std::string& body,
                                const std::string& auth_header,

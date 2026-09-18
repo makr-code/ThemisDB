@@ -26,6 +26,11 @@ PromptEngineeringMetrics::PromptEngineeringMetrics()
 }
 
 // Optimization metrics
+/**
+ * @brief Record Optimization Attempt.
+ * @param[in] prompt_id Identifier of the prompt.
+ * @details Calls: fetch_add().
+ */
 void PromptEngineeringMetrics::recordOptimizationAttempt(const std::string& prompt_id) {
     if (!config_.enabled) {
       return;
@@ -34,6 +39,12 @@ void PromptEngineeringMetrics::recordOptimizationAttempt(const std::string& prom
     optimization_attempts_.fetch_add(1, std::memory_order_relaxed);
 }
 
+/**
+ * @brief Record Optimization Success.
+ * @param[in] prompt_id Identifier of the prompt.
+ * @param[in] improvement Input parameter.
+ * @details Calls: fetch_add().
+ */
 void PromptEngineeringMetrics::recordOptimizationSuccess(
     const std::string& prompt_id,
     double improvement
@@ -46,6 +57,12 @@ void PromptEngineeringMetrics::recordOptimizationSuccess(
     optimization_successes_.fetch_add(1, std::memory_order_relaxed);
 }
 
+/**
+ * @brief Record Optimization Failure.
+ * @param[in] prompt_id Identifier of the prompt.
+ * @param[in] reason Input parameter.
+ * @details Calls: fetch_add().
+ */
 void PromptEngineeringMetrics::recordOptimizationFailure(
     const std::string& prompt_id,
     const std::string& reason
@@ -58,6 +75,12 @@ void PromptEngineeringMetrics::recordOptimizationFailure(
     optimization_failures_.fetch_add(1, std::memory_order_relaxed);
 }
 
+/**
+ * @brief Record Optimization Duration.
+ * @param[in] prompt_id Identifier of the prompt.
+ * @param[in] duration_ms Input parameter.
+ * @details Calls: fetch_add().
+ */
 void PromptEngineeringMetrics::recordOptimizationDuration(
     const std::string& prompt_id,
     double duration_ms
@@ -69,6 +92,12 @@ void PromptEngineeringMetrics::recordOptimizationDuration(
     optimization_total_duration_ms_.fetch_add(duration_ms, std::memory_order_relaxed);
 }
 
+/**
+ * @brief Record Optimization Iterations.
+ * @param[in] prompt_id Identifier of the prompt.
+ * @param[in] iterations Input parameter.
+ * @details Calls: fetch_add().
+ */
 void PromptEngineeringMetrics::recordOptimizationIterations(
     const std::string& prompt_id,
     int iterations
@@ -80,7 +109,12 @@ void PromptEngineeringMetrics::recordOptimizationIterations(
     optimization_total_iterations_.fetch_add(iterations, std::memory_order_relaxed);
 }
 
-// A/B testing metrics
+/**
+ * @brief A/B testing metrics
+ * @param[in] test_id Identifier of the test.
+ * @param[in] prompt_id Identifier of the prompt.
+ * @details Calls: fetch_add().
+ */
 void PromptEngineeringMetrics::recordABTestStart(
     const std::string& test_id,
     const std::string& prompt_id
@@ -93,6 +127,13 @@ void PromptEngineeringMetrics::recordABTestStart(
     ab_test_starts_.fetch_add(1, std::memory_order_relaxed);
 }
 
+/**
+ * @brief Record ABTest Observation.
+ * @param[in] test_id Identifier of the test.
+ * @param[in] version Input parameter.
+ * @param[in] success Input parameter.
+ * @details Calls: fetch_add().
+ */
 void PromptEngineeringMetrics::recordABTestObservation(
     const std::string& test_id,
     const std::string& version,
@@ -107,6 +148,13 @@ void PromptEngineeringMetrics::recordABTestObservation(
     ab_test_observations_.fetch_add(1, std::memory_order_relaxed);
 }
 
+/**
+ * @brief Record ABTest Completion.
+ * @param[in] test_id Identifier of the test.
+ * @param[in] winner Input parameter.
+ * @param[in] confidence Input parameter.
+ * @details Calls: fetch_add().
+ */
 void PromptEngineeringMetrics::recordABTestCompletion(
     const std::string& test_id,
     const std::string& winner,
@@ -121,6 +169,12 @@ void PromptEngineeringMetrics::recordABTestCompletion(
     ab_test_completions_.fetch_add(1, std::memory_order_relaxed);
 }
 
+/**
+ * @brief Record ABTest Duration.
+ * @param[in] test_id Identifier of the test.
+ * @param[in] duration_seconds Input parameter.
+ * @details Implements recordABTestDuration without additional internal calls.
+ */
 void PromptEngineeringMetrics::recordABTestDuration(
     const std::string& test_id,
     double duration_seconds
@@ -133,6 +187,11 @@ void PromptEngineeringMetrics::recordABTestDuration(
     // Could track per-test durations if needed
 }
 
+/**
+ * @brief Record Active ABTests.
+ * @param[in] count Input parameter.
+ * @details Calls: store().
+ */
 void PromptEngineeringMetrics::recordActiveABTests(int count) {
     if (!config_.enabled) {
       return;
@@ -141,6 +200,13 @@ void PromptEngineeringMetrics::recordActiveABTests(int count) {
 }
 
 // Performance tracking metrics
+/**
+ * @brief Record Prompt Execution.
+ * @param[in] prompt_id Identifier of the prompt.
+ * @param[in] success Input parameter.
+ * @param[in] latency_ms Input parameter.
+ * @details Calls: fetch_add(), load(), alert_callback_().
+ */
 void PromptEngineeringMetrics::recordPromptExecution(
     const std::string& prompt_id,
     bool success,
@@ -176,6 +242,12 @@ void PromptEngineeringMetrics::recordPromptExecution(
     }
 }
 
+/**
+ * @brief Record Prompt Success Rate.
+ * @param[in] prompt_id Identifier of the prompt.
+ * @param[in] rate Input parameter.
+ * @details Calls: lock().
+ */
 void PromptEngineeringMetrics::recordPromptSuccessRate(
     const std::string& prompt_id,
     double rate
@@ -187,6 +259,12 @@ void PromptEngineeringMetrics::recordPromptSuccessRate(
     prompt_success_rates_[prompt_id] = rate;
 }
 
+/**
+ * @brief Record Prompt Average Latency.
+ * @param[in] prompt_id Identifier of the prompt.
+ * @param[in] latency_ms Input parameter.
+ * @details Calls: lock().
+ */
 void PromptEngineeringMetrics::recordPromptAverageLatency(
     const std::string& prompt_id,
     double latency_ms
@@ -198,6 +276,12 @@ void PromptEngineeringMetrics::recordPromptAverageLatency(
     prompt_avg_latencies_[prompt_id] = latency_ms;
 }
 
+/**
+ * @brief Record Prompt Execution Count.
+ * @param[in] prompt_id Identifier of the prompt.
+ * @param[in] count Input parameter.
+ * @details Calls: lock().
+ */
 void PromptEngineeringMetrics::recordPromptExecutionCount(
     const std::string& prompt_id,
     int64_t count
@@ -210,6 +294,12 @@ void PromptEngineeringMetrics::recordPromptExecutionCount(
 }
 
 // Feedback collection metrics
+/**
+ * @brief Record Feedback.
+ * @param[in] prompt_id Identifier of the prompt.
+ * @param[in] type Input parameter.
+ * @details Calls: fetch_add().
+ */
 void PromptEngineeringMetrics::recordFeedback(
     const std::string& prompt_id,
     const std::string& type
@@ -227,6 +317,12 @@ void PromptEngineeringMetrics::recordFeedback(
     }
 }
 
+/**
+ * @brief Record Feedback Severity.
+ * @param[in] prompt_id Identifier of the prompt.
+ * @param[in] severity Input parameter.
+ * @details Implements recordFeedbackSeverity without additional internal calls.
+ */
 void PromptEngineeringMetrics::recordFeedbackSeverity(
     const std::string& prompt_id,
     double severity
@@ -239,6 +335,11 @@ void PromptEngineeringMetrics::recordFeedbackSeverity(
     // Could track severity distribution
 }
 
+/**
+ * @brief Record Hallucination Detection.
+ * @param[in] prompt_id Identifier of the prompt.
+ * @details Calls: fetch_add(), alert_callback_().
+ */
 void PromptEngineeringMetrics::recordHallucinationDetection(
     const std::string& prompt_id
 ) {
@@ -258,6 +359,12 @@ void PromptEngineeringMetrics::recordHallucinationDetection(
     }
 }
 
+/**
+ * @brief Record Failed Query.
+ * @param[in] prompt_id Identifier of the prompt.
+ * @param[in] failure_type Input parameter.
+ * @details Calls: fetch_add().
+ */
 void PromptEngineeringMetrics::recordFailedQuery(
     const std::string& prompt_id,
     const std::string& failure_type
@@ -270,6 +377,12 @@ void PromptEngineeringMetrics::recordFailedQuery(
     failed_queries_.fetch_add(1, std::memory_order_relaxed);
 }
 
+/**
+ * @brief Record Total Feedback Count.
+ * @param[in] prompt_id Identifier of the prompt.
+ * @param[in] count Input parameter.
+ * @details Implements recordTotalFeedbackCount without additional internal calls.
+ */
 void PromptEngineeringMetrics::recordTotalFeedbackCount(
     const std::string& prompt_id,
     int64_t count
@@ -282,6 +395,12 @@ void PromptEngineeringMetrics::recordTotalFeedbackCount(
     // Per-prompt feedback count
 }
 
+/**
+ * @brief Record Positive Ratio.
+ * @param[in] prompt_id Identifier of the prompt.
+ * @param[in] ratio Input parameter.
+ * @details Implements recordPositiveRatio without additional internal calls.
+ */
 void PromptEngineeringMetrics::recordPositiveRatio(
     const std::string& prompt_id,
     double ratio
@@ -295,6 +414,12 @@ void PromptEngineeringMetrics::recordPositiveRatio(
 }
 
 // Version control metrics
+/**
+ * @brief Record Version Commit.
+ * @param[in] prompt_id Identifier of the prompt.
+ * @param[in] branch Input parameter.
+ * @details Calls: fetch_add().
+ */
 void PromptEngineeringMetrics::recordVersionCommit(
     const std::string& prompt_id,
     const std::string& branch
@@ -307,6 +432,11 @@ void PromptEngineeringMetrics::recordVersionCommit(
     version_commits_.fetch_add(1, std::memory_order_relaxed);
 }
 
+/**
+ * @brief Record Version Rollback.
+ * @param[in] prompt_id Identifier of the prompt.
+ * @details Calls: fetch_add().
+ */
 void PromptEngineeringMetrics::recordVersionRollback(const std::string& prompt_id) {
     if (!config_.enabled) {
       return;
@@ -315,6 +445,11 @@ void PromptEngineeringMetrics::recordVersionRollback(const std::string& prompt_i
     version_rollbacks_.fetch_add(1, std::memory_order_relaxed);
 }
 
+/**
+ * @brief Record Branch Creation.
+ * @param[in] prompt_id Identifier of the prompt.
+ * @details Calls: fetch_add().
+ */
 void PromptEngineeringMetrics::recordBranchCreation(const std::string& prompt_id) {
     if (!config_.enabled) {
       return;
@@ -323,6 +458,13 @@ void PromptEngineeringMetrics::recordBranchCreation(const std::string& prompt_id
     branch_creations_.fetch_add(1, std::memory_order_relaxed);
 }
 
+/**
+ * @brief Record Merge Operation.
+ * @param[in] prompt_id Identifier of the prompt.
+ * @param[in] strategy Input parameter.
+ * @param[in] success Input parameter.
+ * @details Calls: fetch_add().
+ */
 void PromptEngineeringMetrics::recordMergeOperation(
     const std::string& prompt_id,
     const std::string& strategy,
@@ -339,6 +481,12 @@ void PromptEngineeringMetrics::recordMergeOperation(
     }
 }
 
+/**
+ * @brief Record Version Count.
+ * @param[in] prompt_id Identifier of the prompt.
+ * @param[in] count Input parameter.
+ * @details Calls: lock().
+ */
 void PromptEngineeringMetrics::recordVersionCount(
     const std::string& prompt_id,
     int count
@@ -351,6 +499,11 @@ void PromptEngineeringMetrics::recordVersionCount(
 }
 
 // Integration metrics
+/**
+ * @brief Record Integration Execution.
+ * @param[in] before Input parameter.
+ * @details Calls: fetch_add().
+ */
 void PromptEngineeringMetrics::recordIntegrationExecution(bool before) {
     if (!config_.enabled) {
       return;
@@ -362,6 +515,10 @@ void PromptEngineeringMetrics::recordIntegrationExecution(bool before) {
     }
 }
 
+/**
+ * @brief Record Background Worker Cycle.
+ * @details Calls: fetch_add().
+ */
 void PromptEngineeringMetrics::recordBackgroundWorkerCycle() {
     if (!config_.enabled) {
       return;
@@ -369,6 +526,11 @@ void PromptEngineeringMetrics::recordBackgroundWorkerCycle() {
     background_worker_cycles_.fetch_add(1, std::memory_order_relaxed);
 }
 
+/**
+ * @brief Record Background Worker Duration.
+ * @param[in] duration_ms Input parameter.
+ * @details Calls: fetch_add().
+ */
 void PromptEngineeringMetrics::recordBackgroundWorkerDuration(double duration_ms) {
     if (!config_.enabled) {
       return;
@@ -622,6 +784,10 @@ std::string PromptEngineeringMetrics::exportMetrics() const {
     return oss.str();
 }
 
+/**
+ * @brief Reset the modification detection flag.
+ * @details Calls: store(), lock(), clear().
+ */
 void PromptEngineeringMetrics::reset() {
     optimization_attempts_.store(0);
     optimization_successes_.store(0);
@@ -688,6 +854,11 @@ std::string PromptEngineeringMetrics::formatMetric(
     // Metric line
     oss << name;
     if (!labels.empty()) {
+        /**
+         * @brief Format Labels.
+         * @param[in] labels Input parameter.
+         * @return Return value.
+         */
         oss << formatLabels(labels);
     }
     oss << " " << std::fixed << std::setprecision(2) << value << "\n";
@@ -778,6 +949,11 @@ nlohmann::json PromptEngineeringMetrics::snapshotToJson() const {
     return j;
 }
 
+/**
+ * @brief Restore From Json.
+ * @param[in] snapshot Input parameter.
+ * @details Calls: contains(), store(), load_i64(), load_dbl(), load_i32().
+ */
 void PromptEngineeringMetrics::restoreFromJson(const nlohmann::json& snapshot) {
     auto load_i64 = [&](const char* key, std::atomic<int64_t>& target) {
         if (snapshot.contains(key)) {
@@ -834,11 +1010,21 @@ void PromptEngineeringMetrics::restoreFromJson(const nlohmann::json& snapshot) {
 // Alerting
 // ============================================================================
 
+/**
+ * @brief Set Alert Config.
+ * @param[in] cfg Input parameter.
+ * @details Calls: lock().
+ */
 void PromptEngineeringMetrics::setAlertConfig(const AlertConfig& cfg) {
     std::lock_guard<std::mutex> lock(metrics_mutex_);
     alert_config_ = cfg;
 }
 
+/**
+ * @brief Set Alert Callback.
+ * @param[in] cb Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void PromptEngineeringMetrics::setAlertCallback(AlertCallback cb) {
     std::lock_guard<std::mutex> lock(metrics_mutex_);
     alert_callback_ = std::move(cb);
@@ -848,6 +1034,11 @@ void PromptEngineeringMetrics::setAlertCallback(AlertCallback cb) {
 // Reflection Tuning metrics
 // ============================================================================
 
+/**
+ * @brief Record Reflection Cycle Start.
+ * @param[in] param Input parameter.
+ * @details Calls: fetch_add().
+ */
 void PromptEngineeringMetrics::recordReflectionCycleStart(
     const std::string& /*prompt_id*/) {
     if (!config_.enabled) {
@@ -856,6 +1047,13 @@ void PromptEngineeringMetrics::recordReflectionCycleStart(
     reflection_cycle_starts_.fetch_add(1, std::memory_order_relaxed);
 }
 
+/**
+ * @brief Record Reflection Cycle Complete.
+ * @param[in] param Input parameter.
+ * @param[in] iterations Input parameter.
+ * @param[in] improved Input parameter.
+ * @details Calls: fetch_add().
+ */
 void PromptEngineeringMetrics::recordReflectionCycleComplete(
     const std::string& /*prompt_id*/,
     size_t iterations,
@@ -871,6 +1069,11 @@ void PromptEngineeringMetrics::recordReflectionCycleComplete(
     }
 }
 
+/**
+ * @brief Record Reflection Guard Fired.
+ * @param[in] param Input parameter.
+ * @details Calls: fetch_add().
+ */
 void PromptEngineeringMetrics::recordReflectionGuardFired(
     const std::string& /*prompt_id*/) {
     if (!config_.enabled) {
@@ -879,6 +1082,12 @@ void PromptEngineeringMetrics::recordReflectionGuardFired(
     reflection_guard_fires_.fetch_add(1, std::memory_order_relaxed);
 }
 
+/**
+ * @brief Record Reflection Quality Delta.
+ * @param[in] param Input parameter.
+ * @param[in] delta Input parameter.
+ * @details Calls: load(), compare_exchange_weak().
+ */
 void PromptEngineeringMetrics::recordReflectionQualityDelta(
     const std::string& /*prompt_id*/,
     double delta) {

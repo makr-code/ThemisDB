@@ -129,13 +129,13 @@ public:
     ModelServingEngine(const ModelServingEngine&)            = delete;
     ModelServingEngine& operator=(const ModelServingEngine&) = delete;
 
+
     /**
-     * @brief ---- Registry management ----
+     * @brief Register Model.
      * @param[in] name Input parameter.
      * @param[in] version Input parameter.
      * @param[in] model Input parameter.
      */
-
     void registerModel(const std::string& name,
                        const std::string& version,
                        AutoMLModel        model);
@@ -149,14 +149,14 @@ public:
     bool unregisterModel(const std::string& name,
                          const std::string& version);
 
+
     /**
-     * @brief ---- Inference ----
+     * @brief Predict.
      * @param[in] name Input parameter.
      * @param[in] version Input parameter.
      * @param[in] point Input parameter.
      * @return Return value.
      */
-
     std::string predict(const std::string& name,
                         const std::string& version,
                         const DataPoint&   point) const;
@@ -178,11 +178,11 @@ public:
         const std::string&            version,
         const std::vector<DataPoint>& data) const;
 
+
     /**
-     * @brief ---- Registry queries ----
+     * @brief List Models.
      * @return Return value.
      */
-
     std::vector<ModelInfo> listModels() const;
 
     /**
@@ -212,13 +212,13 @@ public:
     bool isRegistered(const std::string& name,
                       const std::string& version) const;
 
+
     /**
-     * @brief ---- Persistence ----
+     * @brief Serialize Model.
      * @param[in] name Input parameter.
      * @param[in] version Input parameter.
      * @return Return value.
      */
-
     std::string serializeModel(const std::string& name,
                                 const std::string& version) const;
 

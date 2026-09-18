@@ -29,35 +29,8 @@ namespace server {
 namespace beast = boost::beast;
 namespace http = beast::http;
 
-/**
- * @brief Handler for Rotary Position Embeddings (RoPE) Operations
- * 
- * This handler manages all RoPE-related endpoints:
- * - POST /api/v1/vector-index/{index_name}/rope/config - Configure RoPE
- * - GET /api/v1/vector-index/{index_name}/rope/config - Get RoPE configuration
- * - DELETE /api/v1/vector-index/{index_name}/rope/config - Disable RoPE
- * - POST /api/v1/vector-index/{index_name}/rope/add - Add entity with rotation
- * - POST /api/v1/vector-index/{index_name}/rope/add-relational - Add with relational rotation
- * - POST /api/v1/vector-index/{index_name}/rope/search - Search with rotation
- * - POST /api/v1/vector-index/{index_name}/rope/batch-add - Batch add with rotation
- * - GET /api/v1/vector-index/{index_name}/rope/stats - Get RoPE statistics
- * 
- * Features:
- * - Rotary position embeddings for sequential data
- * - Relational embeddings for knowledge graphs
- * - Batch operations for efficiency
- * - Configuration management
- * - Statistics and monitoring
- */
 class RopeApiHandler {
 public:
-    /**
-     * @brief Construct a new RoPE API Handler
-     * 
-     * @param storage Storage backend
-     * @param vector_index Vector index manager with RoPE support
-     * @param auth Authentication/authorization middleware
-     */
     RopeApiHandler(
         std::shared_ptr<RocksDBWrapper> storage,
         std::shared_ptr<VectorIndexManager> vector_index,
@@ -65,58 +38,58 @@ public:
     );
 
     /**
-     * @brief Handle POST /api/v1/vector-index/{index_name}/rope/config
-     * @param req HTTP request with RoPE configuration
-     * @return HTTP response with configuration status
+     * @brief Handle Config Post.
+     * @param[in] req Input parameter.
+     * @return Return value.
      */
     http::response<http::string_body> handleConfigPost(const http::request<http::string_body>& req);
 
     /**
-     * @brief Handle GET /api/v1/vector-index/{index_name}/rope/config
-     * @param req HTTP request
-     * @return HTTP response with current RoPE configuration
+     * @brief Handle Config Get.
+     * @param[in] req Input parameter.
+     * @return Return value.
      */
     http::response<http::string_body> handleConfigGet(const http::request<http::string_body>& req);
 
     /**
-     * @brief Handle DELETE /api/v1/vector-index/{index_name}/rope/config
-     * @param req HTTP request
-     * @return HTTP response with disable status
+     * @brief Handle Config Delete.
+     * @param[in] req Input parameter.
+     * @return Return value.
      */
     http::response<http::string_body> handleConfigDelete(const http::request<http::string_body>& req);
 
     /**
-     * @brief Handle POST /api/v1/vector-index/{index_name}/rope/add
-     * @param req HTTP request with entity and position
-     * @return HTTP response with add status
+     * @brief Handle Add Post.
+     * @param[in] req Input parameter.
+     * @return Return value.
      */
     http::response<http::string_body> handleAddPost(const http::request<http::string_body>& req);
 
     /**
-     * @brief Handle POST /api/v1/vector-index/{index_name}/rope/add-relational
-     * @param req HTTP request with entity and relation type
-     * @return HTTP response with add status
+     * @brief Handle Add Relational Post.
+     * @param[in] req Input parameter.
+     * @return Return value.
      */
     http::response<http::string_body> handleAddRelationalPost(const http::request<http::string_body>& req);
 
     /**
-     * @brief Handle POST /api/v1/vector-index/{index_name}/rope/search
-     * @param req HTTP request with query vector and position
-     * @return HTTP response with search results
+     * @brief Handle Search Post.
+     * @param[in] req Input parameter.
+     * @return Return value.
      */
     http::response<http::string_body> handleSearchPost(const http::request<http::string_body>& req);
 
     /**
-     * @brief Handle POST /api/v1/vector-index/{index_name}/rope/batch-add
-     * @param req HTTP request with batch of entities
-     * @return HTTP response with batch add status
+     * @brief Handle Batch Add Post.
+     * @param[in] req Input parameter.
+     * @return Return value.
      */
     http::response<http::string_body> handleBatchAddPost(const http::request<http::string_body>& req);
 
     /**
-     * @brief Handle GET /api/v1/vector-index/{index_name}/rope/stats
-     * @param req HTTP request
-     * @return HTTP response with RoPE statistics
+     * @brief Handle Stats Get.
+     * @param[in] req Input parameter.
+     * @return Return value.
      */
     http::response<http::string_body> handleStatsGet(const http::request<http::string_body>& req);
 
@@ -127,38 +100,30 @@ private:
 
     // ─── Bridges (stubs #280, #307) ───────────────────────────────────────────
 
-    /// @brief Type alias for RBAC authorization injection (stub #280).
     using AuthorizeFn = std::function<bool(const std::string& token,
                                            const std::string& action)>;
 
     /**
-     * @brief Install a per-action authorization check for ROPE endpoints.
-     *
-     * When set, requireAccess() calls this function after authentication and
-     * returns HTTP 403 if it returns false, implementing scope-based RBAC.
-     * @param fn Callable receiving (bearer_token, action) → allowed.
+     * @brief Set Authorize Fn.
+     * @param[in] fn Input parameter.
      */
     void setAuthorizeFn(AuthorizeFn fn);
 
     /**
-     * @brief Remove the RBAC authorization bridge (reverts to auth-only check).
+     * @brief Clear Authorize Fn.
      */
     void clearAuthorizeFn();
 
-    /// @brief Type alias for stats query injection (stub #307).
     using StatsQueryFn = std::function<nlohmann::json()>;
 
     /**
-     * @brief Install a stats query function for handleStatsGet().
-     *
-     * When set, handleStatsGet() returns the result of this function instead of
-     * the synthetic N/A placeholder statistics.
-     * @param fn Callable returning a JSON object with real counters.
+     * @brief Set Stats Query Fn.
+     * @param[in] fn Input parameter.
      */
     void setStatsQueryFn(StatsQueryFn fn);
 
     /**
-     * @brief Remove the stats query bridge (reverts to placeholder statistics).
+     * @brief Clear Stats Query Fn.
      */
     void clearStatsQueryFn();
 
@@ -166,18 +131,44 @@ private:
     StatsQueryFn statsQueryFn_;
 
     // Helper methods
+    /**
+     * @brief Make Error Response.
+     * @param[in] status Input parameter.
+     * @param[in] message Input parameter.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> makeErrorResponse(
         http::status status, const std::string& message, const http::request<http::string_body>& req);
+    /**
+     * @brief Make Response.
+     * @param[in] status Input parameter.
+     * @param[in] body Input parameter.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> makeResponse(
         http::status status, const std::string& body, const http::request<http::string_body>& req);
     
+    /**
+     * @brief Require Access.
+     * @param[in] req Input parameter.
+     * @param[in] permission Input parameter.
+     * @param[in] resource Input parameter.
+     * @param[in] path Input parameter.
+     * @return Return value.
+     */
     std::optional<http::response<http::string_body>> requireAccess(
         const http::request<http::string_body>& req,
         const std::string& permission,
         const std::string& resource,
         const std::string& path);
     
-    // Extract index_name from path like /api/v1/vector-index/{index_name}/rope/...
+    /**
+     * @brief Extract Index Name.
+     * @param[in] path Input parameter.
+     * @return Return value.
+     */
     std::optional<std::string> extractIndexName(const std::string& path);
 };
 

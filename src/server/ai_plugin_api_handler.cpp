@@ -27,6 +27,12 @@ namespace themis::server {
 
 namespace {
 
+/**
+ * @brief To Lower Ascii.
+ * @param[in] text Input parameter.
+ * @return Return value.
+ * @details Calls: std::transform(), begin(), end(), std::tolower().
+ */
 std::string toLowerAscii(std::string text) {
     std::transform(text.begin(), text.end(), text.begin(), [](unsigned char c) {
         return static_cast<char>(std::tolower(c));
@@ -34,6 +40,12 @@ std::string toLowerAscii(std::string text) {
     return text;
 }
 
+/**
+ * @brief Parse Plugin Type.
+ * @param[in] body Input parameter.
+ * @return Return value.
+ * @details Calls: contains(), is_number_integer(), is_string(), toLowerAscii().
+ */
 themis::plugins::PluginType parsePluginType(const nlohmann::json& body) {
     if (body.contains("plugin_type") && body["plugin_type"].is_number_integer()) {
         const int type_value = body["plugin_type"].get<int>();
@@ -104,6 +116,11 @@ AiPluginApiHandler::AiPluginApiHandler(
 
 AiPluginApiHandler::~AiPluginApiHandler() = default;
 
+/**
+ * @brief To Iso8601 Now.
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::now(), std::chrono::system_clock::to_time_t(), gmtime_s(), gmtime_r(), std::put_time(), str().
+ */
 std::string AiPluginApiHandler::toIso8601Now() {
     const auto now = std::chrono::system_clock::now();
     const std::time_t t = std::chrono::system_clock::to_time_t(now);
@@ -122,6 +139,12 @@ std::string AiPluginApiHandler::toIso8601Now() {
 // Dispatch
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Handle.
+ * @param[in] req Input parameter.
+ * @param[in] target Input parameter.
+ * @return Return value.
+ */
 http::response<http::string_body> AiPluginApiHandler::handle(
     const http::request<http::string_body>& req,
     const std::string& target)
@@ -166,6 +189,11 @@ http::response<http::string_body> AiPluginApiHandler::handle(
 // Route handlers
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Handle Generate.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ */
 http::response<http::string_body> AiPluginApiHandler::handleGenerate(
     const http::request<http::string_body>& req)
 {
@@ -209,6 +237,11 @@ http::response<http::string_body> AiPluginApiHandler::handleGenerate(
         }
 
         {
+            /**
+             * @brief Lock.
+             * @param[in] jobs_mutex_ Input parameter.
+             * @return Return value.
+             */
             std::lock_guard<std::mutex> lock(jobs_mutex_);
             jobs_[job_id] = std::move(record);
         }
@@ -249,11 +282,21 @@ http::response<http::string_body> AiPluginApiHandler::handleGenerate(
     }
 }
 
+/**
+ * @brief Handle List.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ */
 http::response<http::string_body> AiPluginApiHandler::handleList(
     const http::request<http::string_body>& req)
 {
     nlohmann::json resp_body = nlohmann::json::array();
     {
+        /**
+         * @brief Lock.
+         * @param[in] jobs_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(jobs_mutex_);
         for (const auto& [id, job] : jobs_) {
             nlohmann::json item{
@@ -276,10 +319,21 @@ http::response<http::string_body> AiPluginApiHandler::handleList(
     return resp;
 }
 
+/**
+ * @brief Handle Status.
+ * @param[in] req Input parameter.
+ * @param[in] job_id Identifier of the job.
+ * @return Return value.
+ */
 http::response<http::string_body> AiPluginApiHandler::handleStatus(
     const http::request<http::string_body>& req,
     const std::string& job_id)
 {
+    /**
+     * @brief Lock.
+     * @param[in] jobs_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(jobs_mutex_);
     const auto it = jobs_.find(job_id);
     if (it == jobs_.end()) {
@@ -308,12 +362,23 @@ http::response<http::string_body> AiPluginApiHandler::handleStatus(
     return resp;
 }
 
+/**
+ * @brief Handle Delete.
+ * @param[in] req Input parameter.
+ * @param[in] job_id Identifier of the job.
+ * @return Return value.
+ */
 http::response<http::string_body> AiPluginApiHandler::handleDelete(
     const http::request<http::string_body>& req,
     const std::string& job_id)
 {
     bool deleted = false;
     {
+        /**
+         * @brief Lock.
+         * @param[in] jobs_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(jobs_mutex_);
         deleted = jobs_.erase(job_id) > 0;
     }

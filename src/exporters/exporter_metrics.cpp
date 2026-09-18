@@ -30,6 +30,10 @@ constexpr double LATENCY_50_100MS_MIDPOINT = 75.0;
 constexpr double LATENCY_100_500MS_MIDPOINT = 300.0;
 constexpr double LATENCY_500PLUS_MIDPOINT = 500.0;
 
+/**
+ * @brief Reset the modification detection flag.
+ * @details Calls: lock(), clear().
+ */
 void ExporterMetrics::reset() {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -74,6 +78,13 @@ void ExporterMetrics::reset() {
     hub_upload_failures_ = 0;
 }
 
+/**
+ * @brief Record Export.
+ * @param[in] entity_count Input parameter.
+ * @param[in] bytes_written Input parameter.
+ * @param[in] duration Input parameter.
+ * @details Calls: lock(), count(), updateLatencyHistogram().
+ */
 void ExporterMetrics::recordExport(size_t entity_count, size_t bytes_written,
                                    std::chrono::milliseconds duration) {
     // Lock to ensure consistent state across multiple atomics
@@ -87,6 +98,11 @@ void ExporterMetrics::recordExport(size_t entity_count, size_t bytes_written,
     updateLatencyHistogram(duration);
 }
 
+/**
+ * @brief Record Error.
+ * @param[in] error_type Input parameter.
+ * @details Calls: lock().
+ */
 void ExporterMetrics::recordError(const std::string& error_type) {
     total_errors_++;
     
@@ -94,15 +110,29 @@ void ExporterMetrics::recordError(const std::string& error_type) {
     errors_by_type_[error_type]++;
 }
 
+/**
+ * @brief Record Duplicate.
+ * @details Implements recordDuplicate without additional internal calls.
+ */
 void ExporterMetrics::recordDuplicate() {
     total_duplicates_++;
 }
 
+/**
+ * @brief Record Quality Filter Rejection.
+ * @param[in] reason Input parameter.
+ * @details Calls: lock().
+ */
 void ExporterMetrics::recordQualityFilterRejection(const std::string& reason) {
     std::lock_guard<std::mutex> lock(mutex_);
     quality_filter_rejections_[reason]++;
 }
 
+/**
+ * @brief Record Schema Validation.
+ * @param[in] passed Input parameter.
+ * @details Implements recordSchemaValidation without additional internal calls.
+ */
 void ExporterMetrics::recordSchemaValidation(bool passed) {
     schema_validations_total_++;
     if (passed) {
@@ -159,6 +189,11 @@ size_t ExporterMetrics::getTotalErrors() const {
 }
 
 std::map<std::string, size_t> ExporterMetrics::getErrorsByType() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return errors_by_type_;
 }
@@ -168,6 +203,11 @@ size_t ExporterMetrics::getTotalDuplicates() const {
 }
 
 std::map<std::string, size_t> ExporterMetrics::getQualityFilterRejections() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return quality_filter_rejections_;
 }
@@ -185,10 +225,20 @@ ExporterMetrics::SchemaValidationStats ExporterMetrics::getSchemaValidationStats
     return stats;
 }
 
+/**
+ * @brief Record PIIDetection.
+ * @param[in] count Input parameter.
+ * @details Implements recordPIIDetection without additional internal calls.
+ */
 void ExporterMetrics::recordPIIDetection(size_t count) {
     pii_detections_ += count;
 }
 
+/**
+ * @brief Record PIIRedaction.
+ * @param[in] count Input parameter.
+ * @details Implements recordPIIRedaction without additional internal calls.
+ */
 void ExporterMetrics::recordPIIRedaction(size_t count) {
     pii_redactions_ += count;
 }
@@ -201,6 +251,12 @@ size_t ExporterMetrics::getPIIRedactions() const {
     return pii_redactions_.load();
 }
 
+/**
+ * @brief Record Compression.
+ * @param[in] uncompressed_bytes Input parameter.
+ * @param[in] compressed_bytes Input parameter.
+ * @details Implements recordCompression without additional internal calls.
+ */
 void ExporterMetrics::recordCompression(size_t uncompressed_bytes, size_t compressed_bytes) {
     compression_uncompressed_bytes_ += uncompressed_bytes;
     compression_compressed_bytes_ += compressed_bytes;
@@ -216,6 +272,11 @@ double ExporterMetrics::getCompressionRatio() const {
     return static_cast<double>(compressed) / uncompressed;
 }
 
+/**
+ * @brief Record Parquet Bytes Written.
+ * @param[in] bytes Input parameter.
+ * @details Implements recordParquetBytesWritten without additional internal calls.
+ */
 void ExporterMetrics::recordParquetBytesWritten(size_t bytes) {
     parquet_bytes_written_ += bytes;
 }
@@ -224,6 +285,10 @@ size_t ExporterMetrics::getParquetBytesWritten() const {
     return parquet_bytes_written_.load();
 }
 
+/**
+ * @brief Record Checkpoint.
+ * @details Implements recordCheckpoint without additional internal calls.
+ */
 void ExporterMetrics::recordCheckpoint() {
     checkpoint_count_++;
 }
@@ -232,6 +297,11 @@ size_t ExporterMetrics::getCheckpointCount() const {
     return checkpoint_count_.load();
 }
 
+/**
+ * @brief Record Delta Doc Skipped.
+ * @param[in] count Input parameter.
+ * @details Implements recordDeltaDocSkipped without additional internal calls.
+ */
 void ExporterMetrics::recordDeltaDocSkipped(size_t count) {
     delta_docs_skipped_ += count;
 }
@@ -240,6 +310,12 @@ size_t ExporterMetrics::getDeltaDocsSkipped() const {
     return delta_docs_skipped_.load();
 }
 
+/**
+ * @brief Record Encryption.
+ * @param[in] plaintext_bytes Input parameter.
+ * @param[in] encrypted_bytes Input parameter.
+ * @details Implements recordEncryption without additional internal calls.
+ */
 void ExporterMetrics::recordEncryption(size_t plaintext_bytes,
                                         size_t encrypted_bytes) {
     encryption_plaintext_bytes_ += plaintext_bytes;
@@ -254,6 +330,11 @@ size_t ExporterMetrics::getEncryptedOutputBytes() const {
     return encryption_output_bytes_.load();
 }
 
+/**
+ * @brief Record Encryption.
+ * @param[in] encrypted_bytes Input parameter.
+ * @details Implements recordEncryption without additional internal calls.
+ */
 void ExporterMetrics::recordEncryption(size_t encrypted_bytes) {
     encrypted_bytes_written_ += encrypted_bytes;
 }
@@ -262,6 +343,10 @@ size_t ExporterMetrics::getEncryptedBytesWritten() const {
     return encrypted_bytes_written_.load();
 }
 
+/**
+ * @brief Record Rate Limit Hit.
+ * @details Implements recordRateLimitHit without additional internal calls.
+ */
 void ExporterMetrics::recordRateLimitHit() {
     rate_limit_hits_++;
 }
@@ -270,6 +355,12 @@ size_t ExporterMetrics::getRateLimitHits() const {
     return rate_limit_hits_.load();
 }
 
+/**
+ * @brief Record Policy Denial.
+ * @param[in] collection Input parameter.
+ * @param[in] user Input parameter.
+ * @details Calls: recordError().
+ */
 void ExporterMetrics::recordPolicyDenial(const std::string& collection,
                                           const std::string& user) {
     policy_denials_++;
@@ -284,6 +375,11 @@ size_t ExporterMetrics::getPolicyDenials() const {
     return policy_denials_.load();
 }
 
+/**
+ * @brief Record Hub Upload Failure.
+ * @param[in] reason Input parameter.
+ * @details Calls: recordError().
+ */
 void ExporterMetrics::recordHubUploadFailure(const std::string& reason) {
     hub_upload_failures_++;
     recordError("hub_upload_failure");
@@ -316,6 +412,11 @@ json ExporterMetrics::toJson() const {
     // Errors
     j["total_errors"] = total_errors_.load();
     {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         j["errors_by_type"] = errors_by_type_;
     }
@@ -325,6 +426,11 @@ json ExporterMetrics::toJson() const {
     
     // Quality filtering
     {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         j["quality_filter_rejections"] = quality_filter_rejections_;
     }
@@ -406,6 +512,11 @@ std::string ExporterMetrics::toString() const {
     return oss.str();
 }
 
+/**
+ * @brief Update Latency Histogram.
+ * @param[in] duration Input parameter.
+ * @details Calls: count().
+ */
 void ExporterMetrics::updateLatencyHistogram(std::chrono::milliseconds duration) {
     auto ms = duration.count();
     

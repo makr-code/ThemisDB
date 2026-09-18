@@ -22,16 +22,17 @@
 namespace themisdb {
 namespace sharding {
 
-/** @brief Construct detector with provided monitoring configuration. */
 PartitionDetector::PartitionDetector(const PartitionDetectorConfig& config)
     : config_(config) {}
 
-/** @brief Stop active monitoring worker during destruction. */
 PartitionDetector::~PartitionDetector() {
     stop();
 }
 
-/** @brief Start background health-check monitoring loop. */
+/**
+ * @brief Start.
+ * @details Calls: exchange(), std::thread().
+ */
 void PartitionDetector::start() {
     if (running_.exchange(true)) {
         return;  // Already running
@@ -40,7 +41,10 @@ void PartitionDetector::start() {
     health_check_thread_ = std::thread(&PartitionDetector::healthCheckLoop, this);
 }
 
-/** @brief Stop monitoring loop and join worker thread. */
+/**
+ * @brief Stop.
+ * @details Calls: exchange(), themis::utils::joinThreadWithin(), THEMIS_WARN().
+ */
 void PartitionDetector::stop() {
     if (!running_.exchange(false)) {
         return;  // Already stopped
@@ -52,7 +56,11 @@ void PartitionDetector::stop() {
     }
 }
 
-/** @brief Add or reset connectivity tracking record for one node. */
+/**
+ * @brief Add Node.
+ * @param[in] node_id Identifier of the node.
+ * @details Calls: lock(), std::chrono::milliseconds(), std::chrono::steady_clock::now().
+ */
 void PartitionDetector::addNode(const std::string& node_id) {
     std::lock_guard<std::mutex> lock(nodes_mutex_);
     
@@ -67,13 +75,22 @@ void PartitionDetector::addNode(const std::string& node_id) {
     nodes_[node_id] = conn;
 }
 
-/** @brief Remove connectivity tracking record for one node. */
+/**
+ * @brief Remove Node.
+ * @param[in] node_id Identifier of the node.
+ * @details Calls: lock(), erase().
+ */
 void PartitionDetector::removeNode(const std::string& node_id) {
     std::lock_guard<std::mutex> lock(nodes_mutex_);
     nodes_.erase(node_id);
 }
 
-/** @brief Record successful node contact and refresh liveness metrics. */
+/**
+ * @brief Record Heartbeat.
+ * @param[in] node_id Identifier of the node.
+ * @param[in] rtt Input parameter.
+ * @details Calls: lock(), find(), end(), std::chrono::steady_clock::now().
+ */
 void PartitionDetector::recordHeartbeat(const std::string& node_id,
                                        std::chrono::milliseconds rtt) {
     std::lock_guard<std::mutex> lock(nodes_mutex_);
@@ -93,7 +110,11 @@ void PartitionDetector::recordHeartbeat(const std::string& node_id,
     conn.packet_loss_rate = conn.packet_loss_rate * 0.9;  // Decay
 }
 
-/** @brief Record failed node contact and update degradation metrics. */
+/**
+ * @brief Record Failure.
+ * @param[in] node_id Identifier of the node.
+ * @details Calls: lock(), find(), end().
+ */
 void PartitionDetector::recordFailure(const std::string& node_id) {
     std::lock_guard<std::mutex> lock(nodes_mutex_);
     
@@ -116,13 +137,16 @@ void PartitionDetector::recordFailure(const std::string& node_id) {
     stats_.failed_health_checks++;
 }
 
-/** @brief Return current aggregated network health state. */
 NetworkHealth PartitionDetector::getNetworkHealth() const {
     return current_health_.load();
 }
 
-/** @brief Return snapshot copy of all monitored node connectivity states. */
 std::vector<NodeConnectivity> PartitionDetector::getNodeConnectivity() const {
+    /**
+     * @brief Lock.
+     * @param[in] nodes_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(nodes_mutex_);
     
     std::vector<NodeConnectivity> result = {};
@@ -133,28 +157,42 @@ std::vector<NodeConnectivity> PartitionDetector::getNodeConnectivity() const {
     return result;
 }
 
-/** @brief Return whether split-brain condition is currently flagged. */
 bool PartitionDetector::isSplitBrainDetected() const {
     return split_brain_detected_.load();
 }
 
-/** @brief Return historical partition event list. */
 std::vector<PartitionEvent> PartitionDetector::getPartitionHistory() const {
+    /**
+     * @brief Lock.
+     * @param[in] events_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(events_mutex_);
     return partition_history_;
 }
 
-/** @brief Register callback used to perform active health checks. */
+/**
+ * @brief Set Health Check Callback.
+ * @param[in] callback Input parameter.
+ * @details Implements setHealthCheckCallback without additional internal calls.
+ */
 void PartitionDetector::setHealthCheckCallback(HealthCheckCallback callback) {
     health_check_callback_ = callback;
 }
 
-/** @brief Register callback invoked on partition detect and heal events. */
+/**
+ * @brief Set Partition Callback.
+ * @param[in] callback Input parameter.
+ * @details Implements setPartitionCallback without additional internal calls.
+ */
 void PartitionDetector::setPartitionCallback(PartitionCallback callback) {
     partition_callback_ = callback;
 }
 
-/** @brief Background loop performing health checks and partition evaluation. */
+/**
+ * @brief Health Check Loop.
+ * @details Calls: lock(), push_back(), std::chrono::steady_clock::now(), health_check_callback_(), recordHeartbeat(), recordFailure(), updateNetworkHealth(), detectPartition().
+ */
 void PartitionDetector::healthCheckLoop() {
     while (running_) {
         stats_.total_health_checks++;
@@ -195,7 +233,10 @@ void PartitionDetector::healthCheckLoop() {
     }
 }
 
-/** @brief Derive partition event from current reachability distribution. */
+/**
+ * @brief Detect Partition.
+ * @details Calls: lock(), push_back(), size(), store(), std::chrono::steady_clock::now(), std::to_string(), events_lock(), partition_callback_().
+ */
 void PartitionDetector::detectPartition() {
     std::lock_guard<std::mutex> lock(nodes_mutex_);
     
@@ -252,7 +293,10 @@ void PartitionDetector::detectPartition() {
     }
 }
 
-/** @brief Mark latest partition event healed when connectivity fully recovers. */
+/**
+ * @brief Check Partition Healing.
+ * @details Calls: lock(), load(), store(), events_lock(), empty(), back(), std::chrono::steady_clock::now(), partition_callback_().
+ */
 void PartitionDetector::checkPartitionHealing() {
     std::lock_guard<std::mutex> lock(nodes_mutex_);
     
@@ -286,7 +330,10 @@ void PartitionDetector::checkPartitionHealing() {
     }
 }
 
-/** @brief Recompute aggregated health state from per-node metrics. */
+/**
+ * @brief Update Network Health.
+ * @details Calls: lock(), std::chrono::steady_clock::now(), size(), store().
+ */
 void PartitionDetector::updateNetworkHealth() {
     std::lock_guard<std::mutex> lock(nodes_mutex_);
     

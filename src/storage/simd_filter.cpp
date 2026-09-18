@@ -123,6 +123,12 @@ inline uint64x2_t neon_bitwise_not_u64(uint64x2_t mask) noexcept {
 }
 #endif
 
+/**
+ * @brief Reserve filter output.
+ * @param[in,out] out Input/output parameter.
+ * @param[in] n Input parameter.
+ * @details Calls: max_size(), size(), reserve().
+ */
 inline void reserve_filter_output(std::vector<uint32_t>& out, size_t n) {
     if (n <= (out.max_size() - out.size() )) {
         out.reserve(out.size() + n);
@@ -147,6 +153,16 @@ inline bool scalar_cmp(T a, FilterOp op, T b) noexcept {
 }
 
 template<typename T>
+/**
+ * @brief Scalar filter.
+ * @param[in] data Input parameter.
+ * @param[in] n Input parameter.
+ * @param[in] op Input parameter.
+ * @param[in] thr Input parameter.
+ * @param[in,out] out Input/output parameter.
+ * @return Return value.
+ * @details Calls: reserve_filter_output(), size(), scalar_cmp(), push_back().
+ */
 size_t scalar_filter(const T* data, size_t n, FilterOp op, T thr,
                      std::vector<uint32_t>& out) {
     reserve_filter_output(out, n);
@@ -165,8 +181,6 @@ size_t scalar_filter(const T* data, size_t n, FilterOp op, T thr,
 
 #if defined(THEMIS_SIMD_FILTER_AVX2) || defined(THEMIS_SIMD_FILTER_AVX512)
 
-/// Build an AVX2 comparison mask (8 × int32) for the given op.
-/// Returns an 8-bit integer where bit i is set if lane i passes.
 inline int avx2_cmp_i32(__m256i a, __m256i b, FilterOp op) noexcept {
     __m256i mask;
     switch (op) {
@@ -196,6 +210,16 @@ inline int avx2_cmp_i32(__m256i a, __m256i b, FilterOp op) noexcept {
     return 0;
 }
 
+/**
+ * @brief Avx2 filter i32.
+ * @param[in] data Input parameter.
+ * @param[in] n Input parameter.
+ * @param[in] op Input parameter.
+ * @param[in] thr Input parameter.
+ * @param[in,out] out Input/output parameter.
+ * @return Return value.
+ * @details Calls: reserve_filter_output(), size(), _mm256_set1_epi32(), _mm256_loadu_si256(), avx2_cmp_i32(), themis_ctz(), push_back(), scalar_cmp().
+ */
 size_t avx2_filter_i32(const int32_t* data, size_t n, FilterOp op, int32_t thr,
                        std::vector<uint32_t>& out) {
     reserve_filter_output(out, n);
@@ -222,7 +246,6 @@ size_t avx2_filter_i32(const int32_t* data, size_t n, FilterOp op, int32_t thr,
     return out.size() - before;
 }
 
-/// AVX2 kernel for int64 (4 lanes per iteration).
 inline int avx2_cmp_i64(__m256i a, __m256i b, FilterOp op) noexcept {
     __m256i mask;
     switch (op) {
@@ -249,6 +272,16 @@ inline int avx2_cmp_i64(__m256i a, __m256i b, FilterOp op) noexcept {
     return 0;
 }
 
+/**
+ * @brief Avx2 filter i64.
+ * @param[in] data Input parameter.
+ * @param[in] n Input parameter.
+ * @param[in] op Input parameter.
+ * @param[in] thr Input parameter.
+ * @param[in,out] out Input/output parameter.
+ * @return Return value.
+ * @details Calls: reserve_filter_output(), size(), _mm256_set1_epi64x(), _mm256_loadu_si256(), avx2_cmp_i64(), themis_ctz(), push_back(), scalar_cmp().
+ */
 size_t avx2_filter_i64(const int64_t* data, size_t n, FilterOp op, int64_t thr,
                        std::vector<uint32_t>& out) {
     reserve_filter_output(out, n);
@@ -274,7 +307,16 @@ size_t avx2_filter_i64(const int64_t* data, size_t n, FilterOp op, int64_t thr,
     return out.size() - before;
 }
 
-/// AVX2 kernel for float32 (8 lanes per iteration).
+/**
+ * @brief Avx2 filter f32.
+ * @param[in] data Input parameter.
+ * @param[in] n Input parameter.
+ * @param[in] op Input parameter.
+ * @param[in] thr Input parameter.
+ * @param[in,out] out Input/output parameter.
+ * @return Return value.
+ * @details Calls: reserve_filter_output(), size(), _mm256_set1_ps(), _mm256_loadu_ps(), _mm256_cmp_ps(), _mm256_setzero_ps(), _mm256_movemask_ps(), themis_ctz().
+ */
 size_t avx2_filter_f32(const float* data, size_t n, FilterOp op, float thr,
                        std::vector<uint32_t>& out) {
     reserve_filter_output(out, n);
@@ -309,7 +351,16 @@ size_t avx2_filter_f32(const float* data, size_t n, FilterOp op, float thr,
     return out.size() - before;
 }
 
-/// AVX2 kernel for float64 (4 lanes per iteration).
+/**
+ * @brief Avx2 filter f64.
+ * @param[in] data Input parameter.
+ * @param[in] n Input parameter.
+ * @param[in] op Input parameter.
+ * @param[in] thr Input parameter.
+ * @param[in,out] out Input/output parameter.
+ * @return Return value.
+ * @details Calls: reserve_filter_output(), size(), _mm256_set1_pd(), _mm256_loadu_pd(), _mm256_cmp_pd(), _mm256_setzero_pd(), _mm256_movemask_pd(), themis_ctz().
+ */
 size_t avx2_filter_f64(const double* data, size_t n, FilterOp op, double thr,
                        std::vector<uint32_t>& out) {
     reserve_filter_output(out, n);
@@ -382,7 +433,16 @@ static inline int neon_movemask_u64(uint64x2_t mask) noexcept {
     return static_cast<int>(lo | (hi << 1));
 }
 
-// ── int32 (4 lanes) ──────────────────────────────────────────────────────────
+/**
+ * @brief ── int32 (4 lanes) ──────────────────────────────────────────────────────────
+ * @param[in] data Input parameter.
+ * @param[in] n Input parameter.
+ * @param[in] op Input parameter.
+ * @param[in] thr Input parameter.
+ * @param[in,out] out Input/output parameter.
+ * @return Return value.
+ * @details Calls: reserve_filter_output(), size(), vdupq_n_s32(), vld1q_s32(), vceqq_s32(), vmvnq_u32(), vcltq_s32(), vcleq_s32().
+ */
 size_t neon_filter_i32(const int32_t* data, size_t n, FilterOp op, int32_t thr,
                        std::vector<uint32_t>& out) {
     reserve_filter_output(out, n);
@@ -417,7 +477,16 @@ size_t neon_filter_i32(const int32_t* data, size_t n, FilterOp op, int32_t thr,
     return out.size() - before;
 }
 
-// ── int64 (2 lanes, AArch64) ─────────────────────────────────────────────────
+/**
+ * @brief ── int64 (2 lanes, AArch64) ─────────────────────────────────────────────────
+ * @param[in] data Input parameter.
+ * @param[in] n Input parameter.
+ * @param[in] op Input parameter.
+ * @param[in] thr Input parameter.
+ * @param[in,out] out Input/output parameter.
+ * @return Return value.
+ * @details Calls: reserve_filter_output(), size(), vdupq_n_s64(), vld1q_s64(), vceqq_s64(), neon_bitwise_not_u64(), vcltq_s64(), vcleq_s64().
+ */
 size_t neon_filter_i64(const int64_t* data, size_t n, FilterOp op, int64_t thr,
                        std::vector<uint32_t>& out) {
     reserve_filter_output(out, n);
@@ -452,7 +521,16 @@ size_t neon_filter_i64(const int64_t* data, size_t n, FilterOp op, int64_t thr,
     return out.size() - before;
 }
 
-// ── float32 (4 lanes) ────────────────────────────────────────────────────────
+/**
+ * @brief ── float32 (4 lanes) ────────────────────────────────────────────────────────
+ * @param[in] data Input parameter.
+ * @param[in] n Input parameter.
+ * @param[in] op Input parameter.
+ * @param[in] thr Input parameter.
+ * @param[in,out] out Input/output parameter.
+ * @return Return value.
+ * @details Calls: reserve_filter_output(), size(), vdupq_n_f32(), vld1q_f32(), vceqq_f32(), vmvnq_u32(), vcltq_f32(), vcleq_f32().
+ */
 size_t neon_filter_f32(const float* data, size_t n, FilterOp op, float thr,
                        std::vector<uint32_t>& out) {
     reserve_filter_output(out, n);
@@ -487,7 +565,16 @@ size_t neon_filter_f32(const float* data, size_t n, FilterOp op, float thr,
     return out.size() - before;
 }
 
-// ── float64 (2 lanes, AArch64) ───────────────────────────────────────────────
+/**
+ * @brief ── float64 (2 lanes, AArch64) ───────────────────────────────────────────────
+ * @param[in] data Input parameter.
+ * @param[in] n Input parameter.
+ * @param[in] op Input parameter.
+ * @param[in] thr Input parameter.
+ * @param[in,out] out Input/output parameter.
+ * @return Return value.
+ * @details Calls: reserve_filter_output(), size(), vdupq_n_f64(), vld1q_f64(), vceqq_f64(), neon_bitwise_not_u64(), vcltq_f64(), vcleq_f64().
+ */
 size_t neon_filter_f64(const double* data, size_t n, FilterOp op, double thr,
                        std::vector<uint32_t>& out) {
     reserve_filter_output(out, n);
@@ -530,6 +617,16 @@ size_t neon_filter_f64(const double* data, size_t n, FilterOp op, double thr,
 // Public API implementations
 // ============================================================================
 
+/**
+ * @brief Simd filter int32.
+ * @param[in] data Input parameter.
+ * @param[in] n Input parameter.
+ * @param[in] op Input parameter.
+ * @param[in] threshold Input parameter.
+ * @param[in,out] out Input/output parameter.
+ * @return Return value.
+ * @details Calls: defined(), detectSIMDLevel(), avx2_filter_i32(), neon_filter_i32(), scalar_filter().
+ */
 size_t simd_filter_int32(const int32_t* data, size_t n, FilterOp op,
                          int32_t threshold, std::vector<uint32_t>& out) {
     if (!data || n == 0) {
@@ -548,6 +645,16 @@ size_t simd_filter_int32(const int32_t* data, size_t n, FilterOp op,
     return scalar_filter(data, n, op, threshold, out);
 }
 
+/**
+ * @brief Simd filter int64.
+ * @param[in] data Input parameter.
+ * @param[in] n Input parameter.
+ * @param[in] op Input parameter.
+ * @param[in] threshold Input parameter.
+ * @param[in,out] out Input/output parameter.
+ * @return Return value.
+ * @details Calls: defined(), detectSIMDLevel(), avx2_filter_i64(), neon_filter_i64(), scalar_filter().
+ */
 size_t simd_filter_int64(const int64_t* data, size_t n, FilterOp op,
                          int64_t threshold, std::vector<uint32_t>& out) {
     if (!data || n == 0) {
@@ -566,6 +673,16 @@ size_t simd_filter_int64(const int64_t* data, size_t n, FilterOp op,
     return scalar_filter(data, n, op, threshold, out);
 }
 
+/**
+ * @brief Simd filter float.
+ * @param[in] data Input parameter.
+ * @param[in] n Input parameter.
+ * @param[in] op Input parameter.
+ * @param[in] threshold Input parameter.
+ * @param[in,out] out Input/output parameter.
+ * @return Return value.
+ * @details Calls: defined(), detectSIMDLevel(), avx2_filter_f32(), neon_filter_f32(), scalar_filter().
+ */
 size_t simd_filter_float(const float* data, size_t n, FilterOp op,
                          float threshold, std::vector<uint32_t>& out) {
     if (!data || n == 0) {
@@ -584,6 +701,16 @@ size_t simd_filter_float(const float* data, size_t n, FilterOp op,
     return scalar_filter(data, n, op, threshold, out);
 }
 
+/**
+ * @brief Simd filter double.
+ * @param[in] data Input parameter.
+ * @param[in] n Input parameter.
+ * @param[in] op Input parameter.
+ * @param[in] threshold Input parameter.
+ * @param[in,out] out Input/output parameter.
+ * @return Return value.
+ * @details Calls: defined(), detectSIMDLevel(), avx2_filter_f64(), neon_filter_f64(), scalar_filter().
+ */
 size_t simd_filter_double(const double* data, size_t n, FilterOp op,
                           double threshold, std::vector<uint32_t>& out) {
     if (!data || n == 0) {
@@ -608,7 +735,6 @@ size_t simd_filter_double(const double* data, size_t n, FilterOp op,
 
 namespace {
 
-/// Zone-map guard: returns true if the segment can be skipped entirely.
 bool canSkipSegmentForPred(const ColumnSegment& seg,
                            const ColumnPredicate& pred) noexcept {
     const ZoneMap& zm = seg.metadata().zone_map;
@@ -673,6 +799,13 @@ bool canSkipSegmentForPred(const ColumnSegment& seg,
 
 } // namespace
 
+/**
+ * @brief Scan.
+ * @param[in] segment Input parameter.
+ * @param[in] predicate Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::steady_clock::now(), detectSIMDLevel(), metadata(), canSkipSegmentForPred(), count(), rawData(), empty(), reserve().
+ */
 std::vector<uint32_t> SIMDColumnFilter::scan(const ColumnSegment& segment,
                                               const ColumnPredicate& predicate) {
     auto t0 = std::chrono::steady_clock::now();
@@ -739,6 +872,13 @@ std::vector<uint32_t> SIMDColumnFilter::scan(const ColumnSegment& segment,
     return result;
 }
 
+/**
+ * @brief Scan Batch.
+ * @param[in] segments Input parameter.
+ * @param[in] predicate Input parameter.
+ * @return Return value.
+ * @details Calls: metadata(), max_size(), reserve(), scan(), push_back().
+ */
 std::vector<uint32_t> SIMDColumnFilter::scanBatch(
     const std::vector<ColumnSegment>& segments,
     const ColumnPredicate& predicate) {

@@ -41,7 +41,6 @@ constexpr std::uint64_t kFnvPrime  = 1099511628211;
     return h;
 }
 
-/// Format the lower 48 bits (12 hex chars) of `v`.
 [[nodiscard]] std::string hexPrefix12(std::uint64_t v) {
     std::ostringstream oss = {};
     oss << std::hex << std::setfill('0') << std::setw(12) << (v & 0x0000'FFFF'FFFF'FFFFULL);
@@ -69,6 +68,12 @@ WikiChunkSplitter::WikiChunkSplitter(int max_tokens, int overlap_tokens)
 // Token counting
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Count Tokens.
+ * @param[in] text Input parameter.
+ * @return Return value.
+ * @details Calls: tok_re(), std::sregex_iterator(), begin(), end(), std::distance().
+ */
 int WikiChunkSplitter::countTokens(const std::string& text) {
     static const std::regex tok_re(R"([A-Za-z0-9_\-]+)", std::regex::ECMAScript);
     auto begin = std::sregex_iterator(text.begin(), text.end(), tok_re);
@@ -80,6 +85,14 @@ int WikiChunkSplitter::countTokens(const std::string& text) {
 // Chunk ID generation
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Make Chunk Id.
+ * @param[in] file_path Path to the file.
+ * @param[in] section_title Input parameter.
+ * @param[in] seq Input parameter.
+ * @return Return value.
+ * @details Calls: std::to_string(), hexPrefix12(), fnv1a64().
+ */
 std::string WikiChunkSplitter::makeChunkId(const std::string& file_path,
                                             const std::string& section_title,
                                             int                seq) {
@@ -178,6 +191,11 @@ std::vector<WikiChunk> WikiChunkSplitter::split(const std::string& file_path,
     // Split content into lines
     std::vector<std::string> all_lines;
     {
+        /**
+         * @brief Ss.
+         * @param[in] content Input parameter.
+         * @return Return value.
+         */
         std::istringstream ss(content);
         std::string line = {};
         while (std::getline(ss, line)) {

@@ -29,7 +29,13 @@ namespace themis {
 
 namespace {
 
-// Compute CRC32 over [data, data+len).  Uses the standard IEEE polynomial.
+/**
+ * @brief Compute CRC32 over [data, data+len).
+ * @param[in] data Input parameter.
+ * @param[in] len Input parameter.
+ * @return Return value.
+ * @details Uses the standard IEEE polynomial. Implements history_crc32 without additional internal calls.
+ */
 static uint32_t history_crc32(const void* data, size_t len) {
     static const auto table = []() {
         std::array<uint32_t, 256> t{};
@@ -50,7 +56,11 @@ static uint32_t history_crc32(const void* data, size_t len) {
     return ~crc;
 }
 
-// Append a 4-byte little-endian CRC32 of the payload to buf.
+/**
+ * @brief Append a 4-byte little-endian CRC32 of the payload to buf.
+ * @param[in,out] buf Input/output parameter.
+ * @details Calls: reserve(), size(), history_crc32(), data(), push_back().
+ */
 static void append_crc32(std::vector<uint8_t>& buf) {
     buf.reserve(buf.size() + 4);
     uint32_t crc = history_crc32(buf.data(),buf.size());
@@ -59,10 +69,12 @@ static void append_crc32(std::vector<uint8_t>& buf) {
     }
 }
 
-// Verify a 4-byte trailing CRC32 appended by append_crc32().
-// Returns the payload range [data, data+(size-4)) on success, or nullopt on
-// checksum mismatch.  Falls back to accepting the full data as-is if it is
-// not in the new framing format (legacy path: no CRC trailer).
+/**
+ * @brief Verify a 4-byte trailing CRC32 appended by append_crc32().
+ * @param[in] data Input parameter.
+ * @return Return value.
+ * @details Returns the payload range [data, data+(size-4)) on success, or nullopt on checksum mismatch. Falls back to accepting the full data as-is if it is not in the new framing format (legacy path: no CRC trailer). Calls: size(), data(), history_crc32(), std::string_view().
+ */
 static std::optional<std::string_view> verify_crc32(std::string_view data) {
     constexpr size_t kCrcSize = 4;
     if (data.size() < kCrcSize) {
@@ -86,9 +98,12 @@ static std::optional<std::string_view> verify_crc32(std::string_view data) {
 
 } // anonymous namespace
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Hex encode/decode helpers (private to this TU)
-// ─────────────────────────────────────────────────────────────────────────────
+/**
+ * @brief ───────────────────────────────────────────────────────────────────────────── Hex encode/decode helpers (private to this TU) ─────────────────────────────────────────────────────────────────────────────
+ * @param[in] v Input parameter.
+ * @return Return value.
+ * @details Calls: std::setfill(), std::setw(), str().
+ */
 
 static std::string bytesToHex(const std::vector<uint8_t>& v) {
     std::ostringstream oss = {};
@@ -99,6 +114,12 @@ static std::string bytesToHex(const std::vector<uint8_t>& v) {
     return oss.str();
 }
 
+/**
+ * @brief Hex To Bytes.
+ * @param[in] hex Input parameter.
+ * @return Return value.
+ * @details Calls: size(), reserve(), push_back(), nibble().
+ */
 static std::vector<uint8_t> hexToBytes(const std::string& hex) {
     std::vector<uint8_t> out = {};
 
@@ -142,7 +163,13 @@ HistoryManager::HistoryManager(
     }
 }
 
-// ── Key encoding ─────────────────────────────────────────────────────────────
+/**
+ * @brief ── Key encoding ─────────────────────────────────────────────────────────────
+ * @param[in] base_key Input parameter.
+ * @param[in] ts Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), append(), data(), push_back(), encodeToString().
+ */
 
 std::string HistoryManager::historyKey(std::string_view base_key, HLCTimestamp ts) {
     // Format: "hist:" + base_key + '\x00' + 8-byte-big-endian-ts
@@ -155,6 +182,12 @@ std::string HistoryManager::historyKey(std::string_view base_key, HLCTimestamp t
     return key;
 }
 
+/**
+ * @brief History Prefix.
+ * @param[in] base_key Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), append(), data(), push_back().
+ */
 std::string HistoryManager::historyPrefix(std::string_view base_key) {
     std::string prefix = {};
     prefix.reserve(5 + base_key.size() + 1);
@@ -164,7 +197,12 @@ std::string HistoryManager::historyPrefix(std::string_view base_key) {
     return prefix;
 }
 
-// ── Serialization ─────────────────────────────────────────────────────────────
+/**
+ * @brief ── Serialization ─────────────────────────────────────────────────────────────
+ * @param[in] rec Input parameter.
+ * @return Return value.
+ * @details Calls: bytesToHex(), dump(), buf(), begin(), end(), append_crc32().
+ */
 
 std::vector<uint8_t> HistoryManager::serializeHistoryRecord(const HistoryRecord& rec) {
     nlohmann::json j;
@@ -180,6 +218,12 @@ std::vector<uint8_t> HistoryManager::serializeHistoryRecord(const HistoryRecord&
     return buf;
 }
 
+/**
+ * @brief Deserialize History Record.
+ * @param[in] data Input parameter.
+ * @return Return value.
+ * @details Calls: verify_crc32(), nlohmann::json::parse(), begin(), end(), value(), HLCTimestamp(), hexToBytes(), THEMIS_WARN().
+ */
 std::optional<HistoryRecord> HistoryManager::deserializeHistoryRecord(std::string_view data) {
     try {
         auto payload = verify_crc32(data);
@@ -201,7 +245,15 @@ std::optional<HistoryRecord> HistoryManager::deserializeHistoryRecord(std::strin
     }
 }
 
-// ── Transactional write helpers ───────────────────────────────────────────────
+/**
+ * @brief ── Transactional write helpers ───────────────────────────────────────────────
+ * @param[in,out] txn Input/output parameter.
+ * @param[in] base_key Input parameter.
+ * @param[in] value Input parameter.
+ * @param[in] txn_id Identifier of the txn.
+ * @return Return value.
+ * @details Calls: now(), std::string(), historyKey(), serializeHistoryRecord(), put().
+ */
 
 std::optional<HLCTimestamp> HistoryManager::recordPut(
     RocksDBWrapper::TransactionWrapper& txn,
@@ -224,6 +276,14 @@ std::optional<HLCTimestamp> HistoryManager::recordPut(
     return ts;
 }
 
+/**
+ * @brief Record Del.
+ * @param[in,out] txn Input/output parameter.
+ * @param[in] base_key Input parameter.
+ * @param[in] txn_id Identifier of the txn.
+ * @return Return value.
+ * @details Calls: now(), std::string(), historyKey(), serializeHistoryRecord(), put().
+ */
 std::optional<HLCTimestamp> HistoryManager::recordDel(
     RocksDBWrapper::TransactionWrapper& txn,
     std::string_view base_key,
@@ -327,7 +387,12 @@ ConflictManager::ConflictManager(
     }
 }
 
-// ── Key encoding ──────────────────────────────────────────────────────────────
+/**
+ * @brief ── Key encoding ──────────────────────────────────────────────────────────────
+ * @param[in] conflict_id Identifier of the conflict.
+ * @return Return value.
+ * @details Calls: reserve(), size(), append(), data().
+ */
 
 std::string ConflictManager::conflictKey(std::string_view conflict_id) {
     std::string key = {};
@@ -337,6 +402,12 @@ std::string ConflictManager::conflictKey(std::string_view conflict_id) {
     return key;
 }
 
+/**
+ * @brief Conflict Set Key.
+ * @param[in] conflict_set_id Identifier of the conflict set.
+ * @return Return value.
+ * @details Calls: reserve(), size(), append(), data().
+ */
 std::string ConflictManager::conflictSetKey(std::string_view conflict_set_id) {
     std::string key = {};
     key.reserve(12 + conflict_set_id.size() );
@@ -345,7 +416,12 @@ std::string ConflictManager::conflictSetKey(std::string_view conflict_set_id) {
     return key;
 }
 
-// ── Serialization ─────────────────────────────────────────────────────────────
+/**
+ * @brief ── Serialization ─────────────────────────────────────────────────────────────
+ * @param[in] rec Input parameter.
+ * @return Return value.
+ * @details Calls: bytesToHex(), dump(), buf(), begin(), end(), append_crc32().
+ */
 
 std::vector<uint8_t> ConflictManager::serializeConflictRecord(const ConflictRecord& rec) {
     nlohmann::json j;
@@ -364,6 +440,12 @@ std::vector<uint8_t> ConflictManager::serializeConflictRecord(const ConflictReco
     return buf;
 }
 
+/**
+ * @brief Deserialize Conflict Record.
+ * @param[in] data Input parameter.
+ * @return Return value.
+ * @details Calls: verify_crc32(), nlohmann::json::parse(), begin(), end(), value(), HLCTimestamp(), hexToBytes(), THEMIS_WARN().
+ */
 std::optional<ConflictRecord> ConflictManager::deserializeConflictRecord(std::string_view data) {
     try {
         auto payload = verify_crc32(data);
@@ -388,7 +470,12 @@ std::optional<ConflictRecord> ConflictManager::deserializeConflictRecord(std::st
     }
 }
 
-// ── Write ─────────────────────────────────────────────────────────────────────
+/**
+ * @brief ── Write ─────────────────────────────────────────────────────────────────────
+ * @param[in,out] record Input/output parameter.
+ * @return Return value.
+ * @details Calls: empty(), now(), std::to_string(), physical(), logical(), conflictKey(), serializeConflictRecord(), put().
+ */
 
 std::string ConflictManager::storeConflict(ConflictRecord& record) {
     if (record.conflict_id.empty()) {
@@ -429,7 +516,12 @@ std::vector<ConflictRecord> ConflictManager::listConflicts() const {
     return result;
 }
 
-// ── ConflictSet serialization ─────────────────────────────────────────────────
+/**
+ * @brief ── ConflictSet serialization ─────────────────────────────────────────────────
+ * @param[in] set Input parameter.
+ * @return Return value.
+ * @details Calls: dump(), buf(), begin(), end(), append_crc32().
+ */
 
 std::vector<uint8_t> ConflictManager::serializeConflictSet(const ConflictSet& set) {
     nlohmann::json j;
@@ -445,6 +537,12 @@ std::vector<uint8_t> ConflictManager::serializeConflictSet(const ConflictSet& se
     return buf;
 }
 
+/**
+ * @brief Deserialize Conflict Set.
+ * @param[in] data Input parameter.
+ * @return Return value.
+ * @details Calls: verify_crc32(), nlohmann::json::parse(), begin(), end(), value(), HLCTimestamp(), THEMIS_WARN().
+ */
 std::optional<ConflictSet> ConflictManager::deserializeConflictSet(std::string_view data) {
     try {
         auto payload = verify_crc32(data);
@@ -466,7 +564,12 @@ std::optional<ConflictSet> ConflictManager::deserializeConflictSet(std::string_v
     }
 }
 
-// ── ConflictSet write/read ────────────────────────────────────────────────────
+/**
+ * @brief ── ConflictSet write/read ────────────────────────────────────────────────────
+ * @param[in,out] set Input/output parameter.
+ * @return Return value.
+ * @details Calls: empty(), now(), std::to_string(), physical(), logical(), conflictSetKey(), serializeConflictSet(), put().
+ */
 
 std::string ConflictManager::storeConflictSet(ConflictSet& set) {
     if (set.conflict_set_id.empty()) {

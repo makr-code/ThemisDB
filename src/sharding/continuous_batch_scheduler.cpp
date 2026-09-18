@@ -50,6 +50,18 @@ ContinuousBatchScheduler::~ContinuousBatchScheduler() {
 // Scheduling API
 // ============================================================================
 
+/**
+ * @brief Submit Request.
+ * @param[in] request_id Identifier of the request.
+ * @param[in] user_id Identifier of the user.
+ * @param[in] model_id Identifier of the model.
+ * @param[in] lora_adapter_id Identifier of the lora adapter.
+ * @param[in] input_token_ids Input parameter.
+ * @param[in] priority Input parameter.
+ * @param[in] callback Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), spdlog::warn(), size(), std::chrono::steady_clock::now(), std::move(), getPriorityQueueIndex(), push(), spdlog::debug().
+ */
 bool ContinuousBatchScheduler::submitRequest(
     int64_t request_id,
     int64_t user_id,
@@ -105,6 +117,12 @@ bool ContinuousBatchScheduler::submitRequest(
     return true;
 }
 
+/**
+ * @brief Cancel Request.
+ * @param[in] request_id Identifier of the request.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), find(), end(), erase(), clearRequestCache(), spdlog::info(), empty(), std::move().
+ */
 bool ContinuousBatchScheduler::cancelRequest(int64_t request_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -161,6 +179,10 @@ bool ContinuousBatchScheduler::cancelRequest(int64_t request_id) {
     return false;
 }
 
+/**
+ * @brief Process Next Batch.
+ * @details Calls: lock(), selectNextBatch(), empty(), size(), spdlog::debug(), find(), end(), std::chrono::steady_clock::now().
+ */
 void ContinuousBatchScheduler::processNextBatch() {
     if (!running_ || paused_) {
         return;
@@ -265,11 +287,21 @@ void ContinuousBatchScheduler::processNextBatch() {
 }
 
 bool ContinuousBatchScheduler::hasPendingRequests() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return current_stats_.pending_requests > 0;
 }
 
 BatchStats ContinuousBatchScheduler::getCurrentStats() const {
+    /**
+     * @brief Lock.
+     * @param[in] stats_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(stats_mutex_);
     return current_stats_;
 }
@@ -278,6 +310,11 @@ BatchStats ContinuousBatchScheduler::getCurrentStats() const {
 // Configuration and Control
 // ============================================================================
 
+/**
+ * @brief Update the access control configuration.
+ * @param[in] config New access control configuration.
+ * @details Calls: lock(), isValid(), spdlog::error(), spdlog::info().
+ */
 void ContinuousBatchScheduler::updateConfig(const ContinuousBatchSchedulerConfig& config) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -297,6 +334,10 @@ const ContinuousBatchSchedulerConfig& ContinuousBatchScheduler::getConfig() cons
     return config_;
 }
 
+/**
+ * @brief Start.
+ * @details Calls: lock(), spdlog::info().
+ */
 void ContinuousBatchScheduler::start() {
     std::lock_guard<std::mutex> lock(mutex_);
     if (running_) {
@@ -309,6 +350,10 @@ void ContinuousBatchScheduler::start() {
     spdlog::info("ContinuousBatchScheduler: Started");
 }
 
+/**
+ * @brief Stop.
+ * @details Calls: lock(), empty(), pop(), std::chrono::steady_clock::now(), clear(), spdlog::info().
+ */
 void ContinuousBatchScheduler::stop() {
     std::lock_guard<std::mutex> lock(mutex_);
     if (!running_) {
@@ -339,12 +384,20 @@ void ContinuousBatchScheduler::stop() {
     spdlog::info("ContinuousBatchScheduler: Stopped");
 }
 
+/**
+ * @brief Pause.
+ * @details Calls: lock(), spdlog::info().
+ */
 void ContinuousBatchScheduler::pause() {
     std::lock_guard<std::mutex> lock(mutex_);
     paused_ = true;
     spdlog::info("ContinuousBatchScheduler: Paused");
 }
 
+/**
+ * @brief Resume.
+ * @details Calls: lock(), spdlog::info().
+ */
 void ContinuousBatchScheduler::resume() {
     std::lock_guard<std::mutex> lock(mutex_);
     paused_ = false;
@@ -359,6 +412,13 @@ bool ContinuousBatchScheduler::isRunning() const {
 // Priority Management
 // ============================================================================
 
+/**
+ * @brief Update Request Priority.
+ * @param[in] request_id Identifier of the request.
+ * @param[in] priority Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), find(), end(), spdlog::warn().
+ */
 bool ContinuousBatchScheduler::updateRequestPriority(int64_t request_id, SchedulingPriority priority) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -379,6 +439,11 @@ bool ContinuousBatchScheduler::updateRequestPriority(int64_t request_id, Schedul
 
 std::unordered_map<SchedulingPriority, uint32_t> 
 ContinuousBatchScheduler::getRequestCountByPriority() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     std::unordered_map<SchedulingPriority, uint32_t> counts = {};
@@ -400,6 +465,12 @@ ContinuousBatchScheduler::getRequestCountByPriority() const {
 // Speculative Decoding Support
 // ============================================================================
 
+/**
+ * @brief Enable Speculative Decoding.
+ * @param[in] draft_model_callback Input parameter.
+ * @param[in] target_model_callback Input parameter.
+ * @details Calls: lock(), std::move(), spdlog::info().
+ */
 void ContinuousBatchScheduler::enableSpeculativeDecoding(
     TokenGenerationCallback draft_model_callback,
     TokenGenerationCallback target_model_callback
@@ -410,6 +481,10 @@ void ContinuousBatchScheduler::enableSpeculativeDecoding(
     spdlog::info("ContinuousBatchScheduler: Speculative decoding enabled");
 }
 
+/**
+ * @brief Disable Speculative Decoding.
+ * @details Calls: lock(), spdlog::info().
+ */
 void ContinuousBatchScheduler::disableSpeculativeDecoding() {
     std::lock_guard<std::mutex> lock(mutex_);
     draft_model_callback_ = nullptr;
@@ -418,6 +493,11 @@ void ContinuousBatchScheduler::disableSpeculativeDecoding() {
 }
 
 bool ContinuousBatchScheduler::isSpeculativeDecodingEnabled() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return draft_model_callback_ && target_model_callback_;
 }
@@ -426,16 +506,31 @@ bool ContinuousBatchScheduler::isSpeculativeDecodingEnabled() const {
 // KV Cache Integration
 // ============================================================================
 
+/**
+ * @brief Set KVCache Manager.
+ * @param[in,out] kv_cache_manager Input/output parameter.
+ * @details Calls: lock(), spdlog::info().
+ */
 void ContinuousBatchScheduler::setKVCacheManager(KVCacheManager* kv_cache_manager) {
     std::lock_guard<std::mutex> lock(mutex_);
     kv_cache_manager_ = kv_cache_manager;
     spdlog::info("ContinuousBatchScheduler: KV cache manager set");
 }
 
+/**
+ * @brief Get KVCache Manager.
+ * @return Pointer to the result.
+ * @details Implements getKVCacheManager without additional internal calls.
+ */
 KVCacheManager* ContinuousBatchScheduler::getKVCacheManager() {
     return kv_cache_manager_;
 }
 
+/**
+ * @brief Clear KVCache.
+ * @param[in] request_id Identifier of the request.
+ * @details Calls: lock(), clearRequestCache().
+ */
 void ContinuousBatchScheduler::clearKVCache(int64_t request_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     if (kv_cache_manager_) {
@@ -448,10 +543,19 @@ void ContinuousBatchScheduler::clearKVCache(int64_t request_id) {
 // ============================================================================
 
 nlohmann::json ContinuousBatchScheduler::getStatsJson() const {
+    /**
+     * @brief Lock.
+     * @param[in] stats_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(stats_mutex_);
     return current_stats_.toJson();
 }
 
+/**
+ * @brief Reset Stats.
+ * @details Calls: lock(), BatchStats(), clear().
+ */
 void ContinuousBatchScheduler::resetStats() {
     std::lock_guard<std::mutex> lock(stats_mutex_);
     current_stats_ = BatchStats();
@@ -461,6 +565,11 @@ void ContinuousBatchScheduler::resetStats() {
 }
 
 std::optional<RequestStats> ContinuousBatchScheduler::getRequestStats(int64_t request_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = completed_requests_.find(request_id);
     if (it != completed_requests_.end()) {
@@ -470,6 +579,11 @@ std::optional<RequestStats> ContinuousBatchScheduler::getRequestStats(int64_t re
 }
 
 void ContinuousBatchScheduler::onMetricsUpdate(std::function<void(const BatchStats&)> callback) {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     metrics_callback_ = std::move(callback);
 }
@@ -488,6 +602,11 @@ size_t ContinuousBatchScheduler::getPriorityQueueIndex(SchedulingPriority priori
     }
 }
 
+/**
+ * @brief Select Next Batch.
+ * @return Return value.
+ * @details Calls: size(), empty(), std::move(), front(), pop(), push(), push_back().
+ */
 std::vector<int64_t> ContinuousBatchScheduler::selectNextBatch() {
     std::vector<int64_t> batch;
     uint32_t tokens_used = 0;
@@ -522,6 +641,12 @@ std::vector<int64_t> ContinuousBatchScheduler::selectNextBatch() {
     return batch;
 }
 
+/**
+ * @brief Process Prefill.
+ * @param[in,out] request Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: target_model_callback_(), size(), std::chrono::steady_clock::now(), spdlog::debug().
+ */
 bool ContinuousBatchScheduler::processPrefill(Request& request) {
     // Simple prefill: process entire prompt at once
     // In a real implementation, this would call the inference engine
@@ -554,6 +679,12 @@ bool ContinuousBatchScheduler::processPrefill(Request& request) {
     return true; // Completed (with failure)
 }
 
+/**
+ * @brief Process Chunked Prefill.
+ * @param[in,out] request Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: size(), spdlog::debug(), std::min(), chunk_input(), begin(), target_model_callback_(), std::chrono::steady_clock::now().
+ */
 bool ContinuousBatchScheduler::processChunkedPrefill(Request& request) {
     // Chunked prefill implementation (from Sarathi-Serve)
     // Process prompt in chunks to bound prefill latency
@@ -611,6 +742,12 @@ bool ContinuousBatchScheduler::processChunkedPrefill(Request& request) {
     return true; // Completed (with failure)
 }
 
+/**
+ * @brief Process Decode.
+ * @param[in,out] request Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: target_model_callback_(), size(), insert(), end(), begin(), spdlog::debug().
+ */
 bool ContinuousBatchScheduler::processDecode(Request& request) {
     // Simple decode: generate one token at a time
     // In a real implementation, this would call the inference engine
@@ -648,6 +785,12 @@ bool ContinuousBatchScheduler::processDecode(Request& request) {
     return true; // Completed (with failure)
 }
 
+/**
+ * @brief Process Speculative Decoding.
+ * @param[in,out] request Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: spdlog::warn(), processDecode(), clear(), draft_model_callback_(), spdlog::debug(), size(), empty(), insert().
+ */
 bool ContinuousBatchScheduler::processSpeculativeDecoding(Request& request) {
     // Speculative decoding implementation
     // Use draft model to propose tokens, then verify with target model
@@ -725,6 +868,10 @@ bool ContinuousBatchScheduler::processSpeculativeDecoding(Request& request) {
     return processDecode(request);
 }
 
+/**
+ * @brief Check Preemption.
+ * @details Calls: size(), spdlog::info(), cancelRequest().
+ */
 void ContinuousBatchScheduler::checkPreemption() {
     if (!config_.enable_preemption) {
         return;
@@ -754,6 +901,12 @@ void ContinuousBatchScheduler::checkPreemption() {
     }
 }
 
+/**
+ * @brief Update Request State.
+ * @param[in] request_id Identifier of the request.
+ * @param[in] state Input parameter.
+ * @details Calls: find(), end().
+ */
 void ContinuousBatchScheduler::updateRequestState(int64_t request_id, RequestState state) {
     auto it = in_progress_requests_.find(request_id);
     if (it != in_progress_requests_.end()) {
@@ -761,6 +914,11 @@ void ContinuousBatchScheduler::updateRequestState(int64_t request_id, RequestSta
     }
 }
 
+/**
+ * @brief Update Stats.
+ * @param[in] request Input parameter.
+ * @details Calls: lock(), count(), push_back(), size(), erase(), begin(), empty(), std::sort().
+ */
 void ContinuousBatchScheduler::updateStats(const Request& request) {
     std::lock_guard<std::mutex> lock(stats_mutex_);
     
@@ -806,6 +964,10 @@ void ContinuousBatchScheduler::updateStats(const Request& request) {
     }
 }
 
+/**
+ * @brief Notify Metrics Callback.
+ * @details Calls: metrics_callback_().
+ */
 void ContinuousBatchScheduler::notifyMetricsCallback() {
     if (metrics_callback_) {
         metrics_callback_(current_stats_);

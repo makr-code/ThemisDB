@@ -26,17 +26,13 @@
 
 namespace themis {
 
-/**
- * @brief Construct a security-layer builder with empty/default state.
- */
 SecurityLayerBuilder::SecurityLayerBuilder() = default;
 
 /**
- * @brief Configure key-provider type and raw JSON config payload.
- * @param type Key provider selection.
- * @param config_json Provider configuration JSON.
- * @return Reference to this builder for fluent chaining.
- * @throws std::runtime_error If JSON parsing fails or provider-specific validation fails.
+ * @brief With Key Provider.
+ * @param[in] type Input parameter.
+ * @param[in] config_json Input parameter.
+ * @return Return value.
  */
 SecurityLayerBuilder& SecurityLayerBuilder::withKeyProvider(
     KeyProviderType type,
@@ -69,9 +65,9 @@ SecurityLayerBuilder& SecurityLayerBuilder::withKeyProvider(
 }
 
 /**
- * @brief Configure field-encryption rules.
- * @param config Encryption policy object.
- * @return Reference to this builder.
+ * @brief With Field Encryption.
+ * @param[in] config Input parameter.
+ * @return Return value.
  */
 SecurityLayerBuilder& SecurityLayerBuilder::withFieldEncryption(
     const EncryptionConfig& config)
@@ -81,9 +77,9 @@ SecurityLayerBuilder& SecurityLayerBuilder::withFieldEncryption(
 }
 
 /**
- * @brief Configure RBAC policy file path.
- * @param policy_file Filesystem path to RBAC policy config.
- * @return Reference to this builder.
+ * @brief With RBACPolicy.
+ * @param[in] policy_file Input parameter.
+ * @return Return value.
  */
 SecurityLayerBuilder& SecurityLayerBuilder::withRBACPolicy(
     const std::string& policy_file)
@@ -93,10 +89,10 @@ SecurityLayerBuilder& SecurityLayerBuilder::withRBACPolicy(
 }
 
 /**
- * @brief Configure JWT validator via certificate path and issuer allow-list.
- * @param cert_file Certificate/JWKS file path.
- * @param allowed_issuers Allowed issuer list. Empty disables issuer validation.
- * @return Reference to this builder.
+ * @brief With JWT.
+ * @param[in] cert_file Input parameter.
+ * @param[in] allowed_issuers Input parameter.
+ * @return Return value.
  */
 SecurityLayerBuilder& SecurityLayerBuilder::withJWT(
     const std::string& cert_file,
@@ -115,9 +111,9 @@ SecurityLayerBuilder& SecurityLayerBuilder::withJWT(
 }
 
 /**
- * @brief Configure JWT validator via full configuration struct.
- * @param config JWT validator configuration.
- * @return Reference to this builder.
+ * @brief With JWT.
+ * @param[in] config Input parameter.
+ * @return Return value.
  */
 SecurityLayerBuilder& SecurityLayerBuilder::withJWT(
     const auth::JWTValidatorConfig& config)
@@ -128,12 +124,10 @@ SecurityLayerBuilder& SecurityLayerBuilder::withJWT(
 }
 
 /**
- * @brief Build fully initialized security components.
- * @return SecurityLayer with encryption, RBAC, and JWT components.
- * @throws std::runtime_error On invalid configuration, failed policy loading,
- *         failed provider initialization, or production-mode policy violations.
- * @note Production mode is fail-closed: mock/local key providers and missing JWT
- *       configuration are rejected.
+ * @brief Build.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: core::ProductionMode::isEnabled(), has_value(), createKeyProvider(), value(), empty(), setEncryptionConfig(), loadConfig(), core::ConfigValidator::validateJWTConfig().
  */
 SecurityLayerBuilder::SecurityLayer SecurityLayerBuilder::build() {
     SecurityLayer layer;
@@ -224,8 +218,9 @@ SecurityLayerBuilder::SecurityLayer SecurityLayerBuilder::build() {
 }
 
 /**
- * @brief Create a builder with development-friendly defaults.
- * @return Builder preconfigured with LOCAL key provider.
+ * @brief Standard.
+ * @return Return value.
+ * @details Calls: SecurityLayerBuilder(), withKeyProvider().
  */
 SecurityLayerBuilder SecurityLayerBuilder::standard() {
     return SecurityLayerBuilder()
@@ -233,10 +228,11 @@ SecurityLayerBuilder SecurityLayerBuilder::standard() {
 }
 
 /**
- * @brief Load full text content from a file path.
- * @param path File path to read.
- * @return File content as a string.
- * @throws std::runtime_error If the file cannot be opened.
+ * @brief Load File.
+ * @param[in] path Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: file(), is_open(), rdbuf(), str().
  */
 std::string SecurityLayerBuilder::loadFile(const std::string& path) {
     std::ifstream file(path);
@@ -250,12 +246,10 @@ std::string SecurityLayerBuilder::loadFile(const std::string& path) {
 }
 
 /**
- * @brief Instantiate concrete key provider based on type and JSON config.
- * @param type Selected key-provider backend.
- * @param config_json JSON payload for backend-specific options.
- * @return Key provider instance suitable for field encryption.
- * @throws std::runtime_error If config parsing/validation fails, backend is not
- *         enabled, or provider initialization fails.
+ * @brief Create Key Provider.
+ * @param[in] type Input parameter.
+ * @param[in] config_json Input parameter.
+ * @return Return value.
  */
 IKeyProviderPtr SecurityLayerBuilder::createKeyProvider(
     KeyProviderType type,
@@ -332,6 +326,11 @@ IKeyProviderPtr SecurityLayerBuilder::createKeyProvider(
             }
 
             std::error_code library_ec = {};
+            /**
+             * @brief Library fs path.
+             * @param[in] library_path Path to the library.
+             * @return Return value.
+             */
             const std::filesystem::path library_fs_path(library_path);
             if (!std::filesystem::exists(library_fs_path, library_ec) ||
                 !std::filesystem::is_regular_file(library_fs_path, library_ec)) {

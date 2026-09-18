@@ -100,6 +100,13 @@ TimeSeries::TimeSeries(std::vector<TimeSeriesPoint> pts) : points_(std::move(pts
     std::sort(points_.begin(), points_.end());
 }
 
+/**
+ * @brief Push.
+ * @param[in] ts_ms Input parameter.
+ * @param[in] value Input parameter.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: std::lower_bound(), begin(), end(), insert().
+ */
 void TimeSeries::push(int64_t ts_ms, double value) {
     TimeSeriesPoint p{ts_ms, value};
     auto it = std::lower_bound(points_.begin(), points_.end(), p);
@@ -110,6 +117,11 @@ void TimeSeries::push(int64_t ts_ms, double value) {
     }
 }
 
+/**
+ * @brief Push.
+ * @param[in] p Input parameter.
+ * @details Implements push without additional internal calls.
+ */
 void TimeSeries::push(const TimeSeriesPoint &p) {
     push(p.timestamp_ms, p.value);
 }
@@ -202,9 +214,13 @@ double TimeSeries::max() const {
     return m;
 }
 
-// ============================================================================
-// Free helper: computeMetrics
-// ============================================================================
+/**
+ * @brief ============================================================================ Free helper: computeMetrics ============================================================================
+ * @param[in] actual Input parameter.
+ * @param[in] predicted Input parameter.
+ * @return Return value.
+ * @details Calls: std::min(), size(), std::abs(), std::sqrt().
+ */
 
 ForecastMetrics computeMetrics(const std::vector<double> &actual, const std::vector<double> &predicted) {
     ForecastMetrics m;
@@ -243,9 +259,6 @@ ForecastMetrics computeMetrics(const std::vector<double> &actual, const std::vec
 
 namespace {
 
-/// Standard CRC-32/ISO-HDLC (same polynomial as zlib/ethernet: 0xEDB88320).
-/// Table is computed once at first call via a lambda-initialized static.
-/// Self-contained: no external dependency required.
 uint32_t crc32Compute(const char* data, size_t len) noexcept {
     // Build the 256-entry lookup table from the reflected polynomial 0xEDB88320.
     static const std::array<uint32_t, 256> kTable = []() {
@@ -267,7 +280,12 @@ uint32_t crc32Compute(const char* data, size_t len) noexcept {
     return crc ^ 0xFFFFFFFFu;
 }
 
-/// Compute CRC-32 of a std::string body and return it as an 8-char uppercase hex string.
+/**
+ * @brief Crc32 Hex.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Calls: crc32Compute(), data(), size(), std::snprintf(), std::string().
+ */
 std::string crc32Hex(const std::string& s) {
     const uint32_t v = crc32Compute(s.data(),s.size());
     char buf[9];
@@ -283,8 +301,12 @@ std::string crc32Hex(const std::string& s) {
 
 namespace {
 
-// Normal-distribution quantile (inverse CDF) via rational approximation
-// (Beasley-Springer-Moro algorithm).
+/**
+ * @brief Normal-distribution quantile (inverse CDF) via rational approximation (Beasley-Springer-Moro algorithm).
+ * @param[in] p Input parameter.
+ * @return Return value.
+ * @details Calls: std::sqrt(), std::log().
+ */
 double normalQuantile(double p) {
     static const double a[] = {-3.969683028665376e+01, 2.209460984245205e+02,  -2.759285104469687e+02,
                                1.383577518672690e+02,  -3.066479806614716e+01, 2.506628277459239e+00};
@@ -315,10 +337,22 @@ double normalQuantile(double p) {
     return q;
 }
 
+/**
+ * @brief Z Score.
+ * @param[in] confidence Input parameter.
+ * @return Return value.
+ * @details Calls: normalQuantile().
+ */
 double zScore(double confidence) {
     return normalQuantile(0.5 + confidence * 0.5);
 }
 
+/**
+ * @brief Compute Forecast Mean.
+ * @param[in] v Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), std::accumulate(), begin(), end(), size().
+ */
 double computeForecastMean(const std::vector<double> &v) {
     if (v.empty()) {
         return 0.0;
@@ -420,7 +454,12 @@ static double computeAutocovariance(const double *y, size_t n, double mean, int 
     return acc;
 }
 
-/// Compute the median of a SORTED vector.
+/**
+ * @brief Median Sorted.
+ * @param[in] sorted Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), size().
+ */
 double medianSorted(const std::vector<double> &sorted) {
     if (sorted.empty()) {
         return 0.0;
@@ -429,7 +468,12 @@ double medianSorted(const std::vector<double> &sorted) {
     return (n % 2 == 1) ? sorted[n / 2] : 0.5 * (sorted[n / 2 - 1] + sorted[n / 2]);
 }
 
-/// Median interval between consecutive observations.
+/**
+ * @brief Median Interval.
+ * @param[in] timestamps Input parameter.
+ * @return Return value.
+ * @details Calls: size(), reserve(), push_back(), std::sort(), begin(), end(), medianSorted(), std::max().
+ */
 int64_t medianInterval(const std::vector<int64_t> &timestamps) {
     if (timestamps.size() < 2) {
         return 1;
@@ -453,6 +497,12 @@ struct LinearParams {
     double alpha, beta, residual_stddev;
 };
 
+/**
+ * @brief Fit Linear.
+ * @param[in] y Input parameter.
+ * @return Return value.
+ * @details Calls: size(), empty(), std::abs(), std::sqrt().
+ */
 LinearParams fitLinear(const std::vector<double> &y) {
     size_t n = y.size();
     if (n < 2) {
@@ -495,6 +545,13 @@ struct SESParams {
     double alpha, last_level, residual_stddev;
 };
 
+/**
+ * @brief Fit SES.
+ * @param[in] y Input parameter.
+ * @param[in] alpha Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), size(), std::sqrt().
+ */
 SESParams fitSES(const std::vector<double> &y, double alpha) {
     if (y.empty()) {
         return {alpha, 0.0, 0.0};
@@ -530,6 +587,17 @@ struct HoltWintersParams {
     ~HoltWintersParams() = default;
 };
 
+/**
+ * @brief Fit Holt Winters.
+ * @param[in] y Input parameter.
+ * @param[in] alpha Input parameter.
+ * @param[in] beta Input parameter.
+ * @param[in] gamma Input parameter.
+ * @param[in] m Input parameter.
+ * @param[in] multiplicative Input parameter.
+ * @return Return value.
+ * @details Calls: size(), empty(), std::sqrt(), reserve(), push_back(), back(), front(), S().
+ */
 HoltWintersParams fitHoltWinters(const std::vector<double> &y, double alpha, double beta, double gamma, int m,
                                  bool multiplicative) {
     size_t n = y.size();
@@ -653,7 +721,13 @@ struct ArimaParams {
     double residual_stddev = {};
 };
 
-/// Solve Yule-Walker equations using Levinson–Durbin recursion.
+/**
+ * @brief Yule Walker.
+ * @param[in] y Input parameter.
+ * @param[in] p Input parameter.
+ * @return Return value.
+ * @details Calls: size(), computeForecastMean(), r(), computeAutocovariance(), data(), phi(), phi_prev(), std::abs().
+ */
 std::vector<double> yuleWalker(const std::vector<double> &y, int p) {
     size_t n = y.size();
     if (n == 0 || p <= 0) {
@@ -702,6 +776,15 @@ std::vector<double> yuleWalker(const std::vector<double> &y, int p) {
     return phi;
 }
 
+/**
+ * @brief Fit ARIMA.
+ * @param[in] y Input parameter.
+ * @param[in] p Input parameter.
+ * @param[in] d Input parameter.
+ * @param[in] q Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), back(), size(), diff(), computeForecastMean(), std::min(), yuleWalker(), residuals().
+ */
 ArimaParams fitARIMA(const std::vector<double> &y, int p, int d, int q) {
     ArimaParams params{};
     params.d = d;
@@ -805,7 +888,6 @@ ArimaParams fitARIMA(const std::vector<double> &y, int p, int d, int q) {
 
 namespace {
 
-/// Parameters retained after SARIMA fitting.
 struct SARIMAParams {
     // Seasonal metadata
     int m = 1; ///< seasonal period
@@ -829,7 +911,14 @@ struct SARIMAParams {
     std::vector<double> seasonal_buffer; ///< last m values (for seasonal integrating)
 };
 
-/// Apply seasonal differencing of order D at period m.
+/**
+ * @brief Seasonal Diff.
+ * @param[in] y Input parameter.
+ * @param[in] D Input parameter.
+ * @param[in] m Input parameter.
+ * @return Return value.
+ * @details Calls: size(), tmp().
+ */
 static std::vector<double> seasonalDiff(const std::vector<double> &y, int D, int m) {
     if (D == 0 || m < 1) {
         return y;
@@ -848,7 +937,13 @@ static std::vector<double> seasonalDiff(const std::vector<double> &y, int D, int
     return yd;
 }
 
-/// Apply non-seasonal differencing.
+/**
+ * @brief Regular Diff.
+ * @param[in] y Input parameter.
+ * @param[in] d Input parameter.
+ * @return Return value.
+ * @details Calls: size(), tmp().
+ */
 static std::vector<double> regularDiff(const std::vector<double> &y, int d) {
     std::vector<double> yd = y;
     for (int iter = 0; iter < d; ++iter) {
@@ -864,6 +959,19 @@ static std::vector<double> regularDiff(const std::vector<double> &y, int d) {
     return yd;
 }
 
+/**
+ * @brief Fit SARIMA.
+ * @param[in] y Input parameter.
+ * @param[in] p Input parameter.
+ * @param[in] d Input parameter.
+ * @param[in] q Input parameter.
+ * @param[in] P Input parameter.
+ * @param[in] D Input parameter.
+ * @param[in] Q Input parameter.
+ * @param[in] m Input parameter.
+ * @return Return value.
+ * @details Calls: size(), empty(), back(), seasonalDiff(), regularDiff(), computeForecastMean(), push_back(), std::sort().
+ */
 SARIMAParams fitSARIMA(const std::vector<double> &y, int p, int d, int q, int P, int D, int Q, int m) {
     SARIMAParams params{};
     params.m = (m < 1) ? 1 : m;
@@ -1075,6 +1183,13 @@ SARIMAParams fitSARIMA(const std::vector<double> &y, int p, int d, int q, int P,
     return params;
 }
 
+/**
+ * @brief Predict SARIMA.
+ * @param[in] p Input parameter.
+ * @param[in] steps Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), std::max(), empty(), push_back(), back().
+ */
 std::vector<double> predictSARIMA(const SARIMAParams &p, int steps) {
     std::vector<double> out;
     out.reserve(static_cast<size_t>(steps));
@@ -1172,7 +1287,16 @@ struct ProphetParams {
     int64_t last_ts_ms     = 0;
 };
 
-/// Evaluate piecewise linear trend at normalised time t_norm.
+/**
+ * @brief Prophet Trend.
+ * @param[in] t_norm Input parameter.
+ * @param[in] k Input parameter.
+ * @param[in] m_off Input parameter.
+ * @param[in] cpts Input parameter.
+ * @param[in] deltas Input parameter.
+ * @return Return value.
+ * @details Calls: size().
+ */
 static double prophetTrend(double t_norm, double k, double m_off, const std::vector<double> &cpts,
                            const std::vector<double> &deltas) {
     double k_acc = k;
@@ -1186,7 +1310,14 @@ static double prophetTrend(double t_norm, double k, double m_off, const std::vec
     return k_acc * t_norm + m_acc;
 }
 
-/// Evaluate Fourier seasonality component at time t_days.
+/**
+ * @brief Prophet Fourier.
+ * @param[in] t_days Input parameter.
+ * @param[in] period Input parameter.
+ * @param[in] coeffs Input parameter.
+ * @return Return value.
+ * @details Calls: size(), std::cos(), std::sin().
+ */
 static double prophetFourier(double t_days, double period, const std::vector<double> &coeffs) {
     double s  = 0.0;
     int order = static_cast<int>(coeffs.size() / 2);
@@ -1198,6 +1329,14 @@ static double prophetFourier(double t_days, double period, const std::vector<dou
     return s;
 }
 
+/**
+ * @brief Fit Prophet.
+ * @param[in] y Input parameter.
+ * @param[in] ts Input parameter.
+ * @param[in] cfg Input parameter.
+ * @return Return value.
+ * @details Calls: size(), empty(), back(), medianInterval(), t_days(), front(), t_norm(), std::max().
+ */
 ProphetParams fitProphet(const std::vector<double> &y, const std::vector<int64_t> &ts, const ForecastConfig &cfg) {
     ProphetParams p;
     p.fourier_order_weekly = cfg.prophet_fourier_order_weekly;
@@ -1412,6 +1551,14 @@ ProphetParams fitProphet(const std::vector<double> &y, const std::vector<int64_t
     return p;
 }
 
+/**
+ * @brief Predict Prophet.
+ * @param[in] p Input parameter.
+ * @param[in] cfg Input parameter.
+ * @param[in] steps Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), prophetTrend(), prophetFourier(), push_back().
+ */
 std::vector<double> predictProphet(const ProphetParams &p, const ForecastConfig &cfg, int steps) {
     std::vector<double> out;
     out.reserve(static_cast<size_t>(steps));
@@ -1536,7 +1683,10 @@ struct ForecastModel::Impl {
         return k;
     }
 
-    // ---- fit helpers ----
+    /**
+     * @brief ---- fit helpers ----
+     * @details Calls: size().
+     */
     void fitLinear() {
         linear_p = ::themisdb::analytics::fitLinear(train_y);
         // Populate running OLS moments for O(1) incremental update().
@@ -1554,19 +1704,35 @@ struct ForecastModel::Impl {
         }
     }
 
+    /**
+     * @brief Fit SES.
+     * @details Implements fitSES without additional internal calls.
+     */
     void fitSES() {
         ses_p = ::themisdb::analytics::fitSES(train_y, config.alpha);
     }
 
+    /**
+     * @brief Fit HW.
+     * @details Calls: fitHoltWinters().
+     */
     void fitHW() {
         hw_p = fitHoltWinters(train_y, config.alpha, config.beta, config.gamma, config.seasonality,
                               config.multiplicative);
     }
 
+    /**
+     * @brief Fit AR.
+     * @details Calls: fitARIMA().
+     */
     void fitAR() {
         arima_p = fitARIMA(train_y, config.ar_order, config.diff_order, config.ma_order);
     }
 
+    /**
+     * @brief Fit SARIMAImpl.
+     * @details Calls: themisdb::analytics::fitSARIMA().
+     */
     void fitSARIMAImpl() {
         int m_period = (config.sarima_m > 0) ? config.sarima_m : config.seasonality;
         if (m_period < 2) {
@@ -1576,6 +1742,10 @@ struct ForecastModel::Impl {
                                                     config.sarima_P, config.sarima_D, config.sarima_Q, m_period);
     }
 
+    /**
+     * @brief Fit Prophet Impl.
+     * @details Calls: themisdb::analytics::fitProphet().
+     */
     void fitProphetImpl() {
         prophet_p = ::themisdb::analytics::fitProphet(train_y, train_ts, config);
     }
@@ -1781,10 +1951,22 @@ ForecastModel::~ForecastModel()                                    = default;
 ForecastModel::ForecastModel(ForecastModel &&) noexcept            = default;
 ForecastModel &ForecastModel::operator=(ForecastModel &&) noexcept = default;
 
+/**
+ * @brief Fit.
+ * @param[in] ts Input parameter.
+ * @details Implements fit without additional internal calls.
+ */
 void ForecastModel::fit(const TimeSeries &ts) {
     fit(ts, impl_->config);
 }
 
+/**
+ * @brief Fit.
+ * @param[in] ts Input parameter.
+ * @param[in] config Input parameter.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: lk(), size(), values(), timestamps(), computeCacheKey(), std::async(), std::sqrt(), max().
+ */
 void ForecastModel::fit(const TimeSeries &ts, const ForecastConfig &config) {
     std::lock_guard<std::mutex> lk(impl_->access_mutex);
     if (ts.size() < 2) {
@@ -1951,6 +2133,12 @@ std::vector<std::vector<ForecastPoint>> ForecastModel::predictBatch(const std::v
     // Each series gets its own lightweight ForecastModel so that the
     // caller's fitted state is not modified.
     for (const auto &ts : batch) {
+        /**
+         * @brief M.
+         * @param[in] config_snap Input parameter.
+         * @param[in] method_snap Input parameter.
+         * @return Return value.
+         */
         ForecastModel m(config_snap, method_snap);
         m.fit(ts);
         results.push_back(m.predict(steps));
@@ -1958,6 +2146,11 @@ std::vector<std::vector<ForecastPoint>> ForecastModel::predictBatch(const std::v
     return results;
 }
 
+/**
+ * @brief Update.
+ * @param[in] new_value Input parameter.
+ * @details Calls: lk(), medianInterval(), empty(), back(), push_back(), std::abs(), std::sqrt(), themisdb::analytics::fitLinear().
+ */
 void ForecastModel::update(double new_value) {
     std::lock_guard<std::mutex> lk(impl_->access_mutex);
     if (!impl_->fitted) {
@@ -2186,9 +2379,12 @@ DecompositionResult ForecastModel::decompose(bool multiplicative) const {
 std::string ForecastModel::serialize() const {
     std::lock_guard<std::mutex> lk(impl_->access_mutex);
     std::ostringstream oss = {};
-    // Use full IEEE-754 double precision (17 sig-figs) to ensure exact round-trip.
-    // std::fixed is intentionally NOT used here so integers (e.g. timestamps) and
-    // small fractions both serialise without unnecessary padding.
+    /**
+     * @brief Use full IEEE-754 double precision (17 sig-figs) to ensure exact round-trip.
+     * @param[in] max_digits10 Input parameter.
+     * @return Return value.
+     * @details std::fixed is intentionally NOT used here so integers (e.g. timestamps) and small fractions both serialise without unnecessary padding.
+     */
     oss << std::setprecision(std::numeric_limits<double>::max_digits10);
     oss << "method=" << static_cast<int>(impl_->method) << "\n";
     oss << "fitted=" << (impl_->fitted ? 1 : 0) << "\n";
@@ -2305,6 +2501,13 @@ std::string ForecastModel::serialize() const {
     return body;
 }
 
+/**
+ * @brief Deserialize.
+ * @param[in] data Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: lk(), ss(), std::getline(), find(), emplace(), substr(), end(), THEMIS_WARN().
+ */
 ForecastModel ForecastModel::deserialize(const std::string &data) {
     ForecastModel model;
     std::lock_guard<std::mutex> lk(model.impl_->access_mutex);
@@ -2562,9 +2765,14 @@ const ForecastConfig &ForecastModel::config() const noexcept {
     return impl_->config;
 }
 
-// ============================================================================
-// Forecasting Helper Functions (Phase 2B)
-// ============================================================================
+/**
+ * @brief ============================================================================ Forecasting Helper Functions (Phase 2B) ============================================================================
+ * @param[in] timeseries Input parameter.
+ * @param[in] max_lag Input parameter.
+ * @return Return value.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: size(), detrended(), std::min().
+ */
 
 int seasonalityDuration(
     const std::vector<double>& timeseries,

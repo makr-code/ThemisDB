@@ -34,6 +34,12 @@ namespace concerns {
 
 namespace {
 
+/**
+ * @brief Sha256 File Hex.
+ * @param[in] path Input parameter.
+ * @return Return value.
+ * @details Calls: file(), is_open(), EVP_MD_CTX_new(), EVP_DigestInit_ex(), EVP_sha256(), EVP_MD_CTX_free(), good(), read().
+ */
 std::string sha256FileHex(const std::string& path) {
     std::ifstream file(path, std::ios::binary);
     if (!file.is_open()) {
@@ -108,6 +114,11 @@ AdapterRegistry::~AdapterRegistry() {
     // Clear the adapter registry first so that shared_ptrs into plugin code
     // are released before the library handles are closed.
     {
+        /**
+         * @brief Lock.
+         * @param[in] registry_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::shared_mutex> lock(registry_mutex_);
         registry_.clear();
         plugin_handles_.clear();
@@ -119,6 +130,11 @@ AdapterRegistry::~AdapterRegistry() {
 // ---------------------------------------------------------------------------
 
 size_t AdapterRegistry::count() const {
+    /**
+     * @brief Lock.
+     * @param[in] registry_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(registry_mutex_);
     return registry_.size();
 }
@@ -128,6 +144,11 @@ size_t AdapterRegistry::count() const {
 // ---------------------------------------------------------------------------
 
 bool AdapterRegistry::hasAdapter(std::type_index type) const {
+    /**
+     * @brief Lock.
+     * @param[in] registry_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(registry_mutex_);
     return registry_.find(type) != registry_.end();
 }
@@ -136,6 +157,11 @@ bool AdapterRegistry::hasAdapter(std::type_index type) const {
 // setTrustPolicy()
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Set Trust Policy.
+ * @param[in] policy Input parameter.
+ * @details Calls: lock().
+ */
 void AdapterRegistry::setTrustPolicy(AdapterTrustPolicy policy) {
     std::unique_lock<std::shared_mutex> lock(registry_mutex_);
     trust_policy_ = policy;
@@ -145,6 +171,13 @@ void AdapterRegistry::setTrustPolicy(AdapterTrustPolicy policy) {
 // loadFromPlugin()
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Load From Plugin.
+ * @param[in] path Input parameter.
+ * @param[in] adapter_id Identifier of the adapter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), std::filesystem::exists(), lock(), sig_file(), is_open(), std::getline(), back(), pop_back().
+ */
 bool AdapterRegistry::loadFromPlugin(const std::string& path,
                                      const std::string& adapter_id) {
     // ---- 1. Basic argument validation -----

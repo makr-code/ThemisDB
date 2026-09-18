@@ -21,6 +21,12 @@
 namespace themis::rag::judge {
 
 namespace {
+/**
+ * @brief Make Unavailable Judge Response.
+ * @param[in] message Input parameter.
+ * @return Return value.
+ * @details Calls: std::move().
+ */
 ParsedResponse makeUnavailableJudgeResponse(std::string message) {
     ParsedResponse response{};
     response.success = false;
@@ -32,6 +38,12 @@ ParsedResponse makeUnavailableJudgeResponse(std::string message) {
     return response;
 }
 
+/**
+ * @brief Make Unavailable Judge Json.
+ * @param[in] reason Input parameter.
+ * @return Return value.
+ * @details Implements makeUnavailableJudgeJson without additional internal calls.
+ */
 std::string makeUnavailableJudgeJson(std::string_view reason) {
     std::ostringstream response = {};
     response << R"({"score":-1,"confidence":0.0,"reasoning":")"
@@ -70,6 +82,14 @@ LLMJudgeIntegration::LLMJudgeIntegration(const Config& config)
     THEMIS_INFO("LLMJudgeIntegration initialized without backend - setInferenceFunction() before use");
 }
 
+/**
+ * @brief Evaluate With LLM.
+ * @param[in] dimension Input parameter.
+ * @param[in] input Input parameter.
+ * @param[in] template_mgr Input parameter.
+ * @return Return value.
+ * @details Calls: makeUnavailableJudgeResponse(), THEMIS_DEBUG(), generatePrompt(), empty(), THEMIS_ERROR(), themis::utils::retry_with_backoff(), callLLM(), THEMIS_WARN().
+ */
 ParsedResponse LLMJudgeIntegration::evaluateWithLLM(
     EvaluationDimension dimension,
     const EvaluationInput& input,
@@ -131,6 +151,13 @@ ParsedResponse LLMJudgeIntegration::evaluateWithLLM(
     return parsed;
 }
 
+/**
+ * @brief Evaluate Dimension.
+ * @param[in] prompt Input parameter.
+ * @param[in] dimension Input parameter.
+ * @return Return value.
+ * @details Calls: makeUnavailableJudgeJson(), THEMIS_DEBUG(), size(), themis::utils::retry_with_backoff(), callLLM(), empty(), THEMIS_WARN(), what().
+ */
 std::string LLMJudgeIntegration::evaluateDimension(
     const std::string& prompt,
     EvaluationDimension dimension
@@ -178,6 +205,11 @@ void LLMJudgeIntegration::setInferenceFunction(
     THEMIS_INFO("Custom inference function set for LLM judge");
 }
 
+/**
+ * @brief Set Config.
+ * @param[in] config Input parameter.
+ * @details Implements setConfig without additional internal calls.
+ */
 void LLMJudgeIntegration::setConfig(const Config& config) {
     config_ = config;
 }
@@ -186,6 +218,13 @@ LLMJudgeIntegration::Config LLMJudgeIntegration::getConfig() const {
     return config_;
 }
 
+/**
+ * @brief Call LLM.
+ * @param[in] prompt Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: THEMIS_ERROR(), THEMIS_DEBUG(), length(), inference_fn_(), empty(), THEMIS_WARN().
+ */
 std::string LLMJudgeIntegration::callLLM(const std::string& prompt) {
     if (!config_.enable_llm_judge) {
         throw std::runtime_error("llm_unavailable: THEMIS_ENABLE_LLM_JUDGE gate is disabled");

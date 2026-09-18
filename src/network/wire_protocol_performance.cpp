@@ -30,12 +30,22 @@ WireProtocolMetrics::WireProtocolMetrics(const Config &cfg) : cfg_(cfg) {
     latency_samples_.resize(cfg_.max_samples, 0.0);
 }
 
+/**
+ * @brief Record Latency.
+ * @param[in] started Input parameter.
+ * @details Calls: std::chrono::steady_clock::now(), count(), recordLatencyMs().
+ */
 void WireProtocolMetrics::recordLatency(std::chrono::steady_clock::time_point started) {
     auto now  = std::chrono::steady_clock::now();
     double ms = std::chrono::duration<double, std::milli>(now - started).count();
     recordLatencyMs(ms);
 }
 
+/**
+ * @brief Record Latency Ms.
+ * @param[in] ms Input parameter.
+ * @details Calls: fetch_add(), lock().
+ */
 void WireProtocolMetrics::recordLatencyMs(double ms) {
     requests_total_.fetch_add(1, std::memory_order_relaxed);
     std::lock_guard<std::mutex> lock(latency_mutex_);
@@ -45,17 +55,34 @@ void WireProtocolMetrics::recordLatencyMs(double ms) {
         buffer_full_ = true;
 }
 
+/**
+ * @brief Record Bytes.
+ * @param[in] received Input parameter.
+ * @param[in] sent Input parameter.
+ * @details Calls: fetch_add().
+ */
 void WireProtocolMetrics::recordBytes(uint64_t received, uint64_t sent) {
     bytes_received_total_.fetch_add(received, std::memory_order_relaxed);
     bytes_sent_total_.fetch_add(sent, std::memory_order_relaxed);
 }
 
+/**
+ * @brief Record Compression.
+ * @param[in] original_bytes Input parameter.
+ * @param[in] compressed_bytes Input parameter.
+ * @details Calls: fetch_add().
+ */
 void WireProtocolMetrics::recordCompression(uint64_t original_bytes, uint64_t compressed_bytes) {
     compressed_payloads_.fetch_add(1, std::memory_order_relaxed);
     original_bytes_total_.fetch_add(original_bytes, std::memory_order_relaxed);
     compressed_bytes_total_.fetch_add(compressed_bytes, std::memory_order_relaxed);
 }
 
+/**
+ * @brief Record Error.
+ * @param[in] kind Input parameter.
+ * @details Calls: fetch_add(), k().
+ */
 void WireProtocolMetrics::recordError(const char *kind) {
     errors_total_.fetch_add(1, std::memory_order_relaxed);
     if (!kind)
@@ -100,6 +127,11 @@ WireProtocolMetrics::Snapshot WireProtocolMetrics::snapshot() const {
 
     // ── Latency percentiles ────────────────────────────────────────────
     {
+        /**
+         * @brief Lock.
+         * @param[in] latency_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(latency_mutex_);
         size_t count = buffer_full_ ? cfg_.max_samples : write_pos_;
         if (count == 0) {
@@ -143,6 +175,10 @@ WireProtocolMetrics::Snapshot WireProtocolMetrics::snapshot() const {
     return snap;
 }
 
+/**
+ * @brief Reset the modification detection flag.
+ * @details Calls: lock(), std::fill(), begin(), end(), store().
+ */
 void WireProtocolMetrics::reset() {
     {
         std::lock_guard<std::mutex> lock(latency_mutex_);
@@ -223,6 +259,11 @@ PayloadBufferPool::PayloadBufferPool(size_t slab_size, size_t pool_depth)
 
 PayloadBufferPool::~PayloadBufferPool() = default;
 
+/**
+ * @brief Acquire.
+ * @return Return value.
+ * @details Calls: lock(), try_lock_for(), std::chrono::microseconds(), fetch_add(), reserve(), clear(), Handle(), std::move().
+ */
 PayloadBufferPool::Handle PayloadBufferPool::acquire() {
     std::unique_ptr<Buffer> buf;
 
@@ -263,6 +304,11 @@ void PayloadBufferPool::returnBuffer(std::unique_ptr<Buffer> buf) noexcept {
     buf->clear();
     buf->reserve(slab_size_); // re-warm capacity
 
+    /**
+     * @brief Lock.
+     * @param[in] pool_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::timed_mutex> lock(pool_mutex_);
     if (idle_slabs_.size() < pool_depth_) {
         idle_slabs_.push_back(std::move(buf));
@@ -271,6 +317,11 @@ void PayloadBufferPool::returnBuffer(std::unique_ptr<Buffer> buf) noexcept {
 }
 
 size_t PayloadBufferPool::poolDepth() const noexcept {
+    /**
+     * @brief Lock.
+     * @param[in] pool_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::timed_mutex> lock(pool_mutex_);
     return idle_slabs_.size();
 }

@@ -85,6 +85,12 @@ nlohmann::json TSStore::DataPoint::toJson() const {
     return j;
 }
 
+/**
+ * @brief From Json.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: value(), int64_t(), nlohmann::json::object().
+ */
 TSStore::DataPoint TSStore::DataPoint::fromJson(const nlohmann::json& j) {
     DataPoint point;
     point.metric = j.value("metric", "");
@@ -184,6 +190,13 @@ bool TSStore::matchesTagFilter(const DataPoint& point,
     return true;
 }
 
+/**
+ * @brief Check And Update Watermark Locked.
+ * @param[in] wm_key Input parameter.
+ * @param[in] timestamp_ms Input parameter.
+ * @return Return value.
+ * @details Calls: find(), end().
+ */
 int TSStore::checkAndUpdateWatermarkLocked(const std::string& wm_key, int64_t timestamp_ms) {
     auto it = watermarks_.find(wm_key);
     if (it != watermarks_.end()) {
@@ -201,6 +214,12 @@ int TSStore::checkAndUpdateWatermarkLocked(const std::string& wm_key, int64_t ti
     return 0; // first write for this series
 }
 
+/**
+ * @brief Put Data Point.
+ * @param[in] point Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), setAttribute(), std::chrono::steady_clock::now(), empty(), recordError(), ErrVoid(), lock(), checkAndUpdateWatermarkLocked().
+ */
 Result<void> TSStore::putDataPoint(const DataPoint& point) {
     auto span = Tracer::startSpan("TSStore.putDataPoint");
     span.setAttribute("metric", point.metric);
@@ -293,6 +312,12 @@ Result<void> TSStore::putDataPoint(const DataPoint& point) {
     return OkVoid();
 }
 
+/**
+ * @brief Put Data Points.
+ * @param[in] points Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), setAttribute(), size(), std::chrono::steady_clock::now(), empty(), OkVoid(), ErrVoid(), push_back().
+ */
 Result<void> TSStore::putDataPoints(const std::vector<DataPoint>& points) {
     auto span = Tracer::startSpan("TSStore.putDataPoints");
     span.setAttribute("batch_size", static_cast<int64_t>(points.size()));
@@ -514,6 +539,12 @@ Result<void> TSStore::putDataPoints(const std::vector<DataPoint>& points) {
     return OkVoid();
 }
 
+/**
+ * @brief Put Batch.
+ * @param[in] rows Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), setAttribute(), size(), std::chrono::steady_clock::now(), empty(), Ok(), reserve(), emplace_back().
+ */
 Result<TSStore::BatchWriteResult> TSStore::putBatch(std::span<const TSRow> rows) {
     auto span = Tracer::startSpan("TSStore.putBatch");
     span.setAttribute("batch_size", static_cast<int64_t>(rows.size()));
@@ -887,10 +918,12 @@ TSStore::query(const QueryOptions& options) const {
                     raw_data = enc_chunk_store_->decryptChunk(series_id, raw_data, chunk_range);
                 }
 
-                // Decode Gorilla-compressed data.
-                // Use GorillaSIMDDecoder which dispatches at runtime to the best
-                // available SIMD path (AVX2 on x86-64, NEON on AArch64) and falls
-                // back to the scalar GorillaDecoder on other platforms.
+                /**
+                 * @brief Decode Gorilla-compressed data.
+                 * @param[in] raw_data Input parameter.
+                 * @return Return value.
+                 * @details Use GorillaSIMDDecoder which dispatches at runtime to the best available SIMD path (AVX2 on x86-64, NEON on AArch64) and falls back to the scalar GorillaDecoder on other platforms.
+                 */
                 GorillaSIMDDecoder decoder(raw_data);
                 std::vector<std::pair<int64_t, double>> chunk_points;
                 chunk_points.reserve(128); // typical gorilla_batch_size
@@ -1130,10 +1163,20 @@ TSStore::OutOfOrderStats TSStore::getOutOfOrderStats() const {
     return stats;
 }
 
+/**
+ * @brief Set Metrics.
+ * @param[in] metrics Input parameter.
+ * @details Implements setMetrics without additional internal calls.
+ */
 void TSStore::setMetrics(std::shared_ptr<TimeSeriesMetrics> metrics) {
     metrics_ = metrics;
 }
 
+/**
+ * @brief Set Encrypted Chunk Store.
+ * @param[in] enc_store Input parameter.
+ * @details Calls: std::move().
+ */
 void TSStore::setEncryptedChunkStore(std::shared_ptr<EncryptedChunkStore> enc_store) {
     enc_chunk_store_ = std::move(enc_store);
 }
@@ -1142,6 +1185,12 @@ std::shared_ptr<EncryptedChunkStore> TSStore::getEncryptedChunkStore() const {
     return enc_chunk_store_;
 }
 
+/**
+ * @brief Delete Old Data.
+ * @param[in] before_timestamp_ms Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::steady_clock::now(), reset(), NewIterator(), Seek(), Valid(), key(), ToString(), compare().
+ */
 size_t TSStore::deleteOldData(int64_t before_timestamp_ms) {
     auto start_time = std::chrono::steady_clock::now();
     size_t deleted_count = 0;
@@ -1201,6 +1250,13 @@ size_t TSStore::deleteOldData(int64_t before_timestamp_ms) {
     return deleted_count;
 }
 
+/**
+ * @brief Delete Old Data For Metric.
+ * @param[in] metric Input parameter.
+ * @param[in] before_timestamp_ms Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), std::chrono::steady_clock::now(), reset(), NewIterator(), Seek(), Valid(), key(), ToString().
+ */
 size_t TSStore::deleteOldDataForMetric(const std::string& metric, int64_t before_timestamp_ms) {
     if (metric.empty()) {
       return 0;
@@ -1260,6 +1316,12 @@ size_t TSStore::deleteOldDataForMetric(const std::string& metric, int64_t before
     return deleted_count;
 }
 
+/**
+ * @brief Delete Metric.
+ * @param[in] metric Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), ErrVoid(), reset(), NewIterator(), Seek(), Valid(), key(), ToString().
+ */
 Result<void> TSStore::deleteMetric(const std::string& metric) {
     if (metric.empty()) {
         return ErrVoid(errors::ErrorCode::ERR_API_INVALID_REQUEST, "Metric name cannot be empty");
@@ -1312,6 +1374,10 @@ Result<void> TSStore::deleteMetric(const std::string& metric) {
     return OkVoid();
 }
 
+/**
+ * @brief Clear.
+ * @details Calls: reset(), NewIterator(), Seek(), Valid(), key(), ToString(), compare(), strlen().
+ */
 void TSStore::clear() {
     rocksdb::ReadOptions read_opts;
     std::unique_ptr<rocksdb::Iterator> it;
@@ -1350,9 +1416,13 @@ void TSStore::clear() {
     }
 }
 
-// ============================================================
-// System Metadata (WAL-durable key-value store for bookkeeping)
-// ============================================================
+/**
+ * @brief ============================================================ System Metadata (WAL-durable key-value store for bookkeeping) ============================================================
+ * @param[in] key Input parameter.
+ * @param[in] value Input parameter.
+ * @return Return value.
+ * @details Calls: std::string(), Put(), ok(), ErrVoid(), fmt::format(), ToString(), OkVoid().
+ */
 
 Result<void> TSStore::putSystemMeta(const std::string& key, const std::string& value) {
     std::string full_key = std::string(SYS_META_PREFIX) + key;
@@ -1390,6 +1460,12 @@ Result<std::optional<std::string>> TSStore::getSystemMeta(const std::string& key
     return Ok(std::optional<std::string>{value});
 }
 
+/**
+ * @brief Delete System Meta.
+ * @param[in] key Input parameter.
+ * @return Return value.
+ * @details Calls: std::string(), Delete(), ok(), IsNotFound(), ErrVoid(), fmt::format(), ToString(), OkVoid().
+ */
 Result<void> TSStore::deleteSystemMeta(const std::string& key) {
     std::string full_key = std::string(SYS_META_PREFIX) + key;
     rocksdb::WriteOptions write_opts;

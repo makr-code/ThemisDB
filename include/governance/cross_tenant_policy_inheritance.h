@@ -134,13 +134,13 @@ private:
     std::unordered_map<std::string, TenantEntry> tenants_;
     std::shared_ptr<themis::utils::AuditLogger> audit_logger_;
 
+
     /**
-     * @brief ------------------------------------------------------------------------- Internal helpers (called with mutex_ held) -------------------------------------------------------------------------
+     * @brief Would Create Cycle.
      * @param[in] tenant_id Identifier of the tenant.
      * @param[in] parent_id Identifier of the parent.
      * @return True when the operation succeeds.
      */
-
     bool wouldCreateCycle(const std::string& tenant_id,
                           const std::string& parent_id) const;
 

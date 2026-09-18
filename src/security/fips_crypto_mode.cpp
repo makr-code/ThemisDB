@@ -87,6 +87,11 @@ struct FipsCryptoMode::Impl {
 // Singleton
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Instance.
+ * @return Return value.
+ * @details Implements instance without additional internal calls.
+ */
 FipsCryptoMode& FipsCryptoMode::instance() {
     static FipsCryptoMode inst;
     return inst;
@@ -100,6 +105,12 @@ FipsCryptoMode::~FipsCryptoMode() = default;
 // enable / disable
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Enable.
+ * @return True when the operation succeeds.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: lock(), THEMIS_INFO(), OSSL_PROVIDER_load(), THEMIS_WARN(), EVP_default_properties_enable_fips(), OSSL_PROVIDER_unload().
+ */
 bool FipsCryptoMode::enable() {
     std::lock_guard<std::mutex> lock(impl_->mtx);
 
@@ -131,6 +142,10 @@ bool FipsCryptoMode::enable() {
     return true;
 }
 
+/**
+ * @brief Disable.
+ * @details Calls: lock(), EVP_default_properties_enable_fips(), OSSL_PROVIDER_unload(), THEMIS_INFO().
+ */
 void FipsCryptoMode::disable() {
     std::lock_guard<std::mutex> lock(impl_->mtx);
 
@@ -175,6 +190,12 @@ bool FipsCryptoMode::isAvailable() const {
 // Algorithm validation
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief To Upper.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Calls: std::transform(), begin(), end(), std::toupper().
+ */
 static std::string toUpper(const std::string& s) {
     std::string result = s;
     std::transform(result.begin(), result.end(), result.begin(),

@@ -58,6 +58,12 @@ json OptimizerConfig::toJSON() const {
     return j;
 }
 
+/**
+ * @brief From JSON.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: contains().
+ */
 OptimizerConfig OptimizerConfig::fromJSON(const json& j) {
     OptimizerConfig cfg = {};
     if (j.contains("type")) {
@@ -108,6 +114,12 @@ json SchedulerConfig::toJSON() const {
     return j;
 }
 
+/**
+ * @brief From JSON.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: contains().
+ */
 SchedulerConfig SchedulerConfig::fromJSON(const json& j) {
     SchedulerConfig cfg = {};
     if (j.contains("type")) {
@@ -167,6 +179,12 @@ json TrainingState::toJSON() const {
     return j;
 }
 
+/**
+ * @brief From JSON.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: contains().
+ */
 TrainingState TrainingState::fromJSON(const json& j) {
     TrainingState s = {};
     if (j.contains("current_epoch")) {
@@ -213,6 +231,12 @@ json InlineTrainingConfig::toJSON() const {
     return j;
 }
 
+/**
+ * @brief From JSON.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: contains().
+ */
 InlineTrainingConfig InlineTrainingConfig::fromJSON(const json& j) {
     InlineTrainingConfig cfg = {};
     if (j.contains("epochs")) {
@@ -350,9 +374,10 @@ InlineTrainingEngine::~InlineTrainingEngine() noexcept {
     }
 }
 
-// ═══════════════════════════════════════════════════════════════════════════
-// Public API – setGovernancePolicy (Gap 3)
-// ═══════════════════════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════════════════════ Public API – setGovernancePolicy (Gap 3) ═══════════════════════════════════════════════════════════════════════════
+ * @param[in] policy Input parameter.
+ */
 
 void InlineTrainingEngine::setGovernancePolicy(
     std::shared_ptr<governance::ModelGovernancePolicy> policy)
@@ -361,9 +386,10 @@ void InlineTrainingEngine::setGovernancePolicy(
     impl_->governance_policy = std::move(policy);
 }
 
-// ═══════════════════════════════════════════════════════════════════════════
-// Public API – setCheckpointDb
-// ═══════════════════════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════════════════════ Public API – setCheckpointDb ═══════════════════════════════════════════════════════════════════════════
+ * @param[in] db Input parameter.
+ */
 
 void InlineTrainingEngine::setCheckpointDb(std::shared_ptr<rocksdb::DB> db)
 {
@@ -374,15 +400,24 @@ void InlineTrainingEngine::setCheckpointDb(std::shared_ptr<rocksdb::DB> db)
 // Public API – setGradientComputer (stub #37)
 // ═══════════════════════════════════════════════════════════════════════════
 
+/**
+ * @brief Set Gradient Computer.
+ * @param[in] fn Input parameter.
+ */
 void InlineTrainingEngine::setGradientComputer(GradientComputerFn fn)
 {
     std::lock_guard<std::mutex> lock(impl_->state_mutex);
     impl_->gradient_computer_fn = std::move(fn);
 }
 
-// ═══════════════════════════════════════════════════════════════════════════
-// Public API – train
-// ═══════════════════════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════════════════════ Public API – train ═══════════════════════════════════════════════════════════════════════════
+ * @param[in] adapter_id Identifier of the adapter.
+ * @param[in] base_model_path Path to the base model.
+ * @param[in] training_config Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), spdlog::error(), spdlog::warn(), checkExportPermission(), spdlog::info(), exchange(), store(), trainLoop().
+ */
 
 TrainingResult InlineTrainingEngine::train(
     const std::string&    adapter_id,
@@ -463,9 +498,12 @@ TrainingResult InlineTrainingEngine::train(
     return result;
 }
 
-// ═══════════════════════════════════════════════════════════════════════════
-// Public API – resumeFromCheckpoint
-// ═══════════════════════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════════════════════ Public API – resumeFromCheckpoint ═══════════════════════════════════════════════════════════════════════════
+ * @param[in] checkpoint_path Path to the checkpoint.
+ * @return Return value.
+ * @details Calls: exchange(), store(), spdlog::info(), loadCheckpoint(), lk(), trainLoop(), std::string(), what().
+ */
 
 TrainingResult InlineTrainingEngine::resumeFromCheckpoint(
     const std::string& checkpoint_path
@@ -503,9 +541,13 @@ TrainingResult InlineTrainingEngine::resumeFromCheckpoint(
     return result;
 }
 
-// ═══════════════════════════════════════════════════════════════════════════
-// Public API – evaluate
-// ═══════════════════════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════════════════════ Public API – evaluate ═══════════════════════════════════════════════════════════════════════════
+ * @param[in] param Input parameter.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Calls: spdlog::info(), runValidation().
+ */
 
 TrainingMetrics InlineTrainingEngine::evaluate(
     const std::string& /*adapter_path*/,
@@ -515,9 +557,10 @@ TrainingMetrics InlineTrainingEngine::evaluate(
     return runValidation();
 }
 
-// ═══════════════════════════════════════════════════════════════════════════
-// Public API – control
-// ═══════════════════════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════════════════════ Public API – control ═══════════════════════════════════════════════════════════════════════════
+ * @details Calls: store(), spdlog::info().
+ */
 
 void InlineTrainingEngine::stopTraining() {
     impl_->stop_flag.store(true);
@@ -536,9 +579,14 @@ std::optional<TrainingState> InlineTrainingEngine::getCurrentState() const {
     return impl_->current_state;
 }
 
-// ═══════════════════════════════════════════════════════════════════════════
-// Private – trainLoop
-// ═══════════════════════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════════════════════ Private – trainLoop ═══════════════════════════════════════════════════════════════════════════
+ * @param[in] adapter_id Identifier of the adapter.
+ * @param[in] base_model_path Path to the base model.
+ * @param[in] training_config Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::steady_clock::now(), lk(), empty(), fs::create_directories(), runValidation(), spdlog::info(), load(), reset().
+ */
 
 TrainingResult InlineTrainingEngine::trainLoop(
     const std::string&    adapter_id,
@@ -805,9 +853,12 @@ training_done:
     return result;
 }
 
-// ═══════════════════════════════════════════════════════════════════════════
-// Private – computeGradients
-// ═══════════════════════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════════════════════ Private – computeGradients ═══════════════════════════════════════════════════════════════════════════
+ * @param[in] batch Input parameter.
+ * @param[in,out] gradients Input/output parameter.
+ * @details Calls: empty(), clear(), lock(), fn(), assign(), size(), std::min(), std::sin().
+ */
 
 void InlineTrainingEngine::computeGradients(
     const std::vector<TrainingDataIterator::TrainingSample>& batch,
@@ -893,9 +944,13 @@ void InlineTrainingEngine::computeGradients(
     }
 }
 
-// ═══════════════════════════════════════════════════════════════════════════
-// Private – optimizerStep
-// ═══════════════════════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════════════════════ Private – optimizerStep ═══════════════════════════════════════════════════════════════════════════
+ * @param[in,out] parameters Input/output parameter.
+ * @param[in] gradients Input parameter.
+ * @param[in] step Input parameter.
+ * @details Calls: empty(), getLearningRate(), std::min(), size(), assign(), std::pow(), std::sqrt().
+ */
 
 void InlineTrainingEngine::optimizerStep(
     std::vector<float>&       parameters,
@@ -1024,9 +1079,12 @@ float InlineTrainingEngine::getLearningRate(int step) const {
     return max_lr;
 }
 
-// ═══════════════════════════════════════════════════════════════════════════
-// Private – saveCheckpoint / loadCheckpoint
-// ═══════════════════════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════════════════════ Private – saveCheckpoint / loadCheckpoint ═══════════════════════════════════════════════════════════════════════════
+ * @param[in] path Input parameter.
+ * @param[in] state Input parameter.
+ * @details Calls: toJSON(), dump(), Put(), rocksdb::WriteOptions(), ok(), spdlog::info(), spdlog::warn(), ToString().
+ */
 
 void InlineTrainingEngine::saveCheckpoint(
     const std::string&   path,
@@ -1068,6 +1126,13 @@ void InlineTrainingEngine::saveCheckpoint(
     }
 }
 
+/**
+ * @brief Load Checkpoint.
+ * @param[in] path Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: Get(), rocksdb::ReadOptions(), ok(), json::parse(), TrainingState::fromJSON(), spdlog::info(), ifs(), is_open().
+ */
 TrainingState InlineTrainingEngine::loadCheckpoint(const std::string& path) {
     // --- Try RocksDB first (when handle is set) ---
     if (checkpoint_db_) {
@@ -1106,9 +1171,11 @@ TrainingState InlineTrainingEngine::loadCheckpoint(const std::string& path) {
     return state;
 }
 
-// ═══════════════════════════════════════════════════════════════════════════
-// Private – runValidation
-// ═══════════════════════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════════════════════ Private – runValidation ═══════════════════════════════════════════════════════════════════════════
+ * @return Return value.
+ * @details Calls: getNextBatch(), has_value(), empty(), computeGradients(), std::sqrt(), size(), std::exp(), lk().
+ */
 
 TrainingMetrics InlineTrainingEngine::runValidation() {
     TrainingMetrics metrics;
@@ -1143,9 +1210,13 @@ TrainingMetrics InlineTrainingEngine::runValidation() {
     return metrics;
 }
 
-// ═══════════════════════════════════════════════════════════════════════════
-// TrainingEngineFactory
-// ═══════════════════════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════════════════════ TrainingEngineFactory ═══════════════════════════════════════════════════════════════════════════
+ * @param[in] registry Input parameter.
+ * @param[in] data_iterator Input parameter.
+ * @return Return value.
+ * @details Calls: std::move().
+ */
 
 std::unique_ptr<InlineTrainingEngine> TrainingEngineFactory::create(
     std::shared_ptr<AdapterRegistry>      registry,
@@ -1154,6 +1225,14 @@ std::unique_ptr<InlineTrainingEngine> TrainingEngineFactory::create(
     return create(std::move(registry), std::move(data_iterator), InlineTrainingConfig{});
 }
 
+/**
+ * @brief Create.
+ * @param[in] registry Input parameter.
+ * @param[in] data_iterator Input parameter.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @details Calls: std::move().
+ */
 std::unique_ptr<InlineTrainingEngine> TrainingEngineFactory::create(
     std::shared_ptr<AdapterRegistry>      registry,
     std::shared_ptr<TrainingDataIterator> data_iterator,

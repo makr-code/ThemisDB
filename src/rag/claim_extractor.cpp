@@ -21,6 +21,12 @@ namespace themis::rag {
 // ClaimExtractor Implementation
 // ============================================================================
 
+/**
+ * @brief Extract.
+ * @param[in] text Input parameter.
+ * @return Return value.
+ * @details Calls: THEMIS_DEBUG(), length(), empty(), PromptLibrary::getClaimVerificationPrompt(), format(), LLMIntegration::generate(), THEMIS_WARN(), iss().
+ */
 std::vector<Claim> ClaimExtractor::extract(const std::string& text) {
     THEMIS_DEBUG("Extracting claims from text (length: {})", text.length());
     
@@ -90,6 +96,13 @@ std::vector<Claim> ClaimExtractor::extract(const std::string& text) {
     return claims;
 }
 
+/**
+ * @brief Verify identity and enforce network policies for a request.
+ * @param[in] claim Input parameter.
+ * @param[in] documents Input parameter.
+ * @return Verification result.
+ * @details Calls: THEMIS_DEBUG(), empty(), size(), PromptLibrary::getClaimVerificationPrompt(), str(), format(), LLMIntegration::generate(), THEMIS_WARN().
+ */
 ClaimVerificationResult ClaimExtractor::verify(
     const Claim& claim,
     const std::vector<std::string>& documents
@@ -156,6 +169,13 @@ ClaimVerificationResult ClaimExtractor::verify(
     return result;
 }
 
+/**
+ * @brief Verify All.
+ * @param[in] text Input parameter.
+ * @param[in] documents Input parameter.
+ * @return Return value.
+ * @details Calls: THEMIS_DEBUG(), extract(), reserve(), size(), push_back(), verify().
+ */
 std::vector<ClaimVerificationResult> ClaimExtractor::verifyAll(
     const std::string& text,
     const std::vector<std::string>& documents
@@ -177,6 +197,12 @@ std::vector<ClaimVerificationResult> ClaimExtractor::verifyAll(
     return results;
 }
 
+/**
+ * @brief Calculate Faithfulness.
+ * @param[in] results Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), size(), THEMIS_DEBUG().
+ */
 double ClaimExtractor::calculateFaithfulness(
     const std::vector<ClaimVerificationResult>& results
 ) {
@@ -205,6 +231,12 @@ double ClaimExtractor::calculateFaithfulness(
 // SelfConsistencyEvaluator Implementation
 // ============================================================================
 
+/**
+ * @brief Evaluate.
+ * @param[in] samples Input parameter.
+ * @return Return value.
+ * @details Calls: THEMIS_DEBUG(), size(), empty(), calculateSimilarityMatrix(), extractConsensus(), PromptLibrary::getConsistencyCheckPrompt(), format(), LLMIntegration::generate().
+ */
 SelfConsistencyEvaluator::ConsistencyResult SelfConsistencyEvaluator::evaluate(
     const std::vector<std::string>& samples
 ) {
@@ -285,6 +317,12 @@ SelfConsistencyEvaluator::ConsistencyResult SelfConsistencyEvaluator::evaluate(
     return result;
 }
 
+/**
+ * @brief Extract Consensus.
+ * @param[in] samples Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), size(), calculateSimilarityMatrix(), THEMIS_DEBUG().
+ */
 std::string SelfConsistencyEvaluator::extractConsensus(
     const std::vector<std::string>& samples
 ) {
@@ -324,6 +362,12 @@ std::string SelfConsistencyEvaluator::extractConsensus(
     return samples[best_idx];
 }
 
+/**
+ * @brief Calculate Similarity Matrix.
+ * @param[in] samples Input parameter.
+ * @return Return value.
+ * @details Calls: size(), matrix(), LLMIntegration::calculateSemanticSimilarity().
+ */
 std::vector<std::vector<double>> SelfConsistencyEvaluator::calculateSimilarityMatrix(
     const std::vector<std::string>& samples
 ) {

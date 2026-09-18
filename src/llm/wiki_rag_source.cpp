@@ -54,6 +54,12 @@ std::string WikiRagSource::provenanceTag() const {
 // retrieveFromWiki
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Retrieve From Wiki.
+ * @param[in,out] ctx Input/output parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::steady_clock::now(), isReady(), spdlog::warn(), provenanceTag(), query(), reserve(), size(), push_back().
+ */
 rag::StageResult WikiRagSource::retrieveFromWiki(rag::ModularRAGContext& ctx) {
     const auto t0 = std::chrono::steady_clock::now();
 

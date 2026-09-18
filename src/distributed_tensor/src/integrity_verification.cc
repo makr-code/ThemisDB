@@ -103,6 +103,12 @@ json MerkleProofComponent::toJSON() const {
     };
 }
 
+/**
+ * @brief From JSON.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: is_object(), getRequiredString(), find(), has_value(), end(), is_boolean().
+ */
 std::optional<MerkleProofComponent> MerkleProofComponent::fromJSON(const json& j) {
     if (!j.is_object()) {
         return std::nullopt;
@@ -184,6 +190,12 @@ json MerkleProof::toJSON() const {
     };
 }
 
+/**
+ * @brief From JSON.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: is_object(), getRequiredString(), find(), has_value(), end(), is_number_unsigned(), is_array(), isLikelyArtifactIdentifier().
+ */
 std::optional<MerkleProof> MerkleProof::fromJSON(const json& j) {
     if (!j.is_object()) {
         return std::nullopt;
@@ -264,6 +276,12 @@ json VerificationReceipt::toJSON() const {
     };
 }
 
+/**
+ * @brief From JSON.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: is_object(), getRequiredString(), find(), has_value(), end(), empty(), isLikelyArtifactIdentifier(), isValidSHA256Hex().
+ */
 std::optional<VerificationReceipt> VerificationReceipt::fromJSON(const json& j) {
     if (!j.is_object()) {
         return std::nullopt;
@@ -309,6 +327,12 @@ std::optional<VerificationReceipt> VerificationReceipt::fromJSON(const json& j) 
 // ReceiptChain Implementation
 // ============================================================================
 
+/**
+ * @brief Append Receipt.
+ * @param[in] receipt Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), back(), computeContentHash(), push_back(), spdlog::debug().
+ */
 VerificationReceipt ReceiptChain::appendReceipt(VerificationReceipt receipt) {
     // Determine parent receipt hash
     std::string parent_hash = {};
@@ -418,6 +442,12 @@ json ReceiptChain::toManifestMetadataJSON() const {
     };
 }
 
+/**
+ * @brief From JSON.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: is_object(), find(), end(), is_array(), has_value(), push_back(), std::move(), verifyChainIntegrity().
+ */
 std::optional<ReceiptChain> ReceiptChain::fromJSON(const json& j) {
     const json* receipts_json = &j;
     if (j.is_object()) {
@@ -452,6 +482,12 @@ std::optional<ReceiptChain> ReceiptChain::fromJSON(const json& j) {
 // VerificationState Utilities
 // ============================================================================
 
+/**
+ * @brief Verification State To String.
+ * @param[in] state Input parameter.
+ * @return Return value.
+ * @details Implements verificationStateToString without additional internal calls.
+ */
 std::string verificationStateToString(VerificationState state) {
     switch (state) {
         case VerificationState::UNVERIFIED:
@@ -469,6 +505,12 @@ std::string verificationStateToString(VerificationState state) {
     }
 }
 
+/**
+ * @brief String To Verification State.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Implements stringToVerificationState without additional internal calls.
+ */
 std::optional<VerificationState> stringToVerificationState(
     const std::string& s) {
     if (s == "UNVERIFIED") {
@@ -497,6 +539,17 @@ namespace {
     IntegrityRecoveryHook* g_recovery_hook = nullptr;
 }
 
+/**
+ * @brief Verify Artifact Integrity.
+ * @param[in] artifact_id Identifier of the artifact.
+ * @param[in] payload Input parameter.
+ * @param[in] expected_content_hash Input parameter.
+ * @param[in] merkle_proof Input parameter.
+ * @param[in] receipt_chain Input parameter.
+ * @param[in,out] provenance_hook Input/output parameter.
+ * @return Return value.
+ * @details Calls: isValidSHA256Hex(), push_back(), spdlog::warn(), computeSHA256(), fmt::format(), spdlog::error(), requestArtifactRecovery(), has_value().
+ */
 VerificationResult verifyArtifactIntegrity(
     const std::string& artifact_id,
     std::string_view payload,
@@ -611,6 +664,12 @@ VerificationResult verifyArtifactIntegrity(
     return result;
 }
 
+/**
+ * @brief Detect Receipt Chain Tampering.
+ * @param[in] chain Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), getAllReceipts(), front(), push_back(), spdlog::error(), size(), verifyIntegrity(), fmt::format().
+ */
 VerificationResult detectReceiptChainTampering(const ReceiptChain& chain) {
     VerificationResult result;
     result.state = VerificationState::VERIFIED;
@@ -668,6 +727,14 @@ VerificationResult detectReceiptChainTampering(const ReceiptChain& chain) {
     return result;
 }
 
+/**
+ * @brief Handle Partial Receipt Chain.
+ * @param[in] partial_chain Input parameter.
+ * @param[in] artifact_id Identifier of the artifact.
+ * @param[in] current_hash Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), push_back(), spdlog::warn(), getHeadReceipt(), has_value(), fmt::format(), spdlog::error(), requestChainRebuild().
+ */
 VerificationResult handlePartialReceiptChain(
     const ReceiptChain& partial_chain,
     const std::string& artifact_id,
@@ -736,6 +803,14 @@ VerificationResult handlePartialReceiptChain(
     return result;
 }
 
+/**
+ * @brief Handle Stale Receipt.
+ * @param[in] head_receipt Input parameter.
+ * @param[in] current_lineage_hash Input parameter.
+ * @param[in] content_hash Input parameter.
+ * @return Return value.
+ * @details Calls: verifyIntegrity(), push_back(), spdlog::error(), fmt::format(), empty(), substr(), spdlog::info(), requestChainRebuild().
+ */
 VerificationResult handleStaleReceipt(
     const VerificationReceipt& head_receipt,
     const std::string& current_lineage_hash,
@@ -795,6 +870,16 @@ VerificationResult handleStaleReceipt(
     return result;
 }
 
+/**
+ * @brief Verify Fragment Integrity.
+ * @param[in] artifact_id Identifier of the artifact.
+ * @param[in] fragment_data Input parameter.
+ * @param[in] fragment_index Input parameter.
+ * @param[in] merkle_proof Input parameter.
+ * @param[in] expected_root Input parameter.
+ * @return Return value.
+ * @details Calls: computeSHA256(), verify(), push_back(), fmt::format(), spdlog::error(), spdlog::info().
+ */
 VerificationResult verifyFragmentIntegrity(
     const std::string& artifact_id,
     std::string_view fragment_data,
@@ -830,6 +915,11 @@ VerificationResult verifyFragmentIntegrity(
     return result;
 }
 
+/**
+ * @brief Set Integrity Recovery Hook.
+ * @param[in,out] hook Input/output parameter.
+ * @details Calls: spdlog::info().
+ */
 void setIntegrityRecoveryHook(IntegrityRecoveryHook* hook) {
     g_recovery_hook = hook;
     if (hook) {
@@ -839,6 +929,11 @@ void setIntegrityRecoveryHook(IntegrityRecoveryHook* hook) {
     }
 }
 
+/**
+ * @brief Get Integrity Recovery Hook.
+ * @return Pointer to the result.
+ * @details Implements getIntegrityRecoveryHook without additional internal calls.
+ */
 IntegrityRecoveryHook* getIntegrityRecoveryHook() {
     return g_recovery_hook;
 }
@@ -866,10 +961,22 @@ json VerificationResult::toJSON() const {
 // Utility Functions
 // ============================================================================
 
+/**
+ * @brief Compute SHA256.
+ * @param[in] data Input parameter.
+ * @return Return value.
+ * @details Calls: std::string_view().
+ */
 std::string computeSHA256(const std::string& data) {
     return computeSHA256(std::string_view(data));
 }
 
+/**
+ * @brief Compute SHA256.
+ * @param[in] data Input parameter.
+ * @return Return value.
+ * @details Calls: SHA256_Init(), SHA256_Update(), data(), size(), SHA256_Final(), std::setw(), std::setfill(), str().
+ */
 std::string computeSHA256(std::string_view data) {
     unsigned char hash[SHA256_DIGEST_LENGTH];
 
@@ -888,6 +995,12 @@ std::string computeSHA256(std::string_view data) {
     return oss.str();
 }
 
+/**
+ * @brief Compute SHA256.
+ * @param[in] data Input parameter.
+ * @return Return value.
+ * @details Calls: std::string(), std::string_view().
+ */
 std::string computeSHA256(const char* data) {
     if (data == nullptr) {
       return std::string();
@@ -895,6 +1008,12 @@ std::string computeSHA256(const char* data) {
     return computeSHA256(std::string_view(data));
 }
 
+/**
+ * @brief Compute JSONHash.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: canonicalizeJson(), dump(), computeSHA256().
+ */
 std::string computeJSONHash(const json& j) {
     // Deterministic JSON serialization (sorted keys, no whitespace)
     std::string canonical = canonicalizeJson(j).dump(
@@ -907,6 +1026,12 @@ std::string computeJSONHash(const json& j) {
     return computeSHA256(canonical);
 }
 
+/**
+ * @brief Is Valid SHA256 Hex.
+ * @param[in] hex_str Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: size(), isLowercaseHexCharacter().
+ */
 bool isValidSHA256Hex(std::string_view hex_str) {
     // SHA-256 produces 32 bytes = 64 hex characters
     if (hex_str.size() != 64) {

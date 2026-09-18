@@ -112,6 +112,11 @@ CudaOperation& CudaOperation::operator=(CudaOperation&& other) noexcept {
     return *this;
 }
 
+/**
+ * @brief Record event.
+ * @throws std::logic_error if an error occurs.
+ * @details Calls: is_valid().
+ */
 void CudaOperation::record_event() {
     if (is_moved_from_) {
       throw std::logic_error("Cannot record event on moved-from operation");
@@ -124,6 +129,13 @@ void CudaOperation::record_event() {
     status_ = Status::COMPLETED;
 }
 
+/**
+ * @brief Wait.
+ * @param[in] timeout Input parameter.
+ * @return True when the operation succeeds.
+ * @throws std::logic_error if an error occurs.
+ * @details Implements wait without additional internal calls.
+ */
 bool CudaOperation::wait(std::chrono::milliseconds timeout) {
     if (is_moved_from_) {
       throw std::logic_error("Cannot wait on moved-from operation");
@@ -177,6 +189,13 @@ CudaOperationBatch& CudaOperationBatch::operator=(CudaOperationBatch&& other) no
     return *this;
 }
 
+/**
+ * @brief Add operation.
+ * @param[in] op Input parameter.
+ * @throws std::logic_error if an error occurs.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: is_moved_from(), push_back(), std::move().
+ */
 void CudaOperationBatch::add_operation(CudaOperation&& op) {
     if (is_moved_from_) {
       throw std::logic_error("Cannot add operation to moved-from batch");
@@ -187,6 +206,13 @@ void CudaOperationBatch::add_operation(CudaOperation&& op) {
     operations_.push_back(std::move(op));
 }
 
+/**
+ * @brief Wait all.
+ * @param[in] timeout Input parameter.
+ * @return True when the operation succeeds.
+ * @throws std::logic_error if an error occurs.
+ * @details Calls: mark_completed().
+ */
 bool CudaOperationBatch::wait_all(std::chrono::milliseconds timeout) {
     if (is_moved_from_) {
       throw std::logic_error("Cannot wait on moved-from batch");

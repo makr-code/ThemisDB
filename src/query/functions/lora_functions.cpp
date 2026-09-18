@@ -44,11 +44,6 @@ namespace {
  * @details Calls: lock(), themis::llm::createLoRAOrchestrator().
  */
 std::shared_ptr<themis::llm::lora::ILoRAOrchestrator> getLoRAOrchestrator() {
-    /**
-     * @brief Lock.
-     * @param[in] g_orchestrator_mutex Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lock(g_orchestrator_mutex);
     auto orchestrator = themis::llm::createLoRAOrchestrator();
     return orchestrator;
@@ -61,7 +56,7 @@ std::shared_ptr<themis::llm::lora::ILoRAOrchestrator> getLoRAOrchestrator() {
 namespace {
 
 /**
- * @brief Convert ISO 8601 timestamp to string
+ * @brief Time Point To String.
  * @param[in] tp Input parameter.
  * @return Return value.
  * @details Calls: std::chrono::system_clock::to_time_t(), std::put_time(), std::gmtime(), str().
@@ -74,7 +69,7 @@ std::string timePointToString(const std::chrono::system_clock::time_point& tp) {
 }
 
 /**
- * @brief Parse training configuration from JSON
+ * @brief Parse Training Config.
  * @param[in] config Input parameter.
  * @return Return value.
  * @details Calls: contains().
@@ -105,7 +100,7 @@ LoRAHyperparameters parseTrainingConfig(const json& config) {
 }
 
 /**
- * @brief Parse training dataset from JSON
+ * @brief Parse Dataset.
  * @param[in] dataset Input parameter.
  * @return Return value.
  * @details Calls: contains(), is_array(), value(), push_back().
@@ -1080,12 +1075,12 @@ nlohmann::json LoraVerifyChainFunction::execute(
     }
 }
 
+
 /**
- * @brief ============================================================================ Registration ============================================================================
+ * @brief Register Lo RAFunctions.
  * @param[in,out] registry Input/output parameter.
  * @details Calls: registerFunction().
  */
-
 void registerLoRAFunctions(FunctionRegistry& registry) {
     registry.registerFunction(std::make_unique<LoraTrainFunction>());
     registry.registerFunction(std::make_unique<LoraQueryFunction>());

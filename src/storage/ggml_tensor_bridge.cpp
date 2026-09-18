@@ -42,6 +42,11 @@ namespace themis {
 namespace storage {
 
 namespace {
+/**
+ * @brief Is production mode.
+ * @return True when the operation succeeds.
+ * @details Calls: std::getenv(), mode(), std::string().
+ */
 bool is_production_mode() {
     const char* mode_env = std::getenv("THEMIS_PRODUCTION_MODE");
     const char* env_env = std::getenv("THEMIS_ENVIRONMENT");
@@ -54,6 +59,11 @@ bool is_production_mode() {
     return env_env && std::string(env_env) == "production";
 }
 
+/**
+ * @brief Allow test only fallbacks.
+ * @return True when the operation succeeds.
+ * @details Calls: defined().
+ */
 bool allow_test_only_fallbacks() {
 #if defined(THEMIS_UNIT_TEST)
     return true;
@@ -83,19 +93,36 @@ bool allow_test_only_fallbacks() {
 // GgmlAllocFn injection bridge (STUB #263a)
 // ============================================================================
 
+/**
+ * @brief Ggml Alloc Fn Mutex.
+ * @return Return value.
+ * @details Implements ggmlAllocFnMutex without additional internal calls.
+ */
 static std::mutex& ggmlAllocFnMutex() { static std::mutex m; return m; }
+/**
+ * @brief Ggml Alloc Fn Storage.
+ * @return Return value.
+ * @details Implements ggmlAllocFnStorage without additional internal calls.
+ */
 static GgmlTensorBridge::GgmlAllocFn& ggmlAllocFnStorage() {
     static GgmlTensorBridge::GgmlAllocFn fn;
     return fn;
 }
 
-/*static*/
+/**
+ * @brief static
+ * @param[in] fn Input parameter.
+ * @details Calls: lk(), ggmlAllocFnMutex(), ggmlAllocFnStorage(), std::move().
+ */
 void GgmlTensorBridge::setGgmlAllocFn(GgmlAllocFn fn) {
     std::lock_guard<std::mutex> lk(ggmlAllocFnMutex());
     ggmlAllocFnStorage() = std::move(fn);
 }
 
-/*static*/
+/**
+ * @brief static
+ * @details Calls: lk(), ggmlAllocFnMutex(), ggmlAllocFnStorage().
+ */
 void GgmlTensorBridge::clearGgmlAllocFn() {
     std::lock_guard<std::mutex> lk(ggmlAllocFnMutex());
     ggmlAllocFnStorage() = {};
@@ -115,19 +142,36 @@ void GgmlTensorBridge::clearGgmlAllocFn() {
 // PrefetchFn injection bridge (STUB #263b)
 // ============================================================================
 
+/**
+ * @brief Prefetch Fn Mutex.
+ * @return Return value.
+ * @details Implements prefetchFnMutex without additional internal calls.
+ */
 static std::mutex& prefetchFnMutex() { static std::mutex m; return m; }
+/**
+ * @brief Prefetch Fn Storage.
+ * @return Return value.
+ * @details Implements prefetchFnStorage without additional internal calls.
+ */
 static GgmlTensorBridge::PrefetchFn& prefetchFnStorage() {
     static GgmlTensorBridge::PrefetchFn fn;
     return fn;
 }
 
-/*static*/
+/**
+ * @brief static
+ * @param[in] fn Input parameter.
+ * @details Calls: lk(), prefetchFnMutex(), prefetchFnStorage(), std::move().
+ */
 void GgmlTensorBridge::setPrefetchFn(PrefetchFn fn) {
     std::lock_guard<std::mutex> lk(prefetchFnMutex());
     prefetchFnStorage() = std::move(fn);
 }
 
-/*static*/
+/**
+ * @brief static
+ * @details Calls: lk(), prefetchFnMutex(), prefetchFnStorage().
+ */
 void GgmlTensorBridge::clearPrefetchFn() {
     std::lock_guard<std::mutex> lk(prefetchFnMutex());
     prefetchFnStorage() = {};
@@ -148,19 +192,36 @@ void GgmlTensorBridge::clearPrefetchFn() {
 // TypeRegistrationFn injection bridge (STUB #263c)
 // ============================================================================
 
+/**
+ * @brief Type Registration Fn Mutex.
+ * @return Return value.
+ * @details Implements typeRegistrationFnMutex without additional internal calls.
+ */
 static std::mutex& typeRegistrationFnMutex() { static std::mutex m; return m; }
+/**
+ * @brief Type Registration Fn Storage.
+ * @return Return value.
+ * @details Implements typeRegistrationFnStorage without additional internal calls.
+ */
 static GgmlTensorBridge::TypeRegistrationFn& typeRegistrationFnStorage() {
     static GgmlTensorBridge::TypeRegistrationFn fn;
     return fn;
 }
 
-/*static*/
+/**
+ * @brief static
+ * @param[in] fn Input parameter.
+ * @details Calls: lk(), typeRegistrationFnMutex(), typeRegistrationFnStorage(), std::move().
+ */
 void GgmlTensorBridge::setTypeRegistrationFn(TypeRegistrationFn fn) {
     std::lock_guard<std::mutex> lk(typeRegistrationFnMutex());
     typeRegistrationFnStorage() = std::move(fn);
 }
 
-/*static*/
+/**
+ * @brief static
+ * @details Calls: lk(), typeRegistrationFnMutex(), typeRegistrationFnStorage().
+ */
 void GgmlTensorBridge::clearTypeRegistrationFn() {
     std::lock_guard<std::mutex> lk(typeRegistrationFnMutex());
     typeRegistrationFnStorage() = {};
@@ -180,25 +241,12 @@ struct FakeTensor {
     std::vector<float> data;
     std::size_t        n_elements = 0;
 
-    /// Returns nullptr when no real ggml context is available.
     ggml_tensor* asGgmlPtr() noexcept { return nullptr; }
 };
 
 // ============================================================================
 // Internal: real ggml tensor allocation helper
 // ============================================================================
-/**
- * @brief Allocate a 1-D GGML_TYPE_F32 tensor when ggml is linked.
- *
- * When `THEMIS_HAS_GGML` is defined the call is forwarded directly to
- * `ggml_new_tensor_1d()`.  When not defined the function returns nullptr and
- * the caller falls back to FakeTensor.
- *
- * @param ctx       ggml_context used for the allocation (may be nullptr when
- *                  no real context is available — returns nullptr in that case).
- * @param n_elements  Number of float32 elements.
- * @return Pointer to the newly allocated `ggml_tensor`, or nullptr.
- */
 static ggml_tensor* allocGgmlTensor1d(ggml_context* ctx, std::size_t n_elements) noexcept {
 #ifdef THEMIS_HAS_GGML
     if (!ctx) {
@@ -288,10 +336,24 @@ struct GgmlTensorBridge::Impl {
 
     std::atomic<std::size_t> active_mappings{0};
 
+    /**
+     * @brief Impl.
+     * @param[in] s Input parameter.
+     * @param[in] c Input parameter.
+     * @return Return value.
+     */
     explicit Impl(std::shared_ptr<TensorNetworkStorageEngine> s,
                   GgmlTensorBridgeConfig                     c)
         : storage(std::move(s)), cfg(std::move(c)) {}
 
+    /**
+     * @brief Do Map.
+     * @param[in,out] ctx Input/output parameter.
+     * @param[in] key Input parameter.
+     * @param[in] version Input parameter.
+     * @return Return value.
+     * @details Calls: std::chrono::steady_clock::now(), get(), getVersion(), has_value(), empty(), size(), lk(), ggmlAllocFnMutex().
+     */
     MappedTTTensor doMap(ggml_context* ctx, const TensorFieldKey& key, uint64_t version) {
         const auto t0 = std::chrono::steady_clock::now();
 
@@ -399,6 +461,10 @@ struct GgmlTensorBridge::Impl {
         return handle;
     }
 
+    /**
+     * @brief On Release.
+     * @details Calls: lk().
+     */
     void onRelease() {
         if (active_mappings > 0) {
             --active_mappings;
@@ -423,6 +489,14 @@ GgmlTensorBridge::GgmlTensorBridge(
 
 GgmlTensorBridge::~GgmlTensorBridge() = default;
 
+/**
+ * @brief Map.
+ * @param[in,out] ctx Input/output parameter.
+ * @param[in] key Input parameter.
+ * @param[in] version Input parameter.
+ * @return Return value.
+ * @details Calls: doMap().
+ */
 MappedTTTensor GgmlTensorBridge::map(ggml_context* ctx,
                                       const TensorFieldKey&          key,
                                       uint64_t                       version) {
@@ -434,6 +508,14 @@ MappedTTTensor GgmlTensorBridge::map(ggml_context* ctx,
     return impl_->doMap(ctx, key, version);
 }
 
+/**
+ * @brief Map Adapter.
+ * @param[in,out] ctx Input/output parameter.
+ * @param[in] adapter_id Identifier of the adapter.
+ * @param[in] tenant Input parameter.
+ * @return Return value.
+ * @details Calls: map().
+ */
 MappedTTTensor GgmlTensorBridge::mapAdapter(ggml_context* ctx,
                                              const std::string&             adapter_id,
                                              const std::string&             tenant) {
@@ -444,6 +526,13 @@ MappedTTTensor GgmlTensorBridge::mapAdapter(ggml_context* ctx,
     return map(ctx, key, 0);
 }
 
+/**
+ * @brief Prefetch.
+ * @param[in] key Input parameter.
+ * @param[in] version Input parameter.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: lk(), prefetchFnMutex(), prefetchFnStorage(), fn_copy(), open(), c_str(), io_uring_queue_init(), close().
+ */
 void GgmlTensorBridge::prefetch(const TensorFieldKey& key,
                                  uint64_t              version) {
     // Delegate to injected PrefetchFn when available.
@@ -508,6 +597,10 @@ void GgmlTensorBridge::prefetch(const TensorFieldKey& key,
 #endif
 }
 
+/**
+ * @brief Release All.
+ * @details Calls: lk(), store().
+ */
 void GgmlTensorBridge::releaseAll() {
     // In the stub implementation there is no mmap to unmap.
     // Production: iterate all active Impl handles and call munmap().
@@ -525,6 +618,12 @@ GgmlTensorBridge::BridgeStats GgmlTensorBridge::stats() const noexcept {
 // registerGgmlTypeTT
 // ============================================================================
 
+/**
+ * @brief Register Ggml Type TT.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: lk(), typeRegistrationFnMutex(), typeRegistrationFnStorage(), fn_copy(), ggml_type_register(), is_production_mode(), allow_test_only_fallbacks().
+ */
 int registerGgmlTypeTT() {
     // Delegate to injected registration backend when available.
     GgmlTensorBridge::TypeRegistrationFn fn_copy;

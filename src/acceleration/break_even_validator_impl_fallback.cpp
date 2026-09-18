@@ -14,7 +14,6 @@
 namespace themis {
 namespace acceleration {
 
-/** @brief Bev implementation detail. */
 class BEVImpl {
 public:
     BEVImpl() {
@@ -50,6 +49,12 @@ std::string WorkloadProfile::ToString() const {
     return "kernel=" + BreakEvenValidator::KernelTypeToString(kernel_type) + ",size=" + std::to_string(input_size) + ",dim=" + std::to_string(vector_dimension) + ",sel=" + std::to_string(output_selectivity);
 }
 
+/**
+ * @brief Should Use GPU.
+ * @param[in] profile Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::milliseconds(), ToCacheKey(), lock(), find(), end(), Profile().
+ */
 BreakEvenDecision BreakEvenValidator::ShouldUseGPU(const WorkloadProfile& profile) {
     // honor hints
     if (profile.force_gpu && *profile.force_gpu) return BreakEvenDecision{true, 1.0f, std::chrono::milliseconds(0), std::chrono::milliseconds(0), "force_gpu_flag", false};
@@ -77,6 +82,12 @@ BreakEvenDecision BreakEvenValidator::ShouldUseGPU(const WorkloadProfile& profil
     return d;
 }
 
+/**
+ * @brief Profile.
+ * @param[in] profile Input parameter.
+ * @return Return value.
+ * @details Calls: GetSpeedupThreshold(), std::chrono::milliseconds().
+ */
 BreakEvenDecision BreakEvenValidator::Profile(const WorkloadProfile& profile) {
     // Very simple synthetic profiling: GPU faster for very large inputs
     float speedup = 0.0f;
@@ -101,6 +112,12 @@ BreakEvenDecision BreakEvenValidator::Profile(const WorkloadProfile& profile) {
     return dec;
 }
 
+/**
+ * @brief Set Speedup Threshold.
+ * @param[in] kernel Input parameter.
+ * @param[in] threshold Input parameter.
+ * @details Calls: lock().
+ */
 void BreakEvenValidator::SetSpeedupThreshold(KernelType kernel, float threshold) {
     std::lock_guard<std::mutex> lock(g_impl.mu_);
     if (threshold < 1.0f) {
@@ -117,6 +134,10 @@ float BreakEvenValidator::GetSpeedupThreshold(KernelType kernel) const {
     return it->second;
 }
 
+/**
+ * @brief Clear Cache.
+ * @details Calls: lock(), clear().
+ */
 void BreakEvenValidator::ClearCache() {
     std::lock_guard<std::mutex> lock(g_impl.mu_);
     g_impl.cache_.clear();
@@ -143,6 +164,12 @@ size_t BreakEvenValidator::GetCacheSize() const {
     return g_impl.cache_.size();
 }
 
+/**
+ * @brief Kernel Type To String.
+ * @param[in] kernel Input parameter.
+ * @return Return value.
+ * @details Implements KernelTypeToString without additional internal calls.
+ */
 std::string BreakEvenValidator::KernelTypeToString(KernelType kernel) {
     switch (kernel) {
         case KernelType::kDistance: return "distance";
@@ -155,6 +182,12 @@ std::string BreakEvenValidator::KernelTypeToString(KernelType kernel) {
     }
 }
 
+/**
+ * @brief Device Type To String.
+ * @param[in] device Input parameter.
+ * @return Return value.
+ * @details Implements DeviceTypeToString without additional internal calls.
+ */
 std::string BreakEvenValidator::DeviceTypeToString(DeviceType device) {
     switch (device) {
         case DeviceType::kNVIDIA_RTX: return "nvidia_rtx";

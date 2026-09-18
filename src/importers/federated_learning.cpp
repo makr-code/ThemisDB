@@ -23,6 +23,14 @@ namespace importers {
 
 namespace {
 
+/**
+ * @brief Build Deterministic Mask.
+ * @param[in] participant_id Identifier of the participant.
+ * @param[in] round_id Identifier of the round.
+ * @param[in] n Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), rng(), dist(), push_back().
+ */
 std::vector<double> buildDeterministicMask(const std::string& participant_id,
                                            const std::string& round_id,
                                            std::size_t n) {
@@ -39,6 +47,13 @@ std::vector<double> buildDeterministicMask(const std::string& participant_id,
     return mask;
 }
 
+/**
+ * @brief Aggregate Element Wise Median.
+ * @param[in] updates Input parameter.
+ * @param[in] dims Input parameter.
+ * @return Return value.
+ * @details Calls: out(), reserve(), size(), clear(), push_back(), std::sort(), begin(), end().
+ */
 std::vector<double> aggregateElementWiseMedian(
     const std::vector<FederatedImportCoordinator::FederatedTrainingCoordinator::ParticipantGradient>& updates,
     std::size_t dims) {
@@ -60,6 +75,14 @@ std::vector<double> aggregateElementWiseMedian(
     return out;
 }
 
+/**
+ * @brief Aggregate Element Wise Trimmed Mean.
+ * @param[in] updates Input parameter.
+ * @param[in] dims Input parameter.
+ * @param[in] trim_ratio Input parameter.
+ * @return Return value.
+ * @details Calls: std::isfinite(), out(), reserve(), size(), std::floor(), clear(), push_back(), std::sort().
+ */
 std::vector<double> aggregateElementWiseTrimmedMean(
     const std::vector<FederatedImportCoordinator::FederatedTrainingCoordinator::ParticipantGradient>& updates,
     std::size_t dims,
@@ -107,6 +130,13 @@ std::vector<double> aggregateElementWiseTrimmedMean(
 // FederatedAggregator
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Aggregate Updates.
+ * @param[in] updates Input parameter.
+ * @param[in] aggregation_algorithm Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), json::object(), is_object(), begin(), end(), key(), value(), is_number().
+ */
 json FederatedImportCoordinator::FederatedAggregator::aggregateUpdates(const std::vector<ParticipantUpdate> &updates,
                                                                        const std::string &aggregation_algorithm) {
     if (updates.empty()) {
@@ -188,6 +218,15 @@ json FederatedImportCoordinator::FederatedAggregator::aggregateUpdates(const std
 // DifferentialPrivacyManager
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Add Differential Privacy.
+ * @param[in] statistics Input parameter.
+ * @param[in] epsilon Input parameter.
+ * @param[in] delta Input parameter.
+ * @return Return value.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: std::sqrt(), std::log(), rng(), rd(), noise(), begin(), end(), value().
+ */
 json FederatedImportCoordinator::DifferentialPrivacyManager::addDifferentialPrivacy(const json &statistics,
                                                                                     double epsilon, double delta) {
     if (epsilon <= 0.0 || delta <= 0.0 || delta >= 1.0) {
@@ -214,12 +253,25 @@ json FederatedImportCoordinator::DifferentialPrivacyManager::addDifferentialPriv
     return noisy;
 }
 
+/**
+ * @brief Verify Privacy Budget.
+ * @param[in] epsilon_total Input parameter.
+ * @param[in] delta Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements verifyPrivacyBudget without additional internal calls.
+ */
 bool FederatedImportCoordinator::DifferentialPrivacyManager::verifyPrivacyBudget(double epsilon_total, double delta) {
     // Simple composition: budget not exceeded if epsilon_total <= some threshold
     // Standard practice: epsilon_total <= 1.0 for "strong" privacy
     return epsilon_total <= 1.0 && delta <= 1e-5 && delta > 0.0;
 }
 
+/**
+ * @brief Spend Budget.
+ * @param[in] epsilon_used Input parameter.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Implements spendBudget without additional internal calls.
+ */
 void FederatedImportCoordinator::DifferentialPrivacyManager::spendBudget(double epsilon_used) {
     if (epsilon_used < 0.0) {
         throw std::invalid_argument("epsilon_used must be non-negative");

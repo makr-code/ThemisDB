@@ -46,7 +46,6 @@ namespace themis::exporters {
 
 #ifdef CURL_ENABLED
 
-/// RAII guard for curl_global_init/cleanup (call once per process).
 namespace {
 struct CurlGlobal {
     CurlGlobal() {
@@ -59,6 +58,15 @@ struct CurlGlobal {
 
 static CurlGlobal g_curl_global; // NOLINT(cppcoreguidelines-avoid-non-const-global-variables)
 
+/**
+ * @brief Write String Cb.
+ * @param[in] data Input parameter.
+ * @param[in] sz Input parameter.
+ * @param[in] nmemb Input parameter.
+ * @param[in,out] userp Input/output parameter.
+ * @return Return value.
+ * @details Calls: append().
+ */
 static size_t writeStringCb(const char *data, size_t sz, size_t nmemb, void *userp) {
     auto *s = static_cast<std::string *>(userp);
     s->append(data, sz * nmemb);
@@ -71,6 +79,16 @@ struct ProgressData {
     double file_fraction_range = 1.0;
 };
 
+/**
+ * @brief Progress Cb.
+ * @param[in,out] clientp Input/output parameter.
+ * @param[in] dltotal Input parameter.
+ * @param[in] dlnow Input parameter.
+ * @param[in] ultotal Input parameter.
+ * @param[in] ulnow Input parameter.
+ * @return Return value.
+ * @details Calls: cb().
+ */
 static int progressCb(void *clientp, curl_off_t dltotal, curl_off_t dlnow, curl_off_t ultotal, curl_off_t ulnow) {
     auto *pd = static_cast<ProgressData *>(clientp);
     if (pd && pd->cb && ultotal > 0) {
@@ -80,14 +98,21 @@ static int progressCb(void *clientp, curl_off_t dltotal, curl_off_t dlnow, curl_
     return 0; // non-zero cancels
 }
 
-/// State for the libcurl read callback used by httpPutBytes().
 struct CurlMemoryReadState {
     const char *data   = nullptr;
     std::size_t size   = 0;
     std::size_t offset = 0;
 };
 
-/// libcurl CURLOPT_READFUNCTION callback that reads from a CurlMemoryReadState.
+/**
+ * @brief Memory Read Cb.
+ * @param[in,out] dest Input/output parameter.
+ * @param[in] sz Input parameter.
+ * @param[in] nmemb Input parameter.
+ * @param[in,out] userp Input/output parameter.
+ * @return Return value.
+ * @details Calls: std::min(), std::memcpy().
+ */
 static size_t memoryReadCb(char *dest, size_t sz, size_t nmemb, void *userp) {
     auto *state                 = static_cast<CurlMemoryReadState *>(userp);
     const std::size_t available = state->size - state->offset;
@@ -99,7 +124,15 @@ static size_t memoryReadCb(char *dest, size_t sz, size_t nmemb, void *userp) {
     return to_copy;
 }
 
-/// libcurl CURLOPT_HEADERFUNCTION callback; accumulates raw response headers.
+/**
+ * @brief Header Capture Cb.
+ * @param[in,out] buffer Input/output parameter.
+ * @param[in] size Input parameter.
+ * @param[in] nitems Input parameter.
+ * @param[in,out] userp Input/output parameter.
+ * @return Return value.
+ * @details Calls: append().
+ */
 static size_t headerCaptureCb(char *buffer, size_t size, size_t nitems, void *userp) {
     auto *hdrs = static_cast<std::string *>(userp);
     hdrs->append(buffer, size * nitems);
@@ -112,11 +145,12 @@ static size_t headerCaptureCb(char *buffer, size_t size, size_t nitems, void *us
 
 namespace {
 
-/// Extract the value of the `Retry-After` response header from a raw
-/// header block captured by headerCaptureCb().  Returns an empty string
-/// when the header is absent.
 [[maybe_unused]] static std::string extractRetryAfterHeader(const std::string &raw_headers) {
-    // Walk line by line (headers end with \r\n or \n).
+    /**
+     * @brief Walk line by line (headers end with \r\n or \n).
+     * @param[in] raw_headers Input parameter.
+     * @return Return value.
+     */
     std::istringstream stream(raw_headers);
     std::string line = {};
     while (std::getline(stream, line)) {
@@ -144,11 +178,12 @@ namespace {
     return {};
 }
 
-/// Parse a `Retry-After` header value and return the number of seconds to
-/// wait.  Accepts:
-///   - Plain integer seconds (e.g., "120")
-///   - HTTP-date (e.g., "Fri, 31 Dec 1999 23:59:59 GMT")
-/// Returns 0 when the value cannot be parsed.
+/**
+ * @brief Parse Retry After Seconds.
+ * @param[in] value Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), std::stol(), find_first_not_of(), strptime(), c_str(), timegm(), std::time().
+ */
 static long parseRetryAfterSeconds(const std::string &value) {
     if (value.empty()) {
         return 0;
@@ -194,7 +229,11 @@ HuggingFaceHubClient::HuggingFaceHubClient(HubUploadConfig config) : config_(std
 HuggingFaceHubClient::~HuggingFaceHubClient() = default;
 
 std::string HuggingFaceHubClient::resolveToken() const {
-    // FIXED: Protect all config_ reads with mutex
+    /**
+     * @brief FIXED: Protect all config_ reads with mutex
+     * @param[in] config_access_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(config_access_mutex_);
     
     // Priority 1: explicit hf_token field.
@@ -379,11 +418,16 @@ HubUploadResult HuggingFaceHubClient::ensureRepo(const std::string &bearer_token
     return {false, {}, "Unexpected Hub API status " + std::to_string(status) + ": " + body, status};
 }
 
-// ── Main upload ──────────────────────────────────────────────────────────────
+/**
+ * @brief ── Main upload ──────────────────────────────────────────────────────────────
+ * @param[in,out] audit_log Input/output parameter.
+ * @param[in] config Input parameter.
+ * @param[in] dataset_dir Input parameter.
+ * @param[in] result Input parameter.
+ * @param[in] outcome Input parameter.
+ * @details Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), logEvent().
+ */
 
-/// Write a structured audit entry for a Hub upload attempt.
-/// @note Internal helper; intentionally not exposed in the header since callers
-///       access audit logging exclusively via HubUploadConfig::audit_log.
 static void writeHubUploadAuditEntry(themis::utils::AuditLogger &audit_log, const HubUploadConfig &config,
                                      const std::string &dataset_dir, const HubUploadResult &result,
                                      const std::string &outcome) {
@@ -418,6 +462,11 @@ HubUploadResult HuggingFaceHubClient::uploadDataset(const std::string &dataset_d
     themis::governance::PolicyEngine* policy_engine = nullptr;
     
     {
+        /**
+         * @brief Lk.
+         * @param[in] config_access_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(config_access_mutex_);
         repo_id = config_.repo_id;
         hub_base_url = config_.hub_base_url;
@@ -525,6 +574,11 @@ HubUploadResult HuggingFaceHubClient::uploadDataset(const std::string &dataset_d
         hub_backoff_cfg.max_backoff_ms     = 30'000;
         hub_backoff_cfg.multiplier         = 2.0;
         hub_backoff_cfg.jitter_fraction    = 0.0;
+        /**
+         * @brief File backoff.
+         * @param[in] hub_backoff_cfg Input parameter.
+         * @return Return value.
+         */
         themis::utils::ExponentialBackoff file_backoff(hub_backoff_cfg);
         for (int attempt = 0; attempt <= max_retries; ++attempt) {
             if (attempt > 0 && !rate_limited) {
@@ -637,6 +691,11 @@ HubUploadResult HuggingFaceHubClient::uploadShards(const std::vector<MemoryShard
     themis::governance::PolicyEngine* policy_engine = nullptr;
     
     {
+        /**
+         * @brief Lk.
+         * @param[in] config_access_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(config_access_mutex_);
         repo_id = config_.repo_id;
         hub_base_url = config_.hub_base_url;
@@ -725,6 +784,11 @@ HubUploadResult HuggingFaceHubClient::uploadShards(const std::vector<MemoryShard
         shard_backoff_cfg.max_backoff_ms     = 30'000;
         shard_backoff_cfg.multiplier         = 2.0;
         shard_backoff_cfg.jitter_fraction    = 0.0;
+        /**
+         * @brief Shard backoff.
+         * @param[in] shard_backoff_cfg Input parameter.
+         * @return Return value.
+         */
         themis::utils::ExponentialBackoff shard_backoff(shard_backoff_cfg);
         for (int attempt = 0; attempt <= max_retries; ++attempt) {
             if (attempt > 0 && !rate_limited) {

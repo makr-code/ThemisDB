@@ -62,6 +62,13 @@ GlobalTransactionManager::GlobalTransactionManager(
 // Region management
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Register Region.
+ * @param[in] region_id Identifier of the region.
+ * @param[in,out] participant Input/output parameter.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: lock(), THEMIS_DEBUG().
+ */
 void GlobalTransactionManager::registerRegion(
     const std::string&        region_id,
     IGlobalRegionParticipant* participant
@@ -75,12 +82,23 @@ void GlobalTransactionManager::registerRegion(
                  coordinator_id_, region_id);
 }
 
+/**
+ * @brief Unregister Region.
+ * @param[in] region_id Identifier of the region.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), erase().
+ */
 bool GlobalTransactionManager::unregisterRegion(const std::string& region_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     return regions_.erase(region_id) > 0;
 }
 
 size_t GlobalTransactionManager::regionCount() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return regions_.size();
 }
@@ -89,6 +107,13 @@ size_t GlobalTransactionManager::regionCount() const {
 // Transaction lifecycle
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Begin Transaction.
+ * @param[in] region_ids Input parameter.
+ * @return Return value.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: empty(), lock(), find(), end(), generateTransactionId(), std::chrono::steady_clock::now(), nlohmann::json::array(), std::move().
+ */
 std::string GlobalTransactionManager::beginTransaction(
     const std::vector<std::string>& region_ids
 ) {
@@ -134,6 +159,14 @@ std::string GlobalTransactionManager::beginTransaction(
     return txn_id;
 }
 
+/**
+ * @brief Add Operation.
+ * @param[in] txn_id Identifier of the txn.
+ * @param[in] region_id Identifier of the region.
+ * @param[in] op Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), find(), end(), THEMIS_WARN(), push_back().
+ */
 bool GlobalTransactionManager::addOperation(
     const std::string&    txn_id,
     const std::string&    region_id,
@@ -166,6 +199,12 @@ bool GlobalTransactionManager::addOperation(
     return true;
 }
 
+/**
+ * @brief Commit.
+ * @param[in] txn_id Identifier of the txn.
+ * @return Return value.
+ * @details Calls: std::chrono::steady_clock::now(), lock(), find(), end(), fetch_add(), runPhase1(), now(), count().
+ */
 GlobalTxnOutcome GlobalTransactionManager::commit(const std::string& txn_id) {
     GlobalTxnOutcome outcome;
     outcome.transaction_id = txn_id;
@@ -297,6 +336,12 @@ GlobalTxnOutcome GlobalTransactionManager::commit(const std::string& txn_id) {
     return outcome;
 }
 
+/**
+ * @brief Abort.
+ * @param[in] txn_id Identifier of the txn.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), find(), end(), THEMIS_WARN(), runPhase2(), fetch_add(), logToWAL(), THEMIS_INFO().
+ */
 bool GlobalTransactionManager::abort(const std::string& txn_id) {
     std::lock_guard<std::mutex> lock(mutex_);
 
@@ -339,6 +384,11 @@ bool GlobalTransactionManager::abort(const std::string& txn_id) {
 // Recovery
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Recover In Doubt Transactions.
+ * @return Return value.
+ * @details Calls: THEMIS_INFO(), readRange(), getOldestLSN(), empty(), std::chrono::steady_clock::now(), contains(), nlohmann::json::array(), value().
+ */
 size_t GlobalTransactionManager::recoverInDoubtTransactions() {
     if (!wal_) {
       return 0;
@@ -459,32 +509,21 @@ size_t GlobalTransactionManager::recoverInDoubtTransactions() {
     return resolved;
 }
 
-/**
- * @brief Return stable coordinator type name for global recovery reports.
- * @return "GlobalTransactionManager".
- */
 std::string GlobalTransactionManager::recoveryCoordinatorName() const {
     return "GlobalTransactionManager";
 }
 
-/**
- * @brief Return name of the durable backend used by this coordinator.
- * @return "WAL" when a WAL directory is configured, "disabled" otherwise.
- */
 std::string GlobalTransactionManager::recoveryBackendName() const {
     return wal_ ? "WAL" : "disabled";
 }
 
-/**
- * @brief Return normalized snapshot of non-final transactions for global recovery.
- *
- * Maps each GlobalTxnState to the canonical RecoverableTwoPhaseState so the
- * GlobalTwoPhaseCommitRecoveryManager can compute aggregated in-doubt counts.
- *
- * @return List of non-final (not COMPLETED) transactions.
- */
 std::vector<RecoverableTwoPhaseTransaction>
 GlobalTransactionManager::getRecoverableTransactions() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     std::vector<RecoverableTwoPhaseTransaction> result = {};
@@ -534,6 +573,11 @@ GlobalTransactionManager::getRecoverableTransactions() const {
 
 std::optional<GlobalTxnState>
 GlobalTransactionManager::getTransactionState(const std::string& txn_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     const auto it = transactions_.find(txn_id);
     if (it == transactions_.end()) {
@@ -543,6 +587,11 @@ GlobalTransactionManager::getTransactionState(const std::string& txn_id) const {
 }
 
 nlohmann::json GlobalTransactionManager::getStatistics() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     size_t active    = 0;
@@ -569,9 +618,12 @@ nlohmann::json GlobalTransactionManager::getStatistics() const {
     };
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Internal helpers (may be called with mutex_ held)
-// ─────────────────────────────────────────────────────────────────────────────
+/**
+ * @brief ───────────────────────────────────────────────────────────────────────────── Internal helpers (may be called with mutex_ held) ─────────────────────────────────────────────────────────────────────────────
+ * @param[in,out] rec Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: find(), end(), THEMIS_ERROR(), count(), at(), nlohmann::json::array(), prepare(), what().
+ */
 
 bool GlobalTransactionManager::runPhase1(GlobalTxnRecord& rec) {
     bool all_voted_commit = true;
@@ -611,6 +663,12 @@ bool GlobalTransactionManager::runPhase1(GlobalTxnRecord& rec) {
     return all_voted_commit;
 }
 
+/**
+ * @brief Run Phase2.
+ * @param[in,out] rec Input/output parameter.
+ * @param[in] do_commit Input parameter.
+ * @details Calls: find(), end(), THEMIS_WARN(), commit(), abort(), THEMIS_ERROR(), what().
+ */
 void GlobalTransactionManager::runPhase2(GlobalTxnRecord& rec, bool do_commit) {
     for (auto& [region_id, rrec] : rec.region_records) {
         auto pit = regions_.find(region_id);
@@ -638,6 +696,13 @@ void GlobalTransactionManager::runPhase2(GlobalTxnRecord& rec, bool do_commit) {
     }
 }
 
+/**
+ * @brief Log To WAL.
+ * @param[in] type Input parameter.
+ * @param[in] txn_id Identifier of the txn.
+ * @param[in] data Input parameter.
+ * @details Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), append(), flush(), THEMIS_ERROR(), what().
+ */
 void GlobalTransactionManager::logToWAL(
     themis::sharding::WALEntryType type,
     const std::string&             txn_id,
@@ -668,6 +733,11 @@ void GlobalTransactionManager::logToWAL(
     }
 }
 
+/**
+ * @brief Generate Transaction Id.
+ * @return Return value.
+ * @details Calls: fetch_add(), std::chrono::system_clock::now(), time_since_epoch(), count(), str().
+ */
 std::string GlobalTransactionManager::generateTransactionId() {
     const uint64_t counter = txn_counter_.fetch_add(1, std::memory_order_relaxed);
     const auto now_ms = std::chrono::duration_cast<std::chrono::milliseconds>(

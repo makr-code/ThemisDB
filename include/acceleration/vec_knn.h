@@ -33,15 +33,15 @@ class VectorIndexManager;
 namespace themis {
 namespace acceleration {
 
+
 /**
- * @brief ============================================================================ SIMD-accelerated pairwise distance kernel (PERF-D3) Compile-time dispatch: AVX-512 → AVX2 → NEON → scalar ============================================================================
+ * @brief Simd l2 sq.
  * @param[in] a Input parameter.
  * @param[in] b Input parameter.
  * @param[in] dim Input parameter.
  * @return Return value.
  * @note Exception safety: noexcept.
  */
-
 float simd_l2_sq(const float* a, const float* b, std::size_t dim) noexcept;
 
 /**

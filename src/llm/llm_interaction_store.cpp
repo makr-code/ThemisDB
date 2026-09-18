@@ -44,6 +44,12 @@ nlohmann::json LLMInteractionStore::Interaction::toJson() const {
     return j;
 }
 
+/**
+ * @brief From Json.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: value(), contains(), is_array(), int64_t().
+ */
 LLMInteractionStore::Interaction LLMInteractionStore::Interaction::fromJson(const nlohmann::json& j) {
     Interaction interaction;
     interaction.id = j.value("id", "");
@@ -99,6 +105,13 @@ std::string LLMInteractionStore::generateId() const {
     return oss.str();
 }
 
+/**
+ * @brief Create Interaction.
+ * @param[in] interaction Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: empty(), generateId(), std::chrono::system_clock::now(), time_since_epoch(), count(), toJson(), dump(), makeKey().
+ */
 LLMInteractionStore::Interaction LLMInteractionStore::createInteraction(Interaction interaction) {
     // Generate ID if empty
     if (interaction.id.empty()) {
@@ -161,6 +174,11 @@ std::optional<LLMInteractionStore::Interaction> LLMInteractionStore::getInteract
     try {
 #ifdef THEMIS_LLM_SIMDJSON
         static thread_local simdjson::ondemand::parser sj_parser_get_interaction;
+        /**
+         * @brief Padded.
+         * @param[in] value Input parameter.
+         * @return Return value.
+         */
         simdjson::padded_string padded(value);
         auto doc = sj_parser_get_interaction.iterate(padded);
         if (doc.error()) {
@@ -321,6 +339,12 @@ LLMInteractionStore::Stats LLMInteractionStore::getStats() const {
     return stats;
 }
 
+/**
+ * @brief Delete Interaction.
+ * @param[in] id Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: makeKey(), Delete(), IsNotFound(), ok(), THEMIS_ERROR(), ToString(), THEMIS_DEBUG().
+ */
 bool LLMInteractionStore::deleteInteraction(const std::string& id) {
     std::string key = makeKey(id);
     
@@ -346,6 +370,10 @@ bool LLMInteractionStore::deleteInteraction(const std::string& id) {
     return true;
 }
 
+/**
+ * @brief Clear.
+ * @details Calls: reset(), NewIterator(), THEMIS_ERROR(), Seek(), Valid(), Next(), key(), ToString().
+ */
 void LLMInteractionStore::clear() {
     rocksdb::ReadOptions read_opts;
     rocksdb::WriteOptions write_opts;
@@ -387,6 +415,13 @@ void LLMInteractionStore::clear() {
     THEMIS_INFO("Cleared {} LLM interactions", count);
 }
 
+/**
+ * @brief Update Metadata.
+ * @param[in] id Input parameter.
+ * @param[in] metadata_updates Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: getInteraction(), has_value(), THEMIS_WARN(), items(), toJson(), dump(), makeKey(), Put().
+ */
 bool LLMInteractionStore::updateMetadata(const std::string& id, const nlohmann::json& metadata_updates) {
     // Read existing interaction
     auto interaction_opt = getInteraction(id);

@@ -87,8 +87,8 @@ struct CypherParser::Lexer {
     }
 
     /**
-     * @brief Advance.
-     * @return Return value.
+     * @brief Advance an iterator within the validated range.
+     * @return None.
      * @details Calls: size().
      */
     char advance() {
@@ -374,10 +374,10 @@ struct CypherParser::Parser {
         : tokens(std::move(toks)) {}
 
     /**
-     * @brief Collapse token-boundary spaces around dots: "n .
+     * @brief Collapse Dot Spaces.
      * @param[in] s Input parameter.
      * @return Return value.
-     * @details prop" → "n.prop" Calls: reserve(), size().
+     * @details Calls: reserve(), size().
      */
     static std::string collapseDotSpaces(const std::string& s) {
         std::string out = {};
@@ -418,7 +418,7 @@ struct CypherParser::Parser {
     /**
      * @brief Match.
      * @param[in] t Input parameter.
-     * @return True on success.
+     * @return True when the operation succeeds.
      * @details Calls: check().
      */
     bool match(TokenType t) {
@@ -427,7 +427,7 @@ struct CypherParser::Parser {
     }
 
     /**
-     * @brief Advance and return the consumed token; throw on mismatch.
+     * @brief Expect.
      * @param[in] t Input parameter.
      * @param[in] msg Input parameter.
      * @return Return value.
@@ -464,7 +464,7 @@ struct CypherParser::Parser {
     bool isAtEnd() const { return check(TokenType::END_OF_FILE); }
 
     /**
-     * @brief Upper-case helper
+     * @brief To Upper.
      * @param[in] s Input parameter.
      * @return Return value.
      * @details Calls: std::transform(), begin(), end(), std::toupper().
@@ -475,13 +475,13 @@ struct CypherParser::Parser {
         return s;
     }
 
+
     /**
-     * @brief ---- Grammar rules -------------------------------------------------------
+     * @brief Parse Query.
      * @return Return value.
      * @throws CypherParseError if an error occurs.
      * @details Calls: match(), expect(), push_back(), parsePathPattern(), parseExpr(), parseReturnItems(), check(), parseSortSpecs().
      */
-
     CypherASTNode parseQuery() {
         CypherASTNode ast;
 
@@ -556,7 +556,7 @@ struct CypherParser::Parser {
     }
 
     /**
-     * @brief path_pattern := node_pattern (rel_pattern node_pattern)*
+     * @brief Parse Path Pattern.
      * @return Return value.
      * @details Calls: parseNodePattern(), check(), parseRelPattern(), push_back(), std::move().
      */
@@ -575,7 +575,7 @@ struct CypherParser::Parser {
     }
 
     /**
-     * @brief node_pattern := LPAREN [ident] [:label]* [{props}] RPAREN
+     * @brief Parse Node Pattern.
      * @return Return value.
      * @throws CypherParseError if an error occurs.
      * @details Calls: expect(), check(), match(), current(), push_back(), parsePropMap().
@@ -608,7 +608,7 @@ struct CypherParser::Parser {
     }
 
     /**
-     * @brief prop_map := key COLON literal (COMMA key COLON literal)*
+     * @brief Parse Prop Map.
      * @return Return value.
      * @details Calls: check(), expectIdent(), expect(), parseLiteralValue(), push_back(), std::move(), match().
      */
@@ -691,10 +691,10 @@ struct CypherParser::Parser {
     }
 
     /**
-     * @brief rel_pattern: -[var:TYPE*m.
+     * @brief Parse Rel Pattern.
      * @return Return value.
      * @throws CypherParseError if an error occurs.
-     * @details .n]-> (Out) <-[var:TYPE*m..n]- (In) -[var:TYPE*m..n]- (Both) Calls: match(), expect(), check(), current(), push_back(), expectIdent(), std::stoi(), THEMIS_WARN().
+     * @details Calls: match(), expect(), check(), current(), push_back(), expectIdent(), std::stoi(), THEMIS_WARN().
      */
     CypherRelPattern parseRelPattern() {
         CypherRelPattern rel;
@@ -799,12 +799,12 @@ struct CypherParser::Parser {
         return rel;
     }
 
+
     /**
-     * @brief ---- Expression parsing -------------------------------------------------- expr := or_expr or_expr := and_expr (OR and_expr)* and_expr := not_expr (AND not_expr)* not_expr := [NOT] is_expr is_expr := comparison [IS [NOT] NULL] comparison:= additive [op additive] additive := primary primary := ident DOT ident | literal | ident [IN list_literal | STARTS WITH | ENDS WITH | CONTAINS] | LPAREN expr RPAREN
+     * @brief Parse Expr.
      * @return Return value.
      * @details Calls: parseOrExpr().
      */
-
     std::shared_ptr<CypherExpr> parseExpr() {
         return parseOrExpr();
     }
@@ -1034,13 +1034,12 @@ struct CypherParser::Parser {
         };
     }
 
-    // ---- RETURN items --------------------------------------------------------
-
     /**
-     * @brief return_item := STAR | (expr [AS ident]) The raw expression text is captured by re-serialising the expr tree.
+     * @brief ---- RETURN items --------------------------------------------------------
      * @param[in,out] ast Input/output parameter.
      * @details Calls: check(), push_back(), std::move(), parseExpr(), collapseDotSpaces(), match(), expectIdent().
      */
+
     void parseReturnItems(CypherASTNode& ast) {
         // RETURN *
         if (check(TokenType::STAR)) {
@@ -1078,12 +1077,12 @@ struct CypherParser::Parser {
         } while (match(TokenType::COMMA));
     }
 
+
     /**
-     * @brief ---- ORDER BY ------------------------------------------------------------
+     * @brief Parse Sort Specs.
      * @param[in,out] ast Input/output parameter.
      * @details Calls: parseExpr(), collapseDotSpaces(), match(), push_back(), std::move().
      */
-
     void parseSortSpecs(CypherASTNode& ast) {
         do {
             CypherSortSpec spec;
@@ -1109,20 +1108,15 @@ struct CypherParser::Parser {
     }
 };
 
+
 /**
- * @brief ============================================================================ CypherParser::parse – public entry point ============================================================================
+ * @brief Parse.
  * @param[in] cypher_query Input parameter.
  * @return Return value.
  * @details Calls: lex(), tokenize(), parser(), std::move(), parseQuery(), Ok(), toString(), std::string().
  */
-
 Result<CypherASTNode> CypherParser::parse(const std::string& cypher_query) {
     try {
-        /**
-         * @brief Lex.
-         * @param[in] cypher_query Input parameter.
-         * @return Return value.
-         */
         Lexer lex(cypher_query);
         auto tokens = lex.tokenize();
 
@@ -1142,7 +1136,7 @@ Result<CypherASTNode> CypherParser::parse(const std::string& cypher_query) {
 // ============================================================================
 
 /**
- * @brief static
+ * @brief Literal To AQL.
  * @param[in] val Input parameter.
  * @return Return value.
  * @details Calls: std::visit(), constexpr(), std::to_string(), str(), size(), front(), back(), reserve().
@@ -1181,7 +1175,7 @@ std::string CypherToAQLTranspiler::literalToAQL(const CypherLiteralValue& val) {
 }
 
 /**
- * @brief static
+ * @brief Expr To AQL.
  * @param[in] expr Input parameter.
  * @param[in] default_var Input parameter.
  * @return Return value.
@@ -1255,7 +1249,7 @@ std::string CypherToAQLTranspiler::exprToAQL(const CypherExpr& expr,
 }
 
 /**
- * @brief static
+ * @brief Node Pattern To Filter.
  * @param[in] node Input parameter.
  * @param[in] var Input parameter.
  * @return Return value.
@@ -1273,13 +1267,13 @@ std::string CypherToAQLTranspiler::nodePatternToFilter(const CypherNodePattern& 
     return filter;
 }
 
+
 /**
- * @brief ============================================================================ CypherToAQLTranspiler::transpile ============================================================================
+ * @brief Transpile.
  * @param[in] ast Input parameter.
  * @return Return value.
  * @details Calls: empty(), std::find(), begin(), end(), push_back(), addVar(), nodePatternToFilter(), std::move().
  */
-
 Result<std::string> CypherToAQLTranspiler::transpile(const CypherASTNode& ast) {
     try {
         if (ast.match_patterns.empty()) {

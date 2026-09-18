@@ -36,6 +36,12 @@ namespace temporal {
 static constexpr const char kBase64Chars[] =
     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 
+/**
+ * @brief Base64 Encode.
+ * @param[in] input Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), data(), uint32_t().
+ */
 std::string TemporalCompressor::base64Encode(const std::string& input) {
     std::string out = {};
     out.reserve(((input.size() + 2) / 3) * 4);
@@ -64,6 +70,12 @@ std::string TemporalCompressor::base64Encode(const std::string& input) {
     return out;
 }
 
+/**
+ * @brief Base64 Char Value.
+ * @param[in] c Input parameter.
+ * @return Return value.
+ * @details Implements base64CharValue without additional internal calls.
+ */
 static int base64CharValue(char c) {
     if (c >= 'A' && c <= 'Z') {
       return c - 'A';
@@ -83,6 +95,12 @@ static int base64CharValue(char c) {
     return -1;
 }
 
+/**
+ * @brief Base64 Decode.
+ * @param[in] input Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), size(), reserve(), base64CharValue(), uint32_t(), char().
+ */
 std::string TemporalCompressor::base64Decode(const std::string& input) {
     std::string out = {};
     if (input.empty() || input.size() % 4 != 0) {
@@ -119,6 +137,12 @@ std::string TemporalCompressor::base64Decode(const std::string& input) {
 static constexpr unsigned char kRlRepeatMarker = 0x01;
 static constexpr unsigned char kRlEscapeByte   = 0x02;
 
+/**
+ * @brief Rl Encode.
+ * @param[in] input Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), reserve(), size().
+ */
 std::string TemporalCompressor::rlEncode(const std::string& input) {
     if (input.empty()) return {};
     std::string out = {};
@@ -147,6 +171,12 @@ std::string TemporalCompressor::rlEncode(const std::string& input) {
     return out;
 }
 
+/**
+ * @brief Rl Decode.
+ * @param[in] input Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size().
+ */
 std::string TemporalCompressor::rlDecode(const std::string& input) {
     std::string out = {};
     out.reserve(input.size() * 2);
@@ -168,9 +198,13 @@ std::string TemporalCompressor::rlDecode(const std::string& input) {
     return out;
 }
 
-// ============================================================================
-// Algorithm: ZSTD (simulated via RL-encode + base64)
-// ============================================================================
+/**
+ * @brief ============================================================================ Algorithm: ZSTD (simulated via RL-encode + base64) ============================================================================
+ * @param[in] doc Input parameter.
+ * @param[in] int Input parameter.
+ * @return Return value.
+ * @details Calls: dump(), base64Encode(), rlEncode(), size().
+ */
 
 nlohmann::json TemporalCompressor::applyZstd(const nlohmann::json& doc, int /*level*/) {
     const std::string raw = doc.dump();
@@ -182,23 +216,26 @@ nlohmann::json TemporalCompressor::applyZstd(const nlohmann::json& doc, int /*le
     };
 }
 
+/**
+ * @brief Decompress Zstd.
+ * @param[in] doc Input parameter.
+ * @return Return value.
+ * @details Calls: at(), rlDecode(), base64Decode(), nlohmann::json::parse().
+ */
 nlohmann::json TemporalCompressor::decompressZstd(const nlohmann::json& doc) {
     const std::string encoded = doc.at("__data").get<std::string>();
     const std::string raw = rlDecode(base64Decode(encoded));
     return nlohmann::json::parse(raw);
 }
 
-// ============================================================================
-// Algorithm: DELTA (JSON field-level patch)
-//
-// A delta payload looks like:
-//   { "__compressed": "delta",
-//     "__base_ref":   "<key>@<sys_start_ms>",
-//     "__patch":      { <field>: <new_value>, ... },
-//     "__removed":    [<field>, ...] }
-//
-// Fields absent from __patch and __removed are unchanged from the base.
-// ============================================================================
+/**
+ * @brief ============================================================================ Algorithm: DELTA (JSON field-level patch) A delta payload looks like: { "__compressed": "delta", "__base_ref": "<key>@<sys_start_ms>", "__patch": { <field>: <new_value>, .
+ * @param[in] base Input parameter.
+ * @param[in] current Input parameter.
+ * @param[in] base_ref Input parameter.
+ * @return Return value.
+ * @details .. }, "__removed": [<field>, ...] } Fields absent from __patch and __removed are unchanged from the base. ============================================================================ Calls: nlohmann::json::object(), nlohmann::json::array(), items(), contains(), at(), push_back().
+ */
 
 nlohmann::json TemporalCompressor::applyDelta(const nlohmann::json& base,
                                                const nlohmann::json& current,
@@ -306,16 +343,12 @@ nlohmann::json TemporalCompressor::applyDictionary(
     };
 }
 
-// ============================================================================
-// ============================================================================
-// Algorithm: LZ4 — high-throughput block compression
-// ============================================================================
-//
-// Payload format stored in the history table:
-//   { "__compressed": "lz4",
-//     "__original_size": <int>,      // original JSON string byte count
-//     "__data": "<base64-encoded LZ4 compressed block>"
-//   }
+/**
+ * @brief ============================================================================ ============================================================================ Algorithm: LZ4 — high-throughput block compression ============================================================================ Payload format stored in the history table: { "__compressed": "lz4", "__original_size": <int>, // original JSON string byte count "__data": "<base64-encoded LZ4 compressed block>" }
+ * @param[in] doc Input parameter.
+ * @return Return value.
+ * @details Calls: dump(), size(), LZ4_compressBound(), dst(), LZ4_compress_default(), data(), resize(), base64Encode().
+ */
 
 nlohmann::json TemporalCompressor::applyLz4(const nlohmann::json& doc) {
     const std::string src = doc.dump();
@@ -345,6 +378,12 @@ nlohmann::json TemporalCompressor::applyLz4(const nlohmann::json& doc) {
     };
 }
 
+/**
+ * @brief Decompress Lz4.
+ * @param[in] doc Input parameter.
+ * @return Return value.
+ * @details Calls: contains(), base64Decode(), decompressed(), LZ4_decompress_safe(), data(), size(), nlohmann::json::parse().
+ */
 nlohmann::json TemporalCompressor::decompressLz4(const nlohmann::json& doc) {
     if (!doc.contains("__original_size") || !doc.contains("__data")) {
         return doc;
@@ -380,6 +419,12 @@ nlohmann::json TemporalCompressor::decompressLz4(const nlohmann::json& doc) {
 // algorithmName
 // ============================================================================
 
+/**
+ * @brief Algorithm Name.
+ * @param[in] algo Input parameter.
+ * @return Return value.
+ * @details Implements algorithmName without additional internal calls.
+ */
 std::string TemporalCompressor::algorithmName(CompressionAlgorithm algo) {
     switch (algo) {
         case CompressionAlgorithm::DELTA:      return "DELTA";
@@ -395,6 +440,12 @@ std::string TemporalCompressor::algorithmName(CompressionAlgorithm algo) {
 // decompress (dispatcher)
 // ============================================================================
 
+/**
+ * @brief Decompress.
+ * @param[in] doc Input parameter.
+ * @return Return value.
+ * @details Calls: is_object(), contains(), decompressZstd(), decompressLz4().
+ */
 nlohmann::json TemporalCompressor::decompress(const nlohmann::json& doc) {
     if (!doc.is_object() || !doc.contains("__compressed")) {
         return doc;  // Not a compressed payload
@@ -424,6 +475,14 @@ nlohmann::json TemporalCompressor::decompress(const nlohmann::json& doc) {
 // compressHistory — primary entry point
 // ============================================================================
 
+/**
+ * @brief Compress History.
+ * @param[in,out] table Input/output parameter.
+ * @param[in] range Input parameter.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @details Calls: lk(), std::chrono::steady_clock::now(), count(), now(), getAllKeys(), getHistoryInRange(), isCurrent(), push_back().
+ */
 CompressionStats TemporalCompressor::compressHistory(
     SystemVersionedTable& table,
     const TimeRange& range,

@@ -30,6 +30,12 @@ namespace cdc {
 // OutboxRecord JSON serialisation
 // ============================================================
 
+/**
+ * @brief Outbox State To String.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Implements outboxStateToString without additional internal calls.
+ */
 static std::string outboxStateToString(OutboxState s) {
     switch (s) {
         case OutboxState::PENDING:
@@ -42,6 +48,12 @@ static std::string outboxStateToString(OutboxState s) {
     return "PENDING";
 }
 
+/**
+ * @brief Outbox State From String.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Implements outboxStateFromString without additional internal calls.
+ */
 static OutboxState outboxStateFromString(const std::string &s) {
     if (s == "PUBLISHED") {
         return OutboxState::PUBLISHED;
@@ -52,6 +64,12 @@ static OutboxState outboxStateFromString(const std::string &s) {
     return OutboxState::PENDING;
 }
 
+/**
+ * @brief Change Event Type To String.
+ * @param[in] t Input parameter.
+ * @return Return value.
+ * @details Implements changeEventTypeToString without additional internal calls.
+ */
 static std::string changeEventTypeToString(Changefeed::ChangeEventType t) {
     switch (t) {
         case Changefeed::ChangeEventType::EVENT_PUT:
@@ -66,6 +84,12 @@ static std::string changeEventTypeToString(Changefeed::ChangeEventType t) {
     return "PUT";
 }
 
+/**
+ * @brief Change Event Type From String.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Implements changeEventTypeFromString without additional internal calls.
+ */
 static Changefeed::ChangeEventType changeEventTypeFromString(const std::string &s) {
     if (s == "DELETE") {
         return Changefeed::ChangeEventType::EVENT_DELETE;
@@ -99,6 +123,12 @@ nlohmann::json OutboxRecord::toJson() const {
     return j;
 }
 
+/**
+ * @brief From Json.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: value(), contains(), is_null(), changeEventTypeFromString(), outboxStateFromString().
+ */
 OutboxRecord OutboxRecord::fromJson(const nlohmann::json &j) {
     OutboxRecord r;
     r.outbox_sequence = j.value("outbox_sequence", uint64_t{0});
@@ -135,6 +165,12 @@ std::string OutboxWriter::makeKey(uint64_t seq) const {
     return std::string(buf);
 }
 
+/**
+ * @brief Next Sequence.
+ * @return Return value.
+ * @throws CDCException if an error occurs.
+ * @details Calls: lock(), Get(), ok(), std::stoull(), std::to_string(), Put(), ToString().
+ */
 uint64_t OutboxWriter::nextSequence() {
     std::lock_guard<std::mutex> lock(sequence_mutex_);
 
@@ -238,6 +274,11 @@ std::string OutboxRelay::makeKey(uint64_t seq) const {
     return std::string(buf);
 }
 
+/**
+ * @brief Update Record.
+ * @param[in] rec Input parameter.
+ * @details Calls: makeKey(), toJson(), dump(), Put(), ok(), THEMIS_WARN(), ToString().
+ */
 void OutboxRelay::updateRecord(const OutboxRecord &rec) {
     std::string db_key     = makeKey(rec.outbox_sequence);
     std::string serialised = rec.toJson().dump();
@@ -284,9 +325,11 @@ std::vector<OutboxRecord> OutboxRelay::scanRecords(size_t limit, OutboxState fil
     return result;
 }
 
-// ============================================================
-// OutboxRelay::relayOnce
-// ============================================================
+/**
+ * @brief ============================================================ OutboxRelay::relayOnce ============================================================
+ * @return Return value.
+ * @details Calls: scanRecords(), empty(), recordEvent(), std::chrono::system_clock::now(), time_since_epoch(), count(), updateRecord(), fetch_add().
+ */
 
 size_t OutboxRelay::relayOnce() {
     std::vector<OutboxRecord> pending = scanRecords(config_.batch_size, OutboxState::PENDING, /*all_states=*/false);
@@ -344,6 +387,10 @@ size_t OutboxRelay::relayOnce() {
 // OutboxRelay background thread
 // ============================================================
 
+/**
+ * @brief Relay Thread Func.
+ * @details Calls: load(), relayOnce(), lock(), wait_for().
+ */
 void OutboxRelay::relayThreadFunc() {
     while (running_.load(std::memory_order_acquire)) {
         relayOnce();
@@ -353,6 +400,10 @@ void OutboxRelay::relayThreadFunc() {
     }
 }
 
+/**
+ * @brief Start.
+ * @details Calls: compare_exchange_strong(), std::thread(), THEMIS_INFO(), count().
+ */
 void OutboxRelay::start() {
     bool expected = false;
     if (!running_.compare_exchange_strong(expected, true, std::memory_order_acq_rel)) {
@@ -362,6 +413,10 @@ void OutboxRelay::start() {
     THEMIS_INFO("OutboxRelay: started (poll_interval={}ms)", config_.poll_interval.count());
 }
 
+/**
+ * @brief Stop.
+ * @details Calls: exchange(), notify_all(), joinable(), join(), THEMIS_INFO().
+ */
 void OutboxRelay::stop() {
     if (!running_.exchange(false, std::memory_order_acq_rel)) {
         return; // was not running
@@ -385,6 +440,12 @@ std::vector<OutboxRecord> OutboxRelay::listAllRecords(size_t limit) const {
     return scanRecords(limit, OutboxState::PENDING, /*all_states=*/true);
 }
 
+/**
+ * @brief Remove Record.
+ * @param[in] outbox_sequence Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: makeKey(), Delete(), ok().
+ */
 bool OutboxRelay::removeRecord(uint64_t outbox_sequence) {
     std::string db_key = makeKey(outbox_sequence);
     rocksdb::WriteOptions write_opts;
@@ -397,6 +458,11 @@ bool OutboxRelay::removeRecord(uint64_t outbox_sequence) {
     return s.ok();
 }
 
+/**
+ * @brief Purge Published.
+ * @return Return value.
+ * @details Calls: scanRecords(), removeRecord().
+ */
 size_t OutboxRelay::purgePublished() {
     auto published = scanRecords(0, OutboxState::PUBLISHED, /*all_states=*/false);
     size_t removed = 0;

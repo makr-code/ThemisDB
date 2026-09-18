@@ -69,7 +69,17 @@ extern "C" void hipSetGeoKernelBlockSize(int blockSize);
 // HIP Kernels (similar to CUDA)
 // ============================================================================
 
-// Compute L2 distance kernel
+/**
+ * @brief Compute L2 distance kernel
+ * @param[in] queries Input parameter.
+ * @param[in] vectors Input parameter.
+ * @param[in,out] distances Input/output parameter.
+ * @param[in] numQueries Input parameter.
+ * @param[in] numVectors Input parameter.
+ * @param[in] dim Input parameter.
+ * @return Return value.
+ * @details Implements computeL2DistanceKernel without additional internal calls.
+ */
 __global__ void computeL2DistanceKernel(
     const float* __restrict__ queries,
     const float* __restrict__ vectors,
@@ -100,7 +110,17 @@ __global__ void computeL2DistanceKernel(
     distances[qIdx * numVectors + vIdx] = sum;
 }
 
-// Compute Cosine distance kernel
+/**
+ * @brief Compute Cosine distance kernel
+ * @param[in] queries Input parameter.
+ * @param[in] vectors Input parameter.
+ * @param[in,out] distances Input/output parameter.
+ * @param[in] numQueries Input parameter.
+ * @param[in] numVectors Input parameter.
+ * @param[in] dim Input parameter.
+ * @return Return value.
+ * @details Calls: sqrtf().
+ */
 __global__ void computeCosineDistanceKernel(
     const float* __restrict__ queries,
     const float* __restrict__ vectors,
@@ -142,8 +162,17 @@ __global__ void computeCosineDistanceKernel(
     distances[qIdx * numVectors + vIdx] = 1.0f - cosineSim;
 }
 
-// Compute Inner Product distance kernel
-// Inner Product similarity: dot(a, b), distance = max(0, -dot(a, b))
+/**
+ * @brief Compute Inner Product distance kernel Inner Product similarity: dot(a, b), distance = max(0, -dot(a, b))
+ * @param[in] queries Input parameter.
+ * @param[in] vectors Input parameter.
+ * @param[in,out] distances Input/output parameter.
+ * @param[in] numQueries Input parameter.
+ * @param[in] numVectors Input parameter.
+ * @param[in] dim Input parameter.
+ * @return Return value.
+ * @details Calls: fmaxf().
+ */
 __global__ void computeInnerProductDistanceKernel(
     const float* __restrict__ queries,
     const float* __restrict__ vectors,
@@ -173,14 +202,15 @@ __global__ void computeInnerProductDistanceKernel(
     distances[qIdx * numVectors + vIdx] = fmaxf(0.0f, -dotProduct);
 }
 
-// ============================================================================
-// Device-side max-heap helpers for top-K selection
-//
-// The heap is stored as two parallel arrays (distances + indices) of capacity
-// `cap`.  heap[0] always holds the maximum distance (max-heap invariant), so
-// we can cheaply check whether a new candidate improves the result set and
-// evict the worst element in O(log cap).
-// ============================================================================
+/**
+ * @brief ============================================================================ Device-side max-heap helpers for top-K selection The heap is stored as two parallel arrays (distances + indices) of capacity `cap`.
+ * @param[in,out] dists Input/output parameter.
+ * @param[in,out] ids Input/output parameter.
+ * @param[in] top Input parameter.
+ * @param[in] size Input parameter.
+ * @return Return value.
+ * @details heap[0] always holds the maximum distance (max-heap invariant), so we can cheaply check whether a new candidate improves the result set and evict the worst element in O(log cap). ============================================================================
+ */
 
 __device__ __forceinline__ void hipHeapSiftDown(
     float* __restrict__    dists,
@@ -206,9 +236,17 @@ __device__ __forceinline__ void hipHeapSiftDown(
     }
 }
 
-// Insert (d, id) into a max-heap of capacity cap.
-// If the heap has room it grows; otherwise, if d < heap[0] (the current max),
-// replace the root and sift down.
+/**
+ * @brief Insert (d, id) into a max-heap of capacity cap.
+ * @param[in,out] dists Input/output parameter.
+ * @param[in,out] ids Input/output parameter.
+ * @param[in,out] size_ptr Input/output parameter.
+ * @param[in] cap Input parameter.
+ * @param[in] d Input parameter.
+ * @param[in] id Input parameter.
+ * @return Return value.
+ * @details If the heap has room it grows; otherwise, if d < heap[0] (the current max), replace the root and sift down.
+ */
 __device__ __forceinline__ void hipHeapPushCapped(
     float* __restrict__    dists,
     uint32_t* __restrict__ ids,
@@ -240,7 +278,13 @@ __device__ __forceinline__ void hipHeapPushCapped(
     }
 }
 
-// Sort a max-heap in ascending order (heap-sort descending then reverse).
+/**
+ * @brief Sort a max-heap in ascending order (heap-sort descending then reverse).
+ * @param[in,out] dists Input/output parameter.
+ * @param[in,out] ids Input/output parameter.
+ * @param[in] size Input parameter.
+ * @return Return value.
+ */
 __device__ __forceinline__ void hipHeapSort(
     float* __restrict__    dists,
     uint32_t* __restrict__ ids,
@@ -253,12 +297,17 @@ __device__ __forceinline__ void hipHeapSort(
     }
 }
 
-// Top-K selection kernel using parallel reduction
-// Selects k nearest neighbors for each query.
-//
-// Algorithm selection:
-//   k <= 32  — insertion-sort style (O(k²) init + O(n·k) sweep); low overhead for tiny k.
-//   k >  32  — max-heap selection (O(k log k) build + O(n log k) sweep); efficient for large k.
+/**
+ * @brief Top-K selection kernel using parallel reduction Selects k nearest neighbors for each query.
+ * @param[in] distances Input parameter.
+ * @param[in,out] indices Input/output parameter.
+ * @param[in,out] topKDistances Input/output parameter.
+ * @param[in] numQueries Input parameter.
+ * @param[in] numVectors Input parameter.
+ * @param[in] k Input parameter.
+ * @return Return value.
+ * @details Algorithm selection: k <= 32 — insertion-sort style (O(k²) init + O(n·k) sweep); low overhead for tiny k. k > 32 — max-heap selection (O(k log k) build + O(n log k) sweep); efficient for large k. Calls: hipHeapPushCapped(), hipHeapSort().
+ */
 __global__ void topKSelectionKernel(
     const float* __restrict__ distances,
     uint32_t* __restrict__ indices,
@@ -411,6 +460,11 @@ BackendCapabilities HIPVectorBackend::getCapabilities() const {
     return caps;
 }
 
+/**
+ * @brief Initialize.
+ * @return True when the operation succeeds.
+ * @details Calls: setError(), ErrorContext(), hipGetDeviceCount(), ErrorContextHelpers::createNoDevicesError(), ErrorContextHelpers::createDriverError(), format(), hipGetDeviceProperties(), hipSetDevice().
+ */
 bool HIPVectorBackend::initialize() {
     if (impl_->initialized) {
         setError(ErrorContext(
@@ -550,6 +604,10 @@ bool HIPVectorBackend::initialize() {
     return true;
 }
 
+/**
+ * @brief Shutdown.
+ * @details Implements shutdown without additional internal calls.
+ */
 void HIPVectorBackend::shutdown() {
     if (impl_->initialized) {
         // stream automatically destroyed by RAII
@@ -557,6 +615,17 @@ void HIPVectorBackend::shutdown() {
     }
 }
 
+/**
+ * @brief Compute Distances.
+ * @param[in] queries Input parameter.
+ * @param[in] numQueries Input parameter.
+ * @param[in] dim Input parameter.
+ * @param[in] vectors Input parameter.
+ * @param[in] numVectors Input parameter.
+ * @param[in] useL2 Input parameter.
+ * @return Return value.
+ * @details Calls: setError(), std::move(), BatchValidator::validateVectorBatch(), name(), HIP_CHECK_THROW(), hipMalloc(), hipMemcpy(), blockSize().
+ */
 std::vector<float> HIPVectorBackend::computeDistances(
     const float* queries,
     size_t numQueries,
@@ -742,7 +811,17 @@ std::vector<std::vector<std::pair<uint32_t, float>>> HIPVectorBackend::batchKnnS
         HIP_CHECK_THROW(hipStreamSynchronize(impl_->stream.get()));
         
         // Copy results back
+        /**
+         * @brief Indices.
+         * @param[in,out] effectiveK Input/output parameter.
+         * @return Return value.
+         */
         std::vector<uint32_t> indices(numQueries * effectiveK);
+        /**
+         * @brief Top KDistances.
+         * @param[in,out] effectiveK Input/output parameter.
+         * @return Return value.
+         */
         std::vector<float> topKDistances(numQueries * effectiveK);
         HIP_CHECK_THROW(hipMemcpy(indices.data(), d_indices, indicesSize, hipMemcpyDeviceToHost));
         HIP_CHECK_THROW(hipMemcpy(topKDistances.data(), d_topKDistances, topKSize, hipMemcpyDeviceToHost));
@@ -805,6 +884,11 @@ HIPVectorBackend::DeviceInfo HIPVectorBackend::getDeviceInfo() const {
     return info;
 }
 
+/**
+ * @brief Set Config.
+ * @param[in] config Input parameter.
+ * @details Implements setConfig without additional internal calls.
+ */
 void HIPVectorBackend::setConfig(const HIPConfig& config) {
     impl_->config = config;
 }
@@ -813,6 +897,11 @@ HIPVectorBackend::HIPConfig HIPVectorBackend::getConfig() const {
     return impl_->config;
 }
 
+/**
+ * @brief Get Available Devices.
+ * @return Return value.
+ * @details Calls: hipGetDeviceCount(), hipGetDeviceProperties(), push_back().
+ */
 std::vector<HIPVectorBackend::DeviceInfo> HIPVectorBackend::getAvailableDevices() {
     std::vector<DeviceInfo> devices;
     
@@ -840,6 +929,11 @@ std::vector<HIPVectorBackend::DeviceInfo> HIPVectorBackend::getAvailableDevices(
     return devices;
 }
 
+/**
+ * @brief Get HIPVersion.
+ * @return Return value.
+ * @details Calls: hipRuntimeGetVersion(), std::to_string().
+ */
 std::string HIPVectorBackend::getHIPVersion() {
     int runtimeVersion = 0;
     if (hipRuntimeGetVersion(&runtimeVersion) == hipSuccess) {
@@ -851,6 +945,11 @@ std::string HIPVectorBackend::getHIPVersion() {
     return "unknown";
 }
 
+/**
+ * @brief Get ROCm Version.
+ * @return Return value.
+ * @details Calls: getHIPVersion().
+ */
 std::string HIPVectorBackend::getROCmVersion() {
     // ROCm version is typically extracted from HIP version
     return getHIPVersion();
@@ -860,12 +959,56 @@ std::string HIPVectorBackend::getROCmVersion() {
 // These conform to the ANNDistanceFn / ANNTopKFn typedefs in
 // include/acceleration/kernel_invocation.h (INTERFACE_VERSION 100).
 extern "C" {
+/**
+ * @brief Hip launch L2 Distance Kernel.
+ * @param[in] param Input parameter.
+ * @param[in] param Input parameter.
+ * @param[in,out] param Input/output parameter.
+ * @param[in] int Input parameter.
+ * @param[in] int Input parameter.
+ * @param[in] int Input parameter.
+ * @param[in,out] param Input/output parameter.
+ * @return Return value.
+ */
 int hip_launchL2DistanceKernel(const float*, const float*, float*,
                                 int, int, int, void*);
+/**
+ * @brief Hip launch Cosine Distance Kernel.
+ * @param[in] param Input parameter.
+ * @param[in] param Input parameter.
+ * @param[in,out] param Input/output parameter.
+ * @param[in] int Input parameter.
+ * @param[in] int Input parameter.
+ * @param[in] int Input parameter.
+ * @param[in,out] param Input/output parameter.
+ * @return Return value.
+ */
 int hip_launchCosineDistanceKernel(const float*, const float*, float*,
                                     int, int, int, void*);
+/**
+ * @brief Hip launch Inner Product Kernel.
+ * @param[in] param Input parameter.
+ * @param[in] param Input parameter.
+ * @param[in,out] param Input/output parameter.
+ * @param[in] int Input parameter.
+ * @param[in] int Input parameter.
+ * @param[in] int Input parameter.
+ * @param[in,out] param Input/output parameter.
+ * @return Return value.
+ */
 int hip_launchInnerProductKernel(const float*, const float*, float*,
                                   int, int, int, void*);
+/**
+ * @brief Hip launch Top KKernel.
+ * @param[in] param Input parameter.
+ * @param[in,out] param Input/output parameter.
+ * @param[in,out] param Input/output parameter.
+ * @param[in] int Input parameter.
+ * @param[in] int Input parameter.
+ * @param[in] int Input parameter.
+ * @param[in,out] param Input/output parameter.
+ * @return Return value.
+ */
 int hip_launchTopKKernel(const float*, uint32_t*, float*,
                           int, int, int, void*);
 } // extern "C"
@@ -887,8 +1030,31 @@ ANNKernelDispatch HIPVectorBackend::populateANNDispatch() const {
 // These conform to the GeoDistanceFn / GeoContainmentFn typedefs in
 // include/acceleration/kernel_invocation.h (INTERFACE_VERSION 100).
 extern "C" {
+/**
+ * @brief Hip launch Geo Distance Kernel.
+ * @param[in] param Input parameter.
+ * @param[in] param Input parameter.
+ * @param[in] param Input parameter.
+ * @param[in] param Input parameter.
+ * @param[in,out] param Input/output parameter.
+ * @param[in] int Input parameter.
+ * @param[in] GeoDistanceFormula Input parameter.
+ * @param[in,out] param Input/output parameter.
+ * @return Return value.
+ */
 int hip_launchGeoDistanceKernel(const double*, const double*, const double*, const double*,
                                  float*, int, GeoDistanceFormula, void*);
+/**
+ * @brief Hip launch Geo Containment Kernel.
+ * @param[in] param Input parameter.
+ * @param[in] param Input parameter.
+ * @param[in] int Input parameter.
+ * @param[in] param Input parameter.
+ * @param[in] int Input parameter.
+ * @param[in,out] param Input/output parameter.
+ * @param[in,out] param Input/output parameter.
+ * @return Return value.
+ */
 int hip_launchGeoContainmentKernel(const double*, const double*, int,
                                     const double*, int, uint8_t*, void*);
 } // extern "C"
@@ -923,6 +1089,11 @@ BackendCapabilities HIPGeoBackend::getCapabilities() const {
     return caps;
 }
 
+/**
+ * @brief Initialize.
+ * @return True when the operation succeeds.
+ * @details Calls: isAvailable(), hipGetDeviceCount(), setError(), ErrorContextHelpers::createNoDevicesError(), ErrorContextHelpers::createDriverError(), format(), hipSetDevice(), ErrorContext().
+ */
 bool HIPGeoBackend::initialize() {
     if (initialized_) {
         return true;
@@ -983,6 +1154,10 @@ bool HIPGeoBackend::initialize() {
     return true;
 }
 
+/**
+ * @brief Shutdown.
+ * @details Implements shutdown without additional internal calls.
+ */
 void HIPGeoBackend::shutdown() {
     if (initialized_) {
         // stream_ automatically destroyed by RAII destructor
@@ -990,6 +1165,18 @@ void HIPGeoBackend::shutdown() {
     }
 }
 
+/**
+ * @brief Batch Distances.
+ * @param[in] latitudes1 Input parameter.
+ * @param[in] longitudes1 Input parameter.
+ * @param[in] latitudes2 Input parameter.
+ * @param[in] longitudes2 Input parameter.
+ * @param[in] count Input parameter.
+ * @param[in] useHaversine Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: get(), HIP_CHECK_THROW(), hipMalloc(), hipMemcpyAsync(), hip_launchGeoDistanceKernel(), std::to_string(), distances(), data().
+ */
 std::vector<float> HIPGeoBackend::batchDistances(
     const double* latitudes1,
     const double* longitudes1,
@@ -1075,6 +1262,17 @@ std::vector<float> HIPGeoBackend::batchDistances(
     }
 }
 
+/**
+ * @brief Batch Point In Polygon.
+ * @param[in] pointLats Input parameter.
+ * @param[in] pointLons Input parameter.
+ * @param[in] numPoints Input parameter.
+ * @param[in] polygonCoords Input parameter.
+ * @param[in] numPolygonVertices Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: get(), HIP_CHECK_THROW(), hipMalloc(), hipMemcpyAsync(), hip_launchGeoContainmentKernel(), std::to_string(), rawResults(), data().
+ */
 std::vector<bool> HIPGeoBackend::batchPointInPolygon(
     const double* pointLats,
     const double* pointLons,

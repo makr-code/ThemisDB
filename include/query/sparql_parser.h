@@ -33,7 +33,6 @@ enum class SPARQLTermType {
     Literal        // "string", 123, 3.14, true, false
 };
 
-/// A literal value carried by a Literal term
 using SPARQLLiteralValue = std::variant<
     std::nullptr_t,  // NULL
     bool,            // true / false
@@ -42,7 +41,6 @@ using SPARQLLiteralValue = std::variant<
     std::string      // string / URI content
 >;
 
-/// One component of a triple pattern (subject, predicate, or object)
 struct SPARQLTerm {
     SPARQLTermType   type;
     std::string      value;           ///< variable name (without ?/$), URI, prefix:local, or raw literal text
@@ -62,7 +60,15 @@ enum class SPARQLExprType {
 };
 
 struct SPARQLExpr {
+    /**
+     * @brief SPARQLExpr.
+     * @return Return value.
+     */
     virtual ~SPARQLExpr() = default;
+    /**
+     * @brief Type.
+     * @return Return value.
+     */
     virtual SPARQLExprType type() const = 0;
 };
 
@@ -93,7 +99,6 @@ struct SPARQLUnaryOpExpr : SPARQLExpr {
 // SPARQL Where-Clause items
 // ============================================================================
 
-/// A triple pattern: subject predicate object
 struct SPARQLTriplePattern {
     SPARQLTerm subject;
     SPARQLTerm predicate;
@@ -130,7 +135,6 @@ struct SPARQLSelectStatement {
     std::optional<int64_t>        offset;
 };
 
-/// Top-level SPARQL AST node (SELECT only in this release)
 struct SPARQLASTNode {
     SPARQLSelectStatement select;
 };
@@ -154,22 +158,14 @@ struct SPARQLASTNode {
 // with a mutex (same constraint as AQLParser and SQLParser).
 // ============================================================================
 
-/** @brief with a mutex (same constraint as AQLParser and SQLParser). */
 class SPARQLParser {
 public:
     SPARQLParser() = default;
 
     /**
-     * Parse a SPARQL SELECT query into an AST.
-     *
-     * @param sparql_query  The SPARQL query string.
-     * @return              Result<SPARQLASTNode> – AST on success, or an error.
-     *
-     * Example:
-     *   SPARQLParser parser;
-     *   auto result = parser.parse(
-     *     "SELECT ?s ?p ?o WHERE { ?s ?p ?o } LIMIT 10");
-     *   if (result) { ... use result.value() ... }
+     * @brief Parse.
+     * @param[in] sparql_query Input parameter.
+     * @return Return value.
      */
     Result<SPARQLASTNode> parse(const std::string& sparql_query);
 
@@ -213,23 +209,26 @@ private:
 //     RETURN _t0.subject
 // ============================================================================
 
-/** @brief RETURN _t0.subject. */
 class SPARQLToAQLTranspiler {
 public:
     explicit SPARQLToAQLTranspiler(std::string collection = "rdf_triples")
         : collection_(std::move(collection)) {}
 
     /**
-     * Translate a SPARQL AST into an AQL query string.
-     *
-     * @param ast  The parsed SPARQL AST.
-     * @return     Result<std::string> – AQL string on success.
+     * @brief Transpile.
+     * @param[in] ast Input parameter.
+     * @return Return value.
      */
     Result<std::string> transpile(const SPARQLASTNode& ast);
 
 private:
     std::string collection_;
 
+    /**
+     * @brief Transpile Select.
+     * @param[in] stmt Input parameter.
+     * @return Return value.
+     */
     std::string transpileSelect(const SPARQLSelectStatement& stmt);
 };
 

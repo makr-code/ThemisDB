@@ -25,9 +25,6 @@ namespace themis {
 namespace llm {
 namespace lora {
 
-/**
- * @brief GPU batch for training
- */
 struct GPUBatch {
     GPUBatch() = default;
     ~GPUBatch() = default;
@@ -47,9 +44,6 @@ struct GPUBatch {
     }
 };
 
-/**
- * @brief Configuration for GPU DataLoader
- */
 struct GPUDataLoaderConfig {
     size_t batch_size = 4;
     size_t max_sequence_length = 512;
@@ -61,39 +55,8 @@ struct GPUDataLoaderConfig {
     bool pin_cpu_memory = true;             // Use pinned CPU memory for faster transfers
 };
 
-/**
- * @brief GPU-optimized DataLoader for LoRA training
- * 
- * Features:
- * - Direct loading to GPU VRAM
- * - Async GPU data transfer pipeline
- * - Batch padding and tokenization on GPU where possible
- * - Memory-efficient prefetching
- * - Support for CUDA, HIP, Vulkan, DirectX backends
- * 
- * Usage:
- * ```cpp
- * GPUDataLoaderConfig config;
- * config.batch_size = 8;
- * config.target_device = Device::cuda();
- * 
- * GPUDataLoader loader(tokenizer, config);
- * loader.loadFromSamples(training_samples);
- * 
- * while (loader.hasNext()) {
- *     auto batch = loader.getNextBatch();
- *     // batch.input_ids is already on GPU!
- * }
- * ```
- */
 class GPUDataLoader {
 public:
-    /**
-     * @brief Construct GPU DataLoader
-     * @param tokenizer Tokenizer for text processing
-     * @param config DataLoader configuration
-     * @param allocator Optional VRAM allocator (nullptr = use default)
-     */
     explicit GPUDataLoader(
         std::shared_ptr<ITokenizer> tokenizer,
         const GPUDataLoaderConfig& config = GPUDataLoaderConfig{},
@@ -109,61 +72,48 @@ public:
     GPUDataLoader& operator=(GPUDataLoader&&) noexcept;
     
     /**
-     * @brief Load training samples
-     * @param samples Vector of instruction-tuning samples
-     * @return true on success
+     * @brief Load From Samples.
+     * @param[in] samples Input parameter.
+     * @return True when the operation succeeds.
      */
     bool loadFromSamples(const std::vector<InstructionDataSample>& samples);
     
     /**
-     * @brief Get next batch (already on GPU)
-     * @return GPU batch with tensors on target device
+     * @brief Get Next Batch.
+     * @return Return value.
      */
     GPUBatch getNextBatch();
     
     /**
-     * @brief Check if more batches available
+     * @brief Has Next.
+     * @return True when the operation succeeds.
      */
     bool hasNext() const;
     
     /**
-     * @brief Reset iterator to beginning
+     * @brief Reset the modification detection flag.
      */
     void reset();
     
-    /**
-     * @brief Get number of samples
-     */
     size_t size() const { return samples_.size(); }
     
     /**
-     * @brief Get number of batches
+     * @brief Num batches.
+     * @return Return value.
      */
     size_t num_batches() const;
     
-    /**
-     * @brief Get current batch index
-     */
     size_t current_batch_index() const { return current_batch_; }
     
-    /**
-     * @brief Get configuration
-     */
     const GPUDataLoaderConfig& config() const { return config_; }
     
     /**
-     * @brief Update batch size dynamically (for adaptive batching)
-     * @param new_batch_size New batch size to use for subsequent batches
-     * @return true if update successful, false if invalid batch size
-     * 
-     * Note: This resets the iterator to the current position with new batch size.
-     * The change takes effect for the next call to getNextBatch().
+     * @brief Update Batch Size.
+     * @param[in] new_batch_size Input parameter.
+     * @return True when the operation succeeds.
      */
     bool updateBatchSize(size_t new_batch_size);
     
-    /**
-     * @brief Get memory statistics
-     */
     struct MemoryStats {
         size_t cpu_memory_bytes = 0;
         size_t gpu_memory_bytes = 0;
@@ -171,6 +121,10 @@ public:
         size_t prefetch_buffer_bytes = 0;
     };
     
+    /**
+     * @brief Get memory stats.
+     * @return Return value.
+     */
     MemoryStats get_memory_stats() const;
 
 private:
@@ -192,10 +146,29 @@ private:
     std::atomic<bool> prefetch_active_{false};
     
     // Helper methods
+    /**
+     * @brief Start Prefetching.
+     */
     void startPrefetching();
+    /**
+     * @brief Stop Prefetching.
+     */
     void stopPrefetching();
+    /**
+     * @brief Prefetch Worker.
+     */
     void prefetchWorker();
+    /**
+     * @brief Prepare Batch.
+     * @param[in] batch_idx Input parameter.
+     * @return Return value.
+     */
     GPUBatch prepareBatch(size_t batch_idx);
+    /**
+     * @brief Tokenize Sample.
+     * @param[in] sample Input parameter.
+     * @return Return value.
+     */
     std::vector<int> tokenizeSample(const InstructionDataSample& sample);
 };
 

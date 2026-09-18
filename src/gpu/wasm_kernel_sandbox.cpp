@@ -49,12 +49,22 @@ WASMKernelSandbox::WASMKernelSandbox(SandboxConfig config)
 // Configuration
 // ============================================================================
 
+/**
+ * @brief Set Config.
+ * @param[in] config Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void WASMKernelSandbox::setConfig(SandboxConfig config) {
     std::lock_guard<std::mutex> lock(mutex_);
     config_ = std::move(config);
 }
 
 WASMKernelSandbox::SandboxConfig WASMKernelSandbox::getConfig() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return config_;
 }
@@ -107,6 +117,11 @@ WASMKernelSandbox::execute(const std::string&          kernel_id,
     {
         uint64_t limit = 0;
         {
+            /**
+             * @brief Lock.
+             * @param[in] mutex_ Input parameter.
+             * @return Return value.
+             */
             std::lock_guard<std::mutex> lock(mutex_);
             limit = config_.memory_limit_bytes;
         }
@@ -174,6 +189,11 @@ WASMKernelSandbox::runInSandbox(const std::string&          kernel_id,
 
     uint32_t timeout_ms = {};
     {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         timeout_ms = config_.max_execution_ms;
     }
@@ -259,6 +279,11 @@ WASMKernelSandbox::runInSandbox(const std::string&          kernel_id,
 // Statistics
 // ============================================================================
 
+/**
+ * @brief Record Result.
+ * @param[in] r Input parameter.
+ * @details Calls: lock(), count().
+ */
 void WASMKernelSandbox::recordResult(const ExecutionResult& r) {
     std::lock_guard<std::mutex> lock(mutex_);
     ++total_submitted_;
@@ -292,6 +317,11 @@ void WASMKernelSandbox::recordResult(const ExecutionResult& r) {
 }
 
 WASMKernelSandbox::Stats WASMKernelSandbox::getStats() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     Stats s;
     s.total_submitted          = total_submitted_;
@@ -307,6 +337,10 @@ WASMKernelSandbox::Stats WASMKernelSandbox::getStats() const {
     return s;
 }
 
+/**
+ * @brief Reset Stats.
+ * @details Calls: lock().
+ */
 void WASMKernelSandbox::resetStats() {
     std::lock_guard<std::mutex> lock(mutex_);
     total_submitted_          = 0;

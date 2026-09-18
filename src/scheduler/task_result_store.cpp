@@ -27,7 +27,13 @@ namespace scheduler {
 TaskResultStore::TaskResultStore(RocksDBWrapper& storage, size_t max_per_task)
     : storage_(storage), max_per_task_(max_per_task) {}
 
-// Build a zero-padded 20-digit decimal timestamp so keys sort chronologically.
+/**
+ * @brief Build a zero-padded 20-digit decimal timestamp so keys sort chronologically.
+ * @param[in] task_id Identifier of the task.
+ * @param[in] timestamp_ms Input parameter.
+ * @return Return value.
+ * @details Calls: std::setw(), std::setfill(), str().
+ */
 std::string TaskResultStore::makeKey(const std::string& task_id,
                                      int64_t timestamp_ms) {
     std::ostringstream oss = {};
@@ -36,10 +42,22 @@ std::string TaskResultStore::makeKey(const std::string& task_id,
     return oss.str();
 }
 
+/**
+ * @brief Make Task Prefix.
+ * @param[in] task_id Identifier of the task.
+ * @return Return value.
+ * @details Calls: std::string().
+ */
 std::string TaskResultStore::makeTaskPrefix(const std::string& task_id) {
     return std::string(kKeyPrefix) + task_id + '/';
 }
 
+/**
+ * @brief Store.
+ * @param[in] result Input parameter.
+ * @return Return value.
+ * @details Calls: lk(), makeTaskPrefix(), scanPrefix(), emplace_back(), size(), THEMIS_WARN(), empty(), front().
+ */
 SchedulerError TaskResultStore::store(const TaskExecutionResult& result) {
     std::unique_lock<std::shared_mutex> lk(mutex_);
 
@@ -119,6 +137,11 @@ SchedulerError TaskResultStore::store(const TaskExecutionResult& result) {
 
 std::vector<TaskExecutionResult> TaskResultStore::getResults(
         const std::string& task_id, size_t limit) const {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lk(mutex_);
 
     const std::string prefix = makeTaskPrefix(task_id);
@@ -148,6 +171,11 @@ std::vector<TaskExecutionResult> TaskResultStore::getResults(
 
 std::optional<TaskExecutionResult> TaskResultStore::getLatestResult(
         const std::string& task_id) const {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lk(mutex_);
 
     const std::string prefix = makeTaskPrefix(task_id);

@@ -26,7 +26,6 @@ namespace toolbox {
 // Impl — private implementation
 // ─────────────────────────────────────────────────────────────────────────────
 
-/** @brief Impl — private implementation. */
 class IngestionToolbox::Impl {
 public:
     Impl()
@@ -76,7 +75,11 @@ IngestionToolbox::~IngestionToolbox() = default;
 IngestionToolbox::IngestionToolbox(IngestionToolbox&&) noexcept = default;
 IngestionToolbox& IngestionToolbox::operator=(IngestionToolbox&&) noexcept = default;
 
-// ── Factory ──────────────────────────────────────────────────────────────────
+/**
+ * @brief ── Factory ──────────────────────────────────────────────────────────────────
+ * @return Return value.
+ * @details Calls: stepRegistry(), registerStep(), ingestion::builtin::createNerDeStep(), textBackend(), ingestion::builtin::createLlmExtractStep(), ingestion::builtin::createChunkTtDecomposeStep(), ingestion::builtin::createTensorCoreBridgeStep().
+ */
 
 std::shared_ptr<IngestionToolbox> IngestionToolbox::createDefault() {
     auto toolbox = std::make_shared<IngestionToolbox>();
@@ -104,7 +107,10 @@ std::shared_ptr<IngestionToolbox> IngestionToolbox::createDefault() {
     return toolbox;
 }
 
-// ── Dependency injection ──────────────────────────────────────────────────────
+/**
+ * @brief ── Dependency injection ──────────────────────────────────────────────────────
+ * @param[in] engine Input parameter.
+ */
 
 void IngestionToolbox::setWorkflowEngine(
     std::shared_ptr<ingestion::WorkflowEngine> engine)
@@ -116,6 +122,10 @@ void IngestionToolbox::setWorkflowEngine(
     impl_->workflow_engine_ = std::move(engine);
 }
 
+/**
+ * @brief Set Text Backend.
+ * @param[in] backend Input parameter.
+ */
 void IngestionToolbox::setTextBackend(
     std::shared_ptr<ingestion::ITextGenerationBackend> backend)
 {
@@ -132,6 +142,11 @@ std::shared_ptr<ingestion::WorkflowEngine> IngestionToolbox::workflowEngine() co
     return impl_->workflow_engine_;
 }
 
+/**
+ * @brief Step Registry.
+ * @return Return value.
+ * @details Implements stepRegistry without additional internal calls.
+ */
 ingestion::StepRegistry& IngestionToolbox::stepRegistry() {
     // WorkflowEngine owns the StepRegistry; no additional lock needed here
     // because WorkflowEngine::stepRegistry() is already thread-safe.
@@ -145,8 +160,15 @@ std::shared_ptr<ingestion::ITextGenerationBackend> IngestionToolbox::textBackend
 
 // ── High-level convenience ────────────────────────────────────────────────────
 
-// Shared helper: build an ExtractionContext and run the workflow.
-// Returns the BaseEntitySet on success, empty set on failure.
+/**
+ * @brief Shared helper: build an ExtractionContext and run the workflow.
+ * @param[in] engine Input parameter.
+ * @param[in] text Input parameter.
+ * @param[in] mime Input parameter.
+ * @param[in] filename Input parameter.
+ * @return Return value.
+ * @details Returns the BaseEntitySet on success, empty set on failure.
+ */
 static ingestion::BaseEntitySet runWorkflow(
     const std::shared_ptr<ingestion::WorkflowEngine>& engine,
     const std::string& text,
@@ -172,6 +194,13 @@ static ingestion::BaseEntitySet runWorkflow(
 // the call is still recorded but not counted as an error.
 static constexpr std::size_t kMinTextSizeForValidation = 8;
 
+/**
+ * @brief Extract Entities.
+ * @param[in] text Input parameter.
+ * @param[in] mime Input parameter.
+ * @param[in] filename Input parameter.
+ * @return Return value.
+ */
 std::vector<ingestion::BaseEntity> IngestionToolbox::extractEntities(
     const std::string& text,
     const std::string& mime,
@@ -195,6 +224,13 @@ std::vector<ingestion::BaseEntity> IngestionToolbox::extractEntities(
     return entity_set.nodes;
 }
 
+/**
+ * @brief Extract Entity Set.
+ * @param[in] text Input parameter.
+ * @param[in] mime Input parameter.
+ * @param[in] filename Input parameter.
+ * @return Return value.
+ */
 ingestion::BaseEntitySet IngestionToolbox::extractEntitySet(
     const std::string& text,
     const std::string& mime,

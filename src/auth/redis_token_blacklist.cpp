@@ -29,6 +29,12 @@ namespace auth {
 // ============================================================================
 
 namespace {
+/**
+ * @brief Redis Err Str Safe.
+ * @param[in] ctx Input parameter.
+ * @return Pointer to the result.
+ * @details Implements redisErrStrSafe without additional internal calls.
+ */
 const char* redisErrStrSafe(const redisContext* ctx) {
     if (!ctx || !ctx->errstr) {
         return "unknown redis error";
@@ -41,6 +47,11 @@ std::string RedisTokenBlacklist::makeKey(const std::string& jti) const {
     return config_.key_prefix + jti;
 }
 
+/**
+ * @brief Connect.
+ * @return True when the operation succeeds.
+ * @details Calls: redisFree(), redisConnectWithTimeout(), c_str(), THEMIS_WARN(), redisErrStrSafe(), empty(), redisCommand(), freeReplyObject().
+ */
 bool RedisTokenBlacklist::connect() {
     if (ctx_) {
         redisFree(ctx_);
@@ -80,6 +91,10 @@ bool RedisTokenBlacklist::connect() {
     return true;
 }
 
+/**
+ * @brief Disconnect.
+ * @details Calls: redisFree().
+ */
 void RedisTokenBlacklist::disconnect() {
     if (ctx_) {
         redisFree(ctx_);
@@ -102,6 +117,11 @@ RedisTokenBlacklist::RedisTokenBlacklist(const Config& config)
 }
 
 RedisTokenBlacklist::~RedisTokenBlacklist() {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     disconnect();
 }
@@ -110,6 +130,12 @@ RedisTokenBlacklist::~RedisTokenBlacklist() {
 // ITokenBlacklist interface
 // ============================================================================
 
+/**
+ * @brief Add.
+ * @param[in] jti Input parameter.
+ * @param[in] expiry Input parameter.
+ * @details Calls: empty(), lock(), THEMIS_WARN(), std::chrono::system_clock::now(), count(), THEMIS_DEBUG(), makeKey(), redisCommand().
+ */
 void RedisTokenBlacklist::add(const std::string& jti,
                                std::chrono::system_clock::time_point expiry) {
     if (jti.empty()) {
@@ -172,6 +198,11 @@ bool RedisTokenBlacklist::isRevoked(const std::string& jti) const {
       return false;
     }
 
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     if (!ctx_) {
       return false;
@@ -193,15 +224,29 @@ bool RedisTokenBlacklist::isRevoked(const std::string& jti) const {
     return revoked;
 }
 
+/**
+ * @brief Purge Expired.
+ * @details Implements purgeExpired without additional internal calls.
+ */
 void RedisTokenBlacklist::purgeExpired() {
     // Redis TTL handles expiry automatically; nothing to do.
 }
 
 bool RedisTokenBlacklist::isConnected() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return ctx_ != nullptr && ctx_->err == 0;
 }
 
+/**
+ * @brief Reconnect.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), connect().
+ */
 bool RedisTokenBlacklist::reconnect() {
     std::lock_guard<std::mutex> lock(mutex_);
     return connect();
@@ -233,6 +278,12 @@ RedisTokenBlacklist::RedisTokenBlacklist()
 
 RedisTokenBlacklist::~RedisTokenBlacklist() = default;
 
+/**
+ * @brief Add.
+ * @param[in] jti Input parameter.
+ * @param[in] expiry Input parameter.
+ * @details Calls: lock().
+ */
 void RedisTokenBlacklist::add(const std::string& jti,
                                std::chrono::system_clock::time_point expiry) {
     std::lock_guard<std::mutex> lock(fallback_mutex_);
@@ -240,6 +291,11 @@ void RedisTokenBlacklist::add(const std::string& jti,
 }
 
 bool RedisTokenBlacklist::isRevoked(const std::string& jti) const {
+    /**
+     * @brief Lock.
+     * @param[in] fallback_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(fallback_mutex_);
     auto it = fallback_map_.find(jti);
     if (it == fallback_map_.end()) {
@@ -251,6 +307,10 @@ bool RedisTokenBlacklist::isRevoked(const std::string& jti) const {
     return std::chrono::system_clock::now() < it->second;
 }
 
+/**
+ * @brief Purge Expired.
+ * @details Calls: std::chrono::system_clock::now(), lock(), begin(), end(), erase().
+ */
 void RedisTokenBlacklist::purgeExpired() {
     const auto now = std::chrono::system_clock::now();
     std::lock_guard<std::mutex> lock(fallback_mutex_);
@@ -267,6 +327,11 @@ bool RedisTokenBlacklist::isConnected() const {
     return false;  // no Redis connection in this build
 }
 
+/**
+ * @brief Reconnect.
+ * @return True when the operation succeeds.
+ * @details Implements reconnect without additional internal calls.
+ */
 bool RedisTokenBlacklist::reconnect() {
     return false;  // no Redis connection in this build
 }

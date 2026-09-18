@@ -49,6 +49,11 @@ TransactionManager::~TransactionManager() {
     
     // Notify with proper mutex locking
     {
+        /**
+         * @brief Lock.
+         * @param[in] deadlock_detector_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(deadlock_detector_mutex_);
         deadlock_detector_cv_.notify_all();
     }
@@ -68,6 +73,11 @@ void TransactionManager::setDeadlockDetection([[maybe_unused]] bool enabled) {
     }
 }
 
+/**
+ * @brief Set Deadlock Timeout.
+ * @param[in] timeout_ms Input parameter.
+ * @details Calls: store(), count(), THEMIS_INFO(), lock(), notify_one().
+ */
 void TransactionManager::setDeadlockTimeout(std::chrono::milliseconds timeout_ms) {
     deadlock_timeout_ms_.store(timeout_ms.count(), std::memory_order_relaxed);
     THEMIS_INFO("Deadlock timeout set to {} ms", timeout_ms.count());
@@ -79,6 +89,11 @@ void TransactionManager::setDeadlockTimeout(std::chrono::milliseconds timeout_ms
     }
 }
 
+/**
+ * @brief Set Deadlock Victim Policy.
+ * @param[in] policy Input parameter.
+ * @details Calls: store(), THEMIS_INFO().
+ */
 void TransactionManager::setDeadlockVictimPolicy(DeadlockVictimPolicy policy) {
     victim_policy_.store(static_cast<int>(policy), std::memory_order_relaxed);
     const char* name =
@@ -107,6 +122,11 @@ TransactionManager::DeadlockMetrics TransactionManager::getDeadlockMetrics() con
 }
 
 std::vector<TransactionManager::DeadlockInfo> TransactionManager::getDeadlocks(std::chrono::seconds max_age) const {
+    /**
+     * @brief Lock.
+     * @param[in] lock_tracking_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(lock_tracking_mutex_);
     
     auto cutoff = std::chrono::system_clock::now() - max_age;
@@ -121,6 +141,12 @@ std::vector<TransactionManager::DeadlockInfo> TransactionManager::getDeadlocks(s
     return result;
 }
 
+/**
+ * @brief Track Lock Acquired.
+ * @param[in] txn_id Identifier of the txn.
+ * @param[in] key Input parameter.
+ * @details Calls: load(), lock(), std::chrono::system_clock::now(), find(), end(), erase(), empty().
+ */
 void TransactionManager::trackLockAcquired(TransactionId txn_id, const std::string& key) {
     if (!deadlock_detection_enabled_.load(std::memory_order_relaxed)) {
       return;
@@ -139,6 +165,12 @@ void TransactionManager::trackLockAcquired(TransactionId txn_id, const std::stri
     }
 }
 
+/**
+ * @brief Track Lock Released.
+ * @param[in] txn_id Identifier of the txn.
+ * @param[in] key Input parameter.
+ * @details Calls: load(), lock(), find(), end(), erase().
+ */
 void TransactionManager::trackLockReleased(TransactionId txn_id, const std::string& key) {
     if (!deadlock_detection_enabled_.load(std::memory_order_relaxed)) {
       return;
@@ -151,6 +183,12 @@ void TransactionManager::trackLockReleased(TransactionId txn_id, const std::stri
     }
 }
 
+/**
+ * @brief Track Lock Waiting.
+ * @param[in] txn_id Identifier of the txn.
+ * @param[in] key Input parameter.
+ * @details Calls: load(), lock(), insert().
+ */
 void TransactionManager::trackLockWaiting(TransactionId txn_id, const std::string& key) {
     if (!deadlock_detection_enabled_.load(std::memory_order_relaxed)) {
       return;
@@ -160,6 +198,11 @@ void TransactionManager::trackLockWaiting(TransactionId txn_id, const std::strin
     waiting_for_[txn_id].insert(key);
 }
 
+/**
+ * @brief Clear Waiting.
+ * @param[in] txn_id Identifier of the txn.
+ * @details Calls: load(), lock(), erase().
+ */
 void TransactionManager::clearWaiting(TransactionId txn_id) {
     if (!deadlock_detection_enabled_.load(std::memory_order_relaxed)) {
       return;
@@ -169,6 +212,10 @@ void TransactionManager::clearWaiting(TransactionId txn_id) {
     waiting_for_.erase(txn_id);
 }
 
+/**
+ * @brief Deadlock Detector Loop.
+ * @details Calls: load(), lock(), std::chrono::milliseconds(), wait_for(), abortTimedOutTransactions(), detectDeadlockCycle(), THEMIS_WARN(), size().
+ */
 void TransactionManager::deadlockDetectorLoop() {
     while (deadlock_detector_running_.load(std::memory_order_relaxed)) {
         // Wait for the configured timeout period using separate mutex
@@ -202,6 +249,12 @@ void TransactionManager::deadlockDetectorLoop() {
     }
 }
 
+/**
+ * @brief Detect Deadlock Cycle.
+ * @param[in,out] cycle Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), empty(), find(), end(), insert(), bool(), push_back(), count().
+ */
 bool TransactionManager::detectDeadlockCycle(std::vector<TransactionId>& cycle) {
     std::lock_guard<std::mutex> lock(lock_tracking_mutex_);
     
@@ -267,6 +320,11 @@ bool TransactionManager::detectDeadlockCycle(std::vector<TransactionId>& cycle) 
     return false;
 }
 
+/**
+ * @brief Resolve Deadlock.
+ * @param[in] cycle Input parameter.
+ * @details Calls: empty(), load(), std::min_element(), begin(), end(), THEMIS_WARN(), max(), lk().
+ */
 void TransactionManager::resolveDeadlock(const std::vector<TransactionId>& cycle) {
     if (cycle.empty()) {
       return;
@@ -392,11 +450,21 @@ void TransactionManager::resolveDeadlock(const std::vector<TransactionId>& cycle
     }
 }
 
-// Session-based transaction management
+/**
+ * @brief Session-based transaction management
+ * @return Return value.
+ * @details Calls: fetch_add().
+ */
 TransactionManager::TransactionId TransactionManager::generateTransactionId() {
     return next_transaction_id_.fetch_add(1, std::memory_order_relaxed);
 }
 
+/**
+ * @brief Begin Transaction.
+ * @param[in] isolation Input parameter.
+ * @return Return value.
+ * @details Calls: generateTransactionId(), applyDefaultTimeout(), lock(), updateStatsWithSeqLock(), fetch_add(), THEMIS_INFO(), logBegin().
+ */
 TransactionManager::TransactionId TransactionManager::beginTransaction(IsolationLevel isolation) {
     auto txn_id = generateTransactionId();
     auto txn = std::make_shared<Transaction>(txn_id, db_, secIdx_, graphIdx_, vecIdx_, isolation,
@@ -431,6 +499,12 @@ TransactionManager::TransactionId TransactionManager::beginTransaction(Isolation
     return txn_id;
 }
 
+/**
+ * @brief Begin Transaction.
+ * @param[in] tenant_id Identifier of the tenant.
+ * @param[in] isolation Input parameter.
+ * @return Return value.
+ */
 TransactionManager::TransactionId TransactionManager::beginTransaction(
     std::string_view tenant_id, IsolationLevel isolation)
 {
@@ -448,6 +522,11 @@ TransactionManager::TransactionId TransactionManager::beginTransaction(
     applyDefaultTimeout(*txn);
 
     {
+        /**
+         * @brief Lock.
+         * @param[in] sessions_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(sessions_mutex_);
         active_transactions_[txn_id] = txn;
         tenant_stats_[std::string(tenant_id)].total_begun++;
@@ -470,6 +549,12 @@ TransactionManager::TransactionId TransactionManager::beginTransaction(
     return txn_id;
 }
 
+/**
+ * @brief Get Transaction.
+ * @param[in] id Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), find(), end().
+ */
 std::shared_ptr<TransactionManager::Transaction> TransactionManager::getTransaction(TransactionId id) {
     std::lock_guard<std::mutex> lock(sessions_mutex_);
     auto it = active_transactions_.find(id);
@@ -479,6 +564,12 @@ std::shared_ptr<TransactionManager::Transaction> TransactionManager::getTransact
     return nullptr;
 }
 
+/**
+ * @brief Commit Transaction.
+ * @param[in] id Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), find(), end(), Status::Error(), commit(), updateStatsWithSeqLock(), fetch_add(), empty().
+ */
 TransactionManager::Status TransactionManager::commitTransaction(TransactionId id) {
     std::shared_ptr<Transaction> txn;
     {
@@ -545,6 +636,12 @@ TransactionManager::Status TransactionManager::commitTransaction(TransactionId i
     return status;
 }
 
+/**
+ * @brief Rollback Transaction.
+ * @param[in] id Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), find(), end(), rollback(), updateStatsWithSeqLock(), fetch_add(), empty(), THEMIS_INFO().
+ */
 bool TransactionManager::rollbackTransaction(TransactionId id) {
     std::shared_ptr<Transaction> txn;
     {
@@ -593,6 +690,11 @@ bool TransactionManager::rollbackTransaction(TransactionId id) {
     return true;
 }
 
+/**
+ * @brief Move To Completed.
+ * @param[in] id Input parameter.
+ * @details Calls: lock(), find(), end(), THEMIS_WARN(), erase(), std::move().
+ */
 void TransactionManager::moveToCompleted(TransactionId id) {
     std::lock_guard<std::mutex> lock(sessions_mutex_);
     auto it = active_transactions_.find(id);
@@ -611,6 +713,11 @@ void TransactionManager::moveToCompleted(TransactionId id) {
 }
 
 TransactionManager::Stats TransactionManager::getStats() const {
+    /**
+     * @brief Lock.
+     * @param[in] sessions_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(sessions_mutex_);
     
     Stats stats;
@@ -662,6 +769,11 @@ TransactionManager::Stats TransactionManager::getStatsLockFree() const {
         // For map sizes, we need a quick lock (cannot be done lock-free)
         // This is acceptable as the lock is held very briefly
         {
+            /**
+             * @brief Lock.
+             * @param[in] sessions_mutex_ Input parameter.
+             * @return Return value.
+             */
             std::lock_guard<std::mutex> lock(sessions_mutex_);
             stats.active_count = active_transactions_.size();
             
@@ -700,6 +812,11 @@ void TransactionManager::updateStatsWithSeqLock(std::function<void()> update) {
     stats_sequence_.fetch_add(1, std::memory_order_release);
 }
 
+/**
+ * @brief Cleanup Old Transactions.
+ * @param[in] max_age Input parameter.
+ * @details Calls: lock(), std::chrono::system_clock::now(), begin(), end(), getStartTime(), erase().
+ */
 void TransactionManager::cleanupOldTransactions(std::chrono::seconds max_age) {
     std::lock_guard<std::mutex> lock(sessions_mutex_);
     
@@ -732,6 +849,11 @@ TransactionManager::getTenantTransactionStats(std::string_view tenant_id) const 
     TenantTransactionStats result;
     result.tenant_id = std::string(tenant_id);
 
+    /**
+     * @brief Lock.
+     * @param[in] sessions_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(sessions_mutex_);
 
     // Cumulative counters from the stats map
@@ -748,6 +870,11 @@ TransactionManager::getTenantTransactionStats(std::string_view tenant_id) const 
 
 std::vector<TransactionManager::TenantTransactionStats>
 TransactionManager::getAllTenantTransactionStats() const {
+    /**
+     * @brief Lock.
+     * @param[in] sessions_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(sessions_mutex_);
 
     // Count active transactions per tenant
@@ -776,12 +903,22 @@ TransactionManager::getAllTenantTransactionStats() const {
 }
 
 size_t TransactionManager::getActiveTenantTransactionCount(std::string_view tenant_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] sessions_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(sessions_mutex_);
     return countActiveTenantTransactionsLocked(tenant_id);
 }
 
 std::vector<TransactionManager::TransactionId>
 TransactionManager::listTenantTransactionIds(std::string_view tenant_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] sessions_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(sessions_mutex_);
     std::vector<TransactionId> ids = {};
 
@@ -793,6 +930,12 @@ TransactionManager::listTenantTransactionIds(std::string_view tenant_id) const {
     return ids;
 }
 
+/**
+ * @brief Abort Tenant Transactions.
+ * @param[in] tenant_id Identifier of the tenant.
+ * @return Return value.
+ * @details Calls: lock(), push_back(), rollbackTransaction(), THEMIS_INFO(), size().
+ */
 size_t TransactionManager::abortTenantTransactions(std::string_view tenant_id) {
     // Collect transaction IDs first to avoid rolling back while holding the lock.
     std::vector<TransactionId> to_abort;
@@ -813,7 +956,11 @@ size_t TransactionManager::abortTenantTransactions(std::string_view tenant_id) {
     return to_abort.size();
 }
 
-// ── Transaction Timeout / Auto-Rollback ──────────────────────────────────────
+/**
+ * @brief ── Transaction Timeout / Auto-Rollback ──────────────────────────────────────
+ * @param[in] timeout_ms Input parameter.
+ * @details Calls: exchange(), count(), THEMIS_DEBUG().
+ */
 
 void TransactionManager::setTransactionTimeout(std::chrono::milliseconds timeout_ms) {
     const uint64_t prev = transaction_timeout_ms_.exchange(
@@ -840,6 +987,11 @@ uint64_t TransactionManager::getTimedOutCount() const {
     return total_timed_out_.load(std::memory_order_relaxed);
 }
 
+/**
+ * @brief Abort Timed Out Transactions.
+ * @return Return value.
+ * @details Calls: load(), std::chrono::system_clock::now(), std::chrono::milliseconds(), lock(), isFinished(), getStartTime(), push_back(), THEMIS_WARN().
+ */
 size_t TransactionManager::abortTimedOutTransactions() {
     const uint64_t timeout_ms = transaction_timeout_ms_.load(std::memory_order_relaxed);
     if (timeout_ms == 0) return 0;   // feature disabled
@@ -874,7 +1026,12 @@ size_t TransactionManager::abortTimedOutTransactions() {
     return expired.size();
 }
 
-// Direct transaction (legacy API)
+/**
+ * @brief Direct transaction (legacy API)
+ * @param[in] isolation Input parameter.
+ * @return Return value.
+ * @details Calls: generateTransactionId(), updateStatsWithSeqLock(), fetch_add(), txn(), applyDefaultTimeout().
+ */
 TransactionManager::Transaction TransactionManager::begin(IsolationLevel isolation) {
     auto txn_id = generateTransactionId();
     // SOLUTION 2B: Update statistics with sequence lock
@@ -1038,6 +1195,13 @@ TransactionManager::Status TransactionManager::Transaction::setReadOnly([[maybe_
     return Status::OK();
 }
 
+/**
+ * @brief Put Entity.
+ * @param[in] table Input parameter.
+ * @param[in] entity Input parameter.
+ * @return Return value.
+ * @details Calls: isActive(), Status::Error(), isTimedOut(), serialize(), makeNamespacedKey(), std::string(), getPrimaryKey(), checkSerializableWriteConflict().
+ */
 TransactionManager::Status TransactionManager::Transaction::putEntity(std::string_view table, const BaseEntity& entity) {
     if (!mvcc_txn_ || !mvcc_txn_->isActive()) {
       return Status::Error("putEntity: keine aktive Transaktion");
@@ -1091,6 +1255,13 @@ TransactionManager::Status TransactionManager::Transaction::putEntity(std::strin
     return Status::OK();
 }
 
+/**
+ * @brief Erase Entity.
+ * @param[in] table Input parameter.
+ * @param[in] pk Input parameter.
+ * @return Return value.
+ * @details Calls: isActive(), Status::Error(), isTimedOut(), makeNamespacedKey(), std::string(), checkSerializableWriteConflict(), empty(), count().
+ */
 TransactionManager::Status TransactionManager::Transaction::eraseEntity(std::string_view table, std::string_view pk) {
     if (!mvcc_txn_ || !mvcc_txn_->isActive()) {
       return Status::Error("eraseEntity: keine aktive Transaktion");
@@ -1142,6 +1313,13 @@ TransactionManager::Status TransactionManager::Transaction::eraseEntity(std::str
     return Status::OK();
 }
 
+/**
+ * @brief Read Entity Json.
+ * @param[in] table Input parameter.
+ * @param[in] pk Input parameter.
+ * @return Return value.
+ * @details Calls: isActive(), makeNamespacedKey(), std::string(), get(), BaseEntity::deserialize(), toJson().
+ */
 std::optional<std::string> TransactionManager::Transaction::readEntityJson(
     std::string_view table,
     std::string_view pk
@@ -1162,6 +1340,12 @@ std::optional<std::string> TransactionManager::Transaction::readEntityJson(
     return entity.toJson();
 }
 
+/**
+ * @brief Add Edge.
+ * @param[in] edgeEntity Input parameter.
+ * @return Return value.
+ * @details Calls: isActive(), Status::Error(), isTimedOut(), makeNamespacedKey(), getPrimaryKey(), checkSerializableWriteConflict(), empty(), serialize().
+ */
 TransactionManager::Status TransactionManager::Transaction::addEdge(const BaseEntity& edgeEntity) {
     if (!mvcc_txn_ || !mvcc_txn_->isActive()) {
       return Status::Error("addEdge: keine aktive Transaktion");
@@ -1198,6 +1382,12 @@ TransactionManager::Status TransactionManager::Transaction::addEdge(const BaseEn
     return Status::OK();
 }
 
+/**
+ * @brief Delete Edge.
+ * @param[in] edgeId Input parameter.
+ * @return Return value.
+ * @details Calls: isActive(), Status::Error(), isTimedOut(), makeNamespacedKey(), std::string(), checkSerializableWriteConflict(), empty(), del().
+ */
 TransactionManager::Status TransactionManager::Transaction::deleteEdge(std::string_view edgeId) {
     if (!mvcc_txn_ || !mvcc_txn_->isActive()) {
       return Status::Error("deleteEdge: keine aktive Transaktion");
@@ -1231,6 +1421,13 @@ TransactionManager::Status TransactionManager::Transaction::deleteEdge(std::stri
     return Status::OK();
 }
 
+/**
+ * @brief Add Vector.
+ * @param[in] entity Input parameter.
+ * @param[in] vectorField Input parameter.
+ * @return Return value.
+ * @details Calls: isActive(), Status::Error(), isTimedOut(), getPrimaryKey(), makeNamespacedKey(), checkSerializableWriteConflict(), empty(), serialize().
+ */
 TransactionManager::Status TransactionManager::Transaction::addVector(const BaseEntity& entity, std::string_view vectorField) {
     if (!mvcc_txn_ || !mvcc_txn_->isActive()) {
       return Status::Error("addVector: keine aktive Transaktion");
@@ -1278,6 +1475,13 @@ TransactionManager::Status TransactionManager::Transaction::addVector(const Base
     return Status::OK();
 }
 
+/**
+ * @brief Update Vector.
+ * @param[in] entity Input parameter.
+ * @param[in] vectorField Input parameter.
+ * @return Return value.
+ * @details Calls: isActive(), Status::Error(), isTimedOut(), getPrimaryKey(), makeNamespacedKey(), checkSerializableWriteConflict(), empty(), get().
+ */
 TransactionManager::Status TransactionManager::Transaction::updateVector(const BaseEntity& entity, std::string_view vectorField) {
     if (!mvcc_txn_ || !mvcc_txn_->isActive()) {
       return Status::Error("updateVector: keine aktive Transaktion");
@@ -1339,6 +1543,12 @@ TransactionManager::Status TransactionManager::Transaction::updateVector(const B
     return Status::OK();
 }
 
+/**
+ * @brief Remove Vector.
+ * @param[in] pk Input parameter.
+ * @return Return value.
+ * @details Calls: isActive(), Status::Error(), isTimedOut(), pk_str(), makeNamespacedKey(), checkSerializableWriteConflict(), empty(), get().
+ */
 TransactionManager::Status TransactionManager::Transaction::removeVector(std::string_view pk) {
     if (!mvcc_txn_ || !mvcc_txn_->isActive()) {
       return Status::Error("removeVector: keine aktive Transaktion");
@@ -1404,7 +1614,6 @@ TransactionManager::Status TransactionManager::Transaction::removeVector(std::st
 // OCC helpers
 // ---------------------------------------------------------------------------
 
-/// Encode a uint64_t as an 8-byte little-endian blob.
 static std::vector<uint8_t> encodeVersion([[maybe_unused]] uint64_t v) {
     std::vector<uint8_t> buf(8);
     for (int i = 0; i < 8; ++i) {
@@ -1413,7 +1622,12 @@ static std::vector<uint8_t> encodeVersion([[maybe_unused]] uint64_t v) {
     return buf;
 }
 
-/// Decode an 8-byte little-endian blob to uint64_t; returns 0 on wrong size.
+/**
+ * @brief Decode Version.
+ * @param[in] buf Input parameter.
+ * @return Return value.
+ * @details Calls: size().
+ */
 static uint64_t decodeVersion(const std::vector<uint8_t>& buf) {
     if (buf.size() != 8) {
       return 0;
@@ -1425,7 +1639,13 @@ static uint64_t decodeVersion(const std::vector<uint8_t>& buf) {
     return v;
 }
 
-/// Build the version key for an entity.
+/**
+ * @brief Version Key.
+ * @param[in] table Input parameter.
+ * @param[in] pk Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size().
+ */
 static std::string versionKey(std::string_view table, std::string_view pk) {
     std::string k = {};
     k.reserve(9 + table.size() + 1 + pk.size() ); // "occ:ver:" + table + ":" + pk
@@ -1440,6 +1660,12 @@ static std::string versionKey(std::string_view table, std::string_view pk) {
 // OCC public API
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Get Entity Version.
+ * @param[in] table Input parameter.
+ * @param[in] pk Input parameter.
+ * @return Return value.
+ */
 std::optional<uint64_t> TransactionManager::Transaction::getEntityVersion(
     std::string_view table, std::string_view pk)
 {
@@ -1451,6 +1677,13 @@ std::optional<uint64_t> TransactionManager::Transaction::getEntityVersion(
     return decodeVersion(*raw);
 }
 
+/**
+ * @brief Optimistic Put.
+ * @param[in] table Input parameter.
+ * @param[in] entity Input parameter.
+ * @param[in] expected_version Input parameter.
+ * @return Return value.
+ */
 TransactionManager::Status TransactionManager::Transaction::optimisticPut(
     std::string_view table, const BaseEntity& entity, uint64_t expected_version)
 {
@@ -1512,6 +1745,13 @@ TransactionManager::Status TransactionManager::Transaction::optimisticPut(
     return Status::OK();
 }
 
+/**
+ * @brief Optimistic Erase.
+ * @param[in] table Input parameter.
+ * @param[in] pk Input parameter.
+ * @param[in] expected_version Input parameter.
+ * @return Return value.
+ */
 TransactionManager::Status TransactionManager::Transaction::optimisticErase(
     std::string_view table, std::string_view pk, uint64_t expected_version)
 {
@@ -1573,6 +1813,12 @@ TransactionManager::Status TransactionManager::Transaction::optimisticErase(
 // Bulk API
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Bulk Put Entities.
+ * @param[in] table Input parameter.
+ * @param[in] entities Input parameter.
+ * @return Return value.
+ */
 TransactionManager::Status TransactionManager::Transaction::bulkPutEntities(
     std::string_view table, const std::vector<BaseEntity>& entities)
 {
@@ -1617,6 +1863,12 @@ TransactionManager::Status TransactionManager::Transaction::bulkPutEntities(
     return Status::OK();
 }
 
+/**
+ * @brief Bulk Erase Entities.
+ * @param[in] table Input parameter.
+ * @param[in] pks Input parameter.
+ * @return Return value.
+ */
 TransactionManager::Status TransactionManager::Transaction::bulkEraseEntities(
     std::string_view table, const std::vector<std::string>& pks)
 {
@@ -1659,6 +1911,12 @@ TransactionManager::Status TransactionManager::Transaction::bulkEraseEntities(
     return Status::OK();
 }
 
+/**
+ * @brief Track Predicate Read.
+ * @param[in] start_key Input parameter.
+ * @param[in] end_key Input parameter.
+ * @return Return value.
+ */
 TransactionManager::Status TransactionManager::Transaction::trackPredicateRead(
     const std::string& start_key, const std::string& end_key)
 {
@@ -1691,6 +1949,11 @@ std::string TransactionManager::Transaction::checkSerializableWriteConflict(
     return {};
 }
 
+/**
+ * @brief Commit.
+ * @return Return value.
+ * @details Calls: compare_exchange_strong(), Status::Error(), captureDuration(), isActive(), isTimedOut(), THEMIS_WARN(), getDurationMs(), rollback().
+ */
 TransactionManager::Status TransactionManager::Transaction::commit() {
     // RACE CONDITION FIX: Use atomic compare-exchange to prevent double commit
     bool expected = false;
@@ -1805,6 +2068,10 @@ TransactionManager::Status TransactionManager::Transaction::commit() {
     return Status::OK();
 }
 
+/**
+ * @brief Rollback.
+ * @details Calls: compare_exchange_strong(), THEMIS_WARN(), captureDuration(), THEMIS_DEBUG(), stepCount(), isActive(), compensate(), releasePredicateLocks().
+ */
 void TransactionManager::Transaction::rollback() {
     // RACE CONDITION FIX: Use atomic compare-exchange to prevent double rollback
     bool expected = false;
@@ -1831,6 +2098,11 @@ void TransactionManager::Transaction::rollback() {
     THEMIS_INFO("Transaction {} rolled back, {} steps compensated", id_, saga_->compensatedCount());
 }
 
+/**
+ * @brief Set Save Point.
+ * @return Return value.
+ * @details Calls: load(), Status::Error(), isActive(), Status::OK().
+ */
 TransactionManager::Status TransactionManager::Transaction::setSavePoint() {
     if (finished_.load(std::memory_order_acquire)) {
         return Status::Error("setSavePoint: transaction already finished");
@@ -1842,6 +2114,11 @@ TransactionManager::Status TransactionManager::Transaction::setSavePoint() {
     return Status::OK();
 }
 
+/**
+ * @brief Rollback To Save Point.
+ * @return Return value.
+ * @details Calls: load(), Status::Error(), isActive(), Status::OK().
+ */
 TransactionManager::Status TransactionManager::Transaction::rollbackToSavePoint() {
     if (finished_.load(std::memory_order_acquire)) {
         return Status::Error("rollbackToSavePoint: transaction already finished");
@@ -1855,6 +2132,11 @@ TransactionManager::Status TransactionManager::Transaction::rollbackToSavePoint(
     return Status::OK();
 }
 
+/**
+ * @brief Pop Save Point.
+ * @return Return value.
+ * @details Calls: load(), Status::Error(), isActive(), Status::OK().
+ */
 TransactionManager::Status TransactionManager::Transaction::popSavePoint() {
     if (finished_.load(std::memory_order_acquire)) {
         return Status::Error("popSavePoint: transaction already finished");
@@ -1868,6 +2150,12 @@ TransactionManager::Status TransactionManager::Transaction::popSavePoint() {
     return Status::OK();
 }
 
+/**
+ * @brief Create Savepoint.
+ * @param[in] name Input parameter.
+ * @return Return value.
+ * @details Calls: load(), Status::Error(), isActive(), empty(), sname(), reserve(), size(), setSavePoint().
+ */
 TransactionManager::Status TransactionManager::Transaction::createSavepoint(std::string_view name) {
     if (finished_.load(std::memory_order_acquire)) {
         return Status::Error("createSavepoint: transaction already finished");
@@ -1894,6 +2182,12 @@ TransactionManager::Status TransactionManager::Transaction::createSavepoint(std:
     return Status::OK();
 }
 
+/**
+ * @brief Rollback To Savepoint.
+ * @param[in] name Input parameter.
+ * @return Return value.
+ * @details Calls: load(), Status::Error(), isActive(), sname(), std::find_if(), begin(), end(), popSavePoint().
+ */
 TransactionManager::Status TransactionManager::Transaction::rollbackToSavepoint(std::string_view name) {
     if (finished_.load(std::memory_order_acquire)) {
         return Status::Error("rollbackToSavepoint: transaction already finished");
@@ -1929,6 +2223,12 @@ TransactionManager::Status TransactionManager::Transaction::rollbackToSavepoint(
     return Status::OK();
 }
 
+/**
+ * @brief Release Savepoint.
+ * @param[in] name Input parameter.
+ * @return Return value.
+ * @details Calls: load(), Status::Error(), isActive(), sname(), std::find_if(), begin(), end(), popSavePoint().
+ */
 TransactionManager::Status TransactionManager::Transaction::releaseSavepoint(std::string_view name) {
     if (finished_.load(std::memory_order_acquire)) {
         return Status::Error("releaseSavepoint: transaction already finished");
@@ -1962,6 +2262,11 @@ std::vector<std::string> TransactionManager::Transaction::getSavepoints() const 
 }
 
 bool TransactionManager::Transaction::hasSavepoint(std::string_view name) const {
+    /**
+     * @brief Sname.
+     * @param[in] name Input parameter.
+     * @return Return value.
+     */
     std::string sname(name);
     return std::any_of(savepoints_.begin(), savepoints_.end(),
                        [&sname](const SavepointEntry& e) { return e.name == sname; });
@@ -1976,6 +2281,11 @@ void TransactionManager::applyDefaultTimeout(Transaction& txn) const {
     }
 }
 
+/**
+ * @brief Set Default Transaction Timeout.
+ * @param[in] timeout Input parameter.
+ * @details Calls: count(), store(), THEMIS_INFO().
+ */
 void TransactionManager::setDefaultTransactionTimeout(std::chrono::milliseconds timeout) {
     // Clamp to 0: a negative duration is treated the same as "no timeout".
     auto ms = timeout.count();
@@ -1989,6 +2299,10 @@ std::chrono::milliseconds TransactionManager::getDefaultTransactionTimeout() con
         default_transaction_timeout_ms_.load(std::memory_order_relaxed));
 }
 
+/**
+ * @brief Timeout Expired Transactions.
+ * @details Calls: lock(), isFinished(), isTimedOut(), push_back(), THEMIS_WARN(), rollbackTransaction(), fetch_add().
+ */
 void TransactionManager::timeoutExpiredTransactions() {
     // Collect IDs of timed-out transactions while holding the lock (read-only scan),
     // then release the lock before calling rollbackTransaction() to avoid re-entrancy.
@@ -2013,7 +2327,12 @@ void TransactionManager::timeoutExpiredTransactions() {
     }
 }
 
-// ── Phase 8: Durability & Crash-Recovery ─────────────────────────────────────
+/**
+ * @brief ── Phase 8: Durability & Crash-Recovery ─────────────────────────────────────
+ * @param[in] wal_path Path to the wal.
+ * @param[in] sync_on_write Input parameter.
+ * @details Calls: lock(), THEMIS_INFO().
+ */
 
 void TransactionManager::enableCrashRecovery(const std::string& wal_path,
                                               bool sync_on_write) {
@@ -2042,12 +2361,23 @@ TransactionManager::crashRecover() {
     return crash_recovery_mgr_->recover(db_);
 }
 
-// ── Transaction Explain ───────────────────────────────────────────────────────
+/**
+ * @brief ── Transaction Explain ───────────────────────────────────────────────────────
+ * @param[in] key Input parameter.
+ * @param[in] operation Input parameter.
+ * @details Calls: push_back(), std::move().
+ */
 
 void TransactionManager::Transaction::trackWrite(std::string key, std::string operation) {
     write_set_.push_back({std::move(key), std::move(operation)});
 }
 
+/**
+ * @brief Isolation Level Name.
+ * @param[in] level Input parameter.
+ * @return Return value.
+ * @details Implements isolationLevelName without additional internal calls.
+ */
 static std::string isolationLevelName(IsolationLevel level) {
     switch (level) {
     case IsolationLevel::READ_UNCOMMITTED: return "READ_UNCOMMITTED";
@@ -2058,6 +2388,12 @@ static std::string isolationLevelName(IsolationLevel level) {
     }
 }
 
+/**
+ * @brief Lock Type Name.
+ * @param[in] t Input parameter.
+ * @return Return value.
+ * @details Implements lockTypeName without additional internal calls.
+ */
 static std::string lockTypeName(LockType t) {
     switch (t) {
     case LockType::SHARED:           return "SHARED";
@@ -2091,6 +2427,11 @@ TransactionManager::Transaction::explain() const {
 
 std::optional<TransactionManager::Transaction::ExplainResult>
 TransactionManager::explainTransaction(TransactionId id) const {
+    /**
+     * @brief Lock.
+     * @param[in] sessions_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(sessions_mutex_);
     auto it = active_transactions_.find(id);
     if (it != active_transactions_.end() && it->second) {
@@ -2106,7 +2447,12 @@ TransactionManager::explainTransaction(TransactionId id) const {
 // ── Time-travel queries ────────────────────────────────────────────────────────
 
 namespace {
-/// Convert a HistoryRecord into a TransactionManager::TimeTravelRecord.
+/**
+ * @brief To Time Travel Record.
+ * @param[in] rec Input parameter.
+ * @return Return value.
+ * @details Implements toTimeTravelRecord without additional internal calls.
+ */
 TransactionManager::TimeTravelRecord toTimeTravelRecord(const HistoryRecord& rec) {
     TransactionManager::TimeTravelRecord r;
     r.base_key  = rec.base_key;
@@ -2189,7 +2535,11 @@ TransactionManager::listEntityVersions(
     return result;
 }
 
-// ── Adaptive Deadlock Prevention (v1.9.0) ────────────────────────────────────
+/**
+ * @brief ── Adaptive Deadlock Prevention (v1.
+ * @param[in,out] predictor Input/output parameter.
+ * @details 9.0) ──────────────────────────────────── Calls: store().
+ */
 
 void TransactionManager::setDeadlockPredictor(DeadlockPredictor* predictor) {
     // Release store so that any writes made to *predictor before this call are
@@ -2212,6 +2562,11 @@ double TransactionManager::predictDeadlockProbability(
     // Build the set of currently active transaction IDs.
     std::set<DeadlockPredictor::TransactionId> active_ids;
     {
+        /**
+         * @brief Lock.
+         * @param[in] sessions_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(sessions_mutex_);
         for (const auto& [id, _] : active_transactions_) {
             active_ids.insert(id);
@@ -2244,7 +2599,11 @@ std::chrono::milliseconds TransactionManager::recommendTimeout(
     return p->recommendTimeout(keys);
 }
 
-// ── Serializable Snapshot Isolation (SSI) ─────────────────────────────────────
+/**
+ * @brief ── Serializable Snapshot Isolation (SSI) ─────────────────────────────────────
+ * @param[in] config Input parameter.
+ * @details Calls: lock(), setPredicateLockingEnabled(), setMaxPredicateLocks(), THEMIS_INFO(), count().
+ */
 
 void TransactionManager::setSSIConfig(const SSIConfig& config) {
     std::lock_guard<std::mutex> lock(ssi_config_mutex_);
@@ -2262,6 +2621,11 @@ void TransactionManager::setSSIConfig(const SSIConfig& config) {
 }
 
 TransactionManager::SSIConfig TransactionManager::getSSIConfig() const {
+    /**
+     * @brief Lock.
+     * @param[in] ssi_config_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(ssi_config_mutex_);
     return ssi_config_;
 }
@@ -2272,6 +2636,11 @@ TransactionManager::detectConflicts(TransactionId txn_id) const
     // Read current config so we can honour enable_predicate_locking.
     SSIConfig cfg;
     {
+        /**
+         * @brief Cfg Lock.
+         * @param[in] ssi_config_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> cfgLock(ssi_config_mutex_);
         cfg = ssi_config_;
     }
@@ -2285,6 +2654,11 @@ TransactionManager::detectConflicts(TransactionId txn_id) const
     // Fetch the target transaction.
     std::shared_ptr<Transaction> target_txn;
     {
+        /**
+         * @brief Lock.
+         * @param[in] sessions_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(sessions_mutex_);
         auto it = active_transactions_.find(txn_id);
         if (it == active_transactions_.end()) {
@@ -2309,6 +2683,11 @@ TransactionManager::detectConflicts(TransactionId txn_id) const
                           std::vector<std::pair<std::string, std::string>>>>
         others;
     {
+        /**
+         * @brief Lock.
+         * @param[in] sessions_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(sessions_mutex_);
         for (const auto& [id, txn] : active_transactions_) {
             if (id != txn_id && txn &&

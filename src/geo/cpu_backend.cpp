@@ -47,8 +47,14 @@ static const double kCpuPi      = 3.14159265358979323846;
 //   Update BackendRegistry priority to prefer Boost over the CPU fallback.
 // Roadmap ref: src/geo/FUTURE_ENHANCEMENTS.md §"Boost.Geometry Integration"
 
-// Helper function to check point-in-polygon using ray casting algorithm
-// This provides a reasonable fallback when Boost.Geometry is not available
+/**
+ * @brief Helper function to check point-in-polygon using ray casting algorithm This provides a reasonable fallback when Boost.
+ * @param[in] px Input parameter.
+ * @param[in] py Input parameter.
+ * @param[in] polygon Input parameter.
+ * @return True when the operation succeeds.
+ * @details Geometry is not available Calls: size().
+ */
 static bool pointInPolygon(double px, double py, const std::vector<Coordinate> &polygon) {
     if (polygon.size() < 3) {
         return false;
@@ -70,12 +76,29 @@ static bool pointInPolygon(double px, double py, const std::vector<Coordinate> &
     return inside;
 }
 
-/// Cross product of vectors OA and OB.
+/**
+ * @brief Cpu Cross.
+ * @param[in] ox Input parameter.
+ * @param[in] oy Input parameter.
+ * @param[in] ax Input parameter.
+ * @param[in] ay Input parameter.
+ * @param[in] bx Input parameter.
+ * @param[in] by Input parameter.
+ * @return Return value.
+ * @details Implements cpuCross without additional internal calls.
+ */
 static double cpuCross(double ox, double oy, double ax, double ay, double bx, double by) {
     return (ax - ox) * (by - oy) - (ay - oy) * (bx - ox);
 }
 
-/// True if value d is in [min(a,b), max(a,b)] (with epsilon).
+/**
+ * @brief Cpu On Segment1 D.
+ * @param[in] a Input parameter.
+ * @param[in] b Input parameter.
+ * @param[in] d Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: std::swap().
+ */
 static bool cpuOnSegment1D(double a, double b, double d) {
     if (a > b) {
         std::swap(a, b);
@@ -83,10 +106,19 @@ static bool cpuOnSegment1D(double a, double b, double d) {
     return d >= a - kCpuEpsilon && d <= b + kCpuEpsilon;
 }
 
-/// True if segments AB and CD intersect (including collinear / endpoint cases).
-/// The primary cross-product check identifies proper crossings (d1,d2 opposite
-/// signs).  The four collinearOn calls cover the endpoint-on-segment cases
-/// (d = 0 for one or both endpoints), matching the GPU backend's algorithm.
+/**
+ * @brief Cpu Segments Intersect.
+ * @param[in] ax Input parameter.
+ * @param[in] ay Input parameter.
+ * @param[in] bx Input parameter.
+ * @param[in] by Input parameter.
+ * @param[in] cx Input parameter.
+ * @param[in] cy Input parameter.
+ * @param[in] dx Input parameter.
+ * @param[in] dy Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: cpuCross(), std::abs(), cpuOnSegment1D(), collinearOn().
+ */
 static bool cpuSegmentsIntersect(double ax, double ay, double bx, double by, double cx, double cy, double dx,
                                  double dy) {
     double d1 = cpuCross(cx, cy, dx, dy, ax, ay);
@@ -150,8 +182,16 @@ static bool polygonIntersects(const std::vector<Coordinate> &poly1, const std::v
 // ST_BUFFER helpers
 // ---------------------------------------------------------------------------
 
-/// Build a closed polygon ring approximating a circle around (cx, cy).
-/// d_lat/d_lon are the semi-axis lengths in degrees (latitude / longitude).
+/**
+ * @brief Cpu Circle Ring.
+ * @param[in] cx Input parameter.
+ * @param[in] cy Input parameter.
+ * @param[in] d_lat Input parameter.
+ * @param[in] d_lon Input parameter.
+ * @param[in] arc_points Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), push_back(), std::cos(), std::sin().
+ */
 static std::vector<Coordinate> cpuCircleRing(double cx, double cy, double d_lat, double d_lon, int arc_points) {
     std::vector<Coordinate> ring;
     ring.reserve(static_cast<std::size_t>(arc_points) + 1);
@@ -163,8 +203,13 @@ static std::vector<Coordinate> cpuCircleRing(double cx, double cy, double d_lat,
     return ring;
 }
 
-/// Compute the signed area of a ring (Shoelace formula).
-/// Positive → CCW, Negative → CW.
+/**
+ * @brief Cpu Signed Area.
+ * @param[in] ring Input parameter.
+ * @param[in] n_verts Input parameter.
+ * @return Return value.
+ * @details Implements cpuSignedArea without additional internal calls.
+ */
 static double cpuSignedArea(const std::vector<Coordinate> &ring, std::size_t n_verts) {
     double area = 0.0;
     for (std::size_t i = 0, j = n_verts - 1; i < n_verts; j = i++) {
@@ -173,9 +218,14 @@ static double cpuSignedArea(const std::vector<Coordinate> &ring, std::size_t n_v
     return area; // 2× actual area; sign is what matters
 }
 
-/// Expand a polygon ring outward by (d_lon, d_lat) degrees using the
-/// edge-shift + intersection method.  Works correctly for convex rings;
-/// produces a reasonable approximation for mildly concave rings.
+/**
+ * @brief Cpu Expand Ring.
+ * @param[in] ring Input parameter.
+ * @param[in] d_lat Input parameter.
+ * @param[in] d_lon Input parameter.
+ * @return Return value.
+ * @details Calls: size(), std::abs(), cpuSignedArea(), shifted(), std::sqrt(), reserve(), push_back().
+ */
 static std::vector<Coordinate> cpuExpandRing(const std::vector<Coordinate> &ring, double d_lat, double d_lon) {
     // Determine the number of unique vertices (open ring).
     std::size_t n = ring.size();
@@ -247,7 +297,6 @@ static std::vector<Coordinate> cpuExpandRing(const std::vector<Coordinate> &ring
     return result;
 }
 
-/** @brief Cpu exact backend implementation. */
 class CpuExactBackend final : public ISpatialComputeBackend {
   public:
     const char *name() const noexcept override {
@@ -258,11 +307,9 @@ class CpuExactBackend final : public ISpatialComputeBackend {
     }
 
     /**
-     * @brief Inject a custom point-in-polygon function.
-     *
-     * When set, exactIntersects() calls this fn for every point-in-polygon
-     * test instead of the built-in ray-casting algorithm.  Pass nullptr to
-     * restore the built-in fallback.
+     * @brief Set Containment Fn.
+     * @param[in] fn Input parameter.
+     * @details Calls: lk(), std::move().
      */
     void setContainmentFn(GeoContainmentFn fn) {
         std::lock_guard<std::mutex> lk(containment_fn_mtx_);
@@ -295,6 +342,11 @@ class CpuExactBackend final : public ISpatialComputeBackend {
         // Snapshot the injected containment fn once to avoid locking inside the loop.
         GeoContainmentFn pip;
         {
+            /**
+             * @brief Lk.
+             * @param[in] containment_fn_mtx_ Input parameter.
+             * @return Return value.
+             */
             std::lock_guard<std::mutex> lk(containment_fn_mtx_);
             pip = containment_fn_;
         }
@@ -513,6 +565,11 @@ class CpuExactBackend final : public ISpatialComputeBackend {
                 const double d_lat   = distance_m / 111320.0;
                 const double cos_lat = std::cos(lat_rad);
                 const double d_lon   = distance_m / (111320.0 * (cos_lat > 1e-6 ? cos_lat : 1e-6));
+                /**
+                 * @brief Result.
+                 * @param[in] Polygon Input parameter.
+                 * @return Return value.
+                 */
                 GeometryInfo result(GeometryType::Polygon);
                 result.rings.push_back(cpuCircleRing(c.x, c.y, d_lat, d_lon, arc_points));
                 return result;
@@ -528,6 +585,11 @@ class CpuExactBackend final : public ISpatialComputeBackend {
                 const double d_lat      = distance_m / 111320.0;
                 const double cos_lat    = std::cos(lat_rad);
                 const double d_lon      = distance_m / (111320.0 * (cos_lat > 1e-6 ? cos_lat : 1e-6));
+                /**
+                 * @brief Result.
+                 * @param[in] Polygon Input parameter.
+                 * @return Return value.
+                 */
                 GeometryInfo result(GeometryType::Polygon);
                 result.rings.push_back(cpuExpandRing(ring_in, d_lat, d_lon));
                 return result;
@@ -557,6 +619,11 @@ class CpuExactBackend final : public ISpatialComputeBackend {
                 if (std::abs(p1.x - p2.x) < kCpuEpsilon && std::abs(p1.y - p2.y) < kCpuEpsilon) {
                     return geom1;
                 }
+                /**
+                 * @brief Col.
+                 * @param[in] GeometryCollection Input parameter.
+                 * @return Return value.
+                 */
                 GeometryInfo col(GeometryType::GeometryCollection);
                 col.geometries.push_back(geom1);
                 col.geometries.push_back(geom2);
@@ -570,6 +637,11 @@ class CpuExactBackend final : public ISpatialComputeBackend {
                 if (pointInPolygon(geom1.coords[0].x, geom1.coords[0].y, ring)) {
                     return geom2;
                 }
+                /**
+                 * @brief Col.
+                 * @param[in] GeometryCollection Input parameter.
+                 * @return Return value.
+                 */
                 GeometryInfo col(GeometryType::GeometryCollection);
                 col.geometries.push_back(geom1);
                 col.geometries.push_back(geom2);
@@ -645,7 +717,12 @@ class CpuExactBackend final : public ISpatialComputeBackend {
         int link{-1};
     };
 
-    // Build an open chain from a ring (drops the closing duplicate vertex).
+    /**
+     * @brief Build an open chain from a ring (drops the closing duplicate vertex).
+     * @param[in] ring Input parameter.
+     * @return Return value.
+     * @details Calls: size(), std::abs(), v().
+     */
     static std::vector<GHVert> ghChain(const std::vector<Coordinate> &ring) {
         std::size_t n = ring.size();
         while (n > 1 && std::abs(ring[static_cast<int>(n - 1)].x - ring[0].x) < kCpuEpsilon
@@ -661,7 +738,21 @@ class CpuExactBackend final : public ISpatialComputeBackend {
         return v;
     }
 
-    // Strict interior segment intersection: t,s ∈ (eps, 1-eps).
+    /**
+     * @brief Strict interior segment intersection: t,s ∈ (eps, 1-eps).
+     * @param[in] x1 Input parameter.
+     * @param[in] y1 Input parameter.
+     * @param[in] x2 Input parameter.
+     * @param[in] y2 Input parameter.
+     * @param[in] x3 Input parameter.
+     * @param[in] y3 Input parameter.
+     * @param[in] x4 Input parameter.
+     * @param[in] y4 Input parameter.
+     * @param[in,out] t Input/output parameter.
+     * @param[in,out] s Input/output parameter.
+     * @return True when the operation succeeds.
+     * @details Calls: std::abs().
+     */
     static bool ghSegIsect(double x1, double y1, double x2, double y2, double x3, double y3, double x4, double y4,
                            double &t, double &s) {
         const double dx = x2 - x1, dy = y2 - y1;
@@ -676,7 +767,12 @@ class CpuExactBackend final : public ISpatialComputeBackend {
         return t > kCpuEpsilon && t < 1.0 - kCpuEpsilon && s > kCpuEpsilon && s < 1.0 - kCpuEpsilon;
     }
 
-    // Phase 1: find all edge-edge intersections; insert and sort; cross-link.
+    /**
+     * @brief Phase 1: find all edge-edge intersections; insert and sort; cross-link.
+     * @param[in,out] A Input/output parameter.
+     * @param[in,out] B Input/output parameter.
+     * @details Calls: size(), reserve(), std::min(), ghSegIsect(), push_back(), empty(), std::stable_sort(), begin().
+     */
     static void ghPhase1(std::vector<GHVert> &A, std::vector<GHVert> &B) {
         const std::size_t na = A.size(), nb = B.size();
         struct IP {
@@ -741,7 +837,12 @@ class CpuExactBackend final : public ISpatialComputeBackend {
         }
     }
 
-    // Phase 2A: label each A intersection as entering (ent_B) or exiting B.
+    /**
+     * @brief Phase 2A: label each A intersection as entering (ent_B) or exiting B.
+     * @param[in,out] A Input/output parameter.
+     * @param[in] b_ring Input parameter.
+     * @details Calls: pointInPolygon().
+     */
     static void ghPhase2A(std::vector<GHVert> &A, const std::vector<Coordinate> &b_ring) {
         bool inside = false;
         for (const auto &v : A) {
@@ -759,7 +860,12 @@ class CpuExactBackend final : public ISpatialComputeBackend {
         }
     }
 
-    // Phase 2B: label each B intersection as entering (ent_A) or exiting A.
+    /**
+     * @brief Phase 2B: label each B intersection as entering (ent_A) or exiting A.
+     * @param[in,out] B Input/output parameter.
+     * @param[in] a_ring Input parameter.
+     * @details Calls: pointInPolygon().
+     */
     static void ghPhase2B(std::vector<GHVert> &B, const std::vector<Coordinate> &a_ring) {
         bool inside = false;
         for (const auto &v : B) {
@@ -777,8 +883,13 @@ class CpuExactBackend final : public ISpatialComputeBackend {
         }
     }
 
-    // Collect one union polygon ring starting from an unvisited A-exiting intersection.
-    // Returns an empty vector if no suitable start vertex is found.
+    /**
+     * @brief Collect one union polygon ring starting from an unvisited A-exiting intersection.
+     * @param[in,out] A Input/output parameter.
+     * @param[in,out] B Input/output parameter.
+     * @return Return value.
+     * @details Returns an empty vector if no suitable start vertex is found. Calls: size(), reserve(), push_back(), std::abs(), back(), front().
+     */
     static std::vector<Coordinate> ghTraverseUnion(std::vector<GHVert> &A, std::vector<GHVert> &B) {
         const int na = A.size();
         const int nb = B.size();
@@ -844,8 +955,13 @@ class CpuExactBackend final : public ISpatialComputeBackend {
         return ring;
     }
 
-    // Collect one difference polygon ring starting from an unvisited A-exiting
-    // intersection.  Returns an empty vector if none is found.
+    /**
+     * @brief Collect one difference polygon ring starting from an unvisited A-exiting intersection.
+     * @param[in,out] A Input/output parameter.
+     * @param[in,out] B Input/output parameter.
+     * @return Return value.
+     * @details Returns an empty vector if none is found. Calls: size(), reserve(), push_back(), std::abs(), back(), front().
+     */
     static std::vector<Coordinate> ghTraverseDiff(std::vector<GHVert> &A, std::vector<GHVert> &B) {
         const int na = A.size();
         const int nb = B.size();
@@ -917,7 +1033,13 @@ class CpuExactBackend final : public ISpatialComputeBackend {
         return g.rings.empty() ? g.coords : g.rings[0];
     }
 
-    // Polygon-Polygon union using Greiner-Hormann.
+    /**
+     * @brief Polygon-Polygon union using Greiner-Hormann.
+     * @param[in] geom1 Input parameter.
+     * @param[in] geom2 Input parameter.
+     * @return Return value.
+     * @details Calls: outerRing(), size(), polygonIntersects(), pointInPolygon(), col(), push_back(), ghChain(), ghPhase1().
+     */
     static GeometryInfo cpuPolyUnion(const GeometryInfo &geom1, const GeometryInfo &geom2) {
         const auto &ring1 = outerRing(geom1);
         const auto &ring2 = outerRing(geom2);
@@ -989,7 +1111,13 @@ class CpuExactBackend final : public ISpatialComputeBackend {
         return result;
     }
 
-    // Polygon-Polygon difference (geom1 \ geom2) using Greiner-Hormann.
+    /**
+     * @brief Polygon-Polygon difference (geom1 \ geom2) using Greiner-Hormann.
+     * @param[in] geom1 Input parameter.
+     * @param[in] geom2 Input parameter.
+     * @return Return value.
+     * @details Calls: outerRing(), size(), polygonIntersects(), pointInPolygon(), empty(), result(), push_back(), ghChain().
+     */
     static GeometryInfo cpuPolyDiff(const GeometryInfo &geom1, const GeometryInfo &geom2) {
         const auto &ring1 = outerRing(geom1);
         const auto &ring2 = outerRing(geom2);
@@ -1070,10 +1198,14 @@ class CpuExactBackend final : public ISpatialComputeBackend {
 // Replaces the NullRegistry stub; backends self-register at startup so they
 // are discoverable at runtime via getGeoBackendRegistry().
 // ---------------------------------------------------------------------------
-/** @brief are discoverable at runtime via getGeoBackendRegistry(). */
 class GeoBackendRegistry final : public IGeoRegistry {
   public:
     void registerBackend(std::unique_ptr<ISpatialComputeBackend> b) override {
+        /**
+         * @brief Lk.
+         * @param[in] mtx_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(mtx_);
         backends_.push_back(std::move(b));
     }
@@ -1103,7 +1235,6 @@ IGeoRegistry *getGeoBackendRegistry() {
 // Forward declaration — defined after CpuExactBackend below.
 static CpuExactBackend &getCpuExactBackendInstance();
 
-/** @brief Approximate cpu backend implementation. */
 class ApproximateCpuBackend final : public ISpatialComputeBackend {
   public:
     const char *name() const noexcept override {
@@ -1138,6 +1269,10 @@ class ApproximateCpuBackend final : public ISpatialComputeBackend {
     }
 };
 
+/**
+ * @brief Register builtin cpu backend.
+ * @details Calls: getGeoRegistryInstance(), registerBackend(), what().
+ */
 static void register_builtin_cpu_backend() {
 #ifdef THEMIS_GEO_ENABLED
     try {
@@ -1160,6 +1295,11 @@ ISpatialComputeBackend *getCpuExactBackend() {
     return &getCpuExactBackendInstance();
 }
 
+/**
+ * @brief Set Cpu Exact Containment Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: getCpuExactBackendInstance(), setContainmentFn(), std::move().
+ */
 void setCpuExactContainmentFn(GeoContainmentFn fn) {
     getCpuExactBackendInstance().setContainmentFn(std::move(fn));
 }

@@ -70,15 +70,10 @@ PluginSignature NERDetectionEngine::getSignature() const {
 /**
  * @brief Initialize.
  * @param[in] config Input parameter.
- * @return True on success.
+ * @return True when the operation succeeds.
  * @details Calls: lock(), clear(), value(), contains(), loadFromConfig(), rebuildFieldHints(), empty(), spdlog::warn().
  */
 bool NERDetectionEngine::initialize(const nlohmann::json& config) {
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lock(mutex_);
     last_error_.clear();
 
@@ -131,15 +126,10 @@ bool NERDetectionEngine::initialize(const nlohmann::json& config) {
 /**
  * @brief Reload.
  * @param[in] config Input parameter.
- * @return True on success.
+ * @return True when the operation succeeds.
  * @details Calls: lock(), clear(), loadFromConfig(), std::string(), spdlog::error(), logErrorWithContext(), makeErrorContext(), rebuildFieldHints().
  */
 bool NERDetectionEngine::reload(const nlohmann::json& config) {
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     // Save current state for rollback
@@ -321,11 +311,11 @@ nlohmann::json NERDetectionEngine::getMetadata() const {
     return meta;
 }
 
+
 /**
- * @brief ============================================================================ Internal helpers ============================================================================
+ * @brief Load Defaults.
  * @details Implements loadDefaults without additional internal calls.
  */
-
 void NERDetectionEngine::loadDefaults() {
     honorifics_ = {
         "mr.", "mrs.", "ms.", "miss", "dr.", "prof.", "sir", "dame",
@@ -354,7 +344,7 @@ void NERDetectionEngine::loadDefaults() {
 /**
  * @brief Load From Config.
  * @param[in] config Input parameter.
- * @return True on success.
+ * @return True when the operation succeeds.
  * @details Calls: contains(), value(), is_array(), clear(), size(), spdlog::error(), insert(), toLower().
  */
 bool NERDetectionEngine::loadFromConfig(const nlohmann::json& config) {
@@ -454,13 +444,13 @@ void NERDetectionEngine::rebuildFieldHints() {
     }
 }
 
+
 /**
- * @brief ============================================================================ Tokeniser ============================================================================
+ * @brief Tokenise.
  * @param[in] text Input parameter.
  * @return Return value.
  * @details Calls: size(), std::isspace(), substr(), push_back(), std::move().
  */
-
 std::vector<NERDetectionEngine::Token> NERDetectionEngine::tokenise(const std::string& text) {
     std::vector<Token> tokens;
     size_t i = 0;
@@ -643,13 +633,13 @@ void NERDetectionEngine::detectLocations(
     }
 }
 
+
 /**
- * @brief ============================================================================ Static helpers ============================================================================
+ * @brief Is Capitalized.
  * @param[in] word Input parameter.
- * @return True on success.
+ * @return True when the operation succeeds.
  * @details Calls: empty(), std::isalpha(), std::isupper().
  */
-
 bool NERDetectionEngine::isCapitalized(const std::string& word) {
     if (word.empty()) {
       return false;
@@ -683,7 +673,7 @@ std::string NERDetectionEngine::toLower(const std::string& s) {
  * @param[in] last Input parameter.
  * @param[in] type Input parameter.
  * @param[in] confidence Input parameter.
- * @param[in] pattern_name Input parameter.
+ * @param[in] pattern_name Name of the pattern.
  * @return Return value.
  * @details Calls: size(), std::move().
  */
@@ -719,12 +709,12 @@ PIIFinding NERDetectionEngine::makeSpan(
     return f;
 }
 
-/**
- * @brief ============================================================================ Factory function (registered in pii_detection_engine.
- * @return Return value.
- * @details cpp) ============================================================================ Implements createNEREngine without additional internal calls.
- */
 
+/**
+ * @brief Create NEREngine.
+ * @return Return value.
+ * @details Implements createNEREngine without additional internal calls.
+ */
 std::unique_ptr<IPIIDetectionEngine> createNEREngine() {
     return std::make_unique<NERDetectionEngine>();
 }

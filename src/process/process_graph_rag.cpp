@@ -45,8 +45,13 @@ using json = nlohmann::json;
 // ─────────────────────────────────────────────────────────────────────────────
 namespace {
 
-/// Cosine similarity between two float vectors; returns 0.0 when either is
-/// empty or the norms are zero.
+/**
+ * @brief Cosine Similarity.
+ * @param[in] a Input parameter.
+ * @param[in] b Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), size(), std::sqrt().
+ */
 float cosineSimilarity(const std::vector<float>& a, const std::vector<float>& b) {
     if (a.empty() || b.empty() || a.size() != b.size()) {
       return 0.f;
@@ -63,7 +68,13 @@ float cosineSimilarity(const std::vector<float>& a, const std::vector<float>& b)
     return dot / (std::sqrt(na) * std::sqrt(nb));
 }
 
-/// Jaccard similarity between two sets of strings.
+/**
+ * @brief Jaccard Similarity.
+ * @param[in] a Input parameter.
+ * @param[in] b Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), count(), size().
+ */
 float jaccardSimilarity(const std::set<std::string>& a,
                         const std::set<std::string>& b) {
     if (a.empty() && b.empty()) {
@@ -82,7 +93,12 @@ float jaccardSimilarity(const std::set<std::string>& a,
     return static_cast<float>(intersection) / static_cast<float>(union_size);
 }
 
-/// Convert a ProcessInstance::State enum value to a string.
+/**
+ * @brief Instance State Str.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Implements instanceStateStr without additional internal calls.
+ */
 std::string instanceStateStr(ProcessInstance::State s) {
     switch (s) {
         case ProcessInstance::State::CREATED:    return "CREATED";
@@ -95,7 +111,13 @@ std::string instanceStateStr(ProcessInstance::State s) {
     return "UNKNOWN";
 }
 
-/// Check whether @p needle appears (case-insensitive) in @p haystack.
+/**
+ * @brief Contains Insensitive.
+ * @param[in] haystack Input parameter.
+ * @param[in] needle Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), std::search(), begin(), end(), std::tolower().
+ */
 bool containsInsensitive(const std::string& haystack, const std::string& needle) {
     if (needle.empty()) {
       return true;
@@ -397,8 +419,11 @@ std::vector<std::pair<std::string, float>> ProcessGraphRag::computePpr(
       node_index[node_ids[i]] = i;
     }
 
-    // Build column-stochastic transition matrix stored as sparse out-degree lists
-    // transition[from] = [(to, weight)]  (uniform weight over out-edges)
+    /**
+     * @brief Build column-stochastic transition matrix stored as sparse out-degree lists transition[from] = [(to, weight)] (uniform weight over out-edges)
+     * @param[in] N Input parameter.
+     * @return Return value.
+     */
     std::vector<std::vector<int>> out_neighbors(N);
     for (const auto& e : normalized_graph["edges"]) {
         std::string from = e.value("from", "");
@@ -447,7 +472,11 @@ std::vector<std::pair<std::string, float>> ProcessGraphRag::computePpr(
         }
     }
 
-    // Power iteration: r = α * A^T * r + (1-α) * p
+    /**
+     * @brief Power iteration: r = α * A^T * r + (1-α) * p
+     * @param[in] personal Input parameter.
+     * @return Return value.
+     */
     std::vector<float> r(personal);   // initialise to personalisation vector
     std::vector<float> r_new(N, 0.f);
 
@@ -505,6 +534,11 @@ float ProcessGraphRag::scoreNodeRelevance_(
     const std::vector<std::string>& active_nodes) const
 {
     float score = 0.f;
+    /**
+     * @brief Qstr.
+     * @param[in] query Input parameter.
+     * @return Return value.
+     */
     const std::string qstr(query);
 
     // Boost for active nodes
@@ -1334,6 +1368,14 @@ std::string ProcessGraphRag::buildQueryPrompt(const ProcessRagContext& ctx) cons
 // SLA Monitoring (Q4 2026)
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Register Sla Rule.
+ * @param[in] instance_id Identifier of the instance.
+ * @param[in] sla_ms Input parameter.
+ * @param[in] process_name Name of the process.
+ * @param[in,out] cep Input/output parameter.
+ * @param[in] on_alert Input parameter.
+ */
 void ProcessGraphRag::registerSlaRule(
     std::string_view                  instance_id,
     int64_t                           sla_ms,
@@ -1413,6 +1455,11 @@ void ProcessGraphRag::registerSlaRule(
     }
 
     {
+        /**
+         * @brief Lock.
+         * @param[in] sla_rules_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(sla_rules_mutex_);
         sla_rules_[inst_id] = SlaRuleEntry{at_risk_id, overdue_id, std::move(on_alert)};
     }
@@ -1421,6 +1468,11 @@ void ProcessGraphRag::registerSlaRule(
                  inst_id, sla_ms);
 }
 
+/**
+ * @brief Deregister Sla Rule.
+ * @param[in] instance_id Identifier of the instance.
+ * @param[in,out] cep Input/output parameter.
+ */
 void ProcessGraphRag::deregisterSlaRule(
     std::string_view                instance_id,
     themisdb::analytics::CEPEngine& cep)
@@ -1428,6 +1480,11 @@ void ProcessGraphRag::deregisterSlaRule(
     const std::string inst_id{instance_id};
     SlaRuleEntry entry;
     {
+        /**
+         * @brief Lock.
+         * @param[in] sla_rules_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(sla_rules_mutex_);
         auto it = sla_rules_.find(inst_id);
         if (it == sla_rules_.end()) {
@@ -1444,6 +1501,14 @@ void ProcessGraphRag::deregisterSlaRule(
     SPDLOG_DEBUG("ProcessGraphRag: deregistered SLA rules for instance '{}'", inst_id);
 }
 
+/**
+ * @brief Fire Sla Alert.
+ * @param[in] instance_id Identifier of the instance.
+ * @param[in] process_name Name of the process.
+ * @param[in] sla_ms Input parameter.
+ * @param[in] elapsed_ms Input parameter.
+ * @param[in] status Input parameter.
+ */
 void ProcessGraphRag::fireSlaAlert_(
     const std::string& instance_id,
     const std::string& process_name,
@@ -1452,6 +1517,11 @@ void ProcessGraphRag::fireSlaAlert_(
     const std::string& status)
 {
     SlaAlert alert{instance_id, process_name, sla_ms, elapsed_ms, status};
+    /**
+     * @brief Lock.
+     * @param[in] sla_rules_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(sla_rules_mutex_);
     auto it = sla_rules_.find(instance_id);
     if (it != sla_rules_.end() && it->second.callback) {
@@ -1463,9 +1533,13 @@ void ProcessGraphRag::fireSlaAlert_(
     }
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Cross-Case Bottleneck Analytics (Q4 2026)
-// ─────────────────────────────────────────────────────────────────────────────
+/**
+ * @brief ───────────────────────────────────────────────────────────────────────────── Cross-Case Bottleneck Analytics (Q4 2026) ─────────────────────────────────────────────────────────────────────────────
+ * @param[in] model_id Identifier of the model.
+ * @param[in] node_id Identifier of the node.
+ * @param[in] node_name Name of the node.
+ * @param[in] dwell_ms Input parameter.
+ */
 
 void ProcessGraphRag::recordNodeCompletion(
     std::string_view model_id,

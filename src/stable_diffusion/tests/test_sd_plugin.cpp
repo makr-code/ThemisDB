@@ -312,6 +312,12 @@ TEST(SDPluginFocusedTests, J3_DoubleInitIsSafe) {
 TEST(SDPluginFocusedTests, J4_InitializeFailsOnModelShaMismatch) {
     const std::filesystem::path p = std::filesystem::temp_directory_path() / "sd_plugin_sha_mismatch.bin";
     {
+        /**
+         * @brief Ofs.
+         * @param[in] p Input parameter.
+         * @param[in] binary Input parameter.
+         * @return Return value.
+         */
         std::ofstream ofs(p, std::ios::binary);
         ofs << "themis-sd-test";
     }
@@ -328,6 +334,12 @@ TEST(SDPluginFocusedTests, J4_InitializeFailsOnModelShaMismatch) {
 TEST(SDPluginFocusedTests, J5_InitializeSucceedsOnModelShaMatch) {
     const std::filesystem::path p = std::filesystem::temp_directory_path() / "sd_plugin_sha_match.bin";
     {
+        /**
+         * @brief Ofs.
+         * @param[in] p Input parameter.
+         * @param[in] binary Input parameter.
+         * @return Return value.
+         */
         std::ofstream ofs(p, std::ios::binary);
         ofs << "themis-sd-test-match";
     }
@@ -658,8 +670,13 @@ TEST(SDPluginFocusedTests, O3_GenerateBatchCountsGenerations) {
 
 namespace {
 
-// Returns true when buf contains a PNG chunk with the given 4-byte type.
-// Scans the entire buffer (post-signature) to find any matching chunk.
+/**
+ * @brief Returns true when buf contains a PNG chunk with the given 4-byte type.
+ * @param[in] buf Input parameter.
+ * @param[in] type Input parameter.
+ * @return True when the operation succeeds.
+ * @details Scans the entire buffer (post-signature) to find any matching chunk. Calls: size().
+ */
 bool png_has_chunk(const std::vector<uint8_t>& buf, const char type[4]) {
     if (buf.size() < 8) {
       return false;
@@ -685,8 +702,12 @@ bool png_has_chunk(const std::vector<uint8_t>& buf, const char type[4]) {
     return false;
 }
 
-// Read the IDAT chunk data (first occurrence) from a PNG buffer.
-// Returns empty vector if not found.
+/**
+ * @brief Read the IDAT chunk data (first occurrence) from a PNG buffer.
+ * @param[in] buf Input parameter.
+ * @return Return value.
+ * @details Returns empty vector if not found. Calls: size(), begin().
+ */
 std::vector<uint8_t> png_idat_data(const std::vector<uint8_t>& buf) {
     if (buf.size() < 8) return {};
     size_t pos = 8;

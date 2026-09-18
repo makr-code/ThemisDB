@@ -48,7 +48,6 @@ namespace {
 
 #ifdef THEMIS_ENABLE_KAFKA
 
-/// RAII wrapper for rd_kafka_conf_t with exception-safe cleanup
 class RDKafkaConfWrapper {
 public:
     explicit RDKafkaConfWrapper() : conf_(rd_kafka_conf_new()) {}
@@ -74,9 +73,19 @@ public:
         return *this;
     }
     
+    /**
+     * @brief Get.
+     * @return Pointer to the result.
+     * @details Implements get without additional internal calls.
+     */
     rd_kafka_conf_t* get() { return conf_; }
     const rd_kafka_conf_t* get() const { return conf_; }
     
+    /**
+     * @brief Release.
+     * @return Pointer to the result.
+     * @details Implements release without additional internal calls.
+     */
     rd_kafka_conf_t* release() {
         auto temp = conf_;
         conf_ = nullptr;
@@ -87,9 +96,17 @@ private:
     rd_kafka_conf_t* conf_;
 };
 
-/// RAII wrapper for rd_kafka_t with exception-safe cleanup
 class RDKafkaWrapper {
 public:
+    /**
+     * @brief RDKafka Wrapper.
+     * @param[in,out] conf Input/output parameter.
+     * @param[in] type Input parameter.
+     * @param[in,out] errstr Input/output parameter.
+     * @param[in] errstr_len Input parameter.
+     * @return Return value.
+     * @details Calls: rd_kafka_new().
+     */
     explicit RDKafkaWrapper(rd_kafka_conf_t* conf, rd_kafka_type_t type,
                             char* errstr, size_t errstr_len) {
         rk_ = rd_kafka_new(type, conf, errstr, errstr_len);
@@ -118,11 +135,21 @@ public:
         return *this;
     }
     
+    /**
+     * @brief Get.
+     * @return Pointer to the result.
+     * @details Implements get without additional internal calls.
+     */
     rd_kafka_t* get() { return rk_; }
     const rd_kafka_t* get() const { return rk_; }
     
     bool is_valid() const { return rk_ != nullptr; }
     
+    /**
+     * @brief Release.
+     * @return Pointer to the result.
+     * @details Implements release without additional internal calls.
+     */
     rd_kafka_t* release() {
         auto temp = rk_;
         rk_ = nullptr;
@@ -133,9 +160,13 @@ private:
     rd_kafka_t* rk_;
 };
 
-/// RAII wrapper for rd_kafka_topic_partition_list_t with exception-safe cleanup
 class RDKafkaTopicPartitionListWrapper {
 public:
+    /**
+     * @brief RDKafka Topic Partition List Wrapper.
+     * @param[in] size Input parameter.
+     * @return Return value.
+     */
     explicit RDKafkaTopicPartitionListWrapper(int size) 
         : tpl_(rd_kafka_topic_partition_list_new(size)) {}
     
@@ -160,11 +191,21 @@ public:
         return *this;
     }
     
+    /**
+     * @brief Get.
+     * @return Pointer to the result.
+     * @details Implements get without additional internal calls.
+     */
     rd_kafka_topic_partition_list_t* get() { return tpl_; }
     const rd_kafka_topic_partition_list_t* get() const { return tpl_; }
     
     bool is_valid() const { return tpl_ != nullptr; }
     
+    /**
+     * @brief Release.
+     * @return Pointer to the result.
+     * @details Implements release without additional internal calls.
+     */
     rd_kafka_topic_partition_list_t* release() {
         auto temp = tpl_;
         tpl_ = nullptr;
@@ -177,7 +218,6 @@ private:
 
 #endif // THEMIS_ENABLE_KAFKA
 
-/// Maps Kafka-specific error patterns to ImporterErrorCode
 [[maybe_unused]] static ImportErrorCode mapKafkaErrorToCode(const std::string& error_msg) {
     // PHASE-2-HARDENING: Standardized error mapping for Kafka
     const auto msg_lower = [](std::string s) {
@@ -205,13 +245,16 @@ private:
     return ImportErrorCode::UNKNOWN;
 }
 
-/// Stream position tracking for Kafka offset recovery
-/// PHASE-2-HARDENING: Checkpoint recovery mechanism
 struct KafkaStreamPosition {
     int64_t last_committed_offset = -1;
     size_t messages_in_current_batch = 0;
     std::string checkpoint_file = {};
     
+    /**
+     * @brief Load From Checkpoint.
+     * @return True when the operation succeeds.
+     * @details Calls: empty(), f(), content(), nlohmann::json::parse(), value(), THEMIS_INFO(), THEMIS_DEBUG(), what().
+     */
     bool loadFromCheckpoint() {
         if (checkpoint_file.empty()) {
           return false;
@@ -234,6 +277,10 @@ struct KafkaStreamPosition {
         }
     }
     
+    /**
+     * @brief Save To Checkpoint.
+     * @details Calls: empty(), f(), nlohmann::json::object(), std::chrono::system_clock::now(), time_since_epoch(), count(), dump(), THEMIS_DEBUG().
+     */
     void saveToCheckpoint() {
         if (checkpoint_file.empty()) {
           return;
@@ -275,6 +322,12 @@ std::vector<std::string> KafkaImporter::getSupportedTypes() const {
     return {"kafka", "kafka-json", "kafka-avro", "kafka-plaintext"};
 }
 
+/**
+ * @brief Initialize.
+ * @param[in] config Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), THEMIS_INFO(), json::parse(), contains(), is_string(), opt_str(), is_number_integer(), THEMIS_WARN().
+ */
 bool KafkaImporter::initialize(const std::string& config) {
     cancelled_ = false;
 
@@ -327,6 +380,13 @@ bool KafkaImporter::initialize(const std::string& config) {
     return true;
 }
 
+/**
+ * @brief Validate Source.
+ * @param[in] source_path Path to the source.
+ * @param[in,out] errors Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: parseKafkaUrl(), push_back(), empty(), rd_kafka_conf_new(), rd_kafka_conf_set(), c_str(), rd_kafka_new(), std::string().
+ */
 bool KafkaImporter::validateSource(const std::string& source_path,
                                     std::vector<std::string>& errors) {
     std::string brokers, topic;
@@ -389,6 +449,14 @@ bool KafkaImporter::validateSource(const std::string& source_path,
     return true;
 }
 
+/**
+ * @brief Import Data.
+ * @param[in] source_path Path to the source.
+ * @param[in] options Input parameter.
+ * @param[in] progress_callback Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::steady_clock::now(), permission_check(), addError(), parseKafkaUrl(), empty(), THEMIS_INFO(), emitSpan(), consumeFromMock().
+ */
 ImportStats KafkaImporter::importData(
     const std::string& source_path,
     const ImportOptions& options,
@@ -481,6 +549,13 @@ ImportStats KafkaImporter::importData(
     return stats;
 }
 
+/**
+ * @brief Import Data Async.
+ * @param[in] source_path Path to the source.
+ * @param[in] options Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), std::to_string(), get(), store(), setStage(), get_future().
+ */
 std::shared_ptr<ImportHandle> KafkaImporter::importDataAsync(
     const std::string& source_path,
     const ImportOptions& options
@@ -544,11 +619,21 @@ std::shared_ptr<ImportHandle> KafkaImporter::importDataAsync(
     return handle;
 }
 
+/**
+ * @brief Cancel.
+ * @details Calls: store(), THEMIS_INFO().
+ */
 void KafkaImporter::cancel() {
     cancelled_.store(true);
     THEMIS_INFO("Kafka Importer: import cancelled");
 }
 
+/**
+ * @brief Get Source Schema.
+ * @param[in] source_path Path to the source.
+ * @return Return value.
+ * @details Calls: parseKafkaUrl().
+ */
 json KafkaImporter::getSourceSchema(const std::string& source_path) {
     std::string brokers, topic;
     parseKafkaUrl(source_path, brokers, topic);
@@ -559,6 +644,11 @@ json KafkaImporter::getSourceSchema(const std::string& source_path) {
     };
 }
 
+/**
+ * @brief Set Message Fetch For Testing.
+ * @param[in] fn Input parameter.
+ * @details Calls: std::move().
+ */
 void KafkaImporter::setMessageFetchForTesting(KafkaMessageFn fn) {
     message_fn_ = std::move(fn);
 }
@@ -567,6 +657,14 @@ void KafkaImporter::setMessageFetchForTesting(KafkaMessageFn fn) {
 // URL parsing
 // ============================================================================
 
+/**
+ * @brief Parse Kafka Url.
+ * @param[in] url Input parameter.
+ * @param[in,out] brokers Input/output parameter.
+ * @param[in,out] topic Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: clear(), empty(), substr(), size(), rfind().
+ */
 bool KafkaImporter::parseKafkaUrl(const std::string& url,
                                    std::string& brokers,
                                    std::string& topic) {
@@ -600,6 +698,14 @@ bool KafkaImporter::parseKafkaUrl(const std::string& url,
 // Mock-based consume loop
 // ============================================================================
 
+/**
+ * @brief Consume From Mock.
+ * @param[in] topic Input parameter.
+ * @param[in] options Input parameter.
+ * @param[in,out] stats Input/output parameter.
+ * @param[in,out] progress_cb Input/output parameter.
+ * @details Calls: load(), THEMIS_WARN(), addError(), std::to_string(), emitMetric(), std::this_thread::sleep_for(), std::chrono::milliseconds(), THEMIS_INFO().
+ */
 void KafkaImporter::consumeFromMock(const std::string& topic,
                                      const ImportOptions& options,
                                      ImportStats& stats,
@@ -712,6 +818,15 @@ void KafkaImporter::consumeFromMock(const std::string& topic,
 // ============================================================================
 
 #ifdef THEMIS_ENABLE_KAFKA
+/**
+ * @brief Consume From Kafka.
+ * @param[in] brokers Input parameter.
+ * @param[in] topic Input parameter.
+ * @param[in] options Input parameter.
+ * @param[in,out] stats Input/output parameter.
+ * @param[in,out] progress_cb Input/output parameter.
+ * @details Calls: get(), rd_kafka_conf_set(), addError(), std::string(), setConf(), c_str(), std::to_string(), empty().
+ */
 void KafkaImporter::consumeFromKafka(const std::string& brokers,
                                       const std::string& topic,
                                       const ImportOptions& options,
@@ -1085,6 +1200,14 @@ void KafkaImporter::emitSpan(const ImportOptions& options,
     }
 }
 
+/**
+ * @brief Report Progress.
+ * @param[in,out] callback Input/output parameter.
+ * @param[in] stage Input parameter.
+ * @param[in] current Input parameter.
+ * @param[in] total Input parameter.
+ * @details Calls: callback().
+ */
 void KafkaImporter::reportProgress(ProgressCallback& callback,
                                     const std::string& stage,
                                     size_t current,
@@ -1108,11 +1231,21 @@ plugins::PluginCapabilities KafkaImporterPlugin::getCapabilities() const {
     return caps;
 }
 
+/**
+ * @brief Initialize.
+ * @param[in] config_json Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements initialize without additional internal calls.
+ */
 bool KafkaImporterPlugin::initialize(const char* config_json) {
     std::string cfg = config_json ? config_json : "{}";
     return importer_->initialize(cfg);
 }
 
+/**
+ * @brief Shutdown.
+ * @details Calls: cancel().
+ */
 void KafkaImporterPlugin::shutdown() {
     if (importer_) {
       importer_->cancel();

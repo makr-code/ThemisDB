@@ -15,6 +15,12 @@ namespace themis::rag::judge {
 
 namespace {
 
+/**
+ * @brief Make Pipeline Config For Mode.
+ * @param[in] mode Input parameter.
+ * @return Return value.
+ * @details Implements makePipelineConfigForMode without additional internal calls.
+ */
 QualityControlPipeline::Config makePipelineConfigForMode(QCMode mode) {
     QualityControlPipeline::Config config;
     switch (mode) {
@@ -39,9 +45,12 @@ QualityControlPipeline::Config makePipelineConfigForMode(QCMode mode) {
 
 } // namespace
 
-// ═══════════════════════════════════════════════════════════
-// QualityControlFactory Implementation
-// ═══════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════ QualityControlFactory Implementation ═══════════════════════════════════════════════════════════
+ * @param[in] mode Input parameter.
+ * @return Return value.
+ * @details Calls: makePipelineConfigForMode(), THEMIS_INFO().
+ */
 
 std::unique_ptr<QualityControlPipeline> QualityControlFactory::createBasic(QCMode mode) {
     auto config = makePipelineConfigForMode(mode);
@@ -51,6 +60,12 @@ std::unique_ptr<QualityControlPipeline> QualityControlFactory::createBasic(QCMod
     return std::make_unique<QualityControlPipeline>(config);
 }
 
+/**
+ * @brief Create Production.
+ * @param[in] setup_config Input parameter.
+ * @return Return value.
+ * @details Calls: THEMIS_INFO(), createNLIVerifier(), createGEvalEvaluator(), createLLMJudgeClient(), THEMIS_WARN(), makePipelineConfigForMode(), setNLIVerifier(), setGEvalEvaluator().
+ */
 std::unique_ptr<QualityControlPipeline> QualityControlFactory::createProduction(
     const SetupConfig& setup_config
 ) {
@@ -93,6 +108,11 @@ std::unique_ptr<QualityControlPipeline> QualityControlFactory::createProduction(
     return pipeline;
 }
 
+/**
+ * @brief Create Lightweight.
+ * @return Return value.
+ * @details Calls: THEMIS_INFO(), makePipelineConfigForMode().
+ */
 std::unique_ptr<QualityControlPipeline> QualityControlFactory::createLightweight() {
     THEMIS_INFO("Creating lightweight quality control pipeline (Fast mode)");
     
@@ -102,6 +122,12 @@ std::unique_ptr<QualityControlPipeline> QualityControlFactory::createLightweight
     return std::make_unique<QualityControlPipeline>(config);
 }
 
+/**
+ * @brief Create Comprehensive.
+ * @param[in] setup_config Input parameter.
+ * @return Return value.
+ * @details Calls: THEMIS_INFO(), createProduction().
+ */
 std::unique_ptr<QualityControlPipeline> QualityControlFactory::createComprehensive(
     const SetupConfig& setup_config
 ) {
@@ -116,6 +142,12 @@ std::unique_ptr<QualityControlPipeline> QualityControlFactory::createComprehensi
     return createProduction(comprehensive_config);
 }
 
+/**
+ * @brief Create NLIVerifier.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), THEMIS_INFO().
+ */
 std::shared_ptr<NLIFaithfulnessVerifier> QualityControlFactory::createNLIVerifier(
     const SetupConfig& config
 ) {
@@ -133,6 +165,11 @@ std::shared_ptr<NLIFaithfulnessVerifier> QualityControlFactory::createNLIVerifie
     return std::make_shared<NLIFaithfulnessVerifier>(nli_config);
 }
 
+/**
+ * @brief Create GEval Evaluator.
+ * @return Return value.
+ * @details Calls: THEMIS_INFO().
+ */
 std::shared_ptr<GEvalEvaluator> QualityControlFactory::createGEvalEvaluator() {
     GEvalEvaluator::Config config;
     config.num_samples = 3;
@@ -145,6 +182,12 @@ std::shared_ptr<GEvalEvaluator> QualityControlFactory::createGEvalEvaluator() {
     return std::make_shared<GEvalEvaluator>(config);
 }
 
+/**
+ * @brief Create LLMJudge Client.
+ * @param[in] inference_engine Input parameter.
+ * @return Return value.
+ * @details Calls: THEMIS_ERROR(), setInferenceEngine(), std::move(), THEMIS_INFO().
+ */
 std::shared_ptr<LLMJudgeClient> QualityControlFactory::createLLMJudgeClient(
     std::shared_ptr<llm::InferenceEngineEnhanced> inference_engine
 ) {
@@ -168,9 +211,14 @@ std::shared_ptr<LLMJudgeClient> QualityControlFactory::createLLMJudgeClient(
     return client;
 }
 
-// ═══════════════════════════════════════════════════════════
-// RAGJudgeQCConfigurator Implementation
-// ═══════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════ RAGJudgeQCConfigurator Implementation ═══════════════════════════════════════════════════════════
+ * @param[in] enable_nli Input parameter.
+ * @param[in] enable_geval Input parameter.
+ * @param[in] enable_full_pipeline Input parameter.
+ * @return Return value.
+ * @details Calls: THEMIS_INFO().
+ */
 
 RAGJudgeConfig RAGJudgeQCConfigurator::configure(
     bool enable_nli,
@@ -195,6 +243,11 @@ RAGJudgeConfig RAGJudgeQCConfigurator::configure(
     return config;
 }
 
+/**
+ * @brief Get Production Config.
+ * @return Return value.
+ * @details Calls: THEMIS_INFO().
+ */
 RAGJudgeConfig RAGJudgeQCConfigurator::getProductionConfig() {
     RAGJudgeConfig config;
     
@@ -226,6 +279,11 @@ RAGJudgeConfig RAGJudgeQCConfigurator::getProductionConfig() {
     return config;
 }
 
+/**
+ * @brief Get Development Config.
+ * @return Return value.
+ * @details Calls: THEMIS_INFO().
+ */
 RAGJudgeConfig RAGJudgeQCConfigurator::getDevelopmentConfig() {
     RAGJudgeConfig config;
     

@@ -41,10 +41,11 @@ namespace lora {
 // Forward declarations
 class LoRAStorageService;
 
-/**
- * @brief Sync status for an adapter
- */
 struct AdapterSyncStatus {
+    /**
+     * @brief Adapter Sync Status.
+     * @return Return value.
+     */
     virtual ~AdapterSyncStatus() = default;
     std::string adapter_id;
     bool is_synced = false;
@@ -57,10 +58,11 @@ struct AdapterSyncStatus {
     std::vector<std::string> pending_shards; // List of shards pending sync
 };
 
-/**
- * @brief Sync job result
- */
 struct SyncJobResult {
+    /**
+     * @brief Sync Job Result.
+     * @return Return value.
+     */
     virtual ~SyncJobResult() = default;
     int adapters_checked = 0;
     int adapters_synced = 0;
@@ -70,22 +72,8 @@ struct SyncJobResult {
     std::vector<std::string> errors;
 };
 
-/**
- * @brief Adapter Sync Manager
- * 
- * Manages automatic synchronization of LoRA adapters across shards:
- * - Periodic sync with configurable interval
- * - Peer detection and health checking
- * - Retry logic with exponential backoff
- * - Resume interrupted syncs
- * - Conflict resolution
- * - Multi-LLM support
- */
 class AdapterSyncManager {
 public:
-    /**
-     * @brief Configuration for sync manager
-     */
     struct Config {
         // Sync interval
         std::chrono::seconds sync_interval{300};  // 5 minutes default
@@ -123,13 +111,6 @@ public:
         int compression_level = 3;                // Compression level (1-22 for Zstd)
     };
     
-    /**
-     * @brief Construct sync manager
-     * @param config Configuration
-     * @param storage_service LoRA storage service
-     * @param topology Shard topology
-     * @param consistency_checker Consistency checker
-     */
     AdapterSyncManager(
         const Config& config,
         std::shared_ptr<LoRAStorageService> storage_service,
@@ -144,61 +125,58 @@ public:
     AdapterSyncManager& operator=(const AdapterSyncManager&) = delete;
     
     /**
-     * @brief Start automatic synchronization
+     * @brief Start.
      */
     void start();
     
     /**
-     * @brief Stop automatic synchronization
+     * @brief Stop.
      */
     void stop();
     
     /**
-     * @brief Check if sync is running
+     * @brief Is Running.
+     * @return True when the operation succeeds.
      */
     bool isRunning() const;
     
     /**
-     * @brief Trigger manual sync for specific adapter
-     * @param adapter_id Adapter identifier
-     * @return true if sync initiated successfully
+     * @brief Sync Adapter.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @return True when the operation succeeds.
      */
     bool syncAdapter(const std::string& adapter_id);
     
     /**
-     * @brief Trigger manual sync for all adapters
-     * @return Sync job result
+     * @brief Sync All Adapters.
+     * @return Return value.
      */
     SyncJobResult syncAllAdapters();
     
     /**
-     * @brief Get sync status for adapter
-     * @param adapter_id Adapter identifier
-     * @return Sync status
+     * @brief Get Sync Status.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @return Return value.
      */
     AdapterSyncStatus getSyncStatus(const std::string& adapter_id) const;
     
     /**
-     * @brief Get sync status for all adapters
-     * @return Vector of sync statuses
+     * @brief Get All Sync Status.
+     * @return Return value.
      */
     std::vector<AdapterSyncStatus> getAllSyncStatus() const;
     
     /**
-     * @brief Get sync statistics
-     * @return JSON with statistics
+     * @brief Get Stats.
+     * @return Return value.
      */
     json getStats() const;
     
-    /**
-     * @brief Register callback for sync events
-     * @param callback Function called on sync completion
-     */
     void onSyncComplete(std::function<void(const SyncJobResult&)> callback);
     
     /**
-     * @brief Discover peer shards
-     * @return List of peer shard IDs
+     * @brief Discover Peers.
+     * @return Return value.
      */
     std::vector<std::string> discoverPeers() const;
     

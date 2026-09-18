@@ -28,6 +28,12 @@ namespace distributed_tensor {
 // ArtifactLifecyclePolicy — serialization / usability helpers
 // ============================================================================
 
+/**
+ * @brief State To String.
+ * @param[in] state Input parameter.
+ * @return Return value.
+ * @details Implements stateToString without additional internal calls.
+ */
 std::string ArtifactLifecyclePolicy::stateToString(LifecycleState state) {
   switch (state) {
     case LifecycleState::READY:       return "READY";
@@ -39,6 +45,12 @@ std::string ArtifactLifecyclePolicy::stateToString(LifecycleState state) {
   }
 }
 
+/**
+ * @brief String To State.
+ * @param[in] state_str Input parameter.
+ * @return Return value.
+ * @details Implements stringToState without additional internal calls.
+ */
 std::optional<LifecycleState> ArtifactLifecyclePolicy::stringToState(
     const std::string& state_str) {
   if (state_str == "READY"  || state_str == "ACTIVE") {
@@ -80,6 +92,12 @@ bool ArtifactClassifier::isValidCombination(ArtifactClass klass,
   }
 }
 
+/**
+ * @brief Class To String.
+ * @param[in] klass Input parameter.
+ * @return Return value.
+ * @details Implements classToString without additional internal calls.
+ */
 std::string ArtifactClassifier::classToString(ArtifactClass klass) {
   switch (klass) {
     case ArtifactClass::SOURCE_OF_TRUTH: return "SOURCE_OF_TRUTH";
@@ -89,6 +107,12 @@ std::string ArtifactClassifier::classToString(ArtifactClass klass) {
   }
 }
 
+/**
+ * @brief String To Class.
+ * @param[in] class_str Input parameter.
+ * @return Return value.
+ * @details Implements stringToClass without additional internal calls.
+ */
 std::optional<ArtifactClass> ArtifactClassifier::stringToClass(
     const std::string& class_str) {
   if (class_str == "SOURCE_OF_TRUTH") {
@@ -103,6 +127,12 @@ std::optional<ArtifactClass> ArtifactClassifier::stringToClass(
   return std::nullopt;
 }
 
+/**
+ * @brief Semantic To String.
+ * @param[in] semantic Input parameter.
+ * @return Return value.
+ * @details Implements semanticToString without additional internal calls.
+ */
 std::string ArtifactClassifier::semanticToString(TruthSemantic semantic) {
   switch (semantic) {
     case TruthSemantic::ADVISORY_ONLY: return "ADVISORY_ONLY";
@@ -111,6 +141,12 @@ std::string ArtifactClassifier::semanticToString(TruthSemantic semantic) {
   }
 }
 
+/**
+ * @brief String To Semantic.
+ * @param[in] semantic_str Input parameter.
+ * @return Return value.
+ * @details Implements stringToSemantic without additional internal calls.
+ */
 std::optional<TruthSemantic> ArtifactClassifier::stringToSemantic(
     const std::string& semantic_str) {
   if (semantic_str == "ADVISORY_ONLY") {
@@ -126,6 +162,12 @@ std::optional<TruthSemantic> ArtifactClassifier::stringToSemantic(
 // RebuildStateUtils
 // ============================================================================
 
+/**
+ * @brief State To String.
+ * @param[in] state Input parameter.
+ * @return Return value.
+ * @details Implements stateToString without additional internal calls.
+ */
 std::string RebuildStateUtils::stateToString(RebuildState state) {
   switch (state) {
     case RebuildState::PRISTINE:         return "PRISTINE";
@@ -136,6 +178,12 @@ std::string RebuildStateUtils::stateToString(RebuildState state) {
   }
 }
 
+/**
+ * @brief String To State.
+ * @param[in] state_str Input parameter.
+ * @return Return value.
+ * @details Implements stringToState without additional internal calls.
+ */
 std::optional<RebuildState> RebuildStateUtils::stringToState(
     const std::string& state_str) {
   if (state_str == "PRISTINE") {
@@ -157,6 +205,12 @@ std::optional<RebuildState> RebuildStateUtils::stringToState(
 // UpdateModeUtils
 // ============================================================================
 
+/**
+ * @brief Mode To String.
+ * @param[in] mode Input parameter.
+ * @return Return value.
+ * @details Implements modeToString without additional internal calls.
+ */
 std::string UpdateModeUtils::modeToString(UpdateMode mode) {
   switch (mode) {
     case UpdateMode::PATCH:         return "patch";
@@ -166,6 +220,12 @@ std::string UpdateModeUtils::modeToString(UpdateMode mode) {
   }
 }
 
+/**
+ * @brief String To Mode.
+ * @param[in] mode_str Input parameter.
+ * @return Return value.
+ * @details Implements stringToMode without additional internal calls.
+ */
 std::optional<UpdateMode> UpdateModeUtils::stringToMode(
     const std::string& mode_str) {
   if (mode_str == "patch") {
@@ -184,6 +244,12 @@ std::optional<UpdateMode> UpdateModeUtils::stringToMode(
 // InvalidationReasonUtils
 // ============================================================================
 
+/**
+ * @brief Reason To String.
+ * @param[in] reason Input parameter.
+ * @return Return value.
+ * @details Implements reasonToString without additional internal calls.
+ */
 std::string InvalidationReasonUtils::reasonToString(InvalidationReason reason) {
   switch (reason) {
     case InvalidationReason::UNKNOWN:                  return "UNKNOWN";
@@ -198,6 +264,12 @@ std::string InvalidationReasonUtils::reasonToString(InvalidationReason reason) {
   }
 }
 
+/**
+ * @brief String To Reason.
+ * @param[in] reason_str Input parameter.
+ * @return Return value.
+ * @details Implements stringToReason without additional internal calls.
+ */
 std::optional<InvalidationReason> InvalidationReasonUtils::stringToReason(
     const std::string& reason_str) {
   if (reason_str == "UNKNOWN") {
@@ -425,6 +497,12 @@ std::string ArtifactManifest::toJSON() const {
   return j.dump(2);
 }
 
+/**
+ * @brief From JSON.
+ * @param[in] json_str Input parameter.
+ * @return Return value.
+ * @details Calls: json::parse(), contains(), ArtifactClassifier::stringToClass(), ArtifactClassifier::stringToSemantic(), ArtifactLifecyclePolicy::stringToState(), RebuildStateUtils::stringToState(), UpdateModeUtils::stringToMode(), InvalidationReasonUtils::stringToReason().
+ */
 std::optional<ArtifactManifest> ArtifactManifest::fromJSON(
     const std::string& json_str) {
   try {
@@ -584,6 +662,12 @@ std::string ArtifactManifest::toYAML() const {
   return oss.str();
 }
 
+/**
+ * @brief From YAML.
+ * @param[in] yaml_str Input parameter.
+ * @return Return value.
+ * @details Calls: find(), fromJSON(), iss(), empty(), isWhitespace(), front(), erase(), begin().
+ */
 std::optional<ArtifactManifest> ArtifactManifest::fromYAML(
     const std::string& yaml_str) {
   // Attempt JSON parse first (covers YAML supersets with JSON content)
@@ -672,6 +756,13 @@ std::optional<ArtifactManifest> ArtifactManifest::fromYAML(
   return fromJSON(j.dump());
 }
 
+/**
+ * @brief Mark Published.
+ * @param[in] mode Input parameter.
+ * @param[in] new_rebuild_state Input parameter.
+ * @param[in] new_source_seq Input parameter.
+ * @details Calls: std::chrono::system_clock::now(), time_since_epoch(), count().
+ */
 void ArtifactManifest::markPublished(UpdateMode mode, RebuildState new_rebuild_state,
                                      uint64_t new_source_seq) {
   // Record the update mode

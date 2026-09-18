@@ -71,6 +71,14 @@ bool RegexRewriteRule::matches(const RewriteDocument& doc, const RewriteContext&
     return std::regex_search(doc.content, pattern_);
 }
 
+/**
+ * @brief Apply.
+ * @param[in,out] doc Input/output parameter.
+ * @param[in] ctx Input parameter.
+ * @param[in,out] trace Input/output parameter.
+ * @return Return value.
+ * @details Calls: spdlog::get(), spdlog::stderr_color_mt(), search_start(), cbegin(), std::regex_search(), cend(), empty(), size().
+ */
 RewriteResult RegexRewriteRule::apply(
     RewriteDocument& doc,
     const RewriteContext& ctx,
@@ -200,6 +208,14 @@ bool DictionaryRewriteRule::matches(const RewriteDocument& doc, const RewriteCon
     return false;
 }
 
+/**
+ * @brief Apply.
+ * @param[in,out] doc Input/output parameter.
+ * @param[in] ctx Input parameter.
+ * @param[in,out] trace Input/output parameter.
+ * @return Return value.
+ * @details Calls: find(), substr(), replace(), length(), std::min().
+ */
 RewriteResult DictionaryRewriteRule::apply(
     RewriteDocument& doc,
     const RewriteContext& ctx,
@@ -305,6 +321,14 @@ bool PolicyRewriteRule::matches(const RewriteDocument& doc, const RewriteContext
     return match_fn_(doc, ctx);
 }
 
+/**
+ * @brief Apply.
+ * @param[in,out] doc Input/output parameter.
+ * @param[in] ctx Input parameter.
+ * @param[in,out] trace Input/output parameter.
+ * @return Return value.
+ * @details Calls: apply_fn_().
+ */
 RewriteResult PolicyRewriteRule::apply(
     RewriteDocument& doc,
     const RewriteContext& ctx,
@@ -354,6 +378,14 @@ bool SemanticRewriteRule::matches(const RewriteDocument& doc, const RewriteConte
     return match_impl(doc, ctx);
 }
 
+/**
+ * @brief Apply.
+ * @param[in,out] doc Input/output parameter.
+ * @param[in] ctx Input parameter.
+ * @param[in,out] trace Input/output parameter.
+ * @return Return value.
+ * @details Calls: apply_impl().
+ */
 RewriteResult SemanticRewriteRule::apply(
     RewriteDocument& doc,
     const RewriteContext& ctx,

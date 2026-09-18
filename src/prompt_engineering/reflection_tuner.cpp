@@ -26,6 +26,12 @@ namespace prompt_engineering {
 
 namespace {
 
+/**
+ * @brief To Lower.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Calls: std::transform(), begin(), end(), std::tolower().
+ */
 std::string toLower(const std::string& s) {
     std::string out = s;
     std::transform(out.begin(), out.end(), out.begin(),
@@ -76,6 +82,12 @@ const std::vector<std::string> ReflectionHallucinationGuard::kHallucinationMarke
 // SelfAwareContext
 // ============================================================================
 
+/**
+ * @brief From Response.
+ * @param[in] response Input parameter.
+ * @return Return value.
+ * @details Calls: toLower(), find(), push_back(), empty(), std::max(), std::min().
+ */
 SelfAwareContext SelfAwareContext::fromResponse(const std::string& response) {
     SelfAwareContext ctx;
     const std::string lower = toLower(response);
@@ -159,6 +171,11 @@ DynamicReflectionPromptBuilder::DynamicReflectionPromptBuilder(
     ReflectionStrategy strategy)
     : strategy_(strategy) {}
 
+/**
+ * @brief Set Strategy.
+ * @param[in] strategy Input parameter.
+ * @details Implements setStrategy without additional internal calls.
+ */
 void DynamicReflectionPromptBuilder::setStrategy(ReflectionStrategy strategy) {
     strategy_ = strategy;
 }
@@ -210,6 +227,11 @@ std::string DynamicReflectionPromptBuilder::buildCritiquePrompt(
     const SelfAwareContext& ctx) const {
 
     std::ostringstream out = {};
+    /**
+     * @brief Build Self Aware Context Header.
+     * @param[in] ctx Input parameter.
+     * @return Return value.
+     */
     out << buildSelfAwareContextHeader(ctx);
 
     switch (strategy_) {
@@ -263,6 +285,11 @@ std::string DynamicReflectionPromptBuilder::buildRevisionPrompt(
     const SelfAwareContext& ctx) const {
 
     std::ostringstream out = {};
+    /**
+     * @brief Build Self Aware Context Header.
+     * @param[in] ctx Input parameter.
+     * @return Return value.
+     */
     out << buildSelfAwareContextHeader(ctx);
 
     switch (strategy_) {
@@ -410,11 +437,20 @@ ReflectionTuner::ReflectionTuner(const ReflectionConfig& config)
     , prompt_builder_(config.strategy)
     , hallucination_guard_(config.divergence_threshold, config.divergence_window) {}
 
+/**
+ * @brief Set Reflection Provider.
+ * @param[in] provider Input parameter.
+ * @details Calls: std::move().
+ */
 void ReflectionTuner::setReflectionProvider(
     std::shared_ptr<IReflectionProvider> provider) {
     provider_ = std::move(provider);
 }
 
+/**
+ * @brief Clear Reflection Provider.
+ * @details Calls: reset().
+ */
 void ReflectionTuner::clearReflectionProvider() {
     provider_.reset();
 }
@@ -427,6 +463,11 @@ const ReflectionConfig& ReflectionTuner::getConfig() const noexcept {
     return config_;
 }
 
+/**
+ * @brief Set Config.
+ * @param[in] config Input parameter.
+ * @details Calls: setStrategy(), ReflectionHallucinationGuard().
+ */
 void ReflectionTuner::setConfig(const ReflectionConfig& config) {
     config_ = config;
     prompt_builder_.setStrategy(config.strategy);
@@ -485,6 +526,15 @@ SelfAwareContext ReflectionTuner::extractContext(
     return SelfAwareContext::fromResponse(steps.back().response);
 }
 
+/**
+ * @brief Run Iteration.
+ * @param[in] prompt Input parameter.
+ * @param[in] current_response Input parameter.
+ * @param[in] iteration Input parameter.
+ * @param[in] ctx Input parameter.
+ * @return Return value.
+ * @details Calls: critique(), revise(), score(), buildCritiquePrompt(), empty(), buildConstitutionalCritiquePrompt(), size(), str().
+ */
 ReflectionStep ReflectionTuner::runIteration(
     const std::string& prompt,
     const std::string& current_response,
@@ -568,12 +618,25 @@ bool ReflectionTuner::shouldConverge(const ReflectionResult& result,
     return false;
 }
 
+/**
+ * @brief Tune From Prompt.
+ * @param[in] prompt Input parameter.
+ * @return Return value.
+ * @details Calls: generate(), tune().
+ */
 ReflectionResult ReflectionTuner::tuneFromPrompt(const std::string& prompt) {
     const std::string initial_response =
         provider_ ? provider_->generate(prompt) : prompt;
     return tune(prompt, initial_response);
 }
 
+/**
+ * @brief Tune.
+ * @param[in] prompt Input parameter.
+ * @param[in] initial_response Input parameter.
+ * @return Return value.
+ * @details Calls: name(), std::string(), score(), computeHeuristicScore(), push_back(), SelfAwareContext::fromResponse(), runIteration(), shouldHalt().
+ */
 ReflectionResult ReflectionTuner::tune(const std::string& prompt,
                                         const std::string& initial_response) {
     ReflectionResult result;

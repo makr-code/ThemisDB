@@ -35,20 +35,21 @@ namespace themis::sharding {
 
 #if THEMIS_HAS_SHARD_GRPC
 
-/**
- * @brief Implementation of the gRPC ShardService
- * 
- * Handles incoming RPC requests from other shards for:
- * - Distributed transactions (2PC)
- * - Data replication
- * - Health checks
- */
 class ShardServiceImpl final : public themis::sharding::proto::ShardService::Service {
 public:
+    /**
+     * @brief Shard Service Impl.
+     * @param[in,out] handler Input/output parameter.
+     * @return Return value.
+     */
     explicit ShardServiceImpl(ShardRPCServer::RequestHandler* handler)
         : handler_(handler) {}
 
-    // Called once Impl is constructed so we can serve shard identity.
+    /**
+     * @brief Called once Impl is constructed so we can serve shard identity.
+     * @param[in] address Input parameter.
+     * @details Implements setImplRef without additional internal calls.
+     */
     void setImplRef(const std::string& address) {
         listen_address_ = address;
     }
@@ -244,39 +245,36 @@ struct ShardRPCServer::Impl {
     explicit Impl(const ShardRPCServer::Config& cfg) : listen_address(cfg.listen_address), config(cfg) {}
 };
 
-/**
- * @brief Construct shard RPC server with listen address convenience API.
- * @param listen_address Server bind address.
- */
 ShardRPCServer::ShardRPCServer(const std::string& listen_address)
     : impl_(std::make_unique<Impl>(listen_address))
 {
     THEMIS_INFO("ShardRPCServer created on: {}", listen_address);
 }
 
-/**
- * @brief Construct shard RPC server with explicit TLS/runtime configuration.
- * @param config Server configuration.
- */
 ShardRPCServer::ShardRPCServer(const Config& config)
     : impl_(std::make_unique<Impl>(config))
 {
     THEMIS_INFO("ShardRPCServer created on: {} (mTLS: {})", config.listen_address, config.enable_mtls);
 }
 
-/** @brief Destroy server instance and ensure shutdown of active gRPC server. */
 ShardRPCServer::~ShardRPCServer() {
     stop();
 }
 
-/** @brief Install application request handler used by incoming RPC methods. */
+/**
+ * @brief Set Request Handler.
+ * @param[in,out] handler Input/output parameter.
+ * @details Implements setRequestHandler without additional internal calls.
+ */
 void ShardRPCServer::setRequestHandler(RequestHandler* handler) {
     impl_->handler = handler;
 }
 
 /**
- * @brief Start gRPC server and bind to configured endpoint.
- * @return True when server starts successfully; false otherwise.
+ * @brief Start.
+ * @return True when the operation succeeds.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: setImplRef(), empty(), themis::utils::readFileContents(), THEMIS_INFO(), push_back(), grpc::SslServerCredentials(), THEMIS_ERROR(), what().
  */
 bool ShardRPCServer::start() {
 #if THEMIS_HAS_SHARD_GRPC
@@ -379,7 +377,10 @@ bool ShardRPCServer::start() {
 #endif
 }
 
-/** @brief Stop gRPC server and release registered service instance. */
+/**
+ * @brief Stop.
+ * @details Calls: THEMIS_INFO(), Shutdown(), reset().
+ */
 void ShardRPCServer::stop() {
 #if THEMIS_HAS_SHARD_GRPC
     if (impl_->server) {
@@ -391,7 +392,10 @@ void ShardRPCServer::stop() {
 #endif
 }
 
-/** @brief Block until server shutdown completes. */
+/**
+ * @brief Wait.
+ * @details Calls: Wait().
+ */
 void ShardRPCServer::wait() {
 #if THEMIS_HAS_SHARD_GRPC
     if (impl_->server) {

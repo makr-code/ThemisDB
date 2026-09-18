@@ -67,10 +67,15 @@ static constexpr uint8_t KRB5_APP1_TAG   = 0x61; // [APPLICATION 1]  Ticket
 [[maybe_unused]] static constexpr uint32_t AP_OPT_USE_SESSION_KEY = 0x40000000u;
 static constexpr uint32_t AP_OPT_MUTUAL_REQUIRED = 0x20000000u;
 
-// Read a DER-encoded length field starting at data[offset].
-// On success, advances offset past the length field and sets length.
-// Returns false on malformed input (indefinite form, too many length octets,
-// or overflow past data end).
+/**
+ * @brief Read a DER-encoded length field starting at data[offset].
+ * @param[in] data Input parameter.
+ * @param[in] size Input parameter.
+ * @param[in,out] offset Input/output parameter.
+ * @param[in,out] length Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details On success, advances offset past the length field and sets length. Returns false on malformed input (indefinite form, too many length octets, or overflow past data end). Implements derReadLength without additional internal calls.
+ */
 static bool derReadLength(const uint8_t *data, size_t size, size_t &offset, size_t &length) {
     if (offset >= size) {
         return false;
@@ -117,7 +122,15 @@ static const uint8_t *findContextTag(const uint8_t *data, size_t size, uint8_t t
     return nullptr;
 }
 
-// Unwrap a SEQUENCE: verify tag 0x30, advance past tag+length, return content.
+/**
+ * @brief Unwrap a SEQUENCE: verify tag 0x30, advance past tag+length, return content.
+ * @param[in] data Input parameter.
+ * @param[in] size Input parameter.
+ * @param[in] content Input parameter.
+ * @param[in,out] content_size Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: derReadLength().
+ */
 static bool unwrapSequence(const uint8_t *data, size_t size, const uint8_t *&content, size_t &content_size) {
     if (size < 2 || data[0] != ASN1_TAG_SEQUENCE) {
         return false;
@@ -135,9 +148,13 @@ static bool unwrapSequence(const uint8_t *data, size_t size, const uint8_t *&con
     return true;
 }
 
-// Read the string value of an ASN.1 string primitive at data[0..size).
-// Accepts GeneralString (0x1B), UTF8String (0x0C), PrintableString (0x13),
-// IA5String (0x16) as Kerberos implementations vary.
+/**
+ * @brief Read the string value of an ASN.
+ * @param[in] data Input parameter.
+ * @param[in] size Input parameter.
+ * @return Return value.
+ * @details 1 string primitive at data[0..size). Accepts GeneralString (0x1B), UTF8String (0x0C), PrintableString (0x13), IA5String (0x16) as Kerberos implementations vary. Calls: derReadLength().
+ */
 static std::string readKerberosString(const uint8_t *data, size_t size) {
     if (size < 2) {
         return {};
@@ -166,7 +183,14 @@ struct Krb5TokenFields {
     bool parsed{false};
 };
 
-// Parse Ticket [APPLICATION 1] to extract realm and sname.
+/**
+ * @brief Parse Ticket [APPLICATION 1] to extract realm and sname.
+ * @param[in] data Input parameter.
+ * @param[in] size Input parameter.
+ * @param[in,out] out Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: derReadLength(), unwrapSequence(), findContextTag(), readKerberosString(), empty(), append().
+ */
 static bool parseKrb5Ticket(const uint8_t *data, size_t size, Krb5TokenFields &out) {
     if (size < 2 || data[0] != KRB5_APP1_TAG) {
         return false;
@@ -242,7 +266,14 @@ static bool parseKrb5Ticket(const uint8_t *data, size_t size, Krb5TokenFields &o
     return !out.sname.empty() || !out.realm.empty();
 }
 
-// Parse AP-REQ [APPLICATION 14] to extract ap-options and the embedded Ticket.
+/**
+ * @brief Parse AP-REQ [APPLICATION 14] to extract ap-options and the embedded Ticket.
+ * @param[in] data Input parameter.
+ * @param[in] size Input parameter.
+ * @param[in,out] out Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: derReadLength(), unwrapSequence(), findContextTag(), parseKrb5Ticket().
+ */
 static bool parseKrb5ApReq(const uint8_t *data, size_t size, Krb5TokenFields &out) {
     if (size < 2 || data[0] != KRB5_APP14_TAG) {
         return false;
@@ -328,8 +359,12 @@ static const uint8_t *parseGssapiKrb5Header(const uint8_t *data, size_t size, si
     return inner;
 }
 
-// Top-level helper: try to parse a GSSAPI KRB5 AP-REQ token and extract
-// cleartext fields.  Returns a Krb5TokenFields with parsed=true on success.
+/**
+ * @brief Top-level helper: try to parse a GSSAPI KRB5 AP-REQ token and extract cleartext fields.
+ * @param[in] token_data Input parameter.
+ * @return Return value.
+ * @details Returns a Krb5TokenFields with parsed=true on success. Calls: parseGssapiKrb5Header(), data(), size(), parseKrb5ApReq().
+ */
 static Krb5TokenFields extractKrb5Fields(const std::vector<uint8_t> &token_data) {
     Krb5TokenFields fields;
     size_t inner_size    = 0;
@@ -357,6 +392,14 @@ KerberosSecurityValidator::KerberosSecurityValidator(const Config &config) : con
     utils::Logger::info("  Verify service target: {}", config_.verify_service_target);
 }
 
+/**
+ * @brief Validate Token.
+ * @param[in] token_data Input parameter.
+ * @param[in] channel_binding Input parameter.
+ * @return True when the operation succeeds.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: validateASN1Structure(), isTicketExpired(), empty(), verifyServicePrincipal(), verifyChannelBinding(), getTokenInfo(), utils::Logger::info().
+ */
 bool KerberosSecurityValidator::validateToken(const std::vector<uint8_t> &token_data,
                                               const std::vector<uint8_t> &channel_binding) {
     // 1. Validate ASN.1 structure
@@ -406,6 +449,12 @@ bool KerberosSecurityValidator::validateToken(const std::vector<uint8_t> &token_
     return true;
 }
 
+/**
+ * @brief Validate ASN1 Structure.
+ * @param[in] data Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), validateASN1Depth(), data(), size().
+ */
 bool KerberosSecurityValidator::validateASN1Structure(const std::vector<uint8_t> &data) {
     if (data.empty()) {
         return false;
@@ -415,6 +464,14 @@ bool KerberosSecurityValidator::validateASN1Structure(const std::vector<uint8_t>
     return validateASN1Depth(data.data(),data.size(), 0);
 }
 
+/**
+ * @brief Validate ASN1 Depth.
+ * @param[in] data Input parameter.
+ * @param[in] size Input parameter.
+ * @param[in] current_depth Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: utils::Logger::warn(), parseASN1Tag().
+ */
 bool KerberosSecurityValidator::validateASN1Depth(const uint8_t *data, size_t size, size_t current_depth) {
     if (current_depth > config_.max_token_depth) {
         utils::Logger::warn("ASN.1 depth limit exceeded: {}", current_depth);
@@ -458,6 +515,14 @@ bool KerberosSecurityValidator::validateASN1Depth(const uint8_t *data, size_t si
     return true;
 }
 
+/**
+ * @brief Parse ASN1 Tag.
+ * @param[in] data Input parameter.
+ * @param[in] size Input parameter.
+ * @param[in,out] tag Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Implements parseASN1Tag without additional internal calls.
+ */
 bool KerberosSecurityValidator::parseASN1Tag(const uint8_t *data, size_t size, ASN1Tag &tag) {
     if (size < 2) {
         return false;
@@ -521,6 +586,13 @@ bool KerberosSecurityValidator::parseASN1Tag(const uint8_t *data, size_t size, A
     return true;
 }
 
+/**
+ * @brief Verify Service Principal.
+ * @param[in] token_data Input parameter.
+ * @param[in] expected_principal Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: extractServicePrincipal(), empty(), utils::Logger::warn().
+ */
 bool KerberosSecurityValidator::verifyServicePrincipal(const std::vector<uint8_t> &token_data,
                                                        const std::string &expected_principal) {
     std::string actual_principal = extractServicePrincipal(token_data);
@@ -540,6 +612,13 @@ bool KerberosSecurityValidator::verifyServicePrincipal(const std::vector<uint8_t
     return matches;
 }
 
+/**
+ * @brief Verify Channel Binding.
+ * @param[in] token_data Input parameter.
+ * @param[in] channel_binding Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), parseGssapiKrb5Header(), data(), size(), utils::Logger::warn(), utils::Logger::info().
+ */
 bool KerberosSecurityValidator::verifyChannelBinding(const std::vector<uint8_t> &token_data,
                                                      const std::vector<uint8_t> &channel_binding) {
     if (channel_binding.empty()) {
@@ -579,6 +658,12 @@ bool KerberosSecurityValidator::verifyChannelBinding(const std::vector<uint8_t> 
     return true;
 }
 
+/**
+ * @brief Extract Service Principal.
+ * @param[in] token_data Input parameter.
+ * @return Return value.
+ * @details Calls: extractKrb5Fields(), empty(), utils::Logger::info(), utils::Logger::warn(), size().
+ */
 std::string KerberosSecurityValidator::extractServicePrincipal(const std::vector<uint8_t> &token_data) {
     // Parse the GSSAPI/KRB5 DER token and extract the service principal from
     // the Ticket's sname field, which is transmitted in cleartext (RFC 4120
@@ -601,6 +686,12 @@ std::string KerberosSecurityValidator::extractServicePrincipal(const std::vector
     return config_.expected_service_principal;
 }
 
+/**
+ * @brief Is Ticket Expired.
+ * @param[in] token_data Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: getTokenInfo(), std::chrono::system_clock::now(), std::chrono::system_clock::to_time_t(), std::abs(), utils::Logger::warn().
+ */
 bool KerberosSecurityValidator::isTicketExpired(const std::vector<uint8_t> &token_data) {
     auto info = getTokenInfo(token_data);
 
@@ -624,6 +715,12 @@ bool KerberosSecurityValidator::isTicketExpired(const std::vector<uint8_t> &toke
     return false;
 }
 
+/**
+ * @brief Get Token Info.
+ * @param[in] token_data Input parameter.
+ * @return Return value.
+ * @details Calls: extractKrb5Fields(), empty(), std::chrono::system_clock::now(), std::chrono::system_clock::to_time_t().
+ */
 KerberosSecurityValidator::TokenInfo KerberosSecurityValidator::getTokenInfo(const std::vector<uint8_t> &token_data) {
     TokenInfo info;
 
@@ -666,6 +763,12 @@ KerberosSecurityValidator::TokenInfo KerberosSecurityValidator::getTokenInfo(con
     return info;
 }
 
+/**
+ * @brief With Channel Bindings.
+ * @param[in] type Input parameter.
+ * @return Return value.
+ * @details Implements withChannelBindings without additional internal calls.
+ */
 KerberosSecurityValidator::Config KerberosSecurityValidator::withChannelBindings(ChannelBindingType type) {
     Config config;
     config.enable_channel_bindings  = true;
@@ -676,6 +779,11 @@ KerberosSecurityValidator::Config KerberosSecurityValidator::withChannelBindings
     return config;
 }
 
+/**
+ * @brief Strict Validation.
+ * @return Return value.
+ * @details Implements strictValidation without additional internal calls.
+ */
 KerberosSecurityValidator::Config KerberosSecurityValidator::strictValidation() {
     Config config;
     config.enable_channel_bindings  = true;
@@ -693,6 +801,12 @@ KerberosSecurityValidator::Config KerberosSecurityValidator::strictValidation() 
     return config;
 }
 
+/**
+ * @brief For Service.
+ * @param[in] service_principal Input parameter.
+ * @return Return value.
+ * @details Implements forService without additional internal calls.
+ */
 KerberosSecurityValidator::Config KerberosSecurityValidator::forService(const std::string &service_principal) {
     Config config;
     config.verify_service_target      = true;
@@ -707,6 +821,12 @@ KerberosSecurityValidator::Config KerberosSecurityValidator::forService(const st
 // ChannelBindingGenerator Implementation
 // ============================================================================
 
+/**
+ * @brief Generate From TLSCertificate.
+ * @param[in] server_cert Input parameter.
+ * @return Return value.
+ * @details Calls: hash(), SHA256(), data(), size(), utils::Logger::info().
+ */
 std::vector<uint8_t> ChannelBindingGenerator::generateFromTLSCertificate(const std::vector<uint8_t> &server_cert) {
     // Compute SHA256 hash of certificate (tls-server-end-point per RFC 5929)
     std::vector<uint8_t> hash(SHA256_DIGEST_LENGTH);
@@ -717,18 +837,38 @@ std::vector<uint8_t> ChannelBindingGenerator::generateFromTLSCertificate(const s
     return hash;
 }
 
+/**
+ * @brief Generate From TLSFinished.
+ * @param[in] finished_message Input parameter.
+ * @return Return value.
+ * @details Calls: utils::Logger::info().
+ */
 std::vector<uint8_t> ChannelBindingGenerator::generateFromTLSFinished(const std::vector<uint8_t> &finished_message) {
     // tls-unique: use TLS Finished message directly
     utils::Logger::info("Generated TLS unique channel binding");
     return finished_message;
 }
 
+/**
+ * @brief Generate From TLSExporter.
+ * @param[in] exporter_value Input parameter.
+ * @return Return value.
+ * @details Calls: utils::Logger::info().
+ */
 std::vector<uint8_t> ChannelBindingGenerator::generateFromTLSExporter(const std::vector<uint8_t> &exporter_value) {
     // tls-exporter: use TLS exporter value directly
     utils::Logger::info("Generated TLS exporter channel binding");
     return exporter_value;
 }
 
+/**
+ * @brief Format Channel Binding.
+ * @param[in] initiator_address Input parameter.
+ * @param[in] acceptor_address Input parameter.
+ * @param[in] application_data Input parameter.
+ * @return Return value.
+ * @details Calls: insert(), end(), size(), begin().
+ */
 std::vector<uint8_t> ChannelBindingGenerator::formatChannelBinding(const std::vector<uint8_t> &initiator_address,
                                                                    const std::vector<uint8_t> &acceptor_address,
                                                                    const std::vector<uint8_t> &application_data) {

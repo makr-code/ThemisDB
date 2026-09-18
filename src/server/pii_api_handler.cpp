@@ -44,6 +44,12 @@ nlohmann::json PiiMapping::toJson() const {
                 {"updated_at", updated_at}};
 }
 
+/**
+ * @brief From Json.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: value().
+ */
 PiiMapping PiiMapping::fromJson(const nlohmann::json& j) {
     PiiMapping m;
     m.original_uuid = j.value("original_uuid", "");
@@ -58,6 +64,11 @@ PiiMapping PiiMapping::fromJson(const nlohmann::json& j) {
 PIIApiHandler::PIIApiHandler(rocksdb::TransactionDB* db, rocksdb::ColumnFamilyHandle* cf)
     : db_(db), cf_(cf) {}
 
+/**
+ * @brief Now Iso8601.
+ * @return Return value.
+ * @details Calls: system_clock::now(), system_clock::to_time_t(), defined(), localtime_s(), localtime_r(), std::put_time(), str().
+ */
 std::string PIIApiHandler::nowIso8601() {
     using namespace std::chrono;
     auto now = system_clock::now();
@@ -73,6 +84,12 @@ std::string PIIApiHandler::nowIso8601() {
     return oss.str();
 }
 
+/**
+ * @brief Add Mapping.
+ * @param[in] mappingIn Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), nowIso8601(), makeKey(), Get(), ok(), Tracer::startSpan(), toJson(), dump().
+ */
 bool PIIApiHandler::addMapping(const PiiMapping& mappingIn) {
     if (!db_) {
       return false;
@@ -122,6 +139,12 @@ std::optional<PiiMapping> PIIApiHandler::getMapping(const std::string& original_
     }
 }
 
+/**
+ * @brief Delete Mapping.
+ * @param[in] original_uuid Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: makeKey(), Delete(), ok().
+ */
 bool PIIApiHandler::deleteMapping(const std::string& original_uuid) {
     if (!db_) {
       return false;
@@ -133,6 +156,12 @@ bool PIIApiHandler::deleteMapping(const std::string& original_uuid) {
     return s.ok();
 }
 
+/**
+ * @brief List Mappings.
+ * @param[in] filter Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), json::array(), it(), NewIterator(), std::max(), Seek(), Valid(), key().
+ */
 json PIIApiHandler::listMappings(const PiiQueryFilter& filter) {
     auto span = Tracer::startSpan("listMappings");
     json out_items = json::array();
@@ -187,6 +216,12 @@ json PIIApiHandler::listMappings(const PiiQueryFilter& filter) {
     return json{{"items", out_items}, {"total", total}, {"page", page}, {"page_size", page_size}};
 }
 
+/**
+ * @brief Export Csv.
+ * @param[in] filter Input parameter.
+ * @return Return value.
+ * @details Calls: listMappings(), Tracer::startSpan(), value().
+ */
 std::string PIIApiHandler::exportCsv(const PiiQueryFilter& filter) {
     auto js = listMappings(filter);
     std::string csv = "original_uuid,pseudonym,active,created_at,updated_at\n";
@@ -201,6 +236,12 @@ std::string PIIApiHandler::exportCsv(const PiiQueryFilter& filter) {
     return csv;
 }
 
+/**
+ * @brief Delete By Uuid.
+ * @param[in] uuid Input parameter.
+ * @return Return value.
+ * @details Calls: deleteMapping(), Tracer::startSpan().
+ */
 json PIIApiHandler::deleteByUuid(const std::string& uuid) {
     bool ok = deleteMapping(uuid);
     return json{{"status", ok ? "deleted" : "not_found"}, {"uuid", uuid}};

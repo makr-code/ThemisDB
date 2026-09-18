@@ -238,7 +238,7 @@ private:
     PluginSecurityPolicy policy_;
     
     /**
-     * @brief Level 1: Hash verification (from base class)
+     * @brief Verify Hash.
      * @param[in] plugin_path Path to the plugin.
      * @param[in,out] result Input/output parameter.
      * @return True when the operation succeeds.
@@ -246,7 +246,7 @@ private:
     bool verifyHash(const std::string& plugin_path, VerificationResult& result);
     
     /**
-     * @brief Level 2: Embedded signature verification
+     * @brief Verify Embedded Signature.
      * @param[in] plugin_path Path to the plugin.
      * @param[in,out] result Input/output parameter.
      * @return True when the operation succeeds.
@@ -254,7 +254,7 @@ private:
     bool verifyEmbeddedSignature(const std::string& plugin_path, VerificationResult& result);
     
     /**
-     * @brief Level 3: Platform-specific code signing
+     * @brief Verify Platform Signature.
      * @param[in] plugin_path Path to the plugin.
      * @param[in,out] result Input/output parameter.
      * @return True when the operation succeeds.
@@ -262,7 +262,7 @@ private:
     bool verifyPlatformSignature(const std::string& plugin_path, VerificationResult& result);
     
     /**
-     * @brief Level 4: Full certificate chain + revocation
+     * @brief Verify Full Chain.
      * @param[in] plugin_path Path to the plugin.
      * @param[in,out] result Input/output parameter.
      * @return True when the operation succeeds.
@@ -270,7 +270,7 @@ private:
     bool verifyFullChain(const std::string& plugin_path, VerificationResult& result);
     
     /**
-     * @brief Extract embedded certificate from DLL/SO
+     * @brief Extract Embedded Certificate.
      * @param[in] plugin_path Path to the plugin.
      * @return Return value.
      */
@@ -279,7 +279,7 @@ private:
     );
     
     /**
-     * @brief Extract embedded signature from DLL/SO
+     * @brief Extract Embedded Signature.
      * @param[in] plugin_path Path to the plugin.
      * @return Return value.
      */
@@ -288,10 +288,9 @@ private:
     );
     
     /**
-     * @brief Verify ThemisDB.
+     * @brief Is Official Themis DBCertificate.
      * @param[in,out] cert Input/output parameter.
      * @return True when the operation succeeds.
-     * @details org official certificate
      */
     bool isOfficialThemisDBCertificate(X509* cert);
     
@@ -323,14 +322,14 @@ private:
 #endif
     
     /**
-     * @brief Helper: Calculate hash excluding signature section
+     * @brief Calculate Hash Excluding Signature.
      * @param[in] plugin_path Path to the plugin.
      * @return Return value.
      */
     std::vector<uint8_t> calculateHashExcludingSignature(const std::string& plugin_path);
     
     /**
-     * @brief Helper: Verify RSA signature
+     * @brief Verify RSASignature.
      * @param[in] data Input parameter.
      * @param[in] signature Input parameter.
      * @param[in,out] pubkey Input/output parameter.
@@ -343,28 +342,28 @@ private:
     );
     
     /**
-     * @brief Helper: Get certificate issuer DN
+     * @brief Get Certificate Issuer.
      * @param[in,out] cert Input/output parameter.
      * @return Return value.
      */
     std::string getCertificateIssuer(X509* cert);
     
     /**
-     * @brief Helper: Get certificate subject DN
+     * @brief Get Certificate Subject.
      * @param[in,out] cert Input/output parameter.
      * @return Return value.
      */
     std::string getCertificateSubject(X509* cert);
     
     /**
-     * @brief Helper: Check if certificate is currently valid
+     * @brief Is Certificate Valid.
      * @param[in,out] cert Input/output parameter.
      * @return True when the operation succeeds.
      */
     bool isCertificateValid(X509* cert);
     
     /**
-     * @brief Helper: Load plugin metadata for chain validation
+     * @brief Load Plugin Metadata For Chain Validation.
      * @param[in] plugin_path Path to the plugin.
      * @return Return value.
      */
@@ -374,7 +373,7 @@ private:
 
 public:
     /**
-     * @brief Exposes extractEmbeddedCertificate() for white-box unit testing only.
+     * @brief Extract Signing Certificate For Testing.
      * @param[in] plugin_path Path to the plugin.
      * @return Return value.
      * @details Calls: extractEmbeddedCertificate().

@@ -22,15 +22,10 @@ SynopsisStore::SynopsisStore(size_t max_tuples, size_t max_bytes)
 /**
  * @brief Insert.
  * @param[in] tuple Input parameter.
- * @return True on success.
+ * @return True when the operation succeeds.
  * @details Calls: lock(), size(), push_back(), std::move().
  */
 bool SynopsisStore::insert(SynopsisTuple tuple) {
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lock(mutex_);
     if (tuples_.size() >= max_tuples_) {
         return false;
@@ -51,11 +46,6 @@ bool SynopsisStore::insert(SynopsisTuple tuple) {
  * @details Calls: lock(), empty(), front(), size(), push_back(), std::move(), pop_front().
  */
 std::deque<SynopsisTuple> SynopsisStore::expire(int64_t window_start_us) {
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lock(mutex_);
     std::deque<SynopsisTuple> expired = {};
 
@@ -102,11 +92,6 @@ size_t SynopsisStore::bytes() const noexcept {
  * @details Calls: lock().
  */
 void SynopsisStore::clear() {
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lock(mutex_);
     tuples_.clear();
     total_bytes_ = 0;

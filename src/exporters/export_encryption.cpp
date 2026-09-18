@@ -37,9 +37,12 @@ static constexpr size_t IV_LEN = 12;  // AES-GCM recommended nonce size
 static constexpr size_t TAG_LEN = 16; // Full GCM authentication tag
 static constexpr size_t KEY_LEN = 32; // AES-256
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Little-endian I/O helpers
-// ─────────────────────────────────────────────────────────────────────────────
+/**
+ * @brief ───────────────────────────────────────────────────────────────────────────── Little-endian I/O helpers ─────────────────────────────────────────────────────────────────────────────
+ * @param[in,out] buf Input/output parameter.
+ * @param[in] v Input parameter.
+ * @details Calls: push_back().
+ */
 
 static void writeU32(std::vector<uint8_t> &buf, uint32_t v) {
   buf.push_back(static_cast<uint8_t>(v & 0xFFu));
@@ -48,28 +51,59 @@ static void writeU32(std::vector<uint8_t> &buf, uint32_t v) {
   buf.push_back(static_cast<uint8_t>((v >> 24) & 0xFFu));
 }
 
+/**
+ * @brief Write U64.
+ * @param[in,out] buf Input/output parameter.
+ * @param[in] v Input parameter.
+ * @details Calls: push_back().
+ */
 static void writeU64(std::vector<uint8_t> &buf, uint64_t v) {
   for (int i = 0; i < 8; ++i) {
     buf.push_back(static_cast<uint8_t>((v >> (i * 8)) & 0xFFu));
   }
 }
 
+/**
+ * @brief Write Bytes.
+ * @param[in,out] buf Input/output parameter.
+ * @param[in] data Input parameter.
+ * @param[in] len Input parameter.
+ * @details Calls: insert(), end().
+ */
 static void writeBytes(std::vector<uint8_t> &buf, const uint8_t *data,
                        size_t len) {
   buf.insert(buf.end(), data, data + len);
 }
 
+/**
+ * @brief Write String.
+ * @param[in,out] buf Input/output parameter.
+ * @param[in] s Input parameter.
+ * @details Calls: writeU32(), size(), writeBytes(), data().
+ */
 static void writeString(std::vector<uint8_t> &buf, const std::string &s) {
   writeU32(buf, static_cast<uint32_t>(s.size()));
   writeBytes(buf, reinterpret_cast<const uint8_t *>(s.data()),s.size());
 }
 
+/**
+ * @brief Read U32.
+ * @param[in] p Input parameter.
+ * @return Return value.
+ * @details Implements readU32 without additional internal calls.
+ */
 static uint32_t readU32(const uint8_t *p) {
   return static_cast<uint32_t>(p[0]) | (static_cast<uint32_t>(p[1]) << 8) |
          (static_cast<uint32_t>(p[2]) << 16) |
          (static_cast<uint32_t>(p[3]) << 24);
 }
 
+/**
+ * @brief Read U64.
+ * @param[in] p Input parameter.
+ * @return Return value.
+ * @details Implements readU64 without additional internal calls.
+ */
 static uint64_t readU64(const uint8_t *p) {
   uint64_t v = 0;
   for (int i = 0; i < 8; ++i) {
@@ -82,6 +116,15 @@ static uint64_t readU64(const uint8_t *p) {
 // Prevents allocation of enormous strings from malformed or malicious files.
 static constexpr uint32_t MAX_HEADER_STRING_LEN = 4096;
 
+/**
+ * @brief Read String.
+ * @param[in] buf Input parameter.
+ * @param[in] buf_size Input parameter.
+ * @param[in,out] offset Input/output parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: readU32(), std::to_string(), s().
+ */
 static std::string readString(const uint8_t *buf, size_t buf_size,
                               size_t &offset) {
   if (offset + 4 > buf_size) {
@@ -145,6 +188,11 @@ ExportEncryption::deriveJobDEK(uint32_t key_version) const {
   // is not copied outside the lock scope.
   std::vector<uint8_t> kek;
   {
+    /**
+     * @brief Lk.
+     * @param[in] key_provider_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(key_provider_mutex_);
     kek = config_.key_provider->getKey(config_.kek_id, key_version);
   }
@@ -172,6 +220,11 @@ ExportEncryption::encrypt(const std::vector<uint8_t> &plaintext) const {
   std::shared_ptr<themis::KeyProvider> key_provider;
 
   {
+    /**
+     * @brief Lk.
+     * @param[in] key_provider_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(key_provider_mutex_);
     enabled = config_.enabled;
     kek_id = config_.kek_id;
@@ -194,6 +247,11 @@ ExportEncryption::encrypt(const std::vector<uint8_t> &plaintext) const {
   // Serialise concurrent callers at the KEK-metadata boundary.
   uint32_t key_version = 0;
   {
+    /**
+     * @brief Lk.
+     * @param[in] key_provider_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(key_provider_mutex_);
     key_version = key_provider->getKeyMetadata(kek_id).version;
   }
@@ -204,10 +262,19 @@ ExportEncryption::encrypt(const std::vector<uint8_t> &plaintext) const {
   temp_cfg.kek_id = kek_id;
   temp_cfg.job_id = job_id;
   temp_cfg.key_provider = key_provider;
+  /**
+   * @brief Temp helper.
+   * @param[in] temp_cfg Input parameter.
+   * @return Return value.
+   */
   ExportEncryption temp_helper(temp_cfg);
   auto dek = temp_helper.deriveJobDEK(key_version);
 
-  // Generate a random 12-byte IV.
+  /**
+   * @brief Generate a random 12-byte IV.
+   * @param[in] IV_LEN Input parameter.
+   * @return Return value.
+   */
   std::vector<uint8_t> iv(IV_LEN);
   if (RAND_bytes(iv.data(), static_cast<int>(IV_LEN)) != 1) {
     OPENSSL_cleanse(dek.data(),dek.size());
@@ -219,6 +286,11 @@ ExportEncryption::encrypt(const std::vector<uint8_t> &plaintext) const {
 
   // AES-256-GCM encrypt.
   std::vector<uint8_t> ciphertext(plaintext.size());
+  /**
+   * @brief Tag.
+   * @param[in] TAG_LEN Input parameter.
+   * @return Return value.
+   */
   std::vector<uint8_t> tag(TAG_LEN);
 
   EVP_CIPHER_CTX *ctx = EVP_CIPHER_CTX_new();
@@ -309,6 +381,11 @@ ExportEncryption::decrypt(const std::vector<uint8_t> &container) const {
   bool enabled = {};
   std::shared_ptr<themis::KeyProvider> key_provider;
   {
+    /**
+     * @brief Lk.
+     * @param[in] key_provider_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(key_provider_mutex_);
     enabled = config_.enabled;
     key_provider = config_.key_provider;
@@ -401,6 +478,11 @@ ExportEncryption::decrypt(const std::vector<uint8_t> &container) const {
   dec_cfg.kek_id = file_kek_id;
   dec_cfg.job_id = file_job_id;
   dec_cfg.key_provider = key_provider;
+  /**
+   * @brief Dec helper.
+   * @param[in] dec_cfg Input parameter.
+   * @return Return value.
+   */
   ExportEncryption dec_helper(dec_cfg);
   auto dek = dec_helper.deriveJobDEK(key_version);
 
@@ -485,6 +567,11 @@ void ExportEncryption::encryptFile(const std::string &src_path,
   // FIXED: Protect config_.enabled read with mutex
   bool enabled = {};
   {
+    /**
+     * @brief Lk.
+     * @param[in] key_provider_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(key_provider_mutex_);
     enabled = config_.enabled;
   }
@@ -492,6 +579,12 @@ void ExportEncryption::encryptFile(const std::string &src_path,
   if (!enabled) {
     // Copy the file as-is when encryption is disabled.
     if (src_path != dst_path) {
+      /**
+       * @brief Src.
+       * @param[in] src_path Path to the src.
+       * @param[in] binary Input parameter.
+       * @return Return value.
+       */
       std::ifstream src(src_path, std::ios::binary);
       if (!src.is_open()) {
         throw std::runtime_error("ExportEncryption: cannot open source file: " +
@@ -515,6 +608,11 @@ void ExportEncryption::encryptFile(const std::string &src_path,
   }
   const auto file_size = static_cast<size_t>(src.tellg());
   src.seekg(0);
+  /**
+   * @brief Plaintext.
+   * @param[in] file_size Input parameter.
+   * @return Return value.
+   */
   std::vector<uint8_t> plaintext(file_size);
   if (file_size > 0 && !src.read(reinterpret_cast<char *>(plaintext.data()),
                                  static_cast<std::streamsize>(file_size))) {
@@ -548,12 +646,23 @@ void ExportEncryption::decryptFile(const std::string &src_path,
   // FIXED: Protect config_.enabled read with mutex
   bool enabled = {};
   {
+    /**
+     * @brief Lk.
+     * @param[in] key_provider_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(key_provider_mutex_);
     enabled = config_.enabled;
   }
 
   if (!enabled) {
     if (src_path != dst_path) {
+      /**
+       * @brief Src.
+       * @param[in] src_path Path to the src.
+       * @param[in] binary Input parameter.
+       * @return Return value.
+       */
       std::ifstream src(src_path, std::ios::binary);
       if (!src.is_open()) {
         throw std::runtime_error("ExportEncryption: cannot open source file: " +
@@ -577,6 +686,11 @@ void ExportEncryption::decryptFile(const std::string &src_path,
   }
   const auto file_size = static_cast<size_t>(src.tellg());
   src.seekg(0);
+  /**
+   * @brief Container.
+   * @param[in] file_size Input parameter.
+   * @return Return value.
+   */
   std::vector<uint8_t> container(file_size);
   if (file_size > 0 && !src.read(reinterpret_cast<char *>(container.data()),
                                  static_cast<std::streamsize>(file_size))) {
@@ -607,18 +721,34 @@ void ExportEncryption::decryptFile(const std::string &src_path,
   OPENSSL_cleanse(plaintext.data(),plaintext.size());
 }
 
-// Helper: little-endian binary I/O
-// ─────────────────────────────────────────────────────────────────────────────
+/**
+ * @brief Helper: little-endian binary I/O ─────────────────────────────────────────────────────────────────────────────
+ * @param[in,out] out Input/output parameter.
+ * @param[in] v Input parameter.
+ * @details Calls: put().
+ */
 
 static void writeU8(std::ostream &out, uint8_t v) {
   out.put(static_cast<char>(v));
 }
 
+/**
+ * @brief Write U16 LE.
+ * @param[in,out] out Input/output parameter.
+ * @param[in] v Input parameter.
+ * @details Calls: put().
+ */
 static void writeU16LE(std::ostream &out, uint16_t v) {
   out.put(static_cast<char>(v & 0xFFU));
   out.put(static_cast<char>((v >> 8) & 0xFFU));
 }
 
+/**
+ * @brief Write U32 LE.
+ * @param[in,out] out Input/output parameter.
+ * @param[in] v Input parameter.
+ * @details Calls: put().
+ */
 static void writeU32LE(std::ostream &out, uint32_t v) {
   out.put(static_cast<char>(v & 0xFFU));
   out.put(static_cast<char>((v >> 8) & 0xFFU));
@@ -626,6 +756,13 @@ static void writeU32LE(std::ostream &out, uint32_t v) {
   out.put(static_cast<char>((v >> 24) & 0xFFU));
 }
 
+/**
+ * @brief Read U8.
+ * @param[in,out] in Input/output parameter.
+ * @param[in,out] v Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: get().
+ */
 static bool readU8(std::istream &in, uint8_t &v) {
   int c = in.get();
   if (c == EOF) {
@@ -635,6 +772,13 @@ static bool readU8(std::istream &in, uint8_t &v) {
   return true;
 }
 
+/**
+ * @brief Read U16 LE.
+ * @param[in,out] in Input/output parameter.
+ * @param[in,out] v Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: get().
+ */
 static bool readU16LE(std::istream &in, uint16_t &v) {
   int lo = in.get(), hi = in.get();
   if (lo == EOF || hi == EOF) {
@@ -646,6 +790,13 @@ static bool readU16LE(std::istream &in, uint16_t &v) {
   return true;
 }
 
+/**
+ * @brief Read U32 LE.
+ * @param[in,out] in Input/output parameter.
+ * @param[in,out] v Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: get().
+ */
 static bool readU32LE(std::istream &in, uint32_t &v) {
   uint8_t b[4];
   for (int i = 0; i < 4; ++i) {
@@ -679,6 +830,12 @@ ExportEncryptor::deriveDataKey(const std::vector<uint8_t> &kek,
   return themis::utils::HKDFHelper::derive(kek, {}, info, 32);
 }
 
+/**
+ * @brief Generate Job Id.
+ * @return Return value.
+ * @throws EncryptionException if an error occurs.
+ * @details Calls: RAND_bytes(), std::setfill(), std::setw(), str().
+ */
 std::string ExportEncryptor::generateJobId() {
   uint8_t buf[8];
   if (RAND_bytes(buf, static_cast<int>(sizeof(buf))) != 1) {
@@ -692,6 +849,16 @@ std::string ExportEncryptor::generateJobId() {
   return oss.str();
 }
 
+/**
+ * @brief Write Header.
+ * @param[in,out] out Input/output parameter.
+ * @param[in] kek_id Identifier of the kek.
+ * @param[in] kek_version Input parameter.
+ * @param[in] job_id Identifier of the job.
+ * @param[in] iv Input parameter.
+ * @return Return value.
+ * @details Calls: write(), writeU8(), size(), writeU16LE(), data(), writeU32LE().
+ */
 size_t ExportEncryptor::writeHeader(std::ostream &out,
                                     const std::string &kek_id,
                                     uint32_t kek_version,
@@ -730,6 +897,16 @@ size_t ExportEncryptor::writeHeader(std::ostream &out,
   return bytes;
 }
 
+/**
+ * @brief Read Header.
+ * @param[in,out] in Input/output parameter.
+ * @param[in,out] kek_id Identifier of the kek.
+ * @param[in,out] kek_version Input/output parameter.
+ * @param[in,out] job_id Identifier of the job.
+ * @param[in,out] iv Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: read(), gcount(), std::memcmp(), readU8(), readU16LE(), resize(), data(), readU32LE().
+ */
 bool ExportEncryptor::readHeader(std::istream &in, std::string &kek_id,
                                  uint32_t &kek_version, std::string &job_id,
                                  std::vector<uint8_t> &iv) {
@@ -809,6 +986,11 @@ size_t ExportEncryptor::encryptFile(const std::string &input_path,
   std::vector<uint8_t> kek;
   uint32_t kek_version = 0;
   try {
+    /**
+     * @brief Lk.
+     * @param[in] key_provider_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(key_provider_mutex_);
     kek = config_.key_provider->getKey(config_.kek_id);
     kek_version = config_.key_provider->getKeyMetadata(config_.kek_id).version;
@@ -843,7 +1025,13 @@ size_t ExportEncryptor::encryptFile(const std::string &input_path,
         "Failed to generate random IV for export encryption");
   }
 
-  // ── 5. Open I/O streams ───────────────────────────────────────────────
+  /**
+   * @brief ── 5.
+   * @param[in] input_path Path to the input.
+   * @param[in] binary Input parameter.
+   * @return Return value.
+   * @details Open I/O streams ───────────────────────────────────────────────
+   */
   std::ifstream in_f(input_path, std::ios::binary);
   if (!in_f.is_open()) {
     std::fill(dek.begin(), dek.end(), uint8_t{0});
@@ -900,7 +1088,12 @@ size_t ExportEncryptor::encryptFile(const std::string &input_path,
     }
   }
 
-  // ── 9. Stream-encrypt input ───────────────────────────────────────────
+  /**
+   * @brief ── 9.
+   * @param[in] kChunkSize Input parameter.
+   * @return Return value.
+   * @details Stream-encrypt input ───────────────────────────────────────────
+   */
   std::vector<unsigned char> plain_buf(kChunkSize);
   std::vector<unsigned char> cipher_buf(kChunkSize + 16);
 
@@ -1014,6 +1207,11 @@ size_t ExportEncryptor::decryptFile(const std::string &input_path,
   // Serialise concurrent callers at the KEK-fetch boundary.
   std::vector<uint8_t> kek;
   try {
+    /**
+     * @brief Lk.
+     * @param[in] key_provider_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(key_provider_mutex_);
     kek = config_.key_provider->getKey(kek_id, kek_version);
   } catch (const std::exception &e) {
@@ -1081,7 +1279,12 @@ size_t ExportEncryptor::decryptFile(const std::string &input_path,
     }
   }
 
-  // ── 9. Stream-decrypt ciphertext ──────────────────────────────────────
+  /**
+   * @brief ── 9.
+   * @param[in] kChunkSize Input parameter.
+   * @return Return value.
+   * @details Stream-decrypt ciphertext ──────────────────────────────────────
+   */
   std::vector<unsigned char> cipher_buf(kChunkSize);
   std::vector<unsigned char> plain_buf(kChunkSize + 16);
   size_t remaining = ciphertext_size;

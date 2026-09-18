@@ -23,7 +23,12 @@ namespace themis::api {
 
 using json = nlohmann::json;
 
-// Helper function to validate GeoJSON before parsing
+/**
+ * @brief Helper function to validate GeoJSON before parsing
+ * @param[in] geojson Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: is_object(), contains(), is_string(), is_array(), size(), THEMIS_WARN().
+ */
 static bool validateGeoJSONBasic(const json& geojson) {
     try {
         // Basic structural validation
@@ -94,6 +99,15 @@ static bool validateGeoJSONBasic(const json& geojson) {
     }
 }
 
+/**
+ * @brief On Entity Put.
+ * @param[in,out] db Input/output parameter.
+ * @param[in,out] spatial_mgr Input/output parameter.
+ * @param[in] table Input parameter.
+ * @param[in] pk Input parameter.
+ * @param[in] blob Input parameter.
+ * @details Calls: hasSpatialIndex(), empty(), blob_str(), data(), size(), nlohmann::json::parse(), BaseEntity::deserialize(), toJson().
+ */
 void GeoIndexHooks::onEntityPut(
     RocksDBWrapper& db,
     index::SpatialIndexManager* spatial_mgr,
@@ -274,7 +288,16 @@ void GeoIndexHooks::onEntityPut(
     }
 }
 
-// Phase 2: Atomic entity PUT with spatial index update via WriteBatch
+/**
+ * @brief Phase 2: Atomic entity PUT with spatial index update via WriteBatch
+ * @param[in,out] batch Input/output parameter.
+ * @param[in,out] spatial_mgr Input/output parameter.
+ * @param[in] table Input parameter.
+ * @param[in] pk Input parameter.
+ * @param[in] blob Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: hasSpatialIndex(), blob_str(), data(), size(), json::parse(), contains(), is_string(), reserve().
+ */
 bool GeoIndexHooks::onEntityPutAtomic(
     RocksDBWrapper::WriteBatchWrapper& batch,
     index::SpatialIndexManager* spatial_mgr,
@@ -386,7 +409,16 @@ bool GeoIndexHooks::onEntityPutAtomic(
     }
 }
 
-// Phase 2: Atomic entity DELETE with spatial index update via WriteBatch
+/**
+ * @brief Phase 2: Atomic entity DELETE with spatial index update via WriteBatch
+ * @param[in,out] batch Input/output parameter.
+ * @param[in,out] spatial_mgr Input/output parameter.
+ * @param[in] table Input parameter.
+ * @param[in] pk Input parameter.
+ * @param[in] old_blob Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: hasSpatialIndex(), blob_str(), data(), size(), json::parse(), contains(), is_string(), reserve().
+ */
 bool GeoIndexHooks::onEntityDeleteAtomic(
     RocksDBWrapper::WriteBatchWrapper& batch,
     index::SpatialIndexManager* spatial_mgr,
@@ -494,6 +526,15 @@ bool GeoIndexHooks::onEntityDeleteAtomic(
     }
 }
 
+/**
+ * @brief On Entity Delete.
+ * @param[in,out] db Input/output parameter.
+ * @param[in,out] spatial_mgr Input/output parameter.
+ * @param[in] table Input parameter.
+ * @param[in] pk Input parameter.
+ * @param[in] old_blob Input parameter.
+ * @details Calls: hasSpatialIndex(), blob_str(), data(), size(), json::parse(), contains(), is_string(), reserve().
+ */
 void GeoIndexHooks::onEntityDelete(
     RocksDBWrapper& db,
     index::SpatialIndexManager* spatial_mgr,

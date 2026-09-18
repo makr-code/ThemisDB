@@ -17,10 +17,20 @@
 
 namespace themis::rag {
 
+/**
+ * @brief Set Ontology Retriever.
+ * @param[in] retriever Input parameter.
+ * @details Calls: std::move().
+ */
 void GraphTruthValidator::setOntologyRetriever(std::shared_ptr<OntologyAwareRetriever> retriever) {
     ontology_retriever_ = std::move(retriever);
 }
 
+/**
+ * @brief Set Knowledge Graph Retriever.
+ * @param[in] retriever Input parameter.
+ * @details Calls: std::move().
+ */
 void GraphTruthValidator::setKnowledgeGraphRetriever(
     std::shared_ptr<kg::KnowledgeGraphRetriever> retriever) {
     kg_retriever_ = std::move(retriever);
@@ -94,6 +104,13 @@ GraphTruthValidationResult GraphTruthValidator::validate(
     return result;
 }
 
+/**
+ * @brief Make Candidate Documents.
+ * @param[in] tensor_summary Input parameter.
+ * @param[in] max_candidates Input parameter.
+ * @return Return value.
+ * @details Calls: size(), reserve(), push_back(), std::move().
+ */
 std::vector<judge::RetrievedDocument> GraphTruthValidator::makeCandidateDocuments(
     const tensor::TensorLayerSummary& tensor_summary,
     std::size_t max_candidates) {
@@ -114,6 +131,14 @@ std::vector<judge::RetrievedDocument> GraphTruthValidator::makeCandidateDocument
     return documents;
 }
 
+/**
+ * @brief Build From Ontology Result.
+ * @param[in] tensor_summary Input parameter.
+ * @param[in] ontology_result Input parameter.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @details Calls: emplace(), reserve(), size(), contains(), push_back(), find(), std::string(), end().
+ */
 GraphTruthValidationResult GraphTruthValidator::buildFromOntologyResult(
     const tensor::TensorLayerSummary& tensor_summary,
     const OntologyRetrievalResult& ontology_result,
@@ -153,6 +178,14 @@ GraphTruthValidationResult GraphTruthValidator::buildFromOntologyResult(
     return result;
 }
 
+/**
+ * @brief Build From Kg Result.
+ * @param[in] tensor_summary Input parameter.
+ * @param[in] kg_result Input parameter.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @details Calls: emplace(), reserve(), size(), contains(), push_back(), find(), std::string(), end().
+ */
 GraphTruthValidationResult GraphTruthValidator::buildFromKgResult(
     const tensor::TensorLayerSummary& tensor_summary,
     const kg::KGRetrievalResult& kg_result,

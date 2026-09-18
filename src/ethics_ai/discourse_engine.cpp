@@ -29,6 +29,11 @@ EthicalDiscourseEngine::EthicalDiscourseEngine(std::shared_ptr<PhilosophyLoader>
                                                std::shared_ptr<RAGContextEngine> rag_engine)
     : philosophy_loader_(philosophy_loader), store_(store), rag_engine_(rag_engine) {}
 
+/**
+ * @brief Set Chain Visualizer Output Path.
+ * @param[in] output_path Path to the output.
+ * @details Implements setChainVisualizerOutputPath without additional internal calls.
+ */
 void EthicalDiscourseEngine::setChainVisualizerOutputPath(const std::string& output_path) {
     chain_visualizer_output_path_ = output_path;
 }
@@ -59,6 +64,11 @@ EthicalDiscourseEngine::initializeDebate(const std::string &dilemma_description,
 
     // Register the debate so continueDebate() can find it later.
     {
+        /**
+         * @brief Lock.
+         * @param[in] debates_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(debates_mutex_);
         active_debates_[debate.debate_id] = debate;
     }
@@ -150,11 +160,21 @@ EthicalDiscourseEngine::makeDecision(const std::string &dilemma_description,
                                  + chain_visualizer_output_path_);
         }
 
+        /**
+         * @brief Base path.
+         * @param[in] chain_visualizer_output_path_ Input parameter.
+         * @return Return value.
+         */
         const std::filesystem::path base_path(chain_visualizer_output_path_);
         const std::filesystem::path dot_path = base_path / (decision.decision_id + ".dot");
         const std::filesystem::path mermaid_path = base_path / (decision.decision_id + ".mmd");
 
         {
+            /**
+             * @brief Out.
+             * @param[in] dot_path Path to the dot.
+             * @return Return value.
+             */
             std::ofstream out(dot_path);
             if (!out) {
                 return Status::Error("Failed to write DOT artifact: " + dot_path.string());
@@ -162,6 +182,11 @@ EthicalDiscourseEngine::makeDecision(const std::string &dilemma_description,
             out << dot;
         }
         {
+            /**
+             * @brief Out.
+             * @param[in] mermaid_path Path to the mermaid.
+             * @return Return value.
+             */
             std::ofstream out(mermaid_path);
             if (!out) {
                 return Status::Error("Failed to write Mermaid artifact: " + mermaid_path.string());
@@ -179,6 +204,14 @@ EthicalDiscourseEngine::makeDecision(const std::string &dilemma_description,
     return decision;
 }
 
+/**
+ * @brief Generate Argument.
+ * @param[in] profile Input parameter.
+ * @param[in] dilemma Input parameter.
+ * @param[in] type Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::now(), std::chrono::system_clock::to_time_t(), rd(), str(), size(), empty(), find(), end().
+ */
 EthicalArgument EthicalDiscourseEngine::generateArgument(const PhilosophyProfile &profile, const std::string &dilemma,
                                                          ArgumentType type) {
     // Generate argument ID
@@ -248,6 +281,13 @@ EthicalArgument EthicalDiscourseEngine::generateArgument(const PhilosophyProfile
     return argument;
 }
 
+/**
+ * @brief Synthesize Decision.
+ * @param[in] arguments Input parameter.
+ * @param[in] primary_philosophy Input parameter.
+ * @return Return value.
+ * @details Calls: size(), str().
+ */
 std::string EthicalDiscourseEngine::synthesizeDecision(const std::vector<EthicalArgument> &arguments,
                                                        const std::string &primary_philosophy) {
     std::stringstream ss = {};
@@ -280,6 +320,11 @@ std::variant<DebateRound, Status> EthicalDiscourseEngine::continueDebate(const s
     // Look up the active debate.
     DebateInitialization init;
     {
+        /**
+         * @brief Lock.
+         * @param[in] debates_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(debates_mutex_);
         auto it = active_debates_.find(debate_id);
         if (it == active_debates_.end()) {
@@ -295,6 +340,11 @@ std::variant<DebateRound, Status> EthicalDiscourseEngine::continueDebate(const s
     // Collect previous-round argument IDs for cross-referencing.
     std::vector<std::string> prev_arg_ids;
     {
+        /**
+         * @brief Lock.
+         * @param[in] debates_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(debates_mutex_);
         auto it = debate_arguments_.find(debate_id);
         if (it != debate_arguments_.end()) {
@@ -337,6 +387,11 @@ std::variant<DebateRound, Status> EthicalDiscourseEngine::continueDebate(const s
 
     // Accumulate all arguments for next-round context.
     {
+        /**
+         * @brief Lock.
+         * @param[in] debates_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(debates_mutex_);
         auto &all = debate_arguments_[debate_id];
         for (const auto &a : round.arguments) {

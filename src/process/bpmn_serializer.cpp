@@ -49,10 +49,14 @@ using json = nlohmann::json;
 
 namespace {
 
-/// Maximum BPMN XML document size accepted (10 MiB security guard).
 static constexpr size_t kMaxBpmnXmlBytes = 10 * 1024 * 1024;
 
-/// Strip XML character entities and leading/trailing whitespace.
+/**
+ * @brief Unescape Xml.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), find(), substr(), std::string(), find_first_not_of(), find_last_not_of().
+ */
 std::string unescapeXml(std::string_view s) {
     std::string out = {};
     out.reserve(s.size());
@@ -79,13 +83,17 @@ std::string unescapeXml(std::string_view s) {
     return out.substr(a, b - a + 1);
 }
 
-/// Strip XML namespace prefix: "bpmn2:startEvent" → "startEvent".
+/**
+ * @brief Strip Ns.
+ * @param[in] name Input parameter.
+ * @return Return value.
+ * @details Calls: rfind(), substr().
+ */
 std::string_view stripNs(std::string_view name) {
     auto colon = name.rfind(':');
     return (colon != std::string_view::npos) ? name.substr(colon + 1) : name;
 }
 
-/// Parsed representation of a single XML element tag.
 struct XmlTag {
     std::string name;       ///< Local element name (namespace stripped).
     std::map<std::string, std::string> attrs; ///< Attribute map.
@@ -93,8 +101,6 @@ struct XmlTag {
     bool is_close{false};   ///< True for </tag>.
 };
 
-/// Parse attributes from the raw text between the tag name and '>' / '/>'
-/// (no regex; handles single- and double-quoted values).
 void parseAttrs(std::string_view src,
                 std::map<std::string, std::string>& out)
 {
@@ -160,10 +166,14 @@ void parseAttrs(std::string_view src,
     }
 }
 
-/// Walk every XML token in @p xml, calling @p tag_cb for each element tag and
-/// @p text_cb for each text node.  Skips comments, PIs, DOCTYPE, and CDATA.
-/// Returns false if @p xml exceeds kMaxBpmnXmlBytes.
 template<typename TagCb, typename TextCb>
+/**
+ * @brief Tokenize Xml.
+ * @param[in] xml Input parameter.
+ * @param[in] tag_cb Input parameter.
+ * @param[in] text_cb Input parameter.
+ * @return True when the operation succeeds.
+ */
 bool tokenizeXml(std::string_view xml, TagCb tag_cb, TextCb text_cb)
 {
     if (xml.size() > kMaxBpmnXmlBytes) {
@@ -276,6 +286,12 @@ bool tokenizeXml(std::string_view xml, TagCb tag_cb, TextCb text_cb)
         while (i < n) {
             char c = xml[i];
             if (in_dq) { if (c == '"')  in_dq = false; }
+            /**
+             * @brief If.
+             * @param[in] in_sq Input parameter.
+             * @return Return value.
+             * @details Implements if without additional internal calls.
+             */
             else if (in_sq) { if (c == '\'') in_sq = false; }
             else if (c == '"')  { in_dq = true; }
             else if (c == '\'') { in_sq = true; }
@@ -301,9 +317,12 @@ bool tokenizeXml(std::string_view xml, TagCb tag_cb, TextCb text_cb)
 
 } // anonymous namespace
 
-// ---------------------------------------------------------------------------
-// BpmnSerializer::escapeXml_
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- BpmnSerializer::escapeXml_ ---------------------------------------------------------------------------
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size().
+ */
 
 std::string BpmnSerializer::escapeXml_(std::string_view s) {
     std::string out = {};
@@ -321,9 +340,12 @@ std::string BpmnSerializer::escapeXml_(std::string_view s) {
     return out;
 }
 
-// ---------------------------------------------------------------------------
-// BpmnSerializer::nodeTypeToXmlTag_
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- BpmnSerializer::nodeTypeToXmlTag_ ---------------------------------------------------------------------------
+ * @param[in] t Input parameter.
+ * @return Return value.
+ * @details Implements nodeTypeToXmlTag_ without additional internal calls.
+ */
 
 std::string BpmnSerializer::nodeTypeToXmlTag_(BPMNNodeType t) {
     switch (t) {
@@ -349,9 +371,12 @@ std::string BpmnSerializer::nodeTypeToXmlTag_(BPMNNodeType t) {
     }
 }
 
-// ---------------------------------------------------------------------------
-// BpmnSerializer::xmlTagToNodeType_
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- BpmnSerializer::xmlTagToNodeType_ ---------------------------------------------------------------------------
+ * @param[in] tag Input parameter.
+ * @return Return value.
+ * @details Calls: find().
+ */
 
 BPMNNodeType BpmnSerializer::xmlTagToNodeType_(std::string_view tag) {
     if (tag == "startEvent") {
@@ -410,9 +435,15 @@ BPMNNodeType BpmnSerializer::xmlTagToNodeType_(std::string_view tag) {
     return BPMNNodeType::TASK;
 }
 
-// ---------------------------------------------------------------------------
-// BpmnSerializer::ImportResult helper methods (Phase 3)
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- BpmnSerializer::ImportResult helper methods (Phase 3) ---------------------------------------------------------------------------
+ * @param[in] pid Input parameter.
+ * @param[in] pname Input parameter.
+ * @param[in] n Input parameter.
+ * @param[in] e Input parameter.
+ * @return Return value.
+ * @details Calls: std::string(), std::move().
+ */
 
 BpmnSerializer::ImportResult BpmnSerializer::ImportResult::success(
     std::string_view pid,
@@ -431,6 +462,14 @@ BpmnSerializer::ImportResult BpmnSerializer::ImportResult::success(
     return r;
 }
 
+/**
+ * @brief Failure.
+ * @param[in] code Input parameter.
+ * @param[in] context Input parameter.
+ * @param[in] detail Input parameter.
+ * @return Return value.
+ * @details Calls: formatDiagnostic().
+ */
 BpmnSerializer::ImportResult BpmnSerializer::ImportResult::failure(
     ProcessErrorCode code,
     std::string_view context,
@@ -443,9 +482,12 @@ BpmnSerializer::ImportResult BpmnSerializer::ImportResult::failure(
     return r;
 }
 
-// ---------------------------------------------------------------------------
-// BpmnSerializer::importXml
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- BpmnSerializer::importXml ---------------------------------------------------------------------------
+ * @param[in] bpmn_xml Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), ImportResult::failure(), SerializerInputValidator::validateInput(), size(), parser_tracker(), hasTimedOut(), SPDLOG_WARN(), recordElement().
+ */
 
 BpmnSerializer::ImportResult BpmnSerializer::importXml(std::string_view bpmn_xml) {
     if (bpmn_xml.empty()) {
@@ -897,9 +939,12 @@ BpmnSerializer::ImportResult BpmnSerializer::importXml(std::string_view bpmn_xml
     );
 }
 
-// ---------------------------------------------------------------------------
-// BpmnSerializer::importFile
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- BpmnSerializer::importFile ---------------------------------------------------------------------------
+ * @param[in] file_path Path to the file.
+ * @return Return value.
+ * @details Calls: std::string(), is_open(), ImportResult::failure(), content(), importXml().
+ */
 
 BpmnSerializer::ImportResult BpmnSerializer::importFile(std::string_view file_path) {
     std::ifstream f{std::string(file_path)};
@@ -915,9 +960,14 @@ BpmnSerializer::ImportResult BpmnSerializer::importFile(std::string_view file_pa
     return importXml(content);
 }
 
-// ---------------------------------------------------------------------------
-// BpmnSerializer::exportXml
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- BpmnSerializer::exportXml ---------------------------------------------------------------------------
+ * @param[in] process_id Identifier of the process.
+ * @param[in] process_name Name of the process.
+ * @param[in] nodes Input parameter.
+ * @param[in] edges Input parameter.
+ * @return Return value.
+ */
 
 std::string BpmnSerializer::exportXml(
     std::string_view                    process_id,
@@ -1012,9 +1062,12 @@ std::string BpmnSerializer::exportXml(
     return xml.str();
 }
 
-// ---------------------------------------------------------------------------
-// BpmnSerializer::exportFromJson
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- BpmnSerializer::exportFromJson ---------------------------------------------------------------------------
+ * @param[in] g Input parameter.
+ * @return Return value.
+ * @details Calls: is_null(), value(), contains(), xmlTagToNodeType_(), push_back(), std::move(), empty(), exportXml().
+ */
 
 std::string BpmnSerializer::exportFromJson(const json& g) {
     if (g.is_null()) return {};
@@ -1056,9 +1109,12 @@ std::string BpmnSerializer::exportFromJson(const json& g) {
     return exportXml(pid, name, nodes, edges);
 }
 
-// ---------------------------------------------------------------------------
-// BpmnSerializer::validateStructure
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- BpmnSerializer::validateStructure ---------------------------------------------------------------------------
+ * @param[in] nodes Input parameter.
+ * @param[in] edges Input parameter.
+ * @return Return value.
+ */
 
 std::string BpmnSerializer::validateStructure(
     const std::vector<ProcessNodeInfo>& nodes,

@@ -81,7 +81,11 @@ PKIKeyProvider::PKIKeyProvider(const std::string& cert_path,
     
     spdlog::info("PKIKeyProvider: Initializing with certificate file: {}", cert_path);
     
-    // Load and validate certificate
+    /**
+     * @brief Load and validate certificate
+     * @param[in] cert_path Path to the cert.
+     * @return Return value.
+     */
     std::ifstream cert_file(cert_path);
     if (!cert_file.is_open()) {
         throw std::runtime_error("Failed to open certificate file: " + cert_path);
@@ -138,7 +142,11 @@ PKIKeyProvider::PKIKeyProvider(const std::string& cert_path,
         throw std::runtime_error("Failed to serialize public key");
     }
     
-    // Wrap DER pointer for automatic cleanup
+    /**
+     * @brief Wrap DER pointer for automatic cleanup
+     * @param[in] pubkey_der Input parameter.
+     * @return Return value.
+     */
     PKI_OPENSSL_str_ptr pubkey_der_guard(pubkey_der);
     
     // Derive KEK from public key using HKDF
@@ -157,6 +165,12 @@ PKIKeyProvider::PKIKeyProvider(const std::string& cert_path,
     spdlog::info("PKIKeyProvider: Initialization complete with certificate-based encryption");
 }
 
+/**
+ * @brief Derive KEK.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: get(), has_value(), hex(), begin(), end(), size(), std::to_string(), reserve().
+ */
 std::vector<uint8_t> PKIKeyProvider::deriveKEK() {
     // Persistente KEK-Ableitung:
     // Wir speichern ein zufälliges IKM (Initial Key Material) einmalig in RocksDB.
@@ -207,6 +221,13 @@ std::string PKIKeyProvider::dekDbKey(uint32_t version) const {
     return "dek:encrypted:v" + std::to_string(version);
 }
 
+/**
+ * @brief Load Or Create DEK.
+ * @param[in] version Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: lock(), find(), end(), dekDbKey(), get(), nlohmann::json::parse(), themis::EncryptedBlob::fromJson(), size().
+ */
 std::vector<uint8_t> PKIKeyProvider::loadOrCreateDEK(uint32_t version) {
     // Check cache
     {
@@ -343,6 +364,12 @@ std::vector<uint8_t> PKIKeyProvider::loadOrCreateDEK(uint32_t version) {
     }
 }
 
+/**
+ * @brief Derive Field Key.
+ * @param[in] field_context Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), find(), end(), loadOrCreateDEK(), utils::HKDFHelper::derive().
+ */
 std::vector<uint8_t> PKIKeyProvider::deriveFieldKey(const std::string& field_context) {
     // Check cache
     {
@@ -367,10 +394,23 @@ std::vector<uint8_t> PKIKeyProvider::deriveFieldKey(const std::string& field_con
     return field_key;
 }
 
+/**
+ * @brief Get Key.
+ * @param[in] key_id Identifier of the key.
+ * @return Return value.
+ * @details Implements getKey without additional internal calls.
+ */
 std::vector<uint8_t> PKIKeyProvider::getKey(const std::string& key_id) {
     return getKey(key_id, 0);
 }
 
+/**
+ * @brief Get Key.
+ * @param[in] key_id Identifier of the key.
+ * @param[in] version Input parameter.
+ * @return Return value.
+ * @details Calls: lk(), rfind(), loadOrCreateDEK(), deriveFieldKey().
+ */
 std::vector<uint8_t> PKIKeyProvider::getKey(const std::string& key_id, uint32_t version) {
     std::scoped_lock lk(mu_);
     
@@ -384,6 +424,12 @@ std::vector<uint8_t> PKIKeyProvider::getKey(const std::string& key_id, uint32_t 
     return deriveFieldKey(key_id);
 }
 
+/**
+ * @brief Rotate Key.
+ * @param[in] key_id Identifier of the key.
+ * @return Return value.
+ * @details Calls: rotateDEK(), lk(), erase().
+ */
 uint32_t PKIKeyProvider::rotateKey(const std::string& key_id) {
     if (key_id == "dek") {
         return rotateDEK();
@@ -395,6 +441,11 @@ uint32_t PKIKeyProvider::rotateKey(const std::string& key_id) {
     return 1;
 }
 
+/**
+ * @brief List Keys.
+ * @return Return value.
+ * @details Calls: lk(), reserve(), size(), push_back().
+ */
 std::vector<KeyMetadata> PKIKeyProvider::listKeys() {
     std::scoped_lock lk(mu_);
     
@@ -423,6 +474,13 @@ std::vector<KeyMetadata> PKIKeyProvider::listKeys() {
     return keys;
 }
 
+/**
+ * @brief Get Key Metadata.
+ * @param[in] key_id Identifier of the key.
+ * @param[in] version Input parameter.
+ * @return Return value.
+ * @details Calls: lk().
+ */
 KeyMetadata PKIKeyProvider::getKeyMetadata(const std::string& key_id, uint32_t version) {
     std::scoped_lock lk(mu_);
     
@@ -435,6 +493,13 @@ KeyMetadata PKIKeyProvider::getKeyMetadata(const std::string& key_id, uint32_t v
     return meta;
 }
 
+/**
+ * @brief Delete Key.
+ * @param[in] key_id Identifier of the key.
+ * @param[in] version Input parameter.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: lk(), erase().
+ */
 void PKIKeyProvider::deleteKey(const std::string& key_id, uint32_t version) {
     // unused parameter
     std::scoped_lock lk(mu_);
@@ -446,6 +511,13 @@ void PKIKeyProvider::deleteKey(const std::string& key_id, uint32_t version) {
     field_key_cache_.erase(key_id);
 }
 
+/**
+ * @brief Has Key.
+ * @param[in] key_id Identifier of the key.
+ * @param[in] version Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lk(), find(), end().
+ */
 bool PKIKeyProvider::hasKey(const std::string& key_id, uint32_t version) {
     std::scoped_lock lk(mu_);
     
@@ -459,6 +531,14 @@ bool PKIKeyProvider::hasKey(const std::string& key_id, uint32_t version) {
     return field_key_cache_.find(key_id) != field_key_cache_.end();
 }
 
+/**
+ * @brief Create Key From Bytes.
+ * @param[in] key_id Identifier of the key.
+ * @param[in] key_bytes Input parameter.
+ * @param[in] metadata Input parameter.
+ * @return Return value.
+ * @details Calls: lk().
+ */
 uint32_t PKIKeyProvider::createKeyFromBytes(
     const std::string& key_id,
     const std::vector<uint8_t>& key_bytes,
@@ -470,6 +550,11 @@ uint32_t PKIKeyProvider::createKeyFromBytes(
     return 1;
 }
 
+/**
+ * @brief Rotate DEK.
+ * @return Return value.
+ * @details Calls: lk(), loadOrCreateDEK(), clear().
+ */
 uint32_t PKIKeyProvider::rotateDEK() {
     std::scoped_lock lk(mu_);
     
@@ -483,6 +568,11 @@ uint32_t PKIKeyProvider::rotateDEK() {
 }
 
 uint32_t PKIKeyProvider::getCurrentDEKVersion() const {
+    /**
+     * @brief Lk.
+     * @param[in] mu_ Input parameter.
+     * @return Return value.
+     */
     std::scoped_lock lk(mu_);
     return current_dek_version_;
 }
@@ -499,6 +589,14 @@ std::string PKIKeyProvider::groupMetadataDbKey(const std::string& group_name) co
     return "key:group:" + group_name + ":meta";
 }
 
+/**
+ * @brief Load Or Create Group DEK.
+ * @param[in] group_name Name of the group.
+ * @param[in] version Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: groupDekDbKey(), get(), has_value(), size(), nonce(), begin(), ciphertext(), end().
+ */
 std::vector<uint8_t> PKIKeyProvider::loadOrCreateGroupDEK(const std::string& group_name, uint32_t version) {
     // Try load from DB
     auto db_key_str = groupDekDbKey(group_name, version);
@@ -604,6 +702,12 @@ std::vector<uint8_t> PKIKeyProvider::loadOrCreateGroupDEK(const std::string& gro
     return dek;
 }
 
+/**
+ * @brief Get Group DEK.
+ * @param[in] group_name Name of the group.
+ * @return Return value.
+ * @details Calls: lk(), find(), end(), groupMetadataDbKey(), get(), has_value(), meta_str(), begin().
+ */
 std::vector<uint8_t> PKIKeyProvider::getGroupDEK(const std::string& group_name) {
     std::scoped_lock lk(mu_);
     
@@ -640,6 +744,12 @@ std::vector<uint8_t> PKIKeyProvider::getGroupDEK(const std::string& group_name) 
     return dek;
 }
 
+/**
+ * @brief Rotate Group DEK.
+ * @param[in] group_name Name of the group.
+ * @return Return value.
+ * @details Calls: lk(), find(), end(), loadOrCreateGroupDEK(), groupMetadataDbKey(), std::to_string(), std::time(), put().
+ */
 uint32_t PKIKeyProvider::rotateGroupDEK(const std::string& group_name) {
     std::scoped_lock lk(mu_);
     
@@ -667,6 +777,11 @@ uint32_t PKIKeyProvider::rotateGroupDEK(const std::string& group_name) {
 }
 
 uint32_t PKIKeyProvider::getGroupDEKVersion(const std::string& group_name) const {
+    /**
+     * @brief Lk.
+     * @param[in] mu_ Input parameter.
+     * @return Return value.
+     */
     std::scoped_lock lk(mu_);
     
     auto ver_it = group_versions_.find(group_name);
@@ -689,6 +804,11 @@ uint32_t PKIKeyProvider::getGroupDEKVersion(const std::string& group_name) const
 }
 
 std::vector<std::string> PKIKeyProvider::listGroups() const {
+    /**
+     * @brief Lk.
+     * @param[in] mu_ Input parameter.
+     * @return Return value.
+     */
     std::scoped_lock lk(mu_);
     
     std::vector<std::string> groups = {};

@@ -36,6 +36,13 @@ MockKeyProvider::MockKeyProvider() {
     THEMIS_WARN("╚═══════════════════════════════════════════════════════════════╝");
 }
 
+/**
+ * @brief Create Key.
+ * @param[in] key_id Identifier of the key.
+ * @param[in] version Input parameter.
+ * @throws KeyOperationException if an error occurs.
+ * @details Calls: lock(), count(), std::to_string(), generateRandomKey(), getCurrentTimeMs(), std::move().
+ */
 void MockKeyProvider::createKey(const std::string& key_id, uint32_t version) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -55,6 +62,15 @@ void MockKeyProvider::createKey(const std::string& key_id, uint32_t version) {
     keys_[key_id][version] = std::move(entry);
 }
 
+/**
+ * @brief Create Key With Bytes.
+ * @param[in] key_id Identifier of the key.
+ * @param[in] version Input parameter.
+ * @param[in] key_bytes Input parameter.
+ * @throws std::invalid_argument if an error occurs.
+ * @throws KeyOperationException if an error occurs.
+ * @details Calls: size(), lock(), count(), std::to_string(), getCurrentTimeMs(), std::move().
+ */
 void MockKeyProvider::createKeyWithBytes(const std::string& key_id,
                                         uint32_t version,
                                         const std::vector<uint8_t>& key_bytes) {
@@ -80,6 +96,14 @@ void MockKeyProvider::createKeyWithBytes(const std::string& key_id,
     keys_[key_id][version] = std::move(entry);
 }
 
+/**
+ * @brief Get Key.
+ * @param[in] key_id Identifier of the key.
+ * @return Return value.
+ * @throws KeyNotFoundException if an error occurs.
+ * @throws KeyOperationException if an error occurs.
+ * @details Calls: lock(), count(), empty().
+ */
 std::vector<uint8_t> MockKeyProvider::getKey(const std::string& key_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -102,6 +126,15 @@ std::vector<uint8_t> MockKeyProvider::getKey(const std::string& key_id) {
     return keys_[key_id][latest_version].key;
 }
 
+/**
+ * @brief Get Key.
+ * @param[in] key_id Identifier of the key.
+ * @param[in] version Input parameter.
+ * @return Return value.
+ * @throws KeyNotFoundException if an error occurs.
+ * @throws KeyOperationException if an error occurs.
+ * @details Calls: lock(), count(), std::to_string().
+ */
 std::vector<uint8_t> MockKeyProvider::getKey(const std::string& key_id, uint32_t version) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -118,6 +151,13 @@ std::vector<uint8_t> MockKeyProvider::getKey(const std::string& key_id, uint32_t
     return entry.key;
 }
 
+/**
+ * @brief Rotate Key.
+ * @param[in] key_id Identifier of the key.
+ * @return Return value.
+ * @throws KeyNotFoundException if an error occurs.
+ * @details Calls: lock(), count(), empty(), generateRandomKey(), getCurrentTimeMs(), std::move().
+ */
 uint32_t MockKeyProvider::rotateKey(const std::string& key_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -157,6 +197,11 @@ uint32_t MockKeyProvider::rotateKey(const std::string& key_id) {
     return new_version;
 }
 
+/**
+ * @brief List Keys.
+ * @return Return value.
+ * @details Calls: lock(), push_back().
+ */
 std::vector<KeyMetadata> MockKeyProvider::listKeys() {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -171,6 +216,15 @@ std::vector<KeyMetadata> MockKeyProvider::listKeys() {
     return result;
 }
 
+/**
+ * @brief Get Key Metadata.
+ * @param[in] key_id Identifier of the key.
+ * @param[in] version Input parameter.
+ * @return Return value.
+ * @throws KeyNotFoundException if an error occurs.
+ * @throws KeyOperationException if an error occurs.
+ * @details Calls: lock(), count().
+ */
 KeyMetadata MockKeyProvider::getKeyMetadata(const std::string& key_id, uint32_t version) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -200,6 +254,14 @@ KeyMetadata MockKeyProvider::getKeyMetadata(const std::string& key_id, uint32_t 
     }
 }
 
+/**
+ * @brief Delete Key.
+ * @param[in] key_id Identifier of the key.
+ * @param[in] version Input parameter.
+ * @throws KeyNotFoundException if an error occurs.
+ * @throws KeyOperationException if an error occurs.
+ * @details Calls: lock(), count(), std::to_string(), clear().
+ */
 void MockKeyProvider::deleteKey(const std::string& key_id, uint32_t version) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -217,6 +279,13 @@ void MockKeyProvider::deleteKey(const std::string& key_id, uint32_t version) {
     entry.key.clear();  // Erase key material
 }
 
+/**
+ * @brief Has Key.
+ * @param[in] key_id Identifier of the key.
+ * @param[in] version Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), count(), empty().
+ */
 bool MockKeyProvider::hasKey(const std::string& key_id, uint32_t version) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -229,6 +298,15 @@ bool MockKeyProvider::hasKey(const std::string& key_id, uint32_t version) {
     return keys_.count(key_id) > 0 && keys_[key_id].count(version) > 0;
 }
 
+/**
+ * @brief Create Key From Bytes.
+ * @param[in] key_id Identifier of the key.
+ * @param[in] key_bytes Input parameter.
+ * @param[in] metadata Input parameter.
+ * @return Return value.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: size(), lock(), find(), end(), empty(), getCurrentTimeMs().
+ */
 uint32_t MockKeyProvider::createKeyFromBytes(
     const std::string& key_id,
     const std::vector<uint8_t>& key_bytes,
@@ -271,6 +349,11 @@ uint32_t MockKeyProvider::createKeyFromBytes(
 }
 
 uint32_t MockKeyProvider::getLatestVersion(const std::string& key_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     if (!keys_.count(key_id) || keys_.at(key_id).empty()) {
@@ -287,11 +370,20 @@ uint32_t MockKeyProvider::getLatestVersion(const std::string& key_id) const {
     return max_version;
 }
 
+/**
+ * @brief Clear.
+ * @details Calls: lock().
+ */
 void MockKeyProvider::clear() {
     std::lock_guard<std::mutex> lock(mutex_);
     keys_.clear();
 }
 
+/**
+ * @brief Generate Random Key.
+ * @return Return value.
+ * @details Calls: key(), dist().
+ */
 std::vector<uint8_t> MockKeyProvider::generateRandomKey() {
     std::vector<uint8_t> key(32);  // 256 bits
     

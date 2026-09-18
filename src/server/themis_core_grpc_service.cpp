@@ -41,14 +41,18 @@ namespace {
 std::mutex g_core_grpc_instance_mutex;
 ThemisCoreServiceImpl::ServiceInstanceFn g_core_grpc_instance_fn;
 
-/// Build a storage key from collection + "/" + doc-key.
-/// Convention: collection:key avoids collisions with bare keys.
+/**
+ * @brief Storage Key.
+ * @param[in] collection Input parameter.
+ * @param[in] key Input parameter.
+ * @return Return value.
+ * @details Implements storageKey without additional internal calls.
+ */
 inline std::string storageKey(const std::string& collection, const std::string& key) {
     return collection + ":" + key;
 }
 } // namespace
 
-/** @brief Implementation detail. */
 class ThemisCoreServiceImpl::Impl {
 public:
 #if THEMIS_HAS_CORE_GRPC
@@ -58,6 +62,11 @@ public:
          std::shared_ptr<AQLEngine>          aql_engine)
         : service_(std::move(db), std::move(txn_mgr), std::move(aql_engine)) {}
 
+    /**
+     * @brief Get.
+     * @return Pointer to the result.
+     * @details Implements get without additional internal calls.
+     */
     themis::core::ThemisCoreService::Service* get() { return &service_; }
 
 private:
@@ -621,6 +630,11 @@ ThemisCoreServiceImpl::ThemisCoreServiceImpl(
 #else
     ServiceInstanceFn fn;
     {
+        /**
+         * @brief Lock.
+         * @param[in] g_core_grpc_instance_mutex Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(g_core_grpc_instance_mutex);
         fn = g_core_grpc_instance_fn;
     }
@@ -629,6 +643,11 @@ ThemisCoreServiceImpl::ThemisCoreServiceImpl(
             "ThemisCoreServiceImpl requires generated core gRPC stubs or an "
             "injected non-null ServiceInstanceFn in non-proto builds";
         THEMIS_CRITICAL("{}", error);
+        /**
+         * @brief Runtime error.
+         * @param[in] error Input parameter.
+         * @return Return value.
+         */
         throw std::runtime_error(error);
     }
     try {
@@ -644,6 +663,11 @@ ThemisCoreServiceImpl::ThemisCoreServiceImpl(
         const std::string error =
             "ThemisCoreServiceImpl ServiceInstanceFn returned nullptr in non-proto build";
         THEMIS_CRITICAL("{}", error);
+        /**
+         * @brief Runtime error.
+         * @param[in] error Input parameter.
+         * @return Return value.
+         */
         throw std::runtime_error(error);
     }
 #endif
@@ -651,11 +675,21 @@ ThemisCoreServiceImpl::ThemisCoreServiceImpl(
 
 ThemisCoreServiceImpl::~ThemisCoreServiceImpl() = default;
 
+/**
+ * @brief Set Service Instance Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void ThemisCoreServiceImpl::setServiceInstanceFn(ServiceInstanceFn fn) {
     std::lock_guard<std::mutex> lock(g_core_grpc_instance_mutex);
     g_core_grpc_instance_fn = std::move(fn);
 }
 
+/**
+ * @brief Get Service Instance.
+ * @return Pointer to the result.
+ * @details Calls: get().
+ */
 void* ThemisCoreServiceImpl::getServiceInstance() {
 #if THEMIS_HAS_CORE_GRPC
     return impl_ ? static_cast<void*>(impl_->get()) : nullptr;

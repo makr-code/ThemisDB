@@ -138,9 +138,12 @@ GroupKey Aggregator::make_key(const AggregationRow& row) const
     return oss.str();
 }
 
-// ---------------------------------------------------------------------------
-// Aggregator::accumulate
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- Aggregator::accumulate ---------------------------------------------------------------------------
+ * @param[in,out] acc Input/output parameter.
+ * @param[in] fn Input parameter.
+ * @param[in] val Input parameter.
+ */
 
 void Aggregator::accumulate(AccState& acc, AggregateFunction fn,
                              const AggValue& val)
@@ -210,9 +213,12 @@ void Aggregator::accumulate(AccState& acc, AggregateFunction fn,
     }
 }
 
-// ---------------------------------------------------------------------------
-// Aggregator::extract
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- Aggregator::extract ---------------------------------------------------------------------------
+ * @param[in] acc Input parameter.
+ * @param[in] fn Input parameter.
+ * @return Return value.
+ */
 
 AggValue Aggregator::extract(const AccState& acc, AggregateFunction fn)
 {
@@ -240,9 +246,10 @@ AggValue Aggregator::extract(const AccState& acc, AggregateFunction fn)
     return std::monostate{};
 }
 
-// ---------------------------------------------------------------------------
-// Aggregator::feed
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- Aggregator::feed ---------------------------------------------------------------------------
+ * @param[in] row Input parameter.
+ */
 
 void Aggregator::feed(const AggregationRow& row)
 {
@@ -287,9 +294,10 @@ std::size_t Aggregator::group_count() const noexcept
     return groups_.size();
 }
 
-// ---------------------------------------------------------------------------
-// Aggregator::finalise
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- Aggregator::finalise ---------------------------------------------------------------------------
+ * @return Return value.
+ */
 
 AggregationResult Aggregator::finalise()
 {

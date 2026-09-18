@@ -194,12 +194,12 @@ public:
     AutoMLModel(AutoMLModel&&)                 noexcept;
     AutoMLModel& operator=(AutoMLModel&&)      noexcept;
 
+
     /**
-     * @brief ---- Inference ----
+     * @brief Predict.
      * @param[in] data Input parameter.
      * @return Return value.
      */
-
     std::vector<std::string> predict(const std::vector<DataPoint>& data) const;
 
     /**
@@ -212,12 +212,12 @@ public:
     std::vector<std::map<std::string, double>>
     predictProba(const std::vector<DataPoint>& data) const;
 
+
     /**
-     * @brief ---- Explanation ----
+     * @brief Explain.
      * @param[in] data Input parameter.
      * @return Return value.
      */
-
     std::vector<ModelExplanation> explain(const std::vector<DataPoint>& data) const;
 
     /**
@@ -227,12 +227,12 @@ public:
      */
     ModelExplanation explainOne(const DataPoint& point) const;
 
+
     /**
-     * @brief ---- Metadata ----
+     * @brief Task.
      * @return Return value.
      * @note Exception safety: noexcept.
      */
-
     AutoMLTask     task()      const noexcept;
     /**
      * @brief Algorithm.
@@ -262,7 +262,7 @@ public:
     std::map<std::string, double> featureImportance() const;
 
     /**
-     * @brief ---- Serialisation ----
+     * @brief Serialize.
      * @return Return value.
      */
     std::string   serialize()   const;

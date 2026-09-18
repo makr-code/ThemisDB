@@ -84,6 +84,12 @@ GPUDataLoader& GPUDataLoader::operator=(GPUDataLoader&& other) noexcept {
     return *this;
 }
 
+/**
+ * @brief Load From Samples.
+ * @param[in] samples Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), spdlog::error(), resize(), size(), std::iota(), begin(), end(), gen().
+ */
 bool GPUDataLoader::loadFromSamples(const std::vector<InstructionDataSample>& samples) {
     if (samples.empty()) {
         spdlog::error("Cannot load empty sample list");
@@ -114,6 +120,11 @@ bool GPUDataLoader::loadFromSamples(const std::vector<InstructionDataSample>& sa
     return true;
 }
 
+/**
+ * @brief Get Next Batch.
+ * @return Return value.
+ * @details Calls: hasNext(), spdlog::warn(), load(), lock(), wait_for(), empty(), count(), prepareBatch().
+ */
 GPUBatch GPUDataLoader::getNextBatch() {
     if (!hasNext()) {
         spdlog::warn("No more batches available");
@@ -152,6 +163,10 @@ bool GPUDataLoader::hasNext() const {
     return current_batch_ < num_batches();
 }
 
+/**
+ * @brief Reset the modification detection flag.
+ * @details Calls: empty(), gen(), rd(), std::shuffle(), begin(), end(), stopPrefetching(), startPrefetching().
+ */
 void GPUDataLoader::reset() {
     current_batch_ = 0;
     
@@ -193,6 +208,10 @@ GPUDataLoader::MemoryStats GPUDataLoader::get_memory_stats() const {
     return stats;
 }
 
+/**
+ * @brief Start Prefetching.
+ * @details Calls: load(), store(), std::thread(), spdlog::debug().
+ */
 void GPUDataLoader::startPrefetching() {
     if (prefetch_active_.load(std::memory_order_acquire)) {
         return;
@@ -205,6 +224,10 @@ void GPUDataLoader::startPrefetching() {
     spdlog::debug("Started prefetch thread");
 }
 
+/**
+ * @brief Stop Prefetching.
+ * @details Calls: load(), store(), notify_all(), joinable(), themis::utils::joinThreadWithin(), spdlog::warn(), lock(), empty().
+ */
 void GPUDataLoader::stopPrefetching() {
     if (!prefetch_active_.load(std::memory_order_acquire)) {
         return;
@@ -230,6 +253,10 @@ void GPUDataLoader::stopPrefetching() {
     spdlog::debug("Stopped prefetch thread");
 }
 
+/**
+ * @brief Prefetch Worker.
+ * @details Calls: load(), lock(), wait_for(), size(), num_batches(), prepareBatch(), push(), std::move().
+ */
 void GPUDataLoader::prefetchWorker() {
     size_t batch_idx = current_batch_;
     
@@ -268,6 +295,12 @@ void GPUDataLoader::prefetchWorker() {
     }
 }
 
+/**
+ * @brief Prepare Batch.
+ * @param[in] batch_idx Input parameter.
+ * @return Return value.
+ * @details Calls: std::min(), size(), reserve(), tokenizeSample(), push_back(), std::move(), eos_token_id(), pad_token_id().
+ */
 GPUBatch GPUDataLoader::prepareBatch(size_t batch_idx) {
     GPUBatch batch;
     
@@ -335,6 +368,12 @@ GPUBatch GPUDataLoader::prepareBatch(size_t batch_idx) {
     return batch;
 }
 
+/**
+ * @brief Tokenize Sample.
+ * @param[in] sample Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), encode().
+ */
 std::vector<int> GPUDataLoader::tokenizeSample(const InstructionDataSample& sample) {
     // Format sample as instruction-following template
     std::string formatted = "### Instruction:\n" + sample.instruction;
@@ -349,6 +388,12 @@ std::vector<int> GPUDataLoader::tokenizeSample(const InstructionDataSample& samp
     return tokenizer_->encode(formatted);
 }
 
+/**
+ * @brief Update Batch Size.
+ * @param[in] new_batch_size Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: spdlog::warn(), spdlog::info().
+ */
 bool GPUDataLoader::updateBatchSize(size_t new_batch_size) {
     if (new_batch_size == 0) {
         spdlog::warn("Cannot update batch size to 0");

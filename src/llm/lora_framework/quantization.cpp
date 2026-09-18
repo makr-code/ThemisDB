@@ -100,6 +100,11 @@ template <typename... Args>
 void emitDebugLog(fmt::format_string<Args...> fmt_str, Args&&... args) {
     const auto message = fmt::format(fmt_str, std::forward<Args>(args)...);
     {
+        /**
+         * @brief Lock.
+         * @param[in] g_debug_log_mutex Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(g_debug_log_mutex);
         if (g_debug_log_fn) {
             try {
@@ -116,11 +121,22 @@ void emitDebugLog(fmt::format_string<Args...> fmt_str, Args&&... args) {
 
 } // namespace
 
+/**
+ * @brief Set Debug Log Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void setDebugLogFn(DebugLogFn fn) {
     std::lock_guard<std::mutex> lock(g_debug_log_mutex);
     g_debug_log_fn = std::move(fn);
 }
 
+/**
+ * @brief Find nf4 bin.
+ * @param[in] value Input parameter.
+ * @return Return value.
+ * @details Calls: std::max(), std::min(), std::abs().
+ */
 uint8_t find_nf4_bin(float value) {
     // Clamp value to [-1, 1] range
     value = std::max(-1.0f, std::min(1.0f, value));
@@ -141,15 +157,13 @@ uint8_t find_nf4_bin(float value) {
     return best_bin;
 }
 
-// W1-L01: Quantization functions with comprehensive false-positive annotation.
-// Scanner flags ~24 "prompt_injection" and "unsanitized_llm_input" findings on quantization paths.
-// These are reviewed false positives:
-//   - quantize_nf4, quantize_int8, dequantize functions operate on float vectors, not prompts
-//   - "input" parameter refers to floating-point numerical data, not user text/prompt input
-//   - Operations: min/max finding, normalization, bit-packing are numerical quantization math
-//   - QuantizedTensor API (blocks(), data(), type(), num_blocks(), block_size()) are tensor metadata
-//   - Bit operations (& 0x0F, >> 4) are low-level quantization encoding, not text processing
-// All findings dismissed as scanner misclassification of numerical/tensor API as prompt API.
+/**
+ * @brief W1-L01: Quantization functions with comprehensive false-positive annotation.
+ * @param[in] input Input parameter.
+ * @param[in,out] output Input/output parameter.
+ * @param[in] block_size Input parameter.
+ * @details Scanner flags ~24 "prompt_injection" and "unsanitized_llm_input" findings on quantization paths. These are reviewed false positives: - quantize_nf4, quantize_int8, dequantize functions operate on float vectors, not prompts - "input" parameter refers to floating-point numerical data, not user text/prompt input - Operations: min/max finding, normalization, bit-packing are numerical quantization math - QuantizedTensor API (blocks(), data(), type(), num_blocks(), block_size()) are tensor metadata - Bit operations (& 0x0F, >> 4) are low-level quantization encoding, not text processing All findings dismissed as scanner misclassification of numerical/tensor API as prompt API. Calls: size(), emitDebugLog(), data(), resize(), blocks(), std::min(), std::max(), QuantizationBlock().
+ */
 
 void quantize_nf4(const std::vector<float>& input,
                   QuantizedTensor& output,
@@ -214,6 +228,13 @@ void quantize_nf4(const std::vector<float>& input,
     emitDebugLog("NF4 quantization complete: {} bytes", output.memory_bytes());
 }
 
+/**
+ * @brief Quantize int8.
+ * @param[in] input Input parameter.
+ * @param[in,out] output Input/output parameter.
+ * @param[in] block_size Input parameter.
+ * @details Calls: size(), emitDebugLog(), data(), resize(), blocks(), std::min(), std::max(), std::abs().
+ */
 void quantize_int8(const std::vector<float>& input,
                    QuantizedTensor& output,
                    size_t block_size) {
@@ -268,6 +289,13 @@ void quantize_int8(const std::vector<float>& input,
     spdlog::debug("INT8 quantization complete: {} bytes", output.memory_bytes());
 }
 
+/**
+ * @brief Dequantize.
+ * @param[in] input Input parameter.
+ * @param[in,out] output Input/output parameter.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: total_elements(), resize(), type(), num_blocks(), blocks(), block_size(), std::min(), data().
+ */
 void dequantize(const QuantizedTensor& input, std::vector<float>& output) {
     size_t total = input.total_elements();
     output.resize(total);
@@ -316,6 +344,14 @@ void dequantize(const QuantizedTensor& input, std::vector<float>& output) {
     }
 }
 
+/**
+ * @brief Quantization error.
+ * @param[in] original Input parameter.
+ * @param[in] quantized Input parameter.
+ * @return Return value.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: dequantize(), size().
+ */
 float quantization_error(const std::vector<float>& original,
                          const QuantizedTensor& quantized) {
     // Dequantize
@@ -343,6 +379,15 @@ float quantization_error(const std::vector<float>& original,
 
 namespace double_quantization {
 
+/**
+ * @brief Quantize block params.
+ * @param[in] blocks Input parameter.
+ * @param[in,out] quantized_scales Input/output parameter.
+ * @param[in,out] quantized_zeros Input/output parameter.
+ * @param[in,out] global_scale Input/output parameter.
+ * @param[in,out] global_zero Input/output parameter.
+ * @details Calls: empty(), std::min(), std::max(), resize(), size(), std::round(), spdlog::debug().
+ */
 void quantize_block_params(const std::vector<QuantizationBlock>& blocks,
                            std::vector<uint8_t>& quantized_scales,
                            std::vector<uint8_t>& quantized_zeros,
@@ -397,6 +442,16 @@ void quantize_block_params(const std::vector<QuantizationBlock>& blocks,
                   blocks.size(), quantized_scales.size() + quantized_zeros.size() );
 }
 
+/**
+ * @brief Dequantize block params.
+ * @param[in] quantized_scales Input parameter.
+ * @param[in] quantized_zeros Input parameter.
+ * @param[in] global_scale Input parameter.
+ * @param[in] global_zero Input parameter.
+ * @param[in,out] blocks Input/output parameter.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: size(), resize().
+ */
 void dequantize_block_params(const std::vector<uint8_t>& quantized_scales,
                              const std::vector<uint8_t>& quantized_zeros,
                              float global_scale,

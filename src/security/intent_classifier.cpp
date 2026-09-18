@@ -49,7 +49,12 @@ namespace security {
 
 namespace {
 
-/// Convert query to uppercase for case-insensitive matching.
+/**
+ * @brief To Upper Ascii.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), push_back(), std::toupper().
+ */
 std::string toUpperAscii(const std::string& s) {
     std::string out = {};
     out.reserve(s.size());
@@ -59,7 +64,6 @@ std::string toUpperAscii(const std::string& s) {
     return out;
 }
 
-/// Weighted SQL-injection indicator set.
 struct Feature {
     const char* token;
     double      weight;
@@ -125,8 +129,12 @@ static const Feature kSchemaMutationFeatures[] = {
     {"ALTER COLLECTION", 0.60},
 };
 
-/// Helper: detect compound FOR…REMOVE without FILTER (full-collection delete).
-/// Returns extra weight to add on top of kDataDestructionFeatures score.
+/**
+ * @brief For Remove Without Filter Weight.
+ * @param[in] upperQuery Input parameter.
+ * @return Return value.
+ * @details Calls: find().
+ */
 double forRemoveWithoutFilterWeight(const std::string& upperQuery) {
     const std::size_t forPos    = upperQuery.find("FOR ");
     const std::size_t removePos = upperQuery.find(" REMOVE ");
@@ -143,7 +151,6 @@ double forRemoveWithoutFilterWeight(const std::string& upperQuery) {
     return hasFilter ? 0.25 : 0.90;  // Unfiltered full-collection delete
 }
 
-/// Compute weighted-sum score against a feature table.
 template <std::size_t N>
 double scoreFeatures(const std::string& upperQuery, const Feature (&features)[N]) {
     double score = 0.0;
@@ -155,13 +162,10 @@ double scoreFeatures(const std::string& upperQuery, const Feature (&features)[N]
     return score;
 }
 
-/// Logistic function (sigmoid).
 double sigmoid([[maybe_unused]] double x) {
     return 1.0 / (1.0 + std::exp(-x));
 }
 
-/// Map weighted score to confidence using a logistic curve.
-/// The scale parameter controls how steeply the score translates to confidence.
 double scoreToConfidence(double score, double scale = 3.0) {
     // sigmoid(scale * score) - 0.5 normalised to [0,1]
     double raw = sigmoid(scale * score);
@@ -178,6 +182,11 @@ double scoreToConfidence(double score, double scale = 3.0) {
 IntentClassifier::IntentClassifier(std::string shard_id)
     : shard_id_(std::move(shard_id)) {}
 
+/**
+ * @brief Inject an inference function used by classify().
+ * @param[in] fn Inference function to inject.
+ * @details Calls: std::move(), empty().
+ */
 void IntentClassifier::setInferenceFn(InferenceFn fn) {
     inference_fn_ = std::move(fn);
     // Activating the injected backend also enables the LoRA path so that
@@ -297,7 +306,12 @@ double IntentClassifier::riskDelta(IntentType t) noexcept {
     }
 }
 
-// static
+/**
+ * @brief static
+ * @param[in] t Intent type to render.
+ * @return Return value.
+ * @details Implements intentName without additional internal calls.
+ */
 std::string IntentClassifier::intentName(IntentType t) {
     switch (t) {
         case IntentType::LEGITIMATE:            return "LEGITIMATE";
@@ -311,7 +325,13 @@ std::string IntentClassifier::intentName(IntentType t) {
     }
 }
 
-// static
+/**
+ * @brief static
+ * @param[in] intent Intent category to encode.
+ * @param[in] primary_indicator Primary indicator token used for the embedding.
+ * @return Return value.
+ * @details Calls: emb(), std::sqrt().
+ */
 std::vector<float> IntentClassifier::buildEmbedding(
     IntentType         intent,
     const std::string& primary_indicator
@@ -347,7 +367,12 @@ std::vector<float> IntentClassifier::buildEmbedding(
     return emb;
 }
 
-// ── LoRA-Adapter API (ASL-13 / IMPL-A2) ─────────────────────────────────────
+/**
+ * @brief ── LoRA-Adapter API (ASL-13 / IMPL-A2) ─────────────────────────────────────
+ * @param[in] model_path Path to the model.
+ * @return Return value.
+ * @details Calls: empty(), probe(), is_open(), spdlog::warn(), spdlog::info().
+ */
 IntentClassifier::LoraLoadResult IntentClassifier::loadLoraModel(
     const std::string& model_path
 ) {
@@ -369,6 +394,12 @@ IntentClassifier::LoraLoadResult IntentClassifier::loadLoraModel(
     return LoraLoadResult::kSuccess;
 }
 
+/**
+ * @brief Set Lora Model Path.
+ * @param[in] model_path Path to the model.
+ * @return True when the operation succeeds.
+ * @details Calls: loadLoraModel().
+ */
 bool IntentClassifier::setLoraModelPath(const std::string& model_path) {
     return loadLoraModel(model_path) == LoraLoadResult::kSuccess;
 }
@@ -386,14 +417,21 @@ const std::string& IntentClassifier::loraModelPath() const noexcept {
 
 namespace {
 
-/// libcurl write callback that appends data to a std::string buffer.
+/**
+ * @brief Curl Write Callback.
+ * @param[in,out] ptr Input/output parameter.
+ * @param[in] size Input parameter.
+ * @param[in] nmemb Input parameter.
+ * @param[in,out] userdata Input/output parameter.
+ * @return Return value.
+ * @details Calls: append().
+ */
 static size_t curlWriteCallback(char* ptr, size_t size, size_t nmemb, void* userdata) {
     auto* buf = reinterpret_cast<std::string*>(userdata);
     buf->append(ptr, size * nmemb);
     return size * nmemb;
 }
 
-/// Map a JSON intent string returned by the endpoint to IntentType.
 static IntentClassifier::IntentType intentFromString(const std::string& s) noexcept {
     if (s == "SQL_INJECTION") {
       return IntentClassifier::IntentType::SQL_INJECTION;
@@ -419,21 +457,11 @@ static IntentClassifier::IntentType intentFromString(const std::string& s) noexc
 } // anonymous namespace
 
 /**
- * @brief Configure the LoRA classify endpoint for this classifier.
- *
- * Installs an InferenceFn that POSTs the query to the LLM plugin's /classify
- * endpoint via libcurl (synchronous).  The endpoint must return JSON of the form:
- * ```json
- * { "intent": "SQL_INJECTION", "confidence": 0.92, "indicator": "UNION_SELECT" }
- * ```
- * On any network/parse error the function returns LEGITIMATE with confidence=0 so
- * the caller's fail-closed logic applies.
- *
- * @param endpoint_url  Full URL of the LLM classify endpoint.
- * @param api_key       Optional bearer token for the endpoint (empty = no auth).
- * @param timeout_ms    HTTP request timeout in milliseconds (default 2000).
- * @return true if the endpoint URL is non-empty and the libcurl handle was allocated;
- *         false otherwise (LoRA path stays inactive).
+ * @brief Configure the LoRA classify endpoint.
+ * @param[in] endpoint_url Full URL of the LoRA classify endpoint.
+ * @param[in] api_key Optional bearer token for the endpoint.
+ * @param[in] timeout_ms HTTP request timeout in milliseconds.
+ * @return True when the operation succeeds.
  */
 bool IntentClassifier::configureLoraEndpoint(
     const std::string& endpoint_url,

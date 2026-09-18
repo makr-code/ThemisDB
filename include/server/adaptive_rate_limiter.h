@@ -23,139 +23,61 @@
 namespace themis {
 namespace server {
 
-/**
- * @brief Backend health metrics sample used by AdaptiveRateLimiter.
- *
- * Call AdaptiveRateLimiter::recordSample() each time a backend request
- * completes to supply fresh latency and error-rate data.
- */
 struct BackendHealthSample {
-    /// Observed end-to-end latency for one backend call.
     std::chrono::milliseconds latency_ms{0};
 
-    /// Whether this backend call resulted in an error.
     bool is_error = false;
 };
 
-/**
- * @brief Adaptive Rate Limiter — automatically adjusts rate limits based
- *        on observed backend health (latency + error rate).
- *
- * ### Algorithm
- * A sliding window (default: 60 s) accumulates BackendHealthSample
- * observations.  After each batch of @c min_samples_to_adapt samples, the
- * current effective capacity is recalculated:
- *
- *   - p99 latency > high_latency_threshold_ms  → reduce to 50 %
- *   - error rate  > high_error_rate            → reduce to 20 %
- *   - p99 latency < low_latency_threshold_ms
- *     AND error rate < low_error_rate          → increase by recovery_step
- *     (capped at base_capacity)
- *
- * ### Per-tenant support
- * Call allowRequest() with a non-empty @c tenant_id to get independent
- * adaptive limits per tenant.  Each tenant starts at @c base_capacity and
- * is adjusted independently.
- *
- * ### Thread-safety
- * All public methods are thread-safe.
- *
- * ### Example
- * @code
- *   AdaptiveRateLimiter::Config cfg;
- *   cfg.base_capacity             = 1000;  // Normal: 1 000 req/min
- *   cfg.high_latency_threshold_ms = 500;   // p99 > 500 ms → reduce
- *   cfg.high_error_rate           = 0.05;  // errors > 5 % → reduce
- *   AdaptiveRateLimiter limiter(cfg);
- *
- *   // In request handler:
- *   if (!limiter.allowRequest("tenant_a")) {
- *       return HTTP_429;
- *   }
- *
- *   // After backend call:
- *   BackendHealthSample sample;
- *   sample.latency_ms = latency;
- *   sample.is_error   = had_error;
- *   limiter.recordSample("tenant_a", sample);
- * @endcode
- */
 class AdaptiveRateLimiter {
 public:
     struct Config {
-        /// Normal-operation token capacity (req per window).
         size_t base_capacity = 1000;
 
-        /// p99 latency (ms) above which rate is halved.
         uint64_t high_latency_threshold_ms = 500;
 
-        /// p99 latency (ms) below which rate can recover.
         uint64_t low_latency_threshold_ms = 100;
 
-        /// Error rate (0.0–1.0) above which rate is reduced to 20 %.
         double high_error_rate = 0.05;
 
-        /// Error rate (0.0–1.0) below which rate can recover.
         double low_error_rate = 0.01;
 
-        /// Fraction of base_capacity to step up during recovery per window.
         double recovery_step = 0.1;
 
-        /// Size of the sliding observation window (seconds).
         uint32_t window_seconds = 60;
 
-        /// Minimum number of samples in the window before the capacity is
-        /// adjusted; prevents over-reacting on sparse traffic.
         size_t min_samples_to_adapt = 10;
     };
 
+    /**
+     * @brief Adaptive Rate Limiter.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit AdaptiveRateLimiter(const Config& config);
 
     /**
-     * @brief Record one backend health sample.
-     *
-     * This must be called after every backend call so the limiter can track
-     * latency and errors.  If @c tenant_id is empty the sample updates the
-     * global (default) tenant state.
-     *
-     * @param tenant_id  Tenant identifier (empty = global).
-     * @param sample     Observed latency and error flag.
+     * @brief Record Sample.
+     * @param[in] tenant_id Identifier of the tenant.
+     * @param[in] sample Input parameter.
      */
     void recordSample(const std::string& tenant_id,
                       const BackendHealthSample& sample);
 
-    /**
-     * @brief Check whether a request for @c tenant_id should be allowed.
-     *
-     * Consumes one token from the tenant's adaptive bucket.  If the bucket
-     * is empty the request is rejected (returns false).
-     *
-     * @param tenant_id  Tenant identifier (empty = global).
-     * @return true if the request is allowed, false if rate-limited.
-     */
     bool allowRequest(const std::string& tenant_id = "");
 
-    /**
-     * @brief Return the current effective capacity for @c tenant_id.
-     */
     size_t getCurrentCapacity(const std::string& tenant_id = "") const;
 
-    /**
-     * @brief Total requests seen (allowed + rejected).
-     */
     uint64_t getTotalRequests() const {
         return total_requests_.load(std::memory_order_relaxed);
     }
 
-    /**
-     * @brief Total requests rejected due to rate limiting.
-     */
     uint64_t getTotalRejections() const {
         return total_rejections_.load(std::memory_order_relaxed);
     }
 
     /**
-     * @brief Reset all tenant states and metrics (for testing).
+     * @brief Reset the modification detection flag.
      */
     void reset();
 
@@ -169,18 +91,19 @@ private:
     };
 
     struct TenantState {
-        /// Rolling window of raw samples.
         std::vector<TimedSample> window;
 
-        /// Current token count (adaptive capacity).
         size_t current_capacity = {};
 
-        /// Available tokens in the current window.
         size_t available_tokens = {};
 
-        /// Start of the current token-replenishment window.
         std::chrono::steady_clock::time_point window_start;
 
+        /**
+         * @brief Tenant State.
+         * @param[in] base_cap Input parameter.
+         * @return Return value.
+         */
         explicit TenantState(size_t base_cap)
             : current_capacity(base_cap)
             , available_tokens(base_cap)
@@ -188,17 +111,26 @@ private:
         {}
     };
 
-    // ── Helpers ───────────────────────────────────────────────────────────────
 
-    /// Prune samples older than window_seconds and recompute the effective
-    /// capacity for @p state.  Must be called with tenants_mutex_ held.
+    /**
+     * @brief Prune And Adapt.
+     * @param[in,out] state Input/output parameter.
+     */
     void pruneAndAdapt(TenantState& state);
 
-    /// Compute the 99th-percentile latency over @p samples.
+    /**
+     * @brief Compute P99.
+     * @param[in] samples Input parameter.
+     * @return Return value.
+     */
     static std::chrono::milliseconds computeP99(
         const std::vector<TimedSample>& samples);
 
-    /// Compute the error rate over @p samples.
+    /**
+     * @brief Compute Error Rate.
+     * @param[in] samples Input parameter.
+     * @return Return value.
+     */
     static double computeErrorRate(const std::vector<TimedSample>& samples);
 
     // ── State ─────────────────────────────────────────────────────────────────

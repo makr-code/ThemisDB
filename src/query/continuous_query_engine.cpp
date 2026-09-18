@@ -18,13 +18,8 @@
 #include <thread>
 
 namespace {
-/// Maximum number of concurrently registered continuous queries.
-/// Prevents unbounded registry growth under adversarial registerQuery() calls.
 static constexpr std::size_t kMaxRegisteredQueries = 1'000;
 
-/// Maximum depth of the tuple injection staging queue.
-/// Prevents unbounded memory growth when injectTuple() is called faster than
-/// the evaluation loop drains it.
 static constexpr std::size_t kMaxInjectQueueDepth = 100'000;
 } // anonymous namespace
 
@@ -43,11 +38,6 @@ ResultQueue::ResultQueue(size_t capacity) : capacity_(capacity) {}
  * @details Calls: lock(), size(), pop_front(), push_back(), std::move(), notify_one().
  */
 void ResultQueue::push(CQResult item) {
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lock(mutex_);
     if (queue_.size() >= capacity_) {
         // Drop oldest to prevent unbounded growth
@@ -64,11 +54,6 @@ void ResultQueue::push(CQResult item) {
  * @details Calls: lock(), wait_for(), empty(), load(), std::move(), front(), pop_front().
  */
 std::optional<CQResult> ResultQueue::pop(std::chrono::milliseconds timeout) {
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::unique_lock<std::mutex> lock(mutex_);
     if (!cv_.wait_for(lock, timeout, [this] {
             return !queue_.empty() || cancelled_.load(std::memory_order_acquire);
@@ -145,7 +130,7 @@ ContinuousQueryEngineImpl::ContinuousQueryEngineImpl(
 ContinuousQueryEngineImpl::~ContinuousQueryEngineImpl() {
     stopLoop();
     /**
-     * @brief Cancel all subscriber queues
+     * @brief Lock.
      * @param[in] registry_mutex_ Input parameter.
      * @return Return value.
      */
@@ -166,11 +151,6 @@ void ContinuousQueryEngineImpl::startLoop() {
     loop_thread_ = std::thread([this] {
         while (running_.load(std::memory_order_acquire)) {
             {
-                /**
-                 * @brief Lock.
-                 * @param[in] loop_mutex_ Input parameter.
-                 * @return Return value.
-                 */
                 std::unique_lock<std::mutex> lock(loop_mutex_);
                 loop_cv_.wait_for(lock, tick_interval_);
             }
@@ -213,22 +193,12 @@ void ContinuousQueryEngineImpl::stopLoop() {
         if (loop.joinable()) {
             loop.join();
         }
-        /**
-         * @brief Lk.
-         * @param[in] join_mutex Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lk(join_mutex);
         joined = true;
         join_cv.notify_one();
     });
 
     {
-        /**
-         * @brief Lk.
-         * @param[in] join_mutex Input parameter.
-         * @return Return value.
-         */
         std::unique_lock<std::mutex> lk(join_mutex);
         constexpr auto kStopDeadline = std::chrono::seconds(5);
         if (!join_cv.wait_for(lk, kStopDeadline, [&joined] { return joined; })) {
@@ -305,11 +275,6 @@ ContinuousQueryEngineImpl::registerQuery(ContinuousQuerySpec spec) {
  * @details Calls: lock(), find(), end(), ErrVoid(), cancel(), erase(), OkVoid().
  */
 Result<void> ContinuousQueryEngineImpl::dropQuery(const std::string& name) {
-    /**
-     * @brief Lock.
-     * @param[in] registry_mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lock(registry_mutex_);
     auto it = registry_.find(name);
     if (it == registry_.end()) {
@@ -378,11 +343,6 @@ ContinuousQueryEngineImpl::listQueries() const {
 void ContinuousQueryEngineImpl::injectTuple(const std::string& collection,
                                              const std::string& tuple,
                                              int64_t            event_ts) {
-    /**
-     * @brief Lock.
-     * @param[in] inject_mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lock(inject_mutex_);
     if (inject_queue_.size() >= kMaxInjectQueueDepth) {
         // Drop oldest entry to prevent unbounded memory growth
@@ -391,26 +351,16 @@ void ContinuousQueryEngineImpl::injectTuple(const std::string& collection,
     inject_queue_.push_back({collection, tuple, event_ts});
 }
 
+
 /**
- * @brief ────────────────────────────────────────────────────────────────────────────── ContinuousQueryEngineImpl — evaluation tick ──────────────────────────────────────────────────────────────────────────────
+ * @brief Tick Once.
  * @details Calls: inj_lock(), empty(), reg_lock(), observe(), insert(), std::move(), push(), clear().
  */
-
 void ContinuousQueryEngineImpl::tickOnce() {
     // Drain the injection queue into the relevant synopsis stores
     {
-        /**
-         * @brief Inj lock.
-         * @param[in] inject_mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> inj_lock(inject_mutex_);
         if (!inject_queue_.empty()) {
-            /**
-             * @brief Reg lock.
-             * @param[in] registry_mutex_ Input parameter.
-             * @return Return value.
-             */
             std::lock_guard<std::mutex> reg_lock(registry_mutex_);
             for (auto& incoming : inject_queue_) {
                 for (auto& [name, entry] : registry_) {
@@ -438,11 +388,6 @@ void ContinuousQueryEngineImpl::tickOnce() {
 
     // Run the evaluation plan for each registered query
     {
-        /**
-         * @brief Lock.
-         * @param[in] registry_mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(registry_mutex_);
         for (auto& [name, entry] : registry_) {
             // Build a transient ContinuousQueryState by temporarily
@@ -492,13 +437,13 @@ void ContinuousQueryEngineImpl::tickOnce() {
     }
 }
 
+
 /**
- * @brief ────────────────────────────────────────────────────────────────────────────── Factory function ──────────────────────────────────────────────────────────────────────────────
+ * @brief Make Continuous Query Engine.
  * @param[in] tick_interval Input parameter.
  * @return Return value.
  * @details Implements makeContinuousQueryEngine without additional internal calls.
  */
-
 std::unique_ptr<ContinuousQueryEngine> makeContinuousQueryEngine(
     std::chrono::milliseconds tick_interval) {
     return std::make_unique<ContinuousQueryEngineImpl>(tick_interval);

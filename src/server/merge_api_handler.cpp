@@ -29,6 +29,11 @@ MergeApiHandler::MergeApiHandler(
       snapshot_manager_(snapshot_manager) {
 }
 
+/**
+ * @brief Register Routes.
+ * @param[in,out] server Input/output parameter.
+ * @details Calls: Post(), handleMerge(), handleMergePreview(), handleMergeByTag(), Get(), handleCanFastForward(), spdlog::info().
+ */
 void MergeApiHandler::registerRoutes(httplib::Server& server) {
     // POST /api/v1/merge - Perform three-way merge
     server.Post("/api/v1/merge", [this](const httplib::Request& req, httplib::Response& res) {
@@ -53,6 +58,12 @@ void MergeApiHandler::registerRoutes(httplib::Server& server) {
     spdlog::info("Merge API routes registered");
 }
 
+/**
+ * @brief Handle Merge.
+ * @param[in] req Input parameter.
+ * @param[in,out] res Input/output parameter.
+ * @details Calls: Tracer::startSpan(), json::parse(), contains(), sendError(), parseMergeOptions(), spdlog::info(), merge(), sendJson().
+ */
 void MergeApiHandler::handleMerge(const httplib::Request& req, httplib::Response& res) {
     try {
     auto span = Tracer::startSpan("handleMerge");
@@ -89,6 +100,12 @@ void MergeApiHandler::handleMerge(const httplib::Request& req, httplib::Response
     }
 }
 
+/**
+ * @brief Handle Merge Preview.
+ * @param[in] req Input parameter.
+ * @param[in,out] res Input/output parameter.
+ * @details Calls: Tracer::startSpan(), json::parse(), contains(), sendError(), spdlog::info(), previewMerge(), sendJson(), toJson().
+ */
 void MergeApiHandler::handleMergePreview(const httplib::Request& req, httplib::Response& res) {
     try {
     auto span = Tracer::startSpan("handleMergePreview");
@@ -120,6 +137,12 @@ void MergeApiHandler::handleMergePreview(const httplib::Request& req, httplib::R
     }
 }
 
+/**
+ * @brief Handle Merge By Tag.
+ * @param[in] req Input parameter.
+ * @param[in,out] res Input/output parameter.
+ * @details Calls: Tracer::startSpan(), json::parse(), contains(), sendError(), parseMergeOptions(), spdlog::info(), mergeByTag(), sendJson().
+ */
 void MergeApiHandler::handleMergeByTag(const httplib::Request& req, httplib::Response& res) {
     try {
     auto span = Tracer::startSpan("handleMergeByTag");
@@ -153,6 +176,12 @@ void MergeApiHandler::handleMergeByTag(const httplib::Request& req, httplib::Res
     }
 }
 
+/**
+ * @brief Handle Can Fast Forward.
+ * @param[in] req Input parameter.
+ * @param[in,out] res Input/output parameter.
+ * @details Calls: Tracer::startSpan(), has_param(), sendError(), std::stoull(), get_param_value(), canFastForward(), sendJson(), fmt::format().
+ */
 void MergeApiHandler::handleCanFastForward(const httplib::Request& req, httplib::Response& res) {
     try {
     auto span = Tracer::startSpan("handleCanFastForward");

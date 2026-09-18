@@ -71,6 +71,12 @@ public:
         shutdown();
     }
     
+    /**
+     * @brief Initialize.
+     * @param[in] cfg Input parameter.
+     * @return True when the operation succeeds.
+     * @details Calls: empty(), size(), CUDA_CHECK(), cudaSetDevice(), resize(), NCCL_CHECK(), ncclCommInitAll(), data().
+     */
     bool initialize(const Config& cfg) {
         config = cfg;
         
@@ -117,6 +123,10 @@ public:
         return true;
     }
     
+    /**
+     * @brief Shutdown.
+     * @details Calls: ncclCommDestroy(), clear().
+     */
     void shutdown() {
         if (initialized) {
             // Destroy all communicators created by ncclCommInitAll
@@ -131,6 +141,11 @@ public:
         }
     }
     
+    /**
+     * @brief Enable All P2 PAccess.
+     * @return True when the operation succeeds.
+     * @details Calls: empty(), size(), cudaDeviceCanAccessPeer(), cudaSetDevice(), cudaDeviceEnablePeerAccess(), cudaGetLastError(), cudaGetErrorString().
+     */
     bool enableAllP2PAccess() {
         if (config.deviceIds.empty()) {
           return true;
@@ -169,6 +184,11 @@ public:
         return true;
     }
     
+    /**
+     * @brief Check NVLink Available.
+     * @return True when the operation succeeds.
+     * @details Calls: size(), cudaDeviceCanAccessPeer().
+     */
     bool checkNVLinkAvailable() {
         // Simple check: if P2P is available between any two devices, assume NVLink
         if (config.deviceIds.size() < 2) {
@@ -180,6 +200,11 @@ public:
         return canAccess != 0;
     }
     
+    /**
+     * @brief Count NVLinks.
+     * @return Return value.
+     * @details Calls: size(), cudaDeviceCanAccessPeer().
+     */
     int countNVLinks() {
         // Simplified: count P2P-capable device pairs
         int count = 0;
@@ -195,10 +220,18 @@ public:
         return count;
     }
     
+    /**
+     * @brief Start Timing.
+     * @details Calls: std::chrono::steady_clock::now().
+     */
     void startTiming() {
         lastOpStart = std::chrono::steady_clock::now();
     }
     
+    /**
+     * @brief Record Collective.
+     * @details Calls: std::chrono::steady_clock::now(), count().
+     */
     void recordCollective() {
         auto now = std::chrono::steady_clock::now();
         auto duration = std::chrono::duration_cast<std::chrono::microseconds>(now - lastOpStart);
@@ -209,6 +242,11 @@ public:
             (stats.avgCollectiveTimeMs * (stats.numCollectives - 1) + timeMs) / stats.numCollectives;
     }
     
+    /**
+     * @brief Record P2 P.
+     * @param[in] bytes Input parameter.
+     * @details Calls: std::chrono::steady_clock::now(), count().
+     */
     void recordP2P(size_t bytes) {
         auto now = std::chrono::steady_clock::now();
         auto duration = std::chrono::duration_cast<std::chrono::microseconds>(now - lastOpStart);
@@ -230,10 +268,20 @@ NCCLVectorBackend::NCCLVectorBackend() : pImpl(std::make_unique<Impl>()) {}
 // Explicitly defined to ensure Impl is complete type when destructed
 NCCLVectorBackend::~NCCLVectorBackend() {}
 
+/**
+ * @brief Initialize.
+ * @param[in] config Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements initialize without additional internal calls.
+ */
 bool NCCLVectorBackend::initialize(const Config& config) {
     return pImpl->initialize(config);
 }
 
+/**
+ * @brief Shutdown.
+ * @details Implements shutdown without additional internal calls.
+ */
 void NCCLVectorBackend::shutdown() {
     pImpl->shutdown();
 }
@@ -258,6 +306,16 @@ bool NCCLVectorBackend::isP2PEnabled() const {
     return pImpl->config.enableP2P;
 }
 
+/**
+ * @brief All Reduce.
+ * @param[in] sendBuf Input parameter.
+ * @param[in,out] recvBuf Input/output parameter.
+ * @param[in] count Input parameter.
+ * @param[in] op Input parameter.
+ * @param[in] stream Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: startTiming(), NCCL_CHECK(), ncclAllReduce(), recordCollective().
+ */
 bool NCCLVectorBackend::allReduce(const float* sendBuf, float* recvBuf, size_t count,
                                    ReductionOp op, cudaStream_t stream) {
     if (!pImpl->initialized) {
@@ -282,6 +340,15 @@ bool NCCLVectorBackend::allReduce(const float* sendBuf, float* recvBuf, size_t c
     return true;
 }
 
+/**
+ * @brief Broadcast.
+ * @param[in,out] buffer Input/output parameter.
+ * @param[in] count Input parameter.
+ * @param[in] root Input parameter.
+ * @param[in] stream Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: startTiming(), NCCL_CHECK(), ncclBroadcast(), recordCollective().
+ */
 bool NCCLVectorBackend::broadcast(float* buffer, size_t count, int root,
                                    cudaStream_t stream) {
     if (!pImpl->initialized) {
@@ -295,6 +362,15 @@ bool NCCLVectorBackend::broadcast(float* buffer, size_t count, int root,
     return true;
 }
 
+/**
+ * @brief All Gather.
+ * @param[in] sendBuf Input parameter.
+ * @param[in,out] recvBuf Input/output parameter.
+ * @param[in] sendCount Input parameter.
+ * @param[in] stream Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: startTiming(), NCCL_CHECK(), ncclAllGather(), recordCollective().
+ */
 bool NCCLVectorBackend::allGather(const float* sendBuf, float* recvBuf, size_t sendCount,
                                    cudaStream_t stream) {
     if (!pImpl->initialized) {
@@ -308,6 +384,17 @@ bool NCCLVectorBackend::allGather(const float* sendBuf, float* recvBuf, size_t s
     return true;
 }
 
+/**
+ * @brief Reduce.
+ * @param[in] sendBuf Input parameter.
+ * @param[in,out] recvBuf Input/output parameter.
+ * @param[in] count Input parameter.
+ * @param[in] op Input parameter.
+ * @param[in] root Input parameter.
+ * @param[in] stream Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: startTiming(), NCCL_CHECK(), ncclReduce(), recordCollective().
+ */
 bool NCCLVectorBackend::reduce(const float* sendBuf, float* recvBuf, size_t count,
                                 ReductionOp op, int root, cudaStream_t stream) {
     if (!pImpl->initialized) {
@@ -331,6 +418,16 @@ bool NCCLVectorBackend::reduce(const float* sendBuf, float* recvBuf, size_t coun
     return true;
 }
 
+/**
+ * @brief Reduce Scatter.
+ * @param[in] sendBuf Input parameter.
+ * @param[in,out] recvBuf Input/output parameter.
+ * @param[in] recvCount Input parameter.
+ * @param[in] op Input parameter.
+ * @param[in] stream Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: startTiming(), NCCL_CHECK(), ncclReduceScatter(), recordCollective().
+ */
 bool NCCLVectorBackend::reduceScatter(const float* sendBuf, float* recvBuf, size_t recvCount,
                                        ReductionOp op, cudaStream_t stream) {
     if (!pImpl->initialized) {
@@ -354,6 +451,15 @@ bool NCCLVectorBackend::reduceScatter(const float* sendBuf, float* recvBuf, size
     return true;
 }
 
+/**
+ * @brief P2p Send.
+ * @param[in] buffer Input parameter.
+ * @param[in] count Input parameter.
+ * @param[in] peerRank Input parameter.
+ * @param[in] stream Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: startTiming(), NCCL_CHECK(), ncclSend(), recordP2P().
+ */
 bool NCCLVectorBackend::p2pSend(const float* buffer, size_t count, int peerRank,
                                  cudaStream_t stream) {
     if (!pImpl->initialized) {
@@ -366,6 +472,15 @@ bool NCCLVectorBackend::p2pSend(const float* buffer, size_t count, int peerRank,
     return true;
 }
 
+/**
+ * @brief P2p Recv.
+ * @param[in,out] buffer Input/output parameter.
+ * @param[in] count Input parameter.
+ * @param[in] peerRank Input parameter.
+ * @param[in] stream Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: startTiming(), NCCL_CHECK(), ncclRecv().
+ */
 bool NCCLVectorBackend::p2pRecv(float* buffer, size_t count, int peerRank,
                                  cudaStream_t stream) {
     if (!pImpl->initialized) {
@@ -378,6 +493,13 @@ bool NCCLVectorBackend::p2pRecv(float* buffer, size_t count, int peerRank,
     return true;
 }
 
+/**
+ * @brief Enable P2 PAccess.
+ * @param[in] deviceId1 Input parameter.
+ * @param[in] deviceId2 Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: CUDA_CHECK(), cudaDeviceCanAccessPeer(), cudaSetDevice(), cudaDeviceEnablePeerAccess().
+ */
 bool NCCLVectorBackend::enableP2PAccess(int deviceId1, int deviceId2) {
     int canAccess = 0;
     CUDA_CHECK(cudaDeviceCanAccessPeer(&canAccess, deviceId1, deviceId2));
@@ -393,12 +515,25 @@ bool NCCLVectorBackend::enableP2PAccess(int deviceId1, int deviceId2) {
     return canAccess != 0;
 }
 
+/**
+ * @brief Can Access Peer.
+ * @param[in] deviceId1 Input parameter.
+ * @param[in] deviceId2 Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: cudaDeviceCanAccessPeer().
+ */
 bool NCCLVectorBackend::canAccessPeer(int deviceId1, int deviceId2) {
     int canAccess = 0;
     cudaDeviceCanAccessPeer(&canAccess, deviceId1, deviceId2);
     return canAccess != 0;
 }
 
+/**
+ * @brief Synchronize.
+ * @param[in] stream Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: allReduce().
+ */
 bool NCCLVectorBackend::synchronize(cudaStream_t stream) {
     if (!pImpl->initialized) {
       return false;
@@ -409,6 +544,11 @@ bool NCCLVectorBackend::synchronize(cudaStream_t stream) {
     return allReduce(&dummy, &dummy, 1, ReductionOp::SUM, stream);
 }
 
+/**
+ * @brief Wait All.
+ * @return True when the operation succeeds.
+ * @details Calls: CUDA_CHECK(), cudaDeviceSynchronize().
+ */
 bool NCCLVectorBackend::waitAll() {
     if (!pImpl->initialized) {
       return false;
@@ -417,6 +557,19 @@ bool NCCLVectorBackend::waitAll() {
     return true;
 }
 
+/**
+ * @brief Merge Top K.
+ * @param[in] localIndices Input parameter.
+ * @param[in] localDistances Input parameter.
+ * @param[in] localK Input parameter.
+ * @param[in,out] globalIndices Input/output parameter.
+ * @param[in,out] globalDistances Input/output parameter.
+ * @param[in] k Input parameter.
+ * @param[in] root Input parameter.
+ * @param[in] stream Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: startTiming(), CUDA_CHECK(), cudaMemcpy(), recordCollective(), cudaMalloc(), ncclGroupStart(), NCCL_CHECK(), ncclAllGather().
+ */
 bool NCCLVectorBackend::mergeTopK(const uint32_t* localIndices, const float* localDistances,
                                    size_t localK, uint32_t* globalIndices, float* globalDistances,
                                    size_t k, int root, cudaStream_t stream) {
@@ -545,10 +698,19 @@ NCCLVectorBackend::Statistics NCCLVectorBackend::getStatistics() const {
     return pImpl->stats;
 }
 
+/**
+ * @brief Reset Statistics.
+ * @details Implements resetStatistics without additional internal calls.
+ */
 void NCCLVectorBackend::resetStatistics() {
     pImpl->stats = Statistics{};
 }
 
+/**
+ * @brief Is NCCLAvailable.
+ * @return True when the operation succeeds.
+ * @details Calls: cudaGetDeviceCount().
+ */
 bool NCCLVectorBackend::isNCCLAvailable() {
     // Check if NCCL library is available
     int deviceCount = 0;
@@ -556,12 +718,22 @@ bool NCCLVectorBackend::isNCCLAvailable() {
     return (err == cudaSuccess && deviceCount > 0);
 }
 
+/**
+ * @brief Get NCCLVersion.
+ * @return Return value.
+ * @details Calls: ncclGetVersion().
+ */
 int NCCLVectorBackend::getNCCLVersion() {
     int version = 0;
     ncclGetVersion(&version);
     return version;
 }
 
+/**
+ * @brief Get NCCLVersion String.
+ * @return Return value.
+ * @details Calls: getNCCLVersion(), std::to_string().
+ */
 std::string NCCLVectorBackend::getNCCLVersionString() {
     int version = getNCCLVersion();
     int major = version / 10000;
@@ -570,6 +742,12 @@ std::string NCCLVectorBackend::getNCCLVersionString() {
     return std::to_string(major) + "." + std::to_string(minor) + "." + std::to_string(patch);
 }
 
+/**
+ * @brief Check NVLink Support.
+ * @param[in] deviceIds Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: size(), cudaDeviceCanAccessPeer().
+ */
 bool NCCLVectorBackend::checkNVLinkSupport(const std::vector<int>& deviceIds) {
     if (deviceIds.size() < 2) {
       return false;
@@ -619,6 +797,11 @@ bool NCCLVectorBackend::checkNVLinkSupport(const std::vector<int>& deviceIds) {
 static std::mutex s_nccl_allreduce_mutex_;
 static NCCLVectorBackend::AllReduceFn s_allreduce_fn_;
 
+/**
+ * @brief Set All Reduce Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lk(), std::move().
+ */
 void NCCLVectorBackend::setAllReduceFn(NCCLVectorBackend::AllReduceFn fn) {
     std::lock_guard<std::mutex> lk(s_nccl_allreduce_mutex_);
     s_allreduce_fn_ = std::move(fn);
@@ -626,7 +809,6 @@ void NCCLVectorBackend::setAllReduceFn(NCCLVectorBackend::AllReduceFn fn) {
 
 // Stub implementation when NCCL is not available
 // Define empty Impl class to satisfy unique_ptr
-/** @brief Define empty Impl class to satisfy unique_ptr. */
 class NCCLVectorBackend::Impl {
 public:
     Impl() = default;
@@ -637,13 +819,33 @@ NCCLVectorBackend::NCCLVectorBackend() : pImpl(std::make_unique<Impl>()) {}
 
 // Explicitly defined to ensure Impl is complete type when destructed
 NCCLVectorBackend::~NCCLVectorBackend() {}
+/**
+ * @brief Initialize.
+ * @param[in] param Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements initialize without additional internal calls.
+ */
 bool NCCLVectorBackend::initialize(const Config&) { return false; }
+/**
+ * @brief Shutdown.
+ * @details Implements shutdown without additional internal calls.
+ */
 void NCCLVectorBackend::shutdown() {}
 bool NCCLVectorBackend::isInitialized() const { return false; }
 int NCCLVectorBackend::getRank() const { return 0; }
 int NCCLVectorBackend::getWorldSize() const { return 1; }
 std::vector<int> NCCLVectorBackend::getDeviceIds() const { return {}; }
 bool NCCLVectorBackend::isP2PEnabled() const { return false; }
+/**
+ * @brief All Reduce.
+ * @param[in] send Input parameter.
+ * @param[in,out] recv Input/output parameter.
+ * @param[in] count Input parameter.
+ * @param[in] op Input parameter.
+ * @param[in,out] stream Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lk(), fn().
+ */
 bool NCCLVectorBackend::allReduce(const float* send, float* recv, size_t count,
                                   ReductionOp op, void* stream) {
     NCCLVectorBackend::AllReduceFn fn;
@@ -664,22 +866,142 @@ bool NCCLVectorBackend::allReduce(const float* send, float* recv, size_t count,
     }
     return false;
 }
+/**
+ * @brief Broadcast.
+ * @param[in,out] param Input/output parameter.
+ * @param[in] size_t Input parameter.
+ * @param[in] int Input parameter.
+ * @param[in,out] param Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Implements broadcast without additional internal calls.
+ */
 bool NCCLVectorBackend::broadcast(float*, size_t, int, void*) { return false; }
+/**
+ * @brief All Gather.
+ * @param[in] param Input parameter.
+ * @param[in,out] param Input/output parameter.
+ * @param[in] size_t Input parameter.
+ * @param[in,out] param Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Implements allGather without additional internal calls.
+ */
 bool NCCLVectorBackend::allGather(const float*, float*, size_t, void*) { return false; }
+/**
+ * @brief Reduce.
+ * @param[in] param Input parameter.
+ * @param[in,out] param Input/output parameter.
+ * @param[in] size_t Input parameter.
+ * @param[in] ReductionOp Input parameter.
+ * @param[in] int Input parameter.
+ * @param[in,out] param Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Implements reduce without additional internal calls.
+ */
 bool NCCLVectorBackend::reduce(const float*, float*, size_t, ReductionOp, int, void*) { return false; }
+/**
+ * @brief Reduce Scatter.
+ * @param[in] param Input parameter.
+ * @param[in,out] param Input/output parameter.
+ * @param[in] size_t Input parameter.
+ * @param[in] ReductionOp Input parameter.
+ * @param[in,out] param Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Implements reduceScatter without additional internal calls.
+ */
 bool NCCLVectorBackend::reduceScatter(const float*, float*, size_t, ReductionOp, void*) { return false; }
+/**
+ * @brief P2p Send.
+ * @param[in] param Input parameter.
+ * @param[in] size_t Input parameter.
+ * @param[in] int Input parameter.
+ * @param[in,out] param Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Implements p2pSend without additional internal calls.
+ */
 bool NCCLVectorBackend::p2pSend(const float*, size_t, int, void*) { return false; }
+/**
+ * @brief P2p Recv.
+ * @param[in,out] param Input/output parameter.
+ * @param[in] size_t Input parameter.
+ * @param[in] int Input parameter.
+ * @param[in,out] param Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Implements p2pRecv without additional internal calls.
+ */
 bool NCCLVectorBackend::p2pRecv(float*, size_t, int, void*) { return false; }
+/**
+ * @brief Enable P2 PAccess.
+ * @param[in] int Input parameter.
+ * @param[in] int Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements enableP2PAccess without additional internal calls.
+ */
 bool NCCLVectorBackend::enableP2PAccess(int, int) { return false; }
+/**
+ * @brief Can Access Peer.
+ * @param[in] int Input parameter.
+ * @param[in] int Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements canAccessPeer without additional internal calls.
+ */
 bool NCCLVectorBackend::canAccessPeer(int, int) { return false; }
+/**
+ * @brief Synchronize.
+ * @param[in,out] param Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Implements synchronize without additional internal calls.
+ */
 bool NCCLVectorBackend::synchronize(void*) { return false; }
+/**
+ * @brief Wait All.
+ * @return True when the operation succeeds.
+ * @details Implements waitAll without additional internal calls.
+ */
 bool NCCLVectorBackend::waitAll() { return false; }
+/**
+ * @brief Merge Top K.
+ * @param[in] param Input parameter.
+ * @param[in] param Input parameter.
+ * @param[in] size_t Input parameter.
+ * @param[in,out] param Input/output parameter.
+ * @param[in,out] param Input/output parameter.
+ * @param[in] size_t Input parameter.
+ * @param[in] int Input parameter.
+ * @param[in,out] param Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Implements mergeTopK without additional internal calls.
+ */
 bool NCCLVectorBackend::mergeTopK(const uint32_t*, const float*, size_t, uint32_t*, float*, size_t, int, void*) { return false; }
 NCCLVectorBackend::Statistics NCCLVectorBackend::getStatistics() const { return Statistics{}; }
+/**
+ * @brief Reset Statistics.
+ * @details Implements resetStatistics without additional internal calls.
+ */
 void NCCLVectorBackend::resetStatistics() {}
+/**
+ * @brief Is NCCLAvailable.
+ * @return True when the operation succeeds.
+ * @details Implements isNCCLAvailable without additional internal calls.
+ */
 bool NCCLVectorBackend::isNCCLAvailable() { return false; }
+/**
+ * @brief Get NCCLVersion.
+ * @return Return value.
+ * @details Implements getNCCLVersion without additional internal calls.
+ */
 int NCCLVectorBackend::getNCCLVersion() { return 0; }
+/**
+ * @brief Get NCCLVersion String.
+ * @return Return value.
+ * @details Implements getNCCLVersionString without additional internal calls.
+ */
 std::string NCCLVectorBackend::getNCCLVersionString() { return "Not available"; }
+/**
+ * @brief Check NVLink Support.
+ * @param[in] param Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements checkNVLinkSupport without additional internal calls.
+ */
 bool NCCLVectorBackend::checkNVLinkSupport(const std::vector<int>&) { return false; }
 
 #endif // THEMIS_ENABLE_NCCL

@@ -20,6 +20,11 @@ namespace themis {
 namespace gpu {
 namespace {
 
+/**
+ * @brief Create Default Launcher Backend.
+ * @return Return value.
+ * @details Calls: ROCmBackend::GetInstance(), isAvailable(), THEMIS_INFO(), createBackendFn(), VulkanComputeBackend::GetInstance(), THEMIS_WARN().
+ */
 GPULauncher::BackendFn createDefaultLauncherBackend() {
     auto& rocm_backend = ROCmBackend::GetInstance();
     if (rocm_backend.isAvailable()) {
@@ -43,6 +48,13 @@ GPULauncher::BackendFn createDefaultLauncherBackend() {
 // Lifecycle
 // ============================================================================
 
+/**
+ * @brief Initialize.
+ * @param[in] config Input parameter.
+ * @param[in] backend Input parameter.
+ * @return Return value.
+ * @details Calls: validate(), empty(), front(), reset(), std::chrono::seconds(), GPUFeatureFlags::GetInstance(), isEnabled(), createDefaultLauncherBackend().
+ */
 GPUModule::InitResult GPUModule::initialize(const GPUConfig &config, GPULauncher::BackendFn backend) {
     auto vr = config.validate();
     if (!vr.ok) {
@@ -79,6 +91,14 @@ GPUModule::InitResult GPUModule::initialize(const GPUConfig &config, GPULauncher
 // Work submission
 // ============================================================================
 
+/**
+ * @brief Submit Work.
+ * @param[in] caller_id Identifier of the caller.
+ * @param[in] tenant_id Identifier of the tenant.
+ * @param[in] item Input parameter.
+ * @return Return value.
+ * @details Calls: GPUFeatureFlags::GetInstance(), isEnabled(), check(), record(), GPUMetrics::GetInstance(), recordAllocFailGlobal(), submit(), get().
+ */
 GPUModule::SubmitResult GPUModule::submitWork(const std::string &caller_id, const std::string &tenant_id,
                                               const GPULauncher::WorkItem &item) {
     if (!initialized_) {
@@ -150,6 +170,15 @@ GPUModule::SubmitResult GPUModule::submitWork(const std::string &caller_id, cons
 // Inline VRAM management
 // ============================================================================
 
+/**
+ * @brief Allocate.
+ * @param[in] caller_id Identifier of the caller.
+ * @param[in] tenant_id Identifier of the tenant.
+ * @param[in] bytes Input parameter.
+ * @param[in] tag Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: GPUFeatureFlags::GetInstance(), isEnabled(), isAllowed(), record(), GPUMemoryManager::GetInstance(), empty(), TryAllocateGPU(), GPUMetrics::GetInstance().
+ */
 bool GPUModule::allocate(const std::string &caller_id, const std::string &tenant_id, uint64_t bytes,
                          const std::string &tag) {
     if (!initialized_) {
@@ -195,6 +224,12 @@ bool GPUModule::allocate(const std::string &caller_id, const std::string &tenant
     return granted;
 }
 
+/**
+ * @brief Deallocate.
+ * @param[in] tenant_id Identifier of the tenant.
+ * @param[in] bytes Input parameter.
+ * @details Calls: GPUMemoryManager::GetInstance(), empty(), DeallocateGPU(), GPUFeatureFlags::GetInstance(), isEnabled(), GPUMetrics::GetInstance(), recordDealloc(), setVRAMAllocated().
+ */
 void GPUModule::deallocate(const std::string &tenant_id, uint64_t bytes) {
     if (!initialized_) {
         return;
@@ -222,10 +257,21 @@ void GPUModule::deallocate(const std::string &tenant_id, uint64_t bytes) {
 // Policy delegation
 // ============================================================================
 
+/**
+ * @brief Grant Caller.
+ * @param[in] caller_id Identifier of the caller.
+ * @param[in] cap Input parameter.
+ * @details Calls: grant().
+ */
 void GPUModule::grantCaller(const std::string &caller_id, GPUPolicy::Capability cap) {
     policy_.grant(caller_id, cap);
 }
 
+/**
+ * @brief Revoke Caller.
+ * @param[in] caller_id Identifier of the caller.
+ * @details Calls: revokeAll().
+ */
 void GPUModule::revokeCaller(const std::string &caller_id) {
     policy_.revokeAll(caller_id);
 }

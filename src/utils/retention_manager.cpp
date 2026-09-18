@@ -415,6 +415,11 @@ void RetentionManager::startBackgroundJob(
     }
 
     {
+        /**
+         * @brief Lk.
+         * @param[in] bg_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(bg_mutex_);
         bg_stop_ = false;
     }
@@ -424,6 +429,11 @@ void RetentionManager::startBackgroundJob(
                                ah = std::move(archive_handler),
                                ph = std::move(purge_handler)]() {
                 while (true) {
+                        /**
+                         * @brief Lk.
+                         * @param[in] bg_mutex_ Input parameter.
+                         * @return Return value.
+                         */
                         std::unique_lock<std::mutex> lk(bg_mutex_);
             bool stopped = bg_cv_.wait_for(lk, interval, [this]{ return bg_stop_; });
             if (stopped) {
@@ -434,6 +444,11 @@ void RetentionManager::startBackgroundJob(
             try {
                 auto stats = runRetentionCheck(ep, ah, ph);
 
+                /**
+                 * @brief Mlk.
+                 * @param[in] metrics_mutex_ Input parameter.
+                 * @return Return value.
+                 */
                 std::lock_guard<std::mutex> mlk(metrics_mutex_);
                 compliance_metrics_.entities_archived   += stats.archived_count;
                 compliance_metrics_.entities_purged     += stats.purged_count;
@@ -442,6 +457,11 @@ void RetentionManager::startBackgroundJob(
                 compliance_metrics_.last_run_success     = true;
             } catch (const std::exception& e) {
                 spdlog::error("RetentionManager background job error: {}", e.what());
+                /**
+                 * @brief Mlk.
+                 * @param[in] metrics_mutex_ Input parameter.
+                 * @return Return value.
+                 */
                 std::lock_guard<std::mutex> mlk(metrics_mutex_);
                 compliance_metrics_.last_run_success = false;
             }
@@ -451,8 +471,8 @@ void RetentionManager::startBackgroundJob(
 }
 
 /**
- * @brief Stop the background retention job.
- * @details Calls: notify_all(), joinable(), join(), store().
+ * @brief Stop Background Job.
+ * @details Calls: lk(), notify_all(), joinable(), join(), store().
  */
 void RetentionManager::stopBackgroundJob() {
     {
@@ -471,6 +491,11 @@ bool RetentionManager::isBackgroundJobRunning() const {
 }
 
 RetentionManager::ComplianceMetrics RetentionManager::getComplianceMetrics() const {
+    /**
+     * @brief Lk.
+     * @param[in] metrics_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(metrics_mutex_);
     auto m = compliance_metrics_;
     m.policies_active = policies_.size();

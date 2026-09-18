@@ -60,6 +60,12 @@ json ProjectStateTransition::toJson() const {
     };
 }
 
+/**
+ * @brief From Json.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: value(), projectStateFromString(), value_or().
+ */
 ProjectStateTransition ProjectStateTransition::fromJson(const json& j) {
     ProjectStateTransition t;
     t.project_id = j.value("project_id", std::string{});
@@ -104,7 +110,14 @@ bool ProjectLifecycle::isValidTransition(
     }
 }
 
-// ── Low-level helper ─────────────────────────────────────────────────────────
+/**
+ * @brief ── Low-level helper ─────────────────────────────────────────────────────────
+ * @param[in] project_id Identifier of the project.
+ * @param[in] to_state Input parameter.
+ * @param[in] actor Input parameter.
+ * @param[in] reason Input parameter.
+ * @return Return value.
+ */
 
 Status ProjectLifecycle::applyTransition(
     const std::string& project_id,
@@ -168,7 +181,12 @@ Status ProjectLifecycle::applyTransition(
     return Status::OK();
 }
 
-// ── Public API ───────────────────────────────────────────────────────────────
+/**
+ * @brief ── Public API ───────────────────────────────────────────────────────────────
+ * @param[in] project_id Identifier of the project.
+ * @param[in] actor Input parameter.
+ * @return Return value.
+ */
 
 Status ProjectLifecycle::initProject(
     const std::string& project_id,
@@ -177,6 +195,11 @@ Status ProjectLifecycle::initProject(
     if (project_id.empty())
         return Status::Error("project_id must not be empty");
 
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::unique_lock lock(mutex_);
 
     const std::string state_key = "lifecycle:" + project_id;
@@ -209,16 +232,34 @@ Status ProjectLifecycle::initProject(
     return Status::OK();
 }
 
+/**
+ * @brief Activate.
+ * @param[in] project_id Identifier of the project.
+ * @param[in] actor Input parameter.
+ * @return Return value.
+ */
 Status ProjectLifecycle::activate(
     const std::string& project_id,
     const std::string& actor)
 {
     if (project_id.empty())
         return Status::Error("project_id must not be empty");
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::unique_lock lock(mutex_);
     return applyTransition(project_id, ProjectState::ACTIVE, actor, {});
 }
 
+/**
+ * @brief Archive.
+ * @param[in] project_id Identifier of the project.
+ * @param[in] actor Input parameter.
+ * @param[in] reason Input parameter.
+ * @return Return value.
+ */
 Status ProjectLifecycle::archive(
     const std::string& project_id,
     const std::string& actor,
@@ -226,16 +267,32 @@ Status ProjectLifecycle::archive(
 {
     if (project_id.empty())
         return Status::Error("project_id must not be empty");
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::unique_lock lock(mutex_);
     return applyTransition(project_id, ProjectState::ARCHIVED, actor, reason);
 }
 
+/**
+ * @brief Delete Project.
+ * @param[in] project_id Identifier of the project.
+ * @param[in] actor Input parameter.
+ * @return Return value.
+ */
 Status ProjectLifecycle::deleteProject(
     const std::string& project_id,
     const std::string& actor)
 {
     if (project_id.empty())
         return Status::Error("project_id must not be empty");
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::unique_lock lock(mutex_);
     return applyTransition(project_id, ProjectState::DELETED, actor, {});
 }
@@ -243,6 +300,11 @@ Status ProjectLifecycle::deleteProject(
 std::optional<ProjectState> ProjectLifecycle::getState(
     const std::string& project_id) const
 {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock lock(mutex_);
     std::string val = {};
     if (!storage_->get("lifecycle:" + project_id, val))
@@ -253,6 +315,11 @@ std::optional<ProjectState> ProjectLifecycle::getState(
 std::vector<ProjectStateTransition> ProjectLifecycle::getAuditTrail(
     const std::string& project_id) const
 {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock lock(mutex_);
     std::vector<ProjectStateTransition> trail;
 

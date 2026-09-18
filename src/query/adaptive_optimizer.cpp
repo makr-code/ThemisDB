@@ -69,7 +69,7 @@ std::string toLowerCopy(const std::string& input) {
  * @brief Starts With.
  * @param[in] text Input parameter.
  * @param[in] prefix Input parameter.
- * @return True on success.
+ * @return True when the operation succeeds.
  * @details Calls: size(), std::equal(), begin(), end().
  */
 bool startsWith(const std::string& text, const std::string& prefix) {
@@ -79,18 +79,13 @@ bool startsWith(const std::string& text, const std::string& prefix) {
 
 } // namespace
 
+
 /**
- * @brief ============================================================================ AdaptiveQueryStats Implementation ============================================================================
+ * @brief Record Execution.
  * @param[in] exec Input parameter.
  * @details Calls: lock(), push_back(), size(), erase(), begin(), fetch_add().
  */
-
 void AdaptiveQueryStats::recordExecution(const QueryExecution& exec) {
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     auto& history = executions_[exec.query_hash];
@@ -201,11 +196,6 @@ double AdaptiveQueryStats::getAdaptiveAdjustmentFactor(
  * @details Calls: lock(), std::chrono::system_clock::now(), erase(), std::remove_if(), begin(), end(), empty().
  */
 void AdaptiveQueryStats::pruneOldStats(std::chrono::hours retention) {
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     auto cutoff = std::chrono::system_clock::now() - retention;
@@ -315,7 +305,7 @@ AdaptivePlanSelector::PlanChoice AdaptivePlanSelector::getAlternativePlan(
         }
     }
     /**
-     * @brief If we significantly overestimated, prefer more selective strategies
+     * @brief If.
      * @param[in,out] param Input/output parameter.
      * @return Return value.
      * @details Implements if without additional internal calls.
@@ -576,7 +566,7 @@ NumaAwareOptimizer::NumaPlacement NumaAwareOptimizer::getOptimalPlacement(
 
 /**
  * @brief Is Numa Available.
- * @return True on success.
+ * @return True when the operation succeeds.
  * @details Calls: defined(), numa_available().
  */
 bool NumaAwareOptimizer::isNumaAvailable() {
@@ -603,8 +593,8 @@ size_t NumaAwareOptimizer::getNumaNodeCount() {
 
 /**
  * @brief Pin Thread To Cpu.
- * @param[in] cpu_id Input parameter.
- * @return True on success.
+ * @param[in] cpu_id Identifier of the cpu.
+ * @return True when the operation succeeds.
  * @details Calls: CPU_ZERO(), CPU_SET(), pthread_self(), pthread_setaffinity_np(), else().
  */
 bool NumaAwareOptimizer::pinThreadToCpu(int cpu_id) {

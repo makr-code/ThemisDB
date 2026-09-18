@@ -50,9 +50,6 @@ inline time_t portable_timegm(struct tm* tm) {
 // Date/Time Functions
 // ============================================================================
 
-/**
- * @brief DATE_NOW() - Current timestamp
- */
 class DateNowFunction : public IFunction {
 public:
     ~DateNowFunction() override = default;
@@ -84,11 +81,6 @@ public:
 // SQL-Compatible Helper Functions
 // ============================================================================
 
-/**
- * @brief NOW() - SQL-compatible alias for DATE_NOW()
- * 
- * Standard SQL function returning current timestamp.
- */
 class NowFunction : public IFunction {
 public:
     ~NowFunction() override = default;
@@ -119,9 +111,6 @@ public:
     }
 };
 
-/**
- * @brief CURRENT_TIMESTAMP() - SQL-compatible current timestamp
- */
 class CurrentTimestampFunction : public IFunction {
 public:
     ~CurrentTimestampFunction() override = default;
@@ -149,11 +138,6 @@ public:
     }
 };
 
-/**
- * @brief CURRENT_DATE() - SQL-compatible current date (without time)
- * 
- * Returns the current date as timestamp at 00:00:00 UTC.
- */
 class CurrentDateFunction : public IFunction {
 public:
     ~CurrentDateFunction() override = default;
@@ -187,11 +171,6 @@ public:
     }
 };
 
-/**
- * @brief CURRENT_TIME() - SQL-compatible current time
- * 
- * Returns the current time as milliseconds since midnight UTC.
- */
 class CurrentTimeFunction : public IFunction {
 public:
     ~CurrentTimeFunction() override = default;
@@ -225,11 +204,6 @@ public:
     }
 };
 
-/**
- * @brief TODAY() - Returns start of today
- * 
- * Convenient alias for CURRENT_DATE().
- */
 class TodayFunction : public IFunction {
 public:
     ~TodayFunction() override = default;
@@ -262,9 +236,6 @@ public:
     }
 };
 
-/**
- * @brief YESTERDAY() - Returns start of yesterday
- */
 class YesterdayFunction : public IFunction {
 public:
     ~YesterdayFunction() override = default;
@@ -297,9 +268,6 @@ public:
     }
 };
 
-/**
- * @brief TOMORROW() - Returns start of tomorrow
- */
 class TomorrowFunction : public IFunction {
 public:
     ~TomorrowFunction() override = default;
@@ -332,9 +300,6 @@ public:
     }
 };
 
-/**
- * @brief GETDATE() - SQL Server compatible current timestamp
- */
 class GetDateFunction : public IFunction {
 public:
     ~GetDateFunction() override = default;
@@ -362,9 +327,6 @@ public:
     }
 };
 
-/**
- * @brief SYSDATE() - Oracle compatible current timestamp
- */
 class SysdateFunction : public IFunction {
 public:
     ~SysdateFunction() override = default;
@@ -392,9 +354,6 @@ public:
     }
 };
 
-/**
- * @brief UNIX_TIMESTAMP() - MySQL compatible, returns seconds
- */
 class UnixTimestampFunction : public IFunction {
 public:
     ~UnixTimestampFunction() override = default;
@@ -422,9 +381,6 @@ public:
     }
 };
 
-/**
- * @brief FROM_UNIXTIME(seconds) - MySQL compatible, convert seconds to timestamp
- */
 class FromUnixTimeFunction : public IFunction {
 public:
     ~FromUnixTimeFunction() override = default;
@@ -449,9 +405,6 @@ public:
     }
 };
 
-/**
- * @brief EPOCH_MS(timestamp) - Convert timestamp to epoch milliseconds (identity for our format)
- */
 class EpochMsFunction : public IFunction {
 public:
     ~EpochMsFunction() override = default;
@@ -475,9 +428,6 @@ public:
     }
 };
 
-/**
- * @brief EPOCH_SECONDS(timestamp) - Convert timestamp to epoch seconds
- */
 class EpochSecondsFunction : public IFunction {
 public:
     ~EpochSecondsFunction() override = default;
@@ -501,9 +451,6 @@ public:
     }
 };
 
-/**
- * @brief MAKE_DATE(year, month, day) - Create a date from components
- */
 class MakeDateFunction : public IFunction {
 public:
     ~MakeDateFunction() override = default;
@@ -544,9 +491,6 @@ public:
     }
 };
 
-/**
- * @brief MAKE_DATETIME(year, month, day, hour, minute, second) - Create a datetime from components
- */
 class MakeDateTimeFunction : public IFunction {
 public:
     ~MakeDateTimeFunction() override = default;
@@ -593,9 +537,6 @@ public:
     }
 };
 
-/**
- * @brief MAKE_TIME(hour, minute, second) - Create time as milliseconds since midnight
- */
 class MakeTimeFunction : public IFunction {
 public:
     ~MakeTimeFunction() override = default;
@@ -628,11 +569,6 @@ public:
     }
 };
 
-/**
- * @brief DATE_COMPARE(date1, date2) - Compare two dates
- * 
- * Returns -1 if date1 < date2, 0 if equal, 1 if date1 > date2
- */
 class DateCompareFunction : public IFunction {
 public:
     ~DateCompareFunction() override = default;
@@ -669,9 +605,6 @@ public:
     }
 };
 
-/**
- * @brief DATE_BETWEEN(date, startDate, endDate) - Check if date is in range
- */
 class DateBetweenFunction : public IFunction {
 public:
     ~DateBetweenFunction() override = default;
@@ -704,9 +637,6 @@ public:
     }
 };
 
-/**
- * @brief DATE_TIMESTAMP(dateStr) - Parse date string to timestamp
- */
 class DateTimestampFunction : public IFunction {
 public:
     ~DateTimestampFunction() override = default;
@@ -738,11 +668,6 @@ private:
      */
     static int64_t parseISO8601(const std::string& str) {
         std::tm tm = {};
-        /**
-         * @brief Ss.
-         * @param[in] str Input parameter.
-         * @return Return value.
-         */
         std::istringstream ss(str);
         ss >> std::get_time(&tm, "%Y-%m-%dT%H:%M:%S");
         if (ss.fail()) {
@@ -762,9 +687,6 @@ private:
     }
 };
 
-/**
- * @brief DATE_ISO8601(timestamp) - Format timestamp as ISO 8601
- */
 class DateIso8601Function : public IFunction {
 public:
     ~DateIso8601Function() override = default;
@@ -803,9 +725,6 @@ private:
     }
 };
 
-/**
- * @brief DATE_YEAR/MONTH/DAY/HOUR/MINUTE/SECOND - Extract components
- */
 class DateYearFunction : public IFunction {
 public:
     ~DateYearFunction() override = default;
@@ -829,7 +748,6 @@ public:
     }
 };
 
-/** @brief Date month query function. */
 class DateMonthFunction : public IFunction {
 public:
     ~DateMonthFunction() override = default;
@@ -853,7 +771,6 @@ public:
     }
 };
 
-/** @brief Date day query function. */
 class DateDayFunction : public IFunction {
 public:
     ~DateDayFunction() override = default;
@@ -877,7 +794,6 @@ public:
     }
 };
 
-/** @brief Date hour query function. */
 class DateHourFunction : public IFunction {
 public:
     ~DateHourFunction() override = default;
@@ -901,7 +817,6 @@ public:
     }
 };
 
-/** @brief Date minute query function. */
 class DateMinuteFunction : public IFunction {
 public:
     ~DateMinuteFunction() override = default;
@@ -925,7 +840,6 @@ public:
     }
 };
 
-/** @brief Date second query function. */
 class DateSecondFunction : public IFunction {
 public:
     ~DateSecondFunction() override = default;
@@ -949,7 +863,6 @@ public:
     }
 };
 
-/** @brief Date millisecond query function. */
 class DateMillisecondFunction : public IFunction {
 public:
     ~DateMillisecondFunction() override = default;
@@ -971,9 +884,6 @@ public:
     }
 };
 
-/**
- * @brief DATE_DAYOFWEEK(timestamp) - Day of week (0=Sunday, 6=Saturday)
- */
 class DateDayOfWeekFunction : public IFunction {
 public:
     ~DateDayOfWeekFunction() override = default;
@@ -997,9 +907,6 @@ public:
     }
 };
 
-/**
- * @brief DATE_DAYOFYEAR(timestamp) - Day of year (1-366)
- */
 class DateDayOfYearFunction : public IFunction {
 public:
     ~DateDayOfYearFunction() override = default;
@@ -1023,9 +930,6 @@ public:
     }
 };
 
-/**
- * @brief DATE_ADD(timestamp, amount, unit) - Add time
- */
 class DateAddFunction : public IFunction {
 public:
     ~DateAddFunction() override = default;
@@ -1078,9 +982,6 @@ public:
     }
 };
 
-/**
- * @brief DATE_SUBTRACT(timestamp, amount, unit) - Subtract time
- */
 class DateSubtractFunction : public IFunction {
 public:
     ~DateSubtractFunction() override = default;
@@ -1113,9 +1014,6 @@ public:
     }
 };
 
-/**
- * @brief DATE_DIFF(ts1, ts2, unit) - Difference between dates
- */
 class DateDiffFunction : public IFunction {
 public:
     ~DateDiffFunction() override = default;
@@ -1161,9 +1059,6 @@ public:
     }
 };
 
-/**
- * @brief DATE_TRUNC(timestamp, unit) - Truncate to unit boundary
- */
 class DateTruncFunction : public IFunction {
 public:
     ~DateTruncFunction() override = default;
@@ -1221,9 +1116,6 @@ public:
     }
 };
 
-/**
- * @brief DATE_FORMAT(timestamp, format) - Format date with pattern
- */
 class DateFormatFunction : public IFunction {
 public:
     ~DateFormatFunction() override = default;
@@ -1260,12 +1152,6 @@ public:
 // Interval and Relative Time Functions
 // ============================================================================
 
-/**
- * @brief INTERVAL(amount, unit) - Create an interval value in milliseconds
- * 
- * Creates a time interval that can be used for date arithmetic.
- * Supports: years, months, weeks, days, hours, minutes, seconds, milliseconds
- */
 class IntervalFunction : public IFunction {
 public:
     ~IntervalFunction() override = default;
@@ -1327,9 +1213,6 @@ public:
     }
 };
 
-/**
- * @brief YEARS(amount) - Create an interval in years
- */
 class YearsFunction : public IFunction {
 public:
     ~YearsFunction() override = default;
@@ -1359,9 +1242,6 @@ public:
     }
 };
 
-/**
- * @brief MONTHS(amount) - Create an interval in months
- */
 class MonthsFunction : public IFunction {
 public:
     ~MonthsFunction() override = default;
@@ -1391,9 +1271,6 @@ public:
     }
 };
 
-/**
- * @brief WEEKS(amount) - Create an interval in weeks
- */
 class WeeksFunction : public IFunction {
 public:
     ~WeeksFunction() override = default;
@@ -1422,9 +1299,6 @@ public:
     }
 };
 
-/**
- * @brief DAYS(amount) - Create an interval in days
- */
 class DaysFunction : public IFunction {
 public:
     ~DaysFunction() override = default;
@@ -1453,9 +1327,6 @@ public:
     }
 };
 
-/**
- * @brief HOURS(amount) - Create an interval in hours
- */
 class HoursFunction : public IFunction {
 public:
     ~HoursFunction() override = default;
@@ -1484,9 +1355,6 @@ public:
     }
 };
 
-/**
- * @brief MINUTES(amount) - Create an interval in minutes
- */
 class MinutesFunction : public IFunction {
 public:
     ~MinutesFunction() override = default;
@@ -1515,9 +1383,6 @@ public:
     }
 };
 
-/**
- * @brief SECONDS(amount) - Create an interval in seconds
- */
 class SecondsFunction : public IFunction {
 public:
     ~SecondsFunction() override = default;
@@ -1546,12 +1411,6 @@ public:
     }
 };
 
-/**
- * @brief WORKDAYS(startDate, endDate, holidays?) - Count business days between dates
- * 
- * Calculates the number of business days (Monday-Friday) between two dates,
- * optionally excluding holidays.
- */
 class WorkdaysFunction : public IFunction {
 public:
     ~WorkdaysFunction() override = default;
@@ -1619,11 +1478,6 @@ public:
     }
 };
 
-/**
- * @brief WORKDAYS_ADD(startDate, workdays, holidays?) - Add workdays to a date
- * 
- * Adds a number of business days to a date, skipping weekends and holidays.
- */
 class WorkdaysAddFunction : public IFunction {
 public:
     ~WorkdaysAddFunction() override = default;
@@ -1689,9 +1543,6 @@ public:
     }
 };
 
-/**
- * @brief IS_WEEKEND(timestamp) - Check if date falls on weekend
- */
 class IsWeekendFunction : public IFunction {
 public:
     ~IsWeekendFunction() override = default;
@@ -1717,9 +1568,6 @@ public:
     }
 };
 
-/**
- * @brief IS_WORKDAY(timestamp, holidays?) - Check if date is a business day
- */
 class IsWorkdayFunction : public IFunction {
 public:
     ~IsWorkdayFunction() override = default;
@@ -1769,9 +1617,6 @@ public:
     }
 };
 
-/**
- * @brief DATE_QUARTER(timestamp) - Get quarter of year (1-4)
- */
 class DateQuarterFunction : public IFunction {
 public:
     ~DateQuarterFunction() override = default;
@@ -1797,9 +1642,6 @@ public:
     }
 };
 
-/**
- * @brief DATE_WEEK(timestamp) - Get ISO week number (1-53)
- */
 class DateWeekFunction : public IFunction {
 public:
     ~DateWeekFunction() override = default;
@@ -1847,9 +1689,6 @@ public:
     }
 };
 
-/**
- * @brief DATE_LEAPYEAR(year) - Check if year is a leap year
- */
 class DateLeapYearFunction : public IFunction {
 public:
     ~DateLeapYearFunction() override = default;
@@ -1878,9 +1717,6 @@ public:
     }
 };
 
-/**
- * @brief DATE_DAYS_IN_MONTH(year, month) - Get number of days in a month
- */
 class DateDaysInMonthFunction : public IFunction {
 public:
     ~DateDaysInMonthFunction() override = default;
@@ -1926,9 +1762,6 @@ public:
     }
 };
 
-/**
- * @brief DATE_START_OF_WEEK(timestamp, startDay?) - Get start of week
- */
 class DateStartOfWeekFunction : public IFunction {
 public:
     ~DateStartOfWeekFunction() override = default;
@@ -1975,9 +1808,6 @@ public:
     }
 };
 
-/**
- * @brief DATE_END_OF_MONTH(timestamp) - Get end of month
- */
 class DateEndOfMonthFunction : public IFunction {
 public:
     ~DateEndOfMonthFunction() override = default;
@@ -2024,9 +1854,6 @@ public:
     }
 };
 
-/**
- * @brief AGE(birthdate, referenceDate?) - Calculate age in years
- */
 class AgeFunction : public IFunction {
 public:
     ~AgeFunction() override = default;
@@ -2080,12 +1907,12 @@ public:
     }
 };
 
+
 /**
- * @brief ============================================================================ Register Date Functions ============================================================================
+ * @brief Register Date Functions.
  * @param[in,out] reg Input/output parameter.
  * @details Calls: registerFunction().
  */
-
 inline void registerDateFunctions(FunctionRegistry& reg) {
     // Core date/time functions
     reg.registerFunction(std::make_unique<DateNowFunction>());

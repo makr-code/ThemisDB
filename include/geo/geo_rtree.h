@@ -55,12 +55,12 @@ public:
      */
     void clear();
 
+
     /**
-     * @brief ── Query ──────────────────────────────────────────────────────────────
+     * @brief Intersects.
      * @param[in] query_bbox Input parameter.
      * @return Return value.
      */
-
     std::vector<std::string> intersects(const MBR& query_bbox) const;
 
     /**
@@ -71,11 +71,11 @@ public:
      */
     std::vector<std::string> contains(double x, double y) const;
 
+
     /**
-     * @brief ── Metadata ───────────────────────────────────────────────────────────
+     * @brief Size.
      * @return Return value.
      */
-
     std::size_t size() const;
 
     /**

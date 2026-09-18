@@ -11,6 +11,12 @@ CompensationLog::CompensationLog(const std::string& saga_id)
     : saga_id_(saga_id) {
 }
 
+/**
+ * @brief Record Compensation Attempt.
+ * @param[in] step_name Name of the step.
+ * @return Return value.
+ * @details Calls: lock(), size(), std::chrono::system_clock::now(), push_back().
+ */
 uint32_t CompensationLog::recordCompensationAttempt(const std::string& step_name) {
     std::lock_guard<std::mutex> lock(mutex_);
 
@@ -28,6 +34,12 @@ uint32_t CompensationLog::recordCompensationAttempt(const std::string& step_name
     return sequence;
 }
 
+/**
+ * @brief Record Compensation Success.
+ * @param[in] step_name Name of the step.
+ * @param[in] sequence_number Input parameter.
+ * @details Calls: lock(), find(), end(), size().
+ */
 void CompensationLog::recordCompensationSuccess(
     const std::string& step_name,
     uint32_t sequence_number) {
@@ -39,6 +51,13 @@ void CompensationLog::recordCompensationSuccess(
     }
 }
 
+/**
+ * @brief Record Compensation Failure.
+ * @param[in] step_name Name of the step.
+ * @param[in] sequence_number Input parameter.
+ * @param[in] error_detail Input parameter.
+ * @details Calls: lock(), find(), end(), size().
+ */
 void CompensationLog::recordCompensationFailure(
     const std::string& step_name,
     uint32_t sequence_number,
@@ -53,6 +72,11 @@ void CompensationLog::recordCompensationFailure(
 }
 
 bool CompensationLog::hasSucceeded(const std::string& step_name) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     auto it = entries_.find(step_name);
@@ -69,6 +93,11 @@ bool CompensationLog::hasSucceeded(const std::string& step_name) const {
 }
 
 std::vector<CompensationLogEntry> CompensationLog::getEntries() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     std::vector<CompensationLogEntry> result = {};
@@ -83,6 +112,11 @@ std::vector<CompensationLogEntry> CompensationLog::getEntries() const {
 
 std::vector<CompensationLogEntry> CompensationLog::getEntriesForStep(
     const std::string& step_name) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     auto it = entries_.find(step_name);
@@ -90,6 +124,10 @@ std::vector<CompensationLogEntry> CompensationLog::getEntriesForStep(
     return it->second;
 }
 
+/**
+ * @brief Clear.
+ * @details Calls: lock().
+ */
 void CompensationLog::clear() {
     std::lock_guard<std::mutex> lock(mutex_);
     entries_.clear();

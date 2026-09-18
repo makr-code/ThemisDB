@@ -27,6 +27,13 @@ namespace updates {
 // CanaryConfig helpers
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief With Default Stages.
+ * @param[in] version Input parameter.
+ * @param[in] node_id Identifier of the node.
+ * @return Return value.
+ * @details Implements withDefaultStages without additional internal calls.
+ */
 CanaryConfig CanaryConfig::withDefaultStages(const std::string& version,
                                               const std::string& node_id) {
     CanaryConfig cfg;
@@ -92,6 +99,11 @@ bool CanaryRollout::isNodeInStage(size_t stage_index) const {
 }
 
 bool CanaryRollout::isNodeInCurrentStage() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return isNodeInStage(current_stage_);
 }
@@ -101,10 +113,20 @@ bool CanaryRollout::isNodeInCurrentStage() const {
 // ---------------------------------------------------------------------------
 
 size_t CanaryRollout::currentStage() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return current_stage_;
 }
 
+/**
+ * @brief Advance Stage.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), size(), LOG_INFO(), cb(), LOG_WARN(), what().
+ */
 bool CanaryRollout::advanceStage() {
     StageCompleteCallback cb;
     double pct = 0.0;
@@ -151,6 +173,11 @@ bool CanaryRollout::advanceStage() {
 // Update application
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Apply If Included.
+ * @return Return value.
+ * @details Calls: lock(), LOG_DEBUG(), isNodeInStage(), std::to_string(), LOG_INFO(), applyHotReload(), LOG_ERROR().
+ */
 ReloadResult CanaryRollout::applyIfIncluded() {
     ReloadResult skipped;
 
@@ -204,6 +231,12 @@ ReloadResult CanaryRollout::applyIfIncluded() {
     return result;
 }
 
+/**
+ * @brief Rollback.
+ * @param[in] reason Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), LOG_WARN(), empty(), cb(), what().
+ */
 bool CanaryRollout::rollback(const std::string& reason) {
     std::string rid = {};
     RollbackCallback cb;
@@ -247,6 +280,10 @@ bool CanaryRollout::rollback(const std::string& reason) {
 // Health tracking
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Report Success.
+ * @details Calls: lock().
+ */
 void CanaryRollout::reportSuccess() {
     {
         std::lock_guard<std::mutex> lock(mutex_);
@@ -254,6 +291,10 @@ void CanaryRollout::reportSuccess() {
     }
 }
 
+/**
+ * @brief Report Error.
+ * @details Calls: lock(), std::to_string(), LOG_WARN(), rollback().
+ */
 void CanaryRollout::reportError() {
     bool trigger_rollback = false;
     std::string reason = {};
@@ -287,6 +328,11 @@ void CanaryRollout::reportError() {
 }
 
 double CanaryRollout::errorRate() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     const size_t total = success_count_ + error_count_;
     if (total == 0) {
@@ -296,6 +342,11 @@ double CanaryRollout::errorRate() const {
 }
 
 bool CanaryRollout::shouldRollback() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     const size_t total = success_count_ + error_count_;
     if (total < config_.min_sample_count) {
@@ -311,6 +362,11 @@ bool CanaryRollout::shouldRollback() const {
 // ---------------------------------------------------------------------------
 
 CanaryStatus CanaryRollout::status() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     CanaryStatus s;
@@ -337,11 +393,21 @@ CanaryStatus CanaryRollout::status() const {
     return s;
 }
 
+/**
+ * @brief Set Stage Complete Callback.
+ * @param[in] cb Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void CanaryRollout::setStageCompleteCallback(StageCompleteCallback cb) {
     std::lock_guard<std::mutex> lock(mutex_);
     stage_complete_cb_ = std::move(cb);
 }
 
+/**
+ * @brief Set Rollback Callback.
+ * @param[in] cb Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void CanaryRollout::setRollbackCallback(RollbackCallback cb) {
     std::lock_guard<std::mutex> lock(mutex_);
     rollback_cb_ = std::move(cb);
@@ -403,11 +469,21 @@ CanaryDeployment& CanaryDeployment::operator=(CanaryDeployment&& other) noexcept
 // Builder API
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Set Version.
+ * @param[in] version Input parameter.
+ * @details Calls: lock().
+ */
 void CanaryDeployment::setVersion(const std::string& version) {
     std::lock_guard<std::mutex> lock(mutex_);
     version_ = version;
 }
 
+/**
+ * @brief Set Stages.
+ * @param[in] stages Input parameter.
+ * @details Calls: lock(), size(), std::move().
+ */
 void CanaryDeployment::setStages(std::vector<CanaryDeploymentStage> stages) {
     std::lock_guard<std::mutex> lock(mutex_);
     for (size_t i = 0; i < stages.size(); ++i) {
@@ -416,22 +492,42 @@ void CanaryDeployment::setStages(std::vector<CanaryDeploymentStage> stages) {
     stages_ = std::move(stages);
 }
 
+/**
+ * @brief Set Error Rate Threshold.
+ * @param[in] threshold Input parameter.
+ * @details Calls: lock().
+ */
 void CanaryDeployment::setErrorRateThreshold(double threshold) {
     std::lock_guard<std::mutex> lock(mutex_);
     error_rate_threshold_ = threshold;
 }
 
+/**
+ * @brief Set Latency Threshold.
+ * @param[in] p99_limit Input parameter.
+ * @details Calls: lock().
+ */
 void CanaryDeployment::setLatencyThreshold(std::chrono::milliseconds p99_limit) {
     std::lock_guard<std::mutex> lock(mutex_);
     latency_threshold_us_ =
         std::chrono::duration_cast<std::chrono::microseconds>(p99_limit);
 }
 
+/**
+ * @brief Set Engine.
+ * @param[in] engine Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void CanaryDeployment::setEngine(std::shared_ptr<HotReloadEngine> engine) {
     std::lock_guard<std::mutex> lock(mutex_);
     engine_ = std::move(engine);
 }
 
+/**
+ * @brief Set Node Id.
+ * @param[in] node_id Identifier of the node.
+ * @details Calls: lock().
+ */
 void CanaryDeployment::setNodeId(const std::string& node_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     node_id_ = node_id;
@@ -441,6 +537,12 @@ void CanaryDeployment::setNodeId(const std::string& node_id) {
 // Deployment
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Deploy.
+ * @return Return value.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: lock(), empty(), push_back(), setStageCompleteCallback(), size(), cb(), LOG_WARN(), setRollbackCallback().
+ */
 ReloadResult CanaryDeployment::deploy() {
     std::unique_ptr<CanaryRollout> rollout;
     std::vector<CanaryDeploymentStage> stages_copy;
@@ -541,11 +643,21 @@ ReloadResult CanaryDeployment::deploy() {
 // Callbacks
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief On Stage Complete.
+ * @param[in] cb Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void CanaryDeployment::onStageComplete(StageCompleteCallback cb) {
     std::lock_guard<std::mutex> lock(mutex_);
     stage_complete_cb_ = std::move(cb);
 }
 
+/**
+ * @brief On Rollback.
+ * @param[in] cb Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void CanaryDeployment::onRollback(RollbackCallback cb) {
     std::lock_guard<std::mutex> lock(mutex_);
     rollback_cb_ = std::move(cb);
@@ -555,6 +667,10 @@ void CanaryDeployment::onRollback(RollbackCallback cb) {
 // Health / metric reporting
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Report Success.
+ * @details Calls: lock(), get().
+ */
 void CanaryDeployment::reportSuccess() {
     // Read rollout pointer without holding the lock during the call, since
     // CanaryRollout callbacks acquire mutex_ (deadlock risk if held here).
@@ -568,6 +684,10 @@ void CanaryDeployment::reportSuccess() {
     }
 }
 
+/**
+ * @brief Report Error.
+ * @details Calls: lock(), get().
+ */
 void CanaryDeployment::reportError() {
     // Same rationale: release mutex_ before calling into CanaryRollout, which
     // may auto-rollback and invoke a callback that acquires mutex_.
@@ -581,6 +701,11 @@ void CanaryDeployment::reportError() {
     }
 }
 
+/**
+ * @brief Report Latency.
+ * @param[in] latency Input parameter.
+ * @details Calls: lock(), size(), pop_front(), push_back(), count(), checkLatencyThreshold().
+ */
 void CanaryDeployment::reportLatency(std::chrono::microseconds latency) {
     {
         std::lock_guard<std::mutex> lock(mutex_);
@@ -593,29 +718,52 @@ void CanaryDeployment::reportLatency(std::chrono::microseconds latency) {
     checkLatencyThreshold();
 }
 
+/**
+ * @brief Report Memory Usage.
+ * @param[in] bytes Input parameter.
+ * @details Calls: lock().
+ */
 void CanaryDeployment::reportMemoryUsage(double bytes) {
     std::lock_guard<std::mutex> lock(mutex_);
     memory_bytes_ = bytes;
 }
 
+/**
+ * @brief Report Cpu Usage.
+ * @param[in] fraction Input parameter.
+ * @details Calls: lock().
+ */
 void CanaryDeployment::reportCpuUsage(double fraction) {
     std::lock_guard<std::mutex> lock(mutex_);
     cpu_fraction_ = fraction;
 }
 
+/**
+ * @brief Report Disk IO.
+ * @param[in] bytes_per_sec Input parameter.
+ * @details Calls: lock().
+ */
 void CanaryDeployment::reportDiskIO(double bytes_per_sec) {
     std::lock_guard<std::mutex> lock(mutex_);
     disk_io_bytes_per_sec_ = bytes_per_sec;
 }
 
+/**
+ * @brief Record Custom Metric.
+ * @param[in] name Input parameter.
+ * @param[in] value Input parameter.
+ * @details Calls: lock().
+ */
 void CanaryDeployment::recordCustomMetric(const std::string& name, double value) {
     std::lock_guard<std::mutex> lock(mutex_);
     custom_metrics_[name] = value;
 }
 
-// ---------------------------------------------------------------------------
-// A/B testing and traffic splitting
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- A/B testing and traffic splitting ---------------------------------------------------------------------------
+ * @param[in] config Input parameter.
+ * @details Calls: lock().
+ */
 
 void CanaryDeployment::enableABTesting(const ABTestConfig& config) {
     std::lock_guard<std::mutex> lock(mutex_);
@@ -624,6 +772,11 @@ void CanaryDeployment::enableABTesting(const ABTestConfig& config) {
 }
 
 bool CanaryDeployment::isCanaryRequest(const std::string& request_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     if (!ab_testing_enabled_) {
         return false;
@@ -639,6 +792,11 @@ bool CanaryDeployment::isControlRequest(const std::string& request_id) const {
 }
 
 bool CanaryDeployment::isNodeInCanaryGroup() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     if (!rollout_) {
         return false;
@@ -682,6 +840,11 @@ LatencyStats CanaryDeployment::computeLatencyStats() const {
 }
 
 CanaryMetricsSnapshot CanaryDeployment::getMetricsSnapshot() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     CanaryMetricsSnapshot snap;
@@ -710,6 +873,11 @@ CanaryMetricsSnapshot CanaryDeployment::getMetricsSnapshot() const {
 }
 
 CanaryStatus CanaryDeployment::status() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     if (!rollout_) {
         CanaryStatus s;
@@ -719,6 +887,11 @@ CanaryStatus CanaryDeployment::status() const {
     return rollout_->status();
 }
 
+/**
+ * @brief Advance Stage.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), get().
+ */
 bool CanaryDeployment::advanceStage() {
     CanaryRollout* r = nullptr;
     {
@@ -731,6 +904,12 @@ bool CanaryDeployment::advanceStage() {
     return r->advanceStage();
 }
 
+/**
+ * @brief Rollback.
+ * @param[in] reason Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), get().
+ */
 bool CanaryDeployment::rollback(const std::string& reason) {
     CanaryRollout* r = nullptr;
     {
@@ -747,6 +926,10 @@ bool CanaryDeployment::rollback(const std::string& reason) {
 // Private helpers
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Check Latency Threshold.
+ * @details Calls: lock(), count(), computeLatencyStats(), status(), std::to_string(), LOG_WARN(), rollback().
+ */
 void CanaryDeployment::checkLatencyThreshold() {
     LatencyStats stats;
     std::chrono::microseconds threshold{0};

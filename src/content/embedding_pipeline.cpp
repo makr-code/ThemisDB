@@ -58,6 +58,11 @@ void EmbeddingPipeline::notifyFailure() const
     }
 }
 
+/**
+ * @brief Embed With Timeout.
+ * @param[in] text Input parameter.
+ * @return Return value.
+ */
 std::vector<float> EmbeddingPipeline::embedWithTimeout(const std::string& text)
 {
     if (text.empty()) {
@@ -102,6 +107,11 @@ std::vector<float> EmbeddingPipeline::embedWithTimeout(const std::string& text)
 // Public API
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Generate Embedding.
+ * @param[in] text Input parameter.
+ * @return Return value.
+ */
 std::vector<float> EmbeddingPipeline::generateEmbedding(const std::string& text)
 {
     if (!isEnabled()) {
@@ -110,6 +120,11 @@ std::vector<float> EmbeddingPipeline::generateEmbedding(const std::string& text)
     return embedWithTimeout(text);
 }
 
+/**
+ * @brief Generate Embedding Batch.
+ * @param[in] texts Input parameter.
+ * @return Return value.
+ */
 std::vector<std::vector<float>> EmbeddingPipeline::generateEmbeddingBatch(
     const std::vector<std::string>& texts)
 {

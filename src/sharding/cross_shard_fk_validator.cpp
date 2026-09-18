@@ -20,12 +20,10 @@ namespace sharding {
 namespace {
 
 /**
- * @brief Attempt to parse @p op_str as a JSON operation object.
- *
- * Returns an empty optional when the string is not valid JSON or does not
- * contain the mandatory "op" and "table" fields.  Parsing failures are
- * intentionally silent (trace-level only) so that non-JSON operation strings
- * from other protocols are ignored without aborting validation.
+ * @brief Try Parse Operation.
+ * @param[in] op_str Input parameter.
+ * @return Return value.
+ * @details Calls: nlohmann::json::parse(), contains().
  */
 std::optional<nlohmann::json> tryParseOperation(const std::string& op_str) {
     try {
@@ -62,9 +60,18 @@ std::string FKViolation::toJson() const {
 // CrossShardForeignKeyValidator – public API
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Register Constraint.
+ * @param[in] constraint Input parameter.
+ */
 void CrossShardForeignKeyValidator::registerConstraint(
     const CrossShardFKConstraint& constraint)
 {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     // Replace if a constraint with the same name already exists.
     auto it = std::find_if(
@@ -79,9 +86,18 @@ void CrossShardForeignKeyValidator::registerConstraint(
     }
 }
 
+/**
+ * @brief Remove Constraint.
+ * @param[in] constraint_name Name of the constraint.
+ */
 void CrossShardForeignKeyValidator::removeConstraint(
     const std::string& constraint_name)
 {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     auto before = constraints_.size();
     constraints_.erase(
@@ -93,22 +109,42 @@ void CrossShardForeignKeyValidator::removeConstraint(
     }
 }
 
+/**
+ * @brief Set Key Exists Callback.
+ * @param[in] cb Input parameter.
+ * @details Calls: lk(), std::move().
+ */
 void CrossShardForeignKeyValidator::setKeyExistsCallback(KeyExistsCallback cb) {
     std::lock_guard<std::mutex> lk(mutex_);
     key_exists_cb_ = std::move(cb);
 }
 
+/**
+ * @brief Set Child Exists Callback.
+ * @param[in] cb Input parameter.
+ * @details Calls: lk(), std::move().
+ */
 void CrossShardForeignKeyValidator::setChildExistsCallback(ChildExistsCallback cb) {
     std::lock_guard<std::mutex> lk(mutex_);
     child_exists_cb_ = std::move(cb);
 }
 
+/**
+ * @brief Set All Shard Ids.
+ * @param[in] shard_ids Input parameter.
+ * @details Calls: lk(), std::move().
+ */
 void CrossShardForeignKeyValidator::setAllShardIds(std::vector<std::string> shard_ids) {
     std::lock_guard<std::mutex> lk(mutex_);
     all_shard_ids_ = std::move(shard_ids);
 }
 
 std::size_t CrossShardForeignKeyValidator::constraintCount() const {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     return constraints_.size();
 }
@@ -127,6 +163,11 @@ std::vector<FKViolation> CrossShardForeignKeyValidator::validate(
     KeyExistsCallback  key_cb;
     ChildExistsCallback child_cb;
     {
+        /**
+         * @brief Lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(mutex_);
         local_constraints = constraints_;
         key_cb   = key_exists_cb_;
@@ -253,6 +294,11 @@ std::optional<FKViolation> CrossShardForeignKeyValidator::checkParentExists(
     KeyExistsCallback  key_cb;
     std::vector<std::string> shards;
     {
+        /**
+         * @brief Lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(mutex_);
         key_cb = key_exists_cb_;
         if (!constraint.parent_shard_id.empty()) {
@@ -329,6 +375,11 @@ std::optional<FKViolation> CrossShardForeignKeyValidator::checkNoChildExists(
     ChildExistsCallback child_cb;
     std::vector<std::string> shards;
     {
+        /**
+         * @brief Lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(mutex_);
         child_cb = child_exists_cb_;
         shards   = all_shard_ids_;

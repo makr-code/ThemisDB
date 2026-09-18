@@ -38,6 +38,11 @@ NegativeKeywordFilter::ParsedQuery
 NegativeKeywordFilter::parseQuery(const std::string& raw_query) {
     ParsedQuery result;
 
+    /**
+     * @brief Iss.
+     * @param[in] raw_query Input parameter.
+     * @return Return value.
+     */
     std::istringstream iss(raw_query);
     std::string token = {};
     bool next_is_negative = false;

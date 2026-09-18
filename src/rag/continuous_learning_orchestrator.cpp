@@ -35,17 +35,18 @@
 namespace themis::rag::learning {
 
 // ---- Retrieval optimisation constants ----
-/// Weight given to explicit user feedback (positive/negative) in the combined objective.
 static constexpr double kUserFeedbackWeight  = 0.6;
-/// Weight given to implicit evaluation confidence (RAGJudge score) in the combined objective.
 static constexpr double kEvalConfidenceWeight = 0.4;
-/// Neutral baseline objective used when one signal source has no data.
 static constexpr double kDefaultObjectiveScore = 0.5;
-/// Hard cap for in-memory candidate extraction per run to bound prompt/training memory.
 static constexpr size_t kMaxSelectionCandidates = 2048;
-/// Max retrieved documents per interaction copied into one training sample text.
 static constexpr size_t kMaxDocsPerSample = 4;
 
+/**
+ * @brief Clamp01.
+ * @param[in] value Input parameter.
+ * @return Return value.
+ * @details Implements clamp01 without additional internal calls.
+ */
 double clamp01(double value) {
     if (value < 0.0) {
         return 0.0;
@@ -56,6 +57,14 @@ double clamp01(double value) {
     return value;
 }
 
+/**
+ * @brief Build Candidates From Interactions.
+ * @param[in] interactions Input parameter.
+ * @param[in] adapter_id Identifier of the adapter.
+ * @param[in] allow_unlabeled_model_version Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), std::min(), size(), rbegin(), rend(), empty(), std::string(), std::to_string().
+ */
 std::vector<themis::training::DataSample> buildCandidatesFromInteractions(
         const std::vector<Interaction>& interactions,
         const std::string& adapter_id,
@@ -168,12 +177,10 @@ struct ContinuousLearningOrchestrator::Impl {
     // ---- Automated Data Selection ----
     std::unique_ptr<themis::training::DataSelectionPipeline>  data_selector;
     std::unique_ptr<themis::training::SelfImprovementModule>  si_module;
-    /// Timestamp of the most recent successful data selection run.
     std::chrono::system_clock::time_point last_selection_time =
         std::chrono::system_clock::time_point::min();
 
     // ---- Adaptive retrieval ----
-    /// Most-recently optimized retrieval parameters, updated by runRetrievalOptimization().
     RetrievalParams current_retrieval_params;
 
     // ---- Loop orchestration (IMPL-A2) ----
@@ -181,21 +188,14 @@ struct ContinuousLearningOrchestrator::Impl {
     std::unordered_map<int, std::function<void(LoopPhase, const LoopResult&)>> loop_handlers;
 
     // ---- IMPL-A2 Phase 2: named typed trigger state ----
-    /// Latest QueryExecutionOutcome from triggerLoop1QueryExecution().
     QueryExecutionOutcome last_loop1_outcome;
-    /// Per-loop last-trigger timestamps for the cooldown guard.
     std::unordered_map<int, std::chrono::system_clock::time_point> loop_last_trigger;
-    /// Cooldown window — calls within this duration of the previous trigger are rejected.
     std::chrono::seconds loop_cooldown_secs{10};
-    /// Latest LoopResult per phase (kept for context serialisation).
     std::unordered_map<int, LoopResult> last_loop_results;
 
     // ---- Signal-source injection (resolved: wired in HttpServer bootstrap) ----
-    /// Loop 1: BaoOptimizer::getMissRate() provider (0.0–1.0).
     std::function<double()> hnsw_miss_rate_provider;
-    /// Loop 2: WorkloadAdaptiveOptimizer::getProfileDrift() provider (0.0–1.0).
     std::function<double()> workload_drift_provider;
-    /// Loop 4: FeedbackCollector::newEntryCount() provider.
     std::function<size_t()> feedback_entry_count_provider;
 
     // ---- IMPL-A3: Federation bridges ----
@@ -253,6 +253,10 @@ ContinuousLearningOrchestrator::~ContinuousLearningOrchestrator() {
     saveMetrics();
 }
 
+/**
+ * @brief Start Learning Loop.
+ * @details Calls: lifecycle_lock(), load(), store(), spdlog::error(), what().
+ */
 void ContinuousLearningOrchestrator::startLearningLoop() {
     std::lock_guard<std::mutex> lifecycle_lock(impl_->lifecycle_mutex);
     if (impl_->learning_loop_active.load(std::memory_order_acquire)) {
@@ -274,6 +278,10 @@ void ContinuousLearningOrchestrator::startLearningLoop() {
     }
 }
 
+/**
+ * @brief Stop Learning Loop.
+ * @details Calls: lifecycle_lock(), load(), store(), notify_all(), std::move(), joinable(), std::chrono::steady_clock::now(), join().
+ */
 void ContinuousLearningOrchestrator::stopLearningLoop() {
     std::unique_ptr<std::thread> thread_to_join;
     {
@@ -310,6 +318,10 @@ void ContinuousLearningOrchestrator::stopLearningLoop() {
     }
 }
 
+/**
+ * @brief Trigger Learning Iteration.
+ * @details Calls: lock(), needsReselection(), buildCandidatesFromInteractions(), run(), std::chrono::system_clock::now(), runLoRARetraining(), runPromptOptimization(), runRetrievalOptimization().
+ */
 void ContinuousLearningOrchestrator::triggerLearningIteration() {
     // Periodic data re-selection: run pipeline if SelfImprovementModule says it is due.
     // Both the check and the update are performed under the same lock acquisition
@@ -366,6 +378,12 @@ void ContinuousLearningOrchestrator::triggerLearningIteration() {
     saveMetrics();
 }
 
+/**
+ * @brief Register Lo RAAdapter.
+ * @param[in] adapter_id Identifier of the adapter.
+ * @param[in] adapter_info Input parameter.
+ * @details Calls: lock(), std::chrono::system_clock::now().
+ */
 void ContinuousLearningOrchestrator::registerLoRAAdapter(const std::string &adapter_id,
                                                          const std::string &adapter_info) {
     std::lock_guard<std::mutex> lock(impl_->mutex);
@@ -377,6 +395,11 @@ void ContinuousLearningOrchestrator::registerLoRAAdapter(const std::string &adap
     impl_->lora_adapters[adapter_id] = info;
 }
 
+/**
+ * @brief Register Retrieval System.
+ * @param[in] system_id Identifier of the system.
+ * @details Calls: lock().
+ */
 void ContinuousLearningOrchestrator::registerRetrievalSystem(const std::string &system_id) {
     std::lock_guard<std::mutex> lock(impl_->mutex);
 
@@ -385,6 +408,11 @@ void ContinuousLearningOrchestrator::registerRetrievalSystem(const std::string &
     impl_->retrieval_systems[system_id] = info;
 }
 
+/**
+ * @brief Register Prompt System.
+ * @param[in] system_id Identifier of the system.
+ * @details Calls: lock().
+ */
 void ContinuousLearningOrchestrator::registerPromptSystem(const std::string &system_id) {
     std::lock_guard<std::mutex> lock(impl_->mutex);
 
@@ -393,6 +421,11 @@ void ContinuousLearningOrchestrator::registerPromptSystem(const std::string &sys
     impl_->prompt_systems[system_id] = info;
 }
 
+/**
+ * @brief Register Knowledge Gap Detector.
+ * @param[in] detector_id Identifier of the detector.
+ * @details Calls: lock().
+ */
 void ContinuousLearningOrchestrator::registerKnowledgeGapDetector(const std::string &detector_id) {
     std::lock_guard<std::mutex> lock(impl_->mutex);
 
@@ -401,6 +434,11 @@ void ContinuousLearningOrchestrator::registerKnowledgeGapDetector(const std::str
     impl_->gap_detectors[detector_id] = info;
 }
 
+/**
+ * @brief Log Interaction.
+ * @param[in] interaction Input parameter.
+ * @details Calls: lock(), push_back(), has_value(), empty(), find(), end(), size(), begin().
+ */
 void ContinuousLearningOrchestrator::logInteraction(const Interaction &interaction) {
     std::lock_guard<std::mutex> lock(impl_->mutex);
 
@@ -428,6 +466,11 @@ void ContinuousLearningOrchestrator::logInteraction(const Interaction &interacti
     }
 }
 
+/**
+ * @brief Log Interaction Batch.
+ * @param[in] interactions Input parameter.
+ * @details Calls: logInteraction().
+ */
 void ContinuousLearningOrchestrator::logInteractionBatch(const std::vector<Interaction> &interactions) {
     for (const auto &interaction : interactions) {
         logInteraction(interaction);
@@ -460,6 +503,10 @@ bool ContinuousLearningOrchestrator::isSystemImproving() const {
     return impl_->stats.accuracy_trend > 0.0;
 }
 
+/**
+ * @brief Run Prompt Optimization.
+ * @details Calls: lock(), size(), has_value(), value(), empty(), std::chrono::system_clock::now(), std::to_string(), push_back().
+ */
 void ContinuousLearningOrchestrator::runPromptOptimization() {
     std::lock_guard<std::mutex> lock(impl_->mutex);
 
@@ -525,6 +572,10 @@ void ContinuousLearningOrchestrator::runPromptOptimization() {
     }
 }
 
+/**
+ * @brief Run Retrieval Optimization.
+ * @details Calls: lock(), size(), has_value(), value(), optimizer(), observe(), suggest(), std::clamp().
+ */
 void ContinuousLearningOrchestrator::runRetrievalOptimization() {
     std::lock_guard<std::mutex> lock(impl_->mutex);
 
@@ -622,6 +673,10 @@ void ContinuousLearningOrchestrator::runRetrievalOptimization() {
     }
 }
 
+/**
+ * @brief Run Lo RARetraining.
+ * @details Calls: lock(), std::chrono::system_clock::now(), empty(), themis::training::LoRADataSelectionConfig::loadFromYAML(), setConfig(), spdlog::warn(), what(), size().
+ */
 void ContinuousLearningOrchestrator::runLoRARetraining() {
     std::lock_guard<std::mutex> lock(impl_->mutex);
 
@@ -788,6 +843,11 @@ void ContinuousLearningOrchestrator::runLoRARetraining() {
     }
 }
 
+/**
+ * @brief Deploy ABTest.
+ * @param[in] model_id Identifier of the model.
+ * @details Calls: std::to_string(), std::chrono::system_clock::now(), time_since_epoch(), count(), startTest().
+ */
 void ContinuousLearningOrchestrator::deployABTest(const std::string &model_id) {
     ABTestConfig test_config;
     test_config.test_id
@@ -800,6 +860,11 @@ void ContinuousLearningOrchestrator::deployABTest(const std::string &model_id) {
     impl_->ab_framework->startTest(test_config);
 }
 
+/**
+ * @brief Promote Or Rollback.
+ * @param[in] result Input parameter.
+ * @details Calls: completeTest(), std::chrono::system_clock::now(), lock(), push_back().
+ */
 void ContinuousLearningOrchestrator::promoteOrRollback(const ABTestResult &result) {
     bool should_promote = false;
 
@@ -829,6 +894,10 @@ void ContinuousLearningOrchestrator::promoteOrRollback(const ABTestResult &resul
     }
 }
 
+/**
+ * @brief Save Metrics.
+ * @details Calls: lock(), empty(), check(), is_open(), tellg(), file(), THEMIS_WARN(), imbue().
+ */
 void ContinuousLearningOrchestrator::saveMetrics() {
     std::lock_guard<std::mutex> lock(impl_->mutex);
 
@@ -878,6 +947,10 @@ void ContinuousLearningOrchestrator::saveMetrics() {
     }
 }
 
+/**
+ * @brief Load Metrics.
+ * @details Calls: lock(), empty(), file(), is_open(), THEMIS_DEBUG(), std::getline(), row(), value_stream().
+ */
 void ContinuousLearningOrchestrator::loadMetrics() {
     std::lock_guard<std::mutex> lock(impl_->mutex);
 
@@ -941,6 +1014,11 @@ void ContinuousLearningOrchestrator::loadMetrics() {
     }
 }
 
+/**
+ * @brief Save Model Checkpoint.
+ * @param[in] model_id Identifier of the model.
+ * @details Calls: lock(), empty(), std::chrono::system_clock::now(), push_back().
+ */
 void ContinuousLearningOrchestrator::saveModelCheckpoint(const std::string &model_id) {
     std::lock_guard<std::mutex> lock(impl_->mutex);
 
@@ -960,6 +1038,10 @@ void ContinuousLearningOrchestrator::saveModelCheckpoint(const std::string &mode
     impl_->stats.recent_improvements.push_back(event);
 }
 
+/**
+ * @brief Learning Loop Thread.
+ * @details Calls: wait_lock(), load(), wait_for(), unlock(), triggerLearningIteration(), spdlog::warn(), what(), lock().
+ */
 void ContinuousLearningOrchestrator::learningLoopThread() {
     std::unique_lock<std::mutex> wait_lock(impl_->learning_loop_mutex);
     while (impl_->learning_loop_active.load(std::memory_order_acquire)) {
@@ -1027,6 +1109,11 @@ ContinuousLearningOrchestrator::getDataSelectionConfig() const {
                : impl_->config.data_selection_config;
 }
 
+/**
+ * @brief Set Data Selection Config.
+ * @param[in] cfg Input parameter.
+ * @details Calls: lock(), setConfig().
+ */
 void ContinuousLearningOrchestrator::setDataSelectionConfig(
         const themis::training::LoRADataSelectionConfig& cfg) {
     std::lock_guard<std::mutex> lock(impl_->mutex);
@@ -1280,9 +1367,12 @@ ContinuousLearningOrchestrator::triggerLoop(LoopPhase phase) {
     return result;
 }
 
-// ============================================================================
-// IMPL-A2 Phase 2: Named typed trigger methods + cooldown guard + context JSON
-// ============================================================================
+/**
+ * @brief ============================================================================ IMPL-A2 Phase 2: Named typed trigger methods + cooldown guard + context JSON ============================================================================
+ * @param[in] phase Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: std::chrono::system_clock::now(), lock(), find(), end().
+ */
 
 bool ContinuousLearningOrchestrator::checkAndUpdateCooldown(LoopPhase phase) {
     const auto key = static_cast<int>(phase);
@@ -1299,6 +1389,11 @@ bool ContinuousLearningOrchestrator::checkAndUpdateCooldown(LoopPhase phase) {
     return true;
 }
 
+/**
+ * @brief Set Optimization Cooldown.
+ * @param[in] cooldown Input parameter.
+ * @details Calls: lock().
+ */
 void ContinuousLearningOrchestrator::setOptimizationCooldown(std::chrono::seconds cooldown) {
     std::lock_guard<std::mutex> lock(impl_->mutex);
     impl_->loop_cooldown_secs = (cooldown > std::chrono::seconds{0})
@@ -1462,9 +1557,11 @@ std::string ContinuousLearningOrchestrator::serializeLoopContext() const {
     return out;
 }
 
-// ============================================================================
-// IMPL-A3: Federation bridge public API
-// ============================================================================
+/**
+ * @brief ============================================================================ IMPL-A3: Federation bridge public API ============================================================================
+ * @param[in] coordinator Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 
 void ContinuousLearningOrchestrator::setFederationCoordinator(
     std::shared_ptr<themis::distributed_knowledge::ILoRAFederationCoordinator>
@@ -1473,6 +1570,11 @@ void ContinuousLearningOrchestrator::setFederationCoordinator(
     impl_->federation_coordinator_ = std::move(coordinator);
 }
 
+/**
+ * @brief Set Trainer For Federation.
+ * @param[in,out] trainer Input/output parameter.
+ * @details Calls: lock().
+ */
 void ContinuousLearningOrchestrator::setTrainerForFederation(
     themis::training::IncrementalLoRATrainer* trainer) {
     std::lock_guard<std::mutex> lock(impl_->mutex);
@@ -1499,6 +1601,14 @@ void ContinuousLearningOrchestrator::setFeedbackEntryCountProvider(
     impl_->feedback_entry_count_provider = std::move(provider);
 }
 
+/**
+ * @brief Wire Live Signal Providers.
+ * @param[in] bao_optimizer Input parameter.
+ * @param[in] workload_optimizer Input parameter.
+ * @param[in] feedback_collector Input parameter.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: defined(), setHnswMissRateProvider(), lock(), spdlog::warn(), getMissRate(), setWorkloadDriftProvider(), getProfileDrift(), setFeedbackEntryCountProvider().
+ */
 void ContinuousLearningOrchestrator::wireLiveSignalProviders(
     std::shared_ptr<themis::performance::phase3::BaoOptimizer> bao_optimizer,
     std::shared_ptr<themis::performance::WorkloadAdaptiveOptimizer> workload_optimizer,
@@ -1565,6 +1675,10 @@ void ContinuousLearningOrchestrator::wireLiveSignalProviders(
     }
 }
 
+/**
+ * @brief Handle Federated Round Start.
+ * @details Calls: lock(), spdlog::warn(), currentRound(), exportGradient(), submitGradient(), what().
+ */
 void ContinuousLearningOrchestrator::handleFederatedRoundStart() {
     // Read coordinator and trainer pointers under the lock, then operate
     // outside the lock so federation I/O does not block the orchestrator.

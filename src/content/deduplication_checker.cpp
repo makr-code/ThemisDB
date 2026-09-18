@@ -40,6 +40,12 @@ DeduplicationChecker::DeduplicationChecker(
 // Internal helpers
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Hex To U64.
+ * @param[in] hex Input parameter.
+ * @return Return value.
+ * @details Calls: std::min(), size().
+ */
 static uint64_t hexToU64(const std::string& hex) {
     uint64_t v = 0;
     size_t n = std::min(hex.size(), static_cast<size_t>(16));
@@ -122,6 +128,11 @@ std::optional<DuplicateOf> DeduplicationChecker::isDuplicateImage(
 
         uint32_t dist = hammingDistance(phash_hex, stored_hex);
         if (dist <= kPHashThreshold) {
+            /**
+             * @brief Cid.
+             * @param[in] value Input parameter.
+             * @return Return value.
+             */
             std::string cid(value);
             double sim = 1.0 - static_cast<double>(dist) / 64.0;
             result = DuplicateOf{cid, sim};
@@ -133,6 +144,12 @@ std::optional<DuplicateOf> DeduplicationChecker::isDuplicateImage(
     return result;
 }
 
+/**
+ * @brief Register Image.
+ * @param[in] content_id Identifier of the content.
+ * @param[in] phash_hex Input parameter.
+ * @details Calls: empty(), put().
+ */
 void DeduplicationChecker::registerImage(
     const std::string& content_id,
     const std::string& phash_hex
@@ -168,6 +185,12 @@ std::optional<DuplicateOf> DeduplicationChecker::isDuplicateText(
     return std::nullopt;
 }
 
+/**
+ * @brief Register Text.
+ * @param[in] content_id Identifier of the content.
+ * @param[in] minhash Input parameter.
+ * @details Calls: size(), empty(), bandHash(), makeBandKey(), get(), put(), nlohmann::json().
+ */
 void DeduplicationChecker::registerText(
     const std::string& content_id,
     const std::vector<uint32_t>& minhash

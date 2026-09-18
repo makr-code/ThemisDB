@@ -42,6 +42,13 @@ JWTKeyRotationManager::~JWTKeyRotationManager() {
     }
 }
 
+/**
+ * @brief Rotate Active Key.
+ * @param[in] new_kid Input parameter.
+ * @param[in] max_age Input parameter.
+ * @throws std::length_error if an error occurs.
+ * @details Calls: lock(), size(), find(), end(), logSecurityEvent(), std::to_string(), std::chrono::system_clock::now(), THEMIS_INFO().
+ */
 void JWTKeyRotationManager::rotateActiveKey(const std::string &new_kid, std::optional<std::chrono::seconds> max_age) {
     utils::AuditLogger *logger = nullptr;
     uint64_t rotation_num      = 0;
@@ -98,6 +105,12 @@ void JWTKeyRotationManager::rotateActiveKey(const std::string &new_kid, std::opt
     }
 }
 
+/**
+ * @brief Revoke Key.
+ * @param[in] kid Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), find(), end(), THEMIS_WARN(), redact(), logSecurityEvent(), revokeKid().
+ */
 bool JWTKeyRotationManager::revokeKey(const std::string &kid) {
     utils::AuditLogger *logger = nullptr;
     uint64_t revocation_num    = 0;
@@ -146,6 +159,12 @@ bool JWTKeyRotationManager::revokeKey(const std::string &kid) {
     return revoked;
 }
 
+/**
+ * @brief Reactivate Key.
+ * @param[in] kid Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), find(), end(), THEMIS_WARN(), redact(), std::chrono::system_clock::now(), THEMIS_INFO().
+ */
 bool JWTKeyRotationManager::reactivateKey(const std::string &kid) {
     std::lock_guard<std::mutex> lock(mutex_);
 
@@ -173,6 +192,11 @@ bool JWTKeyRotationManager::reactivateKey(const std::string &kid) {
 }
 
 bool JWTKeyRotationManager::isRotationDue() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     for (const auto &[kid, info] : keys_) {
@@ -184,6 +208,10 @@ bool JWTKeyRotationManager::isRotationDue() const {
     return true;
 }
 
+/**
+ * @brief Check And Rotate.
+ * @details Calls: lock(), std::chrono::system_clock::now(), push_back(), revokeKid(), THEMIS_WARN(), redact().
+ */
 void JWTKeyRotationManager::checkAndRotate() {
     if (!config_.auto_revoke_expired_passive) {
         return;
@@ -215,6 +243,11 @@ void JWTKeyRotationManager::checkAndRotate() {
 }
 
 std::string JWTKeyRotationManager::activeKeyId() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     for (const auto &[kid, info] : keys_) {
         if (info.status == JWKKeyInfo::Status::ACTIVE) {
@@ -225,6 +258,11 @@ std::string JWTKeyRotationManager::activeKeyId() const {
 }
 
 std::vector<std::string> JWTKeyRotationManager::passiveKeyIds() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     std::vector<std::string> result = {};
 
@@ -237,6 +275,11 @@ std::vector<std::string> JWTKeyRotationManager::passiveKeyIds() const {
 }
 
 std::vector<std::string> JWTKeyRotationManager::revokedKeyIds() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     std::vector<std::string> result = {};
 
@@ -249,6 +292,11 @@ std::vector<std::string> JWTKeyRotationManager::revokedKeyIds() const {
 }
 
 std::optional<JWKKeyInfo> JWTKeyRotationManager::getKeyInfo(const std::string &kid) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = keys_.find(kid);
     if (it == keys_.end()) {
@@ -258,6 +306,11 @@ std::optional<JWKKeyInfo> JWTKeyRotationManager::getKeyInfo(const std::string &k
 }
 
 JWTKeyRotationManager::Statistics JWTKeyRotationManager::getStatistics() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     Statistics s;
     s.total_keys        = keys_.size();

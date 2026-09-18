@@ -29,7 +29,15 @@ namespace llm {
 
 namespace {
 
-// CURL write callback for downloading files
+/**
+ * @brief CURL write callback for downloading files
+ * @param[in,out] ptr Input/output parameter.
+ * @param[in] size Input parameter.
+ * @param[in] nmemb Input parameter.
+ * @param[in,out] userdata Input/output parameter.
+ * @return Return value.
+ * @details Calls: good(), write().
+ */
 size_t write_callback(void* ptr, size_t size, size_t nmemb, void* userdata) {
     auto* stream = static_cast<std::ofstream*>(userdata);
     size_t total_size = size * nmemb;
@@ -50,6 +58,16 @@ size_t write_callback(void* ptr, size_t size, size_t nmemb, void* userdata) {
 }
 
 // CURL progress callback
+/**
+ * @brief Progress callback wrapper.
+ * @param[in,out] clientp Input/output parameter.
+ * @param[in] dltotal Input parameter.
+ * @param[in] dlnow Input parameter.
+ * @param[in] curl_off_t Input parameter.
+ * @param[in] curl_off_t Input parameter.
+ * @return Return value.
+ * @details Implements progress_callback_wrapper without additional internal calls.
+ */
 int progress_callback_wrapper(void* clientp, curl_off_t dltotal, curl_off_t dlnow, curl_off_t /*ultotal*/, curl_off_t /*ulnow*/) {
     auto* callback = static_cast<DownloadProgressCallback*>(clientp);
     if (callback && *callback) {
@@ -120,9 +138,6 @@ int progress_callback_wrapper(void* clientp, curl_off_t dltotal, curl_off_t dlno
     return true;
 }
 
-/// [W3-SEC-02] Sanitize model_name before it is used in any filesystem path.
-/// Rejects traversal sequences (".."), path separators, and null bytes that
-/// could redirect output outside the configured download directory.
 [[nodiscard]] static bool sanitizeModelName(const std::string& name,
                                              std::string& error_out) {
     if (name.empty()) {
@@ -144,17 +159,11 @@ int progress_callback_wrapper(void* clientp, curl_off_t dltotal, curl_off_t dlno
     return true;
 }
 
-/// [W3-SEC-01] Startup-level guard for allow_insecure_http.
-///
-/// Emits a prominent warning whenever allow_insecure_http=true appears in a
-/// config that is actually exercised.  A second check against the
-/// THEMISDB_ALLOW_INSECURE_HTTP environment variable provides an additional
-/// enforcement layer: if the env-var is absent, the warning is upgraded to
-/// strongly discourage unintended use in production deployments.
-///
-/// This function is intentionally non-fatal so callers that have already
-/// validated the URL (validateOllamaUrl) can proceed; the purpose is operator
-/// visibility, not a second gate.
+/**
+ * @brief Warn Insecure Config If Set.
+ * @param[in] cfg Input parameter.
+ * @details Calls: std::getenv(), THEMIS_WARN().
+ */
 static void warnInsecureConfigIfSet(const ModelDownloadConfig& cfg) {
     if (!cfg.allow_insecure_http) {
         return;
@@ -180,6 +189,12 @@ static void warnInsecureConfigIfSet(const ModelDownloadConfig& cfg) {
 
 } // anonymous namespace
 
+/**
+ * @brief Download From Ollama.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::steady_clock::now(), warnInsecureConfigIfSet(), sanitizeModelName(), THEMIS_WARN(), isModelAvailable(), THEMIS_INFO(), fs::file_size(), fs::exists().
+ */
 ModelDownloadResult ModelDownloader::downloadFromOllama(const ModelDownloadConfig& config) {
     ModelDownloadResult result;
     auto start_time = std::chrono::steady_clock::now();
@@ -230,6 +245,12 @@ ModelDownloadResult ModelDownloader::downloadFromOllama(const ModelDownloadConfi
     }
 }
 
+/**
+ * @brief Pull From Ollama.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @details Calls: warnInsecureConfigIfSet(), validateOllamaUrl(), sanitizeModelName(), THEMIS_WARN(), curl_easy_init(), dump(), curl_easy_setopt(), c_str().
+ */
 ModelDownloadResult ModelDownloader::pullFromOllama(const ModelDownloadConfig& config) {
     ModelDownloadResult result;
 
@@ -333,6 +354,14 @@ ModelDownloadResult ModelDownloader::pullFromOllama(const ModelDownloadConfig& c
     return result;
 }
 
+/**
+ * @brief Export Ollama Model.
+ * @param[in] ollama_url Input parameter.
+ * @param[in] model_name Name of the model.
+ * @param[in] output_path Path to the output.
+ * @return True when the operation succeeds.
+ * @details Calls: validateOllamaUrl(), THEMIS_WARN(), curl_easy_init(), dump(), curl_slist_append(), curl_easy_setopt(), c_str(), append().
+ */
 bool ModelDownloader::exportOllamaModel(
     const std::string& ollama_url,
     const std::string& model_name,
@@ -443,6 +472,14 @@ bool ModelDownloader::exportOllamaModel(
     }
 }
 
+/**
+ * @brief Download From URL.
+ * @param[in] url Input parameter.
+ * @param[in] output_path Path to the output.
+ * @param[in] progress_callback Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::steady_clock::now(), path(), has_parent_path(), fs::create_directories(), parent_path(), curl_easy_init(), output_file(), is_open().
+ */
 ModelDownloadResult ModelDownloader::downloadFromURL(
     const std::string& url,
     const std::string& output_path,
@@ -543,6 +580,12 @@ ModelDownloadResult ModelDownloader::downloadFromURL(
     }
 }
 
+/**
+ * @brief Is Model Available.
+ * @param[in] model_path Path to the model.
+ * @return True when the operation succeeds.
+ * @details Calls: fs::exists(), fs::file_size(), THEMIS_WARN().
+ */
 bool ModelDownloader::isModelAvailable(const std::string& model_path) {
     if (!fs::exists(model_path)) {
         return false;
@@ -558,6 +601,13 @@ bool ModelDownloader::isModelAvailable(const std::string& model_path) {
     }
 }
 
+/**
+ * @brief Get Ollama Manifest.
+ * @param[in] ollama_url Input parameter.
+ * @param[in] model_name Name of the model.
+ * @return Return value.
+ * @details Calls: validateOllamaUrl(), curl_easy_init(), dump(), curl_easy_setopt(), c_str(), curl_slist_append(), append(), curl_easy_perform().
+ */
 std::optional<json> ModelDownloader::getOllamaManifest(
     const std::string& ollama_url,
     const std::string& model_name
@@ -607,6 +657,12 @@ std::optional<json> ModelDownloader::getOllamaManifest(
     }
 }
 
+/**
+ * @brief List Ollama Models.
+ * @param[in] ollama_url Input parameter.
+ * @return Return value.
+ * @details Calls: validateOllamaUrl(), curl_easy_init(), curl_easy_setopt(), c_str(), append(), curl_easy_perform(), curl_easy_cleanup(), empty().
+ */
 std::vector<std::string> ModelDownloader::listOllamaModels(const std::string& ollama_url) {
     std::vector<std::string> models;
 
@@ -653,6 +709,13 @@ std::vector<std::string> ModelDownloader::listOllamaModels(const std::string& ol
     return models;
 }
 
+/**
+ * @brief Load Model Config From YAML.
+ * @param[in] config_path Path to the retention policy configuration file.
+ * @param[in] model_name Name of the model.
+ * @return Return value.
+ * @details Calls: YAML::LoadFile(), THEMIS_ERROR(), IsMap(), IsSequence(), apply_model_node(), THEMIS_WARN(), what().
+ */
 std::optional<ModelDownloadConfig> loadModelConfigFromYAML(
     const std::string& config_path,
     const std::string& model_name

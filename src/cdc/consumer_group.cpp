@@ -26,6 +26,12 @@ namespace cdc {
 // Static helpers
 // ============================================================
 
+/**
+ * @brief Fnv1a32.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Implements fnv1a32 without additional internal calls.
+ */
 uint32_t ConsumerGroupManager::fnv1a32(const std::string &s) {
     // FNV-1a 32-bit: stable, fast, no external dependency
     uint32_t hash = 2166136261;
@@ -36,6 +42,13 @@ uint32_t ConsumerGroupManager::fnv1a32(const std::string &s) {
     return hash;
 }
 
+/**
+ * @brief Partition For Key.
+ * @param[in] key Input parameter.
+ * @param[in] partition_count Input parameter.
+ * @return Return value.
+ * @details Calls: fnv1a32().
+ */
 uint32_t ConsumerGroupManager::partitionForKey(const std::string &key, uint32_t partition_count) {
     if (partition_count == 0) {
         return 0;
@@ -43,6 +56,13 @@ uint32_t ConsumerGroupManager::partitionForKey(const std::string &key, uint32_t 
     return fnv1a32(key) % partition_count;
 }
 
+/**
+ * @brief Partition For Consumer.
+ * @param[in] consumer_id Identifier of the consumer.
+ * @param[in] partition_count Input parameter.
+ * @return Return value.
+ * @details Calls: fnv1a32().
+ */
 uint32_t ConsumerGroupManager::partitionForConsumer(const std::string &consumer_id, uint32_t partition_count) {
     if (partition_count == 0) {
         return 0;
@@ -131,6 +151,12 @@ uint64_t ConsumerGroupManager::readOffsetLocked(const std::string &group_id) con
     }
 }
 
+/**
+ * @brief Write Config Locked.
+ * @param[in] config Input parameter.
+ * @throws error::dbOperationFailed if an error occurs.
+ * @details Calls: toJson(), dump(), Put(), makeConfigKey(), ok(), ToString().
+ */
 void ConsumerGroupManager::writeConfigLocked(const ConsumerGroupConfig &config) {
     rocksdb::WriteOptions opts;
     std::string value = config.toJson().dump();
@@ -147,6 +173,13 @@ void ConsumerGroupManager::writeConfigLocked(const ConsumerGroupConfig &config) 
     }
 }
 
+/**
+ * @brief Write Offset Locked.
+ * @param[in] group_id Identifier of the group.
+ * @param[in] sequence Input parameter.
+ * @throws CDCException if an error occurs.
+ * @details Calls: std::to_string(), Put(), makeOffsetKey(), ok(), ToString().
+ */
 void ConsumerGroupManager::writeOffsetLocked(const std::string &group_id, uint64_t sequence) {
     rocksdb::WriteOptions opts;
     std::string value = std::to_string(sequence);
@@ -168,6 +201,12 @@ void ConsumerGroupManager::writeOffsetLocked(const std::string &group_id, uint64
 // Group lifecycle
 // ============================================================
 
+/**
+ * @brief Create Group.
+ * @param[in] config Input parameter.
+ * @throws error::invalidArgument if an error occurs.
+ * @details Calls: empty(), lock(), writeConfigLocked(), THEMIS_INFO().
+ */
 void ConsumerGroupManager::createGroup(const ConsumerGroupConfig &config) {
     if (config.group_id.empty()) {
         throw error::invalidArgument("group_id", "must not be empty");
@@ -181,6 +220,13 @@ void ConsumerGroupManager::createGroup(const ConsumerGroupConfig &config) {
     THEMIS_INFO("CDC ConsumerGroup created: group={} partitions={}", config.group_id, config.consumer_count);
 }
 
+/**
+ * @brief Delete Group.
+ * @param[in] group_id Identifier of the group.
+ * @throws error::invalidArgument if an error occurs.
+ * @throws error::dbOperationFailed if an error occurs.
+ * @details Calls: empty(), lock(), Delete(), makeConfigKey(), makeOffsetKey(), ok(), IsNotFound(), ToString().
+ */
 void ConsumerGroupManager::deleteGroup(const std::string &group_id) {
     if (group_id.empty()) {
         throw error::invalidArgument("group_id", "must not be empty");
@@ -219,6 +265,11 @@ bool ConsumerGroupManager::groupExists(const std::string &group_id) const {
         return false;
     }
 
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     rocksdb::ReadOptions opts;
     std::string value = {};
@@ -237,6 +288,11 @@ ConsumerGroupConfig ConsumerGroupManager::getGroupConfig(const std::string &grou
     if (group_id.empty()) {
         throw error::invalidArgument("group_id", "must not be empty");
     }
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return readConfigLocked(group_id);
 }
@@ -245,6 +301,11 @@ ConsumerGroupInfo ConsumerGroupManager::getGroupInfo(const std::string &group_id
     if (group_id.empty()) {
         throw error::invalidArgument("group_id", "must not be empty");
     }
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     ConsumerGroupInfo info;
@@ -254,6 +315,11 @@ ConsumerGroupInfo ConsumerGroupManager::getGroupInfo(const std::string &group_id
 }
 
 std::vector<std::string> ConsumerGroupManager::listGroups() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     std::vector<std::string> groups;
@@ -298,6 +364,11 @@ uint64_t ConsumerGroupManager::getCommittedOffset(const std::string &group_id) c
     if (group_id.empty()) {
         throw error::invalidArgument("group_id", "must not be empty");
     }
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     // Validate group exists
@@ -305,6 +376,13 @@ uint64_t ConsumerGroupManager::getCommittedOffset(const std::string &group_id) c
     return readOffsetLocked(group_id);
 }
 
+/**
+ * @brief Commit Offset.
+ * @param[in] group_id Identifier of the group.
+ * @param[in] sequence Input parameter.
+ * @throws error::invalidArgument if an error occurs.
+ * @details Calls: empty(), lock(), readConfigLocked(), readOffsetLocked(), writeOffsetLocked(), THEMIS_DEBUG().
+ */
 void ConsumerGroupManager::commitOffset(const std::string &group_id, uint64_t sequence) {
     if (group_id.empty()) {
         throw error::invalidArgument("group_id", "must not be empty");
@@ -335,6 +413,11 @@ uint32_t ConsumerGroupManager::getConsumerPartition(const std::string &group_id,
         throw error::invalidArgument("group_id", "must not be empty");
     }
 
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     ConsumerGroupConfig cfg = readConfigLocked(group_id);
     return partitionForConsumer(consumer_id, cfg.consumer_count);
@@ -346,6 +429,11 @@ bool ConsumerGroupManager::consumerHandlesKey(const std::string &group_id, const
         throw error::invalidArgument("group_id", "must not be empty");
     }
 
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     ConsumerGroupConfig cfg = readConfigLocked(group_id);
 
@@ -359,6 +447,11 @@ uint32_t ConsumerGroupManager::getPartitionForKey(const std::string &group_id, c
         throw error::invalidArgument("group_id", "must not be empty");
     }
 
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     ConsumerGroupConfig cfg = readConfigLocked(group_id);
     return partitionForKey(key, cfg.consumer_count);
@@ -380,6 +473,11 @@ std::vector<Changefeed::ChangeEvent> ConsumerGroupManager::fetchEvents(const std
     ConsumerGroupConfig cfg;
     uint64_t committed = 0;
     {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         cfg       = readConfigLocked(group_id);
         committed = readOffsetLocked(group_id);
@@ -441,6 +539,11 @@ ConsumerGroupManager::fetchEventsAtLeastOnce(const std::string &group_id, const 
     std::vector<uint64_t> overdue_seqs;
 
     {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         cfg       = readConfigLocked(group_id); // throws if not found
         committed = readOffsetLocked(group_id);
@@ -505,6 +608,11 @@ ConsumerGroupManager::fetchEventsAtLeastOnce(const std::string &group_id, const 
 
     // Step 4: Persist updated in-flight state.
     if (!overdue_seqs.empty() || !new_records.empty()) {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         auto &consumer_inflight = inflight_[group_id][consumer_id];
 
@@ -530,6 +638,14 @@ ConsumerGroupManager::fetchEventsAtLeastOnce(const std::string &group_id, const 
     return result;
 }
 
+/**
+ * @brief Acknowledge Events.
+ * @param[in] group_id Identifier of the group.
+ * @param[in] consumer_id Identifier of the consumer.
+ * @param[in] up_to_sequence Input parameter.
+ * @throws error::invalidArgument if an error occurs.
+ * @details Calls: empty(), lock(), readConfigLocked(), find(), end(), erase(), std::remove_if(), begin().
+ */
 void ConsumerGroupManager::acknowledgeEvents(const std::string &group_id, const std::string &consumer_id,
                                              uint64_t up_to_sequence) {
     if (group_id.empty()) {
@@ -566,6 +682,11 @@ void ConsumerGroupManager::acknowledgeEvents(const std::string &group_id, const 
 }
 
 size_t ConsumerGroupManager::getInFlightCount(const std::string &group_id, const std::string &consumer_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     auto git = inflight_.find(group_id);
     if (git == inflight_.end()) {
@@ -587,6 +708,11 @@ InFlightStats ConsumerGroupManager::getInFlightStats(const std::string &group_id
     const auto now     = std::chrono::steady_clock::now();
     const auto timeout = std::chrono::milliseconds(ack_timeout_ms);
 
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     auto git = inflight_.find(group_id);
     if (git == inflight_.end()) {

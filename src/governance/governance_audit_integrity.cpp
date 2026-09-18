@@ -20,6 +20,13 @@
 #include <cstring>
 
 // Base64 encoding helper
+/**
+ * @brief Base64 encode.
+ * @param[in] data Input parameter.
+ * @param[in] len Input parameter.
+ * @return Return value.
+ * @details Implements base64_encode without additional internal calls.
+ */
 static std::string base64_encode(const unsigned char* data, size_t len) {
     static const char* base64_chars = 
         "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
@@ -82,6 +89,12 @@ nlohmann::json SignatureInfo::toJson() const {
     return j;
 }
 
+/**
+ * @brief From Json.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: contains().
+ */
 SignatureInfo SignatureInfo::fromJson(const nlohmann::json& j) {
     SignatureInfo info = {};
     if (j.contains("signature")) {
@@ -125,6 +138,12 @@ nlohmann::json ImmutableAuditEntry::toJson() const {
     return j;
 }
 
+/**
+ * @brief From Json.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: contains().
+ */
 ImmutableAuditEntry ImmutableAuditEntry::fromJson(const nlohmann::json& j) {
     ImmutableAuditEntry entry = {};
     if (j.contains("entry_id")) {
@@ -250,6 +269,13 @@ bool AuditSigner::verifyRsaSha256(
     return expected_hash == signature;
 }
 
+/**
+ * @brief Sign Entry.
+ * @param[in] entry Input parameter.
+ * @param[in] previous_entry_hash Input parameter.
+ * @return Return value.
+ * @details Calls: dump(), computeSha256Hash(), computeHmacSha256(), computeRsaSha256(), std::chrono::system_clock::now(), time_since_epoch(), count().
+ */
 SignatureInfo AuditSigner::signEntry(
     const ImmutableAuditEntry& entry,
     const std::string& previous_entry_hash
@@ -349,6 +375,12 @@ nlohmann::json TamperIncident::toJson() const {
     return j;
 }
 
+/**
+ * @brief From Json.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: contains().
+ */
 TamperIncident TamperIncident::fromJson(const nlohmann::json& j) {
     TamperIncident incident = {};
     if (j.contains("incident_id")) {
@@ -382,6 +414,14 @@ TamperIncident TamperIncident::fromJson(const nlohmann::json& j) {
 // AuditTamperDetector Implementation
 // ============================================================================
 
+/**
+ * @brief Verify Entry.
+ * @param[in] entry Input parameter.
+ * @param[in] signer Input parameter.
+ * @param[in] previous_entry Input parameter.
+ * @return Return value.
+ * @details Calls: checkSignatureValidity(), checkChainOfCustody(), value(), checkSequenceValidity(), checkTimestampValidity().
+ */
 std::optional<TamperIncident> AuditTamperDetector::verifyEntry(
     const ImmutableAuditEntry& entry,
     const AuditSigner& signer,
@@ -414,6 +454,13 @@ std::optional<TamperIncident> AuditTamperDetector::verifyEntry(
     return std::nullopt;
 }
 
+/**
+ * @brief Verify Audit Trail.
+ * @param[in] entries Input parameter.
+ * @param[in] signer Input parameter.
+ * @return Return value.
+ * @details Calls: size(), verifyEntry(), push_back(), value().
+ */
 std::vector<TamperIncident> AuditTamperDetector::verifyAuditTrail(
     const std::vector<ImmutableAuditEntry>& entries,
     const AuditSigner& signer
@@ -433,6 +480,15 @@ std::vector<TamperIncident> AuditTamperDetector::verifyAuditTrail(
     return incidents;
 }
 
+/**
+ * @brief Verify Time Range.
+ * @param[in] entries Input parameter.
+ * @param[in] signer Input parameter.
+ * @param[in] start_time_ms Input parameter.
+ * @param[in] end_time_ms Input parameter.
+ * @return Return value.
+ * @details Calls: size(), verifyEntry(), push_back(), value().
+ */
 std::vector<TamperIncident> AuditTamperDetector::verifyTimeRange(
     const std::vector<ImmutableAuditEntry>& entries,
     const AuditSigner& signer,
@@ -464,6 +520,12 @@ std::vector<TamperIncident> AuditTamperDetector::verifyTimeRange(
     return incidents;
 }
 
+/**
+ * @brief Generate Tamper Report.
+ * @param[in] incidents Input parameter.
+ * @return Return value.
+ * @details Calls: size(), std::chrono::system_clock::now(), time_since_epoch(), count(), push_back(), toJson().
+ */
 nlohmann::json AuditTamperDetector::generateTamperReport(
     const std::vector<TamperIncident>& incidents
 ) {
@@ -491,6 +553,13 @@ nlohmann::json AuditTamperDetector::generateTamperReport(
     return report;
 }
 
+/**
+ * @brief Check Signature Validity.
+ * @param[in] entry Input parameter.
+ * @param[in] signer Input parameter.
+ * @return Return value.
+ * @details Calls: verifySignature(), std::chrono::system_clock::now(), time_since_epoch(), count().
+ */
 std::optional<TamperIncident> AuditTamperDetector::checkSignatureValidity(
     const ImmutableAuditEntry& entry,
     const AuditSigner& signer
@@ -511,6 +580,13 @@ std::optional<TamperIncident> AuditTamperDetector::checkSignatureValidity(
     return std::nullopt;
 }
 
+/**
+ * @brief Check Chain Of Custody.
+ * @param[in] entry Input parameter.
+ * @param[in] previous_entry Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::now(), time_since_epoch(), count().
+ */
 std::optional<TamperIncident> AuditTamperDetector::checkChainOfCustody(
     const ImmutableAuditEntry& entry,
     const ImmutableAuditEntry& previous_entry
@@ -532,6 +608,13 @@ std::optional<TamperIncident> AuditTamperDetector::checkChainOfCustody(
     return std::nullopt;
 }
 
+/**
+ * @brief Check Sequence Validity.
+ * @param[in] entry Input parameter.
+ * @param[in] previous_entry Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::now(), time_since_epoch(), count().
+ */
 std::optional<TamperIncident> AuditTamperDetector::checkSequenceValidity(
     const ImmutableAuditEntry& entry,
     const ImmutableAuditEntry& previous_entry
@@ -554,6 +637,13 @@ std::optional<TamperIncident> AuditTamperDetector::checkSequenceValidity(
     return std::nullopt;
 }
 
+/**
+ * @brief Check Timestamp Validity.
+ * @param[in] entry Input parameter.
+ * @param[in] previous_entry Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::now(), time_since_epoch(), count().
+ */
 std::optional<TamperIncident> AuditTamperDetector::checkTimestampValidity(
     const ImmutableAuditEntry& entry,
     const ImmutableAuditEntry& previous_entry
@@ -592,6 +682,12 @@ nlohmann::json AuditRetentionPolicy::toJson() const {
     return j;
 }
 
+/**
+ * @brief From Json.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: contains().
+ */
 AuditRetentionPolicy AuditRetentionPolicy::fromJson(const nlohmann::json& j) {
     AuditRetentionPolicy policy = {};
     if (j.contains("policy_id")) {
@@ -640,6 +736,12 @@ nlohmann::json LegalHold::toJson() const {
     return j;
 }
 
+/**
+ * @brief From Json.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: contains().
+ */
 LegalHold LegalHold::fromJson(const nlohmann::json& j) {
     LegalHold hold = {};
     if (j.contains("hold_id")) {
@@ -684,6 +786,11 @@ bool AuditRetentionManager::shouldArchive(
     const ImmutableAuditEntry& entry,
     int64_t current_time_ms
 ) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     if (entry.is_archived) {
@@ -698,6 +805,11 @@ bool AuditRetentionManager::shouldDelete(
     const ImmutableAuditEntry& entry,
     int64_t current_time_ms
 ) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     // Check if on legal hold
@@ -716,6 +828,11 @@ bool AuditRetentionManager::shouldDelete(
 }
 
 bool AuditRetentionManager::isOnLegalHold(const std::string& rule_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     int64_t now = std::chrono::duration_cast<std::chrono::milliseconds>(
@@ -737,11 +854,21 @@ bool AuditRetentionManager::isOnLegalHold(const std::string& rule_id) const {
     return false;
 }
 
+/**
+ * @brief Add Legal Hold.
+ * @param[in] hold Input parameter.
+ * @details Calls: lock().
+ */
 void AuditRetentionManager::addLegalHold(const LegalHold& hold) {
     std::lock_guard<std::mutex> lock(mutex_);
     legal_holds_[hold.hold_id] = hold;
 }
 
+/**
+ * @brief Release Legal Hold.
+ * @param[in] hold_id Identifier of the hold.
+ * @details Calls: lock(), find(), end().
+ */
 void AuditRetentionManager::releaseLegalHold(const std::string& hold_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = legal_holds_.find(hold_id);
@@ -750,6 +877,12 @@ void AuditRetentionManager::releaseLegalHold(const std::string& hold_id) {
     }
 }
 
+/**
+ * @brief Set Policy.
+ * @param[in] new_policy Input parameter.
+ * @param[in] changed_by Input parameter.
+ * @details Calls: lock(), std::chrono::system_clock::now(), time_since_epoch(), count(), emplace_back().
+ */
 void AuditRetentionManager::setPolicy(
     const AuditRetentionPolicy& new_policy,
     const std::string& changed_by
@@ -778,6 +911,12 @@ AuditIntegrityManager::AuditIntegrityManager(
     key_history_.push_back(signer);
 }
 
+/**
+ * @brief Add Entry.
+ * @param[in] entry Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), std::chrono::high_resolution_clock::now(), getNextSequenceNumber(), getPreviousEntryHash(), signEntry(), push_back(), count().
+ */
 ImmutableAuditEntry AuditIntegrityManager::addEntry(const ImmutableAuditEntry& entry) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -801,6 +940,11 @@ ImmutableAuditEntry AuditIntegrityManager::addEntry(const ImmutableAuditEntry& e
     return new_entry;
 }
 
+/**
+ * @brief Verify Integrity.
+ * @return Return value.
+ * @details Calls: lock(), std::chrono::high_resolution_clock::now(), verifyAuditTrail(), push_back(), count().
+ */
 std::vector<TamperIncident> AuditIntegrityManager::verifyIntegrity() {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -816,6 +960,13 @@ std::vector<TamperIncident> AuditIntegrityManager::verifyIntegrity() {
     return last_tamper_incidents_;
 }
 
+/**
+ * @brief Verify Time Range.
+ * @param[in] start_time_ms Input parameter.
+ * @param[in] end_time_ms Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), std::chrono::high_resolution_clock::now(), push_back(), count().
+ */
 std::vector<TamperIncident> AuditIntegrityManager::verifyTimeRange(
     int64_t start_time_ms,
     int64_t end_time_ms
@@ -839,6 +990,11 @@ std::vector<TamperIncident> AuditIntegrityManager::verifyTimeRange(
 std::optional<ImmutableAuditEntry> AuditIntegrityManager::getEntry(
     const std::string& entry_id
 ) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     for (const auto& entry : entries_) {
@@ -856,6 +1012,11 @@ std::vector<ImmutableAuditEntry> AuditIntegrityManager::queryEntries(
     const std::optional<int64_t>& start_time_ms,
     const std::optional<int64_t>& end_time_ms
 ) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     std::vector<ImmutableAuditEntry> results;
@@ -881,6 +1042,11 @@ std::vector<ImmutableAuditEntry> AuditIntegrityManager::queryEntries(
     return results;
 }
 
+/**
+ * @brief Archive Expired Entries.
+ * @return Return value.
+ * @details Calls: lock(), std::chrono::system_clock::now(), time_since_epoch(), count(), shouldArchive(), getKeyId().
+ */
 int64_t AuditIntegrityManager::archiveExpiredEntries() {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -902,6 +1068,11 @@ int64_t AuditIntegrityManager::archiveExpiredEntries() {
     return archived_count;
 }
 
+/**
+ * @brief Perform Cleanup.
+ * @return Return value.
+ * @details Calls: lock(), std::chrono::system_clock::now(), time_since_epoch(), count(), std::remove_if(), begin(), end(), shouldDelete().
+ */
 int64_t AuditIntegrityManager::performCleanup() {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -924,6 +1095,11 @@ int64_t AuditIntegrityManager::performCleanup() {
 }
 
 nlohmann::json AuditIntegrityManager::getPerformanceMetrics() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     nlohmann::json metrics;
@@ -963,6 +1139,11 @@ nlohmann::json AuditIntegrityManager::getPerformanceMetrics() const {
 }
 
 nlohmann::json AuditIntegrityManager::exportAuditTrail(bool compress) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     nlohmann::json export_data;
@@ -982,6 +1163,12 @@ nlohmann::json AuditIntegrityManager::exportAuditTrail(bool compress) const {
     return export_data;
 }
 
+/**
+ * @brief Import Audit Trail.
+ * @param[in] data Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), clear(), contains(), is_array(), ImmutableAuditEntry::fromJson(), push_back().
+ */
 bool AuditIntegrityManager::importAuditTrail(const nlohmann::json& data) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -999,6 +1186,12 @@ bool AuditIntegrityManager::importAuditTrail(const nlohmann::json& data) {
     return true;
 }
 
+/**
+ * @brief Rotate Key.
+ * @param[in] new_signer Input parameter.
+ * @param[in] key_transition_entry Input parameter.
+ * @details Calls: lock(), push_back(), getNextSequenceNumber(), signEntry(), getPreviousEntryHash().
+ */
 void AuditIntegrityManager::rotateKey(
     const std::shared_ptr<AuditSigner>& new_signer,
     const ImmutableAuditEntry& key_transition_entry

@@ -83,7 +83,12 @@ namespace {
 
 using RecordBatch = themis::analytics::ArrowRecordBatch;
 
-/** Convert a path vector to a flat registry key string. */
+/**
+ * @brief Path To Key.
+ * @param[in] path Input parameter.
+ * @return Return value.
+ * @details Calls: size(), str().
+ */
 static std::string pathToKey(const std::vector<std::string> &path) {
     std::ostringstream oss = {};
     for (size_t i = 0; i < path.size(); ++i) {
@@ -95,26 +100,22 @@ static std::string pathToKey(const std::vector<std::string> &path) {
     return oss.str();
 }
 
-/** Convert a FlightDescriptor to a registry lookup key. */
+/**
+ * @brief Descriptor To Key.
+ * @param[in] desc Input parameter.
+ * @return Return value.
+ * @details Calls: pathToKey().
+ */
 static std::string descriptorToKey(const FlightDescriptor &desc) {
     return (desc.type == FlightDescriptor::Type::PATH) ? pathToKey(desc.path) : desc.command;
 }
 
-/** A registered dataset entry. */
 struct DatasetEntry {
     std::function<RecordBatch()> producer;
     std::function<void(RecordBatch)> put_handler;
     int64_t total_rows = -1;
 };
 
-/**
- * Process-wide singleton registry.
- *
- * Maps  endpoint -> { key -> DatasetEntry }
- *
- * Multiple in-process servers can coexist on different host:port endpoints
- * without collision.
- */
 class InProcessRegistry {
   public:
     static InProcessRegistry &instance() {
@@ -126,12 +127,22 @@ class InProcessRegistry {
     // Server lifetime
     // ------------------------------------------------------------------
 
+    /**
+     * @brief Register Server.
+     * @param[in] endpoint Input parameter.
+     * @details Calls: lk(), emplace(), spdlog::debug().
+     */
     void registerServer(const std::string &endpoint) {
         std::lock_guard<std::mutex> lk(mutex_);
         servers_.emplace(endpoint, std::unordered_map<std::string, DatasetEntry>{});
         spdlog::debug("[ArrowFlight] registered in-process server: {}", endpoint);
     }
 
+    /**
+     * @brief Unregister Server.
+     * @param[in] endpoint Input parameter.
+     * @details Calls: lk(), erase(), spdlog::debug().
+     */
     void unregisterServer(const std::string &endpoint) {
         std::lock_guard<std::mutex> lk(mutex_);
         servers_.erase(endpoint);
@@ -139,6 +150,11 @@ class InProcessRegistry {
     }
 
     bool hasServer(const std::string &endpoint) const {
+        /**
+         * @brief Lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(mutex_);
         return servers_.count(endpoint) > 0;
     }
@@ -147,12 +163,25 @@ class InProcessRegistry {
     // Dataset management
     // ------------------------------------------------------------------
 
+    /**
+     * @brief Add Dataset.
+     * @param[in] endpoint Input parameter.
+     * @param[in] key Input parameter.
+     * @param[in] entry Input parameter.
+     * @details Calls: lk(), std::move(), spdlog::debug().
+     */
     void addDataset(const std::string &endpoint, const std::string &key, DatasetEntry entry) {
         std::lock_guard<std::mutex> lk(mutex_);
         servers_[endpoint][key] = std::move(entry);
         spdlog::debug("[ArrowFlight] registered dataset '{}' on '{}'", key, endpoint);
     }
 
+    /**
+     * @brief Remove Dataset.
+     * @param[in] endpoint Input parameter.
+     * @param[in] key Input parameter.
+     * @details Calls: lk(), find(), end(), erase().
+     */
     void removeDataset(const std::string &endpoint, const std::string &key) {
         std::lock_guard<std::mutex> lk(mutex_);
         auto it = servers_.find(endpoint);
@@ -166,6 +195,11 @@ class InProcessRegistry {
     // ------------------------------------------------------------------
 
     std::vector<FlightInfo> listFlights(const std::string &endpoint) const {
+        /**
+         * @brief Lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(mutex_);
         std::vector<FlightInfo> infos;
         auto sit = servers_.find(endpoint);
@@ -179,6 +213,11 @@ class InProcessRegistry {
             FlightInfo fi;
             // Reconstruct path components from the slash-separated key
             std::vector<std::string> parts;
+            /**
+             * @brief Iss.
+             * @param[in] key Input parameter.
+             * @return Return value.
+             */
             std::istringstream iss(key);
             std::string part = {};
             while (std::getline(iss, part, '/')) {
@@ -200,6 +239,11 @@ class InProcessRegistry {
         // or unregisters datasets.
         std::function<RecordBatch()> producer;
         {
+            /**
+             * @brief Lk.
+             * @param[in] mutex_ Input parameter.
+             * @return Return value.
+             */
             std::lock_guard<std::mutex> lk(mutex_);
             auto sit = servers_.find(endpoint);
             if (sit == servers_.end()) {
@@ -216,6 +260,14 @@ class InProcessRegistry {
         return producer(); // invoked outside the lock
     }
 
+    /**
+     * @brief Do Put.
+     * @param[in] endpoint Input parameter.
+     * @param[in] descriptor Input parameter.
+     * @param[in] batch Input parameter.
+     * @return Return value.
+     * @details Calls: void(), lk(), find(), end(), descriptorToKey(), toString(), rowCount(), spdlog::debug().
+     */
     FlightPutResult doPut(const std::string &endpoint, const FlightDescriptor &descriptor, RecordBatch batch) {
         // Copy the handler function under the lock, then invoke outside.
         // This prevents a deadlock if the handler itself registers or
@@ -246,7 +298,13 @@ class InProcessRegistry {
     std::unordered_map<std::string, std::unordered_map<std::string, DatasetEntry>> servers_;
 };
 
-/** Build a canonical endpoint string from host + port. */
+/**
+ * @brief Build Endpoint.
+ * @param[in] host Input parameter.
+ * @param[in] port Input parameter.
+ * @return Return value.
+ * @details Calls: std::to_string().
+ */
 static std::string buildEndpoint(const std::string &host, int port) {
     return host + ':' + std::to_string(port);
 }
@@ -257,17 +315,10 @@ static std::string buildEndpoint(const std::string &host, int port) {
 #ifdef THEMIS_HAS_ARROW_FLIGHT
 
 /**
- * Convert a ThemisDB ArrowRecordBatch to an Apache Arrow RecordBatch.
- *
- * INT64/TIMESTAMP columns use zero-copy Buffer::Wrap; DOUBLE columns also
- * use zero-copy wrapping.  STRING and BOOLEAN columns use Arrow builders.
- *
- * @warning The returned arrow::RecordBatch holds non-owning buffer views
- *          into @p tb's typed buffers (int64_buffer / double_buffer).
- *          The caller MUST keep @p tb alive for at least as long as the
- *          returned RecordBatch (or any array derived from it) is in use.
- *          Columns with nulls always copy data via an Arrow builder, so
- *          this lifetime constraint only applies to all-valid columns.
+ * @brief To Arrow Batch.
+ * @param[in] tb Input parameter.
+ * @return Return value.
+ * @details Calls: columnCount(), getColumn(), push_back(), arrow::field(), arrow::int64(), getInt64Data(), empty(), std::none_of().
  */
 static arrow::Result<std::shared_ptr<arrow::RecordBatch>> toArrowBatch(const RecordBatch &tb) {
     std::vector<std::shared_ptr<arrow::Field>> fields;
@@ -374,10 +425,10 @@ static arrow::Result<std::shared_ptr<arrow::RecordBatch>> toArrowBatch(const Rec
 }
 
 /**
- * Append rows from an Apache Arrow RecordBatch into a ThemisDB RecordBatch.
- *
- * If @p tb is empty the schema is inferred from @p ab; otherwise the
- * existing schema is assumed to be compatible (no validation performed).
+ * @brief Append From Arrow Batch.
+ * @param[in] ab Input parameter.
+ * @param[in,out] tb Input/output parameter.
+ * @details Calls: columnCount(), schema(), num_fields(), field(), name(), nullable(), type(), id().
  */
 static void appendFromArrowBatch(const arrow::RecordBatch &ab, RecordBatch &tb) {
     if (tb.columnCount() == 0) {
@@ -449,9 +500,13 @@ static void appendFromArrowBatch(const arrow::RecordBatch &ab, RecordBatch &tb) 
 // InProcessArrowFlightServer
 // ===========================================================================
 
-/** @brief InProcessArrowFlightServer. */
 class InProcessArrowFlightServer final : public ArrowFlightServer {
   public:
+    /**
+     * @brief In Process Arrow Flight Server.
+     * @param[in] opts Input parameter.
+     * @return Return value.
+     */
     explicit InProcessArrowFlightServer(FlightServerOptions opts)
         : opts_(std::move(opts)), endpoint_(buildEndpoint(opts_.host, opts_.port)), running_(false) {}
 
@@ -524,6 +579,12 @@ class InProcessArrowFlightServer final : public ArrowFlightServer {
     std::string endpoint_;
     std::atomic<bool> running_;
 
+    /**
+     * @brief Path To Key.
+     * @param[in] p Input parameter.
+     * @return Return value.
+     * @details Implements pathToKey without additional internal calls.
+     */
     static std::string pathToKey(const std::vector<std::string> &p) {
         return ::themisdb::analytics::pathToKey(p);
     }
@@ -533,12 +594,6 @@ class InProcessArrowFlightServer final : public ArrowFlightServer {
     // ------------------------------------------------------------------
 #ifdef THEMIS_HAS_ARROW_FLIGHT
 
-    /**
-     * FlightServerBase implementation that bridges gRPC calls to the
-     * in-process registry so the same producer/handler code executes
-     * regardless of whether the call arrived from in-process or over the
-     * network.
-     */
     class ThemisFlightService : public arrow::flight::FlightServerBase {
       public:
         explicit ThemisFlightService(std::string endpoint) : endpoint_(std::move(endpoint)) {}
@@ -635,6 +690,12 @@ class InProcessArrowFlightServer final : public ArrowFlightServer {
       private:
         std::string endpoint_ = {};
 
+        /**
+         * @brief To Themis Descriptor.
+         * @param[in] fd Input parameter.
+         * @return Return value.
+         * @details Calls: FlightDescriptor::fromPath(), FlightDescriptor::fromCommand().
+         */
         static FlightDescriptor toThemisDescriptor(const arrow::flight::FlightDescriptor &fd) {
             if (fd.type == arrow::flight::FlightDescriptor::PATH) {
                 return FlightDescriptor::fromPath(fd.path);
@@ -646,6 +707,10 @@ class InProcessArrowFlightServer final : public ArrowFlightServer {
     std::unique_ptr<ThemisFlightService> flight_service_;
     std::thread flight_thread_ = {};
 
+    /**
+     * @brief Start Native Flight.
+     * @details Calls: arrow::flight::Location::ForGrpcTcp(), ok(), spdlog::warn(), status(), ToString(), srv_opts(), ValueOrDie(), Init().
+     */
     void startNativeFlight() {
         arrow::flight::Location loc;
         auto loc_result = arrow::flight::Location::ForGrpcTcp(opts_.host, opts_.port);
@@ -670,6 +735,10 @@ class InProcessArrowFlightServer final : public ArrowFlightServer {
         spdlog::info("[ArrowFlight] native gRPC transport started at '{}'", endpoint_);
     }
 
+    /**
+     * @brief Stop Native Flight.
+     * @details Calls: Shutdown(), ok(), spdlog::warn(), ToString(), joinable(), join(), reset().
+     */
     void stopNativeFlight() {
         if (flight_service_) {
             auto status = flight_service_->Shutdown();
@@ -689,9 +758,13 @@ class InProcessArrowFlightServer final : public ArrowFlightServer {
 // InProcessArrowFlightClient
 // ===========================================================================
 
-/** @brief InProcessArrowFlightClient. */
 class InProcessArrowFlightClient final : public ArrowFlightClient {
   public:
+    /**
+     * @brief In Process Arrow Flight Client.
+     * @param[in] opts Input parameter.
+     * @return Return value.
+     */
     explicit InProcessArrowFlightClient(FlightClientOptions opts)
         : opts_(std::move(opts)), endpoint_(buildEndpoint(opts_.host, opts_.port)), connected_(false) {
         if (opts_.prefer_inprocess && InProcessRegistry::instance().hasServer(endpoint_)) {
@@ -774,6 +847,10 @@ class InProcessArrowFlightClient final : public ArrowFlightClient {
 #ifdef THEMIS_HAS_ARROW_FLIGHT
     std::unique_ptr<arrow::flight::FlightClient> native_client_;
 
+    /**
+     * @brief Connect Native Flight.
+     * @details Calls: arrow::flight::Location::ForGrpcTcp(), ok(), spdlog::debug(), status(), ToString(), arrow::flight::FlightClient::Connect(), ValueOrDie(), std::move().
+     */
     void connectNativeFlight() {
         auto loc_result = arrow::flight::Location::ForGrpcTcp(opts_.host, opts_.port);
         if (!loc_result.ok()) {
@@ -811,6 +888,11 @@ class InProcessArrowFlightClient final : public ArrowFlightClient {
         spdlog::info("[ArrowFlight] native client connected to '{}'", endpoint_);
     }
 
+    /**
+     * @brief List Flights Native.
+     * @return Return value.
+     * @details Calls: ListFlights(), ok(), spdlog::warn(), status(), ToString(), ValueOrDie(), Next(), descriptor().
+     */
     std::vector<FlightInfo> listFlightsNative() {
         std::vector<FlightInfo> result;
         auto listing_result = native_client_->ListFlights();
@@ -839,6 +921,13 @@ class InProcessArrowFlightClient final : public ArrowFlightClient {
         return result;
     }
 
+    /**
+     * @brief Do Get Native.
+     * @param[in] descriptor Input parameter.
+     * @return Return value.
+     * @throws std::runtime_error if an error occurs.
+     * @details Calls: toArrowDescriptor(), GetFlightInfo(), ok(), status(), ToString(), ValueOrDie(), endpoints(), empty().
+     */
     RecordBatch doGetNative(const FlightDescriptor &descriptor) {
         arrow::flight::FlightDescriptor fd = toArrowDescriptor(descriptor);
         auto info_result                   = native_client_->GetFlightInfo(fd);
@@ -869,6 +958,13 @@ class InProcessArrowFlightClient final : public ArrowFlightClient {
         return result;
     }
 
+    /**
+     * @brief Do Put Native.
+     * @param[in] batch Input parameter.
+     * @param[in] descriptor Input parameter.
+     * @return Return value.
+     * @details Calls: toArrowDescriptor(), columnCount(), getColumn(), arrow::int64(), arrow::float64(), arrow::boolean(), arrow::utf8(), push_back().
+     */
     FlightPutResult doPutNative(const RecordBatch &batch, const FlightDescriptor &descriptor) {
         arrow::flight::FlightDescriptor fd = toArrowDescriptor(descriptor);
 
@@ -917,6 +1013,12 @@ class InProcessArrowFlightClient final : public ArrowFlightClient {
         return {status.ok(), status.ok() ? "OK" : status.ToString(), static_cast<int64_t>(batch.rowCount()), 0};
     }
 
+    /**
+     * @brief To Arrow Descriptor.
+     * @param[in] desc Input parameter.
+     * @return Return value.
+     * @details Calls: arrow::flight::FlightDescriptor::Path(), arrow::flight::FlightDescriptor::Command().
+     */
     static arrow::flight::FlightDescriptor toArrowDescriptor(const FlightDescriptor &desc) {
         if (desc.type == FlightDescriptor::Type::PATH) {
             return arrow::flight::FlightDescriptor::Path(desc.path);
@@ -930,10 +1032,22 @@ class InProcessArrowFlightClient final : public ArrowFlightClient {
 // Factory implementations
 // ===========================================================================
 
+/**
+ * @brief Create.
+ * @param[in] opts Input parameter.
+ * @return Return value.
+ * @details Implements create without additional internal calls.
+ */
 std::unique_ptr<ArrowFlightServer> ArrowFlightServer::create(const FlightServerOptions &opts) {
     return std::make_unique<InProcessArrowFlightServer>(opts);
 }
 
+/**
+ * @brief Connect.
+ * @param[in] opts Input parameter.
+ * @return Return value.
+ * @details Implements connect without additional internal calls.
+ */
 std::unique_ptr<ArrowFlightClient> ArrowFlightClient::connect(const FlightClientOptions &opts) {
     return std::make_unique<InProcessArrowFlightClient>(opts);
 }

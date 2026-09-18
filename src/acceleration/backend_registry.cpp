@@ -146,6 +146,11 @@ BackendRegistry &BackendRegistry::instance() {
     return instance;
 }
 
+/**
+ * @brief Register Backend.
+ * @param[in] backend Input parameter.
+ * @details Calls: isAvailable(), lock(), THEMIS_INFO(), name(), type(), get(), push_back(), std::move().
+ */
 void BackendRegistry::registerBackend(std::unique_ptr<IComputeBackend> backend) {
     if (backend && backend->isAvailable()) {
         std::unique_lock<std::shared_mutex> lock(registryMutex_);
@@ -175,6 +180,12 @@ void BackendRegistry::registerBackend(std::unique_ptr<IComputeBackend> backend) 
     }
 }
 
+/**
+ * @brief Load Plugins.
+ * @param[in] pluginDirectory Input parameter.
+ * @return Return value.
+ * @details Calls: THEMIS_INFO(), loadPluginsFromDirectory(), getLoadedPlugins(), createVectorBackend(), registerBackend(), std::move(), createGraphBackend(), createGeoBackend().
+ */
 size_t BackendRegistry::loadPlugins(const std::string &pluginDirectory) {
     THEMIS_INFO("Loading acceleration plugins from: {}", pluginDirectory);
 
@@ -199,6 +210,12 @@ size_t BackendRegistry::loadPlugins(const std::string &pluginDirectory) {
     return count;
 }
 
+/**
+ * @brief Load Plugin.
+ * @param[in] pluginPath Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: THEMIS_INFO(), getLoadedPlugins(), empty(), back(), THEMIS_ERROR(), createVectorBackend(), registerBackend(), std::move().
+ */
 bool BackendRegistry::loadPlugin(const std::string &pluginPath) {
     THEMIS_INFO("Loading acceleration plugin: {}", pluginPath);
 
@@ -237,6 +254,11 @@ bool BackendRegistry::loadPlugin(const std::string &pluginPath) {
 }
 
 IComputeBackend *BackendRegistry::getBackend(BackendType type) const {
+    /**
+     * @brief Lock.
+     * @param[in] registryMutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(registryMutex_);
     auto it = typeIndex_.find(type);
     return (it != typeIndex_.end()) ? it->second.base : nullptr;
@@ -303,6 +325,11 @@ static T *selectTyped(const std::unordered_map<BackendType, RegisteredBackend> &
 }
 
 IComputeBackend *BackendRegistry::selectBackendFor(const CapabilityRequirements &reqs) const {
+    /**
+     * @brief Lock.
+     * @param[in] registryMutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(registryMutex_);
     const bool cpuOnlyEnvironment = runtimeInitialized_.load(std::memory_order_acquire)
                                  && !hasAcceleratorDevice(cachedDeviceInfo_);
@@ -323,6 +350,11 @@ IComputeBackend *BackendRegistry::selectBackendFor(const CapabilityRequirements 
 }
 
 IVectorBackend *BackendRegistry::selectVectorBackendFor(const CapabilityRequirements &reqs) const {
+    /**
+     * @brief Lock.
+     * @param[in] registryMutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(registryMutex_);
     const bool cpuOnlyEnvironment = runtimeInitialized_.load(std::memory_order_acquire)
                                  && !hasAcceleratorDevice(cachedDeviceInfo_);
@@ -330,6 +362,11 @@ IVectorBackend *BackendRegistry::selectVectorBackendFor(const CapabilityRequirem
 }
 
 IGraphBackend *BackendRegistry::selectGraphBackendFor(const CapabilityRequirements &reqs) const {
+    /**
+     * @brief Lock.
+     * @param[in] registryMutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(registryMutex_);
     const bool cpuOnlyEnvironment = runtimeInitialized_.load(std::memory_order_acquire)
                                  && !hasAcceleratorDevice(cachedDeviceInfo_);
@@ -337,6 +374,11 @@ IGraphBackend *BackendRegistry::selectGraphBackendFor(const CapabilityRequiremen
 }
 
 IGeoBackend *BackendRegistry::selectGeoBackendFor(const CapabilityRequirements &reqs) const {
+    /**
+     * @brief Lock.
+     * @param[in] registryMutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(registryMutex_);
     const bool cpuOnlyEnvironment = runtimeInitialized_.load(std::memory_order_acquire)
                                  && !hasAcceleratorDevice(cachedDeviceInfo_);
@@ -344,6 +386,11 @@ IGeoBackend *BackendRegistry::selectGeoBackendFor(const CapabilityRequirements &
 }
 
 IMatrixBackend *BackendRegistry::selectMatrixBackendFor(const CapabilityRequirements &reqs) const {
+    /**
+     * @brief Lock.
+     * @param[in] registryMutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(registryMutex_);
     const bool cpuOnlyEnvironment = runtimeInitialized_.load(std::memory_order_acquire)
                                  && !hasAcceleratorDevice(cachedDeviceInfo_);
@@ -351,6 +398,11 @@ IMatrixBackend *BackendRegistry::selectMatrixBackendFor(const CapabilityRequirem
 }
 
 IVectorBackend *BackendRegistry::getBestVectorBackend() const {
+    /**
+     * @brief Lock.
+     * @param[in] registryMutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(registryMutex_);
     const bool cpuOnlyEnvironment = runtimeInitialized_.load(std::memory_order_acquire)
                                  && !hasAcceleratorDevice(cachedDeviceInfo_);
@@ -367,6 +419,11 @@ IVectorBackend *BackendRegistry::getBestVectorBackend() const {
 }
 
 IGraphBackend *BackendRegistry::getBestGraphBackend() const {
+    /**
+     * @brief Lock.
+     * @param[in] registryMutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(registryMutex_);
     const bool cpuOnlyEnvironment = runtimeInitialized_.load(std::memory_order_acquire)
                                  && !hasAcceleratorDevice(cachedDeviceInfo_);
@@ -383,6 +440,11 @@ IGraphBackend *BackendRegistry::getBestGraphBackend() const {
 }
 
 IGeoBackend *BackendRegistry::getBestGeoBackend() const {
+    /**
+     * @brief Lock.
+     * @param[in] registryMutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(registryMutex_);
     const bool cpuOnlyEnvironment = runtimeInitialized_.load(std::memory_order_acquire)
                                  && !hasAcceleratorDevice(cachedDeviceInfo_);
@@ -399,6 +461,11 @@ IGeoBackend *BackendRegistry::getBestGeoBackend() const {
 }
 
 IMatrixBackend *BackendRegistry::getBestMatrixBackend() const {
+    /**
+     * @brief Lock.
+     * @param[in] registryMutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(registryMutex_);
     const bool cpuOnlyEnvironment = runtimeInitialized_.load(std::memory_order_acquire)
                                  && !hasAcceleratorDevice(cachedDeviceInfo_);
@@ -414,6 +481,10 @@ IMatrixBackend *BackendRegistry::getBestMatrixBackend() const {
     return nullptr;
 }
 
+/**
+ * @brief Auto Detect.
+ * @details Calls: THEMIS_INFO(), MultiGPUVectorBackend::detectGPUCount(), registerBackend(), loadPlugins(), lock(), size(), getCapabilities(), THEMIS_DEBUG().
+ */
 void BackendRegistry::autoDetect() {
     THEMIS_INFO("Auto-detecting acceleration backends...");
 
@@ -453,6 +524,11 @@ void BackendRegistry::autoDetect() {
 }
 
 std::vector<BackendType> BackendRegistry::getAvailableBackends() const {
+    /**
+     * @brief Lock.
+     * @param[in] registryMutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(registryMutex_);
     std::vector<BackendType> types = {};
 
@@ -465,6 +541,10 @@ std::vector<BackendType> BackendRegistry::getAvailableBackends() const {
     return types;
 }
 
+/**
+ * @brief Shutdown All.
+ * @details Calls: THEMIS_INFO(), lock(), shutdown(), clear(), store(), unlock(), unloadAllPlugins().
+ */
 void BackendRegistry::shutdownAll() {
     THEMIS_INFO("Shutting down all acceleration backends...");
 
@@ -525,6 +605,13 @@ BackendRegistry::CapabilityRequirements BackendRegistry::defaultGeoRequirements(
 // Runtime startup initialization
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Initialize Runtime.
+ * @param[in] vectorReqs Input parameter.
+ * @param[in] graphReqs Input parameter.
+ * @param[in] geoReqs Input parameter.
+ * @details Calls: THEMIS_INFO(), DeviceManager::instance(), refresh(), logDeviceInfo(), autoDetect(), lock(), std::move(), hasAcceleratorDevice().
+ */
 void BackendRegistry::initializeRuntime(const CapabilityRequirements &vectorReqs,
                                         const CapabilityRequirements &graphReqs,
                                         const CapabilityRequirements &geoReqs) {
@@ -572,16 +659,31 @@ void BackendRegistry::initializeRuntime(const CapabilityRequirements &vectorReqs
 }
 
 IVectorBackend *BackendRegistry::getSelectedVectorBackend() const noexcept {
+    /**
+     * @brief Lock.
+     * @param[in] registryMutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(registryMutex_);
     return selectedVectorBackend_;
 }
 
 IGraphBackend *BackendRegistry::getSelectedGraphBackend() const noexcept {
+    /**
+     * @brief Lock.
+     * @param[in] registryMutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(registryMutex_);
     return selectedGraphBackend_;
 }
 
 IGeoBackend *BackendRegistry::getSelectedGeoBackend() const noexcept {
+    /**
+     * @brief Lock.
+     * @param[in] registryMutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(registryMutex_);
     return selectedGeoBackend_;
 }
@@ -591,6 +693,11 @@ bool BackendRegistry::isRuntimeInitialized() const noexcept {
 }
 
 std::vector<DeviceCapabilityInfo> BackendRegistry::deviceInfo() const noexcept {
+    /**
+     * @brief Lock.
+     * @param[in] registryMutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(registryMutex_);
     return cachedDeviceInfo_;
 }

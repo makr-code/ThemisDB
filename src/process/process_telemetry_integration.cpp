@@ -76,30 +76,19 @@ namespace process {
 // TRACE CONTEXT (W3C STANDARD)
 // ============================================================================
 
-/**
- * @brief W3C Trace Context (standard HTTP header format).
- * @internal
- *
- * Format: traceparent = "00-<trace-id>-<span-id>-<trace-flags>"
- * - trace-id: 32-char hex (128-bit)
- * - span-id: 16-char hex (64-bit)
- * - trace-flags: 2-char hex (sampled, recorded)
- */
 struct TraceContext {
-  /// Trace ID (128-bit, uniquely identifies distributed trace)
   std::string trace_id;
 
-  /// Span ID (64-bit, current span)
   std::string span_id;
 
-  /// Parent span ID (64-bit, caller's span)
   std::string parent_span_id;
 
-  /// Trace flags (bit 0: sampled, bit 1: recorded)
   uint8_t trace_flags = 0x01;  // Sampled by default
 
   /**
-   * @brief Generate random trace/span ID (128-bit/64-bit random hex).
+   * @brief Generate Trace Id.
+   * @return Return value.
+   * @details Calls: rng(), std::setw(), std::setfill(), str().
    */
   static std::string GenerateTraceId() {
     static thread_local std::mt19937_64 rng(std::random_device{}());
@@ -111,6 +100,11 @@ struct TraceContext {
     return oss.str();
   }
 
+  /**
+   * @brief Generate Span Id.
+   * @return Return value.
+   * @details Calls: rng(), std::setw(), std::setfill(), str().
+   */
   static std::string GenerateSpanId() {
     static thread_local std::mt19937_64 rng(std::random_device{}());
     std::ostringstream oss = {};
@@ -118,9 +112,6 @@ struct TraceContext {
     return oss.str();
   }
 
-  /**
-   * @brief Serialize to W3C traceparent header format.
-   */
   std::string ToHeader() const {
     std::ostringstream oss = {};
     oss << "00-" << trace_id << "-" << span_id << "-";
@@ -130,7 +121,10 @@ struct TraceContext {
   }
 
   /**
-   * @brief Parse from W3C traceparent header.
+   * @brief From Header.
+   * @param[in] header Input parameter.
+   * @return Return value.
+   * @details Calls: size(), substr().
    */
   static TraceContext FromHeader(const std::string& header) {
     TraceContext ctx;
@@ -147,18 +141,8 @@ struct TraceContext {
 // DISTRIBUTED TRACE SPAN
 // ============================================================================
 
-/**
- * @brief OpenTelemetry-compatible distributed trace span.
- * @internal
- */
 class DistributedSpan {
  public:
-  /**
-   * @brief Constructor.
-   * @param operation_name Name of operation (e.g., "AppendEntry", "Replicate")
-   * @param context Trace context (for parent span linking)
-   * @param node_id Node ID (for span attributes)
-   */
   DistributedSpan(const std::string& operation_name,
                   const TraceContext& context, const std::string& node_id)
       : operation_name_(operation_name),
@@ -171,31 +155,42 @@ class DistributedSpan {
     context_.span_id = TraceContext::GenerateSpanId();
   }
 
-  /**
-   * @brief Destructor (span automatically ended).
-   */
   ~DistributedSpan() { End(); }
 
   /**
-   * @brief Set span attribute (key-value metadata).
-   * @param key Attribute name
-   * @param value Attribute value
+   * @brief Set Attribute.
+   * @param[in] key Input parameter.
+   * @param[in] value Input parameter.
+   * @details Implements SetAttribute without additional internal calls.
    */
   void SetAttribute(const std::string& key, const std::string& value) {
     attributes_[key] = value;
   }
 
+  /**
+   * @brief Set Attribute.
+   * @param[in] key Input parameter.
+   * @param[in] value Input parameter.
+   * @details Calls: std::to_string().
+   */
   void SetAttribute(const std::string& key, uint64_t value) {
     SetAttribute(key, std::to_string(value));
   }
 
+  /**
+   * @brief Set Attribute.
+   * @param[in] key Input parameter.
+   * @param[in] value Input parameter.
+   * @details Calls: std::to_string().
+   */
   void SetAttribute(const std::string& key, double value) {
     SetAttribute(key, std::to_string(value));
   }
 
   /**
-   * @brief Record event within span (e.g., "consensus.vote_received").
-   * @param event_name Event name
+   * @brief Record Event.
+   * @param[in] event_name Name of the event.
+   * @details Calls: push_back(), std::chrono::high_resolution_clock::now().
    */
   void RecordEvent(const std::string& event_name) {
     events_.push_back({event_name,
@@ -203,7 +198,8 @@ class DistributedSpan {
   }
 
   /**
-   * @brief End span and record latency.
+   * @brief End.
+   * @details Calls: std::chrono::high_resolution_clock::now(), count(), utils::Logger::Debug(), c_str().
    */
   void End() {
     if (is_recorded_) {
@@ -249,27 +245,8 @@ class DistributedSpan {
 // TELEMETRY INTEGRATION IMPLEMENTATION
 // ============================================================================
 
-/**
- * @class ProcessTelemetryIntegrationImpl
- * @brief Core distributed tracing and telemetry coordination.
- *
- * ### Thread Safety
- * All public methods are thread-safe via fine-grained locking.
- * Lock ordering: telemetry_mutex_ → span_history_mutex_
- *
- * ### Performance
- * - Span creation: 0.5-1 ms (< 2% overhead target)
- * - Span recording: < 1 ms
- * - Context propagation: < 0.5 ms
- * - Overhead validation: < 5% hard limit (GATE-TEL-01)
- */
 class ProcessTelemetryIntegrationImpl {
  public:
-  /**
-   * @brief Constructor.
-   * @param config Telemetry configuration (OTel endpoint, sampling rate)
-   * @param node_id Node ID (included in all spans)
-   */
   ProcessTelemetryIntegrationImpl(const TelemetryConfig& config,
                                   const std::string& node_id)
       : config_(config),
@@ -283,9 +260,6 @@ class ProcessTelemetryIntegrationImpl {
         node_id_.c_str(), config.otel_exporter_endpoint.c_str());
   }
 
-  /**
-   * @brief Destructor.
-   */
   ~ProcessTelemetryIntegrationImpl() = default;
 
   // ========================================================================
@@ -293,75 +267,50 @@ class ProcessTelemetryIntegrationImpl {
   // ========================================================================
 
   /**
-   * @brief Create a new distributed trace span.
-   *
-   * Span is automatically linked to current trace context (parent span).
-   * Attributes set on span are recorded in telemetry export.
-   *
-   * @param operation_name Operation name (e.g., "AppendEntry", "Replicate")
-   * @return Shared span (auto-ended on destruction)
-   * @thread_safe Acquires telemetry_mutex_
+   * @brief Create Span.
+   * @param[in] operation_name Name of the operation.
+   * @return Return value.
    */
   std::shared_ptr<DistributedSpan> CreateSpan(const std::string& operation_name);
 
   /**
-   * @brief Set current trace context (for parent span linking).
-   *
-   * Used when receiving RPC from another node to link remote parent span.
-   *
-   * @param context Trace context (from W3C traceparent header)
-   * @thread_safe Acquires telemetry_mutex_
+   * @brief Set Current Trace Context.
+   * @param[in] context Input parameter.
    */
   void SetCurrentTraceContext(const TraceContext& context);
 
   /**
-   * @brief Get current trace context (for header propagation).
-   *
-   * Used to serialize trace context into RPC headers sent to other nodes.
-   *
-   * @return Current trace context (W3C compliant)
-   * @thread_safe Acquires telemetry_mutex_
+   * @brief Get Current Trace Context.
+   * @return Return value.
    */
   TraceContext GetCurrentTraceContext() const;
 
   /**
-   * @brief Record span in history and export to OTel collector.
-   *
-   * Called automatically when span is destroyed.
-   *
-   * @param span Completed span
-   * @thread_safe Acquires telemetry_mutex_, span_history_mutex_
+   * @brief Record Span.
+   * @param[in] span Input parameter.
    */
   void RecordSpan(const std::shared_ptr<DistributedSpan>& span);
 
   /**
-   * @brief Validate tracing overhead budget (< 5% of operation latency).
-   *
-   * @param operation_name Operation name
-   * @param operation_latency_ms Total operation latency
-   * @param tracing_overhead_ms Overhead introduced by tracing
-   * @return true if overhead within budget, false otherwise
-   * @thread_safe Acquires telemetry_mutex_
+   * @brief Validate Overhead Budget.
+   * @param[in] operation_name Name of the operation.
+   * @param[in] operation_latency_ms Input parameter.
+   * @param[in] tracing_overhead_ms Input parameter.
+   * @return True when the operation succeeds.
    */
   bool ValidateOverheadBudget(const std::string& operation_name,
                               uint64_t operation_latency_ms,
                               uint64_t tracing_overhead_ms);
 
   /**
-   * @brief Get telemetry statistics.
-   *
-   * @return Struct with spans_created, avg_overhead_ms, max_overhead_ms
-   * @thread_safe Acquires telemetry_mutex_
+   * @brief Get Stats.
+   * @return Return value.
    */
   TelemetryStats GetStats() const;
 
   /**
-   * @brief Export all recorded spans to OpenTelemetry collector.
-   *
-   * Batches spans and sends via HTTP to configured OTLP endpoint.
-   *
-   * @return true if export successful, false on network/timeout error
-   * @thread_safe Acquires span_history_mutex_
+   * @brief Export Spans.
+   * @return True when the operation succeeds.
    */
   bool ExportSpans();
 
@@ -371,13 +320,17 @@ class ProcessTelemetryIntegrationImpl {
 
  private:
   /**
-   * @brief Serialize span to OTLP JSON format.
+   * @brief Serialize Span Otlp.
+   * @param[in] span Input parameter.
+   * @return Return value.
    */
   static std::string SerializeSpanOtlp(
       const std::shared_ptr<DistributedSpan>& span);
 
   /**
-   * @brief Send batch of spans to OTel collector via HTTP POST.
+   * @brief Send Spans To Collector.
+   * @param[in] span_jsons Input parameter.
+   * @return True when the operation succeeds.
    */
   bool SendSpansToCollector(const std::vector<std::string>& span_jsons);
 
@@ -411,6 +364,11 @@ class ProcessTelemetryIntegrationImpl {
 
 std::shared_ptr<DistributedSpan>
 ProcessTelemetryIntegrationImpl::CreateSpan(const std::string& operation_name) {
+  /**
+   * @brief Lock.
+   * @param[in] telemetry_mutex_ Input parameter.
+   * @return Return value.
+   */
   std::lock_guard<std::mutex> lock(telemetry_mutex_);
 
   auto span = std::make_shared<DistributedSpan>(
@@ -431,6 +389,11 @@ ProcessTelemetryIntegrationImpl::CreateSpan(const std::string& operation_name) {
   return span;
 }
 
+/**
+ * @brief Set Current Trace Context.
+ * @param[in] context Input parameter.
+ * @details Calls: lock().
+ */
 void ProcessTelemetryIntegrationImpl::SetCurrentTraceContext(
     const TraceContext& context) {
   std::lock_guard<std::mutex> lock(telemetry_mutex_);
@@ -438,10 +401,20 @@ void ProcessTelemetryIntegrationImpl::SetCurrentTraceContext(
 }
 
 TraceContext ProcessTelemetryIntegrationImpl::GetCurrentTraceContext() const {
+  /**
+   * @brief Lock.
+   * @param[in] telemetry_mutex_ Input parameter.
+   * @return Return value.
+   */
   std::lock_guard<std::mutex> lock(telemetry_mutex_);
   return current_trace_context_;
 }
 
+/**
+ * @brief Record Span.
+ * @param[in] span Input parameter.
+ * @details Calls: lock(), push_back(), size(), erase(), begin(), utils::Logger::Debug(), GetOperationName(), c_str().
+ */
 void ProcessTelemetryIntegrationImpl::RecordSpan(
     const std::shared_ptr<DistributedSpan>& span) {
   std::lock_guard<std::mutex> lock(span_history_mutex_);
@@ -458,6 +431,14 @@ void ProcessTelemetryIntegrationImpl::RecordSpan(
                        span->GetLatencyMs());
 }
 
+/**
+ * @brief Validate Overhead Budget.
+ * @param[in] operation_name Name of the operation.
+ * @param[in] operation_latency_ms Input parameter.
+ * @param[in] tracing_overhead_ms Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), utils::Logger::Warn(), c_str(), std::max().
+ */
 bool ProcessTelemetryIntegrationImpl::ValidateOverheadBudget(
     const std::string& operation_name, uint64_t operation_latency_ms,
     uint64_t tracing_overhead_ms) {
@@ -484,6 +465,11 @@ bool ProcessTelemetryIntegrationImpl::ValidateOverheadBudget(
 }
 
 TelemetryStats ProcessTelemetryIntegrationImpl::GetStats() const {
+  /**
+   * @brief Lock.
+   * @param[in] metrics_mutex_ Input parameter.
+   * @return Return value.
+   */
   std::lock_guard<std::mutex> lock(metrics_mutex_);
 
   TelemetryStats stats;
@@ -497,6 +483,11 @@ TelemetryStats ProcessTelemetryIntegrationImpl::GetStats() const {
   return stats;
 }
 
+/**
+ * @brief Export Spans.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), empty(), push_back(), SerializeSpanOtlp(), SendSpansToCollector(), metrics_lock(), size(), clear().
+ */
 bool ProcessTelemetryIntegrationImpl::ExportSpans() {
   std::lock_guard<std::mutex> lock(span_history_mutex_);
 
@@ -525,6 +516,12 @@ bool ProcessTelemetryIntegrationImpl::ExportSpans() {
   return success;
 }
 
+/**
+ * @brief Serialize Span Otlp.
+ * @param[in] span Input parameter.
+ * @return Return value.
+ * @details Calls: GetOperationName(), GetContext(), GetLatencyMs(), str().
+ */
 std::string ProcessTelemetryIntegrationImpl::SerializeSpanOtlp(
     const std::shared_ptr<DistributedSpan>& span) {
   // Simplified OTLP JSON serialization
@@ -537,6 +534,12 @@ std::string ProcessTelemetryIntegrationImpl::SerializeSpanOtlp(
   return oss.str();
 }
 
+/**
+ * @brief Send Spans To Collector.
+ * @param[in] span_jsons Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: utils::Logger::Info(), size(), c_str().
+ */
 bool ProcessTelemetryIntegrationImpl::SendSpansToCollector(
     const std::vector<std::string>& span_jsons) {
   // Simplified: log export (production version uses HTTP POST)
@@ -567,6 +570,11 @@ ProcessTelemetryIntegration::CreateSpan(const std::string& operation_name) {
   return impl_->CreateSpan(operation_name);
 }
 
+/**
+ * @brief Set Current Trace Context.
+ * @param[in] context Input parameter.
+ * @details Implements SetCurrentTraceContext without additional internal calls.
+ */
 void ProcessTelemetryIntegration::SetCurrentTraceContext(
     const TraceContext& context) {
   impl_->SetCurrentTraceContext(context);
@@ -576,11 +584,24 @@ TraceContext ProcessTelemetryIntegration::GetCurrentTraceContext() const {
   return impl_->GetCurrentTraceContext();
 }
 
+/**
+ * @brief Record Span.
+ * @param[in] span Input parameter.
+ * @details Implements RecordSpan without additional internal calls.
+ */
 void ProcessTelemetryIntegration::RecordSpan(
     const std::shared_ptr<DistributedSpan>& span) {
   impl_->RecordSpan(span);
 }
 
+/**
+ * @brief Validate Overhead Budget.
+ * @param[in] operation_name Name of the operation.
+ * @param[in] operation_latency_ms Input parameter.
+ * @param[in] tracing_overhead_ms Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements ValidateOverheadBudget without additional internal calls.
+ */
 bool ProcessTelemetryIntegration::ValidateOverheadBudget(
     const std::string& operation_name, uint64_t operation_latency_ms,
     uint64_t tracing_overhead_ms) {
@@ -592,6 +613,11 @@ TelemetryStats ProcessTelemetryIntegration::GetStats() const {
   return impl_->GetStats();
 }
 
+/**
+ * @brief Export Spans.
+ * @return True when the operation succeeds.
+ * @details Implements ExportSpans without additional internal calls.
+ */
 bool ProcessTelemetryIntegration::ExportSpans() {
   return impl_->ExportSpans();
 }

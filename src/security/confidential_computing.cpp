@@ -160,8 +160,11 @@ inline std::array<uint32_t, 4> cpuid(uint32_t leaf, uint32_t subleaf = 0)
     return r;
 }
 
-// Check for Intel TDX via CPUID leaf 0x21 sub-leaf 0.
-// The hypervisor exposes the string "IntelTDX    " split across EBX/EDX/ECX.
+/**
+ * @brief Check for Intel TDX via CPUID leaf 0x21 sub-leaf 0.
+ * @return True when the operation succeeds.
+ * @details The hypervisor exposes the string "IntelTDX " split across EBX/EDX/ECX.
+ */
 bool cpuid_detect_tdx()
 {
 #if defined(THEMIS_HAS_CPUID)
@@ -235,15 +238,32 @@ std::pair<bool,bool> cpuid_detect_amd_sev()
 #endif
 }
 
-// SHA-256 convenience wrapper (returns 32-byte digest).
+/**
+ * @brief SHA-256 convenience wrapper (returns 32-byte digest).
+ * @param[in] data Input parameter.
+ * @return Return value.
+ */
 std::vector<uint8_t> sha256(const std::vector<uint8_t>& data)
 {
+    /**
+     * @brief Digest.
+     * @param[in] SHA256_DIGEST_LENGTH Input parameter.
+     * @return Return value.
+     */
     std::vector<uint8_t> digest(SHA256_DIGEST_LENGTH);
     SHA256(data.data(),data.size(), digest.data());
     return digest;
 }
 
-// AES-256-GCM encrypt.  Throws on failure.
+/**
+ * @brief AES-256-GCM encrypt.
+ * @param[in] key Input parameter.
+ * @param[in] plaintext Input parameter.
+ * @param[in,out] iv_out Input/output parameter.
+ * @param[in,out] ciphertext_out Input/output parameter.
+ * @param[in,out] tag_out Input/output parameter.
+ * @details Throws on failure.
+ */
 void aes256gcm_encrypt(
     const uint8_t key[32],
     const std::vector<uint8_t>& plaintext,
@@ -284,7 +304,15 @@ void aes256gcm_encrypt(
         throw std::runtime_error("ConfidentialComputing: EVP_CTRL_GCM_GET_TAG failed");
 }
 
-// AES-256-GCM decrypt.  Throws on authentication failure.
+/**
+ * @brief AES-256-GCM decrypt.
+ * @param[in] key Input parameter.
+ * @param[in] iv Input parameter.
+ * @param[in] ciphertext Input parameter.
+ * @param[in] tag Input parameter.
+ * @return Return value.
+ * @details Throws on authentication failure.
+ */
 std::vector<uint8_t> aes256gcm_decrypt(
     const uint8_t key[32],
     const std::vector<uint8_t>& iv,
@@ -336,7 +364,6 @@ std::vector<uint8_t> aes256gcm_decrypt(
 
 // ── Base implementation shared by all concrete classes ────────────────────────
 
-/** @brief ── Base implementation shared by all concrete classes ────────────────────────. */
 class ConfidentialComputingBase : public ConfidentialComputing {
 public:
     // Each subclass owns a 32-byte sealing key generated at construction.
@@ -380,8 +407,10 @@ public:
     }
 
 protected:
-    // Subclasses override to return the current TEE measurement digest
-    // (used for measurement binding in seal/unseal).
+    /**
+     * @brief Subclasses override to return the current TEE measurement digest (used for measurement binding in seal/unseal).
+     * @return Return value.
+     */
     virtual std::vector<uint8_t> currentMeasurement() const = 0;
 
     TeeType tee_type_;
@@ -390,7 +419,6 @@ protected:
 
 // ── Intel TDX implementation ──────────────────────────────────────────────────
 
-/** @brief ── Intel TDX implementation ──────────────────────────────────────────────────. */
 class TdxConfidentialComputing final : public ConfidentialComputingBase {
 public:
     TdxConfidentialComputing() : ConfidentialComputingBase(TeeType::INTEL_TDX) {}
@@ -474,9 +502,13 @@ protected:
 
 // ── AMD SEV / SEV-SNP implementation ─────────────────────────────────────────
 
-/** @brief ── AMD SEV / SEV-SNP implementation ─────────────────────────────────────────. */
 class SevConfidentialComputing final : public ConfidentialComputingBase {
 public:
+    /**
+     * @brief Sev Confidential Computing.
+     * @param[in] type Input parameter.
+     * @return Return value.
+     */
     explicit SevConfidentialComputing(TeeType type)
         : ConfidentialComputingBase(type) {}
 
@@ -575,7 +607,6 @@ protected:
 
 // ── Software fallback (no TEE) ────────────────────────────────────────────────
 
-/** @brief ── Software fallback (no TEE) ────────────────────────────────────────────────. */
 class SoftwareConfidentialComputing final : public ConfidentialComputingBase {
 public:
     SoftwareConfidentialComputing() : ConfidentialComputingBase(TeeType::NONE) {}
@@ -609,7 +640,10 @@ protected:
     }
 };
 
-// ── Factory ───────────────────────────────────────────────────────────────────
+/**
+ * @brief ── Factory ───────────────────────────────────────────────────────────────────
+ * @return Return value.
+ */
 
 std::unique_ptr<ConfidentialComputing> ConfidentialComputing::create()
 {

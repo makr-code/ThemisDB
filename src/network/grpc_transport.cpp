@@ -45,7 +45,12 @@ GrpcTransport::~GrpcTransport() {
 // Port validation
 // ─────────────────────────────────────────────────────────────────────────────
 
-/* static */
+/**
+ * @brief static
+ * @param[in] port Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements isValidPort without additional internal calls.
+ */
 bool GrpcTransport::isValidPort(uint16_t port) {
     // Reject port 0 and well-known HTTP/HTTPS ports.
     if (port == 0 || port == 80 || port == 443) {
@@ -73,7 +78,13 @@ std::string GrpcTransport::getAddress() const {
     return config_.host + ":" + std::to_string(config_.port);
 }
 
-/* static */
+/**
+ * @brief static
+ * @param[in] path Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: file(), rdbuf(), str().
+ */
 std::string GrpcTransport::loadFile(const std::string& path) {
     std::ifstream file(path);
     if (!file) {
@@ -125,6 +136,11 @@ GrpcTransport::buildCredentials() const {
     }
 }
 
+/**
+ * @brief Check Connection Limit.
+ * @return True when the operation succeeds.
+ * @details Calls: lk().
+ */
 bool GrpcTransport::checkConnectionLimit() {
     if (config_.max_connections == 0) {
         return true;  // Unlimited
@@ -141,6 +157,11 @@ bool GrpcTransport::checkConnectionLimit() {
 // Completion-queue drain loop
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Drain Completion Queue.
+ * @param[in,out] cq Input/output parameter.
+ * @details Calls: Next(), lk().
+ */
 void GrpcTransport::drainCompletionQueue(grpc::ServerCompletionQueue* cq) {
     // Each tag in the completion queue is a GenericServerAsyncReaderWriter
     // (wrapped as void*).  We use a simple tag convention:
@@ -172,6 +193,11 @@ void GrpcTransport::drainCompletionQueue(grpc::ServerCompletionQueue* cq) {
 // start / stop
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Start.
+ * @return True when the operation succeeds.
+ * @details Calls: load(), THEMIS_WARN(), getAddress(), buildCredentials(), AddListeningPort(), RegisterAsyncGenericService(), get(), SetMaxReceiveMessageSize().
+ */
 bool GrpcTransport::start() {
     if (running_.load(std::memory_order_acquire)) {
         THEMIS_WARN("[GrpcTransport] start() called while already running");
@@ -233,6 +259,10 @@ bool GrpcTransport::start() {
     return true;
 }
 
+/**
+ * @brief Stop.
+ * @details Calls: exchange(), THEMIS_INFO(), getAddress(), Shutdown(), joinable(), join(), clear(), reset().
+ */
 void GrpcTransport::stop() {
     if (!running_.exchange(false, std::memory_order_acq_rel)) {
         return;
@@ -268,6 +298,11 @@ void GrpcTransport::stop() {
 // ─────────────────────────────────────────────────────────────────────────────
 
 GrpcTransport::Stats GrpcTransport::getStats() const {
+    /**
+     * @brief Lk.
+     * @param[in] stats_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(stats_mutex_);
     return stats_;
 }

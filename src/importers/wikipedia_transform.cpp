@@ -19,6 +19,12 @@
 namespace themis::importers {
 
 namespace {
+/**
+ * @brief Fnv1a64.
+ * @param[in] text Input parameter.
+ * @return Return value.
+ * @details Implements fnv1a64 without additional internal calls.
+ */
 uint64_t fnv1a64(std::string_view text) {
     uint64_t hash = 1469598103934665603;
     for (const unsigned char ch : text) {
@@ -28,12 +34,24 @@ uint64_t fnv1a64(std::string_view text) {
     return hash;
 }
 
+/**
+ * @brief Hex64.
+ * @param[in] value Input parameter.
+ * @return Return value.
+ * @details Calls: str().
+ */
 std::string hex64(uint64_t value) {
     std::ostringstream output = {};
     output << std::hex << value;
     return output.str();
 }
 
+/**
+ * @brief Trim.
+ * @param[in] text Input parameter.
+ * @return Return value.
+ * @details Calls: std::isspace(), erase(), begin(), std::find_if(), end(), rbegin(), rend(), base().
+ */
 std::string trim(std::string text) {
     const auto not_space = [](unsigned char ch) { return !std::isspace(ch); };
     text.erase(text.begin(), std::find_if(text.begin(), text.end(), not_space));
@@ -42,6 +60,12 @@ std::string trim(std::string text) {
 }
 } // namespace
 
+/**
+ * @brief Normalize Title.
+ * @param[in] title Input parameter.
+ * @return Return value.
+ * @details Calls: normalized(), std::replace(), begin(), end(), trim(), reserve(), size(), std::isspace().
+ */
 std::string WikipediaTransform::normalizeTitle(std::string_view title) {
     std::string normalized(title);
     std::replace(normalized.begin(), normalized.end(), '_', ' ');
@@ -67,6 +91,12 @@ std::string WikipediaTransform::normalizeTitle(std::string_view title) {
     return compact;
 }
 
+/**
+ * @brief Decode Xml Entities.
+ * @param[in] text Input parameter.
+ * @return Return value.
+ * @details Calls: output(), find(), replace(), std::strlen().
+ */
 std::string WikipediaTransform::decodeXmlEntities(std::string_view text) {
     std::string output(text);
     const std::pair<const char*, const char*> entities[] = {
@@ -86,16 +116,35 @@ std::string WikipediaTransform::decodeXmlEntities(std::string_view text) {
     return output;
 }
 
+/**
+ * @brief Canonicalize Text.
+ * @param[in] text Input parameter.
+ * @return Return value.
+ * @details Calls: decodeXmlEntities(), trim(), std::move().
+ */
 std::string WikipediaTransform::canonicalizeText(std::string_view text) {
     auto normalized = decodeXmlEntities(text);
     normalized = trim(std::move(normalized));
     return normalized;
 }
 
+/**
+ * @brief Checksum Hex.
+ * @param[in] text Input parameter.
+ * @return Return value.
+ * @details Calls: hex64(), fnv1a64().
+ */
 std::string WikipediaTransform::checksumHex(std::string_view text) {
     return hex64(fnv1a64(text));
 }
 
+/**
+ * @brief Extract Links.
+ * @param[in] page Input parameter.
+ * @param[in] revision Input parameter.
+ * @return Return value.
+ * @details Calls: link_regex(), std::sregex_iterator(), begin(), end(), normalizeTitle(), str(), rfind(), push_back().
+ */
 std::vector<WikipediaLinkRecord> WikipediaTransform::extractLinks(
     const WikipediaPageRecord& page,
     const WikipediaRevisionRecord& revision) {
@@ -113,6 +162,13 @@ std::vector<WikipediaLinkRecord> WikipediaTransform::extractLinks(
     return links;
 }
 
+/**
+ * @brief Extract Categories.
+ * @param[in] page Input parameter.
+ * @param[in] revision Input parameter.
+ * @return Return value.
+ * @details Calls: category_regex(), std::sregex_iterator(), begin(), end(), push_back(), normalizeTitle(), str().
+ */
 std::vector<WikipediaCategoryRecord> WikipediaTransform::extractCategories(
     const WikipediaPageRecord& page,
     const WikipediaRevisionRecord& revision) {
@@ -126,6 +182,13 @@ std::vector<WikipediaCategoryRecord> WikipediaTransform::extractCategories(
     return categories;
 }
 
+/**
+ * @brief Extract Redirect.
+ * @param[in] page Input parameter.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), normalizeTitle().
+ */
 std::optional<WikipediaRedirectRecord> WikipediaTransform::extractRedirect(
     const WikipediaPageRecord& page,
     const WikipediaRevisionRecord& /*revision*/) {
@@ -135,6 +198,13 @@ std::optional<WikipediaRedirectRecord> WikipediaTransform::extractRedirect(
     return WikipediaRedirectRecord{page.page_id, normalizeTitle(page.redirect_title)};
 }
 
+/**
+ * @brief Build Process Events.
+ * @param[in] page Input parameter.
+ * @param[in] revisions Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), push_back(), front().
+ */
 std::vector<WikipediaProcessEvent> WikipediaTransform::buildProcessEvents(
     const WikipediaPageRecord& page,
     const std::vector<WikipediaRevisionRecord>& revisions) {
@@ -167,6 +237,13 @@ std::vector<WikipediaProcessEvent> WikipediaTransform::buildProcessEvents(
     return events;
 }
 
+/**
+ * @brief Build Time Series Metrics.
+ * @param[in] page Input parameter.
+ * @param[in] revisions Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), substr(), push_back().
+ */
 std::vector<WikipediaTimeSeriesMetric> WikipediaTransform::buildTimeSeriesMetrics(
     const WikipediaPageRecord& page,
     const std::vector<WikipediaRevisionRecord>& revisions) {
@@ -182,6 +259,15 @@ std::vector<WikipediaTimeSeriesMetric> WikipediaTransform::buildTimeSeriesMetric
     return metrics;
 }
 
+/**
+ * @brief Build Vector Records.
+ * @param[in] page Input parameter.
+ * @param[in] revision Input parameter.
+ * @param[in] embedding_model Input parameter.
+ * @param[in] embedding_enabled Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), append(), canonicalizeText(), substr().
+ */
 std::vector<WikipediaVectorRecord> WikipediaTransform::buildVectorRecords(
     const WikipediaPageRecord& page,
     const WikipediaRevisionRecord& revision,
@@ -195,6 +281,14 @@ std::vector<WikipediaVectorRecord> WikipediaTransform::buildVectorRecords(
     return {WikipediaVectorRecord{page.page_id, content, embedding_model, !embedding_enabled}};
 }
 
+/**
+ * @brief Apply Parsed Page.
+ * @param[in] parsed_page Input parameter.
+ * @param[in,out] stats Input/output parameter.
+ * @param[in] options Input parameter.
+ * @param[in] incremental Input parameter.
+ * @details Calls: find(), count(), end(), removeExistingPageDerivedRows(), streaming_row_callback(), toJson(), WikipediaTransform::extractLinks(), push_back().
+ */
 void WikipediaIngestionPipeline::applyParsedPage(
     const WikipediaParsedPage& parsed_page,
     ImportStats& stats,

@@ -51,6 +51,12 @@ json ReleaseFile::toJson() const {
     return j;
 }
 
+/**
+ * @brief From Json.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: value(), contains().
+ */
 std::optional<ReleaseFile> ReleaseFile::fromJson(const json& j) {
     try {
         ReleaseFile file;
@@ -131,6 +137,12 @@ json ReleaseManifest::toJson() const {
     return j;
 }
 
+/**
+ * @brief From Json.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: value(), contains(), ss(), std::get_time(), fail(), _mkgmtime(), timegm(), std::chrono::system_clock::from_time_t().
+ */
 std::optional<ReleaseManifest> ReleaseManifest::fromJson(const json& j) {
     try {
         ReleaseManifest manifest;

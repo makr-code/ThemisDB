@@ -28,7 +28,12 @@
 namespace themis {
 namespace whisper {
 
-// ── helpers ─────────────────────────────────────────────────────────────────
+/**
+ * @brief ── helpers ─────────────────────────────────────────────────────────────────
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Calls: std::transform(), begin(), end(), std::tolower().
+ */
 
 static std::string toLower(std::string s) {
     std::transform(s.begin(), s.end(), s.begin(),
@@ -36,10 +41,22 @@ static std::string toLower(std::string s) {
     return s;
 }
 
+/**
+ * @brief Read U16 LE.
+ * @param[in] p Input parameter.
+ * @return Return value.
+ * @details Implements readU16LE without additional internal calls.
+ */
 static uint16_t readU16LE(const uint8_t* p) {
     return static_cast<uint16_t>(p[0]) | (static_cast<uint16_t>(p[1]) << 8);
 }
 
+/**
+ * @brief Read U32 LE.
+ * @param[in] p Input parameter.
+ * @return Return value.
+ * @details Implements readU32LE without additional internal calls.
+ */
 static uint32_t readU32LE(const uint8_t* p) {
     return static_cast<uint32_t>(p[0])
          | (static_cast<uint32_t>(p[1]) << 8)
@@ -63,7 +80,14 @@ std::map<std::string, std::string> WavAudioChunkReader::getMetadata(const std::s
     return metadata;
 }
 
-// ── WavAudioChunkReader::readFile ────────────────────────────────────────────
+/**
+ * @brief ── WavAudioChunkReader::readFile ────────────────────────────────────────────
+ * @param[in] path Input parameter.
+ * @param[in,out] out_sample_rate Input/output parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: f(), is_open(), tellg(), seekg(), data(), read(), parseWav().
+ */
 
 std::vector<float> WavAudioChunkReader::readFile(const std::string& path,
                                                   float& out_sample_rate) {
@@ -84,7 +108,14 @@ std::vector<float> WavAudioChunkReader::readFile(const std::string& path,
     return parseWav(data, out_sample_rate);
 }
 
-// ── WavAudioChunkReader::parseWav ────────────────────────────────────────────
+/**
+ * @brief ── WavAudioChunkReader::parseWav ────────────────────────────────────────────
+ * @param[in] data Input parameter.
+ * @param[in,out] out_sample_rate Input/output parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: size(), readU32LE(), readU16LE(), std::to_string(), std::min(), reserve(), std::memcpy(), push_back().
+ */
 
 std::vector<float> WavAudioChunkReader::parseWav(const std::vector<uint8_t>& data,
                                                   float& out_sample_rate) {
@@ -212,6 +243,13 @@ std::map<std::string, std::string> FfmpegAudioChunkReader::getMetadata(const std
     return metadata;
 }
 
+/**
+ * @brief Shell Escape.
+ * @param[in] path Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: find(), str().
+ */
 std::string FfmpegAudioChunkReader::shellEscape(const std::string& path) {
     if (path.find('\0') != std::string::npos) {
         throw std::runtime_error("FfmpegAudioChunkReader: path contains NUL byte");
@@ -230,6 +268,14 @@ std::string FfmpegAudioChunkReader::shellEscape(const std::string& path) {
     return escaped.str();
 }
 
+/**
+ * @brief Read File.
+ * @param[in] path Input parameter.
+ * @param[in,out] out_sample_rate Input/output parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: shellEscape(), THEMIS_PCLOSE(), int(), probe(), THEMIS_POPEN(), std::fread(), get(), operator().
+ */
 std::vector<float> FfmpegAudioChunkReader::readFile(const std::string& path,
                                                      float& out_sample_rate) {
     const std::string escaped = shellEscape(path);
@@ -309,7 +355,11 @@ std::vector<float> FfmpegAudioChunkReader::readFile(const std::string& path,
     return samples;
 }
 
-// ── CompositeAudioChunkReader ────────────────────────────────────────────────
+/**
+ * @brief ── CompositeAudioChunkReader ────────────────────────────────────────────────
+ * @param[in] reader Input parameter.
+ * @details Calls: push_back(), std::move().
+ */
 
 void CompositeAudioChunkReader::addReader(std::unique_ptr<IAudioChunkReader> reader) {
     readers_.push_back(std::move(reader));
@@ -333,6 +383,14 @@ std::map<std::string, std::string> CompositeAudioChunkReader::getMetadata(const 
     return {};
 }
 
+/**
+ * @brief Read File.
+ * @param[in] path Input parameter.
+ * @param[in,out] out_sample_rate Input/output parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: canRead().
+ */
 std::vector<float> CompositeAudioChunkReader::readFile(const std::string& path,
                                                         float& out_sample_rate) {
     for (const auto& r : readers_) {

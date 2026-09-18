@@ -12,6 +12,10 @@
 
 namespace themis::security {
 
+/**
+ * @brief Default Registry.
+ * @return Return value.
+ */
 const PromptInjectionPatternRegistry& PromptInjectionPatternRegistry::defaultRegistry()
 {
     static const PromptInjectionPatternRegistry reg = [] {

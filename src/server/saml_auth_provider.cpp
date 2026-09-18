@@ -80,9 +80,11 @@ SamlAuthProvider::SamlAuthProvider(const Config& config)
                 config_.saml.sp_entity_id, config_.saml.idp_entity_id);
 }
 
-// ---------------------------------------------------------------------------
-// Login – SP-initiated SSO redirect
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- Login – SP-initiated SSO redirect ---------------------------------------------------------------------------
+ * @param[in] relay_state Input parameter.
+ * @return Return value.
+ */
 
 nlohmann::json SamlAuthProvider::handleLogin(const std::string& relay_state)
 {
@@ -91,6 +93,11 @@ nlohmann::json SamlAuthProvider::handleLogin(const std::string& relay_state)
 
         // Store request_id with a 5-minute TTL for InResponseTo validation.
         {
+            /**
+             * @brief Lock.
+             * @param[in] pending_mutex_ Input parameter.
+             * @return Return value.
+             */
             std::lock_guard<std::mutex> lock(pending_mutex_);
             evictExpiredPendingRequests();
             pending_requests_[params.request_id] =
@@ -112,6 +119,13 @@ nlohmann::json SamlAuthProvider::handleLogin(const std::string& relay_state)
 // ACS – Assertion Consumer Service
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Handle Acs.
+ * @param[in] saml_response_b64 Input parameter.
+ * @param[in] relay_state Input parameter.
+ * @param[in] in_response_to Input parameter.
+ * @return Return value.
+ */
 nlohmann::json SamlAuthProvider::handleAcs(
     const std::string& saml_response_b64,
     const std::string& relay_state,
@@ -123,6 +137,11 @@ nlohmann::json SamlAuthProvider::handleAcs(
 
     // If in_response_to was provided, validate it is still pending.
     if (!in_response_to.empty()) {
+        /**
+         * @brief Lock.
+         * @param[in] pending_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(pending_mutex_);
         evictExpiredPendingRequests();
         auto it = pending_requests_.find(in_response_to);
@@ -207,6 +226,11 @@ nlohmann::json SamlAuthProvider::handleAcs(
 // SLO – Single Logout
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Handle Slo.
+ * @param[in] session_index Input parameter.
+ * @return Return value.
+ */
 nlohmann::json SamlAuthProvider::handleSlo(const std::string& session_index)
 {
     if (config_.idp_slo_url.empty()) {
@@ -294,6 +318,9 @@ void SamlAuthProvider::setClockForTesting(
     authenticator_->setClockForTesting(std::move(clock));
 }
 
+/**
+ * @brief Evict Expired Pending Requests.
+ */
 void SamlAuthProvider::evictExpiredPendingRequests()
 {
     // Caller must hold pending_mutex_

@@ -15,11 +15,22 @@ using json = nlohmann::json;
 #if 0
 namespace themis::llm::metrics {
 
+/**
+ * @brief Instance.
+ * @return Return value.
+ * @details Implements instance without additional internal calls.
+ */
 SSMDriftMetrics& SSMDriftMetrics::instance() {
     static SSMDriftMetrics singleton;
     return singleton;
 }
 
+/**
+ * @brief Record Factual Drift Score.
+ * @param[in] session_id Identifier of the session.
+ * @param[in] drift_value Input parameter.
+ * @details Calls: load(), compare_exchange_weak().
+ */
 void SSMDriftMetrics::recordFactualDriftScore(const std::string& session_id,
                                                double drift_value) {
     // Simple EMA: drift_t = 0.1 * drift_value + 0.9 * drift_{t-1}
@@ -33,6 +44,12 @@ void SSMDriftMetrics::recordFactualDriftScore(const std::string& session_id,
     }
 }
 
+/**
+ * @brief Record SSMState Checkpoint.
+ * @param[in] session_id Identifier of the session.
+ * @param[in] snapshot_size_bytes Input parameter.
+ * @details Calls: fetch_add().
+ */
 void SSMDriftMetrics::recordSSMStateCheckpoint(const std::string& session_id,
                                                 uint64_t snapshot_size_bytes) {
     total_checkpoints_.fetch_add(1, std::memory_order_release);
@@ -40,6 +57,11 @@ void SSMDriftMetrics::recordSSMStateCheckpoint(const std::string& session_id,
                                    std::memory_order_release);
 }
 
+/**
+ * @brief Record Hybrid Router Decision.
+ * @param[in] architecture_path Path to the architecture.
+ * @details Calls: fetch_add().
+ */
 void SSMDriftMetrics::recordHybridRouterDecision(
     const std::string& architecture_path) {
     if (architecture_path == "transformer") {

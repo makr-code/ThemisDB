@@ -33,6 +33,13 @@ AsyncBulkUploader::~AsyncBulkUploader() {
     }
 }
 
+/**
+ * @brief Upload.
+ * @param[in] content Input parameter.
+ * @param[in] metadata Input parameter.
+ * @return Return value.
+ * @details Calls: is_running(), blob(), begin(), end(), submitFile(), nlohmann::json::object(), lock(), size().
+ */
 AsyncBulkUploader::UploadResult AsyncBulkUploader::upload(
     const std::vector<uint8_t>& content,
     const ContentMetadata& metadata
@@ -82,6 +89,13 @@ AsyncBulkUploader::UploadResult AsyncBulkUploader::upload(
     return result;
 }
 
+/**
+ * @brief Bulk upload.
+ * @param[in] contents Input parameter.
+ * @param[in] metadata_list Input parameter.
+ * @return Return value.
+ * @details Calls: size(), push_back(), is_running(), blob(), begin(), end(), submitBatch(), nlohmann::json::object().
+ */
 std::vector<AsyncBulkUploader::UploadResult> AsyncBulkUploader::bulk_upload(
     const std::vector<std::vector<uint8_t>>& contents,
     const std::vector<ContentMetadata>& metadata_list
@@ -163,6 +177,12 @@ std::vector<AsyncBulkUploader::UploadResult> AsyncBulkUploader::bulk_upload(
     return results;
 }
 
+/**
+ * @brief Cancel upload.
+ * @param[in] content_id Identifier of the content.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), find(), end(), cancelJob().
+ */
 bool AsyncBulkUploader::cancel_upload(const std::string& content_id) {
     if (!worker_) {
         return false;
@@ -190,6 +210,11 @@ AsyncBulkUploader::UploadStatus AsyncBulkUploader::get_upload_status(
     
     std::string job_id = {};
     {
+        /**
+         * @brief Lock.
+         * @param[in] job_map_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(job_map_mutex_);
         auto it = content_to_job_map_.find(content_id);
         if (it == content_to_job_map_.end()) {
@@ -206,12 +231,21 @@ AsyncBulkUploader::UploadStatus AsyncBulkUploader::get_upload_status(
     return map_job_status(job_status->status);
 }
 
+/**
+ * @brief Start.
+ * @details Implements start without additional internal calls.
+ */
 void AsyncBulkUploader::start() {
     if (worker_) {
         worker_->start();
     }
 }
 
+/**
+ * @brief Stop.
+ * @param[in] wait_for_completion Input parameter.
+ * @details Implements stop without additional internal calls.
+ */
 void AsyncBulkUploader::stop(bool wait_for_completion) {
     if (worker_) {
         worker_->stop(wait_for_completion);

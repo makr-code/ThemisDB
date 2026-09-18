@@ -17,6 +17,12 @@
 
 namespace themis::content::pipeline {
 
+/**
+ * @brief Compress.
+ * @param[in] data Input parameter.
+ * @return Return value.
+ * @details Calls: themis::utils::zstd_compress().
+ */
 std::vector<uint8_t> ZstdCompression::compress(const std::vector<uint8_t>& data) {
     // Delegate to existing ThemisDB ZSTD implementation
     // utils::zstd_compress handles:
@@ -26,6 +32,12 @@ std::vector<uint8_t> ZstdCompression::compress(const std::vector<uint8_t>& data)
     return themis::utils::zstd_compress(data, compression_level_);
 }
 
+/**
+ * @brief Decompress.
+ * @param[in] compressed_data Input parameter.
+ * @return Return value.
+ * @details Calls: themis::utils::zstd_decompress().
+ */
 std::vector<uint8_t> ZstdCompression::decompress(const std::vector<uint8_t>& compressed_data) {
     // Delegate to existing ThemisDB ZSTD implementation
     // utils::zstd_decompress handles:
@@ -35,6 +47,14 @@ std::vector<uint8_t> ZstdCompression::decompress(const std::vector<uint8_t>& com
     return themis::utils::zstd_decompress(compressed_data);
 }
 
+/**
+ * @brief Compress streaming.
+ * @param[in] data Input parameter.
+ * @param[in] chunk_size Input parameter.
+ * @param[in] callback Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), themis::utils::zstd_compress(), size(), std::min(), callback().
+ */
 std::vector<uint8_t> ZstdCompression::compress_streaming(
     const std::vector<uint8_t>& data,
     size_t chunk_size,
@@ -74,6 +94,13 @@ std::vector<uint8_t> ZstdCompression::compress_streaming(
     return result;
 }
 
+/**
+ * @brief Decompress streaming.
+ * @param[in] compressed_data Input parameter.
+ * @param[in] callback Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), themis::utils::zstd_decompress(), callback(), size().
+ */
 std::vector<uint8_t> ZstdCompression::decompress_streaming(
     const std::vector<uint8_t>& compressed_data,
     StreamCallback callback
@@ -97,6 +124,11 @@ std::vector<uint8_t> ZstdCompression::decompress_streaming(
     return result;
 }
 
+/**
+ * @brief Set compression level.
+ * @param[in] level Input parameter.
+ * @details Implements set_compression_level without additional internal calls.
+ */
 void ZstdCompression::set_compression_level(int level) {
     // Validate level range for ZSTD (1-22)
     // Level 3 is default, 19 is high compression used in ContentManager

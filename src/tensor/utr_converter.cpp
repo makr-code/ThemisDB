@@ -52,65 +52,118 @@ namespace {
     std::shared_ptr<IImageEncoder>   g_image_encoder;  // null ⟹ use ImageEmbedFn/patch
 } // namespace
 
+/**
+ * @brief Set Embed Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lk(), std::move().
+ */
 void UTRConverter::setEmbedFn(UTRConverter::EmbedFn fn) {
     std::lock_guard<std::mutex> lk(g_embed_mtx);
     g_embed_fn = std::move(fn);
 }
 
+/**
+ * @brief Clear Embed Fn.
+ * @details Calls: lk().
+ */
 void UTRConverter::clearEmbedFn() {
     std::lock_guard<std::mutex> lk(g_embed_mtx);
     g_embed_fn = nullptr;
 }
 
+/**
+ * @brief Get Embed Fn.
+ * @return Return value.
+ * @details Calls: lk().
+ */
 UTRConverter::EmbedFn UTRConverter::getEmbedFn() {
     std::lock_guard<std::mutex> lk(g_embed_mtx);
     return g_embed_fn;
 }
 
+/**
+ * @brief Set Image Embed Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lk(), std::move().
+ */
 void UTRConverter::setImageEmbedFn(UTRConverter::ImageEmbedFn fn) {
     std::lock_guard<std::mutex> lk(g_image_embed_mtx);
     g_image_embed_fn = std::move(fn);
 }
 
+/**
+ * @brief Clear Image Embed Fn.
+ * @details Calls: lk().
+ */
 void UTRConverter::clearImageEmbedFn() {
     std::lock_guard<std::mutex> lk(g_image_embed_mtx);
     g_image_embed_fn = nullptr;
 }
 
+/**
+ * @brief Get Image Embed Fn.
+ * @return Return value.
+ * @details Calls: lk().
+ */
 UTRConverter::ImageEmbedFn UTRConverter::getImageEmbedFn() {
     std::lock_guard<std::mutex> lk(g_image_embed_mtx);
     return g_image_embed_fn;
 }
 
-// ============================================================================
-// Encoder object registration — ITextEncoder / IImageEncoder
-// ============================================================================
+/**
+ * @brief ============================================================================ Encoder object registration — ITextEncoder / IImageEncoder ============================================================================
+ * @param[in] encoder Input parameter.
+ * @details Calls: lk(), std::move().
+ */
 
 void UTRConverter::setTextEncoder(std::shared_ptr<ITextEncoder> encoder) {
     std::lock_guard<std::mutex> lk(g_text_encoder_mtx);
     g_text_encoder = std::move(encoder);
 }
 
+/**
+ * @brief Clear Text Encoder.
+ * @details Calls: lk(), reset().
+ */
 void UTRConverter::clearTextEncoder() {
     std::lock_guard<std::mutex> lk(g_text_encoder_mtx);
     g_text_encoder.reset();
 }
 
+/**
+ * @brief Get Text Encoder.
+ * @return Return value.
+ * @details Calls: lk().
+ */
 std::shared_ptr<ITextEncoder> UTRConverter::getTextEncoder() {
     std::lock_guard<std::mutex> lk(g_text_encoder_mtx);
     return g_text_encoder;
 }
 
+/**
+ * @brief Set Image Encoder.
+ * @param[in] encoder Input parameter.
+ * @details Calls: lk(), std::move().
+ */
 void UTRConverter::setImageEncoder(std::shared_ptr<IImageEncoder> encoder) {
     std::lock_guard<std::mutex> lk(g_image_encoder_mtx);
     g_image_encoder = std::move(encoder);
 }
 
+/**
+ * @brief Clear Image Encoder.
+ * @details Calls: lk(), reset().
+ */
 void UTRConverter::clearImageEncoder() {
     std::lock_guard<std::mutex> lk(g_image_encoder_mtx);
     g_image_encoder.reset();
 }
 
+/**
+ * @brief Get Image Encoder.
+ * @return Return value.
+ * @details Calls: lk().
+ */
 std::shared_ptr<IImageEncoder> UTRConverter::getImageEncoder() {
     std::lock_guard<std::mutex> lk(g_image_encoder_mtx);
     return g_image_encoder;
@@ -127,8 +180,15 @@ constexpr std::size_t kMaxPatchExtent = 4;
     return v <= 1 ? 1 : std::bit_ceil(v);
 }
 
-// Hilbert helper rotation/reflection step.
-// rx/ry are quadrant bits derived from the Hilbert index.
+/**
+ * @brief Hilbert helper rotation/reflection step.
+ * @param[in] n Input parameter.
+ * @param[in,out] x Input/output parameter.
+ * @param[in,out] y Input/output parameter.
+ * @param[in] rx Input parameter.
+ * @param[in] ry Input parameter.
+ * @details rx/ry are quadrant bits derived from the Hilbert index. Calls: std::swap().
+ */
 void hilbertRotate(std::size_t n, std::size_t& x, std::size_t& y, std::size_t rx, std::size_t ry) {
     if (ry == 0) {
         if (rx == 1) {
@@ -158,7 +218,6 @@ void hilbertRotate(std::size_t n, std::size_t& x, std::size_t& y, std::size_t rx
 // Shared helpers
 // ============================================================================
 
-/// Clamp a float to [lo, hi].
 static float clampf(float v, float lo, float hi) noexcept {
     return v < lo ? lo : (v > hi ? hi : v);
 }
@@ -172,7 +231,12 @@ static std::size_t clampPatchExtent(std::size_t extent) noexcept {
 // Document segmentation helpers
 // ============================================================================
 
-/// Split text at double-newline boundaries (paragraph mode).
+/**
+ * @brief Split Paragraphs.
+ * @param[in] text Input parameter.
+ * @return Return value.
+ * @details Calls: size(), find(), substr(), empty(), push_back().
+ */
 static std::vector<std::string> splitParagraphs(const std::string& text) {
     std::vector<std::string> segments;
     std::size_t start = 0;
@@ -191,7 +255,12 @@ static std::vector<std::string> splitParagraphs(const std::string& text) {
     return segments;
 }
 
-/// Split text at sentence boundaries (period + space or period + EOT heuristic).
+/**
+ * @brief Split Sentences.
+ * @param[in] text Input parameter.
+ * @return Return value.
+ * @details Calls: size(), substr(), empty(), push_back().
+ */
 static std::vector<std::string> splitSentences(const std::string& text) {
     std::vector<std::string> segments;
     std::size_t start = 0;
@@ -238,7 +307,6 @@ static std::vector<std::string> splitSentences(const std::string& text) {
 //                    the bottom tier for offline / zero-dependency operation.
 // ============================================================================
 
-/// FNV-1a 64-bit hash of a string view.
 static uint64_t fnv1a(std::string_view s) noexcept {
     constexpr uint64_t kBasis = UINT64_C(14695981039346656037);
     constexpr uint64_t kPrime = UINT64_C(1099511628211);
@@ -251,18 +319,11 @@ static uint64_t fnv1a(std::string_view s) noexcept {
 }
 
 /**
- * @brief Scatter a hashed feature into the embedding vector via multi-lane projection.
- *
- * Uses a multi-lane hashing scheme to spread a single feature across up to 8
- * independent dimensions, reducing the probability of hash collisions causing
- * systematic cancellation.
- *
- * @param vec      Output embedding vector (must be non-empty).
- * @param feature  String feature to hash and scatter.
- * @param weight   Signed scalar weight applied to each projected dimension
- *                 (e.g. 1.0 for unigrams, 0.5 for bigrams, 0.35 for trigrams).
- *
- * @pre `vec.size() > 0`; if zero, the function returns without modification.
+ * @brief Scatter Feature.
+ * @param[in,out] vec Input/output parameter.
+ * @param[in] feature Input parameter.
+ * @param[in] weight Input parameter.
+ * @details Calls: size(), fnv1a().
  */
 static void scatterFeature(std::vector<float>& vec,
                             std::string_view    feature,
@@ -280,12 +341,10 @@ static void scatterFeature(std::vector<float>& vec,
 }
 
 /**
- * @brief Normalise a raw token for embedding: lowercase + remove non-alphanumeric characters.
- *
- * Passed by value so callers can move lvalue strings in; the modified value is returned.
- *
- * @param token  Raw token (may contain punctuation, mixed case).
- * @return Lowercased, alphanumeric-only version of the input.
+ * @brief Normalize Token.
+ * @param[in] token Input parameter.
+ * @return Return value.
+ * @details Calls: erase(), std::remove_if(), begin(), end(), std::isalnum(), std::transform(), std::tolower().
  */
 static std::string normalizeToken(std::string token) {
     token.erase(std::remove_if(token.begin(), token.end(),
@@ -298,25 +357,14 @@ static std::string normalizeToken(std::string token) {
     return token;
 }
 
-/// @brief Delimiter byte separating the two tokens in a bigram feature key.
-/// Uses ASCII SOH (0x01) — a control character that cannot appear in
-/// normalised (alphanumeric-only, lowercase) tokens.
 constexpr char kBigramDelimiter = '\x01';
 
 /**
- * @brief Built-in lexical embedding for a text segment.
- *
- * Combines:
- * - Unigram features (token-level FNV-1a projection)
- * - Bigram features (consecutive token pairs, weight 0.5)
- * - Character trigram features (weight 0.35, only for tokens ≥ 3 chars)
- *
- * The final vector is L2-normalised to unit length, making cosine similarity
- * directly applicable.
- *
- * @param segment   Input text segment.
- * @param embed_dim Output dimensionality.
- * @return L2-normalised float vector of length `embed_dim`.
+ * @brief Lexical Embed.
+ * @param[in] segment Input parameter.
+ * @param[in] embed_dim Input parameter.
+ * @return Return value.
+ * @details Calls: vec(), iss(), normalizeToken(), std::move(), empty(), push_back(), scatterFeature(), size().
  */
 static std::vector<float> lexicalEmbed(const std::string& segment,
                                         std::size_t        embed_dim) {
@@ -372,9 +420,14 @@ static std::vector<float> lexicalEmbed(const std::string& segment,
 
 } // namespace
 
-// ============================================================================
-// UTRConverter::fromGeospatial
-// ============================================================================
+/**
+ * @brief ============================================================================ UTRConverter::fromGeospatial ============================================================================
+ * @param[in] grid Input parameter.
+ * @param[in] cfg Input parameter.
+ * @return Return value.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: size(), std::to_string(), max(), lowest(), std::min(), std::max(), normalised(), clampf().
+ */
 
 storage::TTTrain UTRConverter::fromGeospatial(const RasterGrid& grid,
                                                const UTRConfig&  cfg) {
@@ -432,9 +485,15 @@ storage::TTTrain UTRConverter::fromGeospatial(const RasterGrid& grid,
     return tt_train;
 }
 
-// ============================================================================
-// UTRConverter::fromTabular
-// ============================================================================
+/**
+ * @brief ============================================================================ UTRConverter::fromTabular ============================================================================
+ * @param[in] tenant_id Identifier of the tenant.
+ * @param[in] schema Input parameter.
+ * @param[in] rows Input parameter.
+ * @param[in] cfg Input parameter.
+ * @return Return value.
+ * @details Calls: HyperIndexBuilder::fromSchema().
+ */
 
 HyperIndexTensor UTRConverter::fromTabular(
         const std::string&               tenant_id,
@@ -448,9 +507,18 @@ HyperIndexTensor UTRConverter::fromTabular(
     return HyperIndexBuilder::fromSchema(tenant_id, schema, rows, hcfg);
 }
 
-// ============================================================================
-// UTRConverter::fromImage
-// ============================================================================
+/**
+ * @brief ============================================================================ UTRConverter::fromImage ============================================================================
+ * @param[in] pixels Input parameter.
+ * @param[in] h Input parameter.
+ * @param[in] w Input parameter.
+ * @param[in] c Input parameter.
+ * @param[in] cfg Input parameter.
+ * @return Return value.
+ * @throws std::invalid_argument if an error occurs.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: size(), std::to_string(), lk(), isAvailable(), encode(), empty(), std::string(), description().
+ */
 
 storage::TTTrain UTRConverter::fromImage(const std::vector<float>& pixels,
                                           std::size_t h,
@@ -558,9 +626,16 @@ storage::TTTrain UTRConverter::fromImage(const std::vector<float>& pixels,
     return std::move(decomposed.first);
 }
 
-// ============================================================================
-// UTRConverter::fromDocument
-// ============================================================================
+/**
+ * @brief ============================================================================ UTRConverter::fromDocument ============================================================================
+ * @param[in] text Input parameter.
+ * @param[in] hint Input parameter.
+ * @param[in] cfg Input parameter.
+ * @return Return value.
+ * @throws std::invalid_argument if an error occurs.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: empty(), splitSentences(), splitParagraphs(), size(), resize(), lk(), isAvailable(), reserve().
+ */
 
 tensor::HTTrain UTRConverter::fromDocument(const std::string&    text,
                                             DocumentStructureHint hint,

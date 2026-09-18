@@ -27,7 +27,11 @@ namespace sharding {
 
 namespace {
 
-/** ISO-8601 timestamp for the current UTC wall-clock time (thread-safe). */
+/**
+ * @brief Utc Now Iso8601.
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::now(), std::chrono::system_clock::to_time_t(), gmtime_s(), gmtime_r(), std::put_time(), str().
+ */
 std::string utcNowIso8601() {
     auto now    = std::chrono::system_clock::now();
     auto time_t = std::chrono::system_clock::to_time_t(now);
@@ -60,6 +64,12 @@ std::string NodeIdentity::toJson() const {
     return j.dump(2);
 }
 
+/**
+ * @brief From Json.
+ * @param[in] json Input parameter.
+ * @return Return value.
+ * @details Calls: nlohmann::json::parse(), value(), empty(), what().
+ */
 std::optional<NodeIdentity> NodeIdentity::fromJson(const std::string& json) {
     try {
         auto j = nlohmann::json::parse(json);
@@ -84,15 +94,29 @@ std::optional<NodeIdentity> NodeIdentity::fromJson(const std::string& json) {
 bool NodeIdentity::saveTo(const std::string& path) const {
     try {
         namespace fs = std::filesystem;
+        /**
+         * @brief P.
+         * @param[in] path Input parameter.
+         * @return Return value.
+         */
         fs::path p(path);
         if (p.has_parent_path()) {
             fs::create_directories(p.parent_path());
         }
+        /**
+         * @brief Ofs.
+         * @param[in] p Input parameter.
+         * @return Return value.
+         */
         std::ofstream ofs(p);
         if (!ofs.is_open()) {
             std::cerr << "NodeIdentity::saveTo: cannot open file for writing: " << path << std::endl;
             return false;
         }
+        /**
+         * @brief To Json.
+         * @return Return value.
+         */
         ofs << toJson();
         return true;
     } catch (const std::exception& e) {
@@ -101,6 +125,12 @@ bool NodeIdentity::saveTo(const std::string& path) const {
     }
 }
 
+/**
+ * @brief Load From.
+ * @param[in] path Input parameter.
+ * @return Return value.
+ * @details Calls: ifs(), is_open(), content(), fromJson(), what().
+ */
 std::optional<NodeIdentity> NodeIdentity::loadFrom(const std::string& path) {
     try {
         std::ifstream ifs(path);
@@ -142,6 +172,11 @@ HardwareMigrationManager::createAndSaveIdentity(
     uint64_t           token_start,
     uint64_t           token_end
 ) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     // Refuse to overwrite an existing identity.
@@ -189,6 +224,11 @@ HardwareMigrationManager::replaceEndpoint(
         return result;
     }
 
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     // ── 1. Validate shard exists in topology ─────────────────────────────────
@@ -241,6 +281,11 @@ HardwareMigrationManager::replaceEndpoint(
 
 std::map<std::string, size_t>
 HardwareMigrationManager::captureRingSnapshot() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return captureRingSnapshotLocked();
 }
@@ -273,6 +318,11 @@ bool HardwareMigrationManager::validateRingStability(
     const std::vector<std::string>&       shard_ids,
     const std::map<std::string, size_t>&  before_vnode_counts
 ) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     if (!ring_) {
         return true; // No ring — nothing to validate.
@@ -339,11 +389,21 @@ HardwareMigrationManager::DrainGuard::operator=(DrainGuard&& other) noexcept {
     return *this;
 }
 
+/**
+ * @brief Add In Flight Request.
+ * @param[in] shard_id Identifier of the shard.
+ * @details Calls: lock().
+ */
 void HardwareMigrationManager::addInFlightRequest(const std::string& shard_id) {
     std::lock_guard<std::mutex> lock(drain_mutex_);
     ++in_flight_counts_[shard_id];
 }
 
+/**
+ * @brief Release In Flight Request.
+ * @param[in] shard_id Identifier of the shard.
+ * @details Calls: lock(), find(), end(), erase(), notify_all().
+ */
 void HardwareMigrationManager::releaseInFlightRequest(const std::string& shard_id) {
     {
         std::lock_guard<std::mutex> lock(drain_mutex_);
@@ -359,6 +419,11 @@ void HardwareMigrationManager::releaseInFlightRequest(const std::string& shard_i
 }
 
 size_t HardwareMigrationManager::inFlightCount(const std::string& shard_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] drain_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(drain_mutex_);
     auto it = in_flight_counts_.find(shard_id);
     return (it != in_flight_counts_.end()) ? it->second : 0;
@@ -375,6 +440,11 @@ bool HardwareMigrationManager::waitForDrain(const std::string& shard_id,
         return true; // Caller explicitly requests no wait.
     }
     const auto deadline = std::chrono::steady_clock::now() + timeout;
+    /**
+     * @brief Lock.
+     * @param[in] drain_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::unique_lock<std::mutex> lock(drain_mutex_);
     return drain_cv_.wait_until(lock, deadline, [&] {
         auto it = in_flight_counts_.find(shard_id);

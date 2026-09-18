@@ -28,6 +28,12 @@ DisasterRecoveryManager::DisasterRecoveryManager(
       replication_mgr_(std::move(replication_mgr)),
       fencing_mgr_(std::move(fencing_mgr)) {}
 
+/**
+ * @brief Execute Plan.
+ * @param[in] plan Input parameter.
+ * @return Return value.
+ * @details Calls: idem_lock(), find(), end(), spdlog::info(), exec_lock(), owns_lock(), spdlog::error(), std::chrono::steady_clock::now().
+ */
 DisasterRecoveryResult DisasterRecoveryManager::executePlan(const DisasterRecoveryPlan& plan) {
     // FO-IMPL-007: Idempotent plan execution — return cached result for repeated plan_id
     {
@@ -161,10 +167,20 @@ bool DisasterRecoveryManager::validatePlan(const DisasterRecoveryPlan& plan, std
     return true;
 }
 
+/**
+ * @brief Set Step Hook.
+ * @param[in] step Input parameter.
+ * @param[in] hook Input parameter.
+ * @details Calls: std::move().
+ */
 void DisasterRecoveryManager::setStepHook(DisasterRecoveryStep step, StepHook hook) {
     hooks_[step] = std::move(hook);
 }
 
+/**
+ * @brief Clear Step Hooks.
+ * @details Calls: clear().
+ */
 void DisasterRecoveryManager::clearStepHooks() {
     hooks_.clear();
 }
@@ -174,10 +190,26 @@ DisasterRecoveryState DisasterRecoveryManager::getState() const noexcept {
 }
 
 DisasterRecoveryManager::Statistics DisasterRecoveryManager::getStatistics() const {
+    /**
+     * @brief Lock.
+     * @param[in] stats_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(stats_mutex_);
     return stats_;
 }
 
+/**
+ * @brief Run Step.
+ * @param[in] step Input parameter.
+ * @param[in] state Input parameter.
+ * @param[in] plan Input parameter.
+ * @param[in,out] result Input/output parameter.
+ * @param[in,out] error Input/output parameter.
+ * @param[in,out] fenced_epoch Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: transitionState(), find(), end(), second(), runPrechecks(), validateSnapshot(), applyEpochFencing(), runRestore().
+ */
 bool DisasterRecoveryManager::runStep(DisasterRecoveryStep step,
                                       DisasterRecoveryState state,
                                       const DisasterRecoveryPlan& plan,
@@ -226,6 +258,13 @@ bool DisasterRecoveryManager::runStep(DisasterRecoveryStep step,
     return true;
 }
 
+/**
+ * @brief Run Prechecks.
+ * @param[in] plan Input parameter.
+ * @param[in,out] detail Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: hasQuorum(), getClusterHealth(), std::any_of(), begin(), end().
+ */
 bool DisasterRecoveryManager::runPrechecks(const DisasterRecoveryPlan& plan, std::string& detail) {
     if (plan.dry_run) {
         detail = "dry-run prechecks passed";
@@ -259,6 +298,13 @@ bool DisasterRecoveryManager::runPrechecks(const DisasterRecoveryPlan& plan, std
     return true;
 }
 
+/**
+ * @brief Validate Snapshot.
+ * @param[in] plan Input parameter.
+ * @param[in,out] detail Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty().
+ */
 bool DisasterRecoveryManager::validateSnapshot(const DisasterRecoveryPlan& plan, std::string& detail) {
     if (plan.dry_run) {
         detail = "dry-run snapshot validation skipped";
@@ -274,6 +320,14 @@ bool DisasterRecoveryManager::validateSnapshot(const DisasterRecoveryPlan& plan,
     return true;
 }
 
+/**
+ * @brief Apply Epoch Fencing.
+ * @param[in] plan Input parameter.
+ * @param[in,out] detail Input/output parameter.
+ * @param[in,out] fenced_epoch Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: bumpEpoch(), std::to_string().
+ */
 bool DisasterRecoveryManager::applyEpochFencing(const DisasterRecoveryPlan& plan,
                                                 std::string& detail,
                                                 uint64_t& fenced_epoch) {
@@ -303,6 +357,13 @@ bool DisasterRecoveryManager::applyEpochFencing(const DisasterRecoveryPlan& plan
     return true;
 }
 
+/**
+ * @brief Run Restore.
+ * @param[in] plan Input parameter.
+ * @param[in,out] detail Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Implements runRestore without additional internal calls.
+ */
 bool DisasterRecoveryManager::runRestore(const DisasterRecoveryPlan& plan, std::string& detail) {
     if (plan.dry_run) {
         detail = "dry-run restore skipped";
@@ -313,6 +374,13 @@ bool DisasterRecoveryManager::runRestore(const DisasterRecoveryPlan& plan, std::
     return true;
 }
 
+/**
+ * @brief Wait For Catchup.
+ * @param[in] plan Input parameter.
+ * @param[in,out] detail Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: std::chrono::steady_clock::now(), hasQuorum(), std::this_thread::sleep_for(), std::chrono::milliseconds().
+ */
 bool DisasterRecoveryManager::waitForCatchup(const DisasterRecoveryPlan& plan, std::string& detail) {
     if (plan.dry_run) {
         detail = "dry-run catchup skipped";
@@ -337,6 +405,13 @@ bool DisasterRecoveryManager::waitForCatchup(const DisasterRecoveryPlan& plan, s
     return false;
 }
 
+/**
+ * @brief Shift Traffic.
+ * @param[in] plan Input parameter.
+ * @param[in,out] detail Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Implements shiftTraffic without additional internal calls.
+ */
 bool DisasterRecoveryManager::shiftTraffic(const DisasterRecoveryPlan& plan, std::string& detail) {
     if (!plan.shift_traffic) {
         detail = "traffic shift disabled by plan";
@@ -352,6 +427,13 @@ bool DisasterRecoveryManager::shiftTraffic(const DisasterRecoveryPlan& plan, std
     return true;
 }
 
+/**
+ * @brief Verify Recovered State.
+ * @param[in] plan Input parameter.
+ * @param[in,out] detail Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: getClusterHealth(), std::any_of(), begin(), end(), hasQuorum(), std::this_thread::sleep_for().
+ */
 bool DisasterRecoveryManager::verifyRecoveredState(const DisasterRecoveryPlan& plan, std::string& detail) {
     if (plan.dry_run) {
         detail = "dry-run verification passed";
@@ -384,6 +466,11 @@ void DisasterRecoveryManager::transitionState(DisasterRecoveryState next) noexce
     state_.store(next);
 }
 
+/**
+ * @brief Update Statistics.
+ * @param[in] result Input parameter.
+ * @details Calls: lock(), push_back(), std::accumulate(), begin(), end(), std::chrono::milliseconds(), size().
+ */
 void DisasterRecoveryManager::updateStatistics(const DisasterRecoveryResult& result) {
     std::lock_guard<std::mutex> lock(stats_mutex_);
     stats_.total_runs++;

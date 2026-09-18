@@ -36,10 +36,11 @@ using themis::query::PredicateEq;
 // ─────────────────────────────────────────────────────────────────────────────
 
 /**
- * @brief Compute SHA256 hash of binary data
- * @param data Pointer to data
- * @param len Length of data
- * @return Hex-encoded SHA256 hash string
+ * @brief Compute SHA256.
+ * @param[in] data Input parameter.
+ * @param[in] len Input parameter.
+ * @return Return value.
+ * @details Calls: SHA256_Init(), SHA256_Update(), SHA256_Final(), std::setw(), std::setfill(), str().
  */
 static std::string computeSHA256(const uint8_t* data, size_t len) {
     unsigned char hash[SHA256_DIGEST_LENGTH];
@@ -56,32 +57,22 @@ static std::string computeSHA256(const uint8_t* data, size_t len) {
 }
 
 /**
- * @brief Return the out-of-band integrity key for a given entity storage key.
- *
- * The hash is stored under a *separate* key so that a tampered payload cannot
- * also tamper its own expected hash value (self-referential hash bypass).
- * @param entity_key  The primary RocksDB key for the entity blob.
- * @return The separate key used to persist the SHA256 digest.
+ * @brief Make Integrity Key.
+ * @param[in] entity_key Input parameter.
+ * @return Return value.
+ * @details Implements makeIntegrityKey without additional internal calls.
  */
 static std::string makeIntegrityKey(const std::string& entity_key) {
     return "integrity:" + entity_key;
 }
 
 /**
- * @brief Verify model integrity by comparing the blob's SHA256 against an
- *        out-of-band expected hash fetched from a separate storage key.
- *
- * The expected hash MUST come from a key that is independent of the blob
- * itself (see @ref makeIntegrityKey).  Reading the expected hash from the
- * entity's own payload would allow a tampered blob to pass by adjusting its
- * embedded hash field.
- *
- * @param blob          The raw serialized entity bytes.
- * @param entity_id     ID string used only for diagnostic log messages.
- * @param expected_hash Hex SHA256 read from the integrity side-channel key, or
- *                      std::nullopt for legacy entities that have no record.
- * @return true  if the hashes match, or if no expected hash exists (legacy).
- * @return false on hash mismatch (emit ERROR log — potential poisoning).
+ * @brief Verify Model Integrity.
+ * @param[in] blob Input parameter.
+ * @param[in] entity_id Identifier of the entity.
+ * @param[in] expected_hash Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: computeSHA256(), data(), size(), spdlog::debug(), spdlog::error().
  */
 static bool verifyModelIntegrity(const std::vector<uint8_t>& blob,
                                   const std::string& entity_id,
@@ -111,11 +102,23 @@ static bool verifyModelIntegrity(const std::vector<uint8_t>& blob,
     return true;
 }
 
+/**
+ * @brief Set Vector Store Function.
+ * @param[in] fn Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void ArgumentStore::setVectorStoreFunction(VectorStoreFn fn) {
     std::lock_guard<std::mutex> lock(mutex_);
     vector_store_fn_ = std::move(fn);
 }
 
+/**
+ * @brief Initialize.
+ * @param[in] storage Input parameter.
+ * @param[in] query_engine Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), Status::Error(), Status::OK().
+ */
 Status ArgumentStore::initialize(std::shared_ptr<RocksDBWrapper> storage, std::shared_ptr<query::QueryEngine> query_engine) {
     std::lock_guard<std::mutex> lock(mutex_);
 
@@ -136,6 +139,13 @@ Status ArgumentStore::initialize(std::shared_ptr<RocksDBWrapper> storage, std::s
     return Status::OK();
 }
 
+/**
+ * @brief Store Argument.
+ * @param[in] argument Input parameter.
+ * @param[in] store_vector Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), Status::Error(), empty(), Status::OK(), EthicsBaseEntityAdapter::toBaseEntity(), EthicsBaseEntityAdapter::makeArgumentKey(), serialize(), put().
+ */
 Status ArgumentStore::storeArgument(const EthicalArgument &argument, bool store_vector) {
     std::lock_guard<std::mutex> lock(mutex_);
 
@@ -184,6 +194,11 @@ Status ArgumentStore::storeArgument(const EthicalArgument &argument, bool store_
 }
 
 std::variant<EthicalArgument, Status> ArgumentStore::getArgument(const std::string &argument_id) {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     if (!initialized_) {
@@ -231,6 +246,11 @@ std::variant<EthicalArgument, Status> ArgumentStore::getArgument(const std::stri
 std::variant<std::vector<EthicalArgument>, Status>
 ArgumentStore::getArgumentsByPhilosophy(const std::string &philosophy_school,
                                         const std::vector<ArgumentType> &argument_types, size_t limit) {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     if (!initialized_) {
@@ -392,6 +412,12 @@ ArgumentStore::getArgumentsByPhilosophy(const std::string &philosophy_school,
     return results;
 }
 
+/**
+ * @brief Store Decision.
+ * @param[in] decision Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), Status::Error(), empty(), Status::OK(), EthicsBaseEntityAdapter::toBaseEntity(), EthicsBaseEntityAdapter::makeDecisionKey(), serialize(), put().
+ */
 Status ArgumentStore::storeDecision(const EthicalDecision &decision) {
     std::lock_guard<std::mutex> lock(mutex_);
 
@@ -427,6 +453,11 @@ Status ArgumentStore::storeDecision(const EthicalDecision &decision) {
 }
 
 std::variant<EthicalDecision, Status> ArgumentStore::getDecision(const std::string &decision_id) {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     if (!initialized_) {
@@ -469,6 +500,12 @@ std::variant<EthicalDecision, Status> ArgumentStore::getDecision(const std::stri
     return EthicsBaseEntityAdapter::fromBaseEntity(entity, true);
 }
 
+/**
+ * @brief Store Philosophy Profile.
+ * @param[in] profile Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), Status::Error(), empty(), Status::OK(), EthicsBaseEntityAdapter::toBaseEntity(), EthicsBaseEntityAdapter::makeProfileKey(), serialize(), put().
+ */
 Status ArgumentStore::storePhilosophyProfile(const PhilosophyProfile &profile) {
     std::lock_guard<std::mutex> lock(mutex_);
 
@@ -504,6 +541,11 @@ Status ArgumentStore::storePhilosophyProfile(const PhilosophyProfile &profile) {
 }
 
 std::variant<PhilosophyProfile, Status> ArgumentStore::getPhilosophyProfile(const std::string &school) {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     if (!initialized_) {
@@ -546,6 +588,10 @@ std::variant<PhilosophyProfile, Status> ArgumentStore::getPhilosophyProfile(cons
     return EthicsBaseEntityAdapter::fromBaseEntityToProfile(entity);
 }
 
+/**
+ * @brief Shutdown.
+ * @details Calls: lock(), reset(), clear().
+ */
 void ArgumentStore::shutdown() {
     std::lock_guard<std::mutex> lock(mutex_);
 
@@ -566,6 +612,12 @@ void ArgumentStore::shutdown() {
     initialized_ = false;
 }
 
+/**
+ * @brief Store Chain.
+ * @param[in] chain Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), Status::Error(), empty(), Status::OK().
+ */
 Status ArgumentStore::storeChain(const ArgumentChain &chain) {
     std::lock_guard<std::mutex> lock(mutex_);
 
@@ -582,6 +634,11 @@ Status ArgumentStore::storeChain(const ArgumentChain &chain) {
 }
 
 std::variant<ArgumentChain, Status> ArgumentStore::getChain(const std::string &chain_id) {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     if (!initialized_) {
@@ -596,9 +653,12 @@ std::variant<ArgumentChain, Status> ArgumentStore::getChain(const std::string &c
     return it->second;
 }
 
-// ============================================================================
-// v0.2.0 — Debate Transcript Storage
-// ============================================================================
+/**
+ * @brief ============================================================================ v0.
+ * @param[in] round Input parameter.
+ * @return Return value.
+ * @details 2.0 — Debate Transcript Storage ============================================================================ Calls: lock(), Status::OK(), push_back(), std::sort(), begin(), end().
+ */
 
 Status ArgumentStore::storeDebateRound(const DebateRound &round) {
     std::lock_guard<std::mutex> lock(mutex_);
@@ -618,6 +678,11 @@ Status ArgumentStore::storeDebateRound(const DebateRound &round) {
 }
 
 std::variant<std::vector<DebateRound>, Status> ArgumentStore::getDebateTranscript(const std::string &debate_id) {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = debate_rounds_.find(debate_id);
     if (it == debate_rounds_.end()) {

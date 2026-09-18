@@ -61,6 +61,12 @@ namespace {
 
 } // namespace
 
+/**
+ * @brief To String.
+ * @param[in] profile_id Identifier of the profile.
+ * @return Return value.
+ * @details Implements toString without additional internal calls.
+ */
 std::string toString(DeploymentProfileId profile_id) {
     switch (profile_id) {
         case DeploymentProfileId::Development:
@@ -73,6 +79,12 @@ std::string toString(DeploymentProfileId profile_id) {
     return "development";
 }
 
+/**
+ * @brief To String.
+ * @param[in] tier Input parameter.
+ * @return Return value.
+ * @details Implements toString without additional internal calls.
+ */
 std::string toString(StorageTier tier) {
     switch (tier) {
         case StorageTier::Hot:
@@ -85,6 +97,12 @@ std::string toString(StorageTier tier) {
     return "hot";
 }
 
+/**
+ * @brief To String.
+ * @param[in] fabric Input parameter.
+ * @return Return value.
+ * @details Implements toString without additional internal calls.
+ */
 std::string toString(NetworkFabric fabric) {
     switch (fabric) {
         case NetworkFabric::Workstation:
@@ -97,6 +115,12 @@ std::string toString(NetworkFabric fabric) {
     return "workstation";
 }
 
+/**
+ * @brief To String.
+ * @param[in] accelerator_class Input parameter.
+ * @return Return value.
+ * @details Implements toString without additional internal calls.
+ */
 std::string toString(AcceleratorClass accelerator_class) {
     switch (accelerator_class) {
         case AcceleratorClass::CpuOnly:
@@ -109,6 +133,12 @@ std::string toString(AcceleratorClass accelerator_class) {
     return "cpu_only";
 }
 
+/**
+ * @brief To String.
+ * @param[in] layer Input parameter.
+ * @return Return value.
+ * @details Implements toString without additional internal calls.
+ */
 std::string toString(LayerId layer) {
     switch (layer) {
         case LayerId::AnnFrontdoor:
@@ -123,6 +153,12 @@ std::string toString(LayerId layer) {
     return "ann_frontdoor";
 }
 
+/**
+ * @brief Parse Deployment Profile Id.
+ * @param[in] value Input parameter.
+ * @return Return value.
+ * @details Calls: normalizeToken().
+ */
 std::optional<DeploymentProfileId> parseDeploymentProfileId(std::string_view value) {
     const auto normalized = normalizeToken(value);
     if (normalized == "development" || normalized == "dev") {
@@ -138,6 +174,12 @@ std::optional<DeploymentProfileId> parseDeploymentProfileId(std::string_view val
     return std::nullopt;
 }
 
+/**
+ * @brief Parse Storage Tier.
+ * @param[in] value Input parameter.
+ * @return Return value.
+ * @details Calls: normalizeToken().
+ */
 std::optional<StorageTier> parseStorageTier(std::string_view value) {
     const auto normalized = normalizeToken(value);
     if (normalized == "hot") {
@@ -152,6 +194,11 @@ std::optional<StorageTier> parseStorageTier(std::string_view value) {
     return std::nullopt;
 }
 
+/**
+ * @brief Default Hardware Profiles.
+ * @return Return value.
+ * @details Calls: developmentLayerRules(), productionLayerRules(), federatedLayerRules().
+ */
 std::vector<HardwareProfile> defaultHardwareProfiles() {
     return {
         {
@@ -208,6 +255,12 @@ std::vector<HardwareProfile> defaultHardwareProfiles() {
     };
 }
 
+/**
+ * @brief Validate Hardware Profile.
+ * @param[in] profile Input parameter.
+ * @return Return value.
+ * @details Calls: push_back(), std::string(), empty(), validate_band(), unique_tiers(), begin(), end(), size().
+ */
 HardwareProfileValidationResult validateHardwareProfile(const HardwareProfile& profile) {
     HardwareProfileValidationResult result;
 
@@ -312,6 +365,13 @@ HardwareProfileValidationResult validateHardwareProfile(const HardwareProfile& p
     return result;
 }
 
+/**
+ * @brief Find Hardware Profile.
+ * @param[in] profiles Input parameter.
+ * @param[in] profile_id Identifier of the profile.
+ * @return Pointer to the result.
+ * @details Calls: std::find_if(), begin(), end().
+ */
 const HardwareProfile* findHardwareProfile(
     std::span<const HardwareProfile> profiles,
     DeploymentProfileId profile_id
@@ -322,6 +382,13 @@ const HardwareProfile* findHardwareProfile(
     return it == profiles.end() ? nullptr : &(*it);
 }
 
+/**
+ * @brief Find Hardware Profile.
+ * @param[in] profiles Input parameter.
+ * @param[in] profile_name Name of the profile.
+ * @return Pointer to the result.
+ * @details Calls: parseDeploymentProfileId().
+ */
 const HardwareProfile* findHardwareProfile(
     std::span<const HardwareProfile> profiles,
     std::string_view profile_name
@@ -330,6 +397,13 @@ const HardwareProfile* findHardwareProfile(
     return profile_id ? findHardwareProfile(profiles, *profile_id) : nullptr;
 }
 
+/**
+ * @brief Find Layer Sizing Rule.
+ * @param[in] profile Input parameter.
+ * @param[in] layer Input parameter.
+ * @return Pointer to the result.
+ * @details Calls: std::find_if(), begin(), end().
+ */
 const LayerSizingRule* findLayerSizingRule(const HardwareProfile& profile, LayerId layer) {
     const auto it = std::find_if(profile.layer_rules.begin(), profile.layer_rules.end(), [&](const auto& rule) {
         return rule.layer == layer;
@@ -337,6 +411,14 @@ const LayerSizingRule* findLayerSizingRule(const HardwareProfile& profile, Layer
     return it == profile.layer_rules.end() ? nullptr : &(*it);
 }
 
+/**
+ * @brief Validate Tier Transition.
+ * @param[in] current Input parameter.
+ * @param[in] target Input parameter.
+ * @param[in] request Input parameter.
+ * @return Return value.
+ * @details Calls: validateHardwareProfile(), insert(), end(), begin(), containsTier(), push_back(), toString(), findLayerSizingRule().
+ */
 TierTransitionResult validateTierTransition(
     const HardwareProfile& current,
     const HardwareProfile& target,
@@ -409,6 +491,11 @@ HardwareProfileRegistry::HardwareProfileRegistry(std::vector<HardwareProfile> pr
     }
 }
 
+/**
+ * @brief With Built Ins.
+ * @return Return value.
+ * @details Calls: HardwareProfileRegistry(), defaultHardwareProfiles().
+ */
 HardwareProfileRegistry HardwareProfileRegistry::withBuiltIns() {
     return HardwareProfileRegistry(defaultHardwareProfiles());
 }
@@ -429,6 +516,13 @@ const HardwareProfile* HardwareProfileRegistry::find(std::string_view profile_na
     return findHardwareProfile(profiles_, profile_name);
 }
 
+/**
+ * @brief Activate.
+ * @param[in] profile_id Identifier of the profile.
+ * @param[in,out] error Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: find(), toString(), validateHardwareProfile(), ok(), front().
+ */
 bool HardwareProfileRegistry::activate(DeploymentProfileId profile_id, std::string* error) {
     const auto* profile = find(profile_id);
     if (profile == nullptr) {
@@ -448,6 +542,13 @@ bool HardwareProfileRegistry::activate(DeploymentProfileId profile_id, std::stri
     return true;
 }
 
+/**
+ * @brief Activate.
+ * @param[in] profile_name Name of the profile.
+ * @param[in,out] error Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: parseDeploymentProfileId(), std::string().
+ */
 bool HardwareProfileRegistry::activate(std::string_view profile_name, std::string* error) {
     const auto profile_id = parseDeploymentProfileId(profile_name);
     if (!profile_id) {

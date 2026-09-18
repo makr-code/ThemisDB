@@ -36,7 +36,6 @@ void sleepWhileRunning(
 }  // namespace
 
 // CoordinatorTask JSON serialization
-/** @brief Serialize coordinator task into JSON payload. */
 nlohmann::json DistributedCoordinator::CoordinatorTask::toJson() const {
     nlohmann::json j;
     j["task_id"] = task_id;
@@ -51,7 +50,12 @@ nlohmann::json DistributedCoordinator::CoordinatorTask::toJson() const {
     return j;
 }
 
-/** @brief Deserialize coordinator task from JSON payload. */
+/**
+ * @brief From Json.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: value(), nlohmann::json::object(), std::chrono::seconds(), std::chrono::system_clock::time_point(), std::chrono::milliseconds().
+ */
 DistributedCoordinator::CoordinatorTask DistributedCoordinator::CoordinatorTask::fromJson(
     const nlohmann::json& j) {
     CoordinatorTask task;
@@ -73,7 +77,6 @@ DistributedCoordinator::CoordinatorTask DistributedCoordinator::CoordinatorTask:
 }
 
 // LeaderInfo JSON serialization
-/** @brief Serialize leader info into JSON payload. */
 nlohmann::json DistributedCoordinator::LeaderInfo::toJson() const {
     nlohmann::json j;
     j["shard_id"] = shard_id;
@@ -87,7 +90,6 @@ nlohmann::json DistributedCoordinator::LeaderInfo::toJson() const {
 }
 
 // Constructor
-/** @brief Construct coordinator with explicit runtime configuration. */
 DistributedCoordinator::DistributedCoordinator(
     const std::string& local_shard_id,
     std::shared_ptr<ShardTopology> topology,
@@ -101,7 +103,6 @@ DistributedCoordinator::DistributedCoordinator(
     THEMIS_INFO("DistributedCoordinator initialized for shard: {}", local_shard_id_);
 }
 
-/** @brief Construct coordinator using default config values. */
 DistributedCoordinator::DistributedCoordinator(
     const std::string& local_shard_id,
     std::shared_ptr<ShardTopology> topology,
@@ -111,13 +112,15 @@ DistributedCoordinator::DistributedCoordinator(
 }
 
 // Destructor
-/** @brief Stop coordinator worker threads during destruction. */
 DistributedCoordinator::~DistributedCoordinator() {
     stop();
 }
 
 // Lifecycle methods
-/** @brief Start election, heartbeat, and task execution worker threads. */
+/**
+ * @brief Start.
+ * @details Calls: exchange(), THEMIS_WARN(), std::thread(), load(), electionLoop(), sleepWhileRunning(), std::chrono::milliseconds(), isLeader().
+ */
 void DistributedCoordinator::start() {
     // Use acquire semantics to ensure all thread-local initialization is visible to worker threads.
     if (running_.exchange(true, std::memory_order_release)) {
@@ -162,7 +165,10 @@ void DistributedCoordinator::start() {
     THEMIS_INFO("DistributedCoordinator started");
 }
 
-/** @brief Stop coordinator worker threads and wait for shutdown. */
+/**
+ * @brief Stop.
+ * @details Calls: exchange(), THEMIS_INFO(), themis::utils::joinThreadWithin(), THEMIS_WARN().
+ */
 void DistributedCoordinator::stop() {
     // Use release semantics to ensure all pending operations are visible to threads before exit.
     if (!running_.exchange(false, std::memory_order_release)) {
@@ -186,14 +192,21 @@ void DistributedCoordinator::stop() {
 }
 
 // Role management
-/** @brief Return currently known leader shard identifier when available. */
 std::optional<std::string> DistributedCoordinator::getCurrentLeader() const {
+    /**
+     * @brief Lock.
+     * @param[in] leader_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(leader_mutex_);
     return current_leader_;
 }
 
 // Leader election
-/** @brief Start local election round and decide winner using simplified policy. */
+/**
+ * @brief Start Election.
+ * @details Calls: lock(), load(), THEMIS_WARN(), store(), THEMIS_INFO(), requestVotes(), what(), sleepWhileRunning().
+ */
 void DistributedCoordinator::startElection() {
     uint32_t election_term = 0;
     
@@ -268,7 +281,10 @@ void DistributedCoordinator::startElection() {
     }
 }
 
-/** @brief Promote local node to leader and initialize lease state. */
+/**
+ * @brief Become Leader.
+ * @details Calls: cb_lock(), lock(), store(), std::chrono::system_clock::now(), std::chrono::seconds(), THEMIS_INFO(), load(), callback().
+ */
 void DistributedCoordinator::becomeLeader() {
     // Capture callback before taking lock to avoid deadlock
     LeaderElectedCallback callback;
@@ -299,7 +315,10 @@ void DistributedCoordinator::becomeLeader() {
     }
 }
 
-/** @brief Step down from leader role to follower state. */
+/**
+ * @brief Step Down.
+ * @details Calls: lock(), load(), THEMIS_INFO(), store(), reset().
+ */
 void DistributedCoordinator::stepDown() {
     std::lock_guard<std::shared_mutex> lock(leader_mutex_);
     
@@ -313,7 +332,13 @@ void DistributedCoordinator::stepDown() {
 }
 
 // Task coordination
-/** @brief Schedule a new coordinator task and broadcast to peers. */
+/**
+ * @brief Schedule Task.
+ * @param[in] task Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: isLeader(), lock(), push_back(), broadcastTask(), THEMIS_INFO().
+ */
 std::string DistributedCoordinator::scheduleTask(const CoordinatorTask& task) {
     if (!isLeader()) {
         throw std::runtime_error("Only leader can schedule tasks");
@@ -332,7 +357,12 @@ std::string DistributedCoordinator::scheduleTask(const CoordinatorTask& task) {
     return task.task_id;
 }
 
-/** @brief Cancel pending task by identifier when local node is leader. */
+/**
+ * @brief Cancel Task.
+ * @param[in] task_id Identifier of the task.
+ * @return True when the operation succeeds.
+ * @details Calls: isLeader(), THEMIS_WARN(), lock(), std::find_if(), begin(), end(), erase(), THEMIS_INFO().
+ */
 bool DistributedCoordinator::cancelTask(const std::string& task_id) {
     if (!isLeader()) {
         THEMIS_WARN("Only leader can cancel tasks");
@@ -355,23 +385,35 @@ bool DistributedCoordinator::cancelTask(const std::string& task_id) {
     return false;
 }
 
-/** @brief Return snapshot of pending coordinator tasks. */
 std::vector<DistributedCoordinator::CoordinatorTask> 
 DistributedCoordinator::getPendingTasks() const {
+    /**
+     * @brief Lock.
+     * @param[in] tasks_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(tasks_mutex_);
     return pending_tasks_;
 }
 
 // Task execution callback
-/** @brief Register callback used to execute coordinator tasks. */
+/**
+ * @brief Set Task Executor.
+ * @param[in] executor Input parameter.
+ * @details Calls: lock().
+ */
 void DistributedCoordinator::setTaskExecutor(TaskExecutor executor) {
     std::lock_guard<std::mutex> lock(callback_mutex_);
     task_executor_ = executor;
 }
 
 // Leader info
-/** @brief Build current leader information snapshot. */
 DistributedCoordinator::LeaderInfo DistributedCoordinator::getLeaderInfo() const {
+    /**
+     * @brief Lock.
+     * @param[in] leader_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(leader_mutex_);
     
     LeaderInfo info;
@@ -387,14 +429,17 @@ DistributedCoordinator::LeaderInfo DistributedCoordinator::getLeaderInfo() const
 }
 
 // Callbacks
-/** @brief Register callback notified when leadership changes. */
+/**
+ * @brief Set Leader Elected Callback.
+ * @param[in] callback Input parameter.
+ * @details Calls: lock().
+ */
 void DistributedCoordinator::setLeaderElectedCallback(LeaderElectedCallback callback) {
     std::lock_guard<std::mutex> lock(callback_mutex_);
     leader_elected_callback_ = callback;
 }
 
 // Statistics
-/** @brief Return copy of coordinator runtime statistics. */
 DistributedCoordinator::Statistics DistributedCoordinator::getStatistics() const {
     // Return a copy of statistics with acquire semantics for consistency
     Statistics stats;
@@ -407,7 +452,6 @@ DistributedCoordinator::Statistics DistributedCoordinator::getStatistics() const
     return stats;
 }
 
-/** @brief Return coordinator runtime statistics as JSON payload. */
 nlohmann::json DistributedCoordinator::getStatisticsJson() const {
     nlohmann::json j;
     j["elections_started"] = stats_.elections_started.load(std::memory_order_acquire);
@@ -419,8 +463,10 @@ nlohmann::json DistributedCoordinator::getStatisticsJson() const {
     return j;
 }
 
-// Private methods - Election logic
-/** @brief Periodic election loop: detect failures and trigger elections. */
+/**
+ * @brief Private methods - Election logic
+ * @details Calls: detectLeaderFailure(), has_value(), THEMIS_INFO(), startElection().
+ */
 void DistributedCoordinator::electionLoop() {
     // Check if there's a leader
     detectLeaderFailure();
@@ -432,12 +478,18 @@ void DistributedCoordinator::electionLoop() {
     }
 }
 
-/** @brief Heartbeat loop placeholder handled by dedicated worker lambda. */
+/**
+ * @brief Heartbeat Loop.
+ * @details Implements heartbeatLoop without additional internal calls.
+ */
 void DistributedCoordinator::heartbeatLoop() {
     // Handled in the main heartbeat thread
 }
 
-/** @brief Execute pending tasks via registered executor callback. */
+/**
+ * @brief Task Executor Loop.
+ * @details Calls: lock(), cb_lock(), THEMIS_DEBUG(), executor(), THEMIS_INFO(), cancelTask(), THEMIS_WARN(), THEMIS_ERROR().
+ */
 void DistributedCoordinator::taskExecutorLoop() {
     std::vector<CoordinatorTask> tasks_to_execute;
     
@@ -483,7 +535,10 @@ void DistributedCoordinator::taskExecutorLoop() {
 }
 
 // Leader detection
-/** @brief Detect leader failure when lease expiration is observed. */
+/**
+ * @brief Detect Leader Failure.
+ * @details Calls: lock(), has_value(), std::chrono::system_clock::now(), THEMIS_WARN(), value(), reset().
+ */
 void DistributedCoordinator::detectLeaderFailure() {
     std::lock_guard<std::shared_mutex> lock(leader_mutex_);
     
@@ -502,8 +557,12 @@ void DistributedCoordinator::detectLeaderFailure() {
     }
 }
 
-/** @brief Return whether leader heartbeat freshness indicates healthy leader. */
 bool DistributedCoordinator::isLeaderHealthy() const {
+    /**
+     * @brief Lock.
+     * @param[in] leader_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(leader_mutex_);
     
     if (!current_leader_.has_value()) {
@@ -518,13 +577,15 @@ bool DistributedCoordinator::isLeaderHealthy() const {
     return heartbeat_age < config_.heartbeat_interval_ms * 2;
 }
 
-/** @brief Return whether the coordinator is healthy (leader healthy and running). */
 bool DistributedCoordinator::isHealthy() const {
     return isRunning() && isLeaderHealthy();
 }
 
 // Heartbeats
-/** @brief Send leader heartbeat and renew local lease state. */
+/**
+ * @brief Send Heartbeat.
+ * @details Calls: isLeader(), THEMIS_DEBUG(), load(), renewLease(), lock(), std::chrono::system_clock::now().
+ */
 void DistributedCoordinator::sendHeartbeat() {
     if (!isLeader()) {
         return;
@@ -544,7 +605,12 @@ void DistributedCoordinator::sendHeartbeat() {
     }
 }
 
-/** @brief Process heartbeat received from remote leader candidate/leader. */
+/**
+ * @brief Receive Heartbeat.
+ * @param[in] leader_id Identifier of the leader.
+ * @param[in] term Input parameter.
+ * @details Calls: lock(), load(), store(), std::chrono::system_clock::now(), std::chrono::seconds().
+ */
 void DistributedCoordinator::receiveHeartbeat(const std::string& leader_id, uint32_t term) {
     std::lock_guard<std::shared_mutex> lock(leader_mutex_);
     
@@ -566,7 +632,10 @@ void DistributedCoordinator::receiveHeartbeat(const std::string& leader_id, uint
 }
 
 // Election
-/** @brief Broadcast vote request for current term (stubbed transport). */
+/**
+ * @brief Request Votes.
+ * @details Calls: THEMIS_DEBUG(), load().
+ */
 void DistributedCoordinator::requestVotes() {
     // Memory order: acquire to read current term safely
     THEMIS_DEBUG("Requesting votes for term {}", current_term_.load(std::memory_order_acquire));
@@ -575,7 +644,12 @@ void DistributedCoordinator::requestVotes() {
     // For simplified implementation, we just log
 }
 
-/** @brief Process vote request and emit vote response. */
+/**
+ * @brief Receive Vote Request.
+ * @param[in] candidate_id Identifier of the candidate.
+ * @param[in] term Input parameter.
+ * @details Calls: load(), sendVote().
+ */
 void DistributedCoordinator::receiveVoteRequest(const std::string& candidate_id, uint32_t term) {
     // Simplified voting logic
     // Memory order: acquire to ensure current term is read before comparison
@@ -583,13 +657,22 @@ void DistributedCoordinator::receiveVoteRequest(const std::string& candidate_id,
     sendVote(candidate_id, should_vote);
 }
 
-/** @brief Emit vote decision for candidate (diagnostic path). */
+/**
+ * @brief Send Vote.
+ * @param[in] candidate_id Identifier of the candidate.
+ * @param[in] granted Input parameter.
+ * @details Calls: THEMIS_DEBUG().
+ */
 void DistributedCoordinator::sendVote(const std::string& candidate_id, bool granted) {
     THEMIS_DEBUG("Voting for candidate {} (granted: {})", candidate_id, granted);
 }
 
 // Task distribution
-/** @brief Broadcast coordinator task to remote shards (transport stub). */
+/**
+ * @brief Broadcast Task.
+ * @param[in] task Input parameter.
+ * @details Calls: THEMIS_DEBUG().
+ */
 void DistributedCoordinator::broadcastTask(const CoordinatorTask& task) {
     THEMIS_DEBUG("Broadcasting task: {}", task.task_id);
     
@@ -597,7 +680,11 @@ void DistributedCoordinator::broadcastTask(const CoordinatorTask& task) {
     // For simplified implementation, we just store locally
 }
 
-/** @brief Accept coordinator task announced by remote leader. */
+/**
+ * @brief Receive Task.
+ * @param[in] task Input parameter.
+ * @details Calls: isLeader(), lock(), push_back(), THEMIS_INFO().
+ */
 void DistributedCoordinator::receiveTask(const CoordinatorTask& task) {
     if (isLeader()) {
         // Leaders don't receive tasks, they create them
@@ -611,15 +698,22 @@ void DistributedCoordinator::receiveTask(const CoordinatorTask& task) {
 }
 
 // Lease management
-/** @brief Return true when local leader lease has not expired. */
 bool DistributedCoordinator::hasValidLease() const {
+    /**
+     * @brief Lock.
+     * @param[in] leader_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(leader_mutex_);
     
     auto now = std::chrono::system_clock::now();
     return now < leader_lease_expires_;
 }
 
-/** @brief Renew local leader lease expiration timestamp. */
+/**
+ * @brief Renew Lease.
+ * @details Calls: lock(), std::chrono::system_clock::now(), std::chrono::seconds(), THEMIS_DEBUG(), time_since_epoch(), count().
+ */
 void DistributedCoordinator::renewLease() {
     std::lock_guard<std::shared_mutex> lock(leader_mutex_);
     
@@ -632,7 +726,11 @@ void DistributedCoordinator::renewLease() {
 }
 
 // Graceful handoff
-/** @brief Attempt graceful leadership transfer and step down. */
+/**
+ * @brief Transfer Leadership.
+ * @param[in] new_leader Input parameter.
+ * @details Calls: isLeader(), THEMIS_WARN(), THEMIS_INFO(), stepDown().
+ */
 void DistributedCoordinator::transferLeadership(const std::string& new_leader) {
     if (!isLeader()) {
         THEMIS_WARN("Only leader can transfer leadership");
@@ -648,22 +746,34 @@ void DistributedCoordinator::transferLeadership(const std::string& new_leader) {
 
 // Transaction visibility
 
-/** @brief Wire optional transaction coordinator used for visibility queries. */
+/**
+ * @brief Set Transaction Coordinator.
+ * @param[in,out] txn_coordinator Input/output parameter.
+ */
 void DistributedCoordinator::setTransactionCoordinator(
     themisdb::sharding::CrossShardTransactionCoordinator* txn_coordinator)
 {
+    /**
+     * @brief Lock.
+     * @param[in] txn_coordinator_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::shared_mutex> lock(txn_coordinator_mutex_);
     txn_coordinator_ = txn_coordinator;
     THEMIS_INFO("DistributedCoordinator: transaction coordinator {}",
                 txn_coordinator ? "registered" : "detached");
 }
 
-/** @brief Return in-flight transactions from wired transaction coordinator. */
 std::vector<themisdb::sharding::CrossShardTransaction>
 DistributedCoordinator::listInFlightTransactions() const
 {
     themisdb::sharding::CrossShardTransactionCoordinator* txn_coordinator = nullptr;
     {
+        /**
+         * @brief Lock.
+         * @param[in] txn_coordinator_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::shared_lock<std::shared_mutex> lock(txn_coordinator_mutex_);
         txn_coordinator = txn_coordinator_;
     }
@@ -674,12 +784,16 @@ DistributedCoordinator::listInFlightTransactions() const
     return txn_coordinator->getActiveTransactions();
 }
 
-/** @brief Lookup one transaction by ID via wired transaction coordinator. */
 std::optional<themisdb::sharding::CrossShardTransaction>
 DistributedCoordinator::getTransaction(const std::string& txn_id) const
 {
     themisdb::sharding::CrossShardTransactionCoordinator* txn_coordinator = nullptr;
     {
+        /**
+         * @brief Lock.
+         * @param[in] txn_coordinator_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::shared_lock<std::shared_mutex> lock(txn_coordinator_mutex_);
         txn_coordinator = txn_coordinator_;
     }

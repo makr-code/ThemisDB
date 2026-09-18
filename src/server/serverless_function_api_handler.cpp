@@ -70,6 +70,11 @@ json ServerlessFunction::toJson() const {
 // Utilities
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Generate Id.
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), fetch_add(), str().
+ */
 std::string ServerlessFunctionApiHandler::generateId() {
     static std::atomic<uint64_t> counter{0};
     uint64_t ts = static_cast<uint64_t>(
@@ -81,6 +86,11 @@ std::string ServerlessFunctionApiHandler::generateId() {
     return oss.str();
 }
 
+/**
+ * @brief Utc Now.
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::now(), std::chrono::system_clock::to_time_t(), gmtime_s(), gmtime_r(), std::put_time(), str().
+ */
 std::string ServerlessFunctionApiHandler::utcNow() {
     auto now = std::chrono::system_clock::now();
     std::time_t t = std::chrono::system_clock::to_time_t(now);
@@ -95,6 +105,12 @@ std::string ServerlessFunctionApiHandler::utcNow() {
     return oss.str();
 }
 
+/**
+ * @brief Validate Code.
+ * @param[in] code Input parameter.
+ * @return Return value.
+ * @details Calls: is_object(), contains(), is_array(), is_string().
+ */
 std::string ServerlessFunctionApiHandler::validateCode(const json& code) {
     if (!code.is_object()) {
         return "code must be a JSON object";
@@ -312,6 +328,11 @@ ServerlessFunctionApiHandler::handleRegister(
     fn.updated_at  = fn.created_at;
 
     {
+        /**
+         * @brief Lock.
+         * @param[in] registry_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(registry_mutex_);
         registry_[fn.id] = fn;
         version_history_[fn.id].push_back(fn);
@@ -364,6 +385,11 @@ ServerlessFunctionApiHandler::handleList(
 
     json arr = json::array();
     {
+        /**
+         * @brief Lock.
+         * @param[in] registry_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(registry_mutex_);
         for (const auto& [id, fn] : registry_) {
             if (tenant_filter.empty() || fn.tenant_id == tenant_filter) {
@@ -388,6 +414,11 @@ ServerlessFunctionApiHandler::handleGet(
         return makeErrorResponse(http::status::bad_request,
                                  "invalid function id", req);
     }
+    /**
+     * @brief Lock.
+     * @param[in] registry_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(registry_mutex_);
     auto it = registry_.find(id);
     if (it == registry_.end()) {
@@ -419,6 +450,11 @@ ServerlessFunctionApiHandler::handleUpdate(
                                  "invalid JSON body", req);
     }
 
+    /**
+     * @brief Lock.
+     * @param[in] registry_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(registry_mutex_);
     auto it = registry_.find(id);
     if (it == registry_.end()) {
@@ -497,6 +533,11 @@ ServerlessFunctionApiHandler::handleDelete(
         return makeErrorResponse(http::status::bad_request,
                                  "invalid function id", req);
     }
+    /**
+     * @brief Lock.
+     * @param[in] registry_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(registry_mutex_);
     auto it = registry_.find(id);
     if (it == registry_.end()) {
@@ -527,6 +568,11 @@ ServerlessFunctionApiHandler::handleInvoke(
     // holding the registry mutex during potentially long-running work.
     ServerlessFunction fn;
     {
+        /**
+         * @brief Lock.
+         * @param[in] registry_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(registry_mutex_);
         auto it = registry_.find(id);
         if (it == registry_.end()) {
@@ -591,6 +637,11 @@ ServerlessFunctionApiHandler::handleVersions(
         return makeErrorResponse(http::status::bad_request,
                                  "invalid function id", req);
     }
+    /**
+     * @brief Lock.
+     * @param[in] registry_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(registry_mutex_);
     auto it = version_history_.find(id);
     if (it == version_history_.end()) {

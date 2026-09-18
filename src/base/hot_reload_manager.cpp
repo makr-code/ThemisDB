@@ -38,6 +38,12 @@ HotReloadManager::~HotReloadManager() = default;
 // Module registration
 // =============================================================================
 
+/**
+ * @brief Register Module.
+ * @param[in] module_name Name of the module.
+ * @param[in,out] loader Input/output parameter.
+ * @details Calls: lock(), getModuleInfo(), has_value(), ModuleVersion::fromMetadata(), spdlog::info().
+ */
 void HotReloadManager::registerModule(const std::string &module_name, ModuleLoader &loader) {
     std::unique_lock<std::shared_mutex> lock(mutex_);
 
@@ -56,15 +62,24 @@ void HotReloadManager::registerModule(const std::string &module_name, ModuleLoad
     spdlog::info("HotReloadManager: registered module '{}'", module_name);
 }
 
+/**
+ * @brief Unregister Module.
+ * @param[in] module_name Name of the module.
+ * @details Calls: lock(), erase(), spdlog::info().
+ */
 void HotReloadManager::unregisterModule(const std::string &module_name) {
     std::unique_lock<std::shared_mutex> lock(mutex_);
     slots_.erase(module_name);
     spdlog::info("HotReloadManager: unregistered module '{}'", module_name);
 }
 
-// =============================================================================
-// reloadModule – core hot-swap logic
-// =============================================================================
+/**
+ * @brief ============================================================================= reloadModule – core hot-swap logic =============================================================================
+ * @param[in] module_name Name of the module.
+ * @param[in] new_path Path to the new.
+ * @return Return value.
+ * @details Calls: std::chrono::steady_clock::now(), spanEmitter(), TraceContext::generate(), span(), lock(), find(), end(), spdlog::error().
+ */
 
 HotReloadResult HotReloadManager::reloadModule(const std::string &module_name, const std::string &new_path) {
     auto wall_start = std::chrono::steady_clock::now();
@@ -266,6 +281,12 @@ HotReloadResult HotReloadManager::reloadModule(const std::string &module_name, c
 // rollback
 // =============================================================================
 
+/**
+ * @brief Rollback.
+ * @param[in] module_name Name of the module.
+ * @return Return value.
+ * @details Calls: std::chrono::steady_clock::now(), spanEmitter(), TraceContext::generate(), span(), lock(), find(), end(), spdlog::error().
+ */
 HotReloadResult HotReloadManager::rollback(const std::string &module_name) {
     auto wall_start = std::chrono::steady_clock::now();
 
@@ -378,6 +399,11 @@ HotReloadResult HotReloadManager::rollback(const std::string &module_name) {
 // =============================================================================
 
 std::optional<ModuleVersion> HotReloadManager::getCurrentVersion(const std::string &module_name) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(mutex_);
 
     auto it = slots_.find(module_name);
@@ -393,6 +419,11 @@ std::optional<ModuleVersion> HotReloadManager::getCurrentVersion(const std::stri
 }
 
 bool HotReloadManager::isRollbackAvailable(const std::string &module_name) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(mutex_);
 
     auto it = slots_.find(module_name);
@@ -400,6 +431,11 @@ bool HotReloadManager::isRollbackAvailable(const std::string &module_name) const
 }
 
 std::vector<std::string> HotReloadManager::registeredModules() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(mutex_);
 
     std::vector<std::string> names = {};
@@ -412,6 +448,11 @@ std::vector<std::string> HotReloadManager::registeredModules() const {
 }
 
 std::optional<SandboxStats> HotReloadManager::getSandboxStats(const std::string &module_name) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(mutex_);
 
     auto it = slots_.find(module_name);
@@ -426,21 +467,40 @@ std::optional<SandboxStats> HotReloadManager::getSandboxStats(const std::string 
 // Callbacks
 // =============================================================================
 
+/**
+ * @brief Set State Save Callback.
+ * @param[in] cb Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void HotReloadManager::setStateSaveCallback(StateSaveCallback cb) {
     std::unique_lock<std::shared_mutex> lock(mutex_);
     state_save_cb_ = std::move(cb);
 }
 
+/**
+ * @brief Set State Restore Callback.
+ * @param[in] cb Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void HotReloadManager::setStateRestoreCallback(StateRestoreCallback cb) {
     std::unique_lock<std::shared_mutex> lock(mutex_);
     state_restore_cb_ = std::move(cb);
 }
 
+/**
+ * @brief Add Reload Callback.
+ * @param[in] cb Input parameter.
+ * @details Calls: lock(), push_back(), std::move().
+ */
 void HotReloadManager::addReloadCallback(ReloadCallback cb) {
     std::unique_lock<std::shared_mutex> lock(mutex_);
     reload_cbs_.push_back(std::move(cb));
 }
 
+/**
+ * @brief Clear Reload Callbacks.
+ * @details Calls: lock(), clear().
+ */
 void HotReloadManager::clearReloadCallbacks() {
     std::unique_lock<std::shared_mutex> lock(mutex_);
     reload_cbs_.clear();
@@ -451,10 +511,19 @@ void HotReloadManager::clearReloadCallbacks() {
 // =============================================================================
 
 HotReloadManager::Stats HotReloadManager::getStats() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(mutex_);
     return stats_;
 }
 
+/**
+ * @brief Reset Stats.
+ * @details Calls: lock().
+ */
 void HotReloadManager::resetStats() {
     std::unique_lock<std::shared_mutex> lock(mutex_);
     stats_ = {};
@@ -464,6 +533,11 @@ void HotReloadManager::resetStats() {
 // Wave D — Distributed tracing
 // =============================================================================
 
+/**
+ * @brief Set Span Emitter.
+ * @param[in] emitter Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void HotReloadManager::setSpanEmitter(SpanEmitter emitter) {
     std::unique_lock<std::shared_mutex> lock(mutex_);
     span_emitter_ = std::move(emitter);
@@ -475,6 +549,11 @@ void HotReloadManager::setSpanEmitter(SpanEmitter emitter) {
 // reload/rollback operations are in-flight) — consistent with OpenTelemetry
 // provider setup conventions.
 SpanEmitter HotReloadManager::spanEmitter() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(mutex_);
     return span_emitter_;
 }
@@ -483,6 +562,12 @@ SpanEmitter HotReloadManager::spanEmitter() const {
 // Private helpers
 // =============================================================================
 
+/**
+ * @brief Notify.
+ * @param[in] name Input parameter.
+ * @param[in] phase Input parameter.
+ * @details Calls: lock(), cb(), spdlog::warn(), what().
+ */
 void HotReloadManager::notify(const std::string &name, ReloadPhase phase) {
     // Capture callbacks under shared lock (read-only), then invoke outside
     // of lock to prevent re-entrancy deadlocks.
@@ -504,6 +589,12 @@ void HotReloadManager::notify(const std::string &name, ReloadPhase phase) {
     }
 }
 
+/**
+ * @brief Save State.
+ * @param[in] name Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), cb(), empty(), spdlog::warn(), what().
+ */
 std::string HotReloadManager::saveState(const std::string &name) {
     StateSaveCallback cb;
     {
@@ -526,6 +617,13 @@ std::string HotReloadManager::saveState(const std::string &name) {
     }
 }
 
+/**
+ * @brief Restore State.
+ * @param[in] name Input parameter.
+ * @param[in] state Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), cb(), spdlog::warn(), what().
+ */
 bool HotReloadManager::restoreState(const std::string &name, const std::string &state) {
     StateRestoreCallback cb;
     {

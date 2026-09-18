@@ -23,6 +23,11 @@ namespace security {
 
 namespace {
 
+/**
+ * @brief Is Stub Hsm Dek Wrap Allowed.
+ * @return True when the operation succeeds.
+ * @details Calls: std::getenv(), std::string().
+ */
 bool isStubHsmDekWrapAllowed() {
     const char* allow_stub = std::getenv("THEMIS_ALLOW_HSM_STUB");
     return allow_stub && std::string(allow_stub) == "1";
@@ -73,6 +78,14 @@ HSMKeyProviderAdapter::HSMKeyProviderAdapter(
 ) : HSMKeyProviderAdapter(hsm, Config{}) {
 }
 
+/**
+ * @brief Get Key.
+ * @param[in] key_id Identifier of the key.
+ * @return Return value.
+ * @throws KeyNotFoundException if an error occurs.
+ * @throws KeyOperationException if an error occurs.
+ * @details Calls: lock(), find(), end(), empty().
+ */
 std::vector<uint8_t> HSMKeyProviderAdapter::getKey(const std::string& key_id) {
     // Get latest version
     std::lock_guard<std::mutex> lock(store_mutex_);
@@ -97,6 +110,15 @@ std::vector<uint8_t> HSMKeyProviderAdapter::getKey(const std::string& key_id) {
     return getKey(key_id, latest_version);
 }
 
+/**
+ * @brief Get Key.
+ * @param[in] key_id Identifier of the key.
+ * @param[in] version Input parameter.
+ * @return Return value.
+ * @throws KeyNotFoundException if an error occurs.
+ * @throws KeyOperationException if an error occurs.
+ * @details Calls: makeCacheKey(), getCachedDEK(), lock(), find(), end(), std::to_string(), unwrapDEK(), std::string().
+ */
 std::vector<uint8_t> HSMKeyProviderAdapter::getKey(const std::string& key_id, uint32_t version) {
     // Check cache first
     std::string cache_key = makeCacheKey(key_id, version);
@@ -144,6 +166,13 @@ std::vector<uint8_t> HSMKeyProviderAdapter::getKey(const std::string& key_id, ui
     return dek;
 }
 
+/**
+ * @brief Rotate Key.
+ * @param[in] key_id Identifier of the key.
+ * @return Return value.
+ * @throws KeyOperationException if an error occurs.
+ * @details Calls: lock(), getLatestVersion(), generateRandomDEK(), wrapDEK(), std::string(), what(), find(), end().
+ */
 uint32_t HSMKeyProviderAdapter::rotateKey(const std::string& key_id) {
     std::lock_guard<std::mutex> lock(store_mutex_);
      
@@ -191,6 +220,11 @@ uint32_t HSMKeyProviderAdapter::rotateKey(const std::string& key_id) {
     return new_version;
 }
 
+/**
+ * @brief List Keys.
+ * @return Return value.
+ * @details Calls: lock(), size(), reserve(), push_back().
+ */
 std::vector<KeyMetadata> HSMKeyProviderAdapter::listKeys() {
     std::lock_guard<std::mutex> lock(store_mutex_);
     
@@ -208,6 +242,14 @@ std::vector<KeyMetadata> HSMKeyProviderAdapter::listKeys() {
     return result;
 }
 
+/**
+ * @brief Get Key Metadata.
+ * @param[in] key_id Identifier of the key.
+ * @param[in] version Input parameter.
+ * @return Return value.
+ * @throws KeyNotFoundException if an error occurs.
+ * @details Calls: lock(), find(), end().
+ */
 KeyMetadata HSMKeyProviderAdapter::getKeyMetadata(const std::string& key_id, uint32_t version) {
     std::lock_guard<std::mutex> lock(store_mutex_);
     
@@ -235,6 +277,14 @@ KeyMetadata HSMKeyProviderAdapter::getKeyMetadata(const std::string& key_id, uin
     return version_it->second.metadata;
 }
 
+/**
+ * @brief Delete Key.
+ * @param[in] key_id Identifier of the key.
+ * @param[in] version Input parameter.
+ * @throws KeyNotFoundException if an error occurs.
+ * @throws KeyOperationException if an error occurs.
+ * @details Calls: lock(), find(), end(), std::to_string(), makeCacheKey(), cache_lock(), erase(), spdlog::info().
+ */
 void HSMKeyProviderAdapter::deleteKey(const std::string& key_id, uint32_t version) {
     std::lock_guard<std::mutex> lock(store_mutex_);
     
@@ -264,6 +314,13 @@ void HSMKeyProviderAdapter::deleteKey(const std::string& key_id, uint32_t versio
     spdlog::info("Deleted key {} version {}", key_id, version);
 }
 
+/**
+ * @brief Has Key.
+ * @param[in] key_id Identifier of the key.
+ * @param[in] version Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), find(), end(), empty().
+ */
 bool HSMKeyProviderAdapter::hasKey(const std::string& key_id, uint32_t version) {
     std::lock_guard<std::mutex> lock(store_mutex_);
     
@@ -279,6 +336,16 @@ bool HSMKeyProviderAdapter::hasKey(const std::string& key_id, uint32_t version) 
     return key_it->second.find(version) != key_it->second.end();
 }
 
+/**
+ * @brief Create Key From Bytes.
+ * @param[in] key_id Identifier of the key.
+ * @param[in] key_bytes Input parameter.
+ * @param[in] metadata Input parameter.
+ * @return Return value.
+ * @throws std::invalid_argument if an error occurs.
+ * @throws KeyOperationException if an error occurs.
+ * @details Calls: size(), lock(), getLatestVersion(), wrapDEK(), std::string(), what(), empty(), getCurrentTimeMs().
+ */
 uint32_t HSMKeyProviderAdapter::createKeyFromBytes(
     const std::string& key_id,
     const std::vector<uint8_t>& key_bytes,
@@ -351,11 +418,21 @@ nlohmann::json HSMKeyProviderAdapter::getStats() const {
     stats["key_rotations"] = stats_.key_rotations.load();
     
     {
+        /**
+         * @brief Lock.
+         * @param[in] cache_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(cache_mutex_);
         stats["cache_size"] = dek_cache_.size();
     }
     
     {
+        /**
+         * @brief Lock.
+         * @param[in] store_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(store_mutex_);
         stats["total_keys"] = key_store_.size();
         size_t total_versions = 0;
@@ -368,6 +445,10 @@ nlohmann::json HSMKeyProviderAdapter::getStats() const {
     return stats;
 }
 
+/**
+ * @brief Clear Cache.
+ * @details Calls: lock(), clear(), spdlog::info().
+ */
 void HSMKeyProviderAdapter::clearCache() {
     std::lock_guard<std::mutex> lock(cache_mutex_);
     dek_cache_.clear();
@@ -393,6 +474,13 @@ std::vector<uint8_t> HSMKeyProviderAdapter::generateRandomDEK() const {
     return dek;
 }
 
+/**
+ * @brief Wrap DEK.
+ * @param[in] dek Input parameter.
+ * @return Return value.
+ * @throws KeyOperationException if an error occurs.
+ * @details Calls: lock(), fn(), std::string(), what(), isStubProvider(), isStubHsmDekWrapAllowed(), encryptData(), empty().
+ */
 std::vector<uint8_t> HSMKeyProviderAdapter::wrapDEK(const std::vector<uint8_t>& dek) {
     stats_.hsm_encrypt_operations++;
 
@@ -465,6 +553,13 @@ std::vector<uint8_t> HSMKeyProviderAdapter::wrapDEK(const std::vector<uint8_t>& 
     }
 }
 
+/**
+ * @brief Unwrap DEK.
+ * @param[in] encrypted_dek Input parameter.
+ * @return Return value.
+ * @throws KeyOperationException if an error occurs.
+ * @details Calls: lock(), fn(), std::string(), what(), isStubProvider(), isStubHsmDekWrapAllowed(), decryptData(), empty().
+ */
 std::vector<uint8_t> HSMKeyProviderAdapter::unwrapDEK(const std::vector<uint8_t>& encrypted_dek) {
     stats_.hsm_decrypt_operations++;
 
@@ -534,6 +629,13 @@ std::string HSMKeyProviderAdapter::makeStoreKey(const std::string& key_id, uint3
     return key_id + ":" + std::to_string(version);
 }
 
+/**
+ * @brief Get Cached DEK.
+ * @param[in] cache_key Input parameter.
+ * @param[in,out] out_dek Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), evictExpiredCache(), find(), end(), isExpired(), erase().
+ */
 bool HSMKeyProviderAdapter::getCachedDEK(const std::string& cache_key, std::vector<uint8_t>& out_dek) {
     std::lock_guard<std::mutex> lock(cache_mutex_);
     
@@ -555,6 +657,12 @@ bool HSMKeyProviderAdapter::getCachedDEK(const std::string& cache_key, std::vect
     return true;
 }
 
+/**
+ * @brief Put Cached DEK.
+ * @param[in] cache_key Input parameter.
+ * @param[in] dek Input parameter.
+ * @details Calls: lock(), size(), begin(), end(), erase(), getCurrentTimeMs().
+ */
 void HSMKeyProviderAdapter::putCachedDEK(const std::string& cache_key, const std::vector<uint8_t>& dek) {
     std::lock_guard<std::mutex> lock(cache_mutex_);
     
@@ -578,6 +686,10 @@ void HSMKeyProviderAdapter::putCachedDEK(const std::string& cache_key, const std
     dek_cache_[cache_key] = cached;
 }
 
+/**
+ * @brief Evict Expired Cache.
+ * @details Calls: begin(), end(), isExpired(), erase().
+ */
 void HSMKeyProviderAdapter::evictExpiredCache() {
     // Note: called with cache_mutex_ already held
     auto it = dek_cache_.begin();
@@ -615,11 +727,21 @@ int64_t HSMKeyProviderAdapter::getCurrentTimeMs() const {
 
 // ── Static bridge setters (STUB #47 / #48) — see STUB/SIMULATION NOTE above ──
 
+/**
+ * @brief Set Wrap DEKFn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void HSMKeyProviderAdapter::setWrapDEKFn(WrapDEKFn fn) {
     std::lock_guard<std::mutex> lock(g_dek_fn_mutex);
     g_wrap_dek_fn = std::move(fn);
 }
 
+/**
+ * @brief Set Unwrap DEKFn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void HSMKeyProviderAdapter::setUnwrapDEKFn(UnwrapDEKFn fn) {
     std::lock_guard<std::mutex> lock(g_dek_fn_mutex);
     g_unwrap_dek_fn = std::move(fn);

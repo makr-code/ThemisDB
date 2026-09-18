@@ -19,6 +19,14 @@ namespace toolbox {
 // Injected toolbox overload
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Extract Entities Stream.
+ * @param[in,out] toolbox Input/output parameter.
+ * @param[in] text Input parameter.
+ * @param[in] mime Input parameter.
+ * @param[in] filename Input parameter.
+ * @param[in] callback Input parameter.
+ */
 void extractEntitiesStream(
     IngestionToolbox&     toolbox,
     const std::string&    text,
@@ -48,6 +56,13 @@ void extractEntitiesStream(
 // Global registry overload
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Extract Entities Stream.
+ * @param[in] text Input parameter.
+ * @param[in] mime Input parameter.
+ * @param[in] filename Input parameter.
+ * @param[in] callback Input parameter.
+ */
 void extractEntitiesStream(
     const std::string&    text,
     const std::string&    mime,

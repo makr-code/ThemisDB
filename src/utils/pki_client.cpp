@@ -50,12 +50,12 @@
 namespace themis {
 namespace utils {
 
+
 /**
- * @brief ============================================================================ Certificate Pinning: SHA256 Fingerprint Verification ============================================================================
+ * @brief Base64 encode.
  * @param[in] data Input parameter.
  * @return Return value.
  */
-
 static std::string base64_encode(const std::vector<uint8_t>& data);
 
 /**
@@ -137,7 +137,7 @@ static std::optional<std::string> build_pinned_public_key_value(const PKIConfig&
 }
 
 /**
- * @brief Simple base64 (encode/decode) to avoid extra deps
+ * @brief Base64 encode.
  * @param[in] data Input parameter.
  * @return Return value.
  * @details Calls: reserve(), size(), push_back().
@@ -365,10 +365,10 @@ static Result<EVP_PKEY*> load_public_key_and_serial(const PKIConfig& cfg, std::s
 }
 
 /**
- * @brief Generates a PKCS#10 CSR (PEM) using the private key in cfg and service_id as CN.
+ * @brief Generate csr pem.
  * @param[in] cfg Input parameter.
  * @return Return value.
- * @details Uses the X509_REQ_* OpenSSL API. Returns empty string on failure. Calls: load_private_key(), pkey(), req(), X509_REQ_new(), X509_REQ_set_version(), get(), X509_REQ_get_subject_name(), empty().
+ * @details Calls: load_private_key(), pkey(), req(), X509_REQ_new(), X509_REQ_set_version(), get(), X509_REQ_get_subject_name(), empty().
  */
 static std::string generate_csr_pem(const PKIConfig& cfg) {
     auto pkey_result = load_private_key(cfg);
@@ -426,11 +426,11 @@ static std::string generate_csr_pem(const PKIConfig& cfg) {
 }
 
 /**
- * @brief Submits a PEM-encoded PKCS#10 CSR to {ca_url}/sign-csr and returns the signed certificate PEM on success.
+ * @brief Request cert from ca.
  * @param[in] cfg Input parameter.
  * @param[in] csr_pem Input parameter.
  * @return Return value.
- * @details Returns empty string on failure. Calls: THEMIS_UTILS_HAS_CURL(), empty(), back(), pop_back(), dump(), curl_easy_init(), curl_slist_append(), curl_easy_setopt().
+ * @details Calls: THEMIS_UTILS_HAS_CURL(), empty(), back(), pop_back(), dump(), curl_easy_init(), curl_slist_append(), curl_easy_setopt().
  */
 static std::string request_cert_from_ca(const PKIConfig& cfg, const std::string& csr_pem) {
 #if !THEMIS_UTILS_HAS_CURL
@@ -506,10 +506,10 @@ static std::string request_cert_from_ca(const PKIConfig& cfg, const std::string&
 }
 
 /**
- * @brief Extracts the serial number from a PEM-encoded certificate string.
+ * @brief Serial from cert pem.
  * @param[in] cert_pem Input parameter.
  * @return Return value.
- * @details Returns empty string on failure. Calls: bio(), BIO_new_mem_buf(), data(), size(), cert(), PEM_read_bio_X509(), get(), to_hex_serial().
+ * @details Calls: bio(), BIO_new_mem_buf(), data(), size(), cert(), PEM_read_bio_X509(), get(), to_hex_serial().
  */
 static std::string serial_from_cert_pem(const std::string& cert_pem) {
     BIOPtr bio(BIO_new_mem_buf(cert_pem.data(), static_cast<int>(cert_pem.size())));
@@ -520,10 +520,10 @@ static std::string serial_from_cert_pem(const std::string& cert_pem) {
 }
 
 /**
- * @brief Verify the X.
+ * @brief Verify cert chain.
  * @param[in] cfg Input parameter.
- * @return True on success.
- * @details 509 certificate chain for cert_path against the CA bundle at trust_store_path. Returns true only when the chain is fully valid. Calls: empty(), make_bio_file(), c_str(), X509Ptr(), PEM_read_bio_X509(), get(), store(), X509_STORE_new().
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), make_bio_file(), c_str(), X509Ptr(), PEM_read_bio_X509(), get(), store(), X509_STORE_new().
  */
 static bool verify_cert_chain(const PKIConfig& cfg) {
     if (cfg.cert_path.empty() || cfg.trust_store_path.empty()) {

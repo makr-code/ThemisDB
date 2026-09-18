@@ -21,29 +21,10 @@
 namespace themis {
 namespace llm {
 
-/**
- * @brief Paged KV-Cache Manager with vLLM-inspired architecture
- * 
- * Implements PagedAttention (Zhou et al., OSDI'23) for efficient KV-cache
- * management with block-based allocation and copy-on-write prefix sharing.
- * 
- * Key Features:
- * - Block-based memory allocation (16 tokens per block)
- * - Copy-on-Write for prefix sharing (30-50% memory savings)
- * - Eliminates internal fragmentation
- * - Dynamic block allocation and freeing
- * - Reference counting for shared blocks
- */
 class PagedKVCacheManager {
 public:
-    /**
-     * @brief Block size in tokens (optimal: 16)
-     */
     static constexpr size_t BLOCK_SIZE = 16;
 
-    /**
-     * @brief Configuration for paged KV-cache
-     */
     struct Config {
         size_t num_blocks = 4096;          // Total number of blocks
         size_t block_size = BLOCK_SIZE;    // Tokens per block
@@ -54,9 +35,6 @@ public:
         bool enable_prefix_caching = true; // Enable Copy-on-Write
     };
 
-    /**
-     * @brief Block metadata
-     */
     struct Block {
         int block_id = 0;
         void* device_ptr = nullptr;
@@ -90,33 +68,15 @@ public:
         }
     };
 
-    /**
-     * @brief Block table for a sequence
-     */
     struct BlockTable {
         uint64_t sequence_id = 0;
         std::vector<int> block_ids;
         size_t num_tokens = 0;
         bool is_prefix_cached = false;
 
-        /**
-         * @brief Tenant identifier for cross-tenant KV-cache isolation.
-         *
-         * Set from `InferenceRequest::tenant_id` before calling addSequence().
-         * The cache manager uses this field to ensure that prefix-sharing
-         * (Copy-on-Write) never crosses tenant boundaries: two sequences with
-         * different `tenant_id` values MUST NOT share a block, even when the
-         * cached prefix tokens are byte-for-byte identical.
-         *
-         * An empty string means the sequence belongs to the default (untenanted)
-         * context and may only share blocks with other default-context sequences.
-         */
         std::string tenant_id;
     };
 
-    /**
-     * @brief Memory statistics
-     */
     struct MemoryStats {
         size_t total_blocks = 0;
         size_t used_blocks = 0;
@@ -130,22 +90,12 @@ public:
         size_t used_memory_bytes = 0;
     };
 
-    /**
-     * @brief Cache type for workload adaptation
-     * 
-     * NOTE: Cache type is currently tracked as a metric/hint. Future implementation
-     * will wire this into actual allocation/eviction behavior (e.g., block allocation
-     * strategies, prefix sharing aggressiveness, eviction policies).
-     */
     enum class CacheType {
         STANDARD,           // Standard paged cache
         PREFIX_OPTIMIZED,   // Optimized for high prefix reuse (RAG workloads)
         STREAMING           // Optimized for streaming/generation workloads
     };
 
-    /**
-     * @brief Workload pattern detected from access patterns
-     */
     enum class WorkloadPattern {
         UNKNOWN,
         HIGH_PREFIX_REUSE,  // Many sequences share prefixes (RAG)
@@ -153,9 +103,6 @@ public:
         MIXED               // Mixed workload
     };
 
-    /**
-     * @brief Workload metrics for dynamic cache selection
-     */
     struct WorkloadMetrics {
         size_t total_sequences = 0;
         size_t sequences_with_shared_prefix = 0;
@@ -168,32 +115,24 @@ public:
     ~PagedKVCacheManager() noexcept;
 
     /**
-     * @brief Allocate blocks for a sequence
-     * 
-     * @param num_blocks Number of blocks to allocate
-     * @return Vector of allocated block IDs
+     * @brief Allocate Blocks.
+     * @param[in] num_blocks Input parameter.
+     * @return Return value.
      */
     std::vector<int> allocateBlocks(size_t num_blocks);
 
     /**
-     * @brief Free blocks for a sequence
-     * 
-     * Decrements reference count and frees blocks when count reaches zero.
-     * 
-     * @param block_ids Block IDs to free
+     * @brief Free Blocks.
+     * @param[in] block_ids Input parameter.
      */
     void freeBlocks(const std::vector<int>& block_ids);
 
     /**
-     * @brief Enable prefix caching (Copy-on-Write)
-     * 
-     * Shares prefix blocks between parent and child sequence.
-     * Child only allocates new blocks when diverging from parent.
-     * 
-     * @param seq_id Child sequence ID
-     * @param parent_seq_id Parent sequence ID
-     * @param prefix_length Length of shared prefix in tokens
-     * @return true if prefix caching succeeded
+     * @brief Enable Prefix Caching.
+     * @param[in] seq_id Identifier of the seq.
+     * @param[in] parent_seq_id Identifier of the parent seq.
+     * @param[in] prefix_length Input parameter.
+     * @return True when the operation succeeds.
      */
     bool enablePrefixCaching(
         uint64_t seq_id,
@@ -202,47 +141,39 @@ public:
     );
 
     /**
-     * @brief Get block table for a sequence
-     * 
-     * @param seq_id Sequence ID
-     * @return Block table (empty if sequence not found)
+     * @brief Get Block Table.
+     * @param[in] seq_id Identifier of the seq.
+     * @return Return value.
      */
     BlockTable getBlockTable(uint64_t seq_id) const;
 
     /**
-     * @brief Add sequence with its block table
-     * 
-     * @param seq_id Sequence ID
-     * @param num_tokens Number of tokens in sequence
-     * @return Block table for the sequence
+     * @brief Add Sequence.
+     * @param[in] seq_id Identifier of the seq.
+     * @param[in] num_tokens Input parameter.
+     * @return Return value.
      */
     BlockTable addSequence(uint64_t seq_id, size_t num_tokens);
 
     /**
-     * @brief Remove sequence and free its blocks
-     * 
-     * @param seq_id Sequence ID
+     * @brief Remove Sequence.
+     * @param[in] seq_id Identifier of the seq.
      */
     void removeSequence(uint64_t seq_id);
 
     /**
-     * @brief Get memory statistics
-     * 
-     * @return Current memory statistics
+     * @brief Get Memory Stats.
+     * @return Return value.
      */
     MemoryStats getMemoryStats() const;
 
     /**
-     * @brief Check if a block is available
-     * 
-     * @param block_id Block ID
-     * @return true if block is allocated and valid
+     * @brief Is Block Available.
+     * @param[in] block_id Identifier of the block.
+     * @return True when the operation succeeds.
      */
     bool isBlockAvailable(int block_id) const;
 
-    /**
-     * @brief Block information (copy-safe)
-     */
     struct BlockInfo {
         int block_id = 0;
         void* device_ptr = nullptr;
@@ -252,70 +183,48 @@ public:
     };
     
     /**
-     * @brief Get block information
-     * 
-     * @param block_id Block ID
-     * @return Block information
+     * @brief Get Block Info.
+     * @param[in] block_id Identifier of the block.
+     * @return Return value.
      */
     BlockInfo getBlockInfo(int block_id) const;
 
     /**
-     * @brief Defragment memory
-     * 
-     * Compacts allocated blocks to reduce fragmentation.
-     * 
-     * @return Number of blocks compacted
+     * @brief Defragment.
+     * @return Return value.
      */
     size_t defragment();
 
     /**
-     * @brief Calculate memory savings from prefix caching
-     * 
-     * @return Percentage of memory saved (0.0 - 100.0)
+     * @brief Calculate Prefix Savings.
+     * @return Return value.
      */
     double calculatePrefixSavings() const;
 
     /**
-     * @brief Get current cache type
-     * @return Current cache type
+     * @brief Get Cache Type.
+     * @return Return value.
      */
     CacheType getCacheType() const;
 
     /**
-     * @brief Set cache type (manual override)
-     * 
-     * Manually sets cache type for testing or explicit control.
-     * 
-     * @param type Cache type to set
+     * @brief Set Cache Type.
+     * @param[in] type Input parameter.
      */
     void setCacheType(CacheType type);
 
     /**
-     * @brief Analyze workload and adapt cache type
-     * 
-     * Analyzes current access patterns and switches cache type
-     * if workload pattern has changed significantly.
-     * 
-     * @return true if cache type was changed
+     * @brief Analyze And Adapt Cache Type.
+     * @return True when the operation succeeds.
      */
     bool analyzeAndAdaptCacheType();
 
     /**
-     * @brief Get current workload metrics
-     * 
-     * @return Workload metrics
+     * @brief Get Workload Metrics.
+     * @return Return value.
      */
     WorkloadMetrics getWorkloadMetrics() const;
 
-    /**
-     * @brief Enable automatic cache type adaptation
-     * 
-     * When enabled, cache manager periodically analyzes workload
-     * and switches cache type automatically.
-     * 
-     * @param enable true to enable automatic adaptation
-     * @param check_interval_sequences Analyze after N sequences (default: 100)
-     */
     void setAutomaticAdaptation(bool enable, size_t check_interval_sequences = 100);
 
 private:
@@ -343,12 +252,39 @@ private:
     WorkloadMetrics workload_metrics_;
     
     // Helper methods
+    /**
+     * @brief Initialize Blocks.
+     */
     void initializeBlocks();
+    /**
+     * @brief Get Free Block.
+     * @return Return value.
+     */
     int getFreeBlock();
+    /**
+     * @brief Release Block.
+     * @param[in] block_id Identifier of the block.
+     */
     void releaseBlock(int block_id);
+    /**
+     * @brief Calculate Block Memory Size.
+     * @return Return value.
+     */
     size_t calculateBlockMemorySize() const;
+    /**
+     * @brief Update Workload Metrics.
+     */
     void updateWorkloadMetrics();
+    /**
+     * @brief Detect Workload Pattern.
+     * @return Return value.
+     */
     WorkloadPattern detectWorkloadPattern() const;
+    /**
+     * @brief Select Optimal Cache Type.
+     * @param[in] pattern Input parameter.
+     * @return Return value.
+     */
     CacheType selectOptimalCacheType(WorkloadPattern pattern) const;
 };
 

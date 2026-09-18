@@ -29,17 +29,34 @@ CostBasedRateLimiter::CostBasedRateLimiter(const Config& config)
 // Public API
 // ============================================================================
 
+/**
+ * @brief Allow Request.
+ * @param[in] client_id Identifier of the client.
+ * @param[in] op Input parameter.
+ * @return True when the operation succeeds.
+ */
 bool CostBasedRateLimiter::allowRequest(const std::string& client_id,
                                         OperationType op)
 {
     return allowRequest(client_id, defaultCostFor(op));
 }
 
+/**
+ * @brief Allow Request.
+ * @param[in] client_id Identifier of the client.
+ * @param[in] cost Input parameter.
+ * @return True when the operation succeeds.
+ */
 bool CostBasedRateLimiter::allowRequest(const std::string& client_id,
                                         size_t cost)
 {
     total_requests_.fetch_add(1, std::memory_order_relaxed);
 
+    /**
+     * @brief Lock.
+     * @param[in] clients_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(clients_mutex_);
 
     // Periodic cleanup of expired windows (amortised per request, under lock).
@@ -85,6 +102,11 @@ bool CostBasedRateLimiter::allowRequest(const std::string& client_id,
 size_t CostBasedRateLimiter::getRemainingBudget(
     const std::string& client_id) const
 {
+    /**
+     * @brief Lock.
+     * @param[in] clients_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(clients_mutex_);
 
     auto it = clients_.find(client_id);
@@ -97,16 +119,32 @@ size_t CostBasedRateLimiter::getRemainingBudget(
 
 size_t CostBasedRateLimiter::getActiveClients() const
 {
+    /**
+     * @brief Lock.
+     * @param[in] clients_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(clients_mutex_);
     return clients_.size();
 }
 
+/**
+ * @brief Cleanup Expired.
+ */
 void CostBasedRateLimiter::cleanupExpired()
 {
+    /**
+     * @brief Lock.
+     * @param[in] clients_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(clients_mutex_);
     cleanupExpiredUnlocked();
 }
 
+/**
+ * @brief Cleanup Expired Unlocked.
+ */
 void CostBasedRateLimiter::cleanupExpiredUnlocked()
 {
     // Caller must hold clients_mutex_.
@@ -122,8 +160,16 @@ void CostBasedRateLimiter::cleanupExpiredUnlocked()
     }
 }
 
+/**
+ * @brief Reset the modification detection flag.
+ */
 void CostBasedRateLimiter::reset()
 {
+    /**
+     * @brief Lock.
+     * @param[in] clients_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(clients_mutex_);
     clients_.clear();
     total_requests_.store(0, std::memory_order_relaxed);

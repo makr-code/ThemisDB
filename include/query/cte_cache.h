@@ -24,17 +24,8 @@
 namespace themis {
 namespace query {
 
-/**
- * @brief CTE Result Cache with Memory Management
- * 
- * Manages CTE results with automatic spill-to-disk when memory threshold is exceeded.
- * Provides transparent access to cached results regardless of storage location.
- */
 class CTECache {
 public:
-    /**
-     * @brief Configuration for cache behavior
-     */
     struct Config {
         size_t max_memory_bytes = 100 * 1024 * 1024;  // 100 MB default
         std::string spill_directory = "./themis_cte_spill";
@@ -42,9 +33,6 @@ public:
         bool auto_cleanup = true;  // Delete spill files on destruction
     };
     
-    /**
-     * @brief Metadata about a cached CTE
-     */
     struct CacheEntry {
         std::string name;
         size_t result_count = 0;
@@ -54,15 +42,14 @@ public:
         std::vector<nlohmann::json> in_memory_data;  // Only populated if not spilled
     };
     
-    /**
-     * @brief Construct cache with configuration
-     */
     CTECache();
+    /**
+     * @brief CTECache.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit CTECache(Config config);
     
-    /**
-     * @brief Destructor - cleanup spill files if auto_cleanup enabled
-     */
     ~CTECache();
     
     // Delete copy constructor and assignment (cache is not copyable)
@@ -74,55 +61,42 @@ public:
     CTECache& operator=(CTECache&&) noexcept = default;
     
     /**
-     * @brief Store CTE results in cache
-     * 
-     * Automatically decides whether to keep in memory or spill to disk
-     * based on current memory usage and result size.
-     * 
-     * @param name CTE name
-     * @param results CTE result set
-     * @return true if stored successfully
+     * @brief Store.
+     * @param[in] name Input parameter.
+     * @param[in] results Input parameter.
+     * @return True when the operation succeeds.
      */
     bool store(const std::string& name, std::vector<nlohmann::json> results);
     
     /**
-     * @brief Retrieve CTE results from cache
-     * 
-     * Transparently loads from disk if spilled.
-     * 
-     * @param name CTE name
-     * @return CTE results or nullopt if not found
+     * @brief Get.
+     * @param[in] name Input parameter.
+     * @return Return value.
      */
     std::optional<std::vector<nlohmann::json>> get(const std::string& name);
     
     /**
-     * @brief Check if CTE exists in cache
+     * @brief Contains.
+     * @param[in] name Input parameter.
+     * @return True when the operation succeeds.
      */
     bool contains(const std::string& name) const;
     
     /**
-     * @brief Remove CTE from cache
+     * @brief Remove.
+     * @param[in] name Input parameter.
      */
     void remove(const std::string& name);
     
     /**
-     * @brief Clear all cached CTEs
+     * @brief Clear.
      */
     void clear();
     
-    /**
-     * @brief Get current memory usage in bytes
-     */
     size_t getCurrentMemoryUsage() const { return current_memory_usage_; }
     
-    /**
-     * @brief Get number of cached CTEs
-     */
     size_t size() const { return entries_.size(); }
     
-    /**
-     * @brief Get cache statistics
-     */
     struct Stats {
         size_t total_ctes = 0;
         size_t in_memory_ctes = 0;
@@ -132,36 +106,51 @@ public:
         size_t spill_operations = 0;
         size_t disk_reads = 0;
     };
+    /**
+     * @brief Get Stats.
+     * @return Return value.
+     */
     Stats getStats() const;
     
 private:
     /**
-     * @brief Estimate memory size of JSON array
+     * @brief Estimate Size.
+     * @param[in] data Input parameter.
+     * @return Return value.
      */
     size_t estimateSize(const std::vector<nlohmann::json>& data) const;
     
     /**
-     * @brief Spill CTE to disk
+     * @brief Spill To Disk.
+     * @param[in] name Input parameter.
+     * @param[in] data Input parameter.
+     * @return True when the operation succeeds.
      */
     bool spillToDisk(const std::string& name, const std::vector<nlohmann::json>& data);
     
     /**
-     * @brief Load CTE from disk
+     * @brief Load From Disk.
+     * @param[in] name Input parameter.
+     * @return Return value.
      */
     std::optional<std::vector<nlohmann::json>> loadFromDisk(const std::string& name);
     
     /**
-     * @brief Make room by spilling largest in-memory CTE
+     * @brief Make Room.
+     * @param[in] required_bytes Input parameter.
+     * @return True when the operation succeeds.
      */
     bool makeRoom(size_t required_bytes);
     
     /**
-     * @brief Generate spill file path for CTE
+     * @brief Get Spill File Path.
+     * @param[in] name Input parameter.
+     * @return Return value.
      */
     std::string getSpillFilePath(const std::string& name) const;
     
     /**
-     * @brief Ensure spill directory exists
+     * @brief Ensure Spill Directory.
      */
     void ensureSpillDirectory();
     

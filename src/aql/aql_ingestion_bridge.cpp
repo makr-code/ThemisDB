@@ -44,6 +44,12 @@ AQLIngestionBridge& AQLIngestionBridge::operator=(AQLIngestionBridge&&) noexcept
 // Core operations
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Enrich Insert Payload.
+ * @param[in,out] payload Input/output parameter.
+ * @return Return value.
+ * @details Calls: is_object(), find(), end(), is_string(), empty(), extractEntities(), nlohmann::json::array(), push_back().
+ */
 std::string AQLIngestionBridge::enrichInsertPayload(nlohmann::json& payload) {
     if (!payload.is_object()) {
         return {};
@@ -96,6 +102,11 @@ AQLIngestionBridge::extractEntitiesForContext(const std::string& text) {
 // Static helpers
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Build Entity Context.
+ * @param[in] entities Input parameter.
+ * @return Return value.
+ */
 std::string AQLIngestionBridge::buildEntityContext(
     const std::vector<ingestion::BaseEntity>& entities)
 {
@@ -119,6 +130,12 @@ std::string AQLIngestionBridge::buildEntityContext(
     return oss.str();
 }
 
+/**
+ * @brief Entity Type Name.
+ * @param[in] et Input parameter.
+ * @return Return value.
+ * @details Implements entityTypeName without additional internal calls.
+ */
 std::string AQLIngestionBridge::entityTypeName(ingestion::EntityType et) {
     using ET = ingestion::EntityType;
     switch (et) {

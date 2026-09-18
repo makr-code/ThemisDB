@@ -26,7 +26,12 @@ namespace themis::rag::training {
 // ============================================================
 namespace {
 
-/// Compute lexical diversity (unique tokens / total tokens).
+/**
+ * @brief Lexical Diversity.
+ * @param[in] text Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), ss(), reserve(), size(), std::isalnum(), std::tolower(), insert().
+ */
 double lexicalDiversity(const std::string& text) {
     if (text.empty()) {
         return 0.0;
@@ -54,7 +59,12 @@ double lexicalDiversity(const std::string& text) {
                             static_cast<double>(total);
 }
 
-/// Simple heuristic quality score: combines length (capped) and diversity.
+/**
+ * @brief Heuristic Quality.
+ * @param[in] response Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), std::min(), std::log1p(), size(), lexicalDiversity().
+ */
 double heuristicQuality(const std::string& response) {
     if (response.empty()) {
         return 0.0;
@@ -67,7 +77,13 @@ double heuristicQuality(const std::string& response) {
     return 0.6 * len_score + 0.4 * div_score;
 }
 
-/// Check whether @p text contains any of the given patterns (case-insensitive).
+/**
+ * @brief Contains Any Pattern.
+ * @param[in] text Input parameter.
+ * @param[in] patterns Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: reserve(), size(), std::tolower(), find().
+ */
 bool containsAnyPattern(const std::string&              text,
                          const std::vector<std::string>& patterns) {
     std::string lower = {};
@@ -197,6 +213,12 @@ RLAIFTrainer::RLAIFTrainer(const RLAIFConfig&       config,
     // Principles come from config; if empty, caller calls loadDefaultPrinciples.
 }
 
+/**
+ * @brief Validate Config.
+ * @param[in] config Input parameter.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Implements validateConfig without additional internal calls.
+ */
 void RLAIFTrainer::validateConfig(const RLAIFConfig& config) {
     if (config.max_revision_iterations < 1) {
         throw std::invalid_argument(
@@ -222,6 +244,10 @@ void RLAIFTrainer::validateConfig(const RLAIFConfig& config) {
 // Default principles
 // ============================================================
 
+/**
+ * @brief Load Default Principles.
+ * @details Calls: clear(), push_back().
+ */
 void RLAIFTrainer::loadDefaultPrinciples() {
     impl_->config.principles.clear();
 
@@ -258,10 +284,20 @@ void RLAIFTrainer::loadDefaultPrinciples() {
     });
 }
 
+/**
+ * @brief Add Principle.
+ * @param[in] principle Input parameter.
+ * @details Calls: push_back().
+ */
 void RLAIFTrainer::addPrinciple(const AIPrinciple& principle) {
     impl_->config.principles.push_back(principle);
 }
 
+/**
+ * @brief Remove Principle.
+ * @param[in] principle_id Identifier of the principle.
+ * @details Calls: erase(), std::remove_if(), begin(), end().
+ */
 void RLAIFTrainer::removePrinciple(const std::string& principle_id) {
     auto& principles = impl_->config.principles;
     principles.erase(
@@ -388,6 +424,13 @@ PreferencePair RLAIFTrainer::createPreferencePair(
     return pair;
 }
 
+/**
+ * @brief Run Training Step.
+ * @param[in] query Input parameter.
+ * @param[in] draft_response Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::steady_clock::now(), empty(), lock(), applyRevisionCycle(), push_back(), createPreferencePair(), size(), count().
+ */
 RLAIFTrainingStep RLAIFTrainer::runTrainingStep(
     const std::string& query,
     const std::string& draft_response) {
@@ -503,12 +546,23 @@ RLAIFTrainingStep RLAIFTrainer::runTrainingStep(
 // Batch processing
 // ============================================================
 
+/**
+ * @brief Add To Queue.
+ * @param[in] query Input parameter.
+ * @param[in] draft_response Input parameter.
+ * @details Calls: lock(), emplace_back().
+ */
 void RLAIFTrainer::addToQueue(const std::string& query,
                                const std::string& draft_response) {
     std::lock_guard<std::mutex> lock(impl_->queue_mutex);
     impl_->queue.emplace_back(query, draft_response);
 }
 
+/**
+ * @brief Process Batch.
+ * @return Return value.
+ * @details Calls: lock(), reserve(), size(), push_back(), runTrainingStep(), clear().
+ */
 std::vector<RLAIFTrainingStep> RLAIFTrainer::processBatch() {
     std::vector<RLAIFTrainingStep> results;
     {
@@ -530,6 +584,10 @@ const std::vector<PreferencePair>& RLAIFTrainer::getDataset() const {
     return impl_->dataset;
 }
 
+/**
+ * @brief Clear Dataset.
+ * @details Calls: clear(), resetStats().
+ */
 void RLAIFTrainer::clearDataset() {
     impl_->dataset.clear();
     resetStats();
@@ -561,6 +619,10 @@ RLAIFTrainerStats RLAIFTrainer::getStats() const {
     return stats;
 }
 
+/**
+ * @brief Reset Stats.
+ * @details Calls: lock().
+ */
 void RLAIFTrainer::resetStats() {
     std::lock_guard<std::mutex> lock(impl_->stats_mutex);
     impl_->stats = {};
@@ -579,11 +641,21 @@ const RLAIFConfig& RLAIFTrainer::getConfig() const {
     return impl_->config;
 }
 
+/**
+ * @brief Set Config.
+ * @param[in] config Input parameter.
+ * @details Calls: validateConfig().
+ */
 void RLAIFTrainer::setConfig(const RLAIFConfig& config) {
     validateConfig(config);
     impl_->config = config;
 }
 
+/**
+ * @brief Set Judge.
+ * @param[in] judge Input parameter.
+ * @details Calls: std::move().
+ */
 void RLAIFTrainer::setJudge(std::shared_ptr<IAIJudge> judge) {
     impl_->judge = judge ? std::move(judge)
                          : std::make_shared<HeuristicAIJudge>();
@@ -597,11 +669,22 @@ std::string RLAIFTrainer::judgeName() const {
 // Factory
 // ============================================================
 
+/**
+ * @brief Create Default.
+ * @return Return value.
+ * @details Implements createDefault without additional internal calls.
+ */
 RLAIFTrainer RLAIFTrainerFactory::createDefault() {
     RLAIFTrainer trainer = {};
     return trainer;
 }
 
+/**
+ * @brief Create Strict.
+ * @param[in] judge Input parameter.
+ * @return Return value.
+ * @details Calls: trainer(), std::move(), loadDefaultPrinciples().
+ */
 RLAIFTrainer RLAIFTrainerFactory::createStrict(
     std::shared_ptr<IAIJudge> judge) {
     RLAIFConfig cfg;
@@ -614,6 +697,12 @@ RLAIFTrainer RLAIFTrainerFactory::createStrict(
     return trainer;
 }
 
+/**
+ * @brief Create Fast.
+ * @param[in] judge Input parameter.
+ * @return Return value.
+ * @details Calls: trainer(), std::move(), loadDefaultPrinciples().
+ */
 RLAIFTrainer RLAIFTrainerFactory::createFast(
     std::shared_ptr<IAIJudge> judge) {
     RLAIFConfig cfg;
@@ -626,6 +715,13 @@ RLAIFTrainer RLAIFTrainerFactory::createFast(
     return trainer;
 }
 
+/**
+ * @brief Create With Judge.
+ * @param[in] judge Input parameter.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @details Calls: trainer(), std::move(), getPrinciples(), empty(), loadDefaultPrinciples().
+ */
 RLAIFTrainer RLAIFTrainerFactory::createWithJudge(
     std::shared_ptr<IAIJudge> judge,
     const RLAIFConfig&        config) {
@@ -636,9 +732,11 @@ RLAIFTrainer RLAIFTrainerFactory::createWithJudge(
     return trainer;
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// DK-5: Cross-shard RLAIF feedback ingestion
-// ─────────────────────────────────────────────────────────────────────────────
+/**
+ * @brief ───────────────────────────────────────────────────────────────────────────── DK-5: Cross-shard RLAIF feedback ingestion ─────────────────────────────────────────────────────────────────────────────
+ * @param[in] param Input parameter.
+ * @param[in] synthetic_pair Input parameter.
+ */
 
 void RLAIFTrainer::addCrossShardSummary(
     const distributed_knowledge::FeedbackSummary& /*summary*/,

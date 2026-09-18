@@ -26,7 +26,12 @@ namespace aql {
 // ============================================================================
 namespace {
 
-/// Normalise whitespace: collapse runs of whitespace to a single space and trim.
+/**
+ * @brief Normalise Ws.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), std::isspace(), std::toupper(), empty(), back(), pop_back().
+ */
 std::string normaliseWs(const std::string &s) {
     std::string out = {};
     out.reserve(s.size());
@@ -48,19 +53,11 @@ std::string normaliseWs(const std::string &s) {
     return out;
 }
 
-/// Ordered AQL clause keywords (longest-match first).
 static const std::vector<std::string> kClauseKeywords = {
     "FOR",    "LET",     "FILTER", "SORT",   "LIMIT", "RETURN", "COLLECT", "INSERT",
     "UPDATE", "REPLACE", "REMOVE", "UPSERT", "WITH",  "INTO",   "IN",      "GRAPH",
 };
 
-/**
- * @brief Split a normalised (upper-cased, collapsed-whitespace) AQL query into
- *        a map of clause-keyword → clause-body.
- *
- * Only the first occurrence of each keyword is recorded; later occurrences
- * are appended to the first body.
- */
 std::unordered_map<std::string, std::string> splitClauses(const std::string &norm) {
     std::unordered_map<std::string, std::string> clauses;
 
@@ -138,6 +135,14 @@ const char *kindLabel(QueryDiffEntry::Kind k) {
     return "changed";
 }
 
+/**
+ * @brief Kind For Clause.
+ * @param[in] kw Input parameter.
+ * @param[in] in_a Input parameter.
+ * @param[in] in_b Input parameter.
+ * @return Return value.
+ * @details Implements kindForClause without additional internal calls.
+ */
 QueryDiffEntry::Kind kindForClause(const std::string &kw, bool in_a, bool in_b) {
     if (!in_a && in_b) {
         return QueryDiffEntry::Kind::CLAUSE_ADDED;
@@ -163,7 +168,12 @@ QueryDiffEntry::Kind kindForClause(const std::string &kw, bool in_a, bool in_b) 
     return QueryDiffEntry::Kind::CLAUSE_CHANGED;
 }
 
-/// Detect which AQL built-in function calls are present in a normalised query.
+/**
+ * @brief Detect Functions.
+ * @param[in] norm Input parameter.
+ * @return Return value.
+ * @details Calls: kFnRe(), std::sregex_iterator(), begin(), end(), insert(), str().
+ */
 std::unordered_set<std::string> detectFunctions(const std::string &norm) {
     // Match word-boundary "WORD(" patterns.
     static const std::regex kFnRe(R"(\b([A-Z][A-Z0-9_]+)\s*\()");

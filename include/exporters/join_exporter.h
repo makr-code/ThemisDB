@@ -89,13 +89,13 @@ private:
     size_t right_table_bytes_ = 0;
     bool right_collection_loaded_ = false;
 
+
     /**
-     * @brief ── Helpers ──────────────────────────────────────────────────────────
+     * @brief Merge Entities.
      * @param[in] left Input parameter.
      * @param[in] right Input parameter.
      * @return Return value.
      */
-
     BaseEntity mergeEntities(const BaseEntity& left, const BaseEntity& right) const;
 
     /**

@@ -37,6 +37,10 @@ enum class DeploymentStrategy {
 
 // Adapter placement decision
 struct AdapterPlacement {
+    /**
+     * @brief Adapter Placement.
+     * @return Return value.
+     */
     virtual ~AdapterPlacement() = default;
     std::string adapter_id;
     std::string shard_id;
@@ -59,12 +63,25 @@ struct DeploymentConfig {
     std::vector<std::string> preferred_shards;
     std::map<std::string, std::string> custom_metadata;
     
+    /**
+     * @brief To JSON.
+     * @return Return value.
+     */
     std::string toJSON() const;
+    /**
+     * @brief From JSON.
+     * @param[in] json Input parameter.
+     * @return Return value.
+     */
     static DeploymentConfig fromJSON(const std::string& json);
 };
 
 // Deployment result
 struct DeploymentResult {
+    /**
+     * @brief Deployment Result.
+     * @return Return value.
+     */
     virtual ~DeploymentResult() = default;
     bool success = false;
     std::string adapter_id;
@@ -75,11 +92,19 @@ struct DeploymentResult {
     size_t total_data_transferred_bytes = 0;
     std::string error_message;
     
+    /**
+     * @brief To JSON.
+     * @return Return value.
+     */
     std::string toJSON() const;
 };
 
 // Shard affinity metrics
 struct ShardAffinityMetrics {
+    /**
+     * @brief Shard Affinity Metrics.
+     * @return Return value.
+     */
     virtual ~ShardAffinityMetrics() = default;
     std::string shard_id;
     float data_coverage_ratio = 0.0f;      // % of training data on this shard
@@ -100,6 +125,10 @@ struct ShardAffinityMetrics {
 
 // Deployment plan
 struct DeploymentPlan {
+    /**
+     * @brief Deployment Plan.
+     * @return Return value.
+     */
     virtual ~DeploymentPlan() = default;
     std::string adapter_id;
     DeploymentStrategy strategy;
@@ -109,7 +138,16 @@ struct DeploymentPlan {
     std::vector<std::string> prerequisites;  // e.g., "Adapter must be validated"
     std::string created_at;
     
+    /**
+     * @brief To JSON.
+     * @return Return value.
+     */
     std::string toJSON() const;
+    /**
+     * @brief From JSON.
+     * @param[in] json Input parameter.
+     * @return Return value.
+     */
     static DeploymentPlan fromJSON(const std::string& json);
 };
 
@@ -130,36 +168,6 @@ using DeploymentProgressCallback = std::function<void(
     const std::string& status_message
 )>;
 
-/**
- * AdapterDeploymentManager
- * 
- * Manages intelligent deployment of LoRA adapters across ThemisDB shards with:
- * - Co-located placement: Deploy adapters on shards with relevant data
- * - Load balancing: Distribute based on query patterns and resource availability
- * - Replication: Ensure high availability for critical adapters
- * - Compatibility validation: Verify adapter works with shard's base model
- * - Signature verification: Ensure adapter authenticity before deployment
- * - Rollback support: Automatic recovery on deployment failures
- * - Monitoring: Track deployment status and health
- * 
- * Example usage:
- * 
- *   auto deployment_mgr = AdapterDeploymentManagerFactory::create(
- *       shard_router, shard_topology, adapter_registry, validator
- *   );
- * 
- *   DeploymentConfig config;
- *   config.strategy = DeploymentStrategy::CO_LOCATED;
- *   config.validate_compatibility = true;
- *   config.verify_signature = true;
- * 
- *   auto plan = deployment_mgr->planDeployment("legal_qa_v1", config);
- *   auto result = deployment_mgr->executeDeployment(plan);
- * 
- *   if (!result.success) {
- *       deployment_mgr->rollback(plan.adapter_id);
- *   }
- */
 class AdapterDeploymentManager {
 public:
     AdapterDeploymentManager(
@@ -169,14 +177,31 @@ public:
         std::shared_ptr<AdapterCompatibilityValidator> validator
     );
     
+    /**
+     * @brief Adapter Deployment Manager.
+     * @return Return value.
+     */
     virtual ~AdapterDeploymentManager() = default;
     
     // Planning
+    /**
+     * @brief Plan Deployment.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     DeploymentPlan planDeployment(
         const std::string& adapter_id,
         const DeploymentConfig& config
     );
     
+    /**
+     * @brief Compute Placements.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @param[in] strategy Input parameter.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     std::vector<AdapterPlacement> computePlacements(
         const std::string& adapter_id,
         DeploymentStrategy strategy,
@@ -188,20 +213,43 @@ public:
     );
     
     // Execution
+    /**
+     * @brief Execute Deployment.
+     * @param[in] plan Input parameter.
+     * @return Return value.
+     */
     DeploymentResult executeDeployment(const DeploymentPlan& plan);
     
+    /**
+     * @brief Deploy To Shard.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @param[in] shard_id Identifier of the shard.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     DeploymentResult deployToShard(
         const std::string& adapter_id,
         const std::string& shard_id,
         const DeploymentConfig& config
     );
     
+    /**
+     * @brief Undeploy From Shard.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @param[in] shard_id Identifier of the shard.
+     * @return True when the operation succeeds.
+     */
     bool undeployFromShard(
         const std::string& adapter_id,
         const std::string& shard_id
     );
     
     // Rollback & Recovery
+    /**
+     * @brief Rollback.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @return True when the operation succeeds.
+     */
     bool rollback(const std::string& adapter_id);
     
     bool saveRollbackState(
@@ -209,13 +257,29 @@ public:
         const std::map<std::string, std::string>& previous_versions
     );
     
+    /**
+     * @brief Get Rollback State.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @return Return value.
+     */
     std::optional<RollbackState> getRollbackState(const std::string& adapter_id);
     
     // Monitoring
     std::map<std::string, std::vector<std::string>> getAdapterDeployments() const;
     
+    /**
+     * @brief Get Shards For Adapter.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @return Return value.
+     */
     std::vector<std::string> getShardsForAdapter(const std::string& adapter_id) const;
     
+    /**
+     * @brief Is Deployed On Shard.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @param[in] shard_id Identifier of the shard.
+     * @return True when the operation succeeds.
+     */
     bool isDeployedOnShard(
         const std::string& adapter_id,
         const std::string& shard_id
@@ -230,9 +294,18 @@ public:
         size_t requests_served = 0;
         float avg_latency_ms = 0.0f;
         
+        /**
+         * @brief To JSON.
+         * @return Return value.
+         */
         std::string toJSON() const;
     };
     
+    /**
+     * @brief Get Deployment Statuses.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @return Return value.
+     */
     std::vector<DeploymentStatus> getDeploymentStatuses(
         const std::string& adapter_id
     ) const;
@@ -246,21 +319,50 @@ public:
         int64_t last_check_timestamp = 0;
     };
     
+    /**
+     * @brief Perform Health Check.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @return Return value.
+     */
     std::vector<HealthCheckResult> performHealthCheck(const std::string& adapter_id);
     
+    /**
+     * @brief Verify Deployment Integrity.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @param[in] shard_id Identifier of the shard.
+     * @return True when the operation succeeds.
+     */
     bool verifyDeploymentIntegrity(
         const std::string& adapter_id,
         const std::string& shard_id
     );
     
     // Progress tracking
+    /**
+     * @brief Set Progress Callback.
+     * @param[in] callback Input parameter.
+     */
     void setProgressCallback(DeploymentProgressCallback callback);
     
+    /**
+     * @brief Get Deployment Progress.
+     * @param[in] deployment_id Identifier of the deployment.
+     * @return Return value.
+     */
     float getDeploymentProgress(const std::string& deployment_id) const;
     
     // Utility
+    /**
+     * @brief Generate Deployment Id.
+     * @return Return value.
+     */
     std::string generateDeploymentId() const;
     
+    /**
+     * @brief Validate Deployment Plan.
+     * @param[in] plan Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool validateDeploymentPlan(const DeploymentPlan& plan) const;
     
 private:
@@ -277,17 +379,37 @@ private:
     DeploymentProgressCallback progress_callback_;
     
     // Internal helpers
+    /**
+     * @brief Compute Affinity Score.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @param[in] shard_id Identifier of the shard.
+     * @return Return value.
+     */
     float computeAffinityScore(
         const std::string& adapter_id,
         const std::string& shard_id
     );
     
+    /**
+     * @brief Transfer Adapter To Shard.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @param[in] shard_id Identifier of the shard.
+     * @param[in] config Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool transferAdapterToShard(
         const std::string& adapter_id,
         const std::string& shard_id,
         const DeploymentConfig& config
     );
     
+    /**
+     * @brief Notify Progress.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @param[in] shard_id Identifier of the shard.
+     * @param[in] progress Input parameter.
+     * @param[in] message Input parameter.
+     */
     void notifyProgress(
         const std::string& adapter_id,
         const std::string& shard_id,
@@ -297,9 +419,16 @@ private:
 };
 
 // Factory for creating deployment managers
-/** @brief Factory for creating deployment managers. */
 class AdapterDeploymentManagerFactory {
 public:
+    /**
+     * @brief Create.
+     * @param[in] shard_router Input parameter.
+     * @param[in] shard_topology Input parameter.
+     * @param[in] adapter_registry Input parameter.
+     * @param[in] validator Input parameter.
+     * @return Return value.
+     */
     static std::unique_ptr<AdapterDeploymentManager> create(
         std::shared_ptr<ShardRouter> shard_router,
         std::shared_ptr<ShardTopology> shard_topology,

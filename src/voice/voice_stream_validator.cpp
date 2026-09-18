@@ -40,6 +40,12 @@ VoiceStreamValidator::VoiceStreamValidator(const std::string& session_id,
     }
 }
 
+/**
+ * @brief Validate size.
+ * @param[in] chunk_size Input parameter.
+ * @throws StreamValidationError if an error occurs.
+ * @details Implements validate_size without additional internal calls.
+ */
 void VoiceStreamValidator::validate_size(size_t chunk_size) {
     if (chunk_size == 0) {
         throw StreamValidationError("Chunk size cannot be zero", chunk_size, __LINE__);
@@ -49,6 +55,12 @@ void VoiceStreamValidator::validate_size(size_t chunk_size) {
     }
 }
 
+/**
+ * @brief Validate sequence.
+ * @param[in] sequence_num Input parameter.
+ * @throws StreamValidationError if an error occurs.
+ * @details Calls: std::to_string().
+ */
 void VoiceStreamValidator::validate_sequence(uint32_t sequence_num) {
     if (chunks_validated_ > 0 && sequence_num != last_sequence_num_ + 1) {
         throw StreamValidationError(
@@ -58,6 +70,12 @@ void VoiceStreamValidator::validate_sequence(uint32_t sequence_num) {
     }
 }
 
+/**
+ * @brief Validate duration.
+ * @param[in] timestamp_ms Input parameter.
+ * @throws StreamValidationError if an error occurs.
+ * @details Implements validate_duration without additional internal calls.
+ */
 void VoiceStreamValidator::validate_duration(uint64_t timestamp_ms) {
     if (timestamp_ms / 1000 > StreamValidationPolicy::MAX_STREAM_DURATION_SECONDS) {
         throw StreamValidationError(
@@ -87,6 +105,17 @@ bool VoiceStreamValidator::is_chunk_malformed(const uint8_t* chunk, size_t chunk
     return false;
 }
 
+/**
+ * @brief Validate chunk.
+ * @param[in] chunk Input parameter.
+ * @param[in] chunk_size Input parameter.
+ * @param[in] sequence_num Input parameter.
+ * @param[in] timestamp_ms Input parameter.
+ * @param[in] is_final Input parameter.
+ * @return Return value.
+ * @throws StreamValidationError if an error occurs.
+ * @details Calls: validate_size(), validate_sequence(), validate_duration(), is_chunk_malformed(), assign().
+ */
 ValidatedAudioChunk VoiceStreamValidator::validate_chunk(
     const uint8_t* chunk,
     size_t chunk_size,

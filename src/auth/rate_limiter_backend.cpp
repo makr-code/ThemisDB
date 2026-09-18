@@ -32,26 +32,51 @@ RedisRateLimiterBackend::IsConnectedFn  s_is_connected_fn;
 RedisRateLimiterBackend::ReconnectFn    s_reconnect_fn;
 }
 
+/**
+ * @brief Set Increment Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lk(), std::move().
+ */
 void RedisRateLimiterBackend::setIncrementFn(IncrementFn fn) {
     std::lock_guard<std::mutex> lk(s_redis_rate_bridge_mutex);
     s_increment_fn = std::move(fn);
 }
 
+/**
+ * @brief Set Get Count Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lk(), std::move().
+ */
 void RedisRateLimiterBackend::setGetCountFn(GetCountFn fn) {
     std::lock_guard<std::mutex> lk(s_redis_rate_bridge_mutex);
     s_get_count_fn = std::move(fn);
 }
 
+/**
+ * @brief Set Reset Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lk(), std::move().
+ */
 void RedisRateLimiterBackend::setResetFn(ResetFn fn) {
     std::lock_guard<std::mutex> lk(s_redis_rate_bridge_mutex);
     s_reset_fn = std::move(fn);
 }
 
+/**
+ * @brief Set Is Connected Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lk(), std::move().
+ */
 void RedisRateLimiterBackend::setIsConnectedFn(IsConnectedFn fn) {
     std::lock_guard<std::mutex> lk(s_redis_rate_bridge_mutex);
     s_is_connected_fn = std::move(fn);
 }
 
+/**
+ * @brief Set Reconnect Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lk(), std::move().
+ */
 void RedisRateLimiterBackend::setReconnectFn(ReconnectFn fn) {
     std::lock_guard<std::mutex> lk(s_redis_rate_bridge_mutex);
     s_reconnect_fn = std::move(fn);
@@ -61,12 +86,23 @@ void RedisRateLimiterBackend::setReconnectFn(ReconnectFn fn) {
 // InMemoryRateLimiterBackend
 // ============================================================================
 
+/**
+ * @brief Increment.
+ * @param[in] key Input parameter.
+ * @param[in] window_seconds Input parameter.
+ * @return Return value.
+ */
 int64_t InMemoryRateLimiterBackend::increment(const std::string& key,
                                                uint32_t window_seconds)
 {
     auto now    = std::chrono::steady_clock::now();
     auto cutoff = now - std::chrono::seconds(window_seconds);
 
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     auto& timestamps = counters_[key];
@@ -89,6 +125,11 @@ int64_t InMemoryRateLimiterBackend::getCount(const std::string& key,
     auto now    = std::chrono::steady_clock::now();
     auto cutoff = now - std::chrono::seconds(window_seconds);
 
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     auto it = counters_.find(key);
@@ -101,8 +142,17 @@ int64_t InMemoryRateLimiterBackend::getCount(const std::string& key,
     return static_cast<int64_t>(std::distance(first_valid, timestamps.end()));
 }
 
+/**
+ * @brief Reset the modification detection flag.
+ * @param[in] key Input parameter.
+ */
 void InMemoryRateLimiterBackend::reset(const std::string& key)
 {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     counters_.erase(key);
 }
@@ -115,6 +165,12 @@ void InMemoryRateLimiterBackend::reset(const std::string& key)
 std::atomic<uint64_t> RedisRateLimiterBackend::member_counter_{0};
 
 namespace {
+/**
+ * @brief Redis Err Str Safe.
+ * @param[in] ctx Input parameter.
+ * @return Pointer to the result.
+ * @details Implements redisErrStrSafe without additional internal calls.
+ */
 const char* redisErrStrSafe(const redisContext* ctx) {
     if (!ctx || !ctx->errstr) {
         return "unknown redis error";
@@ -128,6 +184,10 @@ std::string RedisRateLimiterBackend::makeKey(const std::string& key) const
     return config_.key_prefix + key;
 }
 
+/**
+ * @brief Connect.
+ * @return True when the operation succeeds.
+ */
 bool RedisRateLimiterBackend::connect()
 {
     if (ctx_) {
@@ -168,6 +228,9 @@ bool RedisRateLimiterBackend::connect()
     return true;
 }
 
+/**
+ * @brief Disconnect.
+ */
 void RedisRateLimiterBackend::disconnect()
 {
     if (ctx_) {
@@ -184,13 +247,29 @@ RedisRateLimiterBackend::RedisRateLimiterBackend(const Config& config)
 
 RedisRateLimiterBackend::~RedisRateLimiterBackend()
 {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     disconnect();
 }
 
+/**
+ * @brief Increment.
+ * @param[in] key Input parameter.
+ * @param[in] window_seconds Input parameter.
+ * @return Return value.
+ */
 int64_t RedisRateLimiterBackend::increment(const std::string& key,
                                             uint32_t window_seconds)
 {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     if (!ctx_) {
         THEMIS_WARN("RedisRateLimiterBackend::increment: not connected – allowing request (fail-open)");
@@ -238,6 +317,11 @@ int64_t RedisRateLimiterBackend::increment(const std::string& key,
 int64_t RedisRateLimiterBackend::getCount(const std::string& key,
                                            uint32_t window_seconds) const
 {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     if (!ctx_) {
       return 0;
@@ -272,8 +356,17 @@ int64_t RedisRateLimiterBackend::getCount(const std::string& key,
     return count;
 }
 
+/**
+ * @brief Reset the modification detection flag.
+ * @param[in] key Input parameter.
+ */
 void RedisRateLimiterBackend::reset(const std::string& key)
 {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     if (!ctx_) {
       return;
@@ -293,12 +386,26 @@ void RedisRateLimiterBackend::reset(const std::string& key)
 
 bool RedisRateLimiterBackend::isConnected() const
 {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return ctx_ != nullptr && ctx_->err == 0;
 }
 
+/**
+ * @brief Reconnect.
+ * @return True when the operation succeeds.
+ */
 bool RedisRateLimiterBackend::reconnect()
 {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return connect();
 }
@@ -321,6 +428,10 @@ bool RedisRateLimiterBackend::reconnect()
 // Roadmap ref: src/auth/FUTURE_ENHANCEMENTS.md §"Redis Rate Limiter Activation"
 
 namespace {
+/**
+ * @brief Redis Fallback Backend.
+ * @return Return value.
+ */
 InMemoryRateLimiterBackend& redisFallbackBackend()
 {
     static InMemoryRateLimiterBackend backend;
@@ -339,11 +450,22 @@ RedisRateLimiterBackend::RedisRateLimiterBackend(const Config& config)
 
 RedisRateLimiterBackend::~RedisRateLimiterBackend() = default;
 
+/**
+ * @brief Increment.
+ * @param[in] key Input parameter.
+ * @param[in] window_seconds Input parameter.
+ * @return Return value.
+ */
 int64_t RedisRateLimiterBackend::increment(const std::string& key,
                                             uint32_t window_seconds)
 {
     IncrementFn fn;
     {
+        /**
+         * @brief Lk.
+         * @param[in] s_redis_rate_bridge_mutex Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(s_redis_rate_bridge_mutex);
         fn = s_increment_fn;
     }
@@ -364,6 +486,11 @@ int64_t RedisRateLimiterBackend::getCount(const std::string& key,
 {
     GetCountFn fn;
     {
+        /**
+         * @brief Lk.
+         * @param[in] s_redis_rate_bridge_mutex Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(s_redis_rate_bridge_mutex);
         fn = s_get_count_fn;
     }
@@ -379,10 +506,19 @@ int64_t RedisRateLimiterBackend::getCount(const std::string& key,
     return redisFallbackBackend().getCount(key, window_seconds);
 }
 
+/**
+ * @brief Reset the modification detection flag.
+ * @param[in] key Input parameter.
+ */
 void RedisRateLimiterBackend::reset(const std::string& key)
 {
     ResetFn fn;
     {
+        /**
+         * @brief Lk.
+         * @param[in] s_redis_rate_bridge_mutex Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(s_redis_rate_bridge_mutex);
         fn = s_reset_fn;
     }
@@ -403,6 +539,11 @@ bool RedisRateLimiterBackend::isConnected() const
 {
     IsConnectedFn fn;
     {
+        /**
+         * @brief Lk.
+         * @param[in] s_redis_rate_bridge_mutex Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(s_redis_rate_bridge_mutex);
         fn = s_is_connected_fn;
     }
@@ -420,10 +561,19 @@ bool RedisRateLimiterBackend::isConnected() const
     return false;
 }
 
+/**
+ * @brief Reconnect.
+ * @return True when the operation succeeds.
+ */
 bool RedisRateLimiterBackend::reconnect()
 {
     ReconnectFn fn;
     {
+        /**
+         * @brief Lk.
+         * @param[in] s_redis_rate_bridge_mutex Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(s_redis_rate_bridge_mutex);
         fn = s_reconnect_fn;
     }

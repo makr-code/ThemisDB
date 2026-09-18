@@ -38,6 +38,11 @@ DistributedTrainer::~DistributedTrainer() {
     }
 }
 
+/**
+ * @brief Initialize.
+ * @return True when the operation succeeds.
+ * @details Calls: spdlog::warn(), spdlog::error(), is_distributed(), spdlog::info().
+ */
 bool DistributedTrainer::initialize() {
     if (initialized_) {
         spdlog::warn("DistributedTrainer already initialized");
@@ -91,6 +96,10 @@ bool DistributedTrainer::initialize() {
     return true;
 }
 
+/**
+ * @brief Finalize.
+ * @details Calls: is_distributed(), spdlog::info().
+ */
 void DistributedTrainer::finalize() {
     if (!initialized_) {
         return;
@@ -112,6 +121,12 @@ bool DistributedTrainer::is_master() const {
     return config_.rank == 0;
 }
 
+/**
+ * @brief Synchronize gradients.
+ * @param[in,out] gradients Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: is_distributed(), spdlog::error(), std::chrono::high_resolution_clock::now(), data(), allreduce_cpu(), size(), count().
+ */
 bool DistributedTrainer::synchronize_gradients(std::vector<Tensor*>& gradients) {
     if (!is_distributed()) {
         return true;  // No synchronization needed
@@ -148,6 +163,12 @@ bool DistributedTrainer::synchronize_gradients(std::vector<Tensor*>& gradients) 
     return true;
 }
 
+/**
+ * @brief Broadcast parameters.
+ * @param[in,out] parameters Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: is_distributed(), spdlog::error(), std::chrono::high_resolution_clock::now(), data(), broadcast_cpu(), size(), count().
+ */
 bool DistributedTrainer::broadcast_parameters(std::vector<Tensor*>& parameters) {
     if (!is_distributed()) {
         return true;  // No broadcast needed
@@ -180,6 +201,11 @@ bool DistributedTrainer::broadcast_parameters(std::vector<Tensor*>& parameters) 
     return true;
 }
 
+/**
+ * @brief Barrier.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: is_distributed(), spdlog::error().
+ */
 void DistributedTrainer::barrier() {
     if (!is_distributed()) {
         return;
@@ -195,14 +221,29 @@ void DistributedTrainer::barrier() {
     (*barrier_fn_)();
 }
 
+/**
+ * @brief Set Barrier Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: std::move().
+ */
 void DistributedTrainer::setBarrierFn(BarrierFn fn) {
     barrier_fn_ = std::move(fn);
 }
 
+/**
+ * @brief Set Broadcast Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: std::move().
+ */
 void DistributedTrainer::setBroadcastFn(BroadcastFn fn) {
     broadcast_fn_ = std::move(fn);
 }
 
+/**
+ * @brief Set All Reduce Cpu Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: std::move().
+ */
 void DistributedTrainer::setAllReduceCpuFn(AllReduceCpuFn fn) {
     allreduce_cpu_fn_ = std::move(fn);
 }
@@ -211,6 +252,10 @@ DistributedStats DistributedTrainer::stats() const {
     return stats_;
 }
 
+/**
+ * @brief Reset stats.
+ * @details Implements reset_stats without additional internal calls.
+ */
 void DistributedTrainer::reset_stats() {
     stats_.communication_time_ms = 0.0f;
     stats_.computation_time_ms = 0.0f;
@@ -218,6 +263,14 @@ void DistributedTrainer::reset_stats() {
     stats_.num_syncs = 0;
 }
 
+/**
+ * @brief Scale learning rate.
+ * @param[in] base_lr Input parameter.
+ * @param[in] world_size Input parameter.
+ * @param[in] strategy Input parameter.
+ * @return Return value.
+ * @details Calls: std::sqrt(), spdlog::warn().
+ */
 float DistributedTrainer::scale_learning_rate(
     float base_lr, int world_size, const std::string& strategy
 ) {
@@ -237,10 +290,12 @@ float DistributedTrainer::scale_learning_rate(
     }
 }
 
-// allreduce_cpu: delegates to the injected AllReduceCpuFn when available
-// (MPI_Allreduce / Gloo allreduce must be injected via setAllReduceCpuFn()
-// before training starts when world_size > 1).  Falls back to local scale for
-// single-process builds (world_size == 1) where no peer exchange is needed.
+/**
+ * @brief allreduce_cpu: delegates to the injected AllReduceCpuFn when available (MPI_Allreduce / Gloo allreduce must be injected via setAllReduceCpuFn() before training starts when world_size > 1).
+ * @param[in,out] data Input/output parameter.
+ * @throws std::runtime_error if an error occurs.
+ * @details Falls back to local scale for single-process builds (world_size == 1) where no peer exchange is needed. Calls: spdlog::error().
+ */
 void DistributedTrainer::allreduce_cpu(std::vector<float>& data) {
     if (!allreduce_cpu_fn_) {
         if (config_.world_size > 1) {
@@ -261,7 +316,12 @@ void DistributedTrainer::allreduce_cpu(std::vector<float>& data) {
     (*allreduce_cpu_fn_)(data);
 }
 
-// CPU-based Broadcast (simplified)
+/**
+ * @brief CPU-based Broadcast (simplified)
+ * @param[in,out] data Input/output parameter.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: spdlog::error().
+ */
 void DistributedTrainer::broadcast_cpu(std::vector<float>& data) {
     if (!broadcast_fn_) {
         if (config_.world_size > 1) {
@@ -280,6 +340,11 @@ void DistributedTrainer::broadcast_cpu(std::vector<float>& data) {
 // Backend Detection
 // ============================================================================
 
+/**
+ * @brief Detect available backends.
+ * @return Return value.
+ * @details Calls: push_back(), is_nccl_available(), is_gloo_available(), is_mpi_available().
+ */
 std::vector<DistributedBackend> detect_available_backends() {
     std::vector<DistributedBackend> backends;
     
@@ -304,6 +369,11 @@ std::vector<DistributedBackend> detect_available_backends() {
     return backends;
 }
 
+/**
+ * @brief Is nccl available.
+ * @return True when the operation succeeds.
+ * @details Implements is_nccl_available without additional internal calls.
+ */
 bool is_nccl_available() {
     // Check if NCCL library is available
     // This would typically check for libnccl.so or nccl.h
@@ -315,6 +385,11 @@ bool is_nccl_available() {
     #endif
 }
 
+/**
+ * @brief Is gloo available.
+ * @return True when the operation succeeds.
+ * @details Implements is_gloo_available without additional internal calls.
+ */
 bool is_gloo_available() {
     // Check if Gloo library is available
     
@@ -325,6 +400,11 @@ bool is_gloo_available() {
     #endif
 }
 
+/**
+ * @brief Is mpi available.
+ * @return True when the operation succeeds.
+ * @details Implements is_mpi_available without additional internal calls.
+ */
 bool is_mpi_available() {
     // Check if MPI library is available
     

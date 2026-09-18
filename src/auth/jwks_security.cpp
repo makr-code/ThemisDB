@@ -42,6 +42,14 @@ struct OpenSSLCharDeleter { void operator()(char* p) const { OPENSSL_free(p); } 
 using UniqueOSSLChar = std::unique_ptr<char, OpenSSLCharDeleter>;
 
 // Base64 encode
+/**
+ * @brief Base64 Encode.
+ * @param[in] data Input parameter.
+ * @param[in] len Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: BIO_new(), BIO_f_base64(), BIO_s_mem(), BIO_free(), BIO_push(), BIO_free_all(), BIO_set_flags(), BIO_write().
+ */
 std::string base64Encode(const unsigned char* data, size_t len) {
     BIO* b64 = BIO_new(BIO_f_base64());
     BIO* bio = BIO_new(BIO_s_mem());
@@ -76,11 +84,23 @@ std::string base64Encode(const unsigned char* data, size_t len) {
 // Read file content
 
 // Check file exists
+/**
+ * @brief File Exists.
+ * @param[in] path Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: file(), good().
+ */
 bool fileExists(const std::string& path) {
     std::ifstream file(path);
     return file.good();
 }
 
+/**
+ * @brief Open File Read.
+ * @param[in] path Input parameter.
+ * @return Pointer to the result.
+ * @details Calls: fopen_s(), c_str(), std::fopen().
+ */
 FILE* openFileRead(const std::string& path) {
 #ifdef _WIN32
     FILE* fp = nullptr;
@@ -184,6 +204,11 @@ JWKSSecurityConfig::withMTLS(
     return config;
 }
 
+/**
+ * @brief Secure Defaults.
+ * @return Return value.
+ * @details Calls: Config().
+ */
 JWKSSecurityConfig::Config JWKSSecurityConfig::secureDefaults() {
     Config config = Config();
     config.min_tls_version = TLSVersion::TLS_1_2;
@@ -226,7 +251,15 @@ struct JWKSSecureFetcher::Impl {
     }
 };
 
-// Callback for writing data
+/**
+ * @brief Callback for writing data
+ * @param[in,out] contents Input/output parameter.
+ * @param[in] size Input parameter.
+ * @param[in] nmemb Input parameter.
+ * @param[in,out] userp Input/output parameter.
+ * @return Return value.
+ * @details Calls: append().
+ */
 static size_t writeCallback(void* contents, size_t size, size_t nmemb, void* userp) {
     ((std::string*)userp)->append((char*)contents, size * nmemb);
     return size * nmemb;
@@ -244,6 +277,13 @@ JWKSSecureFetcher::~JWKSSecureFetcher() = default;
 JWKSSecureFetcher::JWKSSecureFetcher(JWKSSecureFetcher&&) noexcept = default;
 JWKSSecureFetcher& JWKSSecureFetcher::operator=(JWKSSecureFetcher&&) noexcept = default;
 
+/**
+ * @brief Fetch.
+ * @param[in] url Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: substr().
+ */
 std::string JWKSSecureFetcher::fetch(const std::string& url) {
     if (url.substr(0, 8) != "https://") {
         throw std::runtime_error("JWKS URL must use HTTPS: " + url);
@@ -333,6 +373,12 @@ std::string JWKSSecureFetcher::fetch(const std::string& url) {
     return response_data;
 }
 
+/**
+ * @brief Verify Pinning.
+ * @param[in] cert_chain Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: computeSPKIHash().
+ */
 bool JWKSSecureFetcher::verifyPinning(const std::vector<std::string>& cert_chain) {
     if (impl_->config.pinning_mode == JWKSSecurityConfig::PinningMode::NONE) {
         return true;
@@ -359,6 +405,12 @@ JWKSSecureFetcher::FetchStats JWKSSecureFetcher::getLastFetchStats() const {
     return impl_->last_stats;
 }
 
+/**
+ * @brief Compute SPKIHash.
+ * @param[in] cert_data Input parameter.
+ * @return Return value.
+ * @details Calls: SHA256(), c_str(), size(), base64Encode().
+ */
 std::string JWKSSecureFetcher::computeSPKIHash(const std::string& cert_data) {
     // This is a simplified implementation
     // In production, would extract SPKI from X509 certificate and hash it
@@ -367,6 +419,10 @@ std::string JWKSSecureFetcher::computeSPKIHash(const std::string& cert_data) {
     return base64Encode(hash, SHA256_DIGEST_LENGTH);
 }
 
+/**
+ * @brief Setup TLSContext.
+ * @details Implements setupTLSContext without additional internal calls.
+ */
 void JWKSSecureFetcher::setupTLSContext() {
     // TLS context setup is handled by CURL
     // In a more advanced implementation, could use custom SSL_CTX
@@ -376,6 +432,13 @@ void JWKSSecureFetcher::setupTLSContext() {
 // CertificateUtils Implementation
 // ============================================================================
 
+/**
+ * @brief Compute SPKIHash From File.
+ * @param[in] cert_path Path to the cert.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: openFileRead(), PEM_read_X509(), fclose(), cert(), i2d_X509_PUBKEY(), X509_get_X509_PUBKEY(), get(), spki().
+ */
 std::string CertificateUtils::computeSPKIHashFromFile(const std::string& cert_path) {
     // Read certificate file
     FILE* fp = openFileRead(cert_path);
@@ -410,6 +473,13 @@ std::string CertificateUtils::computeSPKIHashFromFile(const std::string& cert_pa
     return result;
 }
 
+/**
+ * @brief Compute SPKIHash From PEM.
+ * @param[in] cert_pem Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: BIO_new_mem_buf(), c_str(), size(), PEM_read_bio_X509(), BIO_free(), cert(), i2d_X509_PUBKEY(), X509_get_X509_PUBKEY().
+ */
 std::string CertificateUtils::computeSPKIHashFromPEM(const std::string& cert_pem) {
     BIO* bio = BIO_new_mem_buf(cert_pem.c_str(), static_cast<int>(cert_pem.size()));
     if (!bio) {
@@ -442,6 +512,12 @@ std::string CertificateUtils::computeSPKIHashFromPEM(const std::string& cert_pem
     return result;
 }
 
+/**
+ * @brief Verify Certificate.
+ * @param[in] cert_path Path to the cert.
+ * @return True when the operation succeeds.
+ * @details Calls: openFileRead(), PEM_read_X509(), fclose(), X509_get0_notAfter(), ASN1_TIME_diff(), X509_free().
+ */
 bool CertificateUtils::verifyCertificate(const std::string& cert_path) {
     FILE* fp = openFileRead(cert_path);
     if (!fp) {
@@ -481,6 +557,11 @@ CertificateUtils::getCertificateInfo(const std::string& cert_path) {
     if (!cert_raw) {
         throw std::runtime_error("Failed to parse certificate: " + cert_path);
     }
+    /**
+     * @brief Cert.
+     * @param[in] cert_raw Input parameter.
+     * @return Return value.
+     */
     JwksUniqueX509 cert(cert_raw);
     
     // Subject

@@ -28,7 +28,7 @@ namespace query {
 namespace {
 
 /**
- * @brief 64-bit FNV-1a hash with MurmurHash3 finalizer for good avalanche properties.
+ * @brief Hash Value.
  * @param[in] v Input parameter.
  * @return Return value.
  * @details Calls: is_string(), dump().
@@ -50,7 +50,7 @@ uint64_t hashValue(const nlohmann::json& v) {
 }
 
 /**
- * @brief Count leading zeros of a 64-bit integer plus 1.
+ * @brief Rho.
  * @param[in] value Input parameter.
  * @return Return value.
  * @details Implements rho without additional internal calls.
@@ -141,7 +141,7 @@ double ApproximateCountDistinct::errorRate() const {
 }
 
 /**
- * @brief Reset.
+ * @brief Reset the modification detection flag.
  * @details Calls: std::fill(), begin(), end().
  */
 void ApproximateCountDistinct::reset() {
@@ -272,7 +272,7 @@ double ApproximatePercentile::errorRate() const {
 }
 
 /**
- * @brief Reset.
+ * @brief Reset the modification detection flag.
  * @details Calls: clear().
  */
 void ApproximatePercentile::reset() {
@@ -382,7 +382,7 @@ double SamplingAggregator::errorRate() const {
 }
 
 /**
- * @brief Reset.
+ * @brief Reset the modification detection flag.
  * @details Calls: clear().
  */
 void SamplingAggregator::reset() {

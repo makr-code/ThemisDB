@@ -19,19 +19,11 @@
 namespace themis {
 namespace llm {
 
-/**
- * @brief LoRA adapter metadata cache using ThemisDB's ConcurrentCache
- * 
- * Reuses existing ConcurrentCache infrastructure for LoRA metadata storage.
- * Provides lock-free reads and efficient concurrent access.
- * 
- * Benefits:
- * - 10x faster than custom mutex-based implementation
- * - Lock-free reads via TBB concurrent_hash_map
- * - Production-tested since ThemisDB v1.0.0
- * - Unified monitoring with other ThemisDB caches
- */
 struct LoRAMetadata {
+    /**
+     * @brief Lo RAMetadata.
+     * @return Return value.
+     */
     virtual ~LoRAMetadata() = default;
     std::string lora_id;
     std::string path;
@@ -50,7 +42,6 @@ struct LoRAMetadata {
     std::vector<std::string> target_modules;  // Which layers are adapted
 };
 
-/** @brief Lo ra metadata cache component. */
 class LoRAMetadataCache {
 public:
     using CacheType = ConcurrentCache<std::string, LoRAMetadata>;
@@ -65,53 +56,63 @@ public:
     LoRAMetadataCache& operator=(LoRAMetadataCache&&) noexcept = default;
     
     /**
-     * @brief Store LoRA metadata
+     * @brief Put.
+     * @param[in] lora_id Identifier of the lora.
+     * @param[in] metadata Input parameter.
      */
     void put(const std::string& lora_id, const LoRAMetadata& metadata);
     
     /**
-     * @brief Get LoRA metadata (lock-free read)
+     * @brief Get.
+     * @param[in] lora_id Identifier of the lora.
+     * @return Return value.
      */
     std::optional<LoRAMetadata> get(const std::string& lora_id) const;
     
     /**
-     * @brief Update last accessed timestamp
+     * @brief Touch.
+     * @param[in] lora_id Identifier of the lora.
      */
     void touch(const std::string& lora_id);
     
     /**
-     * @brief Mark LoRA as loaded in a specific slot
+     * @brief Mark Loaded.
+     * @param[in] lora_id Identifier of the lora.
+     * @param[in] slot_id Identifier of the slot.
      */
     void markLoaded(const std::string& lora_id, int slot_id);
     
     /**
-     * @brief Mark LoRA as unloaded
+     * @brief Mark Unloaded.
+     * @param[in] lora_id Identifier of the lora.
      */
     void markUnloaded(const std::string& lora_id);
     
     /**
-     * @brief Check if LoRA exists in cache
+     * @brief Contains.
+     * @param[in] lora_id Identifier of the lora.
+     * @return True when the operation succeeds.
      */
     bool contains(const std::string& lora_id) const;
     
     /**
-     * @brief Remove LoRA metadata
+     * @brief Remove.
+     * @param[in] lora_id Identifier of the lora.
+     * @return True when the operation succeeds.
      */
     bool remove(const std::string& lora_id);
     
     /**
-     * @brief Get cache size
+     * @brief Size.
+     * @return Return value.
      */
     size_t size() const;
     
     /**
-     * @brief Clear all entries
+     * @brief Clear.
      */
     void clear();
     
-    /**
-     * @brief Get cache statistics
-     */
     struct Stats {
         size_t total_entries = 0;
         size_t loaded_entries = 0;
@@ -119,10 +120,16 @@ public:
         uint64_t total_accesses = 0;
     };
     
+    /**
+     * @brief Get Stats.
+     * @return Return value.
+     */
     Stats getStats() const;
     
     /**
-     * @brief Direct access to underlying cache for advanced operations
+     * @brief Cache.
+     * @return Return value.
+     * @details Implements cache without additional internal calls.
      */
     CacheType& cache() { return cache_; }
     const CacheType& cache() const { return cache_; }

@@ -49,6 +49,13 @@ namespace replication {
 // ----------------------------------------------------------------------------
 namespace {
 template <typename Func>
+/**
+ * @brief Lrm execute With Timeout.
+ * @param[in] timeout_ms Input parameter.
+ * @param[in] op Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: op_copy(), THEMIS_ERROR(), what(), void(), task(), std::move(), get_future(), worker().
+ */
 bool lrm_executeWithTimeout(uint32_t timeout_ms, Func&& op) {
     using Operation = std::decay_t<Func>;
     Operation op_copy(std::forward<Func>(op));
@@ -122,6 +129,12 @@ bool lrm_executeWithTimeout(uint32_t timeout_ms, Func&& op) {
 // ============================================================================
 
 namespace {
+/**
+ * @brief Trim Copy.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Calls: size(), std::isspace(), substr().
+ */
 std::string trimCopy(const std::string& s) {
     size_t start = 0;
     while (start < s.size() && std::isspace(static_cast<unsigned char>(s[start]))) {
@@ -134,6 +147,12 @@ std::string trimCopy(const std::string& s) {
     return s.substr(start, end - start);
 }
 
+/**
+ * @brief Is Supported Row Filter.
+ * @param[in] expr Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: trimCopy(), empty(), find().
+ */
 bool isSupportedRowFilter(const std::string& expr) {
     const auto trimmed = trimCopy(expr);
     if (trimmed.empty()) {
@@ -155,12 +174,27 @@ LogicalReplicationManager::LogicalReplicationManager(std::shared_ptr<WALManager>
     loadPersistedSlots();
 }
 
+/**
+ * @brief Create Slot.
+ * @param[in] slot_name Name of the slot.
+ * @param[in] output_plugin Input parameter.
+ * @return Return value.
+ * @details Implements createSlot without additional internal calls.
+ */
 LogicalReplicationManager::LogicalReplicationSlot LogicalReplicationManager::createSlot(
     const std::string& slot_name,
     const std::string& output_plugin) {
     return createSlot(slot_name, output_plugin, ReplicationFilter{}, true, {});
 }
 
+/**
+ * @brief Create Slot.
+ * @param[in] slot_name Name of the slot.
+ * @param[in] output_plugin Input parameter.
+ * @param[in] filter Input parameter.
+ * @return Return value.
+ * @details Implements createSlot without additional internal calls.
+ */
 LogicalReplicationManager::LogicalReplicationSlot LogicalReplicationManager::createSlot(
     const std::string& slot_name,
     const std::string& output_plugin,
@@ -168,6 +202,15 @@ LogicalReplicationManager::LogicalReplicationSlot LogicalReplicationManager::cre
     return createSlot(slot_name, output_plugin, filter, true, {});
 }
 
+/**
+ * @brief Create Slot.
+ * @param[in] slot_name Name of the slot.
+ * @param[in] output_plugin Input parameter.
+ * @param[in] filter Input parameter.
+ * @param[in] perform_initial_sync Input parameter.
+ * @return Return value.
+ * @details Implements createSlot without additional internal calls.
+ */
 LogicalReplicationManager::LogicalReplicationSlot LogicalReplicationManager::createSlot(
     const std::string& slot_name,
     const std::string& output_plugin,
@@ -176,6 +219,18 @@ LogicalReplicationManager::LogicalReplicationSlot LogicalReplicationManager::cre
     return createSlot(slot_name, output_plugin, filter, perform_initial_sync, {});
 }
 
+/**
+ * @brief Create Slot.
+ * @param[in] slot_name Name of the slot.
+ * @param[in] output_plugin Input parameter.
+ * @param[in] filter Input parameter.
+ * @param[in] perform_initial_sync Input parameter.
+ * @param[in] initial_snapshot Input parameter.
+ * @return Return value.
+ * @throws std::invalid_argument if an error occurs.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: empty(), trimCopy(), isSupportedRowFilter(), getCurrentSequence(), documentIdFromChange(), push_back(), std::move(), collectionKey().
+ */
 LogicalReplicationManager::LogicalReplicationSlot LogicalReplicationManager::createSlot(
     const std::string& slot_name,
     const std::string& output_plugin,
@@ -229,6 +284,12 @@ LogicalReplicationManager::LogicalReplicationSlot LogicalReplicationManager::cre
     return runtime->meta;
 }
 
+/**
+ * @brief Advance Slot.
+ * @param[in] slot_name Name of the slot.
+ * @param[in] lsn Input parameter.
+ * @details Calls: lock(), find(), end(), clear(), persistSlot().
+ */
 void LogicalReplicationManager::advanceSlot(const std::string& slot_name, uint64_t lsn) {
     std::shared_ptr<SlotRuntime> runtime;
     {
@@ -258,6 +319,11 @@ void LogicalReplicationManager::advanceSlot(const std::string& slot_name, uint64
 std::vector<LogicalReplicationManager::LogicalReplicationSlot>
 LogicalReplicationManager::listSlots() const {
     std::vector<LogicalReplicationSlot> out;
+    /**
+     * @brief Lock.
+     * @param[in] slots_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(slots_mutex_);
     out.reserve(slots_.size());
     for (const auto& kv : slots_) {
@@ -268,10 +334,22 @@ LogicalReplicationManager::listSlots() const {
 }
 
 bool LogicalReplicationManager::hasSlot(const std::string& slot_name) const {
+    /**
+     * @brief Lock.
+     * @param[in] slots_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(slots_mutex_);
     return slots_.find(slot_name) != slots_.end();
 }
 
+/**
+ * @brief Read Changes.
+ * @param[in] slot_name Name of the slot.
+ * @param[in] max_changes Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), find(), end(), size(), reserve(), push_back(), std::move(), front().
+ */
 std::vector<LogicalChange> LogicalReplicationManager::readChanges(
     const std::string& slot_name, uint32_t max_changes) {
     std::vector<LogicalChange> out;
@@ -296,6 +374,13 @@ std::vector<LogicalChange> LogicalReplicationManager::readChanges(
     return out;
 }
 
+/**
+ * @brief Record DDLChange.
+ * @param[in] ddl_statement Input parameter.
+ * @param[in] schema_version Input parameter.
+ * @param[in] lsn Input parameter.
+ * @details Calls: empty(), getCurrentSequence(), std::chrono::system_clock::now(), lock(), reserve(), size(), push_back(), slog().
+ */
 void LogicalReplicationManager::recordDDLChange(const std::string& ddl_statement,
                                                 const std::string& schema_version,
                                                 uint64_t lsn) {
@@ -329,17 +414,77 @@ void LogicalReplicationManager::recordDDLChange(const std::string& ddl_statement
     }
 }
 
+/**
+ * @brief On Role Change.
+ * @param[in] ReplicationRole Input parameter.
+ * @param[in] ReplicationRole Input parameter.
+ * @details Implements onRoleChange without additional internal calls.
+ */
 void LogicalReplicationManager::onRoleChange(ReplicationRole, ReplicationRole) {}
+/**
+ * @brief On Leader Elected.
+ * @param[in] param Input parameter.
+ * @details Implements onLeaderElected without additional internal calls.
+ */
 void LogicalReplicationManager::onLeaderElected(const std::string&) {}
+/**
+ * @brief On Replica Added.
+ * @param[in] param Input parameter.
+ * @details Implements onReplicaAdded without additional internal calls.
+ */
 void LogicalReplicationManager::onReplicaAdded(const ReplicaInfo&) {}
+/**
+ * @brief On Replica Removed.
+ * @param[in] param Input parameter.
+ * @details Implements onReplicaRemoved without additional internal calls.
+ */
 void LogicalReplicationManager::onReplicaRemoved(const std::string&) {}
+/**
+ * @brief On Conflict Detected.
+ * @param[in] param Input parameter.
+ * @details Implements onConflictDetected without additional internal calls.
+ */
 void LogicalReplicationManager::onConflictDetected(const std::string&) {}
+/**
+ * @brief On Replication Lag Warning.
+ * @param[in] int64_t Input parameter.
+ * @details Implements onReplicationLagWarning without additional internal calls.
+ */
 void LogicalReplicationManager::onReplicationLagWarning(int64_t) {}
+/**
+ * @brief On Replica Health Changed.
+ * @param[in] param Input parameter.
+ * @param[in] HealthStatus Input parameter.
+ * @param[in] HealthStatus Input parameter.
+ * @details Implements onReplicaHealthChanged without additional internal calls.
+ */
 void LogicalReplicationManager::onReplicaHealthChanged(const std::string&, HealthStatus, HealthStatus) {}
+/**
+ * @brief On Failover Started.
+ * @param[in] param Input parameter.
+ * @param[in] param Input parameter.
+ * @details Implements onFailoverStarted without additional internal calls.
+ */
 void LogicalReplicationManager::onFailoverStarted(const std::string&, const std::string&) {}
+/**
+ * @brief On Failover Completed.
+ * @param[in] param Input parameter.
+ * @param[in] bool Input parameter.
+ * @details Implements onFailoverCompleted without additional internal calls.
+ */
 void LogicalReplicationManager::onFailoverCompleted(const std::string&, bool) {}
+/**
+ * @brief On Network Partition Detected.
+ * @param[in] param Input parameter.
+ * @details Implements onNetworkPartitionDetected without additional internal calls.
+ */
 void LogicalReplicationManager::onNetworkPartitionDetected(const std::vector<std::string>&) {}
 
+/**
+ * @brief On WALEntry Applied.
+ * @param[in] entry Input parameter.
+ * @details Calls: makeLogicalChange(), lock(), push_back(), empty(), documentIdFromChange(), count(), collectionKey(), matchesFilter().
+ */
 void LogicalReplicationManager::onWALEntryApplied(const WALEntry& entry) {
     LogicalChange change = makeLogicalChange(entry);
     if (change.type == LogicalChange::Type::UNKNOWN) {
@@ -609,6 +754,10 @@ std::string LogicalReplicationManager::documentIdFromChange(const LogicalChange&
     return {};  // Production behavior: empty string signals "ID not available"
 }
 
+/**
+ * @brief Load Persisted Slots.
+ * @details Calls: slotStatePath(), empty(), dir(), fs::exists(), fs::create_directories(), THEMIS_WARN(), string(), message().
+ */
 void LogicalReplicationManager::loadPersistedSlots() {
     const auto base_path = slotStatePath("");
     if (base_path.empty()) {
@@ -868,10 +1017,22 @@ std::string LogicalReplicationManager::slotStatePath(const std::string& slot_nam
 }
 
 LogicalReplicationManager::Stats LogicalReplicationManager::getStats() const {
+    /**
+     * @brief Lock.
+     * @param[in] stats_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(stats_mutex_);
     return stats_;
 }
 
+/**
+ * @brief Collection Key.
+ * @param[in] collection Input parameter.
+ * @param[in] document_id Identifier of the document.
+ * @return Return value.
+ * @details Calls: empty(), THEMIS_WARN().
+ */
 std::string LogicalReplicationManager::collectionKey(const std::string& collection,
                                                      const std::string& document_id) {
     // Production Logic: Create composite key for document identification.

@@ -24,9 +24,10 @@
 namespace themis {
 namespace auth {
 
-// ===========================================================================
-// Helper: Validate URL format
-// ===========================================================================
+/**
+ * @brief =========================================================================== Helper: Validate URL format ===========================================================================
+ * @param[in] url Input parameter.
+ */
 
 void AsyncHTTPAuth::validateURL(const std::string& url)
 {
@@ -115,6 +116,11 @@ std::future<HTTPAuthResponse> AsyncHTTPAuth::postAsync(
     });
 }
 
+/**
+ * @brief Check Connectivity Async.
+ * @param[in] url Input parameter.
+ * @return Return value.
+ */
 std::future<bool> AsyncHTTPAuth::checkConnectivityAsync(const std::string& url)
 {
     // Validate input synchronously on caller's thread
@@ -160,7 +166,14 @@ private:
     CURL* handle_;
 };
 
-// Callback for curl to accumulate response data
+/**
+ * @brief Callback for curl to accumulate response data
+ * @param[in,out] contents Input/output parameter.
+ * @param[in] size Input parameter.
+ * @param[in] nmemb Input parameter.
+ * @param[in,out] s Input/output parameter.
+ * @return Return value.
+ */
 static size_t writecallback(void* contents, size_t size, size_t nmemb, std::string* s)
 {
     size_t newlen = size * nmemb;
@@ -339,6 +352,11 @@ HTTPAuthResponse AsyncHTTPAuth::performPost(
     }
 }
 
+/**
+ * @brief Perform Connectivity Check.
+ * @param[in] url Input parameter.
+ * @return True when the operation succeeds.
+ */
 bool AsyncHTTPAuth::performConnectivityCheck(const std::string& url)
 {
     CURLHandle curl;

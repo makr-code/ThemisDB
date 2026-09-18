@@ -58,18 +58,14 @@ namespace process {
 // RFC 7386 JSON MERGE PATCH IMPLEMENTATION
 // ============================================================================
 
-/**
- * @brief Simplified RFC 7386 JSON Merge Patch encoder/decoder.
- * @internal
- *
- * Full RFC 7386 would use nlohmann/json library; simplified version
- * for Phase 2 uses string-based delta encoding.
- */
 class DeltaPatchCodec {
  public:
   /**
-   * @brief Encode delta between two JSON strings using RFC 7386.
-   * @return Patch string (JSON Merge Patch format)
+   * @brief Encode.
+   * @param[in] before Input parameter.
+   * @param[in] after Input parameter.
+   * @return Return value.
+   * @details Calls: std::to_string(), size().
    */
   static std::string Encode(const std::string& before,
                              const std::string& after) {
@@ -83,8 +79,11 @@ class DeltaPatchCodec {
   }
 
   /**
-   * @brief Decode delta patch and apply to base state.
-   * @return Reconstructed state
+   * @brief Decode.
+   * @param[in] base Input parameter.
+   * @param[in] patch Input parameter.
+   * @return Return value.
+   * @details Implements Decode without additional internal calls.
    */
   static std::string Decode(const std::string& base,
                             const std::string& patch) {
@@ -94,8 +93,11 @@ class DeltaPatchCodec {
   }
 
   /**
-   * @brief Compute semantic equivalence: verify replayed state matches original.
-   * @return true if equivalent, false if divergence
+   * @brief Verify Equivalence.
+   * @param[in] original Input parameter.
+   * @param[in] replayed Input parameter.
+   * @return True when the operation succeeds.
+   * @details Implements VerifyEquivalence without additional internal calls.
    */
   static bool VerifyEquivalence(const std::string& original,
                                  const std::string& replayed) {
@@ -109,10 +111,6 @@ class DeltaPatchCodec {
 // AUDIT TRAIL ENTRY
 // ============================================================================
 
-/**
- * @brief In-memory audit trail entry with metadata.
- * @internal
- */
 struct AuditEntry {
   uint64_t entry_id = 0;
   std::string model_id;
@@ -129,25 +127,12 @@ struct AuditEntry {
 // AUDIT LOGGER IMPLEMENTATION
 // ============================================================================
 
-/**
- * @class ProcessAuditLoggerImpl
- * @brief Core audit trail storage and retrieval engine.
- *
- * ### Thread Safety
- * All public methods are thread-safe via fine-grained locking.
- * Lock ordering: audit_mutex_ → snapshot_index_mutex_
- *
- * ### Performance
- * - Append entry: < 5ms (GATE-AUD-01)
- * - Query by model: < 10ms (GATE-AUD-02)
- * - Snapshot creation: < 200ms (GATE-AUD-03)
- * - Point-in-time query: < 50ms (GATE-AUD-04)
- */
 class ProcessAuditLoggerImpl {
  public:
   /**
-   * @brief Constructor.
-   * @param config Audit logger configuration (backend type, snapshot interval)
+   * @brief Process Audit Logger Impl.
+   * @param[in] config Input parameter.
+   * @return Return value.
    */
   explicit ProcessAuditLoggerImpl(const AuditLoggerConfig& config)
       : config_(config),
@@ -160,98 +145,62 @@ class ProcessAuditLoggerImpl {
         config.backend_type.c_str(), config.snapshot_interval_entries);
   }
 
-  /**
-   * @brief Destructor.
-   */
   ~ProcessAuditLoggerImpl() = default;
 
-  // ========================================================================
-  // PUBLIC API - AUDIT TRAIL OPERATIONS
-  // ========================================================================
-
   /**
-   * @brief Append immutable entry to audit trail.
-   *
-   * Entry cannot be modified or deleted after append. Fails if entry
-   * already exists with same ID (idempotency).
-   *
-   * @param model_id Model that was mutated
-   * @param operation Operation type (insert, update, delete)
-   * @param before_state State before mutation (for diff computation)
-   * @param after_state State after mutation
-   * @return Entry ID (monotonically increasing)
-   * @throws std::runtime_error if append fails (storage backend error)
-   * @thread_safe Acquires audit_mutex_
+   * @brief ======================================================================== PUBLIC API - AUDIT TRAIL OPERATIONS ========================================================================
+   * @param[in] model_id Identifier of the model.
+   * @param[in] operation Input parameter.
+   * @param[in] before_state Input parameter.
+   * @param[in] after_state Input parameter.
+   * @return Return value.
    */
+
   uint64_t AppendEntry(const std::string& model_id,
                        const std::string& operation,
                        const std::string& before_state,
                        const std::string& after_state);
 
   /**
-   * @brief Verify audit trail integrity via CRC32 chain.
-   *
-   * Walks entire audit trail and verifies:
-   * 1. Each entry checksum matches stored CRC32
-   * 2. No gaps in entry IDs
-   * 3. Monotonic timestamps
-   *
-   * @return true if trail is integral, false if corruption detected
-   * @thread_safe Acquires audit_mutex_
+   * @brief Verify Integrity.
+   * @return True when the operation succeeds.
    */
   bool VerifyIntegrity() const;
 
   /**
-   * @brief Query audit trail for entries of a specific model.
-   *
-   * @param model_id Model to query
-   * @return Vector of entries (in order of append)
-   * @thread_safe Acquires audit_mutex_
+   * @brief Query By Model Id.
+   * @param[in] model_id Identifier of the model.
+   * @return Return value.
    */
   std::vector<AuditTrailEntry> QueryByModelId(const std::string& model_id) const;
 
   /**
-   * @brief Query audit trail for entries in a time range.
-   *
-   * @param start_ms Start timestamp (UTC epoch ms)
-   * @param end_ms End timestamp (UTC epoch ms)
-   * @return Vector of entries in timespan
-   * @thread_safe Acquires audit_mutex_
+   * @brief Query By Time Range.
+   * @param[in] start_ms Input parameter.
+   * @param[in] end_ms Input parameter.
+   * @return Return value.
    */
   std::vector<AuditTrailEntry> QueryByTimeRange(uint64_t start_ms,
                                                   uint64_t end_ms) const;
 
   /**
-   * @brief Reconstruct model state at specific point in time.
-   *
-   * Uses snapshot index for O(log N) reconstruction:
-   * 1. Find snapshot before/at timestamp
-   * 2. Replay entries from snapshot to timestamp
-   *
-   * @param model_id Model to reconstruct
-   * @param timestamp_ms Point-in-time (UTC epoch ms)
-   * @return Model state at that time (or empty if not found)
-   * @thread_safe Acquires audit_mutex_, snapshot_index_mutex_
+   * @brief Get Model State At.
+   * @param[in] model_id Identifier of the model.
+   * @param[in] timestamp_ms Input parameter.
+   * @return Return value.
    */
   std::string GetModelStateAt(const std::string& model_id,
                               uint64_t timestamp_ms) const;
 
   /**
-   * @brief Get audit logger statistics.
-   *
-   * @return Struct with entries_appended, snapshots_created, storage_size_bytes
-   * @thread_safe Acquires audit_mutex_
+   * @brief Get Stats.
+   * @return Return value.
    */
   AuditLoggerStats GetStats() const;
 
   /**
-   * @brief Create snapshot of current audit trail state.
-   *
-   * Snapshots are used for faster point-in-time queries.
-   * Stored in snapshot index for O(log N) bisection.
-   *
-   * @return Snapshot entry ID (or 0 on error)
-   * @thread_safe Acquires audit_mutex_, snapshot_index_mutex_
+   * @brief Create Snapshot.
+   * @return Return value.
    */
   uint64_t CreateSnapshot();
 
@@ -261,19 +210,22 @@ class ProcessAuditLoggerImpl {
 
  private:
   /**
-   * @brief Compute CRC32 checksum.
+   * @brief Compute Crc32.
+   * @param[in] data Input parameter.
+   * @return Return value.
    */
   static uint32_t ComputeCrc32(const std::string& data);
 
   /**
-   * @brief Persist entry to storage backend (RocksDB/S3/file).
-   * @pre audit_mutex_ must be held
+   * @brief Persist Entry.
+   * @param[in] entry Input parameter.
+   * @return True when the operation succeeds.
    */
   bool PersistEntry(const AuditEntry& entry);
 
   /**
-   * @brief Load audit trail from storage on startup.
-   * @pre audit_mutex_ must be held
+   * @brief Load From Storage.
+   * @return True when the operation succeeds.
    */
   bool LoadFromStorage();
 
@@ -307,6 +259,12 @@ class ProcessAuditLoggerImpl {
 // IMPLEMENTATION
 // ============================================================================
 
+/**
+ * @brief Compute Crc32.
+ * @param[in] data Input parameter.
+ * @return Return value.
+ * @details Implements ComputeCrc32 without additional internal calls.
+ */
 uint32_t ProcessAuditLoggerImpl::ComputeCrc32(const std::string& data) {
   uint32_t crc = 0xFFFFFFFF;
   for (unsigned char byte : data) {
@@ -318,6 +276,16 @@ uint32_t ProcessAuditLoggerImpl::ComputeCrc32(const std::string& data) {
   return crc ^ 0xFFFFFFFF;
 }
 
+/**
+ * @brief Append Entry.
+ * @param[in] model_id Identifier of the model.
+ * @param[in] operation Input parameter.
+ * @param[in] before_state Input parameter.
+ * @param[in] after_state Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: lock(), DeltaPatchCodec::Encode(), std::to_string(), ComputeCrc32(), std::chrono::system_clock::now(), time_since_epoch(), count(), PersistEntry().
+ */
 uint64_t ProcessAuditLoggerImpl::AppendEntry(
     const std::string& model_id, const std::string& operation,
     const std::string& before_state, const std::string& after_state) {
@@ -361,6 +329,11 @@ uint64_t ProcessAuditLoggerImpl::AppendEntry(
 }
 
 bool ProcessAuditLoggerImpl::VerifyIntegrity() const {
+  /**
+   * @brief Lock.
+   * @param[in] audit_mutex_ Input parameter.
+   * @return Return value.
+   */
   std::lock_guard<std::mutex> lock(audit_mutex_);
 
   for (size_t i = 0; i < entries_.size(); ++i) {
@@ -397,6 +370,11 @@ bool ProcessAuditLoggerImpl::VerifyIntegrity() const {
 
 std::vector<AuditTrailEntry> ProcessAuditLoggerImpl::QueryByModelId(
     const std::string& model_id) const {
+  /**
+   * @brief Lock.
+   * @param[in] audit_mutex_ Input parameter.
+   * @return Return value.
+   */
   std::lock_guard<std::mutex> lock(audit_mutex_);
 
   std::vector<AuditTrailEntry> results;
@@ -424,6 +402,11 @@ std::vector<AuditTrailEntry> ProcessAuditLoggerImpl::QueryByModelId(
 
 std::vector<AuditTrailEntry> ProcessAuditLoggerImpl::QueryByTimeRange(
     uint64_t start_ms, uint64_t end_ms) const {
+  /**
+   * @brief Lock.
+   * @param[in] audit_mutex_ Input parameter.
+   * @return Return value.
+   */
   std::lock_guard<std::mutex> lock(audit_mutex_);
 
   std::vector<AuditTrailEntry> results;
@@ -444,6 +427,11 @@ std::vector<AuditTrailEntry> ProcessAuditLoggerImpl::QueryByTimeRange(
 
 std::string ProcessAuditLoggerImpl::GetModelStateAt(
     const std::string& model_id, uint64_t timestamp_ms) const {
+  /**
+   * @brief Lock.
+   * @param[in] audit_mutex_ Input parameter.
+   * @return Return value.
+   */
   std::lock_guard<std::mutex> lock(audit_mutex_);
 
   std::string state = "";  // Base state (empty)
@@ -467,7 +455,17 @@ std::string ProcessAuditLoggerImpl::GetModelStateAt(
 }
 
 AuditLoggerStats ProcessAuditLoggerImpl::GetStats() const {
+  /**
+   * @brief Lock.
+   * @param[in] audit_mutex_ Input parameter.
+   * @return Return value.
+   */
   std::lock_guard<std::mutex> lock(audit_mutex_);
+  /**
+   * @brief Metrics lock.
+   * @param[in] metrics_mutex_ Input parameter.
+   * @return Return value.
+   */
   std::lock_guard<std::mutex> metrics_lock(metrics_mutex_);
 
   AuditLoggerStats stats;
@@ -480,6 +478,11 @@ AuditLoggerStats ProcessAuditLoggerImpl::GetStats() const {
   return stats;
 }
 
+/**
+ * @brief Create Snapshot.
+ * @return Return value.
+ * @details Calls: lock(), snapshot_lock(), empty(), back(), push_back(), utils::Logger::Info().
+ */
 uint64_t ProcessAuditLoggerImpl::CreateSnapshot() {
   std::lock_guard<std::mutex> lock(audit_mutex_);
   std::lock_guard<std::mutex> snapshot_lock(snapshot_index_mutex_);
@@ -502,12 +505,23 @@ uint64_t ProcessAuditLoggerImpl::CreateSnapshot() {
   return snapshot_at_entry_id;
 }
 
+/**
+ * @brief Persist Entry.
+ * @param[in] entry Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements PersistEntry without additional internal calls.
+ */
 bool ProcessAuditLoggerImpl::PersistEntry(const AuditEntry& entry) {
   // Simplified: in-memory only for Phase 2
   // Production version persists to RocksDB/S3/file based on backend_type
   return true;
 }
 
+/**
+ * @brief Load From Storage.
+ * @return True when the operation succeeds.
+ * @details Implements LoadFromStorage without additional internal calls.
+ */
 bool ProcessAuditLoggerImpl::LoadFromStorage() {
   // Simplified: no persistence in Phase 2
   // Production version loads audit trail from storage on startup
@@ -518,6 +532,12 @@ bool ProcessAuditLoggerImpl::LoadFromStorage() {
 // PUBLIC INTERFACE
 // ============================================================================
 
+/**
+ * @brief Create.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @details Implements Create without additional internal calls.
+ */
 std::unique_ptr<ProcessAuditLogger> ProcessAuditLogger::Create(
     const AuditLoggerConfig& config) {
   return std::make_unique<ProcessAuditLogger>(
@@ -530,6 +550,15 @@ ProcessAuditLogger::ProcessAuditLogger(
 
 ProcessAuditLogger::~ProcessAuditLogger() = default;
 
+/**
+ * @brief Append Entry.
+ * @param[in] model_id Identifier of the model.
+ * @param[in] operation Input parameter.
+ * @param[in] before_state Input parameter.
+ * @param[in] after_state Input parameter.
+ * @return Return value.
+ * @details Implements AppendEntry without additional internal calls.
+ */
 uint64_t ProcessAuditLogger::AppendEntry(const std::string& model_id,
                                           const std::string& operation,
                                           const std::string& before_state,
@@ -560,6 +589,11 @@ AuditLoggerStats ProcessAuditLogger::GetStats() const {
   return impl_->GetStats();
 }
 
+/**
+ * @brief Create Snapshot.
+ * @return Return value.
+ * @details Implements CreateSnapshot without additional internal calls.
+ */
 uint64_t ProcessAuditLogger::CreateSnapshot() {
   return impl_->CreateSnapshot();
 }

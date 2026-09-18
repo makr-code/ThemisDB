@@ -25,6 +25,12 @@
 namespace themisdb {
 namespace sharding {
 
+/**
+ * @brief Create.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @details Calls: initialize().
+ */
 std::unique_ptr<ConsensusModule> ConsensusFactory::create(const ConsensusConfig& config) {
     switch (config.type) {
         case ConsensusType::RAFT:
@@ -70,6 +76,14 @@ std::unique_ptr<ConsensusModule> ConsensusFactory::create(const ConsensusConfig&
     }
 }
 
+/**
+ * @brief Create.
+ * @param[in] type Input parameter.
+ * @param[in] node_id Identifier of the node.
+ * @param[in] cluster_nodes Input parameter.
+ * @return Return value.
+ * @details Implements create without additional internal calls.
+ */
 std::unique_ptr<ConsensusModule> ConsensusFactory::create(
     ConsensusType type,
     const std::string& node_id,
@@ -83,6 +97,14 @@ std::unique_ptr<ConsensusModule> ConsensusFactory::create(
     return create(config);
 }
 
+/**
+ * @brief Create RAIDPaxos.
+ * @param[in] raid_config Input parameter.
+ * @param[in] node_id Identifier of the node.
+ * @param[in] cluster_nodes Input parameter.
+ * @return Return value.
+ * @details Calls: initialize().
+ */
 std::unique_ptr<RAIDPaxosConsensus> ConsensusFactory::createRAIDPaxos(
     const RAIDPaxosConfig& raid_config,
     const std::string& node_id,
@@ -95,6 +117,15 @@ std::unique_ptr<RAIDPaxosConsensus> ConsensusFactory::createRAIDPaxos(
     return raid_paxos;
 }
 
+/**
+ * @brief Create Dual Consensus.
+ * @param[in] node_id Identifier of the node.
+ * @param[in] cluster_nodes Input parameter.
+ * @param[in] use_raid_paxos Input parameter.
+ * @param[in] raid_config Input parameter.
+ * @return Return value.
+ * @details Calls: initialize(), std::move().
+ */
 std::unique_ptr<DualConsensusOrchestrator> ConsensusFactory::createDualConsensus(
     const std::string& node_id,
     const std::vector<std::string>& cluster_nodes,
@@ -146,6 +177,12 @@ std::unique_ptr<DualConsensusOrchestrator> ConsensusFactory::createDualConsensus
     return orchestrator;
 }
 
+/**
+ * @brief Get Type Name.
+ * @param[in] type Input parameter.
+ * @return Return value.
+ * @details Implements getTypeName without additional internal calls.
+ */
 std::string ConsensusFactory::getTypeName(ConsensusType type) {
     switch (type) {
         case ConsensusType::RAFT:
@@ -165,6 +202,12 @@ std::string ConsensusFactory::getTypeName(ConsensusType type) {
     }
 }
 
+/**
+ * @brief Parse Type.
+ * @param[in] type_str Input parameter.
+ * @return Return value.
+ * @details Calls: std::transform(), begin(), end(), std::tolower().
+ */
 std::optional<ConsensusType> ConsensusFactory::parseType(const std::string& type_str) {
     std::string lower_str = type_str;
     std::transform(lower_str.begin(), lower_str.end(), lower_str.begin(),
@@ -187,6 +230,11 @@ std::optional<ConsensusType> ConsensusFactory::parseType(const std::string& type
     return std::nullopt;
 }
 
+/**
+ * @brief Get Supported Types.
+ * @return Return value.
+ * @details Implements getSupportedTypes without additional internal calls.
+ */
 std::vector<ConsensusType> ConsensusFactory::getSupportedTypes() {
     return {
         ConsensusType::RAFT,

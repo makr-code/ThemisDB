@@ -39,6 +39,12 @@ namespace temporal {
 // ChangeEvent serialisation
 // ============================================================================
 
+/**
+ * @brief Change Type Name.
+ * @param[in] ct Input parameter.
+ * @return Return value.
+ * @details Implements changeTypeName without additional internal calls.
+ */
 std::string TemporalCDC::changeTypeName(ChangeType ct) {
     switch (ct) {
         case ChangeType::INSERT:          return "INSERT";
@@ -49,6 +55,13 @@ std::string TemporalCDC::changeTypeName(ChangeType ct) {
     return "UNKNOWN";
 }
 
+/**
+ * @brief Change Type From String.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Implements changeTypeFromString without additional internal calls.
+ */
 ChangeType TemporalCDC::changeTypeFromString(const std::string& s) {
     if (s == "INSERT") {
       return ChangeType::INSERT;
@@ -79,6 +92,12 @@ nlohmann::json ChangeEvent::toJson() const {
     return j;
 }
 
+/**
+ * @brief From Json.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: TemporalCDC::changeTypeFromString(), at(), value().
+ */
 ChangeEvent ChangeEvent::fromJson(const nlohmann::json& j) {
     ChangeEvent ev;
     ev.type             = TemporalCDC::changeTypeFromString(j.at("type").get<std::string>());
@@ -118,17 +137,33 @@ std::string TemporalCDC::subscribeToChanges(
     const uint64_t id = next_sub_id_.fetch_add(1, std::memory_order_relaxed);
     const std::string sub_id = "cdc_sub_" + std::to_string(id);
 
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     subscriptions_[sub_id] = Subscription{sub_id, table_name, std::move(callback)};
     return sub_id;
 }
 
+/**
+ * @brief Unsubscribe.
+ * @param[in] sub_id Identifier of the sub.
+ * @return True when the operation succeeds.
+ * @details Calls: lk(), erase().
+ */
 bool TemporalCDC::unsubscribe(const std::string& sub_id) {
     std::lock_guard<std::mutex> lk(mutex_);
     return subscriptions_.erase(sub_id) > 0;
 }
 
 size_t TemporalCDC::subscriptionCount() const {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     return subscriptions_.size();
 }
@@ -137,6 +172,11 @@ size_t TemporalCDC::subscriptionCount() const {
 // Event publication
 // ============================================================================
 
+/**
+ * @brief Publish Event.
+ * @param[in] event Input parameter.
+ * @details Calls: void(), lk(), size(), fetch_add(), erase(), begin(), push_back(), empty().
+ */
 void TemporalCDC::publishEvent(const ChangeEvent& event) {
     // Snapshot subscriptions under lock, then dispatch outside lock to avoid
     // holding the mutex during user-supplied callback execution.
@@ -185,6 +225,11 @@ std::vector<ChangeEvent> TemporalCDC::replayChanges(
     const std::string& table_name,
     const TimeRange& range) const {
 
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
 
     std::vector<ChangeEvent> result = {};
@@ -206,6 +251,11 @@ std::vector<ChangeEvent> TemporalCDC::replayChanges(
 // ============================================================================
 
 size_t TemporalCDC::logSize() const {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     return log_.size();
 }
@@ -218,6 +268,10 @@ uint64_t TemporalCDC::overflowCount() const noexcept {
     return overflow_count_.load(std::memory_order_relaxed);
 }
 
+/**
+ * @brief Clear Log.
+ * @details Calls: lk(), clear().
+ */
 void TemporalCDC::clearLog() {
     std::lock_guard<std::mutex> lk(mutex_);
     log_.clear();
@@ -288,6 +342,12 @@ uint32_t computeCRC32(const char* data, std::size_t len) noexcept {
     return crc ^ 0xFFFFFFFFu;
 }
 
+/**
+ * @brief Validate Segment Header File.
+ * @param[in,out] fd Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: std::fread().
+ */
 bool validateSegmentHeaderFile(std::FILE* fd) {
     constexpr uint32_t kCDCMagic = 0x54444357u;
     constexpr uint16_t kCDCMajorVersion = 0x01u;
@@ -338,6 +398,11 @@ CDCPersistentLog::~CDCPersistentLog() {
 // open / close
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Open.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: lk(), std::filesystem::create_directories(), message(), listSegmentSeqs(), empty(), back(), segmentPath(), std::fopen().
+ */
 void CDCPersistentLog::open() {
     std::lock_guard<std::mutex> lk(mutex_);
 
@@ -418,6 +483,10 @@ void CDCPersistentLog::open() {
     is_open_ = true;
 }
 
+/**
+ * @brief Close.
+ * @details Calls: lk(), std::fflush(), std::fclose().
+ */
 void CDCPersistentLog::close() {
     std::lock_guard<std::mutex> lk(mutex_);
     if (active_fd_) {
@@ -432,6 +501,12 @@ void CDCPersistentLog::close() {
 // append
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Append.
+ * @param[in] event Input parameter.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: toJson(), dump(), lk(), segmentPath(), std::fopen(), c_str(), writeSegmentHeader(), size().
+ */
 void CDCPersistentLog::append(const ChangeEvent& event) {
     const std::string payload = event.toJson().dump();
 
@@ -477,6 +552,12 @@ void CDCPersistentLog::append(const ChangeEvent& event) {
 // replayAll / replaySegment
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Replay File.
+ * @param[in] path Input parameter.
+ * @return Return value.
+ * @details Calls: std::fopen(), c_str(), validateSegmentHeaderFile(), std::fclose(), std::fread(), payload(), data(), computeCRC32().
+ */
 static std::vector<ChangeEvent> replayFile(const std::string& path) {
     std::vector<ChangeEvent> events;
 
@@ -522,6 +603,11 @@ static std::vector<ChangeEvent> replayFile(const std::string& path) {
 std::vector<ChangeEvent> CDCPersistentLog::replayAll() const {
     std::vector<uint64_t> seqs;
     {
+        /**
+         * @brief Lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(mutex_);
         seqs = listSegmentSeqs();
     }
@@ -538,6 +624,11 @@ std::vector<ChangeEvent> CDCPersistentLog::replayAll() const {
 std::vector<ChangeEvent> CDCPersistentLog::replaySegment(uint64_t seq) const {
     std::vector<uint64_t> seqs;
     {
+        /**
+         * @brief Lk.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lk(mutex_);
         seqs = listSegmentSeqs();
     }
@@ -554,6 +645,11 @@ std::vector<ChangeEvent> CDCPersistentLog::replaySegment(uint64_t seq) const {
 // ---------------------------------------------------------------------------
 
 uint64_t CDCPersistentLog::segmentCount() const noexcept {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     return static_cast<uint64_t>(listSegmentSeqs().size());
 }
@@ -567,6 +663,11 @@ uint64_t CDCPersistentLog::totalEventsAppended() const noexcept {
 }
 
 bool CDCPersistentLog::isOpen() const noexcept {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     return is_open_;
 }
@@ -648,6 +749,10 @@ std::vector<uint64_t> CDCPersistentLog::listSegmentSeqs() const {
     return computeCRC32(data.data(),data.size());
 }
 
+/**
+ * @brief Rotate.
+ * @details Calls: std::fflush(), std::fclose(), segmentPath(), std::fopen(), c_str(), writeSegmentHeader().
+ */
 void CDCPersistentLog::rotate() {
     // Flush and close current segment.
     if (active_fd_) {

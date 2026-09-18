@@ -38,13 +38,9 @@ namespace utils { class AuditLogger; }
 // Configuration formats:
 // - Supports JSON and YAML files for loading policies. Saving currently writes JSON.
 
-/** @brief - Supports JSON and YAML files for loading policies. Saving currently writes JSON. */
 class PolicyEngine {
 public:
     struct Config {
-        /// Maximum number of policies the engine will hold.
-        /// addPolicy() throws std::length_error when the limit is reached.
-        /// 0 means unlimited (default).
         size_t max_policies = 0;
     };
 
@@ -70,16 +66,21 @@ public:
         std::string reason;             // explanation
     };
 
-    /**
-     * @brief Pluggable policy evaluator interface for external engines (e.g. OPA).
-     *
-     * Implement this interface and pass it to setOpaEvaluator() to route
-     * authorization decisions through an external policy agent.
-     * evaluate() returns std::nullopt when the external evaluator is
-     * unavailable so PolicyEngine can fall back to native evaluation.
-     */
     struct IPolicyEvaluator {
+        /**
+         * @brief IPolicy Evaluator.
+         * @return Return value.
+         */
         virtual ~IPolicyEvaluator() = default;
+        /**
+         * @brief Evaluate.
+         * @param[in] user_id Identifier of the user.
+         * @param[in] action Input parameter.
+         * @param[in] resource_path Path to the resource.
+         * @param[in] client_ip Input parameter.
+         * @param[in] user_agent Input parameter.
+         * @return Return value.
+         */
         virtual std::optional<Decision> evaluate(
             const std::string& user_id,
             const std::string& action,
@@ -92,7 +93,6 @@ public:
         std::atomic<uint64_t> policy_allow_total{0};
         std::atomic<uint64_t> policy_deny_total{0};
         std::atomic<uint64_t> policy_eval_total{0};
-        /// Incremented each time OPA is unavailable and native evaluation is used instead.
         std::atomic<uint64_t> opa_fallback_total{0};
     };
 
@@ -104,28 +104,32 @@ public:
     // Save policies to JSON file
     bool saveToFile(const std::string& path, std::string* err = nullptr) const;
 
-    /**
-     * @brief Reload policies from the file last passed to loadFromFile().
-     *
-     * Checks whether the file's modification time has changed since the last
-     * load.  If it has, the file is re-read and the in-memory policy set is
-     * atomically replaced.  If the path is empty or the file has not changed
-     * the method is a fast no-op.
-     *
-     * @param err  Optional: populated with a human-readable error string on
-     *             failure (file read error, parse error, etc.).
-     * @return true  if the policies were successfully reloaded (or were already
-     *              up-to-date), false on error.
-     */
     bool reloadIfChanged(std::string* err = nullptr);
 
     // Replace all policies
+    /**
+     * @brief Set Policies.
+     * @param[in] policies Input parameter.
+     */
     void setPolicies(std::vector<Policy> policies);
     // Append single policy
+    /**
+     * @brief Add Policy.
+     * @param[in] p Input parameter.
+     */
     void addPolicy(const Policy& p);
     // Remove by id
+    /**
+     * @brief Remove a retention policy by name.
+     * @param[in] id Input parameter.
+     * @return True when the policy existed and was removed.
+     */
     bool removePolicy(const std::string& id);
     // List
+    /**
+     * @brief List Policies.
+     * @return Return value.
+     */
     std::vector<Policy> listPolicies() const;
 
     // Evaluate
@@ -138,35 +142,62 @@ public:
     const Metrics& getMetrics() const { return metrics_; }
 
     /**
-     * @brief Attach an AuditLogger that will receive POLICY_UPDATED events
-     *        whenever policies are added, removed, or reloaded.
-     *
-     * Pass nullptr to detach.  The PolicyEngine does NOT take ownership; the
-     * caller must ensure the logger outlives the engine.
+     * @brief Set Audit Logger.
+     * @param[in,out] logger Input/output parameter.
+     * @details Implements setAuditLogger without additional internal calls.
      */
     void setAuditLogger(utils::AuditLogger* logger) { audit_logger_ = logger; }
 
     /**
-     * @brief Attach an external policy evaluator (e.g. OPA) for fine-grained ABAC.
-     *
-     * When set, authorize() calls evaluator->evaluate() first.  If the
-     * evaluator returns std::nullopt (OPA unreachable / timeout), native
-     * PolicyEngine evaluation is used as a fallback and
-     * metrics_.opa_fallback_total is incremented.
-     *
-     * Pass nullptr to detach.  The PolicyEngine does NOT take ownership; the
-     * caller must ensure the evaluator outlives the engine.
+     * @brief Set Opa Evaluator.
+     * @param[in,out] evaluator Input/output parameter.
+     * @details Implements setOpaEvaluator without additional internal calls.
      */
     void setOpaEvaluator(IPolicyEvaluator* evaluator) { opa_evaluator_ = evaluator; }
 
     // JSON helpers
+    /**
+     * @brief To Json.
+     * @param[in] p Input parameter.
+     * @return Return value.
+     */
     static nlohmann::json toJson(const Policy& p);
+    /**
+     * @brief From Json.
+     * @param[in] j Input parameter.
+     * @return Return value.
+     */
     static std::optional<Policy> fromJson(const nlohmann::json& j);
 
 private:
+    /**
+     * @brief Match Subject.
+     * @param[in] p Input parameter.
+     * @param[in] user_id Identifier of the user.
+     * @return True when the operation succeeds.
+     */
     bool matchSubject(const Policy& p, const std::string& user_id) const;
+    /**
+     * @brief Match Action.
+     * @param[in] p Input parameter.
+     * @param[in] action Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool matchAction(const Policy& p, const std::string& action) const;
+    /**
+     * @brief Match Resource.
+     * @param[in] p Input parameter.
+     * @param[in] resource_path Path to the resource.
+     * @return True when the operation succeeds.
+     */
     bool matchResource(const Policy& p, const std::string& resource_path) const;
+    /**
+     * @brief Match Conditions.
+     * @param[in] p Input parameter.
+     * @param[in] client_ip Input parameter.
+     * @param[in] user_agent Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool matchConditions(const Policy& p,
                          const std::optional<std::string>& client_ip,
                          const std::optional<std::string>& user_agent) const;

@@ -21,6 +21,12 @@ namespace llm {
 // Internal helpers
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Add Rule.
+ * @param[in] rule Input parameter.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: compiled(), push_back(), std::move(), what().
+ */
 void PromptPolicy::addRule(PolicyRule rule) {
     // Compile the regex eagerly so callers get an error at configuration time,
     // not at request time.
@@ -39,11 +45,24 @@ void PromptPolicy::addRule(PolicyRule rule) {
 // Public API
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Add Block Rule.
+ * @param[in] name Input parameter.
+ * @param[in] pattern Input parameter.
+ * @details Calls: addRule().
+ */
 void PromptPolicy::addBlockRule(const std::string& name,
                                 const std::string& pattern) {
     addRule({name, pattern, /*block=*/true});
 }
 
+/**
+ * @brief Add Redact Rule.
+ * @param[in] name Input parameter.
+ * @param[in] pattern Input parameter.
+ * @param[in] replacement Input parameter.
+ * @details Calls: r(), addRule(), std::move().
+ */
 void PromptPolicy::addRedactRule(const std::string& name,
                                  const std::string& pattern,
                                  const std::string& replacement) {
@@ -51,6 +70,12 @@ void PromptPolicy::addRedactRule(const std::string& name,
     addRule(std::move(r));
 }
 
+/**
+ * @brief Remove Rule.
+ * @param[in] name Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: std::find_if(), begin(), end(), erase().
+ */
 bool PromptPolicy::removeRule(const std::string& name) {
     auto it = std::find_if(rules_.begin(), rules_.end(),
                            [&](const CompiledRule& cr) {

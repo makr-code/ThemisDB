@@ -403,6 +403,13 @@ TrendResult TemporalAggregator::analyzeTrend(
 // Private helpers
 // ============================================================================
 
+/**
+ * @brief Extract Measure.
+ * @param[in] doc Input parameter.
+ * @param[in] field Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), find(), end(), is_number().
+ */
 std::optional<double> TemporalAggregator::extractMeasure(
     const Document& doc, const std::string& field) {
 
@@ -419,6 +426,14 @@ std::optional<double> TemporalAggregator::extractMeasure(
     return std::nullopt;
 }
 
+/**
+ * @brief Apply Func.
+ * @param[in] func Input parameter.
+ * @param[in] values Input parameter.
+ * @param[in] count Input parameter.
+ * @return Return value.
+ * @details Calls: std::accumulate(), begin(), end(), empty(), size(), std::min_element(), std::max_element(), front().
+ */
 double TemporalAggregator::applyFunc(AggregateFunc func,
                                       const std::vector<double>& values,
                                       size_t count) {
@@ -456,7 +471,15 @@ double TemporalAggregator::applyFunc(AggregateFunc func,
     return 0.0;
 }
 
-// ── TUMBLING ─────────────────────────────────────────────────────────────────
+/**
+ * @brief ── TUMBLING ─────────────────────────────────────────────────────────────────
+ * @param[in] rows Input parameter.
+ * @param[in] spec Input parameter.
+ * @param[in] from Input parameter.
+ * @param[in] to Input parameter.
+ * @return Return value.
+ * @details Calls: extractMeasure(), has_value(), emplace_back(), push_back(), empty(), std::sort(), begin(), end().
+ */
 
 std::vector<AggregateResult> TemporalAggregator::computeTumbling(
     const std::vector<VersionedDocument>& rows,
@@ -519,7 +542,15 @@ std::vector<AggregateResult> TemporalAggregator::computeTumbling(
     return results;
 }
 
-// ── SLIDING ───────────────────────────────────────────────────────────────────
+/**
+ * @brief ── SLIDING ───────────────────────────────────────────────────────────────────
+ * @param[in] rows Input parameter.
+ * @param[in] spec Input parameter.
+ * @param[in] from Input parameter.
+ * @param[in] to Input parameter.
+ * @return Return value.
+ * @details Calls: extractMeasure(), has_value(), emplace_back(), push_back(), empty(), std::sort(), begin(), end().
+ */
 
 std::vector<AggregateResult> TemporalAggregator::computeSliding(
     const std::vector<VersionedDocument>& rows,
@@ -584,7 +615,15 @@ std::vector<AggregateResult> TemporalAggregator::computeSliding(
     return results;
 }
 
-// ── SESSION ───────────────────────────────────────────────────────────────────
+/**
+ * @brief ── SESSION ───────────────────────────────────────────────────────────────────
+ * @param[in] rows Input parameter.
+ * @param[in] spec Input parameter.
+ * @param[in] from Input parameter.
+ * @param[in] to Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), isSet(), std::sort(), begin(), end(), clear(), push_back(), applyFunc().
+ */
 
 std::vector<AggregateResult> TemporalAggregator::computeSession(
     const std::vector<VersionedDocument>& rows,

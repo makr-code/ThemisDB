@@ -347,13 +347,12 @@ public:
     ANNKernelDispatch populateANNDispatch() const override;
 
     /**
-     * @brief ------------------------------------------------------------------------- HNSW Graph-based ANN index management buildHnswAnnIndex() uploads a pre-built multi-layer HNSW graph and the associated flat vector store to the GPU (or falls back to CPU if no CUDA device is available).
+     * @brief Build Hnsw Ann Index.
      * @param[in] layers Input parameter.
      * @param[in] vectors Input parameter.
      * @param[in] numVectors Input parameter.
      * @param[in] dim Input parameter.
      * @return True when the operation succeeds.
-     * @details Once built, subsequent calls to batchKnnSearch() and annBatchSearch() use the HNSW traversal path instead of the brute- force flat-search kernel. Parameters: layers — Multi-layer HNSW graph in CSR format (index 0 = bottom). vectors — Row-major flat float array [numVectors × dim]. numVectors — Number of vectors indexed. dim — Vector dimensionality. Returns true on success; false if the engine could not upload the data (the backend remains usable in brute-force fallback mode). -------------------------------------------------------------------------
      */
     bool buildHnswAnnIndex(const std::vector<HnswLayerGraph>& layers,
                            const float* vectors,
@@ -388,9 +387,8 @@ public:
     bool isHnswIndexBuilt() const noexcept;
 
     /**
-     * @brief ------------------------------------------------------------------------- Visited bitset pool tuning setMaxBatchSize() controls the size of the persistent visited bitset pool allocated in the HNSW engine during buildHnswAnnIndex().
+     * @brief Set Max Batch Size.
      * @param[in] n Input parameter.
-     * @details The pool is sized as maxBatchSize × ceil(numNodes / 8) bytes and lives for the lifetime of the index. Calling setMaxBatchSize() before buildHnswAnnIndex() is the recommended usage pattern; calling it after the index has been built has no effect until the next buildHnswAnnIndex(). Default: 512 queries. Pool allocation must not exceed BackendCapabilities::maxMemoryBytes. If the computed pool size would exceed that limit, the effective maxBatchSize is clamped automatically during buildHnswAnnIndex(). -------------------------------------------------------------------------
      */
     void setMaxBatchSize(size_t n);
 

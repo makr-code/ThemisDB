@@ -53,39 +53,8 @@ namespace server {
 namespace beast = boost::beast;
 namespace http = beast::http;
 
-/**
- * @brief Handler for Query Operations
- * 
- * This handler manages all query-related endpoints:
- * - POST /query - Execute a structured query
- * - POST /query/aql - Execute an AQL (Advanced Query Language) query
- * - POST /query/enhanced - Execute query with LLM context enhancement (Enterprise feature)
- * 
- * Features:
- * - Query validation and optimization
- * - AQL parsing and translation
- * - Semantic caching support
- * - LLM-enhanced queries (optional)
- * - Result set pagination
- * - Query statistics and profiling
- * 
- * Extracted from http_server.cpp (~850 lines) to improve maintainability.
- */
 class QueryApiHandler {
 public:
-    /**
-     * @brief Construct a new Query API Handler
-     * 
-     * @param storage Storage backend
-     * @param secondary_index Secondary index manager
-     * @param graph_index Graph index manager
-     * @param field_encryption Field encryption handler
-     * @param key_provider Key provider for encryption
-     * @param semantic_cache Semantic cache for query results
-     * @param llm_store LLM interaction store (optional)
-     * @param prompt_manager Prompt template manager (optional)
-     * @param auth Authentication/authorization middleware
-     */
     QueryApiHandler(
         std::shared_ptr<RocksDBWrapper> storage,
         std::shared_ptr<SecondaryIndexManager> secondary_index,
@@ -101,89 +70,41 @@ public:
     );
 
     /**
-     * @brief Handle POST /query request
-     * 
-     * Executes a structured query with filters, projections, and sorting.
-        * Supports optional request timeouts via `timeout_ms` in the request body.
-        *
-        * Timeout behavior:
-        * - `timeout_ms == 0`: no handler-level timeout enforcement
-        * - `timeout_ms > 0`: handler aborts long-running response materialization with HTTP 408
-        * - values above the server limit are rejected with HTTP 400
-     * 
-     * @param req HTTP request with query specification
-     * @return HTTP response with query results
+     * @brief Handle Query.
+     * @param[in] req Input parameter.
+     * @return Return value.
      */
     http::response<http::string_body> handleQuery(const http::request<http::string_body>& req);
 
     /**
-     * @brief Handle POST /query/aql request
-     * 
-     * Executes an AQL query string. Supports complex joins, aggregations, and sub-queries.
-     * 
-     * @param req HTTP request with AQL query string
-     * @return HTTP response with query results
+     * @brief Handle Query Aql.
+     * @param[in] req Input parameter.
+     * @return Return value.
      */
     http::response<http::string_body> handleQueryAql(const http::request<http::string_body>& req);
 
     /**
-     * @brief Handle POST /query/enhanced request (Enterprise)
-     * 
-     * Executes a query with LLM context enhancement for improved results.
-     * 
-     * @param req HTTP request with query and LLM context
-     * @return HTTP response with enhanced query results
+     * @brief Handle Query Enhanced.
+     * @param[in] req Input parameter.
+     * @return Return value.
      */
     http::response<http::string_body> handleQueryEnhanced(const http::request<http::string_body>& req);
 
     /**
-     * @brief Handle GET /v2/query/stream request (SSE streaming)
-     *
-     * Executes an AQL query and streams each result row as a Server-Sent Event.
-     * The AQL query string is passed via the `q` URL query parameter.
-     *
-     * Optional parameters:
-     *   - max_seconds (int, 1-60): maximum stream duration; default 30
-     *   - heartbeat_ms (int, 100-60000): heartbeat comment interval; default 15000
-     *   - retry_ms (int, 100-120000): SSE reconnect hint; default 3000
-     *
-     * @param req HTTP request
-     * @return HTTP response with Content-Type: text/event-stream
+     * @brief Handle Query Stream Sse.
+     * @param[in] req Input parameter.
+     * @return Return value.
      */
     http::response<http::string_body> handleQueryStreamSse(const http::request<http::string_body>& req);
 
-    /**
-     * @brief Inject a StatisticsCollector for cardinality-based predicate ordering.
-     *
-     * When set, every local QueryEngine created by this handler receives the
-     * collector so that equality predicates are sorted by selectivity before
-     * execution.  The pointer is non-owning; the caller manages lifetime.
-     */
     void setStatisticsCollector(StatisticsCollector* sc) noexcept {
         stats_collector_.store(sc, std::memory_order_release);
     }
 
-    /**
-     * @brief Inject an IndexRecommender for access-pattern recording.
-     *
-     * When set, every successful AQL translation records the accessed columns
-     * in the recommender so that `GET /api/v1/metadata/index_recommendations`
-     * can suggest beneficial indexes.
-     *
-     * The pointer is non-owning; the caller manages the lifetime.
-     * Pass nullptr to disable recording.
-     */
     void setIndexRecommender(metadata::IndexRecommender* rec) noexcept {
         index_recommender_.store(rec, std::memory_order_release);
     }
 
-    /**
-     * @brief Inject a QueryMaskingPolicy for dynamic PII masking of query results.
-     *
-     * When set, entity results are passed through the masking policy before
-     * being serialised in the response.  The caller owns the policy lifetime.
-     * Pass nullptr to disable masking.
-     */
     void setQueryMaskingPolicy(
         std::shared_ptr<security::QueryMaskingPolicy> policy) noexcept {
         std::atomic_store_explicit(&masking_policy_, std::move(policy), std::memory_order_release);
@@ -206,12 +127,34 @@ private:
     std::shared_ptr<security::QueryMaskingPolicy> masking_policy_;  ///< Optional PII masking
 
     // Helper methods
+    /**
+     * @brief Make Error Response.
+     * @param[in] status Input parameter.
+     * @param[in] message Input parameter.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> makeErrorResponse(
         http::status status, const std::string& message, const http::request<http::string_body>& req);
+    /**
+     * @brief Make Response.
+     * @param[in] status Input parameter.
+     * @param[in] body Input parameter.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> makeResponse(
         http::status status, const std::string& body, const http::request<http::string_body>& req);
     
     // Authorization helper
+    /**
+     * @brief Require Access.
+     * @param[in] req Input parameter.
+     * @param[in] permission Input parameter.
+     * @param[in] resource_type Input parameter.
+     * @param[in] resource_id Identifier of the resource.
+     * @return Return value.
+     */
     std::optional<http::response<http::string_body>> requireAccess(
         const http::request<http::string_body>& req,
         const std::string& permission,
@@ -223,9 +166,19 @@ private:
         std::string user_id;
         std::vector<std::string> groups;
     };
+    /**
+     * @brief Extract Auth Context.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     AuthContext extractAuthContext(const http::request<http::string_body>& req);
 
-    // Apply QueryMaskingPolicy to a JSON entities array if policy is configured.
+    /**
+     * @brief Apply Masking.
+     * @param[in] entities Input parameter.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     nlohmann::json applyMasking(
         const nlohmann::json& entities,
         const http::request<http::string_body>& req);

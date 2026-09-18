@@ -46,6 +46,13 @@ CapabilityMatcher::CapabilityMatcher()
 {
 }
 
+/**
+ * @brief Match.
+ * @param[in] query Input parameter.
+ * @param[in] shards Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), buildIDF(), matchShard(), push_back(), std::sort(), begin(), end().
+ */
 std::vector<CapabilityMatchResult> CapabilityMatcher::match(
     const QueryContext& query,
     const std::vector<ShardInfo>& shards
@@ -82,6 +89,13 @@ std::vector<CapabilityMatchResult> CapabilityMatcher::match(
     return results;
 }
 
+/**
+ * @brief Match Shard.
+ * @param[in] query Input parameter.
+ * @param[in] shard Input parameter.
+ * @return Return value.
+ * @details Calls: isEmpty(), empty(), getAllKeywords(), calculateKeywordScore(), calculateSemanticScore(), calculateDomainScore(), calculateOrganizationScore(), calculateRegionScore().
+ */
 CapabilityMatchResult CapabilityMatcher::matchShard(
     const QueryContext& query,
     const ShardInfo& shard
@@ -152,6 +166,12 @@ CapabilityMatchResult CapabilityMatcher::matchShard(
     return result;
 }
 
+/**
+ * @brief Extract Keywords.
+ * @param[in] query_text Input parameter.
+ * @return Return value.
+ * @details Calls: stream(), normalize(), erase(), std::remove_if(), begin(), end(), std::ispunct(), empty().
+ */
 std::vector<std::string> CapabilityMatcher::extractKeywords(const std::string& query_text) {
     std::vector<std::string> keywords;
     std::string word = {};
@@ -178,6 +198,11 @@ std::vector<std::string> CapabilityMatcher::extractKeywords(const std::string& q
     return keywords;
 }
 
+/**
+ * @brief Build IDF.
+ * @param[in] shards Input parameter.
+ * @details Calls: clear(), size(), isEmpty(), empty(), getAllKeywords(), normalize(), std::log().
+ */
 void CapabilityMatcher::buildIDF(const std::vector<ShardInfo>& shards) {
     idf_cache_.clear();
     total_shards_ = shards.size();
@@ -222,6 +247,14 @@ nlohmann::json CapabilityMatcher::getStatistics() const {
     };
 }
 
+/**
+ * @brief Calculate Keyword Score.
+ * @param[in] query_keywords Input parameter.
+ * @param[in] shard_keywords Input parameter.
+ * @param[in,out] matched_keywords Input/output parameter.
+ * @return Return value.
+ * @details Calls: empty(), insert(), normalize(), jaccardSimilarity(), calculateTF(), getIDF(), shard_kw_vec(), begin().
+ */
 double CapabilityMatcher::calculateKeywordScore(
     const std::vector<std::string>& query_keywords,
     const std::set<std::string>& shard_keywords,
@@ -293,6 +326,13 @@ double CapabilityMatcher::calculateKeywordScore(
     return std::max(0.0, std::min(1.0, score));
 }
 
+/**
+ * @brief Calculate Semantic Score.
+ * @param[in] query_embedding Input parameter.
+ * @param[in] shard_embedding Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), size(), std::sqrt(), std::max(), std::min().
+ */
 double CapabilityMatcher::calculateSemanticScore(
     const std::vector<float>& query_embedding,
     const std::vector<float>& shard_embedding
@@ -330,6 +370,14 @@ double CapabilityMatcher::calculateSemanticScore(
     return std::max(0.0, std::min(1.0, similarity));
 }
 
+/**
+ * @brief Calculate Domain Score.
+ * @param[in] query_domains Input parameter.
+ * @param[in] shard_domains Input parameter.
+ * @param[in,out] matched_domains Input/output parameter.
+ * @return Return value.
+ * @details Calls: insert(), normalize(), find(), end(), push_back(), jaccardSimilarity().
+ */
 double CapabilityMatcher::calculateDomainScore(
     const std::vector<std::string>& query_domains,
     const std::vector<std::string>& shard_domains,
@@ -357,6 +405,14 @@ double CapabilityMatcher::calculateDomainScore(
     return jaccardSimilarity(query_set, shard_set);
 }
 
+/**
+ * @brief Calculate Organization Score.
+ * @param[in] query_orgs Input parameter.
+ * @param[in] shard_orgs Input parameter.
+ * @param[in,out] matched_orgs Input/output parameter.
+ * @return Return value.
+ * @details Calls: insert(), normalize(), find(), end(), push_back(), jaccardSimilarity().
+ */
 double CapabilityMatcher::calculateOrganizationScore(
     const std::vector<std::string>& query_orgs,
     const std::vector<std::string>& shard_orgs,
@@ -384,6 +440,14 @@ double CapabilityMatcher::calculateOrganizationScore(
     return jaccardSimilarity(query_set, shard_set);
 }
 
+/**
+ * @brief Calculate Region Score.
+ * @param[in] query_regions Input parameter.
+ * @param[in] shard_regions Input parameter.
+ * @param[in,out] matched_regions Input/output parameter.
+ * @return Return value.
+ * @details Calls: insert(), normalize(), find(), end(), push_back(), jaccardSimilarity().
+ */
 double CapabilityMatcher::calculateRegionScore(
     const std::vector<std::string>& query_regions,
     const std::vector<std::string>& shard_regions,
@@ -411,6 +475,14 @@ double CapabilityMatcher::calculateRegionScore(
     return jaccardSimilarity(query_set, shard_set);
 }
 
+/**
+ * @brief Calculate Data Type Score.
+ * @param[in] query_types Input parameter.
+ * @param[in] shard_types Input parameter.
+ * @param[in,out] matched_types Input/output parameter.
+ * @return Return value.
+ * @details Calls: insert(), normalize(), find(), end(), push_back(), jaccardSimilarity().
+ */
 double CapabilityMatcher::calculateDataTypeScore(
     const std::vector<std::string>& query_types,
     const std::vector<std::string>& shard_types,
@@ -438,6 +510,13 @@ double CapabilityMatcher::calculateDataTypeScore(
     return jaccardSimilarity(query_set, shard_set);
 }
 
+/**
+ * @brief Calculate TF.
+ * @param[in] term Input parameter.
+ * @param[in] keywords Input parameter.
+ * @return Return value.
+ * @details Calls: normalize(), empty(), size().
+ */
 double CapabilityMatcher::calculateTF(
     const std::string& term, 
     const std::vector<std::string>& keywords

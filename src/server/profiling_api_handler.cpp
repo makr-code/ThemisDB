@@ -30,6 +30,12 @@ ProfilingApiHandler::ProfilingApiHandler(
       storage_profiler_(storage_profiler),
       analyzer_(analyzer) {}
 
+/**
+ * @brief Handle request.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), target(), method(), handle_enable(), handle_disable(), find(), handle_get_queries(), handle_get_slow_queries().
+ */
 http::response<http::string_body> ProfilingApiHandler::handle_request(
     const http::request<http::string_body>& req) {
     auto span = Tracer::startSpan("handle_request");
@@ -72,6 +78,12 @@ http::response<http::string_body> ProfilingApiHandler::handle_request(
     return make_error_response(http::status::not_found, "Endpoint not found");
 }
 
+/**
+ * @brief Handle enable.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), enable(), make_response().
+ */
 http::response<http::string_body> ProfilingApiHandler::handle_enable(
     const http::request<http::string_body>& /*req*/) {
     auto span = Tracer::startSpan("handle_enable");
@@ -87,6 +99,12 @@ http::response<http::string_body> ProfilingApiHandler::handle_enable(
     return make_response(http::status::ok, response);
 }
 
+/**
+ * @brief Handle disable.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), disable(), make_response().
+ */
 http::response<http::string_body> ProfilingApiHandler::handle_disable(
     const http::request<http::string_body>& /*req*/) {
     auto span = Tracer::startSpan("handle_disable");
@@ -102,6 +120,12 @@ http::response<http::string_body> ProfilingApiHandler::handle_disable(
     return make_response(http::status::ok, response);
 }
 
+/**
+ * @brief Handle get queries.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), get_query_param_int(), std::string(), target(), make_error_response(), get_all_profiles(), std::sort(), begin().
+ */
 http::response<http::string_body> ProfilingApiHandler::handle_get_queries(
     const http::request<http::string_body>& req) {
     auto span = Tracer::startSpan("handle_get_queries");
@@ -134,6 +158,12 @@ http::response<http::string_body> ProfilingApiHandler::handle_get_queries(
     return make_response(http::status::ok, result);
 }
 
+/**
+ * @brief Handle get slow queries.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), get_query_param_int(), std::string(), target(), make_error_response(), get_slow_queries(), std::chrono::milliseconds(), json::array().
+ */
 http::response<http::string_body> ProfilingApiHandler::handle_get_slow_queries(
     const http::request<http::string_body>& req) {
     auto span = Tracer::startSpan("handle_get_slow_queries");
@@ -157,6 +187,12 @@ http::response<http::string_body> ProfilingApiHandler::handle_get_slow_queries(
     return make_response(http::status::ok, result);
 }
 
+/**
+ * @brief Handle get storage.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), get_operation_summary(), get_cache_metrics(), get_amplification_metrics(), get_latest_rocksdb_stats(), has_value(), toJSON(), make_response().
+ */
 http::response<http::string_body> ProfilingApiHandler::handle_get_storage(
     const http::request<http::string_body>& /*req*/) {
     auto span = Tracer::startSpan("handle_get_storage");
@@ -175,6 +211,12 @@ http::response<http::string_body> ProfilingApiHandler::handle_get_storage(
     return make_response(http::status::ok, result);
 }
 
+/**
+ * @brief Handle analyze.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), analyze(), make_response(), toJSON().
+ */
 http::response<http::string_body> ProfilingApiHandler::handle_analyze(
     const http::request<http::string_body>& /*req*/) {
     auto span = Tracer::startSpan("handle_analyze");
@@ -184,6 +226,12 @@ http::response<http::string_body> ProfilingApiHandler::handle_analyze(
     return make_response(http::status::ok, analysis.toJSON());
 }
 
+/**
+ * @brief Handle export.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), get_all_profiles(), get_rocksdb_stats_history(), json::array(), push_back(), toJSON(), get_statistics(), get_operation_summary().
+ */
 http::response<http::string_body> ProfilingApiHandler::handle_export(
     const http::request<http::string_body>& /*req*/) {
     auto span = Tracer::startSpan("handle_export");
@@ -211,6 +259,12 @@ http::response<http::string_body> ProfilingApiHandler::handle_export(
     return make_response(http::status::ok, result);
 }
 
+/**
+ * @brief Handle clear.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), clear(), make_response().
+ */
 http::response<http::string_body> ProfilingApiHandler::handle_clear(
     const http::request<http::string_body>& /*req*/) {
     auto span = Tracer::startSpan("handle_clear");
@@ -226,6 +280,12 @@ http::response<http::string_body> ProfilingApiHandler::handle_clear(
     return make_response(http::status::ok, response);
 }
 
+/**
+ * @brief Handle get config.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), get_config(), count(), make_response().
+ */
 http::response<http::string_body> ProfilingApiHandler::handle_get_config(
     const http::request<http::string_body>& /*req*/) {
     auto span = Tracer::startSpan("handle_get_config");
@@ -258,6 +318,13 @@ http::response<http::string_body> ProfilingApiHandler::handle_get_config(
     return make_response(http::status::ok, result);
 }
 
+/**
+ * @brief Handle set config.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: Tracer::startSpan(), json::parse(), body(), contains(), get_config(), std::chrono::milliseconds(), set_config(), make_response().
+ */
 http::response<http::string_body> ProfilingApiHandler::handle_set_config(
     const http::request<http::string_body>& req) {
     auto span = Tracer::startSpan("handle_set_config");
@@ -344,6 +411,13 @@ http::response<http::string_body> ProfilingApiHandler::handle_set_config(
     }
 }
 
+/**
+ * @brief Make response.
+ * @param[in] status Input parameter.
+ * @param[in] body Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), set(), body(), dump(), prepare_payload().
+ */
 http::response<http::string_body> ProfilingApiHandler::make_response(
     http::status status, const json& body) {
     auto span = Tracer::startSpan("make_response");
@@ -356,6 +430,13 @@ http::response<http::string_body> ProfilingApiHandler::make_response(
     return res;
 }
 
+/**
+ * @brief Make error response.
+ * @param[in] status Input parameter.
+ * @param[in] message Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), make_response().
+ */
 http::response<http::string_body> ProfilingApiHandler::make_error_response(
     http::status status, const std::string& message) {
     auto span = Tracer::startSpan("make_error_response");
@@ -367,6 +448,15 @@ http::response<http::string_body> ProfilingApiHandler::make_error_response(
     return make_response(status, error);
 }
 
+/**
+ * @brief Get query param int.
+ * @param[in] target Input parameter.
+ * @param[in] param_name Name of the param.
+ * @param[in] default_value Input parameter.
+ * @param[in,out] value Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: find(), size(), substr(), std::stoi(), THEMIS_WARN().
+ */
 bool ProfilingApiHandler::get_query_param_int(const std::string& target,
                                               const std::string& param_name,
                                               int default_value,

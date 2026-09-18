@@ -19,9 +19,6 @@
 namespace themis {
 namespace llm {
 
-/**
- * @brief Configuration for prompt optimization
- */
 struct OptimizationConfig {
     size_t max_iterations = 5;        ///< Maximum optimization rounds
     double min_improvement = 0.05;     ///< Minimum score improvement to continue
@@ -30,10 +27,11 @@ struct OptimizationConfig {
     size_t num_test_cases = 10;       ///< Number of test cases for evaluation
 };
 
-/**
- * @brief Prompt optimization result
- */
 struct OptimizationResult {
+    /**
+     * @brief Optimization Result.
+     * @return Return value.
+     */
     virtual ~OptimizationResult() = default;
     std::string optimized_prompt;      ///< Final optimized prompt
     double final_score = 0.0;          ///< Final evaluation score
@@ -44,58 +42,27 @@ struct OptimizationResult {
     nlohmann::json metadata;           ///< Additional metadata
 };
 
-/**
- * @brief Test case for prompt evaluation
- */
 struct TestCase {
     std::string input;                 ///< Input to the prompt
     std::string expected_output;       ///< Expected output
     nlohmann::json context;            ///< Additional context
 };
 
-/**
- * @brief Evaluation function type
- * Takes a prompt and test cases, returns a score (0.0-1.0)
- */
 using EvaluationFunction = std::function<double(
     const std::string& prompt,
     const std::vector<TestCase>& test_cases
 )>;
 
-/**
- * @brief Prompt improvement function type
- * Takes current prompt, score, and feedback, returns improved prompt
- */
 using ImprovementFunction = std::function<std::string(
     const std::string& current_prompt,
     double current_score,
     const std::string& feedback
 )>;
 
-/**
- * @brief Main prompt optimizer class
- * 
- * Implements iterative prompt improvement using:
- * - Feedback-driven refinement
- * - Multi-round optimization
- * - Version control and history tracking
- */
 class PromptOptimizer {
 public:
-    /**
-     * @brief Constructor
-     * @param config Optimization configuration
-     */
     explicit PromptOptimizer(const OptimizationConfig& config = OptimizationConfig{});
     
-    /**
-     * @brief Optimize a prompt using test cases
-     * @param initial_prompt Starting prompt template
-     * @param test_cases Test cases for evaluation
-     * @param eval_fn Evaluation function
-     * @param improve_fn Improvement function (optional, uses default if not provided)
-     * @return Optimization result
-     */
     OptimizationResult optimize(
         const std::string& initial_prompt,
         const std::vector<TestCase>& test_cases,
@@ -104,11 +71,11 @@ public:
     );
     
     /**
-     * @brief Generate feedback for a prompt based on evaluation
-     * @param prompt Current prompt
-     * @param score Current score
-     * @param test_cases Test cases
-     * @return Feedback string
+     * @brief Generate Feedback.
+     * @param[in] prompt Input parameter.
+     * @param[in] score Input parameter.
+     * @param[in] test_cases Input parameter.
+     * @return Return value.
      */
     std::string generateFeedback(
         const std::string& prompt,
@@ -117,11 +84,11 @@ public:
     ) const;
     
     /**
-     * @brief Default improvement function using meta-prompting
-     * @param current_prompt Current prompt
-     * @param current_score Current score
-     * @param feedback Feedback about the prompt
-     * @return Improved prompt
+     * @brief Default Improve Prompt.
+     * @param[in] current_prompt Input parameter.
+     * @param[in] current_score Input parameter.
+     * @param[in] feedback Input parameter.
+     * @return Return value.
      */
     static std::string defaultImprovePrompt(
         const std::string& current_prompt,
@@ -129,24 +96,19 @@ public:
         const std::string& feedback
     );
     
-    /**
-     * @brief Get optimization history
-     * @return Vector of (prompt, score) pairs
-     */
     std::vector<std::pair<std::string, double>> getHistory() const;
     
     /**
-     * @brief Clear optimization history
+     * @brief Clear History.
      */
     void clearHistory();
     
-    /**
-     * @brief Get current configuration
-     */
     const OptimizationConfig& getConfig() const { return config_; }
     
     /**
-     * @brief Update configuration
+     * @brief Set Config.
+     * @param[in] config Input parameter.
+     * @details Implements setConfig without additional internal calls.
      */
     void setConfig(const OptimizationConfig& config) { config_ = config; }
 
@@ -155,12 +117,18 @@ private:
     std::vector<std::pair<std::string, double>> history_;
     
     /**
-     * @brief Check if optimization should continue
+     * @brief Should Continue.
+     * @param[in] iteration Input parameter.
+     * @param[in] current_score Input parameter.
+     * @param[in] previous_score Input parameter.
+     * @return True when the operation succeeds.
      */
     bool shouldContinue(size_t iteration, double current_score, double previous_score) const;
     
     /**
-     * @brief Validate prompt quality
+     * @brief Validate Prompt.
+     * @param[in] prompt Input parameter.
+     * @return True when the operation succeeds.
      */
     bool validatePrompt(const std::string& prompt) const;
 };

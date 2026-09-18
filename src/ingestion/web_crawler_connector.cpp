@@ -43,8 +43,12 @@ namespace ingestion {
 
 namespace {
 
-/// Extracts the scheme+host portion from a URL, e.g. "https://example.com".
-/// Returns empty string on parse failure.
+/**
+ * @brief Url Origin.
+ * @param[in] url Input parameter.
+ * @return Return value.
+ * @details Calls: find(), substr().
+ */
 static std::string urlOrigin(const std::string& url) {
     // Find "://"
     auto scheme_end = url.find("://");
@@ -55,8 +59,12 @@ static std::string urlOrigin(const std::string& url) {
     return url.substr(0, host_end);
 }
 
-/// Returns true if the URL scheme is http or https (the only schemes this
-/// crawler is permitted to fetch, preventing SSRF via file://, ftp://, etc.).
+/**
+ * @brief Is Allowed Scheme.
+ * @param[in] url Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: find().
+ */
 static bool isAllowedScheme(const std::string& url) {
     if (url.find("http://") == 0) {
       return true;
@@ -67,8 +75,13 @@ static bool isAllowedScheme(const std::string& url) {
     return false;
 }
 
-/// Resolves a potentially relative href against a base URL.
-/// Returns the absolute URL, or empty string if the href is not usable.
+/**
+ * @brief Resolve Url.
+ * @param[in] base Input parameter.
+ * @param[in] href Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), find(), isAllowedScheme().
+ */
 static std::string resolveUrl(const std::string& base,
                                const std::string& href) {
     if (href.empty()) return {};
@@ -113,8 +126,12 @@ static std::string normaliseUrl(const std::string& url) {
     return (hash == std::string::npos) ? url : url.substr(0, hash);
 }
 
-/// Extracts plain text from an HTML body by stripping tags.
-/// Handles basic entity decoding for &amp; < > &quot; &apos;
+/**
+ * @brief Extracts plain text from an HTML body by stripping tags.
+ * @param[in] html Input parameter.
+ * @return Return value.
+ * @details Handles basic entity decoding for &amp; < > &quot; &apos; Calls: reserve(), size(), std::strlen(), std::tolower(), startsWithCI(), empty(), back(), substr().
+ */
 static std::string htmlToText(const std::string& html) {
     std::string text = {};
     text.reserve(html.size() / 2);
@@ -398,7 +415,15 @@ static bool isDisallowedByRobots(const std::string& url,
 }
 
 #ifdef THEMIS_ENABLE_CURL
-// libcurl write callback
+/**
+ * @brief libcurl write callback
+ * @param[in,out] ptr Input/output parameter.
+ * @param[in] size Input parameter.
+ * @param[in] nmemb Input parameter.
+ * @param[in,out] userdata Input/output parameter.
+ * @return Return value.
+ * @details Calls: append().
+ */
 static size_t webCrawlerWriteCallback(char* ptr, size_t size, size_t nmemb, void* userdata) {
     auto* buf = static_cast<std::string*>(userdata);
     buf->append(ptr, size * nmemb);
@@ -417,6 +442,12 @@ class WebCrawlerConnector::Impl {
 public:
     Impl() = default;
 
+    /**
+     * @brief Initialize.
+     * @param[in] config Input parameter.
+     * @return True when the operation succeeds.
+     * @details Calls: empty(), isAllowedScheme(), find(), end(), std::stoi(), opt(), std::stoul().
+     */
     bool initialize(const SourceConfig& config) {
         if (config.type != SourceType::WEB_CRAWLER) {
           return false;
@@ -463,6 +494,13 @@ public:
         return 0; // unknown before crawling
     }
 
+    /**
+     * @brief Ingest.
+     * @param[in] param Input parameter.
+     * @param[in] progress_callback Input parameter.
+     * @return Return value.
+     * @details Calls: addError(), urlOrigin(), empty(), fetchUrl(), parseRobotsTxt(), normaliseUrl(), count(), isDisallowedByRobots().
+     */
     IngestionStats ingest(const std::string& /*target_collection*/,
                           ProgressCallback progress_callback) {
         IngestionStats stats = {};
@@ -627,10 +665,20 @@ public:
         return stats;
     }
 
+    /**
+     * @brief Set Retry Config.
+     * @param[in] config Input parameter.
+     * @details Implements setRetryConfig without additional internal calls.
+     */
     void setRetryConfig(const RetryConfig& config) {
         retry_config_ = config;
     }
 
+    /**
+     * @brief Set Http Fetch For Testing.
+     * @param[in] fn Input parameter.
+     * @details Calls: std::move().
+     */
     void setHttpFetchForTesting(WebCrawlerConnector::HttpFetchFn fn) {
         mock_fetch_ = std::move(fn);
     }
@@ -694,6 +742,12 @@ WebCrawlerConnector::WebCrawlerConnector()
 
 WebCrawlerConnector::~WebCrawlerConnector() = default;
 
+/**
+ * @brief Initialize.
+ * @param[in] config Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements initialize without additional internal calls.
+ */
 bool WebCrawlerConnector::initialize(const SourceConfig& config) {
     return impl_->initialize(config);
 }
@@ -706,15 +760,32 @@ size_t WebCrawlerConnector::getDocumentCount() const {
     return impl_->getDocumentCount();
 }
 
+/**
+ * @brief Ingest.
+ * @param[in] target_collection Input parameter.
+ * @param[in] progress_callback Input parameter.
+ * @return Return value.
+ * @details Implements ingest without additional internal calls.
+ */
 IngestionStats WebCrawlerConnector::ingest(const std::string& target_collection,
                                             ProgressCallback progress_callback) {
     return impl_->ingest(target_collection, progress_callback);
 }
 
+/**
+ * @brief Set Retry Config.
+ * @param[in] config Input parameter.
+ * @details Implements setRetryConfig without additional internal calls.
+ */
 void WebCrawlerConnector::setRetryConfig(const RetryConfig& config) {
     impl_->setRetryConfig(config);
 }
 
+/**
+ * @brief Set Http Fetch For Testing.
+ * @param[in] fn Input parameter.
+ * @details Calls: std::move().
+ */
 void WebCrawlerConnector::setHttpFetchForTesting(HttpFetchFn fn) {
     impl_->setHttpFetchForTesting(std::move(fn));
 }

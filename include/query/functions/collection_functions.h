@@ -20,46 +20,14 @@ namespace themis {
 namespace query {
 namespace functions {
 
-// ============================================================================
-// Collection Constructor Functions with JSON-Native Support
-// ============================================================================
-// 
-// **IMPORTANT: Native Syntax vs Function Aliases**
-// 
-// AQL supports native literal syntax for creating collections:
-//   LET arr = [1, 2, 3]           -- Native array literal
-//   LET obj = { name: "Alice" }  -- Native object literal
-//   LET nested = [1, [2, 3]]     -- Native nested structures
-//
-// The functions ARRAY(), DICT(), TUPLE(), SET() are **ALIASES** that provide:
-// 1. **JSON-Native Parsing** - Parse JSON strings into collections
-//    ARRAY('[1, 2, 3]')  =>  [1, 2, 3]  (parses JSON string)
-// 2. **Explicit Type Coercion** - Ensure a value is a specific type
-//    ARRAY(singleValue)  =>  [singleValue]  (wrap in array)
-// 3. **Dynamic Construction** - Build from function results
-//    DICT(ENTRIES(otherObj))  =>  reconstructed object
-//
-// **Recommendation:**
-// - Use native syntax `[...]` and `{...}` for static literals
-// - Use functions when parsing JSON strings or need type coercion
-//
-// **Equivalence Table:**
-// | Native Syntax           | Function Alias                    |
-// |-------------------------|-----------------------------------|
-// | [1, 2, 3]               | ARRAY(1, 2, 3)                    |
-// | { name: "Alice" }       | DICT("name", "Alice")             |
-// | [[1], [2]]              | ARRAY([1], [2])                   |
-// | (JSON string)           | ARRAY('[1,2,3]') - parses string! |
-//
-// ============================================================================
-
 /**
- * @brief Helper to detect and parse JSON strings
+ * @brief ============================================================================ Collection Constructor Functions with JSON-Native Support ============================================================================ **IMPORTANT: Native Syntax vs Function Aliases** AQL supports native literal syntax for creating collections: LET arr = [1, 2, 3] -- Native array literal LET obj = { name: "Alice" } -- Native object literal LET nested = [1, [2, 3]] -- Native nested structures The functions ARRAY(), DICT(), TUPLE(), SET() are **ALIASES** that provide: 1.
  * @param[in] str Input parameter.
  * @param[in,out] out Input/output parameter.
- * @return True on success.
- * @details Calls: empty(), nlohmann::json::parse().
+ * @return True when the operation succeeds.
+ * @details **JSON-Native Parsing** - Parse JSON strings into collections ARRAY('[1, 2, 3]') => [1, 2, 3] (parses JSON string) 2. **Explicit Type Coercion** - Ensure a value is a specific type ARRAY(singleValue) => [singleValue] (wrap in array) 3. **Dynamic Construction** - Build from function results DICT(ENTRIES(otherObj)) => reconstructed object **Recommendation:** - Use native syntax `[...]` and `{...}` for static literals - Use functions when parsing JSON strings or need type coercion **Equivalence Table:** | Native Syntax | Function Alias | |-------------------------|-----------------------------------| | [1, 2, 3] | ARRAY(1, 2, 3) | | { name: "Alice" } | DICT("name", "Alice") | | [[1], [2]] | ARRAY([1], [2]) | | (JSON string) | ARRAY('[1,2,3]') - parses string! | ============================================================================ Calls: empty(), nlohmann::json::parse().
  */
+
 inline bool tryParseJson(const std::string& str, nlohmann::json& out) {
     if (str.empty()) {
       return false;
@@ -77,27 +45,6 @@ inline bool tryParseJson(const std::string& str, nlohmann::json& out) {
     }
 }
 
-/**
- * @brief ARRAY(...) - Alias/wrapper for array creation with JSON parsing
- * 
- * This function is an **ALIAS** for the native array syntax `[...]`.
- * Use it when you need JSON-native parsing or explicit type coercion.
- * 
- * **Native Syntax (preferred for static literals):**
- *   LET arr = [1, 2, 3]              -- Use this for static arrays
- * 
- * **Function Syntax (for JSON parsing/coercion):**
- *   ARRAY('[1, 2, 3]')               -- Parses JSON string
- *   ARRAY(singleValue)               -- Wraps in array
- * 
- * Examples:
- *   ARRAY(1, 2, 3)                    => [1, 2, 3]  (equivalent to [1, 2, 3])
- *   ARRAY('[1, 2, 3]')                => [1, 2, 3]  (JSON string parsed!)
- *   ARRAY("a", "b", "c")              => ["a", "b", "c"]
- *   ARRAY({a: 1}, {b: 2})             => [{a: 1}, {b: 2}]
- *   ARRAY(singleValue)                => [singleValue]  (type coercion)
- *   ARRAY()                           => []
- */
 class ArrayConstructorFunction : public IFunction {
 public:
     ~ArrayConstructorFunction() override = default;
@@ -167,19 +114,6 @@ public:
     }
 };
 
-/**
- * @brief DICT(...) - Create a dictionary/object (JSON-native)
- * 
- * Creates an object from key-value pairs OR parses a JSON string.
- * **Supports JSON-native parsing from strings.**
- * 
- * Examples:
- *   DICT("name", "Alice", "age", 30)  => {"name": "Alice", "age": 30}
- *   DICT('{"name": "Alice"}')         => {"name": "Alice"}  (JSON parsed)
- *   DICT("a", 1, "b", 2, "c", 3)      => {"a": 1, "b": 2, "c": 3}
- *   DICT()                            => {}
- *   DICT("nested", DICT('{"x": 1}'))  => {"nested": {"x": 1}}
- */
 class DictConstructorFunction : public IFunction {
 public:
     ~DictConstructorFunction() override = default;
@@ -280,18 +214,6 @@ public:
     }
 };
 
-/**
- * @brief JSON(string) - Parse JSON string
- * 
- * Parses a JSON string into a native value.
- * 
- * Examples:
- *   JSON('[1, 2, 3]')                 => [1, 2, 3]
- *   JSON('{"name": "Alice"}')         => {"name": "Alice"}
- *   JSON('null')                      => null
- *   JSON('123')                       => 123
- *   JSON('"text"')                    => "text"
- */
 // NOTE: renamed to avoid clashing with JSON_PATH functions' JsonParseFunction
 class JsonValueParseFunction : public IFunction {
 public:
@@ -327,15 +249,6 @@ public:
     }
 };
 
-/**
- * @brief TO_JSON(value) - Convert value to JSON string
- * 
- * Serializes a value to a JSON string.
- * 
- * Examples:
- *   TO_JSON([1, 2, 3])               => "[1,2,3]"
- *   TO_JSON({name: "Alice"})         => '{"name":"Alice"}'
- */
 class ToJsonFunction : public IFunction {
 public:
     ~ToJsonFunction() override = default;
@@ -1240,7 +1153,7 @@ public:
     /**
      * @brief Is Truthy.
      * @param[in] val Input parameter.
-     * @return True on success.
+     * @return True when the operation succeeds.
      * @details Calls: is_null(), is_boolean(), is_number(), is_string(), empty(), is_array(), is_object().
      */
     static bool isTruthy(const nlohmann::json& val) {
@@ -2101,7 +2014,7 @@ public:
 
 /**
  * @brief ============================================================================ Register Collection Functions ============================================================================
- * @param[in,out] reg Input/output parameter.
+ * @param[in,out] reg Input parameter.
  * @details Calls: registerFunction().
  */
 

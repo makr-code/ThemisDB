@@ -45,6 +45,13 @@ StoreBackedRoundTripEditor::StoreBackedRoundTripEditor(IDocumentStore& store,
                                                        CollectionId collection)
     : store_(store), collection_(std::move(collection)) {}
 
+/**
+ * @brief Begin Relay.
+ * @param[in] relay_id Identifier of the relay.
+ * @param[in] seed_document Input parameter.
+ * @return Return value.
+ * @details Calls: makeSnapshotId(), nowMs(), put(), tl::unexpected(), error().
+ */
 Result<void> StoreBackedRoundTripEditor::beginRelay(const std::string& relay_id,
                                                     const std::string& seed_document) {
     DocumentRecord record;
@@ -64,6 +71,15 @@ Result<void> StoreBackedRoundTripEditor::beginRelay(const std::string& relay_id,
     return {};
 }
 
+/**
+ * @brief Save Interaction.
+ * @param[in] relay_id Identifier of the relay.
+ * @param[in] interaction_index Input parameter.
+ * @param[in] instruction Input parameter.
+ * @param[in] document Input parameter.
+ * @return Return value.
+ * @details Calls: makeSnapshotId(), nowMs(), put(), tl::unexpected(), error().
+ */
 Result<void> StoreBackedRoundTripEditor::saveInteraction(
     const std::string& relay_id,
     std::size_t interaction_index,

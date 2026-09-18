@@ -56,9 +56,11 @@ void TimeSeries::ensure_sorted() const
     }
 }
 
-// ---------------------------------------------------------------------------
-// TimeSeries::append
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- TimeSeries::append ---------------------------------------------------------------------------
+ * @param[in] ts Input parameter.
+ * @param[in] value Input parameter.
+ */
 
 void TimeSeries::append(TimePoint ts, double value)
 {
@@ -70,9 +72,10 @@ void TimeSeries::append(TimePoint ts, double value)
     points_.push_back({ts, value});
 }
 
-// ---------------------------------------------------------------------------
-// TimeSeries::append_batch
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- TimeSeries::append_batch ---------------------------------------------------------------------------
+ * @param[in] batch Input parameter.
+ */
 
 void TimeSeries::append_batch(const std::vector<DataPoint>& batch)
 {
@@ -108,8 +111,13 @@ std::vector<DataPoint> TimeSeries::query_window(const TimeWindow& window) const
     DataPoint sentinel_end{window.end_ts, 0.0};
     auto hi = std::lower_bound(lo, points_.cend(), sentinel_end);
 
-    // Gap B012: previously iterated [lo, hi) without RangeValidator.
-    // Fix: wrap sub-range in RangeValidator.
+    /**
+     * @brief Gap B012: previously iterated [lo, hi) without RangeValidator.
+     * @param[in] lo Input parameter.
+     * @param[in] hi Input parameter.
+     * @return Return value.
+     * @details Fix: wrap sub-range in RangeValidator.
+     */
     RangeValidator<std::vector<DataPoint>::const_iterator> sub(lo, hi);
     if (sub.empty()) {
         return {};
@@ -153,6 +161,12 @@ std::vector<DataPoint> TimeSeries::page(std::size_t offset,
     auto it_end = it;
     AdvanceSafe::advance(it_end, static_cast<std::ptrdiff_t>(count), it, end);
 
+    /**
+     * @brief Sub.
+     * @param[in] it Input parameter.
+     * @param[in] it_end Input parameter.
+     * @return Return value.
+     */
     RangeValidator<std::vector<DataPoint>::const_iterator> sub(it, it_end);
 
     std::vector<DataPoint> result = {};

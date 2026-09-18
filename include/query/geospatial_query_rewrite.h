@@ -28,9 +28,6 @@ namespace query {
 // Forward declarations
 class ExecutionPlan;  // Placeholder for actual plan type
 
-/**
- * @brief Result of applying a rewrite rule
- */
 struct RewriteResult {
     bool applied = false;           // Was rule applied?
     bool valid = true;              // Is result semantically correct?
@@ -40,108 +37,58 @@ struct RewriteResult {
     explicit operator bool() const { return applied && valid; }
 };
 
-/**
- * @brief Spatial query rewrite rule engine
- * 
- * Implements 5 rewrite rules for optimizing spatial queries.
- */
 class GeospatialQueryRewriter {
 public:
     /**
-     * @brief Apply all applicable rewrite rules to plan
-     * 
-     * @param plan Query execution plan to optimize
-     * @param estimatedCostBefore Cost before rewriting (for validation)
-     * @return true if plan was modified
+     * @brief Optimize Query Plan.
+     * @param[in,out] plan Input/output parameter.
+     * @param[in] estimatedCostBefore Input parameter.
+     * @return True when the operation succeeds.
      */
     static bool optimizeQueryPlan(
         ExecutionPlan& plan,
         double estimatedCostBefore);
     
     /**
-     * @brief Rule 1: Index Path Reordering
-     * 
-     * Move indexed ST_CONTAINS before unindexed filters.
-     * Rationale: Filter early to reduce downstream processing.
-     * 
-     * Example:
-     *   Before: FILTER a > 5 AND ST_CONTAINS(loc, poly)
-     *   After:  FILTER ST_CONTAINS(loc, poly) AND a > 5
-     * 
-     * @return true if rule applied and plan was modified
+     * @brief Apply Index Path Reordering.
+     * @param[in,out] plan Input/output parameter.
+     * @return Return value.
      */
     static RewriteResult applyIndexPathReordering(ExecutionPlan& plan);
     
     /**
-     * @brief Rule 2: Distance-Based Ordering Optimization
-     * 
-     * Combine ST_DISTANCE with ORDER BY optimization.
-     * Use index to pre-sort results when possible.
-     * 
-     * Example:
-     *   Before: FILTER ST_DISTANCE(doc.loc, center) < 100
-     *           SORT BY ST_DISTANCE(doc.loc, center) ASC
-     *   After:  Use R-tree nearest-neighbor scan + pre-sorted results
-     * 
-     * @return true if rule applied
+     * @brief Apply Distance Ordering Optimization.
+     * @param[in,out] plan Input/output parameter.
+     * @return Return value.
      */
     static RewriteResult applyDistanceOrderingOptimization(ExecutionPlan& plan);
     
     /**
-     * @brief Rule 3: Intersection Optimization
-     * 
-     * Decompose ST_INTERSECTS into bounding box + interior check.
-     * Use index for bounding box, refine with geometry.
-     * 
-     * Example:
-     *   Before: ST_INTERSECTS(doc.geom, queryGeom)
-     *   After:  ST_BBOX_INTERSECTS(doc.geom, queryBBox)
-     *           AND ST_INTERSECTS_REFINED(doc.geom, queryGeom)
-     * 
-     * @return true if rule applied
+     * @brief Apply Intersection Optimization.
+     * @param[in,out] plan Input/output parameter.
+     * @return Return value.
      */
     static RewriteResult applyIntersectionOptimization(ExecutionPlan& plan);
     
     /**
-     * @brief Rule 4: Redundant Predicate Elimination
-     * 
-     * Recognize redundant predicates and eliminate.
-     * Example: ST_CONTAINS(...) AND ST_DISTANCE(...) < X is redundant
-     * if containment already implies distance constraint.
-     * 
-     * Example:
-     *   Before: ST_CONTAINS(doc.loc, bigPoly) AND ST_DISTANCE(doc.loc, center) < 10
-     *   After:  ST_CONTAINS(doc.loc, bigPoly)  (if bigPoly contains all points within 10km)
-     * 
-     * @return true if rule applied
+     * @brief Apply Redundant Predicate Elimination.
+     * @param[in,out] plan Input/output parameter.
+     * @return Return value.
      */
     static RewriteResult applyRedundantPredicateElimination(ExecutionPlan& plan);
     
     /**
-     * @brief Rule 5: Predicate Pushdown
-     * 
-     * Move spatial predicates closer to source.
-     * Example: Apply ST_DISTANCE filter before JOIN.
-     * 
-     * Example:
-     *   Before: docs JOIN other_docs ON ...
-     *           FILTER ST_DISTANCE(docs.loc, center) < 100
-     *   After:  docs.filtered := FILTER ST_DISTANCE(docs.loc, center) < 100
-     *           docs.filtered JOIN other_docs ON ...
-     * 
-     * @return true if rule applied
+     * @brief Apply Predicate Pushdown.
+     * @param[in,out] plan Input/output parameter.
+     * @return Return value.
      */
     static RewriteResult applyPredicatePushdown(ExecutionPlan& plan);
     
     /**
-     * @brief Validate transformed plan produces equivalent results
-     * 
-     * Checks:
-     * - Same columns returned
-     * - Same predicates enforced
-     * - Equivalent join conditions
-     * 
-     * @return true if plan is semantically equivalent
+     * @brief Validate Plan Equivalence.
+     * @param[in] originalPlan Input parameter.
+     * @param[in] transformedPlan Input parameter.
+     * @return True when the operation succeeds.
      */
     static bool validatePlanEquivalence(
         const ExecutionPlan& originalPlan,
@@ -149,12 +96,18 @@ public:
 
 private:
     /**
-     * @brief Check if a predicate can be indexed
+     * @brief Can Be Indexed.
+     * @param[in] predicateType Input parameter.
+     * @return True when the operation succeeds.
      */
     static bool canBeIndexed(const std::string& predicateType);
     
     /**
-     * @brief Estimate cost reduction for a transformation
+     * @brief Estimate Cost Reduction.
+     * @param[in] transformation Input parameter.
+     * @param[in] affectedRows Input parameter.
+     * @param[in] costBefore Input parameter.
+     * @return Return value.
      */
     static double estimateCostReduction(
         const std::string& transformation,
@@ -162,13 +115,18 @@ private:
         double costBefore);
     
     /**
-     * @brief Extract spatial predicates from plan
+     * @brief Extract Spatial Predicates.
+     * @param[in] plan Input parameter.
+     * @return Return value.
      */
     static std::vector<std::string> extractSpatialPredicates(
         const ExecutionPlan& plan);
     
     /**
-     * @brief Reorder predicates in filter
+     * @brief Reorder Filter Predicates.
+     * @param[in,out] plan Input/output parameter.
+     * @param[in] newOrder Input parameter.
+     * @return True when the operation succeeds.
      */
     static bool reorderFilterPredicates(
         ExecutionPlan& plan,

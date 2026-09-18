@@ -22,6 +22,11 @@ namespace security {
 // Singleton
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Get.
+ * @return Return value.
+ * @details Implements get without additional internal calls.
+ */
 PIIRedactionPolicy& PIIRedactionPolicy::get() {
     static PIIRedactionPolicy instance;
     return instance;
@@ -47,6 +52,12 @@ PIIRedactionPolicy::PIIRedactionPolicy()
 // Policy management
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Reload.
+ * @param[in] config_path Path to the retention policy configuration file.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), spdlog::info(), empty(), spdlog::warn().
+ */
 bool PIIRedactionPolicy::reload(const std::string& config_path) {
     std::lock_guard<std::mutex> lock(mutex_);
     if (detector_) {
@@ -63,10 +74,20 @@ bool PIIRedactionPolicy::reload(const std::string& config_path) {
 }
 
 bool PIIRedactionPolicy::isStrictMode() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return strict_mode_;
 }
 
+/**
+ * @brief Set Strict Mode.
+ * @param[in] strict Input parameter.
+ * @details Calls: lock().
+ */
 void PIIRedactionPolicy::setStrictMode(bool strict) {
     std::lock_guard<std::mutex> lock(mutex_);
     strict_mode_ = strict;
@@ -126,12 +147,22 @@ std::string PIIRedactionPolicy::applyRedaction(const std::string& text) const {
 // ---------------------------------------------------------------------------
 
 std::string PIIRedactionPolicy::redactForLog(const std::string& message) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return applyRedaction(message);
 }
 
 std::map<std::string, std::string> PIIRedactionPolicy::redactAttributes(
     const std::map<std::string, std::string>& attributes) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     std::map<std::string, std::string> result = {};
@@ -161,6 +192,11 @@ std::map<std::string, std::string> PIIRedactionPolicy::redactLabels(
 
 std::string PIIRedactionPolicy::redactAttributeValue(
     const std::string& key, const std::string& value) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     // Mirror the logic in redactAttributes() for a single key/value pair,
     // without the overhead of building a temporary map.

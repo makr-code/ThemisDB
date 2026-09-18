@@ -31,6 +31,13 @@
 
 namespace themis {
 
+/**
+ * @brief To Hex.
+ * @param[in] data Input parameter.
+ * @param[in] len Input parameter.
+ * @return Return value.
+ * @details Calls: std::setfill(), std::setw(), str().
+ */
 static std::string toHex(const uint8_t *data, size_t len) {
     std::ostringstream oss = {};
     oss << std::hex << std::setfill('0');
@@ -40,6 +47,12 @@ static std::string toHex(const uint8_t *data, size_t len) {
     return oss.str();
 }
 
+/**
+ * @brief Sha256 Hex.
+ * @param[in] data Input parameter.
+ * @return Return value.
+ * @details Calls: mdctx(), EVP_MD_CTX_new(), EVP_DigestInit_ex(), get(), EVP_sha256(), empty(), EVP_DigestUpdate(), data().
+ */
 std::string ContentFS::sha256Hex(const std::vector<uint8_t> &data) {
     unsigned char md[EVP_MAX_MD_SIZE];
     unsigned int mdLen = 0;
@@ -68,6 +81,15 @@ std::string ContentFS::sha256Hex(const std::vector<uint8_t> &data) {
     return toHex(md, mdLen);
 }
 
+/**
+ * @brief Put.
+ * @param[in] pk Input parameter.
+ * @param[in] data Input parameter.
+ * @param[in] mime Input parameter.
+ * @param[in] sha256_expected_hex Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), ErrVoid(), sha256Hex(), fmt::format(), size(), insert(), end(), begin().
+ */
 Result<void> ContentFS::put(const std::string &pk, const std::vector<uint8_t> &data, const std::string &mime,
                             const std::optional<std::string> &sha256_expected_hex) {
     if (pk.empty()) {
@@ -284,6 +306,12 @@ Result<ContentMeta> ContentFS::head(const std::string &pk) const {
     }
 }
 
+/**
+ * @brief Remove.
+ * @param[in] pk Input parameter.
+ * @return Return value.
+ * @details Calls: get(), metaKey(), nlohmann::json::from_cbor(), value(), del(), blobKey(), chunkKey(), OkVoid().
+ */
 Result<void> ContentFS::remove(const std::string &pk) {
     // Read meta to know if chunked
     uint64_t chunks = 0;

@@ -95,6 +95,13 @@ static const uint32_t crc32_table[256] = {
     0xB40BBE37, 0xC30C8EA1, 0x5A05DF1B, 0x2D02EF8D
 };
 
+/**
+ * @brief Calculate CRC32.
+ * @param[in] data Input parameter.
+ * @param[in] length Input parameter.
+ * @return Return value.
+ * @details Implements calculateCRC32 without additional internal calls.
+ */
 uint32_t calculateCRC32(const uint8_t* data, size_t length) {
     uint32_t crc = 0xFFFFFFFF;
     for (size_t i = 0; i < length; ++i) {
@@ -103,16 +110,6 @@ uint32_t calculateCRC32(const uint8_t* data, size_t length) {
     return crc ^ 0xFFFFFFFF;
 }
 
-/**
- * @brief Helper function to execute an operation with exponential backoff retry.
- * 
- * @tparam Func Callable that returns bool (true = success, false = transient failure)
- * @param func Operation to retry
- * @param max_retries Maximum number of retry attempts (default: 3)
- * @param initial_delay_ms Initial backoff delay in milliseconds (default: 100)
- * @param max_delay_ms Maximum backoff delay cap (default: 5000)
- * @return true if operation succeeded, false if all retries exhausted
- */
 template <typename Func>
 inline bool retryWithBackoff(
     Func&& func,
@@ -142,7 +139,11 @@ inline bool retryWithBackoff(
     return false;  // All retries exhausted
 }
 
-/** @brief Generate pseudo-random per-session identifier. */
+/**
+ * @brief Generate Session Id.
+ * @return Return value.
+ * @details Calls: gen(), rd(), dis().
+ */
 uint32_t generateSessionId() {
     static std::random_device rd;
     static std::mt19937 gen(rd());
@@ -156,8 +157,12 @@ uint32_t generateSessionId() {
 // StreamMessageHeader Implementation
 // ============================================================================
 
-/** @brief Serialize stream message header into fixed-size wire bytes. */
 std::vector<uint8_t> StreamMessageHeader::serialize() const {
+    /**
+     * @brief Result.
+     * @param[in] SIZE Input parameter.
+     * @return Return value.
+     */
     std::vector<uint8_t> result(SIZE);
     size_t pos = 0;
     
@@ -197,9 +202,10 @@ std::vector<uint8_t> StreamMessageHeader::serialize() const {
 }
 
 /**
- * @brief Deserialize stream message header from wire bytes.
- * @param data Serialized header bytes.
- * @return Parsed header or std::nullopt for malformed/short input.
+ * @brief Deserialize.
+ * @param[in] data Input parameter.
+ * @return Return value.
+ * @details Calls: size().
  */
 std::optional<StreamMessageHeader> StreamMessageHeader::deserialize(const std::vector<uint8_t>& data) {
     if (data.size() < SIZE) {
@@ -247,10 +253,6 @@ std::optional<StreamMessageHeader> StreamMessageHeader::deserialize(const std::v
 // StreamChunk Implementation
 // ============================================================================
 
-/**
- * @brief Verify chunk payload checksum.
- * @return true when checksum matches serialized payload data.
- */
 bool StreamChunk::verify() const {
     if (data.empty()) {
         return checksum == 0;
@@ -258,7 +260,6 @@ bool StreamChunk::verify() const {
     return calculateCRC32(data.data(),data.size()) == checksum;
 }
 
-/** @brief Serialize chunk metadata and payload into transport bytes. */
 std::vector<uint8_t> StreamChunk::serialize() const {
     std::vector<uint8_t> result;
     
@@ -301,9 +302,10 @@ std::vector<uint8_t> StreamChunk::serialize() const {
 }
 
 /**
- * @brief Deserialize chunk from transport bytes and validate metadata bounds.
- * @param data Serialized chunk bytes.
- * @return Parsed chunk or std::nullopt for malformed/inconsistent input.
+ * @brief Deserialize.
+ * @param[in] data Input parameter.
+ * @return Return value.
+ * @details Calls: size(), assign(), begin(), end().
  */
 std::optional<StreamChunk> StreamChunk::deserialize(const std::vector<uint8_t>& data) {
     // W2-S03: Chunk metadata validation - fail-closed on malformed inputs
@@ -379,10 +381,6 @@ std::optional<StreamChunk> StreamChunk::deserialize(const std::vector<uint8_t>& 
 // StreamFileProgress Implementation
 // ============================================================================
 
-/**
- * @brief Compute transfer throughput over observed activity window.
- * @return Average bytes per second since start_time.
- */
 double StreamFileProgress::getThroughputBytesPerSecond() const {
     auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
         last_activity - start_time
@@ -398,7 +396,6 @@ double StreamFileProgress::getThroughputBytesPerSecond() const {
 // StreamingStats Implementation
 // ============================================================================
 
-/** @brief Export streaming counters in Prometheus exposition format. */
 std::string StreamingStats::toPrometheusFormat() const {
     std::ostringstream oss;
     
@@ -440,8 +437,12 @@ std::string StreamingStats::toPrometheusFormat() const {
 // ============================================================================
 
 /**
- * @brief Compress payload using selected algorithm, with passthrough fallback.
- * @return Compressed bytes, or original bytes when algorithm is unavailable/fails.
+ * @brief Compress.
+ * @param[in] data Input parameter.
+ * @param[in] algorithm Input parameter.
+ * @param[in] level Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), LZ4_compressBound(), size(), compressed(), LZ4_compress_default(), data(), resize(), ZSTD_compressBound().
  */
 std::vector<uint8_t> StreamCompressor::compress(
     const std::vector<uint8_t>& data,
@@ -496,8 +497,12 @@ std::vector<uint8_t> StreamCompressor::compress(
 }
 
 /**
- * @brief Decompress payload to expected size, with passthrough fallback.
- * @return Decompressed bytes, or original bytes when algorithm is unavailable/fails.
+ * @brief Decompress.
+ * @param[in] data Input parameter.
+ * @param[in] algorithm Input parameter.
+ * @param[in] uncompressed_size Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), decompressed(), LZ4_decompress_safe(), data(), size(), resize(), ZSTD_decompress(), ZSTD_isError().
  */
 std::vector<uint8_t> StreamCompressor::decompress(
     const std::vector<uint8_t>& data,
@@ -548,7 +553,12 @@ std::vector<uint8_t> StreamCompressor::decompress(
     return data;
 }
 
-/** @brief Return whether algorithm is compiled into current binary. */
+/**
+ * @brief Is Supported.
+ * @param[in] algorithm Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements isSupported without additional internal calls.
+ */
 bool StreamCompressor::isSupported(CompressionAlgorithm algorithm) {
     switch (algorithm) {
         case CompressionAlgorithm::NONE:
@@ -576,6 +586,12 @@ StreamRateLimiter::StreamRateLimiter(uint64_t bytes_per_second)
     , last_refill_(std::chrono::steady_clock::now()) {
 }
 
+/**
+ * @brief Acquire.
+ * @param[in] bytes Input parameter.
+ * @return Return value.
+ * @details Calls: load(), std::chrono::milliseconds(), lock(), std::chrono::steady_clock::now(), count(), std::min().
+ */
 std::chrono::milliseconds StreamRateLimiter::acquire(size_t bytes) {
     if (bytes_per_second_.load() == 0) {
         return std::chrono::milliseconds(0);  // Unlimited
@@ -611,6 +627,11 @@ std::chrono::milliseconds StreamRateLimiter::acquire(size_t bytes) {
     return std::chrono::milliseconds(wait_ms + 1);
 }
 
+/**
+ * @brief Set Rate.
+ * @param[in] bytes_per_second Input parameter.
+ * @details Calls: store().
+ */
 void StreamRateLimiter::setRate(uint64_t bytes_per_second) {
     bytes_per_second_.store(bytes_per_second);
 }
@@ -634,6 +655,11 @@ StreamSession::~StreamSession() {
     abort("Session destroyed");
 }
 
+/**
+ * @brief Initialize.
+ * @return True when the operation succeeds.
+ * @details Calls: load(), transitionState(), empty(), bool(), lock(), prepare_callback(), spdlog::warn().
+ */
 bool StreamSession::initialize() {
     if (state_.load() != StreamSessionState::INITIALIZED) {
         return false;
@@ -684,6 +710,11 @@ bool StreamSession::initialize() {
     return true;
 }
 
+/**
+ * @brief Add File.
+ * @param[in] file Input parameter.
+ * @details Calls: lock(), empty(), spdlog::error(), push_back().
+ */
 void StreamSession::addFile(const StreamFileInfo& file) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -701,6 +732,11 @@ void StreamSession::addFile(const StreamFileInfo& file) {
     files_.push_back(file);
 }
 
+/**
+ * @brief Start.
+ * @return True when the operation succeeds.
+ * @details Calls: load(), transitionState(), store(), std::thread().
+ */
 bool StreamSession::start() {
     if (state_.load() != StreamSessionState::PREPARING) {
         return false;
@@ -716,6 +752,10 @@ bool StreamSession::start() {
     return true;
 }
 
+/**
+ * @brief Pause.
+ * @details Calls: lock(), reserve(), size(), push_back(), get().
+ */
 void StreamSession::pause() {
     std::vector<StreamTransferTask*> tasks;
     {
@@ -733,6 +773,10 @@ void StreamSession::pause() {
     }
 }
 
+/**
+ * @brief Resume.
+ * @details Calls: lock(), reserve(), size(), push_back(), get().
+ */
 void StreamSession::resume() {
     std::vector<StreamTransferTask*> tasks;
     {
@@ -750,6 +794,11 @@ void StreamSession::resume() {
     }
 }
 
+/**
+ * @brief Abort.
+ * @param[in] reason Input parameter.
+ * @details Calls: exchange(), transitionState(), lock(), reserve(), size(), push_back(), get(), notify_all().
+ */
 void StreamSession::abort(const std::string& reason) {
     if (!running_.exchange(false)) {
         return;
@@ -840,17 +889,32 @@ StreamSessionProgress StreamSession::getProgress() const {
     return progress;
 }
 
+/**
+ * @brief Set Progress Callback.
+ * @param[in] callback Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void StreamSession::setProgressCallback(StreamProgressCallback callback) {
     std::lock_guard<std::mutex> lock(mutex_);
     progress_callback_ = std::move(callback);
 }
 
+/**
+ * @brief Set Completion Callback.
+ * @param[in] callback Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void StreamSession::setCompletionCallback(StreamCompletionCallback callback) {
     std::lock_guard<std::mutex> lock(mutex_);
     completion_callback_ = std::move(callback);
 }
 
 void StreamSession::setPrepareTransferCallback(std::function<bool()> cb) {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     prepare_callback_ = std::move(cb);
 }
@@ -861,6 +925,10 @@ bool StreamSession::isActive() const {
            state == StreamSessionState::STREAMING;
 }
 
+/**
+ * @brief Session Loop.
+ * @details Calls: load(), lock(), empty(), isComplete(), isFailed(), transitionState(), store(), completion_callback().
+ */
 void StreamSession::sessionLoop() {
     // W5-Sharding: Guard session state transitions and task completion checks
     // Ensures all state updates are protected from concurrent access
@@ -932,6 +1000,10 @@ void StreamSession::sessionLoop() {
     }
 }
 
+/**
+ * @brief Heartbeat Loop.
+ * @details Calls: load(), sendMessage(), lock(), wait_for(), std::chrono::milliseconds().
+ */
 void StreamSession::heartbeatLoop() {
     // W5-Sharding: Guard heartbeat loop with proper memory ordering
     while (running_.load(std::memory_order_acquire)) {
@@ -945,6 +1017,10 @@ void StreamSession::heartbeatLoop() {
     }
 }
 
+/**
+ * @brief Notify Progress.
+ * @details Calls: lock(), progress_callback(), getProgress().
+ */
 void StreamSession::notifyProgress() {
     StreamProgressCallback progress_callback;
     {
@@ -956,10 +1032,22 @@ void StreamSession::notifyProgress() {
     }
 }
 
+/**
+ * @brief Transition State.
+ * @param[in] new_state Input parameter.
+ * @details Calls: store().
+ */
 void StreamSession::transitionState(StreamSessionState new_state) {
     state_.store(new_state);
 }
 
+/**
+ * @brief Send Message.
+ * @param[in] type Input parameter.
+ * @param[in] payload Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements sendMessage without additional internal calls.
+ */
 bool StreamSession::sendMessage(StreamMessageType type, const std::vector<uint8_t>& payload) {
     // NON-PRODUCTION PATH (Simulation/Stub/Mockup)
     // Purpose: Allow testing of the heartbeat mechanism when mTLS transport not wired.
@@ -984,11 +1072,21 @@ bool StreamSession::sendMessage(StreamMessageType type, const std::vector<uint8_
 // StreamCoordinator Implementation (Singleton)
 // ============================================================================
 
+/**
+ * @brief Get Instance.
+ * @return Return value.
+ * @details Implements getInstance without additional internal calls.
+ */
 StreamCoordinator& StreamCoordinator::getInstance() {
     static StreamCoordinator instance;
     return instance;
 }
 
+/**
+ * @brief Initialize.
+ * @param[in] throttle_config Input parameter.
+ * @details Calls: exchange(), lock().
+ */
 void StreamCoordinator::initialize(const StreamThrottleConfig& throttle_config) {
     if (initialized_.exchange(true)) {
         return;
@@ -1004,6 +1102,10 @@ void StreamCoordinator::initialize(const StreamThrottleConfig& throttle_config) 
     }
 }
 
+/**
+ * @brief Shutdown.
+ * @details Calls: exchange(), lock(), clear(), abort().
+ */
 void StreamCoordinator::shutdown() {
     if (!initialized_.exchange(false)) {
         return;
@@ -1023,6 +1125,12 @@ void StreamCoordinator::shutdown() {
     }
 }
 
+/**
+ * @brief Create Plan.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), push_back().
+ */
 std::shared_ptr<StreamPlan> StreamCoordinator::createPlan(const StreamPlanConfig& config) {
     auto plan = std::make_shared<StreamPlan>(config);
     
@@ -1033,10 +1141,20 @@ std::shared_ptr<StreamPlan> StreamCoordinator::createPlan(const StreamPlanConfig
 }
 
 std::vector<std::shared_ptr<StreamPlan>> StreamCoordinator::getActivePlans() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return active_plans_;
 }
 
+/**
+ * @brief Update Throttle Config.
+ * @param[in] config Input parameter.
+ * @details Calls: lock(), setRate().
+ */
 void StreamCoordinator::updateThrottleConfig(const StreamThrottleConfig& config) {
     std::shared_ptr<StreamRateLimiter> global_rate_limiter;
     {
@@ -1062,6 +1180,11 @@ StreamPlan::~StreamPlan() {
     abort();
 }
 
+/**
+ * @brief Add Session.
+ * @param[in] session Input parameter.
+ * @details Calls: lock(), spdlog::error(), getSessionId(), push_back(), std::move().
+ */
 void StreamPlan::addSession(std::unique_ptr<StreamSession> session) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -1079,6 +1202,11 @@ void StreamPlan::addSession(std::unique_ptr<StreamSession> session) {
     sessions_.push_back(std::move(session));
 }
 
+/**
+ * @brief Execute.
+ * @return True when the operation succeeds.
+ * @details Calls: exchange(), std::thread().
+ */
 bool StreamPlan::execute() {
     if (running_.exchange(true)) {
         return false;
@@ -1088,6 +1216,10 @@ bool StreamPlan::execute() {
     return true;
 }
 
+/**
+ * @brief Abort.
+ * @details Calls: exchange(), notify_all(), lock(), joinable(), themis::utils::joinThreadWithin(), spdlog::warn().
+ */
 void StreamPlan::abort() {
     if (!running_.exchange(false)) {
         return;
@@ -1110,6 +1242,12 @@ void StreamPlan::abort() {
     }
 }
 
+/**
+ * @brief Wait For Completion.
+ * @param[in] timeout Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), std::chrono::milliseconds::max(), wait(), load(), wait_for().
+ */
 bool StreamPlan::waitForCompletion(std::chrono::milliseconds timeout) {
     std::unique_lock<std::mutex> lock(mutex_);
     
@@ -1133,11 +1271,20 @@ std::vector<StreamSessionProgress> StreamPlan::getProgress() const {
     return progress;
 }
 
+/**
+ * @brief Add Listener.
+ * @param[in] listener Input parameter.
+ * @details Calls: lock(), push_back().
+ */
 void StreamPlan::addListener(std::shared_ptr<IStreamListener> listener) {
     std::lock_guard<std::mutex> lock(mutex_);
     listeners_.push_back(listener);
 }
 
+/**
+ * @brief Executor Loop.
+ * @details Calls: lock(), initialize(), load(), size(), start(), getState(), isActive(), store().
+ */
 void StreamPlan::executorLoop() {
     // Initialize all sessions
     {
@@ -1196,6 +1343,11 @@ void StreamPlan::executorLoop() {
 void StreamPlan::notifyListeners(std::function<void(IStreamListener&)> callback) {
     std::vector<std::shared_ptr<IStreamListener>> listeners;
     {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         listeners = listeners_;
     }
@@ -1230,27 +1382,49 @@ StreamTransferTask::~StreamTransferTask() {
     }
 }
 
+/**
+ * @brief Start.
+ * @return True when the operation succeeds.
+ * @details Calls: store(), std::thread().
+ */
 bool StreamTransferTask::start() {
     running_.store(true, std::memory_order_release);
     transfer_thread_ = std::thread(&StreamTransferTask::transferLoop, this);
     return true;
 }
 
+/**
+ * @brief Pause.
+ * @details Calls: store().
+ */
 void StreamTransferTask::pause() {
     paused_.store(true, std::memory_order_release);
 }
 
+/**
+ * @brief Resume.
+ * @details Calls: store(), notify_all().
+ */
 void StreamTransferTask::resume() {
     paused_.store(false, std::memory_order_release);
     cv_.notify_all();
 }
 
+/**
+ * @brief Abort.
+ * @details Calls: store(), notify_all().
+ */
 void StreamTransferTask::abort() {
     running_.store(false, std::memory_order_release);
     failed_.store(true, std::memory_order_release);
     cv_.notify_all();
 }
 
+/**
+ * @brief On Chunk Ack.
+ * @param[in] chunk_index Input parameter.
+ * @details Calls: lock(), size(), notify_all().
+ */
 void StreamTransferTask::onChunkAck(uint32_t chunk_index) {
     {
         std::lock_guard<std::mutex> lock(progress_mutex_);
@@ -1261,6 +1435,11 @@ void StreamTransferTask::onChunkAck(uint32_t chunk_index) {
     cv_.notify_all();
 }
 
+/**
+ * @brief On Retry Request.
+ * @param[in] chunk_index Input parameter.
+ * @details Calls: lock(), push(), notify_all().
+ */
 void StreamTransferTask::onRetryRequest(uint32_t chunk_index) {
     {
         std::lock_guard<std::mutex> lock(mutex_);
@@ -1270,10 +1449,19 @@ void StreamTransferTask::onRetryRequest(uint32_t chunk_index) {
 }
 
 StreamFileProgress StreamTransferTask::getProgress() const {
+    /**
+     * @brief Lock.
+     * @param[in] progress_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(progress_mutex_);
     return progress_;
 }
 
+/**
+ * @brief Transfer Loop.
+ * @details Calls: load(), lock(), std::chrono::milliseconds(), wait_for(), empty(), front(), pop(), createChunk().
+ */
 void StreamTransferTask::transferLoop() {
     while (running_.load(std::memory_order_acquire)) {
         {
@@ -1345,6 +1533,12 @@ void StreamTransferTask::transferLoop() {
     }
 }
 
+/**
+ * @brief Create Chunk.
+ * @param[in] chunk_index Input parameter.
+ * @return Return value.
+ * @details Calls: resize(), file(), seekg(), read(), data(), calculateCRC32(), StreamCompressor::compress(), size().
+ */
 std::optional<StreamChunk> StreamTransferTask::createChunk(uint32_t chunk_index) {
     StreamChunk chunk;
     chunk.chunk_index = chunk_index;
@@ -1396,6 +1590,12 @@ std::optional<StreamChunk> StreamTransferTask::createChunk(uint32_t chunk_index)
     return chunk;
 }
 
+/**
+ * @brief Send Chunk.
+ * @param[in] chunk Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: std::filesystem::temp_directory_path(), std::filesystem::exists(), std::filesystem::create_directories(), std::filesystem::permissions(), what(), max(), spdlog::error(), size().
+ */
 bool StreamTransferTask::sendChunk(const StreamChunk& chunk) {
     // W2-S07: Document stream transfer semantics
     // - Local staging: written to temporary file without replication
@@ -1497,6 +1697,11 @@ StreamReceiveTask::~StreamReceiveTask() {
     abort();
 }
 
+/**
+ * @brief Start.
+ * @return True when the operation succeeds.
+ * @details Calls: store(), out_path(), parent_path(), empty(), std::filesystem::exists(), std::filesystem::create_directories(), message(), test_file().
+ */
 bool StreamReceiveTask::start() {
     running_.store(true, std::memory_order_release);
     
@@ -1526,6 +1731,12 @@ bool StreamReceiveTask::start() {
     return true;
 }
 
+/**
+ * @brief On Chunk Received.
+ * @param[in] chunk Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: load(), size(), store(), lock(), count(), writeChunk(), erase(), std::all_of().
+ */
 bool StreamReceiveTask::onChunkReceived(const StreamChunk& chunk) {
     if (!running_.load(std::memory_order_acquire) || 
         failed_.load(std::memory_order_acquire) || 
@@ -1621,12 +1832,21 @@ bool StreamReceiveTask::onChunkReceived(const StreamChunk& chunk) {
     return true;
 }
 
+/**
+ * @brief Abort.
+ * @details Calls: store().
+ */
 void StreamReceiveTask::abort() {
     running_.store(false, std::memory_order_release);
     failed_.store(true, std::memory_order_release);
 }
 
 StreamFileProgress StreamReceiveTask::getProgress() const {
+    /**
+     * @brief Lock.
+     * @param[in] progress_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(progress_mutex_);
     return progress_;
 }
@@ -1651,6 +1871,12 @@ bool StreamReceiveTask::verifyIntegrity() const {
     return true;
 }
 
+/**
+ * @brief Write Chunk.
+ * @param[in] chunk Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: size(), StreamCompressor::decompress(), calculateCRC32(), data(), empty(), file(), open(), seekp().
+ */
 bool StreamReceiveTask::writeChunk(const StreamChunk& chunk) {
     if (chunk.compressed_size != chunk.data.size() || chunk.uncompressed_size == 0 ||
         chunk.compressed_size > chunk.uncompressed_size) {
@@ -1719,6 +1945,11 @@ bool StreamReceiveTask::writeChunk(const StreamChunk& chunk) {
     return true;
 }
 
+/**
+ * @brief Request Retry.
+ * @param[in] chunk_index Input parameter.
+ * @details Calls: size(), lock().
+ */
 void StreamReceiveTask::requestRetry(uint32_t chunk_index) {
     // Request retry for a specific chunk
     // In a real implementation, this would send a network message to the sender

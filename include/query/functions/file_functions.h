@@ -23,44 +23,11 @@ namespace themis {
 namespace query {
 namespace functions {
 
-/**
- * @brief File/Path Functions for AQL
- * 
- * Provides functions for working with file paths, names, and metadata.
- * 
- * ## Categories
- * 
- * ### Path Manipulation
- * - PATH_JOIN, PATH_DIRNAME, PATH_BASENAME, PATH_EXTENSION
- * - PATH_NORMALIZE, PATH_RELATIVE, PATH_ABSOLUTE
- * - PATH_SPLIT, PATH_PARENT
- * 
- * ### Path Analysis
- * - PATH_IS_ABSOLUTE, PATH_IS_RELATIVE
- * - PATH_EXISTS (requires context), PATH_IS_FILE, PATH_IS_DIRECTORY
- * 
- * ### File Name Operations
- * - FILENAME, FILENAME_WITHOUT_EXT, FILE_EXT
- * - SANITIZE_FILENAME
- * 
- * ### MIME Types
- * - MIME_TYPE, IS_IMAGE, IS_VIDEO, IS_AUDIO, IS_DOCUMENT
- * 
- * ### Size Formatting
- * - FORMAT_FILESIZE, PARSE_FILESIZE
- * 
- * ## Note
- * These are pure path string operations. They do not access the filesystem.
- * For actual file operations, use the Storage API.
- */
 
 // ============================================================================
 // Path Manipulation Functions
 // ============================================================================
 
-/**
- * @brief PATH_JOIN(path1, path2, ...) - Join path components
- */
 class PathJoinFunction : public IFunction {
 public:
     ~PathJoinFunction() override = default;
@@ -112,9 +79,6 @@ public:
     }
 };
 
-/**
- * @brief PATH_DIRNAME(path) - Get directory part of path
- */
 class PathDirnameFunction : public IFunction {
 public:
     ~PathDirnameFunction() override = default;
@@ -151,9 +115,6 @@ public:
     }
 };
 
-/**
- * @brief PATH_BASENAME(path) - Get filename from path
- */
 class PathBasenameFunction : public IFunction {
 public:
     ~PathBasenameFunction() override = default;
@@ -193,9 +154,6 @@ public:
     }
 };
 
-/**
- * @brief PATH_EXTENSION(path) - Get file extension
- */
 class PathExtensionFunction : public IFunction {
 public:
     ~PathExtensionFunction() override = default;
@@ -232,9 +190,6 @@ public:
     }
 };
 
-/**
- * @brief PATH_NORMALIZE(path) - Normalize path separators and resolve . and ..
- */
 class PathNormalizeFunction : public IFunction {
 public:
     ~PathNormalizeFunction() override = default;
@@ -307,9 +262,6 @@ public:
     }
 };
 
-/**
- * @brief PATH_SPLIT(path) - Split path into components
- */
 class PathSplitFunction : public IFunction {
 public:
     ~PathSplitFunction() override = default;
@@ -357,9 +309,6 @@ public:
     }
 };
 
-/**
- * @brief PATH_PARENT(path, levels) - Get parent directory
- */
 class PathParentFunction : public IFunction {
 public:
     ~PathParentFunction() override = default;
@@ -403,9 +352,6 @@ public:
 // Path Analysis Functions
 // ============================================================================
 
-/**
- * @brief PATH_IS_ABSOLUTE(path) - Check if path is absolute
- */
 class PathIsAbsoluteFunction : public IFunction {
 public:
     ~PathIsAbsoluteFunction() override = default;
@@ -451,9 +397,6 @@ public:
     }
 };
 
-/**
- * @brief PATH_IS_RELATIVE(path) - Check if path is relative
- */
 class PathIsRelativeFunction : public IFunction {
 public:
     ~PathIsRelativeFunction() override = default;
@@ -497,9 +440,6 @@ public:
 // File Name Operations
 // ============================================================================
 
-/**
- * @brief FILENAME(path) - Alias for PATH_BASENAME
- */
 class FilenameFunction : public IFunction {
 public:
     ~FilenameFunction() override = default;
@@ -526,9 +466,6 @@ public:
     }
 };
 
-/**
- * @brief FILENAME_WITHOUT_EXT(path) - Get filename without extension
- */
 class FilenameWithoutExtFunction : public IFunction {
 public:
     ~FilenameWithoutExtFunction() override = default;
@@ -563,9 +500,6 @@ public:
     }
 };
 
-/**
- * @brief FILE_EXT(path) - Get file extension with dot
- */
 class FileExtFunction : public IFunction {
 public:
     ~FileExtFunction() override = default;
@@ -600,9 +534,6 @@ public:
     }
 };
 
-/**
- * @brief SANITIZE_FILENAME(name) - Make filename safe for filesystem
- */
 class SanitizeFilenameFunction : public IFunction {
 public:
     ~SanitizeFilenameFunction() override = default;
@@ -732,9 +663,6 @@ inline const std::unordered_map<std::string, std::string>& getExtensionToMime() 
 
 } // namespace mime_types
 
-/**
- * @brief MIME_TYPE(path) - Get MIME type from file extension
- */
 class MimeTypeFunction : public IFunction {
 public:
     ~MimeTypeFunction() override = default;
@@ -773,9 +701,6 @@ public:
     }
 };
 
-/**
- * @brief IS_IMAGE(path) - Check if file is an image
- */
 class IsImageFunction : public IFunction {
 public:
     ~IsImageFunction() override = default;
@@ -814,9 +739,6 @@ public:
     }
 };
 
-/**
- * @brief IS_VIDEO(path) - Check if file is a video
- */
 class IsVideoFunction : public IFunction {
 public:
     ~IsVideoFunction() override = default;
@@ -855,9 +777,6 @@ public:
     }
 };
 
-/**
- * @brief IS_AUDIO(path) - Check if file is audio
- */
 class IsAudioFunction : public IFunction {
 public:
     ~IsAudioFunction() override = default;
@@ -896,9 +815,6 @@ public:
     }
 };
 
-/**
- * @brief IS_DOCUMENT(path) - Check if file is a document
- */
 class IsDocumentFunction : public IFunction {
 public:
     ~IsDocumentFunction() override = default;
@@ -942,9 +858,6 @@ public:
 // Size Formatting Functions
 // ============================================================================
 
-/**
- * @brief FORMAT_FILESIZE(bytes, precision) - Format bytes as human-readable
- */
 class FormatFilesizeFunction : public IFunction {
 public:
     ~FormatFilesizeFunction() override = default;
@@ -983,9 +896,6 @@ public:
     }
 };
 
-/**
- * @brief PARSE_FILESIZE(size_string) - Parse human-readable size to bytes
- */
 class ParseFilesizeFunction : public IFunction {
 public:
     ~ParseFilesizeFunction() override = default;
@@ -1044,7 +954,7 @@ public:
 // ============================================================================
 
 /**
- * @brief Register all File functions with the registry
+ * @brief Register File Functions.
  * @param[in,out] registry Input/output parameter.
  * @details Calls: registerFunction().
  */

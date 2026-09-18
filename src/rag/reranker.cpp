@@ -37,6 +37,12 @@ constexpr std::size_t kMaxQueryChars = 100000;
 constexpr std::size_t kMaxDocumentChars = 100000;
 constexpr std::size_t kMaxCandidates = 100000;
 
+/**
+ * @brief Trim Copy.
+ * @param[in] in Input parameter.
+ * @return Return value.
+ * @details Calls: find_first_not_of(), find_last_not_of(), substr().
+ */
 std::string trimCopy(const std::string& in) {
     const auto begin = in.find_first_not_of(" \t\r\n");
     if (begin == std::string::npos) {
@@ -46,6 +52,12 @@ std::string trimCopy(const std::string& in) {
     return in.substr(begin, end - begin + 1);
 }
 
+/**
+ * @brief Normalize Hex.
+ * @param[in] value Input parameter.
+ * @return Return value.
+ * @details Calls: trimCopy(), std::transform(), begin(), end(), std::tolower().
+ */
 std::string normalizeHex(std::string value) {
     value = trimCopy(value);
     std::transform(value.begin(), value.end(), value.begin(), [](unsigned char c) {
@@ -54,6 +66,12 @@ std::string normalizeHex(std::string value) {
     return value;
 }
 
+/**
+ * @brief Read Checksum Sidecar.
+ * @param[in] model_path Path to the model.
+ * @return Return value.
+ * @details Calls: string(), std::filesystem::exists(), sidecar(), is_open(), normalizeHex(), empty().
+ */
 std::optional<std::string> readChecksumSidecar(const std::filesystem::path& model_path) {
     const auto sidecar_path = model_path.string() + ".sha256";
     std::error_code ec = {};
@@ -73,6 +91,12 @@ std::optional<std::string> readChecksumSidecar(const std::filesystem::path& mode
     return checksum;
 }
 
+/**
+ * @brief Verify Model File.
+ * @param[in] model_path Path to the model.
+ * @return True when the operation succeeds.
+ * @details Calls: std::filesystem::exists(), THEMIS_ERROR(), string(), message(), std::filesystem::is_regular_file(), normalizeHex(), themis::utils::calculateSHA256(), empty().
+ */
 bool verifyModelFile(const std::filesystem::path& model_path) {
     std::error_code ec = {};
     if (!std::filesystem::exists(model_path, ec) || ec) {
@@ -110,6 +134,13 @@ bool verifyModelFile(const std::filesystem::path& model_path) {
     return true;
 }
 
+/**
+ * @brief Is World Writable.
+ * @param[in] path Input parameter.
+ * @param[in,out] ec Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: std::filesystem::status(), permissions().
+ */
 bool isWorldWritable(const std::filesystem::path& path, std::error_code& ec) {
     const auto perms = std::filesystem::status(path, ec).permissions();
     if (ec) {
@@ -119,7 +150,12 @@ bool isWorldWritable(const std::filesystem::path& path, std::error_code& ec) {
     return (perms & (P::group_write | P::others_write)) != P::none;
 }
 
-/// Tokenise @p text into lower-cased words, stripping punctuation.
+/**
+ * @brief Tokenise.
+ * @param[in] text Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), std::isalnum(), push_back(), std::tolower(), empty(), clear().
+ */
 std::vector<std::string> tokenise(const std::string& text) {
     std::vector<std::string> tokens = {};
 
@@ -143,7 +179,6 @@ std::vector<std::string> tokenise(const std::string& text) {
     return tokens;
 }
 
-/// Build an unordered_map from token → occurrence count.
 std::unordered_map<std::string, size_t> termFreq(
     const std::vector<std::string>& tokens)
 {
@@ -155,7 +190,6 @@ std::unordered_map<std::string, size_t> termFreq(
     return tf;
 }
 
-/// Build a set of " token1 token2 " bigrams from a token list.
 std::unordered_map<std::string, size_t> bigramFreq(
     const std::vector<std::string>& tokens)
 {
@@ -178,17 +212,11 @@ std::unordered_map<std::string, size_t> bigramFreq(
 }
 
 /**
- * @brief Heuristic cross-encoder relevance score.
- *
- * Computes a weighted term-overlap fraction between the query and the
- * document, then maps it through a sigmoid so the result lies in [0,1].
- *
- * Scoring formula:
- *   raw = (unigram_overlap + 0.5 * bigram_overlap) / (query_terms + ε)
- *   score = sigmoid(6 * raw − 3)      // centred so 0.5 recall → 0.5
- *
- * The constant 0.5 weight for bigrams rewards phrase matches without
- * over-emphasising them.
+ * @brief Heuristic Score.
+ * @param[in] query Input parameter.
+ * @param[in] document Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), tokenise(), termFreq(), find(), end(), std::min(), bigramFreq(), size().
  */
 double heuristicScore(const std::string& query, const std::string& document) {
     if (query.empty() || document.empty()) {
@@ -291,6 +319,11 @@ struct CrossEncoderReranker::Impl {
             return std::nullopt;
         }
 
+        /**
+         * @brief Lock.
+         * @param[in] cache_mutex Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(cache_mutex);
         const auto it = score_cache.find(key);
         if (it != score_cache.end()) {
@@ -308,6 +341,11 @@ struct CrossEncoderReranker::Impl {
         }
 
         const std::size_t effective_max_cache_size = std::max<std::size_t>(1, max_cache_size);
+        /**
+         * @brief Lock.
+         * @param[in] cache_mutex Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(cache_mutex);
         if (score_cache.size() >= effective_max_cache_size) {
             auto it = score_cache.begin();
@@ -319,10 +357,14 @@ struct CrossEncoderReranker::Impl {
         score_cache[key] = value;
     }
 
-    /// Score a single (query, document text) pair.
     double computeScore(const std::string& query,
                         const std::string& doc_text) const {
         {
+            /**
+             * @brief Lock.
+             * @param[in] state_mutex Input parameter.
+             * @return Return value.
+             */
             std::lock_guard<std::mutex> lock(state_mutex);
             if (model_loaded) {
 #ifdef THEMIS_ENABLE_ONNX
@@ -501,6 +543,12 @@ std::vector<double> CrossEncoderReranker::scoreBatch(
     return scores;
 }
 
+/**
+ * @brief Load Model.
+ * @param[in] model_path Path to the model.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), THEMIS_WARN(), input_path(), std::filesystem::weakly_canonical(), THEMIS_ERROR(), std::filesystem::is_symlink(), extension(), verifyModelFile().
+ */
 bool CrossEncoderReranker::loadModel(const std::string& model_path) {
     if (model_path.empty()) {
         THEMIS_WARN("CrossEncoderReranker::loadModel called with empty path");
@@ -557,6 +605,10 @@ bool CrossEncoderReranker::isModelLoaded() const {
     return impl_->model_loaded;
 }
 
+/**
+ * @brief Clear Cache.
+ * @details Calls: lk(), clear().
+ */
 void CrossEncoderReranker::clearCache() {
     std::lock_guard<std::mutex> lk(impl_->cache_mutex);
     impl_->score_cache.clear();
@@ -566,6 +618,11 @@ const CrossEncoderConfig& CrossEncoderReranker::getConfig() const {
     return impl_->config;
 }
 
+/**
+ * @brief Set Config.
+ * @param[in] config Input parameter.
+ * @details Calls: cfg_lock(), clearCache().
+ */
 void CrossEncoderReranker::setConfig(const CrossEncoderConfig& config) {
     bool cache_settings_changed = false;
     {
@@ -585,6 +642,11 @@ void CrossEncoderReranker::setConfig(const CrossEncoderConfig& config) {
 // CrossEncoderFactory
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Create Fast.
+ * @return Return value.
+ * @details Implements createFast without additional internal calls.
+ */
 std::unique_ptr<CrossEncoderReranker> CrossEncoderFactory::createFast() {
     CrossEncoderConfig cfg;
     cfg.top_k                = 10;
@@ -594,6 +656,11 @@ std::unique_ptr<CrossEncoderReranker> CrossEncoderFactory::createFast() {
     return std::make_unique<CrossEncoderReranker>(cfg);
 }
 
+/**
+ * @brief Create Balanced.
+ * @param[in] model_path Path to the model.
+ * @return Return value.
+ */
 std::unique_ptr<CrossEncoderReranker> CrossEncoderFactory::createBalanced(
     const std::string& model_path)
 {
@@ -611,6 +678,11 @@ std::unique_ptr<CrossEncoderReranker> CrossEncoderFactory::createBalanced(
     return reranker;
 }
 
+/**
+ * @brief Create Accurate.
+ * @param[in] model_path Path to the model.
+ * @return Return value.
+ */
 std::unique_ptr<CrossEncoderReranker> CrossEncoderFactory::createAccurate(
     const std::string& model_path)
 {

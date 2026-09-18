@@ -219,6 +219,11 @@ ValidationReport KernelRegistry::validate() const {
 // ---------------------------------------------------------------------------
 
 ValidationReport BackendRegistry::validateKernels() const {
+    /**
+     * @brief Lock.
+     * @param[in] registryMutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock lock(registryMutex_);
     return kernelRegistry_.validate();
 }

@@ -34,10 +34,23 @@ constexpr std::array<std::string_view, 10> kActionSignals{{
     "build", "craft", "create", "bypass", "steal", "exfiltrate", "detonate", "deploy", "disable", "evade"
 }};
 
+/**
+ * @brief Contains Token.
+ * @param[in] text Input parameter.
+ * @param[in] token Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: find().
+ */
 bool containsToken(const std::string& text, std::string_view token) {
     return text.find(token) != std::string::npos;
 }
 
+/**
+ * @brief Remove Spaces.
+ * @param[in] text Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), push_back().
+ */
 std::string removeSpaces(const std::string& text) {
     std::string out = {};
     out.reserve(text.size());
@@ -49,6 +62,12 @@ std::string removeSpaces(const std::string& text) {
     return out;
 }
 
+/**
+ * @brief Collapse Single Letter Runs.
+ * @param[in] text Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), empty(), back(), push_back(), substr(), append(), pop_back().
+ */
 std::string collapseSingleLetterRuns(const std::string& text) {
     std::string collapsed = {};
     collapsed.reserve(text.size());
@@ -143,6 +162,12 @@ GuardDecision PromptGuardian::evaluate(const std::string& prompt) const {
     return out;
 }
 
+/**
+ * @brief Normalize.
+ * @param[in] text Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), std::tolower(), find(), end(), std::isalnum(), push_back(), empty().
+ */
 std::string PromptGuardian::normalize(const std::string& text) {
     static const std::unordered_map<char, char> leet_map = {
         {'0', 'o'}, {'1', 'i'}, {'3', 'e'}, {'4', 'a'}, {'5', 's'}, {'7', 't'}, {'@', 'a'}, {'$', 's'}
@@ -181,6 +206,14 @@ std::string PromptGuardian::normalize(const std::string& text) {
     return out;
 }
 
+/**
+ * @brief Contains Contextual Risk.
+ * @param[in] normalized Input parameter.
+ * @param[in,out] matched_topics Input/output parameter.
+ * @param[in,out] reason Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: containsToken(), emplace_back(), empty().
+ */
 bool PromptGuardian::containsContextualRisk(const std::string& normalized,
                                             std::vector<std::string>& matched_topics,
                                             std::string& reason) {

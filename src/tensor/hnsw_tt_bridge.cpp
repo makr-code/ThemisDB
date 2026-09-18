@@ -64,8 +64,11 @@ struct HnswTTBridge::HnswLayer {
     std::unordered_map<size_t, int64_t> label_to_id_;
     static constexpr size_t kInitialCapacity = 4096;
 
-    /// Lazy initialisation — called on the first insert() once dim is known.
-    /// Exception-safe: cleans up space_ on HierarchicalNSW ctor failure.
+    /**
+     * @brief Ensure Init.
+     * @param[in] dim Input parameter.
+     * @details Calls: hnswlib::L2Space().
+     */
     void ensureInit(size_t dim) {
         if (appr_) {
           return;
@@ -111,6 +114,12 @@ struct HnswTTBridge::HnswLayer {
     // Write operations
     // -----------------------------------------------------------------------
 
+    /**
+     * @brief Insert.
+     * @param[in] id Input parameter.
+     * @param[in] sketch Input parameter.
+     * @details Calls: empty(), ensureInit(), size(), resizeIndex(), addPoint(), data(), emplace(), THEMIS_WARN().
+     */
     void insert(int64_t id, std::vector<float> sketch) {
 #ifdef THEMIS_HNSW_ENABLED
         if (!sketch.empty()) {
@@ -135,6 +144,11 @@ struct HnswTTBridge::HnswLayer {
         sketches.emplace(id, std::move(sketch));
     }
 
+    /**
+     * @brief Remove.
+     * @param[in] id Input parameter.
+     * @details Calls: find(), end(), markDelete(), erase().
+     */
     void remove(int64_t id) {
 #ifdef THEMIS_HNSW_ENABLED
         if (appr_) {
@@ -159,8 +173,6 @@ struct HnswTTBridge::HnswLayer {
     // Read operations
     // -----------------------------------------------------------------------
 
-    /// ANN search — returns up to `ef` candidate IDs.
-    /// Uses hnswlib when available; falls back to linear scan otherwise.
     std::vector<int64_t> search(const std::vector<float>& query,
                                  size_t ef) const {
 #ifdef THEMIS_HNSW_ENABLED
@@ -225,6 +237,13 @@ struct HnswTTBridge::HnswLayer {
 struct HnswTTBridge::TTStore {
     std::unordered_map<int64_t, storage::TTTrain> trains;
 
+    /**
+     * @brief Insert.
+     * @param[in] id Input parameter.
+     * @param[in] t Input parameter.
+     * @return True when the operation succeeds.
+     * @details Calls: count(), emplace(), std::move().
+     */
     bool insert(int64_t id, storage::TTTrain t) {
         if (trains.count(id)) {
           return false;
@@ -232,6 +251,12 @@ struct HnswTTBridge::TTStore {
         trains.emplace(id, std::move(t));
         return true;
     }
+    /**
+     * @brief Remove.
+     * @param[in] id Input parameter.
+     * @return True when the operation succeeds.
+     * @details Calls: erase().
+     */
     bool remove(int64_t id) { return trains.erase(id) > 0; }
     const storage::TTTrain* get(int64_t id) const {
         auto it = trains.find(id);
@@ -256,6 +281,13 @@ HnswTTBridge::~HnswTTBridge() = default;
 // Write path
 // ============================================================================
 
+/**
+ * @brief Add.
+ * @param[in] id Input parameter.
+ * @param[in] train Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), insert(), extractSketch(), std::move(), size(), empty(), front().
+ */
 bool HnswTTBridge::add(int64_t id,
                         const storage::TTTrain& train) {
     std::unique_lock lock(rw_mutex_);
@@ -277,6 +309,14 @@ bool HnswTTBridge::add(int64_t id,
     return true;
 }
 
+/**
+ * @brief Add Flat.
+ * @param[in] id Input parameter.
+ * @param[in] vector Input parameter.
+ * @param[in] dim Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: data(), decompose(), add().
+ */
 bool HnswTTBridge::addFlat(int64_t id,
                              const float* vector,
                              size_t dim) {
@@ -300,6 +340,12 @@ bool HnswTTBridge::addFlat(int64_t id,
     }
 }
 
+/**
+ * @brief Remove.
+ * @param[in] id Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock().
+ */
 bool HnswTTBridge::remove(int64_t id) {
     std::unique_lock lock(rw_mutex_);
     if (!tt_store_->remove(id)) {
@@ -316,6 +362,11 @@ bool HnswTTBridge::remove(int64_t id) {
 
 std::vector<TensorSearchResult>
 HnswTTBridge::search(const storage::TTTrain& query, int k) const {
+    /**
+     * @brief Lock.
+     * @param[in] rw_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock lock(rw_mutex_);
 
     // Step 1: HNSW navigation on sketch
@@ -381,6 +432,11 @@ HnswTTBridge::searchFlat(const float* query, size_t dim, int k) const {
 
 std::optional<float>
 HnswTTBridge::innerProduct(int64_t id_a, int64_t id_b) const {
+    /**
+     * @brief Lock.
+     * @param[in] rw_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock lock(rw_mutex_);
     const auto* a = tt_store_->get(id_a);
     const auto* b = tt_store_->get(id_b);
@@ -391,6 +447,11 @@ HnswTTBridge::innerProduct(int64_t id_a, int64_t id_b) const {
 }
 
 std::optional<float> HnswTTBridge::norm(int64_t id) const {
+    /**
+     * @brief Lock.
+     * @param[in] rw_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock lock(rw_mutex_);
     const auto* t = tt_store_->get(id);
     if (!t) {
@@ -400,6 +461,11 @@ std::optional<float> HnswTTBridge::norm(int64_t id) const {
 }
 
 const storage::TTTrain* HnswTTBridge::get(int64_t id) const {
+    /**
+     * @brief Lock.
+     * @param[in] rw_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock lock(rw_mutex_);
     return tt_store_->get(id);
 }
@@ -433,6 +499,11 @@ constexpr uint8_t kHtbVersion = 1;
 } // namespace
 
 bool HnswTTBridge::save(const std::string& path) const {
+    /**
+     * @brief Lock.
+     * @param[in] rw_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock lock(rw_mutex_);
     std::ofstream out(path, std::ios::binary | std::ios::trunc);
     if (!out) {
@@ -477,6 +548,12 @@ bool HnswTTBridge::save(const std::string& path) const {
     return out.good();
 }
 
+/**
+ * @brief Load.
+ * @param[in] path Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: in(), read(), fail(), std::memcmp(), resize(), data(), extractSketch(), insert().
+ */
 bool HnswTTBridge::load(const std::string& path) {
     std::ifstream in(path, std::ios::binary);
     if (!in) {
@@ -591,11 +668,21 @@ bool HnswTTBridge::load(const std::string& path) {
 // ============================================================================
 
 size_t HnswTTBridge::size() const {
+    /**
+     * @brief Lock.
+     * @param[in] rw_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock lock(rw_mutex_);
     return tt_store_->size();
 }
 
 TensorIndexStats HnswTTBridge::stats() const {
+    /**
+     * @brief Lock.
+     * @param[in] rw_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock lock(rw_mutex_);
     TensorIndexStats s = stats_;
     s.dim = dim_;
@@ -603,6 +690,11 @@ TensorIndexStats HnswTTBridge::stats() const {
 }
 
 std::vector<float> HnswTTBridge::getSketch(int64_t id) const {
+    /**
+     * @brief Lock.
+     * @param[in] rw_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock lock(rw_mutex_);
     const auto* t = tt_store_->get(id);
     if (!t) return {};
@@ -621,6 +713,11 @@ HnswTTBridge::extractSketch(const storage::TTTrain& train) const {
     size_t sketch_len = (cfg_.sketch_dim > 0)
                         ? std::min(g0.n, cfg_.sketch_dim)
                         : g0.n;
+    /**
+     * @brief Sk.
+     * @param[in] sketch_len Input parameter.
+     * @return Return value.
+     */
     std::vector<float> sk(sketch_len);
     for (size_t i = 0; i < sketch_len; ++i) {
         // G_0(0, i, :) is a row of length r_right; take mean as sketch value
@@ -644,7 +741,13 @@ float HnswTTBridge::ttCosineSimilarity(const storage::TTTrain& a,
     return ip / (na * nb);
 }
 
-// TT inner-product — same sweep as FlatTensorIndex
+/**
+ * @brief TT inner-product — same sweep as FlatTensorIndex
+ * @param[in] A Input parameter.
+ * @param[in] B Input parameter.
+ * @return Return value.
+ * @details Calls: size(), T_new(), std::move(), empty().
+ */
 float HnswTTBridge::ttInnerProductFromTrains(const storage::TTTrain& A,
                                               const storage::TTTrain& B) {
     const size_t d = A.cores.size();
@@ -686,6 +789,12 @@ float HnswTTBridge::ttInnerProductFromTrains(const storage::TTTrain& A,
     return T.empty() ? 0.0f : T[0];
 }
 
+/**
+ * @brief Tt Norm From Train.
+ * @param[in] T Input parameter.
+ * @return Return value.
+ * @details Calls: ttInnerProductFromTrains(), std::sqrt().
+ */
 float HnswTTBridge::ttNormFromTrain(const storage::TTTrain& T) {
     float ip = ttInnerProductFromTrains(T, T);
     return (ip > 0.0f) ? std::sqrt(ip) : 0.0f;

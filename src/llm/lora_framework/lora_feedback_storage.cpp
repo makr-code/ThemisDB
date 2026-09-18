@@ -56,12 +56,23 @@ FeedbackStorageService::~FeedbackStorageService() noexcept {
     }
 }
 
+/**
+ * @brief Register Plugin.
+ * @param[in] plugin Input parameter.
+ * @details Calls: lock(), push_back(), spdlog::info(), getName().
+ */
 void FeedbackStorageService::registerPlugin(std::shared_ptr<FeedbackPlugin> plugin) {
     std::lock_guard<std::mutex> lock(mutex_);
     plugins_.push_back(plugin);
     spdlog::info("Registered feedback plugin: {}", plugin->getName());
 }
 
+/**
+ * @brief Create Feedback.
+ * @param[in] feedback Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), generateFeedbackId(), std::chrono::system_clock::now(), runValidation(), spdlog::warn(), runProcessing(), lock(), makeFeedbackKey().
+ */
 std::optional<Feedback> FeedbackStorageService::createFeedback(Feedback feedback) {
     // Generate ID if not provided
     if (feedback.id.empty()) {
@@ -114,6 +125,11 @@ std::optional<Feedback> FeedbackStorageService::createFeedback(Feedback feedback
 
 std::optional<Feedback> FeedbackStorageService::getFeedback(const std::string& id) const {
     try {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         
         std::string key = makeFeedbackKey(id);
@@ -137,6 +153,11 @@ std::vector<Feedback> FeedbackStorageService::listFeedback(const FeedbackFilter&
     std::vector<Feedback> results;
     
     try {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         // Prefix scan over collection namespace: "<collection_name>:<id>"
         const std::string prefix = config_.collection_name + ":";
@@ -181,6 +202,13 @@ std::vector<Feedback> FeedbackStorageService::listFeedback(const FeedbackFilter&
     }
 }
 
+/**
+ * @brief Update Feedback.
+ * @param[in] id Input parameter.
+ * @param[in] feedback Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), makeFeedbackKey(), get(), toJSON(), dump(), put(), spdlog::error(), spdlog::debug().
+ */
 bool FeedbackStorageService::updateFeedback(const std::string& id, const Feedback& feedback) {
     try {
         std::lock_guard<std::mutex> lock(mutex_);
@@ -214,6 +242,12 @@ bool FeedbackStorageService::updateFeedback(const std::string& id, const Feedbac
     }
 }
 
+/**
+ * @brief Delete Feedback.
+ * @param[in] id Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: getFeedback(), lock(), makeFeedbackKey(), del(), removeGraphLink(), spdlog::debug(), spdlog::error(), what().
+ */
 bool FeedbackStorageService::deleteFeedback(const std::string& id) {
     try {
         // Retrieve feedback (acquires lock internally)
@@ -272,6 +306,11 @@ std::vector<Feedback> FeedbackStorageService::getTrainingFeedback(
 bool FeedbackStorageService::shouldTriggerTraining(const std::string& adapter_id) const {
     auto training_feedback = getTrainingFeedback(adapter_id);
     
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     // Check with all registered plugins
@@ -412,6 +451,13 @@ std::string FeedbackStorageService::makeFeedbackKey(const std::string& id) const
     return config_.collection_name + ":" + id;
 }
 
+/**
+ * @brief Create Graph Link.
+ * @param[in] feedback_id Identifier of the feedback.
+ * @param[in] adapter_id Identifier of the adapter.
+ * @return True when the operation succeeds.
+ * @details Calls: spdlog::warn(), makeFeedbackKey(), lock(), create_graph_link_fn_(), spdlog::debug(), spdlog::error(), setPrimaryKey(), setField().
+ */
 bool FeedbackStorageService::createGraphLink(
     const std::string& feedback_id,
     const std::string& adapter_id
@@ -468,6 +514,13 @@ bool FeedbackStorageService::createGraphLink(
     }
 }
 
+/**
+ * @brief Remove Graph Link.
+ * @param[in] feedback_id Identifier of the feedback.
+ * @param[in] adapter_id Identifier of the adapter.
+ * @return True when the operation succeeds.
+ * @details Calls: spdlog::warn(), makeFeedbackKey(), lock(), remove_graph_link_fn_(), spdlog::debug(), spdlog::error(), deleteEdge(), what().
+ */
 bool FeedbackStorageService::removeGraphLink(
     const std::string& feedback_id,
     const std::string& adapter_id
@@ -516,17 +569,32 @@ bool FeedbackStorageService::removeGraphLink(
     }
 }
 
+/**
+ * @brief Set Create Graph Link Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void FeedbackStorageService::setCreateGraphLinkFn(CreateGraphLinkFn fn) {
     std::lock_guard<std::mutex> lock(mutex_);
     create_graph_link_fn_ = std::move(fn);
 }
 
+/**
+ * @brief Set Remove Graph Link Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void FeedbackStorageService::setRemoveGraphLinkFn(RemoveGraphLinkFn fn) {
     std::lock_guard<std::mutex> lock(mutex_);
     remove_graph_link_fn_ = std::move(fn);
 }
 
 bool FeedbackStorageService::runValidation(const Feedback& feedback) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     // Run validation through all plugins
@@ -540,6 +608,11 @@ bool FeedbackStorageService::runValidation(const Feedback& feedback) const {
     return true;
 }
 
+/**
+ * @brief Run Processing.
+ * @param[in,out] feedback Input/output parameter.
+ * @details Calls: lock(), process().
+ */
 void FeedbackStorageService::runProcessing(Feedback& feedback) {
     std::lock_guard<std::mutex> lock(mutex_);
     

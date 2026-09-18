@@ -162,9 +162,9 @@ ResultAccumulator::ResultAccumulator(const MemoryPolicy& policy)
 
 /**
  * @brief Add Result.
- * @param[in] shard_id Input parameter.
+ * @param[in] shard_id Identifier of the shard.
  * @param[in] result Input parameter.
- * @return True on success.
+ * @return True when the operation succeeds.
  * @details Calls: estimateJsonSize(), addResultWithSize().
  */
 bool ResultAccumulator::addResult(
@@ -176,10 +176,10 @@ bool ResultAccumulator::addResult(
 
 /**
  * @brief Add Result With Size.
- * @param[in] shard_id Input parameter.
+ * @param[in] shard_id Identifier of the shard.
  * @param[in] result Input parameter.
  * @param[in] size_bytes Input parameter.
- * @return True on success.
+ * @return True when the operation succeeds.
  * @throws std::runtime_error if an error occurs.
  * @details Calls: lock(), getMaxResultBytes(), spdlog::warn(), handleMemoryPressure(), getOverflowPolicy(), size(), dropOldestBatch(), std::chrono::steady_clock::now().
  */
@@ -187,11 +187,6 @@ bool ResultAccumulator::addResultWithSize(
     const std::string& shard_id,
     const nlohmann::json& result,
     uint64_t size_bytes) {
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     // Check if adding this result would exceed memory limit
@@ -371,11 +366,6 @@ size_t ResultAccumulator::getTotalResultCount() const {
  * @details Calls: lock(), spdlog::debug().
  */
 void ResultAccumulator::clear() {
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lock(mutex_);
     shard_batches_.clear();
     current_memory_bytes_ = 0;

@@ -96,9 +96,12 @@ bool PromptContextValue::asBool() const {
 
 namespace {
 
-// Trim leading/trailing whitespace from a token.
-// Using themis::utils::trim() from string_utils.h (Phase 1 consolidation)
-// This local wrapper converts string_view to string for convenience.
+/**
+ * @brief Trim leading/trailing whitespace from a token.
+ * @param[in] sv Input parameter.
+ * @return Return value.
+ * @details Using themis::utils::trim() from string_utils.h (Phase 1 consolidation) This local wrapper converts string_view to string for convenience. Calls: std::string().
+ */
 static inline std::string trim(std::string_view sv) {
     return themis::utils::trim(std::string(sv));
 }
@@ -123,9 +126,13 @@ struct Token {
     std::string value2; // FOR: list variable
 };
 
-// ============================================================================
-// Lexer: tokenise the source string
-// ============================================================================
+/**
+ * @brief ============================================================================ Lexer: tokenise the source string ============================================================================
+ * @param[in] src Input parameter.
+ * @return Return value.
+ * @throws PromptTemplateCompileError if an error occurs.
+ * @details Calls: size(), empty(), push_back(), clear(), find(), flush_text(), trim(), substr().
+ */
 
 static std::vector<Token> lex(const std::string& src) {
     std::vector<Token> tokens;
@@ -334,9 +341,14 @@ static std::vector<detail::ASTNodePtr> parse(
     return nodes;
 }
 
-// ============================================================================
-// Renderer: traverse AST, build output string
-// ============================================================================
+/**
+ * @brief ============================================================================ Renderer: traverse AST, build output string ============================================================================
+ * @param[in] nodes Input parameter.
+ * @param[in] ctx Input parameter.
+ * @param[in] item_var Input parameter.
+ * @param[in] item_val Input parameter.
+ * @param[in,out] out Input/output parameter.
+ */
 
 static void renderNodes(
     const std::vector<detail::ASTNodePtr>& nodes,
@@ -361,6 +373,11 @@ static void renderNodes(
                 auto it = ctx.find(name);
                 if (it == ctx.end()) {
                     if (node->required) {
+                        /**
+                         * @brief Prompt Template Missing Slot Error.
+                         * @param[in] name Input parameter.
+                         * @return Return value.
+                         */
                         throw PromptTemplateMissingSlotError(name);
                     }
                     out << node->default_value;

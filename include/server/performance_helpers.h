@@ -38,19 +38,6 @@ namespace themis::server::perf {
 // Connection Pool Pre-allocation (Gaps S-001, S-002, S-008, S-010, S-011)
 // ============================================================================
 
-/**
- * @class GenericConnectionPool
- * @brief Thread-safe pre-allocated connection pool with exponential growth
- * 
- * Features:
- * - INITIAL_POOL_SIZE = 32 pre-allocated connections
- * - MAX_POOL_SIZE = 256 hard limit
- * - Exponential growth factor 1.5x
- * - Timeout-aware acquire with fallback
- * - RAII-safe resource management
- * 
- * @tparam Connection Connection type (must be default-constructible)
- */
 template<typename Connection>
 class GenericConnectionPool {
 public:
@@ -58,10 +45,6 @@ public:
     static constexpr size_t MAX_POOL_SIZE = 256;
     static constexpr double GROWTH_FACTOR = 1.5;
     
-    /**
-     * @brief Construct connection pool with specified initial size
-     * @param initial_size Number of connections to pre-allocate (default 32)
-     */
     explicit GenericConnectionPool(
         size_t initial_size = INITIAL_POOL_SIZE,
         size_t max_size = MAX_POOL_SIZE
@@ -85,17 +68,14 @@ public:
     
     ~GenericConnectionPool() = default;
     
-    /**
-     * @brief Acquire a connection from the pool with timeout
-     * @param timeout Maximum time to wait for connection availability
-     * @return optional<unique_ptr<Connection>> or nullopt if timeout
-     * 
-     * Impact: Eliminates repeated allocation in tight loops
-     * Expected: -30% allocation overhead, -20% GC pressure
-     */
     std::optional<std::unique_ptr<Connection>> acquire(
         std::chrono::milliseconds timeout = std::chrono::seconds(5)
     ) {
+        /**
+         * @brief Lock.
+         * @param[in] pool_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(pool_mutex_);
         
         // Fast path: connection available
@@ -122,10 +102,9 @@ public:
     }
     
     /**
-     * @brief Release a connection back to the pool
-     * @param conn Connection to release
-     * 
-     * Impact: Enables connection reuse without reallocation
+     * @brief Release.
+     * @param[in] conn Input parameter.
+     * @details Calls: lock(), size(), push_back(), std::move(), reset().
      */
     void release(std::unique_ptr<Connection> conn) {
         if (!conn) {
@@ -143,11 +122,12 @@ public:
         }
     }
     
-    /**
-     * @brief Get current pool statistics
-     * @return {available, total, max}
-     */
     std::tuple<size_t, size_t, size_t> getStats() const {
+        /**
+         * @brief Lock.
+         * @param[in] pool_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(pool_mutex_);
         return std::make_tuple(
             available_connections_.size(),
@@ -173,33 +153,19 @@ private:
 // RAII Connection Guard (Gaps S-006, S-007, S-009)
 // ============================================================================
 
-/**
- * @class ConnectionGuard
- * @brief RAII wrapper ensuring automatic connection cleanup on exception
- * 
- * Features:
- * - Automatic return to pool on destruction
- * - Exception-safe resource cleanup
- * - Move semantics for efficient transfer
- * 
- * Impact: 100% exception safety, eliminates resource leaks
- * Expected: Zero resource leaks in error paths
- */
 template<typename Connection, typename Pool>
 class ConnectionGuard {
 public:
     /**
-     * @brief Construct guard with connection and pool reference
-     * @param conn Connection to guard
-     * @param pool Pool to return connection to
+     * @brief Connection Guard.
+     * @param[in] conn Input parameter.
+     * @param[in,out] pool Input/output parameter.
+     * @return Return value.
      */
     explicit ConnectionGuard(std::unique_ptr<Connection> conn, Pool* pool)
         : conn_(std::move(conn))
         , pool_(pool) {}
     
-    /**
-     * @brief Destructor - automatically release connection back to pool
-     */
     ~ConnectionGuard() {
         if (conn_ && pool_) {
             pool_->release(std::move(conn_));
@@ -209,6 +175,11 @@ public:
     // Smart pointer semantics
     Connection& operator*() { return *conn_; }
     Connection* operator->() { return conn_.get(); }
+    /**
+     * @brief Get.
+     * @return Pointer to the result.
+     * @details Implements get without additional internal calls.
+     */
     Connection* get() { return conn_.get(); }
     
     // Move semantics (allow transfer)
@@ -240,18 +211,6 @@ private:
 // Buffer Pre-reservation (Gaps S-003, S-004, S-012, S-013, S-014, S-015)
 // ============================================================================
 
-/**
- * @class PreallocatedBuffer
- * @brief Buffer with exponential growth strategy
- * 
- * Features:
- * - Pre-reserve capacity at construction
- * - Exponential growth factor 1.5x to amortize allocations
- * - Efficient append operations without repeated reallocations
- * 
- * Impact: -50% buffer allocations, -25% copy overhead
- * Expected: +3-5% throughput improvement
- */
 class PreallocatedBuffer {
 public:
     static constexpr size_t INITIAL_CAPACITY = 8192;  // 8KB
@@ -263,11 +222,10 @@ public:
     }
     
     /**
-     * @brief Append data to buffer with smart growth
-     * @param data Pointer to data
-     * @param len Length of data
-     * 
-     * Impact: Avoids repeated reallocation through exponential growth
+     * @brief Append.
+     * @param[in] data Input parameter.
+     * @param[in] len Input parameter.
+     * @details Calls: size(), capacity(), reserve(), insert(), end().
      */
     void append(const void* data, size_t len) {
         if (!data || len == 0) {
@@ -294,44 +252,46 @@ public:
     }
     
     /**
-     * @brief Append string_view
+     * @brief Append.
+     * @param[in] sv Input parameter.
+     * @details Calls: data(), size().
      */
     void append(std::string_view sv) {
         append(sv.data(), sv.size());
     }
     
     /**
-     * @brief Pre-reserve capacity (for known-size allocations)
-     * @param size Expected final size
+     * @brief Reserve.
+     * @param[in] size Input parameter.
+     * @details Calls: std::max().
      */
     void reserve(size_t size) {
         buffer_.reserve(std::max(size, INITIAL_CAPACITY));
     }
     
     /**
-     * @brief Get mutable buffer data
+     * @brief Data.
+     * @return Return value.
+     * @details Implements data without additional internal calls.
      */
     std::vector<uint8_t>& data() { return buffer_; }
     const std::vector<uint8_t>& data() const { return buffer_; }
     
     /**
-     * @brief Clear buffer (keep capacity)
+     * @brief Clear.
+     * @details Implements clear without additional internal calls.
      */
     void clear() { buffer_.clear(); }
     
     /**
-     * @brief Extract buffer and clear (move semantics)
+     * @brief Extract.
+     * @return Return value.
+     * @details Calls: std::move().
      */
     std::vector<uint8_t> extract() { return std::move(buffer_); }
     
-    /**
-     * @brief Get current size
-     */
     size_t size() const { return buffer_.size(); }
     
-    /**
-     * @brief Get capacity
-     */
     size_t capacity() const { return buffer_.capacity(); }
 
 private:
@@ -342,19 +302,6 @@ private:
 // HTTP/2 Stream Buffer (Gaps H-001, H-002, H-003, H-007, H-008)
 // ============================================================================
 
-/**
- * @class HTTP2StreamBuffer
- * @brief Optimized buffer for HTTP/2 stream data
- * 
- * Features:
- * - Pre-allocated 4KB initial capacity
- * - Exponential growth to minimize reallocation
- * - Efficient frame serialization without intermediate copies
- * - Thread-safe append operations
- * 
- * Impact: -70% stream buffer reallocations, -40% serialization overhead
- * Expected: +2-4% throughput improvement
- */
 class HTTP2StreamBuffer {
 public:
     static constexpr size_t INITIAL_CAPACITY = 4096;  // 4KB per stream
@@ -367,11 +314,10 @@ public:
     }
     
     /**
-     * @brief Append raw bytes to stream buffer
-     * @param data Pointer to data
-     * @param len Length of data
-     * 
-     * Impact: Reduces reallocation frequency through exponential growth
+     * @brief Append.
+     * @param[in] data Input parameter.
+     * @param[in] len Input parameter.
+     * @details Calls: std::chrono::high_resolution_clock::now(), size(), capacity(), reserve(), insert(), end().
      */
     void append(const uint8_t* data, size_t len) {
         if (!data || len == 0) {
@@ -399,11 +345,11 @@ public:
     }
     
     /**
-     * @brief Append HTTP/2 frame with size pre-calculation
-     * @param header 9-byte frame header
-     * @param payload Frame payload data
-     * 
-     * Impact: Single allocation for entire frame instead of separate operations
+     * @brief Append Frame.
+     * @param[in] header Input parameter.
+     * @param[in] payload Input parameter.
+     * @param[in] payload_len Input parameter.
+     * @details Calls: size(), capacity(), reserve(), insert(), end(), std::chrono::high_resolution_clock::now().
      */
     void appendFrame(const uint8_t* header, const uint8_t* payload, size_t payload_len) {
         // Frame = 9-byte header + payload
@@ -435,38 +381,33 @@ public:
     }
     
     /**
-     * @brief Clear buffer (keep capacity)
+     * @brief Clear.
+     * @details Implements clear without additional internal calls.
      */
     void clear() { buffer_.clear(); }
     
     /**
-     * @brief Extract buffer data (move semantics)
+     * @brief Extract.
+     * @return Return value.
+     * @details Calls: std::chrono::high_resolution_clock::now(), std::move().
      */
     std::vector<uint8_t> extract() {
         last_access_time_ = std::chrono::high_resolution_clock::now();
         return std::move(buffer_);
     }
     
-    /**
-     * @brief Get buffer data
-     */
     const std::vector<uint8_t>& data() const { return buffer_; }
+    /**
+     * @brief Data.
+     * @return Return value.
+     * @details Implements data without additional internal calls.
+     */
     std::vector<uint8_t>& data() { return buffer_; }
     
-    /**
-     * @brief Get current size
-     */
     size_t size() const { return buffer_.size(); }
     
-    /**
-     * @brief Get capacity
-     */
     size_t capacity() const { return buffer_.capacity(); }
     
-    /**
-     * @brief Get time since last access (for timeout tracking)
-     * @return Duration since last append/access
-     */
     std::chrono::duration<double> getIdleDuration() const {
         return std::chrono::high_resolution_clock::now() - last_access_time_;
     }
@@ -480,18 +421,6 @@ private:
 // Export Streaming Buffer (Gaps E-001, E-002, E-003, E-004)
 // ============================================================================
 
-/**
- * @class ExportStreamingBuffer
- * @brief Streaming buffer with chunked writes and backpressure handling
- * 
- * Features:
- * - Pre-allocate buffer based on estimated file size
- * - Chunked writes to reduce memory usage
- * - Backpressure handling (pause reading if buffer full)
- * - Timeout on write operations
- * 
- * Impact: +1-3% throughput on export workloads, better memory efficiency
- */
 class ExportStreamingBuffer {
 public:
     static constexpr size_t CHUNK_SIZE = 65536;  // 64KB chunks
@@ -509,12 +438,11 @@ public:
     }
     
     /**
-     * @brief Write data with automatic chunking and backpressure
-     * @param data Pointer to data
-     * @param len Length of data
-     * @return true if write successful, false if backpressure active
-     * 
-     * Impact: Prevents buffer exhaustion during large exports
+     * @brief Write.
+     * @param[in] data Input parameter.
+     * @param[in] len Input parameter.
+     * @return True when the operation succeeds.
+     * @details Calls: lock(), size(), insert(), end(), flushLocked().
      */
     bool write(const uint8_t* data, size_t len) {
         if (!data || len == 0) {
@@ -540,26 +468,33 @@ public:
         return true;
     }
     
-    /**
-     * @brief Flush remaining buffer
-     * @param timeout Maximum time to wait for flush
-     * @return true if successful
-     */
     bool flush(std::chrono::milliseconds timeout = std::chrono::seconds(5)) {
+        /**
+         * @brief Lock.
+         * @param[in] buffer_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(buffer_mutex_);
         return flushLocked();
     }
     
-    /**
-     * @brief Check if backpressure is active
-     */
     bool isBackpressureActive() const {
+        /**
+         * @brief Lock.
+         * @param[in] buffer_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(buffer_mutex_);
         double utilization = static_cast<double>(buffer_.size()) / max_size_;
         return utilization >= BACKPRESSURE_THRESHOLD;
     }
 
 private:
+    /**
+     * @brief Flush Locked.
+     * @return True when the operation succeeds.
+     * @details Calls: empty(), write_fn_(), clear().
+     */
     bool flushLocked() {
         if (buffer_.empty()) {
           return true;
@@ -585,29 +520,18 @@ private:
 // Rope Frame Serialization Cache (Gap R-003)
 // ============================================================================
 
-/**
- * @class RopeFrameSerializationCache
- * @brief Cache for common rope frame serialization patterns
- * 
- * Features:
- * - Cache pre-serialized frames for common patterns
- * - Thread-safe cache access
- * - Automatic cache invalidation
- * 
- * Impact: Reduces serialization overhead for repeated patterns
- */
 class RopeFrameSerializationCache {
 public:
     static constexpr size_t MAX_CACHE_ENTRIES = 256;
     
     RopeFrameSerializationCache() : cache_() {}
     
-    /**
-     * @brief Get cached frame or nullopt
-     * @param key Frame key (e.g., hash of serialization parameters)
-     * @return Cached frame or nullopt if not found
-     */
     std::optional<std::vector<uint8_t>> get(std::string_view key) const {
+        /**
+         * @brief Lock.
+         * @param[in] cache_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::shared_lock<std::shared_mutex> lock(cache_mutex_);
         auto it = cache_.find(std::string(key));
         if (it != cache_.end()) {
@@ -617,9 +541,10 @@ public:
     }
     
     /**
-     * @brief Store frame in cache
-     * @param key Frame key
-     * @param frame Serialized frame data
+     * @brief Put.
+     * @param[in] key Input parameter.
+     * @param[in] frame Input parameter.
+     * @details Calls: lock(), size(), clear(), std::string().
      */
     void put(std::string_view key, const std::vector<uint8_t>& frame) {
         std::unique_lock<std::shared_mutex> lock(cache_mutex_);
@@ -633,7 +558,8 @@ public:
     }
     
     /**
-     * @brief Clear cache
+     * @brief Clear.
+     * @details Calls: lock().
      */
     void clear() {
         std::unique_lock<std::shared_mutex> lock(cache_mutex_);

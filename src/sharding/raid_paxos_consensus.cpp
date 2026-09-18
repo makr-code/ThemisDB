@@ -47,6 +47,13 @@ ConsensusType RAIDPaxosConsensus::getType() const {
     return ConsensusType::RAID_PAXOS;
 }
 
+/**
+ * @brief Initialize.
+ * @param[in] node_id Identifier of the node.
+ * @param[in] cluster_nodes Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: validateRAIDConfiguration(), spdlog::error(), initializeRAIDState(), spdlog::info(), raidModeToString(), size().
+ */
 bool RAIDPaxosConsensus::initialize(
     const std::string& node_id,
     const std::vector<std::string>& cluster_nodes
@@ -108,6 +115,13 @@ ConsensusState RAIDPaxosConsensus::getState() const {
     return PaxosConsensus::getState();
 }
 
+/**
+ * @brief Propose.
+ * @param[in] operation Input parameter.
+ * @param[in] data Input parameter.
+ * @return Return value.
+ * @details Calls: validateRAIDOperation(), spdlog::error(), raidModeToString(), std::chrono::milliseconds(), calculateRAIDTimeout(), spdlog::warn().
+ */
 std::optional<uint64_t> RAIDPaxosConsensus::propose(
     const std::string& operation,
     const nlohmann::json& data
@@ -134,6 +148,13 @@ std::optional<uint64_t> RAIDPaxosConsensus::propose(
     return result;
 }
 
+/**
+ * @brief Wait For Commit.
+ * @param[in] log_index Input parameter.
+ * @param[in] timeout Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: calculateRAIDTimeout().
+ */
 bool RAIDPaxosConsensus::waitForCommit(
     uint64_t log_index,
     std::chrono::milliseconds timeout
@@ -225,11 +246,21 @@ std::optional<std::vector<uint8_t>> RAIDPaxosConsensus::reconstructFromParity(
     return std::nullopt;
 }
 
+/**
+ * @brief Set Parity Reconstruction Callback.
+ * @param[in] fn Input parameter.
+ * @details Calls: std::move(), spdlog::info().
+ */
 void RAIDPaxosConsensus::setParityReconstructionCallback(ParityReconstructionFn fn) {
     parity_reconstruction_callback_ = std::move(fn);
     spdlog::info("RAIDPaxosConsensus: Parity reconstruction callback set");
 }
 
+/**
+ * @brief Set Mirror Selection Callback.
+ * @param[in] fn Input parameter.
+ * @details Calls: std::move(), spdlog::info().
+ */
 void RAIDPaxosConsensus::setMirrorSelectionCallback(MirrorSelectionFn fn) {
     mirror_selection_callback_ = std::move(fn);
     spdlog::info("RAIDPaxosConsensus: Mirror selection callback set");
@@ -239,6 +270,11 @@ void RAIDPaxosConsensus::setMirrorSelectionCallback(MirrorSelectionFn fn) {
 // RAID failure handling
 // ============================================================================
 
+/**
+ * @brief Report Shard Failure.
+ * @param[in] shard_index Input parameter.
+ * @details Calls: lock(), insert(), spdlog::warn(), raidModeToString(), getMaxTolerableFailuresInternal(), size(), spdlog::error().
+ */
 void RAIDPaxosConsensus::reportShardFailure(int shard_index) {
     std::lock_guard<std::mutex> lock(raid_state_mutex_);
     
@@ -258,6 +294,11 @@ void RAIDPaxosConsensus::reportShardFailure(int shard_index) {
     }
 }
 
+/**
+ * @brief Report Shard Recovery.
+ * @param[in] shard_index Input parameter.
+ * @details Calls: lock(), erase(), spdlog::info(), triggerDataReconstruction().
+ */
 void RAIDPaxosConsensus::reportShardRecovery(int shard_index) {
     std::lock_guard<std::mutex> lock(raid_state_mutex_);
     
@@ -270,15 +311,30 @@ void RAIDPaxosConsensus::reportShardRecovery(int shard_index) {
 }
 
 std::vector<int> RAIDPaxosConsensus::getFailedShards() const {
+    /**
+     * @brief Lock.
+     * @param[in] raid_state_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(raid_state_mutex_);
     return std::vector<int>(failed_shards_.begin(), failed_shards_.end());
 }
 
 bool RAIDPaxosConsensus::isShardFailed(int shard_index) const {
+    /**
+     * @brief Lock.
+     * @param[in] raid_state_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(raid_state_mutex_);
     return failed_shards_.find(shard_index) != failed_shards_.end();
 }
 
+/**
+ * @brief Trigger Data Reconstruction.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), empty(), spdlog::debug(), begin(), end(), canRecoverFromFailures(), spdlog::error(), spdlog::info().
+ */
 bool RAIDPaxosConsensus::triggerDataReconstruction() {
     std::vector<int> failed_shards;
     {
@@ -309,6 +365,11 @@ bool RAIDPaxosConsensus::triggerDataReconstruction() {
 // Private helper methods
 // ============================================================================
 
+/**
+ * @brief Initialize RAIDState.
+ * @return True when the operation succeeds.
+ * @details Calls: validateRAIDConfiguration(), size(), spdlog::error().
+ */
 bool RAIDPaxosConsensus::initializeRAIDState() {
     // Validate configuration
     if (!validateRAIDConfiguration()) {
@@ -372,6 +433,13 @@ std::chrono::milliseconds RAIDPaxosConsensus::calculateRAIDTimeout(
 // Factory functions
 // ============================================================================
 
+/**
+ * @brief Create RAIDPaxos Consensus.
+ * @param[in] raid_mode Input parameter.
+ * @param[in] base_config Input parameter.
+ * @return Return value.
+ * @details Implements createRAIDPaxosConsensus without additional internal calls.
+ */
 std::unique_ptr<RAIDPaxosConsensus> createRAIDPaxosConsensus(
     RAIDMode raid_mode,
     const ConsensusConfig& base_config
@@ -407,6 +475,12 @@ std::unique_ptr<RAIDPaxosConsensus> createRAIDPaxosConsensus(
     return std::make_unique<RAIDPaxosConsensus>(raid_config);
 }
 
+/**
+ * @brief Create RAIDPaxos Consensus.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @details Implements createRAIDPaxosConsensus without additional internal calls.
+ */
 std::unique_ptr<RAIDPaxosConsensus> createRAIDPaxosConsensus(
     const RAIDPaxosConfig& config
 ) {

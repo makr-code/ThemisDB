@@ -43,6 +43,13 @@ namespace llm {
 // Public interface
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Load.
+ * @param[in] path Input parameter.
+ * @param[in] format Input parameter.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ */
 lora::QuantizedModel ModelQuantizationPipeline::load(
     const std::string& path,
     ModelFormat format,
@@ -69,6 +76,11 @@ lora::QuantizedModel ModelQuantizationPipeline::load(
     }
 }
 
+/**
+ * @brief Detect format.
+ * @param[in] path Input parameter.
+ * @return Return value.
+ */
 ModelFormat ModelQuantizationPipeline::detect_format(const std::string& path)
 {
     // 1) File with .gguf extension
@@ -77,11 +89,21 @@ ModelFormat ModelQuantizationPipeline::detect_format(const std::string& path)
         return ModelFormat::GGUF;
     }
 
-    // 2) Directory: inspect config.json for quant_type
+    /**
+     * @brief 2) Directory: inspect config.
+     * @param[in] path Input parameter.
+     * @return Return value.
+     * @details json for quant_type
+     */
     const fs::path dir(path);
     const fs::path config_path = dir / "config.json";
 
     if (fs::exists(config_path)) {
+        /**
+         * @brief F.
+         * @param[in] config_path Path to the retention policy configuration file.
+         * @return Return value.
+         */
         std::ifstream f(config_path);
         if (f) {
             try {
@@ -144,6 +166,11 @@ ModelFormat ModelQuantizationPipeline::detect_format(const std::string& path)
     return ModelFormat::GGUF;
 }
 
+/**
+ * @brief Format name.
+ * @param[in] fmt Input parameter.
+ * @return Pointer to the result.
+ */
 const char* ModelQuantizationPipeline::format_name(ModelFormat fmt)
 {
     switch (fmt) {
@@ -154,9 +181,12 @@ const char* ModelQuantizationPipeline::format_name(ModelFormat fmt)
     }
 }
 
-// ---------------------------------------------------------------------------
-// GGUF loader (delegates to existing lora_framework implementation)
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- GGUF loader (delegates to existing lora_framework implementation) ---------------------------------------------------------------------------
+ * @param[in] path Input parameter.
+ * @param[in] cfg Input parameter.
+ * @return Return value.
+ */
 
 lora::QuantizedModel ModelQuantizationPipeline::load_gguf(
     const std::string& path,
@@ -212,6 +242,11 @@ ModelQuantizationPipeline::parse_safetensors(const std::string& file_path)
     // Read binary data (everything after the 8-byte length + header)
     const size_t data_offset = 8 + static_cast<size_t>(hdr_len);
     const size_t data_size   = file_size - data_offset;
+    /**
+     * @brief Data.
+     * @param[in] data_size Input parameter.
+     * @return Return value.
+     */
     std::vector<uint8_t> data(data_size);
     if (data_size > 0) {
         f.read(reinterpret_cast<char*>(data.data()),
@@ -258,6 +293,11 @@ ModelQuantizationPipeline::parse_safetensors(const std::string& file_path)
     return result;
 }
 
+/**
+ * @brief Find safetensor shards.
+ * @param[in] dir Input parameter.
+ * @return Return value.
+ */
 std::vector<std::string> ModelQuantizationPipeline::find_safetensor_shards(
     const std::string& dir)
 {
@@ -278,6 +318,13 @@ std::vector<std::string> ModelQuantizationPipeline::find_safetensor_shards(
 // Weight-unpacking helpers
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Unpack int32 weights.
+ * @param[in] packed_data Input parameter.
+ * @param[in] n_packed Input parameter.
+ * @param[in] bits Input parameter.
+ * @return Return value.
+ */
 std::vector<float> ModelQuantizationPipeline::unpack_int32_weights(
     const void* packed_data,
     size_t n_packed,
@@ -300,10 +347,21 @@ std::vector<float> ModelQuantizationPipeline::unpack_int32_weights(
     return out;
 }
 
+/**
+ * @brief Fp16 to fp32 array.
+ * @param[in] fp16_data Input parameter.
+ * @param[in] n Input parameter.
+ * @return Return value.
+ */
 std::vector<float> ModelQuantizationPipeline::fp16_to_fp32_array(
     const void* fp16_data,
     size_t n)
 {
+    /**
+     * @brief Out.
+     * @param[in] n Input parameter.
+     * @return Return value.
+     */
     std::vector<float> out(n);
     const auto* src = static_cast<const uint16_t*>(fp16_data);
     for (size_t i = 0; i < n; ++i) {
@@ -336,6 +394,17 @@ std::vector<float> ModelQuantizationPipeline::fp16_to_fp32_array(
     return out;
 }
 
+/**
+ * @brief Dequantize awq layer.
+ * @param[in] qweight_packed Input parameter.
+ * @param[in] qzeros_packed Input parameter.
+ * @param[in] scales_fp16 Input parameter.
+ * @param[in] in_features Input parameter.
+ * @param[in] out_features Input parameter.
+ * @param[in] group_size Input parameter.
+ * @param[in] bits Input parameter.
+ * @return Return value.
+ */
 std::vector<float> ModelQuantizationPipeline::dequantize_awq_layer(
     const void* qweight_packed,
     const void* qzeros_packed,
@@ -400,6 +469,17 @@ std::vector<float> ModelQuantizationPipeline::dequantize_awq_layer(
     return out_f;
 }
 
+/**
+ * @brief Dequantize gptq layer.
+ * @param[in] qweight_packed Input parameter.
+ * @param[in] qzeros_packed Input parameter.
+ * @param[in] scales_fp16 Input parameter.
+ * @param[in] in_features Input parameter.
+ * @param[in] out_features Input parameter.
+ * @param[in] group_size Input parameter.
+ * @param[in] bits Input parameter.
+ * @return Return value.
+ */
 std::vector<float> ModelQuantizationPipeline::dequantize_gptq_layer(
     const void* qweight_packed,
     const void* qzeros_packed,
@@ -469,6 +549,12 @@ std::vector<float> ModelQuantizationPipeline::dequantize_gptq_layer(
 // AWQ loader
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Load awq.
+ * @param[in] dir Input parameter.
+ * @param[in] cfg Input parameter.
+ * @return Return value.
+ */
 lora::QuantizedModel ModelQuantizationPipeline::load_awq(
     const std::string& dir,
     const QuantizationPipelineConfig& cfg)
@@ -483,6 +569,11 @@ lora::QuantizedModel ModelQuantizationPipeline::load_awq(
 
     const fs::path config_path = fs::path(dir) / "config.json";
     if (fs::exists(config_path)) {
+        /**
+         * @brief F.
+         * @param[in] config_path Path to the retention policy configuration file.
+         * @return Return value.
+         */
         std::ifstream f(config_path);
         if (f) {
             auto j = nlohmann::json::parse(f, nullptr, /*exceptions=*/false);
@@ -513,6 +604,11 @@ lora::QuantizedModel ModelQuantizationPipeline::load_awq(
     lora::QuantizedModelConfig model_cfg;
     model_cfg.quantization_type = target;
     model_cfg.block_size        = cfg.block_size;
+    /**
+     * @brief Model.
+     * @param[in] model_cfg Input parameter.
+     * @return Return value.
+     */
     lora::QuantizedModel model(model_cfg);
 
     const auto shards = find_safetensor_shards(dir);
@@ -620,6 +716,12 @@ lora::QuantizedModel ModelQuantizationPipeline::load_awq(
 // GPTQ loader
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Load gptq.
+ * @param[in] dir Input parameter.
+ * @param[in] cfg Input parameter.
+ * @return Return value.
+ */
 lora::QuantizedModel ModelQuantizationPipeline::load_gptq(
     const std::string& dir,
     const QuantizationPipelineConfig& cfg)
@@ -634,6 +736,11 @@ lora::QuantizedModel ModelQuantizationPipeline::load_gptq(
 
     const fs::path config_path = fs::path(dir) / "config.json";
     if (fs::exists(config_path)) {
+        /**
+         * @brief F.
+         * @param[in] config_path Path to the retention policy configuration file.
+         * @return Return value.
+         */
         std::ifstream f(config_path);
         if (f) {
             auto j = nlohmann::json::parse(f, nullptr, /*exceptions=*/false);
@@ -660,6 +767,11 @@ lora::QuantizedModel ModelQuantizationPipeline::load_gptq(
     lora::QuantizedModelConfig model_cfg;
     model_cfg.quantization_type = target;
     model_cfg.block_size        = cfg.block_size;
+    /**
+     * @brief Model.
+     * @param[in] model_cfg Input parameter.
+     * @return Return value.
+     */
     lora::QuantizedModel model(model_cfg);
 
     const auto shards = find_safetensor_shards(dir);

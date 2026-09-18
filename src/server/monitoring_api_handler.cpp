@@ -76,6 +76,12 @@ MonitoringApiHandler::MonitoringApiHandler(
 {
 }
 
+/**
+ * @brief Handle Health Check.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), std::chrono::steady_clock::now(), count(), themis::license::getEmbeddedLicense(), length(), substr(), themis::license::isLicenseValid(), themis::license::getDaysUntilExpiry().
+ */
 http::response<http::string_body> MonitoringApiHandler::handleHealthCheck(
     const http::request<http::string_body>& req
 ) {
@@ -113,6 +119,12 @@ http::response<http::string_body> MonitoringApiHandler::handleHealthCheck(
     return makeResponse(http::status::ok, response.dump(), req);
 }
 
+/**
+ * @brief Handle Liveness.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), load(), healthCheck(), buildConcernsJson(), makeResponse(), dump().
+ */
 http::response<http::string_body> MonitoringApiHandler::handleLiveness(
     const http::request<http::string_body>& req
 ) {
@@ -139,6 +151,12 @@ http::response<http::string_body> MonitoringApiHandler::handleLiveness(
     return makeResponse(status, response.dump(), req);
 }
 
+/**
+ * @brief Handle Readiness.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), load(), getRawDB(), what(), getrusage(), empty(), readinessCheck(), buildConcernsJson().
+ */
 http::response<http::string_body> MonitoringApiHandler::handleReadiness(
     const http::request<http::string_body>& req
 ) {
@@ -215,6 +233,12 @@ http::response<http::string_body> MonitoringApiHandler::handleReadiness(
     return makeResponse(status, response.dump(), req);
 }
 
+/**
+ * @brief Handle Version.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), themis::build_info::getBuildConfiguration(), themis::license::getEmbeddedLicense(), length(), substr(), themis::license::isLicenseValid(), themis::license::getDaysUntilExpiry(), empty().
+ */
 http::response<http::string_body> MonitoringApiHandler::handleVersion(
     const http::request<http::string_body>& req
 ) {
@@ -387,6 +411,12 @@ http::response<http::string_body> MonitoringApiHandler::handleVersion(
 #ifdef _MSC_VER
 #pragma optimize("", off)
 #endif
+/**
+ * @brief Handle Open Api.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), registerRoutes(), RouteRegistry::instance(), buildOpenApiSpec(), version(), set(), keep_alive(), body().
+ */
 http::response<http::string_body> MonitoringApiHandler::handleOpenApi(
     const http::request<http::string_body>& req
 ) {
@@ -423,6 +453,12 @@ http::response<http::string_body> MonitoringApiHandler::handleOpenApi(
 #pragma optimize("", on)
 #endif
 
+/**
+ * @brief Handle Stats.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), std::chrono::steady_clock::now(), count(), load(), getStats(), json::parse(), THEMIS_DEBUG(), serializeLoopContext().
+ */
 http::response<http::string_body> MonitoringApiHandler::handleStats(
     const http::request<http::string_body>& req
 ) {
@@ -481,6 +517,12 @@ http::response<http::string_body> MonitoringApiHandler::handleStats(
     }
 }
 
+/**
+ * @brief Handle Capabilities.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), themis::build_info::getBuildConfiguration(), THEMIS_WARN(), getCapabilitiesJSON(), contains(), makeResponse(), dump().
+ */
 http::response<http::string_body> MonitoringApiHandler::handleCapabilities(
     const http::request<http::string_body>& req
 ) {
@@ -598,6 +640,12 @@ http::response<http::string_body> MonitoringApiHandler::handleCapabilities(
     return makeResponse(http::status::ok, caps.dump(), req);
 }
 
+/**
+ * @brief Handle Metrics.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), std::chrono::steady_clock::now(), count(), load(), json::parse(), getStats(), THEMIS_DEBUG(), json::object().
+ */
 http::response<http::string_body> MonitoringApiHandler::handleMetrics(
     const http::request<http::string_body>& req
 ) {
@@ -1010,6 +1058,12 @@ http::response<http::string_body> MonitoringApiHandler::handleMetrics(
     }
 }
 
+/**
+ * @brief Handle Plugin Metrics.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), themis::plugins::PluginManager::instance(), getMetrics(), getAllStats(), reserve(), size(), push_back(), std::sort().
+ */
 http::response<http::string_body> MonitoringApiHandler::handlePluginMetrics(
     const http::request<http::string_body>& req
 ) {
@@ -1062,6 +1116,14 @@ http::response<http::string_body> MonitoringApiHandler::handlePluginMetrics(
     }
 }
 
+/**
+ * @brief Make Error Response.
+ * @param[in] status Input parameter.
+ * @param[in] message Input parameter.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: makeResponse(), dump().
+ */
 http::response<http::string_body> MonitoringApiHandler::makeErrorResponse(
     http::status status, const std::string& message, const http::request<http::string_body>& req
 ) {
@@ -1074,6 +1136,14 @@ http::response<http::string_body> MonitoringApiHandler::makeErrorResponse(
     return makeResponse(status, error_body.dump(), req);
 }
 
+/**
+ * @brief Make Response.
+ * @param[in] status Input parameter.
+ * @param[in] body Input parameter.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: version(), set(), keep_alive(), body(), prepare_payload().
+ */
 http::response<http::string_body> MonitoringApiHandler::makeResponse(
     http::status status, const std::string& body, const http::request<http::string_body>& req
 ) {
@@ -1087,7 +1157,12 @@ http::response<http::string_body> MonitoringApiHandler::makeResponse(
     return res;
 }
 
-// ==================== Phase 1.5: Sharding and SLO Endpoints ====================
+/**
+ * @brief ==================== Phase 1.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details 5: Sharding and SLO Endpoints ==================== Calls: Tracer::startSpan(), makeErrorResponse(), getMetrics(), getSLOMetrics(), empty(), version(), set(), keep_alive().
+ */
 
 http::response<http::string_body> MonitoringApiHandler::handleShardingMetrics(
     const http::request<http::string_body>& req
@@ -1121,6 +1196,12 @@ http::response<http::string_body> MonitoringApiHandler::handleShardingMetrics(
     }
 }
 
+/**
+ * @brief Handle SLOStatus.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), makeErrorResponse(), getSLOStatus(), makeResponse(), std::string(), what().
+ */
 http::response<http::string_body> MonitoringApiHandler::handleSLOStatus(
     const http::request<http::string_body>& req
 ) {
@@ -1140,7 +1221,12 @@ http::response<http::string_body> MonitoringApiHandler::handleSLOStatus(
     }
 }
 
-// static
+/**
+ * @brief static
+ * @param[in] status Input parameter.
+ * @param[in,out] ok Input/output parameter.
+ * @return Return value.
+ */
 json MonitoringApiHandler::buildConcernsJson(
     const core::concerns::HealthStatus& status, bool& ok)
 {
@@ -1236,9 +1322,11 @@ namespace {
 
 } // namespace
 
-// ============================================================================
-// Operator Observability REST API  (Q1)
-// ============================================================================
+/**
+ * @brief ============================================================================ Operator Observability REST API (Q1) ============================================================================
+ * @param[in] req Input parameter.
+ * @return Return value.
+ */
 
 http::response<http::string_body> MonitoringApiHandler::handleObservabilityAlerts(
     const http::request<http::string_body>& req)
@@ -1323,6 +1411,11 @@ http::response<http::string_body> MonitoringApiHandler::handleObservabilityAlert
     }
 }
 
+/**
+ * @brief Handle Observability Alert Silence.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ */
 http::response<http::string_body> MonitoringApiHandler::handleObservabilityAlertSilence(
     const http::request<http::string_body>& req)
 {
@@ -1387,6 +1480,11 @@ http::response<http::string_body> MonitoringApiHandler::handleObservabilityAlert
     }
 }
 
+/**
+ * @brief Handle Observability Health.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ */
 http::response<http::string_body> MonitoringApiHandler::handleObservabilityHealth(
     const http::request<http::string_body>& req)
 {
@@ -1446,6 +1544,11 @@ http::response<http::string_body> MonitoringApiHandler::handleObservabilityHealt
     }
 }
 
+/**
+ * @brief Handle Observability Provenance.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ */
 http::response<http::string_body> MonitoringApiHandler::handleObservabilityProvenance(
     const http::request<http::string_body>& req)
 {
@@ -1615,9 +1718,11 @@ http::response<http::string_body> MonitoringApiHandler::handleObservabilityProve
     }
 }
 
-// ---------------------------------------------------------------------------
-// /metrics/html  – lightweight human-readable metrics dashboard
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- /metrics/html – lightweight human-readable metrics dashboard ---------------------------------------------------------------------------
+ * @param[in] req Input parameter.
+ * @return Return value.
+ */
 
 http::response<http::string_body> MonitoringApiHandler::handleMetricsHtml(
     const http::request<http::string_body>& req)
@@ -1645,6 +1750,11 @@ http::response<http::string_body> MonitoringApiHandler::handleMetricsHtml(
 
         // Parse the prometheus text into (name, value) pairs for the table
         std::vector<std::pair<std::string, std::string>> rows;
+        /**
+         * @brief Iss.
+         * @param[in] prom_text Input parameter.
+         * @return Return value.
+         */
         std::istringstream iss(prom_text);
         std::string line = {};
         while (std::getline(iss, line)) {
@@ -1838,9 +1948,12 @@ http::response<http::string_body> MonitoringApiHandler::handleMetricsHtml(
     }
 }
 
-// =============================================================================
-// GET /api/v1/license/status
-// =============================================================================
+/**
+ * @brief ============================================================================= GET /api/v1/license/status =============================================================================
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), RuntimeLicenseGate::instance(), isInitialized(), licenseStatus(), graceDaysRemaining(), currentLicense(), getEmbeddedLicense(), size().
+ */
 
 http::response<http::string_body> MonitoringApiHandler::handleLicenseStatus(
     const http::request<http::string_body>& req
@@ -1886,11 +1999,10 @@ http::response<http::string_body> MonitoringApiHandler::handleLicenseStatus(
     return makeResponse(http::status::ok, body.dump(), req);
 }
 
-// =============================================================================
-// registerRoutes() – populate the global RouteRegistry with all monitoring
-// handler endpoint annotations so that handleOpenApi() can auto-generate the
-// OpenAPI 3.1.0 spec without duplicating path information.
-// =============================================================================
+/**
+ * @brief ============================================================================= registerRoutes() – populate the global RouteRegistry with all monitoring handler endpoint annotations so that handleOpenApi() can auto-generate the OpenAPI 3.
+ * @details 1.0 spec without duplicating path information. ============================================================================= Calls: RouteRegistry::instance(), registerRoute().
+ */
 
 void MonitoringApiHandler::registerRoutes() {
     RouteRegistry& reg = RouteRegistry::instance();

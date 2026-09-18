@@ -22,12 +22,25 @@ namespace llm {
 
 namespace {
 
+/**
+ * @brief To Lower Ascii.
+ * @param[in] value Input parameter.
+ * @return Return value.
+ * @details Calls: std::transform(), begin(), end(), std::tolower().
+ */
 std::string toLowerAscii(std::string value) {
     std::transform(value.begin(), value.end(), value.begin(),
                    [](unsigned char c) { return static_cast<char>(std::tolower(c)); });
     return value;
 }
 
+/**
+ * @brief Extract Model Family.
+ * @param[in] model_name Name of the model.
+ * @param[in] fallback_family Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), toLowerAscii(), find(), substr().
+ */
 std::string extractModelFamily(const std::string& model_name,
                                const std::string& fallback_family) {
     if (!fallback_family.empty()) {
@@ -38,6 +51,12 @@ std::string extractModelFamily(const std::string& model_name,
     return toLowerAscii(prefix);
 }
 
+/**
+ * @brief Detect Quantization Token.
+ * @param[in] text Input parameter.
+ * @return Return value.
+ * @details Calls: toLowerAscii(), find().
+ */
 std::string detectQuantizationToken(const std::string& text) {
     const auto lower = toLowerAscii(text);
     if (lower.find("nf4") != std::string::npos) {
@@ -67,6 +86,12 @@ std::string detectQuantizationToken(const std::string& text) {
 // SemVer
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Parse.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), std::all_of(), begin(), end(), std::isdigit(), std::from_chars(), data(), size().
+ */
 SemVer SemVer::parse(const std::string& s) {
     SemVer v = {};
     if (s.empty()) {
@@ -140,6 +165,12 @@ nlohmann::json SemVer::toJson() const {
     return nlohmann::json{{"major", major}, {"minor", minor}, {"patch", patch}};
 }
 
+/**
+ * @brief From Json.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: value().
+ */
 SemVer SemVer::fromJson(const nlohmann::json& j) {
     SemVer v;
     v.major = j.value("major", 0);
@@ -173,6 +204,12 @@ nlohmann::json RatchetCompatibilityEntry::toJson() const {
     };
 }
 
+/**
+ * @brief From Json.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: at().
+ */
 RatchetCompatibilityEntry RatchetCompatibilityEntry::fromJson(const nlohmann::json& j) {
     RatchetCompatibilityEntry e;
     e.adapter_id = j.at("adapter_id").get<std::string>();
@@ -189,6 +226,16 @@ RatchetCompatibilityEntry RatchetCompatibilityEntry::fromJson(const nlohmann::js
 RatchetCompatibilityMatrix::RatchetCompatibilityMatrix(std::string schema_version)
     : schema_version_(std::move(schema_version)) {}
 
+/**
+ * @brief Register Entry.
+ * @param[in] adapter_id Identifier of the adapter.
+ * @param[in] model_family Input parameter.
+ * @param[in] min_version Input parameter.
+ * @param[in] max_version_excl Input parameter.
+ * @param[in] allow_downgrade Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: push_back().
+ */
 bool RatchetCompatibilityMatrix::registerEntry(const std::string& adapter_id,
                                                const std::string& model_family,
                                                const SemVer& min_version,
@@ -284,6 +331,12 @@ nlohmann::json RebuildPolicy::toJson() const {
     };
 }
 
+/**
+ * @brief From Json.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: value(), clear(), nlohmann::json::array(), push_back().
+ */
 RebuildPolicy RebuildPolicy::fromJson(const nlohmann::json& j) {
     RebuildPolicy p;
     p.fail_closed_on_rebuild = j.value("fail_closed_on_rebuild", false);
@@ -348,6 +401,11 @@ ModelSwitchWorkflow::ModelSwitchWorkflow(std::shared_ptr<AdapterRegistry> regist
 // ModelSwitchWorkflow — configuration
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Set Compatibility Matrix.
+ * @param[in] matrix Input parameter.
+ * @details Calls: std::move().
+ */
 void ModelSwitchWorkflow::setCompatibilityMatrix(RatchetCompatibilityMatrix matrix) {
     matrix_ = std::move(matrix);
 }
@@ -356,6 +414,11 @@ const RatchetCompatibilityMatrix& ModelSwitchWorkflow::compatibilityMatrix() con
     return matrix_;
 }
 
+/**
+ * @brief Set Rebuild Policy.
+ * @param[in] policy Input parameter.
+ * @details Calls: std::move().
+ */
 void ModelSwitchWorkflow::setRebuildPolicy(RebuildPolicy policy) {
     policy_ = std::move(policy);
 }
@@ -591,6 +654,14 @@ ModelSwitchCheckResult ModelSwitchWorkflow::checkPromptFormat(
 // Rebuild policy evaluation
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Evaluate Rebuild Policy.
+ * @param[in] checks Input parameter.
+ * @param[in] policy Input parameter.
+ * @param[in,out] active_triggers Input/output parameter.
+ * @return Return value.
+ * @details Calls: clear(), isTriggerActive(), push_back(), std::find(), begin(), end(), std::move(), empty().
+ */
 ModelSwitchOutcome ModelSwitchWorkflow::evaluateRebuildPolicy(
     const std::vector<ModelSwitchCheckResult>& checks,
     const RebuildPolicy& policy,

@@ -23,25 +23,8 @@ namespace themis {
 namespace plugins {
 namespace ethics {
 
-/**
- * @brief Concrete implementation of IEthicsProfileRegistry.
- *
- * Design:
- *  - A lightweight `EthicsProfileMeta` index (always in RAM, ~500 B/profile)
- *    is built by scanning YAML header fields only (no full profile parse).
- *  - Full `PhilosophyProfile` objects are loaded on first access and cached
- *    in a bounded LRU cache (default capacity: 20 warm profiles).
- *  - Thread-safety: a single `std::mutex` guards both the index and cache.
- *
- * @note When yaml-cpp is not available the index scan falls back to a
- *       filename-only mode (school_id from filename, all other meta empty).
- */
 class EthicsProfileRegistry final : public IEthicsProfileRegistry {
 public:
-    /**
-     * @param lru_capacity  Maximum number of full profiles kept warm in
-     *                      the LRU cache.  Must be ≥ 1.
-     */
     explicit EthicsProfileRegistry(size_t lru_capacity = 20);
     ~EthicsProfileRegistry() override = default;
 
@@ -64,26 +47,38 @@ private:
     using LruList = std::list<std::pair<std::string, PhilosophyProfile>>;
     using LruMap  = std::unordered_map<std::string, LruList::iterator>;
 
+    /**
+     * @brief Lru Put.
+     * @param[in] id Input parameter.
+     * @param[in] profile Input parameter.
+     */
     void lruPut(const std::string& id, const PhilosophyProfile& profile);
+    /**
+     * @brief Lru Get.
+     * @param[in] id Input parameter.
+     * @return Pointer to the result.
+     */
     const PhilosophyProfile* lruGet(const std::string& id); // nullptr = miss
+    /**
+     * @brief Lru Evict.
+     */
     void lruEvict(); // remove LRU entry
 
-    // ── Internal ─────────────────────────────────────────────────────────────
-    /// Parse only header fields from a YAML file into EthicsProfileMeta.
-    /// Returns an empty meta (school_id derived from filename) on error.
+    /**
+     * @brief ── Internal ─────────────────────────────────────────────────────────────
+     * @param[in] filepath Input parameter.
+     * @return Return value.
+     */
     static EthicsProfileMeta scanHeader(const std::string& filepath);
 
     mutable std::mutex mutex_;
 
-    /// Metadata index: school_id → meta
     std::map<std::string, EthicsProfileMeta> index_;
 
-    /// LRU cache
     LruList lru_list_;
     LruMap  lru_map_;
     size_t  lru_capacity_;
 
-    /// Reused loader for full-profile parsing
     PhilosophyLoader loader_;
 };
 

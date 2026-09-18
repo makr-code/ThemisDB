@@ -43,6 +43,12 @@ constexpr int hexDigit(char c) noexcept {
     return -1;
 }
 
+/**
+ * @brief Url Decode Type Adapter.
+ * @param[in] str Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), hexDigit().
+ */
 std::string urlDecodeTypeAdapter(const std::string& str) {
     std::string out = {};
     out.reserve(str.size());
@@ -67,6 +73,12 @@ std::string urlDecodeTypeAdapter(const std::string& str) {
 
 } // anonymous namespace
 
+/**
+ * @brief Beast To Httplib.
+ * @param[in] beast_req Input parameter.
+ * @return Return value.
+ * @details Calls: methodToString(), method(), std::string(), target(), find(), substr(), length(), emplace().
+ */
 httplib::Request HttpTypeAdapter::beastToHttplib(
     const http::request<http::string_body>& beast_req
 ) {
@@ -123,6 +135,13 @@ httplib::Request HttpTypeAdapter::beastToHttplib(
     return httplib_req;
 }
 
+/**
+ * @brief Httplib To Beast.
+ * @param[in] httplib_res Input parameter.
+ * @param[in] version Input parameter.
+ * @return Return value.
+ * @details Calls: version(), result(), intToStatus(), set(), body(), prepare_payload().
+ */
 http::response<http::string_body> HttpTypeAdapter::httplibToBeast(
     const httplib::Response& httplib_res,
     unsigned version
@@ -149,6 +168,12 @@ http::response<http::string_body> HttpTypeAdapter::httplibToBeast(
     return beast_res;
 }
 
+/**
+ * @brief Method To String.
+ * @param[in] method Input parameter.
+ * @return Return value.
+ * @details Implements methodToString without additional internal calls.
+ */
 std::string HttpTypeAdapter::methodToString(http::verb method) {
     switch (method) {
         case http::verb::get:     return "GET";
@@ -164,6 +189,12 @@ std::string HttpTypeAdapter::methodToString(http::verb method) {
     }
 }
 
+/**
+ * @brief Int To Status.
+ * @param[in] status_code Input parameter.
+ * @return Return value.
+ * @details Implements intToStatus without additional internal calls.
+ */
 http::status HttpTypeAdapter::intToStatus(int status_code) {
     // Map common status codes
     switch (status_code) {

@@ -86,6 +86,13 @@ struct TesseractOCRPlugin::Impl {
     // -----------------------------------------------------------------------
     // Initialise Tesseract
     // -----------------------------------------------------------------------
+    /**
+     * @brief Init.
+     * @param[in] config Input parameter.
+     * @param[in] BackendType Input parameter.
+     * @return True when the operation succeeds.
+     * @details Calls: empty(), c_str(), Init(), reset(), SetPageSegMode(), SetVariable(), store().
+     */
     bool init(const PluginConfig& config, BackendType /*requested*/) {
         tessdata_path    = config.get<std::string>("tessdata_path", "");
         language         = config.get<std::string>("language", "eng");
@@ -118,9 +125,13 @@ struct TesseractOCRPlugin::Impl {
 #endif
     }
 
-    // -----------------------------------------------------------------------
-    // Perform OCR on raw image bytes
-    // -----------------------------------------------------------------------
+    /**
+     * @brief ----------------------------------------------------------------------- Perform OCR on raw image bytes -----------------------------------------------------------------------
+     * @param[in] image_data Input parameter.
+     * @param[in] effective_conf_01 Input parameter.
+     * @return Return value.
+     * @details Calls: lk(), encoded(), size(), data(), cv::imdecode(), empty(), SetImage(), SetSourceResolution().
+     */
     OcrResult runOcr(const std::vector<uint8_t>& image_data,
                      float effective_conf_01) {
         OcrResult ocr;
@@ -238,11 +249,22 @@ PluginInfo TesseractOCRPlugin::getInfo() const {
     return info;
 }
 
+/**
+ * @brief Initialize.
+ * @param[in] config Input parameter.
+ * @param[in] backend Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: init().
+ */
 bool TesseractOCRPlugin::initialize(const PluginConfig& config,
                                      BackendType backend) {
     return impl_->init(config, backend);
 }
 
+/**
+ * @brief Shutdown.
+ * @details Calls: store(), lk(), End(), reset().
+ */
 void TesseractOCRPlugin::shutdown() {
     impl_->ready.store(false);
 #ifdef HAVE_TESSERACT
@@ -262,6 +284,14 @@ BackendType TesseractOCRPlugin::getBackend() const {
     return BackendType::CPU;
 }
 
+/**
+ * @brief Detect Objects.
+ * @param[in] image_data Input parameter.
+ * @param[in] param Input parameter.
+ * @param[in] confidence_threshold Input parameter.
+ * @return Return value.
+ * @details Calls: load(), std::chrono::steady_clock::now(), runOcr(), count(), fetch_add(), size(), lk(), push_back().
+ */
 DetectionResult TesseractOCRPlugin::detectObjects(
     const std::vector<uint8_t>& image_data,
     const ImageMetadata* /*metadata*/,
@@ -325,6 +355,13 @@ DetectionResult TesseractOCRPlugin::detectObjects(
     return det;
 }
 
+/**
+ * @brief Generate Embedding.
+ * @param[in] param Input parameter.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Implements generateEmbedding without additional internal calls.
+ */
 EmbeddingResult TesseractOCRPlugin::generateEmbedding(
     const std::vector<uint8_t>& /*image_data*/,
     const ImageMetadata* /*metadata*/) {
@@ -360,6 +397,11 @@ nlohmann::json TesseractOCRPlugin::getStatistics() const {
 }
 
 OcrResult TesseractOCRPlugin::getLastOcrResult() const {
+    /**
+     * @brief Lk.
+     * @param[in] last_result_mtx_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(last_result_mtx_);
     return last_ocr_result_;
 }

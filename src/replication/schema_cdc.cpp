@@ -37,10 +37,21 @@ SchemaAwareCDCBridge::~SchemaAwareCDCBridge() {
     stop();
 }
 
+/**
+ * @brief Register Collection.
+ * @param[in] collection Input parameter.
+ * @param[in] schema_def Input parameter.
+ * @return Return value.
+ */
 uint32_t SchemaAwareCDCBridge::registerCollection(
     const std::string& collection,
     const std::string& schema_def)
 {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     // Determine schema definition to use
@@ -67,21 +78,42 @@ uint32_t SchemaAwareCDCBridge::registerCollection(
     return static_cast<uint32_t>(schema_id);
 }
 
+/**
+ * @brief Deregister Collection.
+ * @param[in] collection Input parameter.
+ * @details Calls: lock(), erase().
+ */
 void SchemaAwareCDCBridge::deregisterCollection(const std::string& collection) {
     std::lock_guard<std::mutex> lock(mutex_);
     registered_.erase(collection);
 }
 
+/**
+ * @brief Subscribe.
+ * @param[in] collection Input parameter.
+ * @param[in] callback Input parameter.
+ * @return Return value.
+ */
 uint64_t SchemaAwareCDCBridge::subscribe(
     const std::string& collection,
     EncodedCallback callback)
 {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     uint64_t id = next_sub_id_.fetch_add(1, std::memory_order_relaxed);
     subscriptions_.push_back(Subscription{id, collection, std::move(callback)});
     return id;
 }
 
+/**
+ * @brief Unsubscribe.
+ * @param[in] subscription_id Identifier of the subscription.
+ * @details Calls: lock(), erase(), std::remove_if(), begin(), end().
+ */
 void SchemaAwareCDCBridge::unsubscribe(uint64_t subscription_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     subscriptions_.erase(
@@ -92,6 +124,10 @@ void SchemaAwareCDCBridge::unsubscribe(uint64_t subscription_id) {
         subscriptions_.end());
 }
 
+/**
+ * @brief Start.
+ * @details Calls: lock(), addListener(), shared_from_this().
+ */
 void SchemaAwareCDCBridge::start() {
     std::lock_guard<std::mutex> lock(mutex_);
     if (started_) {
@@ -103,6 +139,10 @@ void SchemaAwareCDCBridge::start() {
     started_ = true;
 }
 
+/**
+ * @brief Stop.
+ * @details Calls: lock().
+ */
 void SchemaAwareCDCBridge::stop() {
     std::lock_guard<std::mutex> lock(mutex_);
     started_ = false;
@@ -111,12 +151,22 @@ void SchemaAwareCDCBridge::stop() {
 }
 
 SchemaAwareCDCBridge::Stats SchemaAwareCDCBridge::getStats() const {
+    /**
+     * @brief Lock.
+     * @param[in] stats_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(stats_mutex_);
     Stats s = stats_;
     s.events_skipped = skipped_events_.load(std::memory_order_relaxed);
     return s;
 }
 
+/**
+ * @brief On WALEntry Applied.
+ * @param[in] wal_entry Input parameter.
+ * @details Calls: lock(), find(), end(), fetch_add(), std::chrono::system_clock::now(), time_since_epoch(), count(), encoder().
+ */
 void SchemaAwareCDCBridge::onWALEntryApplied(const WALEntry& wal_entry) {
     // Snapshot state under lock – do NOT hold mutex_ while acquiring
     // stats_mutex_ to prevent lock ordering inversion.
@@ -182,6 +232,11 @@ void SchemaAwareCDCBridge::onWALEntryApplied(const WALEntry& wal_entry) {
     dispatch(out);
 }
 
+/**
+ * @brief Dispatch.
+ * @param[in] ev Input parameter.
+ * @details Calls: lock(), empty(), callback().
+ */
 void SchemaAwareCDCBridge::dispatch(const SchemaEncodedEvent& ev) {
     std::lock_guard<std::mutex> lock(mutex_);
     for (const auto& sub : subscriptions_) {

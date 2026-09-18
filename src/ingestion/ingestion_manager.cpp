@@ -46,13 +46,15 @@ namespace ingestion {
 // ============================================================================
 namespace {
 
-/// Connector API version reported in lineage records (bump on interface change)
 static constexpr const char* kConnectorVersion = "1.0.0";
-/// Prefix for doc_id in batch-level success/dry-run lineage records
 static constexpr const char* kBatchDocIdPrefix  = "batch:";
-/// Prefix for doc_id in failed-batch lineage records
 static constexpr const char* kFailedDocIdPrefix = "failed:";
 
+/**
+ * @brief Generate Correlation Id.
+ * @return Return value.
+ * @details Calls: std::chrono::steady_clock::now(), time_since_epoch(), count(), std::setfill(), std::setw(), str().
+ */
 static std::string generateCorrelationId() {
     static std::atomic<uint64_t> counter{0};
     auto ts = std::chrono::steady_clock::now().time_since_epoch().count();
@@ -65,7 +67,12 @@ static std::string generateCorrelationId() {
     return ss.str();
 }
 
-/// Map SourceType to a short string label for Prometheus
+/**
+ * @brief Source Type Label.
+ * @param[in] t Input parameter.
+ * @return Return value.
+ * @details Implements sourceTypeLabel without additional internal calls.
+ */
 static std::string sourceTypeLabel(SourceType t) {
     switch (t) {
         case SourceType::HUGGINGFACE:    return "HUGGINGFACE";
@@ -106,6 +113,12 @@ static std::string sourceTypeLabel(SourceType t) {
         return value;
     }
 
+    /**
+     * @brief Detect Mime From Extension.
+     * @param[in] ext Input parameter.
+     * @return Return value.
+     * @details Calls: std::transform(), begin(), end(), std::tolower().
+     */
     static std::string detectMimeFromExtension(std::string ext) {
         std::transform(ext.begin(), ext.end(), ext.begin(),
                        [](unsigned char c) { return static_cast<char>(std::tolower(c)); });
@@ -119,6 +132,12 @@ static std::string sourceTypeLabel(SourceType t) {
         return "application/octet-stream";
     }
 
+    /**
+     * @brief Detect Format From Extension.
+     * @param[in] ext Input parameter.
+     * @return Return value.
+     * @details Calls: std::transform(), begin(), end(), std::tolower().
+     */
     static FileFormat detectFormatFromExtension(std::string ext) {
         std::transform(ext.begin(), ext.end(), ext.begin(),
                        [](unsigned char c) { return static_cast<char>(std::tolower(c)); });
@@ -132,7 +151,6 @@ static std::string sourceTypeLabel(SourceType t) {
         if (ext == ".docx") return FileFormat::DOCX;
         return FileFormat::UNKNOWN;
     }
-/// Map IngestionErrorCode to its integer string for a metric label
 [[maybe_unused]] static std::string errorCodeLabel(IngestionErrorCode c) {
     return std::to_string(static_cast<int>(c));
 }
@@ -141,8 +159,12 @@ static std::string sourceTypeLabel(SourceType t) {
 // Schema validation helpers
 // ============================================================================
 
-/// Escape all regex metacharacters in `s` so it can be used as a literal
-/// substring inside a larger regex pattern.
+/**
+ * @brief Regex Escape.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), find().
+ */
 static std::string regexEscape(const std::string& s) {
     static const std::string kMeta = R"(\.^$*+?()[]{}|)";
     std::string out = {};
@@ -156,15 +178,24 @@ static std::string regexEscape(const std::string& s) {
     return out;
 }
 
-/// Build a compiled regex that matches `"key"\\s*:` at a JSON object key position
-/// (preceded by `{` or `,`).  Field names are literal-escaped before insertion.
+/**
+ * @brief Build Key Regex.
+ * @param[in] key Input parameter.
+ * @return Return value.
+ * @details Calls: std::regex(), regexEscape().
+ */
 static std::regex buildKeyRegex(const std::string& key) {
     return std::regex(R"([{,]\s*\")" + regexEscape(key) + R"(\"\s*:)");
 }
 
-/// Extract a minimal JSON string value for a named key using a pre-compiled regex.
-/// Returns true and populates `value` when the key exists at a JSON object key
-/// position and its value is a JSON string.
+/**
+ * @brief Find Json String Value Re.
+ * @param[in] json Input parameter.
+ * @param[in] key_re Input parameter.
+ * @param[in,out] value Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: std::regex_search(), position(), length(), size(), clear().
+ */
 static bool findJsonStringValueRe(const std::string& json,
                                    const std::regex& key_re,
                                    std::string& value) {
@@ -206,7 +237,12 @@ static bool findJsonStringValueRe(const std::string& json,
     return true;
 }
 
-/// Returns true when the document looks like a JSON object or array.
+/**
+ * @brief Looks Like Json.
+ * @param[in] content Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements looksLikeJson without additional internal calls.
+ */
 static bool looksLikeJson(const std::string& content) {
     for (char c : content) {
         if (c == ' ' || c == '\t' || c == '\r' || c == '\n') {
@@ -228,6 +264,12 @@ struct CompiledFieldRule {
     bool                   key_re_ok    = false;
     bool                   value_re_ok  = false;
 
+    /**
+     * @brief Compiled Field Rule.
+     * @param[in] n Input parameter.
+     * @param[in] r Input parameter.
+     * @return Return value.
+     */
     explicit CompiledFieldRule(const std::string& n, const SchemaFieldRule& r)
         : name(n), rule(r) {
         try {
@@ -244,19 +286,10 @@ struct CompiledFieldRule {
 };
 
 /**
- * @brief Build a DocumentValidatorFn from a SchemaConfig.
- *
- * All regex patterns (content-level and field-level) are compiled once here
- * and captured in the returned lambda, avoiding repeated compilation per document.
- *
- * Validates:
- * 1. Content length (min/max)
- * 2. Required content pattern (regex applied to raw content)
- * 3. Required JSON fields and their types/lengths/patterns
- *
- * When `schema.reject_invalid` is `false`, the returned function always sets
- * `is_valid = true` (warning-only mode): violations are still populated in the
- * result so callers can log them, but the document is not counted as failed.
+ * @brief Build Validator From Schema.
+ * @param[in] schema Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), std::regex(), reserve(), size(), emplace_back(), addViolation(), std::to_string(), std::regex_search().
  */
 static DocumentValidatorFn buildValidatorFromSchema(const SchemaConfig& schema) {
     // Pre-compile the content-level pattern
@@ -377,7 +410,12 @@ static DocumentValidatorFn buildValidatorFromSchema(const SchemaConfig& schema) 
 // ============================================================================
 
 namespace {
-/// Sanitise a source_id so it is safe as part of a file name.
+/**
+ * @brief Sanitise Source Id.
+ * @param[in] sid Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), std::isalnum(), empty().
+ */
 static std::string sanitiseSourceId(const std::string& sid) {
     std::string out = {};
     out.reserve(sid.size());
@@ -392,7 +430,12 @@ static std::string sanitiseSourceId(const std::string& sid) {
     return out.empty() ? "default" : out;
 }
 
-/// Format a time_point as a simple ISO-8601-like string (UTC).
+/**
+ * @brief Format Timestamp.
+ * @param[in] tp Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::to_time_t(), gmtime_s(), gmtime_r(), std::strftime().
+ */
 static std::string formatTimestamp(std::chrono::system_clock::time_point tp) {
     auto tt = std::chrono::system_clock::to_time_t(tp);
     std::tm tm_buf{};
@@ -415,6 +458,12 @@ std::string CheckpointStore::checkpointPath(const std::string& source_id) const 
     return (fs::path(dir_) / (sanitiseSourceId(source_id) + ".checkpoint")).string();
 }
 
+/**
+ * @brief Write.
+ * @param[in] cp Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), f(), checkpointPath(), good().
+ */
 bool CheckpointStore::write(const IngestionCheckpoint& cp) {
     std::lock_guard<std::mutex> lock(mutex_);
     try {
@@ -435,6 +484,11 @@ bool CheckpointStore::write(const IngestionCheckpoint& cp) {
 
 bool CheckpointStore::read(const std::string& source_id,
                             IngestionCheckpoint& out) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     try {
         std::ifstream f(checkpointPath(source_id));
@@ -467,6 +521,12 @@ bool CheckpointStore::read(const std::string& source_id,
     }
 }
 
+/**
+ * @brief Clear.
+ * @param[in] source_id Identifier of the source.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), std::filesystem::remove(), checkpointPath().
+ */
 bool CheckpointStore::clear(const std::string& source_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     try {
@@ -477,6 +537,11 @@ bool CheckpointStore::clear(const std::string& source_id) {
 }
 
 bool CheckpointStore::exists(const std::string& source_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return std::filesystem::exists(checkpointPath(source_id));
 }
@@ -484,15 +549,22 @@ bool CheckpointStore::exists(const std::string& source_id) const {
 // ============================================================================
 // Token-bucket rate limiter (simple, no external dep)
 // ============================================================================
-/** @brief Token-bucket rate limiter (simple, no external dep). */
 class TokenBucket {
 public:
+    /**
+     * @brief Token Bucket.
+     * @param[in] requests_per_second Input parameter.
+     * @return Return value.
+     */
     explicit TokenBucket(double requests_per_second)
         : rate_(requests_per_second)
         , tokens_(requests_per_second > 0.0 ? requests_per_second : 0.0)
         , last_refill_(std::chrono::steady_clock::now()) {}
 
-    /// Consume one token, blocking until available when rate > 0.
+    /**
+     * @brief Consume.
+     * @details Calls: lock(), refill(), unlock(), std::this_thread::sleep_for().
+     */
     void consume() {
         if (rate_ <= 0.0) return;  // unlimited
 
@@ -514,6 +586,10 @@ public:
     bool isEnabled() const { return rate_ > 0.0; }
 
 private:
+    /**
+     * @brief Refill.
+     * @details Calls: std::chrono::steady_clock::now(), count(), std::min().
+     */
     void refill() {
         auto now = std::chrono::steady_clock::now();
         double elapsed =
@@ -531,9 +607,13 @@ private:
 // ============================================================================
 // Pimpl implementation
 // ============================================================================
-/** @brief Pimpl implementation. */
 class IngestionManager::Impl {
 public:
+    /**
+     * @brief Impl.
+     * @param[in] db_connection Input parameter.
+     * @return Return value.
+     */
     explicit Impl(const std::string& db_connection) 
         : db_connection_(db_connection)
         , target_collection_("legal_documents")
@@ -544,6 +624,12 @@ public:
     
     ~Impl() = default;
     
+    /**
+     * @brief Register Source.
+     * @param[in] config Input parameter.
+     * @return True when the operation succeeds.
+     * @details Calls: lock(), find(), end().
+     */
     bool registerSource(const SourceConfig& config) {
         std::lock_guard<std::mutex> lock(mutex_);
         if (sources_.find(config.source_id) != sources_.end()) {
@@ -553,11 +639,24 @@ public:
         return true;
     }
     
+    /**
+     * @brief Unregister Source.
+     * @param[in] source_id Identifier of the source.
+     * @return True when the operation succeeds.
+     * @details Calls: lock(), erase().
+     */
     bool unregisterSource(const std::string& source_id) {
         std::lock_guard<std::mutex> lock(mutex_);
         return sources_.erase(source_id) > 0;
     }
 
+    /**
+     * @brief Reconfigure Source.
+     * @param[in] source_id Identifier of the source.
+     * @param[in] new_config Input parameter.
+     * @return True when the operation succeeds.
+     * @details Calls: lock(), find(), end(), std::move().
+     */
     bool reconfigureSource(const std::string& source_id,
                            const SourceConfig& new_config) {
         std::lock_guard<std::mutex> lock(mutex_);
@@ -572,6 +671,13 @@ public:
         return true;
     }
     
+    /**
+     * @brief Ingest Source.
+     * @param[in] source_id Identifier of the source.
+     * @param[in] progress_callback Input parameter.
+     * @return Return value.
+     * @details Calls: generateCorrelationId(), std::chrono::steady_clock::now(), lock(), find(), end(), addError(), optionLower(), optionEnabled().
+     */
     IngestionStats ingestSource(const std::string& source_id,
                                ProgressCallback progress_callback) {
         IngestionStats stats;
@@ -1047,6 +1153,11 @@ public:
         // ensuring they appear in the report for full auditability.
         std::vector<SourceConfig> all_sources;
         {
+            /**
+             * @brief Lock.
+             * @param[in] mutex_ Input parameter.
+             * @return Return value.
+             */
             std::lock_guard<std::mutex> lock(mutex_);
             for (const auto& pair : sources_) {
                 all_sources.push_back(pair.second);
@@ -1120,6 +1231,11 @@ public:
         }
 
         {
+            /**
+             * @brief Lock.
+             * @param[in] mutex_ Input parameter.
+             * @return Return value.
+             */
             std::lock_guard<std::mutex> lock(mutex_);
             report.quarantine = quarantine_;
         }
@@ -1130,6 +1246,11 @@ public:
     }
     
     std::vector<SourceConfig> getRegisteredSources() const {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         std::vector<SourceConfig> result = {};
 
@@ -1139,10 +1260,21 @@ public:
         return result;
     }
     
+    /**
+     * @brief Set Target Collection.
+     * @param[in] collection_name Name of the collection.
+     * @details Implements setTargetCollection without additional internal calls.
+     */
     void setTargetCollection(const std::string& collection_name) {
         target_collection_ = collection_name;
     }
     
+    /**
+     * @brief Set Parallel Processing.
+     * @param[in] enabled Input parameter.
+     * @param[in] max_threads Input parameter.
+     * @details Implements setParallelProcessing without additional internal calls.
+     */
     void setParallelProcessing(bool enabled, size_t max_threads) {
         parallel_enabled_ = enabled;
         if (max_threads > 0) {
@@ -1150,10 +1282,21 @@ public:
         }
     }
 
+    /**
+     * @brief Set Retry Config.
+     * @param[in] config Input parameter.
+     * @details Implements setRetryConfig without additional internal calls.
+     */
     void setRetryConfig(const RetryConfig& config) {
         retry_config_ = config;
     }
 
+    /**
+     * @brief Set Schema Config.
+     * @param[in] source_id Identifier of the source.
+     * @param[in] config Input parameter.
+     * @details Calls: lock(), isEnabled(), erase().
+     */
     void setSchemaConfig(const std::string& source_id, const SchemaConfig& config) {
         std::lock_guard<std::mutex> lock(mutex_);
         if (!config.isEnabled()) {
@@ -1164,6 +1307,11 @@ public:
     }
 
     bool getSchemaConfig(const std::string& source_id, SchemaConfig& out) const {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         auto it = schema_configs_.find(source_id);
         if (it == schema_configs_.end()) {
@@ -1173,6 +1321,12 @@ public:
         return true;
     }
 
+    /**
+     * @brief Set Legal Ingestion Config.
+     * @param[in] source_id Identifier of the source.
+     * @param[in] config Input parameter.
+     * @details Calls: lock(), isEnabled(), erase().
+     */
     void setLegalIngestionConfig(const std::string& source_id,
                                   const LegalIngestionConfig& config) {
         std::lock_guard<std::mutex> lock(mutex_);
@@ -1185,6 +1339,11 @@ public:
 
     bool getLegalIngestionConfig(const std::string& source_id,
                                   LegalIngestionConfig& out) const {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         auto it = legal_ingestion_configs_.find(source_id);
         if (it == legal_ingestion_configs_.end()) {
@@ -1197,6 +1356,11 @@ public:
     void setDryRun([[maybe_unused]] bool enabled) { dry_run_ = enabled; }
     bool isDryRun() const { return dry_run_; }
 
+    /**
+     * @brief Set Rate Limit Config.
+     * @param[in] config Input parameter.
+     * @details Calls: clear().
+     */
     void setRateLimitConfig(const RateLimitConfig& config) {
         rate_limit_config_ = config;
         // Reset per-source buckets so they're rebuilt with the new rate on next use
@@ -1204,10 +1368,21 @@ public:
     }
 
     std::vector<QuarantineEntry> getQuarantineItems() const {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         return quarantine_;
     }
 
+    /**
+     * @brief Dismiss Quarantine Item.
+     * @param[in] item_path Path to the item.
+     * @return True when the operation succeeds.
+     * @details Calls: lock(), std::find_if(), begin(), end(), erase().
+     */
     bool dismissQuarantineItem(const std::string& item_path) {
         std::lock_guard<std::mutex> lock(mutex_);
         auto it = std::find_if(quarantine_.begin(), quarantine_.end(),
@@ -1221,11 +1396,21 @@ public:
         return true;
     }
 
+    /**
+     * @brief Clear Quarantine.
+     * @details Calls: lock(), clear().
+     */
     void clearQuarantine() {
         std::lock_guard<std::mutex> lock(mutex_);
         quarantine_.clear();
     }
 
+    /**
+     * @brief Update Quarantine Entry.
+     * @param[in] updated Input parameter.
+     * @return True when the operation succeeds.
+     * @details Calls: lock(), std::find_if(), begin(), end().
+     */
     bool updateQuarantineEntry(const QuarantineEntry& updated) {
         std::lock_guard<std::mutex> lock(mutex_);
         auto it = std::find_if(quarantine_.begin(), quarantine_.end(),
@@ -1239,6 +1424,11 @@ public:
         return true;
     }
 
+    /**
+     * @brief Add To Quarantine.
+     * @param[in] entry Input parameter.
+     * @details Calls: lock(), push_back(), std::move().
+     */
     void addToQuarantine(QuarantineEntry entry) {
         std::lock_guard<std::mutex> lock(mutex_);
         quarantine_.push_back(std::move(entry));
@@ -1249,6 +1439,11 @@ public:
     }
 
     DocumentWriteFn getDocumentWriteFn() const {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         return doc_write_fn_;
     }
@@ -1257,10 +1452,20 @@ public:
         return quarantine_retry_successes_.load(std::memory_order_relaxed);
     }
 
+    /**
+     * @brief Increment Quarantine Retry Success.
+     * @details Calls: fetch_add().
+     */
     void incrementQuarantineRetrySuccess() {
         quarantine_retry_successes_.fetch_add(1, std::memory_order_relaxed);
     }
 
+    /**
+     * @brief Pause Source.
+     * @param[in] source_id Identifier of the source.
+     * @return True when the operation succeeds.
+     * @details Calls: lock(), find(), end().
+     */
     bool pauseSource(const std::string& source_id) {
         std::lock_guard<std::mutex> lock(mutex_);
         auto it = sources_.find(source_id);
@@ -1271,6 +1476,12 @@ public:
         return true;
     }
 
+    /**
+     * @brief Resume Source.
+     * @param[in] source_id Identifier of the source.
+     * @return True when the operation succeeds.
+     * @details Calls: lock(), find(), end().
+     */
     bool resumeSource(const std::string& source_id) {
         std::lock_guard<std::mutex> lock(mutex_);
         auto it = sources_.find(source_id);
@@ -1292,6 +1503,11 @@ public:
 
         SourceConfig config;
         {
+            /**
+             * @brief Lock.
+             * @param[in] mutex_ Input parameter.
+             * @return Return value.
+             */
             std::lock_guard<std::mutex> lock(mutex_);
             auto it = sources_.find(source_id);
             if (it == sources_.end()) {
@@ -1313,6 +1529,12 @@ public:
         }
 
         auto addDoc = [&]([[maybe_unused]] const fs::path& p) {
+            /**
+             * @brief F.
+             * @param[in] p Input parameter.
+             * @param[in] binary Input parameter.
+             * @return Return value.
+             */
             std::ifstream f(p, std::ios::binary);
             if (!f) {
               return;
@@ -1346,7 +1568,11 @@ public:
         return preview;
     }
 
-    // ── Checkpoint / incremental ingestion ───────────────────────────────────
+    /**
+     * @brief ── Checkpoint / incremental ingestion ───────────────────────────────────
+     * @param[in] dir Input parameter.
+     * @details Calls: lock(), std::move().
+     */
 
     void setCheckpointDir(const std::string& dir) {
         // Use shared_ptr so the store can be safely shared with ingestSource()
@@ -1366,6 +1592,11 @@ public:
                        IngestionCheckpoint& out) const {
         std::shared_ptr<CheckpointStore> cs;
         {
+            /**
+             * @brief Lock.
+             * @param[in] mutex_ Input parameter.
+             * @return Return value.
+             */
             std::lock_guard<std::mutex> lock(mutex_);
             cs = checkpoint_store_shared_;
         }
@@ -1375,6 +1606,12 @@ public:
         return cs->read(source_id, out);
     }
 
+    /**
+     * @brief Clear Checkpoint.
+     * @param[in] source_id Identifier of the source.
+     * @return True when the operation succeeds.
+     * @details Calls: lock(), clear().
+     */
     bool clearCheckpoint(const std::string& source_id) {
         std::shared_ptr<CheckpointStore> cs;
         {
@@ -1387,21 +1624,43 @@ public:
         return cs->clear(source_id);
     }
 
+    /**
+     * @brief Set Api Http Get For Testing.
+     * @param[in] fn Input parameter.
+     * @details Calls: lock(), std::move().
+     */
     void setApiHttpGetForTesting(ApiHttpGetFn fn) {
         std::lock_guard<std::mutex> lock(mutex_);
         api_http_get_fn_ = std::move(fn);
     }
 
+    /**
+     * @brief Set Document Write For Testing.
+     * @param[in] fn Input parameter.
+     * @details Calls: lock(), std::move().
+     */
     void setDocumentWriteForTesting(DocumentWriteFn fn) {
         std::lock_guard<std::mutex> lock(mutex_);
         doc_write_fn_ = std::move(fn);
     }
 
+    /**
+     * @brief Register Connector Plugin.
+     * @param[in] plugin_name Name of the plugin.
+     * @param[in] factory Input parameter.
+     * @details Calls: registerFactory(), std::move().
+     */
     void registerConnectorPlugin(const std::string& plugin_name,
                                   ConnectorFactory factory) {
         plugin_registry_.registerFactory(plugin_name, std::move(factory));
     }
 
+    /**
+     * @brief Unregister Connector Plugin.
+     * @param[in] plugin_name Name of the plugin.
+     * @return True when the operation succeeds.
+     * @details Calls: unregisterFactory().
+     */
     bool unregisterConnectorPlugin(const std::string& plugin_name) {
         return plugin_registry_.unregisterFactory(plugin_name);
     }
@@ -1411,40 +1670,75 @@ public:
     }
 
     void setLineageTrackingEnabled([[maybe_unused]] bool enabled) {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         lineage_enabled_ = enabled;
     }
 
     bool isLineageTrackingEnabled() const {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         return lineage_enabled_;
     }
 
     std::vector<IngestionLineageRecord> getLineageRecords(
             const std::string& source_id) const {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         return lineage_store_.getBySource(source_id);
     }
 
     std::vector<IngestionLineageRecord> getLineageRecordsByRun(
             const std::string& run_correlation_id) const {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         return lineage_store_.getByCorrelationId(run_correlation_id);
     }
 
     std::vector<IngestionLineageRecord> getAllLineageRecords() const {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         return lineage_store_.getAll();
     }
 
+    /**
+     * @brief Clear Lineage Records.
+     * @details Calls: lock(), clear().
+     */
     void clearLineageRecords() {
         std::lock_guard<std::mutex> lock(mutex_);
         lineage_store_.clear();
     }
 
 public:
-    /// Consume a token from the per-source bucket (creates bucket if needed).
-    /// Returns false and records a QUOTA_EXCEEDED error if the byte limit is breached.
+    /**
+     * @brief Check whether a user exceeds the current rate limit.
+     * @param[in] source_id Identifier of the source.
+     * @param[in] bytes_this_call Input parameter.
+     * @param[in,out] stats Input/output parameter.
+     * @return True when the user remains within the configured limit.
+     * @details Calls: lock(), find(), end(), emplace(), consume(), std::chrono::steady_clock::now(), count(), addError().
+     */
     bool checkRateLimit(const std::string& source_id,
                         size_t bytes_this_call,
                         IngestionStats& stats) {
@@ -1498,6 +1792,12 @@ public:
         return true;
     }
 
+    /**
+     * @brief Quarantine Failures.
+     * @param[in] stats Input parameter.
+     * @param[in] source_id Identifier of the source.
+     * @details Calls: isFatal(), empty(), lock(), push_back(), std::move().
+     */
     void quarantineFailures(const IngestionStats& stats,
                             const std::string& source_id) {
         for (const auto& err : stats.errors) {
@@ -1517,6 +1817,14 @@ public:
         }
     }
 
+    /**
+     * @brief Ingest Filesystem Via Workflow Engine.
+     * @param[in] config Input parameter.
+     * @param[in,out] engine Input/output parameter.
+     * @param[in] progress_callback Input parameter.
+     * @return Return value.
+     * @details Calls: source_path(), std::filesystem::exists(), addError(), optionEnabled(), std::filesystem::is_regular_file(), push_back(), std::filesystem::is_directory(), std::filesystem::recursive_directory_iterator().
+     */
     IngestionStats ingestFilesystemViaWorkflowEngine(
         const SourceConfig& config,
         WorkflowEngine& engine,
@@ -1640,24 +1948,46 @@ public:
 // ConnectorPluginRegistry implementation
 // ============================================================================
 
+/**
+ * @brief Register Factory.
+ * @param[in] plugin_name Name of the plugin.
+ * @param[in] factory Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void ConnectorPluginRegistry::registerFactory(const std::string& plugin_name,
                                                ConnectorFactory factory) {
     std::lock_guard<std::mutex> lock(mutex_);
     factories_[plugin_name] = std::move(factory);
 }
 
+/**
+ * @brief Unregister Factory.
+ * @param[in] plugin_name Name of the plugin.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), erase().
+ */
 bool ConnectorPluginRegistry::unregisterFactory(const std::string& plugin_name) {
     std::lock_guard<std::mutex> lock(mutex_);
     return factories_.erase(plugin_name) > 0;
 }
 
 bool ConnectorPluginRegistry::isRegistered(const std::string& plugin_name) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return factories_.count(plugin_name) > 0;
 }
 
 std::unique_ptr<ISourceConnector> ConnectorPluginRegistry::create(
         const std::string& plugin_name) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = factories_.find(plugin_name);
     if (it == factories_.end()) {
@@ -1667,6 +1997,11 @@ std::unique_ptr<ISourceConnector> ConnectorPluginRegistry::create(
 }
 
 std::vector<std::string> ConnectorPluginRegistry::listPlugins() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     std::vector<std::string> names = {};
 
@@ -1687,19 +2022,45 @@ IngestionManager::IngestionManager(const std::string& db_connection)
 
 IngestionManager::~IngestionManager() = default;
 
+/**
+ * @brief Register Source.
+ * @param[in] config Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements registerSource without additional internal calls.
+ */
 bool IngestionManager::registerSource(const SourceConfig& config) {
     return impl_->registerSource(config);
 }
 
+/**
+ * @brief Unregister Source.
+ * @param[in] source_id Identifier of the source.
+ * @return True when the operation succeeds.
+ * @details Implements unregisterSource without additional internal calls.
+ */
 bool IngestionManager::unregisterSource(const std::string& source_id) {
     return impl_->unregisterSource(source_id);
 }
 
+/**
+ * @brief Reconfigure Source.
+ * @param[in] source_id Identifier of the source.
+ * @param[in] new_config Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements reconfigureSource without additional internal calls.
+ */
 bool IngestionManager::reconfigureSource(const std::string& source_id,
                                          const SourceConfig& new_config) {
     return impl_->reconfigureSource(source_id, new_config);
 }
 
+/**
+ * @brief Ingest Source.
+ * @param[in] source_id Identifier of the source.
+ * @param[in] progress_callback Input parameter.
+ * @return Return value.
+ * @details Implements ingestSource without additional internal calls.
+ */
 IngestionStats IngestionManager::ingestSource(const std::string& source_id,
                                              ProgressCallback progress_callback) {
     return impl_->ingestSource(source_id, progress_callback);
@@ -1713,18 +2074,40 @@ std::vector<SourceConfig> IngestionManager::getRegisteredSources() const {
     return impl_->getRegisteredSources();
 }
 
+/**
+ * @brief Set Target Collection.
+ * @param[in] collection_name Name of the collection.
+ * @details Implements setTargetCollection without additional internal calls.
+ */
 void IngestionManager::setTargetCollection(const std::string& collection_name) {
     impl_->setTargetCollection(collection_name);
 }
 
+/**
+ * @brief Set Parallel Processing.
+ * @param[in] enabled Input parameter.
+ * @param[in] max_threads Input parameter.
+ * @details Implements setParallelProcessing without additional internal calls.
+ */
 void IngestionManager::setParallelProcessing(bool enabled, size_t max_threads) {
     impl_->setParallelProcessing(enabled, max_threads);
 }
 
+/**
+ * @brief Set Retry Config.
+ * @param[in] config Input parameter.
+ * @details Implements setRetryConfig without additional internal calls.
+ */
 void IngestionManager::setRetryConfig(const RetryConfig& config) {
     impl_->setRetryConfig(config);
 }
 
+/**
+ * @brief Set Schema Config.
+ * @param[in] source_id Identifier of the source.
+ * @param[in] config Input parameter.
+ * @details Implements setSchemaConfig without additional internal calls.
+ */
 void IngestionManager::setSchemaConfig(const std::string& source_id,
                                        const SchemaConfig& config) {
     impl_->setSchemaConfig(source_id, config);
@@ -1743,6 +2126,11 @@ bool IngestionManager::isDryRun() const {
     return impl_->isDryRun();
 }
 
+/**
+ * @brief Set Rate Limit Config.
+ * @param[in] config Input parameter.
+ * @details Implements setRateLimitConfig without additional internal calls.
+ */
 void IngestionManager::setRateLimitConfig(const RateLimitConfig& config) {
     impl_->setRateLimitConfig(config);
 }
@@ -1751,18 +2139,39 @@ std::vector<QuarantineEntry> IngestionManager::getQuarantineItems() const {
     return impl_->getQuarantineItems();
 }
 
+/**
+ * @brief Dismiss Quarantine Item.
+ * @param[in] item_path Path to the item.
+ * @return True when the operation succeeds.
+ * @details Implements dismissQuarantineItem without additional internal calls.
+ */
 bool IngestionManager::dismissQuarantineItem(const std::string& item_path) {
     return impl_->dismissQuarantineItem(item_path);
 }
 
+/**
+ * @brief Clear Quarantine.
+ * @details Implements clearQuarantine without additional internal calls.
+ */
 void IngestionManager::clearQuarantine() {
     impl_->clearQuarantine();
 }
 
+/**
+ * @brief Update Quarantine Entry.
+ * @param[in] updated Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements updateQuarantineEntry without additional internal calls.
+ */
 bool IngestionManager::updateQuarantineEntry(const QuarantineEntry& updated) {
     return impl_->updateQuarantineEntry(updated);
 }
 
+/**
+ * @brief Add To Quarantine.
+ * @param[in] entry Input parameter.
+ * @details Calls: std::move().
+ */
 void IngestionManager::addToQuarantine(QuarantineEntry entry) {
     impl_->addToQuarantine(std::move(entry));
 }
@@ -1779,10 +2188,19 @@ size_t IngestionManager::getQuarantineRetrySuccessCount() const {
     return impl_->getQuarantineRetrySuccessCount();
 }
 
+/**
+ * @brief Increment Quarantine Retry Success.
+ * @details Implements incrementQuarantineRetrySuccess without additional internal calls.
+ */
 void IngestionManager::incrementQuarantineRetrySuccess() {
     impl_->incrementQuarantineRetrySuccess();
 }
 
+/**
+ * @brief Set Checkpoint Dir.
+ * @param[in] checkpoint_dir Input parameter.
+ * @details Implements setCheckpointDir without additional internal calls.
+ */
 void IngestionManager::setCheckpointDir(const std::string& checkpoint_dir) {
     impl_->setCheckpointDir(checkpoint_dir);
 }
@@ -1800,23 +2218,51 @@ bool IngestionManager::getCheckpoint(const std::string& source_id,
     return impl_->getCheckpoint(source_id, out);
 }
 
+/**
+ * @brief Clear Checkpoint.
+ * @param[in] source_id Identifier of the source.
+ * @return True when the operation succeeds.
+ * @details Implements clearCheckpoint without additional internal calls.
+ */
 bool IngestionManager::clearCheckpoint(const std::string& source_id) {
     return impl_->clearCheckpoint(source_id);
 }
 
+/**
+ * @brief Set Api Http Get For Testing.
+ * @param[in] fn Input parameter.
+ * @details Calls: std::move().
+ */
 void IngestionManager::setApiHttpGetForTesting(ApiHttpGetFn fn) {
     impl_->setApiHttpGetForTesting(std::move(fn));
 }
 
+/**
+ * @brief Set Document Write For Testing.
+ * @param[in] fn Input parameter.
+ * @details Calls: std::move().
+ */
 void IngestionManager::setDocumentWriteForTesting(DocumentWriteFn fn) {
     impl_->setDocumentWriteForTesting(std::move(fn));
 }
 
+/**
+ * @brief Register Connector Plugin.
+ * @param[in] plugin_name Name of the plugin.
+ * @param[in] factory Input parameter.
+ * @details Calls: std::move().
+ */
 void IngestionManager::registerConnectorPlugin(const std::string& plugin_name,
                                                 ConnectorFactory factory) {
     impl_->registerConnectorPlugin(plugin_name, std::move(factory));
 }
 
+/**
+ * @brief Unregister Connector Plugin.
+ * @param[in] plugin_name Name of the plugin.
+ * @return True when the operation succeeds.
+ * @details Implements unregisterConnectorPlugin without additional internal calls.
+ */
 bool IngestionManager::unregisterConnectorPlugin(const std::string& plugin_name) {
     return impl_->unregisterConnectorPlugin(plugin_name);
 }
@@ -1847,10 +2293,20 @@ std::vector<IngestionLineageRecord> IngestionManager::getAllLineageRecords() con
     return impl_->getAllLineageRecords();
 }
 
+/**
+ * @brief Clear Lineage Records.
+ * @details Implements clearLineageRecords without additional internal calls.
+ */
 void IngestionManager::clearLineageRecords() {
     impl_->clearLineageRecords();
 }
 
+/**
+ * @brief Set Legal Ingestion Config.
+ * @param[in] source_id Identifier of the source.
+ * @param[in] config Input parameter.
+ * @details Implements setLegalIngestionConfig without additional internal calls.
+ */
 void IngestionManager::setLegalIngestionConfig(const std::string& source_id,
                                                 const LegalIngestionConfig& config) {
     impl_->setLegalIngestionConfig(source_id, config);
@@ -1882,6 +2338,11 @@ LegalExtractionResult IngestionManager::runLegalExtraction(
             backend = impl_->text_gen_backend_;
         }
         if (backend && backend->isAvailable()) {
+            /**
+             * @brief Adapter.
+             * @param[in] backend Input parameter.
+             * @return Return value.
+             */
             LegalLlmAdapter adapter(backend);
             validator.setExtractor(adapter.buildExtractor(config.confidence_threshold));
         }
@@ -1907,6 +2368,11 @@ LegalExtractionResult IngestionManager::runLegalExtraction(
     return result;
 }
 
+/**
+ * @brief Set Text Generation Backend.
+ * @param[in] backend Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void IngestionManager::setTextGenerationBackend(
         std::shared_ptr<ITextGenerationBackend> backend) {
     std::lock_guard<std::mutex> lock(impl_->mutex_);
@@ -1924,6 +2390,11 @@ IngestionManager::getTextGenerationBackend() const {
     return impl_->text_gen_backend_;
 }
 
+/**
+ * @brief Set Workflow Engine.
+ * @param[in] engine Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void IngestionManager::setWorkflowEngine(
         std::shared_ptr<WorkflowEngine> engine) {
     std::lock_guard<std::mutex> lock(impl_->mutex_);
@@ -1936,7 +2407,11 @@ IngestionManager::getWorkflowEngine() const {
     return impl_->workflow_engine_;
 }
 
-// ---- LLM-as-judge re-ingestion quality control (v2.1) --------------------
+/**
+ * @brief ---- LLM-as-judge re-ingestion quality control (v2.
+ * @param[in] controller Input parameter.
+ * @details 1) -------------------- Calls: lock(), std::move().
+ */
 
 void IngestionManager::setReIngestionController(
         std::shared_ptr<ReIngestionController> controller) {
@@ -1952,6 +2427,12 @@ IngestionManager::getReIngestionController() const {
 // ============================================================================
 
 namespace {
+/**
+ * @brief Prom Escape Label.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size().
+ */
 static std::string promEscapeLabel(const std::string& s) {
     std::string out = {};
     out.reserve(s.size());
@@ -1966,7 +2447,6 @@ static std::string promEscapeLabel(const std::string& s) {
     return out;
 }
 
-/// Write a Prometheus metric line with multiple labels
 static void writeMetricMultiLabel(
         std::ostream& os,
         const std::string& name,
@@ -1984,6 +2464,15 @@ static void writeMetricMultiLabel(
     os << "} " << value << '\n';
 }
 
+/**
+ * @brief Write Metric.
+ * @param[in,out] os Input/output parameter.
+ * @param[in] name Input parameter.
+ * @param[in] label_key Input parameter.
+ * @param[in] label_val Input parameter.
+ * @param[in] value Input parameter.
+ * @details Calls: writeMetricMultiLabel().
+ */
 static void writeMetric(std::ostream& os,
                         const std::string& name,
                         const std::string& label_key,
@@ -1999,7 +2488,12 @@ std::string IngestionMetricsExporter::exportText(
 
     // Per-source metrics – use source_type from source_stats key if available
     for (const auto& [sid, stats] : report.source_stats) {
-        // source_type is not directly in IngestionStats, so we pass empty
+        /**
+         * @brief source_type is not directly in IngestionStats, so we pass empty
+         * @param[in] stats Input parameter.
+         * @param[in] sid Input parameter.
+         * @return Return value.
+         */
         os << exportText(stats, sid);
     }
 
@@ -2292,22 +2786,48 @@ IngestionBuilder& IngestionBuilder::withPluginSource(
     return *this;
 }
 
+/**
+ * @brief With Connector Plugin.
+ * @param[in] plugin_name Name of the plugin.
+ * @param[in] factory Input parameter.
+ * @return Return value.
+ * @details Calls: std::move().
+ */
 IngestionBuilder& IngestionBuilder::withConnectorPlugin(
         const std::string& plugin_name, ConnectorFactory factory) {
     opts_->plugin_factories[plugin_name] = std::move(factory);
     return *this;
 }
 
+/**
+ * @brief With Retry Config.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @details Implements withRetryConfig without additional internal calls.
+ */
 IngestionBuilder& IngestionBuilder::withRetryConfig(const RetryConfig& config) {
     opts_->retry_config = config;
     return *this;
 }
 
+/**
+ * @brief With Rate Limit Config.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @details Implements withRateLimitConfig without additional internal calls.
+ */
 IngestionBuilder& IngestionBuilder::withRateLimitConfig(const RateLimitConfig& config) {
     opts_->rate_limit_config = config;
     return *this;
 }
 
+/**
+ * @brief With Parallel Processing.
+ * @param[in] enabled Input parameter.
+ * @param[in] max_threads Input parameter.
+ * @return Return value.
+ * @details Implements withParallelProcessing without additional internal calls.
+ */
 IngestionBuilder& IngestionBuilder::withParallelProcessing(bool enabled,
                                                             size_t max_threads) {
     opts_->parallel_enabled = enabled;
@@ -2315,6 +2835,12 @@ IngestionBuilder& IngestionBuilder::withParallelProcessing(bool enabled,
     return *this;
 }
 
+/**
+ * @brief With Target Collection.
+ * @param[in] collection Input parameter.
+ * @return Return value.
+ * @details Implements withTargetCollection without additional internal calls.
+ */
 IngestionBuilder& IngestionBuilder::withTargetCollection(
         const std::string& collection) {
     opts_->target_collection = collection;
@@ -2326,18 +2852,37 @@ IngestionBuilder& IngestionBuilder::withDryRun([[maybe_unused]] bool enabled) {
     return *this;
 }
 
+/**
+ * @brief With Schema Validation.
+ * @param[in] source_id Identifier of the source.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @details Implements withSchemaValidation without additional internal calls.
+ */
 IngestionBuilder& IngestionBuilder::withSchemaValidation(
         const std::string& source_id, const SchemaConfig& config) {
     opts_->schema_configs[source_id] = config;
     return *this;
 }
 
+/**
+ * @brief With Legal Ingestion Config.
+ * @param[in] source_id Identifier of the source.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @details Implements withLegalIngestionConfig without additional internal calls.
+ */
 IngestionBuilder& IngestionBuilder::withLegalIngestionConfig(
         const std::string& source_id, const LegalIngestionConfig& config) {
     opts_->legal_ingestion_configs[source_id] = config;
     return *this;
 }
 
+/**
+ * @brief Build.
+ * @return Return value.
+ * @details Calls: setRetryConfig(), setRateLimitConfig(), setParallelProcessing(), setTargetCollection(), setDryRun(), registerSource(), setSchemaConfig(), setLegalIngestionConfig().
+ */
 std::unique_ptr<IngestionManager> IngestionBuilder::build() {
     auto mgr = std::make_unique<IngestionManager>(opts_->db_connection);
 
@@ -2375,10 +2920,22 @@ SourcePreview IngestionManager::previewSource(const std::string& source_id,
     return impl_->previewSource(source_id, max_documents);
 }
 
+/**
+ * @brief Pause Source.
+ * @param[in] source_id Identifier of the source.
+ * @return True when the operation succeeds.
+ * @details Implements pauseSource without additional internal calls.
+ */
 bool IngestionManager::pauseSource(const std::string& source_id) {
     return impl_->pauseSource(source_id);
 }
 
+/**
+ * @brief Resume Source.
+ * @param[in] source_id Identifier of the source.
+ * @return True when the operation succeeds.
+ * @details Implements resumeSource without additional internal calls.
+ */
 bool IngestionManager::resumeSource(const std::string& source_id) {
     return impl_->resumeSource(source_id);
 }
@@ -2413,18 +2970,43 @@ std::vector<SourceStatus> IngestionAdminApi::listSources() const {
     return result;
 }
 
+/**
+ * @brief Start Source.
+ * @param[in] source_id Identifier of the source.
+ * @return Return value.
+ * @details Calls: ingestSource().
+ */
 IngestionStats IngestionAdminApi::startSource(const std::string& source_id) {
     return mgr_.ingestSource(source_id);
 }
 
+/**
+ * @brief Pause Source.
+ * @param[in] source_id Identifier of the source.
+ * @return True when the operation succeeds.
+ * @details Implements pauseSource without additional internal calls.
+ */
 bool IngestionAdminApi::pauseSource(const std::string& source_id) {
     return mgr_.pauseSource(source_id);
 }
 
+/**
+ * @brief Resume Source.
+ * @param[in] source_id Identifier of the source.
+ * @return True when the operation succeeds.
+ * @details Implements resumeSource without additional internal calls.
+ */
 bool IngestionAdminApi::resumeSource(const std::string& source_id) {
     return mgr_.resumeSource(source_id);
 }
 
+/**
+ * @brief Reconfigure Source.
+ * @param[in] source_id Identifier of the source.
+ * @param[in] new_config Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements reconfigureSource without additional internal calls.
+ */
 bool IngestionAdminApi::reconfigureSource(const std::string& source_id,
                                           const SourceConfig& new_config) {
     return mgr_.reconfigureSource(source_id, new_config);
@@ -2434,6 +3016,12 @@ std::vector<QuarantineEntry> IngestionAdminApi::listQuarantine() const {
     return mgr_.getQuarantineItems();
 }
 
+/**
+ * @brief Retry Quarantine Item.
+ * @param[in] item_path Path to the item.
+ * @return True when the operation succeeds.
+ * @details Calls: getQuarantineItems(), std::find_if(), begin(), end(), getRetryConfig(), empty(), std::max(), getDocumentWriteFn().
+ */
 bool IngestionAdminApi::retryQuarantineItem(const std::string& item_path) {
     // Find the entry
     auto items = mgr_.getQuarantineItems();
@@ -2517,6 +3105,11 @@ bool IngestionAdminApi::retryQuarantineItem(const std::string& item_path) {
     return true;
 }
 
+/**
+ * @brief Retry All Quarantine.
+ * @return Return value.
+ * @details Calls: getQuarantineItems(), retryQuarantineItem().
+ */
 size_t IngestionAdminApi::retryAllQuarantine() {
     auto items = mgr_.getQuarantineItems();
     size_t successes = 0;
@@ -2530,6 +3123,12 @@ size_t IngestionAdminApi::retryAllQuarantine() {
     return successes;
 }
 
+/**
+ * @brief Dismiss Quarantine Item.
+ * @param[in] item_path Path to the item.
+ * @return True when the operation succeeds.
+ * @details Implements dismissQuarantineItem without additional internal calls.
+ */
 bool IngestionAdminApi::dismissQuarantineItem(const std::string& item_path) {
     return mgr_.dismissQuarantineItem(item_path);
 }

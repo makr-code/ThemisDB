@@ -38,13 +38,21 @@ std::string TextNormalizer::normalize(std::string_view text) const {
 // Free function
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Normalize Text.
+ * @param[in] text Input parameter.
+ * @return Return value.
+ * @details Calls: utils::Normalizer::normalizeUmlauts().
+ */
 std::string normalizeText(std::string_view text) {
     return utils::Normalizer::normalizeUmlauts(text);
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Phase 3: Metrics export for helper diagnostics
-// ─────────────────────────────────────────────────────────────────────────────
+/**
+ * @brief ───────────────────────────────────────────────────────────────────────────── Phase 3: Metrics export for helper diagnostics ─────────────────────────────────────────────────────────────────────────────
+ * @return Return value.
+ * @details Calls: load(), str().
+ */
 
 std::string getTextNormalizerMetrics() {
     const uint64_t errors = g_text_normalizer_errors_total.load(std::memory_order_relaxed);

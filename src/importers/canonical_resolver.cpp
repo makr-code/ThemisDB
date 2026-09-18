@@ -34,6 +34,11 @@ json GoldenRecord::toJson() const {
 // Helpers
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Generate UUID.
+ * @return Return value.
+ * @details Calls: dist(), std::setfill(), std::setw(), str().
+ */
 static std::string generateUUID() {
     static std::mt19937_64 rng{std::random_device{}()};
     static std::uniform_int_distribution<uint64_t> dist;
@@ -48,6 +53,11 @@ static std::string generateUUID() {
     return ss.str();
 }
 
+/**
+ * @brief Now Rfc3339.
+ * @return Return value.
+ * @details Calls: system_clock::now(), system_clock::to_time_t(), gmtime_s(), gmtime_r(), std::put_time(), str().
+ */
 static std::string nowRfc3339() {
     using namespace std::chrono;
     const auto now = system_clock::now();
@@ -63,6 +73,12 @@ static std::string nowRfc3339() {
     return ss.str();
 }
 
+/**
+ * @brief Compute Completeness.
+ * @param[in] entity Input parameter.
+ * @return Return value.
+ * @details Calls: is_object(), empty(), begin(), end(), value(), is_null(), is_string().
+ */
 double CanonicalEntityResolver::computeCompleteness(const json &entity) {
     if (!entity.is_object() || entity.empty()) {
         return 0.0;
@@ -86,6 +102,15 @@ double CanonicalEntityResolver::computeCompleteness(const json &entity) {
 // FieldRule application helpers
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Reconcile String Field.
+ * @param[in] value1 Input parameter.
+ * @param[in] value2 Input parameter.
+ * @param[in] rule Input parameter.
+ * @param[in] separator Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), size(), std::stod(), std::to_string().
+ */
 std::string CanonicalEntityResolver::reconcileStringField(const std::string &value1, const std::string &value2,
                                                           FieldRule rule, const std::string &separator) {
     switch (rule) {
@@ -124,6 +149,14 @@ std::string CanonicalEntityResolver::reconcileStringField(const std::string &val
     return value2;
 }
 
+/**
+ * @brief Reconcile Numeric Field.
+ * @param[in] value1 Input parameter.
+ * @param[in] value2 Input parameter.
+ * @param[in] rule Input parameter.
+ * @return Return value.
+ * @details Calls: std::max(), std::min().
+ */
 int64_t CanonicalEntityResolver::reconcileNumericField(int64_t value1, int64_t value2, FieldRule rule) {
     switch (rule) {
         case FieldRule::KEEP_EXISTING:
@@ -141,6 +174,15 @@ int64_t CanonicalEntityResolver::reconcileNumericField(int64_t value1, int64_t v
     }
 }
 
+/**
+ * @brief Reconcile Object Field.
+ * @param[in] obj1 Input parameter.
+ * @param[in] obj2 Input parameter.
+ * @param[in] policy Input parameter.
+ * @param[in] depth Input parameter.
+ * @return Return value.
+ * @details Calls: is_object(), begin(), end(), key(), contains(), is_null(), value(), is_string().
+ */
 json CanonicalEntityResolver::reconcileObjectField(const json &obj1, const json &obj2, ResolutionPolicy policy,
                                                    int depth) {
     if (!obj1.is_object() || !obj2.is_object()) {
@@ -173,6 +215,14 @@ json CanonicalEntityResolver::reconcileObjectField(const json &obj1, const json 
     return result;
 }
 
+/**
+ * @brief Score Field Quality.
+ * @param[in] param Input parameter.
+ * @param[in] value Input parameter.
+ * @param[in] policy Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), size(), std::all_of(), begin(), end(), std::isdigit(), std::any_of(), std::islower().
+ */
 double CanonicalEntityResolver::scoreFieldQuality(const std::string & /*field_name*/, const std::string &value,
                                                   const FieldQualityPolicy &policy) {
     if (value.empty()) {
@@ -200,6 +250,14 @@ double CanonicalEntityResolver::scoreFieldQuality(const std::string & /*field_na
     return score;
 }
 
+/**
+ * @brief Best String Value.
+ * @param[in] v1 Input parameter.
+ * @param[in] v2 Input parameter.
+ * @param[in] policy Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), size().
+ */
 std::string CanonicalEntityResolver::bestStringValue(const std::string &v1, const std::string &v2,
                                                      ResolutionPolicy policy) {
     if (v1.empty()) {

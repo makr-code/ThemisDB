@@ -61,28 +61,23 @@ namespace process {
 // CONFLICT RESOLUTION STRATEGIES
 // ============================================================================
 
-/**
- * @class ConflictResolutionStrategy
- * @brief Abstract base for conflict resolution algorithms.
- * @internal
- */
 class IConflictResolutionStrategy {
  public:
+  /**
+   * @brief IConflict Resolution Strategy.
+   * @return Return value.
+   */
   virtual ~IConflictResolutionStrategy() = default;
 
   /**
-   * @brief Determine winner between two conflicting versions.
-   * @return ID of winning version
+   * @brief Resolve Conflict.
+   * @param[in] metadata Input parameter.
+   * @return Return value.
    */
   virtual std::string ResolveConflict(
       const ConflictMetadata& metadata) = 0;
 };
 
-/**
- * @class LastWriteWinsStrategy
- * @brief Last-Write-Wins conflict resolution (default fallback).
- * @internal
- */
 class LastWriteWinsStrategy : public IConflictResolutionStrategy {
  public:
   std::string ResolveConflict(const ConflictMetadata& metadata) override {
@@ -100,11 +95,6 @@ class LastWriteWinsStrategy : public IConflictResolutionStrategy {
   }
 };
 
-/**
- * @class FirstWriteWinsStrategy
- * @brief First-Write-Wins conflict resolution.
- * @internal
- */
 class FirstWriteWinsStrategy : public IConflictResolutionStrategy {
  public:
   std::string ResolveConflict(const ConflictMetadata& metadata) override {
@@ -122,13 +112,13 @@ class FirstWriteWinsStrategy : public IConflictResolutionStrategy {
   }
 };
 
-/**
- * @class ApplicationCustomStrategy
- * @brief Application callback-based conflict resolution.
- * @internal
- */
 class ApplicationCustomStrategy : public IConflictResolutionStrategy {
  public:
+  /**
+   * @brief Application Custom Strategy.
+   * @param[in] callback Input parameter.
+   * @return Return value.
+   */
   explicit ApplicationCustomStrategy(
       std::shared_ptr<ProcessConflictResolverCallback> callback)
       : callback_(std::move(callback)), fallback_(std::make_unique<LastWriteWinsStrategy>()) {}
@@ -169,24 +159,12 @@ class ApplicationCustomStrategy : public IConflictResolutionStrategy {
 // CONFLICT RESOLVER IMPLEMENTATION
 // ============================================================================
 
-/**
- * @class ProcessConflictResolverImpl
- * @brief Core conflict detection and resolution engine.
- *
- * ### Thread Safety
- * All public methods are thread-safe via fine-grained locking.
- * Lock ordering: resolver_mutex_ → conflict_history_mutex_
- *
- * ### Performance
- * - Conflict detection: < 5ms (GATE-CRE-01)
- * - Resolution: < 50ms P95 (GATE-CRE-02)
- * - Callback overhead: < 10ms (GATE-CRE-03)
- */
 class ProcessConflictResolverImpl {
  public:
   /**
-   * @brief Constructor.
-   * @param config Resolver configuration (strategy, timeout, batch size)
+   * @brief Process Conflict Resolver Impl.
+   * @param[in] config Input parameter.
+   * @return Return value.
    */
   explicit ProcessConflictResolverImpl(const ConflictResolverConfig& config)
       : config_(config),
@@ -198,9 +176,6 @@ class ProcessConflictResolverImpl {
         config.strategy.c_str(), config.callback_timeout_ms);
   }
 
-  /**
-   * @brief Destructor.
-   */
   ~ProcessConflictResolverImpl() = default;
 
   // ========================================================================
@@ -208,17 +183,15 @@ class ProcessConflictResolverImpl {
   // ========================================================================
 
   /**
-   * @brief Detect and resolve conflict between two concurrent model versions.
-   *
-   * @param model_id Model ID where conflict occurred
-   * @param v1_id First version ID
-   * @param v1_timestamp Timestamp of first version
-   * @param v1_sender Sender node ID of first version
-   * @param v2_id Second version ID
-   * @param v2_timestamp Timestamp of second version
-   * @param v2_sender Sender node ID of second version
-   * @return ID of winning version (deterministic across all replicas)
-   * @thread_safe Acquires resolver_mutex_
+   * @brief Resolve Conflict.
+   * @param[in] model_id Identifier of the model.
+   * @param[in] v1_id Identifier of the v1.
+   * @param[in] v1_timestamp Input parameter.
+   * @param[in] v1_sender Input parameter.
+   * @param[in] v2_id Identifier of the v2.
+   * @param[in] v2_timestamp Input parameter.
+   * @param[in] v2_sender Input parameter.
+   * @return Return value.
    */
   std::string ResolveConflict(const std::string& model_id,
                               const std::string& v1_id, uint64_t v1_timestamp,
@@ -226,34 +199,14 @@ class ProcessConflictResolverImpl {
                               const std::string& v2_id, uint64_t v2_timestamp,
                               const std::string& v2_sender);
 
-  /**
-   * @brief Register application-provided conflict resolver callback.
-   *
-   * If registered, callback will be invoked for conflict resolution.
-   * If callback not registered or times out, LWW fallback is used.
-   *
-   * @param resolver Callback implementing ProcessConflictResolver interface
-   * @thread_safe Acquires resolver_mutex_
-   */
   void RegisterResolver([[maybe_unused]] std::shared_ptr<ProcessConflictResolverCallback> resolver);
 
-  /**
-   * @brief Detect conflicts in a batch of model versions.
-   *
-   * Used for periodic consistency checking across replicas.
-   *
-   * @param versions Map of model_id → version_ids
-   * @return Vector of detected conflicts (empty if none)
-   * @thread_safe Acquires resolver_mutex_
-   */
   std::vector<ConflictInfo> DetectConflictsBatch(
       const std::map<std::string, std::vector<std::string>>& versions);
 
   /**
-   * @brief Get conflict resolver statistics.
-   *
-   * @return Struct with conflicts_detected, conflicts_resolved, resolution_time_ms
-   * @thread_safe Acquires resolver_mutex_
+   * @brief Get Stats.
+   * @return Return value.
    */
   ConflictResolverStats GetStats() const;
 
@@ -263,7 +216,11 @@ class ProcessConflictResolverImpl {
 
  private:
   /**
-   * @brief Create resolution strategy based on config.
+   * @brief Create Strategy.
+   * @param[in] strategy_name Name of the strategy.
+   * @param[in] callback Input parameter.
+   * @return Return value.
+   * @details Calls: std::move().
    */
   static std::unique_ptr<IConflictResolutionStrategy> CreateStrategy(
       const std::string& strategy_name,
@@ -280,7 +237,11 @@ class ProcessConflictResolverImpl {
   }
 
   /**
-   * @brief Check if two versions are in conflict (concurrent, not ancestor).
+   * @brief Are In Conflict.
+   * @param[in] v1 Input parameter.
+   * @param[in] v2 Input parameter.
+   * @return True when the operation succeeds.
+   * @details Implements AreInConflict without additional internal calls.
    */
   static bool AreInConflict(const VersionInfo& v1, const VersionInfo& v2) {
     // Simplified: concurrent if different and not ancestor
@@ -312,6 +273,18 @@ class ProcessConflictResolverImpl {
 // IMPLEMENTATION
 // ============================================================================
 
+/**
+ * @brief Resolve Conflict.
+ * @param[in] model_id Identifier of the model.
+ * @param[in] v1_id Identifier of the v1.
+ * @param[in] v1_timestamp Input parameter.
+ * @param[in] v1_sender Input parameter.
+ * @param[in] v2_id Identifier of the v2.
+ * @param[in] v2_timestamp Input parameter.
+ * @param[in] v2_sender Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::high_resolution_clock::now(), std::chrono::milliseconds(), lock(), count(), utils::Logger::Info(), c_str().
+ */
 std::string ProcessConflictResolverImpl::ResolveConflict(
     const std::string& model_id, const std::string& v1_id,
     uint64_t v1_timestamp, const std::string& v1_sender,
@@ -351,6 +324,11 @@ std::string ProcessConflictResolverImpl::ResolveConflict(
   return winner;
 }
 
+/**
+ * @brief Register Resolver.
+ * @param[in] resolver Input parameter.
+ * @details Calls: lock(), CreateStrategy(), utils::Logger::Info().
+ */
 void ProcessConflictResolverImpl::RegisterResolver(
     std::shared_ptr<ProcessConflictResolverCallback> resolver) {
   std::lock_guard<std::mutex> lock(resolver_mutex_);
@@ -363,6 +341,11 @@ std::vector<ConflictInfo> ProcessConflictResolverImpl::DetectConflictsBatch(
     const std::map<std::string, std::vector<std::string>>& versions) {
   std::vector<ConflictInfo> conflicts;
 
+  /**
+   * @brief Lock.
+   * @param[in] resolver_mutex_ Input parameter.
+   * @return Return value.
+   */
   std::lock_guard<std::mutex> lock(resolver_mutex_);
 
   for (const auto& [model_id, version_ids] : versions) {
@@ -384,6 +367,11 @@ std::vector<ConflictInfo> ProcessConflictResolverImpl::DetectConflictsBatch(
 }
 
 ConflictResolverStats ProcessConflictResolverImpl::GetStats() const {
+  /**
+   * @brief Lock.
+   * @param[in] metrics_mutex_ Input parameter.
+   * @return Return value.
+   */
   std::lock_guard<std::mutex> lock(metrics_mutex_);
 
   ConflictResolverStats stats;
@@ -412,6 +400,18 @@ ProcessConflictResolver::ProcessConflictResolver(
 
 ProcessConflictResolver::~ProcessConflictResolver() = default;
 
+/**
+ * @brief Resolve Conflict.
+ * @param[in] model_id Identifier of the model.
+ * @param[in] v1_id Identifier of the v1.
+ * @param[in] v1_timestamp Input parameter.
+ * @param[in] v1_sender Input parameter.
+ * @param[in] v2_id Identifier of the v2.
+ * @param[in] v2_timestamp Input parameter.
+ * @param[in] v2_sender Input parameter.
+ * @return Return value.
+ * @details Implements ResolveConflict without additional internal calls.
+ */
 std::string ProcessConflictResolver::ResolveConflict(
     const std::string& model_id, const std::string& v1_id,
     uint64_t v1_timestamp, const std::string& v1_sender,
@@ -421,6 +421,11 @@ std::string ProcessConflictResolver::ResolveConflict(
                                 v2_id, v2_timestamp, v2_sender);
 }
 
+/**
+ * @brief Register Resolver.
+ * @param[in] resolver Input parameter.
+ * @details Implements RegisterResolver without additional internal calls.
+ */
 void ProcessConflictResolver::RegisterResolver(
     std::shared_ptr<ProcessConflictResolverCallback> resolver) {
   impl_->RegisterResolver(resolver);

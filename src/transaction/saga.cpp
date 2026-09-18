@@ -28,11 +28,21 @@ Saga::~Saga() {
     }
 }
 
+/**
+ * @brief Add Step.
+ * @param[in] operation_name Name of the operation.
+ * @param[in] compensate Input parameter.
+ * @details Calls: emplace_back(), std::move(), THEMIS_DEBUG(), back(), size().
+ */
 void Saga::addStep(std::string operation_name, CompensatingAction compensate) {
     steps_.emplace_back(std::move(operation_name), std::move(compensate));
     THEMIS_DEBUG("SAGA: Added step '{}' (total steps: {})", steps_.back().operation_name,steps_.size());
 }
 
+/**
+ * @brief Compensate.
+ * @details Calls: THEMIS_WARN(), THEMIS_INFO(), size(), rbegin(), rend(), THEMIS_DEBUG(), THEMIS_ERROR(), what().
+ */
 void Saga::compensate() {
     if (compensated_) {
         THEMIS_WARN("SAGA: Already compensated, skipping");
@@ -68,6 +78,10 @@ void Saga::compensate() {
     THEMIS_INFO("SAGA: Compensation complete ({}/{} steps)", compensatedCount(),steps_.size());
 }
 
+/**
+ * @brief Clear.
+ * @details Calls: THEMIS_DEBUG(), size().
+ */
 void Saga::clear() {
     THEMIS_DEBUG("SAGA: Clearing {} steps",steps_.size());
     steps_.clear();
@@ -77,6 +91,11 @@ void Saga::clear() {
     // They are only reset by the default constructor (i.e., when a new Saga is created).
 }
 
+/**
+ * @brief Trim To Size.
+ * @param[in] n Input parameter.
+ * @details Calls: size(), THEMIS_DEBUG(), erase(), begin(), end().
+ */
 void Saga::trimToSize(size_t n) {
     if (n >= steps_.size()) {
       return;
@@ -115,6 +134,12 @@ int64_t Saga::getDurationMs() const {
     return std::chrono::duration_cast<std::chrono::milliseconds>(now - first_step_time).count();
 }
 
+/**
+ * @brief Compensate With Retry.
+ * @param[in] max_retries Input parameter.
+ * @param[in] backoff_ms Input parameter.
+ * @details Calls: THEMIS_WARN(), std::min(), THEMIS_INFO(), size(), count(), rbegin(), rend(), THEMIS_DEBUG().
+ */
 void Saga::compensateWithRetry(int max_retries,
                                std::chrono::milliseconds backoff_ms) {
     if (compensated_) {
@@ -190,7 +215,14 @@ Saga::Metrics Saga::getMetrics() const {
     return m;
 }
 
-// ========== SAGA Operations ==========
+/**
+ * @brief ========== SAGA Operations ==========
+ * @param[in,out] db Input/output parameter.
+ * @param[in] key Input parameter.
+ * @param[in] value Input parameter.
+ * @param[in,out] saga Input/output parameter.
+ * @details Calls: get(), has_value(), std::move(), addStep(), put(), THEMIS_DEBUG(), del().
+ */
 
 void SagaOperation::putEntityWithCompensation(
     RocksDBWrapper& db,
@@ -218,6 +250,13 @@ void SagaOperation::putEntityWithCompensation(
     }
 }
 
+/**
+ * @brief Delete Entity With Compensation.
+ * @param[in,out] db Input/output parameter.
+ * @param[in] key Input parameter.
+ * @param[in,out] saga Input/output parameter.
+ * @details Calls: get(), has_value(), THEMIS_WARN(), std::move(), addStep(), put(), THEMIS_DEBUG().
+ */
 void SagaOperation::deleteEntityWithCompensation(
     RocksDBWrapper& db,
     const std::string& key,
@@ -240,6 +279,15 @@ void SagaOperation::deleteEntityWithCompensation(
     });
 }
 
+/**
+ * @brief Index Put With Compensation.
+ * @param[in,out] idx Input/output parameter.
+ * @param[in] table Input parameter.
+ * @param[in] entity Input parameter.
+ * @param[in,out] batch Input/output parameter.
+ * @param[in,out] saga Input/output parameter.
+ * @details Calls: getPrimaryKey(), addStep(), erase(), THEMIS_WARN(), THEMIS_DEBUG().
+ */
 void SagaOperation::indexPutWithCompensation(
     SecondaryIndexManager& idx,
     const std::string& table,
@@ -260,6 +308,14 @@ void SagaOperation::indexPutWithCompensation(
         }
     });
 }
+/**
+ * @brief Graph Add With Compensation.
+ * @param[in,out] graph Input/output parameter.
+ * @param[in] edge Input parameter.
+ * @param[in,out] batch Input/output parameter.
+ * @param[in,out] saga Input/output parameter.
+ * @details Calls: getPrimaryKey(), addStep(), deleteEdge(), THEMIS_WARN(), THEMIS_DEBUG().
+ */
 void SagaOperation::graphAddWithCompensation(
     GraphIndexManager& graph,
     const BaseEntity& edge,
@@ -279,6 +335,15 @@ void SagaOperation::graphAddWithCompensation(
     });
 }
 
+/**
+ * @brief Vector Add With Compensation.
+ * @param[in,out] vec Input/output parameter.
+ * @param[in] entity Input parameter.
+ * @param[in,out] batch Input/output parameter.
+ * @param[in] vectorField Input parameter.
+ * @param[in,out] saga Input/output parameter.
+ * @details Calls: getPrimaryKey(), addStep(), removeByPk(), THEMIS_WARN(), THEMIS_DEBUG().
+ */
 void SagaOperation::vectorAddWithCompensation(
     VectorIndexManager& vec,
     const BaseEntity& entity,

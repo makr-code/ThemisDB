@@ -23,18 +23,36 @@ namespace themis::sharding {
 // LZ4 bridges (stub #295)
 // ============================================================================
 
+/**
+ * @brief Set Lz4 Compress Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: std::move().
+ */
 void SecureTransportClient::setLz4CompressFn(Lz4CompressFn fn) {
     lz4CompressFn_ = std::move(fn);
 }
 
+/**
+ * @brief Clear Lz4 Compress Fn.
+ * @details Implements clearLz4CompressFn without additional internal calls.
+ */
 void SecureTransportClient::clearLz4CompressFn() {
     lz4CompressFn_ = nullptr;
 }
 
+/**
+ * @brief Set Lz4 Decompress Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: std::move().
+ */
 void SecureTransportClient::setLz4DecompressFn(Lz4DecompressFn fn) {
     lz4DecompressFn_ = std::move(fn);
 }
 
+/**
+ * @brief Clear Lz4 Decompress Fn.
+ * @details Implements clearLz4DecompressFn without additional internal calls.
+ */
 void SecureTransportClient::clearLz4DecompressFn() {
     lz4DecompressFn_ = nullptr;
 }
@@ -81,6 +99,14 @@ std::shared_ptr<MTLSClient> SecureTransportClient::getMTLSClient() const {
     return mtls_client_;
 }
 
+/**
+ * @brief Compress Data.
+ * @param[in] data Input parameter.
+ * @param[in,out] compressed Input/output parameter.
+ * @param[in,out] compression_codec Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: size(), utils::zstd_compress(), empty(), std::string(), begin(), end(), spdlog::debug(), lz4CompressFn_().
+ */
 bool SecureTransportClient::compressData(const std::string& data,
                                          std::string& compressed,
                                          std::string* compression_codec) {
@@ -131,6 +157,14 @@ bool SecureTransportClient::compressData(const std::string& data,
     return false;
 }
 
+/**
+ * @brief Transfer.
+ * @param[in] endpoint Input parameter.
+ * @param[in] path Input parameter.
+ * @param[in] payload Input parameter.
+ * @return Return value.
+ * @details Calls: transferWithRetry().
+ */
 SecureTransportClient::TransferResult SecureTransportClient::transfer(
     const std::string& endpoint,
     const std::string& path,
@@ -139,6 +173,15 @@ SecureTransportClient::TransferResult SecureTransportClient::transfer(
     return transferWithRetry(endpoint, path, payload, 0);
 }
 
+/**
+ * @brief Transfer With Retry.
+ * @param[in] endpoint Input parameter.
+ * @param[in] path Input parameter.
+ * @param[in] payload Input parameter.
+ * @param[in] retry_count Input parameter.
+ * @return Return value.
+ * @details Calls: isReady(), spdlog::error(), size(), compressData(), is_null(), empty(), utils::Cursor::base64Encode(), spdlog::debug().
+ */
 SecureTransportClient::TransferResult SecureTransportClient::transferWithRetry(
     const std::string& endpoint,
     const std::string& path,

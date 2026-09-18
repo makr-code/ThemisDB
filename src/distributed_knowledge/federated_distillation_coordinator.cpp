@@ -27,18 +27,36 @@ namespace distributed_knowledge {
 
 namespace {
 
-/// Compute Gaussian DP noise sigma from (ε, δ, sensitivity).
-/// σ = sensitivity · sqrt(2 · ln(1.25/δ)) / ε
+/**
+ * @brief Gaussian Sigma.
+ * @param[in] epsilon Input parameter.
+ * @param[in] delta Input parameter.
+ * @param[in] sensitivity Input parameter.
+ * @return Return value.
+ * @details Calls: std::sqrt(), std::log().
+ */
 double gaussianSigma(double epsilon, double delta, double sensitivity) {
     return sensitivity * std::sqrt(2.0 * std::log(1.25 / delta)) / epsilon;
 }
 
-/// Clamp to [lo, hi].
+/**
+ * @brief Clamp.
+ * @tparam T Template parameter.
+ * @param[in] val Input parameter.
+ * @param[in] lo Input parameter.
+ * @param[in] hi Input parameter.
+ * @return Return value.
+ * @details Implements clamp without additional internal calls.
+ */
 template <typename T> T clamp(T val, T lo, T hi) {
     return val < lo ? lo : (val > hi ? hi : val);
 }
 
-/// Normalise a non-negative vector to sum 1; no-op when sum == 0.
+/**
+ * @brief Normalise.
+ * @param[in,out] v Input/output parameter.
+ * @details Implements normalise without additional internal calls.
+ */
 void normalise(std::vector<double> &v) {
     double sum = 0.0;
     for (auto x : v) {
@@ -69,6 +87,14 @@ FederatedDistillationCoordinator::~FederatedDistillationCoordinator() noexcept =
 // IFederatedDistillationCoordinator — submitSoftLabels
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Submit Soft Labels.
+ * @param[in] teacher_id Identifier of the teacher.
+ * @param[in] labels Input parameter.
+ * @throws std::invalid_argument if an error occurs.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: lock(), empty(), has_value(), std::move().
+ */
 void FederatedDistillationCoordinator::submitSoftLabels(const std::string &teacher_id, std::vector<SoftLabel> labels) {
     std::lock_guard<std::mutex> lock(mutex_);
 
@@ -108,6 +134,12 @@ void FederatedDistillationCoordinator::submitSoftLabels(const std::string &teach
 // broadcastToStudents
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Broadcast To Students.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: lock(), verifyPrivacyBudget(), isConstrained(), policy_gate_(), applyDPNoise(), std::move(), size(), cb().
+ */
 DistillationRound FederatedDistillationCoordinator::broadcastToStudents() {
     std::lock_guard<std::mutex> lock(mutex_);
 
@@ -198,21 +230,41 @@ DistillationRound FederatedDistillationCoordinator::broadcastToStudents() {
 // ─────────────────────────────────────────────────────────────────────────────
 
 uint64_t FederatedDistillationCoordinator::currentRound() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return current_round_;
 }
 
 size_t FederatedDistillationCoordinator::submittedCount() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return has_pending_ ? 1 : 0;
 }
 
 std::optional<DistillationRound> FederatedDistillationCoordinator::lastRound() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return last_round_;
 }
 
 nlohmann::json FederatedDistillationCoordinator::getStats() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return {{"current_round", current_round_},
             {"broadcast_count", broadcast_count_},
@@ -247,6 +299,11 @@ void FederatedDistillationCoordinator::registerStudent(const std::string &studen
     if (!cb) {
         throw std::invalid_argument("registerStudent: callback must not be null");
     }
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     students_.emplace_back(student_id, std::move(cb));
 }
@@ -255,26 +312,51 @@ void FederatedDistillationCoordinator::registerStudent(const std::string &studen
 // DI setters
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Set Policy Gate.
+ * @param[in] gate Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void FederatedDistillationCoordinator::setPolicyGate(PolicyGate gate) {
     std::lock_guard<std::mutex> lock(mutex_);
     policy_gate_ = std::move(gate);
 }
 
+/**
+ * @brief Set Bounded Policy.
+ * @param[in] policy Input parameter.
+ * @details Calls: lock().
+ */
 void FederatedDistillationCoordinator::setBoundedPolicy(DistillationBoundedPolicy policy) {
     std::lock_guard<std::mutex> lock(mutex_);
     bounded_policy_ = policy;
 }
 
 void FederatedDistillationCoordinator::setAuditCallback(std::function<void(const nlohmann::json &)> cb) {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     audit_cb_ = std::move(cb);
 }
 
 void FederatedDistillationCoordinator::setRollbackTrigger(std::function<void(uint64_t, double)> cb) {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     rollback_trigger_ = std::move(cb);
 }
 
+/**
+ * @brief Set Noise Generator Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void FederatedDistillationCoordinator::setNoiseGeneratorFn(NoiseGeneratorFn fn) {
     std::lock_guard<std::mutex> lock(mutex_);
     noise_generator_fn_ = std::move(fn);
@@ -284,6 +366,12 @@ void FederatedDistillationCoordinator::setNoiseGeneratorFn(NoiseGeneratorFn fn) 
 // Utility reporting
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Report Student Utility.
+ * @param[in] param Input parameter.
+ * @param[in] utility Input parameter.
+ * @details Calls: lock(), rollback_trigger_().
+ */
 void FederatedDistillationCoordinator::reportStudentUtility(const std::string & /*student_id*/, double utility) {
     std::lock_guard<std::mutex> lock(mutex_);
 
@@ -327,6 +415,10 @@ bool FederatedDistillationCoordinator::verifyPrivacyBudget() const {
 // Reset (for tests / admin)
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Reset the modification detection flag.
+ * @details Calls: lock(), clear().
+ */
 void FederatedDistillationCoordinator::reset() {
     std::lock_guard<std::mutex> lock(mutex_);
     current_round_        = 0;
@@ -382,6 +474,11 @@ void FederatedDistillationCoordinator::applyDPNoise(std::vector<SoftLabel> &labe
 // ─────────────────────────────────────────────────────────────────────────────
 
 DistillationModelCard FederatedDistillationCoordinator::generateModelCard(const std::string &coordinator_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     DistillationModelCard card;

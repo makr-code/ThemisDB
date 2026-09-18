@@ -39,6 +39,11 @@ GunrockProcessor::GunrockProcessor()
 
 GunrockProcessor::~GunrockProcessor() = default;
 
+/**
+ * @brief Load graph.
+ * @param[in] adj_list Input parameter.
+ * @details Calls: size(), clear(), push_back().
+ */
 void GunrockProcessor::load_graph(const std::vector<std::vector<NodeID>>& adj_list) {
     impl_->adj_list = adj_list;
     impl_->num_vertices = adj_list.size();
@@ -58,6 +63,12 @@ void GunrockProcessor::load_graph(const std::vector<std::vector<NodeID>>& adj_li
     }
 }
 
+/**
+ * @brief Gpu bfs.
+ * @param[in] start_vertex Input parameter.
+ * @return Return value.
+ * @details Calls: distances(), push(), empty(), front(), pop(), spdlog::warn().
+ */
 std::vector<int> GunrockProcessor::gpu_bfs(NodeID start_vertex) {
     const size_t n = impl_->num_vertices;
     std::vector<int> distances(n, -1);
@@ -105,6 +116,13 @@ bfs_done:
     return distances;
 }
 
+/**
+ * @brief Gpu pagerank.
+ * @param[in] num_iterations Input parameter.
+ * @param[in] damping Input parameter.
+ * @return Return value.
+ * @details Calls: ranks(), new_ranks(), out_degree(), size(), std::fill(), begin(), end(), swap().
+ */
 std::vector<double> GunrockProcessor::gpu_pagerank(int num_iterations, double damping) {
     const size_t n = impl_->num_vertices;
     std::vector<double> ranks(n, 1.0 / n);
@@ -142,6 +160,12 @@ std::vector<double> GunrockProcessor::gpu_pagerank(int num_iterations, double da
     return ranks;
 }
 
+/**
+ * @brief Gpu sssp.
+ * @param[in] start_vertex Input parameter.
+ * @return Return value.
+ * @details Calls: distances(), infinity(), push(), empty(), top(), pop().
+ */
 std::vector<double> GunrockProcessor::gpu_sssp(NodeID start_vertex) {
     const size_t n = impl_->num_vertices;
     std::vector<double> distances(n, std::numeric_limits<double>::infinity());

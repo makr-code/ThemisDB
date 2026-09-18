@@ -41,6 +41,13 @@ MVCCStore::MVCCStore(
 // Key encoding helpers
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Encode Versioned Key.
+ * @param[in] base_key Input parameter.
+ * @param[in] ts Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), append(), data(), push_back(), encodeToString().
+ */
 std::string MVCCStore::encodeVersionedKey(std::string_view base_key, HLCTimestamp ts) {
     std::string key = {};
     key.reserve(base_key.size() + 1 + 8);
@@ -50,6 +57,12 @@ std::string MVCCStore::encodeVersionedKey(std::string_view base_key, HLCTimestam
     return key;
 }
 
+/**
+ * @brief Encode Version Prefix.
+ * @param[in] base_key Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), append(), data(), push_back().
+ */
 std::string MVCCStore::encodeVersionPrefix(std::string_view base_key) {
     std::string prefix = {};
     prefix.reserve(base_key.size() + 1);
@@ -58,6 +71,12 @@ std::string MVCCStore::encodeVersionPrefix(std::string_view base_key) {
     return prefix;
 }
 
+/**
+ * @brief Decode Timestamp.
+ * @param[in] versioned_key Input parameter.
+ * @return Return value.
+ * @details Calls: size(), data(), HLCTimestamp::decodeFromBytes().
+ */
 HLCTimestamp MVCCStore::decodeTimestamp(std::string_view versioned_key) {
     // The timestamp is always the last 8 bytes of the versioned key.
     // The separator '\x00' is at position (size - 9); the timestamp follows it.
@@ -76,12 +95,26 @@ HLCTimestamp MVCCStore::decodeTimestamp(std::string_view versioned_key) {
 // Write
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Put.
+ * @param[in] key Input parameter.
+ * @param[in] value Input parameter.
+ * @return Return value.
+ * @details Calls: now(), putWithTimestamp().
+ */
 HLCTimestamp MVCCStore::put(std::string_view key, const std::vector<uint8_t>& value) {
     HLCTimestamp ts = clock_->now();
     putWithTimestamp(key, value, ts);
     return ts;
 }
 
+/**
+ * @brief Put With Timestamp.
+ * @param[in] key Input parameter.
+ * @param[in] value Input parameter.
+ * @param[in] ts Input parameter.
+ * @details Calls: update(), encodeVersionedKey(), put(), lk(), find(), std::string(), end().
+ */
 void MVCCStore::putWithTimestamp(
     std::string_view key,
     const std::vector<uint8_t>& value,
@@ -108,6 +141,14 @@ void MVCCStore::putWithTimestamp(
     }
 }
 
+/**
+ * @brief Put In Txn.
+ * @param[in,out] txn Input/output parameter.
+ * @param[in] key Input parameter.
+ * @param[in] value Input parameter.
+ * @return Return value.
+ * @details Calls: now(), encodeVersionedKey(), put().
+ */
 HLCTimestamp MVCCStore::putInTxn(
     RocksDBWrapper::TransactionWrapper& txn,
     std::string_view key,
@@ -119,6 +160,13 @@ HLCTimestamp MVCCStore::putInTxn(
     return ts;
 }
 
+/**
+ * @brief Del In Txn.
+ * @param[in,out] txn Input/output parameter.
+ * @param[in] key Input parameter.
+ * @return Return value.
+ * @details Calls: now(), encodeVersionedKey(), put().
+ */
 HLCTimestamp MVCCStore::delInTxn(
     RocksDBWrapper::TransactionWrapper& txn,
     std::string_view key
@@ -134,6 +182,12 @@ HLCTimestamp MVCCStore::delInTxn(
 // Read
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Get Latest.
+ * @param[in] key Input parameter.
+ * @return Return value.
+ * @details Calls: lk(), find(), std::string(), end(), encodeVersionedKey(), unlock(), get(), empty().
+ */
 std::optional<std::vector<uint8_t>> MVCCStore::getLatest(std::string_view key) {
     // F-010: fast path — if we have a cached latest timestamp for this key,
     // perform a direct db_->get() point-read instead of creating an iterator.
@@ -161,6 +215,13 @@ std::optional<std::vector<uint8_t>> MVCCStore::getLatest(std::string_view key) {
     return getAtTimestamp(key, HLCTimestamp(UINT64_MAX));
 }
 
+/**
+ * @brief Get At Timestamp.
+ * @param[in] key Input parameter.
+ * @param[in] ts Input parameter.
+ * @return Return value.
+ * @details Calls: encodeVersionPrefix(), std::string(), data(), size(), push_back(), encodeVersionedKey(), HLCTimestamp(), newSafeIterator().
+ */
 std::optional<std::vector<uint8_t>> MVCCStore::getAtTimestamp(
     std::string_view key,
     HLCTimestamp ts
@@ -260,6 +321,14 @@ void MVCCStore::scanVersions(
 // Garbage collection
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Gc Versions Before.
+ * @param[in] key Input parameter.
+ * @param[in] min_ts Input parameter.
+ * @param[in] opts Input parameter.
+ * @return Return value.
+ * @details Calls: encodeVersionPrefix(), scanPrefix(), emplace_back(), empty(), size(), decodeTimestamp(), std::min(), del().
+ */
 uint64_t MVCCStore::gcVersionsBefore(
     std::string_view key,
     HLCTimestamp min_ts,
@@ -302,6 +371,13 @@ uint64_t MVCCStore::gcVersionsBefore(
     return deleted;
 }
 
+/**
+ * @brief Gc All Before.
+ * @param[in] min_ts Input parameter.
+ * @param[in] opts Input parameter.
+ * @return Return value.
+ * @details Calls: scanBaseKeys(), emplace_back(), gcVersionsBefore().
+ */
 uint64_t MVCCStore::gcAllBefore(HLCTimestamp min_ts, GCOptions opts) {
     std::vector<std::string> base_keys;
     scanBaseKeys([&](std::string_view bk) -> bool {
@@ -354,6 +430,12 @@ HLCTimestamp MVCCStore::currentTimestamp() const {
     return clock_->peek();
 }
 
+/**
+ * @brief Update Clock.
+ * @param[in] received Input parameter.
+ * @return Return value.
+ * @details Calls: update().
+ */
 HLCTimestamp MVCCStore::updateClock(HLCTimestamp received) {
     return clock_->update(received);
 }

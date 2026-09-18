@@ -111,11 +111,22 @@ class Stopwatch {
 
 std::atomic<uint64_t> g_ml_serving_operation_counter{0};
 
+/**
+ * @brief Next Ml Serving Operation Id.
+ * @return Return value.
+ * @details Calls: std::to_string(), fetch_add().
+ */
 std::string nextMlServingOperationId() {
     return "analytics-ml-serving-" +
            std::to_string(g_ml_serving_operation_counter.fetch_add(1, std::memory_order_relaxed) + 1);
 }
 
+/**
+ * @brief Classify Serving Failure.
+ * @param[in] response Input parameter.
+ * @return Return value.
+ * @details Calls: empty().
+ */
 std::string classifyServingFailure(const MLServingResponse& response) {
     if (!response.failure_class.empty()) {
         return response.failure_class;
@@ -138,6 +149,13 @@ std::string classifyServingFailure(const MLServingResponse& response) {
     return "backend_error";
 }
 
+/**
+ * @brief Finalize Serving Response.
+ * @param[in] response Input parameter.
+ * @param[in] model_name Name of the model.
+ * @return Return value.
+ * @details Calls: empty(), nextMlServingOperationId(), classifyServingFailure(), clear(), push_back().
+ */
 MLServingResponse finalizeServingResponse(MLServingResponse response, const std::string& model_name) {
     if (response.operation_id.empty()) {
         response.operation_id = nextMlServingOperationId();
@@ -217,21 +235,12 @@ struct ONNXServingBackend::Impl {
         }
     }
 
-    // Returns a shared_ptr to the session for model_name, loading it lazily.
-    // Must be called WITHOUT holding sessions_mutex.
-    //
-    // Design:
-    //  1. Fast path   – shared_lock on sessions_mutex; return if already loaded.
-    //  2. Load path   – per-model mutex serialises concurrent loads of the same
-    //                   model; unrelated models are never blocked.
-    //  3. Double-check after acquiring the per-model lock (another thread may
-    //                   have already finished loading).
-    //  4. Actual load – I/O happens only under the per-model lock, NOT under
-    //                   sessions_mutex.
-    //  5. Store       – exclusive write lock on sessions_mutex to insert.
-    //
-    // Note: model_load_mutexes grows proportionally to the number of distinct
-    // model names ever requested (typically a small, bounded set).
+    /**
+     * @brief Returns a shared_ptr to the session for model_name, loading it lazily.
+     * @param[in] model_name Name of the model.
+     * @return Return value.
+     * @details Must be called WITHOUT holding sessions_mutex. Design: 1. Fast path – shared_lock on sessions_mutex; return if already loaded. 2. Load path – per-model mutex serialises concurrent loads of the same model; unrelated models are never blocked. 3. Double-check after acquiring the per-model lock (another thread may have already finished loading). 4. Actual load – I/O happens only under the per-model lock, NOT under sessions_mutex. 5. Store – exclusive write lock on sessions_mutex to insert. Note: model_load_mutexes grows proportionally to the number of distinct model names ever requested (typically a small, bounded set). Calls: sessions_read_lock(), find(), end(), mlk(), load_lock(), loadSession(), sessions_write_lock().
+     */
     std::shared_ptr<Ort::Session> getOrLoadSession(const std::string &model_name) {
         // Fast path: session already loaded.
         {
@@ -282,8 +291,12 @@ struct ONNXServingBackend::Impl {
         return session;
     }
 
-    // Load a session for the given model name.
-    // Returns nullptr on failure. Must be called WITHOUT holding sessions_mutex.
+    /**
+     * @brief Load a session for the given model name.
+     * @param[in] model_name Name of the model.
+     * @return Return value.
+     * @details Returns nullptr on failure. Must be called WITHOUT holding sessions_mutex. Calls: wpath(), begin(), end(), c_str(), spdlog::info(), spdlog::error(), what().
+     */
     std::shared_ptr<Ort::Session> loadSession(const std::string &model_name) {
         auto model_path = config.model_directory + "/" + model_name + ".onnx";
         try {
@@ -437,6 +450,12 @@ bool ONNXServingBackend::isAvailable() const {
     return false;
 }
 
+/**
+ * @brief Infer.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: spdlog::warn().
+ */
 MLServingResponse ONNXServingBackend::infer(const MLServingRequest &req) {
     spdlog::warn("MLServing[ONNX]: backend unavailable – rebuild with "
                  "-DTHEMIS_HAS_ONNX=1 and install onnxruntime via vcpkg (requested model='{}')",
@@ -458,7 +477,15 @@ MLServingResponse ONNXServingBackend::infer(const MLServingRequest &req) {
 
 namespace {
 
-/// libcurl write callback – appends received data to a std::string.
+/**
+ * @brief Curl Write Callback.
+ * @param[in,out] ptr Input/output parameter.
+ * @param[in] size Input parameter.
+ * @param[in] nmemb Input parameter.
+ * @param[in,out] userdata Input/output parameter.
+ * @return Return value.
+ * @details Calls: append().
+ */
 std::size_t curlWriteCallback(char *ptr, std::size_t size, std::size_t nmemb, void *userdata) {
     auto *buf = static_cast<std::string *>(userdata);
     buf->append(ptr, size * nmemb);
@@ -688,7 +715,6 @@ struct MLServingClient::Impl {
     std::unique_ptr<IMLServingBackend> backend;
     MLBackendType requested_type;
     MLServingConfig config;
-    /// In-flight request counter, used by the BoundedExecutionPolicy enforcement.
     std::atomic<uint32_t> inflight_count{0};
 
     Impl(const MLServingConfig &cfg) : requested_type(cfg.backend), config(cfg) {
@@ -738,6 +764,12 @@ std::string MLServingClient::activeBackendName() const {
     return impl_->backend ? impl_->backend->backendName() : "(none)";
 }
 
+/**
+ * @brief Infer.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: finalizeServingResponse(), std::move(), isConstrained().
+ */
 MLServingResponse MLServingClient::infer(const MLServingRequest &req) {
     if (!impl_->backend) {
         MLServingResponse resp;
@@ -752,6 +784,13 @@ MLServingResponse MLServingClient::infer(const MLServingRequest &req) {
     return finalizeServingResponse(impl_->backend->infer(req), req.model_name);
 }
 
+/**
+ * @brief Infer.
+ * @param[in] req Input parameter.
+ * @param[in] policy Input parameter.
+ * @return Return value.
+ * @details Calls: finalizeServingResponse(), std::move(), isConstrained(), load(), std::to_string(), spdlog::warn(), compare_exchange_weak(), fetch_add().
+ */
 MLServingResponse MLServingClient::infer(const MLServingRequest &req,
                                          const ::themis::analytics::BoundedExecutionPolicy &policy) {
     if (!impl_->backend) {
@@ -818,6 +857,14 @@ MLServingResponse MLServingClient::infer(const MLServingRequest &req,
     return finalizeServingResponse(impl_->backend->infer(req), req.model_name);
 }
 
+/**
+ * @brief Infer From Data Point.
+ * @param[in] model_name Name of the model.
+ * @param[in] point Input parameter.
+ * @param[in] input_name Name of the input.
+ * @return Return value.
+ * @details Calls: numericFieldNames(), std::sort(), begin(), end(), reserve(), size(), push_back(), empty().
+ */
 MLServingResponse MLServingClient::inferFromDataPoint(const std::string &model_name, const DataPoint &point,
                                                       const std::string &input_name) {
     // Extract numeric features in sorted (deterministic) order
@@ -855,10 +902,22 @@ MLServingResponse MLServingClient::inferFromDataPoint(const std::string &model_n
     return infer(req);
 }
 
+/**
+ * @brief Make ONNXBackend.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @details Implements makeONNXBackend without additional internal calls.
+ */
 std::unique_ptr<IMLServingBackend> MLServingClient::makeONNXBackend(const ONNXBackendConfig &config) {
     return std::make_unique<ONNXServingBackend>(config);
 }
 
+/**
+ * @brief Make TFServing Backend.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @details Implements makeTFServingBackend without additional internal calls.
+ */
 std::unique_ptr<IMLServingBackend> MLServingClient::makeTFServingBackend(const TFServingConfig &config) {
     return std::make_unique<TFServingBackend>(config);
 }
@@ -867,6 +926,12 @@ std::unique_ptr<IMLServingBackend> MLServingClient::makeTFServingBackend(const T
 // Helpers
 // ============================================================================
 
+/**
+ * @brief Ml Serving Status Name.
+ * @param[in] status Input parameter.
+ * @return Return value.
+ * @details Implements mlServingStatusName without additional internal calls.
+ */
 std::string mlServingStatusName(MLServingStatus status) {
     switch (status) {
         case MLServingStatus::OK:
@@ -886,6 +951,12 @@ std::string mlServingStatusName(MLServingStatus status) {
     }
 }
 
+/**
+ * @brief Ml Backend Type Name.
+ * @param[in] type Input parameter.
+ * @return Return value.
+ * @details Implements mlBackendTypeName without additional internal calls.
+ */
 std::string mlBackendTypeName(MLBackendType type) {
     switch (type) {
         case MLBackendType::AUTO:

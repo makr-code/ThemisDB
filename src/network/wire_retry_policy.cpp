@@ -24,17 +24,6 @@ namespace themis::network {
 // classifyBoostError
 // ---------------------------------------------------------------------------
 
-/**
- * @brief Maps a Boost.Asio/system error_code to a WireErrorClass.
- *
- * Transient errors are those caused by temporary resource exhaustion or
- * brief network disruptions that are expected to resolve on their own.
- * Permanent errors indicate misconfiguration, protocol violations, or
- * authentication failures that should not be retried.
- *
- * @param ec  Error code returned by a Boost.Asio async operation.
- * @return WireErrorClass::kTransient, kPermanent, or kUnknown.
- */
 WireErrorClass classifyBoostError(
     const boost::system::error_code& ec) noexcept
 {
@@ -113,25 +102,6 @@ WireErrorClass classifyBoostError(
 // retryWithPolicy
 // ---------------------------------------------------------------------------
 
-/**
- * @brief Execute @p op with retry governed by @p policy.
- *
- * Invokes @p op in a loop until it returns true (success), all retry
- * attempts are exhausted, or a permanent failure is signalled.
- *
- * The callable receives no arguments and must return bool.  Any exception
- * thrown by @p op is caught and treated as a transient failure to prevent
- * propagation through the retry loop (the exception is swallowed after the
- * last attempt if not suppressed earlier).
- *
- * @param policy   Retry parameters controlling delay and attempt count.
- * @param op       Operation to retry; returns true on success.
- * @param on_fail  Optional callback invoked on each failure with
- *                 (attempt_number, delay_ms).  The delay is the sleep that
- *                 will occur *before* the next attempt.
- *
- * @return true if @p op succeeded; false if all attempts are exhausted.
- */
 bool retryWithPolicy(
     const WireRetryPolicy& policy,
     std::function<bool()> op,
@@ -141,6 +111,11 @@ bool retryWithPolicy(
         return false;
     }
 
+    /**
+     * @brief Ctx.
+     * @param[in] policy Input parameter.
+     * @return Return value.
+     */
     RetryContext ctx(policy);
 
     // First attempt (attempt 0) — no delay.

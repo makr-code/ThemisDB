@@ -75,8 +75,9 @@ nlohmann::json WindowFunctionCall::toJSON() const {
     return j;
 }
 
+
 /**
- * @brief ============================================================================ WindowEvaluator Implementation ============================================================================
+ * @brief Evaluate.
  * @param[in] rows Input parameter.
  * @param[in] windowSpec Input parameter.
  * @param[in] windowFunc Input parameter.
@@ -84,7 +85,6 @@ nlohmann::json WindowFunctionCall::toJSON() const {
  * @return Return value.
  * @details Calls: empty(), partitionRows(), results(), size(), sortPartition(), evaluateRowNumber(), evaluateRank(), evaluateDenseRank().
  */
-
 std::vector<nlohmann::json> WindowEvaluator::evaluate(
     const std::vector<nlohmann::json>& rows,
     const WindowEvalSpec& windowSpec,
@@ -145,15 +145,15 @@ std::vector<nlohmann::json> WindowEvaluator::evaluate(
     return results;
 }
 
+
 /**
- * @brief ============================================================================ Partitionierung ============================================================================
+ * @brief Partition Rows.
  * @param[in] rows Input parameter.
  * @param[in] partitionBy Input parameter.
  * @param[in] forVariable Input parameter.
  * @return Return value.
  * @details Calls: empty(), allIndices(), size(), makePartitionKey(), push_back(), reserve(), std::move().
  */
-
 std::vector<std::vector<size_t>> WindowEvaluator::partitionRows(
     const std::vector<nlohmann::json>& rows,
     const std::vector<std::shared_ptr<Expression>>& partitionBy,
@@ -214,8 +214,9 @@ std::string WindowEvaluator::makePartitionKey(
     return oss.str();
 }
 
+
 /**
- * @brief ============================================================================ Sortierung ============================================================================
+ * @brief Sort Partition.
  * @param[in] rows Input parameter.
  * @param[in] partition Input parameter.
  * @param[in] orderBy Input parameter.
@@ -223,7 +224,6 @@ std::string WindowEvaluator::makePartitionKey(
  * @return Return value.
  * @details Calls: empty(), std::sort(), begin(), end(), compareRows().
  */
-
 std::vector<size_t> WindowEvaluator::sortPartition(
     const std::vector<nlohmann::json>& rows,
     const std::vector<size_t>& partition,
@@ -312,13 +312,13 @@ int WindowEvaluator::compareRows(
     return 0;  // Alle Felder sind gleich
 }
 
+
 /**
- * @brief ============================================================================ Window Function Evaluations ============================================================================
+ * @brief Evaluate Row Number.
  * @param[in] partitionSize Input parameter.
  * @return Return value.
  * @details Calls: reserve(), push_back().
  */
-
 std::vector<nlohmann::json> WindowEvaluator::evaluateRowNumber(size_t partitionSize) {
     std::vector<nlohmann::json> results;
     results.reserve(partitionSize);
@@ -634,15 +634,15 @@ std::vector<nlohmann::json> WindowEvaluator::evaluateLastValue(
     return results;
 }
 
+
 /**
- * @brief ============================================================================ Expression Evaluation ============================================================================
+ * @brief Evaluate Expression.
  * @param[in] expr Input parameter.
  * @param[in] row Input parameter.
  * @param[in] forVariable Input parameter.
  * @return Return value.
  * @details Implements evaluateExpression without additional internal calls.
  */
-
 nlohmann::json WindowEvaluator::evaluateExpression(
     const std::shared_ptr<Expression>& expr,
     const nlohmann::json& row,

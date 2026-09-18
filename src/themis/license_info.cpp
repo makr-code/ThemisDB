@@ -153,6 +153,11 @@ constexpr int INVALID_LICENSE_DAYS = -999999;
 // LICENSE DATA ACCESS IMPLEMENTATION
 // ============================================================================
 
+/**
+ * @brief Get Embedded License.
+ * @return Return value.
+ * @details Calls: empty().
+ */
 std::optional<LicenseData> getEmbeddedLicense() {
     // Check if license key is present
     std::string license_key = THEMIS_LICENSE_KEY;
@@ -178,11 +183,22 @@ std::optional<LicenseData> getEmbeddedLicense() {
     return data;
 }
 
+/**
+ * @brief Has Embedded License.
+ * @return True when the operation succeeds.
+ * @details Calls: empty().
+ */
 bool hasEmbeddedLicense() {
     std::string license_key = THEMIS_LICENSE_KEY;
     return !license_key.empty();
 }
 
+/**
+ * @brief Format License Info.
+ * @param[in] license Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), getDaysUntilExpiry(), verifyLicenseSignature(), substr(), str().
+ */
 std::string formatLicenseInfo(const LicenseData& license) {
     std::ostringstream oss = {};
     
@@ -266,10 +282,22 @@ std::string formatLicenseInfo(const LicenseData& license) {
     return oss.str();
 }
 
+/**
+ * @brief Is License Valid.
+ * @param[in] license Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: getDaysUntilExpiry().
+ */
 bool isLicenseValid(const LicenseData& license) {
     return getDaysUntilExpiry(license) >= 0;
 }
 
+/**
+ * @brief Get Days Until Expiry.
+ * @param[in] license Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), ss(), std::get_time(), fail(), std::chrono::system_clock::now(), std::chrono::system_clock::to_time_t(), gmtime_s(), gmtime_r().
+ */
 int getDaysUntilExpiry(const LicenseData& license) {
     // Parse expiry date (ISO 8601 format: YYYY-MM-DD)
     if (license.expiry_date.empty() || license.expiry_date == "9999-12-31") {
@@ -314,7 +342,12 @@ int getDaysUntilExpiry(const LicenseData& license) {
     }
 }
 
-// Helper: Base64 decode
+/**
+ * @brief Helper: Base64 decode
+ * @param[in] encoded Input parameter.
+ * @return Return value.
+ * @details Calls: BIO_new_mem_buf(), data(), size(), BIO_new(), BIO_f_base64(), BIO_free(), BIO_set_flags(), themis::utils::BIOPtr().
+ */
 static std::vector<uint8_t> base64Decode(const std::string& encoded) {
     BIO* bmem = BIO_new_mem_buf(encoded.data(), static_cast<int>(encoded.size()));
     if (!bmem) return {};
@@ -333,6 +366,12 @@ static std::vector<uint8_t> base64Decode(const std::string& encoded) {
     return output;
 }
 
+/**
+ * @brief Verify License Signature.
+ * @param[in] license Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: std::toupper(), empty(), str(), themis::utils::make_bio_mem_buf(), themis::utils::EVPKeyPtr(), PEM_read_bio_PUBKEY(), get(), base64Decode().
+ */
 bool verifyLicenseSignature(const LicenseData& license) {
     std::string license_edition_normalized = license.edition;
     for (auto& ch : license_edition_normalized) {
@@ -424,7 +463,12 @@ bool verifyLicenseSignature(const LicenseData& license) {
 // MACHINE FINGERPRINT HELPERS
 // ============================================================================
 
-// Compute a hex-encoded SHA-256 of the primary MAC address (or a fallback)
+/**
+ * @brief Compute a hex-encoded SHA-256 of the primary MAC address (or a fallback)
+ * @param[in] raw Input parameter.
+ * @return Return value.
+ * @details Calls: EVP_MD_CTX_new(), EVP_DigestInit_ex(), EVP_sha256(), EVP_DigestUpdate(), data(), size(), EVP_DigestFinal_ex(), EVP_MD_CTX_free().
+ */
 static std::string computeFingerprintHash(const std::string& raw) {
     unsigned char digest[EVP_MAX_MD_SIZE] = {};
     unsigned int  dlen = 0;
@@ -442,6 +486,11 @@ static std::string computeFingerprintHash(const std::string& raw) {
     return hex.str();
 }
 
+/**
+ * @brief Get Primary Mac Address.
+ * @return Return value.
+ * @details Calls: defined(), getifaddrs(), std::string(), socket(), std::strncpy(), ioctl(), std::snprintf(), close().
+ */
 static std::string getPrimaryMacAddress() {
 #if defined(__linux__)
     struct ifaddrs* ifa_list = nullptr;
@@ -502,11 +551,15 @@ static std::string getPrimaryMacAddress() {
 // LicenseClient::Impl
 // ============================================================================
 
-/** @brief LicenseClient::Impl. */
 class LicenseClient::Impl {
 public:
     explicit Impl(const LicenseClientConfig& cfg) : cfg_(cfg) {}
 
+    /**
+     * @brief Activate.
+     * @return Return value.
+     * @details Calls: getEmbeddedLicense(), empty(), performOnlineRequest(), isLicenseValid(), lock(), std::chrono::steady_clock::now().
+     */
     LicenseActivationResult activate() {
         LicenseActivationResult result;
 
@@ -549,6 +602,11 @@ public:
         return result;
     }
 
+    /**
+     * @brief Validate.
+     * @return Return value.
+     * @details Calls: lock(), std::chrono::steady_clock::now(), std::chrono::hours(), isLicenseValid(), activate().
+     */
     LicenseActivationResult validate() {
         // Check cache in a scoped block so the mutex is released before activate()
         {
@@ -572,10 +630,20 @@ public:
     }
 
     std::optional<LicenseData> getCachedLicense() const {
+        /**
+         * @brief Lock.
+         * @param[in] cache_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(cache_mutex_);
         return cached_license_;
     }
 
+    /**
+     * @brief Refresh.
+     * @return Return value.
+     * @details Calls: lock(), activate().
+     */
     LicenseActivationResult refresh() {
         {
             std::lock_guard<std::mutex> lock(cache_mutex_);
@@ -584,6 +652,11 @@ public:
         return activate();
     }
 
+    /**
+     * @brief Get Machine Fingerprint.
+     * @return Return value.
+     * @details Calls: getPrimaryMacAddress(), computeFingerprintHash().
+     */
     static std::string getMachineFingerprint() {
         const std::string mac = getPrimaryMacAddress();
         return computeFingerprintHash("ThemisDB:" + mac);
@@ -592,12 +665,28 @@ public:
 private:
 #ifdef THEMIS_HAVE_CURL
     // CURL response accumulator
+    /**
+     * @brief Curl Write Callback.
+     * @param[in,out] ptr Input/output parameter.
+     * @param[in] size Input parameter.
+     * @param[in] nmemb Input parameter.
+     * @param[in,out] userdata Input/output parameter.
+     * @return Return value.
+     * @details Calls: append().
+     */
     static size_t curlWriteCallback(void* ptr, size_t size, size_t nmemb, void* userdata) {
         auto* out = static_cast<std::string*>(userdata);
         out->append(static_cast<char*>(ptr), size * nmemb);
         return size * nmemb;
     }
 
+    /**
+     * @brief Perform Online Request.
+     * @param[in] action Input parameter.
+     * @param[in] license Input parameter.
+     * @return Return value.
+     * @details Calls: curl_easy_init(), handleOfflineFallback(), getMachineFingerprint(), str(), curl_easy_setopt(), c_str(), count(), curl_slist_append().
+     */
     LicenseActivationResult performOnlineRequest(const std::string& action,
                                                   const LicenseData& license) {
         LicenseActivationResult result;
@@ -734,6 +823,13 @@ private:
     }
 #endif // THEMIS_HAVE_CURL
 
+    /**
+     * @brief Handle Offline Fallback.
+     * @param[in] license Input parameter.
+     * @param[in,out] base Input/output parameter.
+     * @return Return value.
+     * @details Calls: lock(), std::chrono::steady_clock::now(), count(), std::to_string(), isLicenseValid().
+     */
     LicenseActivationResult handleOfflineFallback(const LicenseData& license,
                                                    LicenseActivationResult& base) {
         if (!cfg_.allow_offline) {
@@ -788,10 +884,20 @@ LicenseClient::LicenseClient(const LicenseClientConfig& config)
 
 LicenseClient::~LicenseClient() = default;
 
+/**
+ * @brief Activate.
+ * @return Return value.
+ * @details Implements activate without additional internal calls.
+ */
 LicenseActivationResult LicenseClient::activate() {
     return impl_->activate();
 }
 
+/**
+ * @brief Validate.
+ * @return Return value.
+ * @details Implements validate without additional internal calls.
+ */
 LicenseActivationResult LicenseClient::validate() {
     return impl_->validate();
 }
@@ -800,10 +906,20 @@ std::optional<LicenseData> LicenseClient::getCachedLicense() const {
     return impl_->getCachedLicense();
 }
 
+/**
+ * @brief Refresh.
+ * @return Return value.
+ * @details Implements refresh without additional internal calls.
+ */
 LicenseActivationResult LicenseClient::refresh() {
     return impl_->refresh();
 }
 
+/**
+ * @brief Get Machine Fingerprint.
+ * @return Return value.
+ * @details Implements getMachineFingerprint without additional internal calls.
+ */
 std::string LicenseClient::getMachineFingerprint() {
     return Impl::getMachineFingerprint();
 }

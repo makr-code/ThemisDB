@@ -43,8 +43,6 @@
 #ifndef _WIN32
 namespace {
 
-/// @brief RAII wrapper for a POSIX file descriptor.
-/// Automatically closes the fd on scope exit. The fd must be >= 0.
 struct FdGuard {
     explicit FdGuard(int fd) noexcept : fd_(fd) {}
     ~FdGuard() noexcept { if (fd_ >= 0) ::close(fd_); }
@@ -68,7 +66,7 @@ namespace utils {
 static const char* THEMISDB_VERSION = THEMIS_VERSION_STRING;
 
 /**
- * @brief Local base64 (kept minimal to avoid new deps here)
+ * @brief Base64 encode local.
  * @param[in] data Input parameter.
  * @return Return value.
  * @details Calls: reserve(), size(), push_back().
@@ -178,11 +176,6 @@ AuditLogger::AuditLogger(std::shared_ptr<themis::FieldEncryption> enc,
  * @details Calls: out(), SHA256(), data(), size().
  */
 std::vector<uint8_t> AuditLogger::sha256(const std::vector<uint8_t>& data) {
-    /**
-     * @brief Out.
-     * @param[in] SHA256_DIGEST_LENGTH Input parameter.
-     * @return Return value.
-     */
     std::vector<uint8_t> out(SHA256_DIGEST_LENGTH);
     ::SHA256(data.data(),data.size(), out.data());
     return out;
@@ -195,11 +188,6 @@ std::vector<uint8_t> AuditLogger::sha256(const std::vector<uint8_t>& data) {
  * @details Calls: lk(), std::filesystem::create_directories(), std::filesystem::path(), parent_path(), themis::utils::makeErrorContext(), std::to_string(), themis::utils::logErrorWithContext(), rotateLogIfNeeded().
  */
 void AuditLogger::appendJsonLine(const nlohmann::json& j) {
-    /**
-     * @brief Lk.
-     * @param[in] file_mu_ Input parameter.
-     * @return Return value.
-     */
     std::scoped_lock lk(file_mu_);
     std::filesystem::create_directories(
         std::filesystem::path(cfg_.log_path).parent_path());
@@ -260,11 +248,6 @@ void AuditLogger::appendJsonLine(const nlohmann::json& j) {
 #ifndef _WIN32
         int fd = ::open(cfg_.log_path.c_str(), O_WRONLY | O_APPEND | O_CREAT, 0600);
         if (fd >= 0) {
-            /**
-             * @brief Guard.
-             * @param[in] fd Input parameter.
-             * @return Return value.
-             */
             FdGuard guard(fd);
             ::fdatasync(guard.fd_);
         }
@@ -291,11 +274,6 @@ void AuditLogger::appendJsonLine(const nlohmann::json& j) {
 #ifndef _WIN32
             int fd2 = ::open(cfg_.secondary_log_path.c_str(), O_WRONLY | O_APPEND | O_CREAT, 0600);
             if (fd2 >= 0) {
-                /**
-                 * @brief Guard2.
-                 * @param[in] fd2 Input parameter.
-                 * @return Return value.
-                 */
                 FdGuard guard2(fd2);
                 ::fdatasync(guard2.fd_);
             }
@@ -401,11 +379,6 @@ void AuditLogger::logEvent(const nlohmann::json& event) {
         
         // Add hash chain if enabled
         if (cfg_.enable_hash_chain) {
-            /**
-             * @brief Lock.
-             * @param[in] chain_mu_ Input parameter.
-             * @return Return value.
-             */
             std::lock_guard<std::mutex> lock(chain_mu_);
             record["chain_entry"] = entry_count_;
             record["prev_hash"] = last_hash_;
@@ -543,11 +516,6 @@ void AuditLogger::logEvent(const nlohmann::json& event) {
         // Update hash chain
         if (cfg_.enable_hash_chain) {
             try {
-                /**
-                 * @brief Lock.
-                 * @param[in] chain_mu_ Input parameter.
-                 * @return Return value.
-                 */
                 std::lock_guard<std::mutex> lock(chain_mu_);
                 last_hash_ = computeEntryHash(record);
                 entry_count_++;
@@ -602,13 +570,13 @@ void AuditLogger::clear() {
     // Default no-op; concrete audit loggers may override.
 }
 
+
 /**
- * @brief ============================================================================ Security Event Logging ============================================================================
+ * @brief Security Event Type To String.
  * @param[in] type Input parameter.
  * @return Return value.
  * @details Implements securityEventTypeToString without additional internal calls.
  */
-
 std::string AuditLogger::securityEventTypeToString(SecurityEventType type) {
     switch (type) {
         case SecurityEventType::LOGIN_SUCCESS: return "LOGIN_SUCCESS";
@@ -711,11 +679,11 @@ std::string AuditLogger::securityEventTypeToString(SecurityEventType type) {
 }
 
 /**
- * @brief Log Security Event.
- * @param[in] event_type Input parameter.
- * @param[in] user_id Input parameter.
+ * @brief Log a security event.
+ * @param[in] event_type Security event type.
+ * @param[in] user_id Identifier of the user.
  * @param[in] resource Input parameter.
- * @param[in] details Input parameter.
+ * @param[in] details Event payload/details.
  * @details Calls: securityEventTypeToString(), std::chrono::system_clock::now(), time_since_epoch(), count(), is_null(), empty(), THEMIS_WARN(), logEvent().
  */
 void AuditLogger::logSecurityEvent(
@@ -757,17 +725,12 @@ void AuditLogger::logSecurityEvent(
     logEvent(event);
 }
 
+
 /**
- * @brief ============================================================================ Hash Chain Methods (Tamper-Proofing) ============================================================================
+ * @brief Load Chain State.
  * @details Calls: lock(), std::filesystem::exists(), std::string(), std::chrono::system_clock::now(), ifs(), value(), contains(), std::chrono::system_clock::time_point().
  */
-
 void AuditLogger::loadChainState() {
-    /**
-     * @brief Lock.
-     * @param[in] chain_mu_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lock(chain_mu_);
     
     if (!std::filesystem::exists(cfg_.chain_state_file)) {
@@ -842,7 +805,7 @@ std::string AuditLogger::computeEntryHash(const nlohmann::json& entry) const {
 
 /**
  * @brief Verify Chain Integrity.
- * @return True on success.
+ * @return True when the operation succeeds.
  * @details Calls: std::filesystem::exists(), ifs(), std::string(), std::getline(), empty(), nlohmann::json::parse(), contains(), THEMIS_WARN().
  */
 bool AuditLogger::verifyChainIntegrity() {
@@ -918,12 +881,12 @@ nlohmann::json AuditLogger::getChainState() const {
     };
 }
 
+
 /**
- * @brief ============================================================================ SIEM Integration ============================================================================
+ * @brief Forward To Siem.
  * @param[in] event Input parameter.
  * @details Calls: contains(), formatAsCef(), formatAsSyslog(), formatAsJson(), socket(), THEMIS_ERROR(), htons(), inet_pton().
  */
-
 void AuditLogger::forwardToSiem(const nlohmann::json& event) {
     if (!cfg_.enable_siem) {
         return;
@@ -1065,22 +1028,17 @@ void AuditLogger::forwardToSiem(const nlohmann::json& event) {
  * @details Calls: lock().
  */
 void AuditLogger::flush() {
-    /**
-     * @brief Lock.
-     * @param[in] file_mu_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lock(file_mu_);
     // flush() is already called within appendJsonLine when file is opened
     // This method is kept for API compatibility
 }
 
-/**
- * @brief ============================================================================ Phase 2.
- * @param[in] ctx Input parameter.
- * @details 3: Observability Plane Hardening - Error Context Logging ============================================================================ Calls: nlohmann::json::parse(), toJSON(), lock(), appendJsonLine(), what().
- */
 
+/**
+ * @brief Log Error Context.
+ * @param[in] ctx Input parameter.
+ * @details Calls: nlohmann::json::parse(), toJSON(), lock(), appendJsonLine(), what().
+ */
 void AuditLogger::logErrorContext(const ErrorContext& ctx) {
     // Create an audit event representing the error context
     nlohmann::json error_event = nlohmann::json::parse(ctx.toJSON());
@@ -1090,11 +1048,6 @@ void AuditLogger::logErrorContext(const ErrorContext& ctx) {
     
     // Log diagnostically - use simplified path to avoid recursion
     try {
-        /**
-         * @brief Lock.
-         * @param[in] file_mu_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(file_mu_);
         // Append directly without full encryption/chain processing
         // to prevent recursive failures during error logging
@@ -1162,17 +1115,12 @@ std::vector<AuditLogger::AuditLogEntry> AuditLogger::enumerateEntries() const {
 /**
  * @brief Archive Old Entries.
  * @param[in] older_than Input parameter.
- * @param[in] archive_path Input parameter.
+ * @param[in] archive_path Path to the archive.
  * @return Return value.
  * @details Calls: lock(), std::filesystem::exists(), ifs(), std::getline(), empty(), nlohmann::json::parse(), contains(), std::chrono::system_clock::time_point().
  */
 size_t AuditLogger::archiveOldEntries(std::chrono::system_clock::time_point older_than,
                                       const std::string& archive_path) {
-    /**
-     * @brief Lock.
-     * @param[in] file_mu_ Input parameter.
-     * @return Return value.
-     */
     std::scoped_lock lock(file_mu_);
     
     if (!std::filesystem::exists(cfg_.log_path)) {
@@ -1238,12 +1186,6 @@ size_t AuditLogger::archiveOldEntries(std::chrono::system_clock::time_point olde
         auto archive_dir = std::filesystem::path(archive_path).parent_path();
         std::filesystem::create_directories(archive_dir);
         
-        /**
-         * @brief Archive ofs.
-         * @param[in] archive_path Input parameter.
-         * @param[in] app Input parameter.
-         * @return Return value.
-         */
         std::ofstream archive_ofs(archive_path, std::ios::app);
         if (!archive_ofs.is_open() || !archive_ofs.good()) {
             THEMIS_ERROR("Failed to open archive file for writing: {}", archive_path);
@@ -1285,11 +1227,6 @@ size_t AuditLogger::archiveOldEntries(std::chrono::system_clock::time_point olde
  * @details Calls: lock(), std::filesystem::exists(), ifs(), std::getline(), empty(), nlohmann::json::parse(), contains(), std::chrono::system_clock::time_point().
  */
 size_t AuditLogger::purgeOldEntries(std::chrono::system_clock::time_point older_than) {
-    /**
-     * @brief Lock.
-     * @param[in] file_mu_ Input parameter.
-     * @return Return value.
-     */
     std::scoped_lock lock(file_mu_);
     
     if (!std::filesystem::exists(cfg_.log_path)) {
@@ -1375,15 +1312,15 @@ size_t AuditLogger::purgeOldEntries(std::chrono::system_clock::time_point older_
     }
 }
 
+
 /**
- * @brief ============================================================================ Task Scheduler SIEM Integration ============================================================================
+ * @brief Log Task Scheduler Event.
  * @param[in] event_type Input parameter.
- * @param[in] task_id Input parameter.
- * @param[in] user_id Input parameter.
+ * @param[in] task_id Identifier of the task.
+ * @param[in] user_id Identifier of the user.
  * @param[in] details Input parameter.
  * @details Calls: securityEventTypeToString(), std::chrono::system_clock::now(), time_since_epoch(), count(), is_null(), empty(), items(), contains().
  */
-
 void AuditLogger::logTaskSchedulerEvent(
     SecurityEventType event_type,
     const std::string& task_id,
@@ -1455,7 +1392,7 @@ void AuditLogger::logTaskSchedulerEvent(
 
 /**
  * @brief Calculate Anomaly Score.
- * @param[in] task_id Input parameter.
+ * @param[in] task_id Identifier of the task.
  * @param[in] execution_time_ms Input parameter.
  * @param[in] param Input parameter.
  * @return Return value.
@@ -1466,11 +1403,6 @@ double AuditLogger::calculateAnomalyScore(
     double execution_time_ms,
     const nlohmann::json& /*resource_usage*/
 ) {
-    /**
-     * @brief Lock.
-     * @param[in] baselines_mu_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lock(baselines_mu_);
     
     auto& baseline = task_baselines_[task_id];
@@ -1514,7 +1446,7 @@ double AuditLogger::calculateAnomalyScore(
 
 /**
  * @brief Update Task Baseline.
- * @param[in] task_id Input parameter.
+ * @param[in] task_id Identifier of the task.
  * @param[in] execution_time_ms Input parameter.
  * @details Calls: std::chrono::system_clock::now(), count(), std::sqrt().
  */
@@ -1822,11 +1754,6 @@ AuditLogger::ComplianceReport AuditLogger::generateComplianceReport(
         return report;
     }
 
-    /**
-     * @brief Lk.
-     * @param[in] file_mu_ Input parameter.
-     * @return Return value.
-     */
     std::scoped_lock lk(file_mu_);
     std::ifstream ifs(cfg_.log_path);
     std::string line = {};
@@ -1917,24 +1844,19 @@ AuditLogger::ComplianceReport AuditLogger::generateComplianceReport(
 // ===========================================================================
 
 /**
- * @brief static
+ * @brief Sha256.
  * @param[in] data Input parameter.
  * @return Return value.
  * @details Calls: digest(), SHA256(), data(), size().
  */
 std::vector<uint8_t> HashChainAuditWriter::sha256(const std::vector<uint8_t>& data) {
-    /**
-     * @brief Digest.
-     * @param[in] SHA256_DIGEST_LENGTH Input parameter.
-     * @return Return value.
-     */
     std::vector<uint8_t> digest(SHA256_DIGEST_LENGTH);
     SHA256(data.data(),data.size(), digest.data());
     return digest;
 }
 
 /**
- * @brief static
+ * @brief Bytes To Hex.
  * @param[in] data Input parameter.
  * @return Return value.
  * @details Calls: std::setfill(), std::setw(), str().
@@ -1967,11 +1889,6 @@ void HashChainAuditWriter::loadOrInitChainHead(const std::string& chain_seed) {
                 return;
             }
 
-            /**
-             * @brief Iss.
-             * @param[in] content Input parameter.
-             * @return Return value.
-             */
             std::istringstream iss(content);
             std::string hash_line = {};
             uint64_t seq = 0;
@@ -2027,11 +1944,6 @@ void HashChainAuditWriter::saveChainHead() {
         if (cfg_.fsync_on_write) {
             int fd = ::open(cfg_.chain_head_path.c_str(), O_RDONLY);
             if (fd >= 0) {
-                /**
-                 * @brief Guard.
-                 * @param[in] fd Input parameter.
-                 * @return Return value.
-                 */
                 FdGuard guard(fd);
                 ::fdatasync(guard.fd_);
             }
@@ -2082,11 +1994,6 @@ HashChainAuditWriter::~HashChainAuditWriter() = default;
  * @details Calls: lk(), dump(), hash_bytes(), begin(), end(), bytesToHex(), sha256(), is_open().
  */
 void HashChainAuditWriter::write(nlohmann::json record) {
-    /**
-     * @brief Lk.
-     * @param[in] mu_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lk(mu_);
 
     // Inject chain fields.
@@ -2158,7 +2065,7 @@ uint64_t HashChainAuditWriter::sequenceNumber() const {
 // ===========================================================================
 
 /**
- * @brief static
+ * @brief Compute Entry Hash.
  * @param[in] prev_hash Input parameter.
  * @param[in] entry Input parameter.
  * @return Return value.
@@ -2170,11 +2077,6 @@ std::string AuditLogVerifier::computeEntryHash(const std::string& prev_hash,
     std::string hash_input  = prev_hash + record_json;
 
     std::vector<uint8_t> bytes(hash_input.begin(), hash_input.end());
-    /**
-     * @brief Digest.
-     * @param[in] SHA256_DIGEST_LENGTH Input parameter.
-     * @return Return value.
-     */
     std::vector<uint8_t> digest(SHA256_DIGEST_LENGTH);
     SHA256(bytes.data(),bytes.size(), digest.data());
 
@@ -2198,7 +2100,7 @@ AuditVerifyResult AuditLogVerifier::verify_chain(const std::string& log_path,
 
     /**
      * @brief Ifs.
-     * @param[in] log_path Input parameter.
+     * @param[in] log_path Path to the log.
      * @return Return value.
      */
     std::ifstream ifs(log_path);

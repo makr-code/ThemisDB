@@ -22,6 +22,15 @@ namespace auth {
 
 namespace {
 
+/**
+ * @brief Oidc Write Callback.
+ * @param[in,out] ptr Input/output parameter.
+ * @param[in] size Input parameter.
+ * @param[in] nmemb Input parameter.
+ * @param[in,out] userdata Input/output parameter.
+ * @return Return value.
+ * @details Calls: append().
+ */
 size_t oidcWriteCallback(char* ptr, size_t size, size_t nmemb, void* userdata) {
     const auto total = size * nmemb;
     static_cast<std::string*>(userdata)->append(ptr, total);
@@ -57,6 +66,11 @@ OIDCProvider::OIDCProvider(const OIDCProviderConfig& config)
 // Discovery
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Discover.
+ * @throws AuthException if an error occurs.
+ * @details Calls: has_value(), empty(), back(), pop_back(), spdlog::debug(), httpGet(), spdlog::error(), what().
+ */
 void OIDCProvider::discover() {
     // Allow test injection to bypass HTTP
     if (discovery_doc_.has_value()) {
@@ -116,6 +130,11 @@ void OIDCProvider::discover() {
                  discovery_doc_->issuer);
 }
 
+/**
+ * @brief Discovery Document.
+ * @return Return value.
+ * @details Calls: has_value(), discover().
+ */
 const OIDCDiscoveryDocument& OIDCProvider::discoveryDocument() {
     if (!discovery_doc_.has_value()) {
         discover();
@@ -127,6 +146,12 @@ const OIDCDiscoveryDocument& OIDCProvider::discoveryDocument() {
 // Token validation
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Validate Token.
+ * @param[in] token Input parameter.
+ * @return Return value.
+ * @details Calls: discover(), parseAndValidate().
+ */
 JWTClaims OIDCProvider::validateToken(const std::string& token) {
     if (!validator_) {
         discover();
@@ -134,6 +159,11 @@ JWTClaims OIDCProvider::validateToken(const std::string& token) {
     return validator_->parseAndValidate(token);
 }
 
+/**
+ * @brief Validator.
+ * @return Return value.
+ * @details Calls: discover().
+ */
 JWTValidator& OIDCProvider::validator() {
     if (!validator_) {
         discover();
@@ -145,6 +175,12 @@ JWTValidator& OIDCProvider::validator() {
 // Device flow
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Create Device Flow.
+ * @return Return value.
+ * @throws AuthException if an error occurs.
+ * @details Calls: has_value(), discover(), empty(), AuthError(), OAuthDeviceFlow().
+ */
 OAuthDeviceFlow OIDCProvider::createDeviceFlow() {
     if (!discovery_doc_.has_value()) {
         discover();
@@ -176,6 +212,11 @@ OAuthDeviceFlow OIDCProvider::createDeviceFlow() {
 // Testing helpers
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Set Discovery Document For Testing.
+ * @param[in] doc Input parameter.
+ * @details Calls: buildValidatorConfig().
+ */
 void OIDCProvider::setDiscoveryDocumentForTesting(const OIDCDiscoveryDocument& doc) {
     discovery_doc_ = doc;
     validator_ = std::make_unique<JWTValidator>(buildValidatorConfig());
@@ -285,7 +326,13 @@ std::string OIDCProvider::httpGet(const std::string& url) const {
     return response_body;
 }
 
-// static
+/**
+ * @brief static
+ * @param[in] json_body Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: nlohmann::json::parse(), is_object(), at(), contains(), is_string(), is_array().
+ */
 OIDCDiscoveryDocument OIDCProvider::parseDiscovery(const std::string& json_body) {
     const auto j = nlohmann::json::parse(json_body);
     if (!j.is_object()) {

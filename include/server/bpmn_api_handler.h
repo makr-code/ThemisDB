@@ -27,109 +27,36 @@ class ProcessGraphManager;
 
 namespace server {
 
-/**
- * @brief Handler for BPMN Process Operations
- * 
- * This handler manages all BPMN/process-related endpoints:
- * - POST /api/v1/bpmn/process/start - Start a new process instance
- * - POST /api/v1/bpmn/task/:taskId/complete - Complete a task
- * - GET /api/v1/bpmn/instance/:instanceId - Query process instance state
- * 
- * Features:
- * - Process instance management
- * - Task completion
- * - Process state queries
- * - Authorization checks
- */
 class BpmnApiHandler {
 public:
-    /**
-     * @brief Authentication context extracted from request
-     */
     struct AuthContext {
         std::string user_id;
         std::vector<std::string> groups;
     };
 
-    /**
-     * @brief Construct a new BPMN API Handler
-     * 
-     * @param process_graph Process graph manager for BPMN operations
-     * @param auth Authentication/authorization middleware
-     */
     BpmnApiHandler(
         std::shared_ptr<ProcessGraphManager> process_graph,
         std::shared_ptr<themis::AuthMiddleware> auth
     );
 
     /**
-     * @brief Handle POST /api/v1/bpmn/process/start request
-     * 
-     * Starts a new process instance.
-     * 
-     * Request body:
-     * {
-     *   "process_definition_key": "orderProcess",
-     *   "variables": { "orderId": "123", "amount": 1000 },
-     *   "business_key": "order-123"
-     * }
-     * 
-     * Response:
-     * {
-     *   "process_instance_id": "inst-abc123",
-     *   "status": 0,
-     *   "status_string": "RUNNING",
-     *   "active_task_ids": ["inst-abc123:userTask1"]
-     * }
-     * 
-     * @param req HTTP request with process start data in body
-     * @return HTTP response with process instance ID and state
+     * @brief Handle Start Process.
+     * @param[in] req Input parameter.
+     * @return Return value.
      */
     http::response<http::string_body> handleStartProcess(const http::request<http::string_body>& req);
 
     /**
-     * @brief Handle POST /api/v1/bpmn/task/:taskId/complete request
-     * 
-     * Completes a user task and advances the process.
-     * 
-     * Request body:
-     * {
-     *   "variables": { "approved": true, "comment": "Looks good" }
-     * }
-     * 
-     * Response:
-     * {
-     *   "success": true,
-     *   "next_task_id": "inst-abc123:userTask2",
-     *   "error": ""
-     * }
-     * 
-     * @param req HTTP request with task completion data
-     * @return HTTP response with completion status
+     * @brief Handle Task Complete.
+     * @param[in] req Input parameter.
+     * @return Return value.
      */
     http::response<http::string_body> handleTaskComplete(const http::request<http::string_body>& req);
 
     /**
-     * @brief Handle GET /api/v1/bpmn/instance/:instanceId request
-     * 
-     * Queries the state of a process instance.
-     * 
-     * Query parameters:
-     * - include_variables=true - Include process variables in response
-     * - include_history=true - Include execution history in response
-     * 
-     * Response:
-     * {
-     *   "status": 0,
-     *   "active_tasks": [...],
-     *   "variables": {...},
-     *   "history": [...],
-     *   "start_time_ns": 1234567890000000,
-     *   "end_time_ns": 0
-     * }
-     * 
-     * @param req HTTP request
-     * @return HTTP response with process instance state
+     * @brief Handle Query Instance.
+     * @param[in] req Input parameter.
+     * @return Return value.
      */
     http::response<http::string_body> handleQueryInstance(const http::request<http::string_body>& req);
 
@@ -138,14 +65,47 @@ private:
     std::shared_ptr<themis::AuthMiddleware> auth_;
 
     // Helper methods
+    /**
+     * @brief Extract Path Param.
+     * @param[in] target Input parameter.
+     * @param[in] prefix Input parameter.
+     * @return Return value.
+     */
     std::string extractPathParam(const std::string& target, const std::string& prefix);
+    /**
+     * @brief Make Error Response.
+     * @param[in] status Input parameter.
+     * @param[in] message Input parameter.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> makeErrorResponse(
         http::status status, const std::string& message, const http::request<http::string_body>& req);
+    /**
+     * @brief Make Response.
+     * @param[in] status Input parameter.
+     * @param[in] body Input parameter.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> makeResponse(
         http::status status, const std::string& body, const http::request<http::string_body>& req);
     
     // Authorization helpers
+    /**
+     * @brief Extract Auth Context.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     AuthContext extractAuthContext(const http::request<http::string_body>& req) const;
+    /**
+     * @brief Require Access.
+     * @param[in] req Input parameter.
+     * @param[in] scope Input parameter.
+     * @param[in] action Input parameter.
+     * @param[in] resource Input parameter.
+     * @return Return value.
+     */
     std::optional<http::response<http::string_body>> requireAccess(
         const http::request<http::string_body>& req,
         const std::string& scope,

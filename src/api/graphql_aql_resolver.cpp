@@ -29,6 +29,14 @@ namespace graphql {
 namespace {
 constexpr uint32_t kMaxComplexityScoringDepth = 64;
 
+/**
+ * @brief Checked Add.
+ * @param[in] lhs Input parameter.
+ * @param[in] rhs Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: max().
+ */
 uint32_t checkedAdd(uint32_t lhs, uint32_t rhs) {
     if (rhs > std::numeric_limits<uint32_t>::max() - lhs) {
         throw std::runtime_error("GraphQL complexity overflow");
@@ -36,6 +44,14 @@ uint32_t checkedAdd(uint32_t lhs, uint32_t rhs) {
     return lhs + rhs;
 }
 
+/**
+ * @brief Checked Mul.
+ * @param[in] lhs Input parameter.
+ * @param[in] rhs Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: max().
+ */
 uint32_t checkedMul(uint32_t lhs, uint32_t rhs) {
     if (lhs != 0
         && rhs > std::numeric_limits<uint32_t>::max() / lhs) {
@@ -44,6 +60,14 @@ uint32_t checkedMul(uint32_t lhs, uint32_t rhs) {
     return lhs * rhs;
 }
 
+/**
+ * @brief Score Fields Bounded.
+ * @param[in] fields Input parameter.
+ * @param[in] depth Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: size(), checkedMul(), checkedAdd(), empty().
+ */
 uint32_t scoreFieldsBounded(const std::vector<Field>& fields, uint32_t depth) {
     if (depth > kMaxComplexityScoringDepth) {
         throw std::runtime_error("GraphQL complexity depth overflow");
@@ -68,6 +92,13 @@ uint32_t scoreFieldsBounded(const std::vector<Field>& fields, uint32_t depth) {
 }
 } // namespace
 
+/**
+ * @brief Make Complexity Error Message.
+ * @param[in] actual Input parameter.
+ * @param[in] budget Input parameter.
+ * @return Return value.
+ * @details Calls: str().
+ */
 std::string makeComplexityErrorMessage(uint32_t actual, uint32_t budget) {
     std::ostringstream oss = {};
     oss << "GraphQL query complexity " << actual 
@@ -75,6 +106,12 @@ std::string makeComplexityErrorMessage(uint32_t actual, uint32_t budget) {
     return oss.str();
 }
 
+/**
+ * @brief Estimate.
+ * @param[in] doc Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), checkedAdd(), scoreFieldsBounded().
+ */
 uint32_t GraphQLComplexityEstimator::estimate(const std::shared_ptr<Document>& doc) {
     if (!doc || doc->operations.empty()) {
         return 0;
@@ -113,6 +150,13 @@ uint32_t GraphQLComplexityEstimator::estimate(const std::shared_ptr<Document>& d
     return limits;
 }
 
+/**
+ * @brief Score Selection Set.
+ * @param[in] set Input parameter.
+ * @param[in] depth Input parameter.
+ * @return Return value.
+ * @details Implements scoreSelectionSet without additional internal calls.
+ */
 uint32_t GraphQLComplexityEstimator::scoreSelectionSet(
     const std::shared_ptr<SelectionSet>& set,
     uint32_t depth) {
@@ -121,6 +165,12 @@ uint32_t GraphQLComplexityEstimator::scoreSelectionSet(
     return 0;
 }
 
+/**
+ * @brief Json To Gql Value.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: is_null(), Value::null(), is_boolean(), Value::boolean(), is_number_integer(), Value::integer(), is_number_float(), Value::floating().
+ */
 std::shared_ptr<Value> jsonToGqlValue(const nlohmann::json& j) {
     if (j.is_null()) {
         return Value::null();
@@ -149,6 +199,12 @@ std::shared_ptr<Value> jsonToGqlValue(const nlohmann::json& j) {
     return Value::null();
 }
 
+/**
+ * @brief Gql Value To Json.
+ * @param[in] v Input parameter.
+ * @return Return value.
+ * @details Calls: nlohmann::json(), isNull(), isBool(), asBool(), isInt(), asInt(), isFloat(), asFloat().
+ */
 nlohmann::json gqlValueToJson(const std::shared_ptr<Value>& v) {
     if (!v) {
         return nlohmann::json();
@@ -217,6 +273,11 @@ ExecutionContext::Resolver GraphQLAqlResolverFactory::makeAqlMutationResolver(
     return makeAqlQueryResolver(doc);
 }
 
+/**
+ * @brief Make Api Version Resolver.
+ * @return Return value.
+ * @details Calls: Value::string().
+ */
 ExecutionContext::Resolver GraphQLAqlResolverFactory::makeApiVersionResolver() {
     return [](
         const Field& /*field*/,
@@ -227,6 +288,11 @@ ExecutionContext::Resolver GraphQLAqlResolverFactory::makeApiVersionResolver() {
     };
 }
 
+/**
+ * @brief Make Schema Version Resolver.
+ * @return Return value.
+ * @details Calls: Value::string().
+ */
 ExecutionContext::Resolver GraphQLAqlResolverFactory::makeSchemaVersionResolver() {
     return [](
         const Field& /*field*/,
@@ -241,6 +307,11 @@ void GraphQLAqlResolverFactory::injectResolvers(
     ExecutionContext& ctx,
     const Document& doc,
     ::themis::QueryEngine* eng) {
+    /**
+     * @brief Factory.
+     * @param[in] eng Input parameter.
+     * @return Return value.
+     */
     GraphQLAqlResolverFactory factory(eng);
     ctx.resolvers["aql"] = factory.makeAqlQueryResolver(doc);
     ctx.resolvers["aqlMutation"] = factory.makeAqlMutationResolver(doc);

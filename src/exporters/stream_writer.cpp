@@ -44,10 +44,22 @@ StreamWriter::~StreamWriter() {
     }
 }
 
+/**
+ * @brief Write.
+ * @param[in] data Input parameter.
+ * @details Calls: data(), size().
+ */
 void StreamWriter::write(const std::string& data) {
     write(data.data(), data.size());
 }
 
+/**
+ * @brief Write.
+ * @param[in] data Input parameter.
+ * @param[in] size Input parameter.
+ * @throws SizeLimitException if an error occurs.
+ * @details Calls: compressAndWrite(), size(), writeBuffer(), std::memcpy(), data().
+ */
 void StreamWriter::write(const char* data, size_t size) {
     bytes_written_ += size;
     
@@ -79,6 +91,10 @@ void StreamWriter::write(const char* data, size_t size) {
     }
 }
 
+/**
+ * @brief Flush.
+ * @details Calls: data(), size(), ZSTD_flushStream(), write(), writeBuffer().
+ */
 void StreamWriter::flush() {
     if (config_.compression != CompressionType::NONE) {
         // For compression, finalize current block
@@ -102,6 +118,10 @@ void StreamWriter::flush() {
     file_.flush();
 }
 
+/**
+ * @brief Close.
+ * @details Calls: is_open(), finalizeCompression(), writeBuffer().
+ */
 void StreamWriter::close() {
     if (!file_.is_open()) {
         return;
@@ -116,6 +136,11 @@ void StreamWriter::close() {
     file_.close();
 }
 
+/**
+ * @brief Init Compression.
+ * @throws ExportIOException if an error occurs.
+ * @details Calls: ZSTD_createCStream(), ZSTD_initCStream(), ZSTD_isError(), ZSTD_freeCStream().
+ */
 void StreamWriter::initCompression() {
     // Both GZIP and ZSTD requests use ZSTD as the sole compression backend.
     // GZIP is accepted for backward compatibility but produces ZSTD output.
@@ -146,6 +171,10 @@ void StreamWriter::initCompression() {
 #endif
 }
 
+/**
+ * @brief Write Buffer.
+ * @details Calls: write(), data().
+ */
 void StreamWriter::writeBuffer() {
     if (buffer_pos_ > 0) {
         file_.write(buffer_.data(), static_cast<std::streamsize>(buffer_pos_));
@@ -154,6 +183,13 @@ void StreamWriter::writeBuffer() {
     }
 }
 
+/**
+ * @brief Compress And Write.
+ * @param[in] data Input parameter.
+ * @param[in] size Input parameter.
+ * @throws ExportIOException if an error occurs.
+ * @details Calls: data(), size(), ZSTD_compressStream(), ZSTD_isError(), write().
+ */
 void StreamWriter::compressAndWrite(const char* data, size_t size) {
 #ifdef THEMIS_HAS_ZSTD
     if (compression_state_) {
@@ -176,6 +212,10 @@ void StreamWriter::compressAndWrite(const char* data, size_t size) {
 #endif
 }
 
+/**
+ * @brief Finalize Compression.
+ * @details Calls: data(), size(), ZSTD_endStream(), write(), ZSTD_freeCStream().
+ */
 void StreamWriter::finalizeCompression() {
 #ifdef THEMIS_HAS_ZSTD
     if (compression_state_) {

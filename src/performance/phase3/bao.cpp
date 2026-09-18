@@ -33,7 +33,13 @@ struct BaoOptimizer::Impl {
     
     Impl() : rng(std::random_device{}()) {}
     
-    // Thompson Sampling: sample from Beta distribution
+    /**
+     * @brief Thompson Sampling: sample from Beta distribution
+     * @param[in] alpha Input parameter.
+     * @param[in] beta Input parameter.
+     * @return Return value.
+     * @details Calls: gamma_alpha(), gamma_beta().
+     */
     double sample_beta(double alpha, double beta) {
         if (alpha <= 0 || beta <= 0) {
             alpha = 1.0;
@@ -54,6 +60,12 @@ BaoOptimizer::BaoOptimizer() : impl_(std::make_unique<Impl>()) {}
 
 BaoOptimizer::~BaoOptimizer() = default;
 
+/**
+ * @brief Generate plans.
+ * @param[in] query Input parameter.
+ * @return Return value.
+ * @details Calls: find(), std::to_string(), push_back().
+ */
 std::vector<QueryPlan> BaoOptimizer::generate_plans(const std::string& query) {
     std::vector<QueryPlan> plans;
     
@@ -91,6 +103,13 @@ std::vector<QueryPlan> BaoOptimizer::generate_plans(const std::string& query) {
     return plans;
 }
 
+/**
+ * @brief Select plan.
+ * @param[in] query Input parameter.
+ * @param[in] plans Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), QueryPlan(), find(), end(), sample_beta().
+ */
 QueryPlan BaoOptimizer::select_plan(const std::string& query, const std::vector<QueryPlan>& plans) {
     (void)query;
     if (plans.empty()) {
@@ -123,6 +142,12 @@ QueryPlan BaoOptimizer::select_plan(const std::string& query, const std::vector<
     return best_plan;
 }
 
+/**
+ * @brief Update model.
+ * @param[in] plan Input parameter.
+ * @param[in] result Input parameter.
+ * @details Calls: find(), end(), std::min().
+ */
 void BaoOptimizer::update_model(const QueryPlan& plan, const QueryResult& result) {
     if (!result.success) {
         return;

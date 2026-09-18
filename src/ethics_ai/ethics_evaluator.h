@@ -23,25 +23,8 @@ namespace themis {
 namespace plugins {
 namespace ethics {
 
-/**
- * @brief Ethics Evaluator
- * 
- * Evaluates ethical decisions across 5 dimensions:
- * 1. Decision Quality
- * 2. Consistency  
- * 3. Fairness
- * 4. Alignment
- * 5. Transparency
- */
 class EthicsEvaluator {
 public:
-    /**
-     * @brief Per-dimension weight configuration.
-     *
-     * Weights are normalised to sum to 1.0 in the constructor, so the caller
-     * may supply arbitrary positive values.  Default values reproduce the
-     * original hardcoded behaviour: 0.25 / 0.20 / 0.20 / 0.20 / 0.15.
-     */
     struct Config {
         double weight_decision_quality = 0.25; ///< Decision Quality dimension weight
         double weight_consistency      = 0.20; ///< Consistency dimension weight
@@ -50,47 +33,33 @@ public:
         double weight_transparency     = 0.15; ///< Transparency dimension weight
     };
 
-    /// Default constructor — uses default Config weights.
     EthicsEvaluator() = default;
 
-    /// Constructor with explicit configuration.
+    /**
+     * @brief Ethics Evaluator.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit EthicsEvaluator(const Config& config);
 
     ~EthicsEvaluator() = default;
     
-    /**
-     * @brief Evaluate a decision
-     * @param decision The decision to evaluate
-     * @param arguments Supporting arguments
-     * @return Evaluation result or error
-     */
     std::variant<EthicsEvaluationResult, Status> evaluateDecision(
         const EthicalDecision& decision,
         const std::vector<EthicalArgument>& arguments
     );
 
     /**
-     * @brief Compute confidence from argument strength distribution
-     *
-     * Returns the strength-weighted average over all arguments mapped as:
-     * WEAK=0.25, MODERATE=0.50, STRONG=0.75, DECISIVE=1.00.
-     * Returns 0.5 (neutral) when the argument list is empty.
-     *
-     * @param arguments Generated arguments for this decision
-     * @return Confidence score in [0.0, 1.0]
+     * @brief Compute Confidence.
+     * @param[in] arguments Input parameter.
+     * @return Return value.
      */
     static double computeConfidence(const std::vector<EthicalArgument>& arguments);
 
     /**
-     * @brief Compute consensus from inter-philosophy argument agreement
-     *
-     * Each philosophy school's arguments are tallied: PRO/SYNTHESIS count +1,
-     * CONTRA/REBUTTAL count -1.  A school "agrees" when its net tally >= 0.
-     * Consensus = fraction of schools that agree.
-     * A single school always returns 1.0 (unanimous by definition).
-     *
-     * @param arguments Generated arguments spanning one or more philosophy schools
-     * @return Consensus score in [0.0, 1.0]
+     * @brief Compute Consensus.
+     * @param[in] arguments Input parameter.
+     * @return Return value.
      */
     static double computeConsensus(const std::vector<EthicalArgument>& arguments);
 
@@ -99,35 +68,22 @@ public:
     // -----------------------------------------------------------------------
 
     /**
-     * @brief Record one completed `makeDecision()` call.
-     *
-     * Thread-safe.  Increments `ethics_decisions_total`.
-     * Updates rolling confidence average and RAG-hit counter.
-     *
-     * @param confidence     Confidence from the decision (for running average).
-     * @param rag_hit        Whether RAG context returned at least one result.
-     * @param latency_ms     End-to-end `makeDecision()` wall-clock latency.
+     * @brief Record Decision.
+     * @param[in] confidence Input parameter.
+     * @param[in] rag_hit Input parameter.
+     * @param[in] latency_ms Input parameter.
      */
     void recordDecision(double confidence, bool rag_hit, uint64_t latency_ms);
 
     /**
-     * @brief Set the current argument store size (for the gauge metric).
-     *
-     * @param count  Total number of arguments currently in the store.
+     * @brief Set Argument Store Size.
+     * @param[in] count Input parameter.
      */
     void setArgumentStoreSize(uint64_t count);
 
     /**
-     * @brief Export all collected metrics in Prometheus text format (v0.0.4).
-     *
-     * Emitted metric families:
-     *   - `ethics_decisions_total` — counter
-     *   - `ethics_decision_latency_ms_total` — counter (cumulative ms; use for avg)
-     *   - `ethics_rag_context_hits_total` — counter
-     *   - `ethics_argument_confidence_avg` — gauge (rolling average)
-     *   - `ethics_argument_store_size` — gauge
-     *
-     * Returns an empty string if no decisions have been recorded yet.
+     * @brief Get Metrics Text.
+     * @return Return value.
      */
     std::string getMetricsText() const;
 
@@ -139,30 +95,59 @@ private:
     mutable std::atomic<uint64_t> rag_hits_total_{0};
     mutable std::atomic<uint64_t> latency_ms_total_{0};
     mutable std::atomic<uint64_t> argument_store_size_{0};
-    /// Fixed-point running average: stored as sum * 1e6 for precision.
     mutable std::atomic<uint64_t> confidence_sum_micro_{0};
 
     // Dimension evaluators
+    /**
+     * @brief Evaluate Decision Quality.
+     * @param[in] decision Input parameter.
+     * @param[in] arguments Input parameter.
+     * @return Return value.
+     */
     double evaluateDecisionQuality(
         const EthicalDecision& decision,
         const std::vector<EthicalArgument>& arguments
     );
     
+    /**
+     * @brief Evaluate Consistency.
+     * @param[in] decision Input parameter.
+     * @param[in] arguments Input parameter.
+     * @return Return value.
+     */
     double evaluateConsistency(
         const EthicalDecision& decision,
         const std::vector<EthicalArgument>& arguments
     );
     
+    /**
+     * @brief Evaluate Fairness.
+     * @param[in] decision Input parameter.
+     * @param[in] arguments Input parameter.
+     * @return Return value.
+     */
     double evaluateFairness(
         const EthicalDecision& decision,
         const std::vector<EthicalArgument>& arguments
     );
     
+    /**
+     * @brief Evaluate Alignment.
+     * @param[in] decision Input parameter.
+     * @param[in] arguments Input parameter.
+     * @return Return value.
+     */
     double evaluateAlignment(
         const EthicalDecision& decision,
         const std::vector<EthicalArgument>& arguments
     );
     
+    /**
+     * @brief Evaluate Transparency.
+     * @param[in] decision Input parameter.
+     * @param[in] arguments Input parameter.
+     * @return Return value.
+     */
     double evaluateTransparency(
         const EthicalDecision& decision,
         const std::vector<EthicalArgument>& arguments

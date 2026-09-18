@@ -27,21 +27,13 @@ namespace importers {
 SchemaInferenceEngine::SchemaInferenceEngine(Config cfg)
     : config_(std::move(cfg)) {}
 
-// ---------------------------------------------------------------------------
-// I2: Input validation (Phase 4 hardening)
-// ---------------------------------------------------------------------------
-
 /**
- * @brief Validate a SQL identifier for safe embedding in query strings.
- *
- * Only ASCII letters, digits, and underscores are accepted.  The identifier
- * must be between 1 and kMaxIdentifierLength characters.  This prevents
- * SQL injection via metacharacters (quotes, semicolons, dashes, spaces,
- * dots, etc.) from reaching any generated query string.
- *
- * @param identifier  String to validate.
- * @return true when the identifier is safe; false on any violation.
+ * @brief --------------------------------------------------------------------------- I2: Input validation (Phase 4 hardening) ---------------------------------------------------------------------------
+ * @param[in] identifier Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), size(), std::isalnum().
  */
+
 bool SchemaInferenceEngine::isValidIdentifier(const std::string& identifier) {
     if (identifier.empty() || identifier.size() > kMaxIdentifierLength) {
         return false;
@@ -297,6 +289,12 @@ SchemaInferenceEngine::detectSemanticTypes(
     return result;
 }
 
+/**
+ * @brief Semantic Type To String.
+ * @param[in] t Input parameter.
+ * @return Return value.
+ * @details Implements semanticTypeToString without additional internal calls.
+ */
 std::string SchemaInferenceEngine::semanticTypeToString(SemanticType t) {
     switch (t) {
         case SemanticType::EMAIL:            return "EMAIL";

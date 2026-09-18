@@ -17,13 +17,16 @@
 namespace themisdb {
 namespace sharding {
 
-/** @brief Construct bridge with initial follower mode. */
 RaftWALIntegration::RaftWALIntegration(const Config& config)
     : config_(config), is_leader_(false) {
 }
 
-/** @brief Stop active replication role during teardown. */
 RaftWALIntegration::~RaftWALIntegration() {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::timed_mutex> lock(mutex_);
     if (is_leader_) {
         stopWALShipper();
@@ -33,9 +36,10 @@ RaftWALIntegration::~RaftWALIntegration() {
 }
 
 /**
- * @brief Append local WAL entry and wait for follower quorum acknowledgments.
- * @param entry WAL entry to persist and replicate.
- * @return Write result indicating quorum success, assigned LSN, and error text.
+ * @brief Write.
+ * @param[in] entry Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), try_lock_for(), getLeaderId(), append(), serialize(), getCurrentTerm(), getLastLogIndex(), assign().
  */
 RaftWALIntegration::WriteResult RaftWALIntegration::write(const WALEntry& entry) {
     // FIXED: Use timed lock to prevent indefinite blocking if mutex is held too long
@@ -94,7 +98,12 @@ RaftWALIntegration::WriteResult RaftWALIntegration::write(const WALEntry& entry)
     return {true, wal_lsn, ""};
 }
 
-/** @brief Serve leader-only linearizable WAL read outside integration lock. */
+/**
+ * @brief Read.
+ * @param[in] lsn Input parameter.
+ * @return Return value.
+ * @details Calls: lock().
+ */
 std::optional<WALEntry> RaftWALIntegration::read(const LSN& lsn) {
     // Check leader status under lock, then perform WAL I/O outside the lock.
     // WALManager has its own internal synchronization; holding mutex_ across a
@@ -108,7 +117,10 @@ std::optional<WALEntry> RaftWALIntegration::read(const LSN& lsn) {
     return config_.wal_manager->read(lsn);
 }
 
-/** @brief Transition integration into leader mode and start shipper. */
+/**
+ * @brief On Become Leader.
+ * @details Calls: lock(), stopWALApplier(), startWALShipper().
+ */
 void RaftWALIntegration::onBecomeLeader() {
     std::lock_guard<std::timed_mutex> lock(mutex_);
     
@@ -121,7 +133,10 @@ void RaftWALIntegration::onBecomeLeader() {
     startWALShipper();
 }
 
-/** @brief Transition integration into follower mode and start applier side. */
+/**
+ * @brief On Become Follower.
+ * @details Calls: lock(), stopWALShipper(), startWALApplier().
+ */
 void RaftWALIntegration::onBecomeFollower() {
     std::lock_guard<std::timed_mutex> lock(mutex_);
     
@@ -134,7 +149,11 @@ void RaftWALIntegration::onBecomeFollower() {
     startWALApplier();
 }
 
-/** @brief Advance commit-related compaction state to snapshot boundary. */
+/**
+ * @brief Compact.
+ * @param[in] snapshot_index Input parameter.
+ * @details Calls: lock(), getCommitIndex(), setCommitIndex().
+ */
 void RaftWALIntegration::compact(uint64_t snapshot_index) {
     std::lock_guard<std::timed_mutex> lock(mutex_);
     
@@ -148,43 +167,57 @@ void RaftWALIntegration::compact(uint64_t snapshot_index) {
     }
 }
 
-/** @brief Return cached leader/follower mode. */
 bool RaftWALIntegration::isLeader() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::timed_mutex> lock(mutex_);
     return is_leader_;
 }
 
-/** @brief Return current leader ID from shared Raft state. */
 std::string RaftWALIntegration::getLeaderId() const {
     return config_.raft_state->getLeaderId();
 }
 
-/** @brief Start configured WAL shipper when present. */
+/**
+ * @brief Start WALShipper.
+ * @details Calls: start().
+ */
 void RaftWALIntegration::startWALShipper() {
     if (config_.wal_shipper) {
         config_.wal_shipper->start();
     }
 }
 
-/** @brief Stop configured WAL shipper when present. */
+/**
+ * @brief Stop WALShipper.
+ * @details Calls: stop().
+ */
 void RaftWALIntegration::stopWALShipper() {
     if (config_.wal_shipper) {
         config_.wal_shipper->stop();
     }
 }
 
-/** @brief Prepare follower-side WAL applier; currently no active start step. */
+/**
+ * @brief Start WALApplier.
+ * @details Implements startWALApplier without additional internal calls.
+ */
 void RaftWALIntegration::startWALApplier() {
     // WAL Applier is passive, just ensure it's ready
     // No explicit start needed
 }
 
-/** @brief Stop follower-side WAL applier; currently no active stop step. */
+/**
+ * @brief Stop WALApplier.
+ * @details Implements stopWALApplier without additional internal calls.
+ */
 void RaftWALIntegration::stopWALApplier() {
     // No explicit stop needed
 }
 
-/** @brief Evaluate whether acknowledgments meet majority quorum. */
 bool RaftWALIntegration::hasQuorum(const std::set<std::string>& acks) const {
     // Use actual cluster membership size from RaftState configuration.
     const auto& members = config_.raft_state->getClusterMembers();
@@ -194,7 +227,12 @@ bool RaftWALIntegration::hasQuorum(const std::set<std::string>& acks) const {
     return acks.size() >= quorum;
 }
 
-/** @brief Mark follower acknowledgments up to match index and notify writers. */
+/**
+ * @brief On Append Entries Response.
+ * @param[in] follower_id Identifier of the follower.
+ * @param[in] match_index Input parameter.
+ * @details Calls: lock(), insert(), hasQuorum(), setCommitIndex(), notify_all().
+ */
 void RaftWALIntegration::onAppendEntriesResponse(const std::string& follower_id, uint64_t match_index) {
     std::lock_guard<std::timed_mutex> lock(mutex_);
     

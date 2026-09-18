@@ -21,18 +21,6 @@ namespace themis {
 namespace ingestion {
 namespace builtin {
 
-/**
- * @brief `builtin.base_entity_assembler` — deduplicates and finalises entities.
- *
- * This step runs last in the pipeline.  It deduplicates `ctx.entities` by
- * `BaseEntity::id` (keeping the version with the highest confidence), then
- * ensures every entity carries the `source_file_id` from the manifest.
- *
- * Config keys (all optional):
- *  - `dedup_strategy`  string  "canonical_id" (default) | "none"
- *  - `graph_relations` array   list of relation type strings to retain
- *                              (empty = retain all)
- */
 class BaseEntityAssemblerStep : public IIngestionStep {
 public:
     const char* getName()    const override {
@@ -66,6 +54,11 @@ public:
     }
 
 private:
+    /**
+     * @brief Dedup By Id.
+     * @param[in,out] ctx Input/output parameter.
+     * @details Calls: reserve(), size(), find(), end(), push_back(), std::move().
+     */
     static void dedupById(ExtractionContext& ctx) {
         std::unordered_map<std::string, std::size_t> id_to_idx;
         std::vector<BaseEntity> deduped = {};

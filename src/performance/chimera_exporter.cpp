@@ -21,15 +21,13 @@
 namespace themis {
 namespace performance {
 
-/**
- * @brief CHIMERA JSON format exporter
- */
 class CHIMERAExporter {
 public:
     /**
-     * @brief Export metrics in CHIMERA JSON format
-     * @param metrics_list List of operation metrics
-     * @return JSON formatted string
+     * @brief Export Metrics.
+     * @param[in] metrics_list Input parameter.
+     * @return Return value.
+     * @details Calls: good(), std::time(), std::gmtime(), std::put_time(), HardwareCycleCounter::cpu_model(), HardwareCycleCounter::cpu_frequency_hz(), defined(), push_back().
      */
     static std::string exportMetrics(const std::vector<MetricsEntry>& metrics_list) {
         std::ostringstream oss = {};
@@ -256,6 +254,12 @@ public:
     }
 };
 
+/**
+ * @brief Export Chimera Metrics.
+ * @param[in] metrics_list Input parameter.
+ * @return Return value.
+ * @details Calls: CHIMERAExporter::exportMetrics().
+ */
 std::string exportChimeraMetrics(const std::vector<MetricsEntry>& metrics_list) {
     return CHIMERAExporter::exportMetrics(metrics_list);
 }

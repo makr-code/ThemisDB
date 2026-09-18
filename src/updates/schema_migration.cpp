@@ -35,10 +35,6 @@ namespace updates {
 
 namespace {
 
-/**
- * @brief RAII wrapper for operation execution with automatic cleanup.
- * Ensures exception-safe cleanup of temporary resources.
- */
 class ScopedOperationGuard {
 public:
     explicit ScopedOperationGuard(IMigrationStorage* storage) : storage_(storage) {}
@@ -108,23 +104,13 @@ using Operation = std::variant<AddColumnOp, RenameColumnOp, AddIndexOp,
 // Minimal MigrationContext implementation
 // ---------------------------------------------------------------------------
 
-/**
- * @brief Concrete MigrationContext that wraps an IMigrationStorage.
- *
- * The iterator returned by createIterator() scans a simple in-memory table
- * snapshot built from the storage prefix "<table_name>:".  This is sufficient
- * for unit-testing and for the backfill logic in apply().
- * 
- * PRODUCTION GUARANTEE: version and storage are always initialized before any
- * method call that uses them (FIX: UM-SMD-01..10).
- */
 class ConcreteMigrationContext final : public MigrationContext {
 public:
     /**
-     * @brief Constructor that initializes all members with validation.
-     * @param ver    Version string (must be non-empty).
-     * @param store  Storage pointer (must be non-null).
-     * @throws std::invalid_argument if ver is empty or store is nullptr.
+     * @brief Concrete Migration Context.
+     * @param[in] ver Input parameter.
+     * @param[in,out] store Input/output parameter.
+     * @return Return value.
      */
     explicit ConcreteMigrationContext(const std::string& ver,
                                       IMigrationStorage* store)
@@ -142,13 +128,6 @@ public:
         is_initialized_ = true;
     }
     
-    /**
-     * @brief Iterator over all keys that start with "<table_name>:".
-     *
-     * Since IMigrationStorage has no native prefix-scan, this iterator calls
-     * get() on demand; production callers that need full scans should supply
-     * their own MigrationContext subclass backed by a real cursor.
-     */
     class PrefixIterator final : public IMigrationIterator {
     public:
         PrefixIterator(IMigrationStorage* store,
@@ -182,6 +161,9 @@ public:
         }
 
     private:
+        /**
+         * @brief Advance to valid.
+         */
         void advance_to_valid()
         {
             while (pos_ < keys_.size() &&
@@ -226,7 +208,10 @@ public:
         return std::make_unique<PrefixIterator>(storage, prefix, known_keys_);
     }
 
-    /// Supply a pre-collected list of keys for the iterator scan.
+    /**
+     * @brief Set Known Keys.
+     * @param[in] keys Input parameter.
+     */
     void setKnownKeys(std::vector<std::string> keys)
     {
         known_keys_ = std::move(keys);
@@ -277,9 +262,6 @@ struct SchemaMigration::Impl {
         initialized_ = true;
     }
     
-    /**
-     * @brief Verify initialization state for defensive logging.
-     */
     bool assertInitialized() const {
         if (!initialized_) {
             LOG_ERROR("SchemaMigration: Impl used before initialization");
@@ -296,6 +278,11 @@ struct SchemaMigration::Impl {
     // Phase helpers
     // ------------------------------------------------------------------------
 
+    /**
+     * @brief Run.
+     * @param[in,out] storage Input/output parameter.
+     * @return Return value.
+     */
     MigrationResult run(IMigrationStorage& storage)
     {
         // FIX UM-SMD-04..10: Assert initialization before running
@@ -438,6 +425,10 @@ struct SchemaMigration::Impl {
         }
     }
 
+    /**
+     * @brief Perform Rollback.
+     * @return Return value.
+     */
     RollbackResult performRollback()
     {
         // FIX UM-SMD-05..10: Assert initialization before rollback
@@ -504,7 +495,13 @@ struct SchemaMigration::Impl {
     // Per-operation apply
     // ------------------------------------------------------------------------
 
-    // FIX UM-SMD-19..24: Enhanced parameter validation (Logic improvements)
+    /**
+     * @brief FIX UM-SMD-19.
+     * @param[in,out] storage Input/output parameter.
+     * @param[in] op Input parameter.
+     * @return True when the operation succeeds.
+     * @details .24: Enhanced parameter validation (Logic improvements)
+     */
     bool applyOp(IMigrationStorage& storage, const AddColumnOp& op)
     {
         // Ensure context is initialized
@@ -562,7 +559,12 @@ struct SchemaMigration::Impl {
         }
     }
 
-    // FIX UM-SMD-20, UM-SMD-15: Enhanced exception safety in renameColumn
+    /**
+     * @brief FIX UM-SMD-20, UM-SMD-15: Enhanced exception safety in renameColumn
+     * @param[in,out] storage Input/output parameter.
+     * @param[in] op Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool applyOp(IMigrationStorage& storage, const RenameColumnOp& op)
     {
         // Ensure context is initialized
@@ -645,7 +647,12 @@ struct SchemaMigration::Impl {
         }
     }
 
-    // FIX UM-SMD-21, UM-SMD-16: Enhanced validation and exception safety in addIndex
+    /**
+     * @brief FIX UM-SMD-21, UM-SMD-16: Enhanced validation and exception safety in addIndex
+     * @param[in,out] storage Input/output parameter.
+     * @param[in] op Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool applyOp(IMigrationStorage& storage, const AddIndexOp& op)
     {
         // Ensure context is initialized
@@ -721,7 +728,12 @@ struct SchemaMigration::Impl {
         }
     }
 
-    // FIX UM-SMD-22, UM-SMD-17: Enhanced validation and exception safety in dropColumn
+    /**
+     * @brief FIX UM-SMD-22, UM-SMD-17: Enhanced validation and exception safety in dropColumn
+     * @param[in,out] storage Input/output parameter.
+     * @param[in] op Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool applyOp(IMigrationStorage& storage, const DropColumnOp& op)
     {
         // Ensure context is initialized
@@ -792,7 +804,12 @@ struct SchemaMigration::Impl {
         }
     }
 
-    // FIX UM-SMD-23, UM-SMD-18: Enhanced exception safety in custom migration callback
+    /**
+     * @brief FIX UM-SMD-23, UM-SMD-18: Enhanced exception safety in custom migration callback
+     * @param[in,out] storage Input/output parameter.
+     * @param[in] op Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool applyOp(IMigrationStorage& storage, const CustomOp& op)
     {
         // Ensure context is initialized
@@ -864,6 +881,11 @@ SchemaMigration::~SchemaMigration() = default;
 // setRollbackStrategy
 // ----------------------------------------------------------------------------
 
+/**
+ * @brief Set Rollback Strategy.
+ * @param[in] strategy Input parameter.
+ * @return Return value.
+ */
 SchemaMigration& SchemaMigration::setRollbackStrategy(RollbackStrategy strategy)
 {
     impl_->rollback_strategy_ = strategy;
@@ -874,6 +896,12 @@ SchemaMigration& SchemaMigration::setRollbackStrategy(RollbackStrategy strategy)
 // addColumn
 // ----------------------------------------------------------------------------
 
+/**
+ * @brief Add Column.
+ * @param[in] table Input parameter.
+ * @param[in] column Input parameter.
+ * @return Return value.
+ */
 SchemaMigration& SchemaMigration::addColumn(const std::string& table,
                                              const ColumnDef& column)
 {
@@ -885,6 +913,13 @@ SchemaMigration& SchemaMigration::addColumn(const std::string& table,
 // renameColumn
 // ----------------------------------------------------------------------------
 
+/**
+ * @brief Rename Column.
+ * @param[in] table Input parameter.
+ * @param[in] old_name Name of the old.
+ * @param[in] new_name Name of the new.
+ * @return Return value.
+ */
 SchemaMigration& SchemaMigration::renameColumn(const std::string& table,
                                                 const std::string& old_name,
                                                 const std::string& new_name)
@@ -897,6 +932,12 @@ SchemaMigration& SchemaMigration::renameColumn(const std::string& table,
 // addIndex
 // ----------------------------------------------------------------------------
 
+/**
+ * @brief Add Index.
+ * @param[in] table Input parameter.
+ * @param[in] index Input parameter.
+ * @return Return value.
+ */
 SchemaMigration& SchemaMigration::addIndex(const std::string& table,
                                             const IndexDef& index)
 {
@@ -908,6 +949,13 @@ SchemaMigration& SchemaMigration::addIndex(const std::string& table,
 // dropColumn
 // ----------------------------------------------------------------------------
 
+/**
+ * @brief Drop Column.
+ * @param[in] table Input parameter.
+ * @param[in] column Input parameter.
+ * @param[in] opts Input parameter.
+ * @return Return value.
+ */
 SchemaMigration& SchemaMigration::dropColumn(const std::string& table,
                                               const std::string& column,
                                               const DropColumnOptions& opts)
@@ -931,6 +979,11 @@ SchemaMigration& SchemaMigration::addCustomMigration(
 // apply
 // ----------------------------------------------------------------------------
 
+/**
+ * @brief Apply.
+ * @param[in,out] storage Input/output parameter.
+ * @return Return value.
+ */
 MigrationResult SchemaMigration::apply(IMigrationStorage& storage)
 {
     return impl_->run(storage);
@@ -940,6 +993,10 @@ MigrationResult SchemaMigration::apply(IMigrationStorage& storage)
 // rollback
 // ----------------------------------------------------------------------------
 
+/**
+ * @brief Rollback.
+ * @return Return value.
+ */
 RollbackResult SchemaMigration::rollback()
 {
     return impl_->performRollback();

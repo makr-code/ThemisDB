@@ -25,13 +25,18 @@ namespace query {
 
 namespace {
 
-/// Returns true if `plan` contains a key "type" with the given value.
+/**
+ * @brief Has Type.
+ * @param[in] node Input parameter.
+ * @param[in] type Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: find(), end(), is_string().
+ */
 bool hasType(const nlohmann::json& node, std::string_view type) {
     auto it = node.find("type");
     return it != node.end() && it->is_string() && it->get<std::string>() == type;
 }
 
-/// Recursively count nodes matching a predicate.
 template <typename Pred>
 /**
  * @brief Count Nodes.
@@ -54,7 +59,6 @@ size_t countNodes(const nlohmann::json& node, Pred pred) {
     return count;
 }
 
-/// Recursively transform all nodes matching a predicate.
 template <typename Pred, typename Xform>
 /**
  * @brief Transform Nodes.
@@ -82,8 +86,6 @@ size_t transformNodes(nlohmann::json& node, Pred pred, Xform transform) {
     return changes;
 }
 
-/// Collect all OR-chained equality predicates on the same field.
-/// Returns {field_name, [values]} or empty if not applicable.
 struct OrChain {
     std::string field = {};
     std::vector<nlohmann::json> values;

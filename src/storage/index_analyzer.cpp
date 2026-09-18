@@ -49,29 +49,24 @@ namespace {
 // Heuristic constants
 // ─────────────────────────────────────────────────────────────────────────────
 
-/// Fragmentation percentage added per L0 file (higher L0 count = more overlap).
 constexpr double kFragPctPerL0File       = 2.0;
 
-/// Upper bound on fragmentation estimated from L0 count alone (when SST sizes
-/// are unavailable).
 constexpr double kMaxFallbackFragPct     = 50.0;
 
-/// Bytes in one megabyte (used for orphan-entry estimation).
 constexpr uint64_t kBytesPerMB           = 1024 * 1024;
 
-/// Estimated orphan entries per megabyte of pending-compaction bytes.
-/// This is a coarse heuristic; accurate tracking requires a dedicated
-/// metadata column family.
 constexpr uint64_t kEstimatedOrphansPerMB = 1000;
 
-/// RocksDB key prefix used to persist per-index stats-update timestamps.
-/// Key format: "__ia_stats_ts__:<index_name>"  Value: decimal epoch seconds.
 static const std::string kStatsTimestampPrefix = "__ia_stats_ts__:";
 
-/// Fallback statistics-age used when the RocksDB metadata key cannot be read
-/// (e.g., first analysis ever run, or DB write failure).
 constexpr uint32_t kFallbackStatsAgeHours = 72;
 
+/**
+ * @brief Tier From String.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Implements tierFromString without additional internal calls.
+ */
 storage::StorageTierLevel tierFromString(const std::string& s) {
     if (s == "warm") {
       return storage::StorageTierLevel::WARM;
@@ -82,6 +77,12 @@ storage::StorageTierLevel tierFromString(const std::string& s) {
     return storage::StorageTierLevel::HOT;
 }
 
+/**
+ * @brief Tier To String.
+ * @param[in] tier Input parameter.
+ * @return Return value.
+ * @details Implements tierToString without additional internal calls.
+ */
 std::string tierToString(storage::StorageTierLevel tier) {
     switch (tier) {
         case storage::StorageTierLevel::HOT:  return "hot";
@@ -91,6 +92,13 @@ std::string tierToString(storage::StorageTierLevel tier) {
     return "hot";
 }
 
+/**
+ * @brief Load Tier Thresholds.
+ * @param[in] node Input parameter.
+ * @param[in] defaults Input parameter.
+ * @return Return value.
+ * @details Calls: IsMap().
+ */
 TierThresholds loadTierThresholds(const YAML::Node& node,
                                    const TierThresholds& defaults) {
     TierThresholds t = defaults;
@@ -118,6 +126,12 @@ TierThresholds loadTierThresholds(const YAML::Node& node,
 // IndexAnalyzeConfig
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief From Yaml File.
+ * @param[in] yaml_path Path to the yaml.
+ * @return Return value.
+ * @details Calls: YAML::LoadFile(), IsMap(), THEMIS_WARN(), loadTierThresholds(), TierThresholds::hot(), TierThresholds::warm(), TierThresholds::cold(), IsSequence().
+ */
 Result<IndexAnalyzeConfig> IndexAnalyzeConfig::fromYamlFile(const std::string& yaml_path) {
     IndexAnalyzeConfig cfg;
     try {
@@ -217,6 +231,11 @@ IndexAnalyzer::~IndexAnalyzer() {
 // Configuration
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Set Config.
+ * @param[in] config Input parameter.
+ * @details Calls: lock(), std::move(), notify_all(), THEMIS_INFO(), size().
+ */
 void IndexAnalyzer::setConfig(IndexAnalyzeConfig config) {
     std::lock_guard<std::mutex> lock(mutex_);
     config_ = std::move(config);
@@ -226,6 +245,11 @@ void IndexAnalyzer::setConfig(IndexAnalyzeConfig config) {
 }
 
 const IndexAnalyzeConfig& IndexAnalyzer::config() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return config_;
 }
@@ -234,6 +258,11 @@ const IndexAnalyzeConfig& IndexAnalyzer::config() const {
 // AI/ML advisor
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Set Advisor.
+ * @param[in] advisor Input parameter.
+ * @details Calls: lock(), std::move(), THEMIS_INFO().
+ */
 void IndexAnalyzer::setAdvisor(std::shared_ptr<IIndexAnalysisAdvisor> advisor) {
     std::lock_guard<std::mutex> lock(mutex_);
     advisor_ = std::move(advisor);
@@ -244,6 +273,14 @@ void IndexAnalyzer::setAdvisor(std::shared_ptr<IIndexAnalysisAdvisor> advisor) {
 // Manual analysis
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Analyze.
+ * @param[in] index_name Name of the index.
+ * @param[in] tier Input parameter.
+ * @param[in] overrides Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), lock(), value_or(), thresholdsFor(), computeReport(), applyAdvisor(), std::move(), std::string().
+ */
 Result<IndexAnalysisReport> IndexAnalyzer::analyze(const std::string& index_name,
                                                     storage::StorageTierLevel tier,
                                                     std::optional<TierThresholds> overrides) {
@@ -268,6 +305,11 @@ Result<IndexAnalysisReport> IndexAnalyzer::analyze(const std::string& index_name
     }
 }
 
+/**
+ * @brief Analyze All.
+ * @return Return value.
+ * @details Calls: lock(), reserve(), size(), value_or(), thresholdsFor(), computeReport(), applyAdvisor(), push_back().
+ */
 std::vector<IndexAnalysisReport> IndexAnalyzer::analyzeAll() {
     std::vector<IndexEntry> snapshot;
     {
@@ -319,6 +361,11 @@ std::vector<IndexAnalysisReport> IndexAnalyzer::analyzeAll() {
 // Cron scheduling
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Start Scheduled.
+ * @return Return value.
+ * @details Calls: exchange(), ErrVoid(), lock(), empty(), CronExpression::parse(), std::thread(), THEMIS_INFO(), OkVoid().
+ */
 Result<void> IndexAnalyzer::startScheduled() {
     if (running_.exchange(true)) {
         return ErrVoid(errors::ErrorCode::ERR_INDEX_MAINTENANCE_IN_PROGRESS,
@@ -343,6 +390,10 @@ Result<void> IndexAnalyzer::startScheduled() {
     return OkVoid();
 }
 
+/**
+ * @brief Stop Scheduled.
+ * @details Calls: exchange(), notify_all(), joinable(), utils::joinThreadWithin(), THEMIS_WARN(), THEMIS_INFO().
+ */
 void IndexAnalyzer::stopScheduled() {
     if (!running_.exchange(false)) return;  // already stopped
     cv_.notify_all();
@@ -362,11 +413,21 @@ bool IndexAnalyzer::isScheduled() const noexcept {
 // ─────────────────────────────────────────────────────────────────────────────
 
 std::vector<IndexAnalysisReport> IndexAnalyzer::lastReports() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return last_reports_;
 }
 
 std::optional<std::chrono::system_clock::time_point> IndexAnalyzer::lastRunTime() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return last_run_time_;
 }
@@ -375,6 +436,10 @@ std::optional<std::chrono::system_clock::time_point> IndexAnalyzer::lastRunTime(
 // Private – scheduler loop
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Scheduler Loop.
+ * @details Calls: THEMIS_INFO(), load(), lock(), empty(), wait_for(), std::chrono::minutes(), CronExpression::parse(), THEMIS_ERROR().
+ */
 void IndexAnalyzer::schedulerLoop() {
     THEMIS_INFO("IndexAnalyzer: scheduler loop started");
 
@@ -463,6 +528,14 @@ void IndexAnalyzer::schedulerLoop() {
 // Private – core analysis
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Compute Report.
+ * @param[in] index_name Name of the index.
+ * @param[in] tier Input parameter.
+ * @param[in] thresholds Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::now(), getRawDB(), THEMIS_WARN(), GetProperty(), std::stoull(), GetIntProperty(), std::min(), get().
+ */
 IndexAnalysisReport IndexAnalyzer::computeReport(const std::string& index_name,
                                                   storage::StorageTierLevel tier,
                                                   const TierThresholds& thresholds) {
@@ -578,9 +651,11 @@ IndexAnalysisReport IndexAnalyzer::computeReport(const std::string& index_name,
     return report;
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Private – AI/ML advisor dispatch
-// ─────────────────────────────────────────────────────────────────────────────
+/**
+ * @brief ───────────────────────────────────────────────────────────────────────────── Private – AI/ML advisor dispatch ─────────────────────────────────────────────────────────────────────────────
+ * @param[in,out] report Input/output parameter.
+ * @details Calls: lock(), advise(), THEMIS_INFO(), value(), THEMIS_WARN(), what().
+ */
 
 void IndexAnalyzer::applyAdvisor(IndexAnalysisReport& report) {
     std::shared_ptr<IIndexAnalysisAdvisor> advisor;
@@ -615,6 +690,14 @@ void IndexAnalyzer::applyAdvisor(IndexAnalysisReport& report) {
 // Private – classification
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Classify the semantic intent of a query.
+ * @param[in] frag_pct Input parameter.
+ * @param[in] stats_stale Input parameter.
+ * @param[in] t Input parameter.
+ * @return Return value.
+ * @details Implements classify without additional internal calls.
+ */
 IndexRecommendation IndexAnalyzer::classify(double frag_pct,
                                              bool stats_stale,
                                              const TierThresholds& t) {

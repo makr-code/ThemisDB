@@ -21,20 +21,13 @@
 namespace themis {
 namespace llm {
 
-// ═══════════════════════════════════════════════════════════
-// SSE helpers
-// ═══════════════════════════════════════════════════════════
-
 /**
- * @brief Escape a string for safe embedding inside a JSON string value.
- *
- * Replaces the minimal set of characters that would break JSON string
- * parsing: reverse solidus, double-quote, and the C0 control characters
- * mandated by RFC 8259 §7.
- *
- * @param s Raw input string.
- * @return JSON-safe escaped string (without surrounding quotes).
+ * @brief ═══════════════════════════════════════════════════════════ SSE helpers ═══════════════════════════════════════════════════════════
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), std::setw(), std::setfill(), str().
  */
+
 static std::string escapeJsonString(const std::string& s) {
     std::string out = {};
     out.reserve(s.size());
@@ -63,9 +56,14 @@ static std::string escapeJsonString(const std::string& s) {
     return out;
 }
 
-// ═══════════════════════════════════════════════════════════
-// StreamingHandler — public static methods
-// ═══════════════════════════════════════════════════════════
+/**
+ * @brief ═══════════════════════════════════════════════════════════ StreamingHandler — public static methods ═══════════════════════════════════════════════════════════
+ * @param[in] token Input parameter.
+ * @param[in] request_id Identifier of the request.
+ * @param[in] index Input parameter.
+ * @param[in] done Input parameter.
+ * @return Return value.
+ */
 
 std::string StreamingHandler::formatSseEvent(
     const std::string& token,
@@ -91,6 +89,11 @@ std::string StreamingHandler::formatSseEvent(
     return "data: " + payload + "\n\n";
 }
 
+/**
+ * @brief Format Done Event.
+ * @param[in] request_id Identifier of the request.
+ * @return Return value.
+ */
 std::string StreamingHandler::formatDoneEvent(
     const std::string& request_id)
 {
@@ -100,6 +103,12 @@ std::string StreamingHandler::formatDoneEvent(
     return "data: [DONE]\n\n";
 }
 
+/**
+ * @brief Format Chunked Data.
+ * @param[in] data Input parameter.
+ * @return Return value.
+ * @details Calls: size(), str().
+ */
 std::string StreamingHandler::formatChunkedData(const std::string& data) {
     // HTTP/1.1 chunked-transfer encoding:
     //   <hex-length>\r\n<data>\r\n

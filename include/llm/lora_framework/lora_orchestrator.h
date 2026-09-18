@@ -30,32 +30,8 @@ namespace lora {
 
 using json = nlohmann::json;
 
-/**
- * @brief Unified LoRA Orchestrator - Complete CRUD Management
- * 
- * Central coordinator for ALL LoRA operations in ThemisDB.
- * Integrates:
- * - New simplified framework (adapter_manager, storage, training)
- * - Existing advanced MultiLoRAManager
- * - Workflow management and job scheduling
- * 
- * Provides complete CRUD interface:
- * - CREATE: Train new adapters from data
- * - READ: Query, list, get info about adapters
- * - UPDATE: Retrain, version, update metadata
- * - DELETE: Remove adapters and versions
- * 
- * Plus orchestration features:
- * - Job scheduling and queuing
- * - Workflow management
- * - Event notifications
- * - Health monitoring
- */
 class LoRAOrchestrator {
 public:
-    /**
-     * @brief Job status for async operations
-     */
     enum class JobStatus {
         Pending,
         Running,
@@ -64,9 +40,6 @@ public:
         Cancelled
     };
     
-    /**
-     * @brief Job type
-     */
     enum class JobType {
         Training,
         Loading,
@@ -75,9 +48,6 @@ public:
         Deployment
     };
     
-    /**
-     * @brief Job information
-     */
     struct JobInfo {
         std::string job_id;
         JobType type;
@@ -89,12 +59,13 @@ public:
         std::string error_message;
         json metadata;
         
+        /**
+         * @brief To JSON.
+         * @return Return value.
+         */
         json toJSON() const;
     };
     
-    /**
-     * @brief Event type for notifications
-     */
     enum class EventType {
         AdapterLoaded,
         AdapterUnloaded,
@@ -109,14 +80,8 @@ public:
         JobFailed
     };
     
-    /**
-     * @brief Event callback
-     */
     using EventCallback = std::function<void(EventType, const std::string&, const json&)>;
     
-    /**
-     * @brief Configuration for orchestrator
-     */
     struct Config {
         // Adapter manager config
         MultiLoRAManager::Config adapter_config;
@@ -138,7 +103,16 @@ public:
         bool use_multi_lora_manager = true;  // Use advanced features when available
     };
     
+    /**
+     * @brief Lo RAOrchestrator.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit LoRAOrchestrator(const Config& config);
+    /**
+     * @brief Lo RAOrchestrator.
+     * @return Return value.
+     */
     explicit LoRAOrchestrator();
     ~LoRAOrchestrator();
     
@@ -150,14 +124,6 @@ public:
     // CREATE Operations
     // ═══════════════════════════════════════════════════════════
     
-    /**
-     * @brief Create new LoRA adapter through training
-     * @param adapter_id Unique identifier
-     * @param training_data Training dataset
-     * @param hyperparameters Training hyperparameters (optional)
-     * @param async Run training asynchronously
-     * @return Job ID if async, or immediate result
-     */
     std::string createAdapter(
         const std::string& adapter_id,
         const TrainingData& training_data,
@@ -165,14 +131,6 @@ public:
         bool async = false
     );
     
-    /**
-     * @brief Create adapter from multiple datasets (batch training)
-     * @param adapter_id Unique identifier
-     * @param datasets Vector of training datasets
-     * @param hyperparameters Training hyperparameters (optional)
-     * @param async Run training asynchronously
-     * @return Job ID if async, or immediate result
-     */
     std::string createAdapterBatch(
         const std::string& adapter_id,
         const std::vector<TrainingData>& datasets,
@@ -181,11 +139,11 @@ public:
     );
     
     /**
-     * @brief Import existing adapter from external source
-     * @param adapter_id Unique identifier
-     * @param source_path Path to adapter weights
-     * @param metadata Adapter metadata
-     * @return true if imported successfully
+     * @brief Import Adapter.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @param[in] source_path Path to the source.
+     * @param[in] metadata Input parameter.
+     * @return True when the operation succeeds.
      */
     bool importAdapter(
         const std::string& adapter_id,
@@ -193,56 +151,48 @@ public:
         const AdapterMetadata& metadata
     );
     
-    // ═══════════════════════════════════════════════════════════
-    // READ Operations
-    // ═══════════════════════════════════════════════════════════
-    
     /**
-     * @brief Get adapter information
-     * @param adapter_id Adapter identifier
-     * @return Optional adapter info
+     * @brief ═══════════════════════════════════════════════════════════ READ Operations ═══════════════════════════════════════════════════════════
+     * @param[in] adapter_id Identifier of the adapter.
+     * @return Return value.
      */
+    
     std::optional<AdapterInfo> getAdapter(const std::string& adapter_id) const;
     
-    /**
-     * @brief List all adapters
-     * @param filter Optional filter criteria
-     * @return Vector of adapter infos
-     */
     std::vector<AdapterInfo> listAdapters(const std::optional<std::string>& filter = std::nullopt) const;
     
     /**
-     * @brief Check if adapter exists
-     * @param adapter_id Adapter identifier
-     * @return true if exists
+     * @brief Exists.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @return True when the operation succeeds.
      */
     bool exists(const std::string& adapter_id) const;
     
     /**
-     * @brief Check if adapter is loaded in memory
-     * @param adapter_id Adapter identifier
-     * @return true if loaded
+     * @brief Is Loaded.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @return True when the operation succeeds.
      */
     bool isLoaded(const std::string& adapter_id) const;
     
     /**
-     * @brief Get adapter versions
-     * @param adapter_id Adapter identifier
-     * @return Vector of version identifiers
+     * @brief Get Versions.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @return Return value.
      */
     std::vector<std::string> getVersions(const std::string& adapter_id) const;
     
     /**
-     * @brief Get current version of adapter
-     * @param adapter_id Adapter identifier
-     * @return Version identifier
+     * @brief Get Current Version.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @return Return value.
      */
     std::string getCurrentVersion(const std::string& adapter_id) const;
     
     /**
-     * @brief Search adapters by criteria
-     * @param criteria Search criteria (JSON)
-     * @return Vector of matching adapter infos
+     * @brief Search Adapters.
+     * @param[in] criteria Input parameter.
+     * @return Return value.
      */
     std::vector<AdapterInfo> searchAdapters(const json& criteria) const;
     
@@ -250,14 +200,6 @@ public:
     // UPDATE Operations
     // ═══════════════════════════════════════════════════════════
     
-    /**
-     * @brief Update adapter through retraining
-     * @param adapter_id Adapter identifier
-     * @param training_data New training data
-     * @param incremental Use incremental training (fine-tune existing)
-     * @param async Run training asynchronously
-     * @return Job ID if async, or immediate result
-     */
     std::string updateAdapter(
         const std::string& adapter_id,
         const TrainingData& training_data,
@@ -266,33 +208,27 @@ public:
     );
     
     /**
-     * @brief Update adapter metadata
-     * @param adapter_id Adapter identifier
-     * @param metadata New metadata
-     * @return true if updated successfully
+     * @brief Update Metadata.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @param[in] metadata Input parameter.
+     * @return True when the operation succeeds.
      */
     bool updateMetadata(const std::string& adapter_id, const AdapterMetadata& metadata);
     
-    /**
-     * @brief Create new version of adapter
-     * @param adapter_id Adapter identifier
-     * @param description Version description (optional)
-     * @return Version identifier
-     */
     std::string createVersion(const std::string& adapter_id, const std::string& description = "");
     
     /**
-     * @brief Switch to specific version
-     * @param adapter_id Adapter identifier
-     * @param version Version identifier
-     * @return true if switched successfully
+     * @brief Switch Version.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @param[in] version Input parameter.
+     * @return True when the operation succeeds.
      */
     bool switchVersion(const std::string& adapter_id, const std::string& version);
     
     /**
-     * @brief Rollback to previous version
-     * @param adapter_id Adapter identifier
-     * @return true if rolled back successfully
+     * @brief Rollback.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @return True when the operation succeeds.
      */
     bool rollback(const std::string& adapter_id);
     
@@ -300,184 +236,168 @@ public:
     // DELETE Operations
     // ═══════════════════════════════════════════════════════════
     
-    /**
-     * @brief Delete adapter completely
-     * @param adapter_id Adapter identifier
-     * @param delete_all_versions Delete all versions (default: false)
-     * @return true if deleted successfully
-     */
     bool deleteAdapter(const std::string& adapter_id, bool delete_all_versions = false);
     
     /**
-     * @brief Delete specific version
-     * @param adapter_id Adapter identifier
-     * @param version Version identifier
-     * @return true if deleted successfully
+     * @brief Delete Version.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @param[in] version Input parameter.
+     * @return True when the operation succeeds.
      */
     bool deleteVersion(const std::string& adapter_id, const std::string& version);
     
-    /**
-     * @brief Unload adapter from memory (keep in storage)
-     * @param adapter_id Adapter identifier
-     * @param force Force unload even if pinned
-     * @return true if unloaded successfully
-     */
     bool unloadAdapter(const std::string& adapter_id, bool force = false);
     
     // ═══════════════════════════════════════════════════════════
     // Orchestration & Job Management
     // ═══════════════════════════════════════════════════════════
     
-    /**
-     * @brief Load adapter into memory
-     * @param adapter_id Adapter identifier
-     * @param async Load asynchronously
-     * @return Job ID if async, or immediate status
-     */
     std::string loadAdapter(const std::string& adapter_id, bool async = false);
     
     /**
-     * @brief Get job information
-     * @param job_id Job identifier
-     * @return Optional job info
+     * @brief Get Job.
+     * @param[in] job_id Identifier of the job.
+     * @return Return value.
      */
     std::optional<JobInfo> getJob(const std::string& job_id) const;
     
-    /**
-     * @brief List all jobs
-     * @param status Filter by status (optional)
-     * @return Vector of job infos
-     */
     std::vector<JobInfo> listJobs(const std::optional<JobStatus>& status = std::nullopt) const;
     
     /**
-     * @brief Cancel running job
-     * @param job_id Job identifier
-     * @return true if cancelled successfully
+     * @brief Cancel Job.
+     * @param[in] job_id Identifier of the job.
+     * @return True when the operation succeeds.
      */
     bool cancelJob(const std::string& job_id);
     
-    /**
-     * @brief Wait for job completion
-     * @param job_id Job identifier
-     * @param timeout_seconds Timeout in seconds (0 = no timeout)
-     * @return Job result
-     */
     JobInfo waitForJob(const std::string& job_id, int timeout_seconds = 0);
     
     /**
-     * @brief Register event callback
-     * @param callback Callback function
+     * @brief Register Event Callback.
+     * @param[in] callback Input parameter.
      */
     void registerEventCallback(EventCallback callback);
     
-    // ═══════════════════════════════════════════════════════════
-    // Health & Statistics
-    // ═══════════════════════════════════════════════════════════
-    
     /**
-     * @brief Get orchestrator statistics
-     * @return Statistics as JSON
+     * @brief ═══════════════════════════════════════════════════════════ Health & Statistics ═══════════════════════════════════════════════════════════
+     * @return Return value.
      */
+    
     json getStats() const;
     
     /**
-     * @brief Get health status
-     * @return Health status as JSON
+     * @brief Get Health.
+     * @return Return value.
      */
     json getHealth() const;
     
     /**
-     * @brief Get memory usage
-     * @return Memory usage statistics
+     * @brief Get Memory Usage.
+     * @return Return value.
      */
     json getMemoryUsage() const;
     
     /**
-     * @brief Perform health check
-     * @return true if healthy
+     * @brief Health Check.
+     * @return True when the operation succeeds.
      */
     bool healthCheck() const;
     
     /**
-     * @brief Clear cache
+     * @brief Clear Cache.
      */
     void clearCache();
     
-    // ═══════════════════════════════════════════════════════════
-    // Advanced Integration (with existing managers)
-    // ═══════════════════════════════════════════════════════════
-    
     /**
-     * @brief Get MultiLoRAManager instance (if enabled)
-     * @return Pointer to MultiLoRAManager or nullptr
+     * @brief ═══════════════════════════════════════════════════════════ Advanced Integration (with existing managers) ═══════════════════════════════════════════════════════════
+     * @return Pointer to the result.
      */
+    
     MultiLoRAManager* getMultiLoRAManager();
     
     /**
-     * @brief Enable/disable advanced features
-     * @param enable Enable advanced features
+     * @brief Enable Advanced Features.
+     * @param[in] enable Input parameter.
      */
     void enableAdvancedFeatures(bool enable);
     
-    // ═══════════════════════════════════════════════════════════
-    // Component Access (for cross-shard sync)
-    // ═══════════════════════════════════════════════════════════
-    
     /**
-     * @brief Get storage service instance
-     * @return Shared pointer to storage service
+     * @brief ═══════════════════════════════════════════════════════════ Component Access (for cross-shard sync) ═══════════════════════════════════════════════════════════
+     * @return Return value.
      */
+    
     std::shared_ptr<LoRAStorageService> getStorageService() const;
     
     /**
-     * @brief Get consistency checker instance
-     * @return Shared pointer to consistency checker
+     * @brief Get Consistency Checker.
+     * @return Return value.
      */
     std::shared_ptr<AdapterConsistencyChecker> getConsistencyChecker() const;
 
-    // ═══════════════════════════════════════════════════════════
-    // Provenance, Snapshots, and Audit Log
-    // ═══════════════════════════════════════════════════════════
+    /**
+     * @brief ═══════════════════════════════════════════════════════════ Provenance, Snapshots, and Audit Log ═══════════════════════════════════════════════════════════
+     * @param[in] adapter_id Identifier of the adapter.
+     * @param[in] record Input parameter.
+     * @return True when the operation succeeds.
+     */
 
-    /// Attach a cryptographic provenance record to an adapter.
-    /// Returns false if the adapter is not registered.
     bool attachProvenance(const std::string& adapter_id,
                           const LoRAProvenanceRecord& record);
 
-    /// Retrieve the provenance record for an adapter.
+    /**
+     * @brief Get Provenance Record.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @return Return value.
+     */
     std::optional<LoRAProvenanceRecord> getProvenanceRecord(
         const std::string& adapter_id) const;
 
-    /// Create an MVCC snapshot of the adapter's current state.
+    /**
+     * @brief Create Adapter Snapshot.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @param[in] version Input parameter.
+     * @param[in] weights_hash Input parameter.
+     * @return Return value.
+     */
     AdapterSnapshot createAdapterSnapshot(const std::string& adapter_id,
                                           const std::string& version,
                                           const std::string& weights_hash);
 
-    /// List all snapshots for an adapter (oldest first).
+    /**
+     * @brief List Adapter Snapshots.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @return Return value.
+     */
     std::vector<AdapterSnapshot> listAdapterSnapshots(
         const std::string& adapter_id) const;
 
-    /// Append an inference audit entry to the adapter's Merkle chain.
+    /**
+     * @brief Record Inference Audit.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @param[in] entry Input parameter.
+     * @return Return value.
+     */
     InferenceAuditEntry recordInferenceAudit(const std::string& adapter_id,
                                               InferenceAuditEntry entry);
 
-    /// Retrieve the full Merkle-chained inference audit log.
+    /**
+     * @brief Get Inference Audit Log.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @return Return value.
+     */
     std::vector<InferenceAuditEntry> getInferenceAuditLog(
         const std::string& adapter_id) const;
 
-    /// Verify the Merkle audit chain integrity.
-    /// Returns true when the chain is intact; false when tampered or corrupt.
+    /**
+     * @brief Verify Audit Chain.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @return True when the operation succeeds.
+     */
     bool verifyAuditChain(const std::string& adapter_id) const;
 
     /**
-     * @brief Inject a `DecisionRecordYamlProcessor` for async YAML traceability.
-     *
-     * When set, every `loadAdapter()` call emits a `LOOP_TRIGGER` decision
-     * record written asynchronously to
-     * `logs/decisions/YYYY-MM-DD/<ts>_LOOP_TRIGGER_<id>.yaml`.
-     *
-     * @param processor  Shared processor instance (may be nullptr to disable).
+     * @brief Set Decision Record Processor.
+     * @param[in] processor Input parameter.
      */
     void setDecisionRecordProcessor(
         std::shared_ptr<themis::llm::DecisionRecordYamlProcessor> processor);

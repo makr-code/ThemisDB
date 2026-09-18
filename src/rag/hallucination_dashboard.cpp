@@ -55,12 +55,26 @@ HallucinationDashboard::~HallucinationDashboard() = default;
 // Recording
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Record.
+ * @param[in] result Input parameter.
+ * @param[in] query Input parameter.
+ * @param[in] mode Input parameter.
+ * @details Calls: recordFaithfulness().
+ */
 void HallucinationDashboard::record(const EvaluationResult& result,
                                     const std::string& query,
                                     const std::string& mode) {
     recordFaithfulness(result.faithfulness_score, query, mode);
 }
 
+/**
+ * @brief Record Faithfulness.
+ * @param[in] faithfulness_score Input parameter.
+ * @param[in] query Input parameter.
+ * @param[in] mode Input parameter.
+ * @details Calls: std::max(), std::min(), std::chrono::system_clock::now(), recordEntry(), std::move().
+ */
 void HallucinationDashboard::recordFaithfulness(double faithfulness_score,
                                                 const std::string& query,
                                                 const std::string& mode) {
@@ -77,6 +91,11 @@ void HallucinationDashboard::recordFaithfulness(double faithfulness_score,
     recordEntry(std::move(entry));
 }
 
+/**
+ * @brief Record Entry.
+ * @param[in] entry Input parameter.
+ * @details Calls: lock(), push_back(), size(), pop_front(), empty(), fireAlertsUnlocked(), THEMIS_DEBUG().
+ */
 void HallucinationDashboard::recordEntry(HallucinationEntry entry) {
     double rate = 0.0;
 
@@ -121,6 +140,11 @@ void HallucinationDashboard::recordEntry(HallucinationEntry entry) {
 // ─────────────────────────────────────────────────────────────────────────────
 
 double HallucinationDashboard::hallucinationRate() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     if (impl_->window.empty()) {
       return 0.0;
@@ -135,6 +159,11 @@ double HallucinationDashboard::hallucinationRate() const {
 }
 
 DashboardSnapshot HallucinationDashboard::snapshot() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     DashboardSnapshot snap;
@@ -209,6 +238,11 @@ DashboardSnapshot HallucinationDashboard::snapshot() const {
 }
 
 std::vector<HallucinationEntry> HallucinationDashboard::recentEntries(size_t n) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     if (n == 0 || n >= impl_->window.size()) {
         return std::vector<HallucinationEntry>(impl_->window.begin(),
@@ -222,16 +256,31 @@ std::vector<HallucinationEntry> HallucinationDashboard::recentEntries(size_t n) 
 // Alerting
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Set Alert Callback.
+ * @param[in] callback Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void HallucinationDashboard::setAlertCallback(AlertCallback callback) {
     std::lock_guard<std::mutex> lock(mutex_);
     alert_callback_ = std::move(callback);
 }
 
+/**
+ * @brief Check Alerts.
+ * @return Return value.
+ * @details Calls: snapshot().
+ */
 std::vector<HallucinationAlert> HallucinationDashboard::checkAlerts() {
     auto snap = snapshot();
     return snap.active_alerts;
 }
 
+/**
+ * @brief Fire Alerts Unlocked.
+ * @param[in] rate Input parameter.
+ * @details Calls: lock(), size(), std::chrono::system_clock::now(), THEMIS_WARN(), THEMIS_DEBUG(), cb().
+ */
 void HallucinationDashboard::fireAlertsUnlocked(double rate) {
     if (rate < config_.alert_threshold_info) {
       return;
@@ -280,8 +329,18 @@ void HallucinationDashboard::fireAlertsUnlocked(double rate) {
 // ─────────────────────────────────────────────────────────────────────────────
 
 bool HallucinationDashboard::exportCSV(const std::string& filepath) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
+    /**
+     * @brief File.
+     * @param[in] filepath Input parameter.
+     * @return Return value.
+     */
     std::ofstream file(filepath);
     if (!file.is_open()) {
         THEMIS_ERROR("HallucinationDashboard: failed to open '{}' for export", filepath);
@@ -336,6 +395,10 @@ void HallucinationDashboard::printReport(std::ostream& os) const {
     os << std::string(60, '=') << "\n";
 }
 
+/**
+ * @brief Reset the modification detection flag.
+ * @details Calls: lock(), clear(), THEMIS_INFO().
+ */
 void HallucinationDashboard::reset() {
     std::lock_guard<std::mutex> lock(mutex_);
     impl_->window.clear();

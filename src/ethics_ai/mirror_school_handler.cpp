@@ -32,9 +32,12 @@ namespace ethics {
 
 namespace {
 
-/// Deterministic stub mirror inference.
-/// Each non-western school produces a brief position_abstract with a
-/// culturally-representative framing.
+/**
+ * @brief Stub Mirror Inference.
+ * @param[in] school_id Identifier of the school.
+ * @param[in] dilemma_text Input parameter.
+ * @return Return value.
+ */
 DiscourseRoundOutput stubMirrorInference(const std::string& school_id,
                                          const std::string& dilemma_text)
 {
@@ -64,6 +67,10 @@ DiscourseRoundOutput stubMirrorInference(const std::string& school_id,
 // MirrorSchoolHandler implementation
 // ============================================================================
 
+/**
+ * @brief Set LLMInference Fn.
+ * @param[in] fn Input parameter.
+ */
 void MirrorSchoolHandler::setLLMInferenceFn(LLMInferenceFn fn)
 {
     inference_fn_ = std::move(fn);
@@ -74,6 +81,13 @@ void MirrorSchoolHandler::setSchoolTimeoutMs(int timeout_ms) noexcept
     timeout_ms_ = timeout_ms;
 }
 
+/**
+ * @brief Run Mirror.
+ * @param[in] mirror_school_ids Input parameter.
+ * @param[in] dilemma_text Input parameter.
+ * @param[in] domain Input parameter.
+ * @return Return value.
+ */
 std::vector<DiscourseRoundOutput> MirrorSchoolHandler::runMirror(
     const std::vector<std::string>& mirror_school_ids,
     const std::string&              dilemma_text,

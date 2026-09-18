@@ -62,6 +62,11 @@ KeyRotationScheduler::~KeyRotationScheduler() {
     shutdown();
 }
 
+/**
+ * @brief Set Rotation Store.
+ * @param[in] store Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void KeyRotationScheduler::setRotationStore(std::shared_ptr<IRotationStore> store) {
     std::lock_guard<std::mutex> lock(impl_->mutex);
     if (store) {
@@ -69,6 +74,13 @@ void KeyRotationScheduler::setRotationStore(std::shared_ptr<IRotationStore> stor
     }
 }
 
+/**
+ * @brief Initialize.
+ * @param[in] check_interval_seconds Input parameter.
+ * @param[in] store Input parameter.
+ * @return Return value.
+ * @details Calls: error(), std::move(), std::thread(), schedulerLoop().
+ */
 Result<void> KeyRotationScheduler::initialize(
     int check_interval_seconds,
     std::shared_ptr<IRotationStore> store
@@ -92,6 +104,10 @@ Result<void> KeyRotationScheduler::initialize(
     return Result<void>();
 }
 
+/**
+ * @brief Shutdown.
+ * @details Calls: notify_all(), joinable(), join().
+ */
 void KeyRotationScheduler::shutdown() {
     if (impl_->running) {
         impl_->running = false;
@@ -103,6 +119,15 @@ void KeyRotationScheduler::shutdown() {
     }
 }
 
+/**
+ * @brief Schedule Rotation.
+ * @param[in] level Input parameter.
+ * @param[in] interval_days Input parameter.
+ * @param[in] auto_rotate Input parameter.
+ * @param[in] callback Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), getCurrentTimeMs(), securityLevelToString(), get(), nlohmann::json::parse(), contains().
+ */
 Result<void> KeyRotationScheduler::scheduleRotation(
     SecurityLevel level,
     int interval_days,
@@ -145,11 +170,23 @@ Result<void> KeyRotationScheduler::scheduleRotation(
     return Result<void>();
 }
 
+/**
+ * @brief Cancel Rotation.
+ * @param[in] level Input parameter.
+ * @details Calls: lock(), erase().
+ */
 void KeyRotationScheduler::cancelRotation(SecurityLevel level) {
     std::lock_guard<std::mutex> lock(impl_->mutex);
     impl_->schedules.erase(level);
 }
 
+/**
+ * @brief Is Rotation Due.
+ * @param[in] level Input parameter.
+ * @param[in] last_rotation_ms Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), find(), end(), getCurrentTimeMs().
+ */
 bool KeyRotationScheduler::isRotationDue(SecurityLevel level, int64_t last_rotation_ms) {
     std::lock_guard<std::mutex> lock(impl_->mutex);
 
@@ -166,6 +203,12 @@ bool KeyRotationScheduler::isRotationDue(SecurityLevel level, int64_t last_rotat
     return elapsed_ms >= interval_ms;
 }
 
+/**
+ * @brief Get Next Rotation Time.
+ * @param[in] level Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), find(), end().
+ */
 int64_t KeyRotationScheduler::getNextRotationTime(SecurityLevel level) {
     std::lock_guard<std::mutex> lock(impl_->mutex);
 
@@ -181,6 +224,11 @@ int64_t KeyRotationScheduler::getNextRotationTime(SecurityLevel level) {
     return schedule.last_check_ms + interval_ms;
 }
 
+/**
+ * @brief Trigger Rotation.
+ * @param[in] level Input parameter.
+ * @details Calls: lock(), find(), end(), getCurrentTimeMs(), callback(), persistRotationState().
+ */
 void KeyRotationScheduler::triggerRotation(SecurityLevel level) {
     std::lock_guard<std::mutex> lock(impl_->mutex);
 
@@ -202,6 +250,10 @@ void KeyRotationScheduler::triggerRotation(SecurityLevel level) {
     persistRotationState(level);
 }
 
+/**
+ * @brief Scheduler Loop.
+ * @details Calls: lock(), getCurrentTimeMs(), callback(), persistRotationState(), cv_lock(), wait_for(), std::chrono::seconds(), load().
+ */
 void KeyRotationScheduler::schedulerLoop() {
     while (impl_->running) {
         {
@@ -246,9 +298,11 @@ int64_t KeyRotationScheduler::getCurrentTimeMs() const {
     return std::chrono::duration_cast<std::chrono::milliseconds>(duration).count();
 }
 
-// ---------------------------------------------------------------------------
-// Persistence helpers (called with mutex held)
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- Persistence helpers (called with mutex held) ---------------------------------------------------------------------------
+ * @param[in] level Input parameter.
+ * @details Calls: find(), end(), securityLevelToString(), put(), dump().
+ */
 
 void KeyRotationScheduler::persistRotationState(SecurityLevel level) {
     if (!impl_->store) {
@@ -270,6 +324,11 @@ void KeyRotationScheduler::persistRotationState(SecurityLevel level) {
     impl_->store->put(key, j.dump());
 }
 
+/**
+ * @brief Load Rotation State.
+ * @param[in] level Input parameter.
+ * @details Calls: find(), end(), securityLevelToString(), get(), nlohmann::json::parse(), contains().
+ */
 void KeyRotationScheduler::loadRotationState(SecurityLevel level) {
     if (!impl_->store) {
       return;

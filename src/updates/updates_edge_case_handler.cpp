@@ -24,6 +24,13 @@ namespace updates {
 // detectAndHandle
 // ============================================================================
 
+/**
+ * @brief Detect And Handle.
+ * @param[in] sm Input parameter.
+ * @param[in] context_hint Input parameter.
+ * @return Return value.
+ * @details Calls: currentState(), hasPendingRollback(), makeResult(), find(), UpdateStateMachine::stateName().
+ */
 EdgeCaseResult UpdatesEdgeCaseHandler::detectAndHandle(
         const UpdateStateMachine& sm,
         const std::string& context_hint) {
@@ -177,6 +184,12 @@ EdgeCaseResult UpdatesEdgeCaseHandler::detectAndHandle(
 // classifyEdgeCase
 // ============================================================================
 
+/**
+ * @brief Classify Edge Case.
+ * @param[in] code Input parameter.
+ * @return Return value.
+ * @details Implements classifyEdgeCase without additional internal calls.
+ */
 std::string_view UpdatesEdgeCaseHandler::classifyEdgeCase(DiagnosticErrorCode code) {
     switch (code) {
         case DiagnosticErrorCode::STATE_INVALID_TRANSITION:       return "InvalidTransition";
@@ -213,6 +226,12 @@ std::string_view UpdatesEdgeCaseHandler::classifyEdgeCase(DiagnosticErrorCode co
 // isFatal
 // ============================================================================
 
+/**
+ * @brief Is Fatal.
+ * @param[in] code Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements isFatal without additional internal calls.
+ */
 bool UpdatesEdgeCaseHandler::isFatal(DiagnosticErrorCode code) {
     switch (code) {
         case DiagnosticErrorCode::STATE_FAILED_LOCKED:
@@ -234,6 +253,12 @@ bool UpdatesEdgeCaseHandler::isFatal(DiagnosticErrorCode code) {
 // requiresIsolation
 // ============================================================================
 
+/**
+ * @brief Requires Isolation.
+ * @param[in] code Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements requiresIsolation without additional internal calls.
+ */
 bool UpdatesEdgeCaseHandler::requiresIsolation(DiagnosticErrorCode code) {
     switch (code) {
         case DiagnosticErrorCode::STATE_ALREADY_IN_PROGRESS:
@@ -261,6 +286,14 @@ const EdgeCaseStats& UpdatesEdgeCaseHandler::getStats() const {
 // makeResult (private)
 // ============================================================================
 
+/**
+ * @brief Make Result.
+ * @param[in] code Input parameter.
+ * @param[in] description Input parameter.
+ * @param[in] requires_rollback Input parameter.
+ * @return Return value.
+ * @details Calls: isFatal(), lock(), std::move().
+ */
 EdgeCaseResult UpdatesEdgeCaseHandler::makeResult(DiagnosticErrorCode code,
                                                    std::string description,
                                                    bool requires_rollback) {

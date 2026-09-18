@@ -22,6 +22,13 @@ namespace themis {
 // DownsamplingTier factory methods
 // =========================================================================
 
+/**
+ * @brief Minutes.
+ * @param[in] n Input parameter.
+ * @param[in] keep Input parameter.
+ * @return Return value.
+ * @details Calls: std::to_string().
+ */
 DownsamplingTier DownsamplingTier::minutes(int n, std::chrono::seconds keep) {
     DownsamplingTier t;
     t.name      = std::to_string(n) + "m";
@@ -30,6 +37,13 @@ DownsamplingTier DownsamplingTier::minutes(int n, std::chrono::seconds keep) {
     return t;
 }
 
+/**
+ * @brief Hours.
+ * @param[in] n Input parameter.
+ * @param[in] keep Input parameter.
+ * @return Return value.
+ * @details Calls: std::to_string().
+ */
 DownsamplingTier DownsamplingTier::hours(int n, std::chrono::seconds keep) {
     DownsamplingTier t;
     t.name      = std::to_string(n) + "h";
@@ -38,6 +52,13 @@ DownsamplingTier DownsamplingTier::hours(int n, std::chrono::seconds keep) {
     return t;
 }
 
+/**
+ * @brief Days.
+ * @param[in] n Input parameter.
+ * @param[in] keep Input parameter.
+ * @return Return value.
+ * @details Calls: std::to_string().
+ */
 DownsamplingTier DownsamplingTier::days(int n, std::chrono::seconds keep) {
     DownsamplingTier t;
     t.name      = std::to_string(n) + "d";
@@ -50,6 +71,12 @@ DownsamplingTier DownsamplingTier::days(int n, std::chrono::seconds keep) {
 // DownsamplingPolicy factory
 // =========================================================================
 
+/**
+ * @brief Default Policy.
+ * @param[in] metric Input parameter.
+ * @param[in] entity Input parameter.
+ * @return Return value.
+ */
 DownsamplingPolicy DownsamplingPolicy::defaultPolicy(
     const std::string& metric,
     const std::optional<std::string>& entity)
@@ -71,6 +98,11 @@ DownsamplingPolicy DownsamplingPolicy::defaultPolicy(
 // TierSelector
 // =========================================================================
 
+/**
+ * @brief Register a retention policy.
+ * @param[in] policy Retention policy definition to store.
+ * @details Implements registerPolicy without additional internal calls.
+ */
 void TierSelector::registerPolicy(const DownsamplingPolicy& policy) {
     policies_[policy.metric] = policy;
 }
@@ -133,6 +165,12 @@ DownsamplingPipeline::DownsamplingPipeline(TSStore* store)
     }
 }
 
+/**
+ * @brief Add Policy.
+ * @param[in] policy Input parameter.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: empty(), registerPolicy(), THEMIS_INFO(), size().
+ */
 void DownsamplingPipeline::addPolicy(const DownsamplingPolicy& policy) {
     if (policy.metric.empty()) {
         throw std::invalid_argument("DownsamplingPipeline::addPolicy: metric name cannot be empty");
@@ -148,6 +186,12 @@ void DownsamplingPipeline::addPolicy(const DownsamplingPolicy& policy) {
                 policy.metric,policy.tiers.size());
 }
 
+/**
+ * @brief Refresh.
+ * @param[in] to_ms Input parameter.
+ * @return Return value.
+ * @details Calls: refreshMetric().
+ */
 size_t DownsamplingPipeline::refresh(int64_t to_ms) {
     size_t total = 0;
     for (const auto& [metric, policy] : policies_) {
@@ -157,6 +201,13 @@ size_t DownsamplingPipeline::refresh(int64_t to_ms) {
     return total;
 }
 
+/**
+ * @brief Refresh Metric.
+ * @param[in] metric Input parameter.
+ * @param[in] to_ms Input parameter.
+ * @return Return value.
+ * @details Calls: find(), end(), THEMIS_WARN(), nowMs(), getWatermark(), THEMIS_DEBUG(), ContinuousAggregateManager::derivedMetricName(), refreshTier().
+ */
 size_t DownsamplingPipeline::refreshMetric(const std::string& metric, int64_t to_ms) {
     auto it = policies_.find(metric);
     if (it == policies_.end()) {
@@ -198,6 +249,15 @@ size_t DownsamplingPipeline::refreshMetric(const std::string& metric, int64_t to
     return total;
 }
 
+/**
+ * @brief Refresh Tier.
+ * @param[in] policy Input parameter.
+ * @param[in] tier Input parameter.
+ * @param[in] input_metric Input parameter.
+ * @param[in] from_ms Input parameter.
+ * @param[in] to_ms Input parameter.
+ * @return Return value.
+ */
 size_t DownsamplingPipeline::refreshTier(
     const DownsamplingPolicy& policy,
     const DownsamplingTier& tier,
@@ -229,6 +289,12 @@ int64_t DownsamplingPipeline::getWatermark(
     return (it != watermarks_.end()) ? it->second : 0;
 }
 
+/**
+ * @brief Set Watermark.
+ * @param[in] metric Input parameter.
+ * @param[in] tier_name Name of the tier.
+ * @param[in] watermark_ms Input parameter.
+ */
 void DownsamplingPipeline::setWatermark(
     const std::string& metric,
     const std::string& tier_name,
@@ -237,6 +303,12 @@ void DownsamplingPipeline::setWatermark(
     watermarks_[watermarkKey(metric, tier_name)] = watermark_ms;
 }
 
+/**
+ * @brief Watermark Key.
+ * @param[in] metric Input parameter.
+ * @param[in] tier_name Name of the tier.
+ * @return Return value.
+ */
 std::string DownsamplingPipeline::watermarkKey(
     const std::string& metric,
     const std::string& tier_name)
@@ -244,6 +316,11 @@ std::string DownsamplingPipeline::watermarkKey(
     return metric + ":" + tier_name;
 }
 
+/**
+ * @brief Now Ms.
+ * @return Return value.
+ * @details Calls: system_clock::now(), time_since_epoch(), count().
+ */
 int64_t DownsamplingPipeline::nowMs() {
     using namespace std::chrono;
     return duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count();

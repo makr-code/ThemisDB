@@ -27,6 +27,13 @@ ChainOfThoughtBuilder::ChainOfThoughtBuilder(const CoTConfig& config)
 // Step management
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Add Step.
+ * @param[in] content Input parameter.
+ * @param[in] label Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), std::to_string(), size(), push_back(), std::move().
+ */
 ChainOfThoughtBuilder& ChainOfThoughtBuilder::addStep(
     const std::string& content,
     const std::string& label) {
@@ -44,17 +51,33 @@ ChainOfThoughtBuilder& ChainOfThoughtBuilder::addStep(
     return *this;
 }
 
+/**
+ * @brief Add Reasoning Step.
+ * @param[in] reasoning Input parameter.
+ * @return Return value.
+ * @details Calls: addStep().
+ */
 ChainOfThoughtBuilder& ChainOfThoughtBuilder::addReasoningStep(
     const std::string& reasoning) {
     return addStep(reasoning, "Reasoning");
 }
 
+/**
+ * @brief Set Final Answer.
+ * @param[in] answer Input parameter.
+ * @return Return value.
+ * @details Implements setFinalAnswer without additional internal calls.
+ */
 ChainOfThoughtBuilder& ChainOfThoughtBuilder::setFinalAnswer(
     const std::string& answer) {
     final_answer_ = answer;
     return *this;
 }
 
+/**
+ * @brief Clear.
+ * @details Implements clear without additional internal calls.
+ */
 void ChainOfThoughtBuilder::clear() {
     steps_.clear();
     final_answer_.clear();
@@ -124,11 +147,20 @@ std::string ChainOfThoughtBuilder::build() const {
 // Tracer management
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Attach Tracer.
+ * @param[in] tracer Input parameter.
+ * @details Calls: std::move().
+ */
 void ChainOfThoughtBuilder::attachTracer(
     std::shared_ptr<IChainOfThoughtTracer> tracer) {
     tracer_ = std::move(tracer);
 }
 
+/**
+ * @brief Detach Tracer.
+ * @details Calls: reset().
+ */
 void ChainOfThoughtBuilder::detachTracer() {
     tracer_.reset();
 }
@@ -141,6 +173,12 @@ bool ChainOfThoughtBuilder::hasTracer() const noexcept {
 // Static factory helpers
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Build Zero Shot.
+ * @param[in] question Input parameter.
+ * @return Return value.
+ * @details Implements buildZeroShot without additional internal calls.
+ */
 std::string ChainOfThoughtBuilder::buildZeroShot(const std::string& question) {
     return question + "\n\nLet's think step by step.";
 }
@@ -162,6 +200,13 @@ std::string ChainOfThoughtBuilder::buildFewShot(
     return out.str();
 }
 
+/**
+ * @brief Wrap With Co T.
+ * @param[in] prompt Input parameter.
+ * @param[in] explicit_steps Input parameter.
+ * @return Return value.
+ * @details Calls: str().
+ */
 std::string ChainOfThoughtBuilder::wrapWithCoT(const std::string& prompt,
                                                bool explicit_steps) {
     std::ostringstream out = {};

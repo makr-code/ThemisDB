@@ -23,22 +23,46 @@ namespace prompt_engineering {
 // Repair helpers
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Strip Markdown Fences.
+ * @param[in] text Input parameter.
+ * @return Return value.
+ * @details Implements stripMarkdownFences without additional internal calls.
+ */
 std::string StructuredOutputEnforcer::stripMarkdownFences(const std::string& text) {
     // Delegate to centralized implementation from markdown_utils.h (Phase 1 consolidation)
     return themis::prompt_engineering::stripMarkdownFences(text);
 }
 
+/**
+ * @brief Remove Trailing Commas.
+ * @param[in] text Input parameter.
+ * @return Return value.
+ * @details Calls: trailing_comma(), std::regex_replace().
+ */
 std::string StructuredOutputEnforcer::removeTrailingCommas(const std::string& text) {
     // Replace ,<optional whitespace>} or ,<optional whitespace>]
     static const std::regex trailing_comma(R"(,(\s*[}\]]))", std::regex::ECMAScript);
     return std::regex_replace(text, trailing_comma, "$1");
 }
 
+/**
+ * @brief Strip Line Comments.
+ * @param[in] text Input parameter.
+ * @return Return value.
+ * @details Calls: line_comment(), std::regex_replace().
+ */
 std::string StructuredOutputEnforcer::stripLineComments(const std::string& text) {
     static const std::regex line_comment(R"(//[^\n]*)", std::regex::ECMAScript);
     return std::regex_replace(text, line_comment, "");
 }
 
+/**
+ * @brief Repair Json.
+ * @param[in] text Input parameter.
+ * @return Return value.
+ * @details Calls: stripMarkdownFences(), stripLineComments(), removeTrailingCommas(), find_first_not_of(), find_last_not_of(), substr().
+ */
 std::string StructuredOutputEnforcer::repairJson(const std::string& text) {
     std::string result = stripMarkdownFences(text);
     result = stripLineComments(result);
@@ -57,6 +81,13 @@ std::string StructuredOutputEnforcer::repairJson(const std::string& text) {
 // JSON structural validator
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Check Json Structure.
+ * @param[in] text Input parameter.
+ * @param[in,out] errors Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), push_back(), front(), size(), std::to_string().
+ */
 bool StructuredOutputEnforcer::checkJsonStructure(const std::string& text,
                                                    std::vector<std::string>& errors) {
     if (text.empty()) {
@@ -126,9 +157,13 @@ bool StructuredOutputEnforcer::checkJsonStructure(const std::string& text,
 // Schema parsing helpers
 // ─────────────────────────────────────────────────────────────────────────────
 
-/// Extract string values from a JSON array at top-level key @p key.
-/// E.g., for key="required", extracts ["name","age"] from
-///   {"required":["name","age"],"properties":{…}}
+/**
+ * @brief Extract String Array.
+ * @param[in] json Input parameter.
+ * @param[in] key Input parameter.
+ * @return Return value.
+ * @details Calls: find(), size(), substr(), str_re(), std::sregex_iterator(), begin(), end(), push_back().
+ */
 std::vector<std::string> StructuredOutputEnforcer::extractStringArray(
     const std::string& json, const std::string& key) {
 
@@ -166,7 +201,12 @@ std::vector<std::string> StructuredOutputEnforcer::extractStringArray(
     return result;
 }
 
-/// Extract property names from the "properties": { … } block in a schema.
+/**
+ * @brief Extract Property Names.
+ * @param[in] schema Input parameter.
+ * @return Return value.
+ * @details Calls: find(), size(), substr(), std::replace(), begin(), end(), push_back(), clear().
+ */
 std::vector<std::string> StructuredOutputEnforcer::extractPropertyNames(
     const std::string& schema) {
 
@@ -250,7 +290,12 @@ std::vector<std::string> StructuredOutputEnforcer::extractPropertyNames(
     return names;
 }
 
-/// Extract all top-level key names from a flat JSON object string.
+/**
+ * @brief Extract Top Level Keys.
+ * @param[in] json Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), front(), size(), push_back(), clear().
+ */
 std::vector<std::string> StructuredOutputEnforcer::extractTopLevelKeys(
     const std::string& json) {
 
@@ -306,6 +351,14 @@ std::vector<std::string> StructuredOutputEnforcer::extractTopLevelKeys(
 // JSON schema validator
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Validate Json Schema.
+ * @param[in] output Input parameter.
+ * @param[in] schema Input parameter.
+ * @param[in,out] errors Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: checkJsonStructure(), extractStringArray(), extractTopLevelKeys(), std::find(), begin(), end(), push_back(), empty().
+ */
 bool StructuredOutputEnforcer::validateJsonSchema(
     const std::string&         output,
     const JsonSchemaConstraint& schema,
@@ -350,6 +403,14 @@ bool StructuredOutputEnforcer::validateJsonSchema(
 // Regex validator
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Validate Regex.
+ * @param[in] output Input parameter.
+ * @param[in] grammar Input parameter.
+ * @param[in,out] errors Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), re(), std::regex_match(), std::regex_search(), push_back(), std::string(), what().
+ */
 bool StructuredOutputEnforcer::validateRegex(
     const std::string&             output,
     const RegexGrammarConstraint&  grammar,
@@ -374,9 +435,14 @@ bool StructuredOutputEnforcer::validateRegex(
     return true;
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// IStructuredOutputEnforcer: validate()
-// ─────────────────────────────────────────────────────────────────────────────
+/**
+ * @brief ───────────────────────────────────────────────────────────────────────────── IStructuredOutputEnforcer: validate() ─────────────────────────────────────────────────────────────────────────────
+ * @param[in] output Input parameter.
+ * @param[in] config Input parameter.
+ * @param[in,out] errors Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: validateJsonSchema(), validateRegex().
+ */
 
 bool StructuredOutputEnforcer::validate(const std::string&            output,
                                          const StructuredOutputConfig& config,
@@ -392,9 +458,13 @@ bool StructuredOutputEnforcer::validate(const std::string&            output,
     return true;  // unreachable
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// IStructuredOutputEnforcer: enforce()
-// ─────────────────────────────────────────────────────────────────────────────
+/**
+ * @brief ───────────────────────────────────────────────────────────────────────────── IStructuredOutputEnforcer: enforce() ─────────────────────────────────────────────────────────────────────────────
+ * @param[in] raw_output Input parameter.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::steady_clock::now(), std::max(), stripMarkdownFences(), clear(), repairJson(), validate(), count().
+ */
 
 StructuredOutputResult StructuredOutputEnforcer::enforce(
     const std::string&            raw_output,

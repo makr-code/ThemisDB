@@ -41,7 +41,12 @@ namespace server {
 
 namespace detail {
 
-// Encode a variable-length integer (MQTT remaining-length encoding).
+/**
+ * @brief Encode a variable-length integer (MQTT remaining-length encoding).
+ * @param[in] value Input parameter.
+ * @return Return value.
+ * @details Calls: push_back().
+ */
 static std::vector<uint8_t> encodeVarLen(uint32_t value) {
     std::vector<uint8_t> out;
     do {
@@ -71,13 +76,23 @@ static std::pair<uint32_t, size_t> decodeVarLen(const uint8_t* data, size_t len)
     return {0, 0}; // incomplete
 }
 
-// Write a 2-byte big-endian integer.
+/**
+ * @brief Write a 2-byte big-endian integer.
+ * @param[in,out] buf Input/output parameter.
+ * @param[in] val Input parameter.
+ * @details Calls: push_back().
+ */
 static void write16(std::vector<uint8_t>& buf, uint16_t val) {
     buf.push_back(static_cast<uint8_t>(val >> 8));
     buf.push_back(static_cast<uint8_t>(val & 0xFF));
 }
 
-// Write an MQTT UTF-8 string (2-byte length prefix + data).
+/**
+ * @brief Write an MQTT UTF-8 string (2-byte length prefix + data).
+ * @param[in,out] buf Input/output parameter.
+ * @param[in] s Input parameter.
+ * @details Calls: write16(), size(), insert(), end(), begin().
+ */
 static void writeStr(std::vector<uint8_t>& buf, const std::string& s) {
     write16(buf, static_cast<uint16_t>(s.size()));
     buf.insert(buf.end(), s.begin(), s.end());
@@ -93,7 +108,13 @@ static std::pair<std::string, size_t> readStr(const uint8_t* data, size_t len) {
             size_t{2} + slen};
 }
 
-// ── Packet builders ────────────────────────────────────────────────────────
+/**
+ * @brief ── Packet builders ────────────────────────────────────────────────────────
+ * @param[in] cfg Input parameter.
+ * @param[in] client_id Identifier of the client.
+ * @return Return value.
+ * @details Calls: writeStr(), push_back(), empty(), write16(), encodeVarLen(), size(), insert(), end().
+ */
 
 static std::vector<uint8_t> buildConnect(const MqttClientConfig& cfg,
                                          const std::string& client_id) {
@@ -138,6 +159,16 @@ static std::vector<uint8_t> buildConnect(const MqttClientConfig& cfg,
     return pkt;
 }
 
+/**
+ * @brief Build Publish.
+ * @param[in] topic Input parameter.
+ * @param[in] payload Input parameter.
+ * @param[in] qos Input parameter.
+ * @param[in] retain Input parameter.
+ * @param[in] packet_id Identifier of the packet.
+ * @return Return value.
+ * @details Calls: writeStr(), write16(), insert(), end(), begin(), push_back(), encodeVarLen(), size().
+ */
 static std::vector<uint8_t> buildPublish(const std::string& topic,
                                          const std::string& payload,
                                          uint8_t qos, bool retain,
@@ -180,6 +211,13 @@ static std::vector<uint8_t> buildSubscribe(
     return pkt;
 }
 
+/**
+ * @brief Build Unsubscribe.
+ * @param[in] packet_id Identifier of the packet.
+ * @param[in] topics Input parameter.
+ * @return Return value.
+ * @details Calls: write16(), writeStr(), push_back(), encodeVarLen(), size(), insert(), end(), begin().
+ */
 static std::vector<uint8_t> buildUnsubscribe(
         uint16_t packet_id,
         const std::vector<std::string>& topics) {
@@ -196,8 +234,24 @@ static std::vector<uint8_t> buildUnsubscribe(
     return pkt;
 }
 
+/**
+ * @brief Build Ping Req.
+ * @return Return value.
+ * @details Implements buildPingReq without additional internal calls.
+ */
 static std::vector<uint8_t> buildPingReq()    { return {0xC0, 0x00}; }
+/**
+ * @brief Build Disconnect.
+ * @return Return value.
+ * @details Implements buildDisconnect without additional internal calls.
+ */
 static std::vector<uint8_t> buildDisconnect() { return {0xE0, 0x00}; }
+/**
+ * @brief Build Pub Ack.
+ * @param[in] id Input parameter.
+ * @return Return value.
+ * @details Implements buildPubAck without additional internal calls.
+ */
 static std::vector<uint8_t> buildPubAck(uint16_t id) {
     return {0x40, 0x02,
             static_cast<uint8_t>(id >> 8),
@@ -229,7 +283,11 @@ struct MqttClientService::AsioImpl {
 #endif
 };
 
-// ── MqttClientService ─────────────────────────────────────────────────────────
+/**
+ * @brief ── MqttClientService ─────────────────────────────────────────────────────────
+ * @return Return value.
+ * @details Calls: gen(), rd(), dist(), std::setw(), std::setfill(), str().
+ */
 
 static std::string generateClientIdImpl() {
     std::random_device rd = {};
@@ -254,6 +312,10 @@ MqttClientService::~MqttClientService() {
     stop();
 }
 
+/**
+ * @brief Start.
+ * @details Calls: compare_exchange_strong(), asio::post(), doConnect(), std::thread(), ioThreadEntry().
+ */
 void MqttClientService::start() {
     bool expected = false;
     if (!running_.compare_exchange_strong(expected, true)) {
@@ -264,6 +326,10 @@ void MqttClientService::start() {
     io_thread_ = std::thread([this] { ioThreadEntry(); });
 }
 
+/**
+ * @brief Stop.
+ * @details Calls: compare_exchange_strong(), asio::post(), cancel(), load(), detail::buildDisconnect(), lowest_layer(), set_option(), asio::write().
+ */
 void MqttClientService::stop() {
     bool expected = true;
     if (!running_.compare_exchange_strong(expected, false)) {
@@ -332,6 +398,15 @@ bool MqttClientService::isConnected() const noexcept {
     return stats_.is_connected.load();
 }
 
+/**
+ * @brief Publish.
+ * @param[in] topic Input parameter.
+ * @param[in] payload Input parameter.
+ * @param[in] qos Input parameter.
+ * @param[in] retain Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: load(), lk(), detail::buildPublish(), enqueuePacket(), std::move().
+ */
 bool MqttClientService::publish(const std::string& topic,
                                 const std::string& payload,
                                 uint8_t qos, bool retain) {
@@ -355,6 +430,13 @@ bool MqttClientService::publish(const std::string& topic,
     return true;
 }
 
+/**
+ * @brief Subscribe.
+ * @param[in] topic_filter Input parameter.
+ * @param[in] qos Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: asio::post(), load(), lk(), detail::buildSubscribe(), enqueuePacket(), std::move().
+ */
 bool MqttClientService::subscribe(const std::string& topic_filter, uint8_t qos) {
     asio::post(asio_->io_ctx, [this, topic_filter, qos] {
         subscriptions_[topic_filter] = qos;
@@ -376,6 +458,12 @@ bool MqttClientService::subscribe(const std::string& topic_filter, uint8_t qos) 
     return true;
 }
 
+/**
+ * @brief Unsubscribe.
+ * @param[in] topic_filter Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: asio::post(), erase(), load(), lk(), detail::buildUnsubscribe(), enqueuePacket(), std::move().
+ */
 bool MqttClientService::unsubscribe(const std::string& topic_filter) {
     asio::post(asio_->io_ctx, [this, topic_filter] {
         subscriptions_.erase(topic_filter);
@@ -395,12 +483,22 @@ bool MqttClientService::unsubscribe(const std::string& topic_filter) {
     return true;
 }
 
+/**
+ * @brief Set Message Handler.
+ * @param[in] handler Input parameter.
+ * @details Calls: lk(), std::move().
+ */
 void MqttClientService::setMessageHandler(
         std::shared_ptr<IMqttMessageHandler> handler) {
     std::lock_guard<std::mutex> lk(handler_mutex_);
     handler_ = std::move(handler);
 }
 
+/**
+ * @brief Register With Service Registry.
+ * @param[in] service_name Name of the service.
+ * @details Calls: plugins::rpc::RPCServiceRegistry::registerService().
+ */
 void MqttClientService::registerWithServiceRegistry(
         const std::string& service_name) {
     plugins::rpc::RPCServiceRegistry::registerService(service_name,
@@ -408,6 +506,11 @@ void MqttClientService::registerWithServiceRegistry(
     registered_service_name_ = service_name;
 }
 
+/**
+ * @brief Unregister From Service Registry.
+ * @param[in] service_name Name of the service.
+ * @details Calls: plugins::rpc::RPCServiceRegistry::unregisterService(), clear().
+ */
 void MqttClientService::unregisterFromServiceRegistry(
         const std::string& service_name) {
     plugins::rpc::RPCServiceRegistry::unregisterService(service_name);
@@ -415,12 +518,19 @@ void MqttClientService::unregisterFromServiceRegistry(
         registered_service_name_.clear();
 }
 
-// ── Internal ──────────────────────────────────────────────────────────────────
+/**
+ * @brief ── Internal ──────────────────────────────────────────────────────────────────
+ * @details Calls: run().
+ */
 
 void MqttClientService::ioThreadEntry() {
     asio_->io_ctx.run();
 }
 
+/**
+ * @brief Do Connect.
+ * @details Calls: load(), lowest_layer(), close(), reset(), clear(), resolver(), resolve(), std::to_string().
+ */
 void MqttClientService::doConnect() {
     if (!running_.load()) {
       return;
@@ -476,10 +586,8 @@ void MqttClientService::doConnect() {
 }
 
 /**
- * @brief Send MQTT CONNECT packet to the broker.
- *
- * W1-FIX(no_timeout): a 30-second send timeout is applied to the socket
- * before the synchronous write so the call cannot block indefinitely.
+ * @brief Send Mqtt Connect.
+ * @details Calls: detail::buildConnect(), lowest_layer(), set_option(), asio::write(), asio::buffer(), scheduleReconnect(), size(), doRead().
  */
 void MqttClientService::sendMqttConnect() {
     auto pkt = detail::buildConnect(config_, effective_client_id_);
@@ -503,6 +611,10 @@ void MqttClientService::sendMqttConnect() {
     doRead();
 }
 
+/**
+ * @brief Do Read.
+ * @details Calls: load(), async_read_some(), asio::buffer(), handleDisconnect(), message(), insert(), end(), begin().
+ */
 void MqttClientService::doRead() {
     if (!running_.load()) {
       return;
@@ -537,6 +649,10 @@ void MqttClientService::doRead() {
         });
 }
 
+/**
+ * @brief Process Buffer.
+ * @details Calls: size(), detail::decodeVarLen(), data(), onConnAck(), detail::readStr(), msg_payload(), onPublishReceived(), enqueuePacket().
+ */
 void MqttClientService::processBuffer() {
     while (packet_buf_.size() >= 2) {
         // Fixed header: type byte
@@ -600,6 +716,12 @@ void MqttClientService::processBuffer() {
     }
 }
 
+/**
+ * @brief On Conn Ack.
+ * @param[in] uint8_t Input parameter.
+ * @param[in] return_code Input parameter.
+ * @details Calls: handleDisconnect(), std::to_string(), sendSubscriptions(), startKeepalive(), lk(), onConnected(), doWrite().
+ */
 void MqttClientService::onConnAck(uint8_t /*flags*/, uint8_t return_code) {
     if (return_code != 0) {
         handleDisconnect("CONNACK rejected (code=" + std::to_string(return_code) + ")");
@@ -625,6 +747,13 @@ void MqttClientService::onConnAck(uint8_t /*flags*/, uint8_t return_code) {
     doWrite(); // Flush any queued publishes
 }
 
+/**
+ * @brief On Publish Received.
+ * @param[in] topic Input parameter.
+ * @param[in] payload Input parameter.
+ * @param[in] qos Input parameter.
+ * @details Calls: lk(), onMessage().
+ */
 void MqttClientService::onPublishReceived(const std::string& topic,
                                           const std::string& payload,
                                           uint8_t qos) {
@@ -639,6 +768,11 @@ void MqttClientService::onPublishReceived(const std::string& topic,
     }
 }
 
+/**
+ * @brief Enqueue Packet.
+ * @param[in] packet Input parameter.
+ * @details Calls: lk(), size(), push_back(), std::move(), asio::post(), doWrite().
+ */
 void MqttClientService::enqueuePacket(std::vector<uint8_t> packet) {
     {
         std::lock_guard<std::mutex> lk(outbound_mutex_);
@@ -651,6 +785,10 @@ void MqttClientService::enqueuePacket(std::vector<uint8_t> packet) {
     asio::post(asio_->io_ctx, [this] { doWrite(); });
 }
 
+/**
+ * @brief Do Write.
+ * @details Calls: lk(), empty(), std::move(), front(), pop_front(), asio::async_write(), asio::buffer(), handleDisconnect().
+ */
 void MqttClientService::doWrite() {
     if (writing_) {
       return;
@@ -691,6 +829,10 @@ void MqttClientService::doWrite() {
         });
 }
 
+/**
+ * @brief Send Subscriptions.
+ * @details Calls: empty(), topics(), begin(), end(), lk(), detail::buildSubscribe(), enqueuePacket(), std::move().
+ */
 void MqttClientService::sendSubscriptions() {
     if (subscriptions_.empty()) {
       return;
@@ -710,6 +852,10 @@ void MqttClientService::sendSubscriptions() {
     ++stats_.subscribe_count;
 }
 
+/**
+ * @brief Start Keepalive.
+ * @details Calls: expires_after(), std::chrono::seconds(), async_wait(), load(), enqueuePacket(), detail::buildPingReq().
+ */
 void MqttClientService::startKeepalive() {
     if (config_.keepalive_seconds == 0) {
       return;
@@ -726,6 +872,10 @@ void MqttClientService::startKeepalive() {
     });
 }
 
+/**
+ * @brief Schedule Reconnect.
+ * @details Calls: load(), std::pow(), std::min(), expires_after(), std::chrono::milliseconds(), async_wait(), doConnect().
+ */
 void MqttClientService::scheduleReconnect() {
     if (!running_.load()) {
       return;
@@ -758,6 +908,11 @@ void MqttClientService::scheduleReconnect() {
     });
 }
 
+/**
+ * @brief Handle Disconnect.
+ * @param[in] reason Input parameter.
+ * @details Calls: exchange(), cancel(), lowest_layer(), close(), reset(), lk(), onDisconnected(), load().
+ */
 void MqttClientService::handleDisconnect(const std::string& reason) {
     bool was_connected = stats_.is_connected.exchange(false);
     asio_->keepalive_timer.cancel();
@@ -790,12 +945,20 @@ void MqttClientService::handleDisconnect(const std::string& reason) {
     }
 }
 
+/**
+ * @brief Generate Client Id.
+ * @return Return value.
+ * @details Calls: generateClientIdImpl().
+ */
 std::string MqttClientService::generateClientId() {
     return generateClientIdImpl();
 }
 
 #ifdef THEMIS_ENABLE_MQTT_TLS
-// ── TLS Handshake ─────────────────────────────────────────────────────────────
+/**
+ * @brief ── TLS Handshake ─────────────────────────────────────────────────────────────
+ * @details Calls: THEMIS_WARN(), scheduleReconnect(), set_options(), empty(), load_verify_file(), set_verify_mode(), spdlog::warn(), use_certificate_file().
+ */
 
 void MqttClientService::doHandshake() {
     // Create a fresh SSL context for this connection attempt.
@@ -893,15 +1056,30 @@ MqttCDCTransport::MqttCDCTransport(MqttClientService& service)
     , topic_prefix_(service.getConfig().cdc_topic_prefix)
     , qos_(service.getConfig().cdc_qos) {}
 
+/**
+ * @brief Start.
+ * @return True when the operation succeeds.
+ * @details Implements start without additional internal calls.
+ */
 bool MqttCDCTransport::start() {
     service_.start();
     return true;
 }
 
+/**
+ * @brief Stop.
+ * @details Implements stop without additional internal calls.
+ */
 void MqttCDCTransport::stop() {
     service_.stop();
 }
 
+/**
+ * @brief Publish.
+ * @param[in] event Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: toJson(), dump(), topicForEvent(), THEMIS_WARN().
+ */
 bool MqttCDCTransport::publish(const Changefeed::ChangeEvent& event) {
     try {
         nlohmann::json j = event.toJson();
@@ -936,10 +1114,20 @@ std::string MqttCDCTransport::topicForEvent(
     return topic_prefix_ + collection + "/" + type_str;
 }
 
+/**
+ * @brief Set Topic Prefix.
+ * @param[in] prefix Input parameter.
+ * @details Implements setTopicPrefix without additional internal calls.
+ */
 void MqttCDCTransport::setTopicPrefix(const std::string& prefix) {
     topic_prefix_ = prefix;
 }
 
+/**
+ * @brief Set Qos.
+ * @param[in] qos Input parameter.
+ * @details Implements setQos without additional internal calls.
+ */
 void MqttCDCTransport::setQos(uint8_t qos) {
     qos_ = qos;
 }

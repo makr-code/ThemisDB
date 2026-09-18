@@ -26,18 +26,6 @@ namespace rocksdb {
 
 namespace themis {
 
-/**
- * @brief LLM Interaction Store - persists and retrieves LLM conversation/interaction data
- * 
- * Features:
- * - Chain-of-Thought (CoT) storage: structured reasoning steps
- * - Prompt template versioning
- * - Token count and latency tracking
- * - Metadata (model version, feedback, etc.)
- * 
- * Storage: RocksDB with JSON serialization
- * Key format: "llm_interaction:{interaction_id}"
- */
 class LLMInteractionStore {
 public:
     struct Interaction {
@@ -53,7 +41,16 @@ public:
         nlohmann::json metadata;               // Additional fields (feedback, user_id, etc.)
 
         // Serialization
+        /**
+         * @brief To Json.
+         * @return Return value.
+         */
         nlohmann::json toJson() const;
+        /**
+         * @brief From Json.
+         * @param[in] j Input parameter.
+         * @return Return value.
+         */
         static Interaction fromJson(const nlohmann::json& j);
     };
 
@@ -71,65 +68,60 @@ public:
         size_t total_size_bytes = 0;
     };
 
-    /**
-     * @brief Construct LLMInteractionStore
-     * @param db RocksDB TransactionDB instance (not owned)
-     * @param cf Optional column family handle (nullptr = default CF)
-     */
     explicit LLMInteractionStore(rocksdb::TransactionDB* db, 
                                    rocksdb::ColumnFamilyHandle* cf = nullptr);
 
     ~LLMInteractionStore() = default;
 
     /**
-     * @brief Store a new interaction
-     * @param interaction Interaction to store (id will be generated if empty)
-     * @return Stored interaction with generated ID
+     * @brief Create Interaction.
+     * @param[in] interaction Input parameter.
+     * @return Return value.
      */
     Interaction createInteraction(Interaction interaction);
 
     /**
-     * @brief Retrieve interaction by ID
-     * @param id Interaction ID
-     * @return Interaction if found, nullopt otherwise
+     * @brief Get Interaction.
+     * @param[in] id Input parameter.
+     * @return Return value.
      */
     std::optional<Interaction> getInteraction(const std::string& id) const;
 
     /**
-     * @brief List interactions with default options.
-     * @return Vector of interactions.
+     * @brief List Interactions.
+     * @return Return value.
      */
     std::vector<Interaction> listInteractions() const;
     /**
-     * @brief List interactions with optional filters.
-     * @param options List options (pagination, filters).
-     * @return Vector of interactions.
+     * @brief List Interactions.
+     * @param[in] options Input parameter.
+     * @return Return value.
      */
     std::vector<Interaction> listInteractions(const ListOptions& options) const;
 
     /**
-     * @brief Get store statistics
-     * @return Stats struct
+     * @brief Get Stats.
+     * @return Return value.
      */
     Stats getStats() const;
 
     /**
-     * @brief Delete interaction by ID
-     * @param id Interaction ID
-     * @return true if deleted, false if not found
+     * @brief Delete Interaction.
+     * @param[in] id Input parameter.
+     * @return True when the operation succeeds.
      */
     bool deleteInteraction(const std::string& id);
 
     /**
-     * @brief Clear all interactions
+     * @brief Clear.
      */
     void clear();
 
     /**
-     * @brief Update interaction metadata (e.g., for feedback or other extensions)
-     * @param id Interaction ID
-     * @param metadata_updates JSON object with metadata updates
-     * @return true if updated, false if interaction not found
+     * @brief Update Metadata.
+     * @param[in] id Input parameter.
+     * @param[in] metadata_updates Input parameter.
+     * @return True when the operation succeeds.
      */
     bool updateMetadata(const std::string& id, const nlohmann::json& metadata_updates);
 
@@ -139,7 +131,16 @@ private:
 
     static constexpr const char* KEY_PREFIX = "llm_interaction:";
     
+    /**
+     * @brief Make Key.
+     * @param[in] id Input parameter.
+     * @return Return value.
+     */
     std::string makeKey(const std::string& id) const;
+    /**
+     * @brief Generate Id.
+     * @return Return value.
+     */
     std::string generateId() const;
 };
 

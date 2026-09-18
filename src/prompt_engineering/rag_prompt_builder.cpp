@@ -27,6 +27,11 @@ const RAGPromptConfig& RAGPromptBuilder::getConfig() const {
     return config_;
 }
 
+/**
+ * @brief Set Config.
+ * @param[in] config Input parameter.
+ * @details Implements setConfig without additional internal calls.
+ */
 void RAGPromptBuilder::setConfig(const RAGPromptConfig& config) {
     config_ = config;
 }
@@ -109,6 +114,12 @@ std::string RAGPromptBuilder::buildContextSection(
         if (i > 0) {
             out << config_.chunk_separator;
         }
+        /**
+         * @brief Format Chunk.
+         * @param[in] chunks Input parameter.
+         * @param[in] i Input parameter.
+         * @return Return value.
+         */
         out << formatChunk(chunks[i], i);
     }
 

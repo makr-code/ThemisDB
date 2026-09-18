@@ -15,6 +15,11 @@
 namespace themis {
 namespace server {
 
+/**
+ * @brief Build Import Wizard Html.
+ * @return Return value.
+ * @details Calls: reserve().
+ */
 std::string buildImportWizardHtml() {
     // Inline HTML+CSS+JS import wizard.  The wizard is a self-contained
     // single-page application that drives the existing REST API endpoints:

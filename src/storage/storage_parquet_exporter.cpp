@@ -64,13 +64,24 @@ static constexpr int32_t PQ_ENCODING_PLAIN    = 0;
 static constexpr int32_t PQ_CODEC_UNCOMPRESSED = 0;
 static constexpr int32_t PQ_PAGE_DATA         = 0;
 
-// ── Big-endian helpers (Thrift binary protocol) ──────────────────────────────
+/**
+ * @brief ── Big-endian helpers (Thrift binary protocol) ──────────────────────────────
+ * @param[in,out] buf Input/output parameter.
+ * @param[in] v Input parameter.
+ * @details Calls: push_back().
+ */
 
 inline void writeU16(std::vector<uint8_t>& buf, uint16_t v) {
     buf.push_back(static_cast<uint8_t>(v >> 8));
     buf.push_back(static_cast<uint8_t>(v & 0xFF));
 }
 
+/**
+ * @brief Write I32.
+ * @param[in,out] buf Input/output parameter.
+ * @param[in] v Input parameter.
+ * @details Calls: push_back().
+ */
 inline void writeI32(std::vector<uint8_t>& buf, int32_t v) {
     uint32_t u = static_cast<uint32_t>(v);
     buf.push_back(static_cast<uint8_t>(u >> 24));
@@ -79,6 +90,12 @@ inline void writeI32(std::vector<uint8_t>& buf, int32_t v) {
     buf.push_back(static_cast<uint8_t>(u & 0xFF));
 }
 
+/**
+ * @brief Write I64.
+ * @param[in,out] buf Input/output parameter.
+ * @param[in] v Input parameter.
+ * @details Calls: push_back().
+ */
 inline void writeI64(std::vector<uint8_t>& buf, int64_t v) {
     uint64_t u = static_cast<uint64_t>(v);
     for (int s = 56; s >= 0; s -= 8) {
@@ -86,26 +103,56 @@ inline void writeI64(std::vector<uint8_t>& buf, int64_t v) {
     }
 }
 
+/**
+ * @brief Write Thrift Str.
+ * @param[in,out] buf Input/output parameter.
+ * @param[in] s Input parameter.
+ * @details Calls: writeI32(), size(), insert(), end(), begin().
+ */
 inline void writeThriftStr(std::vector<uint8_t>& buf, const std::string& s) {
     writeI32(buf, static_cast<int32_t>(s.size()));
     buf.insert(buf.end(), s.begin(), s.end());
 }
 
+/**
+ * @brief Write Field.
+ * @param[in,out] buf Input/output parameter.
+ * @param[in] type Input parameter.
+ * @param[in] id Input parameter.
+ * @details Calls: push_back(), writeU16().
+ */
 inline void writeField(std::vector<uint8_t>& buf, uint8_t type, int16_t id) {
     buf.push_back(type);
     writeU16(buf, static_cast<uint16_t>(id));
 }
 
+/**
+ * @brief Write Stop.
+ * @param[in,out] buf Input/output parameter.
+ * @details Calls: push_back().
+ */
 inline void writeStop(std::vector<uint8_t>& buf) {
     buf.push_back(T_STOP);
 }
 
+/**
+ * @brief Write List Hdr.
+ * @param[in,out] buf Input/output parameter.
+ * @param[in] elem Input parameter.
+ * @param[in] cnt Input parameter.
+ * @details Calls: push_back(), writeI32().
+ */
 inline void writeListHdr(std::vector<uint8_t>& buf, uint8_t elem, int32_t cnt) {
     buf.push_back(elem);
     writeI32(buf, cnt);
 }
 
-// ── Map ColumnType → Parquet type constant ───────────────────────────────────
+/**
+ * @brief ── Map ColumnType → Parquet type constant ───────────────────────────────────
+ * @param[in] t Input parameter.
+ * @return Return value.
+ * @details Implements columnTypeToPqType without additional internal calls.
+ */
 
 int32_t columnTypeToPqType(ColumnType t) {
     switch (t) {
@@ -137,7 +184,12 @@ static void encodeSchemaElem(std::vector<uint8_t>& buf,
     writeStop(buf);
 }
 
-// ── DataPageHeader ────────────────────────────────────────────────────────────
+/**
+ * @brief ── DataPageHeader ────────────────────────────────────────────────────────────
+ * @param[in,out] buf Input/output parameter.
+ * @param[in] num_values Input parameter.
+ * @details Calls: writeField(), writeI32(), writeStop().
+ */
 
 static void encodeDataPageHdr(std::vector<uint8_t>& buf, int32_t num_values) {
     writeField(buf, T_I32, 1); writeI32(buf, num_values);
@@ -147,7 +199,14 @@ static void encodeDataPageHdr(std::vector<uint8_t>& buf, int32_t num_values) {
     writeStop(buf);
 }
 
-// ── PageHeader ────────────────────────────────────────────────────────────────
+/**
+ * @brief ── PageHeader ────────────────────────────────────────────────────────────────
+ * @param[in,out] buf Input/output parameter.
+ * @param[in] unc_size Input parameter.
+ * @param[in] cmp_size Input parameter.
+ * @param[in] num_values Input parameter.
+ * @details Calls: writeField(), writeI32(), encodeDataPageHdr(), writeStop().
+ */
 
 static void encodePageHdr(std::vector<uint8_t>& buf,
                            int32_t unc_size, int32_t cmp_size,
@@ -160,7 +219,16 @@ static void encodePageHdr(std::vector<uint8_t>& buf,
     writeStop(buf);
 }
 
-// ── ColumnMetaData ────────────────────────────────────────────────────────────
+/**
+ * @brief ── ColumnMetaData ────────────────────────────────────────────────────────────
+ * @param[in,out] buf Input/output parameter.
+ * @param[in] col_name Name of the col.
+ * @param[in] pq_type Input parameter.
+ * @param[in] num_values Input parameter.
+ * @param[in] total_size Input parameter.
+ * @param[in] data_page_offset Input parameter.
+ * @details Calls: writeField(), writeI32(), writeListHdr(), writeThriftStr(), writeI64(), writeStop().
+ */
 
 static void encodeColMeta(std::vector<uint8_t>& buf,
                            const std::string& col_name,
@@ -194,6 +262,12 @@ struct ColChunkInfo {
     int64_t     data_page_offset;
 };
 
+/**
+ * @brief Encode Col Chunk.
+ * @param[in,out] buf Input/output parameter.
+ * @param[in] c Input parameter.
+ * @details Calls: writeField(), writeI64(), encodeColMeta(), writeStop().
+ */
 static void encodeColChunk(std::vector<uint8_t>& buf, const ColChunkInfo& c) {
     writeField(buf, T_I64, 2); writeI64(buf, c.file_offset);
     writeField(buf, 12 /* T_STRUCT */, 3);
@@ -202,7 +276,14 @@ static void encodeColChunk(std::vector<uint8_t>& buf, const ColChunkInfo& c) {
     writeStop(buf);
 }
 
-// ── RowGroup ──────────────────────────────────────────────────────────────────
+/**
+ * @brief ── RowGroup ──────────────────────────────────────────────────────────────────
+ * @param[in,out] buf Input/output parameter.
+ * @param[in] chunks Input parameter.
+ * @param[in] total_bytes Input parameter.
+ * @param[in] num_rows Input parameter.
+ * @details Calls: writeField(), writeListHdr(), size(), encodeColChunk(), writeI64(), writeStop().
+ */
 
 static void encodeRowGroup(std::vector<uint8_t>& buf,
                            const std::vector<ColChunkInfo>& chunks,
@@ -215,7 +296,15 @@ static void encodeRowGroup(std::vector<uint8_t>& buf,
     writeStop(buf);
 }
 
-// ── FileMetaData ──────────────────────────────────────────────────────────────
+/**
+ * @brief ── FileMetaData ──────────────────────────────────────────────────────────────
+ * @param[in] cols Input parameter.
+ * @param[in] chunks Input parameter.
+ * @param[in] num_rows Input parameter.
+ * @param[in] total_bytes Input parameter.
+ * @return Return value.
+ * @details Calls: writeField(), writeI32(), writeListHdr(), size(), encodeSchemaElem(), columnTypeToPqType(), writeI64(), encodeRowGroup().
+ */
 
 static std::vector<uint8_t> encodeFileMeta(
     const std::vector<ParquetColumnDesc>& cols,
@@ -250,7 +339,6 @@ static std::vector<uint8_t> encodeFileMeta(
 
 // ── Raw-data page builders for each ColumnType ───────────────────────────────
 
-/// Build a PLAIN-encoded data page for INT32 column.
 static std::pair<std::vector<uint8_t>, std::vector<uint8_t>>
 buildInt32Page(const ColumnSegment& seg) {
     const auto& raw = seg.rawData();
@@ -334,8 +422,6 @@ buildBoolPage(const ColumnSegment& seg) {
     return {std::move(hdr), std::move(values)};
 }
 
-/// BYTE_ARRAY page for STRING columns.
-/// rawData() for STRING stores: [4-byte LE len][chars] per value.
 static std::pair<std::vector<uint8_t>, std::vector<uint8_t>>
 buildStringPage(const ColumnSegment& seg) {
     const auto& raw = seg.rawData();
@@ -353,9 +439,13 @@ buildStringPage(const ColumnSegment& seg) {
 
 } // anonymous namespace
 
-// ============================================================================
-// StorageParquetExporter::buildParquet  (portable Parquet v2 path)
-// ============================================================================
+/**
+ * @brief ============================================================================ StorageParquetExporter::buildParquet (portable Parquet v2 path) ============================================================================
+ * @param[in] column_segments Input parameter.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @details Calls: size(), tl::unexpected(), Error(), std::to_string(), metadata(), insert(), end(), reserve().
+ */
 
 Result<std::vector<uint8_t>> StorageParquetExporter::buildParquet(
     const std::vector<std::vector<ColumnSegment>>& column_segments,
@@ -482,6 +572,13 @@ Result<std::vector<uint8_t>> StorageParquetExporter::buildParquet(
 // Public API
 // ============================================================================
 
+/**
+ * @brief Export To Buffer.
+ * @param[in] column_segments Input parameter.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::steady_clock::now(), buildParquet(), size(), count(), empty(), metadata().
+ */
 Result<std::vector<uint8_t>> StorageParquetExporter::exportToBuffer(
     const std::vector<std::vector<ColumnSegment>>& column_segments,
     const ParquetExportConfig& config) {
@@ -521,6 +618,14 @@ Result<std::vector<uint8_t>> StorageParquetExporter::exportToBuffer(
     return result;
 }
 
+/**
+ * @brief Export To File.
+ * @param[in] column_segments Input parameter.
+ * @param[in] config Input parameter.
+ * @param[in] output_path Path to the output.
+ * @return Return value.
+ * @details Calls: exportToBuffer(), tl::unexpected(), error(), out(), Error(), write(), data(), size().
+ */
 Result<void> StorageParquetExporter::exportToFile(
     const std::vector<std::vector<ColumnSegment>>& column_segments,
     const ParquetExportConfig& config,

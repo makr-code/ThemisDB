@@ -38,6 +38,11 @@ namespace tensor {
 // ============================================================================
 
 namespace {
+/**
+ * @brief Sst Map Fn Mutex.
+ * @return Return value.
+ * @details Implements sstMapFnMutex without additional internal calls.
+ */
 std::mutex& sstMapFnMutex() { static std::mutex m; return m; }
 std::function<void*(std::size_t, std::size_t)>& sstMapFnStorage() {
     static std::function<void*(std::size_t, std::size_t)> fn;
@@ -45,13 +50,20 @@ std::function<void*(std::size_t, std::size_t)>& sstMapFnStorage() {
 }
 } // anonymous namespace
 
-/*static*/
+/**
+ * @brief static
+ * @param[in] fn Input parameter.
+ * @details Calls: lk(), sstMapFnMutex(), sstMapFnStorage(), std::move().
+ */
 void TensorMmapBridge::setSstMapFn(SstMapFn fn) {
     std::lock_guard<std::mutex> lk(sstMapFnMutex());
     sstMapFnStorage() = std::move(fn);
 }
 
-/*static*/
+/**
+ * @brief static
+ * @details Calls: lk(), sstMapFnMutex(), sstMapFnStorage().
+ */
 void TensorMmapBridge::clearSstMapFn() {
     std::lock_guard<std::mutex> lk(sstMapFnMutex());
     sstMapFnStorage() = {};
@@ -63,8 +75,6 @@ void TensorMmapBridge::clearSstMapFn() {
 
 namespace {
 
-/// Allocate a writable anonymous memory region of at least `bytes` bytes.
-/// Returns nullptr on failure.
 void* allocRegion(std::size_t bytes) noexcept {
 #if THEMIS_HAS_MMAP
     void* ptr = ::mmap(nullptr, bytes,
@@ -84,7 +94,6 @@ void* allocRegion(std::size_t bytes) noexcept {
 #endif
 }
 
-/// Lock a region in RAM.  Returns true on success.
 bool lockRegion(void* ptr, std::size_t bytes) noexcept {
 #if THEMIS_HAS_MMAP
     return ::mlock(ptr, bytes) == 0;
@@ -96,7 +105,6 @@ bool lockRegion(void* ptr, std::size_t bytes) noexcept {
 #endif
 }
 
-/// Unlock a region.
 void unlockRegion(void* ptr, std::size_t bytes) noexcept {
 #if THEMIS_HAS_MMAP
     ::munlock(ptr, bytes);
@@ -107,7 +115,6 @@ void unlockRegion(void* ptr, std::size_t bytes) noexcept {
 #endif
 }
 
-/// Free a region previously allocated by `allocRegion`.
 void freeRegion(void* ptr, std::size_t bytes) noexcept {
 #if THEMIS_HAS_MMAP
     ::munmap(ptr, bytes);

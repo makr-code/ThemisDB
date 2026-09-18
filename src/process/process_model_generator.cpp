@@ -38,7 +38,12 @@ using json = nlohmann::json;
 
 namespace {
 
-/// Map domain enum to JSON string and back.
+/**
+ * @brief Domain To Str.
+ * @param[in] d Input parameter.
+ * @return Return value.
+ * @details Implements domainToStr without additional internal calls.
+ */
 std::string domainToStr(ProcessDomain d) {
     switch (d) {
         case ProcessDomain::ADMINISTRATION:   return "ADMINISTRATION";
@@ -51,6 +56,12 @@ std::string domainToStr(ProcessDomain d) {
     }
 }
 
+/**
+ * @brief Str To Domain.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Implements strToDomain without additional internal calls.
+ */
 ProcessDomain strToDomain(const std::string& s) {
     if (s == "ADMINISTRATION") {
       return ProcessDomain::ADMINISTRATION;
@@ -70,8 +81,12 @@ ProcessDomain strToDomain(const std::string& s) {
     return ProcessDomain::BUSINESS;
 }
 
-/// Normalise an LLM node type string to the canonical uppercase form used
-/// by ProcessModelManager::buildNormalizedGraph_().
+/**
+ * @brief Normalize Node Type.
+ * @param[in] t Input parameter.
+ * @return Return value.
+ * @details Implements normalizeNodeType without additional internal calls.
+ */
 std::string normalizeNodeType(const std::string& t) {
     // Already uppercase canonical form
     if (t == "START_EVENT" || t == "END_EVENT" || t == "TASK" ||
@@ -115,6 +130,11 @@ std::string normalizeNodeType(const std::string& t) {
 // setLlmBackend
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Set Llm Backend.
+ * @param[in] backend Input parameter.
+ * @details Calls: std::move().
+ */
 void ProcessModelGenerator::setLlmBackend(LlmBackend backend) {
     llm_backend_ = std::move(backend);
 }

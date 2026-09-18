@@ -31,9 +31,14 @@ namespace training {
 // own state.
 ILLMRouter::~ILLMRouter() {}
 
-// ============================================================================
-// Phase 2: Deployment Validation Implementation
-// ============================================================================
+/**
+ * @brief ============================================================================ Phase 2: Deployment Validation Implementation ============================================================================
+ * @param[in] adapter_version Input parameter.
+ * @param[in] checkpoint_path Path to the checkpoint.
+ * @param[in] expected_sha256 Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), length(), std::isalnum(), std::string(), f(), is_open(), seekg(), tellg().
+ */
 
 std::string validateDeploymentReadiness(
     const std::string& adapter_version,
@@ -97,6 +102,13 @@ std::string validateDeploymentReadiness(
     return ""; // Valid
 }
 
+/**
+ * @brief Compute Deployment Fingerprint.
+ * @param[in] adapter_version Input parameter.
+ * @param[in] checkpoint_sha256 Input parameter.
+ * @return Return value.
+ * @details Calls: str().
+ */
 std::string computeDeploymentFingerprint(
     const std::string& adapter_version,
     const std::string& checkpoint_sha256) {

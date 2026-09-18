@@ -17,7 +17,12 @@
 
 namespace themis { namespace voice {
 
-// ---- Free functions ----
+/**
+ * @brief ---- Free functions ----
+ * @param[in] type Input parameter.
+ * @return Return value.
+ * @details Implements piiTypeToString without additional internal calls.
+ */
 
 std::string piiTypeToString(PIIType type) {
     switch (type) {
@@ -103,6 +108,12 @@ RedactionResult VoiceSecurityManager::applyPattern(const std::string& text, PIIT
     return result;
 }
 
+/**
+ * @brief Redact PIITypes.
+ * @param[in] text Input parameter.
+ * @param[in] types Input parameter.
+ * @return Return value.
+ */
 RedactionResult VoiceSecurityManager::redactPIITypes(
     const std::string& text, const std::vector<PIIType>& types)
 {
@@ -125,18 +136,33 @@ RedactionResult VoiceSecurityManager::redactPIITypes(
     return cumulative;
 }
 
+/**
+ * @brief Redact PII.
+ * @param[in] text Input parameter.
+ * @return Return value.
+ * @details Calls: redactPIITypes().
+ */
 RedactionResult VoiceSecurityManager::redactPII(const std::string& text) {
     return redactPIITypes(text, config_.pii_types_to_redact);
 }
 
 bool VoiceSecurityManager::containsPII(const std::string& text) const {
-    // Create a temporary manager to check without modifying state
+    /**
+     * @brief Create a temporary manager to check without modifying state
+     * @param[in] config_ Input parameter.
+     * @return Return value.
+     */
     VoiceSecurityManager tmp(config_);
     auto result = tmp.redactPIITypes(text, config_.pii_types_to_redact);
     return result.has_pii;
 }
 
-// ---- Consent Management ----
+/**
+ * @brief ---- Consent Management ----
+ * @param[in] record Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock().
+ */
 
 bool VoiceSecurityManager::recordConsent(const ConsentRecord& record) {
     std::lock_guard<std::mutex> lock(mutex_);
@@ -145,6 +171,11 @@ bool VoiceSecurityManager::recordConsent(const ConsentRecord& record) {
 }
 
 std::optional<ConsentRecord> VoiceSecurityManager::getConsent(const std::string& user_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = consents_.find(user_id);
     if (it == consents_.end()) {
@@ -163,12 +194,22 @@ bool VoiceSecurityManager::hasTranscriptionConsent(const std::string& user_id) c
     return consent.has_value() && consent->transcription_consent;
 }
 
+/**
+ * @brief Revoke Consent.
+ * @param[in] user_id Identifier of the user.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), erase().
+ */
 bool VoiceSecurityManager::revokeConsent(const std::string& user_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     return consents_.erase(user_id) > 0;
 }
 
-// ---- Audit Logging ----
+/**
+ * @brief ---- Audit Logging ----
+ * @param[in] entry Input parameter.
+ * @details Calls: lock(), push_back().
+ */
 
 void VoiceSecurityManager::logEvent(const VoiceAuditEntry& entry) {
     if (!config_.enable_audit_logging) {
@@ -178,6 +219,12 @@ void VoiceSecurityManager::logEvent(const VoiceAuditEntry& entry) {
     audit_log_.push_back(entry);
 }
 
+/**
+ * @brief Log Access.
+ * @param[in] user_id Identifier of the user.
+ * @param[in] session_id Identifier of the session.
+ * @param[in] resource Input parameter.
+ */
 void VoiceSecurityManager::logAccess(
     const std::string& user_id, const std::string& session_id, const std::string& resource)
 {
@@ -193,6 +240,12 @@ void VoiceSecurityManager::logAccess(
     logEvent(entry);
 }
 
+/**
+ * @brief Log Error.
+ * @param[in] user_id Identifier of the user.
+ * @param[in] session_id Identifier of the session.
+ * @param[in] error Input parameter.
+ */
 void VoiceSecurityManager::logError(
     const std::string& user_id, const std::string& session_id, const std::string& error)
 {
@@ -211,6 +264,11 @@ void VoiceSecurityManager::logError(
 std::vector<VoiceAuditEntry> VoiceSecurityManager::getAuditLog(
     const std::string& user_id, size_t limit) const
 {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     std::vector<VoiceAuditEntry> result = {};
 
@@ -226,7 +284,12 @@ std::vector<VoiceAuditEntry> VoiceSecurityManager::getAuditLog(
     return result;
 }
 
-// ---- GDPR / CCPA ----
+/**
+ * @brief ---- GDPR / CCPA ----
+ * @param[in] request Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), erase(), std::remove_if(), begin(), end(), std::chrono::system_clock::now(), time_since_epoch(), count().
+ */
 
 DataDeletionResult VoiceSecurityManager::deleteUserData(const DataDeletionRequest& request) {
     DataDeletionResult result;
@@ -256,6 +319,13 @@ DataDeletionResult VoiceSecurityManager::deleteUserData(const DataDeletionReques
     return result;
 }
 
+/**
+ * @brief Schedule Auto Delete.
+ * @param[in] user_id Identifier of the user.
+ * @param[in] delete_after_ms Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), std::chrono::system_clock::now(), time_since_epoch(), count().
+ */
 bool VoiceSecurityManager::scheduleAutoDelete(const std::string& user_id, int64_t delete_after_ms) {
     std::lock_guard<std::mutex> lock(mutex_);
     int64_t now = std::chrono::duration_cast<std::chrono::milliseconds>(
@@ -265,6 +335,11 @@ bool VoiceSecurityManager::scheduleAutoDelete(const std::string& user_id, int64_
 }
 
 json VoiceSecurityManager::exportUserData(const std::string& user_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     json data;
     data["user_id"] = user_id;
@@ -293,6 +368,11 @@ json VoiceSecurityManager::exportUserData(const std::string& user_id) const {
 }
 
 json VoiceSecurityManager::getSecurityStats() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     json stats;
     stats["total_consents"]    = consents_.size();
@@ -310,6 +390,10 @@ int64_t VoiceSecurityManager::nowMs() const {
         std::chrono::system_clock::now().time_since_epoch()).count();
 }
 
+/**
+ * @brief Cleanup Expired Lockouts.
+ * @details Calls: nowMs(), push_back(), erase().
+ */
 void VoiceSecurityManager::cleanupExpiredLockouts() {
     if (!config_.enable_rate_limiting) {
       return;
@@ -330,6 +414,12 @@ void VoiceSecurityManager::cleanupExpiredLockouts() {
     }
 }
 
+/**
+ * @brief Record Auth Failure.
+ * @param[in] user_id Identifier of the user.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), cleanupExpiredLockouts(), find(), end(), nowMs(), spdlog::warn().
+ */
 bool VoiceSecurityManager::recordAuthFailure(const std::string& user_id) {
     if (!config_.enable_rate_limiting) {
       return true;
@@ -380,6 +470,11 @@ bool VoiceSecurityManager::isRateLimited(const std::string& user_id) const {
       return false;
     }
     
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = lockout_until_ms_.find(user_id);
     if (it == lockout_until_ms_.end()) {
@@ -390,6 +485,11 @@ bool VoiceSecurityManager::isRateLimited(const std::string& user_id) const {
     return now < it->second;
 }
 
+/**
+ * @brief Reset Rate Limiter.
+ * @param[in] user_id Identifier of the user.
+ * @details Calls: lock(), erase().
+ */
 void VoiceSecurityManager::resetRateLimiter(const std::string& user_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     failure_counts_.erase(user_id);
@@ -397,6 +497,11 @@ void VoiceSecurityManager::resetRateLimiter(const std::string& user_id) {
     lockout_until_ms_.erase(user_id);
 }
 
+/**
+ * @brief Log Security Denial.
+ * @param[in] entry Input parameter.
+ * @details Calls: lock(), push_back().
+ */
 void VoiceSecurityManager::logSecurityDenial(const SecurityDenialEntry& entry) {
     if (!config_.enable_audit_logging) {
       return;
@@ -409,6 +514,11 @@ void VoiceSecurityManager::logSecurityDenial(const SecurityDenialEntry& entry) {
 std::vector<SecurityDenialEntry> VoiceSecurityManager::getSecurityDenials(
     const std::string& user_id, size_t limit) const
 {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     std::vector<SecurityDenialEntry> result;
     
@@ -423,6 +533,15 @@ std::vector<SecurityDenialEntry> VoiceSecurityManager::getSecurityDenials(
     return result;
 }
 
+/**
+ * @brief Deny Operation With Audit.
+ * @param[in] user_id Identifier of the user.
+ * @param[in] session_id Identifier of the session.
+ * @param[in] action Input parameter.
+ * @param[in] resource Input parameter.
+ * @param[in] reason Input parameter.
+ * @return True when the operation succeeds.
+ */
 bool VoiceSecurityManager::denyOperationWithAudit(
     const std::string& user_id,
     const std::string& session_id,

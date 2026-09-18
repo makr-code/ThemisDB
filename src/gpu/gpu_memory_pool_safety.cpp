@@ -35,6 +35,11 @@ GPUMemoryPool::GPUMemoryPool(const Config& config)
 }
 
 GPUMemoryPool::~GPUMemoryPool() noexcept {
+    /**
+     * @brief Lock.
+     * @param[in] pool_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(pool_mutex_);
     
     Block* current = head_;
@@ -49,6 +54,12 @@ GPUMemoryPool::~GPUMemoryPool() noexcept {
     head_ = nullptr;
 }
 
+/**
+ * @brief Allocate.
+ * @param[in] size Input parameter.
+ * @return Pointer to the result.
+ * @details Calls: lock(), getFragmentationRatio(), coalesceAdjacentBlocks(), CUDA_CHECK(), cudaMalloc().
+ */
 void* GPUMemoryPool::allocate(size_t size) {
     if (size == 0) {
         return nullptr;
@@ -106,6 +117,12 @@ void* GPUMemoryPool::allocate(size_t size) {
     return new_ptr;
 }
 
+/**
+ * @brief Deallocate.
+ * @param[in,out] ptr Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), findBlock(), coalesceAdjacentBlocks().
+ */
 bool GPUMemoryPool::deallocate(void* ptr) {
     if (!ptr) {
         return false;
@@ -128,6 +145,11 @@ bool GPUMemoryPool::deallocate(void* ptr) {
 }
 
 double GPUMemoryPool::getFragmentationRatio() const {
+    /**
+     * @brief Lock.
+     * @param[in] pool_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(pool_mutex_);
 
     size_t fragmented = computeFragmentedSize();
@@ -137,6 +159,11 @@ double GPUMemoryPool::getFragmentationRatio() const {
     return static_cast<double>(fragmented) / static_cast<double>(total_freed_);
 }
 
+/**
+ * @brief Defragment.
+ * @return Return value.
+ * @details Calls: lock(), coalesceAdjacentBlocks().
+ */
 size_t GPUMemoryPool::defragment() {
     std::lock_guard<std::mutex> lock(pool_mutex_);
 
@@ -160,6 +187,11 @@ size_t GPUMemoryPool::defragment() {
 }
 
 GPUMemoryPool::Statistics GPUMemoryPool::getStatistics() const {
+    /**
+     * @brief Lock.
+     * @param[in] pool_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(pool_mutex_);
 
     Statistics stats;
@@ -181,6 +213,11 @@ GPUMemoryPool::Statistics GPUMemoryPool::getStatistics() const {
 }
 
 size_t GPUMemoryPool::checkForLeaks() const {
+    /**
+     * @brief Lock.
+     * @param[in] pool_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(pool_mutex_);
 
     size_t potential_leaks = 0;
@@ -194,6 +231,12 @@ size_t GPUMemoryPool::checkForLeaks() const {
     return potential_leaks;
 }
 
+/**
+ * @brief Find Block.
+ * @param[in,out] ptr Input/output parameter.
+ * @return Pointer to the result.
+ * @details Implements findBlock without additional internal calls.
+ */
 GPUMemoryPool::Block* GPUMemoryPool::findBlock(void* ptr) {
     Block* current = head_;
     while (current) {
@@ -205,6 +248,10 @@ GPUMemoryPool::Block* GPUMemoryPool::findBlock(void* ptr) {
     return nullptr;
 }
 
+/**
+ * @brief Coalesce Adjacent Blocks.
+ * @details Implements coalesceAdjacentBlocks without additional internal calls.
+ */
 void GPUMemoryPool::coalesceAdjacentBlocks() {
     if (!head_) {
       return;

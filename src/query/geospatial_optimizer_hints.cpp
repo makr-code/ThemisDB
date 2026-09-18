@@ -109,13 +109,13 @@ double SpatialPlan::getCostAdjustmentFactor() const {
     return factor;
 }
 
+
 /**
- * @brief ============================================================================= SpatialHintParser =============================================================================
+ * @brief Parse Hint.
  * @param[in] hintString Input parameter.
  * @return Return value.
  * @details Calls: ws_regex(), std::regex_replace(), hint_regex(), std::regex_search(), THEMIS_WARN(), str(), erase(), find_first_not_of().
  */
-
 SpatialHint SpatialHintParser::parseHint(const std::string& hintString) {
     SpatialHint hint;
     

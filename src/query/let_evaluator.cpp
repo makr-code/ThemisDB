@@ -49,7 +49,7 @@ namespace query {
  * @brief Evaluate Let.
  * @param[in] node Input parameter.
  * @param[in] currentDoc Input parameter.
- * @return True on success.
+ * @return True when the operation succeeds.
  * @details Calls: evaluateExpression(), std::move(), what().
  */
 bool LetEvaluator::evaluateLet(const LetNode& node, const nlohmann::json& currentDoc) {
@@ -472,7 +472,7 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
             }
             
             /**
-             * @brief Create function context with current document and bindings
+             * @brief Ctx.
              * @param[in] currentDoc Input parameter.
              * @return Return value.
              */

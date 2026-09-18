@@ -59,6 +59,14 @@ namespace training {
 
 namespace {
 
+/**
+ * @brief Sanitize Training Prompt Like Text.
+ * @param[in] input Input parameter.
+ * @param[in,out] sanitized Input/output parameter.
+ * @param[in,out] blocked_rule Input/output parameter.
+ * @param[in,out] blocked_reason Input/output parameter.
+ * @return True when the operation succeeds.
+ */
 bool sanitizeTrainingPromptLikeText(
     const std::string& input,
     std::string& sanitized,
@@ -72,6 +80,12 @@ bool sanitizeTrainingPromptLikeText(
         blocked_reason);
 }
 
+/**
+ * @brief Stable FNV1a64.
+ * @param[in] input Input parameter.
+ * @return Return value.
+ * @details Implements stableFNV1a64 without additional internal calls.
+ */
 uint64_t stableFNV1a64(const std::string& input) {
     constexpr uint64_t kOffset = 1469598103934665603ull;
     constexpr uint64_t kPrime = 1099511628211ull;
@@ -92,6 +106,13 @@ namespace checkpoint {
     // Checkpoint file format version
     constexpr int FORMAT_VERSION = 1;
 
+    /**
+     * @brief Parse Size TStrict.
+     * @param[in] value Input parameter.
+     * @param[in,out] out Input/output parameter.
+     * @return True when the operation succeeds.
+     * @details Calls: empty(), front(), std::strtoull(), c_str(), max().
+     */
     bool parseSizeTStrict(const std::string& value, size_t& out) {
         if (value.empty()) {
             return false;
@@ -113,6 +134,13 @@ namespace checkpoint {
         return true;
     }
 
+    /**
+     * @brief Parse Double Strict.
+     * @param[in] value Input parameter.
+     * @param[in,out] out Input/output parameter.
+     * @return True when the operation succeeds.
+     * @details Calls: empty(), std::strtod(), c_str(), std::isfinite().
+     */
     bool parseDoubleStrict(const std::string& value, double& out) {
         if (value.empty()) {
             return false;
@@ -128,7 +156,16 @@ namespace checkpoint {
         return true;
     }
 
-    // Serialize checkpoint metadata to a simple key=value string
+    /**
+     * @brief Serialize checkpoint metadata to a simple key=value string
+     * @param[in] version Input parameter.
+     * @param[in] epoch Input parameter.
+     * @param[in] step Input parameter.
+     * @param[in] loss Input parameter.
+     * @param[in] accuracy Input parameter.
+     * @return Return value.
+     * @details Calls: str().
+     */
     std::string serializeMetadata(const std::string& version,
                                    size_t epoch,
                                    size_t step,
@@ -152,6 +189,11 @@ namespace checkpoint {
                        double& loss,
                        double& accuracy,
                        std::string* error_reason = nullptr) {
+        /**
+         * @brief Iss.
+         * @param[in] data Input parameter.
+         * @return Return value.
+         */
         std::istringstream iss(data);
         std::string line = {};
         while (std::getline(iss, line)) {
@@ -219,9 +261,14 @@ struct VersionRecord {
 // ============================================================================
 // Pimpl implementation (Phases 3-5)
 // ============================================================================
-/** @brief Pimpl implementation (Phases 3-5). */
 class IncrementalLoRATrainer::Impl {
 public:
+    /**
+     * @brief Impl.
+     * @param[in] config Input parameter.
+     * @param[in] db_connection Input parameter.
+     * @return Return value.
+     */
     explicit Impl(const IncrementalTrainingConfig& config, const std::string& db_connection)
         : config_(config)
         , db_connection_(db_connection)
@@ -231,9 +278,13 @@ public:
 
     ~Impl() = default;
 
-    // -------------------------------------------------------------------------
-    // Phase 3: Training implementation
-    // -------------------------------------------------------------------------
+    /**
+     * @brief ------------------------------------------------------------------------- Phase 3: Training implementation -------------------------------------------------------------------------
+     * @param[in] mode Input parameter.
+     * @param[in] callback Input parameter.
+     * @return Return value.
+     * @details Calls: exchange(), TrainingResult(), THEMIS_ERROR(), std::chrono::steady_clock::now(), sanitizeTrainingPromptLikeText(), store(), reset(), generateVersionId().
+     */
     TrainingResult train(TrainingMode mode, TrainingCallback callback) {
         // Fail-closed concurrency guard: train() is not thread-safe.
         // Reject any call that arrives while a training run is already in progress.
@@ -388,9 +439,13 @@ public:
         return result;
     }
 
-    // -------------------------------------------------------------------------
-    // Phase 5: Resume from checkpoint
-    // -------------------------------------------------------------------------
+    /**
+     * @brief ------------------------------------------------------------------------- Phase 5: Resume from checkpoint -------------------------------------------------------------------------
+     * @param[in] checkpoint_path Path to the checkpoint.
+     * @param[in] callback Input parameter.
+     * @return Return value.
+     * @details Calls: TrainingResult(), std::chrono::steady_clock::now(), empty(), loadCheckpoint(), verifyCheckpointPayloadIntegrity(), initLoRAComponents(), loadCheckpointWeights(), train().
+     */
     TrainingResult resumeFromCheckpoint(const std::string& checkpoint_path,
                                         TrainingCallback callback) {
         TrainingResult result = TrainingResult();
@@ -467,9 +522,12 @@ public:
         return result;
     }
 
-    // -------------------------------------------------------------------------
-    // Phase 4: Evaluation
-    // -------------------------------------------------------------------------
+    /**
+     * @brief ------------------------------------------------------------------------- Phase 4: Evaluation -------------------------------------------------------------------------
+     * @param[in] adapter_version Input parameter.
+     * @return Return value.
+     * @details Calls: TrainingResult(), std::chrono::steady_clock::now(), empty(), size(), computeAccuracy(), std::string(), what(), count().
+     */
     TrainingResult evaluate(const std::string& adapter_version) {
         TrainingResult result = TrainingResult();
         auto start_time = std::chrono::steady_clock::now();
@@ -515,9 +573,13 @@ public:
         return result;
     }
 
-    // -------------------------------------------------------------------------
-    // Phase 4: Deployment and version management
-    // -------------------------------------------------------------------------
+    /**
+     * @brief ------------------------------------------------------------------------- Phase 4: Deployment and version management -------------------------------------------------------------------------
+     * @param[in] adapter_version Input parameter.
+     * @param[in] traffic_split Input parameter.
+     * @return True when the operation succeeds.
+     * @details Calls: empty(), version_lock(), find(), end(), VersionRecord(), std::chrono::system_clock::now().
+     */
     bool deployVersion(const std::string& adapter_version, float traffic_split) {
         if (adapter_version.empty()) {
           return false;
@@ -564,6 +626,12 @@ public:
         return true;
     }
 
+    /**
+     * @brief Rollback Version.
+     * @param[in] target_version Input parameter.
+     * @return True when the operation succeeds.
+     * @details Calls: empty(), version_lock(), find(), end(), VersionRecord(), std::chrono::system_clock::now().
+     */
     bool rollbackVersion(const std::string& target_version) {
         if (target_version.empty()) {
           return false;
@@ -598,6 +666,11 @@ public:
 
     std::vector<std::string> listVersions() const {
         std::vector<std::string> versions;
+        /**
+         * @brief Version lock.
+         * @param[in] version_registry_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> version_lock(version_registry_mutex_);
         versions.reserve(version_registry_.size());
         for (const auto& [ver, rec] : version_registry_) {
@@ -614,6 +687,11 @@ public:
         std::vector<std::pair<std::string, float>> active; // (version, weight)
         float total = 0.0f;
         {
+            /**
+             * @brief Version lock.
+             * @param[in] version_registry_mutex_ Input parameter.
+             * @return Return value.
+             */
             std::lock_guard<std::mutex> version_lock(version_registry_mutex_);
             for (const auto& [ver, rec] : version_registry_) {
                 if (rec.is_active && rec.traffic_split > 0.0f) {
@@ -642,9 +720,14 @@ public:
         return active.back().first;
     }
 
-    // -------------------------------------------------------------------------
-    // Phase 3: Hyperparameter API
-    // -------------------------------------------------------------------------
+    /**
+     * @brief ------------------------------------------------------------------------- Phase 3: Hyperparameter API -------------------------------------------------------------------------
+     * @param[in] rank Input parameter.
+     * @param[in] alpha Input parameter.
+     * @param[in] learning_rate Input parameter.
+     * @throws std::invalid_argument if an error occurs.
+     * @details Calls: reset(), defined().
+     */
     void setHyperparameters(int rank, float alpha, float learning_rate) {
         if (rank <= 0) {
           throw std::invalid_argument("LoRA rank must be positive");
@@ -683,11 +766,22 @@ public:
 #endif
     }
 
+    /**
+     * @brief Set Checkpointing.
+     * @param[in] enabled Input parameter.
+     * @param[in] checkpoint_steps Input parameter.
+     * @details Implements setCheckpointing without additional internal calls.
+     */
     void setCheckpointing(bool enabled, size_t checkpoint_steps) {
         checkpointing_enabled_ = enabled;
         checkpoint_steps_      = (checkpoint_steps > 0) ? checkpoint_steps : 100;
     }
 
+    /**
+     * @brief Set LLMRouter.
+     * @param[in,out] router Input/output parameter.
+     * @details Calls: lk().
+     */
     void setLLMRouter(ILLMRouter* router) {
         std::lock_guard<std::mutex> lk(router_mutex_);
         llm_router_ = router;
@@ -697,12 +791,22 @@ public:
         return metrics_;
     }
 
-    // ── IMPL-A3: Federation bridges ──────────────────────────────────────────
+    /**
+     * @brief ── IMPL-A3: Federation bridges ──────────────────────────────────────────
+     * @param[in] shard_id Identifier of the shard.
+     * @details Calls: empty().
+     */
 
     void setShardId(const std::string& shard_id) {
         shard_id_ = shard_id.empty() ? "default_shard" : shard_id;
     }
 
+    /**
+     * @brief Set Federated Learning Rate.
+     * @param[in] lr Input parameter.
+     * @throws std::invalid_argument if an error occurs.
+     * @details Implements setFederatedLearningRate without additional internal calls.
+     */
     void setFederatedLearningRate(double lr) {
         if (lr <= 0.0)
             throw std::invalid_argument("Federated learning rate must be positive");
@@ -734,6 +838,11 @@ public:
         return grad;
     }
 
+    /**
+     * @brief Apply Global Delta.
+     * @param[in] delta Input parameter.
+     * @details Calls: items(), count(), is_number().
+     */
     void applyGlobalDelta(
         const themis::distributed_knowledge::GlobalAdapterDelta& delta) {
         // Apply: local_weight[layer] += federated_lr * delta.delta[layer]
@@ -765,6 +874,11 @@ public:
         if (config_.checkpoint_dir.empty()) {
             return true; // Unmanaged adapters bypass integrity check
         }
+        /**
+         * @brief Checkpoint lock.
+         * @param[in] checkpoint_manager_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> checkpoint_lock(checkpoint_manager_mutex_);
         // Lazily initialise checkpoint_manager_ for the configured directory.
         if (!checkpoint_manager_) {
@@ -791,6 +905,11 @@ public:
             return true; // Unmanaged checkpoints bypass strict integrity checks.
         }
 
+        /**
+         * @brief Checkpoint lock.
+         * @param[in] checkpoint_manager_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> checkpoint_lock(checkpoint_manager_mutex_);
         if (!checkpoint_manager_) {
             CheckpointManagerConfig mgr_cfg = CheckpointManagerConfig();
@@ -842,6 +961,13 @@ public:
         return true;
     }
 
+    /**
+     * @brief Deploy Version Ex.
+     * @param[in] adapter_version Input parameter.
+     * @param[in] traffic_split Input parameter.
+     * @return Return value.
+     * @details Calls: empty(), DeployResult::fail(), verifyAdapterIntegrity(), version_lock(), deployVersion(), lk(), isAvailable(), setAdapterWeight().
+     */
     DeployResult deployVersionEx(const std::string& adapter_version, float traffic_split) {
         if (adapter_version.empty()) {
             return DeployResult::fail("version_not_found");
@@ -896,6 +1022,12 @@ public:
         return DeployResult::ok(adapter_version, traffic_split);
     }
 
+    /**
+     * @brief Rollback Version Ex.
+     * @param[in] target_version Input parameter.
+     * @return Return value.
+     * @details Calls: empty(), DeployResult::fail(), verifyAdapterIntegrity(), version_lock(), rollbackVersion(), lk(), isAvailable(), setAdapterWeight().
+     */
     DeployResult rollbackVersionEx(const std::string& target_version) {
         if (target_version.empty()) {
             return DeployResult::fail("version_not_found");
@@ -951,8 +1083,6 @@ public:
     std::map<std::string, VersionRecord> version_registry_;
     mutable std::mutex version_registry_mutex_; ///< Protects version_registry_ reads/writes
 
-    /// Fail-closed concurrency guard: set to true while train() is executing.
-    /// A concurrent train() call is immediately rejected (not thread-safe by design).
     std::atomic<bool> training_active_{false};
 
     // LLM inference router for adapter serving integration (non-owning, may be null)
@@ -968,18 +1098,11 @@ public:
     mutable std::mutex checkpoint_manager_mutex_; ///< Protects checkpoint_manager_ access
 
     // ── IMPL-A3: Federation gradient accumulator ─────────────────────────────
-    /// Cluster-unique shard identifier embedded in every exported gradient.
     std::string shard_id_{"default_shard"};
-    /// Per-layer sum of weight deltas accumulated since the last exportGradient().
     std::unordered_map<std::string, double> gradient_accumulator_;
-    /// Number of training steps contributed to the accumulator.
     size_t gradient_update_count_{0};
-    /// Learning rate for applyGlobalDelta(): w += federated_lr_ * delta.
     double federated_lr_{0.01};
-    /// Synthetic local weight map updated by applyGlobalDelta() (layer → weight).
     std::unordered_map<std::string, double> local_weights_;
-    /// Set of layer names that have appeared in at least one training step.
-    /// applyGlobalDelta() only applies deltas for known layers (forward-compatible).
     std::unordered_set<std::string> known_layers_;
 
 #ifdef THEMIS_ENABLE_LLM
@@ -1026,6 +1149,11 @@ public:
     // Uses GPU (CUDA/HIP) when requested and available; falls back to CPU.
     // When num_gpus > 1, initializes the MultiGPULoRATrainer for data-parallel training.
     // Safe to call multiple times: re-initialization is a no-op when already done.
+    /**
+     * @brief Init Lo RAComponents.
+     * @throws std::runtime_error if an error occurs.
+     * @details Calls: std::max(), defined(), num_gpus(), std::to_string(), empty(), create_layer(), spdlog::info(), reset().
+     */
     void initLoRAComponents() {
 #ifndef THEMIS_ENABLE_LLM
         // No LLM module: real weight ops unavailable; simulation fallback active.
@@ -1205,6 +1333,11 @@ public:
         // XOR-fold stable 64-bit hash into 32-bit seed to preserve entropy.
         const uint64_t h64 = stableFNV1a64(safe_text);
         uint32_t seed = static_cast<uint32_t>(h64 ^ (h64 >> 32));
+        /**
+         * @brief Gen.
+         * @param[in] seed Input parameter.
+         * @return Return value.
+         */
         std::mt19937 gen(seed);
         std::normal_distribution<float> dist(0.0f, 0.1f);
         for (auto& v : vec) {
@@ -1239,7 +1372,17 @@ public:
                     step_idx * kSyntheticSeedBase + b * kSyntheticBatchMultiplier);
                 const auto seed_tg = static_cast<std::uint64_t>(
                     step_idx * kSyntheticSeedBase + b * kSyntheticBatchMultiplier + 1);
+                /**
+                 * @brief Gen in.
+                 * @param[in] seed_in Input parameter.
+                 * @return Return value.
+                 */
                 std::mt19937_64 gen_in(seed_in);
+                /**
+                 * @brief Gen tg.
+                 * @param[in] seed_tg Input parameter.
+                 * @return Return value.
+                 */
                 std::mt19937_64 gen_tg(seed_tg);
                 std::normal_distribution<float> d(0.0f, 0.1f);
                 input_vec.resize(feature_dim);
@@ -1315,8 +1458,17 @@ public:
         const size_t feature_dim = static_cast<size_t>(config_.max_seq_length);
         const size_t batch_size  = std::max<size_t>(1, config_.batch_size);
 
-        // Build CPU-side data, then upload to GPU
+        /**
+         * @brief Build CPU-side data, then upload to GPU
+         * @param[in,out] feature_dim Input/output parameter.
+         * @return Return value.
+         */
         std::vector<float> input_data (batch_size * feature_dim);
+        /**
+         * @brief Target data.
+         * @param[in,out] feature_dim Input/output parameter.
+         * @return Return value.
+         */
         std::vector<float> target_data(batch_size * feature_dim);
 
         for (size_t b = 0; b < batch_size; ++b) {
@@ -1367,8 +1519,17 @@ public:
         const size_t feature_dim = static_cast<size_t>(config_.max_seq_length);
         const size_t batch_size  = std::max<size_t>(1, config_.batch_size);
 
-        // Build a full CPU batch, then shard it across GPUs
+        /**
+         * @brief Build a full CPU batch, then shard it across GPUs
+         * @param[in,out] feature_dim Input/output parameter.
+         * @return Return value.
+         */
         std::vector<float> full_input (batch_size * feature_dim);
+        /**
+         * @brief Full target.
+         * @param[in,out] feature_dim Input/output parameter.
+         * @return Return value.
+         */
         std::vector<float> full_target(batch_size * feature_dim);
         for (size_t b = 0; b < batch_size; ++b) {
             std::vector<float> in_vec, tg_vec;
@@ -1447,8 +1608,14 @@ public:
     // -------------------------------------------------------------------------
 
 #ifdef THEMIS_ENABLE_LLM
-    // Write B and A matrices to a binary file.
-    // Format: [B_rows:uint32][B_cols:uint32][B_data:float*][A_rows:uint32][A_cols:uint32][A_data:float*]
+    /**
+     * @brief Write B and A matrices to a binary file.
+     * @param[in] path Input parameter.
+     * @param[in] B Input parameter.
+     * @param[in] A Input parameter.
+     * @throws std::overflow_error if an error occurs.
+     * @details Format: [B_rows:uint32][B_cols:uint32][B_data:float*][A_rows:uint32][A_cols:uint32][A_data:float*] Calls: f(), is_open(), spdlog::warn(), shape(), size(), std::to_string(), write(), data().
+     */
     static void serializeWeightTensors(const std::string& path,
                                         const llm::lora::Tensor& B,
                                         const llm::lora::Tensor& A) {
@@ -1513,6 +1680,12 @@ public:
         }
 
         std::string weights_path = checkpoint_prefix + "_weights.bin";
+        /**
+         * @brief F.
+         * @param[in] weights_path Path to the weights.
+         * @param[in] binary Input parameter.
+         * @return Return value.
+         */
         std::ifstream f(weights_path, std::ios::binary);
         if (!f.is_open()) {
             if (error_reason) {
@@ -1619,7 +1792,13 @@ public:
         return 1;
     }
 
-    // Simulate a decreasing loss curve (Phase 3)
+    /**
+     * @brief Simulate a decreasing loss curve (Phase 3)
+     * @param[in] step Input parameter.
+     * @param[in] learning_rate Input parameter.
+     * @return Return value.
+     * @details Calls: std::exp().
+     */
     static double computeSimulatedLoss(size_t step, float learning_rate) {
         // Exponential decay: loss = initial_loss * exp(-lr * step / 100)
         double initial_loss = 2.5;
@@ -1627,7 +1806,12 @@ public:
         return initial_loss * std::exp(-decay) + 0.01; // floor at 0.01
     }
 
-    // Estimate accuracy from loss (Phase 3)
+    /**
+     * @brief Estimate accuracy from loss (Phase 3)
+     * @param[in] loss Input parameter.
+     * @return Return value.
+     * @details Calls: std::exp().
+     */
     static double computeAccuracy(double loss) {
         // Rough sigmoid mapping: acc ≈ 1 / (1 + exp(loss - 1))
         return 1.0 / (1.0 + std::exp(loss - 1.0));
@@ -1685,6 +1869,11 @@ public:
             // The manager is lazily created on first use and reused to avoid
             // redundant directory-scanning and manifest-loading per step.
             if (!config_.checkpoint_dir.empty()) {
+                /**
+                 * @brief Checkpoint lock.
+                 * @param[in] checkpoint_manager_mutex_ Input parameter.
+                 * @return Return value.
+                 */
                 std::lock_guard<std::mutex> checkpoint_lock(checkpoint_manager_mutex_);
                 if (!checkpoint_manager_) {
                     CheckpointManagerConfig mgr_cfg;
@@ -1710,6 +1899,11 @@ public:
         // Try to load checkpoint metadata from disk
         std::string metadata_path = path + "_metadata.txt";
         {
+            /**
+             * @brief F.
+             * @param[in] metadata_path Path to the metadata.
+             * @return Return value.
+             */
             std::ifstream f(metadata_path);
             if (f.is_open()) {
                 std::string data((std::istreambuf_iterator<char>(f)),
@@ -1722,6 +1916,11 @@ public:
         // LEGACY PATH: retained for backward compatibility with checkpoints saved before
         // the _metadata.txt suffix was introduced.  Emits a warning to encourage migration.
         {
+            /**
+             * @brief F.
+             * @param[in] path Input parameter.
+             * @return Return value.
+             */
             std::ifstream f(path);
             if (f.is_open()) {
                 std::string data((std::istreambuf_iterator<char>(f)),
@@ -1741,9 +1940,11 @@ public:
         return false;
     }
 
-    // -------------------------------------------------------------------------
-    // Phase 4: Version registry helpers
-    // -------------------------------------------------------------------------
+    /**
+     * @brief ------------------------------------------------------------------------- Phase 4: Version registry helpers -------------------------------------------------------------------------
+     * @param[in] result Input parameter.
+     * @details Calls: std::chrono::system_clock::now().
+     */
     void registerVersion(const TrainingResult& result) {
         VersionRecord rec;
         rec.version       = result.version;
@@ -1794,25 +1995,58 @@ IncrementalLoRATrainer::IncrementalLoRATrainer(const IncrementalTrainingConfig& 
 
 IncrementalLoRATrainer::~IncrementalLoRATrainer() = default;
 
+/**
+ * @brief Train.
+ * @param[in] mode Input parameter.
+ * @param[in] callback Input parameter.
+ * @return Return value.
+ * @details Implements train without additional internal calls.
+ */
 TrainingResult IncrementalLoRATrainer::train(TrainingMode mode,
                                             TrainingCallback callback) {
     return impl_->train(mode, callback);
 }
 
+/**
+ * @brief Resume From Checkpoint.
+ * @param[in] checkpoint_path Path to the checkpoint.
+ * @param[in] callback Input parameter.
+ * @return Return value.
+ * @details Implements resumeFromCheckpoint without additional internal calls.
+ */
 TrainingResult IncrementalLoRATrainer::resumeFromCheckpoint(const std::string& checkpoint_path,
                                                            TrainingCallback callback) {
     return impl_->resumeFromCheckpoint(checkpoint_path, callback);
 }
 
+/**
+ * @brief Evaluate.
+ * @param[in] adapter_version Input parameter.
+ * @return Return value.
+ * @details Implements evaluate without additional internal calls.
+ */
 TrainingResult IncrementalLoRATrainer::evaluate(const std::string& adapter_version) {
     return impl_->evaluate(adapter_version);
 }
 
+/**
+ * @brief Deploy Version.
+ * @param[in] adapter_version Input parameter.
+ * @param[in] traffic_split Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements deployVersion without additional internal calls.
+ */
 bool IncrementalLoRATrainer::deployVersion(const std::string& adapter_version,
                                           float traffic_split) {
     return impl_->deployVersion(adapter_version, traffic_split);
 }
 
+/**
+ * @brief Rollback Version.
+ * @param[in] target_version Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements rollbackVersion without additional internal calls.
+ */
 bool IncrementalLoRATrainer::rollbackVersion(const std::string& target_version) {
     return impl_->rollbackVersion(target_version);
 }
@@ -1825,23 +2059,54 @@ std::string IncrementalLoRATrainer::selectAdapterForRequest() const {
     return impl_->selectAdapterForRequest();
 }
 
+/**
+ * @brief Set Hyperparameters.
+ * @param[in] rank Input parameter.
+ * @param[in] alpha Input parameter.
+ * @param[in] learning_rate Input parameter.
+ * @details Implements setHyperparameters without additional internal calls.
+ */
 void IncrementalLoRATrainer::setHyperparameters(int rank, float alpha, float learning_rate) {
     impl_->setHyperparameters(rank, alpha, learning_rate);
 }
 
+/**
+ * @brief Set Checkpointing.
+ * @param[in] enabled Input parameter.
+ * @param[in] checkpoint_steps Input parameter.
+ * @details Implements setCheckpointing without additional internal calls.
+ */
 void IncrementalLoRATrainer::setCheckpointing(bool enabled, size_t checkpoint_steps) {
     impl_->setCheckpointing(enabled, checkpoint_steps);
 }
 
+/**
+ * @brief Set LLMRouter.
+ * @param[in,out] router Input/output parameter.
+ * @details Implements setLLMRouter without additional internal calls.
+ */
 void IncrementalLoRATrainer::setLLMRouter(ILLMRouter* router) {
     impl_->setLLMRouter(router);
 }
 
+/**
+ * @brief Deploy Version Ex.
+ * @param[in] adapter_version Input parameter.
+ * @param[in] traffic_split Input parameter.
+ * @return Return value.
+ * @details Implements deployVersionEx without additional internal calls.
+ */
 DeployResult IncrementalLoRATrainer::deployVersionEx(const std::string& adapter_version,
                                                      float traffic_split) {
     return impl_->deployVersionEx(adapter_version, traffic_split);
 }
 
+/**
+ * @brief Rollback Version Ex.
+ * @param[in] target_version Input parameter.
+ * @return Return value.
+ * @details Implements rollbackVersionEx without additional internal calls.
+ */
 DeployResult IncrementalLoRATrainer::rollbackVersionEx(const std::string& target_version) {
     return impl_->rollbackVersionEx(target_version);
 }
@@ -1850,12 +2115,21 @@ TrainingMetrics IncrementalLoRATrainer::getMetrics() const {
     return impl_->getMetrics();
 }
 
-// ── IMPL-A3: Federation bridges ────────────────────────────────────────────
+/**
+ * @brief ── IMPL-A3: Federation bridges ────────────────────────────────────────────
+ * @param[in] shard_id Identifier of the shard.
+ * @details Implements setShardId without additional internal calls.
+ */
 
 void IncrementalLoRATrainer::setShardId(const std::string& shard_id) {
     impl_->setShardId(shard_id);
 }
 
+/**
+ * @brief Set Federated Learning Rate.
+ * @param[in] lr Input parameter.
+ * @details Implements setFederatedLearningRate without additional internal calls.
+ */
 void IncrementalLoRATrainer::setFederatedLearningRate(double lr) {
     impl_->setFederatedLearningRate(lr);
 }
@@ -1865,6 +2139,11 @@ IncrementalLoRATrainer::exportGradient(uint64_t federation_round) {
     return impl_->exportGradient(federation_round);
 }
 
+/**
+ * @brief Apply Global Delta.
+ * @param[in] delta Input parameter.
+ * @details Implements applyGlobalDelta without additional internal calls.
+ */
 void IncrementalLoRATrainer::applyGlobalDelta(
     const themis::distributed_knowledge::GlobalAdapterDelta& delta) {
     impl_->applyGlobalDelta(delta);
@@ -1910,6 +2189,12 @@ std::string IncrementalLoRATrainer::getRecoveryStatus() const {
     return ""; // No interruption detected
 }
 
+/**
+ * @brief Enable Intermediate Checkpointing.
+ * @param[in] enabled Input parameter.
+ * @param[in] save_interval Input parameter.
+ * @details Calls: setCheckpointing().
+ */
 void IncrementalLoRATrainer::enableIntermediateCheckpointing(bool enabled, size_t save_interval) {
     impl_->setCheckpointing(enabled, save_interval);
 }

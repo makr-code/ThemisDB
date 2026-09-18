@@ -31,6 +31,13 @@ TOTPReplayCache::TOTPReplayCache(const Config& config)
     utils::Logger::info("  Max entries/user: {}", config_.max_entries_per_user);
 }
 
+/**
+ * @brief Check And Mark Used.
+ * @param[in] user_id Identifier of the user.
+ * @param[in] code Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), needsCleanup(), cleanup(), std::chrono::system_clock::now(), utils::Logger::warn(), push_back(), size(), std::sort().
+ */
 bool TOTPReplayCache::checkAndMarkUsed(const std::string& user_id, const std::string& code) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -87,6 +94,11 @@ bool TOTPReplayCache::checkAndMarkUsed(const std::string& user_id, const std::st
 }
 
 bool TOTPReplayCache::isUsed(const std::string& user_id, const std::string& code) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     auto it = user_caches_.find(user_id);
@@ -109,6 +121,11 @@ bool TOTPReplayCache::isUsed(const std::string& user_id, const std::string& code
     return false;
 }
 
+/**
+ * @brief Clear User.
+ * @param[in] user_id Identifier of the user.
+ * @details Calls: lock(), find(), end(), size(), erase().
+ */
 void TOTPReplayCache::clearUser(const std::string& user_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -120,6 +137,10 @@ void TOTPReplayCache::clearUser(const std::string& user_id) {
     }
 }
 
+/**
+ * @brief Clear.
+ * @details Calls: lock(), utils::Logger::info().
+ */
 void TOTPReplayCache::clear() {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -129,6 +150,10 @@ void TOTPReplayCache::clear() {
     utils::Logger::info("TOTP replay cache cleared");
 }
 
+/**
+ * @brief Cleanup.
+ * @details Calls: std::chrono::system_clock::now(), begin(), end(), size(), erase(), std::remove_if(), empty(), std::chrono::steady_clock::now().
+ */
 void TOTPReplayCache::cleanup() {
     // Note: Caller must hold mutex
     
@@ -172,6 +197,11 @@ void TOTPReplayCache::cleanup() {
     }
 }
 
+/**
+ * @brief Cleanup User.
+ * @param[in] user_id Identifier of the user.
+ * @details Calls: find(), end(), std::chrono::system_clock::now(), size(), erase(), std::remove_if(), begin(), empty().
+ */
 void TOTPReplayCache::cleanupUser(const std::string& user_id) {
     // Note: Caller must hold mutex
     
@@ -206,6 +236,11 @@ bool TOTPReplayCache::needsCleanup() const {
 }
 
 TOTPReplayCache::Statistics TOTPReplayCache::getStatistics() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return stats_;
 }
@@ -222,6 +257,13 @@ SecureMFAValidator::SecureMFAValidator(const Config& config)
     }
 }
 
+/**
+ * @brief Validate TOTP.
+ * @param[in] user_id Identifier of the user.
+ * @param[in] secret_base32 Input parameter.
+ * @param[in] code Input parameter.
+ * @return True when the operation succeeds.
+ */
 bool SecureMFAValidator::validateTOTP(
     const std::string& user_id,
     const std::string& secret_base32,
@@ -234,6 +276,11 @@ bool SecureMFAValidator::validateTOTP(
     mfa_config.time_window = config_.time_window;
     mfa_config.issuer = config_.issuer;
     
+    /**
+     * @brief Mfa.
+     * @param[in] mfa_config Input parameter.
+     * @return Return value.
+     */
     MFAAuthenticator mfa(mfa_config);
     
     bool code_valid = mfa.validateTOTP(secret_base32, code);
@@ -254,6 +301,11 @@ bool SecureMFAValidator::validateTOTP(
     return true;  // Code valid and not replayed
 }
 
+/**
+ * @brief Clear User Cache.
+ * @param[in] user_id Identifier of the user.
+ * @details Calls: clearUser().
+ */
 void SecureMFAValidator::clearUserCache(const std::string& user_id) {
     if (replay_cache_) {
         replay_cache_->clearUser(user_id);

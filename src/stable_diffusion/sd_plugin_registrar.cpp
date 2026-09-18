@@ -33,6 +33,12 @@ plugins::PluginCapabilities SDPluginAdapter::getCapabilities() const {
     return caps;
 }
 
+/**
+ * @brief Initialize.
+ * @param[in] config_json Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: nlohmann::json::parse(), contains(), is_string(), empty().
+ */
 bool SDPluginAdapter::initialize(const char* config_json) {
     if (!config_json || config_json[0] == '\0') {
         return false;
@@ -51,6 +57,10 @@ bool SDPluginAdapter::initialize(const char* config_json) {
     }
 }
 
+/**
+ * @brief Shutdown.
+ * @details Calls: clear().
+ */
 void SDPluginAdapter::shutdown() {
     // Reset to a fresh stub state so the adapter can be safely re-used after
     // a hot-plug unload event.
@@ -58,7 +68,12 @@ void SDPluginAdapter::shutdown() {
     model_path_.clear();
 }
 
-// ── SDPluginRegistrar — factory methods ──────────────────────────────────────
+/**
+ * @brief ── SDPluginRegistrar — factory methods ──────────────────────────────────────
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @details Calls: contains(), is_string(), empty(), initialize().
+ */
 
 std::unique_ptr<SDPlugin> SDPluginRegistrar::createPlugin(const json& config) {
     auto plugin = std::make_unique<SDPlugin>();
@@ -71,13 +86,23 @@ std::unique_ptr<SDPlugin> SDPluginRegistrar::createPlugin(const json& config) {
     return plugin;
 }
 
+/**
+ * @brief Create Adapter.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @details Calls: createPlugin(), std::move().
+ */
 std::unique_ptr<SDPluginAdapter> SDPluginRegistrar::createAdapter(
         const json& config) {
     auto plugin  = createPlugin(config);
     return std::make_unique<SDPluginAdapter>(std::move(plugin));
 }
 
-// ── SDPluginRegistrar — hot-plug ──────────────────────────────────────────────
+/**
+ * @brief ── SDPluginRegistrar — hot-plug ──────────────────────────────────────────────
+ * @return Return value.
+ * @details Calls: contains(), is_string(), empty(), initialize().
+ */
 
 SDPluginRegistrar::ReloadCallback SDPluginRegistrar::defaultReloadCallback() {
     return [](SDPlugin& plugin, const json& config) -> bool {
@@ -91,6 +116,13 @@ SDPluginRegistrar::ReloadCallback SDPluginRegistrar::defaultReloadCallback() {
     };
 }
 
+/**
+ * @brief Enable Hot Plug.
+ * @param[in,out] manager Input/output parameter.
+ * @param[in] directory Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements enableHotPlug without additional internal calls.
+ */
 bool SDPluginRegistrar::enableHotPlug(
         plugins::PluginManager& manager,
         const std::string& directory) {
@@ -102,6 +134,11 @@ bool SDPluginRegistrar::enableHotPlug(
     return manager.enableHotPlug(directory, cfg);
 }
 
+/**
+ * @brief Disable Hot Plug.
+ * @param[in,out] manager Input/output parameter.
+ * @details Implements disableHotPlug without additional internal calls.
+ */
 void SDPluginRegistrar::disableHotPlug(plugins::PluginManager& manager) {
     manager.disableHotPlug();
 }

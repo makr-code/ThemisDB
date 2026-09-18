@@ -12,11 +12,25 @@ namespace distributed_tensor {
 
 ErrorRecoveryHandler::ErrorRecoveryHandler() {}
 
+/**
+ * @brief Get Current Time Ms.
+ * @return Return value.
+ * @details Calls: std::chrono::high_resolution_clock::now(), time_since_epoch(), count().
+ */
 int64_t ErrorRecoveryHandler::getCurrentTimeMs() {
   auto now = std::chrono::high_resolution_clock::now();
   return std::chrono::duration_cast<std::chrono::milliseconds>(now.time_since_epoch()).count();
 }
 
+/**
+ * @brief Analyze Partial Refit Failure.
+ * @param[in] artifact_id Identifier of the artifact.
+ * @param[in] failure_reason Input parameter.
+ * @param[in] previous_residual Input parameter.
+ * @param[in] resulting_residual Input parameter.
+ * @return Return value.
+ * @details Implements analyzePartialRefitFailure without additional internal calls.
+ */
 ErrorRecoveryInfo ErrorRecoveryHandler::analyzePartialRefitFailure(
     const std::string& artifact_id,
     const std::string& failure_reason,
@@ -51,6 +65,14 @@ ErrorRecoveryInfo ErrorRecoveryHandler::analyzePartialRefitFailure(
   return info;
 }
 
+/**
+ * @brief Analyze Rank Cap Breach.
+ * @param[in] artifact_id Identifier of the artifact.
+ * @param[in] current_rank_status Input parameter.
+ * @param[in] rank_cap Input parameter.
+ * @return Return value.
+ * @details Calls: std::to_string().
+ */
 ErrorRecoveryInfo ErrorRecoveryHandler::analyzeRankCapBreach(const std::string& artifact_id,
                                                               uint32_t current_rank_status,
                                                               uint32_t rank_cap) {
@@ -72,6 +94,14 @@ ErrorRecoveryInfo ErrorRecoveryHandler::analyzeRankCapBreach(const std::string& 
   return info;
 }
 
+/**
+ * @brief Analyze Residual Breach.
+ * @param[in] artifact_id Identifier of the artifact.
+ * @param[in] resulting_residual Input parameter.
+ * @param[in] residual_threshold Input parameter.
+ * @return Return value.
+ * @details Calls: std::to_string().
+ */
 ErrorRecoveryInfo ErrorRecoveryHandler::analyzeResidualBreach(const std::string& artifact_id,
                                                                double resulting_residual,
                                                                double residual_threshold) {
@@ -93,6 +123,13 @@ ErrorRecoveryInfo ErrorRecoveryHandler::analyzeResidualBreach(const std::string&
   return info;
 }
 
+/**
+ * @brief Analyze Lock Timeout.
+ * @param[in] artifact_id Identifier of the artifact.
+ * @param[in] timeout_ms Input parameter.
+ * @return Return value.
+ * @details Calls: std::to_string().
+ */
 ErrorRecoveryInfo ErrorRecoveryHandler::analyzeLockTimeout(const std::string& artifact_id,
                                                            int64_t timeout_ms) {
   ErrorRecoveryInfo info;
@@ -112,6 +149,12 @@ ErrorRecoveryInfo ErrorRecoveryHandler::analyzeLockTimeout(const std::string& ar
   return info;
 }
 
+/**
+ * @brief Analyze Checkpoint Corruption.
+ * @param[in] artifact_id Identifier of the artifact.
+ * @return Return value.
+ * @details Implements analyzeCheckpointCorruption without additional internal calls.
+ */
 ErrorRecoveryInfo ErrorRecoveryHandler::analyzeCheckpointCorruption(const std::string& artifact_id) {
   ErrorRecoveryInfo info;
   info.error_code = UpdateErrorCode::CHECKPOINT_CORRUPTED;
@@ -129,6 +172,14 @@ ErrorRecoveryInfo ErrorRecoveryHandler::analyzeCheckpointCorruption(const std::s
   return info;
 }
 
+/**
+ * @brief Analyze Update Timeout.
+ * @param[in] artifact_id Identifier of the artifact.
+ * @param[in] timeout_ms Input parameter.
+ * @param[in] delta_lag Input parameter.
+ * @return Return value.
+ * @details Calls: std::to_string().
+ */
 ErrorRecoveryInfo ErrorRecoveryHandler::analyzeUpdateTimeout(const std::string& artifact_id,
                                                              int64_t timeout_ms,
                                                              uint64_t delta_lag) {
@@ -161,10 +212,20 @@ ErrorRecoveryHandler::RecoveryStats ErrorRecoveryHandler::getStats() const {
   return stats_;
 }
 
+/**
+ * @brief Reset Stats.
+ * @details Calls: RecoveryStats().
+ */
 void ErrorRecoveryHandler::resetStats() {
   stats_ = RecoveryStats();
 }
 
+/**
+ * @brief Set Recovery Thresholds.
+ * @param[in] residual_increase_threshold Input parameter.
+ * @param[in] retry_threshold Input parameter.
+ * @details Implements setRecoveryThresholds without additional internal calls.
+ */
 void ErrorRecoveryHandler::setRecoveryThresholds(double residual_increase_threshold,
                                                  uint32_t retry_threshold) {
   residual_increase_threshold_ = residual_increase_threshold;

@@ -20,6 +20,12 @@ namespace importers {
 // dataModelToString
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Data Model To String.
+ * @param[in] m Input parameter.
+ * @return Return value.
+ * @details Implements dataModelToString without additional internal calls.
+ */
 std::string PolyglotPersistenceMapper::dataModelToString(DataModel m) {
     switch (m) {
         case DataModel::RELATIONAL:  return "RELATIONAL";
@@ -128,6 +134,12 @@ PolyglotPersistenceMapper::recommendDataModels(
 // ModelTransformer
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Table To Document.
+ * @param[in] row Input parameter.
+ * @param[in] schema Input parameter.
+ * @return Return value.
+ */
 json PolyglotPersistenceMapper::ModelTransformer::tableToDocument(
     const json& row,
     const InferenceTableSchema& schema)

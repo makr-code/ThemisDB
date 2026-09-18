@@ -27,15 +27,15 @@ namespace themis::llm {
 // ============================================================================
 // GPUMemoryGuard: RAII wrapper for GPU memory allocation
 // ============================================================================
-/** @brief GPUMemoryGuard: RAII wrapper for GPU memory allocation. */
 class GPUMemoryGuard {
  public:
   using Deleter = std::function<void(void*)>;
   
   /**
-   * Construct GPU memory guard with pointer and deleter function
-   * @param ptr GPU memory pointer (nullptr allowed)
-   * @param deleter Function to call when memory should be freed
+   * @brief GPUMemory Guard.
+   * @param[in,out] ptr Input/output parameter.
+   * @param[in] deleter Input parameter.
+   * @return Return value.
    */
   explicit GPUMemoryGuard(void* ptr, Deleter deleter) 
       : ptr_(ptr), deleter_(deleter) {}
@@ -76,7 +76,11 @@ class GPUMemoryGuard {
   // Check if valid
   explicit operator bool() const { return ptr_ != nullptr; }
   
-  // Release ownership without cleanup
+  /**
+   * @brief Release ownership without cleanup
+   * @return Pointer to the result.
+   * @details Implements release without additional internal calls.
+   */
   void* release() {
     void* tmp = ptr_;
     ptr_ = nullptr;
@@ -84,7 +88,10 @@ class GPUMemoryGuard {
     return tmp;
   }
   
-  // Reset to nullptr, calling deleter if set
+  /**
+   * @brief Reset to nullptr, calling deleter if set
+   * @details Calls: deleter_().
+   */
   void reset() {
     if (ptr_ && deleter_) {
       try {
@@ -107,15 +114,15 @@ class GPUMemoryGuard {
 // ============================================================================
 // DBConnectionGuard: RAII wrapper for database connections
 // ============================================================================
-/** @brief DBConnectionGuard: RAII wrapper for database connections. */
 class DBConnectionGuard {
  public:
   using Releaser = std::function<void()>;
   
   /**
-   * Construct DB connection guard
-   * @param connection_id Unique connection identifier
-   * @param releaser Function to call when connection should be returned
+   * @brief DBConnection Guard.
+   * @param[in] connection_id Identifier of the connection.
+   * @param[in] releaser Input parameter.
+   * @return Return value.
    */
   explicit DBConnectionGuard(int connection_id, Releaser releaser) 
       : connection_id_(connection_id), 
@@ -159,6 +166,10 @@ class DBConnectionGuard {
   int getId() const { return connection_id_; }
   
   // Manual release (optional)
+  /**
+   * @brief Release.
+   * @details Calls: releaser_().
+   */
   void release() {
     if (!is_released_ && releaser_) {
       try {
@@ -179,17 +190,11 @@ class DBConnectionGuard {
 // ============================================================================
 // ScopedLockGuard: Manages lock ordering to prevent deadlocks
 // ============================================================================
-/** @brief ScopedLockGuard: Manages lock ordering to prevent deadlocks. */
 class ScopedLockGuard {
  public:
   using LockFunc = std::function<void()>;
   using UnlockFunc = std::function<void()>;
   
-  /**
-   * RAII lock guard with exception safety
-   * @param lock Function to acquire lock
-   * @param unlock Function to release lock
-   */
   ScopedLockGuard(LockFunc lock, UnlockFunc unlock)
       : lock_(lock), 
         unlock_(unlock),
@@ -236,13 +241,8 @@ class ScopedLockGuard {
 // VectorRAII: Automatic vector growth allocation
 // ============================================================================
 template <typename T>
-/** @brief Vector raii. */
 class VectorRAII {
  public:
-  /**
-   * Pre-allocate vector with capacity to avoid reallocations
-   * @param initial_capacity Capacity to reserve
-   */
   explicit VectorRAII(size_t initial_capacity = 0) {
     if (initial_capacity > 0) {
       data_.reserve(initial_capacity);
@@ -257,11 +257,20 @@ class VectorRAII {
   VectorRAII(const VectorRAII&) = default;
   VectorRAII& operator=(const VectorRAII&) = default;
   
-  // Safe push_back with capacity management
+  /**
+   * @brief Safe push_back with capacity management
+   * @param[in] value Input parameter.
+   * @details Implements push_back without additional internal calls.
+   */
   void push_back(const T& value) {
     data_.push_back(value);
   }
   
+  /**
+   * @brief Push back.
+   * @param[in] value Input parameter.
+   * @details Calls: std::move().
+   */
   void push_back(T&& value) {
     data_.push_back(std::move(value));
   }
@@ -273,10 +282,24 @@ class VectorRAII {
   size_t size() const { return data_.size(); }
   size_t capacity() const { return data_.capacity(); }
   
+  /**
+   * @brief Clear.
+   * @details Implements clear without additional internal calls.
+   */
   void clear() { data_.clear(); }
   
+  /**
+   * @brief Begin.
+   * @return Return value.
+   * @details Implements begin without additional internal calls.
+   */
   typename std::vector<T>::iterator begin() { return data_.begin(); }
   typename std::vector<T>::const_iterator begin() const { return data_.begin(); }
+  /**
+   * @brief End.
+   * @return Return value.
+   * @details Implements end without additional internal calls.
+   */
   typename std::vector<T>::iterator end() { return data_.end(); }
   typename std::vector<T>::const_iterator end() const { return data_.end(); }
   
@@ -288,12 +311,8 @@ class VectorRAII {
 // ExceptionSafeDeleter: Safe pointer deletion with nullptr setting
 // ============================================================================
 template <typename T>
-/** @brief Exception safe deleter. */
 class ExceptionSafeDeleter {
  public:
-  /**
-   * Safe delete: exception-safe and sets pointer to nullptr
-   */
   static void safeDelete(T*& ptr) noexcept {
     if (ptr) {
       try {
@@ -305,9 +324,6 @@ class ExceptionSafeDeleter {
     }
   }
   
-  /**
-   * Safe delete array
-   */
   static void safeDeleteArray(T*& ptr) noexcept {
     if (ptr) {
       try {
@@ -324,16 +340,10 @@ class ExceptionSafeDeleter {
 // ManagedResource: Template for RAII resource management
 // ============================================================================
 template <typename Resource, typename Deleter>
-/** @brief Managed resource. */
 class ManagedResource {
  public:
   using value_type = Resource;
   
-  /**
-   * Construct with resource and deleter
-   * @param resource The resource to manage
-   * @param deleter Callable to clean up resource
-   */
   ManagedResource(Resource resource, Deleter deleter)
       : resource_(resource), deleter_(deleter) {}
   
@@ -372,7 +382,11 @@ class ManagedResource {
   Resource& operator*() { return *resource_; }
   const Resource& operator*() const { return *resource_; }
   
-  // Release ownership without cleanup
+  /**
+   * @brief Release ownership without cleanup
+   * @return Return value.
+   * @details Calls: std::move().
+   */
   Resource release() {
     Resource tmp = std::move(resource_);
     resource_ = nullptr;
@@ -406,16 +420,10 @@ class ManagedResource {
 // ============================================================================
 // QuotaGuard: RAII wrapper for quota management (token, batch count, etc.)
 // ============================================================================
-/** @brief QuotaGuard: RAII wrapper for quota management (token, batch count, etc.). */
 class QuotaGuard {
  public:
   using ReleaseFunc = std::function<void(size_t)>;
   
-  /**
-   * Construct quota guard
-   * @param quota_amount Amount of quota to acquire/release
-   * @param releaser Function to call when quota is returned
-   */
   QuotaGuard(size_t quota_amount, ReleaseFunc releaser)
       : quota_amount_(quota_amount), 
         releaser_(releaser),
@@ -442,6 +450,10 @@ class QuotaGuard {
   
   size_t getAmount() const { return quota_amount_; }
   
+  /**
+   * @brief Release.
+   * @details Calls: releaser_().
+   */
   void release() {
     if (!is_released_ && releaser_ && quota_amount_ > 0) {
       try {
@@ -462,15 +474,15 @@ class QuotaGuard {
 // ============================================================================
 // BatchGuard: RAII wrapper for batch resource management
 // ============================================================================
-/** @brief BatchGuard: RAII wrapper for batch resource management. */
 class BatchGuard {
  public:
   using BatchReleaser = std::function<void()>;
   
   /**
-   * Construct batch guard for batch operation cleanup
-   * @param batch_id Unique batch identifier
-   * @param releaser Function to clean up batch resources
+   * @brief Batch Guard.
+   * @param[in] batch_id Identifier of the batch.
+   * @param[in] releaser Input parameter.
+   * @return Return value.
    */
   explicit BatchGuard(int batch_id, BatchReleaser releaser)
       : batch_id_(batch_id),
@@ -498,6 +510,10 @@ class BatchGuard {
   
   int getId() const { return batch_id_; }
   
+  /**
+   * @brief Release.
+   * @details Calls: releaser_().
+   */
   void release() {
     if (!is_released_ && releaser_) {
       try {
@@ -518,19 +534,25 @@ class BatchGuard {
 // ============================================================================
 // ThreadSafeCounter: Atomic counter with RAII semantics
 // ============================================================================
-/** @brief ThreadSafeCounter: Atomic counter with RAII semantics. */
 class ThreadSafeCounter {
  public:
-  /**
-   * Construct counter with initial value
-   */
   explicit ThreadSafeCounter(size_t initial = 0) 
       : value_(initial) {}
   
+  /**
+   * @brief Increment.
+   * @return Return value.
+   * @details Calls: fetch_add().
+   */
   size_t increment() {
     return value_.fetch_add(1, std::memory_order_acq_rel) + 1;
   }
   
+  /**
+   * @brief Decrement.
+   * @return Return value.
+   * @details Calls: fetch_sub().
+   */
   size_t decrement() {
     return value_.fetch_sub(1, std::memory_order_acq_rel) - 1;
   }
@@ -539,6 +561,11 @@ class ThreadSafeCounter {
     return value_.load(std::memory_order_acquire);
   }
   
+  /**
+   * @brief Set.
+   * @param[in] val Input parameter.
+   * @details Calls: store().
+   */
   void set(size_t val) {
     value_.store(val, std::memory_order_release);
   }

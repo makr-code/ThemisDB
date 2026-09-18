@@ -12,9 +12,6 @@
 
 namespace themis {
 
-/**
- * @brief Vector index data container
- */
 class VectorIndexData {
 public:
     VectorIndexData(uint32_t id, const std::string& name, uint32_t dimension)
@@ -50,12 +47,24 @@ VectorIndexManagerSafety::VectorIndexManagerSafety() : next_id_(1) {
 }
 
 VectorIndexManagerSafety::~VectorIndexManagerSafety() noexcept {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     indices_.clear();
     generation_map_.clear();
     THEMIS_INFO("VectorIndexManagerSafety destroyed");
 }
 
+/**
+ * @brief Create Index.
+ * @param[in] name Input parameter.
+ * @param[in] dimension Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), THEMIS_DEBUG(), VectorIndexHandle().
+ */
 VectorIndexHandle VectorIndexManagerSafety::CreateIndex(
     const std::string& name, uint32_t dimension) {
     
@@ -76,6 +85,12 @@ VectorIndexHandle VectorIndexManagerSafety::CreateIndex(
     return VectorIndexHandle(id, generation, this);
 }
 
+/**
+ * @brief Remove Vector Index.
+ * @param[in] index_id Identifier of the index.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), find(), end(), THEMIS_WARN(), erase(), THEMIS_INFO().
+ */
 bool VectorIndexManagerSafety::RemoveVectorIndex(uint32_t index_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -96,6 +111,12 @@ bool VectorIndexManagerSafety::RemoveVectorIndex(uint32_t index_id) {
     return true;
 }
 
+/**
+ * @brief Update Vector Index.
+ * @param[in] index_id Identifier of the index.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), find(), end(), THEMIS_WARN(), THEMIS_DEBUG(), THEMIS_ERROR(), what().
+ */
 bool VectorIndexManagerSafety::UpdateVectorIndex(uint32_t index_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -139,6 +160,12 @@ bool VectorIndexManagerSafety::UpdateVectorIndex(uint32_t index_id) {
     }
 }
 
+/**
+ * @brief Get Index By Handle.
+ * @param[in] handle Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), find(), end(), THEMIS_DEBUG().
+ */
 std::shared_ptr<VectorIndexData> VectorIndexManagerSafety::GetIndexByHandle(
     const VectorIndexHandle& handle) {
     
@@ -162,6 +189,12 @@ std::shared_ptr<VectorIndexData> VectorIndexManagerSafety::GetIndexByHandle(
     return idx_it->second.data;
 }
 
+/**
+ * @brief Get Index By Id.
+ * @param[in] index_id Identifier of the index.
+ * @return Return value.
+ * @details Calls: lock(), find(), end().
+ */
 std::shared_ptr<VectorIndexData> VectorIndexManagerSafety::GetIndexById(uint32_t index_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -174,6 +207,11 @@ std::shared_ptr<VectorIndexData> VectorIndexManagerSafety::GetIndexById(uint32_t
 }
 
 std::vector<uint32_t> VectorIndexManagerSafety::GetIndexIds() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     std::vector<uint32_t> ids = {};
@@ -186,11 +224,21 @@ std::vector<uint32_t> VectorIndexManagerSafety::GetIndexIds() const {
 }
 
 size_t VectorIndexManagerSafety::GetIndexCount() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return indices_.size();
 }
 
 uint64_t VectorIndexManagerSafety::CurrentGeneration(uint32_t index_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     auto it = generation_map_.find(index_id);

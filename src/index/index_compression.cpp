@@ -31,7 +31,13 @@ namespace index {
 
 namespace {
 
-/// Compute the length of the longest common prefix of two strings.
+/**
+ * @brief Common Prefix Len.
+ * @param[in] a Input parameter.
+ * @param[in] b Input parameter.
+ * @return Return value.
+ * @details Calls: std::min(), size().
+ */
 static size_t commonPrefixLen(std::string_view a, std::string_view b) {
     const size_t len = std::min(a.size(), b.size());
     size_t i   = 0;
@@ -41,7 +47,6 @@ static size_t commonPrefixLen(std::string_view a, std::string_view b) {
     return i;
 }
 
-/// MurmurHash3-inspired mixer for a 64-bit seed.
 static uint64_t mixSeed([[maybe_unused]] uint64_t x) {
     x ^= x >> 33;
     x *= 0xff51afd7ed558ccdULL;
@@ -89,6 +94,11 @@ std::pair<uint64_t, uint64_t> BloomFilter::hash2_(std::string_view key) {
     return {h1, h2};
 }
 
+/**
+ * @brief Insert.
+ * @param[in] key Input parameter.
+ * @details Calls: hash2_().
+ */
 void BloomFilter::insert(std::string_view key) {
     auto [h1, h2] = hash2_(key);
     for (size_t i = 0; i < k_; ++i) {
@@ -108,6 +118,10 @@ bool BloomFilter::mightContain(std::string_view key) const {
     return true;
 }
 
+/**
+ * @brief Clear.
+ * @details Calls: assign().
+ */
 void BloomFilter::clear() {
     bits_.assign(m_, false);
 }
@@ -120,6 +134,11 @@ DictionaryCodec::DictionaryCodec() : cfg_(Config{}) {}
 
 DictionaryCodec::DictionaryCodec(const Config& cfg) : cfg_(cfg) {}
 
+/**
+ * @brief Train.
+ * @param[in] corpus Input parameter.
+ * @details Calls: reserve(), size(), emplace_back(), std::sort(), begin(), end(), std::min(), clear().
+ */
 void DictionaryCodec::train(const std::vector<std::string>& corpus) {
     // Count frequencies
     std::unordered_map<std::string, size_t> freq = {};
@@ -201,6 +220,12 @@ size_t PrefixBlock::savedBytes() const {
 // PrefixCompressor
 // ============================================================================
 
+/**
+ * @brief Compress.
+ * @param[in] sorted_keys Input parameter.
+ * @param[in] min_prefix_len Input parameter.
+ * @return Return value.
+ */
 std::vector<PrefixBlock> PrefixCompressor::compress(
     const std::vector<std::string>& sorted_keys,
     size_t min_prefix_len)
@@ -262,6 +287,11 @@ std::vector<PrefixBlock> PrefixCompressor::compress(
     return blocks;
 }
 
+/**
+ * @brief Decompress.
+ * @param[in] blocks Input parameter.
+ * @return Return value.
+ */
 std::vector<std::string> PrefixCompressor::decompress(
     const std::vector<PrefixBlock>& blocks)
 {
@@ -278,6 +308,12 @@ std::vector<std::string> PrefixCompressor::decompress(
 // DeltaEncoder
 // ============================================================================
 
+/**
+ * @brief Encode.
+ * @param[in] sorted_values Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), reserve(), size(), push_back().
+ */
 DeltaBlock DeltaEncoder::encode(const std::vector<int64_t>& sorted_values) {
     DeltaBlock block = {};
     if (sorted_values.empty()) {
@@ -292,6 +328,12 @@ DeltaBlock DeltaEncoder::encode(const std::vector<int64_t>& sorted_values) {
     return block;
 }
 
+/**
+ * @brief Decode.
+ * @param[in] block Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), THEMIS_DEBUG(), reserve(), size(), push_back().
+ */
 std::vector<int64_t> DeltaEncoder::decode(const DeltaBlock& block) {
     // An empty-encoded block has no base and no deltas.
     // Note: encode() returns a block with base=0 and no deltas for an empty
@@ -322,6 +364,12 @@ std::vector<int64_t> DeltaBlock::decompress() const {
 // RunLengthEncoder
 // ============================================================================
 
+/**
+ * @brief Encode.
+ * @param[in] values Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), push_back(), size(), back().
+ */
 RunLengthBlock RunLengthEncoder::encode(const std::vector<std::string>& values) {
     RunLengthBlock block = {};
     if (values.empty()) {
@@ -339,6 +387,12 @@ RunLengthBlock RunLengthEncoder::encode(const std::vector<std::string>& values) 
     return block;
 }
 
+/**
+ * @brief Decode.
+ * @param[in] block Input parameter.
+ * @return Return value.
+ * @details Calls: push_back().
+ */
 std::vector<std::string> RunLengthEncoder::decode(const RunLengthBlock& block) {
     std::vector<std::string> result = {};
 
@@ -354,6 +408,12 @@ std::vector<std::string> RunLengthBlock::decompress() const {
     return RunLengthEncoder::decode(*this);
 }
 
+/**
+ * @brief Compression Ratio.
+ * @param[in] values Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), size(), encode().
+ */
 double RunLengthEncoder::compressionRatio(const std::vector<std::string>& values) {
     if (values.empty()) {
       return 1.0;
@@ -389,6 +449,10 @@ IndexCompressionCodec::IndexCompressionCodec(const Config& cfg)
     , dict_codec_(cfg.dict_config)
 {}
 
+/**
+ * @brief Train Dictionary.
+ * @param[in] sample_values Input parameter.
+ */
 void IndexCompressionCodec::trainDictionary(
     const std::vector<std::string>& sample_values)
 {
@@ -413,6 +477,11 @@ std::string IndexCompressionCodec::decodeValue([[maybe_unused]] uint32_t code) c
     return dict_codec_.decode(code);
 }
 
+/**
+ * @brief Bloom Insert.
+ * @param[in] key Input parameter.
+ * @details Calls: insert().
+ */
 void IndexCompressionCodec::bloomInsert(std::string_view key) {
     if (!cfg_.enable_bloom_filter) {
       return;
@@ -433,6 +502,10 @@ bool IndexCompressionCodec::bloomMightContain(std::string_view key) const {
     return result;
 }
 
+/**
+ * @brief Reset Bloom.
+ * @details Calls: clear().
+ */
 void IndexCompressionCodec::resetBloom() {
     bloom_.clear();
     stats_.bloom_inserts    = 0;
@@ -441,6 +514,11 @@ void IndexCompressionCodec::resetBloom() {
     stats_.bloom_rejections = 0;
 }
 
+/**
+ * @brief Compress Keys.
+ * @param[in] sorted_keys Input parameter.
+ * @return Return value.
+ */
 std::vector<PrefixBlock> IndexCompressionCodec::compressKeys(
     const std::vector<std::string>& sorted_keys)
 {
@@ -478,6 +556,11 @@ std::vector<PrefixBlock> IndexCompressionCodec::compressKeys(
     return blocks;
 }
 
+/**
+ * @brief Decompress Keys.
+ * @param[in] blocks Input parameter.
+ * @return Return value.
+ */
 std::vector<std::string> IndexCompressionCodec::decompressKeys(
     const std::vector<PrefixBlock>& blocks)
 {
@@ -486,6 +569,11 @@ std::vector<std::string> IndexCompressionCodec::decompressKeys(
     return keys;
 }
 
+/**
+ * @brief Compress Values.
+ * @param[in] values Input parameter.
+ * @return Return value.
+ */
 RunLengthBlock IndexCompressionCodec::compressValues(
     const std::vector<std::string>& values)
 {
@@ -505,12 +593,22 @@ RunLengthBlock IndexCompressionCodec::compressValues(
     return block;
 }
 
+/**
+ * @brief Decompress Values.
+ * @param[in] block Input parameter.
+ * @return Return value.
+ */
 std::vector<std::string> IndexCompressionCodec::decompressValues(
     const RunLengthBlock& block)
 {
     return RunLengthEncoder::decode(block);
 }
 
+/**
+ * @brief Encode PKs.
+ * @param[in] sorted_pks Input parameter.
+ * @return Return value.
+ */
 DeltaBlock IndexCompressionCodec::encodePKs(
     const std::vector<int64_t>& sorted_pks)
 {
@@ -520,6 +618,12 @@ DeltaBlock IndexCompressionCodec::encodePKs(
     return DeltaEncoder::encode(sorted_pks);
 }
 
+/**
+ * @brief Decode PKs.
+ * @param[in] block Input parameter.
+ * @return Return value.
+ * @details Calls: DeltaEncoder::decode().
+ */
 std::vector<int64_t> IndexCompressionCodec::decodePKs(const DeltaBlock& block) {
     return DeltaEncoder::decode(block);
 }

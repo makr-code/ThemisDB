@@ -46,13 +46,20 @@ KnowledgeBase::YamlParserFn &yamlParserFnStorage() {
 }
 } // namespace
 
-/*static*/
+/**
+ * @brief static
+ * @param[in] fn Input parameter.
+ * @details Calls: lk(), yamlParserFnMutex(), yamlParserFnStorage(), std::move().
+ */
 void KnowledgeBase::setYamlParserFn(YamlParserFn fn) {
     std::lock_guard<std::mutex> lk(yamlParserFnMutex());
     yamlParserFnStorage() = std::move(fn);
 }
 
-/*static*/
+/**
+ * @brief static
+ * @details Calls: lk(), yamlParserFnMutex(), yamlParserFnStorage().
+ */
 void KnowledgeBase::clearYamlParserFn() {
     std::lock_guard<std::mutex> lk(yamlParserFnMutex());
     yamlParserFnStorage() = {};
@@ -62,12 +69,22 @@ void KnowledgeBase::clearYamlParserFn() {
 // helpers
 // ──────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Knowledge Base Now Ms.
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::now(), time_since_epoch(), count().
+ */
 static int64_t knowledgeBaseNowMs() {
     return std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch())
         .count();
 }
 
-// Using themis::utils::trim() from string_utils.h (Phase 1 consolidation)
+/**
+ * @brief Using themis::utils::trim() from string_utils.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details h (Phase 1 consolidation) Calls: size(), front(), substr().
+ */
 
 static std::string stripQuotes(const std::string &s) {
     if (s.size() >= 2 && s.front() == '"' && s.back() == '"') {
@@ -80,6 +97,11 @@ static std::string stripQuotes(const std::string &s) {
 // generateId
 // ──────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Generate Id.
+ * @return Return value.
+ * @details Calls: std::setw(), std::setfill(), str().
+ */
 std::string KnowledgeBase::generateId() {
     std::ostringstream oss = {};
     oss << "f_" << std::setw(6) << std::setfill('0') << id_counter_++;
@@ -90,6 +112,14 @@ std::string KnowledgeBase::generateId() {
 // Working Memory
 // ──────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Assert Fact.
+ * @param[in] subject Input parameter.
+ * @param[in] predicate Input parameter.
+ * @param[in] object Input parameter.
+ * @return Return value.
+ * @details Calls: size(), front(), find(), end(), equal_range(), erase(), pop_front(), generateId().
+ */
 std::string KnowledgeBase::assertFact(const std::string &subject, const std::string &predicate,
                                       const std::string &object) {
     // Evict oldest if at capacity.
@@ -125,6 +155,12 @@ std::string KnowledgeBase::assertFact(const std::string &subject, const std::str
     return f.id;
 }
 
+/**
+ * @brief Retract Fact.
+ * @param[in] fact_id Identifier of the fact.
+ * @return True when the operation succeeds.
+ * @details Calls: find(), end(), equal_range(), erase(), std::find(), begin().
+ */
 bool KnowledgeBase::retractFact(const std::string &fact_id) {
     const auto pred_it = fact_id_to_predicate_.find(fact_id);
     if (pred_it == fact_id_to_predicate_.end()) {
@@ -175,6 +211,10 @@ std::optional<Fact> KnowledgeBase::getFactById(const std::string &id) const {
     return it->second;
 }
 
+/**
+ * @brief Clear Facts.
+ * @details Calls: clear().
+ */
 void KnowledgeBase::clearFacts() {
     facts_by_predicate_.clear();
     fact_id_to_predicate_.clear();
@@ -186,6 +226,11 @@ void KnowledgeBase::clearFacts() {
 // Rule Store
 // ──────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Add Rule.
+ * @param[in] rule Input parameter.
+ * @details Calls: std::find_if(), begin(), end(), erase(), push_back(), std::move().
+ */
 void KnowledgeBase::addRule(HornClause rule) {
     // Remove previous rule with the same id if present.
     auto it = std::find_if(rules_.begin(), rules_.end(), [&](const HornClause &r) { return r.id == rule.id; });
@@ -195,6 +240,12 @@ void KnowledgeBase::addRule(HornClause rule) {
     rules_.push_back(std::move(rule));
 }
 
+/**
+ * @brief Remove Rule.
+ * @param[in] rule_id Identifier of the rule.
+ * @return True when the operation succeeds.
+ * @details Calls: std::find_if(), begin(), end(), erase().
+ */
 bool KnowledgeBase::removeRule(const std::string &rule_id) {
     const auto it = std::find_if(rules_.begin(), rules_.end(), [&](const HornClause &r) { return r.id == rule_id; });
     if (it == rules_.end()) {
@@ -211,18 +262,20 @@ std::vector<HornClause> KnowledgeBase::getRules() const {
     return sorted;
 }
 
+/**
+ * @brief Clear Rules.
+ * @details Calls: clear().
+ */
 void KnowledgeBase::clearRules() {
     rules_.clear();
 }
 
-// ──────────────────────────────────────────────────────────────────────────────
-// YAML Rule Loader
-// PERMANENT FALLBACK NOTE:
-// The inline parser handles only the specific ThemisDB Horn-clause YAML format.
-// Complex YAML (anchors, aliases, multi-line scalar values) is not supported.
-// When THEMIS_HAS_YAML_CPP is defined, yaml-cpp is used for full spec compliance
-// and the inline parser is not called.
-// ──────────────────────────────────────────────────────────────────────────────
+/**
+ * @brief ────────────────────────────────────────────────────────────────────────────── YAML Rule Loader PERMANENT FALLBACK NOTE: The inline parser handles only the specific ThemisDB Horn-clause YAML format.
+ * @param[in] line Input parameter.
+ * @return Return value.
+ * @details Complex YAML (anchors, aliases, multi-line scalar values) is not supported. When THEMIS_HAS_YAML_CPP is defined, yaml-cpp is used for full spec compliance and the inline parser is not called. ────────────────────────────────────────────────────────────────────────────── Calls: find(), substr(), ss(), std::getline(), push_back(), themis::utils::trim(), stripQuotes(), size().
+ */
 
 static TriplePattern parseTriplePattern(const std::string &line) {
     // Expected: "- [?subject, predicate, object]" or "  - [...]"
@@ -258,6 +311,12 @@ static TriplePattern parseTriplePattern(const std::string &line) {
     return tp;
 }
 
+/**
+ * @brief Load Rules From Yaml.
+ * @param[in] path Input parameter.
+ * @return Return value.
+ * @details Calls: lk(), yamlParserFnMutex(), yamlParserFnStorage(), fn_copy(), YAML::LoadFile(), IsSequence(), empty(), size().
+ */
 int KnowledgeBase::loadRulesFromYaml(const std::string &path) {
     // Delegate to injected full-featured parser when set.
     YamlParserFn fn_copy;

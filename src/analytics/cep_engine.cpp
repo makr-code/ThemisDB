@@ -61,10 +61,6 @@ namespace {
 // Float Comparison Helper (HIGH: epsilon-safe comparison, NaN handling)
 // ============================================================================
 
-/** IEEE-754 safe epsilon comparison for doubles.
- *  Handles NaN, infinity, and denormal numbers correctly.
- *  Used throughout for aggregation (MIN/MAX), filter evaluation, and comparisons.
- */
 inline bool isClose(double a, double b, double epsilon = 1e-9) {
     // Handle NaN cases
     if (std::isnan(a) || std::isnan(b)) {
@@ -78,7 +74,11 @@ inline bool isClose(double a, double b, double epsilon = 1e-9) {
     return std::abs(a - b) <= epsilon;
 }
 
-/** Generate a UUID-like string for IDs */
+/**
+ * @brief Generate Id.
+ * @return Return value.
+ * @details Calls: dist(), std::snprintf(), spdlog::warn(), std::string().
+ */
 std::string generateId() {
     static std::mt19937_64 rng{std::random_device{}()};
     static std::uniform_int_distribution<uint64_t> dist;
@@ -96,7 +96,12 @@ std::string generateId() {
     return std::string(buf);
 }
 
-/** Convert CepFieldValue to double for numeric aggregations (returns 0.0 on failure) */
+/**
+ * @brief To Double.
+ * @param[in] v Input parameter.
+ * @return Return value.
+ * @details Implements toDouble without additional internal calls.
+ */
 double toDouble(const CepFieldValue &v) {
     if (auto *d = std::get_if<double>(&v)) {
         return *d;
@@ -110,7 +115,12 @@ double toDouble(const CepFieldValue &v) {
     return 0.0;
 }
 
-/** Convert CepFieldValue to string for distinct counting and set operations */
+/**
+ * @brief Field Value To String.
+ * @param[in] v Input parameter.
+ * @return Return value.
+ * @details Calls: std::to_string().
+ */
 std::string fieldValueToString(const CepFieldValue &v) {
     if (std::holds_alternative<std::monostate>(v)) {
         return "";
@@ -130,7 +140,12 @@ std::string fieldValueToString(const CepFieldValue &v) {
     return "<complex>";
 }
 
-/** Hex-encode a byte string */
+/**
+ * @brief Hex Encode.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size().
+ */
 std::string hexEncode(const std::string &s) {
     static const char hex[] = "0123456789abcdef";
     std::string out = {};
@@ -142,7 +157,12 @@ std::string hexEncode(const std::string &s) {
     return out;
 }
 
-/** Hex-decode a hex string; silently skips pairs with non-hex characters */
+/**
+ * @brief Hex Decode.
+ * @param[in] hex Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), nibble().
+ */
 std::string hexDecode(const std::string &hex) {
     std::string out = {};
     out.reserve(hex.size() / 2);
@@ -168,16 +188,17 @@ std::string hexDecode(const std::string &hex) {
     return out;
 }
 
-/** Compute percentile (p in [0,100]) from a sorted or unsorted vector.
- *  Delegates to themis::analytics::detail::computePercentile (stats.h) so
- *  the implementation is shared with streaming_window.cpp — fixes the
- *  pass-by-value O(N) copy that previously occurred on every call-site.
+/**
+ * @brief Compute Percentile.
+ * @param[in] vals Input parameter.
+ * @param[in] p Input parameter.
+ * @return Return value.
+ * @details Implements computePercentile without additional internal calls.
  */
 double computePercentile(const std::vector<double> &vals, double p) {
     return themis::analytics::detail::computePercentile(vals, p);
 }
 
-/** Simple tokenizer used for filter/having expression evaluation */
 enum class TokType { IDENT, NUMBER, STRING, OP, LPAREN, RPAREN, AND, OR, NOT, EQ, NEQ, LT, GT, LEQ, GEQ, END };
 
 struct Token {
@@ -186,6 +207,12 @@ struct Token {
     double num = 0.0;
 };
 
+/**
+ * @brief Tokenize.
+ * @param[in] expr Input parameter.
+ * @return Return value.
+ * @details Calls: size(), std::isspace(), std::isalpha(), std::isalnum(), substr(), push_back(), std::isdigit(), std::stod().
+ */
 std::vector<Token> tokenize(const std::string &expr) {
     std::vector<Token> tokens;
     size_t i = 0;
@@ -287,11 +314,6 @@ std::vector<Token> tokenize(const std::string &expr) {
     return tokens;
 }
 
-/**
- * Very small recursive-descent expression evaluator.
- * Supports: field comparisons, AND/OR/NOT, parentheses.
- * Context is provided as a flat map of field -> string value.
- */
 struct ExprEvaluator {
     const std::vector<Token> &tokens;
     const std::map<std::string, std::string> &ctx;
@@ -300,16 +322,30 @@ struct ExprEvaluator {
     const Token &cur() const {
         return tokens[pos];
     }
+    /**
+     * @brief Advance an iterator within the validated range.
+     * @details Calls: size().
+     */
     void advance() {
         if (pos + 1 < tokens.size()) {
             ++pos;
         }
     }
 
+    /**
+     * @brief Evaluate.
+     * @return True when the operation succeeds.
+     * @details Calls: parseOr().
+     */
     bool evaluate() {
         return parseOr();
     }
 
+    /**
+     * @brief Parse Or.
+     * @return True when the operation succeeds.
+     * @details Calls: parseAnd(), cur(), advance().
+     */
     bool parseOr() {
         bool left = parseAnd();
         while (cur().type == TokType::OR) {
@@ -320,6 +356,11 @@ struct ExprEvaluator {
         return left;
     }
 
+    /**
+     * @brief Parse And.
+     * @return True when the operation succeeds.
+     * @details Calls: parseNot(), cur(), advance().
+     */
     bool parseAnd() {
         bool left = parseNot();
         while (cur().type == TokType::AND) {
@@ -330,6 +371,11 @@ struct ExprEvaluator {
         return left;
     }
 
+    /**
+     * @brief Parse Not.
+     * @return True when the operation succeeds.
+     * @details Calls: cur(), advance(), parseAtom().
+     */
     bool parseNot() {
         if (cur().type == TokType::NOT) {
             advance();
@@ -338,6 +384,11 @@ struct ExprEvaluator {
         return parseAtom();
     }
 
+    /**
+     * @brief Parse Atom.
+     * @return True when the operation succeeds.
+     * @details Calls: cur(), advance(), parseOr(), find(), end(), std::stod(), spdlog::debug(), what().
+     */
     bool parseAtom() {
         if (cur().type == TokType::LPAREN) {
             advance();
@@ -404,7 +455,6 @@ struct ExprEvaluator {
     }
 };
 
-/** Evaluate a simple filter/HAVING expression against a field map */
 bool evalExpression(const std::string &expr, const std::map<std::string, std::string> &ctx) {
     if (expr.empty()) {
         return true;
@@ -445,6 +495,12 @@ std::vector<uint8_t> Event::serialize() const {
     return std::vector<uint8_t>(s.begin(), s.end());
 }
 
+/**
+ * @brief Deserialize.
+ * @param[in] data Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), s(), begin(), end(), iss(), std::getline(), std::stoul(), std::stoll().
+ */
 std::optional<Event> Event::deserialize(const std::vector<uint8_t> &data) {
     if (data.empty()) {
         return std::nullopt;
@@ -539,6 +595,11 @@ uint32_t EventStream::getPartitionId(const Event &event) const {
     return static_cast<uint32_t>(h(event.partition_key) % partitions_.size());
 }
 
+/**
+ * @brief Notify Subscribers.
+ * @param[in] event Input parameter.
+ * @details Calls: lock(), cb(), spdlog::warn(), what().
+ */
 void EventStream::notifySubscribers(const Event &event) {
     std::shared_lock lock(subscribers_mutex_);
     for (const auto &[id, cb] : subscribers_) {
@@ -552,6 +613,12 @@ void EventStream::notifySubscribers(const Event &event) {
     }
 }
 
+/**
+ * @brief Push.
+ * @param[in] event Input parameter.
+ * @return Return value.
+ * @details Calls: getPartitionId(), size(), load(), lk(), push_back(), std::move(), notifySubscribers(), back().
+ */
 EventStream::PushResult EventStream::push(Event event) {
     uint32_t pid = getPartitionId(event);
     auto &part   = *partitions_[pid];
@@ -587,6 +654,12 @@ EventStream::PushResult EventStream::push(Event event) {
     return PushResult::SUCCESS;
 }
 
+/**
+ * @brief Pull.
+ * @param[in] partition_id Identifier of the partition.
+ * @return Return value.
+ * @details Calls: size(), lk(), empty(), std::move(), front(), pop_front().
+ */
 std::optional<Event> EventStream::pull(uint32_t partition_id) {
     if (static_cast<size_t>(partition_id) >= partitions_.size()) {
         return std::nullopt;
@@ -651,6 +724,12 @@ EventStream::Stats EventStream::getStats() const {
         getOverallFillLevel()};
 }
 
+/**
+ * @brief Subscribe.
+ * @param[in] callback Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), std::move().
+ */
 uint64_t EventStream::subscribe(EventCallback callback) {
     uint64_t id = next_subscription_id_++;
     std::unique_lock lock(subscribers_mutex_);
@@ -658,6 +737,11 @@ uint64_t EventStream::subscribe(EventCallback callback) {
     return id;
 }
 
+/**
+ * @brief Unsubscribe.
+ * @param[in] subscription_id Identifier of the subscription.
+ * @details Calls: lock(), erase().
+ */
 void EventStream::unsubscribe(uint64_t subscription_id) {
     std::unique_lock lock(subscribers_mutex_);
     subscribers_.erase(subscription_id);
@@ -673,6 +757,10 @@ PatternMatcher::PatternMatcher(const PatternConfig &config) : config_(config) {
 
 PatternMatcher::~PatternMatcher() = default;
 
+/**
+ * @brief Build NFA.
+ * @details Calls: clear(), empty(), size(), push_back(), std::move(), back().
+ */
 void PatternMatcher::buildNFA() {
     // Build a linear NFA for SEQUENCE; other patterns treated as simplified variations.
     nfa_states_.clear();
@@ -730,6 +818,10 @@ bool PatternMatcher::evaluateCondition(const Event &event) const {
     return evalExpression(config_.condition, ctx);
 }
 
+/**
+ * @brief Prune Expired Matches.
+ * @details Calls: count(), std::chrono::steady_clock::now(), erase(), std::remove_if(), begin(), end().
+ */
 void PatternMatcher::pruneExpiredMatches() {
     if (config_.within.count() <= 0) {
         return;
@@ -746,6 +838,12 @@ void PatternMatcher::pruneExpiredMatches() {
     }
 }
 
+/**
+ * @brief Process Event.
+ * @param[in] event Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), lk(), pruneExpiredMatches(), find(), end(), fieldValueToString(), str(), matchesEventType().
+ */
 std::vector<PatternMatch> PatternMatcher::processEvent(const Event &event) {
     if (nfa_states_.empty()) {
         return {};
@@ -979,6 +1077,10 @@ std::vector<PatternMatch> PatternMatcher::processEvent(const Event &event) {
     return completed;
 }
 
+/**
+ * @brief Reset the modification detection flag.
+ * @details Calls: lk(), clear().
+ */
 void PatternMatcher::reset() {
     std::lock_guard lk(state_mutex_);
     partial_matches_.clear();
@@ -986,6 +1088,11 @@ void PatternMatcher::reset() {
 }
 
 size_t PatternMatcher::getPendingMatchCount() const {
+    /**
+     * @brief Lk.
+     * @param[in] state_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard lk(state_mutex_);
     size_t total = 0;
     for (const auto &[k, v] : partial_matches_) {
@@ -995,6 +1102,11 @@ size_t PatternMatcher::getPendingMatchCount() const {
 }
 
 std::string PatternMatcher::serializeState() const {
+    /**
+     * @brief Lk.
+     * @param[in] state_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard lk(state_mutex_);
     auto now = std::chrono::steady_clock::now();
     std::ostringstream oss = {};
@@ -1015,6 +1127,11 @@ std::string PatternMatcher::serializeState() const {
     return oss.str();
 }
 
+/**
+ * @brief Restore State.
+ * @param[in] data Input parameter.
+ * @details Calls: lk(), clear(), empty(), std::chrono::steady_clock::now(), iss(), std::getline(), rfind(), substr().
+ */
 void PatternMatcher::restoreState(const std::string &data) {
     std::lock_guard lk(state_mutex_);
     partial_matches_.clear();
@@ -1085,16 +1202,31 @@ WindowManager::~WindowManager() {
     }
 }
 
+/**
+ * @brief Set Window Callback.
+ * @param[in] callback Input parameter.
+ * @details Calls: std::move().
+ */
 void WindowManager::setWindowCallback(WindowCallback callback) {
     callback_ = std::move(callback);
 }
 
+/**
+ * @brief Advance Watermark.
+ * @param[in] wm Input parameter.
+ * @details Implements advanceWatermark without additional internal calls.
+ */
 void WindowManager::advanceWatermark(std::chrono::system_clock::time_point wm) {
     if (wm > watermark_) {
         watermark_ = wm;
     }
 }
 
+/**
+ * @brief Add Event.
+ * @param[in] event Input parameter.
+ * @details Calls: handleTumblingWindow(), handleSlidingWindow(), handleSessionWindow(), handleCountWindow(), lk(), empty(), std::chrono::system_clock::time_point::max(), push_back().
+ */
 void WindowManager::addEvent(const Event &event) {
     switch (config_.type) {
         case WindowType::TUMBLING:
@@ -1127,6 +1259,11 @@ void WindowManager::addEvent(const Event &event) {
     }
 }
 
+/**
+ * @brief Handle Tumbling Window.
+ * @param[in] event Input parameter.
+ * @details Calls: lk(), empty(), push_back(), std::move(), back(), closeWindow(), count(), callback_().
+ */
 void WindowManager::handleTumblingWindow(const Event &event) {
     std::optional<WindowCallbackBatch> batch;
     {
@@ -1166,6 +1303,11 @@ void WindowManager::handleTumblingWindow(const Event &event) {
     }
 }
 
+/**
+ * @brief Handle Sliding Window.
+ * @param[in] event Input parameter.
+ * @details Calls: lk(), count(), empty(), back(), push_back(), std::move(), closeWindow(), size().
+ */
 void WindowManager::handleSlidingWindow(const Event &event) {
     std::vector<WindowCallbackBatch> batches;
     {
@@ -1215,6 +1357,11 @@ void WindowManager::handleSlidingWindow(const Event &event) {
     }
 }
 
+/**
+ * @brief Handle Session Window.
+ * @param[in] event Input parameter.
+ * @details Calls: lk(), find(), end(), push_back(), insert(), std::move(), closeWindow(), callback_().
+ */
 void WindowManager::handleSessionWindow(const Event &event) {
     std::optional<WindowCallbackBatch> batch;
     {
@@ -1263,6 +1410,11 @@ void WindowManager::handleSessionWindow(const Event &event) {
     }
 }
 
+/**
+ * @brief Handle Count Window.
+ * @param[in] event Input parameter.
+ * @details Calls: lk(), empty(), push_back(), std::move(), back(), size(), closeWindow(), callback_().
+ */
 void WindowManager::handleCountWindow(const Event &event) {
     std::optional<WindowCallbackBatch> batch;
     {
@@ -1297,6 +1449,12 @@ void WindowManager::handleCountWindow(const Event &event) {
     }
 }
 
+/**
+ * @brief Close Window.
+ * @param[in,out] w Input/output parameter.
+ * @return Return value.
+ * @details Calls: empty(), std::move().
+ */
 std::optional<WindowManager::WindowCallbackBatch> WindowManager::closeWindow(Window &w) {
     if (w.closed) {
         return std::nullopt;
@@ -1310,6 +1468,11 @@ std::optional<WindowManager::WindowCallbackBatch> WindowManager::closeWindow(Win
 }
 
 std::vector<Event> WindowManager::getWindowEvents() const {
+    /**
+     * @brief Lk.
+     * @param[in] windows_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard lk(windows_mutex_);
     if (windows_.empty()) {
         return {};
@@ -1325,6 +1488,11 @@ std::vector<Event> WindowManager::getWindowEvents() const {
 
 std::vector<Event> WindowManager::getEvents(std::chrono::system_clock::time_point start,
                                             std::chrono::system_clock::time_point end) const {
+    /**
+     * @brief Lk.
+     * @param[in] windows_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard lk(windows_mutex_);
     std::vector<Event> result = {};
 
@@ -1349,6 +1517,11 @@ std::vector<Event> WindowManager::getEvents(std::chrono::system_clock::time_poin
 WindowManager::Stats WindowManager::getStats() const {
     size_t in_window = 0;
     {
+        /**
+         * @brief Lk.
+         * @param[in] windows_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard lk(windows_mutex_);
         for (const auto &w : windows_) {
             if (!w.closed) {
@@ -1364,6 +1537,10 @@ WindowManager::Stats WindowManager::getStats() const {
     return Stats{windows_created_.load(), windows_closed_.load(), in_window, late_events_.load()};
 }
 
+/**
+ * @brief Timer Loop.
+ * @details Calls: lk(), wait_for(), load(), std::chrono::system_clock::now(), wlk(), empty(), push_back(), callback_().
+ */
 void WindowManager::timerLoop() {
     while (running_) {
         std::unique_lock lk(timer_mutex_);
@@ -1435,6 +1612,13 @@ void WindowManager::timerLoop() {
 Aggregator::Aggregator()  = default;
 Aggregator::~Aggregator() = default;
 
+/**
+ * @brief Add Aggregation.
+ * @param[in] name Input parameter.
+ * @param[in] type Input parameter.
+ * @param[in] field Input parameter.
+ * @details Calls: lk(), std::move().
+ */
 void Aggregator::addAggregation(const std::string &name, AggregationType type, const std::string &field) {
     std::lock_guard lk(mutex_);
     AggregationState s = AggregationState{};
@@ -1444,11 +1628,20 @@ void Aggregator::addAggregation(const std::string &name, AggregationType type, c
     aggregations_[name] = std::move(s);
 }
 
+/**
+ * @brief Set Group By.
+ * @param[in] fields Input parameter.
+ * @details Calls: lk().
+ */
 void Aggregator::setGroupBy(const std::vector<std::string> &fields) {
     std::lock_guard lk(mutex_);
     group_by_fields_ = fields;
 }
 
+/**
+ * @brief Reset the modification detection flag.
+ * @details Calls: lk(), max(), lowest(), clear().
+ */
 void Aggregator::reset() {
     std::lock_guard lk(mutex_);
     for (auto &[n, s] : aggregations_) {
@@ -1477,6 +1670,12 @@ std::string Aggregator::getGroupKey(const Event &event) const {
     return key;
 }
 
+/**
+ * @brief Update Aggregation.
+ * @param[in,out] s Input/output parameter.
+ * @param[in] event Input parameter.
+ * @details Calls: find(), end(), toDouble(), push_back(), insert(), fieldValueToString().
+ */
 void Aggregator::updateAggregation(AggregationState &s, const Event &event) {
     auto it          = event.fields.find(s.field);
     CepFieldValue fv = (it != event.fields.end()) ? it->second : CepFieldValue{std::monostate{}};
@@ -1591,6 +1790,11 @@ CepFieldValue Aggregator::computeResult(const AggregationState &s) const {
     }
 }
 
+/**
+ * @brief Process Event.
+ * @param[in] event Input parameter.
+ * @details Calls: lk(), empty(), updateAggregation(), getGroupKey(), find(), end(), max(), lowest().
+ */
 void Aggregator::processEvent(const Event &event) {
     std::lock_guard lk(mutex_);
     if (group_by_fields_.empty()) {
@@ -1617,6 +1821,11 @@ void Aggregator::processEvent(const Event &event) {
 }
 
 std::map<std::string, AggregationResult> Aggregator::getResults() const {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard lk(mutex_);
     std::map<std::string, AggregationResult> results;
     // Pre-allocate based on expected size (roughly number of aggregations * groups)
@@ -1644,6 +1853,11 @@ std::map<std::string, AggregationResult> Aggregator::getResults() const {
                 r.window_end     = now;
                 // Decode group by values
                 if (!group_by_fields_.empty()) {
+                    /**
+                     * @brief Iss.
+                     * @param[in] gkey Input parameter.
+                     * @return Return value.
+                     */
                     std::istringstream iss(gkey);
                     std::string token = {};
                     size_t fi = 0;
@@ -1674,6 +1888,12 @@ std::optional<AggregationResult> Aggregator::getResult(const std::string &name) 
 RuleEngine::RuleEngine(CEPEngine *engine) : engine_(engine) {}
 RuleEngine::~RuleEngine() = default;
 
+/**
+ * @brief Add Rule.
+ * @param[in] config Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lk(), find(), end(), spdlog::warn(), addAggregation(), empty(), setGroupBy(), std::move().
+ */
 bool RuleEngine::addRule(const RuleConfig &config) {
     std::unique_lock lk(rules_mutex_);
     if (rules_.find(config.rule_id) != rules_.end()) {
@@ -1699,11 +1919,23 @@ bool RuleEngine::addRule(const RuleConfig &config) {
     return true;
 }
 
+/**
+ * @brief Remove Rule.
+ * @param[in] rule_id Identifier of the rule.
+ * @return True when the operation succeeds.
+ * @details Calls: lk(), erase().
+ */
 bool RuleEngine::removeRule(const std::string &rule_id) {
     std::unique_lock lk(rules_mutex_);
     return rules_.erase(rule_id) > 0;
 }
 
+/**
+ * @brief Set Rule Enabled.
+ * @param[in] rule_id Identifier of the rule.
+ * @param[in] enabled Input parameter.
+ * @details Calls: lk(), find(), end().
+ */
 void RuleEngine::setRuleEnabled(const std::string &rule_id, bool enabled) {
     std::unique_lock lk(rules_mutex_);
     auto it = rules_.find(rule_id);
@@ -1713,6 +1945,11 @@ void RuleEngine::setRuleEnabled(const std::string &rule_id, bool enabled) {
 }
 
 std::optional<RuleConfig> RuleEngine::getRule(const std::string &rule_id) const {
+    /**
+     * @brief Lk.
+     * @param[in] rules_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock lk(rules_mutex_);
     auto it = rules_.find(rule_id);
     if (it == rules_.end()) {
@@ -1722,6 +1959,11 @@ std::optional<RuleConfig> RuleEngine::getRule(const std::string &rule_id) const 
 }
 
 std::vector<RuleConfig> RuleEngine::getRules() const {
+    /**
+     * @brief Lk.
+     * @param[in] rules_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock lk(rules_mutex_);
     std::vector<RuleConfig> result = {};
 
@@ -1762,6 +2004,13 @@ bool RuleEngine::evaluateHaving(const std::map<std::string, AggregationResult> &
     return evalExpression(having, ctx);
 }
 
+/**
+ * @brief Execute Action.
+ * @param[in] action Input parameter.
+ * @param[in] match Input parameter.
+ * @param[in] rule Input parameter.
+ * @details Calls: empty(), spdlog::info(), size(), spdlog::debug().
+ */
 void RuleEngine::executeAction(const ActionConfig &action, const PatternMatch &match, const RuleConfig &rule) {
     switch (action.type) {
         case ActionType::ALERT: {
@@ -1792,6 +2041,12 @@ void RuleEngine::executeAction(const ActionConfig &action, const PatternMatch &m
     }
 }
 
+/**
+ * @brief Execute Actions.
+ * @param[in] config Input parameter.
+ * @param[in] match Input parameter.
+ * @details Calls: std::thread(), executeAction(), detach().
+ */
 void RuleEngine::executeActions(const RuleConfig &config, const PatternMatch &match) {
     for (const auto &action : config.actions) {
         if (action.type == ActionType::ALERT) {
@@ -1805,6 +2060,12 @@ void RuleEngine::executeActions(const RuleConfig &config, const PatternMatch &ma
     }
 }
 
+/**
+ * @brief Process Event.
+ * @param[in] event Input parameter.
+ * @return Return value.
+ * @details Calls: lk(), empty(), std::any_of(), begin(), end(), evaluateFilter(), std::chrono::steady_clock::now(), addEvent().
+ */
 std::vector<Alert> RuleEngine::processEvent(const Event &event) {
     std::vector<Alert> alerts;
 
@@ -1920,6 +2181,12 @@ std::vector<Alert> RuleEngine::processEvent(const Event &event) {
     return alerts;
 }
 
+/**
+ * @brief Parse EPL.
+ * @param[in] epl Input parameter.
+ * @return Return value.
+ * @details Calls: generateId(), std::chrono::system_clock::now(), reserve(), size(), empty(), front(), erase(), begin().
+ */
 std::optional<RuleConfig> RuleEngine::parseEPL(const std::string &epl) {
     // EPL parser: supports
     //   [CREATE RULE <name> AS | NAME <name>]
@@ -2383,6 +2650,11 @@ std::optional<RuleConfig> RuleEngine::parseEPL(const std::string &epl) {
 }
 
 RuleEngine::RuleStats RuleEngine::getRuleStats(const std::string &rule_id) const {
+    /**
+     * @brief Lk.
+     * @param[in] rules_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock lk(rules_mutex_);
     auto it = rules_.find(rule_id);
     if (it == rules_.end()) {
@@ -2392,6 +2664,11 @@ RuleEngine::RuleStats RuleEngine::getRuleStats(const std::string &rule_id) const
 }
 
 std::string RuleEngine::serializeMatcherStates() const {
+    /**
+     * @brief Lk.
+     * @param[in] rules_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock lk(rules_mutex_);
     std::ostringstream oss = {};
     for (const auto &[rule_id, state] : rules_) {
@@ -2407,6 +2684,11 @@ std::string RuleEngine::serializeMatcherStates() const {
     return oss.str();
 }
 
+/**
+ * @brief Restore Matcher States.
+ * @param[in] data Input parameter.
+ * @details Calls: empty(), lk(), iss(), std::getline(), rfind(), substr(), str(), clear().
+ */
 void RuleEngine::restoreMatcherStates(const std::string &data) {
     if (data.empty()) {
         return;
@@ -2442,6 +2724,11 @@ CEPEngine &CEPEngine::getInstance() {
     return instance;
 }
 
+/**
+ * @brief Initialize.
+ * @param[in] config Input parameter.
+ * @details Calls: load(), spdlog::warn(), lk(), clear(), emplace_back(), workerLoop(), std::thread(), metricsLoop().
+ */
 void CEPEngine::initialize(const CEPConfig &config) {
     if (initialized_.load()) {
         spdlog::warn("CEPEngine::initialize() called while already initialized");
@@ -2500,6 +2787,10 @@ void CEPEngine::initialize(const CEPConfig &config) {
                  config_.checkpointing_enabled);
 }
 
+/**
+ * @brief Shutdown.
+ * @details Calls: load(), notify_all(), joinable(), join(), clear(), reset(), lk(), spdlog::info().
+ */
 void CEPEngine::shutdown() {
     if (!initialized_.load()) {
         return;
@@ -2527,6 +2818,12 @@ void CEPEngine::shutdown() {
     spdlog::info("CEPEngine shut down");
 }
 
+/**
+ * @brief Create Stream.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @details Calls: lk(), spdlog::debug().
+ */
 std::shared_ptr<EventStream> CEPEngine::createStream(const StreamConfig &config) {
     auto stream = std::make_shared<EventStream>(config);
     std::unique_lock lk(streams_mutex_);
@@ -2536,12 +2833,22 @@ std::shared_ptr<EventStream> CEPEngine::createStream(const StreamConfig &config)
 }
 
 std::shared_ptr<EventStream> CEPEngine::getStream(const std::string &stream_id) const {
+    /**
+     * @brief Lk.
+     * @param[in] streams_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock lk(streams_mutex_);
     auto it = streams_.find(stream_id);
     return (it != streams_.end()) ? it->second : nullptr;
 }
 
 std::vector<std::shared_ptr<EventStream>> CEPEngine::getStreams() const {
+    /**
+     * @brief Lk.
+     * @param[in] streams_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock lk(streams_mutex_);
     std::vector<std::shared_ptr<EventStream>> result;
     result.reserve(streams_.size());
@@ -2551,15 +2858,34 @@ std::vector<std::shared_ptr<EventStream>> CEPEngine::getStreams() const {
     return result;
 }
 
+/**
+ * @brief Remove Stream.
+ * @param[in] stream_id Identifier of the stream.
+ * @return True when the operation succeeds.
+ * @details Calls: lk(), erase().
+ */
 bool CEPEngine::removeStream(const std::string &stream_id) {
     std::unique_lock lk(streams_mutex_);
     return streams_.erase(stream_id) > 0;
 }
 
+/**
+ * @brief Submit Event.
+ * @param[in] event Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: std::move().
+ */
 bool CEPEngine::submitEvent(Event event) {
     return submitEvent("default", std::move(event));
 }
 
+/**
+ * @brief Submit Event.
+ * @param[in] stream_id Identifier of the stream.
+ * @param[in] event Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: load(), std::chrono::system_clock::now(), empty(), generateId(), size_approx(), capacity(), spdlog::debug(), push().
+ */
 bool CEPEngine::submitEvent(const std::string &stream_id, Event event) {
     if (!initialized_.load() || !running_.load()) {
         return false;
@@ -2626,6 +2952,12 @@ Event CEPEngine::createCDCEvent(EventType type, const std::string &collection, c
     return ev;
 }
 
+/**
+ * @brief Add Rule.
+ * @param[in] config Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements addRule without additional internal calls.
+ */
 bool CEPEngine::addRule(const RuleConfig &config) {
     if (!rule_engine_) {
         return false;
@@ -2633,6 +2965,12 @@ bool CEPEngine::addRule(const RuleConfig &config) {
     return rule_engine_->addRule(config);
 }
 
+/**
+ * @brief Add Rule From EPL.
+ * @param[in] epl Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: RuleEngine::parseEPL(), spdlog::error(), addRule().
+ */
 bool CEPEngine::addRuleFromEPL(const std::string &epl) {
     auto cfg = RuleEngine::parseEPL(epl);
     if (!cfg) {
@@ -2642,6 +2980,12 @@ bool CEPEngine::addRuleFromEPL(const std::string &epl) {
     return addRule(*cfg);
 }
 
+/**
+ * @brief Remove Rule.
+ * @param[in] rule_id Identifier of the rule.
+ * @return True when the operation succeeds.
+ * @details Implements removeRule without additional internal calls.
+ */
 bool CEPEngine::removeRule(const std::string &rule_id) {
     if (!rule_engine_) {
         return false;
@@ -2656,6 +3000,12 @@ std::optional<RuleConfig> CEPEngine::getRule(const std::string &rule_id) const {
     return rule_engine_->getRule(rule_id);
 }
 
+/**
+ * @brief Load Rules From File.
+ * @param[in] path Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: f(), is_open(), spdlog::error(), std::getline(), empty(), addRuleFromEPL(), clear(), spdlog::info().
+ */
 bool CEPEngine::loadRulesFromFile(const std::string &path) {
     std::ifstream f(path);
     if (!f.is_open()) {
@@ -2684,6 +3034,11 @@ bool CEPEngine::loadRulesFromFile(const std::string &path) {
 }
 
 std::vector<Alert> CEPEngine::getAlerts(size_t limit, bool unacknowledged_only) const {
+    /**
+     * @brief Lk.
+     * @param[in] alerts_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard lk(alerts_mutex_);
     std::vector<Alert> result = {};
 
@@ -2697,6 +3052,12 @@ std::vector<Alert> CEPEngine::getAlerts(size_t limit, bool unacknowledged_only) 
     return result;
 }
 
+/**
+ * @brief Acknowledge Alert.
+ * @param[in] alert_id Identifier of the alert.
+ * @return True when the operation succeeds.
+ * @details Calls: lk().
+ */
 bool CEPEngine::acknowledgeAlert(const std::string &alert_id) {
     std::lock_guard lk(alerts_mutex_);
     for (auto &a : alerts_) {
@@ -2708,11 +3069,21 @@ bool CEPEngine::acknowledgeAlert(const std::string &alert_id) {
     return false;
 }
 
+/**
+ * @brief Set Alert Callback.
+ * @param[in] callback Input parameter.
+ * @details Calls: lk(), std::move().
+ */
 void CEPEngine::setAlertCallback(AlertCallback callback) {
     std::lock_guard lk(alerts_mutex_);
     alert_callback_ = std::move(callback);
 }
 
+/**
+ * @brief Add Alert.
+ * @param[in] alert Input parameter.
+ * @details Calls: lk(), push_back(), size(), pop_front(), alert_callback_(), spdlog::warn(), what().
+ */
 void CEPEngine::addAlert(Alert alert) {
     {
         std::lock_guard lk(alerts_mutex_);
@@ -2744,6 +3115,11 @@ CEPEngine::Stats CEPEngine::getStats() const {
     s.alerts_generated    = alerts_generated_.load();
     { s.queue_depth = event_queue_ ? event_queue_->size_approx() : 0; }
     {
+        /**
+         * @brief Lk.
+         * @param[in] streams_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::shared_lock lk(streams_mutex_);
         s.active_streams = streams_.size();
     }
@@ -2786,6 +3162,11 @@ std::string CEPEngine::toPrometheusFormat() const {
     return oss.str();
 }
 
+/**
+ * @brief Create Checkpoint.
+ * @return True when the operation succeeds.
+ * @details Calls: cp_dir(), std::filesystem::create_directories(), spdlog::error(), message(), std::chrono::system_clock::now(), time_since_epoch(), count(), std::to_string().
+ */
 bool CEPEngine::createCheckpoint() {
     if (!config_.checkpointing_enabled) {
         return false;
@@ -2832,14 +3213,12 @@ bool CEPEngine::createCheckpoint() {
     return true;
 }
 
-// Parses the text checkpoint produced by createCheckpoint().
-// "rule=<id>:<name>:<1|0>" lines restore the enabled/disabled state of each rule.
-// "pm_rule=" / "pm_rule_end" blocks restore the NFA partial match state of each
-// pattern matcher, allowing in-progress stateful pattern sequences to survive
-// a shutdown/restart cycle.
-// Counter lines (events_received=, etc.) are intentionally skipped because
-// they are cumulative since engine initialisation and cannot be meaningfully
-// restored.
+/**
+ * @brief Parses the text checkpoint produced by createCheckpoint().
+ * @param[in] checkpoint_id Identifier of the checkpoint.
+ * @return True when the operation succeeds.
+ * @details "rule=<id>:<name>:<1|0>" lines restore the enabled/disabled state of each rule. "pm_rule=" / "pm_rule_end" blocks restore the NFA partial match state of each pattern matcher, allowing in-progress stateful pattern sequences to survive a shutdown/restart cycle. Counter lines (events_received=, etc.) are intentionally skipped because they are cumulative since engine initialisation and cannot be meaningfully restored. Calls: std::filesystem::path(), std::filesystem::exists(), spdlog::error(), string(), spdlog::info(), f(), is_open(), std::getline().
+ */
 bool CEPEngine::restoreFromCheckpoint(const std::string &checkpoint_id) {
     std::filesystem::path cp_file = std::filesystem::path(config_.checkpoint_path) / (checkpoint_id + ".txt");
     if (!std::filesystem::exists(cp_file)) {
@@ -2926,6 +3305,10 @@ std::vector<std::string> CEPEngine::listCheckpoints() const {
     return result;
 }
 
+/**
+ * @brief Worker Loop.
+ * @details Calls: pop(), lk(), wait_for(), std::chrono::milliseconds(), empty(), load(), processEvent().
+ */
 void CEPEngine::workerLoop() {
     while (running_) {
         std::pair<std::string, Event> item;
@@ -2945,6 +3328,12 @@ void CEPEngine::workerLoop() {
     }
 }
 
+/**
+ * @brief Process Event.
+ * @param[in] stream_id Identifier of the stream.
+ * @param[in] event Input parameter.
+ * @details Calls: lk(), find(), end(), push(), size(), addAlert(), std::move().
+ */
 void CEPEngine::processEvent(const std::string &stream_id, const Event &event) {
     // Push to the named stream if it exists
     {
@@ -2973,6 +3362,10 @@ void CEPEngine::processEvent(const std::string &stream_id, const Event &event) {
     }
 }
 
+/**
+ * @brief Metrics Loop.
+ * @details Calls: lk(), wait_for(), load(), getStats(), spdlog::debug().
+ */
 void CEPEngine::metricsLoop() {
     while (running_) {
         {

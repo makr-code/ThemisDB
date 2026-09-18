@@ -38,6 +38,12 @@ AdaptiveBatcher::AdaptiveBatcher(const Config& config, ::themis::llm::GPUMemoryM
     spdlog::info("  VRAM safety margin: {:.1f}%", config_.vram_safety_margin * 100.0f);
 }
 
+/**
+ * @brief Compute Optimal Batch Size.
+ * @param[in] sequence_length Input parameter.
+ * @return Return value.
+ * @details Calls: spdlog::debug(), getFreeVRAM(), estimateMemoryPerSample(), estimateSharedMemory(), spdlog::warn(), std::clamp(), std::min().
+ */
 size_t AdaptiveBatcher::computeOptimalBatchSize(size_t sequence_length) {
     if (!config_.enable_dynamic_batching) {
         return current_batch_size_;
@@ -95,6 +101,10 @@ size_t AdaptiveBatcher::computeOptimalBatchSize(size_t sequence_length) {
     return optimal_batch;
 }
 
+/**
+ * @brief Handle OOMEvent.
+ * @details Calls: std::max(), spdlog::warn().
+ */
 void AdaptiveBatcher::handleOOMEvent() {
     // Reduce batch size by 25% on OOM
     size_t new_batch_size = static_cast<size_t>(current_batch_size_ * 0.75);
@@ -106,6 +116,10 @@ void AdaptiveBatcher::handleOOMEvent() {
                  oom_count_, current_batch_size_);
 }
 
+/**
+ * @brief Increase Batch Size If Possible.
+ * @details Calls: computeAverageUtilization(), std::min(), spdlog::info(), spdlog::debug().
+ */
 void AdaptiveBatcher::increaseBatchSizeIfPossible() {
     if (!config_.enable_dynamic_batching) {
         return;
@@ -129,6 +143,11 @@ void AdaptiveBatcher::increaseBatchSizeIfPossible() {
     }
 }
 
+/**
+ * @brief Update Utilization.
+ * @param[in] utilization Input parameter.
+ * @details Calls: push_back(), size(), erase(), begin().
+ */
 void AdaptiveBatcher::updateUtilization(float utilization) {
     recent_utilizations_.push_back(utilization);
     
@@ -200,7 +219,13 @@ size_t AdaptiveBatcher::estimateSharedMemory() const {
     return static_cast<size_t>(base_estimate * memory_estimation_multiplier_);
 }
 
-// Helper to get base estimates without calibration multiplier
+/**
+ * @brief Helper to get base estimates without calibration multiplier
+ * @param[in] sequence_length Input parameter.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @details Implements estimateMemoryPerSampleBase without additional internal calls.
+ */
 size_t estimateMemoryPerSampleBase(size_t sequence_length, const AdaptiveBatcher::Config& config) {
     size_t input_memory = sequence_length * config.hidden_dim * 4;
     size_t activation_memory = sequence_length * config.lora_rank * 4;
@@ -208,6 +233,12 @@ size_t estimateMemoryPerSampleBase(size_t sequence_length, const AdaptiveBatcher
     return input_memory + activation_memory + gradient_memory;
 }
 
+/**
+ * @brief Estimate Shared Memory Base.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @details Implements estimateSharedMemoryBase without additional internal calls.
+ */
 size_t estimateSharedMemoryBase(const AdaptiveBatcher::Config& config) {
     size_t lora_params = config.hidden_dim * config.lora_rank + 
                         config.lora_rank * config.hidden_dim;
@@ -216,6 +247,13 @@ size_t estimateSharedMemoryBase(const AdaptiveBatcher::Config& config) {
     return weight_memory + optimizer_memory;
 }
 
+/**
+ * @brief Calibrate Memory Estimation.
+ * @param[in] actual_memory_used Input parameter.
+ * @param[in] sequence_length Input parameter.
+ * @param[in] batch_size Input parameter.
+ * @details Calls: estimateMemoryPerSampleBase(), estimateSharedMemoryBase(), spdlog::info(), spdlog::debug(), std::abs(), spdlog::warn().
+ */
 void AdaptiveBatcher::calibrateMemoryEstimation(
     size_t actual_memory_used,
     size_t sequence_length,

@@ -19,6 +19,12 @@
 
 namespace themis { namespace voice {
 
+/**
+ * @brief Storage Tier To String.
+ * @param[in] tier Input parameter.
+ * @return Return value.
+ * @details Implements storageTierToString without additional internal calls.
+ */
 std::string storageTierToString(StorageTier tier) {
     switch (tier) {
         case StorageTier::HOT:     return "hot";
@@ -63,6 +69,11 @@ std::string VoiceAudioStorage::computeHash(const std::vector<uint8_t>& data) con
 DeduplicationResult VoiceAudioStorage::checkDuplicate(
     const std::vector<uint8_t>& audio_data) const
 {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     DeduplicationResult result;
     result.content_hash = computeHash(audio_data);
@@ -119,12 +130,25 @@ AudioFormat VoiceAudioStorage::detectFormat(const std::vector<uint8_t>& data) co
     return fmt;
 }
 
+/**
+ * @brief Store.
+ * @param[in] audio_data Input parameter.
+ * @param[in] format Input parameter.
+ * @param[in] transcript Input parameter.
+ * @param[in] metadata Input parameter.
+ * @return Return value.
+ */
 std::string VoiceAudioStorage::store(
     const std::vector<uint8_t>& audio_data,
     const AudioFormat& format,
     const std::string& transcript,
     const json& metadata)
 {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     std::string hash = computeHash(audio_data);
 
@@ -163,9 +187,19 @@ std::string VoiceAudioStorage::store(
     return id;
 }
 
+/**
+ * @brief Retrieve.
+ * @param[in] record_id Identifier of the record.
+ * @return Return value.
+ */
 std::optional<std::vector<uint8_t>> VoiceAudioStorage::retrieve(
     const std::string& record_id)
 {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     auto dit = data_.find(record_id);
     if (dit == data_.end()) {
@@ -183,6 +217,11 @@ std::optional<std::vector<uint8_t>> VoiceAudioStorage::retrieve(
 std::optional<AudioStorageRecord> VoiceAudioStorage::getRecord(
     const std::string& record_id) const
 {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = records_.find(record_id);
     if (it == records_.end()) {
@@ -191,6 +230,12 @@ std::optional<AudioStorageRecord> VoiceAudioStorage::getRecord(
     return it->second;
 }
 
+/**
+ * @brief Delete Record.
+ * @param[in] record_id Identifier of the record.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), find(), end(), erase().
+ */
 bool VoiceAudioStorage::deleteRecord(const std::string& record_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     auto rit = records_.find(record_id);
@@ -208,6 +253,11 @@ bool VoiceAudioStorage::deleteRecord(const std::string& record_id) {
 std::vector<AudioStorageRecord> VoiceAudioStorage::listRecords(
     StorageTier tier_filter, size_t limit) const
 {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     std::vector<AudioStorageRecord> result = {};
 
@@ -225,6 +275,11 @@ std::vector<AudioStorageRecord> VoiceAudioStorage::listRecords(
 std::vector<AudioStorageRecord> VoiceAudioStorage::searchTranscripts(
     const std::string& query, size_t limit) const
 {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     std::vector<AudioStorageRecord> result = {};
 
@@ -274,6 +329,11 @@ StorageTier VoiceAudioStorage::computeTier(const AudioStorageRecord& record) con
     return StorageTier::HOT;
 }
 
+/**
+ * @brief Apply Tier Policy.
+ * @return Return value.
+ * @details Calls: lock(), computeTier().
+ */
 size_t VoiceAudioStorage::applyTierPolicy() {
     std::lock_guard<std::mutex> lock(mutex_);
     size_t moved = 0;
@@ -287,6 +347,12 @@ size_t VoiceAudioStorage::applyTierPolicy() {
     return moved;
 }
 
+/**
+ * @brief Promote Tier.
+ * @param[in] record_id Identifier of the record.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), find(), end().
+ */
 bool VoiceAudioStorage::promoteTier(const std::string& record_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = records_.find(record_id);
@@ -300,6 +366,12 @@ bool VoiceAudioStorage::promoteTier(const std::string& record_id) {
     return false; // already HOT
 }
 
+/**
+ * @brief Demote Tier.
+ * @param[in] record_id Identifier of the record.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), find(), end().
+ */
 bool VoiceAudioStorage::demoteTier(const std::string& record_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = records_.find(record_id);
@@ -313,9 +385,20 @@ bool VoiceAudioStorage::demoteTier(const std::string& record_id) {
     return false; // already DELETED
 }
 
+/**
+ * @brief Mark Encrypted.
+ * @param[in] record_id Identifier of the record.
+ * @param[in] key_id Identifier of the key.
+ * @return True when the operation succeeds.
+ */
 bool VoiceAudioStorage::markEncrypted(
     const std::string& record_id, const std::string& key_id)
 {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = records_.find(record_id);
     if (it == records_.end()) {
@@ -327,6 +410,11 @@ bool VoiceAudioStorage::markEncrypted(
 }
 
 bool VoiceAudioStorage::isEncrypted(const std::string& record_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = records_.find(record_id);
     if (it == records_.end()) {
@@ -336,6 +424,11 @@ bool VoiceAudioStorage::isEncrypted(const std::string& record_id) const {
 }
 
 StorageStats VoiceAudioStorage::getStats() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     StorageStats stats;
     stats.total_records = records_.size();

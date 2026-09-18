@@ -25,22 +25,12 @@
 namespace themis {
 namespace llm {
 
-/**
- * @brief Lifecycle state of one final-layer package.
- */
 enum class FinalLayerPackageStatus : uint8_t {
     ACTIVE,
     DEPRECATED,
     DISABLED,
 };
 
-/**
- * @brief Deployment stage of one final-layer package.
- *
- * This stage models promotion and rollback workflows independent from
- * package status. Status controls generic availability, while deployment
- * stage controls governance transitions.
- */
 enum class FinalLayerDeploymentStage : uint8_t {
     DRAFT,
     STAGING,
@@ -49,17 +39,11 @@ enum class FinalLayerDeploymentStage : uint8_t {
     PREVIOUS_KNOWN_GOOD,
 };
 
-/**
- * @brief Promotion/rollback governance policy.
- */
 struct FinalLayerTransitionPolicy {
     bool require_compatibility_gate = true;
     bool allow_direct_draft_to_production = false;
 };
 
-/**
- * @brief Package-oriented unit of deployment for the final LLM/LoRA layer.
- */
 struct FinalLayerPackage {
     std::string package_id;
     std::string target_model_id;
@@ -73,9 +57,6 @@ struct FinalLayerPackage {
     FinalLayerDeploymentStage deployment_stage = FinalLayerDeploymentStage::PRODUCTION;
 };
 
-/**
- * @brief Input for final-layer resolution.
- */
 struct FinalLayerRequest {
     std::string prompt;
     nlohmann::json metadata = nlohmann::json::object();
@@ -90,9 +71,6 @@ struct FinalLayerRequest {
     bool allow_draft_adapter = true;
 };
 
-/**
- * @brief One compatibility row in the final-layer compatibility matrix.
- */
 struct FinalLayerCompatibilityRow {
     std::string adapter_id;
     std::string target_model_id;
@@ -101,9 +79,6 @@ struct FinalLayerCompatibilityRow {
     std::vector<std::string> warnings;
 };
 
-/**
- * @brief Resolution result for one final-layer request.
- */
 struct FinalLayerResolution {
     bool resolved = false;
     std::string model_id;
@@ -122,65 +97,45 @@ struct FinalLayerResolution {
     std::vector<std::string> warnings;
 };
 
-/**
- * @brief Final LLM/LoRA orchestration layer above ANN, Tensor, and Graph stages.
- *
- * Responsibilities:
- * - package-oriented adapter lifecycle management
- * - request-to-model routing via ModelRouter
- * - compatibility validation against target base models
- * - draft-adapter discovery for model-family-specific speculative decoding
- */
 class FinalLayerOrchestrator {
 public:
     FinalLayerOrchestrator() = default;
     ~FinalLayerOrchestrator() = default;
 
+    /**
+     * @brief Set Adapter Registry.
+     * @param[in] registry Input parameter.
+     */
     void setAdapterRegistry(std::shared_ptr<AdapterRegistry> registry);
+    /**
+     * @brief Set Model Router.
+     * @param[in] router Input parameter.
+     */
     void setModelRouter(std::shared_ptr<ModelRouter> router);
+    /**
+     * @brief Set Transition Policy.
+     * @param[in] policy Input parameter.
+     */
     void setTransitionPolicy(FinalLayerTransitionPolicy policy);
     [[nodiscard]] FinalLayerTransitionPolicy transitionPolicy() const;
 
     [[nodiscard]] bool registerPackage(const FinalLayerPackage& package);
     [[nodiscard]] bool updatePackage(const FinalLayerPackage& package);
+    /**
+     * @brief Set Package Status.
+     * @param[in] package_id Identifier of the package.
+     * @param[in] new_status Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool setPackageStatus(const std::string& package_id,
                           FinalLayerPackageStatus new_status);
     [[nodiscard]] std::vector<FinalLayerPackage> listPackages() const;
 
-    /**
-     * @brief Promote one package to the requested deployment stage.
-     *
-     * Enforces a governance state-machine and optional compatibility gate.
-     * Allowed transitions by default:
-     * - DRAFT -> STAGING
-     * - STAGING -> CANARY
-     * - CANARY -> PRODUCTION
-     *
-     * Direct DRAFT -> PRODUCTION can be enabled via policy.
-     *
-     * @param package_id          package to promote
-     * @param target_stage        requested destination stage
-     * @param base_model_name     optional override for compatibility check
-     * @param base_model_version  optional override for compatibility check
-     * @return true on successful transition; false otherwise
-     */
     [[nodiscard]] bool promotePackage(const std::string& package_id,
                                       FinalLayerDeploymentStage target_stage,
                                       const std::string& base_model_name = {},
                                       const std::string& base_model_version = {});
 
-    /**
-     * @brief Roll back traffic from one package to another known-good package.
-     *
-     * Source package is demoted to STAGING and marked DEPRECATED.
-     * Target package is promoted to PREVIOUS_KNOWN_GOOD and marked ACTIVE.
-     *
-     * @param source_package_id      currently serving package
-     * @param rollback_target_id     package to become serving target
-     * @param base_model_name        optional compatibility override
-     * @param base_model_version     optional compatibility override
-     * @return true on successful rollback transition; false otherwise
-     */
     [[nodiscard]] bool rollbackToPackage(const std::string& source_package_id,
                                          const std::string& rollback_target_id,
                                          const std::string& base_model_name = {},

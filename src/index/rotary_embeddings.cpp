@@ -23,6 +23,11 @@ namespace themis {
 // RotationConfig Implementation
 // ============================================================================
 
+/**
+ * @brief Compute Theta Cache.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: isValid(), clear(), reserve(), std::pow(), push_back().
+ */
 void RotationConfig::computeThetaCache() {
     if (!isValid()) {
         throw std::invalid_argument("Invalid RotationConfig: hidden_dim must be positive and even");
@@ -103,6 +108,11 @@ std::vector<float> RotaryEmbedding::rotateImpl(
     const auto elapsed = std::chrono::duration_cast<std::chrono::duration<double, std::micro>>(
         std::chrono::steady_clock::now() - started_at);
     {
+        /**
+         * @brief Lock.
+         * @param[in] stats_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(stats_mutex_);
         ++total_rotated_entities_;
         if (is_relational) {
@@ -191,6 +201,11 @@ std::vector<float> RotaryEmbedding::rotateRelational(
 }
 
 RotaryEmbedding::RotationStats RotaryEmbedding::getStats() const {
+    /**
+     * @brief Lock.
+     * @param[in] stats_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(stats_mutex_);
     RotationStats stats;
     stats.total_rotated_entities = total_rotated_entities_;

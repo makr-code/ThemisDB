@@ -71,12 +71,24 @@ struct LibraryHandleDeleter {
 // Type alias for RAII-wrapped library handle
 using LibraryHandlePtr = std::unique_ptr<void, LibraryHandleDeleter>;
 
+/**
+ * @brief Normalize Edition Name.
+ * @param[in] value Input parameter.
+ * @return Return value.
+ * @details Calls: std::transform(), begin(), end(), std::tolower().
+ */
 std::string normalizeEditionName(std::string value) {
     std::transform(value.begin(), value.end(), value.begin(),
                    [](unsigned char c) { return static_cast<char>(std::tolower(c)); });
     return value;
 }
 
+/**
+ * @brief Manifest Allows Current Edition.
+ * @param[in] manifest Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), normalizeEditionName(), std::string(), std::any_of(), begin(), end().
+ */
 bool manifestAllowsCurrentEdition(const PluginManifest& manifest) {
     if (manifest.allowed_editions.empty()) {
         return true;
@@ -89,17 +101,10 @@ bool manifestAllowsCurrentEdition(const PluginManifest& manifest) {
 }
 
 /**
- * @brief Validates plugin name against QW-43 path traversal attack patterns.
- * 
- * Rejects names containing:
- * - Directory separators: / \ ..
- * - Absolute path indicators: C:\ /etc/ etc.
- * - Special shell/control characters
- * 
- * Whitelist: alphanumeric (a-z, A-Z, 0-9), underscore (_), hyphen (-)
- * 
- * @param name Plugin name from manifest
- * @return true if valid, false if rejected (fail-closed)
+ * @brief Is Valid Plugin Name.
+ * @param[in] name Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), length(), find(), std::isalnum().
  */
 inline bool isValidPluginName(const std::string& name) {
     // Guard 1: Name must be non-empty and reasonable length
@@ -139,15 +144,13 @@ inline bool isValidPluginName(const std::string& name) {
 // Brief delay after unloading to allow OS to release file handles and cleanup
 constexpr auto RELOAD_UNLOAD_DELAY_MS = std::chrono::milliseconds(50);
 
-// ============================================================================
-// Platform-specific DLL loading (reused from acceleration/plugin_loader.cpp)
-// ============================================================================
-
 /**
- * @brief Platform-specific dynamic library loading wrapper.
- * @param path Shared library path.
- * @return Native module handle or nullptr on load failure.
+ * @brief ============================================================================ Platform-specific DLL loading (reused from acceleration/plugin_loader.
+ * @param[in] path Input parameter.
+ * @return Pointer to the result.
+ * @details cpp) ============================================================================ Calls: LoadLibraryA(), c_str(), dlopen().
  */
+
 void* PluginManager::loadLibrary(const std::string& path) {
 #ifdef _WIN32
     return LoadLibraryA(path.c_str());
@@ -157,10 +160,11 @@ void* PluginManager::loadLibrary(const std::string& path) {
 }
 
 /**
- * @brief Resolve an exported symbol from a loaded shared library.
- * @param handle Native module handle returned by loadLibrary().
- * @param symbolName Exported symbol name.
- * @return Symbol address or nullptr when symbol is unavailable.
+ * @brief Get Symbol.
+ * @param[in,out] handle Input/output parameter.
+ * @param[in] symbolName Input parameter.
+ * @return Pointer to the result.
+ * @details Calls: GetProcAddress(), c_str(), dlsym().
  */
 void* PluginManager::getSymbol(void* handle, const std::string& symbolName) {
 #ifdef _WIN32
@@ -171,8 +175,9 @@ void* PluginManager::getSymbol(void* handle, const std::string& symbolName) {
 }
 
 /**
- * @brief Unload a previously loaded shared library.
- * @param handle Native module handle. nullptr is ignored.
+ * @brief Unload Library.
+ * @param[in,out] handle Input/output parameter.
+ * @details Calls: FreeLibrary(), dlclose().
  */
 void PluginManager::unloadLibrary(void* handle) {
     if (!handle) {
@@ -191,10 +196,10 @@ void PluginManager::unloadLibrary(void* handle) {
 // ============================================================================
 
 /**
- * @brief Compute SHA-256 digest for a file path.
- * @param path File to hash.
- * @return Lower-case hex SHA-256 digest, or empty string on failure.
- * @note Failures include file-open errors and OpenSSL digest API failures.
+ * @brief Calculate File Hash.
+ * @param[in] path Input parameter.
+ * @return Return value.
+ * @details Calls: file(), EVP_MD_CTX_new(), EVP_DigestInit_ex(), EVP_sha256(), EVP_MD_CTX_free(), read(), gcount(), EVP_DigestUpdate().
  */
 std::string PluginManager::calculateFileHash(const std::string& path) {
     std::ifstream file(path, std::ios::binary);
@@ -237,11 +242,11 @@ std::string PluginManager::calculateFileHash(const std::string& path) {
 }
 
 /**
- * @brief Verify plugin binary against security policy.
- * @param path Candidate plugin library path.
- * @param error_message Output details when verification fails.
- * @return true when policy validation succeeds; false otherwise.
- * @note Production builds require signatures; development builds may allow unsigned plugins.
+ * @brief Verify Plugin.
+ * @param[in] path Input parameter.
+ * @param[in,out] error_message Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: verifier().
  */
 bool PluginManager::verifyPlugin(const std::string& path, std::string& error_message) {
     using namespace themis::acceleration;
@@ -267,10 +272,11 @@ bool PluginManager::verifyPlugin(const std::string& path, std::string& error_mes
 // ============================================================================
 
 /**
- * @brief Verify detached manifest signature according to build-mode policy.
- * @param manifest_path Path to plugin manifest file.
- * @param error_message Output detail for failure reason.
- * @return true when signature checks pass (or are optional in current mode).
+ * @brief Verify Manifest Signature.
+ * @param[in] manifest_path Path to the manifest.
+ * @param[in,out] error_message Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: THEMIS_INFO(), defined(), fs::exists(), THEMIS_ERROR(), sig_file(), std::getline(), erase(), find_first_not_of().
  */
 bool PluginManager::verifyManifestSignature(const std::string& manifest_path, std::string& error_message) {
     (void)error_message;
@@ -365,31 +371,17 @@ bool PluginManager::verifyManifestSignature(const std::string& manifest_path, st
 #endif
 }
 
-// ============================================================================
-// Phase 2C: Unified Plugin Validation Logic
-// ============================================================================
-
 /**
- * @brief QW-43 Plugin Name Validation
- *
- * Path traversal defense: validates plugin names against injection attacks.
- * Implements fail-closed semantics for security.
- *
- * @param name Plugin name from manifest
- * @return true if valid, false if rejected (fail-closed)
+ * @brief ============================================================================ Phase 2C: Unified Plugin Validation Logic ============================================================================
+ * @param[in] manifest Input parameter.
+ * @param[in] manifest_path Path to the manifest.
+ * @param[in] plugin_binary_path Path to the plugin binary.
+ * @param[in,out] error_details Input/output parameter.
+ * @return Return value.
+ * @details Calls: empty(), THEMIS_ERROR(), isValidPluginName(), manifestAllowsCurrentEdition(), fmt::format(), std::string(), THEMIS_WARN(), license::RuntimeLicenseGate::instance().
  */
 
-/**
- * @brief Phase 2C: Unified validation for plugin load operations.
- *
- * Implements 4-stage validation contract:
- * 1. Manifest schema validation (required fields, types)
- * 2. Manifest semantic validation (constraints, dependencies)
- * 3. Signature verification (detached signature checks)
- * 4. Capability validation (required capabilities available)
- *
- * Fail-safe semantics: If any stage fails, plugin remains in UNLOADED state.
- */
+
 PluginsError PluginManager::validatePluginForLoad(
     const PluginManifest& manifest,
     const std::string& manifest_path,
@@ -454,6 +446,12 @@ PluginsError PluginManager::validatePluginForLoad(
 // ============================================================================
 
 
+/**
+ * @brief Load Manifest.
+ * @param[in] manifest_path Path to the manifest.
+ * @return Return value.
+ * @details Calls: fs::exists(), THEMIS_WARN(), verifyManifestSignature(), THEMIS_ERROR(), file(), value(), isValidPluginName(), empty().
+ */
 std::optional<PluginManifest> PluginManager::loadManifest(const std::string& manifest_path) {
     if (!fs::exists(manifest_path)) {
         THEMIS_WARN("Plugin manifest not found: {}", manifest_path);
@@ -600,6 +598,12 @@ std::optional<PluginManifest> PluginManager::loadManifest(const std::string& man
 // Plugin Discovery & Loading
 // ============================================================================
 
+/**
+ * @brief Scan Plugin Directory.
+ * @param[in] directory Input parameter.
+ * @return Return value.
+ * @details Calls: span(), setAttribute(), lock(), fs::exists(), fs::is_directory(), THEMIS_WARN(), setStatus(), fmt::format().
+ */
 Result<size_t> PluginManager::scanPluginDirectory(const std::string& directory) {
     TracedSpan span("PluginManager.scanPluginDirectory");
     span.setAttribute("plugin.directory", directory);
@@ -740,6 +744,12 @@ Result<size_t> PluginManager::scanPluginDirectory(const std::string& directory) 
     return Ok(discovered);
 }
 
+/**
+ * @brief Load Plugin.
+ * @param[in] name Input parameter.
+ * @return Return value.
+ * @details Calls: span(), setAttribute(), std::chrono::steady_clock::now(), lock(), find(), end(), THEMIS_ERROR(), recordError().
+ */
 Result<IThemisPlugin*> PluginManager::loadPlugin(const std::string& name) {
     TracedSpan span("PluginManager.loadPlugin");
     span.setAttribute("plugin.name", name);
@@ -1071,6 +1081,13 @@ Result<IThemisPlugin*> PluginManager::loadPlugin(const std::string& name) {
     return Ok(plugin);
 }
 
+/**
+ * @brief Load Plugin From Path.
+ * @param[in] path Input parameter.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::steady_clock::now(), lock(), verifyPlugin(), THEMIS_ERROR(), fmt::format(), loadLibrary(), getSymbol(), unloadLibrary().
+ */
 Result<IThemisPlugin*> PluginManager::loadPluginFromPath(
     const std::string& path,
     const std::string& config
@@ -1162,6 +1179,13 @@ Result<IThemisPlugin*> PluginManager::loadPluginFromPath(
     return Ok(plugin);
 }
 
+/**
+ * @brief Load Plugin From Oci.
+ * @param[in] oci_ref Input parameter.
+ * @param[in] cache_dir Input parameter.
+ * @param[in] auth_token Input parameter.
+ * @return Return value.
+ */
 Result<IThemisPlugin*> PluginManager::loadPluginFromOci(
     const std::string& oci_ref,
     const std::string& cache_dir,
@@ -1204,6 +1228,12 @@ Result<IThemisPlugin*> PluginManager::loadPluginFromOci(
     return loadPluginFromPath(binary_path);
 }
 
+/**
+ * @brief Unload Plugin.
+ * @param[in] name Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), find(), end(), ErrVoid(), fmt::format(), state_lock(), THEMIS_ERROR(), lifecycleStateToString().
+ */
 Result<void> PluginManager::unloadPlugin(const std::string& name) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -1293,6 +1323,11 @@ Result<void> PluginManager::unloadPlugin(const std::string& name) {
     return OkVoid();
 }
 
+/**
+ * @brief Unload All Plugins.
+ * @return Return value.
+ * @details Calls: lock(), shutdown(), getSymbol(), destroyFunc(), release(), reset(), unloadLibrary(), clear().
+ */
 Result<void> PluginManager::unloadAllPlugins() {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -1332,6 +1367,11 @@ Result<void> PluginManager::unloadAllPlugins() {
 }
 
 Result<IThemisPlugin*> PluginManager::getPlugin(const std::string& name) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     auto it = plugins_.find(name);
@@ -1344,6 +1384,11 @@ Result<IThemisPlugin*> PluginManager::getPlugin(const std::string& name) const {
 }
 
 std::vector<IThemisPlugin*> PluginManager::getPluginsByType(PluginType type) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     std::vector<IThemisPlugin*> result;
@@ -1362,6 +1407,11 @@ std::vector<IThemisPlugin*> PluginManager::getPluginsByType(PluginType type) con
 }
 
 std::vector<PluginManifest> PluginManager::listPlugins() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     std::vector<PluginManifest> result = {};
@@ -1374,6 +1424,11 @@ std::vector<PluginManifest> PluginManager::listPlugins() const {
 }
 
 std::vector<std::string> PluginManager::listLoadedPlugins() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     std::vector<std::string> result = {};
@@ -1388,12 +1443,23 @@ std::vector<std::string> PluginManager::listLoadedPlugins() const {
 }
 
 bool PluginManager::isPluginLoaded(const std::string& name) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     auto it = plugins_.find(name);
     return it != plugins_.end() && it->second.loaded;
 }
 
+/**
+ * @brief Reload Plugin.
+ * @param[in] name Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::steady_clock::now(), lock(), find(), end(), ErrVoid(), fmt::format(), findDependentPlugins(), empty().
+ */
 Result<void> PluginManager::reloadPlugin(const std::string& name) {
     auto start = std::chrono::steady_clock::now();
 
@@ -1683,6 +1749,11 @@ Result<void> PluginManager::reloadPlugin(const std::string& name) {
     return OkVoid();
 }
 
+/**
+ * @brief Auto Load Plugins.
+ * @return Return value.
+ * @details Calls: lock(), PluginDependencyResolver::buildGraph(), PluginDependencyResolver::detectCircularDependencies(), empty(), size(), fmt::format(), THEMIS_ERROR(), PluginDependencyResolver::validateDependencies().
+ */
 Result<size_t> PluginManager::autoLoadPlugins() {
     std::vector<std::string> topo_order;
     {
@@ -1765,6 +1836,11 @@ Result<size_t> PluginManager::autoLoadPlugins() {
 }
 
 Result<PluginManifest> PluginManager::getManifest(const std::string& name) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     auto it = plugins_.find(name);
@@ -1782,6 +1858,11 @@ PluginNegotiationResult PluginManager::negotiateCapabilities(
 {
     IThemisPlugin* plugin = nullptr;
     {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         auto it = plugins_.find(name);
         if (it == plugins_.end() || !it->second.loaded || !it->second.instance) {
@@ -1808,8 +1889,18 @@ PluginManager::~PluginManager() {
 // Runtime capability escalation blocking
 // ============================================================================
 
+/**
+ * @brief Check Capability Escalation.
+ * @param[in] name Input parameter.
+ * @return Return value.
+ */
 Result<void> PluginManager::checkCapabilityEscalation(const std::string& name)
 {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     auto it = plugins_.find(name);
@@ -1851,6 +1942,11 @@ Result<void> PluginManager::checkCapabilityEscalation(const std::string& name)
 
 bool PluginManager::isPluginRestricted(const std::string& name) const
 {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = plugins_.find(name);
     if (it == plugins_.end()) {
@@ -1860,6 +1956,11 @@ bool PluginManager::isPluginRestricted(const std::string& name) const
 }
 
 // Singleton
+/**
+ * @brief Instance.
+ * @return Return value.
+ * @details Implements instance without additional internal calls.
+ */
 PluginManager& PluginManager::instance() {
     static PluginManager instance;
     return instance;
@@ -1869,6 +1970,13 @@ PluginManager& PluginManager::instance() {
 // Plugin Registry
 // ============================================================================
 
+/**
+ * @brief Register Factory.
+ * @param[in] name Input parameter.
+ * @param[in] type Input parameter.
+ * @param[in] factory Input parameter.
+ * @details Calls: instance(), lock(), THEMIS_INFO().
+ */
 void PluginManagerRegistry::registerFactory(
     const std::string& name,
     PluginType type,
@@ -1881,6 +1989,12 @@ void PluginManagerRegistry::registerFactory(
     THEMIS_INFO("Registered plugin factory: {}", name);
 }
 
+/**
+ * @brief Create Plugin.
+ * @param[in] name Input parameter.
+ * @return Return value.
+ * @details Calls: instance(), lock(), find(), end(), second().
+ */
 std::unique_ptr<IThemisPlugin> PluginManagerRegistry::createPlugin(const std::string& name) {
     auto& registry = instance();
     std::lock_guard<std::mutex> lock(registry.mutex_);
@@ -1893,6 +2007,11 @@ std::unique_ptr<IThemisPlugin> PluginManagerRegistry::createPlugin(const std::st
     return nullptr;
 }
 
+/**
+ * @brief Instance.
+ * @return Return value.
+ * @details Implements instance without additional internal calls.
+ */
 PluginManagerRegistry& PluginManagerRegistry::instance() {
     static PluginManagerRegistry instance;
     return instance;
@@ -1902,6 +2021,13 @@ PluginManagerRegistry& PluginManagerRegistry::instance() {
 // Hot-Plug Monitoring
 // ============================================================================
 
+/**
+ * @brief Enable Hot Plug.
+ * @param[in] directory Input parameter.
+ * @param[in] config Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), THEMIS_WARN(), start(), reset(), THEMIS_INFO().
+ */
 bool PluginManager::enableHotPlug(const std::string& directory, const HotPlugConfig& config) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -1922,6 +2048,10 @@ bool PluginManager::enableHotPlug(const std::string& directory, const HotPlugCon
     return true;
 }
 
+/**
+ * @brief Disable Hot Plug.
+ * @details Calls: lock(), stop(), reset(), THEMIS_INFO().
+ */
 void PluginManager::disableHotPlug() {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -1936,6 +2066,11 @@ void PluginManager::disableHotPlug() {
 }
 
 bool PluginManager::isHotPlugEnabled() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return hot_plug_monitor_ != nullptr && hot_plug_monitor_->isRunning();
 }
@@ -1944,11 +2079,20 @@ bool PluginManager::isHotPlugEnabled() const {
 // Reload Event Listeners
 // ============================================================================
 
+/**
+ * @brief Register Reload Listener.
+ * @param[in] listener Input parameter.
+ * @details Calls: lock(), push_back(), std::move().
+ */
 void PluginManager::registerReloadListener(PluginReloadListener listener) {
     std::lock_guard<std::mutex> lock(mutex_);
     reload_listeners_.push_back(std::move(listener));
 }
 
+/**
+ * @brief Clear Reload Listeners.
+ * @details Calls: lock(), clear().
+ */
 void PluginManager::clearReloadListeners() {
     std::lock_guard<std::mutex> lock(mutex_);
     reload_listeners_.clear();
@@ -1977,6 +2121,12 @@ std::vector<std::string> PluginManager::findDependentPlugins(const std::string& 
     return dependents;
 }
 
+/**
+ * @brief Notify Plugin Reload.
+ * @param[in] name Input parameter.
+ * @param[in] phase Input parameter.
+ * @details Calls: lock(), listener(), THEMIS_WARN(), what().
+ */
 void PluginManager::notifyPluginReload(const std::string& name, PluginReloadPhase phase) {
     // Make a copy of listeners to avoid deadlock if listener calls back into PluginManager
     std::vector<PluginReloadListener> listeners_copy;
@@ -1995,6 +2145,11 @@ void PluginManager::notifyPluginReload(const std::string& name, PluginReloadPhas
     }
 }
 
+/**
+ * @brief Attach Health Monitor.
+ * @param[in,out] monitor Input/output parameter.
+ * @details Calls: lock(), THEMIS_INFO(), get(), registerPlugin().
+ */
 void PluginManager::attachHealthMonitor(PluginHealthMonitor* monitor) {
     std::lock_guard<std::mutex> lock(mutex_);
     health_monitor_ = monitor;
@@ -2022,14 +2177,30 @@ void PluginManager::attachHealthMonitor(PluginHealthMonitor* monitor) {
 // Edition / License gating helpers
 // ============================================================================
 
+/**
+ * @brief Is Edition Supported.
+ * @return True when the operation succeeds.
+ * @details Implements isEditionSupported without additional internal calls.
+ */
 bool PluginManager::isEditionSupported() {
     return edition::FEATURE_ENTERPRISE_PLUGINS;
 }
 
+/**
+ * @brief Is Licensed.
+ * @return True when the operation succeeds.
+ * @details Calls: license::RuntimeLicenseGate::instance(), isFeatureAllowed().
+ */
 bool PluginManager::isLicensed() {
     return license::RuntimeLicenseGate::instance().isFeatureAllowed("enterprise_plugins");
 }
 
+/**
+ * @brief Community Unavailable Message.
+ * @param[in] plugin_name Name of the plugin.
+ * @return Return value.
+ * @details Implements communityUnavailableMessage without additional internal calls.
+ */
 std::string PluginManager::communityUnavailableMessage(const std::string& plugin_name) {
     return "Plugin '" + plugin_name +
            "' is not available in Community Edition. "
@@ -2037,6 +2208,11 @@ std::string PluginManager::communityUnavailableMessage(const std::string& plugin
            "Please upgrade at https://themisdb.io/pricing";
 }
 
+/**
+ * @brief Marketplace Info.
+ * @return Return value.
+ * @details Calls: edition::EditionInfo::Get(), std::string().
+ */
 std::string PluginManager::marketplaceInfo() {
     const auto info = edition::EditionInfo::Get();
     if (!info.supports_plugins) {
@@ -2052,6 +2228,11 @@ std::string PluginManager::marketplaceInfo() {
     return result;
 }
 
+/**
+ * @brief Installation Instructions.
+ * @return Return value.
+ * @details Calls: std::string().
+ */
 std::string PluginManager::installationInstructions() {
     if (!edition::FEATURE_ENTERPRISE_PLUGINS) {
         return "Error: Plugins are not supported in " +
@@ -2066,9 +2247,13 @@ std::string PluginManager::installationInstructions() {
            "5. Use CREATE PLUGIN command";
 }
 
-// ============================================================================
-// Phase 3: Error Handling and Edge Cases
-// ============================================================================
+/**
+ * @brief ============================================================================ Phase 3: Error Handling and Edge Cases ============================================================================
+ * @param[in] plugin_entry Input parameter.
+ * @param[in] requested_state Input parameter.
+ * @return Return value.
+ * @details Calls: state_lock(), THEMIS_ERROR(), lifecycleStateToString(), isValidLifecycleTransition().
+ */
 
 PluginsError PluginManager::validateConcurrentStateChange(
     const PluginEntry& plugin_entry,
@@ -2100,6 +2285,12 @@ PluginsError PluginManager::validateConcurrentStateChange(
     return PluginsError::kSuccess;
 }
 
+/**
+ * @brief Recover Partial Registry State.
+ * @param[in] plugin_name Name of the plugin.
+ * @return Return value.
+ * @details Calls: lock(), find(), end(), THEMIS_WARN(), lifecycleStateToString(), state_lock(), reset(), unloadLibrary().
+ */
 PluginsError PluginManager::recoverPartialRegistryState(const std::string& plugin_name) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -2146,6 +2337,12 @@ PluginsError PluginManager::recoverPartialRegistryState(const std::string& plugi
     return PluginsError::kSuccess;
 }
 
+/**
+ * @brief Validate Manifest Optional Fields.
+ * @param[in,out] manifest Input/output parameter.
+ * @return Return value.
+ * @details Calls: empty(), THEMIS_DEBUG(), std::transform(), begin(), end(), std::tolower().
+ */
 PluginsError PluginManager::validateManifestOptionalFields(PluginManifest& manifest) {
     // Validate and apply defaults for optional fields
     
@@ -2190,6 +2387,13 @@ PluginsError PluginManager::validateManifestOptionalFields(PluginManifest& manif
     return PluginsError::kSuccess;
 }
 
+/**
+ * @brief Validate ABICompatibility.
+ * @param[in] previous_entry Input parameter.
+ * @param[in] new_manifest Input parameter.
+ * @return Return value.
+ * @details Calls: sscanf(), c_str(), parse_version(), THEMIS_ERROR(), THEMIS_WARN(), check_cap(), THEMIS_INFO().
+ */
 PluginsError PluginManager::validateABICompatibility(
     const PluginEntry& previous_entry,
     const PluginManifest& new_manifest) {
@@ -2247,6 +2451,14 @@ PluginsError PluginManager::validateABICompatibility(
     return PluginsError::kSuccess;
 }
 
+/**
+ * @brief Verify Manifest Signature With Timeout.
+ * @param[in] manifest_path Path to the manifest.
+ * @param[in] timeout_ms Input parameter.
+ * @param[in,out] error_details Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: verifyManifestSignature(), THEMIS_DEBUG(), fs::exists(), std::chrono::steady_clock::now(), count(), THEMIS_WARN(), std::string(), what().
+ */
 bool PluginManager::verifyManifestSignatureWithTimeout(
     const std::string& manifest_path,
     uint32_t timeout_ms,
@@ -2289,6 +2501,11 @@ bool PluginManager::verifyManifestSignatureWithTimeout(
 }
 
 json PluginManager::getDiagnosticsForPlugin(const std::string& plugin_name) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     json diagnostics = json::object();
@@ -2341,6 +2558,13 @@ json PluginManager::getDiagnosticsForPlugin(const std::string& plugin_name) cons
     return diagnostics;
 }
 
+/**
+ * @brief Validate Manifest Edition Restrictions.
+ * @param[in] manifest Input parameter.
+ * @param[in,out] error_details Input/output parameter.
+ * @return Return value.
+ * @details Calls: empty(), std::islower(), std::isdigit(), std::string(), normalizeEditionName(), std::any_of(), begin(), end().
+ */
 ManifestErrorCode PluginManager::validateManifestEditionRestrictions(
     const PluginManifest& manifest,
     std::string& error_details) {
@@ -2404,6 +2628,14 @@ ManifestErrorCode PluginManager::validateManifestEditionRestrictions(
     return ManifestErrorCode::MANIFEST_OK;
 }
 
+/**
+ * @brief Validate Manifest Public Private Boundary.
+ * @param[in] manifest Input parameter.
+ * @param[in] plugin_path Path to the plugin.
+ * @param[in,out] error_details Input/output parameter.
+ * @return Return value.
+ * @details Calls: empty(), reserve(), size(), std::tolower(), normalizeEditionName(), std::string(), find(), std::getenv().
+ */
 ManifestErrorCode PluginManager::validateManifestPublicPrivateBoundary(
     const PluginManifest& manifest,
     const std::string& plugin_path,
@@ -2448,6 +2680,14 @@ ManifestErrorCode PluginManager::validateManifestPublicPrivateBoundary(
     return ManifestErrorCode::MANIFEST_OK;
 }
 
+/**
+ * @brief Format Diagnostic Message.
+ * @param[in] error_code Input parameter.
+ * @param[in] context Input parameter.
+ * @param[in] plugin_name Name of the plugin.
+ * @return Return value.
+ * @details Calls: empty(), str().
+ */
 std::string PluginManager::formatDiagnosticMessage(
     PluginsError error_code,
     const std::string& context,

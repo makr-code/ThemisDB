@@ -57,6 +57,11 @@ AdaptiveCircuitBreaker::AdaptiveCircuitBreaker(const Config& config)
 // Core API
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Should Allow.
+ * @return True when the operation succeeds.
+ * @details Calls: load(), lock(), std::chrono::steady_clock::now(), transitionTo().
+ */
 bool AdaptiveCircuitBreaker::shouldAllow() {
     ++total_calls_;
 
@@ -97,6 +102,10 @@ bool AdaptiveCircuitBreaker::shouldAllow() {
     return true;
 }
 
+/**
+ * @brief Record Success.
+ * @details Calls: load(), lock(), std::ceil(), std::min(), transitionTo().
+ */
 void AdaptiveCircuitBreaker::recordSuccess() {
     ++successful_calls_;
 
@@ -136,6 +145,10 @@ void AdaptiveCircuitBreaker::recordSuccess() {
     // Success while OPEN is ignored (shouldn't happen but is harmless)
 }
 
+/**
+ * @brief Record Failure.
+ * @details Calls: load(), lock(), adaptThresholdOnTrip(), transitionTo().
+ */
 void AdaptiveCircuitBreaker::recordFailure() {
     ++failed_calls_;
 
@@ -171,6 +184,11 @@ void AdaptiveCircuitBreaker::recordFailure() {
     // Failure while already OPEN is ignored
 }
 
+/**
+ * @brief Record Failure.
+ * @param[in] error_class Input parameter.
+ * @details Calls: load(), lock(), recordErrorClassFailure(), adaptThresholdOnTrip(), transitionTo().
+ */
 void AdaptiveCircuitBreaker::recordFailure(const ErrorClass& error_class) {
     // Always apply global accounting first.
     // We duplicate the logic here (instead of calling recordFailure()) so that
@@ -223,6 +241,11 @@ CircuitState AdaptiveCircuitBreaker::getState() const {
 }
 
 AdaptiveCircuitBreaker::Stats AdaptiveCircuitBreaker::getStats() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     Stats s;
     s.state                     = state_.load(std::memory_order_relaxed);
@@ -239,10 +262,19 @@ AdaptiveCircuitBreaker::Stats AdaptiveCircuitBreaker::getStats() const {
 void AdaptiveCircuitBreaker::setStateChangeCallback(
     std::function<void(CircuitState, CircuitState)> callback)
 {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     state_change_cb_ = std::move(callback);
 }
 
+/**
+ * @brief Reset the modification detection flag.
+ * @details Calls: lock(), resetErrorClassCounters(), transitionTo().
+ */
 void AdaptiveCircuitBreaker::reset() {
     std::lock_guard<std::mutex> lock(mutex_);
     consecutive_failures_        = 0;
@@ -253,6 +285,10 @@ void AdaptiveCircuitBreaker::reset() {
     transitionTo(CircuitState::CLOSED);
 }
 
+/**
+ * @brief Force Open.
+ * @details Calls: lock(), transitionTo().
+ */
 void AdaptiveCircuitBreaker::forceOpen() {
     std::lock_guard<std::mutex> lock(mutex_);
     consecutive_failures_ = 0;
@@ -260,7 +296,12 @@ void AdaptiveCircuitBreaker::forceOpen() {
     transitionTo(CircuitState::OPEN);
 }
 
-// static
+/**
+ * @brief static
+ * @param[in] state Input parameter.
+ * @return Return value.
+ * @details Implements stateToString without additional internal calls.
+ */
 std::string AdaptiveCircuitBreaker::stateToString(CircuitState state) {
     switch (state) {
         case CircuitState::CLOSED:    return "CLOSED";
@@ -270,9 +311,11 @@ std::string AdaptiveCircuitBreaker::stateToString(CircuitState state) {
     return "UNKNOWN";
 }
 
-// ---------------------------------------------------------------------------
-// Private helpers (called under mutex_)
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- Private helpers (called under mutex_) ---------------------------------------------------------------------------
+ * @param[in] new_state Input parameter.
+ * @details Calls: load(), store(), std::chrono::steady_clock::now(), resetErrorClassCounters(), state_change_cb_().
+ */
 
 void AdaptiveCircuitBreaker::transitionTo(CircuitState new_state) {
     const CircuitState old_state = state_.load(std::memory_order_relaxed);
@@ -298,6 +341,10 @@ void AdaptiveCircuitBreaker::transitionTo(CircuitState new_state) {
     }
 }
 
+/**
+ * @brief Adapt Threshold On Trip.
+ * @details Calls: std::ceil().
+ */
 void AdaptiveCircuitBreaker::adaptThresholdOnTrip() {
     ++consecutive_trip_count_;
     // Only reduce threshold after multiple consecutive trips to avoid
@@ -315,6 +362,12 @@ void AdaptiveCircuitBreaker::adaptThresholdOnTrip() {
     }
 }
 
+/**
+ * @brief Record Error Class Failure.
+ * @param[in] error_class Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: find(), end(), std::ceil().
+ */
 bool AdaptiveCircuitBreaker::recordErrorClassFailure(const ErrorClass& error_class) {
     auto it = config_.error_class_configs.find(error_class);
     if (it == config_.error_class_configs.end()) {
@@ -349,6 +402,10 @@ bool AdaptiveCircuitBreaker::recordErrorClassFailure(const ErrorClass& error_cla
     return false;
 }
 
+/**
+ * @brief Reset Error Class Counters.
+ * @details Calls: clear().
+ */
 void AdaptiveCircuitBreaker::resetErrorClassCounters() {
     error_class_consecutive_failures_.clear();
     // Restore per-class effective thresholds to configured values

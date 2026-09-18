@@ -69,6 +69,12 @@ Tensor MixedPrecisionTrainer::to_fp32(const Tensor& input) const {
     return input.clone();
 }
 
+/**
+ * @brief Scale loss.
+ * @param[in] loss Input parameter.
+ * @return Return value.
+ * @details Calls: is_enabled().
+ */
 float MixedPrecisionTrainer::scale_loss(float loss) {
     if (!is_enabled()) {
         return loss;
@@ -78,6 +84,12 @@ float MixedPrecisionTrainer::scale_loss(float loss) {
     return loss * current_loss_scale_;
 }
 
+/**
+ * @brief Unscale gradients.
+ * @param[in,out] gradients Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: is_enabled(), empty(), has_overflow(), data(), size().
+ */
 bool MixedPrecisionTrainer::unscale_gradients(std::vector<Tensor*>& gradients) {
     if (!is_enabled() || gradients.empty()) {
         return true;  // No overflow
@@ -101,6 +113,12 @@ bool MixedPrecisionTrainer::unscale_gradients(std::vector<Tensor*>& gradients) {
     return !overflow;
 }
 
+/**
+ * @brief Has overflow.
+ * @param[in] gradients Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: data(), std::isnan(), std::isinf(), std::abs().
+ */
 bool MixedPrecisionTrainer::has_overflow(const std::vector<Tensor*>& gradients) {
     for (const auto* grad_ptr : gradients) {
         if (!grad_ptr) {
@@ -121,6 +139,11 @@ bool MixedPrecisionTrainer::has_overflow(const std::vector<Tensor*>& gradients) 
     return false;
 }
 
+/**
+ * @brief Update loss scale.
+ * @param[in] had_overflow Input parameter.
+ * @details Calls: is_enabled(), std::max(), spdlog::warn(), std::min(), spdlog::debug().
+ */
 void MixedPrecisionTrainer::update_loss_scale(bool had_overflow) {
     if (!config_.dynamic_loss_scaling || !is_enabled()) {
         return;
@@ -164,6 +187,10 @@ json MixedPrecisionTrainer::get_stats() const {
     };
 }
 
+/**
+ * @brief Reset stats.
+ * @details Implements reset_stats without additional internal calls.
+ */
 void MixedPrecisionTrainer::reset_stats() {
     steps_since_overflow_ = 0;
     total_overflows_ = 0;
@@ -171,8 +198,12 @@ void MixedPrecisionTrainer::reset_stats() {
     current_loss_scale_ = config_.loss_scale;
 }
 
-// File-local helper: decode a raw FP16 bit-pattern to float32.
-// Defined before fp32_to_fp16 so it can be called from there.
+/**
+ * @brief File-local helper: decode a raw FP16 bit-pattern to float32.
+ * @param[in] f16 Input parameter.
+ * @return Return value.
+ * @details Defined before fp32_to_fp16 so it can be called from there. Calls: std::memcpy().
+ */
 static float fp16_to_fp32_bits(uint16_t f16) {
     const uint32_t sign   = static_cast<uint32_t>((f16 >> 15) & 0x1u);
     const uint32_t exp16  = static_cast<uint32_t>((f16 >> 10) & 0x1Fu);
@@ -207,9 +238,12 @@ static float fp16_to_fp32_bits(uint16_t f16) {
     return out;
 }
 
-// CPU-based IEEE 754 FP32↔FP16 conversion using bit manipulation.
-// FP32: 1 sign + 8 exponent + 23 mantissa bits (bias 127)
-// FP16: 1 sign + 5 exponent + 10 mantissa bits (bias 15)
+/**
+ * @brief CPU-based IEEE 754 FP32↔FP16 conversion using bit manipulation.
+ * @param[in] value Input parameter.
+ * @return Return value.
+ * @details FP32: 1 sign + 8 exponent + 23 mantissa bits (bias 127) FP16: 1 sign + 5 exponent + 10 mantissa bits (bias 15) Calls: std::memcpy(), fp16_to_fp32_bits().
+ */
 float MixedPrecisionTrainer::fp32_to_fp16(float value) {
     // Bit-cast float to uint32 without UB
     uint32_t f32 = {};
@@ -263,6 +297,12 @@ float MixedPrecisionTrainer::fp32_to_fp16(float value) {
     return fp16_to_fp32_bits(f16);
 }
 
+/**
+ * @brief Fp16 to fp32.
+ * @param[in] value Input parameter.
+ * @return Return value.
+ * @details Calls: std::memcpy(), fp16_to_fp32_bits().
+ */
 float MixedPrecisionTrainer::fp16_to_fp32(float value) {
     // value stores the FP16 bit-pattern that fp32_to_fp16() encoded.
     // Re-interpret the lower 16 bits as a raw FP16 word.

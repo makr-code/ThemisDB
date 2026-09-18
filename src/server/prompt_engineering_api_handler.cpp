@@ -29,6 +29,12 @@ namespace {
 
 constexpr size_t kMaxPromptEngineeringIdentifierLength = 256;
 
+/**
+ * @brief Is Valid Prompt Engineering Identifier.
+ * @param[in] value Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), validateStringLength(), validatePathSegment(), validateHeaderValue().
+ */
 bool isValidPromptEngineeringIdentifier(const std::string& value) {
     if (value.empty()) {
         return false;
@@ -65,7 +71,12 @@ PromptEngineeringApiHandler::PromptEngineeringApiHandler(
 {
 }
 
-// POST /api/v1/prompt_engineering/optimize
+/**
+ * @brief POST /api/v1/prompt_engineering/optimize
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), makeErrorResponse(), nlohmann::json::parse(), body(), value(), empty(), shouldOptimize(), makeResponse().
+ */
 http::response<http::string_body> PromptEngineeringApiHandler::handleOptimize(
     const http::request<http::string_body>& req
 ) {
@@ -145,7 +156,12 @@ http::response<http::string_body> PromptEngineeringApiHandler::handleOptimize(
     }
 }
 
-// GET /api/v1/prompt_engineering/ab_tests
+/**
+ * @brief GET /api/v1/prompt_engineering/ab_tests
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), makeErrorResponse(), getActiveABTests(), nlohmann::json::array(), push_back(), toJson(), makeResponse(), dump().
+ */
 http::response<http::string_body> PromptEngineeringApiHandler::handleListABTests(
     const http::request<http::string_body>& req
 ) {
@@ -176,7 +192,12 @@ http::response<http::string_body> PromptEngineeringApiHandler::handleListABTests
     }
 }
 
-// GET /api/v1/prompt_engineering/ab_tests/:id
+/**
+ * @brief GET /api/v1/prompt_engineering/ab_tests/:id
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), std::string(), target(), extractPathParam(), empty(), makeErrorResponse(), isValidPromptEngineeringIdentifier(), getABTestResults().
+ */
 http::response<http::string_body> PromptEngineeringApiHandler::handleGetABTest(
     const http::request<http::string_body>& req
 ) {
@@ -225,7 +246,12 @@ http::response<http::string_body> PromptEngineeringApiHandler::handleGetABTest(
     }
 }
 
-// POST /api/v1/prompt_engineering/feedback
+/**
+ * @brief POST /api/v1/prompt_engineering/feedback
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), makeErrorResponse(), nlohmann::json::parse(), body(), value(), empty(), prompt_engineering::stringToFeedbackType(), recordFeedback().
+ */
 http::response<http::string_body> PromptEngineeringApiHandler::handleSubmitFeedback(
     const http::request<http::string_body>& req
 ) {
@@ -293,7 +319,12 @@ http::response<http::string_body> PromptEngineeringApiHandler::handleSubmitFeedb
     }
 }
 
-// GET /api/v1/prompt_engineering/stats
+/**
+ * @brief GET /api/v1/prompt_engineering/stats
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), nlohmann::json::object(), getStats(), getSummaryStatistics(), getSummary(), getActiveABTests(), size(), makeResponse().
+ */
 http::response<http::string_body> PromptEngineeringApiHandler::handleGetStats(
     const http::request<http::string_body>& req
 ) {
@@ -338,7 +369,12 @@ http::response<http::string_body> PromptEngineeringApiHandler::handleGetStats(
     }
 }
 
-// GET /api/v1/prompt_engineering/history/:id
+/**
+ * @brief GET /api/v1/prompt_engineering/history/:id
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), std::string(), target(), extractPathParam(), empty(), makeErrorResponse(), isValidPromptEngineeringIdentifier(), getOptimizationHistory().
+ */
 http::response<http::string_body> PromptEngineeringApiHandler::handleGetHistory(
     const http::request<http::string_body>& req
 ) {
@@ -386,7 +422,12 @@ http::response<http::string_body> PromptEngineeringApiHandler::handleGetHistory(
     }
 }
 
-// GET /api/v1/prompt_engineering/versions/:id
+/**
+ * @brief GET /api/v1/prompt_engineering/versions/:id
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), std::string(), target(), extractPathParam(), empty(), makeErrorResponse(), isValidPromptEngineeringIdentifier(), getHistory().
+ */
 http::response<http::string_body> PromptEngineeringApiHandler::handleGetVersions(
     const http::request<http::string_body>& req
 ) {
@@ -435,7 +476,12 @@ http::response<http::string_body> PromptEngineeringApiHandler::handleGetVersions
     }
 }
 
-// POST /api/v1/prompt_engineering/rollback
+/**
+ * @brief POST /api/v1/prompt_engineering/rollback
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), makeErrorResponse(), nlohmann::json::parse(), body(), value(), empty(), rollbackPrompt(), makeResponse().
+ */
 http::response<http::string_body> PromptEngineeringApiHandler::handleRollback(
     const http::request<http::string_body>& req
 ) {
@@ -482,6 +528,13 @@ http::response<http::string_body> PromptEngineeringApiHandler::handleRollback(
 }
 
 // Helper methods
+/**
+ * @brief Extract Path Param.
+ * @param[in] target Input parameter.
+ * @param[in] prefix Input parameter.
+ * @return Return value.
+ * @details Calls: size(), substr(), find().
+ */
 std::string PromptEngineeringApiHandler::extractPathParam(
     const std::string& target,
     const std::string& prefix
@@ -498,6 +551,14 @@ std::string PromptEngineeringApiHandler::extractPathParam(
     return "";
 }
 
+/**
+ * @brief Make Error Response.
+ * @param[in] status Input parameter.
+ * @param[in] message Input parameter.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: version(), set(), keep_alive(), body(), dump(), prepare_payload().
+ */
 http::response<http::string_body> PromptEngineeringApiHandler::makeErrorResponse(
     http::status status,
     const std::string& message,
@@ -516,6 +577,14 @@ http::response<http::string_body> PromptEngineeringApiHandler::makeErrorResponse
     return res;
 }
 
+/**
+ * @brief Make Response.
+ * @param[in] status Input parameter.
+ * @param[in] body Input parameter.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: version(), set(), keep_alive(), body(), prepare_payload().
+ */
 http::response<http::string_body> PromptEngineeringApiHandler::makeResponse(
     http::status status,
     const std::string& body,

@@ -40,6 +40,12 @@ struct PromptSanitizationOutcome {
     std::string blocked_reason = {};
 };
 
+/**
+ * @brief Sanitize Prompt Fragment.
+ * @param[in] text Input parameter.
+ * @return Return value.
+ * @details Calls: llm::prompt_safety::sanitizePromptWithSharedPolicy(), std::move().
+ */
 PromptSanitizationOutcome sanitizePromptFragment(const std::string& text) {
     PromptSanitizationOutcome outcome;
     outcome.sanitized = text;
@@ -62,11 +68,23 @@ PromptSanitizationOutcome sanitizePromptFragment(const std::string& text) {
 
 } // namespace
 
+/**
+ * @brief Sanitize LLMPrompt Text.
+ * @param[in] input Input parameter.
+ * @return Return value.
+ * @details Calls: sanitizePromptFragment().
+ */
 std::string VoiceAssistant::sanitizeLLMPromptText(const std::string& input) {
     return sanitizePromptFragment(input).sanitized;
 }
 
-// TASK 2.4: Replace generateLLMResponse to use EmbeddedLLM with timeouts and fallback chain
+/**
+ * @brief TASK 2.
+ * @param[in] user_input Input parameter.
+ * @param[in] session Input parameter.
+ * @return Return value.
+ * @details 4: Replace generateLLMResponse to use EmbeddedLLM with timeouts and fallback chain Calls: empty(), spdlog::error(), sanitizePromptFragment(), std::chrono::system_clock::now(), time_since_epoch(), count(), logEvent(), size().
+ */
 std::string VoiceAssistant::generateLLMResponse(
     const std::string& user_input,
     const VoiceSession& session
@@ -173,7 +191,12 @@ std::string VoiceAssistant::generateLLMResponse(
     return "I'm sorry, I encountered an error processing your request. Could you please rephrase that?";
 }
 
-// Replace generateSummary to use EmbeddedLLM
+/**
+ * @brief Replace generateSummary to use EmbeddedLLM
+ * @param[in] transcript Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), sanitizePromptFragment(), std::chrono::system_clock::now(), time_since_epoch(), count(), logEvent(), substr(), std::min().
+ */
 json VoiceAssistant::generateSummary(const std::string& transcript) {
     if (transcript.empty()) {
         return "No summary available";
@@ -231,7 +254,12 @@ json VoiceAssistant::generateSummary(const std::string& transcript) {
     return "Summary generation failed";
 }
 
-// Replace extractKeyPoints to use EmbeddedLLM
+/**
+ * @brief Replace extractKeyPoints to use EmbeddedLLM
+ * @param[in] transcript Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), json::array(), sanitizePromptFragment(), std::chrono::system_clock::now(), time_since_epoch(), count(), logEvent(), substr().
+ */
 json VoiceAssistant::extractKeyPoints(const std::string& transcript) {
     if (transcript.empty()) {
         return json::array();
@@ -302,7 +330,12 @@ json VoiceAssistant::extractKeyPoints(const std::string& transcript) {
     return json::array();
 }
 
-// Replace extractActionItems to use EmbeddedLLM
+/**
+ * @brief Replace extractActionItems to use EmbeddedLLM
+ * @param[in] transcript Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), json::array(), sanitizePromptFragment(), std::chrono::system_clock::now(), time_since_epoch(), count(), logEvent(), substr().
+ */
 json VoiceAssistant::extractActionItems(const std::string& transcript) {
     if (transcript.empty()) {
         return json::array();

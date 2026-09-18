@@ -24,6 +24,12 @@ namespace {
 constexpr std::size_t kMaxXmlBlobSize = 256 * 1024 * 1024;
 constexpr int kMaxXmlDepth = 1024;
 
+/**
+ * @brief To Lower Ascii.
+ * @param[in] value Input parameter.
+ * @return Return value.
+ * @details Calls: std::transform(), begin(), end(), std::tolower().
+ */
 std::string toLowerAscii(std::string value) {
     std::transform(value.begin(), value.end(), value.begin(), [](unsigned char ch) {
         return static_cast<char>(std::tolower(ch));
@@ -33,6 +39,14 @@ std::string toLowerAscii(std::string value) {
 
 } // namespace
 
+/**
+ * @brief Parse Xml Safe.
+ * @param[in] xml_content Input parameter.
+ * @param[in] source_hint Input parameter.
+ * @param[in] bool Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), THEMIS_WARN(), size(), THEMIS_ERROR(), toLowerAscii(), find(), load_string(), c_str().
+ */
 XxeSafeXmlParseResult parseXmlSafe(const std::string& xml_content,
                                    const std::string& source_hint,
                                    bool /*allow_external_entities*/) {
@@ -99,6 +113,12 @@ XxeSafeXmlParseResult parseXmlSafe(const std::string& xml_content,
     return result;
 }
 
+/**
+ * @brief Validate No External Entities.
+ * @param[in] doc Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: children(), type().
+ */
 bool validateNoExternalEntities(const pugi::xml_document& doc) {
     for (auto child : doc.children()) {
         if (child.type() == pugi::node_doctype) {

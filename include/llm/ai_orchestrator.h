@@ -32,9 +32,6 @@ using json = nlohmann::json;
 // Mode Spec – YAML schema types
 // ============================================================================
 
-/**
- * @brief Supported LLM request mode identifiers.
- */
 enum class ModeId {
     Ask,        ///< Plain question-answering (no retrieval)
     Edit,       ///< Instruction-following / text editing
@@ -45,18 +42,23 @@ enum class ModeId {
     Custom      ///< User-defined id
 };
 
-/** @brief Convert mode string to ModeId (case-insensitive). */
+/**
+ * @brief Mode Id From String.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ */
 ModeId modeIdFromString(const std::string& s);
-/** @brief Convert ModeId to canonical string. */
+/**
+ * @brief Mode Id To String.
+ * @param[in] id Input parameter.
+ * @return Return value.
+ */
 std::string modeIdToString(ModeId id);
 
 // ----------------------------------------------------------------------------
 // Sub-specs
 // ----------------------------------------------------------------------------
 
-/**
- * @brief Retrieval configuration for a mode.
- */
 struct RetrievalSpec {
     bool        enabled   = false;
     std::string strategy  = "hybrid";  ///< "vector", "fulltext", "hybrid"
@@ -70,24 +72,16 @@ struct RetrievalSpec {
         std::string strategy = "fixed"; ///< "fixed", "sentence", "paragraph"
     } chunking;
 
-    /// Read timestamp semantics for shard-local consistency
     std::string read_ts_semantics = "latest"; ///< "latest", "snapshot:<ts>"
-    /// Optional cluster/shard locality hint
     std::string locality;
 };
 
-/**
- * @brief Output constraints for a mode.
- */
 struct OutputSpec {
     std::string format = "text";     ///< "text", "json", "markdown"
     std::optional<std::string> json_schema; ///< JSON Schema for structured output
     std::optional<std::string> grammar;     ///< EBNF grammar name or inline grammar
 };
 
-/**
- * @brief Resource budgets for a mode.
- */
 struct BudgetSpec {
     int    max_tokens   = 512;
     int    timeout_ms   = 30000;
@@ -97,9 +91,6 @@ struct BudgetSpec {
     int    top_k        = 40;
 };
 
-/**
- * @brief Observability configuration for a mode.
- */
 struct ObservabilitySpec {
     bool log_requests   = true;
     bool log_responses  = false;    ///< disabled by default (privacy)
@@ -107,9 +98,6 @@ struct ObservabilitySpec {
     bool trace          = false;    ///< OpenTelemetry tracing
 };
 
-/**
- * @brief MCP-style tool specification.
- */
 struct ToolSpec {
     std::string name;
     std::string description;
@@ -117,9 +105,6 @@ struct ToolSpec {
     int         timeout_ms = 5000;
 };
 
-/**
- * @brief A single mode specification.
- */
 struct ModeSpec {
     std::string      id;          ///< Unique mode identifier, e.g. "rag"
     ModeId           mode_id = ModeId::Custom;
@@ -127,9 +112,7 @@ struct ModeSpec {
     std::string      model_id = "default";
     std::string      lora_adapter_id;
 
-    /// Allowed tool names (empty = no tools).
     std::vector<std::string> tools_allowed;
-    /// Explicitly blocked tools (overrides allowlist).
     std::vector<std::string> tools_denied;
 
     RetrievalSpec   retrieval;
@@ -137,27 +120,25 @@ struct ModeSpec {
     BudgetSpec      budgets;
     ObservabilitySpec observability;
 
-    /// Optional judge configuration for quality evaluation
     struct JudgeSpec {
         bool        enabled = false;
         std::string model_id;
         float       min_score = 0.6f;
     } judge;
 
-    /// Optional safety/ethics guardrails
     struct SafetySpec {
         bool        enabled = false;
         std::string ethics_profile; ///< path or id of ethics YAML profile
     } safety;
 
-    /// Arbitrary extension fields preserved from YAML
     json extensions;
 };
 
-/**
- * @brief Model entry in a ModePack.
- */
 struct ModelEntry {
+    /**
+     * @brief Model Entry.
+     * @return Return value.
+     */
     virtual ~ModelEntry() = default;
     std::string id;
     std::string path;
@@ -165,9 +146,6 @@ struct ModelEntry {
     int         n_ctx      = 4096;
 };
 
-/**
- * @brief Top-level container parsed from a ThemisModePack YAML file.
- */
 struct ModePack {
     std::string apiVersion; ///< Expected: "themis.ai/v1"
     std::string kind;       ///< Expected: "ThemisModePack" or "ThemisAIPolicy"
@@ -178,7 +156,6 @@ struct ModePack {
     std::vector<ToolSpec>   tools;
     std::vector<ModeSpec>   modes;
 
-    /// Default mode id when none specified in a request
     std::string default_mode = "ask";
 };
 
@@ -186,9 +163,6 @@ struct ModePack {
 // Mode Spec Loader + Validator
 // ============================================================================
 
-/**
- * @brief Result of a validation operation.
- */
 struct ValidationResult {
     bool                     ok = true;
     std::vector<std::string> errors;
@@ -197,38 +171,18 @@ struct ValidationResult {
     explicit operator bool() const { return ok; }
 };
 
-/**
- * @brief Loads and validates ThemisModePack YAML files.
- *
- * Supports:
- *   - apiVersion / kind checks
- *   - Default injection
- *   - Clear error messages referencing YAML key paths
- */
 class ModeSpecLoader {
 public:
-    /**
-     * @brief Load a ModePack from a YAML file.
-     * @param path       Filesystem path to the YAML file.
-     * @param result_out Optional validation result output (errors/warnings).
-     * @return Loaded pack; empty on failure (check result_out).
-     * @throws std::runtime_error when yaml-cpp cannot open the file.
-     */
     static ModePack loadFromFile(const std::string& path,
                                  ValidationResult*  result_out = nullptr);
 
-    /**
-     * @brief Load a ModePack from an in-memory YAML string.
-     * @param yaml_text  YAML content.
-     * @param result_out Optional validation result output.
-     * @return Loaded pack; empty on failure.
-     */
     static ModePack loadFromString(const std::string& yaml_text,
                                    ValidationResult*  result_out = nullptr);
 
     /**
-     * @brief Validate an already-loaded ModePack.
-     * @return ValidationResult with errors/warnings.
+     * @brief Validate.
+     * @param[in] pack Input parameter.
+     * @return Return value.
      */
     static ValidationResult validate(const ModePack& pack);
 };
@@ -237,120 +191,86 @@ public:
 // Tool Registry
 // ============================================================================
 
-/**
- * @brief Callable handler for a registered tool.
- *
- * @param args   Parsed JSON arguments (validated against ToolSpec::args_schema).
- * @param mode   Mode that invoked the tool (for permission checks).
- * @return JSON result that will be injected into the prompt context.
- */
 using ToolHandler = std::function<json(const json& args, const ModeSpec& mode)>;
 
-/**
- * @brief MCP-style tool registry with mode-based permission checking.
- *
- * Tools are registered globally; each ModeSpec's tools_allowed/tools_denied
- * lists are consulted before dispatch.
- *
- * ## Dynamic tool loading (DLL/SO)
- *
- * Tool plugins are shared libraries that export the standard
- * `createPlugin()`/`destroyPlugin()` C ABI and contain a class derived from
- * IThemisTool.  The plugin.json manifest must set `"type": "agentic_tool"`.
- *
- * Example workflow:
- * @code
- * ToolRegistry registry;
- * registry.loadToolsFromDirectory("plugins/tools");   // bulk load
- * registry.loadToolPlugin("plugins/tools/libtool_search.so"); // single load
- * registry.reloadTool("search_vector");               // hot-reload
- * registry.unloadTool("search_vector");               // unload + deregister
- * @endcode
- *
- * Statically registered tools (via registerTool()) and dynamically loaded
- * tools coexist in the same registry and are dispatched through the same
- * invokeTool() path.
- */
 class ToolRegistry {
 public:
     ToolRegistry();
     ~ToolRegistry();
 
-    // ── Static / built-in tool registration ──────────────────────────────────
+    /**
+     * @brief ── Static / built-in tool registration ──────────────────────────────────
+     * @param[in] spec Input parameter.
+     * @param[in] handler Input parameter.
+     */
 
-    /** @brief Register a tool handler. Overwrites any existing static registration. */
     void registerTool(const ToolSpec& spec, ToolHandler handler);
 
     // ── Dynamic tool loading via PluginManager ────────────────────────────────
 
-    /**
-     * @brief Load a single tool plugin from a shared library path.
-     *
-     * The library must export `createPlugin()`/`destroyPlugin()` and the
-     * returned instance must implement IThemisTool.  On success the tool is
-     * automatically registered in the registry using the name reported by
-     * IThemisPlugin::getName().
-     *
-     * @param path    Absolute path to the .so / .dll.
-     * @param config  Optional JSON configuration string passed to initialize().
-     * @return Ok(void) on success, Err(ERR_TOOL_PLUGIN_NOT_A_TOOL) if the
-     *         plugin does not implement IThemisTool, or a plugin-layer error
-     *         from PluginManager on load failure.
-     */
     Result<void> loadToolPlugin(const std::string& path,
                                 const std::string& config = "{}");
 
     /**
-     * @brief Scan a directory for tool plugins and load all AGENTIC_TOOL ones.
-     *
-     * Delegates directory scanning to PluginManager::scanPluginDirectory()
-     * followed by loading every plugin with type == AGENTIC_TOOL.
-     *
-     * @param directory  Path to directory containing .so/.dll files.
-     * @return Ok(n) where n is the number of tools successfully loaded.
+     * @brief Load Tools From Directory.
+     * @param[in] directory Input parameter.
+     * @return Return value.
      */
     Result<size_t> loadToolsFromDirectory(const std::string& directory);
 
     /**
-     * @brief Hot-reload a named tool plugin without stopping the registry.
-     *
-     * Delegates to PluginManager::reloadPlugin() (atomic swap with rollback).
-     * After the reload the tool handler is re-registered with the new instance.
-     * Statically registered tools cannot be reloaded via this method.
-     *
-     * @param name  Tool name as reported by IThemisPlugin::getName().
-     * @return Ok(void) on success, Err(ERR_TOOL_NOT_FOUND) if not a plugin tool.
+     * @brief Reload Tool.
+     * @param[in] name Input parameter.
+     * @return Return value.
      */
     Result<void> reloadTool(const std::string& name);
 
     /**
-     * @brief Unload a dynamically loaded tool plugin and deregister it.
-     *
-     * Has no effect on statically registered tools.
-     *
-     * @param name  Tool name.
-     * @return Ok(void) on success, or a plugin-layer error on unload failure.
+     * @brief Unload Tool.
+     * @param[in] name Input parameter.
+     * @return Return value.
      */
     Result<void> unloadTool(const std::string& name);
 
-    // ── Dispatch ──────────────────────────────────────────────────────────────
+    /**
+     * @brief ── Dispatch ──────────────────────────────────────────────────────────────
+     * @param[in] tool_name Name of the tool.
+     * @param[in] args Input parameter.
+     * @param[in] mode Input parameter.
+     * @return Return value.
+     */
 
-    /** @brief Invoke a tool if permitted by mode's allowlist/denylist. */
     json invokeTool(const std::string& tool_name,
                     const json&        args,
                     const ModeSpec&    mode) const;
 
-    /** @brief Check if a tool is permitted for a given mode. */
+    /**
+     * @brief Is Allowed.
+     * @param[in] tool_name Name of the tool.
+     * @param[in] mode Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool isAllowed(const std::string& tool_name,
                    const ModeSpec&    mode) const;
 
-    /** @brief List all registered tool names (static + dynamic). */
+    /**
+     * @brief List Tools.
+     * @return Return value.
+     */
     std::vector<std::string> listTools() const;
 
-    /** @brief Get spec for a named tool; nullopt if not found. */
+    /**
+     * @brief Get Spec.
+     * @param[in] tool_name Name of the tool.
+     * @return Return value.
+     */
     std::optional<ToolSpec> getSpec(const std::string& tool_name) const;
 
-    /** @brief Returns true if the named tool was loaded from a plugin DLL. */
+    /**
+     * @brief Is Plugin Tool.
+     * @param[in] name Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool isPluginTool(const std::string& name) const;
 
 private:
@@ -360,7 +280,10 @@ private:
         bool        is_plugin = false;  ///< true when backed by a DLL plugin
     };
 
-    /// Register a plugin-backed IThemisTool instance into tools_.
+    /**
+     * @brief Register Plugin Tool.
+     * @param[in,out] tool Input/output parameter.
+     */
     void registerPluginTool(IThemisTool* tool);
 
     std::unordered_map<std::string, Entry>      tools_;
@@ -372,10 +295,11 @@ private:
 // Orchestrator – run metadata and result
 // ============================================================================
 
-/**
- * @brief Latency breakdown for a single orchestrator run.
- */
 struct RunLatency {
+    /**
+     * @brief Run Latency.
+     * @return Return value.
+     */
     virtual ~RunLatency() = default;
     int64_t retrieval_ms    = 0;
     int64_t llm_ms          = 0;
@@ -383,10 +307,11 @@ struct RunLatency {
     int64_t total_ms        = 0;
 };
 
-/**
- * @brief Run metadata emitted for every orchestrator execution.
- */
 struct RunMetadata {
+    /**
+     * @brief Run Metadata.
+     * @return Return value.
+     */
     virtual ~RunMetadata() = default;
     std::string mode_id;
     std::string model_id;
@@ -418,9 +343,6 @@ struct RunMetadata {
     json extra;
 };
 
-/**
- * @brief Result of a single orchestrator run.
- */
 struct OrchestratorResult {
     bool         success = false;
     std::string  text;          ///< Generated text
@@ -433,9 +355,6 @@ struct OrchestratorResult {
 // Orchestrator context (per-request)
 // ============================================================================
 
-/**
- * @brief Input context for an orchestrator run.
- */
 struct OrchestratorContext {
     std::string query;
     std::string mode_id;        ///< Mode to use; empty = ModePack default
@@ -459,9 +378,6 @@ struct OrchestratorContext {
 // Optional adapter candidate selection (PR-1)
 // ============================================================================
 
-/**
- * @brief One adapter candidate returned by the selection provider.
- */
 struct AdapterCandidate {
     std::string adapter_id;
     float       similarity = 0.0f;
@@ -469,9 +385,6 @@ struct AdapterCandidate {
     std::string tenant;
 };
 
-/**
- * @brief Input for adapter candidate selection.
- */
 struct AdapterSelectionInput {
     std::string session_id;
     std::string tenant;
@@ -480,18 +393,12 @@ struct AdapterSelectionInput {
     std::string domain_hint;
 };
 
-/**
- * @brief Output of adapter candidate selection.
- */
 struct AdapterSelectionResult {
     std::optional<std::string> selected_adapter_id;
     std::vector<AdapterCandidate> candidates;
     std::string reason;
 };
 
-/**
- * @brief Policy guardrails for runtime adapter switching.
- */
 struct AdapterSwitchPolicy {
     int   min_switch_interval_ms = 500;
     float min_similarity_gain = 0.0f;
@@ -504,58 +411,39 @@ struct AdapterSwitchPolicy {
     int   min_top_k_under_budget = 1;           ///< Lower bound for budget-driven top_k reduction.
 };
 
-/**
- * @brief Resolve adapter id + tenant to a concrete LoRA artifact path.
- *
- * Return std::nullopt or an empty string to signal that the adapter cannot
- * be resolved for the current request context.
- */
 using AdapterPathResolverFn = std::function<std::optional<std::string>(
     const std::string& adapter_id,
     const std::string& tenant)>;
 
-/**
- * @brief Optional runtime provider for adapter candidate selection.
- */
 class IAdapterCandidateProvider {
 public:
+    /**
+     * @brief IAdapter Candidate Provider.
+     * @return Return value.
+     */
     virtual ~IAdapterCandidateProvider() = default;
 
-    /**
-     * @brief Select adapter candidates for the current request context.
-     */
     [[nodiscard]] virtual AdapterSelectionResult
     selectCandidates(const AdapterSelectionInput& input) const = 0;
 };
 
-/**
- * @brief Optional runtime service to apply adapters before generation.
- */
 class IAdapterApplyService {
 public:
+    /**
+     * @brief IAdapter Apply Service.
+     * @return Return value.
+     */
     virtual ~IAdapterApplyService() = default;
 
-    /**
-     * @brief Apply an adapter for the current runtime context.
-     */
     [[nodiscard]] virtual bool applyAdapter(const std::string& adapter_id,
                                             const std::string& tenant,
                                             float              scale) = 0;
 
-    /**
-     * @brief Return current adapter id, or empty string if none is active.
-     */
     [[nodiscard]] virtual std::string currentAdapter() const = 0;
 
-    /**
-     * @brief Whether switching is currently allowed.
-     */
     [[nodiscard]] virtual bool canSwitch() const = 0;
 };
 
-/**
- * @brief Cost model input for one RAG orchestration run.
- */
 struct RagCostModelInput {
     std::size_t retrieved_docs = 0;
     int64_t retrieval_latency_ms = 0;
@@ -570,9 +458,6 @@ struct RagCostModelInput {
     json extra;
 };
 
-/**
- * @brief Cost model output for one RAG orchestration run.
- */
 struct RagCostEstimate {
     double total_cost = 0.0;
     double retrieval_cost = 0.0;
@@ -583,17 +468,14 @@ struct RagCostEstimate {
     json extra;
 };
 
-/**
- * @brief Optional runtime service to estimate end-to-end RAG cost.
- */
 class IRagCostModelService {
 public:
+    /**
+     * @brief IRag Cost Model Service.
+     * @return Return value.
+     */
     virtual ~IRagCostModelService() = default;
 
-    /**
-     * @brief Estimate total RAG cost for a single run.
-     * @return Cost estimate, or nullopt when no estimate can be produced.
-     */
     [[nodiscard]] virtual std::optional<RagCostEstimate>
     estimate(const RagCostModelInput& input) const = 0;
 };
@@ -602,29 +484,13 @@ public:
 // AIOrchestrator
 // ============================================================================
 
-/**
- * @brief Central LLM orchestration runtime.
- *
- * Loads a ModePack at startup and executes pipeline runs based on the
- * selected mode.  Supports "ask" and "rag" end-to-end; "agentic" / "ethics"
- * / "multi_agent" are scaffolded with extension points.
- *
- * Thread-safe: multiple threads may call run() concurrently.
- *
- * Usage:
- * @code
- *   auto pack = ModeSpecLoader::loadFromFile("config/ai_ml/llm/modes/default.yaml");
- *   AIOrchestrator orch(pack);
- *   orch.setLLMPlugin(my_plugin);
- *
- *   OrchestratorContext ctx;
- *   ctx.query   = "How do I configure sharding?";
- *   ctx.mode_id = "rag";
- *   auto result = orch.run(ctx);
- * @endcode
- */
 class AIOrchestrator {
 public:
+    /**
+     * @brief AIOrchestrator.
+     * @param[in] pack Input parameter.
+     * @return Return value.
+     */
     explicit AIOrchestrator(const ModePack& pack);
     ~AIOrchestrator();
 
@@ -632,94 +498,158 @@ public:
     AIOrchestrator(const AIOrchestrator&) = delete;
     AIOrchestrator& operator=(const AIOrchestrator&) = delete;
 
-    // ── Configuration ────────────────────────────────────────────────────────
+    /**
+     * @brief ── Configuration ────────────────────────────────────────────────────────
+     * @param[in] plugin Input parameter.
+     */
 
-    /** @brief Set (or replace) the LLM plugin used for inference. */
     void setLLMPlugin(std::shared_ptr<ILLMPlugin> plugin);
 
-    /** @brief Set (or clear) the optional adapter candidate provider. */
+    /**
+     * @brief Set Adapter Candidate Provider.
+     * @param[in] provider Input parameter.
+     */
     void setAdapterCandidateProvider(std::shared_ptr<IAdapterCandidateProvider> provider);
 
-    /** @brief Set (or clear) the optional adapter apply service. */
+    /**
+     * @brief Set Adapter Apply Service.
+     * @param[in] service Input parameter.
+     */
     void setAdapterApplyService(std::shared_ptr<IAdapterApplyService> service);
 
-    /** @brief Configure adapter switch policy guardrails. */
+    /**
+     * @brief Set Adapter Switch Policy.
+     * @param[in] policy Input parameter.
+     */
     void setAdapterSwitchPolicy(const AdapterSwitchPolicy& policy);
 
     /**
-     * @brief Set (or clear) adapter path resolver used by the default apply bridge.
-     *
-     * @param resolver Resolver callback. Pass empty function to clear resolver.
-     *        If resolver is set and returns empty/nullopt, adapter apply fails
-     *        with metadata error code "resolver_empty_path".
+     * @brief Set Adapter Path Resolver.
+     * @param[in] resolver Input parameter.
      */
     void setAdapterPathResolver(AdapterPathResolverFn resolver);
 
-    /** @brief Set (or clear) RAG cost model service. */
+    /**
+     * @brief Set Rag Cost Model Service.
+     * @param[in] service Input parameter.
+     */
     void setRagCostModelService(std::shared_ptr<IRagCostModelService> service);
 
-    /** @brief Expose the internal tool registry for external registrations. */
+    /**
+     * @brief Tool Registry.
+     * @return Return value.
+     */
     ToolRegistry& toolRegistry();
 
-    // ── Execution ────────────────────────────────────────────────────────────
-
     /**
-     * @brief Execute a pipeline run for the given context.
-     *
-     * Selects the mode, validates permissions, executes retrieval (if needed),
-     * assembles the prompt, calls the LLM, records observability data, and
-     * returns the result.
-     *
-     * @param ctx     Request context.
-     * @return OrchestratorResult with text and metadata.
+     * @brief ── Execution ────────────────────────────────────────────────────────────
+     * @param[in] ctx Input parameter.
+     * @return Return value.
      */
+
     OrchestratorResult run(const OrchestratorContext& ctx) const;
 
-    // ── Introspection ─────────────────────────────────────────────────────────
+    /**
+     * @brief ── Introspection ─────────────────────────────────────────────────────────
+     * @return Return value.
+     */
 
-    /** @brief Return the loaded ModePack. */
     const ModePack& modePack() const;
 
-    /** @brief Find a mode spec by id; nullptr if not found. */
+    /**
+     * @brief Find Mode.
+     * @param[in] id Input parameter.
+     * @return Pointer to the result.
+     */
     const ModeSpec* findMode(const std::string& id) const;
 
-    /** @brief Return the default ModeSpec (ModePack::default_mode). */
+    /**
+     * @brief Default Mode.
+     * @return Pointer to the result.
+     */
     const ModeSpec* defaultMode() const;
 
-    /** @brief Return last-run statistics as JSON. */
+    /**
+     * @brief Stats.
+     * @return Return value.
+     */
     json stats() const;
 
 private:
     struct Impl;
     std::unique_ptr<Impl> impl_;
 
-    // ── Internal pipeline steps ───────────────────────────────────────────────
+    /**
+     * @brief ── Internal pipeline steps ───────────────────────────────────────────────
+     * @param[in] ctx Input parameter.
+     * @param[in] mode Input parameter.
+     * @return Return value.
+     */
 
     OrchestratorResult runAsk(const OrchestratorContext& ctx,
                                const ModeSpec&            mode) const;
 
+    /**
+     * @brief Run Rag.
+     * @param[in] ctx Input parameter.
+     * @param[in] mode Input parameter.
+     * @return Return value.
+     */
     OrchestratorResult runRag(const OrchestratorContext& ctx,
                                const ModeSpec&            mode) const;
 
+    /**
+     * @brief Run Agentic.
+     * @param[in] ctx Input parameter.
+     * @param[in] mode Input parameter.
+     * @return Return value.
+     */
     OrchestratorResult runAgentic(const OrchestratorContext& ctx,
                                    const ModeSpec&            mode) const;
 
+    /**
+     * @brief Run Ethics.
+     * @param[in] ctx Input parameter.
+     * @param[in] mode Input parameter.
+     * @return Return value.
+     */
     OrchestratorResult runEthics(const OrchestratorContext& ctx,
                                   const ModeSpec&            mode) const;
 
+    /**
+     * @brief Run Multi Agent.
+     * @param[in] ctx Input parameter.
+     * @param[in] mode Input parameter.
+     * @return Return value.
+     */
     OrchestratorResult runMultiAgent(const OrchestratorContext& ctx,
                                       const ModeSpec&            mode) const;
 
-    /// Build InferenceRequest from mode spec and context
+    /**
+     * @brief Build Request.
+     * @param[in] ctx Input parameter.
+     * @param[in] mode Input parameter.
+     * @return Return value.
+     */
     InferenceRequest buildRequest(const OrchestratorContext& ctx,
                                    const ModeSpec&            mode) const;
 
-    /// Assemble prompt with optional RAG context
+    /**
+     * @brief Assemble Prompt.
+     * @param[in] query Input parameter.
+     * @param[in] docs Input parameter.
+     * @param[in] param Input parameter.
+     * @return Return value.
+     */
     std::string assemblePrompt(const std::string&                         query,
                                 const std::vector<RAGContext::Document>&   docs,
                                 const ModeSpec&                            /*mode*/) const;
 
-    /// Emit run metadata to logging / metrics
+    /**
+     * @brief Emit Observability.
+     * @param[in] meta Input parameter.
+     * @param[in] mode Input parameter.
+     */
     void emitObservability(const RunMetadata& meta,
                             const ModeSpec&    mode) const;
 };
@@ -728,32 +658,6 @@ private:
 // McpToolBridge – connect MCP server tools into the ToolRegistry
 // ============================================================================
 
-/**
- * @brief Utility that bridges McpServer-registered tools into an AIOrchestrator
- *        ToolRegistry.
- *
- * When the MCP server and the AI Orchestrator run together, tools registered in
- * the MCP server can be forwarded to the orchestrator's ToolRegistry so that
- * mode pipelines (e.g. "rag", "agentic") can invoke them without duplicating
- * registration logic.
- *
- * Usage:
- * @code
- * #include "llm/ai_orchestrator.h"
- * #include "server/mcp_server.h"
- *
- * AIOrchestrator orch(pack);
- * McpServer mcp(io);
- *
- * // Wire orchestrator into MCP (MCP exposes modes as tools)
- * mcp.attachOrchestrator(std::make_shared<AIOrchestrator>(pack));
- *
- * // Wire MCP tools into orchestrator (orchestrator can call MCP tools)
- * McpToolBridge::bridgeTools(mcp, orch.toolRegistry());
- * @endcode
- *
- * Only available when THEMIS_ENABLE_MCP is defined.
- */
 #ifdef THEMIS_ENABLE_MCP
 // Forward-declare McpServer to avoid a circular include between
 // llm/ai_orchestrator.h and server/mcp_server.h.
@@ -761,32 +665,10 @@ namespace themis::server { class McpServer; }
 
 class McpToolBridge {
 public:
-    /**
-     * @brief Import all tools currently registered in @p mcp into @p registry.
-     *
-     * For each tool found in the MCP server, a ToolSpec is created (using the
-     * tool's description and schema) and a handler is registered that forwards
-     * calls to @p mcp.handleRequest() with a JSON-RPC "tools/call" envelope.
-     *
-     * Existing entries in @p registry with the same name are overwritten.
-     *
-     * @param mcp      Reference to the McpServer whose tools to import.
-     * @param registry ToolRegistry to populate.
-     * @param prefix   Optional name prefix added to every imported tool name,
-     *                 e.g. "mcp_" → "mcp_docs_search".  Default: no prefix.
-     */
     static void bridgeTools(themis::server::McpServer& mcp,
                             ToolRegistry&               registry,
                             const std::string&          prefix = "");
 
-    /**
-     * @brief Import a single named MCP tool into the registry.
-     *
-     * @param mcp        Reference to the McpServer.
-     * @param tool_name  Name of the tool inside the MCP server.
-     * @param registry   ToolRegistry to populate.
-     * @param alias      Name to use in the registry; defaults to @p tool_name.
-     */
     static void bridgeTool(themis::server::McpServer& mcp,
                             const std::string&         tool_name,
                             ToolRegistry&               registry,

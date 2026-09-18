@@ -92,9 +92,11 @@ class WasmRuntimeAdapter final : public WasmRuntime {
 #if defined(__linux__)
 namespace {
 
-/// Returns true when the cgroup v2 unified hierarchy is mounted at
-/// /sys/fs/cgroup AND the process has write permission to create sub-cgroups
-/// under /sys/fs/cgroup/themis/.
+/**
+ * @brief Is Cgroup V2 Available.
+ * @return True when the operation succeeds.
+ * @details Calls: stat(), access().
+ */
 static bool isCgroupV2Available() {
     // cgroup v2 exposes a "cgroup.controllers" file at the root of the
     // unified hierarchy.  Its absence means the kernel uses only cgroup v1.
@@ -106,8 +108,12 @@ static bool isCgroupV2Available() {
     return ::access("/sys/fs/cgroup", W_OK) == 0;
 }
 
-/// Replace characters that are invalid inside a cgroup directory name
-/// (anything that is not alphanumeric, '_', or '-') with '_'.
+/**
+ * @brief Sanitize Cgroup Name.
+ * @param[in] name Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), std::isalnum(), empty().
+ */
 static std::string sanitizeCgroupName(const std::string &name) {
     std::string out = {};
     out.reserve(name.size());
@@ -127,14 +133,28 @@ static std::string sanitizeCgroupName(const std::string &name) {
 AbiChecker::AbiChecker()  = default;
 AbiChecker::~AbiChecker() = default;
 
+/**
+ * @brief Add Required Symbol.
+ * @param[in] sym Input parameter.
+ * @details Calls: push_back().
+ */
 void AbiChecker::addRequiredSymbol(const std::string &sym) {
     required_symbols_.push_back(sym);
 }
 
+/**
+ * @brief Add Deprecated Symbol.
+ * @param[in] sym Input parameter.
+ * @details Calls: push_back().
+ */
 void AbiChecker::addDeprecatedSymbol(const std::string &sym) {
     deprecated_symbols_.push_back(sym);
 }
 
+/**
+ * @brief Use Default Lists.
+ * @details Implements useDefaultLists without additional internal calls.
+ */
 void AbiChecker::useDefaultLists() {
     required_symbols_ = {
         "themis_module_init",       "themis_module_shutdown",   "themis_module_version",
@@ -280,6 +300,12 @@ ModuleSandbox::~ModuleSandbox() {
     }
 }
 
+/**
+ * @brief Launch.
+ * @param[in] module_name Name of the module.
+ * @return True when the operation succeeds.
+ * @details Calls: clear(), applyMemoryLimit(), applyCpuLimit(), applyNetworkIsolation(), applyFilesystemRestrictions(), applySyscallFilter(), WasmRuntimeInjector::available(), push_back().
+ */
 bool ModuleSandbox::launch(const std::string &module_name) {
     module_name_ = module_name;
     last_error_.clear();
@@ -331,6 +357,10 @@ bool ModuleSandbox::launch(const std::string &module_name) {
     return true;
 }
 
+/**
+ * @brief Shutdown.
+ * @details Calls: CloseHandle(), setrlimit(), defined(), teardownCgroupV2(), reset().
+ */
 void ModuleSandbox::shutdown() {
     if (!active_) {
         return;
@@ -366,6 +396,11 @@ void ModuleSandbox::shutdown() {
     active_ = false;
 }
 
+/**
+ * @brief Apply Memory Limit.
+ * @return True when the operation succeeds.
+ * @details Calls: CreateJobObjectA(), std::to_string(), GetLastError(), AssignProcessToJobObject(), GetCurrentProcess(), SetInformationJobObject(), defined(), isCgroupV2Available().
+ */
 bool ModuleSandbox::applyMemoryLimit() {
     if (config_.max_memory_mb == 0) {
         return true;
@@ -438,6 +473,11 @@ bool ModuleSandbox::applyMemoryLimit() {
 #endif
 }
 
+/**
+ * @brief Apply Cpu Limit.
+ * @return True when the operation succeeds.
+ * @details Calls: CreateJobObjectA(), AssignProcessToJobObject(), GetCurrentProcess(), SetInformationJobObject(), defined(), cpu_max(), spdlog::warn(), getrlimit().
+ */
 bool ModuleSandbox::applyCpuLimit() {
     if (config_.max_cpu_percent == 0 && config_.max_cpu_time_seconds == 0) {
         return true;
@@ -512,6 +552,11 @@ bool ModuleSandbox::applyCpuLimit() {
 
 #if defined(__linux__)
 
+/**
+ * @brief Setup Cgroup V2.
+ * @return True when the operation succeeds.
+ * @details Calls: sanitizeCgroupName(), std::to_string(), getpid(), mkdir(), c_str(), spdlog::warn(), strerror(), subtree().
+ */
 bool ModuleSandbox::setupCgroupV2() {
     // Derive a unique, filesystem-safe cgroup directory name from the module
     // name and the current PID.  Using the PID prevents collisions when the
@@ -611,6 +656,10 @@ bool ModuleSandbox::setupCgroupV2() {
     return true;
 }
 
+/**
+ * @brief Teardown Cgroup V2.
+ * @details Calls: empty(), root_procs(), spdlog::warn(), getpid(), rmdir(), c_str(), strerror(), clear().
+ */
 void ModuleSandbox::teardownCgroupV2() {
     if (!platform_->cgroup_v2_active || platform_->cgroup_path.empty())
         return;
@@ -662,15 +711,29 @@ void ModuleSandbox::teardownCgroupV2() {
 
 #else
 
+/**
+ * @brief Setup Cgroup V2.
+ * @return True when the operation succeeds.
+ * @details Implements setupCgroupV2 without additional internal calls.
+ */
 bool ModuleSandbox::setupCgroupV2() {
     return false;
 }
 
+/**
+ * @brief Teardown Cgroup V2.
+ * @details Implements teardownCgroupV2 without additional internal calls.
+ */
 void ModuleSandbox::teardownCgroupV2() {
 }
 
 #endif // __linux__
 
+/**
+ * @brief Apply Network Isolation.
+ * @return True when the operation succeeds.
+ * @details Calls: defined(), push_back().
+ */
 bool ModuleSandbox::applyNetworkIsolation() {
 #if defined(__linux__)
     // Network namespace creation requires CAP_SYS_ADMIN.
@@ -683,6 +746,11 @@ bool ModuleSandbox::applyNetworkIsolation() {
     return true; // Non-fatal
 }
 
+/**
+ * @brief Apply Filesystem Restrictions.
+ * @return True when the operation succeeds.
+ * @details Calls: defined(), push_back().
+ */
 bool ModuleSandbox::applyFilesystemRestrictions() {
     if (config_.fs_access == FilesystemAccess::FULL) {
         return true;
@@ -699,6 +767,11 @@ bool ModuleSandbox::applyFilesystemRestrictions() {
     return true;
 }
 
+/**
+ * @brief Apply Syscall Filter.
+ * @return True when the operation succeeds.
+ * @details Calls: defined(), push_back(), empty().
+ */
 bool ModuleSandbox::applySyscallFilter() {
 #if defined(__linux__) && defined(THEMIS_HAVE_PRCTL)
     // seccomp-bpf requires CAP_SYS_ADMIN or PR_SET_SECCOMP privilege.

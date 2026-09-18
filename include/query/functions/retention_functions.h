@@ -23,12 +23,6 @@ namespace functions {
 // Statistical Functions for Adaptive Retention
 // ============================================================================
 
-/**
- * @brief CV(stddev, mean) - Calculate Coefficient of Variation
- * 
- * CV = (stddev / mean) × 100%
- * Used in adaptive retention to determine data variance.
- */
 class CoefficientOfVariationFunction : public IFunction {
 public:
     ~CoefficientOfVariationFunction() override = default;
@@ -67,11 +61,6 @@ public:
     }
 };
 
-/**
- * @brief VARIANCE_LEVEL(cv, lowThreshold?, mediumThreshold?) - Classify variance level
- * 
- * Returns 'low', 'medium', or 'high' based on CV thresholds.
- */
 class VarianceLevelFunction : public IFunction {
 public:
     ~VarianceLevelFunction() override = default;
@@ -112,11 +101,6 @@ public:
     }
 };
 
-/**
- * @brief RETENTION_RESOLUTION(cv, lowThreshold?, mediumThreshold?) - Suggest retention resolution
- * 
- * Suggests appropriate resolution based on variance level.
- */
 class RetentionResolutionFunction : public IFunction {
 public:
     ~RetentionResolutionFunction() override = default;
@@ -160,11 +144,6 @@ public:
 // Date Convenience Aliases for Retention
 // ============================================================================
 
-/**
- * @brief DATE_SUB(timestamp, amount, unit) - Alias for DATE_SUBTRACT
- * 
- * Provides a shorter, more convenient alias for DATE_SUBTRACT.
- */
 class DateSubFunction : public IFunction {
 public:
     ~DateSubFunction() override = default;
@@ -232,14 +211,6 @@ public:
 // Task Scheduling Functions
 // ============================================================================
 
-/**
- * @brief SCHEDULE_TASK(taskConfig) - Create a scheduled task
- * 
- * ⚠️ SECURITY: Requires admin privileges. Can execute arbitrary AQL.
- * 
- * Creates a new scheduled task from AQL. The task will be registered
- * with the TaskScheduler and executed periodically.
- */
 class ScheduleTaskFunction : public IFunction {
 public:
     ~ScheduleTaskFunction() override = default;
@@ -324,11 +295,6 @@ public:
     }
 };
 
-/**
- * @brief LIST_SCHEDULED_TASKS() - List all scheduled tasks
- * 
- * Returns a list of all tasks registered in the TaskScheduler.
- */
 class ListScheduledTasksFunction : public IFunction {
 public:
     ~ListScheduledTasksFunction() override = default;
@@ -356,11 +322,6 @@ public:
     }
 };
 
-/**
- * @brief CANCEL_TASK(taskId) - Cancel a scheduled task
- * 
- * ⚠️ SECURITY: Requires admin privileges.
- */
 class CancelTaskFunction : public IFunction {
 public:
     ~CancelTaskFunction() override = default;
@@ -391,11 +352,6 @@ public:
     }
 };
 
-/**
- * @brief ESTIMATE_STORAGE_SAVINGS(sourceResolution, targetResolution, dataPoints) - Estimate savings
- * 
- * Calculates estimated storage savings from downsampling.
- */
 class EstimateStorageSavingsFunction : public IFunction {
 public:
     ~EstimateStorageSavingsFunction() override = default;
@@ -473,12 +429,12 @@ public:
     }
 };
 
+
 /**
- * @brief ============================================================================ Register Retention Functions ============================================================================
+ * @brief Register Retention Functions.
  * @param[in,out] reg Input/output parameter.
  * @details Calls: registerFunction().
  */
-
 inline void registerRetentionFunctions(FunctionRegistry& reg) {
     // Statistical functions for adaptive retention
     reg.registerFunction(std::make_unique<CoefficientOfVariationFunction>());

@@ -26,6 +26,12 @@ namespace tensor {
 // FlatHTIndex
 // ============================================================================
 
+/**
+ * @brief Add.
+ * @param[in] id Input parameter.
+ * @param[in] train Input parameter.
+ * @details Calls: lk(), std::move(), push_back().
+ */
 void FlatHTIndex::add(const std::string& id, HTTrain train) {
     std::lock_guard<std::mutex> lk(mutex_);
     // Replace if id already exists
@@ -38,6 +44,12 @@ void FlatHTIndex::add(const std::string& id, HTTrain train) {
     entries_.push_back({id, std::move(train)});
 }
 
+/**
+ * @brief Remove.
+ * @param[in] id Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lk(), std::find_if(), begin(), end(), erase().
+ */
 bool FlatHTIndex::remove(const std::string& id) {
     std::lock_guard<std::mutex> lk(mutex_);
     auto it = std::find_if(entries_.begin(), entries_.end(),
@@ -51,6 +63,11 @@ bool FlatHTIndex::remove(const std::string& id) {
 
 std::vector<HTSearchResult>
 FlatHTIndex::search(const HTTrain& query, std::size_t k) const {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     std::vector<HTSearchResult> results = {};
 
@@ -74,11 +91,21 @@ FlatHTIndex::search(const HTTrain& query, std::size_t k) const {
 }
 
 std::size_t FlatHTIndex::size() const {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     return entries_.size();
 }
 
 std::optional<const HTTrain*> FlatHTIndex::get(const std::string& id) const {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     for (const auto& e : entries_)
         if (e.id == id) {
@@ -96,10 +123,22 @@ namespace {
 constexpr uint64_t kFlatHTMagic   = 0x464C41544854494DULL;  // "FLATHTI" (8 bytes)
 constexpr uint8_t  kFlatHTVersion = 1;
 
+/**
+ * @brief Append U64.
+ * @param[in,out] buf Input/output parameter.
+ * @param[in] v Input parameter.
+ * @details Calls: std::memcpy(), insert(), end().
+ */
 void appendU64(std::vector<uint8_t>& buf, uint64_t v) {
     uint8_t tmp[8]; std::memcpy(tmp, &v, 8);
     buf.insert(buf.end(), tmp, tmp + 8);
 }
+/**
+ * @brief Append U8.
+ * @param[in,out] buf Input/output parameter.
+ * @param[in] v Input parameter.
+ * @details Calls: push_back().
+ */
 void appendU8(std::vector<uint8_t>& buf, uint8_t v) { buf.push_back(v); }
 
 struct BufReader {
@@ -107,14 +146,33 @@ struct BufReader {
     std::size_t    left = {};
     bool           ok = true;
 
+    /**
+     * @brief U64.
+     * @param[in,out] v Input/output parameter.
+     * @return True when the operation succeeds.
+     * @details Calls: std::memcpy().
+     */
     bool u64(uint64_t& v) {
         if (left < 8) { ok = false; return false; }
         std::memcpy(&v, p, 8); p += 8; left -= 8; return true;
     }
+    /**
+     * @brief U8.
+     * @param[in,out] v Input/output parameter.
+     * @return True when the operation succeeds.
+     * @details Implements u8 without additional internal calls.
+     */
     bool u8(uint8_t& v) {
         if (left < 1) { ok = false; return false; }
         v = *p++; left--; return true;
     }
+    /**
+     * @brief Bytes.
+     * @param[in,out] v Input/output parameter.
+     * @param[in] n Input parameter.
+     * @return True when the operation succeeds.
+     * @details Calls: assign().
+     */
     bool bytes(std::vector<uint8_t>& v, std::size_t n) {
         if (left < n) { ok = false; return false; }
         v.assign(p, p + n); p += n; left -= n; return true;
@@ -124,6 +182,11 @@ struct BufReader {
 } // anonymous namespace
 
 std::vector<uint8_t> FlatHTIndex::serialize() const {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     std::vector<uint8_t> buf;
     appendU64(buf, kFlatHTMagic);
@@ -145,6 +208,12 @@ std::vector<uint8_t> FlatHTIndex::serialize() const {
     return buf;
 }
 
+/**
+ * @brief Deserialize.
+ * @param[in] bytes Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: data(), size(), u64(), u8(), lk(), clear(), reserve(), std::memcpy().
+ */
 bool FlatHTIndex::deserialize(const std::vector<uint8_t>& bytes) {
     BufReader r{bytes.data(),bytes.size(), true};
 

@@ -331,6 +331,12 @@ void AdaptiveRouting::recordOutcome(
 // RoutingFactory implementation
 // ============================================================================
 
+/**
+ * @brief Create Routing.
+ * @param[in] strategy_name Name of the strategy.
+ * @return Return value.
+ * @details Implements createRouting without additional internal calls.
+ */
 std::unique_ptr<IRoutingStrategy> RoutingFactory::createRouting(
     const std::string& strategy_name) {
 
@@ -345,6 +351,12 @@ std::unique_ptr<IRoutingStrategy> RoutingFactory::createRouting(
     return nullptr;
 }
 
+/**
+ * @brief Create Prioritization.
+ * @param[in] strategy_name Name of the strategy.
+ * @return Return value.
+ * @details Implements createPrioritization without additional internal calls.
+ */
 std::unique_ptr<IPrioritizationStrategy> RoutingFactory::createPrioritization(
     const std::string& strategy_name) {
 

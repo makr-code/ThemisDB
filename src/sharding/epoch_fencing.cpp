@@ -30,6 +30,14 @@ namespace sharding {
 // NullStonithProvider
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Fence.
+ * @param[in] node_id Identifier of the node.
+ * @param[in] param Input parameter.
+ * @param[in] time_point Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lk(), push_back(), spdlog::info().
+ */
 bool NullStonithProvider::fence(const NodeId& node_id,
                                 const std::string& /*reason*/,
                                 std::chrono::steady_clock::time_point /*deadline*/) {
@@ -40,15 +48,29 @@ bool NullStonithProvider::fence(const NodeId& node_id,
 }
 
 bool NullStonithProvider::isFenced(const NodeId& node_id) const {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     return std::find(fenced_.begin(), fenced_.end(), node_id) != fenced_.end();
 }
 
 std::vector<NodeId> NullStonithProvider::fencedNodes() const {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     return fenced_;
 }
 
+/**
+ * @brief Reset the modification detection flag.
+ * @details Calls: lk(), clear().
+ */
 void NullStonithProvider::reset() {
     std::lock_guard<std::mutex> lk(mutex_);
     fenced_.clear();
@@ -98,6 +120,12 @@ EpochFencingManager::~EpochFencingManager() = default;
 // EpochFencingManager — epoch management
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Bump Epoch.
+ * @param[in] reason Input parameter.
+ * @return Return value.
+ * @details Calls: fetch_add(), lk(), spdlog::info(), std::chrono::system_clock::now().
+ */
 EpochToken EpochFencingManager::bumpEpoch(const std::string& reason) {
     EpochNumber new_epoch = current_epoch_.fetch_add(1, std::memory_order_acq_rel) + 1;
 
@@ -134,6 +162,13 @@ EpochToken EpochFencingManager::makeToken() const {
 // EpochFencingManager — fencing check
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Check Token.
+ * @param[in] token Input parameter.
+ * @param[in] source_node Input parameter.
+ * @return Return value.
+ * @details Calls: spdlog::warn(), load(), lk(), issueStonith().
+ */
 FencingResult EpochFencingManager::checkToken(const EpochToken& token,
                                               const NodeId& source_node) {
     // Structural validity
@@ -168,6 +203,13 @@ FencingResult EpochFencingManager::checkToken(const EpochToken& token,
     return FencingResult::STALE_EPOCH;
 }
 
+/**
+ * @brief Issue Stonith.
+ * @param[in] node Input parameter.
+ * @param[in] reason Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::steady_clock::now(), spdlog::warn(), fence(), lk(), spdlog::info(), spdlog::error().
+ */
 FencingResult EpochFencingManager::issueStonith(const NodeId& node,
                                                 const std::string& reason) {
     auto deadline = std::chrono::steady_clock::now() + config_.stonith_timeout_ms;
@@ -188,6 +230,11 @@ FencingResult EpochFencingManager::issueStonith(const NodeId& node,
 }
 
 EpochFencingManager::Metrics EpochFencingManager::metrics() const noexcept {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     return metrics_;
 }
@@ -240,6 +287,13 @@ LeaseManager::~LeaseManager() = default;
 // LeaseManager — acquire
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Acquire.
+ * @param[in] key Input parameter.
+ * @param[in] node_id Identifier of the node.
+ * @return Return value.
+ * @details Calls: std::chrono::steady_clock::now(), lk(), evictExpired(), find(), end(), currentEpoch(), std::chrono::system_clock::now(), persistToWal().
+ */
 LeaseAcquireResult LeaseManager::acquire(const LeaseKey& key,
                                          const NodeId&   node_id) {
     auto deadline = std::chrono::steady_clock::now() + config_.acquire_wait_ms;
@@ -326,6 +380,13 @@ LeaseAcquireResult LeaseManager::acquire(const LeaseKey& key,
 // LeaseManager — renew
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Renew.
+ * @param[in] key Input parameter.
+ * @param[in] node_id Identifier of the node.
+ * @return Return value.
+ * @details Calls: lk(), find(), end(), spdlog::warn(), toString(), std::chrono::system_clock::now(), currentEpoch(), persistToWal().
+ */
 std::optional<LeaseRecord> LeaseManager::renew(const LeaseKey& key,
                                                const NodeId&   node_id) {
     std::lock_guard<std::mutex> lk(mutex_);
@@ -367,6 +428,13 @@ std::optional<LeaseRecord> LeaseManager::renew(const LeaseKey& key,
 // LeaseManager — release
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Release.
+ * @param[in] key Input parameter.
+ * @param[in] node_id Identifier of the node.
+ * @return True when the operation succeeds.
+ * @details Calls: lk(), find(), end(), persistToWal(), spdlog::info().
+ */
 bool LeaseManager::release(const LeaseKey& key, const NodeId& node_id) {
     std::lock_guard<std::mutex> lk(mutex_);
 
@@ -393,6 +461,11 @@ bool LeaseManager::release(const LeaseKey& key, const NodeId& node_id) {
 // ─────────────────────────────────────────────────────────────────────────────
 
 std::optional<LeaseRecord> LeaseManager::get(const LeaseKey& key) const {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     auto it = leases_.find(key);
     if (it == leases_.end()) {
@@ -402,6 +475,11 @@ std::optional<LeaseRecord> LeaseManager::get(const LeaseKey& key) const {
 }
 
 bool LeaseManager::isHolder(const LeaseKey& key, const NodeId& node_id) const {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     auto it = leases_.find(key);
     if (it == leases_.end()) {
@@ -411,6 +489,11 @@ bool LeaseManager::isHolder(const LeaseKey& key, const NodeId& node_id) const {
 }
 
 std::vector<LeaseKey> LeaseManager::listLeases() const {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     std::vector<LeaseKey> keys = {};
 
@@ -425,6 +508,10 @@ std::vector<LeaseKey> LeaseManager::listLeases() const {
 // LeaseManager — maintenance
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Evict Expired.
+ * @details Calls: std::chrono::system_clock::now(), spdlog::info().
+ */
 void LeaseManager::evictExpired() {
     // Assumes caller holds mutex_
     auto now = std::chrono::system_clock::now();
@@ -438,9 +525,11 @@ void LeaseManager::evictExpired() {
     }
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// LeaseManager — WAL persistence (simple append-only text WAL)
-// ─────────────────────────────────────────────────────────────────────────────
+/**
+ * @brief ───────────────────────────────────────────────────────────────────────────── LeaseManager — WAL persistence (simple append-only text WAL) ─────────────────────────────────────────────────────────────────────────────
+ * @param[in] rec Input parameter.
+ * @details Calls: empty(), wal(), is_open(), spdlog::error(), time_since_epoch(), count(), since_epoch(), what().
+ */
 
 void LeaseManager::persistToWal(const LeaseRecord& rec) {
     if (config_.wal_path.empty()) {
@@ -467,6 +556,10 @@ void LeaseManager::persistToWal(const LeaseRecord& rec) {
     }
 }
 
+/**
+ * @brief Load From Wal.
+ * @details Calls: empty(), wal(), is_open(), std::chrono::system_clock::now(), std::getline(), ss(), std::stoull(), std::stoi().
+ */
 void LeaseManager::loadFromWal() {
     if (config_.wal_path.empty()) {
         return;
@@ -524,6 +617,13 @@ void LeaseManager::loadFromWal() {
                  leases_.size(), config_.wal_path);
 }
 
+/**
+ * @brief Wait For Expiry.
+ * @param[in] key Input parameter.
+ * @param[in] timeout Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: std::chrono::steady_clock::now(), lk(), find(), end(), std::this_thread::sleep_for(), std::chrono::milliseconds().
+ */
 bool LeaseManager::waitForExpiry(const LeaseKey& key,
                                  std::chrono::milliseconds timeout) {
     auto deadline = std::chrono::steady_clock::now() + timeout;
@@ -543,6 +643,11 @@ bool LeaseManager::waitForExpiry(const LeaseKey& key,
 }
 
 LeaseManager::Metrics LeaseManager::metrics() const noexcept {
+    /**
+     * @brief Lk.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mutex_);
     return metrics_;
 }

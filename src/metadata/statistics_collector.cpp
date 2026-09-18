@@ -141,6 +141,11 @@ StatisticsCollector::~StatisticsCollector() {
     stopRefresh();
 }
 
+/**
+ * @brief Set Refresh Interval.
+ * @param[in] interval Input parameter.
+ * @details Calls: stopRefresh(), count(), spdlog::debug(), store(), std::thread(), refreshLoop_(), spdlog::info().
+ */
 void StatisticsCollector::setRefreshInterval(std::chrono::seconds interval) {
     // Stop any existing thread first
     stopRefresh();
@@ -164,6 +169,10 @@ void StatisticsCollector::stopRefresh() noexcept {
     }
 }
 
+/**
+ * @brief Refresh Loop.
+ * @details Calls: load(), lk(), wait_for(), sl(), reserve(), size(), push_back(), collectStats().
+ */
 void StatisticsCollector::refreshLoop_() {
     while (!stop_refresh_.load()) {
         {
@@ -206,6 +215,12 @@ void StatisticsCollector::refreshLoop_() {
 // Public API
 // ----------------------------------------------------------------------------
 
+/**
+ * @brief Collect Stats.
+ * @param[in] table_name Name of the table.
+ * @param[in] sample_size Input parameter.
+ * @return Return value.
+ */
 StatsResult<TableStats> StatisticsCollector::collectStats(
     std::string_view table_name,
     size_t sample_size)
@@ -328,6 +343,11 @@ StatsResult<TableStats> StatisticsCollector::collectStats(
     // Persist and cache
     persistStats(stats);
     {
+        /**
+         * @brief Lock.
+         * @param[in] cache_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::shared_mutex> lock(cache_mutex_);
         stats_cache_[stats.table_name] = stats;
     }
@@ -346,6 +366,12 @@ StatsResult<TableStats> StatisticsCollector::collectStats(
     return StatsResult<TableStats>::success(stats);
 }
 
+/**
+ * @brief Get Stats.
+ * @param[in] table_name Name of the table.
+ * @return Return value.
+ * @details Calls: empty(), onError(), failure(), lock(), find(), std::string(), end(), onCacheHit().
+ */
 StatsResult<TableStats> StatisticsCollector::getStats(std::string_view table_name) {
     if (table_name.empty()) {
         if (metrics_hook_) {
@@ -387,6 +413,12 @@ StatsResult<TableStats> StatisticsCollector::getStats(std::string_view table_nam
     return StatsResult<TableStats>::success(std::move(*maybe_stats));
 }
 
+/**
+ * @brief Update Stats.
+ * @param[in] table_name Name of the table.
+ * @return Return value.
+ * @details Calls: collectStats(), failure(), success().
+ */
 StatsResult<bool> StatisticsCollector::updateStats(std::string_view table_name) {
     auto result = collectStats(table_name);
     if (!result.ok) {
@@ -395,6 +427,12 @@ StatsResult<bool> StatisticsCollector::updateStats(std::string_view table_name) 
     return StatsResult<bool>::success(true);
 }
 
+/**
+ * @brief Clear Stats.
+ * @param[in] table_name Name of the table.
+ * @return Return value.
+ * @details Calls: empty(), failure(), lock(), erase(), std::string(), del(), spdlog::debug(), success().
+ */
 StatsResult<bool> StatisticsCollector::clearStats(std::string_view table_name) {
     if (table_name.empty()) {
         return StatsResult<bool>::failure(
@@ -414,6 +452,11 @@ StatsResult<bool> StatisticsCollector::clearStats(std::string_view table_name) {
 }
 
 json StatisticsCollector::toJSON() const {
+    /**
+     * @brief Lock.
+     * @param[in] cache_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(cache_mutex_);
     json j = json::object();
     for (const auto& [name, stats] : stats_cache_) {
@@ -437,6 +480,12 @@ json StatisticsCollector::toJSON() const {
 // Index statistics export
 // ----------------------------------------------------------------------------
 
+/**
+ * @brief Import Index Stats.
+ * @param[in] table_name Name of the table.
+ * @param[in] stats Input parameter.
+ * @return Return value.
+ */
 StatsResult<bool> StatisticsCollector::importIndexStats(
     std::string_view table_name,
     const std::vector<IndexStats>& stats)
@@ -455,6 +504,11 @@ StatsResult<bool> StatisticsCollector::importIndexStats(
 
     persistIndexStats(table_name, stamped);
     {
+        /**
+         * @brief Lock.
+         * @param[in] cache_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::shared_mutex> lock(cache_mutex_);
         index_stats_cache_[std::string(table_name)] = stamped;
     }
@@ -464,6 +518,11 @@ StatsResult<bool> StatisticsCollector::importIndexStats(
     return StatsResult<bool>::success(true);
 }
 
+/**
+ * @brief Get Index Stats.
+ * @param[in] table_name Name of the table.
+ * @return Return value.
+ */
 StatsResult<std::vector<IndexStats>> StatisticsCollector::getIndexStats(
     std::string_view table_name)
 {
@@ -474,6 +533,11 @@ StatsResult<std::vector<IndexStats>> StatisticsCollector::getIndexStats(
 
     // Check in-memory cache first
     {
+        /**
+         * @brief Lock.
+         * @param[in] cache_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::shared_lock<std::shared_mutex> lock(cache_mutex_);
         auto it = index_stats_cache_.find(std::string(table_name));
         if (it != index_stats_cache_.end()) {
@@ -490,12 +554,23 @@ StatsResult<std::vector<IndexStats>> StatisticsCollector::getIndexStats(
     }
 
     {
+        /**
+         * @brief Lock.
+         * @param[in] cache_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::shared_mutex> lock(cache_mutex_);
         index_stats_cache_[std::string(table_name)] = *maybe;
     }
     return StatsResult<std::vector<IndexStats>>::success(std::move(*maybe));
 }
 
+/**
+ * @brief Clear Index Stats.
+ * @param[in] table_name Name of the table.
+ * @return Return value.
+ * @details Calls: empty(), failure(), lock(), erase(), std::string(), del(), spdlog::debug(), success().
+ */
 StatsResult<bool> StatisticsCollector::clearIndexStats(std::string_view table_name) {
     if (table_name.empty()) {
         return StatsResult<bool>::failure(
@@ -518,6 +593,13 @@ StatsResult<bool> StatisticsCollector::clearIndexStats(std::string_view table_na
 // Internal helpers
 // ----------------------------------------------------------------------------
 
+/**
+ * @brief Build Column Stats.
+ * @param[in] column_name Name of the column.
+ * @param[in] values Input parameter.
+ * @param[in] num_histogram_buckets Input parameter.
+ * @return Return value.
+ */
 ColumnStats StatisticsCollector::buildColumnStats(
     std::string_view column_name,
     const std::vector<std::string>& values,
@@ -583,6 +665,12 @@ ColumnStats StatisticsCollector::buildColumnStats(
     return cs;
 }
 
+/**
+ * @brief Build Histogram.
+ * @param[in] sorted_values Input parameter.
+ * @param[in] num_buckets Input parameter.
+ * @return Return value.
+ */
 std::vector<HistogramBucket> StatisticsCollector::buildHistogram(
     const std::vector<double>& sorted_values,
     size_t num_buckets)
@@ -642,6 +730,11 @@ std::vector<HistogramBucket> StatisticsCollector::buildHistogram(
     return buckets;
 }
 
+/**
+ * @brief Persist Stats.
+ * @param[in] stats Input parameter.
+ * @details Calls: toJSON(), dump(), data(), begin(), end(), put(), spdlog::warn(), spdlog::error().
+ */
 void StatisticsCollector::persistStats(const TableStats& stats) {
     try {
         std::string key   = "stats:" + stats.table_name;
@@ -657,6 +750,12 @@ void StatisticsCollector::persistStats(const TableStats& stats) {
     }
 }
 
+/**
+ * @brief Load Stats.
+ * @param[in] table_name Name of the table.
+ * @return Return value.
+ * @details Calls: std::string(), get(), has_value(), empty(), json_str(), begin(), end(), json::parse().
+ */
 std::optional<TableStats> StatisticsCollector::loadStats(std::string_view table_name) {
     try {
         std::string key = "stats:" + std::string(table_name);
@@ -721,6 +820,11 @@ std::optional<TableStats> StatisticsCollector::loadStats(std::string_view table_
     }
 }
 
+/**
+ * @brief Persist Index Stats.
+ * @param[in] table_name Name of the table.
+ * @param[in] stats Input parameter.
+ */
 void StatisticsCollector::persistIndexStats(
     std::string_view table_name,
     const std::vector<IndexStats>& stats)
@@ -743,6 +847,11 @@ void StatisticsCollector::persistIndexStats(
     }
 }
 
+/**
+ * @brief Load Index Stats.
+ * @param[in] table_name Name of the table.
+ * @return Return value.
+ */
 std::optional<std::vector<IndexStats>> StatisticsCollector::loadIndexStats(
     std::string_view table_name)
 {

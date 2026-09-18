@@ -21,9 +21,13 @@ namespace themis {
 namespace ingestion {
 namespace builtin {
 
-/** @brief Chunk tt decompose step. */
 class ChunkTtDecomposeStep final : public IIngestionStep {
 public:
+    /**
+     * @brief Chunk Tt Decompose Step.
+     * @param[in] backend Input parameter.
+     * @return Return value.
+     */
     explicit ChunkTtDecomposeStep(
         std::shared_ptr<ITensorDecompositionBackend> backend)
         : backend_(std::move(backend)) {}
@@ -161,6 +165,11 @@ private:
 // Factory
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Create Chunk Tt Decompose Step.
+ * @param[in] backend Input parameter.
+ * @return Return value.
+ */
 std::shared_ptr<IIngestionStep> createChunkTtDecomposeStep(
     std::shared_ptr<ITensorDecompositionBackend> backend)
 {

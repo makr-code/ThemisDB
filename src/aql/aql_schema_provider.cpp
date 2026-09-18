@@ -19,6 +19,12 @@
 namespace themis {
 namespace aql {
 
+/**
+ * @brief Format Schema Context.
+ * @param[in] schema Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), str().
+ */
 std::string formatSchemaContext(const std::vector<CollectionMetadata> &schema) {
     if (schema.empty()) {
         return {};

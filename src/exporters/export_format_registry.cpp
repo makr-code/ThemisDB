@@ -33,12 +33,23 @@ ExportFormatRegistry &ExportFormatRegistry::instance() {
     return registry;
 }
 
+/**
+ * @brief Register Format.
+ * @param[in] format_key Input parameter.
+ * @param[in] factory Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void ExportFormatRegistry::registerFormat(const std::string &format_key, Factory factory) {
     std::lock_guard<std::mutex> lock(mutex_);
     formats_[format_key] = std::move(factory);
 }
 
 std::unique_ptr<IExporter> ExportFormatRegistry::createExporter(const std::string &format_key) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = formats_.find(format_key);
     if (it == formats_.end()) {
@@ -48,11 +59,21 @@ std::unique_ptr<IExporter> ExportFormatRegistry::createExporter(const std::strin
 }
 
 bool ExportFormatRegistry::hasFormat(const std::string &format_key) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return formats_.count(format_key) > 0;
 }
 
 std::vector<std::string> ExportFormatRegistry::registeredFormats() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     std::vector<std::string> keys = {};
 
@@ -64,6 +85,10 @@ std::vector<std::string> ExportFormatRegistry::registeredFormats() const {
     return keys;
 }
 
+/**
+ * @brief Register Builtins.
+ * @details Calls: registerFormat().
+ */
 void ExportFormatRegistry::registerBuiltins() {
     // JSONL / LLM fine-tuning
     registerFormat("jsonl", []() -> std::unique_ptr<IExporter> { return std::make_unique<JSONLLLMExporter>(); });
@@ -124,6 +149,12 @@ void ExportFormatRegistry::registerBuiltins() {
     });
 }
 
+/**
+ * @brief Load Templates From Json.
+ * @param[in] json_str Input parameter.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: nlohmann::json::parse(), contains(), is_array(), reserve(), size(), is_string(), find(), end().
+ */
 void ExportFormatRegistry::loadTemplatesFromJson(const std::string &json_str) {
     static const std::unordered_map<std::string, FormatTemplateType> kTypeMap = {
         {"alpaca", FormatTemplateType::ALPACA},
@@ -203,6 +234,12 @@ void ExportFormatRegistry::loadTemplatesFromJson(const std::string &json_str) {
     }
 }
 
+/**
+ * @brief Load Templates From Config.
+ * @param[in] config_path Path to the retention policy configuration file.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: f(), is_open(), content(), loadTemplatesFromJson().
+ */
 void ExportFormatRegistry::loadTemplatesFromConfig(const std::string &config_path) {
     std::ifstream f(config_path);
     if (!f.is_open()) {
@@ -212,6 +249,10 @@ void ExportFormatRegistry::loadTemplatesFromConfig(const std::string &config_pat
     loadTemplatesFromJson(content);
 }
 
+/**
+ * @brief Clear.
+ * @details Calls: lock().
+ */
 void ExportFormatRegistry::clear() {
     std::lock_guard<std::mutex> lock(mutex_);
     formats_.clear();

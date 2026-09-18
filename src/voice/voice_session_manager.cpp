@@ -23,6 +23,13 @@ namespace themis { namespace voice {
 
 namespace {
 
+/**
+ * @brief Is Valid Session Transition.
+ * @param[in] current Input parameter.
+ * @param[in] next Input parameter.
+ * @return True when the operation succeeds.
+ * @details Implements isValidSessionTransition without additional internal calls.
+ */
 bool isValidSessionTransition(SessionState current, SessionState next) {
     switch (current) {
         case SessionState::ACTIVE:
@@ -80,7 +87,12 @@ void finalizeSessionTeardownLocked(
 // - max_session_duration_ms: 30 minutes (default)
 // - Session expires if either timeout is exceeded (fail-closed)
 
-// ---- Free functions ----
+/**
+ * @brief ---- Free functions ----
+ * @param[in] state Input parameter.
+ * @return Return value.
+ * @details Implements sessionStateToString without additional internal calls.
+ */
 
 std::string sessionStateToString(SessionState state) {
     switch (state) {
@@ -93,7 +105,12 @@ std::string sessionStateToString(SessionState state) {
     }
 }
 
-// ---- InMemorySessionBackend ----
+/**
+ * @brief ---- InMemorySessionBackend ----
+ * @param[in] session Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock().
+ */
 
 bool InMemorySessionBackend::save(const VoiceSessionData& session) {
     std::lock_guard<std::mutex> lock(mutex_);
@@ -101,6 +118,12 @@ bool InMemorySessionBackend::save(const VoiceSessionData& session) {
     return true;
 }
 
+/**
+ * @brief Load.
+ * @param[in] session_id Identifier of the session.
+ * @return Return value.
+ * @details Calls: lock(), find(), end().
+ */
 std::optional<VoiceSessionData> InMemorySessionBackend::load(const std::string& session_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = store_.find(session_id);
@@ -110,11 +133,22 @@ std::optional<VoiceSessionData> InMemorySessionBackend::load(const std::string& 
     return it->second;
 }
 
+/**
+ * @brief Remove.
+ * @param[in] session_id Identifier of the session.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), erase().
+ */
 bool InMemorySessionBackend::remove(const std::string& session_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     return store_.erase(session_id) > 0;
 }
 
+/**
+ * @brief List Active Sessions.
+ * @return Return value.
+ * @details Calls: lock(), reserve(), size(), push_back().
+ */
 std::vector<std::string> InMemorySessionBackend::listActiveSessions() {
     std::lock_guard<std::mutex> lock(mutex_);
     std::vector<std::string> ids = {};
@@ -127,6 +161,11 @@ std::vector<std::string> InMemorySessionBackend::listActiveSessions() {
 }
 
 size_t InMemorySessionBackend::count() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return store_.size();
 }
@@ -176,6 +215,11 @@ bool VoiceSessionManager::isExpired(const VoiceSessionData& session) const {
     return false;
 }
 
+/**
+ * @brief Generate Session Id.
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), rng(), dist(), fetch_add(), std::setw(), std::setfill().
+ */
 std::string VoiceSessionManager::generateSessionId() {
     static std::atomic<uint64_t> seq{0};
 
@@ -193,6 +237,12 @@ std::string VoiceSessionManager::generateSessionId() {
     return oss.str();
 }
 
+/**
+ * @brief Create a session for an authenticated user.
+ * @param[in] user_id User identifier.
+ * @param[in] device_id Identifier of the device.
+ * @return Session token.
+ */
 VoiceSessionData VoiceSessionManager::createSession(
     const std::string& user_id, const std::string& device_id)
 {
@@ -206,6 +256,11 @@ VoiceSessionData VoiceSessionManager::createSession(
     // TASK 2.1: Bounded resource check — enforce max concurrent sessions
     // Error code 6604: Resource limit exceeded
     {
+        /**
+         * @brief Lock.
+         * @param[in] manager_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(manager_mutex_);
         if (active_cache_.size() >= kMaxConcurrentSessions) {
             spdlog::error("VoiceSessionManager::createSession: max concurrent sessions ({}) exceeded (error 6604)",
@@ -230,6 +285,11 @@ VoiceSessionData VoiceSessionManager::createSession(
     session.conversation_history.reserve(100);  // Pre-allocate for efficiency
 
     {
+        /**
+         * @brief Lock.
+         * @param[in] manager_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(manager_mutex_);
         active_cache_[session.session_id] = session;
         state_change_timestamps_[session.session_id] = now;
@@ -247,6 +307,12 @@ VoiceSessionData VoiceSessionManager::createSession(
     return session;
 }
 
+/**
+ * @brief Get Session.
+ * @param[in] session_id Identifier of the session.
+ * @return Return value.
+ * @details Calls: empty(), spdlog::debug(), lock(), find(), end(), isExpired(), finalizeSessionTeardownLocked(), nowMs().
+ */
 std::optional<VoiceSessionData> VoiceSessionManager::getSession(const std::string& session_id) {
     // TASK 2.1: Session state verification guard before access
     // Error code 6601: Session not found
@@ -300,9 +366,20 @@ std::optional<VoiceSessionData> VoiceSessionManager::getSession(const std::strin
     return loaded;
 }
 
+/**
+ * @brief Update Session.
+ * @param[in] session_id Identifier of the session.
+ * @param[in] context_update Input parameter.
+ * @return True when the operation succeeds.
+ */
 bool VoiceSessionManager::updateSession(
     const std::string& session_id, const json& context_update)
 {
+    /**
+     * @brief Lock.
+     * @param[in] manager_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(manager_mutex_);
     auto it = active_cache_.find(session_id);
     if (it == active_cache_.end()) {
@@ -337,6 +414,13 @@ bool VoiceSessionManager::updateSession(
     return true;
 }
 
+/**
+ * @brief Add Conversation Turn.
+ * @param[in] session_id Identifier of the session.
+ * @param[in] user_msg Input parameter.
+ * @param[in] assistant_msg Input parameter.
+ * @return True when the operation succeeds.
+ */
 bool VoiceSessionManager::addConversationTurn(
     const std::string& session_id,
     const std::string& user_msg,
@@ -355,6 +439,11 @@ bool VoiceSessionManager::addConversationTurn(
         return false;
     }
 
+    /**
+     * @brief Lock.
+     * @param[in] manager_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(manager_mutex_);
     auto it = active_cache_.find(session_id);
     if (it == active_cache_.end()) {
@@ -411,6 +500,12 @@ bool VoiceSessionManager::addConversationTurn(
     return true;
 }
 
+/**
+ * @brief Touch Session.
+ * @param[in] session_id Identifier of the session.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), find(), end(), isExpired(), finalizeSessionTeardownLocked(), nowMs(), isValidSessionTransition(), save().
+ */
 bool VoiceSessionManager::touchSession(const std::string& session_id) {
     std::lock_guard<std::mutex> lock(manager_mutex_);
     auto it = active_cache_.find(session_id);
@@ -437,9 +532,20 @@ bool VoiceSessionManager::touchSession(const std::string& session_id) {
     return true;
 }
 
+/**
+ * @brief Update Preferred Language.
+ * @param[in] session_id Identifier of the session.
+ * @param[in] language_code Input parameter.
+ * @return True when the operation succeeds.
+ */
 bool VoiceSessionManager::updatePreferredLanguage(
     const std::string& session_id, const std::string& language_code)
 {
+    /**
+     * @brief Lock.
+     * @param[in] manager_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(manager_mutex_);
     auto it = active_cache_.find(session_id);
     if (it == active_cache_.end()) {
@@ -466,6 +572,12 @@ bool VoiceSessionManager::updatePreferredLanguage(
     return true;
 }
 
+/**
+ * @brief Terminate Session.
+ * @param[in] session_id Identifier of the session.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), find(), end(), THEMIS_DEBUG(), isValidSessionTransition(), THEMIS_WARN(), sessionStateToString(), THEMIS_INFO().
+ */
 bool VoiceSessionManager::terminateSession(const std::string& session_id) {
     // Validation rule: enforce the session state machine with atomic-like checks
     // to prevent TOCTOU and double-close transitions during termination.
@@ -497,6 +609,11 @@ bool VoiceSessionManager::terminateSession(const std::string& session_id) {
     return true;
 }
 
+/**
+ * @brief Expire Old Sessions.
+ * @return Return value.
+ * @details Calls: lock(), nowMs(), isExpired(), push_back(), THEMIS_DEBUG(), THEMIS_WARN(), size(), std::distance().
+ */
 size_t VoiceSessionManager::expireOldSessions() {
     // Expire sessions under a bounded teardown budget to avoid unbounded cleanup.
     
@@ -547,6 +664,12 @@ size_t VoiceSessionManager::expireOldSessions() {
     return expired;
 }
 
+/**
+ * @brief Get Sessions For User.
+ * @param[in] user_id Identifier of the user.
+ * @return Return value.
+ * @details Calls: lock(), isExpired(), push_back().
+ */
 std::vector<VoiceSessionData> VoiceSessionManager::getSessionsForUser(const std::string& user_id) {
     std::lock_guard<std::mutex> lock(manager_mutex_);
     std::vector<VoiceSessionData> result = {};
@@ -563,6 +686,11 @@ std::vector<VoiceSessionData> VoiceSessionManager::getSessionsForUser(const std:
 }
 
 SessionAnalytics VoiceSessionManager::getAnalytics() const {
+    /**
+     * @brief Lock.
+     * @param[in] manager_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(manager_mutex_);
     SessionAnalytics analytics;
     analytics.total_sessions = active_cache_.size();
@@ -596,11 +724,23 @@ SessionAnalytics VoiceSessionManager::getAnalytics() const {
     return analytics;
 }
 
+/**
+ * @brief Is Session Active.
+ * @param[in] session_id Identifier of the session.
+ * @return True when the operation succeeds.
+ * @details Calls: getSession(), has_value().
+ */
 bool VoiceSessionManager::isSessionActive(const std::string& session_id) {
     auto s = getSession(session_id);
     return s.has_value() && s->state == SessionState::ACTIVE;
 }
 
+/**
+ * @brief Get Session State.
+ * @param[in] session_id Identifier of the session.
+ * @return Return value.
+ * @details Calls: lock(), find(), end().
+ */
 SessionState VoiceSessionManager::getSessionState(const std::string& session_id) {
     std::lock_guard<std::mutex> lock(manager_mutex_);
     auto it = active_cache_.find(session_id);
@@ -610,13 +750,21 @@ SessionState VoiceSessionManager::getSessionState(const std::string& session_id)
     return it->second.state;
 }
 
-// ============================================================================
-// Phase 3: Session State Guard Violations
-// ============================================================================
+/**
+ * @brief ============================================================================ Phase 3: Session State Guard Violations ============================================================================
+ * @param[in] session_id Identifier of the session.
+ * @param[in] new_state Input parameter.
+ * @return True when the operation succeeds.
+ */
 
 bool VoiceSessionManager::validateStateTransition(
     const std::string& session_id, SessionState new_state)
 {
+    /**
+     * @brief Lock.
+     * @param[in] manager_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(manager_mutex_);
     auto it = active_cache_.find(session_id);
     if (it == active_cache_.end()) {
@@ -643,6 +791,12 @@ bool VoiceSessionManager::validateStateTransition(
     return valid;
 }
 
+/**
+ * @brief Is Use After Free Attempt.
+ * @param[in] session_id Identifier of the session.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), find(), end(), load(), isExpired(), spdlog::warn().
+ */
 bool VoiceSessionManager::isUseAfterFreeAttempt(const std::string& session_id) {
     std::lock_guard<std::mutex> lock(manager_mutex_);
     auto it = active_cache_.find(session_id);
@@ -669,6 +823,12 @@ bool VoiceSessionManager::isUseAfterFreeAttempt(const std::string& session_id) {
     return false;
 }
 
+/**
+ * @brief Session Id Exists.
+ * @param[in] session_id Identifier of the session.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), lock(), find(), end(), load(), has_value().
+ */
 bool VoiceSessionManager::sessionIdExists(const std::string& session_id) {
     if (session_id.empty()) {
       return false;
@@ -685,6 +845,12 @@ bool VoiceSessionManager::sessionIdExists(const std::string& session_id) {
     return loaded.has_value();
 }
 
+/**
+ * @brief Get State Change Timestamp.
+ * @param[in] session_id Identifier of the session.
+ * @return Return value.
+ * @details Calls: lock(), find(), end().
+ */
 int64_t VoiceSessionManager::getStateChangeTimestamp(const std::string& session_id) {
     std::lock_guard<std::mutex> lock(manager_mutex_);
     auto it = state_change_timestamps_.find(session_id);
@@ -694,9 +860,13 @@ int64_t VoiceSessionManager::getStateChangeTimestamp(const std::string& session_
     return 0;
 }
 
-// ============================================================================
-// Wave A Block 2: Multi-Session Teardown Safety & Audit Logging
-// ============================================================================
+/**
+ * @brief ============================================================================ Wave A Block 2: Multi-Session Teardown Safety & Audit Logging ============================================================================
+ * @param[in] session_id Identifier of the session.
+ * @param[in] timeout_ms Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), teardownSessionLocked().
+ */
 
 bool VoiceSessionManager::terminateSessionWithTimeout(
     const std::string& session_id,
@@ -706,6 +876,13 @@ bool VoiceSessionManager::terminateSessionWithTimeout(
     return teardownSessionLocked(session_id, timeout_ms);
 }
 
+/**
+ * @brief Teardown Session Locked.
+ * @param[in] session_id Identifier of the session.
+ * @param[in] timeout_ms Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: find(), end(), spdlog::warn(), nowMs(), spdlog::error(), finalizeSessionTeardownLocked(), erase(), spdlog::debug().
+ */
 bool VoiceSessionManager::teardownSessionLocked(
     const std::string& session_id,
     int64_t timeout_ms) {
@@ -765,6 +942,12 @@ bool VoiceSessionManager::teardownSessionLocked(
     return true;
 }
 
+/**
+ * @brief Terminate All Sessions.
+ * @param[in] timeout_ms Input parameter.
+ * @return Return value.
+ * @details Calls: nowMs(), lock(), push_back(), spdlog::warn(), teardownSessionLocked(), std::min().
+ */
 size_t VoiceSessionManager::terminateAllSessions(int64_t timeout_ms) {
     const int64_t start_ms = nowMs();
     const int64_t deadline_ms = start_ms + timeout_ms;
@@ -805,6 +988,12 @@ size_t VoiceSessionManager::terminateAllSessions(int64_t timeout_ms) {
     return terminated_count;
 }
 
+/**
+ * @brief Is Double Close Attempt.
+ * @param[in] session_id Identifier of the session.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), find(), end(), spdlog::warn().
+ */
 bool VoiceSessionManager::isDoubleCloseAttempt(const std::string& session_id) {
     std::lock_guard<std::mutex> lock(manager_mutex_);
     auto it = active_cache_.find(session_id);
@@ -823,6 +1012,12 @@ bool VoiceSessionManager::isDoubleCloseAttempt(const std::string& session_id) {
     return false;
 }
 
+/**
+ * @brief Get Session Teardown Status.
+ * @param[in] session_id Identifier of the session.
+ * @return Return value.
+ * @details Calls: lock(), nowMs(), find(), end(), sessionStateToString().
+ */
 json VoiceSessionManager::getSessionTeardownStatus(const std::string& session_id) {
     std::lock_guard<std::mutex> lock(manager_mutex_);
     

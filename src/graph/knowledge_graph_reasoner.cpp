@@ -29,7 +29,12 @@ namespace graph {
 
 namespace {
 
-/// Build canonical triple key (shared between InferenceStore and KnowledgeGraphReasoner).
+/**
+ * @brief Make Triple Key.
+ * @param[in] t Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size().
+ */
 static std::string makeTripleKey(const themis::graph::Triple &t) {
     std::string k = {};
     k.reserve(t.subject.size() + t.predicate.size() + t.object.size() + 2);
@@ -55,6 +60,14 @@ static std::string makeTripleKey(const themis::graph::Triple &t) {
 // InferenceStore — public methods
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Store.
+ * @param[in] fact Input parameter.
+ * @param[in] rule_id Identifier of the rule.
+ * @param[in] premises Input parameter.
+ * @param[in] ttl Input parameter.
+ * @details Calls: makeKey(), std::chrono::steady_clock::now(), lock(), begin(), end(), find(), erase(), std::move().
+ */
 void InferenceStore::store(Triple fact, std::string rule_id, std::vector<Triple> premises, std::chrono::seconds ttl) {
     const auto key        = makeKey(fact);
     const auto expires_at = std::chrono::steady_clock::now() + ttl;
@@ -101,6 +114,11 @@ void InferenceStore::store(Triple fact, std::string rule_id, std::vector<Triple>
 
 bool InferenceStore::contains(const Triple &t) const {
     const auto key = makeKey(t);
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock lock(mutex_);
     auto it = entries_.find(key);
     if (it == entries_.end()) {
@@ -111,6 +129,11 @@ bool InferenceStore::contains(const Triple &t) const {
 
 std::optional<InferenceEdge> InferenceStore::get(const Triple &t) const {
     const auto key = makeKey(t);
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock lock(mutex_);
     auto it = entries_.find(key);
     if (it == entries_.end()) {
@@ -125,6 +148,11 @@ std::optional<InferenceEdge> InferenceStore::get(const Triple &t) const {
 std::vector<InferenceEdge> InferenceStore::getDerived(std::string_view subject) const {
     std::vector<InferenceEdge> result;
     const auto now = std::chrono::steady_clock::now();
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock lock(mutex_);
     result.reserve(std::min(entries_.size(), std::size_t{64}));
     for (const auto &[key, entry] : entries_) {
@@ -138,6 +166,10 @@ std::vector<InferenceEdge> InferenceStore::getDerived(std::string_view subject) 
     return result;
 }
 
+/**
+ * @brief Evict Expired.
+ * @details Calls: std::chrono::steady_clock::now(), lock(), begin(), end(), find(), erase().
+ */
 void InferenceStore::evictExpired() {
     const auto now = std::chrono::steady_clock::now();
     std::unique_lock lock(mutex_);
@@ -154,10 +186,19 @@ void InferenceStore::evictExpired() {
 }
 
 std::size_t InferenceStore::size() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock lock(mutex_);
     return entries_.size();
 }
 
+/**
+ * @brief Clear.
+ * @details Calls: lock().
+ */
 void InferenceStore::clear() {
     std::unique_lock lock(mutex_);
     entries_.clear();
@@ -175,6 +216,12 @@ KnowledgeGraphReasoner::KnowledgeGraphReasoner([[maybe_unused]] int max_inferenc
 // Rule management
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Add Rule.
+ * @param[in] rule Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), lock(), std::find_if(), begin(), end(), std::move(), push_back().
+ */
 bool KnowledgeGraphReasoner::addRule(Rule rule) {
     if (rule.id.empty() || rule.conditions.empty() || rule.conclusions.empty()) {
         return false;
@@ -191,10 +238,19 @@ bool KnowledgeGraphReasoner::addRule(Rule rule) {
 }
 
 std::size_t KnowledgeGraphReasoner::ruleCount() const {
+    /**
+     * @brief Lock.
+     * @param[in] rules_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock lock(rules_mutex_);
     return rules_.size();
 }
 
+/**
+ * @brief Clear Rules.
+ * @details Calls: lock(), clear().
+ */
 void KnowledgeGraphReasoner::clearRules() {
     std::unique_lock lock(rules_mutex_);
     rules_.clear();
@@ -204,6 +260,11 @@ void KnowledgeGraphReasoner::clearRules() {
 // Fact management
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Add Fact.
+ * @param[in] fact Input parameter.
+ * @details Calls: isGround(), lock(), push_back(), std::move().
+ */
 void KnowledgeGraphReasoner::addFact(Triple fact) {
     if (!fact.isGround()) {
         return; // reject non-ground triples
@@ -219,10 +280,19 @@ void KnowledgeGraphReasoner::addFact(Triple fact) {
 }
 
 std::size_t KnowledgeGraphReasoner::factCount() const {
+    /**
+     * @brief Lock.
+     * @param[in] facts_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock lock(facts_mutex_);
     return base_facts_.size();
 }
 
+/**
+ * @brief Clear Facts.
+ * @details Calls: lock(), clear().
+ */
 void KnowledgeGraphReasoner::clearFacts() {
     std::unique_lock lock(facts_mutex_);
     base_facts_.clear();
@@ -302,6 +372,11 @@ void KnowledgeGraphReasoner::forwardChain(std::vector<Triple> &working_set, std:
         known.insert(tripleKey(t));
     }
 
+    /**
+     * @brief Rules lock.
+     * @param[in] rules_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock rules_lock(rules_mutex_);
 
     for (int hop = 0; hop < max_depth; ++hop) {
@@ -380,6 +455,11 @@ InferenceChain KnowledgeGraphReasoner::infer(std::string_view subjectId, int dep
     // Snapshot base facts.
     std::vector<Triple> working_set;
     {
+        /**
+         * @brief Lock.
+         * @param[in] facts_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::shared_lock lock(facts_mutex_);
         working_set = base_facts_;
     }
@@ -427,6 +507,11 @@ void KnowledgeGraphReasoner::onCDCEvent([[maybe_unused]] const CDCEvent &event) 
         // existing base facts — much cheaper than a full re-evaluation.
         std::vector<Triple> working_set;
         {
+            /**
+             * @brief Lock.
+             * @param[in] facts_mutex_ Input parameter.
+             * @return Return value.
+             */
             std::shared_lock lock(facts_mutex_);
             working_set = base_facts_;
         }
@@ -437,6 +522,11 @@ void KnowledgeGraphReasoner::onCDCEvent([[maybe_unused]] const CDCEvent &event) 
     } else { // DELETE
         // Remove from base facts.
         {
+            /**
+             * @brief Lock.
+             * @param[in] facts_mutex_ Input parameter.
+             * @return Return value.
+             */
             std::unique_lock lock(facts_mutex_);
             auto it = std::remove_if(base_facts_.begin(), base_facts_.end(),
                                      [&](const Triple &t) { return t == event.edge; });
@@ -462,11 +552,21 @@ void KnowledgeGraphReasoner::onCDCEvent([[maybe_unused]] const CDCEvent &event) 
 // setLoraScoreFn()
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Set Lora Score Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: std::move().
+ */
 void KnowledgeGraphReasoner::setLoraScoreFn(LoraScoreFn fn) {
     lora_score_fn_ = std::move(fn);
 }
 
 #if defined(THEMIS_ENABLE_LLM)
+/**
+ * @brief Set Multi Lo RAManager.
+ * @param[in] manager Input parameter.
+ * @details Calls: std::move().
+ */
 void KnowledgeGraphReasoner::setMultiLoRAManager(std::shared_ptr<llm::MultiLoRAManager> manager) {
     lora_manager_ = std::move(manager);
 }
@@ -488,6 +588,11 @@ void KnowledgeGraphReasoner::applyLoRAScore(InferenceChain &chain, std::string_v
 
     std::unordered_map<std::string, RuleLoRAConfig> rule_cfg_by_id;
     {
+        /**
+         * @brief Lock.
+         * @param[in] rules_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::shared_lock lock(rules_mutex_);
         rule_cfg_by_id.reserve(rules_.size());
         for (const auto &rule : rules_) {

@@ -90,6 +90,11 @@ ColumnarCache::ColumnarCache(Config config) : cfg_(std::move(config)) {}
 // put
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Put.
+ * @param[in] segment Input parameter.
+ * @details Calls: byteSize(), lk(), find(), end(), std::move(), erase(), push_front(), begin().
+ */
 void ColumnarCache::put(ColumnSegment segment) {
     const SegmentKey key = segment.key; // copy before moving segment
     const size_t seg_bytes = segment.byteSize();
@@ -127,6 +132,12 @@ void ColumnarCache::put(ColumnSegment segment) {
 // get
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Get.
+ * @param[in] key Input parameter.
+ * @return Return value.
+ * @details Calls: lk(), find(), end(), erase(), push_front(), begin(), PinGuard().
+ */
 PinGuard ColumnarCache::get(const SegmentKey& key) {
     std::lock_guard<std::mutex> lk(mu_);
 
@@ -154,6 +165,11 @@ PinGuard ColumnarCache::get(const SegmentKey& key) {
 // ---------------------------------------------------------------------------
 
 bool ColumnarCache::contains(const SegmentKey& key) const noexcept {
+    /**
+     * @brief Lk.
+     * @param[in] mu_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mu_);
     return store_.count(key) > 0;
 }
@@ -162,6 +178,12 @@ bool ColumnarCache::contains(const SegmentKey& key) const noexcept {
 // evict
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Evict.
+ * @param[in] key Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: void(), lk(), find(), end(), byteSize(), erase(), on_evict_cb().
+ */
 bool ColumnarCache::evict(const SegmentKey& key) {
     std::function<void(const SegmentKey&)> on_evict_cb;
     bool evicted = false;
@@ -196,6 +218,10 @@ bool ColumnarCache::evict(const SegmentKey& key) {
 // clear
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Clear.
+ * @details Calls: void(), lk(), begin(), end(), byteSize(), push_back(), find(), erase().
+ */
 void ColumnarCache::clear() {
     std::vector<SegmentKey> evicted_keys;
     std::function<void(const SegmentKey&)> on_evict_cb;
@@ -236,11 +262,21 @@ void ColumnarCache::clear() {
 // ---------------------------------------------------------------------------
 
 size_t ColumnarCache::size() const noexcept {
+    /**
+     * @brief Lk.
+     * @param[in] mu_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mu_);
     return store_.size();
 }
 
 size_t ColumnarCache::pinnedCount() const noexcept {
+    /**
+     * @brief Lk.
+     * @param[in] mu_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mu_);
     size_t n = 0;
     // lock_in_loop scanner alert: mu_ is acquired once at function entry and
@@ -257,16 +293,31 @@ size_t ColumnarCache::pinnedCount() const noexcept {
 }
 
 size_t ColumnarCache::bytesUsed() const noexcept {
+    /**
+     * @brief Lk.
+     * @param[in] mu_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mu_);
     return bytes_used_;
 }
 
 uint64_t ColumnarCache::hitCount() const noexcept {
+    /**
+     * @brief Lk.
+     * @param[in] mu_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mu_);
     return hit_count_;
 }
 
 uint64_t ColumnarCache::missCount() const noexcept {
+    /**
+     * @brief Lk.
+     * @param[in] mu_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mu_);
     return miss_count_;
 }
@@ -276,6 +327,11 @@ uint64_t ColumnarCache::missCount() const noexcept {
 // ---------------------------------------------------------------------------
 
 void ColumnarCache::decrementPin(const SegmentKey& key) noexcept {
+    /**
+     * @brief Lk.
+     * @param[in] mu_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lk(mu_);
     auto it = store_.find(key);
     if (it != store_.end() && it->second.pin_count > 0) {
@@ -287,9 +343,10 @@ void ColumnarCache::decrementPin(const SegmentKey& key) noexcept {
 // evictLRU (internal, called under mu_)
 // ---------------------------------------------------------------------------
 
-// Iterator usage below is safe: after erase() the iterator is immediately
-// reassigned via the return value and the old iterator is never accessed.
-// Data-race and iterator-invalidation scanner alerts on this loop are false positives.
+/**
+ * @brief Iterator usage below is safe: after erase() the iterator is immediately reassigned via the return value and the old iterator is never accessed.
+ * @details Data-race and iterator-invalidation scanner alerts on this loop are false positives. Calls: empty(), end(), begin(), find(), byteSize(), push_back(), erase(), on_evict().
+ */
 void ColumnarCache::evictLRU() {
     std::vector<SegmentKey> to_notify;
 

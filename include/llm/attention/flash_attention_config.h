@@ -19,12 +19,6 @@ namespace themis {
 namespace llm {
 namespace attention {
 
-/**
- * @brief Configuration for Flash Attention v3
- * 
- * Supports multiple backends (CUDA SM86/SM90, Vulkan, HIP, CPU)
- * and various optimization strategies.
- */
 struct FlashAttentionConfig {
     // Tensor dimensions
     int batch_size = 1;
@@ -88,10 +82,11 @@ struct FlashAttentionConfig {
     }
 };
 
-/**
- * @brief Memory statistics for attention operations
- */
 struct AttentionMemoryStats {
+    /**
+     * @brief Attention Memory Stats.
+     * @return Return value.
+     */
     virtual ~AttentionMemoryStats() = default;
     // Total VRAM bytes used by attention (including buffers, KV cache, temps)
     size_t vram_used = 0;

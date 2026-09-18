@@ -33,6 +33,12 @@ namespace themis::llm {
 // WorkflowStepMode helpers
 // ============================================================================
 
+/**
+ * @brief Workflow Step Mode From String.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Calls: std::transform(), begin(), end(), std::tolower().
+ */
 WorkflowStepMode workflowStepModeFromString(const std::string& s) {
     std::string lc = s;
     std::transform(lc.begin(), lc.end(), lc.begin(),
@@ -52,6 +58,12 @@ WorkflowStepMode workflowStepModeFromString(const std::string& s) {
     return WorkflowStepMode::Custom;
 }
 
+/**
+ * @brief Workflow Step Mode To String.
+ * @param[in] m Input parameter.
+ * @return Return value.
+ * @details Implements workflowStepModeToString without additional internal calls.
+ */
 std::string workflowStepModeToString(WorkflowStepMode m) {
     switch (m) {
         case WorkflowStepMode::Ask:     return "ask";
@@ -126,6 +138,12 @@ std::vector<const WorkflowStep*> WorkflowDefinition::topologicalOrder() const {
 // WorkflowLoader — JSON serialisation
 // ============================================================================
 
+/**
+ * @brief To Json.
+ * @param[in] def Input parameter.
+ * @return Return value.
+ * @details Calls: workflowStepModeToString(), is_null(), json::object(), json::array(), has_value(), push_back().
+ */
 json WorkflowLoader::toJson(const WorkflowDefinition& def) {
     json j;
     j["id"]            = def.id;
@@ -165,6 +183,14 @@ json WorkflowLoader::toJson(const WorkflowDefinition& def) {
     return j;
 }
 
+/**
+ * @brief From Json.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: contains(), std::string(), at(), req(), value(), workflowStepModeFromString(), is_object(), items().
+ */
 WorkflowDefinition WorkflowLoader::fromJson(const json& j) {
     WorkflowDefinition def;
     def.source_format = "json";
@@ -232,9 +258,12 @@ WorkflowDefinition WorkflowLoader::fromJson(const json& j) {
 
 namespace {
 
-// Minimal YAML → JSON converter for the workflow schema.
-// Supports: mappings, sequences, plain scalars, quoted strings, block lists.
-// Not a general-purpose YAML parser; limited to workflow document structure.
+/**
+ * @brief Minimal YAML → JSON converter for the workflow schema.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Supports: mappings, sequences, plain scalars, quoted strings, block lists. Not a general-purpose YAML parser; limited to workflow document structure. Calls: find_first_not_of(), find_last_not_of(), substr().
+ */
 
 static std::string trim(const std::string& s) {
     size_t a = s.find_first_not_of(" \t\r\n");
@@ -243,6 +272,12 @@ static std::string trim(const std::string& s) {
     return s.substr(a, b - a + 1);
 }
 
+/**
+ * @brief Parse Yaml Scalar.
+ * @param[in] raw Input parameter.
+ * @return Return value.
+ * @details Calls: trim(), empty(), front(), back(), substr(), size(), std::stoll(), std::stod().
+ */
 static json parseYamlScalar(const std::string& raw) {
     const std::string s = trim(raw);
     if (s.empty()) {
@@ -282,14 +317,12 @@ static json parseYamlScalar(const std::string& raw) {
     return s; // plain string
 }
 
-// Very small line-oriented YAML → JSON converter.
-// Handles the workflow YAML subset:
-//   id: value
-//   name: value
-//   steps:
-//     - id: step1
-//       prompt_template: "..."
-//       depends_on: [step0]
+/**
+ * @brief Very small line-oriented YAML → JSON converter.
+ * @param[in] yaml_text Input parameter.
+ * @return Return value.
+ * @details Handles the workflow YAML subset: id: value name: value steps: - id: step1 prompt_template: "..." depends_on: [step0] Calls: stream(), json::object(), empty(), trim(), clear(), std::getline(), find(), substr().
+ */
 json simpleYamlToJson(const std::string& yaml_text) {
     std::istringstream stream(yaml_text);
     std::string line = {};
@@ -423,6 +456,13 @@ json simpleYamlToJson(const std::string& yaml_text) {
 // WorkflowLoader — format dispatch
 // ============================================================================
 
+/**
+ * @brief Parse Yaml.
+ * @param[in] content Input parameter.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Calls: simpleYamlToJson(), fromJson().
+ */
 WorkflowDefinition WorkflowLoader::parseYaml(const std::string& content,
                                               const std::string& /*label*/) {
     json j = simpleYamlToJson(content);
@@ -431,6 +471,14 @@ WorkflowDefinition WorkflowLoader::parseYaml(const std::string& content,
     return def;
 }
 
+/**
+ * @brief Parse Json.
+ * @param[in] content Input parameter.
+ * @param[in] label Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: json::parse(), what(), fromJson().
+ */
 WorkflowDefinition WorkflowLoader::parseJson(const std::string& content,
                                               const std::string& label) {
     json j;
@@ -442,6 +490,13 @@ WorkflowDefinition WorkflowLoader::parseJson(const std::string& content,
     return fromJson(j);
 }
 
+/**
+ * @brief Parse Bpmn.
+ * @param[in] content Input parameter.
+ * @param[in] label Input parameter.
+ * @return Return value.
+ * @details Calls: find(), size(), substr(), extractAttr(), empty(), workflowStepModeFromString(), push_back(), std::move().
+ */
 WorkflowDefinition WorkflowLoader::parseBpmn(const std::string& content,
                                               const std::string& label) {
     // Simplified BPMN-lite XML parser.
@@ -538,6 +593,15 @@ WorkflowDefinition WorkflowLoader::parseBpmn(const std::string& content,
     return def;
 }
 
+/**
+ * @brief Load From String.
+ * @param[in] content Input parameter.
+ * @param[in] format_hint Input parameter.
+ * @param[in] source_label Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: std::transform(), begin(), end(), std::tolower(), parseYaml(), parseJson(), parseBpmn().
+ */
 WorkflowDefinition WorkflowLoader::loadFromString(const std::string& content,
                                                     const std::string& format_hint,
                                                     const std::string& source_label) {
@@ -557,6 +621,13 @@ WorkflowDefinition WorkflowLoader::loadFromString(const std::string& content,
     throw std::runtime_error("WorkflowLoader: unsupported format hint '" + format_hint + "'");
 }
 
+/**
+ * @brief Load From File.
+ * @param[in] path Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: f(), rdbuf(), str(), rfind(), substr(), std::transform(), begin(), end().
+ */
 WorkflowDefinition WorkflowLoader::loadFromFile(const std::string& path) {
     std::ifstream f(path, std::ios::in);
     if (!f) {
@@ -588,6 +659,12 @@ WorkflowDefinition WorkflowLoader::loadFromFile(const std::string& path) {
 // WorkflowLoader — validation
 // ============================================================================
 
+/**
+ * @brief Validate.
+ * @param[in] def Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), addError(), insert(), has_value(), is_object(), contains(), is_string(), count().
+ */
 WorkflowValidationResult WorkflowLoader::validate(const WorkflowDefinition& def) {
     WorkflowValidationResult result = {};
 
@@ -641,6 +718,12 @@ WorkflowValidationResult WorkflowLoader::validate(const WorkflowDefinition& def)
 // DecompositionStrategy helper
 // ============================================================================
 
+/**
+ * @brief Decomposition Strategy To String.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Implements decompositionStrategyToString without additional internal calls.
+ */
 std::string decompositionStrategyToString(DecompositionStrategy s) {
     switch (s) {
         case DecompositionStrategy::ChainOfThought: return "chain_of_thought";
@@ -670,11 +753,21 @@ TaskDecomposer::~TaskDecomposer() = default;
 TaskDecomposer::TaskDecomposer(TaskDecomposer&&) noexcept            = default;
 TaskDecomposer& TaskDecomposer::operator=(TaskDecomposer&&) noexcept = default;
 
+/**
+ * @brief Set LLMPlugin.
+ * @param[in] plugin Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void TaskDecomposer::setLLMPlugin(std::shared_ptr<ILLMPlugin> plugin) {
     std::lock_guard<std::mutex> lock(impl_->mu);
     impl_->plugin = std::move(plugin);
 }
 
+/**
+ * @brief Set Config.
+ * @param[in] config Input parameter.
+ * @details Calls: lock().
+ */
 void TaskDecomposer::setConfig(const TaskDecomposerConfig& config) {
     std::lock_guard<std::mutex> lock(impl_->mu);
     impl_->config = config;
@@ -908,7 +1001,14 @@ TaskDecompositionResult TaskDecomposer::decompose(
     return final_result;
 }
 
-// ── toWorkflow() ─────────────────────────────────────────────────────────────
+/**
+ * @brief ── toWorkflow() ─────────────────────────────────────────────────────────────
+ * @param[in] result Input parameter.
+ * @param[in] workflow_id Identifier of the workflow.
+ * @return Return value.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: empty(), contains(), workflowStepModeFromString(), value(), push_back(), std::move().
+ */
 
 WorkflowDefinition TaskDecomposer::toWorkflow(
     const TaskDecompositionResult& result, const std::string& workflow_id) {

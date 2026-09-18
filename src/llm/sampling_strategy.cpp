@@ -28,7 +28,14 @@ extern "C" float* llama_get_logits_ith(struct llama_context* ctx, std::int32_t i
 namespace themis {
 namespace llm {
 
-// ===== GreedySampling =====
+/**
+ * @brief ===== GreedySampling =====
+ * @param[in,out] ctx Input/output parameter.
+ * @param[in] param Input parameter.
+ * @param[in] pos Input parameter.
+ * @return Return value.
+ * @details Calls: spdlog::debug(), llama_get_logits_ith(), std::max_element(), std::distance().
+ */
 
 llama_token GreedySampling::sample(
     llama_context* ctx,
@@ -66,6 +73,14 @@ NucleusSampling::NucleusSampling(float temperature,
                  temperature_, top_k_, top_p_, repeat_penalty_);
 }
 
+/**
+ * @brief Sample.
+ * @param[in,out] ctx Input/output parameter.
+ * @param[in] last_tokens Input parameter.
+ * @param[in] pos Input parameter.
+ * @return Return value.
+ * @details Calls: spdlog::debug(), llama_get_logits_ith(), scores(), empty(), size(), std::abs(), indices(), std::iota().
+ */
 llama_token NucleusSampling::sample(
     llama_context* ctx,
     const std::vector<llama_token>& last_tokens,
@@ -179,6 +194,14 @@ MirostatSampling::MirostatSampling(float tau, float eta)
     spdlog::debug("MirostatSampling created: tau={}, eta={}", tau_, eta_);
 }
 
+/**
+ * @brief Sample.
+ * @param[in,out] ctx Input/output parameter.
+ * @param[in] param Input parameter.
+ * @param[in] pos Input parameter.
+ * @return Return value.
+ * @details Calls: spdlog::debug(), std::clamp(), llama_get_logits_ith(), scores(), indices(), size(), std::iota(), begin().
+ */
 llama_token MirostatSampling::sample(
     llama_context* ctx,
     const std::vector<llama_token>& /*last_tokens*/,
@@ -244,7 +267,15 @@ llama_token MirostatSampling::sample(
     return static_cast<llama_token>(chosen);
 }
 
-// ===== Factory =====
+/**
+ * @brief ===== Factory =====
+ * @param[in] strategy_name Name of the strategy.
+ * @param[in] temperature Input parameter.
+ * @param[in] top_k Input parameter.
+ * @param[in] top_p Input parameter.
+ * @return Return value.
+ * @details Calls: spdlog::info(), spdlog::warn().
+ */
 
 std::unique_ptr<ISamplingStrategy> SamplingStrategyFactory::create(
     const std::string& strategy_name,

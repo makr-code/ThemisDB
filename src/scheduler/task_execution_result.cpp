@@ -16,6 +16,12 @@ nlohmann::json TaskExecutionResult::toJson() const {
     return j;
 }
 
+/**
+ * @brief From Json.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: contains(), at().
+ */
 TaskExecutionResult TaskExecutionResult::fromJson(const nlohmann::json& j) {
     TaskExecutionResult r = {};
     if (j.contains("task_id")) {

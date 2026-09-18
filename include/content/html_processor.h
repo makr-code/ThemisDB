@@ -55,12 +55,12 @@ public:
         return {ContentCategory::TEXT};
     }
 
+
     /**
-     * @brief ---------------------------------------------------------------- Public static helpers (exposed for unit tests) ----------------------------------------------------------------
+     * @brief Remove Boilerplate.
      * @param[in] html Input parameter.
      * @return Return value.
      */
-
     static std::string removeBoilerplate(const std::string& html);
 
     /**
@@ -91,21 +91,21 @@ private:
     Config config_;
 
     /**
-     * @brief Collapse runs of whitespace to a single space / newline
+     * @brief Normalize Whitespace.
      * @param[in] text Input parameter.
      * @return Return value.
      */
     static std::string normalizeWhitespace(const std::string& text);
 
     /**
-     * @brief Count whitespace-delimited tokens
+     * @brief Count Tokens.
      * @param[in] text Input parameter.
      * @return Return value.
      */
     static int countTokens(const std::string& text);
 
     /**
-     * @brief Remove the full content of a block-level element by tag name (handles nested elements of the same name)
+     * @brief Remove Element.
      * @param[in] html Input parameter.
      * @param[in] tag Input parameter.
      * @return Return value.

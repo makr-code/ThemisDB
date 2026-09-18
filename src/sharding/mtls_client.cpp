@@ -53,6 +53,11 @@ MTLSClient::MTLSClient(const Config& config)
 
 MTLSClient::~MTLSClient() = default;
 
+/**
+ * @brief Init SSLContext.
+ * @return True when the operation succeeds.
+ * @details Calls: set_options(), use_certificate_chain_file(), empty(), set_password_callback(), use_private_key_file(), load_verify_file(), set_verify_mode(), what().
+ */
 bool MTLSClient::initSSLContext() {
     try {
         // Set TLS version
@@ -104,16 +109,40 @@ bool MTLSClient::initSSLContext() {
     }
 }
 
+/**
+ * @brief Get.
+ * @param[in] endpoint Input parameter.
+ * @param[in] path Input parameter.
+ * @return Return value.
+ * @details Calls: request().
+ */
 MTLSClient::Response MTLSClient::get(const std::string& endpoint, const std::string& path) {
     return request("GET", endpoint, path);
 }
 
+/**
+ * @brief Post.
+ * @param[in] endpoint Input parameter.
+ * @param[in] path Input parameter.
+ * @param[in] body Input parameter.
+ * @return Return value.
+ * @details Calls: request().
+ */
 MTLSClient::Response MTLSClient::post(const std::string& endpoint,
                                       const std::string& path,
                                       const nlohmann::json& body) {
     return request("POST", endpoint, path, std::optional<nlohmann::json>(body));
 }
 
+/**
+ * @brief Post.
+ * @param[in] endpoint Input parameter.
+ * @param[in] path Input parameter.
+ * @param[in] body Input parameter.
+ * @param[in] authorization_header Input parameter.
+ * @return Return value.
+ * @details Calls: request().
+ */
 MTLSClient::Response MTLSClient::post(const std::string& endpoint,
                                       const std::string& path,
                                       const nlohmann::json& body,
@@ -122,16 +151,42 @@ MTLSClient::Response MTLSClient::post(const std::string& endpoint,
                    authorization_header);
 }
 
+/**
+ * @brief Put.
+ * @param[in] endpoint Input parameter.
+ * @param[in] path Input parameter.
+ * @param[in] body Input parameter.
+ * @return Return value.
+ * @details Calls: request().
+ */
 MTLSClient::Response MTLSClient::put(const std::string& endpoint,
                                      const std::string& path,
                                      const nlohmann::json& body) {
     return request("PUT", endpoint, path, std::optional<nlohmann::json>(body));
 }
 
+/**
+ * @brief Del.
+ * @param[in] endpoint Input parameter.
+ * @param[in] path Input parameter.
+ * @return Return value.
+ * @details Calls: request().
+ */
 MTLSClient::Response MTLSClient::del(const std::string& endpoint, const std::string& path) {
     return request("DELETE", endpoint, path);
 }
 
+/**
+ * @brief Request.
+ * @param[in] method Input parameter.
+ * @param[in] endpoint Input parameter.
+ * @param[in] path Input parameter.
+ * @param[in] body Input parameter.
+ * @param[in] authorization_header Input parameter.
+ * @return Return value.
+ * @throws beast::system_error if an error occurs.
+ * @details Calls: parseEndpoint(), resolver(), resolve(), stream(), SSL_set_tlsext_host_name(), native_handle(), c_str(), beast::error_code().
+ */
 MTLSClient::Response MTLSClient::request(const std::string& method,
                                         const std::string& endpoint,
                                         const std::string& path,
@@ -279,6 +334,10 @@ bool MTLSClient::isReady() const {
            !config_.ca_cert_path.empty();
 }
 
+/**
+ * @brief Reset the modification detection flag.
+ * @details Calls: initSSLContext(), shutdown(), std::chrono::seconds().
+ */
 void MTLSClient::reset() {
     // Recreate IO context and SSL context
     impl_ = std::make_unique<Impl>();
@@ -299,6 +358,13 @@ void MTLSClient::reset() {
     }
 }
 
+/**
+ * @brief Verify Peer Certificate.
+ * @param[in] preverified Input parameter.
+ * @param[in,out] ctx Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Implements verifyPeerCertificate without additional internal calls.
+ */
 bool MTLSClient::verifyPeerCertificate(bool preverified, void* ctx) {
     // Future: extract certificate for detailed validation
     // In production, this would:

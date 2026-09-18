@@ -154,6 +154,12 @@ BiasDetectionResult BiasDetector::detectLengthBias(
     return result;
 }
 
+/**
+ * @brief Analyze All Biases.
+ * @param[in] evaluation_history Input parameter.
+ * @return Return value.
+ * @details Calls: THEMIS_INFO(), size(), length(), emplace_back(), empty(), detectLengthBias(), push_back().
+ */
 std::vector<BiasDetectionResult> BiasDetector::analyzeAllBiases(
     const std::vector<EvaluationResult>& evaluation_history
 ) {
@@ -184,6 +190,13 @@ std::vector<BiasDetectionResult> BiasDetector::analyzeAllBiases(
     return results;
 }
 
+/**
+ * @brief Apply Bias Mitigation.
+ * @param[in] result Input parameter.
+ * @param[in] detected_bias Input parameter.
+ * @return Return value.
+ * @details Calls: THEMIS_DEBUG().
+ */
 ComparisonResult BiasDetector::applyBiasMitigation(
     const ComparisonResult& result,
     const BiasDetectionResult& detected_bias
@@ -205,6 +218,11 @@ ComparisonResult BiasDetector::applyBiasMitigation(
     return mitigated;
 }
 
+/**
+ * @brief Set Config.
+ * @param[in] config Input parameter.
+ * @details Calls: THEMIS_INFO().
+ */
 void BiasDetector::setConfig(const BiasDetectorConfig& config) {
     config_ = config;
     THEMIS_INFO("BiasDetector configuration updated");
@@ -216,6 +234,13 @@ BiasDetectorConfig BiasDetector::getConfig() const {
 
 // Statistical helper functions
 
+/**
+ * @brief Calculate Correlation.
+ * @param[in] x Input parameter.
+ * @param[in] y Input parameter.
+ * @return Return value.
+ * @details Calls: size(), empty(), std::accumulate(), begin(), end(), std::sqrt().
+ */
 double BiasDetector::calculateCorrelation(
     const std::vector<double>& x,
     const std::vector<double>& y
@@ -251,6 +276,13 @@ double BiasDetector::calculateCorrelation(
     return numerator / denominator;
 }
 
+/**
+ * @brief Calculate PValue.
+ * @param[in] correlation Input parameter.
+ * @param[in] sample_size Input parameter.
+ * @return Return value.
+ * @details Calls: std::sqrt(), std::erf(), std::abs(), std::max(), std::min().
+ */
 double BiasDetector::calculatePValue(double correlation, size_t sample_size) {
     if (sample_size < 3) {
         return 1.0;
@@ -272,6 +304,13 @@ double BiasDetector::calculatePValue(double correlation, size_t sample_size) {
     return std::max(0.0, std::min(1.0, p_value));
 }
 
+/**
+ * @brief Calculate Chi Square.
+ * @param[in] observed Input parameter.
+ * @param[in] expected Input parameter.
+ * @return Return value.
+ * @details Calls: size().
+ */
 double BiasDetector::calculateChiSquare(
     const std::vector<int>& observed,
     const std::vector<int>& expected

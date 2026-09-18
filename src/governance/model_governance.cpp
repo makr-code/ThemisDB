@@ -46,34 +46,64 @@ nlohmann::json ModelGovernanceDecision::toJson() const {
     return j;
 }
 
-// ─── ModelGovernancePolicy ───────────────────────────────────────────────────
+/**
+ * @brief ─── ModelGovernancePolicy ───────────────────────────────────────────────────
+ * @param[in] logger Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 
 void ModelGovernancePolicy::setAuditLogger(std::shared_ptr<themis::utils::AuditLogger> logger) {
     std::lock_guard<std::mutex> lock(mutex_);
     audit_logger_ = std::move(logger);
 }
 
+/**
+ * @brief Set Lineage Tracker.
+ * @param[in] tracker Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void ModelGovernancePolicy::setLineageTracker(std::shared_ptr<DataLineageTracker> tracker) {
     std::lock_guard<std::mutex> lock(mutex_);
     lineage_tracker_ = std::move(tracker);
 }
 
+/**
+ * @brief Add Restricted Collection.
+ * @param[in] collection_id Identifier of the collection.
+ * @details Calls: lock(), insert(), THEMIS_INFO().
+ */
 void ModelGovernancePolicy::addRestrictedCollection(const std::string &collection_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     restricted_collections_.insert(collection_id);
     THEMIS_INFO("ModelGovernancePolicy: collection '{}' restricted for model training", collection_id);
 }
 
+/**
+ * @brief Remove Restricted Collection.
+ * @param[in] collection_id Identifier of the collection.
+ * @details Calls: lock(), erase().
+ */
 void ModelGovernancePolicy::removeRestrictedCollection(const std::string &collection_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     restricted_collections_.erase(collection_id);
 }
 
 bool ModelGovernancePolicy::isCollectionRestricted(const std::string &collection_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return restricted_collections_.count(collection_id) > 0;
 }
 
+/**
+ * @brief Check Export Permission.
+ * @param[in] request Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), std::transform(), begin(), end(), tolower(), THEMIS_WARN(), observability::MetricsCollector::getInstance(), addCounter().
+ */
 ModelGovernanceDecision ModelGovernancePolicy::checkExportPermission(const ModelTrainingExportRequest &request) {
     // Snapshot mutable state under the lock so the rest of the method is
     // lock-free and the lock hold time is minimal (satisfies ≤ 2 ms target).

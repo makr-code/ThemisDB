@@ -27,6 +27,12 @@ namespace {
 
 constexpr size_t kMaxHotReloadIdentifierLength = 128;
 
+/**
+ * @brief Is Valid Hot Reload Identifier.
+ * @param[in] value Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), validateStringLength(), validatePathSegment(), validateHeaderValue().
+ */
 bool isValidHotReloadIdentifier(const std::string& value) {
     if (value.empty()) {
         return false;
@@ -48,6 +54,12 @@ HotReloadApiHandler::HotReloadApiHandler(
     , reload_engine_(std::move(reload_engine)) {
 }
 
+/**
+ * @brief Handle Request.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), std::string(), target(), method(), find(), extractPathParam(), isValidHotReloadIdentifier(), createErrorResponse().
+ */
 http::response<http::string_body> HotReloadApiHandler::handleRequest(
     const http::request<http::string_body>& req
 ) {
@@ -99,6 +111,13 @@ http::response<http::string_body> HotReloadApiHandler::handleRequest(
     }
 }
 
+/**
+ * @brief Handle Get Manifest.
+ * @param[in] req Input parameter.
+ * @param[in] version Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), getManifest(), createErrorResponse(), toJson(), createJsonResponse(), LOG_ERROR(), what(), std::string().
+ */
 http::response<http::string_body> HotReloadApiHandler::handleGetManifest(
     const http::request<http::string_body>& req,
     const std::string& version
@@ -126,6 +145,13 @@ http::response<http::string_body> HotReloadApiHandler::handleGetManifest(
     }
 }
 
+/**
+ * @brief Handle Download.
+ * @param[in] req Input parameter.
+ * @param[in] version Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), LOG_INFO(), downloadRelease(), toJson(), createJsonResponse(), LOG_ERROR(), what(), createErrorResponse().
+ */
 http::response<http::string_body> HotReloadApiHandler::handleDownload(
     const http::request<http::string_body>& req,
     const std::string& version
@@ -159,6 +185,13 @@ http::response<http::string_body> HotReloadApiHandler::handleDownload(
     }
 }
 
+/**
+ * @brief Handle Apply.
+ * @param[in] req Input parameter.
+ * @param[in] version Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), LOG_INFO(), body(), empty(), json::parse(), value(), applyHotReload(), createJsonResponse().
+ */
 http::response<http::string_body> HotReloadApiHandler::handleApply(
     const http::request<http::string_body>& req,
     const std::string& version
@@ -206,6 +239,13 @@ http::response<http::string_body> HotReloadApiHandler::handleApply(
     }
 }
 
+/**
+ * @brief Handle Rollback.
+ * @param[in] req Input parameter.
+ * @param[in] rollback_id Identifier of the rollback.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), LOG_INFO(), rollback(), createJsonResponse(), LOG_ERROR(), what(), createErrorResponse(), std::string().
+ */
 http::response<http::string_body> HotReloadApiHandler::handleRollback(
     const http::request<http::string_body>& req,
     const std::string& rollback_id
@@ -236,6 +276,12 @@ http::response<http::string_body> HotReloadApiHandler::handleRollback(
     }
 }
 
+/**
+ * @brief Handle List Rollbacks.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), listRollbackPoints(), json::array(), push_back(), size(), createJsonResponse(), LOG_ERROR(), what().
+ */
 http::response<http::string_body> HotReloadApiHandler::handleListRollbacks(
     const http::request<http::string_body>& req
 ) {
@@ -266,6 +312,14 @@ http::response<http::string_body> HotReloadApiHandler::handleListRollbacks(
     }
 }
 
+/**
+ * @brief Create Json Response.
+ * @param[in] status Input parameter.
+ * @param[in] body Input parameter.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), version(), set(), body(), dump(), prepare_payload(), keep_alive().
+ */
 http::response<http::string_body> HotReloadApiHandler::createJsonResponse(
     http::status status,
     const json& body,
@@ -281,6 +335,14 @@ http::response<http::string_body> HotReloadApiHandler::createJsonResponse(
     return res;
 }
 
+/**
+ * @brief Create Error Response.
+ * @param[in] status Input parameter.
+ * @param[in] message Input parameter.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: createJsonResponse().
+ */
 http::response<http::string_body> HotReloadApiHandler::createErrorResponse(
     http::status status,
     const std::string& message,
@@ -293,6 +355,13 @@ http::response<http::string_body> HotReloadApiHandler::createErrorResponse(
     return createJsonResponse(status, error_json, req);
 }
 
+/**
+ * @brief Extract Path Param.
+ * @param[in] path Input parameter.
+ * @param[in] prefix Input parameter.
+ * @return Return value.
+ * @details Calls: find(), substr(), length().
+ */
 std::string HotReloadApiHandler::extractPathParam(const std::string& path, const std::string& prefix) {
     if (path.find(prefix) == 0) {
         std::string param = path.substr(prefix.length());

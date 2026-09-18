@@ -30,8 +30,9 @@ public:
     explicit ConnectionPool(int size = 10) : available_(size), total_(size) {}
 
     /**
-     * Acquire a connection from the pool.
-     * Returns a connection ID (positive integer) or -1 if unavailable.
+     * @brief Acquire.
+     * @return Return value.
+     * @details Calls: std::max(), spdlog::debug(), spdlog::warn().
      */
     int acquire() {
         if (available_ > 0) {
@@ -45,9 +46,6 @@ public:
         return -1;
     }
 
-    /**
-     * Release a connection back to the pool.
-     */
     void release(int connection_id) noexcept {
         if (connection_id > 0) {
             available_++;
@@ -56,9 +54,6 @@ public:
         }
     }
 
-    /**
-     * Get pool statistics.
-     */
     struct Stats {
         int available{0};
         int total{0};
@@ -68,9 +63,6 @@ public:
         return {available_, total_, peak_used_};
     }
 
-    /**
-     * Check if pool is exhausted.
-     */
     bool isExhausted() const noexcept {
         return available_ <= 0;
     }
@@ -99,9 +91,12 @@ AnalyticsEngine::~AnalyticsEngine() noexcept {
     spdlog::debug("AnalyticsEngine destroyed");
 }
 
-// ========================================================================
-// Gap A-2-01, A-2-02, A-2-03: Query execution with exception-safe cleanup
-// ========================================================================
+/**
+ * @brief ======================================================================== Gap A-2-01, A-2-02, A-2-03: Query execution with exception-safe cleanup ========================================================================
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @details Calls: ValidatePoolState(), ExecuteWithRetry(), LogConnectionDiagnostics(), what(), std::string().
+ */
 QueryResult AnalyticsEngine::ExecuteQuery(const QueryConfig& config) {
     ValidatePoolState();
     
@@ -122,9 +117,14 @@ QueryResult AnalyticsEngine::ExecuteQuery(const QueryConfig& config) {
     }
 }
 
-// ========================================================================
-// Gap A-2-06, A-2-07: Retry logic with fresh connection
-// ========================================================================
+/**
+ * @brief ======================================================================== Gap A-2-06, A-2-07: Retry logic with fresh connection ========================================================================
+ * @param[in] config Input parameter.
+ * @param[in] retry_count Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: spdlog::error(), std::chrono::high_resolution_clock::now(), acquire(), spdlog::warn(), std::this_thread::sleep_for(), std::chrono::milliseconds(), release(), guard().
+ */
 QueryResult AnalyticsEngine::ExecuteWithRetry(const QueryConfig& config, int retry_count) {
     QueryResult result = {};
     
@@ -213,9 +213,13 @@ QueryResult AnalyticsEngine::ExecuteWithRetry(const QueryConfig& config, int ret
     }
 }
 
-// ========================================================================
-// Gap A-2-04, A-2-05: Batch aggregation with diagnostics
-// ========================================================================
+/**
+ * @brief ======================================================================== Gap A-2-04, A-2-05: Batch aggregation with diagnostics ========================================================================
+ * @param[in] batch Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: LogConnectionDiagnostics(), empty(), acquire(), release(), guard(), spdlog::info(), size(), std::string().
+ */
 QueryResult AnalyticsEngine::RunAggregation(const AggregationBatch& batch) {
     QueryResult result;
     
@@ -268,9 +272,12 @@ QueryResult AnalyticsEngine::RunAggregation(const AggregationBatch& batch) {
     }
 }
 
-// ========================================================================
-// Gap A-2-06, A-2-07: Batch processing with connection reuse
-// ========================================================================
+/**
+ * @brief ======================================================================== Gap A-2-06, A-2-07: Batch processing with connection reuse ========================================================================
+ * @param[in] queries Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), push_back(), ExecuteQuery().
+ */
 std::vector<QueryResult> AnalyticsEngine::ProcessBatch(
     const std::vector<QueryConfig>& queries) {
     
@@ -285,9 +292,12 @@ std::vector<QueryResult> AnalyticsEngine::ProcessBatch(
     return results;
 }
 
-// ========================================================================
-// Gap A-2-08: Timeout configuration
-// ========================================================================
+/**
+ * @brief ======================================================================== Gap A-2-08: Timeout configuration ========================================================================
+ * @param[in] size Input parameter.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Calls: spdlog::info().
+ */
 void AnalyticsEngine::SetPoolSize(int size) {
     if (size <= 0) {
         throw std::invalid_argument("Pool size must be positive");

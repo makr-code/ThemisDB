@@ -21,6 +21,11 @@ namespace access_model {
 // § 1  DefaultAccessModelLogger Implementation
 // ============================================================================
 
+/**
+ * @brief Log Tier Transition.
+ * @param[in] log Input parameter.
+ * @details Calls: THEMIS_INFO(), tierLevelName().
+ */
 void DefaultAccessModelLogger::logTierTransition(const TierTransitionLog& log) {
     try {
         auto thread_id_hash = std::hash<std::thread::id>{}(log.thread_id);
@@ -41,6 +46,11 @@ void DefaultAccessModelLogger::logTierTransition(const TierTransitionLog& log) {
     }
 }
 
+/**
+ * @brief Log Eviction Event.
+ * @param[in] log Input parameter.
+ * @details Calls: THEMIS_DEBUG(), tierLevelName(), count().
+ */
 void DefaultAccessModelLogger::logEvictionEvent(const EvictionEventLog& log) {
     try {
         auto thread_id_hash = std::hash<std::thread::id>{}(log.thread_id);
@@ -62,6 +72,11 @@ void DefaultAccessModelLogger::logEvictionEvent(const EvictionEventLog& log) {
     }
 }
 
+/**
+ * @brief Log Promotion Decision.
+ * @param[in] log Input parameter.
+ * @details Calls: THEMIS_DEBUG(), tierLevelName(), has_value(), value(), count().
+ */
 void DefaultAccessModelLogger::logPromotionDecision(
     const PromotionDecisionLog& log) {
     try {
@@ -89,6 +104,11 @@ void DefaultAccessModelLogger::logPromotionDecision(
     }
 }
 
+/**
+ * @brief Log Coordinator Lifecycle.
+ * @param[in] log Input parameter.
+ * @details Calls: THEMIS_INFO().
+ */
 void DefaultAccessModelLogger::logCoordinatorLifecycle(
     const CoordinatorLifecycleLog& log) {
     try {
@@ -111,6 +131,11 @@ void DefaultAccessModelLogger::logCoordinatorLifecycle(
 
 static DefaultAccessModelLogger g_default_logger;
 
+/**
+ * @brief Access Model Logger.
+ * @return Return value.
+ * @details Implements accessModelLogger without additional internal calls.
+ */
 AccessModelLogger& accessModelLogger() {
     return g_default_logger;
 }

@@ -26,7 +26,11 @@ namespace themis::rag {
 // ---------------------------------------------------------------------------
 namespace {
 
-/// Normalise scores in-place to [0, 1].  No-op when all values are equal.
+/**
+ * @brief Normalise Scores.
+ * @param[in,out] scores Input/output parameter.
+ * @details Calls: empty(), std::minmax_element(), begin(), end(), std::abs(), epsilon().
+ */
 void normaliseScores(std::vector<double>& scores) {
     if (scores.empty()) {
       return;
@@ -47,6 +51,13 @@ void normaliseScores(std::vector<double>& scores) {
     }
 }
 
+/**
+ * @brief Cosine Similarity.
+ * @param[in] a Input parameter.
+ * @param[in] b Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), std::min(), size(), std::sqrt().
+ */
 double cosineSimilarity(const std::vector<float>& a, const std::vector<float>& b) {
     if (a.empty() || b.empty()) {
         return 0.0;
@@ -84,6 +95,12 @@ HybridRetriever::HybridRetriever(const HybridRetrieverConfig& config)
     validateConfig(config);
 }
 
+/**
+ * @brief Validate Config.
+ * @param[in] config Input parameter.
+ * @throws std::invalid_argument if an error occurs.
+ * @details Implements validateConfig without additional internal calls.
+ */
 void HybridRetriever::validateConfig(const HybridRetrieverConfig& config) {
     if (config.bm25_weight < 0.0) {
         throw std::invalid_argument(
@@ -103,11 +120,21 @@ const HybridRetrieverConfig& HybridRetriever::getConfig() const {
     return config_;
 }
 
+/**
+ * @brief Set Config.
+ * @param[in] config Input parameter.
+ * @details Calls: validateConfig().
+ */
 void HybridRetriever::setConfig(const HybridRetrieverConfig& config) {
     validateConfig(config);
     config_ = config;
 }
 
+/**
+ * @brief Set Vectorizer.
+ * @param[in] vectorizer Input parameter.
+ * @details Calls: std::move().
+ */
 void HybridRetriever::setVectorizer(std::shared_ptr<IVectorizer> vectorizer) {
     vectorizer_ = std::move(vectorizer);
 }
@@ -350,6 +377,12 @@ HybridFusionResult HybridRetriever::fuseLinear(
 // HybridRetrieverFactory
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Create Balanced.
+ * @param[in] top_k Input parameter.
+ * @return Return value.
+ * @details Calls: HybridRetriever().
+ */
 HybridRetriever HybridRetrieverFactory::createBalanced(size_t top_k) {
     HybridRetrieverConfig cfg;
     cfg.bm25_weight   = 0.5;
@@ -360,6 +393,12 @@ HybridRetriever HybridRetrieverFactory::createBalanced(size_t top_k) {
     return HybridRetriever(cfg);
 }
 
+/**
+ * @brief Create Semantic Focused.
+ * @param[in] top_k Input parameter.
+ * @return Return value.
+ * @details Calls: HybridRetriever().
+ */
 HybridRetriever HybridRetrieverFactory::createSemanticFocused(size_t top_k) {
     HybridRetrieverConfig cfg;
     cfg.bm25_weight   = 0.3;
@@ -370,6 +409,12 @@ HybridRetriever HybridRetrieverFactory::createSemanticFocused(size_t top_k) {
     return HybridRetriever(cfg);
 }
 
+/**
+ * @brief Create Keyword Focused.
+ * @param[in] top_k Input parameter.
+ * @return Return value.
+ * @details Calls: HybridRetriever().
+ */
 HybridRetriever HybridRetrieverFactory::createKeywordFocused(size_t top_k) {
     HybridRetrieverConfig cfg;
     cfg.bm25_weight   = 0.7;

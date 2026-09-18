@@ -246,6 +246,10 @@ McpServer::~McpServer() {
     stop();
 }
 
+/**
+ * @brief Start.
+ * @details Calls: compare_exchange_strong(), spdlog::warn(), spdlog::info(), registerDefaultTools(), registerDefaultResources(), registerDefaultPrompts(), setMessageHandler(), handleRequest().
+ */
 void McpServer::start() {
     bool expected = false;
     if (!is_running_.compare_exchange_strong(expected, true, std::memory_order_acq_rel)) {
@@ -304,6 +308,10 @@ void McpServer::start() {
     spdlog::info("MCP Server started successfully");
 }
 
+/**
+ * @brief Stop.
+ * @details Calls: exchange(), spdlog::info().
+ */
 void McpServer::stop() {
     if (!is_running_.exchange(false, std::memory_order_acq_rel)) {
         return;
@@ -324,11 +332,21 @@ void McpServer::stop() {
     spdlog::info("MCP Server stopped");
 }
 
+/**
+ * @brief Attach Http Server.
+ * @param[in] http_server Input parameter.
+ * @details Calls: spdlog::info().
+ */
 void McpServer::attachHttpServer(std::shared_ptr<HttpServer> http_server) {
     http_server_ = http_server;
     spdlog::info("MCP Server attached to HTTP server for SSE/WebSocket endpoints");
 }
 
+/**
+ * @brief Attach Database.
+ * @param[in] db Input parameter.
+ * @details Calls: isOpen(), get(), themis::config::ConfigPathResolver::mapLegacyToNew(), std::filesystem::exists(), loadFromYAML(), spdlog::info(), spdlog::warn().
+ */
 void McpServer::attachDatabase(std::shared_ptr<RocksDBWrapper> db) {
     db_ = db;
     
@@ -369,16 +387,24 @@ void McpServer::attachDatabase(std::shared_ptr<RocksDBWrapper> db) {
     }
 }
 
-// ============================================================================
-// ASL-12: AI Session Audit Trail — setAuditLogger + logAiEvent
-// Docs: docs/de/security/ai_safety/AI_SAFETY_AUDIT_TRAIL.md
-// Roadmap: src/security/ROADMAP.md § Phase 4 (ASL-12)
-// ============================================================================
+/**
+ * @brief ============================================================================ ASL-12: AI Session Audit Trail — setAuditLogger + logAiEvent Docs: docs/de/security/ai_safety/AI_SAFETY_AUDIT_TRAIL.
+ * @param[in] logger Input parameter.
+ * @details md Roadmap: src/security/ROADMAP.md § Phase 4 (ASL-12) ============================================================================ Calls: std::move().
+ */
 
 void McpServer::setAuditLogger(std::shared_ptr<themis::utils::AuditLogger> logger) {
     audit_logger_ = std::move(logger);
 }
 
+/**
+ * @brief Log Ai Event.
+ * @param[in] type Input parameter.
+ * @param[in] tool_name Name of the tool.
+ * @param[in] ai_session_id Identifier of the ai session.
+ * @param[in] details Input parameter.
+ * @details Calls: logSecurityEvent().
+ */
 void McpServer::logAiEvent(
     themis::utils::SecurityEventType type,
     const std::string&               tool_name,
@@ -402,6 +428,11 @@ void McpServer::logAiEvent(
 // ============================================================================
 
 #ifdef THEMIS_ENABLE_LLM
+/**
+ * @brief Attach Orchestrator.
+ * @param[in] orchestrator Input parameter.
+ * @details Calls: std::move(), spdlog::warn(), registerTool(), toolLLMOrchestrate(), toolLLMListModes(), modePack(), spdlog::info(), size().
+ */
 void McpServer::attachOrchestrator(std::shared_ptr<themis::llm::AIOrchestrator> orchestrator) {
     orchestrator_ = std::move(orchestrator);
     if (!orchestrator_) {
@@ -450,12 +481,25 @@ void McpServer::attachOrchestrator(std::shared_ptr<themis::llm::AIOrchestrator> 
 // Tool Registration
 // ============================================================================
 
+/**
+ * @brief Register Tool.
+ * @param[in] name Input parameter.
+ * @param[in] description Input parameter.
+ * @param[in] input_schema Input parameter.
+ * @param[in] handler Input parameter.
+ * @details Calls: std::move(), spdlog::debug().
+ */
 void McpServer::registerTool(const std::string& name, const std::string& description,
                               const json& input_schema, ToolHandler handler) {
     tools_[name] = {description, input_schema, std::move(handler)};
     spdlog::debug("Registered MCP tool: {}", name);
 }
 
+/**
+ * @brief Unregister Tool.
+ * @param[in] name Input parameter.
+ * @details Calls: erase(), spdlog::debug().
+ */
 void McpServer::unregisterTool(const std::string& name) {
     tools_.erase(name);
     spdlog::debug("Unregistered MCP tool: {}", name);
@@ -465,12 +509,25 @@ void McpServer::unregisterTool(const std::string& name) {
 // Resource Registration
 // ============================================================================
 
+/**
+ * @brief Register Resource.
+ * @param[in] uri Input parameter.
+ * @param[in] description Input parameter.
+ * @param[in] mime_type Input parameter.
+ * @param[in] handler Input parameter.
+ * @details Calls: std::move(), spdlog::debug().
+ */
 void McpServer::registerResource(const std::string& uri, const std::string& description,
                                   const std::string& mime_type, ResourceHandler handler) {
     resources_[uri] = {description, mime_type, std::move(handler)};
     spdlog::debug("Registered MCP resource: {}", uri);
 }
 
+/**
+ * @brief Unregister Resource.
+ * @param[in] uri Input parameter.
+ * @details Calls: erase(), spdlog::debug().
+ */
 void McpServer::unregisterResource(const std::string& uri) {
     resources_.erase(uri);
     spdlog::debug("Unregistered MCP resource: {}", uri);
@@ -480,12 +537,25 @@ void McpServer::unregisterResource(const std::string& uri) {
 // Prompt Registration
 // ============================================================================
 
+/**
+ * @brief Register Prompt.
+ * @param[in] name Input parameter.
+ * @param[in] description Input parameter.
+ * @param[in] arguments_schema Input parameter.
+ * @param[in] handler Input parameter.
+ * @details Calls: std::move(), spdlog::debug().
+ */
 void McpServer::registerPrompt(const std::string& name, const std::string& description,
                                 const json& arguments_schema, PromptHandler handler) {
     prompts_[name] = {description, arguments_schema, std::move(handler)};
     spdlog::debug("Registered MCP prompt: {}", name);
 }
 
+/**
+ * @brief Unregister Prompt.
+ * @param[in] name Input parameter.
+ * @details Calls: erase(), spdlog::debug().
+ */
 void McpServer::unregisterPrompt(const std::string& name) {
     prompts_.erase(name);
     spdlog::debug("Unregistered MCP prompt: {}", name);
@@ -495,6 +565,12 @@ void McpServer::unregisterPrompt(const std::string& name) {
 // Request Handling
 // ============================================================================
 
+/**
+ * @brief Handle Request.
+ * @param[in] request Input parameter.
+ * @return Return value.
+ * @details Calls: contains(), createError(), json::object(), handleInitialize(), handleToolsList(), handleToolsCall(), handleResourcesList(), handleResourcesRead().
+ */
 json McpServer::handleRequest(const json& request) {
     try {
         // Validate JSON-RPC 2.0 request
@@ -533,6 +609,12 @@ json McpServer::handleRequest(const json& request) {
     }
 }
 
+/**
+ * @brief Handle Initialize.
+ * @param[in] params Input parameter.
+ * @return Return value.
+ * @details Calls: store(), contains(), dump(), spdlog::info(), createSuccessResponse().
+ */
 json McpServer::handleInitialize(const json& params) {
     initialized_.store(true, std::memory_order_release);
     
@@ -559,6 +641,12 @@ json McpServer::handleInitialize(const json& params) {
     return createSuccessResponse(result);
 }
 
+/**
+ * @brief Handle Tools List.
+ * @param[in] params Input parameter.
+ * @return Return value.
+ * @details Calls: json::array(), push_back(), createSuccessResponse().
+ */
 json McpServer::handleToolsList(const json& params) {
     json tools_list = json::array();
     
@@ -573,6 +661,12 @@ json McpServer::handleToolsList(const json& params) {
     return createSuccessResponse({{"tools", tools_list}});
 }
 
+/**
+ * @brief Handle Tools Call.
+ * @param[in] params Input parameter.
+ * @return Return value.
+ * @details Calls: contains(), createError(), find(), end(), json::object(), handler(), createSuccessResponse(), dump().
+ */
 json McpServer::handleToolsCall(const json& params) {
     if (!params.contains("name")) {
         return createError(-32602, "Invalid params: missing 'name'");
@@ -602,6 +696,12 @@ json McpServer::handleToolsCall(const json& params) {
     }
 }
 
+/**
+ * @brief Handle Resources List.
+ * @param[in] params Input parameter.
+ * @return Return value.
+ * @details Calls: json::array(), push_back(), createSuccessResponse().
+ */
 json McpServer::handleResourcesList(const json& params) {
     json resources_list = json::array();
     
@@ -617,6 +717,12 @@ json McpServer::handleResourcesList(const json& params) {
     return createSuccessResponse({{"resources", resources_list}});
 }
 
+/**
+ * @brief Handle Resources Read.
+ * @param[in] params Input parameter.
+ * @return Return value.
+ * @details Calls: contains(), createError(), find(), end(), handler(), createSuccessResponse(), dump(), std::string().
+ */
 json McpServer::handleResourcesRead(const json& params) {
     if (!params.contains("uri")) {
         return createError(-32602, "Invalid params: missing 'uri'");
@@ -647,6 +753,12 @@ json McpServer::handleResourcesRead(const json& params) {
     }
 }
 
+/**
+ * @brief Handle Prompts List.
+ * @param[in] params Input parameter.
+ * @return Return value.
+ * @details Calls: json::array(), push_back(), createSuccessResponse().
+ */
 json McpServer::handlePromptsList(const json& params) {
     json prompts_list = json::array();
     
@@ -661,6 +773,12 @@ json McpServer::handlePromptsList(const json& params) {
     return createSuccessResponse({{"prompts", prompts_list}});
 }
 
+/**
+ * @brief Handle Prompts Get.
+ * @param[in] params Input parameter.
+ * @return Return value.
+ * @details Calls: contains(), createError(), find(), end(), json::object(), handler(), createSuccessResponse(), std::string().
+ */
 json McpServer::handlePromptsGet(const json& params) {
     if (!params.contains("name")) {
         return createError(-32602, "Invalid params: missing 'name'");
@@ -691,6 +809,10 @@ json McpServer::handlePromptsGet(const json& params) {
 // Default Tool Handlers (Stubs)
 // ============================================================================
 
+/**
+ * @brief Register Default Tools.
+ * @details Calls: registerTool(), toolQuery(), toolPutEntity(), toolGetEntity(), toolDeleteEntity(), toolGetSchema(), toolGetStats(), toolCreateIndex().
+ */
 void McpServer::registerDefaultTools() {
     // Query tool
     registerTool("query", "Execute AQL, Cypher, or SQL query on ThemisDB",
@@ -1043,6 +1165,12 @@ void McpServer::registerDefaultTools() {
         [this](const json& args) { return toolExplainQuery(args); });
 }
 
+/**
+ * @brief Tool Query.
+ * @param[in] args Input parameter.
+ * @return Return value.
+ * @details Calls: value(), spdlog::info(), isOpen(), std::transform(), begin(), end(), find(), validate().
+ */
 json McpServer::toolQuery(const json& args) {
     std::string query = args["query"];
     std::string language = args.value("language", "aql");
@@ -1250,6 +1378,12 @@ json McpServer::toolQuery(const json& args) {
     }
 }
 
+/**
+ * @brief Tool Put Entity.
+ * @param[in] args Input parameter.
+ * @return Return value.
+ * @details Calls: spdlog::info(), isOpen(), dump(), put(), std::string(), what().
+ */
 json McpServer::toolPutEntity(const json& args) {
     std::string key = args["key"];
     json value = args["value"];
@@ -1293,6 +1427,12 @@ json McpServer::toolPutEntity(const json& args) {
     }
 }
 
+/**
+ * @brief Tool Get Entity.
+ * @param[in] args Input parameter.
+ * @return Return value.
+ * @details Calls: spdlog::info(), isOpen(), get(), json::parse(), std::string(), what().
+ */
 json McpServer::toolGetEntity(const json& args) {
     std::string key = args["key"];
     
@@ -1340,6 +1480,12 @@ json McpServer::toolGetEntity(const json& args) {
     }
 }
 
+/**
+ * @brief Tool Delete Entity.
+ * @param[in] args Input parameter.
+ * @return Return value.
+ * @details Calls: value(), spdlog::info(), isOpen(), checkOperationGuard(), del(), std::string(), what().
+ */
 json McpServer::toolDeleteEntity(const json& args) {
     std::string key = args["key"];
     // AI Safety Layer (Phase 1): dry_run flag — preview the operation without
@@ -1403,6 +1549,12 @@ json McpServer::toolDeleteEntity(const json& args) {
     }
 }
 
+/**
+ * @brief Tool Create Index.
+ * @param[in] args Input parameter.
+ * @return Return value.
+ * @details Calls: spdlog::info(), isOpen(), value(), empty(), createIndex(), createRangeIndex(), createSparseIndex(), createGeoIndex().
+ */
 json McpServer::toolCreateIndex(const json& args) {
     spdlog::info("MCP Tool 'create_index' called");
     
@@ -1503,6 +1655,12 @@ json McpServer::toolCreateIndex(const json& args) {
     }
 }
 
+/**
+ * @brief Tool Drop Index.
+ * @param[in] args Input parameter.
+ * @return Return value.
+ * @details Calls: spdlog::info(), isOpen(), value(), empty(), checkOperationGuard(), fmt::format(), dropIndex(), dropRangeIndex().
+ */
 json McpServer::toolDropIndex(const json& args) {
     spdlog::info("MCP Tool 'drop_index' called");
     
@@ -1609,6 +1767,12 @@ json McpServer::toolDropIndex(const json& args) {
     }
 }
 
+/**
+ * @brief Tool List Indexes.
+ * @param[in] args Input parameter.
+ * @return Return value.
+ * @details Calls: spdlog::info(), isOpen(), json::array(), getAllTables(), getAllIndexStats(), push_back(), size(), fmt::format().
+ */
 json McpServer::toolListIndexes(const json& args) {
     spdlog::info("MCP Tool 'list_indexes' called");
     
@@ -1670,6 +1834,12 @@ json McpServer::toolListIndexes(const json& args) {
     }
 }
 
+/**
+ * @brief Tool Get Schema.
+ * @param[in] args Input parameter.
+ * @return Return value.
+ * @details Calls: spdlog::info(), isOpen(), json::array(), json::object(), toJSON(), spdlog::error(), what(), std::string().
+ */
 json McpServer::toolGetSchema(const json& args) {
     spdlog::info("MCP Tool 'get_schema' called");
 
@@ -1721,6 +1891,12 @@ json McpServer::toolGetSchema(const json& args) {
     }
 }
 
+/**
+ * @brief Tool Get Stats.
+ * @param[in] args Input parameter.
+ * @return Return value.
+ * @details Calls: spdlog::info(), isOpen(), getDatabaseMetadata(), spdlog::error(), what(), std::string().
+ */
 json McpServer::toolGetStats(const json& args) {
     spdlog::info("MCP Tool 'get_stats' called");
 
@@ -1779,6 +1955,12 @@ json McpServer::toolGetStats(const json& args) {
 // ============================================================================
 
 #ifdef THEMIS_ENABLE_LLM
+/**
+ * @brief Tool LLMComplete.
+ * @param[in] args Input parameter.
+ * @return Return value.
+ * @details Calls: spdlog::info(), at(), value(), THEMIS_LLM_GENERATE(), length(), std::string(), what().
+ */
 json McpServer::toolLLMComplete(const json& args) {
     spdlog::info("MCP Tool 'llm_complete' called");
     
@@ -1805,6 +1987,12 @@ json McpServer::toolLLMComplete(const json& args) {
     }
 }
 
+/**
+ * @brief Tool LLMEmbed.
+ * @param[in] args Input parameter.
+ * @return Return value.
+ * @details Calls: spdlog::info(), at(), THEMIS_LLM_EMBED(), size(), length(), std::string(), what().
+ */
 json McpServer::toolLLMEmbed(const json& args) {
     spdlog::info("MCP Tool 'llm_embed' called");
     
@@ -1829,6 +2017,12 @@ json McpServer::toolLLMEmbed(const json& args) {
     }
 }
 
+/**
+ * @brief Tool LLMChat.
+ * @param[in] args Input parameter.
+ * @return Return value.
+ * @details Calls: spdlog::info(), at(), push_back(), THEMIS_LLM_CHAT(), size(), std::string(), what().
+ */
 json McpServer::toolLLMChat(const json& args) {
     spdlog::info("MCP Tool 'llm_chat' called");
     
@@ -1862,6 +2056,12 @@ json McpServer::toolLLMChat(const json& args) {
     }
 }
 
+/**
+ * @brief Tool Database Query With LLM.
+ * @param[in] args Input parameter.
+ * @return Return value.
+ * @details Calls: spdlog::info(), at(), toolQuery(), dump(), THEMIS_LLM_GENERATE(), std::string(), what().
+ */
 json McpServer::toolDatabaseQueryWithLLM(const json& args) {
     spdlog::info("MCP Tool 'database_query_with_llm' called");
     
@@ -1895,6 +2095,12 @@ json McpServer::toolDatabaseQueryWithLLM(const json& args) {
 // AI Orchestrator Tool Handlers
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Tool LLMOrchestrate.
+ * @param[in] args Input parameter.
+ * @return Return value.
+ * @details Calls: spdlog::info(), at(), value(), contains(), run(), empty(), std::string(), what().
+ */
 json McpServer::toolLLMOrchestrate(const json& args) {
     spdlog::info("MCP Tool 'llm_orchestrate' called");
 
@@ -1940,6 +2146,12 @@ json McpServer::toolLLMOrchestrate(const json& args) {
     }
 }
 
+/**
+ * @brief Tool LLMList Modes.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details Calls: spdlog::info(), modePack(), json::array(), push_back(), std::move().
+ */
 json McpServer::toolLLMListModes(const json& /*args*/) {
     spdlog::info("MCP Tool 'llm_list_modes' called");
 
@@ -1974,9 +2186,12 @@ json McpServer::toolLLMListModes(const json& /*args*/) {
 
 #endif // THEMIS_ENABLE_LLM
 
-// ============================================================================
-// Error Introspection Tool Handlers (NEW)
-// ============================================================================
+/**
+ * @brief ============================================================================ Error Introspection Tool Handlers (NEW) ============================================================================
+ * @param[in] args Input parameter.
+ * @return Return value.
+ * @details Calls: spdlog::info(), value(), errors::ErrorRegistry::getInstance(), std::stoi(), getError(), toJSON(), THEMIS_DEBUG(), searchErrors().
+ */
 
 json McpServer::toolGetErrorInfo(const json& args) {
     spdlog::info("MCP Tool 'get_error_info' called");
@@ -2019,6 +2234,12 @@ json McpServer::toolGetErrorInfo(const json& args) {
     }
 }
 
+/**
+ * @brief Tool Search Errors.
+ * @param[in] args Input parameter.
+ * @return Return value.
+ * @details Calls: spdlog::info(), value(), errors::ErrorRegistry::getInstance(), empty(), getErrorsByCategory(), searchErrors(), json::array(), push_back().
+ */
 json McpServer::toolSearchErrors(const json& args) {
     spdlog::info("MCP Tool 'search_errors' called");
     
@@ -2046,6 +2267,12 @@ json McpServer::toolSearchErrors(const json& args) {
     };
 }
 
+/**
+ * @brief Tool Introspect Database.
+ * @param[in] args Input parameter.
+ * @return Return value.
+ * @details Calls: value(), spdlog::info(), empty(), spdlog::warn(), themis::prompt_engineering::PromptManager::buildContextFromSchema(), themis::version::getEditionString(), themis::version::getVersionString(), utils::containsCaseInsensitive().
+ */
 json McpServer::toolIntrospectDatabase(const json& args) {
     std::string question = args.value("question", "");
     
@@ -2166,6 +2393,12 @@ json McpServer::toolIntrospectDatabase(const json& args) {
     };
 }
 
+/**
+ * @brief Generate Error Answer.
+ * @param[in] question Input parameter.
+ * @return Return value.
+ * @details Calls: errors::ErrorRegistry::getInstance(), utils::containsCaseInsensitive(), getAllCategories(), getErrorsByCategory(), fmt::format(), size(), code_regex(), std::regex_search().
+ */
 std::string McpServer::generateErrorAnswer(const std::string& question) {
     auto& registry = errors::ErrorRegistry::getInstance();
     
@@ -2283,6 +2516,10 @@ std::string McpServer::generateErrorAnswer(const std::string& question) {
 // Default Resource Handlers (Stubs)
 // ============================================================================
 
+/**
+ * @brief Register Default Resources.
+ * @details Calls: registerResource(), resourceSchema(), resourceStats(), resourceMetadata(), resourceExamples().
+ */
 void McpServer::registerDefaultResources() {
     registerResource("schema://database", "Database schema information",
         "application/json",
@@ -2301,6 +2538,12 @@ void McpServer::registerDefaultResources() {
         [this](const std::string& uri) { return resourceExamples(uri); });
 }
 
+/**
+ * @brief Resource Schema.
+ * @param[in] uri Input parameter.
+ * @return Return value.
+ * @details Calls: json::array(), toJSON(), spdlog::error(), what(), std::string().
+ */
 json McpServer::resourceSchema(const std::string& uri) {
     // Full integration: return real schema data from SchemaManager
     if (!schema_mgr_) {
@@ -2326,6 +2569,12 @@ json McpServer::resourceSchema(const std::string& uri) {
     }
 }
 
+/**
+ * @brief Resource Stats.
+ * @param[in] uri Input parameter.
+ * @return Return value.
+ * @details Calls: isOpen(), getDatabaseMetadata(), toJSON(), spdlog::error(), what(), std::string().
+ */
 json McpServer::resourceStats(const std::string& uri) {
     // Provide real statistics if SchemaManager is available
     if (!db_ || !db_->isOpen()) {
@@ -2367,6 +2616,12 @@ json McpServer::resourceStats(const std::string& uri) {
     };
 }
 
+/**
+ * @brief Resource Metadata.
+ * @param[in] uri Input parameter.
+ * @return Return value.
+ * @details Calls: json::array(), push_back(), isOpen().
+ */
 json McpServer::resourceMetadata(const std::string& uri) {
     // Determine integration level based on SchemaManager availability
     std::string integration_level = schema_mgr_ ? "full" : "minimal";
@@ -2394,6 +2649,12 @@ json McpServer::resourceMetadata(const std::string& uri) {
     };
 }
 
+/**
+ * @brief Resource Examples.
+ * @param[in] uri Input parameter.
+ * @return Return value.
+ * @details Implements resourceExamples without additional internal calls.
+ */
 json McpServer::resourceExamples(const std::string& uri) {
     return {
         {"examples", {
@@ -2407,6 +2668,10 @@ json McpServer::resourceExamples(const std::string& uri) {
 // Default Prompt Handlers (Stubs)
 // ============================================================================
 
+/**
+ * @brief Register Default Prompts.
+ * @details Calls: registerPrompt(), promptSimpleQuery(), promptComplexQuery(), promptEntityOperation().
+ */
 void McpServer::registerDefaultPrompts() {
     registerPrompt("simple_query", "Generate a simple Cypher query",
         {
@@ -2439,6 +2704,13 @@ void McpServer::registerDefaultPrompts() {
         [this](const std::string& name, const json& args) { return promptEntityOperation(name, args); });
 }
 
+/**
+ * @brief Prompt Simple Query.
+ * @param[in] name Input parameter.
+ * @param[in] args Input parameter.
+ * @return Return value.
+ * @details Calls: value(), json::array(), std::to_string().
+ */
 json McpServer::promptSimpleQuery(const std::string& name, const json& args) {
     std::string node_type = args.value("node_type", "User");
     int limit = args.value("limit", 10);
@@ -2454,6 +2726,13 @@ json McpServer::promptSimpleQuery(const std::string& name, const json& args) {
     });
 }
 
+/**
+ * @brief Prompt Complex Query.
+ * @param[in] name Input parameter.
+ * @param[in] args Input parameter.
+ * @return Return value.
+ * @details Calls: json::array().
+ */
 json McpServer::promptComplexQuery(const std::string& name, const json& args) {
     return json::array({
         {
@@ -2466,6 +2745,13 @@ json McpServer::promptComplexQuery(const std::string& name, const json& args) {
     });
 }
 
+/**
+ * @brief Prompt Entity Operation.
+ * @param[in] name Input parameter.
+ * @param[in] args Input parameter.
+ * @return Return value.
+ * @details Calls: json::array().
+ */
 json McpServer::promptEntityOperation(const std::string& name, const json& args) {
     return json::array({
         {
@@ -2482,6 +2768,13 @@ json McpServer::promptEntityOperation(const std::string& name, const json& args)
 // Utility Methods
 // ============================================================================
 
+/**
+ * @brief Create Error.
+ * @param[in] code Input parameter.
+ * @param[in] message Input parameter.
+ * @return Return value.
+ * @details Implements createError without additional internal calls.
+ */
 json McpServer::createError(int code, const std::string& message) {
     return {
         {"jsonrpc", "2.0"},
@@ -2492,6 +2785,12 @@ json McpServer::createError(int code, const std::string& message) {
     };
 }
 
+/**
+ * @brief Create Success Response.
+ * @param[in] result Input parameter.
+ * @return Return value.
+ * @details Implements createSuccessResponse without additional internal calls.
+ */
 json McpServer::createSuccessResponse(const json& result) {
     return {
         {"jsonrpc", "2.0"},
@@ -2499,11 +2798,15 @@ json McpServer::createSuccessResponse(const json& result) {
     };
 }
 
-// ============================================================================
-// AI Safety Layer — HILG: Approval Pipeline (ASL-4..6)
-// Docs: docs/de/security/ai_safety/AI_SAFETY_OPERATION_GUARD.md
-// Roadmap: src/security/ROADMAP.md § Phase 2
-// ============================================================================
+/**
+ * @brief ============================================================================ AI Safety Layer — HILG: Approval Pipeline (ASL-4.
+ * @param[in] tool_name Name of the tool.
+ * @param[in] args Input parameter.
+ * @param[in] ai_session_id Identifier of the ai session.
+ * @param[in] caller_role Input parameter.
+ * @return Return value.
+ * @details .6) Docs: docs/de/security/ai_safety/AI_SAFETY_OPERATION_GUARD.md Roadmap: src/security/ROADMAP.md § Phase 2 ============================================================================ Calls: evaluate(), empty(), spdlog::warn(), logAiEvent(), themis::security::operationClassName(), buildBlockedResponse(), buildRequiresApprovalResponse(), lock().
+ */
 
 std::optional<json> McpServer::checkOperationGuard(
     const std::string& tool_name,
@@ -2576,6 +2879,12 @@ std::optional<json> McpServer::checkOperationGuard(
     return approval_resp;
 }
 
+/**
+ * @brief Handle Ai Approve.
+ * @param[in] operation_id Identifier of the operation.
+ * @return Return value.
+ * @details Calls: lock(), purgeExpiredApprovals(), find(), end(), fmt::format(), spdlog::info(), config(), createCheckpoint().
+ */
 json McpServer::handleAiApprove(const std::string& operation_id) {
     std::lock_guard<std::mutex> lock(pending_approvals_mutex_);
     purgeExpiredApprovals();
@@ -2671,6 +2980,12 @@ json McpServer::handleAiApprove(const std::string& operation_id) {
     };
 }
 
+/**
+ * @brief Handle Ai Deny.
+ * @param[in] operation_id Identifier of the operation.
+ * @return Return value.
+ * @details Calls: lock(), find(), end(), fmt::format(), spdlog::info(), erase(), logAiEvent().
+ */
 json McpServer::handleAiDeny(const std::string& operation_id) {
     std::lock_guard<std::mutex> lock(pending_approvals_mutex_);
 
@@ -2700,6 +3015,11 @@ json McpServer::handleAiDeny(const std::string& operation_id) {
     };
 }
 
+/**
+ * @brief Handle Ai Pending Approvals.
+ * @return Return value.
+ * @details Calls: lock(), purgeExpiredApprovals(), json::array(), push_back(), value(), fmt::format(), size().
+ */
 json McpServer::handleAiPendingApprovals() {
     std::lock_guard<std::mutex> lock(pending_approvals_mutex_);
     purgeExpiredApprovals();
@@ -2727,6 +3047,10 @@ json McpServer::handleAiPendingApprovals() {
     };
 }
 
+/**
+ * @brief Purge Expired Approvals.
+ * @details Calls: std::chrono::system_clock::now(), begin(), end(), spdlog::debug(), logAiEvent(), erase().
+ */
 void McpServer::purgeExpiredApprovals() {
     // Caller holds pending_approvals_mutex_.
     const auto now = std::chrono::system_clock::now();
@@ -2744,10 +3068,12 @@ void McpServer::purgeExpiredApprovals() {
     }
 }
 
-// ============================================================================
-// ASL-10: Rollback endpoint
-// Docs: src/security/ROADMAP.md § Phase 3 (ASL-10)
-// ============================================================================
+/**
+ * @brief ============================================================================ ASL-10: Rollback endpoint Docs: src/security/ROADMAP.
+ * @param[in] snapshot_id Identifier of the snapshot.
+ * @return Return value.
+ * @details md § Phase 3 (ASL-10) ============================================================================ Calls: size(), std::isalpha(), empty(), std::iscntrl(), std::isalnum(), lexically_relative(), is_absolute(), isOpen().
+ */
 
 json McpServer::handleAiRollback(const std::string& snapshot_id) {
     auto hasWindowsDrivePrefix = [](const std::string& value) {
@@ -2880,10 +3206,12 @@ json McpServer::handleAiRollback(const std::string& snapshot_id) {
     }
 }
 
-// ============================================================================
-// ASL-11: Snapshot cleanup tool
-// Docs: src/security/ROADMAP.md § Phase 3 (ASL-11)
-// ============================================================================
+/**
+ * @brief ============================================================================ ASL-11: Snapshot cleanup tool Docs: src/security/ROADMAP.
+ * @param[in] param Input parameter.
+ * @return Return value.
+ * @details md § Phase 3 (ASL-11) ============================================================================ Calls: config(), themis::security::themisDefaultSnapshotDir(), job(), runCleanup(), spdlog::info(), logAiEvent(), spdlog::error(), what().
+ */
 
 json McpServer::toolAiCleanupSnapshots(const json& /*args*/) {
     const std::string snap_dir = operation_guard_
@@ -2920,11 +3248,26 @@ json McpServer::toolAiCleanupSnapshots(const json& /*args*/) {
 // StdioTransport Implementation
 // ============================================================================
 
+/**
+ * @brief Stdio Read Fn Mutex.
+ * @return Return value.
+ * @details Implements stdioReadFnMutex without additional internal calls.
+ */
 static std::mutex& stdioReadFnMutex() { static std::mutex m; return m; }
+/**
+ * @brief Stdio Read Fn Storage.
+ * @return Return value.
+ * @details Implements stdioReadFnStorage without additional internal calls.
+ */
 static StdioTransport::StdioReadFn& stdioReadFnStorage() {
     static StdioTransport::StdioReadFn fn;
     return fn;
 }
+/**
+ * @brief Set Stdio Read Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lk(), stdioReadFnMutex(), stdioReadFnStorage(), std::move().
+ */
 void StdioTransport::setStdioReadFn(StdioReadFn fn) {
     std::lock_guard<std::mutex> lk(stdioReadFnMutex());
     stdioReadFnStorage() = std::move(fn);
@@ -2938,6 +3281,10 @@ StdioTransport::~StdioTransport() {
     stop();
 }
 
+/**
+ * @brief Start.
+ * @details Calls: compare_exchange_strong(), defined(), spdlog::info(), readStdin(), lk(), stdioReadFnMutex(), stdioReadFnStorage(), fn().
+ */
 void StdioTransport::start() {
     bool expected = false;
     if (!is_running_.compare_exchange_strong(expected, true, std::memory_order_acq_rel)) {
@@ -2978,6 +3325,10 @@ void StdioTransport::start() {
 #endif
 }
 
+/**
+ * @brief Stop.
+ * @details Calls: exchange(), spdlog::info().
+ */
 void StdioTransport::stop() {
     if (!is_running_.exchange(false, std::memory_order_acq_rel)) {
       return;
@@ -2985,6 +3336,11 @@ void StdioTransport::stop() {
     spdlog::info("MCP stdio transport stopped");
 }
 
+/**
+ * @brief Send.
+ * @param[in] message Input parameter.
+ * @details Calls: load(), writeStdout(), dump().
+ */
 void StdioTransport::send(const json& message) {
     if (!is_running_.load(std::memory_order_acquire)) {
       return;
@@ -2992,6 +3348,10 @@ void StdioTransport::send(const json& message) {
     writeStdout(message.dump() + "\n");
 }
 
+/**
+ * @brief Read Stdin.
+ * @details Calls: defined(), weak_from_this(), asio::post(), lock(), GetStdHandle(), errors::logError(), load(), PeekNamedPipe().
+ */
 void StdioTransport::readStdin() {
 #if defined(_WIN32)
     // Windows implementation using PeekNamedPipe for non-blocking stdin
@@ -3149,6 +3509,11 @@ void StdioTransport::readStdin() {
 #endif
 }
 
+/**
+ * @brief Write Stdout.
+ * @param[in] data Input parameter.
+ * @details Implements writeStdout without additional internal calls.
+ */
 void StdioTransport::writeStdout(const std::string& data) {
     std::cout << data << std::flush;
 }
@@ -3166,6 +3531,10 @@ SseTransport::~SseTransport() {
     stop();
 }
 
+/**
+ * @brief Start.
+ * @details Calls: compare_exchange_strong(), spdlog::info(), scheduleKeepalive().
+ */
 void SseTransport::start() {
     bool expected = false;
     if (!is_running_.compare_exchange_strong(expected, true, std::memory_order_acq_rel)) {
@@ -3177,6 +3546,10 @@ void SseTransport::start() {
     scheduleKeepalive();
 }
 
+/**
+ * @brief Stop.
+ * @details Calls: exchange(), cancel(), lock(), clear(), spdlog::info().
+ */
 void SseTransport::stop() {
     if (!is_running_.exchange(false, std::memory_order_acq_rel)) {
       return;
@@ -3192,6 +3565,11 @@ void SseTransport::stop() {
     spdlog::info("MCP SSE transport stopped");
 }
 
+/**
+ * @brief Send.
+ * @param[in] message Input parameter.
+ * @details Calls: load(), dump(), lock(), spdlog::debug(), size().
+ */
 void SseTransport::send(const json& message) {
     if (!is_running_.load(std::memory_order_acquire)) {
       return;
@@ -3209,18 +3587,34 @@ void SseTransport::send(const json& message) {
     spdlog::debug("MCP SSE event sent to {} clients",clients_.size());
 }
 
+/**
+ * @brief Add Client.
+ * @param[in] client_id Identifier of the client.
+ * @details Calls: lock(), spdlog::debug(), size().
+ */
 void SseTransport::addClient(const std::string& client_id) {
     std::lock_guard<std::mutex> lock(clients_mutex_);
     clients_[client_id] = "";
     spdlog::debug("MCP SSE client added: {}, total clients: {}", client_id,clients_.size());
 }
 
+/**
+ * @brief Remove Client.
+ * @param[in] client_id Identifier of the client.
+ * @details Calls: lock(), erase(), spdlog::debug(), size().
+ */
 void SseTransport::removeClient(const std::string& client_id) {
     std::lock_guard<std::mutex> lock(clients_mutex_);
     clients_.erase(client_id);
     spdlog::debug("MCP SSE client removed: {}, remaining clients: {}", client_id,clients_.size());
 }
 
+/**
+ * @brief Get Client Data.
+ * @param[in] client_id Identifier of the client.
+ * @return Return value.
+ * @details Calls: lock(), find(), end(), clear().
+ */
 std::string SseTransport::getClientData(const std::string& client_id) {
     std::lock_guard<std::mutex> lock(clients_mutex_);
     auto it = clients_.find(client_id);
@@ -3232,6 +3626,10 @@ std::string SseTransport::getClientData(const std::string& client_id) {
     return "";
 }
 
+/**
+ * @brief Send Keepalive.
+ * @details Calls: load(), lock(), spdlog::trace(), size().
+ */
 void SseTransport::sendKeepalive() {
     if (!is_running_.load(std::memory_order_acquire)) {
       return;
@@ -3248,6 +3646,10 @@ void SseTransport::sendKeepalive() {
     spdlog::trace("MCP SSE keepalive sent to {} clients",clients_.size());
 }
 
+/**
+ * @brief Schedule Keepalive.
+ * @details Calls: load(), expires_after(), std::chrono::milliseconds(), weak_from_this(), async_wait(), lock(), sendKeepalive().
+ */
 void SseTransport::scheduleKeepalive() {
     if (!is_running_.load(std::memory_order_acquire)) {
       return;
@@ -3281,6 +3683,10 @@ WebSocketTransport::~WebSocketTransport() {
     stop();
 }
 
+/**
+ * @brief Start.
+ * @details Calls: compare_exchange_strong(), spdlog::info(), schedulePing().
+ */
 void WebSocketTransport::start() {
     bool expected = false;
     if (!is_running_.compare_exchange_strong(expected, true, std::memory_order_acq_rel)) {
@@ -3292,6 +3698,10 @@ void WebSocketTransport::start() {
     schedulePing();
 }
 
+/**
+ * @brief Stop.
+ * @details Calls: exchange(), cancel(), lock(), clear(), spdlog::info().
+ */
 void WebSocketTransport::stop() {
     if (!is_running_.exchange(false, std::memory_order_acq_rel)) {
       return;
@@ -3307,6 +3717,11 @@ void WebSocketTransport::stop() {
     spdlog::info("MCP WebSocket transport stopped");
 }
 
+/**
+ * @brief Send.
+ * @param[in] message Input parameter.
+ * @details Calls: load(), dump(), lock(), push(), spdlog::debug().
+ */
 void WebSocketTransport::send(const json& message) {
     if (!is_running_.load(std::memory_order_acquire)) {
       return;
@@ -3324,6 +3739,12 @@ void WebSocketTransport::send(const json& message) {
     }
 }
 
+/**
+ * @brief Send To Session.
+ * @param[in] session_id Identifier of the session.
+ * @param[in] message Input parameter.
+ * @details Calls: load(), dump(), lock(), find(), end(), push(), spdlog::debug().
+ */
 void WebSocketTransport::sendToSession(const std::string& session_id, const json& message) {
     if (!is_running_.load(std::memory_order_acquire)) {
       return;
@@ -3339,18 +3760,34 @@ void WebSocketTransport::sendToSession(const std::string& session_id, const json
     }
 }
 
+/**
+ * @brief Add Session.
+ * @param[in] session_id Identifier of the session.
+ * @details Calls: lock(), spdlog::debug(), size().
+ */
 void WebSocketTransport::addSession(const std::string& session_id) {
     std::lock_guard<std::mutex> lock(sessions_mutex_);
     sessions_[session_id] = SessionData{true, {}};
     spdlog::debug("MCP WebSocket session added: {}, total sessions: {}", session_id,sessions_.size());
 }
 
+/**
+ * @brief Remove Session.
+ * @param[in] session_id Identifier of the session.
+ * @details Calls: lock(), erase(), spdlog::debug(), size().
+ */
 void WebSocketTransport::removeSession(const std::string& session_id) {
     std::lock_guard<std::mutex> lock(sessions_mutex_);
     sessions_.erase(session_id);
     spdlog::debug("MCP WebSocket session removed: {}, remaining sessions: {}", session_id,sessions_.size());
 }
 
+/**
+ * @brief Get Pending Messages.
+ * @param[in] session_id Identifier of the session.
+ * @return Return value.
+ * @details Calls: lock(), find(), end(), empty(), push_back(), std::move(), front(), pop().
+ */
 std::vector<std::string> WebSocketTransport::getPendingMessages(const std::string& session_id) {
     std::lock_guard<std::mutex> lock(sessions_mutex_);
     auto it = sessions_.find(session_id);
@@ -3366,6 +3803,12 @@ std::vector<std::string> WebSocketTransport::getPendingMessages(const std::strin
     return {};
 }
 
+/**
+ * @brief Handle Message.
+ * @param[in] session_id Identifier of the session.
+ * @param[in] message Input parameter.
+ * @details Calls: load(), json::parse(), message_handler_(), sendToSession(), errors::logError(), what(), std::string().
+ */
 void WebSocketTransport::handleMessage(const std::string& session_id, const std::string& message) {
     if (!is_running_.load(std::memory_order_acquire)) {
       return;
@@ -3394,6 +3837,10 @@ void WebSocketTransport::handleMessage(const std::string& session_id, const std:
     }
 }
 
+/**
+ * @brief Send Ping.
+ * @details Calls: load(), lock(), spdlog::trace().
+ */
 void WebSocketTransport::sendPing() {
     if (!is_running_.load(std::memory_order_acquire)) {
       return;
@@ -3417,6 +3864,10 @@ void WebSocketTransport::sendPing() {
     spdlog::trace("MCP WebSocket ping scheduled for {} active sessions", active_count);
 }
 
+/**
+ * @brief Schedule Ping.
+ * @details Calls: load(), expires_after(), std::chrono::milliseconds(), weak_from_this(), async_wait(), lock(), sendPing().
+ */
 void WebSocketTransport::schedulePing() {
     if (!is_running_.load(std::memory_order_acquire)) {
       return;
@@ -3437,9 +3888,12 @@ void WebSocketTransport::schedulePing() {
     });
 }
 
-// ============================================================================
-// Group 1: Knowledge Graph Tool Handlers (Q4 2026)
-// ============================================================================
+/**
+ * @brief ============================================================================ Group 1: Knowledge Graph Tool Handlers (Q4 2026) ============================================================================
+ * @param[in] args Input parameter.
+ * @return Return value.
+ * @details Calls: contains(), empty(), spdlog::warn(), std::min(), std::max(), value(), fmt::format(), toolQuery().
+ */
 
 json McpServer::toolKgNeighbours(const json& args) {
     try {
@@ -3501,6 +3955,12 @@ json McpServer::toolKgNeighbours(const json& args) {
     }
 }
 
+/**
+ * @brief Tool Kg Shortest Path.
+ * @param[in] args Input parameter.
+ * @return Return value.
+ * @details Calls: contains(), empty(), spdlog::warn(), value(), json::array(), json::object(), fmt::format(), toolQuery().
+ */
 json McpServer::toolKgShortestPath(const json& args) {
     try {
         if (!args.contains("from_node") || args["from_node"].get<std::string>().empty()) {
@@ -3569,6 +4029,12 @@ json McpServer::toolKgShortestPath(const json& args) {
     }
 }
 
+/**
+ * @brief Tool Kg Node Properties.
+ * @param[in] args Input parameter.
+ * @return Return value.
+ * @details Calls: contains(), empty(), spdlog::warn(), value(), toolGetEntity(), is_null(), spdlog::info(), fmt::format().
+ */
 json McpServer::toolKgNodeProperties(const json& args) {
     try {
         if (!args.contains("node_id") || args["node_id"].get<std::string>().empty()) {
@@ -3618,9 +4084,12 @@ json McpServer::toolKgNodeProperties(const json& args) {
     }
 }
 
-// ============================================================================
-// Group 2: Vector / Hybrid / RAG Tool Handlers (Q4 2026)
-// ============================================================================
+/**
+ * @brief ============================================================================ Group 2: Vector / Hybrid / RAG Tool Handlers (Q4 2026) ============================================================================
+ * @param[in] args Input parameter.
+ * @return Return value.
+ * @details Calls: contains(), empty(), spdlog::warn(), std::min(), std::max(), value(), json::array(), toolLLMEmbed().
+ */
 
 json McpServer::toolSemanticSearch(const json& args) {
     try {
@@ -3697,6 +4166,12 @@ json McpServer::toolSemanticSearch(const json& args) {
     }
 }
 
+/**
+ * @brief Tool Hybrid Search.
+ * @param[in] args Input parameter.
+ * @return Return value.
+ * @details Calls: contains(), empty(), spdlog::warn(), std::max(), value(), std::min(), toolSemanticSearch(), json::array().
+ */
 json McpServer::toolHybridSearch(const json& args) {
     try {
         if (!args.contains("query") || args["query"].get<std::string>().empty()) {
@@ -3790,6 +4265,12 @@ json McpServer::toolHybridSearch(const json& args) {
     }
 }
 
+/**
+ * @brief Tool Rag Retrieve.
+ * @param[in] args Input parameter.
+ * @return Return value.
+ * @details Calls: contains(), empty(), spdlog::warn(), std::min(), std::max(), value(), std::chrono::steady_clock::now(), toolSemanticSearch().
+ */
 json McpServer::toolRagRetrieve(const json& args) {
     try {
         if (!args.contains("query") || args["query"].get<std::string>().empty()) {
@@ -3868,6 +4349,12 @@ json McpServer::toolRagRetrieve(const json& args) {
     }
 }
 
+/**
+ * @brief Tool Vector Index List.
+ * @param[in] args Input parameter.
+ * @return Return value.
+ * @details Calls: value(), toolListIndexes(), json::object(), json::array(), contains(), empty(), push_back(), spdlog::info().
+ */
 json McpServer::toolVectorIndexList(const json& args) {
     try {
         const std::string filter_collection = args.value("collection", "");
@@ -3903,9 +4390,12 @@ json McpServer::toolVectorIndexList(const json& args) {
     }
 }
 
-// ============================================================================
-// Group 7: Schema Extension Tool Handlers (Q4 2026)
-// ============================================================================
+/**
+ * @brief ============================================================================ Group 7: Schema Extension Tool Handlers (Q4 2026) ============================================================================
+ * @param[in] args Input parameter.
+ * @return Return value.
+ * @details Calls: contains(), empty(), spdlog::warn(), json::object(), toolGetSchema(), spdlog::info(), json::array(), what().
+ */
 
 json McpServer::toolSchemaDiff(const json& args) {
     try {
@@ -3943,6 +4433,12 @@ json McpServer::toolSchemaDiff(const json& args) {
     }
 }
 
+/**
+ * @brief Tool Schema Validate.
+ * @param[in] args Input parameter.
+ * @return Return value.
+ * @details Calls: contains(), empty(), spdlog::warn(), is_object(), json::array(), getTable(), push_back(), fmt::format().
+ */
 json McpServer::toolSchemaValidate(const json& args) {
     try {
         if (!args.contains("collection") || args["collection"].get<std::string>().empty()) {
@@ -3994,6 +4490,12 @@ json McpServer::toolSchemaValidate(const json& args) {
     }
 }
 
+/**
+ * @brief Tool Explain Query.
+ * @param[in] args Input parameter.
+ * @return Return value.
+ * @details Calls: contains(), empty(), spdlog::warn(), value(), explain(), spdlog::info(), json::array(), fmt::format().
+ */
 json McpServer::toolExplainQuery(const json& args) {
     try {
         if (!args.contains("query") || args["query"].get<std::string>().empty()) {

@@ -267,13 +267,13 @@ public:
     themis::analytics::OLAPResult execute(
         const themis::analytics::OLAPQuery& query);
 
+
     /**
-     * @brief ------------------------------------------------------------------ Result merging (exposed for testing / custom pipelines) ------------------------------------------------------------------
+     * @brief Merge Results.
      * @param[in] partials Input parameter.
      * @param[in] query Input parameter.
      * @return Return value.
      */
-
     static themis::analytics::OLAPResult mergeResults(
         const std::vector<themis::analytics::OLAPResult>& partials,
         const themis::analytics::OLAPQuery& query);

@@ -56,6 +56,12 @@ EmbeddingProvider::~EmbeddingProvider() {
     }
 }
 
+/**
+ * @brief Get Embedding.
+ * @param[in] text Input parameter.
+ * @return Return value.
+ * @details Calls: getCachedEmbedding(), has_value(), value(), llama_model_get_vocab(), spdlog::error(), tokens_buffer(), size(), max().
+ */
 std::vector<float> EmbeddingProvider::getEmbedding(const std::string& text) {
     // Check cache first
     if (config_.enable_cache) {
@@ -129,6 +135,12 @@ std::vector<float> EmbeddingProvider::getEmbedding(const std::string& text) {
     return embedding;
 }
 
+/**
+ * @brief Get Embeddings.
+ * @param[in] texts Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), std::min(), push_back(), getEmbedding().
+ */
 std::vector<std::vector<float>> EmbeddingProvider::getEmbeddings(
     const std::vector<std::string>& texts
 ) {
@@ -147,6 +159,13 @@ std::vector<std::vector<float>> EmbeddingProvider::getEmbeddings(
     return embeddings;
 }
 
+/**
+ * @brief Build Embedding Cache.
+ * @param[in] training_texts Input parameter.
+ * @param[in,out] cache_out Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: spdlog::info(), size(), clear(), reserve(), std::chrono::high_resolution_clock::now(), getEmbeddings(), empty(), std::chrono::system_clock::now().
+ */
 bool EmbeddingProvider::buildEmbeddingCache(
     const std::vector<std::string>& training_texts,
     std::vector<EmbeddingCache>& cache_out
@@ -208,6 +227,11 @@ size_t EmbeddingProvider::getEmbeddingDim() const {
 }
 
 EmbeddingCacheStats EmbeddingProvider::getCacheStats() const {
+    /**
+     * @brief Lock.
+     * @param[in] cache_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(cache_mutex_);
     
     // Update memory usage
@@ -223,6 +247,10 @@ EmbeddingCacheStats EmbeddingProvider::getCacheStats() const {
     return cache_stats_;
 }
 
+/**
+ * @brief Clear Cache.
+ * @details Calls: lock(), spdlog::info(), size(), clear().
+ */
 void EmbeddingProvider::clearCache() {
     std::lock_guard<std::mutex> lock(cache_mutex_);
     
@@ -232,6 +260,12 @@ void EmbeddingProvider::clearCache() {
     cache_stats_.memory_bytes = 0;
 }
 
+/**
+ * @brief Save Cache.
+ * @param[in] filepath Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), file(), spdlog::error(), size(), getEmbeddingDim(), write(), c_str(), data().
+ */
 bool EmbeddingProvider::saveCache(const std::string& filepath) {
     std::lock_guard<std::mutex> lock(cache_mutex_);
     
@@ -279,6 +313,12 @@ bool EmbeddingProvider::saveCache(const std::string& filepath) {
     }
 }
 
+/**
+ * @brief Load Cache.
+ * @param[in] filepath Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), file(), spdlog::debug(), read(), spdlog::error(), getEmbeddingDim(), clear(), text().
+ */
 bool EmbeddingProvider::loadCache(const std::string& filepath) {
     std::lock_guard<std::mutex> lock(cache_mutex_);
     
@@ -349,6 +389,12 @@ bool EmbeddingProvider::loadCache(const std::string& filepath) {
     }
 }
 
+/**
+ * @brief Extract Embedding From Tokens.
+ * @param[in] tokens Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), llama_tokens(), begin(), end(), size(), max(), spdlog::error(), llama_batch_init().
+ */
 std::vector<float> EmbeddingProvider::extractEmbeddingFromTokens(
     const std::vector<int>& tokens
 ) {
@@ -407,6 +453,10 @@ std::vector<float> EmbeddingProvider::extractEmbeddingFromTokens(
     return embeddings;
 }
 
+/**
+ * @brief Evict Cache If Needed.
+ * @details Calls: size(), push_back(), std::sort(), begin(), end(), erase(), spdlog::debug().
+ */
 void EmbeddingProvider::evictCacheIfNeeded() {
     if (cache_.size() <= config_.max_cache_entries) {
         return;
@@ -433,6 +483,12 @@ void EmbeddingProvider::evictCacheIfNeeded() {
     spdlog::debug("Evicted {} old cache entries", to_remove);
 }
 
+/**
+ * @brief Get Cached Embedding.
+ * @param[in] text Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), find(), end(), isExpired(), erase().
+ */
 std::optional<std::vector<float>> EmbeddingProvider::getCachedEmbedding(
     const std::string& text
 ) {
@@ -460,6 +516,12 @@ std::optional<std::vector<float>> EmbeddingProvider::getCachedEmbedding(
     return it->second.embedding;
 }
 
+/**
+ * @brief Add To Cache.
+ * @param[in] text Input parameter.
+ * @param[in] embedding Input parameter.
+ * @details Calls: lock(), evictCacheIfNeeded(), std::chrono::system_clock::now().
+ */
 void EmbeddingProvider::addToCache(
     const std::string& text,
     const std::vector<float>& embedding

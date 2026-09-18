@@ -84,13 +84,28 @@ std::mutex g_revocation_cache_mutex;
 // ============================================================================
 
 #ifdef THEMIS_ENABLE_CURL
+/**
+ * @brief Curl Write Callback.
+ * @param[in,out] ptr Input/output parameter.
+ * @param[in] size Input parameter.
+ * @param[in] nmemb Input parameter.
+ * @param[in,out] userdata Input/output parameter.
+ * @return Return value.
+ * @details Calls: insert(), end().
+ */
 static size_t curlWriteCallback(char *ptr, size_t size, size_t nmemb, void *userdata) {
     auto *buf = static_cast<std::vector<uint8_t> *>(userdata);
     buf->insert(buf->end(), ptr, ptr + size * nmemb);
     return size * nmemb;
 }
 
-// Perform an HTTP GET; returns the raw response body, or empty on failure.
+/**
+ * @brief Perform an HTTP GET; returns the raw response body, or empty on failure.
+ * @param[in] url Input parameter.
+ * @param[in] timeout_secs Input parameter.
+ * @return Return value.
+ * @details Calls: curl_easy_init(), curl_easy_setopt(), c_str(), curl_easy_perform(), curl_easy_cleanup(), clear().
+ */
 static std::vector<uint8_t> httpGet(const std::string &url, long timeout_secs) {
     std::vector<uint8_t> result;
     CURL *curl = curl_easy_init();
@@ -111,7 +126,15 @@ static std::vector<uint8_t> httpGet(const std::string &url, long timeout_secs) {
     return result;
 }
 
-// Perform an HTTP POST; returns the raw response body, or empty on failure.
+/**
+ * @brief Perform an HTTP POST; returns the raw response body, or empty on failure.
+ * @param[in] url Input parameter.
+ * @param[in] body Input parameter.
+ * @param[in] content_type Input parameter.
+ * @param[in] timeout_secs Input parameter.
+ * @return Return value.
+ * @details Calls: curl_easy_init(), curl_slist_append(), c_str(), curl_easy_setopt(), data(), size(), curl_easy_perform(), curl_slist_free_all().
+ */
 static std::vector<uint8_t> httpPost(const std::string &url, const std::vector<uint8_t> &body,
                                      const std::string &content_type, long timeout_secs) {
     std::vector<uint8_t> result;
@@ -139,16 +162,37 @@ static std::vector<uint8_t> httpPost(const std::string &url, const std::vector<u
     return result;
 }
 #else
+/**
+ * @brief Http Get.
+ * @param[in] param Input parameter.
+ * @param[in] long Input parameter.
+ * @return Return value.
+ * @details Implements httpGet without additional internal calls.
+ */
 static std::vector<uint8_t> httpGet(const std::string & /*url*/, long /*timeout_secs*/) {
     return {};
 }
+/**
+ * @brief Http Post.
+ * @param[in] param Input parameter.
+ * @param[in] param Input parameter.
+ * @param[in] param Input parameter.
+ * @param[in] long Input parameter.
+ * @return Return value.
+ * @details Implements httpPost without additional internal calls.
+ */
 static std::vector<uint8_t> httpPost(const std::string & /*url*/, const std::vector<uint8_t> & /*body*/,
                                      const std::string & /*content_type*/, long /*timeout_secs*/) {
     return {};
 }
 #endif // THEMIS_ENABLE_CURL
 
-// Return the serial number of a certificate as an uppercase hex string.
+/**
+ * @brief Return the serial number of a certificate as an uppercase hex string.
+ * @param[in,out] cert Input/output parameter.
+ * @return Return value.
+ * @details Calls: X509_get_serialNumber(), ASN1_INTEGER_to_BN(), BN_bn2hex(), result(), OPENSSL_free(), BN_free().
+ */
 static std::string getCertSerialHex(X509 *cert) {
     if (!cert) {
         return "";
@@ -175,10 +219,11 @@ static std::string getCertSerialHex(X509 *cert) {
 // ============================================================================
 
 /**
- * @brief Decode hex string to bytes
- * @param hexStr Hex-encoded string (must have even length)
- * @param outBytes Output vector for decoded bytes
- * @return true if successful, false if invalid format
+ * @brief Decode Hex String.
+ * @param[in] hexStr Input parameter.
+ * @param[in,out] outBytes Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: size(), clear(), reserve(), substr(), std::stoi(), push_back().
  */
 static bool decodeHexString(const std::string &hexStr, std::vector<uint8_t> &outBytes) {
     // Validate hex string length is even
@@ -220,6 +265,13 @@ static bool decodeHexString(const std::string &hexStr, std::vector<uint8_t> &out
 
 PluginSecurityVerifier::PluginSecurityVerifier(const PluginSecurityPolicy &policy) : policy_(policy) {}
 
+/**
+ * @brief Validate Plugin Path.
+ * @param[in] path Input parameter.
+ * @param[in,out] errorMessage Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), find(), size(), std::strlen(), c_str(), std::filesystem::weakly_canonical(), message(), is_absolute().
+ */
 bool PluginSecurityVerifier::validatePluginPath(const std::string &path, std::string &errorMessage) {
     if (path.empty()) {
         errorMessage = "Plugin path is empty";
@@ -265,6 +317,12 @@ bool PluginSecurityVerifier::validatePluginPath(const std::string &path, std::st
     return true;
 }
 
+/**
+ * @brief Calculate File Hash.
+ * @param[in] filePath Input parameter.
+ * @return Return value.
+ * @details Calls: file(), EVP_MD_CTX_new(), EVP_DigestInit_ex(), EVP_sha256(), EVP_MD_CTX_free(), buffer(), read(), data().
+ */
 std::string PluginSecurityVerifier::calculateFileHash(const std::string &filePath) {
     std::ifstream file(filePath, std::ios::binary);
     if (!file) {
@@ -307,6 +365,12 @@ std::string PluginSecurityVerifier::calculateFileHash(const std::string &filePat
     return ss.str();
 }
 
+/**
+ * @brief Load Metadata.
+ * @param[in] pluginPath Input parameter.
+ * @return Return value.
+ * @details Calls: std::filesystem::exists(), p(), parent_path(), stem(), string(), file(), contains(), value().
+ */
 std::optional<PluginMetadata> PluginSecurityVerifier::loadMetadata(const std::string &pluginPath) {
     // Look for metadata JSON file (pluginPath + ".json")
     std::string metadataPath = pluginPath + ".json";
@@ -370,6 +434,12 @@ bool PluginSecurityVerifier::isWhitelisted(const std::string &fileHash) const {
            != policy_.whitelistedHashes.end();
 }
 
+/**
+ * @brief Get Trust Level.
+ * @param[in] metadata Input parameter.
+ * @return Return value.
+ * @details Calls: isWhitelisted(), isBlacklisted(), find().
+ */
 PluginTrustLevel PluginSecurityVerifier::getTrustLevel(const PluginMetadata &metadata) {
     // Check whitelist first
     if (isWhitelisted(metadata.signature.sha256Hash)) {
@@ -402,6 +472,13 @@ PluginTrustLevel PluginSecurityVerifier::getTrustLevel(const PluginMetadata &met
     return PluginTrustLevel::TRUSTED;
 }
 
+/**
+ * @brief Verify Plugin.
+ * @param[in] pluginPath Input parameter.
+ * @param[in,out] errorMessage Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: PluginSecurityAuditor::instance(), std::filesystem::exists(), logEvent(), std::time(), calculateFileHash(), empty(), isBlacklisted(), loadMetadata().
+ */
 bool PluginSecurityVerifier::verifyPlugin(const std::string &pluginPath, std::string &errorMessage) {
     auto &auditor = PluginSecurityAuditor::instance();
 
@@ -505,6 +582,13 @@ bool PluginSecurityVerifier::verifyPlugin(const std::string &pluginPath, std::st
     return true;
 }
 
+/**
+ * @brief Verify Signature.
+ * @param[in] filePath Input parameter.
+ * @param[in] signature Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), calculateFileHash(), BIO_new_mem_buf(), data(), size(), PEM_read_bio_X509(), BIO_free(), X509_cmp_current_time().
+ */
 bool PluginSecurityVerifier::verifySignature(const std::string &filePath, const PluginSignature &signature) {
     if (signature.signature.empty() || signature.signingCertificate.empty()) {
         return false;
@@ -586,6 +670,12 @@ bool PluginSecurityVerifier::verifySignature(const std::string &filePath, const 
     return verified;
 }
 
+/**
+ * @brief Verify Certificate Chain.
+ * @param[in] certificate Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), BIO_new_mem_buf(), data(), size(), PEM_read_bio_X509(), BIO_free(), X509_STORE_new(), X509_free().
+ */
 bool PluginSecurityVerifier::verifyCertificateChain(const std::string &certificate) {
     if (certificate.empty()) {
         return false;
@@ -663,6 +753,12 @@ bool PluginSecurityVerifier::verifyCertificateChain(const std::string &certifica
     return (verify_result == 1);
 }
 
+/**
+ * @brief Check CRL.
+ * @param[in] certificate Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), BIO_new_mem_buf(), data(), size(), PEM_read_bio_X509(), BIO_free(), getCertSerialHex(), lock().
+ */
 bool PluginSecurityVerifier::checkCRL(const std::string &certificate) {
     if (certificate.empty()) {
         return false;
@@ -842,6 +938,12 @@ bool PluginSecurityVerifier::checkCRL(const std::string &certificate) {
     return result;
 }
 
+/**
+ * @brief Check OCSP.
+ * @param[in] certificate Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), BIO_new_mem_buf(), data(), size(), PEM_read_bio_X509(), BIO_free(), getCertSerialHex(), lock().
+ */
 bool PluginSecurityVerifier::checkOCSP(const std::string &certificate) {
     if (certificate.empty()) {
         return false;
@@ -1056,6 +1158,11 @@ bool PluginSecurityVerifier::checkOCSP(const std::string &certificate) {
     return result;
 }
 
+/**
+ * @brief Update Policy.
+ * @param[in] policy Input parameter.
+ * @details Implements updatePolicy without additional internal calls.
+ */
 void PluginSecurityVerifier::updatePolicy(const PluginSecurityPolicy &policy) {
     policy_ = policy;
 }
@@ -1069,6 +1176,11 @@ PluginSecurityAuditor &PluginSecurityAuditor::instance() {
     return instance;
 }
 
+/**
+ * @brief Log Event.
+ * @param[in] event Input parameter.
+ * @details Calls: lock(), push_back(), THEMIS_CRITICAL(), THEMIS_ERROR(), THEMIS_WARN(), THEMIS_INFO().
+ */
 void PluginSecurityAuditor::logEvent(const PluginSecurityEvent &event) {
     {
         std::lock_guard<std::mutex> lock(mutex_);
@@ -1090,6 +1202,11 @@ void PluginSecurityAuditor::logEvent(const PluginSecurityEvent &event) {
 }
 
 std::vector<PluginSecurityEvent> PluginSecurityAuditor::getEventsForPlugin(const std::string &pluginPath) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     std::vector<PluginSecurityEvent> result = {};
 
@@ -1102,10 +1219,19 @@ std::vector<PluginSecurityEvent> PluginSecurityAuditor::getEventsForPlugin(const
 }
 
 std::vector<PluginSecurityEvent> PluginSecurityAuditor::getAllEvents() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return events_;
 }
 
+/**
+ * @brief Clear Events.
+ * @details Calls: lock(), clear().
+ */
 void PluginSecurityAuditor::clearEvents() {
     std::lock_guard<std::mutex> lock(mutex_);
     events_.clear();
@@ -1131,6 +1257,11 @@ bool PluginSecurityAuditor::exportEvents(const std::string &outputPath) const {
     }
     std::vector<PluginSecurityEvent> snapshot;
     {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         snapshot = events_;
     }
@@ -1181,6 +1312,11 @@ bool PluginSecurityAuditor::exportEvents(const std::string &outputPath) const {
             j["events"].push_back(eventJson);
         }
 
+        /**
+         * @brief File.
+         * @param[in] outputPath Input parameter.
+         * @return Return value.
+         */
         std::ofstream file(outputPath);
         if (!file) {
             return false;
@@ -1282,6 +1418,13 @@ EnhancedPluginSecurityVerifier::verifyPlugin(const std::string &plugin_path, Ver
     return result;
 }
 
+/**
+ * @brief Verify Hash.
+ * @param[in] plugin_path Path to the plugin.
+ * @param[in,out] result Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: basic_verifier(), calculateFileHash(), empty().
+ */
 bool EnhancedPluginSecurityVerifier::verifyHash(const std::string &plugin_path, VerificationResult &result) {
     PluginSecurityVerifier basic_verifier(policy_);
     std::string fileHash = basic_verifier.calculateFileHash(plugin_path);
@@ -1295,6 +1438,13 @@ bool EnhancedPluginSecurityVerifier::verifyHash(const std::string &plugin_path, 
     return true;
 }
 
+/**
+ * @brief Verify Embedded Signature.
+ * @param[in] plugin_path Path to the plugin.
+ * @param[in,out] result Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: extractEmbeddedCertificate(), data(), d2i_X509(), size(), isOfficialThemisDBCertificate(), getCertificateIssuer(), X509_free(), isCertificateValid().
+ */
 bool EnhancedPluginSecurityVerifier::verifyEmbeddedSignature(const std::string &plugin_path,
                                                              VerificationResult &result) {
     // Try to extract embedded certificate from DLL/SO
@@ -1359,6 +1509,13 @@ bool EnhancedPluginSecurityVerifier::verifyEmbeddedSignature(const std::string &
     return true;
 }
 
+/**
+ * @brief Verify Platform Signature.
+ * @param[in] plugin_path Path to the plugin.
+ * @param[in,out] result Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: verifyAuthenticodeSignature(), defined(), verifyMacOSCodeSignature(), verifyGPGSignature().
+ */
 bool EnhancedPluginSecurityVerifier::verifyPlatformSignature(const std::string &plugin_path,
                                                              VerificationResult &result) {
 #ifdef _WIN32
@@ -1370,6 +1527,13 @@ bool EnhancedPluginSecurityVerifier::verifyPlatformSignature(const std::string &
 #endif
 }
 
+/**
+ * @brief Verify Full Chain.
+ * @param[in] plugin_path Path to the plugin.
+ * @param[in,out] result Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: verifyEmbeddedSignature(), verifyPlatformSignature(), empty(), loadPluginMetadataForChainValidation(), basic_verifier(), verifyCertificateChain(), checkCRL(), checkOCSP().
+ */
 bool EnhancedPluginSecurityVerifier::verifyFullChain(const std::string &plugin_path, VerificationResult &result) {
     // First verify embedded signature
     if (!verifyEmbeddedSignature(plugin_path, result)) {
@@ -1438,12 +1602,23 @@ bool EnhancedPluginSecurityVerifier::verifyFullChain(const std::string &plugin_p
 // Helper method to load metadata for chain validation
 std::optional<PluginMetadata>
 EnhancedPluginSecurityVerifier::loadPluginMetadataForChainValidation(const std::string &plugin_path) {
+    /**
+     * @brief Basic verifier.
+     * @param[in] policy_ Input parameter.
+     * @return Return value.
+     */
     PluginSecurityVerifier basic_verifier(policy_);
     return basic_verifier.loadMetadata(plugin_path);
 }
 
 std::optional<std::vector<uint8_t>>
 EnhancedPluginSecurityVerifier::extractEmbeddedCertificate(const std::string &plugin_path) {
+    /**
+     * @brief File.
+     * @param[in] plugin_path Path to the plugin.
+     * @param[in] binary Input parameter.
+     * @return Return value.
+     */
     std::ifstream file(plugin_path, std::ios::binary);
     if (!file) {
         return std::nullopt;
@@ -1549,6 +1724,11 @@ EnhancedPluginSecurityVerifier::extractEmbeddedCertificate(const std::string &pl
 
             if (win_cert_type == 0x0002u) {
                 uint32_t data_len = win_cert_len - 8;
+                /**
+                 * @brief Blob.
+                 * @param[in] data_len Input parameter.
+                 * @return Return value.
+                 */
                 std::vector<uint8_t> blob(data_len);
                 file.read(reinterpret_cast<char *>(blob.data()), static_cast<std::streamsize>(data_len));
                 if (static_cast<uint32_t>(file.gcount()) == data_len) {
@@ -1712,6 +1892,12 @@ EnhancedPluginSecurityVerifier::extractEmbeddedCertificate(const std::string &pl
         // Fall back: check for a sidecar <plugin_path>.sig file.
         {
             const std::string sig_path = plugin_path + ".sig";
+            /**
+             * @brief Sig file.
+             * @param[in] sig_path Path to the sig.
+             * @param[in] binary Input parameter.
+             * @return Return value.
+             */
             std::ifstream sig_file(sig_path, std::ios::binary);
             if (sig_file.good()) {
                 sig_file.seekg(0, std::ios::end);
@@ -1771,8 +1957,12 @@ EnhancedPluginSecurityVerifier::extractEmbeddedCertificate(const std::string &pl
 
         const uint32_t hdr_size = macho_64 ? kMachHeader64Size : kMachHeader32Size;
 
-        // We need at least hdr_size bytes to read ncmds and sizeofcmds.
-        // Re-read the header with enough bytes if needed.
+        /**
+         * @brief We need at least hdr_size bytes to read ncmds and sizeofcmds.
+         * @param[in] hdr_size Input parameter.
+         * @return Return value.
+         * @details Re-read the header with enough bytes if needed.
+         */
         std::vector<uint8_t> hdr_buf(hdr_size);
         file.seekg(0);
         file.read(reinterpret_cast<char *>(hdr_buf.data()), static_cast<std::streamsize>(hdr_size));
@@ -1785,7 +1975,11 @@ EnhancedPluginSecurityVerifier::extractEmbeddedCertificate(const std::string &pl
             // Sanity-cap: refuse unreasonably large load-command regions.
             constexpr uint32_t kMaxLoadCmdsSize = 16 * 1024 * 1024;
             if (ncmds > 0 && sizeofcmds >= kMinLoadCmdSize && sizeofcmds <= kMaxLoadCmdsSize) {
-                // Load all load commands into memory.
+                /**
+                 * @brief Load all load commands into memory.
+                 * @param[in] sizeofcmds Input parameter.
+                 * @return Return value.
+                 */
                 std::vector<uint8_t> lc_buf(sizeofcmds);
                 file.seekg(static_cast<std::streamoff>(hdr_size));
                 file.read(reinterpret_cast<char *>(lc_buf.data()), static_cast<std::streamsize>(sizeofcmds));
@@ -1808,6 +2002,11 @@ EnhancedPluginSecurityVerifier::extractEmbeddedCertificate(const std::string &pl
                             const uint32_t datasize = readU32(lc + 12);
 
                             if (datasize > 0 && datasize <= kMaxSigSizeMacho && dataoff > 0) {
+                                /**
+                                 * @brief Sig blob.
+                                 * @param[in] datasize Input parameter.
+                                 * @return Return value.
+                                 */
                                 std::vector<uint8_t> sig_blob(datasize);
                                 file.seekg(static_cast<std::streamoff>(dataoff));
                                 file.read(reinterpret_cast<char *>(sig_blob.data()),
@@ -1832,6 +2031,12 @@ EnhancedPluginSecurityVerifier::extractEmbeddedCertificate(const std::string &pl
 
 std::optional<std::vector<uint8_t>>
 EnhancedPluginSecurityVerifier::extractEmbeddedSignature(const std::string &plugin_path) {
+    /**
+     * @brief File.
+     * @param[in] plugin_path Path to the plugin.
+     * @param[in] binary Input parameter.
+     * @return Return value.
+     */
     std::ifstream file(plugin_path, std::ios::binary);
     if (!file) {
         return std::nullopt;
@@ -1868,6 +2073,12 @@ EnhancedPluginSecurityVerifier::extractEmbeddedSignature(const std::string &plug
     else if (header[0] == 0x7F && header[1] == 'E' && header[2] == 'L' && header[3] == 'F') {
         // ELF format - signatures typically external (.sig files) or in custom sections
         std::string sig_file = plugin_path + ".sig";
+        /**
+         * @brief Sig stream.
+         * @param[in] sig_file Input parameter.
+         * @param[in] binary Input parameter.
+         * @return Return value.
+         */
         std::ifstream sig_stream(sig_file, std::ios::binary);
 
         if (sig_stream) {
@@ -1877,6 +2088,11 @@ EnhancedPluginSecurityVerifier::extractEmbeddedSignature(const std::string &plug
             sig_stream.seekg(0, std::ios::beg);
 
             if (size > 0 && size < 1024 * 1024) { // Max 1MB signature
+                /**
+                 * @brief Sig data.
+                 * @param[in] size Input parameter.
+                 * @return Return value.
+                 */
                 std::vector<uint8_t> sig_data(size);
                 sig_stream.read(reinterpret_cast<char *>(sig_data.data()), size);
 
@@ -1898,6 +2114,12 @@ EnhancedPluginSecurityVerifier::extractEmbeddedSignature(const std::string &plug
     return std::nullopt;
 }
 
+/**
+ * @brief Is Official Themis DBCertificate.
+ * @param[in,out] cert Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: getCertificateIssuer(), find().
+ */
 bool EnhancedPluginSecurityVerifier::isOfficialThemisDBCertificate(X509 *cert) {
     if (!cert) {
         return false;
@@ -1911,6 +2133,13 @@ bool EnhancedPluginSecurityVerifier::isOfficialThemisDBCertificate(X509 *cert) {
 }
 
 #ifdef _WIN32
+/**
+ * @brief Verify Authenticode Signature.
+ * @param[in] plugin_path Path to the plugin.
+ * @param[in,out] result Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: MultiByteToWideChar(), c_str(), length(), wide_path(), WinVerifyTrust(), std::to_string().
+ */
 bool EnhancedPluginSecurityVerifier::verifyAuthenticodeSignature(const std::string &plugin_path,
                                                                  VerificationResult &result) {
     // Convert UTF-8 string to wide string for Windows API
@@ -1976,6 +2205,13 @@ bool EnhancedPluginSecurityVerifier::verifyAuthenticodeSignature(const std::stri
     }
 }
 #elif defined(__APPLE__)
+/**
+ * @brief Verify Mac OSCode Signature.
+ * @param[in] plugin_path Path to the plugin.
+ * @param[in,out] result Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: CFStringCreateWithCString(), c_str(), CFURLCreateWithFileSystemPath(), CFRelease(), SecStaticCodeCreateWithPath(), std::to_string(), SecStaticCodeCheckValidity().
+ */
 bool EnhancedPluginSecurityVerifier::verifyMacOSCodeSignature(const std::string &plugin_path,
                                                               VerificationResult &result) {
     // Use Security framework APIs directly — avoids shell invocation entirely.
@@ -2015,6 +2251,13 @@ bool EnhancedPluginSecurityVerifier::verifyMacOSCodeSignature(const std::string 
     }
 }
 #else
+/**
+ * @brief Verify GPGSignature.
+ * @param[in] plugin_path Path to the plugin.
+ * @param[in,out] result Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: std::filesystem::exists(), empty(), pipe(), posix_spawn_file_actions_init(), posix_spawn_file_actions_adddup2(), posix_spawn_file_actions_addclose(), c_str(), posix_spawn().
+ */
 bool EnhancedPluginSecurityVerifier::verifyGPGSignature(const std::string &plugin_path, VerificationResult &result) {
     // Check for GPG signature file (.sig, .asc, or .gpg)
     std::vector<std::string> sig_extensions = {".sig", ".asc", ".gpg"};
@@ -2095,6 +2338,12 @@ bool EnhancedPluginSecurityVerifier::verifyGPGSignature(const std::string &plugi
 }
 #endif
 
+/**
+ * @brief Calculate Hash Excluding Signature.
+ * @param[in] plugin_path Path to the plugin.
+ * @return Return value.
+ * @details Calls: file(), header(), read(), data(), size(), gcount(), seekg(), EVP_MD_CTX_new().
+ */
 std::vector<uint8_t> EnhancedPluginSecurityVerifier::calculateHashExcludingSignature(const std::string &plugin_path) {
     std::ifstream file(plugin_path, std::ios::binary);
     if (!file) {
@@ -2149,6 +2398,14 @@ std::vector<uint8_t> EnhancedPluginSecurityVerifier::calculateHashExcludingSigna
     return std::vector<uint8_t>(hash, hash + hashLen);
 }
 
+/**
+ * @brief Verify RSASignature.
+ * @param[in] data Input parameter.
+ * @param[in] signature Input parameter.
+ * @param[in,out] pubkey Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), EVP_MD_CTX_new(), EVP_DigestVerifyInit(), EVP_sha256(), EVP_DigestVerify(), data(), size(), EVP_MD_CTX_free().
+ */
 bool EnhancedPluginSecurityVerifier::verifyRSASignature(const std::vector<uint8_t> &data,
                                                         const std::vector<uint8_t> &signature, EVP_PKEY *pubkey) {
     if (!pubkey || data.empty() || signature.empty()) {
@@ -2173,6 +2430,12 @@ bool EnhancedPluginSecurityVerifier::verifyRSASignature(const std::vector<uint8_
     return verified;
 }
 
+/**
+ * @brief Get Certificate Issuer.
+ * @param[in,out] cert Input/output parameter.
+ * @return Return value.
+ * @details Calls: X509_get_issuer_name(), X509_NAME_oneline(), result(), OPENSSL_free().
+ */
 std::string EnhancedPluginSecurityVerifier::getCertificateIssuer(X509 *cert) {
     if (!cert) {
         return "";
@@ -2193,6 +2456,12 @@ std::string EnhancedPluginSecurityVerifier::getCertificateIssuer(X509 *cert) {
     return result;
 }
 
+/**
+ * @brief Get Certificate Subject.
+ * @param[in,out] cert Input/output parameter.
+ * @return Return value.
+ * @details Calls: X509_get_subject_name(), X509_NAME_oneline(), result(), OPENSSL_free().
+ */
 std::string EnhancedPluginSecurityVerifier::getCertificateSubject(X509 *cert) {
     if (!cert) {
         return "";
@@ -2213,6 +2482,12 @@ std::string EnhancedPluginSecurityVerifier::getCertificateSubject(X509 *cert) {
     return result;
 }
 
+/**
+ * @brief Is Certificate Valid.
+ * @param[in,out] cert Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: X509_cmp_current_time(), X509_get0_notBefore(), X509_get0_notAfter().
+ */
 bool EnhancedPluginSecurityVerifier::isCertificateValid(X509 *cert) {
     if (!cert) {
         return false;
@@ -2227,6 +2502,11 @@ bool EnhancedPluginSecurityVerifier::isCertificateValid(X509 *cert) {
     return (notBefore < 0 && notAfter > 0);
 }
 
+/**
+ * @brief Update Policy.
+ * @param[in] policy Input parameter.
+ * @details Implements updatePolicy without additional internal calls.
+ */
 void EnhancedPluginSecurityVerifier::updatePolicy(const PluginSecurityPolicy &policy) {
     policy_ = policy;
 }

@@ -63,13 +63,23 @@ static constexpr uint8_t T_I64    = 10;
 static constexpr uint8_t T_STRING = 11;
 static constexpr uint8_t T_LIST   = 15;
 
-// Write a big-endian 16-bit integer
+/**
+ * @brief Write a big-endian 16-bit integer
+ * @param[in,out] buf Input/output parameter.
+ * @param[in] v Input parameter.
+ * @details Calls: push_back().
+ */
 inline void writeU16(std::vector<uint8_t> &buf, uint16_t v) {
     buf.push_back(static_cast<uint8_t>(v >> 8));
     buf.push_back(static_cast<uint8_t>(v & 0xFF));
 }
 
-// Write a big-endian 32-bit integer
+/**
+ * @brief Write a big-endian 32-bit integer
+ * @param[in,out] buf Input/output parameter.
+ * @param[in] v Input parameter.
+ * @details Calls: push_back().
+ */
 inline void writeI32(std::vector<uint8_t> &buf, int32_t v) {
     uint32_t u = static_cast<uint32_t>(v);
     buf.push_back(static_cast<uint8_t>(u >> 24));
@@ -78,7 +88,12 @@ inline void writeI32(std::vector<uint8_t> &buf, int32_t v) {
     buf.push_back(static_cast<uint8_t>(u & 0xFF));
 }
 
-// Write a big-endian 64-bit integer
+/**
+ * @brief Write a big-endian 64-bit integer
+ * @param[in,out] buf Input/output parameter.
+ * @param[in] v Input parameter.
+ * @details Calls: push_back().
+ */
 inline void writeI64(std::vector<uint8_t> &buf, int64_t v) {
     uint64_t u = static_cast<uint64_t>(v);
     for (int s = 56; s >= 0; s -= 8) {
@@ -86,24 +101,46 @@ inline void writeI64(std::vector<uint8_t> &buf, int64_t v) {
     }
 }
 
-// Write a Thrift string (4-byte BE length + bytes)
+/**
+ * @brief Write a Thrift string (4-byte BE length + bytes)
+ * @param[in,out] buf Input/output parameter.
+ * @param[in] s Input parameter.
+ * @details Calls: writeI32(), size(), insert(), end(), begin().
+ */
 inline void writeThriftString(std::vector<uint8_t> &buf, const std::string &s) {
     writeI32(buf, static_cast<int32_t>(s.size()));
     buf.insert(buf.end(), s.begin(), s.end());
 }
 
 // Thrift field header
+/**
+ * @brief Write Field Header.
+ * @param[in,out] buf Input/output parameter.
+ * @param[in] field_type Input parameter.
+ * @param[in] field_id Identifier of the field.
+ * @details Calls: push_back(), writeU16().
+ */
 inline void writeFieldHeader(std::vector<uint8_t> &buf, uint8_t field_type, int16_t field_id) {
     buf.push_back(field_type);
     writeU16(buf, static_cast<uint16_t>(field_id));
 }
 
-// Thrift struct STOP byte
+/**
+ * @brief Thrift struct STOP byte
+ * @param[in,out] buf Input/output parameter.
+ * @details Calls: push_back().
+ */
 inline void writeStop(std::vector<uint8_t> &buf) {
     buf.push_back(T_STOP);
 }
 
-// Thrift list header: element type + element count
+/**
+ * @brief Thrift list header: element type + element count
+ * @param[in,out] buf Input/output parameter.
+ * @param[in] elem_type Input parameter.
+ * @param[in] count Input parameter.
+ * @details Calls: push_back(), writeI32().
+ */
 inline void writeListHeader(std::vector<uint8_t> &buf, uint8_t elem_type, int32_t count) {
     buf.push_back(elem_type);
     writeI32(buf, count);
@@ -155,14 +192,12 @@ static void encodeSchemaElement(std::vector<uint8_t> &buf, const std::string &na
     writeStop(buf);
 }
 
-// ── DataPageHeader (Thrift struct) ───────────────────────────────────────────
-//
-// struct DataPageHeader {
-//   1: required i32      num_values
-//   2: required Encoding encoding
-//   3: required Encoding definition_level_encoding
-//   4: required Encoding repetition_level_encoding
-// }
+/**
+ * @brief ── DataPageHeader (Thrift struct) ─────────────────────────────────────────── struct DataPageHeader { 1: required i32 num_values 2: required Encoding encoding 3: required Encoding definition_level_encoding 4: required Encoding repetition_level_encoding }
+ * @param[in,out] buf Input/output parameter.
+ * @param[in] num_values Input parameter.
+ * @details Calls: writeFieldHeader(), writeI32(), writeStop().
+ */
 static void encodeDataPageHeader(std::vector<uint8_t> &buf, int32_t num_values) {
     writeFieldHeader(buf, T_I32, 1);
     writeI32(buf, num_values);
@@ -175,14 +210,14 @@ static void encodeDataPageHeader(std::vector<uint8_t> &buf, int32_t num_values) 
     writeStop(buf);
 }
 
-// ── PageHeader (Thrift struct) ───────────────────────────────────────────────
-//
-// struct PageHeader {
-//   1: required PageType type
-//   2: required i32      uncompressed_page_size
-//   3: required i32      compressed_page_size
-//   5: optional DataPageHeader data_page_header
-// }
+/**
+ * @brief ── PageHeader (Thrift struct) ─────────────────────────────────────────────── struct PageHeader { 1: required PageType type 2: required i32 uncompressed_page_size 3: required i32 compressed_page_size 5: optional DataPageHeader data_page_header }
+ * @param[in,out] buf Input/output parameter.
+ * @param[in] uncompressed_size Input parameter.
+ * @param[in] compressed_size Input parameter.
+ * @param[in] num_values Input parameter.
+ * @details Calls: writeFieldHeader(), writeI32(), encodeDataPageHeader(), writeStop().
+ */
 static void encodePageHeader(std::vector<uint8_t> &buf, int32_t uncompressed_size, int32_t compressed_size,
                              int32_t num_values) {
     writeFieldHeader(buf, T_I32, 1);
@@ -197,18 +232,15 @@ static void encodePageHeader(std::vector<uint8_t> &buf, int32_t uncompressed_siz
     writeStop(buf);
 }
 
-// ── ColumnMetaData (Thrift struct) ───────────────────────────────────────────
-//
-// struct ColumnMetaData {
-//   1: required Type                 type
-//   2: required list<Encoding>       encodings
-//   3: required list<string>         path_in_schema
-//   4: required CompressionCodec     codec
-//   5: required i64                  num_values
-//   6: required i64                  total_uncompressed_size
-//   7: required i64                  total_compressed_size
-//   9: required i64                  data_page_offset
-// }
+/**
+ * @brief ── ColumnMetaData (Thrift struct) ─────────────────────────────────────────── struct ColumnMetaData { 1: required Type type 2: required list<Encoding> encodings 3: required list<string> path_in_schema 4: required CompressionCodec codec 5: required i64 num_values 6: required i64 total_uncompressed_size 7: required i64 total_compressed_size 9: required i64 data_page_offset }
+ * @param[in,out] buf Input/output parameter.
+ * @param[in] col_name Name of the col.
+ * @param[in] num_values Input parameter.
+ * @param[in] total_size Input parameter.
+ * @param[in] data_page_offset Input parameter.
+ * @details Calls: writeFieldHeader(), writeI32(), writeListHeader(), writeThriftString(), writeI64(), writeStop().
+ */
 static void encodeColumnMetaData(std::vector<uint8_t> &buf, const std::string &col_name, int64_t num_values,
                                  int64_t total_size, int64_t data_page_offset) {
     // type = BYTE_ARRAY
@@ -240,12 +272,16 @@ static void encodeColumnMetaData(std::vector<uint8_t> &buf, const std::string &c
     writeStop(buf);
 }
 
-// ── ColumnChunk (Thrift struct) ──────────────────────────────────────────────
-//
-// struct ColumnChunk {
-//   2: required i64               file_offset
-//   3: optional ColumnMetaData    meta_data
-// }
+/**
+ * @brief ── ColumnChunk (Thrift struct) ────────────────────────────────────────────── struct ColumnChunk { 2: required i64 file_offset 3: optional ColumnMetaData meta_data }
+ * @param[in,out] buf Input/output parameter.
+ * @param[in] col_name Name of the col.
+ * @param[in] file_offset Input parameter.
+ * @param[in] num_values Input parameter.
+ * @param[in] data_size Input parameter.
+ * @param[in] data_page_offset Input parameter.
+ * @details Calls: writeFieldHeader(), writeI64(), encodeColumnMetaData(), writeStop().
+ */
 static void encodeColumnChunk(std::vector<uint8_t> &buf, const std::string &col_name, int64_t file_offset,
                               int64_t num_values, int64_t data_size, int64_t data_page_offset) {
     writeFieldHeader(buf, T_I64, 2);
@@ -271,6 +307,14 @@ struct ColumnChunkInfo {
     int64_t data_page_offset;
 };
 
+/**
+ * @brief Encode Row Group.
+ * @param[in,out] buf Input/output parameter.
+ * @param[in] chunks Input parameter.
+ * @param[in] total_byte_size Input parameter.
+ * @param[in] num_rows Input parameter.
+ * @details Calls: writeFieldHeader(), writeListHeader(), size(), encodeColumnChunk(), writeI64(), writeStop().
+ */
 static void encodeRowGroup(std::vector<uint8_t> &buf, const std::vector<ColumnChunkInfo> &chunks,
                            int64_t total_byte_size, int64_t num_rows) {
     // columns: list<ColumnChunk>
@@ -305,6 +349,12 @@ struct FileMetaInput {
     std::map<std::string, std::string> kv_metadata;
 };
 
+/**
+ * @brief Encode File Meta Data.
+ * @param[in] in Input parameter.
+ * @return Return value.
+ * @details Calls: writeFieldHeader(), writeI32(), writeListHeader(), size(), encodeSchemaElement(), writeI64(), encodeRowGroup(), empty().
+ */
 static std::vector<uint8_t> encodeFileMetaData(const FileMetaInput &in) {
     std::vector<uint8_t> buf;
 
@@ -361,6 +411,12 @@ struct DataPage {
     std::vector<uint8_t> values;
 };
 
+/**
+ * @brief Encode Plain Byte Array Page.
+ * @param[in] vals Input parameter.
+ * @return Return value.
+ * @details Calls: size(), push_back(), insert(), end(), begin(), encodePageHeader(), std::move().
+ */
 static DataPage encodePlainByteArrayPage(const std::vector<std::string> &vals) {
     // Serialise values first so we know the byte size
     std::vector<uint8_t> value_buf = {};
@@ -383,7 +439,12 @@ static DataPage encodePlainByteArrayPage(const std::vector<std::string> &vals) {
     return {std::move(header_buf), std::move(value_buf)};
 }
 
-// ── Value-to-string conversion ───────────────────────────────────────────────
+/**
+ * @brief ── Value-to-string conversion ───────────────────────────────────────────────
+ * @param[in] opt_val Input parameter.
+ * @return Return value.
+ * @details Calls: has_value(), std::visit(), constexpr(), std::to_string(), str(), size().
+ */
 static std::string valueToString(const std::optional<Value> &opt_val) {
     if (!opt_val.has_value()) {
         return "";
@@ -434,6 +495,11 @@ static std::string valueToString(const std::optional<Value> &opt_val) {
 ParquetExporter::ParquetExporter(const ParquetExportConfig &config)
     : config_(config), metrics_(std::make_shared<ExporterMetrics>()) {}
 
+/**
+ * @brief Is Arrow Available.
+ * @return True when the operation succeeds.
+ * @details Implements isArrowAvailable without additional internal calls.
+ */
 bool ParquetExporter::isArrowAvailable() {
 #ifdef ARROW_ENABLED
     return true;
@@ -496,6 +562,15 @@ std::vector<std::string> ParquetExporter::resolveColumns(const std::vector<BaseE
     return cols;
 }
 
+/**
+ * @brief Export Entities.
+ * @param[in] entities Input parameter.
+ * @param[in] options Input parameter.
+ * @return Return value.
+ * @throws ExporterException if an error occurs.
+ * @throws ConfigException if an error occurs.
+ * @details Calls: enforceExportPolicy(), std::chrono::steady_clock::now(), hasScope(), THEMIS_INFO(), empty(), size(), resolveColumns(), exportWithArrow().
+ */
 ExportStats ParquetExporter::exportEntities(const std::vector<BaseEntity> &entities, const ExportOptions &options) {
     // Policy check before any cursor or file is opened (EXP-001).
     enforceExportPolicy(options);
@@ -547,6 +622,16 @@ ExportStats ParquetExporter::exportEntities(const std::vector<BaseEntity> &entit
 // ─────────────────────────────────────────────────────────────────────────────
 
 #ifdef ARROW_ENABLED
+/**
+ * @brief Export With Arrow.
+ * @param[in] entities Input parameter.
+ * @param[in] options Input parameter.
+ * @param[in] columns Input parameter.
+ * @return Return value.
+ * @throws ExportIOException if an error occurs.
+ * @throws ExporterException if an error occurs.
+ * @details Calls: arrow::utf8(), arrow::int64(), arrow::float64(), arrow::boolean(), push_back(), arrow::field(), arrow::schema(), arrow::io::FileOutputStream::Open().
+ */
 ExportStats ParquetExporter::exportWithArrow(const std::vector<BaseEntity> &entities, const ExportOptions &options,
                                              const std::vector<std::string> &columns) {
     ExportStats stats;
@@ -753,9 +838,16 @@ ExportStats ParquetExporter::exportWithArrow(const std::vector<BaseEntity> &enti
 }
 #endif // ARROW_ENABLED
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Minimal hand-written Parquet fallback (no Arrow dependency)
-// ─────────────────────────────────────────────────────────────────────────────
+/**
+ * @brief ───────────────────────────────────────────────────────────────────────────── Minimal hand-written Parquet fallback (no Arrow dependency) ─────────────────────────────────────────────────────────────────────────────
+ * @param[in] entities Input parameter.
+ * @param[in] options Input parameter.
+ * @param[in] columns Input parameter.
+ * @return Return value.
+ * @throws ExporterException if an error occurs.
+ * @throws ExportIOException if an error occurs.
+ * @details Calls: col_data(), size(), empty(), getFieldAsString(), evaluate(), insert(), getPrimaryKey(), valueToString().
+ */
 
 ExportStats ParquetExporter::exportFallback(const std::vector<BaseEntity> &entities, const ExportOptions &options,
                                             const std::vector<std::string> &columns) {

@@ -22,63 +22,46 @@
 namespace themis {
 namespace query {
 
-/**
- * @brief Supported incremental aggregate operations.
- */
 enum class AggOp { SUM, COUNT, AVG, MIN, MAX };
 
-/**
- * @brief Delta-based incremental aggregator.
- *
- * Maintains a running aggregate over the current window by processing
- * add(value) and remove(value) operations without re-scanning the synopsis.
- *
- * For MIN/MAX the implementation falls back to a full re-scan over the
- * reference deque when the evicted value equals the current extremum.
- *
- * Values are extracted from JSON payloads by a caller-supplied extractor
- * function; this class works over pre-extracted doubles for simplicity.
- */
 class IncrementalAgg {
 public:
+    /**
+     * @brief Incremental Agg.
+     * @param[in] op Input parameter.
+     * @return Return value.
+     * @note Exception safety: noexcept.
+     */
     explicit IncrementalAgg(AggOp op) noexcept;
 
-    /** @brief Add a value to the running aggregate. */
+    /**
+     * @brief Add.
+     * @param[in] value Input parameter.
+     */
     void add(double value);
 
     /**
-     * @brief Remove a value from the running aggregate.
-     *
-     * For MIN/MAX a re-scan hint is set when `value` equals the current
-     * extremum; the caller must invoke rescan() with the current window values
-     * before querying result().
+     * @brief Remove.
+     * @param[in] value Input parameter.
      */
     void remove(double value);
 
     /**
-     * @brief Perform a full re-scan to recompute MIN / MAX.
-     *
-     * Must be called after remove() when rescanNeeded() returns true.
-     *
-     * @param values  All values currently in the window.
+     * @brief Rescan.
+     * @param[in] values Input parameter.
      */
     void rescan(const std::vector<double>& values);
 
-    /** @return true if rescan() must be called before result(). */
     [[nodiscard]] bool rescanNeeded() const noexcept { return rescan_needed_; }
 
-    /**
-     * @return The current aggregate value.
-     *
-     * Returns 0.0 when count == 0 (AVG, SUM, COUNT, MIN, MAX all yield 0
-     * for an empty window).
-     */
     [[nodiscard]] double result() const noexcept;
 
-    /** @return Number of values currently tracked. */
     [[nodiscard]] int64_t count() const noexcept { return count_; }
 
-    /** Reset state (used when a new window starts). */
+    /**
+     * @brief Reset the modification detection flag.
+     * @note Exception safety: noexcept.
+     */
     void reset() noexcept;
 
 private:

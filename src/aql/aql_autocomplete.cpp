@@ -162,6 +162,12 @@ const FunctionEntry kFunctions[] = {
 // Helpers
 // ============================================================================
 
+/**
+ * @brief Aql Auto Complete To Lower.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Calls: std::transform(), begin(), end(), std::tolower().
+ */
 static std::string aqlAutoCompleteToLower(const std::string &s) {
     std::string out = s;
     std::transform(out.begin(), out.end(), out.begin(),
@@ -169,6 +175,13 @@ static std::string aqlAutoCompleteToLower(const std::string &s) {
     return out;
 }
 
+/**
+ * @brief Ci Starts With.
+ * @param[in] s Input parameter.
+ * @param[in] prefix Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), size(), aqlAutoCompleteToLower(), substr().
+ */
 static bool ciStartsWith(const std::string &s, const std::string &prefix) {
     if (prefix.empty()) {
         return true;
@@ -179,7 +192,12 @@ static bool ciStartsWith(const std::string &s, const std::string &prefix) {
     return aqlAutoCompleteToLower(s).substr(0, prefix.size()) == aqlAutoCompleteToLower(prefix);
 }
 
-// Returns true when c is a valid AQL identifier character
+/**
+ * @brief Returns true when c is a valid AQL identifier character
+ * @param[in] c Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: std::isalnum().
+ */
 static bool isIdentChar(char c) {
     return std::isalnum(static_cast<unsigned char>(c)) || c == '_';
 }

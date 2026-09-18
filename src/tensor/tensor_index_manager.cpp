@@ -95,6 +95,17 @@ TensorIndexManager::routeFor(const std::string& /*tenant_id*/,
 // Index lifecycle
 // -----------------------------------------------------------------------
 
+/**
+ * @brief Create Index.
+ * @param[in] tenant_id Identifier of the tenant.
+ * @param[in] collection Input parameter.
+ * @param[in] field Input parameter.
+ * @param[in] size_t Input parameter.
+ * @param[in] size_t Input parameter.
+ * @param[in] double Input parameter.
+ * @return Pointer to the result.
+ * @details Calls: load(), std::this_thread::yield(), fetch_add(), OpGuard(), fetch_sub(), rlock(), find(), key().
+ */
 ITensorIndex* TensorIndexManager::createIndex(const std::string& tenant_id,
                                                const std::string& collection,
                                                const std::string& field,
@@ -155,11 +166,24 @@ ITensorIndex* TensorIndexManager::getIndex(const std::string& tenant_id,
     probe.collection = collection;
     probe.field      = field;
 
+    /**
+     * @brief Lock.
+     * @param[in] registry_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock lock(registry_mutex_);
     auto it = indexes_.find(probe.key());
     return (it != indexes_.end()) ? it->second.get() : nullptr;
 }
 
+/**
+ * @brief Drop Index.
+ * @param[in] tenant_id Identifier of the tenant.
+ * @param[in] collection Input parameter.
+ * @param[in] field Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), erase(), key(), empty(), indexFilePath(), std::filesystem::remove(), THEMIS_WARN(), message().
+ */
 bool TensorIndexManager::dropIndex(const std::string& tenant_id,
                                     const std::string& collection,
                                     const std::string& field) {
@@ -203,6 +227,11 @@ bool TensorIndexManager::dropIndex(const std::string& tenant_id,
     return true;
 }
 
+/**
+ * @brief Drop Tenant Indexes.
+ * @param[in] tenant_id Identifier of the tenant.
+ * @details Calls: lock(), begin(), end(), substr(), size(), erase(), scanPrefix(), emplace_back().
+ */
 void TensorIndexManager::dropTenantIndexes(const std::string& tenant_id) {
     const std::string prefix = "__ttmgr__:" + tenant_id + ":";
 
@@ -256,6 +285,11 @@ void TensorIndexManager::dropTenantIndexes(const std::string& tenant_id) {
 // -----------------------------------------------------------------------
 
 std::vector<IndexHandle> TensorIndexManager::listIndexes() const {
+    /**
+     * @brief Lock.
+     * @param[in] registry_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock lock(registry_mutex_);
     std::vector<IndexHandle> out = {};
 
@@ -268,6 +302,11 @@ std::vector<IndexHandle> TensorIndexManager::listIndexes() const {
 
 std::vector<IndexHandle>
 TensorIndexManager::listIndexes(const std::string& tenant_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] registry_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock lock(registry_mutex_);
     const std::string prefix = "__ttmgr__:" + tenant_id + ":";
     std::vector<IndexHandle> out = {};
@@ -281,6 +320,11 @@ TensorIndexManager::listIndexes(const std::string& tenant_id) const {
 }
 
 TensorIndexStats TensorIndexManager::aggregateStats() const {
+    /**
+     * @brief Lock.
+     * @param[in] registry_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock lock(registry_mutex_);
     TensorIndexStats agg = {};
     if (indexes_.empty()) {
@@ -305,6 +349,11 @@ TensorIndexStats TensorIndexManager::aggregateStats() const {
 // File-based persistence
 // -----------------------------------------------------------------------
 
+/**
+ * @brief Set Data Dir.
+ * @param[in] dir Input parameter.
+ * @details Implements setDataDir without additional internal calls.
+ */
 void TensorIndexManager::setDataDir(const std::string& dir) {
     data_dir_ = dir;
 }
@@ -319,6 +368,11 @@ std::string TensorIndexManager::indexFilePath(const std::string& key) const {
     return data_dir_ + "/" + escaped + ".ttidx";
 }
 
+/**
+ * @brief Flush All.
+ * @return Return value.
+ * @details Calls: lock(), reserve(), size(), emplace_back(), get(), indexFilePath(), save(), THEMIS_WARN().
+ */
 size_t TensorIndexManager::flushAll() {
     // Snapshot key→index pairs under read lock so I/O runs without holding it.
     std::vector<std::pair<std::string, ITensorIndex*>> snapshot;
@@ -390,6 +444,11 @@ TensorIndexManager::ggmlCorePtrs(const std::string& tenant_id,
     }
 
     if (!ptrs.empty()) {
+        /**
+         * @brief Lock.
+         * @param[in] legacy_bridge_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(legacy_bridge_mutex_);
         
         // Capacity guard for legacy bridge cache: when usage exceeds 90%,

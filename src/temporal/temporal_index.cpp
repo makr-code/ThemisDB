@@ -33,6 +33,11 @@ TemporalIndex::TemporalIndex(std::string name) : name_(std::move(name)) {}
 // Mutation
 // ============================================================================
 
+/**
+ * @brief Insert.
+ * @param[in] entry Input parameter.
+ * @details Calls: lock(), emplace().
+ */
 void TemporalIndex::insert(const TemporalIndexEntry& entry) {
     std::lock_guard<std::mutex> lock(mutex_);
 
@@ -50,6 +55,13 @@ void TemporalIndex::insert(const TemporalIndexEntry& entry) {
     }
 }
 
+/**
+ * @brief Remove.
+ * @param[in] key Input parameter.
+ * @param[in] range Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), begin(), end(), erase().
+ */
 size_t TemporalIndex::remove(const std::string& key, const TimeRange& range) {
     std::lock_guard<std::mutex> lock(mutex_);
 
@@ -67,6 +79,12 @@ size_t TemporalIndex::remove(const std::string& key, const TimeRange& range) {
     return removed;
 }
 
+/**
+ * @brief Remove Key.
+ * @param[in] key Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), begin(), end(), erase().
+ */
 size_t TemporalIndex::removeKey(const std::string& key) {
     std::lock_guard<std::mutex> lock(mutex_);
 
@@ -88,6 +106,11 @@ size_t TemporalIndex::removeKey(const std::string& key) {
 // ============================================================================
 
 std::vector<TemporalIndexEntry> TemporalIndex::queryPoint(Timestamp t) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     ++stats_.point_queries;
@@ -108,6 +131,11 @@ std::vector<TemporalIndexEntry> TemporalIndex::queryPoint(Timestamp t) const {
 
 std::vector<TemporalIndexEntry> TemporalIndex::queryRange(Timestamp from,
                                                            Timestamp to) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     ++stats_.range_queries;
@@ -131,6 +159,11 @@ std::vector<TemporalIndexEntry> TemporalIndex::queryKey(
     const std::string& key,
     std::optional<TimeRange> range) const {
 
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     std::vector<TemporalIndexEntry> result = {};
@@ -151,11 +184,21 @@ std::vector<TemporalIndexEntry> TemporalIndex::queryKey(
 // ============================================================================
 
 size_t TemporalIndex::size() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return entries_by_start_.size();
 }
 
 TemporalIndexStats TemporalIndex::stats() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     // Recompute average duration

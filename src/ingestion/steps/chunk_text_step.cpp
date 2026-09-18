@@ -20,19 +20,6 @@ namespace themis {
 namespace ingestion {
 namespace builtin {
 
-/**
- * @brief `builtin.chunk_text` — splits `ctx.raw_text` into `TextChunk` objects.
- *
- * Strategies:
- *  - `fixed`    — chunks of `size` characters with `overlap` overlap
- *  - `sentence` — one chunk per sentence (split on ". " / "! " / "? ")
- *  - `section`  — §-aware: each paragraph starting with "§" or "Art." is a chunk
- *
- * Config keys (all optional):
- *  - `strategy`  string  default "fixed"
- *  - `size`      number  default 512
- *  - `overlap`   number  default 64
- */
 class ChunkTextStep : public IIngestionStep {
 public:
     // IThemisPlugin
@@ -70,7 +57,11 @@ public:
     }
 
 private:
-    // ── §-aware section chunking ───────────────────────────────────────────
+    /**
+     * @brief ── §-aware section chunking ───────────────────────────────────────────
+     * @param[in,out] ctx Input/output parameter.
+     * @details Calls: section_re(), it(), begin(), end(), substr(), push_back(), std::move(), position().
+     */
     static void chunkBySection(ExtractionContext& ctx) {
         // Split on lines that start with § or Art.
         static const std::regex section_re(
@@ -110,7 +101,13 @@ private:
         emit(prev_start,text.size(), prev_ref);
     }
 
-    // ── Sentence chunking ──────────────────────────────────────────────────
+    /**
+     * @brief ── Sentence chunking ──────────────────────────────────────────────────
+     * @param[in,out] ctx Input/output parameter.
+     * @param[in] max_size Input parameter.
+     * @param[in] overlap Input parameter.
+     * @details Calls: empty(), size(), push_back(), std::move(), substr(), clear(), emit().
+     */
     static void chunkBySentence(ExtractionContext& ctx,
                                  std::size_t max_size, std::size_t overlap) {
         const std::string& text = ctx.raw_text;
@@ -165,7 +162,13 @@ private:
         }
     }
 
-    // ── Fixed-size chunking ────────────────────────────────────────────────
+    /**
+     * @brief ── Fixed-size chunking ────────────────────────────────────────────────
+     * @param[in,out] ctx Input/output parameter.
+     * @param[in] size Input parameter.
+     * @param[in] overlap Input parameter.
+     * @details Calls: size(), std::min(), substr(), push_back(), std::move().
+     */
     static void chunkFixed(ExtractionContext& ctx,
                             std::size_t size, std::size_t overlap) {
         const std::string& text = ctx.raw_text;

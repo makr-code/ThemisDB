@@ -35,7 +35,12 @@ namespace themis {
 namespace lora {
 namespace directx {
 
-// Helper function to get shader path
+/**
+ * @brief Helper function to get shader path
+ * @param[in] shader_name Name of the shader.
+ * @return Return value.
+ * @details Calls: fs::current_path(), push_back(), has_parent_path(), parent_path(), string(), fs::exists(), fs::path(), stem().
+ */
 static std::string get_shader_path(const std::string& shader_name) {
     namespace fs = std::filesystem;
     
@@ -115,13 +120,26 @@ static DirectXState g_directx_state;
 static std::mutex g_directx_state_mutex;
 constexpr uint32_t kDirectXKernelExecutionTimeoutMs = 30000;
 
+/**
+ * @brief Ensure directx ready or throw.
+ * @param[in] state Input parameter.
+ * @throws std::runtime_error if an error occurs.
+ * @details Implements ensure_directx_ready_or_throw without additional internal calls.
+ */
 static void ensure_directx_ready_or_throw(const DirectXState& state) {
     if (!state.initialized || !state.context || !state.descriptors) {
         throw std::runtime_error("DirectX not initialized. Call initialize_directx_lora() first.");
     }
 }
 
-// Helper function to get or create shader
+/**
+ * @brief Helper function to get or create shader
+ * @param[in,out] state Input/output parameter.
+ * @param[in] shader_name Name of the shader.
+ * @return Pointer to the result.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: find(), end(), get(), get_shader_path(), load(), std::move().
+ */
 static DirectXShader* get_or_load_shader(DirectXState& state, const std::string& shader_name) {
     auto& shader_cache = state.shaders;
 
@@ -144,7 +162,18 @@ static DirectXShader* get_or_load_shader(DirectXState& state, const std::string&
     return shader_ptr;
 }
 
-// Helper function to get or create pipeline
+/**
+ * @brief Helper function to get or create pipeline
+ * @param[in,out] state Input/output parameter.
+ * @param[in] pipeline_name Name of the pipeline.
+ * @param[in] shader_name Name of the shader.
+ * @param[in] num_root_constants Input parameter.
+ * @param[in] num_uavs Input parameter.
+ * @param[in] num_srvs Input parameter.
+ * @return Pointer to the result.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: ensure_directx_ready_or_throw(), find(), end(), get(), get_or_load_shader(), create(), std::move().
+ */
 static DirectXPipeline* get_or_create_pipeline(
     DirectXState& state,
     const std::string& pipeline_name,
@@ -182,6 +211,15 @@ static DirectXPipeline* get_or_create_pipeline(
     return pipeline_ptr;
 }
 
+/**
+ * @brief Checked mul size.
+ * @param[in] lhs Input parameter.
+ * @param[in] rhs Input parameter.
+ * @param[in] context Input parameter.
+ * @return Return value.
+ * @throws std::overflow_error if an error occurs.
+ * @details Calls: max(), std::string().
+ */
 static size_t checked_mul_size(size_t lhs, size_t rhs, const char* context) {
     if (lhs != 0 && rhs > (std::numeric_limits<size_t>::max() / lhs)) {
         throw std::overflow_error(std::string(context) + ": size overflow");
@@ -189,11 +227,27 @@ static size_t checked_mul_size(size_t lhs, size_t rhs, const char* context) {
     return lhs * rhs;
 }
 
+/**
+ * @brief Checked float bytes 2d.
+ * @param[in] rows Input parameter.
+ * @param[in] cols Input parameter.
+ * @param[in] context Input parameter.
+ * @return Return value.
+ * @details Calls: checked_mul_size().
+ */
 static size_t checked_float_bytes_2d(size_t rows, size_t cols, const char* context) {
     const size_t elems = checked_mul_size(rows, cols, context);
     return checked_mul_size(elems, sizeof(float), context);
 }
 
+/**
+ * @brief Checked u32 size.
+ * @param[in] value Input parameter.
+ * @param[in] context Input parameter.
+ * @return Return value.
+ * @throws std::overflow_error if an error occurs.
+ * @details Calls: max(), std::string().
+ */
 static uint32_t checked_u32_size(size_t value, const char* context) {
     if (value > static_cast<size_t>(std::numeric_limits<uint32_t>::max())) {
         throw std::overflow_error(std::string(context) + ": value exceeds uint32 range");
@@ -201,6 +255,12 @@ static uint32_t checked_u32_size(size_t value, const char* context) {
     return static_cast<uint32_t>(value);
 }
 
+/**
+ * @brief Initialize directx lora.
+ * @param[in] adapter_id Identifier of the adapter.
+ * @return True when the operation succeeds.
+ * @details Calls: state_lock(), initialize(), get(), get_gpu_description(), what(), reset().
+ */
 bool initialize_directx_lora(int adapter_id) {
     std::lock_guard<std::mutex> state_lock(g_directx_state_mutex);
     if (g_directx_state.initialized) {
@@ -243,6 +303,10 @@ bool initialize_directx_lora(int adapter_id) {
     }
 }
 
+/**
+ * @brief Cleanup directx lora.
+ * @details Calls: state_lock(), clear(), reset().
+ */
 void cleanup_directx_lora() {
     std::lock_guard<std::mutex> state_lock(g_directx_state_mutex);
     if (!g_directx_state.initialized) {
@@ -265,6 +329,11 @@ void cleanup_directx_lora() {
     std::cout << "DirectX 12 LoRA backend cleaned up\n";
 }
 
+/**
+ * @brief Is directx available.
+ * @return True when the operation succeeds.
+ * @details Calls: test_context(), initialize().
+ */
 bool is_directx_available() {
 #ifdef _WIN32
     // Check if we can create a D3D12 device
@@ -280,6 +349,19 @@ bool is_directx_available() {
 #endif
 }
 
+/**
+ * @brief Launch matmul shader.
+ * @param[in] A Input parameter.
+ * @param[in] B Input parameter.
+ * @param[in,out] C Input/output parameter.
+ * @param[in] M Input parameter.
+ * @param[in] N Input parameter.
+ * @param[in] K Input parameter.
+ * @param[in] alpha Input parameter.
+ * @throws std::invalid_argument if an error occurs.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: state_lock(), ensure_directx_ready_or_throw(), std::isfinite(), get_or_create_pipeline(), checked_float_bytes_2d(), buffer_A(), get(), buffer_B().
+ */
 void launch_matmul_shader(
     const float* A, const float* B, float* C,
     int M, int N, int K, float alpha) {
@@ -371,6 +453,16 @@ void launch_matmul_shader(
     }
 }
 
+/**
+ * @brief Launch add shader.
+ * @param[in] A Input parameter.
+ * @param[in] B Input parameter.
+ * @param[in,out] C Input/output parameter.
+ * @param[in] size Input parameter.
+ * @throws std::invalid_argument if an error occurs.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: state_lock(), ensure_directx_ready_or_throw(), get_or_create_pipeline(), checked_mul_size(), buffer_A(), get(), buffer_B(), buffer_C().
+ */
 void launch_add_shader(const float* A, const float* B, float* C, size_t size) {
     std::lock_guard<std::mutex> state_lock(g_directx_state_mutex);
     ensure_directx_ready_or_throw(g_directx_state);
@@ -453,6 +545,16 @@ void launch_add_shader(const float* A, const float* B, float* C, size_t size) {
     }
 }
 
+/**
+ * @brief Launch multiply shader.
+ * @param[in] A Input parameter.
+ * @param[in] B Input parameter.
+ * @param[in,out] C Input/output parameter.
+ * @param[in] size Input parameter.
+ * @throws std::invalid_argument if an error occurs.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: state_lock(), ensure_directx_ready_or_throw(), get_or_create_pipeline(), checked_mul_size(), buffer_A(), get(), buffer_B(), buffer_C().
+ */
 void launch_multiply_shader(const float* A, const float* B, float* C, size_t size) {
     std::lock_guard<std::mutex> state_lock(g_directx_state_mutex);
     ensure_directx_ready_or_throw(g_directx_state);
@@ -522,6 +624,16 @@ void launch_multiply_shader(const float* A, const float* B, float* C, size_t siz
     }
 }
 
+/**
+ * @brief Launch scalar multiply shader.
+ * @param[in] A Input parameter.
+ * @param[in,out] B Input/output parameter.
+ * @param[in] scalar Input parameter.
+ * @param[in] size Input parameter.
+ * @throws std::invalid_argument if an error occurs.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: state_lock(), ensure_directx_ready_or_throw(), std::isfinite(), get_or_create_pipeline(), checked_mul_size(), buffer_A(), get(), buffer_B().
+ */
 void launch_scalar_multiply_shader(const float* A, float* B, float scalar, size_t size) {
     std::lock_guard<std::mutex> state_lock(g_directx_state_mutex);
     ensure_directx_ready_or_throw(g_directx_state);
@@ -611,6 +723,16 @@ void launch_scalar_multiply_shader(const float* A, float* B, float scalar, size_
     }
 }
 
+/**
+ * @brief Launch transpose shader.
+ * @param[in] input Input parameter.
+ * @param[in,out] output Input/output parameter.
+ * @param[in] rows Input parameter.
+ * @param[in] cols Input parameter.
+ * @throws std::invalid_argument if an error occurs.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: state_lock(), ensure_directx_ready_or_throw(), get_or_create_pipeline(), checked_mul_size(), buffer_input(), get(), buffer_output(), buffer_dummy().
+ */
 void launch_transpose_shader(const float* input, float* output, int rows, int cols) {
     std::lock_guard<std::mutex> state_lock(g_directx_state_mutex);
     ensure_directx_ready_or_throw(g_directx_state);
@@ -681,6 +803,19 @@ void launch_transpose_shader(const float* input, float* output, int rows, int co
     }
 }
 
+/**
+ * @brief Launch lora grad A shader.
+ * @param[in] h Input parameter.
+ * @param[in] grad_output Input parameter.
+ * @param[in,out] grad_A Input/output parameter.
+ * @param[in] M Input parameter.
+ * @param[in] K Input parameter.
+ * @param[in] N Input parameter.
+ * @param[in] scaling Input parameter.
+ * @throws std::invalid_argument if an error occurs.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: state_lock(), ensure_directx_ready_or_throw(), std::isfinite(), get_or_create_pipeline(), checked_float_bytes_2d(), buffer_h(), get(), buffer_grad_output().
+ */
 void launch_lora_grad_A_shader(
     const float* h, const float* grad_output, float* grad_A,
     int M, int K, int N, float scaling) {
@@ -791,6 +926,18 @@ void launch_lora_grad_A_shader(
     }
 }
 
+/**
+ * @brief Launch lora grad B shader.
+ * @param[in] input Input parameter.
+ * @param[in] grad_h Input parameter.
+ * @param[in,out] grad_B Input/output parameter.
+ * @param[in] M Input parameter.
+ * @param[in] D Input parameter.
+ * @param[in] K Input parameter.
+ * @throws std::invalid_argument if an error occurs.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: state_lock(), ensure_directx_ready_or_throw(), get_or_create_pipeline(), checked_float_bytes_2d(), buffer_input(), get(), buffer_grad_h(), buffer_grad_B().
+ */
 void launch_lora_grad_B_shader(
     const float* input, const float* grad_h, float* grad_B,
     int M, int D, int K) {
@@ -908,6 +1055,19 @@ void launch_lora_grad_B_shader(
     }
 }
 
+/**
+ * @brief Launch embedding lookup shader.
+ * @param[in,out] output Input/output parameter.
+ * @param[in] token_ids Input parameter.
+ * @param[in] embedding_weights Input parameter.
+ * @param[in] batch_size Input parameter.
+ * @param[in] seq_len Input parameter.
+ * @param[in] hidden_dim Input parameter.
+ * @param[in] vocab_size Input parameter.
+ * @throws std::invalid_argument if an error occurs.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: state_lock(), ensure_directx_ready_or_throw(), checked_mul_size(), checked_u32_size(), buffer_token_ids(), get(), buffer_embedding_weights(), buffer_output().
+ */
 void launch_embedding_lookup_shader(
     float* output,
     const float* token_ids,
@@ -999,6 +1159,17 @@ void launch_embedding_lookup_shader(
     }
 }
 
+/**
+ * @brief Launch sequence mean shader.
+ * @param[in,out] output Input/output parameter.
+ * @param[in] input Input parameter.
+ * @param[in] batch_size Input parameter.
+ * @param[in] seq_len Input parameter.
+ * @param[in] hidden_dim Input parameter.
+ * @throws std::invalid_argument if an error occurs.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: state_lock(), ensure_directx_ready_or_throw(), checked_mul_size(), checked_u32_size(), buffer_input(), get(), buffer_output(), upload().
+ */
 void launch_sequence_mean_shader(
     float* output,
     const float* input,
@@ -1096,51 +1267,149 @@ namespace themis {
 namespace lora {
 namespace directx {
 
+/**
+ * @brief Initialize directx lora.
+ * @param[in] adapter_id Identifier of the adapter.
+ * @return True when the operation succeeds.
+ * @details Implements initialize_directx_lora without additional internal calls.
+ */
 bool initialize_directx_lora(int adapter_id) {
     return false;
 }
 
+/**
+ * @brief Cleanup directx lora.
+ * @details Implements cleanup_directx_lora without additional internal calls.
+ */
 void cleanup_directx_lora() {
 }
 
+/**
+ * @brief Is directx available.
+ * @return True when the operation succeeds.
+ * @details Implements is_directx_available without additional internal calls.
+ */
 bool is_directx_available() {
     return false;
 }
 
+/**
+ * @brief Launch matmul shader.
+ * @param[in] A Input parameter.
+ * @param[in] B Input parameter.
+ * @param[in,out] C Input/output parameter.
+ * @param[in] M Input parameter.
+ * @param[in] N Input parameter.
+ * @param[in] K Input parameter.
+ * @param[in] alpha Input parameter.
+ * @throws std::runtime_error if an error occurs.
+ * @details Implements launch_matmul_shader without additional internal calls.
+ */
 void launch_matmul_shader(
     const float* A, const float* B, float* C,
     int M, int N, int K, float alpha) {
     throw std::runtime_error("DirectX is only available on Windows");
 }
 
+/**
+ * @brief Launch add shader.
+ * @param[in] A Input parameter.
+ * @param[in] B Input parameter.
+ * @param[in,out] C Input/output parameter.
+ * @param[in] size Input parameter.
+ * @throws std::runtime_error if an error occurs.
+ * @details Implements launch_add_shader without additional internal calls.
+ */
 void launch_add_shader(const float* A, const float* B, float* C, size_t size) {
     throw std::runtime_error("DirectX is only available on Windows");
 }
 
+/**
+ * @brief Launch multiply shader.
+ * @param[in] A Input parameter.
+ * @param[in] B Input parameter.
+ * @param[in,out] C Input/output parameter.
+ * @param[in] size Input parameter.
+ * @throws std::runtime_error if an error occurs.
+ * @details Implements launch_multiply_shader without additional internal calls.
+ */
 void launch_multiply_shader(const float* A, const float* B, float* C, size_t size) {
     throw std::runtime_error("DirectX is only available on Windows");
 }
 
+/**
+ * @brief Launch scalar multiply shader.
+ * @param[in] A Input parameter.
+ * @param[in,out] B Input/output parameter.
+ * @param[in] scalar Input parameter.
+ * @param[in] size Input parameter.
+ * @throws std::runtime_error if an error occurs.
+ * @details Implements launch_scalar_multiply_shader without additional internal calls.
+ */
 void launch_scalar_multiply_shader(const float* A, float* B, float scalar, size_t size) {
     throw std::runtime_error("DirectX is only available on Windows");
 }
 
+/**
+ * @brief Launch transpose shader.
+ * @param[in] input Input parameter.
+ * @param[in,out] output Input/output parameter.
+ * @param[in] rows Input parameter.
+ * @param[in] cols Input parameter.
+ * @throws std::runtime_error if an error occurs.
+ * @details Implements launch_transpose_shader without additional internal calls.
+ */
 void launch_transpose_shader(const float* input, float* output, int rows, int cols) {
     throw std::runtime_error("DirectX is only available on Windows");
 }
 
+/**
+ * @brief Launch lora grad A shader.
+ * @param[in] h Input parameter.
+ * @param[in] grad_output Input parameter.
+ * @param[in,out] grad_A Input/output parameter.
+ * @param[in] M Input parameter.
+ * @param[in] K Input parameter.
+ * @param[in] N Input parameter.
+ * @param[in] scaling Input parameter.
+ * @throws std::runtime_error if an error occurs.
+ * @details Implements launch_lora_grad_A_shader without additional internal calls.
+ */
 void launch_lora_grad_A_shader(
     const float* h, const float* grad_output, float* grad_A,
     int M, int K, int N, float scaling) {
     throw std::runtime_error("DirectX is only available on Windows");
 }
 
+/**
+ * @brief Launch lora grad B shader.
+ * @param[in] input Input parameter.
+ * @param[in] grad_h Input parameter.
+ * @param[in,out] grad_B Input/output parameter.
+ * @param[in] M Input parameter.
+ * @param[in] D Input parameter.
+ * @param[in] K Input parameter.
+ * @throws std::runtime_error if an error occurs.
+ * @details Implements launch_lora_grad_B_shader without additional internal calls.
+ */
 void launch_lora_grad_B_shader(
     const float* input, const float* grad_h, float* grad_B,
     int M, int D, int K) {
     throw std::runtime_error("DirectX is only available on Windows");
 }
 
+/**
+ * @brief Launch embedding lookup shader.
+ * @param[in,out] output Input/output parameter.
+ * @param[in] token_ids Input parameter.
+ * @param[in] embedding_weights Input parameter.
+ * @param[in] batch_size Input parameter.
+ * @param[in] seq_len Input parameter.
+ * @param[in] hidden_dim Input parameter.
+ * @param[in] vocab_size Input parameter.
+ * @throws std::runtime_error if an error occurs.
+ * @details Implements launch_embedding_lookup_shader without additional internal calls.
+ */
 void launch_embedding_lookup_shader(
     float* output,
     const float* token_ids,
@@ -1152,6 +1421,16 @@ void launch_embedding_lookup_shader(
     throw std::runtime_error("DirectX is only available on Windows");
 }
 
+/**
+ * @brief Launch sequence mean shader.
+ * @param[in,out] output Input/output parameter.
+ * @param[in] input Input parameter.
+ * @param[in] batch_size Input parameter.
+ * @param[in] seq_len Input parameter.
+ * @param[in] hidden_dim Input parameter.
+ * @throws std::runtime_error if an error occurs.
+ * @details Implements launch_sequence_mean_shader without additional internal calls.
+ */
 void launch_sequence_mean_shader(
     float* output,
     const float* input,

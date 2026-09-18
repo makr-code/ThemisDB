@@ -27,10 +27,11 @@ namespace themis {
 namespace llm {
 namespace lora {
 
-/**
- * @brief Adapter weights representation
- */
 struct AdapterWeights {
+    /**
+     * @brief Adapter Weights.
+     * @return Return value.
+     */
     virtual ~AdapterWeights() = default;
     std::vector<uint8_t> data;        // Binary weight data
     LoRAHyperparameters hyperparameters;
@@ -46,29 +47,14 @@ struct AdapterWeights {
     }
 };
 
-/**
- * @brief Manages LoRA adapter storage and versioning
- * 
- * Features:
- * - ThemisDB collection integration
- * - File system backup
- * - Versioning system
- * - Metadata management
- */
 class LoRAStorageService {
 public:
-    /**
-     * @brief Storage backend type
-     */
     enum class Backend {
         ThemisDB,      // Store in ThemisDB collection
         FileSystem,    // Store in file system
         S3             // Store in S3/object storage (future)
     };
     
-    /**
-     * @brief Configuration for storage service
-     */
     struct Config {
         Backend backend = Backend::ThemisDB;  // Use ThemisDB as primary backend
         std::string collection_name = "lora_adapters";
@@ -118,7 +104,16 @@ public:
         uint32_t read_quorum_size = 1;          // Number of replicas for read quorum
     };
     
+    /**
+     * @brief Lo RAStorage Service.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit LoRAStorageService(const Config& config);
+    /**
+     * @brief Lo RAStorage Service.
+     * @return Return value.
+     */
     explicit LoRAStorageService();
     ~LoRAStorageService();
     
@@ -127,11 +122,11 @@ public:
     LoRAStorageService& operator=(const LoRAStorageService&) = delete;
     
     /**
-     * @brief Save adapter to storage
-     * @param adapter_id Adapter identifier
-     * @param weights Adapter weights
-     * @param metadata Adapter metadata
-     * @return true if saved successfully
+     * @brief Save Adapter.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @param[in] weights Input parameter.
+     * @param[in] metadata Input parameter.
+     * @return True when the operation succeeds.
      */
     bool saveAdapter(
         const std::string& adapter_id,
@@ -140,72 +135,72 @@ public:
     );
     
     /**
-     * @brief Load adapter from storage
-     * @param adapter_id Adapter identifier
-     * @return Optional adapter weights
+     * @brief Load Adapter.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @return Return value.
      */
     std::optional<AdapterWeights> loadAdapter(const std::string& adapter_id);
     
     /**
-     * @brief Load adapter metadata without weights
-     * @param adapter_id Adapter identifier
-     * @return Optional adapter metadata
+     * @brief Load Metadata.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @return Return value.
      */
     std::optional<AdapterMetadata> loadMetadata(const std::string& adapter_id);
     
     /**
-     * @brief Delete adapter from storage
-     * @param adapter_id Adapter identifier
-     * @return true if deleted successfully
+     * @brief Delete Adapter.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @return True when the operation succeeds.
      */
     bool deleteAdapter(const std::string& adapter_id);
     
     /**
-     * @brief Check if adapter exists in storage
-     * @param adapter_id Adapter identifier
-     * @return true if exists
+     * @brief Exists.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @return True when the operation succeeds.
      */
     bool exists(const std::string& adapter_id) const;
     
     /**
-     * @brief List all stored adapters
-     * @return Vector of adapter IDs
+     * @brief List Adapters.
+     * @return Return value.
      */
     std::vector<std::string> listAdapters() const;
     
     /**
-     * @brief Create new version of adapter
-     * @param adapter_id Adapter identifier
-     * @return Version identifier (e.g., "v1", "v2")
+     * @brief Create Version.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @return Return value.
      */
     std::string createVersion(const std::string& adapter_id);
     
     /**
-     * @brief Rollback to specific version
-     * @param adapter_id Adapter identifier
-     * @param version Version identifier
-     * @return true if rolled back successfully
+     * @brief Rollback To Version.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @param[in] version Input parameter.
+     * @return True when the operation succeeds.
      */
     bool rollbackToVersion(const std::string& adapter_id, const std::string& version);
     
     /**
-     * @brief List all versions of adapter
-     * @param adapter_id Adapter identifier
-     * @return Vector of version identifiers
+     * @brief List Versions.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @return Return value.
      */
     std::vector<std::string> listVersions(const std::string& adapter_id) const;
     
     /**
-     * @brief Update adapter metadata
-     * @param adapter_id Adapter identifier
-     * @param metadata New metadata
-     * @return true if updated successfully
+     * @brief Update Metadata.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @param[in] metadata Input parameter.
+     * @return True when the operation succeeds.
      */
     bool updateMetadata(const std::string& adapter_id, const AdapterMetadata& metadata);
     
     /**
-     * @brief Get storage statistics
-     * @return JSON with statistics
+     * @brief Get Stats.
+     * @return Return value.
      */
     json getStats() const;
     
@@ -213,14 +208,6 @@ public:
     // Graph & Vector Extensions
     // ═══════════════════════════════════════════════════════════
     
-    /**
-     * @brief Add graph edge between adapters
-     * @param from_id Source adapter
-     * @param to_id Target adapter
-     * @param edge_type Edge type
-     * @param weight Edge weight (optional)
-     * @return true if added successfully
-     */
     bool addGraphEdge(
         const std::string& from_id,
         const std::string& to_id,
@@ -228,29 +215,23 @@ public:
         float weight = 1.0f
     );
     
-    /**
-     * @brief Get graph edges for adapter
-     * @param adapter_id Adapter identifier
-     * @param direction "incoming", "outgoing", or "both"
-     * @return Vector of edges
-     */
     std::vector<LoRAGraphEdge> getGraphEdges(
         const std::string& adapter_id,
         const std::string& direction = "both"
     ) const;
     
     /**
-     * @brief Get lineage path (from base model to adapter)
-     * @param adapter_id Adapter identifier
-     * @return Graph path
+     * @brief Get Lineage Path.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @return Return value.
      */
     LoRAGraphPath getLineagePath(const std::string& adapter_id) const;
     
     /**
-     * @brief Store vector embedding for adapter
-     * @param adapter_id Adapter identifier
-     * @param embedding Vector embedding
-     * @return true if stored successfully
+     * @brief Store Embedding.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @param[in] embedding Input parameter.
+     * @return True when the operation succeeds.
      */
     bool storeEmbedding(
         const std::string& adapter_id,
@@ -258,19 +239,12 @@ public:
     );
     
     /**
-     * @brief Get vector embeddings for adapter
-     * @param adapter_id Adapter identifier
-     * @return Vector of embeddings
+     * @brief Get Embeddings.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @return Return value.
      */
     std::vector<LoRAVectorEmbedding> getEmbeddings(const std::string& adapter_id) const;
     
-    /**
-     * @brief Find similar adapters using vector similarity
-     * @param adapter_id Reference adapter
-     * @param k Number of similar adapters to find
-     * @param threshold Minimum similarity threshold (0-1)
-     * @return Vector of similar adapter IDs with similarity scores
-     */
     std::vector<std::pair<std::string, float>> findSimilarAdapters(
         const std::string& adapter_id,
         int k = 10,
@@ -278,9 +252,9 @@ public:
     ) const;
     
     /**
-     * @brief Get enhanced adapter info with graph and vector data
-     * @param adapter_id Adapter identifier
-     * @return Optional enhanced adapter info
+     * @brief Get Enhanced Info.
+     * @param[in] adapter_id Identifier of the adapter.
+     * @return Return value.
      */
     std::optional<AdapterInfoEnhanced> getEnhancedInfo(const std::string& adapter_id) const;
     

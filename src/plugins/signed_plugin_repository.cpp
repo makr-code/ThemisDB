@@ -59,8 +59,12 @@ struct EvpPkeyDeleter {
 
 using UniqueEvpPkey = std::unique_ptr<EVP_PKEY, EvpPkeyDeleter>;
 
-// Decode a standard Base64 string into raw bytes.
-// Returns empty vector on malformed input.
+/**
+ * @brief Decode a standard Base64 string into raw bytes.
+ * @param[in] encoded Input parameter.
+ * @return Return value.
+ * @details Returns empty vector on malformed input. Calls: empty(), BIO_new(), BIO_f_base64(), BIO_new_mem_buf(), data(), size(), BIO_free(), bio_guard().
+ */
 std::vector<uint8_t> base64Decode(const std::string& encoded) {
     if (encoded.empty()) {
         return {};
@@ -94,7 +98,13 @@ std::vector<uint8_t> base64Decode(const std::string& encoded) {
     return buf;
 }
 
-// Convert raw bytes to lowercase hex string.
+/**
+ * @brief Convert raw bytes to lowercase hex string.
+ * @param[in] data Input parameter.
+ * @param[in] len Input parameter.
+ * @return Return value.
+ * @details Calls: std::setw(), std::setfill(), str().
+ */
 std::string bytesToHex(const uint8_t* data, size_t len) {
     std::ostringstream ss = {};
     for (size_t i = 0; i < len; ++i) {
@@ -103,7 +113,12 @@ std::string bytesToHex(const uint8_t* data, size_t len) {
     return ss.str();
 }
 
-// Map PluginType enum to its canonical string representation.
+/**
+ * @brief Map PluginType enum to its canonical string representation.
+ * @param[in] t Input parameter.
+ * @return Return value.
+ * @details Implements pluginTypeToString without additional internal calls.
+ */
 std::string pluginTypeToString(themis::plugins::PluginType t) {
     using PT = themis::plugins::PluginType;
     switch (t) {
@@ -127,6 +142,11 @@ namespace plugins {
 // Key management
 // =============================================================================
 
+/**
+ * @brief Add Pinned Key.
+ * @param[in] key Input parameter.
+ * @details Calls: lock(), std::move(), push_back().
+ */
 void SignedPluginRepository::addPinnedKey(PinnedKey key) {
     std::lock_guard<std::mutex> lock(mutex_);
     // Replace existing key with the same fingerprint if present
@@ -139,6 +159,12 @@ void SignedPluginRepository::addPinnedKey(PinnedKey key) {
     pinned_keys_.push_back(std::move(key));
 }
 
+/**
+ * @brief Remove Pinned Key.
+ * @param[in] fingerprint Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), std::find_if(), begin(), end(), erase().
+ */
 bool SignedPluginRepository::removePinnedKey(const std::string& fingerprint) {
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = std::find_if(pinned_keys_.begin(), pinned_keys_.end(),
@@ -153,12 +179,22 @@ bool SignedPluginRepository::removePinnedKey(const std::string& fingerprint) {
 }
 
 bool SignedPluginRepository::hasPinnedKey(const std::string& fingerprint) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     const PinnedKey* k = findPinnedKeyLocked(fingerprint);
     return k != nullptr && k->active;
 }
 
 std::vector<PinnedKey> SignedPluginRepository::getPinnedKeys() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return pinned_keys_;
 }
@@ -167,6 +203,12 @@ std::vector<PinnedKey> SignedPluginRepository::getPinnedKeys() const {
 // Catalog management
 // =============================================================================
 
+/**
+ * @brief Add Entry.
+ * @param[in] entry Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), verifyEntryLocked(), push_back().
+ */
 bool SignedPluginRepository::addEntry(const RepositoryEntry& entry) {
     // Hold the lock for the entire verify+insert sequence to prevent a TOCTOU
     // race where a pinned key is deactivated between verification and insertion.
@@ -187,6 +229,11 @@ bool SignedPluginRepository::addEntry(const RepositoryEntry& entry) {
 }
 
 bool SignedPluginRepository::verifyEntry(const RepositoryEntry& entry) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return verifyEntryLocked(entry);
 }
@@ -195,6 +242,11 @@ std::optional<RepositoryEntry> SignedPluginRepository::findEntry(
     const std::string& name,
     const std::string& version) const
 {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     if (!version.empty()) {
         // Exact match
@@ -224,6 +276,11 @@ std::optional<RepositoryEntry> SignedPluginRepository::findEntry(
 std::vector<RepositoryEntry> SignedPluginRepository::findByName(
     const std::string& name) const
 {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     std::vector<RepositoryEntry> result = {};
 
@@ -236,10 +293,19 @@ std::vector<RepositoryEntry> SignedPluginRepository::findByName(
 }
 
 std::vector<RepositoryEntry> SignedPluginRepository::listEntries() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return entries_;
 }
 
+/**
+ * @brief Clear.
+ * @details Calls: lock().
+ */
 void SignedPluginRepository::clear() {
     std::lock_guard<std::mutex> lock(mutex_);
     entries_.clear();
@@ -249,6 +315,11 @@ void SignedPluginRepository::clear() {
 // Utilities
 // =============================================================================
 
+/**
+ * @brief Compute Key Fingerprint.
+ * @param[in] public_key Input parameter.
+ * @return Return value.
+ */
 std::string SignedPluginRepository::computeKeyFingerprint(
     const std::vector<uint8_t>& public_key)
 {
@@ -262,6 +333,11 @@ std::string SignedPluginRepository::computeKeyFingerprint(
     return bytesToHex(digest, SHA256_DIGEST_LENGTH);
 }
 
+/**
+ * @brief Canonical Manifest Json.
+ * @param[in] m Input parameter.
+ * @return Return value.
+ */
 std::string SignedPluginRepository::canonicalManifestJson(
     const MarketplaceManifest& m)
 {
@@ -347,6 +423,11 @@ bool SignedPluginRepository::verifyEd25519Signature(
     if (!pkey_raw) {
         return false;
     }
+    /**
+     * @brief Pkey.
+     * @param[in] pkey_raw Input parameter.
+     * @return Return value.
+     */
     UniqueEvpPkey pkey(pkey_raw);
     
     // Create EVP_MD_CTX using RAII wrapper to ensure cleanup

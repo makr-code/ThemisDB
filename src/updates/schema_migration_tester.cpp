@@ -56,6 +56,11 @@ SchemaMigrationTester::SchemaMigrationTester()
 SchemaMigrationTester::SchemaMigrationTester(const Config& config)
     : config_(config) {}
 
+/**
+ * @brief Add Test Case.
+ * @param[in] tc Input parameter.
+ * @details Calls: push_back(), std::move().
+ */
 void SchemaMigrationTester::addTestCase(MigrationTestCase tc) {
     user_test_cases_.push_back(std::move(tc));
 }
@@ -71,6 +76,14 @@ std::string SchemaMigrationTester::makeStagingPath() const {
 // testMigration
 // ----------------------------------------------------------------------------
 
+/**
+ * @brief Test Migration.
+ * @param[in] table_name Name of the table.
+ * @param[in] from_schema Input parameter.
+ * @param[in] to_schema Input parameter.
+ * @return Return value.
+ * @details Calls: makeStagingPath(), fs::create_directories(), std::string(), what(), LOG_ERROR(), open(), fs::remove_all(), get().
+ */
 MigrationTestResult SchemaMigrationTester::testMigration(
     const std::string& table_name,
     const SchemaManager::TableSchema& from_schema,
@@ -168,6 +181,18 @@ MigrationTestResult SchemaMigrationTester::testMigration(
 // runBuiltinTests
 // ----------------------------------------------------------------------------
 
+/**
+ * @brief Run Builtin Tests.
+ * @param[in] table_name Name of the table.
+ * @param[in] from_schema Input parameter.
+ * @param[in] to_schema Input parameter.
+ * @param[in,out] staged_schema Input/output parameter.
+ * @param[in,out] staged_version Input/output parameter.
+ * @param[in,out] results Input/output parameter.
+ * @param[in,out] migration_script_out Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: push_back(), insert(), empty(), addResult(), validateMigration(), setTableSchema(), createSchemaVersion(), generateMigrationScript().
+ */
 bool SchemaMigrationTester::runBuiltinTests(
     const std::string& table_name,
     const SchemaManager::TableSchema& from_schema,
@@ -235,6 +260,18 @@ bool SchemaMigrationTester::runBuiltinTests(
 // promoteToProduction
 // ----------------------------------------------------------------------------
 
+/**
+ * @brief Promote To Production.
+ * @param[in] result Input parameter.
+ * @param[in,out] param Input/output parameter.
+ * @param[in,out] production_schema Input/output parameter.
+ * @param[in,out] production_version Input/output parameter.
+ * @param[in] table_name Name of the table.
+ * @param[in] to_schema Input parameter.
+ * @param[in] author Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: LOG_ERROR(), setTableSchema(), createSchemaVersion(), LOG_INFO().
+ */
 bool SchemaMigrationTester::promoteToProduction(
     const MigrationTestResult& result,
     RocksDBWrapper& /*production_db*/,

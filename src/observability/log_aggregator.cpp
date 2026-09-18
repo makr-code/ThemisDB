@@ -35,7 +35,12 @@ namespace observability {
 
 namespace {
 
-/// Escape a string for JSON embedding (minimal: only required characters).
+/**
+ * @brief Json Escape.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), std::snprintf().
+ */
 std::string jsonEscape(const std::string& s) {
     std::string out = {};
     out.reserve(s.size() + 4);
@@ -99,7 +104,12 @@ void injectTraceFields(core::concerns::ILogger::Fields& fields,
     }
 }
 
-/// Format a system_clock time_point as ISO-8601 UTC (seconds precision).
+/**
+ * @brief Format Timestamp.
+ * @param[in] tp Input parameter.
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::to_time_t(), gmtime_s(), gmtime_r(), std::strftime().
+ */
 std::string formatTimestamp(std::chrono::system_clock::time_point tp) {
     std::time_t t = std::chrono::system_clock::to_time_t(tp);
     std::tm tm_utc{};
@@ -132,7 +142,6 @@ std::string LogEntry::toJson() const {
 // LogAggregator::Impl
 // ---------------------------------------------------------------------------
 
-/** @brief LogAggregator::Impl. */
 class LogAggregator::Impl {
 public:
     /**
@@ -251,7 +260,6 @@ public:
     // Async worker thread
     // -----------------------------------------------------------------------
 
-    /// A single task posted to the async queue.
     struct AsyncTask {
         Level       level;
         std::string message;
@@ -260,12 +268,11 @@ public:
     };
 
     /**
-     * @brief Post a task to the async queue.
+     * @brief Enqueue.
      * @param[in] level Input parameter.
      * @param[in] message Input parameter.
      * @param[in] fields Input parameter.
      * @return Return value.
-     * @details Returns the associated future. If the queue is full or async is disabled, the promise is resolved immediately (record dropped) and the overflow counter incremented.
      */
     std::future<void> enqueue(Level level,
                                std::string message,
@@ -308,11 +315,6 @@ public:
         while (true) {
             AsyncTask task;
             {
-                /**
-                 * @brief Lk.
-                 * @param[in] async_mu_ Input parameter.
-                 * @return Return value.
-                 */
                 std::unique_lock<std::mutex> lk(async_mu_);
                 async_cv_.wait(lk, [this] {
                     return !async_queue_.empty() || worker_stop_.load();
@@ -340,11 +342,6 @@ public:
      */
     void stopWorker() {
         {
-            /**
-             * @brief Lk.
-             * @param[in] async_mu_ Input parameter.
-             * @return Return value.
-             */
             std::lock_guard<std::mutex> lk(async_mu_);
             worker_stop_.store(true);
         }
@@ -595,14 +592,14 @@ LogAggregatorConfig LogAggregator::getConfig() const {
     return impl_->config_;
 }
 
+
 /**
- * @brief --------------------------------------------------------------------------- IAsyncLogger overrides — worker-thread-backed async dispatch ---------------------------------------------------------------------------
+ * @brief Log Async.
  * @param[in] level Input parameter.
  * @param[in] message Input parameter.
  * @return Return value.
  * @details Calls: enqueue(), std::string().
  */
-
 std::future<void> LogAggregator::logAsync(Level level, std::string_view message) {
     return impl_->enqueue(level, std::string(message), {});
 }

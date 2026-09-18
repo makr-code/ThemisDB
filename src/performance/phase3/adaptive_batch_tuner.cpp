@@ -62,6 +62,11 @@ LLMBatchTuner::LLMBatchTuner(Config config)
 LLMBatchTuner::~LLMBatchTuner() = default;
 
 size_t LLMBatchTuner::recommendedBatchSize() const noexcept {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return current_batch_size_;
 }
@@ -92,6 +97,11 @@ void LLMBatchTuner::recordBatch(size_t batch_size,
 }
 
 void LLMBatchTuner::pushRecord(BatchRecord record) noexcept {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     // Validate record: throughput must be non-negative
@@ -179,6 +189,11 @@ void LLMBatchTuner::maybeTune() noexcept {
 }
 
 LLMBatchTuner::Stats LLMBatchTuner::getStats() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     Stats s;
@@ -216,6 +231,11 @@ size_t LLMBatchTuner::totalBatches() const noexcept {
 
 std::vector<LLMBatchTuner::BatchRecord>
 LLMBatchTuner::getRecentRecords(size_t limit) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     if (records_.empty()) {
@@ -229,6 +249,11 @@ LLMBatchTuner::getRecentRecords(size_t limit) const {
 }
 
 void LLMBatchTuner::reset() noexcept {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     records_.clear();
     current_batch_size_ = std::clamp(config_.initial_batch_size,

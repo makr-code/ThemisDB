@@ -36,6 +36,12 @@ std::string extractTagValue(const std::string& xml, const std::string& tag, size
     return xml.substr(open_end + 1, close_pos - open_end - 1);
 }
 
+/**
+ * @brief Parse Unsigned.
+ * @param[in] value Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), std::stoull().
+ */
 uint64_t parseUnsigned(const std::string& value) {
     if (value.empty()) {
         return 0;
@@ -43,6 +49,12 @@ uint64_t parseUnsigned(const std::string& value) {
     return static_cast<uint64_t>(std::stoull(value));
 }
 
+/**
+ * @brief Parse Int.
+ * @param[in] value Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), std::stoi().
+ */
 int parseInt(const std::string& value) {
     if (value.empty()) {
         return 0;

@@ -87,11 +87,11 @@ public:
         std::function<std::string(const std::string&)> llm_fn = nullptr
     );
 
+
     /**
-     * @brief ------------------------------------------------------------------------- Principle management (delegated to ConstitutionalReasoningEngine) -------------------------------------------------------------------------
+     * @brief Add Principle.
      * @param[in] principle Input parameter.
      */
-
     void addPrinciple(const llm::ConstitutionalPrinciple& principle);
 
     /**

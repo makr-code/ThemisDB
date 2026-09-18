@@ -127,7 +127,12 @@
 #include <time.h>
 #endif // !_WIN32
 
-// Portable wrappers for tm <-> time_t conversions
+/**
+ * @brief Portable wrappers for tm <-> time_t conversions
+ * @param[in] tmin Input parameter.
+ * @return Return value.
+ * @details Calls: _mkgmtime(), timegm().
+ */
 static inline time_t portable_mkgmtime_impl(std::tm const* tmin) {
 #ifdef _WIN32
     return _mkgmtime(const_cast<std::tm*>(tmin));
@@ -135,6 +140,12 @@ static inline time_t portable_mkgmtime_impl(std::tm const* tmin) {
     return timegm(const_cast<std::tm*>(tmin));
 #endif // _WIN32
 }
+/**
+ * @brief Portable gmtime r impl.
+ * @param[in] t Input parameter.
+ * @param[in,out] out Input/output parameter.
+ * @details Calls: gmtime_s(), gmtime_r().
+ */
 static inline void portable_gmtime_r_impl(const time_t* t, std::tm* out) {
 #ifdef _WIN32
     gmtime_s(out, t);
@@ -232,9 +243,6 @@ namespace server {
 // HttpServer Implementation
 // ============================================================================
 
-/**
- * @brief Construct server with base sharding dependencies.
- */
 HttpServer::HttpServer(
     const Config& config,
     std::shared_ptr<RocksDBWrapper> storage,
@@ -260,9 +268,6 @@ HttpServer::HttpServer(
         nullptr)
 {}
 
-/**
- * @brief Construct server with extended sharding and topology dependencies.
- */
 HttpServer::HttpServer(
     const Config& config,
     std::shared_ptr<RocksDBWrapper> storage,
@@ -597,6 +602,11 @@ HttpServer::HttpServer(
 
     // Initialize PII Mappings ColumnFamily + Handler (independent of CDC)
     if (config_.feature_pii_manager) {
+       /**
+        * @brief Lock.
+        * @param[in] storage_mutex_ Input parameter.
+        * @return Return value.
+        */
        std::lock_guard<std::mutex> lock(storage_mutex_);
        auto cf_result = storage_->getOrCreateColumnFamily("pii_mappings");
        if (cf_result) {
@@ -607,7 +617,11 @@ HttpServer::HttpServer(
            THEMIS_ERROR("Failed to initialize PII Manager CF: {}", cf_result.error().message());
        }
     } else {
-       // Fallback: use default CF (still functional, just no separation)
+       /**
+        * @brief Fallback: use default CF (still functional, just no separation)
+        * @param[in] storage_mutex_ Input parameter.
+        * @return Return value.
+        */
        std::lock_guard<std::mutex> lock(storage_mutex_);
        pii_api_ = std::make_unique<PIIApiHandler>(storage_->getRawDB(), nullptr);
        THEMIS_INFO("PII Manager initialized using default CF (feature flag off, CF isolation disabled)");
@@ -686,6 +700,11 @@ HttpServer::HttpServer(
     // Initialize Adaptive Index Manager (Sprint C) - always enabled
     // Now safe to initialize because Sharding context (if needed) is prepared above
     {
+       /**
+        * @brief Lock.
+        * @param[in] storage_mutex_ Input parameter.
+        * @return Return value.
+        */
        std::lock_guard<std::mutex> lock(storage_mutex_);
        adaptive_index_ = std::make_shared<AdaptiveIndexManager>(storage_->getRawDB());
     }
@@ -982,6 +1001,11 @@ HttpServer::HttpServer(
     continuous_learning_orchestrator_->triggerLoop4AdapterImprovement();
     workload_optimizer_->enable_auto_adapt(std::chrono::seconds(60));
     {
+        /**
+         * @brief Lock.
+         * @param[in] api_handlers_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(api_handlers_mutex_);
         monitoring_api_->setContinuousLearningOrchestrator(continuous_learning_orchestrator_);
     }
@@ -1001,6 +1025,11 @@ HttpServer::HttpServer(
         }
         alertmanager_ = std::make_shared<observability::DefaultAlertmanager>(am_cfg);
         {
+            /**
+             * @brief Lock.
+             * @param[in] api_handlers_mutex_ Input parameter.
+             * @return Return value.
+             */
             std::lock_guard<std::mutex> lock(api_handlers_mutex_);
             monitoring_api_->setAlertmanager(alertmanager_);  // monitoring keeps shared ownership
         }
@@ -1019,6 +1048,11 @@ HttpServer::HttpServer(
             auto cache_slo = std::make_shared<cache::CacheHitRateSloMonitor>(
                 slo_cfg, alertmanager_);
             {
+                /**
+                 * @brief Lock.
+                 * @param[in] api_handlers_mutex_ Input parameter.
+                 * @return Return value.
+                 */
                 std::lock_guard<std::mutex> lock(api_handlers_mutex_);
                 cache_admin_api_->setSloMonitor(std::move(cache_slo));
             }
@@ -1666,6 +1700,11 @@ HttpServer::HttpServer(
         std::vector<std::filesystem::path> candidates = {};
 
         if (const char* envp = std::getenv("THEMIS_POLICIES_PATH")) {
+            /**
+             * @brief P.
+             * @param[in] envp Input parameter.
+             * @return Return value.
+             */
             std::filesystem::path p(envp);
             candidates.push_back(p);
             // If the provided path does not exist, try resolving it relative to repository root
@@ -2083,6 +2122,11 @@ HttpServer::HttpServer(
     // Input validation limits
     // ----------------------------------------------------------------------------
     {
+        /**
+         * @brief Lock.
+         * @param[in] max_body_bytes_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(max_body_bytes_mutex_);
         if (auto v = themis_get_env("THEMIS_MAX_BODY_BYTES")) {
             try { max_body_bytes_ = static_cast<size_t>(std::stoull(*v)); }
@@ -2204,6 +2248,13 @@ HttpServer::HttpServer(
                 health_bind = env_bind;
             }
             
+            /**
+             * @brief Health config.
+             * @param[in] health_bind Input parameter.
+             * @param[in] health_port Input parameter.
+             * @param[in] true Input parameter.
+             * @return Return value.
+             */
             HealthErrorService::Config health_config(health_bind, health_port, true);
             health_error_service_ = std::make_unique<HealthErrorService>(health_config);
             THEMIS_INFO("Health/Error service created on {}:{}", health_bind, health_port);
@@ -2216,16 +2267,13 @@ HttpServer::HttpServer(
     }
 }
 
-/** @brief Destructor triggers graceful shutdown via stop(). */
 HttpServer::~HttpServer() {
     stop();
 }
 
 /**
- * @brief Start HTTP server accept loop, worker threads, and auxiliary services.
- *
- * Opens/binds/listens the TCP acceptor, starts io_context workers, and starts
- * optional health and HTTP/3 services when configured.
+ * @brief Start.
+ * @details Calls: THEMIS_WARN(), net::ip::make_address(), open(), protocol(), set_option(), net::socket_base::reuse_address(), bind(), listen().
  */
 void HttpServer::start() {
     if (running_) {
@@ -2306,11 +2354,8 @@ void HttpServer::start() {
 }
 
 /**
- * @brief Gracefully stop server components and join worker threads.
- *
- * Stops acceptor/services, drains in-flight requests until timeout, flushes
- * component state, stops io_context, joins workers, and finally shuts down
- * concerns context when present.
+ * @brief Stop.
+ * @details Calls: THEMIS_INFO(), is_auto_adapt_enabled(), disable_auto_adapt(), THEMIS_ERROR(), what(), close(), reset(), shutdown_mgr().
  */
 void HttpServer::stop() {
     if (!running_) {
@@ -2516,15 +2561,8 @@ void HttpServer::stop() {
 }
 
 /**
- * @brief Block until all worker threads have terminated.
- *
- * ioc_.stop() is expected to have been called before this; all threads
- * blocked in ioc_.run() will therefore return as soon as they finish their
- * current handler, making the join bounded in practice.
- * The previous std::async-based timed-join was semantically broken: the
- * std::future destructor for a std::launch::async task always blocks until
- * the async lambda completes, so wait_for() timing out would not actually
- * prevent the destructor from blocking at scope exit.
+ * @brief Wait.
+ * @details Calls: joinable(), join().
  */
 void HttpServer::wait() {
     for (auto& t : threads_) {
@@ -2535,8 +2573,9 @@ void HttpServer::wait() {
 }
 
 /**
- * @brief Reload TLS certificate/key pair for newly accepted sessions.
- * @return true on successful context rebuild and swap.
+ * @brief Reload Tls.
+ * @return True when the operation succeeds.
+ * @details Calls: THEMIS_WARN(), empty(), THEMIS_ERROR(), THEMIS_INFO(), use_certificate_chain_file(), use_private_key_file(), SSL_CTX_set_cipher_list(), native_handle().
  */
 bool HttpServer::reloadTls() {
     if (!config_.enable_tls) {
@@ -2613,6 +2652,14 @@ bool HttpServer::reloadTls() {
     }
 }
 
+/**
+ * @brief Record Continuous Learning Query Telemetry.
+ * @param[in] req Input parameter.
+ * @param[in] res Input parameter.
+ * @param[in] request_start Input parameter.
+ * @param[in] is_aql Input parameter.
+ * @details Calls: result_int(), body(), empty(), json::parse(), is_discarded(), json::object(), contains(), is_number_unsigned().
+ */
 void HttpServer::recordContinuousLearningQueryTelemetry(
     const http::request<http::string_body>& req,
     const http::response<http::string_body>& res,
@@ -2724,6 +2771,10 @@ void HttpServer::recordContinuousLearningQueryTelemetry(
 
 
 
+/**
+ * @brief Do Accept.
+ * @details Calls: async_accept(), net::make_strand(), beast::bind_front_handler().
+ */
 void HttpServer::doAccept() {
     acceptor_.async_accept(
         net::make_strand(ioc_),
@@ -2731,6 +2782,12 @@ void HttpServer::doAccept() {
     );
 }
 
+/**
+ * @brief On Accept.
+ * @param[in] ec Input parameter.
+ * @param[in] socket Input parameter.
+ * @details Calls: THEMIS_ERROR(), message(), load(), compare_exchange_weak(), THEMIS_WARN(), shutdown(), close(), lock().
+ */
 void HttpServer::onAccept(beast::error_code ec, tcp::socket socket) {
     if (ec) {
         THEMIS_ERROR("Accept error: {}", ec.message());
@@ -2812,7 +2869,12 @@ void HttpServer::onAccept(beast::error_code ec, tcp::socket socket) {
 }
 
 namespace {
-    // Helper function to URL decode a string
+    /**
+     * @brief Helper function to URL decode a string
+     * @param[in] str Input parameter.
+     * @return Return value.
+     * @details Calls: reserve(), size(), begin(), end(), std::distance(), is(), std::string().
+     */
     std::string urlDecode(const std::string& str) {
         std::string result = {};
         result.reserve(str.size());
@@ -2837,7 +2899,12 @@ namespace {
         return result;
     }
 
-    // Helper function to parse query parameters from URL
+    /**
+     * @brief Helper function to parse query parameters from URL
+     * @param[in] target_str Input parameter.
+     * @return Return value.
+     * @details Calls: nlohmann::json::object(), find(), substr(), size(), urlDecode(), emplace(), std::move().
+     */
     nlohmann::json parseQueryParams(const std::string& target_str) {
         nlohmann::json query_params = nlohmann::json::object();
         auto query_pos = target_str.find('?');
@@ -3281,6 +3348,12 @@ namespace {
         NotFound
     };
 
+    /**
+     * @brief Classify Route.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     * @details Calls: method(), std::string(), target(), find(), substr(), rfind(), data(), size().
+     */
     Route classifyRoute(const http::request<http::string_body>& req) {
         const auto method = req.method();
         const std::string target = std::string(req.target());
@@ -4596,6 +4669,12 @@ namespace {
     }
 }
 
+/**
+ * @brief Route Request.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: emplace(), std::string(), name_string(), value(), Tracer::startSpanFromHeaders(), setAttribute(), http::to_string(), method().
+ */
 http::response<http::string_body> HttpServer::routeRequest(
     const http::request<http::string_body>& req
 ) {
@@ -9347,9 +9426,12 @@ http::response<http::string_body> HttpServer::routeRequest(
     return response;
 }
 
-// -----------------------------------------------------------------------------
-// Keys / Classification / Reports API Handlers
-// -----------------------------------------------------------------------------
+/**
+ * @brief ----------------------------------------------------------------------------- Keys / Classification / Reports API Handlers -----------------------------------------------------------------------------
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: makeErrorResponse(), listKeys(), makeResponse(), dump(), what().
+ */
 
 http::response<http::string_body> HttpServer::handleKeysListKeys(
     const http::request<http::string_body>& req
@@ -9366,6 +9448,12 @@ http::response<http::string_body> HttpServer::handleKeysListKeys(
     }
 }
 
+/**
+ * @brief Handle Pki Sign.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: makeErrorResponse(), requireAccess(), std::string(), target(), extractPathParam(), size(), compare(), substr().
+ */
 http::response<http::string_body> HttpServer::handlePkiSign(
     const http::request<http::string_body>& req
 ) {
@@ -9416,6 +9504,12 @@ http::response<http::string_body> HttpServer::handlePkiSign(
     }
 }
 
+/**
+ * @brief Handle Pki Verify.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: makeErrorResponse(), requireAccess(), std::string(), target(), extractPathParam(), size(), compare(), substr().
+ */
 http::response<http::string_body> HttpServer::handlePkiVerify(
     const http::request<http::string_body>& req
 ) {
@@ -9465,9 +9559,12 @@ http::response<http::string_body> HttpServer::handlePkiVerify(
     }
 }
 
-// ============================================================================
-// New PKI HSM, TSA, eIDAS Handlers
-// ============================================================================
+/**
+ * @brief ============================================================================ New PKI HSM, TSA, eIDAS Handlers ============================================================================
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: makeErrorResponse(), requireAccess(), nlohmann::json::object(), body(), empty(), nlohmann::json::parse(), hsmSign(), contains().
+ */
 
 http::response<http::string_body> HttpServer::handlePkiHsmSign(
     const http::request<http::string_body>& req
@@ -9497,6 +9594,12 @@ http::response<http::string_body> HttpServer::handlePkiHsmSign(
     }
 }
 
+/**
+ * @brief Handle Pki Hsm Keys.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: makeErrorResponse(), requireAccess(), hsmListKeys(), contains(), value(), dump(), makeResponse(), what().
+ */
 http::response<http::string_body> HttpServer::handlePkiHsmKeys(
     const http::request<http::string_body>& req
 ) {
@@ -9520,6 +9623,12 @@ http::response<http::string_body> HttpServer::handlePkiHsmKeys(
     }
 }
 
+/**
+ * @brief Handle Pki Timestamp.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: makeErrorResponse(), requireAccess(), nlohmann::json::object(), body(), empty(), nlohmann::json::parse(), getTimestamp(), contains().
+ */
 http::response<http::string_body> HttpServer::handlePkiTimestamp(
     const http::request<http::string_body>& req
 ) {
@@ -9548,6 +9657,12 @@ http::response<http::string_body> HttpServer::handlePkiTimestamp(
     }
 }
 
+/**
+ * @brief Handle Pki Timestamp Verify.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: makeErrorResponse(), requireAccess(), nlohmann::json::object(), body(), empty(), nlohmann::json::parse(), verifyTimestamp(), contains().
+ */
 http::response<http::string_body> HttpServer::handlePkiTimestampVerify(
     const http::request<http::string_body>& req
 ) {
@@ -9576,6 +9691,12 @@ http::response<http::string_body> HttpServer::handlePkiTimestampVerify(
     }
 }
 
+/**
+ * @brief Handle Pki Eidas Sign.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: makeErrorResponse(), requireAccess(), nlohmann::json::object(), body(), empty(), nlohmann::json::parse(), eidasSign(), contains().
+ */
 http::response<http::string_body> HttpServer::handlePkiEidasSign(
     const http::request<http::string_body>& req
 ) {
@@ -9604,6 +9725,12 @@ http::response<http::string_body> HttpServer::handlePkiEidasSign(
     }
 }
 
+/**
+ * @brief Handle Pki Eidas Verify.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: makeErrorResponse(), requireAccess(), nlohmann::json::object(), body(), empty(), nlohmann::json::parse(), eidasVerify(), contains().
+ */
 http::response<http::string_body> HttpServer::handlePkiEidasVerify(
     const http::request<http::string_body>& req
 ) {
@@ -9632,6 +9759,12 @@ http::response<http::string_body> HttpServer::handlePkiEidasVerify(
     }
 }
 
+/**
+ * @brief Handle Pki Certificates.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: makeErrorResponse(), requireAccess(), listCertificates(), contains(), value(), dump(), makeResponse(), what().
+ */
 http::response<http::string_body> HttpServer::handlePkiCertificates(
     const http::request<http::string_body>& req
 ) {
@@ -9655,6 +9788,12 @@ http::response<http::string_body> HttpServer::handlePkiCertificates(
     }
 }
 
+/**
+ * @brief Handle Pki Certificate.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: makeErrorResponse(), requireAccess(), std::string(), target(), extractPathParam(), empty(), validatePathSegment(), getCertificate().
+ */
 http::response<http::string_body> HttpServer::handlePkiCertificate(
     const http::request<http::string_body>& req
 ) {
@@ -9688,6 +9827,12 @@ http::response<http::string_body> HttpServer::handlePkiCertificate(
     }
 }
 
+/**
+ * @brief Handle Pki Status.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: makeErrorResponse(), requireAccess(), getStatus(), contains(), value(), dump(), makeResponse(), what().
+ */
 http::response<http::string_body> HttpServer::handlePkiStatus(
     const http::request<http::string_body>& req
 ) {
@@ -9711,6 +9856,12 @@ http::response<http::string_body> HttpServer::handlePkiStatus(
     }
 }
 
+/**
+ * @brief Handle Keys Rotate Key.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: makeErrorResponse(), body(), empty(), json::parse(), contains(), value(), THEMIS_DEBUG(), std::string().
+ */
 http::response<http::string_body> HttpServer::handleKeysRotateKey(
     const http::request<http::string_body>& req
 ) {
@@ -9766,6 +9917,12 @@ http::response<http::string_body> HttpServer::handleKeysRotateKey(
 // API Key Management Handlers
 // -----------------------------------------------------------------------------
 
+/**
+ * @brief Handle Api Key Create.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: makeErrorResponse(), requireAccess(), body(), empty(), json::parse(), THEMIS_DEBUG(), createKey(), contains().
+ */
 http::response<http::string_body> HttpServer::handleApiKeyCreate(
     const http::request<http::string_body>& req
 ) {
@@ -9796,6 +9953,12 @@ http::response<http::string_body> HttpServer::handleApiKeyCreate(
     }
 }
 
+/**
+ * @brief Handle Api Key List.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: makeErrorResponse(), requireAccess(), listKeys(), makeResponse(), dump(), what().
+ */
 http::response<http::string_body> HttpServer::handleApiKeyList(
     const http::request<http::string_body>& req
 ) {
@@ -9814,6 +9977,12 @@ http::response<http::string_body> HttpServer::handleApiKeyList(
     }
 }
 
+/**
+ * @brief Handle Api Key Get.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: makeErrorResponse(), requireAccess(), extractPathParam(), std::string(), target(), empty(), validatePathSegment(), getKey().
+ */
 http::response<http::string_body> HttpServer::handleApiKeyGet(
     const http::request<http::string_body>& req
 ) {
@@ -9843,6 +10012,12 @@ http::response<http::string_body> HttpServer::handleApiKeyGet(
     }
 }
 
+/**
+ * @brief Handle Api Key Update.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: makeErrorResponse(), requireAccess(), extractPathParam(), std::string(), target(), empty(), validatePathSegment(), body().
+ */
 http::response<http::string_body> HttpServer::handleApiKeyUpdate(
     const http::request<http::string_body>& req
 ) {
@@ -9877,6 +10052,12 @@ http::response<http::string_body> HttpServer::handleApiKeyUpdate(
     }
 }
 
+/**
+ * @brief Handle Api Key Delete.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: makeErrorResponse(), requireAccess(), extractPathParam(), std::string(), target(), empty(), validatePathSegment(), deleteKey().
+ */
 http::response<http::string_body> HttpServer::handleApiKeyDelete(
     const http::request<http::string_body>& req
 ) {
@@ -9910,6 +10091,12 @@ http::response<http::string_body> HttpServer::handleApiKeyDelete(
 // Session Management Handlers
 // -----------------------------------------------------------------------------
 
+/**
+ * @brief Handle Session Create.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: makeErrorResponse(), empty(), themis::AuthMiddleware::extractBearerToken(), std::string_view(), data(), size(), body(), json::parse().
+ */
 http::response<http::string_body> HttpServer::handleSessionCreate(
     const http::request<http::string_body>& req
 ) {
@@ -9959,6 +10146,12 @@ http::response<http::string_body> HttpServer::handleSessionCreate(
     }
 }
 
+/**
+ * @brief Handle Session List.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: makeErrorResponse(), empty(), themis::AuthMiddleware::extractBearerToken(), std::string_view(), data(), size(), find(), end().
+ */
 http::response<http::string_body> HttpServer::handleSessionList(
     const http::request<http::string_body>& req
 ) {
@@ -9993,6 +10186,12 @@ http::response<http::string_body> HttpServer::handleSessionList(
     }
 }
 
+/**
+ * @brief Handle Session Revoke By Id.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: makeErrorResponse(), empty(), themis::AuthMiddleware::extractBearerToken(), std::string_view(), data(), size(), extractPathParam(), std::string().
+ */
 http::response<http::string_body> HttpServer::handleSessionRevokeById(
     const http::request<http::string_body>& req
 ) {
@@ -10025,6 +10224,12 @@ http::response<http::string_body> HttpServer::handleSessionRevokeById(
     }
 }
 
+/**
+ * @brief Handle Session Revoke Others.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: makeErrorResponse(), empty(), themis::AuthMiddleware::extractBearerToken(), std::string_view(), data(), size(), body(), json::parse().
+ */
 http::response<http::string_body> HttpServer::handleSessionRevokeOthers(
     const http::request<http::string_body>& req
 ) {
@@ -10065,9 +10270,12 @@ http::response<http::string_body> HttpServer::handleSessionRevokeOthers(
     }
 }
 
-// -----------------------------------------------------------------------------
-// SAML 2.0 SP Handlers
-// -----------------------------------------------------------------------------
+/**
+ * @brief ----------------------------------------------------------------------------- SAML 2.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details 0 SP Handlers ----------------------------------------------------------------------------- Calls: makeErrorResponse(), std::string(), target(), find(), substr(), iss(), std::getline(), urlDecode().
+ */
 
 http::response<http::string_body> HttpServer::handleSamlLogin(
     const http::request<http::string_body>& req
@@ -10113,6 +10321,12 @@ http::response<http::string_body> HttpServer::handleSamlLogin(
     }
 }
 
+/**
+ * @brief Handle Saml Acs.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: makeErrorResponse(), body(), empty(), iss(), std::getline(), find(), urlDecode(), substr().
+ */
 http::response<http::string_body> HttpServer::handleSamlAcs(
     const http::request<http::string_body>& req
 ) {
@@ -10172,6 +10386,12 @@ http::response<http::string_body> HttpServer::handleSamlAcs(
     }
 }
 
+/**
+ * @brief Handle Saml Slo.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: makeErrorResponse(), body(), empty(), json::parse(), contains(), is_string(), THEMIS_DEBUG(), handleSlo().
+ */
 http::response<http::string_body> HttpServer::handleSamlSlo(
     const http::request<http::string_body>& req
 ) {
@@ -10214,6 +10434,12 @@ http::response<http::string_body> HttpServer::handleSamlSlo(
     }
 }
 
+/**
+ * @brief Handle Saml Metadata.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: makeErrorResponse(), buildMetadataXml(), version(), set(), keep_alive(), body(), prepare_payload(), what().
+ */
 http::response<http::string_body> HttpServer::handleSamlMetadata(
     const http::request<http::string_body>& req
 ) {
@@ -10235,6 +10461,12 @@ http::response<http::string_body> HttpServer::handleSamlMetadata(
     }
 }
 
+/**
+ * @brief Handle Classification List Rules.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: makeErrorResponse(), listRules(), makeResponse(), dump(), what().
+ */
 http::response<http::string_body> HttpServer::handleClassificationListRules(
     const http::request<http::string_body>& req
 ) {
@@ -10250,6 +10482,12 @@ http::response<http::string_body> HttpServer::handleClassificationListRules(
     }
 }
 
+/**
+ * @brief Handle Classification Test.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: makeErrorResponse(), body(), empty(), json::parse(), testClassification(), makeResponse(), dump(), what().
+ */
 http::response<http::string_body> HttpServer::handleClassificationTest(
     const http::request<http::string_body>& req
 ) {
@@ -10269,6 +10507,12 @@ http::response<http::string_body> HttpServer::handleClassificationTest(
     }
 }
 
+/**
+ * @brief Handle Reports Compliance.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: makeErrorResponse(), std::string(), target(), find(), substr(), iss(), std::getline(), empty().
+ */
 http::response<http::string_body> HttpServer::handleReportsCompliance(
     const http::request<http::string_body>& req
 ) {
@@ -10300,9 +10544,12 @@ http::response<http::string_body> HttpServer::handleReportsCompliance(
     }
 }
 
-// -----------------------------------------------------------------------------
-// Metrics exporter (Prometheus text exposition)
-// -----------------------------------------------------------------------------
+/**
+ * @brief ----------------------------------------------------------------------------- Metrics exporter (Prometheus text exposition) -----------------------------------------------------------------------------
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: getMetrics(), load(), getApplySuccessCount(), getApplyFailCount(), getApplyLatencyLe50ms(), getApplyLatencyLe200ms(), getApplyLatencyLe1000ms(), getApplyLatencyGt1000ms().
+ */
 http::response<http::string_body> HttpServer::handleMetrics(const http::request<http::string_body>& req) {
     try {
         std::ostringstream out = {};
@@ -10571,6 +10818,11 @@ namespace {
           return out;
         }
         auto qs = target.substr(qpos + 1);
+        /**
+         * @brief Iss.
+         * @param[in] qs Input parameter.
+         * @return Return value.
+         */
         std::istringstream iss(qs);
         std::string kv = {};
         while (std::getline(iss, kv, '&')) {
@@ -10581,7 +10833,12 @@ namespace {
         }
         return out;
     }
-    // Parse ISO8601 with optional fractional seconds and timezone (Z or ±HH:MM), or epoch ms
+    /**
+     * @brief Parse ISO8601 with optional fractional seconds and timezone (Z or ±HH:MM), or epoch ms
+     * @param[in] s Input parameter.
+     * @return Return value.
+     * @details Calls: empty(), std::all_of(), begin(), end(), std::stoll(), find(), substr(), size().
+     */
     static int64_t parseTimeMs(const std::string& s) {
         if (s.empty()) {
           return 0;
@@ -10663,6 +10920,12 @@ namespace {
     }
 }
 
+/**
+ * @brief Handle Audit Query.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: enforceAuditRateLimit(), requireAccess(), makeErrorResponse(), parseQuery(), std::string(), target(), find(), end().
+ */
 http::response<http::string_body> HttpServer::handleAuditQuery(
     const http::request<http::string_body>& req
 ) {
@@ -10723,6 +10986,12 @@ http::response<http::string_body> HttpServer::handleAuditQuery(
     }
 }
 
+/**
+ * @brief Handle Audit Export Csv.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: enforceAuditRateLimit(), requireAccess(), makeErrorResponse(), parseQuery(), std::string(), target(), find(), end().
+ */
 http::response<http::string_body> HttpServer::handleAuditExportCsv(
     const http::request<http::string_body>& req
 ) {
@@ -10794,6 +11063,13 @@ http::response<http::string_body> HttpServer::handleAuditExportCsv(
     }
 }
 
+/**
+ * @brief Enforce Audit Rate Limit.
+ * @param[in] req Input parameter.
+ * @param[in] route_key Input parameter.
+ * @return Return value.
+ * @details Calls: std::string(), empty(), std::chrono::system_clock::now(), time_since_epoch(), count(), lk(), size(), begin().
+ */
 std::optional<http::response<http::string_body>> HttpServer::enforceAuditRateLimit(
     const http::request<http::string_body>& req,
     std::string_view route_key
@@ -10863,8 +11139,12 @@ std::optional<http::response<http::string_body>> HttpServer::enforceAuditRateLim
     }
 }
 
-// Monitoring endpoints (Health, Version, Stats, Capabilities) have been
-// moved to MonitoringApiHandler for better code organization
+/**
+ * @brief Monitoring endpoints (Health, Version, Stats, Capabilities) have been moved to MonitoringApiHandler for better code organization
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: isEnabled(), std::string(), target(), find(), substr(), method(), requireAccess(), logEvent().
+ */
 
 http::response<http::string_body> HttpServer::handleConfig(
     const http::request<http::string_body>& req
@@ -11134,8 +11414,13 @@ http::response<http::string_body> HttpServer::handleConfig(
 }
 
 
-// Metrics endpoint (Prometheus format) has been moved to MonitoringApiHandler
-// for better code organization and maintainability
+/**
+ * @brief Metrics endpoint (Prometheus format) has been moved to MonitoringApiHandler for better code organization and maintainability
+ * @param[in] req Input parameter.
+ * @param[in] scope Input parameter.
+ * @return Return value.
+ * @details Calls: isEnabled(), empty(), version(), set(), keep_alive(), body(), applyGovernanceHeaders(), prepare_payload().
+ */
 
 std::optional<http::response<http::string_body>> HttpServer::requireScope(
     const http::request<http::string_body>& req,
@@ -11189,7 +11474,15 @@ std::optional<http::response<http::string_body>> HttpServer::requireScope(
     return std::nullopt;
 }
 
-// Combined scope + policy authorization
+/**
+ * @brief Combined scope + policy authorization
+ * @param[in] req Input parameter.
+ * @param[in] required_scope Input parameter.
+ * @param[in] action Input parameter.
+ * @param[in] resource_path Path to the resource.
+ * @return Return value.
+ * @details Calls: isEnabled(), std::string(), empty(), target(), find(), substr(), version(), set().
+ */
 std::optional<http::response<http::string_body>> HttpServer::requireAccess(
     const http::request<http::string_body>& req,
     std::string_view required_scope,
@@ -11376,6 +11669,12 @@ HttpServer::AuthContext HttpServer::extractAuthContext(const http::request<http:
     
     return ctx;
 }
+/**
+ * @brief Handle Pii Reveal By Uuid.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), setAttribute(), ensurePIIPseudonymizer(), makeErrorResponse(), std::string(), what(), target(), find().
+ */
 http::response<http::string_body> HttpServer::handlePiiRevealByUuid(
     const http::request<http::string_body>& req
 ) {
@@ -11528,6 +11827,12 @@ http::response<http::string_body> HttpServer::handlePiiRevealByUuid(
     return makeResponse(http::status::ok, resp.dump(), req);
 }
 
+/**
+ * @brief Handle Pii Delete By Uuid.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), setAttribute(), std::string(), target(), find(), substr(), rfind(), makeErrorResponse().
+ */
 http::response<http::string_body> HttpServer::handlePiiDeleteByUuid(
     const http::request<http::string_body>& req
 ) {
@@ -11689,6 +11994,12 @@ http::response<http::string_body> HttpServer::handlePiiDeleteByUuid(
     return makeResponse(http::status::ok, resp.dump(), req);
 }
 
+/**
+ * @brief Handle Pii List Mappings.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: makeErrorResponse(), requireScope(), has_value(), std::string(), target(), find(), substr(), size().
+ */
 http::response<http::string_body> HttpServer::handlePiiListMappings(
     const http::request<http::string_body>& req
 ) {
@@ -11733,6 +12044,12 @@ http::response<http::string_body> HttpServer::handlePiiListMappings(
     return makeResponse(http::status::ok, js.dump(), req);
 }
 
+/**
+ * @brief Handle Pii Create Mapping.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: makeErrorResponse(), method(), requireScope(), has_value(), nlohmann::json::parse(), body(), contains(), value().
+ */
 http::response<http::string_body> HttpServer::handlePiiCreateMapping(
     const http::request<http::string_body>& req
 ) {
@@ -11764,6 +12081,12 @@ http::response<http::string_body> HttpServer::handlePiiCreateMapping(
     }
 }
 
+/**
+ * @brief Handle Pii Get By Uuid.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: makeErrorResponse(), requireScope(), has_value(), std::string(), target(), find(), substr(), rfind().
+ */
 http::response<http::string_body> HttpServer::handlePiiGetByUuid(
     const http::request<http::string_body>& req
 ) {
@@ -11792,6 +12115,12 @@ http::response<http::string_body> HttpServer::handlePiiGetByUuid(
     return makeResponse(http::status::ok, m->toJson().dump(), req);
 }
 
+/**
+ * @brief Handle Pii Export Csv.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: makeErrorResponse(), requireScope(), has_value(), std::string(), target(), find(), substr(), size().
+ */
 http::response<http::string_body> HttpServer::handlePiiExportCsv(
     const http::request<http::string_body>& req
 ) {
@@ -11839,6 +12168,12 @@ http::response<http::string_body> HttpServer::handlePiiExportCsv(
     return res;
 }
 
+/**
+ * @brief Handle Llm Interaction Post.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: load(), makeErrorResponse(), Tracer::startSpan(), setAttribute(), json::parse(), body(), value(), contains().
+ */
 http::response<http::string_body> HttpServer::handleLlmInteractionPost(
     const http::request<http::string_body>& req
 ) {
@@ -11896,6 +12231,12 @@ http::response<http::string_body> HttpServer::handleLlmInteractionPost(
     }
 }
 
+/**
+ * @brief Handle Llm Interaction List.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: load(), makeErrorResponse(), Tracer::startSpan(), setAttribute(), std::string(), target(), find(), substr().
+ */
 http::response<http::string_body> HttpServer::handleLlmInteractionList(
     const http::request<http::string_body>& req
 ) {
@@ -11967,6 +12308,12 @@ http::response<http::string_body> HttpServer::handleLlmInteractionList(
     }
 }
 
+/**
+ * @brief Handle Llm Interaction Get.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: load(), makeErrorResponse(), Tracer::startSpan(), setAttribute(), extractPathParam(), std::string(), target(), empty().
+ */
 http::response<http::string_body> HttpServer::handleLlmInteractionGet(
     const http::request<http::string_body>& req
 ) {
@@ -12009,6 +12356,12 @@ http::response<http::string_body> HttpServer::handleLlmInteractionGet(
     }
 }
 
+/**
+ * @brief Handle Llm Interaction Update Metadata.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: load(), makeErrorResponse(), Tracer::startSpan(), setAttribute(), target(), rfind(), substr(), find().
+ */
 http::response<http::string_body> HttpServer::handleLlmInteractionUpdateMetadata(
     const http::request<http::string_body>& req
 ) {
@@ -12082,6 +12435,11 @@ http::response<http::string_body> HttpServer::handleLlmInteractionUpdateMetadata
 }
 
 
+/**
+ * @brief Record Page Fetch.
+ * @param[in] duration_ms Input parameter.
+ * @details Calls: count(), fetch_add().
+ */
 void HttpServer::recordPageFetch(std::chrono::milliseconds duration_ms) {
     using namespace std::chrono;
     uint64_t ms = static_cast<uint64_t>(duration_ms.count());
@@ -12123,14 +12481,12 @@ void HttpServer::recordPageFetch(std::chrono::milliseconds duration_ms) {
     page_count_.fetch_add(1, std::memory_order_relaxed);
 }
 
-// ============================================================================
-// Entity Handlers (handleGetEntity, handlePutEntity, handleDeleteEntity, handleEntitiesBatch)
-// These handlers (~980 lines) have been extracted to EntityApiHandler (entity_api_)
-// and are no longer part of HttpServer. See:
-// - include/server/entity_api_handler.h
-// - src/server/entity_api_handler.cpp
-// Routing delegated at lines 1951-1963 in this file.
-// ============================================================================
+/**
+ * @brief ============================================================================ Entity Handlers (handleGetEntity, handlePutEntity, handleDeleteEntity, handleEntitiesBatch) These handlers (~980 lines) have been extracted to EntityApiHandler (entity_api_) and are no longer part of HttpServer.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details See: - include/server/entity_api_handler.h - src/server/entity_api_handler.cpp Routing delegated at lines 1951-1963 in this file. ============================================================================ Calls: makeErrorResponse(), extractPathParam(), std::string(), target(), empty(), getContentMeta(), makeResponse(), toJson().
+ */
 
 http::response<http::string_body> HttpServer::handleGetContent(
     const http::request<http::string_body>& req
@@ -12155,6 +12511,12 @@ http::response<http::string_body> HttpServer::handleGetContent(
     }
 }
 
+/**
+ * @brief Handle Get Content Blob.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: makeErrorResponse(), std::string(), target(), find(), substr(), size(), extractAuthContext(), getContentBlob().
+ */
 http::response<http::string_body> HttpServer::handleGetContentBlob(
     const http::request<http::string_body>& req
 ) {
@@ -12195,6 +12557,12 @@ http::response<http::string_body> HttpServer::handleGetContentBlob(
     }
 }
 
+/**
+ * @brief Handle Get Content Chunks.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: makeErrorResponse(), std::string(), target(), find(), substr(), size(), getContentChunks(), json::array().
+ */
 http::response<http::string_body> HttpServer::handleGetContentChunks(
     const http::request<http::string_body>& req
 ) {
@@ -12230,6 +12598,12 @@ http::response<http::string_body> HttpServer::handleGetContentChunks(
     }
 }
 
+/**
+ * @brief Handle Hybrid Search.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: makeErrorResponse(), json::parse(), body(), value(), contains(), is_object(), json::object(), searchWithExpansion().
+ */
 http::response<http::string_body> HttpServer::handleHybridSearch(
     const http::request<http::string_body>& req
 ) {
@@ -12272,6 +12646,12 @@ http::response<http::string_body> HttpServer::handleHybridSearch(
     }
 }
 
+/**
+ * @brief Handle Fulltext Search.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: makeErrorResponse(), json::parse(), body(), contains(), is_string(), value(), hasFulltextIndex(), scanFulltextWithScores().
+ */
 http::response<http::string_body> HttpServer::handleFulltextSearch(
     const http::request<http::string_body>& req
 ) {
@@ -12342,6 +12722,12 @@ http::response<http::string_body> HttpServer::handleFulltextSearch(
     }
 }
 
+/**
+ * @brief Handle Fusion Search.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: makeErrorResponse(), json::parse(), body(), contains(), is_string(), value(), hasFulltextIndex(), scanFulltextWithScores().
+ */
 http::response<http::string_body> HttpServer::handleFusionSearch(
     const http::request<http::string_body>& req
 ) {
@@ -12540,6 +12926,12 @@ http::response<http::string_body> HttpServer::handleFusionSearch(
     }
 }
 
+/**
+ * @brief Handle Content Filter Schema Get.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: makeErrorResponse(), get(), s(), begin(), end(), json::parse(), json::object(), makeResponse().
+ */
 http::response<http::string_body> HttpServer::handleContentFilterSchemaGet(
     const http::request<http::string_body>& req
 ) {
@@ -12565,6 +12957,12 @@ http::response<http::string_body> HttpServer::handleContentFilterSchemaGet(
     }
 }
 
+/**
+ * @brief Handle Content Filter Schema Put.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: makeErrorResponse(), json::parse(), body(), is_object(), contains(), dump(), bytes(), begin().
+ */
 http::response<http::string_body> HttpServer::handleContentFilterSchemaPut(
     const http::request<http::string_body>& req
 ) {
@@ -12592,6 +12990,12 @@ http::response<http::string_body> HttpServer::handleContentFilterSchemaPut(
     }
 }
 
+/**
+ * @brief Handle Content Config Get.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), setStatus(), makeErrorResponse(), get(), s(), begin(), end(), json::parse().
+ */
 http::response<http::string_body> HttpServer::handleContentConfigGet(
     const http::request<http::string_body>& req
 ) {
@@ -12626,6 +13030,12 @@ http::response<http::string_body> HttpServer::handleContentConfigGet(
     }
 }
 
+/**
+ * @brief Handle Content Config Put.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), setStatus(), makeErrorResponse(), json::parse(), body(), get(), s(), begin().
+ */
 http::response<http::string_body> HttpServer::handleContentConfigPut(
     const http::request<http::string_body>& req
 ) {
@@ -12723,6 +13133,12 @@ http::response<http::string_body> HttpServer::handleContentConfigPut(
     }
 }
 
+/**
+ * @brief Handle Edge Weight Config Get.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: makeErrorResponse(), get(), s(), begin(), end(), json::parse(), makeResponse(), dump().
+ */
 http::response<http::string_body> HttpServer::handleEdgeWeightConfigGet(
     const http::request<http::string_body>& req
 ) {
@@ -12748,6 +13164,12 @@ http::response<http::string_body> HttpServer::handleEdgeWeightConfigGet(
     }
 }
 
+/**
+ * @brief Handle Edge Weight Config Put.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: makeErrorResponse(), json::parse(), body(), is_object(), contains(), begin(), end(), value().
+ */
 http::response<http::string_body> HttpServer::handleEdgeWeightConfigPut(
     const http::request<http::string_body>& req
 ) {
@@ -12781,7 +13203,12 @@ http::response<http::string_body> HttpServer::handleEdgeWeightConfigPut(
     }
 }
 
-// ===================== Encryption Schema Management =====================
+/**
+ * @brief ===================== Encryption Schema Management =====================
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: isEnabled(), std::string(), target(), find(), substr(), requireAccess(), makeErrorResponse(), get().
+ */
 
 http::response<http::string_body> HttpServer::handleEncryptionSchemaGet(
     const http::request<http::string_body>& req
@@ -12826,6 +13253,12 @@ http::response<http::string_body> HttpServer::handleEncryptionSchemaGet(
     }
 }
 
+/**
+ * @brief Handle Encryption Schema Put.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: isEnabled(), std::string(), target(), find(), substr(), requireAccess(), makeErrorResponse(), json::parse().
+ */
 http::response<http::string_body> HttpServer::handleEncryptionSchemaPut(
     const http::request<http::string_body>& req
 ) {
@@ -12938,6 +13371,12 @@ http::response<http::string_body> HttpServer::handleEncryptionSchemaPut(
     }
 }
 
+/**
+ * @brief Handle Create Index.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: json::parse(), body(), contains(), makeErrorResponse(), createRangeIndex(), makeResponse(), dump(), is_object().
+ */
 http::response<http::string_body> HttpServer::handleCreateIndex(
     const http::request<http::string_body>& req
 ) {
@@ -13050,6 +13489,12 @@ http::response<http::string_body> HttpServer::handleCreateIndex(
     }
 }
 
+/**
+ * @brief Handle Drop Index.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: json::parse(), body(), contains(), makeErrorResponse(), is_string(), dropRangeIndex(), makeResponse(), dump().
+ */
 http::response<http::string_body> HttpServer::handleDropIndex(
     const http::request<http::string_body>& req
 ) {
@@ -13082,6 +13527,14 @@ http::response<http::string_body> HttpServer::handleDropIndex(
     }
 }
 
+/**
+ * @brief Make Response.
+ * @param[in] status Input parameter.
+ * @param[in] body Input parameter.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: version(), set(), keep_alive(), body(), applyGovernanceHeaders(), prepare_payload().
+ */
 http::response<http::string_body> HttpServer::makeResponse(
     http::status status,
     const std::string& body,
@@ -13098,6 +13551,14 @@ http::response<http::string_body> HttpServer::makeResponse(
     return res;
 }
 
+/**
+ * @brief Make Error Response.
+ * @param[in] status Input parameter.
+ * @param[in] message Input parameter.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: fetch_add(), makeResponse(), dump().
+ */
 http::response<http::string_body> HttpServer::makeErrorResponse(
     http::status status,
     const std::string& message,
@@ -13114,6 +13575,12 @@ http::response<http::string_body> HttpServer::makeErrorResponse(
     return makeResponse(status, error_body.dump(), req);
 }
 
+/**
+ * @brief Make Preflight Response.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: find(), end(), std::string(), value(), empty(), version(), set(), keep_alive().
+ */
 http::response<http::string_body> HttpServer::makePreflightResponse(
     const http::request<http::string_body>& req
 ) {
@@ -13178,6 +13645,12 @@ http::response<http::string_body> HttpServer::makePreflightResponse(
     return res;
 }
 
+/**
+ * @brief Apply Governance Headers.
+ * @param[in] req Input parameter.
+ * @param[in,out] res Input/output parameter.
+ * @details Calls: tolower(), std::string(), target(), find(), substr(), name_string(), beast::iequals(), to_lower().
+ */
 void HttpServer::applyGovernanceHeaders(
     const http::request<http::string_body>& req,
     http::response<http::string_body>& res
@@ -13366,6 +13839,11 @@ void HttpServer::applyGovernanceHeaders(
     cdn_cache_middleware_.apply(req, res);
 }
 
+/**
+ * @brief Record Latency.
+ * @param[in] duration Input parameter.
+ * @details Calls: count(), fetch_add().
+ */
 void HttpServer::recordLatency(std::chrono::microseconds duration) {
     uint64_t us = static_cast<uint64_t>(duration.count());
     latency_sum_us_.fetch_add(us, std::memory_order_relaxed);
@@ -13405,6 +13883,13 @@ void HttpServer::recordLatency(std::chrono::microseconds duration) {
     latency_bucket_inf_.fetch_add(1, std::memory_order_relaxed);
 }
 
+/**
+ * @brief Extract Path Param.
+ * @param[in] path Input parameter.
+ * @param[in] prefix Input parameter.
+ * @return Return value.
+ * @details Calls: rfind(), substr(), length(), find().
+ */
 std::string HttpServer::extractPathParam(
     const std::string& path,
     const std::string& prefix
@@ -13421,7 +13906,11 @@ std::string HttpServer::extractPathParam(
     return param;
 }
 
-// Lazy initialization for PIIPseudonymizer (deferred from constructor to avoid RocksDB deadlock)
+/**
+ * @brief Lazy initialization for PIIPseudonymizer (deferred from constructor to avoid RocksDB deadlock)
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: lock(), std::getenv(), spdlog::error(), spdlog::info(), what().
+ */
 void HttpServer::ensurePIIPseudonymizer() {
     std::lock_guard<std::mutex> lock(pii_init_mutex_);
     if (pii_pseudonymizer_) {
@@ -13476,6 +13965,10 @@ HttpServer::Session::~Session() {
     }
 }
 
+/**
+ * @brief Arm Read Timer.
+ * @details Calls: load(), expires_after(), std::chrono::milliseconds(), async_wait(), shared_from_this(), THEMIS_WARN(), boost::asio::write(), boost::asio::buffer().
+ */
 void HttpServer::Session::armReadTimer() {
     if (!server_) {
         return;
@@ -13522,10 +14015,18 @@ void HttpServer::Session::armReadTimer() {
     });
 }
 
+/**
+ * @brief Cancel Read Timer.
+ * @details Calls: cancel().
+ */
 void HttpServer::Session::cancelReadTimer() {
     read_timer_.cancel(); // cancels the pending async_wait, if any
 }
 
+/**
+ * @brief Start.
+ * @details Calls: doRead().
+ */
 void HttpServer::Session::start() {
     if (!server_) {
         return;
@@ -13533,6 +14034,10 @@ void HttpServer::Session::start() {
     doRead();
 }
 
+/**
+ * @brief Do Read.
+ * @details Calls: armReadTimer(), http::async_read(), beast::bind_front_handler(), shared_from_this().
+ */
 void HttpServer::Session::doRead() {
     if (!server_) {
         return;
@@ -13548,6 +14053,12 @@ void HttpServer::Session::doRead() {
     );
 }
 
+/**
+ * @brief On Read.
+ * @param[in] ec Input parameter.
+ * @param[in] bytes_transferred Input parameter.
+ * @details Calls: boost::ignore_unused(), cancelReadTimer(), shutdown(), THEMIS_ERROR(), message(), processRequest().
+ */
 void HttpServer::Session::onRead(
     beast::error_code ec,
     std::size_t bytes_transferred
@@ -13570,6 +14081,10 @@ void HttpServer::Session::onRead(
     processRequest();
 }
 
+/**
+ * @brief Process Request.
+ * @details Calls: websocket::is_upgrade(), ws_target(), target(), find(), substr(), api::WsChangeHandler::isChangeStreamPath(), ws_handler(), get().
+ */
 void HttpServer::Session::processRequest() {
     if (!server_) {
         return;
@@ -13748,6 +14263,10 @@ void HttpServer::Session::processRequest() {
     doWrite();
 }
 
+/**
+ * @brief Do Write.
+ * @details Calls: armReadTimer(), need_eof(), http::async_write(), beast::bind_front_handler(), shared_from_this().
+ */
 void HttpServer::Session::doWrite() {
     if (!server_) {
         return;
@@ -13769,6 +14288,13 @@ void HttpServer::Session::doWrite() {
     );
 }
 
+/**
+ * @brief On Write.
+ * @param[in] close Input parameter.
+ * @param[in] ec Input parameter.
+ * @param[in] bytes_transferred Input parameter.
+ * @details Calls: cancelReadTimer(), boost::ignore_unused(), THEMIS_ERROR(), message(), shutdown(), doRead().
+ */
 void HttpServer::Session::onWrite(
     bool close,
     beast::error_code ec,
@@ -13813,6 +14339,10 @@ HttpServer::SslSession::~SslSession() {
     }
 }
 
+/**
+ * @brief Arm Read Timer.
+ * @details Calls: load(), expires_after(), std::chrono::milliseconds(), async_wait(), shared_from_this(), THEMIS_WARN(), boost::asio::write(), boost::asio::buffer().
+ */
 void HttpServer::SslSession::armReadTimer() {
     if (!server_) {
         return;
@@ -13856,15 +14386,27 @@ void HttpServer::SslSession::armReadTimer() {
     });
 }
 
+/**
+ * @brief Cancel Read Timer.
+ * @details Calls: cancel().
+ */
 void HttpServer::SslSession::cancelReadTimer() {
     beast::error_code ec;
     read_timer_.cancel();
 }
 
+/**
+ * @brief Start.
+ * @details Calls: doHandshake().
+ */
 void HttpServer::SslSession::start() {
     doHandshake();
 }
 
+/**
+ * @brief Do Handshake.
+ * @details Calls: armReadTimer(), async_handshake(), beast::bind_front_handler(), shared_from_this().
+ */
 void HttpServer::SslSession::doHandshake() {
     // Arm timeout for TLS handshake as well
     armReadTimer();
@@ -13874,6 +14416,11 @@ void HttpServer::SslSession::doHandshake() {
     );
 }
 
+/**
+ * @brief On Handshake.
+ * @param[in] ec Input parameter.
+ * @details Calls: cancelReadTimer(), THEMIS_ERROR(), message(), SSL_get_peer_certificate(), native_handle(), X509_NAME_oneline(), X509_get_subject_name(), THEMIS_INFO().
+ */
 void HttpServer::SslSession::onHandshake(beast::error_code ec) {
     cancelReadTimer();
     if (ec) {
@@ -13903,6 +14450,10 @@ void HttpServer::SslSession::onHandshake(beast::error_code ec) {
     doRead();
 }
 
+/**
+ * @brief Do Read.
+ * @details Calls: armReadTimer(), http::async_read(), beast::bind_front_handler(), shared_from_this().
+ */
 void HttpServer::SslSession::doRead() {
     request_ = {};
     armReadTimer();
@@ -13915,6 +14466,12 @@ void HttpServer::SslSession::doRead() {
     );
 }
 
+/**
+ * @brief On Read.
+ * @param[in] ec Input parameter.
+ * @param[in] bytes_transferred Input parameter.
+ * @details Calls: boost::ignore_unused(), cancelReadTimer(), doShutdown(), THEMIS_ERROR(), message(), processRequest().
+ */
 void HttpServer::SslSession::onRead(
     beast::error_code ec,
     std::size_t bytes_transferred
@@ -13935,6 +14492,10 @@ void HttpServer::SslSession::onRead(
     processRequest();
 }
 
+/**
+ * @brief Process Request.
+ * @details Calls: websocket::is_upgrade(), ws_target(), target(), find(), substr(), api::WsChangeHandler::isChangeStreamPath(), ws_handler(), get().
+ */
 void HttpServer::SslSession::processRequest() {
     try {
 #ifdef THEMIS_ENABLE_WEBSOCKET
@@ -14113,6 +14674,10 @@ void HttpServer::SslSession::processRequest() {
     doWrite();
 }
 
+/**
+ * @brief Do Write.
+ * @details Calls: armReadTimer(), need_eof(), http::async_write(), beast::bind_front_handler(), shared_from_this().
+ */
 void HttpServer::SslSession::doWrite() {
     // Arm the I/O timeout for the write phase (same timer as read/handshake phase;
     // it was cancelled in onRead/onHandshake before we get here).
@@ -14131,6 +14696,13 @@ void HttpServer::SslSession::doWrite() {
     );
 }
 
+/**
+ * @brief On Write.
+ * @param[in] close Input parameter.
+ * @param[in] ec Input parameter.
+ * @param[in] bytes_transferred Input parameter.
+ * @details Calls: cancelReadTimer(), boost::ignore_unused(), THEMIS_ERROR(), message(), doShutdown(), doRead().
+ */
 void HttpServer::SslSession::onWrite(
     bool close,
     beast::error_code ec,
@@ -14154,6 +14726,10 @@ void HttpServer::SslSession::onWrite(
     doRead();
 }
 
+/**
+ * @brief Do Shutdown.
+ * @details Calls: armReadTimer(), async_shutdown(), beast::bind_front_handler(), shared_from_this(), cancelReadTimer(), THEMIS_ERROR(), message().
+ */
 void HttpServer::SslSession::doShutdown() {
     // W1-S02: prevent indefinite async_shutdown hang on stalled peers.
     armReadTimer();
@@ -14169,6 +14745,12 @@ void HttpServer::SslSession::doShutdown() {
     );
 }
 
+/**
+ * @brief Handle Index Stats.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: body(), empty(), json::parse(), contains(), std::string(), target(), find(), substr().
+ */
 http::response<http::string_body> HttpServer::handleIndexStats(
     const http::request<http::string_body>& req
 ) {
@@ -14264,6 +14846,12 @@ http::response<http::string_body> HttpServer::handleIndexStats(
     }
 }
 
+/**
+ * @brief Handle Index Rebuild.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: json::parse(), body(), contains(), makeErrorResponse(), rebuildIndex(), getIndexStats(), makeResponse(), dump().
+ */
 http::response<http::string_body> HttpServer::handleIndexRebuild(
     const http::request<http::string_body>& req
 ) {
@@ -14298,6 +14886,12 @@ http::response<http::string_body> HttpServer::handleIndexRebuild(
     }
 }
 
+/**
+ * @brief Handle Index Reindex.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: json::parse(), body(), contains(), makeErrorResponse(), reindexTable(), getAllIndexStats(), size(), json::array().
+ */
 http::response<http::string_body> HttpServer::handleIndexReindex(
     const http::request<http::string_body>& req
 ) {
@@ -14347,9 +14941,12 @@ http::response<http::string_body> HttpServer::handleIndexReindex(
 // Note: Time-Series endpoints have been extracted to TimeSeriesApiHandler
 // See: src/server/timeseries_api_handler.cpp
 
-// ============================================================================
-// Sprint C: Adaptive Indexing Endpoints
-// ============================================================================
+/**
+ * @brief ============================================================================ Sprint C: Adaptive Indexing Endpoints ============================================================================
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), std::string(), target(), find(), substr(), iss(), std::getline(), std::stod().
+ */
 
 http::response<http::string_body> HttpServer::handleIndexSuggestions(
     const http::request<http::string_body>& req
@@ -14409,6 +15006,12 @@ http::response<http::string_body> HttpServer::handleIndexSuggestions(
     }
 }
 
+/**
+ * @brief Handle Index Patterns.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), std::string(), target(), find(), substr(), setAttribute(), getPatterns(), json::array().
+ */
 http::response<http::string_body> HttpServer::handleIndexPatterns(
     const http::request<http::string_body>& req
 ) {
@@ -14451,6 +15054,12 @@ http::response<http::string_body> HttpServer::handleIndexPatterns(
     }
 }
 
+/**
+ * @brief Handle Index Record Pattern.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), json::parse(), body(), value(), int64_t(), empty(), makeErrorResponse(), setStatus().
+ */
 http::response<http::string_body> HttpServer::handleIndexRecordPattern(
     const http::request<http::string_body>& req
 ) {
@@ -14505,6 +15114,12 @@ http::response<http::string_body> HttpServer::handleIndexRecordPattern(
     }
 }
 
+/**
+ * @brief Handle Index Clear Patterns.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), getPatternTracker(), size(), clear(), setAttribute(), setStatus(), makeResponse(), dump().
+ */
 http::response<http::string_body> HttpServer::handleIndexClearPatterns(
     const http::request<http::string_body>& req
 ) {
@@ -14561,6 +15176,12 @@ std::string HttpServer::extractClientIP(const http::request<http::string_body>& 
     return "";
 }
 
+/**
+ * @brief Check whether a user exceeds the current rate limit.
+ * @param[in] req Input parameter.
+ * @return True when the user remains within the configured limit.
+ * @details Calls: extractClientIP(), isEnabled(), find(), end(), std::string(), size(), substr(), extractContext().
+ */
 std::optional<http::response<http::string_body>> HttpServer::checkRateLimit(
     const http::request<http::string_body>& req
 ) {
@@ -15136,6 +15757,12 @@ std::vector<HttpServer::RegisteredEndpoint> HttpServer::getRegisteredEndpoints()
 
 // ============================================================================
 // Error API handlers
+/**
+ * @brief Handle Error Api List.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: std::string(), target(), parseQueryParams(), http::to_string(), method(), nlohmann::json::object(), handleGetErrors(), makeResponse().
+ */
 http::response<http::string_body> HttpServer::handleErrorApiList(
     const http::request<http::string_body>& req
 ) {
@@ -15171,6 +15798,12 @@ http::response<http::string_body> HttpServer::handleErrorApiList(
     }
 }
 
+/**
+ * @brief Handle Error Api Get By Code.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: std::string(), target(), find(), substr(), rfind(), size(), http::to_string(), method().
+ */
 http::response<http::string_body> HttpServer::handleErrorApiGetByCode(
     const http::request<http::string_body>& req
 ) {
@@ -15216,6 +15849,12 @@ http::response<http::string_body> HttpServer::handleErrorApiGetByCode(
     }
 }
 
+/**
+ * @brief Handle Error Api Categories.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: std::string(), http::to_string(), method(), target(), nlohmann::json::object(), handleGetCategories(), makeResponse(), dump().
+ */
 http::response<http::string_body> HttpServer::handleErrorApiCategories(
     const http::request<http::string_body>& req
 ) {
@@ -15247,6 +15886,12 @@ http::response<http::string_body> HttpServer::handleErrorApiCategories(
     }
 }
 
+/**
+ * @brief Handle Error Api Search.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: std::string(), target(), parseQueryParams(), http::to_string(), method(), nlohmann::json::object(), handleSearchErrors(), makeResponse().
+ */
 http::response<http::string_body> HttpServer::handleErrorApiSearch(
     const http::request<http::string_body>& req
 ) {
@@ -15286,6 +15931,12 @@ http::response<http::string_body> HttpServer::handleErrorApiSearch(
 // Schema API Handlers
 // ============================================================================
 
+/**
+ * @brief Handle Schema Get Full.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: makeErrorResponse(), handleGetSchema().
+ */
 http::response<http::string_body> HttpServer::handleSchemaGetFull(
     const http::request<http::string_body>& req
 ) {
@@ -15297,6 +15948,12 @@ http::response<http::string_body> HttpServer::handleSchemaGetFull(
     return schema_api_handler.handleGetSchema(req);
 }
 
+/**
+ * @brief Handle Schema Get Tables.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: makeErrorResponse(), handleGetTables().
+ */
 http::response<http::string_body> HttpServer::handleSchemaGetTables(
     const http::request<http::string_body>& req
 ) {
@@ -15308,6 +15965,12 @@ http::response<http::string_body> HttpServer::handleSchemaGetTables(
     return schema_api_handler.handleGetTables(req);
 }
 
+/**
+ * @brief Handle Schema Get Table.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: makeErrorResponse(), handleGetTable().
+ */
 http::response<http::string_body> HttpServer::handleSchemaGetTable(
     const http::request<http::string_body>& req
 ) {
@@ -15319,6 +15982,12 @@ http::response<http::string_body> HttpServer::handleSchemaGetTable(
     return schema_api_handler.handleGetTable(req);
 }
 
+/**
+ * @brief Handle Schema Put.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: makeErrorResponse(), handlePutSchema(), result_int(), triggerLoop3IndexLifecycle().
+ */
 http::response<http::string_body> HttpServer::handleSchemaPut(
     const http::request<http::string_body>& req
 ) {
@@ -15336,6 +16005,12 @@ http::response<http::string_body> HttpServer::handleSchemaPut(
     return response;
 }
 
+/**
+ * @brief Handle Schema Patch.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: makeErrorResponse(), handlePatchSchema(), result_int(), triggerLoop3IndexLifecycle().
+ */
 http::response<http::string_body> HttpServer::handleSchemaPatch(
     const http::request<http::string_body>& req
 ) {
@@ -15357,6 +16032,11 @@ http::response<http::string_body> HttpServer::handleSchemaPatch(
 // Metadata extended handler shims
 // ============================================================================
 
+/**
+ * @brief Handle Metadata Information Schema.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ */
 http::response<http::string_body> HttpServer::handleMetadataInformationSchema(
     const http::request<http::string_body>& req)
 {
@@ -15368,6 +16048,11 @@ http::response<http::string_body> HttpServer::handleMetadataInformationSchema(
     return schema_api_handler.handleGetInformationSchema(req);
 }
 
+/**
+ * @brief Handle Metadata Get Stats.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ */
 http::response<http::string_body> HttpServer::handleMetadataGetStats(
     const http::request<http::string_body>& req)
 {
@@ -15379,6 +16064,11 @@ http::response<http::string_body> HttpServer::handleMetadataGetStats(
     return schema_api_handler.handleGetStats(req);
 }
 
+/**
+ * @brief Handle Metadata Collect Stats.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ */
 http::response<http::string_body> HttpServer::handleMetadataCollectStats(
     const http::request<http::string_body>& req)
 {
@@ -15390,6 +16080,11 @@ http::response<http::string_body> HttpServer::handleMetadataCollectStats(
     return schema_api_handler.handleCollectStats(req);
 }
 
+/**
+ * @brief Handle Metadata Get Constraints.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ */
 http::response<http::string_body> HttpServer::handleMetadataGetConstraints(
     const http::request<http::string_body>& req)
 {
@@ -15401,6 +16096,11 @@ http::response<http::string_body> HttpServer::handleMetadataGetConstraints(
     return schema_api_handler.handleGetConstraints(req);
 }
 
+/**
+ * @brief Handle Metadata Index Recommendations.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ */
 http::response<http::string_body> HttpServer::handleMetadataIndexRecommendations(
     const http::request<http::string_body>& req)
 {
@@ -15412,6 +16112,11 @@ http::response<http::string_body> HttpServer::handleMetadataIndexRecommendations
     return schema_api_handler.handleGetIndexRecommendations(req);
 }
 
+/**
+ * @brief Handle Schema Version History.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ */
 http::response<http::string_body> HttpServer::handleSchemaVersionHistory(
     const http::request<http::string_body>& req)
 {
@@ -15423,6 +16128,11 @@ http::response<http::string_body> HttpServer::handleSchemaVersionHistory(
     return schema_api_handler.handleGetVersionHistory(req);
 }
 
+/**
+ * @brief Handle Schema Create Version.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ */
 http::response<http::string_body> HttpServer::handleSchemaCreateVersion(
     const http::request<http::string_body>& req)
 {
@@ -15440,6 +16150,11 @@ http::response<http::string_body> HttpServer::handleSchemaCreateVersion(
     return response;
 }
 
+/**
+ * @brief Handle Schema Diff.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ */
 http::response<http::string_body> HttpServer::handleSchemaDiff(
     const http::request<http::string_body>& req)
 {
@@ -15451,6 +16166,11 @@ http::response<http::string_body> HttpServer::handleSchemaDiff(
     return schema_api_handler.handleGetDiff(req);
 }
 
+/**
+ * @brief Handle Metadata Audit Log.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ */
 http::response<http::string_body> HttpServer::handleMetadataAuditLog(
     const http::request<http::string_body>& req)
 {
@@ -15462,6 +16182,11 @@ http::response<http::string_body> HttpServer::handleMetadataAuditLog(
     return schema_api_handler.handleGetAuditLog(req);
 }
 
+/**
+ * @brief Handle Metadata Schema Import.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ */
 http::response<http::string_body> HttpServer::handleMetadataSchemaImport(
     const http::request<http::string_body>& req)
 {
@@ -15479,6 +16204,11 @@ http::response<http::string_body> HttpServer::handleMetadataSchemaImport(
     return response;
 }
 
+/**
+ * @brief Handle Metadata Batch Validate.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ */
 http::response<http::string_body> HttpServer::handleMetadataBatchValidate(
     const http::request<http::string_body>& req)
 {
@@ -15490,6 +16220,11 @@ http::response<http::string_body> HttpServer::handleMetadataBatchValidate(
     return schema_api_handler.handleBatchConstraintValidation(req);
 }
 
+/**
+ * @brief Handle Metadata Get Column Lineage.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ */
 http::response<http::string_body> HttpServer::handleMetadataGetColumnLineage(
     const http::request<http::string_body>& req)
 {
@@ -15501,6 +16236,11 @@ http::response<http::string_body> HttpServer::handleMetadataGetColumnLineage(
     return schema_api_handler.handleGetColumnLineage(req);
 }
 
+/**
+ * @brief Handle Metadata Record Lineage Derivation.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ */
 http::response<http::string_body> HttpServer::handleMetadataRecordLineageDerivation(
     const http::request<http::string_body>& req)
 {
@@ -15512,12 +16252,12 @@ http::response<http::string_body> HttpServer::handleMetadataRecordLineageDerivat
     return schema_api_handler.handleRecordLineageDerivation(req);
 }
 
-// ── ContentFS HTTP handlers ─────────────────────────────────────────────────
-// These wrap ContentFS (binary blob storage) over HTTP:
-//   PUT    /api/v1/content/fs/{pk}  — store blob (body = raw bytes, Content-Type header used as MIME)
-//   GET    /api/v1/content/fs/{pk}  — retrieve blob
-//   HEAD   /api/v1/content/fs/{pk}  — metadata only (no body)
-//   DELETE /api/v1/content/fs/{pk}  — remove blob
+/**
+ * @brief ── ContentFS HTTP handlers ───────────────────────────────────────────────── These wrap ContentFS (binary blob storage) over HTTP: PUT /api/v1/content/fs/{pk} — store blob (body = raw bytes, Content-Type header used as MIME) GET /api/v1/content/fs/{pk} — retrieve blob HEAD /api/v1/content/fs/{pk} — metadata only (no body) DELETE /api/v1/content/fs/{pk} — remove blob
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: std::string(), target(), find(), substr(), size().
+ */
 
 static std::string extractContentFsPk(const http::request<http::string_body>& req) {
     std::string path = std::string(req.target());
@@ -15532,6 +16272,11 @@ static std::string extractContentFsPk(const http::request<http::string_body>& re
     return {};
 }
 
+/**
+ * @brief Handle Content Fs Put.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ */
 http::response<http::string_body> HttpServer::handleContentFsPut(
     const http::request<http::string_body>& req)
 {
@@ -15574,6 +16319,11 @@ http::response<http::string_body> HttpServer::handleContentFsPut(
     return makeResponse(http::status::created, body.dump(), req);
 }
 
+/**
+ * @brief Handle Content Fs Get.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ */
 http::response<http::string_body> HttpServer::handleContentFsGet(
     const http::request<http::string_body>& req)
 {
@@ -15646,6 +16396,11 @@ http::response<http::string_body> HttpServer::handleContentFsGet(
     return resp;
 }
 
+/**
+ * @brief Handle Content Fs Head.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ */
 http::response<http::string_body> HttpServer::handleContentFsHead(
     const http::request<http::string_body>& req)
 {
@@ -15676,6 +16431,11 @@ http::response<http::string_body> HttpServer::handleContentFsHead(
     return resp;
 }
 
+/**
+ * @brief Handle Content Fs Delete.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ */
 http::response<http::string_body> HttpServer::handleContentFsDelete(
     const http::request<http::string_body>& req)
 {
@@ -15699,6 +16459,10 @@ http::response<http::string_body> HttpServer::handleContentFsDelete(
     return makeResponse(http::status::no_content, "", req);
 }
 
+/**
+ * @brief Set Continuous Query Engine.
+ * @param[in] engine Input parameter.
+ */
 void HttpServer::setContinuousQueryEngine(
     std::shared_ptr<themis::query::ContinuousQueryEngine> engine)
 {
@@ -15715,6 +16479,10 @@ void HttpServer::setContinuousQueryEngine(
 }
 
 #ifdef THEMIS_ENABLE_MCP
+/**
+ * @brief Set Mcp Server.
+ * @param[in] mcp_server Input parameter.
+ */
 void HttpServer::setMcpServer(
     std::shared_ptr<themis::server::McpServer> mcp_server)
 {

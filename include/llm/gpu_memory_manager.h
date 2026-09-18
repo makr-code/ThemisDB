@@ -29,14 +29,6 @@ namespace detail {
     class MemoryHolder;
 }
 
-/**
- * @brief GPU Memory Manager for multi-model and multi-GPU serving
- * 
- * Week 6 Implementation: Tracks GPU memory usage across multiple models
- * and integrates with LazyModelLoader for intelligent eviction decisions.
- * 
- * v1.4.0 Enhancement: Added multi-GPU support for distributed LoRA adapters.
- */
 class GPUMemoryManager {
 public:
     using GPUTemperatureProviderFn = std::function<bool(int gpu_device_id, float& temperature_celsius)>;
@@ -69,26 +61,19 @@ public:
         GPUTemperatureProviderFn temperature_provider_fn;  // Optional temperature callback
     };
     
+    /**
+     * @brief GPUMemory Manager.
+     * @param[in] config Input parameter.
+     * @return Return value.
+     */
     explicit GPUMemoryManager(const Config& config);
     ~GPUMemoryManager();
 
-    /**
-     * @brief Function type for per-device GPU temperature query (stub #309).
-     *
-     * When injected via setNvmlTemperatureFn(), updateGPUHealth() uses this
-     * function as the preferred temperature source. If no hardware backend is
-     * available and no provider succeeds, the manager reports an explicit
-     * unavailable GPU state instead of fabricating healthy telemetry.
-     */
     using NvmlTemperatureFn = std::function<float(int /*device_id*/)>;
 
     /**
-     * @brief Inject an NVML-based (or mock) GPU temperature provider.
-     *
-     * Thread-safe. Passing nullptr reverts to built-in hardware query and, if
-     * no usable backend exists, explicit unavailable-state reporting.
-     *
-     * @param fn Temperature query callback.
+     * @brief Set Nvml Temperature Fn.
+     * @param[in] fn Input parameter.
      */
     static void setNvmlTemperatureFn(NvmlTemperatureFn fn);
     
@@ -180,7 +165,16 @@ public:
     [[nodiscard]] GPUHealth getGPUHealth(int gpu_device_id) const;
     [[nodiscard]] std::vector<GPUHealth> getAllGPUHealth() const;
     [[nodiscard]] bool isGPUHealthy(int gpu_device_id) const;
+    /**
+     * @brief Mark GPUUnhealthy.
+     * @param[in] gpu_device_id Identifier of the gpu device.
+     * @param[in] reason Input parameter.
+     */
     void markGPUUnhealthy(int gpu_device_id, const std::string& reason);
+    /**
+     * @brief Mark GPUHealthy.
+     * @param[in] gpu_device_id Identifier of the gpu device.
+     */
     void markGPUHealthy(int gpu_device_id);
     
     // Load balancing queries
@@ -195,18 +189,13 @@ public:
     [[nodiscard]] bool canAccessPeer(int src_gpu, int dst_gpu) const;
 
     /**
-     * @brief Install runtime GPU temperature provider.
-     * @param fn Provider callable that sets temperature_celsius and returns true on success.
-     *           When set, this overrides the construction-time Config::temperature_provider_fn.
+     * @brief Set GPUTemperature Provider Fn.
+     * @param[in] fn Input parameter.
      */
     void setGPUTemperatureProviderFn(GPUTemperatureProviderFn fn);
 
     /**
-     * @brief Remove runtime GPU temperature provider and use built-in hardware query.
-     *
-     * If the process has no usable GPU backend, subsequent health refreshes keep
-     * the device in an explicit unavailable state instead of synthesizing healthy
-     * temperatures.
+     * @brief Clear GPUTemperature Provider Fn.
      */
     void clearGPUTemperatureProviderFn();
     
@@ -239,14 +228,43 @@ private:
     std::unordered_map<int, std::vector<std::string>> gpu_adapters_;  // Adapters per GPU
     std::unordered_map<int, std::vector<std::string>> gpu_models_;    // Models per GPU
     
+    /**
+     * @brief Initialize GPU.
+     */
     void initializeGPU();
+    /**
+     * @brief Shutdown GPU.
+     */
     void shutdownGPU();
+    /**
+     * @brief Update Memory Stats.
+     */
     void updateMemoryStats();
+    /**
+     * @brief Update GPUHealth.
+     * @param[in] gpu_device_id Identifier of the gpu device.
+     */
     void updateGPUHealth(int gpu_device_id);  // Update health metrics
+    /**
+     * @brief Check GPUHealth.
+     * @param[in] gpu_device_id Identifier of the gpu device.
+     */
     void checkGPUHealth(int gpu_device_id);   // Perform health check
     
     // Defragmentation helper methods
+    /**
+     * @brief Defragment Model GPU.
+     * @param[in] model_id Identifier of the model.
+     * @param[in] gpu_allocs Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool defragmentModelGPU(const std::string& model_id, const std::vector<MemoryAllocation>& gpu_allocs);
+    /**
+     * @brief Defragment Model CPU.
+     * @param[in] model_id Identifier of the model.
+     * @param[in] cpu_allocs Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool defragmentModelCPU(const std::string& model_id, const std::vector<MemoryAllocation>& cpu_allocs);
 
 };

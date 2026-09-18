@@ -25,7 +25,6 @@ namespace toolbox {
 // ContentToolboxBridge::Impl
 // ─────────────────────────────────────────────────────────────────────────────
 
-/** @brief ContentToolboxBridge::Impl. */
 class ContentToolboxBridge::Impl {
 public:
     Impl(std::shared_ptr<IngestionToolbox>          toolbox,
@@ -136,6 +135,15 @@ void ContentToolboxBridge::recordLatency(uint64_t latency_ms) noexcept {
 // ingest()
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Ingest.
+ * @param[in] data Input parameter.
+ * @param[in] filename Input parameter.
+ * @param[in] mime_type Input parameter.
+ * @param[in] collection Input parameter.
+ * @param[in] user_context Input parameter.
+ * @return Return value.
+ */
 ContentToolboxBridge::BridgeResult ContentToolboxBridge::ingest(
     std::span<const std::byte> data,
     const std::string& filename,
@@ -258,6 +266,12 @@ ContentToolboxBridge::BridgeResult ContentToolboxBridge::ingest(
 // enrichExisting()
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Enrich Existing.
+ * @param[in] content_id Identifier of the content.
+ * @param[in] collection Input parameter.
+ * @return Return value.
+ */
 ContentToolboxBridge::BridgeResult ContentToolboxBridge::enrichExisting(
     const std::string& content_id,
     const std::string& collection)

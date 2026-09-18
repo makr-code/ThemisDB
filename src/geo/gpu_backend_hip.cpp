@@ -57,6 +57,16 @@ bool GpuKernelDispatcher::isAvailable() const noexcept {
 // dispatchContainment
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Dispatch Containment.
+ * @param[in] point_lats Input parameter.
+ * @param[in] point_lons Input parameter.
+ * @param[in] numPoints Input parameter.
+ * @param[in] polygon_coords Input parameter.
+ * @param[in] numPolygonVertices Input parameter.
+ * @return Return value.
+ * @details Calls: hipMalloc(), hipMemcpy(), get(), hipMemset(), launchContainment(), hipDeviceSynchronize(), resize(), data().
+ */
 GpuKernelDispatcher::ContainmentResult GpuKernelDispatcher::dispatchContainment(
     const double* point_lats,
     const double* point_lons,
@@ -133,6 +143,17 @@ GpuKernelDispatcher::ContainmentResult GpuKernelDispatcher::dispatchContainment(
 // dispatchDistance
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Dispatch Distance.
+ * @param[in] lats1 Input parameter.
+ * @param[in] lons1 Input parameter.
+ * @param[in] lats2 Input parameter.
+ * @param[in] lons2 Input parameter.
+ * @param[in] count Input parameter.
+ * @param[in] formula Input parameter.
+ * @return Return value.
+ * @details Calls: hipMalloc(), hipMemcpy(), get(), hipMemset(), launchDistance(), hipDeviceSynchronize(), resize(), data().
+ */
 GpuKernelDispatcher::DistanceResult GpuKernelDispatcher::dispatchDistance(
     const double* lats1,
     const double* lons1,

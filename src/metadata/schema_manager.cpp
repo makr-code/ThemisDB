@@ -138,6 +138,11 @@ SchemaManager::SchemaManager(
 // Public API - Schema Discovery
 // ============================================================================
 
+/**
+ * @brief Get All Tables.
+ * @return Return value.
+ * @details Calls: lock(), isCacheValid(), unlock(), write_lock(), buildCache(), reserve(), size(), push_back().
+ */
 std::vector<SchemaManager::TableSchema> SchemaManager::getAllTables() {
     std::shared_lock<std::shared_mutex> lock(cache_mutex_);
     
@@ -165,6 +170,12 @@ std::vector<SchemaManager::TableSchema> SchemaManager::getAllTables() {
     return tables;
 }
 
+/**
+ * @brief Get Table.
+ * @param[in] name Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), isCacheValid(), unlock(), write_lock(), buildCache(), find(), std::string(), end().
+ */
 std::optional<SchemaManager::TableSchema> SchemaManager::getTable(std::string_view name) {
     // Optimistic read path: take shared lock first.
     // If the cache is stale, upgrade to a unique (write) lock to rebuild, then
@@ -197,6 +208,11 @@ std::optional<SchemaManager::TableSchema> SchemaManager::getTable(std::string_vi
     return std::nullopt;
 }
 
+/**
+ * @brief Get All Relationships.
+ * @return Return value.
+ * @details Calls: lock(), isCacheValid(), unlock(), write_lock(), buildCache(), reserve(), size(), push_back().
+ */
 std::vector<SchemaManager::RelationshipSchema> SchemaManager::getAllRelationships() {
     std::shared_lock<std::shared_mutex> lock(cache_mutex_);
     if (!isCacheValid()) {
@@ -227,6 +243,11 @@ std::vector<SchemaManager::RelationshipSchema> SchemaManager::getAllRelationship
     return relationships;
 }
 
+/**
+ * @brief Get Database Metadata.
+ * @return Return value.
+ * @details Calls: lock(), isCacheValid(), unlock(), write_lock(), buildCache(), size(), push_back(), spdlog::debug().
+ */
 SchemaManager::DatabaseMetadata SchemaManager::getDatabaseMetadata() {
     std::shared_lock<std::shared_mutex> lock(cache_mutex_);
     if (!isCacheValid()) {
@@ -288,17 +309,31 @@ SchemaManager::DatabaseMetadata SchemaManager::getDatabaseMetadata() {
     return metadata;
 }
 
+/**
+ * @brief Refresh Cache.
+ * @details Calls: lock(), buildCache(), spdlog::info().
+ */
 void SchemaManager::refreshCache() {
     std::unique_lock<std::shared_mutex> lock(cache_mutex_);
     buildCache();
     spdlog::info("SchemaManager: Cache manually refreshed");
 }
 
+/**
+ * @brief Set Cache TTL.
+ * @param[in] ttl Input parameter.
+ * @details Calls: spdlog::debug(), count().
+ */
 void SchemaManager::setCacheTTL(std::chrono::seconds ttl) {
     cache_ttl_ = ttl;
     spdlog::debug("SchemaManager: Cache TTL set to {} seconds", ttl.count());
 }
 
+/**
+ * @brief Set Changefeed.
+ * @param[in,out] changefeed Input/output parameter.
+ * @details Calls: spdlog::info(), spdlog::debug().
+ */
 void SchemaManager::setChangefeed(Changefeed* changefeed) {
     changefeed_ = changefeed;
     if (changefeed_) {
@@ -308,6 +343,11 @@ void SchemaManager::setChangefeed(Changefeed* changefeed) {
     }
 }
 
+/**
+ * @brief Record Mutation.
+ * @param[in] table_name Name of the table.
+ * @details Calls: lock(), std::chrono::system_clock::now(), std::string(), push_back(), empty(), front(), pop_front(), spdlog::debug().
+ */
 void SchemaManager::recordMutation(std::string_view table_name) {
     std::lock_guard<std::mutex> lock(mutation_mutex_);
     auto now = std::chrono::system_clock::now();
@@ -324,6 +364,11 @@ void SchemaManager::recordMutation(std::string_view table_name) {
                   table_name,log.size());
 }
 
+/**
+ * @brief Enable Adaptive TTL.
+ * @param[in] config Input parameter.
+ * @details Calls: lock(), clear(), spdlog::info(), count().
+ */
 void SchemaManager::enableAdaptiveTTL(AdaptiveTTLConfig config) {
     std::lock_guard<std::mutex> lock(mutation_mutex_);
     adaptive_ttl_config_ = config;
@@ -334,6 +379,10 @@ void SchemaManager::enableAdaptiveTTL(AdaptiveTTLConfig config) {
                  config.window.count(), config.scale_factor);
 }
 
+/**
+ * @brief Disable Adaptive TTL.
+ * @details Calls: lock(), spdlog::info(), count().
+ */
 void SchemaManager::disableAdaptiveTTL() {
     std::lock_guard<std::mutex> lock(mutation_mutex_);
     adaptive_ttl_enabled_ = false;
@@ -345,6 +394,11 @@ std::chrono::seconds SchemaManager::getEffectiveTTL() const {
     if (!adaptive_ttl_enabled_) {
         return cache_ttl_;
     }
+    /**
+     * @brief Lock.
+     * @param[in] mutation_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutation_mutex_);
     return computeAdaptiveTTL();
 }
@@ -379,6 +433,12 @@ std::chrono::seconds SchemaManager::computeAdaptiveTTL() const {
     return std::chrono::seconds(clamped);
 }
 
+/**
+ * @brief Notify Schema Change.
+ * @param[in] table_name Name of the table.
+ * @param[in] event_kind Input parameter.
+ * @details Calls: std::string(), std::chrono::system_clock::now(), time_since_epoch(), count(), recordEvent(), std::move(), spdlog::debug(), spdlog::warn().
+ */
 void SchemaManager::notifySchemaChange(std::string_view table_name, std::string_view event_kind) {
     if (!changefeed_) {
         return;
@@ -406,6 +466,11 @@ void SchemaManager::notifySchemaChange(std::string_view table_name, std::string_
 // JSON Export API
 // ============================================================================
 
+/**
+ * @brief To JSON.
+ * @return Return value.
+ * @details Calls: getAllTables(), getAllRelationships(), getDatabaseMetadata(), json::array(), push_back().
+ */
 json SchemaManager::toJSON() {
     auto tables = getAllTables();
     auto relationships = getAllRelationships();
@@ -430,6 +495,12 @@ json SchemaManager::toJSON() {
     return result;
 }
 
+/**
+ * @brief Table To JSON.
+ * @param[in] table_name Name of the table.
+ * @return Return value.
+ * @details Calls: getTable(), toJSON(), std::string().
+ */
 json SchemaManager::tableToJSON(std::string_view table_name) {
     auto table_opt = getTable(table_name);
     
@@ -446,6 +517,11 @@ json SchemaManager::tableToJSON(std::string_view table_name) {
     }
 }
 
+/**
+ * @brief Get Capabilities JSON.
+ * @return Return value.
+ * @details Calls: getDatabaseMetadata().
+ */
 json SchemaManager::getCapabilitiesJSON() {
     auto metadata = getDatabaseMetadata();
     
@@ -461,6 +537,11 @@ json SchemaManager::getCapabilitiesJSON() {
 // Internal Implementation
 // ============================================================================
 
+/**
+ * @brief Discover Table Names.
+ * @return Return value.
+ * @details Calls: newIterator(), spdlog::warn(), error(), message(), std::move(), value(), SeekToFirst(), Valid().
+ */
 std::vector<std::string> SchemaManager::discoverTableNames() {
     std::set<std::string> table_names;
     
@@ -523,6 +604,13 @@ std::vector<std::string> SchemaManager::discoverTableNames() {
     return std::vector<std::string>(table_names.begin(), table_names.end());
 }
 
+/**
+ * @brief Discover Properties.
+ * @param[in] table_name Name of the table.
+ * @param[in] sample_size Input parameter.
+ * @return Return value.
+ * @details Calls: contains(), std::string(), spdlog::debug(), newIterator(), spdlog::warn(), error(), message(), std::move().
+ */
 std::vector<SchemaManager::PropertyInfo> SchemaManager::discoverProperties(
     std::string_view table_name,
     size_t sample_size
@@ -634,6 +722,12 @@ std::vector<SchemaManager::PropertyInfo> SchemaManager::discoverProperties(
     return properties;
 }
 
+/**
+ * @brief Discover Indexes.
+ * @param[in] table_name Name of the table.
+ * @return Return value.
+ * @details Calls: spdlog::debug(), SecondaryIndexMetadataCache::instance(), get(), push_back(), find(), end(), size(), spdlog::error().
+ */
 std::vector<SchemaManager::IndexInfo> SchemaManager::discoverIndexes(
     std::string_view table_name
 ) {
@@ -744,6 +838,12 @@ std::vector<SchemaManager::IndexInfo> SchemaManager::discoverIndexes(
     return indexes;
 }
 
+/**
+ * @brief Estimate Row Count.
+ * @param[in] table_name Name of the table.
+ * @return Return value.
+ * @details Calls: std::string(), newIterator(), std::move(), value(), Seek(), Valid(), key(), ToString().
+ */
 size_t SchemaManager::estimateRowCount(std::string_view table_name) {
     size_t count = 0;
     
@@ -776,6 +876,12 @@ size_t SchemaManager::estimateRowCount(std::string_view table_name) {
     return count;
 }
 
+/**
+ * @brief Determine Table Type.
+ * @param[in] table_name Name of the table.
+ * @return Return value.
+ * @details Calls: name_lower(), std::transform(), begin(), end(), std::tolower(), find().
+ */
 std::string SchemaManager::determineTableType(std::string_view table_name) {
     std::string name_lower(table_name);
     std::transform(name_lower.begin(), name_lower.end(), name_lower.begin(),
@@ -807,6 +913,11 @@ bool SchemaManager::isCacheValid() const {
     auto elapsed = std::chrono::duration_cast<std::chrono::seconds>(now - last_refresh_);
     
     if (adaptive_ttl_enabled_) {
+        /**
+         * @brief Lock.
+         * @param[in] mutation_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutation_mutex_);
         return elapsed < computeAdaptiveTTL();
     }
@@ -814,6 +925,10 @@ bool SchemaManager::isCacheValid() const {
     return elapsed < cache_ttl_;
 }
 
+/**
+ * @brief Build Cache.
+ * @details Calls: spdlog::debug(), std::chrono::steady_clock::now(), clear(), discoverTableNames(), determineTableType(), discoverProperties(), discoverIndexes(), std::getenv().
+ */
 void SchemaManager::buildCache() {
     spdlog::debug("SchemaManager: Building cache...");
     
@@ -940,9 +1055,13 @@ void SchemaManager::buildCache() {
                  duration.count(),table_cache_.size(),custom_schemas_.size(),rel_cache_.size());
 }
 
-// ============================================================================
-// Schema Management API (PUT/PATCH)
-// ============================================================================
+/**
+ * @brief ============================================================================ Schema Management API (PUT/PATCH) ============================================================================
+ * @param[in] table_name Name of the table.
+ * @param[in] schema Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: validateSchema(), empty(), spdlog::error(), lock(), std::string(), saveCustomSchema(), unlock(), spdlog::info().
+ */
 
 bool SchemaManager::setTableSchema(std::string_view table_name, const TableSchema& schema) {
     // Validate schema
@@ -968,6 +1087,13 @@ bool SchemaManager::setTableSchema(std::string_view table_name, const TableSchem
     return true;
 }
 
+/**
+ * @brief Patch Table Schema.
+ * @param[in] table_name Name of the table.
+ * @param[in] updates Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), find(), std::string(), end(), spdlog::warn(), contains(), is_string(), is_array().
+ */
 bool SchemaManager::patchTableSchema(std::string_view table_name, const json& updates) {
     std::unique_lock<std::shared_mutex> lock(cache_mutex_);
     
@@ -1086,6 +1212,12 @@ bool SchemaManager::patchTableSchema(std::string_view table_name, const json& up
     return true;
 }
 
+/**
+ * @brief Delete Table Schema.
+ * @param[in] table_name Name of the table.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), find(), std::string(), end(), spdlog::debug(), erase(), del(), spdlog::warn().
+ */
 bool SchemaManager::deleteTableSchema(std::string_view table_name) {
     std::unique_lock<std::shared_mutex> lock(cache_mutex_);
     
@@ -1205,6 +1337,13 @@ std::string SchemaManager::validateSchema(const TableSchema& schema) const {
     return "";  // Valid
 }
 
+/**
+ * @brief Parse Table Schema.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: contains(), is_string(), is_array(), is_boolean(), push_back(), is_number().
+ */
 SchemaManager::TableSchema SchemaManager::parseTableSchema(const json& j) {
     TableSchema schema = {};
     
@@ -1295,6 +1434,10 @@ SchemaManager::TableSchema SchemaManager::parseTableSchema(const json& j) {
 // Internal Helper Methods
 // ============================================================================
 
+/**
+ * @brief Load Custom Schemas.
+ * @details Calls: newIterator(), spdlog::warn(), std::move(), value(), Seek(), Valid(), key(), ToString().
+ */
 void SchemaManager::loadCustomSchemas() {
     try {
         // Scan RocksDB for config:schema:* keys
@@ -1346,6 +1489,12 @@ void SchemaManager::loadCustomSchemas() {
     }
 }
 
+/**
+ * @brief Save Custom Schema.
+ * @param[in] table_name Name of the table.
+ * @param[in] schema Input parameter.
+ * @details Calls: std::string(), toJSON(), dump(), put(), begin(), end(), spdlog::error(), spdlog::debug().
+ */
 void SchemaManager::saveCustomSchema(std::string_view table_name, const TableSchema& schema) {
     try {
         std::string key = "config:schema:" + std::string(table_name);

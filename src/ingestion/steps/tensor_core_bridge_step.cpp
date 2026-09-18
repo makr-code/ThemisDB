@@ -29,6 +29,11 @@ namespace {
 
 class TensorCoreBridgeStep : public IIngestionStep {
 public:
+    /**
+     * @brief Tensor Core Bridge Step.
+     * @param[in] sink Input parameter.
+     * @return Return value.
+     */
     explicit TensorCoreBridgeStep(std::shared_ptr<ITensorCoreBridge> sink)
         : sink_(std::move(sink)) {}
 
@@ -135,6 +140,11 @@ private:
 // Factory
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Create Tensor Core Bridge Step.
+ * @param[in] sink Input parameter.
+ * @return Return value.
+ */
 std::shared_ptr<IIngestionStep> createTensorCoreBridgeStep(
     std::shared_ptr<ITensorCoreBridge> sink)
 {

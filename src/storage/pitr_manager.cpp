@@ -20,6 +20,11 @@
 
 namespace themis {
 
+/**
+ * @brief Get Current Time Ms.
+ * @return Return value.
+ * @details Calls: std::chrono::system_clock::now(), time_since_epoch(), count().
+ */
 int64_t PITRManager::RestoreProgress::getCurrentTimeMs() {
     auto now = std::chrono::system_clock::now();
     return std::chrono::duration_cast<std::chrono::milliseconds>(
@@ -45,6 +50,13 @@ PITRManager::PITRManager(RocksDBWrapper* db,
     }
 }
 
+/**
+ * @brief Restore To Sequence.
+ * @param[in] target_sequence Input parameter.
+ * @param[in] options Input parameter.
+ * @return Return value.
+ * @details Calls: isRestoreInProgress(), Status::Error(), RestoreProgress::getCurrentTimeMs(), getLatestSequence(), validate(), THEMIS_INFO(), createAutoBackup(), replayBackward().
+ */
 PITRManager::Status PITRManager::restoreToSequence(uint64_t target_sequence,
                                                    const RestoreOptions& options) {
     // Check if already in progress
@@ -102,6 +114,13 @@ PITRManager::Status PITRManager::restoreToSequence(uint64_t target_sequence,
     return Status::WithProgress(progress_);
 }
 
+/**
+ * @brief Restore To Tag.
+ * @param[in] tag_name Name of the tag.
+ * @param[in] options Input parameter.
+ * @return Return value.
+ * @details Calls: getTag(), has_value(), Status::Error(), THEMIS_INFO(), restoreToSequence().
+ */
 PITRManager::Status PITRManager::restoreToTag(const std::string& tag_name,
                                               const RestoreOptions& options) {
     // Get snapshot by tag
@@ -121,6 +140,13 @@ PITRManager::Status PITRManager::restoreToTag(const std::string& tag_name,
     return restoreToSequence(snapshot->sequence_number, options);
 }
 
+/**
+ * @brief Restore To Timestamp.
+ * @param[in] timestamp_ms Input parameter.
+ * @param[in] options Input parameter.
+ * @return Return value.
+ * @details Calls: findSequenceForTimestamp(), has_value(), Status::Error(), THEMIS_INFO(), value(), restoreToSequence().
+ */
 PITRManager::Status PITRManager::restoreToTimestamp(int64_t timestamp_ms,
                                                     const RestoreOptions& options) {
     // Find sequence for timestamp
@@ -249,6 +275,14 @@ std::optional<uint64_t> PITRManager::findSequenceForTimestamp(int64_t timestamp_
     return std::nullopt;
 }
 
+/**
+ * @brief Replay Backward.
+ * @param[in] from_sequence Input parameter.
+ * @param[in] to_sequence Input parameter.
+ * @param[in] options Input parameter.
+ * @return Return value.
+ * @details Calls: Status::Error(), std::min(), listEvents(), size(), std::to_string(), THEMIS_INFO(), std::reverse(), begin().
+ */
 PITRManager::Status PITRManager::replayBackward(uint64_t from_sequence, uint64_t to_sequence,
                                                 const RestoreOptions& options) {
     if (from_sequence <= to_sequence) {
@@ -338,6 +372,12 @@ PITRManager::Status PITRManager::replayBackward(uint64_t from_sequence, uint64_t
     return Status::OK();
 }
 
+/**
+ * @brief Apply Event Reverse.
+ * @param[in] event Input parameter.
+ * @return Return value.
+ * @details Calls: del(), Status::Error(), has_value(), put(), Status::OK().
+ */
 PITRManager::Status PITRManager::applyEventReverse(const Changefeed::ChangeEvent& event) {
     // Reverse the operation
     switch (event.type) {
@@ -382,6 +422,12 @@ PITRManager::Status PITRManager::applyEventReverse(const Changefeed::ChangeEvent
     return Status::OK();
 }
 
+/**
+ * @brief Create Auto Backup.
+ * @param[in] options Input parameter.
+ * @return Return value.
+ * @details Calls: createTag(), has_value(), Status::Error(), THEMIS_INFO(), Status::OK().
+ */
 PITRManager::Status PITRManager::createAutoBackup(const RestoreOptions& options) {
     // Create a snapshot tag for the current state
     auto snapshot = snapshot_mgr_->createTag(
@@ -412,6 +458,12 @@ PITRManager::Status PITRManager::validate(uint64_t target_sequence,
     return Status::OK();
 }
 
+/**
+ * @brief Update Progress.
+ * @param[in] phase Input parameter.
+ * @param[in] message Input parameter.
+ * @details Calls: empty().
+ */
 void PITRManager::updateProgress(RestoreProgress::Phase phase, const std::string& message) {
     progress_.phase = phase;
     if (!message.empty()) {
@@ -425,14 +477,32 @@ namespace {
     static const PITRManager::RestoreOptions kDefaultRestoreOptions{};
 }
 
+/**
+ * @brief Restore To Sequence.
+ * @param[in] target_sequence Input parameter.
+ * @return Return value.
+ * @details Implements restoreToSequence without additional internal calls.
+ */
 PITRManager::Status PITRManager::restoreToSequence(uint64_t target_sequence) {
     return restoreToSequence(target_sequence, kDefaultRestoreOptions);
 }
 
+/**
+ * @brief Restore To Tag.
+ * @param[in] tag_name Name of the tag.
+ * @return Return value.
+ * @details Implements restoreToTag without additional internal calls.
+ */
 PITRManager::Status PITRManager::restoreToTag(const std::string& tag_name) {
     return restoreToTag(tag_name, kDefaultRestoreOptions);
 }
 
+/**
+ * @brief Restore To Timestamp.
+ * @param[in] timestamp_ms Input parameter.
+ * @return Return value.
+ * @details Implements restoreToTimestamp without additional internal calls.
+ */
 PITRManager::Status PITRManager::restoreToTimestamp(int64_t timestamp_ms) {
     return restoreToTimestamp(timestamp_ms, kDefaultRestoreOptions);
 }

@@ -27,47 +27,8 @@
 namespace themis {
 namespace query {
 
-/**
- * @brief Unified cache manager with workload-aware caching
- * 
- * This class provides a single interface for query result caching that
- * automatically adapts to workload patterns:
- * 
- * - Detects workload type (OLTP, OLAP, Mixed, Streaming)
- * - Selects optimal cache strategy per workload
- * - Manages cache warming and invalidation
- * - Provides unified monitoring and statistics
- * 
- * Integration Point:
- * This should be used in the query execution path (QueryEngine or API layer)
- * to cache query results with optimal strategies.
- * 
- * Example Usage:
- * ```cpp
- * // At query execution time
- * QueryCacheManager cache_mgr(config);
- * 
- * // Try to get from cache
- * auto cached = cache_mgr.get(query, params);
- * if (cached) {
- *     return *cached;
- * }
- * 
- * // Execute query
- * auto result = executeQuery(query, params);
- * 
- * // Store in cache with execution metrics
- * QueryCharacteristics char_;
- * char_.result_size_bytes = result.size();
- * char_.execution_time_ms = exec_time;
- * cache_mgr.put(query, params, result, char_, dependencies);
- * ```
- */
 class QueryCacheManager {
 public:
-    /**
-     * @brief Cache manager configuration
-     */
     struct Config {
         // Enable/disable caching globally
         bool enable_caching = true;
@@ -94,9 +55,6 @@ public:
         Config() = default;
     };
     
-    /**
-     * @brief Unified cache statistics
-     */
     struct CacheStatistics {
         // Overall statistics
         uint64_t total_requests = 0;
@@ -133,17 +91,20 @@ public:
                 : 0.0;
         }
         
+        /**
+         * @brief To Json.
+         * @return Return value.
+         */
         nlohmann::json toJson() const;
     };
     
     /**
-     * @brief Construct cache manager with configuration
+     * @brief Query Cache Manager.
+     * @param[in] config Input parameter.
+     * @return Return value.
      */
     explicit QueryCacheManager(const Config& config);
     
-    /**
-     * @brief Destructor - cleanup and final stats report
-     */
     ~QueryCacheManager();
     
     // Non-copyable, moveable
@@ -152,38 +113,11 @@ public:
     QueryCacheManager(QueryCacheManager&&) noexcept = default;
     QueryCacheManager& operator=(QueryCacheManager&&) noexcept = default;
     
-    /**
-     * @brief Retrieve cached query result
-     * 
-     * This method checks the cache for a previously executed query.
-     * Records cache hit/miss metrics automatically.
-     * 
-     * @param query Query string
-     * @param params Query parameters
-     * @return Cached result if found, nullopt otherwise
-     */
     std::optional<nlohmann::json> get(
         const std::string& query,
         const nlohmann::json& params = nlohmann::json::object()
     );
     
-    /**
-     * @brief Store query result in cache with execution metrics
-     * 
-     * This method stores a query result using workload-aware caching strategy.
-     * It automatically:
-     * - Records query characteristics for workload detection
-     * - Determines if query should be cached
-     * - Calculates optimal TTL
-     * - Selects appropriate cache level (for adaptive cache)
-     * 
-     * @param query Query string
-     * @param params Query parameters
-     * @param result Query result to cache
-     * @param characteristics Query execution metrics
-     * @param dependencies Data dependencies (tables/collections accessed)
-     * @return True if successfully cached
-     */
     bool put(
         const std::string& query,
         const nlohmann::json& params,
@@ -193,74 +127,53 @@ public:
     );
     
     /**
-     * @brief Invalidate cache entries by dependency
-     * 
-     * Call this when data is modified to invalidate affected cached queries.
-     * 
-     * @param dependency Dependency identifier (e.g., table/collection name)
-     * @return Number of entries invalidated
+     * @brief Invalidate By Dependency.
+     * @param[in] dependency Input parameter.
+     * @return Return value.
      */
     size_t invalidateByDependency(const std::string& dependency);
     
-    /**
-     * @brief Invalidate specific cached query
-     * 
-     * @param query Query string
-     * @param params Query parameters
-     * @return True if entry was found and removed
-     */
     bool invalidate(
         const std::string& query,
         const nlohmann::json& params = nlohmann::json::object()
     );
     
     /**
-     * @brief Clear all cache entries
+     * @brief Clear.
      */
     void clear();
     
-    /**
-     * @brief Warm cache with hot queries
-     * 
-     * This method should be called on startup or periodically to pre-populate
-     * the cache with frequently accessed queries.
-     * 
-     * @param query_results Map of query fingerprints to results
-     */
     void warmCache(const std::map<std::string, nlohmann::json>& query_results);
     
     /**
-     * @brief Get cache statistics
+     * @brief Return access control statistics.
+     * @return Access control statistics.
      */
     CacheStatistics getStatistics() const;
     
-    /**
-     * @brief Get hot query fingerprints for cache warming
-     * 
-     * Returns the most frequently accessed queries for external cache warming.
-     * 
-     * @param limit Maximum number of queries to return
-     * @return List of query fingerprints sorted by frequency
-     */
     std::vector<std::string> getHotQueries(size_t limit = 100) const;
     
     /**
-     * @brief Get current workload type
+     * @brief Get Current Workload.
+     * @return Return value.
      */
     WorkloadType getCurrentWorkload() const;
     
     /**
-     * @brief Get detailed monitoring information
+     * @brief Get Monitoring Info.
+     * @return Return value.
      */
     nlohmann::json getMonitoringInfo() const;
     
     /**
-     * @brief Update configuration
+     * @brief Set Config.
+     * @param[in] config Input parameter.
      */
     void setConfig(const Config& config);
     
     /**
-     * @brief Get current configuration
+     * @brief Get Config.
+     * @return Return value.
      */
     Config getConfig() const;
 
@@ -282,16 +195,42 @@ private:
     std::chrono::system_clock::time_point last_stats_report_;
     
     // Helper methods
+    /**
+     * @brief Generate Fingerprint.
+     * @param[in] query Input parameter.
+     * @param[in] params Input parameter.
+     * @return Return value.
+     */
     std::string generateFingerprint(
         const std::string& query,
         const nlohmann::json& params
     ) const;
     
+    /**
+     * @brief Update Hit Stats.
+     * @param[in] hit Input parameter.
+     * @param[in] lookup_time_us Input parameter.
+     */
     void updateHitStats(bool hit, int64_t lookup_time_us);
+    /**
+     * @brief Update Memory Stats.
+     */
     void updateMemoryStats();
+    /**
+     * @brief Report Stats If Needed.
+     */
     void reportStatsIfNeeded();
     
-    // Cache operations on selected implementation
+    /**
+     * @brief Cache operations on selected implementation
+     * @param[in] fingerprint Input parameter.
+     * @param[in] query Input parameter.
+     * @param[in] params Input parameter.
+     * @param[in] result Input parameter.
+     * @param[in] dependencies Input parameter.
+     * @param[in] ttl Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool putInBasicCache(
         const std::string& fingerprint,
         const std::string& query,
@@ -301,6 +240,14 @@ private:
         std::chrono::seconds ttl
     );
     
+    /**
+     * @brief Put In Adaptive Cache.
+     * @param[in] fingerprint Input parameter.
+     * @param[in] params Input parameter.
+     * @param[in] result Input parameter.
+     * @param[in] ttl Input parameter.
+     * @return True when the operation succeeds.
+     */
     bool putInAdaptiveCache(
         const std::string& fingerprint,
         const nlohmann::json& params,

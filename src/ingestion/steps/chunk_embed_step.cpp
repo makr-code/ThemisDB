@@ -21,9 +21,13 @@ namespace themis {
 namespace ingestion {
 namespace builtin {
 
-/** @brief Chunk embed step. */
 class ChunkEmbedStep final : public IIngestionStep {
 public:
+    /**
+     * @brief Chunk Embed Step.
+     * @param[in] backend Input parameter.
+     * @return Return value.
+     */
     explicit ChunkEmbedStep(std::shared_ptr<IEmbeddingBackend> backend)
         : backend_(std::move(backend)) {}
 
@@ -111,6 +115,11 @@ private:
 // Factory
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Create Chunk Embed Step.
+ * @param[in] backend Input parameter.
+ * @return Return value.
+ */
 std::shared_ptr<IIngestionStep> createChunkEmbedStep(
     std::shared_ptr<IEmbeddingBackend> backend)
 {

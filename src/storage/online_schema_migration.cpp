@@ -28,6 +28,12 @@ namespace storage {
 
 namespace {
 
+/**
+ * @brief Normalize Property Type.
+ * @param[in] type Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), std::isspace(), push_back(), std::transform(), begin(), end(), std::toupper().
+ */
 std::string normalizePropertyType(const std::string& type) {
     std::string trimmed = {};
     trimmed.reserve(type.size());
@@ -102,6 +108,14 @@ SchemaMigrator::SchemaMigrator(SchemaManager& schema_mgr, const Config& config)
 // Staging helpers
 // ============================================================================
 
+/**
+ * @brief Add Column.
+ * @param[in] table Input parameter.
+ * @param[in] column Input parameter.
+ * @param[in] type Input parameter.
+ * @param[in] nullable Input parameter.
+ * @return Return value.
+ */
 SchemaMigrator& SchemaMigrator::addColumn(const std::string& table,
                                           const std::string& column,
                                           const std::string& type,
@@ -118,6 +132,12 @@ SchemaMigrator& SchemaMigrator::addColumn(const std::string& table,
     return *this;
 }
 
+/**
+ * @brief Drop Column.
+ * @param[in] table Input parameter.
+ * @param[in] column Input parameter.
+ * @return Return value.
+ */
 SchemaMigrator& SchemaMigrator::dropColumn(const std::string& table,
                                            const std::string& column)
 {
@@ -130,6 +150,13 @@ SchemaMigrator& SchemaMigrator::dropColumn(const std::string& table,
     return *this;
 }
 
+/**
+ * @brief Rename Column.
+ * @param[in] table Input parameter.
+ * @param[in] old_name Name of the old.
+ * @param[in] new_name Name of the new.
+ * @return Return value.
+ */
 SchemaMigrator& SchemaMigrator::renameColumn(const std::string& table,
                                              const std::string& old_name,
                                              const std::string& new_name)
@@ -144,6 +171,14 @@ SchemaMigrator& SchemaMigrator::renameColumn(const std::string& table,
     return *this;
 }
 
+/**
+ * @brief Change Column Type.
+ * @param[in] table Input parameter.
+ * @param[in] column Input parameter.
+ * @param[in] new_type Input parameter.
+ * @param[in] nullable Input parameter.
+ * @return Return value.
+ */
 SchemaMigrator& SchemaMigrator::changeColumnType(const std::string& table,
                                                   const std::string& column,
                                                   const std::string& new_type,
@@ -160,6 +195,13 @@ SchemaMigrator& SchemaMigrator::changeColumnType(const std::string& table,
     return *this;
 }
 
+/**
+ * @brief Add Index.
+ * @param[in] table Input parameter.
+ * @param[in] column Input parameter.
+ * @param[in] unique Input parameter.
+ * @return Return value.
+ */
 SchemaMigrator& SchemaMigrator::addIndex(const std::string& table,
                                          const std::string& column,
                                          bool unique)
@@ -174,6 +216,12 @@ SchemaMigrator& SchemaMigrator::addIndex(const std::string& table,
     return *this;
 }
 
+/**
+ * @brief Drop Index.
+ * @param[in] table Input parameter.
+ * @param[in] column Input parameter.
+ * @return Return value.
+ */
 SchemaMigrator& SchemaMigrator::dropIndex(const std::string& table,
                                           const std::string& column)
 {
@@ -186,6 +234,13 @@ SchemaMigrator& SchemaMigrator::dropIndex(const std::string& table,
     return *this;
 }
 
+/**
+ * @brief Partition Table.
+ * @param[in] table Input parameter.
+ * @param[in] partition_key Input parameter.
+ * @param[in] num_partitions Input parameter.
+ * @return Return value.
+ */
 SchemaMigrator& SchemaMigrator::partitionTable(const std::string& table,
                                                const std::string& partition_key,
                                                size_t num_partitions)
@@ -204,11 +259,17 @@ SchemaMigrator& SchemaMigrator::partitionTable(const std::string& table,
 // migrate()
 // ============================================================================
 
+/**
+ * @brief Migrate.
+ * @return Return value.
+ */
 MigrationResult SchemaMigrator::migrate()
 {
-    // observability scanner alert: this migration flow is instrumented with
-    // THEMIS/LOG INFO/WARN/ERROR calls at each phase transition and error path,
-    // so a separate trace-point finding here is a false positive.
+    /**
+     * @brief observability scanner alert: this migration flow is instrumented with THEMIS/LOG INFO/WARN/ERROR calls at each phase transition and error path, so a separate trace-point finding here is a false positive.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     MigrationResult result;
@@ -344,8 +405,16 @@ MigrationResult SchemaMigrator::migrate()
 // reset()
 // ============================================================================
 
+/**
+ * @brief Reset the modification detection flag.
+ */
 void SchemaMigrator::reset()
 {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     ops_.clear();
     phase_.store(OnlineDDLPhase::IDLE, std::memory_order_relaxed);
@@ -374,6 +443,12 @@ const std::vector<MigrationOp>& SchemaMigrator::stagedOps() const noexcept
 // Per-operation helpers
 // ============================================================================
 
+/**
+ * @brief Apply Add Column.
+ * @param[in] op Input parameter.
+ * @param[in,out] schema Input/output parameter.
+ * @return Return value.
+ */
 MigrationResult SchemaMigrator::applyAddColumn(
     const MigrationOp& op, SchemaManager::TableSchema& schema)
 {
@@ -409,6 +484,12 @@ MigrationResult SchemaMigrator::applyAddColumn(
     return r;
 }
 
+/**
+ * @brief Apply Drop Column.
+ * @param[in] op Input parameter.
+ * @param[in,out] schema Input/output parameter.
+ * @return Return value.
+ */
 MigrationResult SchemaMigrator::applyDropColumn(
     const MigrationOp& op, SchemaManager::TableSchema& schema)
 {
@@ -442,6 +523,12 @@ MigrationResult SchemaMigrator::applyDropColumn(
     return r;
 }
 
+/**
+ * @brief Apply Rename Column.
+ * @param[in] op Input parameter.
+ * @param[in,out] schema Input/output parameter.
+ * @return Return value.
+ */
 MigrationResult SchemaMigrator::applyRenameColumn(
     const MigrationOp& op, SchemaManager::TableSchema& schema)
 {
@@ -496,6 +583,12 @@ MigrationResult SchemaMigrator::applyRenameColumn(
     return r;
 }
 
+/**
+ * @brief Apply Change Column Type.
+ * @param[in] op Input parameter.
+ * @param[in,out] schema Input/output parameter.
+ * @return Return value.
+ */
 MigrationResult SchemaMigrator::applyChangeColumnType(
     const MigrationOp& op, SchemaManager::TableSchema& schema)
 {
@@ -527,6 +620,12 @@ MigrationResult SchemaMigrator::applyChangeColumnType(
     return r;
 }
 
+/**
+ * @brief Apply Add Index.
+ * @param[in] op Input parameter.
+ * @param[in,out] schema Input/output parameter.
+ * @return Return value.
+ */
 MigrationResult SchemaMigrator::applyAddIndex(
     const MigrationOp& op, SchemaManager::TableSchema& schema)
 {
@@ -583,6 +682,12 @@ MigrationResult SchemaMigrator::applyAddIndex(
     return r;
 }
 
+/**
+ * @brief Apply Drop Index.
+ * @param[in] op Input parameter.
+ * @param[in,out] schema Input/output parameter.
+ * @return Return value.
+ */
 MigrationResult SchemaMigrator::applyDropIndex(
     const MigrationOp& op, SchemaManager::TableSchema& schema)
 {
@@ -616,6 +721,12 @@ MigrationResult SchemaMigrator::applyDropIndex(
     return r;
 }
 
+/**
+ * @brief Apply Partition Table.
+ * @param[in] op Input parameter.
+ * @param[in,out] schema Input/output parameter.
+ * @return Return value.
+ */
 MigrationResult SchemaMigrator::applyPartitionTable(
     const MigrationOp& op, SchemaManager::TableSchema& schema)
 {

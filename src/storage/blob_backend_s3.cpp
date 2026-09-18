@@ -27,18 +27,6 @@
 namespace themis {
 namespace storage {
 
-/**
- * @brief AWS S3 Blob Storage Backend
- * 
- * Stores blobs in AWS S3 bucket with optional prefix.
- * Uses AWS SDK for C++ v3.
- * 
- * Features:
- * - Automatic retry with exponential backoff
- * - Server-side encryption (AES256)
- * - Content-MD5 verification
- * - Thread-safe operations
- */
 class S3BlobBackend : public IBlobStorageBackend {
 private:
     std::string bucket_;
@@ -51,6 +39,12 @@ private:
     static std::mutex init_mutex_;
     
     // Compute SHA256 hash
+    /**
+     * @brief Compute SHA256.
+     * @param[in] data Input parameter.
+     * @return Return value.
+     * @details Calls: SHA256(), data(), size(), std::setw(), std::setfill(), str().
+     */
     static std::string computeSHA256(const std::vector<uint8_t>& data) {
         unsigned char hash[SHA256_DIGEST_LENGTH];
         SHA256(data.data(),data.size(), hash);
@@ -73,7 +67,10 @@ private:
         return prefix_ + "/" + blob_id + ".blob";
     }
     
-    // Initialize AWS SDK (called once)
+    /**
+     * @brief Initialize AWS SDK (called once)
+     * @details Calls: lock(), Aws::InitAPI(), THEMIS_INFO().
+     */
     static void initializeSDK() {
         std::lock_guard<std::mutex> lock(init_mutex_);
         if (!aws_sdk_initialized_) {
@@ -108,6 +105,11 @@ public:
     ~S3BlobBackend() override = default;
     
     Result<BlobRef> put(const std::string& blob_id, const std::vector<uint8_t>& data) override {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         
         std::string s3_key = getS3Key(blob_id);
@@ -159,6 +161,11 @@ public:
     }
     
     Result<std::vector<uint8_t>> get(const BlobRef& ref) override {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         
         std::string s3_key = getS3Key(ref.id);
@@ -221,6 +228,11 @@ public:
     }
     
     Result<void> remove(const BlobRef& ref) override {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         
         std::string s3_key = getS3Key(ref.id);
@@ -248,6 +260,11 @@ public:
     }
     
     bool exists(const BlobRef& ref) override {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         
         std::string s3_key = getS3Key(ref.id);
@@ -267,6 +284,11 @@ public:
     }
     
     bool isAvailable() const override {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         
         // Test connectivity with a simple ListBuckets call

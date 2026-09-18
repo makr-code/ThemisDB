@@ -44,7 +44,13 @@ constexpr size_t kMaxDraftFallbackVocabSize = 65536;
 LlamaCppPlugin::LlamaCppPlugin() = default;
 LlamaCppPlugin::~LlamaCppPlugin() { unloadModel(); }
 
-// ── loadModel / unloadModel ───────────────────────────────────────────────────
+/**
+ * @brief ── loadModel / unloadModel ───────────────────────────────────────────────────
+ * @param[in] model_path Path to the model.
+ * @param[in] config Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), empty(), contains(), is_number(), reset(), std::move(), getModelInfo(), value().
+ */
 
 bool LlamaCppPlugin::loadModel(const std::string& model_path, const json& config) {
     std::lock_guard<std::mutex> lock(mutex_);
@@ -121,6 +127,10 @@ bool LlamaCppPlugin::loadModel(const std::string& model_path, const json& config
     return true;
 }
 
+/**
+ * @brief Unload Model.
+ * @details Calls: lock(), clear(), reset().
+ */
 void LlamaCppPlugin::unloadModel() {
     std::lock_guard<std::mutex> lock(mutex_);
     model_loaded_ = false;
@@ -135,6 +145,11 @@ void LlamaCppPlugin::unloadModel() {
 // ── getModelInfo ──────────────────────────────────────────────────────────────
 
 std::optional<llm::ModelInfo> LlamaCppPlugin::getModelInfo() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     if (!model_loaded_) {
       return std::nullopt;
@@ -155,11 +170,23 @@ std::optional<llm::ModelInfo> LlamaCppPlugin::getModelInfo() const {
 }
 
 std::string LlamaCppPlugin::getModelId() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return model_id_;
 }
 
-// ── LoRA management ───────────────────────────────────────────────────────────
+/**
+ * @brief ── LoRA management ───────────────────────────────────────────────────────────
+ * @param[in] lora_id Identifier of the lora.
+ * @param[in] lora_path Path to the lora.
+ * @param[in] scale Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), erase(), std::remove_if(), begin(), end(), push_back().
+ */
 
 bool LlamaCppPlugin::loadLoRA(const std::string& lora_id,
                                const std::string& lora_path, float scale) {
@@ -172,6 +199,12 @@ bool LlamaCppPlugin::loadLoRA(const std::string& lora_id,
     return true;
 }
 
+/**
+ * @brief Unload Lo RA.
+ * @param[in] lora_id Identifier of the lora.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), size(), erase(), std::remove_if(), begin(), end().
+ */
 bool LlamaCppPlugin::unloadLoRA(const std::string& lora_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     const auto before = loras_.size();
@@ -182,6 +215,11 @@ bool LlamaCppPlugin::unloadLoRA(const std::string& lora_id) {
 }
 
 std::vector<llm::LoRAInfo> LlamaCppPlugin::listLoRAs() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     std::vector<llm::LoRAInfo> result = {};
 
@@ -196,7 +234,12 @@ std::vector<llm::LoRAInfo> LlamaCppPlugin::listLoRAs() const {
     return result;
 }
 
-// ── generate ──────────────────────────────────────────────────────────────────
+/**
+ * @brief ── generate ──────────────────────────────────────────────────────────────────
+ * @param[in] request Input parameter.
+ * @return Return value.
+ * @details Calls: stream_callback(), lock(), get(), policy_fn(), load(), what(), generate_fn(), empty().
+ */
 
 llm::InferenceResponse LlamaCppPlugin::generate(const llm::InferenceRequest& request) {
     llm::InferenceResponse response;
@@ -411,6 +454,13 @@ llm::InferenceResponse LlamaCppPlugin::generate(const llm::InferenceRequest& req
     return response;
 }
 
+/**
+ * @brief Generate RAG.
+ * @param[in] rag_context Input parameter.
+ * @param[in] request Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), reserve(), size(), push_back(), std::move(), is_object(), find(), end().
+ */
 llm::InferenceResponse LlamaCppPlugin::generateRAG(
         const llm::RAGContext& rag_context,
         const llm::InferenceRequest& request) {
@@ -565,7 +615,12 @@ llm::InferenceResponse LlamaCppPlugin::generateRAG(
     return generate(augmented);
 }
 
-// ── embed ─────────────────────────────────────────────────────────────────────
+/**
+ * @brief ── embed ─────────────────────────────────────────────────────────────────────
+ * @param[in] text Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), embed_fn_(), empty().
+ */
 
 std::vector<float> LlamaCppPlugin::embed(const std::string& text) {
     if (!model_loaded_) return {};
@@ -612,18 +667,32 @@ std::vector<float> LlamaCppPlugin::embed(const std::string& text) {
     return std::vector<float>(384, 0.0f);
 }
 
-// ── setEmbedFn ────────────────────────────────────────────────────────────────
+/**
+ * @brief ── setEmbedFn ────────────────────────────────────────────────────────────────
+ * @param[in] fn Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 
 void LlamaCppPlugin::setEmbedFn(EmbedFn fn) {
     std::lock_guard<std::mutex> lock(mutex_);
     embed_fn_ = std::move(fn);
 }
 
+/**
+ * @brief Set Generate Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void LlamaCppPlugin::setGenerateFn(GenerateFn fn) {
     std::lock_guard<std::mutex> lock(mutex_);
     generate_fn_ = std::move(fn);
 }
 
+/**
+ * @brief Set Policy Fn.
+ * @param[in] fn Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void LlamaCppPlugin::setPolicyFn(PolicyFn fn) {
     std::lock_guard<std::mutex> lock(mutex_);
     policy_fn_ = std::move(fn);
@@ -652,6 +721,11 @@ json LlamaCppPlugin::getMemoryStats() const {
     };
 
 #ifdef THEMIS_LLM_ENABLED
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     if (wrapper_) {
         auto info = wrapper_->getModelInfo();
@@ -689,7 +763,12 @@ json LlamaCppPlugin::getPerformanceStats() const {
     };
 }
 
-// ── LoRA import/export ────────────────────────────────────────────────────────
+/**
+ * @brief ── LoRA import/export ────────────────────────────────────────────────────────
+ * @param[in] lora_id Identifier of the lora.
+ * @return Return value.
+ * @details Calls: lock(), else().
+ */
 
 std::vector<uint8_t> LlamaCppPlugin::exportLoRA(const std::string& lora_id) {
 #ifdef THEMIS_LLM_ENABLED
@@ -703,6 +782,13 @@ std::vector<uint8_t> LlamaCppPlugin::exportLoRA(const std::string& lora_id) {
     return {};
 }
 
+/**
+ * @brief Import Lo RA.
+ * @param[in] lora_id Identifier of the lora.
+ * @param[in] data Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: size(), lock(), else().
+ */
 bool LlamaCppPlugin::importLoRA(const std::string& lora_id,
                                  const std::vector<uint8_t>& data) {
     // SECURITY: Validate GGUF magic bytes and size bound before processing.
@@ -733,7 +819,12 @@ bool LlamaCppPlugin::importLoRA(const std::string& lora_id,
     return true;
 }
 
-// ── computeFileDigest ─────────────────────────────────────────────────────────
+/**
+ * @brief ── computeFileDigest ─────────────────────────────────────────────────────────
+ * @param[in] path Input parameter.
+ * @return Return value.
+ * @details Calls: f(), read(), gcount(), std::setw(), std::setfill(), str().
+ */
 
 std::string LlamaCppPlugin::computeFileDigest(const std::string& path) {
     // NOTE: This implementation uses FNV-64 as a CI-safe placeholder for
@@ -759,7 +850,14 @@ std::string LlamaCppPlugin::computeFileDigest(const std::string& path) {
     return oss.str();
 }
 
-// ── generateDraftTokens ────────────────────────────────────────────────────────
+/**
+ * @brief ── generateDraftTokens ────────────────────────────────────────────────────────
+ * @param[in] request Input parameter.
+ * @param[in] k Input parameter.
+ * @param[in] vocab_size_hint Input parameter.
+ * @return Return value.
+ * @details Calls: lock(), std::min(), spdlog::warn(), push_back(), logits(), std::move(), empty(), size().
+ */
 
 llm::ILLMPlugin::DraftTokensResult LlamaCppPlugin::generateDraftTokens(
         const llm::InferenceRequest& request,
@@ -887,6 +985,14 @@ llm::ILLMPlugin::DraftTokensResult LlamaCppPlugin::generateDraftTokens(
     return result;
 }
 
+/**
+ * @brief Compute Target Logits For Tokens.
+ * @param[in] request Input parameter.
+ * @param[in] draft_token_ids Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: lock(), else().
+ */
 std::vector<std::vector<float>> LlamaCppPlugin::computeTargetLogitsForTokens(
     const llm::InferenceRequest& request,
     const std::vector<int>& draft_token_ids
@@ -918,7 +1024,12 @@ llm::InferenceResponse LlamaCppPlugin::generateStream(
     return generate(request);
 }
 
-// ── generateBatch ─────────────────────────────────────────────────────────────
+/**
+ * @brief ── generateBatch ─────────────────────────────────────────────────────────────
+ * @param[in] requests Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), push_back(), generate().
+ */
 
 std::vector<llm::InferenceResponse> LlamaCppPlugin::generateBatch(
         const std::vector<llm::InferenceRequest>& requests) {
@@ -942,11 +1053,21 @@ std::vector<llm::InferenceResponse> LlamaCppPlugin::generateBatch(
 // release the object; failing to do so will leak memory. Do NOT delete the
 // pointer via any other mechanism — always use the paired destroy function.
 extern "C" THEMIS_PLUGIN_EXPORT
+/**
+ * @brief Themis llm create.
+ * @return Pointer to the result.
+ * @details Calls: themis::llamacpp::LlamaCppPlugin().
+ */
 themis::llm::ILLMPlugin* themis_llm_create() {
     return new themis::llamacpp::LlamaCppPlugin();
 }
 
 extern "C" THEMIS_PLUGIN_EXPORT
+/**
+ * @brief Themis llm destroy.
+ * @param[in,out] p Input/output parameter.
+ * @details Implements themis_llm_destroy without additional internal calls.
+ */
 void themis_llm_destroy(themis::llm::ILLMPlugin* p) {
     delete p;
 }

@@ -21,7 +21,12 @@
 
 namespace {
 
-/** @brief Append clause to semicolon-delimited imbalance reason string. */
+/**
+ * @brief Append Reason Clause.
+ * @param[in,out] reason Input/output parameter.
+ * @param[in] clause Input parameter.
+ * @details Calls: empty(), append().
+ */
 void appendReasonClause(std::string& reason, const std::string& clause) {
     if (!reason.empty()) {
         reason.append("; ");
@@ -29,7 +34,13 @@ void appendReasonClause(std::string& reason, const std::string& clause) {
     reason.append(clause);
 }
 
-/** @brief Insert hotspot shard only once while preserving insertion order. */
+/**
+ * @brief Add Hotspot If Absent.
+ * @param[in,out] hotspots Input/output parameter.
+ * @param[in,out] hotspot_index Input/output parameter.
+ * @param[in] shard_id Identifier of the shard.
+ * @details Calls: insert(), push_back().
+ */
 void addHotspotIfAbsent(std::vector<std::string>& hotspots,
                         std::unordered_set<std::string>& hotspot_index,
                         const std::string& shard_id) {
@@ -43,22 +54,11 @@ void addHotspotIfAbsent(std::vector<std::string>& hotspots,
 namespace themis {
 namespace sharding {
 
-/**
- * @brief Construct load detector with default configuration.
- * @param topology Shard topology provider.
- * @param metrics Optional metrics sink.
- */
 ShardLoadDetector::ShardLoadDetector(
     std::shared_ptr<ShardTopology> topology,
     std::shared_ptr<PrometheusMetrics> metrics
 ) : ShardLoadDetector(topology, metrics, Config{}) {}
 
-/**
- * @brief Construct load detector with explicit thresholds and cadence.
- * @param topology Shard topology provider.
- * @param metrics Optional metrics sink.
- * @param config Detection configuration.
- */
 ShardLoadDetector::ShardLoadDetector(
     std::shared_ptr<ShardTopology> topology,
     std::shared_ptr<PrometheusMetrics> metrics,
@@ -72,7 +72,12 @@ ShardLoadDetector::ShardLoadDetector(
                config_.storage_imbalance_threshold, config_.request_imbalance_threshold);
 }
 
-/** @brief Update latest shard load snapshot and append history sample. */
+/**
+ * @brief Update Shard Load.
+ * @param[in] shard_id Identifier of the shard.
+ * @param[in] load Input parameter.
+ * @details Calls: lock(), push_back(), size(), pop_front(), setGauge().
+ */
 void ShardLoadDetector::updateShardLoad(const std::string& shard_id, const ShardLoadMetrics& load) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -113,8 +118,12 @@ void ShardLoadDetector::updateShardLoad(const std::string& shard_id, const Shard
     }
 }
 
-/** @brief Run configured imbalance heuristics and return combined detection result. */
 LoadImbalanceResult ShardLoadDetector::detectImbalance() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     total_detections_++;
@@ -164,7 +173,6 @@ LoadImbalanceResult ShardLoadDetector::detectImbalance() const {
     return result;
 }
 
-/** @brief Evaluate storage-byte skew across shards. */
 bool ShardLoadDetector::detectStorageImbalance(
     const std::map<std::string, ShardLoadMetrics>& loads,
     LoadImbalanceResult& result
@@ -217,7 +225,6 @@ bool ShardLoadDetector::detectStorageImbalance(
     return false;
 }
 
-/** @brief Evaluate requests/sec skew across shards. */
 bool ShardLoadDetector::detectRequestImbalance(
     const std::map<std::string, ShardLoadMetrics>& loads,
     LoadImbalanceResult& result
@@ -270,7 +277,6 @@ bool ShardLoadDetector::detectRequestImbalance(
     return false;
 }
 
-/** @brief Evaluate per-shard p99 latency outliers against cluster average. */
 bool ShardLoadDetector::detectLatencyDegradation(
     const std::map<std::string, ShardLoadMetrics>& loads,
     LoadImbalanceResult& result
@@ -317,7 +323,6 @@ bool ShardLoadDetector::detectLatencyDegradation(
     return degradation_found;
 }
 
-/** @brief Detect shards above CPU or storage exhaustion thresholds. */
 bool ShardLoadDetector::detectResourceExhaustion(
     const std::map<std::string, ShardLoadMetrics>& loads,
     LoadImbalanceResult& result
@@ -353,7 +358,6 @@ bool ShardLoadDetector::detectResourceExhaustion(
     return exhaustion_found;
 }
 
-/** @brief Build simple hotspot-to-cold-shard migration recommendations. */
 void ShardLoadDetector::generateRebalanceRecommendations(
     const std::map<std::string, ShardLoadMetrics>& loads,
     LoadImbalanceResult& result
@@ -399,7 +403,6 @@ void ShardLoadDetector::generateRebalanceRecommendations(
     THEMIS_INFO("Generated {} rebalance recommendations",result.recommendations.size());
 }
 
-/** @brief Compute weighted composite shard load score. */
 double ShardLoadDetector::calculateLoad(const ShardLoadMetrics& metrics) const {
     // Weighted load score
     double storage_weight = 0.4;
@@ -419,7 +422,6 @@ double ShardLoadDetector::calculateLoad(const ShardLoadMetrics& metrics) const {
            (cpu_score * cpu_weight);
 }
 
-/** @brief Compute standard deviation across numeric vector. */
 double ShardLoadDetector::calculateVariance(const std::vector<double>& values) const {
     if (values.empty()) {
       return 0.0;
@@ -438,8 +440,12 @@ double ShardLoadDetector::calculateVariance(const std::vector<double>& values) c
     return std::sqrt(variance);
 }
 
-/** @brief Return latest load metrics for shard id if present. */
 std::optional<ShardLoadMetrics> ShardLoadDetector::getShardLoad(const std::string& shard_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     auto it = shard_loads_.find(shard_id);
@@ -450,13 +456,20 @@ std::optional<ShardLoadMetrics> ShardLoadDetector::getShardLoad(const std::strin
     return std::nullopt;
 }
 
-/** @brief Return copy of latest load metrics map for all tracked shards. */
 std::map<std::string, ShardLoadMetrics> ShardLoadDetector::getAllShardLoads() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return shard_loads_;
 }
 
-/** @brief Record rebalance trigger and start cooldown interval. */
+/**
+ * @brief Record Rebalance Triggered.
+ * @details Calls: lock(), std::chrono::system_clock::now(), incrementCounter(), THEMIS_INFO(), count().
+ */
 void ShardLoadDetector::recordRebalanceTriggered() {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -471,8 +484,12 @@ void ShardLoadDetector::recordRebalanceTriggered() {
                config_.rebalance_cooldown.count() / 1000);
 }
 
-/** @brief Return whether detector currently suppresses actions during cooldown window. */
 bool ShardLoadDetector::isInCooldown() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     if (last_rebalance_time_ == std::chrono::system_clock::time_point::min()) {
@@ -487,8 +504,12 @@ bool ShardLoadDetector::isInCooldown() const {
     return elapsed < config_.rebalance_cooldown;
 }
 
-/** @brief Return detector counters, tracking state and metric staleness diagnostics. */
 nlohmann::json ShardLoadDetector::getStatistics() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     // Check cooldown without re-acquiring lock (we already hold it)
@@ -529,7 +550,6 @@ nlohmann::json ShardLoadDetector::getStatistics() const {
 // Load Forecasting
 // ──────────────────────────────────────────────────────────────────────────────
 
-/** @brief Fit linear trend model over value series (index-based x-axis). */
 std::pair<double, double> ShardLoadDetector::linearRegression(const std::vector<double>& values) {
     if (values.size() < 2) {
         return {0.0, values.empty() ? 0.0 : values[0]};
@@ -556,11 +576,15 @@ std::pair<double, double> ShardLoadDetector::linearRegression(const std::vector<
     return {slope, intercept};
 }
 
-/** @brief Forecast shard load at future horizon using linear-trend extrapolation. */
 std::optional<LoadForecast> ShardLoadDetector::forecastLoad(
     const std::string& shard_id,
     std::chrono::minutes horizon
 ) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
 
     auto it_current = shard_loads_.find(shard_id);

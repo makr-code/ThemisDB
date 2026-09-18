@@ -43,6 +43,11 @@ InferenceEngineEnhanced::~InferenceEngineEnhanced() noexcept {
 // Lifecycle Management
 // ============================================================================
 
+/**
+ * @brief Initialize.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), empty(), loadModel(), spdlog::error(), loadLoRAAdapter(), spdlog::info().
+ */
 bool InferenceEngineEnhanced::initialize() {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -75,6 +80,11 @@ bool InferenceEngineEnhanced::initialize() {
 
 void InferenceEngineEnhanced::shutdown() noexcept {
     try {
+        /**
+         * @brief Lock.
+         * @param[in] mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(mutex_);
         
         // Cancel all active requests
@@ -100,6 +110,12 @@ void InferenceEngineEnhanced::shutdown() noexcept {
     }
 }
 
+/**
+ * @brief Load Model.
+ * @param[in] model_path Path to the model.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), empty(), spdlog::error(), spdlog::info(), std::this_thread::sleep_for(), std::chrono::milliseconds(), isValid().
+ */
 bool InferenceEngineEnhanced::loadModel(const std::string& model_path) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -134,6 +150,10 @@ bool InferenceEngineEnhanced::loadModel(const std::string& model_path) {
     return true;
 }
 
+/**
+ * @brief Unload Model.
+ * @details Calls: lock(), spdlog::info().
+ */
 void InferenceEngineEnhanced::unloadModel() {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -150,6 +170,11 @@ void InferenceEngineEnhanced::unloadModel() {
 }
 
 bool InferenceEngineEnhanced::isModelLoaded() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return model_loaded_;
 }
@@ -158,6 +183,18 @@ bool InferenceEngineEnhanced::isModelLoaded() const {
 // Inference API
 // ============================================================================
 
+/**
+ * @brief Generate.
+ * @param[in] request_id Identifier of the request.
+ * @param[in] prompt_text Input parameter.
+ * @param[in] max_tokens Input parameter.
+ * @param[in] mode Input parameter.
+ * @param[in] adapter_id Identifier of the adapter.
+ * @param[in] token_callback Input parameter.
+ * @param[in] completion_callback Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), spdlog::error(), find(), end(), spdlog::warn(), tokenize(), reserveRequest(), std::chrono::steady_clock::now().
+ */
 bool InferenceEngineEnhanced::generate(
     int64_t request_id,
     const std::string& prompt_text,
@@ -240,6 +277,16 @@ bool InferenceEngineEnhanced::generate(
     return true;  // Request queued for processing
 }
 
+/**
+ * @brief Generate Tokens.
+ * @param[in] request_id Identifier of the request.
+ * @param[in] input_token_ids Input parameter.
+ * @param[in] max_tokens Input parameter.
+ * @param[in] is_prefill Input parameter.
+ * @param[in,out] output_token_ids Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), find(), end(), spdlog::warn(), std::chrono::steady_clock::now(), gen(), rd(), vocab_dist().
+ */
 bool InferenceEngineEnhanced::generateTokens(
     int64_t request_id,
     const std::vector<int>& input_token_ids,
@@ -304,6 +351,14 @@ bool InferenceEngineEnhanced::generateTokens(
     return true;
 }
 
+/**
+ * @brief Generate Single Token.
+ * @param[in] request_id Identifier of the request.
+ * @param[in] input_token_ids Input parameter.
+ * @param[in] is_prefill Input parameter.
+ * @return Return value.
+ * @details Calls: generateTokens(), empty().
+ */
 int InferenceEngineEnhanced::generateSingleToken(
     int64_t request_id,
     const std::vector<int>& input_token_ids,
@@ -319,6 +374,12 @@ int InferenceEngineEnhanced::generateSingleToken(
     return -1;  // Error
 }
 
+/**
+ * @brief Cancel Request.
+ * @param[in] request_id Identifier of the request.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), find(), end(), clearRequestCache(), spdlog::info(), spdlog::warn().
+ */
 bool InferenceEngineEnhanced::cancelRequest(int64_t request_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -341,6 +402,11 @@ bool InferenceEngineEnhanced::cancelRequest(int64_t request_id) {
 }
 
 bool InferenceEngineEnhanced::isRequestInProgress(int64_t request_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = active_requests_.find(request_id);
     return it != active_requests_.end() && !it->second.is_cancelled && !it->second.is_completed;
@@ -350,6 +416,17 @@ bool InferenceEngineEnhanced::isRequestInProgress(int64_t request_id) const {
 // Streaming API
 // ============================================================================
 
+/**
+ * @brief Start Streaming.
+ * @param[in] request_id Identifier of the request.
+ * @param[in] prompt_text Input parameter.
+ * @param[in] max_tokens Input parameter.
+ * @param[in] adapter_id Identifier of the adapter.
+ * @param[in] token_callback Input parameter.
+ * @param[in] completion_callback Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: generate().
+ */
 bool InferenceEngineEnhanced::startStreaming(
     int64_t request_id,
     const std::string& prompt_text,
@@ -369,6 +446,11 @@ bool InferenceEngineEnhanced::startStreaming(
     );
 }
 
+/**
+ * @brief Stop Streaming.
+ * @param[in] request_id Identifier of the request.
+ * @details Calls: cancelRequest().
+ */
 void InferenceEngineEnhanced::stopStreaming(int64_t request_id) {
     cancelRequest(request_id);
 }
@@ -377,6 +459,13 @@ void InferenceEngineEnhanced::stopStreaming(int64_t request_id) {
 // Speculative Decoding API
 // ============================================================================
 
+/**
+ * @brief Enable Speculative Decoding.
+ * @param[in] draft_model_id Identifier of the draft model.
+ * @param[in] target_model_id Identifier of the target model.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), empty(), spdlog::error(), spdlog::info().
+ */
 bool InferenceEngineEnhanced::enableSpeculativeDecoding(
     const std::string& draft_model_id,
     const std::string& target_model_id
@@ -397,6 +486,10 @@ bool InferenceEngineEnhanced::enableSpeculativeDecoding(
     return true;
 }
 
+/**
+ * @brief Disable Speculative Decoding.
+ * @details Calls: lock(), clear(), spdlog::info().
+ */
 void InferenceEngineEnhanced::disableSpeculativeDecoding() {
     std::lock_guard<std::mutex> lock(mutex_);
     speculative_decoding_enabled_ = false;
@@ -407,10 +500,24 @@ void InferenceEngineEnhanced::disableSpeculativeDecoding() {
 }
 
 bool InferenceEngineEnhanced::isSpeculativeDecodingEnabled() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return speculative_decoding_enabled_;
 }
 
+/**
+ * @brief Generate Draft Tokens.
+ * @param[in] request_id Identifier of the request.
+ * @param[in] input_token_ids Input parameter.
+ * @param[in] max_draft_tokens Input parameter.
+ * @param[in,out] draft_token_ids Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), spdlog::warn(), gen(), rd(), vocab_dist(), push_back(), spdlog::debug(), size().
+ */
 bool InferenceEngineEnhanced::generateDraftTokens(
     int64_t request_id,
     const std::vector<int>& input_token_ids,
@@ -440,6 +547,15 @@ bool InferenceEngineEnhanced::generateDraftTokens(
     return true;
 }
 
+/**
+ * @brief Verify Draft Tokens.
+ * @param[in] request_id Identifier of the request.
+ * @param[in] input_token_ids Input parameter.
+ * @param[in] draft_token_ids Input parameter.
+ * @param[in,out] verified_token_ids Input/output parameter.
+ * @return Return value.
+ * @details Calls: lock(), spdlog::warn(), empty(), gen(), rd(), accept_dist(), size(), push_back().
+ */
 double InferenceEngineEnhanced::verifyDraftTokens(
     int64_t request_id,
     const std::vector<int>& input_token_ids,
@@ -494,6 +610,12 @@ double InferenceEngineEnhanced::verifyDraftTokens(
 // LoRA Adapter Management
 // ============================================================================
 
+/**
+ * @brief Load Lo RAAdapter.
+ * @param[in] adapter_config Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), isValid(), spdlog::error(), find(), end(), spdlog::warn(), spdlog::info(), std::this_thread::sleep_for().
+ */
 bool InferenceEngineEnhanced::loadLoRAAdapter(const LoRAConfig& adapter_config) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -529,6 +651,12 @@ bool InferenceEngineEnhanced::loadLoRAAdapter(const LoRAConfig& adapter_config) 
     return true;
 }
 
+/**
+ * @brief Unload Lo RAAdapter.
+ * @param[in] adapter_id Identifier of the adapter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), find(), end(), spdlog::warn(), spdlog::info(), begin(), erase().
+ */
 bool InferenceEngineEnhanced::unloadLoRAAdapter(const std::string& adapter_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -559,6 +687,11 @@ bool InferenceEngineEnhanced::unloadLoRAAdapter(const std::string& adapter_id) {
 std::optional<LoRAConfig> InferenceEngineEnhanced::getAdapterConfig(
     const std::string& adapter_id
 ) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = loaded_adapters_.find(adapter_id);
     if (it != loaded_adapters_.end()) {
@@ -568,6 +701,11 @@ std::optional<LoRAConfig> InferenceEngineEnhanced::getAdapterConfig(
 }
 
 std::vector<LoRAConfig> InferenceEngineEnhanced::getAllAdapterConfigs() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     std::vector<LoRAConfig> configs = {};
 
@@ -577,6 +715,13 @@ std::vector<LoRAConfig> InferenceEngineEnhanced::getAllAdapterConfigs() const {
     return configs;
 }
 
+/**
+ * @brief Set Active Adapter.
+ * @param[in] domain Input parameter.
+ * @param[in] adapter_id Identifier of the adapter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), find(), end(), spdlog::warn(), spdlog::info().
+ */
 bool InferenceEngineEnhanced::setActiveAdapter(const std::string& domain, const std::string& adapter_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -594,6 +739,11 @@ bool InferenceEngineEnhanced::setActiveAdapter(const std::string& domain, const 
 }
 
 std::optional<LoRAConfig> InferenceEngineEnhanced::getActiveAdapter(const std::string& domain) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = domain_to_adapter_.find(domain);
     if (it != domain_to_adapter_.end()) {
@@ -602,6 +752,13 @@ std::optional<LoRAConfig> InferenceEngineEnhanced::getActiveAdapter(const std::s
     return std::nullopt;
 }
 
+/**
+ * @brief Update Adapter Capabilities.
+ * @param[in] adapter_id Identifier of the adapter.
+ * @param[in] accuracy_delta Input parameter.
+ * @param[in] performance_delta_p99_ms Input parameter.
+ * @details Calls: lock(), find(), end(), spdlog::debug(), capability_update_callback_().
+ */
 void InferenceEngineEnhanced::updateAdapterCapabilities(
     const std::string& adapter_id,
     double accuracy_delta,
@@ -628,6 +785,11 @@ void InferenceEngineEnhanced::updateAdapterCapabilities(
 // KV Cache Integration
 // ============================================================================
 
+/**
+ * @brief Set KVCache.
+ * @param[in,out] kv_cache Input/output parameter.
+ * @details Calls: lock(), setScheduler(), spdlog::info().
+ */
 void InferenceEngineEnhanced::setKVCache(PagedKVCache* kv_cache) {
     std::lock_guard<std::mutex> lock(mutex_);
     kv_cache_ = kv_cache;
@@ -639,10 +801,20 @@ void InferenceEngineEnhanced::setKVCache(PagedKVCache* kv_cache) {
     spdlog::info("InferenceEngineEnhanced: KV cache set");
 }
 
+/**
+ * @brief Get KVCache.
+ * @return Pointer to the result.
+ * @details Implements getKVCache without additional internal calls.
+ */
 PagedKVCache* InferenceEngineEnhanced::getKVCache() {
     return kv_cache_;
 }
 
+/**
+ * @brief Clear KVCache.
+ * @param[in] request_id Identifier of the request.
+ * @details Calls: clearRequestCache().
+ */
 void InferenceEngineEnhanced::clearKVCache(int64_t request_id) {
     if (kv_cache_) {
         kv_cache_->clearRequestCache(request_id);
@@ -653,6 +825,11 @@ void InferenceEngineEnhanced::clearKVCache(int64_t request_id) {
 // Scheduler Integration
 // ============================================================================
 
+/**
+ * @brief Set Scheduler.
+ * @param[in,out] scheduler Input/output parameter.
+ * @details Calls: lock(), spdlog::info().
+ */
 void InferenceEngineEnhanced::setScheduler(ContinuousBatchScheduler* scheduler) {
     std::lock_guard<std::mutex> lock(mutex_);
     scheduler_ = scheduler;
@@ -664,6 +841,11 @@ void InferenceEngineEnhanced::setScheduler(ContinuousBatchScheduler* scheduler) 
     spdlog::info("InferenceEngineEnhanced: Scheduler set");
 }
 
+/**
+ * @brief Get Scheduler.
+ * @return Pointer to the result.
+ * @details Implements getScheduler without additional internal calls.
+ */
 ContinuousBatchScheduler* InferenceEngineEnhanced::getScheduler() {
     return scheduler_;
 }
@@ -672,11 +854,20 @@ ContinuousBatchScheduler* InferenceEngineEnhanced::getScheduler() {
 // Capability Announcement (Gossip)
 // ============================================================================
 
+/**
+ * @brief Set Capability Update Callback.
+ * @param[in] callback Input parameter.
+ * @details Calls: lock(), std::move().
+ */
 void InferenceEngineEnhanced::setCapabilityUpdateCallback(CapabilityUpdateCallback callback) {
     std::lock_guard<std::mutex> lock(mutex_);
     capability_update_callback_ = std::move(callback);
 }
 
+/**
+ * @brief Broadcast Adapter Capabilities.
+ * @details Calls: lock(), capability_update_callback_().
+ */
 void InferenceEngineEnhanced::broadcastAdapterCapabilities() {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -690,6 +881,11 @@ void InferenceEngineEnhanced::broadcastAdapterCapabilities() {
 nlohmann::json InferenceEngineEnhanced::getCapabilityAnnouncement(
     const std::string& adapter_id
 ) const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     auto it = loaded_adapters_.find(adapter_id);
@@ -712,21 +908,40 @@ nlohmann::json InferenceEngineEnhanced::getCapabilityAnnouncement(
 // ============================================================================
 
 InferenceStats InferenceEngineEnhanced::getStats() const {
+    /**
+     * @brief Lock.
+     * @param[in] stats_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(stats_mutex_);
     return stats_;
 }
 
 nlohmann::json InferenceEngineEnhanced::getStatsJson() const {
+    /**
+     * @brief Lock.
+     * @param[in] stats_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(stats_mutex_);
     return stats_.toJson();
 }
 
+/**
+ * @brief Reset Stats.
+ * @details Calls: lock(), InferenceStats().
+ */
 void InferenceEngineEnhanced::resetStats() {
     std::lock_guard<std::mutex> lock(stats_mutex_);
     stats_ = InferenceStats();
 }
 
 nlohmann::json InferenceEngineEnhanced::getModelInfo() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     nlohmann::json info;
@@ -751,6 +966,11 @@ nlohmann::json InferenceEngineEnhanced::getModelInfo() const {
 // Configuration and Control
 // ============================================================================
 
+/**
+ * @brief Update the access control configuration.
+ * @param[in] config New access control configuration.
+ * @details Calls: lock(), isValid(), spdlog::error(), spdlog::info().
+ */
 void InferenceEngineEnhanced::updateConfig(const ModelConfig& config) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -768,11 +988,21 @@ const ModelConfig& InferenceEngineEnhanced::getConfig() const {
 }
 
 bool InferenceEngineEnhanced::isReady() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     return ready_;
 }
 
 std::string InferenceEngineEnhanced::getStatusString() const {
+    /**
+     * @brief Lock.
+     * @param[in] mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(mutex_);
     
     if (!ready_) {
@@ -840,6 +1070,15 @@ std::string InferenceEngineEnhanced::detokenize(const std::vector<int>& token_id
     return text;
 }
 
+/**
+ * @brief Apply Sampling.
+ * @param[in,out] logits Input/output parameter.
+ * @param[in] temperature Input parameter.
+ * @param[in] top_p Input parameter.
+ * @param[in] top_k Input parameter.
+ * @param[in] repeat_penalty Input parameter.
+ * @details Implements applySampling without additional internal calls.
+ */
 void InferenceEngineEnhanced::applySampling(
     std::vector<float>& logits,
     double temperature,
@@ -860,6 +1099,11 @@ void InferenceEngineEnhanced::applySampling(
     // Repeat penalty would be applied here
 }
 
+/**
+ * @brief Update Stats.
+ * @param[in] request Input parameter.
+ * @details Calls: lock(), empty().
+ */
 void InferenceEngineEnhanced::updateStats(const RequestState& request) {
     std::lock_guard<std::mutex> lock(stats_mutex_);
     

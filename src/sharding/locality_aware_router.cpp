@@ -70,6 +70,12 @@ LocalityAwareRouter::LocalityAwareRouter(
 LocalityAwareRouter::~LocalityAwareRouter() = default;
 
 // Main routing interface
+/**
+ * @brief Route Query.
+ * @param[in] spec Input parameter.
+ * @return Return value.
+ * @details Calls: fetch_add(), computeAffinity(), empty(), std::sort(), begin(), end(), store(), size().
+ */
 std::string LocalityAwareRouter::routeQuery(const QuerySpec& spec) {
     stats_.queries_routed.fetch_add(1, std::memory_order_relaxed);
     
@@ -119,6 +125,12 @@ std::string LocalityAwareRouter::routeQuery(const QuerySpec& spec) {
     return target_shard;
 }
 
+/**
+ * @brief Route Multi Shard Query.
+ * @param[in] spec Input parameter.
+ * @return Return value.
+ * @details Calls: fetch_add(), computeAffinity(), empty(), push_back(), std::sort(), begin(), end().
+ */
 std::vector<std::string> LocalityAwareRouter::routeMultiShardQuery(const QuerySpec& spec) {
     stats_.queries_routed.fetch_add(1, std::memory_order_relaxed);
     
@@ -197,6 +209,13 @@ LocalityAwareRouter::computeShardAffinity(
 }
 
 // Data placement tracking
+/**
+ * @brief Update Data Placement.
+ * @param[in] collection Input parameter.
+ * @param[in] key Input parameter.
+ * @param[in] shard_id Identifier of the shard.
+ * @details Calls: lock(), makeCacheKey(), insert(), size(), cleanupStaleEntries().
+ */
 void LocalityAwareRouter::updateDataPlacement(
     const std::string& collection,
     const std::string& key,
@@ -217,6 +236,12 @@ void LocalityAwareRouter::updateDataPlacement(
     }
 }
 
+/**
+ * @brief Remove Data Placement.
+ * @param[in] collection Input parameter.
+ * @param[in] key Input parameter.
+ * @details Calls: lock(), makeCacheKey(), erase().
+ */
 void LocalityAwareRouter::removeDataPlacement(
     const std::string& collection,
     const std::string& key) {
@@ -240,6 +265,11 @@ bool LocalityAwareRouter::hasData(
         return false;
     }
     
+    /**
+     * @brief Lock.
+     * @param[in] cache_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(cache_mutex_);
     
     std::string cache_key = makeCacheKey(collection, key);
@@ -253,6 +283,12 @@ bool LocalityAwareRouter::hasData(
 }
 
 // Optimization hints
+/**
+ * @brief Suggest Co Location.
+ * @param[in] collections Input parameter.
+ * @return Return value.
+ * @details Calls: size(), push_back(), std::accumulate(), begin(), end().
+ */
 std::vector<std::string> LocalityAwareRouter::suggestCoLocation(
     const std::vector<std::string>& collections) {
     
@@ -325,6 +361,11 @@ float LocalityAwareRouter::calculateLocalityScore(
         return 0.5f;
     }
     
+    /**
+     * @brief Lock.
+     * @param[in] cache_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(cache_mutex_);
     
     size_t local_keys = 0;
@@ -348,6 +389,15 @@ float LocalityAwareRouter::calculateLocalityScore(
 
 // Helper function to calculate load score from resource snapshot
 namespace {
+    /**
+     * @brief Compute Load From Snapshot.
+     * @param[in] cpu_percent Input parameter.
+     * @param[in] ram_used Input parameter.
+     * @param[in] ram_total Input parameter.
+     * @param[in] health_score Input parameter.
+     * @return Return value.
+     * @details Implements computeLoadFromSnapshot without additional internal calls.
+     */
     float computeLoadFromSnapshot(float cpu_percent, uint64_t ram_used, 
                                    uint64_t ram_total, float health_score) {
         float cpu_score = cpu_percent / 100.0f;
@@ -426,6 +476,10 @@ std::string LocalityAwareRouter::makeCacheKey(
     return collection + ":" + key;
 }
 
+/**
+ * @brief Cleanup Stale Entries.
+ * @details Calls: empty(), size(), begin(), end(), erase().
+ */
 void LocalityAwareRouter::cleanupStaleEntries() {
     // Simple strategy: remove oldest percentage of entries
     // In a production system, this would use TTL timestamps
@@ -448,14 +502,11 @@ void LocalityAwareRouter::cleanupStaleEntries() {
 }
 
 /**
- * @brief Record latency (RTT) measurement for a replica in a specific DC.
- *
- * Updates the RTT tracking for cross-datacenter routing decisions.
- * Used by latency-aware routing to select the lowest-RTT replica.
- *
- * @param replica_id Replica node identifier.
- * @param datacenter_id Requesting datacenter ID.
- * @param rtt_ms Measured round-trip time in milliseconds.
+ * @brief Record Replica Latency.
+ * @param[in] replica_id Identifier of the replica.
+ * @param[in] datacenter_id Identifier of the datacenter.
+ * @param[in] rtt_ms Input parameter.
+ * @details Calls: lock(), std::chrono::system_clock::now().
  */
 void LocalityAwareRouter::recordReplicaLatency(const std::string& replica_id,
                                                const std::string& datacenter_id,
@@ -469,15 +520,13 @@ void LocalityAwareRouter::recordReplicaLatency(const std::string& replica_id,
     };
 }
 
-/**
- * @brief Get recorded latency for a replica in a specific datacenter.
- *
- * @param replica_id Replica node identifier.
- * @param datacenter_id Datacenter ID.
- * @return Recorded RTT in milliseconds, or UINT64_MAX if not available.
- */
 uint64_t LocalityAwareRouter::getReplicaLatency(const std::string& replica_id,
                                                 const std::string& datacenter_id) const {
+    /**
+     * @brief Lock.
+     * @param[in] latency_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(latency_mutex_);
     
     auto replica_it = latency_records_.find(replica_id);
@@ -493,17 +542,14 @@ uint64_t LocalityAwareRouter::getReplicaLatency(const std::string& replica_id,
     return dc_it->second.rtt_ms;
 }
 
-/**
- * @brief Check if latency record is stale.
- *
- * @param replica_id Replica node identifier.
- * @param datacenter_id Datacenter ID.
- * @param max_age_ms Maximum acceptable age in milliseconds.
- * @return true if record doesn't exist or is older than max_age_ms.
- */
 bool LocalityAwareRouter::isLatencyStale(const std::string& replica_id,
                                          const std::string& datacenter_id,
                                          uint64_t max_age_ms) const {
+    /**
+     * @brief Lock.
+     * @param[in] latency_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> lock(latency_mutex_);
     
     auto replica_it = latency_records_.find(replica_id);
@@ -524,15 +570,12 @@ bool LocalityAwareRouter::isLatencyStale(const std::string& replica_id,
 }
 
 /**
- * @brief Select lowest-RTT replica for cross-datacenter read routing.
- *
- * For a given shard and requesting datacenter, returns the replica ID
- * with the lowest measured RTT, or falls back to nearest replica on timeout.
- *
- * @param shard_id Shard to route to.
- * @param requesting_datacenter_id Datacenter making the request.
- * @param timeout_ms Fallback timeout; if all replicas exceeded timeout, use nearest.
- * @return Replica ID with lowest RTT, or primary if all timed out.
+ * @brief Select Lowest RTTReplica.
+ * @param[in] shard_id Identifier of the shard.
+ * @param[in] requesting_datacenter_id Identifier of the requesting datacenter.
+ * @param[in] timeout_ms Input parameter.
+ * @return Return value.
+ * @details Calls: find(), end(), push_back(), empty(), hasShard(), std::find(), begin(), getShard().
  */
 std::string LocalityAwareRouter::selectLowestRTTReplica(const std::string& shard_id,
                                                         const std::string& requesting_datacenter_id,
@@ -608,15 +651,11 @@ std::string LocalityAwareRouter::selectLowestRTTReplica(const std::string& shard
 }
 
 /**
- * @brief Compute deterministic multi-shard exact consistency under failure.
- *
- * Returns routing decisions for multi-shard queries that guarantee exact
- * consistency semantics even when some shards fail. Uses quorum-based
- * validation and deterministic fallback ordering.
- *
- * @param shard_ids Target shards for the query.
- * @param consistency_level Required consistency (e.g., "strong", "eventual").
- * @return Vector of shard IDs ordered by routing priority for exact consistency.
+ * @brief Compute Multi Shard Exact Consistency.
+ * @param[in] shard_ids Input parameter.
+ * @param[in] consistency_level Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), size(), std::sort(), begin(), end(), calculateLoadScore(), result().
  */
 std::vector<std::string> LocalityAwareRouter::computeMultiShardExactConsistency(
     const std::vector<std::string>& shard_ids,

@@ -50,14 +50,14 @@ public:
                const std::optional<std::string>& sha256_expected_hex = std::nullopt);
 
     /**
-     * @brief Get full blob Returns Result<std::vector<uint8_t>> with possible errors: - ERR_STORAGE_FILE_NOT_FOUND: Content not found - ERR_STORAGE_CORRUPTION: Invalid metadata or missing chunk
+     * @brief Get.
      * @param[in] pk Input parameter.
      * @return Return value.
      */
     Result<std::vector<uint8_t>> get(const std::string& pk) const;
 
     /**
-     * @brief Range read [offset, offset+length) (length==0 => to end) Returns Result<std::vector<uint8_t>> with possible errors: - ERR_STORAGE_FILE_NOT_FOUND: Content not found - ERR_API_INVALID_REQUEST: Offset beyond file size - ERR_STORAGE_CORRUPTION: Invalid metadata or missing chunk
+     * @brief Get Range.
      * @param[in] pk Input parameter.
      * @param[in] offset Input parameter.
      * @param[in] length Input parameter.
@@ -66,21 +66,21 @@ public:
     Result<std::vector<uint8_t>> getRange(const std::string& pk, uint64_t offset, uint64_t length) const;
 
     /**
-     * @brief Head (metadata only) Returns Result<ContentMeta> with possible errors: - ERR_STORAGE_FILE_NOT_FOUND: Content not found - ERR_STORAGE_CORRUPTION: Invalid metadata
+     * @brief Head.
      * @param[in] pk Input parameter.
      * @return Return value.
      */
     Result<ContentMeta> head(const std::string& pk) const;
 
     /**
-     * @brief Delete blob + meta Returns Result<void> with possible errors: - ERR_STORAGE_FILE_NOT_FOUND: Content not found (warning only, still succeeds)
+     * @brief Remove.
      * @param[in] pk Input parameter.
      * @return Return value.
      */
     Result<void> remove(const std::string& pk);
 
     /**
-     * @brief Utility: compute SHA-256 hex for buffer
+     * @brief Sha256 Hex.
      * @param[in] data Input parameter.
      * @return Return value.
      */

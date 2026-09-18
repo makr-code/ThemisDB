@@ -47,7 +47,7 @@ std::string toLowerAscii(std::string value) {
 
 /**
  * @brief Normalize Argument Id.
- * @param[in] raw_id Input parameter.
+ * @param[in] raw_id Identifier of the raw.
  * @return Return value.
  * @details Calls: empty(), value(), find().
  */
@@ -55,11 +55,6 @@ std::string normalizeArgumentId(std::string_view raw_id) {
     if (raw_id.empty()) {
         return {};
     }
-    /**
-     * @brief Value.
-     * @param[in] raw_id Input parameter.
-     * @return Return value.
-     */
     const std::string value(raw_id);
     if (value.find('/') != std::string::npos) {
         return value;
@@ -69,8 +64,8 @@ std::string normalizeArgumentId(std::string_view raw_id) {
 
 /**
  * @brief Normalize Collection Id.
- * @param[in] raw_id Input parameter.
- * @param[in] collection_name Input parameter.
+ * @param[in] raw_id Identifier of the raw.
+ * @param[in] collection_name Name of the collection.
  * @return Return value.
  * @details Calls: empty(), value(), find(), std::string().
  */
@@ -78,11 +73,6 @@ std::string normalizeCollectionId(std::string_view raw_id, std::string_view coll
     if (raw_id.empty()) {
         return {};
     }
-    /**
-     * @brief Value.
-     * @param[in] raw_id Input parameter.
-     * @return Return value.
-     */
     const std::string value(raw_id);
     if (value.find('/') != std::string::npos) {
         return value;

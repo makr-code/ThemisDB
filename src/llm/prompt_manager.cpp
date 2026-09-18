@@ -30,6 +30,12 @@ PromptManager::PromptManager() = default;
 PromptManager::PromptManager(RocksDBWrapper* db, rocksdb::ColumnFamilyHandle* cf)
     : db_(db), cf_(cf) {}
 
+/**
+ * @brief Create Template.
+ * @param[in] t Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), generateId(), insert(), release(), std::string(), toJson(), dump(), bytes().
+ */
 PromptManager::PromptTemplate PromptManager::createTemplate(PromptManager::PromptTemplate t) {
     // v1.1.0: Lock-free concurrent hash map (no explicit lock needed)
     if (t.id.empty()) {
@@ -127,6 +133,14 @@ std::vector<PromptManager::PromptTemplate> PromptManager::listTemplates() const 
     return out;
 }
 
+/**
+ * @brief Update Template.
+ * @param[in] id Input parameter.
+ * @param[in] metadata Input parameter.
+ * @param[in] active Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: find(), std::string(), toJson(), dump(), bytes(), begin(), end(), put().
+ */
 bool PromptManager::updateTemplate(const std::string& id, const nlohmann::json& metadata, bool active) {
     // v1.1.0: Update using accessor for thread-safe modification
     StoreType::accessor acc;
@@ -151,6 +165,13 @@ bool PromptManager::updateTemplate(const std::string& id, const nlohmann::json& 
     return true;
 }
 
+/**
+ * @brief Assign Experiment.
+ * @param[in] id Input parameter.
+ * @param[in] experiment_id Identifier of the experiment.
+ * @return True when the operation succeeds.
+ * @details Calls: find(), std::string(), toJson(), dump(), bytes(), begin(), end(), put().
+ */
 bool PromptManager::assignExperiment(const std::string& id, const std::string& experiment_id) {
     // v1.1.0: Update using accessor for thread-safe modification
     StoreType::accessor acc;
@@ -188,6 +209,12 @@ std::string PromptManager::generateId() const {
     return oss.str();
 }
 
+/**
+ * @brief Load From YAML.
+ * @param[in] yaml_path Path to the yaml.
+ * @return Return value.
+ * @details Calls: std::filesystem::exists(), THEMIS_WARN(), YAML::LoadFile(), begin(), end(), nlohmann::json::parse(), c_str(), THEMIS_DEBUG().
+ */
 size_t PromptManager::loadFromYAML(const std::string& yaml_path) {
     try {
         if (!std::filesystem::exists(yaml_path)) {

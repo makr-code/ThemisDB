@@ -18,8 +18,8 @@ namespace observability {
 namespace {
 
 /**
- * @brief Generate a random 64-bit span ID as a 16-character hex string.
- * @return 16-character hex string.
+ * @brief Generate Span Id Internal.
+ * @return Return value.
  * @details Calls: rng(), std::setfill(), std::setw(), str().
  */
 std::string generateSpanIdInternal() {
@@ -80,11 +80,6 @@ void DistributedTraceSpan::addBaggage(const std::string& key, const std::string&
         return;  // Silently ignore empty keys
     }
 
-    /**
-     * @brief Lock.
-     * @param[in] baggage_mutex_ Input parameter.
-     * @return Return value.
-     */
     std::unique_lock lock(baggage_mutex_);
 
     // Enforce max 128 baggage items (drop oldest inherited if needed)
@@ -119,7 +114,7 @@ void DistributedTraceSpan::addEvent(
 
     /**
      * @brief Event.
-     * @param[in] event_name Input parameter.
+     * @param[in] event_name Name of the event.
      * @return Return value.
      */
     SpanEvent event(event_name);
@@ -138,11 +133,6 @@ void DistributedTraceSpan::setAttribute(const std::string& key, const std::strin
         return;  // Silently ignore empty keys
     }
 
-    /**
-     * @brief Lock.
-     * @param[in] attributes_mutex_ Input parameter.
-     * @return Return value.
-     */
     std::unique_lock lock(attributes_mutex_);
 
     // Enforce max 100 attributes per span
@@ -163,11 +153,6 @@ void DistributedTraceSpan::setStatus(SpanStatus status, const std::string& messa
     status_.store(status, std::memory_order_release);
 
     if (status == SpanStatus::Error) {
-        /**
-         * @brief Lock.
-         * @param[in] status_mutex_ Input parameter.
-         * @return Return value.
-         */
         std::unique_lock lock(status_mutex_);
         status_message_ = message;
     }
@@ -185,7 +170,7 @@ std::string DistributedTraceSpan::statusMessage() const {
 
 /**
  * @brief Child Context.
- * @param[in] child_operation_name Input parameter.
+ * @param[in] child_operation_name Name of the child operation.
  * @return Return value.
  * @details Calls: DistributedTraceContext::fromHttpHeaders(), lock(), withBaggage().
  */
@@ -208,11 +193,6 @@ std::shared_ptr<DistributedTraceContext> DistributedTraceSpan::childContext(
 
     // Inherit baggage from this span
     {
-        /**
-         * @brief Lock.
-         * @param[in] baggage_mutex_ Input parameter.
-         * @return Return value.
-         */
         std::shared_lock lock(baggage_mutex_);
         for (const auto& [key, value] : baggage_) {
             child_ctx = child_ctx->withBaggage(key, value);

@@ -29,6 +29,12 @@ using json = nlohmann::json;
 
 namespace {
 
+/**
+ * @brief To Unix Ms.
+ * @param[in] time_point Input parameter.
+ * @return Return value.
+ * @details Calls: time_since_epoch(), count().
+ */
 uint64_t toUnixMs(const std::chrono::system_clock::time_point& time_point) {
     if (time_point.time_since_epoch().count() == 0) {
         return 0;
@@ -37,6 +43,12 @@ uint64_t toUnixMs(const std::chrono::system_clock::time_point& time_point) {
         time_point.time_since_epoch()).count());
 }
 
+/**
+ * @brief Status To String.
+ * @param[in] status Input parameter.
+ * @return Return value.
+ * @details Implements statusToString without additional internal calls.
+ */
 std::string statusToString(sharding::ShardRepairStatus status) {
     switch (status) {
         case sharding::ShardRepairStatus::HEALTHY:
@@ -51,6 +63,12 @@ std::string statusToString(sharding::ShardRepairStatus status) {
     return "unknown";
 }
 
+/**
+ * @brief Repair Job To Json.
+ * @param[in] job Input parameter.
+ * @return Return value.
+ * @details Calls: toUnixMs().
+ */
 json repairJobToJson(const sharding::RepairJob& job) {
     return {
         {"job_id", job.job_id},
@@ -69,6 +87,12 @@ json repairJobToJson(const sharding::RepairJob& job) {
     };
 }
 
+/**
+ * @brief Shard Report To Json.
+ * @param[in] report Input parameter.
+ * @return Return value.
+ * @details Calls: statusToString(), toUnixMs().
+ */
 json shardReportToJson(const sharding::ShardHealthReport& report) {
     return {
         {"shard_id", report.shard_id},
@@ -83,6 +107,12 @@ json shardReportToJson(const sharding::ShardHealthReport& report) {
     };
 }
 
+/**
+ * @brief Metrics To Json.
+ * @param[in] metrics Input parameter.
+ * @return Return value.
+ * @details Calls: count(), toUnixMs().
+ */
 json metricsToJson(const sharding::RepairMetrics& metrics) {
     return {
         {"total_scans", metrics.total_scans},
@@ -97,6 +127,12 @@ json metricsToJson(const sharding::RepairMetrics& metrics) {
     };
 }
 
+/**
+ * @brief Extract Job Id.
+ * @param[in] target Input parameter.
+ * @return Return value.
+ * @details Calls: rfind(), substr(), size(), find(), std::string().
+ */
 std::string extractJobId(std::string_view target) {
     constexpr std::string_view prefix{"/v1/admin/repair/jobs/"};
     if (target.rfind(prefix, 0) != 0) {
@@ -110,6 +146,11 @@ std::string extractJobId(std::string_view target) {
     return std::string(job_id);
 }
 
+/**
+ * @brief Build Dashboard Html.
+ * @return Return value.
+ * @details Calls: str().
+ */
 std::string buildDashboardHtml() {
     std::ostringstream html = {};
     html << "<!doctype html>\n"
@@ -179,6 +220,11 @@ ShardRepairApiHandler::ShardRepairApiHandler(
     : repair_engine_(std::move(repair_engine))
     , auth_(std::move(auth)) {}
 
+/**
+ * @brief Set Repair Engine.
+ * @param[in] repair_engine Input parameter.
+ * @details Calls: std::move().
+ */
 void ShardRepairApiHandler::setRepairEngine(
     std::shared_ptr<sharding::ShardRepairEngine> repair_engine) {
     repair_engine_ = std::move(repair_engine);
@@ -226,6 +272,12 @@ bool ShardRepairApiHandler::checkAuth(
     return true;
 }
 
+/**
+ * @brief Handle Health.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), checkAuth(), makeErrorResponse(), getRepairMetrics(), getShardHealthReports(), getActiveJobs(), isRunning(), metricsToJson().
+ */
 http::response<http::string_body> ShardRepairApiHandler::handleHealth(
     const http::request<http::string_body>& req) {
     auto span = Tracer::startSpan("handleShardRepairHealth");
@@ -272,6 +324,12 @@ http::response<http::string_body> ShardRepairApiHandler::handleHealth(
     return makeResponse(http::status::ok, body.dump(), "application/json", req);
 }
 
+/**
+ * @brief Handle Trigger Repair.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), checkAuth(), makeErrorResponse(), body(), empty(), json::object(), json::parse(), contains().
+ */
 http::response<http::string_body> ShardRepairApiHandler::handleTriggerRepair(
     const http::request<http::string_body>& req) {
     auto span = Tracer::startSpan("handleShardRepairTrigger");
@@ -321,6 +379,12 @@ http::response<http::string_body> ShardRepairApiHandler::handleTriggerRepair(
     }
 }
 
+/**
+ * @brief Handle Trigger Full Scan.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), checkAuth(), makeErrorResponse(), triggerFullScan(), makeResponse(), dump().
+ */
 http::response<http::string_body> ShardRepairApiHandler::handleTriggerFullScan(
     const http::request<http::string_body>& req) {
     auto span = Tracer::startSpan("handleShardRepairFullScan");
@@ -342,6 +406,12 @@ http::response<http::string_body> ShardRepairApiHandler::handleTriggerFullScan(
     return makeResponse(http::status::accepted, response.dump(), "application/json", req);
 }
 
+/**
+ * @brief Handle Job Status.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), checkAuth(), makeErrorResponse(), extractJobId(), std::string(), target(), empty(), getJobStatus().
+ */
 http::response<http::string_body> ShardRepairApiHandler::handleJobStatus(
     const http::request<http::string_body>& req) {
     auto span = Tracer::startSpan("handleShardRepairJobStatus");
@@ -366,6 +436,12 @@ http::response<http::string_body> ShardRepairApiHandler::handleJobStatus(
     return makeResponse(status, repairJobToJson(job).dump(), "application/json", req);
 }
 
+/**
+ * @brief Handle Dashboard.
+ * @param[in] req Input parameter.
+ * @return Return value.
+ * @details Calls: Tracer::startSpan(), makeResponse(), buildDashboardHtml().
+ */
 http::response<http::string_body> ShardRepairApiHandler::handleDashboard(
     const http::request<http::string_body>& req) {
     auto span = Tracer::startSpan("handleShardRepairDashboard");

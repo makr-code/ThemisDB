@@ -29,6 +29,12 @@ namespace governance {
 
 namespace {
 
+/**
+ * @brief Reporter escape PDFString.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size().
+ */
 static std::string reporter_escapePDFString(const std::string &s) {
     std::string result = {};
     result.reserve(s.size());
@@ -48,6 +54,12 @@ static std::string reporter_escapePDFString(const std::string &s) {
     return result;
 }
 
+/**
+ * @brief Build Compliance Report HTML.
+ * @param[in] report Input parameter.
+ * @return Return value.
+ * @details Calls: std::localtime(), std::strftime(), std::setprecision(), empty(), size(), dump(), str().
+ */
 static std::string buildComplianceReportHTML(const ComplianceReport &report) {
     std::ostringstream html = {};
     std::time_t ts    = static_cast<std::time_t>(report.generated_at);
@@ -111,6 +123,12 @@ static std::string buildComplianceReportHTML(const ComplianceReport &report) {
     return html.str();
 }
 
+/**
+ * @brief Build Compliance Report PDF.
+ * @param[in] report Input parameter.
+ * @return Return value.
+ * @details Calls: std::localtime(), std::strftime(), push_back(), std::string(), std::to_string(), std::setprecision(), str(), empty().
+ */
 static std::string buildComplianceReportPDF(const ComplianceReport &report) {
     constexpr double PAGE_W     = 612.0;
     constexpr double PAGE_H     = 792.0;
@@ -952,6 +970,12 @@ BiasAuditReport ComplianceReporter::generateBiasAuditReport(
 // RuleEvaluationEntry
 // ============================================================================
 
+/**
+ * @brief From Json.
+ * @param[in] j Input parameter.
+ * @return Return value.
+ * @details Calls: contains(), is_number(), is_string(), is_boolean().
+ */
 RuleEvaluationEntry RuleEvaluationEntry::fromJson(const nlohmann::json &j) {
     RuleEvaluationEntry e = {};
     if (j.contains("timestamp") && j["timestamp"].is_number()) {

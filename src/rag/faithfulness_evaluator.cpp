@@ -31,8 +31,13 @@ struct FaithfulnessEvaluator::Impl {
     ResponseParser parser;
     mutable std::mutex state_mutex;  // Protect shared state access
     
-    // NLI-based entailment check: uses NLIFaithfulnessVerifier when loaded,
-    // falls back to term-overlap heuristic when no model is configured.
+    /**
+     * @brief NLI-based entailment check: uses NLIFaithfulnessVerifier when loaded, falls back to term-overlap heuristic when no model is configured.
+     * @param[in] claim Input parameter.
+     * @param[in] document Input parameter.
+     * @return Return value.
+     * @details Calls: lock(), checkEntailment(), std::transform(), begin(), end(), claim_stream(), length(), push_back().
+     */
     SupportLevel checkNLIEntailment(const std::string& claim, const std::string& document) {
         // Use NLI verifier if available
         {
@@ -119,6 +124,12 @@ FaithfulnessEvaluator::FaithfulnessEvaluator(const Config& config)
 
 FaithfulnessEvaluator::~FaithfulnessEvaluator() = default;
 
+/**
+ * @brief Extract Claims.
+ * @param[in] answer Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), evaluateDimension(), nlohmann::json::parse(), contains(), is_array(), is_string(), size(), std::move().
+ */
 std::vector<Claim> FaithfulnessEvaluator::extractClaims(const std::string& answer) {
     std::vector<Claim> claims;
     

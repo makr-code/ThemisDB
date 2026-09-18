@@ -113,6 +113,11 @@ TensorDeduplicationManager::TensorDeduplicationManager(std::shared_ptr<storage::
         std::size_t total_bytes_stored = 0;
         std::size_t bytes_saved        = 0;
         {
+            /**
+             * @brief Rlk.
+             * @param[in] rw_mutex_ Input parameter.
+             * @return Return value.
+             */
             std::shared_lock<std::shared_mutex> rlk(rw_mutex_);
             auto it = key_to_tensor_id_.find(makeKeyIndex(key));
             if (it == key_to_tensor_id_.end()) {
@@ -139,6 +144,11 @@ TensorDeduplicationManager::TensorDeduplicationManager(std::shared_ptr<storage::
             return counter.fetch_sub(value, std::memory_order_relaxed) - value;
         };
         {
+            /**
+             * @brief Wlk.
+             * @param[in] rw_mutex_ Input parameter.
+             * @return Return value.
+             */
             std::unique_lock<std::shared_mutex> wlk(rw_mutex_);
             auto it = key_to_tensor_id_.find(makeKeyIndex(key));
             if (it == key_to_tensor_id_.end()) {
@@ -184,6 +194,11 @@ std::string TensorDeduplicationManager::makeKeyIndex(const TensorFieldKey &key) 
     return key.tenant + kSep + key.collection + kSep + key.field;
 }
 
+/**
+ * @brief Clear Mapping For Tensor Id Locked.
+ * @param[in] tensor_id Identifier of the tensor.
+ * @details Calls: find(), end(), erase().
+ */
 void TensorDeduplicationManager::clearMappingForTensorIdLocked(const std::string &tensor_id) {
     auto key_it = tensor_id_to_key_.find(tensor_id);
     if (key_it == tensor_id_to_key_.end()) {
@@ -241,6 +256,17 @@ TTTrain TensorDeduplicationManager::addTrains(const TTTrain &a, const TTTrain &b
 // store
 // ============================================================================
 
+/**
+ * @brief Store.
+ * @param[in] tensor_id Identifier of the tensor.
+ * @param[in] data Input parameter.
+ * @param[in] mode_sizes Input parameter.
+ * @param[in] tenant Input parameter.
+ * @param[in] collection Input parameter.
+ * @param[in] field Input parameter.
+ * @return Return value.
+ * @details Calls: decompose(), findSimilar(), size(), empty(), get(), makeKey(), computeDelta(), reconstruct().
+ */
 StoredTensorRecord TensorDeduplicationManager::store(const std::string &tensor_id, const std::vector<float> &data,
                                                      const std::vector<std::size_t> &mode_sizes,
                                                      const std::string &tenant, const std::string &collection,
@@ -355,6 +381,11 @@ std::optional<std::vector<float>> TensorDeduplicationManager::retrieve(const std
     // otherwise create a potential deadlock.
     StoredTensorRecord rec;
     {
+        /**
+         * @brief Rlk.
+         * @param[in] rw_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::shared_lock<std::shared_mutex> rlk(rw_mutex_);
         auto it = records_.find(tensor_id);
         if (it == records_.end()) {
@@ -371,6 +402,11 @@ std::optional<std::vector<float>> TensorDeduplicationManager::retrieve(const std
     // 1. Load the canonical reference record.
     StoredTensorRecord ref_rec;
     {
+        /**
+         * @brief Rlk.
+         * @param[in] rw_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::shared_lock<std::shared_mutex> rlk(rw_mutex_);
         auto ref_it = records_.find(rec.reference_id);
         if (ref_it == records_.end()) {
@@ -405,6 +441,11 @@ std::optional<std::vector<float>> TensorDeduplicationManager::retrieve(const std
 }
 
 std::optional<StoredTensorRecord> TensorDeduplicationManager::getRecord(const std::string &tensor_id) const {
+    /**
+     * @brief Rlk.
+     * @param[in] rw_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> rlk(rw_mutex_);
     auto it = records_.find(tensor_id);
     if (it == records_.end()) {
@@ -418,6 +459,11 @@ std::optional<StoredTensorRecord> TensorDeduplicationManager::getRecord(const st
 // ============================================================================
 
 DeduplicationStats TensorDeduplicationManager::getStats() const noexcept {
+    /**
+     * @brief Rlk.
+     * @param[in] rw_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::shared_lock<std::shared_mutex> rlk(rw_mutex_);
     DeduplicationStats s;
     s.total_tensors = records_.size();
@@ -491,7 +537,13 @@ struct MutationJournalEntry {
     std::size_t bytes_saved        = 0;
 };
 
-// Little-endian write helpers.
+/**
+ * @brief Little-endian write helpers.
+ * @tparam T Template parameter.
+ * @param[in,out] buf Input/output parameter.
+ * @param[in] val Input parameter.
+ * @details Calls: static_assert(), push_back().
+ */
 template <typename T> static void writeLE(std::vector<uint8_t> &buf, T val) {
     static_assert(std::is_trivially_copyable<T>::value);
     const uint8_t *p = reinterpret_cast<const uint8_t *>(&val);
@@ -500,6 +552,12 @@ template <typename T> static void writeLE(std::vector<uint8_t> &buf, T val) {
     }
 }
 
+/**
+ * @brief Write Str.
+ * @param[in,out] buf Input/output parameter.
+ * @param[in] s Input parameter.
+ * @details Calls: size(), push_back().
+ */
 static void writeStr(std::vector<uint8_t> &buf, const std::string &s) {
     writeLE<uint64_t>(buf, static_cast<uint64_t>(s.size()));
     for (unsigned char c : s) {
@@ -507,7 +565,16 @@ static void writeStr(std::vector<uint8_t> &buf, const std::string &s) {
     }
 }
 
-// Little-endian read helpers.
+/**
+ * @brief Little-endian read helpers.
+ * @tparam T Template parameter.
+ * @param[in] data Input parameter.
+ * @param[in] size Input parameter.
+ * @param[in,out] pos Input/output parameter.
+ * @param[in,out] out Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: std::memcpy().
+ */
 template <typename T> static bool readLE(const uint8_t *data, std::size_t size, std::size_t &pos, T &out) {
     if (pos + sizeof(T) > size) {
         return false;
@@ -517,6 +584,15 @@ template <typename T> static bool readLE(const uint8_t *data, std::size_t size, 
     return true;
 }
 
+/**
+ * @brief Read Str.
+ * @param[in] data Input parameter.
+ * @param[in] size Input parameter.
+ * @param[in,out] pos Input/output parameter.
+ * @param[in,out] out Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: readLE(), assign().
+ */
 static bool readStr(const uint8_t *data, std::size_t size, std::size_t &pos, std::string &out) {
     uint64_t len = 0;
     if (!readLE(data, size, pos, len)) {
@@ -530,6 +606,12 @@ static bool readStr(const uint8_t *data, std::size_t size, std::size_t &pos, std
     return true;
 }
 
+/**
+ * @brief Serialize Graph Snapshot.
+ * @param[in] snapshot Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), writeStr().
+ */
 static std::vector<uint8_t> serializeGraphSnapshot(const themis::graph::PersistedFingerprintGraphSnapshot &snapshot) {
     std::vector<uint8_t> buf;
     buf.reserve(4096);
@@ -571,6 +653,12 @@ static std::vector<uint8_t> serializeGraphSnapshot(const themis::graph::Persiste
     return buf;
 }
 
+/**
+ * @brief Write Stored Tensor Record.
+ * @param[in,out] buf Input/output parameter.
+ * @param[in] record Input parameter.
+ * @details Calls: writeStr().
+ */
 static void writeStoredTensorRecord(std::vector<uint8_t> &buf, const themis::graph::StoredTensorRecord &record) {
     writeStr(buf, record.tensor_id);
     writeStr(buf, record.reference_id);
@@ -583,6 +671,12 @@ static void writeStoredTensorRecord(std::vector<uint8_t> &buf, const themis::gra
     writeStr(buf, record.field);
 }
 
+/**
+ * @brief Write Persisted Fingerprint Node.
+ * @param[in,out] buf Input/output parameter.
+ * @param[in] node Input parameter.
+ * @details Calls: writeStr(), size().
+ */
 static void writePersistedFingerprintNode(std::vector<uint8_t> &buf,
                                           const themis::graph::PersistedFingerprintNode &node) {
     writeStr(buf, node.tensor_id);
@@ -601,6 +695,12 @@ static void writePersistedFingerprintNode(std::vector<uint8_t> &buf,
     writeStr(buf, node.field);
 }
 
+/**
+ * @brief Write Persisted Fingerprint Edge.
+ * @param[in,out] buf Input/output parameter.
+ * @param[in] edge Input parameter.
+ * @details Calls: writeStr().
+ */
 static void writePersistedFingerprintEdge(std::vector<uint8_t> &buf,
                                           const themis::graph::PersistedFingerprintEdge &edge) {
     writeStr(buf, edge.from);
@@ -608,6 +708,12 @@ static void writePersistedFingerprintEdge(std::vector<uint8_t> &buf,
     writeLE<double>(buf, edge.similarity);
 }
 
+/**
+ * @brief Serialize Mutation Journal.
+ * @param[in] entries Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), writeStoredTensorRecord(), writePersistedFingerprintNode(), writePersistedFingerprintEdge(), writeStr().
+ */
 static std::vector<uint8_t> serializeMutationJournal(const std::vector<MutationJournalEntry> &entries) {
     constexpr std::size_t kEstimatedBytesPerEntry = 256;
     constexpr std::size_t kJournalHeaderBytes     = 64;
@@ -635,6 +741,15 @@ static std::vector<uint8_t> serializeMutationJournal(const std::vector<MutationJ
     return buf;
 }
 
+/**
+ * @brief Serialize Dedup Snapshot.
+ * @param[in] snapshot Input parameter.
+ * @param[in] records Input parameter.
+ * @param[in] total_bytes_stored Input parameter.
+ * @param[in] bytes_saved Input parameter.
+ * @return Return value.
+ * @details Calls: serializeGraphSnapshot(), reserve(), size(), insert(), end(), begin(), writeStoredTensorRecord().
+ */
 static std::vector<uint8_t> serializeDedupSnapshot(const themis::graph::PersistedFingerprintGraphSnapshot &snapshot,
                                                    const std::vector<themis::graph::StoredTensorRecord> &records,
                                                    std::size_t total_bytes_stored, std::size_t bytes_saved) {
@@ -658,6 +773,13 @@ static std::vector<uint8_t> serializeDedupSnapshot(const themis::graph::Persiste
     return buf;
 }
 
+/**
+ * @brief Deserialize Graph Snapshot.
+ * @param[in] buf Input parameter.
+ * @param[in,out] snapshot Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: data(), size(), readLE(), clear(), THEMIS_WARN(), reserve(), readStr(), resize().
+ */
 static bool deserializeGraphSnapshot(const std::vector<uint8_t> &buf,
                                      themis::graph::PersistedFingerprintGraphSnapshot &snapshot) {
     std::size_t pos        = 0;
@@ -788,6 +910,15 @@ static bool deserializeGraphSnapshot(const std::vector<uint8_t> &buf,
     return true;
 }
 
+/**
+ * @brief Read Stored Tensor Record.
+ * @param[in] data Input parameter.
+ * @param[in] size Input parameter.
+ * @param[in,out] pos Input/output parameter.
+ * @param[in,out] record Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: readStr(), readLE().
+ */
 static bool readStoredTensorRecord(const uint8_t *data, std::size_t size, std::size_t &pos,
                                    themis::graph::StoredTensorRecord &record) {
     if (!readStr(data, size, pos, record.tensor_id)) {
@@ -828,6 +959,15 @@ static bool readStoredTensorRecord(const uint8_t *data, std::size_t size, std::s
     return true;
 }
 
+/**
+ * @brief Read Persisted Fingerprint Node.
+ * @param[in] data Input parameter.
+ * @param[in] size Input parameter.
+ * @param[in,out] pos Input/output parameter.
+ * @param[in,out] node Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: readStr(), readLE(), resize().
+ */
 static bool readPersistedFingerprintNode(const uint8_t *data, std::size_t size, std::size_t &pos,
                                          themis::graph::PersistedFingerprintNode &node) {
     if (!readStr(data, size, pos, node.tensor_id)) {
@@ -877,6 +1017,15 @@ static bool readPersistedFingerprintNode(const uint8_t *data, std::size_t size, 
     return true;
 }
 
+/**
+ * @brief Read Persisted Fingerprint Edge.
+ * @param[in] data Input parameter.
+ * @param[in] size Input parameter.
+ * @param[in,out] pos Input/output parameter.
+ * @param[in,out] edge Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: readStr(), readLE().
+ */
 static bool readPersistedFingerprintEdge(const uint8_t *data, std::size_t size, std::size_t &pos,
                                          themis::graph::PersistedFingerprintEdge &edge) {
     if (!readStr(data, size, pos, edge.from)) {
@@ -888,6 +1037,13 @@ static bool readPersistedFingerprintEdge(const uint8_t *data, std::size_t size, 
     return readLE(data, size, pos, edge.similarity);
 }
 
+/**
+ * @brief Deserialize Mutation Journal.
+ * @param[in] buf Input parameter.
+ * @param[in,out] entries Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: data(), size(), readLE(), clear(), reserve(), readStoredTensorRecord(), readPersistedFingerprintNode(), readPersistedFingerprintEdge().
+ */
 static bool deserializeMutationJournal(const std::vector<uint8_t> &buf, std::vector<MutationJournalEntry> &entries) {
     std::size_t pos  = 0;
     const auto *data = buf.data();
@@ -961,6 +1117,11 @@ static bool deserializeMutationJournal(const std::vector<uint8_t> &buf, std::vec
     return pos == size;
 }
 
+/**
+ * @brief Compact Mutation Journal Entries.
+ * @param[in,out] entries Input/output parameter.
+ * @details Calls: size(), reserve(), extractTensorId(), at(), push_back(), std::move().
+ */
 static void compactMutationJournalEntries(std::vector<MutationJournalEntry> &entries) {
     if (entries.size() < 2) {
         return;
@@ -1061,6 +1222,13 @@ loadJournalWithLegacyFallback(const std::shared_ptr<themis::storage::TensorNetwo
     return JournalLoadStatus::Missing;
 }
 
+/**
+ * @brief Write Journal And Clear Legacy.
+ * @param[in] storage Input parameter.
+ * @param[in] snapshot_key Input parameter.
+ * @param[in] entries Input parameter.
+ * @details Calls: mutationJournalKeyForSnapshot(), legacyMutationJournalKeyForSnapshot(), serializeMutationJournal(), getRawMetadata(), has_value(), putRawMetadata(), THEMIS_WARN(), empty().
+ */
 static void writeJournalAndClearLegacy(const std::shared_ptr<themis::storage::TensorNetworkStorageEngine> &storage,
                                        const std::string &snapshot_key,
                                        const std::vector<MutationJournalEntry> &entries) {
@@ -1111,6 +1279,16 @@ activeSnapshotKeyOrNullopt(const std::shared_ptr<themis::storage::TensorNetworkS
     return std::string(raw_key->begin(), raw_key->end());
 }
 
+/**
+ * @brief Deserialize Dedup Snapshot.
+ * @param[in] buf Input parameter.
+ * @param[in,out] snapshot Input/output parameter.
+ * @param[in,out] records Input/output parameter.
+ * @param[in,out] total_bytes_stored Input/output parameter.
+ * @param[in,out] bytes_saved Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: data(), size(), readLE(), THEMIS_DEBUG(), THEMIS_WARN(), graph_bytes(), std::memcpy(), deserializeGraphSnapshot().
+ */
 static bool deserializeDedupSnapshot(const std::vector<uint8_t> &buf,
                                      themis::graph::PersistedFingerprintGraphSnapshot &snapshot,
                                      std::vector<themis::graph::StoredTensorRecord> &records,
@@ -1213,6 +1391,12 @@ static bool deserializeDedupSnapshot(const std::vector<uint8_t> &buf,
 // snapshotGraph / restoreGraph
 // ============================================================================
 
+/**
+ * @brief Snapshot Graph.
+ * @param[in] snapshot_key Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: exportPersistedGraph(), rlk(), reserve(), size(), push_back(), load(), serializeDedupSnapshot(), putRawMetadata().
+ */
 bool TensorDeduplicationManager::snapshotGraph(const std::string &snapshot_key) {
     auto snapshot = fp_graph_->exportPersistedGraph();
 
@@ -1238,6 +1422,12 @@ bool TensorDeduplicationManager::snapshotGraph(const std::string &snapshot_key) 
     return true;
 }
 
+/**
+ * @brief Restore Graph.
+ * @param[in] snapshot_key Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: getRawMetadata(), deserializeDedupSnapshot(), THEMIS_DEBUG(), deserializeGraphSnapshot(), THEMIS_WARN(), importPersistedGraph(), wlk(), clear().
+ */
 bool TensorDeduplicationManager::restoreGraph(const std::string &snapshot_key) {
     try {
         auto bytes_opt = storage_->getRawMetadata(snapshot_key);
@@ -1301,6 +1491,12 @@ bool TensorDeduplicationManager::restoreGraph(const std::string &snapshot_key) {
     }
 }
 
+/**
+ * @brief Replay Mutation Journal.
+ * @param[in] snapshot_key Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: hasJournalEntryHooks(), hlk(), journal_entry_enumerate_fn_(), deserializeMutationJournal(), empty(), push_back(), std::move(), compactMutationJournalEntries().
+ */
 bool TensorDeduplicationManager::replayMutationJournal(const std::string &snapshot_key) {
     std::vector<MutationJournalEntry> entries;
 
@@ -1417,6 +1613,11 @@ void TensorDeduplicationManager::activateSnapshotKey(const std::string &snapshot
 void TensorDeduplicationManager::clearMutationJournal(const std::string &snapshot_key) const {
     // Per-entry hook path: clear all per-entry records for this snapshot key.
     if (hasJournalEntryHooks()) {
+        /**
+         * @brief Hlk.
+         * @param[in] journal_hooks_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> hlk(journal_hooks_mutex_);
         if (journal_entry_clear_fn_) {
             try { journal_entry_clear_fn_(snapshot_key); }
@@ -1455,6 +1656,11 @@ void TensorDeduplicationManager::persistUpsertJournalEntry(const StoredTensorRec
     // Overwriting an existing entry for the same tensor_id IS compaction.
     if (hasJournalEntryHooks()) {
         const auto payload = serializeMutationJournal({entry});
+        /**
+         * @brief Hlk.
+         * @param[in] journal_hooks_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> hlk(journal_hooks_mutex_);
         if (journal_entry_persist_fn_) {
             try {
@@ -1497,6 +1703,11 @@ void TensorDeduplicationManager::persistDeleteJournalEntry(const std::string &te
     // Per-entry hook path: overwrite the entry for this tensor_id with DELETE.
     if (hasJournalEntryHooks()) {
         const auto payload = serializeMutationJournal({entry});
+        /**
+         * @brief Hlk.
+         * @param[in] journal_hooks_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> hlk(journal_hooks_mutex_);
         if (journal_entry_persist_fn_) {
             try { journal_entry_persist_fn_(*snapshot_key, tensor_id, payload); }
@@ -1516,6 +1727,14 @@ void TensorDeduplicationManager::persistDeleteJournalEntry(const std::string &te
 // Per-entry journal hooks
 // ============================================================================
 
+/**
+ * @brief Set Journal Entry Hooks.
+ * @param[in] persist_fn Input parameter.
+ * @param[in] delete_fn Input parameter.
+ * @param[in] enumerate_fn Input parameter.
+ * @param[in] clear_fn Input parameter.
+ * @details Calls: lk(), std::move().
+ */
 void TensorDeduplicationManager::setJournalEntryHooks(JournalEntryPersistFn persist_fn, JournalEntryDeleteFn delete_fn,
                                                       JournalEntryEnumerateFn enumerate_fn,
                                                       JournalEntryClearFn clear_fn) {
@@ -1527,9 +1746,12 @@ void TensorDeduplicationManager::setJournalEntryHooks(JournalEntryPersistFn pers
 }
 
 bool TensorDeduplicationManager::hasJournalEntryHooks() const noexcept {
-    // Hooks are mutable and may be reconfigured at runtime (e.g., tests
-    // switching between per-entry and blob journaling), so the composite
-    // readiness check must be guarded with the mutex.
+    /**
+     * @brief Hooks are mutable and may be reconfigured at runtime (e.
+     * @param[in] journal_hooks_mutex_ Input parameter.
+     * @return Return value.
+     * @details g., tests switching between per-entry and blob journaling), so the composite readiness check must be guarded with the mutex.
+     */
     std::lock_guard<std::mutex> lk(journal_hooks_mutex_);
     return static_cast<bool>(journal_entry_persist_fn_) && static_cast<bool>(journal_entry_enumerate_fn_)
            && static_cast<bool>(journal_entry_clear_fn_);
@@ -1546,6 +1768,12 @@ constexpr std::string_view kJournalEdgePrefix   = "__tfgjournal__";
 constexpr std::string_view kJournalPayloadField = "__tfgjournal_payload_hex";
 constexpr std::string_view kJournalType         = "__tfgjournal__";
 
+/**
+ * @brief To Hex.
+ * @param[in] text Input parameter.
+ * @return Return value.
+ * @details Calls: resize(), size().
+ */
 inline std::string toHex(std::string_view text) {
     static constexpr char kHex[] = "0123456789abcdef";
     std::string out = {};
@@ -1558,19 +1786,33 @@ inline std::string toHex(std::string_view text) {
     return out;
 }
 
-// Virtual source node in the graph from which all journal edges originate.
-// Must remain colon-free because GraphIndex legacy out-key parsing splits on
-// ':' and would otherwise reconstruct the wrong source node after topology
-// rebuild.
+/**
+ * @brief Virtual source node in the graph from which all journal edges originate.
+ * @param[in] snapshot_key Input parameter.
+ * @return Return value.
+ * @details Must remain colon-free because GraphIndex legacy out-key parsing splits on ':' and would otherwise reconstruct the wrong source node after topology rebuild. Calls: std::string(), toHex().
+ */
 inline std::string makeAnchorId(std::string_view snapshot_key) {
     return std::string("__tfgj_anchor__") + "_" + toHex(snapshot_key);
 }
 
-// Graph edge primary key (also used as edgeId in GraphIndexManager).
+/**
+ * @brief Graph edge primary key (also used as edgeId in GraphIndexManager).
+ * @param[in] snapshot_key Input parameter.
+ * @param[in] tensor_id Identifier of the tensor.
+ * @return Return value.
+ * @details Calls: std::string(), toHex().
+ */
 inline std::string makeEdgeId(std::string_view snapshot_key, std::string_view tensor_id) {
     return std::string(kJournalEdgePrefix) + "_" + toHex(snapshot_key) + "_" + toHex(tensor_id);
 }
 
+/**
+ * @brief To Hex.
+ * @param[in] data Input parameter.
+ * @return Return value.
+ * @details Calls: resize(), size().
+ */
 inline std::string toHex(const std::vector<uint8_t> &data) {
     static constexpr char kHex[] = "0123456789abcdef";
     std::string out = {};
@@ -1583,6 +1825,12 @@ inline std::string toHex(const std::vector<uint8_t> &data) {
     return out;
 }
 
+/**
+ * @brief Hex Nibble.
+ * @param[in] c Input parameter.
+ * @return Return value.
+ * @details Implements hexNibble without additional internal calls.
+ */
 inline uint8_t hexNibble(char c) {
     if (c >= '0' && c <= '9') {
         return static_cast<uint8_t>(c - '0');
@@ -1596,6 +1844,12 @@ inline uint8_t hexNibble(char c) {
     return 0xFFU;
 }
 
+/**
+ * @brief From Hex.
+ * @param[in] hex Input parameter.
+ * @return Return value.
+ * @details Calls: size(), reserve(), hexNibble(), push_back().
+ */
 inline std::optional<std::vector<uint8_t>> fromHex(std::string_view hex) {
     if ((hex.size() % 2) != 0) {
         return std::nullopt;
@@ -1615,6 +1869,13 @@ inline std::optional<std::vector<uint8_t>> fromHex(std::string_view hex) {
 }
 } // anonymous namespace
 
+/**
+ * @brief Wire Graph Index Journal Hooks.
+ * @param[in,out] tdm Input/output parameter.
+ * @param[in,out] graph_idx Input/output parameter.
+ * @param[in] snapshot_key Input parameter.
+ * @details Calls: empty(), std::string_view(), makeEdgeId(), makeAnchorId(), edge(), setField(), std::string(), toHex().
+ */
 void wireGraphIndexJournalHooks(TensorDeduplicationManager &tdm, GraphIndexManager &graph_idx,
                                 const std::string &snapshot_key) {
     const auto default_snapshot_key = snapshot_key;

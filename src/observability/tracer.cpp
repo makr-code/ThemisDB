@@ -33,10 +33,6 @@ using namespace detail;  // bring generateTraceId, generateSpanId, etc. into sco
 // ObservabilitySpan — ISpan implementation
 // ---------------------------------------------------------------------------
 
-/**
- * @brief Production span that records attributes and reports back to the
- *        owning tracer's ring buffer when ended.
- */
 class ObservabilitySpan : public core::concerns::ITracer::ISpan {
 public:
     ObservabilitySpan(std::string name,
@@ -136,11 +132,6 @@ private:
         if (ring_buf_ && ring_mu_ && max_retained_ > 0) {
             SpanRecord rec;
             {
-                /**
-                 * @brief Lk.
-                 * @param[in] attr_mu_ Input parameter.
-                 * @return Return value.
-                 */
                 std::lock_guard<std::mutex> lk(attr_mu_);
                 rec.attributes = attributes_;
             }
@@ -199,7 +190,6 @@ private:
 // Dropped span — returned when sampling decides not to record
 // ---------------------------------------------------------------------------
 
-/** @brief Dropped span — returned when sampling decides not to record. */
 class DroppedSpan : public core::concerns::ITracer::ISpan {
 public:
     void setAttribute(const std::string&, const std::string&) override {}
@@ -216,7 +206,6 @@ public:
 // ObservabilityTracer::Impl
 // ---------------------------------------------------------------------------
 
-/** @brief ObservabilityTracer::Impl. */
 class ObservabilityTracer::Impl {
 public:
     /**
@@ -245,8 +234,8 @@ public:
     /**
      * @brief Make Span.
      * @param[in] name Input parameter.
-     * @param[in] trace_id Input parameter.
-     * @param[in] parent_span_id Input parameter.
+     * @param[in] trace_id Identifier of the trace.
+     * @param[in] parent_span_id Identifier of the parent span.
      * @return Return value.
      * @details Calls: shouldSample(), generateSpanId(), lk(), publishMetrics().
      */
@@ -262,11 +251,6 @@ public:
 
         // Cache most-recently-started span context for injectContext()
         {
-            /**
-             * @brief Lk.
-             * @param[in] ctx_mu_ Input parameter.
-             * @return Return value.
-             */
             std::lock_guard<std::mutex> lk(ctx_mu_);
             last_trace_id_ = trace_id;
             last_span_id_  = span_id;
@@ -359,7 +343,7 @@ void ObservabilityTracer::injectContext(std::map<std::string, std::string>& head
  * @brief Initialize.
  * @param[in] param Input parameter.
  * @param[in] param Input parameter.
- * @return True on success.
+ * @return True when the operation succeeds.
  * @details Implements initialize without additional internal calls.
  */
 bool ObservabilityTracer::initialize(const std::string& /*serviceName*/,

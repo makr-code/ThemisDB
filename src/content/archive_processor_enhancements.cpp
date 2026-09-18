@@ -20,27 +20,15 @@ namespace content {
 
 namespace fs = std::filesystem;
 
-// ============================================================================
-// SECTION 1: Archive Validation & Error Handling (Graph Phase 2.1 Guard)
-// ============================================================================
-
 /**
- * @brief Defensive guard for archive member validation
- * @param member Archive member to validate
- * @param config Processor configuration with security limits
- * @return true if member passes all security checks
- * 
- * AUDIT LOGGING:
- * - INFO: Valid member processed
- * - WARN: Suspicious member (path traversal attempt, size limit exceeded)
- * - ERROR: Invalid member (encrypted without password, malformed path)
- * 
- * SECURITY CHECKS:
- * - Path traversal prevention (no ".." or "/")
- * - Size limit enforcement (per-file and total)
- * - Encryption policy compliance
- * - Directory nesting depth limits
+ * @brief ============================================================================ SECTION 1: Archive Validation & Error Handling (Graph Phase 2.
+ * @param[in] member Input parameter.
+ * @param[in] config Input parameter.
+ * @param[in,out] error_msg Input/output parameter.
+ * @return True when the operation succeeds.
+ * @details 1 Guard) ============================================================================
  */
+
 bool validateArchiveMember(
     const ArchiveMember& member,
     const ArchiveProcessorConfig& config,
@@ -96,17 +84,11 @@ bool validateArchiveMember(
 }
 
 /**
- * @brief Comprehensive archive metadata validation (fail-closed)
- * @param metadata Archive metadata extracted from blob
- * @param config Processor configuration
- * @param error_msg Error message if validation fails
- * @return true if all checks pass
- * 
- * CHECKS:
- * - Zip bomb detection (compression ratio)
- * - File count limits
- * - Total size limits
- * - Encryption policy compliance
+ * @brief Validate Archive Metadata.
+ * @param[in] metadata Input parameter.
+ * @param[in] config Input parameter.
+ * @param[in,out] error_msg Input/output parameter.
+ * @return True when the operation succeeds.
  */
 bool validateArchiveMetadata(
     const ArchiveMetadata& metadata,
@@ -154,21 +136,13 @@ bool validateArchiveMetadata(
     return true;
 }
 
-// ============================================================================
-// SECTION 2: Format Detection with Fallback Logic
-// ============================================================================
-
 /**
- * @brief Detect archive format from magic bytes (production deterministic)
- * @param blob Archive binary data
- * @param filename Original filename for extension detection
- * @return Detected archive format or UNKNOWN
- * 
- * DETECTION ORDER:
- * 1. Magic byte detection (most reliable)
- * 2. File extension detection (fallback)
- * 3. Return UNKNOWN if neither method succeeds
+ * @brief ============================================================================ SECTION 2: Format Detection with Fallback Logic ============================================================================
+ * @param[in] blob Input parameter.
+ * @param[in] filename Input parameter.
+ * @return Return value.
  */
+
 ArchiveFormat ArchiveProcessor::detectFormat(
     const std::string& blob,
     const std::string& filename)
@@ -256,22 +230,12 @@ ArchiveFormat ArchiveProcessor::detectFormat(
     return ArchiveFormat::UNKNOWN;
 }
 
-// ============================================================================
-// SECTION 3: Path Sanitization & Security
-// ============================================================================
-
 /**
- * @brief Sanitize archive member path to prevent traversal attacks
- * @param path Original path from archive
- * @return Sanitized path safe for file operations
- * 
- * TRANSFORMATIONS:
- * - Remove leading slashes
- * - Replace backslashes with forward slashes
- * - Remove ".." sequences
- * - Remove absolute path references
- * - Ensure result is relative
+ * @brief ============================================================================ SECTION 3: Path Sanitization & Security ============================================================================
+ * @param[in] path Input parameter.
+ * @return Return value.
  */
+
 std::string ArchiveProcessor::sanitizePath(const std::string& path)
 {
     std::string result = path;
@@ -308,19 +272,11 @@ std::string ArchiveProcessor::sanitizePath(const std::string& path)
     return result;
 }
 
-// ============================================================================
-// SECTION 4: Temporary Directory Management
-// ============================================================================
-
 /**
- * @brief Clean up temporary extraction directory recursively
- * @param temp_dir Path to temporary directory
- * 
- * SAFETY:
- * - Uses std::filesystem::remove_all (atomic cleanup)
- * - Catches and logs exceptions (non-fatal)
- * - Records cleanup metrics (AUDIT logging)
+ * @brief ============================================================================ SECTION 4: Temporary Directory Management ============================================================================
+ * @param[in] temp_dir Input parameter.
  */
+
 void ArchiveProcessor::cleanupTempDirectory(const std::string& temp_dir)
 {
     try {
@@ -338,11 +294,6 @@ void ArchiveProcessor::cleanupTempDirectory(const std::string& temp_dir)
 // SECTION 5: Resource Management (RAII Pattern)
 // ============================================================================
 
-/**
- * @brief RAII guard for temporary directory cleanup
- * 
- * Ensures cleanup on scope exit (exception-safe)
- */
 class TempDirGuard {
 public:
     explicit TempDirGuard(std::string path) : path_(std::move(path)) {
@@ -377,16 +328,18 @@ private:
 
 extern "C" {
     /**
-     * @brief Get archive processor version string
-     * @return Version identifier
+     * @brief Themis Archive Processor Version.
+     * @return Pointer to the result.
+     * @details Implements ThemisArchiveProcessorVersion without additional internal calls.
      */
     const char* ThemisArchiveProcessorVersion() {
         return "2.0.0-q3-2026-batch2";
     }
     
     /**
-     * @brief Check if archive processor is production-ready
-     * @return true if all critical guards are enabled
+     * @brief Themis Archive Processor Production.
+     * @return Return value.
+     * @details Implements ThemisArchiveProcessorProduction without additional internal calls.
      */
     int ThemisArchiveProcessorProduction() {
         return 1; // Production-ready with defensive guards

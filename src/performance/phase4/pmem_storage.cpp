@@ -44,6 +44,11 @@ namespace phase4 {
 // Device detection
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Detect pmem devices.
+ * @return Return value.
+ * @details Calls: fopen(), fscanf(), strstr(), stat(), push_back(), std::move(), fclose().
+ */
 std::vector<PMemDeviceInfo> detect_pmem_devices() {
     std::vector<PMemDeviceInfo> devices;
 
@@ -152,6 +157,11 @@ PMemPool& PMemPool::operator=(PMemPool&& o) noexcept {
     return *this;
 }
 
+/**
+ * @brief Map region.
+ * @param[in] config Input parameter.
+ * @details Calls: align_up(), CreateFileA(), c_str(), SetFilePointerEx(), SetEndOfFile(), CreateFileMappingA(), CloseHandle(), MapViewOfFile().
+ */
 void PMemPool::map_region(const Config& config) {
     const size_t size = align_up(config.pool_size, kDAXAlignment);
 
@@ -361,6 +371,14 @@ PMemStorageLayout::PMemStorageLayout(const Config& config)
       })
     , write_granule_(config.write_granule) {}
 
+/**
+ * @brief Write.
+ * @param[in] param Input parameter.
+ * @param[in] data Input parameter.
+ * @param[in] len Input parameter.
+ * @return Pointer to the result.
+ * @details Calls: align_up(), allocate(), std::memcpy(), std::memset(), persist(), fetch_add().
+ */
 void* PMemStorageLayout::write(const std::string& /*key*/,
                                const void* data,
                                size_t       len) {

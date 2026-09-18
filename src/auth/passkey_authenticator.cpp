@@ -45,11 +45,16 @@ namespace auth {
 
 namespace {
 
-// ---------------------------------------------------------------------------
-// Minimal CBOR decoder (subset: unsigned/negative ints, bytes, text, maps, tags)
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- Minimal CBOR decoder (subset: unsigned/negative ints, bytes, text, maps, tags) ---------------------------------------------------------------------------
+ * @param[in] d Input parameter.
+ * @param[in] pos Input parameter.
+ * @param[in,out] out Input/output parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: size(), std::to_string().
+ */
 
-/// @brief Read the CBOR argument (length or integer payload) and advance pos.
 static size_t passkeyCborReadArg(const std::vector<uint8_t>& d, size_t pos, uint64_t& out) {
     if (pos >= d.size()) {
         throw std::runtime_error("CBOR: truncated data");
@@ -94,7 +99,14 @@ static size_t passkeyCborReadArg(const std::vector<uint8_t>& d, size_t pos, uint
                              std::to_string(static_cast<int>(info)));
 }
 
-/// @brief Skip one CBOR item, returning the new position.
+/**
+ * @brief Passkey Cbor Skip.
+ * @param[in] d Input parameter.
+ * @param[in] pos Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: size(), passkeyCborReadArg().
+ */
 static size_t passkeyCborSkip(const std::vector<uint8_t>& d, size_t pos) {
     if (pos >= d.size()) {
       throw std::runtime_error("CBOR: truncated (skip)");
@@ -159,9 +171,14 @@ static size_t passkeyCborSkip(const std::vector<uint8_t>& d, size_t pos) {
     }
 }
 
-// ---------------------------------------------------------------------------
-// Parse attestation object CBOR map (keys: "fmt", "attStmt", "authData")
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- Parse attestation object CBOR map (keys: "fmt", "attStmt", "authData") ---------------------------------------------------------------------------
+ * @param[in] d Input parameter.
+ * @param[in,out] fmt Input/output parameter.
+ * @param[in,out] auth_data Input/output parameter.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: size(), passkeyCborReadArg(), passkeyCborSkip(), key(), begin(), assign(), empty().
+ */
 
 static void passkeyCborParseAttestationObject(const std::vector<uint8_t>& d,
                                        std::string& fmt,
@@ -236,6 +253,14 @@ struct PasskeyCoseKeyFields {
     std::vector<uint8_t> neg3_bytes; ///< -3 bytes (EC y coord)
 };
 
+/**
+ * @brief Passkey Cbor Parse Cose Key.
+ * @param[in] d Input parameter.
+ * @param[in] pos Input parameter.
+ * @param[in,out] out Input/output parameter.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: size(), passkeyCborReadArg(), passkeyCborSkip(), b(), begin(), readInt(), readNegInt(), readBytes().
+ */
 static void passkeyCborParseCoseKey(const std::vector<uint8_t>& d, size_t pos, PasskeyCoseKeyFields& out) {
     if (pos >= d.size() || (d[pos] >> 5) != 5)
         throw std::runtime_error("CBOR: expected map for COSE key");
@@ -322,6 +347,13 @@ static void passkeyCborParseCoseKey(const std::vector<uint8_t>& d, size_t pos, P
 static const char passkeyB64Table[] =
     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 
+/**
+ * @brief Passkey Base64 Url Encode Impl.
+ * @param[in] data Input parameter.
+ * @param[in] len Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), empty(), back(), pop_back().
+ */
 static std::string passkeyBase64UrlEncodeImpl(const uint8_t* data, std::size_t len) {
     std::string out = {};
     out.reserve(((len + 2) / 3) * 4);
@@ -347,6 +379,13 @@ static std::string passkeyBase64UrlEncodeImpl(const uint8_t* data, std::size_t l
     return out;
 }
 
+/**
+ * @brief Passkey Base64 Url Decode Impl.
+ * @param[in] input Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: size(), reserve(), push_back().
+ */
 static std::vector<uint8_t> passkeyBase64UrlDecodeImpl(const std::string& input) {
     std::string padded = input;
     for (char& c : padded) {
@@ -409,6 +448,13 @@ struct AuthDataFields {
     std::vector<uint8_t>     cose_key_bytes;
 };
 
+/**
+ * @brief Parse Auth Data.
+ * @param[in] d Input parameter.
+ * @return Return value.
+ * @throws std::runtime_error if an error occurs.
+ * @details Calls: size(), std::to_string(), std::copy(), begin(), std::setw(), std::setfill(), str(), passkeyBase64UrlEncodeImpl().
+ */
 static AuthDataFields parseAuthData(const std::vector<uint8_t>& d) {
     if (d.size() < 37)
         throw std::runtime_error("authData too short (" + std::to_string(d.size()) + " bytes)");
@@ -456,10 +502,13 @@ static AuthDataFields parseAuthData(const std::vector<uint8_t>& d) {
     return ad;
 }
 
-// ---------------------------------------------------------------------------
-// Build an EVP_PKEY (DER SPKI) from raw COSE key bytes.
-// Returns the key or nullptr on error (error string set in *err_out).
-// ---------------------------------------------------------------------------
+/**
+ * @brief --------------------------------------------------------------------------- Build an EVP_PKEY (DER SPKI) from raw COSE key bytes.
+ * @param[in] cose_key_bytes Input parameter.
+ * @param[in,out] err_out Input/output parameter.
+ * @return Pointer to the result.
+ * @details Returns the key or nullptr on error (error string set in *err_out). --------------------------------------------------------------------------- Calls: passkeyCborParseCoseKey(), std::string(), what(), std::to_string(), size(), reserve(), push_back(), insert().
+ */
 
 static EVP_PKEY* coseKeyToEvpPkey(const std::vector<uint8_t>& cose_key_bytes,
                                    std::string& err_out) {
@@ -575,12 +624,24 @@ static EVP_PKEY* coseKeyToEvpPkey(const std::vector<uint8_t>& cose_key_bytes,
 // SHA-256 helpers
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Sha256 Bytes.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Calls: SHA256(), data(), size(), begin(), end().
+ */
 static std::vector<uint8_t> sha256Bytes(const std::string& s) {
     std::array<unsigned char, SHA256_DIGEST_LENGTH> digest{};
     SHA256(reinterpret_cast<const unsigned char*>(s.data()),s.size(), digest.data());
     return {digest.begin(), digest.end()};
 }
 
+/**
+ * @brief Sha256 Bytes.
+ * @param[in] v Input parameter.
+ * @return Return value.
+ * @details Calls: SHA256(), data(), size(), begin(), end().
+ */
 static std::vector<uint8_t> sha256Bytes(const std::vector<uint8_t>& v) {
     std::array<unsigned char, SHA256_DIGEST_LENGTH> digest{};
     SHA256(v.data(),v.size(), digest.data());
@@ -613,6 +674,11 @@ std::string PasskeyAuthenticator::generateSecureChallenge([[maybe_unused]] size_
     if (bytes < 16) {
       bytes = 16;
     }
+    /**
+     * @brief Buf.
+     * @param[in] bytes Input parameter.
+     * @return Return value.
+     */
     std::vector<uint8_t> buf(bytes);
     if (RAND_bytes(buf.data(), static_cast<int>(bytes)) != 1) {
         throw std::runtime_error("PasskeyAuthenticator: RAND_bytes failed");
@@ -624,6 +690,12 @@ std::string PasskeyAuthenticator::generateSecureChallenge([[maybe_unused]] size_
 // Registration ceremony
 // ============================================================================
 
+/**
+ * @brief Begin Registration.
+ * @param[in] user_id Identifier of the user.
+ * @return Return value.
+ * @details Calls: generateSecureChallenge(), std::chrono::system_clock::now(), std::chrono::minutes(), lock(), spdlog::debug().
+ */
 PasskeyChallenge PasskeyAuthenticator::beginRegistration(const std::string& user_id) {
     PasskeyChallenge challenge;
     challenge.challenge_bytes_b64 = generateSecureChallenge(32);
@@ -640,6 +712,13 @@ PasskeyChallenge PasskeyAuthenticator::beginRegistration(const std::string& user
     return challenge;
 }
 
+/**
+ * @brief Complete Registration.
+ * @param[in] challenge_id Identifier of the challenge.
+ * @param[in] credential Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), find(), end(), spdlog::warn(), erase(), std::chrono::system_clock::now(), logPasskeyRegistered(), spdlog::info().
+ */
 bool PasskeyAuthenticator::completeRegistration(const std::string& challenge_id,
                                                 const PasskeyCredential& credential) {
     // 1. Find and consume the pending challenge
@@ -681,6 +760,12 @@ bool PasskeyAuthenticator::completeRegistration(const std::string& challenge_id,
 // Authentication ceremony
 // ============================================================================
 
+/**
+ * @brief Begin Authentication.
+ * @param[in] user_id Identifier of the user.
+ * @return Return value.
+ * @details Calls: generateSecureChallenge(), std::chrono::system_clock::now(), std::chrono::minutes(), lock(), spdlog::debug().
+ */
 PasskeyChallenge PasskeyAuthenticator::beginAuthentication(const std::string& user_id) {
     PasskeyChallenge challenge;
     challenge.challenge_bytes_b64 = generateSecureChallenge(32);
@@ -697,6 +782,13 @@ PasskeyChallenge PasskeyAuthenticator::beginAuthentication(const std::string& us
     return challenge;
 }
 
+/**
+ * @brief Complete Authentication.
+ * @param[in] challenge_id Identifier of the challenge.
+ * @param[in] response Input parameter.
+ * @param[in,out] out_user_id Identifier of the out user.
+ * @return Return value.
+ */
 PasskeyVerifyResult PasskeyAuthenticator::completeAuthentication(
     const std::string& challenge_id,
     const PasskeyAssertionResponse& response,
@@ -705,6 +797,11 @@ PasskeyVerifyResult PasskeyAuthenticator::completeAuthentication(
     // 1. Find and consume the pending challenge
     PasskeyChallenge challenge;
     {
+        /**
+         * @brief Lock.
+         * @param[in] challenge_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(challenge_mutex_);
         auto it = pending_challenges_.find(challenge_id);
         if (it == pending_challenges_.end()) {
@@ -730,6 +827,11 @@ PasskeyVerifyResult PasskeyAuthenticator::completeAuthentication(
     // 3. Look up the credential
     PasskeyCredential credential;
     {
+        /**
+         * @brief Lock.
+         * @param[in] cred_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(cred_mutex_);
         auto it = credentials_.find(response.credential_id);
         if (it == credentials_.end()) {
@@ -789,6 +891,11 @@ PasskeyVerifyResult PasskeyAuthenticator::completeAuthentication(
 
     // 9. Update the stored credential
     {
+        /**
+         * @brief Lock.
+         * @param[in] cred_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> lock(cred_mutex_);
         auto it = credentials_.find(response.credential_id);
         if (it != credentials_.end()) {
@@ -813,6 +920,11 @@ PasskeyVerifyResult PasskeyAuthenticator::completeAuthentication(
 std::vector<PasskeyCredential> PasskeyAuthenticator::listCredentials(
     const std::string& user_id) const
 {
+    /**
+     * @brief Lock.
+     * @param[in] cred_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(cred_mutex_);
     std::vector<PasskeyCredential> result = {};
 
@@ -824,6 +936,12 @@ std::vector<PasskeyCredential> PasskeyAuthenticator::listCredentials(
     return result;
 }
 
+/**
+ * @brief Revoke Credential.
+ * @param[in] credential_id Identifier of the credential.
+ * @return True when the operation succeeds.
+ * @details Calls: lock(), find(), end(), spdlog::warn(), erase(), spdlog::info().
+ */
 bool PasskeyAuthenticator::revokeCredential(const std::string& credential_id) {
     std::lock_guard<std::mutex> lock(cred_mutex_);
     auto it = credentials_.find(credential_id);
@@ -840,6 +958,12 @@ bool PasskeyAuthenticator::revokeCredential(const std::string& credential_id) {
 // verifyRegistration
 // ============================================================================
 
+/**
+ * @brief Verify Registration.
+ * @param[in] challenge Input parameter.
+ * @param[in] attestation_response_b64 Input parameter.
+ * @return True when the operation succeeds.
+ */
 bool PasskeyAuthenticator::verifyRegistration(
     const PasskeyChallenge& challenge,
     const std::string& attestation_response_b64)
@@ -906,6 +1030,11 @@ bool PasskeyAuthenticator::verifyRegistration(
         cred.last_used_at = cred.created_at;
 
         {
+            /**
+             * @brief Lock.
+             * @param[in] cred_mutex_ Input parameter.
+             * @return Return value.
+             */
             std::lock_guard<std::mutex> lock(cred_mutex_);
             credentials_[cred.credential_id] = std::move(cred);
         }
@@ -923,6 +1052,13 @@ bool PasskeyAuthenticator::verifyRegistration(
 // verifyAuthentication
 // ============================================================================
 
+/**
+ * @brief Verify Authentication.
+ * @param[in] challenge Input parameter.
+ * @param[in] credential Input parameter.
+ * @param[in] assertion_response_b64 Input parameter.
+ * @return True when the operation succeeds.
+ */
 bool PasskeyAuthenticator::verifyAuthentication(
     const PasskeyChallenge& challenge,
     const PasskeyCredential& credential,

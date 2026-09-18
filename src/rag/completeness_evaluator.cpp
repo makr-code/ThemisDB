@@ -30,8 +30,12 @@ struct CompletenessEvaluator::Impl {
     ResponseParser parser;
     mutable std::mutex state_mutex;  // Protect shared state access
     
-    // Optimization: Extract answer words once to avoid repeated parsing
-    // Builds a set of lowercase words from answer for O(log n) lookup
+    /**
+     * @brief Optimization: Extract answer words once to avoid repeated parsing Builds a set of lowercase words from answer for O(log n) lookup
+     * @param[in] answer Input parameter.
+     * @return Return value.
+     * @details Calls: std::transform(), begin(), end(), stream(), empty(), std::isalnum(), back(), pop_back().
+     */
     static std::set<std::string> extractAnswerWords(const std::string& answer) {
         std::set<std::string> words;
         std::string answer_lower = answer;
@@ -52,8 +56,13 @@ struct CompletenessEvaluator::Impl {
         return words;
     }
     
-    // Check if aspect is covered in answer using pre-extracted words
-    // Complexity: O(n_terms × log n_words) instead of O(n_terms × n_answer_length)
+    /**
+     * @brief Check if aspect is covered in answer using pre-extracted words Complexity: O(n_terms × log n_words) instead of O(n_terms × n_answer_length)
+     * @param[in] aspect Input parameter.
+     * @param[in] answer_words Input parameter.
+     * @return True when the operation succeeds.
+     * @details Calls: std::transform(), begin(), end(), stream(), empty(), std::isalnum(), back(), pop_back().
+     */
     bool isAspectCoveredOptimized(const std::string& aspect, 
                                   const std::set<std::string>& answer_words) {
         std::string aspect_lower = aspect;
@@ -90,14 +99,25 @@ struct CompletenessEvaluator::Impl {
         return found_count >= static_cast<size_t>(std::ceil(static_cast<double>(key_terms.size()) * 0.6));
     }
     
-    // Check if aspect is covered in answer
+    /**
+     * @brief Check if aspect is covered in answer
+     * @param[in] aspect Input parameter.
+     * @param[in] answer Input parameter.
+     * @return True when the operation succeeds.
+     * @details Calls: extractAnswerWords(), isAspectCoveredOptimized().
+     */
     bool isAspectCovered(const std::string& aspect, const std::string& answer) {
         auto answer_words = extractAnswerWords(answer);
         return isAspectCoveredOptimized(aspect, answer_words);
     }
     
-    // Calculate coverage score using pre-extracted words
-    // Complexity: O(n_terms × log n_words) instead of O(n_terms × n_answer_length)
+    /**
+     * @brief Calculate coverage score using pre-extracted words Complexity: O(n_terms × log n_words) instead of O(n_terms × n_answer_length)
+     * @param[in] aspect Input parameter.
+     * @param[in] answer_words Input parameter.
+     * @return Return value.
+     * @details Calls: std::transform(), begin(), end(), stream(), empty(), std::isalnum(), back(), pop_back().
+     */
     double calculateCoverageScoreOptimized(const std::string& aspect,
                                           const std::set<std::string>& answer_words) {
         std::string aspect_lower = aspect;
@@ -132,7 +152,13 @@ struct CompletenessEvaluator::Impl {
         return static_cast<double>(found_count) / static_cast<double>(key_terms.size());
     }
     
-    // Calculate coverage score for an aspect
+    /**
+     * @brief Calculate coverage score for an aspect
+     * @param[in] aspect Input parameter.
+     * @param[in] answer Input parameter.
+     * @return Return value.
+     * @details Calls: extractAnswerWords(), calculateCoverageScoreOptimized().
+     */
     double calculateCoverageScore(const std::string& aspect, const std::string& answer) {
         auto answer_words = extractAnswerWords(answer);
         return calculateCoverageScoreOptimized(aspect, answer_words);
@@ -159,6 +185,12 @@ CompletenessEvaluator::CompletenessEvaluator(const Config& config)
 
 CompletenessEvaluator::~CompletenessEvaluator() = default;
 
+/**
+ * @brief Extract Query Aspects.
+ * @param[in] query Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), empty(), evaluateDimension(), parseJSONResponse(), contains(), is_array(), value(), push_back().
+ */
 std::vector<QueryAspect> CompletenessEvaluator::extractQueryAspects(const std::string& query) {
     std::vector<QueryAspect> aspects;
     aspects.reserve(10);  // Reasonable estimate for typical queries
@@ -296,6 +328,14 @@ std::pair<DepthLevel, double> CompletenessEvaluator::assessDepth(
     return {level, depth_score};
 }
 
+/**
+ * @brief Detect Missing Information.
+ * @param[in] answer Input parameter.
+ * @param[in] query Input parameter.
+ * @param[in] aspects Input parameter.
+ * @return Return value.
+ * @details Calls: push_back(), THEMIS_DEBUG(), size().
+ */
 std::vector<std::string> CompletenessEvaluator::detectMissingInformation(
     const std::string& answer,
     const std::string& query,
@@ -320,6 +360,13 @@ std::vector<std::string> CompletenessEvaluator::detectMissingInformation(
     return missing_info;
 }
 
+/**
+ * @brief Evaluate.
+ * @param[in] answer Input parameter.
+ * @param[in] query Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), extractQueryAspects(), size(), extractAnswerWords(), isAspectCoveredOptimized(), calculateCoverageScoreOptimized(), assessDepth(), detectMissingInformation().
+ */
 CompletenessResult CompletenessEvaluator::evaluate(
     const std::string& answer,
     const std::string& query

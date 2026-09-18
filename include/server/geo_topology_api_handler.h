@@ -28,21 +28,6 @@ namespace themis {
 
 namespace server {
 
-/**
- * @brief Handler for Geo-Topology Configuration and Health Observability
- *
- * Exposes a REST API for managing and monitoring the GEO_MIRROR topology:
- *
- *   GET  /api/v1/geo/topology               - List all shards with region/zone/health
- *   GET  /api/v1/geo/regions                - Per-region health summary
- *   GET  /api/v1/geo/health                 - Overall geo health (failed regions, quorum states)
- *   POST /api/v1/geo/topology/shard         - Add/update a shard's region and zone metadata
- *   GET  /api/v1/geo/config/{collection}    - Get geo-replication config for a collection
- *   PUT  /api/v1/geo/config/{collection}    - Update geo-replication config for a collection
- *
- * All endpoints return JSON. Authentication is enforced when an AuthMiddleware
- * is configured.
- */
 class GeoTopologyApiHandler {
 public:
     GeoTopologyApiHandler(
@@ -51,31 +36,59 @@ public:
         std::shared_ptr<AuthMiddleware> auth
     );
 
-    /** GET /api/v1/geo/topology — all shards with region/zone/health/raft_role */
+    /**
+     * @brief Handle Topology Get.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleTopologyGet(
         const http::request<http::string_body>& req);
 
-    /** GET /api/v1/geo/regions — per-region aggregated health */
+    /**
+     * @brief Handle Regions Get.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleRegionsGet(
         const http::request<http::string_body>& req);
 
-    /** GET /api/v1/geo/health — overall geo-failover / quorum health */
+    /**
+     * @brief Handle Health Get.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleHealthGet(
         const http::request<http::string_body>& req);
 
-    /** POST /api/v1/geo/topology/shard — add or update shard region/zone */
+    /**
+     * @brief Handle Topology Shard Post.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleTopologyShardPost(
         const http::request<http::string_body>& req);
 
-    /** DELETE /api/v1/geo/topology/shard/{shard_id} — remove a shard from the topology */
+    /**
+     * @brief Handle Topology Shard Delete.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleTopologyShardDelete(
         const http::request<http::string_body>& req);
 
-    /** GET /api/v1/geo/config/{collection} — get GeoReplicationConfig for a collection */
+    /**
+     * @brief Handle Config Get.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleConfigGet(
         const http::request<http::string_body>& req);
 
-    /** PUT /api/v1/geo/config/{collection} — update GeoReplicationConfig for a collection */
+    /**
+     * @brief Handle Config Put.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> handleConfigPut(
         const http::request<http::string_body>& req);
 
@@ -84,17 +97,36 @@ private:
     std::shared_ptr<sharding::CollectionRedundancyManager> redundancy_manager_;
     std::shared_ptr<AuthMiddleware> auth_;
 
+    /**
+     * @brief Make Error Response.
+     * @param[in] status Input parameter.
+     * @param[in] message Input parameter.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> makeErrorResponse(
         http::status status,
         const std::string& message,
         const http::request<http::string_body>& req);
 
+    /**
+     * @brief Make Response.
+     * @param[in] status Input parameter.
+     * @param[in] body Input parameter.
+     * @param[in] req Input parameter.
+     * @return Return value.
+     */
     http::response<http::string_body> makeResponse(
         http::status status,
         const std::string& body,
         const http::request<http::string_body>& req);
 
-    /** Extract the last path segment after a prefix, e.g. "/api/v1/geo/config/mycoll" → "mycoll" */
+    /**
+     * @brief Extract Trailing Segment.
+     * @param[in] path Input parameter.
+     * @param[in] prefix Input parameter.
+     * @return Return value.
+     */
     std::string extractTrailingSegment(const std::string& path,
                                        const std::string& prefix) const;
 };

@@ -30,9 +30,6 @@ namespace llm {
 
 using json = nlohmann::json;
 
-/**
- * @brief Routing policy for adapter selection
- */
 enum class RoutingPolicy {
     SEMANTIC,           // Pure semantic similarity
     LOAD_AWARE,         // Semantic + GPU load balancing
@@ -41,9 +38,6 @@ enum class RoutingPolicy {
     FALLBACK            // Default fallback adapter
 };
 
-/**
- * @brief A/B testing configuration
- */
 struct ABTestConfig {
     std::vector<std::string> adapter_ids;  // Adapters to test
     std::vector<float> traffic_splits;     // Traffic split percentages (must sum to 1.0)
@@ -53,9 +47,6 @@ struct ABTestConfig {
     bool enabled = false;
 };
 
-/**
- * @brief Incremental rollout configuration
- */
 struct RolloutConfig {
     std::string new_adapter_id;            // New adapter being rolled out
     std::string baseline_adapter_id;       // Baseline adapter
@@ -67,18 +58,12 @@ struct RolloutConfig {
     bool enabled = false;
 };
 
-/**
- * @brief Fallback configuration
- */
 struct FallbackConfig {
     std::string default_adapter_id;        // Default adapter to use
     float similarity_threshold = 0.5f;     // Minimum similarity for non-fallback
     bool enable_fallback = true;
 };
 
-/**
- * @brief Routing decision result
- */
 struct RoutingDecision {
     std::string adapter_id;                // Selected adapter
     std::string base_model_id;             // Base model to use
@@ -91,10 +76,11 @@ struct RoutingDecision {
     std::chrono::milliseconds routing_latency_ms{0};  // Routing decision latency
 };
 
-/**
- * @brief Routing metrics for monitoring
- */
 struct RoutingMetrics {
+    /**
+     * @brief Routing Metrics.
+     * @return Return value.
+     */
     virtual ~RoutingMetrics() = default;
     size_t total_requests = 0;
     size_t successful_routes = 0;
@@ -104,36 +90,15 @@ struct RoutingMetrics {
     double avg_routing_latency_ms = 0.0;
     double avg_similarity_score = 0.0;
     
+    /**
+     * @brief To Json.
+     * @return Return value.
+     */
     json toJson() const;
 };
 
-/**
- * @brief LoRA Router - Automatic LoRA-to-LLM Routing Automation
- * 
- * Provides intelligent routing of queries to optimal LoRA adapters based on:
- * - Semantic similarity (embedding-based matching)
- * - Load-aware balancing (GPU health and utilization)
- * - A/B testing policies (traffic splitting for experiments)
- * - Incremental rollout (gradual deployment of new adapters)
- * - Fallback policies (default adapter when no good match)
- * 
- * Features:
- * - Automatic adapter selection via semantic query embedding
- * - Multi-LLM routing support
- * - Load-aware routing integrated with AdapterLoadBalancer
- * - Policy engine for A/B testing and rollouts
- * - Comprehensive metrics (adapter usage, fallback rate, latency)
- * - Audit logging for routing decisions
- * 
- * Architecture:
- *   Query → Embed → Find Similar Adapters → Apply Policy → 
- *   → Check Load → Route to GPU → Log Decision → Return
- */
 class LoRARouter {
 public:
-    /**
-     * @brief Configuration for LoRA router
-     */
     struct Config {
         // Semantic routing
         bool enable_semantic_routing = true;
@@ -161,12 +126,12 @@ public:
     };
     
     /**
-     * @brief Construct LoRA router
-     * 
-     * @param embedding_provider Provider for query embeddings
-     * @param adapter_registry Registry for adapter metadata
-     * @param load_balancer Load balancer for GPU-aware placement
-     * @param lora_manager Multi-LoRA manager for adapter operations
+     * @brief Lo RARouter.
+     * @param[in] embedding_provider Input parameter.
+     * @param[in] adapter_registry Input parameter.
+     * @param[in] load_balancer Input parameter.
+     * @param[in] lora_manager Input parameter.
+     * @return Return value.
      */
     explicit LoRARouter(
         std::shared_ptr<lora::EmbeddingProvider> embedding_provider,
@@ -175,13 +140,13 @@ public:
         std::shared_ptr<MultiLoRAManager> lora_manager
     );
     /**
-     * @brief Construct LoRA router
-     * 
-     * @param embedding_provider Provider for query embeddings
-     * @param adapter_registry Registry for adapter metadata
-     * @param load_balancer Load balancer for GPU-aware placement
-     * @param lora_manager Multi-LoRA manager for adapter operations
-     * @param config Router configuration
+     * @brief Lo RARouter.
+     * @param[in] embedding_provider Input parameter.
+     * @param[in] adapter_registry Input parameter.
+     * @param[in] load_balancer Input parameter.
+     * @param[in] lora_manager Input parameter.
+     * @param[in] config Input parameter.
+     * @return Return value.
      */
     explicit LoRARouter(
         std::shared_ptr<lora::EmbeddingProvider> embedding_provider,
@@ -193,36 +158,12 @@ public:
     
     ~LoRARouter();
     
-    /**
-     * @brief Route a query to the optimal adapter
-     * 
-     * Main routing function that:
-     * 1. Embeds the query using EmbeddingProvider
-     * 2. Finds semantically similar adapters
-     * 3. Applies routing policy (load-aware, A/B test, etc.)
-     * 4. Selects GPU for placement
-     * 5. Returns routing decision with metrics
-     * 
-     * @param query Input query/prompt
-     * @param base_model_id Base model to use (optional, auto-detect if empty)
-     * @param policy Routing policy override (optional)
-     * @return Routing decision with selected adapter and GPU
-     */
     RoutingDecision routeQuery(
         const std::string& query,
         const std::string& base_model_id = "",
         std::optional<RoutingPolicy> policy = std::nullopt
     );
     
-    /**
-     * @brief Route multiple queries in batch
-     * 
-     * Efficient batch routing for multiple queries.
-     * 
-     * @param queries Vector of input queries
-     * @param base_model_id Base model to use (optional)
-     * @return Vector of routing decisions
-     */
     std::vector<RoutingDecision> routeQueryBatch(
         const std::vector<std::string>& queries,
         const std::string& base_model_id = ""
@@ -231,109 +172,91 @@ public:
     // Policy Management
     
     /**
-     * @brief Configure A/B testing
-     * 
-     * Sets up A/B test between multiple adapters with traffic splits.
-     * 
-     * @param config A/B test configuration
-     * @return true if configuration successful
+     * @brief Configure ABTest.
+     * @param[in] config Input parameter.
+     * @return True when the operation succeeds.
      */
     bool configureABTest(const ABTestConfig& config);
     
     /**
-     * @brief Get current A/B test configuration
+     * @brief Get ABTest Config.
+     * @return Return value.
      */
     std::optional<ABTestConfig> getABTestConfig() const;
     
     /**
-     * @brief End A/B test
+     * @brief End ABTest.
      */
     void endABTest();
     
     /**
-     * @brief Configure incremental rollout
-     * 
-     * Sets up gradual rollout of new adapter.
-     * 
-     * @param config Rollout configuration
-     * @return true if configuration successful
+     * @brief Configure Rollout.
+     * @param[in] config Input parameter.
+     * @return True when the operation succeeds.
      */
     bool configureRollout(const RolloutConfig& config);
     
     /**
-     * @brief Get current rollout configuration
+     * @brief Get Rollout Config.
+     * @return Return value.
      */
     std::optional<RolloutConfig> getRolloutConfig() const;
     
     /**
-     * @brief Increment rollout percentage
-     * 
-     * Manually advance rollout to next percentage.
-     * 
-     * @return New rollout percentage
+     * @brief Increment Rollout.
+     * @return Return value.
      */
     float incrementRollout();
     
-    /**
-     * @brief End rollout (promote to 100% or rollback)
-     * 
-     * @param promote If true, promote to 100%. If false, rollback.
-     */
     void endRollout(bool promote = true);
     
     /**
-     * @brief Configure fallback adapter
-     * 
-     * @param config Fallback configuration
+     * @brief Configure Fallback.
+     * @param[in] config Input parameter.
      */
     void configureFallback(const FallbackConfig& config);
     
     /**
-     * @brief Get fallback configuration
+     * @brief Get Fallback Config.
+     * @return Return value.
      */
     FallbackConfig getFallbackConfig() const;
     
     // Metrics & Monitoring
     
     /**
-     * @brief Get routing metrics
-     * 
-     * Returns comprehensive metrics about routing decisions.
-     * 
-     * @return Routing metrics
+     * @brief Get Metrics.
+     * @return Return value.
      */
     RoutingMetrics getMetrics() const;
     
     /**
-     * @brief Reset metrics
+     * @brief Reset Metrics.
      */
     void resetMetrics();
     
     /**
-     * @brief Export metrics as JSON
+     * @brief Export Metrics.
+     * @return Return value.
      */
     json exportMetrics() const;
     
     // Cache Management
     
     /**
-     * @brief Clear decision cache
+     * @brief Clear Cache.
      */
     void clearCache();
     
     /**
-     * @brief Get cache statistics
+     * @brief Get Cache Stats.
+     * @return Return value.
      */
     json getCacheStats() const;
 
     /**
-     * @brief Inject a `DecisionRecordYamlProcessor` for async YAML traceability.
-     *
-     * When set, every successful non-cached routing decision emits a
-     * `LORA_ADAPTER_SELECTION` decision record written asynchronously to
-     * `logs/decisions/YYYY-MM-DD/<ts>_LORA_ADAPTER_SELECTION_<id>.yaml`.
-     *
-     * @param processor  Shared processor instance (may be nullptr to disable).
+     * @brief Set Decision Record Processor.
+     * @param[in] processor Input parameter.
      */
     void setDecisionRecordProcessor(
         std::shared_ptr<DecisionRecordYamlProcessor> processor);
@@ -369,17 +292,11 @@ private:
     
     // Internal routing methods
     
-    /**
-     * @brief Find candidate adapters using semantic similarity
-     */
     std::vector<std::pair<std::string, float>> findSemanticCandidates(
         const std::string& query,
         const std::string& base_model_id
     );
     
-    /**
-     * @brief Apply routing policy to select adapter
-     */
     RoutingDecision applyRoutingPolicy(
         const std::string& query,
         const std::vector<std::pair<std::string, float>>& candidates,
@@ -387,41 +304,34 @@ private:
         const std::string& base_model_id
     );
     
-    /**
-     * @brief Select adapter using semantic similarity
-     */
     RoutingDecision selectBySemantic(
         const std::vector<std::pair<std::string, float>>& candidates
     );
     
-    /**
-     * @brief Select adapter using load-aware policy
-     */
     RoutingDecision selectByLoadAware(
         const std::vector<std::pair<std::string, float>>& candidates
     );
     
-    /**
-     * @brief Select adapter using A/B test policy
-     */
     RoutingDecision selectByABTest(
         const std::vector<std::pair<std::string, float>>& candidates
     );
     
-    /**
-     * @brief Select adapter using rollout policy
-     */
     RoutingDecision selectByRollout(
         const std::vector<std::pair<std::string, float>>& candidates
     );
     
     /**
-     * @brief Select fallback adapter
+     * @brief Select Fallback.
+     * @param[in] reason Input parameter.
+     * @return Return value.
      */
     RoutingDecision selectFallback(const std::string& reason);
     
     /**
-     * @brief Calculate cosine similarity between embeddings
+     * @brief Cosine Similarity.
+     * @param[in] a Input parameter.
+     * @param[in] b Input parameter.
+     * @return Return value.
      */
     float cosineSimilarity(
         const std::vector<float>& a,
@@ -429,41 +339,53 @@ private:
     ) const;
     
     /**
-     * @brief Update routing metrics
+     * @brief Update Metrics.
+     * @param[in] decision Input parameter.
      */
     void updateMetrics(const RoutingDecision& decision);
     
     /**
-     * @brief Get cached decision if available
+     * @brief Get Cached Decision.
+     * @param[in] query Input parameter.
+     * @return Return value.
      */
     std::optional<RoutingDecision> getCachedDecision(const std::string& query);
     
     /**
-     * @brief Add decision to cache
+     * @brief Cache Decision.
+     * @param[in] query Input parameter.
+     * @param[in] decision Input parameter.
      */
     void cacheDecision(const std::string& query, const RoutingDecision& decision);
     
     /**
-     * @brief Compute hash for query (for caching)
+     * @brief Hash Query.
+     * @param[in] query Input parameter.
+     * @return Return value.
      */
     std::string hashQuery(const std::string& query) const;
     
     /**
-     * @brief Check if AB test is active
+     * @brief Is ABTest Active.
+     * @return True when the operation succeeds.
      */
     bool isABTestActive() const;
     
     /**
-     * @brief Check if rollout is active
+     * @brief Is Rollout Active.
+     * @return True when the operation succeeds.
      */
     bool isRolloutActive() const;
     
     /**
-     * @brief Evict expired cache entries
+     * @brief Evict Expired Cache.
      */
     void evictExpiredCache();
 
-    /// Emit a LORA_ADAPTER_SELECTION DecisionRecord (non-blocking, caller holds mutex_).
+    /**
+     * @brief Emit Adapter Selection Record.
+     * @param[in] decision Input parameter.
+     */
     void emitAdapterSelectionRecord(const RoutingDecision& decision) const;
 };
 

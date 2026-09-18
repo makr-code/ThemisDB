@@ -42,12 +42,26 @@ namespace graph {
 
 namespace {
 
+/**
+ * @brief Skip Ws.
+ * @param[in] s Input parameter.
+ * @param[in,out] pos Input/output parameter.
+ * @details Calls: size().
+ */
 static void skipWs(const std::string &s, std::size_t &pos) {
     while (pos < s.size() && (s[pos] == ' ' || s[pos] == '\t' || s[pos] == '\r' || s[pos] == '\n')) {
         ++pos;
     }
 }
 
+/**
+ * @brief Expect.
+ * @param[in] s Input parameter.
+ * @param[in,out] pos Input/output parameter.
+ * @param[in] c Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: skipWs(), size().
+ */
 static bool expect(const std::string &s, std::size_t &pos, char c) {
     skipWs(s, pos);
     if (pos >= s.size() || s[pos] != c) {
@@ -57,7 +71,13 @@ static bool expect(const std::string &s, std::size_t &pos, char c) {
     return true;
 }
 
-// Returns "" on parse error; advances pos past the closing '"'
+/**
+ * @brief Returns "" on parse error; advances pos past the closing '"'
+ * @param[in] s Input parameter.
+ * @param[in,out] pos Input/output parameter.
+ * @return Return value.
+ * @details Calls: skipWs(), size().
+ */
 static std::string parseString(const std::string &s, std::size_t &pos) {
     skipWs(s, pos);
     if (pos >= s.size() || s[pos] != '"') {
@@ -103,7 +123,13 @@ static std::string parseString(const std::string &s, std::size_t &pos) {
     return result;
 }
 
-// Parse array of strings: [ "a", "b", ... ]
+/**
+ * @brief Parse array of strings: [ "a", "b", .
+ * @param[in] s Input parameter.
+ * @param[in,out] pos Input/output parameter.
+ * @return Return value.
+ * @details .. ] Calls: skipWs(), size(), parseString(), empty(), push_back(), std::move().
+ */
 static std::vector<std::string> parseStringArray(const std::string &s, std::size_t &pos) {
     std::vector<std::string> result;
     skipWs(s, pos);
@@ -184,11 +210,15 @@ struct YamlEntry {
     std::unordered_map<std::string, std::string> scalar;
     std::unordered_map<std::string, std::vector<std::string>> list;
     
-    /// Explicit destructor for semantic clarity (Rule of Five).
-    /// Cleanup handled by standard library containers (RAII).
     ~YamlEntry() = default;
 };
 
+/**
+ * @brief Trim Yaml.
+ * @param[in] s Input parameter.
+ * @return Return value.
+ * @details Calls: find_first_not_of(), find_last_not_of(), substr().
+ */
 static std::string trimYaml(const std::string &s) {
     std::size_t a = s.find_first_not_of(" \t\r\n");
     if (a == std::string::npos) {
@@ -198,6 +228,14 @@ static std::string trimYaml(const std::string &s) {
     return s.substr(a, b - a + 1);
 }
 
+/**
+ * @brief Parse Yaml Section.
+ * @param[in] lines Input parameter.
+ * @param[in,out] i Input/output parameter.
+ * @param[in] section_indent Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), push_back(), std::move(), clear(), size(), trimYaml(), flush(), substr().
+ */
 static std::vector<YamlEntry> parseYamlSection(const std::vector<std::string> &lines, std::size_t &i,
                                                int section_indent) {
     std::vector<YamlEntry> entries;
@@ -291,6 +329,12 @@ static std::vector<YamlEntry> parseYamlSection(const std::vector<std::string> &l
 // OntologyManager — public API
 // ============================================================================
 
+/**
+ * @brief Load From Json.
+ * @param[in] path Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: is_open(), rdbuf(), parseJson(), str().
+ */
 bool OntologyManager::loadFromJson(std::string_view path) {
     std::string p{path};
     std::ifstream f{p};
@@ -302,10 +346,22 @@ bool OntologyManager::loadFromJson(std::string_view path) {
     return parseJson(ss.str());
 }
 
+/**
+ * @brief Load From Json String.
+ * @param[in] json_text Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: parseJson(), std::string().
+ */
 bool OntologyManager::loadFromJsonString(std::string_view json_text) {
     return parseJson(std::string(json_text));
 }
 
+/**
+ * @brief Load From Yaml.
+ * @param[in] path Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: is_open(), rdbuf(), parseYaml(), str().
+ */
 bool OntologyManager::loadFromYaml(std::string_view path) {
     std::string p{path};
     std::ifstream f{p};
@@ -317,6 +373,12 @@ bool OntologyManager::loadFromYaml(std::string_view path) {
     return parseYaml(ss.str());
 }
 
+/**
+ * @brief Add Concept.
+ * @param[in] id Input parameter.
+ * @param[in] parents Input parameter.
+ * @details Calls: std::move().
+ */
 void OntologyManager::addConcept(std::string id, std::vector<std::string> parents) {
     if (built_) {
         return;
@@ -327,6 +389,13 @@ void OntologyManager::addConcept(std::string id, std::vector<std::string> parent
     concepts_[node.id] = std::move(node);
 }
 
+/**
+ * @brief Add Axiom.
+ * @param[in] source_class Input parameter.
+ * @param[in] edge_type Input parameter.
+ * @param[in] target_class Input parameter.
+ * @details Calls: push_back(), std::move().
+ */
 void OntologyManager::addAxiom(std::string source_class, std::string edge_type, std::string target_class) {
     if (built_) {
         return;
@@ -334,6 +403,10 @@ void OntologyManager::addAxiom(std::string source_class, std::string edge_type, 
     axioms_.push_back({std::move(source_class), std::move(edge_type), std::move(target_class)});
 }
 
+/**
+ * @brief Build.
+ * @details Calls: find(), end(), insert().
+ */
 void OntologyManager::build() {
     if (built_) {
         return;
@@ -398,6 +471,11 @@ bool OntologyManager::isA(std::string_view conceptName, std::string_view superCo
     std::string cache_key = std::string(conceptName) + '\0' + std::string(superConcept);
 
     {
+        /**
+         * @brief Rl.
+         * @param[in] isa_cache_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::shared_lock<std::shared_mutex> rl(isa_cache_mutex_);
         auto it = isa_cache_.find(cache_key);
         if (it != isa_cache_.end()) {
@@ -408,6 +486,11 @@ bool OntologyManager::isA(std::string_view conceptName, std::string_view superCo
     bool result = isAUncached(conceptName, superConcept);
 
     {
+        /**
+         * @brief Wl.
+         * @param[in] isa_cache_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::unique_lock<std::shared_mutex> wl(isa_cache_mutex_);
         // Double-check after acquiring write lock
         if (isa_cache_.find(cache_key) == isa_cache_.end()) {
@@ -554,6 +637,12 @@ const OntologyManager::ConceptNode *OntologyManager::getConcept(std::string_view
 // Private JSON / YAML parsers
 // ============================================================================
 
+/**
+ * @brief Parse Json.
+ * @param[in] text Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: expect(), size(), skipWs(), parseString(), parseObject(), count(), empty(), std::move().
+ */
 bool OntologyManager::parseJson(const std::string &text) {
     if (built_) {
         return false;
@@ -641,6 +730,12 @@ bool OntologyManager::parseJson(const std::string &text) {
     return true;
 }
 
+/**
+ * @brief Parse Yaml.
+ * @param[in] text Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: ss(), std::getline(), push_back(), size(), trimYaml(), empty(), find(), substr().
+ */
 bool OntologyManager::parseYaml(const std::string &text) {
     if (built_) {
         return false;

@@ -58,12 +58,12 @@ namespace otel_exporter = opentelemetry::exporter::otlp;
 
 namespace themis {
 
+
 /**
- * @brief ───────────────────────────────────────────────────────────────────────────── SamplingStrategy ─────────────────────────────────────────────────────────────────────────────
+ * @brief Adaptive.
  * @return Return value.
  * @details Implements adaptive without additional internal calls.
  */
-
 SamplingStrategy SamplingStrategy::adaptive() {
     return adaptive(AdaptiveConfig{});
 }
@@ -281,7 +281,7 @@ std::mutex Tracer::sampling_mu_;
  * @brief Initialize.
  * @param[in] serviceName Input parameter.
  * @param[in] endpoint Input parameter.
- * @return True on success.
+ * @return True when the operation succeeds.
  * @details Calls: defined(), THEMIS_WARN(), re(), std::regex_search(), str(), size(), std::stoi(), parse_host_port().
  */
 bool Tracer::initialize(const std::string& serviceName, 
@@ -313,11 +313,6 @@ bool Tracer::initialize(const std::string& serviceName,
             namespace net = boost::asio;
             using tcp = net::ip::tcp;
             net::io_context io;
-            /**
-             * @brief Resolver.
-             * @param[in] io Input parameter.
-             * @return Return value.
-             */
             tcp::resolver resolver(io);
             boost::system::error_code ec;
             auto results = resolver.resolve(host, std::to_string(port), ec);
@@ -335,11 +330,6 @@ bool Tracer::initialize(const std::string& serviceName,
                 initialized_ = true;
                 return false;
             }
-            /**
-             * @brief Socket.
-             * @param[in] io Input parameter.
-             * @return Return value.
-             */
             tcp::socket socket(io);
             // Enforce a 3-second connect timeout using async operations.
             // SO_SNDTIMEO does not reliably bound a blocking connect(); we
@@ -347,11 +337,6 @@ bool Tracer::initialize(const std::string& serviceName,
             // probe always completes within the deadline regardless of OS.
             boost::system::error_code connect_ec{
                 boost::asio::error::operation_aborted};
-            /**
-             * @brief Timeout.
-             * @param[in] io Input parameter.
-             * @return Return value.
-             */
             net::steady_timer timeout(io);
             timeout.expires_after(std::chrono::seconds(3));
             timeout.async_wait([&socket](const boost::system::error_code& te) {
@@ -502,11 +487,6 @@ otel::nostd::shared_ptr<otel::trace::Tracer> Tracer::getTracer() {
  * @details Calls: lk().
  */
 void Tracer::setSamplingStrategy(const SamplingStrategy& strategy) {
-    /**
-     * @brief Lk.
-     * @param[in] sampling_mu_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lk(sampling_mu_);
     sampling_strategy_ = strategy;
 }
@@ -517,11 +497,6 @@ void Tracer::setSamplingStrategy(const SamplingStrategy& strategy) {
  * @details Calls: lk().
  */
 SamplingStrategy Tracer::getSamplingStrategy() {
-    /**
-     * @brief Lk.
-     * @param[in] sampling_mu_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lk(sampling_mu_);
     return sampling_strategy_;
 }
@@ -583,11 +558,6 @@ std::string Tracer::getCurrentSpanId() {
 Tracer::Span Tracer::startSpan(const std::string& name) {
 #if defined(THEMIS_ENABLE_TRACING) && defined(THEMIS_HAS_OPENTELEMETRY)
     {
-        /**
-         * @brief Lk.
-         * @param[in] sampling_mu_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lk(sampling_mu_);
         if (!sampling_strategy_.shouldSample()) {
             return Span();
@@ -627,11 +597,6 @@ Tracer::Span Tracer::startChildSpan(const std::string& name,
     }
 
     {
-        /**
-         * @brief Lk.
-         * @param[in] sampling_mu_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lk(sampling_mu_);
         if (!sampling_strategy_.shouldSample(parent.valid_)) {
             return Span();
@@ -684,7 +649,7 @@ std::string headerValue(const std::map<std::string, std::string>& headers,
  * @param[in,out] trace_id_out Input/output parameter.
  * @param[in,out] parent_id_out Input/output parameter.
  * @param[in,out] flags_out Input/output parameter.
- * @return True on success.
+ * @return True when the operation succeeds.
  * @details Calls: size(), fromHex(), hexByte(), otel::trace::TraceId(), data(), otel::trace::SpanId(), otel::trace::TraceFlags().
  */
 bool parseTraceparent(const std::string& value,
@@ -786,8 +751,8 @@ Tracer::Span Tracer::startSpanFromHeaders(
         if (parseTraceparent(traceparent, trace_id, parent_id, flags)) {
             /**
              * @brief Remote ctx.
-             * @param[in] trace_id Input parameter.
-             * @param[in] parent_id Input parameter.
+             * @param[in] trace_id Identifier of the trace.
+             * @param[in] parent_id Identifier of the parent.
              * @param[in] flags Input parameter.
              * @param[in] true Input parameter.
              * @return Return value.

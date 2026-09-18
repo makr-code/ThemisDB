@@ -37,8 +37,13 @@ HtmlProcessor::HtmlProcessor(Config config)
 // Public static helpers
 // ============================================================================
 
-// Remove a block-level element and all its content.
-// Handles nested elements of the same tag name via a simple depth counter.
+/**
+ * @brief Remove a block-level element and all its content.
+ * @param[in] html Input parameter.
+ * @param[in] tag Input parameter.
+ * @return Return value.
+ * @details Handles nested elements of the same tag name via a simple depth counter. Calls: reserve(), size(), std::tolower(), std::isspace(), ciFind(), append(), find().
+ */
 std::string HtmlProcessor::removeElement(
     const std::string& html,
     const std::string& tag
@@ -156,6 +161,12 @@ std::string HtmlProcessor::removeElement(
     return result;
 }
 
+/**
+ * @brief Remove Boilerplate.
+ * @param[in] html Input parameter.
+ * @return Return value.
+ * @details Calls: removeElement().
+ */
 std::string HtmlProcessor::removeBoilerplate(const std::string& html) {
     static const std::vector<std::string> boilerplate_tags = {
         "nav", "header", "footer", "aside", "form"
@@ -167,12 +178,25 @@ std::string HtmlProcessor::removeBoilerplate(const std::string& html) {
     return result;
 }
 
+/**
+ * @brief Remove Scripts And Styles.
+ * @param[in] html Input parameter.
+ * @return Return value.
+ * @details Calls: removeElement().
+ */
 std::string HtmlProcessor::removeScriptsAndStyles(const std::string& html) {
     std::string result = removeElement(html, "script");
     result = removeElement(result, "style");
     return result;
 }
 
+/**
+ * @brief Strip Tags.
+ * @param[in] html Input parameter.
+ * @param[in] preserve_headings Input parameter.
+ * @return Return value.
+ * @details Calls: heading_open(), heading_close(), reserve(), size(), std::sregex_iterator(), begin(), end(), append().
+ */
 std::string HtmlProcessor::stripTags(const std::string& html,
                                       bool preserve_headings) {
     std::string text = html;
@@ -221,6 +245,12 @@ std::string HtmlProcessor::stripTags(const std::string& html,
     return text;
 }
 
+/**
+ * @brief Decode Entities.
+ * @param[in] text Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), find(), substr(), empty(), std::stol(), std::transform(), begin().
+ */
 std::string HtmlProcessor::decodeEntities(const std::string& text) {
     // Named entities
     static const std::unordered_map<std::string, std::string> named = {
@@ -302,6 +332,12 @@ std::string HtmlProcessor::decodeEntities(const std::string& text) {
     return result;
 }
 
+/**
+ * @brief Extract Meta Tags.
+ * @param[in] html Input parameter.
+ * @return Return value.
+ * @details Calls: json::object(), title_re(), std::regex_search(), str(), any_tag(), std::regex_replace(), decodeEntities(), find_first_not_of().
+ */
 json HtmlProcessor::extractMetaTags(const std::string& html) {
     json meta = json::object();
     meta["title"] = "";
@@ -388,6 +424,12 @@ json HtmlProcessor::extractMetaTags(const std::string& html) {
 // Private helpers
 // ============================================================================
 
+/**
+ * @brief Normalize Whitespace.
+ * @param[in] text Input parameter.
+ * @return Return value.
+ * @details Calls: reserve(), size(), find_first_not_of(), find_last_not_of(), substr().
+ */
 std::string HtmlProcessor::normalizeWhitespace(const std::string& text) {
     std::string result = {};
     result.reserve(text.size());
@@ -426,6 +468,12 @@ std::string HtmlProcessor::normalizeWhitespace(const std::string& text) {
     return result.substr(start, end - start + 1);
 }
 
+/**
+ * @brief Count Tokens.
+ * @param[in] text Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), iss().
+ */
 int HtmlProcessor::countTokens(const std::string& text) {
     if (text.empty()) {
       return 0;
@@ -443,6 +491,13 @@ int HtmlProcessor::countTokens(const std::string& text) {
 // IContentProcessor interface
 // ============================================================================
 
+/**
+ * @brief Extract.
+ * @param[in] blob Input parameter.
+ * @param[in] content_type Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), extractMetaTags(), removeScriptsAndStyles(), removeBoilerplate(), stripTags(), decodeEntities(), normalizeWhitespace(), size().
+ */
 ExtractionResult HtmlProcessor::extract(
     const std::string& blob,
     const ContentType& content_type
@@ -497,6 +552,14 @@ ExtractionResult HtmlProcessor::extract(
     return result;
 }
 
+/**
+ * @brief Chunk.
+ * @param[in] extraction_result Input parameter.
+ * @param[in] chunk_size Input parameter.
+ * @param[in] overlap Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), size(), push_back(), clear(), json::object(), countTokens(), std::move(), flushChunk().
+ */
 std::vector<json> HtmlProcessor::chunk(
     const ExtractionResult& extraction_result,
     int chunk_size,
@@ -596,6 +659,12 @@ std::vector<json> HtmlProcessor::chunk(
     return chunks;
 }
 
+/**
+ * @brief Generate Embedding.
+ * @param[in] chunk_data Input parameter.
+ * @return Return value.
+ * @details Calls: embedding(), empty(), iss(), push_back(), size(), hasher(), std::sin(), std::sqrt().
+ */
 std::vector<float> HtmlProcessor::generateEmbedding(const std::string& chunk_data) {
     // Deterministic hash-based embedding compatible with TextProcessor
     const int DIM = 768;
@@ -650,10 +719,21 @@ std::vector<float> HtmlProcessor::generateEmbedding(const std::string& chunk_dat
 // Factory functions
 // ============================================================================
 
+/**
+ * @brief Create Html Processor.
+ * @return Return value.
+ * @details Implements createHtmlProcessor without additional internal calls.
+ */
 std::unique_ptr<IContentProcessor> createHtmlProcessor() {
     return std::make_unique<HtmlProcessor>();
 }
 
+/**
+ * @brief Create Html Processor.
+ * @param[in] config Input parameter.
+ * @return Return value.
+ * @details Calls: std::move().
+ */
 std::unique_ptr<IContentProcessor> createHtmlProcessor(HtmlProcessor::Config config) {
     return std::make_unique<HtmlProcessor>(std::move(config));
 }

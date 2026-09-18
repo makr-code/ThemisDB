@@ -62,13 +62,13 @@ class DataMasker {
      */
     nlohmann::json maskFieldsArray(const nlohmann::json &docs, const FieldMaskingPolicy &policy) const;
 
+
     /**
-     * @brief ------------------------------------------------------------------------- Strategy helpers (public for unit testing) -------------------------------------------------------------------------
+     * @brief Apply Strategy.
      * @param[in] value Input parameter.
      * @param[in] rule Input parameter.
      * @return Return value.
      */
-
     static std::string applyStrategy(const std::string &value, const FieldMaskingRule &rule);
 
   private:

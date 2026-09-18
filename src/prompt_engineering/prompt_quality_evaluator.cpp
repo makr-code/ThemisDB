@@ -20,7 +20,12 @@
 namespace themis {
 namespace prompt_engineering {
 
-// ── Helper: tokenize ─────────────────────────────────────────────────────────
+/**
+ * @brief ── Helper: tokenize ─────────────────────────────────────────────────────────
+ * @param[in] text Input parameter.
+ * @return Return value.
+ * @details Calls: std::isalnum(), std::tolower(), empty(), push_back(), std::move().
+ */
 
 std::vector<std::string> PromptQualityEvaluator::tokenize(const std::string& text) {
     std::vector<std::string> tokens;
@@ -40,7 +45,13 @@ std::vector<std::string> PromptQualityEvaluator::tokenize(const std::string& tex
     return tokens;
 }
 
-// ── Helper: case-insensitive contains ─────────────────────────────────────────
+/**
+ * @brief ── Helper: case-insensitive contains ─────────────────────────────────────────
+ * @param[in] haystack Input parameter.
+ * @param[in] needle Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), std::search(), begin(), end(), std::tolower().
+ */
 
 bool PromptQualityEvaluator::containsIgnoreCase(const std::string& haystack,
                                                  const std::string& needle) {

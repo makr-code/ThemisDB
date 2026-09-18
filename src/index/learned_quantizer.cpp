@@ -50,6 +50,12 @@ LearnedQuantizer::LearnedQuantizer(int dimension, const Config& config)
     }
 }
 
+/**
+ * @brief Train.
+ * @param[in] training_vectors Input parameter.
+ * @return Return value.
+ * @details Calls: empty(), Status::Error(), size(), THEMIS_INFO(), reserve(), push_back(), learnThresholds(), std::move().
+ */
 LearnedQuantizer::Status LearnedQuantizer::train(
     const std::vector<std::vector<float>>& training_vectors) {
     const size_t dimension = static_cast<size_t>(dimension_);

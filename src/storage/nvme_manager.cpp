@@ -41,10 +41,26 @@
 #    include <sys/mman.h>
 #    include <signal.h>
 
-// Thin syscall wrappers (avoids dependency on liburing for portability)
+/**
+ * @brief Thin syscall wrappers (avoids dependency on liburing for portability)
+ * @param[in] entries Input parameter.
+ * @param[in,out] p Input/output parameter.
+ * @return Return value.
+ * @details Calls: syscall().
+ */
 static int themis_io_uring_setup(unsigned entries, struct io_uring_params* p) {
     return static_cast<int>(::syscall(__NR_io_uring_setup, entries, p));
 }
+/**
+ * @brief Themis io uring enter.
+ * @param[in] fd Input parameter.
+ * @param[in] to_submit Input parameter.
+ * @param[in] min_complete Input parameter.
+ * @param[in] flags Input parameter.
+ * @param[in,out] sig Input/output parameter.
+ * @return Return value.
+ * @details Calls: syscall().
+ */
 static int themis_io_uring_enter(int fd, unsigned to_submit, unsigned min_complete,
                                   unsigned flags, sigset_t* sig) {
     return static_cast<int>(::syscall(__NR_io_uring_enter, fd,
@@ -138,6 +154,11 @@ NVMeManager::~NVMeManager() {
 // Lifecycle
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Initialize.
+ * @return True when the operation succeeds.
+ * @details Calls: load(), state_lock(), THEMIS_INFO(), detectCapabilities(), THEMIS_WARN(), setupIoUring(), store().
+ */
 bool NVMeManager::initialize() {
     if (initialized_.load(std::memory_order_acquire)) {
         return true;  // idempotent
@@ -205,6 +226,10 @@ bool NVMeManager::initialize() {
     return true;
 }
 
+/**
+ * @brief Shutdown.
+ * @details Calls: load(), THEMIS_INFO(), teardownIoUring(), store().
+ */
 void NVMeManager::shutdown() {
     if (!initialized_.load(std::memory_order_acquire)) {
         return;
@@ -276,6 +301,11 @@ NVMeCapabilities NVMeManager::detectCapabilities() const {
                 dev_name = dev_name.substr(pos + 1);
             }
             std::string zoned_path = "/sys/block/" + dev_name + "/queue/zoned";
+            /**
+             * @brief Zoned file.
+             * @param[in] zoned_path Path to the zoned.
+             * @return Return value.
+             */
             std::ifstream zoned_file(zoned_path);
             if (zoned_file.is_open()) {
                 std::string zoned_val = {};
@@ -286,6 +316,11 @@ NVMeCapabilities NVMeManager::detectCapabilities() const {
 
             // Model string from /sys/block/<dev>/device/model
             std::string model_path = "/sys/block/" + dev_name + "/device/model";
+            /**
+             * @brief Model file.
+             * @param[in] model_path Path to the model.
+             * @return Return value.
+             */
             std::ifstream model_file(model_path);
             if (model_file.is_open()) {
                 std::getline(model_file, caps.device_model);
@@ -307,10 +342,20 @@ NVMeCapabilities NVMeManager::detectCapabilities() const {
                     caps.kernel_major, caps.kernel_minor,
                     caps.device_model.empty() ? "" : " model=" + caps.device_model);
 
+        /**
+         * @brief State lock.
+         * @param[in] state_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> state_lock(state_mutex_);
         capabilities_ = caps;
     });
 
+    /**
+     * @brief State lock.
+     * @param[in] state_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> state_lock(state_mutex_);
     return capabilities_;
 }
@@ -324,6 +369,11 @@ bool NVMeManager::isIoUringActive() const noexcept {
 
     bool io_uring_enabled = false;
     {
+        /**
+         * @brief State lock.
+         * @param[in] state_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> state_lock(state_mutex_);
         io_uring_enabled = config_.enable_io_uring;
     }
@@ -331,6 +381,11 @@ bool NVMeManager::isIoUringActive() const noexcept {
         return false;
     }
 
+    /**
+     * @brief Ring lock.
+     * @param[in] ring_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> ring_lock(ring_mutex_);
     return ring_ && ring_->ring_fd >= 0;
 #  endif
@@ -339,8 +394,11 @@ bool NVMeManager::isIoUringActive() const noexcept {
 }
 
 uint32_t NVMeManager::detectedQueueCount() const noexcept {
-    // Returns hw_queue_count from capabilities_ (initialized via
-    // std::call_once in detectCapabilities(); defaults to 1 until called).
+    /**
+     * @brief Returns hw_queue_count from capabilities_ (initialized via std::call_once in detectCapabilities(); defaults to 1 until called).
+     * @param[in] state_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> state_lock(state_mutex_);
     return capabilities_.hw_queue_count;
 }
@@ -349,6 +407,12 @@ uint32_t NVMeManager::detectedQueueCount() const noexcept {
 // io_uring async I/O
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Submit Read.
+ * @param[in] req Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: isIoUringActive(), ring_lk(), get(), __atomic_load_n(), THEMIS_WARN(), std::memset(), __atomic_store_n(), themis_io_uring_enter().
+ */
 bool NVMeManager::submitRead(const NVMeIORequest& req) {
 #ifdef THEMIS_ENABLE_IO_URING
 #  ifdef __linux__
@@ -410,6 +474,12 @@ bool NVMeManager::submitRead(const NVMeIORequest& req) {
 #endif
 }
 
+/**
+ * @brief Submit Write.
+ * @param[in] req Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: isIoUringActive(), ring_lk(), get(), __atomic_load_n(), THEMIS_WARN(), std::memset(), __atomic_store_n(), themis_io_uring_enter().
+ */
 bool NVMeManager::submitWrite(const NVMeIORequest& req) {
 #ifdef THEMIS_ENABLE_IO_URING
 #  ifdef __linux__
@@ -470,6 +540,13 @@ bool NVMeManager::submitWrite(const NVMeIORequest& req) {
 #endif
 }
 
+/**
+ * @brief Poll Completions.
+ * @param[in,out] results Input/output parameter.
+ * @param[in] min_complete Input parameter.
+ * @return Return value.
+ * @details Calls: clear(), isIoUringActive(), ring_lk(), get(), themis_io_uring_enter(), THEMIS_ERROR(), std::strerror(), __atomic_load_n().
+ */
 int NVMeManager::pollCompletions(std::vector<NVMeIOResult>& results,
                                   uint32_t min_complete) {
     results.clear();
@@ -519,6 +596,12 @@ int NVMeManager::pollCompletions(std::vector<NVMeIOResult>& results,
 // ZNS zone management
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Reset Zone.
+ * @param[in] zone_offset Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), THEMIS_WARN(), lock(), open(), c_str(), THEMIS_ERROR(), std::strerror(), ioctl().
+ */
 bool NVMeManager::resetZone(uint64_t zone_offset) {
     if (!config_.enable_zns || config_.device_path.empty()) {
         return false;
@@ -552,6 +635,12 @@ bool NVMeManager::resetZone(uint64_t zone_offset) {
 #endif
 }
 
+/**
+ * @brief Finish Zone.
+ * @param[in] zone_offset Input parameter.
+ * @return True when the operation succeeds.
+ * @details Calls: empty(), THEMIS_WARN(), lock(), open(), c_str(), THEMIS_ERROR(), std::strerror(), ioctl().
+ */
 bool NVMeManager::finishZone(uint64_t zone_offset) {
     if (!config_.enable_zns || config_.device_path.empty()) {
         return false;
@@ -593,6 +682,11 @@ uint64_t NVMeManager::getZoneWritePointer(uint64_t zone_offset) const {
     if (config_.zone_capacity_bytes == 0 || (zone_offset % SECTOR_SIZE) != 0) {
         return UINT64_MAX;
     }
+    /**
+     * @brief Lock.
+     * @param[in] zone_mutex_ Input parameter.
+     * @return Return value.
+     */
     std::lock_guard<std::mutex> lock(zone_mutex_);
 #ifdef __linux__
     int fd = ::open(config_.device_path.c_str(), O_RDONLY | O_CLOEXEC);
@@ -629,6 +723,11 @@ std::pair<bool, bool> NVMeManager::recommendedDirectIOFlags() const {
     bool use_direct_reads = false;
     bool use_direct_flush = false;
     {
+        /**
+         * @brief State lock.
+         * @param[in] state_mutex_ Input parameter.
+         * @return Return value.
+         */
         std::lock_guard<std::mutex> state_lock(state_mutex_);
         use_direct_reads = config_.use_direct_reads;
         use_direct_flush = config_.use_direct_io_for_flush_and_compaction;
@@ -678,6 +777,11 @@ uint32_t NVMeManager::readHwQueueCount() const {
         }
 
         std::string sysfs_path = "/sys/block/" + dev_name + "/queue/nr_hw_queues";
+        /**
+         * @brief F.
+         * @param[in] sysfs_path Path to the sysfs.
+         * @return Return value.
+         */
         std::ifstream f(sysfs_path);
         if (f.is_open()) {
             uint32_t count = 1;
@@ -695,6 +799,11 @@ uint32_t NVMeManager::readHwQueueCount() const {
 #endif
 }
 
+/**
+ * @brief Setup Io Uring.
+ * @return True when the operation succeeds.
+ * @details Calls: ring_lock(), get(), themis_io_uring_setup(), THEMIS_ERROR(), std::strerror(), mmap(), close(), munmap().
+ */
 bool NVMeManager::setupIoUring() {
 #ifdef THEMIS_ENABLE_IO_URING
 #  ifdef __linux__
@@ -788,6 +897,10 @@ bool NVMeManager::setupIoUring() {
     return false;
 }
 
+/**
+ * @brief Teardown Io Uring.
+ * @details Calls: ring_lock(), get(), munmap(), close().
+ */
 void NVMeManager::teardownIoUring() {
 #ifdef THEMIS_ENABLE_IO_URING
 #  ifdef __linux__
